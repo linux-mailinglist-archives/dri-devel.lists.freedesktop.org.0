@@ -2,73 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F9997AAC1A
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Sep 2023 10:12:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBB8A7AAC16
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Sep 2023 10:12:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 17E6510E633;
-	Fri, 22 Sep 2023 08:12:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4279410E631;
+	Fri, 22 Sep 2023 08:12:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
- [IPv6:2a00:1450:4864:20::62e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 527DE10E615;
- Thu, 21 Sep 2023 20:11:27 +0000 (UTC)
-Received: by mail-ej1-x62e.google.com with SMTP id
- a640c23a62f3a-9adc75f6f09so162113266b.0; 
- Thu, 21 Sep 2023 13:11:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1695327086; x=1695931886; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:to:subject:user-agent:mime-version:date:message-id:from
- :to:cc:subject:date:message-id:reply-to;
- bh=j8twwhzXuT8fsMJdJyt7UTy/Vc8bLsFvC5aGV7uuSzk=;
- b=Quicdx/OynVyoNQaopUmxzdU0I924w5Pj75MxnjNvuUibk6aTCTHWA4wTs/S4IzE2H
- 8NsZH80fHsgV3Ojvz/+mGo5t1UeM8X1+ijaHeb2XP+/iOnxkPQpEFUzGZS/V5acizMcv
- xwBx93Xiw5EcJzBcDYxf10APaA8vo4dlnWD24BagPlR+vyU3GLIWRMet8sgf/FWxnBXp
- y0o5E3jK3zas6HWt7JwRkTKdWMFnD3K8e9Zygzh/7SvNwlIvFcOjCtjZHB0GyuwkpGih
- dd8aJaZBVwWXEUqPEK/HtkprztOyTe5Qlft40IN8g/IW5O9MM/Ky0asF0KL0rFV1F3c3
- SsXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1695327086; x=1695931886;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=j8twwhzXuT8fsMJdJyt7UTy/Vc8bLsFvC5aGV7uuSzk=;
- b=IDAmtm4bOdnJBmeioKqO7ugZO1mAAqK4tXxFNzCnGjthzY6s0Q+UKQn9rJWUiU+Kqp
- M36XSj9mSFTAf/wPpFFGfKXqrgnn8DkRjLChSa9G14wMuJ8LOyuTaseWkzQ8vjTFwAZO
- q/dmHoxeRhyAmgWR1q2vGZRYGVU/+QblE8c+ujRPOyRI3bzv8HOHtoKPt+WB6T4eobHd
- eOW0vGrZPTepSROY0hD5ZdqmG3iQHx/xIECTGAeTlWIHVZi4lZja4dQBdPvT5LTmoEeQ
- SHXTdwWVDTP0pOo9MzASRdlDk5bgOeGYvLKgiu49jU1A00e1zDu3ld7hlLqpOegg1UQs
- M7zg==
-X-Gm-Message-State: AOJu0YzN4VfxtoxiLan7RofAVF+m+YxC9LQs3YN141fBDfe789wVCYia
- WiEWFF33r55fPX1L69t74qHfTvRoxhY=
-X-Google-Smtp-Source: AGHT+IGATpVFclhxMzsxy4o0igbGPnzDlQXbTC/56G16AFZ+1pCNksXw3HGS/Yc1noVFOgVDI91dQA==
-X-Received: by 2002:a17:907:2ccb:b0:9a2:23b:db60 with SMTP id
- hg11-20020a1709072ccb00b009a2023bdb60mr5361815ejc.54.1695327085379; 
- Thu, 21 Sep 2023 13:11:25 -0700 (PDT)
-Received: from [192.168.26.149] (031011218106.poznan.vectranet.pl.
- [31.11.218.106]) by smtp.googlemail.com with ESMTPSA id
- h15-20020a1709062dcf00b009adc86b75d5sm1510121eji.189.2023.09.21.13.11.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 21 Sep 2023 13:11:25 -0700 (PDT)
-Message-ID: <8bc269a0-b720-4f7b-a9df-c50d90ea41c3@gmail.com>
-Date: Thu, 21 Sep 2023 22:11:22 +0200
+Received: from m15.mail.163.com (m15.mail.163.com [45.254.50.219])
+ by gabe.freedesktop.org (Postfix) with ESMTP id AD85A10E192
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Sep 2023 01:41:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=FLR5V
+ SYqhjZdAddiOMBK6+vIndH7dJAeROYe1W7Jiyk=; b=mj327/rSd056IG8uKrsAr
+ PD62SZ/MEJHgtpbHLQY/NUk2ewOMdIeFRRgSrZbjhB2R/3asyjAvuCs8SPORHz75
+ vAgF9jJhS2ogiKj1ozqBv6xbRGKClx/g47kUVPC6HJGkDv7h0InQr6gZiTl7q/+d
+ 8nqS4zqzAN2WEFOY0fMFtU=
+Received: from icess-ProLiant-DL380-Gen10.. (unknown [183.174.60.14])
+ by zwqz-smtp-mta-g0-1 (Coremail) with SMTP id _____wBH6SQF7Qxlm6O9Aw--.10024S4;
+ Fri, 22 Sep 2023 09:25:37 +0800 (CST)
+From: Ma Ke <make_ruc2021@163.com>
+To: alain.volmat@foss.st.com,
+	airlied@gmail.com,
+	daniel@ffwll.ch
+Subject: [PATCH] drm/gem: avoid potential dereference of error pointers
+Date: Fri, 22 Sep 2023 09:25:23 +0800
+Message-Id: <20230922012523.3602764-1-make_ruc2021@163.com>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: WARNING in amdgpu_sync_keep_later / dma_fence_is_later should be
- rate limited
-To: "Deucher, Alexander" <Alexander.Deucher@amd.com>,
- "Koenig, Christian" <Christian.Koenig@amd.com>,
- "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, "Yu, Lang" <Lang.Yu@amd.com>
-References: <CACna6rxtaHG6QTinuHyNyA7rck_aEBiMHtxSCLktArU1OoqxLg@mail.gmail.com>
- <BL1PR12MB51444F28FD848B91BAEDE88AF7F8A@BL1PR12MB5144.namprd12.prod.outlook.com>
-Content-Language: en-US
-From: =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>
-In-Reply-To: <BL1PR12MB51444F28FD848B91BAEDE88AF7F8A@BL1PR12MB5144.namprd12.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: _____wBH6SQF7Qxlm6O9Aw--.10024S4
+X-Coremail-Antispam: 1Uf129KBjvdXoWruFyUWw4rGr47XrWrtFy8Grg_yoW3trc_Wa
+ 1UXrnxCry7G3WjvF1jyws8AasYkrZYgF48X3W8tay3Ar40vry8X3y2gF1rGF1UWF4jqFyD
+ ta1xC34YqF9akjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUvcSsGvfC2KfnxnUUI43ZEXa7xRM5l8UUUUUU==
+X-Originating-IP: [183.174.60.14]
+X-CM-SenderInfo: 5pdnvshuxfjiisr6il2tof0z/xtbBFRnyC2B9oNhVuwAAs+
 X-Mailman-Approved-At: Fri, 22 Sep 2023 08:12:16 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -82,30 +51,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Ma Ke <make_ruc2021@163.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 21.09.2023 21:52, Deucher, Alexander wrote:
->> backporting commit 187916e6ed9d ("drm/amdgpu: install stub fence into
->> potential unused fence pointers") to stable kernels resulted in lots of
->> WARNINGs on some devices. In my case I was getting 3 WARNINGs per
->> second (~150 lines logged every second). Commit ended up being reverted for
->> stable but it exposed a potential problem. My messages log size was reaching
->> gigabytes and was running my /tmp/ out of space.
->>
->> Could someone take a look at amdgpu_sync_keep_later / dma_fence_is_later
->> and make sure its logging is rate limited to avoid such situations in the future,
->> please?
->>
->> Revert in linux-5.15.x:
->> https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/?h=li
->> nux-5.15.y&id=fae2d591f3cb31f722c7f065acf586830eab8c2a
->>
->> openSUSE bug report:
->> https://bugzilla.opensuse.org/show_bug.cgi?id=1215523
-> 
-> These patches were never intended for stable.  They were picked up by Sasha's stable autoselect tools and automatically applied to stable kernels.
+The return value of drm_atomic_get_crtc_state() needs to be
+checked. To avoid use of error pointer 'crtc_state' in case
+of the failure.
 
-Are you saying massive WARNINGs in dma_fence_is_later() can't happen
-in any other case? I understand it was an incorrect backport action but
-I thought we may learn from it and still add some rate limit.
+Signed-off-by: Ma Ke <make_ruc2021@163.com>
+---
+ drivers/gpu/drm/sti/sti_gdp.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/gpu/drm/sti/sti_gdp.c b/drivers/gpu/drm/sti/sti_gdp.c
+index 43c72c2604a0..054ce8455478 100644
+--- a/drivers/gpu/drm/sti/sti_gdp.c
++++ b/drivers/gpu/drm/sti/sti_gdp.c
+@@ -638,6 +638,8 @@ static int sti_gdp_atomic_check(struct drm_plane *drm_plane,
+ 
+ 	mixer = to_sti_mixer(crtc);
+ 	crtc_state = drm_atomic_get_crtc_state(state, crtc);
++	if (IS_ERR(crtc_state))
++		return PTR_ERR(crtc_state);
+ 	mode = &crtc_state->mode;
+ 	dst_x = new_plane_state->crtc_x;
+ 	dst_y = new_plane_state->crtc_y;
+-- 
+2.37.2
+
