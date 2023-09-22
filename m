@@ -2,74 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48EB47AB508
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Sep 2023 17:44:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 084817AB510
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Sep 2023 17:47:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 33F3D10E698;
-	Fri, 22 Sep 2023 15:44:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1DB610E699;
+	Fri, 22 Sep 2023 15:47:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
- [IPv6:2a00:1450:4864:20::333])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A315710E69E
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Sep 2023 15:44:33 +0000 (UTC)
-Received: by mail-wm1-x333.google.com with SMTP id
- 5b1f17b1804b1-4053cb57f02so10697415e9.1
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Sep 2023 08:44:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1695397469; x=1696002269;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=x30RhvJx7Eh4gJJcrIw3/KmQaNQO6cXN4EDW/eJIqIA=;
- b=VAWUuGf7UWlVV7TiHlB2KhHUdYS3mFG9mgq7zX0KM8FB+wdFJEObi4N2qShWxKhB8E
- jJ1LDSEDqXHpLra8kkVA5bzVYcwF6uxjfCXtnIdowUsyYVNBCNxWTgVPe81LgyUpOy75
- camTH9P8n6fQi4ZDRIpRQcs8UokEvzIpoh/LU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1695397469; x=1696002269;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=x30RhvJx7Eh4gJJcrIw3/KmQaNQO6cXN4EDW/eJIqIA=;
- b=i47OWfvb/1Oc6/HqhBhOeAw3YbGg9AB4ZXkSXqr5Nb4rEQwYQIrh+a7gJb5UeeczWD
- vsiq45DMwh0/toDYewLTdGpQ+t29PdGQhldzv8Gfa4jGY3XWG1WyDf+XxGHvgHJIGHlz
- nH5lpa+BFX+H8oF87cl0mwzISWcV7qI6r4izYLN0+RElSY8HriMA9u/DiRyoCscGUOky
- Vi1RIVFlZau66dW45TFZCRxbVFjDVTTDgyEDNjxH18Xkgy7SVGVGOm8Va+XDOX4K8I0Q
- 19flr3fc4zdYDTNarAPE+cMHUb2PVA8d5jgw4CEjYvc9hgShYsv2mOYUVZLmiThAxNGP
- ryXA==
-X-Gm-Message-State: AOJu0Yxmp7rXuOQOUXXwTQuP0q/daRj5j0iaLWpaBISHBkNE2IeMCWmJ
- bmmzaeOgyOCadAx+bpj//6bog4E2CsJJGK3eZjGkpWeY
-X-Google-Smtp-Source: AGHT+IEGXT5zVB7wx0xpi9Xp7yYkLZsSCKZkI0lBKnBNV3BM/K5j69HvkyGk2qsL++cAjNne6IuLVg==
-X-Received: by 2002:a05:6000:1c7:b0:31f:e5cf:6724 with SMTP id
- t7-20020a05600001c700b0031fe5cf6724mr34843wrx.46.1695397469201; 
- Fri, 22 Sep 2023 08:44:29 -0700 (PDT)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com.
- [209.85.128.48]) by smtp.gmail.com with ESMTPSA id
- d4-20020a170906370400b0099bd8c1f67esm2882344ejc.109.2023.09.22.08.44.28
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 22 Sep 2023 08:44:28 -0700 (PDT)
-Received: by mail-wm1-f48.google.com with SMTP id
- 5b1f17b1804b1-4053f24c900so69045e9.1
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Sep 2023 08:44:28 -0700 (PDT)
-X-Received: by 2002:a05:600c:2e4c:b0:404:7462:1f87 with SMTP id
- q12-20020a05600c2e4c00b0040474621f87mr79571wmf.6.1695397467960; Fri, 22 Sep
- 2023 08:44:27 -0700 (PDT)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9EFA810E699
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Sep 2023 15:46:58 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 8AEB3CE23EB;
+ Fri, 22 Sep 2023 15:46:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A3DBC433C7;
+ Fri, 22 Sep 2023 15:46:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1695397614;
+ bh=MYb97kHVKXhuo3uqkZLINHlkPs+cMUfvW87Cog3BtqA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=p1PvUvqHW9+CI4FtQ6dGHCku/bWa1qyERooyTKqO59o1ZwMvYAED2oCnmaZ0eIxaL
+ i79wQiVZWvjq8fA6wKvMnGY6mh0v4VycoH17zCQeLVfay3LedISlD930pRIlJKbeHB
+ HDvkNOHvPD44rgLwEurMpj3I47P/MDXSLnXjEbGeuA72Iid7JBU7osk3VLtavk8gIU
+ 6cHPHwg6LqEzIewtQV0hf+rxSS4uNUQf05LcBORAoJdpMrTj304nX+EP8E/jZ0lPeu
+ vn1ztEqC8Ex496xjME12m8O+ZVcvAdISpfNMma8UpwHMceztLJqhCpLEC5dWJSeiBo
+ LQV32PthGxEzQ==
+Date: Fri, 22 Sep 2023 16:46:48 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Moudy Ho <moudy.ho@mediatek.com>
+Subject: Re: [PATCH v6 05/16] dt-bindings: media: mediatek: mdp3: add support
+ MT8195 RDMA
+Message-ID: <20230922-squealing-tipoff-e2fc6117ba7e@spud>
+References: <20230922072116.11009-1-moudy.ho@mediatek.com>
+ <20230922072116.11009-6-moudy.ho@mediatek.com>
 MIME-Version: 1.0
-References: <20230921192749.1542462-1-dianders@chromium.org>
- <20230921122641.RFT.v2.1.I134336fce7eac5a63bdac46d57b0888858fc8081@changeid>
- <20230922075610.ekrzyz6hfcd3rjsm@fsr-ub1664-121.ea.freescale.net>
-In-Reply-To: <20230922075610.ekrzyz6hfcd3rjsm@fsr-ub1664-121.ea.freescale.net>
-From: Doug Anderson <dianders@chromium.org>
-Date: Fri, 22 Sep 2023 08:44:16 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=ViV-n2T1Bup+XScsWD11yWpTmW3qEOLTTDj3kTtTY4Cg@mail.gmail.com>
-Message-ID: <CAD=FV=ViV-n2T1Bup+XScsWD11yWpTmW3qEOLTTDj3kTtTY4Cg@mail.gmail.com>
-Subject: Re: [RFT PATCH v2 01/12] drm/imx/dcss: Call
- drm_atomic_helper_shutdown() at shutdown time
-To: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="TinQJ3EeZSdfbVkx"
+Content-Disposition: inline
+In-Reply-To: <20230922072116.11009-6-moudy.ho@mediatek.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,50 +52,134 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@pengutronix.de, Sascha Hauer <s.hauer@pengutronix.de>,
- linux-imx@nxp.com, Maxime Ripard <mripard@kernel.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- shawnguo@kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>, Rob Herring <robh+dt@kernel.org>,
+ linux-mediatek@lists.infradead.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ linux-arm-kernel@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-On Fri, Sep 22, 2023 at 12:56=E2=80=AFAM Laurentiu Palcu
-<laurentiu.palcu@oss.nxp.com> wrote:
->
-> Hi,
->
-> On Thu, Sep 21, 2023 at 12:26:44PM -0700, Douglas Anderson wrote:
-> > Based on grepping through the source code this driver appears to be
-> > missing a call to drm_atomic_helper_shutdown() at system shutdown
-> > time. Among other things, this means that if a panel is in use that it
-> > won't be cleanly powered off at system shutdown time.
-> >
-> > The fact that we should call drm_atomic_helper_shutdown() in the case
-> > of OS shutdown/restart comes straight out of the kernel doc "driver
-> > instance overview" in drm_drv.c.
-> >
-> > Suggested-by: Maxime Ripard <mripard@kernel.org>
-> > Reviewed-by: Maxime Ripard <mripard@kernel.org>
-> > Signed-off-by: Douglas Anderson <dianders@chromium.org>
->
-> No issues found on i.MX8MQ.
->
-> Tested-by: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
-> Reviewed-by: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
+--TinQJ3EeZSdfbVkx
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks! Would you expect this patch to land through drm-misc? If so,
-I'm happy to commit it there with your tags. If patches to this driver
-normally flow through drm-misc, I'm also happy to post a patch to
-MAINTAINERS (or review a patch you post) adding this to the entry for
-"NXP i.MX 8MQ DCSS DRIVER":
+On Fri, Sep 22, 2023 at 03:21:05PM +0800, Moudy Ho wrote:
+> Support for MT8195 RDMA has been added, allowing for
+> the configuration of multiple MDP3 pipes.
+> Furthermore, this particular device does not require
+> sharing SRAM with RSZ.
 
-T:     git git://anongit.freedesktop.org/drm/drm-misc
+I'm sorry if I am going over past arguments, if this is 90% the same as
+the 8193 rdma, why the extraction + mostly duplicate file, rather than
+covering whatever clocks/mboxes differences with an if/then/else in a
+single file?
 
-...which would make it obvious in the future that things should land
-through drm-misc. This is similar to what I did for commit
-92e62478b62c ("MAINTAINERS: Update DRM DRIVERS FOR FREESCALE IMX
-entry"). :-)
+Thanks,
+Conor.
 
--Doug
+>=20
+> Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
+> ---
+>  .../media/mediatek,mdp3-rdma-8195.yaml        | 64 +++++++++++++++++++
+>  1 file changed, 64 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3=
+-rdma-8195.yaml
+>=20
+> diff --git a/Documentation/devicetree/bindings/media/mediatek,mdp3-rdma-8=
+195.yaml b/Documentation/devicetree/bindings/media/mediatek,mdp3-rdma-8195.=
+yaml
+> new file mode 100644
+> index 000000000000..f10139aec3c5
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/mediatek,mdp3-rdma-8195.yaml
+> @@ -0,0 +1,64 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma-8195.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: MediaTek MT8195 Read Direct Memory Access
+> +
+> +maintainers:
+> +  - Matthias Brugger <matthias.bgg@gmail.com>
+> +  - Moudy Ho <moudy.ho@mediatek.com>
+> +
+> +description: |
+> +  MediaTek Read Direct Memory Access(RDMA) component used to do read DMA.
+> +  This type of component is configured when there are multiple MDP3 pipe=
+lines
+> +  that belong to different MMSYS subsystems.
+> +  It contains one line buffer to store the sufficient pixel data, and
+> +  must be siblings to the central MMSYS_CONFIG node.
+> +  For a description of the MMSYS_CONFIG binding, see
+> +  Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
+> +  for details.
+> +
+> +allOf:
+> +  - $ref: mediatek,mdp3-rdma-common.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    items:
+> +      - const: mediatek,mt8195-mdp3-rdma
+> +
+> +  clocks:
+> +    maxItems: 1
+> +
+> +  mboxes:
+> +    maxItems: 5
+> +
+> +required:
+> +  - compatible
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/mt8195-clk.h>
+> +    #include <dt-bindings/gce/mt8195-gce.h>
+> +    #include <dt-bindings/power/mt8195-power.h>
+> +    #include <dt-bindings/memory/mt8195-memory-port.h>
+> +
+> +    dma-controller@14001000 {
+> +        compatible =3D "mediatek,mt8195-mdp3-rdma";
+> +        reg =3D <0x14001000 0x1000>;
+> +        mediatek,gce-client-reg =3D <&gce1 SUBSYS_1400XXXX 0x1000 0x1000=
+>;
+> +        mediatek,gce-events =3D <CMDQ_EVENT_VPP0_MDP_RDMA_SOF>,
+> +                              <CMDQ_EVENT_VPP0_MDP_RDMA_FRAME_DONE>;
+> +        power-domains =3D <&spm MT8195_POWER_DOMAIN_VPPSYS0>;
+> +        iommus =3D <&iommu_vpp M4U_PORT_L4_MDP_RDMA>;
+> +        clocks =3D <&vppsys0 CLK_VPP0_MDP_RDMA>;
+> +        mboxes =3D <&gce1 12 CMDQ_THR_PRIO_1>,
+> +                 <&gce1 13 CMDQ_THR_PRIO_1>,
+> +                 <&gce1 14 CMDQ_THR_PRIO_1>,
+> +                 <&gce1 21 CMDQ_THR_PRIO_1>,
+> +                 <&gce1 22 CMDQ_THR_PRIO_1>;
+> +        #dma-cells =3D <1>;
+> +    };
+> --=20
+> 2.18.0
+>=20
+
+--TinQJ3EeZSdfbVkx
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZQ225wAKCRB4tDGHoIJi
+0uErAP0e5QDVnjiad7eoFZa5AYGjnmFnMgdtVRLzSMqVp/nBAAEA5+VrQJizrTYi
+p0CEoEAVK3R1+JddKhYmfChjMnNFJwM=
+=y+iv
+-----END PGP SIGNATURE-----
+
+--TinQJ3EeZSdfbVkx--
