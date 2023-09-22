@@ -2,47 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04DD37AB17D
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Sep 2023 13:58:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D6857AB1D6
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Sep 2023 14:05:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4775D10E65B;
-	Fri, 22 Sep 2023 11:58:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8DD9910E063;
+	Fri, 22 Sep 2023 12:05:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2305E10E65B;
- Fri, 22 Sep 2023 11:58:46 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:d3ea:1c7:41fd:3038])
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 971C110E043;
+ Fri, 22 Sep 2023 12:05:45 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 6520B6607298;
- Fri, 22 Sep 2023 12:58:44 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1695383924;
- bh=m/nPO3u2dtkBOwJtWh5MiRmfd1HuFw6fSZbWZsf3Wv0=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=JiYUUHY31kwZsSWTaJSvOhWIjm7sm1VXUhtIKi9S5m+lKJPDFPoo4LhF9Lc/4BJqG
- fI8T9NF+owxbdmgbZYsUDGNY5Y5jCJHYc4LkEHok5cLTtvNw1ZGaobR8ttPdneOZcr
- LqFJnTm6DY2q+Jp82tEVIU/Ex7Tzhv3mDDWvA/8GzhtiDskyIOxQ5Z+uqnbJhb1TLe
- kM8tURuEBXloVJis/5hpZTGoF2rpKJdiXMF9LEXhnfIeEbhTFZipFG3brEk52/+01S
- 1ukjKdPXTWPAUqamteWN7+ikfwVfdcQqCBWzoA/tOyzsqrUprYATWizD3gwzriQAwU
- xLvVDQEV3uPUg==
-Date: Fri, 22 Sep 2023 13:58:42 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Danilo Krummrich <dakr@redhat.com>
-Subject: Re: [PATCH drm-misc-next v4 6/8] drm/gpuvm: add drm_gpuvm_flags to
- drm_gpuvm
-Message-ID: <20230922135842.242c865d@collabora.com>
-In-Reply-To: <20230920144343.64830-7-dakr@redhat.com>
-References: <20230920144343.64830-1-dakr@redhat.com>
- <20230920144343.64830-7-dakr@redhat.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id E3E33B82356;
+ Fri, 22 Sep 2023 12:05:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D6ABC433C7;
+ Fri, 22 Sep 2023 12:05:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1695384342;
+ bh=39G/1wrABcCZttH7QTzYVPicY+OhkWDKWbR8tfYhVoc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=DwOdK7KXK0tLM7rmTx+lemxoVJ2ClwtNw3n+M4gHTvkqBpmOoQcXdH0g2AGK0qhr+
+ aXmVlSb//2ZAzCjVl8VNkaANs+psun1iNjISN61GQGP1yzwjVJto8OhUySzf8jyjj2
+ LF2twSvCrHBEN6r5UGEUysK4UixWI2qcqh+yVIcPjiRliicJ0ZWiqF1zDwFHcEmJiE
+ vwroLkQvQmQ1uPGreZaR09kVWWlBMK3AOfGm4hM27vDaLpeJpizLrPCJQZwB77F4uc
+ b9PnmimNle4ZSc3cpxAfWNNzaLC90ZOTHF7nPA3m14GzJjTHcp5+8TxSI1MFB6poPa
+ tJiNUbUHqz/3g==
+Date: Fri, 22 Sep 2023 14:05:40 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Jani Nikula <jani.nikula@intel.com>
+Subject: Re: [PATCH 1/8] drm/display/dp: Add helper function to get DSC bpp
+ prescision
+Message-ID: <66dwgnyxq3mdsfczgcslooxrtwxwmgwgleciqzy7s4vpkoaz7e@uqlpdb7pcxvg>
+References: <20230913060606.1105349-1-mitulkumar.ajitkumar.golani@intel.com>
+ <20230913060606.1105349-2-mitulkumar.ajitkumar.golani@intel.com>
+ <875y44q8g8.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="pfkcucr6yatalhss"
+Content-Disposition: inline
+In-Reply-To: <875y44q8g8.fsf@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,49 +57,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.brost@intel.com, thomas.hellstrom@linux.intel.com,
- sarah.walker@imgtec.com, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- donald.robson@imgtec.com, christian.koenig@amd.com,
- faith.ekstrand@collabora.com
+Cc: suraj.kandpal@intel.com, intel-gfx@lists.freedesktop.org,
+ Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>,
+ dri-devel@lists.freedesktop.org, swati2.sharma@intel.com,
+ Thomas Zimmermann <tzimmermann@suse.de>, ankit.k.nautiyal@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 20 Sep 2023 16:42:39 +0200
-Danilo Krummrich <dakr@redhat.com> wrote:
 
-> +/**
-> + * enum drm_gpuvm_flags - flags for struct drm_gpuvm
-> + */
-> +enum drm_gpuvm_flags {
-> +	/**
-> +	 * @DRM_GPUVM_USERBITS: user defined bits
-> +	 */
-> +	DRM_GPUVM_USERBITS = (1 << 0),
+--pfkcucr6yatalhss
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Nit: I tried declaring driver-specific flags, and I find this
-counter-intuitive. You basically end up with something like:
+On Thu, Sep 21, 2023 at 10:41:43AM +0300, Jani Nikula wrote:
+> On Wed, 13 Sep 2023, Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>=
+ wrote:
+> > From: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
+> >
+> > Add helper to get the DSC bits_per_pixel precision for the DP sink.
+> >
+> > Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
+>=20
+> Maarten, Maxime, Thomas, ack for merging this via drm-intel please?
 
-enum my_gpuvm_flags {
-	MY_FLAG_X = DRM_GPUVM_USERBITS,
-	MY_FLAG_Y = DRM_GPUVM_USERBITS << 1,
-};
+That's fine by me :)
 
-instead of the usual
+Maxime
 
-enum my_gpuvm_flags {
-	MY_FLAG_X = BIT(0),
-	MY_FLAG_Y = BIT(1),
-};
+--pfkcucr6yatalhss
+Content-Type: application/pgp-signature; name="signature.asc"
 
-pattern.
+-----BEGIN PGP SIGNATURE-----
 
-Another issue I see coming is if we end up adding more core flags and
-drivers start falling short of bits for their own flags. This makes me
-wonder if we shouldn't kill this notion of USER flags and let drivers
-store their flags in some dedicated field, given they're likely to
-derive drm_gpuvm and drm_gpuva with their own object anyway.
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZQ2DCQAKCRDj7w1vZxhR
+xRdaAQCObgs+KiTlfVpFtwBTKcikFbMB56aWpmlJVW8FJ2i+fAD5AZAIuj/452xT
+1DG3OJeUtcJa6piBRvREAFyTlbrPWg8=
+=Deus
+-----END PGP SIGNATURE-----
 
-> +};
-> +
-
+--pfkcucr6yatalhss--
