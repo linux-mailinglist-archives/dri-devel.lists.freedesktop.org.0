@@ -2,68 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8E657AA91F
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Sep 2023 08:34:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E52A27AA92E
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Sep 2023 08:39:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A6E910E02C;
-	Fri, 22 Sep 2023 06:34:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF7E510E061;
+	Fri, 22 Sep 2023 06:39:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
- [IPv6:2a00:1450:4864:20::12d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 47B2310E02C
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Sep 2023 06:34:41 +0000 (UTC)
-Received: by mail-lf1-x12d.google.com with SMTP id
- 2adb3069b0e04-50437f39c9dso662136e87.3
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Sep 2023 23:34:41 -0700 (PDT)
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com
+ [IPv6:2a00:1450:4864:20::632])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9DC9510E061
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Sep 2023 06:39:00 +0000 (UTC)
+Received: by mail-ej1-x632.google.com with SMTP id
+ a640c23a62f3a-9aa0495f9cfso690552166b.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Sep 2023 23:39:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=semihalf.com; s=google; t=1695364479; x=1695969279;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=X0X0BQrsVOxiQjDtIc1DCYhpQrHoUJ1FNBPQ6K4eAiM=;
- b=XPw41kZaxhsmSeaNaepMU7urQ6uhJBLHQo58C3HMQCv9X5sBgbwNrJCA75WEfAiJ51
- rfZizy0jT2FtB4aBNwOtH0BkGlEu4AviZEtgQuCzZXaAbol6zJ8CYp6MKGa/Q+9KMLJU
- gjeDANFNbs0jLRv3LXss64faiQLlBKExSE6zjAwMn4ssxxjWnXHsfTwwKgsGNavAhmHm
- R1LQnnqYPdd+udyGJhXffR9vYodMh4CqOCIrdaP8B44YfGqIvxboQA8+j6QF/Fzs8kAW
- MUZFjQdX0rlJdTkNrA8Nz875oKm752dL4KNrbA4LcDFA51VsVzZa8Jl6f1VaVYZ7brWE
- DFOA==
+ d=gmail.com; s=20230601; t=1695364739; x=1695969539; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=EcGNrh1hGrAu3yUiYqnXVMIsYc7TK7oPPTuzkFDt/F8=;
+ b=dgeB3AFRN4oegywDVQijiMX9VEFF3RWZFItavk8nzTg9AN/KivAtwZ3t8JcG38wiEk
+ I6vo9YLXME6qIs2L17jWCE7H6KPV6SD8/Qo9iSoZii24g1onw/mhFxL0t7hD+OH13Hz9
+ UvSe0ZBldCT1rTNxZ++NdWOCcHbhM7C6ip357mppbDLWPwzTL0/NXf886raJrgOUkKDI
+ wG1IqXSIHix3MIrJoogNUYTPbwP9lm8CgexTJ+Clr1oxfFgy7yIcBTZNXNiKy/QSDzBO
+ d2Zg0BNe8rLCqfE5De7cmkkyYdjtNtk6oZauXlLpq/p4eHEPvu++wzKVdT8FKoW/0gK2
+ Qiag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1695364479; x=1695969279;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=X0X0BQrsVOxiQjDtIc1DCYhpQrHoUJ1FNBPQ6K4eAiM=;
- b=bIjp6Lm2up5xE035PcOD8OuzRlpXAuO0DdpoQIBh2Op83Gqzmgh1yzOfWE894GgXDj
- jgkO6SZFmr5yp3nBDOB2a0vsR+fWrMznp3nwu5LXxh/ICwXlAfUI2kmcWEf5bI23r7xS
- /Ml9MW0nhCY7xzyTEnqPoZcONUchGmQWO0+xUs/4YQ+bvXS6fl6Y93K9cWSyykfbmx3G
- t4RNb3DeUB0OP+VjhTmgftiyqJs+/fAwFtBy8Z+9BN2hn9RTAOaL2yoP8BYG+apxriwI
- JK4aEYlR/kYPpq5U97k0y6Bk9zDTjJemhrnfcgwRJycfVbi3WsZGoRHxa7gF09ssUJLm
- LS/w==
-X-Gm-Message-State: AOJu0YzXbedvb1tTWwxiwZjC8I6A8BrXLyQTxvO8BGmEnwmbiAB+qwuP
- jm6eYcQPiQ91DWY93tLGaVnvAA==
-X-Google-Smtp-Source: AGHT+IHIBbiTE5xvp6VdZFE5vYOK4NhSyuG2r1s6YRy3GBiGfUmu9KZWjlhVbjMROpC6z3Eo5K9uMg==
-X-Received: by 2002:a19:5057:0:b0:503:2561:c8b with SMTP id
- z23-20020a195057000000b0050325610c8bmr6555667lfj.33.1695364479071; 
- Thu, 21 Sep 2023 23:34:39 -0700 (PDT)
-Received: from lmajczak1-l.roam.corp.google.com ([83.142.187.84])
- by smtp.gmail.com with ESMTPSA id
- w29-20020a05651204dd00b00502a96484absm612105lfq.99.2023.09.21.23.34.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 Sep 2023 23:34:38 -0700 (PDT)
-From: Lukasz Majczak <lma@semihalf.com>
-To: David Airlie <airlied@gmail.com>,
-	Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v3] drm/dp_mst: Fix NULL deref in
- get_mst_branch_device_by_guid_helper()
-Date: Fri, 22 Sep 2023 08:34:10 +0200
-Message-ID: <20230922063410.23626-1-lma@semihalf.com>
-X-Mailer: git-send-email 2.42.0.515.g380fc7ccd1-goog
-In-Reply-To: <20230921131201.157767-1-lma@semihalf.com>
-References: <20230921131201.157767-1-lma@semihalf.com>
+ d=1e100.net; s=20230601; t=1695364739; x=1695969539;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=EcGNrh1hGrAu3yUiYqnXVMIsYc7TK7oPPTuzkFDt/F8=;
+ b=NhmSaTRTD7jOwKAsAybJGemj7g5L1fvikmYR9ugv+VsfI239mHJJaFLCABw/SzoBd3
+ a8gOIj1ebdtAk3apQxfQtDXBtt1LXZvBAZqC0bqLgWpXYAppGHRPrw41RfoR7QHjAVU+
+ IvgXFY8TCS/QTVKLbEP7Q9UnqsBe3gR3X+3yXrAIsD4ik0HXqLhoGA6vxVnCjsRdX7L0
+ 4D/gkXsrv9XC6GxMyvRNOcU1XcpkB6vFgYvTpFZY5EwB98WJSJYHzdX/UPRKuvcaaBGb
+ OAuS3JvSKPjLDXKFkTRgIVJmKI/8LSR2NX5YIZ2ta3zTNXP+aaLZcYFPGk7eU/gDabG0
+ QU/Q==
+X-Gm-Message-State: AOJu0YykVSyTQQxzvzrt4XOrlKdp7D2NuUa9zaGszxnnWRl5DK40EESy
+ eOCMfBmASACSBMqMeGXZNZs6lLCTNYwHymDdY18=
+X-Google-Smtp-Source: AGHT+IELx/hJOe6g7KFqpSBEQ+6g3SvIkbFog+nWHTKaiQ+eXyQxhIyBAIX7RWZ+2GMecSJ9nu725OiKJ/mTYuOJF5Y=
+X-Received: by 2002:a17:906:cc4f:b0:9ad:f60c:7287 with SMTP id
+ mm15-20020a170906cc4f00b009adf60c7287mr2198275ejb.28.1695364738878; Thu, 21
+ Sep 2023 23:38:58 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: Dave Airlie <airlied@gmail.com>
+Date: Fri, 22 Sep 2023 16:38:47 +1000
+Message-ID: <CAPM=9txUkMJPzCJLbyWTwsdfWFPmbQ1f6mH1qKJ5GXgPUOiX0w@mail.gmail.com>
+Subject: drm fixes for 6.6-rc3 (resend with one more patch)
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,73 +66,349 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: upstream@semihalf.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Guenter Roeck <linux@roeck-us.net>,
- stable@vger.kernel.org, Lukasz Majczak <lma@semihalf.com>,
- Radoslaw Biernacki <rad@chromium.org>
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As drm_dp_get_mst_branch_device_by_guid() is called from
-drm_dp_get_mst_branch_device_by_guid(), mstb parameter has to be checked,
-otherwise NULL dereference may occur in the call to 
-the memcpy() and cause following:
+Hi Linus (again),
 
-[12579.365869] BUG: kernel NULL pointer dereference, address: 0000000000000049
-[12579.365878] #PF: supervisor read access in kernel mode
-[12579.365880] #PF: error_code(0x0000) - not-present page
-[12579.365882] PGD 0 P4D 0
-[12579.365887] Oops: 0000 [#1] PREEMPT SMP NOPTI
-...
-[12579.365895] Workqueue: events_long drm_dp_mst_up_req_work
-[12579.365899] RIP: 0010:memcmp+0xb/0x29
-[12579.365921] Call Trace:
-[12579.365927] get_mst_branch_device_by_guid_helper+0x22/0x64
-[12579.365930] drm_dp_mst_up_req_work+0x137/0x416
-[12579.365933] process_one_work+0x1d0/0x419
-[12579.365935] worker_thread+0x11a/0x289
-[12579.365938] kthread+0x13e/0x14f
-[12579.365941] ? process_one_work+0x419/0x419
-[12579.365943] ? kthread_blkcg+0x31/0x31
-[12579.365946] ret_from_fork+0x1f/0x30
+It's been one of those weeks, and I somehow managed to forget the
+actual newsworthy item in this fixes pull. Ben Skeggs is stepping away
+from nouveau and Red Hat for personal reasons, he'll be missed and we
+intend to fill the gaps in the upcoming time with Danilo and Lyude
+stepping in for now.
 
-As get_mst_branch_device_by_guid_helper() is recursive, moving condition
-to the first line allow to remove a similar one for step over of NULL elements
-inside a loop.
+Otherwise what I said already, i915, nouveau, amdgpu with a few each
+and some misc spread around.
 
-Fixes: 5e93b8208d3c ("drm/dp/mst: move GUID storage from mgr, port to only mst branch")
-Cc: <stable@vger.kernel.org> # 4.14+
-Signed-off-by: Lukasz Majczak <lma@semihalf.com>
----
+Dave.
 
-v2->v3:
-* Fixed patch description.
+drm-fixes-2023-09-22-2:
+MAINTAINERS:
+- drop Ben as he retired from nouveau
 
- drivers/gpu/drm/display/drm_dp_mst_topology.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+core:
+- drm_mm test fixes
 
-diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-index ed96cfcfa304..8c929ef72c72 100644
---- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
-+++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-@@ -2574,14 +2574,14 @@ static struct drm_dp_mst_branch *get_mst_branch_device_by_guid_helper(
- 	struct drm_dp_mst_branch *found_mstb;
- 	struct drm_dp_mst_port *port;
- 
-+	if (!mstb)
-+		return NULL;
-+
- 	if (memcmp(mstb->guid, guid, 16) == 0)
- 		return mstb;
- 
- 
- 	list_for_each_entry(port, &mstb->ports, next) {
--		if (!port->mstb)
--			continue;
--
- 		found_mstb = get_mst_branch_device_by_guid_helper(port->mstb, guid);
- 
- 		if (found_mstb)
--- 
-2.42.0.515.g380fc7ccd1-goog
+fbdev:
+- Kconfig fixes
 
+ivpu:
+- IRQ-handling fixes
+
+meson:
+- Fix memory leak in HDMI EDID code
+
+nouveau:
+- Correct type casting
+- Fix memory leak in scheduler
+- u_memcpya() fixes
+
+i915:
+- Prevent error pointer dereference
+- Fix PMU busyness values when using GuC mode
+
+amdgpu:
+- MST fix
+- Vbios part number reporting fix
+- Fix a possible memory leak in an error case in the RAS code
+- Fix low resolution modes on eDP
+
+amdkfd:
+- Fix GPU address for user queue wptr when GART is not at 0
+The following changes since commit ce9ecca0238b140b88f43859b211c9fdfd8e5b70=
+:
+
+  Linux 6.6-rc2 (2023-09-17 14:40:24 -0700)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2023-09-22-2
+
+for you to fetch changes up to b41b28366d3b176c8297961de4f095f2e392402d:
+
+  MAINTAINERS: remove myself as nouveau maintainer (2023-09-22 16:32:00 +10=
+00)
+
+----------------------------------------------------------------
+MAINTAINERS:
+- drop Ben as he retired from nouveau
+
+core:
+- drm_mm test fixes
+
+fbdev:
+- Kconfig fixes
+
+ivpu:
+- IRQ-handling fixes
+
+meson:
+- Fix memory leak in HDMI EDID code
+
+nouveau:
+- Correct type casting
+- Fix memory leak in scheduler
+- u_memcpya() fixes
+
+i915:
+- Prevent error pointer dereference
+- Fix PMU busyness values when using GuC mode
+
+amdgpu:
+- MST fix
+- Vbios part number reporting fix
+- Fix a possible memory leak in an error case in the RAS code
+- Fix low resolution modes on eDP
+
+amdkfd:
+- Fix GPU address for user queue wptr when GART is not at 0
+
+----------------------------------------------------------------
+Arnd Bergmann (1):
+      drm: fix up fbdev Kconfig defaults
+
+Ben Skeggs (1):
+      MAINTAINERS: remove myself as nouveau maintainer
+
+Cong Liu (1):
+      drm/amdgpu: fix a memory leak in amdgpu_ras_feature_enable
+
+Dan Carpenter (2):
+      nouveau/u_memcpya: fix NULL vs error pointer bug
+      drm/i915/gt: Prevent error pointer dereference
+
+Danilo Krummrich (2):
+      drm/nouveau: fence: fix type cast warning in nouveau_fence_emit()
+      drm/nouveau: sched: fix leaking memory of timedout job
+
+Dave Airlie (4):
+      nouveau/u_memcpya: use vmemdup_user
+      Merge tag 'drm-misc-fixes-2023-09-21' of
+git://anongit.freedesktop.org/drm/drm-misc into drm-fixes
+      Merge tag 'drm-intel-fixes-2023-09-21' of
+git://anongit.freedesktop.org/drm/drm-intel into drm-fixes
+      Merge tag 'amd-drm-fixes-6.6-2023-09-20' of
+https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
+
+Hamza Mahfooz (1):
+      drm/amd/display: fix the ability to use lower resolution modes on eDP
+
+Jani Nikula (1):
+      drm/meson: fix memory leak on ->hpd_notify callback
+
+Janusz Krzysztofik (1):
+      drm/tests: Fix incorrect argument in drm_test_mm_insert_range
+
+Jos=C3=A9 Pekkarinen (1):
+      drm/virtio: clean out_fence on complete_submit
+
+Karol Wachowski (1):
+      accel/ivpu/40xx: Fix buttress interrupt handling
+
+Lijo Lazar (1):
+      Revert "drm/amdgpu: Report vbios version instead of PN"
+
+Muhammad Ahmed (1):
+      drm/amd/display: Fix MST recognizes connected displays as one
+
+Thomas Zimmermann (1):
+      fbdev/sh7760fb: Depend on FB=3Dy
+
+Umesh Nerlige Ramappa (1):
+      i915/pmu: Move execlist stats initialization to execlist specific set=
+up
+
+YuBiao Wang (1):
+      drm/amdkfd: Use gpu_offset for user queue's wptr
+
+ MAINTAINERS                                        |  1 -
+ drivers/accel/ivpu/ivpu_hw_40xx.c                  |  9 ++++++-
+ drivers/gpu/drm/Kconfig                            |  2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c       |  2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c            |  1 +
+ .../gpu/drm/amd/amdkfd/kfd_device_queue_manager.c  |  2 +-
+ drivers/gpu/drdrm-fixes-2023-09-22-2:
+MAINTAINERS:
+- drop Ben as he retired from nouveau
+
+core:
+- drm_mm test fixes
+
+fbdev:
+- Kconfig fixes
+
+ivpu:
+- IRQ-handling fixes
+
+meson:
+- Fix memory leak in HDMI EDID code
+
+nouveau:
+- Correct type casting
+- Fix memory leak in scheduler
+- u_memcpya() fixes
+
+i915:
+- Prevent error pointer dereference
+- Fix PMU busyness values when using GuC mode
+
+amdgpu:
+- MST fix
+- Vbios part number reporting fix
+- Fix a possible memory leak in an error case in the RAS code
+- Fix low resolution modes on eDP
+
+amdkfd:
+- Fix GPU address for user queue wptr when GART is not at 0
+The following changes since commit ce9ecca0238b140b88f43859b211c9fdfd8e5b70=
+:
+
+  Linux 6.6-rc2 (2023-09-17 14:40:24 -0700)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2023-09-22-2
+
+for you to fetch changes up to b41b28366d3b176c8297961de4f095f2e392402d:
+
+  MAINTAINERS: remove myself as nouveau maintainer (2023-09-22 16:32:00 +10=
+00)
+
+----------------------------------------------------------------
+MAINTAINERS:
+- drop Ben as he retired from nouveau
+
+core:
+- drm_mm test fixes
+
+fbdev:
+- Kconfig fixes
+
+ivpu:
+- IRQ-handling fixes
+
+meson:
+- Fix memory leak in HDMI EDID code
+
+nouveau:
+- Correct type casting
+- Fix memory leak in scheduler
+- u_memcpya() fixes
+
+i915:
+- Prevent error pointer dereference
+- Fix PMU busyness values when using GuC mode
+
+amdgpu:
+- MST fix
+- Vbios part number reporting fix
+- Fix a possible memory leak in an error case in the RAS code
+- Fix low resolution modes on eDP
+
+amdkfd:
+- Fix GPU address for user queue wptr when GART is not at 0
+
+----------------------------------------------------------------
+Arnd Bergmann (1):
+      drm: fix up fbdev Kconfig defaults
+
+Ben Skeggs (1):
+      MAINTAINERS: remove myself as nouveau maintainer
+
+Cong Liu (1):
+      drm/amdgpu: fix a memory leak in amdgpu_ras_feature_enable
+
+Dan Carpenter (2):
+      nouveau/u_memcpya: fix NULL vs error pointer bug
+      drm/i915/gt: Prevent error pointer dereference
+
+Danilo Krummrich (2):
+      drm/nouveau: fence: fix type cast warning in nouveau_fence_emit()
+      drm/nouveau: sched: fix leaking memory of timedout job
+
+Dave Airlie (4):
+      nouveau/u_memcpya: use vmemdup_user
+      Merge tag 'drm-misc-fixes-2023-09-21' of
+git://anongit.freedesktop.org/drm/drm-misc into drm-fixes
+      Merge tag 'drm-intel-fixes-2023-09-21' of
+git://anongit.freedesktop.org/drm/drm-intel into drm-fixes
+      Merge tag 'amd-drm-fixes-6.6-2023-09-20' of
+https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
+
+Hamza Mahfooz (1):
+      drm/amd/display: fix the ability to use lower resolution modes on eDP
+
+Jani Nikula (1):
+      drm/meson: fix memory leak on ->hpd_notify callback
+
+Janusz Krzysztofik (1):
+      drm/tests: Fix incorrect argument in drm_test_mm_insert_range
+
+Jos=C3=A9 Pekkarinen (1):
+      drm/virtio: clean out_fence on complete_submit
+
+Karol Wachowski (1):
+      accel/ivpu/40xx: Fix buttress interrupt handling
+
+Lijo Lazar (1):
+      Revert "drm/amdgpu: Report vbios version instead of PN"
+
+Muhammad Ahmed (1):
+      drm/amd/display: Fix MST recognizes connected displays as one
+
+Thomas Zimmermann (1):
+      fbdev/sh7760fb: Depend on FB=3Dy
+
+Umesh Nerlige Ramappa (1):
+      i915/pmu: Move execlist stats initialization to execlist specific set=
+up
+
+YuBiao Wang (1):
+      drm/amdkfd: Use gpu_offset for user queue's wptr
+
+ MAINTAINERS                                        |  1 -
+ drivers/accel/ivpu/ivpu_hw_40xx.c                  |  9 ++++++-
+ drivers/gpu/drm/Kconfig                            |  2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c       |  2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c            |  1 +
+ .../gpu/drm/amd/amdkfd/kfd_device_queue_manager.c  |  2 +-
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |  4 +--
+ .../amd/display/dc/dce110/dce110_hw_sequencer.c    | 30 ++++++++++++------=
+----
+ drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hwseq.c |  8 ++----
+ drivers/gpu/drm/amd/display/dc/dcn32/dcn32_mpc.c   |  2 +-
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c          |  1 -
+ .../gpu/drm/i915/gt/intel_execlists_submission.c   |  2 ++
+ drivers/gpu/drm/i915/gt/intel_lrc.c                |  5 ++--
+ drivers/gpu/drm/meson/meson_encoder_hdmi.c         |  2 ++
+ drivers/gpu/drm/nouveau/nouveau_drv.h              | 19 ++++----------
+ drivers/gpu/drm/nouveau/nouveau_exec.c             |  2 +-
+ drivers/gpu/drm/nouveau/nouveau_fence.c            |  2 +-
+ drivers/gpu/drm/nouveau/nouveau_sched.c            | 12 ++++++---
+ drivers/gpu/drm/tests/drm_mm_test.c                |  2 +-
+ drivers/gpu/drm/virtio/virtgpu_submit.c            |  1 -
+ drivers/video/console/Kconfig                      |  1 +
+ drivers/video/fbdev/Kconfig                        |  2 +-
+ drivers/video/fbdev/core/Kconfig                   |  2 +-
+ 23 files changed, 61 insertions(+), 53
+deletions(-)m/amd/display/amdgpu_dm/amdgpu_dm.c  |  4 +--
+ .../amd/display/dc/dce110/dce110_hw_sequencer.c    | 30 ++++++++++++------=
+----
+ drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hwseq.c |  8 ++----
+ drivers/gpu/drm/amd/display/dc/dcn32/dcn32_mpc.c   |  2 +-
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c          |  1 -
+ .../gpu/drm/i915/gt/intel_execlists_submission.c   |  2 ++
+ drivers/gpu/drm/i915/gt/intel_lrc.c                |  5 ++--
+ drivers/gpu/drm/meson/meson_encoder_hdmi.c         |  2 ++
+ drivers/gpu/drm/nouveau/nouveau_drv.h              | 19 ++++----------
+ drivers/gpu/drm/nouveau/nouveau_exec.c             |  2 +-
+ drivers/gpu/drm/nouveau/nouveau_fence.c            |  2 +-
+ drivers/gpu/drm/nouveau/nouveau_sched.c            | 12 ++++++---
+ drivers/gpu/drm/tests/drm_mm_test.c                |  2 +-
+ drivers/gpu/drm/virtio/virtgpu_submit.c            |  1 -
+ drivers/video/console/Kconfig                      |  1 +
+ drivers/video/fbdev/Kconfig                        |  2 +-
+ drivers/video/fbdev/core/Kconfig                   |  2 +-
+ 23 files changed, 61 insertions(+), 53 deletions(-)
