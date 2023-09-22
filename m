@@ -1,52 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F6BB7AB63B
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Sep 2023 18:43:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A01E7AB6E7
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Sep 2023 19:13:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 022F010E69E;
-	Fri, 22 Sep 2023 16:43:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D4A210E05E;
+	Fri, 22 Sep 2023 17:12:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 41D4110E69E
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Sep 2023 16:43:10 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 6B07761B33;
- Fri, 22 Sep 2023 16:43:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 1D063C433C7;
- Fri, 22 Sep 2023 16:43:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1695400989;
- bh=gP4jHA6fma1xECP4iWL9xD5eKJ/7U+K9IACgxCV1sw4=;
- h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
- b=n1ntaBpeJaCU5ukCgF9oqFCxwrfX+OqdpjuQ0i17miYqa+Tp1WPVlK/pbN9Hk1Gf4
- 1wYNleY0Ir7VLADXS4VOaOWB6ASfdM9SLpVxUR6hWV6T2T5uRLAXkAJcQ7wZmO4qzV
- JypTEZ8mp0EAAqytzEWUTuVHmRlmAGvg2us7OUSQY8aRGZ5tgs0Bd2lgTmR1xezC4U
- 7H3888hbrlUuy3DQkjTQXGnds16C5muqgbW+tqhWdan2PWMkVEWvfJGEva97bV7eLE
- 3XzzcqwyAKXR+NXwQRzgNyfObz34n1BCBSC8AUcKzqKSUZR/0sU6HhRZVkssmzl2Tw
- jTROpjvVPw/Kw==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org
- (localhost.localdomain [127.0.0.1])
- by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id
- 0B676C561EE; Fri, 22 Sep 2023 16:43:09 +0000 (UTC)
-Subject: Re: [git pull] drm fixes for 6.6-rc3
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <CAPM=9txiBx_jsniqp-F5jGaLafEd1i=ike6kZ7G=ti7e2y-saw@mail.gmail.com>
-References: <CAPM=9txiBx_jsniqp-F5jGaLafEd1i=ike6kZ7G=ti7e2y-saw@mail.gmail.com>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <CAPM=9txiBx_jsniqp-F5jGaLafEd1i=ike6kZ7G=ti7e2y-saw@mail.gmail.com>
-X-PR-Tracked-Remote: git://anongit.freedesktop.org/drm/drm
- tags/drm-fixes-2023-09-22
-X-PR-Tracked-Commit-Id: 54928f2f8458160e6c7217de78b48064b301e255
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: b41b28366d3b176c8297961de4f095f2e392402d
-Message-Id: <169540098903.17578.2312216446450585203.pr-tracker-bot@kernel.org>
-Date: Fri, 22 Sep 2023 16:43:09 +0000
-To: Dave Airlie <airlied@gmail.com>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7107210E05E
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Sep 2023 17:12:57 +0000 (UTC)
+Received: from ginger.. (unknown [177.98.21.237])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: koike)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 5633D6607262;
+ Fri, 22 Sep 2023 18:12:51 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1695402776;
+ bh=AxQ28p5S5GmVSbnU0jiwXnKK+GT+jESsGF+xjPThjDw=;
+ h=From:To:Cc:Subject:Date:From;
+ b=H8ILSP/y7VBgP8A2WJoBG5c/iMSrK00F/VQB5B/SdG8wqMUDn0A6ycuioUUdS8c0T
+ lAxK2Dh0kGkhfhuH8EzZnfCGg+5NJAHd82FueP3gcwwyBgprXxoyC8lLBn8xiqUkFy
+ FbJcFCteQDesVuTh/Pvv+jPXHLxmQrwntjmUs3TAs0h6bD6TirZNzhUdvpnMnDTVg4
+ b6cMaJ8fsKjFL4ZL/cWG4o561udLHacc9K5o6/nJAzV/QeauehSnmo6YPdBMdVHuRl
+ z2HE7dLji55P8TxQen6aby8ECSjcx+dXw9FU/1nzxPwH82VYM24YUZGuYe5DqJLwx8
+ 1xbvsQm+9jIxw==
+From: Helen Koike <helen.koike@collabora.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v2 0/2] drm/ci: Update Mesa and Introduce VKMS Support
+Date: Fri, 22 Sep 2023 14:12:35 -0300
+Message-Id: <20230922171237.550762-1-helen.koike@collabora.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,22 +49,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: mripard@kernel.org, rodrigosiqueiramelo@gmail.com,
+ michel.daenzer@mailbox.org, vignesh.raman@collabora.com,
+ linux-kernel@vger.kernel.org, quic_abhinavk@quicinc.com, melissa.srw@gmail.com,
+ mairacanal@riseup.net, quic_jesszhan@quicinc.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The pull request you sent on Fri, 22 Sep 2023 16:14:46 +1000:
+This patchset offers two enhancements to drm/ci:
 
-> git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2023-09-22
+1. Mesa Version Update. drm/ci re-uses components from Mesa project.
+A recent bug in MesaCI was fixed. The first patch updates drm/ci
+Mesa's version, re-allowing containers rebuilds when uncached,
+essencial for new runs.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/b41b28366d3b176c8297961de4f095f2e392402d
+2. VKMS Driver Testing, together with the -skips.txt and -fails.txt
+list that were found during the tests.
 
-Thank you!
+See pipeline https://gitlab.freedesktop.org/helen.fornazier/linux/-/pipelines/992263
+(there is a vgem job on top but it shouldn't affect the result)
+
+
+v2:
+- mesauprev: point to upstream mesa/mesa (solved the TODO and removed RFC tag)
+- vkms jov: do not mv modules to /lib/modules in the job definition, leave it to
+  crosvm-runner.sh
+
+Helen Koike (2):
+  drm/ci: uprev mesa version - fix container build
+  drm/ci: add tests on vkms
+
+ MAINTAINERS                                   |  1 +
+ drivers/gpu/drm/ci/build.sh                   |  1 -
+ drivers/gpu/drm/ci/gitlab-ci.yml              | 16 +++++++++-
+ drivers/gpu/drm/ci/igt_runner.sh              |  6 ++--
+ drivers/gpu/drm/ci/image-tags.yml             |  2 +-
+ drivers/gpu/drm/ci/lava-submit.sh             |  2 +-
+ drivers/gpu/drm/ci/test.yml                   | 23 ++++++++++++++-
+ drivers/gpu/drm/ci/x86_64.config              |  1 +
+ .../drm/ci/xfails/virtio_gpu-none-flakes.txt  |  0
+ drivers/gpu/drm/ci/xfails/vkms-none-fails.txt | 29 +++++++++++++++++++
+ drivers/gpu/drm/ci/xfails/vkms-none-skips.txt | 10 +++++++
+ 11 files changed, 83 insertions(+), 8 deletions(-)
+ delete mode 100644 drivers/gpu/drm/ci/xfails/virtio_gpu-none-flakes.txt
+ create mode 100644 drivers/gpu/drm/ci/xfails/vkms-none-fails.txt
+ create mode 100644 drivers/gpu/drm/ci/xfails/vkms-none-skips.txt
 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+2.34.1
+
