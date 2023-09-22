@@ -2,56 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1F227AAE79
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Sep 2023 11:44:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B6907AAEC2
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Sep 2023 11:50:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C6EFC10E042;
-	Fri, 22 Sep 2023 09:44:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6CEDB10E05B;
+	Fri, 22 Sep 2023 09:50:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D6B2B10E042
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Sep 2023 09:44:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1695375863; x=1726911863;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=XqXG2jgGiK6RcE5JTJCQMqr1wkSsKU5xrFxakZbujqo=;
- b=YGDfioqbnGrb2uIhpWVfh1ohrYWQ3hExTm86rNqUGm/YsdXNqUeg2T9U
- A9BwpQJdfsN+6xnChYsCNC0TvF6hZuMuz+dkZBXuDz6mDs0CboqutR+dW
- gSmtmAsppyE0z8NBKJcNSii84eWKub2Tc18m4cV9UMqhjrHvq85uf2G7j
- x913rTaNYunoeuNEkefqs+zte1/i2nyVm67npOqQxBmzZmPCOxw/SMc4q
- VU7cuNMvZBMbVgNvZpOSeVs8QGCnWs6W1Fzw49s+i9fXPmMkECXNVAWNf
- UbsohN5b5l01As+DpWfzvoTQB20EVw8fCb3mWopLQH1DLinPKVKSv3EZA g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10840"; a="447268804"
-X-IronPort-AV: E=Sophos;i="6.03,167,1694761200"; d="scan'208";a="447268804"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Sep 2023 02:44:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10840"; a="782578828"
-X-IronPort-AV: E=Sophos;i="6.03,167,1694761200"; d="scan'208";a="782578828"
-Received: from aboreiko-mobl3.ger.corp.intel.com (HELO localhost)
- ([10.252.50.131])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Sep 2023 02:44:18 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Chen-Yu Tsai <wenst@chromium.org>
-Subject: Re: [PATCH] drm/mediatek/dp: fix memory leak on ->get_edid callback
- audio detection
-In-Reply-To: <CAGXv+5FvmwMW+bxJ9d_ULbOJA9qpd-vybn0VyE5iyQLHCET1=A@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20230914131058.2472260-1-jani.nikula@intel.com>
- <20230914155317.2511876-1-jani.nikula@intel.com>
- <CAGXv+5GJxEobJKKWuc_UN+Gf_z8g6eb6KWTz-L+RqtyLYKK3Jg@mail.gmail.com>
- <87cyyetohx.fsf@intel.com>
- <CAGXv+5FvmwMW+bxJ9d_ULbOJA9qpd-vybn0VyE5iyQLHCET1=A@mail.gmail.com>
-Date: Fri, 22 Sep 2023 12:44:15 +0300
-Message-ID: <87o7huo840.fsf@intel.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 50F8A10E05B
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Sep 2023 09:50:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1695376245;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=kZdUq4bBr+9g8/wPQcLNCnBOGM2aLPYGN/Yjl9htiv8=;
+ b=MC472L3qnNl0NJ5RX72O3gTvucvD3mhey2f1LCknp5AR3P/r434+H9jamMKcneJpuqvO2E
+ FP0V0JX7uRZRWNPYPzE2feV73bC/2JmY7Oxni2dQCslAGjaBu8c36hqo0Vjb+v6KOz0VHR
+ JiKlnrv7RSz2cU6ZYLNR3Gs5IZBZDLU=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-694-nyUwU3oAMhq32CGLatCPYQ-1; Fri, 22 Sep 2023 05:50:44 -0400
+X-MC-Unique: nyUwU3oAMhq32CGLatCPYQ-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ 5b1f17b1804b1-4053f023d77so2905275e9.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Sep 2023 02:50:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1695376242; x=1695981042;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=kZdUq4bBr+9g8/wPQcLNCnBOGM2aLPYGN/Yjl9htiv8=;
+ b=haARtygoAi2GGrcKwDI/6F3LayVRv/yyNq90Mqk134NPwrdM3QOn3wkg5dMyubxgpz
+ 5fTqPuz+UR1HvkefiWC0PRG+o5OLYe66Bs/h1bGle7q0dPA5PfIwMa2sRsaGaWOaVCry
+ nfsw2KVVSLhOsPyx05s216zd/W7R+YUINMfQufaGIdtrS/jllQBB2HzpzmlANOO1rcvv
+ krLgN2x2P54jZC4xxaE/MHA32iKjr4sT0iO1xvR0X8V596nFV52vPIuoiSt3lxPj1S/i
+ S0Z4pq5zReOsvMwHsmSreNDwtwX8q61/jqScFh2HH79UiLfV/XXLBA7a0CO+U43eiYkU
+ h2tg==
+X-Gm-Message-State: AOJu0YzScORxS3z67GKkeQpHF7lnX3Kp424cK4QPWmxm+VviTlXLhf6M
+ vrtWvEqh7Dlc456V2YzumOKFxhhyneeL0SzZtFwtQtmnoHPDZDXXRl2We47beTOMq8JmkUSfcsx
+ l4A1WuziU3Ghg32gS+OBJsCvbkc33
+X-Received: by 2002:a05:600c:2e4c:b0:405:3f06:c075 with SMTP id
+ q12-20020a05600c2e4c00b004053f06c075mr876350wmf.6.1695376242592; 
+ Fri, 22 Sep 2023 02:50:42 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHkca4yZ67Qrwm6oiKqUmbmS5dmwU75efDVvG95Z6Zrk7fJrIHZ6senSxziEpE9nmlan6YTvA==
+X-Received: by 2002:a05:600c:2e4c:b0:405:3f06:c075 with SMTP id
+ q12-20020a05600c2e4c00b004053f06c075mr876329wmf.6.1695376242207; 
+ Fri, 22 Sep 2023 02:50:42 -0700 (PDT)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ m20-20020a05600c281400b003fe1630a8f0sm7019555wmb.24.2023.09.22.02.50.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 22 Sep 2023 02:50:41 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Maxime Ripard <mripard@kernel.org>
+Subject: Re: [PATCH] drm/ssd130x: Drop _helper prefix from struct
+ drm_*_helper_funcs callbacks
+In-Reply-To: <f171c049112dfc21f0a1127edcd5717f.mripard@kernel.org>
+References: <20230914195138.1518065-1-javierm@redhat.com>
+ <f171c049112dfc21f0a1127edcd5717f.mripard@kernel.org>
+Date: Fri, 22 Sep 2023 11:50:41 +0200
+Message-ID: <87sf76k03y.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,64 +81,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Guillaume Ranquet <granquet@baylibre.com>, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org, Markus Schneider-Pargmann <msp@baylibre.com>,
- Matthias Brugger <matthias.bgg@gmail.com>, linux-mediatek@lists.infradead.org,
- dri-devel@lists.freedesktop.org,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Bo-Chen Chen <rex-bc.chen@mediatek.com>, linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 19 Sep 2023, Chen-Yu Tsai <wenst@chromium.org> wrote:
-> On Tue, Sep 19, 2023 at 7:02=E2=80=AFPM Jani Nikula <jani.nikula@intel.co=
-m> wrote:
->>
->> On Fri, 15 Sep 2023, Chen-Yu Tsai <wenst@chromium.org> wrote:
->> > On Thu, Sep 14, 2023 at 11:53=E2=80=AFPM Jani Nikula <jani.nikula@inte=
-l.com> wrote:
->> >>
->> >> The sads returned by drm_edid_to_sad() needs to be freed.
->> >>
->> >> Fixes: e71a8ebbe086 ("drm/mediatek: dp: Audio support for MT8195")
->> >> Cc: Guillaume Ranquet <granquet@baylibre.com>
->> >> Cc: Bo-Chen Chen <rex-bc.chen@mediatek.com>
->> >> Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.c=
-om>
->> >> Cc: Dmitry Osipenko <dmitry.osipenko@collabora.com>
->> >> Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
->> >> Cc: Philipp Zabel <p.zabel@pengutronix.de>
->> >> Cc: Matthias Brugger <matthias.bgg@gmail.com>
->> >> Cc: dri-devel@lists.freedesktop.org
->> >> Cc: linux-mediatek@lists.infradead.org
->> >> Cc: linux-kernel@vger.kernel.org
->> >> Cc: linux-arm-kernel@lists.infradead.org
->> >> Cc: <stable@vger.kernel.org> # v6.1+
->> >> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
->> >
->> > Looks correct to me.
->> >
->> > Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
->>
->> Thanks for the reviews Chen-Yu and Guillaume. Will you push this to
->> drm-misc-next or shall I?
+"Maxime Ripard" <mripard@kernel.org> writes:
+
+> On Thu, 14 Sep 2023 21:51:24 +0200, Javier Martinez Canillas wrote:
+>> The driver uses a naming convention where functions for struct drm_*_funcs
+>> callbacks are named ssd130x_$object_$operation, while the callbacks for
+>> struct drm_*_helper_funcs are named ssd130x_$object_helper_$operation.
+>> 
+>> The idea is that this helper_ prefix in the function names denote that are
+>> 
+>> [ ... ]
 >
-> Patches for the MediaTek drm driver go through their own separate tree,
-> maintained by CK (Chun-Kuang).
-
-Chun-Kuang, can you confirm picking up these two patches, please?
-
-MAINTAINERS does not list a separate git repository for MediaTek drm
-drivers, so I don't know where that would be. It should probably be
-added to MAINTAINERS.
-
-Thanks,
-Jani.
-
+> Reviewed-by: Maxime Ripard <mripard@kernel.org>
 >
-> ChenYu
 
---=20
-Jani Nikula, Intel
+Pushed to drm-misc (drm-misc-next). Thanks!
+
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
