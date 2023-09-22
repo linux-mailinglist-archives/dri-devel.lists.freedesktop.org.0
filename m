@@ -1,51 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FA0F7AB23A
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Sep 2023 14:36:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 37EA27AB265
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Sep 2023 14:45:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D7A9910E65F;
-	Fri, 22 Sep 2023 12:36:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0EFC810E069;
+	Fri, 22 Sep 2023 12:45:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9899510E65E;
- Fri, 22 Sep 2023 12:36:06 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4DA8E10E032;
+ Fri, 22 Sep 2023 12:45:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1695386166; x=1726922166;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=kGTwNKFOthyNsd2Xu8Yd/j/8VP99e25Bcka17ebylHk=;
- b=n2493HRDJ2qqcf37axugbKpnfvi4NAd9FsNDvA5wibbXp48AzBOt8q7w
- e7nkzWiymmZDzTKz176S4fQ7P5aQb46mpoGGmuX7A08AKvgL/iaZe4Qzb
- Y0q2CGnSpwM6frvMzBUbI8AF83yxD4r4QH4C7unbuGNO45kKQVnPEZmvr
- B2Abdn1lxTrkY/95C4IozlGiFXS0l1EZg2tnI+kMAxhuCCmzBP/v0I1cz
- guO09oCYpOJ/3gHDTLJWrOymdmShpU9za5BGpvXXQsWybtD/nU35UaJ7S
- 1VG1PT+cd2ESidny9Zw7XUnmy9wTzx20TFnfcjykM9q1s7fbYv58N6qSu w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="467114840"
-X-IronPort-AV: E=Sophos;i="6.03,167,1694761200"; d="scan'208";a="467114840"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Sep 2023 05:35:52 -0700
+ t=1695386738; x=1726922738;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ mime-version:in-reply-to;
+ bh=h6bSY/xlg9WFQnB0ULPw2zGODeoXmWROPhstqXyPoCg=;
+ b=f7r3YMcSAd+eEg+sYoxDV4yIWTfry5MxHI+q4njqM2qRr2san96PN+bY
+ sTCv2AOL/Uxaifp40v7YrM1nARMERSxlcf4KWxvJP0IzTzcgdQl+9Byn5
+ nguuJ9+kHAjnx0V3rgJ+B5cBed1H5lNQCkbh/IkFJI/QCQ5PVdffDW7d+
+ cgs8sdMLZftDzgbQbPFsQT3h3gdHp5UKejy2JvBl6KJILcHgeepfs0CA0
+ nyNgpg405CPvWqJJIKuAHqj6hAy6fZ+T01TbxpXPtDGaj/rkUpePNuzfn
+ +MTspGfLlw9CTU3wKlr4m883oXQ4fC3VPjk5O4CGzY/jQI/wEQOyPif6o Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="444914168"
+X-IronPort-AV: E=Sophos;i="6.03,167,1694761200"; d="scan'208";a="444914168"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Sep 2023 05:45:26 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="1078355155"
-X-IronPort-AV: E=Sophos;i="6.03,167,1694761200"; d="scan'208";a="1078355155"
-Received: from nirmoyda-desk.igk.intel.com ([10.102.138.190])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Sep 2023 05:35:51 -0700
-From: Nirmoy Das <nirmoy.das@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH] drm/i915/gem: Make i915_gem_shrinker multi-gt aware
-Date: Fri, 22 Sep 2023 14:35:41 +0200
-Message-ID: <20230922123541.23822-1-nirmoy.das@intel.com>
-X-Mailer: git-send-email 2.41.0
+X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="741089691"
+X-IronPort-AV: E=Sophos;i="6.03,167,1694761200"; d="scan'208";a="741089691"
+Received: from ideak-desk.fi.intel.com ([10.237.72.78])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Sep 2023 05:45:23 -0700
+Date: Fri, 22 Sep 2023 15:45:45 +0300
+From: Imre Deak <imre.deak@intel.com>
+To: Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>
+Subject: Re: [Intel-gfx] [PATCH 0/8] Add DSC fractional bpp support
+Message-ID: <ZQ2MeUOrx9bRtswt@ideak-desk.fi.intel.com>
+References: <20230913060606.1105349-1-mitulkumar.ajitkumar.golani@intel.com>
 MIME-Version: 1.0
-Organization: Intel Deutschland GmbH, Registered Address: Am Campeon 10,
- 85579 Neubiberg, Germany,
- Commercial Register: Amtsgericht Muenchen HRB 186928 
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230913060606.1105349-1-mitulkumar.ajitkumar.golani@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,113 +57,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: andrzej.hajda@intel.com, Jonathan Cavitt <jonathan.cavitt@intel.com>,
- andi.shyti@linux.intel.com, dri-devel@lists.freedesktop.org,
- Nirmoy Das <nirmoy.das@intel.com>
+Reply-To: imre.deak@intel.com
+Cc: jani.nikula@intel.com, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Jonathan Cavitt <jonathan.cavitt@intel.com>
+On Wed, Sep 13, 2023 at 11:35:58AM +0530, Mitul Golani wrote:
+> his patch series adds support for DSC fractional compressed bpp
+> for MTL+. The series starts with some fixes, followed by patches that
+> lay groundwork to iterate over valid compressed bpps to select the
+> 'best' compressed bpp with optimal link configuration (taken from
+> upstream series: https://patchwork.freedesktop.org/series/105200/).
+> 
+> The later patches, add changes to accommodate compressed bpp with
+> fractional part, including changes to QP calculations.
+> To get the 'best' compressed bpp, we iterate over the valid compressed
+> bpp values, but with fractional step size 1/16, 1/8, 1/4 or 1/2 as per
+> sink support.
+> 
+> The last 2 patches add support to depict DSC sink's fractional support,
+> and debugfs to enforce use of fractional bpp, while choosing an
+> appropriate compressed bpp.
 
-Where applicable, use for_each_gt instead of to_gt in the
-i915_gem_shrinker functions to make them apply to more than just the
-primary GT.  Specifically, this ensure i915_gem_shrink_all retires all
-requests across all GTs, and this makes i915_gem_shrinker_vmap unmap
-VMAs from all GTs.
+MST/DSC is at the moment broken, so I'd prefer merging this patchset
+only after it's fixed. This would mean merging 
 
-Signed-off-by: Jonathan Cavitt <jonathan.cavitt@intel.com>
-Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
----
- drivers/gpu/drm/i915/gem/i915_gem_shrinker.c | 44 ++++++++++++--------
- 1 file changed, 26 insertions(+), 18 deletions(-)
+https://lore.kernel.org/all/20230921195159.2646027-1-imre.deak@intel.com
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c b/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
-index 214763942aa2..3ef1fd32f80a 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
-@@ -14,6 +14,7 @@
- #include <linux/vmalloc.h>
- 
- #include "gt/intel_gt_requests.h"
-+#include "gt/intel_gt.h"
- 
- #include "i915_trace.h"
- 
-@@ -119,7 +120,8 @@ i915_gem_shrink(struct i915_gem_ww_ctx *ww,
- 	intel_wakeref_t wakeref = 0;
- 	unsigned long count = 0;
- 	unsigned long scanned = 0;
--	int err = 0;
-+	int err = 0, i = 0;
-+	struct intel_gt *gt;
- 
- 	/* CHV + VTD workaround use stop_machine(); need to trylock vm->mutex */
- 	bool trylock_vm = !ww && intel_vm_no_concurrent_access_wa(i915);
-@@ -147,9 +149,11 @@ i915_gem_shrink(struct i915_gem_ww_ctx *ww,
- 	 * what we can do is give them a kick so that we do not keep idle
- 	 * contexts around longer than is necessary.
- 	 */
--	if (shrink & I915_SHRINK_ACTIVE)
--		/* Retire requests to unpin all idle contexts */
--		intel_gt_retire_requests(to_gt(i915));
-+	if (shrink & I915_SHRINK_ACTIVE) {
-+		for_each_gt(gt, i915, i)
-+			/* Retire requests to unpin all idle contexts */
-+			intel_gt_retire_requests(to_gt(i915));
-+	}
- 
- 	/*
- 	 * As we may completely rewrite the (un)bound list whilst unbinding
-@@ -389,6 +393,8 @@ i915_gem_shrinker_vmap(struct notifier_block *nb, unsigned long event, void *ptr
- 	struct i915_vma *vma, *next;
- 	unsigned long freed_pages = 0;
- 	intel_wakeref_t wakeref;
-+	struct intel_gt *gt;
-+	int i;
- 
- 	with_intel_runtime_pm(&i915->runtime_pm, wakeref)
- 		freed_pages += i915_gem_shrink(NULL, i915, -1UL, NULL,
-@@ -397,24 +403,26 @@ i915_gem_shrinker_vmap(struct notifier_block *nb, unsigned long event, void *ptr
- 					       I915_SHRINK_VMAPS);
- 
- 	/* We also want to clear any cached iomaps as they wrap vmap */
--	mutex_lock(&to_gt(i915)->ggtt->vm.mutex);
--	list_for_each_entry_safe(vma, next,
--				 &to_gt(i915)->ggtt->vm.bound_list, vm_link) {
--		unsigned long count = i915_vma_size(vma) >> PAGE_SHIFT;
--		struct drm_i915_gem_object *obj = vma->obj;
--
--		if (!vma->iomap || i915_vma_is_active(vma))
--			continue;
-+	for_each_gt(gt, i915, i) {
-+		mutex_lock(&gt->ggtt->vm.mutex);
-+		list_for_each_entry_safe(vma, next,
-+					 &gt->ggtt->vm.bound_list, vm_link) {
-+			unsigned long count = i915_vma_size(vma) >> PAGE_SHIFT;
-+			struct drm_i915_gem_object *obj = vma->obj;
-+
-+			if (!vma->iomap || i915_vma_is_active(vma))
-+				continue;
- 
--		if (!i915_gem_object_trylock(obj, NULL))
--			continue;
-+			if (!i915_gem_object_trylock(obj, NULL))
-+				continue;
- 
--		if (__i915_vma_unbind(vma) == 0)
--			freed_pages += count;
-+			if (__i915_vma_unbind(vma) == 0)
-+				freed_pages += count;
- 
--		i915_gem_object_unlock(obj);
-+			i915_gem_object_unlock(obj);
-+		}
-+		mutex_unlock(&gt->ggtt->vm.mutex);
- 	}
--	mutex_unlock(&to_gt(i915)->ggtt->vm.mutex);
- 
- 	*(unsigned long *)ptr += freed_pages;
- 	return NOTIFY_DONE;
--- 
-2.41.0
+first, followed by the DSC parts from
 
+https://lore.kernel.org/all/20230914192659.757475-1-imre.deak@intel.com
+
+which would also need a rebase for this patchset.
+
+> Ankit Nautiyal (5):
+>   drm/display/dp: Add helper function to get DSC bpp prescision
+>   drm/i915/display: Store compressed bpp in U6.4 format
+>   drm/i915/display: Consider fractional vdsc bpp while computing m_n
+>     values
+>   drm/i915/audio : Consider fractional vdsc bpp while computing tu_data
+>   drm/i915/dp: Iterate over output bpp with fractional step size
+> 
+> Swati Sharma (2):
+>   drm/i915/dsc: Add debugfs entry to validate DSC fractional bpp
+>   drm/i915/dsc: Allow DSC only with fractional bpp when forced from
+>     debugfs
+> 
+> Vandita Kulkarni (1):
+>   drm/i915/dsc/mtl: Add support for fractional bpp
+> 
+>  drivers/gpu/drm/display/drm_dp_helper.c       | 27 ++++++
+>  drivers/gpu/drm/i915/display/icl_dsi.c        | 11 +--
+>  drivers/gpu/drm/i915/display/intel_audio.c    | 17 ++--
+>  drivers/gpu/drm/i915/display/intel_bios.c     |  6 +-
+>  drivers/gpu/drm/i915/display/intel_cdclk.c    |  6 +-
+>  drivers/gpu/drm/i915/display/intel_display.c  |  8 +-
+>  drivers/gpu/drm/i915/display/intel_display.h  |  2 +-
+>  .../drm/i915/display/intel_display_debugfs.c  | 83 +++++++++++++++++++
+>  .../drm/i915/display/intel_display_types.h    |  4 +-
+>  drivers/gpu/drm/i915/display/intel_dp.c       | 81 +++++++++++-------
+>  drivers/gpu/drm/i915/display/intel_dp_mst.c   | 32 ++++---
+>  drivers/gpu/drm/i915/display/intel_fdi.c      |  2 +-
+>  .../i915/display/intel_fractional_helper.h    | 36 ++++++++
+>  .../gpu/drm/i915/display/intel_qp_tables.c    |  3 -
+>  drivers/gpu/drm/i915/display/intel_vdsc.c     | 30 +++++--
+>  include/drm/display/drm_dp_helper.h           |  1 +
+>  16 files changed, 275 insertions(+), 74 deletions(-)
+>  create mode 100644 drivers/gpu/drm/i915/display/intel_fractional_helper.h
+> 
+> -- 
+> 2.25.1
+> 
