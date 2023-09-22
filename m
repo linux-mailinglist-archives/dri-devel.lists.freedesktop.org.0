@@ -1,79 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A48067AB78B
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Sep 2023 19:32:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6202C7AB78C
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Sep 2023 19:32:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E81610E6B9;
-	Fri, 22 Sep 2023 17:32:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6EBB310E6B8;
+	Fri, 22 Sep 2023 17:32:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com
- [IPv6:2607:f8b0:4864:20::431])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C45010E6C3
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Sep 2023 17:32:20 +0000 (UTC)
-Received: by mail-pf1-x431.google.com with SMTP id
- d2e1a72fcca58-692a9bc32bcso919927b3a.2
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Sep 2023 10:32:20 -0700 (PDT)
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com
+ [IPv6:2607:f8b0:4864:20::62a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C750110E6B2
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Sep 2023 17:32:21 +0000 (UTC)
+Received: by mail-pl1-x62a.google.com with SMTP id
+ d9443c01a7336-1c0ecb9a075so20612655ad.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Sep 2023 10:32:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1695403940; x=1696008740;
+ d=chromium.org; s=google; t=1695403941; x=1696008741;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Q96X+e6e2GphA8WEKNidppfkY54O3UO5SgYggFHsXis=;
- b=D2i987MsIealRDRy1XGX6kR0E0RRNshjZbWu+s/CRudwaELuqP6V7doxsc6nqRm5tA
- 6t9/caaNJKieYCL8EX3zSvsW335/jAnVTQTjLfnuo0vkQNcePqTYH4LK/cw8+q7bXiPb
- YfJtP/3qjwCPTVDkSckyMgaHfJsP+RgKmoYPY=
+ bh=wWOiU92ExO1tEuVJ2ItejZKQh8uiQWENZYmfi07W000=;
+ b=PF0J1Sdwf9lSottLYAulcsieWHzI9aZOO0JPDHuzOtlhgsYdqjp8UF5Vv4wI5o6tEn
+ p0DKHq7AnBy4YWUSH9mzATLBmUcUO+u9EEfSI7PlF8PtsIeV4t24nNSSDiweS3bCoMJK
+ 8NtiV/5G2CNFVNzZCUGxPVmsgxIzNEBFnhVo4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1695403940; x=1696008740;
+ d=1e100.net; s=20230601; t=1695403941; x=1696008741;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Q96X+e6e2GphA8WEKNidppfkY54O3UO5SgYggFHsXis=;
- b=EPrn6/MW07RfgShrEk5zlm38pst020MOaGRri8a/Mlhup7DRi22Bbv/B1bJ4XfhK2+
- r0OFF9wS3Es9OpIrZMGn3u9Ecxk3filSFeokdtBq0xFo0JpyNnd3+spbR5Am+B8KkWQa
- 2Ey7tFMRfjvlMoJcM49iRQV8uCccYXY2Cq97TBfVd+LqntXsEeH2LuYN1JsKXqF00JHr
- rCAv4RIYRGLdDyXsy2QYWLyDEiW5RgoZRjU/txqffewk2p8Nc8dVG6uAkJGNW/rWmQU8
- 8+l2+Ina5fZ9Jd7QMqnyG7alhqsHRoi1QsmTepeC2OFrLOvDH4ODVxQ4rMAAE8cFENr/
- 0G4g==
-X-Gm-Message-State: AOJu0YyH7LpqZB+DShfl3xN3qkhwW4qqqYh9gF7Nm5+J9nQPNB5aT3VZ
- TVvfcPuaXgf9fJUzzf4mZ+WrGA==
-X-Google-Smtp-Source: AGHT+IGXr1Sat+m9Td0MGaNcSAWB3dRra4hS8nmW8pMNrVJgFfBDLEWjUeK3DqEHM0m4IjyMLEfwlA==
-X-Received: by 2002:a05:6a20:9756:b0:14d:9bd1:6361 with SMTP id
- hs22-20020a056a20975600b0014d9bd16361mr200432pzc.11.1695403939966; 
- Fri, 22 Sep 2023 10:32:19 -0700 (PDT)
+ bh=wWOiU92ExO1tEuVJ2ItejZKQh8uiQWENZYmfi07W000=;
+ b=Q+P+cyY8+LqHXDtWYfd57qDkyo7jO09HhaMBx6QE1yy/dk0kGsaKdcZtVZmqBfO6qb
+ 22fb9nilkhlYIQtCjlaAEJvgNT8cfJGzgXGxW/CjfqwIs8SOcr1vgymFs9w+0CeQVIQb
+ BkDT1YAA7xKleL8UauKJNEVFvsu9fCYepm2lPNyKzkzIY1lbiQTkImb4HogkIf6JoGhR
+ xuDNP1EnRe4FGYPQyX3ZFyB4yKetoZ7J9hgGTzAU2wMBX0EoCB5D8/wrfNsEVHK0H/XL
+ XLu+4nsdlcAWHoUCJqe8wePkoA9nRDJTk6AFkuSYU4wb1t2s+bgNse8hE533md8H3KfA
+ dKjQ==
+X-Gm-Message-State: AOJu0Yx8Y/iqxC3K+C90ZWpgDsvJAP7Gh+Q0DrH4d9WLPH6F+AiJfQgs
+ 9/ewJ6vvGY7XRwgs6ObR55MzjA==
+X-Google-Smtp-Source: AGHT+IHozbo6RGGEOfFNm2quF7eyhyB1jYnKoC2EoQE9eESJOC/u5eL19BCqbdONa5XuKmexTM0hYA==
+X-Received: by 2002:a17:902:e5c1:b0:1c3:d07f:39f7 with SMTP id
+ u1-20020a170902e5c100b001c3d07f39f7mr152502plf.62.1695403941371; 
+ Fri, 22 Sep 2023 10:32:21 -0700 (PDT)
 Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net.
  [198.0.35.241]) by smtp.gmail.com with ESMTPSA id
- u74-20020a63794d000000b00565e2ad12e5sm3318350pgc.91.2023.09.22.10.32.17
+ h6-20020a170902f54600b001c5f7e06256sm8967plf.152.2023.09.22.10.32.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 22 Sep 2023 10:32:19 -0700 (PDT)
 From: Kees Cook <keescook@chromium.org>
 To: David Airlie <airlied@gmail.com>
-Subject: [PATCH 3/9] drm/i915/selftests: Annotate struct perf_series with
- __counted_by
-Date: Fri, 22 Sep 2023 10:32:08 -0700
-Message-Id: <20230922173216.3823169-3-keescook@chromium.org>
+Subject: [PATCH 4/9] drm/msm/dpu: Annotate struct dpu_hw_intr with __counted_by
+Date: Fri, 22 Sep 2023 10:32:09 -0700
+Message-Id: <20230922173216.3823169-4-keescook@chromium.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230922173110.work.084-kees@kernel.org>
 References: <20230922173110.work.084-kees@kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1705; i=keescook@chromium.org; 
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1561; i=keescook@chromium.org; 
  h=from:subject;
- bh=SbNV7tt6Hho3aemFjM+WsFyDqpMFvSNtroJg7EF/6LY=; 
- b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBlDc+e99M+BFyGmat9Yjgpanw6UekhSMQhhAVfe
- PzecbdVf2uJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCZQ3PngAKCRCJcvTf3G3A
- JhPmD/oDoTfSn61jeN+hZ6qtbqMVL0umbxgqdZnXY/WBbLuBKV20tcaMAcUgkDgD7IZTf9vLT7N
- QvsK/I3NzdeyXN9KRjg9P26c5TGRnuFhT5ow/Mmpjw2ZfwY/adYsynGhgMsY1zCzocr9Klih2M5
- ONqETCgHopA10PwXUTZcfeylbqK62rRaYAWtkuoi0RcYjB0ba0MiguwtlB6nrG6fwv2owEKE9yZ
- q2M6NVTsjfrdnESUtkpr+ZQMSdTP4DYj6WZCs8PEing/sqS9G43U/93adZtoUdXHfx6OIvtf4kR
- QVJDI5f2FtS/OLpfsJPETvUFATNLl9zt+qYEEI6Xo/nwVAIDi10lef4gFjjLtPRlK+1R5w0hwDl
- vKJUW0WgT4cnNhXnSosMUxrlYOzDiiFUv22K7MRCjwllhPuoEqIvmEu2skXTbfOi++COJZQENGW
- mjr4E/cj8Pue9+KM7OxnSvfWccW9jLZfobZ+Mt3QO0uwzIKFw3tbN6roSBWKQjPzGVWZBhoB7P/
- YBx8LyLPlIme4RIAinnRTvKcRBVmPKq0z5qb+ZrfdbS5SyUax0buA8IufSmAFbFNMVWiehiR7kj
- m3qIzz42RIlit5ahExdpEPXkGeqqxLI86EouMV1p14sfdA6bPnL2FdLAyVYLHh92VJ7BRKvGmB7
- gVsy2dUkMQ94AOw==
+ bh=xDkJWau6qmNIlEczl2n21zh31yaWnnGb4ZbtRzkDM5w=; 
+ b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBlDc+eutUHe9SLnXaUpaJySdpFne687ECfxzj9x
+ c9gWcqZLYaJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCZQ3PngAKCRCJcvTf3G3A
+ JjnbD/9OQiE+N5TDN74IQPEo9SgzH0oAvZBxcgjjWQ+yn1SxoSDB5LIrgeGtiyQGvx7BYlpt+Mk
+ MT5bPfHehA9na7K4kzqg9quYRtDWvIN27rP/uwZxsg6q5pZKW93YRamZq1G+itcAKW6RA20Gl5L
+ oXzlXw8xjsnhIYhIM57Pko4wOg7e7p9M1OFiWoZvPmi3jXsn0iVx99yrPXIgM7uK4j+SGaJVO/e
+ Db6B/ovadEGxmj6A5SpZjflvdzGUHbCnD/wxy8R6PCGroCHj+rG2bB4Bzu1Bz+aXu2YhIKPBoAr
+ CfA7YAuzv8p7/Dy4rMzzOl1WMQu/T5Rh5tIJo2Eg44ksRdJK4w4OJBgr+8wPd1dntiatR4Ulsgn
+ ZfRzuaLWVaPb+FcgFpd7LGX/chEK+f5iu5eFguQ8F1ZvI4wUYZ1dYV0HliOOkBFszZQ42WITuND
+ M88ZKBxyD4ccXy0nUhHCMZsLs9jr152hzbB82sQrCyl+qJ7p0yYLaHOjzT6CRZvzNUXk0DrXNdf
+ cM+AdoWXZHFWhEsT+HLVIWg+oEAfqN+3W2w08etC077cqQ4Kj366BbtIh2HIlNX7LYF3uztip5O
+ Cy/EA3VNLkh7U/Gwv7/PDy6HCSs6sJ32cEGquxZ7iLKQf7SPjcZHlBvml7AJOep9Fs2EukYfNDz
+ 1KplYtpYhU7H+uA==
 X-Developer-Key: i=keescook@chromium.org; a=openpgp;
  fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
@@ -112,10 +111,10 @@ Cc: Tejas Upadhyay <tejas.upadhyay@intel.com>, Emma Anholt <emma@anholt.net>,
  Evan Quan <evan.quan@amd.com>, Sean Paul <sean@poorly.run>,
  Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
  Xiaojian Du <Xiaojian.Du@amd.com>, Le Ma <le.ma@amd.com>,
- freedreno@lists.freedesktop.org, Bjorn Andersson <andersson@kernel.org>, "Pan,
+ Lang Yu <Lang.Yu@amd.com>, Bjorn Andersson <andersson@kernel.org>, "Pan,
  Xinhui" <Xinhui.Pan@amd.com>, Nick Desaulniers <ndesaulniers@google.com>,
  linux-kernel@vger.kernel.org, Alex Deucher <alexander.deucher@amd.com>,
- Nirmoy Das <nirmoy.das@intel.com>, Lang Yu <Lang.Yu@amd.com>,
+ Nirmoy Das <nirmoy.das@intel.com>, freedreno@lists.freedesktop.org,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
  John Harrison <john.c.harrison@Intel.com>,
  Hawking Zhang <Hawking.Zhang@amd.com>
@@ -128,40 +127,39 @@ their accesses bounds-checked at run-time checking via CONFIG_UBSAN_BOUNDS
 (for array indexing) and CONFIG_FORTIFY_SOURCE (for strcpy/memcpy-family
 functions).
 
-As found with Coccinelle[1], add __counted_by for struct perf_series.
+As found with Coccinelle[1], add __counted_by for struct dpu_hw_intr.
 
 [1] https://github.com/kees/kernel-tools/blob/trunk/coccinelle/examples/counted_by.cocci
 
-Cc: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Cc: Rob Clark <robdclark@gmail.com>
+Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Sean Paul <sean@poorly.run>
+Cc: Marijn Suijten <marijn.suijten@somainline.org>
 Cc: David Airlie <airlied@gmail.com>
 Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Chris Wilson <chris@chris-wilson.co.uk>
-Cc: John Harrison <john.c.harrison@Intel.com>
-Cc: Andi Shyti <andi.shyti@linux.intel.com>
-Cc: Matthew Brost <matthew.brost@intel.com>
-Cc: intel-gfx@lists.freedesktop.org
+Cc: Bjorn Andersson <andersson@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org
 Cc: dri-devel@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- drivers/gpu/drm/i915/selftests/i915_request.c | 2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.h | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/i915/selftests/i915_request.c b/drivers/gpu/drm/i915/selftests/i915_request.c
-index a9b79888c193..acae30a04a94 100644
---- a/drivers/gpu/drm/i915/selftests/i915_request.c
-+++ b/drivers/gpu/drm/i915/selftests/i915_request.c
-@@ -1924,7 +1924,7 @@ struct perf_stats {
- struct perf_series {
- 	struct drm_i915_private *i915;
- 	unsigned int nengines;
--	struct intel_context *ce[];
-+	struct intel_context *ce[] __counted_by(nengines);
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.h
+index dab761e54863..50cf9523d367 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.h
+@@ -61,7 +61,7 @@ struct dpu_hw_intr {
+ 		void (*cb)(void *arg, int irq_idx);
+ 		void *arg;
+ 		atomic_t count;
+-	} irq_tbl[];
++	} irq_tbl[] __counted_by(total_irqs);
  };
  
- static int cmp_u32(const void *A, const void *B)
+ /**
 -- 
 2.34.1
 
