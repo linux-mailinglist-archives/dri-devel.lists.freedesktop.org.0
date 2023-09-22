@@ -1,65 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31CF07AA52A
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Sep 2023 00:38:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 281107AA863
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Sep 2023 07:33:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B29710E023;
-	Thu, 21 Sep 2023 22:38:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C42B10E06E;
+	Fri, 22 Sep 2023 05:33:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5732010E023
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Sep 2023 22:38:05 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 70AAA62127
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Sep 2023 22:38:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 432ABC43391
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Sep 2023 22:38:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1695335884;
- bh=f96GvyahMMT8QV5ifpzovkrTHmyGKuq14hgCEJCZx1o=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=hJgOb6njdrKgmip055t0lxdJ0qinyyfm/fRczYcu0szLiE8GMu3G2HN34JoVCNqUM
- brXAAgXIE3qiuwmOMnZR7ER4Sq5arCbhvZ0AHA3+P/Ub7g6yzI5oT0Hvk5ikiCMA3b
- +Y6dHzUNtOzTuVozrQhLx3rJGTIFwvHp/6U6IOmhJThEsvlODJNwdn5D+q+9fqwoFH
- WxIv2AsTngEpebPF7UL/yZKR9dHDwP6ue7wj9cbBaWrJGezhgTOSS5mQ2baG4JaSY0
- tLJgWGDSN48yH1rriaitbg8iamVj0N4ZsG+27dMk0rfj9O80BlwyYoQPA0QbsgaMxC
- lAlZGpcV6a5Kw==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 342F1C53BD0; Thu, 21 Sep 2023 22:38:04 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 201957] amdgpu: ring gfx timeout
-Date: Thu, 21 Sep 2023 22:38:00 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: blocking
-X-Bugzilla-Who: graham.oconnor@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-201957-2300-DenzN76pLf@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-201957-2300@https.bugzilla.kernel.org/>
-References: <bug-201957-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
+ [IPv6:2a00:1450:4864:20::62e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A0BE410E009;
+ Fri, 22 Sep 2023 05:33:29 +0000 (UTC)
+Received: by mail-ej1-x62e.google.com with SMTP id
+ a640c23a62f3a-9a648f9d8e3so223902866b.1; 
+ Thu, 21 Sep 2023 22:33:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1695360808; x=1695965608; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=3S0h9nd7busfk/UjoksU3sgQ7ASJupxUgEIGC1muITw=;
+ b=hi1EUFT5b5qnbbH22Ka/Qu9WT1+MiedsFZijUwjTotIMCgWkjQyYcR1US9UpSQu/9W
+ /LdrqAQtI3hR8BfWglsQ70sKHCWRMXkDqDUjrwfkSNrVlOZUuxTtTXBvccTo0x67v8dZ
+ K/yOPwx9IK/vqfxJC+kObwjY2yIF4AXTEa436zQnpL0S6FpPwJexzeYVWqKgwvD+4Ta6
+ EVQ1kfLyY7ojblhZvKB54YAblwPWVve3vPM6UZGfer4+FM0mPBROs09kyNlnaDv/ef4D
+ UFJaC7e87mbOEJpUjAw3zNBQFhp78vDKmNluBwCOI4SXyavJfwx+m4XFZhsfdB4I4PIC
+ 63RA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1695360808; x=1695965608;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=3S0h9nd7busfk/UjoksU3sgQ7ASJupxUgEIGC1muITw=;
+ b=DylFPLHzezqxgAqFXTY5awJRyLq8wdFExA2Gt9eAsdUDE+FmmknGy2f9s3jn2HeIyX
+ vFz76wCZcvkF55S4qyBrb1royekq+ukkUHpyysdROO3RqtgIGTpguqmQffcG+y1F3X6F
+ +bnlSxUCVGJpcS89L0YHAUC8xHU4PnpEvSFwmUOPcj2DgLbqoqlPsDRptBSgSBAPNMfq
+ F0gXumXBbOXXsqznLv3ZOG5b7yTHCG07sZNsX6BasHge7N5EEncZNiPyGkAUE8mcMorZ
+ rhhNlf/BSz8vtYW5cghwXGNAVP3hgTQRzOL9zS/bZjrRby3ANYvcmcmuJDn853WplvJW
+ Xl8g==
+X-Gm-Message-State: AOJu0YwYNfFbFxQ4EelMy2KB1MtW2ULB2PWmjps5xUuC6kqXAE/z+u1s
+ ZwPAGryjkqMVEfK4lWEq/JI=
+X-Google-Smtp-Source: AGHT+IGmZ1JqePVML15XcG2gPt+C2duHZHJDWUa+T6Q71HokBtpH1h5swG1Szsqc6kHFRKb9dkGHiQ==
+X-Received: by 2002:a17:907:770f:b0:9ad:dfe7:b362 with SMTP id
+ kw15-20020a170907770f00b009addfe7b362mr6251382ejc.11.1695360807734; 
+ Thu, 21 Sep 2023 22:33:27 -0700 (PDT)
+Received: from [192.168.178.25] ([134.19.96.130])
+ by smtp.gmail.com with ESMTPSA id
+ u12-20020a1709064acc00b009a1e73f2b4bsm2146503ejt.48.2023.09.21.22.33.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 21 Sep 2023 22:33:26 -0700 (PDT)
+Message-ID: <8be685cb-f44a-1143-60ec-d1073fda8e16@gmail.com>
+Date: Fri, 22 Sep 2023 07:33:26 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH 0/5] drm/amd/display: Remove migrate-disable and move
+ memory allocation.
+Content-Language: en-US
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+References: <20230921141516.520471-1-bigeasy@linutronix.de>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <20230921141516.520471-1-bigeasy@linutronix.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,61 +78,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Leo Li <sunpeng.li@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Peter Zijlstra <peterz@infradead.org>,
+ Alex Deucher <alexander.deucher@amd.com>, Thomas Gleixner <tglx@linutronix.de>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D201957
+Am 21.09.23 um 16:15 schrieb Sebastian Andrzej Siewior:
+> Hi,
+>
+> I stumbled uppon the amdgpu driver via a bugzilla report. The actual fix
+> is #4 + #5 and the rest was made while looking at the code.
 
-G OConnor (graham.oconnor@gmail.com) changed:
+Oh, yes please :)
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |graham.oconnor@gmail.com
+Rodrigo and I have been trying to sort those things out previously, but 
+that's Sisyphean work.
 
---- Comment #90 from G OConnor (graham.oconnor@gmail.com) ---
-AMD Ryzen 3700U APU (Vega 10)
+In general the DC team needs to judge, but of hand it looks good to me.
 
-This issue has recently started happening, mostly when firing up games or
-graphically intensive tasks. One case of lockup during normal desktop use.
+Christian.
 
-Worked fine on 6.4.X series (currently running on 6.4.12). However, all ker=
-nels
-in the 6.5 series cause the following:
+>
+> Sebastian
+>
+>
 
-[  112.727138] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx_low time=
-out,
-signaled seq=3D9861, emitted seq=3D9863
-[  112.728214] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* Process informati=
-on:
-process Xwayland pid 919 thread Xwayland:cs0 pid 928
-[  112.729270] amdgpu 0000:04:00.0: amdgpu: GPU reset begin!
-[  112.885652] amdgpu 0000:04:00.0: amdgpu: MODE2 reset
-[  112.885709] amdgpu 0000:04:00.0: amdgpu: GPU reset succeeded, trying to
-resume
-[  112.886024] [drm] PCIE GART of 1024M enabled.
-[  112.886027] [drm] PTB located at 0x000000F400A00000
-[  112.886143] [drm] PSP is resuming...
-[  112.906168] [drm] reserve 0x400000 from 0xf47fc00000 for PSP TMR
-[  112.985033] amdgpu 0000:04:00.0: amdgpu: RAS: optional ras ta ucode is n=
-ot
-available
-[  112.992320] amdgpu 0000:04:00.0: amdgpu: RAP: optional rap ta ucode is n=
-ot
-available
-[  113.733685] [drm] kiq ring mec 2 pipe 1 q 0
-[  113.998619] amdgpu 0000:04:00.0: [drm:amdgpu_ring_test_helper [amdgpu]]
-*ERROR* ring gfx test failed (-110)
-[  113.999249] [drm:amdgpu_device_ip_resume_phase2 [amdgpu]] *ERROR* resume=
- of
-IP block <gfx_v9_0> failed -110
-[  113.999957] amdgpu 0000:04:00.0: amdgpu: GPU reset(2) failed
-[  114.000006] amdgpu 0000:04:00.0: amdgpu: GPU reset end with ret =3D -110
-[  114.000010] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* GPU Recovery Fail=
-ed:
--110
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
