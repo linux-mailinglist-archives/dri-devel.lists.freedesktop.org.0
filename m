@@ -1,76 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1A327AB831
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Sep 2023 19:51:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C931D7AB833
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Sep 2023 19:51:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D350D10E6C9;
-	Fri, 22 Sep 2023 17:51:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E10EF10E6CD;
+	Fri, 22 Sep 2023 17:51:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com
- [IPv6:2607:f8b0:4864:20::630])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E72F10E6C9
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Sep 2023 17:51:39 +0000 (UTC)
-Received: by mail-pl1-x630.google.com with SMTP id
- d9443c01a7336-1c0ecb9a075so20925335ad.2
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Sep 2023 10:51:39 -0700 (PDT)
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com
+ [IPv6:2607:f8b0:4864:20::633])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B321C10E6CC
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Sep 2023 17:51:43 +0000 (UTC)
+Received: by mail-pl1-x633.google.com with SMTP id
+ d9443c01a7336-1c46b30a1ceso21924475ad.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Sep 2023 10:51:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1695405099; x=1696009899;
+ d=chromium.org; s=google; t=1695405103; x=1696009903;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=twFznqPJAzdntzHByi/iGsaxmBX3ZQhIhF3BInh8ZW4=;
- b=D+/Mldxi1jGR8vvTKKse2+FXvwq9b7WGmWF40CvvtUtvy+6poVLSfKPXfRGbYgOj9x
- dLIO8hCGMtG3/vxVvKWxyj9Eh9KbDF4U5V5sA9RQaPYUHTV1CeohIENNT8ZoNWhN9cV8
- gkIAEQ/bEN0uo7cfISihStkrHAu7N32EueinY=
+ bh=rJoQ4rDttwSQzl+h8GPO+G7mapr3BtySN8HDbnxSAIA=;
+ b=caPjb9v+lj3Q43QrQXHjsmL8BzhdJYBtHebbZTkRngVpkNQmFylQWfyKzKqopS38st
+ jTAK0bEY7CNQfCHJCgZT4sVIk0kFlIlawZtoxIKCT5w4/AFi9TpF0kK7uu1NVEBtZ02K
+ DeT20QxEpA13CMXgs2jzR+gcBOfa8Vcz1luyg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1695405099; x=1696009899;
+ d=1e100.net; s=20230601; t=1695405103; x=1696009903;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=twFznqPJAzdntzHByi/iGsaxmBX3ZQhIhF3BInh8ZW4=;
- b=EeWAxYvs+AcYfcKfNXN7YPM09Ol5y+b0mR4SrSHYpUaTYNpCZlTFjqMa8Co0zP75BP
- qgUX/J0bHtZNCSICUxqHHFSd65lhbF/j/Nq+dEnuWrqNpu6HpWMJ2Yz28OwQ/aNrRHn1
- yY9/L4E/CGh7JuQQD+ublyLaXbgmpIqWXgg1pGZ9JqtuNQE7qVx4MGsKFy5RYmNs/mp1
- kWMPH0W8C2GpVpfWhNmDRX7SARfEOABFI2oi8rsb4GHAwrWtY0Wq3aG8I2XsBguX0aYc
- 29x0BLOWjsJMsEe05VGHGgqSbsfNBMRoMRwHTMod0CZHbonfJ13XD9GMkon+C7BpOYKy
- lWtw==
-X-Gm-Message-State: AOJu0YzGqdHBMazsG8BNyhgRa8aaulTrzJlM++HWRBN3628Bw8187EZk
- pC6l0ntdrNqaHwXxz1/rtaujrA==
-X-Google-Smtp-Source: AGHT+IHB34HabKxPxhlVK2seBKatLPFUq6kU/+85gP5fTKuuek7ZguwnwQJ5Z9ew9kyzRDNm5r1Vvw==
-X-Received: by 2002:a17:902:c409:b0:1c3:ed30:cdf4 with SMTP id
- k9-20020a170902c40900b001c3ed30cdf4mr268638plk.4.1695405099157; 
- Fri, 22 Sep 2023 10:51:39 -0700 (PDT)
+ bh=rJoQ4rDttwSQzl+h8GPO+G7mapr3BtySN8HDbnxSAIA=;
+ b=XVF+GUjUaihnFrLPy4g0oGXEofbvomIGr/xYECIvpNT/M9gh+q4+ZV8HR5MaAr16Xo
+ uiiB2N0B6wfPlmHhrMGo03sSFdgzQmnYcX8Vr651xkb8GzMXPAqm1JjWkNYSD39w9soL
+ AA3rET4f+JTdNAB9cybT2BVmSqFVXSoyy8bz2H+pF/JKLtLF3SXydwZGmkJ6DwOj9ACZ
+ H8xBuDRmBpAcxDr70JGL7Mn+gFrXzVSQOD/3MEnqU7y7F5qhBPzZr4L8b6q9cLQLW7W8
+ 2E2DSWIrmBmZ4lNthodIEcgL5GvFmo0s9/T3/8yXA8h7Fq4ITzMG4gMRxrOTtYs1tdia
+ s1IA==
+X-Gm-Message-State: AOJu0YylHnUG23UOUPpKg5FqCgknBlFwWOvPQpmurTKLQOygymLpKraa
+ nVHPrXcUV/jmyEMhBPK1p5g8HQ==
+X-Google-Smtp-Source: AGHT+IE0vw3tENlyJ7OADDBoRIfgRk/i//iN/tovYi2O/PZ45AZp8cZKFhBRGB/lpULSf1SYlKBaxg==
+X-Received: by 2002:a17:902:f7c7:b0:1c5:dd24:f0bb with SMTP id
+ h7-20020a170902f7c700b001c5dd24f0bbmr158735plw.63.1695405103381; 
+ Fri, 22 Sep 2023 10:51:43 -0700 (PDT)
 Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net.
  [198.0.35.241]) by smtp.gmail.com with ESMTPSA id
- y24-20020a1709027c9800b001c3267ae31bsm3752412pll.301.2023.09.22.10.51.38
+ ji21-20020a170903325500b001b392bf9192sm3789240plb.145.2023.09.22.10.51.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Sep 2023 10:51:38 -0700 (PDT)
+ Fri, 22 Sep 2023 10:51:43 -0700 (PDT)
 From: Kees Cook <keescook@chromium.org>
 To: Helge Deller <deller@gmx.de>
-Subject: [PATCH] video: fbdev: mmp: Annotate struct mmphw_ctrl with
- __counted_by
-Date: Fri, 22 Sep 2023 10:51:37 -0700
-Message-Id: <20230922175137.work.062-kees@kernel.org>
+Subject: [PATCH] video: mmp: Annotate struct mmp_path with __counted_by
+Date: Fri, 22 Sep 2023 10:51:41 -0700
+Message-Id: <20230922175141.work.450-kees@kernel.org>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1221; i=keescook@chromium.org; 
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1140; i=keescook@chromium.org; 
  h=from:subject:message-id;
- bh=n796F6gX1K105GWhE1qUnocaNksGRQXNbRMxIxep6mI=; 
- b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBlDdQpfO6l85dcFKBvYH3iqyyXKMRFw4FsqlSgo
- l0M82mlouCJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCZQ3UKQAKCRCJcvTf3G3A
- JmosEACKrvk+R5bxR/JWhJvcODkoIL4vvUwiWD0CFpi5Eymp+XCYI6ln5AmRkbBljl2C+DOn9lP
- /xGwXy7Cldh8FdZeGkKIveevk2iaNkfiRfUYIe8FtSoT3+Ot2WLc7oOVp/w6rRDhnM4XFwfvawe
- ZpJLfH5kaiJOjyeBi82kQMkZ7UI2C8mT8OuPyWgNnsOFn6zsREp4WT6n2vsY8er/KNCNVlz2Z7A
- X5E2TU039VS17sTVtcJPPHE+RR0Uhrtk4dIE8LVq0gQ4e4xcpZbQ4uebgTfEkfmdyZ99ifS0bFf
- Eg41SJykV3lWoJAoubku8CFdF8gJTaAf6Cu3WuSCRdnYBJLieTTvidvMeFxZNvikF0n61qp1N0r
- 4NuEuRqdYuoV+2yADJzRVU/jGEop6VKrfo4D5WSyeCZgXU/R7O+sUlKUyhqUY1RJWm64VCosD8/
- 3fg8BzxzcGNhSCXl6rOP9eLOW4uybKcDn73YoWnLbebH7U2uljs3qa082E7FLcVFByIvFKVH77Q
- g6KXVDWHGrsiJlrNJHDoFHlFAR9Ew7cD/GI6uNA9bWm+ggsZCUhTcRXT1peqy0nWTznTL+3Gav3
- ocDpFhl3eFcdHGCnBW42PofiKK0C/IhdUL2mYalkf1nGk3IzI0GfA4F0/rvJvBjQoCW/FDOHvZM
- 5TiuKMR MK5e3B+w==
+ bh=H1/vE1vzDEkKr/pR9G2TlDq8I/0Pjxfcmq4WIBG2rX4=; 
+ b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBlDdQtbAyYSxB3rtoiVITScXMw9/igQbzzli6cd
+ 9NaF66HGJGJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCZQ3ULQAKCRCJcvTf3G3A
+ JgFvD/9aVhNFMXOLfYvQuvtNWdczuksf82WmWUjZ3XxnXA2fVtRIrmINsMubWXN5BqlzWb54JAd
+ 2JvpfxjAjclOiZQ1TaC+xCzUTkoEbnWszJAT778l3qNuM+FynSmS8WJqcyfFWae6qACzw/UexAD
+ JDEdStWGpO05F2Y+sgcCmf6rvfJS8A3MiilSGKaXl+xUHsXWS2iEBwRa4eiIE70ykhfR0HAMdXS
+ L5qBSDWbXjlq0mui0yKkhE6H+xAA95ChwfuiVfcSp3s7uA5qT12D1BC9Cxy9TwGWQc/gzstl0q5
+ Act4VdII0lEJtWXvl4Sj9czaYZOIflGtUky/NbxfaXdyCXBldJ15O3hex7Gy+a7jRwaFIO5lP1l
+ VrXKQwNlknIw7kLZsuScN9wJEkwbAkNtn2dNeXWJRIVDRZlEDYch+nmd1ma+pDKFjLccKHNVCyn
+ srI+NBBV0w6HIUUfyqXhVfXNhpxbawfW88qpoywu/N71xmeTIdAbcNhW4F7jFKwwFPOz8+ib6PB
+ htPR2uKXF1fwz05xPScZwFqkbtuiB5nzGhfpttxqXo6HjJpg3OuRsjckExbw4ipKW2dbuANjPVL
+ n1Saavvp4yFM7FKZDSNxqVP/nSKD8kjtleMkQzEEJwmM4S/b0Fm0MbxtSCIKC/ed6tHkllPeipu
+ NODokxp /mmGU/PQ==
 X-Developer-Key: i=keescook@chromium.org; a=openpgp;
  fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
@@ -100,7 +99,7 @@ their accesses bounds-checked at run-time checking via CONFIG_UBSAN_BOUNDS
 (for array indexing) and CONFIG_FORTIFY_SOURCE (for strcpy/memcpy-family
 functions).
 
-As found with Coccinelle[1], add __counted_by for struct mmphw_ctrl.
+As found with Coccinelle[1], add __counted_by for struct mmp_path.
 
 [1] https://github.com/kees/kernel-tools/blob/trunk/coccinelle/examples/counted_by.cocci
 
@@ -109,22 +108,22 @@ Cc: linux-fbdev@vger.kernel.org
 Cc: dri-devel@lists.freedesktop.org
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- drivers/video/fbdev/mmp/hw/mmp_ctrl.h | 2 +-
+ include/video/mmp_disp.h | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/video/fbdev/mmp/hw/mmp_ctrl.h b/drivers/video/fbdev/mmp/hw/mmp_ctrl.h
-index 167585a889d3..719b99a9bc77 100644
---- a/drivers/video/fbdev/mmp/hw/mmp_ctrl.h
-+++ b/drivers/video/fbdev/mmp/hw/mmp_ctrl.h
-@@ -1406,7 +1406,7 @@ struct mmphw_ctrl {
+diff --git a/include/video/mmp_disp.h b/include/video/mmp_disp.h
+index 77252cb46361..a722dcbf5073 100644
+--- a/include/video/mmp_disp.h
++++ b/include/video/mmp_disp.h
+@@ -231,7 +231,7 @@ struct mmp_path {
  
- 	/*pathes*/
- 	int path_num;
--	struct mmphw_path_plat path_plats[];
-+	struct mmphw_path_plat path_plats[] __counted_by(path_num);
+ 	/* layers */
+ 	int overlay_num;
+-	struct mmp_overlay overlays[];
++	struct mmp_overlay overlays[] __counted_by(overlay_num);
  };
  
- static inline int overlay_is_vid(struct mmp_overlay *overlay)
+ extern struct mmp_path *mmp_get_path(const char *name);
 -- 
 2.34.1
 
