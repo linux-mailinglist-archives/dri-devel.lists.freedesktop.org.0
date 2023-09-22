@@ -1,80 +1,124 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DF4B7ABAE0
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Sep 2023 23:07:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 595477ABB39
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Sep 2023 23:50:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB36E10E70E;
-	Fri, 22 Sep 2023 21:06:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BBFA010E199;
+	Fri, 22 Sep 2023 21:50:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9786310E715
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Sep 2023 21:06:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1695416813;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=TiK6SU/dUQgkK5bkAnZqE0FIM3VmCWIn73IlrzTNcnE=;
- b=N/07YFHu0TQEmYcATvHws8prxPGSIYYzj6oqcvKjQQsGErPJ4LseCUPpIsFyWa29VXmfQq
- JdNpvjPaorwRekpLzknUb0cKVVs9N5BJovqSB07hGcYAaCJUcnVGraa71af2KqLlZ5A4um
- g0G/kgiyujcIFrroiIMds8iwTw0K+ck=
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-685-6Hh_uQs0Pa-67YNH5ZCKMg-1; Fri, 22 Sep 2023 17:06:52 -0400
-X-MC-Unique: 6Hh_uQs0Pa-67YNH5ZCKMg-1
-Received: by mail-qt1-f200.google.com with SMTP id
- d75a77b69052e-414e9ea97e9so30867381cf.0
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Sep 2023 14:06:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1695416812; x=1696021612;
- h=mime-version:user-agent:content-transfer-encoding:organization
- :references:in-reply-to:date:cc:to:from:subject:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Nbdcwv5Or6Z2+lA87iZfowKftkAW8aJRElWE3un3JwU=;
- b=HzOpOhi9K0JoPcNAp7s1JdaCnB+GBUgrZ1F+zSwZf5I1bgkqiARuvMFDUe68VueCuN
- zsg+iX0sWHahZ6cqKI6RlO6y6RGX+PF718uv06/ZOBi7hMDNPOPU83acY9nmK65XSYYv
- pckOjVq2BRIizezjVZW+qpWEefrXboc02Xr57zBUSd3LOOIvKzanEKkxVasPstCuYhrZ
- rIHI1edhJbYEcgYsXn3xyhfoPBXewW+43lfQY0b/Rkn5gb2QekDG2JrVULN1RbiSd/J4
- 6v89H68XoL8RgsfHrGEK0AGydrfeDQvFR7MrKDtMbYXGg3jPh5C5GIRIigBIKitzgXTz
- UdoA==
-X-Gm-Message-State: AOJu0Yx791TMhfbQZUQyntLbg9zvBuIb5AdMzfjiSQa9JRZblqlm4lTn
- KiD5ZuwvKHsA+Fy/U5qm/1pGnj3d7zqRGR9gmq/lXbPVk9ed0jC9DYwwAE56qzK+7OHvwjUuH+p
- be8x6UcsqwLxD7LGUJ/0qIMSLr+VBrm6xb1Cx2Nk=
-X-Received: by 2002:ac8:5fd6:0:b0:405:5b23:d0ea with SMTP id
- k22-20020ac85fd6000000b004055b23d0eamr717405qta.16.1695416811980; 
- Fri, 22 Sep 2023 14:06:51 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHO77hOhRgl+P8D05v+uElLGmY0PJDkHzsfs38llOhEzF3MZ4ZCYCENWWZ4uGBMCz8o7uGGFw==
-X-Received: by 2002:ac8:5fd6:0:b0:405:5b23:d0ea with SMTP id
- k22-20020ac85fd6000000b004055b23d0eamr717384qta.16.1695416811681; 
- Fri, 22 Sep 2023 14:06:51 -0700 (PDT)
-Received: from ?IPv6:2600:4040:5c6c:a300::feb? ([2600:4040:5c6c:a300::feb])
- by smtp.gmail.com with ESMTPSA id
- t15-20020ac8738f000000b0040324785e4csm1737173qtp.13.2023.09.22.14.06.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Sep 2023 14:06:51 -0700 (PDT)
-Message-ID: <2f7fbd1b606b4d08b8c8c6eefff5898c8faa697c.camel@redhat.com>
-Subject: Re: [RFT PATCH v2 04/12] drm/nouveau: Call
- drm_atomic_helper_shutdown() or equiv at shutdown time
-From: Lyude Paul <lyude@redhat.com>
-To: Douglas Anderson <dianders@chromium.org>,
- dri-devel@lists.freedesktop.org,  Maxime Ripard <mripard@kernel.org>
-Date: Fri, 22 Sep 2023 17:06:50 -0400
-In-Reply-To: <20230921122641.RFT.v2.4.Ie7588ec6e0f93e8bc700e76b265ad1a7ad6b15ad@changeid>
-References: <20230921192749.1542462-1-dianders@chromium.org>
- <20230921122641.RFT.v2.4.Ie7588ec6e0f93e8bc700e76b265ad1a7ad6b15ad@changeid>
-Organization: Red Hat Inc.
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38)
+Received: from CO1PR02CU001.outbound.protection.outlook.com
+ (mail-westus2azon11011001.outbound.protection.outlook.com [52.101.47.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8572110E705;
+ Fri, 22 Sep 2023 21:50:42 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=VMXT+SV4A5Hsnx8pBQLzEmMXJwdaifoWLa8dMOmNgTx2ZbWwBSRQyz1ttZHjKWcY55GjxqO6sGq9ZGL8c+deMzne2p0Ut3OIucGvYeNpF9+Hb4ao73Xnfgzibfisn7Bv4WVKLxKeILD3b1syyt4+JvYy/tnHt/Z+v6CFStf96qLlQIdl+MFoPR0w0A2NbZqniLKeNvgYZb2VPMzaQ8WMXpiSx4vxiLvt5F4YLxE9RI4TcoyUyNU9VCB46+GnsfYUyYuKy9iFv7422dPn0dqBj7trrTpq0s3XNQRwIBu92PGAH0hzHr3EzzrTchrHHdp0JflibI8ftIJje2Xv/c+ZVQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=CABVWGXGnqCMBz/f8G6kBXiQne27hJSjf0Yb4XE4TPs=;
+ b=eNLOJnBmodAUxCfWtN1FanAM96XM39ak12oj7GgzK8Sx76zxjxyPFfaAJku7YHwrAtJaZJ7RbKroe/Ku/nYeqSQ2FRJQkAZaigbBP+DVZiZicwT6JwSWzrRT31lENXGTcl0jG/9bXmffygzVtV5Iuw2nj6cGLQVsS59priPitV7aT40ZaJZYGE69ZCjBd5jDjNoosLirkB/YwJu7F9em76f/8GcBgBsA2VVCn0xnT2dUPbcRMRN2taOGPUjUHnJmIXYZzhkuR/9KSmCOB1l2SJpZZI9YAGC6DAhpwxR6BnXBumSCc3c9t1WarnazIfwqcpt6sNrOFx4P2WN9gMAdJQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vmware.com; dmarc=pass action=none header.from=vmware.com;
+ dkim=pass header.d=vmware.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vmware.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CABVWGXGnqCMBz/f8G6kBXiQne27hJSjf0Yb4XE4TPs=;
+ b=qP7v+OMUd/WAH7rpvjKlfkq9fQ+5vA9Z0cbNFAZapfYxw6lLkVN/F1kkTH3wONuFSyEBI2VqOmAA4jmG2GJyrd0aT/t8HdP2DAZo2CC+FkBFq+jGndUwvmRIIPgHXznz+MYe7vmtgIKm4wtRKWh9KJVAoKSLnixPCBLJN7W+2Ig=
+Received: from IA0PR05MB9832.namprd05.prod.outlook.com (2603:10b6:208:404::6)
+ by BLAPR05MB7220.namprd05.prod.outlook.com (2603:10b6:208:284::19)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6792.28; Fri, 22 Sep
+ 2023 21:50:39 +0000
+Received: from IA0PR05MB9832.namprd05.prod.outlook.com
+ ([fe80::4d19:99e0:a7e8:2653]) by IA0PR05MB9832.namprd05.prod.outlook.com
+ ([fe80::4d19:99e0:a7e8:2653%7]) with mapi id 15.20.6813.017; Fri, 22 Sep 2023
+ 21:50:39 +0000
+From: Zack Rusin <zackr@vmware.com>
+To: "keescook@chromium.org" <keescook@chromium.org>, "airlied@gmail.com"
+ <airlied@gmail.com>
+Subject: Re: [PATCH 8/9] drm/vmwgfx: Annotate struct vmw_surface_dirty with
+ __counted_by
+Thread-Topic: [PATCH 8/9] drm/vmwgfx: Annotate struct vmw_surface_dirty with
+ __counted_by
+Thread-Index: AQHZ7XwoTUuOhoiPIUumAPFu1EBBrLAnYq0A
+Date: Fri, 22 Sep 2023 21:50:38 +0000
+Message-ID: <14e3506369eeb677d73b68be487cb6f04c4b36d3.camel@vmware.com>
+References: <20230922173110.work.084-kees@kernel.org>
+ <20230922173216.3823169-8-keescook@chromium.org>
+In-Reply-To: <20230922173216.3823169-8-keescook@chromium.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.48.1-0ubuntu1 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vmware.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: IA0PR05MB9832:EE_|BLAPR05MB7220:EE_
+x-ms-office365-filtering-correlation-id: 670f6412-7605-44b2-e712-08dbbbb5f5c1
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: TBK8cV6xM7wlsH0GqzLUKr04kH6IJ5IhS8KVYD1hIS2gVvrvSnVcOtyxx4OCwDdUkmj9UU/Oyel0A7TQHMbWFWid3T+WCpTri2Gpp33IRksXsuQ2PQs0/67EwjpipR9Rtv2III0pPihJDVQ4KtHovBhEuDmK0XGkgVlRvhYi54JFMqaasTetLaG7dhSGxZgJWA8NgSz0GW/ULTxs4tRrjicbF5ZdzmXrGqWJH+N5GG390M7Pc/wxWq8foL8YdfW7y7075zyV9abhIBlAPkLizeZi0bBdgpLKx54/TSiM6uZcWwoIya/wcFlwxgvwQYeDYMQ3dWy7h9PgTXXN4Pl9BFP67X6LjbtV9AB0E3xab0hWEzpwIrDEmARpony0lnZy47WJu085MfihTZHadPkcRy9N/BtO6b6XQQnCFdS5dtV2SJEVIHeVbz7MN+dqRNsaqfnS68jlVa/DhienTU7kwmtLqFD6xDWIqXuAJWRbi8CkPgqOLxfhBlfK0lMTs3E1zXKIxjxUmEFZ07+fJiUPaio8Fcl/5HXBArzGsabPQnArBF80yiA76fVdSYhS1skVYrN+S5vqcNTEOGfwb9YX/ivo8LK51XHiT+lVMmtca6PR7NJRc6hbvamdk2a/g3gi7SsikLoJ4eV57j1hy8NhG/W/Xj0JVL7c68CUsXWxtUt8UOk4a37/K8ldlU+0Y1tFZhgDVW5dyLgzF9e+HLQ1VroE6spf9PshYp0nLlXjR68=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:IA0PR05MB9832.namprd05.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(39860400002)(136003)(346002)(376002)(396003)(366004)(186009)(451199024)(1800799009)(83380400001)(6512007)(71200400001)(2616005)(966005)(41300700001)(26005)(7406005)(5660300002)(2906002)(110136005)(8676002)(66446008)(76116006)(6486002)(54906003)(4326008)(66476007)(316002)(64756008)(66946007)(7416002)(66556008)(8936002)(7366002)(36756003)(86362001)(478600001)(122000001)(38070700005)(6506007)(38100700002)(14143004);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?N2RjVzFVV1lXZEVRVkdhOUplM2xoY1g0dml4TjBXcmpXOVFwZjltTWp4SFJZ?=
+ =?utf-8?B?d3ExRkxzN29LK0xva2IvS3ZyaWV4UFpYaGs1TzdVbTVrSWpsOFhHOXlSM0dj?=
+ =?utf-8?B?R1BrQW0rL2pSeGl2YXVUUTNUZHJmeVpaWDJSRGc0S1hzK3BiMU1lbW5BT09L?=
+ =?utf-8?B?Tk5IUEM2eXRzaVV6eWs2enl0L21Gb1hMS085TUFEZ1hUZW9FaTZCWFpjbmUw?=
+ =?utf-8?B?RlhjTlhpdmlySkRHKzh0c3hpQnN3SC9YSkRHMnppTkM5Uko0T1ZaUXN1bjc0?=
+ =?utf-8?B?VlF3RVJ4ellSRk4vNFVtNWJYNmZscTl5d0xnVnhpb2lkYkR0aE5DTDRKaytk?=
+ =?utf-8?B?KzlweHp3K2VIWWxWc21TTzJPOHRaUWR1SHlNUTl5WEZucVRFTFlIR2dCVTBB?=
+ =?utf-8?B?MkVURXBwSEZFQkE3cUJ6THQ4YTZnQmxmMHVlT3pBZ2RHYmJlbmJlNmh6T203?=
+ =?utf-8?B?bTRtWkd4YTVDWHRGRGRsU21mT01iQ2s2RUxKL2lEQTR3Y0c3TjhsN0dlcTdx?=
+ =?utf-8?B?S211QllOVWpnYkllTDk3Q3REZ2paVTBodVFxeUVDYUxWMHdmYis0Z2ptWCtP?=
+ =?utf-8?B?ajNYRzJxSDd2TFBkRmo3Z01FeU1vcTdMZXA0cTQ4YnBDZ2xJMEJoUUVoalpr?=
+ =?utf-8?B?Rnh3Uk54bFhsaExQcnhwbXlCdCtQemlnWDJnWUs4TW1HUEgydVFObkYxZlNs?=
+ =?utf-8?B?V0l1WXpiM0xiZC9rQTFHSWtQMms4RUFxZ2lyYjVqY25laU9XRXhINWVoL0E0?=
+ =?utf-8?B?eGhKQmRTYUhXL1ZaYUxROEdLdW0wbTVZYW1DS0xSZWdLdTZGZFNpR05UaG9o?=
+ =?utf-8?B?YUhXNFkzOG8rSnFGUUxraXpZNjFmMWh4K25ubWhMMFZBRUlrU2s1Y2QyVzN3?=
+ =?utf-8?B?QzZIVW5BVjdHbU1ZNDYrVUJQbVM1N1VudUp0NU9wWEdKRDZvV01aMGxJelNl?=
+ =?utf-8?B?czFrOGNOY3UvaDNlNWxVN1VKQUZWU3dvSFJmYm9sUDlsZmxWUXRjcUt6QzFM?=
+ =?utf-8?B?SEJpeTB2OFNnWVZ4WC9mRTRXbVN4NVFpd01WZmpnQ3cvMjNpQm9SSEpCOTFY?=
+ =?utf-8?B?VFROMW5EemVRQlJKZFFORVpTb1BrWFJ0SHlMSFlJSWdmTlorMmFrZUpmV21R?=
+ =?utf-8?B?Z2hteXZ4bnQzb1grWHNJU0lLbFVJZWVFRzNacGZFejMrT3Q4a0hjK0trQnhL?=
+ =?utf-8?B?dS94MFMyakx1cTdOcGhUQ1dESHlZTkhkQUQ2Z09oS3psMGMvOUtsTWdKQXVp?=
+ =?utf-8?B?d21LdllFbDZXWDdKcEZpL2dmSEJ6T24yK1d5cG9iWWNlbEQxN2JoRGpuM1M1?=
+ =?utf-8?B?NUZnM1VodGo4cnZRcGZ0Umkvc3NSN1AwVmFidkpMZDh4MDJVdGM5bzF6Si9N?=
+ =?utf-8?B?Nzd3eWsvMUJmam9HY003Sk11c20rSFRPL1NUVHpEUkVETUdJL2FZR3VqblFU?=
+ =?utf-8?B?dVRTa0FWZEZEanAwTjBQYVZpV1VSNWV0Q2ovOVRXWi9MaHNpQkM5QURYTWQr?=
+ =?utf-8?B?eVk2M2tBdi8zQkZUcFNyQmdGdTJPUS85ZFRkVGRXR2xLcTVZV0tQUDdvbnA2?=
+ =?utf-8?B?WjRScDY1bVp6U0xkL2p5SVhqNG5WYTdwRm85ZERYRnBMT1paS1ZneVdXUXRC?=
+ =?utf-8?B?MFYwVHJ2eVAvaUppL0NESmEyUk9Fc1pyaDJKaFJyenFNRHNQZ21WWVZ1SUN2?=
+ =?utf-8?B?NzR5cDMvUFpVSnhjem8vRElIcFJDZEo2UUN0ZEhHd3d4SHpCMGlBQjdLTlJh?=
+ =?utf-8?B?ajhIV0JWMXJBZlNBUUF6VEQ0Z0NxMkp2UkxlNnpxL0dqOFZXT1VEWFNjaEQ0?=
+ =?utf-8?B?QUhaZFhBNWhQaUFlL0xvTGlEUHhia0gxRFkvN05tN0x5UUUxYzRxaWJwQlZt?=
+ =?utf-8?B?Q2gwV1UxSUlHQjNQM3VscEN1d0x1WmZtdHZvSzZ0V2NPOUhGcHdKMjBVRFNI?=
+ =?utf-8?B?ZGYzZ290RkpjOEVTdHRHR3QyZjM4S0VTd0hQL00ralEyYmJUa0dDWVRjU3Bs?=
+ =?utf-8?B?UDhKYWFQNGloSFordFJ4dlNwK0dtWSt5WVNJL2JYZ2VkS2h2QVpHcVJPZ1NQ?=
+ =?utf-8?B?VHVGWGU3bEdpbG1nYjVPa2twNVBnaFR0QmJPbyttTjljVE5Vb0dxT1VFZUpQ?=
+ =?utf-8?Q?2DBqarSr4o4k6GzaWGrYhtVRp?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <B732D08D5301B247B8565F79ACEBE727@namprd05.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-OriginatorOrg: vmware.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: IA0PR05MB9832.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 670f6412-7605-44b2-e712-08dbbbb5f5c1
+X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Sep 2023 21:50:38.9309 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b39138ca-3cee-4b4a-a4d6-cd83d9dd62f0
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: qCjzxkMXE8er3GdugO/gLLXqZVuPoXKuVklmbK7kTgotzbuaiVlxley+cclDioG3kvfnwXq76R/J4aZ3NrXBbw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BLAPR05MB7220
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,157 +131,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kherbst@redhat.com, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, bskeggs@redhat.com
+Cc: "tejas.upadhyay@intel.com" <tejas.upadhyay@intel.com>,
+ "emma@anholt.net" <emma@anholt.net>, "trix@redhat.com" <trix@redhat.com>,
+ "llvm@lists.linux.dev" <llvm@lists.linux.dev>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "chris@chris-wilson.co.uk" <chris@chris-wilson.co.uk>,
+ "Prike.Liang@amd.com" <Prike.Liang@amd.com>,
+ "ray.huang@amd.com" <ray.huang@amd.com>,
+ "linux-hardening@vger.kernel.org" <linux-hardening@vger.kernel.org>,
+ "andrzej.hajda@intel.com" <andrzej.hajda@intel.com>,
+ "marijn.suijten@somainline.org" <marijn.suijten@somainline.org>,
+ "matthew.brost@intel.com" <matthew.brost@intel.com>,
+ "evan.quan@amd.com" <evan.quan@amd.com>,
+ "kherbst@redhat.com" <kherbst@redhat.com>,
+ "neil.armstrong@linaro.org" <neil.armstrong@linaro.org>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ "quic_khsieh@quicinc.com" <quic_khsieh@quicinc.com>,
+ Linux-graphics-maintainer <Linux-graphics-maintainer@vmware.com>,
+ "bskeggs@redhat.com" <bskeggs@redhat.com>,
+ "andi.shyti@linux.intel.com" <andi.shyti@linux.intel.com>,
+ "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
+ "airlied@redhat.com" <airlied@redhat.com>,
+ "alexander.deucher@amd.com" <alexander.deucher@amd.com>,
+ "lijo.lazar@amd.com" <lijo.lazar@amd.com>,
+ "tvrtko.ursulin@linux.intel.com" <tvrtko.ursulin@linux.intel.com>,
+ "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "kevin1.wang@amd.com" <kevin1.wang@amd.com>,
+ "quic_abhinavk@quicinc.com" <quic_abhinavk@quicinc.com>,
+ "mripard@kernel.org" <mripard@kernel.org>,
+ "nathan@kernel.org" <nathan@kernel.org>, "le.ma@amd.com" <le.ma@amd.com>,
+ "gurchetansingh@chromium.org" <gurchetansingh@chromium.org>,
+ "rodrigo.vivi@intel.com" <rodrigo.vivi@intel.com>,
+ "virtualization@lists.linux-foundation.org"
+ <virtualization@lists.linux-foundation.org>,
+ "sean@poorly.run" <sean@poorly.run>,
+ "yifan1.zhang@amd.com" <yifan1.zhang@amd.com>,
+ "kraxel@redhat.com" <kraxel@redhat.com>,
+ "Xiaojian.Du@amd.com" <Xiaojian.Du@amd.com>,
+ "freedreno@lists.freedesktop.org" <freedreno@lists.freedesktop.org>,
+ "andersson@kernel.org" <andersson@kernel.org>,
+ "Xinhui.Pan@amd.com" <Xinhui.Pan@amd.com>,
+ "ndesaulniers@google.com" <ndesaulniers@google.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "mwen@igalia.com" <mwen@igalia.com>,
+ "dmitry.baryshkov@linaro.org" <dmitry.baryshkov@linaro.org>,
+ "Hawking.Zhang@amd.com" <Hawking.Zhang@amd.com>,
+ "Lang.Yu@amd.com" <Lang.Yu@amd.com>,
+ "christian.koenig@amd.com" <christian.koenig@amd.com>,
+ "john.c.harrison@Intel.com" <john.c.harrison@Intel.com>,
+ "nirmoy.das@intel.com" <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-actually very glad to see this because I think I've seen one bug in the wil=
-d
-as a result of things not getting shut down :)
-
-Reviewed-by: Lyude Paul <lyude@redhat.com>
-Tested-by: Lyude Paul <lyude@redhat.com>
-
-On Thu, 2023-09-21 at 12:26 -0700, Douglas Anderson wrote:
-> Based on grepping through the source code this driver appears to be
-> missing a call to drm_atomic_helper_shutdown() (or
-> drm_helper_force_disable_all() if not using atomic) at system shutdown
-> time. Among other things, this means that if a panel is in use that it
-> won't be cleanly powered off at system shutdown time.
->=20
-> The fact that we should call drm_atomic_helper_shutdown() in the case
-> of OS shutdown/restart comes straight out of the kernel doc "driver
-> instance overview" in drm_drv.c.
->=20
-> Suggested-by: Maxime Ripard <mripard@kernel.org>
-> Reviewed-by: Maxime Ripard <mripard@kernel.org>
-> Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> ---
-> This commit is only compile-time tested. I made my best guess about
-> how to fit this into the existing code. If someone wishes a different
-> style, please yell.
->=20
-> (no changes since v1)
->=20
->  drivers/gpu/drm/nouveau/nouveau_display.c  |  9 +++++++++
->  drivers/gpu/drm/nouveau/nouveau_display.h  |  1 +
->  drivers/gpu/drm/nouveau/nouveau_drm.c      | 13 +++++++++++++
->  drivers/gpu/drm/nouveau/nouveau_drv.h      |  1 +
->  drivers/gpu/drm/nouveau/nouveau_platform.c |  6 ++++++
->  5 files changed, 30 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_display.c b/drivers/gpu/drm/=
-nouveau/nouveau_display.c
-> index d8c92521226d..05c3688ccb76 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_display.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_display.c
-> @@ -642,6 +642,15 @@ nouveau_display_fini(struct drm_device *dev, bool su=
-spend, bool runtime)
->  =09disp->fini(dev, runtime, suspend);
->  }
-> =20
-> +void
-> +nouveau_display_shutdown(struct drm_device *dev)
-> +{
-> +=09if (drm_drv_uses_atomic_modeset(dev))
-> +=09=09drm_atomic_helper_shutdown(dev);
-> +=09else
-> +=09=09drm_helper_force_disable_all(dev);
-> +}
-> +
->  static void
->  nouveau_display_create_properties(struct drm_device *dev)
->  {
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_display.h b/drivers/gpu/drm/=
-nouveau/nouveau_display.h
-> index 2ab2ddb1eadf..9df62e833cda 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_display.h
-> +++ b/drivers/gpu/drm/nouveau/nouveau_display.h
-> @@ -47,6 +47,7 @@ void nouveau_display_destroy(struct drm_device *dev);
->  int  nouveau_display_init(struct drm_device *dev, bool resume, bool runt=
-ime);
->  void nouveau_display_hpd_resume(struct drm_device *dev);
->  void nouveau_display_fini(struct drm_device *dev, bool suspend, bool run=
-time);
-> +void nouveau_display_shutdown(struct drm_device *dev);
->  int  nouveau_display_suspend(struct drm_device *dev, bool runtime);
->  void nouveau_display_resume(struct drm_device *dev, bool runtime);
->  int  nouveau_display_vblank_enable(struct drm_crtc *crtc);
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_drm.c b/drivers/gpu/drm/nouv=
-eau/nouveau_drm.c
-> index 50589f982d1a..8ecfd66b7aab 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_drm.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_drm.c
-> @@ -879,6 +879,18 @@ nouveau_drm_remove(struct pci_dev *pdev)
->  =09pci_disable_device(pdev);
->  }
-> =20
-> +void
-> +nouveau_drm_device_shutdown(struct drm_device *dev)
-> +{
-> +=09nouveau_display_shutdown(dev);
-> +}
-> +
-> +static void
-> +nouveau_drm_shutdown(struct pci_dev *pdev)
-> +{
-> +=09nouveau_drm_device_shutdown(pci_get_drvdata(pdev));
-> +}
-> +
->  static int
->  nouveau_do_suspend(struct drm_device *dev, bool runtime)
->  {
-> @@ -1346,6 +1358,7 @@ nouveau_drm_pci_driver =3D {
->  =09.id_table =3D nouveau_drm_pci_table,
->  =09.probe =3D nouveau_drm_probe,
->  =09.remove =3D nouveau_drm_remove,
-> +=09.shutdown =3D nouveau_drm_shutdown,
->  =09.driver.pm =3D &nouveau_pm_ops,
->  };
-> =20
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_drv.h b/drivers/gpu/drm/nouv=
-eau/nouveau_drv.h
-> index 3666a7403e47..aa936cabb6cf 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_drv.h
-> +++ b/drivers/gpu/drm/nouveau/nouveau_drv.h
-> @@ -327,6 +327,7 @@ struct drm_device *
->  nouveau_platform_device_create(const struct nvkm_device_tegra_func *,
->  =09=09=09       struct platform_device *, struct nvkm_device **);
->  void nouveau_drm_device_remove(struct drm_device *dev);
-> +void nouveau_drm_device_shutdown(struct drm_device *dev);
-> =20
->  #define NV_PRINTK(l,c,f,a...) do {                                      =
-       \
->  =09struct nouveau_cli *_cli =3D (c);                                    =
-    \
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_platform.c b/drivers/gpu/drm=
-/nouveau/nouveau_platform.c
-> index 23cd43a7fd19..b2e82a96411c 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_platform.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_platform.c
-> @@ -50,6 +50,11 @@ static int nouveau_platform_remove(struct platform_dev=
-ice *pdev)
->  =09return 0;
->  }
-> =20
-> +static void nouveau_platform_shutdown(struct platform_device *pdev)
-> +{
-> +=09nouveau_drm_device_shutdown(platform_get_drvdata(pdev));
-> +}
-> +
->  #if IS_ENABLED(CONFIG_OF)
->  static const struct nvkm_device_tegra_func gk20a_platform_data =3D {
->  =09.iommu_bit =3D 34,
-> @@ -94,4 +99,5 @@ struct platform_driver nouveau_platform_driver =3D {
->  =09},
->  =09.probe =3D nouveau_platform_probe,
->  =09.remove =3D nouveau_platform_remove,
-> +=09.shutdown =3D nouveau_platform_shutdown,
->  };
-
---=20
-Cheers,
- Lyude Paul (she/her)
- Software Engineer at Red Hat
-
+T24gRnJpLCAyMDIzLTA5LTIyIGF0IDEwOjMyIC0wNzAwLCBLZWVzIENvb2sgd3JvdGU6DQo+IFBy
+ZXBhcmUgZm9yIHRoZSBjb21pbmcgaW1wbGVtZW50YXRpb24gYnkgR0NDIGFuZCBDbGFuZyBvZiB0
+aGUgX19jb3VudGVkX2J5DQo+IGF0dHJpYnV0ZS4gRmxleGlibGUgYXJyYXkgbWVtYmVycyBhbm5v
+dGF0ZWQgd2l0aCBfX2NvdW50ZWRfYnkgY2FuIGhhdmUNCj4gdGhlaXIgYWNjZXNzZXMgYm91bmRz
+LWNoZWNrZWQgYXQgcnVuLXRpbWUgY2hlY2tpbmcgdmlhIENPTkZJR19VQlNBTl9CT1VORFMNCj4g
+KGZvciBhcnJheSBpbmRleGluZykgYW5kIENPTkZJR19GT1JUSUZZX1NPVVJDRSAoZm9yIHN0cmNw
+eS9tZW1jcHktZmFtaWx5DQo+IGZ1bmN0aW9ucykuDQo+IA0KPiBBcyBmb3VuZCB3aXRoIENvY2Np
+bmVsbGVbMV0sIGFkZCBfX2NvdW50ZWRfYnkgZm9yIHN0cnVjdCB2bXdfc3VyZmFjZV9kaXJ0eS4N
+Cj4gDQo+IFsxXQ0KPiBodHRwczovL2dpdGh1Yi5jb20va2Vlcy9rZXJuZWwtdG9vbHMvYmxvYi90
+cnVuay9jb2NjaW5lbGxlL2V4YW1wbGVzL2NvdW50ZWRfYnkuY29jY2kNCj4gDQo+IENjOiBaYWNr
+IFJ1c2luIDx6YWNrckB2bXdhcmUuY29tPg0KPiBDYzogVk13YXJlIEdyYXBoaWNzIFJldmlld2Vy
+cyA8bGludXgtZ3JhcGhpY3MtbWFpbnRhaW5lckB2bXdhcmUuY29tPg0KPiBDYzogRGF2aWQgQWly
+bGllIDxhaXJsaWVkQGdtYWlsLmNvbT4NCj4gQ2M6IERhbmllbCBWZXR0ZXIgPGRhbmllbEBmZnds
+bC5jaD4NCj4gQ2M6IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcNCj4gU2lnbmVkLW9m
+Zi1ieTogS2VlcyBDb29rIDxrZWVzY29va0BjaHJvbWl1bS5vcmc+DQo+IC0tLQ0KPiDCoGRyaXZl
+cnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X3N1cmZhY2UuYyB8IDIgKy0NCj4gwqAxIGZpbGUgY2hh
+bmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkNCj4gDQo+IGRpZmYgLS1naXQgYS9k
+cml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF9zdXJmYWNlLmMNCj4gYi9kcml2ZXJzL2dwdS9k
+cm0vdm13Z2Z4L3Ztd2dmeF9zdXJmYWNlLmMNCj4gaW5kZXggNWRiNDAzZWU4MjYxLi4yZDFkODU3
+Zjk5YWUgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X3N1cmZh
+Y2UuYw0KPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF9zdXJmYWNlLmMNCj4g
+QEAgLTc3LDcgKzc3LDcgQEAgc3RydWN0IHZtd19zdXJmYWNlX29mZnNldCB7DQo+IMKgc3RydWN0
+IHZtd19zdXJmYWNlX2RpcnR5IHsNCj4gwqDCoMKgwqDCoMKgwqDCoHN0cnVjdCB2bXdfc3VyZmFj
+ZV9jYWNoZSBjYWNoZTsNCj4gwqDCoMKgwqDCoMKgwqDCoHUzMiBudW1fc3VicmVzOw0KPiAtwqDC
+oMKgwqDCoMKgwqBTVkdBM2RCb3ggYm94ZXNbXTsNCj4gK8KgwqDCoMKgwqDCoMKgU1ZHQTNkQm94
+IGJveGVzW10gX19jb3VudGVkX2J5KG51bV9zdWJyZXMpOw0KPiDCoH07DQo+IMKgDQo+IMKgc3Rh
+dGljIHZvaWQgdm13X3VzZXJfc3VyZmFjZV9mcmVlKHN0cnVjdCB2bXdfcmVzb3VyY2UgKnJlcyk7
+DQoNClRoYW5rcyENCg0KUmV2aWV3ZWQtYnk6IFphY2sgUnVzaW4gPHphY2tyQHZtd2FyZS5jb20+
+DQo=
