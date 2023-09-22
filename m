@@ -2,134 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F57D7AAFDF
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Sep 2023 12:46:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 300567AB00A
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Sep 2023 12:57:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 480C010E64C;
-	Fri, 22 Sep 2023 10:46:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 455B210E656;
+	Fri, 22 Sep 2023 10:57:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com
- (mail-bn1nam02on2053.outbound.protection.outlook.com [40.107.212.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E22A710E64C
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Sep 2023 10:46:11 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MfY78iMelHygcXAEq6cgWp+OsCRsj9XTc6s8ETQUCH+1F82mr4AJmBjDF7mAkQaAaQsBF/Fh1QuAftqIRUI1J5Es3xqydVyPwKCxXyCzIpPFB17yIhzDwnsVEmqDVaX7YwB3ehJBhYEYnRxIo4PlDFmeqi8lWt7kuWAuBtdEcygniw90Gz1b+Dj1elPlqgFlWYs23vHQnGL01td9mObYpWxk6TAASAp6GEawznksr1GF2qPH/yoB3QGAgIE87TsCBzNly8+QHRAqP1pCy9nLljBtkP9YHAszZsj7oHK2OBNzl7FPZTklZwg6CwLeAcTF3AYR3Tjsn0WMPrgvpd+mzQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hsb51zCYZwFcl89OMl+xx5WY8Pkhs4c9bgy5rg2Rhjo=;
- b=n7WLx6pVAX4RZMKLZDi+Bqe9Q5sxsYDI/M5meQ1g0d6S7SdGwydB8lJ9phamfDBLoZPr7iBJBabCeOhWbHMdSlp33s8yO705bs/pTEKuZVqnRF0PhOEzCJJ+mjT5c7w1gjluSVV2xUxntFIEJtvJ9gASqUCc8Z8I1esAlVzwQEoWwPEva2IyfRTeBbJ+4ISbprHHxhJWqGoZ5gq1K+GhYMa4h+iQo4RtdpUGDM8IMotrX5iBx32bcuBZ5HlTPTqyGZDC4TX+wn66dwbJZMkAuauFu/vo0gNDOhOadGPnGL/z95+1XcKK38U59k/C8g7yMrotJYgfkGBbA3dNYrXIfA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hsb51zCYZwFcl89OMl+xx5WY8Pkhs4c9bgy5rg2Rhjo=;
- b=JE/gY5jptZn3AoAEKthEj/1HUB+GTxoNvZFXGi66gF0LUILiBmJ3zrLvLXwTtXzIjT4PbP8zwrm5AmIHyxDxKT/xxOU3BRpMhwdjtP9peFQQmU1hyQlvEOGbvtB4R4gH936Figx2oryuovSrMAisopPLPSCDkuTJDYAMjw2OQPQ=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by CH3PR12MB9341.namprd12.prod.outlook.com (2603:10b6:610:1cd::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6813.19; Fri, 22 Sep
- 2023 10:46:06 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::55cb:215b:389e:eced]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::55cb:215b:389e:eced%5]) with mapi id 15.20.6792.026; Fri, 22 Sep 2023
- 10:46:06 +0000
-Message-ID: <98ecb2a0-976b-770f-eb72-67146934b279@amd.com>
-Date: Fri, 22 Sep 2023 12:46:01 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: Decrypting tt maps in ttm
-Content-Language: en-US
-To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- Zack Rusin <zackr@vmware.com>, "alexdeucher@gmail.com"
- <alexdeucher@gmail.com>
-References: <15c9beb5f8dcb091b00c35d6206b84aa100d729e.camel@vmware.com>
- <e9ba0f7a0620cd252adfc1df43cd15d16dcea74d.camel@vmware.com>
- <883309f9-fcd3-51c5-52e7-3e0ae5650cba@linux.intel.com>
- <CADnq5_PPAZqusAoMTrG3OE3seZTQZbj1HC1u-4d5hcCQHsPD0g@mail.gmail.com>
- <b8fa7c6a4cd01fdfabef512972f79b67a1cbe58c.camel@vmware.com>
- <5efd9a5d-7c88-855a-8a2f-5d984ea4a5e7@amd.com>
- <53e09f13-eb54-9662-a511-77c012df9646@linux.intel.com>
- <beb209b5-fb67-5b53-62b8-bc1c78b41cc5@amd.com>
- <d61a3236737e13a6a303fd9902cf6938e29cf32d.camel@vmware.com>
- <70af0fd3-3dbb-b19a-8a4d-dcddab60d3e9@linux.intel.com>
- <690a0d33-0091-fdbf-7a1c-c9de89bb79eb@amd.com>
- <78999ee1dc22edb6acb49ae936e5ad7a7470b591.camel@vmware.com>
- <2b22e309-26bf-c553-fc6c-3cfc6c701d51@linux.intel.com>
- <36a2ebcecf79e71bd0a310427de674e07ded6198.camel@vmware.com>
- <222b98d0-7e5b-ff69-269d-6f6c6c26736c@linux.intel.com>
- <a2dc67f5356381a4c56ca52549f79941de66da83.camel@vmware.com>
- <c8d90961-798b-a0cd-8564-6bb5d1816e4f@linux.intel.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <c8d90961-798b-a0cd-8564-6bb5d1816e4f@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR2P281CA0172.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:9f::6) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF06210E64F;
+ Fri, 22 Sep 2023 10:57:13 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2a02:8010:65b5:0:1ac0:4dff:feee:236a])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ (Authenticated sender: alarumbe)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 512F96607298;
+ Fri, 22 Sep 2023 11:57:12 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1695380232;
+ bh=7w861iKk/wdEWcRF430fsJHJ3ejEHt/OVXoJrnZz42w=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Y8Or8UMYEBjTjNOy/ZWu9cabLotkmyCwCrhCRBrZdYBHaTtIEjiJsNChQeiI4JiaE
+ mh+Xwz+XVauKmfKu/fyVsd6/iHDHzyzcFXDTMtu6UWCn34jHzWorGvKEsjNlEOU+XC
+ ik6i1jNu9fkAAii9RvrNeHJ+1pBztT7r2bVDUA2IhbNN2lwlziUiikAGSdghw1uCou
+ 4W8T5b6qraD0pGpcdt4dZCL5crmf+SrHl3ygJ23gtmipUeTJqGb5RnIkvtX5PPJNCZ
+ qu46hF510twRcmAztem+WtovJDwhfFjp6V26El7fJ5FjjFDE1ZZW6FAQI6dr3ejAtk
+ qbScKWekMViJQ==
+Date: Fri, 22 Sep 2023 11:57:09 +0100
+From: =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Subject: Re: [PATCH v6 2/6] drm/panfrost: Add fdinfo support GPU load metrics
+Message-ID: <chpqiov6y5gbnx3cnmrxkijperhgjhtrrsk556jbumrihs3pxm@ahq3kuehj7xp>
+References: <20230919233556.1458793-1-adrian.larumbe@collabora.com>
+ <20230919233556.1458793-3-adrian.larumbe@collabora.com>
+ <b23eb1dc-dd01-2086-f4e8-a5c3db389a14@linux.intel.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|CH3PR12MB9341:EE_
-X-MS-Office365-Filtering-Correlation-Id: 349163c0-8340-4442-e357-08dbbb591ff5
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Q3tP9NmVvX3d+Dp51Pk5+cPOVERrsphuijoEi5EibVOyFMPBy5U3ocPOszQGFgpbfDtxjGzdlSh1TzXEyWpMeGOK+FBk4mfs344kB6qd9pVVMgmG2H4bRLTLp6EX5SIIz8k3EnIsSv9y4O6hj4t5uT2LmxwO/W+1E1bs1WGKs753gkjoSQz0us7lS0lZSjI/UADpC3O1M6v0HWZMad9ozwtrlaV785MtBDeI62wolkmyfEd3DVHpA68nEdxZGZaleOPOqrZOzczgcQdbkVk1NGz9ddAElgEw7Xi9GEPI/p5wOm/2jaJx6R0C73klZT/eNeD2G+3WezC66sMCnruQEr7HtOMjbmyFKl9z6WZE8v7FCYnram22Pq9lMMTpkaA22/Qnd7HyTE5OChwjrtLqfUlbvPHYXSmGLimv8IEeBtGBzdyqVX7j3/rZ7Ggo1T94x3siARBHfUeMuP3pVNHH2oe3vuiZoM8l+bMGmzIvrj3Ayl0AwQpi7lUh6MHhXF8TS1R3eztcV3YGLtzG0BFh4BPQEOxYz6PntE42qixj940QPsMA/biwwsLn81tmA8mD1H4ys+e0o7d2ocUU8NWUzgDbsiIhjVwKgXVDg+yIZhgazMlKFoBx4BdFcLZVijbv8FIqNyUm3PbIqk2z8TFih9/CDoeInf8j3iTVCCrVgB0=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(396003)(136003)(366004)(39860400002)(346002)(376002)(1800799009)(186009)(451199024)(6512007)(53546011)(6666004)(6486002)(478600001)(6506007)(8676002)(8936002)(83380400001)(66946007)(66556008)(54906003)(31686004)(966005)(110136005)(316002)(66476007)(5660300002)(66574015)(2616005)(36756003)(38100700002)(31696002)(4326008)(86362001)(2906002)(41300700001)(30864003)(26005)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eTlDTWxxOTRma095ckVzY3lHS29MQlIyUFdYUjZhOURsTEtLbnhSTnZXaWpY?=
- =?utf-8?B?Rzh1SUdFQUU2TUhwQzYvSkVLUTZiYjBNTEk4eC90eHEvaDdxTi9QZVF6UlR0?=
- =?utf-8?B?MmhlUGlER201RVpEYnI0SWRIc2RnRGtINTQ0RXFEMmNiYzY2aFRFZU9XZE15?=
- =?utf-8?B?Q2ZORUI4U3p4VHdOMWd1RG53eU1PMExoaHEweHZoYVhEYmFnRk5qc1FiWWlF?=
- =?utf-8?B?VEo0cm43SEkwNzJJOERTcHQ1QlVEb3ZvTWVpRXhYazZ0Nm9aYy9QWXlIVnMz?=
- =?utf-8?B?L1pORXBiSmtDVVRkQ2w2S0wwTnhjd1Y3d2lSdjU2SWI0S1BRM2UwOVk0T2Fu?=
- =?utf-8?B?N2RxL29INi9wb0tOMkxRRE82UThZaHhFaDdXdDNnTHN3eDN5c1dRckJGNTcv?=
- =?utf-8?B?SWRSVDJjRkRzQXkraGRnRXc0ZS9BUEpsc2E0eGFVUnFBc3NzVFlkY1NzOEY0?=
- =?utf-8?B?T3pZUTVnSVpmT2puNk5NNUw4Nld6MWQycHJ3MXJYQWYvL2Rjb3RCU081R0Nx?=
- =?utf-8?B?a1pTUTN4UE1qQUlQQ3psRDJWTnBpaS9lcmt0djYwMXk1MXVMcmRnR1RUcFBQ?=
- =?utf-8?B?UUZTKzJLQ2hBaWpEdUROQW12T1JYWkdzL0lhaGhLZUFCdDVPRkVBdnBTcmQv?=
- =?utf-8?B?NG8rUDhZdTRSUTFXSGpIM3ZxeGMrN3lRMDhvUldIM1pncXJuOG5mam1SL0Q3?=
- =?utf-8?B?T3BzWTNPdTh0WlpUNXk1QUpxcEtkWC84RDhGNDYydHRHMFFqR2E3V2VKNkFl?=
- =?utf-8?B?RStTMHJIK3l6NDhGN2Zac0FYYWl0Sm1NTnVaT1Zub2gzVWRaY0wxang4Y1Fs?=
- =?utf-8?B?c0tieVcwRWZLKy9PWXZEVzlMZ0NtY3FIR3E2OXhURkRXdU91SWRNRll4M3A5?=
- =?utf-8?B?SlNucGtUWEkyUkhiVmw1SDQ2aXBzb3ZvekdiVzZGOGlhTkw0bWUvOGx4amhK?=
- =?utf-8?B?VFJmQVNtL2pWcDRHemthN3dMTXdXYnZrenVkNTdFemI3UTl0Vncwa3RhNUJP?=
- =?utf-8?B?UjJIcnR6ZWlqOGpOdHBlRDhNZWtuM2hJT2lQcjRGc014dlg1K1RsVXB5aUND?=
- =?utf-8?B?SjhuWkJzVi9PSmxTQndBSDFOU2JHRkVuVW1YMk82UllGSDZJamg0c3FhQ3ht?=
- =?utf-8?B?ZkZVVUhOaWtLaWJCemwrVHdTTWVzTmRhUFlsSXVqVEZEeTR6NkVSOElHaUdK?=
- =?utf-8?B?Zy9LMW1iL0Qzakg4ZzB0NFY2M2hJOVdjRFNmaXcwYUcvUjFmdnlYTjNLOHVD?=
- =?utf-8?B?RGVHdWxxQmJHTWtPMm5zTWw2eXZFUzJwMVYzNmNCSTdQZzArVitpeXVBdWFT?=
- =?utf-8?B?Rk4rdVg4d0NTNFFHN0VnTi9LcGs3Si9zM0FaVWF6bDUxdUhteE10OUJVdFNM?=
- =?utf-8?B?MVJkOHZxbk02a0RVWktjaXlwWFlITWw3amdTVFRSc3dKaklGUTZDZ1h6OWxw?=
- =?utf-8?B?Z0xKOWFiWGZKSkVJcnl3SjA5RFY0dTZINW5pWE9NWEVVV3hBc2pwWHpHOW9C?=
- =?utf-8?B?YUd3TTRjYlp1VjZGTUVRNzljTjNITFhHb3RhdGx6ck1kZ2l4U21GTlZJOXF5?=
- =?utf-8?B?bUVVa1o0bENzdGc3dFVWVE5ra1JqN3BNUHVaNEVTay9GMUlaWWpGTkllbUhr?=
- =?utf-8?B?N2tMS2lZZE51NE9zelBtYnhOWTRKamZyeEFFb3JuU3NJWEJRQnZZb1NsbWdp?=
- =?utf-8?B?R1Q3UHcrRTVBYVJXbFNYQkhpM3ZzcUx4em9hZysyWU5jRU9VV3FQU3RPRndn?=
- =?utf-8?B?N0Y1RlFabWhLN3RvSlFha3dpTks2Vlp6Q2ZSd2VmZ2VQdEVJdU1la1QreUpJ?=
- =?utf-8?B?cnNkZjVxQzNWbEVPOWtobHpSdE85NGxMV3FyOFE4ZnJHMWFNUm9Kb0lnbUVq?=
- =?utf-8?B?a0dzMHBYYW5jMFh3SUQ3UzJvVkx5bDl2Ukp1bnhLSzh3SXB1aWJ5S1hCbmty?=
- =?utf-8?B?UFZkRjd6bnQydUZ5NFdUYzlHa1ZXOU42S0RRb1hJVXA4TEFqNVNIbzRNTFIw?=
- =?utf-8?B?VnB3MjFaSEU1WDFVWUNFY3JFWXFyMGkvL2FYeXVpbi9IaGtteXMrMFZWUHd3?=
- =?utf-8?B?MzF1Y0pCc2ZyN0tFSGs4MWc3OC9ldGFyV1JVN09GclZCMEdqSEtmWlZPKzJ1?=
- =?utf-8?Q?+6UXPlUSc8+YWtvQv7Gh19KpX?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 349163c0-8340-4442-e357-08dbbb591ff5
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2023 10:46:06.6807 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: OfGIjI0sBJBNnJBYjcfRJnSsaYPRC6OFc7AIYHMrthL2QPYKonF7ZWD1zPmf3AdW
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB9341
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <b23eb1dc-dd01-2086-f4e8-a5c3db389a14@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -142,353 +54,460 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: tzimmermann@suse.de, sean@poorly.run, quic_abhinavk@quicinc.com,
+ mripard@kernel.org, steven.price@arm.com, freedreno@lists.freedesktop.org,
+ healych@amazon.com, Boris Brezillon <boris.brezillon@collabora.com>,
+ dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ dmitry.baryshkov@linaro.org, marijn.suijten@somainline.org,
+ kernel@collabora.com, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-Am 21.09.23 um 09:12 schrieb Thomas Hellström:
+On 20.09.2023 16:40, Tvrtko Ursulin wrote:
+>On 20/09/2023 00:34, Adrián Larumbe wrote:
+>> The drm-stats fdinfo tags made available to user space are drm-engine,
+>> drm-cycles, drm-max-freq and drm-curfreq, one per job slot.
+>> 
+>> This deviates from standard practice in other DRM drivers, where a single
+>> set of key:value pairs is provided for the whole render engine. However,
+>> Panfrost has separate queues for fragment and vertex/tiler jobs, so a
+>> decision was made to calculate bus cycles and workload times separately.
+>> 
+>> Maximum operating frequency is calculated at devfreq initialisation time.
+>> Current frequency is made available to user space because nvtop uses it
+>> when performing engine usage calculations.
+>> 
+>> It is important to bear in mind that both GPU cycle and kernel time numbers
+>> provided are at best rough estimations, and always reported in excess from
+>> the actual figure because of two reasons:
+>>   - Excess time because of the delay between the end of a job processing,
+>>     the subsequent job IRQ and the actual time of the sample.
+>>   - Time spent in the engine queue waiting for the GPU to pick up the next
+>>     job.
+>> 
+>> To avoid race conditions during enablement/disabling, a reference counting
+>> mechanism was introduced, and a job flag that tells us whether a given job
+>> increased the refcount. This is necessary, because user space can toggle
+>> cycle counting through a debugfs file, and a given job might have been in
+>> flight by the time cycle counting was disabled.
+>> 
+>> The main goal of the debugfs cycle counter knob is letting tools like nvtop
+>> or IGT's gputop switch it at any time, to avoid power waste in case no
+>> engine usage measuring is necessary.
+>> 
+>> Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+>> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+>> Reviewed-by: Steven Price <steven.price@arm.com>
+>> ---
+>>   drivers/gpu/drm/panfrost/Makefile           |  2 +
+>>   drivers/gpu/drm/panfrost/panfrost_debugfs.c | 20 ++++++++
+>>   drivers/gpu/drm/panfrost/panfrost_debugfs.h | 13 +++++
+>>   drivers/gpu/drm/panfrost/panfrost_devfreq.c |  8 +++
+>>   drivers/gpu/drm/panfrost/panfrost_devfreq.h |  3 ++
+>>   drivers/gpu/drm/panfrost/panfrost_device.c  |  2 +
+>>   drivers/gpu/drm/panfrost/panfrost_device.h  | 13 +++++
+>>   drivers/gpu/drm/panfrost/panfrost_drv.c     | 57 ++++++++++++++++++++-
+>>   drivers/gpu/drm/panfrost/panfrost_gpu.c     | 41 +++++++++++++++
+>>   drivers/gpu/drm/panfrost/panfrost_gpu.h     |  4 ++
+>>   drivers/gpu/drm/panfrost/panfrost_job.c     | 24 +++++++++
+>>   drivers/gpu/drm/panfrost/panfrost_job.h     |  5 ++
+>>   12 files changed, 191 insertions(+), 1 deletion(-)
+>>   create mode 100644 drivers/gpu/drm/panfrost/panfrost_debugfs.c
+>>   create mode 100644 drivers/gpu/drm/panfrost/panfrost_debugfs.h
+>> 
+>> diff --git a/drivers/gpu/drm/panfrost/Makefile b/drivers/gpu/drm/panfrost/Makefile
+>> index 7da2b3f02ed9..2c01c1e7523e 100644
+>> --- a/drivers/gpu/drm/panfrost/Makefile
+>> +++ b/drivers/gpu/drm/panfrost/Makefile
+>> @@ -12,4 +12,6 @@ panfrost-y := \
+>>   	panfrost_perfcnt.o \
+>>   	panfrost_dump.o
+>> +panfrost-$(CONFIG_DEBUG_FS) += panfrost_debugfs.o
+>> +
+>>   obj-$(CONFIG_DRM_PANFROST) += panfrost.o
+>> diff --git a/drivers/gpu/drm/panfrost/panfrost_debugfs.c b/drivers/gpu/drm/panfrost/panfrost_debugfs.c
+>> new file mode 100644
+>> index 000000000000..cc14eccba206
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/panfrost/panfrost_debugfs.c
+>> @@ -0,0 +1,20 @@
+>> +// SPDX-License-Identifier: GPL-2.0
+>> +/* Copyright 2023 Collabora ltd. */
+>> +
+>> +#include <linux/debugfs.h>
+>> +#include <linux/platform_device.h>
+>> +#include <drm/drm_debugfs.h>
+>> +#include <drm/drm_file.h>
+>> +#include <drm/panfrost_drm.h>
+>> +
+>> +#include "panfrost_device.h"
+>> +#include "panfrost_gpu.h"
+>> +#include "panfrost_debugfs.h"
+>> +
+>> +void panfrost_debugfs_init(struct drm_minor *minor)
+>> +{
+>> +	struct drm_device *dev = minor->dev;
+>> +	struct panfrost_device *pfdev = platform_get_drvdata(to_platform_device(dev->dev));
+>> +
+>> +	debugfs_create_atomic_t("profile", 0600, minor->debugfs_root, &pfdev->profile_mode);
+>> +}
+>> diff --git a/drivers/gpu/drm/panfrost/panfrost_debugfs.h b/drivers/gpu/drm/panfrost/panfrost_debugfs.h
+>> new file mode 100644
+>> index 000000000000..db1c158bcf2f
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/panfrost/panfrost_debugfs.h
+>> @@ -0,0 +1,13 @@
+>> +/* SPDX-License-Identifier: GPL-2.0 */
+>> +/*
+>> + * Copyright 2023 Collabora ltd.
+>> + */
+>> +
+>> +#ifndef PANFROST_DEBUGFS_H
+>> +#define PANFROST_DEBUGFS_H
+>> +
+>> +#ifdef CONFIG_DEBUG_FS
+>> +void panfrost_debugfs_init(struct drm_minor *minor);
+>> +#endif
+>> +
+>> +#endif  /* PANFROST_DEBUGFS_H */
+>> diff --git a/drivers/gpu/drm/panfrost/panfrost_devfreq.c b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
+>> index 58dfb15a8757..28caffc689e2 100644
+>> --- a/drivers/gpu/drm/panfrost/panfrost_devfreq.c
+>> +++ b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
+>> @@ -58,6 +58,7 @@ static int panfrost_devfreq_get_dev_status(struct device *dev,
+>>   	spin_lock_irqsave(&pfdevfreq->lock, irqflags);
+>>   	panfrost_devfreq_update_utilization(pfdevfreq);
+>> +	pfdevfreq->current_frequency = status->current_frequency;
+>>   	status->total_time = ktime_to_ns(ktime_add(pfdevfreq->busy_time,
+>>   						   pfdevfreq->idle_time));
+>> @@ -117,6 +118,7 @@ int panfrost_devfreq_init(struct panfrost_device *pfdev)
+>>   	struct devfreq *devfreq;
+>>   	struct thermal_cooling_device *cooling;
+>>   	struct panfrost_devfreq *pfdevfreq = &pfdev->pfdevfreq;
+>> +	unsigned long freq = ULONG_MAX;
+>>   	if (pfdev->comp->num_supplies > 1) {
+>>   		/*
+>> @@ -172,6 +174,12 @@ int panfrost_devfreq_init(struct panfrost_device *pfdev)
+>>   		return ret;
+>>   	}
+>> +	/* Find the fastest defined rate  */
+>> +	opp = dev_pm_opp_find_freq_floor(dev, &freq);
+>> +	if (IS_ERR(opp))
+>> +		return PTR_ERR(opp);
+>> +	pfdevfreq->fast_rate = freq;
+>> +
+>>   	dev_pm_opp_put(opp);
+>>   	/*
+>> diff --git a/drivers/gpu/drm/panfrost/panfrost_devfreq.h b/drivers/gpu/drm/panfrost/panfrost_devfreq.h
+>> index 1514c1f9d91c..48dbe185f206 100644
+>> --- a/drivers/gpu/drm/panfrost/panfrost_devfreq.h
+>> +++ b/drivers/gpu/drm/panfrost/panfrost_devfreq.h
+>> @@ -19,6 +19,9 @@ struct panfrost_devfreq {
+>>   	struct devfreq_simple_ondemand_data gov_data;
+>>   	bool opp_of_table_added;
+>> +	unsigned long current_frequency;
+>> +	unsigned long fast_rate;
+>> +
+>>   	ktime_t busy_time;
+>>   	ktime_t idle_time;
+>>   	ktime_t time_last_update;
+>> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.c b/drivers/gpu/drm/panfrost/panfrost_device.c
+>> index fa1a086a862b..28f7046e1b1a 100644
+>> --- a/drivers/gpu/drm/panfrost/panfrost_device.c
+>> +++ b/drivers/gpu/drm/panfrost/panfrost_device.c
+>> @@ -207,6 +207,8 @@ int panfrost_device_init(struct panfrost_device *pfdev)
+>>   	spin_lock_init(&pfdev->as_lock);
+>> +	spin_lock_init(&pfdev->cycle_counter.lock);
+>> +
+>>   	err = panfrost_clk_init(pfdev);
+>>   	if (err) {
+>>   		dev_err(pfdev->dev, "clk init failed %d\n", err);
+>> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
+>> index b0126b9fbadc..1e85656dc2f7 100644
+>> --- a/drivers/gpu/drm/panfrost/panfrost_device.h
+>> +++ b/drivers/gpu/drm/panfrost/panfrost_device.h
+>> @@ -107,6 +107,7 @@ struct panfrost_device {
+>>   	struct list_head scheduled_jobs;
+>>   	struct panfrost_perfcnt *perfcnt;
+>> +	atomic_t profile_mode;
+>>   	struct mutex sched_lock;
+>> @@ -121,6 +122,11 @@ struct panfrost_device {
+>>   	struct shrinker shrinker;
+>>   	struct panfrost_devfreq pfdevfreq;
+>> +
+>> +	struct {
+>> +		atomic_t use_count;
+>> +		spinlock_t lock;
+>> +	} cycle_counter;
+>>   };
+>>   struct panfrost_mmu {
+>> @@ -135,12 +141,19 @@ struct panfrost_mmu {
+>>   	struct list_head list;
+>>   };
+>> +struct panfrost_engine_usage {
+>> +	unsigned long long elapsed_ns[NUM_JOB_SLOTS];
+>> +	unsigned long long cycles[NUM_JOB_SLOTS];
+>> +};
+>> +
+>>   struct panfrost_file_priv {
+>>   	struct panfrost_device *pfdev;
+>>   	struct drm_sched_entity sched_entity[NUM_JOB_SLOTS];
+>>   	struct panfrost_mmu *mmu;
+>> +
+>> +	struct panfrost_engine_usage engine_usage;
+>>   };
+>>   static inline struct panfrost_device *to_panfrost_device(struct drm_device *ddev)
+>> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
+>> index a2ab99698ca8..3c93a11deab1 100644
+>> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
+>> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
+>> @@ -20,6 +20,7 @@
+>>   #include "panfrost_job.h"
+>>   #include "panfrost_gpu.h"
+>>   #include "panfrost_perfcnt.h"
+>> +#include "panfrost_debugfs.h"
+>>   static bool unstable_ioctls;
+>>   module_param_unsafe(unstable_ioctls, bool, 0600);
+>> @@ -267,6 +268,7 @@ static int panfrost_ioctl_submit(struct drm_device *dev, void *data,
+>>   	job->requirements = args->requirements;
+>>   	job->flush_id = panfrost_gpu_get_latest_flush_id(pfdev);
+>>   	job->mmu = file_priv->mmu;
+>> +	job->engine_usage = &file_priv->engine_usage;
+>>   	slot = panfrost_job_get_slot(job);
+>> @@ -523,7 +525,55 @@ static const struct drm_ioctl_desc panfrost_drm_driver_ioctls[] = {
+>>   	PANFROST_IOCTL(MADVISE,		madvise,	DRM_RENDER_ALLOW),
+>>   };
+>> -DEFINE_DRM_GEM_FOPS(panfrost_drm_driver_fops);
+>> +
+>> +static void panfrost_gpu_show_fdinfo(struct panfrost_device *pfdev,
+>> +				     struct panfrost_file_priv *panfrost_priv,
+>> +				     struct drm_printer *p)
+>> +{
+>> +	int i;
+>> +
+>> +	/*
+>> +	 * IMPORTANT NOTE: drm-cycles and drm-engine measurements are not
+>> +	 * accurate, as they only provide a rough estimation of the number of
+>> +	 * GPU cycles and CPU time spent in a given context. This is due to two
+>> +	 * different factors:
+>> +	 * - Firstly, we must consider the time the CPU and then the kernel
+>> +	 *   takes to process the GPU interrupt, which means additional time and
+>> +	 *   GPU cycles will be added in excess to the real figure.
+>> +	 * - Secondly, the pipelining done by the Job Manager (2 job slots per
+>> +	 *   engine) implies there is no way to know exactly how much time each
+>> +	 *   job spent on the GPU.
+>> +	 */
+>> +
+>> +	static const char * const engine_names[] = {
+>> +		"fragment", "vertex-tiler", "compute-only"
+>> +	};
+>> +
+>> +	for (i = 0; i < NUM_JOB_SLOTS - 1; i++) {
 >
-> On 9/21/23 05:51, Zack Rusin wrote:
->> On Wed, 2023-09-20 at 21:22 +0200, Thomas Hellström wrote:
->>> !! External Email
->>>
->>> On 9/20/23 20:24, Zack Rusin wrote:
->>>> On Wed, 2023-09-20 at 19:17 +0200, Thomas Hellström wrote:
->>>>> !! External Email
->>>>>
->>>>> Hi, Zack
->>>>>
->>>>> On 9/20/23 18:39, Zack Rusin wrote:
->>>>>> On Wed, 2023-09-20 at 12:48 +0200, Christian König wrote:
->>>>>>> !! External Email
->>>>>>>
->>>>>>> Am 20.09.23 um 09:36 schrieb Thomas Hellström:
->>>>>>>> Hi, Zack,
->>>>>>>>
->>>>>>>> On 9/20/23 05:43, Zack Rusin wrote:
->>>>>>>>> On Tue, 2023-09-19 at 09:47 +0200, Christian König wrote:
->>>>>>>>>> !! External Email
->>>>>>>>>>
->>>>>>>>>> Am 19.09.23 um 08:56 schrieb Thomas Hellström:
->>>>>>>>>>> On 9/19/23 07:39, Christian König wrote:
->>>>>>>>>>>> Am 19.09.23 um 03:26 schrieb Zack Rusin:
->>>>>>>>>>>>> On Mon, 2023-09-18 at 16:21 -0400, Alex Deucher wrote:
->>>>>>>>>>>>>> !! External Email
->>>>>>>>>>>>>>
->>>>>>>>>>>>>> On Mon, Sep 18, 2023 at 3:06 PM Thomas Hellström
->>>>>>>>>>>>>> <thomas.hellstrom@linux.intel.com> wrote:
->>>>>>>>>>>>>>> On 9/18/23 17:52, Zack Rusin wrote:
->>>>>>>>>>>>>>>> On Mon, 2023-09-18 at 17:13 +0200, Thomas Hellström
->>>>>>>>>>>>>>>> wrote:
->>>>>>>>>>>>>>>>> Hi,
->>>>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>>> On 9/18/23 16:56, Thomas Hellström wrote:
->>>>>>>>>>>>>>>>>> Hi Zack, Christian
->>>>>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>>>> On 9/18/23 13:36, Christian König wrote:
->>>>>>>>>>>>>>>>>>> Hi Zack,
->>>>>>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>>>>> adding Thomas and Daniel.
->>>>>>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>>>>> I briefly remember that I talked with Thomas and
->>>>>>>>>>>>>>>>>>> some
->>>>>>>>>>>>>>>>>>> other
->>>>>>>>>>>>>>>>>>> people
->>>>>>>>>>>>>>>>>>> about that quite a while ago as well, but I don't
->>>>>>>>>>>>>>>>>>> fully
->>>>>>>>>>>>>>>>>>> remember the
->>>>>>>>>>>>>>>>>>> outcome.
->>>>>>>>>>>>>>>>>> Found one old thread, but didn't read it:
->>>>>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>>>> https://lists.freedesktop.org/archives/dri-devel/2019-September/234100.html 
->>>>>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>>>> /Thomas
->>>>>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>>> Ugh. Now starting to read that thread I have a vague
->>>>>>>>>>>>>>>>> recollection it all
->>>>>>>>>>>>>>>>> ended with not supporting mapping any device pages
->>>>>>>>>>>>>>>>> whatsoever
->>>>>>>>>>>>>>>>> when SEV
->>>>>>>>>>>>>>>>> was enabled, but rather resorting to llvmpipe and VM-
->>>>>>>>>>>>>>>>> local
->>>>>>>>>>>>>>>>> bos.
->>>>>>>>>>>>>>>> Hi, Thomas.
->>>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>> Thanks for finding this! I'd (of course) like to solve
->>>>>>>>>>>>>>>> it
->>>>>>>>>>>>>>>> properly and get
->>>>>>>>>>>>>>>> vmwgfx
->>>>>>>>>>>>>>>> running with 3d support with SEV-ES active instead of
->>>>>>>>>>>>>>>> essentially
->>>>>>>>>>>>>>>> disabling
->>>>>>>>>>>>>>>> the
->>>>>>>>>>>>>>>> driver when SEV-ES is active.
->>>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>> I think there are two separate discussions there, the
->>>>>>>>>>>>>>>> non-controversial one
->>>>>>>>>>>>>>>> and the
->>>>>>>>>>>>>>>> controversial one:
->>>>>>>>>>>>>>>> 1) The non-controversial: is there a case where drivers
->>>>>>>>>>>>>>>> would
->>>>>>>>>>>>>>>> want encrypted
->>>>>>>>>>>>>>>> memory
->>>>>>>>>>>>>>>> for TT pages but not for io mem mappings? Because if not
->>>>>>>>>>>>>>>> then as
->>>>>>>>>>>>>>>> Christian
->>>>>>>>>>>>>>>> pointed
->>>>>>>>>>>>>>>> out we could just add pgprot_decrypted to ttm_io_prot
->>>>>>>>>>>>>>>> and be
->>>>>>>>>>>>>>>> essentially done.
->>>>>>>>>>>>>>>> The
->>>>>>>>>>>>>>>> current method of decrypting io mem but leaving sys mem
->>>>>>>>>>>>>>>> mappings
->>>>>>>>>>>>>>>> encrypted is
->>>>>>>>>>>>>>>> a bit
->>>>>>>>>>>>>>>> weird anyway.
->>>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>> If the answer to that question is "yes, some driver does
->>>>>>>>>>>>>>>> want
->>>>>>>>>>>>>>>> the
->>>>>>>>>>>>>>>> TT mappings
->>>>>>>>>>>>>>>> to be
->>>>>>>>>>>>>>>> encrypted" then your "[PATCH v2 3/4] drm/ttm,
->>>>>>>>>>>>>>>> drm/vmwgfx:
->>>>>>>>>>>>>>>> Correctly support
->>>>>>>>>>>>>>>> support
->>>>>>>>>>>>>>>> AMD memory encryption" solves that. I think getting one
->>>>>>>>>>>>>>>> of
->>>>>>>>>>>>>>>> those
->>>>>>>>>>>>>>>> two in makes
->>>>>>>>>>>>>>>> sense
->>>>>>>>>>>>>>>> regardless of everything else, agreed?
->>>>>>>>>>>>>>> Well, there is more to it I think.
->>>>>>>>>>>>>>>
->>>>>>>>>>>>>>> IIRC, the AMD SME encryption mode has a way for a device
->>>>>>>>>>>>>>> to
->>>>>>>>>>>>>>> have the
->>>>>>>>>>>>>>> memory controller (?) encrypt / decrypt device traffic by
->>>>>>>>>>>>>>> using an
->>>>>>>>>>>>>>> address range alias, so in theory it supports encrypted TT
->>>>>>>>>>>>>>> pages, and
->>>>>>>>>>>>>>> the dma-layer may indeed hand encrypted DMA pages to TTM
->>>>>>>>>>>>>>> on
->>>>>>>>>>>>>>> such
->>>>>>>>>>>>>>> systems
->>>>>>>>>>>>>>> depending on the device's DMA mask. That's why I think
->>>>>>>>>>>>>>> that
->>>>>>>>>>>>>>> force_dma_unencrypted() export was needed, and If the
->>>>>>>>>>>>>>> amdgpu
->>>>>>>>>>>>>>> driver
->>>>>>>>>>>>>>> accesses TT memory in SME mode *without*
->>>>>>>>>>>>>>> pgprot_decrypted()
->>>>>>>>>>>>>>> and it
->>>>>>>>>>>>>>> still
->>>>>>>>>>>>>>> works, then I think that mode is actually used. How could
->>>>>>>>>>>>>>> it
->>>>>>>>>>>>>>> otherwise work?
->>>>>>>>>>>>>> For SME, as long as the encrypted bit is set in the physical
->>>>>>>>>>>>>> address
->>>>>>>>>>>>>> used for DMA, the memory controller will handle the
->>>>>>>>>>>>>> encrypt/decrypt
->>>>>>>>>>>>>> for the device.  For devices with a limited dma mask, you
->>>>>>>>>>>>>> need
->>>>>>>>>>>>>> to use
->>>>>>>>>>>>>> the IOMMU so that the encrypted bit is retained when the
->>>>>>>>>>>>>> address
->>>>>>>>>>>>>> hits
->>>>>>>>>>>>>> the memory controller.
->>>>>>>>>>>>> How does that work on systems with swiotlb, e.g.
->>>>>>>>>>>>> swiotlb=force, or
->>>>>>>>>>>>> i.e. what would
->>>>>>>>>>>>> decrypt the ttm tt mappings when copying between system and
->>>>>>>>>>>>> vram
->>>>>>>>>>>>> when iommu is
->>>>>>>>>>>>> disabled/absent?
->>>>>>>>>>>> SME makes it mandatory that all devices can handle the 
->>>>>>>>>>>> physical
->>>>>>>>>>>> address used for DMA, either native or with the help of IOMMU.
->>>>>>>>>>>>
->>>>>>>>>>>> Hacks like SWIOTLB are not directly supported as far as I 
->>>>>>>>>>>> know.
->>>>>>>>>>>> Maybe
->>>>>>>>>>>> somehow SWIOTLB manually decrypts the data while copying it or
->>>>>>>>>>>> something like this, but I'm not 100% sure if that is actually
->>>>>>>>>>>> implemented.
->>>>>>>>>>>>
->>>>>>>>>>>> Regards,
->>>>>>>>>>>> Christian.
->>>>>>>>>>> A bold guess after looking at various code and patches:
->>>>>>>>>>>
->>>>>>>>>>> 1) Devices under SME that don't support the encryption bit and
->>>>>>>>>>> SEV:
->>>>>>>>>>> a) Coherent memory is unencrypted.
->>>>>>>>>>> b) Streaming DMA under IOMMU: The IOMMU sets the encrypted bit.
->>>>>>>>>>> c) Streaming DMA with SWIOTLB: The bounce buffer is 
->>>>>>>>>>> unencrypted.
->>>>>>>>>>> Copying to/from bounce-buffer decrypts/encrypts.
->>>>>>>>>>>
->>>>>>>>>>> 2) Devices under SME that do support the encryption bit 
->>>>>>>>>>> (which I
->>>>>>>>>>> believe is most graphics devices in general on SME systems, not
->>>>>>>>>>> just
->>>>>>>>>>> amdgpu; it "just works")
->>>>>>>>>>> *) Coherent memory is encrypted. The DMA layer sets dma 
->>>>>>>>>>> addresses
->>>>>>>>>>> and
->>>>>>>>>>> pgprot accordingly.
->>>>>>>>>>> *) Streaming DMA is encrypted.
->>>>>>>>>>>
->>>>>>>>>>> So the bug in TTM would then be it's not handling 1a) and 1b)
->>>>>>>>>>> correctly.
->>>>>>>>>>>
->>>>>>>>>>> Remedy:
->>>>>>>>>>> 1b) Shouldn't be used with encryption.
->>>>>>>>>>> 1a) This is what we should try to fix. Exporting
->>>>>>>>>>> dma_force_unencrypted() didn't seem to be a way forward. 
->>>>>>>>>>> Properly
->>>>>>>>>>> fixing this would, I guess, mean implement the missing
->>>>>>>>>>> functionality
->>>>>>>>>>> in the dma layer: For vmap / kmap we could simply reuse the
->>>>>>>>>>> virtual
->>>>>>>>>>> addresses we get back from dma_alloc_coherent(), but for 
->>>>>>>>>>> faulting
->>>>>>>>>>> one
->>>>>>>>>>> would want something like dma_coherent_insert_pfn() (if it 
->>>>>>>>>>> doesn't
->>>>>>>>>>> exist already) after a proper disussion with Christoph Hellwig.
->>>>>>>>>> Christoph once pointed me to dma_mmap_attrs() for this, but I 
->>>>>>>>>> never
->>>>>>>>>> found the time to fully look into it.
->>>>>>>>> Hmm, yea, that would make sense
->>>>>>>>> https://elixir.bootlin.com/linux/latest/source/kernel/dma/direct.c#L564 
->>>>>>>>>
->>>>>>>>> Replacing the vmap's with dma_mmap_attrs would probably fix 
->>>>>>>>> this, but
->>>>>>>>> it would
->>>>>>>>> require a bit of extra setup.
->>>>>>>>>
->>>>>>>>> So we're saying that yes, we don't want unconditional 
->>>>>>>>> pgprot_decrypt
->>>>>>>>> in ttm_io_prot.
->>>>>>>>> We'd like to leave those tt mappings as encrypted when 
->>>>>>>>> possible and
->>>>>>>>> instead maybe
->>>>>>>>> add a vaddr to ttm_tt (or extract it from the pages->private 
->>>>>>>>> via the
->>>>>>>>> ttm_pool_dma,
->>>>>>>>> but that seems rather ugly),
->>>>>>>> It could probably be extracted from pages->private from a 
->>>>>>>> helper in
->>>>>>>> the ttm pool code, (Christian has a final saying here). 
->>>>>>>> However, that
->>>>>>>> requires that all ttm_tts are built from a single dma_alloc 
->>>>>>>> chunk. Not
->>>>>>>> sure that's the case? In that case we're back to square zero 
->>>>>>>> for vmaps.
->>>>>>> Nope they aren't and yes we are back to square one with that.
->>>>>> Well, that's my favorite square. Number one, just like me...
->>>>>>
->>>>>> Maybe we're overthinking this particular problem a bit. As is 
->>>>>> use_dma_alloc
->>>>>> in
->>>>>> ttm
->>>>>> is only set in two cases:
->>>>>> - driver explicitly wants coherent mappings (vmwgfx, which 
->>>>>> require decrypted
->>>>>> pages)
->>>>>> - driver needs swiotlb (which, as was pointed out, would require 
->>>>>> the pages
->>>>>> to be
->>>>>> decrypted as well)
->>>>>>
->>>>>> So use_dma_alloc always requires the pages to be decrypted.
->>>>> IIRC moving forward it doesn't, since there is (or at least there 
->>>>> was)
->>>>> implement missing TTM functionality in the dma layer and most TTM
->>>>> drivers should at least support dma coherent memory. That means all
->>>>> devices supporting a sufficiently large dma mask will break with 
->>>>> SME and
->>>>> your proposal then.
->>>>>
->>>>> Perhaps if we condition that on
->>>>> "cc_platform_has(CC_ATTR_GUEST_MEM_ENCRYPT)" that will capture all 
->>>>> the
->>>>> SEV cases, and limit the existing bug to the hopefully very few TTM
->>>>> devices with limited dma mask on SME.
->>>> Ah, I wasn't aware those exist, do you know what platforms are 
->>>> those? I can try
->>>> to
->>>> find one around here to see.
->>> My understanding is cc_platform_has(CC_ATTR_GUEST_MEM_ENCRYPT) will
->>> return true in the guest iff SEV is active, and can be used in TTM as a
->>> poor man's force_dma_unencrypted(), enabling the functionality in your
->>> diff. It looks like a similar check is present in vmwgfx to detect SEV,
->>> but also see below.
->>>
->>>> And they don't really break, they just might unnecessarily decrypt 
->>>> tt pages,
->>>> right?
->>> No, with SME, dma from hw will encrypt the content, because the dma
->>> layer will set the "encrypt" bit in the physical address given to the
->>> iommu or the device in case iommu is not active, but a subsequent
->>> reading the content using the CPU won't decrypt so CPU and device will
->>> have different views of the page.
->>>
->>> Also the linear kernel mapping PTEs will conflict in encryption mode
->>> with the ones TTM sets up, and IIRC that's forbidden in the SEV spec.
->>> (The x86 arch code goes through some serious work to flush out caches
->>> and TLBs to convert a page kernel linear mapping from encrypted to
->>> non-encrypted,
->>>
->>> https://elixir.bootlin.com/linux/latest/source/arch/x86/mm/pat/set_memory.c#L2129 
->>>
->>>
->>> and that is also seen as pretty heavy dma_alloc_coherent() latency).
->> Thanks for this!
->>
->>> So the pgprot_t TTM sets up *must* be identical to the one used by the
->>> dma layer, so anything we should be aware here that anything we do in
->>> TTM less than adding needed functionality in the dma layer is
->>> second-guessing what the dma layer does internally and is not really 
->>> the
->>> right solution.
->> I think this is already the case for virtualized drivers, but I see 
->> what you're
->> saying that fixing this for them might break some real hardware and 
->> that's bad.
->> Playing those games with matching pgprot between ttm and dma is 
->> really fragile.
->>
->> cc_platform_has(CC_ATTR_GUEST_MEM_ENCRYPT) is also used in 
->> drm_need_swiotlb so
->> adding that check to the last patch would seem to make sense. Of 
->> course, it's up to
->> Christian whether that's robust enough or whether we need to think 
->> about the
->> dma/page fault rework to fix it properly. I'm not sure if I see any 
->> other reasonable
->> solution besides these two options.
-> Agreed.
-
-Uff, of hand that looks like the right thing to do. But I'm really not 
-an expert for that stuff.
-
-I think the best thing you can do is to write a patch and send it to 
-LKML and dri-devel and see if anybody objects.
-
-Christian.
-
+>FWIW you could future proof this a bit by using "i < ARRAY_SIZE(engine_names)"
+>and avoid maybe silent out of bounds reads if someone updates NUM_JOB_SLOTS
+>and forgets about this loop. Or stick a warning of some sort.
 >
-> /Thomas
->
->
->>
->> z
+NUM_JOB_SLOTS is actually the same as the number of engines in the device. I decided to follow
+this loop convention because that's what's being done across the driver when manipulating
+the engine queues, so I thought I'd stick to it for the sake of consistency. Bear in mind
+the loop doesn't pick up the compute-only engine because it's still not exposed to user space.
 
+So NUM_JOB_SLOTS cannot change, unless a new engine were introduced, and then someone would
+have to update this array accordingly.
+
+>> +		drm_printf(p, "drm-engine-%s:\t%llu ns\n",
+>> +			   engine_names[i], panfrost_priv->engine_usage.elapsed_ns[i]);
+>> +		drm_printf(p, "drm-cycles-%s:\t%llu\n",
+>> +			   engine_names[i], panfrost_priv->engine_usage.cycles[i]);
+>> +		drm_printf(p, "drm-maxfreq-%s:\t%lu Hz\n",
+>> +			   engine_names[i], pfdev->pfdevfreq.fast_rate);
+>> +		drm_printf(p, "drm-curfreq-%s:\t%lu Hz\n",
+>> +			   engine_names[i], pfdev->pfdevfreq.current_frequency);
+>
+>I envisaged a link to driver specific docs at the bottom of
+>drm-usage-stats.rst so it would be nice if drivers would be adding those
+>sections and describing their private keys, engine names etc. ;)
+>
+Currently there's no panfrost.rst file under Documentation/gpu. I guess I'll create a new
+one and add the engine descriptions and meaning of drm-curfreq key.
+
+>Regards,
+>
+>Tvrtko
+>
+>> +	}
+>> +}
+>> +
+>> +static void panfrost_show_fdinfo(struct drm_printer *p, struct drm_file *file)
+>> +{
+>> +	struct drm_device *dev = file->minor->dev;
+>> +	struct panfrost_device *pfdev = dev->dev_private;
+>> +
+>> +	panfrost_gpu_show_fdinfo(pfdev, file->driver_priv, p);
+>> +}
+>> +
+>> +static const struct file_operations panfrost_drm_driver_fops = {
+>> +	.owner = THIS_MODULE,
+>> +	DRM_GEM_FOPS,
+>> +	.show_fdinfo = drm_show_fdinfo,
+>> +};
+>>   /*
+>>    * Panfrost driver version:
+>> @@ -535,6 +585,7 @@ static const struct drm_driver panfrost_drm_driver = {
+>>   	.driver_features	= DRIVER_RENDER | DRIVER_GEM | DRIVER_SYNCOBJ,
+>>   	.open			= panfrost_open,
+>>   	.postclose		= panfrost_postclose,
+>> +	.show_fdinfo		= panfrost_show_fdinfo,
+>>   	.ioctls			= panfrost_drm_driver_ioctls,
+>>   	.num_ioctls		= ARRAY_SIZE(panfrost_drm_driver_ioctls),
+>>   	.fops			= &panfrost_drm_driver_fops,
+>> @@ -546,6 +597,10 @@ static const struct drm_driver panfrost_drm_driver = {
+>>   	.gem_create_object	= panfrost_gem_create_object,
+>>   	.gem_prime_import_sg_table = panfrost_gem_prime_import_sg_table,
+>> +
+>> +#ifdef CONFIG_DEBUG_FS
+>> +	.debugfs_init		= panfrost_debugfs_init,
+>> +#endif
+>>   };
+>>   static int panfrost_probe(struct platform_device *pdev)
+>> diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.c b/drivers/gpu/drm/panfrost/panfrost_gpu.c
+>> index 2faa344d89ee..f0be7e19b13e 100644
+>> --- a/drivers/gpu/drm/panfrost/panfrost_gpu.c
+>> +++ b/drivers/gpu/drm/panfrost/panfrost_gpu.c
+>> @@ -73,6 +73,13 @@ int panfrost_gpu_soft_reset(struct panfrost_device *pfdev)
+>>   	gpu_write(pfdev, GPU_INT_CLEAR, GPU_IRQ_MASK_ALL);
+>>   	gpu_write(pfdev, GPU_INT_MASK, GPU_IRQ_MASK_ALL);
+>> +	/*
+>> +	 * All in-flight jobs should have released their cycle
+>> +	 * counter references upon reset, but let us make sure
+>> +	 */
+>> +	if (drm_WARN_ON(pfdev->ddev, atomic_read(&pfdev->cycle_counter.use_count) != 0))
+>> +		atomic_set(&pfdev->cycle_counter.use_count, 0);
+>> +
+>>   	return 0;
+>>   }
+>> @@ -321,6 +328,40 @@ static void panfrost_gpu_init_features(struct panfrost_device *pfdev)
+>>   		 pfdev->features.shader_present, pfdev->features.l2_present);
+>>   }
+>> +void panfrost_cycle_counter_get(struct panfrost_device *pfdev)
+>> +{
+>> +	if (atomic_inc_not_zero(&pfdev->cycle_counter.use_count))
+>> +		return;
+>> +
+>> +	spin_lock(&pfdev->cycle_counter.lock);
+>> +	if (atomic_inc_return(&pfdev->cycle_counter.use_count) == 1)
+>> +		gpu_write(pfdev, GPU_CMD, GPU_CMD_CYCLE_COUNT_START);
+>> +	spin_unlock(&pfdev->cycle_counter.lock);
+>> +}
+>> +
+>> +void panfrost_cycle_counter_put(struct panfrost_device *pfdev)
+>> +{
+>> +	if (atomic_add_unless(&pfdev->cycle_counter.use_count, -1, 1))
+>> +		return;
+>> +
+>> +	spin_lock(&pfdev->cycle_counter.lock);
+>> +	if (atomic_dec_return(&pfdev->cycle_counter.use_count) == 0)
+>> +		gpu_write(pfdev, GPU_CMD, GPU_CMD_CYCLE_COUNT_STOP);
+>> +	spin_unlock(&pfdev->cycle_counter.lock);
+>> +}
+>> +
+>> +unsigned long long panfrost_cycle_counter_read(struct panfrost_device *pfdev)
+>> +{
+>> +	u32 hi, lo;
+>> +
+>> +	do {
+>> +		hi = gpu_read(pfdev, GPU_CYCLE_COUNT_HI);
+>> +		lo = gpu_read(pfdev, GPU_CYCLE_COUNT_LO);
+>> +	} while (hi != gpu_read(pfdev, GPU_CYCLE_COUNT_HI));
+>> +
+>> +	return ((u64)hi << 32) | lo;
+>> +}
+>> +
+>>   void panfrost_gpu_power_on(struct panfrost_device *pfdev)
+>>   {
+>>   	int ret;
+>> diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.h b/drivers/gpu/drm/panfrost/panfrost_gpu.h
+>> index 468c51e7e46d..876fdad9f721 100644
+>> --- a/drivers/gpu/drm/panfrost/panfrost_gpu.h
+>> +++ b/drivers/gpu/drm/panfrost/panfrost_gpu.h
+>> @@ -16,6 +16,10 @@ int panfrost_gpu_soft_reset(struct panfrost_device *pfdev);
+>>   void panfrost_gpu_power_on(struct panfrost_device *pfdev);
+>>   void panfrost_gpu_power_off(struct panfrost_device *pfdev);
+>> +void panfrost_cycle_counter_get(struct panfrost_device *pfdev);
+>> +void panfrost_cycle_counter_put(struct panfrost_device *pfdev);
+>> +unsigned long long panfrost_cycle_counter_read(struct panfrost_device *pfdev);
+>> +
+>>   void panfrost_gpu_amlogic_quirk(struct panfrost_device *pfdev);
+>>   #endif
+>> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
+>> index 033f5e684707..fb16de2d0420 100644
+>> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
+>> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+>> @@ -159,6 +159,16 @@ panfrost_dequeue_job(struct panfrost_device *pfdev, int slot)
+>>   	struct panfrost_job *job = pfdev->jobs[slot][0];
+>>   	WARN_ON(!job);
+>> +	if (job->is_profiled) {
+>> +		if (job->engine_usage) {
+>> +			job->engine_usage->elapsed_ns[slot] +=
+>> +				ktime_to_ns(ktime_sub(ktime_get(), job->start_time));
+>> +			job->engine_usage->cycles[slot] +=
+>> +				panfrost_cycle_counter_read(pfdev) - job->start_cycles;
+>> +		}
+>> +		panfrost_cycle_counter_put(job->pfdev);
+>> +	}
+>> +
+>>   	pfdev->jobs[slot][0] = pfdev->jobs[slot][1];
+>>   	pfdev->jobs[slot][1] = NULL;
+>> @@ -233,6 +243,13 @@ static void panfrost_job_hw_submit(struct panfrost_job *job, int js)
+>>   	subslot = panfrost_enqueue_job(pfdev, js, job);
+>>   	/* Don't queue the job if a reset is in progress */
+>>   	if (!atomic_read(&pfdev->reset.pending)) {
+>> +		if (atomic_read(&pfdev->profile_mode)) {
+>> +			panfrost_cycle_counter_get(pfdev);
+>> +			job->is_profiled = true;
+>> +			job->start_time = ktime_get();
+>> +			job->start_cycles = panfrost_cycle_counter_read(pfdev);
+>> +		}
+>> +
+>>   		job_write(pfdev, JS_COMMAND_NEXT(js), JS_COMMAND_START);
+>>   		dev_dbg(pfdev->dev,
+>>   			"JS: Submitting atom %p to js[%d][%d] with head=0x%llx AS %d",
+>> @@ -660,10 +677,14 @@ panfrost_reset(struct panfrost_device *pfdev,
+>>   	 * stuck jobs. Let's make sure the PM counters stay balanced by
+>>   	 * manually calling pm_runtime_put_noidle() and
+>>   	 * panfrost_devfreq_record_idle() for each stuck job.
+>> +	 * Let's also make sure the cycle counting register's refcnt is
+>> +	 * kept balanced to prevent it from running forever
+>>   	 */
+>>   	spin_lock(&pfdev->js->job_lock);
+>>   	for (i = 0; i < NUM_JOB_SLOTS; i++) {
+>>   		for (j = 0; j < ARRAY_SIZE(pfdev->jobs[0]) && pfdev->jobs[i][j]; j++) {
+>> +			if (pfdev->jobs[i][j]->is_profiled)
+>> +				panfrost_cycle_counter_put(pfdev->jobs[i][j]->pfdev);
+>>   			pm_runtime_put_noidle(pfdev->dev);
+>>   			panfrost_devfreq_record_idle(&pfdev->pfdevfreq);
+>>   		}
+>> @@ -926,6 +947,9 @@ void panfrost_job_close(struct panfrost_file_priv *panfrost_priv)
+>>   			}
+>>   			job_write(pfdev, JS_COMMAND(i), cmd);
+>> +
+>> +			/* Jobs can outlive their file context */
+>> +			job->engine_usage = NULL;
+>>   		}
+>>   	}
+>>   	spin_unlock(&pfdev->js->job_lock);
+>> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.h b/drivers/gpu/drm/panfrost/panfrost_job.h
+>> index 8becc1ba0eb9..17ff808dba07 100644
+>> --- a/drivers/gpu/drm/panfrost/panfrost_job.h
+>> +++ b/drivers/gpu/drm/panfrost/panfrost_job.h
+>> @@ -32,6 +32,11 @@ struct panfrost_job {
+>>   	/* Fence to be signaled by drm-sched once its done with the job */
+>>   	struct dma_fence *render_done_fence;
+>> +
+>> +	struct panfrost_engine_usage *engine_usage;
+>> +	bool is_profiled;
+>> +	ktime_t start_time;
+>> +	u64 start_cycles;
+>>   };
+>>   int panfrost_job_init(struct panfrost_device *pfdev);
