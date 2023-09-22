@@ -1,46 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F4E87AAC17
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Sep 2023 10:12:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 87D597AABBC
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Sep 2023 10:06:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B32010E63E;
-	Fri, 22 Sep 2023 08:12:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1068A10E630;
+	Fri, 22 Sep 2023 08:06:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 355 seconds by postgrey-1.36 at gabe;
- Fri, 22 Sep 2023 01:31:47 UTC
-Received: from m15.mail.163.com (m15.mail.163.com [45.254.50.219])
- by gabe.freedesktop.org (Postfix) with ESMTP id 1EC1210E18D
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Sep 2023 01:31:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=KQLUY
- a3KKK3ZT24Fs/QQWKicsaIGPOdPCRwIWIKrD1s=; b=luycWt4Zg1BUPG+yqMYIe
- WfdPUppsH7JDy5y1wIqUg0z5/yC1zB5zfZl394OPmr8RPrvKJyewqc1BjXdl67D8
- 2uMBZUu+G7wZ8AyDo/e+xZ1q01c9vK/dSU4GWTC8PUIsVnMs0pDuD8tY5RK1+Mph
- f9caR/XRExSlgt2epdqVoQ=
-Received: from icess-ProLiant-DL380-Gen10.. (unknown [183.174.60.14])
- by zwqz-smtp-mta-g0-2 (Coremail) with SMTP id _____wB3fS5X7gxlowDGAw--.9931S4; 
- Fri, 22 Sep 2023 09:31:15 +0800 (CST)
-From: Ma Ke <make_ruc2021@163.com>
-To: alain.volmat@foss.st.com,
-	airlied@gmail.com,
-	daniel@ffwll.ch
-Subject: [PATCH] drm/sti: avoid potential dereference of error pointers
-Date: Fri, 22 Sep 2023 09:31:01 +0800
-Message-Id: <20230922013101.3603005-1-make_ruc2021@163.com>
-X-Mailer: git-send-email 2.37.2
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D4D9410E632
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Sep 2023 08:06:40 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 87CFD21A5F;
+ Fri, 22 Sep 2023 08:06:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1695369999; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=3QG+Cze+W0LpO1aDFCtgFLHS4SODZxsd/R/X5eIOTlU=;
+ b=pElCaexwLmft9z34QjV0bzmtxtKzDsDLCxo5VgIM6UI0sFPwl3B9ji5o80pjtcOwa4U7DX
+ rTm1e+a3Q3iSDWTA1jH2VUxsM/mBWEdpKFWZHkt9u4FYSB8bltOMPvvuR6RfdnQ9oE7grP
+ Dmu7x3q2h9eEwGAFpV/U5jojyMyX9UY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1695369999;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=3QG+Cze+W0LpO1aDFCtgFLHS4SODZxsd/R/X5eIOTlU=;
+ b=gmwV4JxQlf2vKildHti7H7hkuL2p+5TVGx5H4GNtJdTiifsS19PFTdlL4bc1ui9KBPCMAo
+ zXG3/ru7KMV/IgBA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 43B4913597;
+ Fri, 22 Sep 2023 08:06:39 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id n/+oDw9LDWXuMQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Fri, 22 Sep 2023 08:06:39 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: mpe@ellerman.id.au, npiggin@gmail.com, christophe.leroy@csgroup.eu,
+ arnd@arndb.de, deller@gmx.de, javierm@redhat.com
+Subject: [PATCH v5 0/5] ppc, fbdev: Clean up fbdev mmap helper
+Date: Fri, 22 Sep 2023 10:04:54 +0200
+Message-ID: <20230922080636.26762-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: _____wB3fS5X7gxlowDGAw--.9931S4
-X-Coremail-Antispam: 1Uf129KBjvdXoWruFyUWw4rGr43ZFW7Jw13Arb_yoW3trg_G3
- WUXr1fKrWDKa1jqF4jyrn8JasY9rZ5XF48Xr1Iqas8ur4kAry8X347Wr1fWFyUWF18tFyq
- qa1xur90krn0kjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUvcSsGvfC2KfnxnUUI43ZEXa7xRNCzt7UUUUU==
-X-Originating-IP: [183.174.60.14]
-X-CM-SenderInfo: 5pdnvshuxfjiisr6il2tof0z/xtbBFQXyC2B9oNhq-QAAsb
-X-Mailman-Approved-At: Fri, 22 Sep 2023 08:12:16 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,33 +65,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Ma Ke <make_ruc2021@163.com>
+Cc: linux-arch@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ linux-ia64@vger.kernel.org, linux-mips@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-m68k@lists.linux-m68k.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, sparclinux@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The return value of drm_atomic_get_crtc_state() needs to be
-checked. To avoid use of error pointer 'crtc_state' in case
-of the failure.
+Clean up and rename fb_pgprotect() to work without struct file. Then
+refactor the implementation for PowerPC. This change has been discussed
+at [1] in the context of refactoring fbdev's mmap code.
 
-Signed-off-by: Ma Ke <make_ruc2021@163.com>
----
- drivers/gpu/drm/sti/sti_cursor.c | 2 ++
- 1 file changed, 2 insertions(+)
+The first two patches update fbdev and replace fbdev's fb_pgprotect()
+with pgprot_framebuffer() on all architectures. The new helper's stream-
+lined interface enables more refactoring within fbdev's mmap
+implementation.
 
-diff --git a/drivers/gpu/drm/sti/sti_cursor.c b/drivers/gpu/drm/sti/sti_cursor.c
-index db0a1eb53532..e460f5ba2d87 100644
---- a/drivers/gpu/drm/sti/sti_cursor.c
-+++ b/drivers/gpu/drm/sti/sti_cursor.c
-@@ -200,6 +200,8 @@ static int sti_cursor_atomic_check(struct drm_plane *drm_plane,
- 		return 0;
- 
- 	crtc_state = drm_atomic_get_crtc_state(state, crtc);
-+	if (IS_ERR(crtc_state))
-+		return PTR_ERR(crtc_state);
- 	mode = &crtc_state->mode;
- 	dst_x = new_plane_state->crtc_x;
- 	dst_y = new_plane_state->crtc_y;
+Patches 3 to 5 adapt PowerPC's internal interfaces to provide
+phys_mem_access_prot() that works without struct file. Neither the
+architecture code or fbdev helpers need the parameter.
+
+v5:
+	* improve commit descriptions (Javier)
+	* add missing tags (Geert)
+v4:
+	* fix commit message (Christophe)
+v3:
+	* rename fb_pgrotect() to pgprot_framebuffer() (Arnd)
+v2:
+	* reorder patches to simplify merging (Michael)
+
+[1] https://lore.kernel.org/linuxppc-dev/5501ba80-bdb0-6344-16b0-0466a950f82c@suse.com/
+
+Thomas Zimmermann (5):
+  fbdev: Avoid file argument in fb_pgprotect()
+  fbdev: Replace fb_pgprotect() with pgprot_framebuffer()
+  arch/powerpc: Remove trailing whitespaces
+  arch/powerpc: Remove file parameter from phys_mem_access_prot code
+  arch/powerpc: Call internal __phys_mem_access_prot() in fbdev code
+
+ arch/ia64/include/asm/fb.h                | 15 +++++++--------
+ arch/m68k/include/asm/fb.h                | 19 ++++++++++---------
+ arch/mips/include/asm/fb.h                | 11 +++++------
+ arch/powerpc/include/asm/book3s/pgtable.h | 10 ++++++++--
+ arch/powerpc/include/asm/fb.h             | 13 +++++--------
+ arch/powerpc/include/asm/machdep.h        | 13 ++++++-------
+ arch/powerpc/include/asm/nohash/pgtable.h | 10 ++++++++--
+ arch/powerpc/include/asm/pci.h            |  4 +---
+ arch/powerpc/kernel/pci-common.c          |  3 +--
+ arch/powerpc/mm/mem.c                     |  8 ++++----
+ arch/sparc/include/asm/fb.h               | 15 +++++++++------
+ arch/x86/include/asm/fb.h                 | 10 ++++++----
+ arch/x86/video/fbdev.c                    | 15 ++++++++-------
+ drivers/video/fbdev/core/fb_chrdev.c      |  3 ++-
+ include/asm-generic/fb.h                  | 12 ++++++------
+ 15 files changed, 86 insertions(+), 75 deletions(-)
+
+
+base-commit: f8d21cb17a99b75862196036bb4bb93ee9637b74
 -- 
-2.37.2
+2.42.0
 
