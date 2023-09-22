@@ -2,59 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B265F7AB343
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Sep 2023 16:04:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 869577AB3BA
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Sep 2023 16:33:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E15110E194;
-	Fri, 22 Sep 2023 14:04:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 386E810E678;
+	Fri, 22 Sep 2023 14:33:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 440EF10E689;
- Fri, 22 Sep 2023 14:04:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1695391450; x=1726927450;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=BTfvrs5EOPQJfVJYIu6aaO3NsW53LRV0R0jYG09hQ3Y=;
- b=Dr87weIne0i6h6VKp92QFKpDrksSuKtgIhC7pRYW99wgharn5yhOikzB
- mZGh+CuuMvv8y7uhuVe6L4pibRMbvz/1Csu/spdeWly8ZuaLU6qWrRtaj
- QsIsvZ00LioXEI8Ajh2VIX/kXl/w9dyb0WlEvs1iLRwszX7UNQFEbi5XI
- h9Tiz4TLkwpPYmh2j6WLMLiYFTYYAeue+QOhM9FIZcH2F/hQkmcdVrhCy
- 56NRZ5oWBvhyZYY99BZNVlNoaMWJ26noa9Xu4QdRYIJoByu10OVIFDURa
- ob8Sn7/qLCLCpyvi1EercxuIEIRiH4Sqix2i4kXXX302zdfFSEzY6XoIg w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="378122886"
-X-IronPort-AV: E=Sophos;i="6.03,167,1694761200"; d="scan'208";a="378122886"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Sep 2023 07:03:00 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="871253379"
-X-IronPort-AV: E=Sophos;i="6.03,167,1694761200"; d="scan'208";a="871253379"
-Received: from placki-mobl.ger.corp.intel.com (HELO [10.213.200.149])
- ([10.213.200.149])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Sep 2023 07:02:32 -0700
-Message-ID: <5a92b93c-6c6c-059a-c07b-a8b0b4b2b364@linux.intel.com>
-Date: Fri, 22 Sep 2023 15:02:30 +0100
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 48BD410E678
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Sep 2023 14:33:37 +0000 (UTC)
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
+ helo=[IPv6:::1]) by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1qjhDr-00048E-Dc; Fri, 22 Sep 2023 16:33:35 +0200
+Message-ID: <fcf7b9661985da5f8d0210753565566172dbb529.camel@pengutronix.de>
+Subject: Re: [PATCH v2 3/6] drm: lcdif: rework runtime PM handling in the
+ atomic commit
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Ying Liu <victor.liu@nxp.com>, Marek Vasut <marex@denx.de>
+Date: Fri, 22 Sep 2023 16:33:35 +0200
+In-Reply-To: <AM7PR04MB70466A7C22B15EB701B9543A98FFA@AM7PR04MB7046.eurprd04.prod.outlook.com>
+References: <20230921200312.3989073-1-l.stach@pengutronix.de>
+ <20230921200312.3989073-3-l.stach@pengutronix.de>
+ <AM7PR04MB70466A7C22B15EB701B9543A98FFA@AM7PR04MB7046.eurprd04.prod.outlook.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v6 6/6] drm/drm-file: Show finer-grained BO sizes in
- drm_show_memory_stats
-Content-Language: en-US
-To: =?UTF-8?Q?Adri=c3=a1n_Larumbe?= <adrian.larumbe@collabora.com>
-References: <20230919233556.1458793-1-adrian.larumbe@collabora.com>
- <20230919233556.1458793-7-adrian.larumbe@collabora.com>
- <ccfa3697-b015-ff35-fb92-0efcbd1d7d7c@linux.intel.com>
- <6b9c8566-926d-40ff-7907-228d317fab3d@linux.intel.com>
- <rn5metso2yr2kyxix3fh2ub77jpjf6avs754eshgpd2lu33bkw@33way22pozgh>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <rn5metso2yr2kyxix3fh2ub77jpjf6avs754eshgpd2lu33bkw@33way22pozgh>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,96 +49,163 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tzimmermann@suse.de, sean@poorly.run, quic_abhinavk@quicinc.com,
- mripard@kernel.org, steven.price@arm.com, freedreno@lists.freedesktop.org,
- healych@amazon.com, Boris Brezillon <boris.brezillon@collabora.com>,
- dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- dmitry.baryshkov@linaro.org, marijn.suijten@somainline.org,
- kernel@collabora.com, linux-kernel@vger.kernel.org
+Cc: "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ dl-linux-imx <linux-imx@nxp.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ "patchwork-lst@pengutronix.de" <patchwork-lst@pengutronix.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Am Freitag, dem 22.09.2023 um 09:51 +0000 schrieb Ying Liu:
+> On Friday, September 22, 2023 4:03 AM Lucas Stach <l.stach@pengutronix.de=
+> wrote:
+> > drm_atomic_helper_commit_tail_rpm makes it hard for drivers to follow
+> > the documented encoder/bridge enable flow, as it commits all CRTC enabl=
+es
+> > before the planes are fully set up, so drivers that can't enable the
+> > display link without valid plane setup either need to do the plane setu=
+p
+> > in the CRTC enable or violate the flow by enabling the display link aft=
+er
+> > the planes have been set up. Neither of those options seem like a good
+> > idea.
+> >=20
+> > For devices that only do coarse-grained runtime PM for the whole displa=
+y
+> > controller and not per CRTC, like the i.MX LCDIF, we can handle hardwar=
+e
+> > wakeup and suspend in the atomic_commit_tail. Add a commit tail which
+> > follows the more conventional atomic commit flow of first diabling any
+> > unused CRTCs, setting up all the active plane state, then enable all
+> > active display pipes and also handles the device runtime PM at the
+> > appropriate times.
+> >=20
+> > Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+> > ---
+> > v2: new patch
+> > ---
+> >  drivers/gpu/drm/mxsfb/lcdif_drv.c | 22 +++++++++++++++++++++-
+> >  drivers/gpu/drm/mxsfb/lcdif_kms.c | 12 ++++++++++--
+> >  2 files changed, 31 insertions(+), 3 deletions(-)
+> >=20
+> > diff --git a/drivers/gpu/drm/mxsfb/lcdif_drv.c
+> > b/drivers/gpu/drm/mxsfb/lcdif_drv.c
+> > index 18de2f17e249..205f6855fb1b 100644
+> > --- a/drivers/gpu/drm/mxsfb/lcdif_drv.c
+> > +++ b/drivers/gpu/drm/mxsfb/lcdif_drv.c
+> > @@ -36,8 +36,28 @@ static const struct drm_mode_config_funcs
+> > lcdif_mode_config_funcs =3D {
+> >  	.atomic_commit		=3D drm_atomic_helper_commit,
+> >  };
+> >=20
+> > +void lcdif_commit_tail(struct drm_atomic_state *old_state)
+> > +{
+> > +	struct drm_device *drm =3D old_state->dev;
+> > +
+> > +	pm_runtime_get_sync(drm->dev);
+>=20
+> Here, pixel clock lcdif->clk is enabled via lcdif_rpm_resume(), and then =
+...
+>=20
+> > +
+> > +	drm_atomic_helper_commit_modeset_disables(drm, old_state);
+> > +	drm_atomic_helper_commit_planes(drm, old_state,
+> > +
+> > 	DRM_PLANE_COMMIT_ACTIVE_ONLY);
+> > +	drm_atomic_helper_commit_modeset_enables(drm, old_state);
+>=20
+> ... here, clk_set_rate() is called for lcdif->clk via lcdif_crtc_atomic_e=
+nable().
+> Set rate with clock enabled?
+>=20
+Yea, I don't like the pixel clock enable/disable in the runtime PM
+handling, but wanted to minimize the changes for now and I don't think
+there is any issue with changing the rate of a already enabled clock.
+Might be better to move the pixel clock enable/disable in the
+atomic_enable/disable to clear any doubt.
 
-On 22/09/2023 12:03, Adrián Larumbe wrote:
-> On 21.09.2023 11:14, Tvrtko Ursulin wrote:
->>
->> On 20/09/2023 16:32, Tvrtko Ursulin wrote:
->>>
->>> On 20/09/2023 00:34, Adrián Larumbe wrote:
->>>> The current implementation will try to pick the highest available size
->>>> display unit as soon as the BO size exceeds that of the previous
->>>> multiplier. That can lead to loss of precision in contexts of low memory
->>>> usage.
->>>>
->>>> The new selection criteria try to preserve precision, whilst also
->>>> increasing the display unit selection threshold to render more accurate
->>>> values.
->>>>
->>>> Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
->>>> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
->>>> Reviewed-by: Steven Price <steven.price@arm.com>
->>>> ---
->>>>    drivers/gpu/drm/drm_file.c | 5 ++++-
->>>>    1 file changed, 4 insertions(+), 1 deletion(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
->>>> index 762965e3d503..34cfa128ffe5 100644
->>>> --- a/drivers/gpu/drm/drm_file.c
->>>> +++ b/drivers/gpu/drm/drm_file.c
->>>> @@ -872,6 +872,8 @@ void drm_send_event(struct drm_device *dev, struct
->>>> drm_pending_event *e)
->>>>    }
->>>>    EXPORT_SYMBOL(drm_send_event);
->>>> +#define UPPER_UNIT_THRESHOLD 100
->>>> +
->>>>    static void print_size(struct drm_printer *p, const char *stat,
->>>>                   const char *region, u64 sz)
->>>>    {
->>>> @@ -879,7 +881,8 @@ static void print_size(struct drm_printer *p,
->>>> const char *stat,
->>>>        unsigned u;
->>>>        for (u = 0; u < ARRAY_SIZE(units) - 1; u++) {
->>>> -        if (sz < SZ_1K)
->>>> +        if ((sz & (SZ_1K - 1)) &&
->>>
->>> IS_ALIGNED worth it at all?
->>>
->>>> +            sz < UPPER_UNIT_THRESHOLD * SZ_1K)
->>>>                break;
->>>
->>> Excuse me for a late comment (I was away). I did not get what what is
->>> special about a ~10% threshold? Sounds to me just going with the lower
->>> unit, when size is not aligned to the higher one, would be better than
->>> sometimes precision-sometimes-not.
->>
->> FWIW both current and the threshold option make testing the feature very
->> annoying.
-> 
-> How so?
+> Another concern is lcdif_reset_block() is called via lcdif_crtc_mode_set_=
+nofb()
+> here, while plane is already set up, which means plane settings are poten=
+tially
+> reset.
+>=20
+I thought so as well, but the documentation states that only internal
+state is reset, not the user visible registers. My testing seemed to
+indicate that the plane state is unaffected by the reset, but...
 
-I have to build in the knowledge of implementation details of 
-print_size() into my IGT in order to use the right size BOs, so test is 
-able to verify stats move as expected. It just feels wrong.
-
->> So I'd really propose we simply use smaller unit when unaligned.
-> 
-> Like I said in the previous reply, for drm files whose overall BO size sum is enormous
-> but not a multiple of a MiB, this would render huge number representations in KiB.
-> I don't find this particularly comfortable to read, and then this extra precision
-> would mean nothing to nvtop or gputop, which would have to scale the size to their
-> available screen dimensions when plotting them.
-
-I don't think numbers in KiB are so huge.
-
-And I don't think people will end up reading them manually a lot anyway, 
-since you have to hunt the pid, and fd, etc.. It is much more realistic 
-that some tool like gputop will be used.
-
-And I don't think consistency of units across drivers or whatever 
-matters. Even better to keep userspace parser on their toes and make 
-then follow drm-usage-stats.rst and not any implementations, at some 
-point in time.
+> With this patch series, display shows constant color by running modetest =
+to
+> change fb pixel format.  However, doing page flip with "-v" option seems =
+fine.
+> Also, seems the issue doesn't reproduce without fbdev emulation.
+>=20
+... this seems to contradict this. I'll dig some more into this. I
+don't even know if this reset is required at all at this point, as it
+seems this is a leftover from the mxsfb code. I can't find any
+mandatory reset in the i.MX8MP reference manual.
 
 Regards,
+Lucas
 
-Tvrtko
+> Regards,
+> Liu Ying
+>=20
+> > +
+> > +	drm_atomic_helper_fake_vblank(old_state);
+> > +	drm_atomic_helper_commit_hw_done(old_state);
+> > +	drm_atomic_helper_wait_for_vblanks(drm, old_state);
+> > +
+> > +	pm_runtime_put(drm->dev);
+> > +
+> > +	drm_atomic_helper_cleanup_planes(drm, old_state);
+> > +}
+> > +
+> >  static const struct drm_mode_config_helper_funcs
+> > lcdif_mode_config_helpers =3D {
+> > -	.atomic_commit_tail =3D drm_atomic_helper_commit_tail_rpm,
+> > +	.atomic_commit_tail =3D lcdif_commit_tail,
+> >  };
+> >=20
+> >  static const struct drm_encoder_funcs lcdif_encoder_funcs =3D {
+> > diff --git a/drivers/gpu/drm/mxsfb/lcdif_kms.c
+> > b/drivers/gpu/drm/mxsfb/lcdif_kms.c
+> > index e277592e5fa5..ccee5e28f236 100644
+> > --- a/drivers/gpu/drm/mxsfb/lcdif_kms.c
+> > +++ b/drivers/gpu/drm/mxsfb/lcdif_kms.c
+> > @@ -540,7 +540,11 @@ static void lcdif_crtc_atomic_enable(struct drm_cr=
+tc
+> > *crtc,
+> >=20
+> >  	clk_set_rate(lcdif->clk, m->crtc_clock * 1000);
+> >=20
+> > -	pm_runtime_get_sync(drm->dev);
+> > +	/*
+> > +	 * Update the RPM usage count, actual resume already happened in
+> > +	 * lcdif_commit_tail wrapping all the atomic update.
+> > +	 */
+> > +	pm_runtime_get_noresume(drm->dev);
+> >=20
+> >  	lcdif_crtc_mode_set_nofb(new_cstate, new_pstate);
+> >=20
+> > @@ -576,7 +580,11 @@ static void lcdif_crtc_atomic_disable(struct drm_c=
+rtc
+> > *crtc,
+> >  	}
+> >  	spin_unlock_irq(&drm->event_lock);
+> >=20
+> > -	pm_runtime_put_sync(drm->dev);
+> > +	/*
+> > +	 * Update the RPM usage count, actual suspend happens in
+> > +	 * lcdif_commit_tail wrapping all the atomic update.
+> > +	 */
+> > +	pm_runtime_put(drm->dev);
+> >  }
+> >=20
+> >  static void lcdif_crtc_atomic_destroy_state(struct drm_crtc *crtc,
+> > --
+> > 2.39.2
+>=20
+
