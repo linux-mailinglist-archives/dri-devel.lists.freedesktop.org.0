@@ -1,42 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 869577AB3BA
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Sep 2023 16:33:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD6347AB3D4
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Sep 2023 16:40:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 386E810E678;
-	Fri, 22 Sep 2023 14:33:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D64810E683;
+	Fri, 22 Sep 2023 14:39:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 48BD410E678
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Sep 2023 14:33:37 +0000 (UTC)
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
- helo=[IPv6:::1]) by metis.whiteo.stw.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1qjhDr-00048E-Dc; Fri, 22 Sep 2023 16:33:35 +0200
-Message-ID: <fcf7b9661985da5f8d0210753565566172dbb529.camel@pengutronix.de>
-Subject: Re: [PATCH v2 3/6] drm: lcdif: rework runtime PM handling in the
- atomic commit
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Ying Liu <victor.liu@nxp.com>, Marek Vasut <marex@denx.de>
-Date: Fri, 22 Sep 2023 16:33:35 +0200
-In-Reply-To: <AM7PR04MB70466A7C22B15EB701B9543A98FFA@AM7PR04MB7046.eurprd04.prod.outlook.com>
-References: <20230921200312.3989073-1-l.stach@pengutronix.de>
- <20230921200312.3989073-3-l.stach@pengutronix.de>
- <AM7PR04MB70466A7C22B15EB701B9543A98FFA@AM7PR04MB7046.eurprd04.prod.outlook.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id DB45C10E683;
+ Fri, 22 Sep 2023 14:39:53 +0000 (UTC)
+Received: from loongson.cn (unknown [10.20.42.43])
+ by gateway (Coremail) with SMTP id _____8BxuOg1pw1ly_8qAA--.46946S3;
+ Fri, 22 Sep 2023 22:39:49 +0800 (CST)
+Received: from [10.20.42.43] (unknown [10.20.42.43])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8BxE+Qlpw1lYEcOAA--.31647S3; 
+ Fri, 22 Sep 2023 22:39:49 +0800 (CST)
+Message-ID: <905c4622-11ce-189a-a2cd-5666649cea2b@loongson.cn>
+Date: Fri, 22 Sep 2023 22:39:32 +0800
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [1/8] drm/display/dp: Add helper function to get DSC bpp
+ prescision
+Content-Language: en-US
+To: Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
+References: <20230913060606.1105349-2-mitulkumar.ajitkumar.golani@intel.com>
+From: Sui Jingfeng <suijingfeng@loongson.cn>
+In-Reply-To: <20230913060606.1105349-2-mitulkumar.ajitkumar.golani@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID: AQAAf8BxE+Qlpw1lYEcOAA--.31647S3
+X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBj93XoW7Zr4DurW8Zw1UXF17uFyxXrc_yoW5JF4xpa
+ yUCFWxA34YyFZrtFs7J3W2gay5Gwn7GFy0qrW7ZF9rAF1UCw4rWF1UAw1vqryIyr1j9r17
+ JwnF9F43Cas3CabCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
+ sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+ 0xBIdaVrnRJUUUv2b4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+ IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+ e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+ 0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
+ xVW8Jr0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx
+ 1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv
+ 67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07
+ AlzVAYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02
+ F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw
+ 1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7Cj
+ xVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r
+ 1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU1CP
+ fJUUUUU==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,163 +65,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- dl-linux-imx <linux-imx@nxp.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- "patchwork-lst@pengutronix.de" <patchwork-lst@pengutronix.de>
+Cc: jani.nikula@intel.com, suraj.kandpal@intel.com, ankit.k.nautiyal@intel.com,
+ swati2.sharma@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Freitag, dem 22.09.2023 um 09:51 +0000 schrieb Ying Liu:
-> On Friday, September 22, 2023 4:03 AM Lucas Stach <l.stach@pengutronix.de=
-> wrote:
-> > drm_atomic_helper_commit_tail_rpm makes it hard for drivers to follow
-> > the documented encoder/bridge enable flow, as it commits all CRTC enabl=
-es
-> > before the planes are fully set up, so drivers that can't enable the
-> > display link without valid plane setup either need to do the plane setu=
-p
-> > in the CRTC enable or violate the flow by enabling the display link aft=
-er
-> > the planes have been set up. Neither of those options seem like a good
-> > idea.
-> >=20
-> > For devices that only do coarse-grained runtime PM for the whole displa=
-y
-> > controller and not per CRTC, like the i.MX LCDIF, we can handle hardwar=
-e
-> > wakeup and suspend in the atomic_commit_tail. Add a commit tail which
-> > follows the more conventional atomic commit flow of first diabling any
-> > unused CRTCs, setting up all the active plane state, then enable all
-> > active display pipes and also handles the device runtime PM at the
-> > appropriate times.
-> >=20
-> > Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
-> > ---
-> > v2: new patch
-> > ---
-> >  drivers/gpu/drm/mxsfb/lcdif_drv.c | 22 +++++++++++++++++++++-
-> >  drivers/gpu/drm/mxsfb/lcdif_kms.c | 12 ++++++++++--
-> >  2 files changed, 31 insertions(+), 3 deletions(-)
-> >=20
-> > diff --git a/drivers/gpu/drm/mxsfb/lcdif_drv.c
-> > b/drivers/gpu/drm/mxsfb/lcdif_drv.c
-> > index 18de2f17e249..205f6855fb1b 100644
-> > --- a/drivers/gpu/drm/mxsfb/lcdif_drv.c
-> > +++ b/drivers/gpu/drm/mxsfb/lcdif_drv.c
-> > @@ -36,8 +36,28 @@ static const struct drm_mode_config_funcs
-> > lcdif_mode_config_funcs =3D {
-> >  	.atomic_commit		=3D drm_atomic_helper_commit,
-> >  };
-> >=20
-> > +void lcdif_commit_tail(struct drm_atomic_state *old_state)
-> > +{
-> > +	struct drm_device *drm =3D old_state->dev;
-> > +
-> > +	pm_runtime_get_sync(drm->dev);
->=20
-> Here, pixel clock lcdif->clk is enabled via lcdif_rpm_resume(), and then =
-...
->=20
-> > +
-> > +	drm_atomic_helper_commit_modeset_disables(drm, old_state);
-> > +	drm_atomic_helper_commit_planes(drm, old_state,
-> > +
-> > 	DRM_PLANE_COMMIT_ACTIVE_ONLY);
-> > +	drm_atomic_helper_commit_modeset_enables(drm, old_state);
->=20
-> ... here, clk_set_rate() is called for lcdif->clk via lcdif_crtc_atomic_e=
-nable().
-> Set rate with clock enabled?
->=20
-Yea, I don't like the pixel clock enable/disable in the runtime PM
-handling, but wanted to minimize the changes for now and I don't think
-there is any issue with changing the rate of a already enabled clock.
-Might be better to move the pixel clock enable/disable in the
-atomic_enable/disable to clear any doubt.
+Hi,
 
-> Another concern is lcdif_reset_block() is called via lcdif_crtc_mode_set_=
-nofb()
-> here, while plane is already set up, which means plane settings are poten=
-tially
-> reset.
->=20
-I thought so as well, but the documentation states that only internal
-state is reset, not the user visible registers. My testing seemed to
-indicate that the plane state is unaffected by the reset, but...
 
-> With this patch series, display shows constant color by running modetest =
-to
-> change fb pixel format.  However, doing page flip with "-v" option seems =
-fine.
-> Also, seems the issue doesn't reproduce without fbdev emulation.
->=20
-... this seems to contradict this. I'll dig some more into this. I
-don't even know if this reset is required at all at this point, as it
-seems this is a leftover from the mxsfb code. I can't find any
-mandatory reset in the i.MX8MP reference manual.
+The word 'prescision' in the commit title is a typo,
+perhaps it's more better correct it as 'precision' when merge.
 
-Regards,
-Lucas
 
-> Regards,
-> Liu Ying
->=20
-> > +
-> > +	drm_atomic_helper_fake_vblank(old_state);
-> > +	drm_atomic_helper_commit_hw_done(old_state);
-> > +	drm_atomic_helper_wait_for_vblanks(drm, old_state);
-> > +
-> > +	pm_runtime_put(drm->dev);
-> > +
-> > +	drm_atomic_helper_cleanup_planes(drm, old_state);
-> > +}
-> > +
-> >  static const struct drm_mode_config_helper_funcs
-> > lcdif_mode_config_helpers =3D {
-> > -	.atomic_commit_tail =3D drm_atomic_helper_commit_tail_rpm,
-> > +	.atomic_commit_tail =3D lcdif_commit_tail,
-> >  };
-> >=20
-> >  static const struct drm_encoder_funcs lcdif_encoder_funcs =3D {
-> > diff --git a/drivers/gpu/drm/mxsfb/lcdif_kms.c
-> > b/drivers/gpu/drm/mxsfb/lcdif_kms.c
-> > index e277592e5fa5..ccee5e28f236 100644
-> > --- a/drivers/gpu/drm/mxsfb/lcdif_kms.c
-> > +++ b/drivers/gpu/drm/mxsfb/lcdif_kms.c
-> > @@ -540,7 +540,11 @@ static void lcdif_crtc_atomic_enable(struct drm_cr=
-tc
-> > *crtc,
-> >=20
-> >  	clk_set_rate(lcdif->clk, m->crtc_clock * 1000);
-> >=20
-> > -	pm_runtime_get_sync(drm->dev);
-> > +	/*
-> > +	 * Update the RPM usage count, actual resume already happened in
-> > +	 * lcdif_commit_tail wrapping all the atomic update.
-> > +	 */
-> > +	pm_runtime_get_noresume(drm->dev);
-> >=20
-> >  	lcdif_crtc_mode_set_nofb(new_cstate, new_pstate);
-> >=20
-> > @@ -576,7 +580,11 @@ static void lcdif_crtc_atomic_disable(struct drm_c=
-rtc
-> > *crtc,
-> >  	}
-> >  	spin_unlock_irq(&drm->event_lock);
-> >=20
-> > -	pm_runtime_put_sync(drm->dev);
-> > +	/*
-> > +	 * Update the RPM usage count, actual suspend happens in
-> > +	 * lcdif_commit_tail wrapping all the atomic update.
-> > +	 */
-> > +	pm_runtime_put(drm->dev);
-> >  }
-> >=20
-> >  static void lcdif_crtc_atomic_destroy_state(struct drm_crtc *crtc,
-> > --
-> > 2.39.2
->=20
+On 2023/9/13 14:05, Mitul Golani wrote:
+> From: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
+>
+> Add helper to get the DSC bits_per_pixel precision for the DP sink.
+>
+> Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
+> Reviewed-by: Suraj Kandpal <suraj.kandpal@intel.com>
+> ---
+>   drivers/gpu/drm/display/drm_dp_helper.c | 27 +++++++++++++++++++++++++
+>   include/drm/display/drm_dp_helper.h     |  1 +
+>   2 files changed, 28 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
+> index 8a1b64c57dfd..5c23d5b8fc50 100644
+> --- a/drivers/gpu/drm/display/drm_dp_helper.c
+> +++ b/drivers/gpu/drm/display/drm_dp_helper.c
+> @@ -2323,6 +2323,33 @@ int drm_dp_read_desc(struct drm_dp_aux *aux, struct drm_dp_desc *desc,
+>   }
+>   EXPORT_SYMBOL(drm_dp_read_desc);
+>   
+> +/**
+> + * drm_dp_dsc_sink_bpp_incr() - Get bits per pixel increment
+> + * @dsc_dpcd: DSC capabilities from DPCD
+> + *
+> + * Returns the bpp precision supported by the DP sink.
+> + */
+> +u8 drm_dp_dsc_sink_bpp_incr(const u8 dsc_dpcd[DP_DSC_RECEIVER_CAP_SIZE])
+> +{
+> +	u8 bpp_increment_dpcd = dsc_dpcd[DP_DSC_BITS_PER_PIXEL_INC - DP_DSC_SUPPORT];
+> +
+> +	switch (bpp_increment_dpcd) {
+> +	case DP_DSC_BITS_PER_PIXEL_1_16:
+> +		return 16;
+> +	case DP_DSC_BITS_PER_PIXEL_1_8:
+> +		return 8;
+> +	case DP_DSC_BITS_PER_PIXEL_1_4:
+> +		return 4;
+> +	case DP_DSC_BITS_PER_PIXEL_1_2:
+> +		return 2;
+> +	case DP_DSC_BITS_PER_PIXEL_1_1:
+> +		return 1;
+> +	}
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL(drm_dp_dsc_sink_bpp_incr);
+> +
+>   /**
+>    * drm_dp_dsc_sink_max_slice_count() - Get the max slice count
+>    * supported by the DSC sink.
+> diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
+> index 3369104e2d25..6968d4d87931 100644
+> --- a/include/drm/display/drm_dp_helper.h
+> +++ b/include/drm/display/drm_dp_helper.h
+> @@ -164,6 +164,7 @@ drm_dp_is_branch(const u8 dpcd[DP_RECEIVER_CAP_SIZE])
+>   }
+>   
+>   /* DP/eDP DSC support */
+> +u8 drm_dp_dsc_sink_bpp_incr(const u8 dsc_dpcd[DP_DSC_RECEIVER_CAP_SIZE]);
+>   u8 drm_dp_dsc_sink_max_slice_count(const u8 dsc_dpcd[DP_DSC_RECEIVER_CAP_SIZE],
+>   				   bool is_edp);
+>   u8 drm_dp_dsc_sink_line_buf_depth(const u8 dsc_dpcd[DP_DSC_RECEIVER_CAP_SIZE]);
 
