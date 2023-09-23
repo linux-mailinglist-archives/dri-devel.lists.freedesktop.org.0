@@ -2,81 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD72D7AC421
-	for <lists+dri-devel@lfdr.de>; Sat, 23 Sep 2023 19:42:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97AFC7AC3C4
+	for <lists+dri-devel@lfdr.de>; Sat, 23 Sep 2023 18:43:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0AB9C10E077;
-	Sat, 23 Sep 2023 17:42:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB3DD10E02E;
+	Sat, 23 Sep 2023 16:43:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from omta38.uswest2.a.cloudfilter.net
- (omta38.uswest2.a.cloudfilter.net [35.89.44.37])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D030510E077
- for <dri-devel@lists.freedesktop.org>; Sat, 23 Sep 2023 17:42:09 +0000 (UTC)
-Received: from eig-obgw-5009a.ext.cloudfilter.net ([10.0.29.176])
- by cmsmtp with ESMTP
- id k0HCqKYF4QFHRk6dtqwXIC; Sat, 23 Sep 2023 17:42:09 +0000
-Received: from gator4166.hostgator.com ([108.167.133.22]) by cmsmtp with ESMTPS
- id k6dsqdexUHkIqk6dsqMwTK; Sat, 23 Sep 2023 17:42:09 +0000
-X-Authority-Analysis: v=2.4 cv=WPFs41gR c=1 sm=1 tr=0 ts=650f2371
- a=1YbLdUo/zbTtOZ3uB5T3HA==:117 a=P7XfKmiOJ4/qXqHZrN7ymg==:17
- a=OWjo9vPv0XrRhIrVQ50Ab3nP57M=:19 a=dLZJa+xiwSxG16/P+YVxDGlgEgI=:19
- a=IkcTkHD0fZMA:10 a=zNV7Rl7Rt7sA:10 a=wYkD_t78qR0A:10 a=NEAV23lmAAAA:8
- a=VwQbUJbxAAAA:8 a=e5mUnYsNAAAA:8 a=cm27Pg_UAAAA:8 a=HvF037n1xESchLcPDVoA:9
- a=QEXdDO2ut3YA:10 a=AjGcO6oz07-iQ99wixmX:22 a=Vxmtnl_E_bksehYqCbjh:22
- a=xmb-EsYY8bH0VWELuYED:22
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
- In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
- :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
- Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
- List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=0rkBlmV7dOjQhBHsZ5GTBisbKAaQB5v8qd8FFYm1jjE=; b=gDzaf9mgGEPzjYwWt9k1zjunVm
- kiCe+R15b5ygw6mW8y8DI/nchsHnlOi0xRigLWG9oGd0KFCP8ir2WiRrQn5NboMn0nAM34Nd42LZ6
- x+sLRke2d85WZDZirtFoJwv1l7juJIkSTJ3YDR0sW80cSL6MuhK/mop5lNe/t9qmnq3m+4X3DYT+E
- mtTHzKIq6RwlQKypARoflwQ8shVmU2nFsMiJx9Xnfd/vHjrqhrvJQz6ZK9/hYHei0v1L7xiptgwry
- Zb7r76eQN4oDMZxD1kZo/QcTheXAi9fLif9ydnGNpHnq37lJdVJ7QPbAlYP72cehx1CpJUxRlh9bJ
- o+S6M/6g==;
-Received: from [94.239.20.48] (port=52760 helo=[192.168.1.98])
- by gator4166.hostgator.com with esmtpsa (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.96)
- (envelope-from <gustavo@embeddedor.com>) id 1qjy3g-003bRP-1r;
- Sat, 23 Sep 2023 03:32:12 -0500
-Message-ID: <6dae12b4-125c-a7be-4129-75065f7a5128@embeddedor.com>
-Date: Sat, 23 Sep 2023 10:33:17 -0600
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
+ [IPv6:2a00:1450:4864:20::433])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E2CE10E02E
+ for <dri-devel@lists.freedesktop.org>; Sat, 23 Sep 2023 16:43:00 +0000 (UTC)
+Received: by mail-wr1-x433.google.com with SMTP id
+ ffacd0b85a97d-31dcf18f9e2so3734416f8f.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 23 Sep 2023 09:43:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1695487379; x=1696092179; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=+ehvNyN1e8AcFsIaExWpUQQDC3O+XNhpuGUxABDsT1k=;
+ b=c199qlkXYKuODkIDD20fdq9+PLA93hruRMGal3TfOiE7re00o8kNJCPDlVD37U+4gD
+ hbnZvZqIN4jWBlA/exPAOdFN9JbCHt7vQQd1WjoujTt8MEoWTO1yL1mUrwPzJbHNfyAu
+ RDydcxSw+plQAN8gbDe2z5QUZNKqBNlg+EtMOIzSecE5o/krsG0bl0pzPVBccofyJdm/
+ vU0qPObXdmTUkyKxHA+YKiBdL7l1TVIK0BYvVAXQlwCGAd7KWsjmzfMFVy+KLzvfoYNx
+ po54fi0hcJd9xWUxqszWRwuqLIxB05Mkq4BaPyzM9zC8oAYprcknGxRTcajRfmNilFjW
+ KQgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1695487379; x=1696092179;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=+ehvNyN1e8AcFsIaExWpUQQDC3O+XNhpuGUxABDsT1k=;
+ b=gV86PdyshGDEtAJDmiigc0HrNs9O9AWBK7EEe/2F20BcLCXkXt1ll6QUdo957PhCut
+ WxQRCLGs21cptPoFo/SbTunsAlemBaVMFkxhR8iJh6sElnytKOlvTPGHHg6Z6+wo6IQC
+ Gn2j4r3q9s7eJzot6mj1wELxnSGgZW/XmUfSrv4aTvtAutwbe2eE7FG3yOGIJ19mK9Ix
+ YhzKvlTDE69URJH4u6Xs3Tpmg4YqGBdJ7YTDnuvOpxNBfJ7IGCmIkvTtULF51wfACEuD
+ esFz1/PCVvO2zwYuab8/IQnZpdgmKGY2wipUraULpf13/7XQChuuPshvyhS2x+k8865C
+ a0mw==
+X-Gm-Message-State: AOJu0YyYCCsv1wvmaRCsHB3JuOjpiYFpg0KYjj9RDgA73MNzPF5R3tkI
+ fxFdUgpvAs88W6T6zunvUx8urQ==
+X-Google-Smtp-Source: AGHT+IHeYkcu/RtMUX5lf2uTUiwk5whv3Kim5HQRxv8v4Wkt6ThO4w/ApV1UJK2BVwSR7UZ8q2JpuQ==
+X-Received: by 2002:adf:ea84:0:b0:319:6327:6adb with SMTP id
+ s4-20020adfea84000000b0031963276adbmr2170369wrm.70.1695487378995; 
+ Sat, 23 Sep 2023 09:42:58 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.219.100])
+ by smtp.gmail.com with ESMTPSA id
+ x10-20020a05600c21ca00b004051b994014sm10434968wmj.19.2023.09.23.09.42.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 23 Sep 2023 09:42:58 -0700 (PDT)
+Message-ID: <4fdfe29b-aea7-8180-d2e3-5caa1beb7232@linaro.org>
+Date: Sat, 23 Sep 2023 18:42:55 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.15.1
-Subject: Re: [PATCH] video: fbdev: mmp: Annotate struct mmphw_ctrl with
- __counted_by
+Subject: Re: [PATCH v6 02/16] dt-bindings: media: mediatek: mdp3: split out
+ general properties
 Content-Language: en-US
-To: Kees Cook <keescook@chromium.org>, Helge Deller <deller@gmx.de>
-References: <20230922175137.work.062-kees@kernel.org>
-From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-In-Reply-To: <20230922175137.work.062-kees@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Moudy Ho <moudy.ho@mediatek.com>, Chun-Kuang Hu
+ <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>
+References: <20230922072116.11009-1-moudy.ho@mediatek.com>
+ <20230922072116.11009-3-moudy.ho@mediatek.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230922072116.11009-3-moudy.ho@mediatek.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse,
- please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
-X-AntiAbuse: Original Domain - lists.freedesktop.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - embeddedor.com
-X-BWhitelist: no
-X-Source-IP: 94.239.20.48
-X-Source-L: No
-X-Exim-ID: 1qjy3g-003bRP-1r
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: ([192.168.1.98]) [94.239.20.48]:52760
-X-Source-Auth: gustavo@embeddedor.com
-X-Email-Count: 0
-X-Org: HG=hgshared;ORG=hostgator;
-X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
-X-Local-Domain: yes
-X-CMAE-Envelope: MS4xfD4HZBNjtB6rpBkfRWjnOVapAPFJGHZ1tZ+01qBIJ0Xz0anZGPDs+eX1HTr1fOKsTcLxihb40oO4AP6asgLNvgzsYjjdK2nchuzMZFeKYFgZi5DezAqS
- WNjn6S2RnCP50C/YnJ9YUucJNM+5kYhOKQNv+JbtLYwfp5CelHrdnyV2eoqiNo4KkcpClhhPRdCwmFY9eI4V48m7wmDgm3AkVFw8o+FDF3NpW+bkGxOW9CtL
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,51 +87,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Tom Rix <trix@redhat.com>,
- llvm@lists.linux.dev, Nick Desaulniers <ndesaulniers@google.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Nathan Chancellor <nathan@kernel.org>, linux-hardening@vger.kernel.org
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 9/22/23 11:51, Kees Cook wrote:
-> Prepare for the coming implementation by GCC and Clang of the __counted_by
-> attribute. Flexible array members annotated with __counted_by can have
-> their accesses bounds-checked at run-time checking via CONFIG_UBSAN_BOUNDS
-> (for array indexing) and CONFIG_FORTIFY_SOURCE (for strcpy/memcpy-family
-> functions).
+On 22/09/2023 09:21, Moudy Ho wrote:
+> In order to minimize duplication and standardize the document style,
+> it is necessary to separate the general properties specific to
+> MediaTek MDP3 RDMA.
 > 
-> As found with Coccinelle[1], add __counted_by for struct mmphw_ctrl.
-> 
-> [1] https://github.com/kees/kernel-tools/blob/trunk/coccinelle/examples/counted_by.cocci
-> 
-> Cc: Helge Deller <deller@gmx.de>
-> Cc: linux-fbdev@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> Signed-off-by: Kees Cook <keescook@chromium.org>
-
-Reviewed-by: Gustavo A. R. Silva <gustavoars@kernel.org>
-
-Thanks
--- 
-Gustavo
-
+> Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
 > ---
->   drivers/video/fbdev/mmp/hw/mmp_ctrl.h | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/video/fbdev/mmp/hw/mmp_ctrl.h b/drivers/video/fbdev/mmp/hw/mmp_ctrl.h
-> index 167585a889d3..719b99a9bc77 100644
-> --- a/drivers/video/fbdev/mmp/hw/mmp_ctrl.h
-> +++ b/drivers/video/fbdev/mmp/hw/mmp_ctrl.h
-> @@ -1406,7 +1406,7 @@ struct mmphw_ctrl {
->   
->   	/*pathes*/
->   	int path_num;
-> -	struct mmphw_path_plat path_plats[];
-> +	struct mmphw_path_plat path_plats[] __counted_by(path_num);
->   };
->   
->   static inline int overlay_is_vid(struct mmp_overlay *overlay)
+>  .../media/mediatek,mdp3-rdma-common.yaml      | 72 +++++++++++++++++++
+>  1 file changed, 72 insertions(+)
+
+I don't understand why this is a separate patch. It's not used, not
+effective and not visible for us how it extracts common parts.
+
+Best regards,
+Krzysztof
+
