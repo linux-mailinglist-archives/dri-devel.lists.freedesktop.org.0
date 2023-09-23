@@ -2,38 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94C5F7AC6FD
-	for <lists+dri-devel@lfdr.de>; Sun, 24 Sep 2023 09:43:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C2ED7AC763
+	for <lists+dri-devel@lfdr.de>; Sun, 24 Sep 2023 11:42:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B76910E0E9;
-	Sun, 24 Sep 2023 07:43:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2741888668;
+	Sun, 24 Sep 2023 09:41:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m15.mail.163.com (m15.mail.163.com [45.254.50.220])
- by gabe.freedesktop.org (Postfix) with ESMTP id 086D010E0E9
- for <dri-devel@lists.freedesktop.org>; Sun, 24 Sep 2023 07:43:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-Id; bh=vxKS9KC6iytiKdRb2T
- ho88kJjzndWMEjO/j3A7H4hhM=; b=hbJlbzNbkdwJvE9ncepntQnc4b6BFS3zeb
- 69DhD8Rx5jVE4bpQzGiXx6G0KGRCO8OTD78i6zxT0Da3XigfR/cPmmrfr5241Sov
- U7uXTAiAEiii5qhwYpmLgCj1qzF8I/ZsgddF8XtUXhlWh+rhCV2UprizD32HXN/m
- QhUs1Elbw=
-Received: from localhost.localdomain (unknown [223.104.131.178])
- by zwqz-smtp-mta-g1-4 (Coremail) with SMTP id _____wCHb49k6A9liNKvCw--.59887S2;
- Sun, 24 Sep 2023 15:42:29 +0800 (CST)
-From: liuhaoran <liuhaoran14@163.com>
-To: airlied@gmail.com
-Subject: [PATCH] drm/sun4i: Add error handling in sun4i_layer_init_one()
-Date: Sun, 24 Sep 2023 15:42:16 +0800
-Message-Id: <20230924074216.17390-1-liuhaoran14@163.com>
-X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID: _____wCHb49k6A9liNKvCw--.59887S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7KF4kAr4fZr1kGw1rKrWUtwb_yoW8Gr4DpF
- 4rKa45Kr10ka9aga43AF48Zw1agw40g34fWr9xArn3Xrn0yFnIk3s8G3sxKr45GrWkuw4j
- gw17ZFWqkFnFk3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UsZ2hUUUUU=
-X-Originating-IP: [223.104.131.178]
-X-CM-SenderInfo: xolxxtxrud0iqu6rljoofrz/1tbiGAb0glv2oA1IfAAAsc
+Received: from omta034.useast.a.cloudfilter.net
+ (omta034.useast.a.cloudfilter.net [44.202.169.33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C1FA810E002;
+ Sun, 24 Sep 2023 09:41:46 +0000 (UTC)
+Received: from eig-obgw-5004a.ext.cloudfilter.net ([10.0.29.221])
+ by cmsmtp with ESMTP
+ id kLYfqK36Pez0CkLc8qFdeB; Sun, 24 Sep 2023 09:41:20 +0000
+Received: from gator4166.hostgator.com ([108.167.133.22]) by cmsmtp with ESMTPS
+ id kLcVq80vZuHtrkLcWqjL0H; Sun, 24 Sep 2023 09:41:44 +0000
+X-Authority-Analysis: v=2.4 cv=B8eqbchM c=1 sm=1 tr=0 ts=65100458
+ a=1YbLdUo/zbTtOZ3uB5T3HA==:117 a=P7XfKmiOJ4/qXqHZrN7ymg==:17
+ a=OWjo9vPv0XrRhIrVQ50Ab3nP57M=:19 a=dLZJa+xiwSxG16/P+YVxDGlgEgI=:19
+ a=IkcTkHD0fZMA:10 a=zNV7Rl7Rt7sA:10 a=wYkD_t78qR0A:10 a=NEAV23lmAAAA:8
+ a=20KFwNOVAAAA:8 a=pGLkceISAAAA:8 a=e5mUnYsNAAAA:8 a=cm27Pg_UAAAA:8
+ a=VwQbUJbxAAAA:8 a=HvF037n1xESchLcPDVoA:9 a=QEXdDO2ut3YA:10
+ a=Vxmtnl_E_bksehYqCbjh:22 a=xmb-EsYY8bH0VWELuYED:22 a=AjGcO6oz07-iQ99wixmX:22
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+ :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+ Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+ List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=LJpKFYI8HAurZQUNChdEApljY9SFiaiFueT/5w9ez8A=; b=WyNj3hQ4m7k99wwrLc5UCHs1Jc
+ 69JnjimjP16rPGM6Z286Pdu1EnpdBf8mvn8UjKRtZI4bAMSZGQvQ1d9x7xbbF7jhGmj8i/KfgpVr7
+ c6kMdlOOArSNLIvPI7ALTr7ZlFSq7jOM6qDaQO6AiuyehwfBegbjTZSqAQxzkVDGe842WreDX4kmx
+ XHRRkPtm2Lm/yGKMlAU/xXjqaVY17tUk+7nbeeqd30QAFyaig/PT4oxogP8/FHPvh54Qsp4aKp1TB
+ 3O/2rSe65FJAdRxmlsC+oYSc83Oe5/HxuSX2iIA+whoUWfQqwbJkO09DT4sckq66htTHHi6PRZ1hS
+ 7w0+uMIg==;
+Received: from [94.239.20.48] (port=43422 helo=[192.168.1.98])
+ by gator4166.hostgator.com with esmtpsa (TLS1.2) tls
+ TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.96)
+ (envelope-from <gustavo@embeddedor.com>) id 1qjkgF-000Q0w-1S;
+ Fri, 22 Sep 2023 13:15:07 -0500
+Message-ID: <1916c681-cc7b-c101-de7d-5e9e0746c0c1@embeddedor.com>
+Date: Fri, 22 Sep 2023 20:15:58 -0600
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH 5/9] drm/nouveau/pm: Annotate struct nvkm_perfdom with
+ __counted_by
+Content-Language: en-US
+To: Kees Cook <keescook@chromium.org>, David Airlie <airlied@gmail.com>
+References: <20230922173110.work.084-kees@kernel.org>
+ <20230922173216.3823169-5-keescook@chromium.org>
+From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+In-Reply-To: <20230922173216.3823169-5-keescook@chromium.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse,
+ please include it with any abuse report
+X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
+X-AntiAbuse: Original Domain - lists.freedesktop.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - embeddedor.com
+X-BWhitelist: no
+X-Source-IP: 94.239.20.48
+X-Source-L: No
+X-Exim-ID: 1qjkgF-000Q0w-1S
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: ([192.168.1.98]) [94.239.20.48]:43422
+X-Source-Auth: gustavo@embeddedor.com
+X-Email-Count: 0
+X-Org: HG=hgshared;ORG=hostgator;
+X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
+X-Local-Domain: yes
+X-CMAE-Envelope: MS4xfFScdSOUqncYix2lm2KBoRjz6sBbKil7JRBEVEbJzIZUpSgEEVL30b0TeRkfdsC5Io9KHWZ2uskGrffr/jw6ROdztAU62NCzxve4QA2SZs6pdwdvCXsE
+ bK2bFMXZH7SueFPrTIHkU4tbn55mf/ht3Vtvy12YHBzP4QCG1AcshHuny3e1oV3OP787M/Hledz5GJbLUqznaROGwOJhDPPQSuOeRm9233NWYr/7wH+YMkuT
+ yIaMVVb/Jxynj3imcIuwj713tKtTzngdLpa3spSdi0uitCk/YVR8lUviRwwlCADO7iYXLHPaHSNst+GVhkdwR0U9/YBUDKoVYMDh4MbjU4hGc1rsH7aYlWtq
+ qzlE2FVr9EZClFO0pGUwYwx1QZNc3YDA0UCX7zEa66ArpM5INu0=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,51 +92,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: liuhaoran <liuhaoran14@163.com>, samuel@sholland.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- jernej.skrabec@gmail.com, linux-sunxi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org
+Cc: Tejas Upadhyay <tejas.upadhyay@intel.com>, Emma Anholt <emma@anholt.net>,
+ nouveau@lists.freedesktop.org, llvm@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, Chris Wilson <chris@chris-wilson.co.uk>,
+ Prike Liang <Prike.Liang@amd.com>, Huang Rui <ray.huang@amd.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Matthew Brost <matthew.brost@intel.com>, Karol Herbst <kherbst@redhat.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, amd-gfx@lists.freedesktop.org,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, Nathan Chancellor <nathan@kernel.org>,
+ VMware Graphics Reviewers <linux-graphics-maintainer@vmware.com>,
+ Ben Skeggs <bskeggs@redhat.com>, Andi Shyti <andi.shyti@linux.intel.com>,
+ Tom Rix <trix@redhat.com>, David Airlie <airlied@redhat.com>,
+ virtualization@lists.linux-foundation.org, linux-hardening@vger.kernel.org,
+ Lijo Lazar <lijo.lazar@amd.com>, Yifan Zhang <yifan1.zhang@amd.com>,
+ linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ Kevin Wang <kevin1.wang@amd.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Melissa Wen <mwen@igalia.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Maxime Ripard <mripard@kernel.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Evan Quan <evan.quan@amd.com>, Sean Paul <sean@poorly.run>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Xiaojian Du <Xiaojian.Du@amd.com>, Le Ma <le.ma@amd.com>,
+ freedreno@lists.freedesktop.org, Bjorn Andersson <andersson@kernel.org>, "Pan,
+ Xinhui" <Xinhui.Pan@amd.com>, Nick Desaulniers <ndesaulniers@google.com>,
+ linux-kernel@vger.kernel.org, Alex Deucher <alexander.deucher@amd.com>,
+ Nirmoy Das <nirmoy.das@intel.com>, Lang Yu <Lang.Yu@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ John Harrison <john.c.harrison@Intel.com>,
+ Hawking Zhang <Hawking.Zhang@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch adds error-handling for the drm_plane_create_alpha_property()
-and drm_plane_create_zpos_property() inside the dw_hdmi_imx_probe().
 
-Signed-off-by: liuhaoran <liuhaoran14@163.com>
----
- drivers/gpu/drm/sun4i/sun4i_layer.c | 19 ++++++++++++++++---
- 1 file changed, 16 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_layer.c b/drivers/gpu/drm/sun4i/sun4i_layer.c
-index 98f3176366c0..a3343afb7935 100644
---- a/drivers/gpu/drm/sun4i/sun4i_layer.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_layer.c
-@@ -224,9 +224,22 @@ static struct sun4i_layer *sun4i_layer_init_one(struct drm_device *drm,
- 	drm_plane_helper_add(&layer->plane,
- 			     &sun4i_backend_layer_helper_funcs);
- 
--	drm_plane_create_alpha_property(&layer->plane);
--	drm_plane_create_zpos_property(&layer->plane, layer->id,
--				       0, SUN4I_BACKEND_NUM_LAYERS - 1);
-+	ret = drm_plane_create_alpha_property(&layer->plane);
-+
-+	if (ret) {
-+		dev_err(drm->dev, "Failed to install alpha property,
-+			rc = %d\n", ret);
-+		return ERR_PTR(ret);
-+	}
-+
-+	ret = drm_plane_create_zpos_property(&layer->plane, layer->id, 0,
-+					     SUN4I_BACKEND_NUM_LAYERS - 1);
-+
-+	if (ret) {
-+		dev_err(drm->dev, "Failed to install zpos property,
-+			rc = %d\n", ret);
-+		return ERR_PTR(ret);
-+	}
- 
- 	return layer;
- }
+On 9/22/23 11:32, Kees Cook wrote:
+> Prepare for the coming implementation by GCC and Clang of the __counted_by
+> attribute. Flexible array members annotated with __counted_by can have
+> their accesses bounds-checked at run-time checking via CONFIG_UBSAN_BOUNDS
+> (for array indexing) and CONFIG_FORTIFY_SOURCE (for strcpy/memcpy-family
+> functions).
+> 
+> As found with Coccinelle[1], add __counted_by for struct nvkm_perfdom.
+> 
+> [1] https://github.com/kees/kernel-tools/blob/trunk/coccinelle/examples/counted_by.cocci
+> 
+> Cc: Ben Skeggs <bskeggs@redhat.com>
+> Cc: Karol Herbst <kherbst@redhat.com>
+> Cc: Lyude Paul <lyude@redhat.com>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: nouveau@lists.freedesktop.org
+> Signed-off-by: Kees Cook <keescook@chromium.org>
+
+Reviewed-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+
+Thanks
 -- 
-2.17.1
+Gustavo
 
+> ---
+>   drivers/gpu/drm/nouveau/nvkm/engine/pm/priv.h | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/pm/priv.h b/drivers/gpu/drm/nouveau/nvkm/engine/pm/priv.h
+> index 6ae25d3e7f45..c011227f7052 100644
+> --- a/drivers/gpu/drm/nouveau/nvkm/engine/pm/priv.h
+> +++ b/drivers/gpu/drm/nouveau/nvkm/engine/pm/priv.h
+> @@ -82,7 +82,7 @@ struct nvkm_perfdom {
+>   	u8  mode;
+>   	u32 clk;
+>   	u16 signal_nr;
+> -	struct nvkm_perfsig signal[];
+> +	struct nvkm_perfsig signal[] __counted_by(signal_nr);
+>   };
+>   
+>   struct nvkm_funcdom {
