@@ -1,81 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27BC27AC50A
-	for <lists+dri-devel@lfdr.de>; Sat, 23 Sep 2023 22:22:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 88D2F7AC543
+	for <lists+dri-devel@lfdr.de>; Sat, 23 Sep 2023 23:49:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CFE0810E092;
-	Sat, 23 Sep 2023 20:21:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 825BB10E066;
+	Sat, 23 Sep 2023 21:49:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from omta038.useast.a.cloudfilter.net
- (omta038.useast.a.cloudfilter.net [44.202.169.37])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E84910E092
- for <dri-devel@lists.freedesktop.org>; Sat, 23 Sep 2023 20:21:52 +0000 (UTC)
-Received: from eig-obgw-6009a.ext.cloudfilter.net ([10.0.30.184])
- by cmsmtp with ESMTP
- id k7Qfq2tx8WU1ck98RqVFYk; Sat, 23 Sep 2023 20:21:51 +0000
-Received: from gator4166.hostgator.com ([108.167.133.22]) by cmsmtp with ESMTPS
- id k98Qq80lXTFO2k98Qqg1ZX; Sat, 23 Sep 2023 20:21:50 +0000
-X-Authority-Analysis: v=2.4 cv=A8l/goaG c=1 sm=1 tr=0 ts=650f48de
- a=1YbLdUo/zbTtOZ3uB5T3HA==:117 a=P7XfKmiOJ4/qXqHZrN7ymg==:17
- a=OWjo9vPv0XrRhIrVQ50Ab3nP57M=:19 a=dLZJa+xiwSxG16/P+YVxDGlgEgI=:19
- a=IkcTkHD0fZMA:10 a=zNV7Rl7Rt7sA:10 a=wYkD_t78qR0A:10 a=NEAV23lmAAAA:8
- a=VwQbUJbxAAAA:8 a=e5mUnYsNAAAA:8 a=cm27Pg_UAAAA:8 a=HvF037n1xESchLcPDVoA:9
- a=QEXdDO2ut3YA:10 a=AjGcO6oz07-iQ99wixmX:22 a=Vxmtnl_E_bksehYqCbjh:22
- a=xmb-EsYY8bH0VWELuYED:22
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
- In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
- :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
- Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
- List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=dMtmtT6tX/J/Z9nN8F6wXmACJvxIhIjSA2EPSc7V54o=; b=nLSy7Yyg8X16vsP4+fNRB4Rotn
- 66Cg4GycjlShrC9MRh6WTMvGPinJuZLxjOs9e7FizT69nAYp/OkhR/IhrDiNHjixOGY/4eQKAaoAX
- k5Mo8kidONlYLjZEvPv5x03+/cg8aCmfQvKmVYwJJLElNvPgHwbAr3yxCrtCiOdxlxn92geZB8iJJ
- XBNc4Flajgvmg6YhTs2c+QPVHTvFUWeE0RH4EULSQF2sBJ0kPOkstu9MQClUpd+K2JjCAdzdvLssr
- /wYuucKyHkJ8cnJPRYkXa3e+aPSVpAWxxoGE685mXoLtUsQXWVVXwa5l9DNTpIkhtmnfuc3VkZQ8v
- 6sGqmEew==;
-Received: from [94.239.20.48] (port=58218 helo=[192.168.1.98])
- by gator4166.hostgator.com with esmtpsa (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.96)
- (envelope-from <gustavo@embeddedor.com>) id 1qjy3s-003bcu-2i;
- Sat, 23 Sep 2023 03:32:25 -0500
-Message-ID: <f1aa9b5a-6867-6000-8f3c-9a15eb216961@embeddedor.com>
-Date: Sat, 23 Sep 2023 10:33:29 -0600
+Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com
+ [IPv6:2a00:1450:4864:20::22f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 63E2B10E052
+ for <dri-devel@lists.freedesktop.org>; Sat, 23 Sep 2023 21:49:15 +0000 (UTC)
+Received: by mail-lj1-x22f.google.com with SMTP id
+ 38308e7fff4ca-2c131ddfc95so56837241fa.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 23 Sep 2023 14:49:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1695505753; x=1696110553; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=0mKikz6iQlf/2X/8udeNvqptmCav0BXWVkbR1ppszpA=;
+ b=HBoeRZsnjtnC9ixRKA4jXNVh7y+H5GZiCqMSSpMqoNNB4AcqIFsfq879tVhZypQ8Aa
+ 6AWTdQVWNM5OTyWQtxlDpCuY+SO+9nlXaq4c8/7b+l4d5+uEN+ImKN5HDiC8yjNtDtK6
+ SQ1wB/JjlTHrU2h549C42FV2voysr8u5Fd/nLjdLyYp+uMGZn0PRlffQOStUhrZBWt+C
+ w93cVnfEK0QjRYYKnMev23uFuOiYnoJMi1RNrhBFW/NqwfVRGHK7T4VGy5NaN8rpTz0L
+ N6mV469sxgMS+8/zNQlgoWEUelsttlyED8nU/t6UWZf12iWsNKieCQ6d1uv9DtghVXCj
+ DYbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1695505753; x=1696110553;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=0mKikz6iQlf/2X/8udeNvqptmCav0BXWVkbR1ppszpA=;
+ b=wYVrK3aBZShrurmgvoeTgTJNRNaIGA/kUKqnN9ex2hZGzJzoiCknyap5VrX8Ud9e2F
+ ZQKY8rkuNFgmRidoBzrO5St4DNoowPzJazEW7XsdwrJe3EdzkwnjEJhxQvwO2ncNSOxC
+ CIjYi0nfq4iXixrp2yZg4gD0S6P/d+yxqw1QwrnF71f6KC1r/YIIfM9cLdAn2iHF1xuY
+ v52cc/VmTqaQJRr9ptPaitB6x+3ojzqJPOC4I71CXP4aJfoMEmzhSavs+wyU4aEHoaYI
+ 3ARlkRGIEEqxfgOQ5kGatFbTIEWJP95qhBLFf5hj7Bj9XoAWYUh8fEhRZRWF2XYL3Du5
+ L4wQ==
+X-Gm-Message-State: AOJu0Ywkm/LeE17V/cTIdgBdNISsdudIIdrpNG230GgHp8h2d9mm0wp7
+ KpuB7URGcwwjT+hcYbHNJUR38w==
+X-Google-Smtp-Source: AGHT+IHfMWz0YFTxERDUiIQgVQVWvbsVCtLPEAqGh68CRmNrR2JB/mBEc7E8zYr1iE8TPrS5PMEC9w==
+X-Received: by 2002:a19:6905:0:b0:503:26b0:e126 with SMTP id
+ e5-20020a196905000000b0050326b0e126mr2010709lfc.59.1695505753532; 
+ Sat, 23 Sep 2023 14:49:13 -0700 (PDT)
+Received: from umbar.unikie.fi ([192.130.178.91])
+ by smtp.gmail.com with ESMTPSA id
+ m12-20020a19520c000000b004fe0760354bsm1196590lfb.275.2023.09.23.14.49.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 23 Sep 2023 14:49:13 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>
+Subject: [RFC PATCH 0/3] drm/msm/dpu: convert even more MDP5 platforms
+Date: Sun, 24 Sep 2023 00:49:09 +0300
+Message-Id: <20230923214912.1095024-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH] video: mmp: Annotate struct mmp_path with __counted_by
-Content-Language: en-US
-To: Kees Cook <keescook@chromium.org>, Helge Deller <deller@gmx.de>
-References: <20230922175141.work.450-kees@kernel.org>
-From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-In-Reply-To: <20230922175141.work.450-kees@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse,
- please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
-X-AntiAbuse: Original Domain - lists.freedesktop.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - embeddedor.com
-X-BWhitelist: no
-X-Source-IP: 94.239.20.48
-X-Source-L: No
-X-Exim-ID: 1qjy3s-003bcu-2i
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: ([192.168.1.98]) [94.239.20.48]:58218
-X-Source-Auth: gustavo@embeddedor.com
-X-Email-Count: 0
-X-Org: HG=hgshared;ORG=hostgator;
-X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
-X-Local-Domain: yes
-X-CMAE-Envelope: MS4xfNxXX1a+9zboEpOVxFntKJWDic4C772NDXrGHpgkuD1kKnzwmqqJjcFButOixFj5YxNsU4ZE+uqa6ouGZSfNLyEunAKX0FK5e/GVl8TBydqNgirxLZCj
- aUNQeaP1ZBxGubfaegyxDwrTIqJ/zYmUxkoksqNlhUPow254dX8+mauSq3U7pvSODhJ0vhW/449M4E2ulhu29cll7ok+JhQzX6tc5gHcrlG3Lz3PcMcCLhH9
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,51 +72,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Tom Rix <trix@redhat.com>,
- llvm@lists.linux.dev, Nick Desaulniers <ndesaulniers@google.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Nathan Chancellor <nathan@kernel.org>, linux-hardening@vger.kernel.org
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Extend DPU driver with experimental support for even more MDP5
+platforms: MSM8937, MSM8917, MSM8953.
 
+As with other MDP5 devices, one has to pass `msm.prefer_mdp5=false`
+kernel param to test DPU driver insead of using MDP5.
 
-On 9/22/23 11:51, Kees Cook wrote:
-> Prepare for the coming implementation by GCC and Clang of the __counted_by
-> attribute. Flexible array members annotated with __counted_by can have
-> their accesses bounds-checked at run-time checking via CONFIG_UBSAN_BOUNDS
-> (for array indexing) and CONFIG_FORTIFY_SOURCE (for strcpy/memcpy-family
-> functions).
-> 
-> As found with Coccinelle[1], add __counted_by for struct mmp_path.
-> 
-> [1] https://github.com/kees/kernel-tools/blob/trunk/coccinelle/examples/counted_by.cocci
-> 
-> Cc: Helge Deller <deller@gmx.de>
-> Cc: linux-fbdev@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> Signed-off-by: Kees Cook <keescook@chromium.org>
+Dependencies: [1]
 
-Reviewed-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+[1] https://patchwork.freedesktop.org/series/123294/
 
-Thanks
+Dmitry Baryshkov (3):
+  drm/msm/dpu: add support for MSM8953
+  drm/msm/dpu: add support for MSM8937
+  drm/msm/dpu: add support for MSM8917
+
+ .../msm/disp/dpu1/catalog/dpu_1_14_msm8937.h  | 213 +++++++++++++++++
+ .../msm/disp/dpu1/catalog/dpu_1_15_msm8917.h  | 190 +++++++++++++++
+ .../msm/disp/dpu1/catalog/dpu_1_16_msm8953.h  | 221 ++++++++++++++++++
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    |  14 ++
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |   3 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |   3 +
+ 6 files changed, 644 insertions(+)
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_14_msm8937.h
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_15_msm8917.h
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_16_msm8953.h
+
 -- 
-Gustavo
+2.39.2
 
-> ---
->   include/video/mmp_disp.h | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/include/video/mmp_disp.h b/include/video/mmp_disp.h
-> index 77252cb46361..a722dcbf5073 100644
-> --- a/include/video/mmp_disp.h
-> +++ b/include/video/mmp_disp.h
-> @@ -231,7 +231,7 @@ struct mmp_path {
->   
->   	/* layers */
->   	int overlay_num;
-> -	struct mmp_overlay overlays[];
-> +	struct mmp_overlay overlays[] __counted_by(overlay_num);
->   };
->   
->   extern struct mmp_path *mmp_get_path(const char *name);
