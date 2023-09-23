@@ -1,65 +1,85 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA3D77ABB44
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Sep 2023 23:55:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 79F997ABA78
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Sep 2023 22:21:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F8B310E718;
-	Fri, 22 Sep 2023 21:54:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B003710E09D;
+	Fri, 22 Sep 2023 20:21:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com
- [IPv6:2a00:1450:4864:20::235])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 08FE810E718
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Sep 2023 21:54:49 +0000 (UTC)
-Received: by mail-lj1-x235.google.com with SMTP id
- 38308e7fff4ca-2c012232792so48954051fa.0
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Sep 2023 14:54:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1695419688; x=1696024488;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:user-agent:from:references
- :in-reply-to:mime-version:from:to:cc:subject:date:message-id
- :reply-to; bh=/7c/oVDshAtS1tuVwC10Rg8pKnTEHEmvA4PAkfR7yFw=;
- b=Ix9GeKSa0x+4Ep7Aktyxfb91P05y0HSIZ+6DyM4b8fTM5ignEs6MrhK+Ct2D9rvOJe
- lE/fiy/Wp6lbUAsIvsV6QRdD9r5bPQ21HFrCPkBPnU9H86n0qLFHbdT+pCDD+m9rpaeW
- p8E0wBp8yCgKXz3e+npjGqYUW14zL6Ju+nwTg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1695419688; x=1696024488;
- h=cc:to:subject:message-id:date:user-agent:from:references
- :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=/7c/oVDshAtS1tuVwC10Rg8pKnTEHEmvA4PAkfR7yFw=;
- b=Hou4qmCB+WztzmNsLwQp5oGQttIqeJEcjrDnq9KfU5apWnccgWJwbx1nHIHrJ1a1/C
- D4PA+2Pu1Ls0dqCh4f7mSFCcGeo0K1Jn4ZMaFB38YeJ5JQ6KCMnMcZG8Fhoe/SeDR5gK
- ArGg3eDOXxfZNd7mGYXvZocPUmcJHdqZBwj3UgAxtmmj57/WXLp3lKDj4nYp35p4QPw2
- 5C4vaggvYUvpKnPGawXOshDWAydMQYKxDbhzEyYe0OF7i9fd1zG3xtxEJConVSNQMMuk
- wofKhS9NDXYZm55xzADY0Q+u4Cb6pwfgZi2wuhlorkXYjThuNCJ8bNqac5yYA5fxThhX
- gL/A==
-X-Gm-Message-State: AOJu0Yyyf/Y4XQeml4APMZvB0vOLmL94MS4K/Ux4N9zDKNsB1BRklvjc
- nGysxCZ9a9qypNMvcXv5uSJbHJQJKleL9bh9Nph3sg==
-X-Google-Smtp-Source: AGHT+IFqBQ9m6cEHlfgPZ1B6LtM3dzQO5UTlrujPO5byQq0rStgb2iQQqBzg/dzkHnhTV6MLei3X7/hNVsZxdNYxgNY=
-X-Received: by 2002:a2e:3505:0:b0:2bc:d8cb:59fe with SMTP id
- z5-20020a2e3505000000b002bcd8cb59femr424762ljz.8.1695419688131; Fri, 22 Sep
- 2023 14:54:48 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Fri, 22 Sep 2023 14:54:47 -0700
+Received: from omta34.uswest2.a.cloudfilter.net
+ (omta34.uswest2.a.cloudfilter.net [35.89.44.33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD91C10E09D
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Sep 2023 20:21:47 +0000 (UTC)
+Received: from eig-obgw-6009a.ext.cloudfilter.net ([10.0.30.184])
+ by cmsmtp with ESMTP
+ id jkNTqgJYZOzKljmepqENlC; Fri, 22 Sep 2023 20:21:47 +0000
+Received: from gator4166.hostgator.com ([108.167.133.22]) by cmsmtp with ESMTPS
+ id jmeoqPwvGpBSmjmeoqDmlC; Fri, 22 Sep 2023 20:21:47 +0000
+X-Authority-Analysis: v=2.4 cv=BbzLb5h2 c=1 sm=1 tr=0 ts=650df75b
+ a=1YbLdUo/zbTtOZ3uB5T3HA==:117 a=P7XfKmiOJ4/qXqHZrN7ymg==:17
+ a=OWjo9vPv0XrRhIrVQ50Ab3nP57M=:19 a=dLZJa+xiwSxG16/P+YVxDGlgEgI=:19
+ a=IkcTkHD0fZMA:10 a=zNV7Rl7Rt7sA:10 a=wYkD_t78qR0A:10 a=NEAV23lmAAAA:8
+ a=zd2uoN0lAAAA:8 a=pGLkceISAAAA:8 a=e5mUnYsNAAAA:8 a=cm27Pg_UAAAA:8
+ a=VwQbUJbxAAAA:8 a=2wB7VPZBpCe0CuILneIA:9 a=QEXdDO2ut3YA:10
+ a=Vxmtnl_E_bksehYqCbjh:22 a=xmb-EsYY8bH0VWELuYED:22 a=AjGcO6oz07-iQ99wixmX:22
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+ :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+ Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+ List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=uilWM61trubKM2ejy0VnaxrpRmVV7jUvqNgJorf6Qao=; b=iNhF5ZGKjJCvmxMwvJhJsVex5N
+ +kDQxgkwTRsW2hflZt3y1HL+m5qOESNqeZ7r9l0JUKw0+k7tF+DQJ7B4JY+FR1k3JAu1uVBTCJniM
+ clR2EmCJnOIxb2shrvyyzwNYFVGhaHJdXEXOAqmy9mgi1M3S+Psg1dAbnP3QwQap5mXn8i7p0hmlA
+ 470q9M9RNJboyPgGKhTcngTDuhLhIwycFUy1wGOz3GIp5zfeWiGf9TOG/ubAU70XbaYyKO1mQqKMo
+ ZAPERXNKSQfiwYWiOdMgVWDzrdJmYEguKAjVL22EKimaO8bjHwiwQUoz0Uf+MjORxXnl+iyAKqQqn
+ JLfivoIg==;
+Received: from [94.239.20.48] (port=33658 helo=[192.168.1.98])
+ by gator4166.hostgator.com with esmtpsa (TLS1.2) tls
+ TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.96)
+ (envelope-from <gustavo@embeddedor.com>) id 1qjkeQ-000MuO-28;
+ Fri, 22 Sep 2023 13:13:14 -0500
+Message-ID: <4b64e969-633a-c59a-90e4-5f6368ad76b6@embeddedor.com>
+Date: Fri, 22 Sep 2023 20:14:06 -0600
 MIME-Version: 1.0
-In-Reply-To: <CAA8EJpr2wRq6Txi7YAQpJKa_9UGqH_nmHzvVOaAPkwOrtDg4Tw@mail.gmail.com>
-References: <1694813901-26952-1-git-send-email-quic_khsieh@quicinc.com>
- <1694813901-26952-7-git-send-email-quic_khsieh@quicinc.com>
- <CAA8EJpqPXoFX4LXyXYgfh07Vpxg-KgD8VBR6x5bXf4GOJmbOtw@mail.gmail.com>
- <2f98d5f1-57c1-d9fe-cb1c-b975db057287@quicinc.com>
- <CAA8EJpr2wRq6Txi7YAQpJKa_9UGqH_nmHzvVOaAPkwOrtDg4Tw@mail.gmail.com>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.10
-Date: Fri, 22 Sep 2023 14:54:47 -0700
-Message-ID: <CAE-0n53dqHONzMTd_ZC-fKWTzDVq6Wqwo4OFZMUcghZ5SD5RhA@mail.gmail.com>
-Subject: Re: [PATCH v3 6/7] drm/msm/dp: add pm_runtime_force_suspend()/resume()
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH 2/9] drm/amdgpu/discovery: Annotate struct ip_hw_instance
+ with __counted_by
+Content-Language: en-US
+To: Kees Cook <keescook@chromium.org>, David Airlie <airlied@gmail.com>
+References: <20230922173110.work.084-kees@kernel.org>
+ <20230922173216.3823169-2-keescook@chromium.org>
+From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+In-Reply-To: <20230922173216.3823169-2-keescook@chromium.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-AntiAbuse: This header was added to track abuse,
+ please include it with any abuse report
+X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
+X-AntiAbuse: Original Domain - lists.freedesktop.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - embeddedor.com
+X-BWhitelist: no
+X-Source-IP: 94.239.20.48
+X-Source-L: No
+X-Exim-ID: 1qjkeQ-000MuO-28
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: ([192.168.1.98]) [94.239.20.48]:33658
+X-Source-Auth: gustavo@embeddedor.com
+X-Email-Count: 0
+X-Org: HG=hgshared;ORG=hostgator;
+X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
+X-Local-Domain: yes
+X-CMAE-Envelope: MS4xfN6TMmf43+R9DIHf7hVzoIEti0cxT31O9Pbz9CUPEX43soVkml871NCau5hY9+fScxRrjT5jWMy3oN5Yz+gOH+Au9DBvUjIUzOqJOIUXyBhicIuQGEMu
+ K1EVtLiDlVRSZ/bPCL2jdTJtrp27qmGNvlyHeMkkliAZ2c3YDAU9P04AVyYuogfdNZ0zXXSKjPgcSAtR2XwbnthQP3/x1o1N6v+18V12eANeX6y+h6VynH3g
+ y0+xhjdD7HDcpbE8iJ4nA7jfhpBm7OLGxl8uB+plCSlt/UZl7e8HJ2RaZGQ8Cq0E3SV028XHKSjZmP8nQ+6ouEJfw9pOSJEXTHjjYJ2TKJVnMd4rUHZos8++
+ nORx2SWD6MG0NwitBtSQswmSwoJsDiMAYlhfV1/vPLh+lceGLNU=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,61 +92,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, quic_sbillaka@quicinc.com,
- linux-kernel@vger.kernel.org, quic_abhinavk@quicinc.com, andersson@kernel.org,
- dri-devel@lists.freedesktop.org, dianders@chromium.org, vkoul@kernel.org,
- agross@kernel.org, marijn.suijten@somainline.org, quic_jesszhan@quicinc.com,
- sean@poorly.run, linux-arm-msm@vger.kernel.org
+Cc: Tejas Upadhyay <tejas.upadhyay@intel.com>, Emma Anholt <emma@anholt.net>,
+ Tom Rix <trix@redhat.com>, llvm@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, Chris Wilson <chris@chris-wilson.co.uk>,
+ Prike Liang <Prike.Liang@amd.com>, Huang Rui <ray.huang@amd.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Matthew Brost <matthew.brost@intel.com>, Karol Herbst <kherbst@redhat.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, amd-gfx@lists.freedesktop.org,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, Nathan Chancellor <nathan@kernel.org>,
+ VMware Graphics Reviewers <linux-graphics-maintainer@vmware.com>,
+ Ben Skeggs <bskeggs@redhat.com>, Andi Shyti <andi.shyti@linux.intel.com>,
+ nouveau@lists.freedesktop.org, David Airlie <airlied@redhat.com>,
+ virtualization@lists.linux-foundation.org, linux-hardening@vger.kernel.org,
+ Lijo Lazar <lijo.lazar@amd.com>, Yifan Zhang <yifan1.zhang@amd.com>,
+ linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ Kevin Wang <kevin1.wang@amd.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Melissa Wen <mwen@igalia.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Maxime Ripard <mripard@kernel.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Evan Quan <evan.quan@amd.com>, Sean Paul <sean@poorly.run>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Xiaojian Du <Xiaojian.Du@amd.com>, Le Ma <le.ma@amd.com>,
+ freedreno@lists.freedesktop.org, Bjorn Andersson <andersson@kernel.org>, "Pan,
+ Xinhui" <Xinhui.Pan@amd.com>, Nick Desaulniers <ndesaulniers@google.com>,
+ linux-kernel@vger.kernel.org, Alex Deucher <alexander.deucher@amd.com>,
+ Nirmoy Das <nirmoy.das@intel.com>, Lang Yu <Lang.Yu@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ John Harrison <john.c.harrison@Intel.com>,
+ Hawking Zhang <Hawking.Zhang@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Dmitry Baryshkov (2023-09-19 02:50:12)
-> On Mon, 18 Sept 2023 at 20:48, Kuogee Hsieh <quic_khsieh@quicinc.com> wrote:
-> >
-> >
-> > On 9/15/2023 6:21 PM, Dmitry Baryshkov wrote:
-> > > On Sat, 16 Sept 2023 at 00:38, Kuogee Hsieh <quic_khsieh@quicinc.com> wrote:
-> > >> Add pm_runtime_force_suspend()/resume() to complete incorporating pm
-> > >> runtime framework into DP driver. Both dp_pm_prepare() and dp_pm_complete()
-> > >> are added to set hpd_state to correct state. After resume, DP driver will
-> > >> re training its main link after .hpd_enable() callback enabled HPD
-> > >> interrupts and bring up display accordingly.
-> > > How will it re-train the main link? What is the code path for that?
-> >
-> > 1) for edp, dp_bridge_atomic_enable(), called from framework, to start
-> > link training and bring up display.
->
-> And this path doesn't use .hpd_enable() which you have mentioned in
-> the commit message. Please don't try to shorten the commit message.
-> You see, I have had questions to several of them, which means that
-> they were not verbose enough.
->
-> >
-> > 2) for external DP, HPD_PLUG_INT will be generated to start link
-> > training and bring up display.
->
-> This should be hpd_notify, who starts link training, not some event.
 
-I think this driver should train the link during atomic_enable(), not
-hpd_notify() (or directly from the irq handler). The drm_bridge_funcs
-talk a bit about when the clocks and timing signals are supposed to be
-enabled. For example, struct drm_bridge_funcs::atomic_pre_enable() says
-the "display pipe (i.e.  clocks and timing signals) feeding this bridge
-will not yet be running when this callback is called". And struct
-drm_bridge_funcs::atomic_enable() says "this callback must enable the
-display link feeding the next bridge in the chain if there is one."
 
-That looks to me like link training, i.e. the display link, should
-happen in the enable path and not hpd_notify. It looks like link
-training could fail, but when that happens I believe the driver should
-call drm_connector_set_link_status_property() with
-DRM_MODE_LINK_STATUS_BAD. The two callers of that which exist in the
-tree also call drm_kms_helper_hotplug_event() or
-drm_kms_helper_connector_hotplug_event() after updating the link so that
-userspace knows to try again.
+On 9/22/23 11:32, Kees Cook wrote:
+> Prepare for the coming implementation by GCC and Clang of the __counted_by
+> attribute. Flexible array members annotated with __counted_by can have
+> their accesses bounds-checked at run-time checking via CONFIG_UBSAN_BOUNDS
+> (for array indexing) and CONFIG_FORTIFY_SOURCE (for strcpy/memcpy-family
+> functions).
+> 
+> As found with Coccinelle[1], add __counted_by for struct ip_hw_instance.
+> 
+> [1] https://github.com/kees/kernel-tools/blob/trunk/coccinelle/examples/counted_by.cocci
+> 
+> Cc: Alex Deucher <alexander.deucher@amd.com>
+> Cc: "Christian König" <christian.koenig@amd.com>
+> Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Hawking Zhang <Hawking.Zhang@amd.com>
+> Cc: amd-gfx@lists.freedesktop.org
+> Cc: dri-devel@lists.freedesktop.org
+> Signed-off-by: Kees Cook <keescook@chromium.org>
 
-It would be nice if there was some drm_bridge_set_link_status_bad() API
-that bridge drivers could use to signal that the link status is bad and
-call the hotplug helper. Maybe it could also record some diagnostics
-about which bridge failed to setup the link and stop the atomic_enable()
-chain for that connector.
+Reviewed-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+
+Thanks
+-- 
+Gustavo
+
+> ---
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c
+> index d1bc7b212520..be4c97a3d7bf 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c
+> @@ -662,7 +662,7 @@ struct ip_hw_instance {
+>   	u8  harvest;
+>   
+>   	int num_base_addresses;
+> -	u32 base_addr[];
+> +	u32 base_addr[] __counted_by(num_base_addresses);
+>   };
+>   
+>   struct ip_hw_id {
