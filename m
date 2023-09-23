@@ -2,64 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 871C97AC48E
-	for <lists+dri-devel@lfdr.de>; Sat, 23 Sep 2023 20:53:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27BC27AC50A
+	for <lists+dri-devel@lfdr.de>; Sat, 23 Sep 2023 22:22:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C76210E0AE;
-	Sat, 23 Sep 2023 18:53:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CFE0810E092;
+	Sat, 23 Sep 2023 20:21:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8354110E0A8
- for <dri-devel@lists.freedesktop.org>; Sat, 23 Sep 2023 18:53:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
- t=1695495189; x=1696099989; i=deller@gmx.de;
- bh=ZJtTrb7Sq+FmrmCPQSiH1SQiFHbV/uTZSgLibn8MqvI=;
- h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
- b=WtXP/FF0gTV3krMPKlozhyT9cCbVvNVGnUDybv+ELn1I2kayyLKd1ClDYXeCR5btw9fN5xQr+WI
- +JImi7HLFZVDAZtBbKWT+z4CViQTpvl4Hm5YEefu49VVSKPjgfVg9iJ4l2U/U/ezyCFN0qGTPYSVE
- lyUe0/iS+SRsMOHOARfw7OwWUYMUcaQht1ID2diG2Suy78NLIaaPmgkScBfVcodF4EIxwXNJ4QcMJ
- d/8m6PRSWF/kyMEvSgn+k/tvrELHfRBIFfN2sTH2We8lsEPOghTyHSWe2Cb1yCN2CpVDYtJrv0AP/
- inZi9kqNE8l3GQ46mSf0026xz85WZkYUJVYQ==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.20.60] ([94.134.158.25]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1N2DxE-1rg38V0FiA-013cUy; Sat, 23
- Sep 2023 20:53:09 +0200
-Message-ID: <2fc195c7-f68a-e4e4-a122-4d68f31343d2@gmx.de>
-Date: Sat, 23 Sep 2023 20:53:06 +0200
+Received: from omta038.useast.a.cloudfilter.net
+ (omta038.useast.a.cloudfilter.net [44.202.169.37])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E84910E092
+ for <dri-devel@lists.freedesktop.org>; Sat, 23 Sep 2023 20:21:52 +0000 (UTC)
+Received: from eig-obgw-6009a.ext.cloudfilter.net ([10.0.30.184])
+ by cmsmtp with ESMTP
+ id k7Qfq2tx8WU1ck98RqVFYk; Sat, 23 Sep 2023 20:21:51 +0000
+Received: from gator4166.hostgator.com ([108.167.133.22]) by cmsmtp with ESMTPS
+ id k98Qq80lXTFO2k98Qqg1ZX; Sat, 23 Sep 2023 20:21:50 +0000
+X-Authority-Analysis: v=2.4 cv=A8l/goaG c=1 sm=1 tr=0 ts=650f48de
+ a=1YbLdUo/zbTtOZ3uB5T3HA==:117 a=P7XfKmiOJ4/qXqHZrN7ymg==:17
+ a=OWjo9vPv0XrRhIrVQ50Ab3nP57M=:19 a=dLZJa+xiwSxG16/P+YVxDGlgEgI=:19
+ a=IkcTkHD0fZMA:10 a=zNV7Rl7Rt7sA:10 a=wYkD_t78qR0A:10 a=NEAV23lmAAAA:8
+ a=VwQbUJbxAAAA:8 a=e5mUnYsNAAAA:8 a=cm27Pg_UAAAA:8 a=HvF037n1xESchLcPDVoA:9
+ a=QEXdDO2ut3YA:10 a=AjGcO6oz07-iQ99wixmX:22 a=Vxmtnl_E_bksehYqCbjh:22
+ a=xmb-EsYY8bH0VWELuYED:22
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+ :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+ Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+ List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=dMtmtT6tX/J/Z9nN8F6wXmACJvxIhIjSA2EPSc7V54o=; b=nLSy7Yyg8X16vsP4+fNRB4Rotn
+ 66Cg4GycjlShrC9MRh6WTMvGPinJuZLxjOs9e7FizT69nAYp/OkhR/IhrDiNHjixOGY/4eQKAaoAX
+ k5Mo8kidONlYLjZEvPv5x03+/cg8aCmfQvKmVYwJJLElNvPgHwbAr3yxCrtCiOdxlxn92geZB8iJJ
+ XBNc4Flajgvmg6YhTs2c+QPVHTvFUWeE0RH4EULSQF2sBJ0kPOkstu9MQClUpd+K2JjCAdzdvLssr
+ /wYuucKyHkJ8cnJPRYkXa3e+aPSVpAWxxoGE685mXoLtUsQXWVVXwa5l9DNTpIkhtmnfuc3VkZQ8v
+ 6sGqmEew==;
+Received: from [94.239.20.48] (port=58218 helo=[192.168.1.98])
+ by gator4166.hostgator.com with esmtpsa (TLS1.2) tls
+ TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.96)
+ (envelope-from <gustavo@embeddedor.com>) id 1qjy3s-003bcu-2i;
+ Sat, 23 Sep 2023 03:32:25 -0500
+Message-ID: <f1aa9b5a-6867-6000-8f3c-9a15eb216961@embeddedor.com>
+Date: Sat, 23 Sep 2023 10:33:29 -0600
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v5 1/4] video: fbdev: atyfb: only use ioremap_uc() on i386
- and ia64
+ Thunderbird/102.15.1
+Subject: Re: [PATCH] video: mmp: Annotate struct mmp_path with __counted_by
 Content-Language: en-US
-To: Baoquan He <bhe@redhat.com>, linux-kernel@vger.kernel.org
-References: <20230921110424.215592-1-bhe@redhat.com>
- <20230921110424.215592-2-bhe@redhat.com>
-From: Helge Deller <deller@gmx.de>
-In-Reply-To: <20230921110424.215592-2-bhe@redhat.com>
+To: Kees Cook <keescook@chromium.org>, Helge Deller <deller@gmx.de>
+References: <20230922175141.work.450-kees@kernel.org>
+From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+In-Reply-To: <20230922175141.work.450-kees@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:iYbDbg/qbmEkvsjiXB0WMmbZFhVM9vL3bJja5JuI4LGOuhlYh9K
- vqgr69Jux1RsXhRJ2yZWJDYZu7NY9WrY2l0Zoy4Wy0CE48q0junLTjbRRVukzNZL2+PI1jE
- fbxV70iMHfMDXycuyHZBhqYGNiDUvBP/GtylIwohPqwwkP1sohfcBWtq+ufoGhBDALmHSHX
- qvwwKrIkfVI9uXC7Imf+g==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:JTu5Qk0Qo2U=;aQUF38hNFB4gHf+A2OmqpQk1z+7
- 4R5BiH0KKfP1NtJtJZQZJYAqc5wHiP3GU1him/4fb/7YaVi/yhjSj/evdvoU4jaurR7CBbkDA
- zVoje1G5iBEISuRWTzU+xT1mNuu1ezpBQ/jwqvRZ0O2SAkeRvDEpzeXLNEJux5Lqb/+F44l2N
- 1AGV0dnBT71Pgrn1EYnHK0fzsBg6stVggmUOTqej4csdNCGuX1OrCKRKgw9MgGHMdzjmru2tI
- CWgTVNKyCPZ+NXjyX8l9BzPPlNJdmWjtR3typZfAc3MuCiecliwqyw0hIzz4pEKPeLEuNRAxv
- HL4d4OKYG+bN5LR9jPgy9aQYXlIOOZWbPERJQ6Sh3QdqIrL1Sd4VJ81L666EjQhha886S+K2t
- uhHtpZeU6O6Ot9bhz/IgvU5LvoGGpzdNcFTKDRSxiL4zUfFt+iuZ7zUF/yZMmIjJITL5xWPAL
- J0kZ5CQ9dDt11Ec54XdlXDqkNUMtpN28bvmMIioAHXP/T2uv/pMx/5BM7rL1HMZZtNkavNHhw
- qekhiLK/mHoGvIHGPzcNgMkhrnaifslsJ8G1Xzezy7GPmDV+1/twLTwrSBherfMBW4N7i3p3A
- mAXY3oXedTwDYwuy/3klDe/d6xWGSTee4aFyB++QDxJRv66CXYQgqsTGbvJtsmH4skHrqUlSm
- ChVUd0dCmOf/fxFbxyRmFUQEnAKh82mAZIzExl9sntUNp3eGTpjZi6zd6n+TS5hi9bC3cGsLf
- 0Wo2GyII5SNZ/8ik1biQMd9UO4OsFv9BwEvj/5CsJ3Da4LlEXFjYGhqziuAETdqNiF4abRxPe
- dcvJHuGlchb4EnFMP45YNW+FtcautHkpl4qWowF1EfEOC54EIA9PKQPxY4s0l76rXf4XjnME+
- L/mCOseOgV4Ab+Adfok9/pDUSdvOY9sTsq/V4umV6vqANcTyUCfzY7sz2oEbUORrv0nSyGpRv
- HoPcJlL3XXcgposXzTk9VepWSBw=
+Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse,
+ please include it with any abuse report
+X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
+X-AntiAbuse: Original Domain - lists.freedesktop.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - embeddedor.com
+X-BWhitelist: no
+X-Source-IP: 94.239.20.48
+X-Source-L: No
+X-Exim-ID: 1qjy3s-003bcu-2i
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: ([192.168.1.98]) [94.239.20.48]:58218
+X-Source-Auth: gustavo@embeddedor.com
+X-Email-Count: 0
+X-Org: HG=hgshared;ORG=hostgator;
+X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
+X-Local-Domain: yes
+X-CMAE-Envelope: MS4xfNxXX1a+9zboEpOVxFntKJWDic4C772NDXrGHpgkuD1kKnzwmqqJjcFButOixFj5YxNsU4ZE+uqa6ouGZSfNLyEunAKX0FK5e/GVl8TBydqNgirxLZCj
+ aUNQeaP1ZBxGubfaegyxDwrTIqJ/zYmUxkoksqNlhUPow254dX8+mauSq3U7pvSODhJ0vhW/449M4E2ulhu29cll7ok+JhQzX6tc5gHcrlG3Lz3PcMcCLhH9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,69 +88,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arch@vger.kernel.org, linux-fbdev@vger.kernel.org,
- tsbogend@alpha.franken.de, arnd@arndb.de, mpe@ellerman.id.au,
- dri-devel@lists.freedesktop.org, jiaxun.yang@flygoat.com, hch@infradead.org,
- linux-mm@kvack.org, mcgrof@kernel.org, f.fainelli@gmail.com,
- geert@linux-m68k.org, Christophe Leroy <christophe.leroy@csgroup.eu>,
- Thomas Zimmermann <tzimmermann@suse.de>, akpm@linux-foundation.org
+Cc: linux-fbdev@vger.kernel.org, Tom Rix <trix@redhat.com>,
+ llvm@lists.linux.dev, Nick Desaulniers <ndesaulniers@google.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Nathan Chancellor <nathan@kernel.org>, linux-hardening@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/21/23 13:04, Baoquan He wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
->
-> ioremap_uc() is only meaningful on old x86-32 systems with the PAT
-> extension, and on ia64 with its slightly unconventional ioremap()
-> behavior, everywhere else this is the same as ioremap() anyway.
->
-> Change the only driver that still references ioremap_uc() to only do so
-> on x86-32/ia64 in order to allow removing that interface at some
-> point in the future for the other architectures.
->
-> On some architectures, ioremap_uc() just returns NULL, changing
-> the driver to call ioremap() means that they now have a chance
-> of working correctly.
->
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> Signed-off-by: Baoquan He <bhe@redhat.com>
-> Reviewed-by: Luis Chamberlain <mcgrof@kernel.org>
+
+
+On 9/22/23 11:51, Kees Cook wrote:
+> Prepare for the coming implementation by GCC and Clang of the __counted_by
+> attribute. Flexible array members annotated with __counted_by can have
+> their accesses bounds-checked at run-time checking via CONFIG_UBSAN_BOUNDS
+> (for array indexing) and CONFIG_FORTIFY_SOURCE (for strcpy/memcpy-family
+> functions).
+> 
+> As found with Coccinelle[1], add __counted_by for struct mmp_path.
+> 
+> [1] https://github.com/kees/kernel-tools/blob/trunk/coccinelle/examples/counted_by.cocci
+> 
 > Cc: Helge Deller <deller@gmx.de>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Christophe Leroy <christophe.leroy@csgroup.eu>
 > Cc: linux-fbdev@vger.kernel.org
 > Cc: dri-devel@lists.freedesktop.org
+> Signed-off-by: Kees Cook <keescook@chromium.org>
 
-applied to fbdev git tree.
+Reviewed-by: Gustavo A. R. Silva <gustavoars@kernel.org>
 
-Thanks!
-Helge
-
+Thanks
+-- 
+Gustavo
 
 > ---
->   drivers/video/fbdev/aty/atyfb_base.c | 4 ++++
->   1 file changed, 4 insertions(+)
->
-> diff --git a/drivers/video/fbdev/aty/atyfb_base.c b/drivers/video/fbdev/=
-aty/atyfb_base.c
-> index 5c87817a4f4c..3dcf83f5e7b4 100644
-> --- a/drivers/video/fbdev/aty/atyfb_base.c
-> +++ b/drivers/video/fbdev/aty/atyfb_base.c
-> @@ -3440,11 +3440,15 @@ static int atyfb_setup_generic(struct pci_dev *p=
-dev, struct fb_info *info,
->   	}
->
->   	info->fix.mmio_start =3D raddr;
-> +#if defined(__i386__) || defined(__ia64__)
->   	/*
->   	 * By using strong UC we force the MTRR to never have an
->   	 * effect on the MMIO region on both non-PAT and PAT systems.
->   	 */
->   	par->ati_regbase =3D ioremap_uc(info->fix.mmio_start, 0x1000);
-> +#else
-> +	par->ati_regbase =3D ioremap(info->fix.mmio_start, 0x1000);
-> +#endif
->   	if (par->ati_regbase =3D=3D NULL)
->   		return -ENOMEM;
->
-
+>   include/video/mmp_disp.h | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/include/video/mmp_disp.h b/include/video/mmp_disp.h
+> index 77252cb46361..a722dcbf5073 100644
+> --- a/include/video/mmp_disp.h
+> +++ b/include/video/mmp_disp.h
+> @@ -231,7 +231,7 @@ struct mmp_path {
+>   
+>   	/* layers */
+>   	int overlay_num;
+> -	struct mmp_overlay overlays[];
+> +	struct mmp_overlay overlays[] __counted_by(overlay_num);
+>   };
+>   
+>   extern struct mmp_path *mmp_get_path(const char *name);
