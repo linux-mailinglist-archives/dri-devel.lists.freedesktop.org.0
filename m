@@ -1,76 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 686997AC455
-	for <lists+dri-devel@lfdr.de>; Sat, 23 Sep 2023 20:09:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA2867AC473
+	for <lists+dri-devel@lfdr.de>; Sat, 23 Sep 2023 20:37:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A387710E098;
-	Sat, 23 Sep 2023 18:09:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD9AD10E08B;
+	Sat, 23 Sep 2023 18:37:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
- [IPv6:2a00:1450:4864:20::32e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9AEEE10E098
- for <dri-devel@lists.freedesktop.org>; Sat, 23 Sep 2023 18:09:47 +0000 (UTC)
-Received: by mail-wm1-x32e.google.com with SMTP id
- 5b1f17b1804b1-3ff1c397405so44414165e9.3
- for <dri-devel@lists.freedesktop.org>; Sat, 23 Sep 2023 11:09:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1695492586; x=1696097386; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=l0OmVT82kVRhT6V7fBBibLFNJi2iRMus/lOyy9oKOW0=;
- b=YMhrPGhvC/afcjSJNLTY9+HyEh6qLPkym6ryTFTyHl91YhqxPvpiQUACiuTBwoV8SR
- LsHwOhXTyy8XGO+sRtk3A2Pvvae5ke0oUN/AgPjbvz+TGBlaBIMDgDS8IXWdbiNEdRHd
- pz7Ju2LLT0jTJjA4WuirFmoTywth6QuZUDWSLVI0ukb2Ks+0/oqJW9Pl/eG0cnUEruA8
- l38pE4bYOE38ivsS74ehh/jao0abLYTTafB3EfL3c2oCnpASMwRavKgVRNGJf+RZqAiX
- IQftxUpdTa+umH3X/PWJuoq31ZhbBDwbMaGiBTJC59lQK8jKRjVHNlLLWzr3av5IbpO8
- mb2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1695492586; x=1696097386;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=l0OmVT82kVRhT6V7fBBibLFNJi2iRMus/lOyy9oKOW0=;
- b=w6XSgEgUNYUgTvVz4BTr4m68QmlmDk+14TBiCk+nKQlRhWL4TaFQguqaAIt2qZcJdk
- Q+u9hWItTSLNdGhn1tbDq0FvCavUOr0qy+bhm0q5xvXaA6t7uS27+PpZe4+Wy9n7L1/y
- pvE3UvYXipFJa56Nr14oUUKQGSMcHT6tJkEELP9uBGpoe0QTV0AJtwoPSH48PKy1s5m3
- j1JQvsa0RkTD+HjIfD781PFe+io8RV7ss4L7ZN0xjOER7UfBytGIdVGKBjG0xiCXUjBt
- hcIYpKakLW8w/GeHEvSSPEuHcMJ3RGQW465WB96qGylsA7tPOC3TRNXHyK22is+jXmrd
- 8kiw==
-X-Gm-Message-State: AOJu0YxKkg1iFnRGF3bjDoQIllcdQ76lsQfFa/kwBguSYw9fDqef+V0W
- 9/WNW7wIg/g/DCyhDCrc9ELHkQ==
-X-Google-Smtp-Source: AGHT+IGbEDdCor3uAVvI6RHkOnvfxXv6QO0vC7iRLExeI+9NeOdG9D895dHQs60CsZTG3e2Zoj0+KA==
-X-Received: by 2002:a5d:4c85:0:b0:321:5d87:5f7c with SMTP id
- z5-20020a5d4c85000000b003215d875f7cmr2665873wrs.30.1695492586036; 
- Sat, 23 Sep 2023 11:09:46 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.219.100])
- by smtp.gmail.com with ESMTPSA id
- z12-20020a5d654c000000b0032148618cc4sm7447722wrv.29.2023.09.23.11.09.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 23 Sep 2023 11:09:45 -0700 (PDT)
-Message-ID: <87ae80c0-a09b-3642-e3e9-c753cd330bca@linaro.org>
-Date: Sat, 23 Sep 2023 20:09:43 +0200
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 48CBC10E08B
+ for <dri-devel@lists.freedesktop.org>; Sat, 23 Sep 2023 18:37:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
+ t=1695494237; x=1696099037; i=deller@gmx.de;
+ bh=6ODb61JZKAyoefAj0bLEfwWKHG7W2MnMV+6ga2PGkLo=;
+ h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=el/ZYIcCuQHsxYgCfA30NsBJ/8n1wNnERA/R3g3ZoDDCcxIloMgtH9hao72xXbu4c4g92kpijpv
+ VtBDYO3drcnNdv6X/AA/1dN3KaxaelfY4xouhW8Nz1dfkruSHTJXgBmNiPEy7rRbRHUHsz4FfJfYC
+ Wo+UF8a5Iet0sSWOSBV0FeCp0X9K6qeWd0KQkR2ktbHtganYtz7suqRs7A/YvmQRiKkdM7Rw0Fr8g
+ AbQPjPmMuKvWCS/icrJ20DEu27drA00OaH6DhYKhL2GJR+7JVSPvIW3T3FezA3gM3OJsOxvnOIk5n
+ KyxudvdIWOcgSChaSACE5mE9hTcSi8WI3CuQ==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.20.60] ([94.134.158.25]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MOiHl-1r23r02Rvr-00Q8cc; Sat, 23
+ Sep 2023 20:37:17 +0200
+Message-ID: <4eccc506-4ff1-6890-8f1a-a5f267dfa5ea@gmx.de>
+Date: Sat, 23 Sep 2023 20:37:16 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH 13/15] mailbox: mediatek: Add mt8188 support for CMDQ
- secure driver
+ Thunderbird/102.13.0
+Subject: Re: [PATCH] video: fbdev: mmp: Annotate struct mmphw_ctrl with
+ __counted_by
 Content-Language: en-US
-To: "Jason-JH.Lin" <jason-jh.lin@mediatek.com>,
- Jassi Brar <jassisinghbrar@gmail.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Rob Herring <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-References: <20230918192204.32263-1-jason-jh.lin@mediatek.com>
- <20230918192204.32263-14-jason-jh.lin@mediatek.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230918192204.32263-14-jason-jh.lin@mediatek.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To: "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+ Kees Cook <keescook@chromium.org>
+References: <20230922175137.work.062-kees@kernel.org>
+ <6dae12b4-125c-a7be-4129-75065f7a5128@embeddedor.com>
+From: Helge Deller <deller@gmx.de>
+In-Reply-To: <6dae12b4-125c-a7be-4129-75065f7a5128@embeddedor.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:yedBhjjM8NxVuspZ3zErQHUL9LZ3Vf0+5s1SQjPq3DIPw6TJhiC
+ osQATF9/F+uYJv+BHg/bbTPVAG1LGxO+d6yPczJjUr5oxU5nSng8K7yvKR5de14V1RsdcVY
+ 2qV/2MyouEWEvWrawP/5/UbIUKVt/oATUsHVUR4CrPS6rIcvrHgeoG8FJqtlhv2tVB4cyTW
+ jI0doyh2nzH0wqe0VwFog==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:TRvVQzlGCos=;7gzqbw5vb4X85Go95YFUxHL4cLC
+ f40zMWnupAvDHowlAlwfKtSVbKXMw37F/Db0xIiuFWYSaQVLNyCOUyO/SIVLYMDRXUx73wesn
+ wjDlum2ZkJKUW1RMGjpkwi76akgZ3066ZVUFU31KLfCDOoTDI/bPqXSVhHhTuzy9feNQ457lJ
+ r9E5haNbsLolJ3istYWVpB8QHWoIKctEuAMtZPvAU76b3SboIleAItIgw1GmVpnLtcqe5AmUL
+ gLbVjoh5to16HedGADpgcooFKX9usURVzIqaksCBCb77pl3AkkKTKvWgaEnNQNybGNRxZWyDl
+ vNI+b7VyWKHdC3rqz6qYumOIWtsY7EU5JtXDqykLXyKqSFGgB57O8tY4JaSRELFvoYNaKbxGF
+ 0Qdx/HngSyboOfGQF5bJTG45MlR3kOHaNlRHL51G3HaubKnCgnhH1AiP2c8IBh9H3QdIJVji8
+ xXzHWsWsiyJY37tuZrgLHv4mjcxl5SZcgLwEHtorIzZVPJI+KJEckpNfkBOwlhOXA9LVwChcI
+ 4xzFvlEOHGAL4DRkVgdNS5mo2EJYBNuTTvdL9mofHnV0RinTLucZPQ7KlLgrTmc1YFAVv5LCT
+ 2Y2nmgHfb71zrQUu8uFb5cj6RuHoMSd/zeiGOOsCur0UWE/dHaMqnrs9sQg9ktpwA79FxDaXO
+ YtBgxPPEA5jarLsXD7TGKQ9AASzkpYpTf0PacPdXRM4UbJ8IVI2x1dj9u6jVh7ON83atK7dXr
+ fh+WnFiod5rnwdjGs6sHENWod0SQW3YLKzmXx4sRU5M28LSWFXptykzRobxUARh04UH7KFbcW
+ OCAzQo47g7aSIZMcniErJbiRVjQmGW/jSr/Yds5gl5tW0tgFL+ak55nfQ9oHsyRkwEwBUcrIZ
+ 3WBNXzFYGMNR/p78liQwldZsbjFiTwMJsjad4ecD+OLhTmSoz8qAlARmDLfRs46zSmFtgXcb8
+ KtvhQQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,37 +73,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- Elvis Wang <Elvis.Wang@mediatek.com>, Singo Chang <singo.chang@mediatek.com>,
+Cc: linux-fbdev@vger.kernel.org, Tom Rix <trix@redhat.com>,
+ llvm@lists.linux.dev, Nick Desaulniers <ndesaulniers@google.com>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- Jason-ch Chen <jason-ch.chen@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>,
- Johnson Wang <johnson.wang@mediatek.com>, Shawn Sung <shawn.sung@mediatek.com>,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+ Nathan Chancellor <nathan@kernel.org>, linux-hardening@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 18/09/2023 21:22, Jason-JH.Lin wrote:
-> Add mt8188 support for CMDQ secure driver.
-> 
-> Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
-> ---
->  drivers/mailbox/mtk-cmdq-mailbox.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/mailbox/mtk-cmdq-mailbox.c b/drivers/mailbox/mtk-cmdq-mailbox.c
-> index 3940b9f8e774..4e047dc916b9 100644
-> --- a/drivers/mailbox/mtk-cmdq-mailbox.c
-> +++ b/drivers/mailbox/mtk-cmdq-mailbox.c
-> @@ -750,6 +750,7 @@ static const struct gce_plat gce_plat_v8 = {
->  	.thread_nr = 32,
->  	.shift = 3,
->  	.control_by_sw = true,
-> +	.has_sec = true,
+On 9/23/23 18:33, Gustavo A. R. Silva wrote:
+> On 9/22/23 11:51, Kees Cook wrote:
+>> Prepare for the coming implementation by GCC and Clang of the __counted=
+_by
+>> attribute. Flexible array members annotated with __counted_by can have
+>> their accesses bounds-checked at run-time checking via CONFIG_UBSAN_BOU=
+NDS
+>> (for array indexing) and CONFIG_FORTIFY_SOURCE (for strcpy/memcpy-famil=
+y
+>> functions).
+>>
+>> As found with Coccinelle[1], add __counted_by for struct mmphw_ctrl.
+>>
+>> [1] https://github.com/kees/kernel-tools/blob/trunk/coccinelle/examples=
+/counted_by.cocci
+>>
+>> Cc: Helge Deller <deller@gmx.de>
+>> Cc: linux-fbdev@vger.kernel.org
+>> Cc: dri-devel@lists.freedesktop.org
+>> Signed-off-by: Kees Cook <keescook@chromium.org>
+>
+> Reviewed-by: Gustavo A. R. Silva <gustavoars@kernel.org>
 
-No, you just added it patch ago. Do not add broken code and fix it. Are
-there some KPIs in Mediatek to have patch count?
+Both fbdev patches applied to fbdev git tree.
 
-Best regards,
-Krzysztof
+Thank you Kees!
 
+Helge
