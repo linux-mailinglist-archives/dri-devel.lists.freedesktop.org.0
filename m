@@ -2,38 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0423D7AC89B
-	for <lists+dri-devel@lfdr.de>; Sun, 24 Sep 2023 15:18:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A24E77AC8A4
+	for <lists+dri-devel@lfdr.de>; Sun, 24 Sep 2023 15:18:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 66EA210E17B;
-	Sun, 24 Sep 2023 13:18:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D6F210E190;
+	Sun, 24 Sep 2023 13:18:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7397B10E171
- for <dri-devel@lists.freedesktop.org>; Sun, 24 Sep 2023 13:17:54 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org
+ [IPv6:2604:1380:40e1:4800::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 998C910E171;
+ Sun, 24 Sep 2023 13:18:35 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id D0352CE0B20;
- Sun, 24 Sep 2023 13:17:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 367F1C433C8;
- Sun, 24 Sep 2023 13:17:51 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id C1F66CE0B26;
+ Sun, 24 Sep 2023 13:18:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74645C4339A;
+ Sun, 24 Sep 2023 13:18:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1695561472;
- bh=/0DxeFclJanmHoVCa2JuctmAc4IoTLcES89kTw6xPoU=;
+ s=k20201202; t=1695561513;
+ bh=AFeVCQSAMJ19P9SVd3+4fK3hpmUw46XSFs2rfQTnPTA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ZaFWZLH/bV0Q/NXKickfvXoiaj0FxpCn70hHmqpWkqOkGM+8BnRNxrzcuWSagPebw
- OGsIU8NGq3mKsVshodjp/cmIpYyBRh+jYZT+BoMoQd6G73iXP00aW6+ktf/7gJ1ALr
- cimDUiULYbH7aXDY0G/d44xdoDOdfmAbJ8LfDYVpnkUQmN+X+GxdifObcBHtovA9nw
- QzB1OV9dGz1qO3d79c4jJhyLQJkr6ucnVZAeClhKJnf14iiXcPRW9A8dCd2086zSBm
- wOHTE4ycv0PNcUQRWtsXUzbNfH22BVT8rmghyObp7AQrvLJrcIo1b5mqie8+Pzwn6/
- uwgoSEPzwOQuw==
+ b=rzRIdTcPL+QS8U2rJD17jeT+6PJYCaFILzH2eE2fM5wmQs2biaVgYB/us/fDeDLRk
+ NHSAN5mWnyAeZzGL7dn/2ufJ+CEZeX/4wIX7i1OaZmvSciDgzBxb+ntnFYn7vAfF7b
+ W1Ok0GJIn1Zy0cED3TM+NyOuJ18Isrd4mQ1GWrLPXOQvDIUcXsSgho39xlulBbc6tz
+ SzJySC3lU35eLqTV9L4fkYgktaITHhU29BbO9YsqaG8MnnHU506IMgxTRlpq8nOGCv
+ 4aTC7CHu+4HNxEhogcNcAcvNC86SlKxRRKce6msIActq/RFRT6Nqgos2Rgsfs7M8kB
+ A2kWwJbF8XC6g==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 02/28] parisc: sba: Fix compile warning wrt list
- of SBA devices
-Date: Sun, 24 Sep 2023 09:17:19 -0400
-Message-Id: <20230924131745.1275960-2-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 20/28] drm/amd/display: Don't check registers,
+ if using AUX BL control
+Date: Sun, 24 Sep 2023 09:17:37 -0400
+Message-Id: <20230924131745.1275960-20-sashal@kernel.org>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230924131745.1275960-1-sashal@kernel.org>
 References: <20230924131745.1275960-1-sashal@kernel.org>
@@ -54,54 +55,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, linux-parisc@vger.kernel.org,
- Helge Deller <deller@gmx.de>, dri-devel@lists.freedesktop.org,
- James.Bottomley@HansenPartnership.com, airlied@redhat.com
+Cc: Wenjing Liu <wenjing.liu@amd.com>, dri-devel@lists.freedesktop.org,
+ Jun.Lei@amd.com, Sasha Levin <sashal@kernel.org>, charlene.liu@amd.com,
+ sancchen@amd.com, Rodrigo.Siqueira@amd.com, syed.hassan@amd.com,
+ amd-gfx@lists.freedesktop.org, tony.tascioglu@amd.com,
+ Stylon Wang <stylon.wang@amd.com>, ahmed.ahmed@amd.com, Jingwen.Zhu@amd.com,
+ sunpeng.li@amd.com, Daniel Wheeler <daniel.wheeler@amd.com>,
+ Swapnil Patel <swapnil.patel@amd.com>, Xinhui.Pan@amd.com,
+ Alex Deucher <alexander.deucher@amd.com>, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Helge Deller <deller@gmx.de>
+From: Swapnil Patel <swapnil.patel@amd.com>
 
-[ Upstream commit eb3255ee8f6f4691471a28fbf22db5e8901116cd ]
+[ Upstream commit f5b2c10b57615828b531bb0ae56bd6325a41167e ]
 
-Fix this makecheck warning:
-drivers/parisc/sba_iommu.c:98:19: warning: symbol 'sba_list'
-	was not declared. Should it be static?
+[Why]
+Currently the driver looks DCN registers to access if BL is on or not.
+This check is not valid if we are using AUX based brightness control.
+This causes driver to not send out "backlight off" command during power off
+sequence as it already thinks it is off.
 
-Signed-off-by: Helge Deller <deller@gmx.de>
+[How]
+Only check DCN registers if we aren't using AUX based brightness control.
+
+Reviewed-by: Wenjing Liu <wenjing.liu@amd.com>
+Acked-by: Stylon Wang <stylon.wang@amd.com>
+Signed-off-by: Swapnil Patel <swapnil.patel@amd.com>
+Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- arch/parisc/include/asm/ropes.h | 3 +++
- drivers/char/agp/parisc-agp.c   | 2 --
- 2 files changed, 3 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/arch/parisc/include/asm/ropes.h b/arch/parisc/include/asm/ropes.h
-index 8e51c775c80a6..62399c7ea94a1 100644
---- a/arch/parisc/include/asm/ropes.h
-+++ b/arch/parisc/include/asm/ropes.h
-@@ -86,6 +86,9 @@ struct sba_device {
- 	struct ioc		ioc[MAX_IOC];
- };
+diff --git a/drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c b/drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c
+index 9378c98d02cfe..508f5fe268484 100644
+--- a/drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c
++++ b/drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c
+@@ -973,7 +973,9 @@ void dce110_edp_backlight_control(
+ 		return;
+ 	}
  
-+/* list of SBA's in system, see drivers/parisc/sba_iommu.c */
-+extern struct sba_device *sba_list;
-+
- #define ASTRO_RUNWAY_PORT	0x582
- #define IKE_MERCED_PORT		0x803
- #define REO_MERCED_PORT		0x804
-diff --git a/drivers/char/agp/parisc-agp.c b/drivers/char/agp/parisc-agp.c
-index 514f9f287a781..c6f181702b9a7 100644
---- a/drivers/char/agp/parisc-agp.c
-+++ b/drivers/char/agp/parisc-agp.c
-@@ -394,8 +394,6 @@ find_quicksilver(struct device *dev, void *data)
- static int __init
- parisc_agp_init(void)
- {
--	extern struct sba_device *sba_list;
--
- 	int err = -1;
- 	struct parisc_device *sba = NULL, *lba = NULL;
- 	struct lba_device *lbadev = NULL;
+-	if (link->panel_cntl) {
++	if (link->panel_cntl && !(link->dpcd_sink_ext_caps.bits.oled ||
++		link->dpcd_sink_ext_caps.bits.hdr_aux_backlight_control == 1 ||
++		link->dpcd_sink_ext_caps.bits.sdr_aux_backlight_control == 1)) {
+ 		bool is_backlight_on = link->panel_cntl->funcs->is_panel_backlight_on(link->panel_cntl);
+ 
+ 		if ((enable && is_backlight_on) || (!enable && !is_backlight_on)) {
 -- 
 2.40.1
 
