@@ -2,39 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA76E7AC86A
-	for <lists+dri-devel@lfdr.de>; Sun, 24 Sep 2023 15:17:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEB787AC871
+	for <lists+dri-devel@lfdr.de>; Sun, 24 Sep 2023 15:17:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 742F710E125;
-	Sun, 24 Sep 2023 13:17:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6406F10E139;
+	Sun, 24 Sep 2023 13:17:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5579410E10A;
- Sun, 24 Sep 2023 13:16:55 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED0A910E10A;
+ Sun, 24 Sep 2023 13:16:58 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 19419B80909;
+ by sin.source.kernel.org (Postfix) with ESMTP id 58FDCCE0B21;
+ Sun, 24 Sep 2023 13:16:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47DD1C433CD;
  Sun, 24 Sep 2023 13:16:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4571FC433C9;
- Sun, 24 Sep 2023 13:16:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1695561413;
- bh=igArfX85Uo/ur40K6L0lbsAtcc2RGAKMEUNrc8VeEHU=;
+ s=k20201202; t=1695561415;
+ bh=FF8e3C7Xs/OSrgjQHSuwKFgdVE7dLpEjPZz+RiAm6cs=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=dxWpjeW0Od2+k6Y+d3y8Lm5DyqOLuvsyq+FyPzj61RuE+mR7nAm8wuzPThIFv/RgO
- eq4rF+xgZwgd/OEB2spDNyEiegJF2wnEBuEFjWlNYyOTWtFmLJLWDdD4qtY7wODetB
- 6VUbfDlVPBuo1hRGDf42C1MRPJbVsNKWNM++FXCdsy1Q/hb3Pbq9Wg4FpoLYV3ssDt
- sAS473XtCEGOIQzRJbuYpS9mIXRBA0hw5BW/7JxWdqvCNtiOd97DXaZhzQBNsEtTFs
- ANkj17PCejChhi+Z41A9/79AyT9VzZNnGSbWpgDwW5t9bAOFp+1znKkHG6BNSxy6PL
- tAfPJm4dobXMw==
+ b=A3rNIbIOf//acwBjwDm9N3IvISMqzlrDvXbp53NME7YtZnPtvlex34m6SxTCeDCKj
+ rZBYQw1kKixGPh98nGnHVcCX9A6oAGA0yueveCf7dJ6z8J549weynpC40ukhhF6z1B
+ IKjUofw2OJeRw4B3rLnUX9dBWZMYcKi1ohlexaNOiP56833819FoPPxWAYhxuenHUm
+ 2dfCjhyMkA0qvsJgltsNhyqsKXsnxy/KfXJdZP2VH8KCSdkWcpnUBDru+R2Yp9RGEH
+ jrp5n3NNg+JWoLsGpHxNNt6cROLJNLSJPmaqDGIaXPR5aLDYjutlmlUEVZvjn3ixuh
+ /Y+9dpLniOVwg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.5 24/41] drm/amdgpu: Store CU info from all XCCs for
+Subject: [PATCH AUTOSEL 6.5 25/41] drm/amdkfd: Update cache info reporting for
  GFX v9.4.3
-Date: Sun, 24 Sep 2023 09:15:12 -0400
-Message-Id: <20230924131529.1275335-24-sashal@kernel.org>
+Date: Sun, 24 Sep 2023 09:15:13 -0400
+Message-Id: <20230924131529.1275335-25-sashal@kernel.org>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230924131529.1275335-1-sashal@kernel.org>
 References: <20230924131529.1275335-1-sashal@kernel.org>
@@ -55,417 +54,187 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Hongkun.Zhang@amd.com, error27@gmail.com, lijo.lazar@amd.com,
- dri-devel@lists.freedesktop.org, YiPeng.Chai@amd.com,
- mario.limonciello@amd.com, Likun.Gao@amd.com, Jiadong.Zhu@amd.com,
- James.Zhu@amd.com, Sasha Levin <sashal@kernel.org>, tom.stdenis@amd.com,
- guchun.chen@amd.com, David.Francis@amd.com, amd-gfx@lists.freedesktop.org,
- sukrut.bellary@linux.com, kenneth.feng@amd.com, Graham.Sider@amd.com,
- Mukul Joshi <mukul.joshi@amd.com>, tao.zhou1@amd.com,
- srinivasan.shanmugam@amd.com, marek.olsak@amd.com, shiwu.zhang@amd.com,
- le.ma@amd.com, sunran001@208suo.com, evan.quan@amd.com, jesse.zhang@amd.com,
- jonathan.kim@amd.com, Felix Kuehling <Felix.Kuehling@amd.com>,
- Xinhui.Pan@amd.com, rajneesh.bhardwaj@amd.com,
- Alex Deucher <alexander.deucher@amd.com>, Lang.Yu@amd.com,
- christian.koenig@amd.com, Hawking.Zhang@amd.com
+Cc: Sasha Levin <sashal@kernel.org>, Mukul Joshi <mukul.joshi@amd.com>,
+ Felix Kuehling <Felix.Kuehling@amd.com>, Xinhui.Pan@amd.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Mukul Joshi <mukul.joshi@amd.com>
 
-[ Upstream commit 97e3c6a853f2af9145daf0c6ca25bcdf55c759d4 ]
+[ Upstream commit 0752e66e91fa86fa5481b04b22053363833ffb85 ]
 
-Currently, we store CU info only for a single XCC assuming
-that it is the same for all XCCs. However, that may not be
-true. As a result, store CU info for all XCCs. This info is
-later used for CU masking.
+Update cache info reporting in sysfs to report the correct
+number of CUs and associated cache information based on
+different spatial partitioning modes.
 
 Signed-off-by: Mukul Joshi <mukul.joshi@amd.com>
 Reviewed-by: Felix Kuehling <Felix.Kuehling@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c    |  2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.h       |  3 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c       |  2 +-
- drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c        |  2 +-
- drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c        |  2 +-
- drivers/gpu/drm/amd/amdgpu/gfx_v6_0.c         |  2 +-
- drivers/gpu/drm/amd/amdgpu/gfx_v7_0.c         |  2 +-
- drivers/gpu/drm/amd/amdgpu/gfx_v8_0.c         |  2 +-
- drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c         |  4 +-
- drivers/gpu/drm/amd/amdgpu/gfx_v9_4_3.c       | 76 +++++++++----------
- drivers/gpu/drm/amd/amdkfd/kfd_crat.c         |  3 +-
- drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager.c  |  8 +-
- drivers/gpu/drm/amd/amdkfd/kfd_topology.c     | 11 ++-
- .../gpu/drm/amd/include/kgd_kfd_interface.h   |  6 +-
- 14 files changed, 60 insertions(+), 65 deletions(-)
+ drivers/gpu/drm/amd/amdkfd/kfd_crat.h     |  4 ++
+ drivers/gpu/drm/amd/amdkfd/kfd_topology.c | 82 +++++++++++++----------
+ drivers/gpu/drm/amd/amdkfd/kfd_topology.h |  2 +-
+ 3 files changed, 51 insertions(+), 37 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c
-index b4fcad0e62f7e..a7c8beff1647c 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c
-@@ -492,7 +492,7 @@ void amdgpu_amdkfd_get_cu_info(struct amdgpu_device *adev, struct kfd_cu_info *c
- 	cu_info->cu_active_number = acu_info.number;
- 	cu_info->cu_ao_mask = acu_info.ao_cu_mask;
- 	memcpy(&cu_info->cu_bitmap[0], &acu_info.bitmap[0],
--	       sizeof(acu_info.bitmap));
-+	       sizeof(cu_info->cu_bitmap));
- 	cu_info->num_shader_engines = adev->gfx.config.max_shader_engines;
- 	cu_info->num_shader_arrays_per_engine = adev->gfx.config.max_sh_per_se;
- 	cu_info->num_cu_per_sh = adev->gfx.config.max_cu_per_sh;
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.h
-index a4ff515ce8966..59ba03d387fcc 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.h
-@@ -43,6 +43,7 @@
- #define AMDGPU_GFX_LBPW_DISABLED_MODE		0x00000008L
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_crat.h b/drivers/gpu/drm/amd/amdkfd/kfd_crat.h
+index fc719389b5d65..4684711aa695a 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_crat.h
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_crat.h
+@@ -79,6 +79,10 @@ struct crat_header {
+ #define CRAT_SUBTYPE_IOLINK_AFFINITY		5
+ #define CRAT_SUBTYPE_MAX			6
  
- #define AMDGPU_MAX_GC_INSTANCES		8
-+#define KGD_MAX_QUEUES			128
++/*
++ * Do not change the value of CRAT_SIBLINGMAP_SIZE from 32
++ * as it breaks the ABI.
++ */
+ #define CRAT_SIBLINGMAP_SIZE	32
  
- #define AMDGPU_MAX_GFX_QUEUES KGD_MAX_QUEUES
- #define AMDGPU_MAX_COMPUTE_QUEUES KGD_MAX_QUEUES
-@@ -254,7 +255,7 @@ struct amdgpu_cu_info {
- 	uint32_t number;
- 	uint32_t ao_cu_mask;
- 	uint32_t ao_cu_bitmap[4][4];
--	uint32_t bitmap[4][4];
-+	uint32_t bitmap[AMDGPU_MAX_GC_INSTANCES][4][4];
- };
- 
- struct amdgpu_gfx_ras {
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
-index d4ca19ba5a289..f678bdd5f353d 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
-@@ -839,7 +839,7 @@ int amdgpu_info_ioctl(struct drm_device *dev, void *data, struct drm_file *filp)
- 		memcpy(&dev_info->cu_ao_bitmap[0], &adev->gfx.cu_info.ao_cu_bitmap[0],
- 		       sizeof(adev->gfx.cu_info.ao_cu_bitmap));
- 		memcpy(&dev_info->cu_bitmap[0], &adev->gfx.cu_info.bitmap[0],
--		       sizeof(adev->gfx.cu_info.bitmap));
-+		       sizeof(dev_info->cu_bitmap));
- 		dev_info->vram_type = adev->gmc.vram_type;
- 		dev_info->vram_bit_width = adev->gmc.vram_width;
- 		dev_info->vce_harvest_config = adev->vce.harvest_config;
-diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c
-index 44af8022b89fa..f743bf2c92877 100644
---- a/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c
-@@ -9448,7 +9448,7 @@ static int gfx_v10_0_get_cu_info(struct amdgpu_device *adev,
- 				gfx_v10_0_set_user_wgp_inactive_bitmap_per_sh(
- 					adev, disable_masks[i * 2 + j]);
- 			bitmap = gfx_v10_0_get_cu_active_bitmap_per_sh(adev);
--			cu_info->bitmap[i][j] = bitmap;
-+			cu_info->bitmap[0][i][j] = bitmap;
- 
- 			for (k = 0; k < adev->gfx.config.max_cu_per_sh; k++) {
- 				if (bitmap & mask) {
-diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c
-index 0451533ddde41..a82cba884c48f 100644
---- a/drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c
-@@ -6394,7 +6394,7 @@ static int gfx_v11_0_get_cu_info(struct amdgpu_device *adev,
- 			 *    SE6: {SH0,SH1} --> {bitmap[2][2], bitmap[2][3]}
- 			 *    SE7: {SH0,SH1} --> {bitmap[3][2], bitmap[3][3]}
- 			 */
--			cu_info->bitmap[i % 4][j + (i / 4) * 2] = bitmap;
-+			cu_info->bitmap[0][i % 4][j + (i / 4) * 2] = bitmap;
- 
- 			for (k = 0; k < adev->gfx.config.max_cu_per_sh; k++) {
- 				if (bitmap & mask)
-diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v6_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v6_0.c
-index da6caff78c22b..34f9211b26793 100644
---- a/drivers/gpu/drm/amd/amdgpu/gfx_v6_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/gfx_v6_0.c
-@@ -3577,7 +3577,7 @@ static void gfx_v6_0_get_cu_info(struct amdgpu_device *adev)
- 				gfx_v6_0_set_user_cu_inactive_bitmap(
- 					adev, disable_masks[i * 2 + j]);
- 			bitmap = gfx_v6_0_get_cu_enabled(adev);
--			cu_info->bitmap[i][j] = bitmap;
-+			cu_info->bitmap[0][i][j] = bitmap;
- 
- 			for (k = 0; k < adev->gfx.config.max_cu_per_sh; k++) {
- 				if (bitmap & mask) {
-diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v7_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v7_0.c
-index 8c174c11eaee0..6feae2548e8ee 100644
---- a/drivers/gpu/drm/amd/amdgpu/gfx_v7_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/gfx_v7_0.c
-@@ -5122,7 +5122,7 @@ static void gfx_v7_0_get_cu_info(struct amdgpu_device *adev)
- 				gfx_v7_0_set_user_cu_inactive_bitmap(
- 					adev, disable_masks[i * 2 + j]);
- 			bitmap = gfx_v7_0_get_cu_active_bitmap(adev);
--			cu_info->bitmap[i][j] = bitmap;
-+			cu_info->bitmap[0][i][j] = bitmap;
- 
- 			for (k = 0; k < adev->gfx.config.max_cu_per_sh; k ++) {
- 				if (bitmap & mask) {
-diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v8_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v8_0.c
-index 51c1745c83697..885ebd703260f 100644
---- a/drivers/gpu/drm/amd/amdgpu/gfx_v8_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/gfx_v8_0.c
-@@ -7121,7 +7121,7 @@ static void gfx_v8_0_get_cu_info(struct amdgpu_device *adev)
- 				gfx_v8_0_set_user_cu_inactive_bitmap(
- 					adev, disable_masks[i * 2 + j]);
- 			bitmap = gfx_v8_0_get_cu_active_bitmap(adev);
--			cu_info->bitmap[i][j] = bitmap;
-+			cu_info->bitmap[0][i][j] = bitmap;
- 
- 			for (k = 0; k < adev->gfx.config.max_cu_per_sh; k ++) {
- 				if (bitmap & mask) {
-diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
-index 65577eca58f1c..e511e49d3023f 100644
---- a/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
-@@ -1497,7 +1497,7 @@ static void gfx_v9_0_init_always_on_cu_mask(struct amdgpu_device *adev)
- 			amdgpu_gfx_select_se_sh(adev, i, j, 0xffffffff, 0);
- 
- 			for (k = 0; k < adev->gfx.config.max_cu_per_sh; k ++) {
--				if (cu_info->bitmap[i][j] & mask) {
-+				if (cu_info->bitmap[0][i][j] & mask) {
- 					if (counter == pg_always_on_cu_num)
- 						WREG32_SOC15(GC, 0, mmRLC_PG_ALWAYS_ON_CU_MASK, cu_bitmap);
- 					if (counter < always_on_cu_num)
-@@ -7234,7 +7234,7 @@ static int gfx_v9_0_get_cu_info(struct amdgpu_device *adev,
- 			 *    SE6,SH0 --> bitmap[2][1]
- 			 *    SE7,SH0 --> bitmap[3][1]
- 			 */
--			cu_info->bitmap[i % 4][j + i / 4] = bitmap;
-+			cu_info->bitmap[0][i % 4][j + i / 4] = bitmap;
- 
- 			for (k = 0; k < adev->gfx.config.max_cu_per_sh; k ++) {
- 				if (bitmap & mask) {
-diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v9_4_3.c b/drivers/gpu/drm/amd/amdgpu/gfx_v9_4_3.c
-index 4f883b94f98ef..84a74a6c6b2de 100644
---- a/drivers/gpu/drm/amd/amdgpu/gfx_v9_4_3.c
-+++ b/drivers/gpu/drm/amd/amdgpu/gfx_v9_4_3.c
-@@ -4228,7 +4228,7 @@ static void gfx_v9_4_3_set_gds_init(struct amdgpu_device *adev)
- }
- 
- static void gfx_v9_4_3_set_user_cu_inactive_bitmap(struct amdgpu_device *adev,
--						 u32 bitmap)
-+						 u32 bitmap, int xcc_id)
- {
- 	u32 data;
- 
-@@ -4238,15 +4238,15 @@ static void gfx_v9_4_3_set_user_cu_inactive_bitmap(struct amdgpu_device *adev,
- 	data = bitmap << GC_USER_SHADER_ARRAY_CONFIG__INACTIVE_CUS__SHIFT;
- 	data &= GC_USER_SHADER_ARRAY_CONFIG__INACTIVE_CUS_MASK;
- 
--	WREG32_SOC15(GC, GET_INST(GC, 0), regGC_USER_SHADER_ARRAY_CONFIG, data);
-+	WREG32_SOC15(GC, GET_INST(GC, xcc_id), regGC_USER_SHADER_ARRAY_CONFIG, data);
- }
- 
--static u32 gfx_v9_4_3_get_cu_active_bitmap(struct amdgpu_device *adev)
-+static u32 gfx_v9_4_3_get_cu_active_bitmap(struct amdgpu_device *adev, int xcc_id)
- {
- 	u32 data, mask;
- 
--	data = RREG32_SOC15(GC, GET_INST(GC, 0), regCC_GC_SHADER_ARRAY_CONFIG);
--	data |= RREG32_SOC15(GC, GET_INST(GC, 0), regGC_USER_SHADER_ARRAY_CONFIG);
-+	data = RREG32_SOC15(GC, GET_INST(GC, xcc_id), regCC_GC_SHADER_ARRAY_CONFIG);
-+	data |= RREG32_SOC15(GC, GET_INST(GC, xcc_id), regGC_USER_SHADER_ARRAY_CONFIG);
- 
- 	data &= CC_GC_SHADER_ARRAY_CONFIG__INACTIVE_CUS_MASK;
- 	data >>= CC_GC_SHADER_ARRAY_CONFIG__INACTIVE_CUS__SHIFT;
-@@ -4259,7 +4259,7 @@ static u32 gfx_v9_4_3_get_cu_active_bitmap(struct amdgpu_device *adev)
- static int gfx_v9_4_3_get_cu_info(struct amdgpu_device *adev,
- 				 struct amdgpu_cu_info *cu_info)
- {
--	int i, j, k, counter, active_cu_number = 0;
-+	int i, j, k, counter, xcc_id, active_cu_number = 0;
- 	u32 mask, bitmap, ao_bitmap, ao_cu_mask = 0;
- 	unsigned disable_masks[4 * 4];
- 
-@@ -4278,46 +4278,38 @@ static int gfx_v9_4_3_get_cu_info(struct amdgpu_device *adev,
- 				    adev->gfx.config.max_sh_per_se);
- 
- 	mutex_lock(&adev->grbm_idx_mutex);
--	for (i = 0; i < adev->gfx.config.max_shader_engines; i++) {
--		for (j = 0; j < adev->gfx.config.max_sh_per_se; j++) {
--			mask = 1;
--			ao_bitmap = 0;
--			counter = 0;
--			gfx_v9_4_3_xcc_select_se_sh(adev, i, j, 0xffffffff, 0);
--			gfx_v9_4_3_set_user_cu_inactive_bitmap(
--				adev, disable_masks[i * adev->gfx.config.max_sh_per_se + j]);
--			bitmap = gfx_v9_4_3_get_cu_active_bitmap(adev);
--
--			/*
--			 * The bitmap(and ao_cu_bitmap) in cu_info structure is
--			 * 4x4 size array, and it's usually suitable for Vega
--			 * ASICs which has 4*2 SE/SH layout.
--			 * But for Arcturus, SE/SH layout is changed to 8*1.
--			 * To mostly reduce the impact, we make it compatible
--			 * with current bitmap array as below:
--			 *    SE4,SH0 --> bitmap[0][1]
--			 *    SE5,SH0 --> bitmap[1][1]
--			 *    SE6,SH0 --> bitmap[2][1]
--			 *    SE7,SH0 --> bitmap[3][1]
--			 */
--			cu_info->bitmap[i % 4][j + i / 4] = bitmap;
--
--			for (k = 0; k < adev->gfx.config.max_cu_per_sh; k++) {
--				if (bitmap & mask) {
--					if (counter < adev->gfx.config.max_cu_per_sh)
--						ao_bitmap |= mask;
--					counter++;
-+	for (xcc_id = 0; xcc_id < NUM_XCC(adev->gfx.xcc_mask); xcc_id++) {
-+		for (i = 0; i < adev->gfx.config.max_shader_engines; i++) {
-+			for (j = 0; j < adev->gfx.config.max_sh_per_se; j++) {
-+				mask = 1;
-+				ao_bitmap = 0;
-+				counter = 0;
-+				gfx_v9_4_3_xcc_select_se_sh(adev, i, j, 0xffffffff, xcc_id);
-+				gfx_v9_4_3_set_user_cu_inactive_bitmap(
-+					adev,
-+					disable_masks[i * adev->gfx.config.max_sh_per_se + j],
-+					xcc_id);
-+				bitmap = gfx_v9_4_3_get_cu_active_bitmap(adev, xcc_id);
-+
-+				cu_info->bitmap[xcc_id][i][j] = bitmap;
-+
-+				for (k = 0; k < adev->gfx.config.max_cu_per_sh; k++) {
-+					if (bitmap & mask) {
-+						if (counter < adev->gfx.config.max_cu_per_sh)
-+							ao_bitmap |= mask;
-+						counter++;
-+					}
-+					mask <<= 1;
- 				}
--				mask <<= 1;
-+				active_cu_number += counter;
-+				if (i < 2 && j < 2)
-+					ao_cu_mask |= (ao_bitmap << (i * 16 + j * 8));
-+				cu_info->ao_cu_bitmap[i][j] = ao_bitmap;
- 			}
--			active_cu_number += counter;
--			if (i < 2 && j < 2)
--				ao_cu_mask |= (ao_bitmap << (i * 16 + j * 8));
--			cu_info->ao_cu_bitmap[i % 4][j + i / 4] = ao_bitmap;
- 		}
-+		gfx_v9_4_3_xcc_select_se_sh(adev, 0xffffffff, 0xffffffff, 0xffffffff,
-+					    xcc_id);
- 	}
--	gfx_v9_4_3_xcc_select_se_sh(adev, 0xffffffff, 0xffffffff, 0xffffffff,
--				    0);
- 	mutex_unlock(&adev->grbm_idx_mutex);
- 
- 	cu_info->number = active_cu_number;
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_crat.c b/drivers/gpu/drm/amd/amdkfd/kfd_crat.c
-index f5a6f562e2a80..11b9837292536 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_crat.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_crat.c
-@@ -2154,7 +2154,8 @@ static int kfd_create_vcrat_image_gpu(void *pcrat_image,
- 
- 	amdgpu_amdkfd_get_cu_info(kdev->adev, &cu_info);
- 	cu->num_simd_per_cu = cu_info.simd_per_cu;
--	cu->num_simd_cores = cu_info.simd_per_cu * cu_info.cu_active_number;
-+	cu->num_simd_cores = cu_info.simd_per_cu *
-+			(cu_info.cu_active_number / kdev->kfd->num_nodes);
- 	cu->max_waves_simd = cu_info.max_waves_per_simd;
- 
- 	cu->wave_front_size = cu_info.wave_front_size;
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager.c b/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager.c
-index 863cf060af484..35e05ee89eac5 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager.c
-@@ -104,11 +104,13 @@ void mqd_symmetrically_map_cu_mask(struct mqd_manager *mm,
- 	bool wgp_mode_req = KFD_GC_VERSION(mm->dev) >= IP_VERSION(10, 0, 0);
- 	uint32_t en_mask = wgp_mode_req ? 0x3 : 0x1;
- 	int i, se, sh, cu, cu_bitmap_sh_mul, inc = wgp_mode_req ? 2 : 1;
-+	uint32_t cu_active_per_node;
- 
- 	amdgpu_amdkfd_get_cu_info(mm->dev->adev, &cu_info);
- 
--	if (cu_mask_count > cu_info.cu_active_number)
--		cu_mask_count = cu_info.cu_active_number;
-+	cu_active_per_node = cu_info.cu_active_number / mm->dev->kfd->num_nodes;
-+	if (cu_mask_count > cu_active_per_node)
-+		cu_mask_count = cu_active_per_node;
- 
- 	/* Exceeding these bounds corrupts the stack and indicates a coding error.
- 	 * Returning with no CU's enabled will hang the queue, which should be
-@@ -141,7 +143,7 @@ void mqd_symmetrically_map_cu_mask(struct mqd_manager *mm,
- 	for (se = 0; se < cu_info.num_shader_engines; se++)
- 		for (sh = 0; sh < cu_info.num_shader_arrays_per_engine; sh++)
- 			cu_per_sh[se][sh] = hweight32(
--				cu_info.cu_bitmap[se % 4][sh + (se / 4) * cu_bitmap_sh_mul]);
-+				cu_info.cu_bitmap[0][se % 4][sh + (se / 4) * cu_bitmap_sh_mul]);
- 
- 	/* Symmetrically map cu_mask to all SEs & SHs:
- 	 * se_mask programs up to 2 SH in the upper and lower 16 bits.
+ /*
 diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_topology.c b/drivers/gpu/drm/amd/amdkfd/kfd_topology.c
-index 4a17bb7c7b27d..ea67a353beb00 100644
+index ea67a353beb00..5582191022106 100644
 --- a/drivers/gpu/drm/amd/amdkfd/kfd_topology.c
 +++ b/drivers/gpu/drm/amd/amdkfd/kfd_topology.c
-@@ -450,8 +450,7 @@ static ssize_t node_show(struct kobject *kobj, struct attribute *attr,
- 	sysfs_show_32bit_prop(buffer, offs, "cpu_cores_count",
- 			      dev->node_props.cpu_cores_count);
- 	sysfs_show_32bit_prop(buffer, offs, "simd_count",
--			      dev->gpu ? (dev->node_props.simd_count *
--					  NUM_XCC(dev->gpu->xcc_mask)) : 0);
-+			      dev->gpu ? dev->node_props.simd_count : 0);
- 	sysfs_show_32bit_prop(buffer, offs, "mem_banks_count",
- 			      dev->node_props.mem_banks_count);
- 	sysfs_show_32bit_prop(buffer, offs, "caches_count",
-@@ -1658,7 +1657,7 @@ static int fill_in_l2_l3_pcache(struct kfd_cache_properties **props_ext,
- 	int i, j, k;
+@@ -1650,14 +1650,17 @@ static int fill_in_l1_pcache(struct kfd_cache_properties **props_ext,
+ static int fill_in_l2_l3_pcache(struct kfd_cache_properties **props_ext,
+ 				struct kfd_gpu_cache_info *pcache_info,
+ 				struct kfd_cu_info *cu_info,
+-				int cache_type, unsigned int cu_processor_id)
++				int cache_type, unsigned int cu_processor_id,
++				struct kfd_node *knode)
+ {
+ 	unsigned int cu_sibling_map_mask;
+ 	int first_active_cu;
+-	int i, j, k;
++	int i, j, k, xcc, start, end;
  	struct kfd_cache_properties *pcache = NULL;
  
--	cu_sibling_map_mask = cu_info->cu_bitmap[0][0];
-+	cu_sibling_map_mask = cu_info->cu_bitmap[0][0][0];
+-	cu_sibling_map_mask = cu_info->cu_bitmap[0][0][0];
++	start = ffs(knode->xcc_mask) - 1;
++	end = start + NUM_XCC(knode->xcc_mask);
++	cu_sibling_map_mask = cu_info->cu_bitmap[start][0][0];
  	cu_sibling_map_mask &=
  		((1 << pcache_info[cache_type].num_cu_shared) - 1);
  	first_active_cu = ffs(cu_sibling_map_mask);
-@@ -1701,7 +1700,7 @@ static int fill_in_l2_l3_pcache(struct kfd_cache_properties **props_ext,
- 				pcache->sibling_map[k+3] = (uint8_t)((cu_sibling_map_mask >> 24) & 0xFF);
- 				k += 4;
+@@ -1692,16 +1695,18 @@ static int fill_in_l2_l3_pcache(struct kfd_cache_properties **props_ext,
+ 		cu_sibling_map_mask = cu_sibling_map_mask >> (first_active_cu - 1);
+ 		k = 0;
  
--				cu_sibling_map_mask = cu_info->cu_bitmap[i % 4][j + i / 4];
-+				cu_sibling_map_mask = cu_info->cu_bitmap[0][i % 4][j + i / 4];
- 				cu_sibling_map_mask &= ((1 << pcache_info[cache_type].num_cu_shared) - 1);
+-		for (i = 0; i < cu_info->num_shader_engines; i++) {
+-			for (j = 0; j < cu_info->num_shader_arrays_per_engine; j++) {
+-				pcache->sibling_map[k] = (uint8_t)(cu_sibling_map_mask & 0xFF);
+-				pcache->sibling_map[k+1] = (uint8_t)((cu_sibling_map_mask >> 8) & 0xFF);
+-				pcache->sibling_map[k+2] = (uint8_t)((cu_sibling_map_mask >> 16) & 0xFF);
+-				pcache->sibling_map[k+3] = (uint8_t)((cu_sibling_map_mask >> 24) & 0xFF);
+-				k += 4;
+-
+-				cu_sibling_map_mask = cu_info->cu_bitmap[0][i % 4][j + i / 4];
+-				cu_sibling_map_mask &= ((1 << pcache_info[cache_type].num_cu_shared) - 1);
++		for (xcc = start; xcc < end; xcc++) {
++			for (i = 0; i < cu_info->num_shader_engines; i++) {
++				for (j = 0; j < cu_info->num_shader_arrays_per_engine; j++) {
++					pcache->sibling_map[k] = (uint8_t)(cu_sibling_map_mask & 0xFF);
++					pcache->sibling_map[k+1] = (uint8_t)((cu_sibling_map_mask >> 8) & 0xFF);
++					pcache->sibling_map[k+2] = (uint8_t)((cu_sibling_map_mask >> 16) & 0xFF);
++					pcache->sibling_map[k+3] = (uint8_t)((cu_sibling_map_mask >> 24) & 0xFF);
++					k += 4;
++
++					cu_sibling_map_mask = cu_info->cu_bitmap[xcc][i % 4][j + i / 4];
++					cu_sibling_map_mask &= ((1 << pcache_info[cache_type].num_cu_shared) - 1);
++				}
  			}
  		}
-@@ -1762,8 +1761,8 @@ static void kfd_fill_cache_non_crat_info(struct kfd_topology_device *dev, struct
- 					for (k = 0; k < pcu_info->num_cu_per_sh; k += pcache_info[ct].num_cu_shared) {
- 
- 						ret = fill_in_l1_pcache(&props_ext, pcache_info, pcu_info,
--										pcu_info->cu_bitmap[i % 4][j + i / 4], ct,
--										cu_processor_id, k);
-+									pcu_info->cu_bitmap[0][i % 4][j + i / 4], ct,
-+									cu_processor_id, k);
- 
- 						if (ret < 0)
- 							break;
-diff --git a/drivers/gpu/drm/amd/include/kgd_kfd_interface.h b/drivers/gpu/drm/amd/include/kgd_kfd_interface.h
-index d0df3381539f0..74cc545085a02 100644
---- a/drivers/gpu/drm/amd/include/kgd_kfd_interface.h
-+++ b/drivers/gpu/drm/amd/include/kgd_kfd_interface.h
-@@ -31,12 +31,12 @@
- #include <linux/types.h>
- #include <linux/bitmap.h>
- #include <linux/dma-fence.h>
-+#include "amdgpu_irq.h"
-+#include "amdgpu_gfx.h"
- 
- struct pci_dev;
- struct amdgpu_device;
- 
--#define KGD_MAX_QUEUES 128
+ 		pcache->sibling_map_size = k;
+@@ -1719,7 +1724,7 @@ static int fill_in_l2_l3_pcache(struct kfd_cache_properties **props_ext,
+ static void kfd_fill_cache_non_crat_info(struct kfd_topology_device *dev, struct kfd_node *kdev)
+ {
+ 	struct kfd_gpu_cache_info *pcache_info = NULL;
+-	int i, j, k;
++	int i, j, k, xcc, start, end;
+ 	int ct = 0;
+ 	unsigned int cu_processor_id;
+ 	int ret;
+@@ -1753,37 +1758,42 @@ static void kfd_fill_cache_non_crat_info(struct kfd_topology_device *dev, struct
+ 	 *			then it will consider only one CU from
+ 	 *			the shared unit
+ 	 */
++	start = ffs(kdev->xcc_mask) - 1;
++	end = start + NUM_XCC(kdev->xcc_mask);
++
+ 	for (ct = 0; ct < num_of_cache_types; ct++) {
+ 		cu_processor_id = gpu_processor_id;
+ 		if (pcache_info[ct].cache_level == 1) {
+-			for (i = 0; i < pcu_info->num_shader_engines; i++) {
+-				for (j = 0; j < pcu_info->num_shader_arrays_per_engine; j++) {
+-					for (k = 0; k < pcu_info->num_cu_per_sh; k += pcache_info[ct].num_cu_shared) {
 -
- struct kfd_dev;
- struct kgd_mem;
+-						ret = fill_in_l1_pcache(&props_ext, pcache_info, pcu_info,
+-									pcu_info->cu_bitmap[0][i % 4][j + i / 4], ct,
+-									cu_processor_id, k);
+-
+-						if (ret < 0)
+-							break;
+-
+-						if (!ret) {
+-							num_of_entries++;
+-							list_add_tail(&props_ext->list, &dev->cache_props);
++			for (xcc = start; xcc < end; xcc++) {
++				for (i = 0; i < pcu_info->num_shader_engines; i++) {
++					for (j = 0; j < pcu_info->num_shader_arrays_per_engine; j++) {
++						for (k = 0; k < pcu_info->num_cu_per_sh; k += pcache_info[ct].num_cu_shared) {
++
++							ret = fill_in_l1_pcache(&props_ext, pcache_info, pcu_info,
++										pcu_info->cu_bitmap[xcc][i % 4][j + i / 4], ct,
++										cu_processor_id, k);
++
++							if (ret < 0)
++								break;
++
++							if (!ret) {
++								num_of_entries++;
++								list_add_tail(&props_ext->list, &dev->cache_props);
++							}
++
++							/* Move to next CU block */
++							num_cu_shared = ((k + pcache_info[ct].num_cu_shared) <=
++								pcu_info->num_cu_per_sh) ?
++								pcache_info[ct].num_cu_shared :
++								(pcu_info->num_cu_per_sh - k);
++							cu_processor_id += num_cu_shared;
+ 						}
+-
+-						/* Move to next CU block */
+-						num_cu_shared = ((k + pcache_info[ct].num_cu_shared) <=
+-							pcu_info->num_cu_per_sh) ?
+-							pcache_info[ct].num_cu_shared :
+-							(pcu_info->num_cu_per_sh - k);
+-						cu_processor_id += num_cu_shared;
+ 					}
+ 				}
+ 			}
+ 		} else {
+ 			ret = fill_in_l2_l3_pcache(&props_ext, pcache_info,
+-								pcu_info, ct, cu_processor_id);
++					pcu_info, ct, cu_processor_id, kdev);
  
-@@ -68,7 +68,7 @@ struct kfd_cu_info {
- 	uint32_t wave_front_size;
- 	uint32_t max_scratch_slots_per_cu;
- 	uint32_t lds_size;
--	uint32_t cu_bitmap[4][4];
-+	uint32_t cu_bitmap[AMDGPU_MAX_GC_INSTANCES][4][4];
+ 			if (ret < 0)
+ 				break;
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_topology.h b/drivers/gpu/drm/amd/amdkfd/kfd_topology.h
+index cba2cd5ed9d19..46927263e014d 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_topology.h
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_topology.h
+@@ -86,7 +86,7 @@ struct kfd_mem_properties {
+ 	struct attribute	attr;
  };
  
- /* For getting GPU local memory information from KGD */
+-#define CACHE_SIBLINGMAP_SIZE 64
++#define CACHE_SIBLINGMAP_SIZE 128
+ 
+ struct kfd_cache_properties {
+ 	struct list_head	list;
 -- 
 2.40.1
 
