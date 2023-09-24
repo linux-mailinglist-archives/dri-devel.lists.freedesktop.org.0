@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46DE37AC88F
-	for <lists+dri-devel@lfdr.de>; Sun, 24 Sep 2023 15:17:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D59A67AC88D
+	for <lists+dri-devel@lfdr.de>; Sun, 24 Sep 2023 15:17:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1DE810E15C;
-	Sun, 24 Sep 2023 13:17:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C94C010E18E;
+	Sun, 24 Sep 2023 13:17:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org
  [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A711610E171;
- Sun, 24 Sep 2023 13:17:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 06F3C10E15E;
+ Sun, 24 Sep 2023 13:17:30 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id CE05060C24;
- Sun, 24 Sep 2023 13:17:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27D2CC433BD;
- Sun, 24 Sep 2023 13:17:23 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 7C69E60C24;
+ Sun, 24 Sep 2023 13:17:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10A27C433C7;
+ Sun, 24 Sep 2023 13:17:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1695561444;
- bh=d3MIZ2fZqZ8L6qjp0pv9yd66PqAm27pXdBW8ssP+3xE=;
+ s=k20201202; t=1695561449;
+ bh=lDq3UOUQY7o7x5pbXoiRH92AFPhE0J/Qm0xphQ23lAI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=idzV2Yw/VnFq7MFK16QCE3VOROI3UDD01scr7fvG0I5gtZk3ssmX8wbgBSS/a6y8J
- jFakfLCLRPbwibeSiV4mXmUC64U6VSwOzouUhMaN/OI6UYE/V/ctwr3LMw2z3YIBQL
- 9EovpyywjnWaLb+Flh3t77iQVVaTkEL1VRcvO5TC3R0rDeAR48FUxnfNlcTDB90kca
- YAh54vRGtErM2FfChxyrntEijuHuXPgl6UfWHnvl/hVLBGRGBfFzCAH3Js0FK4tuRv
- m1fl8lJj1dSP9lYEgO+DdGaaO8/AAsiSsrWovPZdJvrdGEZGtsG/UsDsPoXPf+kP8w
- qakyPHiC9Xejg==
+ b=jGnDGb/RIH4JhRL5JIVpeS/Q2akPYQ3LsAW8joAsbFsSM6QQKILmCqf9WMGOMa4RA
+ qPoTfks+4TCFXbRaOeIN4ee7XmlWhJtOx7AzU4sycWZfUOXuOFFsmi3F0/YdEudtIg
+ +B6WmJEPwsJqaBua9KWc21qIFWx2hSfCeD2vzsMsGQ2h014Xeewe8QUOb3W1mMHDiv
+ HM7usWlXckM0Hm5KffVIOuOfIQKlM282lHEAThoz7eMypdBdmpKm3EuR4gdbyRQuXt
+ NuC1BZ91eH8PgRA7yBlDaXaGRRAtxMUMArmEy39VxM+25WyjUABeEcEav/NKu7IE/N
+ 29lz6IIFAcYmA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.5 32/41] drm/amdkfd: Checkpoint and restore queues
- on GFX11
-Date: Sun, 24 Sep 2023 09:15:20 -0400
-Message-Id: <20230924131529.1275335-32-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.5 33/41] drm/amdgpu: Handle null atom context in
+ VBIOS info ioctl
+Date: Sun, 24 Sep 2023 09:15:21 -0400
+Message-Id: <20230924131529.1275335-33-sashal@kernel.org>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230924131529.1275335-1-sashal@kernel.org>
 References: <20230924131529.1275335-1-sashal@kernel.org>
@@ -55,99 +55,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, David Francis <David.Francis@amd.com>,
- Xinhui.Pan@amd.com, Harish Kasiviswanathan <Harish.Kasiviswanathan@amd.com>,
- amd-gfx@lists.freedesktop.org, christian.koenig@amd.com,
+Cc: Sasha Levin <sashal@kernel.org>, evan.quan@amd.com,
+ srinivasan.shanmugam@amd.com, guchun.chen@amd.com, Lang.Yu@amd.com,
+ David Francis <David.Francis@amd.com>, Xinhui.Pan@amd.com,
+ amd-gfx@lists.freedesktop.org, marek.olsak@amd.com,
  dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- Felix.Kuehling@amd.com
+ Felix.Kuehling@amd.com, James.Zhu@amd.com, christian.koenig@amd.com,
+ Graham.Sider@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: David Francis <David.Francis@amd.com>
 
-[ Upstream commit 9296da8c40900b4dae3d973aa22be306e2a77671 ]
+[ Upstream commit 5e7e82254270c8cf8b107451c5de01cee2f135ae ]
 
-The code in kfd_mqd_manager_v11.c to support criu dump and
-restore of queue state was missing.
+On some APU systems, there is no atom context and so the
+atom_context struct is null.
 
-Added it; should be equivalent to kfd_mqd_manager_v10.c.
+Add a check to the VBIOS_INFO branch of amdgpu_info_ioctl
+to handle this case, returning all zeroes.
 
-CC: Felix Kuehling <felix.kuehling@amd.com>
-Reviewed-by: Harish Kasiviswanathan <Harish.Kasiviswanathan@amd.com>
-Acked-by: Alex Deucher <alexander.deucher@amd.com>
+Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: David Francis <David.Francis@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../gpu/drm/amd/amdkfd/kfd_mqd_manager_v11.c  | 41 +++++++++++++++++++
- 1 file changed, 41 insertions(+)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c | 17 +++++++++++------
+ 1 file changed, 11 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v11.c b/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v11.c
-index 97f754949ca92..352757f2d3202 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v11.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v11.c
-@@ -321,6 +321,43 @@ static int get_wave_state(struct mqd_manager *mm, void *mqd,
- 	return 0;
- }
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
+index f678bdd5f353d..b9fc7e2db5e59 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
+@@ -940,12 +940,17 @@ int amdgpu_info_ioctl(struct drm_device *dev, void *data, struct drm_file *filp)
+ 			struct atom_context *atom_context;
  
-+static void checkpoint_mqd(struct mqd_manager *mm, void *mqd, void *mqd_dst, void *ctl_stack_dst)
-+{
-+	struct v11_compute_mqd *m;
-+
-+	m = get_mqd(mqd);
-+
-+	memcpy(mqd_dst, m, sizeof(struct v11_compute_mqd));
-+}
-+
-+static void restore_mqd(struct mqd_manager *mm, void **mqd,
-+			struct kfd_mem_obj *mqd_mem_obj, uint64_t *gart_addr,
-+			struct queue_properties *qp,
-+			const void *mqd_src,
-+			const void *ctl_stack_src, const u32 ctl_stack_size)
-+{
-+	uint64_t addr;
-+	struct v11_compute_mqd *m;
-+
-+	m = (struct v11_compute_mqd *) mqd_mem_obj->cpu_ptr;
-+	addr = mqd_mem_obj->gpu_addr;
-+
-+	memcpy(m, mqd_src, sizeof(*m));
-+
-+	*mqd = m;
-+	if (gart_addr)
-+		*gart_addr = addr;
-+
-+	m->cp_hqd_pq_doorbell_control =
-+		qp->doorbell_off <<
-+			CP_HQD_PQ_DOORBELL_CONTROL__DOORBELL_OFFSET__SHIFT;
-+	pr_debug("cp_hqd_pq_doorbell_control 0x%x\n",
-+			m->cp_hqd_pq_doorbell_control);
-+
-+	qp->is_active = 0;
-+}
-+
-+
- static void init_mqd_hiq(struct mqd_manager *mm, void **mqd,
- 			struct kfd_mem_obj *mqd_mem_obj, uint64_t *gart_addr,
- 			struct queue_properties *q)
-@@ -438,6 +475,8 @@ struct mqd_manager *mqd_manager_init_v11(enum KFD_MQD_TYPE type,
- 		mqd->mqd_size = sizeof(struct v11_compute_mqd);
- 		mqd->get_wave_state = get_wave_state;
- 		mqd->mqd_stride = kfd_mqd_stride;
-+		mqd->checkpoint_mqd = checkpoint_mqd;
-+		mqd->restore_mqd = restore_mqd;
- #if defined(CONFIG_DEBUG_FS)
- 		mqd->debugfs_show_mqd = debugfs_show_mqd;
- #endif
-@@ -482,6 +521,8 @@ struct mqd_manager *mqd_manager_init_v11(enum KFD_MQD_TYPE type,
- 		mqd->update_mqd = update_mqd_sdma;
- 		mqd->destroy_mqd = kfd_destroy_mqd_sdma;
- 		mqd->is_occupied = kfd_is_occupied_sdma;
-+		mqd->checkpoint_mqd = checkpoint_mqd;
-+		mqd->restore_mqd = restore_mqd;
- 		mqd->mqd_size = sizeof(struct v11_sdma_mqd);
- 		mqd->mqd_stride = kfd_mqd_stride;
- #if defined(CONFIG_DEBUG_FS)
+ 			atom_context = adev->mode_info.atom_context;
+-			memcpy(vbios_info.name, atom_context->name, sizeof(atom_context->name));
+-			memcpy(vbios_info.vbios_pn, atom_context->vbios_pn, sizeof(atom_context->vbios_pn));
+-			vbios_info.version = atom_context->version;
+-			memcpy(vbios_info.vbios_ver_str, atom_context->vbios_ver_str,
+-						sizeof(atom_context->vbios_ver_str));
+-			memcpy(vbios_info.date, atom_context->date, sizeof(atom_context->date));
++			if (atom_context) {
++				memcpy(vbios_info.name, atom_context->name,
++				       sizeof(atom_context->name));
++				memcpy(vbios_info.vbios_pn, atom_context->vbios_pn,
++				       sizeof(atom_context->vbios_pn));
++				vbios_info.version = atom_context->version;
++				memcpy(vbios_info.vbios_ver_str, atom_context->vbios_ver_str,
++				       sizeof(atom_context->vbios_ver_str));
++				memcpy(vbios_info.date, atom_context->date,
++				       sizeof(atom_context->date));
++			}
+ 
+ 			return copy_to_user(out, &vbios_info,
+ 						min((size_t)size, sizeof(vbios_info))) ? -EFAULT : 0;
 -- 
 2.40.1
 
