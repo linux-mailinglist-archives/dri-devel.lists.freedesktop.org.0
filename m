@@ -1,67 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 141DA7ACBA0
-	for <lists+dri-devel@lfdr.de>; Sun, 24 Sep 2023 21:26:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E17D67ACBAD
+	for <lists+dri-devel@lfdr.de>; Sun, 24 Sep 2023 21:47:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8BCB910E13B;
-	Sun, 24 Sep 2023 19:26:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 175A510E157;
+	Sun, 24 Sep 2023 19:47:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com
- [IPv6:2a00:1450:4864:20::232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C2CE10E148
- for <dri-devel@lists.freedesktop.org>; Sun, 24 Sep 2023 19:26:21 +0000 (UTC)
-Received: by mail-lj1-x232.google.com with SMTP id
- 38308e7fff4ca-2c123eed8b2so83440671fa.0
- for <dri-devel@lists.freedesktop.org>; Sun, 24 Sep 2023 12:26:21 -0700 (PDT)
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
+ [IPv6:2a00:1450:4864:20::431])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C16A10E157
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 Sep 2023 19:47:25 +0000 (UTC)
+Received: by mail-wr1-x431.google.com with SMTP id
+ ffacd0b85a97d-32320381a07so973380f8f.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 Sep 2023 12:47:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1695583580; x=1696188380; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1695584844; x=1696189644; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=8y8h3EEz9VirQFhjmojPuvqBkQuqu/oUUWDuJnG4W+c=;
- b=J1Spl3Tk1Wfh2VSJijxSQ3dmTGtSH9e8atY9jzfHq4qyrfJ9vCrsGIYqLdlk8qyq9s
- gh+jzUXViqz8Hz6zPijD6Rbjfnfl4K9rHjinn21XhD0TMtMyS3s4qPcWr8ktbdNncGtL
- psc4xmPuH7sUggyhfZle+0d9umYsHhD7DJndTIjv9eru5fQbWSPsIKn7KXLKKikG3Una
- oB8z0qO4iH68S9NiK3TMPBVturqo5PAaRueNPM7lzz6C1Akee93rIpvQapkDH/OWzcHz
- bwFlmx531NoswmnIExpNmlTAvTbE47l7MEUZ5BrS5XqtzwkzSBhIwRH+7oL86evWwLaR
- B+6A==
+ bh=X0UiLgnPTra5qLP9o6AOXP+MP5rQqIbxexMkPfbpuaE=;
+ b=eo5Z6Y9p59eLlV8q6Ne6QrajWjqlgrz8iy7McUCJPWZq6p/8ZAUC/2jg5GdP9kNpAg
+ gcxFcvxuQxvIT632SstEAdh3lnAO8VsnSexAf32R894Eo0j4Q8ZFI93LQNYtucp/xhuu
+ whwOZtLQVEtHRqtQiLngR8u+w1VaER2UIv8cDsbEej/XZBj52kcZHw0bCX/wjfojFOG1
+ P8kwQmQIJcm5BZb92yXwgZdY96ScfncI+yx8Y2rZMgqG9i6w0p7p8WpSI2whCtsokIOs
+ E5dXTIkxLrz35h8cjrHVK5sr1FjkMLhhn2MLiZ10Fw0BXNV+kzphYr6X5W64LjRrJJRW
+ yx7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1695583580; x=1696188380;
+ d=1e100.net; s=20230601; t=1695584844; x=1696189644;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=8y8h3EEz9VirQFhjmojPuvqBkQuqu/oUUWDuJnG4W+c=;
- b=B8fMTbK0WXGW95L2xme2/LMoK2O3F0fz+fJ9vXp2OE5NPJwgfr0o8Y22Dn8eRYqsCH
- +N23GPNRAynG4LlywGSHCc1XQ5uqTKgr2IjBJC7eyvo6YPF2Ak5FojRBiDWnPFFfcNp8
- zEQceteqA7GMhpshB+XSO/EZsvj2A7axoEOi7gY3+DvbvlmWkqn43b/W6IISNQUyD9vu
- 4RhYXzTgTZbfOJwfUqGJstVDxhsOsQja3TrjFA0mhNJTCJqQCGTuXD5NpsOagEIQ/ERZ
- NRI7o5U2eN6vJpNhIuKysg9OFDpW8BaYEq1vQku9szaG2WI9TXDl4KvSM8GgLe6DGE3v
- o+CQ==
-X-Gm-Message-State: AOJu0Yx7cfo5Jvd8Cm0p0/aayCKScjjjArW0Ecb5TsO9Acd6sxQ2JsMc
- P5yFByjouZTKhsZVWJpZhHA=
-X-Google-Smtp-Source: AGHT+IGnY2zymlYXEbyV+5gsOUvzTU+WsC5ThrC5P4hO3P9yxgQq4BLXWnYLwnhf4fRNeIa24G6f0Q==
-X-Received: by 2002:a2e:2417:0:b0:2c0:2ab7:9ab5 with SMTP id
- k23-20020a2e2417000000b002c02ab79ab5mr4174912ljk.12.1695583579523; 
- Sun, 24 Sep 2023 12:26:19 -0700 (PDT)
-Received: from localhost.localdomain (82-149-12-148.dynamic.telemach.net.
+ bh=X0UiLgnPTra5qLP9o6AOXP+MP5rQqIbxexMkPfbpuaE=;
+ b=izY78jyXCzDMcj/jwLL2jtAJjWJQBIUd2dIw7vyR0mBvqSma7otfqcjwtsjF7h30uQ
+ jqoZovWYyBsF3Jx4Z9QbcqmppeqSZBip9nilkuOlSg9HqoeWfgz6GOnKnp0hcA2pg1q6
+ Pxg5d7Lkzne2NxD9cw/ZiiWOPlAhI3oFs+MLTWVFURcX8zaZ7nChesnXOE12uonttSDS
+ 5/mio2oOzALOkYFS8ad5GxOhQ6LmcuQHy7fcEBuC0aSWHnmBO5eozLxa/4ghG55iRoKH
+ WjXmMSoBOdTOM9PeGLFPAPjoqrIfEhvezreIWFSK2rwTBjOvAyMaT5Hh0QVh5FJKBT6+
+ tN/A==
+X-Gm-Message-State: AOJu0YzSRUIP170uLAfG5ocCxIiBqxUA1X0ybSpn1gYI4gK9lyGS4Tyr
+ cKlUdpOrs1c302d92G3d5Ao=
+X-Google-Smtp-Source: AGHT+IGDoDkjcAsXY5BDoD37D7SSWWRRbHvSuc/IWVrkcNbbcS4m6aLfl01i4du0XtIIfHFrGLoGGQ==
+X-Received: by 2002:adf:ebcc:0:b0:319:85e2:6972 with SMTP id
+ v12-20020adfebcc000000b0031985e26972mr4084047wrn.42.1695584844170; 
+ Sun, 24 Sep 2023 12:47:24 -0700 (PDT)
+Received: from jernej-laptop.localnet (82-149-12-148.dynamic.telemach.net.
  [82.149.12.148]) by smtp.gmail.com with ESMTPSA id
- z21-20020a1709063a1500b0099d0c0bb92bsm5317632eje.80.2023.09.24.12.26.18
+ sd6-20020a170906ce2600b00997e99a662bsm5315866ejb.20.2023.09.24.12.47.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 24 Sep 2023 12:26:19 -0700 (PDT)
-From: Jernej Skrabec <jernej.skrabec@gmail.com>
-To: mripard@kernel.org,
-	wens@csie.org
-Subject: [PATCH 7/7] drm/sun4i: dw-hdmi: check for phy device first
-Date: Sun, 24 Sep 2023 21:26:04 +0200
-Message-ID: <20230924192604.3262187-8-jernej.skrabec@gmail.com>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20230924192604.3262187-1-jernej.skrabec@gmail.com>
-References: <20230924192604.3262187-1-jernej.skrabec@gmail.com>
+ Sun, 24 Sep 2023 12:47:23 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: airlied@gmail.com, liuhaoran <liuhaoran14@163.com>
+Subject: Re: [PATCH] drm/sun4i: Add error handling in sun4i_layer_init_one()
+Date: Sun, 24 Sep 2023 21:47:22 +0200
+Message-ID: <2156768.irdbgypaU6@jernej-laptop>
+In-Reply-To: <20230924074216.17390-1-liuhaoran14@163.com>
+References: <20230924074216.17390-1-liuhaoran14@163.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,101 +73,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: samuel@sholland.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+Cc: liuhaoran <liuhaoran14@163.com>, samuel@sholland.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Let's check for phy device first. Since it uses much of the same clocks
-and resets it also lowers amount of possible deferred probes.
+Hi!
 
-While at it, don't report error for deferred phy probe.
+Dne nedelja, 24. september 2023 ob 09:42:16 CEST je liuhaoran napisal(a):
+> This patch adds error-handling for the drm_plane_create_alpha_property()
+> and drm_plane_create_zpos_property() inside the dw_hdmi_imx_probe().
 
-Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
----
- drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c | 35 +++++++++++++--------------
- 1 file changed, 17 insertions(+), 18 deletions(-)
+dw_hdmi_imx_probe() is not from this driver.
 
-diff --git a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
-index 41f815a1faec..c1becd964326 100644
---- a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
-@@ -173,11 +173,24 @@ static int sun8i_dw_hdmi_bind(struct device *dev, struct device *master,
- 	struct device_node *phy_node;
- 	struct drm_encoder *encoder;
- 	struct sun8i_dw_hdmi *hdmi;
-+	struct sun8i_hdmi_phy *phy;
- 	int ret;
- 
- 	if (!pdev->dev.of_node)
- 		return -ENODEV;
- 
-+	phy_node = of_parse_phandle(dev->of_node, "phys", 0);
-+	if (!phy_node) {
-+		dev_err(dev, "Can't find PHY phandle\n");
-+		return -EINVAL;
-+	}
-+
-+	phy = sun8i_hdmi_phy_get(phy_node);
-+	of_node_put(phy_node);
-+	if (IS_ERR(phy))
-+		return dev_err_probe(dev, PTR_ERR(phy),
-+				     "Couldn't get the HDMI PHY\n");
-+
- 	hdmi = drmm_kzalloc(drm, sizeof(*hdmi), GFP_KERNEL);
- 	if (!hdmi)
- 		return -ENOMEM;
-@@ -185,6 +198,7 @@ static int sun8i_dw_hdmi_bind(struct device *dev, struct device *master,
- 	plat_data = &hdmi->plat_data;
- 	hdmi->dev = &pdev->dev;
- 	encoder = &hdmi->encoder;
-+	hdmi->phy = phy;
- 
- 	hdmi->quirks = of_device_get_match_data(dev);
- 
-@@ -232,22 +246,7 @@ static int sun8i_dw_hdmi_bind(struct device *dev, struct device *master,
- 		goto err_assert_ctrl_reset;
- 	}
- 
--	phy_node = of_parse_phandle(dev->of_node, "phys", 0);
--	if (!phy_node) {
--		dev_err(dev, "Can't found PHY phandle\n");
--		ret = -EINVAL;
--		goto err_disable_clk_tmds;
--	}
--
--	hdmi->phy = sun8i_hdmi_phy_get(phy_node);
--	of_node_put(phy_node);
--	if (IS_ERR(hdmi->phy)) {
--		dev_err(dev, "Couldn't get the HDMI PHY\n");
--		ret = PTR_ERR(hdmi->phy);
--		goto err_disable_clk_tmds;
--	}
--
--	ret = sun8i_hdmi_phy_init(hdmi->phy);
-+	ret = sun8i_hdmi_phy_init(phy);
- 	if (ret)
- 		goto err_disable_clk_tmds;
- 
-@@ -259,7 +258,7 @@ static int sun8i_dw_hdmi_bind(struct device *dev, struct device *master,
- 	plat_data->mode_valid = hdmi->quirks->mode_valid;
- 	plat_data->use_drm_infoframe = hdmi->quirks->use_drm_infoframe;
- 	plat_data->output_port = 1;
--	sun8i_hdmi_phy_set_ops(hdmi->phy, plat_data);
-+	sun8i_hdmi_phy_set_ops(phy, plat_data);
- 
- 	platform_set_drvdata(pdev, hdmi);
- 
-@@ -310,7 +309,7 @@ static int sun8i_dw_hdmi_bind(struct device *dev, struct device *master,
- 	drm_bridge_remove(&hdmi->enc_bridge);
- 	dw_hdmi_remove(hdmi->hdmi);
- err_deinit_phy:
--	sun8i_hdmi_phy_deinit(hdmi->phy);
-+	sun8i_hdmi_phy_deinit(phy);
- err_disable_clk_tmds:
- 	clk_disable_unprepare(hdmi->clk_tmds);
- err_assert_ctrl_reset:
--- 
-2.42.0
+Best regards,
+Jernej
+
+> 
+> Signed-off-by: liuhaoran <liuhaoran14@163.com>
+> ---
+>  drivers/gpu/drm/sun4i/sun4i_layer.c | 19 ++++++++++++++++---
+>  1 file changed, 16 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/sun4i/sun4i_layer.c b/drivers/gpu/drm/sun4i/sun4i_layer.c
+> index 98f3176366c0..a3343afb7935 100644
+> --- a/drivers/gpu/drm/sun4i/sun4i_layer.c
+> +++ b/drivers/gpu/drm/sun4i/sun4i_layer.c
+> @@ -224,9 +224,22 @@ static struct sun4i_layer *sun4i_layer_init_one(struct drm_device *drm,
+>  	drm_plane_helper_add(&layer->plane,
+>  			     &sun4i_backend_layer_helper_funcs);
+>  
+> -	drm_plane_create_alpha_property(&layer->plane);
+> -	drm_plane_create_zpos_property(&layer->plane, layer->id,
+> -				       0, SUN4I_BACKEND_NUM_LAYERS - 1);
+> +	ret = drm_plane_create_alpha_property(&layer->plane);
+> +
+> +	if (ret) {
+> +		dev_err(drm->dev, "Failed to install alpha property,
+> +			rc = %d\n", ret);
+> +		return ERR_PTR(ret);
+> +	}
+> +
+> +	ret = drm_plane_create_zpos_property(&layer->plane, layer->id, 0,
+> +					     SUN4I_BACKEND_NUM_LAYERS - 1);
+> +
+> +	if (ret) {
+> +		dev_err(drm->dev, "Failed to install zpos property,
+> +			rc = %d\n", ret);
+> +		return ERR_PTR(ret);
+> +	}
+>  
+>  	return layer;
+>  }
+> 
+
+
+
 
