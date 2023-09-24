@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F9C27AC882
-	for <lists+dri-devel@lfdr.de>; Sun, 24 Sep 2023 15:17:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCCF77AC88B
+	for <lists+dri-devel@lfdr.de>; Sun, 24 Sep 2023 15:17:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 469F310E153;
-	Sun, 24 Sep 2023 13:17:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 97FF210E175;
+	Sun, 24 Sep 2023 13:17:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E77510E140;
- Sun, 24 Sep 2023 13:17:19 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org
+ [IPv6:2604:1380:40e1:4800::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6AE9410E15C;
+ Sun, 24 Sep 2023 13:17:25 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id B14D860C2B;
- Sun, 24 Sep 2023 13:17:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15355C433C9;
- Sun, 24 Sep 2023 13:17:16 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 66217CE0B21;
+ Sun, 24 Sep 2023 13:17:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 113A9C433C8;
+ Sun, 24 Sep 2023 13:17:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1695561438;
- bh=AkESHVaIEK/Q0N156xWN9b9wJHZIeDxy8gc9Dgudzoo=;
+ s=k20201202; t=1695561442;
+ bh=jCc8bMfwIQKo75O1YD6UF30RTC8JKvoVKARsjlheeGY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=DfeKXIX/TxbigZcVVBWGNMuiOjc1bScZaEOW+u3v1vEJ+WSiJFArA7Id95QrSIeHL
- lzzNqrJNUv3eN7skJQJW657B3qcMolg8Ao4gU7mmiJMfsWHwbo7619cRPNLQQzRs68
- DROWe8PzQs9o6vbf13j396Rc8fnV/3jkYB1Vqkq8w8Yjzxm/mitX1oQyruGQzJvvcR
- GEbbS55vErLG3gz7VnzFthx0HvqIpKrb0GnkynbS3Cjy3JkuApRauLoFm7XoaJ/mK2
- iMF6s3LmKt1voHnWQ7eno6gEPXRjrpOqaYq45X7Lgn/JuAXtgzFGwPtl/mfFCSAC4D
- FBOujhyhiiA3g==
+ b=FUTFMjhWx2RIqKseJe3zSTMWXqeogyjQwe0xSUwudALMAmFcQMiKWbfgCF7OCslu0
+ HM8ObEJ7ok5OhlX9QraUONeaBFVrnh767ZMPciMFa5BjaGjOAyn4D2lYKxGszhRBPy
+ MTVuYJhBE4ouTN2TSmfLDeo07N63o6Gy7LcOICpM45Rm7ZZ3I30no0q4IcWf3/LPJZ
+ 11elpfPcCuYYtwnIA2d2xxGS/cMDWWRE4n3OnEXPeP1MA3W5A1h48DSHjQgYUF6F6r
+ uJlHlO7HLNrC7xcxk2C/qjYj0rpX1IA8j6YfCBqOfmvPntXKkSGm4rIC17muMWzC03
+ p9+Si9t2PcyAQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.5 30/41] drm/amdgpu/nbio4.3: set proper
- rmmio_remap.reg_offset for SR-IOV
-Date: Sun, 24 Sep 2023 09:15:18 -0400
-Message-Id: <20230924131529.1275335-30-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.5 31/41] drm/amdgpu: fallback to old RAS error
+ message for aqua_vanjaram
+Date: Sun, 24 Sep 2023 09:15:19 -0400
+Message-Id: <20230924131529.1275335-31-sashal@kernel.org>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230924131529.1275335-1-sashal@kernel.org>
 References: <20230924131529.1275335-1-sashal@kernel.org>
@@ -55,40 +55,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org,
- Xinhui.Pan@amd.com, amd-gfx@lists.freedesktop.org, Hawking.Zhang@amd.com,
- Timmy Tsai <timmtsai@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
- candice.li@amd.com, christian.koenig@amd.com, mario.limonciello@amd.com
+Cc: Sasha Levin <sashal@kernel.org>, tao.zhou1@amd.com,
+ Yang Wang <kevinyang.wang@amd.com>, Xinhui.Pan@amd.com,
+ amd-gfx@lists.freedesktop.org, YiPeng.Chai@amd.com, Stanley.Yang@amd.com,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ christian.koenig@amd.com, Hawking Zhang <Hawking.Zhang@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Alex Deucher <alexander.deucher@amd.com>
+From: Hawking Zhang <Hawking.Zhang@amd.com>
 
-[ Upstream commit ab43213e7afd08ac68d4282060bacf309e70fd14 ]
+[ Upstream commit ffd6bde302061aeee405ab364403af30210f0b99 ]
 
-Needed for HDP flush to work correctly.
+So driver doesn't generate incorrect message until
+the new format is settled down for aqua_vanjaram
 
-Reviewed-by: Timmy Tsai <timmtsai@amd.com>
+Signed-off-by: Hawking Zhang <Hawking.Zhang@amd.com>
+Reviewed-by: Yang Wang <kevinyang.wang@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/nbio_v4_3.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/nbio_v4_3.c b/drivers/gpu/drm/amd/amdgpu/nbio_v4_3.c
-index d5ed9e0e1a5f1..e5b5b0f4940f4 100644
---- a/drivers/gpu/drm/amd/amdgpu/nbio_v4_3.c
-+++ b/drivers/gpu/drm/amd/amdgpu/nbio_v4_3.c
-@@ -345,6 +345,9 @@ static void nbio_v4_3_init_registers(struct amdgpu_device *adev)
- 		data &= ~RCC_DEV0_EPF2_STRAP2__STRAP_NO_SOFT_RESET_DEV0_F2_MASK;
- 		WREG32_SOC15(NBIO, 0, regRCC_DEV0_EPF2_STRAP2, data);
- 	}
-+	if (amdgpu_sriov_vf(adev))
-+		adev->rmmio_remap.reg_offset = SOC15_REG_OFFSET(NBIO, 0,
-+			regBIF_BX_DEV0_EPF0_VF0_HDP_MEM_COHERENCY_FLUSH_CNTL) << 2;
- }
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
+index 8aaa427f8c0f6..7d5019a884024 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
+@@ -1061,7 +1061,8 @@ int amdgpu_ras_query_error_status(struct amdgpu_device *adev,
+ 	info->ce_count = obj->err_data.ce_count;
  
- static u32 nbio_v4_3_get_rom_offset(struct amdgpu_device *adev)
+ 	if (err_data.ce_count) {
+-		if (adev->smuio.funcs &&
++		if (!adev->aid_mask &&
++		    adev->smuio.funcs &&
+ 		    adev->smuio.funcs->get_socket_id &&
+ 		    adev->smuio.funcs->get_die_id) {
+ 			dev_info(adev->dev, "socket: %d, die: %d "
+@@ -1081,7 +1082,8 @@ int amdgpu_ras_query_error_status(struct amdgpu_device *adev,
+ 		}
+ 	}
+ 	if (err_data.ue_count) {
+-		if (adev->smuio.funcs &&
++		if (!adev->aid_mask &&
++		    adev->smuio.funcs &&
+ 		    adev->smuio.funcs->get_socket_id &&
+ 		    adev->smuio.funcs->get_die_id) {
+ 			dev_info(adev->dev, "socket: %d, die: %d "
 -- 
 2.40.1
 
