@@ -1,50 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 031BD7AC9EB
-	for <lists+dri-devel@lfdr.de>; Sun, 24 Sep 2023 16:09:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 839877AC9FD
+	for <lists+dri-devel@lfdr.de>; Sun, 24 Sep 2023 16:27:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 34B9610E065;
-	Sun, 24 Sep 2023 14:09:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C271110E09A;
+	Sun, 24 Sep 2023 14:27:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 094C510E065
- for <dri-devel@lists.freedesktop.org>; Sun, 24 Sep 2023 14:09:31 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C950110E09A
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 Sep 2023 14:27:30 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 485DCCE0ADA
- for <dri-devel@lists.freedesktop.org>; Sun, 24 Sep 2023 14:09:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 578D9C433CA
- for <dri-devel@lists.freedesktop.org>; Sun, 24 Sep 2023 14:09:29 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTP id 61539B80AEB
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 Sep 2023 14:27:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 850C9C43395
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 Sep 2023 14:27:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1695564569;
- bh=hzaEJsc/MvyTSiwHDbUNHX3pHjivtFFehSFljD3hx+8=;
+ s=k20201202; t=1695565648;
+ bh=bTCoYBjr017l6wFXONnZTUqQscIlTsYc71hdwazXlvU=;
  h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=JM4HtDoi5L9D14lI5GjMrgBYkePbSfp+99S9Vxtv2UgpN6rzsdjlKCjQQ3Ot9n34Y
- tMMnyMNOz6LtOPhj3Jy2SurZw80l3tQUw36I8sua/AgmCkMdj5SCrCTgk1ZdTkGu3v
- GB2O6xlqj3GT01oaMFF5LLs9BrvuZASKoIlXlFVQCj5XFNM/h42GWVCQ10pr4cozh1
- y23Uw1Lw8PMUyefeFQsBVlxUThZjxCEejfo4Gm3jhmZSWb6riwO7WAfxK4hC1R0chU
- xjhOrfjk+wTonCh0qL5tty5G9ZA3OuJLUYlpioJ1CnV+hLPgV8e4aMAeCVoWpeVBCR
- NyTpgJBHn4JPA==
-Received: by mail-lj1-f176.google.com with SMTP id
- 38308e7fff4ca-2c131ddfc95so68094081fa.0
- for <dri-devel@lists.freedesktop.org>; Sun, 24 Sep 2023 07:09:29 -0700 (PDT)
-X-Gm-Message-State: AOJu0YzOMUWsXZydt4Lon6BFZh7PtL+oZBxSe9PRw4pyUHnjjeU17FXL
- FmxcqtDeNEYYjV4L2VtcofTlj9DqJW3UnkUFWA==
-X-Google-Smtp-Source: AGHT+IGJ8a+c8899BJiT8DoTZkR0LqKr6jfxQvm+fUmHwVYOOXPzJ4ByxiWLhAZmxxEqpxpqDluyHoh50ZPqstltjjY=
-X-Received: by 2002:a19:3803:0:b0:4fb:89b3:3373 with SMTP id
- f3-20020a193803000000b004fb89b33373mr3292427lfa.43.1695564567547; Sun, 24 Sep
- 2023 07:09:27 -0700 (PDT)
+ b=gUGAWIfW7vC1NooiXlxXAW77CGrUMiNfl1d0Cb+Ur1u6pV9vKzFjnH/HrDXCQPWpz
+ VzQhp79Iu77tCMpohvzqwhU2VI6jFcTxIl/PwmgQ/zqrNiGUG5qfp5VPuAEfVezs98
+ 3JuLWuvfWl/1R0GAoVToJO3SKOdkdJ68ol7Yk4vODF97IuaSALUuTCxXSPBNEin0jO
+ Uxy2F55OVFSNNiLGrA7Sy+pLvTK3RAka01exn8c0wABlLEzPyTKFwC7xju9Cj3sqOJ
+ KNmno5TjgU1f3Ab9oAHE4z2RHFYTqAfnWTtwjjlz/nm/HbFxIvZgYnHc8dnRdf2+sA
+ Cqd5Eki0be9Lg==
+Received: by mail-lj1-f172.google.com with SMTP id
+ 38308e7fff4ca-2c12fc235fbso56150181fa.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 Sep 2023 07:27:28 -0700 (PDT)
+X-Gm-Message-State: AOJu0YyXnW0tZ8d8AigOMmTY6e7Vy73Xtr/kQPv0S7yp+7Fs/+4aHfrc
+ hi0ggbhMoDHNUMQvulwyxhdjiscUD4gcgSzAOQ==
+X-Google-Smtp-Source: AGHT+IHf5vWm0GIZ1hkeawxAEZsjJHRSUs4KnxlkvgtCc373prUzNyF256grHwvaFc81Egmx7IoRA+c1Jovfx/Fg9VA=
+X-Received: by 2002:a2e:b81c:0:b0:2c0:b37:a1cf with SMTP id
+ u28-20020a2eb81c000000b002c00b37a1cfmr2571604ljo.22.1695565646665; Sun, 24
+ Sep 2023 07:27:26 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230822024155.26670-1-shuijing.li@mediatek.com>
-In-Reply-To: <20230822024155.26670-1-shuijing.li@mediatek.com>
+References: <20230914131058.2472260-1-jani.nikula@intel.com>
+ <20230914155317.2511876-1-jani.nikula@intel.com>
+ <CAGXv+5GJxEobJKKWuc_UN+Gf_z8g6eb6KWTz-L+RqtyLYKK3Jg@mail.gmail.com>
+ <87cyyetohx.fsf@intel.com>
+ <CAGXv+5FvmwMW+bxJ9d_ULbOJA9qpd-vybn0VyE5iyQLHCET1=A@mail.gmail.com>
+ <87o7huo840.fsf@intel.com>
+In-Reply-To: <87o7huo840.fsf@intel.com>
 From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Sun, 24 Sep 2023 22:09:12 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_-xEunh0AOKTYEWn6BV5DM9zU81gsP38P1x1a-3FnpQXg@mail.gmail.com>
-Message-ID: <CAAOTY_-xEunh0AOKTYEWn6BV5DM9zU81gsP38P1x1a-3FnpQXg@mail.gmail.com>
-Subject: Re: [PATCH v6,0/4] Add compatible to increase MT8188 audio control
-To: Shuijing Li <shuijing.li@mediatek.com>
+Date: Sun, 24 Sep 2023 22:27:11 +0800
+X-Gmail-Original-Message-ID: <CAAOTY__MYub=0Qkf8rn1W=O0MHSOD7wziO5ipCQEJRSK-EawEg@mail.gmail.com>
+Message-ID: <CAAOTY__MYub=0Qkf8rn1W=O0MHSOD7wziO5ipCQEJRSK-EawEg@mail.gmail.com>
+Subject: Re: [PATCH] drm/mediatek/dp: fix memory leak on ->get_edid callback
+ audio detection
+To: Jani Nikula <jani.nikula@intel.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -59,34 +66,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: chunkuang.hu@kernel.org, conor+dt@kernel.org, jitao.shi@mediatek.com,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Guillaume Ranquet <granquet@baylibre.com>, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org, Markus Schneider-Pargmann <msp@baylibre.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, linux-mediatek@lists.infradead.org,
  dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com, robh+dt@kernel.org,
- linux-mediatek@lists.infradead.org, krzysztof.kozlowski+dt@linaro.org,
- matthias.bgg@gmail.com, linux-arm-kernel@lists.infradead.org,
- angelogioacchino.delregno@collabora.com
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Chen-Yu Tsai <wenst@chromium.org>, Bo-Chen Chen <rex-bc.chen@mediatek.com>,
+ linux-arm-kernel@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Shuijing:
+Hi, Jani:
 
-Shuijing Li <shuijing.li@mediatek.com> =E6=96=BC 2023=E5=B9=B48=E6=9C=8822=
-=E6=97=A5 =E9=80=B1=E4=BA=8C =E4=B8=8A=E5=8D=8810:41=E5=AF=AB=E9=81=93=EF=
-=BC=9A
+Jani Nikula <jani.nikula@intel.com> =E6=96=BC 2023=E5=B9=B49=E6=9C=8822=E6=
+=97=A5 =E9=80=B1=E4=BA=94 =E4=B8=8B=E5=8D=885:44=E5=AF=AB=E9=81=93=EF=BC=9A
 >
-> Add dt-binding documentation of dp-tx for MediaTek MT8188 SoC.
-> Mainly add the following two flag:
+> On Tue, 19 Sep 2023, Chen-Yu Tsai <wenst@chromium.org> wrote:
+> > On Tue, Sep 19, 2023 at 7:02=E2=80=AFPM Jani Nikula <jani.nikula@intel.=
+com> wrote:
+> >>
+> >> On Fri, 15 Sep 2023, Chen-Yu Tsai <wenst@chromium.org> wrote:
+> >> > On Thu, Sep 14, 2023 at 11:53=E2=80=AFPM Jani Nikula <jani.nikula@in=
+tel.com> wrote:
+> >> >>
+> >> >> The sads returned by drm_edid_to_sad() needs to be freed.
+> >> >>
+> >> >> Fixes: e71a8ebbe086 ("drm/mediatek: dp: Audio support for MT8195")
+> >> >> Cc: Guillaume Ranquet <granquet@baylibre.com>
+> >> >> Cc: Bo-Chen Chen <rex-bc.chen@mediatek.com>
+> >> >> Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora=
+.com>
+> >> >> Cc: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> >> >> Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+> >> >> Cc: Philipp Zabel <p.zabel@pengutronix.de>
+> >> >> Cc: Matthias Brugger <matthias.bgg@gmail.com>
+> >> >> Cc: dri-devel@lists.freedesktop.org
+> >> >> Cc: linux-mediatek@lists.infradead.org
+> >> >> Cc: linux-kernel@vger.kernel.org
+> >> >> Cc: linux-arm-kernel@lists.infradead.org
+> >> >> Cc: <stable@vger.kernel.org> # v6.1+
+> >> >> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+> >> >
+> >> > Looks correct to me.
+> >> >
+> >> > Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
+> >>
+> >> Thanks for the reviews Chen-Yu and Guillaume. Will you push this to
+> >> drm-misc-next or shall I?
+> >
+> > Patches for the MediaTek drm driver go through their own separate tree,
+> > maintained by CK (Chun-Kuang).
 >
-> 1.The audio packet arrangement function is to only arrange audio
-> packets into the Hblanking area. In order to align with the HW
-> default setting of g1200, this function needs to be turned off.
+> Chun-Kuang, can you confirm picking up these two patches, please?
 >
-> 2.Due to the difference of HW, different dividers need to be set.
->
-> Base on the branch of linus/master v6.4.
+> MAINTAINERS does not list a separate git repository for MediaTek drm
+> drivers, so I don't know where that would be. It should probably be
+> added to MAINTAINERS.
 
-For this series, applied to mediatek-drm-next [1], thanks.
+Applied to mediatek-drm-next [1], thanks.
 
 [1] https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/=
 log/?h=3Dmediatek-drm-next
@@ -95,17 +134,11 @@ Regards,
 Chun-Kuang.
 
 >
-> Shuijing Li (4):
->   dt-bindings: display: mediatek: dp: Add compatible for MediaTek MT8188
->   drm/mediatek: dp: Add the audio packet flag to mtk_dp_data struct
->   drm/mediatek: dp: Add the audio divider to mtk_dp_data struct
->   drm/mediatek: dp: Add support MT8188 dp/edp function
+> Thanks,
+> Jani.
 >
->  .../display/mediatek/mediatek,dp.yaml         |  2 ++
->  drivers/gpu/drm/mediatek/mtk_dp.c             | 36 ++++++++++++++++++-
->  drivers/gpu/drm/mediatek/mtk_dp_reg.h         | 23 ++++++++----
->  3 files changed, 54 insertions(+), 7 deletions(-)
+> >
+> > ChenYu
 >
 > --
-> 2.40.1
->
+> Jani Nikula, Intel
