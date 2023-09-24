@@ -1,45 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24F6E7AC8E4
-	for <lists+dri-devel@lfdr.de>; Sun, 24 Sep 2023 15:20:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B3287AC8E9
+	for <lists+dri-devel@lfdr.de>; Sun, 24 Sep 2023 15:21:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A2AA410E1AB;
-	Sun, 24 Sep 2023 13:20:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E246B10E1B0;
+	Sun, 24 Sep 2023 13:20:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 659DD10E1B0
- for <dri-devel@lists.freedesktop.org>; Sun, 24 Sep 2023 13:20:20 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 32A9F10E1AF
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 Sep 2023 13:20:37 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 4167FB80ADB;
- Sun, 24 Sep 2023 13:20:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BAD02C43397;
- Sun, 24 Sep 2023 13:20:17 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 940EF60C2A;
+ Sun, 24 Sep 2023 13:20:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6DB60C4339A;
+ Sun, 24 Sep 2023 13:20:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1695561618;
- bh=/0DxeFclJanmHoVCa2JuctmAc4IoTLcES89kTw6xPoU=;
+ s=k20201202; t=1695561636;
+ bh=5o/7+bfcajmYC3wkUtOI5QGvaYZc3ylWHck73AYKVYc=;
  h=From:To:Cc:Subject:Date:From;
- b=iB4H/SFYIh9jI2LMrdbvxeedgYVHFSffsYW2fmH4uIhexXRDYmXhJ+QQWEGA6CEqs
- OQz+897LpQ/GHqEY2W8NimZBj0IXpcDQcLW3Y5OktME9GR8pTQv3tzf676Zg2cdCLu
- CNGZi+jZhxH5cn0yvCmnyLLI8NpUZJPH7znqNN1+bZ3IM2BtjqYmTET39Z3q5CMUNB
- IT/PebEtWg7MobNQI1Lr56Skd+juN+e51oZsvONEU3UiJ1TBn+ZGt8gtIJ3uOtWz+T
- T4cd3PTQMgMF/CVpqat/GRCi3b+r3ZSZW89S9ua1WRViUJR4dzdKw7cE7NuIvS3BdU
- +Okw2WTaEXgVw==
+ b=ue//2ZzLJHbx+T+SgRdyTg8F5F915pxDKXimYm7dX+KSvh0rGiDnn7x7yavQ3wHjy
+ iT1M/QpNqOwgZKxxhzDvX/CO+SKvDI8aBYthl3gjdftdEEw/aOgjgTfIHaE4k5g0Xw
+ lyLMNNzrg0oLob9Bz1cc7PznwQrZhaC7nRV5CufwSDEgmZaZ9tifeuLf9S0Sp4KXHR
+ h5boTxaS+CnAQ0LMKC4VjwNXz3WrlHgpurA1fbErcL/Y83KzDfOtZ4cllqyaJZwX8K
+ 9gAI3d6IcgiM2MEp/1ebhFLlQBoEpPmv58YmqW7kBfUsXep+S+knvJSA6WKNgAfV3/
+ P3pcYT4if1SDA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 1/7] parisc: sba: Fix compile warning wrt list of
+Subject: [PATCH AUTOSEL 4.19 1/7] parisc: sba: Fix compile warning wrt list of
  SBA devices
-Date: Sun, 24 Sep 2023 09:20:08 -0400
-Message-Id: <20230924132015.1276811-1-sashal@kernel.org>
+Date: Sun, 24 Sep 2023 09:20:25 -0400
+Message-Id: <20230924132033.1276920-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.4.257
+X-stable-base: Linux 4.19.295
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -89,10 +88,10 @@ index 8e51c775c80a6..62399c7ea94a1 100644
  #define IKE_MERCED_PORT		0x803
  #define REO_MERCED_PORT		0x804
 diff --git a/drivers/char/agp/parisc-agp.c b/drivers/char/agp/parisc-agp.c
-index 514f9f287a781..c6f181702b9a7 100644
+index 1d5510cb6db4e..1962ff624b7c5 100644
 --- a/drivers/char/agp/parisc-agp.c
 +++ b/drivers/char/agp/parisc-agp.c
-@@ -394,8 +394,6 @@ find_quicksilver(struct device *dev, void *data)
+@@ -385,8 +385,6 @@ find_quicksilver(struct device *dev, void *data)
  static int __init
  parisc_agp_init(void)
  {
