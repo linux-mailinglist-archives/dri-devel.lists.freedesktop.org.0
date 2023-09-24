@@ -2,51 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C09807ACA13
-	for <lists+dri-devel@lfdr.de>; Sun, 24 Sep 2023 16:40:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8681D7ACA14
+	for <lists+dri-devel@lfdr.de>; Sun, 24 Sep 2023 16:41:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF6FD10E0CC;
-	Sun, 24 Sep 2023 14:40:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4AF7510E10B;
+	Sun, 24 Sep 2023 14:41:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E851110E0CC
- for <dri-devel@lists.freedesktop.org>; Sun, 24 Sep 2023 14:40:24 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 66596B80B04
- for <dri-devel@lists.freedesktop.org>; Sun, 24 Sep 2023 14:40:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82816C433CD
- for <dri-devel@lists.freedesktop.org>; Sun, 24 Sep 2023 14:40:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1695566422;
- bh=9GRsckWSSu1mlk9vmJKy9J27I3v7LoT+WjbT3ntqne0=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=gCcVsK/CkNAlyMVqWnN4VPt1kzjPoqNo5oo6alEewEruR12Pzpino4CvWoSEgGcO9
- /Rr00Y0Eua09CO0vZ47JpQ4ZfAewqtiIQGn/ievdlfg+l9gA/P2JsZHOpSKtYjcmOi
- Z2VSOmKGDykY20pTAlF+gU2khzpEQXGzvE14e7FGIPHLrPivhJKHpyhKUxNoN90hAI
- o+ys+PbAVXHqOPxaoUULYRreT4jz+eKeyLE6ta0PKw+hQjdRkLKw2FRyl60crpglhM
- ds1KF+m+Nz2BsZ8sDZPAq6SCGYEYWmhz3fQP7DoMYDeD7lQboBTJQR0YEZi4kMkgrs
- pkb6lmrpQ3Izg==
-Received: by mail-lj1-f169.google.com with SMTP id
- 38308e7fff4ca-2bfea381255so80683921fa.3
- for <dri-devel@lists.freedesktop.org>; Sun, 24 Sep 2023 07:40:22 -0700 (PDT)
-X-Gm-Message-State: AOJu0Yx+xNElrk8Z6T2zkEUMAtte0UisWB3Vu1dmJZB0ZGf09QIiuv3P
- FLlyTayr2vsnor+9G1A0ZeEbEDkWbsPm4mZ11w==
-X-Google-Smtp-Source: AGHT+IHgb7dlF3spUK7WjEovMRqe4TqCew31OFnTTbuiTomARpVLNlO+VuNaMI73R08m9JXOZ3UuaIZrHQ9jk6PBkA0=
-X-Received: by 2002:ac2:5f97:0:b0:503:200f:47a9 with SMTP id
- r23-20020ac25f97000000b00503200f47a9mr3453499lfe.15.1695566420722; Sun, 24
- Sep 2023 07:40:20 -0700 (PDT)
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com
+ [IPv6:2607:f8b0:4864:20::1032])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 29FC610E10B
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 Sep 2023 14:41:02 +0000 (UTC)
+Received: by mail-pj1-x1032.google.com with SMTP id
+ 98e67ed59e1d1-27730028198so381945a91.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 Sep 2023 07:41:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1695566461; x=1696171261; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Mq9o5qvZyL0ly3pv5TDMT+Manu7qr9Byu7rR10hlJ54=;
+ b=NXvqLzv7P6gs/2PIG1njz/ZhZOYxWwDdMy0r6CcVH5gqYQW7EowfqI1qecLIkyPYBL
+ NYTHC4DVQEZsjkWgdvzrC1WSkonHQ64Ju5fEIbAOMcXHoMUOPs/UsG+fJgXaDuv+8Z0L
+ olwDcoJ6GBj1qJQb3JHT3RrBK+hsM+oRFtlW2VYIwXckt3B88UamDdIQcMmYoc2S8xsM
+ lrC8kso4QngfR9npEvxt4J5b7lzHusCpUo8RG280U+J0x2o5UQOjTVEWqUB/dWWzvdPX
+ /92eoihLKXgwbjYSko/MvTxPx0cco8JPImpEBJz4Ls/EMHpQWyWMv/x6V5AWbr6p7D+u
+ bGnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1695566461; x=1696171261;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Mq9o5qvZyL0ly3pv5TDMT+Manu7qr9Byu7rR10hlJ54=;
+ b=hv9eMQqwRdVl5VYtKHrPxb4QSPU1/0EVJHelgl2Z9xBNGa8rk55D1nWCcJ//JFSFCI
+ 9NcaF/4NOFWFo86W61GC2CAfdIENNU/QN/nmsCExZ9k+sdU3QCboILlS7Mr+8UH3pg3N
+ Y+2IL8OhhX4MwgH4bnnpIFlsUEt4InWw3dUXzVILzIBJWZmZduZMcfngXzKw/fXcGrFw
+ mtnF9VkREZZL17gEnBs5o+tT+EWqIEHqDDHqNJf2SUHaoAYd2O0WNcpC5eJI2c+puIRD
+ QzbOXN+tQaPKyZvwNBykUQHk1/FDUmJmJ3fYvS4sF/swEmzm6pienBNzzXOC2en7jl7j
+ jwCQ==
+X-Gm-Message-State: AOJu0YyG5x0rNAsCUOmj8eDpiBtudNsvxN6Y7THNZKU94Ef7HKtO52qE
+ 2wjODJjOmC5vj7FgFUb5yfqwfNeiYW42PVpYG3eVbmYc
+X-Google-Smtp-Source: AGHT+IEQymy7QWSSpQEknDuFHDf1tXATwlj3xY76w7/hw4DNOFBSfOXm95pnojPs9rHJPjTgnHdGVQ2aG8iIQGuGBMA=
+X-Received: by 2002:a17:90b:100e:b0:277:2d8c:5c17 with SMTP id
+ gm14-20020a17090b100e00b002772d8c5c17mr2648454pjb.0.1695566461526; Sun, 24
+ Sep 2023 07:41:01 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230914131058.2472260-1-jani.nikula@intel.com>
-In-Reply-To: <20230914131058.2472260-1-jani.nikula@intel.com>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Sun, 24 Sep 2023 22:40:04 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_-Vn9eN+OjSWjo=WTrSasJs6h_N93PQgVAUU-NDeQ438Q@mail.gmail.com>
-Message-ID: <CAAOTY_-Vn9eN+OjSWjo=WTrSasJs6h_N93PQgVAUU-NDeQ438Q@mail.gmail.com>
-Subject: Re: [PATCH] drm/mediatek/dp: fix memory leak on ->get_edid callback
- error path
-To: Jani Nikula <jani.nikula@intel.com>
+References: <20230924073001.16681-1-liuhaoran14@163.com>
+In-Reply-To: <20230924073001.16681-1-liuhaoran14@163.com>
+From: Fabio Estevam <festevam@gmail.com>
+Date: Sun, 24 Sep 2023 11:40:50 -0300
+Message-ID: <CAOMZO5BeCZTv_T9H7YEJ7i7iDt0do0U7dyNfDPmBcNsFexQiqw@mail.gmail.com>
+Subject: Re: [PATCH] drm/imx: Add error handling in dw_hdmi_imx_probe()
+To: liuhaoran <liuhaoran14@163.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -61,72 +68,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Guillaume Ranquet <granquet@baylibre.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Markus Schneider-Pargmann <msp@baylibre.com>,
- Matthias Brugger <matthias.bgg@gmail.com>, stable@vger.kernel.org,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Bo-Chen Chen <rex-bc.chen@mediatek.com>, linux-mediatek@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: linux-arm-kernel@lists.infradead.org, s.hauer@pengutronix.de,
+ shawnguo@kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Jani:
-
-Jani Nikula <jani.nikula@intel.com> =E6=96=BC 2023=E5=B9=B49=E6=9C=8814=E6=
-=97=A5 =E9=80=B1=E5=9B=9B =E4=B8=8B=E5=8D=889:13=E5=AF=AB=E9=81=93=EF=BC=9A
+On Sun, Sep 24, 2023 at 11:36=E2=80=AFAM liuhaoran <liuhaoran14@163.com> wr=
+ote:
 >
-> Setting new_edid to NULL leaks the buffer.
-
-Applied to mediatek-drm-next [1], thanks.
-
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/=
-log/?h=3Dmediatek-drm-next
-
-Regards,
-Chun-Kuang.
-
+> This patch adds error-handling for the of_match_node()
+> inside the dw_hdmi_imx_probe().
 >
-> Fixes: f70ac097a2cf ("drm/mediatek: Add MT8195 Embedded DisplayPort drive=
-r")
-> Cc: Markus Schneider-Pargmann <msp@baylibre.com>
-> Cc: Guillaume Ranquet <granquet@baylibre.com>
-> Cc: Bo-Chen Chen <rex-bc.chen@mediatek.com>
-> Cc: CK Hu <ck.hu@mediatek.com>
-> Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-> Cc: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-> Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-> Cc: Philipp Zabel <p.zabel@pengutronix.de>
-> Cc: Matthias Brugger <matthias.bgg@gmail.com>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-mediatek@lists.infradead.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: <stable@vger.kernel.org> # v6.1+
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
->
+> Signed-off-by: liuhaoran <liuhaoran14@163.com>
 > ---
+>  drivers/gpu/drm/imx/ipuv3/dw_hdmi-imx.c | 3 +++
+>  1 file changed, 3 insertions(+)
 >
-> UNTESTED
-> ---
->  drivers/gpu/drm/mediatek/mtk_dp.c | 1 +
->  1 file changed, 1 insertion(+)
+> diff --git a/drivers/gpu/drm/imx/ipuv3/dw_hdmi-imx.c b/drivers/gpu/drm/im=
+x/ipuv3/dw_hdmi-imx.c
+> index a2277a0d6d06..3b25f018b2a6 100644
+> --- a/drivers/gpu/drm/imx/ipuv3/dw_hdmi-imx.c
+> +++ b/drivers/gpu/drm/imx/ipuv3/dw_hdmi-imx.c
+> @@ -224,6 +224,9 @@ static int dw_hdmi_imx_probe(struct platform_device *=
+pdev)
+>         struct imx_hdmi *hdmi;
+>         int ret;
 >
-> diff --git a/drivers/gpu/drm/mediatek/mtk_dp.c b/drivers/gpu/drm/mediatek=
-/mtk_dp.c
-> index 2cb47f663756..8fc6eff68e30 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_dp.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_dp.c
-> @@ -2049,6 +2049,7 @@ static struct edid *mtk_dp_get_edid(struct drm_brid=
-ge *bridge,
->          */
->         if (mtk_dp_parse_capabilities(mtk_dp)) {
->                 drm_err(mtk_dp->drm_dev, "Can't parse capabilities\n");
-> +               kfree(new_edid);
->                 new_edid =3D NULL;
->         }
->
-> --
-> 2.39.2
->
+> +       if (!match)
+> +               return -ENODEV;
+> +
+
+This check is not needed.
+
+The only way this driver can probe is via devicetree and this can only
+happen when match is non-NULL.
