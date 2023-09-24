@@ -1,44 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B3287AC8E9
-	for <lists+dri-devel@lfdr.de>; Sun, 24 Sep 2023 15:21:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 787A67AC8F1
+	for <lists+dri-devel@lfdr.de>; Sun, 24 Sep 2023 15:21:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E246B10E1B0;
-	Sun, 24 Sep 2023 13:20:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 252A310E1AE;
+	Sun, 24 Sep 2023 13:21:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 32A9F10E1AF
- for <dri-devel@lists.freedesktop.org>; Sun, 24 Sep 2023 13:20:37 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5432910E1AF
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 Sep 2023 13:20:56 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 940EF60C2A;
- Sun, 24 Sep 2023 13:20:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6DB60C4339A;
- Sun, 24 Sep 2023 13:20:35 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 6E217CE0B2D;
+ Sun, 24 Sep 2023 13:20:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5BBFC433D9;
+ Sun, 24 Sep 2023 13:20:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1695561636;
+ s=k20201202; t=1695561653;
  bh=5o/7+bfcajmYC3wkUtOI5QGvaYZc3ylWHck73AYKVYc=;
  h=From:To:Cc:Subject:Date:From;
- b=ue//2ZzLJHbx+T+SgRdyTg8F5F915pxDKXimYm7dX+KSvh0rGiDnn7x7yavQ3wHjy
- iT1M/QpNqOwgZKxxhzDvX/CO+SKvDI8aBYthl3gjdftdEEw/aOgjgTfIHaE4k5g0Xw
- lyLMNNzrg0oLob9Bz1cc7PznwQrZhaC7nRV5CufwSDEgmZaZ9tifeuLf9S0Sp4KXHR
- h5boTxaS+CnAQ0LMKC4VjwNXz3WrlHgpurA1fbErcL/Y83KzDfOtZ4cllqyaJZwX8K
- 9gAI3d6IcgiM2MEp/1ebhFLlQBoEpPmv58YmqW7kBfUsXep+S+knvJSA6WKNgAfV3/
- P3pcYT4if1SDA==
+ b=LV+UBdL2LcR9Cq4vM9BvEnGPIPKrTj1FsL2r1sIIAExtlJ/xrrdP6wsBxaoMPdi5O
+ 5eBks6SmdzelPYwXeQ5Rj85NWifByt5vLILDQ0lhxzvcpUq3jVYJY1SPzU0vQZjZm5
+ kCdBgBpBF9m3M/NHB9qGHXqjzBKHyttDncDWwfjexOfjAnV4a7gjaz97P4F2Fy9NoM
+ p0NdoPNO1r3Cn5JHbMJOvcvlAVzFIDLtGsinXQlChCAMi9OmWaqaT1Te4XbwBQJuJ5
+ 1+8gSv/Bwgq1uVbjf28fr9rfRRqmQcW78YtGdsTSry0rpp40I36jC6HoiwttDV1Vj4
+ zhGHwxuqfR/sQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 1/7] parisc: sba: Fix compile warning wrt list of
+Subject: [PATCH AUTOSEL 4.14 1/6] parisc: sba: Fix compile warning wrt list of
  SBA devices
-Date: Sun, 24 Sep 2023 09:20:25 -0400
-Message-Id: <20230924132033.1276920-1-sashal@kernel.org>
+Date: Sun, 24 Sep 2023 09:20:44 -0400
+Message-Id: <20230924132050.1277021-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 4.19.295
+X-stable-base: Linux 4.14.326
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
