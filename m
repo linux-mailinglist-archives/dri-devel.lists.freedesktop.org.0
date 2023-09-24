@@ -1,68 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD82F7AC662
-	for <lists+dri-devel@lfdr.de>; Sun, 24 Sep 2023 04:57:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 136DC7AC667
+	for <lists+dri-devel@lfdr.de>; Sun, 24 Sep 2023 05:01:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D6E310E093;
-	Sun, 24 Sep 2023 02:57:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D2A5A10E0D9;
+	Sun, 24 Sep 2023 03:01:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x2b.google.com (mail-oa1-x2b.google.com
- [IPv6:2001:4860:4864:20::2b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C4B5510E093
- for <dri-devel@lists.freedesktop.org>; Sun, 24 Sep 2023 02:57:14 +0000 (UTC)
-Received: by mail-oa1-x2b.google.com with SMTP id
- 586e51a60fabf-1ba5cda3530so2775250fac.3
- for <dri-devel@lists.freedesktop.org>; Sat, 23 Sep 2023 19:57:14 -0700 (PDT)
+Received: from mail-qk1-x733.google.com (mail-qk1-x733.google.com
+ [IPv6:2607:f8b0:4864:20::733])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 86C5010E0D9
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 Sep 2023 03:01:43 +0000 (UTC)
+Received: by mail-qk1-x733.google.com with SMTP id
+ af79cd13be357-7741bffd123so192174285a.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 23 Sep 2023 20:01:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1695524234; x=1696129034;
+ d=chromium.org; s=google; t=1695524502; x=1696129302;
  darn=lists.freedesktop.org; 
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=NPXBmCzK3FG70guuha+2I+A6yn1HdDxLwlr5P+cFkHs=;
- b=EiMGr6ujpxGiNhvsZYda4F64K2TYX7lo9ChSeJwTT/WCWVq8KrL+a41LxA+gVsVWQS
- vLsLGdIp2WvVHw6btASI0AJ5lK5GRmG4/i05WLjOe8mRX12xd+VgFophsoiGqoPRSZ/6
- Tfeg5Sk6nQfNo5A1P+DObGwwRLGUdk7R2LED8=
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=8GXhdXaI2PB2O/8obE4EjH0QyOha/I4HQFMH4noGYrw=;
+ b=QL2LJp7A77BQ3NeRabVMjHTXG+7e9X9ITund23D+92HatnoSOirMejOHaoESx23gsd
+ LnCobeHzx0zgZy4Ubs/5pWWtbebcxekAdPlSe7h7uEQ19FkLmr6r6TBsvY1rZM40fGFO
+ RvHnc4jHy419k/oiczKPOszFSDYcwHfsqfiAc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1695524234; x=1696129034;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=NPXBmCzK3FG70guuha+2I+A6yn1HdDxLwlr5P+cFkHs=;
- b=P/qmMAISyKEKh34pyuAQDQTiIWYVoFmwvCOdzbwlHxeCg+wMK/C2WtRrGO7U3zbQXv
- ZWVGdMVEHg9kmj/wPjQF2WYpX+o7nERKFSKYSNoOev4t7ZdD9t8txqV+nsM15SbmNqQD
- 2Uf1VTfkxu2h86DfMlJB9RwNd89w0tx+ea35RC9k592cuaDEHmdPc/WWhcw277h1iNxh
- Dt269MCwVhb7DWMPei6SQxIY1ryxLLPREup0HPBsqLVkiWMyf5SstSNQvI/vl87pKyRf
- 44YQ8YYNiPokxPgKYzyGhGXt5rHwkWKvZfJXczd2Qp/qFt+uqUYrvysrGEQmvasrYw/C
- vD0Q==
-X-Gm-Message-State: AOJu0Ywrlrr/WbZAEuUugNI9eE2KW4Ke3+Dyx9TypO4SEKu1I20b+m+b
- Qy5nB8rwIpTbsFivLZzvUlByvg==
-X-Google-Smtp-Source: AGHT+IFK1V+i4tYBOwcJa9hlcUbQL0WgYEFL3YN7gDnaCzlxB+A01+MYEGZT9yHCPBAf6SjDQGiVSQ==
-X-Received: by 2002:a05:6870:6486:b0:1c0:c42f:6db2 with SMTP id
- cz6-20020a056870648600b001c0c42f6db2mr4979469oab.37.1695524233832; 
- Sat, 23 Sep 2023 19:57:13 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1695524502; x=1696129302;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=8GXhdXaI2PB2O/8obE4EjH0QyOha/I4HQFMH4noGYrw=;
+ b=VH2xk244phPvfRTJgTDk4VTXm5B1FPwyKv8w9EmenzBhnCaUw4Wm1SrctxIuNpGvyz
+ yZfwqGx6VrUJd7lWAVML/GXO80FoTzl1lmT6+gIaXYjUroFu71d4/ZkSYvFect6vBBOC
+ DOlwnuSFhZEWq8lJeUZkQWvMzQlZsgDsV8jW0VENrB81S19dnXKh0wpuMakPzhM76bce
+ +Qbk+QGth/5d9qFcHtREgBw+IfeEnu7leie/jpVHGsWYKS3IK6W2LQbfg4TCdGQKA7R/
+ tDsK+34RYMFCCRJNzinH+UfvB260KjRlr3Iy/xPo7Pq1oqh4a9aU4PSs9N9+R4fOlNOt
+ LDWQ==
+X-Gm-Message-State: AOJu0Yw+2O41caQgldfun5naVINoy+x8TULSdyjpTAbNIfvyaphKypiR
+ AZUFnt4r3AmFnMYLwQZqEV5hhQ==
+X-Google-Smtp-Source: AGHT+IGr9Of4kfacxpIKInFWXLzjnKSPS5GSoT5UjUfjr++q5sAWMQH24+jZaDPQ+nAE/RwJWzNCOw==
+X-Received: by 2002:a05:620a:16b9:b0:76f:1dd4:101f with SMTP id
+ s25-20020a05620a16b900b0076f1dd4101fmr3430900qkj.39.1695524502575; 
+ Sat, 23 Sep 2023 20:01:42 -0700 (PDT)
 Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net.
  [198.0.35.241]) by smtp.gmail.com with ESMTPSA id
- m29-20020a638c1d000000b005787395e301sm3964077pgd.44.2023.09.23.19.57.12
+ x26-20020aa784da000000b0068c0fcb40d3sm5568979pfn.211.2023.09.23.20.01.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 23 Sep 2023 19:57:12 -0700 (PDT)
-Date: Sat, 23 Sep 2023 19:57:12 -0700
+ Sat, 23 Sep 2023 20:01:41 -0700 (PDT)
+Date: Sat, 23 Sep 2023 20:01:41 -0700
 From: Kees Cook <keescook@chromium.org>
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Subject: Re: [PATCH] udmabuf: Fix a potential (and unlikely) access to
- unallocated memory
-Message-ID: <202309231954.1EAD0FA5A7@keescook>
-References: <3e37f05c7593f1016f0a46de188b3357cbbd0c0b.1695060389.git.christophe.jaillet@wanadoo.fr>
- <7043f179-b670-db3c-3ab0-a1f3e991add9@embeddedor.com>
- <a49f800e-e56f-433a-81d2-6edd68a0a015@wanadoo.fr>
+To: Justin Stitt <justinstitt@google.com>
+Subject: Re: [PATCH v2] drm/gma500: refactor deprecated strncpy
+Message-ID: <202309232000.E307B49B@keescook>
+References: <20230919-drivers-gpu-drm-gma500-oaktrail_lvds_i2c-c-v2-1-9ebe6983b4cb@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <a49f800e-e56f-433a-81d2-6edd68a0a015@wanadoo.fr>
+In-Reply-To: <20230919-drivers-gpu-drm-gma500-oaktrail_lvds_i2c-c-v2-1-9ebe6983b4cb@google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,75 +70,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, kernel-janitors@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Sumit Semwal <sumit.semwal@linaro.org>, linaro-mm-sig@lists.linaro.org,
- linux-hardening@vger.kernel.org, linux-media@vger.kernel.org,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-hardening@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 18, 2023 at 09:22:44PM +0200, Christophe JAILLET wrote:
-> Le 18/09/2023 à 05:10, Gustavo A. R. Silva a écrit :
-> > 
-> > 
-> > On 9/18/23 12:46, Christophe JAILLET wrote:
-> > > If 'list_limit' is set to a very high value, 'lsize' computation could
-> > > overflow if 'head.count' is big enough.
-> > > 
-> > > In such a case, udmabuf_create() will access to memory beyond 'list'.
-> > > 
-> > > Use size_mul() to saturate the value, and have memdup_user() fail.
-> > > 
-> > > Fixes: fbb0de795078 ("Add udmabuf misc device")
-> > > Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-> > > ---
-> > >   drivers/dma-buf/udmabuf.c | 4 ++--
-> > >   1 file changed, 2 insertions(+), 2 deletions(-)
-> > > 
-> > > diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
-> > > index c40645999648..fb4c4b5b3332 100644
-> > > --- a/drivers/dma-buf/udmabuf.c
-> > > +++ b/drivers/dma-buf/udmabuf.c
-> > > @@ -314,13 +314,13 @@ static long udmabuf_ioctl_create_list(struct
-> > > file *filp, unsigned long arg)
-> > >       struct udmabuf_create_list head;
-> > >       struct udmabuf_create_item *list;
-> > >       int ret = -EINVAL;
-> > > -    u32 lsize;
-> > > +    size_t lsize;
-> > >       if (copy_from_user(&head, (void __user *)arg, sizeof(head)))
-> > >           return -EFAULT;
-> > >       if (head.count > list_limit)
-> > >           return -EINVAL;
-> > > -    lsize = sizeof(struct udmabuf_create_item) * head.count;
-> > > +    lsize = size_mul(sizeof(struct udmabuf_create_item), head.count);
-> > >       list = memdup_user((void __user *)(arg + sizeof(head)), lsize);
-> > >       if (IS_ERR(list))
-> > >           return PTR_ERR(list);
-> > 
-> > How about this, and we get rid of `lsize`:
+On Tue, Sep 19, 2023 at 04:41:16AM +0000, Justin Stitt wrote:
+> `strncpy` is deprecated for use on NUL-terminated destination strings [1].
 > 
-> Keeping or removing lsize is mostly a matter of taste, I think.
+> We should prefer more robust and less ambiguous string interfaces.
+> 
+> Since `chan->base.name` is expected to be NUL-terminated, a suitable
+> replacement is `strscpy` [2] due to the fact that it guarantees
+> NUL-termination on the destination buffer without also unnecessarily
+> NUL-padding (since `chan` is kzalloc'd already).
+> 
+> Link: https://www.kernel.org/doc/html/latest/process/deprecated.html#strncpy-on-nul-terminated-strings [1]
+> Link: https://manpages.debian.org/testing/linux-manual-4.8/strscpy.9.en.html [2]
+> Link: https://github.com/KSPP/linux/issues/90
+> Cc: linux-hardening@vger.kernel.org
+> Signed-off-by: Justin Stitt <justinstitt@google.com>
 
-I'm on the fence, but kind of lean towards keeping lsize, but I think
-it's fine either way.
+Thanks, looks good. If a v3 is needed, Subject can be improved to be
+"...: Replace strncpy with strscpy".
 
-> Using sizeof(*list) is better.
-
-That I agree with, yes.
-
-> Let see if there are some other comments, and I'll send a v2.
-
-I note that this looks like a use-case for the very recently proposed
-memdup_array_user():
-https://lore.kernel.org/all/ACD75DAA-AF42-486C-B44B-9272EF302E3D@kernel.org/
-
-(i.e. a built-in size_mul)
-
--Kees
+Reviewed-by: Kees Cook <keescook@chromium.org>
 
 -- 
 Kees Cook
