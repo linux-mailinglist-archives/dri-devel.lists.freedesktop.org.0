@@ -2,52 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C35F7AE556
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Sep 2023 07:57:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B445F7AE688
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Sep 2023 09:15:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B5CB710E34E;
-	Tue, 26 Sep 2023 05:57:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A43B010E373;
+	Tue, 26 Sep 2023 07:15:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A826710E350;
- Tue, 26 Sep 2023 05:57:38 +0000 (UTC)
-X-UUID: 3c5ed56bf6c94e699b45d29275fdf15f-20230926
-X-CID-O-RULE: Release_Ham
-X-CID-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.31, REQID:62cae887-a010-406f-b0cb-62e849e7dd42, IP:5,
- U
- RL:0,TC:0,Content:0,EDM:25,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,ACTI
- ON:release,TS:15
-X-CID-INFO: VERSION:1.1.31, REQID:62cae887-a010-406f-b0cb-62e849e7dd42, IP:5,
- URL
- :0,TC:0,Content:0,EDM:25,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,ACTION
- :release,TS:15
-X-CID-META: VersionHash:0ad78a4, CLOUDID:ed0b47bf-14cc-44ca-b657-2d2783296e72,
- B
- ulkID:230926135702CTO4OX2J,BulkQuantity:0,Recheck:0,SF:24|17|19|44|38|102,
- TC:nil,Content:0,EDM:5,IP:-2,URL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,
- OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_FAS,TF_CID_SPAM_FSD,TF_CID_SPAM_FSI
-X-UUID: 3c5ed56bf6c94e699b45d29275fdf15f-20230926
-X-User: liucong2@kylinos.cn
-Received: from localhost.localdomain [(116.128.244.169)] by mailgw
- (envelope-from <liucong2@kylinos.cn>) (Generic MTA)
- with ESMTP id 1803900476; Tue, 26 Sep 2023 13:57:02 +0800
-From: Cong Liu <liucong2@kylinos.cn>
-To: Evan Quan <evan.quan@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH 1/2] drm/amd/pm: Fix warn: missing error code in
- smu_v13_0_0_check_ecc_table_support()
-Date: Tue, 26 Sep 2023 13:56:59 +0800
-Message-Id: <20230926055700.119576-1-liucong2@kylinos.cn>
-X-Mailer: git-send-email 2.34.1
+Received: from out-203.mta0.migadu.com (out-203.mta0.migadu.com
+ [IPv6:2001:41d0:1004:224b::cb])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A2A010E21D
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Sep 2023 09:21:51 +0000 (UTC)
+Date: Mon, 25 Sep 2023 19:21:25 +1000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jookia.org; s=key1;
+ t=1695633709;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=n9O5UKN7tbRZK1Q9LpJlaNZaOpS94daiRwiLSPX4z0c=;
+ b=vWTlglalviIbwVryZ8nWg7ttWfbbiBMo5J1cE+AyRX3ulLrW7ftoDRBRETqaWXeHC4LuRH
+ CBb/QK5vRkpGVoWFw0efM3uGJQ/AAsh+4L2vSvg6DVo5IegdGfoVHTgEY4JdCcD/8SUNj0
+ tyf9W1I9/B1yqEo+AAESJalMbKPNOje0PTB7EGuSzFCsSyfWwc5fcmLnv/ceJbDHYZRVYU
+ O5FY0+v277dWCbGJC/juvl0WytI5AtWfvDcaXTf5WhsGN5ahPT8LCIoj1xsd4o1KUCKEl8
+ Wpcso/SAMK3/TCL4x54a1oDLU3fTo2UurQ70JkIFClg5j1jvHkttwpH1RY7r2g==
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: John Watts <contact@jookia.org>
+To: Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [RFC PATCH v3 4/7] drm/panel: nv3052c: Add Fascontek FS035VG158
+ LCD display
+Message-ID: <ZRFRFXCKTIb9x7GW@titan>
+References: <20230925021059.451019-1-contact@jookia.org>
+ <20230925021059.451019-5-contact@jookia.org>
+ <ebd5808fe3029e46376aea3c25d3770a6b406fdc.camel@crapouillou.net>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ebd5808fe3029e46376aea3c25d3770a6b406fdc.camel@crapouillou.net>
+X-Migadu-Flow: FLOW_OUT
+X-Mailman-Approved-At: Tue, 26 Sep 2023 07:15:08 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,46 +53,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Cong Liu <liucong2@kylinos.cn>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ devicetree@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
+ Chris Morgan <macromorgan@hotmail.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Jagan Teki <jagan@edgeble.ai>,
+ Rob Herring <robh+dt@kernel.org>, Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Shawn Guo <shawnguo@kernel.org>,
+ Christophe Branchereau <cbranchereau@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch fixes a smatch warning:
+On Mon, Sep 25, 2023 at 11:12:29AM +0200, Paul Cercueil wrote:
+> Hi John,
+> 
+> Just to be sure, your fascontek panel won't work with the
+> initialization sequence of the leadtek panel?
 
-drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu13/smu_v13_0_0_ppt.c:2868
-smu_v13_0_0_check_ecc_table_support() warn: missing error code? 'ret'
+Yes, it does work.
 
-This warning is caused by the fact that this function returns the value of
-the variable ret. However, the value of ret is not explicitly set in the
-function. This patch fixes the warning by explicitly setting the value of
-ret to 0 if the device is supported
+> Did you try with the existing display modes? If you can afford the 24
+> MHz clock (and if it works with your panel) it will give you a perfect
+> 60.0 Hz refresh rate, while this mode above will give you above 59.93
+> Hz (which is not that bad though).
 
-Signed-off-by: Cong Liu <liucong2@kylinos.cn>
----
- drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_0_ppt.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+No I didn't test with this.
 
-diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_0_ppt.c b/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_0_ppt.c
-index 9ac2be5627d9..cf832cef2b0a 100644
---- a/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_0_ppt.c
-+++ b/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_0_ppt.c
-@@ -2863,11 +2863,11 @@ static int smu_v13_0_0_check_ecc_table_support(struct smu_context *smu)
- 	if (ret)
- 		return -EOPNOTSUPP;
- 
--	if ((adev->ip_versions[MP1_HWIP][0] == IP_VERSION(13, 0, 10)) &&
--		(smu_version >= SUPPORT_ECCTABLE_SMU_13_0_10_VERSION))
--		return ret;
--	else
-+	if ((adev->ip_versions[MP1_HWIP][0] != IP_VERSION(13, 0, 10)) &&
-+		(smu_version < SUPPORT_ECCTABLE_SMU_13_0_10_VERSION))
- 		return -EOPNOTSUPP;
-+
-+	return 0;
- }
- 
- static ssize_t smu_v13_0_0_get_ecc_info(struct smu_context *smu,
--- 
-2.34.1
+In general I don't feel comfortable submitting code that strays from what is
+recommended by the manufacturer.
 
+> Otherwise LGTM.
+> 
+> Cheers,
+> -Paul
+
+John.
