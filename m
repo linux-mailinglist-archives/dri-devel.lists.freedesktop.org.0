@@ -1,63 +1,164 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6134F7AD430
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Sep 2023 11:06:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E049B7AD440
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Sep 2023 11:11:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BADC610E1E8;
-	Mon, 25 Sep 2023 09:06:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B1ADD10E219;
+	Mon, 25 Sep 2023 09:11:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x1131.google.com (mail-yw1-x1131.google.com
- [IPv6:2607:f8b0:4864:20::1131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D8B610E219
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Sep 2023 09:06:47 +0000 (UTC)
-Received: by mail-yw1-x1131.google.com with SMTP id
- 00721157ae682-59c215f2f4aso74262617b3.1
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Sep 2023 02:06:47 -0700 (PDT)
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 55B0410E219
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Sep 2023 09:11:41 +0000 (UTC)
+X-UUID: 87082be45b8311ee8051498923ad61e6-20230925
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:MIME-Version:Content-Transfer-Encoding:Content-ID:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From;
+ bh=7nFUqKPXldhP5pJAc3bP4gDEYdzPI4VwY06DkB9LLPU=; 
+ b=Nl0u2eHIY7IpVFilvdp1jFgnbNFogZQYCvYkage7w+2dXh1kpCgodatH3RPW8y0bO5zmM25vPit440NY8+n9znTcZC8vmw6dfd+X9OjqhUWyLBAVsxo3LIhH39vBCNAN79t2VGlWLxRrNBOF9yycevQOvKHYaiSdDNouWwIdgJg=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.32, REQID:e1cb24cd-5a92-4a27-a360-185c9251b953, IP:0,
+ U
+ RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+ release,TS:0
+X-CID-META: VersionHash:5f78ec9, CLOUDID:870c5814-4929-4845-9571-38c601e9c3c9,
+ B
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,
+ DKR:0,DKP:0,BRR:0,BRE:0
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: 87082be45b8311ee8051498923ad61e6-20230925
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
+ mailgw02.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1787474115; Mon, 25 Sep 2023 17:11:35 +0800
+Received: from mtkmbs10n2.mediatek.inc (172.21.101.183) by
+ mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Mon, 25 Sep 2023 17:11:34 +0800
+Received: from APC01-TYZ-obe.outbound.protection.outlook.com (172.21.101.237)
+ by mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP
+ Server id
+ 15.2.1118.26 via Frontend Transport; Mon, 25 Sep 2023 17:11:34 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=QNrP2QOkfOE2u25N96fskxhzL11l+8yV7p7W8EOxJGoIuDq98I+Z0lWPUPBDYpiw1CE44hQNaRabN/6JHj0B5KaVw7QzNynLR9d2gXvfVZ8o96BSQiHcBRtc4QQjvBGzioTEqUAsGUUqUWH31YggweNobKAbm9eIvDZmeb30wRGOdkbdwT/FtRyA2krSPCJ3/WIKA+zKDglezEh37Hq/1m4UirRgVcaTLzcSFzz5lYgSerFzLmMR8cp7mQb2JJpqprwsF1UT4TNDuRVxXvPIhrzf3ZpwQcUWLNcsOj+4EerOl/p50MVlMiuGnuwttAf5L7Fy7N3tQCXRurU2+zxeGA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vD1c/M1Nf+/vxxmGR8DG8cl+xRr43Ii9OER6BL4XJnk=;
+ b=jVvQKIcQjGPrRQd1zqY/lnBpoqERBrVnY7bih9fRJHRX5YSkWr7RMrYVjEpbslYt3mLq8Wox0aOKPMAYc56on+xrigkAiJhLeX/Fhfjpj7c6JZCUzvP5zVg51JlspMKw5pTasJ0d6knr1eXpVIR44CATmNh3BQCQe9eD1eSDgiteau9dKzEuOVHhq/PvOzCeOl/V5ErdxYk4vyuneCzAyG5IhShl74sAaBhYf624tsdM/hc3jHNwasVhktqwDDEmtCBOv26gm16qQPi5vfQXeHN4hBElEE16LcVfR4gGg/So/UwBz2SrWZY0/viPuDHMvj0afbyRe18TVlalN9ZVjQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
+ dkim=pass header.d=mediatek.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1695632806; x=1696237606; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=+urIhpwTEkz79Am9RJHC2fm0g6Ug78XuKIyvd3DUPuQ=;
- b=WV3ZgNAejdV9ytH17ZA85GidiCl0IFuwBGcetU9AWDMkuF7mpfjwI5je7UUo2dg/8/
- GUqMbmVElPZ1s/BtXBsqQEFpfHJGSq6tfE+fn5igmdLO44BDX19DY6JgMPTL1oJB/54i
- stSh2Lv1yiizHRD4b/U6NtIPLKqKYgGpMExfBjrysCzKKjg3AdDiUbeJeoOBocHyDRjz
- k0FPTCBFhr3k6YDhOAK0+tkWUeGHUNFy4sg+go6rUBW9KoBOm8NOOIfVtMJjIRAa0ebN
- wprdu18wN1E8fyyzjhWuTmSBiS1LLY4oJJkay24mUDVq25K7nyuQxP6pmRGXHVy0eZDU
- hYSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1695632806; x=1696237606;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=+urIhpwTEkz79Am9RJHC2fm0g6Ug78XuKIyvd3DUPuQ=;
- b=bS0eD2kYzK9kHGJy1t95/dI85mFA+WQwKTvSdrESLZnwgAJg7kjn2Skht+NGtGT9C2
- qh5mxD9BZpbeJ2IRoDjOtr8Tp7IHxNnEmXdLtVshmgmYH92bvmNWA2SXCMGy2H7K6436
- EiWnDRop39RuHHCdEwplcpEc/At/gihfM/k2/9sk2wTh6ePhX+1iSFXX6bsuUhRBKGSM
- BIamviZ8JuyEALXBAAdMSgiG7Zd/mxf43vPCK767nYz+y8LeBS86zztNK4Y7+0TeQi46
- LEyoZ6rQJD5LmC1XnMJwqF7SQOf0/UA64s8oC0uMTG7sqtUvQToBJejlRVY1wR0N3aZq
- U1Xg==
-X-Gm-Message-State: AOJu0Yy9SHTwRUd4B5UiDKGCKD//t7aMPdKEemm45NPW5OGVGfwgTJ49
- DS7x+dEst+21SJJTB8vS6Pn4BUHoquHsTSoejuBQuV7ATwjOQ+FkQvw=
-X-Google-Smtp-Source: AGHT+IE64N8skrf+Bmn4uvgUUnI55Ok8J2iAxLChmf8aSNWlCtr5mJztZE3sYT3WrMo31YsKjBNpaLKXZvSajNObFV4=
-X-Received: by 2002:a05:690c:e17:b0:59f:4dcd:227e with SMTP id
- cp23-20020a05690c0e1700b0059f4dcd227emr5678550ywb.37.1695632805969; Mon, 25
- Sep 2023 02:06:45 -0700 (PDT)
+ d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vD1c/M1Nf+/vxxmGR8DG8cl+xRr43Ii9OER6BL4XJnk=;
+ b=LJx8jvztc+hUzd5GgpX56EuaNkU1iM/HepC58Fp/M/URH7c2GAqfJewaVGFpj4l1CIj5XEHH3SV1a/fxdsS/COW1jjExtAxHdDRhfR60osIUgNU9llSW/EiFeWlihMdDSzydXVOd1eABA+bQXKCOYyJBvyehpII+lvo9mYXlNX4=
+Received: from SEYPR03MB7682.apcprd03.prod.outlook.com (2603:1096:101:149::11)
+ by KL1PR03MB6376.apcprd03.prod.outlook.com (2603:1096:820:97::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6813.28; Mon, 25 Sep
+ 2023 09:11:30 +0000
+Received: from SEYPR03MB7682.apcprd03.prod.outlook.com
+ ([fe80::1b82:a45d:e171:62e8]) by SEYPR03MB7682.apcprd03.prod.outlook.com
+ ([fe80::1b82:a45d:e171:62e8%4]) with mapi id 15.20.6813.027; Mon, 25 Sep 2023
+ 09:11:30 +0000
+From: =?utf-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>
+To: "jassisinghbrar@gmail.com" <jassisinghbrar@gmail.com>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+ "krzysztof.kozlowski@linaro.org" <krzysztof.kozlowski@linaro.org>,
+ "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>, "robh+dt@kernel.org"
+ <robh+dt@kernel.org>, "krzysztof.kozlowski+dt@linaro.org"
+ <krzysztof.kozlowski+dt@linaro.org>,
+ "angelogioacchino.delregno@collabora.com"
+ <angelogioacchino.delregno@collabora.com>
+Subject: Re: [PATCH 02/15] dt-bindings: gce: mt8195: Add
+ CMDQ_SYNC_TOKEN_SECURE_THR_EOF event id
+Thread-Topic: [PATCH 02/15] dt-bindings: gce: mt8195: Add
+ CMDQ_SYNC_TOKEN_SECURE_THR_EOF event id
+Thread-Index: AQHZ6mVuaEaAeOxsw0iaYveBj8ZT1bAouz6AgAJLx4CAABsCgIAAKbeA
+Date: Mon, 25 Sep 2023 09:11:30 +0000
+Message-ID: <354bb70cd3f1921dd58629a044af7bfe4f3306c0.camel@mediatek.com>
+References: <20230918192204.32263-1-jason-jh.lin@mediatek.com>
+ <20230918192204.32263-3-jason-jh.lin@mediatek.com>
+ <20372e40-e4fc-467a-d91a-fcf8e26728bc@linaro.org>
+ <1f324b04cbd8faa7510a3519eb718c0be25af2be.camel@mediatek.com>
+ <e69ca292-e0b9-4ee2-9f4e-6e9300a636a6@linaro.org>
+In-Reply-To: <e69ca292-e0b9-4ee2-9f4e-6e9300a636a6@linaro.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=mediatek.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SEYPR03MB7682:EE_|KL1PR03MB6376:EE_
+x-ms-office365-filtering-correlation-id: 981e9e9f-c217-4664-f53d-08dbbda767ed
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: tVRLYxsngyjajtQEsRwMbrcuJhdjEvBGH6fsjsNdWiyIiMDRGQ3rp2ufcltSSg1xkZ2vephGA3CP8kll0KSBRMhgMOSJ4zUWdQCKEfO9ehHT0i6nloRdYXxbjXDslsVusiUsQqsX22ziAFR67iCkWaA4uea6pwSA/w6rClLBBxHM+VOanTTqtLZnKx/3H1QAEw2Rq5/4XE0fIZO0L3uK2GkpXHmEpFEwM1j3/JrTusf2pZHybbb+Zg+OQfRXIae/LKmrBvelV32Jfg3hxlAZpUsH4HiUNdBsmNTPoloUVD8ey5Co+jix+LMfdSRPFAiSqeEhKTxZqWx9/pD8QYvWKZBrnIhJvrHR2ZDDuErZ9KfmyFrvYMIEn5r8s+QXIhSwfBRTIw409v/1ui1TvFJ71ULKVNqOc9AetzyAlubhCQpsNL2Ty9e3mVFWD/Z83CxxwsxB6dsQYuh6pMBfSNUd/w2UdgPGhPkHZ00M/a532NsuWX7WVpIAWL/mnjJPGAHzp7Fq+fjz7Fo3EnRDsa0MS+/EqJfsl+aL0CoXlL630Fs0UlTYAFiXUjZKMekS2CYhpS5WTMtE/+KArdES1rcdKhyFLB/UPn6Z4w9gaRthlhuDee4J9EbNn1xrXqVrWvt96BWJlklq4mlEMZllFLQREvI+nbGw39moSm8aex0hmPA=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SEYPR03MB7682.apcprd03.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(346002)(376002)(39860400002)(366004)(396003)(136003)(230922051799003)(1800799009)(186009)(451199024)(6506007)(53546011)(6486002)(6512007)(107886003)(26005)(71200400001)(2616005)(76116006)(66946007)(66556008)(66476007)(66446008)(64756008)(86362001)(110136005)(91956017)(478600001)(122000001)(38070700005)(38100700002)(83380400001)(54906003)(2906002)(8936002)(8676002)(4326008)(85182001)(36756003)(5660300002)(316002)(41300700001)(7416002);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?SWIrWUJTV0YzRmZFZjc5NDhxSUR3aFBJNC8vdTNOdjFiQ1N4RkxKTzhqUXNK?=
+ =?utf-8?B?T3hLQUtYWENOWGlFWUlYQmdoWWJqY1lmdlJpcU9nNlZmZEh2NTgwcUZwTEtC?=
+ =?utf-8?B?ZXMvbkUwV1dvOU9rbkh2QlV3MzE5RkhqNmVxUmlCN0N3TjlQZjVnVC83Q05Q?=
+ =?utf-8?B?ajFOeHQwMjdZakdObXZseFlOQlpuVSttVklvcVc3WmJwZCtqSi9IbjhkZ2NG?=
+ =?utf-8?B?OGFVWHBZZ2NPTTdSdzQ0YzFpWkNFVmVLVEFTbWdHVnpISFRia0ZPYkZjVjdX?=
+ =?utf-8?B?TEpEeVhsd1VvSzdnRFJLNnkyZzJCQnpVNncvdmdwdTFUOC9DWkFiY0VtWmlX?=
+ =?utf-8?B?VmI2bU4yU2lNTTRFRFVWczJ2VkVBdUlNQ2tacGFEWmZHZTRLYnJyUUZDcFFo?=
+ =?utf-8?B?cDRFRFRUU25LZFZOc2lNVE4wckxmeVlOMnNxcHkxald5UWtuUHIweDFGSUln?=
+ =?utf-8?B?RHdmZUtqVEZ0Vkc2aGR3SmF0YlhKYlZHMGdJclNPWU5vM3RueFRNZjFLTUxD?=
+ =?utf-8?B?QjNzdjdWbVNMaEFTTk5RbjczNjNhMkp4RFNadVdsZUlhWWEzM0NCa0JNNWZ4?=
+ =?utf-8?B?MVdBbDJPTzRmQVI3clN1QjZhV3U1QUpFZ0VSUDV2MzBaZzZEdEttcGIzSXpP?=
+ =?utf-8?B?S1NTVXhOT1dzRWJHbjJOWHIrdnBiRnpqUWxJTVhIcnVvMzBJc2xlaDBCWjV2?=
+ =?utf-8?B?NTkxcDNvbVdhYjcrRStRcDI5NHdnMG5BbllaM2VYNi9Id2JMS1VscFNqRmhz?=
+ =?utf-8?B?N0xlWFdpR3FHTFBiYzVPQlhUZFRpaHU4S2xLblZuQ0Y3dldSemYxakhTN1RT?=
+ =?utf-8?B?RC96UVAwaitUa2F2cEJsc0Y2RTdYYmpnK1lXVXEydzd6amxnZC9RVWtGVkVs?=
+ =?utf-8?B?c0sycWhYZk9qcTVKQ2FhTmtNbG9NNFJZSnZMTUhNbjNNY2diSnh4V25Yb1l5?=
+ =?utf-8?B?RU1INGFVb29MdHBJZmxEK0V4V0dabHJXN2lpVXllRDR1U2ZpMXdJdjhMdXlw?=
+ =?utf-8?B?N0V4bmE4bVNRamdNOE5tWEtsRU9jNC9kVUFkb3NtK204WG9mTk81b0ViMnBt?=
+ =?utf-8?B?MC9SdDRobmdYVzRZUmZaMnRaNzFCb3ZHNHM2WnRMMUhGOTNFVXFMaGhpTGZi?=
+ =?utf-8?B?WnM0VkFTV0VXdmsyZy9IT3dML0ZCRTN2blMvRXFIeEFvd1Jab2R3U0ZwTGlC?=
+ =?utf-8?B?WlFPcnFmOWNrTWQ4ZzVTV3lpT1ArN3J4emhhWS9IRzRwZWFLTElhZWt6K2dL?=
+ =?utf-8?B?eXFSVkdpVVY2SXZ4SG9MS3VNQU5uQUh2a3ZJYkpSWk5CR2hqVWpwVlQ4cXpm?=
+ =?utf-8?B?bFQ4ZmxYWm1mVk9VS2NyTFl4a0F3cjcwYWxZQVFlRWZZWU5MZURZV1duN3pn?=
+ =?utf-8?B?cy9hZldlSDNwL2JxRFRiZmYrc0hvVk5EKy8wcVB3V29kQnJkY0tPTndpQ0hF?=
+ =?utf-8?B?UDRkZlo0TWZwbmp1c2t5TlNYblVBMVcwalZZZDZNc1ptbHpwOVJ4amVUVVAy?=
+ =?utf-8?B?SG5sei9QMFZPTk1zYzlwRUdsUXo1UVNqeFdHY3VUc3U4d2hnQ3IrUTRub0kx?=
+ =?utf-8?B?cGFBSDJLMStZTllZN0VZVlJvcktUT0x2TWdnTWphQVlEcDcxbm5yZnl4UE0v?=
+ =?utf-8?B?ZHE2UHFaNjZ6S0hZKzYzK0xUL0l6UEN2M0dKZmQ2TW8vdDhsYmFNd2IrWkhj?=
+ =?utf-8?B?eTAyS1JYcjBpbjZMTjF2U09IN2ZuRzZ2amtPR1dWcGR0ZDBzTytFV1JOcDlW?=
+ =?utf-8?B?Um54c1IwTDJLc0VaOVhwWklrdWJVMy9uWm5iWjZsbUlrUVlCTVE3U3lxd0JZ?=
+ =?utf-8?B?ZG0reFVBWXZmUC9wdjhYNE5Cc2dYK0tOWXlIdktEMEtiYWhlQVV2S2JKbDcr?=
+ =?utf-8?B?TjBGTE0rOVgya0VzaFZwNUJWMHROcVlFKzFhdCtUWCtML2w3a2ROeEZiTHM1?=
+ =?utf-8?B?bTRSejl1YTlMMWE4T0FjUlVSNFM2b05KTmRMaTczbHd0TUxvMGpMNTNFcmtv?=
+ =?utf-8?B?KzFHeU01QjFnVUhuSlh0cTJ5Z2R6QkxpNU94WG1GOVU1M2VJNE45eUtsOUUr?=
+ =?utf-8?B?RFROemlqQnMxTzhTZkFCcDlIKzJFc2ZmSGpWanRCNEYxQUFlbkplcll4bzVQ?=
+ =?utf-8?B?UzlaWHIyclZmR3ZBZjhBUFpDazV5ZnFCVzZBSTR2WFZCaVluejJoNEJ3Rm03?=
+ =?utf-8?B?bHc9PQ==?=
+Content-ID: <B19A915DFD87314990646C230BBCCD40@apcprd03.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <1694813901-26952-1-git-send-email-quic_khsieh@quicinc.com>
- <1694813901-26952-5-git-send-email-quic_khsieh@quicinc.com>
- <CAA8EJprxf5RBfuiJVJsfnb7buC9Mbxr=U7VSaPRc1+OMJcBFZg@mail.gmail.com>
- <febc4aaf-c36c-b683-d1c5-403279bd980a@quicinc.com>
-In-Reply-To: <febc4aaf-c36c-b683-d1c5-403279bd980a@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Mon, 25 Sep 2023 12:06:34 +0300
-Message-ID: <CAA8EJprcKwGRjsORCMRObjd5XvF2CQMtV41OM82EgHfwBYZQNQ@mail.gmail.com>
-Subject: Re: [PATCH v3 4/7] drm/msm/dp: incorporate pm_runtime framework into
- DP driver
-To: Kuogee Hsieh <quic_khsieh@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SEYPR03MB7682.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 981e9e9f-c217-4664-f53d-08dbbda767ed
+X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Sep 2023 09:11:30.3345 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: GGomSWz5Uby69dgZ1KeN3ofAcSRhZYkx6YUy+6vkaZvt/b46oytbN4CIWxiwKNZp4qg06HS9jY4IcXdFGn4E3/qCH6CQSSTxfkJ2sd3yBwI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1PR03MB6376
+Content-Type: multipart/alternative;
+ boundary="__=_Part_Boundary_006_89212528.974587870"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,400 +171,124 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, quic_sbillaka@quicinc.com,
- linux-kernel@vger.kernel.org, quic_abhinavk@quicinc.com, andersson@kernel.org,
- dri-devel@lists.freedesktop.org, dianders@chromium.org, vkoul@kernel.org,
- agross@kernel.org, marijn.suijten@somainline.org, quic_jesszhan@quicinc.com,
- swboyd@chromium.org, sean@poorly.run, linux-arm-msm@vger.kernel.org
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "conor+dt@kernel.org" <conor+dt@kernel.org>,
+ =?utf-8?B?RWx2aXMgV2FuZyAo546L5YabKQ==?= <Elvis.Wang@mediatek.com>,
+ =?utf-8?B?U2luZ28gQ2hhbmcgKOW8teiIiOWciyk=?= <Singo.Chang@mediatek.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Project_Global_Chrome_Upstream_Group
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+ =?utf-8?B?SmFzb24tY2ggQ2hlbiAo6Zmz5bu66LGqKQ==?= <Jason-ch.Chen@mediatek.com>,
+ =?utf-8?B?TmFuY3kgTGluICjmnpfmrKPonqIp?= <Nancy.Lin@mediatek.com>,
+ =?utf-8?B?Sm9obnNvbiBXYW5nICjnjovogZbpkasp?= <Johnson.Wang@mediatek.com>,
+ =?utf-8?B?U2hhd24gU3VuZyAo5a6L5a2d6KyZKQ==?= <Shawn.Sung@mediatek.com>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 21 Sept 2023 at 01:46, Kuogee Hsieh <quic_khsieh@quicinc.com> wrote:
->
->
-> On 9/15/2023 6:07 PM, Dmitry Baryshkov wrote:
-> > On Sat, 16 Sept 2023 at 00:38, Kuogee Hsieh <quic_khsieh@quicinc.com> wrote:
-> >> Currently DP driver is executed independent of PM runtime framework.
-> >> This lead DP driver incompatible with others. Incorporating pm runtime
-> > Why is it incompatible? Which others are mentioned here?
-> >
-> >> framework into DP driver so that both power and clocks to enable/disable
-> >> host controller fits with PM runtime mechanism. Once pm runtime framework
-> >> is incorporated into DP driver, wake up device from power up path is not
-> >> necessary. Hence remove it. Both EV_POWER_PM_GET and EV_POWER_PM_PUT events
-> >> are introduced to perform pm runtime control for the HPD GPIO routing to a
-> >> display-connector case.
-> >>
-> >> Changes in v3:
-> >> -- incorporate removing pm_runtime_xx() from dp_pwer.c to this patch
-> >> -- use pm_runtime_resume_and_get() instead of pm_runtime_get()
-> >> -- error checking pm_runtime_resume_and_get() return value
-> >> -- add EV_POWER_PM_GET and PM_EV_POWER_PUT to handle HPD_GPIO case
-> > Previous changelog?
-> >
-> >> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
-> >> ---
-> >>   drivers/gpu/drm/msm/dp/dp_aux.c     |   5 ++
-> >>   drivers/gpu/drm/msm/dp/dp_display.c | 114 +++++++++++++++++++++++++++---------
-> >>   drivers/gpu/drm/msm/dp/dp_power.c   |   9 ---
-> >>   3 files changed, 90 insertions(+), 38 deletions(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/msm/dp/dp_aux.c b/drivers/gpu/drm/msm/dp/dp_aux.c
-> >> index 8e3b677..8fa93c5 100644
-> >> --- a/drivers/gpu/drm/msm/dp/dp_aux.c
-> >> +++ b/drivers/gpu/drm/msm/dp/dp_aux.c
-> >> @@ -291,6 +291,9 @@ static ssize_t dp_aux_transfer(struct drm_dp_aux *dp_aux,
-> >>                  return -EINVAL;
-> >>          }
-> >>
-> >> +       if (pm_runtime_resume_and_get(dp_aux->dev))
-> >> +               return  -EINVAL;
-> > Please propagate error values instead of reinventing them.
-> >
-> >> +
-> >>          mutex_lock(&aux->mutex);
-> >>          if (!aux->initted) {
-> >>                  ret = -EIO;
-> >> @@ -364,6 +367,8 @@ static ssize_t dp_aux_transfer(struct drm_dp_aux *dp_aux,
-> >>
-> >>   exit:
-> >>          mutex_unlock(&aux->mutex);
-> >> +       pm_runtime_mark_last_busy(dp_aux->dev);
-> >> +       pm_runtime_put_autosuspend(dp_aux->dev);
-> > What is the reason for using autosuspend? Such design decisions should
-> > be described in the commit message.
-> >
-> >>          return ret;
-> >>   }
-> >> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-> >> index 59f9d85..e7af7f7 100644
-> >> --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> >> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> >> @@ -60,6 +60,8 @@ enum {
-> >>          EV_IRQ_HPD_INT,
-> >>          EV_HPD_UNPLUG_INT,
-> >>          EV_USER_NOTIFICATION,
-> >> +       EV_POWER_PM_GET,
-> >> +       EV_POWER_PM_PUT,
-> >>   };
-> >>
-> >>   #define EVENT_TIMEOUT  (HZ/10) /* 100ms */
-> >> @@ -276,13 +278,6 @@ static int dp_display_bind(struct device *dev, struct device *master,
-> >>          dp->dp_display.drm_dev = drm;
-> >>          priv->dp[dp->id] = &dp->dp_display;
-> >>
-> >> -       rc = dp->parser->parse(dp->parser);
-> >> -       if (rc) {
-> >> -               DRM_ERROR("device tree parsing failed\n");
-> >> -               goto end;
-> >> -       }
-> >> -
-> >> -
-> >>          dp->drm_dev = drm;
-> >>          dp->aux->drm_dev = drm;
-> >>          rc = dp_aux_register(dp->aux);
-> >> @@ -291,12 +286,6 @@ static int dp_display_bind(struct device *dev, struct device *master,
-> >>                  goto end;
-> >>          }
-> >>
-> >> -       rc = dp_power_client_init(dp->power);
-> >> -       if (rc) {
-> >> -               DRM_ERROR("Power client create failed\n");
-> >> -               goto end;
-> >> -       }
-> >> -
-> >>          rc = dp_register_audio_driver(dev, dp->audio);
-> >>          if (rc) {
-> >>                  DRM_ERROR("Audio registration Dp failed\n");
-> >> @@ -320,10 +309,6 @@ static void dp_display_unbind(struct device *dev, struct device *master,
-> >>          struct dp_display_private *dp = dev_get_dp_display_private(dev);
-> >>          struct msm_drm_private *priv = dev_get_drvdata(master);
-> >>
-> >> -       /* disable all HPD interrupts */
-> >> -       if (dp->core_initialized)
-> >> -               dp_catalog_hpd_config_intr(dp->catalog, DP_DP_HPD_INT_MASK, false);
-> >> -
-> >>          kthread_stop(dp->ev_tsk);
-> >>
-> >>          of_dp_aux_depopulate_bus(dp->aux);
-> >> @@ -467,6 +452,18 @@ static void dp_display_host_deinit(struct dp_display_private *dp)
-> >>          dp->core_initialized = false;
-> >>   }
-> >>
-> >> +static void dp_display_pm_get(struct dp_display_private *dp)
-> >> +{
-> >> +       if (pm_runtime_resume_and_get(&dp->pdev->dev))
-> >> +               DRM_ERROR("failed to start power\n");
-> >> +}
-> > Huge NAK here. This means that the error is completely ignored (other
-> > than being dumped to the log). This is a short path to Sync error and
-> > other kinds of reboot.
-> >
-> >> +
-> >> +static void dp_display_pm_put(struct dp_display_private *dp)
-> >> +{
-> >> +       pm_runtime_mark_last_busy(&dp->pdev->dev);
-> >> +       pm_runtime_put_autosuspend(&dp->pdev->dev);
-> >> +}
-> >> +
-> >>   static int dp_display_usbpd_configure_cb(struct device *dev)
-> >>   {
-> >>          struct dp_display_private *dp = dev_get_dp_display_private(dev);
-> >> @@ -1096,7 +1093,6 @@ static int hpd_event_thread(void *data)
-> >>
-> >>                  switch (todo->event_id) {
-> >>                  case EV_HPD_INIT_SETUP:
-> >> -                       dp_display_host_init(dp_priv);
-> >>                          break;
-> >>                  case EV_HPD_PLUG_INT:
-> >>                          dp_hpd_plug_handle(dp_priv, todo->data);
-> >> @@ -1111,6 +1107,12 @@ static int hpd_event_thread(void *data)
-> >>                          dp_display_send_hpd_notification(dp_priv,
-> >>                                                  todo->data);
-> >>                          break;
-> >> +               case EV_POWER_PM_GET:
-> >> +                       dp_display_pm_get(dp_priv);
-> >> +                       break;
-> >> +               case EV_POWER_PM_PUT:
-> >> +                       dp_display_pm_put(dp_priv);
-> >> +                       break;
-> > No. runtime_get / runtime_put are not HPD events. They should be
-> > executed directly from the place where the drivers needs the device to
-> > be powered up.
-> >
-> >>                  default:
-> >>                          break;
-> >>                  }
-> >> @@ -1251,6 +1253,18 @@ static int dp_display_probe(struct platform_device *pdev)
-> >>                  return -EPROBE_DEFER;
-> >>          }
-> >>
-> >> +       rc = dp->parser->parse(dp->parser);
-> >> +       if (rc) {
-> >> +               DRM_ERROR("device tree parsing failed\n");
-> >> +               return -EPROBE_DEFER;
-> >> +       }
-> >> +
-> >> +       rc = dp_power_client_init(dp->power);
-> >> +       if (rc) {
-> >> +               DRM_ERROR("Power client create failed\n");
-> >> +               return -EPROBE_DEFER;
-> >> +       }
-> > Why? This moves resource allocation to the probe function, which is
-> > irrelevant to the pm_runtime code. If this is required, you can move
-> > these changes to a separate patch.
-> >
-> >> +
-> >>          /* setup event q */
-> >>          mutex_init(&dp->event_mutex);
-> >>          init_waitqueue_head(&dp->event_q);
-> >> @@ -1263,6 +1277,10 @@ static int dp_display_probe(struct platform_device *pdev)
-> >>
-> >>          platform_set_drvdata(pdev, &dp->dp_display);
-> >>
-> >> +       devm_pm_runtime_enable(&pdev->dev);
-> > error code handling?
-> >
-> >> +       pm_runtime_set_autosuspend_delay(&pdev->dev, 1000);
-> >> +       pm_runtime_use_autosuspend(&pdev->dev);
-> >> +
-> >>          rc = dp_display_request_irq(dp);
-> >>          if (rc)
-> >>                  return rc;
-> >> @@ -1285,6 +1303,36 @@ static int dp_display_remove(struct platform_device *pdev)
-> >>
-> >>          platform_set_drvdata(pdev, NULL);
-> >>
-> >> +       pm_runtime_put_sync_suspend(&pdev->dev);
-> > Why? Who is holding the pm count here?
-> >
-> >> +       pm_runtime_dont_use_autosuspend(&pdev->dev);
-> >> +       pm_runtime_disable(&pdev->dev);
-> > Why do you need _disable if you have a devm_pm_runtime_enable()? Not
-> > to mention that pm_runtime_disable_action() already has a call to
-> > pm_runtime_dont_use_autosuspend()
-> >
-> >> +
-> >> +       return 0;
-> >> +}
-> >> +
-> >> +static int dp_pm_runtime_suspend(struct device *dev)
-> >> +{
-> >> +       struct dp_display_private *dp = dev_get_dp_display_private(dev);
-> >> +
-> >> +       if (dp->dp_display.is_edp) {
-> >> +               dp_display_host_phy_exit(dp);
-> >> +               dp_catalog_ctrl_hpd_disable(dp->catalog);
-> >> +       }
-> >> +       dp_display_host_deinit(dp);
-> >> +
-> >> +       return 0;
-> >> +}
-> >> +
-> >> +static int dp_pm_runtime_resume(struct device *dev)
-> >> +{
-> >> +       struct dp_display_private *dp = dev_get_dp_display_private(dev);
-> >> +
-> >> +       dp_display_host_init(dp);
-> >> +       if (dp->dp_display.is_edp) {
-> >> +               dp_catalog_ctrl_hpd_enable(dp->catalog);
-> >> +               dp_display_host_phy_init(dp);
-> >> +       }
-> >> +
-> >>          return 0;
-> >>   }
-> >>
-> >> @@ -1389,6 +1437,7 @@ static int dp_pm_suspend(struct device *dev)
-> >>   }
-> >>
-> >>   static const struct dev_pm_ops dp_pm_ops = {
-> >> +       SET_RUNTIME_PM_OPS(dp_pm_runtime_suspend, dp_pm_runtime_resume, NULL)
-> >>          .suspend = dp_pm_suspend,
-> >>          .resume =  dp_pm_resume,
-> >>   };
-> >> @@ -1473,10 +1522,6 @@ static int dp_display_get_next_bridge(struct msm_dp *dp)
-> >>          aux_bus = of_get_child_by_name(dev->of_node, "aux-bus");
-> >>
-> >>          if (aux_bus && dp->is_edp) {
-> >> -               dp_display_host_init(dp_priv);
-> >> -               dp_catalog_ctrl_hpd_enable(dp_priv->catalog);
-> >> -               dp_display_host_phy_init(dp_priv);
-> >> -
-> >>                  /*
-> >>                   * The code below assumes that the panel will finish probing
-> >>                   * by the time devm_of_dp_aux_populate_ep_devices() returns.
-> >> @@ -1578,6 +1623,11 @@ void dp_bridge_atomic_enable(struct drm_bridge *drm_bridge,
-> >>                  dp_hpd_plug_handle(dp_display, 0);
-> >>
-> >>          mutex_lock(&dp_display->event_mutex);
-> >> +       if (pm_runtime_resume_and_get(&dp_display->pdev->dev)) {
-> >> +               DRM_ERROR("failed to start power\n");
-> >> +               mutex_unlock(&dp_display->event_mutex);
-> >> +               return;
-> >> +       }
-> >>
-> >>          state = dp_display->hpd_state;
-> >>          if (state != ST_DISPLAY_OFF && state != ST_MAINLINK_READY) {
-> >> @@ -1658,6 +1708,8 @@ void dp_bridge_atomic_post_disable(struct drm_bridge *drm_bridge,
-> >>          }
-> >>
-> >>          drm_dbg_dp(dp->drm_dev, "type=%d Done\n", dp->connector_type);
-> >> +
-> >> +       pm_runtime_put_sync(&dp_display->pdev->dev);
-> > So, no autosuspend now?
-> >
-> > Also, I think we can get an unbalanced runtime status, as there is no
-> > guarantee that atomic_enable / atomic_disable will be paired. Please
-> > correct me if I'm wrong.
->
->   I always assume atomic_enable / atomic_disable should be paired.
-> Otherwise nothing will work.
-> Could you please give me example what situations they are not paired?
+--__=_Part_Boundary_006_89212528.974587870
+Content-Type: text/html;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Please excuse me, it took a while to check the docs. Indeed, you were
-right. For atomic drivers corresponding encoder helper calls are
-required to be inverse pairs. Thus bridge calls should also be an
-inverse of each other.
+PHByZT4NCk9uJiMzMjtNb24sJiMzMjsyMDIzLTA5LTI1JiMzMjthdCYjMzI7MDg6NDImIzMyOysw
+MjAwLCYjMzI7S3J6eXN6dG9mJiMzMjtLb3psb3dza2kmIzMyO3dyb3RlOg0KJmd0OyYjMzI7JiMz
+MjsmIzMyOw0KJmd0OyYjMzI7RXh0ZXJuYWwmIzMyO2VtYWlsJiMzMjs6JiMzMjtQbGVhc2UmIzMy
+O2RvJiMzMjtub3QmIzMyO2NsaWNrJiMzMjtsaW5rcyYjMzI7b3ImIzMyO29wZW4mIzMyO2F0dGFj
+aG1lbnRzJiMzMjt1bnRpbA0KJmd0OyYjMzI7eW91JiMzMjtoYXZlJiMzMjt2ZXJpZmllZCYjMzI7
+dGhlJiMzMjtzZW5kZXImIzMyO29yJiMzMjt0aGUmIzMyO2NvbnRlbnQuDQomZ3Q7JiMzMjsmIzMy
+O09uJiMzMjsyNS8wOS8yMDIzJiMzMjswNzowNSwmIzMyO0phc29uLUpIJiMzMjtMaW4mIzMyOygm
+IzI2NTE5OyYjMzA1OTE7JiMzMTA3NzspJiMzMjt3cm90ZToNCiZndDsmIzMyOyZndDsmIzMyO0hp
+JiMzMjtLcnp5c3p0b2YsDQomZ3Q7JiMzMjsmZ3Q7JiMzMjsNCiZndDsmIzMyOyZndDsmIzMyO1Ro
+YW5rcyYjMzI7Zm9yJiMzMjt0aGUmIzMyO3Jldmlld3MuDQomZ3Q7JiMzMjsmZ3Q7JiMzMjsNCiZn
+dDsmIzMyOyZndDsmIzMyO09uJiMzMjtTYXQsJiMzMjsyMDIzLTA5LTIzJiMzMjthdCYjMzI7MjA6
+MDEmIzMyOyswMjAwLCYjMzI7S3J6eXN6dG9mJiMzMjtLb3psb3dza2kmIzMyO3dyb3RlOg0KJmd0
+OyYjMzI7Jmd0OyZndDsmIzMyOyYjMzI7JiMzMjsNCiZndDsmIzMyOyZndDsmZ3Q7JiMzMjtFeHRl
+cm5hbCYjMzI7ZW1haWwmIzMyOzomIzMyO1BsZWFzZSYjMzI7ZG8mIzMyO25vdCYjMzI7Y2xpY2sm
+IzMyO2xpbmtzJiMzMjtvciYjMzI7b3BlbiYjMzI7YXR0YWNobWVudHMNCiZndDsmIzMyO3VudGls
+DQomZ3Q7JiMzMjsmZ3Q7Jmd0OyYjMzI7eW91JiMzMjtoYXZlJiMzMjt2ZXJpZmllZCYjMzI7dGhl
+JiMzMjtzZW5kZXImIzMyO29yJiMzMjt0aGUmIzMyO2NvbnRlbnQuDQomZ3Q7JiMzMjsmZ3Q7Jmd0
+OyYjMzI7JiMzMjtPbiYjMzI7MTgvMDkvMjAyMyYjMzI7MjE6MjEsJiMzMjtKYXNvbi1KSC5MaW4m
+IzMyO3dyb3RlOg0KJmd0OyYjMzI7Jmd0OyZndDsmZ3Q7JiMzMjtDTURRX1NZTkNfVE9LRU5fU0VD
+VVJFX1RIUl9FT0YmIzMyO2lzJiMzMjt1c2VkJiMzMjthcyYjMzI7c2VjdXJlJiMzMjtpcnEmIzMy
+O3RvJiMzMjtub3RpZnkNCiZndDsmIzMyO0NNRFENCiZndDsmIzMyOyZndDsmZ3Q7Jmd0OyYjMzI7
+ZHJpdmVyJiMzMjtpbiYjMzI7dGhlJiMzMjtub3JtYWwmIzMyO3dvcmxkJiMzMjt0aGF0JiMzMjtH
+Q0UmIzMyO3NlY3VyZSYjMzI7dGhyZWFkJiMzMjtoYXMmIzMyO2NvbXBsZXRlZCYjMzI7YQ0KJmd0
+OyYjMzI7Jmd0OyZndDsmIzMyO3Rhc2sNCiZndDsmIzMyOyZndDsmZ3Q7Jmd0OyYjMzI7aW4mIzMy
+O3RoZWUmIzMyO3NlY3VyZSYjMzI7d29ybGQuDQomZ3Q7JiMzMjsmZ3Q7Jmd0Ow0KJmd0OyYjMzI7
+Jmd0OyZndDsmIzMyO0hvdyYjMzI7Y2FuJiMzMjsjZGVmaW5lJiMzMjtiZSYjMzI7YWRkZWQmIzMy
+O2FmdGVyJiMzMjtpdHMmIzMyO3VzYWdlJiM2MzsmIzMyO0RvZXMmIzMyO2l0JiMzMjtldmVuJiMz
+MjttYWtlJiMzMjthbnkNCiZndDsmIzMyO3NlbnNlDQomZ3Q7JiMzMjsmZ3Q7Jmd0OyYjMzI7b2YN
+CiZndDsmIzMyOyZndDsmZ3Q7JiMzMjtiZWluZyYjMzI7c2VwYXJhdGUmIzMyO3BhdGNoJiM2MzsN
+CiZndDsmIzMyOyZndDsmZ3Q7DQomZ3Q7JiMzMjsmZ3Q7JiMzMjsNCiZndDsmIzMyOyZndDsmIzMy
+O1RoaXMmIzMyO2RlZmluaXRpb24mIzMyO2lzJiMzMjt1c2VkJiMzMjtpbiYjMzI7dGhlJiMzMjtt
+dDgxOTUuZHRzJiMzMjthdCYjMzI7W1BBVENIJiMzMjsxNS8xNV0mIzMyO2FuZCYjMzI7dGhlDQom
+Z3Q7JiMzMjtDTURRDQomZ3Q7JiMzMjsNCiZndDsmIzMyO05vLCYjMzI7dGhlJiMzMjtkZWZpbmUm
+IzMyO2lzJiMzMjt1c2VkJiMzMjtpbiYjMzI7cHJldmlvdXMmIzMyO3BhdGNoLCYjMzI7d2hpY2gm
+IzMyO21lYW5zJiMzMjt5b3VyJiMzMjtwYXRjaHNldA0KJmd0OyYjMzI7aXMNCiZndDsmIzMyO25v
+dCYjMzI7YmlzZWN0YWJsZSYjMzI7YW5kJiMzMjtub3QmIzMyO3Rlc3RlZC4NCiZndDsmIzMyOw0K
+DQpEbyYjMzI7eW91JiMzMjttZWFuJiMzMjt0aGlzJiMzMjtwYXRjaCYjMzI7c2hvdWxkJiMzMjth
+ZGQmIzMyO2JlZm9yZSYjMzI7cGF0Y2gmIzMyOzEmIzYzOw0KDQoNClRoZSYjMzI7ZXhhbXBsZSYj
+MzI7b2YmIzMyO2R0cyYjMzI7aW4mIzMyO3BhdGNoJiMzMjsxJiMzMjtpcyYjMzI7dXNlZCYjMzI7
+dGhlJiMzMjtkZWZpbml0aW9uJiMzMjtvZiYjMzI7bXQ4MTg4LCYjMzI7c28mIzMyO0kNCnRoaW5r
+JiMzMjtJJiMzMjtjYW4mIzMyO2FkZCYjMzI7dGhpcyYjMzI7cGF0Y2gmIzMyO3RvJiMzMjtkZWZp
+bmUmIzMyO3RoZSYjMzI7Z2NlJiMzMjtldmVudCYjMzI7aWQmIzMyO2ZvciYjMzI7bXQ4MTk1JiMz
+MjthZnRlcg0KcGF0Y2gmIzMyOzEuDQoNCkkmIzMyO3dpbGwmIzMyO3N3YXAmIzMyO3RoZSYjMzI7
+cGF0Y2gmIzMyOzEmIzMyO2FuZCYjMzI7dGhlJiMzMjtwYXRjaCYjMzI7MiYjMzI7aW4mIzMyO3Ro
+ZSYjMzI7bmV4dCYjMzI7dmVyc2lvbiwmIzMyO2lmJiMzMjt0aGF0DQpjYW4mIzMyO21ha2UmIzMy
+O2l0JiMzMjttb3JlJiMzMjthcHByb3ByaWF0ZS4NCg0KUmVnYXJkcywNCkphc29uLUpILkxpbg0K
+DQomZ3Q7JiMzMjtCZXN0JiMzMjtyZWdhcmRzLA0KJmd0OyYjMzI7S3J6eXN6dG9mDQomZ3Q7JiMz
+MjsNCiZndDsmIzMyOw0KDQo8L3ByZT48IS0tdHlwZTp0ZXh0LS0+PCEtLXstLT48cHJlPioqKioq
+KioqKioqKiogTUVESUFURUsgQ29uZmlkZW50aWFsaXR5IE5vdGljZSAqKioqKioqKioqKioqKioq
+KioqKg0KVGhlIGluZm9ybWF0aW9uIGNvbnRhaW5lZCBpbiB0aGlzIGUtbWFpbCBtZXNzYWdlIChp
+bmNsdWRpbmcgYW55IA0KYXR0YWNobWVudHMpIG1heSBiZSBjb25maWRlbnRpYWwsIHByb3ByaWV0
+YXJ5LCBwcml2aWxlZ2VkLCBvciBvdGhlcndpc2UNCmV4ZW1wdCBmcm9tIGRpc2Nsb3N1cmUgdW5k
+ZXIgYXBwbGljYWJsZSBsYXdzLiBJdCBpcyBpbnRlbmRlZCB0byBiZSANCmNvbnZleWVkIG9ubHkg
+dG8gdGhlIGRlc2lnbmF0ZWQgcmVjaXBpZW50KHMpLiBBbnkgdXNlLCBkaXNzZW1pbmF0aW9uLCAN
+CmRpc3RyaWJ1dGlvbiwgcHJpbnRpbmcsIHJldGFpbmluZyBvciBjb3B5aW5nIG9mIHRoaXMgZS1t
+YWlsIChpbmNsdWRpbmcgaXRzIA0KYXR0YWNobWVudHMpIGJ5IHVuaW50ZW5kZWQgcmVjaXBpZW50
+KHMpIGlzIHN0cmljdGx5IHByb2hpYml0ZWQgYW5kIG1heSANCmJlIHVubGF3ZnVsLiBJZiB5b3Ug
+YXJlIG5vdCBhbiBpbnRlbmRlZCByZWNpcGllbnQgb2YgdGhpcyBlLW1haWwsIG9yIGJlbGlldmUg
+DQp0aGF0IHlvdSBoYXZlIHJlY2VpdmVkIHRoaXMgZS1tYWlsIGluIGVycm9yLCBwbGVhc2Ugbm90
+aWZ5IHRoZSBzZW5kZXIgDQppbW1lZGlhdGVseSAoYnkgcmVwbHlpbmcgdG8gdGhpcyBlLW1haWwp
+LCBkZWxldGUgYW55IGFuZCBhbGwgY29waWVzIG9mIA0KdGhpcyBlLW1haWwgKGluY2x1ZGluZyBh
+bnkgYXR0YWNobWVudHMpIGZyb20geW91ciBzeXN0ZW0sIGFuZCBkbyBub3QNCmRpc2Nsb3NlIHRo
+ZSBjb250ZW50IG9mIHRoaXMgZS1tYWlsIHRvIGFueSBvdGhlciBwZXJzb24uIFRoYW5rIHlvdSEN
+CjwvcHJlPjwhLS19LS0+
 
->
-> > And also there is a possible return earlier in this function. The
-> > driver will leak the runtime status again.
-> >
-> >>          mutex_unlock(&dp_display->event_mutex);
-> >>   }
-> >>
-> >> @@ -1697,6 +1749,9 @@ void dp_bridge_hpd_enable(struct drm_bridge *bridge)
-> >>          struct dp_display_private *dp = container_of(dp_display, struct dp_display_private, dp_display);
-> >>
-> >>          mutex_lock(&dp->event_mutex);
-> >> +       if (pm_runtime_resume_and_get(&dp->pdev->dev))
-> >> +               DRM_ERROR("failed to start power\n");
-> > Return?
-> >
-> >> +
-> >>          dp_catalog_ctrl_hpd_enable(dp->catalog);
-> >>
-> >>          /* enable HDP interrupts */
-> >> @@ -1718,6 +1773,9 @@ void dp_bridge_hpd_disable(struct drm_bridge *bridge)
-> >>          dp_catalog_ctrl_hpd_disable(dp->catalog);
-> >>
-> >>          dp_display->internal_hpd = false;
-> >> +
-> >> +       pm_runtime_mark_last_busy(&dp->pdev->dev);
-> >> +       pm_runtime_put_autosuspend(&dp->pdev->dev);
-> >>          mutex_unlock(&dp->event_mutex);
-> >>   }
-> >>
-> >> @@ -1732,13 +1790,11 @@ void dp_bridge_hpd_notify(struct drm_bridge *bridge,
-> >>          if (dp_display->internal_hpd)
-> >>                  return;
-> >>
-> >> -       if (!dp->core_initialized) {
-> >> -               drm_dbg_dp(dp->drm_dev, "not initialized\n");
-> >> -               return;
-> >> -       }
-> >> -
-> >> -       if (!dp_display->link_ready && status == connector_status_connected)
-> >> +       if (!dp_display->link_ready && status == connector_status_connected) {
-> >> +               dp_add_event(dp, EV_POWER_PM_GET, 0, 0);
-> > Why? What for?
-> >
-> >>                  dp_add_event(dp, EV_HPD_PLUG_INT, 0, 0);
-> >> -       else if (dp_display->link_ready && status == connector_status_disconnected)
-> >> +       } else if (dp_display->link_ready && status == connector_status_disconnected) {
-> >>                  dp_add_event(dp, EV_HPD_UNPLUG_INT, 0, 0);
-> >> +               dp_add_event(dp, EV_POWER_PM_PUT, 0, 0);
-> >> +       }
-> >>   }
-> >> diff --git a/drivers/gpu/drm/msm/dp/dp_power.c b/drivers/gpu/drm/msm/dp/dp_power.c
-> >> index 5cb84ca..ed2f62a 100644
-> >> --- a/drivers/gpu/drm/msm/dp/dp_power.c
-> >> +++ b/drivers/gpu/drm/msm/dp/dp_power.c
-> >> @@ -152,8 +152,6 @@ int dp_power_client_init(struct dp_power *dp_power)
-> >>
-> >>          power = container_of(dp_power, struct dp_power_private, dp_power);
-> >>
-> >> -       pm_runtime_enable(power->dev);
-> >> -
-> >>          return dp_power_clk_init(power);
-> >>   }
-> >>
-> >> @@ -162,8 +160,6 @@ void dp_power_client_deinit(struct dp_power *dp_power)
-> >>          struct dp_power_private *power;
-> >>
-> >>          power = container_of(dp_power, struct dp_power_private, dp_power);
-> >> -
-> >> -       pm_runtime_disable(power->dev);
-> >>   }
-> >>
-> >>   int dp_power_init(struct dp_power *dp_power)
-> >> @@ -173,11 +169,7 @@ int dp_power_init(struct dp_power *dp_power)
-> >>
-> >>          power = container_of(dp_power, struct dp_power_private, dp_power);
-> >>
-> >> -       pm_runtime_get_sync(power->dev);
-> >> -
-> >>          rc = dp_power_clk_enable(dp_power, DP_CORE_PM, true);
-> >> -       if (rc)
-> >> -               pm_runtime_put_sync(power->dev);
-> >>
-> >>          return rc;
-> >>   }
-> >> @@ -189,7 +181,6 @@ int dp_power_deinit(struct dp_power *dp_power)
-> >>          power = container_of(dp_power, struct dp_power_private, dp_power);
-> >>
-> >>          dp_power_clk_enable(dp_power, DP_CORE_PM, false);
-> >> -       pm_runtime_put_sync(power->dev);
-> >>          return 0;
-> >>   }
-> >>
-> >> --
-> >> 2.7.4
-> >>
-> >
+--__=_Part_Boundary_006_89212528.974587870
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
 
+T24gTW9uLCAyMDIzLTA5LTI1IGF0IDA4OjQyICswMjAwLCBLcnp5c3p0b2YgS296bG93c2tpIHdy
+b3RlOg0KPiAgCSANCj4gRXh0ZXJuYWwgZW1haWwgOiBQbGVhc2UgZG8gbm90IGNsaWNrIGxpbmtz
+IG9yIG9wZW4gYXR0YWNobWVudHMgdW50aWwNCj4geW91IGhhdmUgdmVyaWZpZWQgdGhlIHNlbmRl
+ciBvciB0aGUgY29udGVudC4NCj4gIE9uIDI1LzA5LzIwMjMgMDc6MDUsIEphc29uLUpIIExpbiAo
+5p6X552/56WlKSB3cm90ZToNCj4gPiBIaSBLcnp5c3p0b2YsDQo+ID4gDQo+ID4gVGhhbmtzIGZv
+ciB0aGUgcmV2aWV3cy4NCj4gPiANCj4gPiBPbiBTYXQsIDIwMjMtMDktMjMgYXQgMjA6MDEgKzAy
+MDAsIEtyenlzenRvZiBLb3psb3dza2kgd3JvdGU6DQo+ID4+ICAgDQo+ID4+IEV4dGVybmFsIGVt
+YWlsIDogUGxlYXNlIGRvIG5vdCBjbGljayBsaW5rcyBvciBvcGVuIGF0dGFjaG1lbnRzDQo+IHVu
+dGlsDQo+ID4+IHlvdSBoYXZlIHZlcmlmaWVkIHRoZSBzZW5kZXIgb3IgdGhlIGNvbnRlbnQuDQo+
+ID4+ICBPbiAxOC8wOS8yMDIzIDIxOjIxLCBKYXNvbi1KSC5MaW4gd3JvdGU6DQo+ID4+PiBDTURR
+X1NZTkNfVE9LRU5fU0VDVVJFX1RIUl9FT0YgaXMgdXNlZCBhcyBzZWN1cmUgaXJxIHRvIG5vdGlm
+eQ0KPiBDTURRDQo+ID4+PiBkcml2ZXIgaW4gdGhlIG5vcm1hbCB3b3JsZCB0aGF0IEdDRSBzZWN1
+cmUgdGhyZWFkIGhhcyBjb21wbGV0ZWQgYQ0KPiA+PiB0YXNrDQo+ID4+PiBpbiB0aGVlIHNlY3Vy
+ZSB3b3JsZC4NCj4gPj4NCj4gPj4gSG93IGNhbiAjZGVmaW5lIGJlIGFkZGVkIGFmdGVyIGl0cyB1
+c2FnZT8gRG9lcyBpdCBldmVuIG1ha2UgYW55DQo+IHNlbnNlDQo+ID4+IG9mDQo+ID4+IGJlaW5n
+IHNlcGFyYXRlIHBhdGNoPw0KPiA+Pg0KPiA+IA0KPiA+IFRoaXMgZGVmaW5pdGlvbiBpcyB1c2Vk
+IGluIHRoZSBtdDgxOTUuZHRzIGF0IFtQQVRDSCAxNS8xNV0gYW5kIHRoZQ0KPiBDTURRDQo+IA0K
+PiBObywgdGhlIGRlZmluZSBpcyB1c2VkIGluIHByZXZpb3VzIHBhdGNoLCB3aGljaCBtZWFucyB5
+b3VyIHBhdGNoc2V0DQo+IGlzDQo+IG5vdCBiaXNlY3RhYmxlIGFuZCBub3QgdGVzdGVkLg0KPiAN
+Cg0KRG8geW91IG1lYW4gdGhpcyBwYXRjaCBzaG91bGQgYWRkIGJlZm9yZSBwYXRjaCAxPw0KDQoN
+ClRoZSBleGFtcGxlIG9mIGR0cyBpbiBwYXRjaCAxIGlzIHVzZWQgdGhlIGRlZmluaXRpb24gb2Yg
+bXQ4MTg4LCBzbyBJDQp0aGluayBJIGNhbiBhZGQgdGhpcyBwYXRjaCB0byBkZWZpbmUgdGhlIGdj
+ZSBldmVudCBpZCBmb3IgbXQ4MTk1IGFmdGVyDQpwYXRjaCAxLg0KDQpJIHdpbGwgc3dhcCB0aGUg
+cGF0Y2ggMSBhbmQgdGhlIHBhdGNoIDIgaW4gdGhlIG5leHQgdmVyc2lvbiwgaWYgdGhhdA0KY2Fu
+IG1ha2UgaXQgbW9yZSBhcHByb3ByaWF0ZS4NCg0KUmVnYXJkcywNCkphc29uLUpILkxpbg0KDQo+
+IEJlc3QgcmVnYXJkcywNCj4gS3J6eXN6dG9mDQo+IA0KPiANCg==
 
+--__=_Part_Boundary_006_89212528.974587870--
 
--- 
-With best wishes
-Dmitry
