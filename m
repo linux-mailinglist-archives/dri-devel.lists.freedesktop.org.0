@@ -1,43 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BCF97AD20E
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Sep 2023 09:44:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE0DE7AD1F7
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Sep 2023 09:43:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 109FD10E20F;
-	Mon, 25 Sep 2023 07:44:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7A1110E1C6;
+	Mon, 25 Sep 2023 07:43:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-190.mta1.migadu.com (out-190.mta1.migadu.com
- [IPv6:2001:41d0:203:375::be])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B01E10E1C2
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Sep 2023 02:12:01 +0000 (UTC)
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jookia.org; s=key1;
- t=1695607919;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=JhEQ1dqgKvz3w9QUVhZNxp0xbOiz8esdacL61UcOl+o=;
- b=reLviE8eY03Zixne93aJYjmlNnoeKH3LZ7mp6VsZHKBJPOc9sKjWVPwEFW3s/4NENAjZW8
- deain8KjDdxO8t7euO5BpC0nX+tduW1A7cUFDILo6X9gQ80H8zliAQH+Ztk1O4ROyg73UJ
- 54pJspsixPhbOEElPzb4l94W8GodS+ejKgyLe57267wK011zlpqD/yI08N+DNLt8KiaP6Q
- pG5ePA7/BwT/nsX6BhG01wc8F76Q5GsUt7uUWqupdyStwXj9LM5F3AjerqhzJbDBI6kSZl
- qTPbUemZr6Oe6HeGCfvo6saHRrIpN3X+MjWFf2u/h3IbDQab1bpH8kzypWy8EQ==
-From: John Watts <contact@jookia.org>
+Received: from mail-41104.protonmail.ch (mail-41104.protonmail.ch
+ [185.70.41.104])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 94A2210E1D7
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Sep 2023 05:03:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
+ s=protonmail; t=1695618195; x=1695877395;
+ bh=8s/fmBVocO+RXxIad4SCQW9xUlFauVp2gzuJeRnO0rA=;
+ h=Date:To:From:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+ Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+ b=XfuhqAfO5bc8zbco5qf0SvYTUB8deb4sNGeVdgnuLoasl5R3QWbgPvu+UFmVaIsHD
+ Hx74Z2hyd9/Wti/eE6Cdv8DOwEnE1DYehOGCiaLzsGVCfwsfmmVprVmrhULdsHqF0U
+ 95041R8qmS8xiZmNd9f9nX8QR57kMl1kPZwYIEyxTm2g3pokRFYwVtj7Y0Z6aWwoMb
+ TNtrfKSU4BnhYO2z6+qNxgW3zLv0KthEjdzRrZj6QcWMVj1aWNd/Lv2AxIPpMhbksd
+ CgEhbFFgojJlRSB+fJwEqBm+ZuZO3rU3pPEE+oTe8acg/AZYfkMZIbMKhxUSR2EbYf
+ L5aM6K6rbKNsA==
+Date: Mon, 25 Sep 2023 05:03:08 +0000
 To: dri-devel@lists.freedesktop.org
-Subject: [RFC PATCH v3 7/7] dt-bindings: display: panel: add Fascontek
- FS035VG158 panel
-Date: Mon, 25 Sep 2023 12:10:58 +1000
-Message-ID: <20230925021059.451019-8-contact@jookia.org>
-In-Reply-To: <20230925021059.451019-1-contact@jookia.org>
-References: <20230925021059.451019-1-contact@jookia.org>
+From: Arun Mani J <J.ArunMani@proton.me>
+Subject: Development of custom virtual monitor
+Message-ID: <LneaADrt-thjT-QDSquor44L0ZPFATd58AVE4uUbkLCefwa4mFmjOvdPw6PVZAKMuG0meL_DMzXMPZuz7i6XXqDks27o-A4u-JSCir6IwGw=@proton.me>
+Feedback-ID: 48492410:user:proton
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: multipart/alternative;
+ boundary="b1_8vZL5JIVCrWtG47X92qfZL5IWYUOYHo2xICwqNIA"
 X-Mailman-Approved-At: Mon, 25 Sep 2023 07:43:28 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -51,90 +46,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- devicetree@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
- Chris Morgan <macromorgan@hotmail.com>, linux-kernel@vger.kernel.org,
- Shawn Guo <shawnguo@kernel.org>, Jagan Teki <jagan@edgeble.ai>,
- John Watts <contact@jookia.org>, Rob Herring <robh+dt@kernel.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Paul Cercueil <paul@crapouillou.net>,
- Christophe Branchereau <cbranchereau@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is a small 3.5" 640x480 IPS LCD panel.
+This is a multi-part message in MIME format.
 
-Signed-off-by: John Watts <contact@jookia.org>
-Reviewed-by: Rob Herring <robh@kernel.org>
----
- .../display/panel/fascontek,fs035vg158.yaml   | 56 +++++++++++++++++++
- 1 file changed, 56 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/panel/fascontek,fs035vg158.yaml
+--b1_8vZL5JIVCrWtG47X92qfZL5IWYUOYHo2xICwqNIA
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: base64
 
-diff --git a/Documentation/devicetree/bindings/display/panel/fascontek,fs035vg158.yaml b/Documentation/devicetree/bindings/display/panel/fascontek,fs035vg158.yaml
-new file mode 100644
-index 000000000000..d13c4bd26de4
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/panel/fascontek,fs035vg158.yaml
-@@ -0,0 +1,56 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/panel/fascontek,fs035vg158.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Fascontek FS035VG158 3.5" (640x480 pixels) 24-bit IPS LCD panel
-+
-+maintainers:
-+  - John Watts <contact@jookia.org>
-+
-+allOf:
-+  - $ref: panel-common.yaml#
-+  - $ref: /schemas/spi/spi-peripheral-props.yaml#
-+
-+properties:
-+  compatible:
-+    const: fascontek,fs035vg158
-+
-+  spi-3wire: true
-+
-+required:
-+  - compatible
-+  - reg
-+  - port
-+  - power-supply
-+  - reset-gpios
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
-+
-+    spi {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+        panel@0 {
-+            compatible = "fascontek,fs035vg158";
-+            reg = <0>;
-+
-+            spi-3wire;
-+            spi-max-frequency = <3125000>;
-+
-+            reset-gpios = <&gpe 2 GPIO_ACTIVE_LOW>;
-+
-+            backlight = <&backlight>;
-+            power-supply = <&vcc>;
-+
-+            port {
-+                panel_input: endpoint {
-+                    remote-endpoint = <&panel_output>;
-+                };
-+            };
-+        };
-+    };
--- 
-2.42.0
+SGV5IGFsbApJIHdvdWxkIGxpa2UgdG8gZGV2ZWxvcCBhIHZpcnR1YWwgbW9uaXRvciwgcmVnYXJk
+aW5nIHdoaWNoIEkgbmVlZCBoZWxwLiBUaGUgc2l0dWF0aW9uIGlzLCBJIG5lZWQgdG8gZGVzaWdu
+IGEgdmlydHVhbCBtb25pdG9yIGFuZCBtYWtlIGl0IGEgdG9wLWxldmVsIHdpbmRvdy4gSSBzaG91
+bGQgYmUgYWJsZSB0byBtb3ZlIHdpbmRvd3MgdG8gdGhpcyBtb25pdG9yLCByZW5kZXIgdGhlbSBh
+bmQgZG8gb3RoZXIgdGhpbmdzIHdoaWNoIGNhbiBiZSBkb25lIGluIGEgcGh5c2ljYWwgbW9uaXRv
+ci4KCk9mIGNvdXJzZSwgWDExIGFuZCBNdXR0ZXIgcHJvdmlkZSBBUElzIHRvIGNyZWF0ZSB2aXJ0
+dWFsIG1vbml0b3JzLiBidXQgSSB3YW50IGl0IHRvIGJlIGFzIERFIGluZGVwZW5kZW50IGFzIHBv
+c3NpYmxlLiBTbyBJJ20gbG9va2luZyBmb3IgYSBsb3ctbGV2ZWwgc29sdXRpb24gd2hpY2ggbWln
+aHQgaW50ZXJmYWNlIHdpdGggdGhlIEtlcm5lbCB0byBhY3QgYXMgYSB1bml2ZXJzYWwgdmlydHVh
+bCBtb25pdG9yLgoKVGhlIGNsb3Nlc3QgSSBjYW4gZ2V0IHRvIGlzIERSSSBhbmQgS01TLiBCdXQg
+SSdtIHN0dWNrIG9uIGhvdyB0byB0YWtlIGl0IGZvcndhcmQgYXMgaW4gaG93IHRvIGZha2UgdGhp
+cyBlbnRpcmUgc2NlbmFyaW8uCgpNeSBhc3N1bXB0aW9uIG9mIHRoZSBzaXR1YXRpb24gaXMgbGlr
+ZSwgSSBjcmVhdGUgYSBmaWxlIGluIC9kZXYgdGhhdCBzaWduYWxzICJwbHVnZ2luZy1pbiIgb2Yg
+YSBtb25pdG9yLCB3aGljaCBtYWtlcyBLZXJuZWwgbG9hZCBteSBjdXN0b20gZHJpdmVyLiBXaW5k
+b3cgbWFuYWdlcnMsIERSSXMgd3JpdGUgdG8gdGhpcyBmaWxlLCBhcyBpbiB3cml0ZSB0aGUgZGF0
+YSB0byBiZSBzaG93biBvbiB0aGUgbW9uaXRvciBhbmQgbXkgZHJpdmVyIHdvdWxkIHRha2UgY2Fy
+ZSBvZiByZW5kZXJpbmcgdGhvc2UgZGF0YSBvbiBhIHRvcC1sZXZlbCB3aW5kb3cuIEJ1dCBJIHRo
+aW5rLCB0aGlzIHdvbid0IGJlIHRoYXQgZWFzeS4uLgoKVGhpcyBpcyBzaW1pbGFyIHRvIGEgdmly
+dHVhbCBtYWNoaW5lLCBidXQgSSBqdXN0IHdhbnQgdG8gZW11bGF0ZSBhIG1vbml0b3IgdGhhbiBh
+IHByb2Nlc3NvciBvciBzby4KCkFueSBwb2ludGVycyBhbmQgZG9jdW1lbnRhdGlvbiByZWdhcmRp
+bmcgdGhpcyBpcyBoaWdobHkgYXBwcmVjaWF0ZWQuIFllcywgSSdtIG5ldyB0byBzdWNoIGtpbmRh
+IHN0dWZmIGJ1dCBJJ20gcmVhZHkgdG8gaW52ZXN0IHRpbWUgYW5kIGxlYXJuIDopCgpUaGFuayB5
+b3UKCkFydW4gTWFuaSBKaHR0cHM6Ly9hcnVubWFuaS5pbg==
+
+--b1_8vZL5JIVCrWtG47X92qfZL5IWYUOYHo2xICwqNIA
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: base64
+
+SGV5IGFsbDxicj5JIHdvdWxkIGxpa2UgdG8gZGV2ZWxvcCBhIHZpcnR1YWwgbW9uaXRvciwgcmVn
+YXJkaW5nIHdoaWNoIEkgbmVlZCBoZWxwLiBUaGUgc2l0dWF0aW9uIGlzLCBJIG5lZWQgdG8gZGVz
+aWduIGEgdmlydHVhbCBtb25pdG9yIGFuZCBtYWtlIGl0IGEgdG9wLWxldmVsIHdpbmRvdy4gSSBz
+aG91bGQgYmUgYWJsZSB0byBtb3ZlIHdpbmRvd3MgdG8gdGhpcyBtb25pdG9yLCByZW5kZXIgdGhl
+bSBhbmQgZG8gb3RoZXIgdGhpbmdzIHdoaWNoIGNhbiBiZSBkb25lIGluIGEgcGh5c2ljYWwgbW9u
+aXRvci48YnI+PGJyPk9mIGNvdXJzZSwgWDExIGFuZCBNdXR0ZXIgcHJvdmlkZSBBUElzIHRvIGNy
+ZWF0ZSB2aXJ0dWFsIG1vbml0b3JzLiBidXQgSSB3YW50IGl0IHRvIGJlIGFzIERFIGluZGVwZW5k
+ZW50IGFzIHBvc3NpYmxlLiBTbyBJJ20gbG9va2luZyBmb3IgYSBsb3ctbGV2ZWwgc29sdXRpb24g
+d2hpY2ggbWlnaHQgaW50ZXJmYWNlIHdpdGggdGhlIEtlcm5lbCB0byBhY3QgYXMgYSB1bml2ZXJz
+YWwgdmlydHVhbCBtb25pdG9yLjxicj48YnI+VGhlIGNsb3Nlc3QgSSBjYW4gZ2V0IHRvIGlzIERS
+SSBhbmQgS01TLiBCdXQgSSdtIHN0dWNrIG9uIGhvdyB0byB0YWtlIGl0IGZvcndhcmQgYXMgaW4g
+aG93IHRvIGZha2UgdGhpcyBlbnRpcmUgc2NlbmFyaW8uPGJyPjxicj5NeSBhc3N1bXB0aW9uIG9m
+IHRoZSBzaXR1YXRpb24gaXMgbGlrZSwgSSBjcmVhdGUgYSBmaWxlIGluIC9kZXYgdGhhdCBzaWdu
+YWxzICJwbHVnZ2luZy1pbiIgb2YgYSBtb25pdG9yLCB3aGljaCBtYWtlcyBLZXJuZWwgbG9hZCBt
+eSBjdXN0b20gZHJpdmVyLiBXaW5kb3cgbWFuYWdlcnMsIERSSXMgd3JpdGUgdG8gdGhpcyBmaWxl
+LCBhcyBpbiB3cml0ZSB0aGUgZGF0YSB0byBiZSBzaG93biBvbiB0aGUgbW9uaXRvciBhbmQgbXkg
+ZHJpdmVyIHdvdWxkIHRha2UgY2FyZSBvZiByZW5kZXJpbmcgdGhvc2UgZGF0YSBvbiBhIHRvcC1s
+ZXZlbCB3aW5kb3cuICBCdXQgSSB0aGluaywgdGhpcyB3b24ndCBiZSB0aGF0IGVhc3kuLi48YnI+
+PGJyPlRoaXMgaXMgc2ltaWxhciB0byBhIHZpcnR1YWwgbWFjaGluZSwgYnV0IEkganVzdCB3YW50
+IHRvIGVtdWxhdGUgYSBtb25pdG9yIHRoYW4gYSBwcm9jZXNzb3Igb3Igc28uPGJyPjxicj5Bbnkg
+cG9pbnRlcnMgYW5kIGRvY3VtZW50YXRpb24gcmVnYXJkaW5nIHRoaXMgaXMgaGlnaGx5IGFwcHJl
+Y2lhdGVkLiBZZXMsIEknbSBuZXcgdG8gc3VjaCBraW5kYSBzdHVmZiBidXQgSSdtIHJlYWR5IHRv
+IGludmVzdCB0aW1lIGFuZCBsZWFybiA6KTxicj48YnI+VGhhbmsgeW91PGJyPjxkaXY+QXJ1biBN
+YW5pIEo8YnIgLz48L2Rpdj48YSBocmVmPSJodHRwczovL2FydW5tYW5pLmluIj5odHRwczovL2Fy
+dW5tYW5pLmluPC9hPg==
+
+
+--b1_8vZL5JIVCrWtG47X92qfZL5IWYUOYHo2xICwqNIA--
 
