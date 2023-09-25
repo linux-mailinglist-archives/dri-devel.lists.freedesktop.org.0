@@ -1,45 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F34E07AD7BE
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Sep 2023 14:12:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F3D057AD7BF
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Sep 2023 14:12:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 115C010E241;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B4D610E242;
 	Mon, 25 Sep 2023 12:12:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0745B10E23D
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Sep 2023 12:11:59 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF75310E23D
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Sep 2023 12:12:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1695643920; x=1727179920;
+ t=1695643923; x=1727179923;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=0wn9uVb4xB34+GZwVa3ukQ9ZFcf5Hb7d6BXpxesOdSY=;
- b=beoFgO6pY2cEsOqLOJtp0aUjJdwz692RuxvODbCNdWPZH8Cx47E++2TR
- deiUiSq9xh1/10Ge+IMqMEA9Zf9zUd6g0UF8Wr+O4tPo2A7+EQ0dcEs/9
- 0XXc3WQhQcPiNdq0DKB1gmAz9idHS/A7/mfnnYKkRtnvh/b6FhEvV6h/B
- jlhYFpjnUBMImgQF6a9/PrGRHkUejVV4JaPJU4r/TchOQrgzamizGCOB9
- BCvueKr0by1eQ8eA/+nV2+h6y0PchlPUWJv0KIZyl9NlYxS5p6YoyzgPs
- FZTuo+u3MSWBtZBLVy/oRIvag3469evKEtm2avUbYaXfUsYgXu+K7J9Ob A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="378503475"
-X-IronPort-AV: E=Sophos;i="6.03,174,1694761200"; d="scan'208";a="378503475"
+ bh=l6qQEc0/kNJ6ZvSJMqSwWW0x/6D1OMdtAtfIEcBzbD4=;
+ b=HRbCp2DCpx0ACedz07+X9CyMu8KRoGmAa4SvndF4Re/BLcfRPc2hAJPc
+ zucTA6hXIzFRlfkZg9374Rf5b78+UezDS01uSYgMyLvQnWJm1NURuFdBI
+ mOn7uP4pXdwGt092QQMjanGz16yx7FTGrPvEKFeAODDOISgChpFsCMJbr
+ xTPve7EkDN/gC6ZOOV3OTcUcogbjsos3v4SgK2AEu5VkNOYBWsjhiZaDb
+ vjlERQ0SPuSeHQMDAAwsOyeiWPFbLXWhdAYmMo/rFdvoeKB8Axci5hhHJ
+ Cha/fMExRmDOfERCHsTn597qCEE1oWK2kpwFR50V0r1hHulVhLXfn0mvD w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="378503497"
+X-IronPort-AV: E=Sophos;i="6.03,174,1694761200"; d="scan'208";a="378503497"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Sep 2023 05:11:59 -0700
+ 25 Sep 2023 05:12:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="921949561"
-X-IronPort-AV: E=Sophos;i="6.03,174,1694761200"; d="scan'208";a="921949561"
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="921949568"
+X-IronPort-AV: E=Sophos;i="6.03,174,1694761200"; d="scan'208";a="921949568"
 Received: from joe-255.igk.intel.com (HELO localhost) ([10.91.220.57])
  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Sep 2023 05:11:56 -0700
+ 25 Sep 2023 05:12:00 -0700
 From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 5/6] accel/ivpu/40xx: Fix missing VPUIP interrupts
-Date: Mon, 25 Sep 2023 14:11:36 +0200
-Message-Id: <20230925121137.872158-6-stanislaw.gruszka@linux.intel.com>
+Subject: [PATCH 6/6] accel/ivpu: Use cached buffers for FW loading
+Date: Mon, 25 Sep 2023 14:11:37 +0200
+Message-Id: <20230925121137.872158-7-stanislaw.gruszka@linux.intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230925121137.872158-1-stanislaw.gruszka@linux.intel.com>
 References: <20230925121137.872158-1-stanislaw.gruszka@linux.intel.com>
@@ -66,61 +66,91 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Karol Wachowski <karol.wachowski@linux.intel.com>
 
-Move sequence of masking and unmasking global interrupts from buttress
-interrupt handler to generic one that handles both VPUIP and BTRS
-interrupts.
+Create buffers with cache coherency on the CPU side (write-back) while
+disabling snooping on the VPU side. These buffers require an explicit
+cache flush after each CPU-side modification.
 
-Unmasking global interrupts will re-trigger MSI for any pending interrupts.
-Lack of this sequence can randomly cause to miss any VPUIP interrupt that
-comes after reading VPU_40XX_HOST_SS_ICB_STATUS_0 and before clearing
-all active interrupt sources.
+Configuring pages as write-combined may introduce significant delays,
+potentially taking hundreds of milliseconds for 64 MB buffers.
 
-Fixes: 79cdc56c4a54 ("accel/ivpu: Add initial support for VPU 4")
+Added internal DRM_IVPU_BO_NOSNOOP mask which disables snooping on the
+VPU side. Allocate FW runtime memory buffer (64 MB) as cached with
+snooping-disabled.
+
+This fixes random long FW loading times and boot params memory
+corruption on warmboot (due to missed wmb).
+
+Fixes: 02d5b0aacd05 ("accel/ivpu: Implement firmware parsing and booting")
 Signed-off-by: Karol Wachowski <karol.wachowski@linux.intel.com>
 Reviewed-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 ---
- drivers/accel/ivpu/ivpu_hw_40xx.c | 11 +++++------
- 1 file changed, 5 insertions(+), 6 deletions(-)
+ drivers/accel/ivpu/ivpu_fw.c  | 8 +++++---
+ drivers/accel/ivpu/ivpu_gem.h | 5 +++++
+ 2 files changed, 10 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/accel/ivpu/ivpu_hw_40xx.c b/drivers/accel/ivpu/ivpu_hw_40xx.c
-index 87b1085d44cf..8bdb59a45da6 100644
---- a/drivers/accel/ivpu/ivpu_hw_40xx.c
-+++ b/drivers/accel/ivpu/ivpu_hw_40xx.c
-@@ -1059,9 +1059,6 @@ static irqreturn_t ivpu_hw_40xx_irqb_handler(struct ivpu_device *vdev, int irq)
- 	if (status == 0)
- 		return IRQ_NONE;
+diff --git a/drivers/accel/ivpu/ivpu_fw.c b/drivers/accel/ivpu/ivpu_fw.c
+index 9827ea4d7b83..301f5221d193 100644
+--- a/drivers/accel/ivpu/ivpu_fw.c
++++ b/drivers/accel/ivpu/ivpu_fw.c
+@@ -220,7 +220,8 @@ static int ivpu_fw_mem_init(struct ivpu_device *vdev)
+ 	if (ret)
+ 		return ret;
  
--	/* Disable global interrupt before handling local buttress interrupts */
--	REGB_WR32(VPU_40XX_BUTTRESS_GLOBAL_INT_MASK, 0x1);
--
- 	if (REG_TEST_FLD(VPU_40XX_BUTTRESS_INTERRUPT_STAT, FREQ_CHANGE, status))
- 		ivpu_dbg(vdev, IRQ, "FREQ_CHANGE");
+-	fw->mem = ivpu_bo_alloc_internal(vdev, fw->runtime_addr, fw->runtime_size, DRM_IVPU_BO_WC);
++	fw->mem = ivpu_bo_alloc_internal(vdev, fw->runtime_addr, fw->runtime_size,
++					 DRM_IVPU_BO_WC | DRM_IVPU_BO_NOSNOOP);
+ 	if (!fw->mem) {
+ 		ivpu_err(vdev, "Failed to allocate firmware runtime memory\n");
+ 		return -ENOMEM;
+@@ -330,7 +331,7 @@ int ivpu_fw_load(struct ivpu_device *vdev)
+ 		memset(start, 0, size);
+ 	}
  
-@@ -1109,9 +1106,6 @@ static irqreturn_t ivpu_hw_40xx_irqb_handler(struct ivpu_device *vdev, int irq)
- 	/* This must be done after interrupts are cleared at the source. */
- 	REGB_WR32(VPU_40XX_BUTTRESS_INTERRUPT_STAT, status);
+-	wmb(); /* Flush WC buffers after writing fw->mem */
++	clflush_cache_range(fw->mem->kvaddr, fw->mem->base.size);
  
--	/* Re-enable global interrupt */
--	REGB_WR32(VPU_40XX_BUTTRESS_GLOBAL_INT_MASK, 0x0);
--
- 	if (schedule_recovery)
- 		ivpu_pm_schedule_recovery(vdev);
+ 	return 0;
+ }
+@@ -432,6 +433,7 @@ void ivpu_fw_boot_params_setup(struct ivpu_device *vdev, struct vpu_boot_params
+ 	if (!ivpu_fw_is_cold_boot(vdev)) {
+ 		boot_params->save_restore_ret_address = 0;
+ 		vdev->pm->is_warmboot = true;
++		clflush_cache_range(vdev->fw->mem->kvaddr, SZ_4K);
+ 		return;
+ 	}
  
-@@ -1123,9 +1117,14 @@ static irqreturn_t ivpu_hw_40xx_irq_handler(int irq, void *ptr)
- 	struct ivpu_device *vdev = ptr;
- 	irqreturn_t ret = IRQ_NONE;
+@@ -493,7 +495,7 @@ void ivpu_fw_boot_params_setup(struct ivpu_device *vdev, struct vpu_boot_params
+ 	boot_params->punit_telemetry_sram_size = ivpu_hw_reg_telemetry_size_get(vdev);
+ 	boot_params->vpu_telemetry_enable = ivpu_hw_reg_telemetry_enable_get(vdev);
  
-+	REGB_WR32(VPU_40XX_BUTTRESS_GLOBAL_INT_MASK, 0x1);
+-	wmb(); /* Flush WC buffers after writing bootparams */
++	clflush_cache_range(vdev->fw->mem->kvaddr, SZ_4K);
+ 
+ 	ivpu_fw_boot_params_print(vdev, boot_params);
+ }
+diff --git a/drivers/accel/ivpu/ivpu_gem.h b/drivers/accel/ivpu/ivpu_gem.h
+index 6b0ceda5f253..f4130586ff1b 100644
+--- a/drivers/accel/ivpu/ivpu_gem.h
++++ b/drivers/accel/ivpu/ivpu_gem.h
+@@ -8,6 +8,8 @@
+ #include <drm/drm_gem.h>
+ #include <drm/drm_mm.h>
+ 
++#define DRM_IVPU_BO_NOSNOOP       0x10000000
 +
- 	ret |= ivpu_hw_40xx_irqv_handler(vdev, irq);
- 	ret |= ivpu_hw_40xx_irqb_handler(vdev, irq);
+ struct dma_buf;
+ struct ivpu_bo_ops;
+ struct ivpu_file_priv;
+@@ -83,6 +85,9 @@ static inline u32 ivpu_bo_cache_mode(struct ivpu_bo *bo)
  
-+	/* Re-enable global interrupts to re-trigger MSI for pending interrupts */
-+	REGB_WR32(VPU_40XX_BUTTRESS_GLOBAL_INT_MASK, 0x0);
+ static inline bool ivpu_bo_is_snooped(struct ivpu_bo *bo)
+ {
++	if (bo->flags & DRM_IVPU_BO_NOSNOOP)
++		return false;
 +
- 	if (ret & IRQ_WAKE_THREAD)
- 		return IRQ_WAKE_THREAD;
+ 	return ivpu_bo_cache_mode(bo) == DRM_IVPU_BO_CACHED;
+ }
  
 -- 
 2.25.1
