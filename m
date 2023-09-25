@@ -2,44 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B445F7AE688
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Sep 2023 09:15:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 728367AE687
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Sep 2023 09:15:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A43B010E373;
-	Tue, 26 Sep 2023 07:15:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 71D0910E366;
+	Tue, 26 Sep 2023 07:15:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-203.mta0.migadu.com (out-203.mta0.migadu.com
- [IPv6:2001:41d0:1004:224b::cb])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A2A010E21D
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Sep 2023 09:21:51 +0000 (UTC)
-Date: Mon, 25 Sep 2023 19:21:25 +1000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jookia.org; s=key1;
- t=1695633709;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=n9O5UKN7tbRZK1Q9LpJlaNZaOpS94daiRwiLSPX4z0c=;
- b=vWTlglalviIbwVryZ8nWg7ttWfbbiBMo5J1cE+AyRX3ulLrW7ftoDRBRETqaWXeHC4LuRH
- CBb/QK5vRkpGVoWFw0efM3uGJQ/AAsh+4L2vSvg6DVo5IegdGfoVHTgEY4JdCcD/8SUNj0
- tyf9W1I9/B1yqEo+AAESJalMbKPNOje0PTB7EGuSzFCsSyfWwc5fcmLnv/ceJbDHYZRVYU
- O5FY0+v277dWCbGJC/juvl0WytI5AtWfvDcaXTf5WhsGN5ahPT8LCIoj1xsd4o1KUCKEl8
- Wpcso/SAMK3/TCL4x54a1oDLU3fTo2UurQ70JkIFClg5j1jvHkttwpH1RY7r2g==
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: John Watts <contact@jookia.org>
-To: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [RFC PATCH v3 4/7] drm/panel: nv3052c: Add Fascontek FS035VG158
- LCD display
-Message-ID: <ZRFRFXCKTIb9x7GW@titan>
-References: <20230925021059.451019-1-contact@jookia.org>
- <20230925021059.451019-5-contact@jookia.org>
- <ebd5808fe3029e46376aea3c25d3770a6b406fdc.camel@crapouillou.net>
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
+ [IPv6:2a00:1450:4864:20::12c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0831B10E220
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Sep 2023 09:23:12 +0000 (UTC)
+Received: by mail-lf1-x12c.google.com with SMTP id
+ 2adb3069b0e04-5043120ffbcso8537036e87.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Sep 2023 02:23:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1695633790; x=1696238590;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=IDyabU/ctSGF4K3dTAmchO6EjvdapGJuzpqjXfhEki0=;
+ b=ClxtP1PwxPYlcmiXfH5XNb17L0ERriQWk8RYNT3SGP1e4Pfy0KA/hMIkFuqbykERLx
+ qKv5IKHz5n3gWPa2c+6etqEJAi9C76xKnDpadxkPMUvjBdBSRqiQxdN7eC9KJzWQhxc7
+ xiDhwZ2JcpUiVucTgZFSrVEKplNn8Ag5nvIiQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1695633790; x=1696238590;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=IDyabU/ctSGF4K3dTAmchO6EjvdapGJuzpqjXfhEki0=;
+ b=cj81yzaqPWPeiKICb0dUCtSPwTVy6B5kuEldshlPd39hFaucAZ6dQGMFHSw/m1Eeww
+ WvtOP+VfY4Yy32Se0uJjo462kVanyR/7k3Pdu9pV2eePYAUU+PbJJ9cWLL188tT41xr7
+ m+/TssrmWf1GclMXYaGQ/tQqVn+Ho/XoX6TJJU+sGy2wdZu0Uh2/hgiZLwr4ITZ05Zvq
+ boCPG520TQHiiHjgrl/Sz3IErN+p0hNAlOrXYdxjSfXbFJLan/rEWPYGmNI8jgKIwLn+
+ nn8t4V6dlT90HWDtKnzluBOVX3auVzfCbTWa3ICvmQdpnxIT3WvTjq6hL+tFi5jw6b4g
+ Z3Wg==
+X-Gm-Message-State: AOJu0YyPkxsbJr9VDjSEq2hIrVUMv0RZ+WtrdCHzJCJtxAt7Q3pR7q7e
+ 0iADNAWhjWyPDx/BhnfIrr+onCKv02rBeCh3BvoCh3so
+X-Google-Smtp-Source: AGHT+IFdJhgh0QBpQXEzpkLS8WILLnuoY/8uaH456FPwyO42nXmJ7Ufixv3ar0REWsyD1mqtS+FBRg==
+X-Received: by 2002:a05:6512:b0a:b0:4fb:9fa7:dcda with SMTP id
+ w10-20020a0565120b0a00b004fb9fa7dcdamr6155313lfu.26.1695633789773; 
+ Mon, 25 Sep 2023 02:23:09 -0700 (PDT)
+Received: from elfwind.c.googlers.com.com
+ (49.240.189.35.bc.googleusercontent.com. [35.189.240.49])
+ by smtp.gmail.com with ESMTPSA id
+ r5-20020a05600c320500b003fc0505be19sm6494837wmp.37.2023.09.25.02.23.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 25 Sep 2023 02:23:09 -0700 (PDT)
+From: Hubert Mazur <hmazur@chromium.org>
+To: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: [PATCH] drm/mediatek: Check GEM buffer size
+Date: Mon, 25 Sep 2023 09:22:49 +0000
+Message-ID: <20230925092249.2228743-1-hmazur@chromium.org>
+X-Mailer: git-send-email 2.42.0.515.g380fc7ccd1-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ebd5808fe3029e46376aea3c25d3770a6b406fdc.camel@crapouillou.net>
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Tue, 26 Sep 2023 07:15:08 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -53,39 +71,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- devicetree@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
- Chris Morgan <macromorgan@hotmail.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Jagan Teki <jagan@edgeble.ai>,
- Rob Herring <robh+dt@kernel.org>, Jessica Zhang <quic_jesszhan@quicinc.com>,
- Shawn Guo <shawnguo@kernel.org>,
- Christophe Branchereau <cbranchereau@gmail.com>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, upstream@semihalf.com,
+ Hubert Mazur <hmazur@chromium.org>, Daniel Kurtz <djkurtz@chromium.org>,
+ Michal Krawczyk <mikrawczyk@google.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 25, 2023 at 11:12:29AM +0200, Paul Cercueil wrote:
-> Hi John,
-> 
-> Just to be sure, your fascontek panel won't work with the
-> initialization sequence of the leadtek panel?
+The buffer size is derived from parameters supplied by the userspace.
+Having the size equal 0 causes allocation failure leading to kernel
+panic.
 
-Yes, it does work.
+Fix this by checking if size equals 0.
 
-> Did you try with the existing display modes? If you can afford the 24
-> MHz clock (and if it works with your panel) it will give you a perfect
-> 60.0 Hz refresh rate, while this mode above will give you above 59.93
-> Hz (which is not that bad though).
+Fixes: 119f5173628a ("drm/mediatek: Add DRM Driver for Mediatek SoC MT8173.")
 
-No I didn't test with this.
+Signed-off-by: Hubert Mazur <hmazur@chromium.org>
+---
+ drivers/gpu/drm/mediatek/mtk_drm_gem.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-In general I don't feel comfortable submitting code that strays from what is
-recommended by the manufacturer.
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_gem.c b/drivers/gpu/drm/mediatek/mtk_drm_gem.c
+index 9f364df52478..3b985b99d5c6 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_gem.c
++++ b/drivers/gpu/drm/mediatek/mtk_drm_gem.c
+@@ -62,6 +62,11 @@ struct mtk_drm_gem_obj *mtk_drm_gem_create(struct drm_device *dev,
+ 	struct drm_gem_object *obj;
+ 	int ret;
+ 
++	if (size == 0) {
++		DRM_ERROR("Invalid allocation size: %zu", size);
++		return ERR_PTR(-EINVAL);
++	}
++
+ 	mtk_gem = mtk_drm_gem_init(dev, size);
+ 	if (IS_ERR(mtk_gem))
+ 		return ERR_CAST(mtk_gem);
+-- 
+2.42.0.515.g380fc7ccd1-goog
 
-> Otherwise LGTM.
-> 
-> Cheers,
-> -Paul
-
-John.
