@@ -1,41 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 691317AD4C0
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Sep 2023 11:43:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3408B7AD522
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Sep 2023 11:59:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 78BD110E224;
-	Mon, 25 Sep 2023 09:43:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5174C10E225;
+	Mon, 25 Sep 2023 09:59:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC29510E224
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Sep 2023 09:43:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1695635008;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0rJDXgONrHX3aR1z2MM/iasrNXbrM9SUVbUdm4JtGGg=;
- b=HyuaFSYBVqDrcWKB++UJXMUa/cwScDM0/7cah93B75QHwXOdXbalzy973JOawgDGSaGwKJ
- 9xmVPUaz9Ad3Y4Zti+EK8GXq8YqXSwEJ6cBdz+wCo5gKa1PFTvsX3QDauJRcH5iglv53/7
- FfZRhgY5D7EjJKI6rNZ1IB2KwyLi1Eo=
-Message-ID: <d63b2a7bf2bbabe41b8e45a6c0a4dc0b1e117bdd.camel@crapouillou.net>
-Subject: Re: [RFC PATCH v3 4/7] drm/panel: nv3052c: Add Fascontek FS035VG158
- LCD display
-From: Paul Cercueil <paul@crapouillou.net>
-To: John Watts <contact@jookia.org>
-Date: Mon, 25 Sep 2023 11:43:26 +0200
-In-Reply-To: <ZRFRFXCKTIb9x7GW@titan>
-References: <20230925021059.451019-1-contact@jookia.org>
- <20230925021059.451019-5-contact@jookia.org>
- <ebd5808fe3029e46376aea3c25d3770a6b406fdc.camel@crapouillou.net>
- <ZRFRFXCKTIb9x7GW@titan>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 336A610E225
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Sep 2023 09:59:06 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id A6D6660FCE;
+ Mon, 25 Sep 2023 09:59:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0882FC433C8;
+ Mon, 25 Sep 2023 09:59:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1695635945;
+ bh=iJrTtczHiEmaVCzPFKPPb4YRyBiOSAFyoPe4Ilwhn+E=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=qinEol59UJwv04peJb2qYSlLfco2Il7Pxt1qR73otlu7Qa+JN9xGjpW9W8uCB6Ezi
+ FZVEgVPJoOOalo+nEiDzcB2zxVZhkcEM7rJokrYjF7OH0VjNAXxrF8SlZWn9Lv7tMe
+ azQZMJWQSAb/NqedwgXhdO8Nlb9gdWax1MSNtEaTkPsZZ65rmhj7uLfYudA5gwa6jz
+ J/5Rlx8hy6kjQwUWf2gIHMzezoVeyMrvNFwu1iVS+ipPs2IVPU2kpCGdjJwU62fMvZ
+ 40+RUP6KjoBYMnm/Fq1mffHYlZYqJLFfTzP6agT9I48z9Hc9aFq2SCH41mmOZTsZf4
+ kyc4SvuID3G9Q==
+Date: Mon, 25 Sep 2023 11:59:02 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: David Gow <davidgow@google.com>
+Subject: Re: [PATCH 2/3] kunit: Add kunit_move_action_to_top_or_reset() to
+ reorder actions
+Message-ID: <ct6ydugpx3c5uklimg2w5irwtezxmcdikqn64p3hds5tjrb3y2@hvomhcxsbl34>
+References: <20230920-kunit-kasan-fixes-v1-0-1a0fc261832d@riseup.net>
+ <20230920-kunit-kasan-fixes-v1-2-1a0fc261832d@riseup.net>
+ <CABVgOSk6cvPHs3CsoG0FgHz9Y1OT31ZCk=eu5cCOXyg03uNpBA@mail.gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <CABVgOSk6cvPHs3CsoG0FgHz9Y1OT31ZCk=eu5cCOXyg03uNpBA@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,54 +53,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- devicetree@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
- Chris Morgan <macromorgan@hotmail.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Jagan Teki <jagan@edgeble.ai>,
- Rob Herring <robh+dt@kernel.org>, Jessica Zhang <quic_jesszhan@quicinc.com>,
- Shawn Guo <shawnguo@kernel.org>,
- Christophe Branchereau <cbranchereau@gmail.com>
+Cc: mairacanal@riseup.net, tales.aparecida@gmail.com,
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Brendan Higgins <brendan.higgins@linux.dev>,
+ andrealmeid@riseup.net, Arthur Grillo <arthurgrillo@riseup.net>,
+ kunit-dev@googlegroups.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Le lundi 25 septembre 2023 =C3=A0 19:21 +1000, John Watts a =C3=A9crit=C2=
-=A0:
-> On Mon, Sep 25, 2023 at 11:12:29AM +0200, Paul Cercueil wrote:
-> > Hi John,
-> >=20
-> > Just to be sure, your fascontek panel won't work with the
-> > initialization sequence of the leadtek panel?
+Hi David,
+
+On Fri, Sep 22, 2023 at 04:00:21PM +0800, David Gow wrote:
+> On Wed, 20 Sept 2023 at 14:12, Arthur Grillo <arthurgrillo@riseup.net> wr=
+ote:
+> >
+> > On Kunit, if we allocate a resource A and B on this order, with its
+> > deferred actions to free them. The resource stack would be something
+> > like this:
+> >
+> >          +---------+
+> >          | free(B) |
+> >          +---------+
+> >          |   ...   |
+> >          +---------+
+> >          | free(A) |
+> >          +---------+
+> >
+> > If the deferred action of A accesses B, this would cause a
+> > use-after-free bug. To solve that, we need a way to change the order
+> > of actions.
+> >
+> > Create a function to move an action to the top of the resource stack,
+> > as shown in the diagram below.
+> >
+> >          +---------+    +---------+
+> >          | free(B) |    | free(A) |
+> >          +---------+    +---------+
+> >          |   ...   | -> | free(B) |
+> >          +---------+    +---------+
+> >          | free(A) |    |   ...   |
+> >          +---------+    +---------+
+> >
+> > Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
+> > ---
 >=20
-> Yes, it does work.
-
-OK, why not use the leadtek's initialization sequence then?
-
-From what I can see, you have a panel with a NV3052C chip, so the
-existing initialization sequence should already work.
-
+> Thanks. This is a really interesting patch: my hope was that something
+> like this wouldn't be necessary, as in most cases freeing things in
+> the reverse order to which they were created is the right thing to do.
 >=20
-> > Did you try with the existing display modes? If you can afford the
-> > 24
-> > MHz clock (and if it works with your panel) it will give you a
-> > perfect
-> > 60.0 Hz refresh rate, while this mode above will give you above
-> > 59.93
-> > Hz (which is not that bad though).
->=20
-> No I didn't test with this.
->=20
-> In general I don't feel comfortable submitting code that strays from
-> what is
-> recommended by the manufacturer.
+> It looks like, from the comments on patch 3, this may no longer be
+> necessary? Is that so?
 
-The NV3052C datasheet does not give any settings for a 640x480 panel, I
-only see suggested settings for a 720x1280 vertical panel.
+Yeah, it's no longer necessary
 
-Unless you have a min/max range specified, the values you see in there
-are only suggestions for a working setup, that doesn't mean they are
-the only recommended ones.
-
-Cheers,
--Paul
+Maxime
