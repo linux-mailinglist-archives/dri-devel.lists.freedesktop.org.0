@@ -2,122 +2,127 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D32357ADD09
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Sep 2023 18:28:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6B057ADD1B
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Sep 2023 18:30:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41A2C10E2A3;
-	Mon, 25 Sep 2023 16:28:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4884710E2A2;
+	Mon, 25 Sep 2023 16:30:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2060.outbound.protection.outlook.com [40.107.220.60])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF01C10E2A2
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Sep 2023 16:27:56 +0000 (UTC)
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on20628.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:7e89::628])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D6D6A10E296;
+ Mon, 25 Sep 2023 16:30:22 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HJ8V4MglDdCE57ap6+X/9pwMp9slN2I19B44sMrPNnoKwTNlyNewMy83109P9ydqbT57IUXqONFS1+vNbf08Bzy/6r3rQ+0cRuX2Nki66tb3SaM/5RWiM0ExEI2wH/hRNU4Vl3hIf8NiHLsK9tIwueReugPc0MHf9icjhjO5/sBPa1nbvtDEZCHUzZTLct3fK2zop++DUD4TGrizvbRCOZq5dtC5C2w4U3runtI3I5fXHgoOytQmZyRli2CFTTaRZcqfgOAZXEysaF1ckHlgSQ8lRFxRPKha8O/Mzm8zTczt5gvQ2wGykaH654fWU4AElEkKjEbEdkINV5y7NL4l+Q==
+ b=TQxQuvlpLVXl1jwkigCVBdHFabs6QMIPh2fo+OAuUKPhO4jZto1pF0z9aSmBdexCDOhnZ9NzXouEGofa0EnhKnIHR5xwTYH0bZ365SuEz/mBqEvY443JDCRfxrN4RwBqX3d433qSSTKMezPLErX6zz7N6bAwPZidlfP37iyLTgzi4MiOu/h2S7VTQn8TMslI0KnmzLQyqbITkeHF2JJIK0Adprm+6zun6zS6pkd5nXmvqZjZ+rdEqWTsgPtXtjr603XjLCeXh4pvo7osq/AdCj/dg/nEPQfU0Y5APWlS0vdjT7H5M+RJAsUVOJ5aC1ixl/tWMkBg5aiW69xrTfbqeA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=SoAVKf+6c0hvWOoPCodmE3purmcnxUcGbgrcVS+ew5I=;
- b=Dpyy68MAfKVISFXaMUmw3c5HIF8V55XiB2sXwvqDPQHeFKRIKLLiUDLZiRz7twCE4PPDuKCzeiwLSEZhWHeX/hU/NhkL/tryDHwLgG2Y50XFna3nrSiwYEKbMUgBPgZZN3DFj8o8wJNxH98LayVXXOfsE6pjvFaDcjR4YkkqFf/ofRdz5yjLUDceVp6NGCuXOvy983Ij8JN3PEFHAU11f/MSJNFPuObQkHVVI0WxYYLUlpyUNqXqDHZJR3MHRe4lc8Grql/lXEXZBaO8EZCzXWq2E+sD3/MFUxxl4VLggUp5IRNNVO6D432LB85cY1v4YtcoPKudYx64zyS8BWLQUQ==
+ bh=lZSH5E8lULsftvE4Fo6Z3jyMHvTJL77iNYw7tLCeFkU=;
+ b=Qvyu3oYsLgH4U2obSIv644tmfuMrSefNsbxiuiQWRT9tpvNjW1qdLjUfxpWxun7Qs7tfnoGVf5SlgGAJhflAFbul4JPEKnX2KJnnERhgY33TUVoGSigWI7J/ILVmmV2KueHhoHyJkaiejdnDxdD9SvLJOGyrcfrMBPbkKzFm2rMfSIfq5WEaatDHELx6CPtxqmh23yWjXTeoqSNpHBSKrHXUeTdoysMFLbuQ8z5J/O3PaYTJKvoHBa7eL+E8wjGTIymGKUgUHuv2jF+3x9WwS8EXkT0fa8s5256sW/GT/fZ6Dn/HIjsWOAhUtU1dvdCKplsmcj4vkBZC8+G9m6bXuA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SoAVKf+6c0hvWOoPCodmE3purmcnxUcGbgrcVS+ew5I=;
- b=EbH7juE6EG//SJSsZrygzE6mrW5TgFG7uaWky4P4pdRNqCt89G3w5KlMtZYZEhic78GzmZxnEVfhCahq9eC9G2aEFqQzKdOAJ5xvYomwVdtKHCPsu7Ug0e3fl+TPd7AHUCJwZ5FvzzRkB8jDeJxozpEY55FanCxBv7Q44kEDzKE=
-Received: from BL1PR12MB5144.namprd12.prod.outlook.com (2603:10b6:208:316::6)
- by SN7PR12MB8104.namprd12.prod.outlook.com (2603:10b6:806:35a::17)
+ bh=lZSH5E8lULsftvE4Fo6Z3jyMHvTJL77iNYw7tLCeFkU=;
+ b=f8XsxH6xhJuawskMUKkFCEVvweGVpJgenWKOWtYK5NctBB9mmC2w+7rxG4Hv2StUest7AgOx0DhfVguUqeFgllN2uRGW1eknOZii1TbzxcUOCDSLl1zkwneTDcesaLNsiTP3oeenHMPfHbOhRi9AFvq+MS5LcSLA65clnLDJId4=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MN0PR12MB6101.namprd12.prod.outlook.com (2603:10b6:208:3cb::10)
+ by CY8PR12MB7586.namprd12.prod.outlook.com (2603:10b6:930:99::15)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6813.23; Mon, 25 Sep
- 2023 16:27:52 +0000
-Received: from BL1PR12MB5144.namprd12.prod.outlook.com
- ([fe80::a2bb:870f:8aaa:1ba2]) by BL1PR12MB5144.namprd12.prod.outlook.com
- ([fe80::a2bb:870f:8aaa:1ba2%6]) with mapi id 15.20.6813.017; Mon, 25 Sep 2023
- 16:27:52 +0000
-From: "Deucher, Alexander" <Alexander.Deucher@amd.com>
-To: "S-k, Shyam-sundar" <Shyam-sundar.S-k@amd.com>, "hdegoede@redhat.com"
- <hdegoede@redhat.com>, "markgross@kernel.org" <markgross@kernel.org>,
- "Natikar, Basavaraj" <Basavaraj.Natikar@amd.com>, "jikos@kernel.org"
- <jikos@kernel.org>, "benjamin.tissoires@redhat.com"
- <benjamin.tissoires@redhat.com>, "Koenig, Christian"
- <Christian.Koenig@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- "airlied@gmail.com" <airlied@gmail.com>, "daniel@ffwll.ch" <daniel@ffwll.ch>
-Subject: RE: [PATCH 13/15] platform/x86/amd/pmf: Add PMF-AMDGPU set interface
-Thread-Topic: [PATCH 13/15] platform/x86/amd/pmf: Add PMF-AMDGPU set interface
-Thread-Index: AQHZ7X21jc91/MVWOEyvwgwS3OmQarArvY7g
-Date: Mon, 25 Sep 2023 16:27:52 +0000
-Message-ID: <BL1PR12MB51442D18C314B1E34B77DE2BF7FCA@BL1PR12MB5144.namprd12.prod.outlook.com>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6813.20; Mon, 25 Sep
+ 2023 16:30:20 +0000
+Received: from MN0PR12MB6101.namprd12.prod.outlook.com
+ ([fe80::3e65:d396:58fb:27d4]) by MN0PR12MB6101.namprd12.prod.outlook.com
+ ([fe80::3e65:d396:58fb:27d4%3]) with mapi id 15.20.6813.017; Mon, 25 Sep 2023
+ 16:30:20 +0000
+Message-ID: <0ad32609-d47b-4114-8c51-09e96d7737f2@amd.com>
+Date: Mon, 25 Sep 2023 11:30:16 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 13/15] platform/x86/amd/pmf: Add PMF-AMDGPU set interface
+Content-Language: en-US
+To: "Deucher, Alexander" <Alexander.Deucher@amd.com>,
+ "S-k, Shyam-sundar" <Shyam-sundar.S-k@amd.com>,
+ "hdegoede@redhat.com" <hdegoede@redhat.com>,
+ "markgross@kernel.org" <markgross@kernel.org>,
+ "Natikar, Basavaraj" <Basavaraj.Natikar@amd.com>,
+ "jikos@kernel.org" <jikos@kernel.org>,
+ "benjamin.tissoires@redhat.com" <benjamin.tissoires@redhat.com>,
+ "Koenig, Christian" <Christian.Koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, "airlied@gmail.com" <airlied@gmail.com>,
+ "daniel@ffwll.ch" <daniel@ffwll.ch>
 References: <20230922175056.244940-1-Shyam-sundar.S-k@amd.com>
  <20230922175056.244940-14-Shyam-sundar.S-k@amd.com>
-In-Reply-To: <20230922175056.244940-14-Shyam-sundar.S-k@amd.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_ActionId=3c5a584a-fe4a-43ce-9811-b8eb97d1a348;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_ContentBits=0;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_Enabled=true;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_Method=Privileged;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_Name=Public-AIP
- 2.0;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_SetDate=2023-09-25T16:21:07Z;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BL1PR12MB5144:EE_|SN7PR12MB8104:EE_
-x-ms-office365-filtering-correlation-id: 4153ffd5-29fb-42ad-e531-08dbbde45ddf
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: L9zv7FqLYoqryO0YmTL5yGN6Lh1JAwhzIkn75lAEKxEDtx5VV+NMP+IfZoexHK7+Fpbx5uN4pTJ+SN+VbxLtb2sux8g2j+m3HPK6yHM1Ns0f2V09+If3HN10dylzHUL+BHJW3uvOLFOF3SF6nLESEBGYbMbuSsMuAvQLeOmR4E5Sp3Uf0MMFqBzYiwIIkCDR0TRrIwCuZL0B0FzJoQkM/l0am/a2mYDTwjaNlcZ1AY68FAYcPOI9bSAWysWJ8areS9ErPwJdv+6Sues2csUN5xJqFNsBuJ33oqQ9vjVub9IhoFWQ83fGbK5h+40ZbSXevGn5S/+UzDVh/iNxixAqPuurPC570PQy/HYL8ZhjRrA991bepwsuVvSyGPkPL/C8wWx12TIXrmpgG9kbSgIHCf7ONpE9W++ZV913Ui52x9L/3ws0nTceEqrifWOGlNmutNbn157QYYU96LwF5rHY8HYAGWXPMDxr4nAAh0ZloX8XQnj0oRNDwjpI4RAJzSzwyejCymSGvr/cP/x7bTbUpkiYC8Jk4BAmZ802x3gmvUrBEzJ9JM3wzzn/hg7tkIvQPVwI+/5igER5I7Qf3naggaf1Ts21/cYJpwVbUhpyzzMv5+Qk5UIUpKIevnJbxjuHPXn9l3ubOt7D3FvXkXeARQ==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BL1PR12MB5144.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(136003)(376002)(346002)(396003)(366004)(39860400002)(230922051799003)(186009)(1800799009)(451199024)(9686003)(55016003)(122000001)(7696005)(53546011)(6506007)(26005)(71200400001)(921005)(66476007)(66946007)(110136005)(64756008)(8936002)(76116006)(33656002)(66446008)(66556008)(7416002)(2906002)(54906003)(86362001)(8676002)(4326008)(5660300002)(52536014)(38100700002)(41300700001)(316002)(478600001)(83380400001)(38070700005);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?n2WS7ax9YUNUa8yddcSLxQjcl+wEhcwXq20mLvM+00lHDWRj2pU87ZoT+CyJ?=
- =?us-ascii?Q?kbQFvpGW0Fn/WVLHumrxpccTiumEFCrwZ0rZkZQ3933ZKFJkT5wUeFtZVc1A?=
- =?us-ascii?Q?0eGyrC26/CcMp5QwS7UA0R0uznJJg0jxUYZGzHjpWjYfDio4EYnjOTvKIJKW?=
- =?us-ascii?Q?uZXhKxUZEPWFIDcD6mGhojWIu/8xezyag4o6FnhUT+tmebgICx7zL769gRlh?=
- =?us-ascii?Q?BxQJe8YFYDcVCFyMcaoKTeE7VEqWwr5RGgpD8kZb1aum1DI1JW8k2fuzGsZi?=
- =?us-ascii?Q?uv1AyNEws/x3uTO004slbpA3lkNhI1rr0ndrGDmYpux7HW6toFsQZ0oZ1SlR?=
- =?us-ascii?Q?wqa6Eh7KIMPZVC7xwRTn2HQ/7XyqcA0hvfBzVBLqCLCy0s2zOKZsdPHceLTr?=
- =?us-ascii?Q?rx0KY5A1AGvKlalmKQzyHHoD9KUwRp5O2GgMFaBJxgdRTajUuruysjUBMNzi?=
- =?us-ascii?Q?mTh5jBk3t8JAN/Fz9NcjM8L70xKPc2ncYgAxyBs8wNkPYiMVTY964RT/LRnP?=
- =?us-ascii?Q?KOdB2AJmyn+nwGabE9eR8xaKoENt+mOZxpBzHW/Gpxtf0JHXP7dyCfXKb+Gn?=
- =?us-ascii?Q?pph6TscPYXJ3A1yHa2C5MJG/Ix7FshVBrN+XP4JEWTS8aGcRWAonpggdjpVr?=
- =?us-ascii?Q?cfdUVMyy0IqaR/ZmaDAriwAkcWjvSfKlVxyphbom2zqhCL60npJ4ZS2s+set?=
- =?us-ascii?Q?VQ3swZaJXSO1IpPBGAVoMf8tsv4JAGaNkcjf7QcXPWGN6NLy0lZuExF9Nr+U?=
- =?us-ascii?Q?Lyxv4WN92kyn3rkrdsKbWWsoyScJpz7axP3CBUgGU3JsIpVJlYOedhSPk3yy?=
- =?us-ascii?Q?no4ZkliOW5GZjS2RVxtcJgmhxQC+uuB96tUHPgU8AIJOQwZ9XGn7pRJ+NIUb?=
- =?us-ascii?Q?GvP1aCer/ckYSPmC+77aiKm5DgxnLhPbUB1RE4u9XOjiaIVMESiV6pBxAKoj?=
- =?us-ascii?Q?6FKf0uqkZMqACZb2CskgwSmSmoX4QvC5mue+mCv9yjcNsxBKoNOVbzpRj9G8?=
- =?us-ascii?Q?1kcsrep3yQD+8KsqU09piD1Wwucn/hU2AUO8DHdOa+n5re03FRsMc7H+QPaq?=
- =?us-ascii?Q?TQ6ne4kSafGfK7MhBjm+bUruQVmzNUYFyLAh4qB1bPJvAeBYfcNdoGvdDK20?=
- =?us-ascii?Q?fIvajZxGuUsrZpysyua67vBX2W9f/+l+1brbxVjXAsi6Z9ifjXM9gTKLGeQL?=
- =?us-ascii?Q?rAIM2bTJ2yJ+ht/8OJcbj9k2tNiX30LBHfVJadoNj5H7jshS/Eidk8RfFYnn?=
- =?us-ascii?Q?1yKFPPU8FOiL0ul4koYe7INNzRAbtXB9NOOEOL+mjlrnJn8lzKMYRZxd2K2X?=
- =?us-ascii?Q?XcoslV6YL6qjn/q7Wuj85JH14aqNzZyZcExKTi0f1wQOFh4gs3P99NZOV0Pm?=
- =?us-ascii?Q?bKhvvPsDJo/SYwBzVcvV/lwLiwa4fElr1oXKEpKhjaMt09AqSFEwMYE+6b5k?=
- =?us-ascii?Q?T8n69Iv6whDxOhcGayJ9xnNIO27HYQvHtPGKX4lzASFACDDqCqdctsWSt+rb?=
- =?us-ascii?Q?FM6HweL6X6hQWC0dZrJ4YqB6uRmD3DjTa8aZF598jH/2MYUHxnfOWXKqPD4M?=
- =?us-ascii?Q?8A86doN8m0jL/NzitzA=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ <BL1PR12MB51442D18C314B1E34B77DE2BF7FCA@BL1PR12MB5144.namprd12.prod.outlook.com>
+From: Mario Limonciello <mario.limonciello@amd.com>
+In-Reply-To: <BL1PR12MB51442D18C314B1E34B77DE2BF7FCA@BL1PR12MB5144.namprd12.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SN4PR0501CA0034.namprd05.prod.outlook.com
+ (2603:10b6:803:40::47) To MN0PR12MB6101.namprd12.prod.outlook.com
+ (2603:10b6:208:3cb::10)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN0PR12MB6101:EE_|CY8PR12MB7586:EE_
+X-MS-Office365-Filtering-Correlation-Id: 87e739db-491c-4860-97c3-08dbbde4b590
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: wAeTdorgonUNJ6tUT4GpsPDehLoK5PPbQdxwg8VePVKgZsganYsFJ67orAp0EIcmyqtsN54yaD7V7TNZvraM/6E4c8tOO65i53UwCCICa6WSCe3I27X/Y1Hpfo/GuDJhqr4fragsX3AvUYzAE2tnI9YL9vbfE/rY5BhGXTDBmDxKfJm9qJABHnQg108rEY6K1qD0fDT6ZtUwnSAgg1hHTgCMcB5jLc6sfvguaHPuftyCXuatMKFOMSx9lF9hGu3dxBloFxp9C9ZXPYE1NnuLe0hf0VZZt9RAmpJ1iPLUxTWkg7ad4fEPOz6yZ5nO3Nq/hAtCNsiPlf59uJwlj5eAAymS+NtQ1e41G9VQdBjUaBMfF0vhPryssbz3HKPsRLms/H55+Dgm8DN3AN37UDIUcO60Mz4ovLS8SqFhf+avyEhIIPh9G2MnX9gSnDDf5OY4cBWw0NY77/T3pchQ4GtbuqK2N/TFm0QYQQr6Mb2Y2V7tBmGSmINcq5EkFRM4aQ1R/lRLMoVfGSkNflAE8T1BGDtyDbOxXAkod01hKDP8Imv0zo0CIJLeKN7hQ5HDtciI39h1vy5wOWZ3gEBA+iix68agPhn+3VyhOvm7oMhxYY1VGTDEzcd2MOIdVzyICIcxntNs3gAfP4V4aSXITAwTX1tL5yagV8CYEqTTnWzDpxg=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN0PR12MB6101.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(396003)(346002)(376002)(136003)(366004)(39860400002)(230922051799003)(1800799009)(451199024)(186009)(53546011)(316002)(66556008)(66946007)(54906003)(83380400001)(6512007)(6486002)(6666004)(6506007)(66476007)(26005)(921005)(36756003)(31686004)(2616005)(478600001)(5660300002)(2906002)(110136005)(31696002)(38100700002)(8936002)(4326008)(8676002)(86362001)(44832011)(7416002)(41300700001)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SWx1Mk9Nam5vNGV1RTBja29kNlBGWTNYMnZ4VUtTU0t3NlRyWFZjQ3dBenBH?=
+ =?utf-8?B?RlhHeGovVmNtb0wxWHY5djg5a3ovUzlOZjRDQTBnaWs5ajFxaUpZNTl5Q0th?=
+ =?utf-8?B?RmJoNTcvYmRvSDA3My9vdUloVUhuYjNsa2lhdElHN3Vxb0V5cWVRMHdycDFZ?=
+ =?utf-8?B?c0tHQ2FIVTVuQjBoY1d0Ly9nNHc4TDV4TUVITWZOYjVXa0J4MGhFNi9WbUxJ?=
+ =?utf-8?B?UGVvcFo0UUZZeFlRbll6VEVkc1VERGx4amtjM0xRWUFESkZicHZEMFpDMDh1?=
+ =?utf-8?B?WG8vRTFpL0tGN1djaElrUTlhemlkeHR4emx1MmtRZUc0WGVkUzFQR1pQTENr?=
+ =?utf-8?B?eTg0SmpwQWVaQnpnbTErUEcwSW5RUXF3b3RxZmlXU21lSWRlZEkwRnFsaExm?=
+ =?utf-8?B?V0FuWjZtNjY1WklQL2lWSTB3SzFkaGN2d3B4YXF3QXA3S3hnWGtLSDdHR1NN?=
+ =?utf-8?B?YTBZQzNWajdmdUUxT29FUm9MTk95dG1naXJ2emo0aXF4Y2tRckUxbHcrd2hj?=
+ =?utf-8?B?RE1EczM5TjdmTUJXWkJObmJWdUk4NHZvMzd0M2ord3lEblM0aWx1OVJHZ3VM?=
+ =?utf-8?B?dmJtMVBBemlOaXRWK3RTa29HMUNuZW1pV3gxaHlnMldHQXdSdDVpQzV4Rzhq?=
+ =?utf-8?B?VUJZZzNXMDkzVzMrMFo0WTdxcDBJV2xVODNiZ2IrSk1Od3NSRk9NRWZsS1dM?=
+ =?utf-8?B?VTI3aXlhRWhCTXMvUjZWS3JxUmtMQzF5enJiaFl0d0tlTHhQbWZCejFiRXll?=
+ =?utf-8?B?c09PclZ4anpkNWNUZm9jT1pXZjRvTVlFTHJZYlhzYmtpalFNdXFGdHZ3VUxN?=
+ =?utf-8?B?VVBwTFBySWYvaDlyajQrbmVVSE4xNVozVWMyTmNRYmNqVFNGQmUySXdhd2Nm?=
+ =?utf-8?B?SEFSUmh5Ylo1c1ZVeUxsY3pKU1hWYnNyTjEva3dnSlg1ejNKT3VsNGFsSzdT?=
+ =?utf-8?B?Z2xETEd6WFhIWnVncmZRVmZLeDQ1MDExQzR5L241cTVUd3VKQWE4ZHJ0bUtr?=
+ =?utf-8?B?S3J4Z2pURFMrT01ZdEdKckJoRnorOGV5ZVFNSFZ3ZE5lY3dJM3JFLzRBa05Y?=
+ =?utf-8?B?UlNSY250WmhFbmgyUnRJTWU4Z3lmMHhCRmZzbUJhdjY1UEpuR05ybWpqWWw5?=
+ =?utf-8?B?WmRoSG51bXB1di84bHVlaHdBbXFaM0FhT29jWTdQWFByWURkOWJBVmJTV3d5?=
+ =?utf-8?B?SUFXY2pTcnJmVDlXZUdWYTNIRWMwWFBvZmZkV1c4NVZmd2ZpckpiRHUwdTA0?=
+ =?utf-8?B?RGgvajkxOEx4MmdYaEIwR0VJSDR4MUp3bnc2bytaNVNNdTE4TCtZSEVQMUVE?=
+ =?utf-8?B?a3JHd3grTEJWVHJ0M2Qra1RNZjliTkJkNlVxL2RRcXBKeG1pSEd1TXdLNzdl?=
+ =?utf-8?B?TnpzRlY2RHRnT1cySVhSL2Y3VVZmUVVYYitncjM5YWhNbUovTHYzTGFTMFdm?=
+ =?utf-8?B?ZWlINklMN0E0YjZZc1VtSXJ4L1Rpa1pobU9lQnU1eEtCNHpwNnl6WkN5U2Zz?=
+ =?utf-8?B?YkhWSGlER2tQS2pYaWNibEc0enRFVVZzSGUzUGhwbC9wZFRId0RZVzQ1LzdS?=
+ =?utf-8?B?U1J0RjZpeU5VWEJJOGVhcCtDYTd4S2c1Sjg2WkRQbGJCS3ZlMHpaZ0NNdEJF?=
+ =?utf-8?B?SmpHclV1Z0N5QlpmbFZpL1lpVW5wTUJTM2hVcWQyV0wyL0I0MGZ5ZW1KS2No?=
+ =?utf-8?B?WFhUNWhGQ2xOb2dieUY2V3BTeXNnNnd1YzhvS1VUV3VwR2JCN2c0cmMwQXpM?=
+ =?utf-8?B?MExmdTRtREFOUGdvTjMvSUl4SVk2cTh3MytrU2h0eXA3NDRxa3g4MUlyUERD?=
+ =?utf-8?B?Z3Nla3p0bmFYRWVVM1NVV0VMeW9wR1l4Rnp2Ny85TlhmNG1zQS9sdFJKbThn?=
+ =?utf-8?B?VEJ2UW5yY3BEc0hCaWJxaHR0OEhxd2xXZUpXMVdJRXJFeC9HN1hsNTlmOThK?=
+ =?utf-8?B?OTAyRHFoR1ZYRXl5TnpYK1NVWGRzbWp4WWRpejlDalR2L1ltVytBMDZ6Qjgw?=
+ =?utf-8?B?Mng0UnBKUTV2ZEdHdDlKSkxJaHF5QzdvU1Z3TW10akhObEdMUEZ0bEtXR0Ni?=
+ =?utf-8?B?ekx0RzlDNGd4c3lNWU01ZjI5RlROM2VGWHVQOGVxWXBnU3V5RHJKckhiMW9R?=
+ =?utf-8?Q?Au53J7Px9jwtJuBWrHB3K4RPg?=
 X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 87e739db-491c-4860-97c3-08dbbde4b590
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB6101.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5144.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4153ffd5-29fb-42ad-e531-08dbbde45ddf
-X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Sep 2023 16:27:52.7677 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: anpkwfrYpkDKNbv/Ne4d6Vlyxt1Df1EqDyUitBppkc1CdcZReHfbumcdG7I8inUQZDs2nPpuncx25bUHbW834g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB8104
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Sep 2023 16:30:20.0964 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: UqyvR3e8fJ1Vd4Xqv/u46/n2IJhDL2kWVEElBi/2QV24gjoD+9y0sOAE5RuVb38Uc2fpQjF9K4ADcsIVqYtZdA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7586
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,171 +135,167 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "S-k, Shyam-sundar" <Shyam-sundar.S-k@amd.com>,
+Cc: Patil Rajesh <Patil.Reddy@amd.com>,
+ "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
  "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>,
  "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- Patil Rajesh <Patil.Reddy@amd.com>,
- "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>, "Limonciello,
- Mario" <Mario.Limonciello@amd.com>
+ "platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[Public]
+On 9/25/2023 11:27, Deucher, Alexander wrote:
+> [Public]
+> 
+>> -----Original Message-----
+>> From: amd-gfx <amd-gfx-bounces@lists.freedesktop.org> On Behalf Of
+>> Shyam Sundar S K
+>> Sent: Friday, September 22, 2023 1:51 PM
+>> To: hdegoede@redhat.com; markgross@kernel.org; Natikar, Basavaraj
+>> <Basavaraj.Natikar@amd.com>; jikos@kernel.org;
+>> benjamin.tissoires@redhat.com; Deucher, Alexander
+>> <Alexander.Deucher@amd.com>; Koenig, Christian
+>> <Christian.Koenig@amd.com>; Pan, Xinhui <Xinhui.Pan@amd.com>;
+>> airlied@gmail.com; daniel@ffwll.ch
+>> Cc: S-k, Shyam-sundar <Shyam-sundar.S-k@amd.com>; amd-
+>> gfx@lists.freedesktop.org; platform-driver-x86@vger.kernel.org; dri-
+>> devel@lists.freedesktop.org; Patil Rajesh <Patil.Reddy@amd.com>; linux-
+>> input@vger.kernel.org; Limonciello, Mario <Mario.Limonciello@amd.com>
+>> Subject: [PATCH 13/15] platform/x86/amd/pmf: Add PMF-AMDGPU set
+>> interface
+>>
+>> For the Smart PC Solution to fully work, it has to enact to the actions coming
+>> from TA. Add the initial code path for set interface to AMDGPU.
+> 
+> This seems to be limited to backlight at this point.  What does setting or not setting the backlight level mean for the system when this framework is in place?  What if a user manually changes the backlight level?  Additional comments below.
+> 
 
-> -----Original Message-----
-> From: amd-gfx <amd-gfx-bounces@lists.freedesktop.org> On Behalf Of
-> Shyam Sundar S K
-> Sent: Friday, September 22, 2023 1:51 PM
-> To: hdegoede@redhat.com; markgross@kernel.org; Natikar, Basavaraj
-> <Basavaraj.Natikar@amd.com>; jikos@kernel.org;
-> benjamin.tissoires@redhat.com; Deucher, Alexander
-> <Alexander.Deucher@amd.com>; Koenig, Christian
-> <Christian.Koenig@amd.com>; Pan, Xinhui <Xinhui.Pan@amd.com>;
-> airlied@gmail.com; daniel@ffwll.ch
-> Cc: S-k, Shyam-sundar <Shyam-sundar.S-k@amd.com>; amd-
-> gfx@lists.freedesktop.org; platform-driver-x86@vger.kernel.org; dri-
-> devel@lists.freedesktop.org; Patil Rajesh <Patil.Reddy@amd.com>; linux-
-> input@vger.kernel.org; Limonciello, Mario <Mario.Limonciello@amd.com>
-> Subject: [PATCH 13/15] platform/x86/amd/pmf: Add PMF-AMDGPU set
-> interface
->
-> For the Smart PC Solution to fully work, it has to enact to the actions c=
-oming
-> from TA. Add the initial code path for set interface to AMDGPU.
+It's also for the display count.
 
-This seems to be limited to backlight at this point.  What does setting or =
-not setting the backlight level mean for the system when this framework is =
-in place?  What if a user manually changes the backlight level?  Additional=
- comments below.
-
->
-> Co-developed-by: Mario Limonciello <mario.limonciello@amd.com>
-> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
-> Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
-> ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_pmf.c | 21
-> +++++++++++++++++++++
->  drivers/platform/x86/amd/pmf/pmf.h      |  2 ++
->  drivers/platform/x86/amd/pmf/tee-if.c   | 19 +++++++++++++++++--
->  include/linux/amd-pmf-io.h              |  1 +
->  4 files changed, 41 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_pmf.c
-> b/drivers/gpu/drm/amd/amdgpu/amdgpu_pmf.c
-> index 232d11833ddc..5c567bff0548 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_pmf.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_pmf.c
-> @@ -68,3 +68,24 @@ int amd_pmf_get_gfx_data(struct amd_gpu_pmf_data
-> *pmf)
->       return 0;
->  }
->  EXPORT_SYMBOL_GPL(amd_pmf_get_gfx_data);
-> +
-> +int amd_pmf_set_gfx_data(struct amd_gpu_pmf_data *pmf) {
-> +     struct drm_device *drm_dev =3D pci_get_drvdata(pmf->gpu_dev);
-> +     struct amdgpu_device *adev =3D drm_to_adev(drm_dev);
-> +     struct backlight_device *bd;
-> +
-> +     if (!(adev->flags & AMD_IS_APU)) {
-> +             DRM_ERROR("PMF-AMDGPU interface not supported\n");
-> +             return -ENODEV;
-> +     }
-> +
-> +     bd =3D backlight_device_get_by_type(BACKLIGHT_RAW);
-> +     if (!bd)
-> +             return -ENODEV;
-> +
-> +     backlight_device_set_brightness(bd, pmf->brightness);
-> +
-> +     return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(amd_pmf_set_gfx_data);
-> diff --git a/drivers/platform/x86/amd/pmf/pmf.h
-> b/drivers/platform/x86/amd/pmf/pmf.h
-> index 9032df4ba48a..ce89cc0daa5a 100644
-> --- a/drivers/platform/x86/amd/pmf/pmf.h
-> +++ b/drivers/platform/x86/amd/pmf/pmf.h
-> @@ -73,6 +73,7 @@
->  #define PMF_POLICY_STT_SKINTEMP_APU                          7
->  #define PMF_POLICY_STT_SKINTEMP_HS2                          8
->  #define PMF_POLICY_SYSTEM_STATE                                      9
-> +#define PMF_POLICY_DISPLAY_BRIGHTNESS                                12
->  #define PMF_POLICY_P3T                                               38
->
->  /* TA macros */
-> @@ -480,6 +481,7 @@ enum ta_pmf_error_type {  };
->
->  struct pmf_action_table {
-> +     unsigned long display_brightness;
->       enum system_state system_state;
->       unsigned long spl; /* in mW */
->       unsigned long sppt; /* in mW */
-> diff --git a/drivers/platform/x86/amd/pmf/tee-if.c
-> b/drivers/platform/x86/amd/pmf/tee-if.c
-> index 1608996654e8..eefffff83a4c 100644
-> --- a/drivers/platform/x86/amd/pmf/tee-if.c
-> +++ b/drivers/platform/x86/amd/pmf/tee-if.c
-> @@ -79,10 +79,10 @@ static int amd_pmf_update_uevents(struct
-> amd_pmf_dev *dev, u16 event)
->       return 0;
->  }
->
-> -static void amd_pmf_apply_policies(struct amd_pmf_dev *dev, struct
-> ta_pmf_enact_result *out)
-> +static int amd_pmf_apply_policies(struct amd_pmf_dev *dev, struct
-> +ta_pmf_enact_result *out)
->  {
->       u32 val, event =3D 0;
-> -     int idx;
-> +     int idx, ret;
->
->       for (idx =3D 0; idx < out->actions_count; idx++) {
->               val =3D out->actions_list[idx].value;
-> @@ -160,8 +160,23 @@ static void amd_pmf_apply_policies(struct
-> amd_pmf_dev *dev, struct ta_pmf_enact_
->                               dev->prev_data->system_state =3D 0;
->                       }
->                       break;
-> +
-> +             case PMF_POLICY_DISPLAY_BRIGHTNESS:
-> +                     ret =3D amd_pmf_get_gfx_data(&dev->gfx_data);
-> +                     if (ret)
-> +                             return ret;
-> +
-> +                     dev->prev_data->display_brightness =3D dev-
-> >gfx_data.brightness;
-
-Are we using standardized units for the brightness?  On the GPU side, we al=
-ign with the standard blacklight interface, but internally, the driver has =
-to convert units depending on the type of backlight controller used on the =
-platform.  Presumably PMF does something similar?
-
-Alex
-
-> +                     if (dev->prev_data->display_brightness !=3D val) {
-> +                             dev->gfx_data.brightness =3D val;
-> +                             amd_pmf_set_gfx_data(&dev->gfx_data);
-> +                             dev_dbg(dev->dev, "update
-> DISPLAY_BRIGHTNESS : %d\n", val);
-> +                     }
-> +                     break;
->               }
->       }
-> +
-> +     return 0;
->  }
->
->  static int amd_pmf_invoke_cmd_enact(struct amd_pmf_dev *dev) diff --git
-> a/include/linux/amd-pmf-io.h b/include/linux/amd-pmf-io.h index
-> a2d4af231362..ecae387ddaa6 100644
-> --- a/include/linux/amd-pmf-io.h
-> +++ b/include/linux/amd-pmf-io.h
-> @@ -25,4 +25,5 @@ struct amd_gpu_pmf_data {  };
->
->  int amd_pmf_get_gfx_data(struct amd_gpu_pmf_data *pmf);
-> +int amd_pmf_set_gfx_data(struct amd_gpu_pmf_data *pmf);
->  #endif
-> --
-> 2.25.1
+>>
+>> Co-developed-by: Mario Limonciello <mario.limonciello@amd.com>
+>> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+>> Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+>> ---
+>>   drivers/gpu/drm/amd/amdgpu/amdgpu_pmf.c | 21
+>> +++++++++++++++++++++
+>>   drivers/platform/x86/amd/pmf/pmf.h      |  2 ++
+>>   drivers/platform/x86/amd/pmf/tee-if.c   | 19 +++++++++++++++++--
+>>   include/linux/amd-pmf-io.h              |  1 +
+>>   4 files changed, 41 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_pmf.c
+>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_pmf.c
+>> index 232d11833ddc..5c567bff0548 100644
+>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_pmf.c
+>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_pmf.c
+>> @@ -68,3 +68,24 @@ int amd_pmf_get_gfx_data(struct amd_gpu_pmf_data
+>> *pmf)
+>>        return 0;
+>>   }
+>>   EXPORT_SYMBOL_GPL(amd_pmf_get_gfx_data);
+>> +
+>> +int amd_pmf_set_gfx_data(struct amd_gpu_pmf_data *pmf) {
+>> +     struct drm_device *drm_dev = pci_get_drvdata(pmf->gpu_dev);
+>> +     struct amdgpu_device *adev = drm_to_adev(drm_dev);
+>> +     struct backlight_device *bd;
+>> +
+>> +     if (!(adev->flags & AMD_IS_APU)) {
+>> +             DRM_ERROR("PMF-AMDGPU interface not supported\n");
+>> +             return -ENODEV;
+>> +     }
+>> +
+>> +     bd = backlight_device_get_by_type(BACKLIGHT_RAW);
+>> +     if (!bd)
+>> +             return -ENODEV;
+>> +
+>> +     backlight_device_set_brightness(bd, pmf->brightness);
+>> +
+>> +     return 0;
+>> +}
+>> +EXPORT_SYMBOL_GPL(amd_pmf_set_gfx_data);
+>> diff --git a/drivers/platform/x86/amd/pmf/pmf.h
+>> b/drivers/platform/x86/amd/pmf/pmf.h
+>> index 9032df4ba48a..ce89cc0daa5a 100644
+>> --- a/drivers/platform/x86/amd/pmf/pmf.h
+>> +++ b/drivers/platform/x86/amd/pmf/pmf.h
+>> @@ -73,6 +73,7 @@
+>>   #define PMF_POLICY_STT_SKINTEMP_APU                          7
+>>   #define PMF_POLICY_STT_SKINTEMP_HS2                          8
+>>   #define PMF_POLICY_SYSTEM_STATE                                      9
+>> +#define PMF_POLICY_DISPLAY_BRIGHTNESS                                12
+>>   #define PMF_POLICY_P3T                                               38
+>>
+>>   /* TA macros */
+>> @@ -480,6 +481,7 @@ enum ta_pmf_error_type {  };
+>>
+>>   struct pmf_action_table {
+>> +     unsigned long display_brightness;
+>>        enum system_state system_state;
+>>        unsigned long spl; /* in mW */
+>>        unsigned long sppt; /* in mW */
+>> diff --git a/drivers/platform/x86/amd/pmf/tee-if.c
+>> b/drivers/platform/x86/amd/pmf/tee-if.c
+>> index 1608996654e8..eefffff83a4c 100644
+>> --- a/drivers/platform/x86/amd/pmf/tee-if.c
+>> +++ b/drivers/platform/x86/amd/pmf/tee-if.c
+>> @@ -79,10 +79,10 @@ static int amd_pmf_update_uevents(struct
+>> amd_pmf_dev *dev, u16 event)
+>>        return 0;
+>>   }
+>>
+>> -static void amd_pmf_apply_policies(struct amd_pmf_dev *dev, struct
+>> ta_pmf_enact_result *out)
+>> +static int amd_pmf_apply_policies(struct amd_pmf_dev *dev, struct
+>> +ta_pmf_enact_result *out)
+>>   {
+>>        u32 val, event = 0;
+>> -     int idx;
+>> +     int idx, ret;
+>>
+>>        for (idx = 0; idx < out->actions_count; idx++) {
+>>                val = out->actions_list[idx].value;
+>> @@ -160,8 +160,23 @@ static void amd_pmf_apply_policies(struct
+>> amd_pmf_dev *dev, struct ta_pmf_enact_
+>>                                dev->prev_data->system_state = 0;
+>>                        }
+>>                        break;
+>> +
+>> +             case PMF_POLICY_DISPLAY_BRIGHTNESS:
+>> +                     ret = amd_pmf_get_gfx_data(&dev->gfx_data);
+>> +                     if (ret)
+>> +                             return ret;
+>> +
+>> +                     dev->prev_data->display_brightness = dev-
+>>> gfx_data.brightness;
+> 
+> Are we using standardized units for the brightness?  On the GPU side, we align with the standard blacklight interface, but internally, the driver has to convert units depending on the type of backlight controller used on the platform.  Presumably PMF does something similar?
+> 
+> Alex
+> 
+>> +                     if (dev->prev_data->display_brightness != val) {
+>> +                             dev->gfx_data.brightness = val;
+>> +                             amd_pmf_set_gfx_data(&dev->gfx_data);
+>> +                             dev_dbg(dev->dev, "update
+>> DISPLAY_BRIGHTNESS : %d\n", val);
+>> +                     }
+>> +                     break;
+>>                }
+>>        }
+>> +
+>> +     return 0;
+>>   }
+>>
+>>   static int amd_pmf_invoke_cmd_enact(struct amd_pmf_dev *dev) diff --git
+>> a/include/linux/amd-pmf-io.h b/include/linux/amd-pmf-io.h index
+>> a2d4af231362..ecae387ddaa6 100644
+>> --- a/include/linux/amd-pmf-io.h
+>> +++ b/include/linux/amd-pmf-io.h
+>> @@ -25,4 +25,5 @@ struct amd_gpu_pmf_data {  };
+>>
+>>   int amd_pmf_get_gfx_data(struct amd_gpu_pmf_data *pmf);
+>> +int amd_pmf_set_gfx_data(struct amd_gpu_pmf_data *pmf);
+>>   #endif
+>> --
+>> 2.25.1
+> 
 
