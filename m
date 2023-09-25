@@ -1,50 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6528A7ADDB5
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Sep 2023 19:16:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BC107ADDD1
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Sep 2023 19:29:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB7FF10E2AD;
-	Mon, 25 Sep 2023 17:16:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0BC0510E2B6;
+	Mon, 25 Sep 2023 17:29:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9AEC010E2AD;
- Mon, 25 Sep 2023 17:16:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1695662201; x=1727198201;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=T0DF2mmkScf8xNla92kImr4zovhS0SCWIfrBA+HR28g=;
- b=hn1XScj7ZhwOEWRPYQlgo+LJZdv4OuTX2jG8lJ4tHGU1KDBWiWkjQ3g7
- PZIQmp3vzO/4ef5OfpplRFCnvlzDTGbxWK+ABMF8mzC76r0sBqqUSRJPy
- krI+xn/1IJK7aoBtLOt/HW9HcJc+s0VAUjFyFWBtjw/BD4bk3tYNXh8Cy
- VMbyCUB8OM8Qvj9rFMDTABrUB1iwV7RcnvirvAoeEDmXqlyennsVcJNQD
- m7/GwuDRV4uXsZSqO9SsF5f4mFcUoqFVaT6GZyKuFmX7Cr4SqKCn/58p3
- 8XKsjTUBoiPxPjioHhM+9FGQ8yCkaZF5humvEP7A/Jqq+O6vFPhDyKP9Z A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="445421473"
-X-IronPort-AV: E=Sophos;i="6.03,175,1694761200"; d="scan'208";a="445421473"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Sep 2023 10:10:59 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="698062130"
-X-IronPort-AV: E=Sophos;i="6.03,175,1694761200"; d="scan'208";a="698062130"
-Received: from nirmoyda-desk.igk.intel.com ([10.102.138.190])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Sep 2023 10:10:57 -0700
-From: Nirmoy Das <nirmoy.das@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v3] drm/i915/gem: Make i915_gem_shrinker multi-gt aware
-Date: Mon, 25 Sep 2023 19:10:48 +0200
-Message-ID: <20230925171048.19245-1-nirmoy.das@intel.com>
-X-Mailer: git-send-email 2.41.0
+Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com
+ [IPv6:2607:f8b0:4864:20::52a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E6B2710E2B6
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Sep 2023 17:29:08 +0000 (UTC)
+Received: by mail-pg1-x52a.google.com with SMTP id
+ 41be03b00d2f7-577e62e2adfso4433760a12.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Sep 2023 10:29:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1695662948; x=1696267748;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=/aMa/e/MpMROFsp3gARJijeh7sh0P+MuDKdlmUY9kPc=;
+ b=VW+vbf9zP8LtXIHInMCu+XwRxb7nNG1L2A2rts6GDBj17cXrL4VuD3aunInDYVmQhV
+ DTu3kGY/jYAlcbZL3hLK1lPL5ZxYSiIafHrYz/FOh59whbErajsBFsN60CH1EP2DNtj1
+ Xt+/S+t0Wy8K47RNPP2o851e+zo8h3A7sj1rg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1695662948; x=1696267748;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=/aMa/e/MpMROFsp3gARJijeh7sh0P+MuDKdlmUY9kPc=;
+ b=KtO+QIOHbY1LkGpPq0BrwHwo6yEddJXzqV4CUpRUpZ69G529V/VVhbNO7/JsEqkws0
+ dcbPGkd9Im9R/z2z1sDtIFDGEsDFW7ee0/ncENUOT1PrSoeLyzbBupg8Y5/Cmi5QcLYy
+ 1OS56HkW79Ss6nn75jPJZ88MqulKt6oHPej3nhn7J14in+7cDklm5IW26QTEid69tWL5
+ Lc7qPZQf4xmh0+9LZx+aX4PhxRC1lthgGIFNvH5uAaH0wmZD4Aux8JtNMECjH9RwConb
+ SKrp/ixG/5ZNDmqQlnHa5smnl/sgKrtun+flmtOyb+MWzC7Na9lGRYypn9Giyzyb5fmg
+ w7SQ==
+X-Gm-Message-State: AOJu0YwhiZQFEa/0aJTyq+OJtwtz10lZNWkHO6F2WsayGw3ulMJGisY0
+ mpZTEorCvHtYlNcHsldRUJWUNg==
+X-Google-Smtp-Source: AGHT+IGOgiwM4+b8S6Xt1BZDhFJWOaJGQxJpivA0wrsHDefHQof1Ld6BLNGIRgIO+U3XOUTHoQ7GrQ==
+X-Received: by 2002:a05:6a20:9499:b0:13b:a2c9:922e with SMTP id
+ hs25-20020a056a20949900b0013ba2c9922emr4951421pzb.27.1695662948293; 
+ Mon, 25 Sep 2023 10:29:08 -0700 (PDT)
+Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net.
+ [198.0.35.241]) by smtp.gmail.com with ESMTPSA id
+ z18-20020aa785d2000000b006829969e3b0sm8345115pfn.85.2023.09.25.10.29.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 25 Sep 2023 10:29:07 -0700 (PDT)
+From: Kees Cook <keescook@chromium.org>
+To: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+ Kees Cook <keescook@chromium.org>
+Subject: Re: [PATCH] accel/ivpu: Annotate struct ivpu_job with __counted_by
+Date: Mon, 25 Sep 2023 10:21:58 -0700
+Message-Id: <169566251617.320041.2089067222600486912.b4-ty@chromium.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230925110352.GB846747@linux.intel.com>
+References: <20230922175416.work.272-kees@kernel.org>
 MIME-Version: 1.0
-Organization: Intel Deutschland GmbH, Registered Address: Am Campeon 10,
- 85579 Neubiberg, Germany,
- Commercial Register: Amtsgericht Muenchen HRB 186928 
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -58,115 +74,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: andi.shyti@linux.intel.com, Jonathan Cavitt <jonathan.cavitt@intel.com>,
- dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>,
- Nirmoy Das <nirmoy.das@intel.com>
+Cc: Tom Rix <trix@redhat.com>, Oded Gabbay <ogabbay@kernel.org>,
+ llvm@lists.linux.dev, Nick Desaulniers <ndesaulniers@google.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Nathan Chancellor <nathan@kernel.org>, linux-hardening@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Jonathan Cavitt <jonathan.cavitt@intel.com>
+On Fri, 22 Sep 2023 10:54:17 -0700, Kees Cook wrote:
+> Prepare for the coming implementation by GCC and Clang of the __counted_by
+> attribute. Flexible array members annotated with __counted_by can have
+> their accesses bounds-checked at run-time checking via CONFIG_UBSAN_BOUNDS
+> (for array indexing) and CONFIG_FORTIFY_SOURCE (for strcpy/memcpy-family
+> functions).
+> 
+> As found with Coccinelle[1], add __counted_by for struct ivpu_job.
+> 
+> [...]
 
-Where applicable, use for_each_gt instead of to_gt in the
-i915_gem_shrinker functions to make them apply to more than just the
-primary GT.  Specifically, this ensure i915_gem_shrink_all retires all
-requests across all GTs, and this makes i915_gem_shrinker_vmap unmap
-VMAs from all GTs.
+Thanks Stanislaw! I'll take it through my for-next/hardening tree then:
 
-v2: Pass correct GT to intel_gt_retire_requests(Andrzej).
-v3: Remove unnecessary braces(Andi) 
+[1/1] accel/ivpu: Annotate struct ivpu_job with __counted_by
+      https://git.kernel.org/kees/c/2eabbbb8275b
 
-Signed-off-by: Jonathan Cavitt <jonathan.cavitt@intel.com>
-Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
-Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
-Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
----
- drivers/gpu/drm/i915/gem/i915_gem_shrinker.c | 41 ++++++++++++--------
- 1 file changed, 24 insertions(+), 17 deletions(-)
+Take care,
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c b/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
-index 214763942aa2..e79fcbdfab25 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
-@@ -14,6 +14,7 @@
- #include <linux/vmalloc.h>
- 
- #include "gt/intel_gt_requests.h"
-+#include "gt/intel_gt.h"
- 
- #include "i915_trace.h"
- 
-@@ -119,7 +120,8 @@ i915_gem_shrink(struct i915_gem_ww_ctx *ww,
- 	intel_wakeref_t wakeref = 0;
- 	unsigned long count = 0;
- 	unsigned long scanned = 0;
--	int err = 0;
-+	int err = 0, i = 0;
-+	struct intel_gt *gt;
- 
- 	/* CHV + VTD workaround use stop_machine(); need to trylock vm->mutex */
- 	bool trylock_vm = !ww && intel_vm_no_concurrent_access_wa(i915);
-@@ -148,8 +150,9 @@ i915_gem_shrink(struct i915_gem_ww_ctx *ww,
- 	 * contexts around longer than is necessary.
- 	 */
- 	if (shrink & I915_SHRINK_ACTIVE)
--		/* Retire requests to unpin all idle contexts */
--		intel_gt_retire_requests(to_gt(i915));
-+		for_each_gt(gt, i915, i)
-+			/* Retire requests to unpin all idle contexts */
-+			intel_gt_retire_requests(gt);
- 
- 	/*
- 	 * As we may completely rewrite the (un)bound list whilst unbinding
-@@ -389,6 +392,8 @@ i915_gem_shrinker_vmap(struct notifier_block *nb, unsigned long event, void *ptr
- 	struct i915_vma *vma, *next;
- 	unsigned long freed_pages = 0;
- 	intel_wakeref_t wakeref;
-+	struct intel_gt *gt;
-+	int i;
- 
- 	with_intel_runtime_pm(&i915->runtime_pm, wakeref)
- 		freed_pages += i915_gem_shrink(NULL, i915, -1UL, NULL,
-@@ -397,24 +402,26 @@ i915_gem_shrinker_vmap(struct notifier_block *nb, unsigned long event, void *ptr
- 					       I915_SHRINK_VMAPS);
- 
- 	/* We also want to clear any cached iomaps as they wrap vmap */
--	mutex_lock(&to_gt(i915)->ggtt->vm.mutex);
--	list_for_each_entry_safe(vma, next,
--				 &to_gt(i915)->ggtt->vm.bound_list, vm_link) {
--		unsigned long count = i915_vma_size(vma) >> PAGE_SHIFT;
--		struct drm_i915_gem_object *obj = vma->obj;
--
--		if (!vma->iomap || i915_vma_is_active(vma))
--			continue;
-+	for_each_gt(gt, i915, i) {
-+		mutex_lock(&gt->ggtt->vm.mutex);
-+		list_for_each_entry_safe(vma, next,
-+					 &gt->ggtt->vm.bound_list, vm_link) {
-+			unsigned long count = i915_vma_size(vma) >> PAGE_SHIFT;
-+			struct drm_i915_gem_object *obj = vma->obj;
-+
-+			if (!vma->iomap || i915_vma_is_active(vma))
-+				continue;
- 
--		if (!i915_gem_object_trylock(obj, NULL))
--			continue;
-+			if (!i915_gem_object_trylock(obj, NULL))
-+				continue;
- 
--		if (__i915_vma_unbind(vma) == 0)
--			freed_pages += count;
-+			if (__i915_vma_unbind(vma) == 0)
-+				freed_pages += count;
- 
--		i915_gem_object_unlock(obj);
-+			i915_gem_object_unlock(obj);
-+		}
-+		mutex_unlock(&gt->ggtt->vm.mutex);
- 	}
--	mutex_unlock(&to_gt(i915)->ggtt->vm.mutex);
- 
- 	*(unsigned long *)ptr += freed_pages;
- 	return NOTIFY_DONE;
 -- 
-2.41.0
+Kees Cook
 
