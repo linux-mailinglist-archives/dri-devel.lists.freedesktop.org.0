@@ -1,57 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0818B7ACE09
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Sep 2023 04:15:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 662CA7ACE2E
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Sep 2023 04:36:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67EEE10E14C;
-	Mon, 25 Sep 2023 02:15:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 92F6110E1C2;
+	Mon, 25 Sep 2023 02:36:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F9BC88DE5;
- Mon, 25 Sep 2023 02:15:19 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 05D7010E1C2
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Sep 2023 02:36:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1695608120; x=1727144120;
+ t=1695609386; x=1727145386;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=7aZdRRkcWeWfFBEMkV187rRMQuRi3J4u3B++Qpol+2Q=;
- b=mz9Ak2JWVI+PAlNCvsAlnsSwDNhPPUsgPR0TRgqg30acTjKf8sQ+GXv+
- T9Ib8ltTgTGkbZxMnqbiuajAyKB4C+EGObonsMRPhVo2U9Xe83Vdc+pnT
- vO7qXulqBZZSD+DVCZo3mo8JhDvkgC+eQ6m/Jq9hFu931HZbY718c9F4A
- YprHkrLNFWwys/9JrF39ho7f3kC/LkO2VkFXrAPE2fg/VsrnEC4/ekx60
- NELzYiBvoedjP7DIwjfHsDZWUK1nxm+iP4pB+8W7mtSlDy5zeI/Lb/22+
- eFRLcv/KhSIMOSnvJ5K1IPblHwye5cNgw8RTi3Ka0X7BqPqePvxPAxFIp w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="366206043"
-X-IronPort-AV: E=Sophos;i="6.03,174,1694761200"; d="scan'208";a="366206043"
+ bh=0Eie4tDSxJtzvtbLiXBv6OWMk2WPjKygPOluleJmGUc=;
+ b=nYPjEO07kcyPxZuqJYjNQUM0Sw2lE3Wgjzo6pxoJWawTUSOKrKl+PDz2
+ 9+OiK0IAJUzHP8t3JzGF0HbZNEbhDYZZjiIBgb4v9658Gpouo+QATLqCA
+ WazDI2AGUgAMUmP0HjLSCzFNh1/IBglFvRSHOnQoWqbXjnhzeAId/Cocf
+ edkI5SP0rVd9mEwnorUsAdZ0H/8WGNqHQmyw5P3pVt5iaRNZfzbTDpybd
+ nZFVErqggbv2EGOAinHcchGs3a7li6HBkgrMnLNJbtZTW3dd0ixu5B8pS
+ mYheUY2LrGbAnJkSiggumtTkOW/+t8bqUQ863gGY/so6rn3g5Pk5ZDavy A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="445253836"
+X-IronPort-AV: E=Sophos;i="6.03,174,1694761200"; d="scan'208";a="445253836"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Sep 2023 19:15:19 -0700
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Sep 2023 19:36:25 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="697828919"
-X-IronPort-AV: E=Sophos;i="6.03,174,1694761200"; d="scan'208";a="697828919"
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="697832549"
+X-IronPort-AV: E=Sophos;i="6.03,174,1694761200"; d="scan'208";a="697832549"
 Received: from lkp-server02.sh.intel.com (HELO 32c80313467c) ([10.239.97.151])
- by orsmga003.jf.intel.com with ESMTP; 24 Sep 2023 19:15:15 -0700
+ by orsmga003.jf.intel.com with ESMTP; 24 Sep 2023 19:36:22 -0700
 Received: from kbuild by 32c80313467c with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1qkb7w-0000m1-2c;
- Mon, 25 Sep 2023 02:15:12 +0000
-Date: Mon, 25 Sep 2023 10:14:20 +0800
+ (envelope-from <lkp@intel.com>) id 1qkbSO-0000uc-04;
+ Mon, 25 Sep 2023 02:36:20 +0000
+Date: Mon, 25 Sep 2023 10:35:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, hdegoede@redhat.com,
- markgross@kernel.org, basavaraj.natikar@amd.com, jikos@kernel.org,
- benjamin.tissoires@redhat.com, alexander.deucher@amd.com,
- christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
- daniel@ffwll.ch
-Subject: Re: [PATCH 10/15] platform/x86/amd/pmf: Add capability to sideload
- of policy binary
-Message-ID: <202309251031.awDDkRgS-lkp@intel.com>
-References: <20230922175056.244940-11-Shyam-sundar.S-k@amd.com>
+To: Jernej Skrabec <jernej.skrabec@gmail.com>, mripard@kernel.org,
+ wens@csie.org
+Subject: Re: [PATCH 5/7] drm/sun4i: dw-hdmi: Split driver registration
+Message-ID: <202309251030.rZTXXyFE-lkp@intel.com>
+References: <20230924192604.3262187-6-jernej.skrabec@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230922175056.244940-11-Shyam-sundar.S-k@amd.com>
+In-Reply-To: <20230924192604.3262187-6-jernej.skrabec@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,63 +60,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, linux-input@vger.kernel.org,
- dri-devel@lists.freedesktop.org, platform-driver-x86@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, Patil.Reddy@amd.com,
- oe-kbuild-all@lists.linux.dev, mario.limonciello@amd.com
+Cc: samuel@sholland.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ oe-kbuild-all@lists.linux.dev, linux-sunxi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Shyam,
+Hi Jernej,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on hid/for-next]
-[also build test WARNING on linus/master v6.6-rc3 next-20230921]
-[cannot apply to drm-misc/drm-misc-next]
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.6-rc3 next-20230921]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Shyam-Sundar-S-K/platform-x86-amd-pmf-Add-PMF-TEE-interface/20230923-015418
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
-patch link:    https://lore.kernel.org/r/20230922175056.244940-11-Shyam-sundar.S-k%40amd.com
-patch subject: [PATCH 10/15] platform/x86/amd/pmf: Add capability to sideload of policy binary
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230925/202309251031.awDDkRgS-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230925/202309251031.awDDkRgS-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Jernej-Skrabec/drm-sun4i-dw-hdmi-Deinit-PHY-in-fail-path/20230925-032818
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20230924192604.3262187-6-jernej.skrabec%40gmail.com
+patch subject: [PATCH 5/7] drm/sun4i: dw-hdmi: Split driver registration
+config: parisc-randconfig-002-20230925 (https://download.01.org/0day-ci/archive/20230925/202309251030.rZTXXyFE-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230925/202309251030.rZTXXyFE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309251031.awDDkRgS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309251030.rZTXXyFE-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/platform/x86/amd/pmf/tee-if.c:305:5: warning: no previous prototype for 'amd_pmf_open_pb' [-Wmissing-prototypes]
-     305 | int amd_pmf_open_pb(struct amd_pmf_dev *dev, struct dentry *debugfs_root)
-         |     ^~~~~~~~~~~~~~~
-
-
-vim +/amd_pmf_open_pb +305 drivers/platform/x86/amd/pmf/tee-if.c
-
-   304	
- > 305	int amd_pmf_open_pb(struct amd_pmf_dev *dev, struct dentry *debugfs_root)
-   306	{
-   307		struct dentry *file = NULL;
-   308	
-   309		dev->esbin = debugfs_create_dir("pb", debugfs_root);
-   310		if (IS_ERR(dev->esbin))
-   311			return -EINVAL;
-   312	
-   313		file = debugfs_create_file("update_policy", 0644, dev->esbin, dev, &pb_fops);
-   314		if (!file)
-   315			return -EINVAL;
-   316	
-   317		return 0;
-   318	}
-   319	#endif
-   320	
+   hppa-linux-ld: drivers/gpu/drm/sun4i/sun8i_hdmi_phy.o: in function `sun8i_hdmi_phy_driver_init':
+>> (.init.text+0x0): multiple definition of `init_module'; drivers/gpu/drm/sun4i/sun8i_dw_hdmi.o:(.init.text+0x0): first defined here
+   hppa-linux-ld: drivers/gpu/drm/sun4i/sun8i_hdmi_phy.o: in function `sun8i_hdmi_phy_driver_exit':
+>> (.exit.text+0x0): multiple definition of `cleanup_module'; drivers/gpu/drm/sun4i/sun8i_dw_hdmi.o:(.exit.text+0x0): first defined here
 
 -- 
 0-DAY CI Kernel Test Service
