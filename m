@@ -2,118 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7D5A7ADCA1
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Sep 2023 18:03:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CF757ADCB6
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Sep 2023 18:07:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 112B610E293;
-	Mon, 25 Sep 2023 16:03:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1701710E2A0;
+	Mon, 25 Sep 2023 16:07:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2075.outbound.protection.outlook.com [40.107.237.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C5AC10E295;
- Mon, 25 Sep 2023 16:03:39 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=R3uOOsQuV+HO8I4OkWCRt3kttRMe0bIUUsSDMvwsHHvhx2V2Y9lVJ735Mj2B575HVoHbaXceXI1lIdDuPxH0hmYH0SRt+OeMxc2xIgD1Pe8KlNxzZaylBLAIstDKzPCgJ4nlxyktlVi7+wZd25THeQyBHx+cfvqsLvRLQSlfzCZ1X3DcSi+fuWvugRZgVIj2WBITpcU3IKxcdkIHm1G1kmiighhfeI+bTRmL7A1ftZRL9FAx+feou5dOdsaWlT6/FeIB2owIDOzHtA+M3/oiryN2DubH6AuTpOUBrZL/VSkO5co3hZg1EOV9zF6kw0L/d64NQ+PLWc0fo/DOPjVDsw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zSrn9r2bIC2ay1LCL487D+sG9A62J4VEWA95Q0tnoQY=;
- b=JvLSzg9pBHsHpFeMAQVlkGewd5rQsttekClB/e6nlIBDTZBbAdoUNn78kavBRr30vXOIfnHf3sXEAi6rjA3KGiEfzRKRtXPpcVfDleUmIhbRSFvFPrze2fZP9dNyWM8NqwOK2PZhv5SfOguHhjN7ZhR+2+NyGsc/8phe16GToJ7BvvD9Z++kBM3zIc0rZtMyBjITgy5pE/u1ALiTQy6Y1/mhV4Qj+CZ2ec5Y4XzeO0H3vNkn8LqJkGVqi5+eHchUxGPQBd2YV/DhkOJELdSOJR4qpQpQfXyeg+UOfUgpx9vZyzUDk1yEytdqdQ2UxEFSUh+pODajOL4+AS2Gx7QIaA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zSrn9r2bIC2ay1LCL487D+sG9A62J4VEWA95Q0tnoQY=;
- b=L2sxRWxUnm9tyLTRLCQjSjKLFvwxHjf2HgU4j9VQq2CoXiH4B8lGK+nWnj/t/13G7Vj2XAXKF5YewqTDN5r1ik1Eg/M7jA6N+xWJ8PQT04p96jOy2hHoERGMSYbGOL5xg4+zqD37A9xbQQcekBtm6W9o9THiOsBIvbXwZg6+gaY=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from CO6PR12MB5427.namprd12.prod.outlook.com (2603:10b6:5:358::13)
- by SA1PR12MB8743.namprd12.prod.outlook.com (2603:10b6:806:37c::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6813.28; Mon, 25 Sep
- 2023 16:03:36 +0000
-Received: from CO6PR12MB5427.namprd12.prod.outlook.com
- ([fe80::121e:5e68:c78a:1f2f]) by CO6PR12MB5427.namprd12.prod.outlook.com
- ([fe80::121e:5e68:c78a:1f2f%3]) with mapi id 15.20.6813.018; Mon, 25 Sep 2023
- 16:03:36 +0000
-Message-ID: <1bc1f834-22c4-4199-a063-f53cc345161f@amd.com>
-Date: Mon, 25 Sep 2023 12:03:07 -0400
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v2 0/5] drm/amd/display: improve DTN color state log
-Content-Language: en-US
-To: Melissa Wen <mwen@igalia.com>, Rodrigo Siqueira
- <Rodrigo.Siqueira@amd.com>, sunpeng.li@amd.com, airlied@gmail.com,
- alexander.deucher@amd.com, christian.koenig@amd.com, daniel@ffwll.ch,
- Xinhui.Pan@amd.com
-References: <20230913164329.123687-1-mwen@igalia.com>
-From: Harry Wentland <harry.wentland@amd.com>
-In-Reply-To: <20230913164329.123687-1-mwen@igalia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YQXPR0101CA0025.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c00:15::38) To CO6PR12MB5427.namprd12.prod.outlook.com
- (2603:10b6:5:358::13)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5CAAF10E289;
+ Mon, 25 Sep 2023 16:07:37 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 38PEGBFt007267; Mon, 25 Sep 2023 16:07:22 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=JAoOarfwvRZXn1BQvmqwapFIbkl3fBs0IHfImvog/zI=;
+ b=aiOKnXcw7wl0G0ITN3J/vczi8Kh32vc1HHKXjyzgTXrA60pXUzHE2v5wHFFiEhjZde9U
+ sRaveN32STxxQcpSuxGiUznzYM78ODWB6+pkAQtkQ0wlmXbg/ET3rfh6CpJ4eJDC97wq
+ RmsWtKgtjtKL4aD7fUFYcXOVh4buTV+xiPO1f6SMXgpEemlTGSM1F28DCJD4sgYnkO+i
+ SRTJAPxUSm/WtmebBRT9Ow/vBWFWQsKPPkmRIwtw66miNPKyg96bl3vUxrXz4W1Uwns+
+ IDrf7B8t15FOcAE5piowVGX7YBs99kLZIj/LVv/w1ErLKRkvR5ngFjxTjJTEsTfK9cod pA== 
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3tb5n89877-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 25 Sep 2023 16:07:21 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 38PG7LFQ027910
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 25 Sep 2023 16:07:21 GMT
+Received: from [10.110.46.220] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Mon, 25 Sep
+ 2023 09:07:19 -0700
+Message-ID: <1d9bf80d-0267-937b-4dd9-c57db7a89cb4@quicinc.com>
+Date: Mon, 25 Sep 2023 09:07:18 -0700
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO6PR12MB5427:EE_|SA1PR12MB8743:EE_
-X-MS-Office365-Filtering-Correlation-Id: 04e52d74-f5ea-4382-164f-08dbbde0f9eb
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: zUoaehvk5GZaX73WEwzoAB42Q61iknYedZV54G0GOd6Fg3gCdoy9+PczgehpGMf/wswzeusuKn6IV1wvPqaq70h3wDYnq6hdFB7/YRIwOFUb6HwtZudmCpQkkouiCeKzTTyhYr1vBo7jqb4MSpKC03xSQhapX+ogfOj50WkemsgkfxxDngNSlYI4D2UBtyh1yzIqWlbJ+0AWLg4gUG0/zC9+aF0MEtl7AHqeTUjcRENbTXNH05x8ROpHt0vWJSVLgcf8+N4BduZwPorZXZwh+3p8F1qAmPmobOVACaaK3fdgUI/ifDgjoevJMvIuKFUX2X+4hlyrjqTgpT6J2fxixXjtxHod1sCzuR8zLyZULA/6TC2dH43MmA6IT240AkJ1dkNvj2nSxfCOQ52ghEDngK3gY1lh5trE5WDswDKmg3pqPOI5wzFmz6zd2hY2qNz1r9eQLNa96d+8uAZg8WgE40vzoBDu5swP+XDX9DRTSqmDu1VxyaAOZh00GwbU+7hGxwZkOUsJEN5dTfaqxwDC1eC+g0AeSo0GMNqc15u+eVw3KRLSTzrDfgcL6D/dafK/nIBbEnKkP8rXFuGiMnFwwUnyK2+Ef29V0XMJ453ZOja7wWAVI0/LGVkREqM8jddnoZq2PfsXKj5sfNzscOqWa5OD/iE70OyzdFOjk7eQECqrTY3icnUepZlzWsor8hPN
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CO6PR12MB5427.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(136003)(396003)(366004)(346002)(376002)(39860400002)(230922051799003)(1800799009)(451199024)(186009)(6666004)(26005)(478600001)(966005)(2616005)(36756003)(31696002)(86362001)(5660300002)(6486002)(53546011)(83380400001)(38100700002)(6506007)(6512007)(4326008)(2906002)(8936002)(31686004)(41300700001)(54906003)(316002)(6636002)(8676002)(110136005)(66946007)(66476007)(66556008)(44832011)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WmRhZUFEVXUzbGUrejhiUGtkQ0g5aldWYlFwTHVuR0ltVm1pZHNCT2EybDNY?=
- =?utf-8?B?VVhlQWFJWjRtQVFGT09RdFViWUl2OUROSXNvY3lxc1p3NVk5Qkl6SWorOVJn?=
- =?utf-8?B?ditxMTc0SnFvUFlOMmpubWN0aFlSUlJlM25xRDRRa3d2bGV0M0VxTndBYm03?=
- =?utf-8?B?ZjJncW1MNjFPcTRqTW9BYm1IMk9NckMrWEpCb1NPeEJ0eE50YzRqMWVxOURZ?=
- =?utf-8?B?U0kwWHVqMGEza29FT3hLU1pLSTlkb0xFa0o2Q3JmenR6K1V2MExXaDZNYm1C?=
- =?utf-8?B?M1hZbStpL1JqclBibUNZa0liZHROdXArVy8xS2F5UWwzeThrSE1nSGxxM01j?=
- =?utf-8?B?Y215QnBER2tkQmtaWG9IZG14SHdvTDdKRTl0VXNDUG9BNDR5emNkMzVTdWtt?=
- =?utf-8?B?Rklsc3d3WExMSFgwcUsrTHFRaTNSRjhOS1lqMHZwNGJQQTRqTFcyeGZzWFM1?=
- =?utf-8?B?WVU2c3pCZzl5UXJxME9ST0U4cVdhZTNCWFlWMXNpb05XOW41cmZLdlIwVFo4?=
- =?utf-8?B?ZGN4R0NQY1FSY2RRZ0ZHb2F0V0JBZ1hUOThHWDY3Y25PT3hBamhpQXhUWG9C?=
- =?utf-8?B?VFBTR1B6YVhuSVBBdjhvRXhjQk1QczY2VTJRN1lmQmpqVWFlSGhlbnFjOTBS?=
- =?utf-8?B?alZvNG9icGRBRUgzbyt6dzN0eXpoczVMQ1Uram9IKzRCZCtlOHlYZnUyY0JC?=
- =?utf-8?B?NWVYSHpSR09aWWI1c3c2WVYxUTl3aVVxZHo2RVFiakdEUHMwUXRuOVJleEZz?=
- =?utf-8?B?ZTlJbWtMcTJ4NW11dFBnV0pvdS9tYUUzZ3FneGIza0psOGV3TVNsQ1RhN1Uy?=
- =?utf-8?B?YjRsRGZtRFBqSmVmSTJOWWpkOE5RYnJFemZTYWgvSVkrclZ5dWp6WTA1WDdN?=
- =?utf-8?B?QWNjWDVOKzVjbHB6c3VjblRXcDJ6WHBaNnFuWENiREJTTlZtSFVhYysrc1Bn?=
- =?utf-8?B?Sm1rZXpBWHYxQlZicDRaWjVBK2xhRGRvS3hScmpydmg2YlZPS1RONEJhVkd4?=
- =?utf-8?B?SHRtckJNeE15Y2ZSdG5JUGlWKzR3WEo1L0R0Sk5rZS9qR1NxbWxITWpWdnds?=
- =?utf-8?B?OWFoQ3RCYnFEdUVzNGxlWWhESlUxVVdydThLeEJEYzV6T0ltUThQQmpWZjFv?=
- =?utf-8?B?NlhjdEhNYUxYd2p6MkJuc0czS3VkSFhGMW55UHVlajdiWVl5ZWxiSVcwbWxt?=
- =?utf-8?B?b09Rc242QjAzbVpkc21BZkFJSmZ6VC9CUGVlL3A3TE1ldEN1VThzRk1XWEFI?=
- =?utf-8?B?YlBJYmgxdmxqeTl0K0xCUk9YN3ovZWZGdm5sNjYwUm05MmlYb0FJR2REQVEy?=
- =?utf-8?B?OEpoNWFVLzB6cEV0Nm9TY05ubHdwVG9KRUhjTlhaeUlnbUxHUTdBZURKWWtF?=
- =?utf-8?B?aDl2L3BLL1RoMlNieTY2VXpJNUhHL2YxOXRRK0tPcDRUSFZGVzRGT3E0MlZY?=
- =?utf-8?B?Qi93djZQL3ZjdUYyNVQxNHg5UWY0ajVET3d5Y0p2anpZMFRJSUk2cDdnUmdF?=
- =?utf-8?B?amRhRUxmS3c1Vlc3ZUFyL2hhbVZoUUxBY3dTWnRmb2tCVzJoS3BUTEV3SDBl?=
- =?utf-8?B?QWhrV3BFdkY4cUo4VXl1cEtBcnZ6WDVuU2Rrb1FsT3dtS1dJQVpFK3Y5eVFt?=
- =?utf-8?B?bVFNS3g5NUlnSHVpSnZhdUFtYUw4K1RCN2NjVFB5dHYyZmtJeGhlN2pacXJ2?=
- =?utf-8?B?b3IyZmJ3bUtoMXpueGozSG1ma3pSQXlxTi9vUU5ib3ppQXZLNmw5N2RnZGEx?=
- =?utf-8?B?dldMYXhzd3VnY21PN3BvR1hBcnR3QzRIaEdyRFF0Z0JhWmlBWXlwY2RSMEtl?=
- =?utf-8?B?VXNmeS9oamZ2Z0wyZkVSNno2L3BkUEFkeUZ6UStSajU5UWxuMlplTmY3MU1q?=
- =?utf-8?B?dXFFdEtVMitBTmVmQXBwbjY1aG5vdVNiQTJ6d0hzWWkvbGduaWZQaFNnRFdy?=
- =?utf-8?B?RCtXMUppVm1jN3A4aW1GQzlQU1ZZOFJYcGNTaHFzVXJiMG1QQjkyU2gvdm9K?=
- =?utf-8?B?VFhaVEJTakxManluazR0ZGRVRlFSdnJ4SkxaV29Gbk9Za0h3V2F6bmEvZ0xs?=
- =?utf-8?B?aTVMVlRYTkZIK3NWK1NIUUhBV0NkZnlpejJ4VC9DVEdOSDAyYWpQVlcxQys0?=
- =?utf-8?Q?V8pP/hh1T4Oz91tml+V3EBpem?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 04e52d74-f5ea-4382-164f-08dbbde0f9eb
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5427.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Sep 2023 16:03:36.8205 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +boHGkAVNQitxdeWXd+QTaudj+gupdGuKwfI0mOST1cC6AKLxgaj5FJGDA8+SlxTasg52SXGe0gGxCTomL0mwQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB8743
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v3 6/7] drm/msm/dp: add pm_runtime_force_suspend()/resume()
+Content-Language: en-US
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>, Stephen Boyd
+ <swboyd@chromium.org>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+References: <1694813901-26952-1-git-send-email-quic_khsieh@quicinc.com>
+ <1694813901-26952-7-git-send-email-quic_khsieh@quicinc.com>
+ <CAA8EJpqPXoFX4LXyXYgfh07Vpxg-KgD8VBR6x5bXf4GOJmbOtw@mail.gmail.com>
+ <2f98d5f1-57c1-d9fe-cb1c-b975db057287@quicinc.com>
+ <CAA8EJpr2wRq6Txi7YAQpJKa_9UGqH_nmHzvVOaAPkwOrtDg4Tw@mail.gmail.com>
+ <CAE-0n53dqHONzMTd_ZC-fKWTzDVq6Wqwo4OFZMUcghZ5SD5RhA@mail.gmail.com>
+ <65566a68-3510-2e5f-7d57-e4dba08c008c@quicinc.com>
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+In-Reply-To: <65566a68-3510-2e5f-7d57-e4dba08c008c@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: Wij6QzDqF0P95Gh71wzbih36j-IAi5RL
+X-Proofpoint-GUID: Wij6QzDqF0P95Gh71wzbih36j-IAi5RL
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-09-25_13,2023-09-25_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 mlxscore=0
+ adultscore=0 priorityscore=1501 impostorscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 malwarescore=0 mlxlogscore=999 phishscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2309180000 definitions=main-2309250124
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,135 +89,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Krunoslav Kovac <krunoslav.kovac@amd.com>,
- Shashank Sharma <Shashank.Sharma@amd.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, kernel-dev@igalia.com,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>, sungjoon.kim@amd.com
+Cc: freedreno@lists.freedesktop.org, quic_sbillaka@quicinc.com,
+ linux-kernel@vger.kernel.org, andersson@kernel.org,
+ dri-devel@lists.freedesktop.org, dianders@chromium.org, vkoul@kernel.org,
+ agross@kernel.org, marijn.suijten@somainline.org, quic_jesszhan@quicinc.com,
+ sean@poorly.run, linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
+On 9/22/2023 6:35 PM, Abhinav Kumar wrote:
+> Hi Stephen
+>
+> On 9/22/2023 2:54 PM, Stephen Boyd wrote:
+>> Quoting Dmitry Baryshkov (2023-09-19 02:50:12)
+>>> On Mon, 18 Sept 2023 at 20:48, Kuogee Hsieh 
+>>> <quic_khsieh@quicinc.com> wrote:
+>>>>
+>>>>
+>>>> On 9/15/2023 6:21 PM, Dmitry Baryshkov wrote:
+>>>>> On Sat, 16 Sept 2023 at 00:38, Kuogee Hsieh 
+>>>>> <quic_khsieh@quicinc.com> wrote:
+>>>>>> Add pm_runtime_force_suspend()/resume() to complete incorporating pm
+>>>>>> runtime framework into DP driver. Both dp_pm_prepare() and 
+>>>>>> dp_pm_complete()
+>>>>>> are added to set hpd_state to correct state. After resume, DP 
+>>>>>> driver will
+>>>>>> re training its main link after .hpd_enable() callback enabled HPD
+>>>>>> interrupts and bring up display accordingly.
+>>>>> How will it re-train the main link? What is the code path for that?
+>>>>
+>>>> 1) for edp, dp_bridge_atomic_enable(), called from framework, to start
+>>>> link training and bring up display.
+>>>
+>>> And this path doesn't use .hpd_enable() which you have mentioned in
+>>> the commit message. Please don't try to shorten the commit message.
+>>> You see, I have had questions to several of them, which means that
+>>> they were not verbose enough.
+>>>
+>>>>
+>>>> 2) for external DP, HPD_PLUG_INT will be generated to start link
+>>>> training and bring up display.
+>>>
+>>> This should be hpd_notify, who starts link training, not some event.
+>>
+>> I think this driver should train the link during atomic_enable(), not
+>> hpd_notify() (or directly from the irq handler). The drm_bridge_funcs
+>> talk a bit about when the clocks and timing signals are supposed to be
+>> enabled. For example, struct drm_bridge_funcs::atomic_pre_enable() says
+>> the "display pipe (i.e.  clocks and timing signals) feeding this bridge
+>> will not yet be running when this callback is called". And struct
+>> drm_bridge_funcs::atomic_enable() says "this callback must enable the
+>> display link feeding the next bridge in the chain if there is one."
+>>
+>> That looks to me like link training, i.e. the display link, should
+>> happen in the enable path and not hpd_notify. It looks like link
+>> training could fail, but when that happens I believe the driver should
+>> call drm_connector_set_link_status_property() with
+>> DRM_MODE_LINK_STATUS_BAD. The two callers of that which exist in the
+>> tree also call drm_kms_helper_hotplug_event() or
+>> drm_kms_helper_connector_hotplug_event() after updating the link so that
+>> userspace knows to try again.
+>>
+>> It would be nice if there was some drm_bridge_set_link_status_bad() API
+>> that bridge drivers could use to signal that the link status is bad and
+>> call the hotplug helper. Maybe it could also record some diagnostics
+>> about which bridge failed to setup the link and stop the atomic_enable()
+>> chain for that connector.
+>
+> Doing link training when we get hpd instead of atomic_enable() is a 
+> design choice we have been following for a while because for the case 
+> when link training fails in atomic_enable() and setting the link 
+> status property as you mentioned, the compositor needs to be able to 
+> handle that and also needs to try with a different resolution or take 
+> some other corrective action. We have seen many compositors not able 
+> to handle this complexity. So the design sends the hotplug to usermode 
+> only after link training succeeds.
+>
+> I do not think we should change this design unless prototyped with an 
+> existing compositor such as chrome or android at this point.
+>
+> Thanks
+>
+> Abhinav
 
-On 2023-09-13 12:43, Melissa Wen wrote:
-> Hi,
-> 
-> This is an update of previous RFC [0] improving the data collection of
-> Gamma Correction and Blend Gamma color blocks.
-> 
-> As I mentioned in the last version, I'm updating the color state part of
-> DTN log to match DCN3.0 HW better. Currently, the DTN log considers the
-> DCN10 color pipeline, which is useless for DCN3.0 because of all the
-> differences in color caps between DCN versions. In addition to new color
-> blocks and caps, some semantic differences made the DCN10 output not fit
-> DCN30.
-> 
-> In this RFC, the first patch adds new color state elements to DPP and
-> implements the reading of registers according to HW blocks. Similarly to
-> MPC, the second patch also creates a DCN3-specific function to read the
-> MPC state and add the MPC color state logging to it. With DPP and MPC
-> color-register reading, I detach DCN10 color state logging from the HW
-> log and create a `.log_color_state` hook for logging color state
-> according to HW color blocks with DCN30 as the first use case. Finally,
-> the last patch adds DPP and MPC color caps output to facilitate
-> understanding of the color state log.
-> 
-> This version works well with the driver-specific color properties[1] and
-> steamdeck/gamescope[2] together, where we can see color state changing
-> from default values.
-> 
-> Here is a before vs. after example:
-> 
-> Without this series:
-> ===================
-> DPP:    IGAM format  IGAM mode    DGAM mode    RGAM mode  GAMUT mode  C11 C12   C13 C14   C21 C22   C23 C24   C31 C32   C33 C34
-> [ 0]:            0h  BypassFixed  Bypass       Bypass            0    00000000h 00000000h 00000000h 00000000h 00000000h 00000000h
-> [ 3]:            0h  BypassFixed  Bypass       Bypass            0    00000000h 00000000h 00000000h 00000000h 00000000h 00000000h
-> 
-> MPCC:  OPP  DPP  MPCCBOT  MODE  ALPHA_MODE  PREMULT  OVERLAP_ONLY  IDLE
-> [ 0]:   0h   0h       3h     3           2        0             0     0
-> [ 3]:   0h   3h       fh     2           2        0             0     0
-> 
-> With this series (Steamdeck/Gamescope):
-> ======================================
-> 
-> DPP:  DGAM ROM  DGAM ROM type  DGAM LUT  SHAPER mode  3DLUT mode  3DLUT bit depth  3DLUT size  RGAM mode  GAMUT mode  C11 C12   C13 C14   C21 C22   C23 C24   C31 C32   C33 C34
-> [ 0]:        1           sRGB    Bypass        RAM A       RAM B           12-bit    17x17x17      RAM A           0  00000000h 00000000h 00000000h 00000000h 00000000h 00000000h
-> [ 1]:        1           sRGB    Bypass        RAM B       RAM A           12-bit    17x17x17      RAM A           0  00000000h 00000000h 00000000h 00000000h 00000000h 00000000h
-> [ 2]:        1           sRGB    Bypass        RAM B       RAM A           12-bit    17x17x17      RAM A           0  00000000h 00000000h 00000000h 00000000h 00000000h 00000000h
-> [ 3]:        1           sRGB    Bypass        RAM A       RAM B           12-bit    17x17x17      RAM A           0  00000000h 00000000h 00000000h 00000000h 00000000h 00000000h
-> 
-> DPP Color Caps: input_lut_shared:0  icsc:1  dgam_ram:0  dgam_rom: srgb:1,bt2020:1,gamma2_2:1,pq:1,hlg:1  post_csc:1  gamcor:1  dgam_rom_for_yuv:0  3d_lut:1  blnd_lut:1  oscs:0
-> 
-> MPCC:  OPP  DPP  MPCCBOT  MODE  ALPHA_MODE  PREMULT  OVERLAP_ONLY  IDLE  SHAPER mode  3DLUT_mode  3DLUT bit-depth  3DLUT size  OGAM mode  OGAM LUT  GAMUT mode  C11 C12   C33 C34
-> [ 0]:   0h   0h       2h     3           0        1             0     0       Bypass      Bypass           12-bit    17x17x17        RAM         A           0 00000000h 00000000h
-> [ 1]:   0h   1h       fh     2           2        0             0     0       Bypass      Bypass           12-bit    17x17x17     Bypass         A           0 00000000h 00000000h
-> [ 2]:   0h   2h       3h     3           0        1             0     0       Bypass      Bypass           12-bit    17x17x17     Bypass         A           0 00000000h 00000000h
-> [ 3]:   0h   3h       1h     3           2        0             0     0       Bypass      Bypass           12-bit    17x17x17     Bypass         A           0 00000000h 00000000h
-> 
-> MPC Color Caps: gamut_remap:1, 3dlut:2, ogam_ram:1, ocsc:1
-> 
-> With this series (Steamdeck/KDE):
-> ================================
-> 
-> DPP:  DGAM ROM  DGAM ROM type  DGAM LUT  SHAPER mode  3DLUT mode  3DLUT bit depth  3DLUT size  RGAM mode  GAMUT mode  C11 C12   C13 C14   C21 C22   C23 C24   C31 C32   C33 C34
-> [ 0]:        0           sRGB    Bypass       Bypass      Bypass           12-bit       9x9x9     Bypass           0  00000000h 00000000h 00000000h 00000000h 00000000h 00000000h
-> [ 3]:        0           sRGB    Bypass       Bypass      Bypass           12-bit       9x9x9     Bypass           0  00000000h 00000000h 00000000h 00000000h 00000000h 00000000h
-> 
-> DPP Color Caps: input_lut_shared:0  icsc:1  dgam_ram:0  dgam_rom: srgb:1,bt2020:1,gamma2_2:1,pq:1,hlg:1  post_csc:1  gamcor:1  dgam_rom_for_yuv:0  3d_lut:1  blnd_lut:1  oscs:0
-> 
-> MPCC:  OPP  DPP  MPCCBOT  MODE  ALPHA_MODE  PREMULT  OVERLAP_ONLY  IDLE  SHAPER mode  3DLUT_mode  3DLUT bit-depth  3DLUT size  OGAM mode  OGAM LUT  GAMUT mode  C11 C12   C33 C34
-> [ 0]:   0h   0h       3h     3           2        0             0     0       Bypass      Bypass           12-bit    17x17x17        RAM         A           1 00002000h 00002000h
-> [ 3]:   0h   3h       fh     2           2        0             0     0       Bypass      Bypass           12-bit    17x17x17     Bypass         A           0 00000000h 00000000h
-> 
-> MPC Color Caps: gamut_remap:1, 3dlut:2, ogam_ram:1, ocsc:1
-> 
-> Before extending it to other DCN families, I have some doubts.
-> - Does this approach of the `.log_color_state` hook make sense for you?
 
-Yes
+We did perform link training at atomic_enable() at eDP case since we can 
+assume link training will always success without link rate or link lane 
+being reduced.
 
-> - Is there any conflict between logging color state by HW version and
->   DTN log usage?
-> - Is there a template/style for DTN log output that I should follow or
->   information that I should include?
-> 
+However for external DP case, link training can not be guarantee always 
+success without link rate or lane being reduced as Abhinav mentioned.
 
-At this point it looks like we only use the DTN log for debug purposes,
-so no conflict and no need to follow a specific format, as long as the
-output is human-parseable (which yours is).
+In addition,  CTS (compliance test) it required to complete link 
+training within 10ms after hpd asserted.
 
-At one point in the past these were used by automated tests on other
-platforms but that's no longer the case.
+I am not sure do link training at atomic_enable() can meet this timing 
+requirement.
 
-Harry
 
-> Let me know your thoughts.
-> 
-> Thanks,
-> 
-> Melissa
-> 
-> [0] https://lore.kernel.org/amd-gfx/20230905142545.451153-1-mwen@igalia.com/
-> [1] https://lore.kernel.org/amd-gfx/20230810160314.48225-1-mwen@igalia.com/
-> [2] https://github.com/ValveSoftware/gamescope
-> 
-> Melissa Wen (5):
->   drm/amd/display: detach color state from hw state logging
->   drm/amd/display: fill up DCN3 DPP color state
->   drm/amd/display: create DCN3-specific log for MPC state
->   drm/amd/display: hook DCN30 color state logging to DTN log
->   drm/amd/display: add DPP and MPC color caps to DTN log
-> 
->  .../amd/display/dc/dcn10/dcn10_hw_sequencer.c |  53 +++++++--
->  .../gpu/drm/amd/display/dc/dcn30/dcn30_dpp.c  |  45 ++++++-
->  .../drm/amd/display/dc/dcn30/dcn30_hwseq.c    | 111 ++++++++++++++++++
->  .../drm/amd/display/dc/dcn30/dcn30_hwseq.h    |   3 +
->  .../gpu/drm/amd/display/dc/dcn30/dcn30_init.c |   1 +
->  .../gpu/drm/amd/display/dc/dcn30/dcn30_mpc.c  |  55 ++++++++-
->  .../drm/amd/display/dc/dcn301/dcn301_init.c   |   1 +
->  drivers/gpu/drm/amd/display/dc/inc/hw/dpp.h   |   8 ++
->  drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h   |  13 ++
->  .../gpu/drm/amd/display/dc/inc/hw_sequencer.h |   2 +
->  10 files changed, 280 insertions(+), 12 deletions(-)
-> 
 
