@@ -2,45 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABBA27ADFD0
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Sep 2023 21:49:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92B597ADFCE
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Sep 2023 21:49:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 110B410E2D7;
-	Mon, 25 Sep 2023 19:49:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D99410E2D5;
+	Mon, 25 Sep 2023 19:49:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6EF5910E2D7;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5CB6910E2D5;
  Mon, 25 Sep 2023 19:49:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
- h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:
- Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
+ Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=RJM4rj3n58BT8xeDaQpf6JR9+X09MLaXC8SSvjcE8Yg=; b=SpRazkXSG4ilEVAn+ZtZguh0/K
- 61EBBqd0xbP5jd8up11xrI4uJ4org99G1g/7CFfff2+pA+aEd7zyqHFSLs0H+0csMkAY4y2/N3L/e
- z6kbBhq6OetER72PhFsSYJ75KlgR9nf5kWvctHbCsuLAvHtgaS1iynLnmP9hD4iCyAJp7ef1KlEr8
- mq6xv24ZLT0G+lTfEpkSA3mOPeV/eKVXSVZtdVU3jLEU9Cr2TBJi0iFxi+nNlCkG3caJ74LB+rV8g
- fb6JoNmrO9oo0hBvHj+MgZKlm0x453P204lvQEvBJnCE3a1LCas9+zFwqqoILxDDo2Fmeq7bgWkTE
- zY0sV93A==;
+ bh=rfx4tvW7R2KBhwKSd3k5sJd6oheAeA5m3drlsyYWwvQ=; b=FYhrJsWPL87mFEueD5W+j7CKyB
+ gnn8XCWG/TS2HQwTgyZMQDy4XAztZmiT/AZmPuWZCuT2Pk8s4iEnz7oiUWk4axcZ73shBRg5n1yo8
+ 3TuX9sYWBhH2COiep+ZNv4LQxUp+sxXdSEWBZnKrDSK42oSSw4DaQyaVydIFivAlB9wS57fihOxGR
+ HLHDvJ9B1f1AW9EM22/t6mV78cjQfrUBMVX71u/JiC1siqp4bn+q+5Hzj7Yfuw/qFKFTzDne1Vqoj
+ BmlfuimeKjenQXGfqdDMuQnYjjbxWPjPP4GrUnNIaM2YZgMn4/9mkdxPesCmSLn4nkcs8N4GVfgSK
+ VRuEE1Kw==;
 Received: from [102.213.205.115] (helo=killbill.home)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1qkraJ-008GsG-UJ; Mon, 25 Sep 2023 21:49:36 +0200
+ id 1qkraM-008GsG-7R; Mon, 25 Sep 2023 21:49:38 +0200
 From: Melissa Wen <mwen@igalia.com>
 To: amd-gfx@lists.freedesktop.org, Harry Wentland <harry.wentland@amd.com>,
  Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, sunpeng.li@amd.com,
  Alex Deucher <alexander.deucher@amd.com>, dri-devel@lists.freedesktop.org,
- airlied@gmail.com, brian.starkey@arm.com, christian.koenig@amd.com,
- daniel@ffwll.ch, liviu.dudau@arm.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, Xinhui.Pan@amd.com
-Subject: [PATCH v3 00/32] drm/amd/display: add AMD driver-specific properties
- for color mgmt
-Date: Mon, 25 Sep 2023 18:49:00 -0100
-Message-Id: <20230925194932.1329483-1-mwen@igalia.com>
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, daniel@ffwll.ch
+Subject: [PATCH v3 01/32] drm/drm_mode_object: increase max objects to
+ accommodate new color props
+Date: Mon, 25 Sep 2023 18:49:01 -0100
+Message-Id: <20230925194932.1329483-2-mwen@igalia.com>
 X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20230925194932.1329483-1-mwen@igalia.com>
+References: <20230925194932.1329483-1-mwen@igalia.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -64,196 +65,40 @@ Cc: Sebastian Wick <sebastian.wick@redhat.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+DRM_OBJECT_MAX_PROPERTY limits the number of properties to be attached
+and we are increasing that value all time we add a new property (generic
+or driver-specific).
 
-This series extends the current KMS color management API with AMD
-driver-specific properties to enhance the color management support on
-AMD Steam Deck. The key additions to the color pipeline include:
+In this series, we are adding 13 new KMS driver-specific properties for
+AMD color manage:
+- CRTC Gamma enumerated Transfer Function
+- Plane: Degamma LUT+size+TF, HDR multiplier, shaper LUT+size+TF, 3D
+  LUT+size, blend LUT+size+TF (12)
 
-- plane degamma LUT and pre-defined TF;
-- plane HDR multiplier;
-- plane CTM 3x4;
-- plane shaper LUT and pre-defined TF;
-- plane 3D LUT;
-- plane blend LUT and pre-defined TF;
-- CRTC gamma pre-defined TF;
+Therefore, just increase DRM_OBJECT_MAX_PROPERTY to a number (64) that
+accomodates these new properties and gives some room for others,
+avoiding change this number everytime we add a new KMS property.
 
-You can find the AMD HW color capabilities documented here:
-https://dri.freedesktop.org/docs/drm/gpu/amdgpu/display/display-manager.html#color-management-properties
+Reviewed-by: Harry Wentland <harry.wentland@amd.com>
+Reviewed-by: Simon Ser <contact@emersion.fr>
+Signed-off-by: Melissa Wen <mwen@igalia.com>
+---
+ include/drm/drm_mode_object.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-The userspace case is Gamescope[1], the compositor for SteamOS.
-Gamescope has already adopted AMD driver-specific properties to
-implement comprehensive color management support, including gamut
-mapping, HDR rendering, SDR on HDR, HDR on SDR. Using these features in
-the SteamOS 3.5[2] users can expect a significantly enhanced visual
-experience. 
-
-You can find a brief overview of the Steam Deck color pipeline here:
-https://github.com/ValveSoftware/gamescope/blob/master/src/docs/Steam%20Deck%20Display%20Pipeline.png
-
-Changes from:
-
-[RFC] https://lore.kernel.org/dri-devel/20230423141051.702990-1-mwen@igalia.com
-- Remove KConfig and guard properties with `AMD_PRIVATE_COLOR`;
-- Remove properties for post-blending/CRTC shaper TF+LUT and 3D LUT;
-- Use color caps to improve the support of pre-defined curve;
-
-[V1] https://lore.kernel.org/dri-devel/20230523221520.3115570-1-mwen@igalia.com
-- Replace DRM_ by AMDGPU_ prefix for transfer function (TF) enum; 
-- Explicitly define EOTFs and inverse EOTFs and set props accordingly;
-- Document pre-defined transfer functions;
-- Remove HLG transfer function from supported TFs;
-- Remove misleading comments;
-- Remove post-blending shaper TF+LUT and 3D LUT support;
-- Move driver-specific property operations from amdgpu_display.c to
-  amdgpu_dm_color.c;
-- Reset planes if any color props change;
-- Add plane CTM 3x4 support;
-- Removed two DC fixes already applied upstream;
-
-[V2] https://lore.kernel.org/dri-devel/20230810160314.48225-1-mwen@igalia.com
-- Many documentation fixes: BT.709 OETF, description of sRGB and pure
-  power functions, TF+1D LUT behavior;
-- Rename CTM2 to CTM 3x4 and fix misleading comment about DC gamut remap;
-- Squash `Linear` and `Unity` TF in `Identity`;
-- Remove the `MPC gamut remap` patch already applied upstream[3];
-- Remove outdated delta segmentation fix;
-- Nits/small fixes;
-
-It's worth noting that driver-specific properties are guarded by
-`AMD_PRIVATE_COLOR`. So, finally, this is the color management API when
-driver-specific properties are enabled:
-
-+----------------------+
-|   PLANE              |
-|                      |
-|  +----------------+  |
-|  | AMD Degamma    |  |
-|  |                |  |
-|  | EOTF | 1D LUT  |  |
-|  +--------+-------+  |
-|           |          |
-|  +--------v-------+  |
-|  |    AMD HDR     |  |
-|  |    Multiply    |  |
-|  +--------+-------+  |
-|           |          |
-|  +--------v-------+  |
-|  |  AMD CTM (3x4) |  |
-|  +--------+-------+  |
-|           |          |
-|  +--------v-------+  |
-|  | AMD Shaper     |  |
-|  |                |  |
-|  | inv_EOTF |     |  |
-|  | Custom 1D LUT  |  |
-|  +--------+-------+  |
-|           |          |
-|  +--------v-------+  |
-|  |   AMD 3D LUT   |  |
-|  |   17^3/12-bit  |  |
-|  +--------+-------+  |
-|           |          |
-|  +--------v-------+  |
-|  | AMD Blend      |  |
-|  |                |  |
-|  | EOTF | 1D LUT  |  |
-|  +--------+-------+  |
-|           |          |
-++----------v---------++
-||      Blending      ||
-++----------+---------++
-|    CRTC   |          |
-|           |          |
-|   +-------v-------+  |
-|   | DRM Degamma   |  |
-|   |               |  |
-|   | Custom 1D LUT |  |
-|   +-------+-------+  |
-|           |          |
-|   +-------v-------+  |
-|   | DRM CTM (3x3) |  |
-|   +-------+-------+  |
-|           |          |
-|   +-------v-------+  |
-|   | DRM Gamma     |  |
-|   |               |  |
-|   | Custom 1D LUT |  |
-|   +---------------+  |
-|   | *AMD Gamma    |  |
-|   |   inv_EOTF    |  |
-|   +---------------+  |
-|                      |
-+----------------------+
-
-Please, let us know your thoughts.
-
-Best Regards,
-
-Melissa Wen
-
-[1] https://github.com/ValveSoftware/gamescope
-[2] https://store.steampowered.com/news/app/1675200/view/3686804163591367815
-[3] https://lore.kernel.org/dri-devel/20230721132431.692158-1-mwen@igalia.com
-
-
-Joshua Ashton (14):
-  drm/amd/display: add plane degamma TF driver-specific property
-  drm/amd/display: add plane HDR multiplier driver-specific property
-  drm/amd/display: add plane blend LUT and TF driver-specific properties
-  drm/amd/display: add CRTC gamma TF support
-  drm/amd/display: set sdr_ref_white_level to 80 for out_transfer_func
-  drm/amd/display: mark plane as needing reset if color props change
-  drm/amd/display: add plane degamma TF and LUT support
-  drm/amd/display: add dc_fixpt_from_s3132 helper
-  drm/amd/display: add HDR multiplier support
-  drm/amd/display: handle empty LUTs in __set_input_tf
-  drm/amd/display: add plane blend LUT and TF support
-  drm/amd/display: allow newer DC hardware to use degamma ROM for PQ/HLG
-  drm/amd/display: copy 3D LUT settings from crtc state to stream_update
-  drm/amd/display: Add 3x4 CTM support for plane CTM
-
-Melissa Wen (18):
-  drm/drm_mode_object: increase max objects to accommodate new color
-    props
-  drm/drm_property: make replace_property_blob_from_id a DRM helper
-  drm/drm_plane: track color mgmt changes per plane
-  drm/amd/display: add driver-specific property for plane degamma LUT
-  drm/amd/display: explicitly define EOTF and inverse EOTF
-  drm/amd/display: document AMDGPU pre-defined transfer functions
-  drm/amd/display: add plane 3D LUT driver-specific properties
-  drm/amd/display: add plane shaper LUT and TF driver-specific
-    properties
-  drm/amd/display: add CRTC gamma TF driver-specific property
-  drm/amd/display: add comments to describe DM crtc color mgmt behavior
-  drm/amd/display: encapsulate atomic regamma operation
-  drm/amd/display: decouple steps for mapping CRTC degamma to DC plane
-  drm/amd/display: reject atomic commit if setting both plane and CRTC
-    degamma
-  drm/amd/display: add plane shaper LUT support
-  drm/amd/display: add plane shaper TF support
-  drm/amd/display: add plane 3D LUT support
-  drm/amd/display: add plane CTM driver-specific property
-  drm/amd/display: add plane CTM support
-
- drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h      |  89 ++
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  34 +-
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h | 105 +++
- .../amd/display/amdgpu_dm/amdgpu_dm_color.c   | 795 ++++++++++++++++--
- .../amd/display/amdgpu_dm/amdgpu_dm_crtc.c    |  72 ++
- .../amd/display/amdgpu_dm/amdgpu_dm_plane.c   | 224 ++++-
- .../gpu/drm/amd/display/include/fixed31_32.h  |  12 +
- drivers/gpu/drm/arm/malidp_crtc.c             |   2 +-
- drivers/gpu/drm/drm_atomic.c                  |   1 +
- drivers/gpu/drm/drm_atomic_state_helper.c     |   1 +
- drivers/gpu/drm/drm_atomic_uapi.c             |  43 +-
- drivers/gpu/drm/drm_property.c                |  49 ++
- include/drm/drm_mode_object.h                 |   2 +-
- include/drm/drm_plane.h                       |   7 +
- include/drm/drm_property.h                    |   6 +
- include/uapi/drm/drm_mode.h                   |   8 +
- 16 files changed, 1342 insertions(+), 108 deletions(-)
-
+diff --git a/include/drm/drm_mode_object.h b/include/drm/drm_mode_object.h
+index 912f1e415685..08d7a7f0188f 100644
+--- a/include/drm/drm_mode_object.h
++++ b/include/drm/drm_mode_object.h
+@@ -60,7 +60,7 @@ struct drm_mode_object {
+ 	void (*free_cb)(struct kref *kref);
+ };
+ 
+-#define DRM_OBJECT_MAX_PROPERTY 24
++#define DRM_OBJECT_MAX_PROPERTY 64
+ /**
+  * struct drm_object_properties - property tracking for &drm_mode_object
+  */
 -- 
 2.40.1
 
