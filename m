@@ -2,43 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0D0E7AD278
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Sep 2023 09:57:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C5C67AD294
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Sep 2023 10:00:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1297310E162;
-	Mon, 25 Sep 2023 07:57:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7E2010E218;
+	Mon, 25 Sep 2023 08:00:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2CE9710E162
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Sep 2023 07:57:26 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 6EA8A60F30;
- Mon, 25 Sep 2023 07:57:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C156DC433C8;
- Mon, 25 Sep 2023 07:57:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1695628645;
- bh=HkPITqCUb1Czlevgk15gK4oCE9WQFlhAe65KZC8dU7o=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=fh2cBKHBZyorPsXFi8kRXGRJZsZO8Nf52Wm5fGOcXU8NiiUugNaw9IAW6VQZKm5Ne
- //OK/F80mvk8J+1ymR0nR7Wa0EJNTHEnwoHk573bekl2ChFAX4O/4J+kZooybPtZNL
- ZTiBvESRWQD8YPF2UhHOy7Xx4OlSt1JiyUfJUynMV5hl1KZ81ROCjF+G6CizUqBOBo
- kP5TT6jsf8YFiKWWfZRQMQ8t4qVEFh3DtcPrhHztpTIpWGM5DZD1zmCh68JHGCyPMf
- uxFRXskcLCDawcki9Ii3cdlIyVtj+5lx+xY2tgmsOcWnwqW2Oa1aCN0nksN9gTJ6f3
- 026uw4aA2EXTA==
-Date: Mon, 25 Sep 2023 09:57:22 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: Re: [PATCH 3/7] drm/sun4i: dw-hdmi: Switch to bridge functions
-Message-ID: <vdwkqq3jovlgr6xrprq4mpqv6ldkcklf2v5ffbcetgifwrnatu@4jfjk3f5qbnu>
-References: <20230924192604.3262187-1-jernej.skrabec@gmail.com>
- <20230924192604.3262187-4-jernej.skrabec@gmail.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 25D0E10E216
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Sep 2023 08:00:22 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id CA1DF21865;
+ Mon, 25 Sep 2023 08:00:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1695628820; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=qTH8gZm0MyF+kzuhQ5/fA+S+2mk5RISCXxaHsfjda/c=;
+ b=uSF52ccaQX/M9MRz8Hsrj0NZSIQpyfqQD1exCWDsoYbHctNstAL8nRIP0CmCSOTeJjFx36
+ yTva2QsV+dUpycPkUAR7RImWLXUG2V5eBVjw3xMbDJ9opazWxUhKEFoNKgxmyuHM2eoOCL
+ fGVT86Gd8gSNmw8QDfnWr1DoRSK69JQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1695628820;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=qTH8gZm0MyF+kzuhQ5/fA+S+2mk5RISCXxaHsfjda/c=;
+ b=bmW6Dv6g5QP+NBQR3cSOYgwlpg/hB+arCL+klhUqA8AY/sv1UrxP6su7CWAWElsDAfBphA
+ AtGzxu4d4HXC7IAA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 84CC013A67;
+ Mon, 25 Sep 2023 08:00:20 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id 3ABMHxQ+EWX5TQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 25 Sep 2023 08:00:20 +0000
+Message-ID: <de09143e-ab7f-4ccc-8a5a-50e0f48c1b40@suse.de>
+Date: Mon, 25 Sep 2023 10:00:19 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="y3n3vwdwwkbm5yhj"
-Content-Disposition: inline
-In-Reply-To: <20230924192604.3262187-4-jernej.skrabec@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 0/5] ppc, fbdev: Clean up fbdev mmap helper
+Content-Language: en-US
+To: mpe@ellerman.id.au, npiggin@gmail.com, christophe.leroy@csgroup.eu,
+ arnd@arndb.de, deller@gmx.de, javierm@redhat.com
+References: <20230922080636.26762-1-tzimmermann@suse.de>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20230922080636.26762-1-tzimmermann@suse.de>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------q82hWMO8aTWh56X0j3GgJefx"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,216 +93,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: samuel@sholland.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, wens@csie.org, linux-sunxi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org
+Cc: linux-arch@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ linux-ia64@vger.kernel.org, linux-mips@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-m68k@lists.linux-m68k.org,
+ sparclinux@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------q82hWMO8aTWh56X0j3GgJefx
+Content-Type: multipart/mixed; boundary="------------Fluze0fCGK5ao12VH4rOtnGR";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: mpe@ellerman.id.au, npiggin@gmail.com, christophe.leroy@csgroup.eu,
+ arnd@arndb.de, deller@gmx.de, javierm@redhat.com
+Cc: linuxppc-dev@lists.ozlabs.org, linux-fbdev@vger.kernel.org,
+ linux-ia64@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+ linux-mips@vger.kernel.org, sparclinux@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-arch@vger.kernel.org
+Message-ID: <de09143e-ab7f-4ccc-8a5a-50e0f48c1b40@suse.de>
+Subject: Re: [PATCH v5 0/5] ppc, fbdev: Clean up fbdev mmap helper
+References: <20230922080636.26762-1-tzimmermann@suse.de>
+In-Reply-To: <20230922080636.26762-1-tzimmermann@suse.de>
 
---y3n3vwdwwkbm5yhj
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+--------------Fluze0fCGK5ao12VH4rOtnGR
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Hi,
+RllJLCBJIGludGVudCB0byBtZXJnZSBwYXRjaGVzIDEgYW5kIDIgb2YgdGhpcyBwYXRjaHNl
+dCBpbnRvIA0KZHJtLW1pc2MtbmV4dC4gVGhlIHVwZGF0ZXMgZm9yIFBvd2VyUEMgY2FuIGJl
+IG1lcmdlZCB0aHJvdWdoIFBQQyB0cmVlcyANCmxhdGVyLiBMZXQgbWUga25vdyBpZiB0aGlz
+IGRvZXMgbm90IHdvcmsgZm9yIHlvdS4NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KQW0g
+MjIuMDkuMjMgdW0gMTA6MDQgc2NocmllYiBUaG9tYXMgWmltbWVybWFubjoNCj4gQ2xlYW4g
+dXAgYW5kIHJlbmFtZSBmYl9wZ3Byb3RlY3QoKSB0byB3b3JrIHdpdGhvdXQgc3RydWN0IGZp
+bGUuIFRoZW4NCj4gcmVmYWN0b3IgdGhlIGltcGxlbWVudGF0aW9uIGZvciBQb3dlclBDLiBU
+aGlzIGNoYW5nZSBoYXMgYmVlbiBkaXNjdXNzZWQNCj4gYXQgWzFdIGluIHRoZSBjb250ZXh0
+IG9mIHJlZmFjdG9yaW5nIGZiZGV2J3MgbW1hcCBjb2RlLg0KPiANCj4gVGhlIGZpcnN0IHR3
+byBwYXRjaGVzIHVwZGF0ZSBmYmRldiBhbmQgcmVwbGFjZSBmYmRldidzIGZiX3BncHJvdGVj
+dCgpDQo+IHdpdGggcGdwcm90X2ZyYW1lYnVmZmVyKCkgb24gYWxsIGFyY2hpdGVjdHVyZXMu
+IFRoZSBuZXcgaGVscGVyJ3Mgc3RyZWFtLQ0KPiBsaW5lZCBpbnRlcmZhY2UgZW5hYmxlcyBt
+b3JlIHJlZmFjdG9yaW5nIHdpdGhpbiBmYmRldidzIG1tYXANCj4gaW1wbGVtZW50YXRpb24u
+DQo+IA0KPiBQYXRjaGVzIDMgdG8gNSBhZGFwdCBQb3dlclBDJ3MgaW50ZXJuYWwgaW50ZXJm
+YWNlcyB0byBwcm92aWRlDQo+IHBoeXNfbWVtX2FjY2Vzc19wcm90KCkgdGhhdCB3b3JrcyB3
+aXRob3V0IHN0cnVjdCBmaWxlLiBOZWl0aGVyIHRoZQ0KPiBhcmNoaXRlY3R1cmUgY29kZSBv
+ciBmYmRldiBoZWxwZXJzIG5lZWQgdGhlIHBhcmFtZXRlci4NCj4gDQo+IHY1Og0KPiAJKiBp
+bXByb3ZlIGNvbW1pdCBkZXNjcmlwdGlvbnMgKEphdmllcikNCj4gCSogYWRkIG1pc3Npbmcg
+dGFncyAoR2VlcnQpDQo+IHY0Og0KPiAJKiBmaXggY29tbWl0IG1lc3NhZ2UgKENocmlzdG9w
+aGUpDQo+IHYzOg0KPiAJKiByZW5hbWUgZmJfcGdyb3RlY3QoKSB0byBwZ3Byb3RfZnJhbWVi
+dWZmZXIoKSAoQXJuZCkNCj4gdjI6DQo+IAkqIHJlb3JkZXIgcGF0Y2hlcyB0byBzaW1wbGlm
+eSBtZXJnaW5nIChNaWNoYWVsKQ0KPiANCj4gWzFdIGh0dHBzOi8vbG9yZS5rZXJuZWwub3Jn
+L2xpbnV4cHBjLWRldi81NTAxYmE4MC1iZGIwLTYzNDQtMTZiMC0wNDY2YTk1MGY4MmNAc3Vz
+ZS5jb20vDQo+IA0KPiBUaG9tYXMgWmltbWVybWFubiAoNSk6DQo+ICAgIGZiZGV2OiBBdm9p
+ZCBmaWxlIGFyZ3VtZW50IGluIGZiX3BncHJvdGVjdCgpDQo+ICAgIGZiZGV2OiBSZXBsYWNl
+IGZiX3BncHJvdGVjdCgpIHdpdGggcGdwcm90X2ZyYW1lYnVmZmVyKCkNCj4gICAgYXJjaC9w
+b3dlcnBjOiBSZW1vdmUgdHJhaWxpbmcgd2hpdGVzcGFjZXMNCj4gICAgYXJjaC9wb3dlcnBj
+OiBSZW1vdmUgZmlsZSBwYXJhbWV0ZXIgZnJvbSBwaHlzX21lbV9hY2Nlc3NfcHJvdCBjb2Rl
+DQo+ICAgIGFyY2gvcG93ZXJwYzogQ2FsbCBpbnRlcm5hbCBfX3BoeXNfbWVtX2FjY2Vzc19w
+cm90KCkgaW4gZmJkZXYgY29kZQ0KPiANCj4gICBhcmNoL2lhNjQvaW5jbHVkZS9hc20vZmIu
+aCAgICAgICAgICAgICAgICB8IDE1ICsrKysrKystLS0tLS0tLQ0KPiAgIGFyY2gvbTY4ay9p
+bmNsdWRlL2FzbS9mYi5oICAgICAgICAgICAgICAgIHwgMTkgKysrKysrKysrKy0tLS0tLS0t
+LQ0KPiAgIGFyY2gvbWlwcy9pbmNsdWRlL2FzbS9mYi5oICAgICAgICAgICAgICAgIHwgMTEg
+KysrKystLS0tLS0NCj4gICBhcmNoL3Bvd2VycGMvaW5jbHVkZS9hc20vYm9vazNzL3BndGFi
+bGUuaCB8IDEwICsrKysrKysrLS0NCj4gICBhcmNoL3Bvd2VycGMvaW5jbHVkZS9hc20vZmIu
+aCAgICAgICAgICAgICB8IDEzICsrKysrLS0tLS0tLS0NCj4gICBhcmNoL3Bvd2VycGMvaW5j
+bHVkZS9hc20vbWFjaGRlcC5oICAgICAgICB8IDEzICsrKysrKy0tLS0tLS0NCj4gICBhcmNo
+L3Bvd2VycGMvaW5jbHVkZS9hc20vbm9oYXNoL3BndGFibGUuaCB8IDEwICsrKysrKysrLS0N
+Cj4gICBhcmNoL3Bvd2VycGMvaW5jbHVkZS9hc20vcGNpLmggICAgICAgICAgICB8ICA0ICst
+LS0NCj4gICBhcmNoL3Bvd2VycGMva2VybmVsL3BjaS1jb21tb24uYyAgICAgICAgICB8ICAz
+ICstLQ0KPiAgIGFyY2gvcG93ZXJwYy9tbS9tZW0uYyAgICAgICAgICAgICAgICAgICAgIHwg
+IDggKysrKy0tLS0NCj4gICBhcmNoL3NwYXJjL2luY2x1ZGUvYXNtL2ZiLmggICAgICAgICAg
+ICAgICB8IDE1ICsrKysrKysrKy0tLS0tLQ0KPiAgIGFyY2gveDg2L2luY2x1ZGUvYXNtL2Zi
+LmggICAgICAgICAgICAgICAgIHwgMTAgKysrKysrLS0tLQ0KPiAgIGFyY2gveDg2L3ZpZGVv
+L2ZiZGV2LmMgICAgICAgICAgICAgICAgICAgIHwgMTUgKysrKysrKystLS0tLS0tDQo+ICAg
+ZHJpdmVycy92aWRlby9mYmRldi9jb3JlL2ZiX2NocmRldi5jICAgICAgfCAgMyArKy0NCj4g
+ICBpbmNsdWRlL2FzbS1nZW5lcmljL2ZiLmggICAgICAgICAgICAgICAgICB8IDEyICsrKysr
+Ky0tLS0tLQ0KPiAgIDE1IGZpbGVzIGNoYW5nZWQsIDg2IGluc2VydGlvbnMoKyksIDc1IGRl
+bGV0aW9ucygtKQ0KPiANCj4gDQo+IGJhc2UtY29tbWl0OiBmOGQyMWNiMTdhOTliNzU4NjIx
+OTYwMzZiYjRiYjkzZWU5NjM3Yjc0DQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBo
+aWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkg
+R21iSA0KRnJhbmtlbnN0cmFzc2UgMTQ2LCA5MDQ2MSBOdWVybmJlcmcsIEdlcm1hbnkNCkdG
+OiBJdm8gVG90ZXYsIEFuZHJldyBNeWVycywgQW5kcmV3IE1jRG9uYWxkLCBCb3VkaWVuIE1v
+ZXJtYW4NCkhSQiAzNjgwOSAoQUcgTnVlcm5iZXJnKQ0K
 
-On Sun, Sep 24, 2023 at 09:26:00PM +0200, Jernej Skrabec wrote:
-> Since ddc-en property handling was moved from sun8i dw-hdmi driver to
-> display connector driver, probe order of drivers determines if EDID is
-> properly read at boot time or not.
->=20
-> In order to fix this, let's switch to bridge functions which allows us
-> to build proper chain and defer execution until all drivers are probed.
->=20
-> Fixes: 920169041baa ("drm/sun4i: dw-hdmi: Fix ddc-en GPIO consumer confli=
-ct")
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> ---
->  drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c | 114 +++++++++++++++++++++++++-
->  drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h |   5 ++
->  2 files changed, 117 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c b/drivers/gpu/drm/sun4=
-i/sun8i_dw_hdmi.c
-> index 8f8d3bdba5ce..93831cdf1917 100644
-> --- a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
-> +++ b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
-> @@ -8,14 +8,82 @@
->  #include <linux/of.h>
->  #include <linux/platform_device.h>
-> =20
-> +#include <drm/drm_atomic_state_helper.h>
-> +#include <drm/drm_bridge_connector.h>
->  #include <drm/drm_managed.h>
->  #include <drm/drm_modeset_helper_vtables.h>
->  #include <drm/drm_of.h>
->  #include <drm/drm_simple_kms_helper.h>
-> =20
-> +#include <media/cec-notifier.h>
-> +
->  #include "sun8i_dw_hdmi.h"
->  #include "sun8i_tcon_top.h"
-> =20
-> +#define bridge_to_sun8i_dw_hdmi(x) \
-> +	container_of(x, struct sun8i_dw_hdmi, enc_bridge)
-> +
-> +static int sun8i_hdmi_enc_attach(struct drm_bridge *bridge,
-> +				 enum drm_bridge_attach_flags flags)
-> +{
-> +	struct sun8i_dw_hdmi *hdmi =3D bridge_to_sun8i_dw_hdmi(bridge);
-> +
-> +	return drm_bridge_attach(&hdmi->encoder, hdmi->hdmi_bridge,
-> +				 &hdmi->enc_bridge, flags);
-> +}
-> +
-> +static void sun8i_hdmi_enc_detach(struct drm_bridge *bridge)
-> +{
-> +	struct sun8i_dw_hdmi *hdmi =3D bridge_to_sun8i_dw_hdmi(bridge);
-> +
-> +	cec_notifier_conn_unregister(hdmi->cec_notifier);
-> +	hdmi->cec_notifier =3D NULL;
-> +}
-> +
-> +static void sun8i_hdmi_enc_hpd_notify(struct drm_bridge *bridge,
-> +				      enum drm_connector_status status)
-> +{
-> +	struct sun8i_dw_hdmi *hdmi =3D bridge_to_sun8i_dw_hdmi(bridge);
-> +	struct edid *edid;
-> +
-> +	if (!hdmi->cec_notifier)
-> +		return;
-> +
-> +	if (status =3D=3D connector_status_connected) {
-> +		edid =3D drm_bridge_get_edid(hdmi->hdmi_bridge, hdmi->connector);
-> +		if (edid)
-> +			cec_notifier_set_phys_addr_from_edid(hdmi->cec_notifier,
-> +							     edid);
-> +	} else {
-> +		cec_notifier_phys_addr_invalidate(hdmi->cec_notifier);
-> +	}
-> +}
-> +
-> +static int sun8i_hdmi_enc_atomic_check(struct drm_bridge *bridge,
-> +				       struct drm_bridge_state *bridge_state,
-> +				       struct drm_crtc_state *crtc_state,
-> +				       struct drm_connector_state *conn_state)
-> +{
-> +	struct drm_connector_state *old_conn_state =3D
-> +		drm_atomic_get_old_connector_state(conn_state->state,
-> +						   conn_state->connector);
-> +
-> +	if (!drm_connector_atomic_hdr_metadata_equal(old_conn_state, conn_state=
-))
-> +		crtc_state->mode_changed =3D true;
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct drm_bridge_funcs sun8i_hdmi_enc_bridge_funcs =3D {
-> +	.attach =3D sun8i_hdmi_enc_attach,
-> +	.detach =3D sun8i_hdmi_enc_detach,
-> +	.hpd_notify =3D sun8i_hdmi_enc_hpd_notify,
-> +	.atomic_check =3D sun8i_hdmi_enc_atomic_check,
-> +	.atomic_duplicate_state =3D drm_atomic_helper_bridge_duplicate_state,
-> +	.atomic_destroy_state =3D drm_atomic_helper_bridge_destroy_state,
-> +	.atomic_reset =3D drm_atomic_helper_bridge_reset,
-> +};
-> +
->  static void sun8i_dw_hdmi_encoder_mode_set(struct drm_encoder *encoder,
->  					   struct drm_display_mode *mode,
->  					   struct drm_display_mode *adj_mode)
-> @@ -99,6 +167,8 @@ static int sun8i_dw_hdmi_bind(struct device *dev, stru=
-ct device *master,
->  {
->  	struct platform_device *pdev =3D to_platform_device(dev);
->  	struct dw_hdmi_plat_data *plat_data;
-> +	struct cec_connector_info conn_info;
-> +	struct drm_connector *connector;
->  	struct drm_device *drm =3D data;
->  	struct device_node *phy_node;
->  	struct drm_encoder *encoder;
-> @@ -187,18 +257,57 @@ static int sun8i_dw_hdmi_bind(struct device *dev, s=
-truct device *master,
-> =20
->  	plat_data->mode_valid =3D hdmi->quirks->mode_valid;
->  	plat_data->use_drm_infoframe =3D hdmi->quirks->use_drm_infoframe;
-> +	plat_data->output_port =3D 1;
->  	sun8i_hdmi_phy_set_ops(hdmi->phy, plat_data);
-> =20
->  	platform_set_drvdata(pdev, hdmi);
-> =20
-> -	hdmi->hdmi =3D dw_hdmi_bind(pdev, encoder, plat_data);
-> +	hdmi->hdmi =3D dw_hdmi_probe(pdev, plat_data);
->  	if (IS_ERR(hdmi->hdmi)) {
->  		ret =3D PTR_ERR(hdmi->hdmi);
->  		goto err_deinit_phy;
->  	}
-> =20
-> +	hdmi->hdmi_bridge =3D of_drm_find_bridge(dev->of_node);
+--------------Fluze0fCGK5ao12VH4rOtnGR--
 
-So you're also adding child bridge support? This should be mentioned in
-the commit log.
-
-> +	hdmi->enc_bridge.funcs =3D &sun8i_hdmi_enc_bridge_funcs;
-> +	hdmi->enc_bridge.type =3D DRM_MODE_CONNECTOR_HDMIA;
-> +	hdmi->enc_bridge.interlace_allowed =3D true;
-> +
-> +	drm_bridge_add(&hdmi->enc_bridge);
-> +
-> +	ret =3D drm_bridge_attach(encoder, &hdmi->enc_bridge, NULL,
-> +				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
-> +	if (ret)
-> +		goto err_remove_dw_hdmi;
-> +
-> +	connector =3D drm_bridge_connector_init(drm, encoder);
-> +	if (IS_ERR(connector)) {
-> +		dev_err(dev, "Unable to create HDMI bridge connector\n");
-> +		ret =3D PTR_ERR(connector);
-> +		goto err_remove_dw_hdmi;
-> +	}
-> +
-> +	hdmi->connector =3D connector;
-> +	drm_connector_attach_encoder(connector, encoder);
-> +
-> +	if (hdmi->quirks->use_drm_infoframe)
-> +		drm_connector_attach_hdr_output_metadata_property(connector);
-> +
-> +	cec_fill_conn_info_from_drm(&conn_info, connector);
-> +
-> +	hdmi->cec_notifier =3D cec_notifier_conn_register(&pdev->dev, NULL,
-> +							&conn_info);
-> +	if (!hdmi->cec_notifier) {
-> +		ret =3D -ENOMEM;
-> +		goto err_remove_dw_hdmi;
-> +	}
-> +
->  	return 0;
-
-Yeah, I'm not sure. We now have two different yet redundant set of
-operations with no clear definition wrt what belongs where. I'm really
-not impressed with the use of bridges for things that are clearly not
-bridges.
-
-The "nothing happens until all drivers are loaded" argument is also
-supposed to be covered by the component framework, so why do we even
-have to use a bridge here?
-
-You were saying that it's an issue of probe order going wrong, could you
-explain a bit more what goes wrong so we can try to figure something out
-that doesn't involve a bridge?
-
-Maxime
-
---y3n3vwdwwkbm5yhj
-Content-Type: application/pgp-signature; name="signature.asc"
+--------------q82hWMO8aTWh56X0j3GgJefx
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZRE9YgAKCRDj7w1vZxhR
-xQRbAPoCVmFYOgCWSKKM1QA1uixJ8CwC0IMEWdKHGkkEkyfoBwEAvzO4u0+pqk8B
-u9fSQ57aRZyCmgLCdKL5omUzvgY4+gk=
-=sCuA
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmURPhQFAwAAAAAACgkQlh/E3EQov+Bx
+2Q//SqO8b2GRtxEIaJ3wV0O6yIScRYeHaRTeKGsBfTNJL8MJZBQvrpqHh/k0SfZzan1OHmk+BcDl
+V4cUUn2PU5cx53XW0YAXXZWmsxGDDvgP8wnG9caJ3n2yzAAsXHU0L53/o6X9vir2jtM0mCwaSn0i
+rXX097++MnsvKGpvIA8pwzHXOYMeHFTT/65WDzdQJUlZ5Gd/dtalp4Gs0k7aNtITW/6GBkBMM3pY
+Vr3KVGIaWfsYcjtrFAApWgh3ztR10RBxCVsI0Pq5hVDIxoehv4YBHUU1VXqMa2FPXx/Ykl8xKdpb
+BEdn540KUUvgbZEGKifaSHpwOcB/KATjnPAHITXTmycF/4lXZfYfY6fSy8awBOAIin2oWvbdvKOU
+ZJpqprGwG2Iau61ukxqOtp79uEnwaHAL6E1j0XPKyLufxTlIzxPO1FwshsApmacuHU8GAfgFW6rX
+YEgwCTy3dUX78ZJLkjvGcR/Nd/S6nYNxMwyEsyXiZgJoJxtdmTaldXZ+yx6R3Ww73kLK0jHVTp1p
+bc//mLihQyzThV3APmse9d6bt4m53672cAdQFe1BPq9bjJECS256w/Z1rzAKKY/xSfzBtiCDXwuf
+ELOsnzXEAwhnw6rR6ADPWVCJgfrU76H2HiZVTAdW+Kuf3B9WbiuIIEbjhfXihe6e96s/fCPzl1/Q
+CQQ=
+=u3tQ
 -----END PGP SIGNATURE-----
 
---y3n3vwdwwkbm5yhj--
+--------------q82hWMO8aTWh56X0j3GgJefx--
