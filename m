@@ -1,43 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63BBA7ACDA3
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Sep 2023 03:41:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0818B7ACE09
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Sep 2023 04:15:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A313D10E14D;
-	Mon, 25 Sep 2023 01:41:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 67EEE10E14C;
+	Mon, 25 Sep 2023 02:15:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gandalf.ozlabs.org (mail.ozlabs.org
- [IPv6:2404:9400:2221:ea00::3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 47DEE10E14D
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Sep 2023 01:41:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1695606096;
- bh=3qefOlEg3x4dwzzWD/jkdN7oH40vPOPDnPJgAYifuiQ=;
- h=Date:From:To:Cc:Subject:From;
- b=X0l3c6dGWJPDd5HdxoQWXlpvWMdaxWBTnexLtUogMmcjGsfQ3nF8xfRByjpifZ03m
- GSA34KCAdtya2EA2QD3qk7Z+ZTz7wD0tq/k57omodgHaAaWewoe/F7O2jmu7fgh9ny
- 9QkKXZyG0nSAoSZGHi4SbtCIZTdcBu8vwkm0b7kpQJHaqfQ9O4hDg0vfFW6hAt+Sku
- 0klREyor1Wfu2Hhr+ffOuLl8r1sXdyQf7csGsECojMVc/9mSKgDOMhaYuUDB71JLN1
- xZPV8fAtWT+LkN7wnsW319xziwLFWI1nfh5blzWzGI0MrZFw0s3BxWivJptNMc9TUH
- JIsl4iztQVPEA==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4Rv5FW5G5tz4xKl;
- Mon, 25 Sep 2023 11:41:35 +1000 (AEST)
-Date: Mon, 25 Sep 2023 11:41:33 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>, Intel Graphics
- <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>
-Subject: linux-next: manual merge of the drm-misc tree with Linus' tree
-Message-ID: <20230925114133.7d891b33@canb.auug.org.au>
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F9BC88DE5;
+ Mon, 25 Sep 2023 02:15:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1695608120; x=1727144120;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=7aZdRRkcWeWfFBEMkV187rRMQuRi3J4u3B++Qpol+2Q=;
+ b=mz9Ak2JWVI+PAlNCvsAlnsSwDNhPPUsgPR0TRgqg30acTjKf8sQ+GXv+
+ T9Ib8ltTgTGkbZxMnqbiuajAyKB4C+EGObonsMRPhVo2U9Xe83Vdc+pnT
+ vO7qXulqBZZSD+DVCZo3mo8JhDvkgC+eQ6m/Jq9hFu931HZbY718c9F4A
+ YprHkrLNFWwys/9JrF39ho7f3kC/LkO2VkFXrAPE2fg/VsrnEC4/ekx60
+ NELzYiBvoedjP7DIwjfHsDZWUK1nxm+iP4pB+8W7mtSlDy5zeI/Lb/22+
+ eFRLcv/KhSIMOSnvJ5K1IPblHwye5cNgw8RTi3Ka0X7BqPqePvxPAxFIp w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="366206043"
+X-IronPort-AV: E=Sophos;i="6.03,174,1694761200"; d="scan'208";a="366206043"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Sep 2023 19:15:19 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="697828919"
+X-IronPort-AV: E=Sophos;i="6.03,174,1694761200"; d="scan'208";a="697828919"
+Received: from lkp-server02.sh.intel.com (HELO 32c80313467c) ([10.239.97.151])
+ by orsmga003.jf.intel.com with ESMTP; 24 Sep 2023 19:15:15 -0700
+Received: from kbuild by 32c80313467c with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1qkb7w-0000m1-2c;
+ Mon, 25 Sep 2023 02:15:12 +0000
+Date: Mon, 25 Sep 2023 10:14:20 +0800
+From: kernel test robot <lkp@intel.com>
+To: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, hdegoede@redhat.com,
+ markgross@kernel.org, basavaraj.natikar@amd.com, jikos@kernel.org,
+ benjamin.tissoires@redhat.com, alexander.deucher@amd.com,
+ christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
+ daniel@ffwll.ch
+Subject: Re: [PATCH 10/15] platform/x86/amd/pmf: Add capability to sideload
+ of policy binary
+Message-ID: <202309251031.awDDkRgS-lkp@intel.com>
+References: <20230922175056.244940-11-Shyam-sundar.S-k@amd.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/RbmAZgHc0GBl.JjN607XT0W";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230922175056.244940-11-Shyam-sundar.S-k@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,77 +64,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Jeffrey Hugo <quic_jhugo@quicinc.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, linux-input@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, platform-driver-x86@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, Patil.Reddy@amd.com,
+ oe-kbuild-all@lists.linux.dev, mario.limonciello@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/RbmAZgHc0GBl.JjN607XT0W
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Hi Shyam,
 
-Hi all,
+kernel test robot noticed the following build warnings:
 
-Today's linux-next merge of the drm-misc tree got a conflict in:
+[auto build test WARNING on hid/for-next]
+[also build test WARNING on linus/master v6.6-rc3 next-20230921]
+[cannot apply to drm-misc/drm-misc-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-  drivers/accel/qaic/qaic_data.c
+url:    https://github.com/intel-lab-lkp/linux/commits/Shyam-Sundar-S-K/platform-x86-amd-pmf-Add-PMF-TEE-interface/20230923-015418
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
+patch link:    https://lore.kernel.org/r/20230922175056.244940-11-Shyam-sundar.S-k%40amd.com
+patch subject: [PATCH 10/15] platform/x86/amd/pmf: Add capability to sideload of policy binary
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230925/202309251031.awDDkRgS-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230925/202309251031.awDDkRgS-lkp@intel.com/reproduce)
 
-between commit:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309251031.awDDkRgS-lkp@intel.com/
 
-  2d956177b7c9 ("accel/qaic: Fix slicing memory leak")
+All warnings (new ones prefixed by >>):
 
-from Linus' tree and commit:
+>> drivers/platform/x86/amd/pmf/tee-if.c:305:5: warning: no previous prototype for 'amd_pmf_open_pb' [-Wmissing-prototypes]
+     305 | int amd_pmf_open_pb(struct amd_pmf_dev *dev, struct dentry *debugfs_root)
+         |     ^~~~~~~~~~~~~~~
 
-  217b812364d3 ("accel/qaic: Add QAIC_DETACH_SLICE_BO IOCTL")
 
-from the drm-misc tree.
+vim +/amd_pmf_open_pb +305 drivers/platform/x86/amd/pmf/tee-if.c
 
-I fixed it up (see below) and can carry the fix as necessary. This
-is now fixed as far as linux-next is concerned, but any non trivial
-conflicts should be mentioned to your upstream maintainer when your tree
-is submitted for merging.  You may also want to consider cooperating
-with the maintainer of the conflicting tree to minimise any particularly
-complex conflicts.
+   304	
+ > 305	int amd_pmf_open_pb(struct amd_pmf_dev *dev, struct dentry *debugfs_root)
+   306	{
+   307		struct dentry *file = NULL;
+   308	
+   309		dev->esbin = debugfs_create_dir("pb", debugfs_root);
+   310		if (IS_ERR(dev->esbin))
+   311			return -EINVAL;
+   312	
+   313		file = debugfs_create_file("update_policy", 0644, dev->esbin, dev, &pb_fops);
+   314		if (!file)
+   315			return -EINVAL;
+   316	
+   317		return 0;
+   318	}
+   319	#endif
+   320	
 
---=20
-Cheers,
-Stephen Rothwell
-
-diff --cc drivers/accel/qaic/qaic_data.c
-index f4b06792c6f1,c90fa6a430f6..000000000000
---- a/drivers/accel/qaic/qaic_data.c
-+++ b/drivers/accel/qaic/qaic_data.c
-@@@ -1018,10 -1031,10 +1031,11 @@@ int qaic_attach_slice_bo_ioctl(struct d
-  	if (args->hdr.dir =3D=3D DMA_TO_DEVICE)
-  		dma_sync_sgtable_for_cpu(&qdev->pdev->dev, bo->sgt, args->hdr.dir);
- =20
-- 	bo->dbc =3D dbc;
-+ 	bo->sliced =3D true;
-+ 	list_add_tail(&bo->bo_list, &bo->dbc->bo_lists);
-  	srcu_read_unlock(&dbc->ch_lock, rcu_id);
-- 	drm_gem_object_put(obj);
-+ 	mutex_unlock(&bo->lock);
- +	kfree(slice_ent);
-  	srcu_read_unlock(&qdev->dev_lock, qdev_rcu_id);
-  	srcu_read_unlock(&usr->qddev_lock, usr_rcu_id);
- =20
-
---Sig_/RbmAZgHc0GBl.JjN607XT0W
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmUQ5U0ACgkQAVBC80lX
-0GxHdwf+LeLIjLrum0MCeoAcgOiIkJNyqnt2kIi3R2qiQ7bwXAops7rbEYgLpg4b
-RUhp/Q0Qt94yjSBvaygiQ3XJeVzm8ctUjv+WgUqCEgaIBWTVXIhlDWsOVU+OvG9m
-6/9keitbScPIXPRxaSAkvb/Ch9OrRjQGXtydEe8ZD6GESGTxJhSX/JPw7JBrzl5E
-sPWotXsJpIVebKV4YFrDuGszc2P+8vGBRZ0rWz4y7npI8FRJ7pcRnPxTQXWGodcm
-lguZntcE++V+uVvkA0I7NNQTizgv369h/6UxM0088O1IGahgOc1LRxxe78AiYoiu
-20UStKZDEtfXcu/4658GGVY+APkrGQ==
-=o1w0
------END PGP SIGNATURE-----
-
---Sig_/RbmAZgHc0GBl.JjN607XT0W--
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
