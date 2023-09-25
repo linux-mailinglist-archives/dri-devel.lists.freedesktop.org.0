@@ -2,39 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2F1A7AD414
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Sep 2023 11:03:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B345A7AD420
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Sep 2023 11:04:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DECF210E036;
-	Mon, 25 Sep 2023 09:03:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D275B10E1E1;
+	Mon, 25 Sep 2023 09:04:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E54710E036
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Sep 2023 09:03:09 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 5DFB9CE0DDD;
- Mon, 25 Sep 2023 09:03:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D420C433C8;
- Mon, 25 Sep 2023 09:03:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1695632586;
- bh=rBtxIFwUV7tP2BI4dzvLA1kJx9ks66XoMW4eWCsCmfM=;
- h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
- b=mC06m7MlbVTYb/om+FqGWOUi75zxM5gQ4BCLVDJIinsvGirE8iEF1cy+OjvIBKp1a
- zwrzPWhhuLRfeuOknA6CBAwAy1SdeirYju6FC1W0si4usTxVxsTfLUr/XV11yQ77vD
- 6xd7yRUNvgsNe0jM30XfCGLSTmAMebpT8oDez+oExs7IgdeCpt/v2aFDL+71zFI8vY
- 5ASP4bzEpHmjOC9YUlghzzn3ivf+qt28/hpFd4wxzoTm/Bu8azYDoVy8+Tj//Y/YzQ
- 5AWIySQcLBhLYSgph+TSnyADgnqF8rb+UYyPr4Bm4qX75I5DghNaCueOv8E/60fm1T
- hZz/s0YU2KMmA==
-Message-ID: <17dc594f38ff2b7c1b5a1cd5974f7d9f.mripard@kernel.org>
-Date: Mon, 25 Sep 2023 09:03:04 +0000
-From: "Maxime Ripard" <mripard@kernel.org>
-To: "Helen Koike" <helen.koike@collabora.com>
-Subject: Re: [PATCH v2 2/2] drm/ci: add tests on vkms
-In-Reply-To: <20230922171237.550762-3-helen.koike@collabora.com>
-References: <20230922171237.550762-3-helen.koike@collabora.com>
-Content-Transfer-Encoding: 7bit
+Received: from aposti.net (aposti.net [89.234.176.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 71F9710E1E6
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Sep 2023 09:04:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+ s=mail; t=1695632667;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=v7ac3hZtdvTVdyFeEAL7Uhu4y3aVyuKPapooxkCftvI=;
+ b=h1Co+aUEgP/jyKqRhYLHkb4zBtClO36o1jT10q717JO4NmUG7V9SpuOv0ibYl0plLj1B0l
+ av6gYyD86f3oJ94XiD2sa78sK8J9E8jkRTAhWuQeegbbRCMF4BjMWF4TN2BBwCSckyHDke
+ QCLI/h6ULfsKZ0Q1wti3gRjVW2zRR1Q=
+Message-ID: <dac3b4812951d8dabf1f4017c4813a8c9183f393.camel@crapouillou.net>
+Subject: Re: [RFC PATCH v3 3/7] drm/panel: nv3052c: Allow specifying
+ registers per panel
+From: Paul Cercueil <paul@crapouillou.net>
+To: John Watts <contact@jookia.org>, dri-devel@lists.freedesktop.org
+Date: Mon, 25 Sep 2023 11:04:25 +0200
+In-Reply-To: <20230925021059.451019-4-contact@jookia.org>
+References: <20230925021059.451019-1-contact@jookia.org>
+ <20230925021059.451019-4-contact@jookia.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,21 +46,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <mripard@kernel.org>, rodrigosiqueiramelo@gmail.com,
- michel.daenzer@mailbox.org, vignesh.raman@collabora.com,
- linux-kernel@vger.kernel.org, quic_abhinavk@quicinc.com, melissa.srw@gmail.com,
- mairacanal@riseup.net, dri-devel@lists.freedesktop.org,
- quic_jesszhan@quicinc.com
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ devicetree@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
+ Chris Morgan <macromorgan@hotmail.com>, linux-kernel@vger.kernel.org,
+ Shawn Guo <shawnguo@kernel.org>, Jagan Teki <jagan@edgeble.ai>,
+ Rob Herring <robh+dt@kernel.org>, Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Christophe Branchereau <cbranchereau@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 22 Sep 2023 14:12:37 -0300, Helen Koike wrote:
-> Add job that runs igt on top of vkms.
-> 
-> Signed-off-by: Helen Koike <helen.koike@collabora.com>
-> 
+SGkgSm9obiwKCkxlIGx1bmRpIDI1IHNlcHRlbWJyZSAyMDIzIMOgIDEyOjEwICsxMDAwLCBKb2hu
+IFdhdHRzIGEgw6ljcml0wqA6Cj4gUGFuZWwgaW5pdGlhbGl6YXRpb24gcmVnaXN0ZXJzIGFyZSBw
+ZXItZGlzcGxheSBhbmQgbm90IHRpZWQgdG8gdGhlCj4gY29udHJvbGxlciBpdHNlbGYuIERpZmZl
+cmVudCBwYW5lbHMgd2lsbCBzcGVjaWZ5IHRoZWlyIG93biByZWdpc3RlcnMuCj4gQXR0YWNoIHRo
+ZSBzZXF1ZW5jZXMgdG8gdGhlIHBhbmVsIGluZm8gc3RydWN0IHNvIGZ1dHVyZSBwYW5lbHMKPiBj
+YW4gc3BlY2lmeSB0aGVpciBvd24gc2VxdWVuY2VzLgo+IAo+IFNpZ25lZC1vZmYtYnk6IEpvaG4g
+V2F0dHMgPGNvbnRhY3RAam9va2lhLm9yZz4KPiBSZXZpZXdlZC1ieTogSmVzc2ljYSBaaGFuZyA8
+cXVpY19qZXNzemhhbkBxdWljaW5jLmNvbT4KPiAtLS0KPiDCoC4uLi9ncHUvZHJtL3BhbmVsL3Bh
+bmVsLW5ld3Zpc2lvbi1udjMwNTJjLmPCoMKgIHwgMjQgKysrKysrKysrKysrLS0tLS0KPiAtLQo+
+IMKgMSBmaWxlIGNoYW5nZWQsIDE1IGluc2VydGlvbnMoKyksIDkgZGVsZXRpb25zKC0pCj4gCj4g
+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9wYW5lbC9wYW5lbC1uZXd2aXNpb24tbnYzMDUy
+Yy5jCj4gYi9kcml2ZXJzL2dwdS9kcm0vcGFuZWwvcGFuZWwtbmV3dmlzaW9uLW52MzA1MmMuYwo+
+IGluZGV4IDkwZGVhMjFmOTg1Ni4uMzgyMDYyYTc5YmE4IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMv
+Z3B1L2RybS9wYW5lbC9wYW5lbC1uZXd2aXNpb24tbnYzMDUyYy5jCj4gKysrIGIvZHJpdmVycy9n
+cHUvZHJtL3BhbmVsL3BhbmVsLW5ld3Zpc2lvbi1udjMwNTJjLmMKPiBAQCAtMjAsMTEgKzIwLDE4
+IEBACj4gwqAjaW5jbHVkZSA8ZHJtL2RybV9tb2Rlcy5oPgo+IMKgI2luY2x1ZGUgPGRybS9kcm1f
+cGFuZWwuaD4KPiDCoAo+ICtzdHJ1Y3QgbnYzMDUyY19yZWcgewo+ICvCoMKgwqDCoMKgwqDCoHU4
+IGNtZDsKPiArwqDCoMKgwqDCoMKgwqB1OCB2YWw7Cj4gK307Cj4gKwo+IMKgc3RydWN0IG52MzA1
+MmNfcGFuZWxfaW5mbyB7Cj4gwqDCoMKgwqDCoMKgwqDCoGNvbnN0IHN0cnVjdCBkcm1fZGlzcGxh
+eV9tb2RlICpkaXNwbGF5X21vZGVzOwo+IMKgwqDCoMKgwqDCoMKgwqB1bnNpZ25lZCBpbnQgbnVt
+X21vZGVzOwo+IMKgwqDCoMKgwqDCoMKgwqB1MTYgd2lkdGhfbW0sIGhlaWdodF9tbTsKPiDCoMKg
+wqDCoMKgwqDCoMKgdTMyIGJ1c19mb3JtYXQsIGJ1c19mbGFnczsKPiArwqDCoMKgwqDCoMKgwqBj
+b25zdCBzdHJ1Y3QgbnYzMDUyY19yZWcgKnBhbmVsX3JlZ3M7Cj4gK8KgwqDCoMKgwqDCoMKgaW50
+IHBhbmVsX3JlZ3NfbGVuOwoKVGhpcyBjYW4gYmUgdW5zaWduZWQuCgo+IMKgfTsKPiDCoAo+IMKg
+c3RydWN0IG52MzA1MmMgewo+IEBAIC0zNiwxMiArNDMsNyBAQCBzdHJ1Y3QgbnYzMDUyYyB7Cj4g
+wqDCoMKgwqDCoMKgwqDCoHN0cnVjdCBncGlvX2Rlc2MgKnJlc2V0X2dwaW87Cj4gwqB9Owo+IMKg
+Cj4gLXN0cnVjdCBudjMwNTJjX3JlZyB7Cj4gLcKgwqDCoMKgwqDCoMKgdTggY21kOwo+IC3CoMKg
+wqDCoMKgwqDCoHU4IHZhbDsKPiAtfTsKPiAtCj4gLXN0YXRpYyBjb25zdCBzdHJ1Y3QgbnYzMDUy
+Y19yZWcgbnYzMDUyY19wYW5lbF9yZWdzW10gPSB7Cj4gK3N0YXRpYyBjb25zdCBzdHJ1Y3QgbnYz
+MDUyY19yZWcgbHRrMDM1YzU0NDR0X3BhbmVsX3JlZ3NbXSA9IHsKPiDCoMKgwqDCoMKgwqDCoMKg
+Ly8gRVhUQyBDb21tYW5kIHNldCBlbmFibGUsIHNlbGVjdCBwYWdlIDEKPiDCoMKgwqDCoMKgwqDC
+oMKgeyAweGZmLCAweDMwIH0sIHsgMHhmZiwgMHg1MiB9LCB7IDB4ZmYsIDB4MDEgfSwKPiDCoMKg
+wqDCoMKgwqDCoMKgLy8gTW9zdGx5IHVua25vd24gcmVnaXN0ZXJzCj4gQEAgLTI0NCw2ICsyNDYs
+OCBAQCBzdGF0aWMgaW5saW5lIHN0cnVjdCBudjMwNTJjICp0b19udjMwNTJjKHN0cnVjdAo+IGRy
+bV9wYW5lbCAqcGFuZWwpCj4gwqBzdGF0aWMgaW50IG52MzA1MmNfcHJlcGFyZShzdHJ1Y3QgZHJt
+X3BhbmVsICpwYW5lbCkKPiDCoHsKPiDCoMKgwqDCoMKgwqDCoMKgc3RydWN0IG52MzA1MmMgKnBy
+aXYgPSB0b19udjMwNTJjKHBhbmVsKTsKPiArwqDCoMKgwqDCoMKgwqBjb25zdCBzdHJ1Y3QgbnYz
+MDUyY19yZWcgKnBhbmVsX3JlZ3MgPSBwcml2LT5wYW5lbF9pbmZvLQo+ID5wYW5lbF9yZWdzOwo+
+ICvCoMKgwqDCoMKgwqDCoGludCBwYW5lbF9yZWdzX2xlbiA9IHByaXYtPnBhbmVsX2luZm8tPnBh
+bmVsX3JlZ3NfbGVuOwoKU2FtZSBoZXJlLgoKV2l0aCB0aGlzIGZpeGVkIEknbSBoYXBweSB3aXRo
+IHRoZSBwYXRjaC4KCkNoZWVycywKLVBhdWwKCj4gwqDCoMKgwqDCoMKgwqDCoHN0cnVjdCBtaXBp
+X2RiaSAqZGJpID0gJnByaXYtPmRiaTsKPiDCoMKgwqDCoMKgwqDCoMKgdW5zaWduZWQgaW50IGk7
+Cj4gwqDCoMKgwqDCoMKgwqDCoGludCBlcnI7Cj4gQEAgLTI2MCw5ICsyNjQsOSBAQCBzdGF0aWMg
+aW50IG52MzA1MmNfcHJlcGFyZShzdHJ1Y3QgZHJtX3BhbmVsCj4gKnBhbmVsKQo+IMKgwqDCoMKg
+wqDCoMKgwqBncGlvZF9zZXRfdmFsdWVfY2Fuc2xlZXAocHJpdi0+cmVzZXRfZ3BpbywgMCk7Cj4g
+wqDCoMKgwqDCoMKgwqDCoHVzbGVlcF9yYW5nZSg1MDAwLCAyMDAwMCk7Cj4gwqAKPiAtwqDCoMKg
+wqDCoMKgwqBmb3IgKGkgPSAwOyBpIDwgQVJSQVlfU0laRShudjMwNTJjX3BhbmVsX3JlZ3MpOyBp
+KyspIHsKPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgZXJyID0gbWlwaV9kYmlfY29t
+bWFuZChkYmksCj4gbnYzMDUyY19wYW5lbF9yZWdzW2ldLmNtZCwKPiAtwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqAgbnYzMDUyY19wYW5lbF9yZWdzW2ldLnZhbCk7Cj4gK8KgwqDCoMKgwqDCoMKgZm9yIChpID0g
+MDsgaSA8IHBhbmVsX3JlZ3NfbGVuOyBpKyspIHsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgZXJyID0gbWlwaV9kYmlfY29tbWFuZChkYmksIHBhbmVsX3JlZ3NbaV0uY21kLAo+ICvC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoCBwYW5lbF9yZWdzW2ldLnZhbCk7Cj4gwqAKPiDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoGlmIChlcnIpIHsKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBkZXZfZXJyKHByaXYtPmRldiwgIlVuYWJsZSB0byBzZXQg
+cmVnaXN0ZXI6Cj4gJWRcbiIsIGVycik7Cj4gQEAgLTQ2Myw2ICs0NjcsOCBAQCBzdGF0aWMgY29u
+c3Qgc3RydWN0IG52MzA1MmNfcGFuZWxfaW5mbwo+IGx0azAzNWM1NDQ0dF9wYW5lbF9pbmZvID0g
+ewo+IMKgwqDCoMKgwqDCoMKgwqAuaGVpZ2h0X21tID0gNjQsCj4gwqDCoMKgwqDCoMKgwqDCoC5i
+dXNfZm9ybWF0ID0gTUVESUFfQlVTX0ZNVF9SR0I4ODhfMVgyNCwKPiDCoMKgwqDCoMKgwqDCoMKg
+LmJ1c19mbGFncyA9IERSTV9CVVNfRkxBR19ERV9ISUdIIHwKPiBEUk1fQlVTX0ZMQUdfUElYREFU
+QV9EUklWRV9ORUdFREdFLAo+ICvCoMKgwqDCoMKgwqDCoC5wYW5lbF9yZWdzID0gbHRrMDM1YzU0
+NDR0X3BhbmVsX3JlZ3MsCj4gK8KgwqDCoMKgwqDCoMKgLnBhbmVsX3JlZ3NfbGVuID0gQVJSQVlf
+U0laRShsdGswMzVjNTQ0NHRfcGFuZWxfcmVncyksCj4gwqB9Owo+IMKgCj4gwqBzdGF0aWMgY29u
+c3Qgc3RydWN0IHNwaV9kZXZpY2VfaWQgbnYzMDUyY19pZHNbXSA9IHsKCg==
 
-Acked-by: Maxime Ripard <mripard@kernel.org>
-
-Thanks!
-Maxime
