@@ -1,49 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 931417AD65D
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Sep 2023 12:48:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 468DE7AD662
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Sep 2023 12:50:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A053410E232;
-	Mon, 25 Sep 2023 10:48:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 94D0610E233;
+	Mon, 25 Sep 2023 10:50:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 23CE310E232
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Sep 2023 10:48:38 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org
+ [IPv6:2604:1380:40e1:4800::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 97F5E10E233
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Sep 2023 10:50:25 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 88EADB80D3E;
- Mon, 25 Sep 2023 10:48:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5213FC433C9;
- Mon, 25 Sep 2023 10:48:33 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 4F7A7CE0F80
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Sep 2023 10:50:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94EBDC433CA
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Sep 2023 10:50:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1695638915;
- bh=/LefVaK2r6dhjQD0FjoLJlEhyV3w7+sO/UDevvSJ9KA=;
- h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
- b=W37ZhtByQB0sL6ztZ7emAQjxn1oWW/Y46gP91TnoZEQ4UGkZnmMBg1HRmFArrJaQT
- a1y9JCbItkVfSjvWLzjBYWaU9vw5z+TgOjyj+AlFFFylz/+Ifs6gpdJ1Vai2+N0TTV
- 8ZfCfxCRi9VIVuBZ3CSGKnbwujqc1mkpzGJ54g3sZ9qHEzvDKaSEb3J/z6+GHaaHjS
- 7KcMdd6cycyY9fkrHlRWUzLlIlLMPhUqvvxmU1nIX/HIH82JvJPZRzeeujhRdxcvTe
- QV809Ca5xMW+rG0OsWxtO+mynLG88dyuIy4JXSCZUa0Q4fzIfuLMX1tq3UTNRDEyI5
- cB9bprRO16g6Q==
-From: Robert Foss <rfoss@kernel.org>
-To: David Airlie <airlied@gmail.com>, Xin Ji <xji@analogixsemi.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Andrzej Hajda <andrzej.hajda@intel.com>, Daniel Vetter <daniel@ffwll.ch>,
- Jonas Karlman <jonas@kwiboo.se>
-In-Reply-To: <20230922093450.3574349-1-xji@analogixsemi.com>
-References: <20230922093450.3574349-1-xji@analogixsemi.com>
-Subject: Re: [PATCH v2] drm/bridge: Add 200ms delay to wait FW HPD status
- stable
-Message-Id: <169563891302.3680913.670156571122914627.b4-ty@kernel.org>
-Date: Mon, 25 Sep 2023 12:48:33 +0200
+ s=k20201202; t=1695639022;
+ bh=J7kIa1cM5bEdHS4N+xMwZ3c7Uz5zj8sAKah5rpEeCwI=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=hn+BbPts5Ac7rs/t0nB2iQ8+xLazfZxe5oY2zC9Vs9/mldeyPbd7Ce1czztMgQD1h
+ 4tPVkAVfwpGiqTBtscdGt76JGnMirT/+N9QcFaASOsY9xkMJ1tgfl2K8oUqx2YzXT0
+ IrkaDteE922Lh97kZ5i/qqdbTJ0BOhBiekshZk7lO18UMvXIcs5xOfLYT3VcBs00lU
+ t1trnea3pWrGKhC+UT+YQ3Qg/42DBbn8rhI2b/U83dMpgvqS27N8BKL+bZ02RnuY2N
+ DSjBBOHkxih9ZyIjihgspYig5tXi21vmGq0vDaKixMr2gWIc45Gha/Z9eeaVfxDg9W
+ 85kC8OxRu7qjw==
+Received: by mail-pj1-f43.google.com with SMTP id
+ 98e67ed59e1d1-2776ca9adb7so401182a91.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Sep 2023 03:50:22 -0700 (PDT)
+X-Gm-Message-State: AOJu0YwvMXYX1IfpCUzMefQeycrK4ODr9Za4uzZc5b4NW8DaBL2FQ/Ww
+ WJUJNntTKpULXK5dNL1gobYjnfSGdw8WOa5YyoS+hw==
+X-Google-Smtp-Source: AGHT+IGrn8safol45gEMcotPjO8/w+u1uNeKaOoYjqxt2ntm7MxjH3yv23NR6uAUTs77Cl4KNb91lYjntRsnBywifQo=
+X-Received: by 2002:a17:90a:4141:b0:268:5431:f2a7 with SMTP id
+ m1-20020a17090a414100b002685431f2a7mr4271368pjg.28.1695639022192; Mon, 25 Sep
+ 2023 03:50:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.10.1
+References: <20230920004400.81091-1-yang.lee@linux.alibaba.com>
+In-Reply-To: <20230920004400.81091-1-yang.lee@linux.alibaba.com>
+From: Robert Foss <rfoss@kernel.org>
+Date: Mon, 25 Sep 2023 12:50:11 +0200
+X-Gmail-Original-Message-ID: <CAN6tsi44s3h3Ox3mK2pi+Mw8pGCB9fgMcoWmJhCenHoK9=t=-w@mail.gmail.com>
+Message-ID: <CAN6tsi44s3h3Ox3mK2pi+Mw8pGCB9fgMcoWmJhCenHoK9=t=-w@mail.gmail.com>
+Subject: Re: [PATCH -next] drm/bridge: clean up some inconsistent indentings
+To: Yang Li <yang.lee@linux.alibaba.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,26 +60,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: qwen@analogixsemi.com, bliang@analogixsemi.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- hsinyi@chromium.org
+Cc: neil.armstrong@linaro.org, jonas@kwiboo.se, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, jernej.skrabec@gmail.com,
+ Laurent.pinchart@ideasonboard.com, andrzej.hajda@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 22 Sep 2023 17:34:49 +0800, Xin Ji wrote:
-> For the no-interrupt design (sink device is panel, polling HPD
-> status when chip power on), anx7625 FW has more than 200ms HPD
-> de-bounce time in FW, for the safety to get HPD status, driver
-> better to wait 200ms before HPD detection after OS resume back.
-> 
-> 
+NAK
 
-Applied, thanks!
+Personally I value maintaining a simple to follow `git blame` history
+over correcting indentation.
 
-[1/1] drm/bridge: Add 200ms delay to wait FW HPD status stable
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=330140d7319f
+Ideally bad indentation should never be committed in the first place.
 
-
-
-Rob
-
+On Wed, Sep 20, 2023 at 2:44=E2=80=AFAM Yang Li <yang.lee@linux.alibaba.com=
+> wrote:
+>
+> drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c:336 dw_hdmi_cec_suspend() w=
+arn: inconsistent indenting
+>
+> Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
+> ---
+>  drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c b/drivers/gpu/=
+drm/bridge/synopsys/dw-hdmi-cec.c
+> index 673661160e54..fe2ff4984fc5 100644
+> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c
+> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c
+> @@ -333,9 +333,9 @@ static int __maybe_unused dw_hdmi_cec_suspend(struct =
+device *dev)
+>         struct dw_hdmi_cec *cec =3D dev_get_drvdata(dev);
+>
+>         /* store interrupt status/mask registers */
+> -        cec->regs_polarity =3D dw_hdmi_read(cec, HDMI_CEC_POLARITY);
+> -        cec->regs_mask =3D dw_hdmi_read(cec, HDMI_CEC_MASK);
+> -        cec->regs_mute_stat0 =3D dw_hdmi_read(cec, HDMI_IH_MUTE_CEC_STAT=
+0);
+> +       cec->regs_polarity =3D dw_hdmi_read(cec, HDMI_CEC_POLARITY);
+> +       cec->regs_mask =3D dw_hdmi_read(cec, HDMI_CEC_MASK);
+> +       cec->regs_mute_stat0 =3D dw_hdmi_read(cec, HDMI_IH_MUTE_CEC_STAT0=
+);
+>
+>         return 0;
+>  }
+> --
+> 2.20.1.7.g153144c
+>
