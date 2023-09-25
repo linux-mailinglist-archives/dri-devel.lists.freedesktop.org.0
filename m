@@ -1,89 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0782E7AD273
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Sep 2023 09:56:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B0D0E7AD278
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Sep 2023 09:57:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 268B310E215;
-	Mon, 25 Sep 2023 07:56:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1297310E162;
+	Mon, 25 Sep 2023 07:57:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C2F510E1CE;
- Mon, 25 Sep 2023 07:56:23 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id DD54221846;
- Mon, 25 Sep 2023 07:56:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1695628581; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=6SNHYuSMfSoXQy5Z3XhTDbcs28+yMHqvRCflRAyCbh4=;
- b=LI8pL0asuaq/Jmz2ZbXVxwRktB/cUa0gScnRXuTmalYwFQyG+oRxXAMbjtAss5nP/HutoC
- SsH5b/apIlnt9zUScTUnAazqsy8RhUEms/b5kUVPMFCEEWI1jp/WUHsA7fHYJuVrXr2cjv
- JdeWqPfkdS2gwSi+f3OEpncg2qr3EL8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1695628581;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=6SNHYuSMfSoXQy5Z3XhTDbcs28+yMHqvRCflRAyCbh4=;
- b=HObIrFItgbmnQ7sLH0rJk/86eU9gkzKa0LwJlW03QJUFA5C3yomtxf3eHV8OiWqXkYL0ij
- fJneX5N8BxR5kGBg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9AD1113A67;
- Mon, 25 Sep 2023 07:56:21 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id gprpJCU9EWUmSwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 25 Sep 2023 07:56:21 +0000
-Message-ID: <dfada165-fccd-43eb-89e9-91e05ff970f2@suse.de>
-Date: Mon, 25 Sep 2023 09:56:20 +0200
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2CE9710E162
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Sep 2023 07:57:26 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 6EA8A60F30;
+ Mon, 25 Sep 2023 07:57:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C156DC433C8;
+ Mon, 25 Sep 2023 07:57:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1695628645;
+ bh=HkPITqCUb1Czlevgk15gK4oCE9WQFlhAe65KZC8dU7o=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=fh2cBKHBZyorPsXFi8kRXGRJZsZO8Nf52Wm5fGOcXU8NiiUugNaw9IAW6VQZKm5Ne
+ //OK/F80mvk8J+1ymR0nR7Wa0EJNTHEnwoHk573bekl2ChFAX4O/4J+kZooybPtZNL
+ ZTiBvESRWQD8YPF2UhHOy7Xx4OlSt1JiyUfJUynMV5hl1KZ81ROCjF+G6CizUqBOBo
+ kP5TT6jsf8YFiKWWfZRQMQ8t4qVEFh3DtcPrhHztpTIpWGM5DZD1zmCh68JHGCyPMf
+ uxFRXskcLCDawcki9Ii3cdlIyVtj+5lx+xY2tgmsOcWnwqW2Oa1aCN0nksN9gTJ6f3
+ 026uw4aA2EXTA==
+Date: Mon, 25 Sep 2023 09:57:22 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Jernej Skrabec <jernej.skrabec@gmail.com>
+Subject: Re: [PATCH 3/7] drm/sun4i: dw-hdmi: Switch to bridge functions
+Message-ID: <vdwkqq3jovlgr6xrprq4mpqv6ldkcklf2v5ffbcetgifwrnatu@4jfjk3f5qbnu>
+References: <20230924192604.3262187-1-jernej.skrabec@gmail.com>
+ <20230924192604.3262187-4-jernej.skrabec@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/7] drm/i915: Convert fbdev to DRM client
-To: jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
- rodrigo.vivi@intel.com, tvrtko.ursulin@linux.intel.com,
- ville.syrjala@linux.intel.com, imre.deak@intel.com,
- tejas.upadhyay@intel.com, javierm@redhat.com, airlied@gmail.com,
- daniel@ffwll.ch
-References: <20230925073315.11627-1-tzimmermann@suse.de>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20230925073315.11627-1-tzimmermann@suse.de>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------qz6FN9O0vD81QqO09y9RiMCv"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="y3n3vwdwwkbm5yhj"
+Content-Disposition: inline
+In-Reply-To: <20230924192604.3262187-4-jernej.skrabec@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,94 +51,216 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: samuel@sholland.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, wens@csie.org, linux-sunxi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------qz6FN9O0vD81QqO09y9RiMCv
-Content-Type: multipart/mixed; boundary="------------h4PMOlsh0T6BOyDge2W6iljg";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
- rodrigo.vivi@intel.com, tvrtko.ursulin@linux.intel.com,
- ville.syrjala@linux.intel.com, imre.deak@intel.com,
- tejas.upadhyay@intel.com, javierm@redhat.com, airlied@gmail.com,
- daniel@ffwll.ch
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Message-ID: <dfada165-fccd-43eb-89e9-91e05ff970f2@suse.de>
-Subject: Re: [PATCH 0/7] drm/i915: Convert fbdev to DRM client
-References: <20230925073315.11627-1-tzimmermann@suse.de>
-In-Reply-To: <20230925073315.11627-1-tzimmermann@suse.de>
 
---------------h4PMOlsh0T6BOyDge2W6iljg
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+--y3n3vwdwwkbm5yhj
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-VGhpcyBpcyB2ZXJzaW9uIDMgb2YgdGhlIHBhdGNoc2V0Lg0KDQpBbSAyNS4wOS4yMyB1bSAw
-OToyNiBzY2hyaWViIFRob21hcyBaaW1tZXJtYW5uOg0KPiBDb252ZXJ0IGk5MTUncyBmYmRl
-diBjb2RlIHRvIHN0cnVjdCBkcm1fY2xpZW50LiBSZXBsYWNlcyB0aGUgY3VycmVudA0KPiBh
-ZC1ob2MgaW50ZWdyYXRpb24uIFRoZSBjb252ZXJzaW9uIGluY2x1ZGVzIGEgbnVtYmVyIG9m
-IGNsZWFudXBzLiBUaGUNCj4gcGF0Y2hzZXQgYWxzbyBlbmFibGVzIHVubG9hZGluZyBvZiBk
-cml2ZXIgbW9kdWxlcyB3aXRoIGluLWtlcm5lbCBEUk0NCj4gY2xpZW50czsgYSBmZWF0dXJl
-IHJlcXVpcmVkIGJ5IGk5MTUuDQo+IA0KPiBBcyB3aXRoIHRoZSBvdGhlciBkcml2ZXJzJyBm
-YmRldiBlbXVsYXRpb24sIGZiZGV2IGluIGk5MTUgaXMgbm93DQo+IGFuIGluLWtlcm5lbCBE
-Uk0gY2xpZW50IHRoYXQgcnVucyBhZnRlciB0aGUgRFJNIGRldmljZSBoYXMgYmVlbg0KPiBy
-ZWdpc3RlcmVkLiBUaGlzIGFsbG93cyB0byByZW1vdmUgdGhlIGFzeW5jaHJvbm91cyBpbml0
-aWFsaXphdGlvbi4NCj4gDQo+IGk5MTUgaXMgdGhlIGxhc3QgZHJpdmVyIHdpdGggYW4gZmJk
-ZXYgZW11bGF0aW9uIHRoYXQgaXMgbm90IGJ1aWxkDQo+IHVwb24gc3RydWN0IGRybV9jbGll
-bnQuIE9uY2UgcmV2aWV3ZWQsIHRoZSBwYXRjaGVzIHdvdWxkIGlkZWFsbHkgZ28NCj4gaW50
-byBkcm0tbWlzYy1uZXh0LCBzbyB0aGF0IHRoZSBvbGQgZmJkZXYgaGVscGVyIGNvZGUgY2Fu
-IGJlIHJlbW92ZWQuDQo+IFdlIGNhbiBhbHNvIGF0dGVtcHQgdG8gYWRkIGFkZGl0aW9uYWwg
-aW4ta2VybmVsIGNsaWVudHMuIEEgRFJNLWJhc2VkDQo+IGRtZXNnIGxvZyBvciBhIGJvb3Rz
-cGxhc2ggYXJlIGNvbW1vbmx5IG1lbnRpb25lZC4gRFJNIGNhbiB0aGVuIHN3aXRjaA0KPiBl
-YXNpbHkgYW1vbmcgdGhlIGV4aXN0aW5nIGNsaWVudHMgaWYvd2hlbiByZXF1aXJlZC4NCj4g
-DQo+IHYzOg0KPiAJKiBzdXBwb3J0IG1vZHVsZSB1bmxvYWRpbmcgKEphbmksIENJIGJvdCkN
-Cj4gCSogYXMgYmVmb3JlLCBzaWxlbnRseSBpZ25vcmUgZGV2aWNlcyB3aXRob3V0IGRpc3Bs
-YXlzIChDSSAgYm90KQ0KPiB2MjoNCj4gCSogZml4IGVycm9yIGhhbmRsaW5nIChKYW5pKQ0K
-PiAJKiBmaXggbm9uLWZiZGV2IGJ1aWxkcw0KPiAJKiB2YXJpb3VzIG1pbm9yIGZpeGVzIGFu
-ZCBjbGVhbnVwcw0KPiANCj4gVGhvbWFzIFppbW1lcm1hbm4gKDcpOg0KPiAgICBkcm0vaTkx
-NTogVW5yZWdpc3RlciBpbi1rZXJuZWwgY2xpZW50cw0KPiAgICBkcm0vY2xpZW50OiBEbyBu
-b3QgYWNxdWlyZSBtb2R1bGUgcmVmZXJlbmNlDQo+ICAgIGRybS9jbGllbnQ6IEV4cG9ydCBk
-cm1fY2xpZW50X2Rldl91bnJlZ2lzdGVyKCkNCj4gICAgZHJtL2k5MTU6IE1vdmUgZmJkZXYg
-ZnVuY3Rpb25zDQo+ICAgIGRybS9pOTE1OiBJbml0aWFsaXplIGZiZGV2IERSTSBjbGllbnQg
-d2l0aCBjYWxsYmFjayBmdW5jdGlvbnMNCj4gICAgZHJtL2k5MTU6IEltcGxlbWVudCBmYmRl
-diBjbGllbnQgY2FsbGJhY2tzDQo+ICAgIGRybS9pOTE1OiBJbXBsZW1lbnQgZmJkZXYgZW11
-bGF0aW9uIGFzIGluLWtlcm5lbCBjbGllbnQNCj4gDQo+ICAgZHJpdmVycy9ncHUvZHJtL2Ry
-bV9jbGllbnQuYyAgICAgICAgICAgICAgICAgIHwgIDI1ICstDQo+ICAgZHJpdmVycy9ncHUv
-ZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kaXNwbGF5LmMgIHwgICAxIC0NCj4gICAuLi4vZHJt
-L2k5MTUvZGlzcGxheS9pbnRlbF9kaXNwbGF5X2RyaXZlci5jICAgfCAgMTkgLS0NCj4gICBk
-cml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2ZiZGV2LmMgICAgfCAyNTAgKysr
-KysrKysrKy0tLS0tLS0tDQo+ICAgZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRl
-bF9mYmRldi5oICAgIHwgIDI5ICstDQo+ICAgZHJpdmVycy9ncHUvZHJtL2k5MTUvaTkxNV9k
-cml2ZXIuYyAgICAgICAgICAgIHwgIDI3ICstDQo+ICAgNiBmaWxlcyBjaGFuZ2VkLCAxNTYg
-aW5zZXJ0aW9ucygrKSwgMTk1IGRlbGV0aW9ucygtKQ0KPiANCg0KLS0gDQpUaG9tYXMgWmlt
-bWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1
-dGlvbnMgR2VybWFueSBHbWJIDQpGcmFua2Vuc3RyYXNzZSAxNDYsIDkwNDYxIE51ZXJuYmVy
-ZywgR2VybWFueQ0KR0Y6IEl2byBUb3RldiwgQW5kcmV3IE15ZXJzLCBBbmRyZXcgTWNEb25h
-bGQsIEJvdWRpZW4gTW9lcm1hbg0KSFJCIDM2ODA5IChBRyBOdWVybmJlcmcpDQo=
+Hi,
 
---------------h4PMOlsh0T6BOyDge2W6iljg--
+On Sun, Sep 24, 2023 at 09:26:00PM +0200, Jernej Skrabec wrote:
+> Since ddc-en property handling was moved from sun8i dw-hdmi driver to
+> display connector driver, probe order of drivers determines if EDID is
+> properly read at boot time or not.
+>=20
+> In order to fix this, let's switch to bridge functions which allows us
+> to build proper chain and defer execution until all drivers are probed.
+>=20
+> Fixes: 920169041baa ("drm/sun4i: dw-hdmi: Fix ddc-en GPIO consumer confli=
+ct")
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> ---
+>  drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c | 114 +++++++++++++++++++++++++-
+>  drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h |   5 ++
+>  2 files changed, 117 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c b/drivers/gpu/drm/sun4=
+i/sun8i_dw_hdmi.c
+> index 8f8d3bdba5ce..93831cdf1917 100644
+> --- a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
+> +++ b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
+> @@ -8,14 +8,82 @@
+>  #include <linux/of.h>
+>  #include <linux/platform_device.h>
+> =20
+> +#include <drm/drm_atomic_state_helper.h>
+> +#include <drm/drm_bridge_connector.h>
+>  #include <drm/drm_managed.h>
+>  #include <drm/drm_modeset_helper_vtables.h>
+>  #include <drm/drm_of.h>
+>  #include <drm/drm_simple_kms_helper.h>
+> =20
+> +#include <media/cec-notifier.h>
+> +
+>  #include "sun8i_dw_hdmi.h"
+>  #include "sun8i_tcon_top.h"
+> =20
+> +#define bridge_to_sun8i_dw_hdmi(x) \
+> +	container_of(x, struct sun8i_dw_hdmi, enc_bridge)
+> +
+> +static int sun8i_hdmi_enc_attach(struct drm_bridge *bridge,
+> +				 enum drm_bridge_attach_flags flags)
+> +{
+> +	struct sun8i_dw_hdmi *hdmi =3D bridge_to_sun8i_dw_hdmi(bridge);
+> +
+> +	return drm_bridge_attach(&hdmi->encoder, hdmi->hdmi_bridge,
+> +				 &hdmi->enc_bridge, flags);
+> +}
+> +
+> +static void sun8i_hdmi_enc_detach(struct drm_bridge *bridge)
+> +{
+> +	struct sun8i_dw_hdmi *hdmi =3D bridge_to_sun8i_dw_hdmi(bridge);
+> +
+> +	cec_notifier_conn_unregister(hdmi->cec_notifier);
+> +	hdmi->cec_notifier =3D NULL;
+> +}
+> +
+> +static void sun8i_hdmi_enc_hpd_notify(struct drm_bridge *bridge,
+> +				      enum drm_connector_status status)
+> +{
+> +	struct sun8i_dw_hdmi *hdmi =3D bridge_to_sun8i_dw_hdmi(bridge);
+> +	struct edid *edid;
+> +
+> +	if (!hdmi->cec_notifier)
+> +		return;
+> +
+> +	if (status =3D=3D connector_status_connected) {
+> +		edid =3D drm_bridge_get_edid(hdmi->hdmi_bridge, hdmi->connector);
+> +		if (edid)
+> +			cec_notifier_set_phys_addr_from_edid(hdmi->cec_notifier,
+> +							     edid);
+> +	} else {
+> +		cec_notifier_phys_addr_invalidate(hdmi->cec_notifier);
+> +	}
+> +}
+> +
+> +static int sun8i_hdmi_enc_atomic_check(struct drm_bridge *bridge,
+> +				       struct drm_bridge_state *bridge_state,
+> +				       struct drm_crtc_state *crtc_state,
+> +				       struct drm_connector_state *conn_state)
+> +{
+> +	struct drm_connector_state *old_conn_state =3D
+> +		drm_atomic_get_old_connector_state(conn_state->state,
+> +						   conn_state->connector);
+> +
+> +	if (!drm_connector_atomic_hdr_metadata_equal(old_conn_state, conn_state=
+))
+> +		crtc_state->mode_changed =3D true;
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct drm_bridge_funcs sun8i_hdmi_enc_bridge_funcs =3D {
+> +	.attach =3D sun8i_hdmi_enc_attach,
+> +	.detach =3D sun8i_hdmi_enc_detach,
+> +	.hpd_notify =3D sun8i_hdmi_enc_hpd_notify,
+> +	.atomic_check =3D sun8i_hdmi_enc_atomic_check,
+> +	.atomic_duplicate_state =3D drm_atomic_helper_bridge_duplicate_state,
+> +	.atomic_destroy_state =3D drm_atomic_helper_bridge_destroy_state,
+> +	.atomic_reset =3D drm_atomic_helper_bridge_reset,
+> +};
+> +
+>  static void sun8i_dw_hdmi_encoder_mode_set(struct drm_encoder *encoder,
+>  					   struct drm_display_mode *mode,
+>  					   struct drm_display_mode *adj_mode)
+> @@ -99,6 +167,8 @@ static int sun8i_dw_hdmi_bind(struct device *dev, stru=
+ct device *master,
+>  {
+>  	struct platform_device *pdev =3D to_platform_device(dev);
+>  	struct dw_hdmi_plat_data *plat_data;
+> +	struct cec_connector_info conn_info;
+> +	struct drm_connector *connector;
+>  	struct drm_device *drm =3D data;
+>  	struct device_node *phy_node;
+>  	struct drm_encoder *encoder;
+> @@ -187,18 +257,57 @@ static int sun8i_dw_hdmi_bind(struct device *dev, s=
+truct device *master,
+> =20
+>  	plat_data->mode_valid =3D hdmi->quirks->mode_valid;
+>  	plat_data->use_drm_infoframe =3D hdmi->quirks->use_drm_infoframe;
+> +	plat_data->output_port =3D 1;
+>  	sun8i_hdmi_phy_set_ops(hdmi->phy, plat_data);
+> =20
+>  	platform_set_drvdata(pdev, hdmi);
+> =20
+> -	hdmi->hdmi =3D dw_hdmi_bind(pdev, encoder, plat_data);
+> +	hdmi->hdmi =3D dw_hdmi_probe(pdev, plat_data);
+>  	if (IS_ERR(hdmi->hdmi)) {
+>  		ret =3D PTR_ERR(hdmi->hdmi);
+>  		goto err_deinit_phy;
+>  	}
+> =20
+> +	hdmi->hdmi_bridge =3D of_drm_find_bridge(dev->of_node);
 
---------------qz6FN9O0vD81QqO09y9RiMCv
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+So you're also adding child bridge support? This should be mentioned in
+the commit log.
+
+> +	hdmi->enc_bridge.funcs =3D &sun8i_hdmi_enc_bridge_funcs;
+> +	hdmi->enc_bridge.type =3D DRM_MODE_CONNECTOR_HDMIA;
+> +	hdmi->enc_bridge.interlace_allowed =3D true;
+> +
+> +	drm_bridge_add(&hdmi->enc_bridge);
+> +
+> +	ret =3D drm_bridge_attach(encoder, &hdmi->enc_bridge, NULL,
+> +				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+> +	if (ret)
+> +		goto err_remove_dw_hdmi;
+> +
+> +	connector =3D drm_bridge_connector_init(drm, encoder);
+> +	if (IS_ERR(connector)) {
+> +		dev_err(dev, "Unable to create HDMI bridge connector\n");
+> +		ret =3D PTR_ERR(connector);
+> +		goto err_remove_dw_hdmi;
+> +	}
+> +
+> +	hdmi->connector =3D connector;
+> +	drm_connector_attach_encoder(connector, encoder);
+> +
+> +	if (hdmi->quirks->use_drm_infoframe)
+> +		drm_connector_attach_hdr_output_metadata_property(connector);
+> +
+> +	cec_fill_conn_info_from_drm(&conn_info, connector);
+> +
+> +	hdmi->cec_notifier =3D cec_notifier_conn_register(&pdev->dev, NULL,
+> +							&conn_info);
+> +	if (!hdmi->cec_notifier) {
+> +		ret =3D -ENOMEM;
+> +		goto err_remove_dw_hdmi;
+> +	}
+> +
+>  	return 0;
+
+Yeah, I'm not sure. We now have two different yet redundant set of
+operations with no clear definition wrt what belongs where. I'm really
+not impressed with the use of bridges for things that are clearly not
+bridges.
+
+The "nothing happens until all drivers are loaded" argument is also
+supposed to be covered by the component framework, so why do we even
+have to use a bridge here?
+
+You were saying that it's an issue of probe order going wrong, could you
+explain a bit more what goes wrong so we can try to figure something out
+that doesn't involve a bridge?
+
+Maxime
+
+--y3n3vwdwwkbm5yhj
+Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmURPSUFAwAAAAAACgkQlh/E3EQov+Ch
-OQ/+OLN/xGIgOQwpHKolK7lD270+1FjXcRvGcyOZatv7cvvIcV9gn7YnKE1iBDTNVGli5GqDdtFw
-ITeeHGcHLTD7/buN59uNULLFSP14sGgv1w0SF/kwfxOGnxsbCvg85Z7M36VypnBaz5VxeSXfWSwB
-rDwKtw+KU84R4+b3uFpIpb1+xNk9PjNqQfk3mXOqjl/q/mOFELbAZQJKf8V9rn47ZYKXQAbEO533
-BvdFBb/dhat2gZxB2DG8GlSFMaTzGAfHcJ7uo2icUhrLxvao523AGEFGV+G/GG+x/4/77srbRHMv
-EKY+/f2hl3+HJIAs+Ju4uiL4dsPwijbhiJsJY6WZ+xV9tmFIOnMJWavpDOwCLKUYm/jeImFtuH0V
-c9xcC44qbS9/iCebNIs+j9bOGCEbyVLiX5C9/E1D8BNCCxPQtHCehgoOBo+k5S7N/C838ZmP3XHT
-gAL58hxLHNolfySTS7FBbnpgVJtgGEaVv6MO9eG102bEXTYheIGwBjwMyLzWktMlfbmII6/Q++2S
-Y+yeU+g8Rbc61YxFWUJnlFClMn471ikANIac9V90oV56b6ANFjvOcxwsvh/6egCCW46jcw3qOhaK
-zTejrsK9CSGk4bDf+gQCScu0hr689EY/kZ5l0k2rHs+q9MqOqQZnmObjecL1gRNmS4/WdD4+C3eb
-4Bk=
-=UXNu
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZRE9YgAKCRDj7w1vZxhR
+xQRbAPoCVmFYOgCWSKKM1QA1uixJ8CwC0IMEWdKHGkkEkyfoBwEAvzO4u0+pqk8B
+u9fSQ57aRZyCmgLCdKL5omUzvgY4+gk=
+=sCuA
 -----END PGP SIGNATURE-----
 
---------------qz6FN9O0vD81QqO09y9RiMCv--
+--y3n3vwdwwkbm5yhj--
