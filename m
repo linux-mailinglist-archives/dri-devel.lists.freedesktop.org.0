@@ -1,49 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52EEC7AD1B8
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Sep 2023 09:33:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB12A7AD1B9
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Sep 2023 09:33:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F350A10E1E7;
-	Mon, 25 Sep 2023 07:33:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2186710E159;
+	Mon, 25 Sep 2023 07:33:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E38FA10E0A0;
- Mon, 25 Sep 2023 07:33:19 +0000 (UTC)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 89FE910E156;
+ Mon, 25 Sep 2023 07:33:20 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id A77321F45F;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id EFC2D1F460;
  Mon, 25 Sep 2023 07:33:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1695627198; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=q+B2r43AsY1MpUlcIkWgDsbKGsgW1AJ3CwORFM/+UW0=;
- b=dte1FiobPAcsq8iY8yqK9R0oPtvc5sYFNOjvO24eyIMK5iAHoxytFLIMuI64J6/QdW2s6O
- UMiItruuB71IzkJfDp9Clt3szPM799h1ApCWa/0bDRCVqRK3Z96YJMSs1PB6K7wkbwfjTg
- k6tzXxWRqlyL1EOnDkAkasUI188rF0Y=
+ bh=wKbREabpY/tMUbfIokDvQuIXsWrd55d6jcXVepokFiI=;
+ b=aiF8zAOND3Z0/kKjUb+euMM+s+EyBt4DIl3TMXeRrFrG94lKbqgfDujl1aRUzukHTTAGHu
+ erVhT4j9LuOI296rHJV6zko4ERJXiRyd69N31+SHRMpz5e0ysCSfxVShnKNW8+8K8bcMW5
+ bXdALi0K4nCXr3nHOWxSK4iCt5JmHT4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1695627198;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=q+B2r43AsY1MpUlcIkWgDsbKGsgW1AJ3CwORFM/+UW0=;
- b=+xnE4QlMt2XV1lYycQ7i5Htex8TTobMozsjQoFrHhl9GG0UdCJfFD1mZHAMd+RQtrOOXzd
- 06WTW3IlIFsrz5BA==
+ bh=wKbREabpY/tMUbfIokDvQuIXsWrd55d6jcXVepokFiI=;
+ b=ijPcAaWyeKBKU3BMlXcaX7De83TqNkQ4PFPgtHnqXn18h6G23rckO+A7C+SGlpbKsm3698
+ KtXhUeWHXQnLb8Ag==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6B6ED13A8D;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id AAC8E1358F;
  Mon, 25 Sep 2023 07:33:18 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id SMRrGb43EWVyPQAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id GCHpKL43EWVyPQAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Mon, 25 Sep 2023 07:33:18 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
@@ -51,9 +51,9 @@ To: jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
  ville.syrjala@linux.intel.com, imre.deak@intel.com,
  tejas.upadhyay@intel.com, javierm@redhat.com, airlied@gmail.com,
  daniel@ffwll.ch
-Subject: [PATCH 1/7] drm/i915: Unregister in-kernel clients
-Date: Mon, 25 Sep 2023 09:26:37 +0200
-Message-ID: <20230925073315.11627-2-tzimmermann@suse.de>
+Subject: [PATCH 2/7] drm/client: Do not acquire module reference
+Date: Mon, 25 Sep 2023 09:26:38 +0200
+Message-ID: <20230925073315.11627-3-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20230925073315.11627-1-tzimmermann@suse.de>
 References: <20230925073315.11627-1-tzimmermann@suse.de>
@@ -76,39 +76,77 @@ Cc: intel-gfx@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Unregister all in-kernel clients before unloading the i915 driver. For
-other drivers, drm_dev_unregister() does this automatically. As i915
-does not use this helper, it has to perform the call by itself.
+Do not acquire a reference on the module that provides a client's
+callback functions in drm_client_init(). The additional reference
+prevents the user from unloading the callback functions' module and
+thus creating dangling pointers.
 
-Note that there are currently no in-kernel clients in i915. The patch
-prepares the driver for a related update of its fbdev support.
+This is only necessary if there is no direct dependency between the
+caller of drm_client_init() and the provider of the callbacks in
+struct drm_client_funcs. If this case ever existed, it has been
+removed from the DRM code. Callers of drm_client_init() also provide
+the callback implementation. The lifetime of the clients is tied to
+the dependency chain's outer-most module, which is the hardware's
+DRM driver. Before client helpers could be unloaded, the driver module
+would have to be unloaded, which also unregisters all clients.
+
+Driver modules that set up DRM clients can now be unloaded.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/i915/i915_driver.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/gpu/drm/drm_client.c | 12 +-----------
+ 1 file changed, 1 insertion(+), 11 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/i915_driver.c b/drivers/gpu/drm/i915/i915_driver.c
-index d50347e5773a3..de19197d2e052 100644
---- a/drivers/gpu/drm/i915/i915_driver.c
-+++ b/drivers/gpu/drm/i915/i915_driver.c
-@@ -41,6 +41,7 @@
+diff --git a/drivers/gpu/drm/drm_client.c b/drivers/gpu/drm/drm_client.c
+index 2762572f286e7..b49f91b5d4b27 100644
+--- a/drivers/gpu/drm/drm_client.c
++++ b/drivers/gpu/drm/drm_client.c
+@@ -5,7 +5,6 @@
  
- #include <drm/drm_aperture.h>
- #include <drm/drm_atomic_helper.h>
-+#include <drm/drm_client.h>
- #include <drm/drm_ioctl.h>
- #include <drm/drm_managed.h>
- #include <drm/drm_probe_helper.h>
-@@ -855,6 +856,8 @@ void i915_driver_remove(struct drm_i915_private *i915)
- {
- 	intel_wakeref_t wakeref;
+ #include <linux/iosys-map.h>
+ #include <linux/list.h>
+-#include <linux/module.h>
+ #include <linux/mutex.h>
+ #include <linux/seq_file.h>
+ #include <linux/slab.h>
+@@ -84,16 +83,13 @@ int drm_client_init(struct drm_device *dev, struct drm_client_dev *client,
+ 	if (!drm_core_check_feature(dev, DRIVER_MODESET) || !dev->driver->dumb_create)
+ 		return -EOPNOTSUPP;
  
-+	drm_client_dev_unregister(&i915->drm);
-+
- 	wakeref = intel_runtime_pm_get(&i915->runtime_pm);
+-	if (funcs && !try_module_get(funcs->owner))
+-		return -ENODEV;
+-
+ 	client->dev = dev;
+ 	client->name = name;
+ 	client->funcs = funcs;
  
- 	i915_driver_unregister(i915);
+ 	ret = drm_client_modeset_create(client);
+ 	if (ret)
+-		goto err_put_module;
++		return ret;
+ 
+ 	ret = drm_client_open(client);
+ 	if (ret)
+@@ -105,10 +101,6 @@ int drm_client_init(struct drm_device *dev, struct drm_client_dev *client,
+ 
+ err_free:
+ 	drm_client_modeset_free(client);
+-err_put_module:
+-	if (funcs)
+-		module_put(funcs->owner);
+-
+ 	return ret;
+ }
+ EXPORT_SYMBOL(drm_client_init);
+@@ -177,8 +169,6 @@ void drm_client_release(struct drm_client_dev *client)
+ 	drm_client_modeset_free(client);
+ 	drm_client_close(client);
+ 	drm_dev_put(dev);
+-	if (client->funcs)
+-		module_put(client->funcs->owner);
+ }
+ EXPORT_SYMBOL(drm_client_release);
+ 
 -- 
 2.42.0
 
