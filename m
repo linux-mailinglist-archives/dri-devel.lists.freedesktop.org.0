@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B4497AD064
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Sep 2023 08:44:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DFE67AD068
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Sep 2023 08:45:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 662A810E200;
-	Mon, 25 Sep 2023 06:44:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6BAE310E1FC;
+	Mon, 25 Sep 2023 06:45:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
- [IPv6:2a00:1450:4864:20::42c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 48A4710E204
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Sep 2023 06:44:20 +0000 (UTC)
-Received: by mail-wr1-x42c.google.com with SMTP id
- ffacd0b85a97d-3226b8de467so4470557f8f.3
- for <dri-devel@lists.freedesktop.org>; Sun, 24 Sep 2023 23:44:20 -0700 (PDT)
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
+ [IPv6:2a00:1450:4864:20::436])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0780110E1FC
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Sep 2023 06:45:09 +0000 (UTC)
+Received: by mail-wr1-x436.google.com with SMTP id
+ ffacd0b85a97d-31fa15f4cc6so5517372f8f.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 Sep 2023 23:45:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1695624258; x=1696229058; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1695624308; x=1696229108; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=0Lbdz0bUZx5a/ItlQElnoWV6YsEcmVJFh2HoCImzsgM=;
- b=s4o4OlNi9OpkH5yackyCI1HCHyXBCSNjk0b0Y/vifh8ocXtsCgabOXVwYO7mEfxS3S
- y+EI0ephNtXQMe9UoHl/+Bl3QAFVHV7vvMMHQsvbwiX8tQ2t3x6vvTe+vH5WvmI1Tt2F
- JSMeo/1jXyWFNgQOedWsjSGazg4zuW/E/5E2Y8FJ51iykxYgnlv3obSJ/tawVuPplQqe
- awfLq9kY4jVkta7YamZGLD+1xK3eJsH7ovI56/sMKK64G/47D0OcgeBY0Q1SL12UJJ5B
- B58rE7RLbJ0mEfSj+xrsErMzAvvC5IHiRM8EzNfwMxSIQoZ5eqf3kvQXjVc3L1AhxWFE
- Myhw==
+ bh=vJn53FgXeUAZxTtH2aCf6C0FXRjPgz+VYA+JNoDnBAU=;
+ b=R3F/6qyKUckFMwAZEd7A1b8d88DDfFCAtFUWyoSeFEW5Nra+6/Jit0yi979/DnFxNH
+ T4uFleoTlFUTrf74Ko1zUnplLRURfmgPk2KDx60SJbb8tHnN+hsmfUxdhNCxlhBO0hkQ
+ 7ghWSa1MUNVklXPOFXPlvdlydklk/blpNdpe8fR2c0+0PQ8So4L62bBh8cfr8nzhxTGC
+ 239iOnqk2BIIaTf7efS38GBYFzr8NYBoTAIipk5vu0IP+nl3zbtrdobiYMDCfgMz8wdZ
+ qCR/fbe4kB3GG+7JXImboqsO8BmwTIBcUKD/DxVTVaXitphOyUK0xKIqUePXdymEdBCu
+ uPXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1695624258; x=1696229058;
+ d=1e100.net; s=20230601; t=1695624308; x=1696229108;
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=0Lbdz0bUZx5a/ItlQElnoWV6YsEcmVJFh2HoCImzsgM=;
- b=jyEqo6F/4ChPrAao71qwc4I5f/ZgvFdPvQ6joaoY4rx1nDpWiPUfwKZeR4Hqrr61dD
- s9/vIw5UkfNO4SjFcuZDSLyA67OPPrITGflqHEojj1z/hVMIHnO3X+lz0o3dKEz3RIng
- d5KeQBA/mkE4RTvC1JpRYGIig4P/CDxQXts69WNfFZj8ZR67RZSoM+XF2YQWkz5o3+mJ
- z2bPU2FVH5WTzYYBJzqaTfo/YbjZlHuLrk+7TkGIBhUJpeFe36Mosx/7LC4yTmXSzKJp
- lWVHJlfe4nkogskx3fioJFpFt5k1PZ0PDuIzJRWsVb9Bs6wptBw9by6DqOk7054GmQot
- LPfw==
-X-Gm-Message-State: AOJu0Yw7qk0FsxQ9X2C4eRdzR4ozLpI4jnAzZb6o8grr46gbpEBJNH3W
- ON7455QfNTvAUDVzQ1mAVwFMtw==
-X-Google-Smtp-Source: AGHT+IHHIw7ELL3XXjDdlhIgFaLliLCgI5GgKmsrZ2HPvVmr/iFKR/9uezSGVl0Z/yYfqGfDIiIFVg==
-X-Received: by 2002:a05:6000:6:b0:31f:fa1a:83fb with SMTP id
- h6-20020a056000000600b0031ffa1a83fbmr5536739wrx.7.1695624258688; 
- Sun, 24 Sep 2023 23:44:18 -0700 (PDT)
+ bh=vJn53FgXeUAZxTtH2aCf6C0FXRjPgz+VYA+JNoDnBAU=;
+ b=cPOcPgR+GC64VvYQIUPm4V9V/zZCF+4opJQ//M8jGsrU5nHsXgKNrG/DsjUZ+ujUx8
+ 16koPiyTPFi0NVl7o9U/s28OIv6RI9/NI/L4QEC9H7V5Ec4ofwnFJpCEN7ssZ/7kz6gq
+ duiy5GouhGBHYHNtSXQjFHVOHclpzsI+fMgG8RowGyPkisged/KFPmHA2TyPM3++2U85
+ h/Kta5cRx1NbxFkvV9Y5e+k+UYoQ6nvo18vI2gTb5E3CoQPHY7JTfupSsMOc+C+fsB9P
+ yH9TNkUtnt1j84AofiTPQ1tLnMzAhhm88zUlW8kek0xk//HhDY+58O4iAf7ZDEBvN188
+ ywGg==
+X-Gm-Message-State: AOJu0Ywzrm32B1ytmORNwlj5dNPCm+IrMHHWQPeqw0+l+h1m92E8f419
+ t66nzUKjQwJgn+A5E9ho47IQcw==
+X-Google-Smtp-Source: AGHT+IEhMP7oLGFs49h4VQ1+wrbb0nPQYjsAAyqSHUqbtCIcK0DtWwrDt3G60U/3PyQsucksIlAyZg==
+X-Received: by 2002:adf:feca:0:b0:320:4cf:5b50 with SMTP id
+ q10-20020adffeca000000b0032004cf5b50mr5472075wrs.5.1695624308357; 
+ Sun, 24 Sep 2023 23:45:08 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.219.100])
  by smtp.gmail.com with ESMTPSA id
- w10-20020adfd4ca000000b0031762e89f94sm10899573wrk.117.2023.09.24.23.44.17
+ w10-20020adfd4ca000000b0031762e89f94sm10899573wrk.117.2023.09.24.23.45.06
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 24 Sep 2023 23:44:18 -0700 (PDT)
-Message-ID: <c08630a2-3e3d-4975-a863-a9e58c6d78f5@linaro.org>
-Date: Mon, 25 Sep 2023 08:44:16 +0200
+ Sun, 24 Sep 2023 23:45:07 -0700 (PDT)
+Message-ID: <4654ae4e-a64b-41e3-9f65-a08fc4014d71@linaro.org>
+Date: Mon, 25 Sep 2023 08:45:06 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 07/15] mailbox: mediatek: Add loop pkt flag and irq
- handling for loop command
+Subject: Re: [PATCH 13/15] mailbox: mediatek: Add mt8188 support for CMDQ
+ secure driver
 Content-Language: en-US
 To: =?UTF-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>, 
  "jassisinghbrar@gmail.com" <jassisinghbrar@gmail.com>,
@@ -67,9 +67,9 @@ To: =?UTF-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>,
  "angelogioacchino.delregno@collabora.com"
  <angelogioacchino.delregno@collabora.com>
 References: <20230918192204.32263-1-jason-jh.lin@mediatek.com>
- <20230918192204.32263-8-jason-jh.lin@mediatek.com>
- <5d528036-e506-7b95-69bb-7748b26d2aa8@linaro.org>
- <00f0bae9940be7b397c587c651e23c6c1e19a174.camel@mediatek.com>
+ <20230918192204.32263-14-jason-jh.lin@mediatek.com>
+ <87ae80c0-a09b-3642-e3e9-c753cd330bca@linaro.org>
+ <6f1bdf10c87aab40e965bb667eb8036c3e524646.camel@mediatek.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -115,7 +115,7 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <00f0bae9940be7b397c587c651e23c6c1e19a174.camel@mediatek.com>
+In-Reply-To: <6f1bdf10c87aab40e965bb667eb8036c3e524646.camel@mediatek.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -147,40 +147,44 @@ Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 25/09/2023 07:21, Jason-JH Lin (林睿祥) wrote:
+On 25/09/2023 08:01, Jason-JH Lin (林睿祥) wrote:
 > Hi Krzysztof,
 > 
-> Thanks for the reviews.
-> 
-> On Sat, 2023-09-23 at 20:03 +0200, Krzysztof Kozlowski wrote:
+> On Sat, 2023-09-23 at 20:09 +0200, Krzysztof Kozlowski wrote:
 >>  	 
 >> External email : Please do not click links or open attachments until
 >> you have verified the sender or the content.
->>  On 18/09/2023 21:21, Jason-JH.Lin wrote:
->>> CMDQ client can use a loop flag for the CMDQ packet to make current
->>> command buffer jumps to the beginning when GCE executes to the end
->>> of commands buffer.
+>>  On 18/09/2023 21:22, Jason-JH.Lin wrote:
+>>> Add mt8188 support for CMDQ secure driver.
 >>>
->>> GCE irq occurs when GCE executes to the end of command instruction.
->>> If the CMDQ packet is a loopping command, GCE irq handler can not
->>> delete the CMDQ task and disable the GCE thread.
+>>> Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
+>>> ---
+>>>  drivers/mailbox/mtk-cmdq-mailbox.c | 1 +
+>>>  1 file changed, 1 insertion(+)
 >>>
->>> Add cmdq_mbox_stop to support thread disable
+>>> diff --git a/drivers/mailbox/mtk-cmdq-mailbox.c
+>> b/drivers/mailbox/mtk-cmdq-mailbox.c
+>>> index 3940b9f8e774..4e047dc916b9 100644
+>>> --- a/drivers/mailbox/mtk-cmdq-mailbox.c
+>>> +++ b/drivers/mailbox/mtk-cmdq-mailbox.c
+>>> @@ -750,6 +750,7 @@ static const struct gce_plat gce_plat_v8 = {
+>>>  .thread_nr = 32,
+>>>  .shift = 3,
+>>>  .control_by_sw = true,
+>>> +.has_sec = true,
 >>
->> How or where do you add it? I do not see it in this patch. Your
->> patchset
->> looks randomly organized.
+>> No, you just added it patch ago. Do not add broken code and fix it.
+>> Are
+>> there some KPIs in Mediatek to have patch count?
+>>
 > 
-> This will be used in cmdq_pkt_finialize_loop() at [PATCH 8/15].
-> 
-> mtk-cmdq-helper.c and mtk-cmdq-mailbox.c are not in the
-> same maintainer's tree, so I separate this to another patch from [PATCH
-> 8/15].
+> This patch is different from [PATCH 14/15] at the gce_plat:
+> [PATCH 13/15] is adding the flag to gce_plat_v8 for mediatek,mt8188-gce
+> [PATCH 14/15] is adding the flag to gce_plat_v6 for mediatek,mt8195-gce
+???
 
-Why? Anyway it has to go through same tree. You have dependencies. Such
-artificial split makes it only difficult to review and understand.
-Re-organize your patchset to be correctly split per each logical
-feature/change. Split per subsystems is not the same.
+I talked about patch 12! Why do you add incomplete code?
+
 
 Best regards,
 Krzysztof
