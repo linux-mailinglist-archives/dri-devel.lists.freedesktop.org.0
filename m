@@ -2,52 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B631A7ADAC5
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Sep 2023 16:59:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD57B7ADAF5
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Sep 2023 17:07:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E14C310E26A;
-	Mon, 25 Sep 2023 14:59:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0EF4410E286;
+	Mon, 25 Sep 2023 15:07:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2012110E26A;
- Mon, 25 Sep 2023 14:59:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1695653946; x=1727189946;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=8UZGcVkG1nS2n5s6l7fxKtmJ88zfeVjcLGHwsUYN9Is=;
- b=HhRzesjYsROwyqT+MpRBDX0s2OBq/lzTVRfMO3xdx+AAMQ7y/sJCSyW+
- 7TlBHP4Lqcz8CT3QEtAXie1bWK843km0QbSc/rjLRyLhISDMtkLMnFc6m
- ymI5trx26qtwVeXMAHTqNrpqpQ8P6jZcfWjTUGMf/Y0gVTnWrQiEPoX1N
- dPXzJNvV5x5qvyLQUJTl6OAt8N6nxlKaDh/aGG1ENCeoy+5vL/XjhP6PK
- 8643DsvqiSaXV/dIEyqS+wVpH4FWVf6HnDXjaWBOVM67CYGiZOguIV4ok
- fnntYMBzRkrz3NATdIqc2J3rPDaaoAqqjBOAcZMCLNwhpVjV9pLHzR3kG Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="380144274"
-X-IronPort-AV: E=Sophos;i="6.03,175,1694761200"; d="scan'208";a="380144274"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Sep 2023 07:59:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="725011009"
-X-IronPort-AV: E=Sophos;i="6.03,175,1694761200"; d="scan'208";a="725011009"
-Received: from nurqayrx-mobl2.gar.corp.intel.com (HELO intel.com)
- ([10.213.34.118])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Sep 2023 07:59:01 -0700
-Date: Mon, 25 Sep 2023 16:58:56 +0200
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Subject: Re: [Intel-gfx] [PATCH] drm/i915: Zap some empty lines
-Message-ID: <ZRGgMIL53LMhlsyq@ashyti-mobl2.lan>
-References: <20230920085715.6905-1-tvrtko.ursulin@linux.intel.com>
- <ZRGVsijpw4hjzYNz@ashyti-mobl2.lan>
- <1ab10838-0517-3ad9-c92e-e452f5b97d30@linux.intel.com>
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com
+ [IPv6:2a00:1450:4864:20::629])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7309D10E27B
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Sep 2023 15:07:50 +0000 (UTC)
+Received: by mail-ej1-x629.google.com with SMTP id
+ a640c23a62f3a-9b275afb6abso600429566b.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Sep 2023 08:07:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1695654469; x=1696259269; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=tEZ5TYqKj7Xpyqh7LsqYS+cjUynAUZpYFGDV9Q2kYbI=;
+ b=jCVrpa6m0mPUztQ0XW8A2JmKyygUyBm0xb6TZ5OKYYkv0GpTpiOUdfSPcIZz7+su8t
+ zfgL7X3AwdAJytbLbMQCk6OiZtGzPxKwYZqS7sjVR+EA0l9avE66P/ZZCqTGo+b8f+f9
+ eKx138Mt+gGASDDDi7e/P5UxklVKMwM4jXADPc0fxT7Ff+uKHMr4Uxn6zqv1hDP+ea6V
+ s2OLtVbp4pMGxRVSuEwb1llDQWp1xi1fXXMBxtKi6DNlqIgl10aH4FUbnVguDBlUnEVk
+ RSyHJz6rF7t+F6ZQ/3jwdCthb/ArXnJKHxWZnG1UfO9BAv6etzyy5+diXTZa9bR3lY6Z
+ oBDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1695654469; x=1696259269;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=tEZ5TYqKj7Xpyqh7LsqYS+cjUynAUZpYFGDV9Q2kYbI=;
+ b=VxgPHfesT59U7xOA5xv9n5Xs0zhkaoKCjiKMZHnwWnw1bjJ+2lpYWRAosBvpjRhPwW
+ OQcIjSHFHlTmm/yK45Hu2H3fWjVkixpZH5AlinKTyYa6WlqBZ0zclrMDpIOmm4gpBzwB
+ sBS6/Eb/4lcUkR2ibXlFUmYAvXVy1ax+x6AINpwGOR9iNiy7hD4OkKjsyQ2CBzJrAsKT
+ CrI8uwQGyzjJNdkFgqPs1QbF8yyPUy30cTkrlqhsGOjA9iDMY45LlJLgDYdPKAUSP82i
+ CvDHoSmtQsPYgf3Zm0lxZvEvZVFl5PKdisQAAf25IJWmVTPhjP5Iwhb1ipuhbL/dwww9
+ FnAg==
+X-Gm-Message-State: AOJu0Ywu387NY87Jn+cmUv8lwnhA3cr8YT3bUSPSUorEwVPRUVzVrKqx
+ 8vKjp+B+RzDoM81CHtBCyOs=
+X-Google-Smtp-Source: AGHT+IHuvDsUyVa2O8phaopW7XqF8puZjg9QRjHcigLXniRoG9KatTQvuRnfy0vTM9Vw7eaMxEcKbQ==
+X-Received: by 2002:a17:907:7288:b0:9ae:50ec:bd81 with SMTP id
+ dt8-20020a170907728800b009ae50ecbd81mr15679987ejc.21.1695654468639; 
+ Mon, 25 Sep 2023 08:07:48 -0700 (PDT)
+Received: from jernej-laptop.localnet (82-149-12-148.dynamic.telemach.net.
+ [82.149.12.148]) by smtp.gmail.com with ESMTPSA id
+ s4-20020a170906168400b009ad829ed144sm6409010ejd.130.2023.09.25.08.07.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 25 Sep 2023 08:07:48 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Maxime Ripard <mripard@kernel.org>
+Subject: Re: [PATCH 5/7] drm/sun4i: dw-hdmi: Split driver registration
+Date: Mon, 25 Sep 2023 17:07:45 +0200
+Message-ID: <3441738.QJadu78ljV@jernej-laptop>
+In-Reply-To: <rvqcfohw4i4y7amod3a5e4u4tkorqmaekvikyqg3fibvy53dsd@be4lk4ae35hq>
+References: <20230924192604.3262187-1-jernej.skrabec@gmail.com>
+ <20230924192604.3262187-6-jernej.skrabec@gmail.com>
+ <rvqcfohw4i4y7amod3a5e4u4tkorqmaekvikyqg3fibvy53dsd@be4lk4ae35hq>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1ab10838-0517-3ad9-c92e-e452f5b97d30@linux.intel.com>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,36 +75,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Andi Shyti <andi.shyti@linux.intel.com>
+Cc: samuel@sholland.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, wens@csie.org, linux-sunxi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tvrtko,
-
-On Mon, Sep 25, 2023 at 03:28:27PM +0100, Tvrtko Ursulin wrote:
+Dne ponedeljek, 25. september 2023 ob 09:47:15 CEST je Maxime Ripard napisal(a):
+> On Sun, Sep 24, 2023 at 09:26:02PM +0200, Jernej Skrabec wrote:
+> > There is no reason to register two drivers in same place. Using macro
+> > lowers amount of boilerplate code.
 > 
-> On 25/09/2023 15:14, Andi Shyti wrote:
-> > Hi Tvrtko,
-> > 
-> > On Wed, Sep 20, 2023 at 09:57:15AM +0100, Tvrtko Ursulin wrote:
-> > > From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> > > 
-> > > Recent refactoring left an unsightly block of empty lines. Remove them.
-> > > 
-> > > Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> > > Cc: Dnyaneshwar Bhadane <dnyaneshwar.bhadane@intel.com>
-> > > Cc: Anusha Srivatsa <anusha.srivatsa@intel.com>
-> > > Cc: Radhakrishna Sripada <radhakrishna.sripada@intel.com>
-> > 
-> > as this isn't merged yet:
-> > 
-> > Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
-> 
-> Thanks, I am catching up with things and this wasn't so important. If you
-> have a spare moment feel free to push it?
+> There's one actually: you can't have several module_init functions in
+> the some module, and both files are compiled into the same module.
 
-All right, pushed to drm-intel-next :)
+Yeah, I figured as much. However, I think code clean up is good enough reason
+to add hidden option in Kconfig and extra entry in Makefile (in v2).
 
-Thanks,
-Andi
+Do you agree?
+
+Best regards,
+Jernej 
+
+
+
+
