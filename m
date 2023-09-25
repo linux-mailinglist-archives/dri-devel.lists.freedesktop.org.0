@@ -1,62 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88A0F7AD05A
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Sep 2023 08:42:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D404C7AD05E
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Sep 2023 08:42:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1646B10E1F8;
-	Mon, 25 Sep 2023 06:42:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A8FB10E1FB;
+	Mon, 25 Sep 2023 06:42:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
- [IPv6:2a00:1450:4864:20::330])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC06D10E20D
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Sep 2023 06:42:14 +0000 (UTC)
-Received: by mail-wm1-x330.google.com with SMTP id
- 5b1f17b1804b1-401187f8071so38849965e9.0
- for <dri-devel@lists.freedesktop.org>; Sun, 24 Sep 2023 23:42:14 -0700 (PDT)
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
+ [IPv6:2a00:1450:4864:20::333])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A17ED10E1FB
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Sep 2023 06:42:49 +0000 (UTC)
+Received: by mail-wm1-x333.google.com with SMTP id
+ 5b1f17b1804b1-4053c6f1087so47970035e9.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 Sep 2023 23:42:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1695624133; x=1696228933; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1695624168; x=1696228968; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=DxPA+KdsJMnTVrzO2Y8BmmDcflApuxJbXgL4sNW4wUo=;
- b=xjyHGD5eknRhOHnvV+GKqfGKDBB8zMB2nLhb68gPLoszTDNfOIOnx+ld6m5BgdHYz+
- llUQS51ATgCPWSNR8DjXfo/Xm6dnJ3NuAv6UG5Ad7wMB7qtgtybzXGtue8YN1FTIkWcf
- 49WufeWi3j4IUeTj7VFR8swjbGJ5Kraj3iP7zMZsT+ZVDujevRLGq+A2iOYRUZGMGK4c
- 8HDHGQCTBaqFn8P5FokYKPZRr1+DGNnvAI8Z3XdJx3BLyxmuhLtXBqakZO4M+h55KLH7
- O8iknYnH5MQnZPd3jw5MAgBnggjHUVw7kQUYMmrfwJAJ9UupfAkhlSpeEWxtp+Cr8Ciz
- p2Ag==
+ bh=xL2fRR5i7Z8ytWJZ8fikuI0CzZNxyMwNZkn7LWwPIBc=;
+ b=u+hUeE0hcvI4mwQtsi//Mzgdl+f0V0ZEr0baxr9F357SQlGErkW+Qo+yxZNKxeL9b4
+ glGnneWWTli7eEa4R5mP4yUE9VIWbouVhdiJL8OHpDmq1jOUScPb6GHtP3mpwenVmhm+
+ aUfjSpxYypDFyGQU2OaXIZoJNeACRcRjfOVBWODV+P9TG/AEsuuGsZof9AeYNnhNFDNW
+ itahKrn7UeImOT7ZmS4BzdRTZz8nkIwRPE8bpLxWbD6psWB3UGsLJWEAX8lQqUEnFlI6
+ j5Ec9z3A0z0ENSFI9uCnGiXV5KQGeBuhnKKBmjGsi1uE5pCOS0asmxpGW1/rQhh24B3z
+ 5Tyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1695624133; x=1696228933;
+ d=1e100.net; s=20230601; t=1695624168; x=1696228968;
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=DxPA+KdsJMnTVrzO2Y8BmmDcflApuxJbXgL4sNW4wUo=;
- b=I+JjHQLrYI1UFSeZCkNv8Uj2vjS9FljQw+aFcQDrjES9fV0IjwWupZI49sTwateGwI
- tRVef9U7be3t33y1UJSvtEkpeXcgcDlkdcqg0d4HX1zTbt0gzLX/J59hyCfrtZV1Iv6N
- QXSBSSn/xjJwdofhYhIXkWwZtG7EiNDreUlh9qXlpb1HzJjDISgyuqC0X3WbkQR+MVG4
- FsxRTSUWECvQS9Tj+gL7G8ctYW+nSPk0WsnevSbEH65MKGVbPJWjpflBagrfZqgdmwuJ
- iw3OfDvsd3OViUteFP0tVkxVEOZQDj3TE+J/Iy5lyqsxmBZdbeKn+GgsZFk2Dfa5/iA9
- ROug==
-X-Gm-Message-State: AOJu0YzV33bFVkIoHuOrdll9s9eXYjCtNG1QghEQEPgXmjgLHozW159I
- 9IMDeslL3CMvCdB5jzkgy5taHA==
-X-Google-Smtp-Source: AGHT+IF3BuvnLiDMOCnyW5AJa/rMsbhaZSmkEDsEHvVaD90jVBMWixO3kjtvNOuQdxzuSq5gRUzjnQ==
-X-Received: by 2002:a05:600c:cf:b0:401:609f:7f9a with SMTP id
- u15-20020a05600c00cf00b00401609f7f9amr6744769wmm.8.1695624133076; 
- Sun, 24 Sep 2023 23:42:13 -0700 (PDT)
+ bh=xL2fRR5i7Z8ytWJZ8fikuI0CzZNxyMwNZkn7LWwPIBc=;
+ b=AStBE8O+GgZBlJ6o7iAIoL5GvhqdB7214sDb1dDKTXlNHg6Gqph9EYbTafGYrcNyBg
+ VNKpCW5Uyr22x5KEQ/KH2XAcGbvmm+zWcqMtaf+1BmL+v2ak+QpfROtEXLVqQqQC6tVp
+ 2R2wbUg83ZcfWjOl4Po1iiqBUe0uk0SmGOSnIuovERLbMNvK80iP6HGtALXONwnHTmNF
+ R51kuSpBtqV9V+zI5czQNELv0FrrbVY8Li6NEKwS0v+QGcWECSFJXo3JPG8jUa70n6LF
+ cVcCylKbPOBFAwI5a88u3Ovl7j5UVhhZ1M5AOIrw3kArEnyoXipHHziKkMXiUb0om+6w
+ 8igQ==
+X-Gm-Message-State: AOJu0Yyps83sJ28mQDYHdHcvCYV28WW3WRirdJxQXtS6Xt/tG/7SpWpR
+ Dez2g+ofbkVo1PzkIh2FhzlieA==
+X-Google-Smtp-Source: AGHT+IEukJx2vgrSb3uUJj0dsvdzKXDJQ9VzA6AXnsQw2puF6X0hzj2sui/dwJxOawyQrv4B2sAg/A==
+X-Received: by 2002:a7b:cbd1:0:b0:401:b2c7:349b with SMTP id
+ n17-20020a7bcbd1000000b00401b2c7349bmr4399555wmi.7.1695624167950; 
+ Sun, 24 Sep 2023 23:42:47 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.219.100])
  by smtp.gmail.com with ESMTPSA id
- w10-20020adfd4ca000000b0031762e89f94sm10899573wrk.117.2023.09.24.23.42.11
+ w10-20020adfd4ca000000b0031762e89f94sm10899573wrk.117.2023.09.24.23.42.46
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 24 Sep 2023 23:42:12 -0700 (PDT)
-Message-ID: <e69ca292-e0b9-4ee2-9f4e-6e9300a636a6@linaro.org>
-Date: Mon, 25 Sep 2023 08:42:11 +0200
+ Sun, 24 Sep 2023 23:42:47 -0700 (PDT)
+Message-ID: <c6983f0e-9a62-4fe8-bb1a-01c44ec43985@linaro.org>
+Date: Mon, 25 Sep 2023 08:42:46 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 02/15] dt-bindings: gce: mt8195: Add
- CMDQ_SYNC_TOKEN_SECURE_THR_EOF event id
+Subject: Re: [PATCH 03/15] soc: mailbox: Add SPR definition for GCE
 Content-Language: en-US
 To: =?UTF-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>, 
  "jassisinghbrar@gmail.com" <jassisinghbrar@gmail.com>,
@@ -67,9 +66,9 @@ To: =?UTF-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>,
  "angelogioacchino.delregno@collabora.com"
  <angelogioacchino.delregno@collabora.com>
 References: <20230918192204.32263-1-jason-jh.lin@mediatek.com>
- <20230918192204.32263-3-jason-jh.lin@mediatek.com>
- <20372e40-e4fc-467a-d91a-fcf8e26728bc@linaro.org>
- <1f324b04cbd8faa7510a3519eb718c0be25af2be.camel@mediatek.com>
+ <20230918192204.32263-4-jason-jh.lin@mediatek.com>
+ <797fc698-54d2-4848-3a4d-43ca631eb96d@linaro.org>
+ <d2fee308c86c23e98e99497d2de138e31ad72537.camel@mediatek.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -115,7 +114,7 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <1f324b04cbd8faa7510a3519eb718c0be25af2be.camel@mediatek.com>
+In-Reply-To: <d2fee308c86c23e98e99497d2de138e31ad72537.camel@mediatek.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -147,30 +146,36 @@ Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 25/09/2023 07:05, Jason-JH Lin (林睿祥) wrote:
+On 25/09/2023 07:08, Jason-JH Lin (林睿祥) wrote:
 > Hi Krzysztof,
 > 
 > Thanks for the reviews.
 > 
-> On Sat, 2023-09-23 at 20:01 +0200, Krzysztof Kozlowski wrote:
+> On Sat, 2023-09-23 at 20:02 +0200, Krzysztof Kozlowski wrote:
 >>  	 
 >> External email : Please do not click links or open attachments until
 >> you have verified the sender or the content.
 >>  On 18/09/2023 21:21, Jason-JH.Lin wrote:
->>> CMDQ_SYNC_TOKEN_SECURE_THR_EOF is used as secure irq to notify CMDQ
->>> driver in the normal world that GCE secure thread has completed a
->> task
->>> in thee secure world.
+>>> GCE has specific purpose registers, abbreviated as SPR.
+>>> Client can us SPR to store data or programs.
+>>>
+>>> In CMDQ driver, it allows client to STORE or LOAD data into SPR.
+>>> The value stored in SPR will be cleared after reset GCE HW thread.
+>>>
+>>> There are 4 SPR (register index 0 - 3) in every GCE HW thread.
+>>> SPR is thread-independent and HW secure protected.
+>>>
+>>> Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
+>>> ---
+>>>  include/linux/soc/mediatek/mtk-cmdq.h | 5 +++++
 >>
->> How can #define be added after its usage? Does it even make any sense
->> of
->> being separate patch?
->>
+>> There is no user of this... Why do you add unused defines?
 > 
-> This definition is used in the mt8195.dts at [PATCH 15/15] and the CMDQ
+> It'll be used in cmdq_sec_insert_backup_cookie() at [PATCH 10/15].
+> Should I merge this patch into [PATCH 10/15]?
 
-No, the define is used in previous patch, which means your patchset is
-not bisectable and not tested.
+Yes, because what is the purpose of adding unused defines? I asked
+before and did not get answer...
 
 Best regards,
 Krzysztof
