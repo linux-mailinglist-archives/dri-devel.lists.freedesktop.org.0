@@ -2,139 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FF1C7AEE7B
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Sep 2023 16:38:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35D887AEE86
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Sep 2023 16:47:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3EC0C10E134;
-	Tue, 26 Sep 2023 14:38:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7679A10E3EF;
+	Tue, 26 Sep 2023 14:46:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C2B310E134;
- Tue, 26 Sep 2023 14:38:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1695739098; x=1727275098;
- h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=XWsjvL50sFkKOt6WSHJSK6lnHDwGTfxBEfEvbWjjgzI=;
- b=V8zHxAfI0R8J2KzmUMMQIP1uSVowcabLc0JWaq6hsxX3eTeA1u2n3w5k
- klpV+RfpILhoFB+wFCIHIYa3+j2zj+hXo6oYrQeYBBFq8G4wpEhpq9HNl
- Xwkrkv5SjCx9kocwHUKkmCT9JOwYmI2VpErA0q9tOCrrMP0q0coPfuxxu
- Qx7ZSY5C1CkygVFXcjACIPWLnkue3GIFg+OJDF2cMNr9PLMn56lvlQJoM
- WLE1oKMFwzuC81BuRpE/m71vXhWAAvJhDmBVGqR9UGj8Gd/0Xdv0syXZo
- cGXTkzn2B9SVfVdpfw1gBwR4BOmX1ViVn+ccr1oXxwVNh1o8pE/xIRAmg Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10845"; a="445709883"
-X-IronPort-AV: E=Sophos;i="6.03,178,1694761200"; d="scan'208";a="445709883"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Sep 2023 07:38:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10845"; a="814502880"
-X-IronPort-AV: E=Sophos;i="6.03,178,1694761200"; d="scan'208";a="814502880"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
- by fmsmga008.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 26 Sep 2023 07:38:16 -0700
-Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32; Tue, 26 Sep 2023 07:38:16 -0700
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32; Tue, 26 Sep 2023 07:38:15 -0700
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32 via Frontend Transport; Tue, 26 Sep 2023 07:38:15 -0700
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.109)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.32; Tue, 26 Sep 2023 07:38:15 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bdgvnExUbJ3VbjxdG/zk0NIloGU6+5Pk7T930HzBY9JmDJhQKQW96L7/NVVScv5gnBFfEqnMwfI+aqPLWI9jFhZ7WGCKUIW8nnvHqaAd+8qrxW7DLqOwjSNXqY0yUhA9zM077rsg99MrJQSkVW4MV8EXbZtNB3bXKWsIxvjkvKt+pS1ooA06Xl+lx+Y+Ip5G1AohDnJgHu9QTJhb+sraPVMbs5s2QYbRbNwTJ/++wnSYbbCQ7EK2stbxsy7cV6Pl4lU05vik70AK+te6CT5KZsbUPWY9SG5PKWCxWnT4UAe1qc4euE0UVJlewGK/GkRDCXnPzPYZB375PxRO4mSd3w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=iqq7PTKZavZ1ekSqL4v3twTMIg9WbraCNpQX4rtyjO8=;
- b=Fhjbo6PNwl/xxz1KuktBlmd7HeI0voUeaHk4PD17LTkKXFsCJ1x2ecdx6sKokAdkj9ak/V+L7bGRS7zgs8Qt7vsC7r6yB1xe27jsJlS27942CZpzO1VAzhrwkKEoSLmSR0vtgaPLPgEv28MWJAK3UaygKPbyD471uy+0XTnX4JfAJCRqg7JSFSSCqJpkwaFJEbEmWwmqG6rxLPhpyPaWnakS50bPNE7PX+vBvLpdduTzaoec47EwtdBLxuE4ogub3FZwkp5LSMFwxadRXIfX28evRsx4OHmpggC568kvMmwASbuxtEi5/yO/wEj20M5b3XI10pvTyhyK909ZbzcUzA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DS7PR11MB7859.namprd11.prod.outlook.com (2603:10b6:8:da::22) by
- DS7PR11MB6173.namprd11.prod.outlook.com (2603:10b6:8:9b::21) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6792.28; Tue, 26 Sep 2023 14:38:13 +0000
-Received: from DS7PR11MB7859.namprd11.prod.outlook.com
- ([fe80::48d9:4c34:35b:f66]) by DS7PR11MB7859.namprd11.prod.outlook.com
- ([fe80::48d9:4c34:35b:f66%4]) with mapi id 15.20.6768.029; Tue, 26 Sep 2023
- 14:38:12 +0000
-Date: Tue, 26 Sep 2023 07:38:09 -0700
-From: Matt Roper <matthew.d.roper@intel.com>
-To: Nirmoy Das <nirmoy.das@intel.com>
-Subject: Re: [PATCH] drm/i915/mtl: Skip MCR ops for ring fault register
-Message-ID: <20230926143809.GG2706891@mdroper-desk1.amr.corp.intel.com>
-References: <20230926141842.8681-1-nirmoy.das@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20230926141842.8681-1-nirmoy.das@intel.com>
-X-ClientProxiedBy: BYAPR05CA0088.namprd05.prod.outlook.com
- (2603:10b6:a03:e0::29) To DS7PR11MB7859.namprd11.prod.outlook.com
- (2603:10b6:8:da::22)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 225F610E137;
+ Tue, 26 Sep 2023 14:46:55 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id A23AF21857;
+ Tue, 26 Sep 2023 14:46:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1695739613; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=NPFpRw40YGFhSZ0dkJaS5uu5x5ldrJSDLdzG+izQHrc=;
+ b=WVmOtb+29itRxhXNqD/8cA/b4Uhh1aEX0qLCJJ7mJ8XAerCMn8fl7K5XrjOp8569eyovFO
+ 0UJk0UcuLW9ME0OOYTAbX4LluAb5i5ayDVv820yW5btAfDEwdY6UklQNK/327tqi0PZ0Y+
+ Hn4dNOhOYsYLQcWvW4/y6lbxWARzkDY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1695739613;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=NPFpRw40YGFhSZ0dkJaS5uu5x5ldrJSDLdzG+izQHrc=;
+ b=rbpsKkCyKRi6ITQqjCv8OwMEsZZZwaGAzDq8J755JBXImKh/LD+7DlGBtTpXHkr8+8rSRX
+ AaGd27yENlE1gQBw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E936C13434;
+ Tue, 26 Sep 2023 14:46:52 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id vZnlNdzuEmWFZgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Tue, 26 Sep 2023 14:46:52 +0000
+Message-ID: <ab0a74be-3723-4803-89fa-826298a38679@suse.de>
+Date: Tue, 26 Sep 2023 16:46:51 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS7PR11MB7859:EE_|DS7PR11MB6173:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2af261e6-ad33-4017-a36a-08dbbe9e360c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: KUfqb1C9Bsll+F11wk/j5wwE95slb6cnrejaweJEPFbpORZ0L5lumxxnuZDYcUH3/OJF5evuABESPac6sMf/6XX2Go26wq9q4Ax1YxvyU+9g7HThtd578MpRpBeQayWndECCRaz0im+xav3QZb3ZxDGGLh+LVElUrt0QAg+klYeVvYyCtSpDPOwGRVEjvz3J6bOg5ndueRXqDm7miK+uS5UWyCfN4EKK1+t4DqT2qqtwKxFw5xWQzOIZJ4o6/vYevadrUmKAQLdzcDYdcIgDUIWCJW0vf+ChDQXD8q0FjgKuPUeYoh9jCI9Se5HwuxHMeN0lsysmRZXlgaWxr0Ah8e6XMNt8wrheyaeKaITeafqw7g8kHGzY51B+wuroMzY1dc1VGvJ10S6+M36zNTP1rTmtXqCx/NQr+fLwOt0PGM44Hmi8g0MjvUqm/U+qcqgfZsQw2A+gmFQiFRE9gRuDzPPVGK6IdhrfUizAxoRSdM6qgq9eczjPtIu2T6p1qIkebJ79OeuC6DZGPLJu/HM/F3j2ofOwk8WljaqAfYUp5YiYy85+/25Qq4EJ5+aBdz+Q
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DS7PR11MB7859.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(396003)(376002)(366004)(346002)(136003)(39860400002)(230922051799003)(1800799009)(451199024)(186009)(6666004)(5660300002)(38100700002)(4326008)(8676002)(6862004)(8936002)(33656002)(6512007)(86362001)(6636002)(316002)(66556008)(66946007)(66476007)(6486002)(41300700001)(6506007)(82960400001)(26005)(2906002)(478600001)(1076003)(83380400001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?vtd3GBljsm5MovGbHtD0lpUjYF0dKR1hRNiYzBnfBXZbUhPAlbb9526zFRne?=
- =?us-ascii?Q?+jCFX7WSCEKUC3bRA5Mn+y++NzqXUO6Ud3DIqhiUlwITxg7R5zKU2+gjUXlg?=
- =?us-ascii?Q?1n8bjgQag25CgVqOWCGh4XY1KhfvRRtBEzUJporEiqtkj9LLc0tEig7dRN8M?=
- =?us-ascii?Q?huUpY5Akx+xmFa/HI9O85aym0mqCe/33ddpVQa26PXqiHHl5uGc7COBlvRim?=
- =?us-ascii?Q?nVO9Af2/ssOJztsaAXVBwTyzhHOJYA8VgJma1sy4KxEIWV4qZYPjsxpf/LhL?=
- =?us-ascii?Q?+GTLyuDWyj6gbjtHBV7PmaJBwjutimHeJm0xkpN/HJifhtPjbiCM+jqoDegj?=
- =?us-ascii?Q?QZC0Pptquu941sonzq8VV9rUfjykttpMGAeEXuVbi0sIVlCs79U2fMKxVxV8?=
- =?us-ascii?Q?xrWDWldserodpgYll4+C8LOEeshu6qI708uaKA9svWOC/GJpRs7ryccnNaTU?=
- =?us-ascii?Q?4eHkrA0eV9xVh8ZKqPek7tUfsX/s7s6Ohn/DqUmhUa0X+utjsR7B4nAxY762?=
- =?us-ascii?Q?3ML/9FBhNLQI2jEHI/YMnibiLJ/NNuZRxrxfAg3vEcw9e/0KKsQwPYY8kRwW?=
- =?us-ascii?Q?CGYUgU6EIPBEYD96pVzzHS0YyQN5qWsNUUbzYXLyQyaWmwjhFIO+aa6zQ8dF?=
- =?us-ascii?Q?2ATdTam9/G6+kCTd1K5czRIOooPfHI1e9+aG0lR7Gr6+POLOyagxMM8KOIPl?=
- =?us-ascii?Q?yb4toTOH9Dxaswr6Zng3XTrX8ogNsJjp+mMjD4Eu9+qylfJFpZip12OgmUbx?=
- =?us-ascii?Q?E2s87Z0EP2xhaKTzDsoCqj4Iur/t1DxWEMwTLEmpJz8a6wVv8kVZjJMsv8L7?=
- =?us-ascii?Q?QZRdGHuC3GxPrsezlhPIlTVXLVS87NL4hBw/vGGrVE3ykTCiJarqhYhx29Xu?=
- =?us-ascii?Q?nf0nodfl8ozWKEX645aqF1BZarBHW8jQ+Gy4xke6BrE1Tu4W8F1Uy1bzd06p?=
- =?us-ascii?Q?VtAlWL5Ig6DfJmQbHTXRM8+QYmdVdM2JKr2Dc8YYyP0q5tzY/PwcYQ/pSbT5?=
- =?us-ascii?Q?44d4zcdQ4GwC1Z9xMSyK9rTCibaWg73n3RTnkm54wTZR/kXp5Gf2jSjddRBx?=
- =?us-ascii?Q?bQse7LPqLz1OnOPTjWjU3pGj4cyTeSEuR8mf3cv2EyAXBgFqCZ0bglgQMdSa?=
- =?us-ascii?Q?vd5JK66VLqthvgCRRzm8ucYUqw2vPDOS7IRMqqw2BApuSXNV69Ol9PN2VV83?=
- =?us-ascii?Q?vhKxcKspYlL50+0DTDVsno7LUgYgE0y3XUwcuQK5P095+McoFjAWGIG1dlOM?=
- =?us-ascii?Q?ZVYWRyVKirXG9E4E+AnHkRV6wz3w8kzocZ1vQVDAPhAxmrUoA/bSPPWYX7dE?=
- =?us-ascii?Q?L1ClHOSXjWnOKqggYnJBMSD/3WhDGgwwa+UXKVmMKSKFn6eIcMRy55gwPkqf?=
- =?us-ascii?Q?YE+taw+GJrONFxpFNaPyGhtgfgN96aJBnW9zYLwdD2kFtKTKqYqCt4LyzNAF?=
- =?us-ascii?Q?TyHc2oq7pkkXRBpsGXXDs9TvppJwQrZ2ZltFQvsK145izIj0WYOIgQtiLuM2?=
- =?us-ascii?Q?/67KpkfgPw7H6kKKTtK27z9KMdrYLoBZvs6RNeOcLm8DaTmDXhY8GN85oiM0?=
- =?us-ascii?Q?4LBrTrXrvsxcBJ6wEsEd/+B18Vb24vNUQpVHIxqgOYf7ZvETnwu0yqVFBATo?=
- =?us-ascii?Q?Aw=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2af261e6-ad33-4017-a36a-08dbbe9e360c
-X-MS-Exchange-CrossTenant-AuthSource: DS7PR11MB7859.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Sep 2023 14:38:12.6352 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Ewj2+hGd3aVmjtVqNQqwn+SF1Q+eN7f4nEH2xVJJPhC2OaObx/z4tafIlLHZ7Cm+TsWOxrdt+Wr/DB9NBhKkQAdPAvtDCILdsMUvyMS7YaY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR11MB6173
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RESEND PATCH v2 0/2] drm: Refactor plane size calculation by
+ core helper functions
+Content-Language: en-US
+To: Carlos Eduardo Gallo Filho <gcarlos@disroot.org>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <20230926141519.9315-1-gcarlos@disroot.org>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20230926141519.9315-1-gcarlos@disroot.org>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------ks5BiOLYs0vh0jmHiB1L5bxB"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -147,99 +94,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, andi.shyti@linux.intel.com,
- dri-devel@lists.freedesktop.org
+Cc: Matt Roper <matthew.d.roper@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>,
+ Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>,
+ Tales Aparecida <tales.aparecida@gmail.com>,
+ Maxime Ripard <mripard@kernel.org>, Maira Canal <mairacanal@riseup.net>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
+ Arthur Grillo <arthurgrillo@riseup.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 26, 2023 at 04:18:42PM +0200, Nirmoy Das wrote:
-> On MTL GEN12_RING_FAULT_REG is not replicated so don't
-> do mcr based operation for this register.
-> 
-> Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
-> ---
->  drivers/gpu/drm/i915/gt/intel_gt.c      | 14 +++++++++++++-
->  drivers/gpu/drm/i915/gt/intel_gt_regs.h |  1 +
->  drivers/gpu/drm/i915/i915_gpu_error.c   | 11 ++++++++++-
->  3 files changed, 24 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
-> index 93062c35e072..d4de692e8be1 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gt.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_gt.c
-> @@ -262,10 +262,22 @@ intel_gt_clear_error_registers(struct intel_gt *gt,
->  				   I915_MASTER_ERROR_INTERRUPT);
->  	}
->  
-> -	if (GRAPHICS_VER_FULL(i915) >= IP_VER(12, 50)) {
-> +	/*
-> +	 * for media tile this ring fault register is not replicated
-> +	 * so skip doing mcr ops on it.
-> +	 */
-> +	if (GRAPHICS_VER_FULL(i915) >= IP_VER(12, 50) &&
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------ks5BiOLYs0vh0jmHiB1L5bxB
+Content-Type: multipart/mixed; boundary="------------sbIFnpCcqBy9s2RCAy0DDNHu";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Carlos Eduardo Gallo Filho <gcarlos@disroot.org>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>,
+ Maira Canal <mairacanal@riseup.net>, Arthur Grillo
+ <arthurgrillo@riseup.net>, Tales Aparecida <tales.aparecida@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>,
+ =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+ Matt Roper <matthew.d.roper@intel.com>,
+ Clint Taylor <clinton.a.taylor@intel.com>,
+ Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+Message-ID: <ab0a74be-3723-4803-89fa-826298a38679@suse.de>
+Subject: Re: [RESEND PATCH v2 0/2] drm: Refactor plane size calculation by
+ core helper functions
+References: <20230926141519.9315-1-gcarlos@disroot.org>
+In-Reply-To: <20230926141519.9315-1-gcarlos@disroot.org>
 
-This should be checking the media version rather than the graphics
-version.  I.e., "MEDIA_VER(i915) > 13" since it's possible future
-versions of the media IP may change the behavior (independently of the
-graphics IP versions).
+--------------sbIFnpCcqBy9s2RCAy0DDNHu
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
+SGkNCg0KQW0gMjYuMDkuMjMgdW0gMTY6MTUgc2NocmllYiBDYXJsb3MgRWR1YXJkbyBHYWxs
+byBGaWxobzoNCj4gVGhlcmUncyBkdXBsaWNhdGVkIGZ1bmN0aW9ucyBvbiBkcm0gdGhhdCBk
+byB0aGUgc2FtZSBqb2Igb2YgY2FsY3VsYXRpbmcNCj4gdGhlIHNpemUgb2YgcGxhbmVzIGZy
+b20gYSBkcm1fZm9ybWF0X2luZm8gYW5kIHRoZSBzaXplIG9mIGl0cyBmaXJzdA0KPiBwbGFu
+ZS4gU28gdGhpcyBwYXRjaHNldCB0aHJvdyBhd2F5IHRoZSBtb3JlIHNwZWNpZmljIHZlcnNp
+b24gaW50ZW5kZWQNCj4gdG8gYmUgdXNlZCBmcm9tIGEgZ2l2ZW4gZnJhbWVidWZmZXIgYW5k
+IG1ha2UgdGhlIGdlbmVyaWMgdmVyc2lvbiB3YXkNCj4gbW9yZSBwb3J0YWJsZSBhZ2FpbnN0
+IHRoZSBkcml2ZXJzLg0KDQpGb3IgYm90aCBwYXRjaGVzDQoNClJldmlld2VkLWJ5OiBUaG9t
+YXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4NCg0KQmVzdCByZWdhcmRzDQpU
+aG9tYXMNCg0KPiANCj4gVGhhbmtzLA0KPiBDYXJsb3MNCj4gDQo+IC0tLQ0KPiB2MjoNCj4g
+ICAgLSBOZXcgcGF0Y2ggIltQQVRDSCB2MiAxLzJdIGRybTogUmVtb3ZlIHBsYW5lIGhzdWIv
+dnN1YiBhbGlnbm1lbnQgcmVxdWlyZW1lbnQNCj4gICAgICBmb3IgY29yZSBoZWxwZXJzIi4N
+Cj4gDQo+IENhcmxvcyBFZHVhcmRvIEdhbGxvIEZpbGhvICgyKToNCj4gICAgZHJtOiBSZW1v
+dmUgcGxhbmUgaHN1Yi92c3ViIGFsaWdubWVudCByZXF1aXJlbWVudCBmb3IgY29yZSBoZWxw
+ZXJzDQo+ICAgIGRybTogUmVwbGFjZSBkcm1fZnJhbWVidWZmZXIgcGxhbmUgc2l6ZSBmdW5j
+dGlvbnMgd2l0aCBpdHMgZXF1aXZhbGVudHMNCj4gDQo+ICAgZHJpdmVycy9ncHUvZHJtL2Ry
+bV9mcmFtZWJ1ZmZlci5jICAgICAgIHwgNjQgKystLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0K
+PiAgIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZmIuYyB8ICAyICstDQo+
+ICAgaW5jbHVkZS9kcm0vZHJtX2ZvdXJjYy5oICAgICAgICAgICAgICAgIHwgIDUgKy0NCj4g
+ICBpbmNsdWRlL2RybS9kcm1fZnJhbWVidWZmZXIuaCAgICAgICAgICAgfCAgNSAtLQ0KPiAg
+IDQgZmlsZXMgY2hhbmdlZCwgOCBpbnNlcnRpb25zKCspLCA2OCBkZWxldGlvbnMoLSkNCj4g
+DQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXIN
+ClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KRnJhbmtlbnN0cmFzc2Ug
+MTQ2LCA5MDQ2MSBOdWVybmJlcmcsIEdlcm1hbnkNCkdGOiBJdm8gVG90ZXYsIEFuZHJldyBN
+eWVycywgQW5kcmV3IE1jRG9uYWxkLCBCb3VkaWVuIE1vZXJtYW4NCkhSQiAzNjgwOSAoQUcg
+TnVlcm5iZXJnKQ0K
 
-Matt
+--------------sbIFnpCcqBy9s2RCAy0DDNHu--
 
-> +	    gt->type == GT_MEDIA) {
-> +		intel_uncore_rmw(uncore, XELPMP_RING_FAULT_REG,
-> +				 RING_FAULT_VALID, 0);
-> +		intel_uncore_posting_read(uncore,
-> +					  XELPMP_RING_FAULT_REG);
-> +
-> +	} else if (GRAPHICS_VER_FULL(i915) >= IP_VER(12, 50)) {
->  		intel_gt_mcr_multicast_rmw(gt, XEHP_RING_FAULT_REG,
->  					   RING_FAULT_VALID, 0);
->  		intel_gt_mcr_read_any(gt, XEHP_RING_FAULT_REG);
-> +
->  	} else if (GRAPHICS_VER(i915) >= 12) {
->  		intel_uncore_rmw(uncore, GEN12_RING_FAULT_REG, RING_FAULT_VALID, 0);
->  		intel_uncore_posting_read(uncore, GEN12_RING_FAULT_REG);
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_regs.h b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-> index cca4bac8f8b0..eecd0a87a647 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-> +++ b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-> @@ -1084,6 +1084,7 @@
->  
->  #define GEN12_RING_FAULT_REG			_MMIO(0xcec4)
->  #define XEHP_RING_FAULT_REG			MCR_REG(0xcec4)
-> +#define XELPMP_RING_FAULT_REG			_MMIO(0xcec4)
->  #define   GEN8_RING_FAULT_ENGINE_ID(x)		(((x) >> 12) & 0x7)
->  #define   RING_FAULT_GTTSEL_MASK		(1 << 11)
->  #define   RING_FAULT_SRCID(x)			(((x) >> 3) & 0xff)
-> diff --git a/drivers/gpu/drm/i915/i915_gpu_error.c b/drivers/gpu/drm/i915/i915_gpu_error.c
-> index f4ebcfb70289..83f1a729da8b 100644
-> --- a/drivers/gpu/drm/i915/i915_gpu_error.c
-> +++ b/drivers/gpu/drm/i915/i915_gpu_error.c
-> @@ -1234,7 +1234,16 @@ static void engine_record_registers(struct intel_engine_coredump *ee)
->  	if (GRAPHICS_VER(i915) >= 6) {
->  		ee->rc_psmi = ENGINE_READ(engine, RING_PSMI_CTL);
->  
-> -		if (GRAPHICS_VER_FULL(i915) >= IP_VER(12, 50))
-> +		/*
-> +		 * for media tile this ring fault register is not replicated
-> +		 * so skip doing mcr ops on it.
-> +		 */
-> +		if (GRAPHICS_VER_FULL(i915) >= IP_VER(12, 50) &&
-> +		    engine->gt->type == GT_MEDIA)
-> +			ee->fault_reg = intel_uncore_read(engine->uncore,
-> +							  XELPMP_RING_FAULT_REG);
-> +
-> +		else if (GRAPHICS_VER_FULL(i915) >= IP_VER(12, 50))
->  			ee->fault_reg = intel_gt_mcr_read_any(engine->gt,
->  							      XEHP_RING_FAULT_REG);
->  		else if (GRAPHICS_VER(i915) >= 12)
-> -- 
-> 2.41.0
-> 
+--------------ks5BiOLYs0vh0jmHiB1L5bxB
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
 
--- 
-Matt Roper
-Graphics Software Engineer
-Linux GPU Platform Enablement
-Intel Corporation
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmUS7twFAwAAAAAACgkQlh/E3EQov+Bz
+MxAAkqBvT6Uwh3P/b4qfGDlo/dlOGShngjBLRAOcIxTqNGppptskijN4X7FyYW/XWSZCpv44zo/2
+uZefYRxNw62NSoxlgNlrsCZL2xUK0wcXqx9OiuuEaWfx5aSX+S2QR8NqePKJkcwmeanQG3G4neLb
+X5raLeSbuuM4UQEp5fJelGcxzPIEeruJe3do9EpQufujPfPAiSBNL7IH6izQzwHTMBKD963LFv5O
+EIjf9En9eubRGRSwDFLNTNxlambwBL+dkYU/kb1tGxtwrxmSd1uM7S3fExBQQJpcOoLB35M/im7h
+21hL29UVRdi0rcMB4TuG7Iw30ws2oe32joVl+pGfcKInzrHC5GCE7mf8X7rmgkD3e9ZQx4RcDDPk
+c03Mm61jGr9Y2lwtrceodo3GM8WDuPB4jUJqjq9i441RWfQ03qgzRBot5k01p1GtQY/czM5/4uzu
+2LZlDWrIkBsT5CyXLWn+TsKSIaGBy6MIFrx7FoamgHm9FEfEI2pQBXiHPbb5NQsMIlU1+FjbohAj
+jLLJ4PWhZ1QjKACRSjESl/Tfdev2eIIUZZUmS6R9GYW9pFZKXcNf5HchhcDIy/dsKkT7F+1pXb9l
+Y4WPhL09R/y12jHqst+fCkTcBgmm43ins5i38PU9bMa8+XKJli/xhdzV3lSp+qUUveXwkb2GQvGI
+0pU=
+=+q7s
+-----END PGP SIGNATURE-----
+
+--------------ks5BiOLYs0vh0jmHiB1L5bxB--
