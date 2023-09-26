@@ -2,122 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 960737AEDB8
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Sep 2023 15:10:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 706B77AEDBE
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Sep 2023 15:10:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D700710E3D9;
-	Tue, 26 Sep 2023 13:10:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C02F10E3DA;
+	Tue, 26 Sep 2023 13:10:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2077.outbound.protection.outlook.com [40.107.237.77])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A1F7710E3D8;
- Tue, 26 Sep 2023 13:10:06 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LO8xyhn0t3ZXRotn9VvjhSPV/RHFoiwf0zvcQV4VzlTjXvBk3JzSj7D+C/8XQ4OnUZIk7X6dxFE9lWZ3YnL59HQfCBPEWLN6HaEJrzfVnJRyZeR3w9OX9z9gCqKuPU1IPo1S45p0x24qgvOW0i0804ugfVSumMvL9arTHe3l5B/jqWBS81zDdBut5TNqwqpbG2Fc2zT4zAt2pQlhMGCImb1gMYE8iqkykITEJQlfRyM19u73aQLB6FBZ7ajtfJZzr4Lk+uC7dcCzWbWR0kJUkRmxqYKVd7MDgazpMHRSnvBwYVrvoykFcxl4zEDSF7HYicClhUvZIww3pWrDffdURA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=N+T+joBoxSaNFvetND2OtUyAd/8avk8c+U2ZAcKrvVo=;
- b=WI/HXCbYXyTUFOBbLSB3CEl04GvaopOSSLAdhISoC3Wut3dwgJ8659m089YQ6AaETn4sS2vmk50Kld68fAzYJrO0J8IiOTw+TMHlEKYWD1ifaTVXfSX8rNXNEwQyaaCSEHYklXhkCSsXyY5Xw1L+B2eSoJbHJ4kPo87vVAVgX/Cb/P093qJjoTj9cF1MER6zxMzJLO/u6oPAlylJ5Y6Rkn+bT28Qcccd+4P/XLR7UsE7iUZ+3L4qHqKyjyCjlDAQ5IeAg75yL8gykLfZxgKQiC33JQ2i1ihIDXghlpM+a3TGZdLSTXPCev9UP4nHwmbey+b4SKmegE9HQ0H9mHz+NQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=N+T+joBoxSaNFvetND2OtUyAd/8avk8c+U2ZAcKrvVo=;
- b=zoWQv630d5jJzGV18LmXslslNpXxqaB0x1kSSh/PhfRWWzJ+UuPAJ0wphLwbMaseO5sV3+Geub22V5BR34pTEtPSrzcEexYdMGGSrTAUK10oSsQq8zSVudWIRsjzHI45aZV8Z7IPVcQgN3msexCuZ8fyrfs3rkqyCZa2+oFz4Jo=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from CO6PR12MB5427.namprd12.prod.outlook.com (2603:10b6:5:358::13)
- by SA1PR12MB8885.namprd12.prod.outlook.com (2603:10b6:806:376::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6813.28; Tue, 26 Sep
- 2023 13:10:03 +0000
-Received: from CO6PR12MB5427.namprd12.prod.outlook.com
- ([fe80::121e:5e68:c78a:1f2f]) by CO6PR12MB5427.namprd12.prod.outlook.com
- ([fe80::121e:5e68:c78a:1f2f%3]) with mapi id 15.20.6813.018; Tue, 26 Sep 2023
- 13:10:02 +0000
-Message-ID: <a71a61fb-2330-4fba-85a7-9ba2a3642dc7@amd.com>
-Date: Tue, 26 Sep 2023 09:09:56 -0400
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] drm/amd/display: Fix null pointer dereference in
- error message
-Content-Language: en-US
-To: Cong Liu <liucong2@kylinos.cn>, Leo Li <sunpeng.li@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Aurabindo Pillai
- <aurabindo.pillai@amd.com>, Tom Chung <chiahsuan.chung@amd.com>
-References: <20230926055618.119195-1-liucong2@kylinos.cn>
-From: Harry Wentland <harry.wentland@amd.com>
-In-Reply-To: <20230926055618.119195-1-liucong2@kylinos.cn>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YQBPR0101CA0295.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c01:6d::20) To CO6PR12MB5427.namprd12.prod.outlook.com
- (2603:10b6:5:358::13)
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com
+ [IPv6:2a00:1450:4864:20::32c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D317010E3DA
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Sep 2023 13:10:43 +0000 (UTC)
+Received: by mail-wm1-x32c.google.com with SMTP id
+ 5b1f17b1804b1-4053c6f0e50so80745545e9.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Sep 2023 06:10:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1695733842; x=1696338642; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=gUb8ILoSgQFCLFSqMOXdU7OSCDKaDGHaYb2wQZ5A7J8=;
+ b=wWHl+TsDGeB5SlJIo6oFeghJeHqVtLly7//nY6myNU8MyxzmW/eH1tYMs/9enFeZ2W
+ 5ODefow3ojCeeYz5iq8Y2rjgFRKXhJq7W3IZgRH1rARN2sRbILLnkdKdI/cStiGL7LCf
+ OzPo1JblPJ53dnZgZpQ3vQo+QwKv8eC42tGYb3qMk7jIszXPpd488E1QqerDg2YBkPk2
+ Qfza1+uq/PXNpoidsrZzttu77lHmRiPyPgG2Uz/FCF6KrVLFRXX0H109fn0jZln+OUni
+ H/bTyBTSkZ7BHwe8nuUOB90t5jRz3tRGrAwbuL8v112Oowp+3sMErul5k3pqzdrUe9ze
+ ZcFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1695733842; x=1696338642;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=gUb8ILoSgQFCLFSqMOXdU7OSCDKaDGHaYb2wQZ5A7J8=;
+ b=s36Yx17kRuB5lXY6ah+hMMdSr+j1JoEXzZYie3fjwttuB2h6iuSBIYHApTjlU6uCgu
+ pFoMeenLLHYJpjZBSvstJNxwuqr/jGjniQ2tQdsXkIpC6CUfDzKd25O6Oh4YG2Y8L+b1
+ TGemIS1EZmoD1dd+NnHV++D1VlcFTtX/4dqYDKcQeFWjvPto2NOxmCBEzxjZnNNjCFBM
+ 5OUzn1uhtbaeCxU6gO2pUMgmbRhU7hcFMID9rMdabzYHK15U+XrD7delRBZmt/cJI7J4
+ ALIaPVzLbpgZ+pYojq/p9HnX4HylY+ECR6yoU5BkWPUEm8rUoAleC426FTFTP8abkPMO
+ VSbQ==
+X-Gm-Message-State: AOJu0Yw05QNhF7w8FQ1sxSxWzC7YmiBn/3gQ/x8Kheu34lw4Pg1UHLXa
+ N37DVzbFklGwfKKJo0lNrLayfA==
+X-Google-Smtp-Source: AGHT+IGeSiQ3WveeVgUpyC7fww+V4WeYYuKrHSsckzOgpEr82JSyPAjlpUwHyvObx/ZUX2OzY5V6rg==
+X-Received: by 2002:a05:600c:2489:b0:405:3dbc:8821 with SMTP id
+ 9-20020a05600c248900b004053dbc8821mr8955020wms.22.1695733842083; 
+ Tue, 26 Sep 2023 06:10:42 -0700 (PDT)
+Received: from aspen.lan
+ (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
+ by smtp.gmail.com with ESMTPSA id
+ j13-20020adfd20d000000b003232c2109cbsm4788764wrh.7.2023.09.26.06.10.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 26 Sep 2023 06:10:41 -0700 (PDT)
+Date: Tue, 26 Sep 2023 14:10:39 +0100
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Flavio Suligoi <f.suligoi@asem.it>
+Subject: Re: [PATCH v3 2/2] backlight: mp3309c: Add support for MPS MP3309C
+Message-ID: <20230926131039.GC4356@aspen.lan>
+References: <20230925122609.78849-1-f.suligoi@asem.it>
+ <20230925122609.78849-2-f.suligoi@asem.it>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO6PR12MB5427:EE_|SA1PR12MB8885:EE_
-X-MS-Office365-Filtering-Correlation-Id: 791d96f5-b814-4b4a-5a80-08dbbe91e4ba
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Zl336kVRatt1PLCVWU366XweLSdkt3KDKtTHeOC4NxHZKNWzEwGQaHQyIFGskBq8VZgJvdiRB7c+qduPlMLDY6Ec9ivIirQlUxZ0nk7IsQoQPqcCZQ/KDtTt9yQAdUxWgFU+yBpaVqlqpUZStEp5OZi1waE8PpvD6vZCr82FblrjhYKDK/FNVrCMMBHsLziFif4LQUtoNutpC74vVRfE6Hq+1/1f7l4fjNsKYa3IVcMp5Bt5MNI5QHb7R03OW+8C4GZUmLMsc68sLRytNx8GbtqjNdT7vbb4MgaEUXzvx4Oj006akvqVhufb4VmV+uhzsz289ciA935JgTSGmRSdWwi1tXpQcPiTWwHYePyjyVo1A7kSYXmrcKzoCfkjUfuY94DW5G31Yf1MrJvpk8cU/rJZXGcvfRNsYR8xSDv0C7YZpm/Q1sCtY0UcPk4NZoMoTZwVaby6gEpprD9pUe8945bPOHmzUbNhyuZyzneoyDWT4Nya0Jrf65C00MgD+kG3iLvPKt+JBI22fUZQ4tuUx7o71ZKTc7bT6eJ4h5yqrf3zinJBTJx6f8kZf2J8pI0g7WPRP5PZCXTv6wjynxl72Am6zC0iwUq9zAYIdW8AC4TyRYlmk9g0OzFUOZ9MSeo2u1O5Gi0eV6/AoKgG94C+T7cvtFsbxe1kQaq8cuo+TN0=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CO6PR12MB5427.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(39860400002)(346002)(376002)(136003)(366004)(396003)(230922051799003)(186009)(451199024)(1800799009)(86362001)(31696002)(36756003)(31686004)(6506007)(6486002)(5660300002)(6666004)(26005)(53546011)(6512007)(110136005)(66476007)(66556008)(66946007)(2616005)(41300700001)(316002)(478600001)(44832011)(6636002)(8676002)(8936002)(4326008)(2906002)(921005)(38100700002)(83380400001)(15650500001)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?M21rdmFXa0FvajgyY0E2M3VaUlE2OVBZS25tdE9ROUpzbjZMTG95YUJEZU9a?=
- =?utf-8?B?WUxEMGNvSXV1RkRZZWdhUTVtaGk5ei82SzhUODFCVjdWUlBvWjUyVVBYRm45?=
- =?utf-8?B?dzhVYkZGMmlWUVdzRnZybU1qWXlzRld0Z3RWQmY5aXNtWDgwbG51N2VwVDBz?=
- =?utf-8?B?ZWRhZzNPRStVVTYzT04razdXRURUVElzNzRxc1ZRZFB2U0pwb0FFYWZkd1BD?=
- =?utf-8?B?ZVJ6ZWVZZ3hXYTU2QWJUcDE1dVN2djNoMFQ4ZmMwMWI3T2Z4QjYrbDBwY3pk?=
- =?utf-8?B?QXRsbGpvTUxYRmFhYko2eS94TWIxUThJR1c2RmRYWHhPZGFnUlpKRDVYeTUw?=
- =?utf-8?B?N3crME93ODdsN1QvZXFFN2Fady9mK0diUWZlbUNZdm9iTGJuQlJPMEhNNkE2?=
- =?utf-8?B?Y3BzRWJNNXJRbitlaE93dmRwVGkvcFRpUGxIeGhGUGxhNEpCQUVtZG40NUYy?=
- =?utf-8?B?SmE2VHkwWHF3U2VjazIyWnFjRzZhVm0yaGcvaEpoSUJKak1KN3JsYjJYZHZp?=
- =?utf-8?B?SFkwVk1Wd2sxejgwelB3TXBiNHFRM3VrWEVqMlBKZ3M5TlJZWlFWUEFLdTFh?=
- =?utf-8?B?OURtMHluMU1VbVpQQjNyVmtXOVI0ajhITHlXN3hJdzdjSDYwVDlHNTc5dXZ1?=
- =?utf-8?B?Z2FyODJqeGd6T0tEQ3FybUhweEpFbVhKSDduMlVsd2tYd0JqbGtCc3UvLzBJ?=
- =?utf-8?B?cVNPeVd5bXc1THJ3bWVxcms5bUV4UHgxemRydkpsdG5KUkhEVHBQMHlmYW9L?=
- =?utf-8?B?aEd2MmZhZzFNMlMxTGNXVUxBUGZreGxMSWtKWUhjOU9WZlRYUjgrMUJWSSt5?=
- =?utf-8?B?c1lWc09iWFFha3czdFdnZmpyejlvZFIrcTc1U3JoaGJ6ZmppOTh3RzA0amky?=
- =?utf-8?B?OFg4QlpWWVREVnNENmFmaTB2TnEwY3NReUdaekI5MC9sTitFMDdUN0p4aTEz?=
- =?utf-8?B?SXZMS3F1dzV6V1lMS3dld1JTK2NpVFFwSlhhRUhlc3p1WEU3dlRuazcvNnd5?=
- =?utf-8?B?d3JKeXdJdWsveldvemdtVFJYbkFvNGNxQmlFZjQ5SjZrU1dlU3FSTzdVRFhP?=
- =?utf-8?B?bTI3R29MSUVvbFYySXpjc0ZSZ2dDMnBVd3Fka1k3WHB6d251UEpVMUx2aXBR?=
- =?utf-8?B?TDIza0gxc3IrV00rTGpxSGtCb3ROeDJKWEtlUjloVEVuK05LVjJhWmFGNTVk?=
- =?utf-8?B?elplR1I0eGJhaFZtNW05T0IvL256U3pCeXJPM0c1czdxTWl2cnNrejd4azRi?=
- =?utf-8?B?MHh1SlM1S05OV3JwaTBFRmIwNklKcXlpZ2N0Q2tuK0VVV1ZVREVVVXRlVDhH?=
- =?utf-8?B?ekZBOHZNR3FMS1JVcyt6UU0zU08yVUtnRTJORkV0Z3JCaGVKWWx1aURYd2pZ?=
- =?utf-8?B?dm1ienJrdlJpNEl1aGRhQ21YZmxYbTJNdDhkeEtKSzhIOGFzaEN1cTZHVUN0?=
- =?utf-8?B?eWFlNkIwbFRnVVlkam85aGRXYmhDVDZBZEdIaVBKTUswanUvRERKb3A1bkJr?=
- =?utf-8?B?c0FoZHpPczV0VlBndFVycWlIZ0pEblFTM3BJUnlVYTlPYjhaTFZ4SG1CMDU2?=
- =?utf-8?B?RDhkZEdZYndsOTdCdlBsZDNkQit2NUVRSGdEN0xHNVlha3pkNUlsVjlvaTF2?=
- =?utf-8?B?NGIvUW9VbnpaU3QzbVB4Q2xndlVXVks4SWc4WXNPUHhGR1ZvajVMODdoVi9l?=
- =?utf-8?B?clNaWHZPOUZQSDk0cXZ0WVJBaUNtVnc2elBCN1BhSUNZOUhGODMwV2hYYThj?=
- =?utf-8?B?S2RRallUeXZSeTZKVUtuLytua2pwTVNHdG1kanBSd3dJTGdwMnh0QVRGRWgy?=
- =?utf-8?B?OWlkVFFINjI0a1pIYTgvKzc2dVJ6SHR5VWV4RUpJai8raDNieFlOUEsxb21H?=
- =?utf-8?B?R3NyNjczOFUrU3NROGhiVVlJeG9BcjJDWG9lc3V0ckFCaWhOcHBYNzFJTTZL?=
- =?utf-8?B?alhENXpMRk9vQXhGY3ZJcVJoZnFLSW9IQlRZVHpTZ3dyb1U4NmVLbGxYelBv?=
- =?utf-8?B?aWlyc0Q1eTB6WEZlaTF0dTBnSEtySjJiVHc5aTJCUmtCNkZhMkJyTGxNV0tS?=
- =?utf-8?B?M0NqUHVzeE8xWGx6LzdNZjBheHg1Y1laNDE4VWRPTGsyQlptK0MrdnpOYUdi?=
- =?utf-8?Q?qZDo3XEHDYCZfzTFjFX6ulkJM?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 791d96f5-b814-4b4a-5a80-08dbbe91e4ba
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5427.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Sep 2023 13:10:02.1954 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: z00YFkpRm0HhM2ZzND2zIePkznVU0zOIk3PC54dDYR1C7P1GcWqJK0GOIYRf9f8tYH+uvIJMWgw1C4q0FFOdSA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB8885
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230925122609.78849-2-f.suligoi@asem.it>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,44 +74,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ Pavel Machek <pavel@ucw.cz>, Jingoo Han <jingoohan1@gmail.com>,
+ Helge Deller <deller@gmx.de>, Lee Jones <lee@kernel.org>,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ linux-leds@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Sep 25, 2023 at 02:26:09PM +0200, Flavio Suligoi wrote:
+> diff --git a/drivers/video/backlight/mp3309c.c b/drivers/video/backlight/mp3309c.c
+> new file mode 100644
+> index 000000000000..923ac7f7b291
+> --- /dev/null
+> +++ b/drivers/video/backlight/mp3309c.c
+> @@ -0,0 +1,398 @@
+> ...
+> +static int mp3309c_bl_update_status(struct backlight_device *bl)
+> +{
+> +	struct mp3309c_chip *chip = bl_get_data(bl);
+> +	int brightness = backlight_get_brightness(bl);
+> +	struct pwm_state pwmstate;
+> +	unsigned int analog_val, bits_val;
+> +	int i, ret;
+> +
+> +	if (chip->pdata->dimming_mode == DIMMING_PWM) {
+> +		/*
+> +		 * PWM dimming mode
+> +		 */
+> +		pwm_get_state(chip->pwmd, &pwmstate);
+> +		pwm_set_relative_duty_cycle(&pwmstate, brightness,
+> +					    chip->pdata->max_brightness);
+> +		pwmstate.enabled = true;
+> +		ret = pwm_apply_state(chip->pwmd, &pwmstate);
+> +		if (ret)
+> +			return ret;
+> +
+> +		switch (chip->pdata->status) {
+> +		case FIRST_POWER_ON:
+> +		case BACKLIGHT_OFF:
+> +			/*
+> +			 * After 20ms of low pwm signal level, the chip turns
+> +			   off automatically. In this case, before enabling the
+> +			   chip again, we must wait about 10ms for pwm signal to
+> +			   stabilize.
+> +			 */
+> +			if (brightness > 0) {
+> +				msleep(10);
+> +				mp3309c_enable_device(chip);
+> +				chip->pdata->status = BACKLIGHT_ON;
+> +			} else {
+> +				chip->pdata->status = BACKLIGHT_OFF;
+> +			}
+> +			break;
+> +		case BACKLIGHT_ON:
+> +			if (brightness == 0)
+> +				chip->pdata->status = BACKLIGHT_OFF;
+> +			break;
+> +		}
+> +	} else {
+> +		/*
+> +		 * Analog dimming (by I2C command) dimming mode
+> +		 *
+> +		 * The first time, before setting brightness, we must enable the
+> +		 * device
+> +		 */
+> +		if (chip->pdata->status == FIRST_POWER_ON)
+> +			mp3309c_enable_device(chip);
+> +
+> +		/*
+> +		 * Dimming mode I2C command
+> +		 *
+> +		 * The 5 bits of the dimming analog value D4..D0 is allocated
+> +		 * in the I2C register #0, in the following way:
+> +		 *
+> +		 *     +--+--+--+--+--+--+--+--+
+> +		 *     |EN|D0|D1|D2|D3|D4|XX|XX|
+> +		 *     +--+--+--+--+--+--+--+--+
+> +		 */
+> +		analog_val = DIV_ROUND_UP(ANALOG_MAX_VAL * brightness,
+> +					  chip->pdata->max_brightness);
+
+Sorry to only notice after sharing a Reviewed-by:[1] but...
+
+Scaling brightness here isn't right. When running in I2C dimming mode then
+max_brightness *must* be 31 or lower, meaning the value in brightness can
+be applied directly to the hardware without scaling.
+
+Quoting the DT binding docs about how max-brightness should be
+interpretted:
+
+  Normally the maximum brightness is determined by the hardware and this
+  property is not required. This property is used to put a software
+  limit on the brightness apart from what the driver says, as it could
+  happen that a LED can be made so bright that it gets damaged or causes
+  damage due to restrictions in a specific system, such as mounting
+  conditions.
 
 
-On 2023-09-26 01:56, Cong Liu wrote:
-> This patch fixes a null pointer dereference in the error message that is
-> printed when the Display Core (DC) fails to initialize. The original
-> message includes the DC version number, which is undefined if the DC is
-> not initialized.
-> 
-> Fixes: 9788d087caff ("drm/amd/display: improve the message printed when loading DC")
-> Signed-off-by: Cong Liu <liucong2@kylinos.cn>
-> ---
->  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> index 8e98dda1e084..bf52a909f558 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> @@ -1703,8 +1703,7 @@ static int amdgpu_dm_init(struct amdgpu_device *adev)
->  		DRM_INFO("Display Core v%s initialized on %s\n", DC_VER,
->  			 dce_version_to_string(adev->dm.dc->ctx->dce_version));
->  	} else {
-> -		DRM_INFO("Display Core v%s failed to initialize on %s\n", DC_VER,
-> -			 dce_version_to_string(adev->dm.dc->ctx->dce_version));
-> +		DRM_INFO("Display Core failed to initialize with v%s!\n", DC_VER);
+Daniel.
 
-There is value in printing the version number. Let's not remove it.
 
-Instead you can probably fix it by doing a NULL check on adev->dm.dc->ctx.
-
-Harry
-
->  		goto error;
->  	}
->  
-
+[1] I remember checking if this code could overflow the field but I was
+    so distracted by that I ended up missing the obvious!
