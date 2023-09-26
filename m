@@ -2,65 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD9D77AF29A
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Sep 2023 20:24:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4DF27AF2A8
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Sep 2023 20:24:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA5D210E415;
-	Tue, 26 Sep 2023 18:24:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 206BE10E41C;
+	Tue, 26 Sep 2023 18:24:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
- [IPv6:2a00:1450:4864:20::536])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F74410E415
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Sep 2023 18:24:41 +0000 (UTC)
-Received: by mail-ed1-x536.google.com with SMTP id
- 4fb4d7f45d1cf-523100882f2so10883281a12.2
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Sep 2023 11:24:41 -0700 (PDT)
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com
+ [IPv6:2a00:1450:4864:20::52e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C27C10E418
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Sep 2023 18:24:44 +0000 (UTC)
+Received: by mail-ed1-x52e.google.com with SMTP id
+ 4fb4d7f45d1cf-530fa34ab80so23255050a12.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Sep 2023 11:24:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1695752680; x=1696357480; darn=lists.freedesktop.org;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:from:to:cc:subject:date:message-id:reply-to;
- bh=wRbJzVyzAsF5dK6nn+zhhFn0HQb3v3TAPzMsem2dH88=;
- b=rUoiOwf1gzAow+ZuIgSH+5FuVsPJ+LMnpHmESYOPTfWRWtVOuQdyXyrIDrGhCA5R1w
- nYfsWzcKKSqXgc10lklemCkTtRix8c6gbO7ILr95hPRU98L+463PK8mgjSyMtnTbwrs+
- IoQKzkc2Lr+gg0u+eimarNbZ6vhmAG0tBfMuKOtGLleKOYLQmV3zSD5ROvP1/3yRrfvg
- Ck/jrSpRwIHGcD4jdb6Q8Rfzlgv3E2JbJCimGJ3c0IZQY6F12rANfAIGU/kx7D4KFq6+
- JkrkyFQCV3YCoBXlFIUMfdOWXX8Ci4C0l4TbbMqoEscP/IJjy+40tVQNqVruL9xIyI4l
- K2Lw==
+ d=linaro.org; s=google; t=1695752682; x=1696357482; darn=lists.freedesktop.org;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=fImG1LGJjUdtZmi9fIr7EL8KTwVEILvKptZJzrzzi84=;
+ b=wZmGeHb8+6o7rZrq4iVKv7hpmF8kxfT3i1EnE8kVvNylVHiCLwSK/4TSP3Y4DW+Vh1
+ GtW6YdXO5YiklfFpk9N4BgpxcQbtkskpM6eSDtnPtCBCDogD7E7diUfk+4W0pH+wgmkI
+ DHAWHRJ8Fllc+0RlX/o7VyfFDk+bRl2f1upVnhnPDh0PT/93wnZ3P6sYyMl9CmbncncG
+ bWGBS6j1ByCzdq3r/Pxde5FYNwjTIZOgi/SikofYf5wR35MNa0+CO2FsrJlTBiM7EF5x
+ bWqRTBeCWKVwgEReMweqY4tZthrU8b0Q0bqAtJ957LAapoG3j+ABKLH9+vAusBxvTxHw
+ NgFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1695752680; x=1696357480;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=wRbJzVyzAsF5dK6nn+zhhFn0HQb3v3TAPzMsem2dH88=;
- b=s7R0GD5NpPpuqL9uBYasLtYJKUwVHapgzziq5dAxY/V0Ma65SjCC0kgfz2R4WxNEXo
- gkQAVBtp7uzmzUpa4c7yBFGY+8//9on8WsX7fO+TGx1GqZM9mc9remC718NtdIMPZNto
- UjFx/Fqc2b6uwjTkKoLtf4D7YeqmG4WWe5Px+erT+UMh+l0N74i6hIpuSk+CKqd+2D2K
- T7PO1kw31UuURMTAFpQ8td4SMie2E+ybASPPPefAd3UKC8zwkxaBJcfCxvMt8eP6X9Uj
- l+EAAcDcPbse458ODgLqkOrFRbprTgI/KCGAxvXkk8eHZyw4sx1OmJm27LSa1PS69rss
- EbeQ==
-X-Gm-Message-State: AOJu0YzjNEI6gU1x2OoAh0qwu8JIQ7t9ll4gSdEg5McOrUIM2OiVMq3o
- LM2QefwqbcLQrE3DTrRK4rMH/A==
-X-Google-Smtp-Source: AGHT+IEvQPOXzH6evT1wU3sw4ZwK7LW3sBAWFWdrUZzq0HmG2Mrdkcf0x6ZDGIfcs2fl1PuQKAMnKg==
-X-Received: by 2002:a05:6402:176d:b0:534:7ae0:9789 with SMTP id
- da13-20020a056402176d00b005347ae09789mr875694edb.24.1695752679713; 
- Tue, 26 Sep 2023 11:24:39 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1695752682; x=1696357482;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=fImG1LGJjUdtZmi9fIr7EL8KTwVEILvKptZJzrzzi84=;
+ b=hvldbRSty2ilE+kDUrOYTjneOmyspSYJSqNMXJU0lOfatlYQuGyEgQdBnkjHqOBGVE
+ cLBdjdxmt+UfTEFknRwOIh+NbcmTex+0Jfvyv5a3cBOMNSzSjnpLwYcHsV/uwC89LPZb
+ 50okEtxcSjbjv+HUProBjqDf8HjI4M46IjZhvUKBQl+9itlQb4/wXe2cUEfx7vbq6HhJ
+ WWMkenbnX320cLaY03A9XMZX1d+Q0C3b0K7YlS7ubhluN0Mn821mmKUCFP4zRfNPhZs4
+ EXg4DCNpgBzx34iDoKKwpyWmF9AzeiQ0cf81wXkWY6ylnhnQG40xUdQEUME57iJhA7q1
+ ipkQ==
+X-Gm-Message-State: AOJu0YyjvYORJlWzmZHVcbgHAkpNyl04kUcVyO3A2LRDc5PB7Jn4cNEE
+ 04fu/qgAZ7PMIL4Z/l6D0g4hEg==
+X-Google-Smtp-Source: AGHT+IGyhzCX7pVh+DA0+lbZn90DwBp8MEe1mDcGOaXhO5brGM7FQnNVnsw4ZES8ExBZftUUH8qOhw==
+X-Received: by 2002:a05:6402:35d5:b0:51d:b184:efd with SMTP id
+ z21-20020a05640235d500b0051db1840efdmr5471808edc.20.1695752682485; 
+ Tue, 26 Sep 2023 11:24:42 -0700 (PDT)
 Received: from [10.167.154.1]
  (178235177023.dynamic-4-waw-k-1-1-0.vectranet.pl. [178.235.177.23])
  by smtp.gmail.com with ESMTPSA id
- f19-20020a056402151300b0053090e2afafsm7020643edw.22.2023.09.26.11.24.37
+ f19-20020a056402151300b0053090e2afafsm7020643edw.22.2023.09.26.11.24.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Sep 2023 11:24:39 -0700 (PDT)
+ Tue, 26 Sep 2023 11:24:42 -0700 (PDT)
 From: Konrad Dybcio <konrad.dybcio@linaro.org>
-Subject: [PATCH 0/7] Adreno 643 + fixes
-Date: Tue, 26 Sep 2023 20:24:35 +0200
-Message-Id: <20230926-topic-a643-v1-0-7af6937ac0a3@linaro.org>
+Date: Tue, 26 Sep 2023 20:24:36 +0200
+Subject: [PATCH 1/7] drm/msm/a6xx: Fix unknown speedbin case
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAOMhE2UC/x2NywqDMBAAf0X23IWYFF+/UnpY060uSBISLULw3
- 116nIFhKhTOwgWmpkLmnxSJQaF9NOBXCgujfJTBGuvMaDvcYxKP1D0dUs9+JDOQoxY0mKkwzpm
- CXzUJx7apTJm/cv4Pr/d13Zmw8BhxAAAA
+Message-Id: <20230926-topic-a643-v1-1-7af6937ac0a3@linaro.org>
+References: <20230926-topic-a643-v1-0-7af6937ac0a3@linaro.org>
+In-Reply-To: <20230926-topic-a643-v1-0-7af6937ac0a3@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, 
  Abhinav Kumar <quic_abhinavk@quicinc.com>, 
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
@@ -71,11 +70,11 @@ To: Rob Clark <robdclark@gmail.com>,
  Conor Dooley <conor+dt@kernel.org>, Stephen Boyd <swboyd@chromium.org>, 
  Akhil P Oommen <quic_akhilpo@quicinc.com>
 X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1695752677; l=1165;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1695752677; l=1465;
  i=konrad.dybcio@linaro.org; s=20230215; h=from:subject:message-id;
- bh=EU9teWjPD7h5e92Oew+5MuXdWQG5NKBrkuAcC3oTWG8=;
- b=pEgeFuwL0ONn3mJdwEhg/cTN76w/vQK27DzSYLvcj31+lB+ESvoYMsuidc9PHh2HmEbvyk91I
- khKsQeAIVdrBCc48WPE1MOUH8l5idaZROwlYG37dWiV9yT2/HvWgkio
+ bh=3B0yIPSygi0wMpl7xpS+ZhhsZWi7J9UA34HRlycQuyk=;
+ b=Iu9f1ructFVGASge8ugqNeXgxQC0RA2BFUwle16+fVrgAArXS0bQ1QC4HXS8kP4G+m1Yn6duX
+ ykCLE1FvC4ZB+qXAkv5ObgAqFPAY+KWSMuSl/qkqVw74fcluxKFF3Oe
 X-Developer-Key: i=konrad.dybcio@linaro.org; a=ed25519;
  pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -99,36 +98,39 @@ Cc: Rob Clark <robdclark@chromium.org>, devicetree@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-as it says on the can
+When opp-supported-hw is present under an OPP node, but no form of
+opp_set_supported_hw() has been called, that OPP is ignored by the API
+and marked as unsupported.
 
-drm/msm patches for Rob
-arm64 patches for linux-arm-msm
+Before Commit c928a05e4415 ("drm/msm/adreno: Move speedbin mapping to
+device table"), an unknown speedbin would result in marking all OPPs
+as available, but it's better to avoid potentially overclocking the
+silicon - the GMU will simply refuse to power up the chip.
 
-for use with https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/25408
+Currently, the Adreno speedbin code does just that (AND returns an
+invalid error, (int)UINT_MAX). Fix that by defaulting to speedbin 0
+(which is conveniently always bound to fuseval == 0).
 
-tested on QCM6490 (SC7280-IOT) Fairphone FP5
-
+Fixes: c928a05e4415 ("drm/msm/adreno: Move speedbin mapping to device table")
 Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 ---
-Konrad Dybcio (7):
-      drm/msm/a6xx: Fix unknown speedbin case
-      drm/msm/adreno: Add ZAP firmware name to A635
-      drm/msm/adreno: Add A635 speedbin 0xac (A643)
-      arm64: dts: qcom: sc7280: Add ZAP shader support
-      arm64: dts: qcom: sc7280: Fix up GPU SIDs
-      arm64: dts: qcom: sc7280: Mark Adreno SMMU as DMA coherent
-      arm64: dts: qcom: sc7280: Add 0xac Adreno speed bin
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- arch/arm64/boot/dts/qcom/sc7280-chrome-common.dtsi |  2 ++
- arch/arm64/boot/dts/qcom/sc7280.dtsi               | 26 ++++++++++++++++------
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c              |  2 +-
- drivers/gpu/drm/msm/adreno/adreno_device.c         |  2 ++
- 4 files changed, 24 insertions(+), 8 deletions(-)
----
-base-commit: 4ae73bba62a367f2314f6ce69e3085a941983d8b
-change-id: 20230926-topic-a643-a7ec9a08a3a1
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+index d4e85e24002f..522ca7fe6762 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+@@ -2237,7 +2237,7 @@ static int a6xx_set_supported_hw(struct device *dev, const struct adreno_info *i
+ 		DRM_DEV_ERROR(dev,
+ 			"missing support for speed-bin: %u. Some OPPs may not be supported by hardware\n",
+ 			speedbin);
+-		return UINT_MAX;
++		supp_hw = BIT(0); /* Default */
+ 	}
+ 
+ 	ret = devm_pm_opp_set_supported_hw(dev, &supp_hw, 1);
 
-Best regards,
 -- 
-Konrad Dybcio <konrad.dybcio@linaro.org>
+2.42.0
 
