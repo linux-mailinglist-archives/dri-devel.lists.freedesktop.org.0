@@ -2,83 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4680C7AEAE1
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Sep 2023 12:57:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 708C77AEB16
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Sep 2023 13:11:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 82DCA10E3A0;
-	Tue, 26 Sep 2023 10:56:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 660CE10E3A3;
+	Tue, 26 Sep 2023 11:11:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 41CF310E39D
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Sep 2023 10:56:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1695725814;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ztsEuAgPuapaTM08P0SEgj/D/uEMY0v9vX8pBVttsrE=;
- b=Vj6EzDGyY7JnGM8SqVFqmCuXPTcnV5wL+E3mx4rdP6/YhW/M5x+OGLHH+PiAuPnrqwfClu
- cYAIyQkUOKYLoTSJxaRCNH6ZzUrHtPvG2zbAakuP3963KiofhGyefzswNmcDVgzYpjWyVV
- 9zHQvD368EVqu7RfQKgqpYuRqPfKCzg=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-365-nrE08XS9Ni67BLir57zwWw-1; Tue, 26 Sep 2023 06:56:52 -0400
-X-MC-Unique: nrE08XS9Ni67BLir57zwWw-1
-Received: by mail-ej1-f72.google.com with SMTP id
- a640c23a62f3a-993eeb3a950so715644866b.2
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Sep 2023 03:56:52 -0700 (PDT)
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
+ [IPv6:2a00:1450:4864:20::431])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 785FF10E3A3
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Sep 2023 11:11:41 +0000 (UTC)
+Received: by mail-wr1-x431.google.com with SMTP id
+ ffacd0b85a97d-3226b8de467so7066072f8f.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Sep 2023 04:11:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1695726700; x=1696331500; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=u/MLMSmJRNmBGSS9dRqNvrvgUZYmB0L9NSn0EiK9+Hs=;
+ b=uE3oXbmGhAMMqyUDCgbiM4vHLVKQkWwS+dfqJm0/RlKPJZvzy77/izvkn1YYIQLzZx
+ voR0lENoLCpqLcZNEr/nZBCwqRll785JzdQBIMR/ELgvOK2Cm9G3uelk0yTlX1ayEUvs
+ zqRgsqZwcUtM00xDNg07BBtqdQjvJw/4JFlTtO2BX6ecHgIF/gPNlUYfTrfX7BKK0aLq
+ WO8Jxm9OgLVHRWOljrFofcxQ6/W437e/SEEdnB1Gmnb63k2GBjV0sBu5q5vt2IJOKDUK
+ 6lgecY1vgJXizeQB1qGXfXME0iJYW+f+ZNFBHM11kgg7DQV9/33JWTupq8u3Bk3dQU+J
+ COww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1695725811; x=1696330611;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=ztsEuAgPuapaTM08P0SEgj/D/uEMY0v9vX8pBVttsrE=;
- b=u31oQDS0gILlqImb4GC6LHqE7UpNTgGjtlcpPpZXVKhMu6zZR6RswDf0J23NJkEea4
- T8rrBoNZM+wHddHqISeR+n/ZQ5J0lyd1YPiG8J6BzlX7njUgPBMDTQtAqX03vR+ND2IS
- pmAdDZKpugfNm9oHH9cbq6seCP2DtHEO8J4tXoQA+t72GCRbvgDOJHvHZkn8nsMTesjN
- zfdRzb0QkC3r4J4eYIWyMy7QkVLrNKKHKtQTyxL8AfdkpokOh1V5AVzi1yxJ1U2pwysh
- FKnjjQhgznxuDkW90by4edNEK5GC9nFim27GGx6u/meR1udUP7bbTGnOI03rncyRC+kS
- sYtQ==
-X-Gm-Message-State: AOJu0YwNNilAFsIo8nW74E5TuBKl9aZTBrpemVaAoPWuuaOrrpU6xLJ3
- OsQWGHoC0/dkMYJKQaN3HxShsMAT5lW3u11Xf3zthiZutt1GMFTSDe+Cmu3kEMfLbzOGKJIal8b
- 7XFu4K2MR/JmJJB12ZvKV14IVegyB
-X-Received: by 2002:a17:906:8a48:b0:9a2:225a:8d01 with SMTP id
- gx8-20020a1709068a4800b009a2225a8d01mr8584480ejc.7.1695725810983; 
- Tue, 26 Sep 2023 03:56:50 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IF8Lokqy4lv4QzddH9koVW2cAZSwao+adaW7JEPfbJWs1+K0DKVx3+AGJPCG9KvFElCfknlIg==
-X-Received: by 2002:a17:906:8a48:b0:9a2:225a:8d01 with SMTP id
- gx8-20020a1709068a4800b009a2225a8d01mr8584471ejc.7.1695725810692; 
- Tue, 26 Sep 2023 03:56:50 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:4b3f:de9c:642:1aff:fe31:a15c?
- ([2a02:810d:4b3f:de9c:642:1aff:fe31:a15c])
+ d=1e100.net; s=20230601; t=1695726700; x=1696331500;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=u/MLMSmJRNmBGSS9dRqNvrvgUZYmB0L9NSn0EiK9+Hs=;
+ b=wUCVShAGoghvKbdZCbMDSmkZozf5n66kwt+169kddHx9rV0FdcFLyC4uUkIA553aTw
+ 8Oe2WcLWkTFYmDFOgsi21mYHIDTJNBxZiPeShLJjtSnEsOtuwmtgegM8m65SnlnXzkaI
+ i6XlG9y7290l2OVgO6mdrvvIsmxV6AK76ltQWXY1EMuIul5KTRJ9l5AR31ECHrKCo61A
+ v6Tbij/xDyu6A5H/qLm+dVbYrU7rpVV9j+eqkRrNxlywfbHemoS1MPVixACMSbmQAw3w
+ Q9YeKbKTKSqzY/rbRRaZ2Om1NeIBVur4zKtEQ2sPKR+CzekF9F+rFl0ORRUNrkufqZzB
+ zSpQ==
+X-Gm-Message-State: AOJu0YyBVtC56Ntdlf3goZHS8JdoecjqjkiaNzLSMgHKJ+8klznDQTgL
+ 3ipNxIO1kTEHvBmXWDoLwsYGTA==
+X-Google-Smtp-Source: AGHT+IGgmiei3dmVPVwM/+kLjJAqZ4Dui7T/b864294DUFjV9lzha2Kyb8LLBEIC7UGG1WF/w42vgQ==
+X-Received: by 2002:adf:9d85:0:b0:323:37af:c7c7 with SMTP id
+ p5-20020adf9d85000000b0032337afc7c7mr1177540wre.69.1695726699756; 
+ Tue, 26 Sep 2023 04:11:39 -0700 (PDT)
+Received: from aspen.lan
+ (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
  by smtp.gmail.com with ESMTPSA id
- jt24-20020a170906ca1800b009929d998abcsm7575268ejb.209.2023.09.26.03.56.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 26 Sep 2023 03:56:50 -0700 (PDT)
-Message-ID: <3a093a6d-3f7f-fd5d-923c-ef80840316f2@redhat.com>
-Date: Tue, 26 Sep 2023 12:56:49 +0200
+ t16-20020a5d49d0000000b0031c5b380291sm14405871wrs.110.2023.09.26.04.11.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 26 Sep 2023 04:11:39 -0700 (PDT)
+Date: Tue, 26 Sep 2023 12:11:37 +0100
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
+Subject: Re: [PATCH v2] backlight: pwm_bl: Disable PWM on shutdown and suspend
+Message-ID: <20230926111137.GA4356@aspen.lan>
+References: <20230926084612.2074692-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: linux-next: build warning after merge of the drm-misc tree
-To: Stephen Rothwell <sfr@canb.auug.org.au>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>,
- DRI <dri-devel@lists.freedesktop.org>
-References: <20230926150725.4cca5fc5@canb.auug.org.au>
-From: Danilo Krummrich <dakr@redhat.com>
-Organization: RedHat
-In-Reply-To: <20230926150725.4cca5fc5@canb.auug.org.au>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230926084612.2074692-1-u.kleine-koenig@pengutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,30 +75,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Next Mailing List <linux-next@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Aisheng Dong <aisheng.dong@nxp.com>, linux-pwm@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, Jingoo Han <jingoohan1@gmail.com>,
+ Helge Deller <deller@gmx.de>, Lee Jones <lee@kernel.org>,
+ dri-devel@lists.freedesktop.org, Aisheng Dong <asheng.dong@nxp.com>,
+ Thierry Reding <thierry.reding@gmail.com>, kernel@pengutronix.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Tue, Sep 26, 2023 at 10:46:12AM +0200, Uwe Kleine-König wrote:
+> Since commit 00e7e698bff1 ("backlight: pwm_bl: Configure pwm only once
+> per backlight toggle") calling pwm_backlight_power_off() doesn't disable
+> the PWM any more. However this is necessary to suspend because PWM
+> drivers usually refuse to suspend if they are still enabled.
+>
+> Also adapt shutdown to disable the PWM for similar reasons.
+>
+> Fixes: 00e7e698bff1 ("backlight: pwm_bl: Configure pwm only once per backlight toggle")
+> Reported-by: Aisheng Dong <aisheng.dong@nxp.com>
+> Tested-by: Aisheng Dong <asheng.dong@nxp.com>
+> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 
-On 9/26/23 07:07, Stephen Rothwell wrote:
-> Hi all,
-> 
-> After merging the drm-misc tree, today's linux-next build (htmldocs)
-> produced this warning:
-> 
-> Error: Cannot open file /home/sfr/next/next/drivers/gpu/drm/drm_gpuva_mgr.c
-> Error: Cannot open file /home/sfr/next/next/include/drm/drm_gpuva_mgr.h
-> 
-> Introduced by commit
-> 
->    f72c2db47080 ("drm/gpuvm: rename struct drm_gpuva_manager to struct drm_gpuvm")
-> 
+Changes proposed look good (and the comment about badly designed boards
+going to HiZ state we super helpful).
 
-Thanks for reporting this, fix available here:
+Only thing from my is why there is no attempt to disable the PWM
+from the .remove_new() callback.
 
-https://lore.kernel.org/dri-devel/20230926105146.10808-1-dakr@redhat.com/
 
-- Danilo
-
+Daniel.
