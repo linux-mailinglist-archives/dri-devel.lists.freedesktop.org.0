@@ -1,46 +1,123 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F7467AEDAC
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Sep 2023 15:07:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 960737AEDB8
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Sep 2023 15:10:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A7BD310E3D7;
-	Tue, 26 Sep 2023 13:06:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D700710E3D9;
+	Tue, 26 Sep 2023 13:10:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4636310E07C;
- Tue, 26 Sep 2023 13:06:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
- Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=1CPfsOrSgtg1DWgOTN9++AAfO9XupLa7U/drfAwpwJA=; b=nscvE3+9rXVf859gqkI8951eky
- BFq09hKhOBEyuykzYjz5Z4yzXitQ1cfq+IPcblJxiDoAnYTXW3aiD7QuDt0LOMQr1mJMJh9ku4QGT
- rQBiTEjBFKrpZcBVnzKvecGBkOuAiazAccA2DR9Esi7W7tCEYI8dhIm0k60glgzgz0UDlkbxxNyoW
- lx2W8VQFEPQBvkg8DxajpiipupO2eILgivsBk4YdTk2LPX3SyTx3pYekUnaT4tbVJNeAehmoTcqOn
- haACN9Rt3O+Cq8JRnZ6eOKiyXeUzu/8np7dttwJ6SM1HXhPpvy1fT6KGRujrbZ2oR465bJmSyFt/Z
- f5xBIlAA==;
-Received: from [102.213.205.115] (helo=mail.igalia.com)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1ql7m7-008WJr-9h; Tue, 26 Sep 2023 15:06:51 +0200
-Date: Tue, 26 Sep 2023 12:06:46 -0100
-From: Melissa Wen <mwen@igalia.com>
-To: Harry Wentland <harry.wentland@amd.com>
-Subject: Re: [PATCH] drm/amd/display: set stream gamut remap matrix to MPC
- for DCN3+
-Message-ID: <20230926130623.xf7oi4rpl5i6i65u@mail.igalia.com>
-References: <20230721132431.692158-1-mwen@igalia.com>
- <9276b01c-8b52-40ad-8ce5-39a8824d340b@amd.com>
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2077.outbound.protection.outlook.com [40.107.237.77])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A1F7710E3D8;
+ Tue, 26 Sep 2023 13:10:06 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=LO8xyhn0t3ZXRotn9VvjhSPV/RHFoiwf0zvcQV4VzlTjXvBk3JzSj7D+C/8XQ4OnUZIk7X6dxFE9lWZ3YnL59HQfCBPEWLN6HaEJrzfVnJRyZeR3w9OX9z9gCqKuPU1IPo1S45p0x24qgvOW0i0804ugfVSumMvL9arTHe3l5B/jqWBS81zDdBut5TNqwqpbG2Fc2zT4zAt2pQlhMGCImb1gMYE8iqkykITEJQlfRyM19u73aQLB6FBZ7ajtfJZzr4Lk+uC7dcCzWbWR0kJUkRmxqYKVd7MDgazpMHRSnvBwYVrvoykFcxl4zEDSF7HYicClhUvZIww3pWrDffdURA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=N+T+joBoxSaNFvetND2OtUyAd/8avk8c+U2ZAcKrvVo=;
+ b=WI/HXCbYXyTUFOBbLSB3CEl04GvaopOSSLAdhISoC3Wut3dwgJ8659m089YQ6AaETn4sS2vmk50Kld68fAzYJrO0J8IiOTw+TMHlEKYWD1ifaTVXfSX8rNXNEwQyaaCSEHYklXhkCSsXyY5Xw1L+B2eSoJbHJ4kPo87vVAVgX/Cb/P093qJjoTj9cF1MER6zxMzJLO/u6oPAlylJ5Y6Rkn+bT28Qcccd+4P/XLR7UsE7iUZ+3L4qHqKyjyCjlDAQ5IeAg75yL8gykLfZxgKQiC33JQ2i1ihIDXghlpM+a3TGZdLSTXPCev9UP4nHwmbey+b4SKmegE9HQ0H9mHz+NQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=N+T+joBoxSaNFvetND2OtUyAd/8avk8c+U2ZAcKrvVo=;
+ b=zoWQv630d5jJzGV18LmXslslNpXxqaB0x1kSSh/PhfRWWzJ+UuPAJ0wphLwbMaseO5sV3+Geub22V5BR34pTEtPSrzcEexYdMGGSrTAUK10oSsQq8zSVudWIRsjzHI45aZV8Z7IPVcQgN3msexCuZ8fyrfs3rkqyCZa2+oFz4Jo=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from CO6PR12MB5427.namprd12.prod.outlook.com (2603:10b6:5:358::13)
+ by SA1PR12MB8885.namprd12.prod.outlook.com (2603:10b6:806:376::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6813.28; Tue, 26 Sep
+ 2023 13:10:03 +0000
+Received: from CO6PR12MB5427.namprd12.prod.outlook.com
+ ([fe80::121e:5e68:c78a:1f2f]) by CO6PR12MB5427.namprd12.prod.outlook.com
+ ([fe80::121e:5e68:c78a:1f2f%3]) with mapi id 15.20.6813.018; Tue, 26 Sep 2023
+ 13:10:02 +0000
+Message-ID: <a71a61fb-2330-4fba-85a7-9ba2a3642dc7@amd.com>
+Date: Tue, 26 Sep 2023 09:09:56 -0400
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] drm/amd/display: Fix null pointer dereference in
+ error message
+Content-Language: en-US
+To: Cong Liu <liucong2@kylinos.cn>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Aurabindo Pillai
+ <aurabindo.pillai@amd.com>, Tom Chung <chiahsuan.chung@amd.com>
+References: <20230926055618.119195-1-liucong2@kylinos.cn>
+From: Harry Wentland <harry.wentland@amd.com>
+In-Reply-To: <20230926055618.119195-1-liucong2@kylinos.cn>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: YQBPR0101CA0295.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:6d::20) To CO6PR12MB5427.namprd12.prod.outlook.com
+ (2603:10b6:5:358::13)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9276b01c-8b52-40ad-8ce5-39a8824d340b@amd.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO6PR12MB5427:EE_|SA1PR12MB8885:EE_
+X-MS-Office365-Filtering-Correlation-Id: 791d96f5-b814-4b4a-5a80-08dbbe91e4ba
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Zl336kVRatt1PLCVWU366XweLSdkt3KDKtTHeOC4NxHZKNWzEwGQaHQyIFGskBq8VZgJvdiRB7c+qduPlMLDY6Ec9ivIirQlUxZ0nk7IsQoQPqcCZQ/KDtTt9yQAdUxWgFU+yBpaVqlqpUZStEp5OZi1waE8PpvD6vZCr82FblrjhYKDK/FNVrCMMBHsLziFif4LQUtoNutpC74vVRfE6Hq+1/1f7l4fjNsKYa3IVcMp5Bt5MNI5QHb7R03OW+8C4GZUmLMsc68sLRytNx8GbtqjNdT7vbb4MgaEUXzvx4Oj006akvqVhufb4VmV+uhzsz289ciA935JgTSGmRSdWwi1tXpQcPiTWwHYePyjyVo1A7kSYXmrcKzoCfkjUfuY94DW5G31Yf1MrJvpk8cU/rJZXGcvfRNsYR8xSDv0C7YZpm/Q1sCtY0UcPk4NZoMoTZwVaby6gEpprD9pUe8945bPOHmzUbNhyuZyzneoyDWT4Nya0Jrf65C00MgD+kG3iLvPKt+JBI22fUZQ4tuUx7o71ZKTc7bT6eJ4h5yqrf3zinJBTJx6f8kZf2J8pI0g7WPRP5PZCXTv6wjynxl72Am6zC0iwUq9zAYIdW8AC4TyRYlmk9g0OzFUOZ9MSeo2u1O5Gi0eV6/AoKgG94C+T7cvtFsbxe1kQaq8cuo+TN0=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CO6PR12MB5427.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(39860400002)(346002)(376002)(136003)(366004)(396003)(230922051799003)(186009)(451199024)(1800799009)(86362001)(31696002)(36756003)(31686004)(6506007)(6486002)(5660300002)(6666004)(26005)(53546011)(6512007)(110136005)(66476007)(66556008)(66946007)(2616005)(41300700001)(316002)(478600001)(44832011)(6636002)(8676002)(8936002)(4326008)(2906002)(921005)(38100700002)(83380400001)(15650500001)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?M21rdmFXa0FvajgyY0E2M3VaUlE2OVBZS25tdE9ROUpzbjZMTG95YUJEZU9a?=
+ =?utf-8?B?WUxEMGNvSXV1RkRZZWdhUTVtaGk5ei82SzhUODFCVjdWUlBvWjUyVVBYRm45?=
+ =?utf-8?B?dzhVYkZGMmlWUVdzRnZybU1qWXlzRld0Z3RWQmY5aXNtWDgwbG51N2VwVDBz?=
+ =?utf-8?B?ZWRhZzNPRStVVTYzT04razdXRURUVElzNzRxc1ZRZFB2U0pwb0FFYWZkd1BD?=
+ =?utf-8?B?ZVJ6ZWVZZ3hXYTU2QWJUcDE1dVN2djNoMFQ4ZmMwMWI3T2Z4QjYrbDBwY3pk?=
+ =?utf-8?B?QXRsbGpvTUxYRmFhYko2eS94TWIxUThJR1c2RmRYWHhPZGFnUlpKRDVYeTUw?=
+ =?utf-8?B?N3crME93ODdsN1QvZXFFN2Fady9mK0diUWZlbUNZdm9iTGJuQlJPMEhNNkE2?=
+ =?utf-8?B?Y3BzRWJNNXJRbitlaE93dmRwVGkvcFRpUGxIeGhGUGxhNEpCQUVtZG40NUYy?=
+ =?utf-8?B?SmE2VHkwWHF3U2VjazIyWnFjRzZhVm0yaGcvaEpoSUJKak1KN3JsYjJYZHZp?=
+ =?utf-8?B?SFkwVk1Wd2sxejgwelB3TXBiNHFRM3VrWEVqMlBKZ3M5TlJZWlFWUEFLdTFh?=
+ =?utf-8?B?OURtMHluMU1VbVpQQjNyVmtXOVI0ajhITHlXN3hJdzdjSDYwVDlHNTc5dXZ1?=
+ =?utf-8?B?Z2FyODJqeGd6T0tEQ3FybUhweEpFbVhKSDduMlVsd2tYd0JqbGtCc3UvLzBJ?=
+ =?utf-8?B?cVNPeVd5bXc1THJ3bWVxcms5bUV4UHgxemRydkpsdG5KUkhEVHBQMHlmYW9L?=
+ =?utf-8?B?aEd2MmZhZzFNMlMxTGNXVUxBUGZreGxMSWtKWUhjOU9WZlRYUjgrMUJWSSt5?=
+ =?utf-8?B?c1lWc09iWFFha3czdFdnZmpyejlvZFIrcTc1U3JoaGJ6ZmppOTh3RzA0amky?=
+ =?utf-8?B?OFg4QlpWWVREVnNENmFmaTB2TnEwY3NReUdaekI5MC9sTitFMDdUN0p4aTEz?=
+ =?utf-8?B?SXZMS3F1dzV6V1lMS3dld1JTK2NpVFFwSlhhRUhlc3p1WEU3dlRuazcvNnd5?=
+ =?utf-8?B?d3JKeXdJdWsveldvemdtVFJYbkFvNGNxQmlFZjQ5SjZrU1dlU3FSTzdVRFhP?=
+ =?utf-8?B?bTI3R29MSUVvbFYySXpjc0ZSZ2dDMnBVd3Fka1k3WHB6d251UEpVMUx2aXBR?=
+ =?utf-8?B?TDIza0gxc3IrV00rTGpxSGtCb3ROeDJKWEtlUjloVEVuK05LVjJhWmFGNTVk?=
+ =?utf-8?B?elplR1I0eGJhaFZtNW05T0IvL256U3pCeXJPM0c1czdxTWl2cnNrejd4azRi?=
+ =?utf-8?B?MHh1SlM1S05OV3JwaTBFRmIwNklKcXlpZ2N0Q2tuK0VVV1ZVREVVVXRlVDhH?=
+ =?utf-8?B?ekZBOHZNR3FMS1JVcyt6UU0zU08yVUtnRTJORkV0Z3JCaGVKWWx1aURYd2pZ?=
+ =?utf-8?B?dm1ienJrdlJpNEl1aGRhQ21YZmxYbTJNdDhkeEtKSzhIOGFzaEN1cTZHVUN0?=
+ =?utf-8?B?eWFlNkIwbFRnVVlkam85aGRXYmhDVDZBZEdIaVBKTUswanUvRERKb3A1bkJr?=
+ =?utf-8?B?c0FoZHpPczV0VlBndFVycWlIZ0pEblFTM3BJUnlVYTlPYjhaTFZ4SG1CMDU2?=
+ =?utf-8?B?RDhkZEdZYndsOTdCdlBsZDNkQit2NUVRSGdEN0xHNVlha3pkNUlsVjlvaTF2?=
+ =?utf-8?B?NGIvUW9VbnpaU3QzbVB4Q2xndlVXVks4SWc4WXNPUHhGR1ZvajVMODdoVi9l?=
+ =?utf-8?B?clNaWHZPOUZQSDk0cXZ0WVJBaUNtVnc2elBCN1BhSUNZOUhGODMwV2hYYThj?=
+ =?utf-8?B?S2RRallUeXZSeTZKVUtuLytua2pwTVNHdG1kanBSd3dJTGdwMnh0QVRGRWgy?=
+ =?utf-8?B?OWlkVFFINjI0a1pIYTgvKzc2dVJ6SHR5VWV4RUpJai8raDNieFlOUEsxb21H?=
+ =?utf-8?B?R3NyNjczOFUrU3NROGhiVVlJeG9BcjJDWG9lc3V0ckFCaWhOcHBYNzFJTTZL?=
+ =?utf-8?B?alhENXpMRk9vQXhGY3ZJcVJoZnFLSW9IQlRZVHpTZ3dyb1U4NmVLbGxYelBv?=
+ =?utf-8?B?aWlyc0Q1eTB6WEZlaTF0dTBnSEtySjJiVHc5aTJCUmtCNkZhMkJyTGxNV0tS?=
+ =?utf-8?B?M0NqUHVzeE8xWGx6LzdNZjBheHg1Y1laNDE4VWRPTGsyQlptK0MrdnpOYUdi?=
+ =?utf-8?Q?qZDo3XEHDYCZfzTFjFX6ulkJM?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 791d96f5-b814-4b4a-5a80-08dbbe91e4ba
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5427.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Sep 2023 13:10:02.1954 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: z00YFkpRm0HhM2ZzND2zIePkznVU0zOIk3PC54dDYR1C7P1GcWqJK0GOIYRf9f8tYH+uvIJMWgw1C4q0FFOdSA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB8885
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,201 +130,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Krunoslav Kovac <krunoslav.kovac@amd.com>, kernel-dev@igalia.com,
- sunpeng.li@amd.com, bhawanpreet.lakha@amd.com, Xinhui.Pan@amd.com,
- Rodrigo.Siqueira@amd.com, amd-gfx@lists.freedesktop.org,
- Nicholas.Kazlauskas@amd.com, Aurabindo Pillai <aurabindo.pillai@amd.com>,
- dri-devel@lists.freedesktop.org, alexander.deucher@amd.com,
- christian.koenig@amd.com, sungjoon.kim@amd.com
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 09/25, Harry Wentland wrote:
-> 
-> 
-> On 2023-07-21 09:24, Melissa Wen wrote:
-> > dc->caps.color.mpc.gamut_remap says there is a post-blending color block
-> > for gamut remap matrix for DCN3 HW family and newer versions. However,
-> > those drivers still follow DCN10 programming that remap stream
-> > gamut_remap_matrix to DPP (pre-blending).
-> > 
-> > To enable pre-blending and post-blending gamut_remap matrix supports at
-> > the same time, set stream gamut_remap to MPC and plane gamut_remap to
-> > DPP for DCN families that support both.
-> > 
-> > It was tested using IGT KMS color tests for DRM CRTC CTM property and it
-> > preserves test results.
-> > 
-> > Signed-off-by: Melissa Wen <mwen@igalia.com>
-> > 
-> 
-> Reviewed-by: Harry Wentland <harry.wentland@amd.com>
-> 
-> and merged.
-> 
-> I also took the liberty to expand this to the recently merged dcn35
-> code.
 
-No problem. Thank you!
 
-With this change merged, I also removed the related patch from the
-series of AMD driver-specific color props.
+On 2023-09-26 01:56, Cong Liu wrote:
+> This patch fixes a null pointer dereference in the error message that is
+> printed when the Display Core (DC) fails to initialize. The original
+> message includes the DC version number, which is undefined if the DC is
+> not initialized.
+> 
+> Fixes: 9788d087caff ("drm/amd/display: improve the message printed when loading DC")
+> Signed-off-by: Cong Liu <liucong2@kylinos.cn>
+> ---
+>  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> index 8e98dda1e084..bf52a909f558 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> @@ -1703,8 +1703,7 @@ static int amdgpu_dm_init(struct amdgpu_device *adev)
+>  		DRM_INFO("Display Core v%s initialized on %s\n", DC_VER,
+>  			 dce_version_to_string(adev->dm.dc->ctx->dce_version));
+>  	} else {
+> -		DRM_INFO("Display Core v%s failed to initialize on %s\n", DC_VER,
+> -			 dce_version_to_string(adev->dm.dc->ctx->dce_version));
+> +		DRM_INFO("Display Core failed to initialize with v%s!\n", DC_VER);
 
-Melissa
+There is value in printing the version number. Let's not remove it.
 
-> 
-> Harry
-> 
-> > ---
-> > 
-> > Hi,
-> > 
-> > Two relevant things to consider for this change. One is that mapping DRM
-> > CRTC CTM to MPC is a more consistent way since CRTC CTM is a
-> > post-blending transformation. Second, programming stream
-> > gamut_remap_matrix on MPC enables us to provide support for both plane
-> > CTM and CRTC CTM color properties. If we don't make this separation, we
-> > would need to reject an atomic commit that tries to set both properties
-> > at the same time and userspace may also get unexpected results.
-> > 
-> > Thanks in advance for any feeback,
-> > 
-> > Melissa
-> > 
-> >  .../drm/amd/display/dc/dcn30/dcn30_hwseq.c    | 37 +++++++++++++++++++
-> >  .../drm/amd/display/dc/dcn30/dcn30_hwseq.h    |  3 ++
-> >  .../gpu/drm/amd/display/dc/dcn30/dcn30_init.c |  2 +-
-> >  .../drm/amd/display/dc/dcn301/dcn301_init.c   |  2 +-
-> >  .../gpu/drm/amd/display/dc/dcn31/dcn31_init.c |  2 +-
-> >  .../drm/amd/display/dc/dcn314/dcn314_init.c   |  2 +-
-> >  .../gpu/drm/amd/display/dc/dcn32/dcn32_init.c |  2 +-
-> >  7 files changed, 45 insertions(+), 5 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c
-> > index 4cd4ae07d73d..4fb4e9ec03f1 100644
-> > --- a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c
-> > +++ b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c
-> > @@ -186,6 +186,43 @@ bool dcn30_set_input_transfer_func(struct dc *dc,
-> >  	return result;
-> >  }
-> >  
-> > +void dcn30_program_gamut_remap(struct pipe_ctx *pipe_ctx)
-> > +{
-> > +	int i = 0;
-> > +	struct dpp_grph_csc_adjustment dpp_adjust;
-> > +	struct mpc_grph_gamut_adjustment mpc_adjust;
-> > +	int mpcc_id = pipe_ctx->plane_res.hubp->inst;
-> > +	struct mpc *mpc = pipe_ctx->stream_res.opp->ctx->dc->res_pool->mpc;
-> > +
-> > +	memset(&dpp_adjust, 0, sizeof(dpp_adjust));
-> > +	dpp_adjust.gamut_adjust_type = GRAPHICS_GAMUT_ADJUST_TYPE_BYPASS;
-> > +
-> > +	if (pipe_ctx->plane_state &&
-> > +	    pipe_ctx->plane_state->gamut_remap_matrix.enable_remap == true) {
-> > +		dpp_adjust.gamut_adjust_type = GRAPHICS_GAMUT_ADJUST_TYPE_SW;
-> > +		for (i = 0; i < CSC_TEMPERATURE_MATRIX_SIZE; i++)
-> > +			dpp_adjust.temperature_matrix[i] =
-> > +				pipe_ctx->plane_state->gamut_remap_matrix.matrix[i];
-> > +	}
-> > +
-> > +	pipe_ctx->plane_res.dpp->funcs->dpp_set_gamut_remap(pipe_ctx->plane_res.dpp,
-> > +							    &dpp_adjust);
-> > +
-> > +	memset(&mpc_adjust, 0, sizeof(mpc_adjust));
-> > +	mpc_adjust.gamut_adjust_type = GRAPHICS_GAMUT_ADJUST_TYPE_BYPASS;
-> > +
-> > +	if (pipe_ctx->top_pipe == NULL) {
-> > +		if (pipe_ctx->stream->gamut_remap_matrix.enable_remap == true) {
-> > +			mpc_adjust.gamut_adjust_type = GRAPHICS_GAMUT_ADJUST_TYPE_SW;
-> > +			for (i = 0; i < CSC_TEMPERATURE_MATRIX_SIZE; i++)
-> > +				mpc_adjust.temperature_matrix[i] =
-> > +					pipe_ctx->stream->gamut_remap_matrix.matrix[i];
-> > +		}
-> > +	}
-> > +
-> > +	mpc->funcs->set_gamut_remap(mpc, mpcc_id, &mpc_adjust);
-> > +}
-> > +
-> >  bool dcn30_set_output_transfer_func(struct dc *dc,
-> >  				struct pipe_ctx *pipe_ctx,
-> >  				const struct dc_stream_state *stream)
-> > diff --git a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.h b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.h
-> > index a24a8e33a3d2..cb34ca932a5f 100644
-> > --- a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.h
-> > +++ b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.h
-> > @@ -58,6 +58,9 @@ bool dcn30_set_blend_lut(struct pipe_ctx *pipe_ctx,
-> >  bool dcn30_set_input_transfer_func(struct dc *dc,
-> >  				struct pipe_ctx *pipe_ctx,
-> >  				const struct dc_plane_state *plane_state);
-> > +
-> > +void dcn30_program_gamut_remap(struct pipe_ctx *pipe_ctx);
-> > +
-> >  bool dcn30_set_output_transfer_func(struct dc *dc,
-> >  				struct pipe_ctx *pipe_ctx,
-> >  				const struct dc_stream_state *stream);
-> > diff --git a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_init.c b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_init.c
-> > index 3d19acaa12f3..5372eb76fcfc 100644
-> > --- a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_init.c
-> > +++ b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_init.c
-> > @@ -32,7 +32,7 @@
-> >  #include "dcn30_init.h"
-> >  
-> >  static const struct hw_sequencer_funcs dcn30_funcs = {
-> > -	.program_gamut_remap = dcn10_program_gamut_remap,
-> > +	.program_gamut_remap = dcn30_program_gamut_remap,
-> >  	.init_hw = dcn30_init_hw,
-> >  	.apply_ctx_to_hw = dce110_apply_ctx_to_hw,
-> >  	.apply_ctx_for_surface = NULL,
-> > diff --git a/drivers/gpu/drm/amd/display/dc/dcn301/dcn301_init.c b/drivers/gpu/drm/amd/display/dc/dcn301/dcn301_init.c
-> > index 257df8660b4c..81fd50ee97c3 100644
-> > --- a/drivers/gpu/drm/amd/display/dc/dcn301/dcn301_init.c
-> > +++ b/drivers/gpu/drm/amd/display/dc/dcn301/dcn301_init.c
-> > @@ -33,7 +33,7 @@
-> >  #include "dcn301_init.h"
-> >  
-> >  static const struct hw_sequencer_funcs dcn301_funcs = {
-> > -	.program_gamut_remap = dcn10_program_gamut_remap,
-> > +	.program_gamut_remap = dcn30_program_gamut_remap,
-> >  	.init_hw = dcn10_init_hw,
-> >  	.power_down_on_boot = dcn10_power_down_on_boot,
-> >  	.apply_ctx_to_hw = dce110_apply_ctx_to_hw,
-> > diff --git a/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_init.c b/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_init.c
-> > index fc25cc300a17..4e724d52a68f 100644
-> > --- a/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_init.c
-> > +++ b/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_init.c
-> > @@ -34,7 +34,7 @@
-> >  #include "dcn31_init.h"
-> >  
-> >  static const struct hw_sequencer_funcs dcn31_funcs = {
-> > -	.program_gamut_remap = dcn10_program_gamut_remap,
-> > +	.program_gamut_remap = dcn30_program_gamut_remap,
-> >  	.init_hw = dcn31_init_hw,
-> >  	.power_down_on_boot = dcn10_power_down_on_boot,
-> >  	.apply_ctx_to_hw = dce110_apply_ctx_to_hw,
-> > diff --git a/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_init.c b/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_init.c
-> > index ca8fe55c33b8..01e03ecf2291 100644
-> > --- a/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_init.c
-> > +++ b/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_init.c
-> > @@ -36,7 +36,7 @@
-> >  #include "dcn314_init.h"
-> >  
-> >  static const struct hw_sequencer_funcs dcn314_funcs = {
-> > -	.program_gamut_remap = dcn10_program_gamut_remap,
-> > +	.program_gamut_remap = dcn30_program_gamut_remap,
-> >  	.init_hw = dcn31_init_hw,
-> >  	.power_down_on_boot = dcn10_power_down_on_boot,
-> >  	.apply_ctx_to_hw = dce110_apply_ctx_to_hw,
-> > diff --git a/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_init.c b/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_init.c
-> > index 777b2fac20c4..625008d618fa 100644
-> > --- a/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_init.c
-> > +++ b/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_init.c
-> > @@ -33,7 +33,7 @@
-> >  #include "dcn32_init.h"
-> >  
-> >  static const struct hw_sequencer_funcs dcn32_funcs = {
-> > -	.program_gamut_remap = dcn10_program_gamut_remap,
-> > +	.program_gamut_remap = dcn30_program_gamut_remap,
-> >  	.init_hw = dcn32_init_hw,
-> >  	.apply_ctx_to_hw = dce110_apply_ctx_to_hw,
-> >  	.apply_ctx_for_surface = NULL,
-> 
+Instead you can probably fix it by doing a NULL check on adev->dm.dc->ctx.
+
+Harry
+
+>  		goto error;
+>  	}
+>  
+
