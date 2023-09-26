@@ -1,48 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2B4E7AF122
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Sep 2023 18:48:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BDD47AF151
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Sep 2023 18:52:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 01EB810E40D;
-	Tue, 26 Sep 2023 16:48:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6695610E101;
+	Tue, 26 Sep 2023 16:52:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2DA5410E40D;
- Tue, 26 Sep 2023 16:48:49 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A3E4610E101;
+ Tue, 26 Sep 2023 16:52:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1695746929; x=1727282929;
+ t=1695747146; x=1727283146;
  h=date:from:to:cc:subject:in-reply-to:message-id:
  references:mime-version;
- bh=9+1cTdhwpTLFo2IKCbqmwf+At8IpEJ3jERwHHUF/8GU=;
- b=CAWUYvsO33NQj+RUjwaiETaL+4m07rb2uOBt7mI8aQfqrLXlIQ0q3uCg
- gyD9mK6eAL0d3RbLdUk06RTgDyiJbvBIE3Fy91YVxebqsLzGkOpcTdFGd
- PWRi6MX6nVw1Z0NR7KHk8OitRb08ax30hTECSeNbwoDmSPeewsAzUaTJT
- j1ITtuLhxrb7cCNFEoK2+bwk02iYfeMOMXwKqB69SDauoFHQWmpKFkDvC
- u9rzef42BzGYOur1abPk0FUUuRDre796oukcSSn2tSpDgYzEsYrx0lRuU
- s2QXCWqfgW34TK29yLdauNQo40T96y/TqZ7BmMtjMjEhUoIK5fWaAkRMn g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10845"; a="385462465"
-X-IronPort-AV: E=Sophos;i="6.03,178,1694761200"; d="scan'208";a="385462465"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Sep 2023 09:48:48 -0700
+ bh=JtwXZBfCANqoHC0STBQiKuC44epDLfMf+Y7x5BnA8kQ=;
+ b=W0zrflzzHB6qaAU64P1PtkBDtpvIetUiiRzYpx7ee1KoVVRcVUyJNEkM
+ 8aWbC1Sd1Ovo3gP7Cs1VlTg7wPtIL6kI7/Kp5i8EUoSA3cKihcXpXXsHB
+ pClnHPwnSSFvHgI17t1gGqN/oBHSVNtJ7P+0u1EO9YD+SjVmCAY0k5xos
+ QGcAsC3vm0YQ7XdcdIOTsf+cPixcgiRJOhL4tT1K+HS6ZxzOfil0Fn0jJ
+ wZQgxf8mxnUigiLRGnIPFuh0/gFxtW/InkJpm7Gu8tw3ZqMmScpkTTkv2
+ lcyi7icjAlnwT344DaCsaQNRG4OAqPM1eQ3TZQvQaEykjakMWXuw3j2i5 Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10845"; a="378893530"
+X-IronPort-AV: E=Sophos;i="6.03,178,1694761200"; d="scan'208";a="378893530"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Sep 2023 09:52:26 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.03,178,1694761200"; 
-   d="scan'208";a="225022"
+X-IronPort-AV: E=McAfee;i="6600,9927,10845"; a="778196364"
+X-IronPort-AV: E=Sophos;i="6.03,178,1694761200"; d="scan'208";a="778196364"
 Received: from hhalmen-mobl.ger.corp.intel.com ([10.251.219.207])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Sep 2023 09:48:14 -0700
-Date: Tue, 26 Sep 2023 19:48:40 +0300 (EEST)
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Sep 2023 09:52:21 -0700
+Date: Tue, 26 Sep 2023 19:52:18 +0300 (EEST)
 From: =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
 To: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
-Subject: Re: [PATCH 02/15] platform/x86/amd/pmf: Add support PMF-TA interaction
-In-Reply-To: <20230922175056.244940-3-Shyam-sundar.S-k@amd.com>
-Message-ID: <96a8196-723e-e884-2fe2-65f1ff342b9d@linux.intel.com>
+Subject: Re: [PATCH 03/15] platform/x86/amd/pmf: Change signature of
+ amd_pmf_set_dram_addr
+In-Reply-To: <20230922175056.244940-4-Shyam-sundar.S-k@amd.com>
+Message-ID: <3b914165-ea96-b180-3fca-86b196e3638@linux.intel.com>
 References: <20230922175056.244940-1-Shyam-sundar.S-k@amd.com>
- <20230922175056.244940-3-Shyam-sundar.S-k@amd.com>
+ <20230922175056.244940-4-Shyam-sundar.S-k@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -68,201 +69,76 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Fri, 22 Sep 2023, Shyam Sundar S K wrote:
 
-> PMF TA (Trusted Application) loads via the TEE environment into the
-> AMD ASP.
-> 
-> PMF-TA supports two commands:
-> 1) Init: Initialize the TA with the PMF Smart PC policy binary and
-> start the policy engine. A policy is a combination of inputs and
-> outputs, where;
->  - the inputs are the changing dynamics of the system like the user
->    behaviour, system heuristics etc.
->  - the outputs, which are the actions to be set on the system which
->    lead to better power management and enhanced user experience.
-> 
-> PMF driver acts as a central manager in this case to supply the
-> inputs required to the TA (either by getting the information from
-> the other kernel subsystems or from userland)
-> 
-> 2) Enact: Enact the output actions from the TA. The action could be
-> applying a new thermal limit to boost/throttle the power limits or
-> change system behavior.
-> 
+Add () to the function name in the shortlog. "Change signature" is quite 
+vague, perhaps you could come up something more descriptive.
+
+> Make amd_pmf_set_dram_addr() as non-static so that same function
+> can be used across files.
+
+This says nothing about the move of allocation.
+
 > Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
 > Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
 > ---
->  drivers/platform/x86/amd/pmf/pmf.h    | 10 +++
->  drivers/platform/x86/amd/pmf/tee-if.c | 97 ++++++++++++++++++++++++++-
->  2 files changed, 106 insertions(+), 1 deletion(-)
+>  drivers/platform/x86/amd/pmf/core.c | 14 ++++++++------
+>  drivers/platform/x86/amd/pmf/pmf.h  |  1 +
+>  2 files changed, 9 insertions(+), 6 deletions(-)
 > 
-> diff --git a/drivers/platform/x86/amd/pmf/pmf.h b/drivers/platform/x86/amd/pmf/pmf.h
-> index 02460c2a31ea..a9333ff6c0a7 100644
-> --- a/drivers/platform/x86/amd/pmf/pmf.h
-> +++ b/drivers/platform/x86/amd/pmf/pmf.h
-> @@ -59,6 +59,9 @@
->  #define ARG_NONE 0
->  #define AVG_SAMPLE_SIZE 3
->  
-> +/* TA macros */
-> +#define PMF_TA_IF_VERSION__MAJOR				1
-
-I suppose double _ is not intentional?
-
-> +
->  /* AMD PMF BIOS interfaces */
->  struct apmf_verify_interface {
->  	u16 size;
-> @@ -184,6 +187,7 @@ struct amd_pmf_dev {
->  	struct tee_shm *fw_shm_pool;
->  	u32 session_id;
->  	void *shbuf;
-> +	struct delayed_work pb_work;
->  	bool smart_pc_enabled;
+> diff --git a/drivers/platform/x86/amd/pmf/core.c b/drivers/platform/x86/amd/pmf/core.c
+> index 68f1389dda3e..5fb03ed614ff 100644
+> --- a/drivers/platform/x86/amd/pmf/core.c
+> +++ b/drivers/platform/x86/amd/pmf/core.c
+> @@ -251,26 +251,28 @@ static const struct pci_device_id pmf_pci_ids[] = {
+>  	{ }
 >  };
 >  
-> @@ -395,6 +399,12 @@ struct apmf_dyn_slider_output {
->  	struct apmf_cnqf_power_set ps[APMF_CNQF_MAX];
->  } __packed;
->  
-> +/* cmd ids for TA communication */
-> +enum ta_pmf_command {
-> +	TA_PMF_COMMAND_POLICY_BUILDER__INITIALIZE,
-> +	TA_PMF_COMMAND_POLICY_BUILDER__ENACT_POLICIES
-
-Add comma to the second line too.
-
-Did you mean to have double _?
-
-> +};
-> +
->  struct ta_pmf_shared_memory {
->  	int command_id;
->  	int resp_id;
-> diff --git a/drivers/platform/x86/amd/pmf/tee-if.c b/drivers/platform/x86/amd/pmf/tee-if.c
-> index b48340edbf44..1fce04beacb3 100644
-> --- a/drivers/platform/x86/amd/pmf/tee-if.c
-> +++ b/drivers/platform/x86/amd/pmf/tee-if.c
-> @@ -13,9 +13,96 @@
->  #include "pmf.h"
->  
->  #define MAX_TEE_PARAM	4
-> +
-> +/* Policy binary actions sampling frequency (in ms) */
-> +static int pb_actions_ms = 1000;
-> +#ifdef CONFIG_AMD_PMF_DEBUG
-> +module_param(pb_actions_ms, int, 0644);
-> +MODULE_PARM_DESC(pb_actions_ms, "Policy binary actions sampling frequency (default = 1000ms)");
-> +#endif
-> +
->  static const uuid_t amd_pmf_ta_uuid = UUID_INIT(0x6fd93b77, 0x3fb8, 0x524d,
->  						0xb1, 0x2d, 0xc5, 0x29, 0xb1, 0x3d, 0x85, 0x43);
->  
-> +static void amd_pmf_prepare_args(struct amd_pmf_dev *dev, int cmd,
-> +				 struct tee_ioctl_invoke_arg *arg,
-> +				 struct tee_param *param)
-> +{
-> +	memset(arg, 0, sizeof(*arg));
-> +	memset(param, 0, MAX_TEE_PARAM * sizeof(*param));
-> +
-> +	arg->func = cmd;
-> +	arg->session = dev->session_id;
-> +	arg->num_params = MAX_TEE_PARAM;
-> +
-> +	/* Fill invoke cmd params */
-> +	param[0].u.memref.size = sizeof(struct ta_pmf_shared_memory);
-> +	param[0].attr = TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT;
-> +	param[0].u.memref.shm = dev->fw_shm_pool;
-> +	param[0].u.memref.shm_offs = 0;
-> +}
-> +
-> +static int amd_pmf_invoke_cmd_enact(struct amd_pmf_dev *dev)
-> +{
-> +	struct ta_pmf_shared_memory *ta_sm = NULL;
-> +	struct tee_param param[MAX_TEE_PARAM];
-> +	struct tee_ioctl_invoke_arg arg;
-> +	int ret = 0;
-> +
-> +	if (!dev->tee_ctx)
-> +		return -ENODEV;
-> +
-> +	ta_sm = (struct ta_pmf_shared_memory *)dev->shbuf;
-> +	memset(ta_sm, 0, sizeof(struct ta_pmf_shared_memory));
-> +	ta_sm->command_id = TA_PMF_COMMAND_POLICY_BUILDER__ENACT_POLICIES;
-> +	ta_sm->if_version = PMF_TA_IF_VERSION__MAJOR;
-> +
-> +	amd_pmf_prepare_args(dev, TA_PMF_COMMAND_POLICY_BUILDER__ENACT_POLICIES, &arg, param);
-> +
-> +	ret = tee_client_invoke_func(dev->tee_ctx, &arg, param);
-> +	if (ret < 0 || arg.ret != 0) {
-> +		dev_err(dev->dev, "%s failed TEE err: %x, ret:%x\n", __func__, arg.ret, ret);
-
-No __func__s please.
-
-> +		return -EINVAL;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int amd_pmf_invoke_cmd_init(struct amd_pmf_dev *dev)
-> +{
-> +	struct ta_pmf_shared_memory *ta_sm = NULL;
-> +	struct tee_param param[MAX_TEE_PARAM];
-> +	struct tee_ioctl_invoke_arg arg;
-> +	int ret = 0;
-> +
-> +	if (!dev->tee_ctx) {
-> +		dev_err(dev->dev, "%s tee_ctx no context\n", __func__);
-> +		return -ENODEV;
-> +	}
-> +
-> +	ta_sm = (struct ta_pmf_shared_memory *)dev->shbuf;
-> +	ta_sm->command_id = TA_PMF_COMMAND_POLICY_BUILDER__INITIALIZE;
-> +	ta_sm->if_version = PMF_TA_IF_VERSION__MAJOR;
-> +
-> +	amd_pmf_prepare_args(dev, TA_PMF_COMMAND_POLICY_BUILDER__INITIALIZE, &arg, param);
-> +
-> +	ret = tee_client_invoke_func(dev->tee_ctx, &arg, param);
-> +	if (ret < 0 || arg.ret != 0) {
-> +		dev_err(dev->dev, "%s failed TEE err: %x, ret:%x\n", __func__, arg.ret, ret);
-> +		return -EINVAL;
-> +	}
-> +
-> +	return ta_sm->pmf_result;
-> +}
-> +
-> +static void amd_pmf_invoke_cmd(struct work_struct *work)
-> +{
-> +	struct amd_pmf_dev *dev = container_of(work, struct amd_pmf_dev, pb_work.work);
-> +
-> +	amd_pmf_invoke_cmd_enact(dev);
-> +	schedule_delayed_work(&dev->pb_work, msecs_to_jiffies(pb_actions_ms));
-> +}
-> +
->  static int amd_pmf_amdtee_ta_match(struct tee_ioctl_version_data *ver, const void *data)
+> -static void amd_pmf_set_dram_addr(struct amd_pmf_dev *dev)
+> +int amd_pmf_set_dram_addr(struct amd_pmf_dev *dev)
 >  {
->  	return ver->impl_id == TEE_IMPL_ID_AMDTEE;
-> @@ -97,10 +184,18 @@ static void amd_pmf_tee_deinit(struct amd_pmf_dev *dev)
+>  	u64 phys_addr;
+>  	u32 hi, low;
 >  
->  int amd_pmf_init_smart_pc(struct amd_pmf_dev *dev)
->  {
-> -	return amd_pmf_tee_init(dev);
-> +	int ret;
+> +	/* Get Metrics Table Address */
+> +	dev->buf = kzalloc(sizeof(dev->m_table), GFP_KERNEL);
+> +	if (!dev->buf)
+> +		return -ENOMEM;
 > +
-> +	ret = amd_pmf_tee_init(dev);
-> +	if (ret)
-> +		return ret;
+>  	phys_addr = virt_to_phys(dev->buf);
+>  	hi = phys_addr >> 32;
+>  	low = phys_addr & GENMASK(31, 0);
+>  
+>  	amd_pmf_send_cmd(dev, SET_DRAM_ADDR_HIGH, 0, hi, NULL);
+>  	amd_pmf_send_cmd(dev, SET_DRAM_ADDR_LOW, 0, low, NULL);
 > +
-> +	INIT_DELAYED_WORK(&dev->pb_work, amd_pmf_invoke_cmd);
 > +	return 0;
 >  }
 >  
->  void amd_pmf_deinit_smart_pc(struct amd_pmf_dev *dev)
+>  int amd_pmf_init_metrics_table(struct amd_pmf_dev *dev)
 >  {
-> +	cancel_delayed_work_sync(&dev->pb_work);
->  	amd_pmf_tee_deinit(dev);
->  }
+> -	/* Get Metrics Table Address */
+> -	dev->buf = kzalloc(sizeof(dev->m_table), GFP_KERNEL);
+> -	if (!dev->buf)
+> -		return -ENOMEM;
+> -
+>  	INIT_DELAYED_WORK(&dev->work_buffer, amd_pmf_get_metrics);
+>  
+>  	amd_pmf_set_dram_addr(dev);
+> diff --git a/drivers/platform/x86/amd/pmf/pmf.h b/drivers/platform/x86/amd/pmf/pmf.h
+> index a9333ff6c0a7..ea15ce547d24 100644
+> --- a/drivers/platform/x86/amd/pmf/pmf.h
+> +++ b/drivers/platform/x86/amd/pmf/pmf.h
+> @@ -421,6 +421,7 @@ int amd_pmf_init_metrics_table(struct amd_pmf_dev *dev);
+>  int amd_pmf_get_power_source(void);
+>  int apmf_install_handler(struct amd_pmf_dev *pmf_dev);
+>  int apmf_os_power_slider_update(struct amd_pmf_dev *dev, u8 flag);
+> +int amd_pmf_set_dram_addr(struct amd_pmf_dev *dev);
+>  
+>  /* SPS Layer */
+>  int amd_pmf_get_pprof_modes(struct amd_pmf_dev *pmf);
 > 
+
+Why are not amd_pmf_set_dram_addr() callers made to handle/pass on 
+errors???
 
 -- 
  i.
