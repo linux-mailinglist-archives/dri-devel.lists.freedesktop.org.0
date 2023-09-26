@@ -2,83 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4498A7AED5B
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Sep 2023 14:56:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1D107AED71
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Sep 2023 14:58:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B3EC10E3D2;
-	Tue, 26 Sep 2023 12:56:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 31E6310E3D3;
+	Tue, 26 Sep 2023 12:58:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 85A9510E3D2
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Sep 2023 12:56:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1695732993;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=UkUBWVUpOckdloB7nvyn6S4lYeiAg6HkW3tcCGhfEaA=;
- b=XFjE5YXHN05yxYvTH+oo/ucBO+4uHoy07u6dexMRAnQnXSMMfEIZzFkGG02sLk/qPLteR5
- mT3tjUtmsM84RmB3mNQS9RFDOGZyUWsqMIhesHPBxUV9EHgjUmRhty5O2dMjJ8VQZHZZQZ
- Qajy5EGlKkWF5YOSsk0uKAi+Ev5/a2U=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-695-nIL8zyNCOwqAscN4y-MIBg-1; Tue, 26 Sep 2023 08:56:32 -0400
-X-MC-Unique: nIL8zyNCOwqAscN4y-MIBg-1
-Received: by mail-ej1-f71.google.com with SMTP id
- a640c23a62f3a-94a35b0d4ceso727407266b.3
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Sep 2023 05:56:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1695732991; x=1696337791;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=UkUBWVUpOckdloB7nvyn6S4lYeiAg6HkW3tcCGhfEaA=;
- b=KTSS0uHhteCrKJ53aVXYBFQ+aiI6FwUnL17Nb2vikXXHgFW9N2sEdrSxU/z6qG3ZPL
- WiEOovZLYRbzo4TU/Fk9s+RTZnDCKhA21eFC2+gmrtqICvi5KL8U5AqV0mwkorAuTdna
- UHb+AqVbOk78ALgN+oCOEgrWqoSWFSGZdzP+O8Q3PIH82YOFVbicph5/+GSo85fR9iE2
- FCZjwlPGmc65IINmYoz4LQFgHS4dYAU/M1ATT9mISFMuOytZVS+LNO8Y2L+u+o7EH9km
- clHIMfO8SFJNOSr3aq37cAuo81eUj0Kx5zz/eX9DA+n9uPbQutIOK9sSD1V/D3Eyz8YL
- tU/Q==
-X-Gm-Message-State: AOJu0YxOi6DF+KtNbSto3WtH75iXRDjSIBz8Q7j68Z5l2IiQRA8hCUdV
- 6aVFhSxdoEt9Yda7YCBH9URwqqAglDhrRyzqZCFeRCj0KwDSs6SgLEblqCg1TYCkj5kBhN+xMRh
- 3lm1RLO176YWSec6Pb3raoONE626+
-X-Received: by 2002:a17:906:5182:b0:9ae:7088:6e5d with SMTP id
- y2-20020a170906518200b009ae70886e5dmr8609851ejk.3.1695732991314; 
- Tue, 26 Sep 2023 05:56:31 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFlKMkjWc/6E/rOck6ptJGST/s1rC6uMsZziOzioVqLhJ/fEha6iiUPqIHhbUDWGuzvICiu2w==
-X-Received: by 2002:a17:906:5182:b0:9ae:7088:6e5d with SMTP id
- y2-20020a170906518200b009ae70886e5dmr8609829ejk.3.1695732990967; 
- Tue, 26 Sep 2023 05:56:30 -0700 (PDT)
-Received: from [192.168.1.217] ([109.36.138.247])
- by smtp.gmail.com with ESMTPSA id
- t2-20020a17090616c200b0099d45ed589csm7672502ejd.125.2023.09.26.05.56.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 26 Sep 2023 05:56:30 -0700 (PDT)
-Message-ID: <6c047e17-66b0-c3ff-1b4e-4478663619a4@redhat.com>
-Date: Tue, 26 Sep 2023 14:56:26 +0200
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7706310E3D0;
+ Tue, 26 Sep 2023 12:58:50 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 68F1061483;
+ Tue, 26 Sep 2023 12:58:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8998C433C7;
+ Tue, 26 Sep 2023 12:58:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1695733129;
+ bh=P5SKgQ9MdPsUVRQrXY42lQfhxPb8Z6wRlFFl4iHTEjk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=RH97QqzQG1Nkqh1HfDpK1xEerLsAeRd9gH8UTV3Jsv4pgxmlm7/fXouN5T7uu1hXC
+ Tek0ZZ/DNUS5wIhFXZkI6sHYcDG9iIAtxZVOOJWRqNht5fZIuylbKvYtIGsbGd/tU7
+ wFf+qYbJdzQXpoakmsXhJtYK+G0hZ7DSa82wAcGPFEJrm/NdEpqDTA2Lwi18dE/tcg
+ XajpPyPLv6/vYO6kis1LiNoH21gv+D1YPod9qpIye01Uk9gANTIQc6xFuI7EDzduKl
+ Oo0aVC65OvHhBOGb6mDC8Lw5N0rQvwfsxy8TI/ajP0Yav3b952efGyA6/Xoc9m6yjI
+ SMUupXYZpM1xg==
+Date: Tue, 26 Sep 2023 13:58:42 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH 2/2] dt-bindings: display: msm: Make
+ "additionalProperties: true" explicit
+Message-ID: <20230926-dugout-movable-0f9fb1218cdb@spud>
+References: <20230925212434.1972368-1-robh@kernel.org>
+ <20230925212434.1972368-2-robh@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH 13/15] platform/x86/amd/pmf: Add PMF-AMDGPU set interface
-To: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, markgross@kernel.org,
- basavaraj.natikar@amd.com, jikos@kernel.org, benjamin.tissoires@redhat.com,
- alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- airlied@gmail.com, daniel@ffwll.ch
-References: <20230922175056.244940-1-Shyam-sundar.S-k@amd.com>
- <20230922175056.244940-14-Shyam-sundar.S-k@amd.com>
- <2e201a3b-d75f-916d-5135-b084ad5da23e@redhat.com>
- <437fbd5c-386f-4609-a350-77f61c8aaa0c@amd.com>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <437fbd5c-386f-4609-a350-77f61c8aaa0c@amd.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="1VDORcXQMVvglL3W"
+Content-Disposition: inline
+In-Reply-To: <20230925212434.1972368-2-robh@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,199 +52,602 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amd-gfx@lists.freedesktop.org, platform-driver-x86@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Patil.Reddy@amd.com,
- linux-input@vger.kernel.org, mario.limonciello@amd.com
+Cc: dri-devel@lists.freedesktop.org,
+ Krishna Manikandan <quic_mkrishn@quicinc.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Del Regno <angelogioacchino.delregno@somainline.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>, Robert Foss <rfoss@kernel.org>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, devicetree@vger.kernel.org,
+ Conor Dooley <conor+dt@kernel.org>, linux-arm-msm@vger.kernel.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Loic Poulain <loic.poulain@linaro.org>, Bjorn Andersson <andersson@kernel.org>,
+ linux-kernel@vger.kernel.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-On 9/26/23 13:24, Shyam Sundar S K wrote:
-> Hi Hans,
-> 
-> On 9/26/2023 4:05 PM, Hans de Goede wrote:
->> Hi,
->>
->> On 9/22/23 19:50, Shyam Sundar S K wrote:
->>> For the Smart PC Solution to fully work, it has to enact to the actions
->>> coming from TA. Add the initial code path for set interface to AMDGPU.
->>>
->>> Co-developed-by: Mario Limonciello <mario.limonciello@amd.com>
->>> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
->>> Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
->>> ---
->>>  drivers/gpu/drm/amd/amdgpu/amdgpu_pmf.c | 21 +++++++++++++++++++++
->>>  drivers/platform/x86/amd/pmf/pmf.h      |  2 ++
->>>  drivers/platform/x86/amd/pmf/tee-if.c   | 19 +++++++++++++++++--
->>>  include/linux/amd-pmf-io.h              |  1 +
->>>  4 files changed, 41 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_pmf.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_pmf.c
->>> index 232d11833ddc..5c567bff0548 100644
->>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_pmf.c
->>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_pmf.c
->>> @@ -68,3 +68,24 @@ int amd_pmf_get_gfx_data(struct amd_gpu_pmf_data *pmf)
->>>  	return 0;
->>>  }
->>>  EXPORT_SYMBOL_GPL(amd_pmf_get_gfx_data);
->>> +
->>> +int amd_pmf_set_gfx_data(struct amd_gpu_pmf_data *pmf)
->>> +{
->>> +	struct drm_device *drm_dev = pci_get_drvdata(pmf->gpu_dev);
->>> +	struct amdgpu_device *adev = drm_to_adev(drm_dev);
->>> +	struct backlight_device *bd;
->>> +
->>> +	if (!(adev->flags & AMD_IS_APU)) {
->>> +		DRM_ERROR("PMF-AMDGPU interface not supported\n");
->>> +		return -ENODEV;
->>> +	}
->>> +
->>> +	bd = backlight_device_get_by_type(BACKLIGHT_RAW);
->>> +	if (!bd)
->>> +		return -ENODEV;
->>
->> This assumes that the backlight is always controller by the amdgpu's
->> native backlight driver, but it might e.g. also be handled by
->> eacpi-video or by nvidia_wmi_ec_backlight (when using an AMD APU +
->> nvidia dgpu).
-> 
-> PMF is meant for AMD APUs(atleast for now) and the _HID will only be
-> made visible if its AMD laptop. So using amdgpu's native BACKLIGHT_RAW
-> should be safe, right?
+--1VDORcXQMVvglL3W
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Users can pass say acpi_backlight=video and use the acpi_video
-driver for backlight control instead of the native GPU backlight
-control.
+On Mon, Sep 25, 2023 at 04:24:25PM -0500, Rob Herring wrote:
+> Make it explicit that child nodes have additional properties and the
+> child node schema is not complete. The complete schemas are applied
+> separately based the compatible strings.
+>=20
+> Signed-off-by: Rob Herring <robh@kernel.org>
 
-> 
->>
->> For now what should be done here is to call acpi_video_get_backlight_type()
->> and then translate the return value from this into a backlight-type:
->>
->>         acpi_backlight_video		-> BACKLIGHT_FIRMWARE
->>         acpi_backlight_vendor,		-> BACKLIGHT_PLATFORM
->>         acpi_backlight_native,		-> BACKLIGHT_RAW
->>         acpi_backlight_nvidia_wmi_ec,	-> BACKLIGHT_FIRMWARE
->>         acpi_backlight_apple_gmux,	-> BACKLIGHT_PLATFORM
->>
-> 
-> I can add this change in the v2, do you insist on this?
+I cross-checked only a handful of these...
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
-Insist is a strong word, but I think that it is a good idea to have
-this. Evenutally it looks like this code will need to either integrate with
-the drm drivers lot more; or the drm core needs to export some special
-hooks for this which the PMF code can then call.
+Thanks,
+Conor.
 
-Actually thinking more about this, I think that the right thing to do
-here is make some code register brightness control as a cooling device
-(which I think is already done in some cases) and then have the PMF
-code use the cooling-device APIs for this.
+> ---
+>  .../bindings/display/msm/qcom,msm8998-mdss.yaml        |  6 ++++++
+>  .../bindings/display/msm/qcom,qcm2290-mdss.yaml        |  6 ++++++
+>  .../bindings/display/msm/qcom,sc7180-mdss.yaml         |  8 ++++++++
+>  .../bindings/display/msm/qcom,sc7280-mdss.yaml         | 10 ++++++++++
+>  .../bindings/display/msm/qcom,sc8280xp-mdss.yaml       |  4 ++++
+>  .../bindings/display/msm/qcom,sdm845-mdss.yaml         |  8 ++++++++
+>  .../bindings/display/msm/qcom,sm6115-mdss.yaml         |  6 ++++++
+>  .../bindings/display/msm/qcom,sm6125-mdss.yaml         |  6 ++++++
+>  .../bindings/display/msm/qcom,sm6350-mdss.yaml         |  6 ++++++
+>  .../bindings/display/msm/qcom,sm6375-mdss.yaml         |  6 ++++++
+>  .../bindings/display/msm/qcom,sm8150-mdss.yaml         |  6 ++++++
+>  .../bindings/display/msm/qcom,sm8250-mdss.yaml         |  6 ++++++
+>  .../bindings/display/msm/qcom,sm8350-mdss.yaml         |  8 ++++++++
+>  .../bindings/display/msm/qcom,sm8450-mdss.yaml         |  8 ++++++++
+>  .../bindings/display/msm/qcom,sm8550-mdss.yaml         |  8 ++++++++
+>  15 files changed, 102 insertions(+)
+>=20
+> diff --git a/Documentation/devicetree/bindings/display/msm/qcom,msm8998-m=
+dss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,msm8998-mdss.=
+yaml
+> index e320ab1de6de..2d9edab5a30d 100644
+> --- a/Documentation/devicetree/bindings/display/msm/qcom,msm8998-mdss.yaml
+> +++ b/Documentation/devicetree/bindings/display/msm/qcom,msm8998-mdss.yaml
+> @@ -38,12 +38,16 @@ properties:
+>  patternProperties:
+>    "^display-controller@[0-9a-f]+$":
+>      type: object
+> +    additionalProperties: true
+> +
+>      properties:
+>        compatible:
+>          const: qcom,msm8998-dpu
+> =20
+>    "^dsi@[0-9a-f]+$":
+>      type: object
+> +    additionalProperties: true
+> +
+>      properties:
+>        compatible:
+>          items:
+> @@ -52,6 +56,8 @@ patternProperties:
+> =20
+>    "^phy@[0-9a-f]+$":
+>      type: object
+> +    additionalProperties: true
+> +
+>      properties:
+>        compatible:
+>          const: qcom,dsi-phy-10nm-8998
+> diff --git a/Documentation/devicetree/bindings/display/msm/qcom,qcm2290-m=
+dss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,qcm2290-mdss.=
+yaml
+> index 4184b84d4c21..5ad155612b6c 100644
+> --- a/Documentation/devicetree/bindings/display/msm/qcom,qcm2290-mdss.yaml
+> +++ b/Documentation/devicetree/bindings/display/msm/qcom,qcm2290-mdss.yaml
+> @@ -44,18 +44,24 @@ properties:
+>  patternProperties:
+>    "^display-controller@[0-9a-f]+$":
+>      type: object
+> +    additionalProperties: true
+> +
+>      properties:
+>        compatible:
+>          const: qcom,qcm2290-dpu
+> =20
+>    "^dsi@[0-9a-f]+$":
+>      type: object
+> +    additionalProperties: true
+> +
+>      properties:
+>        compatible:
+>          const: qcom,dsi-ctrl-6g-qcm2290
+> =20
+>    "^phy@[0-9a-f]+$":
+>      type: object
+> +    additionalProperties: true
+> +
+>      properties:
+>        compatible:
+>          const: qcom,dsi-phy-14nm-2290
+> diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sc7180-md=
+ss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sc7180-mdss.ya=
+ml
+> index 3b9c103e504a..3432a2407caa 100644
+> --- a/Documentation/devicetree/bindings/display/msm/qcom,sc7180-mdss.yaml
+> +++ b/Documentation/devicetree/bindings/display/msm/qcom,sc7180-mdss.yaml
+> @@ -44,18 +44,24 @@ properties:
+>  patternProperties:
+>    "^display-controller@[0-9a-f]+$":
+>      type: object
+> +    additionalProperties: true
+> +
+>      properties:
+>        compatible:
+>          const: qcom,sc7180-dpu
+> =20
+>    "^displayport-controller@[0-9a-f]+$":
+>      type: object
+> +    additionalProperties: true
+> +
+>      properties:
+>        compatible:
+>          const: qcom,sc7180-dp
+> =20
+>    "^dsi@[0-9a-f]+$":
+>      type: object
+> +    additionalProperties: true
+> +
+>      properties:
+>        compatible:
+>          items:
+> @@ -64,6 +70,8 @@ patternProperties:
+> =20
+>    "^phy@[0-9a-f]+$":
+>      type: object
+> +    additionalProperties: true
+> +
+>      properties:
+>        compatible:
+>          const: qcom,dsi-phy-10nm
+> diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sc7280-md=
+ss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sc7280-mdss.ya=
+ml
+> index 43500dad66e7..bbb727831fca 100644
+> --- a/Documentation/devicetree/bindings/display/msm/qcom,sc7280-mdss.yaml
+> +++ b/Documentation/devicetree/bindings/display/msm/qcom,sc7280-mdss.yaml
+> @@ -44,18 +44,24 @@ properties:
+>  patternProperties:
+>    "^display-controller@[0-9a-f]+$":
+>      type: object
+> +    additionalProperties: true
+> +
+>      properties:
+>        compatible:
+>          const: qcom,sc7280-dpu
+> =20
+>    "^displayport-controller@[0-9a-f]+$":
+>      type: object
+> +    additionalProperties: true
+> +
+>      properties:
+>        compatible:
+>          const: qcom,sc7280-dp
+> =20
+>    "^dsi@[0-9a-f]+$":
+>      type: object
+> +    additionalProperties: true
+> +
+>      properties:
+>        compatible:
+>          items:
+> @@ -64,12 +70,16 @@ patternProperties:
+> =20
+>    "^edp@[0-9a-f]+$":
+>      type: object
+> +    additionalProperties: true
+> +
+>      properties:
+>        compatible:
+>          const: qcom,sc7280-edp
+> =20
+>    "^phy@[0-9a-f]+$":
+>      type: object
+> +    additionalProperties: true
+> +
+>      properties:
+>        compatible:
+>          enum:
+> diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sc8280xp-=
+mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sc8280xp-mds=
+s.yaml
+> index db680fb12b6a..af79406e1604 100644
+> --- a/Documentation/devicetree/bindings/display/msm/qcom,sc8280xp-mdss.ya=
+ml
+> +++ b/Documentation/devicetree/bindings/display/msm/qcom,sc8280xp-mdss.ya=
+ml
+> @@ -34,12 +34,16 @@ properties:
+>  patternProperties:
+>    "^display-controller@[0-9a-f]+$":
+>      type: object
+> +    additionalProperties: true
+> +
+>      properties:
+>        compatible:
+>          const: qcom,sc8280xp-dpu
+> =20
+>    "^displayport-controller@[0-9a-f]+$":
+>      type: object
+> +    additionalProperties: true
+> +
+>      properties:
+>        compatible:
+>          enum:
+> diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sdm845-md=
+ss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sdm845-mdss.ya=
+ml
+> index d6d7ac1b2ef8..6e8b69e5ec62 100644
+> --- a/Documentation/devicetree/bindings/display/msm/qcom,sdm845-mdss.yaml
+> +++ b/Documentation/devicetree/bindings/display/msm/qcom,sdm845-mdss.yaml
+> @@ -42,18 +42,24 @@ properties:
+>  patternProperties:
+>    "^display-controller@[0-9a-f]+$":
+>      type: object
+> +    additionalProperties: true
+> +
+>      properties:
+>        compatible:
+>          const: qcom,sdm845-dpu
+> =20
+>    "^displayport-controller@[0-9a-f]+$":
+>      type: object
+> +    additionalProperties: true
+> +
+>      properties:
+>        compatible:
+>          const: qcom,sdm845-dp
+> =20
+>    "^dsi@[0-9a-f]+$":
+>      type: object
+> +    additionalProperties: true
+> +
+>      properties:
+>        compatible:
+>          items:
+> @@ -62,6 +68,8 @@ patternProperties:
+> =20
+>    "^phy@[0-9a-f]+$":
+>      type: object
+> +    additionalProperties: true
+> +
+>      properties:
+>        compatible:
+>          const: qcom,dsi-phy-10nm
+> diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sm6115-md=
+ss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sm6115-mdss.ya=
+ml
+> index 17221b62a642..dde5c2acead5 100644
+> --- a/Documentation/devicetree/bindings/display/msm/qcom,sm6115-mdss.yaml
+> +++ b/Documentation/devicetree/bindings/display/msm/qcom,sm6115-mdss.yaml
+> @@ -32,12 +32,16 @@ properties:
+>  patternProperties:
+>    "^display-controller@[0-9a-f]+$":
+>      type: object
+> +    additionalProperties: true
+> +
+>      properties:
+>        compatible:
+>          const: qcom,sm6115-dpu
+> =20
+>    "^dsi@[0-9a-f]+$":
+>      type: object
+> +    additionalProperties: true
+> +
+>      properties:
+>        compatible:
+>          oneOf:
+> @@ -50,6 +54,8 @@ patternProperties:
+> =20
+>    "^phy@[0-9a-f]+$":
+>      type: object
+> +    additionalProperties: true
+> +
+>      properties:
+>        compatible:
+>          const: qcom,dsi-phy-14nm-2290
+> diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sm6125-md=
+ss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sm6125-mdss.ya=
+ml
+> index 57f0e3647711..671c2c2aa896 100644
+> --- a/Documentation/devicetree/bindings/display/msm/qcom,sm6125-mdss.yaml
+> +++ b/Documentation/devicetree/bindings/display/msm/qcom,sm6125-mdss.yaml
+> @@ -43,12 +43,16 @@ properties:
+>  patternProperties:
+>    "^display-controller@[0-9a-f]+$":
+>      type: object
+> +    additionalProperties: true
+> +
+>      properties:
+>        compatible:
+>          const: qcom,sm6125-dpu
+> =20
+>    "^dsi@[0-9a-f]+$":
+>      type: object
+> +    additionalProperties: true
+> +
+>      properties:
+>        compatible:
+>          items:
+> @@ -57,6 +61,8 @@ patternProperties:
+> =20
+>    "^phy@[0-9a-f]+$":
+>      type: object
+> +    additionalProperties: true
+> +
+>      properties:
+>        compatible:
+>          const: qcom,sm6125-dsi-phy-14nm
+> diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sm6350-md=
+ss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sm6350-mdss.ya=
+ml
+> index db255b1f4c20..e1dcb453762e 100644
+> --- a/Documentation/devicetree/bindings/display/msm/qcom,sm6350-mdss.yaml
+> +++ b/Documentation/devicetree/bindings/display/msm/qcom,sm6350-mdss.yaml
+> @@ -43,12 +43,16 @@ properties:
+>  patternProperties:
+>    "^display-controller@[0-9a-f]+$":
+>      type: object
+> +    additionalProperties: true
+> +
+>      properties:
+>        compatible:
+>          const: qcom,sm6350-dpu
+> =20
+>    "^dsi@[0-9a-f]+$":
+>      type: object
+> +    additionalProperties: true
+> +
+>      properties:
+>        compatible:
+>          items:
+> @@ -57,6 +61,8 @@ patternProperties:
+> =20
+>    "^phy@[0-9a-f]+$":
+>      type: object
+> +    additionalProperties: true
+> +
+>      properties:
+>        compatible:
+>          const: qcom,dsi-phy-10nm
+> diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sm6375-md=
+ss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sm6375-mdss.ya=
+ml
+> index 30d36fffaedb..b15c3950f09d 100644
+> --- a/Documentation/devicetree/bindings/display/msm/qcom,sm6375-mdss.yaml
+> +++ b/Documentation/devicetree/bindings/display/msm/qcom,sm6375-mdss.yaml
+> @@ -43,12 +43,16 @@ properties:
+>  patternProperties:
+>    "^display-controller@[0-9a-f]+$":
+>      type: object
+> +    additionalProperties: true
+> +
+>      properties:
+>        compatible:
+>          const: qcom,sm6375-dpu
+> =20
+>    "^dsi@[0-9a-f]+$":
+>      type: object
+> +    additionalProperties: true
+> +
+>      properties:
+>        compatible:
+>          items:
+> @@ -57,6 +61,8 @@ patternProperties:
+> =20
+>    "^phy@[0-9a-f]+$":
+>      type: object
+> +    additionalProperties: true
+> +
+>      properties:
+>        compatible:
+>          const: qcom,sm6375-dsi-phy-7nm
+> diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sm8150-md=
+ss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sm8150-mdss.ya=
+ml
+> index 54cdaa827cd3..a2a8be7f64a9 100644
+> --- a/Documentation/devicetree/bindings/display/msm/qcom,sm8150-mdss.yaml
+> +++ b/Documentation/devicetree/bindings/display/msm/qcom,sm8150-mdss.yaml
+> @@ -47,12 +47,16 @@ properties:
+>  patternProperties:
+>    "^display-controller@[0-9a-f]+$":
+>      type: object
+> +    additionalProperties: true
+> +
+>      properties:
+>        compatible:
+>          const: qcom,sm8150-dpu
+> =20
+>    "^dsi@[0-9a-f]+$":
+>      type: object
+> +    additionalProperties: true
+> +
+>      properties:
+>        compatible:
+>          items:
+> @@ -61,6 +65,8 @@ patternProperties:
+> =20
+>    "^phy@[0-9a-f]+$":
+>      type: object
+> +    additionalProperties: true
+> +
+>      properties:
+>        compatible:
+>          const: qcom,dsi-phy-7nm
+> diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sm8250-md=
+ss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sm8250-mdss.ya=
+ml
+> index e887f031b8be..994975909fea 100644
+> --- a/Documentation/devicetree/bindings/display/msm/qcom,sm8250-mdss.yaml
+> +++ b/Documentation/devicetree/bindings/display/msm/qcom,sm8250-mdss.yaml
+> @@ -46,12 +46,16 @@ properties:
+>  patternProperties:
+>    "^display-controller@[0-9a-f]+$":
+>      type: object
+> +    additionalProperties: true
+> +
+>      properties:
+>        compatible:
+>          const: qcom,sm8250-dpu
+> =20
+>    "^dsi@[0-9a-f]+$":
+>      type: object
+> +    additionalProperties: true
+> +
+>      properties:
+>        compatible:
+>          items:
+> @@ -60,6 +64,8 @@ patternProperties:
+> =20
+>    "^phy@[0-9a-f]+$":
+>      type: object
+> +    additionalProperties: true
+> +
+>      properties:
+>        compatible:
+>          const: qcom,dsi-phy-7nm
+> diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sm8350-md=
+ss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sm8350-mdss.ya=
+ml
+> index 60d4aae1131b..163fc83c1e80 100644
+> --- a/Documentation/devicetree/bindings/display/msm/qcom,sm8350-mdss.yaml
+> +++ b/Documentation/devicetree/bindings/display/msm/qcom,sm8350-mdss.yaml
+> @@ -48,18 +48,24 @@ properties:
+>  patternProperties:
+>    "^display-controller@[0-9a-f]+$":
+>      type: object
+> +    additionalProperties: true
+> +
+>      properties:
+>        compatible:
+>          const: qcom,sm8350-dpu
+> =20
+>    "^displayport-controller@[0-9a-f]+$":
+>      type: object
+> +    additionalProperties: true
+> +
+>      properties:
+>        compatible:
+>          const: qcom,sm8350-dp
+> =20
+>    "^dsi@[0-9a-f]+$":
+>      type: object
+> +    additionalProperties: true
+> +
+>      properties:
+>        compatible:
+>          items:
+> @@ -68,6 +74,8 @@ patternProperties:
+> =20
+>    "^phy@[0-9a-f]+$":
+>      type: object
+> +    additionalProperties: true
+> +
+>      properties:
+>        compatible:
+>          const: qcom,sm8350-dsi-phy-5nm
+> diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sm8450-md=
+ss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sm8450-mdss.ya=
+ml
+> index bb22940b9385..001b26e65301 100644
+> --- a/Documentation/devicetree/bindings/display/msm/qcom,sm8450-mdss.yaml
+> +++ b/Documentation/devicetree/bindings/display/msm/qcom,sm8450-mdss.yaml
+> @@ -38,12 +38,16 @@ properties:
+>  patternProperties:
+>    "^display-controller@[0-9a-f]+$":
+>      type: object
+> +    additionalProperties: true
+> +
+>      properties:
+>        compatible:
+>          const: qcom,sm8450-dpu
+> =20
+>    "^displayport-controller@[0-9a-f]+$":
+>      type: object
+> +    additionalProperties: true
+> +
+>      properties:
+>        compatible:
+>          items:
+> @@ -52,6 +56,8 @@ patternProperties:
+> =20
+>    "^dsi@[0-9a-f]+$":
+>      type: object
+> +    additionalProperties: true
+> +
+>      properties:
+>        compatible:
+>          items:
+> @@ -60,6 +66,8 @@ patternProperties:
+> =20
+>    "^phy@[0-9a-f]+$":
+>      type: object
+> +    additionalProperties: true
+> +
+>      properties:
+>        compatible:
+>          const: qcom,sm8450-dsi-phy-5nm
+> diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sm8550-md=
+ss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sm8550-mdss.ya=
+ml
+> index 48aea8005c86..1ea50a2c7c8e 100644
+> --- a/Documentation/devicetree/bindings/display/msm/qcom,sm8550-mdss.yaml
+> +++ b/Documentation/devicetree/bindings/display/msm/qcom,sm8550-mdss.yaml
+> @@ -38,12 +38,16 @@ properties:
+>  patternProperties:
+>    "^display-controller@[0-9a-f]+$":
+>      type: object
+> +    additionalProperties: true
+> +
+>      properties:
+>        compatible:
+>          const: qcom,sm8550-dpu
+> =20
+>    "^displayport-controller@[0-9a-f]+$":
+>      type: object
+> +    additionalProperties: true
+> +
+>      properties:
+>        compatible:
+>          items:
+> @@ -52,6 +56,8 @@ patternProperties:
+> =20
+>    "^dsi@[0-9a-f]+$":
+>      type: object
+> +    additionalProperties: true
+> +
+>      properties:
+>        compatible:
+>          items:
+> @@ -60,6 +66,8 @@ patternProperties:
+> =20
+>    "^phy@[0-9a-f]+$":
+>      type: object
+> +    additionalProperties: true
+> +
+>      properties:
+>        compatible:
+>          const: qcom,sm8550-dsi-phy-4nm
+> --=20
+> 2.40.1
+>=20
 
-IMHO that would be a much cleaner solution then this hack.
+--1VDORcXQMVvglL3W
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Regards,
+-----BEGIN PGP SIGNATURE-----
 
-Hans
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZRLVggAKCRB4tDGHoIJi
+0i8QAP47s75JLP12JmyhDt129VKkI7blZ9Rqh7O8Ly6PHo/anAEA1r6W8PoSpW66
+STfNcWQfsXqZcqfUn69EOHd6kQT97ws=
+=TYGp
+-----END PGP SIGNATURE-----
 
-
-
-> 
-> Thanks,
-> Shyam
-> 
->> Also I'm worried about probe order here, this code currently assumes
->> that the GPU or other backlight driver has loaded before this runs,
->> which is not necessarily the case.
->>
->> I think that if the backlight_device_get_by_type() fails this
->> should be retried say every 10 seconds from some delayed workqueue
->> for at least a couple of minutes after boot.
->>
->> Regards,
->>
->> Hans
->>
->>
->>
->>
->>> +
->>> +	backlight_device_set_brightness(bd, pmf->brightness);
->>> +
->>> +	return 0;
->>> +}
->>> +EXPORT_SYMBOL_GPL(amd_pmf_set_gfx_data);
->>> diff --git a/drivers/platform/x86/amd/pmf/pmf.h b/drivers/platform/x86/amd/pmf/pmf.h
->>> index 9032df4ba48a..ce89cc0daa5a 100644
->>> --- a/drivers/platform/x86/amd/pmf/pmf.h
->>> +++ b/drivers/platform/x86/amd/pmf/pmf.h
->>> @@ -73,6 +73,7 @@
->>>  #define PMF_POLICY_STT_SKINTEMP_APU				7
->>>  #define PMF_POLICY_STT_SKINTEMP_HS2				8
->>>  #define PMF_POLICY_SYSTEM_STATE					9
->>> +#define PMF_POLICY_DISPLAY_BRIGHTNESS				12
->>>  #define PMF_POLICY_P3T						38
->>>  
->>>  /* TA macros */
->>> @@ -480,6 +481,7 @@ enum ta_pmf_error_type {
->>>  };
->>>  
->>>  struct pmf_action_table {
->>> +	unsigned long display_brightness;
->>>  	enum system_state system_state;
->>>  	unsigned long spl; /* in mW */
->>>  	unsigned long sppt; /* in mW */
->>> diff --git a/drivers/platform/x86/amd/pmf/tee-if.c b/drivers/platform/x86/amd/pmf/tee-if.c
->>> index 1608996654e8..eefffff83a4c 100644
->>> --- a/drivers/platform/x86/amd/pmf/tee-if.c
->>> +++ b/drivers/platform/x86/amd/pmf/tee-if.c
->>> @@ -79,10 +79,10 @@ static int amd_pmf_update_uevents(struct amd_pmf_dev *dev, u16 event)
->>>  	return 0;
->>>  }
->>>  
->>> -static void amd_pmf_apply_policies(struct amd_pmf_dev *dev, struct ta_pmf_enact_result *out)
->>> +static int amd_pmf_apply_policies(struct amd_pmf_dev *dev, struct ta_pmf_enact_result *out)
->>>  {
->>>  	u32 val, event = 0;
->>> -	int idx;
->>> +	int idx, ret;
->>>  
->>>  	for (idx = 0; idx < out->actions_count; idx++) {
->>>  		val = out->actions_list[idx].value;
->>> @@ -160,8 +160,23 @@ static void amd_pmf_apply_policies(struct amd_pmf_dev *dev, struct ta_pmf_enact_
->>>  				dev->prev_data->system_state = 0;
->>>  			}
->>>  			break;
->>> +
->>> +		case PMF_POLICY_DISPLAY_BRIGHTNESS:
->>> +			ret = amd_pmf_get_gfx_data(&dev->gfx_data);
->>> +			if (ret)
->>> +				return ret;
->>> +
->>> +			dev->prev_data->display_brightness = dev->gfx_data.brightness;
->>> +			if (dev->prev_data->display_brightness != val) {
->>> +				dev->gfx_data.brightness = val;
->>> +				amd_pmf_set_gfx_data(&dev->gfx_data);
->>> +				dev_dbg(dev->dev, "update DISPLAY_BRIGHTNESS : %d\n", val);
->>> +			}
->>> +			break;
->>>  		}
->>>  	}
->>> +
->>> +	return 0;
->>>  }
->>>  
->>>  static int amd_pmf_invoke_cmd_enact(struct amd_pmf_dev *dev)
->>> diff --git a/include/linux/amd-pmf-io.h b/include/linux/amd-pmf-io.h
->>> index a2d4af231362..ecae387ddaa6 100644
->>> --- a/include/linux/amd-pmf-io.h
->>> +++ b/include/linux/amd-pmf-io.h
->>> @@ -25,4 +25,5 @@ struct amd_gpu_pmf_data {
->>>  };
->>>  
->>>  int amd_pmf_get_gfx_data(struct amd_gpu_pmf_data *pmf);
->>> +int amd_pmf_set_gfx_data(struct amd_gpu_pmf_data *pmf);
->>>  #endif
->>
-> 
-
+--1VDORcXQMVvglL3W--
