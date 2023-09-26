@@ -1,66 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B87747AED89
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Sep 2023 15:01:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F7467AEDAC
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Sep 2023 15:07:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E1B8210E3E0;
-	Tue, 26 Sep 2023 13:01:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A7BD310E3D7;
+	Tue, 26 Sep 2023 13:06:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
- [IPv6:2a00:1450:4864:20::32f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E0D710E3E1
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Sep 2023 13:01:18 +0000 (UTC)
-Received: by mail-wm1-x32f.google.com with SMTP id
- 5b1f17b1804b1-4053c6f1087so78660125e9.0
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Sep 2023 06:01:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1695733277; x=1696338077; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=MS7T5qNcaaAtsXyLYljAh+1Xxln9bcBRkmzw4oED08Y=;
- b=ZoQaDGl81uLXtq5Vht7SLnC0nP05X8aRuWv/SkvCqnLwKx6MLDCo4kxH8Nn0ZBcjvB
- TtP3IIdl018V+zwYceX9ldfOspr4RVkYdDR+reAmsfyCb7Vd5mpdsWjgY3qVIk+K1/id
- k3ZXF9xdtssxW/IOQNcWrCWtKF+dGtYeEscaco6aPs8HCntmxT5xJaKpVFVIZHF+p7vK
- /vX57ROhRIB4mPE2c/ubVzw+i3nHzVyVtCxFVNFxQGxagzc+n/n5jfNogXxfs1D7o3nw
- kU8a76QHHiCtu8n+GXo4aE7puAUeJ91hCg6SYU9Cf59d+NrYK5YzsBy27nvsYKOIrxTD
- nIFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1695733277; x=1696338077;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=MS7T5qNcaaAtsXyLYljAh+1Xxln9bcBRkmzw4oED08Y=;
- b=vbqQz4PCI9eW30cZ2+mKUJZW5Iphj3WVtdBux/gpROif915sT7D/r4ZhZKAoMoIMKk
- OF6WX70rq6H9UEUayS+ahsqhuzVkwoN9qklenJd2ydsVomVlqj83Q2PoryBEZ9LXaST5
- HF1emZGenUrJn596R4K43fA3ZSCeyVYeGzYi0B2RJVloCGR6edMysLgoHLH+zgxbe0Lw
- suC4Alv8l8P8E28v/cCUkJEDlXLaRplssQk2Uym12SJi2ziqWI5JSKx+ey9OhK0zaqbE
- fJt+efapMQOPWUwej0KhH/38AkPbqqFKdG7rmmQWQ7+vI3jAs51R61FbkckbaWHNjCeD
- Ik7Q==
-X-Gm-Message-State: AOJu0YxicjtmiSVggYqbR0LQdpF2fzRjlZB7+o7PTusnQIhheGdzRnZO
- zTmuctIO0PyPH1tWfTsnkWPDjw==
-X-Google-Smtp-Source: AGHT+IHQuRtjXPocWtmNLqUsEHc9Fm36NC/aEQcNjyXW9d+4nNeVH9BfrSCCtcERycCPCpPfFQ8z1Q==
-X-Received: by 2002:a05:600c:3658:b0:3f6:9634:c8d6 with SMTP id
- y24-20020a05600c365800b003f69634c8d6mr8513184wmq.18.1695733276393; 
- Tue, 26 Sep 2023 06:01:16 -0700 (PDT)
-Received: from aspen.lan
- (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
- by smtp.gmail.com with ESMTPSA id
- e9-20020adfe7c9000000b003197efd1e7bsm693730wrn.114.2023.09.26.06.01.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Sep 2023 06:01:15 -0700 (PDT)
-Date: Tue, 26 Sep 2023 14:01:13 +0100
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Flavio Suligoi <f.suligoi@asem.it>
-Subject: Re: [PATCH v3 1/2] dt-bindings: backlight: Add MPS MP3309C
-Message-ID: <20230926130113.GB4356@aspen.lan>
-References: <20230925122609.78849-1-f.suligoi@asem.it>
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4636310E07C;
+ Tue, 26 Sep 2023 13:06:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+ Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=1CPfsOrSgtg1DWgOTN9++AAfO9XupLa7U/drfAwpwJA=; b=nscvE3+9rXVf859gqkI8951eky
+ BFq09hKhOBEyuykzYjz5Z4yzXitQ1cfq+IPcblJxiDoAnYTXW3aiD7QuDt0LOMQr1mJMJh9ku4QGT
+ rQBiTEjBFKrpZcBVnzKvecGBkOuAiazAccA2DR9Esi7W7tCEYI8dhIm0k60glgzgz0UDlkbxxNyoW
+ lx2W8VQFEPQBvkg8DxajpiipupO2eILgivsBk4YdTk2LPX3SyTx3pYekUnaT4tbVJNeAehmoTcqOn
+ haACN9Rt3O+Cq8JRnZ6eOKiyXeUzu/8np7dttwJ6SM1HXhPpvy1fT6KGRujrbZ2oR465bJmSyFt/Z
+ f5xBIlAA==;
+Received: from [102.213.205.115] (helo=mail.igalia.com)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1ql7m7-008WJr-9h; Tue, 26 Sep 2023 15:06:51 +0200
+Date: Tue, 26 Sep 2023 12:06:46 -0100
+From: Melissa Wen <mwen@igalia.com>
+To: Harry Wentland <harry.wentland@amd.com>
+Subject: Re: [PATCH] drm/amd/display: set stream gamut remap matrix to MPC
+ for DCN3+
+Message-ID: <20230926130623.xf7oi4rpl5i6i65u@mail.igalia.com>
+References: <20230721132431.692158-1-mwen@igalia.com>
+ <9276b01c-8b52-40ad-8ce5-39a8824d340b@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230925122609.78849-1-f.suligoi@asem.it>
+In-Reply-To: <9276b01c-8b52-40ad-8ce5-39a8824d340b@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,123 +53,201 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- Pavel Machek <pavel@ucw.cz>, Jingoo Han <jingoohan1@gmail.com>,
- Helge Deller <deller@gmx.de>, Lee Jones <lee@kernel.org>,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-leds@vger.kernel.org
+Cc: Krunoslav Kovac <krunoslav.kovac@amd.com>, kernel-dev@igalia.com,
+ sunpeng.li@amd.com, bhawanpreet.lakha@amd.com, Xinhui.Pan@amd.com,
+ Rodrigo.Siqueira@amd.com, amd-gfx@lists.freedesktop.org,
+ Nicholas.Kazlauskas@amd.com, Aurabindo Pillai <aurabindo.pillai@amd.com>,
+ dri-devel@lists.freedesktop.org, alexander.deucher@amd.com,
+ christian.koenig@amd.com, sungjoon.kim@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 25, 2023 at 02:26:08PM +0200, Flavio Suligoi wrote:
-> The Monolithic Power (MPS) MP3309C is a WLED step-up converter, featuring a
-> programmable switching frequency to optimize efficiency.
-> The brightness can be controlled either by I2C commands (called "analog"
-> mode) or by a PWM input signal (PWM mode).
-> This driver supports both modes.
->
-> For device driver details, please refer to:
-> - drivers/video/backlight/mp3309c_bl.c
->
-> The datasheet is available at:
-> - https://www.monolithicpower.com/en/mp3309c.html
->
-> Signed-off-by: Flavio Suligoi <f.suligoi@asem.it>
-> Reviewed-by: Rob Herring <robh@kernel.org>
-> ---
->
-> v3:
->  - add default value for mps,overvoltage-protection-microvolt property
->  - fix the example, changing from "mps,mp3309c-backlight" to "mps,mp3309c" in
->    compatible property
-> v2:
->  - remove useless properties (dimming-mode, pinctrl-names, pinctrl-0,
->    switch-on-delay-ms, switch-off-delay-ms, reset-gpios, reset-on-delay-ms,
->    reset-on-length-ms)
->  - add common.yaml#
->  - remove already included properties (default-brightness, max-brightness)
->  - substitute three boolean properties, used for the overvoltage-protection
->    values, with a single enum property
->  - remove some conditional definitions
->  - remove the 2nd example
-> v1:
->  - first version
->
->  .../bindings/leds/backlight/mps,mp3309c.yaml  | 73 +++++++++++++++++++
->  1 file changed, 73 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/leds/backlight/mps,mp3309c.yaml
->
-> diff --git a/Documentation/devicetree/bindings/leds/backlight/mps,mp3309c.yaml b/Documentation/devicetree/bindings/leds/backlight/mps,mp3309c.yaml
-> new file mode 100644
-> index 000000000000..4191e33626f5
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/leds/backlight/mps,mp3309c.yaml
-> @@ -0,0 +1,73 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/leds/backlight/mps,mp3309c.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: MPS MP3309C backlight
-> +
-> +maintainers:
-> +  - Flavio Suligoi <f.suligoi@asem.it>
-> +
-> +description: |
-> +  The Monolithic Power (MPS) MP3309C is a WLED step-up converter, featuring a
-> +  programmable switching frequency to optimize efficiency.
-> +  It supports two different dimming modes:
-> +
-> +  - analog mode, via I2C commands (default)
-> +  - PWM controlled mode.
-> +
-> +  The datasheet is available at:
-> +  https://www.monolithicpower.com/en/mp3309c.html
-> +
-> +allOf:
-> +  - $ref: common.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    const: mps,mp3309c
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  pwms:
-> +    description: if present, the backlight is controlled in PWM mode.
-> +    maxItems: 1
-> +
-> +  enable-gpios:
-> +    description: GPIO used to enable the backlight in "analog-i2c" dimming mode.
-> +    maxItems: 1
-> +
-> +  mps,overvoltage-protection-microvolt:
-> +    description: Overvoltage protection (13.5V, 24V or 35.5V).
-> +    enum: [ 13500000, 24000000, 35500000 ]
-> +    default: 35500000
-> +
-> +  mps,no-sync-mode:
-> +    description: disable synchronous rectification mode
-> +    type: boolean
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - max-brightness
+On 09/25, Harry Wentland wrote:
+> 
+> 
+> On 2023-07-21 09:24, Melissa Wen wrote:
+> > dc->caps.color.mpc.gamut_remap says there is a post-blending color block
+> > for gamut remap matrix for DCN3 HW family and newer versions. However,
+> > those drivers still follow DCN10 programming that remap stream
+> > gamut_remap_matrix to DPP (pre-blending).
+> > 
+> > To enable pre-blending and post-blending gamut_remap matrix supports at
+> > the same time, set stream gamut_remap to MPC and plane gamut_remap to
+> > DPP for DCN families that support both.
+> > 
+> > It was tested using IGT KMS color tests for DRM CRTC CTM property and it
+> > preserves test results.
+> > 
+> > Signed-off-by: Melissa Wen <mwen@igalia.com>
+> > 
+> 
+> Reviewed-by: Harry Wentland <harry.wentland@amd.com>
+> 
+> and merged.
+> 
+> I also took the liberty to expand this to the recently merged dcn35
+> code.
 
-Why is this mandatory?
+No problem. Thank you!
 
-There's no point in setting max-brightness when running in I2C mode
-(max-brightness should default to 31 in that case).
+With this change merged, I also removed the related patch from the
+series of AMD driver-specific color props.
 
+Melissa
 
-> +  - default-brightness
-
-Again. I'm not clear why this needs to be mandatory.
-
-
-Daniel.
+> 
+> Harry
+> 
+> > ---
+> > 
+> > Hi,
+> > 
+> > Two relevant things to consider for this change. One is that mapping DRM
+> > CRTC CTM to MPC is a more consistent way since CRTC CTM is a
+> > post-blending transformation. Second, programming stream
+> > gamut_remap_matrix on MPC enables us to provide support for both plane
+> > CTM and CRTC CTM color properties. If we don't make this separation, we
+> > would need to reject an atomic commit that tries to set both properties
+> > at the same time and userspace may also get unexpected results.
+> > 
+> > Thanks in advance for any feeback,
+> > 
+> > Melissa
+> > 
+> >  .../drm/amd/display/dc/dcn30/dcn30_hwseq.c    | 37 +++++++++++++++++++
+> >  .../drm/amd/display/dc/dcn30/dcn30_hwseq.h    |  3 ++
+> >  .../gpu/drm/amd/display/dc/dcn30/dcn30_init.c |  2 +-
+> >  .../drm/amd/display/dc/dcn301/dcn301_init.c   |  2 +-
+> >  .../gpu/drm/amd/display/dc/dcn31/dcn31_init.c |  2 +-
+> >  .../drm/amd/display/dc/dcn314/dcn314_init.c   |  2 +-
+> >  .../gpu/drm/amd/display/dc/dcn32/dcn32_init.c |  2 +-
+> >  7 files changed, 45 insertions(+), 5 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c
+> > index 4cd4ae07d73d..4fb4e9ec03f1 100644
+> > --- a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c
+> > +++ b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c
+> > @@ -186,6 +186,43 @@ bool dcn30_set_input_transfer_func(struct dc *dc,
+> >  	return result;
+> >  }
+> >  
+> > +void dcn30_program_gamut_remap(struct pipe_ctx *pipe_ctx)
+> > +{
+> > +	int i = 0;
+> > +	struct dpp_grph_csc_adjustment dpp_adjust;
+> > +	struct mpc_grph_gamut_adjustment mpc_adjust;
+> > +	int mpcc_id = pipe_ctx->plane_res.hubp->inst;
+> > +	struct mpc *mpc = pipe_ctx->stream_res.opp->ctx->dc->res_pool->mpc;
+> > +
+> > +	memset(&dpp_adjust, 0, sizeof(dpp_adjust));
+> > +	dpp_adjust.gamut_adjust_type = GRAPHICS_GAMUT_ADJUST_TYPE_BYPASS;
+> > +
+> > +	if (pipe_ctx->plane_state &&
+> > +	    pipe_ctx->plane_state->gamut_remap_matrix.enable_remap == true) {
+> > +		dpp_adjust.gamut_adjust_type = GRAPHICS_GAMUT_ADJUST_TYPE_SW;
+> > +		for (i = 0; i < CSC_TEMPERATURE_MATRIX_SIZE; i++)
+> > +			dpp_adjust.temperature_matrix[i] =
+> > +				pipe_ctx->plane_state->gamut_remap_matrix.matrix[i];
+> > +	}
+> > +
+> > +	pipe_ctx->plane_res.dpp->funcs->dpp_set_gamut_remap(pipe_ctx->plane_res.dpp,
+> > +							    &dpp_adjust);
+> > +
+> > +	memset(&mpc_adjust, 0, sizeof(mpc_adjust));
+> > +	mpc_adjust.gamut_adjust_type = GRAPHICS_GAMUT_ADJUST_TYPE_BYPASS;
+> > +
+> > +	if (pipe_ctx->top_pipe == NULL) {
+> > +		if (pipe_ctx->stream->gamut_remap_matrix.enable_remap == true) {
+> > +			mpc_adjust.gamut_adjust_type = GRAPHICS_GAMUT_ADJUST_TYPE_SW;
+> > +			for (i = 0; i < CSC_TEMPERATURE_MATRIX_SIZE; i++)
+> > +				mpc_adjust.temperature_matrix[i] =
+> > +					pipe_ctx->stream->gamut_remap_matrix.matrix[i];
+> > +		}
+> > +	}
+> > +
+> > +	mpc->funcs->set_gamut_remap(mpc, mpcc_id, &mpc_adjust);
+> > +}
+> > +
+> >  bool dcn30_set_output_transfer_func(struct dc *dc,
+> >  				struct pipe_ctx *pipe_ctx,
+> >  				const struct dc_stream_state *stream)
+> > diff --git a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.h b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.h
+> > index a24a8e33a3d2..cb34ca932a5f 100644
+> > --- a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.h
+> > +++ b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.h
+> > @@ -58,6 +58,9 @@ bool dcn30_set_blend_lut(struct pipe_ctx *pipe_ctx,
+> >  bool dcn30_set_input_transfer_func(struct dc *dc,
+> >  				struct pipe_ctx *pipe_ctx,
+> >  				const struct dc_plane_state *plane_state);
+> > +
+> > +void dcn30_program_gamut_remap(struct pipe_ctx *pipe_ctx);
+> > +
+> >  bool dcn30_set_output_transfer_func(struct dc *dc,
+> >  				struct pipe_ctx *pipe_ctx,
+> >  				const struct dc_stream_state *stream);
+> > diff --git a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_init.c b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_init.c
+> > index 3d19acaa12f3..5372eb76fcfc 100644
+> > --- a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_init.c
+> > +++ b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_init.c
+> > @@ -32,7 +32,7 @@
+> >  #include "dcn30_init.h"
+> >  
+> >  static const struct hw_sequencer_funcs dcn30_funcs = {
+> > -	.program_gamut_remap = dcn10_program_gamut_remap,
+> > +	.program_gamut_remap = dcn30_program_gamut_remap,
+> >  	.init_hw = dcn30_init_hw,
+> >  	.apply_ctx_to_hw = dce110_apply_ctx_to_hw,
+> >  	.apply_ctx_for_surface = NULL,
+> > diff --git a/drivers/gpu/drm/amd/display/dc/dcn301/dcn301_init.c b/drivers/gpu/drm/amd/display/dc/dcn301/dcn301_init.c
+> > index 257df8660b4c..81fd50ee97c3 100644
+> > --- a/drivers/gpu/drm/amd/display/dc/dcn301/dcn301_init.c
+> > +++ b/drivers/gpu/drm/amd/display/dc/dcn301/dcn301_init.c
+> > @@ -33,7 +33,7 @@
+> >  #include "dcn301_init.h"
+> >  
+> >  static const struct hw_sequencer_funcs dcn301_funcs = {
+> > -	.program_gamut_remap = dcn10_program_gamut_remap,
+> > +	.program_gamut_remap = dcn30_program_gamut_remap,
+> >  	.init_hw = dcn10_init_hw,
+> >  	.power_down_on_boot = dcn10_power_down_on_boot,
+> >  	.apply_ctx_to_hw = dce110_apply_ctx_to_hw,
+> > diff --git a/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_init.c b/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_init.c
+> > index fc25cc300a17..4e724d52a68f 100644
+> > --- a/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_init.c
+> > +++ b/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_init.c
+> > @@ -34,7 +34,7 @@
+> >  #include "dcn31_init.h"
+> >  
+> >  static const struct hw_sequencer_funcs dcn31_funcs = {
+> > -	.program_gamut_remap = dcn10_program_gamut_remap,
+> > +	.program_gamut_remap = dcn30_program_gamut_remap,
+> >  	.init_hw = dcn31_init_hw,
+> >  	.power_down_on_boot = dcn10_power_down_on_boot,
+> >  	.apply_ctx_to_hw = dce110_apply_ctx_to_hw,
+> > diff --git a/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_init.c b/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_init.c
+> > index ca8fe55c33b8..01e03ecf2291 100644
+> > --- a/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_init.c
+> > +++ b/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_init.c
+> > @@ -36,7 +36,7 @@
+> >  #include "dcn314_init.h"
+> >  
+> >  static const struct hw_sequencer_funcs dcn314_funcs = {
+> > -	.program_gamut_remap = dcn10_program_gamut_remap,
+> > +	.program_gamut_remap = dcn30_program_gamut_remap,
+> >  	.init_hw = dcn31_init_hw,
+> >  	.power_down_on_boot = dcn10_power_down_on_boot,
+> >  	.apply_ctx_to_hw = dce110_apply_ctx_to_hw,
+> > diff --git a/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_init.c b/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_init.c
+> > index 777b2fac20c4..625008d618fa 100644
+> > --- a/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_init.c
+> > +++ b/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_init.c
+> > @@ -33,7 +33,7 @@
+> >  #include "dcn32_init.h"
+> >  
+> >  static const struct hw_sequencer_funcs dcn32_funcs = {
+> > -	.program_gamut_remap = dcn10_program_gamut_remap,
+> > +	.program_gamut_remap = dcn30_program_gamut_remap,
+> >  	.init_hw = dcn32_init_hw,
+> >  	.apply_ctx_to_hw = dce110_apply_ctx_to_hw,
+> >  	.apply_ctx_for_surface = NULL,
+> 
