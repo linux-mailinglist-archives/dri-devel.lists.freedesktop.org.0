@@ -1,67 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E33757AEE8B
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Sep 2023 16:52:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 77D3E7AEF25
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Sep 2023 17:01:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D0F2610E111;
-	Tue, 26 Sep 2023 14:52:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2716510E3F2;
+	Tue, 26 Sep 2023 15:01:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com
- [209.85.128.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8099910E111
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Sep 2023 14:52:01 +0000 (UTC)
-Received: by mail-yw1-f179.google.com with SMTP id
- 00721157ae682-59bebd5bdadso110229967b3.0
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Sep 2023 07:52:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1695739920; x=1696344720;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=GeJt2kDkJDREmJCiOFGlfnsT2tn2qZEwAJk2/hTfX/A=;
- b=fS3pKpqFcL1s5mUbWT3aySBVPvzLRHr7z/9BTYQ+9JEFDFzRhH/tl1v7uctRnirWoj
- GjfhwEpMP9KYrzzhjUHNZawrcbzTWQo58TO/msnr3PXG29d55Wl07b6+XY1rfqc1iWMP
- M4IIK5PkydaztNXpCFOU5VQVLRmwge6IbO3AWLbHZwSBc64sPl0pb2+gY8eyKcKVy6au
- YhCxouqwOn512AL3VoHj2I3yOVE3cv3CEvWpd6rObTuO58ExPl+rfYFtafBFdd8zQi7J
- yxtH+g09BSKEICy1R/tWY0/mQ85OjHQblzXqrw1yLHoDVX9r0b/ie0kkxFSKr/UyLeQ5
- /Q1w==
-X-Gm-Message-State: AOJu0YznggjvgqIzUlaCbQfSqJwkCx7CNgAKHGO8nYaRzFmp/h4No53e
- EXlhZAIp17uprJO3jvs1t4KofjjPN3DdwQ==
-X-Google-Smtp-Source: AGHT+IGT/pwo/DRF6whXojMhu4SPHzQmQyLtAI/+v3+6DXuKEv+gC+ckKsS0ex72+Tgn7b17feDhEA==
-X-Received: by 2002:a0d:d481:0:b0:59b:d899:f171 with SMTP id
- w123-20020a0dd481000000b0059bd899f171mr9820950ywd.1.1695739920098; 
- Tue, 26 Sep 2023 07:52:00 -0700 (PDT)
-Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com.
- [209.85.219.176]) by smtp.gmail.com with ESMTPSA id
- a184-20020a0df1c1000000b00577269ba9e9sm3014275ywf.86.2023.09.26.07.51.58
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 26 Sep 2023 07:51:58 -0700 (PDT)
-Received: by mail-yb1-f176.google.com with SMTP id
- 3f1490d57ef6-d867d4cf835so6421041276.1
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Sep 2023 07:51:58 -0700 (PDT)
-X-Received: by 2002:a25:f211:0:b0:d86:b9d5:124d with SMTP id
- i17-20020a25f211000000b00d86b9d5124dmr5899090ybe.16.1695739918497; Tue, 26
- Sep 2023 07:51:58 -0700 (PDT)
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 93C5910E3F5
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Sep 2023 15:01:27 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1ql9Yt-0008Ns-FK; Tue, 26 Sep 2023 17:01:19 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1ql9Ys-009883-5s; Tue, 26 Sep 2023 17:01:18 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1ql9Yr-004zRC-Sn; Tue, 26 Sep 2023 17:01:17 +0200
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Lee Jones <lee@kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>
+Subject: [PATCH v3] backlight: pwm_bl: Disable PWM on shutdown and suspend
+Date: Tue, 26 Sep 2023 17:01:16 +0200
+Message-Id: <20230926150116.2124384-1-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-References: <cover.1694767208.git.geert+renesas@glider.be>
- <CAMuHMdWfBTKdXvZutg4LvWqBjuz-X=ZjzX0LKPqD=JxYuLoPRw@mail.gmail.com>
- <20230919152428.GB18426@pendragon.ideasonboard.com>
-In-Reply-To: <20230919152428.GB18426@pendragon.ideasonboard.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 26 Sep 2023 16:51:46 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUwBXQ2X6hOm+kcZOteDLMau8x5xUcRJr2zy9dXyVf9Xw@mail.gmail.com>
-Message-ID: <CAMuHMdUwBXQ2X6hOm+kcZOteDLMau8x5xUcRJr2zy9dXyVf9Xw@mail.gmail.com>
-Subject: Re: [GIT PULL] drm: renesas: shmobile: Atomic conversion + DT support
- (was: Re: [PATCH v4 00/41] drm: renesas: shmobile: Atomic conversion
- + DT support)
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3373;
+ i=u.kleine-koenig@pengutronix.de; h=from:subject;
+ bh=61FP9G4E8M9F1pTU3wuzp0u70AjlycxIrURHR3QM++A=;
+ b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlEvI7fKNBv6WMI58kdVa/QJNJIswdnYz9HDjvW
+ tYOgyJzHGqJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZRLyOwAKCRCPgPtYfRL+
+ TsHMCACY/dDub8/nxtStdqOoD5+FVknnQRRC/OVkjMROReL5w0mRNZfZlwSQjiDmaT1M278Bn9E
+ fLCddz5oyxegjFJOhVwF6Yxykfct6HKMG3bUZePVS0z/wlJ0ncuAJ2dc1EK9l5XNpH7SoF5HoSa
+ lLGwS7aUcnaZh+ueKtWVsJrGwtT3ldeddIwnZq+bbHzyQGD3g/DN9JnAaKnpKw2EDtN2tTbtdh4
+ ZQv4K7DsOKqT4XS55EFrsVvnG+tSU5G9au+kjxDPsvrEFT5xPhqn8B2Y4oqWeRftN0tMoKLwOfl
+ COQj9T89QKgnwHzZb4MdAiE+oISw5CccM+Whma2peneA4QIP
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp;
+ fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,99 +65,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Hans Verkuil <hverkuil@xs4all.nl>, Conor Dooley <conor+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Linux-sh list <linux-sh@vger.kernel.org>,
- Magnus Damm <magnus.damm@gmail.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc: Aisheng Dong <aisheng.dong@nxp.com>, linux-pwm@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, Helge Deller <deller@gmx.de>,
+ dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
+ kernel@pengutronix.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Laurent, David, Daniel,
+Since commit 00e7e698bff1 ("backlight: pwm_bl: Configure pwm only once
+per backlight toggle") calling pwm_backlight_power_off() doesn't disable
+the PWM any more. However this is necessary to suspend because PWM
+drivers usually refuse to suspend if they are still enabled.
 
-On Tue, Sep 19, 2023 at 5:24=E2=80=AFPM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
-> On Tue, Sep 19, 2023 at 04:28:40PM +0200, Geert Uytterhoeven wrote:
-> > The following changes since commit 0663e1da5ba8e6459e3555ac12c62741668c=
-0d30:
-> >
-> >   drm/dp_mst: Tune down error message during payload addition
-> > (2023-09-18 16:38:21 +0300)
-> >
-> > are available in the Git repository at:
-> >
-> >   git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.g=
-it
-> > tags/shmob-drm-atomic-dt-tag1
-> >
-> > for you to fetch changes up to bfea0fa9052aa8d235b24957eb84d9ff20cb87b7=
-:
-> >
-> >   drm: renesas: shmobile: Add DT support (2023-09-19 15:58:04 +0200)
-> >
-> > ----------------------------------------------------------------
-> > drm: renesas: shmobile: Atomic conversion + DT support
-> >
-> > Currently, there are two drivers for the LCD controller on Renesas
-> > SuperH-based and ARM-based SH-Mobile and R-Mobile SoCs:
-> >   1. sh_mobile_lcdcfb, using the fbdev framework,
-> >   2. shmob_drm, using the DRM framework.
-> > However, only the former driver is used, as all platform support
-> > integrates the former.  None of these drivers support DT-based systems.
-> >
-> > Convert the SH-Mobile DRM driver to atomic modesetting, and add DT
-> > support, complemented by the customary set of fixes and improvements.
-> >
-> > Link: https://lore.kernel.org/r/cover.1694767208.git.geert+renesas@glid=
-er.be/
-> >
-> > This PR is based on today's drm-misc/for-linux-next, to avoid a
-> > conflict with commit 775b0669e19f2e4a ("drm/shmobile: Convert to
-> > platform remove callback returning void") in drm-misc/for-linux-next
+Also adapt shutdown and remove callbacks to disable the PWM for similar
+reasons.
 
-Now drm-misc/for-linux-next (which is still at v6.5-rc2) has been
-merged into drm/drm-next (which is at v6.6-rc2), do you want me to
-rebase my branch to current drm/drm-next, or any other commit?
+Fixes: 00e7e698bff1 ("backlight: pwm_bl: Configure pwm only once per backlight toggle")
+Reported-by: Aisheng Dong <aisheng.dong@nxp.com>
+Tested-by: Aisheng Dong <aisheng.dong@nxp.com>
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+---
+Hello,
 
-Thanks!
+On Tue, Sep 26, 2023 at 12:11:37PM +0100, Daniel Thompson wrote:
+> Changes proposed look good (and the comment about badly designed boards
+> going to HiZ state we super helpful).
 
-> > Thanks for pulling!
-> > ----------------------------------------------------------------
-> > Geert Uytterhoeven (36):
-> >       MAINTAINER: Create entry for Renesas SH-Mobile DRM drivers
->
-> I'm technically listed as the maintainer for this driver until Geert
-> takes over, so for this pull request,
->
-> Acked-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->
-> And after that, shmobile won't need my ack to merge further changes :-)
->
-> This is very nice work Geert. I'm looking forward to dropping the
-> sh_mobile_lcdcfb driver.
+I didn't mention Hi-Z and note that disabling a PWM can even result in
+the hardware driving to the active level. (This can happen for example
+for pwm-mxs and pwm-imx27.)
 
-Thank you!
+> Only thing from my is why there is no attempt to disable the PWM
+> from the .remove_new() callback.
 
-Gr{oetje,eeting}s,
+Good catch, good I didn't manage to send out a v3 for the email address
+fix yet :-) So here comes a v3 with two improvments:
 
-                        Geert
+Changes since v2
+(https://lore.kernel.org/dri-devel/20230926084612.2074692-1-u.kleine-koenig@pengutronix.de):
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+ - Fix Aisheng Dong's email address
+ - also disable PWM in .remove and adapt commit log accordingly (Thanks
+   to Daniel Thompson for spotting that).
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+ drivers/video/backlight/pwm_bl.c | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
+
+diff --git a/drivers/video/backlight/pwm_bl.c b/drivers/video/backlight/pwm_bl.c
+index a51fbab96368..390398ae07b9 100644
+--- a/drivers/video/backlight/pwm_bl.c
++++ b/drivers/video/backlight/pwm_bl.c
+@@ -629,6 +629,10 @@ static void pwm_backlight_remove(struct platform_device *pdev)
+ 
+ 	backlight_device_unregister(bl);
+ 	pwm_backlight_power_off(pb);
++	pwm_get_state(pb->pwm, &state);
++	state.duty_cycle = 0;
++	state.enabled = false;
++	pwm_apply_state(pb->pwm, &state);
+ 
+ 	if (pb->exit)
+ 		pb->exit(&pdev->dev);
+@@ -638,8 +642,13 @@ static void pwm_backlight_shutdown(struct platform_device *pdev)
+ {
+ 	struct backlight_device *bl = platform_get_drvdata(pdev);
+ 	struct pwm_bl_data *pb = bl_get_data(bl);
++	struct pwm_state state;
+ 
+ 	pwm_backlight_power_off(pb);
++	pwm_get_state(pb->pwm, &state);
++	state.duty_cycle = 0;
++	state.enabled = false;
++	pwm_apply_state(pb->pwm, &state);
+ }
+ 
+ #ifdef CONFIG_PM_SLEEP
+@@ -647,12 +656,24 @@ static int pwm_backlight_suspend(struct device *dev)
+ {
+ 	struct backlight_device *bl = dev_get_drvdata(dev);
+ 	struct pwm_bl_data *pb = bl_get_data(bl);
++	struct pwm_state state;
+ 
+ 	if (pb->notify)
+ 		pb->notify(pb->dev, 0);
+ 
+ 	pwm_backlight_power_off(pb);
+ 
++	/*
++	 * Note that disabling the PWM doesn't guarantee that the output stays
++	 * at its inactive state. However without the PWM disabled, the PWM
++	 * driver refuses to suspend. So disable here even though this might
++	 * enable the backlight on poorly designed boards.
++	 */
++	pwm_get_state(pb->pwm, &state);
++	state.duty_cycle = 0;
++	state.enabled = false;
++	pwm_apply_state(pb->pwm, &state);
++
+ 	if (pb->notify_after)
+ 		pb->notify_after(pb->dev, 0);
+ 
+
+base-commit: 8fff9184d1b5810dca5dd1a02726d4f844af88fc
+-- 
+2.40.1
+
