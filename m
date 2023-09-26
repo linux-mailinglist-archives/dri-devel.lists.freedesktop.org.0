@@ -2,39 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 328BF7AE79B
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Sep 2023 10:13:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F20F47AE79D
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Sep 2023 10:14:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA31410E364;
-	Tue, 26 Sep 2023 08:13:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 247A910E367;
+	Tue, 26 Sep 2023 08:13:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 06DF210E0D0
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Sep 2023 08:13:51 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org
+ [IPv6:2604:1380:40e1:4800::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B71410E0D0
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Sep 2023 08:13:55 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 89E6C61326
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Sep 2023 08:13:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61D96C433C8;
- Tue, 26 Sep 2023 08:13:49 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 5889ACE0628
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Sep 2023 08:13:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0309C433C9;
+ Tue, 26 Sep 2023 08:13:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1695716030;
- bh=Y3Kww83IPJHuqjpVOClGOuciaIoTdLgIMjwrVTvKf5M=;
- h=From:To:Subject:Date:From;
- b=Rn5a+7AspmfXtoTSHXsUAzLzVE3YayWoPPQWyhlOx5inRPFJ7GARtANtPTanzv3ez
- PJFYWbji1Of41+wCUrv2iDqD77AMMP8A/cywW/coreI1znXQub64I5YRG9jHeZdeg2
- BgtYBPbAxeC9Fn3Caab/s3AYdYmS8rTwJZdtZ2TWzDkj8xHXrPPLh53pEa/M2USDu5
- +EksIkmCgaZafY2oynlt9bjgM7i9igGIvGf6vhlWZP6QLrxB+E2T5i0IbtqcTOcXWA
- z3bLxKDJbUbhyzpu/yFffCdnUlFy0mu2WG/Dswz3K0JPxd8UohqXDWnwo9BtxKWRrv
- FKD7PSFRYG3lA==
+ s=k20201202; t=1695716031;
+ bh=tr50ODn4xLi0WPzL73tIwSx34xkSXd0njW0b++RwK7A=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=Kq+5t1H1RqRZ7/wfRgoMtkAfWgZfRarFun74Y/EOoE/bL1/tbdSyOvbYZbQWVtHN9
+ o+3n+7m+0cr3Z2tzmMCDp5FGAAGDQPFJpTFZovNmIFDykj307HiaHew4HLkIIUXy4H
+ mttE0LUr2Oi+c4RKzS6PdV1Vnlstva0pROLHRYXcZp7KWMIYWEly6ZKGOLnXL4tbzq
+ lryQwjFv89mr28563UU0FssZbNdq+NGIDrGGyStsICfWDLnAAAXZlWS04KSXkTdsPQ
+ zTGb8CR8D2a+822TYO7hw99/2AeF7wtiGYrdCIWEzdlRNuPZhgapdUuwU9zL/YVk4z
+ Yrx5y/KwDlP/Q==
 From: Oded Gabbay <ogabbay@kernel.org>
 To: dri-devel@lists.freedesktop.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 1/9] accel/habanalabs: minor cosmetics update to cpucp_if.h
-Date: Tue, 26 Sep 2023 11:13:37 +0300
-Message-Id: <20230926081345.240927-1-ogabbay@kernel.org>
+Subject: [PATCH 2/9] accel/habanalabs: minor cosmetics update to trace file
+Date: Tue, 26 Sep 2023 11:13:38 +0300
+Message-Id: <20230926081345.240927-2-ogabbay@kernel.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230926081345.240927-1-ogabbay@kernel.org>
+References: <20230926081345.240927-1-ogabbay@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -53,60 +55,30 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 - Update copyright years
-- Align comments
+- Add missing newline at end of file
 
 Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
 ---
- include/linux/habanalabs/cpucp_if.h | 17 +++++++----------
- 1 file changed, 7 insertions(+), 10 deletions(-)
+ include/trace/events/habanalabs.h | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/include/linux/habanalabs/cpucp_if.h b/include/linux/habanalabs/cpucp_if.h
-index 84d74c4ee4d3..86ea7c63a0d2 100644
---- a/include/linux/habanalabs/cpucp_if.h
-+++ b/include/linux/habanalabs/cpucp_if.h
+diff --git a/include/trace/events/habanalabs.h b/include/trace/events/habanalabs.h
+index 0d3667399d01..cf85753a33b1 100644
+--- a/include/trace/events/habanalabs.h
++++ b/include/trace/events/habanalabs.h
 @@ -1,6 +1,6 @@
  /* SPDX-License-Identifier: GPL-2.0
   *
-- * Copyright 2020-2022 HabanaLabs, Ltd.
-+ * Copyright 2020-2023 HabanaLabs, Ltd.
+- * Copyright 2016-2021 HabanaLabs, Ltd.
++ * Copyright 2022-2023 HabanaLabs, Ltd.
   * All Rights Reserved.
   *
   */
-@@ -668,18 +668,15 @@ enum pq_init_status {
-  *       Obsolete.
-  *
-  * CPUCP_PACKET_GENERIC_PASSTHROUGH -
-- *      Generic opcode for all firmware info that is only passed to host
-- *      through the LKD, without getting parsed there.
-+ *       Generic opcode for all firmware info that is only passed to host
-+ *       through the LKD, without getting parsed there.
-  *
-  * CPUCP_PACKET_ACTIVE_STATUS_SET -
-  *       LKD sends FW indication whether device is free or in use, this indication is reported
-  *       also to the BMC.
-  *
-- * CPUCP_PACKET_REGISTER_INTERRUPTS -
-- *       Packet to register interrupts indicating LKD is ready to receive events from FW.
-- *
-  * CPUCP_PACKET_SOFT_RESET -
-- *      Packet to perform soft-reset.
-+ *       Packet to perform soft-reset.
-  *
-  * CPUCP_PACKET_INTS_REGISTER -
-  *       Packet to inform FW that queues have been established and LKD is ready to receive
-@@ -750,9 +747,9 @@ enum cpucp_packet_id {
- 	CPUCP_PACKET_RESERVED11,		/* not used */
- 	CPUCP_PACKET_RESERVED12,		/* internal */
- 	CPUCP_PACKET_RESERVED13,                /* internal */
--	CPUCP_PACKET_SOFT_RESET,                /* internal */
--	CPUCP_PACKET_INTS_REGISTER,             /* internal */
--	CPUCP_PACKET_ID_MAX                     /* must be last */
-+	CPUCP_PACKET_SOFT_RESET,		/* internal */
-+	CPUCP_PACKET_INTS_REGISTER,		/* internal */
-+	CPUCP_PACKET_ID_MAX			/* must be last */
- };
+@@ -209,3 +209,4 @@ DEFINE_EVENT(habanalabs_reg_access_template, habanalabs_elbi_write,
  
- #define CPUCP_PACKET_FENCE_VAL	0xFE8CE7A5
+ /* This part must be outside protection */
+ #include <trace/define_trace.h>
++
 -- 
 2.34.1
 
