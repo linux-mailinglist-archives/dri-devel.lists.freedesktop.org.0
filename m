@@ -2,52 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 033C07AEC18
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Sep 2023 14:03:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B4887AEC0C
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Sep 2023 14:02:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B4D610E3BF;
-	Tue, 26 Sep 2023 12:03:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EFE7910E161;
+	Tue, 26 Sep 2023 12:02:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6325E10E3BF
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Sep 2023 12:03:16 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8DFA310E161;
+ Tue, 26 Sep 2023 12:02:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1695729796; x=1727265796;
+ t=1695729767; x=1727265767;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=FU0AhVxXd739OYSha2yCrO+3VahEjA1ikBLDvuNth4E=;
- b=m9ULxA4LjFjcnMkL9UFpUEDO+Ddm54ykG8+764geq/0TgQouIp4x0vBH
- xy2Rk4qzhPfBYKu3a+0///za/4FvO292EN9Yisq0POvQGCag24QGKhuWA
- sjcYiw5O0kr9Rhr2ZsUSA+g2+aq84jNHkLj65Y8uk7TbzTevUZ6Gf9JM2
- 9siwmaEnqeYzkDGkbeJeVKZfzpeUXJ/tg9Ja0xWZB8TakeQb1OxEdTKwU
- aRlV9bzSm9UCYJtIRb1IppZJLHfw9CsA96nR/J1kBx/qxYtEUys7WYmdG
- EUPEkKyfNYLFtYZn2g5uJR/z1MCrfoPjc1XTocVlSYaPJKrakFB1ybqn+ Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="378827454"
-X-IronPort-AV: E=Sophos;i="6.03,177,1694761200"; d="scan'208";a="378827454"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Sep 2023 05:02:38 -0700
+ bh=SP3EbuY1pr3nX/kVEaXbBUjA6EJivYJ3T6z0pZl7O7Q=;
+ b=euvei/xoi6xC2mePoA9b8cO9lS8sQCnpxYfu+9hli5dBU3cWoVLXokeU
+ 1EzWNqlraBk42DxODsJOCr/tJf/M3NGtIBHW6fM6kIDWLyMKgM9o2JI/d
+ nMGLAcuxXDz8hcnvU+kDyFiFc22+Oid8wRzIpz2lgfUK/qYZmhm1t2XiG
+ JoHnUxMWzPoNmfsHZkvdvH6P1hrpQixqnJXwsUQERj5ApGETvQpzEYvn8
+ hTBMmNHseznaYrZNCTbI/leB3fJKVp+ViC1D0rRT0QyirS6wKy3xN02m+
+ BEtKAHeuc0rW7mf/gO9nSSEksetognRztmogqPL5YR0fa8MT39CFTRV4r g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="381448625"
+X-IronPort-AV: E=Sophos;i="6.03,177,1694761200"; d="scan'208";a="381448625"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Sep 2023 05:02:41 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="864381703"
-X-IronPort-AV: E=Sophos;i="6.03,177,1694761200"; d="scan'208";a="864381703"
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="752153507"
+X-IronPort-AV: E=Sophos;i="6.03,177,1694761200"; d="scan'208";a="752153507"
 Received: from lkp-server02.sh.intel.com (HELO 32c80313467c) ([10.239.97.151])
- by fmsmga002.fm.intel.com with ESMTP; 26 Sep 2023 05:02:32 -0700
+ by fmsmga007.fm.intel.com with ESMTP; 26 Sep 2023 05:02:32 -0700
 Received: from kbuild by 32c80313467c with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1ql6lq-0002mu-2F;
+ (envelope-from <lkp@intel.com>) id 1ql6lq-0002mp-22;
  Tue, 26 Sep 2023 12:02:30 +0000
-Date: Tue, 26 Sep 2023 20:02:14 +0800
+Date: Tue, 26 Sep 2023 20:02:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Zack Rusin <zack@kde.org>, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] drm/ttm: Make sure the mapped tt pages are decrypted
- when needed
-Message-ID: <202309261923.XeaDU2Wg-lkp@intel.com>
-References: <20230926040359.3040017-1-zack@kde.org>
+To: Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Clark <robdclark@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>, Andy Gross <agross@kernel.org>
+Subject: Re: [PATCH v5 07/10] drm/msm/a6xx: Mostly implement A7xx gpu_state
+Message-ID: <202309261932.Dha9doOl-lkp@intel.com>
+References: <20230628-topic-a7xx_drmmsm-v5-7-3dc527b472d7@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230926040359.3040017-1-zack@kde.org>
+In-Reply-To: <20230628-topic-a7xx_drmmsm-v5-7-3dc527b472d7@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,97 +65,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org,
- Huang Rui <ray.huang@amd.com>, oe-kbuild-all@lists.linux.dev,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: devicetree@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ oe-kbuild-all@lists.linux.dev, Marijn Suijten <marijn.suijten@somainline.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Zack,
+Hi Konrad,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.6-rc3 next-20230926]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on 8fff9184d1b5810dca5dd1a02726d4f844af88fc]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Zack-Rusin/drm-ttm-Make-sure-the-mapped-tt-pages-are-decrypted-when-needed/20230926-120619
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20230926040359.3040017-1-zack%40kde.org
-patch subject: [PATCH] drm/ttm: Make sure the mapped tt pages are decrypted when needed
-config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20230926/202309261923.XeaDU2Wg-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230926/202309261923.XeaDU2Wg-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Konrad-Dybcio/dt-bindings-display-msm-gmu-Add-Adreno-7-34-0-GMU/20230925-225348
+base:   8fff9184d1b5810dca5dd1a02726d4f844af88fc
+patch link:    https://lore.kernel.org/r/20230628-topic-a7xx_drmmsm-v5-7-3dc527b472d7%40linaro.org
+patch subject: [PATCH v5 07/10] drm/msm/a6xx: Mostly implement A7xx gpu_state
+config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230926/202309261932.Dha9doOl-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230926/202309261932.Dha9doOl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309261923.XeaDU2Wg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309261932.Dha9doOl-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/gpu/drm/ttm/ttm_tt.c: In function 'ttm_tt_create':
->> drivers/gpu/drm/ttm/ttm_tt.c:89:41: error: implicit declaration of function 'cc_platform_has' [-Werror=implicit-function-declaration]
-      89 |         if (bdev->pool.use_dma_alloc && cc_platform_has(CC_ATTR_MEM_ENCRYPT))
-         |                                         ^~~~~~~~~~~~~~~
->> drivers/gpu/drm/ttm/ttm_tt.c:89:57: error: 'CC_ATTR_MEM_ENCRYPT' undeclared (first use in this function)
-      89 |         if (bdev->pool.use_dma_alloc && cc_platform_has(CC_ATTR_MEM_ENCRYPT))
-         |                                                         ^~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/ttm/ttm_tt.c:89:57: note: each undeclared identifier is reported only once for each function it appears in
-   cc1: some warnings being treated as errors
+   In file included from drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c:8:
+>> drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h:360:36: warning: 'a7xx_gbif_reglist' defined but not used [-Wunused-const-variable=]
+     360 | static const struct a6xx_registers a7xx_gbif_reglist =
+         |                                    ^~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h:356:36: warning: 'a7xx_ahb_reglist' defined but not used [-Wunused-const-variable=]
+     356 | static const struct a6xx_registers a7xx_ahb_reglist[] = {
+         |                                    ^~~~~~~~~~~~~~~~
 
 
-vim +/cc_platform_has +89 drivers/gpu/drm/ttm/ttm_tt.c
+vim +/a7xx_gbif_reglist +360 drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h
 
-    56	
-    57	/*
-    58	 * Allocates a ttm structure for the given BO.
-    59	 */
-    60	int ttm_tt_create(struct ttm_buffer_object *bo, bool zero_alloc)
-    61	{
-    62		struct ttm_device *bdev = bo->bdev;
-    63		uint32_t page_flags = 0;
-    64	
-    65		dma_resv_assert_held(bo->base.resv);
-    66	
-    67		if (bo->ttm)
-    68			return 0;
-    69	
-    70		switch (bo->type) {
-    71		case ttm_bo_type_device:
-    72			if (zero_alloc)
-    73				page_flags |= TTM_TT_FLAG_ZERO_ALLOC;
-    74			break;
-    75		case ttm_bo_type_kernel:
-    76			break;
-    77		case ttm_bo_type_sg:
-    78			page_flags |= TTM_TT_FLAG_EXTERNAL;
-    79			break;
-    80		default:
-    81			pr_err("Illegal buffer object type\n");
-    82			return -EINVAL;
-    83		}
-    84		/*
-    85		 * When using dma_alloc_coherent with memory encryption the
-    86		 * mapped TT pages need to be decrypted or otherwise the drivers
-    87		 * will end up sending encrypted mem to the gpu.
-    88		 */
-  > 89		if (bdev->pool.use_dma_alloc && cc_platform_has(CC_ATTR_MEM_ENCRYPT))
-    90			page_flags |= TTM_TT_FLAG_DECRYPTED;
-    91	
-    92		bo->ttm = bdev->funcs->ttm_tt_create(bo, page_flags);
-    93		if (unlikely(bo->ttm == NULL))
-    94			return -ENOMEM;
-    95	
-    96		WARN_ON(bo->ttm->page_flags & TTM_TT_FLAG_EXTERNAL_MAPPABLE &&
-    97			!(bo->ttm->page_flags & TTM_TT_FLAG_EXTERNAL));
-    98	
-    99		return 0;
-   100	}
-   101	
+   355	
+ > 356	static const struct a6xx_registers a7xx_ahb_reglist[] = {
+   357		REGS(a7xx_ahb_registers, 0, 0),
+   358	};
+   359	
+ > 360	static const struct a6xx_registers a7xx_gbif_reglist =
+   361		REGS(a7xx_gbif_registers, 0, 0);
+   362	
 
 -- 
 0-DAY CI Kernel Test Service
