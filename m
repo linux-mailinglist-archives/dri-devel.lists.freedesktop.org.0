@@ -2,41 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CBF87AE7A6
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Sep 2023 10:14:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D9C07AE801
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Sep 2023 10:29:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC2E610E36A;
-	Tue, 26 Sep 2023 08:14:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CEEA610E375;
+	Tue, 26 Sep 2023 08:29:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 792DD10E0D0
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Sep 2023 08:14:02 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id EF5C761331
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Sep 2023 08:14:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74B18C433C9;
- Tue, 26 Sep 2023 08:14:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1695716041;
- bh=Wc6oOu7MTbbmpU3cjtCGSKKfAvkHPvs3/mMSRMDuGqc=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=IsaCXZ0U0jO0vTENmemGLv1pY/Id8z5utXMYhYursmphhjKqM8zOz/kwzXr6RhG76
- pBw5UxrHRAq4cE8bgUyzmF5O09PofCQ4Gq8vV9DdX/YSNuWnz3WGjTlTN5qYtirfi8
- 5zUdvsTTdcTFZ0Xw3VjfC3p1K6kLIGApvT5Var4jrLKzRguO7wBbCuGJ3jEfZMMxK8
- vSg00dydmO1MKm+iwDs0eTQYxlsS8jvQcJ3OJXtYDJs684965hIkEv3RVpoV86P5aC
- SX7ohOTF+GKu1j1U63Ny1YnrW5IMJwXOqpmBFXSe8joVj1lFG3WINulc17NdfyYo1Q
- bHIyAV2103tFg==
-From: Oded Gabbay <ogabbay@kernel.org>
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F387A10E372;
+ Tue, 26 Sep 2023 08:29:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1695716962; x=1727252962;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=/eDp/o//qdFrMlpO6bN0mqi/TLJLxTv2Y3NPZ0dpsqM=;
+ b=NmNCyrgnGKxogKxNopIABbjQiUTRdqXs6FyHlt2TLgxP5vFM+jgnQIi9
+ TNuyWvIA4ufDroBTrsLHqD1KCVCjJhOOSYDfmU3pjJjdU/72/dqfnp33G
+ q7VsxNqCmjQmWJYjEPqbW2x5h6j1Ix3PIyd584IQHo2LRP6yns1LB327U
+ vSn9ymYp0fLUKs+QN6DOYVHZQLQ1Al72ABBzL65I9amxx7UAxR0k0/1bW
+ kPw/ux/pS7Kzqcr6vu2yPWo5C0FtSsRTT42iy+pfra6a9AHUL7U2mBePo
+ DcGutIMMSQtVsYFotrJC5fqErrlJcLg/oCX7Kjh2ZkSH5o1kUocsu7FCu w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="412431819"
+X-IronPort-AV: E=Sophos;i="6.03,177,1694761200"; d="scan'208";a="412431819"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Sep 2023 01:29:21 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="752079049"
+X-IronPort-AV: E=Sophos;i="6.03,177,1694761200"; d="scan'208";a="752079049"
+Received: from mgolanimitul-x299-ud4-pro.iind.intel.com ([10.190.239.114])
+ by fmsmga007.fm.intel.com with ESMTP; 26 Sep 2023 01:29:18 -0700
+From: Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>
 To: dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 9/9] accel/habanalabs: minor cosmetic update to habanalabs.h
-Date: Tue, 26 Sep 2023 11:13:45 +0300
-Message-Id: <20230926081345.240927-9-ogabbay@kernel.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230926081345.240927-1-ogabbay@kernel.org>
-References: <20230926081345.240927-1-ogabbay@kernel.org>
+	intel-gfx@lists.freedesktop.org
+Subject: [PATCH 0/8] Add DSC fractional bpp support
+Date: Tue, 26 Sep 2023 13:53:23 +0530
+Message-Id: <20230926082331.739705-1-mitulkumar.ajitkumar.golani@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -51,87 +55,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: suraj.kandpal@intel.com, suijingfeng@loongson.cn, jani.nikula@intel.com,
+ Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>, swati2.sharma@intel.com,
+ mripard@kernel.org, ankit.k.nautiyal@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-- Update copyright years
-- Align fields in struct hl_userptr
-- Fix comments
+This patch series adds support for DSC fractional compressed bpp
+for MTL+. The series starts with some fixes, followed by patches that
+lay groundwork to iterate over valid compressed bpps to select the
+'best' compressed bpp with optimal link configuration (taken from
+upstream series: https://patchwork.freedesktop.org/series/105200/).
 
-Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
----
- drivers/accel/habanalabs/common/habanalabs.h | 31 ++++++++++----------
- 1 file changed, 15 insertions(+), 16 deletions(-)
+The later patches, add changes to accommodate compressed bpp with
+fractional part, including changes to QP calculations.
+To get the 'best' compressed bpp, we iterate over the valid compressed
+bpp values, but with fractional step size 1/16, 1/8, 1/4 or 1/2 as per
+sink support.
 
-diff --git a/drivers/accel/habanalabs/common/habanalabs.h b/drivers/accel/habanalabs/common/habanalabs.h
-index a8ccc04e7f92..2a3acdbf9171 100644
---- a/drivers/accel/habanalabs/common/habanalabs.h
-+++ b/drivers/accel/habanalabs/common/habanalabs.h
-@@ -1,6 +1,6 @@
- /* SPDX-License-Identifier: GPL-2.0
-  *
-- * Copyright 2016-2022 HabanaLabs, Ltd.
-+ * Copyright 2016-2023 HabanaLabs, Ltd.
-  * All Rights Reserved.
-  *
-  */
-@@ -553,8 +553,7 @@ struct hl_hints_range {
-  *              allocated with huge pages.
-  * @hints_dram_reserved_va_range: dram hint addresses reserved range.
-  * @hints_host_reserved_va_range: host hint addresses reserved range.
-- * @hints_host_hpage_reserved_va_range: host huge page hint addresses reserved
-- *                                      range.
-+ * @hints_host_hpage_reserved_va_range: host huge page hint addresses reserved range.
-  * @sram_base_address: SRAM physical start address.
-  * @sram_end_address: SRAM physical end address.
-  * @sram_user_base_address - SRAM physical start address for user access.
-@@ -593,7 +592,7 @@ struct hl_hints_range {
-  * @mmu_pte_size: PTE size in MMU page tables.
-  * @mmu_hop_table_size: MMU hop table size.
-  * @mmu_hop0_tables_total_size: total size of MMU hop0 tables.
-- * @dram_page_size: page size for MMU DRAM allocation.
-+ * @dram_page_size: The DRAM physical page size.
-  * @cfg_size: configuration space size on SRAM.
-  * @sram_size: total size of SRAM.
-  * @max_asid: maximum number of open contexts (ASIDs).
-@@ -695,7 +694,7 @@ struct hl_hints_range {
-  * @configurable_stop_on_err: is stop-on-error option configurable via debugfs.
-  * @set_max_power_on_device_init: true if need to set max power in F/W on device init.
-  * @supports_user_set_page_size: true if user can set the allocation page size.
-- * @dma_mask: the dma mask to be set for this device
-+ * @dma_mask: the dma mask to be set for this device.
-  * @supports_advanced_cpucp_rc: true if new cpucp opcodes are supported.
-  * @supports_engine_modes: true if changing engines/engine_cores modes is supported.
-  * @support_dynamic_resereved_fw_size: true if we support dynamic reserved size for fw.
-@@ -1959,17 +1958,17 @@ struct hl_ctx_mgr {
-  * @dma_mapped: true if the SG was mapped to DMA addresses, false otherwise.
-  */
- struct hl_userptr {
--	enum vm_type		vm_type; /* must be first */
--	struct list_head	job_node;
--	struct page		**pages;
--	unsigned int		npages;
--	struct sg_table		*sgt;
--	enum dma_data_direction dir;
--	struct list_head	debugfs_list;
--	pid_t			pid;
--	u64			addr;
--	u64			size;
--	u8			dma_mapped;
-+	enum vm_type			vm_type; /* must be first */
-+	struct list_head		job_node;
-+	struct page			**pages;
-+	unsigned int			npages;
-+	struct sg_table			*sgt;
-+	enum dma_data_direction		dir;
-+	struct list_head		debugfs_list;
-+	pid_t				pid;
-+	u64				addr;
-+	u64				size;
-+	u8				dma_mapped;
- };
- 
- /**
+The last 2 patches add support to depict DSC sink's fractional support,
+and debugfs to enforce use of fractional bpp, while choosing an
+appropriate compressed bpp.
+
+Ankit Nautiyal (5):
+  drm/display/dp: Add helper function to get DSC bpp precision
+  drm/i915/display: Store compressed bpp in U6.4 format
+  drm/i915/display: Consider fractional vdsc bpp while computing m_n
+    values
+  drm/i915/audio : Consider fractional vdsc bpp while computing tu_data
+  drm/i915/dp: Iterate over output bpp with fractional step size
+
+Swati Sharma (2):
+  drm/i915/dsc: Add debugfs entry to validate DSC fractional bpp
+  drm/i915/dsc: Allow DSC only with fractional bpp when forced from
+    debugfs
+
+Vandita Kulkarni (1):
+  drm/i915/dsc/mtl: Add support for fractional bpp
+
+ drivers/gpu/drm/display/drm_dp_helper.c       | 27 ++++++
+ drivers/gpu/drm/i915/display/icl_dsi.c        | 11 +--
+ drivers/gpu/drm/i915/display/intel_audio.c    | 17 ++--
+ drivers/gpu/drm/i915/display/intel_bios.c     |  6 +-
+ drivers/gpu/drm/i915/display/intel_cdclk.c    |  6 +-
+ drivers/gpu/drm/i915/display/intel_display.c  |  8 +-
+ drivers/gpu/drm/i915/display/intel_display.h  |  2 +-
+ .../drm/i915/display/intel_display_debugfs.c  | 84 +++++++++++++++++++
+ .../drm/i915/display/intel_display_types.h    |  4 +-
+ drivers/gpu/drm/i915/display/intel_dp.c       | 81 +++++++++++-------
+ drivers/gpu/drm/i915/display/intel_dp_mst.c   | 32 ++++---
+ drivers/gpu/drm/i915/display/intel_fdi.c      |  2 +-
+ .../i915/display/intel_fractional_helper.h    | 36 ++++++++
+ .../gpu/drm/i915/display/intel_qp_tables.c    |  3 -
+ drivers/gpu/drm/i915/display/intel_vdsc.c     | 30 +++++--
+ include/drm/display/drm_dp_helper.h           |  1 +
+ 16 files changed, 276 insertions(+), 74 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/display/intel_fractional_helper.h
+
 -- 
-2.34.1
+2.25.1
 
