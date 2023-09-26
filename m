@@ -1,49 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 864027AE817
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Sep 2023 10:30:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E2C497AE81A
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Sep 2023 10:31:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8651110E372;
-	Tue, 26 Sep 2023 08:30:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F49110E377;
+	Tue, 26 Sep 2023 08:31:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org
- [IPv6:2604:1380:40e1:4800::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2965910E372
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Sep 2023 08:30:23 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB4ED10E377
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Sep 2023 08:31:13 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 3BDBECE12E5;
- Tue, 26 Sep 2023 08:30:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74622C433C7;
- Tue, 26 Sep 2023 08:30:18 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 19D44CE12F6;
+ Tue, 26 Sep 2023 08:31:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F53FC433C8;
+ Tue, 26 Sep 2023 08:31:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1695717020;
- bh=1KWbLzquAwU/B/ON0zh3ARW1/mjPU9ppWT7SEVnyDnA=;
+ s=k20201202; t=1695717071;
+ bh=ZCDxwsZyOwa+nNRDkbNfSAVg8HokBeANzu0Swgv6opY=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=gIB7ZMHmyr4U9VrGTW6fb/xRGmazA+QF92yVzfp6wgpcT3RmDa/Vlfyfkx0L3Yx3D
- nmJRzkkWV/vS8EC8D9q0owAjZgjfwHt2a/ESsN5cmaU4fj2EIeKLPgMinUW7pSEVd0
- XPHk6HQl6tNnVSGOYAWhyuvUgAHZFJBYeg5sXENDOm7AQm9Rn3uuWgjmed69whPcxe
- qYAxknPVHimHuIYYtwKh3PASHTgN1XPW/VjiUG2UWVEETrMA+P00XiscG/AG0xHHE1
- chcHV8H6TlCUiQMHL52dC8RsgJxPSoEV+yaJ5f/u4O7zNLfnWI6J8CbwADQYZ2rh0E
- L9EZhQCGzpjUQ==
-Date: Tue, 26 Sep 2023 09:30:15 +0100
+ b=cge+92kI0dsZabKHFLZ7vaYhSSVwlhRsKDNkmuS8fSubucaBuPnayEYn7Gw5ObFnr
+ EdJ7Fv0sBBbKM7DzxN7PLL90HD0RsXzni+lMO7qJiK80teQIp1r9fdskeSka7s1Aqr
+ AeFX/VHPBHJ3Qp26UJ83CWhGe3CdgdWu0g6TTiZFFrnBX6X9yQeCgGtpNRy+5j0i40
+ aRAT8YvCQwELWlPjFFGjVUoEP0tATtqBoOIfyd8sJi7Cvztsk6oVqOnxAH1HcAnDJx
+ M7Mrsp6PZ0iHgGyBTVLKaLLv/Dc+T2DaeJ17mEcpsu813Ssi7fStaXtGCiyt75BgCG
+ f+B6T3iz7D1Ng==
+Date: Tue, 26 Sep 2023 09:31:06 +0100
 From: Lee Jones <lee@kernel.org>
 To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
 Subject: Re: [PATCH] backlight: pwm_bl: Disable PWM on shutdown and suspend
  disabled PWM emiting inactive state")
-Message-ID: <20230926083015.GD9999@google.com>
+Message-ID: <20230926083106.GE9999@google.com>
 References: <DB9PR04MB84779AF9758B7FE747C6693D80869@DB9PR04MB8477.eurprd04.prod.outlook.com>
  <20230322070352.xfwmnqyrao3mifuu@pengutronix.de>
  <DB9PR04MB8477FD24740251860648786380869@DB9PR04MB8477.eurprd04.prod.outlook.com>
  <20230322085129.jxxz55tbcxkc6usd@pengutronix.de>
  <20230926071744.oikg3ndaq6x7yjrw@pengutronix.de>
+ <20230926083015.GD9999@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230926071744.oikg3ndaq6x7yjrw@pengutronix.de>
+In-Reply-To: <20230926083015.GD9999@google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,29 +67,33 @@ Cc: Aisheng Dong <aisheng.dong@nxp.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 26 Sep 2023, Uwe Kleine-König wrote:
+On Tue, 26 Sep 2023, Lee Jones wrote:
 
-> Hello,
+> On Tue, 26 Sep 2023, Uwe Kleine-König wrote:
 > 
-> On Wed, Mar 22, 2023 at 09:51:29AM +0100, Uwe Kleine-König wrote:
-> > Since commit 00e7e698bff1 ("backlight: pwm_bl: Configure pwm only once
-> > per backlight toggle") calling pwm_backlight_power_off() doesn't disable
-> > the PWM any more. However this is necessary to suspend, because PWM
-> > drivers usually refuse to suspend if they are still enabled.
+> > Hello,
 > > 
-> > Also adapt shutdown to disable the PWM for similar reasons.
+> > On Wed, Mar 22, 2023 at 09:51:29AM +0100, Uwe Kleine-König wrote:
+> > > Since commit 00e7e698bff1 ("backlight: pwm_bl: Configure pwm only once
+> > > per backlight toggle") calling pwm_backlight_power_off() doesn't disable
+> > > the PWM any more. However this is necessary to suspend, because PWM
+> > > drivers usually refuse to suspend if they are still enabled.
+> > > 
+> > > Also adapt shutdown to disable the PWM for similar reasons.
+> > > 
+> > > Fixes: 00e7e698bff1 ("backlight: pwm_bl: Configure pwm only once per backlight toggle")
+> > > Reported-by: Aisheng Dong <aisheng.dong@nxp.com>
+> > > Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 > > 
-> > Fixes: 00e7e698bff1 ("backlight: pwm_bl: Configure pwm only once per backlight toggle")
-> > Reported-by: Aisheng Dong <aisheng.dong@nxp.com>
-> > Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+> > This patch was never applied but I think it is still needed. I assume it
+> > fell through the cracks?
 > 
-> This patch was never applied but I think it is still needed. I assume it
-> fell through the cracks?
+> This "patch" was sent half way through a thread and when opened in my
+> mail client looks like a mail reply due to the quotes below the '---'.
+> 
+> I'd suggest sending this again.
 
-This "patch" was sent half way through a thread and when opened in my
-mail client looks like a mail reply due to the quotes below the '---'.
-
-I'd suggest sending this again.
+You also have a copy/paste error in the subject line.
 
 -- 
 Lee Jones [李琼斯]
