@@ -2,49 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 348907AE2FE
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Sep 2023 02:37:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45BD87AE36B
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Sep 2023 03:45:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8162110E339;
-	Tue, 26 Sep 2023 00:37:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A7A110E340;
+	Tue, 26 Sep 2023 01:45:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A62F10E339
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Sep 2023 00:37:27 +0000 (UTC)
-Received: from [192.168.2.47] (109-252-153-31.dynamic.spd-mgts.ru
- [109.252.153.31])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested)
- (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id ADFE06607243;
- Tue, 26 Sep 2023 01:37:24 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1695688645;
- bh=Awnj1HSyG7f4LqqDwPj+Y+XJIJXRPsKOZA+pJHfGHi4=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=VPEP6kAqHgihHX6Y5wkrwMDH0KClVvOCpYGfCA1LoxlHg97uVlJh/hAiRDkxxB2ql
- wRTOPQFe0TxbJyDG+qLQ934ehIw2pJOWKDqB2lA4AbBbCt+MLgy5lL0gp/stGnNrVe
- 5vvyP0SeJDE9ZRYaPGgCANmzvsLdl/3TYwPBFoGdNCnTxqO3jpqcQPJOZMo+Hr1i/Z
- s6RncAYU+wElW629MX1xdnA1+0gBb5jN2oZwm6tz9EKvVCSFzGH/oRjoangxPd05ML
- SuQL+Ibij6hxwqvniV4zuBwS1bm0fo8i6hHzzc7NfvM/eghDseAAleTep+RHNMIOx3
- oE2SFqjnNSgNQ==
-Message-ID: <64e8708a-bb73-96ae-90af-f7b51317613b@collabora.com>
-Date: Tue, 26 Sep 2023 03:37:22 +0300
+Received: from sin.source.kernel.org (sin.source.kernel.org
+ [IPv6:2604:1380:40e1:4800::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7EB5110E33F;
+ Tue, 26 Sep 2023 01:44:58 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 4832ECE0F64;
+ Tue, 26 Sep 2023 01:44:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46D57C433C7;
+ Tue, 26 Sep 2023 01:44:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1695692695;
+ bh=3GmjWwlLfKkAaee1U7rANvoiG26U/KNUaceqIPsT6ng=;
+ h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+ b=iygnGX/zFTHpDM5zr/7FqpXcmSkCqfdehvGtxkU7MbfwLy/cUlC/E1M8LoQPpaQBN
+ Gksex02EneZnNH11O34brahnhFYM90ZhLA4YsBrD9OpOFvsa7KqsYh8651sMiomYRY
+ dq8QrDUSRenRpeB70fhqfhLQ7GDLLui2cqvdoyZdTlbtfGVKROfuQac/Z59NIQ+xTF
+ 2sSD9tOqAX4h1RPaamOVZ+hwhL2gAJSll2R9H1p1co9KBIWvYAfgDPaVr9IpiNiLHF
+ GSmLjIg4eg8YfCYdRaHSjrsUuhTPE6lK3lweZGyOHUPuGZid0XLm+H8OAPWW7f3x+u
+ ng8IVaPvMpsAw==
+Received: (nullmailer pid 2651675 invoked by uid 1000);
+ Tue, 26 Sep 2023 01:44:49 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v17 13/18] drm/shmem-helper: Add memory shrinker
-Content-Language: en-US
-To: Boris Brezillon <boris.brezillon@collabora.com>
-References: <20230914232721.408581-1-dmitry.osipenko@collabora.com>
- <20230914232721.408581-14-dmitry.osipenko@collabora.com>
- <20230915104633.0d5c3932@collabora.com>
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <20230915104633.0d5c3932@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: Rob Herring <robh@kernel.org>
+To: Richard Acayan <mailingradian@gmail.com>
+In-Reply-To: <20230925232625.846666-12-mailingradian@gmail.com>
+References: <20230925232625.846666-9-mailingradian@gmail.com>
+ <20230925232625.846666-12-mailingradian@gmail.com>
+Message-Id: <169569268968.2651575.14271780119784995097.robh@kernel.org>
+Subject: Re: [PATCH 3/6] dt-bindings: display: msm: Add SDM670 MDSS
+Date: Mon, 25 Sep 2023 20:44:49 -0500
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,53 +53,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@collabora.com, Thomas Zimmermann <tzimmermann@suse.de>,
- Emma Anholt <emma@anholt.net>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Maxime Ripard <mripard@kernel.org>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Melissa Wen <mwen@igalia.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Steven Price <steven.price@arm.com>,
- virtualization@lists.linux-foundation.org, Qiang Yu <yuq825@gmail.com>
+Cc: Ryan McCann <quic_rmccann@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Liu Shixin <liushixin2@huawei.com>,
+ Krishna Manikandan <quic_mkrishn@quicinc.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Vinod Polimera <quic_vpolimer@quicinc.com>, Robert Foss <rfoss@kernel.org>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, Andy Gross <agross@kernel.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, devicetree@vger.kernel.org,
+ Conor Dooley <conor+dt@kernel.org>, linux-arm-msm@vger.kernel.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Herring <robh+dt@kernel.org>,
+ Sean Paul <sean@poorly.run>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/15/23 11:46, Boris Brezillon wrote:
->> -static int drm_gem_shmem_get_pages_locked(struct drm_gem_shmem_object *shmem)
->> +static int
->> +drm_gem_shmem_acquire_pages(struct drm_gem_shmem_object *shmem, bool init)
->>  {
->>  	struct drm_gem_object *obj = &shmem->base;
->>  	struct page **pages;
->>  
->>  	dma_resv_assert_held(shmem->base.resv);
->>  
->> -	if (refcount_inc_not_zero(&shmem->pages_use_count))
->> +	if (shmem->madv < 0) {
->> +		drm_WARN_ON(obj->dev, shmem->pages);
->> +		return -ENOMEM;
->> +	}
->> +
->> +	if (shmem->pages) {
->> +		drm_WARN_ON(obj->dev, !shmem->evicted);
->>  		return 0;
->> +	}
->> +
->> +	if (drm_WARN_ON(obj->dev, !(init ^ refcount_read(&shmem->pages_use_count))))
->> +		return -EINVAL;
-> OOC, why do we care? Is there any difference between initial and re-pin
-> that make the page allocation impossible? Feels like, if there's a
-> check to do, it should be done in the caller instead, and you can drop
-> the init param here.
 
-This is a sanity check that addresses additional refcnt tracking
-complexity imposed by shrinker.
+On Mon, 25 Sep 2023 19:26:30 -0400, Richard Acayan wrote:
+> Add documentation for the SDM670 display subsystem, adapted from the
+> SDM845 and SM6125 documentation.
+> 
+> Signed-off-by: Richard Acayan <mailingradian@gmail.com>
+> ---
+>  .../display/msm/qcom,sdm670-mdss.yaml         | 280 ++++++++++++++++++
+>  1 file changed, 280 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,sdm670-mdss.yaml
+> 
 
-This function is used by both init and re-pin that is invoked from
-several places in the code. It's not trivial to move that check to the
-callers.
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
--- 
-Best regards,
-Dmitry
+yamllint warnings/errors:
+
+dtschema/dtc warnings/errors:
+Documentation/devicetree/bindings/display/msm/qcom,sdm670-mdss.example.dts:198.43-200.27: Warning (graph_endpoint): /example-0/display-subsystem@ae00000/dsi@ae96000/ports/port@0/endpoint: graph connection to node '/example-0/display-subsystem@ae00000/display-controller@ae01000/ports/port@1/endpoint' is not bidirectional
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20230925232625.846666-12-mailingradian@gmail.com
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
 
