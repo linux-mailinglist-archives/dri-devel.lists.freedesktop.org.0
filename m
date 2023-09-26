@@ -1,43 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABE407AEE5F
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Sep 2023 16:15:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 224B27AEE66
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Sep 2023 16:19:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A900B10E3F1;
-	Tue, 26 Sep 2023 14:15:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B6FAF10E3F4;
+	Tue, 26 Sep 2023 14:18:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B069810E3F1;
- Tue, 26 Sep 2023 14:15:40 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by disroot.org (Postfix) with ESMTP id 6CFA840C4D;
- Tue, 26 Sep 2023 16:15:39 +0200 (CEST)
-X-Virus-Scanned: SPAM Filter at disroot.org
-Received: from layka.disroot.org ([127.0.0.1])
- by localhost (disroot.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id w6PpjWobn9ZH; Tue, 26 Sep 2023 16:15:38 +0200 (CEST)
-From: Carlos Eduardo Gallo Filho <gcarlos@disroot.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
- t=1695737738; bh=dusPrDwUXbJaMG3/wgpiC1JFTXHohVGHD/9fkT+CGA0=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References;
- b=i2iAGVKL5PJyq5ThuvqvIIvF3NKF62U0cqKrDrGfP0qlnXnQnrKNWSUW90mgOFEfx
- e/36EWg2110B4tgnwZm8INPIS+v2U4cMzkL5t/LvPPdObsXgPhm4FAmma+Mg66Xzht
- NSndxzDyIwHpQknLAJIWRy5IfNIPts8k6Tuy1svD4S5vDGxC/1Yl7IxM887s3VCOh5
- Nhrf6tocLJ9vSilhVaLXqMaPdZGEuRGz5HeNvNmgbaNrvFvyo22X4LBs7sK5IXf9vy
- NxoDPV1P8iugInD4u641YhUTiqJjmBY9qW1h8crGM0cNyhBdqSeepeEpOKmBXJYezT
- VWGkjb7sl42QQ==
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 2/2] drm: Replace drm_framebuffer plane size functions with
- its equivalents
-Date: Tue, 26 Sep 2023 11:15:19 -0300
-Message-ID: <20230926141519.9315-3-gcarlos@disroot.org>
-In-Reply-To: <20230926141519.9315-1-gcarlos@disroot.org>
-References: <20230926141519.9315-1-gcarlos@disroot.org>
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F91810E120;
+ Tue, 26 Sep 2023 14:18:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1695737936; x=1727273936;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=orC1Y5MsbpMtL9pwprjABjckPCdp3jG22p6Kg+5Am58=;
+ b=Gc/qTvZQc0zoKovI9280Qu9Bkafq9lwNXuzDStpEfYwk2rwxKr5qOXnI
+ XCIDSjjZu6IJVP44znNaOiaDAk+lixAO6ZZB/UFtgohmemKC9KhbvMrhy
+ jaC12irxFPWw0WW89vqRXG6ecqUsWiE7fK3X5I2PJ2pCCpFpNUZPSoNi8
+ glMgLK5whKZwWHdOPBg9k3Fh6zjKfKO7Xj9k+6cL6vwV5a+azmUzLHqUP
+ ReoD/6yW9vpQ+D5h0+rjfHOTADcomd8p+rrTUDYt0C9KQxVJmnH6C9YSj
+ QjEvFZXa7ionDPeandAf4Zp9RNYJdFHtGpTbxx8nmgevNNZ9lzyJBOD1Y w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10845"; a="378852105"
+X-IronPort-AV: E=Sophos;i="6.03,178,1694761200"; d="scan'208";a="378852105"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Sep 2023 07:18:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10845"; a="872518667"
+X-IronPort-AV: E=Sophos;i="6.03,178,1694761200"; d="scan'208";a="872518667"
+Received: from nirmoyda-desk.igk.intel.com ([10.102.138.190])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Sep 2023 07:18:50 -0700
+From: Nirmoy Das <nirmoy.das@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH] drm/i915/mtl: Skip MCR ops for ring fault register
+Date: Tue, 26 Sep 2023 16:18:42 +0200
+Message-ID: <20230926141842.8681-1-nirmoy.das@intel.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
+Organization: Intel Deutschland GmbH, Registered Address: Am Campeon 10,
+ 85579 Neubiberg, Germany,
+ Commercial Register: Amtsgericht Muenchen HRB 186928 
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -51,175 +58,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matt Roper <matthew.d.roper@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
- Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>,
- Tales Aparecida <tales.aparecida@gmail.com>,
- Carlos Eduardo Gallo Filho <gcarlos@disroot.org>,
- Maxime Ripard <mripard@kernel.org>, Maira Canal <mairacanal@riseup.net>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
- Arthur Grillo <arthurgrillo@riseup.net>
+Cc: matthew.d.roper@intel.com, andi.shyti@linux.intel.com,
+ dri-devel@lists.freedesktop.org, Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The functions drm_framebuffer_plane_{width,height} and
-fb_plane_{width,height} do exactly the same job of its
-equivalents drm_format_info_plane_{width,height} from drm_fourcc.
+On MTL GEN12_RING_FAULT_REG is not replicated so don't
+do mcr based operation for this register.
 
-The only reason to have these functions on drm_framebuffer
-would be if they would added a abstraction layer to call it just
-passing a drm_framebuffer pointer and the desired plane index,
-which is not the case, where these functions actually implements
-just part of it. In the actual implementation, every call to both
-drm_framebuffer_plane_{width,height} and fb_plane_{width,height} should
-pass some drm_framebuffer attribute, which is the same as calling the
-drm_format_info_plane_{width,height} functions.
-
-The drm_format_info_pane_{width,height} functions are much more
-consistent in both its implementation and its location on code. The
-kind of calculation that they do is intrinsically derivated from the
-drm_format_info struct and has not to do with drm_framebuffer, except
-by the potential motivation described above, which is still not a good
-justification to have drm_framebuffer functions to calculate it.
-
-So, replace each drm_framebuffer_plane_{width,height} and
-fb_plane_{width,height} call to drm_format_info_plane_{width,height}
-and remove them.
-
-Signed-off-by: Carlos Eduardo Gallo Filho <gcarlos@disroot.org>
+Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
 ---
- drivers/gpu/drm/drm_framebuffer.c       | 64 ++-----------------------
- drivers/gpu/drm/i915/display/intel_fb.c |  2 +-
- include/drm/drm_framebuffer.h           |  5 --
- 3 files changed, 5 insertions(+), 66 deletions(-)
+ drivers/gpu/drm/i915/gt/intel_gt.c      | 14 +++++++++++++-
+ drivers/gpu/drm/i915/gt/intel_gt_regs.h |  1 +
+ drivers/gpu/drm/i915/i915_gpu_error.c   | 11 ++++++++++-
+ 3 files changed, 24 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_framebuffer.c b/drivers/gpu/drm/drm_framebuffer.c
-index ba51deb6d042..d3ba0698b84b 100644
---- a/drivers/gpu/drm/drm_framebuffer.c
-+++ b/drivers/gpu/drm/drm_framebuffer.c
-@@ -151,24 +151,6 @@ int drm_mode_addfb_ioctl(struct drm_device *dev,
- 	return drm_mode_addfb(dev, data, file_priv);
- }
- 
--static int fb_plane_width(int width,
--			  const struct drm_format_info *format, int plane)
--{
--	if (plane == 0)
--		return width;
--
--	return DIV_ROUND_UP(width, format->hsub);
--}
--
--static int fb_plane_height(int height,
--			   const struct drm_format_info *format, int plane)
--{
--	if (plane == 0)
--		return height;
--
--	return DIV_ROUND_UP(height, format->vsub);
--}
--
- static int framebuffer_check(struct drm_device *dev,
- 			     const struct drm_mode_fb_cmd2 *r)
- {
-@@ -196,8 +178,8 @@ static int framebuffer_check(struct drm_device *dev,
- 	info = drm_get_format_info(dev, r);
- 
- 	for (i = 0; i < info->num_planes; i++) {
--		unsigned int width = fb_plane_width(r->width, info, i);
--		unsigned int height = fb_plane_height(r->height, info, i);
-+		unsigned int width = drm_format_info_plane_width(info, r->width, i);
-+		unsigned int height = drm_format_info_plane_height(info, r->height, i);
- 		unsigned int block_size = info->char_per_block[i];
- 		u64 min_pitch = drm_format_info_min_pitch(info, i, width);
- 
-@@ -1136,44 +1118,6 @@ void drm_framebuffer_remove(struct drm_framebuffer *fb)
- }
- EXPORT_SYMBOL(drm_framebuffer_remove);
- 
--/**
-- * drm_framebuffer_plane_width - width of the plane given the first plane
-- * @width: width of the first plane
-- * @fb: the framebuffer
-- * @plane: plane index
-- *
-- * Returns:
-- * The width of @plane, given that the width of the first plane is @width.
-- */
--int drm_framebuffer_plane_width(int width,
--				const struct drm_framebuffer *fb, int plane)
--{
--	if (plane >= fb->format->num_planes)
--		return 0;
--
--	return fb_plane_width(width, fb->format, plane);
--}
--EXPORT_SYMBOL(drm_framebuffer_plane_width);
--
--/**
-- * drm_framebuffer_plane_height - height of the plane given the first plane
-- * @height: height of the first plane
-- * @fb: the framebuffer
-- * @plane: plane index
-- *
-- * Returns:
-- * The height of @plane, given that the height of the first plane is @height.
-- */
--int drm_framebuffer_plane_height(int height,
--				 const struct drm_framebuffer *fb, int plane)
--{
--	if (plane >= fb->format->num_planes)
--		return 0;
--
--	return fb_plane_height(height, fb->format, plane);
--}
--EXPORT_SYMBOL(drm_framebuffer_plane_height);
--
- void drm_framebuffer_print_info(struct drm_printer *p, unsigned int indent,
- 				const struct drm_framebuffer *fb)
- {
-@@ -1189,8 +1133,8 @@ void drm_framebuffer_print_info(struct drm_printer *p, unsigned int indent,
- 
- 	for (i = 0; i < fb->format->num_planes; i++) {
- 		drm_printf_indent(p, indent + 1, "size[%u]=%dx%d\n", i,
--				  drm_framebuffer_plane_width(fb->width, fb, i),
--				  drm_framebuffer_plane_height(fb->height, fb, i));
-+				  drm_format_info_plane_width(fb->format, fb->width, i),
-+				  drm_format_info_plane_height(fb->format, fb->height, i));
- 		drm_printf_indent(p, indent + 1, "pitch[%u]=%u\n", i, fb->pitches[i]);
- 		drm_printf_indent(p, indent + 1, "offset[%u]=%u\n", i, fb->offsets[i]);
- 		drm_printf_indent(p, indent + 1, "obj[%u]:%s\n", i,
-diff --git a/drivers/gpu/drm/i915/display/intel_fb.c b/drivers/gpu/drm/i915/display/intel_fb.c
-index 446bbf7986b6..5de2453ff7a3 100644
---- a/drivers/gpu/drm/i915/display/intel_fb.c
-+++ b/drivers/gpu/drm/i915/display/intel_fb.c
-@@ -1113,7 +1113,7 @@ static int intel_fb_offset_to_xy(int *x, int *y,
- 		return -EINVAL;
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
+index 93062c35e072..d4de692e8be1 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt.c
++++ b/drivers/gpu/drm/i915/gt/intel_gt.c
+@@ -262,10 +262,22 @@ intel_gt_clear_error_registers(struct intel_gt *gt,
+ 				   I915_MASTER_ERROR_INTERRUPT);
  	}
  
--	height = drm_framebuffer_plane_height(fb->height, fb, color_plane);
-+	height = drm_format_info_plane_height(fb->format, fb->height, color_plane);
- 	height = ALIGN(height, intel_tile_height(fb, color_plane));
+-	if (GRAPHICS_VER_FULL(i915) >= IP_VER(12, 50)) {
++	/*
++	 * for media tile this ring fault register is not replicated
++	 * so skip doing mcr ops on it.
++	 */
++	if (GRAPHICS_VER_FULL(i915) >= IP_VER(12, 50) &&
++	    gt->type == GT_MEDIA) {
++		intel_uncore_rmw(uncore, XELPMP_RING_FAULT_REG,
++				 RING_FAULT_VALID, 0);
++		intel_uncore_posting_read(uncore,
++					  XELPMP_RING_FAULT_REG);
++
++	} else if (GRAPHICS_VER_FULL(i915) >= IP_VER(12, 50)) {
+ 		intel_gt_mcr_multicast_rmw(gt, XEHP_RING_FAULT_REG,
+ 					   RING_FAULT_VALID, 0);
+ 		intel_gt_mcr_read_any(gt, XEHP_RING_FAULT_REG);
++
+ 	} else if (GRAPHICS_VER(i915) >= 12) {
+ 		intel_uncore_rmw(uncore, GEN12_RING_FAULT_REG, RING_FAULT_VALID, 0);
+ 		intel_uncore_posting_read(uncore, GEN12_RING_FAULT_REG);
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt_regs.h b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+index cca4bac8f8b0..eecd0a87a647 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt_regs.h
++++ b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+@@ -1084,6 +1084,7 @@
  
- 	/* Catch potential overflows early */
-diff --git a/include/drm/drm_framebuffer.h b/include/drm/drm_framebuffer.h
-index 0dcc07b68654..80ece7b6dd9b 100644
---- a/include/drm/drm_framebuffer.h
-+++ b/include/drm/drm_framebuffer.h
-@@ -292,11 +292,6 @@ static inline void drm_framebuffer_assign(struct drm_framebuffer **p,
- 	     &fb->head != (&(dev)->mode_config.fb_list);			\
- 	     fb = list_next_entry(fb, head))
+ #define GEN12_RING_FAULT_REG			_MMIO(0xcec4)
+ #define XEHP_RING_FAULT_REG			MCR_REG(0xcec4)
++#define XELPMP_RING_FAULT_REG			_MMIO(0xcec4)
+ #define   GEN8_RING_FAULT_ENGINE_ID(x)		(((x) >> 12) & 0x7)
+ #define   RING_FAULT_GTTSEL_MASK		(1 << 11)
+ #define   RING_FAULT_SRCID(x)			(((x) >> 3) & 0xff)
+diff --git a/drivers/gpu/drm/i915/i915_gpu_error.c b/drivers/gpu/drm/i915/i915_gpu_error.c
+index f4ebcfb70289..83f1a729da8b 100644
+--- a/drivers/gpu/drm/i915/i915_gpu_error.c
++++ b/drivers/gpu/drm/i915/i915_gpu_error.c
+@@ -1234,7 +1234,16 @@ static void engine_record_registers(struct intel_engine_coredump *ee)
+ 	if (GRAPHICS_VER(i915) >= 6) {
+ 		ee->rc_psmi = ENGINE_READ(engine, RING_PSMI_CTL);
  
--int drm_framebuffer_plane_width(int width,
--				const struct drm_framebuffer *fb, int plane);
--int drm_framebuffer_plane_height(int height,
--				 const struct drm_framebuffer *fb, int plane);
--
- /**
-  * struct drm_afbc_framebuffer - a special afbc frame buffer object
-  *
+-		if (GRAPHICS_VER_FULL(i915) >= IP_VER(12, 50))
++		/*
++		 * for media tile this ring fault register is not replicated
++		 * so skip doing mcr ops on it.
++		 */
++		if (GRAPHICS_VER_FULL(i915) >= IP_VER(12, 50) &&
++		    engine->gt->type == GT_MEDIA)
++			ee->fault_reg = intel_uncore_read(engine->uncore,
++							  XELPMP_RING_FAULT_REG);
++
++		else if (GRAPHICS_VER_FULL(i915) >= IP_VER(12, 50))
+ 			ee->fault_reg = intel_gt_mcr_read_any(engine->gt,
+ 							      XEHP_RING_FAULT_REG);
+ 		else if (GRAPHICS_VER(i915) >= 12)
 -- 
 2.41.0
 
