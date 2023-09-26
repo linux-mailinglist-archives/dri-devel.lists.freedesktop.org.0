@@ -2,54 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 859377AE710
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Sep 2023 09:44:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E8C87AE761
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Sep 2023 10:06:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A096E10E35E;
-	Tue, 26 Sep 2023 07:44:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D3CA710E360;
+	Tue, 26 Sep 2023 08:06:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9356D10E35D;
- Tue, 26 Sep 2023 07:44:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1695714268; x=1727250268;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=FgG1KY5ZAcKGmpGkHLr3kBgobBPcTYLfeCJ7S7PzGhs=;
- b=AXFUHGX03K/pRipWtf7Iif3mEtLCO+cp0sJqDsdan/cjfb0J0Kj4zIpz
- J/WbCyamjCRfVA5J5wpAwOLZYSxCU9ISGj3v+gqiAgYxjcFvG638XQ4F/
- jakZJ2S2MyCXQ4Xjd1zPWplw2tmM93BbHSBXbxSpZi6am+y0Oy/ITzDeH
- bPIOwKIiNCulWDLBL+2XszcBOa09J5q1F6tsH598Zr07rnXXveZd1V96w
- dZtT7W1RKDcOyBLd296v9E3JR49wuL9m6SY98t+amaizs3YVBFJfWoLxf
- aFkJyoxbiRh4UHbF37+M1FXCyVfahkaYbT9Rin1++cVMUcz3d33Cnv08o A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="448006652"
-X-IronPort-AV: E=Sophos;i="6.03,177,1694761200"; d="scan'208";a="448006652"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Sep 2023 00:44:27 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="752066130"
-X-IronPort-AV: E=Sophos;i="6.03,177,1694761200"; d="scan'208";a="752066130"
-Received: from wagnert-mobl2.ger.corp.intel.com (HELO localhost)
- ([10.252.52.202])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Sep 2023 00:44:26 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: "Golani, Mitulkumar Ajitkumar" <mitulkumar.ajitkumar.golani@intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Subject: RE: [PATCH 4/6] drm/edid: use a temp variable for sads to drop one
- level of dereferences
-In-Reply-To: <IA1PR11MB63480D7CC408A0340BB2C777B2FCA@IA1PR11MB6348.namprd11.prod.outlook.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <cover.1694078430.git.jani.nikula@intel.com>
- <6692fbce07fbc03ad8785e6e6fe81fad4354e657.1694078430.git.jani.nikula@intel.com>
- <IA1PR11MB63480D7CC408A0340BB2C777B2FCA@IA1PR11MB6348.namprd11.prod.outlook.com>
-Date: Tue, 26 Sep 2023 10:44:23 +0300
-Message-ID: <871qelml9k.fsf@intel.com>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 05C2210E360
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Sep 2023 08:06:40 +0000 (UTC)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id AFD8D66072AE;
+ Tue, 26 Sep 2023 09:06:37 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1695715598;
+ bh=DNkzrB6xB46nwXnn/uIEbW0EYRfFZ+iNhweCVbOVwQw=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=E5ghLCBlBe5MVn6CZ4teUjynYKdeSRfx1tlahHjFVdi/7weU2mEN4gK+ujzjQT2kG
+ OU7RhR4rGRDb+J0ejTfrUCqY5oM8AJ8ClTaWEHTY0HnHwwb/D0+OJTNsZEzq7k4nWr
+ R0SRur5OgneaBDFntamiDNmwT11UaGM4nVaXbQAABS+FBl2JWkE39JQS9fffDwAklv
+ sZyIJETX5GraA5/oCB92VEGTm1/bTLvWsSvlZxGLA9Iu6KD1Tnfhy4a26U2+TL6jMR
+ tBIt9CdxxrVsLB/egnmf2AHYIPgAvGWz0S0SgwWJQgXo/9dExe6Y1nMFK761XX/GZE
+ M051cHAj3Xlzg==
+Message-ID: <b0037c9f-588b-4eb8-6415-0fe75bed264f@collabora.com>
+Date: Tue, 26 Sep 2023 10:06:35 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.0
+Subject: Re: [PATCH] drm/panel: Move AUX B116XW03 out of panel-edp back to
+ panel-simple
+Content-Language: en-US
+To: Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org
+References: <20230925150010.1.Iff672233861bcc4cf25a7ad0a81308adc3bda8a4@changeid>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20230925150010.1.Iff672233861bcc4cf25a7ad0a81308adc3bda8a4@changeid>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,94 +55,168 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
+Cc: devicetree@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+ jitao.shi@mediatek.com, neil.armstrong@linaro.org, sam@ravnborg.org,
+ linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org,
+ Hsin-Yi Wang <hsinyi@chromium.org>, matthias.bgg@gmail.com,
+ quic_jesszhan@quicinc.com, linux-arm-kernel@lists.infradead.org,
+ Marek Szyprowski <m.szyprowski@samsung.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 25 Sep 2023, "Golani, Mitulkumar Ajitkumar" <mitulkumar.ajitkumar.golani@intel.com> wrote:
-> Hi Jani,
->
-> added comments in-line.
->
->> -----Original Message-----
->> From: Nikula, Jani <jani.nikula@intel.com>
->> Sent: Thursday, September 7, 2023 2:58 PM
->> To: dri-devel@lists.freedesktop.org
->> Cc: intel-gfx@lists.freedesktop.org; Nikula, Jani <jani.nikula@intel.com>;
->> Golani, Mitulkumar Ajitkumar <mitulkumar.ajitkumar.golani@intel.com>
->> Subject: [PATCH 4/6] drm/edid: use a temp variable for sads to drop one level
->> of dereferences
->>
->> It's arguably easier on the eyes, and drops a set of parenthesis too.
->
-> Please consider providing a bit more context in the commit message for better clarity.
->
->>
->> Cc: Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>
->> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
->> ---
->>  drivers/gpu/drm/drm_edid.c | 16 +++++++++-------
->>  1 file changed, 9 insertions(+), 7 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c index
->> 2025970816c9..fcdc2c314cde 100644
->> --- a/drivers/gpu/drm/drm_edid.c
->> +++ b/drivers/gpu/drm/drm_edid.c
->> @@ -5583,7 +5583,7 @@ static void drm_edid_to_eld(struct drm_connector
->> *connector,  }
->>
->>  static int _drm_edid_to_sad(const struct drm_edid *drm_edid,
->> -                         struct cea_sad **sads)
->> +                         struct cea_sad **psads)
->>  {
->>       const struct cea_db *db;
->>       struct cea_db_iter iter;
->> @@ -5592,19 +5592,21 @@ static int _drm_edid_to_sad(const struct
->> drm_edid *drm_edid,
->>       cea_db_iter_edid_begin(drm_edid, &iter);
->>       cea_db_iter_for_each(db, &iter) {
->>               if (cea_db_tag(db) == CTA_DB_AUDIO) {
->> +                     struct cea_sad *sads;
->>                       int j;
->>
->>                       count = cea_db_payload_len(db) / 3; /* SAD is 3B */
->> -                     *sads = kcalloc(count, sizeof(**sads), GFP_KERNEL);
->> -                     if (!*sads)
->> +                     sads = kcalloc(count, sizeof(*sads), GFP_KERNEL);
->> +                     *psads = sads;
->> +                     if (!sads)
->>                               return -ENOMEM;
->>                       for (j = 0; j < count; j++) {
->>                               const u8 *sad = &db->data[j * 3];
->>
->> -                             (*sads)[j].format = (sad[0] & 0x78) >> 3;
->> -                             (*sads)[j].channels = sad[0] & 0x7;
->> -                             (*sads)[j].freq = sad[1] & 0x7F;
->> -                             (*sads)[j].byte2 = sad[2];
->> +                             sads[j].format = (sad[0] & 0x78) >> 3;
->> +                             sads[j].channels = sad[0] & 0x7;
->> +                             sads[j].freq = sad[1] & 0x7F;
->> +                             sads[j].byte2 = sad[2];
->
-> Thanks for the code update. I noticed the use of magic values in this section, which can make the code less clear
-> and harder to maintain. Would it be possible to define constants or use descriptive names instead of these magic
-> values?
+Il 26/09/23 00:00, Douglas Anderson ha scritto:
+> In commit 5f04e7ce392d ("drm/panel-edp: Split eDP panels out of
+> panel-simple") I moved a pile of panels out of panel-simple driver
+> into the newly created panel-edp driver. One of those panels, however,
+> shouldn't have been moved.
+> 
+> As is clear from commit e35e305eff0f ("drm/panel: simple: Add AUO
+> B116XW03 panel support"), AUX B116XW03 is an LVDS panel. It's used in
+> exynos5250-snow and exynos5420-peach-pit where it's clear that the
+> panel is hooked up with LVDS. Furthermore, searching for datasheets I
+> found one that makes it clear that this panel is LVDS.
+> 
+> As far as I can tell, I got confused because in commit 88d3457ceb82
+> ("drm/panel: auo,b116xw03: fix flash backlight when power on") Jitao
+> Shi added "DRM_MODE_CONNECTOR_eDP". That seems wrong. Looking at the
+> downstream ChromeOS trees, it seems like some Mediatek boards are
+> using a panel that they call "auo,b116xw03" that's an eDP panel. The
+> best I can guess is that they actually have a different panel that has
+> similar timing. If so then the proper panel should be used or they
+> should switch to the generic "edp-panel" compatible.
+> 
+> When moving this back to panel-edp, I wasn't sure what to use for
+> .bus_flags and .bus_format and whether to add the extra "enable" delay
+> from commit 88d3457ceb82 ("drm/panel: auo,b116xw03: fix flash
+> backlight when power on"). I've added formats/flags/delays based on my
+> (inexpert) analysis of the datasheet. These are untested.
+> 
+> NOTE: if/when this is backported to stable, we might run into some
+> trouble. Specifically, before 474c162878ba ("arm64: dts: mt8183:
+> jacuzzi: Move panel under aux-bus") this panel was used by
+> "mt8183-kukui-jacuzzi", which assumed it was an eDP panel. I don't
+> know what to suggest for that other than someone making up a bogus
+> panel for jacuzzi that's just for the stable channel.
+> 
+> Fixes: 88d3457ceb82 ("drm/panel: auo,b116xw03: fix flash backlight when power on")
+> Fixes: 5f04e7ce392d ("drm/panel-edp: Split eDP panels out of panel-simple")
+> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> ---
+> I haven't had a snow or peach-pit hooked up for debugging / testing
+> for years. I presume that they must be broken and hope that this fixes
+> them.
 
-Yes, but that would be for a separate patch. The magic values aren't
-added here.
+We could avoid backport breakages by avoiding to backport this to any kernel
+that doesn't contain commit 474c162878ba ("arm64: dts: mt8183: jacuzzi: Move
+panel under aux-bus")... because creating a dummy panel to get two wrongs
+right is definitely not ok.
 
-BR,
-Jani.
+Cheers,
+Angelo
 
->
-> Regards,
-> Mitul
->>                       }
->>                       break;
->>               }
->> --
->> 2.39.2
->
+> 
+>   drivers/gpu/drm/panel/panel-edp.c    | 29 -----------------------
+>   drivers/gpu/drm/panel/panel-simple.c | 35 ++++++++++++++++++++++++++++
+>   2 files changed, 35 insertions(+), 29 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
+> index feb665df35a1..95c8472d878a 100644
+> --- a/drivers/gpu/drm/panel/panel-edp.c
+> +++ b/drivers/gpu/drm/panel/panel-edp.c
+> @@ -976,32 +976,6 @@ static const struct panel_desc auo_b116xak01 = {
+>   	},
+>   };
+>   
+> -static const struct drm_display_mode auo_b116xw03_mode = {
+> -	.clock = 70589,
+> -	.hdisplay = 1366,
+> -	.hsync_start = 1366 + 40,
+> -	.hsync_end = 1366 + 40 + 40,
+> -	.htotal = 1366 + 40 + 40 + 32,
+> -	.vdisplay = 768,
+> -	.vsync_start = 768 + 10,
+> -	.vsync_end = 768 + 10 + 12,
+> -	.vtotal = 768 + 10 + 12 + 6,
+> -	.flags = DRM_MODE_FLAG_NVSYNC | DRM_MODE_FLAG_NHSYNC,
+> -};
+> -
+> -static const struct panel_desc auo_b116xw03 = {
+> -	.modes = &auo_b116xw03_mode,
+> -	.num_modes = 1,
+> -	.bpc = 6,
+> -	.size = {
+> -		.width = 256,
+> -		.height = 144,
+> -	},
+> -	.delay = {
+> -		.enable = 400,
+> -	},
+> -};
+> -
+>   static const struct drm_display_mode auo_b133han05_mode = {
+>   	.clock = 142600,
+>   	.hdisplay = 1920,
+> @@ -1725,9 +1699,6 @@ static const struct of_device_id platform_of_match[] = {
+>   	}, {
+>   		.compatible = "auo,b116xa01",
+>   		.data = &auo_b116xak01,
+> -	}, {
+> -		.compatible = "auo,b116xw03",
+> -		.data = &auo_b116xw03,
+>   	}, {
+>   		.compatible = "auo,b133han05",
+>   		.data = &auo_b133han05,
+> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+> index bb89e6d047bc..439d26928938 100644
+> --- a/drivers/gpu/drm/panel/panel-simple.c
+> +++ b/drivers/gpu/drm/panel/panel-simple.c
+> @@ -919,6 +919,38 @@ static const struct panel_desc auo_b101xtn01 = {
+>   	},
+>   };
+>   
+> +static const struct drm_display_mode auo_b116xw03_mode = {
+> +	.clock = 70589,
+> +	.hdisplay = 1366,
+> +	.hsync_start = 1366 + 40,
+> +	.hsync_end = 1366 + 40 + 40,
+> +	.htotal = 1366 + 40 + 40 + 32,
+> +	.vdisplay = 768,
+> +	.vsync_start = 768 + 10,
+> +	.vsync_end = 768 + 10 + 12,
+> +	.vtotal = 768 + 10 + 12 + 6,
+> +	.flags = DRM_MODE_FLAG_NVSYNC | DRM_MODE_FLAG_NHSYNC,
+> +};
+> +
+> +static const struct panel_desc auo_b116xw03 = {
+> +	.modes = &auo_b116xw03_mode,
+> +	.num_modes = 1,
+> +	.bpc = 6,
+> +	.size = {
+> +		.width = 256,
+> +		.height = 144,
+> +	},
+> +	.delay = {
+> +		.prepare = 1,
+> +		.enable = 200,
+> +		.disable = 200,
+> +		.unprepare = 500,
+> +	},
+> +	.bus_format = MEDIA_BUS_FMT_RGB666_1X7X3_SPWG,
+> +	.bus_flags = DRM_BUS_FLAG_DE_HIGH,
+> +	.connector_type = DRM_MODE_CONNECTOR_LVDS,
+> +};
+> +
+>   static const struct display_timing auo_g070vvn01_timings = {
+>   	.pixelclock = { 33300000, 34209000, 45000000 },
+>   	.hactive = { 800, 800, 800 },
+> @@ -4128,6 +4160,9 @@ static const struct of_device_id platform_of_match[] = {
+>   	}, {
+>   		.compatible = "auo,b101xtn01",
+>   		.data = &auo_b101xtn01,
+> +	}, {
+> +		.compatible = "auo,b116xw03",
+> +		.data = &auo_b116xw03,
+>   	}, {
+>   		.compatible = "auo,g070vvn01",
+>   		.data = &auo_g070vvn01,
 
--- 
-Jani Nikula, Intel
