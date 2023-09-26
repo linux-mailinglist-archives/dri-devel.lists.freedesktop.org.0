@@ -1,61 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAF2E7AF3F1
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Sep 2023 21:14:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 715207AF3F0
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Sep 2023 21:14:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B5C4A10E31A;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D41210E2A4;
 	Tue, 26 Sep 2023 19:13:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x1142.google.com (mail-yw1-x1142.google.com
- [IPv6:2607:f8b0:4864:20::1142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6BDB010E3B7
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Sep 2023 14:01:14 +0000 (UTC)
-Received: by mail-yw1-x1142.google.com with SMTP id
- 00721157ae682-59c215f2f4aso112324287b3.1
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Sep 2023 07:01:14 -0700 (PDT)
+Received: from mail-qv1-xf2e.google.com (mail-qv1-xf2e.google.com
+ [IPv6:2607:f8b0:4864:20::f2e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 16EFA10E141
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Sep 2023 17:06:06 +0000 (UTC)
+Received: by mail-qv1-xf2e.google.com with SMTP id
+ 6a1803df08f44-65afcf18a13so32060956d6.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Sep 2023 10:06:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1695736873; x=1696341673;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=7xHsjPqk6JJBUwczwrhg2APBTdxlZcsovPFUPf8oBcY=;
- b=jjoIm3iQpweT8qUpBHBriyiBb9TGPY+vRH5y6JOE02UAPoVsj0byM4z6TkhZXZt4ax
- 17ph7UcBDxWbwQrhf2R8ixIeZmEhxMMBPDDmRMCD5zC1Fc46EYhpNmWddrwTrGYguV+G
- nNkTfeQnW/m3iieFKgWK+RHDkiumMq/LN5+k8=
+ d=gmail.com; s=20230601; t=1695747964; x=1696352764; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=vGi8ygan/W5QqPnIt090uD2B1blSKwvwxQPwA51as8o=;
+ b=cSMvV9cAGSJmFDGSWD/nU1ZpRm9+FPZvgLckSQoQzeYMrmr35vc4llaIyvjZHyoSOK
+ oMLhOnmkeKHApwEHtIZDGlLXDwR927A7bYc0QtjpZgkn86PY5QGadGIqDziulJwgkNhu
+ jiPXliTE5CynBdVdWj4f6NEzBE+noBCPVxhF/E+NmOxZ1gjkMTMUY0Qpa0CZ1Qocvyn4
+ PBDlHK8q58MjFlPooDf+qUVQbdlUimEU9cNmDLD5B/u9jQqEnwS5BNn0gMApRcsQDPIC
+ jSNMvppZJ+xTEwnVdYsXMTqZyzpfQpBuDOw97T3FhZiCuuCZYIMO1jKvhhTmMlkNFDkY
+ EYCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1695736873; x=1696341673;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=7xHsjPqk6JJBUwczwrhg2APBTdxlZcsovPFUPf8oBcY=;
- b=ZnOLT6ScziomT9I5GAHJysMVNYiVx68pSm4nymp7iOPRJR0YyQPgU5hj7r1g3zRHJP
- te2CoaLjrO4KIHYAQHF9r887FbdUqsd1N53pFoY0T/sxXrv/i4kySHmEuHsJ1bQq73zW
- jviTi6URjgyGDfZ53K8BNlSqktrhtrYD+rms0lvO3see0f5+k78ak2keV+oRepdn8/LX
- LNkU/USBWjJleXb/uZ9Lm14RB+GAjKYHi34XavM/t0scEDsyvRF2qJXHhrffe5W1CsGf
- tKKiSbeC+cyuJW9BALnlECFPmd9KBJXpxfNFbjgk9UChiscAEsnSGjTKN1yPTFHGgnYO
- QpbA==
-X-Gm-Message-State: AOJu0Yy3j0YevfKammzL3NEPXb+mC8Kyvf0rw8ArpRkygvEFv3ur3L/X
- 9lDlH61yVwMlJP9P8kvzuLcBxlZXOzhABBvK3ER3lEyphJUUzTSXsfFuk9Oy
-X-Google-Smtp-Source: AGHT+IHRQWjCnf+1z4BiGKGiibQRq7Ph9T+j4h2Pjol7PnCXtpHRP2XwhQG5pMLdECETFZ8LCCzuvpzFQ+pve6GD7Do=
-X-Received: by 2002:a81:4f4d:0:b0:586:a170:7dbe with SMTP id
- d74-20020a814f4d000000b00586a1707dbemr9693811ywb.13.1695736873520; Tue, 26
- Sep 2023 07:01:13 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1695747964; x=1696352764;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=vGi8ygan/W5QqPnIt090uD2B1blSKwvwxQPwA51as8o=;
+ b=n+t1OEV2tp6oUsE4RH5gvZyYpJ+cptS0pow5CFOJR7W0MA43cEI3JYx4kEp6Pnbchc
+ rzgloxoRL1sBGWmgWZeZ1plqrbgZhzJ/ybGfwdkze3xd3xG0PIXKM3C6S1z/WL0Tt/br
+ BxAzeAN/HZ4ZYFKLAtRmjLtVbVU3W+IwB9QjFVTRbI+u/AB3ZtnYX7EErk4d1I3+kozx
+ z+nctfkuIuQm5Hxnip9zFL33PM0K3MeE0Xhrxa5VQ80gXNtzXlxqGieyI+mKPASuQFhe
+ SEaci0xIzTO/C5VL0gwkL0hQsefy1HcTAaQqZMrVOSx7dMZwmFSkZwpAfaYOUvHjglW0
+ TuAA==
+X-Gm-Message-State: AOJu0YwUwLU0/uyL/WUCjSYCeBjMp5fgZ+hAKIqiRNl9PPGRpe2k2ms8
+ eLaVRc1H4YIxLPYTXLOMClJi+taDmek=
+X-Google-Smtp-Source: AGHT+IHhD4PVM0dcQJfIiKHiaFU5NwVFV6GlCmOX6rrwKJZ4OSpi+36u6ls+1ZFHhc1xcJn9VRIs3Q==
+X-Received: by 2002:ad4:5f86:0:b0:65a:f1f2:470d with SMTP id
+ jp6-20020ad45f86000000b0065af1f2470dmr12044197qvb.58.1695747964186; 
+ Tue, 26 Sep 2023 10:06:04 -0700 (PDT)
+Received: from localhost.localdomain
+ (pool-100-0-243-27.bstnma.fios.verizon.net. [100.0.243.27])
+ by smtp.gmail.com with ESMTPSA id
+ d7-20020a0ce447000000b0065b0fa22667sm2020506qvm.81.2023.09.26.10.06.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 26 Sep 2023 10:06:03 -0700 (PDT)
+From: Ray Strode <halfline@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/atomic: Perform blocking commits on workqueue
+Date: Tue, 26 Sep 2023 13:05:49 -0400
+Message-ID: <20230926170549.2589045-1-halfline@gmail.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-References: <20230921131201.157767-1-lma@semihalf.com>
- <20230922063410.23626-1-lma@semihalf.com>
-In-Reply-To: <20230922063410.23626-1-lma@semihalf.com>
-From: =?UTF-8?Q?Rados=C5=82aw_Biernacki?= <rad@chromium.org>
-Date: Tue, 26 Sep 2023 16:01:02 +0200
-Message-ID: <CADmiTCTHn+XaNqkAZjLmaYUy+6bsb5chue97g3n0bKP7Lcf9_w@mail.gmail.com>
-Subject: Re: [PATCH v3] drm/dp_mst: Fix NULL deref in
- get_mst_branch_device_by_guid_helper()
-To: Lukasz Majczak <lma@semihalf.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Tue, 26 Sep 2023 19:13:53 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,83 +72,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: upstream@semihalf.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, stable@vger.kernel.org,
- Guenter Roeck <linux@roeck-us.net>
+Cc: Ray Strode <rstrode@redhat.com>, daniel.vetter@ffwll.ch, Xinhui.Pan@amd.com,
+ mdaenzer@redhat.com, alexander.deucher@amd.com, airlied@redhat.com,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Sep 22, 2023 at 8:34=E2=80=AFAM Lukasz Majczak <lma@semihalf.com> w=
-rote:
->
-> As drm_dp_get_mst_branch_device_by_guid() is called from
-> drm_dp_get_mst_branch_device_by_guid(), mstb parameter has to be checked,
-> otherwise NULL dereference may occur in the call to
-> the memcpy() and cause following:
->
-> [12579.365869] BUG: kernel NULL pointer dereference, address: 00000000000=
-00049
-> [12579.365878] #PF: supervisor read access in kernel mode
-> [12579.365880] #PF: error_code(0x0000) - not-present page
-> [12579.365882] PGD 0 P4D 0
-> [12579.365887] Oops: 0000 [#1] PREEMPT SMP NOPTI
-> ...
-> [12579.365895] Workqueue: events_long drm_dp_mst_up_req_work
-> [12579.365899] RIP: 0010:memcmp+0xb/0x29
-> [12579.365921] Call Trace:
-> [12579.365927] get_mst_branch_device_by_guid_helper+0x22/0x64
-> [12579.365930] drm_dp_mst_up_req_work+0x137/0x416
-> [12579.365933] process_one_work+0x1d0/0x419
-> [12579.365935] worker_thread+0x11a/0x289
-> [12579.365938] kthread+0x13e/0x14f
-> [12579.365941] ? process_one_work+0x419/0x419
-> [12579.365943] ? kthread_blkcg+0x31/0x31
-> [12579.365946] ret_from_fork+0x1f/0x30
->
-> As get_mst_branch_device_by_guid_helper() is recursive, moving condition
-> to the first line allow to remove a similar one for step over of NULL ele=
-ments
-> inside a loop.
->
-> Fixes: 5e93b8208d3c ("drm/dp/mst: move GUID storage from mgr, port to onl=
-y mst branch")
-> Cc: <stable@vger.kernel.org> # 4.14+
-> Signed-off-by: Lukasz Majczak <lma@semihalf.com>
-> ---
->
-> v2->v3:
-> * Fixed patch description.
->
->  drivers/gpu/drm/display/drm_dp_mst_topology.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/=
-drm/display/drm_dp_mst_topology.c
-> index ed96cfcfa304..8c929ef72c72 100644
-> --- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> +++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> @@ -2574,14 +2574,14 @@ static struct drm_dp_mst_branch *get_mst_branch_d=
-evice_by_guid_helper(
->         struct drm_dp_mst_branch *found_mstb;
->         struct drm_dp_mst_port *port;
->
-> +       if (!mstb)
-> +               return NULL;
-> +
->         if (memcmp(mstb->guid, guid, 16) =3D=3D 0)
->                 return mstb;
->
->
->         list_for_each_entry(port, &mstb->ports, next) {
-> -               if (!port->mstb)
-> -                       continue;
-> -
->                 found_mstb =3D get_mst_branch_device_by_guid_helper(port-=
->mstb, guid);
->
->                 if (found_mstb)
-> --
-> 2.42.0.515.g380fc7ccd1-goog
->
+From: Ray Strode <rstrode@redhat.com>
 
-Reviewed-by: Radoslaw Biernacki <rad@chromium.org>
+A drm atomic commit can be quite slow on some hardware. It can lead
+to a lengthy queue of commands that need to get processed and waited
+on before control can go back to user space.
+
+If user space is a real-time thread, that delay can have severe
+consequences, leading to the process getting killed for exceeding
+rlimits.
+
+This commit addresses the problem by always running the slow part of
+a commit on a workqueue, separated from the task initiating the
+commit.
+
+This change makes the nonblocking and blocking paths work in the same way,
+and as a result allows the task to sleep and not use up its
+RLIMIT_RTTIME allocation.
+
+Link: https://gitlab.freedesktop.org/drm/amd/-/issues/2861
+Signed-off-by: Ray Strode <rstrode@redhat.com>
+---
+ drivers/gpu/drm/drm_atomic_helper.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+index 292e38eb6218..1a1e68d98d38 100644
+--- a/drivers/gpu/drm/drm_atomic_helper.c
++++ b/drivers/gpu/drm/drm_atomic_helper.c
+@@ -2028,64 +2028,63 @@ int drm_atomic_helper_commit(struct drm_device *dev,
+ 	 * This is the point of no return - everything below never fails except
+ 	 * when the hw goes bonghits. Which means we can commit the new state on
+ 	 * the software side now.
+ 	 */
+ 
+ 	ret = drm_atomic_helper_swap_state(state, true);
+ 	if (ret)
+ 		goto err;
+ 
+ 	/*
+ 	 * Everything below can be run asynchronously without the need to grab
+ 	 * any modeset locks at all under one condition: It must be guaranteed
+ 	 * that the asynchronous work has either been cancelled (if the driver
+ 	 * supports it, which at least requires that the framebuffers get
+ 	 * cleaned up with drm_atomic_helper_cleanup_planes()) or completed
+ 	 * before the new state gets committed on the software side with
+ 	 * drm_atomic_helper_swap_state().
+ 	 *
+ 	 * This scheme allows new atomic state updates to be prepared and
+ 	 * checked in parallel to the asynchronous completion of the previous
+ 	 * update. Which is important since compositors need to figure out the
+ 	 * composition of the next frame right after having submitted the
+ 	 * current layout.
+ 	 *
+ 	 * NOTE: Commit work has multiple phases, first hardware commit, then
+ 	 * cleanup. We want them to overlap, hence need system_unbound_wq to
+ 	 * make sure work items don't artificially stall on each another.
+ 	 */
+ 
+ 	drm_atomic_state_get(state);
+-	if (nonblock)
+-		queue_work(system_unbound_wq, &state->commit_work);
+-	else
+-		commit_tail(state);
++	queue_work(system_unbound_wq, &state->commit_work);
++	if (!nonblock)
++		flush_work(&state->commit_work);
+ 
+ 	return 0;
+ 
+ err:
+ 	drm_atomic_helper_cleanup_planes(dev, state);
+ 	return ret;
+ }
+ EXPORT_SYMBOL(drm_atomic_helper_commit);
+ 
+ /**
+  * DOC: implementing nonblocking commit
+  *
+  * Nonblocking atomic commits should use struct &drm_crtc_commit to sequence
+  * different operations against each another. Locks, especially struct
+  * &drm_modeset_lock, should not be held in worker threads or any other
+  * asynchronous context used to commit the hardware state.
+  *
+  * drm_atomic_helper_commit() implements the recommended sequence for
+  * nonblocking commits, using drm_atomic_helper_setup_commit() internally:
+  *
+  * 1. Run drm_atomic_helper_prepare_planes(). Since this can fail and we
+  * need to propagate out of memory/VRAM errors to userspace, it must be called
+  * synchronously.
+  *
+  * 2. Synchronize with any outstanding nonblocking commit worker threads which
+  * might be affected by the new state update. This is handled by
+  * drm_atomic_helper_setup_commit().
+  *
+  * Asynchronous workers need to have sufficient parallelism to be able to run
+  * different atomic commits on different CRTCs in parallel. The simplest way to
+-- 
+2.41.0
+
