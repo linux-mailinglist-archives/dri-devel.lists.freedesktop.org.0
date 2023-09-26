@@ -1,72 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 818587AEE4D
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Sep 2023 16:02:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 605667AEE56
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Sep 2023 16:11:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8FCDB10E3ED;
-	Tue, 26 Sep 2023 14:02:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C92710E0C1;
+	Tue, 26 Sep 2023 14:11:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com
- [IPv6:2a00:1450:4864:20::235])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C23210E3F0
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Sep 2023 14:02:15 +0000 (UTC)
-Received: by mail-lj1-x235.google.com with SMTP id
- 38308e7fff4ca-2c131ddfc95so138568121fa.0
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Sep 2023 07:02:15 -0700 (PDT)
+Received: from mail-oo1-xc33.google.com (mail-oo1-xc33.google.com
+ [IPv6:2607:f8b0:4864:20::c33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8CAA710E0C1
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Sep 2023 14:11:31 +0000 (UTC)
+Received: by mail-oo1-xc33.google.com with SMTP id
+ 006d021491bc7-57ba2cd3507so3090343eaf.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Sep 2023 07:11:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1695736933; x=1696341733;
- darn=lists.freedesktop.org; 
+ d=linaro.org; s=google; t=1695737491; x=1696342291; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=FBohR+UrQgBr4N5azTZZcBABGSeyKmANhNOajTqGdkY=;
- b=OdgAJ2R/YflxQwI6mj6ShkLtOqppyepen6x7MrCpyKnHMKlbCNAXH7JFStVn2qAF5h
- ArFNO1DYoEcTklGX+KqkjwMVSxNFShH/WXPz8VFVhV/Ah1xanv4A78P5PVp6u4OaeU0J
- hf4+GSTGq0hNn0cxAq0Qba83u81/iJWKJtqEQ=
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=QHnlZqlWlhGb22TtFxRPx0T3YI3z8PsMCtRycKgunxo=;
+ b=wA+/5ZmitiaA4w2LyPT8PMOLOfZXM4BVhcoBMFxgJTfJOfPMxEwWbUUWYexwFYRafL
+ kDxU/voZop67qTwTjA5hVtVaMaGqUQU3g4Yoa4OdD+ZvDa+RKGjueuuXW+wb5EpgZF9M
+ 6g0oVacCMt1ETs2CaXMPd9omppETz3ay6iD8zdB2nse2f6rCZDadxoPjyMQ1wukbQtHO
+ Y1FkN6foDMYU6fhxI3VveINmApS1XiHK/+sWdW/93jT33/huckaXBxf5GlIatqrhmKTY
+ 2HfZ5fzkFkJOJtwofgr95VXmsSgmwYP4QlogYLSk5PRUt1ZQRNGdy3I9EHpZx09IVL57
+ rung==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1695736933; x=1696341733;
+ d=1e100.net; s=20230601; t=1695737491; x=1696342291;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=FBohR+UrQgBr4N5azTZZcBABGSeyKmANhNOajTqGdkY=;
- b=mJwLSgVTo08C8s1arDSpbfSVHEXi0xJXWWbgmSheS3cD+CWdoIzuf7Yup9EdVS25zm
- qNtxkXhsc01gCkqqLmdUDroZrOG+eWWD7SnIqP6kObPPDKR9/rG6c/R/nN+6Lhr2qkjR
- v2jn0GoCdnbJWa5KPmhcaRVzC4Nm5CTRtcYyiPUwmqCf+20YegVEGaSZ0vPvsSahTVUL
- Rs2lIYG1PwG83e7U0B77yoZAjxjswShBOP2b/MD9LP+cd2f9YamW8fMEATtJ4Cvq3UOF
- lAagLwZ2S/o9G/hC+TKHwu1nd1ayyNfUqj38aC9dBZ2KNlbWT/7OMU8s17oOfFLog8/Q
- P4Qw==
-X-Gm-Message-State: AOJu0Yy+jHVm9Z3SoPheLGD/ErVmZVPiNbgeBmeWt3jrYxdTAFdOywhy
- s4A4lsG94cuD8G49KreUsk303tHfc9IlSIfo9L3SxX3N
-X-Google-Smtp-Source: AGHT+IEHD3twA7mJBrQvrg6Cy5dD3YwTKPrb2LiCGv0NjCyJw6y+Cu0GzDLgHzKOKUcz1xHeJOxLpw==
-X-Received: by 2002:a2e:9ad0:0:b0:2c0:da8:39e4 with SMTP id
- p16-20020a2e9ad0000000b002c00da839e4mr9354030ljj.43.1695736933279; 
- Tue, 26 Sep 2023 07:02:13 -0700 (PDT)
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com.
- [209.85.167.43]) by smtp.gmail.com with ESMTPSA id
- y14-20020a2e7d0e000000b002c123b976acsm2635282ljc.76.2023.09.26.07.02.12
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 26 Sep 2023 07:02:13 -0700 (PDT)
-Received: by mail-lf1-f43.google.com with SMTP id
- 2adb3069b0e04-50302e8fca8so5894e87.0
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Sep 2023 07:02:12 -0700 (PDT)
-X-Received: by 2002:ac2:548e:0:b0:501:a2b4:8ff5 with SMTP id
- t14-20020ac2548e000000b00501a2b48ff5mr54282lfk.7.1695736932511; Tue, 26 Sep
- 2023 07:02:12 -0700 (PDT)
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=QHnlZqlWlhGb22TtFxRPx0T3YI3z8PsMCtRycKgunxo=;
+ b=rWyI9apSG/5NM+MbJlrZ5fTccBGvo3LJDoWEyJDaMyM7LHT3IyZLeVD3gTROVJlIbu
+ 37iRyS1pszPha2NVzK3pSNpz2gzZnxeGdYz40nanutbfs2YljkEEJW2j6x4RwDpUfOTj
+ 1QKKVb3CRGWOtekmQ+U2GmMoxeXZfQw4vWK7RbvTZBBL52xy7x5dzD+aK9//yID/VQaF
+ fQxhKMh6L1h1OelMZ4dklTt7OFg6601IpjUkw5tU5PxZM22XhbI3PCFKHVzjEvG80jRU
+ FvD2OTOEKeQ9yPS2K5xJq1Kmi44RQgFEG6FcxCnYWT+08WYIXUklMZ8Hx2U/yJHp7hph
+ I+gA==
+X-Gm-Message-State: AOJu0Yx0JebEOY0X8n5eqmC+v1d9V0lPynHoJS4z9YaAgiiHTByurAmm
+ FnOaPnlDU2TrphqSYcsYz+ERFTBTxZ+WJLqy2Y/Qcg==
+X-Google-Smtp-Source: AGHT+IEt3M8f4wyq9OpZk/HgG+h5aHsLj6KhEgNMQlByL1BEubtbnozJQ3gGJ5oxafL6uOGtiYe6rUpIYo8S/dBKTNc=
+X-Received: by 2002:a4a:8515:0:b0:57b:4f1e:96e4 with SMTP id
+ k21-20020a4a8515000000b0057b4f1e96e4mr8915121ooh.1.1695737490077; Tue, 26 Sep
+ 2023 07:11:30 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230925150010.1.Iff672233861bcc4cf25a7ad0a81308adc3bda8a4@changeid>
- <b0037c9f-588b-4eb8-6415-0fe75bed264f@collabora.com>
-In-Reply-To: <b0037c9f-588b-4eb8-6415-0fe75bed264f@collabora.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Tue, 26 Sep 2023 07:01:55 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=UWQgLLfU4X+6OUR5AWOkJKwG9J7BbKGRCgze6LTY6JNw@mail.gmail.com>
-Message-ID: <CAD=FV=UWQgLLfU4X+6OUR5AWOkJKwG9J7BbKGRCgze6LTY6JNw@mail.gmail.com>
-Subject: Re: [PATCH] drm/panel: Move AUX B116XW03 out of panel-edp back to
- panel-simple
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+From: Grant Likely <grant.likely@linaro.org>
+Date: Tue, 26 Sep 2023 15:11:19 +0100
+Message-ID: <CANH6bkCe2L9-zL8aroiALVhjb5uOwcWH5Pw8HPb4Ac7jZ2z=Ww@mail.gmail.com>
+Subject: Re: [PATCH v2 00/15] drm: Add a driver for FW-based Mali GPUs
+To: boris.brezillon@collabora.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -81,85 +65,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- jitao.shi@mediatek.com, neil.armstrong@linaro.org, sam@ravnborg.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-mediatek@lists.infradead.org, Hsin-Yi Wang <hsinyi@chromium.org>,
- matthias.bgg@gmail.com, quic_jesszhan@quicinc.com,
- linux-arm-kernel@lists.infradead.org,
- Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, drinkcat@chromium.org,
+ daniels@collabora.com, Liviu.Dudau@arm.com, dri-devel@lists.freedesktop.org,
+ steven.price@arm.com, peron.clem@gmail.com, hanetzer@startmail.com,
+ robin.murphy@arm.com, faith.ekstrand@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On Tue, Sep 26, 2023 at 1:06=E2=80=AFAM AngeloGioacchino Del Regno
-<angelogioacchino.delregno@collabora.com> wrote:
+On Wed, Aug 9, 2023 at 10:53=E2=80=AFAM Boris Brezillon
+<boris.brezillon@collabora.com> wrote:
 >
-> Il 26/09/23 00:00, Douglas Anderson ha scritto:
-> > In commit 5f04e7ce392d ("drm/panel-edp: Split eDP panels out of
-> > panel-simple") I moved a pile of panels out of panel-simple driver
-> > into the newly created panel-edp driver. One of those panels, however,
-> > shouldn't have been moved.
-> >
-> > As is clear from commit e35e305eff0f ("drm/panel: simple: Add AUO
-> > B116XW03 panel support"), AUX B116XW03 is an LVDS panel. It's used in
-> > exynos5250-snow and exynos5420-peach-pit where it's clear that the
-> > panel is hooked up with LVDS. Furthermore, searching for datasheets I
-> > found one that makes it clear that this panel is LVDS.
-> >
-> > As far as I can tell, I got confused because in commit 88d3457ceb82
-> > ("drm/panel: auo,b116xw03: fix flash backlight when power on") Jitao
-> > Shi added "DRM_MODE_CONNECTOR_eDP". That seems wrong. Looking at the
-> > downstream ChromeOS trees, it seems like some Mediatek boards are
-> > using a panel that they call "auo,b116xw03" that's an eDP panel. The
-> > best I can guess is that they actually have a different panel that has
-> > similar timing. If so then the proper panel should be used or they
-> > should switch to the generic "edp-panel" compatible.
-> >
-> > When moving this back to panel-edp, I wasn't sure what to use for
-> > .bus_flags and .bus_format and whether to add the extra "enable" delay
-> > from commit 88d3457ceb82 ("drm/panel: auo,b116xw03: fix flash
-> > backlight when power on"). I've added formats/flags/delays based on my
-> > (inexpert) analysis of the datasheet. These are untested.
-> >
-> > NOTE: if/when this is backported to stable, we might run into some
-> > trouble. Specifically, before 474c162878ba ("arm64: dts: mt8183:
-> > jacuzzi: Move panel under aux-bus") this panel was used by
-> > "mt8183-kukui-jacuzzi", which assumed it was an eDP panel. I don't
-> > know what to suggest for that other than someone making up a bogus
-> > panel for jacuzzi that's just for the stable channel.
-> >
-> > Fixes: 88d3457ceb82 ("drm/panel: auo,b116xw03: fix flash backlight when=
- power on")
-> > Fixes: 5f04e7ce392d ("drm/panel-edp: Split eDP panels out of panel-simp=
-le")
-> > Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> > ---
-> > I haven't had a snow or peach-pit hooked up for debugging / testing
-> > for years. I presume that they must be broken and hope that this fixes
-> > them.
+> Hello,
 >
-> We could avoid backport breakages by avoiding to backport this to any ker=
-nel
-> that doesn't contain commit 474c162878ba ("arm64: dts: mt8183: jacuzzi: M=
-ove
-> panel under aux-bus")... because creating a dummy panel to get two wrongs
-> right is definitely not ok.
+> This is the second version of the kernel driver meant to support new Mali
+> GPUs which are delegating the scheduling to a firmware.
+[...]
+>
+> I tried to Cc anyone that was involved in any development of the code
+> I picked from panfrost, so they can acknowledge the GPL2 -> MIT+GPL2
+> change. If I missed someone, please let me know.
 
-Sure, except that leaves us with ... a breakage. :-P
+Regarding the relicensing, Linaro agrees to the relicensing of the
+parts they hold copyright on.
 
-Although I haven't tested it, I have a hard time believing that
-exynos5250-snow and exynos5420-peach-pit will work properly with the
-panel defined as an eDP panel. That means that they will be broken. If
-someone cared to get those fixed in a stable backport then we'd be
-stuck deciding who to break. If you have any brilliant ideas then I'm
-all ears.
+Acked-by: Grant Likely <grant.likely@linaro.org>
 
-...then again, I presume this has been broken since commit
-88d3457ceb82 ("drm/panel: auo,b116xw03: fix flash backlight when power
-on"). That was a little over 3 years ago. Maybe I'm wrong and somehow
-things still limp along and sorta work even though the panel is
-defined incorrectly?
-
--Doug
+--=20
+Grant Likely
+CTO of Linaro, Ltd.
+grant.likely@linaro.org
