@@ -2,49 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2105E7AE8C4
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Sep 2023 11:18:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E30477AE8F1
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Sep 2023 11:24:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7386210E388;
-	Tue, 26 Sep 2023 09:18:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A883A10E384;
+	Tue, 26 Sep 2023 09:24:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7EA1810E384;
- Tue, 26 Sep 2023 09:18:18 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8361510E384;
+ Tue, 26 Sep 2023 09:24:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1695719898; x=1727255898;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=KneAb0S+m+iYRbwqBA9rAbD7+wrrqEvmyHgL9DakO84=;
- b=nJLvwj8WOnXzzXNET/AerD5JutaMJLaPHQnl4PeX6e6XqPRv2W06bKV6
- GzIadzDnwd7KkJQ+dtwbbNBMMSj48OyEhsPIHsrV3S854d9gDe/49NeZi
- 6PaiGMVwUFGOyHgVnfx3DF6upAghR9K+sXFCN+nXaTkwVPhVfUsqUyyuZ
- AzEzrkKQNM0QNA0tZX+guEFP6sVplDPt5RmSj8I2lwy/IJ9BHHbP3teZZ
- 5MSsnAtdPd+i6IO7kmUrCv9lCx49g7bJI25Ze+Wn1gOT3APJ2w5XwDFBT
- 7MTRyK22ApTemLHP8OBQvxzEI0RQTD0lAeZLhrnfD9mNym66E821RmEmU A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="360903521"
-X-IronPort-AV: E=Sophos;i="6.03,177,1694761200"; d="scan'208";a="360903521"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Sep 2023 02:18:17 -0700
+ t=1695720279; x=1727256279;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to;
+ bh=eCGZEh4D+iYY+zkacYYpEOYJxMZmB/wavWpjow03kdw=;
+ b=kKRQZn0n+As3r+pZPkr0As1v+vmibf9t3uvzx1Zfnhhn0nF3NT3XVwT6
+ qn3RHyk16E8VpvdYRpHiCcO/O4PltfCWiFpGAoKfxVqWlP8v+zQiflnQz
+ Iautn1/WPmsRq/xueLJugvKgDrXWwBmvgtPMtB5vxIzq2P25Yz1XoQijb
+ Cazost0UZJ14ApqtdkaEyrerrJUUJeILgDu4zyjCN/itNNlpVvghmZflN
+ bsyb1v1e/ZGYTGezKJASo2+lgvA++K+advkGDDua/MZh2z45jbNZkG8GS
+ mv9XMUwzK54RSIPLOuW0Tg3KDF0h1xZX5rKAyCWRHpSLoP4ZLDPxWbVxD A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="467809594"
+X-IronPort-AV: E=Sophos;i="6.03,177,1694761200"; 
+ d="scan'208,217";a="467809594"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Sep 2023 02:24:21 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="778072187"
-X-IronPort-AV: E=Sophos;i="6.03,177,1694761200"; d="scan'208";a="778072187"
-Received: from jliew-mobl.gar.corp.intel.com (HELO intel.com) ([10.213.158.52])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Sep 2023 02:18:11 -0700
-Date: Tue, 26 Sep 2023 11:18:03 +0200
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Subject: Re: [Intel-gfx] [PATCH] drm/i915: Do not disable preemption for resets
-Message-ID: <ZRKhy6QcQ28Z2cPT@ashyti-mobl2.lan>
-References: <20230705093025.3689748-1-tvrtko.ursulin@linux.intel.com>
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="872434774"
+X-IronPort-AV: E=Sophos;i="6.03,177,1694761200"; 
+ d="scan'208,217";a="872434774"
+Received: from nirmoyda-mobl.ger.corp.intel.com (HELO [10.252.41.5])
+ ([10.252.41.5])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Sep 2023 02:24:18 -0700
+Content-Type: multipart/alternative;
+ boundary="------------kYp0fDNOxy9tq0ghhvaO3wLf"
+Message-ID: <78ce5784-b74f-e693-d376-e171e986b517@linux.intel.com>
+Date: Tue, 26 Sep 2023 11:24:16 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230705093025.3689748-1-tvrtko.ursulin@linux.intel.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v3] drm/i915/gem: Make i915_gem_shrinker multi-gt aware
+Content-Language: en-US
+To: intel-gfx@lists.freedesktop.org, andi.shyti@linux.intel.com
+References: <20230925171048.19245-1-nirmoy.das@intel.com>
+From: Nirmoy Das <nirmoy.das@linux.intel.com>
+In-Reply-To: <20230925171048.19245-1-nirmoy.das@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,69 +63,289 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Paul Gortmaker <paul.gortmaker@windriver.com>,
- Intel-gfx@lists.freedesktop.org, Chris Wilson <chris.p.wilson@intel.com>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- dri-devel@lists.freedesktop.org
+Cc: Jonathan Cavitt <jonathan.cavitt@intel.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, dri-devel@lists.freedesktop.org,
+ Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tvrtko,
+This is a multi-part message in MIME format.
+--------------kYp0fDNOxy9tq0ghhvaO3wLf
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-> Commit ade8a0f59844 ("drm/i915: Make all GPU resets atomic") added a
-> preempt disable section over the hardware reset callback to prepare the
-> driver for being able to reset from atomic contexts.
-> 
-> In retrospect I can see that the work item at a time was about removing
-> the struct mutex from the reset path. Code base also briefly entertained
-> the idea of doing the reset under stop_machine in order to serialize
-> userspace mmap and temporary glitch in the fence registers (see
-> eb8d0f5af4ec ("drm/i915: Remove GPU reset dependence on struct_mutex"),
-> but that never materialized and was soon removed in 2caffbf11762
-> ("drm/i915: Revoke mmaps and prevent access to fence registers across
-> reset") and replaced with a SRCU based solution.
-> 
-> As such, as far as I can see, today we still have a requirement that
-> resets must not sleep (invoked from submission tasklets), but no need to
-> support invoking them from a truly atomic context.
-> 
-> Given that the preemption section is problematic on RT kernels, since the
-> uncore lock becomes a sleeping lock and so is invalid in such section,
-> lets try and remove it. Potential downside is that our short waits on GPU
-> to complete the reset may get extended if CPU scheduling interferes, but
-> in practice that probably isn't a deal breaker.
-> 
-> In terms of mechanics, since the preemption disabled block is being
-> removed we just need to replace a few of the wait_for_atomic macros into
-> busy looping versions which will work (and not complain) when called from
-> non-atomic sections.
 
-looks reasonable, few unrelated questions
+On 9/25/2023 7:10 PM, Nirmoy Das wrote:
+> From: Jonathan Cavitt<jonathan.cavitt@intel.com>
+>
+> Where applicable, use for_each_gt instead of to_gt in the
+> i915_gem_shrinker functions to make them apply to more than just the
+> primary GT.  Specifically, this ensure i915_gem_shrink_all retires all
+> requests across all GTs, and this makes i915_gem_shrinker_vmap unmap
+> VMAs from all GTs.
+>
+> v2: Pass correct GT to intel_gt_retire_requests(Andrzej).
+> v3: Remove unnecessary braces(Andi)
+eh I will resend the v2 with your r-b, Andi.
 
+drivers/gpu/drm/i915/gem/i915_gem_shrinker.c: In function ‘i915_gem_shrink’:
+drivers/gpu/drm/i915/gem/i915_gem_shrinker.c:152:5: error: suggest explicit braces to avoid ambiguous ‘else’ [-Werror=dangling-else]
+   152 |  if (shrink & I915_SHRINK_ACTIVE)
+       |     ^
+
+>
+> Signed-off-by: Jonathan Cavitt<jonathan.cavitt@intel.com>
+> Signed-off-by: Nirmoy Das<nirmoy.das@intel.com>
+> Reviewed-by: Andrzej Hajda<andrzej.hajda@intel.com>
+> Reviewed-by: Andi Shyti<andi.shyti@linux.intel.com>
 > ---
->  drivers/gpu/drm/i915/gt/intel_reset.c | 12 +++++-------
->  1 file changed, 5 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/intel_reset.c b/drivers/gpu/drm/i915/gt/intel_reset.c
-> index e2152f75ba2e..6916eba3bd33 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_reset.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_reset.c
-> @@ -167,13 +167,13 @@ static int i915_do_reset(struct intel_gt *gt,
->  	/* Assert reset for at least 20 usec, and wait for acknowledgement. */
+>   drivers/gpu/drm/i915/gem/i915_gem_shrinker.c | 41 ++++++++++++--------
+>   1 file changed, 24 insertions(+), 17 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c b/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
+> index 214763942aa2..e79fcbdfab25 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
+> @@ -14,6 +14,7 @@
+>   #include <linux/vmalloc.h>
+>   
+>   #include "gt/intel_gt_requests.h"
+> +#include "gt/intel_gt.h"
+>   
+>   #include "i915_trace.h"
+>   
+> @@ -119,7 +120,8 @@ i915_gem_shrink(struct i915_gem_ww_ctx *ww,
+>   	intel_wakeref_t wakeref = 0;
+>   	unsigned long count = 0;
+>   	unsigned long scanned = 0;
+> -	int err = 0;
+> +	int err = 0, i = 0;
+> +	struct intel_gt *gt;
+>   
+>   	/* CHV + VTD workaround use stop_machine(); need to trylock vm->mutex */
+>   	bool trylock_vm = !ww && intel_vm_no_concurrent_access_wa(i915);
+> @@ -148,8 +150,9 @@ i915_gem_shrink(struct i915_gem_ww_ctx *ww,
+>   	 * contexts around longer than is necessary.
+>   	 */
+>   	if (shrink & I915_SHRINK_ACTIVE)
+> -		/* Retire requests to unpin all idle contexts */
+> -		intel_gt_retire_requests(to_gt(i915));
+> +		for_each_gt(gt, i915, i)
+> +			/* Retire requests to unpin all idle contexts */
+> +			intel_gt_retire_requests(gt);
+>   
+>   	/*
+>   	 * As we may completely rewrite the (un)bound list whilst unbinding
+> @@ -389,6 +392,8 @@ i915_gem_shrinker_vmap(struct notifier_block *nb, unsigned long event, void *ptr
+>   	struct i915_vma *vma, *next;
+>   	unsigned long freed_pages = 0;
+>   	intel_wakeref_t wakeref;
+> +	struct intel_gt *gt;
+> +	int i;
+>   
+>   	with_intel_runtime_pm(&i915->runtime_pm, wakeref)
+>   		freed_pages += i915_gem_shrink(NULL, i915, -1UL, NULL,
+> @@ -397,24 +402,26 @@ i915_gem_shrinker_vmap(struct notifier_block *nb, unsigned long event, void *ptr
+>   					       I915_SHRINK_VMAPS);
+>   
+>   	/* We also want to clear any cached iomaps as they wrap vmap */
+> -	mutex_lock(&to_gt(i915)->ggtt->vm.mutex);
+> -	list_for_each_entry_safe(vma, next,
+> -				 &to_gt(i915)->ggtt->vm.bound_list, vm_link) {
+> -		unsigned long count = i915_vma_size(vma) >> PAGE_SHIFT;
+> -		struct drm_i915_gem_object *obj = vma->obj;
+> -
+> -		if (!vma->iomap || i915_vma_is_active(vma))
+> -			continue;
+> +	for_each_gt(gt, i915, i) {
+> +		mutex_lock(&gt->ggtt->vm.mutex);
+> +		list_for_each_entry_safe(vma, next,
+> +					 &gt->ggtt->vm.bound_list, vm_link) {
+> +			unsigned long count = i915_vma_size(vma) >> PAGE_SHIFT;
+> +			struct drm_i915_gem_object *obj = vma->obj;
+> +
+> +			if (!vma->iomap || i915_vma_is_active(vma))
+> +				continue;
+>   
+> -		if (!i915_gem_object_trylock(obj, NULL))
+> -			continue;
+> +			if (!i915_gem_object_trylock(obj, NULL))
+> +				continue;
+>   
+> -		if (__i915_vma_unbind(vma) == 0)
+> -			freed_pages += count;
+> +			if (__i915_vma_unbind(vma) == 0)
+> +				freed_pages += count;
+>   
+> -		i915_gem_object_unlock(obj);
+> +			i915_gem_object_unlock(obj);
+> +		}
+> +		mutex_unlock(&gt->ggtt->vm.mutex);
+>   	}
+> -	mutex_unlock(&to_gt(i915)->ggtt->vm.mutex);
+>   
+>   	*(unsigned long *)ptr += freed_pages;
+>   	return NOTIFY_DONE;
+--------------kYp0fDNOxy9tq0ghhvaO3wLf
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-is this /20/50/ ?
+<html>
+  <head>
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DUTF=
+-8">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class=3D"moz-cite-prefix">On 9/25/2023 7:10 PM, Nirmoy Das wrote=
+:<br>
+    </div>
+    <blockquote type=3D"cite"
+      cite=3D"mid:20230925171048.19245-1-nirmoy.das@intel.com">
+      <pre class=3D"moz-quote-pre" wrap=3D"">From: Jonathan Cavitt <a cla=
+ss=3D"moz-txt-link-rfc2396E" href=3D"mailto:jonathan.cavitt@intel.com">&l=
+t;jonathan.cavitt@intel.com&gt;</a>
 
->  	pci_write_config_byte(pdev, I915_GDRST, GRDOM_RESET_ENABLE);
->  	udelay(50);
-> -	err = wait_for_atomic(i915_in_reset(pdev), 50);
-> +	err = _wait_for_atomic(i915_in_reset(pdev), 50, 0);
+Where applicable, use for_each_gt instead of to_gt in the
+i915_gem_shrinker functions to make them apply to more than just the
+primary GT.  Specifically, this ensure i915_gem_shrink_all retires all
+requests across all GTs, and this makes i915_gem_shrinker_vmap unmap
+VMAs from all GTs.
 
-wait_for_atomic() waits in milliseconds, while _wait_for_atomic()
-waits in microseconds, I think you need to update the timer.
+v2: Pass correct GT to intel_gt_retire_requests(Andrzej).
+v3: Remove unnecessary braces(Andi) </pre>
+    </blockquote>
+    eh I will resend the v2 with your r-b, Andi.<br>
+    <pre class=3D"panel-body test-result" style=3D"box-sizing: border-box=
+; overflow: auto; font-family: Menlo, Monaco, Consolas, &quot;Courier New=
+&quot;, monospace; font-size: 13px; display: block; padding: 15px; margin=
+: 0px; line-height: 14.3px; color: rgb(51, 51, 51); word-break: break-all=
+; overflow-wrap: break-word; background-color: white; border-width: 1px 0=
+px 0px; border-top-style: solid; border-right-style: initial; border-bott=
+om-style: initial; border-left-style: initial; border-top-color: rgb(221,=
+ 221, 221); border-right-color: initial; border-bottom-color: initial; bo=
+rder-left-color: initial; border-image: initial; border-radius: 0px; font=
+-style: normal; font-variant-ligatures: normal; font-variant-caps: normal=
+; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start=
+; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -=
+webkit-text-stroke-width: 0px; text-decoration-thickness: initial; text-d=
+ecoration-style: initial; text-decoration-color: initial;">drivers/gpu/dr=
+m/i915/gem/i915_gem_shrinker.c: In function =E2=80=98i915_gem_shrink=E2=80=
+=99:
+drivers/gpu/drm/i915/gem/i915_gem_shrinker.c:152:5: error: suggest explic=
+it braces to avoid ambiguous =E2=80=98else=E2=80=99 [-Werror=3Ddangling-e=
+lse]
+  152 |  if (shrink &amp; I915_SHRINK_ACTIVE)
+      |     ^</pre>
+    <blockquote type=3D"cite"
+      cite=3D"mid:20230925171048.19245-1-nirmoy.das@intel.com">
+      <pre class=3D"moz-quote-pre" wrap=3D"">
 
-Do you think we might need a wait_for_atomic_preempt() macro?
+Signed-off-by: Jonathan Cavitt <a class=3D"moz-txt-link-rfc2396E" href=3D=
+"mailto:jonathan.cavitt@intel.com">&lt;jonathan.cavitt@intel.com&gt;</a>
+Signed-off-by: Nirmoy Das <a class=3D"moz-txt-link-rfc2396E" href=3D"mail=
+to:nirmoy.das@intel.com">&lt;nirmoy.das@intel.com&gt;</a>
+Reviewed-by: Andrzej Hajda <a class=3D"moz-txt-link-rfc2396E" href=3D"mai=
+lto:andrzej.hajda@intel.com">&lt;andrzej.hajda@intel.com&gt;</a>
+Reviewed-by: Andi Shyti <a class=3D"moz-txt-link-rfc2396E" href=3D"mailto=
+:andi.shyti@linux.intel.com">&lt;andi.shyti@linux.intel.com&gt;</a>
+---
+ drivers/gpu/drm/i915/gem/i915_gem_shrinker.c | 41 ++++++++++++--------
+ 1 file changed, 24 insertions(+), 17 deletions(-)
 
-	err = wait_for_atomic_preempt(i915_in_reset(pdev), 50);
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c b/drivers/gpu/d=
+rm/i915/gem/i915_gem_shrinker.c
+index 214763942aa2..e79fcbdfab25 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
+@@ -14,6 +14,7 @@
+ #include &lt;linux/vmalloc.h&gt;
+=20
+ #include "gt/intel_gt_requests.h"
++#include "gt/intel_gt.h"
+=20
+ #include "i915_trace.h"
+=20
+@@ -119,7 +120,8 @@ i915_gem_shrink(struct i915_gem_ww_ctx *ww,
+ 	intel_wakeref_t wakeref =3D 0;
+ 	unsigned long count =3D 0;
+ 	unsigned long scanned =3D 0;
+-	int err =3D 0;
++	int err =3D 0, i =3D 0;
++	struct intel_gt *gt;
+=20
+ 	/* CHV + VTD workaround use stop_machine(); need to trylock vm-&gt;mute=
+x */
+ 	bool trylock_vm =3D !ww &amp;&amp; intel_vm_no_concurrent_access_wa(i91=
+5);
+@@ -148,8 +150,9 @@ i915_gem_shrink(struct i915_gem_ww_ctx *ww,
+ 	 * contexts around longer than is necessary.
+ 	 */
+ 	if (shrink &amp; I915_SHRINK_ACTIVE)
+-		/* Retire requests to unpin all idle contexts */
+-		intel_gt_retire_requests(to_gt(i915));
++		for_each_gt(gt, i915, i)
++			/* Retire requests to unpin all idle contexts */
++			intel_gt_retire_requests(gt);
+=20
+ 	/*
+ 	 * As we may completely rewrite the (un)bound list whilst unbinding
+@@ -389,6 +392,8 @@ i915_gem_shrinker_vmap(struct notifier_block *nb, uns=
+igned long event, void *ptr
+ 	struct i915_vma *vma, *next;
+ 	unsigned long freed_pages =3D 0;
+ 	intel_wakeref_t wakeref;
++	struct intel_gt *gt;
++	int i;
+=20
+ 	with_intel_runtime_pm(&amp;i915-&gt;runtime_pm, wakeref)
+ 		freed_pages +=3D i915_gem_shrink(NULL, i915, -1UL, NULL,
+@@ -397,24 +402,26 @@ i915_gem_shrinker_vmap(struct notifier_block *nb, u=
+nsigned long event, void *ptr
+ 					       I915_SHRINK_VMAPS);
+=20
+ 	/* We also want to clear any cached iomaps as they wrap vmap */
+-	mutex_lock(&amp;to_gt(i915)-&gt;ggtt-&gt;vm.mutex);
+-	list_for_each_entry_safe(vma, next,
+-				 &amp;to_gt(i915)-&gt;ggtt-&gt;vm.bound_list, vm_link) {
+-		unsigned long count =3D i915_vma_size(vma) &gt;&gt; PAGE_SHIFT;
+-		struct drm_i915_gem_object *obj =3D vma-&gt;obj;
+-
+-		if (!vma-&gt;iomap || i915_vma_is_active(vma))
+-			continue;
++	for_each_gt(gt, i915, i) {
++		mutex_lock(&amp;gt-&gt;ggtt-&gt;vm.mutex);
++		list_for_each_entry_safe(vma, next,
++					 &amp;gt-&gt;ggtt-&gt;vm.bound_list, vm_link) {
++			unsigned long count =3D i915_vma_size(vma) &gt;&gt; PAGE_SHIFT;
++			struct drm_i915_gem_object *obj =3D vma-&gt;obj;
++
++			if (!vma-&gt;iomap || i915_vma_is_active(vma))
++				continue;
+=20
+-		if (!i915_gem_object_trylock(obj, NULL))
+-			continue;
++			if (!i915_gem_object_trylock(obj, NULL))
++				continue;
+=20
+-		if (__i915_vma_unbind(vma) =3D=3D 0)
+-			freed_pages +=3D count;
++			if (__i915_vma_unbind(vma) =3D=3D 0)
++				freed_pages +=3D count;
+=20
+-		i915_gem_object_unlock(obj);
++			i915_gem_object_unlock(obj);
++		}
++		mutex_unlock(&amp;gt-&gt;ggtt-&gt;vm.mutex);
+ 	}
+-	mutex_unlock(&amp;to_gt(i915)-&gt;ggtt-&gt;vm.mutex);
+=20
+ 	*(unsigned long *)ptr +=3D freed_pages;
+ 	return NOTIFY_DONE;
+</pre>
+    </blockquote>
+  </body>
+</html>
 
-Thanks,
-Andi
+--------------kYp0fDNOxy9tq0ghhvaO3wLf--
