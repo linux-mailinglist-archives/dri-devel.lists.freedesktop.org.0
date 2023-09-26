@@ -1,78 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CF607AF01C
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Sep 2023 17:57:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A7457AF02C
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Sep 2023 18:02:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5665B10E17D;
-	Tue, 26 Sep 2023 15:57:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C517B10E3F9;
+	Tue, 26 Sep 2023 16:02:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 75E4A10E17D
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Sep 2023 15:57:34 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 38QEKpab016114; Tue, 26 Sep 2023 15:57:31 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=EVCQSveuHT7ZchLE9/1ELr5NgUCV/uarGxErWNMf14s=;
- b=eDOu/3nRaV+KOyR5aeVHL2YJPipk1HnwVRg1zxPvObQ+DB6PKuZrOw/qm3isle8qUBa5
- YNEuxgwIp/HMJpW38L1PlSoOd8kWJrsLcUidRzHtTAX3fRkEu7IatJaebxfgP5poPQx3
- yVSk3upOnxIilj9C60Kpnr8joOAZUCWGRpaGxeu2uOUfVE94SYvUGiWx8GAzHYZm6fVd
- vE1058ADl/vshQ5AHzSkTR2oNCPEoU4Mz6nxYOLJQSRuiZHZn+wf6bvCw7zOOg57gwGb
- FJafL1/LXM9XJ+g9GWdNxXWM4wvDfDecswRdC0HQ2N6S/wnMDgZLjZROECKsz/LzWZXN 5A== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3tbnb3swmv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 26 Sep 2023 15:57:31 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 38QFvU0F005060
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 26 Sep 2023 15:57:30 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Tue, 26 Sep
- 2023 08:57:30 -0700
-Message-ID: <4a3414d4-ea9f-e8bd-446a-5f5d30a2658a@quicinc.com>
-Date: Tue, 26 Sep 2023 09:57:29 -0600
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5333910E3EA;
+ Tue, 26 Sep 2023 16:02:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1695744121; x=1727280121;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=LQ60yoTebnvkUYWkiseliZmd8NtqYh7nY9eX61FUScc=;
+ b=PpusmKJ8dLwYjbu6pfEvsvp7fTDhUoqG5sha7FbS47Gh9Y9g19iz3fWO
+ zQv7FsJSM7vKgFIu+xBbu0xx4jliqNfIuAiHWfDzDiaMDzoCFbDco504I
+ iaD79tkVhfuILXy8pOpiEMeOP7cxX4Crbzgl3N2Rvmp5eJa2/W2FKGPkS
+ UOa87fyQiiBklOsIXWvUZwNW9KcuBtZyiAkcjZtz+EJjgiSB4Xiz5yh8X
+ eLfheSa5BOzNAviDhNAKbmCMhaDCSUiHgLrlx4kxNfTqZ38leZxqh1DHo
+ /HwqpYwUrc0XbKFlRLCx3wufaoPwFIcBYYBfO4yKOjQ41CHIPZ+E9S6Lm A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10845"; a="378878860"
+X-IronPort-AV: E=Sophos;i="6.03,178,1694761200"; d="scan'208";a="378878860"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Sep 2023 09:02:00 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10845"; a="995848129"
+X-IronPort-AV: E=Sophos;i="6.03,178,1694761200"; d="scan'208";a="995848129"
+Received: from clow-mobl1.gar.corp.intel.com (HELO intel.com) ([10.215.242.58])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Sep 2023 09:01:50 -0700
+Date: Tue, 26 Sep 2023 18:01:42 +0200
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Nirmoy Das <nirmoy.das@intel.com>
+Subject: Re: [PATCH] drm/i915: Don't set PIPE_CONTROL_FLUSH_L3 for aux inval
+Message-ID: <ZRMAZgM+0Gg6Sbk6@ashyti-mobl2.lan>
+References: <20230926142401.25687-1-nirmoy.das@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH 3/2] accel/ivpu: Use local variable for debugfs root
-Content-Language: en-US
-To: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
- <dri-devel@lists.freedesktop.org>
-References: <20230907072610.433497-1-stanislaw.gruszka@linux.intel.com>
- <20230907072610.433497-2-stanislaw.gruszka@linux.intel.com>
- <20230926052601.GC846747@linux.intel.com>
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <20230926052601.GC846747@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: tdLCRBzXmcqdpjwpqXsLFscR1CNu6CJG
-X-Proofpoint-ORIG-GUID: tdLCRBzXmcqdpjwpqXsLFscR1CNu6CJG
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-09-26_13,2023-09-26_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- suspectscore=0 adultscore=0 bulkscore=0 clxscore=1015 impostorscore=0
- mlxscore=0 malwarescore=0 spamscore=0 lowpriorityscore=0 mlxlogscore=668
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2309180000 definitions=main-2309260140
+Content-Type: text/plain; charset=iso-8859-15
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230926142401.25687-1-nirmoy.das@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,15 +58,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Oded Gabbay <ogabbay@kernel.org>,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>, intel-gfx@lists.freedesktop.org,
+ Tejas Upadhyay <tejas.upadhyay@intel.com>,
+ Jonathan Cavitt <jonathan.cavitt@intel.com>, stable@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Andi Shyti <andi.shyti@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Matt Roper <matthew.d.roper@intel.com>,
+ Prathap Kumar Valsan <prathap.kumar.valsan@intel.com>,
+ Mark Janes <mark.janes@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/25/2023 11:26 PM, Stanislaw Gruszka wrote:
-> Use local variable for debugfs root, just to make further changes
-> easier.
-> 
-> Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+Hi Nirmoy,
 
-Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+On Tue, Sep 26, 2023 at 04:24:01PM +0200, Nirmoy Das wrote:
+> PIPE_CONTROL_FLUSH_L3 is not needed for aux invalidation
+> so don't set that.
+> 
+> Fixes: 78a6ccd65fa3 ("drm/i915/gt: Ensure memory quiesced before invalidation")
+> Cc: Jonathan Cavitt <jonathan.cavitt@intel.com>
+> Cc: Andi Shyti <andi.shyti@linux.intel.com>
+> Cc: <stable@vger.kernel.org> # v5.8+
+> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+> Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> Cc: Matt Roper <matthew.d.roper@intel.com>
+> Cc: Tejas Upadhyay <tejas.upadhyay@intel.com>
+> Cc: Lucas De Marchi <lucas.demarchi@intel.com>
+> Cc: Prathap Kumar Valsan <prathap.kumar.valsan@intel.com>
+> Cc: Tapani Pälli <tapani.palli@intel.com>
+> Cc: Mark Janes <mark.janes@intel.com>
+> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
+
+looks better :)
+
+Tapani, you mind giving this a test?
+
+Andi
