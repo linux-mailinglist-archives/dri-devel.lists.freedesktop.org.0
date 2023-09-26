@@ -1,39 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D19C87AE7A1
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Sep 2023 10:14:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CBF87AE7A6
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Sep 2023 10:14:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 50C3310E0D0;
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC2E610E36A;
 	Tue, 26 Sep 2023 08:14:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org
- [IPv6:2604:1380:40e1:4800::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB4C510E369
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 792DD10E0D0
  for <dri-devel@lists.freedesktop.org>; Tue, 26 Sep 2023 08:14:02 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id A6074CE1266
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Sep 2023 08:14:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18B19C433CA;
- Tue, 26 Sep 2023 08:13:58 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id EF5C761331
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Sep 2023 08:14:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74B18C433C9;
+ Tue, 26 Sep 2023 08:14:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1695716039;
- bh=Zj1LbCF+4qNSxbYeKTNC7s+VtkpmrrJmwaIr6viPOS0=;
+ s=k20201202; t=1695716041;
+ bh=Wc6oOu7MTbbmpU3cjtCGSKKfAvkHPvs3/mMSRMDuGqc=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=NKwBwIkX+PbX7WRGiC1ezRUi5L+rofVbX4/U24pNvcZ2r9nDoOx+LTRwfW780fY9e
- OoiLolkibQYzcRwLH1E59VLwEI6Y5pTX7D+mPvNI/Ja9Wd45i1jOzfJTdeWF/R3SnX
- +iqWMcWfhlTdcHMtCIt9pf7QXDJwhWDHVNZR07JB9RsOqfWYEFPF9SYs8e1nSOGO0R
- xzHznsW/zcHX0kOrOugdpEueLZT54pcauYOlE8lT6178YtxXeJaX1BTlgvMWTWWKRJ
- ZkkIAnImLR+CbArfkFJn0SDEMcvnfe+4dCa/YsB9+bqEZwYl/oKSdmluQCymArjjQ7
- wJNGz4pF0MM2w==
+ b=IsaCXZ0U0jO0vTENmemGLv1pY/Id8z5utXMYhYursmphhjKqM8zOz/kwzXr6RhG76
+ pBw5UxrHRAq4cE8bgUyzmF5O09PofCQ4Gq8vV9DdX/YSNuWnz3WGjTlTN5qYtirfi8
+ 5zUdvsTTdcTFZ0Xw3VjfC3p1K6kLIGApvT5Var4jrLKzRguO7wBbCuGJ3jEfZMMxK8
+ vSg00dydmO1MKm+iwDs0eTQYxlsS8jvQcJ3OJXtYDJs684965hIkEv3RVpoV86P5aC
+ SX7ohOTF+GKu1j1U63Ny1YnrW5IMJwXOqpmBFXSe8joVj1lFG3WINulc17NdfyYo1Q
+ bHIyAV2103tFg==
 From: Oded Gabbay <ogabbay@kernel.org>
 To: dri-devel@lists.freedesktop.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 8/9] accel/habanalabs/gaudi: remove define used for simulator
-Date: Tue, 26 Sep 2023 11:13:44 +0300
-Message-Id: <20230926081345.240927-8-ogabbay@kernel.org>
+Subject: [PATCH 9/9] accel/habanalabs: minor cosmetic update to habanalabs.h
+Date: Tue, 26 Sep 2023 11:13:45 +0300
+Message-Id: <20230926081345.240927-9-ogabbay@kernel.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230926081345.240927-1-ogabbay@kernel.org>
 References: <20230926081345.240927-1-ogabbay@kernel.org>
@@ -54,41 +54,84 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We don't support simulator in upstream.
+- Update copyright years
+- Align fields in struct hl_userptr
+- Fix comments
 
 Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
 ---
- drivers/accel/habanalabs/common/habanalabs.h | 2 --
- drivers/accel/habanalabs/gaudi/gaudi.c       | 3 +--
- 2 files changed, 1 insertion(+), 4 deletions(-)
+ drivers/accel/habanalabs/common/habanalabs.h | 31 ++++++++++----------
+ 1 file changed, 15 insertions(+), 16 deletions(-)
 
 diff --git a/drivers/accel/habanalabs/common/habanalabs.h b/drivers/accel/habanalabs/common/habanalabs.h
-index b1b1c51aa5b1..a8ccc04e7f92 100644
+index a8ccc04e7f92..2a3acdbf9171 100644
 --- a/drivers/accel/habanalabs/common/habanalabs.h
 +++ b/drivers/accel/habanalabs/common/habanalabs.h
-@@ -85,8 +85,6 @@ struct hl_fpriv;
+@@ -1,6 +1,6 @@
+ /* SPDX-License-Identifier: GPL-2.0
+  *
+- * Copyright 2016-2022 HabanaLabs, Ltd.
++ * Copyright 2016-2023 HabanaLabs, Ltd.
+  * All Rights Reserved.
+  *
+  */
+@@ -553,8 +553,7 @@ struct hl_hints_range {
+  *              allocated with huge pages.
+  * @hints_dram_reserved_va_range: dram hint addresses reserved range.
+  * @hints_host_reserved_va_range: host hint addresses reserved range.
+- * @hints_host_hpage_reserved_va_range: host huge page hint addresses reserved
+- *                                      range.
++ * @hints_host_hpage_reserved_va_range: host huge page hint addresses reserved range.
+  * @sram_base_address: SRAM physical start address.
+  * @sram_end_address: SRAM physical end address.
+  * @sram_user_base_address - SRAM physical start address for user access.
+@@ -593,7 +592,7 @@ struct hl_hints_range {
+  * @mmu_pte_size: PTE size in MMU page tables.
+  * @mmu_hop_table_size: MMU hop table size.
+  * @mmu_hop0_tables_total_size: total size of MMU hop0 tables.
+- * @dram_page_size: page size for MMU DRAM allocation.
++ * @dram_page_size: The DRAM physical page size.
+  * @cfg_size: configuration space size on SRAM.
+  * @sram_size: total size of SRAM.
+  * @max_asid: maximum number of open contexts (ASIDs).
+@@ -695,7 +694,7 @@ struct hl_hints_range {
+  * @configurable_stop_on_err: is stop-on-error option configurable via debugfs.
+  * @set_max_power_on_device_init: true if need to set max power in F/W on device init.
+  * @supports_user_set_page_size: true if user can set the allocation page size.
+- * @dma_mask: the dma mask to be set for this device
++ * @dma_mask: the dma mask to be set for this device.
+  * @supports_advanced_cpucp_rc: true if new cpucp opcodes are supported.
+  * @supports_engine_modes: true if changing engines/engine_cores modes is supported.
+  * @support_dynamic_resereved_fw_size: true if we support dynamic reserved size for fw.
+@@ -1959,17 +1958,17 @@ struct hl_ctx_mgr {
+  * @dma_mapped: true if the SG was mapped to DMA addresses, false otherwise.
+  */
+ struct hl_userptr {
+-	enum vm_type		vm_type; /* must be first */
+-	struct list_head	job_node;
+-	struct page		**pages;
+-	unsigned int		npages;
+-	struct sg_table		*sgt;
+-	enum dma_data_direction dir;
+-	struct list_head	debugfs_list;
+-	pid_t			pid;
+-	u64			addr;
+-	u64			size;
+-	u8			dma_mapped;
++	enum vm_type			vm_type; /* must be first */
++	struct list_head		job_node;
++	struct page			**pages;
++	unsigned int			npages;
++	struct sg_table			*sgt;
++	enum dma_data_direction		dir;
++	struct list_head		debugfs_list;
++	pid_t				pid;
++	u64				addr;
++	u64				size;
++	u8				dma_mapped;
+ };
  
- #define HL_PCI_ELBI_TIMEOUT_MSEC	10 /* 10ms */
- 
--#define HL_SIM_MAX_TIMEOUT_US		100000000 /* 100s */
--
- #define HL_INVALID_QUEUE		UINT_MAX
- 
- #define HL_COMMON_USER_CQ_INTERRUPT_ID	0xFFF
-diff --git a/drivers/accel/habanalabs/gaudi/gaudi.c b/drivers/accel/habanalabs/gaudi/gaudi.c
-index 31e04af46876..53292d4c15c8 100644
---- a/drivers/accel/habanalabs/gaudi/gaudi.c
-+++ b/drivers/accel/habanalabs/gaudi/gaudi.c
-@@ -4623,8 +4623,7 @@ static int gaudi_scrub_device_dram(struct hl_device *hdev, u64 val)
- static int gaudi_scrub_device_mem(struct hl_device *hdev)
- {
- 	struct asic_fixed_properties *prop = &hdev->asic_prop;
--	u64 wait_to_idle_time = hdev->pdev ? HBM_SCRUBBING_TIMEOUT_US :
--			min_t(u64, HBM_SCRUBBING_TIMEOUT_US * 10, HL_SIM_MAX_TIMEOUT_US);
-+	u64 wait_to_idle_time = HBM_SCRUBBING_TIMEOUT_US;
- 	u64 addr, size, val = hdev->memory_scrub_val;
- 	ktime_t timeout;
- 	int rc = 0;
+ /**
 -- 
 2.34.1
 
