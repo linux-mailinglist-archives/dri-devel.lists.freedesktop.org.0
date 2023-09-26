@@ -1,108 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44C4C7AF314
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Sep 2023 20:40:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 74B367AF3BE
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Sep 2023 21:05:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5350310E425;
-	Tue, 26 Sep 2023 18:40:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D407810E17A;
+	Tue, 26 Sep 2023 19:05:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com
- [IPv6:2a00:1450:4864:20::233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D1A010E425
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Sep 2023 18:40:36 +0000 (UTC)
-Received: by mail-lj1-x233.google.com with SMTP id
- 38308e7fff4ca-2c008d8fd07so158060391fa.1
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Sep 2023 11:40:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1695753634; x=1696358434; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
- :to:content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Cbj7xG6ItjgyzB3JMPXb9POyuicvcin6fqpj2Mlq0nA=;
- b=xtpoZKuTYZONC6CjDhE0ChIMqaFNe6UML0HRHfbeMFFUr5d10a5x9nca1/fS70K9P3
- SoWLNiMTerb4e7SOpn4bjFlEzSziFsAt4EGNgogx7qJwEYyuYpf5qMg+l347/bemdR1j
- Nu9EiwmUvgydH2HgEoW3Q9BDESYOmTvF9OtWaI/SKRarBfNroQMpZTANGLCaAFiiQF89
- 5ttu/hXkt6bY1QGMRXTSnXCs3fofvaN4TkC90xNo4d3ixmxgb3kTeBR0NdCO44mVOTAk
- QZcNu+uFnBFJ45qprCqxOPgNH+3c3uJdr7mgRJN9NNHu4VpDD9ZeiHdxWRMNFgVJjXuV
- cFiw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1695753634; x=1696358434;
- h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
- :to:content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Cbj7xG6ItjgyzB3JMPXb9POyuicvcin6fqpj2Mlq0nA=;
- b=f5hNisjIPcnfYshjtNc+MjdWwH+BAR9PLZwvHWhUtV97lFcOC4zRxOj9KF/u52FQ9i
- GOUmMIPp8QYWgjcIA/Y9HJIBHuupGTWGcM014aAzczqMneTcBmQgXkI/XV425SKtwREw
- slv0MtmyTMjTOP0w7rgL6wNcg0vggJ4PM3xMp0WLcpoIytw1bKbRLyHSBYEflpPKmw9C
- FAI73bYqllnIkx5bM/AwYsyisUJKr9O8yO2bB7B/YfaF2KOtc19hrowQX6V0F3zVX09p
- fpC8D+NIYroRHEjW0sUwuqxJq7eiRqSQ3YZjWI+GLMz/XeB+tZSjNUIYGya8NyPM327P
- LLrw==
-X-Gm-Message-State: AOJu0YxdGb3Cw5KxP050A4zho6W9U1ayOB4TDmVAMsw1bcPNNdUE/AzD
- 3REKxOzOWShpykhAb1+vWnDWXA==
-X-Google-Smtp-Source: AGHT+IG0KLoWhYGIScPU0gY7MREMIOVjC/ozkDwJXiLjuGVLdz5Jw6Tn3wLyJn4evDa/npr+KgmZJQ==
-X-Received: by 2002:a2e:9788:0:b0:2bc:b9c7:7ba3 with SMTP id
- y8-20020a2e9788000000b002bcb9c77ba3mr9035168lji.12.1695753634185; 
- Tue, 26 Sep 2023 11:40:34 -0700 (PDT)
-Received: from [192.168.33.189]
- (178235177023.dynamic-4-waw-k-1-1-0.vectranet.pl. [178.235.177.23])
- by smtp.gmail.com with ESMTPSA id
- v16-20020a2e9f50000000b002c12c2094e4sm2740700ljk.74.2023.09.26.11.40.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 26 Sep 2023 11:40:33 -0700 (PDT)
-Message-ID: <42a1d0ab-4e8d-461d-bb2c-977a793e52b2@linaro.org>
-Date: Tue, 26 Sep 2023 20:40:30 +0200
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A59A18920D;
+ Tue, 26 Sep 2023 19:05:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1695755120; x=1727291120;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=Ou2xEFxkmW6QPuc8IEdLvOVsg/J5MQWpUOt+EGVy3os=;
+ b=LIgZqYPUJTXrjPtGRtyRt/U293yn1/wx1jYaMLSH+TuDPBs9o6GpYDaw
+ qbSjY0vBm+5MxRLsamZh1wPHbSG3L5FJhktZQVl15xSd8Ch6nc6A8PPBm
+ oAHCVpuBJXUsRha5zJIoz/OHZJm9+JPq9OF3/tOgPk948Fc/SScpuPgEq
+ YUynI43ArMtEJc9wXUPOif9d/xGiI+Hcsqk/ekk4o5z6aIC/AA2EZzTKi
+ uTg9Ki3P40neyKAJSA2eN19bztQSidc9nlHnGfj4vt7tWe0wIrufwzqcm
+ KNbvq0yT81zYI54V050WAn1ipMROaqCI0k6J6/+OGHO2NwRiZwG8siSyt w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10845"; a="448141888"
+X-IronPort-AV: E=Sophos;i="6.03,178,1694761200"; d="scan'208";a="448141888"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Sep 2023 12:05:19 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10845"; a="819142178"
+X-IronPort-AV: E=Sophos;i="6.03,178,1694761200"; d="scan'208";a="819142178"
+Received: from aalteres-desk.fm.intel.com ([10.80.57.53])
+ by fmsmga004.fm.intel.com with ESMTP; 26 Sep 2023 12:05:19 -0700
+From: Alan Previn <alan.previn.teres.alexis@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v4 0/3] Resolve suspend-resume racing with GuC
+ destroy-context-worker
+Date: Tue, 26 Sep 2023 12:05:15 -0700
+Message-Id: <20230926190518.105393-1-alan.previn.teres.alexis@intel.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/1] drm/msm/adreno: Add support for SM7150 SoC machine
-Content-Language: en-US
-To: Danila Tikhonov <danila@jiaxyga.com>, robdclark@gmail.com,
- quic_abhinavk@quicinc.com, dmitry.baryshkov@linaro.org, sean@poorly.run,
- marijn.suijten@somainline.org, airlied@gmail.com, daniel@ffwll.ch,
- johan+linaro@kernel.org, andersson@kernel.org
-References: <20230926174243.161422-1-danila@jiaxyga.com>
- <20230926174243.161422-2-danila@jiaxyga.com>
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
- 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
- izWDgYvmBE8=
-In-Reply-To: <20230926174243.161422-2-danila@jiaxyga.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -115,25 +55,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: , Alan Previn <alan.previn.teres.alexis@intel.com>,
+	dri-devel@lists.freedesktop.org,
+	Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>, intel.com@freedesktop.org,
+	John Harrison <john.c.harrison@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 26.09.2023 19:42, Danila Tikhonov wrote:
-> SM7150 has 5 power levels which correspond to 5 speed-bin values: 0,
-> 128, 146, 167, 172. Speed-bin value is calulated as FMAX/4.8MHz round up
-> to zero decimal places.
-> 
-> Also a618 on SM7150 uses a615 zapfw. Add a squashed version (.mbn).
-> 
-> Add this as machine = "qcom,sm7150", because speed-bin values are
-> different from atoll (sc7180/sm7125).
-> 
-> Signed-off-by: Danila Tikhonov <danila@jiaxyga.com>
-> ---
-What's the downstream dt name for 7150?
+This series is the result of debugging issues root caused to
+races between the GuC's destroyed_worker_func being triggered
+vs repeating suspend-resume cycles with concurrent delayed
+fence signals for engine-freeing.
 
-Do you have some more complete tree published somewhere?
+The reproduction steps require that an app is launched right
+before the start of the suspend cycle where it creates a
+new gem context and submits a tiny workload that would
+complete in the middle of the suspend cycle. However this
+app uses dma-buffer sharing or dma-fence with non-GPU
+objects or signals that eventually triggers a FENCE_FREE
+via__i915_sw_fence_notify that connects to engines_notify ->
+free_engines_rcu -> intel_context_put ->
+kref_put(&ce->ref..) that queues the worker after the GuCs
+CTB has been disabled (i.e. after i915-gem's suspend-late).
 
-Konrad
+This sequence is a corner-case and required repeating this
+app->suspend->resume cycle ~1500 times across 4 identical
+systems to see it once. That said, based on above callstack,
+it is clear that merely flushing the context destruction worker,
+which is obviously missing and needed, isn't sufficient.
+
+Because of that, this series adds additional patches besides
+the obvious (Patch #1) flushing of the worker during the
+suspend flows. It also includes (Patch #2) closing a race
+between sending the context-deregistration H2G vs the CTB
+getting disabled in the midst of it (by detecing the failure
+and unrolling the guc-lrc-unpin flow) and (Patch #32) not
+infinitely waiting in intel_gt_pm_wait_timeout_for_idle
+when in the suspend-flow.
+
+NOTE: We are still observing one more wakeref leak from gt
+but not necessarilty guc. We are still debugging this so
+this series will very likely get rev'd up again.
+
+Changes from prior revs:
+   v3: - In Patch #3, when deregister_context fails, instead
+         of calling intel_gt_pm_put(that might sleep), call
+         __intel_wakeref_put (without ASYNC flag) (Rodrigo/Anshuman).
+       - In wait_for_suspend add an rcu_barrier before we
+         proceed to wait for idle. (Anshuman)
+   v2: - Patch #2 Restructure code in guc_lrc_desc_unpin so
+         it's more readible to differentiate (1)direct guc-id
+         cleanup ..vs (2) sending the H2G ctx-destroy action ..
+         vs (3) the unrolling steps if the H2G fails.
+       - Patch #2 Add a check to close the race sooner by checking
+         for intel_guc_is_ready from destroyed_worker_func.
+       - Patch #2 When guc_submission_send_busy_loop gets a
+         failure from intel_guc_send_busy_loop, we need to undo
+         i.e. decrement the outstanding_submission_g2h.
+       - Patch #3 In wait_for_suspend, fix checking of return from
+         intel_gt_pm_wait_timeout_for_idle to now use -ETIMEDOUT
+         and add documentation for intel_wakeref_wait_for_idle.
+         (Rodrigo).
+
+Alan Previn (3):
+  drm/i915/guc: Flush context destruction worker at suspend
+  drm/i915/guc: Close deregister-context race against CT-loss
+  drm/i915/gt: Timeout when waiting for idle in suspending
+
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c     |  2 +-
+ drivers/gpu/drm/i915/gt/intel_gt_pm.c         | 13 ++-
+ drivers/gpu/drm/i915/gt/intel_gt_pm.h         |  7 +-
+ .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 86 ++++++++++++++++---
+ .../gpu/drm/i915/gt/uc/intel_guc_submission.h |  2 +
+ drivers/gpu/drm/i915/gt/uc/intel_uc.c         |  2 +
+ drivers/gpu/drm/i915/intel_wakeref.c          | 14 ++-
+ drivers/gpu/drm/i915/intel_wakeref.h          |  6 +-
+ 8 files changed, 112 insertions(+), 20 deletions(-)
+
+
+base-commit: a42554bf0755b80fdfb8e91ca35ae6835bb3534d
+-- 
+2.39.0
+
