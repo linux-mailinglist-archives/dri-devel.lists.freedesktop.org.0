@@ -2,120 +2,124 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 497E17AF4D2
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Sep 2023 22:08:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2F947AF53D
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Sep 2023 22:32:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8686110E42F;
-	Tue, 26 Sep 2023 20:08:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 55FCC10E42E;
+	Tue, 26 Sep 2023 20:32:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com
- [IPv6:2a00:1450:4864:20::634])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6778410E42E
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Sep 2023 20:08:40 +0000 (UTC)
-Received: by mail-ej1-x634.google.com with SMTP id
- a640c23a62f3a-9a58dbd5daeso1209425766b.2
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Sep 2023 13:08:40 -0700 (PDT)
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com
+ [IPv6:2a00:1450:4864:20::52b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C231E10E42E
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Sep 2023 20:32:49 +0000 (UTC)
+Received: by mail-ed1-x52b.google.com with SMTP id
+ 4fb4d7f45d1cf-5230a22cfd1so11371700a12.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Sep 2023 13:32:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1695758919; x=1696363719; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:autocrypt:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ d=linaro.org; s=google; t=1695760368; x=1696365168; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+ :to:content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=conOmV4UnpH+Q2D4qTpLIFkdyVF7jD1Has9tIlu1nh8=;
- b=CyNn0jjTzWGK9rOH56332I1TSLaa080Mrq+tlHRe2YicMtvOhv3SduOgAvqQiMhux4
- 3afll+bJx4RznSs8JKiGy7iOx0sR580nvLl9UrfOHNL48/efNT49oZs4bRf6QAT8/hJA
- ERkKPmy61oPVNzyMCOGpOH4q5YjLzSveVN+9YAAIfbW+s0iYv3Xv2qq3oF7R+bhbLgQV
- rVX2eGWouU+K/nTFO22xod7FWywHiGO5gXJRPx0a1BHHtHYj2pogOKpTJZw1xc7EVQyA
- rV4C1VuRP8VXeIc0Cax692oaROhSHAS5PzRW/OQVeHFSCOMfczEVTYqOGghwKgTuzbQ7
- Q/Bg==
+ bh=7e8pTP8dawYEYAgdlTPvMxdmnzzd4ZSMO7Pw/iww7Wc=;
+ b=YgtM/W1AkvDO9b4pyDqAPPLUNfrWRbbLjlMJNEhAu34jpiCowvShaxqfisCFdDlE9/
+ j/Tec7fRyDqC73AbqxjiL0ZfjsMd1OKxz75GS7lVgiuDQqGrXoiCvaaxS5e3sKOqUsjI
+ WLZyGgFrlx4oAZWUTe8TuwjuR84qXw4kTAK3NXCYpcUuiTDVjDwHbv/6n/jUmUYLIvz9
+ ISrPcJZAF4GS4bJDPd9N1dheYT2udd5e/6/7dX9+PLY6jvLsb9V076Du4odHm58aSwOc
+ BrBdDXiq9I/0aFmgLh4govQn20oN53gphbKvQZWwGoY9TPBvhfqhQlblWWDNTYiw/MWz
+ 4UAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1695758919; x=1696363719;
- h=content-transfer-encoding:in-reply-to:autocrypt:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ d=1e100.net; s=20230601; t=1695760368; x=1696365168;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+ :to:content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=conOmV4UnpH+Q2D4qTpLIFkdyVF7jD1Has9tIlu1nh8=;
- b=HR/odmLE8cMPW3ifMEs7n+GJE6asZkolJFf3kOMR/Krw+EoWHZ7Fg2k3UQ48Gv0f7t
- JbSSut7wYvHplnNjtsKeCLfJiciTlZ7hTrbGm4XgmkYJY4La/dDqYVJhmPAGAy3Rdyud
- M6tZFvEopUsoC8nw2UDdDdVZs3/beI1G7FPZrP1tn0U85S1Kx0VXa3m4wazDBZ4Krbrs
- pThGAp4JgnTY6oShKaUfkmIpWp7VjQCLUZ+qbOTKuZ2+4/h213/0sr5a5Hb2tT2umMZL
- Fi09G1Rexidh4LQQCq0hyCQIJrsYFx1svMzA5c66WUUxbyPnn3d1eXR4pvQsBae3dc2S
- cFyQ==
-X-Gm-Message-State: AOJu0Yz39anUWa8S7ZypCEJcAnWWMVKdQ+O7RwUjBXoqOpLr7mvD9fCN
- g6+IbC2BV69SFvtIygMHTEjR+w==
-X-Google-Smtp-Source: AGHT+IE3mX7XtIp2+XFL8eoufFAwfUsDD8mUXJ93RlWKtM2nL1m+4rhbELs1gfs8dFpzVoAXOTj/PQ==
-X-Received: by 2002:a17:906:8445:b0:9ae:5493:2e0e with SMTP id
- e5-20020a170906844500b009ae54932e0emr7949763ejy.24.1695758918655; 
- Tue, 26 Sep 2023 13:08:38 -0700 (PDT)
-Received: from [192.168.33.189]
- (178235177023.dynamic-4-waw-k-1-1-0.vectranet.pl. [178.235.177.23])
- by smtp.gmail.com with ESMTPSA id
- h9-20020a17090619c900b009ae54eba5casm8218821ejd.102.2023.09.26.13.08.35
+ bh=7e8pTP8dawYEYAgdlTPvMxdmnzzd4ZSMO7Pw/iww7Wc=;
+ b=VWdqMycC0fmr6aZSI2eBIInY3828J56ZF5zLE9Umvw1IVbmN9osBE7Sh7QdHCZZYsh
+ REVx1FFGQuqBlxMNbH6RD0J2Dg2xLlufhM/k9vUIMB2XPLoCnlKXJknnVgWWWUKNNvMD
+ h+esgnX47hvG3sNRkL6iYs8A9xvv5LRKu3CVBrsylHob5KbVUZv1m91DEy+kGhl9ycaM
+ fPn9A7HJzqZPeP0S9nTizqKUIp12Ex51BjkYhkA6Sg1FprSnOtqU2DcPMO89hqXYrKIK
+ qvHR/0PWM2h7vkNj7mve6LcBuW7rS5NFkjeqa+tyOFp7FsnXIdnDAsEGsVnWQH1noHgU
+ R/Mw==
+X-Gm-Message-State: AOJu0Ywwo9Iy0/HwfJ6bBerQWRDJ9zwKZQbqwxMRWFZ7qM9kLMYDMfnT
+ UGQJZg1UqUbP2QMy5luans0mRQ==
+X-Google-Smtp-Source: AGHT+IENSkHbeIdYnqFpbjj8u1Q1auAKdAPXMrVdNxRtw50ov/r/C4TlFMWx9b2UsFtP3yL9kSbD8Q==
+X-Received: by 2002:a17:907:75f4:b0:9ae:40d1:999b with SMTP id
+ jz20-20020a17090775f400b009ae40d1999bmr9385158ejc.16.1695760368021; 
+ Tue, 26 Sep 2023 13:32:48 -0700 (PDT)
+Received: from [192.168.1.141] (host-87-4-82-94.retail.telecomitalia.it.
+ [87.4.82.94]) by smtp.gmail.com with ESMTPSA id
+ dp4-20020a170906c14400b009b2823a6626sm3329888ejc.26.2023.09.26.13.32.45
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 26 Sep 2023 13:08:38 -0700 (PDT)
-Message-ID: <1faee5fe-3873-47ad-99d4-d264aedb0572@linaro.org>
-Date: Tue, 26 Sep 2023 22:08:35 +0200
+ Tue, 26 Sep 2023 13:32:47 -0700 (PDT)
+Message-ID: <0d2588fd-c100-4406-948a-9d67827fd90a@linaro.org>
+Date: Tue, 26 Sep 2023 22:32:44 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/6] drm/msm/dpu: Add hw revision 4.1 (SDM670)
+Subject: Re: [PATCH 07/15] mailbox: mediatek: Add loop pkt flag and irq
+ handling for loop command
 Content-Language: en-US
-To: Richard Acayan <mailingradian@gmail.com>, Rob Clark
- <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Andy Gross <agross@kernel.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Vinod Polimera <quic_vpolimer@quicinc.com>,
- Ryan McCann <quic_rmccann@quicinc.com>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Liu Shixin
- <liushixin2@huawei.com>, Krishna Manikandan <quic_mkrishn@quicinc.com>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
-References: <20230925232625.846666-9-mailingradian@gmail.com>
- <20230925232625.846666-14-mailingradian@gmail.com>
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
- 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
- izWDgYvmBE8=
-In-Reply-To: <20230925232625.846666-14-mailingradian@gmail.com>
+To: =?UTF-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>, 
+ "jassisinghbrar@gmail.com" <jassisinghbrar@gmail.com>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+ "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
+ "robh+dt@kernel.org" <robh+dt@kernel.org>,
+ "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
+ "angelogioacchino.delregno@collabora.com"
+ <angelogioacchino.delregno@collabora.com>
+References: <20230918192204.32263-1-jason-jh.lin@mediatek.com>
+ <20230918192204.32263-8-jason-jh.lin@mediatek.com>
+ <5d528036-e506-7b95-69bb-7748b26d2aa8@linaro.org>
+ <00f0bae9940be7b397c587c651e23c6c1e19a174.camel@mediatek.com>
+ <c08630a2-3e3d-4975-a863-a9e58c6d78f5@linaro.org>
+ <0ff1b980f649f20801d0254a189adcae6a449518.camel@mediatek.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <0ff1b980f649f20801d0254a189adcae6a449518.camel@mediatek.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -128,55 +132,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "conor+dt@kernel.org" <conor+dt@kernel.org>,
+ =?UTF-8?B?RWx2aXMgV2FuZyAo546L5YabKQ==?= <Elvis.Wang@mediatek.com>,
+ =?UTF-8?B?U2luZ28gQ2hhbmcgKOW8teiIiOWciyk=?= <Singo.Chang@mediatek.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Project_Global_Chrome_Upstream_Group
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+ =?UTF-8?B?SmFzb24tY2ggQ2hlbiAo6Zmz5bu66LGqKQ==?= <Jason-ch.Chen@mediatek.com>,
+ =?UTF-8?B?TmFuY3kgTGluICjmnpfmrKPonqIp?= <Nancy.Lin@mediatek.com>,
+ =?UTF-8?B?Sm9obnNvbiBXYW5nICjnjovogZbpkasp?= <Johnson.Wang@mediatek.com>,
+ =?UTF-8?B?U2hhd24gU3VuZyAo5a6L5a2d6KyZKQ==?= <Shawn.Sung@mediatek.com>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 26.09.2023 01:26, Richard Acayan wrote:
-> The Snapdragon 670 uses similar clocks (with one frequency added) to the
-> Snapdragon 845 but reports DPU revision 4.1. Add support for this DPU
-> with configuration from the Pixel 3a downstream kernel.
+On 26/09/2023 05:20, Jason-JH Lin (林睿祥) wrote:
+mdq_pkt_finialize_loop() at [PATCH 8/15].
+>>>
+>>> mtk-cmdq-helper.c and mtk-cmdq-mailbox.c are not in the
+>>> same maintainer's tree, so I separate this to another patch from
+>> [PATCH
+>>> 8/15].
+>>
+>> Why? Anyway it has to go through same tree. You have dependencies.
+>> Such
+>> artificial split makes it only difficult to review and understand.
+>> Re-organize your patchset to be correctly split per each logical
+>> feature/change. Split per subsystems is not the same.
+>>
 > 
-> Since revision 4.0 is SDM845, reuse some configuration from its catalog
-> entry.
+> Yes, these related files are in the different maintainer's tree.
+> Refer to https://www.kernel.org/doc/linux/MAINTAINERS
 > 
-> Link: https://android.googlesource.com/kernel/msm/+/368478b0ae76566927a2769a2bf24dfe7f38bb78/arch/arm64/boot/dts/qcom/sdm670-sde.dtsi
-> Signed-off-by: Richard Acayan <mailingradian@gmail.com>
-> ---
->  .../msm/disp/dpu1/catalog/dpu_4_1_sdm670.h    | 105 ++++++++++++++++++
->  .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    |   6 +
->  .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |   1 +
->  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |   1 +
->  4 files changed, 113 insertions(+)
->  create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_1_sdm670.h
+> MAILBOX API
+> M: Jassi Brar
+> F: drivers/mailbox/
+> - drivers/mailbox/mtk-cmdq-mailbox.c
+> - drivers/mailbox/mtk-cmdq-sec-
+> mailbox.c
 > 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_1_sdm670.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_1_sdm670.h
-> new file mode 100644
-> index 000000000000..eaccb16b5db9
-> --- /dev/null
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_1_sdm670.h
-> @@ -0,0 +1,105 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +/*
-> + * Copyright (c) 2015-2018, The Linux Foundation. All rights reserved.
-> + * Copyright (c) 2022. Qualcomm Innovation Center, Inc. All rights reserved.
-> + * Copyright (c) 2023, Richard Acayan. All rights reserved.
-> + */
-> +
-> +#ifndef _DPU_4_1_SDM670_H
-> +#define _DPU_4_1_SDM670_H
-> +
-> +static const struct dpu_mdp_cfg sdm670_mdp = {
-> +	.name = "top_0",
-> +	.base = 0x0, .len = 0x45c,
-> +	.features = BIT(DPU_MDP_AUDIO_SELECT),
-> +	.clk_ctrls = {
-> +		[DPU_CLK_CTRL_VIG0] = { .reg_off = 0x2ac, .bit_off = 0},
-space before the closing curly bracket, please
+> ARM/Mediatek SoC support
+> M: Matthias Brugger
+> F: drivers/soc/mediatek/
+> K: mediatek
+> - drivers/soc/mediatek/mtk-cmdq-helper.c
+> -
+> include/linux/soc/mediatek/mtk-cmdq.h
+> 
+> I think we should add a new MAINTAINER label for mediatek CMDQ mailbox
+> and put these files together, such as "MAILBOX ARM MHUv2" and "QUALCOM
+> IPCC MAILBOX DRIVER".
 
-[...]
+Why? It's not related to the topic of splitting patchset into patches.
+There is no problem of patchsets touching multiple subsystems. We
+already solved this problem many years ago...
 
-> +
-> +static struct dpu_dsc_cfg sdm670_dsc[] = {
-const
 
-Konrad
+> But I don't know how to make a request for that.
+
+Anyway, you would not be a maintainer taking patches, just a reviewer
+called "M:" here...
+
+> 
+> Anyway, I'll squash this logical feature to the same patch, no matter
+> these files are not in the same tree.
+> 
+Best regards,
+Krzysztof
+
