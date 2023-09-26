@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C56B57AEE5E
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Sep 2023 16:15:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABE407AEE5F
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Sep 2023 16:15:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B50B10E3EE;
-	Tue, 26 Sep 2023 14:15:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A900B10E3F1;
+	Tue, 26 Sep 2023 14:15:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B78CB10E3EA;
- Tue, 26 Sep 2023 14:15:28 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B069810E3F1;
+ Tue, 26 Sep 2023 14:15:40 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by disroot.org (Postfix) with ESMTP id 794B140C4D;
- Tue, 26 Sep 2023 16:15:27 +0200 (CEST)
+ by disroot.org (Postfix) with ESMTP id 6CFA840C4D;
+ Tue, 26 Sep 2023 16:15:39 +0200 (CEST)
 X-Virus-Scanned: SPAM Filter at disroot.org
 Received: from layka.disroot.org ([127.0.0.1])
  by localhost (disroot.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id FvOUPklXKT65; Tue, 26 Sep 2023 16:15:26 +0200 (CEST)
+ with ESMTP id w6PpjWobn9ZH; Tue, 26 Sep 2023 16:15:38 +0200 (CEST)
 From: Carlos Eduardo Gallo Filho <gcarlos@disroot.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
- t=1695737726; bh=tbIuZbuKopIN9rP05CY58VoWpUlSsMuL5vfdFRjoxpM=;
+ t=1695737738; bh=dusPrDwUXbJaMG3/wgpiC1JFTXHohVGHD/9fkT+CGA0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References;
- b=a4ZM6fteovxSDa1BISnRkCPmIdf/3QyYiEHE1ZddzF9UAME/pSs+cTiv/6DKldDS7
- lZyHsBiZCW7AQrcnvhv+a3qzGJz+JwXL5Uijzs7VyZ10HkhiNKCxEpNhEOIU9tYaI5
- ouJVuiD1xwE26qUikw4Rv1f1EO76WLKpFqidnIzR4EFiPfjlFffzh2CiDuiLDi57kK
- i/5/by4HhILlGG7tXzGByTp1eSiKgZx7xB5bJiBPB584B7F+eCxbX8y1xjDAuqSXiA
- smFic3oehmOv1MqRfixDSKsCptrabssJiCkUJntMCvH/mGjNn1ecECCsqOmUeUHAdD
- OT8L4xPs2xB7w==
+ b=i2iAGVKL5PJyq5ThuvqvIIvF3NKF62U0cqKrDrGfP0qlnXnQnrKNWSUW90mgOFEfx
+ e/36EWg2110B4tgnwZm8INPIS+v2U4cMzkL5t/LvPPdObsXgPhm4FAmma+Mg66Xzht
+ NSndxzDyIwHpQknLAJIWRy5IfNIPts8k6Tuy1svD4S5vDGxC/1Yl7IxM887s3VCOh5
+ Nhrf6tocLJ9vSilhVaLXqMaPdZGEuRGz5HeNvNmgbaNrvFvyo22X4LBs7sK5IXf9vy
+ NxoDPV1P8iugInD4u641YhUTiqJjmBY9qW1h8crGM0cNyhBdqSeepeEpOKmBXJYezT
+ VWGkjb7sl42QQ==
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 1/2] drm: Remove plane hsub/vsub alignment requirement for
- core helpers
-Date: Tue, 26 Sep 2023 11:15:18 -0300
-Message-ID: <20230926141519.9315-2-gcarlos@disroot.org>
+Subject: [PATCH v2 2/2] drm: Replace drm_framebuffer plane size functions with
+ its equivalents
+Date: Tue, 26 Sep 2023 11:15:19 -0300
+Message-ID: <20230926141519.9315-3-gcarlos@disroot.org>
 In-Reply-To: <20230926141519.9315-1-gcarlos@disroot.org>
 References: <20230926141519.9315-1-gcarlos@disroot.org>
 MIME-Version: 1.0
@@ -64,53 +64,162 @@ Cc: Matt Roper <matthew.d.roper@intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The drm_format_info_plane_{height,width} functions was implemented using
-regular division for the plane size calculation, which cause issues [1][2]
-when used on contexts where the dimensions are misaligned with relation
-to the subsampling factors. So, replace the regular division by the
-DIV_ROUND_UP macro.
+The functions drm_framebuffer_plane_{width,height} and
+fb_plane_{width,height} do exactly the same job of its
+equivalents drm_format_info_plane_{width,height} from drm_fourcc.
 
-This allows these functions to be used in more drivers, making further
-work to bring more core presence on them possible.
+The only reason to have these functions on drm_framebuffer
+would be if they would added a abstraction layer to call it just
+passing a drm_framebuffer pointer and the desired plane index,
+which is not the case, where these functions actually implements
+just part of it. In the actual implementation, every call to both
+drm_framebuffer_plane_{width,height} and fb_plane_{width,height} should
+pass some drm_framebuffer attribute, which is the same as calling the
+drm_format_info_plane_{width,height} functions.
 
-[1] http://patchwork.freedesktop.org/patch/msgid/20170321181218.10042-3-ville.syrjala@linux.intel.com
-[2] https://patchwork.freedesktop.org/patch/msgid/20211026225105.2783797-2-imre.deak@intel.com
+The drm_format_info_pane_{width,height} functions are much more
+consistent in both its implementation and its location on code. The
+kind of calculation that they do is intrinsically derivated from the
+drm_format_info struct and has not to do with drm_framebuffer, except
+by the potential motivation described above, which is still not a good
+justification to have drm_framebuffer functions to calculate it.
+
+So, replace each drm_framebuffer_plane_{width,height} and
+fb_plane_{width,height} call to drm_format_info_plane_{width,height}
+and remove them.
 
 Signed-off-by: Carlos Eduardo Gallo Filho <gcarlos@disroot.org>
 ---
- include/drm/drm_fourcc.h | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/drm_framebuffer.c       | 64 ++-----------------------
+ drivers/gpu/drm/i915/display/intel_fb.c |  2 +-
+ include/drm/drm_framebuffer.h           |  5 --
+ 3 files changed, 5 insertions(+), 66 deletions(-)
 
-diff --git a/include/drm/drm_fourcc.h b/include/drm/drm_fourcc.h
-index 532ae78ca747..ccf91daa4307 100644
---- a/include/drm/drm_fourcc.h
-+++ b/include/drm/drm_fourcc.h
-@@ -22,6 +22,7 @@
- #ifndef __DRM_FOURCC_H__
- #define __DRM_FOURCC_H__
- 
-+#include <linux/math.h>
- #include <linux/types.h>
- #include <uapi/drm/drm_fourcc.h>
- 
-@@ -279,7 +280,7 @@ int drm_format_info_plane_width(const struct drm_format_info *info, int width,
- 	if (plane == 0)
- 		return width;
- 
--	return width / info->hsub;
-+	return DIV_ROUND_UP(width, info->hsub);
+diff --git a/drivers/gpu/drm/drm_framebuffer.c b/drivers/gpu/drm/drm_framebuffer.c
+index ba51deb6d042..d3ba0698b84b 100644
+--- a/drivers/gpu/drm/drm_framebuffer.c
++++ b/drivers/gpu/drm/drm_framebuffer.c
+@@ -151,24 +151,6 @@ int drm_mode_addfb_ioctl(struct drm_device *dev,
+ 	return drm_mode_addfb(dev, data, file_priv);
  }
  
+-static int fb_plane_width(int width,
+-			  const struct drm_format_info *format, int plane)
+-{
+-	if (plane == 0)
+-		return width;
+-
+-	return DIV_ROUND_UP(width, format->hsub);
+-}
+-
+-static int fb_plane_height(int height,
+-			   const struct drm_format_info *format, int plane)
+-{
+-	if (plane == 0)
+-		return height;
+-
+-	return DIV_ROUND_UP(height, format->vsub);
+-}
+-
+ static int framebuffer_check(struct drm_device *dev,
+ 			     const struct drm_mode_fb_cmd2 *r)
+ {
+@@ -196,8 +178,8 @@ static int framebuffer_check(struct drm_device *dev,
+ 	info = drm_get_format_info(dev, r);
+ 
+ 	for (i = 0; i < info->num_planes; i++) {
+-		unsigned int width = fb_plane_width(r->width, info, i);
+-		unsigned int height = fb_plane_height(r->height, info, i);
++		unsigned int width = drm_format_info_plane_width(info, r->width, i);
++		unsigned int height = drm_format_info_plane_height(info, r->height, i);
+ 		unsigned int block_size = info->char_per_block[i];
+ 		u64 min_pitch = drm_format_info_min_pitch(info, i, width);
+ 
+@@ -1136,44 +1118,6 @@ void drm_framebuffer_remove(struct drm_framebuffer *fb)
+ }
+ EXPORT_SYMBOL(drm_framebuffer_remove);
+ 
+-/**
+- * drm_framebuffer_plane_width - width of the plane given the first plane
+- * @width: width of the first plane
+- * @fb: the framebuffer
+- * @plane: plane index
+- *
+- * Returns:
+- * The width of @plane, given that the width of the first plane is @width.
+- */
+-int drm_framebuffer_plane_width(int width,
+-				const struct drm_framebuffer *fb, int plane)
+-{
+-	if (plane >= fb->format->num_planes)
+-		return 0;
+-
+-	return fb_plane_width(width, fb->format, plane);
+-}
+-EXPORT_SYMBOL(drm_framebuffer_plane_width);
+-
+-/**
+- * drm_framebuffer_plane_height - height of the plane given the first plane
+- * @height: height of the first plane
+- * @fb: the framebuffer
+- * @plane: plane index
+- *
+- * Returns:
+- * The height of @plane, given that the height of the first plane is @height.
+- */
+-int drm_framebuffer_plane_height(int height,
+-				 const struct drm_framebuffer *fb, int plane)
+-{
+-	if (plane >= fb->format->num_planes)
+-		return 0;
+-
+-	return fb_plane_height(height, fb->format, plane);
+-}
+-EXPORT_SYMBOL(drm_framebuffer_plane_height);
+-
+ void drm_framebuffer_print_info(struct drm_printer *p, unsigned int indent,
+ 				const struct drm_framebuffer *fb)
+ {
+@@ -1189,8 +1133,8 @@ void drm_framebuffer_print_info(struct drm_printer *p, unsigned int indent,
+ 
+ 	for (i = 0; i < fb->format->num_planes; i++) {
+ 		drm_printf_indent(p, indent + 1, "size[%u]=%dx%d\n", i,
+-				  drm_framebuffer_plane_width(fb->width, fb, i),
+-				  drm_framebuffer_plane_height(fb->height, fb, i));
++				  drm_format_info_plane_width(fb->format, fb->width, i),
++				  drm_format_info_plane_height(fb->format, fb->height, i));
+ 		drm_printf_indent(p, indent + 1, "pitch[%u]=%u\n", i, fb->pitches[i]);
+ 		drm_printf_indent(p, indent + 1, "offset[%u]=%u\n", i, fb->offsets[i]);
+ 		drm_printf_indent(p, indent + 1, "obj[%u]:%s\n", i,
+diff --git a/drivers/gpu/drm/i915/display/intel_fb.c b/drivers/gpu/drm/i915/display/intel_fb.c
+index 446bbf7986b6..5de2453ff7a3 100644
+--- a/drivers/gpu/drm/i915/display/intel_fb.c
++++ b/drivers/gpu/drm/i915/display/intel_fb.c
+@@ -1113,7 +1113,7 @@ static int intel_fb_offset_to_xy(int *x, int *y,
+ 		return -EINVAL;
+ 	}
+ 
+-	height = drm_framebuffer_plane_height(fb->height, fb, color_plane);
++	height = drm_format_info_plane_height(fb->format, fb->height, color_plane);
+ 	height = ALIGN(height, intel_tile_height(fb, color_plane));
+ 
+ 	/* Catch potential overflows early */
+diff --git a/include/drm/drm_framebuffer.h b/include/drm/drm_framebuffer.h
+index 0dcc07b68654..80ece7b6dd9b 100644
+--- a/include/drm/drm_framebuffer.h
++++ b/include/drm/drm_framebuffer.h
+@@ -292,11 +292,6 @@ static inline void drm_framebuffer_assign(struct drm_framebuffer **p,
+ 	     &fb->head != (&(dev)->mode_config.fb_list);			\
+ 	     fb = list_next_entry(fb, head))
+ 
+-int drm_framebuffer_plane_width(int width,
+-				const struct drm_framebuffer *fb, int plane);
+-int drm_framebuffer_plane_height(int height,
+-				 const struct drm_framebuffer *fb, int plane);
+-
  /**
-@@ -301,7 +302,7 @@ int drm_format_info_plane_height(const struct drm_format_info *info, int height,
- 	if (plane == 0)
- 		return height;
- 
--	return height / info->vsub;
-+	return DIV_ROUND_UP(height, info->vsub);
- }
- 
- const struct drm_format_info *__drm_format_info(u32 format);
+  * struct drm_afbc_framebuffer - a special afbc frame buffer object
+  *
 -- 
 2.41.0
 
