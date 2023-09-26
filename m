@@ -2,86 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35D887AEE86
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Sep 2023 16:47:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E33757AEE8B
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Sep 2023 16:52:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7679A10E3EF;
-	Tue, 26 Sep 2023 14:46:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D0F2610E111;
+	Tue, 26 Sep 2023 14:52:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 225F610E137;
- Tue, 26 Sep 2023 14:46:55 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id A23AF21857;
- Tue, 26 Sep 2023 14:46:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1695739613; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=NPFpRw40YGFhSZ0dkJaS5uu5x5ldrJSDLdzG+izQHrc=;
- b=WVmOtb+29itRxhXNqD/8cA/b4Uhh1aEX0qLCJJ7mJ8XAerCMn8fl7K5XrjOp8569eyovFO
- 0UJk0UcuLW9ME0OOYTAbX4LluAb5i5ayDVv820yW5btAfDEwdY6UklQNK/327tqi0PZ0Y+
- Hn4dNOhOYsYLQcWvW4/y6lbxWARzkDY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1695739613;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=NPFpRw40YGFhSZ0dkJaS5uu5x5ldrJSDLdzG+izQHrc=;
- b=rbpsKkCyKRi6ITQqjCv8OwMEsZZZwaGAzDq8J755JBXImKh/LD+7DlGBtTpXHkr8+8rSRX
- AaGd27yENlE1gQBw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E936C13434;
- Tue, 26 Sep 2023 14:46:52 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id vZnlNdzuEmWFZgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 26 Sep 2023 14:46:52 +0000
-Message-ID: <ab0a74be-3723-4803-89fa-826298a38679@suse.de>
-Date: Tue, 26 Sep 2023 16:46:51 +0200
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com
+ [209.85.128.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8099910E111
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Sep 2023 14:52:01 +0000 (UTC)
+Received: by mail-yw1-f179.google.com with SMTP id
+ 00721157ae682-59bebd5bdadso110229967b3.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Sep 2023 07:52:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1695739920; x=1696344720;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=GeJt2kDkJDREmJCiOFGlfnsT2tn2qZEwAJk2/hTfX/A=;
+ b=fS3pKpqFcL1s5mUbWT3aySBVPvzLRHr7z/9BTYQ+9JEFDFzRhH/tl1v7uctRnirWoj
+ GjfhwEpMP9KYrzzhjUHNZawrcbzTWQo58TO/msnr3PXG29d55Wl07b6+XY1rfqc1iWMP
+ M4IIK5PkydaztNXpCFOU5VQVLRmwge6IbO3AWLbHZwSBc64sPl0pb2+gY8eyKcKVy6au
+ YhCxouqwOn512AL3VoHj2I3yOVE3cv3CEvWpd6rObTuO58ExPl+rfYFtafBFdd8zQi7J
+ yxtH+g09BSKEICy1R/tWY0/mQ85OjHQblzXqrw1yLHoDVX9r0b/ie0kkxFSKr/UyLeQ5
+ /Q1w==
+X-Gm-Message-State: AOJu0YznggjvgqIzUlaCbQfSqJwkCx7CNgAKHGO8nYaRzFmp/h4No53e
+ EXlhZAIp17uprJO3jvs1t4KofjjPN3DdwQ==
+X-Google-Smtp-Source: AGHT+IGT/pwo/DRF6whXojMhu4SPHzQmQyLtAI/+v3+6DXuKEv+gC+ckKsS0ex72+Tgn7b17feDhEA==
+X-Received: by 2002:a0d:d481:0:b0:59b:d899:f171 with SMTP id
+ w123-20020a0dd481000000b0059bd899f171mr9820950ywd.1.1695739920098; 
+ Tue, 26 Sep 2023 07:52:00 -0700 (PDT)
+Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com.
+ [209.85.219.176]) by smtp.gmail.com with ESMTPSA id
+ a184-20020a0df1c1000000b00577269ba9e9sm3014275ywf.86.2023.09.26.07.51.58
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 26 Sep 2023 07:51:58 -0700 (PDT)
+Received: by mail-yb1-f176.google.com with SMTP id
+ 3f1490d57ef6-d867d4cf835so6421041276.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Sep 2023 07:51:58 -0700 (PDT)
+X-Received: by 2002:a25:f211:0:b0:d86:b9d5:124d with SMTP id
+ i17-20020a25f211000000b00d86b9d5124dmr5899090ybe.16.1695739918497; Tue, 26
+ Sep 2023 07:51:58 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RESEND PATCH v2 0/2] drm: Refactor plane size calculation by
- core helper functions
-Content-Language: en-US
-To: Carlos Eduardo Gallo Filho <gcarlos@disroot.org>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20230926141519.9315-1-gcarlos@disroot.org>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20230926141519.9315-1-gcarlos@disroot.org>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------ks5BiOLYs0vh0jmHiB1L5bxB"
+References: <cover.1694767208.git.geert+renesas@glider.be>
+ <CAMuHMdWfBTKdXvZutg4LvWqBjuz-X=ZjzX0LKPqD=JxYuLoPRw@mail.gmail.com>
+ <20230919152428.GB18426@pendragon.ideasonboard.com>
+In-Reply-To: <20230919152428.GB18426@pendragon.ideasonboard.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 26 Sep 2023 16:51:46 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUwBXQ2X6hOm+kcZOteDLMau8x5xUcRJr2zy9dXyVf9Xw@mail.gmail.com>
+Message-ID: <CAMuHMdUwBXQ2X6hOm+kcZOteDLMau8x5xUcRJr2zy9dXyVf9Xw@mail.gmail.com>
+Subject: Re: [GIT PULL] drm: renesas: shmobile: Atomic conversion + DT support
+ (was: Re: [PATCH v4 00/41] drm: renesas: shmobile: Atomic conversion
+ + DT support)
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,97 +74,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matt Roper <matthew.d.roper@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>,
- Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>,
- Tales Aparecida <tales.aparecida@gmail.com>,
- Maxime Ripard <mripard@kernel.org>, Maira Canal <mairacanal@riseup.net>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
- Arthur Grillo <arthurgrillo@riseup.net>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>, Conor Dooley <conor+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Linux-sh list <linux-sh@vger.kernel.org>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------ks5BiOLYs0vh0jmHiB1L5bxB
-Content-Type: multipart/mixed; boundary="------------sbIFnpCcqBy9s2RCAy0DDNHu";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Carlos Eduardo Gallo Filho <gcarlos@disroot.org>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Cc: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>,
- Maira Canal <mairacanal@riseup.net>, Arthur Grillo
- <arthurgrillo@riseup.net>, Tales Aparecida <tales.aparecida@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>,
- =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
- Matt Roper <matthew.d.roper@intel.com>,
- Clint Taylor <clinton.a.taylor@intel.com>,
- Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
-Message-ID: <ab0a74be-3723-4803-89fa-826298a38679@suse.de>
-Subject: Re: [RESEND PATCH v2 0/2] drm: Refactor plane size calculation by
- core helper functions
-References: <20230926141519.9315-1-gcarlos@disroot.org>
-In-Reply-To: <20230926141519.9315-1-gcarlos@disroot.org>
+Hi Laurent, David, Daniel,
 
---------------sbIFnpCcqBy9s2RCAy0DDNHu
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+On Tue, Sep 19, 2023 at 5:24=E2=80=AFPM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+> On Tue, Sep 19, 2023 at 04:28:40PM +0200, Geert Uytterhoeven wrote:
+> > The following changes since commit 0663e1da5ba8e6459e3555ac12c62741668c=
+0d30:
+> >
+> >   drm/dp_mst: Tune down error message during payload addition
+> > (2023-09-18 16:38:21 +0300)
+> >
+> > are available in the Git repository at:
+> >
+> >   git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.g=
+it
+> > tags/shmob-drm-atomic-dt-tag1
+> >
+> > for you to fetch changes up to bfea0fa9052aa8d235b24957eb84d9ff20cb87b7=
+:
+> >
+> >   drm: renesas: shmobile: Add DT support (2023-09-19 15:58:04 +0200)
+> >
+> > ----------------------------------------------------------------
+> > drm: renesas: shmobile: Atomic conversion + DT support
+> >
+> > Currently, there are two drivers for the LCD controller on Renesas
+> > SuperH-based and ARM-based SH-Mobile and R-Mobile SoCs:
+> >   1. sh_mobile_lcdcfb, using the fbdev framework,
+> >   2. shmob_drm, using the DRM framework.
+> > However, only the former driver is used, as all platform support
+> > integrates the former.  None of these drivers support DT-based systems.
+> >
+> > Convert the SH-Mobile DRM driver to atomic modesetting, and add DT
+> > support, complemented by the customary set of fixes and improvements.
+> >
+> > Link: https://lore.kernel.org/r/cover.1694767208.git.geert+renesas@glid=
+er.be/
+> >
+> > This PR is based on today's drm-misc/for-linux-next, to avoid a
+> > conflict with commit 775b0669e19f2e4a ("drm/shmobile: Convert to
+> > platform remove callback returning void") in drm-misc/for-linux-next
 
-SGkNCg0KQW0gMjYuMDkuMjMgdW0gMTY6MTUgc2NocmllYiBDYXJsb3MgRWR1YXJkbyBHYWxs
-byBGaWxobzoNCj4gVGhlcmUncyBkdXBsaWNhdGVkIGZ1bmN0aW9ucyBvbiBkcm0gdGhhdCBk
-byB0aGUgc2FtZSBqb2Igb2YgY2FsY3VsYXRpbmcNCj4gdGhlIHNpemUgb2YgcGxhbmVzIGZy
-b20gYSBkcm1fZm9ybWF0X2luZm8gYW5kIHRoZSBzaXplIG9mIGl0cyBmaXJzdA0KPiBwbGFu
-ZS4gU28gdGhpcyBwYXRjaHNldCB0aHJvdyBhd2F5IHRoZSBtb3JlIHNwZWNpZmljIHZlcnNp
-b24gaW50ZW5kZWQNCj4gdG8gYmUgdXNlZCBmcm9tIGEgZ2l2ZW4gZnJhbWVidWZmZXIgYW5k
-IG1ha2UgdGhlIGdlbmVyaWMgdmVyc2lvbiB3YXkNCj4gbW9yZSBwb3J0YWJsZSBhZ2FpbnN0
-IHRoZSBkcml2ZXJzLg0KDQpGb3IgYm90aCBwYXRjaGVzDQoNClJldmlld2VkLWJ5OiBUaG9t
-YXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4NCg0KQmVzdCByZWdhcmRzDQpU
-aG9tYXMNCg0KPiANCj4gVGhhbmtzLA0KPiBDYXJsb3MNCj4gDQo+IC0tLQ0KPiB2MjoNCj4g
-ICAgLSBOZXcgcGF0Y2ggIltQQVRDSCB2MiAxLzJdIGRybTogUmVtb3ZlIHBsYW5lIGhzdWIv
-dnN1YiBhbGlnbm1lbnQgcmVxdWlyZW1lbnQNCj4gICAgICBmb3IgY29yZSBoZWxwZXJzIi4N
-Cj4gDQo+IENhcmxvcyBFZHVhcmRvIEdhbGxvIEZpbGhvICgyKToNCj4gICAgZHJtOiBSZW1v
-dmUgcGxhbmUgaHN1Yi92c3ViIGFsaWdubWVudCByZXF1aXJlbWVudCBmb3IgY29yZSBoZWxw
-ZXJzDQo+ICAgIGRybTogUmVwbGFjZSBkcm1fZnJhbWVidWZmZXIgcGxhbmUgc2l6ZSBmdW5j
-dGlvbnMgd2l0aCBpdHMgZXF1aXZhbGVudHMNCj4gDQo+ICAgZHJpdmVycy9ncHUvZHJtL2Ry
-bV9mcmFtZWJ1ZmZlci5jICAgICAgIHwgNjQgKystLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0K
-PiAgIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZmIuYyB8ICAyICstDQo+
-ICAgaW5jbHVkZS9kcm0vZHJtX2ZvdXJjYy5oICAgICAgICAgICAgICAgIHwgIDUgKy0NCj4g
-ICBpbmNsdWRlL2RybS9kcm1fZnJhbWVidWZmZXIuaCAgICAgICAgICAgfCAgNSAtLQ0KPiAg
-IDQgZmlsZXMgY2hhbmdlZCwgOCBpbnNlcnRpb25zKCspLCA2OCBkZWxldGlvbnMoLSkNCj4g
-DQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXIN
-ClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KRnJhbmtlbnN0cmFzc2Ug
-MTQ2LCA5MDQ2MSBOdWVybmJlcmcsIEdlcm1hbnkNCkdGOiBJdm8gVG90ZXYsIEFuZHJldyBN
-eWVycywgQW5kcmV3IE1jRG9uYWxkLCBCb3VkaWVuIE1vZXJtYW4NCkhSQiAzNjgwOSAoQUcg
-TnVlcm5iZXJnKQ0K
+Now drm-misc/for-linux-next (which is still at v6.5-rc2) has been
+merged into drm/drm-next (which is at v6.6-rc2), do you want me to
+rebase my branch to current drm/drm-next, or any other commit?
 
---------------sbIFnpCcqBy9s2RCAy0DDNHu--
+Thanks!
 
---------------ks5BiOLYs0vh0jmHiB1L5bxB
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+> > Thanks for pulling!
+> > ----------------------------------------------------------------
+> > Geert Uytterhoeven (36):
+> >       MAINTAINER: Create entry for Renesas SH-Mobile DRM drivers
+>
+> I'm technically listed as the maintainer for this driver until Geert
+> takes over, so for this pull request,
+>
+> Acked-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>
+> And after that, shmobile won't need my ack to merge further changes :-)
+>
+> This is very nice work Geert. I'm looking forward to dropping the
+> sh_mobile_lcdcfb driver.
 
------BEGIN PGP SIGNATURE-----
+Thank you!
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmUS7twFAwAAAAAACgkQlh/E3EQov+Bz
-MxAAkqBvT6Uwh3P/b4qfGDlo/dlOGShngjBLRAOcIxTqNGppptskijN4X7FyYW/XWSZCpv44zo/2
-uZefYRxNw62NSoxlgNlrsCZL2xUK0wcXqx9OiuuEaWfx5aSX+S2QR8NqePKJkcwmeanQG3G4neLb
-X5raLeSbuuM4UQEp5fJelGcxzPIEeruJe3do9EpQufujPfPAiSBNL7IH6izQzwHTMBKD963LFv5O
-EIjf9En9eubRGRSwDFLNTNxlambwBL+dkYU/kb1tGxtwrxmSd1uM7S3fExBQQJpcOoLB35M/im7h
-21hL29UVRdi0rcMB4TuG7Iw30ws2oe32joVl+pGfcKInzrHC5GCE7mf8X7rmgkD3e9ZQx4RcDDPk
-c03Mm61jGr9Y2lwtrceodo3GM8WDuPB4jUJqjq9i441RWfQ03qgzRBot5k01p1GtQY/czM5/4uzu
-2LZlDWrIkBsT5CyXLWn+TsKSIaGBy6MIFrx7FoamgHm9FEfEI2pQBXiHPbb5NQsMIlU1+FjbohAj
-jLLJ4PWhZ1QjKACRSjESl/Tfdev2eIIUZZUmS6R9GYW9pFZKXcNf5HchhcDIy/dsKkT7F+1pXb9l
-Y4WPhL09R/y12jHqst+fCkTcBgmm43ins5i38PU9bMa8+XKJli/xhdzV3lSp+qUUveXwkb2GQvGI
-0pU=
-=+q7s
------END PGP SIGNATURE-----
+Gr{oetje,eeting}s,
 
---------------ks5BiOLYs0vh0jmHiB1L5bxB--
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
