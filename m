@@ -1,166 +1,138 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 108F27AE3BA
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Sep 2023 04:45:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D9D57AE3D9
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Sep 2023 04:59:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6AA1410E00B;
-	Tue, 26 Sep 2023 02:45:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4BAB810E344;
+	Tue, 26 Sep 2023 02:59:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3CB2010E00B
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Sep 2023 02:45:34 +0000 (UTC)
-X-UUID: c18964165c1611eea33bb35ae8d461a2-20230926
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:MIME-Version:Content-Transfer-Encoding:Content-ID:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From;
- bh=eptHX5MsT0K7h6P99Ei921zoG4m42J81gzWAgEKPpec=; 
- b=tocy0EL/XYOKz1l2+Jmh8owjyo6srnhAnnasVhsUQseR3A4z0hsjUyhvUa+R9qQKxexYu6sF/Ev5OlIVcnq7sDXBVYAkqUVzbaPRwJDch4IxLY8uOHbJ6erbqOE51W7kRTbWEG5RHN4vfAAcOPdFYVOsZqaxzYEfHB8N8gltkzs=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.32, REQID:210fcbd5-8d76-452e-b18e-334f4de78b1c, IP:0,
- U
- RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
- release,TS:0
-X-CID-META: VersionHash:5f78ec9, CLOUDID:e0fa44bf-14cc-44ca-b657-2d2783296e72,
- B
- ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,
- DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: c18964165c1611eea33bb35ae8d461a2-20230926
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
- mailgw01.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 201341178; Tue, 26 Sep 2023 10:45:30 +0800
-Received: from mtkmbs10n1.mediatek.inc (172.21.101.34) by
- mtkmbs13n2.mediatek.inc (172.21.101.108) with Microsoft SMTP Server
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8748F10E344;
+ Tue, 26 Sep 2023 02:59:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1695697162; x=1727233162;
+ h=date:from:to:cc:subject:message-id:
+ content-transfer-encoding:in-reply-to:mime-version;
+ bh=PqpmoCdcEoilx4imrZ5lh4kLGATk+3fxlPYPP3mKYPo=;
+ b=hXzWoIuQoefbmZLgJtkX0mBiYyh2V1tAggkXTGJACRNJ6BYvysmzIxMl
+ /rNYKUa9g9Mwu7YwXiHlXBmH3NNeNcWN/uQNxX53LGcRkPFVgEv79kW+S
+ i26tTVo0gXpBcmhaump0pPujFsYxcvcbR/QCODR8wwMwIQN2i5avKPGxV
+ /lb9K5g+3P5Hv9q90uMnuIn7hDmeS/vfr4PreC0mH0cyMQtCcudf9VZLo
+ Ccov3jo2ogOc74B2paPbhsIbld1SVM+wpnwSfT0zidPeV9hRLCxulQaFo
+ IVIZ06mcyQTJmfrpkWSZIlerOcNwv8J4YtBF4m96pPLMyT+3jhXqwuXNk g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="385317644"
+X-IronPort-AV: E=Sophos;i="6.03,176,1694761200"; d="scan'208";a="385317644"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Sep 2023 19:59:00 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="995645616"
+X-IronPort-AV: E=Sophos;i="6.03,176,1694761200"; d="scan'208";a="995645616"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+ by fmsmga006.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 25 Sep 2023 19:59:00 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Mon, 25 Sep 2023 19:58:59 -0700
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32 via Frontend Transport; Mon, 25 Sep 2023 19:58:59 -0700
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.171)
+ by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Tue, 26 Sep 2023 10:45:28 +0800
-Received: from APC01-PSA-obe.outbound.protection.outlook.com (172.21.101.237)
- by mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP
- Server id
- 15.2.1118.26 via Frontend Transport; Tue, 26 Sep 2023 10:45:28 +0800
+ 15.1.2507.32; Mon, 25 Sep 2023 19:58:59 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VaFQouwRldZWqcsVfu9V5MBjvD0vsT5b59pNsni9YciQS9te7ZZ587zfCjv+BdTv+s9ldCAFoXtX9hDlcbIjz47myXY76e9su74aX5hH6VBoAml28xIt3Wlq3btm1JYU4tE5Lbap5yzz31dNBVq7aEyAziC3jBq9uv6IncgwqTYs5ic9LToA7qbW4oUX6kyU81ORONqh64d38fFFRgiGrXDdO/n5jiGv5Aql5iKeI0VaOb71DXG06IRvUaaeaAvisQzuMt0/+qunfOywap08uWAZ62ZlKbeCpVXIasxLLj6en8vnBoVFwgMibEYiNwPcEspU79uc7bY6nbqeViXK6A==
+ b=fUxe4VjASQOixsivppnJjl66gNIWuhMbzDQ9lQVyOZemvJIuYyYFYU3zvfolR1U2kqWFxL8HcGtCOx9l6A9a58IhxSIV8AIRkqjgs255ArxWBNcPnRdxbN2xusyNdUFO1OML46FL2iyQnMrpuItJ4fNmH/pMMvKDnH2XiZpc7Ja5tRrpgJmjFrhO1UAIQa2FxUrn9YxojIHalWaVED6j12OnYe6vqzeo+5wHZR7itUMfB3ZiUKxOAUfZYnuJFHZxaqkONG5lVQMfwt+Nr1ok8ttGzvZluhOXksrbindU6WEptDJpe7U6mR6md/tHqLmc3Jw+3St0iUPnUQPlkmk9AA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=64WoD24zS3rYuELzjuhSxeWioPSc1RMMVWR/FPWv0QA=;
- b=hL3ophedG9eNXPUfP8Dfaufcb6iqrphij6dE0gbI883LfTLooeWADrONC6vqXZ2UYgwmDJzxF+e247/27omLk7K0s4BrwuNbwcXOxdPG/yQ/InzMb2AglZGYpXsdJVw4RokGQpedAf2f4JudgNM+NWnTdL4DOJ2zNGi/BvZtN1oOu+hiXWjwwM6ubGCcbzN4IuQRJ+qhi25LJxqG8fwIsDAiUJ1Q8Ih/3vFWI3/H7sWBNxCTdkCCTEi6+++6TF3PXdixGAvN0pm7fegYZfH9cbEkzMJKAOfwN1ra+2ryFuRnONa8uLIxLwX77Ys4ADeV65H9v5H4mCjy5BhKQNkGQQ==
+ bh=Bu5T12nzc0NKUFmTOBY2bf7oReSAvbAdoWsjj4wXCVc=;
+ b=EEOMsa7qZ3S/64trYeFXKjGC75snXSGXqjCEOmwwGs19z23Yu5viNWvNEArJxqrb8tlqMaPXPXEKKugZN8BtfnAR5n66ziTemmPj00hz1ypkmo48v6JGC5Pvfs/FdRQ5G3CiSq7MWm4b37XrW0JVsfFtjd1gMnn7/gt/DJGTRXdTGAfot0eibXuBgvwJgi4O7PrXuwfIL0wVo1Wcza6at5qak390bc/CYw4ojaDBEQGtFqnCin96ohyd5QpOODjtWvYVfMFSjlTS55v2HL9tc3v+DbRST1cD6AUmFTdTcufvJeNxkDUrZ0xKJ/aKBpQHARGdS24uHlQ4S0NEfqAmww==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
- dkim=pass header.d=mediatek.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=64WoD24zS3rYuELzjuhSxeWioPSc1RMMVWR/FPWv0QA=;
- b=jXUTOYev54cep6h6PDEI8Hjgwj9Sgg8Ro/Z4uQR1HSHdB0HEQO7p4kxTzC9nCa4NRuYPRZsYdkbD5u55K31vUWd2/5IzNC0PLRa9YCbaxN6SYlDQ0YyGP3dmrfQHme/LHRUBJAQKSQ7d1lDwTM96yYd5FK0NATcJgItHVVN+JXM=
-Received: from SEYPR03MB7682.apcprd03.prod.outlook.com (2603:1096:101:149::11)
- by JH0PR03MB8097.apcprd03.prod.outlook.com (2603:1096:990:3a::12)
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH8PR11MB6779.namprd11.prod.outlook.com (2603:10b6:510:1ca::17)
+ by MN6PR11MB8244.namprd11.prod.outlook.com (2603:10b6:208:470::14)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6813.28; Tue, 26 Sep
- 2023 02:45:26 +0000
-Received: from SEYPR03MB7682.apcprd03.prod.outlook.com
- ([fe80::1b82:a45d:e171:62e8]) by SEYPR03MB7682.apcprd03.prod.outlook.com
- ([fe80::1b82:a45d:e171:62e8%4]) with mapi id 15.20.6813.027; Tue, 26 Sep 2023
- 02:45:26 +0000
-From: =?utf-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>
-To: "jassisinghbrar@gmail.com" <jassisinghbrar@gmail.com>,
- "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
- "krzysztof.kozlowski@linaro.org" <krzysztof.kozlowski@linaro.org>,
- "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>, "robh+dt@kernel.org"
- <robh+dt@kernel.org>, "krzysztof.kozlowski+dt@linaro.org"
- <krzysztof.kozlowski+dt@linaro.org>,
- "angelogioacchino.delregno@collabora.com"
- <angelogioacchino.delregno@collabora.com>
-Subject: Re: [PATCH 02/15] dt-bindings: gce: mt8195: Add
- CMDQ_SYNC_TOKEN_SECURE_THR_EOF event id
-Thread-Topic: [PATCH 02/15] dt-bindings: gce: mt8195: Add
- CMDQ_SYNC_TOKEN_SECURE_THR_EOF event id
-Thread-Index: AQHZ6mVuaEaAeOxsw0iaYveBj8ZT1bAouz6AgAJLx4CAABsCgIAAKbeAgAAE1YCAASGigA==
-Date: Tue, 26 Sep 2023 02:45:26 +0000
-Message-ID: <92e162c1c59d2139377f014a4027081482f57157.camel@mediatek.com>
-References: <20230918192204.32263-1-jason-jh.lin@mediatek.com>
- <20230918192204.32263-3-jason-jh.lin@mediatek.com>
- <20372e40-e4fc-467a-d91a-fcf8e26728bc@linaro.org>
- <1f324b04cbd8faa7510a3519eb718c0be25af2be.camel@mediatek.com>
- <e69ca292-e0b9-4ee2-9f4e-6e9300a636a6@linaro.org>
- <354bb70cd3f1921dd58629a044af7bfe4f3306c0.camel@mediatek.com>
- <54b6ee93-1d36-46a4-a104-59129fe41a32@linaro.org>
-In-Reply-To: <54b6ee93-1d36-46a4-a104-59129fe41a32@linaro.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=mediatek.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SEYPR03MB7682:EE_|JH0PR03MB8097:EE_
-x-ms-office365-filtering-correlation-id: cd205d97-441a-4dbb-e0f4-08dbbe3aa395
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: YgZJkUv/fFvjMcmiw2ifLUiAU9e7DI2OPoYyym744CtFIvKUfXSOYl1pKVGaWC30Yawq3m0RPExFwBDymt/2rNF9obzAuq48pDYm1dh8Y6ii9nTEUk5Sv1+qkcpxcK1+2CRflg6rebphZejF9+ACKnf3uDXB2RpgnUiccb086VTN4Lok0qAO4uqLO9DLlZZPCUvXhlV6Tn3jE8kJnvgaW+3LzzLQm4VHsuJDKZlFKrnke3j7iKiFVjU1v1a9zFzmjlAwUhGIfoLzGYtMvylmncCs6VBJUSeeoFcNWYpLxt4A2OW6zdB0OPqVJTipq8Zlp/P9molKdpv+JRa1OtOp9CuWU/E9ZADr0P/6UZgKsXPgFZmUv0R/2kZjD7STxZoq3CPbv4itrUUUa6wd4UKleBrtZjBgsW18ELt+fHsFb3L0ptNUFB/hlMiiIrHOBJxaLifCPwyZXVEsbbaBWsN1kqimE8RBt81Y4YDGn9VYUmFqsYcgVdWC9JnciS3vw799psSkzNWEZ55hqn+KQ1kj/C9jauKmNrwNarcvkxHbW/OXC6mOTVTRndEtsqyUm34GHoAv8nAE7KjKXFi58D4yNVszWOWhksOgidjMVF1oW+pW/4I8lMK1ld6VeZkd3BELmE6tOrnaCEFtTTJa1X2LCcO3zdeR+UYHBs5wKmptQSA=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SEYPR03MB7682.apcprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(366004)(376002)(39860400002)(136003)(346002)(396003)(230922051799003)(186009)(1800799009)(451199024)(6512007)(6486002)(53546011)(71200400001)(6506007)(83380400001)(122000001)(86362001)(38070700005)(38100700002)(85182001)(36756003)(107886003)(2616005)(26005)(2906002)(316002)(7416002)(41300700001)(66446008)(64756008)(91956017)(54906003)(66946007)(66476007)(76116006)(478600001)(4326008)(8936002)(8676002)(5660300002)(110136005)(66556008);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?TjNHcjJNY1lIOTBUT0NMcTJEcTlCZlVvUmhpS3doMk1peHVOUkswU0dZeDF3?=
- =?utf-8?B?L2k1SjJ1aEU1RDhYSG5wUnM1ZWhEaVhWSzZ4RmlPTHNTZzNjZXpBdUpiS0tv?=
- =?utf-8?B?ZGh5ZzQ0enNFSW5QUmtrMit0NVE3QW5EY1c4UzlNOWJWcTRXSnQ2SUpVNzZD?=
- =?utf-8?B?MXJuelg2SXFxdWhPSHN4MjJaYjM3bjFIUldzc1Q0SW0xUi9udjZwUGZiSlZx?=
- =?utf-8?B?R0REeDhLSTNUOGVKa0hJUC81cWJNbXk1Z1IzeDBjSWRldUpoWmRPUXVRb1U1?=
- =?utf-8?B?aWZZYTlNemhpZklaQVFBaW9yMW1DLy9lSVRtK3hsVGc3Q09adEVXSTFZZ1Ji?=
- =?utf-8?B?elgxcS9hVTdwZ1NTSVlIS3V2WU1PcHE3SEorZ3Z6TU5TckRqNzF1S2lyTWlS?=
- =?utf-8?B?Ylc2NzdSbEVEU1I1MWwvTXpuRUZVTjJpYVRzM2VraEtLTjhUZG1sVEFxSDNh?=
- =?utf-8?B?cFArNW1SOWw0ZWxERU1WRUNKeTMzM0Vpb2plR1RQOE4ybWR4aTdacHpEUEEr?=
- =?utf-8?B?Sm9DOW5SRjR6OWxiZXZOcVNGbEFYdGVURzJ0V2R1dFIwekdtNXQ1ci9yMVBm?=
- =?utf-8?B?RWtwdHFRcXNSZVpVOCs3ZUZwYlo1VXVzTFNYM3BVb0VVd1VYSGN4M2dRYWxv?=
- =?utf-8?B?S2l3bE5VSEl1dXUyeHFhbStEbjkyVWV0dVNKVEVKVEM3ZDBhM004T28yVlU5?=
- =?utf-8?B?SzJRWmZad1NzeG04N3ZzMnIxQ05CWWNkdmZaZ0N0bWZndG9aYVI5b0M2djdN?=
- =?utf-8?B?VWhUVUZvTGRqMVhUSFVrTE1kOVhXNzNwOHI2b0lKdjlJZHd4am03Y21Jczdx?=
- =?utf-8?B?OXkxQ0JCMnlzZGt2NnpRZXl5dDRrclVFSFo2NzhDNnlWQ1YzT1pVQXhrZnls?=
- =?utf-8?B?TzRGRytZczd0c3hxQVlPYi9yRklxaWtGaUZZTUNvamhrU1ZJQ0lvQTRCOU10?=
- =?utf-8?B?ajlXMENGb1QrZ01IVVl6eFV4NzM0djZBdnFjdG1xVmlncmcwYzJKZG1oTTVs?=
- =?utf-8?B?Z1NNQW94eXV4UVI4N1pLdFo2WXJSTnRUVHhyY3dwQlhXaDVxWmNJeTJiczJq?=
- =?utf-8?B?WGwwYThSbVorS1ZLYXVTZGVQNzBleUVFWFkxcURSbWNyTktqcmlqb0lrVHQw?=
- =?utf-8?B?NUFqZ3pvZTVLRmlacmVDcHY1NjEybDI5NXJiajB2Ulk5aVd4bHhRd2ZVb1kx?=
- =?utf-8?B?NW9tdmNnT3MyTHRaa0wzUVRENENPemRhRDRvOGRSbEt6d0ZRczFqSlFYQWRu?=
- =?utf-8?B?bGJTaFlRcGNMQTdjVGNYOWpVVDNrWXc3aUdqYW51RXNMQ1pRYUtzRzJ5cE9Q?=
- =?utf-8?B?aFNQKzNjTXlEZXVPbldIdUZ6M3ZqZHd3UzZtWDZhdGl2bzJFQlFaSE9Wdzgy?=
- =?utf-8?B?OW1hWHlQMWJuMHFBd1NaUXhKUWhha3ZSVldGSmtJTWtYZ1IyMjloalc0SXQ5?=
- =?utf-8?B?ZHJYbDJiWmtDSUhTUWI4RStmd0ErckFjNVB1MjcvR3JtZFFuOVFmSVlPckR3?=
- =?utf-8?B?WmQwT1QrSjZWZnRsU3ZnRzBRaW9zWkgzNUtDb0ViK1RjRFMyVmlwRjFpQVph?=
- =?utf-8?B?a2Q3Y0ZST2tPVTlHK09rckVYQ2t0NHp5VjZRbkxoUlJnUlMzUU5wZGpzTThW?=
- =?utf-8?B?b3JVTllzMU1tcFVnM3lCdzdFUEdXenVwWlJENTRHOVVLUU1uM2NvM1VEcUw0?=
- =?utf-8?B?ZjhJMGNiblRwTTJUWm8rVklPaEluUzVpTERpZ1lQK2YvZkIxbGNzSk9FVTRu?=
- =?utf-8?B?em5KcHZPSnNFc245algwRUJFNytEZmJJMmM1VDJxTldOaHNVb0d6WGhkMkZm?=
- =?utf-8?B?Sm9QWmtXd0x1WkdrVUZZckUrS0FQUXRaVzRYTGZwcE1aak5zUFNCVkUzY0RS?=
- =?utf-8?B?aVliU3gxSkVHRlhEVU9FWXJPdjhic202YmdBbnFmQjhzeDZiektXSnplcWN5?=
- =?utf-8?B?ZStYR05oQTRzdEhJeThvQm1WekdYTi8xYlNSTTRVdVRUR3JNSGhpVTJXZ21Q?=
- =?utf-8?B?K2xteWZaNitxeWFtVCswOEROdHJWNGh6MlRPWjh2S2FKU2JyNGttYktJSFZ3?=
- =?utf-8?B?Y0hRY2pUQ3hGbkU4emxGZDFzTFV2Q1RYUTJuMXJKYUVvZlBNODlMRjBkaUdC?=
- =?utf-8?B?TWZzUWszU1NtTGdNMjFjcDkxUUpjaVpSblRXSkllU1BtaXN5OEpqRnFqeTJh?=
- =?utf-8?B?WGc9PQ==?=
-Content-ID: <C8026F6A2E544B498F4A908591DE4B29@apcprd03.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6792.27; Tue, 26 Sep
+ 2023 02:58:57 +0000
+Received: from PH8PR11MB6779.namprd11.prod.outlook.com
+ ([fe80::73c6:1231:e700:924]) by PH8PR11MB6779.namprd11.prod.outlook.com
+ ([fe80::73c6:1231:e700:924%4]) with mapi id 15.20.6813.017; Tue, 26 Sep 2023
+ 02:58:56 +0000
+Date: Tue, 26 Sep 2023 10:58:47 +0800
+From: kernel test robot <oliver.sang@intel.com>
+To: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+Subject: Re: [PATCH] drm/i915/gem: Allow users to disable waitboost
+Message-ID: <202309261055.b74df987-oliver.sang@intel.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230920215624.3482244-1-vinay.belgaumkar@intel.com>
+X-ClientProxiedBy: SG2PR04CA0193.apcprd04.prod.outlook.com
+ (2603:1096:4:14::31) To PH8PR11MB6779.namprd11.prod.outlook.com
+ (2603:10b6:510:1ca::17)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH8PR11MB6779:EE_|MN6PR11MB8244:EE_
+X-MS-Office365-Filtering-Correlation-Id: 905363a6-a666-4485-6f5c-08dbbe3c863e
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 2gnzTnaTWCouu+hDjiyTmm7cBfkBx2XyhJ1MHuPxxZ8KRsNYbjSaRJBz8A2EbmcpYgQYNLceuLp3l2S9tofNCRJlmcGoEpxTmmiJ0IIbKBp2kxLp4i1lA5HHFuB6oCfgPLO6gNHA0Pl7qUXXtSKOgGtcES2PcIgfzuEN0/M8ELLmV47RoNVMa7TqZ5a9fNdKvM/swn6TWFBSSo8G6ELlM4VFsDjWLOBSYeK5qVzLLFBSjVgNYs0HjjVQIaobisRkrhmlxu72E6wEAYH+uU1P3msVmva/IcOkdUbEga6ub3Q82j30q1NZIb5udgQnAClRnWovHWp5B85N6yG9WSDwN4bJB5gaiP5K+tnbNr4yvCcgt/f4E/bAY+2xIghpUO11osULHOCAmTS2XaxDRcmrlui5400UYQjORgFYImozHgG9Gw8o9FHdiNg4JDUENyGyeJjvzSjVKqkYQMUJedpmbZf1laABGJO2i2sqBRMjGjKCpTmgSNM0qmLjF2Eyfw2cx6mp6171EROyq3OZ7/SzmnhYEVui80735ZSGh13QOBrVf0NNU9U+xEmbi5UQoYVTiGyoBWtPt0n57F6j+fy3QA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH8PR11MB6779.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(39860400002)(346002)(376002)(366004)(396003)(136003)(230922051799003)(451199024)(1800799009)(186009)(6486002)(6512007)(83380400001)(4326008)(6506007)(8936002)(6862004)(966005)(8676002)(26005)(2616005)(107886003)(1076003)(82960400001)(2906002)(38100700002)(19627235002)(30864003)(41300700001)(36756003)(6636002)(66946007)(37006003)(54906003)(66556008)(66476007)(316002)(86362001)(6666004)(5660300002)(478600001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?spM5A9fbpO6c0lOCZctdyNWPjSTO+4PVO8uia+VZwUvvn1kRROCDBzG3/w?=
+ =?iso-8859-1?Q?MXij/IzYwLiZylrxypC9y6IdXA3seJW9Z49Fm+xMlJJKP5fI3OSdOPqyuS?=
+ =?iso-8859-1?Q?kDEPI8k9FqnIlUpjs9aYrK5uyPWRl4iUvmQXNqv8Gpm1ErdCJfRmE/u3/9?=
+ =?iso-8859-1?Q?VaysD2f10PYEr5s0xY8bzikZzM9QpCeoRuhG1fR0oiliOn2+zNaWMfkK27?=
+ =?iso-8859-1?Q?VBawK4qZIEXDMhnc84wXYidH0PoPGO4JJ2QVs3+tUam1Otbe1JQbDVtNC8?=
+ =?iso-8859-1?Q?soeCG+K5RmGd9+Atqeblu7TwlQWiAaO5FzGSLAlgH6thM/tvfsI6eWCdcK?=
+ =?iso-8859-1?Q?UqbXpJdUWO8OMteO486aCD+FyniUvJLuGKk0lTmvGC02CnQOfrywhqVoSJ?=
+ =?iso-8859-1?Q?Rg0k9PpbwzVRKYh11pCma3XIGM7ggU3IRu1hN/0iVRl8VWuBtEUp+LCPU+?=
+ =?iso-8859-1?Q?C60NK8lwum1XeCAjf1c24tks7DkwtgoZioRADO/079n4F3RrQDY1iOXmdL?=
+ =?iso-8859-1?Q?g/tAmQTyaiDidFGeHyj3lHIQaoJT+iQ/c/0wTYjpapRTwOzS4Px6GbWBBL?=
+ =?iso-8859-1?Q?EIwHzdYSHEy/Hgs7YDKTxUJPN/ZlvR5KaPejP33VjZ2MoeJ9KOWvgebJJZ?=
+ =?iso-8859-1?Q?qYYhN0AFZ0DFfctsQtue3gA+k7qVbdUQfO4ERZVDRtoE6zuh/U+mRT78tm?=
+ =?iso-8859-1?Q?F8Z3vH9fenS8pFnmNpRfk4fdAU1fHRTgsdhrzQQpnCewGItkM2bwL5Uq98?=
+ =?iso-8859-1?Q?ngKqpbck8pFAqiY81A7hXXhIQw8QeB9cIz6Xa9izeP/Ou+s7MBd5v0RT84?=
+ =?iso-8859-1?Q?tHOcJTf89bbvJy85D5JY+PHBxbSp9LAYntktQGyMGbP/MdXUQY1kwmrdaq?=
+ =?iso-8859-1?Q?MXOChjJSUB5TbXoQB54XwRRlZynlpLdvFy3fun79A4r09i+K92aeuLrVur?=
+ =?iso-8859-1?Q?o2XmyH5x6O1OHAdSpqvykW3vkxQYa1lRxk7lQaUzvMBZKLERW8VWSdUErT?=
+ =?iso-8859-1?Q?TTFD2gxPIF5sUKQyxo8n3OekGXIXy/uYABcZgGG2zaZNiaaFK9Uht9U876?=
+ =?iso-8859-1?Q?7DvwutcovPkXDqEgWMvD+Ky+lBVuK1Dc5JaDGXtWmiIp/rLS4n31QXdyxT?=
+ =?iso-8859-1?Q?hfIl1RrhmuQILNYM7Q5NEyKBezXoPsvJaFD/DQmR05XOr0pIODbs398PAG?=
+ =?iso-8859-1?Q?HXt3Nzo7YwHewuUR1TPdRCIL5LLHDgWnLpR6EatP/a2SnXdBOWMJTyLSH7?=
+ =?iso-8859-1?Q?WueUZ/vWEn72Xe2NzIqZI68oEW2b1QVJNOdE3xvOUQk/Ae+p3KRtwND9+2?=
+ =?iso-8859-1?Q?5uX7SAQdWMQltvTG+tvayG87yqJN9YSiPYQE39+55rbxjm/UfgFG4Bg9LQ?=
+ =?iso-8859-1?Q?rNGt1wSuOH80ITCUpNr/N9PhEscXueI+Z+fc99MS/jat4czdBieDqYhgCl?=
+ =?iso-8859-1?Q?BI+LcSpzgPpxTC+7RHKrYwYiqX/RACUdjMZrQYN/RVzZvvt7fY724Y+r++?=
+ =?iso-8859-1?Q?ezWGcuEi4EDig/m068nWUmCDaBGwRQmSh/4YJl1mlTmwqmpoUHzQsuzQk5?=
+ =?iso-8859-1?Q?i5ZGi7z1OeRnGS8c2hecuBMQzagoafWwKT3CVxHNzb+XyP25iWo5hEHJ8l?=
+ =?iso-8859-1?Q?5ZYMC4gLx3GeUosCv1nbiZXvCaoIMxXss3Rx6CFKvYliO4VybXvjGjyg?=
+ =?iso-8859-1?Q?=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 905363a6-a666-4485-6f5c-08dbbe3c863e
+X-MS-Exchange-CrossTenant-AuthSource: PH8PR11MB6779.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SEYPR03MB7682.apcprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cd205d97-441a-4dbb-e0f4-08dbbe3aa395
-X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Sep 2023 02:45:26.4675 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: hZUr0m7WC5bQrnIV6c6I/p2iudY/vRBFgZSIRZvvoU0zdzfR78CyNfj7phX1/IhCwbb0bGyxSmhV84NhVePyZnr2GqhYnrEUwoyq8FFiEEs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: JH0PR03MB8097
-Content-Type: multipart/alternative;
- boundary="__=_Part_Boundary_008_1825705706.158035776"
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Sep 2023 02:58:56.6412 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: JsOnQE7dvNlQQAaeWbZQTPhnCIQxzNK6AJ/Aazn5hWsm4v7vQHWkvPi99lv6ycdwxAK26/DqQ+C1VVer3ZnhMw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN6PR11MB8244
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -173,172 +145,372 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "conor+dt@kernel.org" <conor+dt@kernel.org>,
- =?utf-8?B?RWx2aXMgV2FuZyAo546L5YabKQ==?= <Elvis.Wang@mediatek.com>,
- =?utf-8?B?U2luZ28gQ2hhbmcgKOW8teiIiOWciyk=?= <Singo.Chang@mediatek.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Project_Global_Chrome_Upstream_Group
- <Project_Global_Chrome_Upstream_Group@mediatek.com>,
- =?utf-8?B?SmFzb24tY2ggQ2hlbiAo6Zmz5bu66LGqKQ==?= <Jason-ch.Chen@mediatek.com>,
- =?utf-8?B?TmFuY3kgTGluICjmnpfmrKPonqIp?= <Nancy.Lin@mediatek.com>,
- =?utf-8?B?Sm9obnNvbiBXYW5nICjnjovogZbpkasp?= <Johnson.Wang@mediatek.com>,
- =?utf-8?B?U2hhd24gU3VuZyAo5a6L5a2d6KyZKQ==?= <Shawn.Sung@mediatek.com>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Cc: feng.tang@intel.com, lkp@intel.com, intel-gfx@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, fengwei.yin@intel.com,
+ dri-devel@lists.freedesktop.org, oliver.sang@intel.com, ying.huang@intel.com,
+ oe-lkp@lists.linux.dev, Vinay Belgaumkar <vinay.belgaumkar@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---__=_Part_Boundary_008_1825705706.158035776
-Content-Type: text/html;
-	charset="utf-8"
-Content-Transfer-Encoding: base64
 
-PHByZT4NCk9uJiMzMjtNb24sJiMzMjsyMDIzLTA5LTI1JiMzMjthdCYjMzI7MTE6MjgmIzMyOysw
-MjAwLCYjMzI7S3J6eXN6dG9mJiMzMjtLb3psb3dza2kmIzMyO3dyb3RlOg0KJmd0OyYjMzI7JiMz
-MjsmIzMyOw0KJmd0OyYjMzI7RXh0ZXJuYWwmIzMyO2VtYWlsJiMzMjs6JiMzMjtQbGVhc2UmIzMy
-O2RvJiMzMjtub3QmIzMyO2NsaWNrJiMzMjtsaW5rcyYjMzI7b3ImIzMyO29wZW4mIzMyO2F0dGFj
-aG1lbnRzJiMzMjt1bnRpbA0KJmd0OyYjMzI7eW91JiMzMjtoYXZlJiMzMjt2ZXJpZmllZCYjMzI7
-dGhlJiMzMjtzZW5kZXImIzMyO29yJiMzMjt0aGUmIzMyO2NvbnRlbnQuDQomZ3Q7JiMzMjsmIzMy
-O09uJiMzMjsyNS8wOS8yMDIzJiMzMjsxMToxMSwmIzMyO0phc29uLUpIJiMzMjtMaW4mIzMyOygm
-IzI2NTE5OyYjMzA1OTE7JiMzMTA3NzspJiMzMjt3cm90ZToNCiZndDsmIzMyOyZndDsmIzMyO09u
-JiMzMjtNb24sJiMzMjsyMDIzLTA5LTI1JiMzMjthdCYjMzI7MDg6NDImIzMyOyswMjAwLCYjMzI7
-S3J6eXN6dG9mJiMzMjtLb3psb3dza2kmIzMyO3dyb3RlOg0KJmd0OyYjMzI7Jmd0OyZndDsmIzMy
-OyYjMzI7JiMzMjsNCiZndDsmIzMyOyZndDsmZ3Q7JiMzMjtFeHRlcm5hbCYjMzI7ZW1haWwmIzMy
-OzomIzMyO1BsZWFzZSYjMzI7ZG8mIzMyO25vdCYjMzI7Y2xpY2smIzMyO2xpbmtzJiMzMjtvciYj
-MzI7b3BlbiYjMzI7YXR0YWNobWVudHMNCiZndDsmIzMyO3VudGlsDQomZ3Q7JiMzMjsmZ3Q7Jmd0
-OyYjMzI7eW91JiMzMjtoYXZlJiMzMjt2ZXJpZmllZCYjMzI7dGhlJiMzMjtzZW5kZXImIzMyO29y
-JiMzMjt0aGUmIzMyO2NvbnRlbnQuDQomZ3Q7JiMzMjsmZ3Q7Jmd0OyYjMzI7JiMzMjtPbiYjMzI7
-MjUvMDkvMjAyMyYjMzI7MDc6MDUsJiMzMjtKYXNvbi1KSCYjMzI7TGluJiMzMjsoJiMyNjUxOTsm
-IzMwNTkxOyYjMzEwNzc7KSYjMzI7d3JvdGU6DQomZ3Q7JiMzMjsmZ3Q7Jmd0OyZndDsmIzMyO0hp
-JiMzMjtLcnp5c3p0b2YsDQomZ3Q7JiMzMjsmZ3Q7Jmd0OyZndDsNCiZndDsmIzMyOyZndDsmZ3Q7
-Jmd0OyYjMzI7VGhhbmtzJiMzMjtmb3ImIzMyO3RoZSYjMzI7cmV2aWV3cy4NCiZndDsmIzMyOyZn
-dDsmZ3Q7Jmd0Ow0KJmd0OyYjMzI7Jmd0OyZndDsmZ3Q7JiMzMjtPbiYjMzI7U2F0LCYjMzI7MjAy
-My0wOS0yMyYjMzI7YXQmIzMyOzIwOjAxJiMzMjsrMDIwMCwmIzMyO0tyenlzenRvZiYjMzI7S296
-bG93c2tpJiMzMjt3cm90ZToNCiZndDsmIzMyOyZndDsmZ3Q7Jmd0OyZndDsmIzMyOyYjMzI7JiMz
-MjsNCiZndDsmIzMyOyZndDsmZ3Q7Jmd0OyZndDsmIzMyO0V4dGVybmFsJiMzMjtlbWFpbCYjMzI7
-OiYjMzI7UGxlYXNlJiMzMjtkbyYjMzI7bm90JiMzMjtjbGljayYjMzI7bGlua3MmIzMyO29yJiMz
-MjtvcGVuJiMzMjthdHRhY2htZW50cw0KJmd0OyYjMzI7Jmd0OyZndDsmIzMyO3VudGlsDQomZ3Q7
-JiMzMjsmZ3Q7Jmd0OyZndDsmZ3Q7JiMzMjt5b3UmIzMyO2hhdmUmIzMyO3ZlcmlmaWVkJiMzMjt0
-aGUmIzMyO3NlbmRlciYjMzI7b3ImIzMyO3RoZSYjMzI7Y29udGVudC4NCiZndDsmIzMyOyZndDsm
-Z3Q7Jmd0OyZndDsmIzMyOyYjMzI7T24mIzMyOzE4LzA5LzIwMjMmIzMyOzIxOjIxLCYjMzI7SmFz
-b24tSkguTGluJiMzMjt3cm90ZToNCiZndDsmIzMyOyZndDsmZ3Q7Jmd0OyZndDsmZ3Q7JiMzMjtD
-TURRX1NZTkNfVE9LRU5fU0VDVVJFX1RIUl9FT0YmIzMyO2lzJiMzMjt1c2VkJiMzMjthcyYjMzI7
-c2VjdXJlJiMzMjtpcnEmIzMyO3RvJiMzMjtub3RpZnkNCiZndDsmIzMyOyZndDsmZ3Q7JiMzMjtD
-TURRDQomZ3Q7JiMzMjsmZ3Q7Jmd0OyZndDsmZ3Q7Jmd0OyYjMzI7ZHJpdmVyJiMzMjtpbiYjMzI7
-dGhlJiMzMjtub3JtYWwmIzMyO3dvcmxkJiMzMjt0aGF0JiMzMjtHQ0UmIzMyO3NlY3VyZSYjMzI7
-dGhyZWFkJiMzMjtoYXMmIzMyO2NvbXBsZXRlZA0KJmd0OyYjMzI7YQ0KJmd0OyYjMzI7Jmd0OyZn
-dDsmZ3Q7Jmd0OyYjMzI7dGFzaw0KJmd0OyYjMzI7Jmd0OyZndDsmZ3Q7Jmd0OyZndDsmIzMyO2lu
-JiMzMjt0aGVlJiMzMjtzZWN1cmUmIzMyO3dvcmxkLg0KJmd0OyYjMzI7Jmd0OyZndDsmZ3Q7Jmd0
-Ow0KJmd0OyYjMzI7Jmd0OyZndDsmZ3Q7Jmd0OyYjMzI7SG93JiMzMjtjYW4mIzMyOyNkZWZpbmUm
-IzMyO2JlJiMzMjthZGRlZCYjMzI7YWZ0ZXImIzMyO2l0cyYjMzI7dXNhZ2UmIzYzOyYjMzI7RG9l
-cyYjMzI7aXQmIzMyO2V2ZW4mIzMyO21ha2UmIzMyO2FueQ0KJmd0OyYjMzI7Jmd0OyZndDsmIzMy
-O3NlbnNlDQomZ3Q7JiMzMjsmZ3Q7Jmd0OyZndDsmZ3Q7JiMzMjtvZg0KJmd0OyYjMzI7Jmd0OyZn
-dDsmZ3Q7Jmd0OyYjMzI7YmVpbmcmIzMyO3NlcGFyYXRlJiMzMjtwYXRjaCYjNjM7DQomZ3Q7JiMz
-MjsmZ3Q7Jmd0OyZndDsmZ3Q7DQomZ3Q7JiMzMjsmZ3Q7Jmd0OyZndDsNCiZndDsmIzMyOyZndDsm
-Z3Q7Jmd0OyYjMzI7VGhpcyYjMzI7ZGVmaW5pdGlvbiYjMzI7aXMmIzMyO3VzZWQmIzMyO2luJiMz
-Mjt0aGUmIzMyO210ODE5NS5kdHMmIzMyO2F0JiMzMjtbUEFUQ0gmIzMyOzE1LzE1XSYjMzI7YW5k
-DQomZ3Q7JiMzMjt0aGUNCiZndDsmIzMyOyZndDsmZ3Q7JiMzMjtDTURRDQomZ3Q7JiMzMjsmZ3Q7
-Jmd0Ow0KJmd0OyYjMzI7Jmd0OyZndDsmIzMyO05vLCYjMzI7dGhlJiMzMjtkZWZpbmUmIzMyO2lz
-JiMzMjt1c2VkJiMzMjtpbiYjMzI7cHJldmlvdXMmIzMyO3BhdGNoLCYjMzI7d2hpY2gmIzMyO21l
-YW5zJiMzMjt5b3VyDQomZ3Q7JiMzMjtwYXRjaHNldA0KJmd0OyYjMzI7Jmd0OyZndDsmIzMyO2lz
-DQomZ3Q7JiMzMjsmZ3Q7Jmd0OyYjMzI7bm90JiMzMjtiaXNlY3RhYmxlJiMzMjthbmQmIzMyO25v
-dCYjMzI7dGVzdGVkLg0KJmd0OyYjMzI7Jmd0OyZndDsNCiZndDsmIzMyOyZndDsmIzMyOw0KJmd0
-OyYjMzI7Jmd0OyYjMzI7RG8mIzMyO3lvdSYjMzI7bWVhbiYjMzI7dGhpcyYjMzI7cGF0Y2gmIzMy
-O3Nob3VsZCYjMzI7YWRkJiMzMjtiZWZvcmUmIzMyO3BhdGNoJiMzMjsxJiM2MzsNCiZndDsmIzMy
-OyZndDsmIzMyOw0KJmd0OyYjMzI7Jmd0OyYjMzI7DQomZ3Q7JiMzMjsmZ3Q7JiMzMjtUaGUmIzMy
-O2V4YW1wbGUmIzMyO29mJiMzMjtkdHMmIzMyO2luJiMzMjtwYXRjaCYjMzI7MSYjMzI7aXMmIzMy
-O3VzZWQmIzMyO3RoZSYjMzI7ZGVmaW5pdGlvbiYjMzI7b2YmIzMyO210ODE4OCwmIzMyO3NvDQom
-Z3Q7JiMzMjtJDQomZ3Q7JiMzMjsmZ3Q7JiMzMjt0aGluayYjMzI7SSYjMzI7Y2FuJiMzMjthZGQm
-IzMyO3RoaXMmIzMyO3BhdGNoJiMzMjt0byYjMzI7ZGVmaW5lJiMzMjt0aGUmIzMyO2djZSYjMzI7
-ZXZlbnQmIzMyO2lkJiMzMjtmb3ImIzMyO210ODE5NQ0KJmd0OyYjMzI7YWZ0ZXINCiZndDsmIzMy
-OyZndDsmIzMyO3BhdGNoJiMzMjsxLg0KJmd0OyYjMzI7Jmd0OyYjMzI7DQomZ3Q7JiMzMjsmZ3Q7
-JiMzMjtJJiMzMjt3aWxsJiMzMjtzd2FwJiMzMjt0aGUmIzMyO3BhdGNoJiMzMjsxJiMzMjthbmQm
-IzMyO3RoZSYjMzI7cGF0Y2gmIzMyOzImIzMyO2luJiMzMjt0aGUmIzMyO25leHQmIzMyO3ZlcnNp
-b24sJiMzMjtpZg0KJmd0OyYjMzI7dGhhdA0KJmd0OyYjMzI7Jmd0OyYjMzI7Y2FuJiMzMjttYWtl
-JiMzMjtpdCYjMzI7bW9yZSYjMzI7YXBwcm9wcmlhdGUuDQomZ3Q7JiMzMjsNCiZndDsmIzMyO1Jl
-YWxseSwmIzMyO3Rlc3QmIzMyO3lvdXImIzMyO3BhdGNoZXMuJiMzMjtFYWNoJiMzMjtvZiYjMzI7
-dGhlbSYjMzI7aW5kaXZpZHVhbGx5LiYjMzI7QXBwcm9wcmlhdGVuZXNzDQomZ3Q7JiMzMjtpcw0K
-Jmd0OyYjMzI7b25lJiMzMjt0aGluZywmIzMyO2J1dCYjMzI7YnJva2VuJiMzMjtiaXNlY3RhYmls
-aXR5JiMzMjtpcyYjMzI7YW4mIzMyO2Vycm9yLg0KJmd0OyYjMzI7DQomZ3Q7JiMzMjtBbnl3YXks
-JiMzMjt0aGUmIzMyO3BhdGNoJiMzMjtpcyYjMzI7bG9naWNhbGx5JiMzMjtwYXJ0JiMzMjtvZiYj
-MzI7YmluZGluZyYjMzI7YWRkaW5nJiMzMjt0aGlzLCYjMzI7c28mIzMyO2l0DQomZ3Q7JiMzMjtz
-aG91bGQNCiZndDsmIzMyO2JlJiMzMjtzcXVhc2hlZC4mIzMyO0RvbiYjMzk7dCYjMzI7Y3JlYXRl
-JiMzMjtzb21lJiMzMjt3ZWlyZCYjMzI7cGF0Y2gmIzMyO29yZGVyaW5nJiMzMjt3aGVyZSYjMzI7
-ZXZlcnkNCiZndDsmIzMyO2RlZmluZQ0KJmd0OyYjMzI7b3ImIzMyO2V2ZXJ5JiMzMjtmdW5jdGlv
-biYjMzI7aXMmIzMyO2luJiMzMjtpdHMmIzMyO293biYjMzI7cGF0Y2guJiMzMjtJJiMzMjtjb21t
-ZW50ZWQmIzMyO2Fib3V0JiMzMjtpdCYjMzI7bXVsdGlwbGUNCiZndDsmIzMyO3RpbWVzJiMzMjtp
-biYjMzI7dGhpcyYjMzI7cGF0Y2hzZXQuDQomZ3Q7JiMzMjsNCg0KT0ssJiMzMjtJJiMzOTtsbCYj
-MzI7cmUtb3JkZXImIzMyO3RoZSYjMzI7ZGVmaW5pdGlvbiYjMzI7YmVmb3JlJiMzMjt0aGUmIzMy
-O3BhdGNoJiMzMjt1c2luZyYjMzI7aXQmIzMyO29yJiMzMjtzcXVhc2gNCnRoZSYjMzI7ZGVmaW5p
-dGlvbiYjMzI7dG8mIzMyO3RoZSYjMzI7cGF0Y2gmIzMyO3VzaW5nJiMzMjtpdC4NCg0KUmVnYXJk
-cywNCkphc29uLUpILkxpbg0KDQomZ3Q7JiMzMjtCZXN0JiMzMjtyZWdhcmRzLA0KJmd0OyYjMzI7
-S3J6eXN6dG9mDQomZ3Q7JiMzMjsNCg0KPC9wcmU+PCEtLXR5cGU6dGV4dC0tPjwhLS17LS0+PHBy
-ZT4qKioqKioqKioqKioqIE1FRElBVEVLIENvbmZpZGVudGlhbGl0eSBOb3RpY2UgKioqKioqKioq
-KioqKioqKioqKioNClRoZSBpbmZvcm1hdGlvbiBjb250YWluZWQgaW4gdGhpcyBlLW1haWwgbWVz
-c2FnZSAoaW5jbHVkaW5nIGFueSANCmF0dGFjaG1lbnRzKSBtYXkgYmUgY29uZmlkZW50aWFsLCBw
-cm9wcmlldGFyeSwgcHJpdmlsZWdlZCwgb3Igb3RoZXJ3aXNlDQpleGVtcHQgZnJvbSBkaXNjbG9z
-dXJlIHVuZGVyIGFwcGxpY2FibGUgbGF3cy4gSXQgaXMgaW50ZW5kZWQgdG8gYmUgDQpjb252ZXll
-ZCBvbmx5IHRvIHRoZSBkZXNpZ25hdGVkIHJlY2lwaWVudChzKS4gQW55IHVzZSwgZGlzc2VtaW5h
-dGlvbiwgDQpkaXN0cmlidXRpb24sIHByaW50aW5nLCByZXRhaW5pbmcgb3IgY29weWluZyBvZiB0
-aGlzIGUtbWFpbCAoaW5jbHVkaW5nIGl0cyANCmF0dGFjaG1lbnRzKSBieSB1bmludGVuZGVkIHJl
-Y2lwaWVudChzKSBpcyBzdHJpY3RseSBwcm9oaWJpdGVkIGFuZCBtYXkgDQpiZSB1bmxhd2Z1bC4g
-SWYgeW91IGFyZSBub3QgYW4gaW50ZW5kZWQgcmVjaXBpZW50IG9mIHRoaXMgZS1tYWlsLCBvciBi
-ZWxpZXZlIA0KdGhhdCB5b3UgaGF2ZSByZWNlaXZlZCB0aGlzIGUtbWFpbCBpbiBlcnJvciwgcGxl
-YXNlIG5vdGlmeSB0aGUgc2VuZGVyIA0KaW1tZWRpYXRlbHkgKGJ5IHJlcGx5aW5nIHRvIHRoaXMg
-ZS1tYWlsKSwgZGVsZXRlIGFueSBhbmQgYWxsIGNvcGllcyBvZiANCnRoaXMgZS1tYWlsIChpbmNs
-dWRpbmcgYW55IGF0dGFjaG1lbnRzKSBmcm9tIHlvdXIgc3lzdGVtLCBhbmQgZG8gbm90DQpkaXNj
-bG9zZSB0aGUgY29udGVudCBvZiB0aGlzIGUtbWFpbCB0byBhbnkgb3RoZXIgcGVyc29uLiBUaGFu
-ayB5b3UhDQo8L3ByZT48IS0tfS0tPg==
 
---__=_Part_Boundary_008_1825705706.158035776
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: base64
+Hello,
 
-T24gTW9uLCAyMDIzLTA5LTI1IGF0IDExOjI4ICswMjAwLCBLcnp5c3p0b2YgS296bG93c2tpIHdy
-b3RlOg0KPiAgCSANCj4gRXh0ZXJuYWwgZW1haWwgOiBQbGVhc2UgZG8gbm90IGNsaWNrIGxpbmtz
-IG9yIG9wZW4gYXR0YWNobWVudHMgdW50aWwNCj4geW91IGhhdmUgdmVyaWZpZWQgdGhlIHNlbmRl
-ciBvciB0aGUgY29udGVudC4NCj4gIE9uIDI1LzA5LzIwMjMgMTE6MTEsIEphc29uLUpIIExpbiAo
-5p6X552/56WlKSB3cm90ZToNCj4gPiBPbiBNb24sIDIwMjMtMDktMjUgYXQgMDg6NDIgKzAyMDAs
-IEtyenlzenRvZiBLb3psb3dza2kgd3JvdGU6DQo+ID4+ICAgDQo+ID4+IEV4dGVybmFsIGVtYWls
-IDogUGxlYXNlIGRvIG5vdCBjbGljayBsaW5rcyBvciBvcGVuIGF0dGFjaG1lbnRzDQo+IHVudGls
-DQo+ID4+IHlvdSBoYXZlIHZlcmlmaWVkIHRoZSBzZW5kZXIgb3IgdGhlIGNvbnRlbnQuDQo+ID4+
-ICBPbiAyNS8wOS8yMDIzIDA3OjA1LCBKYXNvbi1KSCBMaW4gKOael+edv+elpSkgd3JvdGU6DQo+
-ID4+PiBIaSBLcnp5c3p0b2YsDQo+ID4+Pg0KPiA+Pj4gVGhhbmtzIGZvciB0aGUgcmV2aWV3cy4N
-Cj4gPj4+DQo+ID4+PiBPbiBTYXQsIDIwMjMtMDktMjMgYXQgMjA6MDEgKzAyMDAsIEtyenlzenRv
-ZiBLb3psb3dza2kgd3JvdGU6DQo+ID4+Pj4gICANCj4gPj4+PiBFeHRlcm5hbCBlbWFpbCA6IFBs
-ZWFzZSBkbyBub3QgY2xpY2sgbGlua3Mgb3Igb3BlbiBhdHRhY2htZW50cw0KPiA+PiB1bnRpbA0K
-PiA+Pj4+IHlvdSBoYXZlIHZlcmlmaWVkIHRoZSBzZW5kZXIgb3IgdGhlIGNvbnRlbnQuDQo+ID4+
-Pj4gIE9uIDE4LzA5LzIwMjMgMjE6MjEsIEphc29uLUpILkxpbiB3cm90ZToNCj4gPj4+Pj4gQ01E
-UV9TWU5DX1RPS0VOX1NFQ1VSRV9USFJfRU9GIGlzIHVzZWQgYXMgc2VjdXJlIGlycSB0byBub3Rp
-ZnkNCj4gPj4gQ01EUQ0KPiA+Pj4+PiBkcml2ZXIgaW4gdGhlIG5vcm1hbCB3b3JsZCB0aGF0IEdD
-RSBzZWN1cmUgdGhyZWFkIGhhcyBjb21wbGV0ZWQNCj4gYQ0KPiA+Pj4+IHRhc2sNCj4gPj4+Pj4g
-aW4gdGhlZSBzZWN1cmUgd29ybGQuDQo+ID4+Pj4NCj4gPj4+PiBIb3cgY2FuICNkZWZpbmUgYmUg
-YWRkZWQgYWZ0ZXIgaXRzIHVzYWdlPyBEb2VzIGl0IGV2ZW4gbWFrZSBhbnkNCj4gPj4gc2Vuc2UN
-Cj4gPj4+PiBvZg0KPiA+Pj4+IGJlaW5nIHNlcGFyYXRlIHBhdGNoPw0KPiA+Pj4+DQo+ID4+Pg0K
-PiA+Pj4gVGhpcyBkZWZpbml0aW9uIGlzIHVzZWQgaW4gdGhlIG10ODE5NS5kdHMgYXQgW1BBVENI
-IDE1LzE1XSBhbmQNCj4gdGhlDQo+ID4+IENNRFENCj4gPj4NCj4gPj4gTm8sIHRoZSBkZWZpbmUg
-aXMgdXNlZCBpbiBwcmV2aW91cyBwYXRjaCwgd2hpY2ggbWVhbnMgeW91cg0KPiBwYXRjaHNldA0K
-PiA+PiBpcw0KPiA+PiBub3QgYmlzZWN0YWJsZSBhbmQgbm90IHRlc3RlZC4NCj4gPj4NCj4gPiAN
-Cj4gPiBEbyB5b3UgbWVhbiB0aGlzIHBhdGNoIHNob3VsZCBhZGQgYmVmb3JlIHBhdGNoIDE/DQo+
-ID4gDQo+ID4gDQo+ID4gVGhlIGV4YW1wbGUgb2YgZHRzIGluIHBhdGNoIDEgaXMgdXNlZCB0aGUg
-ZGVmaW5pdGlvbiBvZiBtdDgxODgsIHNvDQo+IEkNCj4gPiB0aGluayBJIGNhbiBhZGQgdGhpcyBw
-YXRjaCB0byBkZWZpbmUgdGhlIGdjZSBldmVudCBpZCBmb3IgbXQ4MTk1DQo+IGFmdGVyDQo+ID4g
-cGF0Y2ggMS4NCj4gPiANCj4gPiBJIHdpbGwgc3dhcCB0aGUgcGF0Y2ggMSBhbmQgdGhlIHBhdGNo
-IDIgaW4gdGhlIG5leHQgdmVyc2lvbiwgaWYNCj4gdGhhdA0KPiA+IGNhbiBtYWtlIGl0IG1vcmUg
-YXBwcm9wcmlhdGUuDQo+IA0KPiBSZWFsbHksIHRlc3QgeW91ciBwYXRjaGVzLiBFYWNoIG9mIHRo
-ZW0gaW5kaXZpZHVhbGx5LiBBcHByb3ByaWF0ZW5lc3MNCj4gaXMNCj4gb25lIHRoaW5nLCBidXQg
-YnJva2VuIGJpc2VjdGFiaWxpdHkgaXMgYW4gZXJyb3IuDQo+IA0KPiBBbnl3YXksIHRoZSBwYXRj
-aCBpcyBsb2dpY2FsbHkgcGFydCBvZiBiaW5kaW5nIGFkZGluZyB0aGlzLCBzbyBpdA0KPiBzaG91
-bGQNCj4gYmUgc3F1YXNoZWQuIERvbid0IGNyZWF0ZSBzb21lIHdlaXJkIHBhdGNoIG9yZGVyaW5n
-IHdoZXJlIGV2ZXJ5DQo+IGRlZmluZQ0KPiBvciBldmVyeSBmdW5jdGlvbiBpcyBpbiBpdHMgb3du
-IHBhdGNoLiBJIGNvbW1lbnRlZCBhYm91dCBpdCBtdWx0aXBsZQ0KPiB0aW1lcyBpbiB0aGlzIHBh
-dGNoc2V0Lg0KPiANCg0KT0ssIEknbGwgcmUtb3JkZXIgdGhlIGRlZmluaXRpb24gYmVmb3JlIHRo
-ZSBwYXRjaCB1c2luZyBpdCBvciBzcXVhc2gNCnRoZSBkZWZpbml0aW9uIHRvIHRoZSBwYXRjaCB1
-c2luZyBpdC4NCg0KUmVnYXJkcywNCkphc29uLUpILkxpbg0KDQo+IEJlc3QgcmVnYXJkcywNCj4g
-S3J6eXN6dG9mDQo+IA0K
+kernel test robot noticed a -3.2% regression of phoronix-test-suite.paraview.WaveletContour.1024x768.mipolys___sec on:
 
---__=_Part_Boundary_008_1825705706.158035776--
+
+commit: 54fef7ea35dadd66193b98805b0bc42ef2b279db ("[PATCH] drm/i915/gem: Allow users to disable waitboost")
+url: https://github.com/intel-lab-lkp/linux/commits/Vinay-Belgaumkar/drm-i915-gem-Allow-users-to-disable-waitboost/20230921-060357
+base: git://anongit.freedesktop.org/drm-intel for-linux-next
+patch link: https://lore.kernel.org/all/20230920215624.3482244-1-vinay.belgaumkar@intel.com/
+patch subject: [PATCH] drm/i915/gem: Allow users to disable waitboost
+
+testcase: phoronix-test-suite
+test machine: 12 threads 1 sockets Intel(R) Core(TM) i7-8700 CPU @ 3.20GHz (Coffee Lake) with 32G memory
+parameters:
+
+	need_x: true
+	test: paraview-1.0.2
+	option_a: Wavelet Contour
+	option_b: 1024 x 768
+	cpufreq_governor: performance
+
+
+In addition to that, the commit also has significant impact on the following tests:
+
++------------------+----------------------------------------------------------------------------------------------------------------+
+| testcase: change | phoronix-test-suite: phoronix-test-suite.x11perf.PutImageXY500x500Square.operations___second 12.8% improvement |
+| test machine     | 12 threads 1 sockets Intel(R) Core(TM) i7-8700 CPU @ 3.20GHz (Coffee Lake) with 32G memory                     |
+| test parameters  | cpufreq_governor=performance                                                                                   |
+|                  | need_x=true                                                                                                    |
+|                  | option_a=PutImage XY 500x500 Square                                                                            |
+|                  | test=x11perf-1.1.1                                                                                             |
++------------------+----------------------------------------------------------------------------------------------------------------+
+| testcase: change | phoronix-test-suite: phoronix-test-suite.openarena.2560x1440.milliseconds -12.2% regression                    |
+| test machine     | 12 threads 1 sockets Intel(R) Core(TM) i7-8700 CPU @ 3.20GHz (Coffee Lake) with 32G memory                     |
+| test parameters  | cpufreq_governor=performance                                                                                   |
+|                  | need_x=true                                                                                                    |
+|                  | option_a=2560 x 1440                                                                                           |
+|                  | test=openarena-1.5.5                                                                                           |
++------------------+----------------------------------------------------------------------------------------------------------------+
+
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <oliver.sang@intel.com>
+| Closes: https://lore.kernel.org/oe-lkp/202309261055.b74df987-oliver.sang@intel.com
+
+
+Details are as below:
+-------------------------------------------------------------------------------------------------->
+
+
+The kernel config and materials to reproduce are available at:
+https://download.01.org/0day-ci/archive/20230926/202309261055.b74df987-oliver.sang@intel.com
+
+=========================================================================================
+compiler/cpufreq_governor/kconfig/need_x/option_a/option_b/rootfs/tbox_group/test/testcase:
+  gcc-12/performance/x86_64-rhel-8.3/true/Wavelet Contour/1024 x 768/debian-x86_64-phoronix/lkp-cfl-d2/paraview-1.0.2/phoronix-test-suite
+
+commit: 
+  16a9359401 ("drm/i915: Implement transcoder LRR for TGL+")
+  54fef7ea35 ("drm/i915/gem: Allow users to disable waitboost")
+
+16a9359401edcbc0 54fef7ea35dadd66193b98805b0 
+---------------- --------------------------- 
+         %stddev     %change         %stddev
+             \          |                \  
+      0.05 ±  4%      +0.0        0.06 ±  2%  mpstat.cpu.all.soft%
+     66.17 ± 60%    +145.6%     162.50 ± 33%  turbostat.C10
+     28.61            -3.3%      27.68        phoronix-test-suite.paraview.WaveletContour.1024x768.frames___sec
+    298.15            -3.2%     288.49        phoronix-test-suite.paraview.WaveletContour.1024x768.mipolys___sec
+    535005            +8.6%     580810        phoronix-test-suite.time.minor_page_faults
+      6278            +8.3%       6797        phoronix-test-suite.time.voluntary_context_switches
+    801166            +5.6%     845675        proc-vmstat.numa_hit
+    799382            +5.1%     840353        proc-vmstat.numa_local
+     59648            +2.6%      61211        proc-vmstat.pgactivate
+   1539307            +2.7%    1580759        proc-vmstat.pgalloc_normal
+    734297            +6.8%     783862        proc-vmstat.pgfault
+   1343231            +3.1%    1385353        proc-vmstat.pgfree
+     39042            +3.7%      40480 ±  2%  proc-vmstat.pgreuse
+ 1.106e+08            +2.1%  1.129e+08        perf-stat.i.cache-references
+ 4.255e+09            +1.9%  4.336e+09        perf-stat.i.cpu-cycles
+    147872            +2.4%     151392        perf-stat.i.dTLB-store-misses
+    230242            +2.2%     235419        perf-stat.i.iTLB-load-misses
+    569455            +2.4%     583234        perf-stat.i.iTLB-loads
+      0.35            +1.9%       0.36        perf-stat.i.metric.GHz
+     12547            +8.6%      13625        perf-stat.i.minor-faults
+    609443 ±  2%      +4.0%     633739 ±  2%  perf-stat.i.node-loads
+   1701083 ±  2%      +5.0%    1786794 ±  2%  perf-stat.i.node-stores
+     12566            +8.6%      13644        perf-stat.i.page-faults
+ 1.085e+08            +2.1%  1.108e+08        perf-stat.ps.cache-references
+ 4.179e+09            +1.9%  4.259e+09        perf-stat.ps.cpu-cycles
+    225995            +2.3%     231096        perf-stat.ps.iTLB-load-misses
+    558694            +2.4%     572272        perf-stat.ps.iTLB-loads
+     12320            +8.6%      13380        perf-stat.ps.minor-faults
+    598059 ±  2%      +4.0%     621901 ±  2%  perf-stat.ps.node-loads
+   1670891 ±  2%      +5.0%    1754927 ±  2%  perf-stat.ps.node-stores
+     12339            +8.6%      13399        perf-stat.ps.page-faults
+     14.86 ± 42%     -11.7        3.12 ±152%  perf-profile.calltrace.cycles-pp.cpu_startup_entry.start_secondary.secondary_startup_64_no_verify
+     14.86 ± 42%     -11.7        3.12 ±152%  perf-profile.calltrace.cycles-pp.do_idle.cpu_startup_entry.start_secondary.secondary_startup_64_no_verify
+     14.86 ± 42%     -11.7        3.12 ±152%  perf-profile.calltrace.cycles-pp.start_secondary.secondary_startup_64_no_verify
+     14.86 ± 42%     -11.0        3.82 ±161%  perf-profile.calltrace.cycles-pp.secondary_startup_64_no_verify
+     11.53 ± 67%     -10.1        1.39 ±223%  perf-profile.calltrace.cycles-pp.cpuidle_enter.cpuidle_idle_call.do_idle.cpu_startup_entry.start_secondary
+     11.53 ± 67%      -9.4        2.08 ±223%  perf-profile.calltrace.cycles-pp.cpuidle_enter_state.cpuidle_enter.cpuidle_idle_call.do_idle.cpu_startup_entry
+     11.53 ± 67%      -9.1        2.43 ±143%  perf-profile.calltrace.cycles-pp.cpuidle_idle_call.do_idle.cpu_startup_entry.start_secondary.secondary_startup_64_no_verify
+      6.02 ± 95%      -5.3        0.70 ±223%  perf-profile.calltrace.cycles-pp.intel_idle.cpuidle_enter_state.cpuidle_enter.cpuidle_idle_call.do_idle
+      5.51 ± 56%      -4.8        0.70 ±223%  perf-profile.calltrace.cycles-pp.intel_idle_ibrs.cpuidle_enter_state.cpuidle_enter.cpuidle_idle_call.do_idle
+      7.02 ±128%      -2.6        4.44 ±147%  perf-profile.calltrace.cycles-pp.do_group_exit.get_signal.arch_do_signal_or_restart.exit_to_user_mode_loop.exit_to_user_mode_prepare
+      7.02 ±128%      -2.6        4.44 ±147%  perf-profile.calltrace.cycles-pp.do_exit.do_group_exit.get_signal.arch_do_signal_or_restart.exit_to_user_mode_loop
+      7.02 ±128%      -2.6        4.44 ±147%  perf-profile.calltrace.cycles-pp.exit_to_user_mode_prepare.syscall_exit_to_user_mode.do_syscall_64.entry_SYSCALL_64_after_hwframe
+      7.02 ±128%      -2.6        4.44 ±147%  perf-profile.calltrace.cycles-pp.exit_to_user_mode_loop.exit_to_user_mode_prepare.syscall_exit_to_user_mode.do_syscall_64.entry_SYSCALL_64_after_hwframe
+      7.02 ±128%      -2.6        4.44 ±147%  perf-profile.calltrace.cycles-pp.arch_do_signal_or_restart.exit_to_user_mode_loop.exit_to_user_mode_prepare.syscall_exit_to_user_mode.do_syscall_64
+      7.02 ±128%      -2.6        4.44 ±147%  perf-profile.calltrace.cycles-pp.get_signal.arch_do_signal_or_restart.exit_to_user_mode_loop.exit_to_user_mode_prepare.syscall_exit_to_user_mode
+     14.86 ± 42%     -11.7        3.12 ±152%  perf-profile.children.cycles-pp.start_secondary
+     14.86 ± 42%     -11.0        3.82 ±161%  perf-profile.children.cycles-pp.secondary_startup_64_no_verify
+     14.86 ± 42%     -11.0        3.82 ±161%  perf-profile.children.cycles-pp.cpu_startup_entry
+     14.86 ± 42%     -11.0        3.82 ±161%  perf-profile.children.cycles-pp.do_idle
+     11.53 ± 67%      -9.4        2.08 ±223%  perf-profile.children.cycles-pp.cpuidle_enter
+     11.53 ± 67%      -9.4        2.08 ±223%  perf-profile.children.cycles-pp.cpuidle_enter_state
+     11.53 ± 67%      -8.4        3.12 ±152%  perf-profile.children.cycles-pp.cpuidle_idle_call
+      6.02 ± 95%      -5.3        0.70 ±223%  perf-profile.children.cycles-pp.intel_idle
+      5.51 ± 56%      -4.8        0.70 ±223%  perf-profile.children.cycles-pp.intel_idle_ibrs
+      7.02 ±128%      -2.6        4.44 ±147%  perf-profile.children.cycles-pp.exit_to_user_mode_prepare
+      7.02 ±128%      -2.6        4.44 ±147%  perf-profile.children.cycles-pp.exit_to_user_mode_loop
+      7.02 ±128%      -2.6        4.44 ±147%  perf-profile.children.cycles-pp.arch_do_signal_or_restart
+      7.02 ±128%      -2.6        4.44 ±147%  perf-profile.children.cycles-pp.get_signal
+      6.02 ± 95%      -5.3        0.70 ±223%  perf-profile.self.cycles-pp.intel_idle
+      5.51 ± 56%      -4.8        0.70 ±223%  perf-profile.self.cycles-pp.intel_idle_ibrs
+
+
+***************************************************************************************************
+lkp-cfl-d2: 12 threads 1 sockets Intel(R) Core(TM) i7-8700 CPU @ 3.20GHz (Coffee Lake) with 32G memory
+=========================================================================================
+compiler/cpufreq_governor/kconfig/need_x/option_a/rootfs/tbox_group/test/testcase:
+  gcc-12/performance/x86_64-rhel-8.3/true/PutImage XY 500x500 Square/debian-x86_64-phoronix/lkp-cfl-d2/x11perf-1.1.1/phoronix-test-suite
+
+commit: 
+  16a9359401 ("drm/i915: Implement transcoder LRR for TGL+")
+  54fef7ea35 ("drm/i915/gem: Allow users to disable waitboost")
+
+16a9359401edcbc0 54fef7ea35dadd66193b98805b0 
+---------------- --------------------------- 
+         %stddev     %change         %stddev
+             \          |                \  
+     11950 ±  3%     +93.9%      23173 ±  3%  meminfo.Unevictable
+      1.02 ±  3%      -0.6        0.43 ±  3%  mpstat.cpu.all.iowait%
+     21273            -5.3%      20141        vmstat.system.in
+      4887 ± 32%     -67.7%       1579 ± 32%  phoronix-test-suite.time.involuntary_context_switches
+    147212           +26.1%     185677        phoronix-test-suite.time.minor_page_faults
+     76.83           +10.6%      85.00        phoronix-test-suite.time.percent_of_cpu_this_job_got
+     96.48 ±  4%     +15.0%     110.93 ±  2%  phoronix-test-suite.time.user_time
+    106.83           +12.8%     120.50        phoronix-test-suite.x11perf.PutImageXY500x500Square.operations___second
+      3.73 ±  3%      -0.6        3.12 ±  2%  turbostat.C1E%
+     58316 ±  5%     -20.6%      46326 ±  3%  turbostat.C3
+      0.86 ±  2%      -0.1        0.74 ±  3%  turbostat.C3%
+      1.24 ±  8%     -18.9%       1.01 ± 10%  turbostat.CPU%c3
+     38.67 ±  2%      +5.0       43.70 ±  2%  turbostat.CPUGFX%
+     23.44            +4.0%      24.38        turbostat.CorWatt
+      2.30 ±  4%     -71.6%       0.65 ±  2%  turbostat.GFXWatt
+     26.19            -2.7%      25.49        turbostat.PkgWatt
+      1.41            +2.4%       1.44        turbostat.RAMWatt
+     61.83 ± 23%     -20.2       41.62 ± 31%  perf-profile.calltrace.cycles-pp.intel_idle_ibrs.cpuidle_enter_state.cpuidle_enter.cpuidle_idle_call.do_idle
+     61.85 ± 23%     -20.2       41.64 ± 31%  perf-profile.children.cycles-pp.intel_idle_ibrs
+      1.24 ± 59%      -1.0        0.23 ± 27%  perf-profile.children.cycles-pp.worker_thread
+      0.84 ± 60%      -0.7        0.18 ± 48%  perf-profile.children.cycles-pp.asm_common_interrupt
+      0.83 ± 61%      -0.7        0.18 ± 48%  perf-profile.children.cycles-pp.common_interrupt
+      0.35 ± 74%      -0.3        0.06 ± 85%  perf-profile.children.cycles-pp.__common_interrupt
+      0.35 ± 75%      -0.3        0.06 ± 85%  perf-profile.children.cycles-pp.handle_edge_irq
+      0.30 ± 78%      -0.3        0.05 ± 81%  perf-profile.children.cycles-pp.handle_irq_event
+      0.37 ± 18%      -0.2        0.18 ± 46%  perf-profile.children.cycles-pp.newidle_balance
+      0.12 ± 32%      -0.1        0.04 ± 79%  perf-profile.children.cycles-pp.exit_mm
+      0.12 ± 30%      -0.1        0.05 ± 73%  perf-profile.children.cycles-pp.native_apic_msr_eoi
+      0.03 ±144%      +0.1        0.10 ± 38%  perf-profile.children.cycles-pp.dma_resv_iter_first_unlocked
+      0.04 ±154%      +0.1        0.19 ± 40%  perf-profile.children.cycles-pp.i915_gem_busy_ioctl
+     61.82 ± 23%     -20.2       41.63 ± 31%  perf-profile.self.cycles-pp.intel_idle_ibrs
+      0.12 ± 26%      -0.1        0.05 ± 74%  perf-profile.self.cycles-pp.native_apic_msr_eoi
+     31861            +5.9%      33748        proc-vmstat.nr_active_file
+     29007            +7.6%      31200        proc-vmstat.nr_mapped
+    183598            +1.6%     186520        proc-vmstat.nr_shmem
+      2987 ±  3%     +93.9%       5793 ±  3%  proc-vmstat.nr_unevictable
+     31861            +5.9%      33748        proc-vmstat.nr_zone_active_file
+      2987 ±  3%     +93.9%       5793 ±  3%  proc-vmstat.nr_zone_unevictable
+    721353 ±  2%     +13.3%     816958        proc-vmstat.numa_hit
+    721406 ±  2%     +13.2%     816970        proc-vmstat.numa_local
+     21301 ±  4%     +13.1%      24099        proc-vmstat.pgactivate
+   2459642 ±  3%     +15.5%    2840123 ±  2%  proc-vmstat.pgalloc_normal
+    530507 ±  3%      +8.0%     573060        proc-vmstat.pgfault
+   2336660 ±  3%     +16.3%    2717873 ±  2%  proc-vmstat.pgfree
+      9973 ±  2%    +143.6%      24292 ±  3%  proc-vmstat.unevictable_pgs_culled
+      9875          +146.0%      24292 ±  3%  proc-vmstat.unevictable_pgs_rescued
+      9876          +146.1%      24304 ±  3%  proc-vmstat.unevictable_pgs_scanned
+ 1.413e+09           +12.4%  1.588e+09        perf-stat.i.branch-instructions
+      2.09            -0.1        1.99 ±  2%  perf-stat.i.branch-miss-rate%
+  23305261            +1.8%   23715959        perf-stat.i.branch-misses
+      4.57 ±  4%      +1.5        6.06 ±  2%  perf-stat.i.cache-miss-rate%
+   4971151 ±  5%     +71.3%    8515308 ±  2%  perf-stat.i.cache-misses
+ 1.771e+08            +6.4%  1.884e+08        perf-stat.i.cache-references
+      0.91            -3.5%       0.88 ±  2%  perf-stat.i.cpi
+ 4.936e+09            +7.8%  5.319e+09        perf-stat.i.cpu-cycles
+     39.95 ±  3%     -15.1%      33.90 ±  2%  perf-stat.i.cpu-migrations
+      1671 ±  4%     -34.5%       1095 ±  6%  perf-stat.i.cycles-between-cache-misses
+ 2.815e+09           +11.8%  3.147e+09        perf-stat.i.dTLB-loads
+      0.02 ±  2%      -0.0        0.02 ±  4%  perf-stat.i.dTLB-store-miss-rate%
+ 6.478e+08           +10.4%  7.153e+08        perf-stat.i.dTLB-stores
+     40.15 ±  2%      -2.9       37.29        perf-stat.i.iTLB-load-miss-rate%
+ 1.063e+10           +12.2%  1.192e+10        perf-stat.i.instructions
+     40912 ±  4%     +25.5%      51361 ±  2%  perf-stat.i.instructions-per-iTLB-miss
+      2.18            +2.7%       2.23        perf-stat.i.ipc
+      0.41            +7.8%       0.44        perf-stat.i.metric.GHz
+    421.03           +11.6%     469.88        perf-stat.i.metric.M/sec
+      3358            +5.5%       3542        perf-stat.i.minor-faults
+      0.00 ± 11%      -0.0        0.00 ±  6%  perf-stat.i.node-load-miss-rate%
+      6.40 ±  8%     +17.6%       7.52 ±  5%  perf-stat.i.node-load-misses
+    216221 ±  6%     +61.9%     350134        perf-stat.i.node-loads
+      0.00 ± 16%      +0.1        0.12 ±220%  perf-stat.i.node-store-miss-rate%
+      6.72 ±  6%  +6.9e+12%  4.615e+11 ±223%  perf-stat.i.node-store-misses
+    694301 ±  9%     -14.3%     594881 ±  3%  perf-stat.i.node-stores
+      3361            +5.5%       3545        perf-stat.i.page-faults
+      0.47 ±  5%     +52.6%       0.71 ±  2%  perf-stat.overall.MPKI
+      1.65            -0.2        1.49        perf-stat.overall.branch-miss-rate%
+      2.81 ±  6%      +1.7        4.52 ±  2%  perf-stat.overall.cache-miss-rate%
+      0.46            -4.0%       0.45        perf-stat.overall.cpi
+    994.89 ±  5%     -37.2%     624.75 ±  2%  perf-stat.overall.cycles-between-cache-misses
+      0.03            -0.0        0.02        perf-stat.overall.dTLB-load-miss-rate%
+      0.01            -0.0        0.01        perf-stat.overall.dTLB-store-miss-rate%
+     30.99 ±  3%      -2.3       28.68 ±  4%  perf-stat.overall.iTLB-load-miss-rate%
+     25510 ± 11%     +20.2%      30672 ±  5%  perf-stat.overall.instructions-per-iTLB-miss
+      2.15            +4.1%       2.24        perf-stat.overall.ipc
+      0.00 ±  8%      -0.0        0.00 ±  5%  perf-stat.overall.node-load-miss-rate%
+      0.00 ±  8%     +16.7       16.67 ±223%  perf-stat.overall.node-store-miss-rate%
+ 1.403e+09           +12.5%  1.578e+09        perf-stat.ps.branch-instructions
+  23153579            +1.7%   23558574        perf-stat.ps.branch-misses
+   4938806 ±  5%     +71.3%    8457880 ±  2%  perf-stat.ps.cache-misses
+ 1.758e+08            +6.4%  1.871e+08        perf-stat.ps.cache-references
+ 4.901e+09            +7.8%  5.282e+09        perf-stat.ps.cpu-cycles
+     39.66 ±  3%     -15.1%      33.67 ±  2%  perf-stat.ps.cpu-migrations
+ 2.795e+09           +11.8%  3.125e+09        perf-stat.ps.dTLB-loads
+ 6.432e+08           +10.4%  7.103e+08        perf-stat.ps.dTLB-stores
+ 1.055e+10           +12.2%  1.184e+10        perf-stat.ps.instructions
+      3336            +5.5%       3518        perf-stat.ps.minor-faults
+      6.35 ±  8%     +17.6%       7.47 ±  5%  perf-stat.ps.node-load-misses
+    214756 ±  6%     +61.9%     347761        perf-stat.ps.node-loads
+      6.67 ±  6%  +6.9e+12%  4.577e+11 ±223%  perf-stat.ps.node-store-misses
+    689455 ±  9%     -14.3%     590802 ±  3%  perf-stat.ps.node-stores
+      3338            +5.5%       3521        perf-stat.ps.page-faults
+ 1.467e+12 ±  4%     +15.7%  1.698e+12 ±  2%  perf-stat.total.instructions
+
+
+
+***************************************************************************************************
+lkp-cfl-d2: 12 threads 1 sockets Intel(R) Core(TM) i7-8700 CPU @ 3.20GHz (Coffee Lake) with 32G memory
+=========================================================================================
+compiler/cpufreq_governor/kconfig/need_x/option_a/rootfs/tbox_group/test/testcase:
+  gcc-12/performance/x86_64-rhel-8.3/true/2560 x 1440/debian-x86_64-phoronix/lkp-cfl-d2/openarena-1.5.5/phoronix-test-suite
+
+commit: 
+  16a9359401 ("drm/i915: Implement transcoder LRR for TGL+")
+  54fef7ea35 ("drm/i915/gem: Allow users to disable waitboost")
+
+16a9359401edcbc0 54fef7ea35dadd66193b98805b0 
+---------------- --------------------------- 
+         %stddev     %change         %stddev
+             \          |                \  
+      1459 ± 27%     +34.9%       1967 ± 13%  sched_debug.cpu.curr->pid.max
+      1.63            -0.5        1.14 ±  2%  mpstat.cpu.all.iowait%
+      1.17            -0.1        1.06        mpstat.cpu.all.irq%
+    189.00 ± 11%     -53.6%      87.67 ± 17%  perf-c2c.DRAM.local
+     20.67 ± 28%     -87.9%       2.50 ± 72%  perf-c2c.HITM.local
+      6016            +5.7%       6358        vmstat.io.bi
+     30168            -5.0%      28666        vmstat.system.cs
+     27678            -2.7%      26933        vmstat.system.in
+    337.58           +13.2%     382.30        phoronix-test-suite.openarena.2560x1440.frames_per_second
+      2.95           -12.2%       2.59        phoronix-test-suite.openarena.2560x1440.milliseconds
+    191369           +23.8%     236938        phoronix-test-suite.time.minor_page_faults
+     51.00            +6.5%      54.33        phoronix-test-suite.time.percent_of_cpu_this_job_got
+     56192           -63.1%      20758        phoronix-test-suite.time.voluntary_context_switches
+     90640           -64.0%      32673 ±  7%  turbostat.C1
+      0.68 ±  2%      -0.3        0.38 ±  5%  turbostat.C1%
+     46385           -12.3%      40688 ±  2%  turbostat.C3
+      1.72            -0.2        1.51 ±  2%  turbostat.C3%
+      3.58 ±  6%     -17.6%       2.95 ± 11%  turbostat.CPU%c3
+      5.71           -11.1%       5.08        turbostat.GFXWatt
+     29983 ±  4%     -63.0%      11105 ± 24%  turbostat.POLL
+      0.06 ±  8%      -0.0        0.01 ± 35%  turbostat.POLL%
+      1.31 ± 15%     +70.2%       2.23 ±  7%  turbostat.Pkg%pc2
+     29.56            -1.4%      29.14        turbostat.PkgWatt
+      2123            -5.7%       2001        proc-vmstat.nr_active_anon
+     37869            +2.8%      38912        proc-vmstat.nr_active_file
+     22828            -5.8%      21501        proc-vmstat.nr_unevictable
+      2123            -5.7%       2001        proc-vmstat.nr_zone_active_anon
+     37869            +2.8%      38912        proc-vmstat.nr_zone_active_file
+     22828            -5.8%      21501        proc-vmstat.nr_zone_unevictable
+    624578            +4.2%     650937        proc-vmstat.numa_hit
+    624578            +4.2%     650937        proc-vmstat.numa_local
+    771624            +3.5%     798755        proc-vmstat.pgalloc_normal
+    429393            +7.2%     460476        proc-vmstat.pgfault
+    620059            +4.1%     645242        proc-vmstat.pgfree
+      8.52 ±126%      -7.9        0.62 ±223%  perf-profile.calltrace.cycles-pp.wp_page_copy.__handle_mm_fault.handle_mm_fault.do_user_addr_fault.exc_page_fault
+      6.09 ±114%      -5.4        0.67 ±223%  perf-profile.calltrace.cycles-pp.intel_idle.cpuidle_enter_state.cpuidle_enter.cpuidle_idle_call.do_idle
+      3.76 ±110%      -3.8        0.00        perf-profile.calltrace.cycles-pp.error_entry
+      8.52 ±126%      -7.9        0.62 ±223%  perf-profile.children.cycles-pp.wp_page_copy
+      6.09 ±114%      -5.4        0.67 ±223%  perf-profile.children.cycles-pp.intel_idle
+      5.79 ±100%      -4.6        1.24 ±223%  perf-profile.children.cycles-pp.do_filp_open
+      5.79 ±100%      -4.6        1.24 ±223%  perf-profile.children.cycles-pp.path_openat
+      3.76 ±110%      -3.8        0.00        perf-profile.children.cycles-pp.error_entry
+      3.76 ±110%      -2.6        1.11 ±223%  perf-profile.children.cycles-pp.asm_sysvec_apic_timer_interrupt
+      3.76 ±110%      -2.6        1.11 ±223%  perf-profile.children.cycles-pp.sysvec_apic_timer_interrupt
+      3.76 ±110%      -2.6        1.11 ±223%  perf-profile.children.cycles-pp.__sysvec_apic_timer_interrupt
+      3.76 ±110%      -2.6        1.11 ±223%  perf-profile.children.cycles-pp.hrtimer_interrupt
+      6.09 ±114%      -5.4        0.67 ±223%  perf-profile.self.cycles-pp.intel_idle
+      3.76 ±110%      -3.8        0.00        perf-profile.self.cycles-pp.error_entry
+      4.97 ±109%      -2.2        2.78 ±223%  perf-profile.self.cycles-pp.zap_pte_range
+  8.07e+08            +2.7%   8.29e+08        perf-stat.i.branch-instructions
+  31612011            +4.7%   33095236        perf-stat.i.cache-misses
+     31337            -4.0%      30085        perf-stat.i.context-switches
+      1.57            +7.7%       1.69 ±  2%  perf-stat.i.cpi
+ 4.798e+09            +3.2%   4.95e+09        perf-stat.i.cpu-cycles
+      0.14 ±  3%      +0.0        0.16 ±  3%  perf-stat.i.dTLB-load-miss-rate%
+ 1.131e+09            +4.1%  1.177e+09        perf-stat.i.dTLB-loads
+      0.03 ±  2%      +0.0        0.03 ±  2%  perf-stat.i.dTLB-store-miss-rate%
+    134590            +6.1%     142835        perf-stat.i.dTLB-store-misses
+ 5.907e+08            +4.5%  6.175e+08        perf-stat.i.dTLB-stores
+   3858714            +6.5%    4109072        perf-stat.i.iTLB-loads
+ 4.646e+09            +3.6%  4.812e+09        perf-stat.i.instructions
+      0.40            +3.2%       0.41        perf-stat.i.metric.GHz
+    824.17            +6.4%     876.81        perf-stat.i.metric.K/sec
+    224.04            +3.7%     232.30        perf-stat.i.metric.M/sec
+      5577           +13.3%       6319        perf-stat.i.minor-faults
+   1661010            +8.8%    1806501        perf-stat.i.node-loads
+   4199874            +5.4%    4426929        perf-stat.i.node-stores
+      5582           +13.3%       6325        perf-stat.i.page-faults
+    151.84            -1.5%     149.61        perf-stat.overall.cycles-between-cache-misses
+ 7.953e+08            +2.6%   8.16e+08        perf-stat.ps.branch-instructions
+  31131128            +4.6%   32563072        perf-stat.ps.cache-misses
+     30863            -4.1%      29604        perf-stat.ps.context-switches
+ 4.727e+09            +3.1%  4.871e+09        perf-stat.ps.cpu-cycles
+ 1.114e+09            +4.0%  1.158e+09        perf-stat.ps.dTLB-loads
+    132539            +6.0%     140536        perf-stat.ps.dTLB-store-misses
+ 5.818e+08            +4.4%  6.076e+08        perf-stat.ps.dTLB-stores
+   3798756            +6.4%    4042216        perf-stat.ps.iTLB-loads
+ 4.577e+09            +3.5%  4.736e+09        perf-stat.ps.instructions
+      5496           +13.2%       6220        perf-stat.ps.minor-faults
+   1635550            +8.7%    1777301        perf-stat.ps.node-loads
+   4135301            +5.3%    4355124        perf-stat.ps.node-stores
+      5501           +13.2%       6226        perf-stat.ps.page-faults
+ 3.045e+11            -2.8%  2.961e+11        perf-stat.total.instructions
+
+
+
+
+
+Disclaimer:
+Results have been estimated based on internal Intel analysis and are provided
+for informational purposes only. Any difference in system hardware or software
+design or configuration may affect actual performance.
+
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
