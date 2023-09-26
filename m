@@ -1,58 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44F757AEFDC
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Sep 2023 17:43:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BBBE7AEFFC
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Sep 2023 17:52:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 854A410E135;
-	Tue, 26 Sep 2023 15:43:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 487AE10E104;
+	Tue, 26 Sep 2023 15:52:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 07CAB10E104;
- Tue, 26 Sep 2023 15:42:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1695742979; x=1727278979;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=kSGp+NMFWW6MBSTU8n+62TzJXUOw3BjhZpIaHabZOXo=;
- b=cFdyloYAl3KThNTe9OEHwumf/vhifwGocHeHtyouR/pH2NSSruPih7SV
- eOrGjLKjnrnTX6I9yEr6oAgDzCOgy8Vemagieekcr6ORBXRFUpXDSlnxf
- SjZegUnJD/YxcQWJtkSZ5UpUX3JQX1q+M4ESba/Df3fbJHDW3l309lsFG
- E+4bWhqTvgT7KnmY6NmkVXOkO2SL4tHAeC1jDiu5h3lDb4S8verqWKBgV
- K4B7ls3f4YpycOqP9lwWzbYS3yeTdx5liGxw0UnqV77BTgVZ7ER9PU0HL
- yDJ0b31TZ6khnj6+tabjg46TiZUvKHoR0PnFItz6WKllQEgEjkSN/7GAr g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10845"; a="381496949"
-X-IronPort-AV: E=Sophos;i="6.03,178,1694761200"; d="scan'208";a="381496949"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Sep 2023 08:42:57 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10845"; a="892243328"
-X-IronPort-AV: E=Sophos;i="6.03,178,1694761200"; d="scan'208";a="892243328"
-Received: from dilipban-mobl.ger.corp.intel.com (HELO [10.213.201.63])
- ([10.213.201.63])
- by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Sep 2023 08:41:51 -0700
-Message-ID: <d7a022e9-411c-043b-fe71-b056f88176ff@linux.intel.com>
-Date: Tue, 26 Sep 2023 16:42:54 +0100
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B6DE210E104
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Sep 2023 15:52:05 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 38QD4jJU000350; Tue, 26 Sep 2023 15:52:01 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=HIfh5dYMraCTQOKmfWJJn7chOjngPtabwmi2f02HSq4=;
+ b=XMBlb+bl9Ocxpw0xFVtdx9Kv1m0bpEDTPEH278qhyPVnGlPegEA+6mJuyiWmmkdXj2W/
+ Y9O1A7MrDECGO9w3BoVbCA8nWZhED8LJNwpFZX7B0A+Grp7dfCiQIvoYHa/Okt6geJ8b
+ +L85hK4nbygYC0mUJUTtAuGFtQFlF7OQ6B14Z+Hay0+jY856eHQqjtI8A1NY8lY77a97
+ 0dZv6LtXuqVoGxPU0WaleX6OS+HM5nmbVOlJidAjOi4SZYUXrQk6eT5EazOgwS3sILZD
+ e3wHAwlv/LRBPuxP3nWQD7YfYAWRqKgO6nZD/Pk2eVa/1gz7lM15i9T2njHgayYQcRPy 3w== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3tbv6611ru-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 26 Sep 2023 15:52:01 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 38QFq0dR001781
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 26 Sep 2023 15:52:00 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Tue, 26 Sep
+ 2023 08:52:00 -0700
+Message-ID: <aee3781f-c496-1312-3104-5ad2dda1ee5f@quicinc.com>
+Date: Tue, 26 Sep 2023 09:51:59 -0600
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH 5/6] drm/i915: Add stable memory region names
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH 1/6] accel/ivpu: Do not use wait event interruptible
 Content-Language: en-US
-To: "Iddamsetty, Aravind" <aravind.iddamsetty@intel.com>,
- Intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20230922134700.235039-1-tvrtko.ursulin@linux.intel.com>
- <20230922134700.235039-6-tvrtko.ursulin@linux.intel.com>
- <4530159c-d3c6-533f-9e4b-f50dba6ffea2@intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <4530159c-d3c6-533f-9e4b-f50dba6ffea2@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+ <dri-devel@lists.freedesktop.org>
+References: <20230925121137.872158-1-stanislaw.gruszka@linux.intel.com>
+ <20230925121137.872158-2-stanislaw.gruszka@linux.intel.com>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <20230925121137.872158-2-stanislaw.gruszka@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: WI04zPrS9EtQ1GmlR73ih2eeE0w1g6S4
+X-Proofpoint-GUID: WI04zPrS9EtQ1GmlR73ih2eeE0w1g6S4
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-09-26_13,2023-09-26_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ malwarescore=0 mlxlogscore=919 bulkscore=0 phishscore=0 suspectscore=0
+ clxscore=1011 impostorscore=0 mlxscore=0 adultscore=0 spamscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2309180000 definitions=main-2309260138
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,99 +84,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: Karol Wachowski <karol.wachowski@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 26/09/2023 16:29, Iddamsetty, Aravind wrote:
-> On 22-09-2023 19:16, Tvrtko Ursulin wrote:
->> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->>
->> At the moment memory region names are a bit too varied and too
->> inconsistent to be used for ABI purposes, like for upcoming fdinfo
->> memory stats.
->>
->> System memory can be either system or system-ttm. Local memory has the
->> instance number appended, others do not. Not only incosistent but thi
->> kind of implementation detail is uninteresting for intended users of
->> fdinfo memory stats.
->>
->> Add a stable name always formed as $type$instance. Could have chosen a
->> different stable scheme, but I think any consistent and stable scheme
->> should do just fine.
->>
->> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->> ---
->>   drivers/gpu/drm/i915/intel_memory_region.c | 19 +++++++++++++++++++
->>   drivers/gpu/drm/i915/intel_memory_region.h |  1 +
->>   2 files changed, 20 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/i915/intel_memory_region.c b/drivers/gpu/drm/i915/intel_memory_region.c
->> index 3d1fdea9811d..60a03340bbd4 100644
->> --- a/drivers/gpu/drm/i915/intel_memory_region.c
->> +++ b/drivers/gpu/drm/i915/intel_memory_region.c
->> @@ -216,6 +216,22 @@ static int intel_memory_region_memtest(struct intel_memory_region *mem,
->>   	return err;
->>   }
->>   
->> +static const char *region_type_str(u16 type)
->> +{
->> +	switch (type) {
->> +	case INTEL_MEMORY_SYSTEM:
->> +		return "system";
->> +	case INTEL_MEMORY_LOCAL:
->> +		return "local";
->> +	case INTEL_MEMORY_STOLEN_LOCAL:
->> +		return "stolen-local";
->> +	case INTEL_MEMORY_STOLEN_SYSTEM:
->> +		return "stolen-system";
->> +	default:
->> +		return "unknown";
->> +	}
->> +}
->> +
->>   struct intel_memory_region *
->>   intel_memory_region_create(struct drm_i915_private *i915,
->>   			   resource_size_t start,
->> @@ -244,6 +260,9 @@ intel_memory_region_create(struct drm_i915_private *i915,
->>   	mem->type = type;
->>   	mem->instance = instance;
->>   
->> +	snprintf(mem->uabi_name, sizeof(mem->uabi_name), "%s%u",
->> +		 region_type_str(type), instance);
->> +
->>   	mutex_init(&mem->objects.lock);
->>   	INIT_LIST_HEAD(&mem->objects.list);
->>   
->> diff --git a/drivers/gpu/drm/i915/intel_memory_region.h b/drivers/gpu/drm/i915/intel_memory_region.h
->> index 2953ed5c3248..9ba36454e51b 100644
->> --- a/drivers/gpu/drm/i915/intel_memory_region.h
->> +++ b/drivers/gpu/drm/i915/intel_memory_region.h
->> @@ -80,6 +80,7 @@ struct intel_memory_region {
->>   	u16 instance;
->>   	enum intel_region_id id;
->>   	char name[16];
->> +	char uabi_name[16];
+On 9/25/2023 6:11 AM, Stanislaw Gruszka wrote:
+> If we receive signal when waiting for IPC message response in
+> ivpu_ipc_receive() we return error and continue to operate.
+> Then the driver can send another IPC messages and re-use occupied
+> slot of the message still processed by the firmware. This can result
+> in corrupting firmware memory and following FW crash with messages:
 > 
-> Just a thought instead of creating a new field, can't we derive this
-> with name and instance?
+> [ 3698.569719] intel_vpu 0000:00:0b.0: [drm] ivpu_ipc_send_receive_internal(): IPC receive failed: type 0x1103, ret -512
+> [ 3698.569747] intel_vpu 0000:00:0b.0: [drm] ivpu_jsm_unregister_db(): Failed to unregister doorbell 3: -512
+> [ 3698.569756] intel_vpu 0000:00:0b.0: [drm] ivpu_ipc_tx_prepare(): IPC message vpu:0x88980000 not released by firmware
+> [ 3698.569763] intel_vpu 0000:00:0b.0: [drm] ivpu_ipc_tx_prepare(): JSM message vpu:0x88980040 not released by firmware
+> [ 3698.570234] intel_vpu 0000:00:0b.0: [drm] ivpu_ipc_send_receive_internal(): IPC receive failed: type 0x110e, ret -512
+> [ 3698.570318] intel_vpu 0000:00:0b.0: [drm] *ERROR* ivpu_mmu_dump_event(): MMU EVTQ: 0x10 (Translation fault) SSID: 0 SID: 3, e[2] 00000000, e[3] 00000208, in addr: 0x88988000, fetch addr: 0x0
+> 
+> To fix the issue don't use interruptible variant of wait event to
+> allow firmware to finish IPC processing.
+> 
+> Fixes: 5d7422cfb498 ("accel/ivpu: Add IPC driver and JSM messages")
+> Reviewed-by: Karol Wachowski <karol.wachowski@linux.intel.com>
+> Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 
-I'd rather not snprintf on every fdinfo read - for every pid and every 
-drm fd versus 2-3 strings kept around.
-
-I did briefly wonder if mr->name could be dropped, that is renamed to 
-mr->uabi_name, but I guess there is some value to print the internal 
-name in some log messages, to leave a trace of what underlying 
-implementation is used. Although I am not too sure about the value of 
-that either since it is implied from the kernel version.
-
-Then on top the usage in i915_gem_create/repr_name I could replace with 
-mr->uabi_name and simplify. If there is any value in printing the name 
-there, versus just uabi type:instance integers. Dunno. All I know is 
-fdinfo should have stable names and not confuse with implementation 
-details so I need something..
-
-Regards,
-
-Tvrtko
+Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
