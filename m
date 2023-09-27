@@ -1,47 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F9047B0C29
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Sep 2023 20:48:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB69B7B0C2C
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Sep 2023 20:49:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E1A310E595;
-	Wed, 27 Sep 2023 18:48:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ECDAF10E597;
+	Wed, 27 Sep 2023 18:49:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2052.outbound.protection.outlook.com [40.107.92.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0933B10E593;
- Wed, 27 Sep 2023 18:47:58 +0000 (UTC)
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2047.outbound.protection.outlook.com [40.107.243.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E59410E594;
+ Wed, 27 Sep 2023 18:49:41 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GddzH1292E9rlxGpJa/p8JzQzrwQ+wYS7bwBgG+XofDWOCZv4ib8nV9VIzJe9YjlWnks+afv3GN9r5w4tCwc8E5CiDHbGokT61oBjbQv8NhQMuuJz4JFtzzyaqQBKTw4U8I8IOi8R8YOmyGDyJTlj7aKW9IAEPAASvCEp48vBvCBIeldKThIxE8XFkX4wyKVj7Hzwm8xMDCqrYf25WK4W/37gSFnxFg9gQL1z+f7jHnmMTGVrAkYtWydp/6OUDL3dbL/pUWNAx4GBpBQUlGBFJyX5XDKH6znhMnEY0OPam5RznySuN66oFs7LDuzoseVt4nQ6URSibH1OwXc3DBtBg==
+ b=SzCcZIFY1fpjoikO2qgs4Qmsj9SzDL+G+NppAggEscqrl9e2IroOq0CbqN/pVESauRBfbU0E9KQZPa7ZbDnSGYVsn/YiqXRjuoyU/WtB1rg9NzAgtaSo3WdFHkAFCT3o8UpgCpQEXxDz/tdiMjLOKWBKtrz20kSeTkuYUxHoUm9GfDTwPjXIybvVxnvKnFu7nQuKfdqX5XLKPbWuLbr4uctDxxTqIrMUtmHeJ+zQTtFAmKpDFMRrQFvqlQrLkfZGeQrksO8lNRWsrsma3Tym8skrm2MDaYdUiJMrjAz//oJY6GmXH3b8ToW85UfTDn+NlsUmD/xGw2Ihnx71qNyJ2Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/ptYx/Web6lt+JkbBW6NRGZRZ5bMerORUbhlccacdDg=;
- b=dRTwsu8yKMUczxaMKMOcDat4BMUz0vIZWk8ncwTIIOhfYU2qzjk9MJSc4aSLhT84cGrEh7g7bb2W4DW3wH1AQAVifBmMMvsX4Aaq4Z69ptOKL3jKYMj7DtHZGgF4QADEzV6GVRsJfm+WxHULyYEqgUaMR9XA4VPLKdW6IRvDFKiCO9ljz/zBp4ebpZZY54Tk1sRwWnNpzzcWpHb79rTEJ/ezqxxZSgl8ocazA8hERnZaShjTh9i4WEcgN9tBPDDkCbcfSj8q5pG6tT3HleXYISPDj1SrXDLJnsN+UxxBq/Q0lYJfM90vUJa7t44+ZWTzp7ZiZ2XYFPQGQhj9jFGoHg==
+ bh=rJLhzonI+/PgIPulNbreMp9VHttxJbYt1BI2GDaVauQ=;
+ b=LLYYZM7dw3sVmNBCq4dJBqN4u6Rp2IznIgKO6y7ns2oJeFEI/sPsSwz2LyXBFq8OtA1gQGOP921+lv/LtRSk+fFxHqOmba5hecDt+K2w7eLwAe4mkj/sul1VKm8aOS/mIAdFsOwmmLHilPujj6mm847vQiL+gyldWo1aTGw2q5TlzpyGKt0LFZqtl9szEtBxYaslOrVFb9oBkUzpsmZv3WKC18XIhPeRC6I6HgPhlGJ8gn/AEZelhqDDx3CcvgKhc8eJA2K6RfUoq2zVYg9quZvbv6uQX74/9PNZkEoTXgwcMqtwTji3ExTYyRtIaRQ/0SYN+Vrs5p95K6KnKTiLOg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/ptYx/Web6lt+JkbBW6NRGZRZ5bMerORUbhlccacdDg=;
- b=xqHa5IP7M/jHYp0ilfDM/Qw1F44YISgwSPCMej4cVeQr/AU79nwm6Ft+QNSZx6GG6HKM78YCzwEsjWXhzg+rwm5o8RxYDWCwpadCPdnUPzvfup5qPiaF/R9uUUjZkbVGvxko7mQREoYJOk8yYhljEBMAN4Ctf77H/dfUHzzRRO4=
+ bh=rJLhzonI+/PgIPulNbreMp9VHttxJbYt1BI2GDaVauQ=;
+ b=tTHNc6nu6rkR67cipuxoVRfOsZq9z1qVecAaAxXY3WHpwiwc+z2C2w42bN2jAweVwpbVk3ue9aax1xYrAtQFaZ3CAi/qxTDMJ8L3079/EkNh7i0u/eGg0hXsRxJ4tfcLdYV2HWwXyA2X9eYYhy+9yMYLdPWwnzDqEg8OVRPn8Mg=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from CO6PR12MB5427.namprd12.prod.outlook.com (2603:10b6:5:358::13)
- by DS0PR12MB9322.namprd12.prod.outlook.com (2603:10b6:8:1bd::14) with
+ by SA0PR12MB4430.namprd12.prod.outlook.com (2603:10b6:806:70::20) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6813.19; Wed, 27 Sep
- 2023 18:47:55 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6838.21; Wed, 27 Sep
+ 2023 18:49:37 +0000
 Received: from CO6PR12MB5427.namprd12.prod.outlook.com
  ([fe80::121e:5e68:c78a:1f2f]) by CO6PR12MB5427.namprd12.prod.outlook.com
  ([fe80::121e:5e68:c78a:1f2f%3]) with mapi id 15.20.6813.018; Wed, 27 Sep 2023
- 18:47:55 +0000
-Message-ID: <11acd0e1-c195-4f26-ad26-183b20c512cc@amd.com>
-Date: Wed, 27 Sep 2023 14:47:49 -0400
+ 18:49:37 +0000
+Message-ID: <f17850e7-27f9-4606-bc18-3954dea43563@amd.com>
+Date: Wed, 27 Sep 2023 14:49:33 -0400
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 23/32] drm/amd/display: add plane shaper LUT support
+Subject: Re: [PATCH v3 28/32] drm/amd/display: allow newer DC hardware to use
+ degamma ROM for PQ/HLG
 Content-Language: en-US
 To: Melissa Wen <mwen@igalia.com>, amd-gfx@lists.freedesktop.org,
  Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, sunpeng.li@amd.com,
@@ -49,9 +50,9 @@ To: Melissa Wen <mwen@igalia.com>, amd-gfx@lists.freedesktop.org,
  christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
  daniel@ffwll.ch
 References: <20230925194932.1329483-1-mwen@igalia.com>
- <20230925194932.1329483-24-mwen@igalia.com>
+ <20230925194932.1329483-29-mwen@igalia.com>
 From: Harry Wentland <harry.wentland@amd.com>
-In-Reply-To: <20230925194932.1329483-24-mwen@igalia.com>
+In-Reply-To: <20230925194932.1329483-29-mwen@igalia.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-ClientProxiedBy: YQXPR0101CA0056.CANPRD01.PROD.OUTLOOK.COM
@@ -59,63 +60,63 @@ X-ClientProxiedBy: YQXPR0101CA0056.CANPRD01.PROD.OUTLOOK.COM
  (2603:10b6:5:358::13)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO6PR12MB5427:EE_|DS0PR12MB9322:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7a9ba12d-c059-4f4e-6c68-08dbbf8a42cc
+X-MS-TrafficTypeDiagnostic: CO6PR12MB5427:EE_|SA0PR12MB4430:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2ffd79ef-c465-4dec-c81f-08dbbf8a7f71
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: QzeK35RMy72p1T0bCB89IFYf/5HxxJxIG9USrfq5sjb780cvgtQOq8ztSpuH0fKps+UTSt1AlBKL845IVxzvcr3pOQVTAhsbyuEYa7ZrA4TgR3cSCzQ1AGGTlc0rWbz1DdBeK2potnc6cI1dfuRyfbmfhGcrVmLqWuiVc+ByZehob/E1tFUkhl8YpYzNRpiYegsd7JV2FYeL8JhdDzU8+IVY4H2HeHrEN5xZbg5cKOJ0MwRo4w6yDcYAIEe7qyBcKWoTY06bfFHJ8u5t8q0mqkCyQmTKhr9d4JcLhygcgBZ7AhyElqYpQY09390JS/rqYf7FtBGa6kR6KvtFJ6NaO/oIZ7dUXg8q8Z4InJb+6j9pFrf70vFRyE0TbcB9+0EYat+ruZ0xVPRZVkcYsnLqOqrXhmV6CZAKe1xQDKorYNA3r/sMFyu7W+zbYKvMK1uRbAG2L82HxfcjofMB8SSFePYxQxh0+Y/FuEyvHaqbqUDRV4bfCIktcECSNhEKkgkJ0/Lhpov0ZznRxHk7V+kBcm5Ltfhen5ljLM1myH/44cibjpu9gqOfez7U37+q7eJT4DZYmBqeXGwa/7TahzcXV/0Y1sUvm5ixRd5FwzL99W0UhKfAD3Mg6zUafFPG5pMBCifJwvCr3HUTOyrw1DFRN3swk1Ef6risFIoyoMptO/s=
+X-Microsoft-Antispam-Message-Info: D15lTS1eCtugLyDLdDLxsJ0lJ1KQJ8mM141HnTpbLxNgeaYer5G9OGnMMyBhhaztkDrulTqIRR/eG9YFx3i4LrD/4yo+P+36cNqh3CM4AJKNUu/KT/Wtz9AlfH6XREPXToa58pN4DR/xgg980yv04k0TqHgeWzlr08gGhQfphekl3n2cZ7ou1kVF7EgKNT8sakEk06LiD9ZR+1tgqprxYDqV77rfJnOK/cA1+YLudhBHUzEC21VLx73P6pPEuOWhWoaZ0fJaROkV3mwv+3MUMd1sFhaaxEFUhchfn7pA62vXUTWF2USbsloLoRQs3ZpQnPNtey92E/8xi57KCSRYXPLr0kGu7sZLc/NaQ3LRDuiKTEpqXdWORKeVMZ03rvPo/BEgup96/C1D9PgcM0rnC9n8SGnsHctyPN1MLkS1ruHCEIGId2S7gTiBx6jygNTenvRHKfdhbdL9xIXWCs5wu9G/6udhQKuAs873pOME5XyDNUPYU4Cit216lhiKrNwnc2l8UBRQp20OThERBVb81ywMK5D/yqSExWdXUOOXCh4+gjtr1kTm/iS1ARZMd2xUoExJc9RHBcHyvpKu4NBaewp6su1A1pyhNdVgFjBUvFAAThwfOxtY8c8p6xJOAMsRu/ivqc/Xwe+3E4XP34BC5IXhsK2y2/4W6Y6+S6ShJG0=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:CO6PR12MB5427.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(366004)(396003)(39860400002)(346002)(376002)(136003)(230922051799003)(451199024)(186009)(1800799009)(83380400001)(26005)(8676002)(2616005)(5660300002)(4326008)(8936002)(6486002)(921005)(6506007)(53546011)(6512007)(44832011)(31686004)(478600001)(6666004)(41300700001)(66476007)(66556008)(54906003)(66946007)(110136005)(2906002)(86362001)(38100700002)(36756003)(31696002)(316002)(7416002)(43740500002)(45980500001);
+ SFS:(13230031)(366004)(136003)(376002)(396003)(346002)(39860400002)(230922051799003)(186009)(451199024)(1800799009)(6506007)(7416002)(83380400001)(6666004)(2906002)(6486002)(6512007)(478600001)(66946007)(8676002)(44832011)(66476007)(66556008)(5660300002)(8936002)(4326008)(26005)(54906003)(110136005)(41300700001)(2616005)(316002)(38100700002)(921005)(53546011)(31686004)(86362001)(36756003)(31696002)(43740500002)(45980500001);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?azk4WnB0TTRQeXJNNjZCTzVBOEFDcEtvRHgwRFJmcGVoSlF2U2tJN0hJNDVl?=
- =?utf-8?B?RXVDZXg0M2hRSFJrODMwQnVGSmZ1RDkwWlNTOEl2SWoxZWpTVGpIb3U4RHZs?=
- =?utf-8?B?YzdxUE1mbnpneTBvZW9hWjV1UXZINGVxYUN1R2ltdTY1c1ZBd0c3eTc2Qkcw?=
- =?utf-8?B?RU1CYytyUnZoR3VpMW5UdjlCSldnbHRWZTkydnkyY0dCOTRGaXRCcC9nRTJR?=
- =?utf-8?B?Ny9Oc1ZESEw5Z09vZld2VlcveE5XVzRlU1A2dDhkTTJiWDcvMHdORlRpUmVW?=
- =?utf-8?B?VDlIcVpsQjRvcXpqL0FhOUFCUUhrZVNuQnZHcnRsSVh6VytHcUdxdXhCUlRJ?=
- =?utf-8?B?Z2NTa3ZBRFZmYUZzcFNnZ1VQNTFpRy9TWEFyVjZyYVNPRUZNUjh6Umlxcmhp?=
- =?utf-8?B?VjhiSzdIeElzc0wrZkZBK2F5Qyt0a29TTytQVWZzb0dkVDMzdlkxcjRlNDQz?=
- =?utf-8?B?T3hybDZSU082WHhJZ3l5YlJIUVVPWlZPdFI5WjQvTVFwM2xSUnMwUTg3N2c0?=
- =?utf-8?B?WXBCWldaSVhpQVo0OG8xcUJwNnVEaWdrSU43Z3pSQ2JCSkZRRlBrOGZTb0pp?=
- =?utf-8?B?ODVRbEx5WENIWEZORnVDMWN0b2gyZTRrd1doTUpudS9icmZHbzg3VkVqd3JZ?=
- =?utf-8?B?Rkp2RUwrUldCVGh1a3RxNU1KM1J5RTlCMFA0aHpxMzdJdU1Jbm5IVVUzc2FR?=
- =?utf-8?B?c1Z6NlA1a2FybGpzd3Z3UmxyQVR2c2k4SzEyTHhiZkRia0Qyc1EvY2tHSGtM?=
- =?utf-8?B?KzhLTk0xOW9BcUJsOHJxVDNscnBsY2J1MjJMVm9Rd2xOTnlYcW1IekNuLy9h?=
- =?utf-8?B?ZmNuSVM3S3NjaXYrNXBkdXBTSUF5ZTNrcVBTZTdOd2ZKL20vR3Fub3phUUNS?=
- =?utf-8?B?RHFOcm82V1ZPQm41eWV4ZElRaVN3aU1pU04ydDl4WFVxelZCanpqUVVCTE1L?=
- =?utf-8?B?SjBxTHdUamMxbWJhOEpGMTd3NTBGbmZ4SWl4M3Q1b3ZtUGgwbHBDemZyKzhs?=
- =?utf-8?B?ek9maU1IditURkZibEgyOHRMYlBQZDV3VGFYY2dYYVAyT3J5L2ZKRUZUR21Y?=
- =?utf-8?B?T25pTE5ERHJXajlXeHNTenFldDREeFpMUjhnek1JK2JzQm4vZnhqUVBHeTd4?=
- =?utf-8?B?cmt1YUpHTm9zOFI5eURmY2diSUNjczdkS1I0MFZUTHFGQXBBUEJKV1VjUHdK?=
- =?utf-8?B?U2FKZ2pIVm84VExTMlFzdDNaYmRPUng1c2FrL0owa1ZKcVArTVdVS09pUXZm?=
- =?utf-8?B?TDEvUEREdFlJejByOHhZeU1EbHo5TmdFZXhCckp0bnkzYUprSll4KzhvQXYy?=
- =?utf-8?B?TSsrUjZFN3RVaGE1ZkFpdjNtQUhQeHpQNG5HYTNXSE53dk5adGJGcDQ2NVFL?=
- =?utf-8?B?WFVDK3FmSWhBNVd1eUFlNThZa0EwZ1U0UE1JZWRueWhveng5VlFOMGlFTVAr?=
- =?utf-8?B?UGxmVlpjQXFNaS9FYmZlWVJ3TWU1bEl2N2pPQ3VUMDkzUll5VjhXVXZaSHBl?=
- =?utf-8?B?WFpxajA2VzVMeGszWFV3NW9DZTdwUFppZnFZeFRQUG9kMk53SGZIT1gzQ1JF?=
- =?utf-8?B?UkJiMG00NDZkNTB3T0pzeWVSQktIVmwvRVFvWGVUaThjdUphNzk4VlhGVVJD?=
- =?utf-8?B?cWovSDNTdzJxeFJLcDY1M0N1U016VTIwQ2h3MnFJNENwbXJBNDZZSitUVkhM?=
- =?utf-8?B?QXJ2ZEx5QTRqRFRoeEtJL1BtbU9xcXBkdTUyL3cxcEttdWp6NCtQSzVLQUpR?=
- =?utf-8?B?b2VHVW5IZGlyUzd4YWNkYno0eDZpTDdrR2d5QWxKbjVDOFE3clcycWhQUXY1?=
- =?utf-8?B?SWxwRlRDT2Nkb1dsa2s1a2x4WHBCRVZPODFOa2dlakJ2amV3aUo0RVRxMkl6?=
- =?utf-8?B?K3dHUnZxUUlxVjExQms5VWNGdHhMREJsckJoa2FsS0ZPWTByN2ZzMVE3RHZl?=
- =?utf-8?B?M201K1AzWXlqYlhJY0dibHJaSnIrdURyakx3SGZpM2lRQWNuWWsvcGIzRVdP?=
- =?utf-8?B?dkh1MzlibE9pNm5jRlRWdGt6WGU1aGc0R0U2ODZ2cXBQblNhM2Z3SHpMT1Fq?=
- =?utf-8?B?MmhQM1NnK0VreldzeXlRZUs5MU15U1FiY05uYW92NzJEcnNzRXpoNDNCWkVL?=
- =?utf-8?Q?Cw9j9Tu/pP6Hj8XuVqxMJoV1g?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MTNtSGtUVVh4SS82YmpTS0V3TDNCZmRZRDdnVXFTaGp6bktub0VHYmpMUHFX?=
+ =?utf-8?B?RkVYbncvTUNqR2hEWmNVYW1aRjV0ZTNGeEtneG1aaEhWcWdRcDNFYk5Od1N1?=
+ =?utf-8?B?R1EzOEk5elZJczdoSTh2U1lWdmVlZ2Z6UzFEdGNaVDVuQU1qMXZXbTIvc3B0?=
+ =?utf-8?B?VjBCRDlRM0RTYllCSklrMVB3MHExbDlCZ1IwRlYvY1pjQzUrUEZDZmZCMlor?=
+ =?utf-8?B?T2I5U0Jkb2VJdDZPcWlJWWtVUmRXRzdmU2lsTm9HRDF2aUV6R1UwWjhFZTV1?=
+ =?utf-8?B?VGVGbnJJeU1VaUk1Z2dBUkRiTk40Ui96NkZrTysvblplUUN5SVFhZGpRRG9Y?=
+ =?utf-8?B?a3lGNk80NHE5elNTbFd5N3hTVWQyUXNxTHRHSFNJMUc2ZHFsNVNWRlI2ZFJB?=
+ =?utf-8?B?cGVJOEx4Qzc3dllOM0lZK2FDZzZjRDluY3JoUE5BKzFQTkhwUDMxMFB2eEEw?=
+ =?utf-8?B?WjZXd2ZkdUVBTThTUGRySVIzanFndDNwVHR1MWRWODl6U2VUem9yZ1JZWUR1?=
+ =?utf-8?B?bmlBSDZyZkJVM3BPLzU0V3dxdGpNTXRIeEI4Z2lVcEVMdDZmRUhrbkJEM1Nt?=
+ =?utf-8?B?UTJjSUNyUDdhZXU2d1BwVnFVdzlvbmRhSGIwZ1I4VEpvSEpRdTF0U1QxYklo?=
+ =?utf-8?B?R2pTQm1yYWZaUUpPZUxTSWJTeXExdXQ3NEt0ZWprY3FHcHhleTYyRGwzYUJr?=
+ =?utf-8?B?bWpoNStmTHg5UG1pYTdCam9zbXJBdU05UG1rUkpRdC9SRFZMYitkSFRYeW81?=
+ =?utf-8?B?cThNZEZzM0ZnUGxNZ1UvZFkvdndCdWthTUNEajZLZzE5NC8yTW8rOXZkU1Yx?=
+ =?utf-8?B?dDJUS1hFcXBIZ1pyWEtlVDluekRRWG5tOGFVRmMzbWFuaXhvRFV4THNhS2I2?=
+ =?utf-8?B?YzUzdTFzanR1WUQrQU9yOGpEYWtsU0NBQm9VZjY1aVFtcndNZlRramlSdWFX?=
+ =?utf-8?B?TWI2cWZ6eFJncWxSUkljUmwvY010R2taUW1pL1pUcUxWMFhnMnRBcEs4OXR0?=
+ =?utf-8?B?eDBpaFhWdVZJVW1jYnRobk1JeDhFMENtQVFpY2hyTS9xa0d4bmFZUWhKM1RE?=
+ =?utf-8?B?Yk9icEVXUjVJbU1hdWo0WjJOeFNiSEdBejFZTFpyNXllYWx1Z1kxZVNzYUc5?=
+ =?utf-8?B?Y2xtb3BSaHV4WmJnZ2ptcG5IdzloQnM1UXJjUHdENVFLbE8yZ1N3R0hxKzNY?=
+ =?utf-8?B?UXdMWmwzZk1MdXUvZHFXZEw2Ti93em8ySWRaQWdyRW1Xb1U5dHJWeGg3N1lQ?=
+ =?utf-8?B?THA3aVgxeVFYZXhlVThsTUZSUFZHM1VybGp5dmVuejgrU1dTMTlZc3NBZWRt?=
+ =?utf-8?B?TXdRTSt5Q3RzQU42NjdXQXZCMUZrM1lVMjJ5bEtXd25BejU5bmc1SzdGbG01?=
+ =?utf-8?B?VHI5UUljZjZZWEFMRGpIK2pISUU4VHBoVzV0cFBJNHg3K2RKRTNGMDcydlVF?=
+ =?utf-8?B?alRFUnJCQ3gvdmhRZ1g0Y2R4Z1pEVVgyVFdmWnpIM2gxTDRINTM4aFdZbmZM?=
+ =?utf-8?B?bHN5YjNWQTFhMWJZZkdlbThaQnNjVkl6a2tGS1JvOWFQdkdQSEFnQXQrL3A3?=
+ =?utf-8?B?dml2UGpCZFdqeHJIMktpREVHUFlLVGIrLzZpQjJxZ1JKajJvTEdybzZmOGto?=
+ =?utf-8?B?NjZqZ25qUEVyQnAwVnJWd1owR2c5dzBIRy9BZGtOVWtxZThVOGtId0NJeisr?=
+ =?utf-8?B?bnYza3BDVzlQVlgycVFzKzRXbmROcW1YWnplOWZZOHVOc2FMeEN5NVBNQ29w?=
+ =?utf-8?B?SUxJR0FqdFREK2ZDclpJbXQvL1JpanRMZUMvUERVUit4b2R3dkkyUmFJTysy?=
+ =?utf-8?B?ZzZ2Q2Y5ZFZuZDc1MlhUbUlVbGtwOWtNYVZrYlMvaXh4VHlDVlVNcDZWUkJR?=
+ =?utf-8?B?ZFk4cHB1SnpackdOM0VXNFV5cEZDZjB1SGdrZ1RTOVk4bWF1STU3YjNsOUxS?=
+ =?utf-8?B?bUF6QlBXOThKVE50dTdLTWo5dHRjUUZpVkRqOVhqNldOa2dRZmhpd2tWd0Z0?=
+ =?utf-8?B?WjNYdlZQWUg3NXliakpLVExCYm1DT25Ib0pCVExZRnIrSUhFYmxlMnRENG5k?=
+ =?utf-8?B?UlpHZ0tKYkZ3NmtENEs0akxSNlU4WVBhN0FZK2RVT3hDWHpydVoxZE5RcThL?=
+ =?utf-8?Q?xQYZ5D/z40siohueLO0Gl65mt?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7a9ba12d-c059-4f4e-6c68-08dbbf8a42cc
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2ffd79ef-c465-4dec-c81f-08dbbf8a7f71
 X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5427.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Sep 2023 18:47:55.2058 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Sep 2023 18:49:36.9098 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 1fnbDA0LEigxFpnNBy4gtPJR5zI5QvtWsVAyvK3KJ7Mwh4USqhxb2B35qCLb89tmh8vXo8IdrEQDUOFhHceiWw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB9322
+X-MS-Exchange-CrossTenant-UserPrincipalName: WdSwESoDDV1++GA3gLOo5eBy+HZlGiN9hmd77Wi8xASTHf+L3oCUFRV7SWTVY8+v1mQATq30A7nhcUT2M/VtMA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4430
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -137,208 +138,159 @@ Cc: Sebastian Wick <sebastian.wick@redhat.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
 On 2023-09-25 15:49, Melissa Wen wrote:
-> Map DC shaper LUT to DM plane color management. Shaper LUT can be used
-> to delinearize and/or normalize the color space for computational
-> efficiency and achiving specific visual styles. If a plane degamma is
-> apply to linearize the color space, a custom shaper 1D LUT can be used
-> just before applying 3D LUT.
+> From: Joshua Ashton <joshua@froggi.es>
+> 
+> Need to funnel the color caps through to these functions so it can check
+> that the hardware is capable.
 > 
 > v2:
-> - use DPP color caps to verify plane 3D LUT support
-> - add debug message if shaper LUT programming fails
+> - remove redundant color caps assignment on plane degamma map (Harry)
+> - pass color caps to degamma params
 > 
-> Reviewed-by: Harry Wentland <harry.wentland@amd.com>
+> v3:
+> - remove unused color_caps parameter from set_color_properties (Harry)
+> 
+> Signed-off-by: Joshua Ashton <joshua@froggi.es>
 > Signed-off-by: Melissa Wen <mwen@igalia.com>
-> ---
->  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |   1 +
->  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h |   2 +
->  .../amd/display/amdgpu_dm/amdgpu_dm_color.c   | 108 +++++++++++++++++-
->  3 files changed, 107 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> index 455b690d6185..af18c523c431 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> @@ -8185,6 +8185,7 @@ static void amdgpu_dm_commit_planes(struct drm_atomic_state *state,
->  			bundle->surface_updates[planes_count].in_transfer_func = dc_plane->in_transfer_func;
->  			bundle->surface_updates[planes_count].gamut_remap_matrix = &dc_plane->gamut_remap_matrix;
->  			bundle->surface_updates[planes_count].hdr_mult = dc_plane->hdr_mult;
-> +			bundle->surface_updates[planes_count].func_shaper = dc_plane->in_shaper_func;
->  		}
->  
->  		amdgpu_dm_plane_fill_dc_scaling_info(dm->adev, new_plane_state,
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-> index b7b1d67f87a0..ad583cc97f15 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-> @@ -897,6 +897,8 @@ void amdgpu_dm_trigger_timing_sync(struct drm_device *dev);
->  /* 3D LUT max size is 17x17x17 */
->  #define MAX_COLOR_3DLUT_ENTRIES 4913
->  #define MAX_COLOR_3DLUT_BITDEPTH 12
-> +int amdgpu_dm_verify_lut3d_size(struct amdgpu_device *adev,
-> +				struct drm_plane_state *plane_state);
->  /* 1D LUT size */
->  #define MAX_COLOR_LUT_ENTRIES 4096
->  /* Legacy gamm LUT users such as X doesn't like large LUT sizes */
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
-> index 577a9dc669a5..8c991b5cf473 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
-> @@ -594,6 +594,74 @@ amdgpu_tf_to_dc_tf(enum amdgpu_transfer_function tf)
->  	}
->  }
->  
-> +static int amdgpu_dm_atomic_shaper_lut(const struct drm_color_lut *shaper_lut,
-> +				       uint32_t shaper_size,
-> +				       struct dc_transfer_func *func_shaper)
-> +{
-> +	int ret = 0;
-> +
-> +	if (shaper_size) {
-> +		/* If DRM shaper LUT is set, we assume a linear color space
-> +		 * (linearized by DRM degamma 1D LUT or not)
-> +		 */
-> +		func_shaper->type = TF_TYPE_DISTRIBUTED_POINTS;
-> +		func_shaper->tf = TRANSFER_FUNCTION_LINEAR;
-> +
-> +		ret = __set_output_tf(func_shaper, shaper_lut, shaper_size, false);
-> +	} else {
-> +		func_shaper->type = TF_TYPE_BYPASS;
-> +		func_shaper->tf = TRANSFER_FUNCTION_LINEAR;
-> +	}
-> +
-> +	return ret;
-> +}
-> +
-> +/* amdgpu_dm_lut3d_size - get expected size according to hw color caps
-> + * @adev: amdgpu device
-> + * @lut_size: default size
-> + *
-> + * Return:
-> + * lut_size if DC 3D LUT is supported, zero otherwise.
-> + */
-> +static uint32_t amdgpu_dm_get_lut3d_size(struct amdgpu_device *adev,
 
-The function name is a bit confusing since this just returns the
-lut_size if we have a hw_3d_lut caps field. Might be clearer to
-simply drop the function and do the below line of code in its
-place directly.
-
-No need to drop the RB, just a minor thing.
+Reviewed-by: Harry Wentland <harry.wentland@amd.com>
 
 Harry
 
-> +					 uint32_t lut_size)
-> +{
-> +	return adev->dm.dc->caps.color.dpp.hw_3d_lut ? lut_size : 0;
-> +}
-> +
-> +/**
-> + * amdgpu_dm_verify_lut3d_size - verifies if 3D LUT is supported and if DRM 3D
-> + * LUT matches the hw supported size
-> + * @adev: amdgpu device
-> + * @crtc_state: the DRM CRTC state
-> + *
-> + * Verifies if post-blending (MPC) 3D LUT is supported by the HW (DCN 3.0 or
-> + * newer) and if the DRM 3D LUT matches the supported size.
-> + *
-> + * Returns:
-> + * 0 on success. -EINVAL if lut size are invalid.
-> + */
-> +int amdgpu_dm_verify_lut3d_size(struct amdgpu_device *adev,
-> +				struct drm_plane_state *plane_state)
-> +{
-> +	struct dm_plane_state *dm_plane_state = to_dm_plane_state(plane_state);
-> +	const struct drm_color_lut *shaper = NULL;
-> +	uint32_t exp_size, size;
-> +
-> +	/* shaper LUT is only available if 3D LUT color caps*/
-> +	exp_size = amdgpu_dm_get_lut3d_size(adev, MAX_COLOR_LUT_ENTRIES);
-> +	shaper = __extract_blob_lut(dm_plane_state->shaper_lut, &size);
-> +
-> +	if (shaper && size != exp_size) {
-> +		drm_dbg(&adev->ddev,
-> +			"Invalid Shaper LUT size. Should be %u but got %u.\n",
-> +			exp_size, size);
-> +		return -EINVAL;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
+> ---
+>  .../amd/display/amdgpu_dm/amdgpu_dm_color.c   | 29 ++++++++++++-------
+>  1 file changed, 18 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
+> index 15590677f209..7871256f0e5f 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
+> @@ -536,6 +536,7 @@ static int amdgpu_dm_set_atomic_regamma(struct dc_stream_state *stream,
 >  /**
->   * amdgpu_dm_verify_lut_sizes - verifies if DRM luts match the hw supported sizes
->   * @crtc_state: the DRM CRTC state
-> @@ -881,6 +949,34 @@ __set_dm_plane_degamma(struct drm_plane_state *plane_state,
->  	return 0;
->  }
+>   * __set_input_tf - calculates the input transfer function based on expected
+>   * input space.
+> + * @caps: dc color capabilities
+>   * @func: transfer function
+>   * @lut: lookup table that defines the color space
+>   * @lut_size: size of respective lut.
+> @@ -543,7 +544,7 @@ static int amdgpu_dm_set_atomic_regamma(struct dc_stream_state *stream,
+>   * Returns:
+>   * 0 in case of success. -ENOMEM if fails.
+>   */
+> -static int __set_input_tf(struct dc_transfer_func *func,
+> +static int __set_input_tf(struct dc_color_caps *caps, struct dc_transfer_func *func,
+>  			  const struct drm_color_lut *lut, uint32_t lut_size)
+>  {
+>  	struct dc_gamma *gamma = NULL;
+> @@ -560,7 +561,7 @@ static int __set_input_tf(struct dc_transfer_func *func,
+>  		__drm_lut_to_dc_gamma(lut, gamma, false);
+>  	}
 >  
-> +static int
-> +amdgpu_dm_plane_set_color_properties(struct drm_plane_state *plane_state,
-> +				     struct dc_plane_state *dc_plane_state)
-> +{
-> +	struct dm_plane_state *dm_plane_state = to_dm_plane_state(plane_state);
-> +	const struct drm_color_lut *shaper_lut;
-> +	uint32_t shaper_size;
-> +	int ret;
-> +
-> +	/* We have nothing to do here, return */
-> +	if (!plane_state->color_mgmt_changed)
-> +		return 0;
-> +
-> +	dc_plane_state->hdr_mult = dc_fixpt_from_s3132(dm_plane_state->hdr_mult);
-> +
-> +	shaper_lut = __extract_blob_lut(dm_plane_state->shaper_lut, &shaper_size);
-> +	shaper_size = shaper_lut != NULL ? shaper_size : 0;
-> +
-> +	ret = amdgpu_dm_atomic_shaper_lut(shaper_lut, shaper_size,
-> +					  dc_plane_state->in_shaper_func);
-> +	if (ret)
-> +		drm_dbg_kms(plane_state->plane->dev,
-> +			    "setting plane %d shaper LUT failed.\n",
-> +			    plane_state->plane->index);
-> +
-> +	return ret;
-> +}
-> +
->  /**
->   * amdgpu_dm_update_plane_color_mgmt: Maps DRM color management to DC plane.
->   * @crtc: amdgpu_dm crtc state
-> @@ -898,10 +994,16 @@ int amdgpu_dm_update_plane_color_mgmt(struct dm_crtc_state *crtc,
->  				      struct drm_plane_state *plane_state,
+> -	res = mod_color_calculate_degamma_params(NULL, func, gamma, gamma != NULL);
+> +	res = mod_color_calculate_degamma_params(caps, func, gamma, gamma != NULL);
+>  
+>  	if (gamma)
+>  		dc_gamma_release(&gamma);
+> @@ -721,7 +722,7 @@ static int amdgpu_dm_atomic_blend_lut(const struct drm_color_lut *blend_lut,
+>  		func_blend->tf = tf;
+>  		func_blend->sdr_ref_white_level = SDR_WHITE_LEVEL_INIT_VALUE;
+>  
+> -		ret = __set_input_tf(func_blend, blend_lut, blend_size);
+> +		ret = __set_input_tf(NULL, func_blend, blend_lut, blend_size);
+>  	} else {
+>  		func_blend->type = TF_TYPE_BYPASS;
+>  		func_blend->tf = TRANSFER_FUNCTION_LINEAR;
+> @@ -946,7 +947,8 @@ int amdgpu_dm_update_crtc_color_mgmt(struct dm_crtc_state *crtc)
+>  
+>  static int
+>  map_crtc_degamma_to_dc_plane(struct dm_crtc_state *crtc,
+> -			     struct dc_plane_state *dc_plane_state)
+> +			     struct dc_plane_state *dc_plane_state,
+> +			     struct dc_color_caps *caps)
+>  {
+>  	const struct drm_color_lut *degamma_lut;
+>  	enum dc_transfer_func_predefined tf = TRANSFER_FUNCTION_SRGB;
+> @@ -1001,7 +1003,7 @@ map_crtc_degamma_to_dc_plane(struct dm_crtc_state *crtc,
+>  			dc_plane_state->in_transfer_func->tf =
+>  				TRANSFER_FUNCTION_LINEAR;
+>  
+> -		r = __set_input_tf(dc_plane_state->in_transfer_func,
+> +		r = __set_input_tf(caps, dc_plane_state->in_transfer_func,
+>  				   degamma_lut, degamma_size);
+>  		if (r)
+>  			return r;
+> @@ -1014,7 +1016,7 @@ map_crtc_degamma_to_dc_plane(struct dm_crtc_state *crtc,
+>  		dc_plane_state->in_transfer_func->tf = tf;
+>  
+>  		if (tf != TRANSFER_FUNCTION_SRGB &&
+> -		    !mod_color_calculate_degamma_params(NULL,
+> +		    !mod_color_calculate_degamma_params(caps,
+>  							dc_plane_state->in_transfer_func,
+>  							NULL, false))
+>  			return -ENOMEM;
+> @@ -1025,7 +1027,8 @@ map_crtc_degamma_to_dc_plane(struct dm_crtc_state *crtc,
+>  
+>  static int
+>  __set_dm_plane_degamma(struct drm_plane_state *plane_state,
+> -		       struct dc_plane_state *dc_plane_state)
+> +		       struct dc_plane_state *dc_plane_state,
+> +		       struct dc_color_caps *color_caps)
+>  {
+>  	struct dm_plane_state *dm_plane_state = to_dm_plane_state(plane_state);
+>  	const struct drm_color_lut *degamma_lut;
+> @@ -1056,7 +1059,7 @@ __set_dm_plane_degamma(struct drm_plane_state *plane_state,
+>  		dc_plane_state->in_transfer_func->type =
+>  			TF_TYPE_DISTRIBUTED_POINTS;
+>  
+> -		ret = __set_input_tf(dc_plane_state->in_transfer_func,
+> +		ret = __set_input_tf(color_caps, dc_plane_state->in_transfer_func,
+>  				     degamma_lut, degamma_size);
+>  		if (ret)
+>  			return ret;
+> @@ -1064,7 +1067,7 @@ __set_dm_plane_degamma(struct drm_plane_state *plane_state,
+>  		dc_plane_state->in_transfer_func->type =
+>  			TF_TYPE_PREDEFINED;
+>  
+> -		if (!mod_color_calculate_degamma_params(NULL,
+> +		if (!mod_color_calculate_degamma_params(color_caps,
+>  		    dc_plane_state->in_transfer_func, NULL, false))
+>  			return -ENOMEM;
+>  	}
+> @@ -1143,6 +1146,7 @@ int amdgpu_dm_update_plane_color_mgmt(struct dm_crtc_state *crtc,
 >  				      struct dc_plane_state *dc_plane_state)
 >  {
-> -	struct dm_plane_state *dm_plane_state = to_dm_plane_state(plane_state);
-> +	struct amdgpu_device *adev = drm_to_adev(crtc->base.state->dev);
+>  	struct amdgpu_device *adev = drm_to_adev(crtc->base.state->dev);
+> +	struct dc_color_caps *color_caps = NULL;
 >  	bool has_crtc_cm_degamma;
 >  	int ret;
 >  
-> +	ret = amdgpu_dm_verify_lut3d_size(adev, plane_state);
-> +	if (ret) {
-> +		drm_dbg_driver(&adev->ddev, "amdgpu_dm_verify_lut3d_size() failed\n");
-> +		return ret;
-> +	}
+> @@ -1152,6 +1156,9 @@ int amdgpu_dm_update_plane_color_mgmt(struct dm_crtc_state *crtc,
+>  		return ret;
+>  	}
+>  
+> +	if (dc_plane_state->ctx && dc_plane_state->ctx->dc)
+> +		color_caps = &dc_plane_state->ctx->dc->caps.color;
 > +
 >  	/* Initially, we can just bypass the DGM block. */
 >  	dc_plane_state->in_transfer_func->type = TF_TYPE_BYPASS;
 >  	dc_plane_state->in_transfer_func->tf = TRANSFER_FUNCTION_LINEAR;
-> @@ -909,8 +1011,6 @@ int amdgpu_dm_update_plane_color_mgmt(struct dm_crtc_state *crtc,
+> @@ -1159,7 +1166,7 @@ int amdgpu_dm_update_plane_color_mgmt(struct dm_crtc_state *crtc,
 >  	/* After, we start to update values according to color props */
 >  	has_crtc_cm_degamma = (crtc->cm_has_degamma || crtc->cm_is_degamma_srgb);
 >  
-> -	dc_plane_state->hdr_mult = dc_fixpt_from_s3132(dm_plane_state->hdr_mult);
-> -
->  	ret = __set_dm_plane_degamma(plane_state, dc_plane_state);
+> -	ret = __set_dm_plane_degamma(plane_state, dc_plane_state);
+> +	ret = __set_dm_plane_degamma(plane_state, dc_plane_state, color_caps);
 >  	if (ret == -ENOMEM)
 >  		return ret;
-> @@ -942,5 +1042,5 @@ int amdgpu_dm_update_plane_color_mgmt(struct dm_crtc_state *crtc,
+>  
+> @@ -1185,7 +1192,7 @@ int amdgpu_dm_update_plane_color_mgmt(struct dm_crtc_state *crtc,
+>  		 * linearize (implicit degamma) from sRGB/BT709 according to
+>  		 * the input space.
+>  		 */
+> -		ret = map_crtc_degamma_to_dc_plane(crtc, dc_plane_state);
+> +		ret = map_crtc_degamma_to_dc_plane(crtc, dc_plane_state, color_caps);
+>  		if (ret)
 >  			return ret;
 >  	}
->  
-> -	return 0;
-> +	return amdgpu_dm_plane_set_color_properties(plane_state, dc_plane_state);
->  }
 
