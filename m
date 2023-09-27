@@ -2,49 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A13D17B0298
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Sep 2023 13:16:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A090A7B02F8
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Sep 2023 13:30:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB58710E4D9;
-	Wed, 27 Sep 2023 11:16:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCF6510E4DD;
+	Wed, 27 Sep 2023 11:30:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA1F210E4D9
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Sep 2023 11:16:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1695813390; x=1727349390;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=RH/m3NDGCQ3bnpca/RJJUXRmQCnKinFz4BUFRxz+Cqo=;
- b=g/daVJUPlqy/4OR4K9YI42UOLHkm/Gi/tKuJ4/P+x5Ob3axQ6mONWNdp
- ihB45h9JdKtH5MjASvNS7NmO69pm2+iER5AUisrd8rJO8NSjYwGnEdndm
- Q7aom+3Hr6tu8O+ZVfrSGxXrRTCaNETssINdEDFfOME7xYd+skd6lM9D1
- a1YW+d1KHSwBWzSJh4P1CiAi0d0K5AMQBt8YN2LmkaujcPTphVHtSiCYX
- tJelzcE0FQIulsOZPSPXH2rEuOfhELgNv2YyXaiW4AhcCQ/WjYz2edh3v
- RCGGMIoBwhmdymuxjCdogfEOGTZbgsS43wqvVvJsNiXujqvaf7i9y2c9j Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10845"; a="385655102"
-X-IronPort-AV: E=Sophos;i="6.03,179,1694761200"; d="scan'208";a="385655102"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Sep 2023 04:16:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10845"; a="742678808"
-X-IronPort-AV: E=Sophos;i="6.03,179,1694761200"; d="scan'208";a="742678808"
-Received: from joe-255.igk.intel.com (HELO localhost) ([10.91.220.57])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Sep 2023 04:16:28 -0700
-Date: Wed, 27 Sep 2023 13:16:26 +0200
-From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-To: dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 1/2] accel/ivpu: Update debugfs to latest changes in DRM
-Message-ID: <20230927111626.GF846747@linux.intel.com>
-References: <20230907072610.433497-1-stanislaw.gruszka@linux.intel.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F04B810E4DD
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Sep 2023 11:30:50 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (unknown [95.214.66.65])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id BEA3F18BF;
+ Wed, 27 Sep 2023 13:29:07 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1695814148;
+ bh=5bo6r2/LPGApnRs+9PTPwUM7C/LYIxjo4c/kVCF055o=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=SE0hr3lCvxdNSPiag/tjfksWjD1WxDpwvNuTn/T/Z+YbWdmwqZqPZZMRVGpHDRvSd
+ xD5zpLxnLjAs30o9ZwjqZZt+Ghtn+vXwSPnFjZVgDZEPgdQyUiyyn6ukEzlsABUWrt
+ LI4qYzvDAf4Fr70omOAXBZwPSRxqU6EAPGm0jxzg=
+Date: Wed, 27 Sep 2023 14:30:58 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Jani Nikula <jani.nikula@intel.com>
+Subject: Re: [PATCH 2/2] drm/bridge: lt9611uxc: use drm_bridge_get_edid()
+ instead of using ->get_edid directly
+Message-ID: <20230927113058.GA8079@pendragon.ideasonboard.com>
+References: <20230914131450.2473061-1-jani.nikula@intel.com>
+ <20230914131450.2473061-2-jani.nikula@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230907072610.433497-1-stanislaw.gruszka@linux.intel.com>
+In-Reply-To: <20230914131450.2473061-2-jani.nikula@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,17 +47,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Oded Gabbay <ogabbay@kernel.org>, Jeffrey Hugo <quic_jhugo@quicinc.com>,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 07, 2023 at 09:26:09AM +0200, Stanislaw Gruszka wrote:
-> Use new drm debugfs helpers. This is needed after changes from
-> commit 78346ebf9f94 ("drm/debugfs: drop debugfs_init() for the render
-> and accel node v2").
-Applied to drm-misc-next
+Hi Jani,
 
-Thanks
-Stanislaw
+On Thu, Sep 14, 2023 at 04:14:50PM +0300, Jani Nikula wrote:
+> Make drm_bridge_get_edid() the one place to call the hook.
+> 
+> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+> Cc: Neil Armstrong <neil.armstrong@linaro.org>
+> Cc: Robert Foss <rfoss@kernel.org>
+> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> Cc: Jonas Karlman <jonas@kwiboo.se>
+> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+> 
+> ---
+> 
+> UNTESTED
 
+I can't test this either, but it looks fine.
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> ---
+>  drivers/gpu/drm/bridge/lontium-lt9611uxc.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
+> index 22c84d29c2bc..7835738a532e 100644
+> --- a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
+> +++ b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
+> @@ -296,7 +296,7 @@ static int lt9611uxc_connector_get_modes(struct drm_connector *connector)
+>  	unsigned int count;
+>  	struct edid *edid;
+>  
+> -	edid = lt9611uxc->bridge.funcs->get_edid(&lt9611uxc->bridge, connector);
+> +	edid = drm_bridge_get_edid(&lt9611uxc->bridge, connector);
+>  	drm_connector_update_edid_property(connector, edid);
+>  	count = drm_add_edid_modes(connector, edid);
+>  	kfree(edid);
+
+-- 
+Regards,
+
+Laurent Pinchart
