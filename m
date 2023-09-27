@@ -1,56 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EC3A7AFA4E
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Sep 2023 07:48:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 21A727AFAAF
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Sep 2023 08:05:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E2E6C10E46C;
-	Wed, 27 Sep 2023 05:48:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 730F610E0DC;
+	Wed, 27 Sep 2023 06:05:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AFE7010E46B;
- Wed, 27 Sep 2023 05:48:08 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8223D10E0DC
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Sep 2023 06:05:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1695793688; x=1727329688;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=WV2GT3MqmgvkaeOdGho0FQtzlWzULGvrDmyXN059hgU=;
- b=TpjPXIw9Rkrk6tCfkcrCHqXDbbsyWbyhFIFalEnJWC9PBoPfBW/bqxjA
- eP/Or7kJv1P615gg598hYjsY5VKn3mms38ZTMJ5EGq75O4n6QP9fUnI5q
- aN5F7qtuapHISbVDTL8QojtPc3ZhS0puTA9slXcJRV3EEokZH5mvTj96l
- jKN47gfhUqWgMPyQq9T4akzyjMvAvDQbz1qY/S1KuReJklLlNOH3vwAoO
- oyIaw5ib/NFqhAYg9Fky+tvWbyk2FiWpG+6cezbG94jo0Xgktr7ErQObC
- MW2VbrGf2gPX2PVqHejo8Q/HUQnP1oRCWkVUX3iXuWERrCn30YXvHhOCF g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10845"; a="468023393"
-X-IronPort-AV: E=Sophos;i="6.03,179,1694761200"; d="scan'208";a="468023393"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Sep 2023 22:48:07 -0700
+ t=1695794741; x=1727330741;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=gxNbZGqI7yHu2ScNl9my5CtZLsRlc7YmxftZCIK8WF0=;
+ b=fApIBAj71eWcMT+QmD378NSO9uL9WohHMM9xGp1Zy9A0jPwam96/4kbE
+ rCs/JTjdq4Qi25Cw/9U8LpiB1LDGgc9gTLfrHwJFXIuVuFA9lNm1jkXW9
+ fSIS5iM3QaJswrtCXfflrKN3KWWxEN5i5KBtycJdNe7vrbAw/q34ta+Nw
+ OLeLyvFdTQTyarPRm9UKPq9B+7VJ2N96bpKst3+KeI1Y+nNMs7RHGo42y
+ naJ1Oy6fvbpUFVLPZTQJlBbPGsHPCiNDdvdIxcBgvElRiKBQe6YVgDGbt
+ RwnX1TYijSO/DWaF91TnMRIbnjMGRd3ofCzIy1eqA3DyX8ntVM57HAGzS g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10845"; a="361125085"
+X-IronPort-AV: E=Sophos;i="6.03,179,1694761200"; d="scan'208";a="361125085"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Sep 2023 23:05:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10845"; a="742591810"
-X-IronPort-AV: E=Sophos;i="6.03,179,1694761200"; d="scan'208";a="742591810"
-Received: from jchodor-mobl2.ger.corp.intel.com (HELO [10.213.23.248])
- ([10.213.23.248])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Sep 2023 22:48:03 -0700
-Message-ID: <af8f0c44-7f4a-f1f7-cd4a-6cae3ea477cc@intel.com>
-Date: Wed, 27 Sep 2023 07:47:57 +0200
+X-IronPort-AV: E=McAfee;i="6600,9927,10845"; a="1080003360"
+X-IronPort-AV: E=Sophos;i="6.03,179,1694761200"; d="scan'208";a="1080003360"
+Received: from joe-255.igk.intel.com (HELO localhost) ([10.91.220.57])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Sep 2023 23:05:39 -0700
+Date: Wed, 27 Sep 2023 08:05:37 +0200
+From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+To: dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 0/6] accel/ivpu: Fixes for linux-6.6-rc4
+Message-ID: <20230927060537.GE846747@linux.intel.com>
+References: <20230925121137.872158-1-stanislaw.gruszka@linux.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.15.1
-Subject: Re: [PATCH] drm/i915: Don't set PIPE_CONTROL_FLUSH_L3 for aux inval
-Content-Language: en-US
-To: Nirmoy Das <nirmoy.das@intel.com>, intel-gfx@lists.freedesktop.org
-References: <20230926142401.25687-1-nirmoy.das@intel.com>
-From: Andrzej Hajda <andrzej.hajda@intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <20230926142401.25687-1-nirmoy.das@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230925121137.872158-1-stanislaw.gruszka@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,67 +57,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Tejas Upadhyay <tejas.upadhyay@intel.com>,
- Jonathan Cavitt <jonathan.cavitt@intel.com>, stable@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Andi Shyti <andi.shyti@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Matt Roper <matthew.d.roper@intel.com>,
- Prathap Kumar Valsan <prathap.kumar.valsan@intel.com>,
- Mark Janes <mark.janes@intel.com>
+Cc: Jani Nikula <jani.nikula@intel.com>, Oded Gabbay <ogabbay@kernel.org>,
+ Jeffrey Hugo <quic_jhugo@quicinc.com>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Sep 25, 2023 at 02:11:31PM +0200, Stanislaw Gruszka wrote:
+> - dmesg flood fix
+> - HW power-on and interrupt handling fixes for VPU4 
+> - FW loading/mapping fix 
 
+Pushed to drm-misc-fixes.
 
-On 26.09.2023 16:24, Nirmoy Das wrote:
-> PIPE_CONTROL_FLUSH_L3 is not needed for aux invalidation
-> so don't set that.
->
-> Fixes: 78a6ccd65fa3 ("drm/i915/gt: Ensure memory quiesced before invalidation")
-> Cc: Jonathan Cavitt <jonathan.cavitt@intel.com>
-> Cc: Andi Shyti <andi.shyti@linux.intel.com>
-> Cc: <stable@vger.kernel.org> # v5.8+
-> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-> Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> Cc: Matt Roper <matthew.d.roper@intel.com>
-> Cc: Tejas Upadhyay <tejas.upadhyay@intel.com>
-> Cc: Lucas De Marchi <lucas.demarchi@intel.com>
-> Cc: Prathap Kumar Valsan <prathap.kumar.valsan@intel.com>
-> Cc: Tapani Pälli <tapani.palli@intel.com>
-> Cc: Mark Janes <mark.janes@intel.com>
-> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
+I had to resolve conflict when rebuilding tip, hope everything is ok there.
 
-Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
+Thanks
+Stanislaw
 
-Regards
-Andrzej
-> ---
->   drivers/gpu/drm/i915/gt/gen8_engine_cs.c | 11 ++++++++++-
->   1 file changed, 10 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
-> index 0143445dba83..ba4c2422b340 100644
-> --- a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
-> +++ b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
-> @@ -271,8 +271,17 @@ int gen12_emit_flush_rcs(struct i915_request *rq, u32 mode)
->   		if (GRAPHICS_VER_FULL(rq->i915) >= IP_VER(12, 70))
->   			bit_group_0 |= PIPE_CONTROL_CCS_FLUSH;
->   
-> +		/*
-> +		 * L3 fabric flush is needed for AUX CCS invalidation
-> +		 * which happens as part of pipe-control so we can
-> +		 * ignore PIPE_CONTROL_FLUSH_L3. Also PIPE_CONTROL_FLUSH_L3
-> +		 * deals with Protected Memory which is not needed for
-> +		 * AUX CCS invalidation and lead to unwanted side effects.
-> +		 */
-> +		if (mode & EMIT_FLUSH)
-> +			bit_group_1 |= PIPE_CONTROL_FLUSH_L3;
-> +
->   		bit_group_1 |= PIPE_CONTROL_TILE_CACHE_FLUSH;
-> -		bit_group_1 |= PIPE_CONTROL_FLUSH_L3;
->   		bit_group_1 |= PIPE_CONTROL_RENDER_TARGET_CACHE_FLUSH;
->   		bit_group_1 |= PIPE_CONTROL_DEPTH_CACHE_FLUSH;
->   		/* Wa_1409600907:tgl,adl-p */
-
+> Jacek Lawrynowicz (1):
+>   accel/ivpu: Don't flood dmesg with VPU ready message
+> 
+> Karol Wachowski (4):
+>   accel/ivpu/40xx: Ensure clock resource ownership Ack before Power-Up
+>   accel/ivpu/40xx: Disable frequency change interrupt
+>   accel/ivpu/40xx: Fix missing VPUIP interrupts
+>   accel/ivpu: Use cached buffers for FW loading
+> 
+> Stanislaw Gruszka (1):
+>   accel/ivpu: Do not use wait event interruptible
+> 
+>  drivers/accel/ivpu/ivpu_drv.c         |  2 +-
+>  drivers/accel/ivpu/ivpu_fw.c          |  8 +++++---
+>  drivers/accel/ivpu/ivpu_gem.h         |  5 +++++
+>  drivers/accel/ivpu/ivpu_hw_40xx.c     | 28 +++++++++++++++++++--------
+>  drivers/accel/ivpu/ivpu_hw_40xx_reg.h |  2 ++
+>  drivers/accel/ivpu/ivpu_ipc.c         | 11 ++++-------
+>  6 files changed, 37 insertions(+), 19 deletions(-)
+> 
+> -- 
+> 2.25.1
+> 
