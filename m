@@ -2,83 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BDB37B099D
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Sep 2023 18:08:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 355717B09D0
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Sep 2023 18:16:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2968210E55D;
-	Wed, 27 Sep 2023 16:07:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 71CA010E570;
+	Wed, 27 Sep 2023 16:16:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E4DE810E55D
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Sep 2023 16:07:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1695830874;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Dmc5VmRD75N5MrwkjQkOMmpHbgV6BLNCT6oM/cgrosQ=;
- b=R32qGWQ+husnVbwqfNjjucdSMaRYYlZoorFaJsvq4kppQFpQTVlKYdCRyafEF6QMXd7nQ0
- tgy5wRlQxWhJIV9CdrSeLpOxWXM3fjYI44FNno6P7UA+WzHcwfXe3nGuA+FNqQm54jfntC
- ePtJ3dDoZxoBVBijEznhmgDm4teyNlQ=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-537-rb2IJqd-O-qr1VK_MpkDFQ-1; Wed, 27 Sep 2023 12:07:52 -0400
-X-MC-Unique: rb2IJqd-O-qr1VK_MpkDFQ-1
-Received: by mail-ej1-f70.google.com with SMTP id
- a640c23a62f3a-9ae686dafedso974620266b.3
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Sep 2023 09:07:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1695830871; x=1696435671;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Dmc5VmRD75N5MrwkjQkOMmpHbgV6BLNCT6oM/cgrosQ=;
- b=labmi1eCorrkKSGzwjyBporE+ODqEC4TajUraA4O6dgAAvMRiHc2lacSXyyZVoowxU
- 1N2I3HZ3IfZfrmG9rIub+AB73/UOhdwwBDQAxmmvlxt6MkWiLuR5qmOtkbltINS4wB70
- Ka48tClORvUGDDG/GGMGJUqwx/0wNU9uXygl+rOCswu37ffISUbeUObrT6uJEGzaQzeo
- 2Wwh+PL8nuW9A5cxwZEvegTgv2Xz7IkG8xf68t4n3tOu8Qs+4FdSNcMSG2oqtyhCzIa5
- m4m9LjV+E5tgDF6SgIyQVzZJU+pHIbMw4Y5dbnkml1thrZA9REM6b0A0K3CTongY4+jU
- Hmog==
-X-Gm-Message-State: AOJu0Yy6F4SsqhShAlalZBEYkhmDMN390aMb39L3AJzEnpni73+8cmF3
- 8WdjRb3X82cgU3B78y71076teYDMuGqU7066vgWMq4IddorfkHTTWfRv8ncTNsDVEt/YfPmSZEZ
- berd2XGmUWt1K50RqLttyMV1GvT0i
-X-Received: by 2002:a17:906:cc4a:b0:9a5:852f:10ae with SMTP id
- mm10-20020a170906cc4a00b009a5852f10aemr2068157ejb.60.1695830871420; 
- Wed, 27 Sep 2023 09:07:51 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEScE57Oifvf88LVHOFmgxtaT4lQ7JAGP2BjnoUvP4S8zYBm//vVNHqB4Egl8TQoqvs/HAJ7Q==
-X-Received: by 2002:a17:906:cc4a:b0:9a5:852f:10ae with SMTP id
- mm10-20020a170906cc4a00b009a5852f10aemr2068130ejb.60.1695830871071; 
- Wed, 27 Sep 2023 09:07:51 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:4b3f:de9c:642:1aff:fe31:a15c?
- ([2a02:810d:4b3f:de9c:642:1aff:fe31:a15c])
- by smtp.gmail.com with ESMTPSA id
- e8-20020a170906374800b0099cf840527csm9523564ejc.153.2023.09.27.09.07.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 27 Sep 2023 09:07:50 -0700 (PDT)
-Message-ID: <83c1b1df-7e5e-8b71-358a-9c34969dc695@redhat.com>
-Date: Wed, 27 Sep 2023 18:07:49 +0200
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on2058.outbound.protection.outlook.com [40.107.94.58])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 15D4A10E55E;
+ Wed, 27 Sep 2023 16:16:46 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=iMeUhTBB21f46ft9+jY56cCv6VtT08sq8tqPqjZ2ksXfAbAb6+1zS9Qebd1ynsEFPWNaLXcMkyd/d0vFLD8QJqpvdXf3AZbtricGIga9p+iY/ezRbC0vgGu9qTe+oIEuXPIA1o850uB+E6a8EZW8sPUbX7YF2pIckZ6tQUFUAQn1/s9dd/d6CTm28ogPl6bndjyBkrize4Pvjg8oauIoDySUbGiXNzEvTjzi2huStZAkwWjnHcbAKm7ifBipZE+jhQ02xvbPHHCcOAl9v3HlVMhMzDSonaZC7nWXjhm2/F2y9r2lC6FLbVDKrm4k1mhiQmPxNlxWC2N6Ov4VwJ+/Jg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=qWB4/4//Kqx2tjsriyqEPfwArpJgf4VFwbCDjK2FTow=;
+ b=KNX4oSzW//aDsleEI6Z1BbzLd0OZ54+jtqGSxe1JA0lXzH7SChxL0cn7AaHNJ8K22YOSliRis+Rmv+UwlbYziMOpY4AL/wnI2XfKaqTaXPYzHQei2AAv+xM0vsE6XP7TxPi7J/2VsKhExfqUf9G+7+PvOBuw08lYPGiUQ5btl1YWgtCcpK4d9DAR0J7YuMMSyAJoBMS7pSNe/DMDwswvDysm0JBLJU4WcVgnS6IWHtpYTQkGecCvQK7TjWZoLz5KPjRgKa5V7TTj0e2Nqr7qy8wyBRDPMEwbZTiOPRlFaGQyVJ/JwCz+5ZtX6+FrH3gwAl/PkhzTNy1bl9EHGHj47w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=amd.co smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qWB4/4//Kqx2tjsriyqEPfwArpJgf4VFwbCDjK2FTow=;
+ b=BASIuBOkEAHz5rxbqUZL4kyym5EvsQG6o9YgkON8nt3maKDsIWs+r/l7f30Qas1x6FmHzzyjb7Clr8LtfMSNMul8la6OqPpiV/7MN7+7VvTtBb+h8CKrYf5cHvjaILaDPDAMKc0g0BrKXA2VFmDZbqT6bPpg5w4zuvoJq5Z5IW0=
+Received: from MW4PR02CA0011.namprd02.prod.outlook.com (2603:10b6:303:16d::28)
+ by DM6PR12MB4403.namprd12.prod.outlook.com (2603:10b6:5:2ab::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6838.21; Wed, 27 Sep
+ 2023 16:16:42 +0000
+Received: from MWH0EPF000989E7.namprd02.prod.outlook.com
+ (2603:10b6:303:16d:cafe::30) by MW4PR02CA0011.outlook.office365.com
+ (2603:10b6:303:16d::28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6838.21 via Frontend
+ Transport; Wed, 27 Sep 2023 16:16:41 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ MWH0EPF000989E7.mail.protection.outlook.com (10.167.241.134) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6838.14 via Frontend Transport; Wed, 27 Sep 2023 16:16:41 +0000
+Received: from rtg-Artic.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Wed, 27 Sep
+ 2023 11:16:37 -0500
+From: Arvind Yadav <Arvind.Yadav@amd.com>
+To: <Christian.Koenig@amd.com>, <alexander.deucher@amd.com>,
+ <shashank.sharma@amd.com>, <Felix.Kuehling@amd.co>, <Xinhui.Pan@amd.com>,
+ <airlied@gmail.com>, <daniel@ffwll.ch>
+Subject: [PATCH 0/1] drm/amdkfd: Fix unaligned doorbell absolute offset for
+ gfx8
+Date: Wed, 27 Sep 2023 21:46:15 +0530
+Message-ID: <20230927161616.3335-1-Arvind.Yadav@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [Nouveau] [PATCH] drm/nouveau/kms/nv50: hide unused variables
-To: Arnd Bergmann <arnd@kernel.org>, Karol Herbst <kherbst@redhat.com>,
- Lyude Paul <lyude@redhat.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Danilo Krummrich <me@dakr.org>,
- Ben Skeggs <bskeggs@redhat.com>
-References: <20230925155930.677620-1-arnd@kernel.org>
-From: Danilo Krummrich <dakr@redhat.com>
-Organization: RedHat
-In-Reply-To: <20230925155930.677620-1-arnd@kernel.org>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MWH0EPF000989E7:EE_|DM6PR12MB4403:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9efabb93-be65-4c3e-b094-08dbbf7522a9
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Ff6mTVDDE+3OOGaZ1UQ27jfAsre4dPt1FD2t8MUr7e4gY1AtYuCLLy2nFj/uYLuArK2DrQMzUiDlOzZNJAub9fE6T/dPSi/YXWRo+q0XZQbDdBmf27QO8c14jqb4XV415kApoGpKInJCFYKZlDzxelsV02ddeFCSCG3XgvTTAdwfwSEJR8kc3158G4d1Uk1jE30EpEYEYTxgsHt5LbrV8m20WhRBBasYSNIQcYaHmsukyhLKuvO2lv4XWj1V6LP3oh1lwK+f3CGt6HMV8zzERMD4rYDEmfVovta9M38bFsp4GLSbbV9jcB9lx1oaQXR1GWpFnAvyxGvSHWkPajScNaKbWD+XS4Mcq3I8LT0WLnA83Pve7NA5TlmtiScbaHsGZ7isIty+fIEYYTyCBecfDZc/KnPWgEuBSE8vPlqLJmYpvU2DsFiCHp5FeDKO5uuPZlAfSRvzyGB+g//L7ch/PzHtn+hirgxaY6KCqKW9hyvOHmJC+hg7LoD9yjvHjnEu3tPxU8XRqjAPqB4dEHu9NtkFD+/83RdAOnIL6N81VKBmBbOPAcKdMkgweWULJ+/6F6m2UtiHfmDdNqAbhBfWc03ILT6Jr/mGCiU1dPiYD7yT4agwgCsiN/BrBIEI+xrohX8vCQLPYN5Gs4f1AKQ7JOmJ+IwNadMhwTGUYyLki0etc+uenqRxrMvxiprP1CiLB7gNaygu2BFVAehZtVAeEhTpnuzxlerTXirSUI+f/qRdlsoFnLKniONzxSOvpPi5QLaE1TMh7t0OTX9hoRC7pA==
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230031)(4636009)(346002)(396003)(376002)(39860400002)(136003)(230922051799003)(1800799009)(451199024)(186009)(82310400011)(46966006)(36840700001)(40470700004)(26005)(16526019)(426003)(2616005)(1076003)(8936002)(5660300002)(4326008)(8676002)(83380400001)(356005)(81166007)(82740400003)(36860700001)(47076005)(7696005)(478600001)(6666004)(336012)(41300700001)(316002)(54906003)(70206006)(40480700001)(110136005)(70586007)(86362001)(2906002)(4744005)(40460700003)(36756003)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Sep 2023 16:16:41.4963 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9efabb93-be65-4c3e-b094-08dbbf7522a9
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: MWH0EPF000989E7.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4403
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,56 +101,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, Arnd Bergmann <arnd@arndb.de>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Wayne Lin <Wayne.Lin@amd.com>
+Cc: Arvind Yadav <Arvind.Yadav@amd.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/25/23 17:59, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> After a recent change, two variables are only used in an #ifdef:
-> 
-> drivers/gpu/drm/nouveau/dispnv50/disp.c: In function 'nv50_sor_atomic_disable':
-> drivers/gpu/drm/nouveau/dispnv50/disp.c:1569:13: error: unused variable 'ret' [-Werror=unused-variable]
->   1569 |         int ret;
->        |             ^~~
-> drivers/gpu/drm/nouveau/dispnv50/disp.c:1568:28: error: unused variable 'aux' [-Werror=unused-variable]
->   1568 |         struct drm_dp_aux *aux = &nv_connector->aux;
->        |                            ^~~
-> 
-> Move them into the same conditional block, along with the nv_connector variable
-> that becomes unused during that fix.
-> 
-> Fixes: 757033808c95b ("drm/nouveau/kms/nv50-: fixup sink D3 before tearing down link")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+On older chips, the absolute doorbell offset within 
+the doorbell page is based on the queue ID.
+KFD is using queue ID and doorbell size to get an
+absolute doorbell offset in userspace.
 
-Applied to drm-misc-next, thanks!
+This patch is to adjust the absolute doorbell offset
+against the doorbell id considering the doorbell
+size of 32/64 bit. 
 
-> ---
->   drivers/gpu/drm/nouveau/dispnv50/disp.c | 4 +---
->   1 file changed, 1 insertion(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-> index 52f1569ee37c1..a0ac8c258d9ff 100644
-> --- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
-> +++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-> @@ -1560,15 +1560,13 @@ nv50_sor_atomic_disable(struct drm_encoder *encoder, struct drm_atomic_state *st
->   {
->   	struct nouveau_encoder *nv_encoder = nouveau_encoder(encoder);
->   	struct nv50_head *head = nv50_head(nv_encoder->crtc);
-> -	struct nouveau_connector *nv_connector = nv50_outp_get_old_connector(state, nv_encoder);
->   #ifdef CONFIG_DRM_NOUVEAU_BACKLIGHT
-> +	struct nouveau_connector *nv_connector = nv50_outp_get_old_connector(state, nv_encoder);
->   	struct nouveau_drm *drm = nouveau_drm(nv_encoder->base.base.dev);
->   	struct nouveau_backlight *backlight = nv_connector->backlight;
-> -#endif
->   	struct drm_dp_aux *aux = &nv_connector->aux;
->   	int ret;
->   
-> -#ifdef CONFIG_DRM_NOUVEAU_BACKLIGHT
->   	if (backlight && backlight->uses_dpcd) {
->   		ret = drm_edp_backlight_disable(aux, &backlight->edp_info);
->   		if (ret < 0)
+Arvind Yadav (1):
+  drm/amdkfd: Fix unaligned doorbell absolute offset for gfx8
+
+ drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
+
+-- 
+2.34.1
 
