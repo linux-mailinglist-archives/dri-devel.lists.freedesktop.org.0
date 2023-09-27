@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C4D47B01D6
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Sep 2023 12:28:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 110197B01DA
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Sep 2023 12:28:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D188310E4D2;
-	Wed, 27 Sep 2023 10:28:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 423A410E4D7;
+	Wed, 27 Sep 2023 10:28:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B53BA10E062;
- Wed, 27 Sep 2023 10:28:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1337410E4BB;
+ Wed, 27 Sep 2023 10:28:19 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 51E9221907;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 93A752190B;
  Wed, 27 Sep 2023 10:28:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1695810497; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wKbREabpY/tMUbfIokDvQuIXsWrd55d6jcXVepokFiI=;
- b=uRdJbBf/TicrODu2Wa2ifDiuROxx0dktvTOIWFGAWHrCPJiEx2AVXbWkAqLnY7yNTSx0w5
- ZCROpgbFOnKk4Mfkd5xJCn35DjuJBDKTltRpeU+qLDqaEuVT+RkRk1ZtC0VuwQjc0dnZ8C
- KunZ7ydSJMw5QxG70Uxi1SG6bFoMtag=
+ bh=rU9uvM6o6zO2m+6R9JCWrxM9XMgSf/KQcbDmL2WU7EE=;
+ b=ENTIQJKfzZOsIHkLJuKdjNXwTX7+EDPJ2rTjuiiuqettmAuLNO5kx42Xi+XvqLe/UkR+H8
+ JEGDl/rBYiIpda38Zu3XgEeuchuYXQSfh3KrBo6HgGKq/BrQdnm12Y5DXieWIpqUtsEEDl
+ m2uQ3WTzZhszTFq0A53m7o7iIGRrvoA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1695810497;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wKbREabpY/tMUbfIokDvQuIXsWrd55d6jcXVepokFiI=;
- b=Vl9mT79jzvN4iCAyvjdQu/miDnFWdwzvw71ffVy6BdHHjhuFyxslkuvQfAsOMSd+8q/CXo
- y1TyNK5CWesC5/Ag==
+ bh=rU9uvM6o6zO2m+6R9JCWrxM9XMgSf/KQcbDmL2WU7EE=;
+ b=7eO6GYSSBozwX88ImeSjPqXFG487SxL7O67OzpZ6YJAlOACg70+nzGI9aXZmJT6rCAIPTQ
+ rSjLVwM9vE7IP2CQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1486A13479;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 55DE113A74;
  Wed, 27 Sep 2023 10:28:17 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id WODcA8EDFGXlMgAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id SGsGFMEDFGXlMgAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Wed, 27 Sep 2023 10:28:17 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
@@ -51,9 +51,9 @@ To: jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
  ville.syrjala@linux.intel.com, imre.deak@intel.com,
  tejas.upadhyay@intel.com, javierm@redhat.com, airlied@gmail.com,
  daniel@ffwll.ch
-Subject: [PATCH v5 2/7] drm/client: Do not acquire module reference
-Date: Wed, 27 Sep 2023 12:26:47 +0200
-Message-ID: <20230927102808.18650-3-tzimmermann@suse.de>
+Subject: [PATCH v5 3/7] drm/client: Export drm_client_dev_unregister()
+Date: Wed, 27 Sep 2023 12:26:48 +0200
+Message-ID: <20230927102808.18650-4-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20230927102808.18650-1-tzimmermann@suse.de>
 References: <20230927102808.18650-1-tzimmermann@suse.de>
@@ -76,77 +76,46 @@ Cc: intel-gfx@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Do not acquire a reference on the module that provides a client's
-callback functions in drm_client_init(). The additional reference
-prevents the user from unloading the callback functions' module and
-thus creating dangling pointers.
-
-This is only necessary if there is no direct dependency between the
-caller of drm_client_init() and the provider of the callbacks in
-struct drm_client_funcs. If this case ever existed, it has been
-removed from the DRM code. Callers of drm_client_init() also provide
-the callback implementation. The lifetime of the clients is tied to
-the dependency chain's outer-most module, which is the hardware's
-DRM driver. Before client helpers could be unloaded, the driver module
-would have to be unloaded, which also unregisters all clients.
-
-Driver modules that set up DRM clients can now be unloaded.
+Export drm_client_dev_unregister() for use by the i915 driver. The
+driver does not use drm_dev_unregister(), so it has to clean up the
+in-kernel DRM clients by itself.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/drm_client.c | 12 +-----------
- 1 file changed, 1 insertion(+), 11 deletions(-)
+ drivers/gpu/drm/drm_client.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
 diff --git a/drivers/gpu/drm/drm_client.c b/drivers/gpu/drm/drm_client.c
-index 2762572f286e7..b49f91b5d4b27 100644
+index b49f91b5d4b27..5d22387205d06 100644
 --- a/drivers/gpu/drm/drm_client.c
 +++ b/drivers/gpu/drm/drm_client.c
-@@ -5,7 +5,6 @@
- 
- #include <linux/iosys-map.h>
- #include <linux/list.h>
--#include <linux/module.h>
- #include <linux/mutex.h>
- #include <linux/seq_file.h>
- #include <linux/slab.h>
-@@ -84,16 +83,13 @@ int drm_client_init(struct drm_device *dev, struct drm_client_dev *client,
- 	if (!drm_core_check_feature(dev, DRIVER_MODESET) || !dev->driver->dumb_create)
- 		return -EOPNOTSUPP;
- 
--	if (funcs && !try_module_get(funcs->owner))
--		return -ENODEV;
--
- 	client->dev = dev;
- 	client->name = name;
- 	client->funcs = funcs;
- 
- 	ret = drm_client_modeset_create(client);
- 	if (ret)
--		goto err_put_module;
-+		return ret;
- 
- 	ret = drm_client_open(client);
- 	if (ret)
-@@ -105,10 +101,6 @@ int drm_client_init(struct drm_device *dev, struct drm_client_dev *client,
- 
- err_free:
- 	drm_client_modeset_free(client);
--err_put_module:
--	if (funcs)
--		module_put(funcs->owner);
--
- 	return ret;
- }
- EXPORT_SYMBOL(drm_client_init);
-@@ -177,8 +169,6 @@ void drm_client_release(struct drm_client_dev *client)
- 	drm_client_modeset_free(client);
- 	drm_client_close(client);
- 	drm_dev_put(dev);
--	if (client->funcs)
--		module_put(client->funcs->owner);
+@@ -172,6 +172,18 @@ void drm_client_release(struct drm_client_dev *client)
  }
  EXPORT_SYMBOL(drm_client_release);
  
++/**
++ * drm_client_dev_unregister - Unregister clients
++ * @dev: DRM device
++ *
++ * This function releases all clients by calling each client's
++ * &drm_client_funcs.unregister callback. The callback function
++ * is responsibe for releaseing all resources including the client
++ * itself.
++ *
++ * The helper drm_dev_unregister() calls this function. Drivers
++ * that use it don't need to call this function themselves.
++ */
+ void drm_client_dev_unregister(struct drm_device *dev)
+ {
+ 	struct drm_client_dev *client, *tmp;
+@@ -191,6 +203,7 @@ void drm_client_dev_unregister(struct drm_device *dev)
+ 	}
+ 	mutex_unlock(&dev->clientlist_mutex);
+ }
++EXPORT_SYMBOL(drm_client_dev_unregister);
+ 
+ /**
+  * drm_client_dev_hotplug - Send hotplug event to clients
 -- 
 2.42.0
 
