@@ -1,66 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CB3C7B0735
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Sep 2023 16:42:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E76B7B07F6
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Sep 2023 17:18:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5482410E544;
-	Wed, 27 Sep 2023 14:42:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A62F610E074;
+	Wed, 27 Sep 2023 15:18:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com
- [IPv6:2a00:1450:4864:20::633])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B977E10E544
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Sep 2023 14:42:30 +0000 (UTC)
-Received: by mail-ej1-x633.google.com with SMTP id
- a640c23a62f3a-99de884ad25so1445883466b.3
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Sep 2023 07:42:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1695825749; x=1696430549; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=DQa0uS9ZxVzUEvSIaoDnSyYxM+uNjYjcw68CuBARJN8=;
- b=AJLIdXBe9t45hMTGBE4AG5o95kLbE/53yLDJd8YwG9K574Hk302G+dd+NzCG1x6ko+
- fsSGTLkE+xivbJ6NZkuRFmaE2ixPe9UGZDaS3xjWcJLqJsDWmtuMBkLUJrETPTV9WsQO
- xJV7ubM3mMj0Q5+xoAaPBi5Zl948KS9Ufriks7xVza5o8gwAWoVB2D3H18yxhjkM2ign
- 5/GI6Vgg2BGVzV/pc3W84lX0hxB9Sni6MlQ75nhn+r+tsu/INsoWo1DJbkDGHiX96H6B
- 2ts2jbAwTXvPDnco+DaluyQHJOzcQNstoRDOiOQkivXtfBdAKWfCVQ+cKd5oVtwL0y49
- NI2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1695825749; x=1696430549;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=DQa0uS9ZxVzUEvSIaoDnSyYxM+uNjYjcw68CuBARJN8=;
- b=JWMTbqably5yqFVT3+PxlMj0ude+flO/M0OXm8qW8t52MtFaPw+9AfbzQi/mZMdZhB
- Gyk2/URlNHzUxhWkSFqHXEACEBxvC1BSKxgF9xjgiT2JfR6JiqkvENlLhGyc53rngGFh
- 2xpWwROaUDP11l4yuTq+dFy0GQrF9T8gAiYLPOmHb6l40FAPS+Dv/k07K98uTHVtl28E
- /1BAw8s7KWOqK7eWVJ7ASLsrsgkGotpE/in1dmR3Z1yXdNICz9XTgGbGojFbSC/rQPT6
- xXz6yiyaEztERZ9xOF6fxzjHV5icORXNH3IErjIn4HM6hLPHP1vjwYqaYLl3jhqp/Y/o
- 2XTQ==
-X-Gm-Message-State: AOJu0YxOlQGDd9Y7yunoDVbYzskc0uR+z+JF0TEOVdKzjytDBpzMtCfv
- ZaQyZmz0+XYWIGEv+JFw0g47xQ==
-X-Google-Smtp-Source: AGHT+IHbkXEUZ2yiICh2bDKC3XoQRoR1GzJCgOavVhuustl4JEpqTa1gx5Cc9UIMgVeGD+zgjr8MaQ==
-X-Received: by 2002:a17:906:5142:b0:9b2:ba65:db21 with SMTP id
- jr2-20020a170906514200b009b2ba65db21mr368111ejc.45.1695825749077; 
- Wed, 27 Sep 2023 07:42:29 -0700 (PDT)
-Received: from pop-os.localdomain (81-231-61-187-no276.tbcn.telia.com.
- [81.231.61.187]) by smtp.gmail.com with ESMTPSA id
- z15-20020a170906944f00b00993928e4d1bsm9374996ejx.24.2023.09.27.07.42.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 27 Sep 2023 07:42:28 -0700 (PDT)
-Date: Wed, 27 Sep 2023 16:42:26 +0200
-From: Joakim Bech <joakim.bech@linaro.org>
-To: Yong Wu <yong.wu@mediatek.com>
-Subject: Re: [PATCH 4/9] dma-buf: heaps: Initialise MediaTek secure heap
-Message-ID: <20230927144226.pdssel3dwv53g546@pop-os.localdomain>
-References: <20230911023038.30649-1-yong.wu@mediatek.com>
- <20230911023038.30649-5-yong.wu@mediatek.com>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D23A410E074
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Sep 2023 15:18:02 +0000 (UTC)
+Received: from [IPV6:2a01:e0a:120:3210:672:46bd:3ec7:6cdf] (unknown
+ [IPv6:2a01:e0a:120:3210:672:46bd:3ec7:6cdf])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ (Authenticated sender: benjamin.gaignard)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 01CC266072FA;
+ Wed, 27 Sep 2023 16:18:00 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1695827881;
+ bh=cZBkE6AW/WssOj4Sg/xEx/jkclNbZ+Y8K8ys56ebtZE=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=nvQ+joYfwJYLudibSGOOzSGLGqZ+UOM4ouQwSmesmc4Rnn8MMjLisKOD74cHJrbNu
+ Hdg+Rf8A8LUaI0W5eqotS0MAgkfIn5Qp4gUveDyLdym4xfy/LWWxhWqw4zZ4OiLh3z
+ WbeER/mejIiJT6i33HVqeydwaHbS8FMoxV3q7qm7rxqGjXCCs4R5KRdzPfcoyO/A+j
+ xGdDtHGikNoAQCRVO8YB6ebSzYlqvmXfGbfa1wOyVr7fNJEL1Ufk3eVVqz+pbfttwN
+ 0HyqihJMmzpZRvN3NvjmPtgAQDYMFA4+uWovXxx6T8wlJc6sGmwSBbKO1Eu/xBaMLI
+ W49r7tGjgdx+w==
+Message-ID: <3aaafe47-3733-a4d5-038d-a7e439309282@collabora.com>
+Date: Wed, 27 Sep 2023 17:17:58 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230911023038.30649-5-yong.wu@mediatek.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH 5/9] dma-buf: heaps: mtk_sec_heap: Initialise tee session
+To: Joakim Bech <joakim.bech@linaro.org>, =?UTF-8?B?WW9uZyBXdSAo5ZC05YuHKQ==?=
+ <Yong.Wu@mediatek.com>
+References: <20230911023038.30649-1-yong.wu@mediatek.com>
+ <20230911023038.30649-6-yong.wu@mediatek.com>
+ <d0373c02-9b22-661f-9930-ca720053c2a0@collabora.com>
+ <a115a2a5d3ac218e6db65ccdb0a1876f9cfca02b.camel@mediatek.com>
+ <d798b15b-6f35-96db-e3f7-5c0bcc5d46a2@collabora.com>
+ <a4ecc2792f3a4d3159e34415be984ff7d5f5e263.camel@mediatek.com>
+ <20230927134614.kp27moxdw72jiu4y@pop-os.localdomain>
+Content-Language: en-US
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+In-Reply-To: <20230927134614.kp27moxdw72jiu4y@pop-os.localdomain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,172 +63,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>, kuohong.wang@mediatek.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- christian.koenig@amd.com, linaro-mm-sig@lists.linaro.org,
- Rob Herring <robh+dt@kernel.org>, John Stultz <jstultz@google.com>,
- linux-arm-kernel@lists.infradead.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- jianjiao.zeng@mediatek.com, Matthias Brugger <matthias.bgg@gmail.com>,
- linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
- Sumit Semwal <sumit.semwal@linaro.org>, tjmercier@google.com,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "conor+dt@kernel.org" <conor+dt@kernel.org>,
+ =?UTF-8?B?S3VvaG9uZyBXYW5nICjnjovlnIvptLsp?= <kuohong.wang@mediatek.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "christian.koenig@amd.com" <christian.koenig@amd.com>,
+ "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+ "robh+dt@kernel.org" <robh+dt@kernel.org>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+ "jstultz@google.com" <jstultz@google.com>,
+ "tjmercier@google.com" <tjmercier@google.com>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
+ =?UTF-8?B?SmlhbmppYW8gWmVuZyAo5pu+5YGl5aejKQ==?= <Jianjiao.Zeng@mediatek.com>,
+ "angelogioacchino.delregno@collabora.com"
+ <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 11, 2023 at 10:30:33AM +0800, Yong Wu wrote:
-> Initialise a mtk_svp heap. Currently just add a null heap, Prepare for
-> the later patches.
-> 
-> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
-> ---
->  drivers/dma-buf/heaps/Kconfig           |  8 ++
->  drivers/dma-buf/heaps/Makefile          |  1 +
->  drivers/dma-buf/heaps/mtk_secure_heap.c | 99 +++++++++++++++++++++++++
->  3 files changed, 108 insertions(+)
->  create mode 100644 drivers/dma-buf/heaps/mtk_secure_heap.c
-> 
-> diff --git a/drivers/dma-buf/heaps/Kconfig b/drivers/dma-buf/heaps/Kconfig
-> index a5eef06c4226..729c0cf3eb7c 100644
-> --- a/drivers/dma-buf/heaps/Kconfig
-> +++ b/drivers/dma-buf/heaps/Kconfig
-> @@ -12,3 +12,11 @@ config DMABUF_HEAPS_CMA
->  	  Choose this option to enable dma-buf CMA heap. This heap is backed
->  	  by the Contiguous Memory Allocator (CMA). If your system has these
->  	  regions, you should say Y here.
-> +
-> +config DMABUF_HEAPS_MTK_SECURE
-> +	bool "DMA-BUF MediaTek Secure Heap"
-> +	depends on DMABUF_HEAPS && TEE
-> +	help
-> +	  Choose this option to enable dma-buf MediaTek secure heap for Secure
-> +	  Video Path. This heap is backed by TEE client interfaces. If in
-Although this is intended for SVP right now, this is something that very
-well could work for other use cases. So, I think I'd not mention "Secure
-Video Path" and just mention "secure heap".
 
-> +	  doubt, say N.
-> diff --git a/drivers/dma-buf/heaps/Makefile b/drivers/dma-buf/heaps/Makefile
-> index 974467791032..df559dbe33fe 100644
-> --- a/drivers/dma-buf/heaps/Makefile
-> +++ b/drivers/dma-buf/heaps/Makefile
-> @@ -1,3 +1,4 @@
->  # SPDX-License-Identifier: GPL-2.0
->  obj-$(CONFIG_DMABUF_HEAPS_SYSTEM)	+= system_heap.o
->  obj-$(CONFIG_DMABUF_HEAPS_CMA)		+= cma_heap.o
-> +obj-$(CONFIG_DMABUF_HEAPS_MTK_SECURE)	+= mtk_secure_heap.o
-> diff --git a/drivers/dma-buf/heaps/mtk_secure_heap.c b/drivers/dma-buf/heaps/mtk_secure_heap.c
-> new file mode 100644
-> index 000000000000..bbf1c8dce23e
-> --- /dev/null
-> +++ b/drivers/dma-buf/heaps/mtk_secure_heap.c
-> @@ -0,0 +1,99 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * DMABUF mtk_secure_heap exporter
-> + *
-> + * Copyright (C) 2023 MediaTek Inc.
-> + */
-> +
-> +#include <linux/dma-buf.h>
-> +#include <linux/dma-heap.h>
-> +#include <linux/err.h>
-> +#include <linux/module.h>
-> +#include <linux/slab.h>
-> +
-> +/*
-> + * MediaTek secure (chunk) memory type
-> + *
-> + * @KREE_MEM_SEC_CM_TZ: static chunk memory carved out for trustzone.
-nit: s/trustzone/TrustZone/
+Le 27/09/2023 à 15:46, Joakim Bech a écrit :
+> On Mon, Sep 25, 2023 at 12:49:50PM +0000, Yong Wu (吴勇) wrote:
+>> On Tue, 2023-09-12 at 11:32 +0200, AngeloGioacchino Del Regno wrote:
+>>> Il 12/09/23 08:17, Yong Wu (吴勇) ha scritto:
+>>>> On Mon, 2023-09-11 at 11:29 +0200, AngeloGioacchino Del Regno
+>>>> wrote:
+>>>>> Il 11/09/23 04:30, Yong Wu ha scritto:
+>>>>>> The TEE probe later than dma-buf heap, and PROBE_DEDER doesn't
+>>>>>> work
+>>>>>> here since this is not a platform driver, therefore initialise
+>>>>>> the
+>>>>>> TEE
+>>>>>> context/session while we allocate the first secure buffer.
+>>>>>>
+>>>>>> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
+>>>>>> ---
+>>>>>>     drivers/dma-buf/heaps/mtk_secure_heap.c | 61
+>>>>>> +++++++++++++++++++++++++
+>>>>>>     1 file changed, 61 insertions(+)
+>>>>>>
+>>>>>> diff --git a/drivers/dma-buf/heaps/mtk_secure_heap.c
+>>>>>> b/drivers/dma-
+>>>>>> buf/heaps/mtk_secure_heap.c
+>>>>>> index bbf1c8dce23e..e3da33a3d083 100644
+>>>>>> --- a/drivers/dma-buf/heaps/mtk_secure_heap.c
+>>>>>> +++ b/drivers/dma-buf/heaps/mtk_secure_heap.c
+>>>>>> @@ -10,6 +10,12 @@
+>>>>>>     #include <linux/err.h>
+>>>>>>     #include <linux/module.h>
+>>>>>>     #include <linux/slab.h>
+>>>>>> +#include <linux/tee_drv.h>
+>>>>>> +#include <linux/uuid.h>
+>>>>>> +
+>>>>>> +#define TZ_TA_MEM_UUID		"4477588a-8476-11e2-ad15-
+>>>>>> e41f1390d676"
+>>>>>> +
+>>>>> Is this UUID the same for all SoCs and all TZ versions?
+>>>> Yes. It is the same for all SoCs and all TZ versions currently.
+>>>>
+>>> That's good news!
+>>>
+>>> Is this UUID used in any userspace component? (example: Android
+>>> HALs?)
+>> No. Userspace never use it. If userspace would like to allocate this
+>> secure buffer, it can achieve through the existing dmabuf IOCTL via
+>> /dev/dma_heap/mtk_svp node.
+>>
+> In general I think as mentioned elsewhere in comments, that there isn't
+> that much here that seems to be unique for MediaTek in this patch
+> series, so I think it worth to see whether this whole patch set can be
+> made more generic. Having said that, the UUID is always unique for a
+> certain Trusted Application. So, it's not entirely true saying that the
+> UUID is the same for all SoCs and all TrustZone versions. It might be
+> true for a family of MediaTek devices and the TEE in use, but not
+> generically.
+>
+> So, if we need to differentiate between different TA implementations,
+> then we need different UUIDs. If it would be possible to make this patch
+> set generic, then it sounds like a single UUID would be sufficient, but
+> that would imply that all TA's supporting such a generic UUID would be
+> implemented the same from an API point of view. Which also means that
+> for example Trusted Application function ID's needs to be the same etc.
+> Not impossible to achieve, but still not easy (different TEE follows
+> different specifications) and it's not typically something we've done in
+> the past.
+>
+> Unfortunately there is no standardized database of TA's describing what
+> they implement and support.
+>
+> As an alternative, we could implement a query call in the TEE answering,
+> "What UUID does your TA have that implements secure unmapped heap?".
+> I.e., something that reminds of a lookup table. Then we wouldn't have to
+> carry this in UAPI, DT or anywhere else.
 
--- 
-// Regards
-Joakim
+Joakim does a TA could offer a generic API and hide the hardware specific
+details (like kernel uAPI does for drivers) ?
 
-> + */
-> +enum kree_mem_type {
-> +	KREE_MEM_SEC_CM_TZ = 1,
-> +};
-> +
-> +struct mtk_secure_heap_buffer {
-> +	struct dma_heap		*heap;
-> +	size_t			size;
-> +};
-> +
-> +struct mtk_secure_heap {
-> +	const char		*name;
-> +	const enum kree_mem_type mem_type;
-> +};
-> +
-> +static struct dma_buf *
-> +mtk_sec_heap_allocate(struct dma_heap *heap, size_t size,
-> +		      unsigned long fd_flags, unsigned long heap_flags)
-> +{
-> +	struct mtk_secure_heap_buffer *sec_buf;
-> +	DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
-> +	struct dma_buf *dmabuf;
-> +	int ret;
-> +
-> +	sec_buf = kzalloc(sizeof(*sec_buf), GFP_KERNEL);
-> +	if (!sec_buf)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	sec_buf->size = size;
-> +	sec_buf->heap = heap;
-> +
-> +	exp_info.exp_name = dma_heap_get_name(heap);
-> +	exp_info.size = sec_buf->size;
-> +	exp_info.flags = fd_flags;
-> +	exp_info.priv = sec_buf;
-> +
-> +	dmabuf = dma_buf_export(&exp_info);
-> +	if (IS_ERR(dmabuf)) {
-> +		ret = PTR_ERR(dmabuf);
-> +		goto err_free_buf;
-> +	}
-> +
-> +	return dmabuf;
-> +
-> +err_free_buf:
-> +	kfree(sec_buf);
-> +	return ERR_PTR(ret);
-> +}
-> +
-> +static const struct dma_heap_ops mtk_sec_heap_ops = {
-> +	.allocate	= mtk_sec_heap_allocate,
-> +};
-> +
-> +static struct mtk_secure_heap mtk_sec_heap[] = {
-> +	{
-> +		.name		= "mtk_svp",
-> +		.mem_type	= KREE_MEM_SEC_CM_TZ,
-> +	},
-> +};
-> +
-> +static int mtk_sec_heap_init(void)
-> +{
-> +	struct mtk_secure_heap *sec_heap = mtk_sec_heap;
-> +	struct dma_heap_export_info exp_info;
-> +	struct dma_heap *heap;
-> +	unsigned int i;
-> +
-> +	for (i = 0; i < ARRAY_SIZE(mtk_sec_heap); i++, sec_heap++) {
-> +		exp_info.name = sec_heap->name;
-> +		exp_info.ops = &mtk_sec_heap_ops;
-> +		exp_info.priv = (void *)sec_heap;
-> +
-> +		heap = dma_heap_add(&exp_info);
-> +		if (IS_ERR(heap))
-> +			return PTR_ERR(heap);
-> +	}
-> +	return 0;
-> +}
-> +
-> +module_init(mtk_sec_heap_init);
-> +MODULE_DESCRIPTION("MediaTek Secure Heap Driver");
-> +MODULE_LICENSE("GPL");
-> -- 
-> 2.25.1
-> 
+Aside that question I wonder what are the needs to perform a 'secure' playback.
+I have in mind 2 requirements:
+- secure memory regions, which means configure the hardware to ensure that only
+dedicated hardware blocks and read or write into it.
+- set hardware blocks in secure modes so they access to secure memory.
+Do you see something else ?
+
+Regards,
+Benjamin
+
+>
