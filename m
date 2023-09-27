@@ -1,67 +1,140 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 122AC7B0EC5
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Sep 2023 00:05:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 729F97B0EDB
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Sep 2023 00:23:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ECBBA10E5C8;
-	Wed, 27 Sep 2023 22:05:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCE7210E199;
+	Wed, 27 Sep 2023 22:23:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x1136.google.com (mail-yw1-x1136.google.com
- [IPv6:2607:f8b0:4864:20::1136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9DF3B10E5C7
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Sep 2023 22:05:41 +0000 (UTC)
-Received: by mail-yw1-x1136.google.com with SMTP id
- 00721157ae682-5a200028437so25512157b3.1
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Sep 2023 15:05:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1695852340; x=1696457140; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=CNs9Uy0sZIcXogJDKuzAoviMSMHPVfDjWIe9eamVRQE=;
- b=T2Jra29zhKUqXGddUeI9haiC3O5ewhVcaleNE5ixsJ+zllLTTvSz2txR3sVLhAEgkw
- maVdptCj1H6bKdGeDOJVdBv07qrs1L0uLILsX+8YCTG+XbRjx/otTKWbbrqz6lLZgDUn
- NIXFZScrCqJpa3vTG5MQakCplw62jFKwsv4r/AEBGjicZDMOgyXKdOVryJKzCHQXTFuo
- QeavfdCCZoeg1lEWBXWUpfwTiy+8daakhmcr0IxiW5ZhmKCePob+eWcVhGT7ncsv3RuH
- 4IVKDK4I3j38cO32svMaEnOsnWHYR8fiuNR1BxN8mxh0Ug7D45/1D0dIbBmR0BujvdG/
- F8rw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1695852340; x=1696457140;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=CNs9Uy0sZIcXogJDKuzAoviMSMHPVfDjWIe9eamVRQE=;
- b=R2o0uk3ajZxTLBCjr6q37fvPGUGi+vna8cHZwhgtyoKpyrMmORjuVSBDA8VA3fq9VJ
- qEMV88XAvztZfFZuO5mw+OsorW40lfb1HCXjAUzDIS5/wiKdNT5easDOHF/IBxHDYpst
- P7nfAUnXec1nXqMHvYerNm44DEp/NQDgi4aF8dEMp5D84h3bxbxBmAVde6lgRDXIN3o5
- BeNDwoAJ3U/bQHFDv1H1WXgV/Wir5i8HLEQvVTLX4uCLpDuY/Jyp2DOc2otit/L3H1j1
- uZZi5Z3KF8h7/Wphdi8JUm3Rx9N3KKjh7rkJSRTdPEr+wn9qnW60kf1tXXRrVjaRXgZL
- q7UQ==
-X-Gm-Message-State: AOJu0YwU4f+4+xuI3pfnxsGBdI3Fj3v//7FWTe+y6ZE/mSDN53mMYVbV
- BwoB80ss6N/4thN6YjeblH3piA9KfnFaDZLmPkRxjw==
-X-Google-Smtp-Source: AGHT+IHR+moAslgN5T2iYRiOJljTYTXI9au6Nrv8poHtrZJxnq88ULiQGkND2FasIyvPuzQVl0Il+NK5ZQcIELMzmQs=
-X-Received: by 2002:a81:9186:0:b0:59f:4c52:2f51 with SMTP id
- i128-20020a819186000000b0059f4c522f51mr3574047ywg.17.1695852340711; Wed, 27
- Sep 2023 15:05:40 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 95CEB10E199;
+ Wed, 27 Sep 2023 22:23:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1695853426; x=1727389426;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=7Ehz0SV659+a11aR9zzUy1oKnBz/967EwX+lesf1ESU=;
+ b=LW+sraUPcFW2B+a16mJXlWf9q6iLozzgaGhW0kl5FldskfNhscFIDrcT
+ vrVjVeLFQ7zRF56d5V1LaDz5iBmhXHkw5ICd6uTzNJsObYuBCilgMeOd5
+ EJAiAaBwFcYXSM5hJnbmuE210wVTE93KD1hnFdauSyWRdV4/uMZrXI03Y
+ WWZxas3C/sgd661FP6+N5x1NKh/6W17lDDq+Og4QKdg4cjz0TT2QThf7j
+ M2wXJXx690aPlaN6Cr8UvDzs4wjA7O5Crc/DZ0fjqrJt83lH8tMrudHcA
+ aEuLlrr5xD20aMNsSu9yNFyU+9s7X1bMy5pXqEoFVtZ6mCMVqWrmn9/mQ Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="361317344"
+X-IronPort-AV: E=Sophos;i="6.03,182,1694761200"; d="scan'208";a="361317344"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Sep 2023 15:23:45 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="778693601"
+X-IronPort-AV: E=Sophos;i="6.03,182,1694761200"; d="scan'208";a="778693601"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+ by orsmga008.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 27 Sep 2023 15:23:45 -0700
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Wed, 27 Sep 2023 15:23:45 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Wed, 27 Sep 2023 15:23:44 -0700
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32 via Frontend Transport; Wed, 27 Sep 2023 15:23:44 -0700
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.173)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.32; Wed, 27 Sep 2023 15:23:44 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=U0eTG/2L0f0p6+cmSJ3NATgkrxbLpkuj7WhW2i254WemjAu1wXUb5zJ+lodYbkv2ki+QfYFFv3wqhGYaWiuNlHHQ3cUWJPrPk4EieQrF0r0hICoO6TyMNKWdr03wwpvi/w0zmLUG3qHhbAO8CYIm/QneIQZaDNazexmDtnOxLCQyo6csdvfriOuRmIlKz3xpQCVt3jMvC9+YlMoplC+zyLNoQQtqVsGjnsEc+eEavUTN+IJ720FSTu0BpyV8c02ZpnwZ+Akt1zXU0VLBsfaRykB0Be/1sAKLHO7vcnJC7+hEr/Yj6XhMyHnH1xSPleTa83HpCr+Z7JuDUhakNiHm5w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=46gKutiCkVCQTjbqMJScD/viX7bv1Axfw0vYFj9Ro04=;
+ b=D0Kz6sNF4/Xqq2BGeGLF1Lfl4EntxJWnQajXGcDjaLGqvBs5ovm0YF2NkpztOgUyw/gafDENs7WMrHMhnVAtEp+Mjkij/fC1tWKoOkWFMkQ78QXh50wQdn6HBfoXjUKtn2uk86tO6Vs+T6ECklzyWUxHCUgexOJHL3ayRsvxGdX2YJ1Y+j2/CMCWPt7/pSQ3Cs4EnzBjTUoKdd2k9831p05ixJ/1SJuzESK0lEB17CaOlmO3r0/85hEtQgpQgzELXnb5sQN4PzW54+merhwjrp3asdnJs5zeraGEU1yBxznuEtKrDfIFPHsMFyy32siY+O6YS35ne/Ntdvly+zWUdw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DS7PR11MB7859.namprd11.prod.outlook.com (2603:10b6:8:da::22) by
+ DM8PR11MB5669.namprd11.prod.outlook.com (2603:10b6:8:36::10) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6813.28; Wed, 27 Sep 2023 22:23:42 +0000
+Received: from DS7PR11MB7859.namprd11.prod.outlook.com
+ ([fe80::48d9:4c34:35b:f66]) by DS7PR11MB7859.namprd11.prod.outlook.com
+ ([fe80::48d9:4c34:35b:f66%4]) with mapi id 15.20.6768.029; Wed, 27 Sep 2023
+ 22:23:42 +0000
+Date: Wed, 27 Sep 2023 15:23:39 -0700
+From: Matt Roper <matthew.d.roper@intel.com>
+To: Nirmoy Das <nirmoy.das@intel.com>
+Subject: Re: [PATCH v6 1/4] drm/i915: Introduce intel_gt_mcr_lock_reset()
+Message-ID: <20230927222339.GD2706891@mdroper-desk1.amr.corp.intel.com>
+References: <20230927210357.17461-1-nirmoy.das@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20230927210357.17461-1-nirmoy.das@intel.com>
+X-ClientProxiedBy: SJ0PR03CA0069.namprd03.prod.outlook.com
+ (2603:10b6:a03:331::14) To DS7PR11MB7859.namprd11.prod.outlook.com
+ (2603:10b6:8:da::22)
 MIME-Version: 1.0
-References: <1694813901-26952-1-git-send-email-quic_khsieh@quicinc.com>
- <1694813901-26952-7-git-send-email-quic_khsieh@quicinc.com>
- <CAA8EJpqPXoFX4LXyXYgfh07Vpxg-KgD8VBR6x5bXf4GOJmbOtw@mail.gmail.com>
- <2f98d5f1-57c1-d9fe-cb1c-b975db057287@quicinc.com>
- <CAA8EJpr2wRq6Txi7YAQpJKa_9UGqH_nmHzvVOaAPkwOrtDg4Tw@mail.gmail.com>
- <CAE-0n53dqHONzMTd_ZC-fKWTzDVq6Wqwo4OFZMUcghZ5SD5RhA@mail.gmail.com>
- <65566a68-3510-2e5f-7d57-e4dba08c008c@quicinc.com>
- <1d9bf80d-0267-937b-4dd9-c57db7a89cb4@quicinc.com>
- <CAE-0n51Hrs66oG4NF5rDETkVO-ocG_6_=Aqc5cE-qPDViSgKyA@mail.gmail.com>
-In-Reply-To: <CAE-0n51Hrs66oG4NF5rDETkVO-ocG_6_=Aqc5cE-qPDViSgKyA@mail.gmail.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Thu, 28 Sep 2023 01:04:31 +0300
-Message-ID: <CAA8EJppNSS-ZUoJRbLaO7XHr+69Th6ANU5KGrnbj8eWGyGFQDw@mail.gmail.com>
-Subject: Re: [PATCH v3 6/7] drm/msm/dp: add pm_runtime_force_suspend()/resume()
-To: Stephen Boyd <swboyd@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS7PR11MB7859:EE_|DM8PR11MB5669:EE_
+X-MS-Office365-Filtering-Correlation-Id: ef97d02f-82cc-4237-21d7-08dbbfa8682c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: YTdickUXAInzmK2tQLBtZQHW1bWkH7fHxgdCCsOdGS9INzKBgRLfunUn806wF09k17qwCp7vLKRJhPZNfEsihtNQIgrcEvj5JbuPAe0pln08HdzfYrOvMKqmYPEL4W9xZmdbrlHJfTKEeI1Qdonipf/DwksaI14Ac4eP6kAkdahEQxqdZe11GmtE1xSx8ht1d3zj8MLLthFPZ021hjCrnEg2+OycNlpHkOwKvBwrEgoNiEPqyQEeOtOI6gRXbkXu0AgAcmgIlhFam9QurLg5HO7EU8juclupY69liQpK2msZZeLE1TBMSlvd80QQVK/V9rnD/29jTO7xu9/tktLGkC7+uS3jXscWZX7aIknpf4q9daZXYpfAKdBhfXD0Ce3O5bYV7oYSovfWfd5aL1cXrB7MfzMJGt3Q93F0SzkwViNS94FCJakdUFAWMKkj9s9llpfOrXmpipDnqj7j8QGEGP1SSKue+UGShuBdpN3JaFGyqqlKNW+Om7YV3qiNxzwMFdxEgPa+fkeyC0U/qQql13P5gbYHAmrdY2dQsfMs1skgtyRWzuzWHrxJQc/Yw5kE
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DS7PR11MB7859.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(366004)(396003)(136003)(39860400002)(376002)(346002)(230922051799003)(1800799009)(186009)(451199024)(64100799003)(66556008)(6636002)(6512007)(2906002)(316002)(66476007)(66946007)(4326008)(41300700001)(6862004)(8676002)(8936002)(478600001)(1076003)(6666004)(38100700002)(5660300002)(6506007)(33656002)(86362001)(6486002)(26005)(83380400001)(82960400001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?jafy4ONcC/Pi5+6H+L0cmenwlp50cWESBz+lZxGeWz7yEkjQj1iikDEFxnw3?=
+ =?us-ascii?Q?GHmTMSUmijeroU+GiBv7oA128z8hkUpPy4IgXphBWyXnE8nTsWUgr4EpeGvi?=
+ =?us-ascii?Q?0sGAJ18zAX11nbpnyL5FT0h8/g8oQ6I70suKLyqY18tYZSLnb/Mlqa47s+a4?=
+ =?us-ascii?Q?AhWsAWmxGQacA/HkHAzViOG6lKFPJA1HxFhBSB7XOvAzhIolsdr0BY7sFCbW?=
+ =?us-ascii?Q?OavSpX3DpSK3EhHlTQCBpivDqNC6am3zmRH+wxSgwLBqGqqLHpmMA/8ZIqSA?=
+ =?us-ascii?Q?vJXAxtqnkgV8Xh/61flsUr3N7tQWOJlkXStC5szkEtBOfVxQZJyOg/lsrFFj?=
+ =?us-ascii?Q?HObh9C8V5g40oYGFEBMNXl8ZVEtOjskjc8vR0tl7hu/BMrEAmhPoctrI4WQq?=
+ =?us-ascii?Q?sO2YoI5GYNEOmoRViEt372aJiDns7pSymZ6EHUF3d1WVkfFcNgshWhcZv5SN?=
+ =?us-ascii?Q?XuuLkP1oxDuHAqgxSOMSqfi+FwEb7oovZzBr0Owup+x2lBRo1kMeKMt10Nca?=
+ =?us-ascii?Q?NMUk3FqlAVrp5dP2WApSHUOvBpo831BkLZOapdg3/DGAmUDYUG8rbapEGg9H?=
+ =?us-ascii?Q?tro2m7m8ydjQPatwNdDNyPG9/8xTc+JO2QsW15A+DxlhsZBSeKyQma/t3pnD?=
+ =?us-ascii?Q?a0qSVZQDBuT8+0fNzFJP3c84OuQGxpZXzrNrQMeq6AC2yEAcGF2YHBhbNdou?=
+ =?us-ascii?Q?ngx2XeRapXBcxhs+gRgVg5q6mvRRqBp9jBQPRWGFxK74yUNa+bBLG7rdN8mJ?=
+ =?us-ascii?Q?PvTh9p+QWtcHrU4xesCNNn5bQOiwMoWNYZg7kKCxeGu2WxmKM7sVDW+wWiqN?=
+ =?us-ascii?Q?uIeG1WIUi7AIwdaS9kfwh9p+9Th4h8xzcZ6X0r6gOUc8RgF9CkEkdkvZnH2D?=
+ =?us-ascii?Q?icaQlfjNdx5Pbg6nEfYIVGnHQ57+KGqyY4ka1tPjg46GbADz7k8VLJ9AR7Li?=
+ =?us-ascii?Q?uoudAAJXlSi041besp/u2qOLARH6WnbXVRs/FZUj2H50ZYAZahDhpeBjhjau?=
+ =?us-ascii?Q?yik8aqmaR5eWaZtyAKZVW91QZOCBfZtwYJ/qskjOYfK0ty4D+wC+h4FtDBk9?=
+ =?us-ascii?Q?J04ov8Ib0BhBH7HIGbK2q4XmaH58TRpiyLM5+JUiWI6YH32noWtg4+NZbMxa?=
+ =?us-ascii?Q?PPGRw87RW930jnW5BUT4JCfpaLQXOk7qw8/nB/k6726yXcj5+P8w0tty2vqx?=
+ =?us-ascii?Q?1rk4DOsn99mcnpr3/XmNv5BR9NOslk7PLJp4yi7SvYvWTkMctSo+oBpK+600?=
+ =?us-ascii?Q?od3qtCk6JgZMojMMmLPuecrfWfQO2CSWSoIn0hptaaV7W3V+vbq7dzKmTTP5?=
+ =?us-ascii?Q?jf6U0j1sRzhSeusZ33ua0Uic553ZzTm1o60hteroyZ9l9y6AcZtqGuNAdkVz?=
+ =?us-ascii?Q?jeXcoxnHgSCygpaHYQaXXuaIPExIW5UydGMNE5PPonWkbPRTrRoZEqToOepZ?=
+ =?us-ascii?Q?HDVj5cQRxGqGEBXXZqYIsMiJG/FlmOr64G2ymtRZBS7xxwJReLYNkeo4zL6M?=
+ =?us-ascii?Q?a6hKDSPn9eqfp5tUXb+XL0xiILxxOVWkcKIwg0BtLWcrzX9IVcZUMhmmTRaP?=
+ =?us-ascii?Q?ab72YvttLO+FLlaTescVp5Yw6ecMLvgMgbORUZliKax1AQBh6UQlDl0501dN?=
+ =?us-ascii?Q?6w=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: ef97d02f-82cc-4237-21d7-08dbbfa8682c
+X-MS-Exchange-CrossTenant-AuthSource: DS7PR11MB7859.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Sep 2023 22:23:42.7863 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: BUOwqPpI87yjqUzqxDm7OI9Taq4ZjNv/xmVfXzMAd1PTHzX4Cv7IQo6jMsudHXdKciFZ0DM+iTI26pzzNS2EJzbE4kwTNhnFbBUd9UIzuPw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM8PR11MB5669
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,77 +147,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: vkoul@kernel.org, quic_sbillaka@quicinc.com, linux-kernel@vger.kernel.org,
- andersson@kernel.org, freedreno@lists.freedesktop.org, dianders@chromium.org,
- dri-devel@lists.freedesktop.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- agross@kernel.org, marijn.suijten@somainline.org, quic_jesszhan@quicinc.com,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, sean@poorly.run,
- linux-arm-msm@vger.kernel.org
+Cc: intel-gfx@lists.freedesktop.org, andi.shyti@linux.intel.com,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 28 Sept 2023 at 01:01, Stephen Boyd <swboyd@chromium.org> wrote:
->
-> Quoting Kuogee Hsieh (2023-09-25 09:07:18)
-> >
-> > On 9/22/2023 6:35 PM, Abhinav Kumar wrote:
-> > >
-> > > Doing link training when we get hpd instead of atomic_enable() is a
-> > > design choice we have been following for a while because for the case
-> > > when link training fails in atomic_enable() and setting the link
-> > > status property as you mentioned, the compositor needs to be able to
-> > > handle that and also needs to try with a different resolution or take
-> > > some other corrective action. We have seen many compositors not able
-> > > to handle this complexity. So the design sends the hotplug to usermode
-> > > only after link training succeeds.
-> > >
-> > > I do not think we should change this design unless prototyped with an
-> > > existing compositor such as chrome or android at this point.
-> > >
-> > > Thanks
-> > >
-> > > Abhinav
-> >
-> >
-> > We did perform link training at atomic_enable() at eDP case since we can
-> > assume link training will always success without link rate or link lane
-> > being reduced.
-> >
-> > However for external DP case, link training can not be guarantee always
-> > success without link rate or lane being reduced as Abhinav mentioned.
-> >
-> > In addition,  CTS (compliance test) it required to complete link
-> > training within 10ms after hpd asserted.
->
-> Is it possible to change that timeout? I have to look around for the CTS
-> parameters because I'm pretty confused how it can work. What do we do if
-> DP wakes the system from suspend and asserts HPD? We need resume time to
-> be < 10ms?  That's not realistic.
->
-> >
-> > I am not sure do link training at atomic_enable() can meet this timing
-> > requirement.
-> >
->
-> At least in the DP spec itself it doesn't require the link to be trained
-> within 10ms of HPD being asserted. Instead it simply recommends that the
-> OS start configuring the display promptly after HPD is asserted, e.g.
-> within 100ms. There's some strict timing on IRQ_HPD, so the driver must
-> read DPCD registers within 100ms of IRQ_HPD rising edge; maybe that is
-> what CTS is checking for?
->
-> TL;DR: I don't see why CTS should stop us from link training in
-> atomic_enable(). It would be beneficial to do so to make eDP and DP the
-> same. It would also help to report a drm connector being connected
-> _before_ link training so that userspace knows the link itself is the
-> bad part of the equation (and not that the DP connector looks
-> disconnected to userspace when in fact it really is connected and the
-> monitor is asserting HPD, just the link training failed).
+On Wed, Sep 27, 2023 at 11:03:54PM +0200, Nirmoy Das wrote:
+> Implement intel_gt_mcr_lock_reset() to provide a mechanism
+> for resetting the steer semaphore when absolutely necessary.
+> 
+> Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
+> ---
+>  drivers/gpu/drm/i915/gt/intel_gt_mcr.c | 29 ++++++++++++++++++++++++++
+>  drivers/gpu/drm/i915/gt/intel_gt_mcr.h |  1 +
+>  2 files changed, 30 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_mcr.c b/drivers/gpu/drm/i915/gt/intel_gt_mcr.c
+> index bf4a933de03a..d98e0d2fc2ee 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gt_mcr.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_gt_mcr.c
+> @@ -419,6 +419,35 @@ void intel_gt_mcr_unlock(struct intel_gt *gt, unsigned long flags)
+>  		intel_uncore_write_fw(gt->uncore, MTL_STEER_SEMAPHORE, 0x1);
+>  }
+>  
+> +/**
+> + * intel_gt_mcr_lock_reset - Reset MCR steering lock
+> + * @gt: GT structure
+> + *
+> + * Performs a steer semaphore reset operation. On MTL and beyond, a hardware
+> + * lock will also be taken to serialize access not only for the driver,
+> + * but also for external hardware and firmware agents.
 
-Also this will move us closer to i915 user experience: failing link
-training in the display enablement part. So that a part of xrandr
-calls can retry link training.
+The text here makes it sound like this reset function is going to take
+the lock.  Since we have the same language in the lock() function's
+kerneldoc, I think you can just delete this whole sentence.
+
+> + * However, there may be situations where the driver must reset the semaphore
+> + * but only when it is absolutely certain that no other agent should own the
+> + * lock at that given time.
+
+This part leads to questions about what such situations would be and how
+we'd know it's safe to use.  Maybe it's best to just say something like
+"This will be used to sanitize the initial status of the hardware lock
+during driver load and resume since there won't be any concurrent access
+from other agents at those times, but it's possible that boot firmware
+may have left the lock in a bad state."
+
+> + *
+> + * Context: Takes gt->mcr_lock.  uncore->lock should *not* be held when this
+> + *          function is called, although it may be acquired after this
+> + *          function call.
+> + */
+> +void intel_gt_mcr_lock_reset(struct intel_gt *gt)
+> +{
+> +	unsigned long __flags;
+> +
+> +	lockdep_assert_not_held(&gt->uncore->lock);
+> +
+> +	spin_lock_irqsave(&gt->mcr_lock, __flags);
+
+If we're doing this to sanitize at load/resume, then presumably we
+shouldn't ever be racing with other driver threads either, right?  If it
+was possible for some other thread to already be grabbing the MCR lock,
+then that would mean it also isn't safe for us to reset it here either.
+
+
+Matt
+
+> +
+> +	if (GRAPHICS_VER_FULL(gt->i915) >= IP_VER(12, 70))
+> +		intel_uncore_write_fw(gt->uncore, MTL_STEER_SEMAPHORE, 0x1);
+> +
+> +	spin_unlock_irqrestore(&gt->mcr_lock, __flags);
+> +}
+> +
+>  /**
+>   * intel_gt_mcr_read - read a specific instance of an MCR register
+>   * @gt: GT structure
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_mcr.h b/drivers/gpu/drm/i915/gt/intel_gt_mcr.h
+> index 41684495b7da..485c7711f2e8 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gt_mcr.h
+> +++ b/drivers/gpu/drm/i915/gt/intel_gt_mcr.h
+> @@ -11,6 +11,7 @@
+>  void intel_gt_mcr_init(struct intel_gt *gt);
+>  void intel_gt_mcr_lock(struct intel_gt *gt, unsigned long *flags);
+>  void intel_gt_mcr_unlock(struct intel_gt *gt, unsigned long flags);
+> +void intel_gt_mcr_lock_reset(struct intel_gt *gt);
+>  
+>  u32 intel_gt_mcr_read(struct intel_gt *gt,
+>  		      i915_mcr_reg_t reg,
+> -- 
+> 2.41.0
+> 
 
 -- 
-With best wishes
-Dmitry
+Matt Roper
+Graphics Software Engineer
+Linux GPU Platform Enablement
+Intel Corporation
