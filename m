@@ -2,134 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 607F17B0478
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Sep 2023 14:42:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 773B67B04B7
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Sep 2023 14:54:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 10F7710E501;
-	Wed, 27 Sep 2023 12:42:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B77F10E06D;
+	Wed, 27 Sep 2023 12:54:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2080.outbound.protection.outlook.com [40.107.93.80])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A8B7C10E4F8;
- Wed, 27 Sep 2023 12:41:57 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PWjz7bDdyc6OEFC30iGlSdO2gJ7j7m53R96WgU4Q3JJkPwKd+DncFz1qzEh98eYOQ2wobETECtOagBK02gDZYTxwzLcqQKaLso9lxk3H6ZUTDdO6iuvj563JrjgSDc7aLLRJUgeccQRD/GYKHYsWXsI2C7CmuWFapAi4JgNdCneHeQOiKxYeFOJE4ik9SUy8GFLEcRlxPK3q6NskrzfA1s6sq81YlJj895CsTGxSMdnEKRyBFYIpSrl2z0Sdyt1QL0p9QnM4vD9gj70ctnUotVsdlnP9J3okJyulYZsPYNKwPaEAXCctMhUxdeE76CuPhrx8BJAwFckDAmM+SzR5AQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0/TXEngmJPPEGSrpo/vrjhl9z59RJpAQ//q0S8Gc+0U=;
- b=LZpSN3xKetZUrGtHmSs8q4A45f1m/rWgSDELdaZb6KD2Z4ofAnACcXxzyRtOCL/9isWzReTAR2ciXPNEnDMf5GQZY6tGIbKjleah/hM3T1mYMoPmc6T5peuhSpkyq3yOeP+TQdq/wB7hh8tMIZ9l8etmz+AZvKgdmgtYgNOln7Psb2El5pz/jxs/6gQ1puy3P2L4w/1j3CRtIBH5rphXni2bjWASRuGX9OBIXAIQdpGg1oQkf2x3kf3eUJLXZOnNNHOxNUX3uQNKuOtD3kjmPOXjzkzuODrYfDQ3lxzs2LeBBcq/PyoMgBr2wwGwiNQznz7rUP7fw8XvNNTFHNqDzw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0/TXEngmJPPEGSrpo/vrjhl9z59RJpAQ//q0S8Gc+0U=;
- b=hFZ2//rptZY+1eM0Ubu58Nr3foOX+lzsG83h9KruG4ZxVEqPRcPa6GcDiIzb55Z/9DYZGEmdgRiJv0C4CrVkWhWjPH7rOSq6aQXvp2Tpgg/fJlzgei46goP+UmZKidLTwewuq9MJuPMuiwDtQ5KzsrMEBE+Dse+LY1Y9lBDW/iI=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM6PR12MB3370.namprd12.prod.outlook.com (2603:10b6:5:38::25) by
- CH2PR12MB4937.namprd12.prod.outlook.com (2603:10b6:610:64::16) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6838.21; Wed, 27 Sep 2023 12:41:55 +0000
-Received: from DM6PR12MB3370.namprd12.prod.outlook.com
- ([fe80::8a67:3bbe:8309:4f87]) by DM6PR12MB3370.namprd12.prod.outlook.com
- ([fe80::8a67:3bbe:8309:4f87%3]) with mapi id 15.20.6768.029; Wed, 27 Sep 2023
- 12:41:55 +0000
-Message-ID: <61c0d884-b8d4-4109-be75-23927b61cb52@amd.com>
-Date: Wed, 27 Sep 2023 08:41:51 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:115.0) Gecko/20100101
- Thunderbird/115.3.0
-Subject: Re: [PATCH drm-misc-next 1/3] drm/sched: implement dynamic job flow
- control
-Content-Language: en-CA, en-US
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Danilo Krummrich <dakr@redhat.com>,
- Boris Brezillon <boris.brezillon@collabora.com>
-References: <20230924224555.15595-1-dakr@redhat.com>
- <20230925145513.49abcc52@collabora.com>
- <c6ec9ab4-d63b-0a72-4abf-682b94739877@amd.com>
- <20230926091129.2d7d7472@collabora.com>
- <390db8af-1510-580b-133c-dacf5adc56d1@amd.com>
- <5c6e1348-ec38-62b1-a056-1b7a724d99eb@redhat.com>
- <1f113c7b-975e-c72f-e6f0-ded55d10d64f@amd.com>
-From: Luben Tuikov <luben.tuikov@amd.com>
-Autocrypt: addr=luben.tuikov@amd.com; keydata=
- xjMEY1i6jxYJKwYBBAHaRw8BAQdAhfD+Cc+P5t/fiF08Vw25EMLiwUuxULYRiDQAP6H50MTN
- I0x1YmVuIFR1aWtvdiA8bHViZW4udHVpa292QGFtZC5jb20+wpkEExYKAEEWIQQyyR05VSHw
- x45E/SoppxulNG8HhgUCY1i6jwIbAwUJCWYBgAULCQgHAgIiAgYVCgkICwIEFgIDAQIeBwIX
- gAAKCRAppxulNG8Hhk53AP4k4UY5xfcje0c5OF1k22pNv8tErxtVpgKKZgvfetA4xwD+OoAh
- vesLIYumBDxP0BoLiLN84udxdT15HwPFUGiDmwDOOARjWLqPEgorBgEEAZdVAQUBAQdAzSxY
- a2EtvvIwd09NckBLSTarSLNDkUthmqPnwolwiDYDAQgHwn4EGBYKACYWIQQyyR05VSHwx45E
- /SoppxulNG8HhgUCY1i6jwIbDAUJCWYBgAAKCRAppxulNG8HhnBLAP4yjSGpK6PE1mapKhrq
- 8bSl9reo+F6EqdhE8X2TTHPycAEAt8EkTEstSiaOpM66gneU7r+xxzOYULo1b1XjXayGvwM=
-In-Reply-To: <1f113c7b-975e-c72f-e6f0-ded55d10d64f@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: YQZPR01CA0094.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c01:84::22) To DM6PR12MB3370.namprd12.prod.outlook.com
- (2603:10b6:5:38::25)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 43DC010E06D;
+ Wed, 27 Sep 2023 12:54:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1695819278; x=1727355278;
+ h=date:from:to:cc:subject:in-reply-to:message-id:
+ references:mime-version;
+ bh=+MQ7pQR4P8O8mS2/ElFu2Kpw3Kpb2sbQY704OQHU4vA=;
+ b=Py7gQ0ddbk5qv0qchnZWFB/XjtgjLpuCzz9P/qpEub2DuZBpesTPdL0g
+ Wx6SVntdcmT811MuZbS/ug4L2InOR7ZWuZpWiWqezhuWR1B9ihuBSwoIy
+ eYxeV0ps7NQ4jPJDFrhfBhGqQ4plscY8w/p+iKCxv32woQ9/kZ8s4oU2k
+ 1eDlUPu90WXaeTvjf5CsrqcoBYVoa1aO2O5kNUWnsbKgJoN2TwgEqfVS7
+ kIOdHcbSmwDv8aGSZrUv3VXjZrlz+vrxqaDaAQFhYmF1dtrCBE7N0ehcu
+ 7ict/IafPeOuaQsH2u6A7cju7h4iBCyoWJklmZ9pFhscCk6fWCJ9CA19N w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="468099451"
+X-IronPort-AV: E=Sophos;i="6.03,181,1694761200"; d="scan'208";a="468099451"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Sep 2023 05:54:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="864827529"
+X-IronPort-AV: E=Sophos;i="6.03,181,1694761200"; d="scan'208";a="864827529"
+Received: from clkuhl-mobl.amr.corp.intel.com (HELO
+ idecesar-mobl.ger.corp.intel.com) ([10.252.53.225])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Sep 2023 05:54:19 -0700
+Date: Wed, 27 Sep 2023 15:54:17 +0300 (EEST)
+From: =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
+To: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+Subject: Re: [PATCH 12/15] platform/x86/amd/pmf: Add PMF-AMDGPU get interface
+In-Reply-To: <20230922175056.244940-13-Shyam-sundar.S-k@amd.com>
+Message-ID: <ee678f17-8ee6-6366-4fea-dd133c6599e8@linux.intel.com>
+References: <20230922175056.244940-1-Shyam-sundar.S-k@amd.com>
+ <20230922175056.244940-13-Shyam-sundar.S-k@amd.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR12MB3370:EE_|CH2PR12MB4937:EE_
-X-MS-Office365-Filtering-Correlation-Id: fe3f140a-f916-4f86-1aa5-08dbbf572175
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: fjkc5ejfY+8dIToKFIM+lQySnMnT3tanTe8fEJi1cNeRtnZSL4i++PtBRVMCt2U1pCvBr//4mgyvm66qTFVwquHmAz0N6fnywWjXZR0f82Vrv1CRoLb6QOig5hbLxN8X0OH4eEAnmJ8L7mT29BFXaVk3So6UaewyLO5ieyIbx0a6oZD8QCtAZ2KhE/xNU/AQQTT299P8FhnAYgbIE8BDTQtWM1WOoqTxiJKSZXS4lKT21a8cowQHHp0uyEODibvu9ZbFDu9/WNIzStJ4iiUtihVj4khT8QRyPQ58v0b/GEMlsk6juAFbq9/0FgzlM2Th2SpjsISrz+k3gIpkiwtNcZS+hVqiTHQDCsiHMZet3GoAsGrEvfpG/oK14Egvwq3ipWxEias3mKXUAJjNKrg/EsNT/E8wQTsgOcvHBo3d033l/vNpNN13N4yjGCxZBMbi1WVjXM+TYyb3bAZuLXMaN88Setdn+kEXkszbXNaz1TBdDy3HfHH8NMAs1gftKo+V6UUSwAyUwttcO1hOdD/x+6hGG21O8Zj2iQPV1R/vV7nEvpHKa0l/T06x9kyovbAQfX6LPAokdlf7MVUgefhiptCWUcqTM/cQ7E1LDRUGBM2MZuRWdq7Iw46ZFJvBjM0Tzd4//QXnbWIUYKbCGl++FQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR12MB3370.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(396003)(366004)(136003)(376002)(346002)(39860400002)(230922051799003)(451199024)(1800799009)(186009)(31686004)(53546011)(2616005)(478600001)(26005)(86362001)(31696002)(38100700002)(36756003)(7416002)(83380400001)(6486002)(66574015)(6506007)(2906002)(6666004)(6512007)(8676002)(5660300002)(66476007)(44832011)(316002)(41300700001)(8936002)(110136005)(4326008)(66556008)(54906003)(66946007)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UGlpaHJDZnRyd3lMVWtRT0ZobTh0TzZ2SEpqY3ZOS1NHL2lyYi9HUE02NG8x?=
- =?utf-8?B?eXBPbnJkU2xZYjgrZGtzR09yQVBwTDN5amlmcldmaVdVNVJDRUhXTWRRYlMx?=
- =?utf-8?B?SnFGckNiVlhPQStlakI5bk1uK1ZWMFBOUEhRcnpVZk9UdVphVGsydEFONUVm?=
- =?utf-8?B?ZnZxMUNseTZzZzJTUGxGREUxMnorbUtLV09IbndEWEo0RWgxSE5FYzU1YXp0?=
- =?utf-8?B?MEJNdTZKTWpKV1ZVLzNsT0NOejNGUWxoZndQTFZid3VCVXhLMTV6NzVxQi9w?=
- =?utf-8?B?Y1JUWjJLSU0yZld4d2x0VVE0amRwQzRFajV2UUtuQ0tiaFk0UTdnT2lCTlNX?=
- =?utf-8?B?NFlpRDh2eUlPTjA4TjNIVStDd085MGhneVo3Uk5kNlMzelliWEhqZU04bXhW?=
- =?utf-8?B?MmN6T3o3ZGFLTFFLMEJpQzRLWE95b3JrL3R4VzFpcWFSNHkxK0xiT1BZem1L?=
- =?utf-8?B?Qnd3WFA2ckJCZ3FjSllYcWZqQ2laaWdxOU16NHdsZTFoMVhCRHJkd1ZpdlVw?=
- =?utf-8?B?L3FWbldpS3piY0IySTA0UXdXMWkzbHhuUDFGMmNsNVJvckY4Zk8yR1ZpYURF?=
- =?utf-8?B?aVBiaVlwa3QzSGhLb1Z2QjZjeThKWHVjRk54V0FGd0RPZ05QSU9hdFJRUzM2?=
- =?utf-8?B?VkIwOXZKMVdTSTRuSWFjTWdHTVk5MWZlWmlIbkZhTy8xWXM1ekVpT2J3UUxz?=
- =?utf-8?B?dE4zQ2QrMHF6dytGUjZFL3pmem02bG9uNTk3N1o5cUZqQy9QWmJXWC9WWklZ?=
- =?utf-8?B?eHBuaktKSlRUeEZXcTJuL09hRURMQ0FTQzBmM1dYK1liMjdOSVFhS2ViMnY3?=
- =?utf-8?B?VURKUmUzT256eUJVNGdISUJtb3ZmdVRFVlFBa0hoUjNoMEZOb0lyS3ZRRWJW?=
- =?utf-8?B?R2tQSW5qUWJiY2dKaWJJWjJUU1M2K2VmbzVTOWIyL2M1ZU9Pdis0aW5UekE5?=
- =?utf-8?B?NHFGQmFjUldUNDdrRWRhNnpwZ2M3QXd6U2k2UFhGeWxKSmh6TEhtK2NJdjFF?=
- =?utf-8?B?ZFhMSGFyZjBxeTM0eDZLVlNFOXFoejk5aHdieHArY3I0cnIxZUNNK1dSQmRR?=
- =?utf-8?B?WXkrUmhYWWNzWEphNWNyZHlnN3dkVlVESmt3WDJBY3lLeXJZVWhMM0NtL3A1?=
- =?utf-8?B?NVQ4a3ljRHl1TnlRY0lEdGU0ek9WaDFPaUMrUjN1dCttTDU1bVZYU2ZBYWVR?=
- =?utf-8?B?U1hVcS8ybnhldVdFVTdRclpmeGZDdU9yMEluWVdWSFdZRFZ6RTZXKzhHWmRZ?=
- =?utf-8?B?czJPdUtXNm1lVjJINDd3ZXBiK3c2SS9Va0lTRlJsN2U0SHZ5dWM5UDd2SjJ2?=
- =?utf-8?B?ZDVIQ2JKbkk0TFZOVVZ0UTFPNGlxUTN5ZUsrSzlqSlhBYnpOTC9oWGc5QURP?=
- =?utf-8?B?NGFiMzYwZE9kbU9XZTgwclcxQTE3U2VsQzUvVUJJRUxLd0x0T0pwdVNyeFZs?=
- =?utf-8?B?bXk0blpKeTVRUm1DWGVBS3RwQWgySmk5UmFmV3B2NG83ZmVGZmVsLy9IR2JX?=
- =?utf-8?B?SjB1WGJLT0pqQ3NMcVY3WmsxV1psWXZlRGQ0eGRlS0JKUERnOGxBM2hzd0Vn?=
- =?utf-8?B?VDR1MVR4RVNzaXdadndrTDRFS21LUTJMVGlCUXpxc0RWMXZWMEw3UFdSN203?=
- =?utf-8?B?WnFnUldma2hweSsxTnFmQkI4WkpCejdSdDFiYjFXQzdKSGw5ZDFvWitOanVu?=
- =?utf-8?B?d3dPUUJQZi9wbjFzUW5pWFZIdi9nd2hnaFVpR2k1WEdPMWlLWWlLcEhNaFBj?=
- =?utf-8?B?Uk5LS0Z4bGpzTVRLSDVkQURQS09HblVPMEd1c2dkdWlTamNOUnNzWStLR2hR?=
- =?utf-8?B?L2ZVbXVaUXpneG1ETGJEaFk0NFJkOE9BYXd1ZDNmZml2RWxHVW50aHRpVlNQ?=
- =?utf-8?B?c3pCeVBmSWIxZ0RES3pmaFhwQUFWVFJzbnJkUHhOM1N0NEh1L1QyeklkK09M?=
- =?utf-8?B?WUZncTNVYTZpSXhEVm1tYm1DYjAyZDI5WEpERzcrTXRRSkNMcGFpZmJseld0?=
- =?utf-8?B?c2txRFZxWThtUXF3aG9KLy9tZ2lUZmgvbDlDQ21PVW5BcnVZUE9mSkdOVEVq?=
- =?utf-8?B?N3dtc0hVeGhhOGZOcmJEQ2pWMVh4WndZQkxPYUhkcXhJd2dtZVpVL1lNNVl0?=
- =?utf-8?Q?QzQzzqW+6r6/q8Kn2xtfVkJLP?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fe3f140a-f916-4f86-1aa5-08dbbf572175
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3370.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Sep 2023 12:41:54.8746 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: du5voAZ+Q/WiwTfEn4big3pjmxj7KX0TZQ0IsW4icEwzxChlVWp1lhT5OmVZWzoP
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4937
+Content-Type: text/plain; charset=US-ASCII
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -142,169 +58,320 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.brost@intel.com, Sarah Walker <sarah.walker@imgtec.com>,
- nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Donald Robson <Donald.Robson@imgtec.com>,
- faith.ekstrand@collabora.com
+Cc: Xinhui.Pan@amd.com, Patil.Reddy@amd.com, basavaraj.natikar@amd.com,
+ dri-devel@lists.freedesktop.org, jikos@kernel.org,
+ amd-gfx@lists.freedesktop.org, platform-driver-x86@vger.kernel.org,
+ markgross@kernel.org, Hans de Goede <hdegoede@redhat.com>,
+ benjamin.tissoires@redhat.com, mario.limonciello@amd.com,
+ linux-input@vger.kernel.org, alexander.deucher@amd.com,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2023-09-27 08:15, Christian König wrote:
-> Am 27.09.23 um 14:11 schrieb Danilo Krummrich:
->> On 9/27/23 13:54, Christian König wrote:
->>> Am 26.09.23 um 09:11 schrieb Boris Brezillon:
->>>> On Mon, 25 Sep 2023 19:55:21 +0200
->>>> Christian König <christian.koenig@amd.com> wrote:
->>>>
->>>>> Am 25.09.23 um 14:55 schrieb Boris Brezillon:
->>>>>> +The imagination team, who's probably interested too.
->>>>>>
->>>>>> On Mon, 25 Sep 2023 00:43:06 +0200
->>>>>> Danilo Krummrich <dakr@redhat.com> wrote:
->>>>>>> Currently, job flow control is implemented simply by limiting the 
->>>>>>> amount
->>>>>>> of jobs in flight. Therefore, a scheduler is initialized with a
->>>>>>> submission limit that corresponds to a certain amount of jobs.
->>>>>>>
->>>>>>> This implies that for each job drivers need to account for the 
->>>>>>> maximum
->>>>>>> job size possible in order to not overflow the ring buffer.
->>>>>>>
->>>>>>> However, there are drivers, such as Nouveau, where the job size 
->>>>>>> has a
->>>>>>> rather large range. For such drivers it can easily happen that job
->>>>>>> submissions not even filling the ring by 1% can block subsequent
->>>>>>> submissions, which, in the worst case, can lead to the ring run dry.
->>>>>>>
->>>>>>> In order to overcome this issue, allow for tracking the actual 
->>>>>>> job size
->>>>>>> instead of the amount job jobs. Therefore, add a field to track a 
->>>>>>> job's
->>>>>>> submission units, which represents the amount of units a job 
->>>>>>> contributes
->>>>>>> to the scheduler's submission limit.
->>>>>> As mentioned earlier, this might allow some simplifications in the
->>>>>> PowerVR driver where we do flow-control using a dma_fence returned
->>>>>> through ->prepare_job(). The only thing that'd be missing is a way to
->>>>>> dynamically query the size of a job (a new hook?), instead of 
->>>>>> having the
->>>>>> size fixed at creation time, because PVR jobs embed native fence 
->>>>>> waits,
->>>>>> and the number of native fences will decrease if some of these fences
->>>>>> are signalled before ->run_job() is called, thus reducing the job 
->>>>>> size.
->>>>> Exactly that is a little bit questionable since it allows for the 
->>>>> device
->>>>> to postpone jobs infinitely.
->>>>>
->>>>> It would be good if the scheduler is able to validate if it's ever 
->>>>> able
->>>>> to run the job when it is pushed into the entity.
->>>> Yes, we do that already. We check that the immutable part of the job
->>>> (everything that's not a native fence wait) fits in the ringbuf.
->>>
->>> Yeah, but thinking more about it there might be really bad side 
->>> effects. We shouldn't use a callback nor job credits because it might 
->>> badly influence fairness between entities.
+On Fri, 22 Sep 2023, Shyam Sundar S K wrote:
 
-I feel the entity and job selection algorithm should not be influenced by
-how many credits are available, but by the respective scheduling policy,
-RR, FIFO, single-entity (job-FIFO).
-
-Credits only tell us, "Can the hardware take on the next selected
-job _at this time_?"
-
-As long as,
-1. the next selected job doesn't exceed the maximum job credit the hardware
-   is capable of processing, and,
-2. pending jobs are being completed by the hardware and returned back to
-   the kernel, and their credits are added to the available credits,
-we can guarantee forward progress, i.e. that the next selected job
-would, in a finite time, execute and complete.
-
->>> In other words when one entity submits always large jobs and another 
->>> one always small ones then the scheduler would prefer the one which 
->>> submits the smaller ones because they are easier to fit into the ring 
->>> buffer.
-
-I think we should stave off credit availability from scheduling. DRM
-scheduling is based on factors which are "above the hardware", e.g. how long
-an entity has been held off, how long a job therein has been waiting, etc.,
-while "job credits" merely tell us if the next selected job, whichever one
-it is, can be taken by the hardware _at this time_.
-
-So, credits tell us something about the hardware. Scheduling tells
-us something about entities, jobs, wait times, etc. I feel the DRM
-scheduler should stay away from mixing credits and scheduling, since
-that wouldn't be portable across different hardware/drivers we support,
-and would make the code unnecessarily complicated and prone to bugs,
-timeouts, possibly deadlocks, etc.
-
->>
->> That's true. Admittedly I mostly had DRM_SCHED_POLICY_SINGLE_ENTITY​ 
->> in mind
->> where obviously we just have a single entity.
+> In order to provide GPU inputs to TA for the Smart PC solution to work, we
+> need to have interface between the PMF driver and the AMDGPU driver.
 > 
-> I also only stumbled over it after thinking Boris suggestions through. 
-> That problem really wasn't obvious.
+> Add the initial code path for get interface from AMDGPU.
 > 
->>
->>>
->>> What we can do is the follow:
->>> 1. The scheduler has some initial credits it can use to push jobs.
->>> 2. Each scheduler fence (and *not* the job) has a credits field of 
->>> how much it will use.
->>> 3. After letting a a job run the credits of it's fence are subtracted 
->>> from the available credits of the scheduler.
->>> 4. The scheduler can keep running jobs as long as it has a positive 
->>> credit count.
->>> 5. When the credit count becomes negative it goes to sleep until a 
->>> scheduler fence signals and the count becomes positive again.
->>
->> Wouldn't it be possible that we overflow the ring with that or at 
->> least end up in
->> a busy wait in run_job()? What if the remaining credit count is 
->> greater than 0 but
->> smaller than the number of credits the next picked job requires?
+> Co-developed-by: Mario Limonciello <mario.limonciello@amd.com>
+> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+> Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+> ---
+>  drivers/gpu/drm/amd/amdgpu/Makefile     |  2 +
+>  drivers/gpu/drm/amd/amdgpu/amdgpu.h     |  1 +
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_pmf.c | 70 +++++++++++++++++++++++++
+>  drivers/platform/x86/amd/pmf/Kconfig    |  1 +
+>  drivers/platform/x86/amd/pmf/core.c     |  1 +
+>  drivers/platform/x86/amd/pmf/pmf.h      |  4 ++
+>  drivers/platform/x86/amd/pmf/spc.c      | 13 +++++
+>  drivers/platform/x86/amd/pmf/tee-if.c   | 22 ++++++++
+>  include/linux/amd-pmf-io.h              | 28 ++++++++++
+>  9 files changed, 142 insertions(+)
+>  create mode 100644 drivers/gpu/drm/amd/amdgpu/amdgpu_pmf.c
+>  create mode 100644 include/linux/amd-pmf-io.h
+> 
+> diff --git a/drivers/gpu/drm/amd/amdgpu/Makefile b/drivers/gpu/drm/amd/amdgpu/Makefile
+> index 384b798a9bad..7fafccefbd7a 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/Makefile
+> +++ b/drivers/gpu/drm/amd/amdgpu/Makefile
+> @@ -86,6 +86,8 @@ amdgpu-$(CONFIG_PROC_FS) += amdgpu_fdinfo.o
+>  
+>  amdgpu-$(CONFIG_PERF_EVENTS) += amdgpu_pmu.o
+>  
+> +amdgpu-$(CONFIG_AMD_PMF) += amdgpu_pmf.o
+> +
+>  # add asic specific block
+>  amdgpu-$(CONFIG_DRM_AMDGPU_CIK)+= cik.o cik_ih.o \
+>  	dce_v8_0.o gfx_v7_0.o cik_sdma.o uvd_v4_2.o vce_v2_0.o
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+> index dc2d53081e80..475f3e248f35 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+> @@ -50,6 +50,7 @@
+>  #include <linux/hashtable.h>
+>  #include <linux/dma-fence.h>
+>  #include <linux/pci.h>
+> +#include <linux/amd-pmf-io.h>
+>  
+>  #include <drm/ttm/ttm_bo.h>
+>  #include <drm/ttm/ttm_placement.h>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_pmf.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_pmf.c
+> new file mode 100644
+> index 000000000000..232d11833ddc
+> --- /dev/null
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_pmf.c
+> @@ -0,0 +1,70 @@
+> +/*
+> + * Copyright 2023 Advanced Micro Devices, Inc.
+> + *
+> + * Permission is hereby granted, free of charge, to any person obtaining a
+> + * copy of this software and associated documentation files (the "Software"),
+> + * to deal in the Software without restriction, including without limitation
+> + * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+> + * and/or sell copies of the Software, and to permit persons to whom the
+> + * Software is furnished to do so, subject to the following conditions:
+> + *
+> + * The above copyright notice and this permission notice shall be included in
+> + * all copies or substantial portions of the Software.
+> + *
+> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+> + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+> + * THE COPYRIGHT HOLDER(S) OR AUTHOR(S) BE LIABLE FOR ANY CLAIM, DAMAGES OR
+> + * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+> + * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+> + * OTHER DEALINGS IN THE SOFTWARE.
+> +
+> + * * Author: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+> + */
+> +
+> +#include <linux/backlight.h>
+> +#include "amdgpu.h"
+> +
+> +int amd_pmf_get_gfx_data(struct amd_gpu_pmf_data *pmf)
+> +{
+> +	struct drm_device *drm_dev = pci_get_drvdata(pmf->gpu_dev);
+> +	struct drm_mode_config *mode_config = &drm_dev->mode_config;
+> +	struct amdgpu_device *adev = drm_to_adev(drm_dev);
+> +	struct drm_connector_list_iter iter;
+> +	struct drm_connector *connector;
+> +	struct backlight_device *bd;
+> +	int i = 0;
+> +
+> +	/* reset the count to zero */
+> +	pmf->display_count = 0;
+> +	if (!(adev->flags & AMD_IS_APU)) {
+> +		DRM_ERROR("PMF-AMDGPU interface not supported\n");
+> +		return -ENODEV;
+> +	}
+> +
+> +	bd = backlight_device_get_by_type(BACKLIGHT_RAW);
+> +	if (!bd)
+> +		return -ENODEV;
+> +
+> +	pmf->brightness = backlight_get_brightness(bd);
+> +
+> +	mutex_lock(&mode_config->mutex);
+> +	drm_connector_list_iter_begin(drm_dev, &iter);
+> +
+> +	drm_for_each_connector_iter(connector, &iter) {
+> +		if (i > MAX_SUPPORTED)
+> +			break;
 
-That's fine and this is _exactly_ the purpose of job credits--you want
-to know if you can push the next job _now_ or if you should wait until
-some pending jobs in hardware finish executing in order to free resources
-in the hardware, so that you _can_ push the next picked job down to
-the hardware.
+I'd put this below right after i++.
 
-> 
-> The initial credits the scheduler gets should be only halve the ring size.
-> 
-> So as long as that is positive you should have enough space even for the 
-> biggest jobs.
-> 
-> We should still have a warning if userspace tries to push something 
-> bigger into an entity.
+> +		if (connector->status == connector_status_connected) {
+> +			pmf->con_status[i] = connector->status;
+> +			pmf->connector_type[i] = connector->connector_type;
+> +			pmf->display_count++;
+> +		}
+> +		i++;
+> +	}
+> +	drm_connector_list_iter_end(&iter);
+> +	mutex_unlock(&mode_config->mutex);
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(amd_pmf_get_gfx_data);
+> diff --git a/drivers/platform/x86/amd/pmf/Kconfig b/drivers/platform/x86/amd/pmf/Kconfig
+> index 437b78c6d1c5..0cd08f9ab51b 100644
+> --- a/drivers/platform/x86/amd/pmf/Kconfig
+> +++ b/drivers/platform/x86/amd/pmf/Kconfig
+> @@ -10,6 +10,7 @@ config AMD_PMF
+>  	depends on AMD_NB
+>  	select ACPI_PLATFORM_PROFILE
+>  	depends on AMDTEE
+> +	depends on DRM_AMDGPU
+>  	help
+>  	  This driver provides support for the AMD Platform Management Framework.
+>  	  The goal is to enhance end user experience by making AMD PCs smarter,
+> diff --git a/drivers/platform/x86/amd/pmf/core.c b/drivers/platform/x86/amd/pmf/core.c
+> index dbfe7c1d6fc4..c468d208b1dc 100644
+> --- a/drivers/platform/x86/amd/pmf/core.c
+> +++ b/drivers/platform/x86/amd/pmf/core.c
+> @@ -396,6 +396,7 @@ static int amd_pmf_probe(struct platform_device *pdev)
+>  	}
+>  
+>  	dev->cpu_id = rdev->device;
+> +	dev->root = rdev;
+>  
+>  	err = amd_smn_read(0, AMD_PMF_BASE_ADDR_LO, &val);
+>  	if (err) {
+> diff --git a/drivers/platform/x86/amd/pmf/pmf.h b/drivers/platform/x86/amd/pmf/pmf.h
+> index 780c442239e3..9032df4ba48a 100644
+> --- a/drivers/platform/x86/amd/pmf/pmf.h
+> +++ b/drivers/platform/x86/amd/pmf/pmf.h
+> @@ -13,6 +13,8 @@
+>  
+>  #include <linux/acpi.h>
+>  #include <linux/platform_profile.h>
+> +#include <linux/amd-pmf-io.h>
+> +
+>  #define POLICY_BUF_MAX_SZ		0x4b000
+>  #define POLICY_SIGN_COOKIE		0x31535024
+>  
+> @@ -224,9 +226,11 @@ struct amd_pmf_dev {
+>  	void *shbuf;
+>  	struct delayed_work pb_work;
+>  	struct pmf_action_table *prev_data;
+> +	struct amd_gpu_pmf_data gfx_data;
+>  	u64 policy_addr;
+>  	void *policy_base;
+>  	bool smart_pc_enabled;
+> +	struct pci_dev *root;
+>  };
+>  
+>  struct apmf_sps_prop_granular {
+> diff --git a/drivers/platform/x86/amd/pmf/spc.c b/drivers/platform/x86/amd/pmf/spc.c
+> index 5c6745f56ed1..5f3ab1ce09d2 100644
+> --- a/drivers/platform/x86/amd/pmf/spc.c
+> +++ b/drivers/platform/x86/amd/pmf/spc.c
+> @@ -43,6 +43,10 @@ void amd_pmf_dump_ta_inputs(struct amd_pmf_dev *dev, struct ta_pmf_enact_table *
+>  	dev_dbg(dev->dev, "Max C0 Residency : %d\n", in->ev_info.max_c0residency);
+>  	dev_dbg(dev->dev, "GFX Busy : %d\n", in->ev_info.gfx_busy);
+>  	dev_dbg(dev->dev, "Connected Display Count : %d\n", in->ev_info.monitor_count);
+> +	dev_dbg(dev->dev, "Primary Display Type : %s\n",
+> +		drm_get_connector_type_name(in->ev_info.display_type));
+> +	dev_dbg(dev->dev, "Primary Display State : %s\n", in->ev_info.display_state ?
+> +			"Connected" : "disconnected/unknown");
+>  	dev_dbg(dev->dev, "LID State : %s\n", in->ev_info.lid_state ? "Close" : "Open");
+>  	dev_dbg(dev->dev, "==== TA inputs END ====\n");
+>  }
+> @@ -144,6 +148,14 @@ static int amd_pmf_get_slider_info(struct amd_pmf_dev *dev, struct ta_pmf_enact_
+>  	return 0;
+>  }
+>  
+> +static void amd_pmf_get_gpu_info(struct amd_pmf_dev *dev, struct ta_pmf_enact_table *in)
+> +{
+> +	amd_pmf_get_gfx_data(&dev->gfx_data);
+> +	in->ev_info.monitor_count = dev->gfx_data.display_count;
+> +	in->ev_info.display_type = dev->gfx_data.connector_type[0];
+> +	in->ev_info.display_state = dev->gfx_data.con_status[0];
+> +}
+> +
+>  void amd_pmf_populate_ta_inputs(struct amd_pmf_dev *dev, struct ta_pmf_enact_table *in)
+>  {
+>  	/* TA side lid open is 1 and close is 0, hence the ! here */
+> @@ -152,4 +164,5 @@ void amd_pmf_populate_ta_inputs(struct amd_pmf_dev *dev, struct ta_pmf_enact_tab
+>  	amd_pmf_get_smu_info(dev, in);
+>  	amd_pmf_get_battery_info(dev, in);
+>  	amd_pmf_get_slider_info(dev, in);
+> +	amd_pmf_get_gpu_info(dev, in);
+>  }
+> diff --git a/drivers/platform/x86/amd/pmf/tee-if.c b/drivers/platform/x86/amd/pmf/tee-if.c
+> index 3daa122f35d5..1608996654e8 100644
+> --- a/drivers/platform/x86/amd/pmf/tee-if.c
+> +++ b/drivers/platform/x86/amd/pmf/tee-if.c
+> @@ -9,6 +9,7 @@
+>   */
+>  
+>  #include <linux/debugfs.h>
+> +#include <linux/pci.h>
+>  #include <linux/tee_drv.h>
+>  #include <linux/uuid.h>
+>  #include "pmf.h"
+> @@ -345,6 +346,20 @@ static int amd_pmf_get_bios_buffer(struct amd_pmf_dev *dev)
+>  	return amd_pmf_start_policy_engine(dev);
+>  }
+>  
+> +static int amd_pmf_get_gpu_handle(struct pci_dev *pdev, void *data)
+> +{
+> +	struct amd_pmf_dev *dev = data;
+> +
+> +	if (pdev->vendor == PCI_VENDOR_ID_ATI && pdev->devfn == 0) {
+> +		dev->gfx_data.gpu_dev = pci_get_device(pdev->vendor, pdev->device, NULL);
 
-Right. Generally, if userspace tries to push a job which exceeds the capability
-of the hardware, as measured by job credits which are set by the hardware,
-then emit a warning. 
+What is this attempting to do??
+
 -- 
-Regards,
-Luben
+ i.
 
-> 
-> Regards,
-> Christian.
-> 
->>
->>>
->>> This way jobs are handled equally, you can still push jobs up to at 
->>> least halve your ring buffer size and you should be able to handle 
->>> your PowerVR case by calculating the credits you actually used in 
->>> your run_job() callback.
->>>
->>> As far as I can see that approach should work, shouldn't it?
->>>
->>> Regards,
->>> Christian.
->>>
->>
-> 
 
+> +		if (dev->gfx_data.gpu_dev) {
+> +			pci_dev_put(pdev);
+> +			return 1; /* stop walking */
+> +		}
+> +	}
+> +	return 0; /* continue walking */
+> +}
+> +
+>  static int amd_pmf_amdtee_ta_match(struct tee_ioctl_version_data *ver, const void *data)
+>  {
+>  	return ver->impl_id == TEE_IMPL_ID_AMDTEE;
+> @@ -435,6 +450,12 @@ int amd_pmf_init_smart_pc(struct amd_pmf_dev *dev)
+>  	INIT_DELAYED_WORK(&dev->pb_work, amd_pmf_invoke_cmd);
+>  	amd_pmf_set_dram_addr(dev);
+>  	amd_pmf_get_bios_buffer(dev);
+> +
+> +	/* get amdgpu handle */
+> +	pci_walk_bus(dev->root->bus, amd_pmf_get_gpu_handle, dev);
+> +	if (!dev->gfx_data.gpu_dev)
+> +		dev_err(dev->dev, "GPU handle not found!\n");
+> +
+>  	dev->prev_data = kzalloc(sizeof(*dev->prev_data), GFP_KERNEL);
+>  	if (!dev->prev_data)
+>  		return -ENOMEM;
+> @@ -451,5 +472,6 @@ void amd_pmf_deinit_smart_pc(struct amd_pmf_dev *dev)
+>  	kfree(dev->prev_data);
+>  	kfree(dev->policy_buf);
+>  	cancel_delayed_work_sync(&dev->pb_work);
+> +	pci_dev_put(dev->gfx_data.gpu_dev);
+>  	amd_pmf_tee_deinit(dev);
+>  }
+> diff --git a/include/linux/amd-pmf-io.h b/include/linux/amd-pmf-io.h
+> new file mode 100644
+> index 000000000000..a2d4af231362
+> --- /dev/null
+> +++ b/include/linux/amd-pmf-io.h
+> @@ -0,0 +1,28 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * AMD Platform Management Framework Interface
+> + *
+> + * Copyright (c) 2023, Advanced Micro Devices, Inc.
+> + * All Rights Reserved.
+> + *
+> + * Author: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+> + */
+> +
+> +#ifndef AMD_PMF_IO_H
+> +#define AMD_PMF_IO_H
+> +
+> +#include <drm/drm_connector.h>
+> +
+> +#define MAX_SUPPORTED 4
+> +
+> +/* amdgpu */
+> +struct amd_gpu_pmf_data {
+> +	struct pci_dev *gpu_dev;
+> +	enum drm_connector_status con_status[MAX_SUPPORTED];
+> +	int display_count;
+> +	int connector_type[MAX_SUPPORTED];
+> +	int brightness;
+> +};
+> +
+> +int amd_pmf_get_gfx_data(struct amd_gpu_pmf_data *pmf);
+> +#endif
+> 
