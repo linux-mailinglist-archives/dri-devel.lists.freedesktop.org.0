@@ -1,72 +1,127 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B5677B05B6
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Sep 2023 15:46:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D9BDB7B05BF
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Sep 2023 15:47:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 231BB10E524;
-	Wed, 27 Sep 2023 13:46:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 47E0B10E529;
+	Wed, 27 Sep 2023 13:47:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
- [IPv6:2a00:1450:4864:20::12b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E3E3610E524
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Sep 2023 13:46:19 +0000 (UTC)
-Received: by mail-lf1-x12b.google.com with SMTP id
- 2adb3069b0e04-5041d6d8b10so18502051e87.2
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Sep 2023 06:46:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1695822378; x=1696427178; darn=lists.freedesktop.org;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=xjMt+usahKyEXhyMN9rIKh7XECu5zDX2FLeHZvS3f6M=;
- b=r/ya6YFf1nw4AxPnPt2p32f8P6b2DBcrMA0GkVwDb7f0nWbW1BnrTD3GkKMc18SQBZ
- gukSY3hRy6szyPMp20G8JkoaoRNtcsKF+RQ1pmaeFIoOUOf1U1ds0TiViK81I9QfumdU
- wqaI29ao1Sus8VC5BDkG9dzNaKyYstSLx0MizSsowGFBL4l0IaN+NfosOP4ygwZ1GqjC
- tkpx06xGV+VAvkDEPKQz5zgn9j4b2/tB4Bil9Lj8hCbi5wsrx+osgVAOyNmUAhEMO/oI
- BjrvYhql1k93cwbeYz2cICXYwtCCqvcfUb2cTaScLLJAAoApg2Voa9CoE1ZKosPf3ftm
- rDEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1695822378; x=1696427178;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=xjMt+usahKyEXhyMN9rIKh7XECu5zDX2FLeHZvS3f6M=;
- b=v2XXN69/AxPp7NScy5tcD+Yx7O1PcFVb8W1cjEHP/xqTC9MoE74WKV+b8zdi7r3O4F
- 5pBRcEuaEAzyMxB9VaSwjscfHXETMxVQvcGE8JklVVp/MQhAzcv/s1b4IbgB9+aaQJI8
- 9XcOf04pXAdt8IRoz7gyTCsyV/hHGF3Jr/gu6QMIMNoV2Goe/tG8L7zc1wjtCMHLxKZU
- RbyZPIAx2QmZW/63GVI7D3m2mJMjKn53Yf4iU7yW3mbmbM4bGkSbPIpMPHhLqKS4Zywp
- +Rnu9Aa1LZu4s9SVYPLDu9Tal89bEeIEqEIsE+CtER9zpF1tcgAfdaXWsPK4EEGcQ499
- lwkg==
-X-Gm-Message-State: AOJu0Ywey3Ln+g2sd/escI885J2qoCLGdM5S4dUCXuDRnrrGKpn/K7Kp
- GjeW0r9Ri9q/3SR+DUPAXXo8FA==
-X-Google-Smtp-Source: AGHT+IGpPGTE4fiqS7H6X5cE5gxZAu7fbfw/lkC2Rf9hkEdABrFyFW6E9N1aUp/8UrNrtYA3KSkgEg==
-X-Received: by 2002:ac2:58e4:0:b0:504:3424:215c with SMTP id
- v4-20020ac258e4000000b005043424215cmr1658146lfo.51.1695822377525; 
- Wed, 27 Sep 2023 06:46:17 -0700 (PDT)
-Received: from pop-os.localdomain (81-231-61-187-no276.tbcn.telia.com.
- [81.231.61.187]) by smtp.gmail.com with ESMTPSA id
- f21-20020a19ae15000000b00500d1f67be9sm2664810lfc.43.2023.09.27.06.46.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 27 Sep 2023 06:46:16 -0700 (PDT)
-Date: Wed, 27 Sep 2023 15:46:14 +0200
-From: Joakim Bech <joakim.bech@linaro.org>
-To: Yong Wu =?utf-8?B?KOWQtOWLhyk=?= <Yong.Wu@mediatek.com>
-Subject: Re: [PATCH 5/9] dma-buf: heaps: mtk_sec_heap: Initialise tee session
-Message-ID: <20230927134614.kp27moxdw72jiu4y@pop-os.localdomain>
-References: <20230911023038.30649-1-yong.wu@mediatek.com>
- <20230911023038.30649-6-yong.wu@mediatek.com>
- <d0373c02-9b22-661f-9930-ca720053c2a0@collabora.com>
- <a115a2a5d3ac218e6db65ccdb0a1876f9cfca02b.camel@mediatek.com>
- <d798b15b-6f35-96db-e3f7-5c0bcc5d46a2@collabora.com>
- <a4ecc2792f3a4d3159e34415be984ff7d5f5e263.camel@mediatek.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam04on20625.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:7e8d::625])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC40A10E18D;
+ Wed, 27 Sep 2023 13:47:35 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=mXq17ztJEGPncVuJ+ilr/25UpSGCBt2CJh/omYJLzyGMRveM+AccTkAmSQ9L3UDg2TkydWzg2fXH8fHdb5uN37L+tdljjRiETKS/tuBg7zQY16fZ4hKVB+5t/qyzM6J0d2+JtaJWg16vqVQUfQ6SaNhVUODs2jBo4wXoq5TKxLfANEQEIWdNtqN6DOnE2xFOzpd1Oin0eikUt31g3+OcNIrb9LCByTlZb06griysl/UwfmRCXdMeR5ppMbEIO1SFPH1ai/x9BI3WwLtKPCTqi1JklinpIOZr4DcTwk6QfYWzbMIma/dfF+UMHfQEbBVPb+vH5QtDY8aYusL3JYpg1A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=hR4RxzJ+hftBm4fWWCle4nHhjEYyW4fwDmcRnZeCY8w=;
+ b=Z/9CYHS4UF523wXZEO06lWqV443xM+NXxULw2pgHsGkd5Rc7VcHhsJIov5UmBhrUxbpd1JxmABUVPQMn8/S36PoEVKdkcZPyPenX1gTzxlbJ3dGRH/lq0iQBF/dEj3UF21HWn1Hckom9fvDRXkA4TmYOvp6MuQ/zVEyKPx7DuFyPVcA6HMm4j47Pg1r7x7ZB7IeU8DHhgd8ih2hgnk1xQrPVjiLlTW+YCovofFPzP7udx6CwweIAd1S/EYx6rqBGSoRjgWr49J1PfRpyJHUcpQZaqWBReb2H3P6/jQCwkoKpm1NFCUdMGJ5SkcKoqxm2CYvOYc06oGIPg700w73QiA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=hR4RxzJ+hftBm4fWWCle4nHhjEYyW4fwDmcRnZeCY8w=;
+ b=33YR4lgvvkOSUfxjA5V6CCqYue1gPnQyu1W9SL4mPGBGsdNNJ1A37h97cuPWWCQfmAoMzhYHkuQjEA95xzSWGhAFt3ZGkPE7FJT2GdF2D4dpsbgpiIf/j8MhQkNLj47Qo36Zdd7jkWuX2zf4FZD4+r+cL23he2wottd/bMCX5Sw=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BL1PR12MB5176.namprd12.prod.outlook.com (2603:10b6:208:311::19)
+ by CH2PR12MB4150.namprd12.prod.outlook.com (2603:10b6:610:a6::24)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6838.22; Wed, 27 Sep
+ 2023 13:47:32 +0000
+Received: from BL1PR12MB5176.namprd12.prod.outlook.com
+ ([fe80::19d3:7b27:a6fc:95c5]) by BL1PR12MB5176.namprd12.prod.outlook.com
+ ([fe80::19d3:7b27:a6fc:95c5%4]) with mapi id 15.20.6813.027; Wed, 27 Sep 2023
+ 13:47:32 +0000
+Message-ID: <577ad880-17c8-46dc-9e89-f2d8d6530a81@amd.com>
+Date: Wed, 27 Sep 2023 19:17:16 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 13/15] platform/x86/amd/pmf: Add PMF-AMDGPU set interface
+Content-Language: en-US
+To: Hans de Goede <hdegoede@redhat.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ markgross@kernel.org, basavaraj.natikar@amd.com, jikos@kernel.org,
+ benjamin.tissoires@redhat.com, alexander.deucher@amd.com,
+ Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch
+References: <20230922175056.244940-1-Shyam-sundar.S-k@amd.com>
+ <20230922175056.244940-14-Shyam-sundar.S-k@amd.com>
+ <2e201a3b-d75f-916d-5135-b084ad5da23e@redhat.com>
+ <437fbd5c-386f-4609-a350-77f61c8aaa0c@amd.com>
+ <6c047e17-66b0-c3ff-1b4e-4478663619a4@redhat.com>
+ <4e79121f-01bb-729b-1e70-043e8911cb12@amd.com>
+ <72f7d962-e6ee-274a-74ba-aa68adf5806a@redhat.com>
+From: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+In-Reply-To: <72f7d962-e6ee-274a-74ba-aa68adf5806a@redhat.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <a4ecc2792f3a4d3159e34415be984ff7d5f5e263.camel@mediatek.com>
+X-ClientProxiedBy: PN3PR01CA0094.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:9b::18) To BL1PR12MB5176.namprd12.prod.outlook.com
+ (2603:10b6:208:311::19)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL1PR12MB5176:EE_|CH2PR12MB4150:EE_
+X-MS-Office365-Filtering-Correlation-Id: 59b5593f-ca4d-40e1-5918-08dbbf604c75
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: z5QJe4ukv/sI6Y+lQyOARF9fcyNQtNMnSdU5WOh//P0a/7n5VuQLj5kgWlufzzu3uKw9lvzfxz7XnrvBUGu0rLucyMlyHPSmu+pL2UvVFNoNhpveoa8jLsGZCX3A595CZ7NXCP0/kzinzrF4ljmNg66siYLUUUKFxu79RUiUwF8tDKaL8G4dhzEpBPyN+g/X1Z3xee3HTTPm+U62pNqL6dVUpm1bstIYcieiIa+UCPkP/RIJ63VdsdHBQKlhsRCTPjTwYaC6Mgfz160Qaly0RCvA7TIsG06VS4iurlCgsGhogn3rQQVVUEEftqorIRrqzRsbEv84Eyr3bJGAfdrDE8HwByICb5SiFTIw2TR3AV18cM8SrKmi6L4F27HRu3ZLyYXGLgXnJXepzP8g4p/UVDrRhNd+SVE/2seqm/PhrXKMo6JHwpDyigSeht9Nn3zB5l+lkIe9iulqpH7LwKW1yx8ZgfDaK1u85SkyyqU7G8IrRMQy0N4Q7euXSx/ObnrL1dDHQtbQkDmQR7GSEW12nS0DxCRBowDhL/g1lpPcE5/h9y6UHJv5nX7nygBrRQk6qCbq9qPosTaqoCHQZoNo4bdb1hnObMuZIvxQ/WMpYmrincBqygz/TMLe0w+3ap0SPIXAH3aQT3YhV8aI3KPB+ndgKzvrF+bnoLCLtd6VjIlg/Oe768Bn0E3LryUCWviu
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BL1PR12MB5176.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(346002)(376002)(136003)(39860400002)(396003)(366004)(230922051799003)(186009)(1800799009)(451199024)(2906002)(83380400001)(38100700002)(6506007)(86362001)(36756003)(53546011)(6512007)(6666004)(31696002)(2616005)(6486002)(478600001)(66574015)(26005)(41300700001)(31686004)(8936002)(8676002)(4326008)(5660300002)(66556008)(66476007)(110136005)(66946007)(7416002)(316002)(921005)(87944015)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cGl5MDdrODc3dEZKU1Q2eWVGdms3bWJHL3ozOTI3M0s2c05FSEZNc21uNWNo?=
+ =?utf-8?B?YXdoNXhRZ01VMWRRNENLc1ZZTXNIZElzWTl6NXJNblhEN2ZOMlZRQ3BWV0lx?=
+ =?utf-8?B?ekNPeUh3bldZMU42aTRoTGwybkp2SmRhUk5nSVk1RUxhcm5FWnJta1NiOUNU?=
+ =?utf-8?B?Rys2MUtRTWJmaTAxNHFuZEdZR0NaVHowUFpQaDRaUlVkRDh0YkJEVXVaVCtO?=
+ =?utf-8?B?eXNOZjFCN2tEY2t2TS9CcGVHWGZyNmxsdmdNbys1M1ZGTUsvWHhvS1Fsc2R4?=
+ =?utf-8?B?akpUNC9SVDQxK05tYVhuU0pRMm9RaENrSVlQemw2V3E2R2FrcFh4VTlBcjZz?=
+ =?utf-8?B?MUNROWJ3b0NJK3ozekR6R2NvUDZSeUVPSXFiL2xBVFJzSTk4bk5QSGNwUjh2?=
+ =?utf-8?B?Mlhwbm1LMk9mSEtuaG1ONlUwb1h2dlNaVlp5UzJRTmRrMUlva2N5UHR5UFli?=
+ =?utf-8?B?MkdyWWdLU1NseHl6L1M2bXNMbUdVTk96N0M0ZmdxQ2dZejBQaHZEdHB6MGJX?=
+ =?utf-8?B?Y0lLbm1YTnlXUDNLWGszb0tMVzIwV3lmbXBETXJCVGFWOXVNaHhtN3YxbUpY?=
+ =?utf-8?B?UmxNNnhraytIZFJadVdsVzVaWXVDY3pGblF3NngvZU0raXdrM0IveGNkcnJY?=
+ =?utf-8?B?S2oyd0dFaXJLQmxZc05JbExMYk5DT1l3a1hSN2oyTktSeWtPZmlCeFJOWHVG?=
+ =?utf-8?B?VEdFUk9aZ3pYWndyS1FMcmdHcGlCWnNkWmsxRVU3ZUZsbFFXbzZwRXQybHB3?=
+ =?utf-8?B?QkcrZzNnR0FqQjZOVXR5VVFpd1FaMjJOTnc0WEc5a2VKZjZ3S3VPYm03RWN0?=
+ =?utf-8?B?U1JRM24zSnF3b0tzalo4Rm9saFJ0QVFKdTcrclQxQVZaVXRyT1UrbzcwSTVB?=
+ =?utf-8?B?Y0l5N0JrVjdvNVJQWUQrTUhROWpJT0xtK0hweGlzNlY0YUZJaitTVkFyMlJV?=
+ =?utf-8?B?V2lnd29sRmZzUFN5Z1RSWURyUDZZaWJtNUtlc2Q4aWZ4SVAxd2g3aXUwajJX?=
+ =?utf-8?B?V2JsRXFqeHFoVGdGV1gyN1RKYmd2dlUvUDJna2NVWTNicy81K0o5Szh6RzBC?=
+ =?utf-8?B?YndXNkJFS2RZRHZiSFVQUUFNOWhmc0xhTFVyd0o2bEVVY1FsRHBoSGpnbHQw?=
+ =?utf-8?B?d1ZFdFlxQS85WGRYeGg5emNUekRBcDM2dWYxRUpRTlhRODJ4aXA0Q2JvRmNx?=
+ =?utf-8?B?cjRpMnZISGo2c0laQ3JtNTFsYzN4akZOVWlGLy9iK2MxUlBNMDFybDVONVg1?=
+ =?utf-8?B?SEFLZTJPcDg2aGFpSW4xQ0ZTZS9uUlJIdXZ6WStZZUQ5aUl3bkpoYmZ0SXBv?=
+ =?utf-8?B?a1c2M3RkRmxORU1XOTE4RFordGcwbFhFWjJyazlXN3EzY1RsV3NOc1RhNlhV?=
+ =?utf-8?B?cWlrMUlXN0I5UUs0WlBhUDBWNGlyOU45K1JGeXVyUnpqMUxUNGk4dGVzbUhN?=
+ =?utf-8?B?Y3AyVFVOM1Jwajh3b0JXY3psT3pOSHZBaFYxalhpZ2xPa1JiUU5zbDZuV0Nj?=
+ =?utf-8?B?VU5CQzBDZ1ptbExhTGFYendjUndWR0lJNkZZelFjWEE5ejFQYmtPMk1iY0F3?=
+ =?utf-8?B?VStGaWFZdndINkVIei9abDJhS244ZU9jMXJHNmsvVXdWdE9wYkdKV0tpQzlO?=
+ =?utf-8?B?Z2ZjVGFCeG5ra0RtWDBzSDlhejN6ZWxuKzJBQjQ1R2tTR1JzdWZaR2ZEWS9O?=
+ =?utf-8?B?R2ZZdWdXT1lPc3pTOGlOTGFNemV3MFZNTE9zR1Jya1ZYMkFYbWN4RnRLazVq?=
+ =?utf-8?B?ZVpERFpQRVFJdzVKTndhdjFibkIvQWdZV2lyZXQzK2pMUDREUjJ2b0lRMlNP?=
+ =?utf-8?B?MWw1am1pdUdrbWlGN0FSSWFxUmRhU3pIemUyWWZtWTR2dGNOOERScEJtdGQw?=
+ =?utf-8?B?YUc4eW96dVoyYWpWM3RoTk9rVm5IVWpkZjhOVnpWaCtTT2xjQkpmbVAzdHdo?=
+ =?utf-8?B?dm5KeGxySFV1eHd6ZFVQcHZmL2dIdnVJSTM0V2RWSHJMOGF2YVdmeHB4NmdL?=
+ =?utf-8?B?Z0dTL3VJUXdnazU1cy8yNXdFUElnQy9rWDI4RlFDekV1TmdDVTlrb085MllR?=
+ =?utf-8?B?NG5pdndEVExSNVlVQnZmWFN5ZEVtdDFtWVFIUUw3OHkxK2Eya2RRVXZ2QjhI?=
+ =?utf-8?Q?SRWMX2sQFyaqAegqN6LQ8G6hU?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 59b5593f-ca4d-40e1-5918-08dbbf604c75
+X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5176.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Sep 2023 13:47:32.7108 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: bm3XXFSOv32XKkanVeJ1LfeT0uW+qYKIyd0RXHah28+PtDVl8I32k9jxA+8eVPUXk+XEuQP005lozYJlxifpeQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4150
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,213 +134,239 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "conor+dt@kernel.org" <conor+dt@kernel.org>,
- "benjamin.gaignard@collabora.com" <benjamin.gaignard@collabora.com>,
- Kuohong Wang =?utf-8?B?KOeOi+Wci+m0uyk=?= <kuohong.wang@mediatek.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "christian.koenig@amd.com" <christian.koenig@amd.com>,
- "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
- "robh+dt@kernel.org" <robh+dt@kernel.org>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
- "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
- "jstultz@google.com" <jstultz@google.com>,
- "tjmercier@google.com" <tjmercier@google.com>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
- Jianjiao Zeng =?utf-8?B?KOabvuWBpeWnoyk=?= <Jianjiao.Zeng@mediatek.com>,
- "angelogioacchino.delregno@collabora.com"
- <angelogioacchino.delregno@collabora.com>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ platform-driver-x86@vger.kernel.org, mario.limonciello@amd.com,
+ Patil.Reddy@amd.com, linux-input@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 25, 2023 at 12:49:50PM +0000, Yong Wu (吴勇) wrote:
-> On Tue, 2023-09-12 at 11:32 +0200, AngeloGioacchino Del Regno wrote:
-> > Il 12/09/23 08:17, Yong Wu (吴勇) ha scritto:
-> > > On Mon, 2023-09-11 at 11:29 +0200, AngeloGioacchino Del Regno
-> > > wrote:
-> > > > Il 11/09/23 04:30, Yong Wu ha scritto:
-> > > > > The TEE probe later than dma-buf heap, and PROBE_DEDER doesn't
-> > > > > work
-> > > > > here since this is not a platform driver, therefore initialise
-> > > > > the
-> > > > > TEE
-> > > > > context/session while we allocate the first secure buffer.
-> > > > > 
-> > > > > Signed-off-by: Yong Wu <yong.wu@mediatek.com>
-> > > > > ---
-> > > > >    drivers/dma-buf/heaps/mtk_secure_heap.c | 61
-> > > > > +++++++++++++++++++++++++
-> > > > >    1 file changed, 61 insertions(+)
-> > > > > 
-> > > > > diff --git a/drivers/dma-buf/heaps/mtk_secure_heap.c
-> > > > > b/drivers/dma-
-> > > > > buf/heaps/mtk_secure_heap.c
-> > > > > index bbf1c8dce23e..e3da33a3d083 100644
-> > > > > --- a/drivers/dma-buf/heaps/mtk_secure_heap.c
-> > > > > +++ b/drivers/dma-buf/heaps/mtk_secure_heap.c
-> > > > > @@ -10,6 +10,12 @@
-> > > > >    #include <linux/err.h>
-> > > > >    #include <linux/module.h>
-> > > > >    #include <linux/slab.h>
-> > > > > +#include <linux/tee_drv.h>
-> > > > > +#include <linux/uuid.h>
-> > > > > +
-> > > > > +#define TZ_TA_MEM_UUID		"4477588a-8476-11e2-ad15-
-> > > > > e41f1390d676"
-> > > > > +
-> > > > 
-> > > > Is this UUID the same for all SoCs and all TZ versions?
-> > > 
-> > > Yes. It is the same for all SoCs and all TZ versions currently.
-> > > 
-> > 
-> > That's good news!
-> > 
-> > Is this UUID used in any userspace component? (example: Android
-> > HALs?)
+Hi Hans,
+
+On 9/27/2023 6:34 PM, Hans de Goede wrote:
+> HI,
 > 
-> No. Userspace never use it. If userspace would like to allocate this
-> secure buffer, it can achieve through the existing dmabuf IOCTL via
-> /dev/dma_heap/mtk_svp node.
+> On 9/26/23 15:17, Christian König wrote:
+>> Am 26.09.23 um 14:56 schrieb Hans de Goede:
+>>> Hi,
+>>>
+>>> On 9/26/23 13:24, Shyam Sundar S K wrote:
+>>>> Hi Hans,
+>>>>
+>>>> On 9/26/2023 4:05 PM, Hans de Goede wrote:
+>>>>> Hi,
+>>>>>
+>>>>> On 9/22/23 19:50, Shyam Sundar S K wrote:
+>>>>>> For the Smart PC Solution to fully work, it has to enact to the actions
+>>>>>> coming from TA. Add the initial code path for set interface to AMDGPU.
+>>>>>>
+>>>>>> Co-developed-by: Mario Limonciello <mario.limonciello@amd.com>
+>>>>>> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+>>>>>> Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+>>>>>> ---
+>>>>>>   drivers/gpu/drm/amd/amdgpu/amdgpu_pmf.c | 21 +++++++++++++++++++++
+>>>>>>   drivers/platform/x86/amd/pmf/pmf.h      |  2 ++
+>>>>>>   drivers/platform/x86/amd/pmf/tee-if.c   | 19 +++++++++++++++++--
+>>>>>>   include/linux/amd-pmf-io.h              |  1 +
+>>>>>>   4 files changed, 41 insertions(+), 2 deletions(-)
+>>>>>>
+>>>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_pmf.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_pmf.c
+>>>>>> index 232d11833ddc..5c567bff0548 100644
+>>>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_pmf.c
+>>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_pmf.c
+>>>>>> @@ -68,3 +68,24 @@ int amd_pmf_get_gfx_data(struct amd_gpu_pmf_data *pmf)
+>>>>>>       return 0;
+>>>>>>   }
+>>>>>>   EXPORT_SYMBOL_GPL(amd_pmf_get_gfx_data);
+>>>>>> +
+>>>>>> +int amd_pmf_set_gfx_data(struct amd_gpu_pmf_data *pmf)
+>>>>>> +{
+>>>>>> +    struct drm_device *drm_dev = pci_get_drvdata(pmf->gpu_dev);
+>>>>>> +    struct amdgpu_device *adev = drm_to_adev(drm_dev);
+>>>>>> +    struct backlight_device *bd;
+>>>>>> +
+>>>>>> +    if (!(adev->flags & AMD_IS_APU)) {
+>>>>>> +        DRM_ERROR("PMF-AMDGPU interface not supported\n");
+>>>>>> +        return -ENODEV;
+>>>>>> +    }
+>>>>>> +
+>>>>>> +    bd = backlight_device_get_by_type(BACKLIGHT_RAW);
+>>>>>> +    if (!bd)
+>>>>>> +        return -ENODEV;
+>>>>> This assumes that the backlight is always controller by the amdgpu's
+>>>>> native backlight driver, but it might e.g. also be handled by
+>>>>> eacpi-video or by nvidia_wmi_ec_backlight (when using an AMD APU +
+>>>>> nvidia dgpu).
+>>>> PMF is meant for AMD APUs(atleast for now) and the _HID will only be
+>>>> made visible if its AMD laptop. So using amdgpu's native BACKLIGHT_RAW
+>>>> should be safe, right?
+>>> Users can pass say acpi_backlight=video and use the acpi_video
+>>> driver for backlight control instead of the native GPU backlight
+>>> control.
+>>>
+>>>>> For now what should be done here is to call acpi_video_get_backlight_type()
+>>>>> and then translate the return value from this into a backlight-type:
+>>>>>
+>>>>>          acpi_backlight_video        -> BACKLIGHT_FIRMWARE
+>>>>>          acpi_backlight_vendor,        -> BACKLIGHT_PLATFORM
+>>>>>          acpi_backlight_native,        -> BACKLIGHT_RAW
+>>>>>          acpi_backlight_nvidia_wmi_ec,    -> BACKLIGHT_FIRMWARE
+>>>>>          acpi_backlight_apple_gmux,    -> BACKLIGHT_PLATFORM
+>>>>>
+>>>> I can add this change in the v2, do you insist on this?
+>>> Insist is a strong word, but I think that it is a good idea to have
+>>> this. Evenutally it looks like this code will need to either integrate with
+>>> the drm drivers lot more; or the drm core needs to export some special
+>>> hooks for this which the PMF code can then call.
+>>>
+>>> Actually thinking more about this, I think that the right thing to do
+>>> here is make some code register brightness control as a cooling device
+>>> (which I think is already done in some cases) and then have the PMF
+>>> code use the cooling-device APIs for this.
+>>>
+>>> IMHO that would be a much cleaner solution then this hack.
+>>
+>> Yeah, fully agree with Hans. This looks like a rather extreme hack to me.
 > 
-In general I think as mentioned elsewhere in comments, that there isn't
-that much here that seems to be unique for MediaTek in this patch
-series, so I think it worth to see whether this whole patch set can be
-made more generic. Having said that, the UUID is always unique for a
-certain Trusted Application. So, it's not entirely true saying that the
-UUID is the same for all SoCs and all TrustZone versions. It might be
-true for a family of MediaTek devices and the TEE in use, but not
-generically.
-
-So, if we need to differentiate between different TA implementations,
-then we need different UUIDs. If it would be possible to make this patch
-set generic, then it sounds like a single UUID would be sufficient, but
-that would imply that all TA's supporting such a generic UUID would be
-implemented the same from an API point of view. Which also means that
-for example Trusted Application function ID's needs to be the same etc.
-Not impossible to achieve, but still not easy (different TEE follows
-different specifications) and it's not typically something we've done in
-the past.
-
-Unfortunately there is no standardized database of TA's describing what
-they implement and support.
-
-As an alternative, we could implement a query call in the TEE answering,
-"What UUID does your TA have that implements secure unmapped heap?".
-I.e., something that reminds of a lookup table. Then we wouldn't have to
-carry this in UAPI, DT or anywhere else.
-
--- 
-// Regards
-Joakim
-
+> Shyam, the cooling device interface is defined in:
 > 
-> > If it is (and I somehow expect that it is), then this definition
-> > should go
-> > to a UAPI header, as suggested by Christian.
-> > 
-> > Cheers!
-> > 
-> > > > 
-> > > > Thanks,
-> > > > Angelo
-> > > > 
-> > > > 
-> > > > > +#define MTK_TEE_PARAM_NUM		4
-> > > > >    
-> > > > >    /*
-> > > > >     * MediaTek secure (chunk) memory type
-> > > > > @@ -28,17 +34,72 @@ struct mtk_secure_heap_buffer {
-> > > > >    struct mtk_secure_heap {
-> > > > >    	const char		*name;
-> > > > >    	const enum kree_mem_type mem_type;
-> > > > > +	u32			 mem_session;
-> > > > > +	struct tee_context	*tee_ctx;
-> > > > >    };
-> > > > >    
-> > > > > +static int mtk_optee_ctx_match(struct tee_ioctl_version_data
-> > > > > *ver,
-> > > > > const void *data)
-> > > > > +{
-> > > > > +	return ver->impl_id == TEE_IMPL_ID_OPTEE;
-> > > > > +}
-> > > > > +
-> > > > > +static int mtk_kree_secure_session_init(struct mtk_secure_heap
-> > > > > *sec_heap)
-> > > > > +{
-> > > > > +	struct tee_param t_param[MTK_TEE_PARAM_NUM] = {0};
-> > > > > +	struct tee_ioctl_open_session_arg arg = {0};
-> > > > > +	uuid_t ta_mem_uuid;
-> > > > > +	int ret;
-> > > > > +
-> > > > > +	sec_heap->tee_ctx = tee_client_open_context(NULL,
-> > > > > mtk_optee_ctx_match,
-> > > > > +						    NULL,
-> > > > > NULL);
-> > > > > +	if (IS_ERR(sec_heap->tee_ctx)) {
-> > > > > +		pr_err("%s: open context failed, ret=%ld\n",
-> > > > > sec_heap-
-> > > > > > name,
-> > > > > 
-> > > > > +		       PTR_ERR(sec_heap->tee_ctx));
-> > > > > +		return -ENODEV;
-> > > > > +	}
-> > > > > +
-> > > > > +	arg.num_params = MTK_TEE_PARAM_NUM;
-> > > > > +	arg.clnt_login = TEE_IOCTL_LOGIN_PUBLIC;
-> > > > > +	ret = uuid_parse(TZ_TA_MEM_UUID, &ta_mem_uuid);
-> > > > > +	if (ret)
-> > > > > +		goto close_context;
-> > > > > +	memcpy(&arg.uuid, &ta_mem_uuid.b, sizeof(ta_mem_uuid));
-> > > > > +
-> > > > > +	ret = tee_client_open_session(sec_heap->tee_ctx, &arg,
-> > > > > t_param);
-> > > > > +	if (ret < 0 || arg.ret) {
-> > > > > +		pr_err("%s: open session failed, ret=%d:%d\n",
-> > > > > +		       sec_heap->name, ret, arg.ret);
-> > > > > +		ret = -EINVAL;
-> > > > > +		goto close_context;
-> > > > > +	}
-> > > > > +	sec_heap->mem_session = arg.session;
-> > > > > +	return 0;
-> > > > > +
-> > > > > +close_context:
-> > > > > +	tee_client_close_context(sec_heap->tee_ctx);
-> > > > > +	return ret;
-> > > > > +}
-> > > > > +
-> > > > >    static struct dma_buf *
-> > > > >    mtk_sec_heap_allocate(struct dma_heap *heap, size_t size,
-> > > > >    		      unsigned long fd_flags, unsigned long
-> > > > > heap_flags)
-> > > > >    {
-> > > > > +	struct mtk_secure_heap *sec_heap =
-> > > > > dma_heap_get_drvdata(heap);
-> > > > >    	struct mtk_secure_heap_buffer *sec_buf;
-> > > > >    	DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
-> > > > >    	struct dma_buf *dmabuf;
-> > > > >    	int ret;
-> > > > >    
-> > > > > +	/*
-> > > > > +	 * TEE probe may be late. Initialise the secure session
-> > > > > in the
-> > > > > first
-> > > > > +	 * allocating secure buffer.
-> > > > > +	 */
-> > > > > +	if (!sec_heap->mem_session) {
-> > > > > +		ret = mtk_kree_secure_session_init(sec_heap);
-> > > > > +		if (ret)
-> > > > > +			return ERR_PTR(ret);
-> > > > > +	}
-> > > > > +
-> > > > >    	sec_buf = kzalloc(sizeof(*sec_buf), GFP_KERNEL);
-> > > > >    	if (!sec_buf)
-> > > > >    		return ERR_PTR(-ENOMEM);
-> > > > 
-> > > > 
-> > 
-> > 
+> include/linux/thermal.h
+> 
+> And then look for cooling_device .
+> 
+> An example of code registering a cooling_device for backlight control is:
+> 
+> drivers/acpi/acpi_video.c
+> 
+> and then specifically the code starting around line 257 with:
+> 
+> video_get_max_state()
+> 
+> until
+> 
+> static const struct thermal_cooling_device_ops video_cooling_ops = {
+> ...
+> 
+> And the code around line 1750 for actually registering the cooling-dev.
+> 
+> To use the cooling_device interface witt amdgpu's native backlight control
+> you will need to make the amdgpu backlight control register a cooling-device
+> for this in a similar manner.
+> 
+
+Thank you for pointing to the references. I will address the remarks
+from Ilpo and respin a new version soon.
+
+Thanks,
+Shyam
+
+> Regards,
+> 
+> Hans
+> 
+> 
+> 
+> 
+>>
+>> Apart from that what exactly is this thing supposed to do? Prevent overheating by reducing the brightness?
+>>
+>> Regards,
+>> Christian.
+>>
+>>>
+>>> Regards,
+>>>
+>>> Hans
+>>>
+>>>
+>>>
+>>>> Thanks,
+>>>> Shyam
+>>>>
+>>>>> Also I'm worried about probe order here, this code currently assumes
+>>>>> that the GPU or other backlight driver has loaded before this runs,
+>>>>> which is not necessarily the case.
+>>>>>
+>>>>> I think that if the backlight_device_get_by_type() fails this
+>>>>> should be retried say every 10 seconds from some delayed workqueue
+>>>>> for at least a couple of minutes after boot.
+>>>>>
+>>>>> Regards,
+>>>>>
+>>>>> Hans
+>>>>>
+>>>>>
+>>>>>
+>>>>>
+>>>>>> +
+>>>>>> +    backlight_device_set_brightness(bd, pmf->brightness);
+>>>>>> +
+>>>>>> +    return 0;
+>>>>>> +}
+>>>>>> +EXPORT_SYMBOL_GPL(amd_pmf_set_gfx_data);
+>>>>>> diff --git a/drivers/platform/x86/amd/pmf/pmf.h b/drivers/platform/x86/amd/pmf/pmf.h
+>>>>>> index 9032df4ba48a..ce89cc0daa5a 100644
+>>>>>> --- a/drivers/platform/x86/amd/pmf/pmf.h
+>>>>>> +++ b/drivers/platform/x86/amd/pmf/pmf.h
+>>>>>> @@ -73,6 +73,7 @@
+>>>>>>   #define PMF_POLICY_STT_SKINTEMP_APU                7
+>>>>>>   #define PMF_POLICY_STT_SKINTEMP_HS2                8
+>>>>>>   #define PMF_POLICY_SYSTEM_STATE                    9
+>>>>>> +#define PMF_POLICY_DISPLAY_BRIGHTNESS                12
+>>>>>>   #define PMF_POLICY_P3T                        38
+>>>>>>     /* TA macros */
+>>>>>> @@ -480,6 +481,7 @@ enum ta_pmf_error_type {
+>>>>>>   };
+>>>>>>     struct pmf_action_table {
+>>>>>> +    unsigned long display_brightness;
+>>>>>>       enum system_state system_state;
+>>>>>>       unsigned long spl; /* in mW */
+>>>>>>       unsigned long sppt; /* in mW */
+>>>>>> diff --git a/drivers/platform/x86/amd/pmf/tee-if.c b/drivers/platform/x86/amd/pmf/tee-if.c
+>>>>>> index 1608996654e8..eefffff83a4c 100644
+>>>>>> --- a/drivers/platform/x86/amd/pmf/tee-if.c
+>>>>>> +++ b/drivers/platform/x86/amd/pmf/tee-if.c
+>>>>>> @@ -79,10 +79,10 @@ static int amd_pmf_update_uevents(struct amd_pmf_dev *dev, u16 event)
+>>>>>>       return 0;
+>>>>>>   }
+>>>>>>   -static void amd_pmf_apply_policies(struct amd_pmf_dev *dev, struct ta_pmf_enact_result *out)
+>>>>>> +static int amd_pmf_apply_policies(struct amd_pmf_dev *dev, struct ta_pmf_enact_result *out)
+>>>>>>   {
+>>>>>>       u32 val, event = 0;
+>>>>>> -    int idx;
+>>>>>> +    int idx, ret;
+>>>>>>         for (idx = 0; idx < out->actions_count; idx++) {
+>>>>>>           val = out->actions_list[idx].value;
+>>>>>> @@ -160,8 +160,23 @@ static void amd_pmf_apply_policies(struct amd_pmf_dev *dev, struct ta_pmf_enact_
+>>>>>>                   dev->prev_data->system_state = 0;
+>>>>>>               }
+>>>>>>               break;
+>>>>>> +
+>>>>>> +        case PMF_POLICY_DISPLAY_BRIGHTNESS:
+>>>>>> +            ret = amd_pmf_get_gfx_data(&dev->gfx_data);
+>>>>>> +            if (ret)
+>>>>>> +                return ret;
+>>>>>> +
+>>>>>> +            dev->prev_data->display_brightness = dev->gfx_data.brightness;
+>>>>>> +            if (dev->prev_data->display_brightness != val) {
+>>>>>> +                dev->gfx_data.brightness = val;
+>>>>>> +                amd_pmf_set_gfx_data(&dev->gfx_data);
+>>>>>> +                dev_dbg(dev->dev, "update DISPLAY_BRIGHTNESS : %d\n", val);
+>>>>>> +            }
+>>>>>> +            break;
+>>>>>>           }
+>>>>>>       }
+>>>>>> +
+>>>>>> +    return 0;
+>>>>>>   }
+>>>>>>     static int amd_pmf_invoke_cmd_enact(struct amd_pmf_dev *dev)
+>>>>>> diff --git a/include/linux/amd-pmf-io.h b/include/linux/amd-pmf-io.h
+>>>>>> index a2d4af231362..ecae387ddaa6 100644
+>>>>>> --- a/include/linux/amd-pmf-io.h
+>>>>>> +++ b/include/linux/amd-pmf-io.h
+>>>>>> @@ -25,4 +25,5 @@ struct amd_gpu_pmf_data {
+>>>>>>   };
+>>>>>>     int amd_pmf_get_gfx_data(struct amd_gpu_pmf_data *pmf);
+>>>>>> +int amd_pmf_set_gfx_data(struct amd_gpu_pmf_data *pmf);
+>>>>>>   #endif
+>>
+> 
