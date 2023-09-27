@@ -1,61 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2535C7B0D8D
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Sep 2023 22:46:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A31717B0D8C
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Sep 2023 22:46:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 87EDF10E5A7;
-	Wed, 27 Sep 2023 20:45:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 90D0C10E107;
+	Wed, 27 Sep 2023 20:45:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com
- [IPv6:2607:f8b0:4864:20::629])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2686F10E575;
- Wed, 27 Sep 2023 16:55:31 +0000 (UTC)
-Received: by mail-pl1-x629.google.com with SMTP id
- d9443c01a7336-1c3f97f2239so104430715ad.0; 
- Wed, 27 Sep 2023 09:55:31 -0700 (PDT)
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
+ [IPv6:2a00:1450:4864:20::136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4169910E5A9
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Sep 2023 20:26:11 +0000 (UTC)
+Received: by mail-lf1-x136.google.com with SMTP id
+ 2adb3069b0e04-502e7d66c1eso19460143e87.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Sep 2023 13:26:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1695833730; x=1696438530; darn=lists.freedesktop.org;
- h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ d=gmail.com; s=20230601; t=1695846369; x=1696451169; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=4l9UDvCbv8erE71IF5bB14OddV2GDc72p6otw4VVCo8=;
- b=ItLwrl4eznGfM5kltrlpqiqkAGVKL22JUbuHSP3Csy06MdD01JnBpRrK3GXe1tsb6W
- RNftv77876CxKDYX4G4K3qgZspI0Zx1J9fOy5JOF2YD8G9BU9rfEQYgq6hHpsMwAF5TQ
- 16eBI6YihogCsX1JJfA6yqkyctBoohA6m5hQydkMGe+Y4UZV7jY8EDQlqeTZE9ExyqEh
- gg6tXKDG0eeOU2HHYp5Q/2y5R03eN3unPzaTHzNvBXjmRpsIIZCItPgnld226IXdJHak
- gybLtKOKpECJV462zdliZUVPXyDuetzFjVnKLisz0UQ+QZXTO8f6wxPTPz47XvDRpHAW
- oaPg==
+ bh=dpL/zhQSi7qXBDYsd8tSZQwnMVgnaPBNm9wb7WRX31Q=;
+ b=WmjK31vwpalgpSWoVb7qcRTwdd8H3Lyl/iVGor9HofmtcpdGH3YFtuTXBy9dflppIm
+ Oo1SM6nLTftNDrzbK6yzQcdsX/dvg2N3Epwcmprs0JqlUtM/Y4ypkwocf/ufAtXxksLu
+ SfQttEfIyM7Me6LSPQo2v2qR7kTYNd5iA/yHBEJoTrBbgEe/N140d1ikdDQLt4OxE3sg
+ X3dgRYZ5JzOTOVvLHrs5drvtpBXJSX62k/xNW8swLx/K58Pb4MrI9gKTLuhtw/f4JjO8
+ ceSFbTqg+MhndZuag4eusNPcHrLBZbkTdorydEcSplEbJ4C8hG3cNCFmyrMSM72ESd84
+ Cc8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1695833730; x=1696438530;
- h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20230601; t=1695846369; x=1696451169;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=4l9UDvCbv8erE71IF5bB14OddV2GDc72p6otw4VVCo8=;
- b=ULZcQkaHBLHqjqj9oqsnVizHEfH9hWUarXFLCfH38bBmK/mz7yhclIGQB7YUMFzNrv
- 99Yk56N9Qhe5MmOesfPSWAkTMKYkWLtFv+r8OTJB5+K+IjcwVOfwPGwKCxROcg2zQ5Uq
- AkcfcYxZXneTEob4CSTyVtvMFeCrzMToeHAJS8YW0egHqXGVtrc1Of6Kp0YduvF8dvVq
- ptITEcGzkwwBi9W5CfvpwtsdZHd8UGNyEJkic2trca/tMOuJh+Vzp7tRGOd3z3vpSZOM
- nfQm0jbWjJh7ANlyS0Rg/plqNG71h5JVoWVzT9ZnP7KKsv7gghs5tnC+A8DuVqgGErpg
- dnNQ==
-X-Gm-Message-State: AOJu0YySKTG/W+N3tbtXJ6JID7+0b1SdfUzMcSdwC0g7Tsct6lK6DiZj
- 2mCtoeI9KSjjlXrrjhKExtI=
-X-Google-Smtp-Source: AGHT+IGWIL8MNB2aNny7VvLXmLZnLXuGexINxd6mcLllIv9ZwN5xF64TeTVfNog1WEGt/rSPD7LLjA==
-X-Received: by 2002:a17:902:b58c:b0:1b9:e241:ad26 with SMTP id
- a12-20020a170902b58c00b001b9e241ad26mr2096808pls.9.1695833730513; 
- Wed, 27 Sep 2023 09:55:30 -0700 (PDT)
-Received: from 377044c6c369.cse.ust.hk (191host097.mobilenet.cse.ust.hk.
- [143.89.191.97]) by smtp.gmail.com with ESMTPSA id
- e10-20020a170902744a00b001c61e628e98sm6267704plt.175.2023.09.27.09.55.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 27 Sep 2023 09:55:29 -0700 (PDT)
-From: Chengfeng Ye <dg573847474@gmail.com>
-To: kherbst@redhat.com, lyude@redhat.com, airlied@gmail.com, daniel@ffwll.ch,
- bskeggs@redhat.com
-Subject: [PATCH] drm/nouveau/flcn/msgq: fix potential deadlock on &msgq->lock
-Date: Wed, 27 Sep 2023 16:55:17 +0000
-Message-Id: <20230927165517.45066-1-dg573847474@gmail.com>
-X-Mailer: git-send-email 2.17.1
+ bh=dpL/zhQSi7qXBDYsd8tSZQwnMVgnaPBNm9wb7WRX31Q=;
+ b=pOaHAtvJLsjLjy+S0rVwoBCxrBB3gAZxVWsHPU/h+i6dgl808l3FxNy+a23cSmRYDt
+ D7E2Lle0wEwuLQRc1RBhhbXsElyiArEGUctKjICdA7wZwfSjfavKgR5DNAjTdwG3P5MY
+ /YcX/waKCVALSbfMAz3cD7s6DsWm8fJtq55yhTnMrNxC7K/Lk53kK69HBcmRgGJ3wz+s
+ Fut0XXsE6ynr30JqYyup1KrbbO6mMm9MN8wnEo4E7USjMOp7Eliwwo7VTWaaGup9hmEZ
+ vXo+V7XpdBzRkIepfGVMm7HcV9J8Uqw2hsvHZDH9brJ9ZXJve4KQlX1WQyT6QwuJUTto
+ fpZA==
+X-Gm-Message-State: AOJu0Ywj559MmvPFypZEai8kupzAbJun9AiJ4xKtmVtWN5Vn7ccyAddl
+ qQjpKvw2HCjMETy9GYtZXcUL4uBNLC8IoqNstz8=
+X-Google-Smtp-Source: AGHT+IGMbGe3Z4qgS5TDvtz4YEYLK/06VW7QbtDIDhLNxNSN6PfkBU7nsfOG2Lsvfp6E3EH4zrWpdEypWuCVQvwjydE=
+X-Received: by 2002:a05:6512:3414:b0:4fd:f84f:83c1 with SMTP id
+ i20-20020a056512341400b004fdf84f83c1mr2590321lfr.64.1695846368941; Wed, 27
+ Sep 2023 13:26:08 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230926170549.2589045-1-halfline@gmail.com>
+ <c2ffc21e-bf92-81f6-aa9b-233e3475025f@amd.com>
+In-Reply-To: <c2ffc21e-bf92-81f6-aa9b-233e3475025f@amd.com>
+From: Ray Strode <halfline@gmail.com>
+Date: Wed, 27 Sep 2023 16:25:56 -0400
+Message-ID: <CAA_UwzKiNJe6hjbAo7SK7-OB7sb_ieV_DcQ_8vf6UYw2gppGcA@mail.gmail.com>
+Subject: Re: [PATCH] drm/atomic: Perform blocking commits on workqueue
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Mailman-Approved-At: Wed, 27 Sep 2023 20:45:53 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,59 +70,118 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chengfeng Ye <dg573847474@gmail.com>, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: daniel.vetter@ffwll.ch, Xinhui.Pan@amd.com, dri-devel@lists.freedesktop.org,
+ mdaenzer@redhat.com, alexander.deucher@amd.com, airlied@redhat.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As &msgq->lock is acquired under both irq context from
-gp102_sec2_intr() and softirq context from gm20b_pmu_recv(),
-thus irq should be disabled while acquiring that lock, otherwise
-there would be potential deadlock.
+Hi,
 
-gm20b_pmu_recv()
---> nvkm_falcon_msgq_recv()
---> nvkm_falcon_msgq_open()
---> spin_lock(&msgq->lock)
-<interrupt>
-   --> gp102_sec2_intr()
-   --> nvkm_falcon_msgq_recv()
-   --> nvkm_falcon_msgq_open()
-   --> spin_lock(&msgq->lock)
+On Wed, Sep 27, 2023 at 4:05=E2=80=AFAM Christian K=C3=B6nig
+<christian.koenig@amd.com> wrote:
+> I'm not an expert for that stuff, but as far as I know the whole purpose
+> of the blocking functionality is to make sure that the CPU overhead
+> caused by the commit is accounted to the right process.
+I'm not an expert either, but that's clearly wrong.
 
-This flaw was found by an experimental static analysis tool I am
-developing for irq-related deadlock.
+The point of blocking functionality in drmAtomicCommit is for the
+ioctl to block until the operation is completed, so userspace knows
+that they can commit again after it returns without getting EBUSY, and
+they can be sure, e.g., the mode is set or the displays are disabled
+or whatever.
 
-To prevent the potential problem, I change to spin_lock_irq() and
-spin_unlock_irq() on the lock.
+To say the "whole point" is about CPU overhead accounting sounds
+rather absurd to me. Is that really what you meant?
 
-Signed-off-by: Chengfeng Ye <dg573847474@gmail.com>
----
- drivers/gpu/drm/nouveau/nvkm/falcon/msgq.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+You could try to make the argument that one of the points of the
+blocking call is about CPU accounting (instead of the whole point),
+maybe that's what you meant? That seems likely wrong to me too. I mean
+just check the docs:
 
-diff --git a/drivers/gpu/drm/nouveau/nvkm/falcon/msgq.c b/drivers/gpu/drm/nouveau/nvkm/falcon/msgq.c
-index 16b246fda666..5c3b43216ee8 100644
---- a/drivers/gpu/drm/nouveau/nvkm/falcon/msgq.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/falcon/msgq.c
-@@ -25,7 +25,7 @@
- static void
- nvkm_falcon_msgq_open(struct nvkm_falcon_msgq *msgq)
- {
--	spin_lock(&msgq->lock);
-+	spin_lock_irq(&msgq->lock);
- 	msgq->position = nvkm_falcon_rd32(msgq->qmgr->falcon, msgq->tail_reg);
- }
- 
-@@ -37,7 +37,7 @@ nvkm_falcon_msgq_close(struct nvkm_falcon_msgq *msgq, bool commit)
- 	if (commit)
- 		nvkm_falcon_wr32(falcon, msgq->tail_reg, msgq->position);
- 
--	spin_unlock(&msgq->lock);
-+	spin_unlock_irq(&msgq->lock);
- }
- 
- bool
--- 
-2.17.1
+       RLIMIT_RTTIME (since Linux 2.6.25)
+              This is a limit (in microseconds) on the amount of CPU
+time that a process scheduled under a real=E2=80=90time scheduling policy m=
+ay
+consume without making a blocking system call.  For  the  purpose  of
+              this limit, each time a process makes a blocking system
+call, the count of its consumed CPU time is reset to zero.
 
+drmAtomicCommit() is making a blocking system call so the limit should
+be reset, in my opinion.
+
+Furthermore, a lot happens under the covers as part of drmAtomicCommit.
+
+Are you telling me that in all the drivers handling drmAtomicCommit,
+none of the work from those drivers gets deferred outside of process
+context if DRM_MODE_ATOMIC_NONBLOCK isn't set? I find that very hard
+to believe. But it would have to be true, if one of the main points of
+the blocking call is about CPU accounting, right? You can't say the
+point is about CPU accounting if some of the work is handled in a
+helper thread or work queue or whatever.
+
+=E2=95=8E=E2=9D=AF git grep -E 'INIT_WORK|DECLARE_TASKLET|open_softirq|time=
+r_setup|kthread_run'
+| wc -l
+182
+
+There seems to be a lot of non-process context execution going on in the tr=
+ee...
+
+> So what you are suggesting here is to actually break that functionality
+> and that doesn't seem to make sense.
+
+What's the use case here that could break? Walk me through a
+real-world, sensible example where a program depends on
+drmAtomicCommit() blocking and continuing to eat into process cpu time
+while it blocks. I just want to see where you are coming from. Maybe
+I'm being unimaginative but I just don't see it. I do see actual
+main-stream display servers breaking today because the current
+behavior defies expectations.
+
+> When it's really not desirable to account the CPU overhead to the
+> process initiating it then you probably rather want to use an non
+> blocking commit plus a dma_fence to wait for the work to end from userspa=
+ce.
+
+Well, first I don't think that's very convenient. You're talking about
+a per-plane property, so there would need to be a separate file
+descriptor allocated for every plane, right? and user-space would have
+to block on all of them before proceeding? Also, are you sure that
+works in all cases? The problematic case we're facing right now is
+when all planes and all crtcs are getting disabled. I'm just skimming
+over the code here, but I see this:
+
+=E2=86=92       for_each_new_crtc_in_state(state, crtc, crtc_state, i) {=E2=
+=80=A2
+...
+=E2=86=92       =E2=86=92       if (arg->flags & DRM_MODE_PAGE_FLIP_EVENT |=
+| fence_ptr) {=E2=80=A2
+...
+=E2=86=92       =E2=86=92       =E2=86=92       e =3D create_vblank_event(c=
+rtc, arg->user_data);=E2=80=A2
+...
+=E2=86=92       =E2=86=92       =E2=86=92       crtc_state->event =3D e;=E2=
+=80=A2
+=E2=86=92       =E2=86=92       }=E2=80=A2
+...
+=E2=86=92       =E2=86=92       if (fence_ptr) {=E2=80=A2
+...
+=E2=86=92       =E2=86=92       =E2=86=92       fence =3D drm_crtc_create_f=
+ence(crtc);=E2=80=A2
+...
+=E2=86=92       =E2=86=92       =E2=86=92       ret =3D setup_out_fence(&f[=
+(*num_fences)++], fence);=E2=80=A2
+...
+=E2=86=92       =E2=86=92       =E2=86=92       crtc_state->event->base.fen=
+ce =3D fence;=E2=80=A2
+=E2=86=92       =E2=86=92       }=E2=80=A2
+
+Is the code really going to allocate a vblank_event when all the
+crtc's are disabled ? I guess it's possible, but that's
+counterintuitive to me. I really don't know. You're confident a set of
+fences will actually work?
+
+Regardless, this seems like a roundabout way to address a problem that
+we could just ... fix.
+
+--Ray
