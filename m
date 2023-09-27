@@ -1,63 +1,85 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 989117B0342
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Sep 2023 13:42:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 200CA7B034A
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Sep 2023 13:45:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2571310E4DB;
-	Wed, 27 Sep 2023 11:42:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B54910E4E6;
+	Wed, 27 Sep 2023 11:45:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com
- [IPv6:2607:f8b0:4864:20::b31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 095FE10E4DB
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Sep 2023 11:42:25 +0000 (UTC)
-Received: by mail-yb1-xb31.google.com with SMTP id
- 3f1490d57ef6-d81dd7d76e0so12558426276.1
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Sep 2023 04:42:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1695814945; x=1696419745; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=aIt1l7/IgUpo4k3Bjm4G/lamSevl4u5gHJJCk6sbhjY=;
- b=BqEPWr8G8dQJJCVi8UwvpUnuDcdRigmqkWBoTpCEf8jHfylH5ST+8VUPrK5QBvdOXj
- dr51mAyfLtBLZVJqPgrtw3fBK14tboXGmfuTN1HSLP6uCl+hIaxw/iXWD9+WYhPEL+SY
- Kk31ffVcId5PeD8F27rTLVVIwwlwLyOMX/3MOeKTGXDAlnb9YZe4JumYJVF9dp1uUrLK
- Ju6TAmngnE56uhB8ETsUz+IdETBQexL7Y2pTHsy1uAmOGasr4v7sKek++bo64FZuw8Ag
- 4MP28c8BQE4iYoaJDWFJleKIjFCBR4AfMZNH/1SnWC+GCKBax9t6A2XZxEu+GaoKomYP
- dBSg==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE4FC10E4E6
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Sep 2023 11:45:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1695815144;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=nvsPqdWL7XgWKeKWvC9F1HtbY+HpBNK3bs0TVz67ajA=;
+ b=YVwTbuKpUN+EpKH0kdTstmrsNnIO8u2qn1grJ2uP2m0ZYXVNGfTNcePKcRDYVd4CnUH2gT
+ jWaCEk5T2HsctyyM4+aih+uiZ2T/qxWTuyPqrabpBpecY5j4vhDTp+CtzQLT72FoP/yEzV
+ 4G1TqjrifVaMAPxIEEWWU30U5Wp3brc=
+Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
+ [209.85.167.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-256-r5PyGPszOIq1_RpL2Zgf5w-1; Wed, 27 Sep 2023 07:45:40 -0400
+X-MC-Unique: r5PyGPszOIq1_RpL2Zgf5w-1
+Received: by mail-lf1-f70.google.com with SMTP id
+ 2adb3069b0e04-503555a717fso17320478e87.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Sep 2023 04:45:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1695814945; x=1696419745;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=aIt1l7/IgUpo4k3Bjm4G/lamSevl4u5gHJJCk6sbhjY=;
- b=CDBfm8NyWdKOFPqfWeVeO2gYNbvs45sdS6kgpMU9Oe+Q+X2SJsOpscQnG4te3Oz4GF
- Sy3pUYWHbZ3la7fkdpPrfK5IaarwI6dqin1XhtcaziAyworIy6hyU/woAkb+Uy+04DUM
- uHFBInqWk4we8v8HkYOvj6/6sDjJRcGboPtMfWE5x09V1r+6nJR7tPOmHYwCjQdWaJNJ
- N5IRUPzgQKmdZzhtSBFK15CzDvJy1Dn+QS45NEAoj55+30O7ZC0YQTyfISfKQFkOipm/
- qHGkaAXCGu25/A7TqN3Bqjzvq/TUSe4Ul/dTHOH4ICXhzE11Ta3ljs92wFNumU6OmHTC
- +Z6w==
-X-Gm-Message-State: AOJu0YwGknT0/U2pDhDYXW6Qwxyfwp0JQwM2h11N8LqzpU8uTXJm4EWB
- pYDtpTHl/quZMhNGNApvzmhVesT4kXj7M52tsQQ+zQ==
-X-Google-Smtp-Source: AGHT+IHBVFquJJT8K4Rl86v3hUqmDvjlekCjqCBE5F8bmAbHvZ8Ouu4MachaenQPWgpZPR02xLIw1xRN9sVjV4UBFTI=
-X-Received: by 2002:a25:dccb:0:b0:d81:ce57:571a with SMTP id
- y194-20020a25dccb000000b00d81ce57571amr1701528ybe.54.1695814944913; Wed, 27
- Sep 2023 04:42:24 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1695815139; x=1696419939;
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=nvsPqdWL7XgWKeKWvC9F1HtbY+HpBNK3bs0TVz67ajA=;
+ b=s1+VI5Df1lXrJjRcKux+NYkk7N4G/FLA3sRx1dXwbcHnQqPH6Kd3qJcCSvOHpxKD+m
+ l8XafmkmvufSYd4mIt409XK0wX5XYNQ+zvccum5lVFluWG9fJX2ExOx2P3dvLLJF60ZV
+ vuDiKgD6ghYcyqRPQu1q8AJpf3j68ZO1+jL99NB1iUEJmdTgbbqBZD2/NxZ1DhphbP4O
+ AcrxlTPkY7Pr0h0UruJx7f3r7axolwJcyrPYqbauXUSUUiKwnE092deGWV8m9NkAAU3q
+ Hli6HRxoPNqLVb/sKwDc0wmNNQFsxS4puIq0K9aX7VxP/HQOIaUKFByFG4hHHCrsbxQZ
+ 0vJA==
+X-Gm-Message-State: AOJu0YzkU+lwAQBe+FijT9tceBnTn2NwsqpYGLLaoIVqzpZjSPfv5q4x
+ ZkGjJuLZtOCHnY7a3wapLxBN58H4wRiIcJM286DetJLv3JN7Sj4VUOgfUw8tCPZIqsdHu8Ahk40
+ llcjtPkz/CXZZlU404GlP6Htc9tTg
+X-Received: by 2002:a05:6512:1287:b0:503:183c:1223 with SMTP id
+ u7-20020a056512128700b00503183c1223mr2243229lfs.7.1695815139375; 
+ Wed, 27 Sep 2023 04:45:39 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHMxjIWznnDjMe6Hk6VxuIsyF02/jJ80hi8lUi5oaXw4lt20x5rKCPRe8RS/GUfXlNVDxbElQ==
+X-Received: by 2002:a05:6512:1287:b0:503:183c:1223 with SMTP id
+ u7-20020a056512128700b00503183c1223mr2243209lfs.7.1695815139037; 
+ Wed, 27 Sep 2023 04:45:39 -0700 (PDT)
+Received: from ?IPV6:2a02:810d:4b3f:de9c:642:1aff:fe31:a15c?
+ ([2a02:810d:4b3f:de9c:642:1aff:fe31:a15c])
+ by smtp.gmail.com with ESMTPSA id
+ i13-20020a056402054d00b0052a063e52b8sm7930477edx.83.2023.09.27.04.45.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 27 Sep 2023 04:45:38 -0700 (PDT)
+Message-ID: <a050bc34-d98e-3d75-8c79-447dc7c913a1@redhat.com>
+Date: Wed, 27 Sep 2023 13:45:37 +0200
 MIME-Version: 1.0
-References: <20230912-simpledrm-multiple-power-domains-v2-1-01b66bfb1980@jannau.net>
- <ff8e4a01-9a58-45bf-a743-08f4f6027251@suse.de>
- <CAMuHMdV9Ahp2ACYfRbnnnMbn9Cps939uwCQM+Md_PcCKYG=piw@mail.gmail.com>
-In-Reply-To: <CAMuHMdV9Ahp2ACYfRbnnnMbn9Cps939uwCQM+Md_PcCKYG=piw@mail.gmail.com>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Wed, 27 Sep 2023 13:41:49 +0200
-Message-ID: <CAPDyKFodCrFPVTdNo8VBG8FHs26MVaY9WcOmYyu7YwjahvuzTA@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/simpledrm: Add support for multiple "power-domains"
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH drm-misc-next 1/3] drm/sched: implement dynamic job flow
+ control
+To: Boris Brezillon <boris.brezillon@collabora.com>
+References: <20230924224555.15595-1-dakr@redhat.com>
+ <312983ee-ba4c-477e-8846-072c815df862@amd.com>
+ <12f19494-7fd0-055f-4135-e17581398eb5@redhat.com>
+ <20230927092514.04776822@collabora.com>
+From: Danilo Krummrich <dakr@redhat.com>
+Organization: RedHat
+In-Reply-To: <20230927092514.04776822@collabora.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,272 +92,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>,
- "Rafael J. Wysocki" <rafael@kernel.org>, j@jannau.net,
- Linux PM list <linux-pm@vger.kernel.org>, Kevin Hilman <khilman@kernel.org>,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, asahi@lists.linux.dev
+Cc: matthew.brost@intel.com, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Luben Tuikov <luben.tuikov@amd.com>, christian.koenig@amd.com,
+ faith.ekstrand@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 26 Sept 2023 at 09:32, Geert Uytterhoeven <geert@linux-m68k.org> wr=
-ote:
->
-> CC genpd
->
-> On Mon, Sep 18, 2023 at 10:24=E2=80=AFAM Thomas Zimmermann <tzimmermann@s=
-use.de> wrote:
-> > Am 12.09.23 um 22:22 schrieb Janne Grunau via B4 Relay:
-> > > From: Janne Grunau <j@jannau.net>
-> > >
-> > > Multiple power domains need to be handled explicitly in each driver. =
-The
-> > > driver core can not handle it automatically since it is not aware of
-> > > power sequencing requirements the hardware might have. This is not a
-> > > problem for simpledrm since everything is expected to be powered on b=
-y
-> > > the bootloader. simpledrm has just ensure it remains powered on durin=
-g
-> > > its lifetime.
-> > > This is required on Apple silicon M2 and M2 Pro/Max/Ultra desktop
-> > > systems. The HDMI output initialized by the bootloader requires keepi=
-ng
-> > > the display controller and a DP phy power domain on.
-> > >
-> > > Signed-off-by: Janne Grunau <j@jannau.net>
->
-> Thanks for your patch, which is now commit 61df9ca231075e70
-> ("drm/simpledrm: Add support for multiple "power-domains"") in
-> drm-misc/for-linux-next.
->
-> > As a simpledrm patch:
-> >
-> > Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-> >
-> > Do you want to wait for another review from  someone with
-> > power-management expertise?
->
-> Yeah, why not? Let's CC them, so they become aware...
->
-> > Do we need a similar patch for ofdrm?
+On 9/27/23 09:25, Boris Brezillon wrote:
+> On Wed, 27 Sep 2023 02:13:59 +0200
+> Danilo Krummrich <dakr@redhat.com> wrote:
+> 
+>> On 9/26/23 22:43, Luben Tuikov wrote:
+>>> Hi,
+>>>
+>>> On 2023-09-24 18:43, Danilo Krummrich wrote:
+>>>> Currently, job flow control is implemented simply by limiting the amount
+>>>> of jobs in flight. Therefore, a scheduler is initialized with a
+>>>> submission limit that corresponds to a certain amount of jobs.
+>>>
+>>> "certain"? How about this instead:
+>>> " ... that corresponds to the number of jobs which can be sent
+>>>     to the hardware."?
+>>>    
+>>>>
+>>>> This implies that for each job drivers need to account for the maximum
+>>>                                   ^,
+>>> Please add a comma after "job".
+>>>    
+>>>> job size possible in order to not overflow the ring buffer.
+>>>
+>>> Well, different hardware designs would implement this differently.
+>>> Ideally, you only want pointers into the ring buffer, and then
+>>> the hardware consumes as much as it can. But this is a moot point
+>>> and it's always a good idea to have a "job size" hint from the client.
+>>> So this is a good patch.
+>>>
+>>> Ideally, you want to say that the hardware needs to be able to
+>>> accommodate the number of jobs which can fit in the hardware
+>>> queue times the largest job. This is a waste of resources
+>>> however, and it is better to give a hint as to the size of a job,
+>>> by the client. If the hardware can peek and understand dependencies,
+>>> on top of knowing the "size of the job", it can be an extremely
+>>> efficient scheduler.
+>>>    
+>>>>
+>>>> However, there are drivers, such as Nouveau, where the job size has a
+>>>> rather large range. For such drivers it can easily happen that job
+>>>> submissions not even filling the ring by 1% can block subsequent
+>>>> submissions, which, in the worst case, can lead to the ring run dry.
+>>>>
+>>>> In order to overcome this issue, allow for tracking the actual job size
+>>>> instead of the amount job jobs. Therefore, add a field to track a job's
+>>>
+>>> "the amount job jobs." --> "the number of jobs."
+>>
+>> Yeah, I somehow manage to always get this wrong, which I guess you noticed
+>> below already.
+>>
+>> That's all good points below - gonna address them.
+>>
+>> Did you see Boris' response regarding a separate callback in order to fetch
+>> the job's submission units dynamically? Since this is needed by PowerVR, I'd
+>> like to include this in V2. What's your take on that?
+>>
+>> My only concern with that would be that if I got what Boris was saying
+>> correctly calling
+>>
+>> WARN_ON(s_job->submission_units > sched->submission_limit);
+>>
+>> from drm_sched_can_queue() wouldn't work anymore, since this could indeed happen
+>> temporarily. I think this was also Christian's concern.
+> 
+> Actually, I think that's fine to account for the max job size in the
+> first check, we're unlikely to have so many native fence waits that our
+> job can't fit in an empty ring buffer.
+> 
 
-Drivers/subsystems for devices that are attached to multiple PM
-domains are getting more and more common. Clearly there is boilerplate
-code in drivers that we could get rid of, by using some common helper
-functions to deal with attach/detach.
+But it can happen, right? Hence, we can't have this check, do we?
 
-I believe there have been some attempts to add such helpers too, but
-we didn't quite reach a point where those were ready to be applied. It
-sounds like someone (me? :-)) needs to find some time to revisit this.
-Until then, there is no other way than having each driver to deal with
-this.
-
-Kind regards
-Uffe
-
-> >
-> > Best regards
-> > Thomas
-> >
-> > > ---
-> > > Changes in v2:
-> > > - removed broken drm_err() log statement only ment for debugging
-> > > - removed commented cast
-> > > - use correct format spcifier for 'int' in log statement
-> > > - add 'continue;' after failure to get device for power_domain
-> > > - use drm_warn() in non fatal error cases
-> > > - removed duplicate PTR_ERR conversion
-> > > - Link to v1: https://lore.kernel.org/r/20230910-simpledrm-multiple-p=
-ower-domains-v1-1-f8718aefc685@jannau.net
-> > > ---
-> > >   drivers/gpu/drm/tiny/simpledrm.c | 105 ++++++++++++++++++++++++++++=
-+++++++++++
-> > >   1 file changed, 105 insertions(+)
-> > >
-> > > diff --git a/drivers/gpu/drm/tiny/simpledrm.c b/drivers/gpu/drm/tiny/=
-simpledrm.c
-> > > index ff86ba1ae1b8..9c597461d1e2 100644
-> > > --- a/drivers/gpu/drm/tiny/simpledrm.c
-> > > +++ b/drivers/gpu/drm/tiny/simpledrm.c
-> > > @@ -6,6 +6,7 @@
-> > >   #include <linux/of_address.h>
-> > >   #include <linux/platform_data/simplefb.h>
-> > >   #include <linux/platform_device.h>
-> > > +#include <linux/pm_domain.h>
-> > >   #include <linux/regulator/consumer.h>
-> > >
-> > >   #include <drm/drm_aperture.h>
-> > > @@ -227,6 +228,12 @@ struct simpledrm_device {
-> > >       unsigned int regulator_count;
-> > >       struct regulator **regulators;
-> > >   #endif
-> > > +     /* power-domains */
-> > > +#if defined CONFIG_OF && defined CONFIG_PM_GENERIC_DOMAINS
-> > > +     int pwr_dom_count;
-> > > +     struct device **pwr_dom_devs;
-> > > +     struct device_link **pwr_dom_links;
-> > > +#endif
-> > >
-> > >       /* simplefb settings */
-> > >       struct drm_display_mode mode;
-> > > @@ -468,6 +475,101 @@ static int simpledrm_device_init_regulators(str=
-uct simpledrm_device *sdev)
-> > >   }
-> > >   #endif
-> > >
-> > > +#if defined CONFIG_OF && defined CONFIG_PM_GENERIC_DOMAINS
-> > > +/*
-> > > + * Generic power domain handling code.
-> > > + *
-> > > + * Here we handle the power-domains properties of our "simple-frameb=
-uffer"
-> > > + * dt node. This is only necessary if there is more than one power-d=
-omain.
-> > > + * A single power-domains is handled automatically by the driver cor=
-e. Multiple
-> > > + * power-domains have to be handled by drivers since the driver core=
- can't know
-> > > + * the correct power sequencing. Power sequencing is not an issue fo=
-r simpledrm
-> > > + * since the bootloader has put the power domains already in the cor=
-rect state.
-> > > + * simpledrm has only to ensure they remain active for its lifetime.
-> > > + *
-> > > + * When the driver unloads, we detach from the power-domains.
-> > > + *
-> > > + * We only complain about errors here, no action is taken as the mos=
-t likely
-> > > + * error can only happen due to a mismatch between the bootloader wh=
-ich set
-> > > + * up the "simple-framebuffer" dt node, and the PM domain providers =
-in the
-> > > + * device tree. Chances are that there are no adverse effects, and i=
-f there are,
-> > > + * a clean teardown of the fb probe will not help us much either. So=
- just
-> > > + * complain and carry on, and hope that the user actually gets a wor=
-king fb at
-> > > + * the end of things.
-> > > + */
-> > > +static void simpledrm_device_detach_genpd(void *res)
-> > > +{
-> > > +     int i;
-> > > +     struct simpledrm_device *sdev =3D res;
-> > > +
-> > > +     if (sdev->pwr_dom_count <=3D 1)
-> > > +             return;
-> > > +
-> > > +     for (i =3D sdev->pwr_dom_count - 1; i >=3D 0; i--) {
-> > > +             if (!sdev->pwr_dom_links[i])
-> > > +                     device_link_del(sdev->pwr_dom_links[i]);
-> > > +             if (!IS_ERR_OR_NULL(sdev->pwr_dom_devs[i]))
-> > > +                     dev_pm_domain_detach(sdev->pwr_dom_devs[i], tru=
-e);
-> > > +     }
-> > > +}
-> > > +
-> > > +static int simpledrm_device_attach_genpd(struct simpledrm_device *sd=
-ev)
-> > > +{
-> > > +     struct device *dev =3D sdev->dev.dev;
-> > > +     int i;
-> > > +
-> > > +     sdev->pwr_dom_count =3D of_count_phandle_with_args(dev->of_node=
-, "power-domains",
-> > > +                                                      "#power-domain=
--cells");
-> > > +     /*
-> > > +      * Single power-domain devices are handled by driver core nothi=
-ng to do
-> > > +      * here. The same for device nodes without "power-domains" prop=
-erty.
-> > > +      */
-> > > +     if (sdev->pwr_dom_count <=3D 1)
-> > > +             return 0;
-> > > +
-> > > +     sdev->pwr_dom_devs =3D devm_kcalloc(dev, sdev->pwr_dom_count,
-> > > +                                            sizeof(*sdev->pwr_dom_de=
-vs),
-> > > +                                            GFP_KERNEL);
-> > > +     if (!sdev->pwr_dom_devs)
-> > > +             return -ENOMEM;
-> > > +
-> > > +     sdev->pwr_dom_links =3D devm_kcalloc(dev, sdev->pwr_dom_count,
-> > > +                                             sizeof(*sdev->pwr_dom_l=
-inks),
-> > > +                                             GFP_KERNEL);
-> > > +     if (!sdev->pwr_dom_links)
-> > > +             return -ENOMEM;
-> > > +
-> > > +     for (i =3D 0; i < sdev->pwr_dom_count; i++) {
-> > > +             sdev->pwr_dom_devs[i] =3D dev_pm_domain_attach_by_id(de=
-v, i);
-> > > +             if (IS_ERR(sdev->pwr_dom_devs[i])) {
-> > > +                     int ret =3D PTR_ERR(sdev->pwr_dom_devs[i]);
-> > > +                     if (ret =3D=3D -EPROBE_DEFER) {
-> > > +                             simpledrm_device_detach_genpd(sdev);
-> > > +                             return ret;
-> > > +                     }
-> > > +                     drm_warn(&sdev->dev,
-> > > +                              "pm_domain_attach_by_id(%u) failed: %d=
-\n", i, ret);
-> > > +                     continue;
-> > > +             }
-> > > +
-> > > +             sdev->pwr_dom_links[i] =3D device_link_add(dev,
-> > > +                                                      sdev->pwr_dom_=
-devs[i],
-> > > +                                                      DL_FLAG_STATEL=
-ESS |
-> > > +                                                      DL_FLAG_PM_RUN=
-TIME |
-> > > +                                                      DL_FLAG_RPM_AC=
-TIVE);
-> > > +             if (!sdev->pwr_dom_links[i])
-> > > +                     drm_warn(&sdev->dev, "failed to link power-doma=
-in %d\n", i);
-> > > +     }
-> > > +
-> > > +     return devm_add_action_or_reset(dev, simpledrm_device_detach_ge=
-npd, sdev);
-> > > +}
-> > > +#else
-> > > +static int simpledrm_device_attach_genpd(struct simpledrm_device *sd=
-ev)
-> > > +{
-> > > +     return 0;
-> > > +}
-> > > +#endif
-> > > +
-> > >   /*
-> > >    * Modesetting
-> > >    */
-> > > @@ -651,6 +753,9 @@ static struct simpledrm_device *simpledrm_device_=
-create(struct drm_driver *drv,
-> > >       if (ret)
-> > >               return ERR_PTR(ret);
-> > >       ret =3D simpledrm_device_init_regulators(sdev);
-> > > +     if (ret)
-> > > +             return ERR_PTR(ret);
-> > > +     ret =3D simpledrm_device_attach_genpd(sdev);
-> > >       if (ret)
-> > >               return ERR_PTR(ret);
-> > >
-> > >
-> > > ---
-> > > base-commit: 15d30b46573d75f5cb58cfacded8ebab9c76a2b0
-> > > change-id: 20230910-simpledrm-multiple-power-domains-f41efa6ad9bc
->
-> Gr{oetje,eeting}s,
->
->                         Geert
->
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m6=
-8k.org
->
-> In personal conversations with technical people, I call myself a hacker. =
-But
-> when I'm talking to journalists I just say "programmer" or something like=
- that.
->                                 -- Linus Torvalds
