@@ -1,48 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92DB17B0E64
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Sep 2023 23:56:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D71B27B0E6B
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Sep 2023 23:58:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD92F10E08F;
-	Wed, 27 Sep 2023 21:56:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1EB5710E5B5;
+	Wed, 27 Sep 2023 21:58:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA94810E08F;
- Wed, 27 Sep 2023 21:55:58 +0000 (UTC)
-Received: from beaker.gfxstrand.net
- (2603-8080-2102-63d7-019e-342e-5881-a163.res6.spectrum.com
- [IPv6:2603:8080:2102:63d7:19e:342e:5881:a163])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: gfxstrand)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 811BC66072C1;
- Wed, 27 Sep 2023 22:55:56 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1695851757;
- bh=vAFduTKqpXIgT0NAKTy2WvhQtBCk9fC4JnKYokknVxw=;
- h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
- b=WI++RJeF0Q9iPG36CCjjYOSAY/VakW8Q7LuWBW1FJYW+dSudBOaj5edNIReUnv14b
- RYNPLZM+jaVyih4Gkk6kYTH49DWPHjXcYdmaSWMMjA65aGLKkPh9YED+J7UjoKEVv9
- bmPUpJtULhT/OYLOK/WF0dr7jO2BBFaUrt80Bipk2gWI/rUc301l4eFcEjOgiEPuau
- 6kBiomijr9DBs+i5obHDa87vIYstKfSHqwoYCeKaw314Cd5vpML1+hQjHQ7YKwLizi
- RwHAx/bdKUlbaF1NRXJSYb0i8fjWEhyflcvZcA3KQd30rVb/ZwBtWgRzyHyi7fvgIH
- yBuwOVBtccQFw==
-Message-ID: <75bef0bd769c139b647335ba2e3c341928442740.camel@collabora.com>
-Subject: Re: [PATCH 3/3] drm/nouveau: exec: report max pushs through getparam
-From: Faith Ekstrand <faith.ekstrand@collabora.com>
-To: Danilo Krummrich <dakr@redhat.com>, nouveau@lists.freedesktop.org
-Date: Wed, 27 Sep 2023 16:55:52 -0500
-In-Reply-To: <20230927012303.23525-3-dakr@redhat.com>
-References: <20230927012303.23525-1-dakr@redhat.com>
- <20230927012303.23525-3-dakr@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+Received: from mail-yw1-x112d.google.com (mail-yw1-x112d.google.com
+ [IPv6:2607:f8b0:4864:20::112d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D75D710E127
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Sep 2023 21:58:44 +0000 (UTC)
+Received: by mail-yw1-x112d.google.com with SMTP id
+ 00721157ae682-59bebd5bdadso151512557b3.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Sep 2023 14:58:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1695851924; x=1696456724; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=dvF9W1ErITaOMys+IDecl96mfOAXYvT0MYR7ZC5tRE4=;
+ b=Pq+KuY8RqCk3nV7l99PEPHjk9yXoZCxbzeuRfImHx4IY3ToC9OdO1c1iai8iv+gKhF
+ xTHbfUyDbNVkWu/wcEzo86+MfSpvmH0kcsjbwFcypyNgYQ0HNuK5b+3qQ37VBDgb56jb
+ U0as55Y2NVVtrKnYZ6hBhGaXKpk3Ln9UaxVyZhiOGuLHcflOZ59kduHhYwXG1V7JxwcI
+ 2mXAZ/SvWd8Mbqus4aLQR5AYziqTkQ6djWuXqnXk907fl7/2fYnMGaQJcG6iwiqWuQkP
+ Cb2zQM81uRToH0USPTdLNzbRMG47Haiw9zXqoCDkzKFddJsOZNHrYZsqiU6XzpxWMS4x
+ 6YUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1695851924; x=1696456724;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=dvF9W1ErITaOMys+IDecl96mfOAXYvT0MYR7ZC5tRE4=;
+ b=LE5zC2zSM53BnsgMuJsbF6Kd0Rm5qL7GMAPZG1kP9gemW/CkhlRnPEQ73S2JAHa6Zz
+ 9GznHHLnuvxK+kbYLfQhOr2Ru5mKiocz2aYAJzURaroOMis1srXV60U44vP8iYCdFzR6
+ fwwQvo0aWmIU+qKEFzSmScmiqIQZvETApdG5pnrjXLseiGdzE17B9fTLK2dDiYkfYqiL
+ jm7Sd5SiGJIn5B95CZFUKihQK8BZQwUYDVU/CS5HDkAPBQLCoHxN+uVRrSTZHCkQsU32
+ xHzy71kDhWLlWvbITOXxgTTpseYy8Ejb1POpJr8PwG1TX2G3zgbDYlIacwnHFAEBAizY
+ xUMw==
+X-Gm-Message-State: AOJu0Yzg7MbTEy3+oNtnJYIn/7deiws5BE7NHvcanQzAOW4QFVVm1Px7
+ 7TV2i7cUnKDEHA8YPtAkU35MF1LqdFtKxhGLU4TVYBqyzMQHyVKs1Sbn+Q==
+X-Google-Smtp-Source: AGHT+IFKnOWnEIM2K/W/OiA1WgTqcehbFbA3ere2WHmhLtVm3B9r+lEpABptb633TsklLxK0BqjED1hqU5cIcgB2yMQ=
+X-Received: by 2002:a0d:d903:0:b0:59b:eab8:7ac6 with SMTP id
+ b3-20020a0dd903000000b0059beab87ac6mr3791817ywe.42.1695851923986; Wed, 27 Sep
+ 2023 14:58:43 -0700 (PDT)
 MIME-Version: 1.0
+References: <1695848028-18023-1-git-send-email-quic_khsieh@quicinc.com>
+ <1695848028-18023-9-git-send-email-quic_khsieh@quicinc.com>
+In-Reply-To: <1695848028-18023-9-git-send-email-quic_khsieh@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Thu, 28 Sep 2023 00:57:33 +0300
+Message-ID: <CAA8EJprfjt7w+3YJAieBabuMso=-obRXss7-9Jrif23WmOJw5w@mail.gmail.com>
+Subject: Re: [PATCH v4 8/8] drm/msm/dp: move of_dp_aux_populate_bus() to eDP
+ probe()
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,141 +68,235 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, kherbst@redhat.com
+Cc: freedreno@lists.freedesktop.org, quic_sbillaka@quicinc.com,
+ linux-kernel@vger.kernel.org, quic_abhinavk@quicinc.com, andersson@kernel.org,
+ dri-devel@lists.freedesktop.org, dianders@chromium.org, vkoul@kernel.org,
+ agross@kernel.org, marijn.suijten@somainline.org, quic_jesszhan@quicinc.com,
+ swboyd@chromium.org, sean@poorly.run, linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCAyMDIzLTA5LTI3IGF0IDAzOjIyICswMjAwLCBEYW5pbG8gS3J1bW1yaWNoIHdyb3Rl
-Ogo+IFJlcG9ydCB0aGUgbWF4aW11bSBudW1iZXIgb2YgSUJzIHRoYXQgY2FuIGJlIHB1c2hlZCB3
-aXRoIGEgc2luZ2xlCj4gRFJNX0lPQ1RMX05PVVZFQVVfRVhFQyB0aHJvdWdoIERSTV9JT0NUTF9O
-T1VWRUFVX0dFVFBBUkFNLgo+IAo+IFdoaWxlIHRoZSBtYXhpbXVtIG51bWJlciBvZiBJQnMgcGVy
-IHJpbmcgbWlnaHQgdmFyeSBiZXR3ZWVuIGNoaXBzZXRzLAo+IHRoZSBrZXJuZWwgd2lsbCBtYWtl
-IHN1cmUgdGhhdCB1c2Vyc3BhY2UgY2FuIG9ubHkgcHVzaCBhIGZyYWN0aW9uIG9mCj4gdGhlCj4g
-bWF4aW11bSBudW1iZXIgb2YgSUJzIHBlciByaW5nIHBlciBqb2IsIHN1Y2ggdGhhdCB3ZSBhdm9p
-ZCBhCj4gc2l0dWF0aW9uCj4gd2hlcmUgdGhlcmUncyBvbmx5IGEgc2luZ2xlIGpvYiBvY2N1cHlp
-bmcgdGhlIHJpbmcsIHdoaWNoIGNvdWxkCj4gcG90ZW50aWFsbHkgbGVhZCB0byB0aGUgcmluZyBy
-dW4gZHJ5Lgo+IAo+IFVzaW5nIERSTV9JT0NUTF9OT1VWRUFVX0dFVFBBUkFNIHRvIHJlcG9ydCB0
-aGUgbWF4aW11bSBudW1iZXIgb2YgSUJzCj4gdGhhdCBjYW4gYmUgcHVzaGVkIHdpdGggYSBzaW5n
-bGUgRFJNX0lPQ1RMX05PVVZFQVVfRVhFQyBpbXBsaWVzIHRoYXQKPiBhbGwgY2hhbm5lbHMgb2Yg
-YSBnaXZlbiBkZXZpY2UgaGF2ZSB0aGUgc2FtZSByaW5nIHNpemUuCgpUaGVyZSdzIGEgYnVuY2gg
-b2Ygbm91dmVhdSBrZXJuZWwgZGV0YWlscyBJIGRvbid0IGtub3cgaGVyZSBidXQgdGhlCmludGVy
-ZmFjZSBsb29rcyBnb29kIGFuZCBJIHByZWZlciBpdCB0byBhICNkZWZpbmUgaW4gdGhlIGhlYWRl
-ci4KCkFja2VkLWJ5OiBGYWl0aCBFa3N0cmFuZCA8ZmFpdGguZWtzdHJhbmRAY29sbGFib3JhLmNv
-bT4KCgo+IFNpZ25lZC1vZmYtYnk6IERhbmlsbyBLcnVtbXJpY2ggPGRha3JAcmVkaGF0LmNvbT4K
-PiAtLS0KPiDCoGRyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfYWJpMTYuYyB8IDE5ICsr
-KysrKysrKysrKysrKysrKysKPiDCoGRyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfY2hh
-bi5jwqAgfMKgIDIgKy0KPiDCoGRyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfZG1hLmjC
-oMKgIHzCoCAzICsrKwo+IMKgZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9leGVjLmPC
-oCB8wqAgNyArKysrLS0tCj4gwqBkcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X2V4ZWMu
-aMKgIHzCoCA1ICsrKysrCj4gwqBpbmNsdWRlL3VhcGkvZHJtL25vdXZlYXVfZHJtLmjCoMKgwqDC
-oMKgwqDCoMKgwqAgfCAxMCArKysrKysrKysrCj4gwqA2IGZpbGVzIGNoYW5nZWQsIDQyIGluc2Vy
-dGlvbnMoKyksIDQgZGVsZXRpb25zKC0pCj4gCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2Ry
-bS9ub3V2ZWF1L25vdXZlYXVfYWJpMTYuYwo+IGIvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbm91
-dmVhdV9hYmkxNi5jCj4gaW5kZXggMzBhZmJlYzllM2IxLi4xYTE5ODY4OWIzOTEgMTAwNjQ0Cj4g
-LS0tIGEvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9hYmkxNi5jCj4gKysrIGIvZHJp
-dmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9hYmkxNi5jCj4gQEAgLTMxLDYgKzMxLDcgQEAK
-PiDCoAo+IMKgI2luY2x1ZGUgIm5vdXZlYXVfZHJ2LmgiCj4gwqAjaW5jbHVkZSAibm91dmVhdV9k
-bWEuaCIKPiArI2luY2x1ZGUgIm5vdXZlYXVfZXhlYy5oIgo+IMKgI2luY2x1ZGUgIm5vdXZlYXVf
-Z2VtLmgiCj4gwqAjaW5jbHVkZSAibm91dmVhdV9jaGFuLmgiCj4gwqAjaW5jbHVkZSAibm91dmVh
-dV9hYmkxNi5oIgo+IEBAIC0xODMsNiArMTg0LDIwIEBAIG5vdXZlYXVfYWJpMTZfZmluaShzdHJ1
-Y3Qgbm91dmVhdV9hYmkxNiAqYWJpMTYpCj4gwqDCoMKgwqDCoMKgwqDCoGNsaS0+YWJpMTYgPSBO
-VUxMOwo+IMKgfQo+IMKgCj4gK3N0YXRpYyBpbmxpbmUgdW5zaWduZWQgaW50Cj4gK2dldHBhcmFt
-X2RtYV9pYl9tYXgoc3RydWN0IG52aWZfZGV2aWNlICpkZXZpY2UpCj4gK3sKPiArwqDCoMKgwqDC
-oMKgwqBjb25zdCBzdHJ1Y3QgbnZpZl9tY2xhc3MgZG1hc1tdID0gewo+ICvCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqB7IE5WMDNfQ0hBTk5FTF9ETUEsIDAgfSwKPiArwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgeyBOVjEwX0NIQU5ORUxfRE1BLCAwIH0sCj4gK8KgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoHsgTlYxN19DSEFOTkVMX0RNQSwgMCB9LAo+ICvCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqB7IE5WNDBfQ0hBTk5FTF9ETUEsIDAgfSwKPiArwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKge30KPiArwqDCoMKgwqDCoMKgwqB9Owo+ICsKPiArwqDCoMKg
-wqDCoMKgwqByZXR1cm4gbnZpZl9tY2xhc3MoJmRldmljZS0+b2JqZWN0LCBkbWFzKSA8IDAgPwo+
-IE5WNTBfRE1BX0lCX01BWCA6IDA7Cj4gK30KPiArCj4gwqBpbnQKPiDCoG5vdXZlYXVfYWJpMTZf
-aW9jdGxfZ2V0cGFyYW0oQUJJMTZfSU9DVExfQVJHUykKPiDCoHsKPiBAQCAtMjQ3LDYgKzI2Miwx
-MCBAQCBub3V2ZWF1X2FiaTE2X2lvY3RsX2dldHBhcmFtKEFCSTE2X0lPQ1RMX0FSR1MpCj4gwqDC
-oMKgwqDCoMKgwqDCoGNhc2UgTk9VVkVBVV9HRVRQQVJBTV9HUkFQSF9VTklUUzoKPiDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGdldHBhcmFtLT52YWx1ZSA9IG52a21fZ3JfdW5pdHMo
-Z3IpOwo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgYnJlYWs7Cj4gK8KgwqDCoMKg
-wqDCoMKgY2FzZSBOT1VWRUFVX0dFVFBBUkFNX0VYRUNfUFVTSF9NQVg6Cj4gK8KgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoGdldHBhcmFtLT52YWx1ZSA9IGdldHBhcmFtX2RtYV9pYl9tYXgo
-ZGV2aWNlKSAvCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqAgTk9VVkVBVV9FWEVDX1BVU0hfTUFYX0RJVjsKPiArwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgYnJlYWs7Cj4gwqDCoMKgwqDCoMKgwqDCoGRlZmF1bHQ6
-Cj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBOVl9QUklOVEsoZGJnLCBjbGksICJ1
-bmtub3duIHBhcmFtZXRlciAlbGxkXG4iLAo+IGdldHBhcmFtLT5wYXJhbSk7Cj4gwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqByZXR1cm4gLUVJTlZBTDsKPiBkaWZmIC0tZ2l0IGEvZHJp
-dmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9jaGFuLmMKPiBiL2RyaXZlcnMvZ3B1L2RybS9u
-b3V2ZWF1L25vdXZlYXVfY2hhbi5jCj4gaW5kZXggYWM1NmY0Njg5ZWUzLi5jM2MyYWI4ODc5Nzgg
-MTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9jaGFuLmMKPiAr
-KysgYi9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X2NoYW4uYwo+IEBAIC00NTYsNyAr
-NDU2LDcgQEAgbm91dmVhdV9jaGFubmVsX2luaXQoc3RydWN0IG5vdXZlYXVfY2hhbm5lbAo+ICpj
-aGFuLCB1MzIgdnJhbSwgdTMyIGdhcnQpCj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqBjaGFuLT51c2VyX2dldCA9IDB4NDQ7Cj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqBjaGFuLT51c2VyX2dldF9oaSA9IDB4NjA7Cj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqBjaGFuLT5kbWEuaWJfYmFzZSA9wqAgMHgxMDAwMCAvIDQ7Cj4gLcKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoGNoYW4tPmRtYS5pYl9tYXjCoCA9ICgweDAyMDAwIC8gOCkgLSAxOwo+
-ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBjaGFuLT5kbWEuaWJfbWF4wqAgPSBOVjUw
-X0RNQV9JQl9NQVg7Cj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBjaGFuLT5kbWEu
-aWJfcHV0wqAgPSAwOwo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgY2hhbi0+ZG1h
-LmliX2ZyZWUgPSBjaGFuLT5kbWEuaWJfbWF4IC0gY2hhbi0KPiA+ZG1hLmliX3B1dDsKPiDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGNoYW4tPmRtYS5tYXggPSBjaGFuLT5kbWEuaWJf
-YmFzZTsKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9kbWEu
-aAo+IGIvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9kbWEuaAo+IGluZGV4IDE3NDRk
-OTViMjMzZS4uYzUyY2RhODIzNTNlIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9ub3V2
-ZWF1L25vdXZlYXVfZG1hLmgKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1
-X2RtYS5oCj4gQEAgLTQ5LDYgKzQ5LDkgQEAgdm9pZCBudjUwX2RtYV9wdXNoKHN0cnVjdCBub3V2
-ZWF1X2NoYW5uZWwgKiwgdTY0Cj4gYWRkciwgdTMyIGxlbmd0aCwKPiDCoC8qIE1heGltdW0gcHVz
-aCBidWZmZXIgc2l6ZS4gKi8KPiDCoCNkZWZpbmUgTlY1MF9ETUFfUFVTSF9NQVhfTEVOR1RIIDB4
-N2ZmZmZmCj4gwqAKPiArLyogTWF4aW11bSBJQnMgcGVyIHJpbmcuICovCj4gKyNkZWZpbmUgTlY1
-MF9ETUFfSUJfTUFYICgoMHgwMjAwMCAvIDgpIC0gMSkKPiArCj4gwqAvKiBPYmplY3QgaGFuZGxl
-cyAtIGZvciBzdHVmZiB0aGF0J3MgZG9lc24ndCB1c2UgaGFuZGxlID09IG9jbGFzcy4KPiAqLwo+
-IMKgZW51bSB7Cj4gwqDCoMKgwqDCoMKgwqDCoE52RG1hRkLCoMKgwqDCoMKgwqDCoMKgwqA9IDB4
-ODAwMDAwMDIsCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZlYXVf
-ZXhlYy5jCj4gYi9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X2V4ZWMuYwo+IGluZGV4
-IGJhNjkxM2EzZWZiNi4uNWI1YzRhNzdiOGU2IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2Ry
-bS9ub3V2ZWF1L25vdXZlYXVfZXhlYy5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUv
-bm91dmVhdV9leGVjLmMKPiBAQCAtMzQ2LDcgKzM0Niw3IEBAIG5vdXZlYXVfZXhlY19pb2N0bF9l
-eGVjKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsCj4gwqDCoMKgwqDCoMKgwqDCoHN0cnVjdCBub3V2
-ZWF1X2NoYW5uZWwgKmNoYW4gPSBOVUxMOwo+IMKgwqDCoMKgwqDCoMKgwqBzdHJ1Y3Qgbm91dmVh
-dV9leGVjX2pvYl9hcmdzIGFyZ3MgPSB7fTsKPiDCoMKgwqDCoMKgwqDCoMKgc3RydWN0IGRybV9u
-b3V2ZWF1X2V4ZWMgKnJlcSA9IGRhdGE7Cj4gLcKgwqDCoMKgwqDCoMKgaW50IHJldCA9IDA7Cj4g
-K8KgwqDCoMKgwqDCoMKgaW50IHB1c2hfbWF4LCByZXQgPSAwOwo+IMKgCj4gwqDCoMKgwqDCoMKg
-wqDCoGlmICh1bmxpa2VseSghYWJpMTYpKQo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgcmV0dXJuIC1FTk9NRU07Cj4gQEAgLTM3MSw5ICszNzEsMTAgQEAgbm91dmVhdV9leGVjX2lv
-Y3RsX2V4ZWMoc3RydWN0IGRybV9kZXZpY2UgKmRldiwKPiDCoMKgwqDCoMKgwqDCoMKgaWYgKCFj
-aGFuLT5kbWEuaWJfbWF4KQo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgcmV0dXJu
-IG5vdXZlYXVfYWJpMTZfcHV0KGFiaTE2LCAtRU5PU1lTKTsKPiDCoAo+IC3CoMKgwqDCoMKgwqDC
-oGlmICh1bmxpa2VseShyZXEtPnB1c2hfY291bnQgPiBOT1VWRUFVX0dFTV9NQVhfUFVTSCkpIHsK
-PiArwqDCoMKgwqDCoMKgwqBwdXNoX21heCA9IGNoYW4tPmRtYS5pYl9tYXggLyBOT1VWRUFVX0VY
-RUNfUFVTSF9NQVhfRElWOwo+ICvCoMKgwqDCoMKgwqDCoGlmICh1bmxpa2VseShyZXEtPnB1c2hf
-Y291bnQgPiBwdXNoX21heCkpIHsKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoE5W
-X1BSSU5USyhlcnIsIGNsaSwgInB1c2hidWYgcHVzaCBjb3VudCBleGNlZWRzCj4gbGltaXQ6ICVk
-IG1heCAlZFxuIiwKPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoCByZXEtPnB1c2hfY291bnQsIE5PVVZFQVVfR0VNX01BWF9QVVNIKTsKPiArwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHJlcS0+cHVzaF9jb3VudCwg
-cHVzaF9tYXgpOwo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgcmV0dXJuIG5vdXZl
-YXVfYWJpMTZfcHV0KGFiaTE2LCAtRUlOVkFMKTsKPiDCoMKgwqDCoMKgwqDCoMKgfQo+IMKgCj4g
-ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfZXhlYy5oCj4gYi9k
-cml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X2V4ZWMuaAo+IGluZGV4IGI4MTVkZTI0Mjhm
-My4uYzYyNzA0NTJlNGI1IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25v
-dXZlYXVfZXhlYy5oCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9leGVj
-LmgKPiBAQCAtNiw2ICs2LDExIEBACj4gwqAjaW5jbHVkZSAibm91dmVhdV9kcnYuaCIKPiDCoCNp
-bmNsdWRlICJub3V2ZWF1X3NjaGVkLmgiCj4gwqAKPiArLyogRGl2aWRlciB0byBsaW1pdCB0aGUg
-bnVtYmVyIG9mIElCcyBwZXIgam9iIHRvIGhhbGYgdGhlIHNpemUgb2YKPiB0aGUgcmluZyBpbgo+
-ICsgKiBvcmRlciB0byBhdm9pZCB0aGUgcmluZyBydW5uaW5nIGRyeSBiZXR3ZWVuIHN1Ym1pc3Np
-b25zLgo+ICsgKi8KPiArI2RlZmluZSBOT1VWRUFVX0VYRUNfUFVTSF9NQVhfRElWIDIKPiArCj4g
-wqBzdHJ1Y3Qgbm91dmVhdV9leGVjX2pvYl9hcmdzIHsKPiDCoMKgwqDCoMKgwqDCoMKgc3RydWN0
-IGRybV9maWxlICpmaWxlX3ByaXY7Cj4gwqDCoMKgwqDCoMKgwqDCoHN0cnVjdCBub3V2ZWF1X3Nj
-aGVkX2VudGl0eSAqc2NoZWRfZW50aXR5Owo+IGRpZmYgLS1naXQgYS9pbmNsdWRlL3VhcGkvZHJt
-L25vdXZlYXVfZHJtLmgKPiBiL2luY2x1ZGUvdWFwaS9kcm0vbm91dmVhdV9kcm0uaAo+IGluZGV4
-IDhkNzQwMmMxM2U1Ni4uZWFmOWYyNDg2MTlmIDEwMDY0NAo+IC0tLSBhL2luY2x1ZGUvdWFwaS9k
-cm0vbm91dmVhdV9kcm0uaAo+ICsrKyBiL2luY2x1ZGUvdWFwaS9kcm0vbm91dmVhdV9kcm0uaAo+
-IEBAIC00NCw2ICs0NCwxNiBAQCBleHRlcm4gIkMiIHsKPiDCoCNkZWZpbmUgTk9VVkVBVV9HRVRQ
-QVJBTV9QVElNRVJfVElNRcKgwqDCoMKgIDE0Cj4gwqAjZGVmaW5lIE5PVVZFQVVfR0VUUEFSQU1f
-SEFTX0JPX1VTQUdFwqDCoMKgIDE1Cj4gwqAjZGVmaW5lIE5PVVZFQVVfR0VUUEFSQU1fSEFTX1BB
-R0VGTElQwqDCoMKgIDE2Cj4gKwo+ICsvKioKPiArICogQE5PVVZFQVVfR0VUUEFSQU1fRVhFQ19Q
-VVNIX01BWAo+ICsgKgo+ICsgKiBRdWVyeSB0aGUgbWF4aW11bSBhbW91bnQgb2YgSUJzIHRoYXQg
-Y2FuIGJlIHB1c2hlZCB0aHJvdWdoIGEKPiBzaW5nbGUKPiArICogJmRybV9ub3V2ZWF1X2V4ZWMg
-c3RydWN0dXJlIGFuZCBoZW5jZSBhIHNpbmdsZQo+ICZEUk1fSU9DVExfTk9VVkVBVV9FWEVDCj4g
-KyAqIGlvY3RsKCkuCj4gKyAqLwo+ICsjZGVmaW5lIE5PVVZFQVVfR0VUUEFSQU1fRVhFQ19QVVNI
-X01BWMKgwqAgMTcKPiArCj4gwqBzdHJ1Y3QgZHJtX25vdXZlYXVfZ2V0cGFyYW0gewo+IMKgwqDC
-oMKgwqDCoMKgwqBfX3U2NCBwYXJhbTsKPiDCoMKgwqDCoMKgwqDCoMKgX191NjQgdmFsdWU7Cgo=
+On Wed, 27 Sept 2023 at 23:54, Kuogee Hsieh <quic_khsieh@quicinc.com> wrote:
+>
+> Currently eDP population is done at msm_dp_modeset_init() which happen
+> at binding time. Move eDP population to be done at display probe time
+> so that probe deferral cases can be handled effectively.
+> wait_for_hpd_asserted callback is added during drm_dp_aux_init()
+> to ensure eDP's HPD is up before proceeding eDP population.
+>
+> Changes in v4:
+> -- delete duplicate initialize code to dp_aux before drm_dp_aux_register()
+> -- delete of_get_child_by_name(dev->of_node, "aux-bus") and inline the function
+> -- not initialize rc = 0
+>
+> Changes in v3:
+> -- add done_probing callback into devm_of_dp_aux_populate_bus()
+>
+> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+> ---
+>  drivers/gpu/drm/msm/dp/dp_aux.c     | 34 ++++++++++++++----
+>  drivers/gpu/drm/msm/dp/dp_display.c | 69 ++++++++++++++++++-------------------
+>  2 files changed, 60 insertions(+), 43 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/msm/dp/dp_aux.c b/drivers/gpu/drm/msm/dp/dp_aux.c
+> index 22eb774..425b5c5 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_aux.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_aux.c
+> @@ -480,7 +480,6 @@ void dp_aux_deinit(struct drm_dp_aux *dp_aux)
+>
+>  int dp_aux_register(struct drm_dp_aux *dp_aux)
+>  {
+> -       struct dp_aux_private *aux;
+>         int ret;
+>
+>         if (!dp_aux) {
+> @@ -488,12 +487,7 @@ int dp_aux_register(struct drm_dp_aux *dp_aux)
+>                 return -EINVAL;
+>         }
+>
+> -       aux = container_of(dp_aux, struct dp_aux_private, dp_aux);
+> -
+> -       aux->dp_aux.name = "dpu_dp_aux";
+> -       aux->dp_aux.dev = aux->dev;
+> -       aux->dp_aux.transfer = dp_aux_transfer;
+> -       ret = drm_dp_aux_register(&aux->dp_aux);
+> +       ret = drm_dp_aux_register(dp_aux);
+>         if (ret) {
+>                 DRM_ERROR("%s: failed to register drm aux: %d\n", __func__,
+>                                 ret);
+> @@ -508,6 +502,21 @@ void dp_aux_unregister(struct drm_dp_aux *dp_aux)
+>         drm_dp_aux_unregister(dp_aux);
+>  }
+>
+> +static int dp_wait_hpd_asserted(struct drm_dp_aux *dp_aux,
+> +                                unsigned long wait_us)
+> +{
+> +       int ret;
+> +       struct dp_aux_private *aux;
+> +
+> +       aux = container_of(dp_aux, struct dp_aux_private, dp_aux);
+> +
+> +       pm_runtime_get_sync(aux->dev);
+> +       ret = dp_catalog_aux_wait_for_hpd_connect_state(aux->catalog);
+> +       pm_runtime_put_sync(aux->dev);
 
+Ok, so here you have used put_sync instead of autosuspend. Can we have
+some uniformity? (I'd prefer to see put_sync or just put everywhere)
+
+> +
+> +       return ret;
+> +}
+> +
+>  struct drm_dp_aux *dp_aux_get(struct device *dev, struct dp_catalog *catalog,
+>                               bool is_edp)
+>  {
+> @@ -531,6 +540,17 @@ struct drm_dp_aux *dp_aux_get(struct device *dev, struct dp_catalog *catalog,
+>         aux->catalog = catalog;
+>         aux->retry_cnt = 0;
+>
+> +       /*
+> +        * Use the drm_dp_aux_init() to use the aux adapter
+> +        * before registering aux with the DRM device so that
+> +        * msm edp panel can be detected by generic_dep_panel_probe().
+
+eDP, AUX, generic_edp_panel_probe().
+
+> +        */
+> +       aux->dp_aux.name = "dpu_dp_aux";
+> +       aux->dp_aux.dev = dev;
+> +       aux->dp_aux.transfer = dp_aux_transfer;
+> +       aux->dp_aux.wait_hpd_asserted = dp_wait_hpd_asserted;
+> +       drm_dp_aux_init(&aux->dp_aux);
+> +
+>         return &aux->dp_aux;
+>  }
+>
+> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+> index 711d262..9a2b403 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+> @@ -1203,6 +1203,28 @@ static const struct msm_dp_desc *dp_display_get_desc(struct platform_device *pde
+>         return NULL;
+>  }
+>
+> +static int dp_auxbus_done_probe(struct drm_dp_aux *aux)
+> +{
+> +       int rc;
+> +
+> +       rc = component_add(aux->dev, &dp_display_comp_ops);
+> +       if (rc)
+> +               DRM_ERROR("eDP component add failed, rc=%d\n", rc);
+
+drop.
+
+> +
+> +       return rc;
+> +}
+> +
+> +static inline int dp_display_auxbus_population(struct dp_display_private *dp)
+
+It's not `population`. It is just `populate`.
+
+Also please inline this function.
+
+
+> +{
+> +       int ret;
+> +
+> +       ret = devm_of_dp_aux_populate_bus(dp->aux, dp_auxbus_done_probe);
+> +       if (ret == -ENODEV)
+> +               DRM_ERROR("aux-bus not found\n");
+> +
+> +       return ret;
+> +}
+> +
+>  static int dp_display_probe(struct platform_device *pdev)
+>  {
+>         int rc = 0;
+> @@ -1271,10 +1293,16 @@ static int dp_display_probe(struct platform_device *pdev)
+>         if (rc)
+>                 return rc;
+>
+> -       rc = component_add(&pdev->dev, &dp_display_comp_ops);
+> -       if (rc) {
+> -               DRM_ERROR("component add failed, rc=%d\n", rc);
+> -               dp_display_deinit_sub_modules(dp);
+> +       if (dp->dp_display.is_edp) {
+> +               rc = dp_display_auxbus_population(dp);
+> +               if (rc)
+> +                       DRM_ERROR("eDP auxbus population failed, rc=%d\n", rc);
+> +       } else {
+> +               rc = component_add(&pdev->dev, &dp_display_comp_ops);
+> +               if (rc) {
+> +                       DRM_ERROR("component add failed, rc=%d\n", rc);
+> +                       dp_display_deinit_sub_modules(dp);
+> +               }
+>         }
+>
+>         return rc;
+> @@ -1285,8 +1313,6 @@ static int dp_display_remove(struct platform_device *pdev)
+>         struct dp_display_private *dp = dev_get_dp_display_private(&pdev->dev);
+>
+>         component_del(&pdev->dev, &dp_display_comp_ops);
+> -       dp_display_deinit_sub_modules(dp);
+> -
+>         platform_set_drvdata(pdev, NULL);
+>
+>         dp_display_deinit_sub_modules(dp);
+> @@ -1385,29 +1411,8 @@ static int dp_display_get_next_bridge(struct msm_dp *dp)
+>  {
+>         int rc;
+>         struct dp_display_private *dp_priv;
+> -       struct device_node *aux_bus;
+> -       struct device *dev;
+>
+>         dp_priv = container_of(dp, struct dp_display_private, dp_display);
+> -       dev = &dp_priv->pdev->dev;
+> -       aux_bus = of_get_child_by_name(dev->of_node, "aux-bus");
+> -
+> -       if (aux_bus && dp->is_edp) {
+> -               /*
+> -                * The code below assumes that the panel will finish probing
+> -                * by the time devm_of_dp_aux_populate_ep_devices() returns.
+> -                * This isn't a great assumption since it will fail if the
+> -                * panel driver is probed asynchronously but is the best we
+> -                * can do without a bigger driver reorganization.
+> -                */
+> -               rc = of_dp_aux_populate_bus(dp_priv->aux, NULL);
+> -               of_node_put(aux_bus);
+> -               if (rc)
+> -                       goto error;
+> -       } else if (dp->is_edp) {
+> -               DRM_ERROR("eDP aux_bus not found\n");
+> -               return -ENODEV;
+> -       }
+>
+>         /*
+>          * External bridges are mandatory for eDP interfaces: one has to
+> @@ -1420,17 +1425,9 @@ static int dp_display_get_next_bridge(struct msm_dp *dp)
+>         if (!dp->is_edp && rc == -ENODEV)
+>                 return 0;
+>
+> -       if (!rc) {
+> +       if (!rc)
+>                 dp->next_bridge = dp_priv->parser->next_bridge;
+> -               return 0;
+> -       }
+>
+> -error:
+> -       if (dp->is_edp) {
+> -               of_dp_aux_depopulate_bus(dp_priv->aux);
+> -               dp_display_host_phy_exit(dp_priv);
+> -               dp_display_host_deinit(dp_priv);
+> -       }
+>         return rc;
+>  }
+>
+> --
+> 2.7.4
+>
+
+
+-- 
+With best wishes
+Dmitry
