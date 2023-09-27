@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9C407AFCD6
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Sep 2023 09:48:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E4037AFC91
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Sep 2023 09:47:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1CD9510E416;
-	Wed, 27 Sep 2023 07:48:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF6A310E399;
+	Wed, 27 Sep 2023 07:47:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D6C710E486
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D7BB110E488
  for <dri-devel@lists.freedesktop.org>; Wed, 27 Sep 2023 07:47:28 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 4C7E21F8A4;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 8719A2189E;
  Wed, 27 Sep 2023 07:47:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1695800847; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EZCIGadNzDcDDyy0uQKLnD2WXwhef9Wz5LBK3tYEh4M=;
- b=dOmiyRBnPpCv26IzyWzGDVcaAnYAIT5mOmaHSyeHiY6KIYzYDOESDeX7DHtnXfQulmxZEs
- cLrbo3GDra6TM1NbplPFFXWIYZar449Gej2FGgdeRLB+tK1cU72fwBa6M76sT4Ycnz6S6v
- cYeaP1Dq9I/7G4PCf0ttIY9jPMTbwdQ=
+ bh=OTRgjt9ZIxQ8wFm8yqaudH0Dvs4qJ3X/F+C81dN1guQ=;
+ b=sYF7UICBTy0vHY1RyJPAlA/aq8R43iAqGRyyQbQn6HlCwyrqMk8CDtO3diRr3KjCpU/D2r
+ ib7lWJZC1nnddEvkcLoXun0UWfPzgBLoF7VglTcXyX7XzHLuoQumW2+uPmFkxMPP0nUdbv
+ lrm67Bldhg57WlLVdgkq+lUaScHRj5g=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1695800847;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EZCIGadNzDcDDyy0uQKLnD2WXwhef9Wz5LBK3tYEh4M=;
- b=ezavfw3HpJxdIJYra69t9VdeNtvqMrPD4QfQFK47RF6nEgFJdtsYgvGSxTKXgbCXKy+aOU
- Chf8ch2GgaO0CKBA==
+ bh=OTRgjt9ZIxQ8wFm8yqaudH0Dvs4qJ3X/F+C81dN1guQ=;
+ b=4vFlmY7+NBgSDYMmfYbgJIlF4r5PrRXijodYHhO6rr3WXbZjdW80JijDaTHCTIrKb2YMjw
+ rjRTZp+IH73pilCw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 173101338F;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 503D413A74;
  Wed, 27 Sep 2023 07:47:27 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id SCXFBA/eE2XvUQAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id SBCzEg/eE2XvUQAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Wed, 27 Sep 2023 07:47:27 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: deller@gmx.de, javierm@redhat.com, sam@ravnborg.org, arnd@arndb.de,
  daniel@ffwll.ch
-Subject: [PATCH 10/46] fbdev/cobalt-lcd: Initialize fb_ops to fbdev I/O-memory
+Subject: [PATCH 11/46] fbdev/controlfb: Initialize fb_ops to fbdev I/O-memory
  helpers
-Date: Wed, 27 Sep 2023 09:26:43 +0200
-Message-ID: <20230927074722.6197-11-tzimmermann@suse.de>
+Date: Wed, 27 Sep 2023 09:26:44 +0200
+Message-ID: <20230927074722.6197-12-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20230927074722.6197-1-tzimmermann@suse.de>
 References: <20230927074722.6197-1-tzimmermann@suse.de>
@@ -91,36 +91,47 @@ No functional changes.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/video/fbdev/Kconfig        | 1 +
- drivers/video/fbdev/cobalt_lcdfb.c | 2 ++
- 2 files changed, 3 insertions(+)
+ drivers/video/fbdev/Kconfig     | 4 +---
+ drivers/video/fbdev/controlfb.c | 5 ++---
+ 2 files changed, 3 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
-index 06d20787da8b8..5f8ba796aa382 100644
+index 5f8ba796aa382..499403f69329f 100644
 --- a/drivers/video/fbdev/Kconfig
 +++ b/drivers/video/fbdev/Kconfig
-@@ -1752,6 +1752,7 @@ config FB_GOLDFISH
- config FB_COBALT
- 	tristate "Cobalt server LCD frame buffer support"
- 	depends on FB && MIPS_COBALT
+@@ -309,9 +309,7 @@ config FB_OF
+ config FB_CONTROL
+ 	bool "Apple \"control\" display support"
+ 	depends on (FB = y) && ((PPC_PMAC && PPC32) || COMPILE_TEST)
+-	select FB_CFB_FILLRECT
+-	select FB_CFB_COPYAREA
+-	select FB_CFB_IMAGEBLIT
 +	select FB_IOMEM_HELPERS
+ 	select FB_MACMODES
+ 	help
+ 	  This driver supports a frame buffer for the graphics adapter in the
+diff --git a/drivers/video/fbdev/controlfb.c b/drivers/video/fbdev/controlfb.c
+index 717134c141ffe..5c5284e8ae0e9 100644
+--- a/drivers/video/fbdev/controlfb.c
++++ b/drivers/video/fbdev/controlfb.c
+@@ -755,15 +755,14 @@ static int controlfb_mmap(struct fb_info *info,
  
- config FB_SH7760
- 	bool "SH7760/SH7763/SH7720/SH7721 LCDC support"
-diff --git a/drivers/video/fbdev/cobalt_lcdfb.c b/drivers/video/fbdev/cobalt_lcdfb.c
-index b94e7c97264cb..c2b8f894799ca 100644
---- a/drivers/video/fbdev/cobalt_lcdfb.c
-+++ b/drivers/video/fbdev/cobalt_lcdfb.c
-@@ -280,7 +280,9 @@ static const struct fb_ops cobalt_lcd_fbops = {
- 	.fb_read	= cobalt_lcdfb_read,
- 	.fb_write	= cobalt_lcdfb_write,
- 	.fb_blank	= cobalt_lcdfb_blank,
+ static const struct fb_ops controlfb_ops = {
+ 	.owner		= THIS_MODULE,
++	__FB_DEFAULT_IOMEM_OPS_RDWR,
+ 	.fb_check_var	= controlfb_check_var,
+ 	.fb_set_par	= controlfb_set_par,
+ 	.fb_setcolreg	= controlfb_setcolreg,
+ 	.fb_pan_display = controlfb_pan_display,
+ 	.fb_blank	= controlfb_blank,
 +	__FB_DEFAULT_IOMEM_OPS_DRAW,
- 	.fb_cursor	= cobalt_lcdfb_cursor,
-+	__FB_DEFAULT_IOMEM_OPS_MMAP,
+ 	.fb_mmap	= controlfb_mmap,
+-	.fb_fillrect	= cfb_fillrect,
+-	.fb_copyarea	= cfb_copyarea,
+-	.fb_imageblit	= cfb_imageblit,
  };
  
- static int cobalt_lcdfb_probe(struct platform_device *dev)
+ /*
 -- 
 2.42.0
 
