@@ -1,125 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 979917AFA0A
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Sep 2023 07:24:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EC3A7AFA4E
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Sep 2023 07:48:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 243F310E467;
-	Wed, 27 Sep 2023 05:23:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E2E6C10E46C;
+	Wed, 27 Sep 2023 05:48:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam04on2062e.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:7e8c::62e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9AB3510E466;
- Wed, 27 Sep 2023 05:23:56 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YoDpN1MNmrI0YRBYYjOVrDrp7C6n5AYtDS+5j+ZFp+yI6wla4ZkePpmC2dwwurC4FG2SL8uN/qgrjW/9fETJMwKyO5sHcZIARooOOxpxRpI2oj1b4TNKMQZN+hnYZ0/zgOxZhd0J3OraJquAgTNPArtL2WI/kARAtbpvkIPQ6rPQbI+WtumeE2z7piGcIkw2VCyR23LAlVo1gV4Euzic0T1DOfDpih0SgqgfMRfN0QlGy0bQzpRu9pWTeeApy4PnOVJDEMyZlK8xDHoMgnhNwsUx0PEbpaBSKXXyXKrzhHx0mQMVU4uCRxT80CIA4Xo7xi0i3uHCD+UoIVAeZnsOpg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xwr3hbibDWq4g4ddCq/8QAbAWvpajPrv8g2ZNbZGutQ=;
- b=Mzu6nOqagNeNPFZtSZto/ZFB1OI06fyuO9PfUvvMBmKJuMl+BqaCbJlp9y4vcid2Ino1Y6nA+pvjT0jSf+tNoFFXGUhkzJjMC2ABM7mDZutf7mgv94glisGiSKnfXisBgawQnk/2GB0zBDsffkzQwXannudizWGkl4Rsqx0nnxojg5XHF0xQ8iUAFhQiLjyCQo9kF4mRdIe2HkLbM1IeEoKtvFIAFWBmtJl/FS3sJtVPnOYhBksqeU8JsfiDlHnz6IJ43WvhR1Hop6Z7wbblOZinNDRVAoKwYND4TMa8KXzpPyZHH2bz3H2Ysc0zkdc5MFP8oZ3dwDMwn8t5yDWssg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xwr3hbibDWq4g4ddCq/8QAbAWvpajPrv8g2ZNbZGutQ=;
- b=K5yFuVPdj4JIzWBN+p/dwVMLiJRPh1R6WZDupRyOPddm0c7EepREOl7IuKIdruK1HhTR/ALvQa/UfN++aOlMNy6BGb47zXyReaH8CuqgTtSOxEZjI+mXYcF0607CschialChw/ONMD8ehNt5TuKZ0CUO+dzxQZL/A20+qay5L8Y=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by SJ0PR12MB5612.namprd12.prod.outlook.com (2603:10b6:a03:427::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6838.21; Wed, 27 Sep
- 2023 05:23:54 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::a7fa:4411:67a3:131d]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::a7fa:4411:67a3:131d%4]) with mapi id 15.20.6838.016; Wed, 27 Sep 2023
- 05:23:53 +0000
-Message-ID: <82ff7880-f323-b208-b52b-90bd568af934@amd.com>
-Date: Wed, 27 Sep 2023 07:23:44 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH 2/2] drm/amd/display: Fix null pointer dereference in
- error message
-Content-Language: en-US
-To: Harry Wentland <harry.wentland@amd.com>, Cong Liu <liucong2@kylinos.cn>,
- Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, "Pan, Xinhui"
- <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Aurabindo Pillai
- <aurabindo.pillai@amd.com>, Tom Chung <chiahsuan.chung@amd.com>
-References: <20230926055618.119195-1-liucong2@kylinos.cn>
- <a71a61fb-2330-4fba-85a7-9ba2a3642dc7@amd.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <a71a61fb-2330-4fba-85a7-9ba2a3642dc7@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: VI1PR0102CA0032.eurprd01.prod.exchangelabs.com
- (2603:10a6:802::45) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AFE7010E46B;
+ Wed, 27 Sep 2023 05:48:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1695793688; x=1727329688;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=WV2GT3MqmgvkaeOdGho0FQtzlWzULGvrDmyXN059hgU=;
+ b=TpjPXIw9Rkrk6tCfkcrCHqXDbbsyWbyhFIFalEnJWC9PBoPfBW/bqxjA
+ eP/Or7kJv1P615gg598hYjsY5VKn3mms38ZTMJ5EGq75O4n6QP9fUnI5q
+ aN5F7qtuapHISbVDTL8QojtPc3ZhS0puTA9slXcJRV3EEokZH5mvTj96l
+ jKN47gfhUqWgMPyQq9T4akzyjMvAvDQbz1qY/S1KuReJklLlNOH3vwAoO
+ oyIaw5ib/NFqhAYg9Fky+tvWbyk2FiWpG+6cezbG94jo0Xgktr7ErQObC
+ MW2VbrGf2gPX2PVqHejo8Q/HUQnP1oRCWkVUX3iXuWERrCn30YXvHhOCF g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10845"; a="468023393"
+X-IronPort-AV: E=Sophos;i="6.03,179,1694761200"; d="scan'208";a="468023393"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Sep 2023 22:48:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10845"; a="742591810"
+X-IronPort-AV: E=Sophos;i="6.03,179,1694761200"; d="scan'208";a="742591810"
+Received: from jchodor-mobl2.ger.corp.intel.com (HELO [10.213.23.248])
+ ([10.213.23.248])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Sep 2023 22:48:03 -0700
+Message-ID: <af8f0c44-7f4a-f1f7-cd4a-6cae3ea477cc@intel.com>
+Date: Wed, 27 Sep 2023 07:47:57 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|SJ0PR12MB5612:EE_
-X-MS-Office365-Filtering-Correlation-Id: ce41d6ea-d259-4a81-5203-08dbbf19f03a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: bpGMaYqT5YKFFwk2aSzRj/TAfHJaL8LJkg/waaZ0FSaTki/QPyNPN0DcQxJZ/QqN7iPOpGSr5eTQ+aysoHTyWxJfv4/BzV37jGirnVSuh89u4RZW5Prj8Su/vZ+RjI5zHhnS0S0slP0gEWRgnzAjJzgXAwFS3s7VenY6Hu2BROTOSBPYUWq1Iixb3Ee+rk6ZCYdUDqIFfWKWYObRti32yfbv1KiAHAutcMPxprWFq6Bej3FW/d0/5EMr+keu8xrGIbC9v5KEHGeobJ3WAhpOz1mQhNzLD2IVSwdlGcJMLBsMoNgdkaDSiabe9vTng/l0NGRV3kinAlr5GY/dhRmFqWLkQLSAnM6qUyhtXRAosWR5fqZhcGvKwNHkBRg971MnJ1pnLHnR/S3yowrn68dZ3iwV1BAUth1wR2gWQIblEt3tKjAfFtVGL2k4b/eqWQez6Y0mjnq0QlMyyqSSMjk19BZVDXHjdeHP3VBn488UXSeovdFIUZ3TRWDNi2DwWxwAhVXz+Ypz2t3mD18wG8Azv/d194kTCk79beYuRpi9cGsor/kcB06qQ2nELJ0UNSZd8iZyKXjc6exvRoj3sPozHaL3qEIeyck+IwpFJNgsGmvC8Y/937wSTW/KKHyEtLbd5zbLP98Vtd+2JiMXyIF6WyReJrzPcqROxRxr2YZgIv4=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(136003)(346002)(396003)(366004)(39860400002)(376002)(230922051799003)(186009)(1800799009)(451199024)(26005)(2616005)(53546011)(6506007)(6512007)(31696002)(86362001)(921005)(36756003)(38100700002)(83380400001)(110136005)(31686004)(15650500001)(2906002)(316002)(6636002)(66946007)(66476007)(8936002)(41300700001)(4326008)(8676002)(5660300002)(66556008)(6666004)(6486002)(478600001)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TEVnUkwzUlplM1lPOE5NczhZTGZlYjJMS1dvRjhqV0Q3dGRBWUVLbVhPRVBu?=
- =?utf-8?B?MHhPcTI0WnhXZ2wrRFVYUFdOSlVHVEo2bXROS2treG8vb09hUjFyNE5WZTV6?=
- =?utf-8?B?dGJ0SXE2bTBySWk0UW85WWI5OXJWcmo2ZlVCeWJyTmdyNXNQSktuRzZXd0Zj?=
- =?utf-8?B?cWM0MmZXU01oRW5yNkhqRXFNV1YxTnhqYjRYUngwY1lTcklia2dWRTEzTXNN?=
- =?utf-8?B?NVh4aUt4bkZoclB2c3lqUE4yTDFEYjNQYm5aQWZuaHhHQTh5TUplT3M1eEtl?=
- =?utf-8?B?SUNHRUYwa1RlVDV2c1FIakUxT0RVelBVNlljeG50bDA3OTBaQVdPNnR2Y0F4?=
- =?utf-8?B?RW4yOEtVM3o3U2YxUTlSbGNqUmFEci9tRGsrbUJNYzZUeDRGMHczZTRnRXN0?=
- =?utf-8?B?eVJNWE81MmsvVllVc2pBSDJCQkFjZGRQRGxNM3hnWmJ3V2VoTlU5T1VuOUpi?=
- =?utf-8?B?SEYybS9LWVZJZDl4SWMyU1BueEhOSHdoTlpSK21mREMvUWNWdjdSZWVJYU5E?=
- =?utf-8?B?Rk9Id0VKMzFxcktaQWFtWVhHQnhuclA5ODZjdTE4Uks2Y2JUb2FOSEN1Zll3?=
- =?utf-8?B?cGZGTlEvRTExeW1IOGh4OTVjZUZnaFhPbFVMdDh3aXhPdHJjOFA1WTBseDZ5?=
- =?utf-8?B?NDhLVGFXaXJkN1pwYkRTZTNsNkRtQUF2TVdydmFrM0tuRXZlWTZXU1gxSWQ0?=
- =?utf-8?B?MzhwNGNuVjk5OXh5aXZFMDBta2JnZkhDaDJienRjekdlaVl4Uk1TYzEzSndk?=
- =?utf-8?B?bm0vaCtRNElEanU1SzNpVHlGUUpoelNXQnN0QmRsNHZ3eEUvZkxzbWQ1cG54?=
- =?utf-8?B?V3JrcHlEdlpsRHJncGNJTjFUR0NsNXJOdXp0cGRiSzUyM3E4bHRxdHV1U3Nv?=
- =?utf-8?B?a1lNL1Z2Ky93WFVNUDAyZ01LQlZsT0xPcDVGWTllWHJsMjJVa25kWTYvMU9P?=
- =?utf-8?B?TmxqcURnd1JsSGVZNVNxdnRkbmROMWwvNUtGMnNsUjZsTU9sVFBBcnMvWlFi?=
- =?utf-8?B?UEZNTkVaMU1ocUNJUnR3S3FjTTd2cW1RazJlU1VYOHpLU1pnRWRiZ1AvQWtV?=
- =?utf-8?B?QlRDYUQ4aGxURERyM1hndURJQ2JZMFZWa0ROampmR1Azc01oTjE5aWdocXU2?=
- =?utf-8?B?Q3psT0pGcUp1eTNVLzhLYmZFMG5Ib0xKeHJvYjh2b0xWcGVMVFBQKzczUC9j?=
- =?utf-8?B?SzFlNkZQQkZyVDhlK216aWExUnNXNlVLQlBUblZyaW1DTFBlMENyWnZoMVk4?=
- =?utf-8?B?SmJRZGxVajQvRXlkVkwzelJwT25GekNNMXpHT1gyWW1rTUVsTzBxUjFCOHh0?=
- =?utf-8?B?MWwwSmdBczlsYm04YU55V0lRcDJGeWtkZzdVVVJTVHZNZ0ozUkJaSEhES3pW?=
- =?utf-8?B?dHpsbmZraStxREF0SDFNZ2IyUFlKVHVaMDRtK0E0NjdnZU1USmh2ZFMwZ3dy?=
- =?utf-8?B?eDRwUkZFWXoyVHFZN3hEK1VITm5Rc1JKVXpjUUtXcHRCVklWaWNwOFdseDJ3?=
- =?utf-8?B?TUxEek1DY0lPYnF1bE9XK09PREVGSzNQQXd3bkZ0YTZKT2NVTkMvVU1BQ0o4?=
- =?utf-8?B?MUdZbWJ1YzVvN05TOXVYb3B2aEVyZmpmOHhRbHdJRUhBa1NLaS9makx3TWNL?=
- =?utf-8?B?SjlyQkMyUzJBSEpqQkMvamN1T1BUV0pSZTV5Q1FDYWhjSGYrUng0T283OXhw?=
- =?utf-8?B?ZGd4YXg2d2x1bGFmbm1vWHp0S0tIRG42S2M0SmxaREZZYXUvMmJWMG91UGhT?=
- =?utf-8?B?TmVHc0ptcno1bU4xdWhKbm5vcTVzNzBvRHlUTXRGSUlXenlHM28wS2phTE55?=
- =?utf-8?B?bzA5eFI3RzBXWndFYy81WCsyMFZ2V3N6RkxQa2ZpUmNkdWNMWFIyUnM1Nmo2?=
- =?utf-8?B?ZGFqck13Y1J1bHRVeUQyUVhKRXBNdytXUUMzWlRvbzB2Uy9GQWhuRmFDK1lh?=
- =?utf-8?B?bTh2Ri8wTmJwcHozc3JXOVk4cFFZVlB4MmNlZzZJeGNoSzB3THhaMGtSRDhV?=
- =?utf-8?B?ZEpocFlTell1ajdPWitJTndDZGlKZmt2bzBWVEpYdzdpemREamxqUnhyV3l1?=
- =?utf-8?B?bXNITnA4R0F2UmJkM25GZGdXVm0wc21NT1ZjNXFWeWxkZEwrVFRReC9FVmRk?=
- =?utf-8?Q?b5K0=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ce41d6ea-d259-4a81-5203-08dbbf19f03a
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Sep 2023 05:23:53.0120 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 5BBmS/4j+TEdW3f3U5dSwiFGHyAMcUBfEBxEgdtcTg0IxUxkUS1/kwJEPvAD7zYg
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB5612
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.15.1
+Subject: Re: [PATCH] drm/i915: Don't set PIPE_CONTROL_FLUSH_L3 for aux inval
+Content-Language: en-US
+To: Nirmoy Das <nirmoy.das@intel.com>, intel-gfx@lists.freedesktop.org
+References: <20230926142401.25687-1-nirmoy.das@intel.com>
+From: Andrzej Hajda <andrzej.hajda@intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <20230926142401.25687-1-nirmoy.das@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -132,50 +63,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Tejas Upadhyay <tejas.upadhyay@intel.com>,
+ Jonathan Cavitt <jonathan.cavitt@intel.com>, stable@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Andi Shyti <andi.shyti@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Matt Roper <matthew.d.roper@intel.com>,
+ Prathap Kumar Valsan <prathap.kumar.valsan@intel.com>,
+ Mark Janes <mark.janes@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 26.09.23 um 15:09 schrieb Harry Wentland:
->
-> On 2023-09-26 01:56, Cong Liu wrote:
->> This patch fixes a null pointer dereference in the error message that is
->> printed when the Display Core (DC) fails to initialize. The original
->> message includes the DC version number, which is undefined if the DC is
->> not initialized.
->>
->> Fixes: 9788d087caff ("drm/amd/display: improve the message printed when loading DC")
->> Signed-off-by: Cong Liu <liucong2@kylinos.cn>
->> ---
->>   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 3 +--
->>   1 file changed, 1 insertion(+), 2 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
->> index 8e98dda1e084..bf52a909f558 100644
->> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
->> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
->> @@ -1703,8 +1703,7 @@ static int amdgpu_dm_init(struct amdgpu_device *adev)
->>   		DRM_INFO("Display Core v%s initialized on %s\n", DC_VER,
->>   			 dce_version_to_string(adev->dm.dc->ctx->dce_version));
->>   	} else {
->> -		DRM_INFO("Display Core v%s failed to initialize on %s\n", DC_VER,
->> -			 dce_version_to_string(adev->dm.dc->ctx->dce_version));
->> +		DRM_INFO("Display Core failed to initialize with v%s!\n", DC_VER);
-> There is value in printing the version number. Let's not remove it.
->
-> Instead you can probably fix it by doing a NULL check on adev->dm.dc->ctx.
 
-But as far as I understand it adev->dm.dc->ctx will always be NULL in 
-this case.
 
-Regards,
-Christian.
+On 26.09.2023 16:24, Nirmoy Das wrote:
+> PIPE_CONTROL_FLUSH_L3 is not needed for aux invalidation
+> so don't set that.
+>
+> Fixes: 78a6ccd65fa3 ("drm/i915/gt: Ensure memory quiesced before invalidation")
+> Cc: Jonathan Cavitt <jonathan.cavitt@intel.com>
+> Cc: Andi Shyti <andi.shyti@linux.intel.com>
+> Cc: <stable@vger.kernel.org> # v5.8+
+> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+> Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> Cc: Matt Roper <matthew.d.roper@intel.com>
+> Cc: Tejas Upadhyay <tejas.upadhyay@intel.com>
+> Cc: Lucas De Marchi <lucas.demarchi@intel.com>
+> Cc: Prathap Kumar Valsan <prathap.kumar.valsan@intel.com>
+> Cc: Tapani Pälli <tapani.palli@intel.com>
+> Cc: Mark Janes <mark.janes@intel.com>
+> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
 
+Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
+
+Regards
+Andrzej
+> ---
+>   drivers/gpu/drm/i915/gt/gen8_engine_cs.c | 11 ++++++++++-
+>   1 file changed, 10 insertions(+), 1 deletion(-)
 >
-> Harry
->
->>   		goto error;
->>   	}
->>   
+> diff --git a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
+> index 0143445dba83..ba4c2422b340 100644
+> --- a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
+> +++ b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
+> @@ -271,8 +271,17 @@ int gen12_emit_flush_rcs(struct i915_request *rq, u32 mode)
+>   		if (GRAPHICS_VER_FULL(rq->i915) >= IP_VER(12, 70))
+>   			bit_group_0 |= PIPE_CONTROL_CCS_FLUSH;
+>   
+> +		/*
+> +		 * L3 fabric flush is needed for AUX CCS invalidation
+> +		 * which happens as part of pipe-control so we can
+> +		 * ignore PIPE_CONTROL_FLUSH_L3. Also PIPE_CONTROL_FLUSH_L3
+> +		 * deals with Protected Memory which is not needed for
+> +		 * AUX CCS invalidation and lead to unwanted side effects.
+> +		 */
+> +		if (mode & EMIT_FLUSH)
+> +			bit_group_1 |= PIPE_CONTROL_FLUSH_L3;
+> +
+>   		bit_group_1 |= PIPE_CONTROL_TILE_CACHE_FLUSH;
+> -		bit_group_1 |= PIPE_CONTROL_FLUSH_L3;
+>   		bit_group_1 |= PIPE_CONTROL_RENDER_TARGET_CACHE_FLUSH;
+>   		bit_group_1 |= PIPE_CONTROL_DEPTH_CACHE_FLUSH;
+>   		/* Wa_1409600907:tgl,adl-p */
 
