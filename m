@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31F8D7AFD0C
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Sep 2023 09:49:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 347597AFD09
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Sep 2023 09:48:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BFE0210E494;
-	Wed, 27 Sep 2023 07:48:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F9E510E498;
+	Wed, 27 Sep 2023 07:48:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0CE4510E47D
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Sep 2023 07:47:27 +0000 (UTC)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E94D10E46E
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Sep 2023 07:47:28 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 8FC1A2189C;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id C9EEF1F8A3;
  Wed, 27 Sep 2023 07:47:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1695800846; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hvXHprRgPAGCGKZcfBZtbMRYiyKxfIyXrCTsLgtwxIQ=;
- b=gFR6sPzk+p46uOwtgljfGeFghx16MM2Ynoy2la8Q+jUtpGGBjEcNfECffJc8eZ6OBPlQvG
- gDFxqE+5ti9epGC4u+O7IMu0Ryb7g7g3aRlEaf20qFPy5Aw2yTaaBZcgcQuaYvGEYvB/Rg
- kgeUezaOYEYbQOjkGWHBhM5qp5gcDu4=
+ bh=9aCUbQ4NtrDcW2WQi8qce/YX4oqfMPBdqjwkO19x25s=;
+ b=j3UM/hIvvEmp0jBEozajk2AKvx6pMgLE+fOWm+8ME3SUfBcKG/8nOiM9mcm18oVBjtPNwK
+ aO4pb6olY57aihIS9Mbz/8rGpPRTy0J8zH2QNA+ESuI+QzyaVhqkWdAS0uUkpwo277hYN/
+ wMxfoeDXS7TRlRXW3K09T32ji8zjjd8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1695800846;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hvXHprRgPAGCGKZcfBZtbMRYiyKxfIyXrCTsLgtwxIQ=;
- b=cB4D+RhxAvyNmtEUDiLftNj89ybbb7cZUlqOr6U1WVpq2eqt+OexGKOsfxo9NG7Y/j6MXY
- SlYm4zu4f2QBGyDg==
+ bh=9aCUbQ4NtrDcW2WQi8qce/YX4oqfMPBdqjwkO19x25s=;
+ b=uKM/DenZkGMLA+JE/YzqWVhp1CGrEWtddVDWnz1bOIAAtJ9joVJ3Hg9NU4N2h7FAd4KFBF
+ 3mEGxuWDCE3agPDQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 573E313A74;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 93BEB1338F;
  Wed, 27 Sep 2023 07:47:26 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id aIViFA7eE2XvUQAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id AF5CIw7eE2XvUQAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Wed, 27 Sep 2023 07:47:26 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: deller@gmx.de, javierm@redhat.com, sam@ravnborg.org, arnd@arndb.de,
  daniel@ffwll.ch
-Subject: [PATCH 07/46] fbdev/atyfb: Initialize fb_ops to fbdev I/O-memory
+Subject: [PATCH 08/46] fbdev/au1100fb: Initialize fb_ops to fbdev I/O-memory
  helpers
-Date: Wed, 27 Sep 2023 09:26:40 +0200
-Message-ID: <20230927074722.6197-8-tzimmermann@suse.de>
+Date: Wed, 27 Sep 2023 09:26:41 +0200
+Message-ID: <20230927074722.6197-9-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20230927074722.6197-1-tzimmermann@suse.de>
 References: <20230927074722.6197-1-tzimmermann@suse.de>
@@ -91,43 +91,48 @@ No functional changes.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/video/fbdev/Kconfig          | 1 +
- drivers/video/fbdev/aty/atyfb_base.c | 3 +++
- 2 files changed, 4 insertions(+)
+ drivers/video/fbdev/Kconfig    | 4 +---
+ drivers/video/fbdev/au1100fb.c | 8 +++-----
+ 2 files changed, 4 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
-index 3df86ae46ca77..9cd116f175160 100644
+index 9cd116f175160..83e2f341cf911 100644
 --- a/drivers/video/fbdev/Kconfig
 +++ b/drivers/video/fbdev/Kconfig
-@@ -1086,6 +1086,7 @@ config FB_ATY
- 	select FB_CFB_COPYAREA
- 	select FB_CFB_IMAGEBLIT
- 	select FB_BACKLIGHT if FB_ATY_BACKLIGHT
-+	select FB_IOMEM_FOPS
- 	select FB_MACMODES if PPC
- 	select FB_ATY_CT if SPARC64 && PCI
- 	select VIDEO_NOMODESET
-diff --git a/drivers/video/fbdev/aty/atyfb_base.c b/drivers/video/fbdev/aty/atyfb_base.c
-index 5c87817a4f4ce..aee96fa45857b 100644
---- a/drivers/video/fbdev/aty/atyfb_base.c
-+++ b/drivers/video/fbdev/aty/atyfb_base.c
-@@ -301,6 +301,7 @@ static struct fb_ops atyfb_ops = {
- 	.owner		= THIS_MODULE,
- 	.fb_open	= atyfb_open,
- 	.fb_release	= atyfb_release,
+@@ -1434,9 +1434,7 @@ endchoice
+ config FB_AU1100
+ 	bool "Au1100 LCD Driver"
+ 	depends on (FB = y) && MIPS_ALCHEMY
+-	select FB_CFB_FILLRECT
+-	select FB_CFB_COPYAREA
+-	select FB_CFB_IMAGEBLIT
++	select FB_IOMEM_HELPERS
+ 	help
+ 	  This is the framebuffer driver for the AMD Au1100 SOC.  It can drive
+ 	  various panels and CRTs by passing in kernel cmd line option
+diff --git a/drivers/video/fbdev/au1100fb.c b/drivers/video/fbdev/au1100fb.c
+index 648d6cac86e8f..a9c8d33a6ef71 100644
+--- a/drivers/video/fbdev/au1100fb.c
++++ b/drivers/video/fbdev/au1100fb.c
+@@ -348,15 +348,13 @@ int au1100fb_fb_mmap(struct fb_info *fbi, struct vm_area_struct *vma)
+ 			fbdev->fb_len);
+ }
+ 
+-static const struct fb_ops au1100fb_ops =
+-{
++static const struct fb_ops au1100fb_ops = {
+ 	.owner			= THIS_MODULE,
 +	__FB_DEFAULT_IOMEM_OPS_RDWR,
- 	.fb_check_var	= atyfb_check_var,
- 	.fb_set_par	= atyfb_set_par,
- 	.fb_setcolreg	= atyfb_setcolreg,
-@@ -315,6 +316,8 @@ static struct fb_ops atyfb_ops = {
- 	.fb_imageblit	= atyfb_imageblit,
- #ifdef __sparc__
- 	.fb_mmap	= atyfb_mmap,
-+#else
-+	__FB_DEFAULT_IOMEM_OPS_MMAP,
- #endif
- 	.fb_sync	= atyfb_sync,
+ 	.fb_setcolreg		= au1100fb_fb_setcolreg,
+ 	.fb_blank		= au1100fb_fb_blank,
+ 	.fb_pan_display		= au1100fb_fb_pan_display,
+-	.fb_fillrect		= cfb_fillrect,
+-	.fb_copyarea		= cfb_copyarea,
+-	.fb_imageblit		= cfb_imageblit,
++	__FB_DEFAULT_IOMEM_OPS_DRAW,
+ 	.fb_mmap		= au1100fb_fb_mmap,
  };
+ 
 -- 
 2.42.0
 
