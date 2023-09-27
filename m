@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 347597AFD09
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Sep 2023 09:48:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19C527AFC84
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Sep 2023 09:47:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F9E510E498;
-	Wed, 27 Sep 2023 07:48:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2FA4A10E479;
+	Wed, 27 Sep 2023 07:47:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E94D10E46E
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 64CF210E483
  for <dri-devel@lists.freedesktop.org>; Wed, 27 Sep 2023 07:47:28 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id C9EEF1F8A3;
- Wed, 27 Sep 2023 07:47:26 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 132842189D;
+ Wed, 27 Sep 2023 07:47:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1695800846; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1695800847; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9aCUbQ4NtrDcW2WQi8qce/YX4oqfMPBdqjwkO19x25s=;
- b=j3UM/hIvvEmp0jBEozajk2AKvx6pMgLE+fOWm+8ME3SUfBcKG/8nOiM9mcm18oVBjtPNwK
- aO4pb6olY57aihIS9Mbz/8rGpPRTy0J8zH2QNA+ESuI+QzyaVhqkWdAS0uUkpwo277hYN/
- wMxfoeDXS7TRlRXW3K09T32ji8zjjd8=
+ bh=mnDu2OW07lkAqwmxH//juPUc1CJ6dYIGGhFkEBuLM9Q=;
+ b=d6eM/hBzoYVkyxrdGAsS/p/SGzgdya0NCy7UiU98G2JjJ/h9zFrEo9Xy6gS31PBkByMpc4
+ nZlt3DjWHYOr6oRXLThBwinzSXcJShvpfFzcuB7D00POveMSHOQW0rjUhUy99y9hVNKxq7
+ b9xiIyhnLZ4Y3oHz0hoglC3cTzO8/pU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1695800846;
+ s=susede2_ed25519; t=1695800847;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9aCUbQ4NtrDcW2WQi8qce/YX4oqfMPBdqjwkO19x25s=;
- b=uKM/DenZkGMLA+JE/YzqWVhp1CGrEWtddVDWnz1bOIAAtJ9joVJ3Hg9NU4N2h7FAd4KFBF
- 3mEGxuWDCE3agPDQ==
+ bh=mnDu2OW07lkAqwmxH//juPUc1CJ6dYIGGhFkEBuLM9Q=;
+ b=WH4S5lB9YfH2fonSS2f18HHXEAJGeHHdn2BgWCxvSoQjBXBZ72iuIrkAaxOvbNQKBhojRr
+ rUVYGK5BdjD69eAw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 93BEB1338F;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id CE84913A74;
  Wed, 27 Sep 2023 07:47:26 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id AF5CIw7eE2XvUQAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id kP2LMQ7eE2XvUQAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Wed, 27 Sep 2023 07:47:26 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: deller@gmx.de, javierm@redhat.com, sam@ravnborg.org, arnd@arndb.de,
  daniel@ffwll.ch
-Subject: [PATCH 08/46] fbdev/au1100fb: Initialize fb_ops to fbdev I/O-memory
+Subject: [PATCH 09/46] fbdev/cirrusfb: Initialize fb_ops to fbdev I/O-memory
  helpers
-Date: Wed, 27 Sep 2023 09:26:41 +0200
-Message-ID: <20230927074722.6197-9-tzimmermann@suse.de>
+Date: Wed, 27 Sep 2023 09:26:42 +0200
+Message-ID: <20230927074722.6197-10-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20230927074722.6197-1-tzimmermann@suse.de>
 References: <20230927074722.6197-1-tzimmermann@suse.de>
@@ -91,48 +91,42 @@ No functional changes.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/video/fbdev/Kconfig    | 4 +---
- drivers/video/fbdev/au1100fb.c | 8 +++-----
- 2 files changed, 4 insertions(+), 8 deletions(-)
+ drivers/video/fbdev/Kconfig    | 1 +
+ drivers/video/fbdev/cirrusfb.c | 2 ++
+ 2 files changed, 3 insertions(+)
 
 diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
-index 9cd116f175160..83e2f341cf911 100644
+index 83e2f341cf911..06d20787da8b8 100644
 --- a/drivers/video/fbdev/Kconfig
 +++ b/drivers/video/fbdev/Kconfig
-@@ -1434,9 +1434,7 @@ endchoice
- config FB_AU1100
- 	bool "Au1100 LCD Driver"
- 	depends on (FB = y) && MIPS_ALCHEMY
--	select FB_CFB_FILLRECT
--	select FB_CFB_COPYAREA
--	select FB_CFB_IMAGEBLIT
-+	select FB_IOMEM_HELPERS
+@@ -74,6 +74,7 @@ config FB_CIRRUS
+ 	select FB_CFB_FILLRECT
+ 	select FB_CFB_COPYAREA
+ 	select FB_CFB_IMAGEBLIT
++	select FB_IOMEM_FOPS
+ 	select VIDEO_NOMODESET
  	help
- 	  This is the framebuffer driver for the AMD Au1100 SOC.  It can drive
- 	  various panels and CRTs by passing in kernel cmd line option
-diff --git a/drivers/video/fbdev/au1100fb.c b/drivers/video/fbdev/au1100fb.c
-index 648d6cac86e8f..a9c8d33a6ef71 100644
---- a/drivers/video/fbdev/au1100fb.c
-+++ b/drivers/video/fbdev/au1100fb.c
-@@ -348,15 +348,13 @@ int au1100fb_fb_mmap(struct fb_info *fbi, struct vm_area_struct *vma)
- 			fbdev->fb_len);
- }
- 
--static const struct fb_ops au1100fb_ops =
--{
-+static const struct fb_ops au1100fb_ops = {
- 	.owner			= THIS_MODULE,
+ 	  This enables support for Cirrus Logic GD542x/543x based boards on
+diff --git a/drivers/video/fbdev/cirrusfb.c b/drivers/video/fbdev/cirrusfb.c
+index 9d369b6a4dcc7..e29217e476ea4 100644
+--- a/drivers/video/fbdev/cirrusfb.c
++++ b/drivers/video/fbdev/cirrusfb.c
+@@ -1961,6 +1961,7 @@ static const struct fb_ops cirrusfb_ops = {
+ 	.owner		= THIS_MODULE,
+ 	.fb_open	= cirrusfb_open,
+ 	.fb_release	= cirrusfb_release,
 +	__FB_DEFAULT_IOMEM_OPS_RDWR,
- 	.fb_setcolreg		= au1100fb_fb_setcolreg,
- 	.fb_blank		= au1100fb_fb_blank,
- 	.fb_pan_display		= au1100fb_fb_pan_display,
--	.fb_fillrect		= cfb_fillrect,
--	.fb_copyarea		= cfb_copyarea,
--	.fb_imageblit		= cfb_imageblit,
-+	__FB_DEFAULT_IOMEM_OPS_DRAW,
- 	.fb_mmap		= au1100fb_fb_mmap,
+ 	.fb_setcolreg	= cirrusfb_setcolreg,
+ 	.fb_check_var	= cirrusfb_check_var,
+ 	.fb_set_par	= cirrusfb_set_par,
+@@ -1970,6 +1971,7 @@ static const struct fb_ops cirrusfb_ops = {
+ 	.fb_copyarea	= cirrusfb_copyarea,
+ 	.fb_sync	= cirrusfb_sync,
+ 	.fb_imageblit	= cirrusfb_imageblit,
++	__FB_DEFAULT_IOMEM_OPS_MMAP,
  };
  
+ static int cirrusfb_set_fbinfo(struct fb_info *info)
 -- 
 2.42.0
 
