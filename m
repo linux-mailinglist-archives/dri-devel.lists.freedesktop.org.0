@@ -1,49 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2AE07B01DD
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Sep 2023 12:28:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BF1F7B01D8
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Sep 2023 12:28:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB73310E4DC;
-	Wed, 27 Sep 2023 10:28:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE6C610E4D6;
+	Wed, 27 Sep 2023 10:28:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B20A110E4BB;
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE24F10E062;
  Wed, 27 Sep 2023 10:28:19 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 5AD8321921;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 946CB1F8D7;
  Wed, 27 Sep 2023 10:28:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1695810498; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/cvlALezFab9o42EKRnnr1sTIOJFhMThsxb4ci1i4oo=;
- b=KNHMwUsmSlcoy5yzuICNAGLuFOPm8FJ/PDXWz39fGwvm2oLhuV5nYue8Exmz25FfviHOSy
- VqeZRoRud6dIYWKu22lkVY9nnZlzhuPEtav7GycB8k05fcN5HRMGr3Ch2szLsxf4Qm2lXs
- In6DGxjNgG0bI8052K3zb3zUgEDj56A=
+ bh=Xh51kVa+3Kxe2A97VsoM8HBscPAy/MXU3D3Fe+jh6Ew=;
+ b=ybb0DtilTP3ot4B73ovXXTOs5XpuAy0FDArJpAg4yvlIIuWsEXuBPF2huXvOn7CQ4MD/FS
+ Y6u5HGk9KDxJqVtFRpalWBCkv4ju0NES/nUhYU6WA4CDHhXslRh1Yl9xeRAPPXr5qr759+
+ l2hrFLzGsglfGooRfDT8/96f2waVvBM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1695810498;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/cvlALezFab9o42EKRnnr1sTIOJFhMThsxb4ci1i4oo=;
- b=6yz1r3ddaw/oJhr79PtUgdE29zaS1TpuPfHUbaA2tCJyRV60cg+ypMnhrgr1pbB8f2cGQX
- TWeVJ0kLU12gqTCw==
+ bh=Xh51kVa+3Kxe2A97VsoM8HBscPAy/MXU3D3Fe+jh6Ew=;
+ b=LOSofuSpyCBDmf56bIbMOgsMeAFJsIkVFX1sIeeDmvk/kRw44W9wkw0EWAAVnUCUSndp0R
+ MB3mbVZ+e2yMPNAA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 206FF13479;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5B4AF13A74;
  Wed, 27 Sep 2023 10:28:18 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id aAV4BsIDFGXlMgAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id EFhfFcIDFGXlMgAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Wed, 27 Sep 2023 10:28:18 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
@@ -51,9 +51,9 @@ To: jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
  ville.syrjala@linux.intel.com, imre.deak@intel.com,
  tejas.upadhyay@intel.com, javierm@redhat.com, airlied@gmail.com,
  daniel@ffwll.ch
-Subject: [PATCH v5 6/7] drm/i915: Implement fbdev client callbacks
-Date: Wed, 27 Sep 2023 12:26:51 +0200
-Message-ID: <20230927102808.18650-7-tzimmermann@suse.de>
+Subject: [PATCH v5 7/7] drm/i915: Implement fbdev emulation as in-kernel client
+Date: Wed, 27 Sep 2023 12:26:52 +0200
+Message-ID: <20230927102808.18650-8-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20230927102808.18650-1-tzimmermann@suse.de>
 References: <20230927102808.18650-1-tzimmermann@suse.de>
@@ -76,142 +76,456 @@ Cc: intel-gfx@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Move code from ad-hoc fbdev callbacks into DRM client functions
-and remove the old callbacks. The functions instruct the client
-to poll for changed output or restore the display.
+Replace all code that initializes or releases fbdev emulation
+throughout the driver. Instead initialize the fbdev client by a
+single call to i915_fbdev_setup() after i915 has registered its
+DRM device. Just like similar code in other drivers, i915 fbdev
+emulation now acts as a regular DRM client.
 
-The DRM core calls both, the old callbacks and the new client
-helpers, from the same places. The new functions perform the same
-operation as before, so there's no change in functionality.
+The fbdev client setup consists of the initial preparation and the
+hot-plugging of the display. The latter creates the fbdev device
+and sets up the fbdev framebuffer. The setup performs display
+hot-plugging once. If no display can be detected, DRM probe helpers
+re-run the detection on each hotplug event.
+
+A call to drm_dev_unregister() releases the client automatically.
+No further action is required within i915. If the fbdev framebuffer
+has been fully set up, struct fb_ops.fb_destroy implements the
+release. For partially initialized emulation, the fbdev client
+reverts the initial setup.
+
+v3:
+	* as before, silently ignore devices without displays
+v2:
+	* let drm_client_register() handle initial hotplug
+	* fix driver name in error message (Jani)
+	* fix non-fbdev build (kernel test robot)
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- .../drm/i915/display/intel_display_driver.c   |  1 -
- drivers/gpu/drm/i915/display/intel_fbdev.c    | 11 ++++++++--
- drivers/gpu/drm/i915/display/intel_fbdev.h    |  9 --------
- drivers/gpu/drm/i915/i915_driver.c            | 22 -------------------
- 4 files changed, 9 insertions(+), 34 deletions(-)
+ drivers/gpu/drm/i915/display/intel_display.c  |   1 -
+ .../drm/i915/display/intel_display_driver.c   |  18 --
+ drivers/gpu/drm/i915/display/intel_fbdev.c    | 180 ++++++++----------
+ drivers/gpu/drm/i915/display/intel_fbdev.h    |  20 +-
+ drivers/gpu/drm/i915/i915_driver.c            |   2 +
+ 5 files changed, 83 insertions(+), 138 deletions(-)
 
+diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
+index edbcf5968804d..7efa8d2787c39 100644
+--- a/drivers/gpu/drm/i915/display/intel_display.c
++++ b/drivers/gpu/drm/i915/display/intel_display.c
+@@ -81,7 +81,6 @@
+ #include "intel_dvo.h"
+ #include "intel_fb.h"
+ #include "intel_fbc.h"
+-#include "intel_fbdev.h"
+ #include "intel_fdi.h"
+ #include "intel_fifo_underrun.h"
+ #include "intel_frontbuffer.h"
 diff --git a/drivers/gpu/drm/i915/display/intel_display_driver.c b/drivers/gpu/drm/i915/display/intel_display_driver.c
-index 44b59ac301e69..ffdcddd1943e0 100644
+index ffdcddd1943e0..213a4ee93ffc2 100644
 --- a/drivers/gpu/drm/i915/display/intel_display_driver.c
 +++ b/drivers/gpu/drm/i915/display/intel_display_driver.c
-@@ -96,7 +96,6 @@ void intel_display_driver_init_hw(struct drm_i915_private *i915)
- static const struct drm_mode_config_funcs intel_mode_funcs = {
- 	.fb_create = intel_user_framebuffer_create,
- 	.get_format_info = intel_fb_get_format_info,
--	.output_poll_changed = intel_fbdev_output_poll_changed,
- 	.mode_valid = intel_mode_valid,
- 	.atomic_check = intel_atomic_check,
- 	.atomic_commit = intel_atomic_commit,
+@@ -364,10 +364,6 @@ int intel_display_driver_probe(struct drm_i915_private *i915)
+ 
+ 	intel_overlay_setup(i915);
+ 
+-	ret = intel_fbdev_init(&i915->drm);
+-	if (ret)
+-		return ret;
+-
+ 	/* Only enable hotplug handling once the fbdev is fully set up. */
+ 	intel_hpd_init(i915);
+ 	intel_hpd_poll_disable(i915);
+@@ -392,16 +388,6 @@ void intel_display_driver_register(struct drm_i915_private *i915)
+ 
+ 	intel_display_debugfs_register(i915);
+ 
+-	/*
+-	 * Some ports require correctly set-up hpd registers for
+-	 * detection to work properly (leading to ghost connected
+-	 * connector status), e.g. VGA on gm45.  Hence we can only set
+-	 * up the initial fbdev config after hpd irqs are fully
+-	 * enabled. We do it last so that the async config cannot run
+-	 * before the connectors are registered.
+-	 */
+-	intel_fbdev_initial_config_async(i915);
+-
+ 	/*
+ 	 * We need to coordinate the hotplugs with the asynchronous
+ 	 * fbdev configuration, for which we use the
+@@ -445,9 +431,6 @@ void intel_display_driver_remove_noirq(struct drm_i915_private *i915)
+ 	 */
+ 	intel_hpd_poll_fini(i915);
+ 
+-	/* poll work can call into fbdev, hence clean that up afterwards */
+-	intel_fbdev_fini(i915);
+-
+ 	intel_unregister_dsm_handler();
+ 
+ 	/* flush any delayed tasks or pending work */
+@@ -484,7 +467,6 @@ void intel_display_driver_unregister(struct drm_i915_private *i915)
+ 	if (!HAS_DISPLAY(i915))
+ 		return;
+ 
+-	intel_fbdev_unregister(i915);
+ 	intel_audio_deinit(i915);
+ 
+ 	/*
 diff --git a/drivers/gpu/drm/i915/display/intel_fbdev.c b/drivers/gpu/drm/i915/display/intel_fbdev.c
-index d9e69471a782a..39de61d4e7906 100644
+index 39de61d4e7906..100a4aaf1b7e4 100644
 --- a/drivers/gpu/drm/i915/display/intel_fbdev.c
 +++ b/drivers/gpu/drm/i915/display/intel_fbdev.c
-@@ -638,7 +638,7 @@ void intel_fbdev_set_suspend(struct drm_device *dev, int state, bool synchronous
- 	intel_fbdev_hpd_set_suspend(dev_priv, state);
+@@ -24,7 +24,6 @@
+  *     David Airlie
+  */
+ 
+-#include <linux/async.h>
+ #include <linux/console.h>
+ #include <linux/delay.h>
+ #include <linux/errno.h>
+@@ -39,6 +38,7 @@
+ #include <linux/vga_switcheroo.h>
+ 
+ #include <drm/drm_crtc.h>
++#include <drm/drm_crtc_helper.h>
+ #include <drm/drm_fb_helper.h>
+ #include <drm/drm_fourcc.h>
+ #include <drm/drm_gem_framebuffer_helper.h>
+@@ -58,7 +58,6 @@ struct intel_fbdev {
+ 	struct intel_framebuffer *fb;
+ 	struct i915_vma *vma;
+ 	unsigned long vma_flags;
+-	async_cookie_t cookie;
+ 	int preferred_bpp;
+ 
+ 	/* Whether or not fbdev hpd processing is temporarily suspended */
+@@ -135,6 +134,26 @@ static int intel_fbdev_mmap(struct fb_info *info, struct vm_area_struct *vma)
+ 	return i915_gem_fb_mmap(obj, vma);
  }
  
--void intel_fbdev_output_poll_changed(struct drm_device *dev)
-+static void intel_fbdev_output_poll_changed(struct drm_device *dev)
- {
- 	struct intel_fbdev *ifbdev = to_i915(dev)->display.fbdev.fbdev;
- 	bool send_hpd;
-@@ -657,7 +657,7 @@ void intel_fbdev_output_poll_changed(struct drm_device *dev)
- 		drm_fb_helper_hotplug_event(&ifbdev->helper);
++static void intel_fbdev_fb_destroy(struct fb_info *info)
++{
++	struct drm_fb_helper *fb_helper = info->par;
++	struct intel_fbdev *ifbdev = container_of(fb_helper, struct intel_fbdev, helper);
++
++	drm_fb_helper_fini(&ifbdev->helper);
++
++	/*
++	 * We rely on the object-free to release the VMA pinning for
++	 * the info->screen_base mmaping. Leaking the VMA is simpler than
++	 * trying to rectify all the possible error paths leading here.
++	 */
++	intel_unpin_fb_vma(ifbdev->vma, ifbdev->vma_flags);
++	drm_framebuffer_remove(&ifbdev->fb->base);
++
++	drm_client_release(&fb_helper->client);
++	drm_fb_helper_unprepare(&ifbdev->helper);
++	kfree(ifbdev);
++}
++
+ static const struct fb_ops intelfb_ops = {
+ 	.owner = THIS_MODULE,
+ 	__FB_DEFAULT_DEFERRED_OPS_RDWR(intel_fbdev),
+@@ -144,6 +163,7 @@ static const struct fb_ops intelfb_ops = {
+ 	.fb_pan_display = intel_fbdev_pan_display,
+ 	__FB_DEFAULT_DEFERRED_OPS_DRAW(intel_fbdev),
+ 	.fb_mmap = intel_fbdev_mmap,
++	.fb_destroy = intel_fbdev_fb_destroy,
+ };
+ 
+ static int intelfb_alloc(struct drm_fb_helper *helper,
+@@ -212,7 +232,6 @@ static int intelfb_create(struct drm_fb_helper *helper,
+ 	struct intel_framebuffer *intel_fb = ifbdev->fb;
+ 	struct drm_device *dev = helper->dev;
+ 	struct drm_i915_private *dev_priv = to_i915(dev);
+-	struct pci_dev *pdev = to_pci_dev(dev_priv->drm.dev);
+ 	struct i915_ggtt *ggtt = to_gt(dev_priv)->ggtt;
+ 	const struct i915_gtt_view view = {
+ 		.type = I915_GTT_VIEW_NORMAL,
+@@ -337,7 +356,7 @@ static int intelfb_create(struct drm_fb_helper *helper,
+ 	ifbdev->vma_flags = flags;
+ 
+ 	intel_runtime_pm_put(&dev_priv->runtime_pm, wakeref);
+-	vga_switcheroo_client_fb_set(pdev, info);
++
+ 	return 0;
+ 
+ out_unpin:
+@@ -363,26 +382,6 @@ static const struct drm_fb_helper_funcs intel_fb_helper_funcs = {
+ 	.fb_dirty = intelfb_dirty,
+ };
+ 
+-static void intel_fbdev_destroy(struct intel_fbdev *ifbdev)
+-{
+-	/* We rely on the object-free to release the VMA pinning for
+-	 * the info->screen_base mmaping. Leaking the VMA is simpler than
+-	 * trying to rectify all the possible error paths leading here.
+-	 */
+-
+-	drm_fb_helper_fini(&ifbdev->helper);
+-
+-	if (ifbdev->vma)
+-		intel_unpin_fb_vma(ifbdev->vma, ifbdev->vma_flags);
+-
+-	if (ifbdev->fb)
+-		drm_framebuffer_remove(&ifbdev->fb->base);
+-
+-	drm_client_release(&ifbdev->helper.client);
+-	drm_fb_helper_unprepare(&ifbdev->helper);
+-	kfree(ifbdev);
+-}
+-
+ /*
+  * Build an intel_fbdev struct using a BIOS allocated framebuffer, if possible.
+  * The core display code will have read out the current plane configuration,
+@@ -546,16 +545,6 @@ static void intel_fbdev_suspend_worker(struct work_struct *work)
+ 				true);
  }
  
--void intel_fbdev_restore_mode(struct drm_i915_private *dev_priv)
-+static void intel_fbdev_restore_mode(struct drm_i915_private *dev_priv)
- {
- 	struct intel_fbdev *ifbdev = dev_priv->display.fbdev.fbdev;
+-static void intel_fbdev_sync(struct intel_fbdev *ifbdev)
+-{
+-	if (!ifbdev->cookie)
+-		return;
+-
+-	/* Only serialises with all preceding async calls, hence +1 */
+-	async_synchronize_cookie(ifbdev->cookie + 1);
+-	ifbdev->cookie = 0;
+-}
+-
+ /* Suspends/resumes fbdev processing of incoming HPD events. When resuming HPD
+  * processing, fbdev will perform a full connector reprobe if a hotplug event
+  * was received while HPD was suspended.
+@@ -646,8 +635,6 @@ static void intel_fbdev_output_poll_changed(struct drm_device *dev)
+ 	if (!ifbdev)
+ 		return;
  
-@@ -681,11 +681,18 @@ static void intel_fbdev_client_unregister(struct drm_client_dev *client)
+-	intel_fbdev_sync(ifbdev);
+-
+ 	mutex_lock(&ifbdev->hpd_lock);
+ 	send_hpd = !ifbdev->hpd_suspended;
+ 	ifbdev->hpd_waiting = true;
+@@ -664,7 +651,6 @@ static void intel_fbdev_restore_mode(struct drm_i915_private *dev_priv)
+ 	if (!ifbdev)
+ 		return;
+ 
+-	intel_fbdev_sync(ifbdev);
+ 	if (!ifbdev->vma)
+ 		return;
+ 
+@@ -677,7 +663,20 @@ static void intel_fbdev_restore_mode(struct drm_i915_private *dev_priv)
+  */
+ 
+ static void intel_fbdev_client_unregister(struct drm_client_dev *client)
+-{ }
++{
++	struct drm_fb_helper *fb_helper = drm_fb_helper_from_client(client);
++	struct drm_device *dev = fb_helper->dev;
++	struct pci_dev *pdev = to_pci_dev(dev->dev);
++
++	if (fb_helper->info) {
++		vga_switcheroo_client_fb_set(pdev, NULL);
++		drm_fb_helper_unregister_info(fb_helper);
++	} else {
++		drm_fb_helper_unprepare(fb_helper);
++		drm_client_release(&fb_helper->client);
++		kfree(fb_helper);
++	}
++}
  
  static int intel_fbdev_client_restore(struct drm_client_dev *client)
  {
-+	struct drm_i915_private *dev_priv = to_i915(client->dev);
-+
-+	intel_fbdev_restore_mode(dev_priv);
-+	vga_switcheroo_process_delayed_switch();
-+
- 	return 0;
- }
+@@ -691,9 +690,36 @@ static int intel_fbdev_client_restore(struct drm_client_dev *client)
  
  static int intel_fbdev_client_hotplug(struct drm_client_dev *client)
  {
-+	intel_fbdev_output_poll_changed(client->dev);
+-	intel_fbdev_output_poll_changed(client->dev);
++	struct drm_fb_helper *fb_helper = drm_fb_helper_from_client(client);
++	struct drm_device *dev = client->dev;
++	struct pci_dev *pdev = to_pci_dev(dev->dev);
++	int ret;
 +
++	if (dev->fb_helper) {
++		intel_fbdev_output_poll_changed(dev);
++		return 0;
++	}
++
++	ret = drm_fb_helper_init(dev, fb_helper);
++	if (ret)
++		goto err_drm_err;
++
++	if (!drm_drv_uses_atomic_modeset(dev))
++		drm_helper_disable_unused_functions(dev);
++
++	ret = drm_fb_helper_initial_config(fb_helper);
++	if (ret)
++		goto err_drm_fb_helper_fini;
++
++	vga_switcheroo_client_fb_set(pdev, fb_helper->info);
+ 
  	return 0;
++
++err_drm_fb_helper_fini:
++	drm_fb_helper_fini(fb_helper);
++err_drm_err:
++	drm_err(dev, "Failed to setup i915 fbdev emulation (ret=%d)\n", ret);
++	return ret;
  }
  
+ static const struct drm_client_funcs intel_fbdev_client_funcs = {
+@@ -703,22 +729,23 @@ static const struct drm_client_funcs intel_fbdev_client_funcs = {
+ 	.hotplug	= intel_fbdev_client_hotplug,
+ };
+ 
+-int intel_fbdev_init(struct drm_device *dev)
++void intel_fbdev_setup(struct drm_i915_private *dev_priv)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(dev);
++	struct drm_device *dev = &dev_priv->drm;
+ 	struct intel_fbdev *ifbdev;
+ 	int ret;
+ 
+-	if (drm_WARN_ON(dev, !HAS_DISPLAY(dev_priv)))
+-		return -ENODEV;
++	if (!HAS_DISPLAY(dev_priv))
++		return;
+ 
+ 	ifbdev = kzalloc(sizeof(*ifbdev), GFP_KERNEL);
+ 	if (!ifbdev)
+-		return -ENOMEM;
+-
+-	mutex_init(&ifbdev->hpd_lock);
++		return;
+ 	drm_fb_helper_prepare(dev, &ifbdev->helper, 32, &intel_fb_helper_funcs);
+ 
++	dev_priv->display.fbdev.fbdev = ifbdev;
++	INIT_WORK(&dev_priv->display.fbdev.suspend_work, intel_fbdev_suspend_worker);
++	mutex_init(&ifbdev->hpd_lock);
+ 	if (intel_fbdev_init_bios(dev, ifbdev))
+ 		ifbdev->helper.preferred_bpp = ifbdev->preferred_bpp;
+ 	else
+@@ -726,68 +753,19 @@ int intel_fbdev_init(struct drm_device *dev)
+ 
+ 	ret = drm_client_init(dev, &ifbdev->helper.client, "i915-fbdev",
+ 			      &intel_fbdev_client_funcs);
+-	if (ret)
++	if (ret) {
++		drm_err(dev, "Failed to register client: %d\n", ret);
+ 		goto err_drm_fb_helper_unprepare;
++	}
+ 
+-	ret = drm_fb_helper_init(dev, &ifbdev->helper);
+-	if (ret)
+-		goto err_drm_client_release;
+-
+-	dev_priv->display.fbdev.fbdev = ifbdev;
+-	INIT_WORK(&dev_priv->display.fbdev.suspend_work, intel_fbdev_suspend_worker);
++	drm_client_register(&ifbdev->helper.client);
+ 
+-	return 0;
++	return;
+ 
+-err_drm_client_release:
+-	drm_client_release(&ifbdev->helper.client);
+ err_drm_fb_helper_unprepare:
+ 	drm_fb_helper_unprepare(&ifbdev->helper);
++	mutex_destroy(&ifbdev->hpd_lock);
+ 	kfree(ifbdev);
+-	return ret;
+-}
+-
+-static void intel_fbdev_initial_config(void *data, async_cookie_t cookie)
+-{
+-	struct intel_fbdev *ifbdev = data;
+-
+-	/* Due to peculiar init order wrt to hpd handling this is separate. */
+-	if (drm_fb_helper_initial_config(&ifbdev->helper))
+-		intel_fbdev_unregister(to_i915(ifbdev->helper.dev));
+-}
+-
+-void intel_fbdev_initial_config_async(struct drm_i915_private *dev_priv)
+-{
+-	struct intel_fbdev *ifbdev = dev_priv->display.fbdev.fbdev;
+-
+-	if (!ifbdev)
+-		return;
+-
+-	ifbdev->cookie = async_schedule(intel_fbdev_initial_config, ifbdev);
+-}
+-
+-void intel_fbdev_unregister(struct drm_i915_private *dev_priv)
+-{
+-	struct intel_fbdev *ifbdev = dev_priv->display.fbdev.fbdev;
+-
+-	if (!ifbdev)
+-		return;
+-
+-	intel_fbdev_set_suspend(&dev_priv->drm, FBINFO_STATE_SUSPENDED, true);
+-
+-	if (!current_is_async())
+-		intel_fbdev_sync(ifbdev);
+-
+-	drm_fb_helper_unregister_info(&ifbdev->helper);
+-}
+-
+-void intel_fbdev_fini(struct drm_i915_private *dev_priv)
+-{
+-	struct intel_fbdev *ifbdev = fetch_and_zero(&dev_priv->display.fbdev.fbdev);
+-
+-	if (!ifbdev)
+-		return;
+-
+-	intel_fbdev_destroy(ifbdev);
+ }
+ 
+ struct intel_framebuffer *intel_fbdev_framebuffer(struct intel_fbdev *fbdev)
 diff --git a/drivers/gpu/drm/i915/display/intel_fbdev.h b/drivers/gpu/drm/i915/display/intel_fbdev.h
-index 04fd523a50232..8c953f102ba22 100644
+index 8c953f102ba22..08de2d5b34338 100644
 --- a/drivers/gpu/drm/i915/display/intel_fbdev.h
 +++ b/drivers/gpu/drm/i915/display/intel_fbdev.h
-@@ -19,8 +19,6 @@ void intel_fbdev_initial_config_async(struct drm_i915_private *dev_priv);
- void intel_fbdev_unregister(struct drm_i915_private *dev_priv);
- void intel_fbdev_fini(struct drm_i915_private *dev_priv);
+@@ -14,27 +14,11 @@ struct intel_fbdev;
+ struct intel_framebuffer;
+ 
+ #ifdef CONFIG_DRM_FBDEV_EMULATION
+-int intel_fbdev_init(struct drm_device *dev);
+-void intel_fbdev_initial_config_async(struct drm_i915_private *dev_priv);
+-void intel_fbdev_unregister(struct drm_i915_private *dev_priv);
+-void intel_fbdev_fini(struct drm_i915_private *dev_priv);
++void intel_fbdev_setup(struct drm_i915_private *dev_priv);
  void intel_fbdev_set_suspend(struct drm_device *dev, int state, bool synchronous);
--void intel_fbdev_output_poll_changed(struct drm_device *dev);
--void intel_fbdev_restore_mode(struct drm_i915_private *dev_priv);
  struct intel_framebuffer *intel_fbdev_framebuffer(struct intel_fbdev *fbdev);
  #else
- static inline int intel_fbdev_init(struct drm_device *dev)
-@@ -44,13 +42,6 @@ static inline void intel_fbdev_set_suspend(struct drm_device *dev, int state, bo
- {
- }
- 
--static inline void intel_fbdev_output_poll_changed(struct drm_device *dev)
+-static inline int intel_fbdev_init(struct drm_device *dev)
+-{
+-	return 0;
+-}
+-
+-static inline void intel_fbdev_initial_config_async(struct drm_i915_private *dev_priv)
 -{
 -}
 -
--static inline void intel_fbdev_restore_mode(struct drm_i915_private *i915)
+-static inline void intel_fbdev_unregister(struct drm_i915_private *dev_priv)
 -{
 -}
- static inline struct intel_framebuffer *intel_fbdev_framebuffer(struct intel_fbdev *fbdev)
+-
+-static inline void intel_fbdev_fini(struct drm_i915_private *dev_priv)
++static inline void intel_fbdev_setup(struct drm_i915_private *dev_priv)
  {
- 	return NULL;
+ }
+ 
 diff --git a/drivers/gpu/drm/i915/i915_driver.c b/drivers/gpu/drm/i915/i915_driver.c
-index de19197d2e052..86460cd8167d1 100644
+index 86460cd8167d1..53663c0cc3be4 100644
 --- a/drivers/gpu/drm/i915/i915_driver.c
 +++ b/drivers/gpu/drm/i915/i915_driver.c
-@@ -924,27 +924,6 @@ static int i915_driver_open(struct drm_device *dev, struct drm_file *file)
+@@ -817,6 +817,8 @@ int i915_driver_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+ 
+ 	i915->do_release = true;
+ 
++	intel_fbdev_setup(i915);
++
  	return 0;
- }
  
--/**
-- * i915_driver_lastclose - clean up after all DRM clients have exited
-- * @dev: DRM device
-- *
-- * Take care of cleaning up after all DRM clients have exited.  In the
-- * mode setting case, we want to restore the kernel's initial mode (just
-- * in case the last client left us in a bad state).
-- *
-- * Additionally, in the non-mode setting case, we'll tear down the GTT
-- * and DMA structures, since the kernel won't be using them, and clea
-- * up any GEM state.
-- */
--static void i915_driver_lastclose(struct drm_device *dev)
--{
--	struct drm_i915_private *i915 = to_i915(dev);
--
--	intel_fbdev_restore_mode(i915);
--
--	vga_switcheroo_process_delayed_switch();
--}
--
- static void i915_driver_postclose(struct drm_device *dev, struct drm_file *file)
- {
- 	struct drm_i915_file_private *file_priv = file->driver_priv;
-@@ -1822,7 +1801,6 @@ static const struct drm_driver i915_drm_driver = {
- 	    DRIVER_SYNCOBJ_TIMELINE,
- 	.release = i915_driver_release,
- 	.open = i915_driver_open,
--	.lastclose = i915_driver_lastclose,
- 	.postclose = i915_driver_postclose,
- 	.show_fdinfo = PTR_IF(IS_ENABLED(CONFIG_PROC_FS), i915_drm_client_fdinfo),
- 
+ out_cleanup_gem:
 -- 
 2.42.0
 
