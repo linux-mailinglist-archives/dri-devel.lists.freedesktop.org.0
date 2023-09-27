@@ -1,70 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 378937B0219
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Sep 2023 12:43:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EE7B7B021F
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Sep 2023 12:44:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5564410E361;
-	Wed, 27 Sep 2023 10:43:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4959F10E4D3;
+	Wed, 27 Sep 2023 10:44:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com
- [IPv6:2a00:1450:4864:20::633])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A128C10E361
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Sep 2023 10:43:50 +0000 (UTC)
-Received: by mail-ej1-x633.google.com with SMTP id
- a640c23a62f3a-99c1c66876aso1376873266b.2
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Sep 2023 03:43:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1695811429; x=1696416229; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
- :subject:date:message-id:reply-to;
- bh=ozgRDTC+2UK6mD107LVNtKBM9DQ8506FxPydFp9FLHU=;
- b=FyORu4Dl3OZxPOlKNUq+Ys4ptNkNdWra+DhN+2YuRuxVhb1Bfi8q7+lfOkZEeQS6tR
- Hr3lnigPTjvuUeL3KpYMbeRvMF3+tcRXaWLD7UWl6uJwzgQi/tv6WxrXUMpU2Zi4VGgD
- xhNEO94qZTiI6K6hn5iD1Bw4wmIoCkDLHr5U7NH3E+2ulQaCHR8QwzL54ABhwiuT5NOK
- WgTDkLnrc8vhmAXkkopHLE8seoiHymFbLhZ7XCkCFN33Kzl0YZbDzOig74c1ef+NTQED
- xC5kgcR8c/ymUveSH9jy855T5nHM5kXDIDFkKJMvzOBfmb5/D8/wrToGaeqoUHNUkYHf
- QJmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1695811429; x=1696416229;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ozgRDTC+2UK6mD107LVNtKBM9DQ8506FxPydFp9FLHU=;
- b=LV+mYKGZB/8/ARvpCnEXtaqU2lxRKBOmwB06uvIhQgovK0PNVuBAfeYpw+ICjzQM6J
- of8hhaoVvttccl2OsJGDOxNyj5hcfl6mMOULoMw7sPoFcddoxNsCtdWwMlW2z4/VLQ+j
- 1O2o0cULqpakbf5PHTKIMQISgrZkL9e9TT6fbLHNR5nrESQcYwN5iQtkP7kjPIBBUZ/c
- +QhQNW4y5fqZ0y2jOluXoPzqs7ehLW6cNidi2+TBpUeE1IRZoSVNVS1ZxHecfAVEBABU
- ERu4TC3zRGCNdz5CdVB7KFDltZ2Xk1PGOXmNp2jtRtHxRWj8Rjh0zWuYa6rMYcYTNY/u
- 3cJA==
-X-Gm-Message-State: AOJu0Yx8L7Y4LcNlL69mmwJxptmZtxxqYSqcFH2bOe6DBsBT63c/pPP9
- oamUtB83kVtkaK3vTsQn7QI=
-X-Google-Smtp-Source: AGHT+IFrfTl0CPJDAs5rBjmyIwqBNlUP129i/O3iWILp8f0G9qcw0Tg7SqobzwuGvCR0qdEB+F9qWg==
-X-Received: by 2002:a17:906:d41:b0:9ae:4843:66ee with SMTP id
- r1-20020a1709060d4100b009ae484366eemr1400373ejh.36.1695811428590; 
- Wed, 27 Sep 2023 03:43:48 -0700 (PDT)
-Received: from localhost (81-226-149-122-no518.tbcn.telia.com.
- [81.226.149.122]) by smtp.gmail.com with ESMTPSA id
- lw3-20020a170906bcc300b009ade1a4f795sm9013116ejb.168.2023.09.27.03.43.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 27 Sep 2023 03:43:48 -0700 (PDT)
-Date: Wed, 27 Sep 2023 12:43:46 +0200
-From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-To: Justin Stitt <justinstitt@google.com>
-Subject: Re: [PATCH v2] drm/gma500: refactor deprecated strncpy
-Message-ID: <fmvdws32xrjj3a3vqwcghnniojcglrpzs4mk5cw67vog6vlwta@zmoz6bv2i5iw>
-Mail-Followup-To: Justin Stitt <justinstitt@google.com>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-References: <20230919-drivers-gpu-drm-gma500-oaktrail_lvds_i2c-c-v2-1-9ebe6983b4cb@google.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7437010E4D0;
+ Wed, 27 Sep 2023 10:44:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1695811476; x=1727347476;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=Sevmqir3ZsDPHHj9KTUVJjXoSdUQ2CQ/oRL7tS2H6uQ=;
+ b=ac+wQvYFbK55Rh1lD6ApE7TNN3o96nyJghHM/IqPzVLzoXG0VD156VUD
+ 1qJxhSTEdGf1Cl768nEPH8wlMZXhAQcNlCl8nllod8NHG5IBriAFXJPc6
+ bOtGvXHYJH+PWL55QJf4Z1eGxpFvNtNcxw+0PARz9Y9HCGQc0QdP16QGM
+ 9aUUxPXwr2Sr1NWXRJFcNOaqFeRB3v4GZprt31LZR/e1+8CS5C6cBA9cr
+ VM1r7j7GfhGFq1ua2D9nc9/Q0Z8UuLefisi4umywp8pz290c6PTvOVqrN
+ eDDjtA5nJswDS05nKa0H6FjsHSZfCHIXKzeJTqpuWDAPFnKUTJwbzr9/W g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10845"; a="361181765"
+X-IronPort-AV: E=Sophos;i="6.03,179,1694761200"; d="scan'208";a="361181765"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Sep 2023 03:44:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10845"; a="814836904"
+X-IronPort-AV: E=Sophos;i="6.03,179,1694761200"; d="scan'208";a="814836904"
+Received: from mscanex-mobl.ger.corp.intel.com (HELO [10.213.204.17])
+ ([10.213.204.17])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Sep 2023 03:44:33 -0700
+Message-ID: <a9250a89-d738-3fc8-3868-d92f60d096e5@linux.intel.com>
+Date: Wed, 27 Sep 2023 11:44:31 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230919-drivers-gpu-drm-gma500-oaktrail_lvds_i2c-c-v2-1-9ebe6983b4cb@google.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v2] drm/i915: Do not disable preemption for resets
+Content-Language: en-US
+To: Andi Shyti <andi.shyti@linux.intel.com>
+References: <20230926100855.61722-1-tvrtko.ursulin@linux.intel.com>
+ <ZRKxy49j17qgg14y@ashyti-mobl2.lan>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <ZRKxy49j17qgg14y@ashyti-mobl2.lan>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,59 +63,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-hardening@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>, Intel-gfx@lists.freedesktop.org,
+ Chris Wilson <chris.p.wilson@intel.com>,
+ Paul Gortmaker <paul.gortmaker@windriver.com>, dri-devel@lists.freedesktop.org,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 19, 2023 at 04:41:16AM +0000, Justin Stitt wrote:
-> `strncpy` is deprecated for use on NUL-terminated destination strings [1].
-> 
-> We should prefer more robust and less ambiguous string interfaces.
-> 
-> Since `chan->base.name` is expected to be NUL-terminated, a suitable
-> replacement is `strscpy` [2] due to the fact that it guarantees
-> NUL-termination on the destination buffer without also unnecessarily
-> NUL-padding (since `chan` is kzalloc'd already).
-> 
-> Link: https://www.kernel.org/doc/html/latest/process/deprecated.html#strncpy-on-nul-terminated-strings [1]
-> Link: https://manpages.debian.org/testing/linux-manual-4.8/strscpy.9.en.html [2]
-> Link: https://github.com/KSPP/linux/issues/90
-> Cc: linux-hardening@vger.kernel.org
-> Signed-off-by: Justin Stitt <justinstitt@google.com>
 
-Applied to drm-misc-next.
+On 26/09/2023 11:26, Andi Shyti wrote:
+> Hi Tvrtko,
+> 
+> On Tue, Sep 26, 2023 at 11:08:55AM +0100, Tvrtko Ursulin wrote:
+>> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>>
+>> Commit ade8a0f59844 ("drm/i915: Make all GPU resets atomic") added a
+>> preempt disable section over the hardware reset callback to prepare the
+>> driver for being able to reset from atomic contexts.
+>>
+>> In retrospect I can see that the work item at a time was about removing
+>> the struct mutex from the reset path. Code base also briefly entertained
+>> the idea of doing the reset under stop_machine in order to serialize
+>> userspace mmap and temporary glitch in the fence registers (see
+>> eb8d0f5af4ec ("drm/i915: Remove GPU reset dependence on struct_mutex"),
+>> but that never materialized and was soon removed in 2caffbf11762
+>> ("drm/i915: Revoke mmaps and prevent access to fence registers across
+>> reset") and replaced with a SRCU based solution.
+>>
+>> As such, as far as I can see, today we still have a requirement that
+>> resets must not sleep (invoked from submission tasklets), but no need to
+>> support invoking them from a truly atomic context.
+>>
+>> Given that the preemption section is problematic on RT kernels, since the
+>> uncore lock becomes a sleeping lock and so is invalid in such section,
+>> lets try and remove it. Potential downside is that our short waits on GPU
+>> to complete the reset may get extended if CPU scheduling interferes, but
+>> in practice that probably isn't a deal breaker.
+>>
+>> In terms of mechanics, since the preemption disabled block is being
+>> removed we just need to replace a few of the wait_for_atomic macros into
+>> busy looping versions which will work (and not complain) when called from
+>> non-atomic sections.
+>>
+>> v2:
+>>   * Fix timeouts which are now in us. (Andi)
+>>   * Update one comment as a drive by. (Andi)
+>>
+>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>> Cc: Chris Wilson <chris.p.wilson@intel.com>
+>> Cc: Paul Gortmaker <paul.gortmaker@windriver.com>
+>> Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+>> Cc: Andi Shyti <andi.shyti@linux.intel.com>
+> 
+> Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
 
-Thanks
-Patrik
+Thank you, pushed to drm-intel-gt-next!
 
-> ---
-> Changes in v2:
-> - use sizeof() instead of I2C_NAME_SIZE (thanks Kees, Patrik)
-> - Link to v1: https://lore.kernel.org/r/20230914-drivers-gpu-drm-gma500-oaktrail_lvds_i2c-c-v1-1-0a53a076ce20@google.com
-> ---
->  drivers/gpu/drm/gma500/oaktrail_lvds_i2c.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/gma500/oaktrail_lvds_i2c.c b/drivers/gpu/drm/gma500/oaktrail_lvds_i2c.c
-> index 06b5b2d70d48..939c53fd09e8 100644
-> --- a/drivers/gpu/drm/gma500/oaktrail_lvds_i2c.c
-> +++ b/drivers/gpu/drm/gma500/oaktrail_lvds_i2c.c
-> @@ -141,7 +141,7 @@ struct gma_i2c_chan *oaktrail_lvds_i2c_init(struct drm_device *dev)
->  
->  	chan->drm_dev = dev;
->  	chan->reg = dev_priv->lpc_gpio_base;
-> -	strncpy(chan->base.name, "gma500 LPC",  I2C_NAME_SIZE - 1);
-> +	strscpy(chan->base.name, "gma500 LPC",  sizeof(chan->base.name));
->  	chan->base.owner = THIS_MODULE;
->  	chan->base.algo_data = &chan->algo;
->  	chan->base.dev.parent = dev->dev;
-> 
-> ---
-> base-commit: 3669558bdf354cd352be955ef2764cde6a9bf5ec
-> change-id: 20230914-drivers-gpu-drm-gma500-oaktrail_lvds_i2c-c-a53c6d8bd62f
-> 
-> Best regards,
-> --
-> Justin Stitt <justinstitt@google.com>
-> 
+Regards,
+
+Tvrtko
