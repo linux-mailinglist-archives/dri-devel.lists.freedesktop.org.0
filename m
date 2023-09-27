@@ -2,48 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73ED07AFBF8
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Sep 2023 09:25:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF0187AFCF9
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Sep 2023 09:48:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CAFDA10E22A;
-	Wed, 27 Sep 2023 07:25:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD38810E486;
+	Wed, 27 Sep 2023 07:48:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B7CF10E22A;
- Wed, 27 Sep 2023 07:25:19 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 37FCF10E46D
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Sep 2023 07:47:26 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 783D06607324;
- Wed, 27 Sep 2023 08:25:17 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1695799517;
- bh=2yW5Hh7PnukuPb/3yAYGBd0QgjRVoSWYzB4eyF4arlo=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=dtnSozCkldqRQ+SvdSFv4Ja9BUl8AzVNPbUYw3FDmAIM6GH/NOmSzjRoERLeYdcCH
- ZvKPQ2Dz+xbVdg5IF7P/DtkxhGGE4WvvYiIGRLQ2sWR2R2BYVzYaZaP4LlOrcByX/T
- OVr2fPdm/yskSQHObmlG86z/l9u3j7ukS/JHnGpdz5xRtrtfz892UYlZByNOrHgsoq
- bNyXuc7YJucxebTITcAeQLin9hp56gRpj1Qq3qRZLA6pEc4IO9xnVXnHefO0swxmK7
- t37F+s1jraTmOFvtzlRfqNXfxpnK8ZPRf4U/jb01pDxRUBmBsyiCWi8w8rfbUNxiKX
- Wc/NiKkM+u1yA==
-Date: Wed, 27 Sep 2023 09:25:14 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Danilo Krummrich <dakr@redhat.com>
-Subject: Re: [PATCH drm-misc-next 1/3] drm/sched: implement dynamic job flow
- control
-Message-ID: <20230927092514.04776822@collabora.com>
-In-Reply-To: <12f19494-7fd0-055f-4135-e17581398eb5@redhat.com>
-References: <20230924224555.15595-1-dakr@redhat.com>
- <312983ee-ba4c-477e-8846-072c815df862@amd.com>
- <12f19494-7fd0-055f-4135-e17581398eb5@redhat.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id D86C221873;
+ Wed, 27 Sep 2023 07:47:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1695800844; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=60Z1BjKIJ4+wGz82oT0iRpCCahrgRXOSIFEA+P9XjPQ=;
+ b=Rtaz7SByafcrHUiZ6N4kbs5VxRG4isNa5QHvUiB0BBTSKedn2hPFSyJbU5cN1VZ2DCiTvn
+ mGBg0fj9hFIUvGHg6WrKSSgoxnpTPi6Pq/c1nfGwN2e0tq7SX6saMDz7z9jvz9w48HWhYS
+ BVLg/Cr8Hf6sv2uopQMtz8+zjGv7luA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1695800844;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=60Z1BjKIJ4+wGz82oT0iRpCCahrgRXOSIFEA+P9XjPQ=;
+ b=h8sBohLiXB2A1LBrQ8cgdFElh7N9h1oKS0IjzzKoTyOOEyZsIkeSOnTLxr+64RBvDVzrxq
+ iA222wVIEFUO5EDw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8D0B11338F;
+ Wed, 27 Sep 2023 07:47:24 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id B5+NIQzeE2XvUQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Wed, 27 Sep 2023 07:47:24 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: deller@gmx.de, javierm@redhat.com, sam@ravnborg.org, arnd@arndb.de,
+ daniel@ffwll.ch
+Subject: [PATCH 00/46] fbdev: Init fb_ops with helpers for I/O memory
+Date: Wed, 27 Sep 2023 09:26:33 +0200
+Message-ID: <20230927074722.6197-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,77 +62,146 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.brost@intel.com, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Luben Tuikov <luben.tuikov@amd.com>, christian.koenig@amd.com,
- faith.ekstrand@collabora.com
+Cc: linux-fbdev@vger.kernel.org, linux-parisc@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-nvidia@lists.surfsouth.com, linux-omap@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 27 Sep 2023 02:13:59 +0200
-Danilo Krummrich <dakr@redhat.com> wrote:
+Initialize struct fb_ops for drivers for hardware with framebuffers
+in I/O-memory ranges with the respective helper macros. Also select
+the appropriate Kconfig dependencies.
 
-> On 9/26/23 22:43, Luben Tuikov wrote:
-> > Hi,
-> > 
-> > On 2023-09-24 18:43, Danilo Krummrich wrote:  
-> >> Currently, job flow control is implemented simply by limiting the amount
-> >> of jobs in flight. Therefore, a scheduler is initialized with a
-> >> submission limit that corresponds to a certain amount of jobs.  
-> > 
-> > "certain"? How about this instead:
-> > " ... that corresponds to the number of jobs which can be sent
-> >    to the hardware."?
-> >   
-> >>
-> >> This implies that for each job drivers need to account for the maximum  
-> >                                  ^,
-> > Please add a comma after "job".
-> >   
-> >> job size possible in order to not overflow the ring buffer.  
-> > 
-> > Well, different hardware designs would implement this differently.
-> > Ideally, you only want pointers into the ring buffer, and then
-> > the hardware consumes as much as it can. But this is a moot point
-> > and it's always a good idea to have a "job size" hint from the client.
-> > So this is a good patch.
-> > 
-> > Ideally, you want to say that the hardware needs to be able to
-> > accommodate the number of jobs which can fit in the hardware
-> > queue times the largest job. This is a waste of resources
-> > however, and it is better to give a hint as to the size of a job,
-> > by the client. If the hardware can peek and understand dependencies,
-> > on top of knowing the "size of the job", it can be an extremely
-> > efficient scheduler.
-> >   
-> >>
-> >> However, there are drivers, such as Nouveau, where the job size has a
-> >> rather large range. For such drivers it can easily happen that job
-> >> submissions not even filling the ring by 1% can block subsequent
-> >> submissions, which, in the worst case, can lead to the ring run dry.
-> >>
-> >> In order to overcome this issue, allow for tracking the actual job size
-> >> instead of the amount job jobs. Therefore, add a field to track a job's  
-> > 
-> > "the amount job jobs." --> "the number of jobs."  
-> 
-> Yeah, I somehow manage to always get this wrong, which I guess you noticed
-> below already.
-> 
-> That's all good points below - gonna address them.
-> 
-> Did you see Boris' response regarding a separate callback in order to fetch
-> the job's submission units dynamically? Since this is needed by PowerVR, I'd
-> like to include this in V2. What's your take on that?
-> 
-> My only concern with that would be that if I got what Boris was saying
-> correctly calling
-> 
-> WARN_ON(s_job->submission_units > sched->submission_limit);
-> 
-> from drm_sched_can_queue() wouldn't work anymore, since this could indeed happen
-> temporarily. I think this was also Christian's concern.
+The patchset is part of a larger effort to modularize the fbdev core
+and make it more adaptable. Most of these drivers do not initialize
+the fb_read, fb_write and fb_mmap callbacks in fb_ops. By leaving the
+callback pointers to NULL, they rely on the fbdev core to invoke the
+I/O-memory helpers by default. This default makes it impossible to
+remove the I/O-memory helpers on systems that don't need them. Setting
+the pointers explicitly will allow for the removal of the default. If
+a callback in fb_ops is unset, the operation will then be unsupported.
 
-Actually, I think that's fine to account for the max job size in the
-first check, we're unlikely to have so many native fence waits that our
-job can't fit in an empty ring buffer.
+Initializing struct fb_ops via helpers macros will also allow for a
+fine-grained setup, depending on Kconfig options. For example, it
+will be possible to leave out file I/O if FB_DEVICE has not been
+set.
+
+This patchset contains the majority of fbdev driver work. The updated
+drivers now initialize fb_ops with __FB_DEFAULT_IOMEM_OPS_RDWR,
+__FB_DEFAULT_IOMEM_OPS_DRAW and/or __FB_DEFAULT_IOMEM_OPS_MMAP if
+possible. Some drivers now use FB_DEFAULT_IOMEM_OPS, which sets all
+fields correctly. In Kconfig, each driver selects FB_IOMEM_FOPS to
+get the helpers for I/O memory. Drivers that use _RDWR, _DRAW and
+_MMAP unconditionally select FB_IOMEM_HELPERS, which selects the
+correct modules automatically.
+
+Thomas Zimmermann (46):
+  fbdev: Provide I/O-memory helpers as module
+  fbdev/68328fb: Initialize fb_ops to fbdev I/O-memory helpers
+  fbdev/amba-clcd: Initialize fb_ops to fbdev I/O-memory helpers
+  fbdev/amifb: Initialize fb_ops to fbdev I/O-memory helpers
+  fbdev/arkfb: Initialize fb_ops to fbdev I/O-memory helpers
+  fbdev/atafb: Initialize fb_ops to fbdev I/O-memory helpers
+  fbdev/atyfb: Initialize fb_ops to fbdev I/O-memory helpers
+  fbdev/au1100fb: Initialize fb_ops to fbdev I/O-memory helpers
+  fbdev/cirrusfb: Initialize fb_ops to fbdev I/O-memory helpers
+  fbdev/cobalt-lcd: Initialize fb_ops to fbdev I/O-memory helpers
+  fbdev/controlfb: Initialize fb_ops to fbdev I/O-memory helpers
+  fbdev/cyber2000fb: Initialize fb_ops to fbdev I/O-memory helpers
+  fbdev/dnfb: Initialize fb_ops to fbdev I/O-memory helpers
+  fbdev/ep93xx-fb: Initialize fb_ops to fbdev I/O-memory helpers
+  fbdev/gbefb: Initialize fb_ops to fbdev I/O-memory helpers
+  fbdev/hgafb: Initialize fb_ops to fbdev I/O-memory helpers
+  fbdev/hitfb: Initialize fb_ops to fbdev I/O-memory helpers
+  fbdev/hpfb: Initialize fb_ops to fbdev I/O-memory helpers
+  fbdev/i810fb: Initialize fb_ops to fbdev I/O-memory helpers
+  fbdev/imsttfb: Initialize fb_ops to fbdev I/O-memory helpers
+  fbdev/intelfb: Initialize fb_ops to fbdev I/O-memory helpers
+  fbdev/matroxfb: Initialize fb_ops to fbdev I/O-memory helpers
+  fbdev/neofb: Initialize fb_ops to fbdev I/O-memory helpers
+  fbdev/nvidiafb: Initialize fb_ops to fbdev I/O-memory helpers
+  fbdev/omapfb: Initialize fb_ops to fbdev I/O-memory helpers
+  fbdev/pm2fb: Initialize fb_ops to fbdev I/O-memory helpers
+  fbdev/pm3fb: Initialize fb_ops to fbdev I/O-memory helpers
+  fbdev/pvr2fb: Initialize fb_ops to fbdev I/O-memory helpers
+  fbdev/radeon: Initialize fb_ops to fbdev I/O-memory helpers
+  fbdev/rivafb: Initialize fb_ops to fbdev I/O-memory helpers
+  fbdev/s1d13xxxfb: Initialize fb_ops to fbdev I/O-memory helpers
+  fbdev/s3fb: Initialize fb_ops to fbdev I/O-memory helpers
+  fbdev/sa1100fb: Initialize fb_ops to fbdev I/O-memory helpers
+  fbdev/savagefb: Initialize fb_ops to fbdev I/O-memory helpers
+  fbdev/sisfb: Initialize fb_ops to fbdev I/O-memory helpers
+  fbdev/sm501fb: Initialize fb_ops to fbdev I/O-memory helpers
+  fbdev/sm712fb: Initialize fb_ops to fbdev I/O-memory helpers
+  fbdev/stifb: Initialize fb_ops to fbdev I/O-memory helpers
+  fbdev/sunxvr500: Initialize fb_ops to fbdev I/O-memory helpers
+  fbdev/tdfxfb: Initialize fb_ops to fbdev I/O-memory helpers
+  fbdev/tgafb: Initialize fb_ops to fbdev I/O-memory helpers
+  fbdev/tridentfb: Initialize fb_ops to fbdev I/O-memory helpers
+  fbdev/vermilionfb: Initialize fb_ops to fbdev I/O-memory helpers
+  fbdev/vga16fb: Initialize fb_ops to fbdev I/O-memory helpers
+  fbdev/viafb: Initialize fb_ops to fbdev I/O-memory helpers
+  fbdev/vt8623fb: Initialize fb_ops to fbdev I/O-memory helpers
+
+ drivers/video/fbdev/68328fb.c                 |  5 +-
+ drivers/video/fbdev/Kconfig                   | 93 +++++++++++--------
+ drivers/video/fbdev/amba-clcd.c               |  5 +-
+ drivers/video/fbdev/amifb.c                   |  2 +
+ drivers/video/fbdev/arkfb.c                   |  2 +
+ drivers/video/fbdev/atafb.c                   |  2 +
+ drivers/video/fbdev/aty/atyfb_base.c          |  3 +
+ drivers/video/fbdev/aty/radeon_base.c         |  2 +
+ drivers/video/fbdev/au1100fb.c                |  8 +-
+ drivers/video/fbdev/cirrusfb.c                |  2 +
+ drivers/video/fbdev/cobalt_lcdfb.c            |  2 +
+ drivers/video/fbdev/controlfb.c               |  5 +-
+ drivers/video/fbdev/core/Kconfig              |  6 ++
+ drivers/video/fbdev/core/Makefile             |  3 +-
+ drivers/video/fbdev/core/fb_io_fops.c         |  3 +
+ drivers/video/fbdev/cyber2000fb.c             |  2 +
+ drivers/video/fbdev/dnfb.c                    |  2 +
+ drivers/video/fbdev/ep93xx-fb.c               |  5 +-
+ drivers/video/fbdev/gbefb.c                   |  7 +-
+ drivers/video/fbdev/hgafb.c                   |  2 +
+ drivers/video/fbdev/hitfb.c                   |  4 +-
+ drivers/video/fbdev/hpfb.c                    |  2 +
+ drivers/video/fbdev/i810/i810_main.c          |  2 +
+ drivers/video/fbdev/imsttfb.c                 |  2 +
+ drivers/video/fbdev/intelfb/intelfbdrv.c      |  4 +-
+ drivers/video/fbdev/matrox/matroxfb_base.c    |  2 +
+ drivers/video/fbdev/matrox/matroxfb_crtc2.c   |  4 +-
+ drivers/video/fbdev/neofb.c                   |  2 +
+ drivers/video/fbdev/nvidia/nvidia.c           |  2 +
+ drivers/video/fbdev/omap2/omapfb/Kconfig      |  4 +-
+ .../video/fbdev/omap2/omapfb/omapfb-main.c    |  5 +-
+ drivers/video/fbdev/pm2fb.c                   |  2 +
+ drivers/video/fbdev/pm3fb.c                   |  2 +
+ drivers/video/fbdev/pvr2fb.c                  | 14 +--
+ drivers/video/fbdev/riva/fbdev.c              |  2 +
+ drivers/video/fbdev/s1d13xxxfb.c              | 25 +++--
+ drivers/video/fbdev/s3fb.c                    |  2 +
+ drivers/video/fbdev/sa1100fb.c                |  5 +-
+ drivers/video/fbdev/savage/savagefb_driver.c  |  6 +-
+ drivers/video/fbdev/sis/sis_main.c            |  4 +-
+ drivers/video/fbdev/sm501fb.c                 |  4 +
+ drivers/video/fbdev/sm712fb.c                 |  1 +
+ drivers/video/fbdev/stifb.c                   |  2 +
+ drivers/video/fbdev/sunxvr500.c               |  2 +
+ drivers/video/fbdev/tdfxfb.c                  |  6 +-
+ drivers/video/fbdev/tgafb.c                   |  2 +
+ drivers/video/fbdev/tridentfb.c               |  2 +
+ drivers/video/fbdev/vermilion/vermilion.c     |  5 +-
+ drivers/video/fbdev/vga16fb.c                 |  2 +
+ drivers/video/fbdev/via/viafbdev.c            |  2 +
+ drivers/video/fbdev/vt8623fb.c                |  2 +
+ 51 files changed, 185 insertions(+), 101 deletions(-)
+
+
+base-commit: e1973de2c4516e9130157e538014e79c8aa57b41
+prerequisite-patch-id: 0aa359f6144c4015c140c8a6750be19099c676fb
+prerequisite-patch-id: c67e5d886a47b7d0266d81100837557fda34cb24
+prerequisite-patch-id: cbc453ee02fae02af22fbfdce56ab732c7a88c36
+-- 
+2.42.0
+
