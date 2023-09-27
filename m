@@ -2,47 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62D557B0B10
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Sep 2023 19:29:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 411C67B0B12
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Sep 2023 19:29:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3133010E587;
-	Wed, 27 Sep 2023 17:29:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 741AA10E588;
+	Wed, 27 Sep 2023 17:29:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 70A8510E585
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Sep 2023 17:29:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 25D6D10E585
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Sep 2023 17:29:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1695835746;
+ s=mimecast20190719; t=1695835748;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=tSk7qfcSQedPk0IzcisEHWuFd2uRDtl11DSwzBRnSI4=;
- b=PM+WsaxCTXUSnoufiylbIAaCE3bvY39W+NGF3cGmYhu9q25ktCu4pMjQmBfNYUTKir8hIR
- 8tR6EKl+ZwqGpu55OJGDaIvEd4lkMVwF4hGH58p7Jk9R5qebVjWD3XD0zsMAflaY8bUiil
- Xsx5PMfm562JyvFvyMsukyIv2XcfruM=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=STMNnper8GaF7paBIRqpKvfx18OJyJePJt/NZvV3inc=;
+ b=iNNmMJKrXl3tJ56ozNfbV/opueSTXkFOOxnPa2OVXxNwBdyJOy+wiE6BRWLR3/Gvwm08bc
+ p//g6Ua/K6GZ8cD8JAaKwBeBDYL1ey6scU2ASM6d3KO/RKIm9pjYXS4fJInJ5tYJXG61Jf
+ q8QhUOHix7W9cLOplB3vZL46xUhvkBo=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-641-pbE2HrAtOt6BIwm2_n4ooA-1; Wed, 27 Sep 2023 13:29:03 -0400
-X-MC-Unique: pbE2HrAtOt6BIwm2_n4ooA-1
+ us-mta-673-PP9R6MaOP6eNGnofqU--rA-1; Wed, 27 Sep 2023 13:29:05 -0400
+X-MC-Unique: PP9R6MaOP6eNGnofqU--rA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A72858032F6;
- Wed, 27 Sep 2023 17:29:02 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 67813805B32;
+ Wed, 27 Sep 2023 17:29:04 +0000 (UTC)
 Received: from hydra.redhat.com (unknown [10.39.195.27])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1ACBBC154CA;
- Wed, 27 Sep 2023 17:28:59 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DEDBAC154CA;
+ Wed, 27 Sep 2023 17:29:02 +0000 (UTC)
 From: Jocelyn Falempe <jfalempe@redhat.com>
 To: dri-devel@lists.freedesktop.org, tzimmermann@suse.de, airlied@redhat.com,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, daniel@ffwll.ch,
  javierm@redhat.com, bluescreen_avenger@verizon.net
-Subject: [RFC][PATCH v3 0/3] drm/panic: Add a drm panic handler
-Date: Wed, 27 Sep 2023 19:22:49 +0200
-Message-ID: <20230927172849.193996-1-jfalempe@redhat.com>
+Subject: [PATCH v3 1/3] drm/format-helper: Export
+ drm_fb_xrgb8888_to_rgb565_line
+Date: Wed, 27 Sep 2023 19:22:50 +0200
+Message-ID: <20230927172849.193996-2-jfalempe@redhat.com>
+In-Reply-To: <20230927172849.193996-1-jfalempe@redhat.com>
+References: <20230927172849.193996-1-jfalempe@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
 X-Mimecast-Spam-Score: 0
@@ -65,62 +69,46 @@ Cc: gpiccoli@igalia.com, Jocelyn Falempe <jfalempe@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This introduces a new drm panic handler, which displays a message when a panic occurs.
-So when fbcon is disabled, you can still see a kernel panic.
+drm_panic will need the low-level drm_fb_xxxx_line functions.
 
-This is one of the missing feature, when disabling VT/fbcon in the kernel:
-https://www.reddit.com/r/linux/comments/10eccv9/config_vtn_in_2023/
-Fbcon can be replaced by a userspace kms console, but the panic screen must be done in the kernel.
+Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+---
+ drivers/gpu/drm/drm_format_helper.c | 3 ++-
+ include/drm/drm_format_helper.h     | 2 ++
+ 2 files changed, 4 insertions(+), 1 deletion(-)
 
-This is a proof of concept, and works only with simpledrm, using a new get_scanout_buffer() api
-
-To test it, make sure you're using the simpledrm driver, and trigger a panic:
-echo c > /proc/sysrq-trigger
-
-v2:
- * Use get_scanout_buffer() instead of the drm client API. (Thomas Zimmermann)
- * Add the panic reason to the panic message (Nerdopolis)
- * Add an exclamation mark (Nerdopolis)
+diff --git a/drivers/gpu/drm/drm_format_helper.c b/drivers/gpu/drm/drm_format_helper.c
+index f93a4efcee90..e2d3bc2707ea 100644
+--- a/drivers/gpu/drm/drm_format_helper.c
++++ b/drivers/gpu/drm/drm_format_helper.c
+@@ -320,7 +320,7 @@ void drm_fb_xrgb8888_to_rgb332(struct iosys_map *dst, const unsigned int *dst_pi
+ }
+ EXPORT_SYMBOL(drm_fb_xrgb8888_to_rgb332);
  
-v3:
- * Rework the drawing functions, to write the pixels line by line and
- to use the drm conversion helper to support other formats.
- (Thomas Zimmermann)
-
-I only added RGB565 support to show how it would work.
-Basically I have a buffer of 1 line in xrgb8888, and write the pixels to it.
-Then I convert it to the destination format in-place (if needed), and finally 
-copy it to the scanout-buffer.
-So it's straigh forward, and reuse the drm conversion helpers.
-
-A few more though:
- 1) what about gpu with multiple monitor connected ?
-maybe get_scanout_buffer() could return a list of scanout buffers ?
- 2) I think for some GPU drivers, there might need a flush_scanout_buffer() function, that should be called after the scanout buffer has been filled ?
-
-Best regards,
-
-
-Jocelyn Falempe (3):
-  drm/format-helper: Export drm_fb_xrgb8888_to_rgb565_line
-  drm/panic: Add a drm panic handler
-  drm/simpledrm: Add drm_panic support
-
- drivers/gpu/drm/Kconfig             |  11 +
- drivers/gpu/drm/Makefile            |   1 +
- drivers/gpu/drm/drm_drv.c           |   3 +
- drivers/gpu/drm/drm_format_helper.c |   3 +-
- drivers/gpu/drm/drm_panic.c         | 366 ++++++++++++++++++++++++++++
- drivers/gpu/drm/tiny/simpledrm.c    |  17 ++
- include/drm/drm_drv.h               |  14 ++
- include/drm/drm_format_helper.h     |   2 +
- include/drm/drm_panic.h             |  41 ++++
- 9 files changed, 457 insertions(+), 1 deletion(-)
- create mode 100644 drivers/gpu/drm/drm_panic.c
- create mode 100644 include/drm/drm_panic.h
-
-
-base-commit: 2dde18cd1d8fac735875f2e4987f11817cc0bc2c
+-static void drm_fb_xrgb8888_to_rgb565_line(void *dbuf, const void *sbuf, unsigned int pixels)
++void drm_fb_xrgb8888_to_rgb565_line(void *dbuf, const void *sbuf, unsigned int pixels)
+ {
+ 	__le16 *dbuf16 = dbuf;
+ 	const __le32 *sbuf32 = sbuf;
+@@ -336,6 +336,7 @@ static void drm_fb_xrgb8888_to_rgb565_line(void *dbuf, const void *sbuf, unsigne
+ 		dbuf16[x] = cpu_to_le16(val16);
+ 	}
+ }
++EXPORT_SYMBOL(drm_fb_xrgb8888_to_rgb565_line);
+ 
+ /* TODO: implement this helper as conversion to RGB565|BIG_ENDIAN */
+ static void drm_fb_xrgb8888_to_rgb565_swab_line(void *dbuf, const void *sbuf,
+diff --git a/include/drm/drm_format_helper.h b/include/drm/drm_format_helper.h
+index 291deb09475b..ca4ac4ff0801 100644
+--- a/include/drm/drm_format_helper.h
++++ b/include/drm/drm_format_helper.h
+@@ -67,4 +67,6 @@ size_t drm_fb_build_fourcc_list(struct drm_device *dev,
+ 				const u32 *native_fourccs, size_t native_nfourccs,
+ 				u32 *fourccs_out, size_t nfourccs_out);
+ 
++
++void drm_fb_xrgb8888_to_rgb565_line(void *dbuf, const void *sbuf, unsigned int pixels);
+ #endif /* __LINUX_DRM_FORMAT_HELPER_H */
 -- 
 2.41.0
 
