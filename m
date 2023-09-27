@@ -2,122 +2,121 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A98967B0B8F
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Sep 2023 19:59:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25C7F7B0C28
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Sep 2023 20:48:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C15B10E58C;
-	Wed, 27 Sep 2023 17:59:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A70410E592;
+	Wed, 27 Sep 2023 18:47:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on2076.outbound.protection.outlook.com [40.107.244.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 203FD10E566;
- Wed, 27 Sep 2023 17:59:49 +0000 (UTC)
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on2076.outbound.protection.outlook.com [40.107.92.76])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0435A10E592;
+ Wed, 27 Sep 2023 18:47:55 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hXxB/gmHAXj7fyT+WfWkOKpPgAYGYsy408OegSYfHueGQQvglZ1cTO6RUhuvTR3m8u/hT+kTFpNlaQQb2MZbNVC2UtM2wQrsGXnxZr0UPFT1S64g3zLl2mcNylexSxH6A5Yr+BzQBASU2ujpDP9qbRtPGvZsy9N8P6W0Rz4+iF5NbQeGuVxmd9A020FVt+QSXt7QWsafuMEmZswe8J1+4GFUCWWA1nnsJePpj3snTqEQGCBEI3K0YoHmWyhzsKO5pmjM43FyVdsxvFScyjx0UDN5yC+J6hS7TuIx5e8EVBMrVFi/e3CZ584gyLTMljuFkHX8DWox4I+YwRRPaSVueA==
+ b=Jk6PEWDk907ZUk8KjRiNZej6ZFcPcaKQ3PbitofkclCwcXa58o9tociiwuBr5Obceo8PIKP6JYZ1yCPwSN8TLdPADfkMoBZIsWIiLwMqvnIdw5fJne4qZCUPRTosxkg6/EI00yRnz5nqTUODYZ2fcx8hTsEslrx9dqvoSfnztCFZ5CCnpSF/nFA+m6DPbc6fsivnic+e0YbsKc6G1oiv0KrTlmIHTAEmsY8y4DD6pRwgAr8pHzwO1gCxkrJlHngW43oq8KpIEzVGn/7CdkLXFc3jhG4snStAi7UK5/hBEdduUHDBomQ1oP2txHArQwiSTYFqkSl9Faoff9DYznSdLQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YWuoXDIeCaCk/6dfYJVaYDrhnPHLBl0alUwFFtJ8Ywg=;
- b=eSh9JUGBEPLHmHlKV7RKRXmdIWR4DU+tB2LE9ZFA+ov9nMy6GrVEXR/hY+7XLM855p2iCZhhchotSfiVIIPDgLnCH34MP5KD01wBbp05Wv8xjX+8mkKsfyn7uJRThkhPALrFMTKUyBUh6jEAPe4chY3g6/WSHkUafHltG2EgZdGdU5cDNYHjfu9jyi1TznqzojcYXfcsB+X5yg6n5XjaH/CwytEI+2FlFg8Ci+KykpneJN3UXVzaNATSMZtPNVZ5NPziukIbTjKu8xGGFELlOxVXF9Q/3Rn7Q4691b7yNVFg+AmVeroZEFfhEwtxQXikpojWR3t+biAcomzRLhfy7g==
+ bh=9dLrdA1WqcNxGCr3LMwZWUSb3XkjasYAbnHfIXJzxp8=;
+ b=ScP9HomNepaHGKjUpcdeGh18rWQiuF4/7Ak4DXCzS9o8+0Hawe8fm3qOODsFnoRcu3oc6VHkS+u/EH2xbdbWgiAPgKNgTaQdVVFPudizo8xndysFCjGh2goRjilIrSdVoQR++6ne35cs6SqxIc+MGyMwgWEo6ZNwCSPFTnm9h+m40nl+0f4F4nYXJlovdO9MOtMEd3hXzeFcFh8MkwR1hOkb8Od2W5clfI4F0PRT9KfgSEFRHvntDLdV17hfJcmrW8g5imCDAatBgqNBvhCaU2oa/KQ1ob0Qm1S0Em8v6ZdVq1VTc0tjlEv8tqAbX23jD2PoL7HxemaOnZZcMg2aPQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YWuoXDIeCaCk/6dfYJVaYDrhnPHLBl0alUwFFtJ8Ywg=;
- b=dw542m1R5fr2zimoBbijElo3nwOV36vIsB0I5/cPiSqzP7ECEdfpC/2KP6kCXR8IfNClyhXfFciEYORZaFQmUQoaP/Z/IapySP9eUlTLFsMeFvn7HAF/NOF7thf0wTtsPy/LgwEKg08vDisNCnEyVjRkRb2aLL4cNvhJ7YSvMOs=
+ bh=9dLrdA1WqcNxGCr3LMwZWUSb3XkjasYAbnHfIXJzxp8=;
+ b=ODsCgDp//jj3u7uYHdnAyC2DOwzrJLPy586akA7XX16t/FRfaOz4unz0GrDfvyU3OCtt2euk344Bpa3gbiOAoHGUWAbSTqKJuALgJ+aCQ4gmsbC7neqXw6u4lERXls8nMxsBbTWvlwTzBtLfamrExcWp1xXEnMT4DTYSvgC7YVg=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MW4PR12MB5667.namprd12.prod.outlook.com (2603:10b6:303:18a::10)
- by PH7PR12MB8039.namprd12.prod.outlook.com (2603:10b6:510:26a::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6813.31; Wed, 27 Sep
- 2023 17:59:47 +0000
-Received: from MW4PR12MB5667.namprd12.prod.outlook.com
- ([fe80::dc06:ffb3:46ec:6b86]) by MW4PR12MB5667.namprd12.prod.outlook.com
- ([fe80::dc06:ffb3:46ec:6b86%3]) with mapi id 15.20.6813.017; Wed, 27 Sep 2023
- 17:59:47 +0000
-Message-ID: <1fb85296-6f2a-57d7-e443-7fa92699cb59@amd.com>
-Date: Wed, 27 Sep 2023 19:59:34 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH 1/1] drm/amdkfd: Fix unaligned doorbell absolute offset
- for gfx8
-To: Felix Kuehling <felix.kuehling@amd.com>,
- Arvind Yadav <Arvind.Yadav@amd.com>, Christian.Koenig@amd.com,
- alexander.deucher@amd.com, Felix.Kuehling@amd.co, Xinhui.Pan@amd.com,
- airlied@gmail.com, daniel@ffwll.ch, Mukul Joshi <mukul.joshi@amd.com>
-References: <20230927161616.3335-1-Arvind.Yadav@amd.com>
- <20230927161616.3335-2-Arvind.Yadav@amd.com>
- <a893f9d9-3cc8-44af-9712-602a7b72f780@amd.com>
+Received: from CO6PR12MB5427.namprd12.prod.outlook.com (2603:10b6:5:358::13)
+ by DS0PR12MB9322.namprd12.prod.outlook.com (2603:10b6:8:1bd::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6813.19; Wed, 27 Sep
+ 2023 18:47:53 +0000
+Received: from CO6PR12MB5427.namprd12.prod.outlook.com
+ ([fe80::121e:5e68:c78a:1f2f]) by CO6PR12MB5427.namprd12.prod.outlook.com
+ ([fe80::121e:5e68:c78a:1f2f%3]) with mapi id 15.20.6813.018; Wed, 27 Sep 2023
+ 18:47:53 +0000
+Message-ID: <728a979a-7f0a-4a90-a7d5-1c8b1c3ab1d3@amd.com>
+Date: Wed, 27 Sep 2023 14:47:47 -0400
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 09/32] drm/amd/display: add plane 3D LUT
+ driver-specific properties
 Content-Language: en-US
-From: Shashank Sharma <shashank.sharma@amd.com>
-In-Reply-To: <a893f9d9-3cc8-44af-9712-602a7b72f780@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BE1P281CA0113.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:b10:7b::11) To MW4PR12MB5667.namprd12.prod.outlook.com
- (2603:10b6:303:18a::10)
+To: Melissa Wen <mwen@igalia.com>, amd-gfx@lists.freedesktop.org,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, sunpeng.li@amd.com,
+ Alex Deucher <alexander.deucher@amd.com>, dri-devel@lists.freedesktop.org,
+ christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
+ daniel@ffwll.ch
+References: <20230925194932.1329483-1-mwen@igalia.com>
+ <20230925194932.1329483-10-mwen@igalia.com>
+From: Harry Wentland <harry.wentland@amd.com>
+In-Reply-To: <20230925194932.1329483-10-mwen@igalia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: YQXPR0101CA0042.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c00:14::19) To CO6PR12MB5427.namprd12.prod.outlook.com
+ (2603:10b6:5:358::13)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW4PR12MB5667:EE_|PH7PR12MB8039:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1c81a573-23ad-4afa-ba5a-08dbbf83894e
+X-MS-TrafficTypeDiagnostic: CO6PR12MB5427:EE_|DS0PR12MB9322:EE_
+X-MS-Office365-Filtering-Correlation-Id: c4b88cba-1daa-442b-242d-08dbbf8a41b3
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: DqNaTyUseFoe4Ai9F2tloSaeB5ZIzOq5J7p44uQzIzxylLvUPZk3woudHd0FsT70ckZC1nFj96I4mx1vp1Ss4MCWEtxeS/FhfhRjQBXAlwbPNICpP9AQcao2qaxrAXbavRk5R3DfCMEKJlAib/dEPtz7bs8SEs19zgg7w/08oTsPt8ViE1EGwd2SacSvPw0/RuuLBbBoGIBnTOsdEUbaNUC4Nw3n1vzNIgiSGwoo91VAXAwiiR+bwMv3b3C4XxYWMCfZAHpv3XRnxLd54JT3AercViVBIOhvFJ3JWH40A2OzjSlFhQfg2ZtKxk8EFJnaJo4/hQWgsvVoFlSx3esdWyDf3ASUyTOucPTkYjJTGU6WaO/xJ8wtxBf5NyXj+ISmb2l5V958/6EE6eOE2e6CtI+fd6HV6mNZsiKNvK1VyByher/TPE6DKR8pfnIpcdGl21mIgJCzg5ybrFlxUo2fBnrwGuHEsUAGLk+9HHl++vGR7kczsK4LPvYPHHwMZssfPaU3S//YEVN5+xmWA6qrr1Z/PeXpXB44nnea6Z699Ohg+qlOjB3qQdTHLyEDe4Wbkm2tcwp5l7z2SNF84/bEzEv/UbXOCOFxTLUPCDvw/0HA4q581f0jpazjAk9lJ/SunR9P3qSiB+hvPgy6boVcOQ==
+X-Microsoft-Antispam-Message-Info: ihQnPqTlB92BvcTIJSFuhEBwA8SZe8M64qmbfw8vctfp3SQXIU46iJoQ4rvgxWzGh1Ar6uHl3aGUMi2BJwL6/clO3tz0YtSra+mu+YT7FX6HQs2HNIkm2J3QzdTFwFavIzpQEr4o1k6B90k1B9t2Y7712MBPLrmb3G6/SecG8oHgE1u2nnOzrqkiq+BWRmN2tjmBzFvQ/TLA3cL61U0DHdKRZb0W7nvHem1kPA5tGEt9rspk8zeC+axgsIzUBuZ2sKapQjyQVJKw7SCX55cmJgAuWYscZkfBd2F0ONtpd9oziGVRBt0Lvkot60UbAlaOTM7FFDJdCSvMFNgzYOiGHzNM6USeSupCxJesPCViX65IruaZFC4LEVSEvZA66cMDzK7KUaw95ZOJTZlQrur5QzuWjWAKPL5yC/uO97t8XFHHV2B8UkxNEBjVLlJzyeeGfNvX9LNUiU/pGmpE0H36y66QuvHC7HFevGJgs5l4c1Bwk+iSx/87WkCj2AlI043AAfm/Dqhhu8nP/tRFwDozGHNgL4mJ5HwL0/jblPlhGPMCHnasVQ5fKu8K0P7TB3qx5yV245DXMZgq4YYci7sz9msh+Fm2e4sKi3uiEEfZY84B345zFKO6IgCnYuKUpvOLlmzbMlZsayUyIOavpnAKPmjO15MN6pn4Un9jiH2eJ/Y=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MW4PR12MB5667.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(376002)(366004)(346002)(136003)(396003)(39860400002)(230922051799003)(1800799009)(186009)(451199024)(38100700002)(6666004)(478600001)(83380400001)(6512007)(26005)(36756003)(53546011)(2616005)(6636002)(66946007)(6506007)(6486002)(316002)(66476007)(110136005)(66556008)(31686004)(41300700001)(2906002)(86362001)(31696002)(8676002)(5660300002)(4326008)(44832011)(8936002)(43740500002)(45980500001);
+ IPV:NLI; SFV:NSPM; H:CO6PR12MB5427.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(366004)(396003)(39860400002)(346002)(376002)(136003)(230922051799003)(451199024)(186009)(1800799009)(83380400001)(26005)(8676002)(2616005)(5660300002)(4326008)(8936002)(6486002)(921005)(6506007)(53546011)(6512007)(44832011)(31686004)(478600001)(6666004)(41300700001)(66476007)(66556008)(54906003)(66946007)(110136005)(2906002)(86362001)(38100700002)(36756003)(31696002)(316002)(7416002)(43740500002)(45980500001);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?djQvL1VjeGcrYTM4U0dvYUhJbG45ditXejhNemdmOU8wRjkzNjg5eTdEQ0FV?=
- =?utf-8?B?UVlSS3IzRXlueFpSVENtU21VUXpDb3lrd3hvc0xpK3JZbnMyT2pvNjJQY0dm?=
- =?utf-8?B?ZXAxdXdYSUJnUDNJVnBadzlYOGxHNTRVd05Ra2hFVnVZTFFhVU54dHp6Q1N2?=
- =?utf-8?B?dmpLeUVCMlFic083N0dMb0ZGcnExaUh1c1FvdVdLYVJ4TE45UDQvQlV3SjVP?=
- =?utf-8?B?ODZHVk0vOFVrcXBlejZSWUpzdTdXc3VoZTNwNEF0aEcycnUwSmhIeHIxK0JD?=
- =?utf-8?B?MXE5S1dwOTJRb2R1NEpuY2tMV1Aza1FMK2Q4VUhJdVgzM3RFUkJnYS96SmUv?=
- =?utf-8?B?K1dDcVcvRTgxaVB3NHBkVXV0NEhpdXVVQW5Kem9CVTdIcVQ5bk4yMCtmUnJm?=
- =?utf-8?B?OUwxamY3NTdNdnRHVzFpMnptZENsWUNrRmdHZmRsRmhuWGdsbmcxZmZMeVBJ?=
- =?utf-8?B?QmtpU1dCTXZVazNlR25FRTZNTWlLaHdXYmtISlA3TDl1ZThybWc3SXpBSmFT?=
- =?utf-8?B?RjFoNjFBL1owdEowSG9CM2doZXdsajM5VmhDRE92ZG1MdXNseVZEVFVOLzk0?=
- =?utf-8?B?ckNqUWFCSDl5bGJTR0ZYNDRxMW5NaGM3ei95aWV0eVFiR2lGUXdJR3NaaHla?=
- =?utf-8?B?czNPMnpCeWxIaDZBZEZDdmozWUduWWVsbFg5cUkrWi9GcTlXUWpXV0VNRmtP?=
- =?utf-8?B?WFdRUU1kbUlvY1BRTC8vWDJ2MnEwZy9VWlN6Z0QraXRRVEh6WUZTZ21XTW4r?=
- =?utf-8?B?Y1AxclFVT1o2cEp2RjNIR0l2M2pQNzJ5U1NTUS9mNTZWcFNBRkg5ZGRGMGRm?=
- =?utf-8?B?bHJ2cThacXArNndPMCtOZm9aeSthTjhqZzVPV1NYWC9zSzI4cG51Y1ZqdC9H?=
- =?utf-8?B?U2djMVVUVHdLSGVlczJFRzB2N0RqUjUvdDZwM1c0alNuSlhSaGRkTU5LajEx?=
- =?utf-8?B?ZHFkYmk5NHl5SFJVMTFyL1U1NGdiVm11aFhMWkxOanBaenVlS3BTMTdzdDRU?=
- =?utf-8?B?MCsrQ3Vsa0xpeDI0UkRkd214N1RPTXRTay9PandwK002OVhmQ0JJcXlCcFll?=
- =?utf-8?B?cmZFYndObjFwWkQxaXVBWXpMZ3ZGeEVwRjdVL2NyeFphcTNEZnRGaUVlZ0hs?=
- =?utf-8?B?Ky9ZdFZZMXJMSjZneHQzZHJNc2x4UzI1MmNzK1U0N3dKbnpKbmVqdUpIWkZI?=
- =?utf-8?B?cjVTamZjL3U5Zm9lNElNNWJYaDhMdXJYZG5SZ3U0cDVNZ25ZUVVoaHl5Z1NJ?=
- =?utf-8?B?Ymo5RzRVVXNZTyttdlo2alZNZEdwTlNoZlFHT0pCdDI5d2piUGIvWnRuUUlv?=
- =?utf-8?B?L3ZOTHlnN3NubDlmUHhxNEdHaVhKUjZsd1hBVzgyaXNCVEw1S3R0dk4reWVR?=
- =?utf-8?B?SWh4UVd1SFpkWjVickc4QjlyejNTVzBVREdzaVZkVTdhQkkwK1FKbENEYk0y?=
- =?utf-8?B?eVdzS2M2Z20xRVBvM0RIbGpyN1VUYjhkcnpqTUtlRUZmaFdvcFVTMkpWaTh4?=
- =?utf-8?B?MFJHQ0ovQisvTjU1QjV3MnNYMDV1Skd0OVZZYmQwYXRrR0JYR2RPQWZYMGVu?=
- =?utf-8?B?VTJCWis1cFBzOWhRVlR4ZFZIUmZnb2FvaXFXYmc3dEZhSmFxL2xiWEh2Z2ZF?=
- =?utf-8?B?ODZ4R3pjSWlTeWtsa2MwcCtJTGNxbkM2YzBoU3FDV2QyTUdQYk9USXVJSUlN?=
- =?utf-8?B?K1VTTnFZdTdNbTFyMzk3bEFwMWl6Z3BHTTdUWExOK1NsWHdVRGJvbjFXa3Fj?=
- =?utf-8?B?cFpLTzZRTnFUYXhLczk3c0pXdVZtZ083UDBOTHF1ZWx4NFFxYVNMTWUzRGVO?=
- =?utf-8?B?L21SbWhkeG1BSGV2SnRscW9QTVJDQW9JeTZ3N01WaGZMSHlRVkN6Y2NFcUor?=
- =?utf-8?B?Yy9FbXphaThjN2ZKc3RIbkFaOGJXVkNHaitycVJGSEtpWDlqQW5vQThIN3hl?=
- =?utf-8?B?Mk4yWVZwTjVGSEl3UkRmWW5KSmkyUkR4dG1LYzhiMGJHOE1aMWM5c0cwSEhE?=
- =?utf-8?B?OGJFYXBKcE0wdUU4Z2ZWd0FuWUFnbjNDczN5d3N1NnFTdXVkK25jMDNBM0ll?=
- =?utf-8?B?YzA2c1MxZ0g3OXcxSnpSQzM2d3psZERJK1pPM0xsWm1BTVNhVmFzb3hIdXhF?=
- =?utf-8?Q?vOtM3SkK9U6z0jz+C+PPsD2ga?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WitjNVhGZ3EyNTE4K05ZZk5PYklBaDFaRGxMSWM5YXZuMG56N2RVSG1JQzFZ?=
+ =?utf-8?B?dTh4cS9HQVVaRVhwNG1KNTlEWktzeFlBKzFaYXJWSXBSNEJxTmY3UGdTaWp5?=
+ =?utf-8?B?YlhnSEUwakxxcHd5ZmpMQ3RiVGJxSDhpTThod1ZEU01WZkE5KzN6WXYvMytj?=
+ =?utf-8?B?bFJsWEk3cENSR3FUZFliWnIveDI4dWdKaWRNWlUrZEdHZHFmWS9JOG5KRWhr?=
+ =?utf-8?B?ZVhFUWlrTDYyVTJGa1dzTEEybVZ5ZnVLdlRJbXMxQzFoMm8vWHB4RHZEWno4?=
+ =?utf-8?B?RmJXV0FxcUVnaUEzemswa0Z5eEdBVGduMmh5a3RNajByZDZHMGcxYTNWcVFL?=
+ =?utf-8?B?MS9qdVlPWjgyODhsWW9Dcis4NVJGSjl2UWtWeXI0K2thNWUyMUdNa1E5T0VB?=
+ =?utf-8?B?V3JWQ2t6S2Uzc0FiSDgyVkY5RGdsQ3VYcUxlT1M4RWQ3UG9ac1ltZDN2WHFn?=
+ =?utf-8?B?cVNXcTlXTnVpaTNiR1o5NUwyMHJSVThpTVZ6UG5qd1A0b3o4MUxLUmFubk1K?=
+ =?utf-8?B?ekJpQXZNY2VZQStiTXZVdThXWFNQRlRUM1ExMVFRZHlDODhIekgwTUhmYTY1?=
+ =?utf-8?B?dVR6SW1xdVdxaVpnWmdBRUhZODNTbEt2MllFaUdQZHl6b0EyQ1RYakRvb2xj?=
+ =?utf-8?B?VVBpNHl5MDhmZlFBZk42QjhvWUhSU2UrWVp0Nml6NUgveDlDeTIyVGpqVWF4?=
+ =?utf-8?B?TS9UZVJ0ZnRoNzdmNnJ1NXQwT1NvTU5NcjBma2p6WEdFbUNtRG5jMDljc0xr?=
+ =?utf-8?B?S1diOTZLVG10bWIzN3VoL1Izbi9OVytwK09mVWQ2NGhhT0V3Z1grNlRpSTV4?=
+ =?utf-8?B?bFVHZVBXYXRtemM2bVVrdVpjNTB6VXdaVFpKMHVORUdEUCtKZ0ZLMkdmMFM5?=
+ =?utf-8?B?ZGVDVk9UMTBNRG5RY1FKbWVFZDZkSzZHS0E5WGhvWjdURWdsQk9haklURWxz?=
+ =?utf-8?B?em4vbThyK2JlU2hZRGxzYk8rTm50Qk8wa2dwOGdMdFRoVHpwbVBLTnZid1ha?=
+ =?utf-8?B?bTRESWcxNFM5SFYzSGQvVlgzbWFTWlZPOUNrTE5sa2kyWjQ2TmY0Q1JqWHlN?=
+ =?utf-8?B?RmZFOC9yZHA5TXpRMll3N3pMU2ExN044VXE3dm85ZTNpY0JrRmY0dE1KRS9X?=
+ =?utf-8?B?ckszNENTdXd5K3N6M1JxR3VGYmFvUFdTMWNTY2pBdHR3VDg5OWhBcFg5a0gr?=
+ =?utf-8?B?QWxmeE9LTFRRTDg4V29RTlRVTTJEdVp6YXlnOWdJREdkNENBckxycVBEV2Fh?=
+ =?utf-8?B?a0JnREl4SXJkeWtwS1lQb2Vib2h2ZGEzUnZtZ1R2Q09vS0hURjVWYStQSDBw?=
+ =?utf-8?B?MXltQ2RhZXI0Ym5IaTNYd3E4NFJYRDRpeGFnclhtbGNRM3RLNzc1clJtTHJz?=
+ =?utf-8?B?bmUyZjlweEtKZG1qZmNBM3NXNXpuTUl0N2JIeFUzNlI2L1lzamhtd1RuMXVB?=
+ =?utf-8?B?WVZyanBDZUZONU9VVzBIN1NyTVBlOVQ2SUgvSGg2Yk81QXJhVkdvdEJaKzdG?=
+ =?utf-8?B?M0UwZ29zcGVUalcrWmV2RkJ1MEFaZXk5SEVIblFJUWVrV0l5bWxQY1ZvdHRT?=
+ =?utf-8?B?WmlqSkdQZWkxTUo0dDJmTENhSHhjRkxIajV0aEJtejgxNVRTelBpMzlFeklW?=
+ =?utf-8?B?ZEJVbXk3Z3VjWTRrM1RmSkNrT09HOHVlVnNLVlNYYzN4Vy8ybThCMEo1cU5P?=
+ =?utf-8?B?Y3FZTzE2Z3g0dmZ6cDE4TEVRZUZ1ZTEyYWo0NFc2azBUSEd4SHpPeE9leXhl?=
+ =?utf-8?B?Z24rVDY5OFRSTWN2SGNPMUdHeEl0Nkt2Vk93NzVvdkd1M3EwL2ovRTJPVVNI?=
+ =?utf-8?B?WkZ6bkhNNGlkWlFyK2krdXBESCtLbDB3RUZzZ2lqbHU0RlVyOXFaR1FlSkx3?=
+ =?utf-8?B?akRWbndKbS9TMmRESWl5N3lMRkhwcERvZlROejZ2MS9kdjl6eUR5aUEzdEVE?=
+ =?utf-8?B?ZktJbkYxbnJyQXpVVTdsVC8zeHh3RjdIU1VtalpnU24yb05JYWRPRTR1Q1Fk?=
+ =?utf-8?B?WEQvblp5Skpkc3JRN2ZwWUQwT1dNaHJ3RzhIbDB1VVFmVkRPYWxJUFAvQ0Z6?=
+ =?utf-8?B?TzJiYlhvZnRaVVBFNTNjNDhjZUVXWFgrTjJUanA0eXI5SllIQ3Z1L2laOEw3?=
+ =?utf-8?Q?fgln4Mrj/M/Wp8yiL0VT1OzYa?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1c81a573-23ad-4afa-ba5a-08dbbf83894e
-X-MS-Exchange-CrossTenant-AuthSource: MW4PR12MB5667.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c4b88cba-1daa-442b-242d-08dbbf8a41b3
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5427.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Sep 2023 17:59:47.1141 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Sep 2023 18:47:53.3834 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 6WpwZgzbCNbucJu5gtM2nw58pmzEa6YqRm6wFZjrHt/dPDs49Uu80pAD4UBCtnukZSkJYTU5oauaCLoD4W4m9w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB8039
+X-MS-Exchange-CrossTenant-UserPrincipalName: 0ISbfosWZozml/7+YxYMVjlPdfZzrI23UTFjDaZK/sFvOLd6knPvKMz7NVLkNh4xqhwbcoJZ7C5q5CCUlD028g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB9322
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,83 +129,199 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: Sebastian Wick <sebastian.wick@redhat.com>,
+ Pekka Paalanen <pekka.paalanen@collabora.com>,
+ Shashank Sharma <Shashank.Sharma@amd.com>, Alex Hung <alex.hung@amd.com>,
+ Xaver Hugl <xaver.hugl@gmail.com>, kernel-dev@igalia.com,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
+ Joshua Ashton <joshua@froggi.es>, sungjoon.kim@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 27/09/2023 19:27, Felix Kuehling wrote:
->
-> [+Mukul]
->
-> On 2023-09-27 12:16, Arvind Yadav wrote:
->> This patch is to adjust the absolute doorbell offset
->> against the doorbell id considering the doorbell
->> size of 32/64 bit.
->>
->> Cc: Christian Koenig<christian.koenig@amd.com>
->> Cc: Alex Deucher<alexander.deucher@amd.com>
->> Signed-off-by: Shashank Sharma<shashank.sharma@amd.com>
->> Signed-off-by: Arvind Yadav<Arvind.Yadav@amd.com>
->> ---
->>   drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c | 11 ++++++++++-
->>   1 file changed, 10 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
->> index 0d3d538b64eb..c327f7f604d7 100644
->> --- a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
->> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
->> @@ -407,7 +407,16 @@ static int allocate_doorbell(struct qcm_process_device *qpd,
->>   
->>   	q->properties.doorbell_off = amdgpu_doorbell_index_on_bar(dev->adev,
->>   								  qpd->proc_doorbells,
->> -								  q->doorbell_id);
->> +								  0);
->
-> Looks like we're now always calling amdgpu_doorbell_index_on_bar with 
-> the third parameter = 0. So we could remove that parameter. It doesn't 
-> do us any good and only causes bugs if we use any non-0 value.
->
-Hey Felix,
 
-Actually this was happening because in usermode KFD library the 
-doorbell-size is for non-SOC15() hardware is hard coded to 4 bytes.
+On 2023-09-25 15:49, Melissa Wen wrote:
+> Add 3D LUT property for plane color transformations using a 3D lookup
+> table. 3D LUT allows for highly accurate and complex color
+> transformations and is suitable to adjust the balance between color
+> channels. It's also more complex to manage and require more
+> computational resources. Since a 3D LUT has a limited number of entries
+> in each dimension we want to use them in an optimal fashion. This means
+> using the 3D LUT in a colorspace that is optimized for human vision,
+> such as sRGB, PQ, or another non-linear space. Therefore, userpace may
+> need one 1D LUT (shaper) before it to delinearize content and another 1D
+> LUT after 3D LUT (blend) to linearize content again for blending. The
+> next patches add these 1D LUTs to the plane color mgmt pipeline.
+> 
+> v3:
+> - improve commit message about 3D LUT
+> - describe the 3D LUT entries and size (Harry)
+> 
+> Signed-off-by: Melissa Wen <mwen@igalia.com>
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h      | 17 ++++++++++++++
+>  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h |  9 ++++++++
+>  .../amd/display/amdgpu_dm/amdgpu_dm_color.c   | 14 +++++++++++
+>  .../amd/display/amdgpu_dm/amdgpu_dm_plane.c   | 23 +++++++++++++++++++
+>  4 files changed, 63 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
+> index 66bae0eed80c..1b5f25989f7f 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
+> @@ -363,6 +363,23 @@ struct amdgpu_mode_info {
+>  	 * @plane_hdr_mult_property:
+>  	 */
+>  	struct drm_property *plane_hdr_mult_property;
+> +	/**
+> +	 * @plane_lut3d_property: Plane property for color transformation using
+> +	 * a 3D LUT (pre-blending), a three-dimensional array where each
+> +	 * element is an RGB triplet. Each dimension has a size of the cubed
+> +	 * root of lut3d_size. The array contains samples from the approximated
+> +	 * function. On AMD, values between samples are estimated by
+> +	 * tetrahedral interpolation. The array is accessed with three indices,
+> +	 * one for each input dimension (color channel), blue being the
+> +	 * outermost dimension, red the innermost.
+> +	 */
+> +	struct drm_property *plane_lut3d_property;
+> +	/**
+> +	 * @plane_degamma_lut_size_property: Plane property to define the max
+> +	 * size of 3D LUT as supported by the driver (read-only). The max size
+> +	 * is the max size of one dimension cubed.
+> +	 */
 
-We added this fix just so that the library code doesn't need to be 
-changed, but can still get aligned to kernel code.
+I've been thinking about this some more and don't particulary
+like that we're reporting the size as the dimension cubed, e.g.,
+4913 (17^3) instead of 17. This works for an AMD private API
+(and I'm okay with keeping it as-is if changing it is a lot of
+effort at this point) but in a generic API it would be a source
+of bugs or undefined behavior if a driver mistakenly reported
+a size that doesn't have an even cubed root.
 
-GFX Usermode queue code uses this doorbell-index parameter, and it gives 
-us the right offset.
+Reporting the size of a single dimension (e.g., 17 in the case
+of the current AMD driver) would be clearer.
+
+Could we still change that?
+
+Harry
 
 
-Regards
+> +	struct drm_property *plane_lut3d_size_property;
+>  };
+>  
+>  #define AMDGPU_MAX_BL_LEVEL 0xFF
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+> index 7ca594c7dfbe..dbd36fc24eca 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+> @@ -773,6 +773,11 @@ struct dm_plane_state {
+>  	 * S31.32 sign-magnitude.
+>  	 */
+>  	__u64 hdr_mult;
+> +	/**
+> +	 * @lut3d: 3D lookup table blob. The blob (if not NULL) is an array of
+> +	 * &struct drm_color_lut.
+> +	 */
+> +	struct drm_property_blob *lut3d;
+>  };
+>  
+>  struct dm_crtc_state {
+> @@ -858,6 +863,10 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
+>  
+>  void amdgpu_dm_trigger_timing_sync(struct drm_device *dev);
+>  
+> +/* 3D LUT max size is 17x17x17 */
+> +#define MAX_COLOR_3DLUT_ENTRIES 4913
+> +#define MAX_COLOR_3DLUT_BITDEPTH 12
+> +/* 1D LUT size */
+>  #define MAX_COLOR_LUT_ENTRIES 4096
+>  /* Legacy gamm LUT users such as X doesn't like large LUT sizes */
+>  #define MAX_COLOR_LEGACY_LUT_ENTRIES 256
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
+> index f274909c0c7e..e2f3f2099cac 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
+> @@ -207,6 +207,20 @@ amdgpu_dm_create_color_properties(struct amdgpu_device *adev)
+>  		return -ENOMEM;
+>  	adev->mode_info.plane_hdr_mult_property = prop;
+>  
+> +	prop = drm_property_create(adev_to_drm(adev),
+> +				   DRM_MODE_PROP_BLOB,
+> +				   "AMD_PLANE_LUT3D", 0);
+> +	if (!prop)
+> +		return -ENOMEM;
+> +	adev->mode_info.plane_lut3d_property = prop;
+> +
+> +	prop = drm_property_create_range(adev_to_drm(adev),
+> +					 DRM_MODE_PROP_IMMUTABLE,
+> +					 "AMD_PLANE_LUT3D_SIZE", 0, UINT_MAX);
+> +	if (!prop)
+> +		return -ENOMEM;
+> +	adev->mode_info.plane_lut3d_size_property = prop;
+> +
+>  	return 0;
+>  }
+>  #endif
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+> index b66da6b76f5c..56f9109ecf60 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+> @@ -1361,6 +1361,8 @@ dm_drm_plane_duplicate_state(struct drm_plane *plane)
+>  
+>  	if (dm_plane_state->degamma_lut)
+>  		drm_property_blob_get(dm_plane_state->degamma_lut);
+> +	if (dm_plane_state->lut3d)
+> +		drm_property_blob_get(dm_plane_state->lut3d);
+>  
+>  	dm_plane_state->degamma_tf = old_dm_plane_state->degamma_tf;
+>  	dm_plane_state->hdr_mult = old_dm_plane_state->hdr_mult;
+> @@ -1434,6 +1436,8 @@ static void dm_drm_plane_destroy_state(struct drm_plane *plane,
+>  
+>  	if (dm_plane_state->degamma_lut)
+>  		drm_property_blob_put(dm_plane_state->degamma_lut);
+> +	if (dm_plane_state->lut3d)
+> +		drm_property_blob_put(dm_plane_state->lut3d);
+>  
+>  	if (dm_plane_state->dc_state)
+>  		dc_plane_state_release(dm_plane_state->dc_state);
+> @@ -1464,6 +1468,14 @@ dm_atomic_plane_attach_color_mgmt_properties(struct amdgpu_display_manager *dm,
+>  	drm_object_attach_property(&plane->base,
+>  				   dm->adev->mode_info.plane_hdr_mult_property,
+>  				   AMDGPU_HDR_MULT_DEFAULT);
+> +
+> +	if (dpp_color_caps.hw_3d_lut) {
+> +		drm_object_attach_property(&plane->base,
+> +					   mode_info.plane_lut3d_property, 0);
+> +		drm_object_attach_property(&plane->base,
+> +					   mode_info.plane_lut3d_size_property,
+> +					   MAX_COLOR_3DLUT_ENTRIES);
+> +	}
+>  }
+>  
+>  static int
+> @@ -1495,6 +1507,14 @@ dm_atomic_plane_set_property(struct drm_plane *plane,
+>  			dm_plane_state->hdr_mult = val;
+>  			dm_plane_state->base.color_mgmt_changed = 1;
+>  		}
+> +	} else if (property == adev->mode_info.plane_lut3d_property) {
+> +		ret = drm_property_replace_blob_from_id(plane->dev,
+> +							&dm_plane_state->lut3d,
+> +							val, -1,
+> +							sizeof(struct drm_color_lut),
+> +							&replaced);
+> +		dm_plane_state->base.color_mgmt_changed |= replaced;
+> +		return ret;
+>  	} else {
+>  		drm_dbg_atomic(plane->dev,
+>  			       "[PLANE:%d:%s] unknown property [PROP:%d:%s]]\n",
+> @@ -1522,6 +1542,9 @@ dm_atomic_plane_get_property(struct drm_plane *plane,
+>  		*val = dm_plane_state->degamma_tf;
+>  	} else if (property == adev->mode_info.plane_hdr_mult_property) {
+>  		*val = dm_plane_state->hdr_mult;
+> +	} else 	if (property == adev->mode_info.plane_lut3d_property) {
+> +		*val = (dm_plane_state->lut3d) ?
+> +			dm_plane_state->lut3d->base.id : 0;
+>  	} else {
+>  		return -EINVAL;
+>  	}
 
-Shashank
-
->
->> +
->> +	/* Adjust the absolute doorbell offset against the doorbell id considering
->> +	 * the doorbell size of 32/64 bit.
->> +	 */
->> +	if (!KFD_IS_SOC15(dev))
->> +		q->properties.doorbell_off += q->doorbell_id;
->> +	else
->> +		q->properties.doorbell_off += q->doorbell_id * 2;
->
-> This could be simplified and generalized as
->
-> 	q->properties.doorbell_off += q->doorbell_id * dev->kfd->device_info.doorbell_size / 4;
-
-Agree, we can do this simplification.
-
-- Shashank
-
-> Regards,
->   Felix
->
->
->> +
->>   	return 0;
->>   }
->>   
