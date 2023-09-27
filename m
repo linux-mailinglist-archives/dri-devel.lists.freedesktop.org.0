@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CE107AFCA2
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Sep 2023 09:47:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F06E7AFCCF
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Sep 2023 09:48:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DED0210E47A;
-	Wed, 27 Sep 2023 07:47:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3328C10E46D;
+	Wed, 27 Sep 2023 07:48:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2DBA710E47F
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6BEE210E481
  for <dri-devel@lists.freedesktop.org>; Wed, 27 Sep 2023 07:47:30 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id C75711F8AB;
- Wed, 27 Sep 2023 07:47:28 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 19E64218A0;
+ Wed, 27 Sep 2023 07:47:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1695800848; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1695800849; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wF4q/BcGjd3EcEu/UtBnJFO+RuYCH2Wk4kZdjDMiFr0=;
- b=WqzRei3/rLDeaKxj3/3jqeBHVMqWmeTdoE+a8zvSe2G5wm5Oc+Lu8RAeJPGSjtbhGqdN6k
- 3U0e+7rsJEzcIhBWGvNtXQ38e6IGyF9JSgCNK6jBc6ZSb4YkiE7GXWg9vhWMr+61Z0oQJb
- 4GjOL7sMBi57JynSyCCJjhZQ68dI+u8=
+ bh=a1cq3c/ruH7vpeaGLX2GQTQpwjLjGI8CdqEohsvmpzQ=;
+ b=eQZp9EKEeBcw2piskzwn/PKIA+8HFg221d7xem7srB/fHpesXl78CfNhvIe/8bEx+TTJQS
+ 8AqmKkMVLVSyV5eHZyOzF48OyD++AIT5eBJwAjCvM1vLjgbZZ1sIPr6XkbjNhnkc3FKrrC
+ OEjQLXPWpuADLckK/B6YiT9PGUnHHdY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1695800848;
+ s=susede2_ed25519; t=1695800849;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wF4q/BcGjd3EcEu/UtBnJFO+RuYCH2Wk4kZdjDMiFr0=;
- b=kzF3hdiK0b7++Wq+QbEA1mbfhS2uglWQZRjaGRS7a/rptovTeehY5jf83rgoWxgTRjv9op
- /7+iVHa+ipYY46AQ==
+ bh=a1cq3c/ruH7vpeaGLX2GQTQpwjLjGI8CdqEohsvmpzQ=;
+ b=GzVUm9VcDLtSfmlMhD8lP0iqa7KhWqrUwJOQ1K57t2Ihr033n13EyRH6vLSQGYbvtEfrBV
+ 4iTmaGiKN46rRlDA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8B0011338F;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id CC7B913A74;
  Wed, 27 Sep 2023 07:47:28 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id UNcHIRDeE2XvUQAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id SOz+MBDeE2XvUQAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Wed, 27 Sep 2023 07:47:28 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: deller@gmx.de, javierm@redhat.com, sam@ravnborg.org, arnd@arndb.de,
  daniel@ffwll.ch
-Subject: [PATCH 16/46] fbdev/hgafb: Initialize fb_ops to fbdev I/O-memory
+Subject: [PATCH 17/46] fbdev/hitfb: Initialize fb_ops to fbdev I/O-memory
  helpers
-Date: Wed, 27 Sep 2023 09:26:49 +0200
-Message-ID: <20230927074722.6197-17-tzimmermann@suse.de>
+Date: Wed, 27 Sep 2023 09:26:50 +0200
+Message-ID: <20230927074722.6197-18-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20230927074722.6197-1-tzimmermann@suse.de>
 References: <20230927074722.6197-1-tzimmermann@suse.de>
@@ -70,9 +70,9 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: linux-fbdev@vger.kernel.org, linux-parisc@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Ferenc Bakonyi <fero@drama.obuda.kando.hu>,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-nvidia@lists.surfsouth.com,
- linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-nvidia@lists.surfsouth.com, linux-omap@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -90,43 +90,48 @@ This benefits systems that do not use these functions.
 No functional changes.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Ferenc Bakonyi <fero@drama.obuda.kando.hu>
 ---
- drivers/video/fbdev/Kconfig | 1 +
- drivers/video/fbdev/hgafb.c | 2 ++
- 2 files changed, 3 insertions(+)
+ drivers/video/fbdev/Kconfig | 2 +-
+ drivers/video/fbdev/hitfb.c | 4 +++-
+ 2 files changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
-index 0f6cd44bc7561..0e0591fb32cae 100644
+index 0e0591fb32cae..6a5437ab3df30 100644
 --- a/drivers/video/fbdev/Kconfig
 +++ b/drivers/video/fbdev/Kconfig
-@@ -485,6 +485,7 @@ config FB_N411
- config FB_HGA
- 	tristate "Hercules mono graphics support"
- 	depends on FB && X86
+@@ -1490,8 +1490,8 @@ config FB_HIT
+ 	tristate "HD64461 Frame Buffer support"
+ 	depends on FB && HD64461
+ 	select FB_CFB_FILLRECT
+-	select FB_CFB_COPYAREA
+ 	select FB_CFB_IMAGEBLIT
 +	select FB_IOMEM_FOPS
  	help
- 	  Say Y here if you have a Hercules mono graphics card.
+ 	  This is the frame buffer device driver for the Hitachi HD64461 LCD
+ 	  frame buffer card.
+diff --git a/drivers/video/fbdev/hitfb.c b/drivers/video/fbdev/hitfb.c
+index 17715eaf06732..b64b74b76c71f 100644
+--- a/drivers/video/fbdev/hitfb.c
++++ b/drivers/video/fbdev/hitfb.c
+@@ -328,8 +328,9 @@ static int hitfb_set_par(struct fb_info *info)
  
-diff --git a/drivers/video/fbdev/hgafb.c b/drivers/video/fbdev/hgafb.c
-index 6a64e6d7255eb..10728259dac25 100644
---- a/drivers/video/fbdev/hgafb.c
-+++ b/drivers/video/fbdev/hgafb.c
-@@ -532,12 +532,14 @@ static const struct fb_ops hgafb_ops = {
+ static const struct fb_ops hitfb_ops = {
  	.owner		= THIS_MODULE,
- 	.fb_open	= hgafb_open,
- 	.fb_release	= hgafb_release,
 +	__FB_DEFAULT_IOMEM_OPS_RDWR,
- 	.fb_setcolreg	= hgafb_setcolreg,
- 	.fb_pan_display	= hgafb_pan_display,
- 	.fb_blank	= hgafb_blank,
- 	.fb_fillrect	= hgafb_fillrect,
- 	.fb_copyarea	= hgafb_copyarea,
- 	.fb_imageblit	= hgafb_imageblit,
+ 	.fb_check_var	= hitfb_check_var,
+-	.fb_set_par		= hitfb_set_par,
++	.fb_set_par	= hitfb_set_par,
+ 	.fb_setcolreg	= hitfb_setcolreg,
+ 	.fb_blank	= hitfb_blank,
+ 	.fb_sync	= hitfb_sync,
+@@ -337,6 +338,7 @@ static const struct fb_ops hitfb_ops = {
+ 	.fb_fillrect	= hitfb_fillrect,
+ 	.fb_copyarea	= hitfb_copyarea,
+ 	.fb_imageblit	= cfb_imageblit,
 +	__FB_DEFAULT_IOMEM_OPS_MMAP,
  };
  
- /* ------------------------------------------------------------------------- *
+ static int hitfb_probe(struct platform_device *dev)
 -- 
 2.42.0
 
