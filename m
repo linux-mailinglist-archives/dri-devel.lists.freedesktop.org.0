@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E36967AFC8B
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Sep 2023 09:47:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 650CA7AFC74
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Sep 2023 09:47:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A3F4410E47B;
-	Wed, 27 Sep 2023 07:47:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 873E310E474;
+	Wed, 27 Sep 2023 07:47:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 433BC10E479
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 943EE10E47E
  for <dri-devel@lists.freedesktop.org>; Wed, 27 Sep 2023 07:47:29 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 081362189F;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 462991F8A8;
  Wed, 27 Sep 2023 07:47:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1695800848; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2/IAJ+nflY6vv4Hj8yMEqhnvYxgG/i/teJeTcVUgps4=;
- b=0ssOZia3Xz3ePzTXYq6vRGMryjR2ZOwQoYZY/etqsB60qP1EN9MIMOW9OiuzX+fuTww83C
- 4Jh2dzb9LN6N/Fr2Y2eBMGonVP+2WCq4EhZtGshM9oQPAfchBbwBRXp+V9zr8EaQCZQAPd
- 4t8N9Q+pWuENQ1+naHRg32/zUHoRDD0=
+ bh=3J+r/az24Cf0It/t6fWkvDXQmlqczGrS7csKaowZMPk=;
+ b=P1+eBmBKLoFRAiD/htVZC8N3LyVEzFqsmumur4ZspLHG8OChn1E1kqWQohwwUpxSHLt1aG
+ LuVKIHoWHPpFnH3Q69WouGRtG7SW5Ln00MgPoj0bbz+a/nfr7Avb4dJbkQeZ+cnGbhUg/I
+ dYjzCLzhJ7lu04OAjTTVajV+mk/s70I=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1695800848;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2/IAJ+nflY6vv4Hj8yMEqhnvYxgG/i/teJeTcVUgps4=;
- b=Xh3vOdRSXZdH2cgCaDmXtjcjE6q5Xkpqf1QrKXJA4ZM+nP9O7p2FHP0hcp49Qlkvcg6bwB
- R4DiEpEDFRTT8oAA==
+ bh=3J+r/az24Cf0It/t6fWkvDXQmlqczGrS7csKaowZMPk=;
+ b=PRd9aWXeVDLSrt4N05pWVRztdsLncaoadypoZ0ppSRZh9VuBU7JFoHXXCOVgk0S+0MHhci
+ 5luMklUEobwMYOBA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C530913A74;
- Wed, 27 Sep 2023 07:47:27 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0BDA31338F;
+ Wed, 27 Sep 2023 07:47:28 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id +LlaLw/eE2XvUQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Wed, 27 Sep 2023 07:47:27 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id wNkJAhDeE2XvUQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Wed, 27 Sep 2023 07:47:28 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: deller@gmx.de, javierm@redhat.com, sam@ravnborg.org, arnd@arndb.de,
  daniel@ffwll.ch
-Subject: [PATCH 13/46] fbdev/dnfb: Initialize fb_ops to fbdev I/O-memory
+Subject: [PATCH 14/46] fbdev/ep93xx-fb: Initialize fb_ops to fbdev I/O-memory
  helpers
-Date: Wed, 27 Sep 2023 09:26:46 +0200
-Message-ID: <20230927074722.6197-14-tzimmermann@suse.de>
+Date: Wed, 27 Sep 2023 09:26:47 +0200
+Message-ID: <20230927074722.6197-15-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20230927074722.6197-1-tzimmermann@suse.de>
 References: <20230927074722.6197-1-tzimmermann@suse.de>
@@ -91,39 +91,44 @@ No functional changes.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/video/fbdev/Kconfig | 1 +
- drivers/video/fbdev/dnfb.c  | 2 ++
- 2 files changed, 3 insertions(+)
+ drivers/video/fbdev/Kconfig     | 4 +---
+ drivers/video/fbdev/ep93xx-fb.c | 5 ++---
+ 2 files changed, 3 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
-index 5ad55bf2b18e6..0997c6cc3bcdb 100644
+index 0997c6cc3bcdb..64c7cbeb4cd79 100644
 --- a/drivers/video/fbdev/Kconfig
 +++ b/drivers/video/fbdev/Kconfig
-@@ -217,6 +217,7 @@ config FB_APOLLO
- 	default y
- 	select FB_CFB_FILLRECT
- 	select FB_CFB_IMAGEBLIT
-+	select FB_IOMEM_FOPS
+@@ -1866,9 +1866,7 @@ config FB_MB862XX_I2C
+ config FB_EP93XX
+ 	tristate "EP93XX frame buffer support"
+ 	depends on FB && ARCH_EP93XX
+-	select FB_CFB_FILLRECT
+-	select FB_CFB_COPYAREA
+-	select FB_CFB_IMAGEBLIT
++	select FB_IOMEM_HELPERS
+ 	help
+ 	  Framebuffer driver for the Cirrus Logic EP93XX series of processors.
+ 	  This driver is also available as a module. The module will be called
+diff --git a/drivers/video/fbdev/ep93xx-fb.c b/drivers/video/fbdev/ep93xx-fb.c
+index d94e3e8d14a12..cae00deee0014 100644
+--- a/drivers/video/fbdev/ep93xx-fb.c
++++ b/drivers/video/fbdev/ep93xx-fb.c
+@@ -404,12 +404,11 @@ static int ep93xxfb_setcolreg(unsigned int regno, unsigned int red,
  
- config FB_Q40
- 	bool
-diff --git a/drivers/video/fbdev/dnfb.c b/drivers/video/fbdev/dnfb.c
-index 18405c402ec15..c4d24540d9efd 100644
---- a/drivers/video/fbdev/dnfb.c
-+++ b/drivers/video/fbdev/dnfb.c
-@@ -110,10 +110,12 @@ static void dnfb_copyarea(struct fb_info *info, const struct fb_copyarea *area);
- 
- static const struct fb_ops dn_fb_ops = {
+ static const struct fb_ops ep93xxfb_ops = {
  	.owner		= THIS_MODULE,
 +	__FB_DEFAULT_IOMEM_OPS_RDWR,
- 	.fb_blank	= dnfb_blank,
- 	.fb_fillrect	= cfb_fillrect,
- 	.fb_copyarea	= dnfb_copyarea,
- 	.fb_imageblit	= cfb_imageblit,
-+	__FB_DEFAULT_IOMEM_OPS_MMAP,
+ 	.fb_check_var	= ep93xxfb_check_var,
+ 	.fb_set_par	= ep93xxfb_set_par,
+ 	.fb_blank	= ep93xxfb_blank,
+-	.fb_fillrect	= cfb_fillrect,
+-	.fb_copyarea	= cfb_copyarea,
+-	.fb_imageblit	= cfb_imageblit,
++	__FB_DEFAULT_IOMEM_OPS_DRAW,
+ 	.fb_setcolreg	= ep93xxfb_setcolreg,
+ 	.fb_mmap	= ep93xxfb_mmap,
  };
- 
- static const struct fb_var_screeninfo dnfb_var = {
 -- 
 2.42.0
 
