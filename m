@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F06E7AFCCF
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Sep 2023 09:48:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09D267AFC7D
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Sep 2023 09:47:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3328C10E46D;
-	Wed, 27 Sep 2023 07:48:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6BB7510E470;
+	Wed, 27 Sep 2023 07:47:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6BEE210E481
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 96F0C10E47F
  for <dri-devel@lists.freedesktop.org>; Wed, 27 Sep 2023 07:47:30 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 19E64218A0;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 5F0EE1F8AC;
  Wed, 27 Sep 2023 07:47:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1695800849; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=a1cq3c/ruH7vpeaGLX2GQTQpwjLjGI8CdqEohsvmpzQ=;
- b=eQZp9EKEeBcw2piskzwn/PKIA+8HFg221d7xem7srB/fHpesXl78CfNhvIe/8bEx+TTJQS
- 8AqmKkMVLVSyV5eHZyOzF48OyD++AIT5eBJwAjCvM1vLjgbZZ1sIPr6XkbjNhnkc3FKrrC
- OEjQLXPWpuADLckK/B6YiT9PGUnHHdY=
+ bh=LULBWX2C3xdjC+8GatQVumxBrgFf6+dGXHWqVAsepzU=;
+ b=dP4u12mqWwAy9Rr5vIq/Fg7RF3QPVxhva3E+Sctr7EQbVu5O9LmxC3o8QRWI/AxJH3mox3
+ RtUP9wGlyFVscHIzh+GJc1+9eKQ0rrkkcTGCrali0cD1SEuDKymiZln4WzTj4eqHfQmgwM
+ tHpuxb1u8abC0voEo4UXPRrgJCyZIOI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1695800849;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=a1cq3c/ruH7vpeaGLX2GQTQpwjLjGI8CdqEohsvmpzQ=;
- b=GzVUm9VcDLtSfmlMhD8lP0iqa7KhWqrUwJOQ1K57t2Ihr033n13EyRH6vLSQGYbvtEfrBV
- 4iTmaGiKN46rRlDA==
+ bh=LULBWX2C3xdjC+8GatQVumxBrgFf6+dGXHWqVAsepzU=;
+ b=xqV5MqiHIoFL4pAr3gUVDXeYyeDtaUik97vh7dTqAj4xULDk8tbS0aH5xMhsnZIvjr+sSS
+ GhV3Js+3PXGCSzCA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id CC7B913A74;
- Wed, 27 Sep 2023 07:47:28 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 204D91338F;
+ Wed, 27 Sep 2023 07:47:29 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id SOz+MBDeE2XvUQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Wed, 27 Sep 2023 07:47:28 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id oKnmBhHeE2XvUQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Wed, 27 Sep 2023 07:47:29 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: deller@gmx.de, javierm@redhat.com, sam@ravnborg.org, arnd@arndb.de,
  daniel@ffwll.ch
-Subject: [PATCH 17/46] fbdev/hitfb: Initialize fb_ops to fbdev I/O-memory
+Subject: [PATCH 18/46] fbdev/hpfb: Initialize fb_ops to fbdev I/O-memory
  helpers
-Date: Wed, 27 Sep 2023 09:26:50 +0200
-Message-ID: <20230927074722.6197-18-tzimmermann@suse.de>
+Date: Wed, 27 Sep 2023 09:26:51 +0200
+Message-ID: <20230927074722.6197-19-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20230927074722.6197-1-tzimmermann@suse.de>
 References: <20230927074722.6197-1-tzimmermann@suse.de>
@@ -91,47 +91,41 @@ No functional changes.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/video/fbdev/Kconfig | 2 +-
- drivers/video/fbdev/hitfb.c | 4 +++-
- 2 files changed, 4 insertions(+), 2 deletions(-)
+ drivers/video/fbdev/Kconfig | 1 +
+ drivers/video/fbdev/hpfb.c  | 2 ++
+ 2 files changed, 3 insertions(+)
 
 diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
-index 0e0591fb32cae..6a5437ab3df30 100644
+index 6a5437ab3df30..3c28bff8a0770 100644
 --- a/drivers/video/fbdev/Kconfig
 +++ b/drivers/video/fbdev/Kconfig
-@@ -1490,8 +1490,8 @@ config FB_HIT
- 	tristate "HD64461 Frame Buffer support"
- 	depends on FB && HD64461
- 	select FB_CFB_FILLRECT
--	select FB_CFB_COPYAREA
+@@ -407,6 +407,7 @@ config FB_HP300
+ 	bool
+ 	depends on (FB = y) && DIO
  	select FB_CFB_IMAGEBLIT
 +	select FB_IOMEM_FOPS
- 	help
- 	  This is the frame buffer device driver for the Hitachi HD64461 LCD
- 	  frame buffer card.
-diff --git a/drivers/video/fbdev/hitfb.c b/drivers/video/fbdev/hitfb.c
-index 17715eaf06732..b64b74b76c71f 100644
---- a/drivers/video/fbdev/hitfb.c
-+++ b/drivers/video/fbdev/hitfb.c
-@@ -328,8 +328,9 @@ static int hitfb_set_par(struct fb_info *info)
+ 	default y
  
- static const struct fb_ops hitfb_ops = {
+ config FB_TGA
+diff --git a/drivers/video/fbdev/hpfb.c b/drivers/video/fbdev/hpfb.c
+index 406c1383cbda9..66fac8e5393e0 100644
+--- a/drivers/video/fbdev/hpfb.c
++++ b/drivers/video/fbdev/hpfb.c
+@@ -186,12 +186,14 @@ static int hpfb_sync(struct fb_info *info)
+ 
+ static const struct fb_ops hpfb_ops = {
  	.owner		= THIS_MODULE,
 +	__FB_DEFAULT_IOMEM_OPS_RDWR,
- 	.fb_check_var	= hitfb_check_var,
--	.fb_set_par		= hitfb_set_par,
-+	.fb_set_par	= hitfb_set_par,
- 	.fb_setcolreg	= hitfb_setcolreg,
- 	.fb_blank	= hitfb_blank,
- 	.fb_sync	= hitfb_sync,
-@@ -337,6 +338,7 @@ static const struct fb_ops hitfb_ops = {
- 	.fb_fillrect	= hitfb_fillrect,
- 	.fb_copyarea	= hitfb_copyarea,
+ 	.fb_setcolreg	= hpfb_setcolreg,
+ 	.fb_blank	= hpfb_blank,
+ 	.fb_fillrect	= hpfb_fillrect,
+ 	.fb_copyarea	= hpfb_copyarea,
  	.fb_imageblit	= cfb_imageblit,
+ 	.fb_sync	= hpfb_sync,
 +	__FB_DEFAULT_IOMEM_OPS_MMAP,
  };
  
- static int hitfb_probe(struct platform_device *dev)
+ /* Common to all HP framebuffers */
 -- 
 2.42.0
 
