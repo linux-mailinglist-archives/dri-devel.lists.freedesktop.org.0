@@ -2,51 +2,156 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9833C7B018F
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Sep 2023 12:10:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 577577B01AF
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Sep 2023 12:20:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D6D5910E4B5;
-	Wed, 27 Sep 2023 10:10:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF7F310E4CA;
+	Wed, 27 Sep 2023 10:20:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0CA7910E05B;
- Wed, 27 Sep 2023 10:09:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1695809399; x=1727345399;
- h=message-id:date:mime-version:from:to:cc:subject:
- content-transfer-encoding;
- bh=TJNpDjbYMLtmQD5BYcSskY6w0GtLnD8XO7hSMvZMOgo=;
- b=iqKBfxY1Hob3jHm9LddQEShjsXk51RBbQhOJ+SdHEReyJZodgH/0/UFw
- pY1NAfMgSLD22gbdttjgfzqyRTdCtlyDeGNa8Bfpx630N1VGEsMJmS2FP
- znuuZB/yEJ328uzEx3cUWPsOyhQerzu8RfBRhmevPX7lEs59YOJeIP5Xi
- TulsGCQwz1fO6E2UnLyWcQbrhYjSmSw8WrBdFhPFEpHMINvCa3eE5IC8F
- MqiMUxXiSXjKR9Wqk28EGUJ0WwoL3xQkIc7cD8x9/1rc9U5HNaXZLs6VB
- P/ks+IPoL2vVoSp/h6NBFGMm0Z6ghlJjlVKeApNs248VUUMzPkljIeTFJ g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10845"; a="381689030"
-X-IronPort-AV: E=Sophos;i="6.03,179,1694761200"; d="scan'208";a="381689030"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Sep 2023 03:09:58 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.03,179,1694761200"; 
-   d="scan'208";a="477992"
-Received: from vcorfu1-mobl.ger.corp.intel.com (HELO [10.251.220.226])
- ([10.251.220.226])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Sep 2023 03:09:23 -0700
-Message-ID: <f1fae5eb-25b8-192a-9a53-215e1184ce81@linux.intel.com>
-Date: Wed, 27 Sep 2023 12:09:52 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>, Dave Airlie <airlied@gmail.com>
-Subject: [PULL] drm-misc-next
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A707410E4C4
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Sep 2023 10:20:23 +0000 (UTC)
+X-UUID: 74cb8fb45d1f11eea33bb35ae8d461a2-20230927
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:MIME-Version:Content-Transfer-Encoding:Content-ID:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From;
+ bh=keF7VJB8auLFFx6uW8cbjkV/DwbcYlfITTrKelY+92I=; 
+ b=i3UCS5H3trwjjqfkyzZ9KtDLYc33Xzo5cfweAP5+hxNIK2nWtHHrUROyu+7pLpx0tOsRNQvwGYy/m0l0FHBQ0ZaefcEOOYFz7+VPsGQwuFgN+XDN+9eJql5VNmzEdzEJIHrrX/JC55psicUEhIoQyi9FxYe1RXZHBl1kMA47tLA=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.32, REQID:2278264f-767a-4762-a51c-50bd52e0a3ae, IP:0,
+ U
+ RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+ release,TS:0
+X-CID-META: VersionHash:5f78ec9, CLOUDID:47a855bf-14cc-44ca-b657-2d2783296e72,
+ B
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:11|1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:
+ NO,DKR:0,DKP:0,BRR:0,BRE:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULN
+X-UUID: 74cb8fb45d1f11eea33bb35ae8d461a2-20230927
+Received: from mtkmbs13n2.mediatek.inc [(172.21.101.108)] by
+ mailgw01.mediatek.com (envelope-from <ck.hu@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1039699654; Wed, 27 Sep 2023 18:20:17 +0800
+Received: from mtkmbs10n2.mediatek.inc (172.21.101.183) by
+ mtkmbs13n1.mediatek.inc (172.21.101.193) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Wed, 27 Sep 2023 18:20:16 +0800
+Received: from APC01-PSA-obe.outbound.protection.outlook.com (172.21.101.237)
+ by mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP
+ Server id
+ 15.2.1118.26 via Frontend Transport; Wed, 27 Sep 2023 18:20:16 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=GVgTyeiSvmOfGlJCaUb0Rjvg4KajRzo+FyL8LaLlAf0tZWP4S3DBGN1nmWq//nhByyebbm3Izj0JS/0JNEhZXdxTT7mvZv0wNsePh6t84S/ttU6vHJRRvlx3by6uDxvbHZNalksiCdhYUi2uH35rzZu1kxgwLMiYgMdvsnv/4kNdH5APBjVkEFoPR4mspmmSItYacOem2qIMZ2a/WKwc5nQ0ncoQxLaMmgbwGyqVteL2Qw9ZF7pGnqRECCNMzoKRosaNKvFNI63IbrgFw+ekcXOGHHRez4/Amwd8tvoSGtck/pddUevgOeULhCyj0xwuQ46d3W9IzFeWk3mQfLK0lQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3v91nSc3F2fmZXSruPV2wMcFWpe6uHWgbycCe4dvG3s=;
+ b=i+kAoJ4n1Ow+edrrcVD4LQbicDcSzKgATtBnz4suI8bq8YVuKuMEY7um8RuNQNH0VEpRvtHlW6hrzyEhuhLX+a81oUQSwVpSBAGmvNdg7GDtE9qmDHiqHiAMQIi0fIym0KRXJ3IObzHkgXro9fsplXU0ALXENp/igMV2v7Wrm9lf+WtV5Url/q01ooUyv5ryHheWIRSrrUa8SdSaR8f39eqnN4MQ/b4QvrfEOHCa6SlChj+0txEMT1KALtmHCtPB1Dnx3HgFXJosNOh5sXHZsyfKZO25GXllFNbPdUn/uG+2ehvkH02zydkBXjxkyGFrXk/dGmxJgg7EodVe7q+Ymg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
+ dkim=pass header.d=mediatek.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3v91nSc3F2fmZXSruPV2wMcFWpe6uHWgbycCe4dvG3s=;
+ b=socdDyYjl0dH41BTP7sbhH2ahOr3EjB0tzOkZhoiBxDJbeGbXctf/E6xgfzOQI5M2MKxTRoNV754SlqG0E4N9Eg1cq+oDoK6m1UVmriw5G2w+2kdz1z6LuVvZZCM2bGmlQOKby0xFLTiClQeI7wdaZC7VShIXfbW2DttaR0UHGo=
+Received: from TYZPR03MB6624.apcprd03.prod.outlook.com (2603:1096:400:1f4::13)
+ by SEYPR03MB7141.apcprd03.prod.outlook.com (2603:1096:101:d6::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6813.28; Wed, 27 Sep
+ 2023 10:20:12 +0000
+Received: from TYZPR03MB6624.apcprd03.prod.outlook.com
+ ([fe80::9c2c:c08a:212f:e984]) by TYZPR03MB6624.apcprd03.prod.outlook.com
+ ([fe80::9c2c:c08a:212f:e984%6]) with mapi id 15.20.6792.026; Wed, 27 Sep 2023
+ 10:20:12 +0000
+From: =?utf-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>
+To: =?utf-8?B?U2hhd24gU3VuZyAo5a6L5a2d6KyZKQ==?= <Shawn.Sung@mediatek.com>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+ "angelogioacchino.delregno@collabora.com"
+ <angelogioacchino.delregno@collabora.com>, "robh+dt@kernel.org"
+ <robh+dt@kernel.org>, "krzysztof.kozlowski+dt@linaro.org"
+ <krzysztof.kozlowski+dt@linaro.org>
+Subject: Re: [RESEND PATCH v6 11/20] drm/mediatek: Rename OVL_ADAPTOR_TYPE_RDMA
+Thread-Topic: [RESEND PATCH v6 11/20] drm/mediatek: Rename
+ OVL_ADAPTOR_TYPE_RDMA
+Thread-Index: AQHZ5IOtFbVN3hllBkiE7eXMGllSsLAuj12A
+Date: Wed, 27 Sep 2023 10:20:12 +0000
+Message-ID: <87aea1ca8e220bef72232486b647397e6ac267ff.camel@mediatek.com>
+References: <20230911074233.31556-1-shawn.sung@mediatek.com>
+ <20230911074233.31556-12-shawn.sung@mediatek.com>
+In-Reply-To: <20230911074233.31556-12-shawn.sung@mediatek.com>
+Accept-Language: en-US
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=mediatek.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYZPR03MB6624:EE_|SEYPR03MB7141:EE_
+x-ms-office365-filtering-correlation-id: e41839e3-68a5-402b-86c8-08dbbf435582
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 8YiZ/VAIal7pUqy7HlAlZIB6K6B7bphMGyTeFLI/L+6eX6BaMAWrEuQXbNQdRNP84o2YCWf12oKFg5/+tBZ7xlE5FKG8MkSKi6r75yX6yDKLh5DlZ2AlFNTZ3CMZfDTHj3rBCquAQhTENJ2xIrpw1W2QR8NVAGPGBEYI3yCfEaAsDqPwkR5Oiobzf+4RLQ3UGlEfbfIKwzy1UoHnTPvPxDTB7MdfAecWnXXGKYZybA3Ut3UGG6JeS2lx0cEvMFaoWkUmFfMYPgjThEzewrJxDe0tR0Sge+PO6/AUZqSqWkrHxHUB0I2LB8zLs5oQ7VKr+KoRHJQColLWB/O5HitQh2ZDwSz7gqxp8kEmeTgazuK/ITtCJD/Xrk41TCcEJVzrMSeE8HNu+5+iA4FYpPJsihqiLFep3y7aosoo3W8z6CO0iOxui3Lf+o2YsG/yAWbnu7WpLqVug0h058QUoqrVZYrGM58jyxQEAcwOjEK1QV4OTDUK0YNqFwFlq4k+RzP8KO7Sua+8KoBZua/J02WcArIQisnqOKVdOP710pOyVBCKGJ/Hj3dt9HIdrFKZFD0fEfKNYfXdBy22u+V/Qgk+5wnKgmigtaotf4uEVsr4BsDPbLOddyGqA6OfPlUBJjj0zXxwd7cZPkcywc/0TltDLSlPIUXahqBGJKc6VMORn4Q=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:TYZPR03MB6624.apcprd03.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(136003)(39860400002)(366004)(376002)(346002)(396003)(230922051799003)(1800799009)(186009)(451199024)(6486002)(478600001)(6512007)(110136005)(64756008)(66556008)(4326008)(66446008)(66946007)(54906003)(66476007)(316002)(76116006)(41300700001)(8676002)(2616005)(8936002)(6506007)(2906002)(26005)(5660300002)(83380400001)(7416002)(71200400001)(86362001)(38100700002)(36756003)(122000001)(38070700005)(85182001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?K2xNZ0sxQXYrYVczMzQ4SldCZDRJL2l6TytUUGZHallkTmNjaURqSnRVVllL?=
+ =?utf-8?B?b0xGdVJuV1daTUJyZkMvM1k4VWRCV2kzcUllVS8zMU9BWjNMVjlpZHVTL2JQ?=
+ =?utf-8?B?VEg4WFZJcGFsTUV5a0l2c1hoYW5ETzFLTXF2NUZ0V1ZpOWtueGpWTDdtWTc1?=
+ =?utf-8?B?K245WG82OGVjeHpBUDJyR0dFVmFHSlNYcjBTUEttVU45UlZuQ01yOG1hQ1B1?=
+ =?utf-8?B?dGlPaWxZU215V2dJUVlSRDgxS3JpZ015YWxLVktaMnN3V1QxUms1TDBFTjBE?=
+ =?utf-8?B?NkM0cUlIVFhLZHFoWEUrSDhpNmZETk1lOWZYdnpWSmNYeWYxOGROU2I3a3Y4?=
+ =?utf-8?B?M015NE4vaEVaQ2QydmRJNkorc01GRmRlb29iamJEbTNESk1QclQ5OWRHQnJ4?=
+ =?utf-8?B?VnZWbmRzdHZzaS93NmFQQ1RuQUc3RWwycHJDNVlOVnU1VWhKUjVlTUIrUW1L?=
+ =?utf-8?B?R0JKNVBwWWVWVHN6OEoyTW9MV0lRUTErejFKWm8rNFJ3SWFEb2hDTG9zTnR0?=
+ =?utf-8?B?NkdoQ2Z3Ym9ETlhzb1IwdFk4QVdrWWttcEx3cXBsU0FlTFVpdnZiOU0vZUZG?=
+ =?utf-8?B?M045eDBJTWVNUWVySWNkQzZha2hLa3hCT2prMit3VFBqd3lYZUJnMlFNMTZ0?=
+ =?utf-8?B?a2RTZ2lzZitVOFNkeUxsMnhISWd0Q0dkR2p0eUc3Y0k1c3JWVU8xT1dML0ZX?=
+ =?utf-8?B?emxyY053ZDFvYjIrbnBCYjVBdnJwWlpuOWJ3Z1hjMXhZcTVUc2NjWHFEaG8x?=
+ =?utf-8?B?a0Y3SElQdERIenZiMlhUdC9ScHVCdHNrWVNZVGh6SllnZURrdm5NTGd5YkY2?=
+ =?utf-8?B?RDNXelpKaVVPMUM3Kzd4bERueXd5NU43NWZYNjVZMjZHOGZIR0JBTEFSQ0ZV?=
+ =?utf-8?B?c21kaTZtUmFDSTVBV2JkNGJxczZUYkcvOEp4dzh4YktlL3VJKzdwb2hVQXV6?=
+ =?utf-8?B?TFd2ZEp3WkpZRjNKWHJhMUFtVjljRFBiRGJnQzl5akdpOFRsRDh0N0RjUThC?=
+ =?utf-8?B?UXV2S3dQbUJKWnFyNHlaRHNXMTlBZlRVZnRrN1NvV3kvQWQzemxmL2xua1Fr?=
+ =?utf-8?B?ZkNnN2JrZE8zYk44SitBenNGOWNUU0NmQ3RwRk5CZHo0SkhINzFKVGFRNlpY?=
+ =?utf-8?B?ckI3a2VOWG1wOFRybW4xK0dvOFROREFyLzg4NVJTQ0RSUUUzSGJSMlVaU0wz?=
+ =?utf-8?B?ZnFpRnNJczRIeHlXSHhHdUZmQzVzNFdjTGUrMCtxSzU2Z3g0eFIwZ1k0aTFN?=
+ =?utf-8?B?UWJ5MW5DRHlCTi9IWktxQ2FabzloU0xuRlY1bGtxNXpNVFBQWUt1YVZXellU?=
+ =?utf-8?B?Mnp4RzhPNGErTUZGYm1yNlVuYVo0dE5DYTJacFpJMjVXais0SFpyY1ZYV2ZK?=
+ =?utf-8?B?eitCMWMxVjF2U2JTMU5Ka0xSVHk5VTRiVmZtbnI4bzRybFFuUEIrNnJ0RGZN?=
+ =?utf-8?B?V0tDSU9sV0FzMk4ySERGTTZMMU9ObWFFL2RkSUcwK3IvbnFOOUZ3N09GMTRk?=
+ =?utf-8?B?ai9VdjN3b3NrQ3QxNXZyTXV0VExuK1RGSllEQURsZyt3dENLOEFMVmRVUnFj?=
+ =?utf-8?B?Zzh5dnZKSTUyMzhEejJ0Y2hBa1l1SngzQnN3dFRVcmI5NGVxaW1rRFNRZkpW?=
+ =?utf-8?B?TFRHWDY3c1IvaUVPTWV5ZmJmNFhnV096VGl1c0luNlJWMEdSbnRRUGhjb0VP?=
+ =?utf-8?B?dXhEeksyZGFmaitsVEVVbHJ1M09hSjNKb2xFL0RYT1hYc3d2U0FRQ0orREN1?=
+ =?utf-8?B?Y3Z3bE1tK0gyZkRDV3lYU21tczFuOFF3Z2VMbGZsbHU2N29rWEkvOEVCZjha?=
+ =?utf-8?B?UG4zNmhMbHY1K1p2b1g1NXJ0b25XYll1R3l1a2NJZzZ3dlFBNVlhTnJ3V0xp?=
+ =?utf-8?B?NE91dEZIYWVONjNQTk9kM3FDTGVTalRvR2RDc2I5ajBpUVFFa1Q1NDB1UGZM?=
+ =?utf-8?B?cjJvSEVTbFliblFzU1pEUGE1amtUNEpyems0TGlROWlFeGZJMHZPcit3a3pQ?=
+ =?utf-8?B?elZUajFMaVA3RHRJQld2SE5SQ29vZjlxSXdpQ2RWTjArWGQ5U0tRM2FNM1BX?=
+ =?utf-8?B?QytwZzdIc21pc2hvVkxxejVaL2xtQncrKzZHMjVYVmU4bzRPTHlodHlnRmVz?=
+ =?utf-8?Q?Y4c3j7VpMudrPa0AnaPvQWa2Y?=
+Content-ID: <07804C5DAFCD0844AA42882D97562337@apcprd03.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYZPR03MB6624.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e41839e3-68a5-402b-86c8-08dbbf435582
+X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Sep 2023 10:20:12.0841 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: bsZoWJl4YUm/4Nu7zGqUbL50Pe17k987TQrq1rJq7bdNR1JO2UY5x5a64zo1S4Ek5MGBWbsWwTJ2sBZQt7325Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEYPR03MB7141
+Content-Type: multipart/alternative;
+ boundary="__=_Part_Boundary_009_870250917.812897116"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,438 +164,179 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "conor+dt@kernel.org" <conor+dt@kernel.org>,
+ "nfraprado@collabora.com" <nfraprado@collabora.com>,
+ =?utf-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>,
+ =?utf-8?B?U2luZ28gQ2hhbmcgKOW8teiIiOWciyk=?= <Singo.Chang@mediatek.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Project_Global_Chrome_Upstream_Group
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+ =?utf-8?B?TmFuY3kgTGluICjmnpfmrKPonqIp?= <Nancy.Lin@mediatek.com>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm-misc-next-2023-09-27:
-drm-misc-next for v6.7-rc1:
+--__=_Part_Boundary_009_870250917.812897116
+Content-Type: text/html;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
 
-UAPI Changes:
-- drm_file owner is now updated during use, in the case of a drm fd
-   opened by the display server for a client, the correct owner is
-   displayed.
-- Qaic gains support for the QAIC_DETACH_SLICE_BO ioctl to allow bo
-   recycling.
+PHByZT4NCkhpLCYjMzI7SHNpYW8tY2hpZW46DQoNCk9uJiMzMjtNb24sJiMzMjsyMDIzLTA5LTEx
+JiMzMjthdCYjMzI7MTU6NDImIzMyOyswODAwLCYjMzI7SHNpYW8mIzMyO0NoaWVuJiMzMjtTdW5n
+JiMzMjt3cm90ZToNCiZndDsmIzMyO1JlbmFtZSYjMzI7T1ZMX0FEQVBUT1JfVFlQRV9SRE1BJiMz
+Mjt0byYjMzI7T1ZMX0FEQVBUT1JfVFlQRV9NRFBfUkRNQQ0KJmd0OyYjMzI7dG8mIzMyO2FsaWdu
+JiMzMjt0aGUmIzMyO25hbWluZyYjMzI7cnVsZSYjMzI7b2YmIzMyO210a19vdmxfYWRhcHRvcl9j
+b21wX2lkLg0KDQpSZXZpZXdlZC1ieTomIzMyO0NLJiMzMjtIdSYjMzI7Jmx0O2NrLmh1QG1lZGlh
+dGVrLmNvbSZndDsNCg0KJmd0OyYjMzI7DQomZ3Q7JiMzMjtTaWduZWQtb2ZmLWJ5OiYjMzI7SHNp
+YW8mIzMyO0NoaWVuJiMzMjtTdW5nJiMzMjsmbHQ7c2hhd24uc3VuZ0BtZWRpYXRlay5jb20mZ3Q7
+DQomZ3Q7JiMzMjstLS0NCiZndDsmIzMyOyYjMzI7Li4uL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2Rp
+c3Bfb3ZsX2FkYXB0b3IuYyYjMzI7JiMzMjsmIzMyO3wmIzMyOzIyJiMzMjsrKysrKysrKystLS0t
+LS0NCiZndDsmIzMyOy0tLS0NCiZndDsmIzMyOyYjMzI7MSYjMzI7ZmlsZSYjMzI7Y2hhbmdlZCwm
+IzMyOzExJiMzMjtpbnNlcnRpb25zKCspLCYjMzI7MTEmIzMyO2RlbGV0aW9ucygtKQ0KJmd0OyYj
+MzI7DQomZ3Q7JiMzMjtkaWZmJiMzMjstLWdpdCYjMzI7YS9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0
+ZWsvbXRrX2Rpc3Bfb3ZsX2FkYXB0b3IuYw0KJmd0OyYjMzI7Yi9kcml2ZXJzL2dwdS9kcm0vbWVk
+aWF0ZWsvbXRrX2Rpc3Bfb3ZsX2FkYXB0b3IuYw0KJmd0OyYjMzI7aW5kZXgmIzMyOzZiZjYzNjc4
+NTNmYi4uMTE0ZWRlZDgxNzdlJiMzMjsxMDA2NDQNCiZndDsmIzMyOy0tLSYjMzI7YS9kcml2ZXJz
+L2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2Rpc3Bfb3ZsX2FkYXB0b3IuYw0KJmd0OyYjMzI7KysrJiMz
+MjtiL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZGlzcF9vdmxfYWRhcHRvci5jDQomZ3Q7
+JiMzMjtAQCYjMzI7LTI3LDcmIzMyOysyNyw3JiMzMjtAQA0KJmd0OyYjMzI7JiMzMjsjZGVmaW5l
+JiMzMjtNVEtfT1ZMX0FEQVBUT1JfTEFZRVJfTlVNJiMzMjs0DQomZ3Q7JiMzMjsNCiZndDsmIzMy
+OyYjMzI7ZW51bSYjMzI7bXRrX292bF9hZGFwdG9yX2NvbXBfdHlwZSYjMzI7ew0KJmd0OyYjMzI7
+LU9WTF9BREFQVE9SX1RZUEVfUkRNQSYjMzI7PSYjMzI7MCwNCiZndDsmIzMyOytPVkxfQURBUFRP
+Ul9UWVBFX01EUF9SRE1BJiMzMjs9JiMzMjswLA0KJmd0OyYjMzI7JiMzMjtPVkxfQURBUFRPUl9U
+WVBFX01FUkdFLA0KJmd0OyYjMzI7JiMzMjtPVkxfQURBUFRPUl9UWVBFX0VUSERSLA0KJmd0OyYj
+MzI7JiMzMjtPVkxfQURBUFRPUl9UWVBFX05VTSwNCiZndDsmIzMyO0BAJiMzMjstNjIsMjAmIzMy
+Oys2MiwyMCYjMzI7QEAmIzMyO3N0cnVjdCYjMzI7bXRrX2Rpc3Bfb3ZsX2FkYXB0b3ImIzMyO3sN
+CiZndDsmIzMyOyYjMzI7fTsNCiZndDsmIzMyOw0KJmd0OyYjMzI7JiMzMjtzdGF0aWMmIzMyO2Nv
+bnN0JiMzMjtjaGFyJiMzMjsqJiMzMjtjb25zdCYjMzI7cHJpdmF0ZV9jb21wX3N0ZW1bT1ZMX0FE
+QVBUT1JfVFlQRV9OVU1dJiMzMjs9DQomZ3Q7JiMzMjt7DQomZ3Q7JiMzMjstW09WTF9BREFQVE9S
+X1RZUEVfUkRNQV09JiMzMjsmcXVvdDt2ZG8xLXJkbWEmcXVvdDssDQomZ3Q7JiMzMjsrW09WTF9B
+REFQVE9SX1RZUEVfTURQX1JETUFdPSYjMzI7JnF1b3Q7dmRvMS1yZG1hJnF1b3Q7LA0KJmd0OyYj
+MzI7JiMzMjtbT1ZMX0FEQVBUT1JfVFlQRV9NRVJHRV09JiMzMjsmcXVvdDttZXJnZSZxdW90OywN
+CiZndDsmIzMyOyYjMzI7W09WTF9BREFQVE9SX1RZUEVfRVRIRFJdPSYjMzI7JnF1b3Q7ZXRoZHIm
+cXVvdDssDQomZ3Q7JiMzMjsmIzMyO307DQomZ3Q7JiMzMjsNCiZndDsmIzMyOyYjMzI7c3RhdGlj
+JiMzMjtjb25zdCYjMzI7c3RydWN0JiMzMjtvdmxfYWRhcHRvcl9jb21wX21hdGNoDQomZ3Q7JiMz
+Mjtjb21wX21hdGNoZXNbT1ZMX0FEQVBUT1JfSURfTUFYXSYjMzI7PSYjMzI7ew0KJmd0OyYjMzI7
+LVtPVkxfQURBUFRPUl9NRFBfUkRNQTBdPSYjMzI7eyYjMzI7T1ZMX0FEQVBUT1JfVFlQRV9SRE1B
+LCYjMzI7MCYjMzI7fSwNCiZndDsmIzMyOy1bT1ZMX0FEQVBUT1JfTURQX1JETUExXT0mIzMyO3sm
+IzMyO09WTF9BREFQVE9SX1RZUEVfUkRNQSwmIzMyOzEmIzMyO30sDQomZ3Q7JiMzMjstW09WTF9B
+REFQVE9SX01EUF9SRE1BMl09JiMzMjt7JiMzMjtPVkxfQURBUFRPUl9UWVBFX1JETUEsJiMzMjsy
+JiMzMjt9LA0KJmd0OyYjMzI7LVtPVkxfQURBUFRPUl9NRFBfUkRNQTNdPSYjMzI7eyYjMzI7T1ZM
+X0FEQVBUT1JfVFlQRV9SRE1BLCYjMzI7MyYjMzI7fSwNCiZndDsmIzMyOy1bT1ZMX0FEQVBUT1Jf
+TURQX1JETUE0XT0mIzMyO3smIzMyO09WTF9BREFQVE9SX1RZUEVfUkRNQSwmIzMyOzQmIzMyO30s
+DQomZ3Q7JiMzMjstW09WTF9BREFQVE9SX01EUF9SRE1BNV09JiMzMjt7JiMzMjtPVkxfQURBUFRP
+Ul9UWVBFX1JETUEsJiMzMjs1JiMzMjt9LA0KJmd0OyYjMzI7LVtPVkxfQURBUFRPUl9NRFBfUkRN
+QTZdPSYjMzI7eyYjMzI7T1ZMX0FEQVBUT1JfVFlQRV9SRE1BLCYjMzI7NiYjMzI7fSwNCiZndDsm
+IzMyOy1bT1ZMX0FEQVBUT1JfTURQX1JETUE3XT0mIzMyO3smIzMyO09WTF9BREFQVE9SX1RZUEVf
+UkRNQSwmIzMyOzcmIzMyO30sDQomZ3Q7JiMzMjsrW09WTF9BREFQVE9SX01EUF9SRE1BMF09JiMz
+Mjt7JiMzMjtPVkxfQURBUFRPUl9UWVBFX01EUF9SRE1BLCYjMzI7MCYjMzI7fSwNCiZndDsmIzMy
+OytbT1ZMX0FEQVBUT1JfTURQX1JETUExXT0mIzMyO3smIzMyO09WTF9BREFQVE9SX1RZUEVfTURQ
+X1JETUEsJiMzMjsxJiMzMjt9LA0KJmd0OyYjMzI7K1tPVkxfQURBUFRPUl9NRFBfUkRNQTJdPSYj
+MzI7eyYjMzI7T1ZMX0FEQVBUT1JfVFlQRV9NRFBfUkRNQSwmIzMyOzImIzMyO30sDQomZ3Q7JiMz
+MjsrW09WTF9BREFQVE9SX01EUF9SRE1BM109JiMzMjt7JiMzMjtPVkxfQURBUFRPUl9UWVBFX01E
+UF9SRE1BLCYjMzI7MyYjMzI7fSwNCiZndDsmIzMyOytbT1ZMX0FEQVBUT1JfTURQX1JETUE0XT0m
+IzMyO3smIzMyO09WTF9BREFQVE9SX1RZUEVfTURQX1JETUEsJiMzMjs0JiMzMjt9LA0KJmd0OyYj
+MzI7K1tPVkxfQURBUFRPUl9NRFBfUkRNQTVdPSYjMzI7eyYjMzI7T1ZMX0FEQVBUT1JfVFlQRV9N
+RFBfUkRNQSwmIzMyOzUmIzMyO30sDQomZ3Q7JiMzMjsrW09WTF9BREFQVE9SX01EUF9SRE1BNl09
+JiMzMjt7JiMzMjtPVkxfQURBUFRPUl9UWVBFX01EUF9SRE1BLCYjMzI7NiYjMzI7fSwNCiZndDsm
+IzMyOytbT1ZMX0FEQVBUT1JfTURQX1JETUE3XT0mIzMyO3smIzMyO09WTF9BREFQVE9SX1RZUEVf
+TURQX1JETUEsJiMzMjs3JiMzMjt9LA0KJmd0OyYjMzI7JiMzMjtbT1ZMX0FEQVBUT1JfTUVSR0Uw
+XT0mIzMyO3smIzMyO09WTF9BREFQVE9SX1RZUEVfTUVSR0UsJiMzMjsxJiMzMjt9LA0KJmd0OyYj
+MzI7JiMzMjtbT1ZMX0FEQVBUT1JfTUVSR0UxXT0mIzMyO3smIzMyO09WTF9BREFQVE9SX1RZUEVf
+TUVSR0UsJiMzMjsyJiMzMjt9LA0KJmd0OyYjMzI7JiMzMjtbT1ZMX0FEQVBUT1JfTUVSR0UyXT0m
+IzMyO3smIzMyO09WTF9BREFQVE9SX1RZUEVfTUVSR0UsJiMzMjszJiMzMjt9LA0KJmd0OyYjMzI7
+QEAmIzMyOy0zODgsNyYjMzI7KzM4OCw3JiMzMjtAQCYjMzI7c3RhdGljJiMzMjtpbnQmIzMyO292
+bF9hZGFwdG9yX2NvbXBfZ2V0X2lkKHN0cnVjdCYjMzI7ZGV2aWNlDQomZ3Q7JiMzMjsqZGV2LCYj
+MzI7c3RydWN0JiMzMjtkZXZpY2Vfbm9kZSYjMzI7Km5vZGUsDQomZ3Q7JiMzMjsmIzMyO3N0YXRp
+YyYjMzI7Y29uc3QmIzMyO3N0cnVjdCYjMzI7b2ZfZGV2aWNlX2lkJiMzMjttdGtfb3ZsX2FkYXB0
+b3JfY29tcF9kdF9pZHNbXSYjMzI7PSYjMzI7ew0KJmd0OyYjMzI7JiMzMjt7DQomZ3Q7JiMzMjsm
+IzMyOy5jb21wYXRpYmxlJiMzMjs9JiMzMjsmcXVvdDttZWRpYXRlayxtdDgxOTUtdmRvMS1yZG1h
+JnF1b3Q7LA0KJmd0OyYjMzI7LS5kYXRhJiMzMjs9JiMzMjsodm9pZCYjMzI7KilPVkxfQURBUFRP
+Ul9UWVBFX1JETUEsDQomZ3Q7JiMzMjsrLmRhdGEmIzMyOz0mIzMyOyh2b2lkJiMzMjsqKU9WTF9B
+REFQVE9SX1RZUEVfTURQX1JETUEsDQomZ3Q7JiMzMjsmIzMyO30sJiMzMjt7DQomZ3Q7JiMzMjsm
+IzMyOy5jb21wYXRpYmxlJiMzMjs9JiMzMjsmcXVvdDttZWRpYXRlayxtdDgxOTUtZGlzcC1tZXJn
+ZSZxdW90OywNCiZndDsmIzMyOyYjMzI7LmRhdGEmIzMyOz0mIzMyOyh2b2lkJiMzMjsqKU9WTF9B
+REFQVE9SX1RZUEVfTUVSR0UsDQomZ3Q7JiMzMjstLQ0KJmd0OyYjMzI7Mi4xOC4wDQomZ3Q7JiMz
+MjsNCg0KPC9wcmU+PCEtLXR5cGU6dGV4dC0tPjwhLS17LS0+PHByZT4qKioqKioqKioqKioqIE1F
+RElBVEVLIENvbmZpZGVudGlhbGl0eSBOb3RpY2UgKioqKioqKioqKioqKioqKioqKioNClRoZSBp
+bmZvcm1hdGlvbiBjb250YWluZWQgaW4gdGhpcyBlLW1haWwgbWVzc2FnZSAoaW5jbHVkaW5nIGFu
+eSANCmF0dGFjaG1lbnRzKSBtYXkgYmUgY29uZmlkZW50aWFsLCBwcm9wcmlldGFyeSwgcHJpdmls
+ZWdlZCwgb3Igb3RoZXJ3aXNlDQpleGVtcHQgZnJvbSBkaXNjbG9zdXJlIHVuZGVyIGFwcGxpY2Fi
+bGUgbGF3cy4gSXQgaXMgaW50ZW5kZWQgdG8gYmUgDQpjb252ZXllZCBvbmx5IHRvIHRoZSBkZXNp
+Z25hdGVkIHJlY2lwaWVudChzKS4gQW55IHVzZSwgZGlzc2VtaW5hdGlvbiwgDQpkaXN0cmlidXRp
+b24sIHByaW50aW5nLCByZXRhaW5pbmcgb3IgY29weWluZyBvZiB0aGlzIGUtbWFpbCAoaW5jbHVk
+aW5nIGl0cyANCmF0dGFjaG1lbnRzKSBieSB1bmludGVuZGVkIHJlY2lwaWVudChzKSBpcyBzdHJp
+Y3RseSBwcm9oaWJpdGVkIGFuZCBtYXkgDQpiZSB1bmxhd2Z1bC4gSWYgeW91IGFyZSBub3QgYW4g
+aW50ZW5kZWQgcmVjaXBpZW50IG9mIHRoaXMgZS1tYWlsLCBvciBiZWxpZXZlIA0KdGhhdCB5b3Ug
+aGF2ZSByZWNlaXZlZCB0aGlzIGUtbWFpbCBpbiBlcnJvciwgcGxlYXNlIG5vdGlmeSB0aGUgc2Vu
+ZGVyIA0KaW1tZWRpYXRlbHkgKGJ5IHJlcGx5aW5nIHRvIHRoaXMgZS1tYWlsKSwgZGVsZXRlIGFu
+eSBhbmQgYWxsIGNvcGllcyBvZiANCnRoaXMgZS1tYWlsIChpbmNsdWRpbmcgYW55IGF0dGFjaG1l
+bnRzKSBmcm9tIHlvdXIgc3lzdGVtLCBhbmQgZG8gbm90DQpkaXNjbG9zZSB0aGUgY29udGVudCBv
+ZiB0aGlzIGUtbWFpbCB0byBhbnkgb3RoZXIgcGVyc29uLiBUaGFuayB5b3UhDQo8L3ByZT48IS0t
+fS0tPg==
 
-Cross-subsystem Changes:
-- Disable boot logo for au1200fb, mmpfb and unexport logo helpers.
-   Only fbcon should manage display of logo.
-- Update freescale in MAINTAINERS.
-- Add some bridge files to bridge in MAINTAINERS.
-- Update gma500 driver repo in MAINTAINERS to point to drm-misc.
+--__=_Part_Boundary_009_870250917.812897116
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Core Changes:
-- Move size computations to drm buddy allocator.
-- Make drm_atomic_helper_shutdown(NULL) a nop.
-- Assorted small fixes in drm_debugfs, DP-MST payload addition error 
-handling.
-- Fix DRM_BRIDGE_ATTACH_NO_CONNECTOR handling.
-- Handle bad (h/v)sync_end in EDID by clipping to htotal.
-- Build GPUVM as a module.
+SGksIEhzaWFvLWNoaWVuOg0KDQpPbiBNb24sIDIwMjMtMDktMTEgYXQgMTU6NDIgKzA4MDAsIEhz
+aWFvIENoaWVuIFN1bmcgd3JvdGU6DQo+IFJlbmFtZSBPVkxfQURBUFRPUl9UWVBFX1JETUEgdG8g
+T1ZMX0FEQVBUT1JfVFlQRV9NRFBfUkRNQQ0KPiB0byBhbGlnbiB0aGUgbmFtaW5nIHJ1bGUgb2Yg
+bXRrX292bF9hZGFwdG9yX2NvbXBfaWQuDQoNClJldmlld2VkLWJ5OiBDSyBIdSA8Y2suaHVAbWVk
+aWF0ZWsuY29tPg0KDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBIc2lhbyBDaGllbiBTdW5nIDxzaGF3
+bi5zdW5nQG1lZGlhdGVrLmNvbT4NCj4gLS0tDQo+ICAuLi4vZ3B1L2RybS9tZWRpYXRlay9tdGtf
+ZGlzcF9vdmxfYWRhcHRvci5jICAgfCAyMiArKysrKysrKystLS0tLS0NCj4gLS0tLQ0KPiAgMSBm
+aWxlIGNoYW5nZWQsIDExIGluc2VydGlvbnMoKyksIDExIGRlbGV0aW9ucygtKQ0KPiANCj4gZGlm
+ZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZGlzcF9vdmxfYWRhcHRvci5j
+DQo+IGIvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kaXNwX292bF9hZGFwdG9yLmMNCj4g
+aW5kZXggNmJmNjM2Nzg1M2ZiLi4xMTRlZGVkODE3N2UgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMv
+Z3B1L2RybS9tZWRpYXRlay9tdGtfZGlzcF9vdmxfYWRhcHRvci5jDQo+ICsrKyBiL2RyaXZlcnMv
+Z3B1L2RybS9tZWRpYXRlay9tdGtfZGlzcF9vdmxfYWRhcHRvci5jDQo+IEBAIC0yNyw3ICsyNyw3
+IEBADQo+ICAjZGVmaW5lIE1US19PVkxfQURBUFRPUl9MQVlFUl9OVU0gNA0KPiANCj4gIGVudW0g
+bXRrX292bF9hZGFwdG9yX2NvbXBfdHlwZSB7DQo+IC0JT1ZMX0FEQVBUT1JfVFlQRV9SRE1BID0g
+MCwNCj4gKwlPVkxfQURBUFRPUl9UWVBFX01EUF9SRE1BID0gMCwNCj4gIAlPVkxfQURBUFRPUl9U
+WVBFX01FUkdFLA0KPiAgCU9WTF9BREFQVE9SX1RZUEVfRVRIRFIsDQo+ICAJT1ZMX0FEQVBUT1Jf
+VFlQRV9OVU0sDQo+IEBAIC02MiwyMCArNjIsMjAgQEAgc3RydWN0IG10a19kaXNwX292bF9hZGFw
+dG9yIHsNCj4gIH07DQo+IA0KPiAgc3RhdGljIGNvbnN0IGNoYXIgKiBjb25zdCBwcml2YXRlX2Nv
+bXBfc3RlbVtPVkxfQURBUFRPUl9UWVBFX05VTV0gPQ0KPiB7DQo+IC0JW09WTF9BREFQVE9SX1RZ
+UEVfUkRNQV0JCT0gInZkbzEtcmRtYSIsDQo+ICsJW09WTF9BREFQVE9SX1RZUEVfTURQX1JETUFd
+CT0gInZkbzEtcmRtYSIsDQo+ICAJW09WTF9BREFQVE9SX1RZUEVfTUVSR0VdCT0gIm1lcmdlIiwN
+Cj4gIAlbT1ZMX0FEQVBUT1JfVFlQRV9FVEhEUl0JPSAiZXRoZHIiLA0KPiAgfTsNCj4gDQo+ICBz
+dGF0aWMgY29uc3Qgc3RydWN0IG92bF9hZGFwdG9yX2NvbXBfbWF0Y2gNCj4gY29tcF9tYXRjaGVz
+W09WTF9BREFQVE9SX0lEX01BWF0gPSB7DQo+IC0JW09WTF9BREFQVE9SX01EUF9SRE1BMF0JPSB7
+IE9WTF9BREFQVE9SX1RZUEVfUkRNQSwgMCB9LA0KPiAtCVtPVkxfQURBUFRPUl9NRFBfUkRNQTFd
+CT0geyBPVkxfQURBUFRPUl9UWVBFX1JETUEsIDEgfSwNCj4gLQlbT1ZMX0FEQVBUT1JfTURQX1JE
+TUEyXQk9IHsgT1ZMX0FEQVBUT1JfVFlQRV9SRE1BLCAyIH0sDQo+IC0JW09WTF9BREFQVE9SX01E
+UF9SRE1BM10JPSB7IE9WTF9BREFQVE9SX1RZUEVfUkRNQSwgMyB9LA0KPiAtCVtPVkxfQURBUFRP
+Ul9NRFBfUkRNQTRdCT0geyBPVkxfQURBUFRPUl9UWVBFX1JETUEsIDQgfSwNCj4gLQlbT1ZMX0FE
+QVBUT1JfTURQX1JETUE1XQk9IHsgT1ZMX0FEQVBUT1JfVFlQRV9SRE1BLCA1IH0sDQo+IC0JW09W
+TF9BREFQVE9SX01EUF9SRE1BNl0JPSB7IE9WTF9BREFQVE9SX1RZUEVfUkRNQSwgNiB9LA0KPiAt
+CVtPVkxfQURBUFRPUl9NRFBfUkRNQTddCT0geyBPVkxfQURBUFRPUl9UWVBFX1JETUEsIDcgfSwN
+Cj4gKwlbT1ZMX0FEQVBUT1JfTURQX1JETUEwXQk9IHsgT1ZMX0FEQVBUT1JfVFlQRV9NRFBfUkRN
+QSwgMCB9LA0KPiArCVtPVkxfQURBUFRPUl9NRFBfUkRNQTFdCT0geyBPVkxfQURBUFRPUl9UWVBF
+X01EUF9SRE1BLCAxIH0sDQo+ICsJW09WTF9BREFQVE9SX01EUF9SRE1BMl0JPSB7IE9WTF9BREFQ
+VE9SX1RZUEVfTURQX1JETUEsIDIgfSwNCj4gKwlbT1ZMX0FEQVBUT1JfTURQX1JETUEzXQk9IHsg
+T1ZMX0FEQVBUT1JfVFlQRV9NRFBfUkRNQSwgMyB9LA0KPiArCVtPVkxfQURBUFRPUl9NRFBfUkRN
+QTRdCT0geyBPVkxfQURBUFRPUl9UWVBFX01EUF9SRE1BLCA0IH0sDQo+ICsJW09WTF9BREFQVE9S
+X01EUF9SRE1BNV0JPSB7IE9WTF9BREFQVE9SX1RZUEVfTURQX1JETUEsIDUgfSwNCj4gKwlbT1ZM
+X0FEQVBUT1JfTURQX1JETUE2XQk9IHsgT1ZMX0FEQVBUT1JfVFlQRV9NRFBfUkRNQSwgNiB9LA0K
+PiArCVtPVkxfQURBUFRPUl9NRFBfUkRNQTddCT0geyBPVkxfQURBUFRPUl9UWVBFX01EUF9SRE1B
+LCA3IH0sDQo+ICAJW09WTF9BREFQVE9SX01FUkdFMF0JPSB7IE9WTF9BREFQVE9SX1RZUEVfTUVS
+R0UsIDEgfSwNCj4gIAlbT1ZMX0FEQVBUT1JfTUVSR0UxXQk9IHsgT1ZMX0FEQVBUT1JfVFlQRV9N
+RVJHRSwgMiB9LA0KPiAgCVtPVkxfQURBUFRPUl9NRVJHRTJdCT0geyBPVkxfQURBUFRPUl9UWVBF
+X01FUkdFLCAzIH0sDQo+IEBAIC0zODgsNyArMzg4LDcgQEAgc3RhdGljIGludCBvdmxfYWRhcHRv
+cl9jb21wX2dldF9pZChzdHJ1Y3QgZGV2aWNlDQo+ICpkZXYsIHN0cnVjdCBkZXZpY2Vfbm9kZSAq
+bm9kZSwNCj4gIHN0YXRpYyBjb25zdCBzdHJ1Y3Qgb2ZfZGV2aWNlX2lkIG10a19vdmxfYWRhcHRv
+cl9jb21wX2R0X2lkc1tdID0gew0KPiAgCXsNCj4gIAkJLmNvbXBhdGlibGUgPSAibWVkaWF0ZWss
+bXQ4MTk1LXZkbzEtcmRtYSIsDQo+IC0JCS5kYXRhID0gKHZvaWQgKilPVkxfQURBUFRPUl9UWVBF
+X1JETUEsDQo+ICsJCS5kYXRhID0gKHZvaWQgKilPVkxfQURBUFRPUl9UWVBFX01EUF9SRE1BLA0K
+PiAgCX0sIHsNCj4gIAkJLmNvbXBhdGlibGUgPSAibWVkaWF0ZWssbXQ4MTk1LWRpc3AtbWVyZ2Ui
+LA0KPiAgCQkuZGF0YSA9ICh2b2lkICopT1ZMX0FEQVBUT1JfVFlQRV9NRVJHRSwNCj4gLS0NCj4g
+Mi4xOC4wDQo+IA0K
 
-Driver Changes:
-- Simple drivers don't need to cache prepared result.
-- Call drm_atomic_helper_shutdown() in shutdown/unbind for a whole lot
-   more drm drivers.
-- Assorted small fixes in amdgpu, ssd130x, bridge/it6621, accel/qaic,
-   nouveau, tc358768.
-- Add NV12 for komeda writeback.
-- Add arbitration lost event to synopsis/dw-hdmi-cec.
-- Speed up s/r in nouveau by not restoring some big bo's.
-- Assorted nouveau display rework in preparation for GSP-RM,
-   especially related to how the modeset sequence works and
-   the DP sequence in relation to link training.
-- Update anx7816 panel.
-- Support NVSYNC and NHSYNC in tegra.
-- Allow multiple power domains in simple driver.
-The following changes since commit 15d30b46573d75f5cb58cfacded8ebab9c76a2b0:
+--__=_Part_Boundary_009_870250917.812897116--
 
-   drm/ssd130x: Use bool for ssd130x_deviceinfo flags (2023-09-10 
-09:05:47 +0200)
-
-are available in the Git repository at:
-
-   git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-next-2023-09-27
-
-for you to fetch changes up to 78f54469b871db5ba8ea49abd4e5994e97bd525b:
-
-   drm/nouveau: uvmm: rename 'umgr' to 'base' (2023-09-26 01:58:29 +0200)
-
-----------------------------------------------------------------
-drm-misc-next for v6.7-rc1:
-
-UAPI Changes:
-- drm_file owner is now updated during use, in the case of a drm fd
-   opened by the display server for a client, the correct owner is
-   displayed.
-- Qaic gains support for the QAIC_DETACH_SLICE_BO ioctl to allow bo
-   recycling.
-
-Cross-subsystem Changes:
-- Disable boot logo for au1200fb, mmpfb and unexport logo helpers.
-   Only fbcon should manage display of logo.
-- Update freescale in MAINTAINERS.
-- Add some bridge files to bridge in MAINTAINERS.
-- Update gma500 driver repo in MAINTAINERS to point to drm-misc.
-
-Core Changes:
-- Move size computations to drm buddy allocator.
-- Make drm_atomic_helper_shutdown(NULL) a nop.
-- Assorted small fixes in drm_debugfs, DP-MST payload addition error 
-handling.
-- Fix DRM_BRIDGE_ATTACH_NO_CONNECTOR handling.
-- Handle bad (h/v)sync_end in EDID by clipping to htotal.
-- Build GPUVM as a module.
-
-Driver Changes:
-- Simple drivers don't need to cache prepared result.
-- Call drm_atomic_helper_shutdown() in shutdown/unbind for a whole lot
-   more drm drivers.
-- Assorted small fixes in amdgpu, ssd130x, bridge/it6621, accel/qaic,
-   nouveau, tc358768.
-- Add NV12 for komeda writeback.
-- Add arbitration lost event to synopsis/dw-hdmi-cec.
-- Speed up s/r in nouveau by not restoring some big bo's.
-- Assorted nouveau display rework in preparation for GSP-RM,
-   especially related to how the modeset sequence works and
-   the DP sequence in relation to link training.
-- Update anx7816 panel.
-- Support NVSYNC and NHSYNC in tegra.
-- Allow multiple power domains in simple driver.
-
-----------------------------------------------------------------
-Alicja Michalska (2):
-       dt-bindings: display: anx7814: Add definition for anx7816
-       drm/bridge/analogix/anx78xx: Add missing definition
-
-AngeloGioacchino Del Regno (1):
-       drm/bridge: panel: Fix device link for DRM_BRIDGE_ATTACH_NO_CONNECTOR
-
-Arunpravin Paneer Selvam (3):
-       drm/buddy: Improve contiguous memory allocation
-       drm/amdgpu: Move the size computations to drm buddy
-       drm/i915: Move the size computations to drm buddy
-
-Ben Skeggs (43):
-       drm/nouveau/devinit/tu102-: remove attempt at loading PreOS
-       drm/nouveau/imem: support allocations not preserved across suspend
-       drm/nouveau/gr/gf100-: lose contents of global ctxbufs across suspend
-       drm/nouveau/mmu/gp100-: always invalidate TLBs at CACHE_LEVEL_ALL
-       drm/nouveau/kms/nv50-: fix mst payload alloc fail crashing evo
-       drm/nouveau/disp: rearrange output methods
-       drm/nouveau/disp: add output detect method
-       drm/nouveau/disp: add output method to fetch edid
-       drm/nouveau/disp: rename internal output acquire/release functions
-       drm/nouveau/disp: shuffle to make upcoming diffs prettier
-       drm/nouveau/disp: add acquire_dac()
-       drm/nouveau/disp: add acquire_sor/pior()
-       drm/nouveau/disp: update SOR routing immediately on acquire()
-       drm/nouveau/kms/nv50-: pull some common init out of OR-specific code
-       drm/nouveau/kms/nv50-: remove nv_encoder.audio.connector
-       drm/nouveau/kms/nv50-: keep output state around until modeset 
-complete
-       drm/nouveau/kms/nv50-: move audio enable post-modeset
-       drm/nouveau/disp: add output hdmi config method
-       drm/nouveau/disp: move hdmi disable out of release()
-       drm/nouveau/disp: release outputs post-modeset
-       drm/nouveau/disp: remove SOR routing updates from supervisor
-       drm/nouveau/disp: add output backlight control methods
-       drm/nouveau/disp: add output lvds config method
-       drm/nouveau/disp: add hdmi audio hal function
-       drm/nouveau/disp: move dp aux pwr method to HAL
-       drm/nouveau/disp: add dp aux xfer method
-       drm/nouveau/disp: add dp rates method
-       drm/nouveau/kms/nv50-: split DP disable+enable into two modesets
-       drm/nouveau/kms/nv50-: flush mst disables together
-       drm/nouveau/kms/nv50-: fixup sink D3 before tearing down link
-       drm/nouveau/disp: add dp train method
-       drm/nouveau/disp: move link training out of supervisor
-       drm/nouveau/disp: add dp sst config method
-       drm/nouveau/disp: add dp mst id get/put methods
-       drm/nouveau/disp: move outp/conn construction to chipset code
-       drm/nouveau/disp: move outp init/fini paths to chipset code
-       drm/nouveau/disp/nv50-: skip DCB_OUTPUT_TV
-       drm/nouveau/kms/nv50-: create heads based on nvkm head mask
-       drm/nouveau/kms/nv50-: create heads after outps/conns
-       drm/nouveau/kms/nv50-: name aux channels after their connector
-       drm/nouveau/kms/nv50-: create connectors based on nvkm info
-       drm/nouveau/kms/nv50-: create outputs based on nvkm info
-       drm/nouveau/kms/nv50-: disable dcb parsing
-
-Danilo Krummrich (3):
-       drm/gpuvm: rename struct drm_gpuva_manager to struct drm_gpuvm
-       drm/gpuvm: allow building as module
-       drm/nouveau: uvmm: rename 'umgr' to 'base'
-
-Douglas Anderson (14):
-       drm/panel: Don't store+check prepared/enabled for simple cases
-       drm/panel: s6e63m0: Don't store+check prepared/enabled
-       drm/panel: otm8009a: Don't double check prepared/enabled
-       MAINTAINERS: Update DRM DRIVERS FOR FREESCALE IMX entry
-       drm/atomic-helper: drm_atomic_helper_shutdown(NULL) should be a noop
-       drm/imx/ipuv3: Call drm_atomic_helper_shutdown() at 
-shutdown/unbind time
-       drm/ingenic: Call drm_atomic_helper_shutdown() at shutdown time
-       drm/armada: Call drm_atomic_helper_shutdown() at shutdown time
-       drm: Call drm_atomic_helper_shutdown() at shutdown time for misc 
-drivers
-       drm/vc4: Call drm_atomic_helper_shutdown() at shutdown time
-       drm/ssd130x: Call drm_atomic_helper_shutdown() at remove time
-       drm: Call drm_atomic_helper_shutdown() at shutdown/remove time 
-for misc drivers
-       drm/hisilicon/kirin: Call drm_atomic_helper_shutdown() at 
-shutdown/unbind time
-       drm/imx/dcss: Call drm_atomic_helper_shutdown() at shutdown time
-
-Imre Deak (3):
-       drm/dp_mst: Fix NULL dereference during payload addition
-       drm/dp_mst: Sanitize error return during payload addition
-       drm/dp_mst: Tune down error message during payload addition
-
-Jani Nikula (2):
-       drm: bridge: it66121: ->get_edid callback must not return err 
-pointers
-       MAINTAINERS: add drm_bridge_connector.[ch] files under bridge chips
-
-Janne Grunau (1):
-       drm/simpledrm: Add support for multiple "power-domains"
-
-Javier Martinez Canillas (2):
-       drm/ssd130x: Store the HW buffer in the driver-private CRTC state
-       drm/ssd130x: Drop _helper prefix from struct drm_*_helper_funcs 
-callbacks
-
-Jernej Skrabec (1):
-       drm/bridge: dw-hdmi-cec: Add arbitration lost event
-
-Justin Stitt (3):
-       drm/nouveau/nvif: refactor deprecated strncpy
-       drm/nouveau/core: refactor deprecated strncpy
-       drm/nouveau/pm: refactor deprecated strncpy
-
-Lyude Paul (1):
-       drm/nouveau/kms: Add INHERIT ioctl to nvkm/nvif for reading IOR state
-
-Maxime Ripard (1):
-       MAINTAINERS: Update gma500 git repo
-
-Nathan Chancellor (2):
-       drm/amd/display: Fix -Wuninitialized in 
-dm_helpers_dp_mst_send_payload_allocation()
-       drm/debugfs: Fix drm_debugfs_remove_files() stub
-
-Pranjal Ramajor Asha Kanojiya (9):
-       accel/qaic: Register for PCI driver at the beginning of module init
-       accel/qaic: Use devm_drm_dev_alloc() instead of drm_dev_alloc()
-       accel/qaic: Remove ->size field from struct qaic_bo
-       accel/qaic: Update BO metadata in a central location
-       accel/qaic: Declare BO 'sliced' after all the operations are complete
-       accel/qaic: Undo slicing setup done in qaic_attach_slicing_bo()
-       accel/qaic: Clean up BO during flushing of transfer list
-       accel/qaic: Create a function to initialize BO
-       accel/qaic: Add QAIC_DETACH_SLICE_BO IOCTL
-
-Thierry Reding (1):
-       drm/tegra: rgb: Parameterize V- and H-sync polarities
-
-Thomas Zimmermann (7):
-       fbdev/au1200fb: Do not display boot-up logo
-       fbdev/mmp/mmpfb: Do not display boot-up logo
-       fbdev/core: Fix style of code for boot-up logo
-       fbdev/core: Unexport logo helpers
-       fbdev/core: Move logo functions into separate source file
-       fbdev/core: Remove empty internal helpers from fb_logo.c
-       fbdev/core: Clean up include statements in fbmem.c
-
-Tomi Valkeinen (11):
-       drm/bridge: tc358768: Fix use of uninitialized variable
-       drm/bridge: tc358768: Default to positive h/v syncs
-       drm/bridge: tc358768: Fix bit updates
-       drm/bridge: tc358768: Cleanup PLL calculations
-       drm/bridge: tc358768: Use struct videomode
-       drm/bridge: tc358768: Print logical values, not raw register values
-       drm/bridge: tc358768: Use dev for dbg prints, not priv->dev
-       drm/bridge: tc358768: Rename dsibclk to hsbyteclk
-       drm/bridge: tc358768: Clean up clock period code
-       drm/bridge: tc358768: Fix tc358768_ns_to_cnt()
-       drm/bridge: tc358768: Attempt to fix DSI horizontal timings
-
-Tvrtko Ursulin (1):
-       drm: Update file owner during use
-
-Ville Syrjälä (1):
-       drm/edid: Fixup h/vsync_end instead of h/vtotal
-
-Xin Ji (1):
-       drm/bridge: Add 200ms delay to wait FW HPD status stable
-
-baozhu.liu (1):
-       drm/komeda: add NV12 format to support writeback layer type
-
-  Documentation/accel/qaic/qaic.rst                  |  10 +
-  .../bindings/display/bridge/analogix,anx7814.yaml  |   1 +
-  MAINTAINERS                                        |   8 +-
-  drivers/accel/qaic/qaic.h                          |  13 +-
-  drivers/accel/qaic/qaic_data.c                     | 187 +++++--
-  drivers/accel/qaic/qaic_drv.c                      | 119 ++---
-  drivers/gpu/drm/Kconfig                            |   7 +
-  drivers/gpu/drm/Makefile                           |   2 +-
-  drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c            |   6 +-
-  drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c       |  58 +--
-  .../drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c  |   6 +-
-  drivers/gpu/drm/arm/display/komeda/d71/d71_dev.c   |   2 +-
-  drivers/gpu/drm/arm/display/komeda/komeda_drv.c    |   9 +
-  drivers/gpu/drm/arm/display/komeda/komeda_kms.c    |   7 +
-  drivers/gpu/drm/arm/display/komeda/komeda_kms.h    |   1 +
-  drivers/gpu/drm/arm/hdlcd_drv.c                    |   6 +
-  drivers/gpu/drm/arm/malidp_drv.c                   |   6 +
-  drivers/gpu/drm/armada/armada_drv.c                |   8 +
-  drivers/gpu/drm/aspeed/aspeed_gfx_drv.c            |   7 +
-  drivers/gpu/drm/ast/ast_drv.c                      |   6 +
-  drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c       |   6 +
-  drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c |   2 +
-  drivers/gpu/drm/bridge/analogix/anx7625.c          |   3 +
-  drivers/gpu/drm/bridge/ite-it66121.c               |   4 +-
-  drivers/gpu/drm/bridge/panel.c                     |  17 +-
-  drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c      |   6 +-
-  drivers/gpu/drm/bridge/tc358768.c                  | 383 +++++++++++----
-  drivers/gpu/drm/display/drm_dp_mst_topology.c      |  23 +-
-  drivers/gpu/drm/drm_atomic_helper.c                |   3 +
-  drivers/gpu/drm/drm_auth.c                         |   3 +-
-  drivers/gpu/drm/drm_buddy.c                        | 138 +++++-
-  drivers/gpu/drm/drm_debugfs.c                      |  26 +-
-  drivers/gpu/drm/drm_edid.c                         |  18 +-
-  drivers/gpu/drm/drm_file.c                         |  40 +-
-  drivers/gpu/drm/{drm_gpuva_mgr.c => drm_gpuvm.c}   | 407 ++++++++--------
-  drivers/gpu/drm/drm_ioctl.c                        |   3 +
-  drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c          |   8 +
-  drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c    |   6 +
-  drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.c    |   9 +
-  drivers/gpu/drm/hyperv/hyperv_drm_drv.c            |   6 +
-  drivers/gpu/drm/i915/i915_ttm_buddy_manager.c      |  23 +-
-  drivers/gpu/drm/imx/dcss/dcss-drv.c                |   8 +
-  drivers/gpu/drm/imx/dcss/dcss-kms.c                |   7 +
-  drivers/gpu/drm/imx/dcss/dcss-kms.h                |   1 +
-  drivers/gpu/drm/imx/ipuv3/imx-drm-core.c           |   8 +
-  drivers/gpu/drm/ingenic/ingenic-drm-drv.c          |  66 ++-
-  drivers/gpu/drm/logicvc/logicvc_drm.c              |   9 +
-  drivers/gpu/drm/loongson/lsdc_drv.c                |   6 +
-  drivers/gpu/drm/mcde/mcde_drv.c                    |   9 +
-  drivers/gpu/drm/mgag200/mgag200_drv.c              |   8 +
-  drivers/gpu/drm/nouveau/Kconfig                    |   1 +
-  drivers/gpu/drm/nouveau/dispnv04/disp.c            |   2 +-
-  drivers/gpu/drm/nouveau/dispnv50/disp.c            | 511 
-++++++++++++-------
-  drivers/gpu/drm/nouveau/dispnv50/disp.h            |   6 +-
-  drivers/gpu/drm/nouveau/dispnv50/head.h            |   1 +
-  drivers/gpu/drm/nouveau/dispnv50/headc57d.c        |  14 +
-  drivers/gpu/drm/nouveau/include/nvif/conn.h        |  20 +-
-  drivers/gpu/drm/nouveau/include/nvif/if0011.h      |  21 +-
-  drivers/gpu/drm/nouveau/include/nvif/if0012.h      | 249 ++++++++--
-  drivers/gpu/drm/nouveau/include/nvif/outp.h        |  96 +++-
-  drivers/gpu/drm/nouveau/include/nvkm/core/memory.h |   1 +
-  .../gpu/drm/nouveau/include/nvkm/subdev/instmem.h  |   2 +-
-  drivers/gpu/drm/nouveau/nouveau_backlight.c        |  90 +---
-  drivers/gpu/drm/nouveau/nouveau_bios.c             |   8 +-
-  drivers/gpu/drm/nouveau/nouveau_connector.c        | 252 +++++-----
-  drivers/gpu/drm/nouveau/nouveau_connector.h        |   3 +-
-  drivers/gpu/drm/nouveau/nouveau_debugfs.c          |   2 +-
-  drivers/gpu/drm/nouveau/nouveau_display.c          |   8 +-
-  drivers/gpu/drm/nouveau/nouveau_dp.c               | 345 +++++++++++--
-  drivers/gpu/drm/nouveau/nouveau_drm.c              |   5 +-
-  drivers/gpu/drm/nouveau/nouveau_encoder.h          |  30 +-
-  drivers/gpu/drm/nouveau/nouveau_exec.c             |   4 +-
-  drivers/gpu/drm/nouveau/nouveau_uvmm.c             |  42 +-
-  drivers/gpu/drm/nouveau/nouveau_uvmm.h             |   8 +-
-  drivers/gpu/drm/nouveau/nvif/client.c              |   2 +-
-  drivers/gpu/drm/nouveau/nvif/conn.c                |  36 +-
-  drivers/gpu/drm/nouveau/nvif/disp.c                |   2 +-
-  drivers/gpu/drm/nouveau/nvif/outp.c                | 412 ++++++++++++++--
-  drivers/gpu/drm/nouveau/nvkm/core/firmware.c       |   3 +-
-  drivers/gpu/drm/nouveau/nvkm/core/memory.c         |  15 +-
-  drivers/gpu/drm/nouveau/nvkm/engine/disp/base.c    | 146 +-----
-  drivers/gpu/drm/nouveau/nvkm/engine/disp/conn.c    |  10 -
-  drivers/gpu/drm/nouveau/nvkm/engine/disp/conn.h    |   2 -
-  drivers/gpu/drm/nouveau/nvkm/engine/disp/dp.c      | 362 ++++----------
-  drivers/gpu/drm/nouveau/nvkm/engine/disp/g84.c     |   1 +
-  drivers/gpu/drm/nouveau/nvkm/engine/disp/g94.c     |   1 +
-  drivers/gpu/drm/nouveau/nvkm/engine/disp/ga102.c   |   1 +
-  drivers/gpu/drm/nouveau/nvkm/engine/disp/gf119.c   |   2 +-
-  drivers/gpu/drm/nouveau/nvkm/engine/disp/gk104.c   |   1 +
-  drivers/gpu/drm/nouveau/nvkm/engine/disp/gm107.c   |   1 +
-  drivers/gpu/drm/nouveau/nvkm/engine/disp/gm200.c   |  17 +-
-  drivers/gpu/drm/nouveau/nvkm/engine/disp/gp100.c   |   1 +
-  drivers/gpu/drm/nouveau/nvkm/engine/disp/gt215.c   |  38 ++
-  drivers/gpu/drm/nouveau/nvkm/engine/disp/gv100.c   |   2 +-
-  drivers/gpu/drm/nouveau/nvkm/engine/disp/ior.h     |  15 +-
-  drivers/gpu/drm/nouveau/nvkm/engine/disp/mcp89.c   |   1 +
-  drivers/gpu/drm/nouveau/nvkm/engine/disp/nv50.c    | 182 ++++++-
-  drivers/gpu/drm/nouveau/nvkm/engine/disp/outp.c    | 144 ++++--
-  drivers/gpu/drm/nouveau/nvkm/engine/disp/outp.h    |  43 +-
-  drivers/gpu/drm/nouveau/nvkm/engine/disp/tu102.c   |   1 +
-  drivers/gpu/drm/nouveau/nvkm/engine/disp/uconn.c   |  67 +--
-  drivers/gpu/drm/nouveau/nvkm/engine/disp/uoutp.c   | 460 +++++++++++++----
-  drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c     |  10 +-
-  drivers/gpu/drm/nouveau/nvkm/engine/pm/base.c      |   7 +-
-  .../gpu/drm/nouveau/nvkm/subdev/devinit/tu102.c    |  12 +-
-  drivers/gpu/drm/nouveau/nvkm/subdev/instmem/base.c |  19 +-
-  drivers/gpu/drm/nouveau/nvkm/subdev/instmem/priv.h |   1 +
-  drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmmgp100.c |   2 +-
-  drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmmtu102.c |   2 +-
-  drivers/gpu/drm/omapdrm/omap_drv.c                 |   8 +
-  .../gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.c   |   9 -
-  drivers/gpu/drm/panel/panel-boe-bf060y8m-aj0.c     |   9 -
-  drivers/gpu/drm/panel/panel-jdi-fhd-r63452.c       |   9 -
-  drivers/gpu/drm/panel/panel-novatek-nt35950.c      |   9 -
-  drivers/gpu/drm/panel/panel-novatek-nt36523.c      |  12 -
-  drivers/gpu/drm/panel/panel-orisetech-otm8009a.c   |  17 -
-  drivers/gpu/drm/panel/panel-raydium-rm68200.c      |  38 --
-  drivers/gpu/drm/panel/panel-samsung-s6e63m0.c      |  25 -
-  .../drm/panel/panel-samsung-s6e88a0-ams452ef01.c   |  10 -
-  drivers/gpu/drm/panel/panel-samsung-sofef00.c      |   9 -
-  drivers/gpu/drm/panel/panel-sharp-ls060t1sx01.c    |  10 -
-  drivers/gpu/drm/panel/panel-sony-td4353-jdi.c      |   9 -
-  .../gpu/drm/panel/panel-sony-tulip-truly-nt35521.c |  18 -
-  .../gpu/drm/panel/panel-startek-kd070fhfid015.c    |  11 -
-  drivers/gpu/drm/panel/panel-truly-nt35597.c        |  20 -
-  drivers/gpu/drm/panel/panel-visionox-r66451.c      |  16 -
-  drivers/gpu/drm/panel/panel-visionox-rm69299.c     |   8 -
-  drivers/gpu/drm/panel/panel-visionox-vtdr6130.c    |   9 -
-  drivers/gpu/drm/pl111/pl111_drv.c                  |   7 +
-  drivers/gpu/drm/qxl/qxl_drv.c                      |   7 +
-  drivers/gpu/drm/solomon/ssd130x.c                  | 194 +++++---
-  drivers/gpu/drm/sti/sti_drv.c                      |   7 +
-  drivers/gpu/drm/stm/drv.c                          |   7 +
-  drivers/gpu/drm/sun4i/sun4i_drv.c                  |   6 +
-  drivers/gpu/drm/tegra/rgb.c                        |  16 +-
-  drivers/gpu/drm/tilcdc/tilcdc_drv.c                |  11 +-
-  drivers/gpu/drm/tiny/bochs.c                       |   6 +
-  drivers/gpu/drm/tiny/cirrus.c                      |   6 +
-  drivers/gpu/drm/tiny/simpledrm.c                   | 105 ++++
-  drivers/gpu/drm/tve200/tve200_drv.c                |   7 +
-  drivers/gpu/drm/vboxvideo/vbox_drv.c               |  10 +
-  drivers/gpu/drm/vc4/vc4_drv.c                      |  36 +-
-  drivers/gpu/drm/vmwgfx/vmwgfx_gem.c                |   6 +-
-  drivers/video/fbdev/au1200fb.c                     |   9 -
-  drivers/video/fbdev/core/Makefile                  |   2 +
-  drivers/video/fbdev/core/fb_internal.h             |  17 +
-  drivers/video/fbdev/core/fb_logo.c                 | 508 
-+++++++++++++++++++
-  drivers/video/fbdev/core/fbcon.c                   |   2 +
-  drivers/video/fbdev/core/fbmem.c                   | 542 
-+--------------------
-  drivers/video/fbdev/mmp/fb/mmpfb.c                 |   7 -
-  include/drm/drm_buddy.h                            |   6 +-
-  include/drm/drm_debugfs.h                          |   9 +-
-  include/drm/drm_file.h                             |  13 +-
-  include/drm/{drm_gpuva_mgr.h => drm_gpuvm.h}       | 155 +++---
-  include/linux/fb.h                                 |   5 -
-  include/uapi/drm/qaic_accel.h                      |  24 +-
-  156 files changed, 4652 insertions(+), 2801 deletions(-)
-  rename drivers/gpu/drm/{drm_gpuva_mgr.c => drm_gpuvm.c} (78%)
-  create mode 100644 drivers/video/fbdev/core/fb_logo.c
-  rename include/drm/{drm_gpuva_mgr.h => drm_gpuvm.h} (78%)
