@@ -2,52 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77CC17B0597
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Sep 2023 15:39:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EB817B059C
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Sep 2023 15:39:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D800710E521;
-	Wed, 27 Sep 2023 13:38:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C41F910E526;
+	Wed, 27 Sep 2023 13:38:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C0AD210E520;
- Wed, 27 Sep 2023 13:38:54 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C31D610E524;
+ Wed, 27 Sep 2023 13:38:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1695821934; x=1727357934;
+ t=1695821937; x=1727357937;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=XfhUSK9oPOsrUCWTOO8CEEobRY0kofBmGLtuhYVzvzk=;
- b=BnbzveEYmOUigJOT1VLKcHF3jDZy4hshnFMvg10alSFOlTry0b3Vol8P
- 5xEU5eCXDSRwJEji7YlP7/Tw/v9DYIwP19V5+mMoiCwXUXggYJjEVRttz
- 1xMQC9+vaRiJv2B22yERYu3AG5eBAHr1BMu4chJ9L5Vez5W4gA+zoNLPY
- x0yyhRbqC2SkCW5Hy3XORduGu9AnJSzHKz8b0MGhjEXIsLqUeNG6DRyRq
- UX0AanLa+mHo1T3Cc8R+6wWo9ctTYxj8yT0TETNV+YJfdnUVmnGG0aNIc
- RLRcAf/ReWE1c0bYsdp8pPQfNBVqpiEIodgR6ZQ7cYnqiuQ1M1ghplNrJ A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="412738601"
-X-IronPort-AV: E=Sophos;i="6.03,181,1694761200"; d="scan'208";a="412738601"
+ bh=yikGkSN8s1V0c9Zm3g1sA2aggisnLgdn8txT5CGITFc=;
+ b=cRZ184Nff8wYnsHFEuqtFiiHolE7RgcElmTdRUfNRfMKX6dRZrEBNiPD
+ 87ZtG0UeFEHdXS9IpJTVzcxbRRxEUUXaFsgR6B3DPbK+xE2eEwmN0SnSJ
+ 0iDtuSVogG0nuWYyFfMSfD1ZVO3RD2viaEJIJ4IUrxENjxwLjBjnJ9Rl9
+ nFXBpGccE+SPV5gcB/ZzAVx00t7LYLaSCqVRuQhaicv0WY8ubdFXSihkq
+ bUbZYuhnNucU71+yIjHGqejrW6Opbd/bS4r0k8o93tVmjyYULsabw5fWH
+ EjuMtTv11An7KrFw6BPzcVrF/W/GUe/xgt59sDwYMazxYSGJ7o81r3rWK A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="412738611"
+X-IronPort-AV: E=Sophos;i="6.03,181,1694761200"; d="scan'208";a="412738611"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Sep 2023 06:38:54 -0700
+ 27 Sep 2023 06:38:57 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="752597175"
-X-IronPort-AV: E=Sophos;i="6.03,181,1694761200"; d="scan'208";a="752597175"
+X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="752597186"
+X-IronPort-AV: E=Sophos;i="6.03,181,1694761200"; d="scan'208";a="752597186"
 Received: from mscanex-mobl.ger.corp.intel.com (HELO localhost.localdomain)
  ([10.213.204.17])
  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Sep 2023 06:38:49 -0700
+ 27 Sep 2023 06:38:52 -0700
 From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
 To: Intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH 1/7] drm: Do not round to megabytes for greater than 1MiB
- sizes in fdinfo stats
-Date: Wed, 27 Sep 2023 14:38:37 +0100
-Message-Id: <20230927133843.247957-2-tvrtko.ursulin@linux.intel.com>
+Subject: [PATCH 2/7] drm/i915: Add ability for tracking buffer objects per
+ client
+Date: Wed, 27 Sep 2023 14:38:38 +0100
+Message-Id: <20230927133843.247957-3-tvrtko.ursulin@linux.intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230927133843.247957-1-tvrtko.ursulin@linux.intel.com>
 References: <20230927133843.247957-1-tvrtko.ursulin@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -61,49 +60,207 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>,
- steven.price@arm.com, Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: Aravind Iddamsetty <aravind.iddamsetty@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
-It is better not to lose precision and not revert to 1 MiB size
-granularity for every size greater than 1 MiB.
+In order to show per client memory usage lets add some infrastructure
+which enables tracking buffer objects owned by clients.
 
-Sizes in KiB should not be so troublesome to read (and in fact machine
-parsing is I expect the norm here), they align with other api like
-/proc/meminfo, and they allow writing tests for the interface without
-having to embed drm.ko implementation knowledge into them. (Like knowing
-that minimum buffer size one can use for successful verification has to be
-1MiB aligned, and on top account for any pre-existing memory utilisation
-outside of driver's control.)
+We add a per client list protected by a new per client lock and to support
+delayed destruction (post client exit) we make tracked objects hold
+references to the owning client.
 
-But probably even more importantly I think that it is just better to show
-the accurate sizes and not arbitrary lose precision for a little bit of a
-stretched use case of eyeballing fdinfo text directly.
+Also, object memory region teardown is moved to the existing RCU free
+callback to allow safe dereference from the fdinfo RCU read section.
 
 Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Cc: Rob Clark <robdclark@gmail.com>
-Cc: Adrián Larumbe <adrian.larumbe@collabora.com>
-Cc: steven.price@arm.com
+Reviewed-by: Aravind Iddamsetty <aravind.iddamsetty@intel.com>
 ---
- drivers/gpu/drm/drm_file.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/i915/gem/i915_gem_object.c    | 13 +++++--
+ .../gpu/drm/i915/gem/i915_gem_object_types.h  | 12 +++++++
+ drivers/gpu/drm/i915/i915_drm_client.c        | 36 +++++++++++++++++++
+ drivers/gpu/drm/i915/i915_drm_client.h        | 32 +++++++++++++++++
+ 4 files changed, 90 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
-index e692770ef6d3..ecb5038009e7 100644
---- a/drivers/gpu/drm/drm_file.c
-+++ b/drivers/gpu/drm/drm_file.c
-@@ -913,7 +913,7 @@ static void print_size(struct drm_printer *p, const char *stat,
- 	unsigned u;
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.c b/drivers/gpu/drm/i915/gem/i915_gem_object.c
+index c26d87555825..25eeeb863209 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_object.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_object.c
+@@ -106,6 +106,10 @@ void i915_gem_object_init(struct drm_i915_gem_object *obj,
  
- 	for (u = 0; u < ARRAY_SIZE(units) - 1; u++) {
--		if (sz < SZ_1K)
-+		if (sz == 0 || !IS_ALIGNED(sz, SZ_1K))
- 			break;
- 		sz = div_u64(sz, SZ_1K);
- 	}
+ 	INIT_LIST_HEAD(&obj->mm.link);
+ 
++#ifdef CONFIG_PROC_FS
++	INIT_LIST_HEAD(&obj->client_link);
++#endif
++
+ 	INIT_LIST_HEAD(&obj->lut_list);
+ 	spin_lock_init(&obj->lut_lock);
+ 
+@@ -293,6 +297,10 @@ void __i915_gem_free_object_rcu(struct rcu_head *head)
+ 		container_of(head, typeof(*obj), rcu);
+ 	struct drm_i915_private *i915 = to_i915(obj->base.dev);
+ 
++	/* We need to keep this alive for RCU read access from fdinfo. */
++	if (obj->mm.n_placements > 1)
++		kfree(obj->mm.placements);
++
+ 	i915_gem_object_free(obj);
+ 
+ 	GEM_BUG_ON(!atomic_read(&i915->mm.free_count));
+@@ -389,9 +397,6 @@ void __i915_gem_free_object(struct drm_i915_gem_object *obj)
+ 	if (obj->ops->release)
+ 		obj->ops->release(obj);
+ 
+-	if (obj->mm.n_placements > 1)
+-		kfree(obj->mm.placements);
+-
+ 	if (obj->shares_resv_from)
+ 		i915_vm_resv_put(obj->shares_resv_from);
+ 
+@@ -442,6 +447,8 @@ static void i915_gem_free_object(struct drm_gem_object *gem_obj)
+ 
+ 	GEM_BUG_ON(i915_gem_object_is_framebuffer(obj));
+ 
++	i915_drm_client_remove_object(obj);
++
+ 	/*
+ 	 * Before we free the object, make sure any pure RCU-only
+ 	 * read-side critical sections are complete, e.g.
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
+index 2292404007c8..0c5cdab278b6 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
++++ b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
+@@ -302,6 +302,18 @@ struct drm_i915_gem_object {
+ 	 */
+ 	struct i915_address_space *shares_resv_from;
+ 
++#ifdef CONFIG_PROC_FS
++	/**
++	 * @client: @i915_drm_client which created the object
++	 */
++	struct i915_drm_client *client;
++
++	/**
++	 * @client_link: Link into @i915_drm_client.objects_list
++	 */
++	struct list_head client_link;
++#endif
++
+ 	union {
+ 		struct rcu_head rcu;
+ 		struct llist_node freed;
+diff --git a/drivers/gpu/drm/i915/i915_drm_client.c b/drivers/gpu/drm/i915/i915_drm_client.c
+index 2a44b3876cb5..2e5e69edc0f9 100644
+--- a/drivers/gpu/drm/i915/i915_drm_client.c
++++ b/drivers/gpu/drm/i915/i915_drm_client.c
+@@ -28,6 +28,10 @@ struct i915_drm_client *i915_drm_client_alloc(void)
+ 	kref_init(&client->kref);
+ 	spin_lock_init(&client->ctx_lock);
+ 	INIT_LIST_HEAD(&client->ctx_list);
++#ifdef CONFIG_PROC_FS
++	spin_lock_init(&client->objects_lock);
++	INIT_LIST_HEAD(&client->objects_list);
++#endif
+ 
+ 	return client;
+ }
+@@ -108,4 +112,36 @@ void i915_drm_client_fdinfo(struct drm_printer *p, struct drm_file *file)
+ 	for (i = 0; i < ARRAY_SIZE(uabi_class_names); i++)
+ 		show_client_class(p, i915, file_priv->client, i);
+ }
++
++void i915_drm_client_add_object(struct i915_drm_client *client,
++				struct drm_i915_gem_object *obj)
++{
++	unsigned long flags;
++
++	GEM_WARN_ON(obj->client);
++	GEM_WARN_ON(!list_empty(&obj->client_link));
++
++	spin_lock_irqsave(&client->objects_lock, flags);
++	obj->client = i915_drm_client_get(client);
++	list_add_tail_rcu(&obj->client_link, &client->objects_list);
++	spin_unlock_irqrestore(&client->objects_lock, flags);
++}
++
++bool i915_drm_client_remove_object(struct drm_i915_gem_object *obj)
++{
++	struct i915_drm_client *client = fetch_and_zero(&obj->client);
++	unsigned long flags;
++
++	/* Object may not be associated with a client. */
++	if (!client)
++		return false;
++
++	spin_lock_irqsave(&client->objects_lock, flags);
++	list_del_rcu(&obj->client_link);
++	spin_unlock_irqrestore(&client->objects_lock, flags);
++
++	i915_drm_client_put(client);
++
++	return true;
++}
+ #endif
+diff --git a/drivers/gpu/drm/i915/i915_drm_client.h b/drivers/gpu/drm/i915/i915_drm_client.h
+index 67816c912bca..5f58fdf7dcb8 100644
+--- a/drivers/gpu/drm/i915/i915_drm_client.h
++++ b/drivers/gpu/drm/i915/i915_drm_client.h
+@@ -12,6 +12,9 @@
+ 
+ #include <uapi/drm/i915_drm.h>
+ 
++#include "i915_file_private.h"
++#include "gem/i915_gem_object_types.h"
++
+ #define I915_LAST_UABI_ENGINE_CLASS I915_ENGINE_CLASS_COMPUTE
+ 
+ struct drm_file;
+@@ -25,6 +28,20 @@ struct i915_drm_client {
+ 	spinlock_t ctx_lock; /* For add/remove from ctx_list. */
+ 	struct list_head ctx_list; /* List of contexts belonging to client. */
+ 
++#ifdef CONFIG_PROC_FS
++	/**
++	 * @objects_lock: lock protecting @objects_list
++	 */
++	spinlock_t objects_lock;
++
++	/**
++	 * @objects_list: list of objects created by this client
++	 *
++	 * Protected by @objects_lock.
++	 */
++	struct list_head objects_list;
++#endif
++
+ 	/**
+ 	 * @past_runtime: Accumulation of pphwsp runtimes from closed contexts.
+ 	 */
+@@ -49,4 +66,19 @@ struct i915_drm_client *i915_drm_client_alloc(void);
+ 
+ void i915_drm_client_fdinfo(struct drm_printer *p, struct drm_file *file);
+ 
++#ifdef CONFIG_PROC_FS
++void i915_drm_client_add_object(struct i915_drm_client *client,
++				struct drm_i915_gem_object *obj);
++bool i915_drm_client_remove_object(struct drm_i915_gem_object *obj);
++#else
++static inline void i915_drm_client_add_object(struct i915_drm_client *client,
++					      struct drm_i915_gem_object *obj)
++{
++}
++
++static inline bool i915_drm_client_remove_object(struct drm_i915_gem_object *obj)
++{
++}
++#endif
++
+ #endif /* !__I915_DRM_CLIENT_H__ */
 -- 
 2.39.2
 
