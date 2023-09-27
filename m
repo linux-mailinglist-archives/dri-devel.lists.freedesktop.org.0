@@ -2,83 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53C557B0AC0
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Sep 2023 18:59:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62D557B0B10
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Sep 2023 19:29:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 22E9C10E579;
-	Wed, 27 Sep 2023 16:59:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3133010E587;
+	Wed, 27 Sep 2023 17:29:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 19EAE10E579
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Sep 2023 16:59:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 70A8510E585
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Sep 2023 17:29:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1695833964;
+ s=mimecast20190719; t=1695835746;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=l6cdl+aga/6XxqqAgUUx1HZQLiVlXgz3gMJOL8B3acE=;
- b=YNfZ+lY2YOb+5a+/zIKNezh/F7Hhrb1pjEt+FGMy5YbdmC570z4yr63cPABdqXLuJ637oe
- epZ5cVuaU/eHksNBqkeztjnk3nFqgqlLhs01fU5DIHKPx54EnslLzPvUzbUSHAHP9ZLlHw
- ONCaWvfnjb7Q+SvaEyQJyMBDc7zNpQc=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-649-BiUPL9P0P52Aw72FqtAb-w-1; Wed, 27 Sep 2023 12:59:22 -0400
-X-MC-Unique: BiUPL9P0P52Aw72FqtAb-w-1
-Received: by mail-ej1-f70.google.com with SMTP id
- a640c23a62f3a-9ae57d8b502so967409366b.2
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Sep 2023 09:59:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1695833956; x=1696438756;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=l6cdl+aga/6XxqqAgUUx1HZQLiVlXgz3gMJOL8B3acE=;
- b=dnk+1dqG77/na3IME+f+Lwlek9vjPkTrnGSAK30bX0tsUr7Eg32eksAf7iTnXeui1I
- t8ICNMkRwfT9W2m7eK0RX+E8uOIG7JhkIIiD7kmnIoi14WXCJOd+v3QYeiK2wSqs+/yP
- 7WBFolgmGmGL53zrs7Nt2t9JwT8J94QgJ/KiNzOyf5l6WRhUnhJO8bx+64ruqvbvIw7s
- ZPHztQyiG3F0ht2HUvGFRX6GLzr0uLxoontoiql2sTWy9FSzE4X32X532zFatQaFo9NW
- f5pc3v5w2dsi4eFUiQR8FTVffstsZbOlrFfbpmDBw+Q7ZYQWKudCJBc6lBQI1lUzffWr
- fNxQ==
-X-Gm-Message-State: AOJu0Yy3c47tARrp1qTKL+ibqaRvUYePBTvTEkToy9hkNIoLZE95cOi9
- mwytGlMkrpMrJPEYCSz6umhTdxFRmjUYeqfUau55dTnYZKxDQklTgCx9IczOYRIwkAvYZizcV86
- iVX/bhZjlvPsLgreK3yxtNrdQj+mX
-X-Received: by 2002:aa7:d0d8:0:b0:530:a0a9:ee36 with SMTP id
- u24-20020aa7d0d8000000b00530a0a9ee36mr2095709edo.38.1695833956677; 
- Wed, 27 Sep 2023 09:59:16 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFKMrmbuENX8FTtWAevq2VNbPYGGhr9ZiqqUZp9scNnPqDJ3oJHDnGAkbey4dkMV7CVYYlnMQ==
-X-Received: by 2002:aa7:d0d8:0:b0:530:a0a9:ee36 with SMTP id
- u24-20020aa7d0d8000000b00530a0a9ee36mr2095696edo.38.1695833956385; 
- Wed, 27 Sep 2023 09:59:16 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:4b3f:de9c:642:1aff:fe31:a15c?
- ([2a02:810d:4b3f:de9c:642:1aff:fe31:a15c])
- by smtp.gmail.com with ESMTPSA id
- s3-20020a056402014300b0052595b17fd4sm8315439edu.26.2023.09.27.09.59.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 27 Sep 2023 09:59:15 -0700 (PDT)
-Message-ID: <a46f49b8-3680-9476-046b-e3d821184851@redhat.com>
-Date: Wed, 27 Sep 2023 18:59:14 +0200
+ content-transfer-encoding:content-transfer-encoding;
+ bh=tSk7qfcSQedPk0IzcisEHWuFd2uRDtl11DSwzBRnSI4=;
+ b=PM+WsaxCTXUSnoufiylbIAaCE3bvY39W+NGF3cGmYhu9q25ktCu4pMjQmBfNYUTKir8hIR
+ 8tR6EKl+ZwqGpu55OJGDaIvEd4lkMVwF4hGH58p7Jk9R5qebVjWD3XD0zsMAflaY8bUiil
+ Xsx5PMfm562JyvFvyMsukyIv2XcfruM=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-641-pbE2HrAtOt6BIwm2_n4ooA-1; Wed, 27 Sep 2023 13:29:03 -0400
+X-MC-Unique: pbE2HrAtOt6BIwm2_n4ooA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A72858032F6;
+ Wed, 27 Sep 2023 17:29:02 +0000 (UTC)
+Received: from hydra.redhat.com (unknown [10.39.195.27])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1ACBBC154CA;
+ Wed, 27 Sep 2023 17:28:59 +0000 (UTC)
+From: Jocelyn Falempe <jfalempe@redhat.com>
+To: dri-devel@lists.freedesktop.org, tzimmermann@suse.de, airlied@redhat.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, daniel@ffwll.ch,
+ javierm@redhat.com, bluescreen_avenger@verizon.net
+Subject: [RFC][PATCH v3 0/3] drm/panic: Add a drm panic handler
+Date: Wed, 27 Sep 2023 19:22:49 +0200
+Message-ID: <20230927172849.193996-1-jfalempe@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH drm-misc-next v4 7/8] drm/gpuvm: generalize
- dma_resv/extobj handling and GEM validation
-To: Boris Brezillon <boris.brezillon@collabora.com>
-References: <20230920144343.64830-1-dakr@redhat.com>
- <20230920144343.64830-8-dakr@redhat.com>
- <20230922134548.7ede67c0@collabora.com>
-From: Danilo Krummrich <dakr@redhat.com>
-Organization: RedHat
-In-Reply-To: <20230922134548.7ede67c0@collabora.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,31 +61,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.brost@intel.com, thomas.hellstrom@linux.intel.com,
- sarah.walker@imgtec.com, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- donald.robson@imgtec.com, christian.koenig@amd.com,
- faith.ekstrand@collabora.com
+Cc: gpiccoli@igalia.com, Jocelyn Falempe <jfalempe@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/22/23 13:45, Boris Brezillon wrote:
-> On Wed, 20 Sep 2023 16:42:40 +0200
-> Danilo Krummrich <dakr@redhat.com> wrote:
-> 
->> +	/**
->> +	 * @DRM_GPUVM_RESV_PROTECTED: GPUVM is protected externally by the
->> +	 * GPUVM's &dma_resv lock
-> 
-> I think we need to be more specific, and list the fields/operations
-> that need to be externally protected when DRM_GPUVM_RESV_PROTECTED is
-> set.
+This introduces a new drm panic handler, which displays a message when a panic occurs.
+So when fbcon is disabled, you can still see a kernel panic.
 
-I agree, we should probably keep a list somewhere. However, there are also
-lockdep asserts where a lock is required to be held.
+This is one of the missing feature, when disabling VT/fbcon in the kernel:
+https://www.reddit.com/r/linux/comments/10eccv9/config_vtn_in_2023/
+Fbcon can be replaced by a userspace kms console, but the panic screen must be done in the kernel.
 
-> 
->> +	 */
->> +	DRM_GPUVM_RESV_PROTECTED = (1 << 0),
-> 
+This is a proof of concept, and works only with simpledrm, using a new get_scanout_buffer() api
+
+To test it, make sure you're using the simpledrm driver, and trigger a panic:
+echo c > /proc/sysrq-trigger
+
+v2:
+ * Use get_scanout_buffer() instead of the drm client API. (Thomas Zimmermann)
+ * Add the panic reason to the panic message (Nerdopolis)
+ * Add an exclamation mark (Nerdopolis)
+ 
+v3:
+ * Rework the drawing functions, to write the pixels line by line and
+ to use the drm conversion helper to support other formats.
+ (Thomas Zimmermann)
+
+I only added RGB565 support to show how it would work.
+Basically I have a buffer of 1 line in xrgb8888, and write the pixels to it.
+Then I convert it to the destination format in-place (if needed), and finally 
+copy it to the scanout-buffer.
+So it's straigh forward, and reuse the drm conversion helpers.
+
+A few more though:
+ 1) what about gpu with multiple monitor connected ?
+maybe get_scanout_buffer() could return a list of scanout buffers ?
+ 2) I think for some GPU drivers, there might need a flush_scanout_buffer() function, that should be called after the scanout buffer has been filled ?
+
+Best regards,
+
+
+Jocelyn Falempe (3):
+  drm/format-helper: Export drm_fb_xrgb8888_to_rgb565_line
+  drm/panic: Add a drm panic handler
+  drm/simpledrm: Add drm_panic support
+
+ drivers/gpu/drm/Kconfig             |  11 +
+ drivers/gpu/drm/Makefile            |   1 +
+ drivers/gpu/drm/drm_drv.c           |   3 +
+ drivers/gpu/drm/drm_format_helper.c |   3 +-
+ drivers/gpu/drm/drm_panic.c         | 366 ++++++++++++++++++++++++++++
+ drivers/gpu/drm/tiny/simpledrm.c    |  17 ++
+ include/drm/drm_drv.h               |  14 ++
+ include/drm/drm_format_helper.h     |   2 +
+ include/drm/drm_panic.h             |  41 ++++
+ 9 files changed, 457 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/gpu/drm/drm_panic.c
+ create mode 100644 include/drm/drm_panic.h
+
+
+base-commit: 2dde18cd1d8fac735875f2e4987f11817cc0bc2c
+-- 
+2.41.0
 
