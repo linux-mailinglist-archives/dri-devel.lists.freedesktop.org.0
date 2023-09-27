@@ -1,49 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 128827B057D
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Sep 2023 15:32:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D3F47B0588
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Sep 2023 15:33:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E27610E51C;
-	Wed, 27 Sep 2023 13:32:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B36710E51E;
+	Wed, 27 Sep 2023 13:33:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 882D110E51C;
- Wed, 27 Sep 2023 13:32:42 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E8A510E51E;
+ Wed, 27 Sep 2023 13:33:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1695821562; x=1727357562;
+ t=1695821618; x=1727357618;
  h=date:from:to:cc:subject:in-reply-to:message-id:
  references:mime-version;
- bh=WyQnbln/qxn77GjZ28iQ/c1Bwlx9s8zdHAg3jaa7e+k=;
- b=Koh0DVWx8rKjXMoIHoiy1NFQmXnYYMzl+fq/sTUQMg7cWnmJSQguTMYR
- H8r2Ow7GUxzqh01qrQx45Bvy9w9J/CIImq4tF3Z/WmLXnYwu94VqkLotN
- FzE2AZktCvHVrxqqpIRnHpAl0yl4mW1V3tZkLvli8TLiPRDBgkx+S5lq5
- GRd7F9SzpbL1I8iHXM30XiiJhgGQBzNfCg285PHhVb4Q5jru0qphV+6tz
- wQb2hpNWSlxity7UFW5L0VDLYViKp1HkZdKG3wJcCo7twiiXEditBOt1+
- 7y1nA1JkbaPHnTQt/0Iig0FApiiZZgHalZM26RDbczsgIv1g+utRSt7bz Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="381726695"
-X-IronPort-AV: E=Sophos;i="6.03,181,1694761200"; d="scan'208";a="381726695"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Sep 2023 06:32:41 -0700
+ bh=tNXbaP84V7x0l1RiSAeJ57A/0sV133PxSVSNBCacOvs=;
+ b=C3c4dTvThl1wHZZbniRrd6VWmO8Su4lxN0vtkEVXk0dheb8dF9kV+0Zh
+ 4x4ZaWj9dr+oP3+3H11rqKaPR72uOZFdxQeltc+sAlZO2doRm9NLjAkCM
+ qpaw+PJTM/xmCztfKPV2QxG1I62Nla9+aAAGz0/AkY671l4K2W+Hx+7Oe
+ si9u8JSrfE6eELmCWQ0OmH6tKt1HC3A67MIASNxSR1O1G0M3k6ku0PmIq
+ 71ckB2ZNq99diBiyjM3BRvCqsvgrSKA/RQTw3xrh9OJcrpCvcLB4ctV/4
+ 1MvOT0HNt8lqSxPvozJ+9fHMifQXuaRr3z/SO0lcve9BQ6dh7bKnHnOuZ A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="385685319"
+X-IronPort-AV: E=Sophos;i="6.03,181,1694761200"; d="scan'208";a="385685319"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Sep 2023 06:33:37 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="742711409"
-X-IronPort-AV: E=Sophos;i="6.03,181,1694761200"; d="scan'208";a="742711409"
-Received: from clkuhl-mobl.amr.corp.intel.com ([10.252.53.225])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Sep 2023 06:32:36 -0700
-Date: Wed, 27 Sep 2023 16:32:34 +0300 (EEST)
+X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="872881847"
+X-IronPort-AV: E=Sophos;i="6.03,181,1694761200"; d="scan'208";a="872881847"
+Received: from clkuhl-mobl.amr.corp.intel.com (HELO
+ idecesar-mobl.ger.corp.intel.com) ([10.252.53.225])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Sep 2023 06:33:33 -0700
+Date: Wed, 27 Sep 2023 16:33:30 +0300 (EEST)
 From: =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
 To: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
-Subject: Re: [PATCH 14/15] platform/x86/amd/pmf: Add PMF-AMDSFH interface
- for HPD
-In-Reply-To: <20230922175056.244940-15-Shyam-sundar.S-k@amd.com>
-Message-ID: <aa85b6d6-6113-337d-5de3-77fd53d7387@linux.intel.com>
+Subject: Re: [PATCH 15/15] platform/x86/amd/pmf: Add PMF-AMDSFH interface
+ for ALS
+In-Reply-To: <20230922175056.244940-16-Shyam-sundar.S-k@amd.com>
+Message-ID: <4f542b88-5c8d-4177-50d0-50b0daeaa3a4@linux.intel.com>
 References: <20230922175056.244940-1-Shyam-sundar.S-k@amd.com>
- <20230922175056.244940-15-Shyam-sundar.S-k@amd.com>
+ <20230922175056.244940-16-Shyam-sundar.S-k@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -72,238 +73,140 @@ On Fri, 22 Sep 2023, Shyam Sundar S K wrote:
 
 > From: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
 > 
-> AMDSFH has information about the User presence information via the Human
-> Presence Detection (HPD) sensor which is part of the AMD sensor fusion hub.
+> AMDSFH has information about the Ambient light via the Ambient
+> Light Sensor (ALS) which is part of the AMD sensor fusion hub.
 > Add PMF and AMDSFH interface to get this information.
 > 
 > Co-developed-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
 > Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
 > Signed-off-by: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
 > ---
->  drivers/hid/amd-sfh-hid/amd_sfh_common.h      |  5 ++++
->  drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_desc.c |  2 +-
->  drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c | 11 ++++++++
->  .../amd-sfh-hid/sfh1_1/amd_sfh_interface.c    | 28 +++++++++++++++++++
->  .../amd-sfh-hid/sfh1_1/amd_sfh_interface.h    |  1 +
->  drivers/platform/x86/amd/pmf/spc.c            | 21 ++++++++++++++
->  include/linux/amd-pmf-io.h                    | 22 ++++++++++++++-
->  7 files changed, 88 insertions(+), 2 deletions(-)
+>  drivers/hid/amd-sfh-hid/amd_sfh_common.h      |  1 +
+>  drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c |  6 ++++++
+>  .../amd-sfh-hid/sfh1_1/amd_sfh_interface.c    | 20 +++++++++++++++++++
+>  drivers/platform/x86/amd/pmf/spc.c            |  5 +++++
+>  include/linux/amd-pmf-io.h                    |  2 ++
+>  5 files changed, 34 insertions(+)
 > 
 > diff --git a/drivers/hid/amd-sfh-hid/amd_sfh_common.h b/drivers/hid/amd-sfh-hid/amd_sfh_common.h
-> index 2643bb14fee2..cd57037bf217 100644
+> index cd57037bf217..a1950bc6e6ce 100644
 > --- a/drivers/hid/amd-sfh-hid/amd_sfh_common.h
 > +++ b/drivers/hid/amd-sfh-hid/amd_sfh_common.h
-> @@ -37,6 +37,10 @@ struct amd_mp2_sensor_info {
->  	dma_addr_t dma_address;
+> @@ -39,6 +39,7 @@ struct amd_mp2_sensor_info {
+>  
+>  struct sfh_dev_status {
+>  	bool is_hpd_present;
+> +	bool is_als_present;
 >  };
 >  
-> +struct sfh_dev_status {
-> +	bool is_hpd_present;
-> +};
-> +
 >  struct amd_mp2_dev {
->  	struct pci_dev *pdev;
->  	struct amdtp_cl_data *cl_data;
-> @@ -47,6 +51,7 @@ struct amd_mp2_dev {
->  	struct amd_input_data in_data;
->  	/* mp2 active control status */
->  	u32 mp2_acs;
-> +	struct sfh_dev_status dev_en;
->  };
->  
->  struct amd_mp2_ops {
-> diff --git a/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_desc.c b/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_desc.c
-> index 06bdcf072d10..d7467c41ad3b 100644
-> --- a/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_desc.c
-> +++ b/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_desc.c
-> @@ -132,7 +132,7 @@ static void get_common_inputs(struct common_input_property *common, int report_i
->  	common->event_type = HID_USAGE_SENSOR_EVENT_DATA_UPDATED_ENUM;
->  }
->  
-> -static int float_to_int(u32 flt32_val)
-> +int float_to_int(u32 flt32_val)
-
-This is way too generic name to be exposed by a driver, add proper 
-prefix for it to make sure it never hits a compile problem.
-
->  {
->  	int fraction, shift, mantissa, sign, exp, zeropre;
->  
 > diff --git a/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c b/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c
-> index e9c6413af24a..9c623456ee12 100644
+> index 9c623456ee12..d8dad39d68b5 100644
 > --- a/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c
 > +++ b/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c
-> @@ -73,6 +73,12 @@ static int amd_sfh_hid_client_deinit(struct amd_mp2_dev *privdata)
->  	int i, status;
->  
->  	for (i = 0; i < cl_data->num_hid_devices; i++) {
-> +		switch (cl_data->sensor_idx[i]) {
-> +		case HPD_IDX:
-> +			privdata->dev_en.is_hpd_present = false;
+> @@ -77,6 +77,9 @@ static int amd_sfh_hid_client_deinit(struct amd_mp2_dev *privdata)
+>  		case HPD_IDX:
+>  			privdata->dev_en.is_hpd_present = false;
+>  			break;
+> +		case ALS_IDX:
+> +			privdata->dev_en.is_als_present = false;
 > +			break;
-> +		}
-> +
+>  		}
+>  
 >  		if (cl_data->sensor_sts[i] == SENSOR_ENABLED) {
->  			privdata->mp2_ops->stop(privdata, cl_data->sensor_idx[i]);
->  			status = amd_sfh_wait_for_response
-> @@ -178,6 +184,11 @@ static int amd_sfh1_1_hid_client_init(struct amd_mp2_dev *privdata)
->  			rc = amdtp_hid_probe(i, cl_data);
->  			if (rc)
->  				goto cleanup;
-> +			switch (cl_data->sensor_idx[i]) {
-> +			case HPD_IDX:
-> +			privdata->dev_en.is_hpd_present = true;
+> @@ -188,6 +191,9 @@ static int amd_sfh1_1_hid_client_init(struct amd_mp2_dev *privdata)
+>  			case HPD_IDX:
+>  			privdata->dev_en.is_hpd_present = true;
+>  				break;
+> +			case ALS_IDX:
+> +			privdata->dev_en.is_als_present = true;
 > +				break;
-> +			}
+>  			}
 >  		}
 >  		dev_dbg(dev, "sid 0x%x (%s) status 0x%x\n",
->  			cl_data->sensor_idx[i], get_sensor_name(cl_data->sensor_idx[i]),
 > diff --git a/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_interface.c b/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_interface.c
-> index 4f81ef2d4f56..63a5bbca5a09 100644
+> index 63a5bbca5a09..2f8200fc3062 100644
 > --- a/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_interface.c
 > +++ b/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_interface.c
-> @@ -7,11 +7,14 @@
->   *
->   * Author: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
->   */
-> +#include <linux/amd-pmf-io.h>
->  #include <linux/io-64-nonatomic-lo-hi.h>
->  #include <linux/iopoll.h>
+> @@ -94,12 +94,32 @@ static int amd_sfh_hpd_info(u8 *user_present)
+>  	return  -ENODEV;
+>  }
 >  
->  #include "amd_sfh_interface.h"
->  
-> +static struct amd_mp2_dev *emp2;
-> +
->  static int amd_sfh_wait_response(struct amd_mp2_dev *mp2, u8 sid, u32 cmd_id)
->  {
->  	struct sfh_cmd_response cmd_resp;
-> @@ -76,4 +79,29 @@ static struct amd_mp2_ops amd_sfh_ops = {
->  void sfh_interface_init(struct amd_mp2_dev *mp2)
->  {
->  	mp2->mp2_ops = &amd_sfh_ops;
-> +	emp2 = mp2;
-> +}
-> +
-> +static int amd_sfh_hpd_info(u8 *user_present)
+> +static int amd_sfh_als_info(u32 *ambient_light)
 > +{
-> +	if (emp2 && emp2->dev_en.is_hpd_present) {
-> +		struct hpd_status hpdstatus;
+> +	if (emp2 && emp2->dev_en.is_als_present) {
+> +		struct sfh_als_data als_data;
+> +		void __iomem *sensoraddr;
 > +
-> +		hpdstatus.val = readl(emp2->mmio + AMD_C2P_MSG(4));
-> +		*user_present = hpdstatus.shpd.presence;
+> +		sensoraddr = emp2->vsbase +
+> +			(ALS_IDX * SENSOR_DATA_MEM_SIZE_DEFAULT) +
+> +			OFFSET_SENSOR_DATA_DEFAULT;
+> +		memcpy_fromio(&als_data, sensoraddr, sizeof(struct sfh_als_data));
+> +		*ambient_light = float_to_int(als_data.lux);
+> +
 > +		return 0;
 > +	}
-> +	return  -ENODEV;
+> +
+> +	return -ENODEV;
 > +}
 > +
-> +int amd_get_sfh_info(struct amd_sfh_info *sfh_info, enum sfh_message_type op)
-> +{
-> +	if (sfh_info) {
-> +		switch (op) {
-> +		case MT_HPD:
-> +			return amd_sfh_hpd_info(&sfh_info->user_present);
-> +		}
-> +	}
-> +	return -1;
->  }
-> +EXPORT_SYMBOL_GPL(amd_get_sfh_info);
-> diff --git a/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_interface.h b/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_interface.h
-> index 9d31d5b510eb..8a36386e6bce 100644
-> --- a/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_interface.h
-> +++ b/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_interface.h
-> @@ -149,6 +149,7 @@ struct hpd_status {
->  	};
->  };
->  
-> +int float_to_int(u32 flt32_val);
->  void sfh_interface_init(struct amd_mp2_dev *mp2);
->  void amd_sfh1_1_set_desc_ops(struct amd_mp2_ops *mp2_ops);
->  #endif
+>  int amd_get_sfh_info(struct amd_sfh_info *sfh_info, enum sfh_message_type op)
+>  {
+>  	if (sfh_info) {
+>  		switch (op) {
+>  		case MT_HPD:
+>  			return amd_sfh_hpd_info(&sfh_info->user_present);
+> +		case MT_ALS:
+> +			return amd_sfh_als_info(&sfh_info->ambient_light);
+>  		}
+>  	}
+>  	return -1;
 > diff --git a/drivers/platform/x86/amd/pmf/spc.c b/drivers/platform/x86/amd/pmf/spc.c
-> index 5f3ab1ce09d2..97293ae25cf5 100644
+> index 97293ae25cf5..8e19b351e76f 100644
 > --- a/drivers/platform/x86/amd/pmf/spc.c
 > +++ b/drivers/platform/x86/amd/pmf/spc.c
-> @@ -48,6 +48,7 @@ void amd_pmf_dump_ta_inputs(struct amd_pmf_dev *dev, struct ta_pmf_enact_table *
->  	dev_dbg(dev->dev, "Primary Display State : %s\n", in->ev_info.display_state ?
+> @@ -49,6 +49,7 @@ void amd_pmf_dump_ta_inputs(struct amd_pmf_dev *dev, struct ta_pmf_enact_table *
 >  			"Connected" : "disconnected/unknown");
 >  	dev_dbg(dev->dev, "LID State : %s\n", in->ev_info.lid_state ? "Close" : "Open");
-> +	dev_dbg(dev->dev, "User Presence : %s\n", in->ev_info.user_present ? "Present" : "Away");
+>  	dev_dbg(dev->dev, "User Presence : %s\n", in->ev_info.user_present ? "Present" : "Away");
+> +	dev_dbg(dev->dev, "Ambient Light : %d\n", in->ev_info.ambient_light);
+
+%d vs u32
+
 >  	dev_dbg(dev->dev, "==== TA inputs END ====\n");
 >  }
 >  #else
-> @@ -156,6 +157,25 @@ static void amd_pmf_get_gpu_info(struct amd_pmf_dev *dev, struct ta_pmf_enact_ta
->  	in->ev_info.display_state = dev->gfx_data.con_status[0];
->  }
->  
-> +static void amd_pmf_get_sensor_info(struct amd_pmf_dev *dev, struct ta_pmf_enact_table *in)
-> +{
-> +	struct amd_sfh_info sfh_info;
-> +
-> +	/* get HPD data */
-> +	amd_get_sfh_info(&sfh_info, MT_HPD);
-> +	switch (sfh_info.user_present) {
-> +	case SFH_NOT_DETECTED:
-> +		in->ev_info.user_present = 0xff; /* assume no sensors connected */
-> +		break;
-> +	case SFH_USER_PRESENT:
-> +		in->ev_info.user_present = 1;
-> +		break;
-> +	case SFH_USER_AWAY:
-> +		in->ev_info.user_present = 0;
-> +		break;
-> +	}
-> +}
-> +
->  void amd_pmf_populate_ta_inputs(struct amd_pmf_dev *dev, struct ta_pmf_enact_table *in)
+> @@ -161,6 +162,10 @@ static void amd_pmf_get_sensor_info(struct amd_pmf_dev *dev, struct ta_pmf_enact
 >  {
->  	/* TA side lid open is 1 and close is 0, hence the ! here */
-> @@ -165,4 +185,5 @@ void amd_pmf_populate_ta_inputs(struct amd_pmf_dev *dev, struct ta_pmf_enact_tab
->  	amd_pmf_get_battery_info(dev, in);
->  	amd_pmf_get_slider_info(dev, in);
->  	amd_pmf_get_gpu_info(dev, in);
-> +	amd_pmf_get_sensor_info(dev, in);
->  }
+>  	struct amd_sfh_info sfh_info;
+>  
+> +	/* get ALS data */
+> +	amd_get_sfh_info(&sfh_info, MT_ALS);
+> +	in->ev_info.ambient_light = sfh_info.ambient_light;
+> +
+>  	/* get HPD data */
+>  	amd_get_sfh_info(&sfh_info, MT_HPD);
+>  	switch (sfh_info.user_present) {
 > diff --git a/include/linux/amd-pmf-io.h b/include/linux/amd-pmf-io.h
-> index ecae387ddaa6..4f82973f6ad2 100644
+> index 4f82973f6ad2..dac0af573a16 100644
 > --- a/include/linux/amd-pmf-io.h
 > +++ b/include/linux/amd-pmf-io.h
-> @@ -5,7 +5,8 @@
->   * Copyright (c) 2023, Advanced Micro Devices, Inc.
->   * All Rights Reserved.
->   *
-> - * Author: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
-> + * Authors: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
-> + *          Basavaraj Natikar <Basavaraj.Natikar@amd.com>
->   */
+> @@ -31,6 +31,7 @@ int amd_pmf_set_gfx_data(struct amd_gpu_pmf_data *pmf);
+>  /* amd-sfh */
+>  enum sfh_message_type {
+>  	MT_HPD,
+> +	MT_ALS,
+>  };
 >  
->  #ifndef AMD_PMF_IO_H
-> @@ -26,4 +27,23 @@ struct amd_gpu_pmf_data {
+>  enum hpd_info {
+> @@ -40,6 +41,7 @@ enum hpd_info {
+>  };
 >  
->  int amd_pmf_get_gfx_data(struct amd_gpu_pmf_data *pmf);
->  int amd_pmf_set_gfx_data(struct amd_gpu_pmf_data *pmf);
-> +
-> +/* amd-sfh */
-> +enum sfh_message_type {
-> +	MT_HPD,
-> +};
-> +
-> +enum hpd_info {
-> +	SFH_NOT_DETECTED,
-> +	SFH_USER_PRESENT,
-> +	SFH_USER_AWAY
-> +};
-> +
-> +struct amd_sfh_info {
-> +	u8 user_present;
-> +	/* add future caps below */
-
-Remove the comment?
-
-> +};
-> +
-> +int amd_get_sfh_info(struct amd_sfh_info *sfh_info, enum sfh_message_type op);
-> +
->  #endif
+>  struct amd_sfh_info {
+> +	u32 ambient_light;
+>  	u8 user_present;
+>  	/* add future caps below */
+>  };
 > 
 
 -- 
