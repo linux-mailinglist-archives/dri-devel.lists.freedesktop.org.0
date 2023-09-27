@@ -2,61 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58F847AFCE3
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Sep 2023 09:48:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06DF57AFC20
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Sep 2023 09:33:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0EC310E472;
-	Wed, 27 Sep 2023 07:48:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 51FBC10E3B1;
+	Wed, 27 Sep 2023 07:33:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 28F5E10E472
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Sep 2023 07:47:38 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 871BE10E399;
+ Wed, 27 Sep 2023 07:33:36 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id E4DC51F8BD;
- Wed, 27 Sep 2023 07:47:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1695800856; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=nyztPihry+uYWVQVQilr9GF3JEmaojYG/GDs/5jbvgg=;
- b=rHGHbynxiC201XZf419py+7wmacbnv7TvFX6pL8BmBQmCu3jxALTfunKlMmemhQB/UwxLE
- ZBlrt/jR3yfiS91k3QpYnT4cwDdvDPBerZS3ZYz+kiQi5Pluj4lT8s0BTpbDFcXEmUL0Fx
- a8n5SMYiuhtFUsaNX1X1DMzIKlXz9fw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1695800856;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=nyztPihry+uYWVQVQilr9GF3JEmaojYG/GDs/5jbvgg=;
- b=bsi9xPfXPtJYkKZOeDjG2LSjbZRJca7H7r4qHipe8HYJhIj+7lJt/AV335m+SgoLhaLaI/
- 1rVsDDIKV9XQxyAA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A8F431338F;
- Wed, 27 Sep 2023 07:47:36 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 4PVRKBjeE2XvUQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Wed, 27 Sep 2023 07:47:36 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: deller@gmx.de, javierm@redhat.com, sam@ravnborg.org, arnd@arndb.de,
- daniel@ffwll.ch
-Subject: [PATCH 46/46] fbdev/vt8623fb: Initialize fb_ops to fbdev I/O-memory
- helpers
-Date: Wed, 27 Sep 2023 09:27:19 +0200
-Message-ID: <20230927074722.6197-47-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20230927074722.6197-1-tzimmermann@suse.de>
-References: <20230927074722.6197-1-tzimmermann@suse.de>
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 626846607324;
+ Wed, 27 Sep 2023 08:33:34 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1695800014;
+ bh=juDUK3jJUc4wubW8k3FIzeLI9eMgHeRSXCAudoYytV0=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=gT4IOxdPFEVROkTE64vxjdRfdXWQ07CFIzhLO5TyHTvK0+Ipog0orAYSqhyLqvXMb
+ W1XdYopm4rYER6Wt7RveDCkkIs4lHJBH2K6WmV6X8/gAVlpJaT4GajhUe/ZzQEw9AQ
+ PeLpQYizMjllHvGJn7kifbN8gWZknO0jp2ZeqOR8GyNMUqlblKtHhiTbxgMtyv4iyZ
+ ckyS3Z0zi+e7kTt1fXYWFj/s6KcNsPJL8U0b6/thWiV14FmFSMfOzTPnho5D4NG3Ix
+ H6i0bbZ/kSIfzeY2Qrw3KXBugQvKsXpAuBaUgwBT5k8ONHMesDCEK91Q1D4wtRxXVA
+ gOm0FoMXYHW1g==
+Date: Wed, 27 Sep 2023 09:33:31 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Matthew Brost <matthew.brost@intel.com>
+Subject: Re: [PATCH v4 00/10] DRM scheduler changes for Xe
+Message-ID: <20230927093331.0a416646@collabora.com>
+In-Reply-To: <20230919050155.2647172-1-matthew.brost@intel.com>
+References: <20230919050155.2647172-1-matthew.brost@intel.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,64 +52,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-parisc@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- linux-nvidia@lists.surfsouth.com, linux-omap@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org
+Cc: robdclark@chromium.org, thomas.hellstrom@linux.intel.com,
+ sarah.walker@imgtec.com, ketil.johnsen@arm.com, Liviu.Dudau@arm.com,
+ mcanal@igalia.com, dri-devel@lists.freedesktop.org, christian.koenig@amd.com,
+ luben.tuikov@amd.com, dakr@redhat.com, donald.robson@imgtec.com,
+ lina@asahilina.net, intel-xe@lists.freedesktop.org,
+ faith.ekstrand@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Initialize the instance of struct fb_ops with fbdev initializer
-macros for framebuffers in I/O address space. Set the read/write,
-draw and mmap callbacks to the correct implementation and avoid
-implicit defaults. Also select the necessary I/O helpers in Kconfig.
+On Mon, 18 Sep 2023 22:01:45 -0700
+Matthew Brost <matthew.brost@intel.com> wrote:
 
-Fbdev drivers sometimes rely on the callbacks being NULL for a
-default implementation to be invoked; hence requiring the I/O
-helpers to be built in any case. Setting all callbacks in all
-drivers explicitly will allow to make the I/O helpers optional.
-This benefits systems that do not use these functions.
+> As a prerequisite to merging the new Intel Xe DRM driver [1] [2], we
+> have been asked to merge our common DRM scheduler patches first.
+> 
+> This a continuation of a RFC [3] with all comments addressed, ready for
+> a full review, and hopefully in state which can merged in the near
+> future. More details of this series can found in the cover letter of the
+> RFC [3].
+> 
+> These changes have been tested with the Xe driver.
+> 
+> v2:
+>  - Break run job, free job, and process message in own work items
+>  - This might break other drivers as run job and free job now can run in
+>    parallel, can fix up if needed
+> 
+> v3:
+>  - Include missing patch 'drm/sched: Add drm_sched_submit_* helpers'
+>  - Fix issue with setting timestamp to early
+>  - Don't dequeue jobs for single entity after calling entity fini
+>  - Flush pending jobs on entity fini
+>  - Add documentation for entity teardown
+>  - Add Matthew Brost to maintainers of DRM scheduler
+> 
+> v4:
+>  - Drop message interface
+>  - Drop 'Flush pending jobs on entity fini'
+>  - Drop 'Add documentation for entity teardown'
+>  - Address all feedback
+> 
+> Matt
+> 
+> Matthew Brost (10):
+>   drm/sched: Add drm_sched_submit_* helpers
+>   drm/sched: Convert drm scheduler to use a work queue rather than
+>     kthread
+>   drm/sched: Move schedule policy to scheduler
+>   drm/sched: Add DRM_SCHED_POLICY_SINGLE_ENTITY scheduling policy
+>   drm/sched: Split free_job into own work item
+>   drm/sched: Add drm_sched_start_timeout_unlocked helper
+>   drm/sched: Start submission before TDR in drm_sched_start
+>   drm/sched: Submit job before starting TDR
+>   drm/sched: Add helper to queue TDR immediately for current and future
+>     jobs
+>   drm/sched: Update maintainers of GPU scheduler
 
-No functional changes.
+Tested-by: Boris Brezillon <boris.brezillon@collabora.com>
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/video/fbdev/Kconfig    | 1 +
- drivers/video/fbdev/vt8623fb.c | 2 ++
- 2 files changed, 3 insertions(+)
-
-diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
-index dab0e49a66d20..20e0167bf20c9 100644
---- a/drivers/video/fbdev/Kconfig
-+++ b/drivers/video/fbdev/Kconfig
-@@ -1359,6 +1359,7 @@ config FB_VT8623
- 	select FB_CFB_FILLRECT
- 	select FB_CFB_COPYAREA
- 	select FB_CFB_IMAGEBLIT
-+	select FB_IOMEM_FOPS
- 	select FB_TILEBLITTING
- 	select FB_SVGALIB
- 	select VGASTATE
-diff --git a/drivers/video/fbdev/vt8623fb.c b/drivers/video/fbdev/vt8623fb.c
-index 034333ee6e455..f8d022cb61e8d 100644
---- a/drivers/video/fbdev/vt8623fb.c
-+++ b/drivers/video/fbdev/vt8623fb.c
-@@ -644,6 +644,7 @@ static const struct fb_ops vt8623fb_ops = {
- 	.owner		= THIS_MODULE,
- 	.fb_open	= vt8623fb_open,
- 	.fb_release	= vt8623fb_release,
-+	__FB_DEFAULT_IOMEM_OPS_RDWR,
- 	.fb_check_var	= vt8623fb_check_var,
- 	.fb_set_par	= vt8623fb_set_par,
- 	.fb_setcolreg	= vt8623fb_setcolreg,
-@@ -652,6 +653,7 @@ static const struct fb_ops vt8623fb_ops = {
- 	.fb_fillrect	= vt8623fb_fillrect,
- 	.fb_copyarea	= cfb_copyarea,
- 	.fb_imageblit	= vt8623fb_imageblit,
-+	__FB_DEFAULT_IOMEM_OPS_MMAP,
- 	.fb_get_caps    = svga_get_caps,
- };
- 
--- 
-2.42.0
+> 
+>  MAINTAINERS                                   |   1 +
+>  .../drm/amd/amdgpu/amdgpu_amdkfd_arcturus.c   |   2 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c   |  15 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_device.c    |  15 +-
+>  drivers/gpu/drm/etnaviv/etnaviv_sched.c       |   5 +-
+>  drivers/gpu/drm/lima/lima_sched.c             |   5 +-
+>  drivers/gpu/drm/msm/adreno/adreno_device.c    |   6 +-
+>  drivers/gpu/drm/msm/msm_ringbuffer.c          |   5 +-
+>  drivers/gpu/drm/nouveau/nouveau_sched.c       |   5 +-
+>  drivers/gpu/drm/panfrost/panfrost_job.c       |   5 +-
+>  drivers/gpu/drm/scheduler/sched_entity.c      |  85 ++-
+>  drivers/gpu/drm/scheduler/sched_fence.c       |   2 +-
+>  drivers/gpu/drm/scheduler/sched_main.c        | 491 ++++++++++++------
+>  drivers/gpu/drm/v3d/v3d_sched.c               |  25 +-
+>  include/drm/gpu_scheduler.h                   |  48 +-
+>  15 files changed, 495 insertions(+), 220 deletions(-)
+> 
 
