@@ -2,60 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 220C57B0DF6
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Sep 2023 23:19:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B89E7B0E1C
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Sep 2023 23:32:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 49DBE10E5B2;
-	Wed, 27 Sep 2023 21:18:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F340910E13F;
+	Wed, 27 Sep 2023 21:31:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x1131.google.com (mail-yw1-x1131.google.com
- [IPv6:2607:f8b0:4864:20::1131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8200510E5A5
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Sep 2023 21:18:57 +0000 (UTC)
-Received: by mail-yw1-x1131.google.com with SMTP id
- 00721157ae682-59f1dff5298so139452167b3.3
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Sep 2023 14:18:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1695849536; x=1696454336; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=UiA24Vnoe9mDlXFXQmDQoe2D01RtP5rHlDPFXWiZnis=;
- b=svkEBd+7bZ55Btw8tpSRGdn6K/q1iASlA4myglOeMsWKfhEgvjkh+c22q8tIL04kYM
- oyy6PZbEoIVZTd7xwqoLyPe9EicJeL04S0mGxqTvYUH6X/Bb8/Dp/2SzsgeWyUpLlOYK
- FuNY/rqyT2jP3rBxz0R/uPwRlXbGWl5o8SgGuVVIlNKm5PqrSogMoEvWn/1D6hhpDrAT
- EI4bYYAfH71OwIfAicmX1TykM7cIJUnCLz999W4QV38qf5e0rNVClsjnNRVmAbd8b77z
- eGtPW4VmHV6kCHlcznQBgZOH02RAqsKDpKv4Hvg97kxNxtZFbiNwRQKoKUPXgvUFih21
- qVkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1695849536; x=1696454336;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=UiA24Vnoe9mDlXFXQmDQoe2D01RtP5rHlDPFXWiZnis=;
- b=i2psgU5yAm00CF7muwhwIytg/f4Peo6e+qPXV0RkNlyRFfrICGH4NhQOMtPo01ex0S
- 4W8xg/fam0UarVvJsU3HXKKnXHqNxC/4onrAiCnujx6HkOpwuThVeyNOXqa7Q1rxMsZo
- fFX5WsCpK2dOwk6IVPMQ3qHfvD7bq9IltqKANyqwy9dVSpkSxD33DZ5EbLqGIVjlGhFb
- g6Kol0hkpxefrAWDimmE1HXPKX3sQAEnq0jYaxHzHlDRYK3xLKjD1FO6gISq1g2DMFhX
- xLgAlA2CW5fvbEvnragb7/upfSj7K1kN3xl8wvK1SZLv5JUyPva/igNj7Z9sZyi50wq3
- 7iVg==
-X-Gm-Message-State: AOJu0YzKiOozDIpdGyIcyplfHbPfVMXTq46ZnCBSOAuiewm/PkPA7uVH
- xmPmeP7wk27CxMhHB6oJDWBfIsI12UjwCCFT631NzQ==
-X-Google-Smtp-Source: AGHT+IG1QuRlqd5WUg5LSq9Sa+2WG3+pH9aEWm6KmPW4M8nLweQkVnYD51xD/qDJ9L+z4gIuMfCpNnkLCGu0v7Z3tZY=
-X-Received: by 2002:a81:6f03:0:b0:59f:773a:b14c with SMTP id
- k3-20020a816f03000000b0059f773ab14cmr3251803ywc.37.1695849536678; Wed, 27 Sep
- 2023 14:18:56 -0700 (PDT)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE6B610E02D;
+ Wed, 27 Sep 2023 21:31:43 +0000 (UTC)
+Received: from localhost.localdomain (unknown
+ [IPv6:2a02:8010:65b5:0:1ac0:4dff:feee:236a])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: alarumbe)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 35CE166072C1;
+ Wed, 27 Sep 2023 22:31:42 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1695850302;
+ bh=abGO4qVbXavCbwSjN2zmFsd9RtUxOGTas692u8/WW7I=;
+ h=From:To:Cc:Subject:Date:From;
+ b=BczI9cp09MAmd3AeGVfnAnlvTX9pbPWgg5xUb8fqszZkajamLLc288xSJJahwrifo
+ +mGY/28WQG3oeugxfeXHTWD2pYI1WQplNlj8R84piFVuuVmTlLHbp8nUZGrWHGpuwx
+ etShr56hPD6j5IokMSWdYGoRDK0OwSDMCu1KNbjRNLnjuzUeK23OY8gjiPXqsstWVy
+ OJ3lUq96c4OoVxH89dpUjpSPIB45Ca30zwtY7NJJ3J/pSgvjvaRp3ylKj2d5JoXOJJ
+ kKCtcSBNKu4mJShZmQnYABu3MEf+fTmdSAUifdWBKCaT6LNHEV/3V7HDVFOVjkT1W1
+ zLTE/15M/EpNw==
+From: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, daniel@ffwll.ch, robdclark@gmail.com,
+ quic_abhinavk@quicinc.com, dmitry.baryshkov@linaro.org, sean@poorly.run,
+ marijn.suijten@somainline.org, robh@kernel.org, steven.price@arm.com
+Subject: [PATCH v7 0/5] Add fdinfo support to Panfrost
+Date: Wed, 27 Sep 2023 22:29:54 +0100
+Message-ID: <20230927213133.1651169-1-adrian.larumbe@collabora.com>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
-References: <1695848028-18023-1-git-send-email-quic_khsieh@quicinc.com>
- <1695848028-18023-5-git-send-email-quic_khsieh@quicinc.com>
-In-Reply-To: <1695848028-18023-5-git-send-email-quic_khsieh@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Thu, 28 Sep 2023 00:17:50 +0300
-Message-ID: <CAA8EJpqwDOPD3dkWO1ap2pjMVnP1r2giUE0bAjTYzPBiz1aewA@mail.gmail.com>
-Subject: Re: [PATCH v4 4/8] drm/msm/dp: move parser->parse() and
- dp_power_client_init() to probe
-To: Kuogee Hsieh <quic_khsieh@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,86 +54,115 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, quic_sbillaka@quicinc.com,
- linux-kernel@vger.kernel.org, quic_abhinavk@quicinc.com, andersson@kernel.org,
- dri-devel@lists.freedesktop.org, dianders@chromium.org, vkoul@kernel.org,
- agross@kernel.org, marijn.suijten@somainline.org, quic_jesszhan@quicinc.com,
- swboyd@chromium.org, sean@poorly.run, linux-arm-msm@vger.kernel.org
+Cc: tvrtko.ursulin@linux.intel.com, linux-arm-msm@vger.kernel.org,
+ adrian.larumbe@collabora.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, healych@amazon.com,
+ boris.brezillon@collabora.com, kernel@collabora.com,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 27 Sept 2023 at 23:54, Kuogee Hsieh <quic_khsieh@quicinc.com> wrote:
->
-> Move parser->parse() and dp_power_client_init() from dp_display_bind()
-> to dp_display_probe() in preparation of adding pm_runtime framework
-> at next patch.
->
-> Changes in v4:
-> -- split this patch out of "incorporate pm_runtime framework into DP driver" patch
->
-> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
-> ---
->  drivers/gpu/drm/msm/dp/dp_display.c | 22 ++++++++++++----------
->  1 file changed, 12 insertions(+), 10 deletions(-)
->
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-> index 7ae3b8b..3ef141c 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> @@ -276,11 +276,6 @@ static int dp_display_bind(struct device *dev, struct device *master,
->         dp->dp_display.drm_dev = drm;
->         priv->dp[dp->id] = &dp->dp_display;
->
-> -       rc = dp->parser->parse(dp->parser);
-> -       if (rc) {
-> -               DRM_ERROR("device tree parsing failed\n");
-> -               goto end;
-> -       }
->
->
->         dp->drm_dev = drm;
-> @@ -291,11 +286,6 @@ static int dp_display_bind(struct device *dev, struct device *master,
->                 goto end;
->         }
->
-> -       rc = dp_power_client_init(dp->power);
-> -       if (rc) {
-> -               DRM_ERROR("Power client create failed\n");
-> -               goto end;
-> -       }
->
->         rc = dp_register_audio_driver(dev, dp->audio);
->         if (rc) {
-> @@ -1249,6 +1239,18 @@ static int dp_display_probe(struct platform_device *pdev)
->                 return -EPROBE_DEFER;
->         }
->
-> +       rc = dp->parser->parse(dp->parser);
-> +       if (rc) {
-> +               DRM_ERROR("device tree parsing failed\n");
-> +               return -EPROBE_DEFER;
-> +       }
-> +
-> +       rc = dp_power_client_init(dp->power);
-> +       if (rc) {
-> +               DRM_ERROR("Power client create failed\n");
-> +               return -EPROBE_DEFER;
-> +       }
+This patch series adds fdinfo support to the Panfrost DRM driver. It will
+display a series of key:value pairs under /proc/pid/fdinfo/fd for render
+processes that open the Panfrost DRM file.
 
-Hit enter too soon. No submodules teardown, so NAK.
+The pairs contain basic drm gpu engine and memory region information that
+can either be cat by a privileged user or accessed with IGT's gputop
+utility.
 
-Also please propagate returned error codes instead of inventing
-EPROBE_DEFER on your own.
+Changelog:
 
-> +
->         /* setup event q */
->         mutex_init(&dp->event_mutex);
->         init_waitqueue_head(&dp->event_q);
-> --
-> 2.7.4
->
+v1: https://lore.kernel.org/lkml/bb52b872-e41b-3894-285e-b52cfc849782@arm.com/T/
+
+v2: https://lore.kernel.org/lkml/20230901084457.5bc1ad69@collabora.com/T/
+ - Changed the way gpu cycles and engine time are calculated, using GPU
+   registers and taking into account potential resets.
+ - Split render engine values into fragment and vertex/tiler ones.
+ - Added more fine-grained calculation of RSS size for BO's.
+ - Implemente selection of drm-memory region size units.
+ - Removed locking of shrinker's mutex in GEM obj status function.
+
+v3: https://lore.kernel.org/lkml/20230905184533.959171-1-adrian.larumbe@collabora.com/
+ - Changed fdinfo engine names to something more descriptive.;
+ - Mentioned GPU cycle counts aren't an exact measure.
+ - Handled the case when job->priv might be NULL.
+ - Handled 32 bit overflow of cycle register.
+ - Kept fdinfo drm memory stats size unit display within 10k times the
+   previous multiplier for more accurate BO size numbers.
+ - Removed special handling of Prime imported BO RSS.
+ - Use rss_size only for heap objects.
+ - Use bo->base.madv instead of specific purgeable flag.
+ - Fixed kernel test robot warnings.
+
+v4: https://lore.kernel.org/lkml/20230912084044.955864-1-adrian.larumbe@collabora.com/
+ - Move cycle counter get and put to panfrost_job_hw_submit and
+   panfrost_job_handle_{err,done} for more accuracy.
+ - Make sure cycle counter refs are released in reset path
+ - Drop the model param for toggling cycle counting and do
+   leave it down to the debugfs file.
+ - Don't disable cycle counter when togglint debugfs file,
+   let refcounting logic handle it instead.
+ - Remove fdinfo data nested structure definion and 'names' field
+ - When incrementing BO RSS size in GPU MMU page fault IRQ handler, assume
+   granuality of 2MiB for every successful mapping.
+ - drm-file picks an fdinfo memory object size unit that doesn't lose precision.
+
+v5: https://lore.kernel.org/lkml/20230914223928.2374933-1-adrian.larumbe@collabora.com/
+ - Removed explicit initialisation of atomic variable for profiling mode,
+   as it's allocated with kzalloc.
+ - Pass engine utilisation structure to jobs rather than the file context, to avoid
+   future misusage of the latter.
+ - Remove double reading of cycle counter register and ktime in job deqeueue function,
+   as the scheduler will make sure these values are read over in case of requeuing.
+ - Moved putting of cycle counting refcnt into panfrost job dequeue.
+   function to avoid repetition.
+
+v6: https://lore.kernel.org/lkml/c73ad42b-a8db-23c2-86c7-1a2939dba044@linux.intel.com/T/
+ - Fix wrong swapped-round engine time and cycle values in fdinfo
+   drm print statements.
+
+v7:
+ - Make sure an object's actual RSS size is added to the overall fdinfo's purgeable
+   and active size tally when it's both resident and purgeable or active.
+ - Create a drm/panfrost.rst documentation file with meaning of fdinfo strings.
+ - BUILD_BUG_ON checking the engine name array size for fdinfo.
+ - Added copyright notices for Amazon in Panfrost's new debugfs files.
+ - Discarded fdinfo memory stats unit size selection patch.
+
+Adrián Larumbe (5):
+  drm/panfrost: Add cycle count GPU register definitions
+  drm/panfrost: Add fdinfo support GPU load metrics
+  drm/panfrost: Add fdinfo support for memory stats
+  drm/drm_file: Add DRM obj's RSS reporting function for fdinfo
+  drm/panfrost: Implement generic DRM object RSS reporting function
+
+ Documentation/gpu/drm-usage-stats.rst       |  1 +
+ Documentation/gpu/panfrost.rst              | 38 +++++++++++++
+ drivers/gpu/drm/drm_file.c                  |  8 +--
+ drivers/gpu/drm/panfrost/Makefile           |  2 +
+ drivers/gpu/drm/panfrost/panfrost_debugfs.c | 21 ++++++++
+ drivers/gpu/drm/panfrost/panfrost_debugfs.h | 14 +++++
+ drivers/gpu/drm/panfrost/panfrost_devfreq.c |  8 +++
+ drivers/gpu/drm/panfrost/panfrost_devfreq.h |  3 ++
+ drivers/gpu/drm/panfrost/panfrost_device.c  |  2 +
+ drivers/gpu/drm/panfrost/panfrost_device.h  | 13 +++++
+ drivers/gpu/drm/panfrost/panfrost_drv.c     | 60 ++++++++++++++++++++-
+ drivers/gpu/drm/panfrost/panfrost_gem.c     | 29 ++++++++++
+ drivers/gpu/drm/panfrost/panfrost_gem.h     |  5 ++
+ drivers/gpu/drm/panfrost/panfrost_gpu.c     | 41 ++++++++++++++
+ drivers/gpu/drm/panfrost/panfrost_gpu.h     |  4 ++
+ drivers/gpu/drm/panfrost/panfrost_job.c     | 24 +++++++++
+ drivers/gpu/drm/panfrost/panfrost_job.h     |  5 ++
+ drivers/gpu/drm/panfrost/panfrost_mmu.c     |  1 +
+ drivers/gpu/drm/panfrost/panfrost_regs.h    |  5 ++
+ include/drm/drm_gem.h                       |  9 ++++
+ 20 files changed, 289 insertions(+), 4 deletions(-)
+ create mode 100644 Documentation/gpu/panfrost.rst
+ create mode 100644 drivers/gpu/drm/panfrost/panfrost_debugfs.c
+ create mode 100644 drivers/gpu/drm/panfrost/panfrost_debugfs.h
 
 
+base-commit: f45acf7acf75921c0409d452f0165f51a19a74fd
 -- 
-With best wishes
-Dmitry
+2.42.0
+
