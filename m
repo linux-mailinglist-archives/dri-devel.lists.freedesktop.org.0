@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFA467AFCF0
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Sep 2023 09:48:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F10CE7AFD0F
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Sep 2023 09:49:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F10210E484;
-	Wed, 27 Sep 2023 07:48:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2237C10E49E;
+	Wed, 27 Sep 2023 07:49:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 360CA10E474
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8CB2310E399
  for <dri-devel@lists.freedesktop.org>; Wed, 27 Sep 2023 07:47:33 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id EAA911F8B3;
- Wed, 27 Sep 2023 07:47:31 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 3C26B218B1;
+ Wed, 27 Sep 2023 07:47:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1695800851; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1695800852; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kiAB9thNN4d00UsEjXVGtXWPtmT3/Z08ldzeOF5qv0g=;
- b=b2+e6gOllobM4T8Sxt9uRNuvZShy4FeBfJ7SzxHBe4MBvIXj6vEIGsa04bKsGwkCJd9t7j
- dEfps7cZV6IS2cOe+fWc729lZCLJ3TvJlxdU3fTdbHCQCP+dRK6w4Kax9A/JEAljZKrAaD
- JrnJ+bitA4vhVMR8KmzAz4Me5KRwD3Q=
+ bh=BRFAVOlxEDTWE4cFk6yDyMet8ZuI75U/NWf6hM4D+dw=;
+ b=LhjAdKlItp4CiEsM1w5ztyJTWnSOAttWPtR9KIdAeJ7ZBb/U5ZI8GGFX0u+ntv8TxfizSB
+ DJQYgdS/O4EIiaqycv4M7UtbzCxOq2ome62DGu7jxYx54RHW1QO6Wz4ShLuPJbdpXN8p3o
+ mXa6n+CDD+NKQagJ87eeK9cJaK+AXMI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1695800851;
+ s=susede2_ed25519; t=1695800852;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kiAB9thNN4d00UsEjXVGtXWPtmT3/Z08ldzeOF5qv0g=;
- b=Ywx6rc0PMREZmRo0xBYdiSX3MNQzkF1F9JK5XTMMEC12La5wDWPduKh5v3/fptc2u/m7KD
- LAiVWnusIY2FBfDA==
+ bh=BRFAVOlxEDTWE4cFk6yDyMet8ZuI75U/NWf6hM4D+dw=;
+ b=8WcLRtRe/gOrd5T87UnVNKvWnzxpIsqANcxvngmbugQZtVz05tBM52TS76H7SsEjXcmFkb
+ jCYRjWMqtbdsYeDg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B0AB31338F;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id EF49613A74;
  Wed, 27 Sep 2023 07:47:31 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id OL1TKhPeE2XvUQAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id mAuRORPeE2XvUQAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Wed, 27 Sep 2023 07:47:31 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: deller@gmx.de, javierm@redhat.com, sam@ravnborg.org, arnd@arndb.de,
  daniel@ffwll.ch
-Subject: [PATCH 27/46] fbdev/pm3fb: Initialize fb_ops to fbdev I/O-memory
+Subject: [PATCH 28/46] fbdev/pvr2fb: Initialize fb_ops to fbdev I/O-memory
  helpers
-Date: Wed, 27 Sep 2023 09:27:00 +0200
-Message-ID: <20230927074722.6197-28-tzimmermann@suse.de>
+Date: Wed, 27 Sep 2023 09:27:01 +0200
+Message-ID: <20230927074722.6197-29-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20230927074722.6197-1-tzimmermann@suse.de>
 References: <20230927074722.6197-1-tzimmermann@suse.de>
@@ -91,42 +91,51 @@ No functional changes.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/video/fbdev/Kconfig | 1 +
- drivers/video/fbdev/pm3fb.c | 2 ++
- 2 files changed, 3 insertions(+)
+ drivers/video/fbdev/Kconfig  |  1 +
+ drivers/video/fbdev/pvr2fb.c | 14 ++++++++------
+ 2 files changed, 9 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
-index ba5fc63691b16..afc1cf05a30f8 100644
+index afc1cf05a30f8..4d20c4523b83a 100644
 --- a/drivers/video/fbdev/Kconfig
 +++ b/drivers/video/fbdev/Kconfig
-@@ -1404,6 +1404,7 @@ config FB_PM3
+@@ -634,6 +634,7 @@ config FB_PVR2
  	select FB_CFB_FILLRECT
  	select FB_CFB_COPYAREA
  	select FB_CFB_IMAGEBLIT
 +	select FB_IOMEM_FOPS
  	select VIDEO_NOMODESET
  	help
- 	  This is the frame buffer device driver for the 3DLabs Permedia3
-diff --git a/drivers/video/fbdev/pm3fb.c b/drivers/video/fbdev/pm3fb.c
-index 16577d0e41b1a..6e55e42514d63 100644
---- a/drivers/video/fbdev/pm3fb.c
-+++ b/drivers/video/fbdev/pm3fb.c
-@@ -1203,6 +1203,7 @@ static int pm3fb_blank(int blank_mode, struct fb_info *info)
+ 	  Say Y here if you have a PowerVR 2 card in your box.  If you plan to
+diff --git a/drivers/video/fbdev/pvr2fb.c b/drivers/video/fbdev/pvr2fb.c
+index 6307364e4a49c..cbdb1caf61bd5 100644
+--- a/drivers/video/fbdev/pvr2fb.c
++++ b/drivers/video/fbdev/pvr2fb.c
+@@ -725,16 +725,18 @@ static ssize_t pvr2fb_write(struct fb_info *info, const char *buf,
  
- static const struct fb_ops pm3fb_ops = {
+ static const struct fb_ops pvr2fb_ops = {
  	.owner		= THIS_MODULE,
++#ifdef CONFIG_PVR2_DMA
++	.fb_read	= fb_io_read,
++	.fb_write	= pvr2fb_write,
++#else
 +	__FB_DEFAULT_IOMEM_OPS_RDWR,
- 	.fb_check_var	= pm3fb_check_var,
- 	.fb_set_par	= pm3fb_set_par,
- 	.fb_setcolreg	= pm3fb_setcolreg,
-@@ -1213,6 +1214,7 @@ static const struct fb_ops pm3fb_ops = {
- 	.fb_blank	= pm3fb_blank,
- 	.fb_sync	= pm3fb_sync,
- 	.fb_cursor	= pm3fb_cursor,
++#endif
+ 	.fb_setcolreg	= pvr2fb_setcolreg,
+ 	.fb_blank	= pvr2fb_blank,
++	__FB_DEFAULT_IOMEM_OPS_DRAW,
+ 	.fb_check_var	= pvr2fb_check_var,
+ 	.fb_set_par	= pvr2fb_set_par,
+-#ifdef CONFIG_PVR2_DMA
+-	.fb_write	= pvr2fb_write,
+-#endif
+-	.fb_fillrect	= cfb_fillrect,
+-	.fb_copyarea	= cfb_copyarea,
+-	.fb_imageblit	= cfb_imageblit,
 +	__FB_DEFAULT_IOMEM_OPS_MMAP,
  };
  
- /* ------------------------------------------------------------------------- */
+ #ifndef MODULE
 -- 
 2.42.0
 
