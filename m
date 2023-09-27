@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E606E7AFCDA
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Sep 2023 09:48:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6B6E7AFCF3
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Sep 2023 09:48:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C79EA10E476;
-	Wed, 27 Sep 2023 07:48:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D3D410E48B;
+	Wed, 27 Sep 2023 07:48:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 43CCE10E470
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9EDB910E399
  for <dri-devel@lists.freedesktop.org>; Wed, 27 Sep 2023 07:47:34 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 0A698218CE;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 4FC72218D6;
  Wed, 27 Sep 2023 07:47:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1695800853; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GaxMUTxJx9REMKwDO9x/6XTWgzZI2rs0OcKvhJZVHQ8=;
- b=Ds07cppu9esS5bqr4WlvqywT/Nn6DVNuKAa9OXwxQIUS155b2t7OnJi42gxJP2JXHC6ykG
- N2w0AQ1wfYbzbmuDaxfAWa8HFIxbXKyYlkxsdqtUj0SlCnoXDS9UeuBapt/gD+qOKoamLa
- DQbP0DJbX9pLGDjp0sgBvbsu0ris44A=
+ bh=wuCraVmb6fetKXIYlDd7pz0mIJwNSjp06/CRFvKh5iw=;
+ b=DwU+R5hYc/bkSUg3X+LU3Q9i7K39DKOaMjMb3EcuId/r/07//jJXrMlfgOO454M5G3cOVq
+ hdhMBSNgk9OZQCUpshzxidEJ5jF2wL9R5/5VvSOUKtiVtfjEIYA0OgVLMvRhEWd/K9+u8N
+ rmGVvFQpIfmr7c6/SoY8Amdkf/VNzp4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1695800853;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GaxMUTxJx9REMKwDO9x/6XTWgzZI2rs0OcKvhJZVHQ8=;
- b=S6vECYBQdIhDxJVnevb0+OLehSOeXE1NGQAQzOxVBu1wJB+cVBHOZOv4lH0AlRpJPUxIJc
- VUyjP5ZPDmMjIZCQ==
+ bh=wuCraVmb6fetKXIYlDd7pz0mIJwNSjp06/CRFvKh5iw=;
+ b=o/NVxe9i6je2GuPDOCtQ0lA7ttxOd3o4Lsvgu1ailr4HnjHhmfNTN2xovtuK6gufO0L3q2
+ fCMnel5FRe4Zi8Cg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C41071338F;
- Wed, 27 Sep 2023 07:47:32 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1012A1338F;
+ Wed, 27 Sep 2023 07:47:33 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id WMUXLxTeE2XvUQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Wed, 27 Sep 2023 07:47:32 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id 2NbuAhXeE2XvUQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Wed, 27 Sep 2023 07:47:33 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: deller@gmx.de, javierm@redhat.com, sam@ravnborg.org, arnd@arndb.de,
  daniel@ffwll.ch
-Subject: [PATCH 31/46] fbdev/s1d13xxxfb: Initialize fb_ops to fbdev I/O-memory
+Subject: [PATCH 32/46] fbdev/s3fb: Initialize fb_ops to fbdev I/O-memory
  helpers
-Date: Wed, 27 Sep 2023 09:27:04 +0200
-Message-ID: <20230927074722.6197-32-tzimmermann@suse.de>
+Date: Wed, 27 Sep 2023 09:27:05 +0200
+Message-ID: <20230927074722.6197-33-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20230927074722.6197-1-tzimmermann@suse.de>
 References: <20230927074722.6197-1-tzimmermann@suse.de>
@@ -70,10 +70,9 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: linux-fbdev@vger.kernel.org, linux-parisc@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Kristoffer Ericson <kristoffer.ericson@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-nvidia@lists.surfsouth.com,
- linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-nvidia@lists.surfsouth.com, linux-omap@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -88,84 +87,45 @@ helpers to be built in any case. Setting all callbacks in all
 drivers explicitly will allow to make the I/O helpers optional.
 This benefits systems that do not use these functions.
 
-To simplify the conversion, provide a dedicated fb_ops instance
-for accelerated devices. No functional changes.
+No functional changes.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Kristoffer Ericson <kristoffer.ericson@gmail.com>
 ---
- drivers/video/fbdev/Kconfig      |  1 +
- drivers/video/fbdev/s1d13xxxfb.c | 25 ++++++++++++++++---------
- 2 files changed, 17 insertions(+), 9 deletions(-)
+ drivers/video/fbdev/Kconfig | 1 +
+ drivers/video/fbdev/s3fb.c  | 2 ++
+ 2 files changed, 3 insertions(+)
 
 diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
-index 64131e2b11bd5..fdac5f9177068 100644
+index fdac5f9177068..4f9dab566c28c 100644
 --- a/drivers/video/fbdev/Kconfig
 +++ b/drivers/video/fbdev/Kconfig
-@@ -671,6 +671,7 @@ config FB_S1D13XXX
+@@ -1145,6 +1145,7 @@ config FB_S3
  	select FB_CFB_FILLRECT
  	select FB_CFB_COPYAREA
  	select FB_CFB_IMAGEBLIT
 +	select FB_IOMEM_FOPS
- 	help
- 	  Support for S1D13XXX framebuffer device family (currently only
- 	  working with S1D13806). Product specs at
-diff --git a/drivers/video/fbdev/s1d13xxxfb.c b/drivers/video/fbdev/s1d13xxxfb.c
-index c7d221cce06d7..0e871197c6de6 100644
---- a/drivers/video/fbdev/s1d13xxxfb.c
-+++ b/drivers/video/fbdev/s1d13xxxfb.c
-@@ -596,18 +596,26 @@ s1d13xxxfb_bitblt_solidfill(struct fb_info *info, const struct fb_fillrect *rect
- }
- 
- /* framebuffer information structures */
--static struct fb_ops s1d13xxxfb_fbops = {
-+static const struct fb_ops s1d13xxxfb_fbops = {
+ 	select FB_TILEBLITTING
+ 	select FB_SVGALIB
+ 	select VGASTATE
+diff --git a/drivers/video/fbdev/s3fb.c b/drivers/video/fbdev/s3fb.c
+index 7d257489edcc2..589b349cb63e0 100644
+--- a/drivers/video/fbdev/s3fb.c
++++ b/drivers/video/fbdev/s3fb.c
+@@ -1047,6 +1047,7 @@ static const struct fb_ops s3fb_ops = {
  	.owner		= THIS_MODULE,
-+	FB_DEFAULT_IOMEM_OPS,
- 	.fb_set_par	= s1d13xxxfb_set_par,
- 	.fb_setcolreg	= s1d13xxxfb_setcolreg,
- 	.fb_blank	= s1d13xxxfb_blank,
--
- 	.fb_pan_display	= s1d13xxxfb_pan_display,
-+};
- 
--	/* gets replaced at chip detection time */
--	.fb_fillrect	= cfb_fillrect,
--	.fb_copyarea	= cfb_copyarea,
-+static const struct fb_ops s1d13xxxfb_fbops_s1d13506 = {
-+	.owner		= THIS_MODULE,
+ 	.fb_open	= s3fb_open,
+ 	.fb_release	= s3fb_release,
 +	__FB_DEFAULT_IOMEM_OPS_RDWR,
-+	.fb_set_par	= s1d13xxxfb_set_par,
-+	.fb_setcolreg	= s1d13xxxfb_setcolreg,
-+	.fb_blank	= s1d13xxxfb_blank,
-+	.fb_pan_display	= s1d13xxxfb_pan_display,
-+	.fb_fillrect	= s1d13xxxfb_bitblt_solidfill,
-+	.fb_copyarea	= s1d13xxxfb_bitblt_copyarea,
- 	.fb_imageblit	= cfb_imageblit,
+ 	.fb_check_var	= s3fb_check_var,
+ 	.fb_set_par	= s3fb_set_par,
+ 	.fb_setcolreg	= s3fb_setcolreg,
+@@ -1055,6 +1056,7 @@ static const struct fb_ops s3fb_ops = {
+ 	.fb_fillrect	= s3fb_fillrect,
+ 	.fb_copyarea	= cfb_copyarea,
+ 	.fb_imageblit	= s3fb_imageblit,
 +	__FB_DEFAULT_IOMEM_OPS_MMAP,
+ 	.fb_get_caps    = svga_get_caps,
  };
- 
- static int s1d13xxxfb_width_tab[2][4] = {
-@@ -869,17 +877,16 @@ static int s1d13xxxfb_probe(struct platform_device *pdev)
- 	       default_par->regs, info->fix.smem_len / 1024, info->screen_base);
- 
- 	info->par = default_par;
--	info->flags = FBINFO_HWACCEL_YPAN;
--	info->fbops = &s1d13xxxfb_fbops;
- 
- 	switch(prod_id) {
- 	case S1D13506_PROD_ID:	/* activate acceleration */
--		s1d13xxxfb_fbops.fb_fillrect = s1d13xxxfb_bitblt_solidfill;
--		s1d13xxxfb_fbops.fb_copyarea = s1d13xxxfb_bitblt_copyarea;
- 		info->flags = FBINFO_HWACCEL_YPAN |
- 			FBINFO_HWACCEL_FILLRECT | FBINFO_HWACCEL_COPYAREA;
-+		info->fbops = &s1d13xxxfb_fbops_s1d13506;
- 		break;
- 	default:
-+		info->flags = FBINFO_HWACCEL_YPAN;
-+		info->fbops = &s1d13xxxfb_fbops;
- 		break;
- 	}
  
 -- 
 2.42.0
