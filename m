@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C4157AFCF2
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Sep 2023 09:48:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E01E87AFCF4
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Sep 2023 09:48:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 39C7710E48A;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F3B610E48C;
 	Wed, 27 Sep 2023 07:48:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E48B710E399
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Sep 2023 07:47:35 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E47A10E477
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Sep 2023 07:47:36 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 92223218D9;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id D28ED218DF;
  Wed, 27 Sep 2023 07:47:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1695800854; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=p9VwvdQvOc0++JlHmSo/HA2eGbR5x4CRaxbF+bnko6o=;
- b=t58t+nBaXFVh88RSnj3VTHp0JCggWdKa5ARk46ohcSr8afc15exCXYyPBa2UAbi1tpzGSg
- a1N84rjmRtSD7pftbg4Q3rS3dF7/xZeTEAuth1kcglSQt2SHVK2N3VQI7aykna3OOOVSlX
- KbqQSRk5kcxtykztGd72EYdSWWdMuJY=
+ bh=u3eRdS85xwPQzBuwJ54dspR9cbt48tPp46vdNh1wjsk=;
+ b=WBdRDS1btysNCgwlgznFfPl70efEpbrCr4Tcv25lls+aMwgz2+dfAZPgRKWNd8kuXiCxt5
+ JcLewc0AZXfg1lRNvuPhT+IFIUSgOlq4S4rhq3R7Ttd8P2QXco6mvwnNU4dyJS/7IZHN3s
+ GBa/qat9H7Ce3fvcPDL+NkL3r9YigAg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1695800854;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=p9VwvdQvOc0++JlHmSo/HA2eGbR5x4CRaxbF+bnko6o=;
- b=ZulzUbHNbeCJgt17uDK4WDcbga14Gt0egrWygl4oJBw+YhB4Mm13PH6IO/U94uZsY7+2nq
- Wv6DKblgSKDtgKBg==
+ bh=u3eRdS85xwPQzBuwJ54dspR9cbt48tPp46vdNh1wjsk=;
+ b=8YIepgZd82gcTVo2funY19jpuH62p5/D7vph6egOvw4iuYYt+9iaBIsueRoewIXWLPKJRm
+ dtWXYMcypeqLTsBA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4ED4213A74;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 956401338F;
  Wed, 27 Sep 2023 07:47:34 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 2BRbEhbeE2XvUQAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id 4M+fIxbeE2XvUQAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Wed, 27 Sep 2023 07:47:34 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: deller@gmx.de, javierm@redhat.com, sam@ravnborg.org, arnd@arndb.de,
  daniel@ffwll.ch
-Subject: [PATCH 37/46] fbdev/sm712fb: Initialize fb_ops to fbdev I/O-memory
+Subject: [PATCH 38/46] fbdev/stifb: Initialize fb_ops to fbdev I/O-memory
  helpers
-Date: Wed, 27 Sep 2023 09:27:10 +0200
-Message-ID: <20230927074722.6197-38-tzimmermann@suse.de>
+Date: Wed, 27 Sep 2023 09:27:11 +0200
+Message-ID: <20230927074722.6197-39-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20230927074722.6197-1-tzimmermann@suse.de>
 References: <20230927074722.6197-1-tzimmermann@suse.de>
@@ -69,11 +69,11 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Teddy Wang <teddy.wang@siliconmotion.com>,
- linux-parisc@vger.kernel.org, dri-devel@lists.freedesktop.org,
+Cc: linux-fbdev@vger.kernel.org, linux-parisc@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, linux-nvidia@lists.surfsouth.com,
- linux-omap@vger.kernel.org, Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
- linux-arm-kernel@lists.infradead.org
+ linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -91,40 +91,43 @@ This benefits systems that do not use these functions.
 No functional changes.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
-Cc: Teddy Wang <teddy.wang@siliconmotion.com>
+Cc: "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>
 ---
- drivers/video/fbdev/Kconfig   | 4 +---
- drivers/video/fbdev/sm712fb.c | 1 +
- 2 files changed, 2 insertions(+), 3 deletions(-)
+ drivers/video/fbdev/Kconfig | 1 +
+ drivers/video/fbdev/stifb.c | 2 ++
+ 2 files changed, 3 insertions(+)
 
 diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
-index c87eb90c04af0..b018f10ad07fc 100644
+index b018f10ad07fc..a7587f680e3a2 100644
 --- a/drivers/video/fbdev/Kconfig
 +++ b/drivers/video/fbdev/Kconfig
-@@ -1938,9 +1938,7 @@ config FB_SSD1307
- config FB_SM712
- 	tristate "Silicon Motion SM712 framebuffer support"
- 	depends on FB && PCI
--	select FB_CFB_FILLRECT
--	select FB_CFB_COPYAREA
--	select FB_CFB_IMAGEBLIT
-+	select FB_IOMEM_HELPERS
- 	select VIDEO_NOMODESET
+@@ -384,6 +384,7 @@ config FB_STI
+ 	select FB_CFB_FILLRECT
+ 	select FB_CFB_COPYAREA
+ 	select FB_CFB_IMAGEBLIT
++	select FB_IOMEM_FOPS
+ 	select STI_CORE
+ 	default y
  	help
- 	  Frame buffer driver for the Silicon Motion SM710, SM712, SM721
-diff --git a/drivers/video/fbdev/sm712fb.c b/drivers/video/fbdev/sm712fb.c
-index db129ed3b2f7c..3f8ef50e32095 100644
---- a/drivers/video/fbdev/sm712fb.c
-+++ b/drivers/video/fbdev/sm712fb.c
-@@ -1347,6 +1347,7 @@ static int smtc_set_par(struct fb_info *info)
+diff --git a/drivers/video/fbdev/stifb.c b/drivers/video/fbdev/stifb.c
+index c746deb79afce..548d992f8cb18 100644
+--- a/drivers/video/fbdev/stifb.c
++++ b/drivers/video/fbdev/stifb.c
+@@ -1167,12 +1167,14 @@ stifb_init_display(struct stifb_info *fb)
  
- static const struct fb_ops smtcfb_ops = {
- 	.owner        = THIS_MODULE,
-+	FB_DEFAULT_IOMEM_OPS,
- 	.fb_check_var = smtc_check_var,
- 	.fb_set_par   = smtc_set_par,
- 	.fb_setcolreg = smtc_setcolreg,
+ static const struct fb_ops stifb_ops = {
+ 	.owner		= THIS_MODULE,
++	__FB_DEFAULT_IOMEM_OPS_RDWR,
+ 	.fb_check_var	= stifb_check_var,
+ 	.fb_setcolreg	= stifb_setcolreg,
+ 	.fb_blank	= stifb_blank,
+ 	.fb_fillrect	= stifb_fillrect,
+ 	.fb_copyarea	= stifb_copyarea,
+ 	.fb_imageblit	= cfb_imageblit,
++	__FB_DEFAULT_IOMEM_OPS_MMAP,
+ };
+ 
+ 
 -- 
 2.42.0
 
