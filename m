@@ -1,96 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 662977B17EB
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Sep 2023 11:55:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CE367B17FF
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Sep 2023 12:00:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B3D7210E5FE;
-	Thu, 28 Sep 2023 09:55:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 42D4D10E600;
+	Thu, 28 Sep 2023 10:00:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on2051.outbound.protection.outlook.com [40.107.244.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 33E7710E5FE;
- Thu, 28 Sep 2023 09:55:40 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QHujYAuLqXemt5Xh9HgfOLuxXnNv0V6b2uV4eeHeTkN0GXrp6AtQ9994N0yOnIx0/YGb71j/g6STERRL/x0BrKjK7yrCk0JGRfMuGOh9BpLz0U0HsV2S4AtLypOAQlyucePTx4o9SFFq/kf/V24K2Vbq5QL1e+/Kh8yzR+FtYh8v0GeR9JFeZ68cAnVAdTrzn519olG+BJt2HnvxQH7muPURx1QeeyhZREeARGIgT4FLHDlfPw43Ra0tbBhIxLgSzNS/li+NO8eEjoyZMCyPiE9PtkSZNHYSQ6jdR+ClL9u/59TBmuHEyt48MF9iWUU7zlfryHqK+PKsBquHs5oApw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=coL7RUfS8sMy70WefR4M5Sy2YIbfcNEYcGImBuWMpS8=;
- b=KC+mIgoiWYmJvjnO8MiW2NQmfyeZdPCmnjToAt28osNbOqB4eA8BuQJR0kMp0zww8Ntgs/BTiS/n7upWA8LCEVq/CKXDkQkTGDyvKbGvkU1Nl64gl3bVHsttocnGNrt6LgPvT/bxLjRgLmuMhFtiENSRKzhDHuFF2a6NO0ZX1wJxzUv0yBz8ja1UhVgDUYqV0oPXY3wXHNTBPYEAO7Lr2p3j3ynTqFgwLPoh8637B1QtqmHqxQjBV7ChBQYe9RfWMqyU1NX67HpBDa5gr0mTexZOVgaIKb7vOJs3LiVfzlAxc7BiMrh4zVCIiKM834HNzvA4bFE3Slql4LjXNup1cQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=gmail.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=coL7RUfS8sMy70WefR4M5Sy2YIbfcNEYcGImBuWMpS8=;
- b=HKvsOdmLfswh/cbqUU+J79/5w3Pr5ETmZFgGXBRZeslcK/IB+GqtOdDzoRGR6rkSHuh8WOAMeSKaQPrHBFiJPoFvw39RyalITcFi0alh0h/O9JJmj8DZFgKUccl3gCKpal3Tui3D8GCqQqvSoI3n/q48Oe3oRAm4QdnyxLNDWro=
-Received: from SJ0PR05CA0030.namprd05.prod.outlook.com (2603:10b6:a03:33b::35)
- by MW5PR12MB5621.namprd12.prod.outlook.com (2603:10b6:303:193::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6792.26; Thu, 28 Sep
- 2023 09:55:38 +0000
-Received: from CO1PEPF000044F2.namprd05.prod.outlook.com
- (2603:10b6:a03:33b:cafe::bd) by SJ0PR05CA0030.outlook.office365.com
- (2603:10b6:a03:33b::35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6863.12 via Frontend
- Transport; Thu, 28 Sep 2023 09:55:38 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CO1PEPF000044F2.mail.protection.outlook.com (10.167.241.72) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6838.14 via Frontend Transport; Thu, 28 Sep 2023 09:55:37 +0000
-Received: from rtg-Artic.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Thu, 28 Sep
- 2023 04:55:07 -0500
-From: Arvind Yadav <Arvind.Yadav@amd.com>
-To: <Christian.Koenig@amd.com>, <alexander.deucher@amd.com>,
- <shashank.sharma@amd.com>, <Felix.Kuehling@amd.com>, <Mukul.Joshi@amd.com>,
- <Xinhui.Pan@amd.com>, <airlied@gmail.com>, <daniel@ffwll.ch>
-Subject: [PATCH v2 1/1] drm/amdkfd: Fix unaligned doorbell absolute offset for
- gfx8
-Date: Thu, 28 Sep 2023 15:24:27 +0530
-Message-ID: <20230928095427.4337-2-Arvind.Yadav@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230928095427.4337-1-Arvind.Yadav@amd.com>
-References: <20230928095427.4337-1-Arvind.Yadav@amd.com>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E58010E600
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Sep 2023 10:00:34 +0000 (UTC)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 317C966072EC;
+ Thu, 28 Sep 2023 11:00:32 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1695895232;
+ bh=IOt9+rGgYzpIVn9RzySH66oZB/5PUk0iIHrQnBjbmzY=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=JIGL0fdE9UtWJmr1uWbygEYpt3o+4EnArL7XJeSgBUPejcOFFJVirdQd3ldexweqv
+ cKVL2jiX7yT548vDFMPobCMjvKUesNR3YMQYj2bJYA6mBLkA9X6YxNiN79VESu1GOF
+ Qzu1aX0hGbtOyTFD2/tJMjMaVvrTLWnI1ZFsQMSsxCl451E18oLprQCebD42awVotj
+ Zm7i8Y9c7BzY/xZxfGAYfLQ4JSrSn3E6EFdaU1g9ASd0Y1D4e1nAYGFSlkK5ZWNNTT
+ zhhIL2rTmvg550GGqeOwKct3lt21DAZJNTyNadqTyotYS9YyDfW+gUseoV8VcOaMGf
+ IEpYGSWSK7F8g==
+Message-ID: <891fe60a-cee9-29ab-3214-848b1161a0a7@collabora.com>
+Date: Thu, 28 Sep 2023 12:00:30 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1PEPF000044F2:EE_|MW5PR12MB5621:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8be95dfb-3f69-4a60-8698-08dbc0091147
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: mOhFXgFIE97bwJHTjFM5cc1ZYZ3NXoLmvpVODqIItJMHbdDEDNC9Wp6IqDnMwoXYszX8Vy5POXIM5FZCofFiONdIeZK3+PR/AKN+zELSDqEsCgliQiXBsWqoiK3yGcnBIavMWqJKzMzOEyMbDp0kUuEFyF7DCJljAdnzJowTw6SygIw8V/S4szZAkWTxKxqb/Bhee2cPv5NofdH41u2SfTRR1FieRwkHdIyjsW3ucXR23UQejDj3xtfjk7kA+ytds7vR/X+Oy1ZaRXHuZO5R6cw0fVDMoTWM3BaSytpbYlhzHj4UIgZgScgmU5k9cN+EOAyvBzUG5rGkPjT0pY8pofazjHSJZFxsZN7xnrk5jSEg78WtJf0D5C9zsuUVq6H3Jv8dyB+bM54oNxIsQhYrcRso52dKNftsZcE7V+1haZopsPFrS1/buFmH2YxvWQbaRu6vJV/XjwLV14JIQDBHlbcKSaTWRaoEWzvACt9C9EB5VvO0OO2c35O4d2aDnBSAboiMcik+d/XtI72Ul/e/H0UmJsUHHntTfMyj0vrQMoWe+n48z/I8F21li6yU5X9tn0LF0ZSbtmY0/DiMc6PIcWoY8bsb7UKw2uiKHh4lyn1vkwM6ze+r9KUEMpvsL5/bf1KHh6wniaBu2pblVdOvuD+fAgQV1ePkXVZgymtg1+p4xHp1tCtPPGZ7JLBkfxsDysoW1g7whsn5DzDkgCrhQOsGC7sytj0MP3WtkGTlVVc9ucFEOkp//FSN0bnAgQ9D6KsuaOX6qq6owcb74r7wWg==
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230031)(4636009)(396003)(39860400002)(376002)(346002)(136003)(230922051799003)(64100799003)(451199024)(186009)(1800799009)(82310400011)(46966006)(36840700001)(40470700004)(7696005)(478600001)(5660300002)(86362001)(40480700001)(70586007)(316002)(41300700001)(6666004)(54906003)(110136005)(70206006)(356005)(2616005)(82740400003)(8936002)(26005)(81166007)(16526019)(426003)(36756003)(36860700001)(336012)(47076005)(83380400001)(8676002)(1076003)(2906002)(4326008)(40460700003)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Sep 2023 09:55:37.8633 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8be95dfb-3f69-4a60-8698-08dbc0091147
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1PEPF000044F2.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW5PR12MB5621
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.0
+Subject: Re: [PATCH v10 5/9] drm/mediatek: Add connector dynamic selection
+ capability
+Content-Language: en-US
+To: "Jason-JH.Lin" <jason-jh.lin@mediatek.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>
+References: <20230927153833.23583-1-jason-jh.lin@mediatek.com>
+ <20230927153833.23583-6-jason-jh.lin@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20230927153833.23583-6-jason-jh.lin@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,47 +58,276 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Arvind Yadav <Arvind.Yadav@amd.com>,
- Christian Koenig <christian.koenig@amd.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: Nathan Lu <nathan.lu@mediatek.com>, Singo Chang <singo.chang@mediatek.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ Jason-ch Chen <jason-ch.chen@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>,
+ Johnson Wang <johnson.wang@mediatek.com>, Shawn Sung <shawn.sung@mediatek.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch is to adjust the absolute doorbell offset
-against the doorbell id considering the doorbell
-size of 32/64 bit.
+Il 27/09/23 17:38, Jason-JH.Lin ha scritto:
+> Add dynamic select available connector flow in mtk_drm_crtc_create()
+> and mtk_drm_crtc_atomic_enable().
+> 
+> In mtk_drm_crtc_create(), if there is a connector routes array in drm
+> driver data, all components definded in the connector routes array will
+> be checked and their encoder_index will be set.
+> 
+> In mtk_drm_crtc_atomic_enable(), crtc will check its encoder_index to
+> identify which componet in the connector routes array should append.
+> 
+> Signed-off-by: Nancy Lin <nancy.lin@mediatek.com>
+> Signed-off-by: Nathan Lu <nathan.lu@mediatek.com>
+> Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
+> Tested-by: Fei Shao <fshao@chromium.org>
+> ---
+>   drivers/gpu/drm/mediatek/mtk_drm_crtc.c     | 78 ++++++++++++++++++++-
+>   drivers/gpu/drm/mediatek/mtk_drm_crtc.h     |  5 +-
+>   drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c | 27 ++++++-
+>   drivers/gpu/drm/mediatek/mtk_drm_drv.c      | 13 +++-
+>   drivers/gpu/drm/mediatek/mtk_drm_drv.h      |  7 ++
+>   5 files changed, 123 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+> index b6fa4ad2f94d..8eb4d2646a76 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+> @@ -63,6 +63,8 @@ struct mtk_drm_crtc {
+>   	struct mtk_mutex		*mutex;
+>   	unsigned int			ddp_comp_nr;
+>   	struct mtk_ddp_comp		**ddp_comp;
+> +	unsigned int			num_conn_routes;
+> +	const struct mtk_drm_route	*conn_routes;
+>   
+>   	/* lock for display hardware access */
+>   	struct mutex			hw_lock;
+> @@ -647,6 +649,45 @@ static void mtk_drm_crtc_disable_vblank(struct drm_crtc *crtc)
+>   	mtk_ddp_comp_disable_vblank(comp);
+>   }
+>   
+> +static void mtk_drm_crtc_update_output(struct drm_crtc *crtc,
+> +				       struct drm_atomic_state *state)
+> +{
+> +	int crtc_index = drm_crtc_index(crtc);
+> +	int i;
+> +	struct device *dev;
+> +	struct drm_crtc_state *crtc_state = state->crtcs[crtc_index].new_state;
+> +	struct mtk_drm_crtc *mtk_crtc = to_mtk_crtc(crtc);
+> +	struct mtk_drm_private *priv = crtc->dev->dev_private;
+> +	unsigned int comp_id;
 
-v2:
-- Addressed the review comment from Felix.
+You're not using comp_id globally in this function....
 
-Cc: Christian Koenig <christian.koenig@amd.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Signed-off-by: Shashank Sharma <shashank.sharma@amd.com>
-Signed-off-by: Arvind Yadav <Arvind.Yadav@amd.com>
----
- drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+> +	unsigned int encoder_mask = crtc_state->encoder_mask;
+> +
+> +	if (!crtc_state->connectors_changed)
+> +		return;
+> +
+> +	if (!mtk_crtc->num_conn_routes)
+> +		return;
+> +
+> +	priv = priv->all_drm_private[crtc_index];
 
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
-index 0d3d538b64eb..c54c4392d26e 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
-@@ -407,7 +407,14 @@ static int allocate_doorbell(struct qcm_process_device *qpd,
- 
- 	q->properties.doorbell_off = amdgpu_doorbell_index_on_bar(dev->adev,
- 								  qpd->proc_doorbells,
--								  q->doorbell_id);
-+								  0);
-+
-+	/* Adjust the absolute doorbell offset against the doorbell id considering
-+	 * the doorbell size of 32/64 bit.
-+	 */
-+	q->properties.doorbell_off += q->doorbell_id *
-+				      dev->kfd->device_info.doorbell_size / 4;
-+
- 	return 0;
- }
- 
--- 
-2.34.1
+This is a bit confusing. You're reassigning priv: please avoid that.
+I would prefer directly seeing the final assignment, or otherwise two pointers.
+
+	struct mtk_drm_private *priv;
+
+	if ....
+	...........
+
+	priv = crtc->dev->dev_private->all_drm_private[crtc_index];
+
+> +	dev = priv->dev;
+> +
+> +	dev_dbg(dev, "connector change:%d, encoder mask:0x%x for crtc:%d\n",
+> +		crtc_state->connectors_changed, encoder_mask, crtc_index);
+> +
+> +	for (i = 0; i < mtk_crtc->num_conn_routes; i++) {
+> +		struct mtk_ddp_comp *comp;
+
+...so you can move it here...
+
+		unsigned int comp_id = mtk_crtc->conn_routes[i].route_ddp;
+		struct mtk_ddp_comp *comp = &priv->ddp_comp[comp_id];
+
+> +
+> +		comp_id = mtk_crtc->conn_routes[i].route_ddp;
+> +		comp = &priv->ddp_comp[comp_id];
+> +		if (comp->encoder_index >= 0 &&
+> +		    encoder_mask & BIT(comp->encoder_index)) {
+
+For readability, I would prefer to see
+
+		if (comp->encoder_index >= 0 &&
+		    (encoder_mask & BIT(comp->encoder_index))) {
+
+...but I don't have strong opinions on that.
+
+> +			mtk_crtc->ddp_comp[mtk_crtc->ddp_comp_nr - 1] = comp;
+> +			dev_dbg(dev, "Add comp_id: %d at path index %d\n",
+> +				comp->id, mtk_crtc->ddp_comp_nr - 1);
+> +			break;
+> +		}
+> +	}
+> +}
+> +
+>   int mtk_drm_crtc_plane_check(struct drm_crtc *crtc, struct drm_plane *plane,
+>   			     struct mtk_plane_state *state)
+>   {
+> @@ -679,6 +720,8 @@ static void mtk_drm_crtc_atomic_enable(struct drm_crtc *crtc,
+>   
+>   	DRM_DEBUG_DRIVER("%s %d\n", __func__, crtc->base.id);
+>   
+> +	mtk_drm_crtc_update_output(crtc, state);
+> +
+
+What's the point of updating the output before pm_runtime_resume_and_get()?
+If PM resume fails we're not enabling the CRTC so the update is actually useless.
+
+Please move this after PM resume: that will also possibly come handy in the future.
+
+
+>   	ret = pm_runtime_resume_and_get(comp->dev);
+>   	if (ret < 0) {
+>   		DRM_DEV_ERROR(comp->dev, "Failed to enable power domain: %d\n", ret);
+> @@ -884,7 +927,8 @@ struct device *mtk_drm_crtc_dma_dev_get(struct drm_crtc *crtc)
+>   
+>   int mtk_drm_crtc_create(struct drm_device *drm_dev,
+>   			const unsigned int *path, unsigned int path_len,
+> -			int priv_data_index)
+> +			int priv_data_index, const struct mtk_drm_route *conn_routes,
+> +			unsigned int num_conn_routes)
+>   {
+>   	struct mtk_drm_private *priv = drm_dev->dev_private;
+>   	struct device *dev = drm_dev->dev;
+> @@ -935,7 +979,8 @@ int mtk_drm_crtc_create(struct drm_device *drm_dev,
+>   
+>   	mtk_crtc->mmsys_dev = priv->mmsys_dev;
+>   	mtk_crtc->ddp_comp_nr = path_len;
+> -	mtk_crtc->ddp_comp = devm_kmalloc_array(dev, mtk_crtc->ddp_comp_nr,
+> +	mtk_crtc->ddp_comp = devm_kmalloc_array(dev,
+> +						mtk_crtc->ddp_comp_nr + (conn_routes ? 1 : 0),
+>   						sizeof(*mtk_crtc->ddp_comp),
+>   						GFP_KERNEL);
+>   	if (!mtk_crtc->ddp_comp)
+> @@ -1038,5 +1083,34 @@ int mtk_drm_crtc_create(struct drm_device *drm_dev,
+>   		init_waitqueue_head(&mtk_crtc->cb_blocking_queue);
+>   	}
+>   #endif
+> +
+> +	if (conn_routes) {
+> +		struct device_node *node;
+> +		struct mtk_ddp_comp *comp;
+> +		unsigned int comp_id;
+> +
+> +		for (i = 0; i < num_conn_routes; i++) {
+
+Same here, you're locally using comp_id, node and comp *only* in the for loop....
+
+			unsigned int comp_id = conn_routes[i].route_ddp;
+			struct device_node *node = priv->comp_node[comp_id];
+			struct mtk_ddp_comp *comp = &priv->ddp_comp[comp_id];
+
+> +			comp_id = conn_routes[i].route_ddp;
+> +			node = priv->comp_node[comp_id];
+> +			comp = &priv->ddp_comp[comp_id];
+> +
+> +			if (!comp->dev) {
+> +				dev_dbg(dev, "comp_id:%d, Component %pOF not initialized\n",
+> +					comp_id, node);
+> +				/* mark encoder_index to -1, if route comp device is not enabled */
+> +				comp->encoder_index = -1;
+> +				continue;
+> +			}
+> +
+> +			mtk_ddp_comp_encoder_index_set(&priv->ddp_comp[comp_id]);
+> +		}
+> +
+> +		mtk_crtc->num_conn_routes = num_conn_routes;
+> +		mtk_crtc->conn_routes = conn_routes;
+> +
+> +		/* increase ddp_comp_nr at the end of mtk_drm_crtc_create */
+> +		mtk_crtc->ddp_comp_nr++;
+> +	}
+> +
+>   	return 0;
+>   }
+> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.h b/drivers/gpu/drm/mediatek/mtk_drm_crtc.h
+> index 3e9046993d09..3c224595fa71 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.h
+> +++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.h
+> @@ -8,6 +8,7 @@
+>   
+>   #include <drm/drm_crtc.h>
+>   #include "mtk_drm_ddp_comp.h"
+> +#include "mtk_drm_drv.h"
+>   #include "mtk_drm_plane.h"
+>   
+>   #define MTK_LUT_SIZE	512
+> @@ -18,7 +19,9 @@ void mtk_drm_crtc_commit(struct drm_crtc *crtc);
+>   int mtk_drm_crtc_create(struct drm_device *drm_dev,
+>   			const unsigned int *path,
+>   			unsigned int path_len,
+> -			int priv_data_index);
+> +			int priv_data_index,
+> +			const struct mtk_drm_route *conn_routes,
+> +			unsigned int num_conn_routes);
+>   int mtk_drm_crtc_plane_check(struct drm_crtc *crtc, struct drm_plane *plane,
+>   			     struct mtk_plane_state *state);
+>   void mtk_drm_crtc_async_update(struct drm_crtc *crtc, struct drm_plane *plane,
+> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+> index 771f4e173353..4ddb5e561116 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+> @@ -507,6 +507,23 @@ static bool mtk_drm_find_comp_in_ddp(struct device *dev,
+>   	return false;
+>   }
+>   
+> +static int mtk_drm_find_comp_in_ddp_conn_path(struct device *dev,
+> +					      const struct mtk_drm_route *routes,
+> +					      unsigned int num_routes,
+> +					      struct mtk_ddp_comp *ddp_comp)
+> +{
+> +	unsigned int i;
+> +
+> +	if (!routes)
+> +		return -EINVAL;
+> +
+> +	for (i = 0; i < num_routes; i++)
+> +		if (dev == ddp_comp[routes[i].route_ddp].dev)
+> +			return BIT(routes[i].crtc_id);
+> +
+> +	return -ENODEV;
+> +}
+> +
+>   int mtk_ddp_comp_get_id(struct device_node *node,
+>   			enum mtk_ddp_comp_type comp_type)
+>   {
+> @@ -538,7 +555,15 @@ unsigned int mtk_drm_find_possible_crtc_by_comp(struct drm_device *drm,
+>   					  private->data->third_len, private->ddp_comp))
+>   		ret = BIT(2);
+>   	else
+> -		DRM_INFO("Failed to find comp in ddp table\n");
+> +		ret = mtk_drm_find_comp_in_ddp_conn_path(dev,
+> +							 private->data->conn_routes,
+> +							 private->data->num_conn_routes,
+> +							 private->ddp_comp);
+> +
+> +	if (ret <= 0) {
+> +		DRM_INFO("Failed to find comp in ddp table, ret =%d\n", ret);
+> +		ret = 0;
+
+Why are you returning 0 for error here?!
+
+> +	}
+>   
+>   	return ret;
+>   }
+
+Regards,
+Angelo
 
