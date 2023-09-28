@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 299C07B116C
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Sep 2023 06:14:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A1A67B1172
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Sep 2023 06:19:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB92D10E00E;
-	Thu, 28 Sep 2023 04:14:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A796810E505;
+	Thu, 28 Sep 2023 04:18:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from letterbox.kde.org (letterbox.kde.org [46.43.1.242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC19010E00E
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Sep 2023 04:14:02 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB0E710E505
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Sep 2023 04:18:54 +0000 (UTC)
 Received: from vertex.localdomain (pool-173-49-113-140.phlapa.fios.verizon.net
  [173.49.113.140]) (Authenticated sender: zack)
- by letterbox.kde.org (Postfix) with ESMTPSA id 41F9032B919;
- Thu, 28 Sep 2023 05:14:00 +0100 (BST)
+ by letterbox.kde.org (Postfix) with ESMTPSA id 124E032B919;
+ Thu, 28 Sep 2023 05:18:52 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kde.org; s=users;
- t=1695874441; bh=BJ8/ESps66Jx4ZE9lPhplQDqJaXn/XtP1Nkw/HJ8L/k=;
+ t=1695874733; bh=DVAmfWvfofCZnJTqtg5zob+KNXroT7kuMPBmtv7t5c4=;
  h=From:To:Cc:Subject:Date:From;
- b=Ob6uIKN5psLfMHpP0xJ0uC5ODu3stA0PRuPstYGiE1qvrpcsa6n67bocMokfqEAsN
- XWx78YKxYlrr00Qf9RIZjpKZuNS5S57sfsL3ZxY13XcZnmhEppDa1iQR6a2cL8m3Qr
- 8tZnbHvug26Vb7jlZK1dv+N0Wx3ICR7FSBzYVnnx2L/ajHzL7SQePLS88tCBufZuqE
- 893+uC7lGN/c9jzPjJyifoz6o5fTjHlplRmzTH/vr5xRD1l+cajBKyyKS0/IiVoke3
- Fm1ZszKDs93bNqr4v2br9vX/IdrjbdagSan8hqNlw+79tzU/JfLRl3hQNlqscHwx2g
- +5qrWCOt9/9nA==
+ b=eOroGbbxdVr/2pQfBxCRWMmTKwQXwnyMugLYl99E+CSUoM7DNN8Ir72U9UQjKJHmS
+ GNKcKEuFXNaccTCa+mzY71gkCYL4fc3Su5BlAs52Q4KYdexDIDRXIcGZjTxy872j+A
+ v0hyHDZTVaH9keFRbPur3WbtNt2Y4FjOsQ+cPclWEdGuRKIWQhDA0nf5AB89kvYL9Y
+ bVOh5xOa4lULRnUBblXjL2i9pK3VojtkAjduvRi7gdMD8GbUJ4gj4RfmMHsXGK4ghU
+ GM7TIAmpmBqHRoXEbbeDYYFw7r61aA/kv1ch23NFsC1QXlAZW6Kq28kUTuKfPKDGza
+ 76Ej5AAUYu96w==
 From: Zack Rusin <zack@kde.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/vmwgfx: Keep a gem reference to user bos in surfaces
-Date: Thu, 28 Sep 2023 00:13:55 -0400
-Message-Id: <20230928041355.737635-1-zack@kde.org>
+Subject: [PATCH] drm/vmwgfx: Refactor drm connector probing for display modes
+Date: Thu, 28 Sep 2023 00:18:49 -0400
+Message-Id: <20230928041849.740713-1-zack@kde.org>
 X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -46,479 +46,442 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Reply-To: Zack Rusin <zackr@vmware.com>
-Cc: stable@vger.kernel.org, Murray McAllister <murray.mcallister@gmail.com>,
- krastevm@vmware.com, mombasawalam@vmware.com, iforbes@vmware.com
+Cc: krastevm@vmware.com, iforbes@vmware.com, mombasawalam@vmware.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Zack Rusin <zackr@vmware.com>
+From: Martin Krastev <krastevm@vmware.com>
 
-Surfaces can be backed (i.e. stored in) memory objects (mob's) which
-are created and managed by the userspace as GEM buffers. Surfaces
-grab only a ttm reference which means that the gem object can
-be deleted underneath us, especially in cases where prime buffer
-export is used.
+Implement drm_connector_helper_funcs.mode_valid and .get_modes,
+replacing custom drm_connector_funcs.fill_modes code with
+drm_helper_probe_single_connector_modes; for STDU, LDU & SOU
+display units.
 
-Make sure that all userspace surfaces which are backed by gem objects
-hold a gem reference to make sure they're not deleted before vmw
-surfaces are done with them, which fixes:
-------------[ cut here ]------------
-refcount_t: underflow; use-after-free.
-WARNING: CPU: 2 PID: 2632 at lib/refcount.c:28 refcount_warn_saturate+0xfb/0x150
-Modules linked in: overlay vsock_loopback vmw_vsock_virtio_transport_common vmw_vsock_vmci_transport vsock snd_ens1371 snd_ac97_codec ac97_bus snd_pcm gameport>
-CPU: 2 PID: 2632 Comm: vmw_ref_count Not tainted 6.5.0-rc2-vmwgfx #1
-Hardware name: VMware, Inc. VMware Virtual Platform/440BX Desktop Reference Platform, BIOS 6.00 11/12/2020
-RIP: 0010:refcount_warn_saturate+0xfb/0x150
-Code: eb 9e 0f b6 1d 8b 5b a6 01 80 fb 01 0f 87 ba e4 80 00 83 e3 01 75 89 48 c7 c7 c0 3c f9 a3 c6 05 6f 5b a6 01 01 e8 15 81 98 ff <0f> 0b e9 6f ff ff ff 0f b>
-RSP: 0018:ffffbdc34344bba0 EFLAGS: 00010286
-RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000027
-RDX: ffff960475ea1548 RSI: 0000000000000001 RDI: ffff960475ea1540
-RBP: ffffbdc34344bba8 R08: 0000000000000003 R09: 65646e75203a745f
-R10: ffffffffa5b32b20 R11: 72657466612d6573 R12: ffff96037d6a6400
-R13: ffff9603484805b0 R14: 000000000000000b R15: ffff9603bed06060
-FS:  00007f5fd8520c40(0000) GS:ffff960475e80000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f5fda755000 CR3: 000000010d012005 CR4: 00000000003706e0
-Call Trace:
- <TASK>
- ? show_regs+0x6e/0x80
- ? refcount_warn_saturate+0xfb/0x150
- ? __warn+0x91/0x150
- ? refcount_warn_saturate+0xfb/0x150
- ? report_bug+0x19d/0x1b0
- ? handle_bug+0x46/0x80
- ? exc_invalid_op+0x1d/0x80
- ? asm_exc_invalid_op+0x1f/0x30
- ? refcount_warn_saturate+0xfb/0x150
- drm_gem_object_handle_put_unlocked+0xba/0x110 [drm]
- drm_gem_object_release_handle+0x6e/0x80 [drm]
- drm_gem_handle_delete+0x6a/0xc0 [drm]
- ? __pfx_vmw_bo_unref_ioctl+0x10/0x10 [vmwgfx]
- vmw_bo_unref_ioctl+0x33/0x40 [vmwgfx]
- drm_ioctl_kernel+0xbc/0x160 [drm]
- drm_ioctl+0x2d2/0x580 [drm]
- ? __pfx_vmw_bo_unref_ioctl+0x10/0x10 [vmwgfx]
- ? do_vmi_munmap+0xee/0x180
- vmw_generic_ioctl+0xbd/0x180 [vmwgfx]
- vmw_unlocked_ioctl+0x19/0x20 [vmwgfx]
- __x64_sys_ioctl+0x99/0xd0
- do_syscall_64+0x5d/0x90
- ? syscall_exit_to_user_mode+0x2a/0x50
- ? do_syscall_64+0x6d/0x90
- ? handle_mm_fault+0x16e/0x2f0
- ? exit_to_user_mode_prepare+0x34/0x170
- ? irqentry_exit_to_user_mode+0xd/0x20
- ? irqentry_exit+0x3f/0x50
- ? exc_page_fault+0x8e/0x190
- entry_SYSCALL_64_after_hwframe+0x6e/0xd8
-RIP: 0033:0x7f5fda51aaff
-Code: 00 48 89 44 24 18 31 c0 48 8d 44 24 60 c7 04 24 10 00 00 00 48 89 44 24 08 48 8d 44 24 20 48 89 44 24 10 b8 10 00 00 00 0f 05 <41> 89 c0 3d 00 f0 ff ff 7>
-RSP: 002b:00007ffd536a4d30 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-RAX: ffffffffffffffda RBX: 00007ffd536a4de0 RCX: 00007f5fda51aaff
-RDX: 00007ffd536a4de0 RSI: 0000000040086442 RDI: 0000000000000003
-RBP: 0000000040086442 R08: 000055fa603ada50 R09: 0000000000000000
-R10: 0000000000000001 R11: 0000000000000246 R12: 00007ffd536a51b8
-R13: 0000000000000003 R14: 000055fa5ebb4c80 R15: 00007f5fda90f040
- </TASK>
----[ end trace 0000000000000000 ]---
-
-A lot of the analyis on the bug was done by Murray McAllister and
-Ian Forbes.
-
-Reported-by: Murray McAllister <murray.mcallister@gmail.com>
-Cc: Ian Forbes <iforbes@vmware.com>
+Signed-off-by: Martin Krastev <krastevm@vmware.com>
+Reviewed-by: Zack Rusin <zackr@vmware.com>
 Signed-off-by: Zack Rusin <zackr@vmware.com>
-Fixes: a950b989ea29 ("drm/vmwgfx: Do not drop the reference to the handle too soon")
-Cc: <stable@vger.kernel.org> # v6.2+
 ---
- drivers/gpu/drm/vmwgfx/vmwgfx_bo.c       |  7 +++---
- drivers/gpu/drm/vmwgfx/vmwgfx_bo.h       | 17 +++++++++----
- drivers/gpu/drm/vmwgfx/vmwgfx_cotable.c  |  6 ++---
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.h      |  4 +++
- drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c  | 10 +++++---
- drivers/gpu/drm/vmwgfx/vmwgfx_gem.c      | 18 +++++++++++---
- drivers/gpu/drm/vmwgfx/vmwgfx_kms.c      |  6 ++---
- drivers/gpu/drm/vmwgfx/vmwgfx_overlay.c  |  2 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_resource.c | 12 ++++-----
- drivers/gpu/drm/vmwgfx/vmwgfx_shader.c   |  4 +--
- drivers/gpu/drm/vmwgfx/vmwgfx_surface.c  | 31 +++++++++---------------
- 11 files changed, 68 insertions(+), 49 deletions(-)
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.c  | 272 +++++++++------------------
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.h  |   6 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c  |   5 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c |   5 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c |   4 +-
+ 5 files changed, 101 insertions(+), 191 deletions(-)
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
-index c43853597776..2bfac3aad7b7 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
-@@ -34,6 +34,8 @@
- 
- static void vmw_bo_release(struct vmw_bo *vbo)
- {
-+	WARN_ON(vbo->tbo.base.funcs &&
-+		kref_read(&vbo->tbo.base.refcount) != 0);
- 	vmw_bo_unmap(vbo);
- 	drm_gem_object_release(&vbo->tbo.base);
- }
-@@ -497,7 +499,7 @@ static int vmw_user_bo_synccpu_release(struct drm_file *filp,
- 		if (!(flags & drm_vmw_synccpu_allow_cs)) {
- 			atomic_dec(&vmw_bo->cpu_writers);
- 		}
--		vmw_user_bo_unref(vmw_bo);
-+		vmw_user_bo_unref(&vmw_bo);
- 	}
- 
- 	return ret;
-@@ -539,7 +541,7 @@ int vmw_user_bo_synccpu_ioctl(struct drm_device *dev, void *data,
- 			return ret;
- 
- 		ret = vmw_user_bo_synccpu_grab(vbo, arg->flags);
--		vmw_user_bo_unref(vbo);
-+		vmw_user_bo_unref(&vbo);
- 		if (unlikely(ret != 0)) {
- 			if (ret == -ERESTARTSYS || ret == -EBUSY)
- 				return -EBUSY;
-@@ -612,7 +614,6 @@ int vmw_user_bo_lookup(struct drm_file *filp,
- 	}
- 
- 	*out = to_vmw_bo(gobj);
--	ttm_bo_get(&(*out)->tbo);
- 
- 	return 0;
- }
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.h b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.h
-index 1d433fceed3d..0d496dc9c6af 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.h
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.h
-@@ -195,12 +195,19 @@ static inline struct vmw_bo *vmw_bo_reference(struct vmw_bo *buf)
- 	return buf;
- }
- 
--static inline void vmw_user_bo_unref(struct vmw_bo *vbo)
-+static inline struct vmw_bo *vmw_user_bo_ref(struct vmw_bo *vbo)
- {
--	if (vbo) {
--		ttm_bo_put(&vbo->tbo);
--		drm_gem_object_put(&vbo->tbo.base);
--	}
-+	drm_gem_object_get(&vbo->tbo.base);
-+	return vbo;
-+}
-+
-+static inline void vmw_user_bo_unref(struct vmw_bo **buf)
-+{
-+	struct vmw_bo *tmp_buf = *buf;
-+
-+	*buf = NULL;
-+	if (tmp_buf)
-+		drm_gem_object_put(&tmp_buf->tbo.base);
- }
- 
- static inline struct vmw_bo *to_vmw_bo(struct drm_gem_object *gobj)
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_cotable.c b/drivers/gpu/drm/vmwgfx/vmwgfx_cotable.c
-index c0b24d1cacbf..a7c07692262b 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_cotable.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_cotable.c
-@@ -432,7 +432,7 @@ static int vmw_cotable_resize(struct vmw_resource *res, size_t new_size)
- 	 * for the new COTable. Initially pin the buffer object to make sure
- 	 * we can use tryreserve without failure.
- 	 */
--	ret = vmw_bo_create(dev_priv, &bo_params, &buf);
-+	ret = vmw_gem_object_create(dev_priv, &bo_params, &buf);
- 	if (ret) {
- 		DRM_ERROR("Failed initializing new cotable MOB.\n");
- 		goto out_done;
-@@ -502,7 +502,7 @@ static int vmw_cotable_resize(struct vmw_resource *res, size_t new_size)
- 
- 	vmw_resource_mob_attach(res);
- 	/* Let go of the old mob. */
--	vmw_bo_unreference(&old_buf);
-+	vmw_user_bo_unref(&old_buf);
- 	res->id = vcotbl->type;
- 
- 	ret = dma_resv_reserve_fences(bo->base.resv, 1);
-@@ -521,7 +521,7 @@ static int vmw_cotable_resize(struct vmw_resource *res, size_t new_size)
- out_wait:
- 	ttm_bo_unpin(bo);
- 	ttm_bo_unreserve(bo);
--	vmw_bo_unreference(&buf);
-+	vmw_user_bo_unref(&buf);
- 
- out_done:
- 	MKS_STAT_TIME_POP(MKSSTAT_KERN_COTABLE_RESIZE);
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-index 58bfdf203eca..3cd5090dedfc 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-@@ -853,6 +853,10 @@ static inline bool vmw_resource_mob_attached(const struct vmw_resource *res)
- /**
-  * GEM related functionality - vmwgfx_gem.c
-  */
-+struct vmw_bo_params;
-+int vmw_gem_object_create(struct vmw_private *vmw,
-+			  struct vmw_bo_params *params,
-+			  struct vmw_bo **p_vbo);
- extern int vmw_gem_object_create_with_handle(struct vmw_private *dev_priv,
- 					     struct drm_file *filp,
- 					     uint32_t size,
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
-index 98e0723ca6f5..06b06350f61f 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
-@@ -1151,7 +1151,7 @@ static int vmw_translate_mob_ptr(struct vmw_private *dev_priv,
- 				 SVGAMobId *id,
- 				 struct vmw_bo **vmw_bo_p)
- {
--	struct vmw_bo *vmw_bo;
-+	struct vmw_bo *vmw_bo, *tmp_bo;
- 	uint32_t handle = *id;
- 	struct vmw_relocation *reloc;
- 	int ret;
-@@ -1164,7 +1164,8 @@ static int vmw_translate_mob_ptr(struct vmw_private *dev_priv,
- 	}
- 	vmw_bo_placement_set(vmw_bo, VMW_BO_DOMAIN_MOB, VMW_BO_DOMAIN_MOB);
- 	ret = vmw_validation_add_bo(sw_context->ctx, vmw_bo);
--	vmw_user_bo_unref(vmw_bo);
-+	tmp_bo = vmw_bo;
-+	vmw_user_bo_unref(&tmp_bo);
- 	if (unlikely(ret != 0))
- 		return ret;
- 
-@@ -1206,7 +1207,7 @@ static int vmw_translate_guest_ptr(struct vmw_private *dev_priv,
- 				   SVGAGuestPtr *ptr,
- 				   struct vmw_bo **vmw_bo_p)
- {
--	struct vmw_bo *vmw_bo;
-+	struct vmw_bo *vmw_bo, *tmp_bo;
- 	uint32_t handle = ptr->gmrId;
- 	struct vmw_relocation *reloc;
- 	int ret;
-@@ -1220,7 +1221,8 @@ static int vmw_translate_guest_ptr(struct vmw_private *dev_priv,
- 	vmw_bo_placement_set(vmw_bo, VMW_BO_DOMAIN_GMR | VMW_BO_DOMAIN_VRAM,
- 			     VMW_BO_DOMAIN_GMR | VMW_BO_DOMAIN_VRAM);
- 	ret = vmw_validation_add_bo(sw_context->ctx, vmw_bo);
--	vmw_user_bo_unref(vmw_bo);
-+	tmp_bo = vmw_bo;
-+	vmw_user_bo_unref(&tmp_bo);
- 	if (unlikely(ret != 0))
- 		return ret;
- 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c b/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
-index c0da89e16e6f..8b1eb0061610 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
-@@ -111,6 +111,20 @@ static const struct drm_gem_object_funcs vmw_gem_object_funcs = {
- 	.vm_ops = &vmw_vm_ops,
- };
- 
-+int vmw_gem_object_create(struct vmw_private *vmw,
-+			  struct vmw_bo_params *params,
-+			  struct vmw_bo **p_vbo)
-+{
-+	int ret = vmw_bo_create(vmw, params, p_vbo);
-+
-+	if (ret != 0)
-+		goto out_no_bo;
-+
-+	(*p_vbo)->tbo.base.funcs = &vmw_gem_object_funcs;
-+out_no_bo:
-+	return ret;
-+}
-+
- int vmw_gem_object_create_with_handle(struct vmw_private *dev_priv,
- 				      struct drm_file *filp,
- 				      uint32_t size,
-@@ -126,12 +140,10 @@ int vmw_gem_object_create_with_handle(struct vmw_private *dev_priv,
- 		.pin = false
- 	};
- 
--	ret = vmw_bo_create(dev_priv, &params, p_vbo);
-+	ret = vmw_gem_object_create(dev_priv, &params, p_vbo);
- 	if (ret != 0)
- 		goto out_no_bo;
- 
--	(*p_vbo)->tbo.base.funcs = &vmw_gem_object_funcs;
--
- 	ret = drm_gem_handle_create(filp, &(*p_vbo)->tbo.base, handle);
- out_no_bo:
- 	return ret;
 diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-index 1489ad73c103..818b7f109f53 100644
+index b62207be3363..f08ddcd2bb00 100644
 --- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
 +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-@@ -1471,8 +1471,8 @@ static int vmw_create_bo_proxy(struct drm_device *dev,
- 	/* Reserve and switch the backing mob. */
- 	mutex_lock(&res->dev_priv->cmdbuf_mutex);
- 	(void) vmw_resource_reserve(res, false, true);
--	vmw_bo_unreference(&res->guest_memory_bo);
--	res->guest_memory_bo = vmw_bo_reference(bo_mob);
-+	vmw_user_bo_unref(&res->guest_memory_bo);
-+	res->guest_memory_bo = vmw_user_bo_ref(bo_mob);
- 	res->guest_memory_offset = 0;
- 	vmw_resource_unreserve(res, false, false, false, NULL, 0);
- 	mutex_unlock(&res->dev_priv->cmdbuf_mutex);
-@@ -1666,7 +1666,7 @@ static struct drm_framebuffer *vmw_kms_fb_create(struct drm_device *dev,
- err_out:
- 	/* vmw_user_lookup_handle takes one ref so does new_fb */
- 	if (bo)
--		vmw_user_bo_unref(bo);
-+		vmw_user_bo_unref(&bo);
- 	if (surface)
- 		vmw_surface_unreference(&surface);
+@@ -35,6 +35,7 @@
+ #include <drm/drm_fourcc.h>
+ #include <drm/drm_rect.h>
+ #include <drm/drm_sysfs.h>
++#include <drm/drm_edid.h>
  
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_overlay.c b/drivers/gpu/drm/vmwgfx/vmwgfx_overlay.c
-index fb85f244c3d0..c45b4724e414 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_overlay.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_overlay.c
-@@ -451,7 +451,7 @@ int vmw_overlay_ioctl(struct drm_device *dev, void *data,
+ void vmw_du_cleanup(struct vmw_display_unit *du)
+ {
+@@ -2274,107 +2275,6 @@ vmw_du_connector_detect(struct drm_connector *connector, bool force)
+ 		connector_status_connected : connector_status_disconnected);
+ }
  
- 	ret = vmw_overlay_update_stream(dev_priv, buf, arg, true);
+-static struct drm_display_mode vmw_kms_connector_builtin[] = {
+-	/* 640x480@60Hz */
+-	{ DRM_MODE("640x480", DRM_MODE_TYPE_DRIVER, 25175, 640, 656,
+-		   752, 800, 0, 480, 489, 492, 525, 0,
+-		   DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC) },
+-	/* 800x600@60Hz */
+-	{ DRM_MODE("800x600", DRM_MODE_TYPE_DRIVER, 40000, 800, 840,
+-		   968, 1056, 0, 600, 601, 605, 628, 0,
+-		   DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC) },
+-	/* 1024x768@60Hz */
+-	{ DRM_MODE("1024x768", DRM_MODE_TYPE_DRIVER, 65000, 1024, 1048,
+-		   1184, 1344, 0, 768, 771, 777, 806, 0,
+-		   DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC) },
+-	/* 1152x864@75Hz */
+-	{ DRM_MODE("1152x864", DRM_MODE_TYPE_DRIVER, 108000, 1152, 1216,
+-		   1344, 1600, 0, 864, 865, 868, 900, 0,
+-		   DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC) },
+-	/* 1280x720@60Hz */
+-	{ DRM_MODE("1280x720", DRM_MODE_TYPE_DRIVER, 74500, 1280, 1344,
+-		   1472, 1664, 0, 720, 723, 728, 748, 0,
+-		   DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_PVSYNC) },
+-	/* 1280x768@60Hz */
+-	{ DRM_MODE("1280x768", DRM_MODE_TYPE_DRIVER, 79500, 1280, 1344,
+-		   1472, 1664, 0, 768, 771, 778, 798, 0,
+-		   DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_PVSYNC) },
+-	/* 1280x800@60Hz */
+-	{ DRM_MODE("1280x800", DRM_MODE_TYPE_DRIVER, 83500, 1280, 1352,
+-		   1480, 1680, 0, 800, 803, 809, 831, 0,
+-		   DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_NVSYNC) },
+-	/* 1280x960@60Hz */
+-	{ DRM_MODE("1280x960", DRM_MODE_TYPE_DRIVER, 108000, 1280, 1376,
+-		   1488, 1800, 0, 960, 961, 964, 1000, 0,
+-		   DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC) },
+-	/* 1280x1024@60Hz */
+-	{ DRM_MODE("1280x1024", DRM_MODE_TYPE_DRIVER, 108000, 1280, 1328,
+-		   1440, 1688, 0, 1024, 1025, 1028, 1066, 0,
+-		   DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC) },
+-	/* 1360x768@60Hz */
+-	{ DRM_MODE("1360x768", DRM_MODE_TYPE_DRIVER, 85500, 1360, 1424,
+-		   1536, 1792, 0, 768, 771, 777, 795, 0,
+-		   DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC) },
+-	/* 1440x1050@60Hz */
+-	{ DRM_MODE("1400x1050", DRM_MODE_TYPE_DRIVER, 121750, 1400, 1488,
+-		   1632, 1864, 0, 1050, 1053, 1057, 1089, 0,
+-		   DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_PVSYNC) },
+-	/* 1440x900@60Hz */
+-	{ DRM_MODE("1440x900", DRM_MODE_TYPE_DRIVER, 106500, 1440, 1520,
+-		   1672, 1904, 0, 900, 903, 909, 934, 0,
+-		   DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_PVSYNC) },
+-	/* 1600x1200@60Hz */
+-	{ DRM_MODE("1600x1200", DRM_MODE_TYPE_DRIVER, 162000, 1600, 1664,
+-		   1856, 2160, 0, 1200, 1201, 1204, 1250, 0,
+-		   DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC) },
+-	/* 1680x1050@60Hz */
+-	{ DRM_MODE("1680x1050", DRM_MODE_TYPE_DRIVER, 146250, 1680, 1784,
+-		   1960, 2240, 0, 1050, 1053, 1059, 1089, 0,
+-		   DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_PVSYNC) },
+-	/* 1792x1344@60Hz */
+-	{ DRM_MODE("1792x1344", DRM_MODE_TYPE_DRIVER, 204750, 1792, 1920,
+-		   2120, 2448, 0, 1344, 1345, 1348, 1394, 0,
+-		   DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_PVSYNC) },
+-	/* 1853x1392@60Hz */
+-	{ DRM_MODE("1856x1392", DRM_MODE_TYPE_DRIVER, 218250, 1856, 1952,
+-		   2176, 2528, 0, 1392, 1393, 1396, 1439, 0,
+-		   DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_PVSYNC) },
+-	/* 1920x1080@60Hz */
+-	{ DRM_MODE("1920x1080", DRM_MODE_TYPE_DRIVER, 173000, 1920, 2048,
+-		   2248, 2576, 0, 1080, 1083, 1088, 1120, 0,
+-		   DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_PVSYNC) },
+-	/* 1920x1200@60Hz */
+-	{ DRM_MODE("1920x1200", DRM_MODE_TYPE_DRIVER, 193250, 1920, 2056,
+-		   2256, 2592, 0, 1200, 1203, 1209, 1245, 0,
+-		   DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_PVSYNC) },
+-	/* 1920x1440@60Hz */
+-	{ DRM_MODE("1920x1440", DRM_MODE_TYPE_DRIVER, 234000, 1920, 2048,
+-		   2256, 2600, 0, 1440, 1441, 1444, 1500, 0,
+-		   DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_PVSYNC) },
+-	/* 2560x1440@60Hz */
+-	{ DRM_MODE("2560x1440", DRM_MODE_TYPE_DRIVER, 241500, 2560, 2608,
+-		   2640, 2720, 0, 1440, 1443, 1448, 1481, 0,
+-		   DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_NVSYNC) },
+-	/* 2560x1600@60Hz */
+-	{ DRM_MODE("2560x1600", DRM_MODE_TYPE_DRIVER, 348500, 2560, 2752,
+-		   3032, 3504, 0, 1600, 1603, 1609, 1658, 0,
+-		   DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_PVSYNC) },
+-	/* 2880x1800@60Hz */
+-	{ DRM_MODE("2880x1800", DRM_MODE_TYPE_DRIVER, 337500, 2880, 2928,
+-		   2960, 3040, 0, 1800, 1803, 1809, 1852, 0,
+-		   DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_NVSYNC) },
+-	/* 3840x2160@60Hz */
+-	{ DRM_MODE("3840x2160", DRM_MODE_TYPE_DRIVER, 533000, 3840, 3888,
+-		   3920, 4000, 0, 2160, 2163, 2168, 2222, 0,
+-		   DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_NVSYNC) },
+-	/* 3840x2400@60Hz */
+-	{ DRM_MODE("3840x2400", DRM_MODE_TYPE_DRIVER, 592250, 3840, 3888,
+-		   3920, 4000, 0, 2400, 2403, 2409, 2469, 0,
+-		   DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_NVSYNC) },
+-	/* Terminate */
+-	{ DRM_MODE("", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0) },
+-};
+-
+ /**
+  * vmw_guess_mode_timing - Provide fake timings for a
+  * 60Hz vrefresh mode.
+@@ -2396,88 +2296,6 @@ void vmw_guess_mode_timing(struct drm_display_mode *mode)
+ }
  
--	vmw_user_bo_unref(buf);
-+	vmw_user_bo_unref(&buf);
  
- out_unlock:
- 	mutex_unlock(&overlay->mutex);
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_resource.c b/drivers/gpu/drm/vmwgfx/vmwgfx_resource.c
-index 71eeabf001c8..ca300c7427d2 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_resource.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_resource.c
-@@ -141,7 +141,7 @@ static void vmw_resource_release(struct kref *kref)
- 		if (res->coherent)
- 			vmw_bo_dirty_release(res->guest_memory_bo);
- 		ttm_bo_unreserve(bo);
--		vmw_bo_unreference(&res->guest_memory_bo);
-+		vmw_user_bo_unref(&res->guest_memory_bo);
- 	}
- 
- 	if (likely(res->hw_destroy != NULL)) {
-@@ -338,7 +338,7 @@ static int vmw_resource_buf_alloc(struct vmw_resource *res,
- 		return 0;
- 	}
- 
--	ret = vmw_bo_create(res->dev_priv, &bo_params, &gbo);
-+	ret = vmw_gem_object_create(res->dev_priv, &bo_params, &gbo);
- 	if (unlikely(ret != 0))
- 		goto out_no_bo;
- 
-@@ -457,11 +457,11 @@ void vmw_resource_unreserve(struct vmw_resource *res,
- 			vmw_resource_mob_detach(res);
- 			if (res->coherent)
- 				vmw_bo_dirty_release(res->guest_memory_bo);
--			vmw_bo_unreference(&res->guest_memory_bo);
-+			vmw_user_bo_unref(&res->guest_memory_bo);
- 		}
- 
- 		if (new_guest_memory_bo) {
--			res->guest_memory_bo = vmw_bo_reference(new_guest_memory_bo);
-+			res->guest_memory_bo = vmw_user_bo_ref(new_guest_memory_bo);
- 
- 			/*
- 			 * The validation code should already have added a
-@@ -551,7 +551,7 @@ vmw_resource_check_buffer(struct ww_acquire_ctx *ticket,
- 	ttm_bo_put(val_buf->bo);
- 	val_buf->bo = NULL;
- 	if (guest_memory_dirty)
--		vmw_bo_unreference(&res->guest_memory_bo);
-+		vmw_user_bo_unref(&res->guest_memory_bo);
- 
+-int vmw_du_connector_fill_modes(struct drm_connector *connector,
+-				uint32_t max_width, uint32_t max_height)
+-{
+-	struct vmw_display_unit *du = vmw_connector_to_du(connector);
+-	struct drm_device *dev = connector->dev;
+-	struct vmw_private *dev_priv = vmw_priv(dev);
+-	struct drm_display_mode *mode = NULL;
+-	struct drm_display_mode *bmode;
+-	struct drm_display_mode prefmode = { DRM_MODE("preferred",
+-		DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED,
+-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+-		DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_PVSYNC)
+-	};
+-	int i;
+-	u32 assumed_bpp = 4;
+-
+-	if (dev_priv->assume_16bpp)
+-		assumed_bpp = 2;
+-
+-	max_width  = min(max_width,  dev_priv->texture_max_width);
+-	max_height = min(max_height, dev_priv->texture_max_height);
+-
+-	/*
+-	 * For STDU extra limit for a mode on SVGA_REG_SCREENTARGET_MAX_WIDTH/
+-	 * HEIGHT registers.
+-	 */
+-	if (dev_priv->active_display_unit == vmw_du_screen_target) {
+-		max_width  = min(max_width,  dev_priv->stdu_max_width);
+-		max_height = min(max_height, dev_priv->stdu_max_height);
+-	}
+-
+-	/* Add preferred mode */
+-	mode = drm_mode_duplicate(dev, &prefmode);
+-	if (!mode)
+-		return 0;
+-	mode->hdisplay = du->pref_width;
+-	mode->vdisplay = du->pref_height;
+-	vmw_guess_mode_timing(mode);
+-	drm_mode_set_name(mode);
+-
+-	if (vmw_kms_validate_mode_vram(dev_priv,
+-					mode->hdisplay * assumed_bpp,
+-					mode->vdisplay)) {
+-		drm_mode_probed_add(connector, mode);
+-	} else {
+-		drm_mode_destroy(dev, mode);
+-		mode = NULL;
+-	}
+-
+-	if (du->pref_mode) {
+-		list_del_init(&du->pref_mode->head);
+-		drm_mode_destroy(dev, du->pref_mode);
+-	}
+-
+-	/* mode might be null here, this is intended */
+-	du->pref_mode = mode;
+-
+-	for (i = 0; vmw_kms_connector_builtin[i].type != 0; i++) {
+-		bmode = &vmw_kms_connector_builtin[i];
+-		if (bmode->hdisplay > max_width ||
+-		    bmode->vdisplay > max_height)
+-			continue;
+-
+-		if (!vmw_kms_validate_mode_vram(dev_priv,
+-						bmode->hdisplay * assumed_bpp,
+-						bmode->vdisplay))
+-			continue;
+-
+-		mode = drm_mode_duplicate(dev, bmode);
+-		if (!mode)
+-			return 0;
+-
+-		drm_mode_probed_add(connector, mode);
+-	}
+-
+-	drm_connector_list_update(connector);
+-	/* Move the prefered mode first, help apps pick the right mode. */
+-	drm_mode_sort(&connector->modes);
+-
+-	return 1;
+-}
+-
+ /**
+  * vmw_kms_update_layout_ioctl - Handler for DRM_VMW_UPDATE_LAYOUT ioctl
+  * @dev: drm device for the ioctl
+@@ -3018,3 +2836,91 @@ int vmw_du_helper_plane_update(struct vmw_du_update_plane *update)
+ 	vmw_validation_unref_lists(&val_ctx);
  	return ret;
  }
-@@ -727,7 +727,7 @@ int vmw_resource_validate(struct vmw_resource *res, bool intr,
- 		goto out_no_validate;
- 	else if (!res->func->needs_guest_memory && res->guest_memory_bo) {
- 		WARN_ON_ONCE(vmw_resource_mob_attached(res));
--		vmw_bo_unreference(&res->guest_memory_bo);
-+		vmw_user_bo_unref(&res->guest_memory_bo);
- 	}
- 
- 	return 0;
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_shader.c b/drivers/gpu/drm/vmwgfx/vmwgfx_shader.c
-index 1e81ff2422cf..a01ca3226d0a 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_shader.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_shader.c
-@@ -180,7 +180,7 @@ static int vmw_gb_shader_init(struct vmw_private *dev_priv,
- 
- 	res->guest_memory_size = size;
- 	if (byte_code) {
--		res->guest_memory_bo = vmw_bo_reference(byte_code);
-+		res->guest_memory_bo = vmw_user_bo_ref(byte_code);
- 		res->guest_memory_offset = offset;
- 	}
- 	shader->size = size;
-@@ -809,7 +809,7 @@ static int vmw_shader_define(struct drm_device *dev, struct drm_file *file_priv,
- 				    shader_type, num_input_sig,
- 				    num_output_sig, tfile, shader_handle);
- out_bad_arg:
--	vmw_user_bo_unref(buffer);
-+	vmw_user_bo_unref(&buffer);
- 	return ret;
- }
- 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c b/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c
-index 5db403ee8261..3829be282ff0 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c
-@@ -686,9 +686,6 @@ static void vmw_user_surface_base_release(struct ttm_base_object **p_base)
- 	    container_of(base, struct vmw_user_surface, prime.base);
- 	struct vmw_resource *res = &user_srf->srf.res;
- 
--	if (res->guest_memory_bo)
--		drm_gem_object_put(&res->guest_memory_bo->tbo.base);
--
- 	*p_base = NULL;
- 	vmw_resource_unreference(&res);
- }
-@@ -855,23 +852,21 @@ int vmw_surface_define_ioctl(struct drm_device *dev, void *data,
- 	 * expect a backup buffer to be present.
- 	 */
- 	if (dev_priv->has_mob && req->shareable) {
--		uint32_t backup_handle;
--
--		ret = vmw_gem_object_create_with_handle(dev_priv,
--							file_priv,
--							res->guest_memory_size,
--							&backup_handle,
--							&res->guest_memory_bo);
-+		struct vmw_bo_params params = {
-+			.domain = VMW_BO_DOMAIN_SYS,
-+			.busy_domain = VMW_BO_DOMAIN_SYS,
-+			.bo_type = ttm_bo_type_device,
-+			.size = res->guest_memory_size,
-+			.pin = false
-+		};
 +
-+		ret = vmw_gem_object_create(dev_priv,
-+					    &params,
-+					    &res->guest_memory_bo);
- 		if (unlikely(ret != 0)) {
- 			vmw_resource_unreference(&res);
- 			goto out_unlock;
- 		}
--		vmw_bo_reference(res->guest_memory_bo);
--		/*
--		 * We don't expose the handle to the userspace and surface
--		 * already holds a gem reference
--		 */
--		drm_gem_handle_delete(file_priv, backup_handle);
- 	}
++/**
++ * vmw_connector_mode_valid - implements drm_connector_helper_funcs.mode_valid callback
++ *
++ * @connector: the drm connector, part of a DU container
++ * @mode: drm mode to check
++ *
++ * Returns MODE_OK on success, or a drm_mode_status error code.
++ */
++enum drm_mode_status vmw_connector_mode_valid(struct drm_connector *connector,
++					      struct drm_display_mode *mode)
++{
++	struct drm_device *dev = connector->dev;
++	struct vmw_private *dev_priv = vmw_priv(dev);
++	u32 max_width = dev_priv->texture_max_width;
++	u32 max_height = dev_priv->texture_max_height;
++	u32 assumed_cpp = 4;
++
++	if (dev_priv->assume_16bpp)
++		assumed_cpp = 2;
++
++	if (dev_priv->active_display_unit == vmw_du_screen_target) {
++		max_width  = min(dev_priv->stdu_max_width,  max_width);
++		max_height = min(dev_priv->stdu_max_height, max_height);
++	}
++
++	if (max_width < mode->hdisplay)
++		return MODE_BAD_HVALUE;
++
++	if (max_height < mode->vdisplay)
++		return MODE_BAD_VVALUE;
++
++	if (!vmw_kms_validate_mode_vram(dev_priv,
++			mode->hdisplay * assumed_cpp,
++			mode->vdisplay))
++		return MODE_MEM;
++
++	return MODE_OK;
++}
++
++/**
++ * vmw_connector_get_modes - implements drm_connector_helper_funcs.get_modes callback
++ *
++ * @connector: the drm connector, part of a DU container
++ *
++ * Returns the number of added modes.
++ */
++int vmw_connector_get_modes(struct drm_connector *connector)
++{
++	struct vmw_display_unit *du = vmw_connector_to_du(connector);
++	struct drm_device *dev = connector->dev;
++	struct vmw_private *dev_priv = vmw_priv(dev);
++	struct drm_display_mode *mode = NULL;
++	struct drm_display_mode prefmode = { DRM_MODE("preferred",
++		DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED,
++		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
++		DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_PVSYNC)
++	};
++	u32 max_width;
++	u32 max_height;
++	u32 num_modes;
++
++	/* Add preferred mode */
++	mode = drm_mode_duplicate(dev, &prefmode);
++	if (!mode)
++		return 0;
++
++	mode->hdisplay = du->pref_width;
++	mode->vdisplay = du->pref_height;
++	vmw_guess_mode_timing(mode);
++	drm_mode_set_name(mode);
++
++	drm_mode_probed_add(connector, mode);
++	drm_dbg_kms(dev, "preferred mode " DRM_MODE_FMT "\n", DRM_MODE_ARG(mode));
++
++	/* Probe connector for all modes not exceeding our geom limits */
++	max_width  = dev_priv->texture_max_width;
++	max_height = dev_priv->texture_max_height;
++
++	if (dev_priv->active_display_unit == vmw_du_screen_target) {
++		max_width  = min(dev_priv->stdu_max_width,  max_width);
++		max_height = min(dev_priv->stdu_max_height, max_height);
++	}
++
++	num_modes = 1 + drm_add_modes_noedid(connector, max_width, max_height);
++
++	return num_modes;
++}
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
+index db81e635dc06..a94947b588e8 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
+@@ -378,7 +378,6 @@ struct vmw_display_unit {
+ 	unsigned pref_width;
+ 	unsigned pref_height;
+ 	bool pref_active;
+-	struct drm_display_mode *pref_mode;
  
- 	tmp = vmw_resource_reference(&srf->res);
-@@ -1512,7 +1507,7 @@ vmw_gb_surface_define_internal(struct drm_device *dev,
- 		if (ret == 0) {
- 			if (res->guest_memory_bo->tbo.base.size < res->guest_memory_size) {
- 				VMW_DEBUG_USER("Surface backup buffer too small.\n");
--				vmw_bo_unreference(&res->guest_memory_bo);
-+				vmw_user_bo_unref(&res->guest_memory_bo);
- 				ret = -EINVAL;
- 				goto out_unlock;
- 			} else {
-@@ -1526,8 +1521,6 @@ vmw_gb_surface_define_internal(struct drm_device *dev,
- 							res->guest_memory_size,
- 							&backup_handle,
- 							&res->guest_memory_bo);
--		if (ret == 0)
--			vmw_bo_reference(res->guest_memory_bo);
- 	}
+ 	/*
+ 	 * Gui positioning
+@@ -428,8 +427,6 @@ void vmw_du_connector_save(struct drm_connector *connector);
+ void vmw_du_connector_restore(struct drm_connector *connector);
+ enum drm_connector_status
+ vmw_du_connector_detect(struct drm_connector *connector, bool force);
+-int vmw_du_connector_fill_modes(struct drm_connector *connector,
+-				uint32_t max_width, uint32_t max_height);
+ int vmw_kms_helper_dirty(struct vmw_private *dev_priv,
+ 			 struct vmw_framebuffer *framebuffer,
+ 			 const struct drm_clip_rect *clips,
+@@ -438,6 +435,9 @@ int vmw_kms_helper_dirty(struct vmw_private *dev_priv,
+ 			 int num_clips,
+ 			 int increment,
+ 			 struct vmw_kms_dirty *dirty);
++enum drm_mode_status vmw_connector_mode_valid(struct drm_connector *connector,
++					      struct drm_display_mode *mode);
++int vmw_connector_get_modes(struct drm_connector *connector);
  
- 	if (unlikely(ret != 0)) {
+ void vmw_kms_helper_validation_finish(struct vmw_private *dev_priv,
+ 				      struct drm_file *file_priv,
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c b/drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c
+index a82fa9700370..c4db4aecca6c 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c
+@@ -304,7 +304,7 @@ static void vmw_ldu_connector_destroy(struct drm_connector *connector)
+ static const struct drm_connector_funcs vmw_legacy_connector_funcs = {
+ 	.dpms = vmw_du_connector_dpms,
+ 	.detect = vmw_du_connector_detect,
+-	.fill_modes = vmw_du_connector_fill_modes,
++	.fill_modes = drm_helper_probe_single_connector_modes,
+ 	.destroy = vmw_ldu_connector_destroy,
+ 	.reset = vmw_du_connector_reset,
+ 	.atomic_duplicate_state = vmw_du_connector_duplicate_state,
+@@ -313,6 +313,8 @@ static const struct drm_connector_funcs vmw_legacy_connector_funcs = {
+ 
+ static const struct
+ drm_connector_helper_funcs vmw_ldu_connector_helper_funcs = {
++	.get_modes = vmw_connector_get_modes,
++	.mode_valid = vmw_connector_mode_valid
+ };
+ 
+ static int vmw_kms_ldu_do_bo_dirty(struct vmw_private *dev_priv,
+@@ -449,7 +451,6 @@ static int vmw_ldu_init(struct vmw_private *dev_priv, unsigned unit)
+ 	ldu->base.pref_active = (unit == 0);
+ 	ldu->base.pref_width = dev_priv->initial_width;
+ 	ldu->base.pref_height = dev_priv->initial_height;
+-	ldu->base.pref_mode = NULL;
+ 
+ 	/*
+ 	 * Remove this after enabling atomic because property values can
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c b/drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c
+index 556a403b7eb5..30c3ad27b662 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c
+@@ -347,7 +347,7 @@ static void vmw_sou_connector_destroy(struct drm_connector *connector)
+ static const struct drm_connector_funcs vmw_sou_connector_funcs = {
+ 	.dpms = vmw_du_connector_dpms,
+ 	.detect = vmw_du_connector_detect,
+-	.fill_modes = vmw_du_connector_fill_modes,
++	.fill_modes = drm_helper_probe_single_connector_modes,
+ 	.destroy = vmw_sou_connector_destroy,
+ 	.reset = vmw_du_connector_reset,
+ 	.atomic_duplicate_state = vmw_du_connector_duplicate_state,
+@@ -357,6 +357,8 @@ static const struct drm_connector_funcs vmw_sou_connector_funcs = {
+ 
+ static const struct
+ drm_connector_helper_funcs vmw_sou_connector_helper_funcs = {
++	.get_modes = vmw_connector_get_modes,
++	.mode_valid = vmw_connector_mode_valid
+ };
+ 
+ 
+@@ -826,7 +828,6 @@ static int vmw_sou_init(struct vmw_private *dev_priv, unsigned unit)
+ 	sou->base.pref_active = (unit == 0);
+ 	sou->base.pref_width = dev_priv->initial_width;
+ 	sou->base.pref_height = dev_priv->initial_height;
+-	sou->base.pref_mode = NULL;
+ 
+ 	/*
+ 	 * Remove this after enabling atomic because property values can
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c b/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
+index ba0c0e12cfe9..12d623ee59c2 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
+@@ -830,7 +830,7 @@ static void vmw_stdu_connector_destroy(struct drm_connector *connector)
+ static const struct drm_connector_funcs vmw_stdu_connector_funcs = {
+ 	.dpms = vmw_du_connector_dpms,
+ 	.detect = vmw_du_connector_detect,
+-	.fill_modes = vmw_du_connector_fill_modes,
++	.fill_modes = drm_helper_probe_single_connector_modes,
+ 	.destroy = vmw_stdu_connector_destroy,
+ 	.reset = vmw_du_connector_reset,
+ 	.atomic_duplicate_state = vmw_du_connector_duplicate_state,
+@@ -840,6 +840,8 @@ static const struct drm_connector_funcs vmw_stdu_connector_funcs = {
+ 
+ static const struct
+ drm_connector_helper_funcs vmw_stdu_connector_helper_funcs = {
++	.get_modes = vmw_connector_get_modes,
++	.mode_valid = vmw_connector_mode_valid
+ };
+ 
+ 
 -- 
 2.39.2
 
