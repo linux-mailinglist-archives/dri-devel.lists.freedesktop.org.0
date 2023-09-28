@@ -1,52 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9C9A7B1E5A
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Sep 2023 15:28:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 558B77B1ECE
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Sep 2023 15:44:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 58BEB10E660;
-	Thu, 28 Sep 2023 13:28:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F08410E664;
+	Thu, 28 Sep 2023 13:44:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE70D10E65F;
- Thu, 28 Sep 2023 13:28:36 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A87DD10E664;
+ Thu, 28 Sep 2023 13:44:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1695907717; x=1727443717;
+ t=1695908660; x=1727444660;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=YqaMZ66o5P06nJDpTMUxdS/zsr42Y54Zbu4+HaglCQE=;
- b=VDwkm46x0zfBOOYZXx4d+JzwEvCytZV7/pfmy5k49cEOOQ2AHaiPuqQI
- o/zed3r4Fo4mSCkF6I7PqIzIVsfmCGU1V1BZc8s68H6+gW3Hl+iK88yKO
- 4gz/LYZsZO076Xo9WQwlinTXXnLeHnKHAaj4OblUqibQjA50r5TaFvwE2
- fVkdaNxJkXk3jWdDCVcz44g8SLezinixP+4Kec0CPkB467G/k9kLKyMJW
- zn03SVf2Qw0IN49tAv+F5KKi1S9Z3Lbb35qek31CnuvAQ1yUZhoCO+6L3
- /UDDF1zKqglvTiycgYTvGdcX6nZqH96SpgcZ/wz18rn7P9CakW84ztuXz g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="673572"
-X-IronPort-AV: E=Sophos;i="6.03,184,1694761200"; 
-   d="scan'208";a="673572"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Sep 2023 06:28:09 -0700
+ bh=XPYse5/U5hMo7ybyETO5hLLZioeIOaCSCqotyuncHOU=;
+ b=BcUa6bxfQcWH5eqAw4iClzlh7QGefYC7JI4tytP/3bm5StBkyIGU2po3
+ h23ckJM62bTkMuSsp1KnbmQUmWFNx/YzCCV0x2ju8gUSJQgrMgI9xXcq4
+ k3h0B9GIiMKgi/KsdUQNFWWwxqv6OGF4e9o8zLzhxZ7PfLQiraO99dRq0
+ eK5dvQcJpyq5YhFWAESYwYzgeKAKmS3/Lx60cvwPMdgu/OuQ6a7SV2Gxt
+ FFdLr/zSkOb+JS9OWsZmGtljiO5GBzDNcDl5PzvjLWm0B/Ooh0q62inaZ
+ CkJg/ESjPsmZodop30r8rUhbEA7Li1DvnPn44HBUUkK+oy5+LvHnkVWO0 A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="446214651"
+X-IronPort-AV: E=Sophos;i="6.03,184,1694761200"; d="scan'208";a="446214651"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Sep 2023 06:28:47 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="726234015"
-X-IronPort-AV: E=Sophos;i="6.03,184,1694761200"; d="scan'208";a="726234015"
+X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="743076292"
+X-IronPort-AV: E=Sophos;i="6.03,184,1694761200"; d="scan'208";a="743076292"
 Received: from mabrazak-mobl.gar.corp.intel.com (HELO intel.com)
  ([10.214.160.185])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Sep 2023 06:28:04 -0700
-Date: Thu, 28 Sep 2023 15:27:57 +0200
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Sep 2023 06:28:43 -0700
+Date: Thu, 28 Sep 2023 15:28:37 +0200
 From: Andi Shyti <andi.shyti@linux.intel.com>
 To: Nirmoy Das <nirmoy.das@intel.com>
-Subject: Re: [PATCH v7 1/4] drm/i915: Introduce intel_gt_mcr_lock_sanitize()
-Message-ID: <ZRV/XR441w0a2Dt0@ashyti-mobl2.lan>
+Subject: Re: [PATCH v7 2/4] drm/i915: Introduce the intel_gt_resume_early()
+Message-ID: <ZRV/hUHfqbwajEJq@ashyti-mobl2.lan>
 References: <20230928130015.6758-1-nirmoy.das@intel.com>
+ <20230928130015.6758-2-nirmoy.das@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230928130015.6758-1-nirmoy.das@intel.com>
+In-Reply-To: <20230928130015.6758-2-nirmoy.das@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,13 +66,8 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Nirmoy,
 
-On Thu, Sep 28, 2023 at 03:00:12PM +0200, Nirmoy Das wrote:
-> Implement intel_gt_mcr_lock_sanitize() to provide a mechanism
-> for cleaning the steer semaphore when absolutely necessary.
-> 
-> v2: remove unnecessary lock(Andi, Matt)
->     improve the kernel doc(Matt)
->     s/intel_gt_mcr_lock_clear/intel_gt_mcr_lock_sanitize
+On Thu, Sep 28, 2023 at 03:00:13PM +0200, Nirmoy Das wrote:
+> Move early resume functions of gt to a proper file.
 > 
 > Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
 
