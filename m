@@ -2,47 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52D207B1B52
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Sep 2023 13:42:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC2277B1B62
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Sep 2023 13:46:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 110AC10E62A;
-	Thu, 28 Sep 2023 11:42:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 862A210E629;
+	Thu, 28 Sep 2023 11:45:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com
- [209.85.167.200])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F148810E62A
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Sep 2023 11:42:33 +0000 (UTC)
-Received: by mail-oi1-f200.google.com with SMTP id
- 5614622812f47-3ae214a02a6so29108696b6e.3
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Sep 2023 04:42:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1695901353; x=1696506153;
- h=to:from:subject:message-id:date:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=YgOvUFNigM03Dttay+D3LBcni9VLrCqqV772iFLDhQs=;
- b=EV40fIRYHNGDHPBKEABMcHWNepWIN0q9O0ZWtJYmMqtxZSWAKoH7chASQxSaf2o3IR
- kYXe/OmcabSosrKSO8cetMkMjT9J+NcM5NRlA16O3bc2lIwwQETxZJfK/BFLNh+y99im
- 2Tp9WWN3e4/Ff5okEgR3M/JQg5cLnNY/xw61bF4Ij2hJagnVEMz1kjUwzADtP2HmrsaW
- BKRiFm3YOSZS+NRdmXA2c9RKmGeVIyuzAgN642K6/0fP1KC6Zdg7J+mSxhPYjE09J/1T
- lk98cgYdSXLgv9H7ZCYf5lZDF5L0fQEQs4xNSL9GWzFtXRgFMt1/zVpvvfI7GyP/MWQw
- 1j+A==
-X-Gm-Message-State: AOJu0Yx14452J48khbDk/0DTwGmoTfVshqk4gcN5a509UiAw9xf1Mzrl
- 1e1ik/XShYkW++c5I3lmLFW2+YhUrHdnJOABzn4UbF0pYiqvdz8=
-X-Google-Smtp-Source: AGHT+IEjfaQWZSq7L2fKVkZwPwmWxgjkpfI4iAkEHGRhEhrwh76+TIvWuBwuIIIcfnXM5M8hT/iUF2aE32gjb/hBHNCzFe/twLx6
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A19FE10E629
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Sep 2023 11:45:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:
+ Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=1u3aj90DI/mZaoyggOQv7vylZ+5B704T4EL2GRNfewk=; b=dYh3s6qNOFR97dG9oHTsMvJuC/
+ 2SBzacMZss0YilPZBL1oQDJq8ZndzbNKY/cisRSF1oGhObA8m1M5qINb77+3ZthPJepfJWlwDxl9c
+ LLTPY9i9tl45/yAL1+7FJz8/xob7u9S9UqvONwENs9ppZqDB6xAsRjfbUWJUiulENHKHJ9xxRwGJg
+ VU15NgG8B0f9W3WqFQjMbpHXpe8U8h6Epa0Tc9AUQPcz6QjbP8BAvm2nemhKM0jKNtbRVnEAqQ/73
+ /NyJ+BZ3UVllQ5XvyqnqEbJr0ScQbjPRZ3RSu4V9vGd/nEo/L+B6Tp5o4APorBdJtJD8AziGFRUFB
+ 1/Geh6LQ==;
+Received: from [213.60.48.236] (helo=vega.mundo-R.com)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1qlpSq-009FgI-TE; Thu, 28 Sep 2023 13:45:52 +0200
+From: Iago Toral Quiroga <itoral@igalia.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH 0/3] V3D module changes for Pi5
+Date: Thu, 28 Sep 2023 13:45:29 +0200
+Message-Id: <20230928114532.167854-1-itoral@igalia.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:238c:b0:3a9:8394:1625 with SMTP id
- bp12-20020a056808238c00b003a983941625mr368796oib.9.1695901353257; Thu, 28 Sep
- 2023 04:42:33 -0700 (PDT)
-Date: Thu, 28 Sep 2023 04:42:33 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000bc2f34060669cd42@google.com>
-Subject: [syzbot] Monthly dri report (Sep 2023)
-From: syzbot <syzbot+listda85cc61a885dfed433b@syzkaller.appspotmail.com>
-To: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,45 +49,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Maira Canal <mcanal@igalia.com>, Iago Toral Quiroga <itoral@igalia.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello dri maintainers/developers,
+This series includes patches to update the V3D kernel module
+that drives the VideoCore VI GPU in Raspberry Pi 4 to also support
+the Video Core VII iteration present in Raspberry Pi 5.
 
-This is a 31-day syzbot report for the dri subsystem.
-All related reports/information can be found at:
-https://syzkaller.appspot.com/upstream/s/dri
+The first patch in the series addresses the bulk of the work and
+involves mostly updates to register addresses. The second patch
+adds a small uAPI update required for TFU jobs and the third and
+final patch matches the 'brcm,2712-v3d' device string from Pi5
+with the V3D driver.
 
-During the period, 3 new issues were detected and 0 were fixed.
-In total, 14 issues are still open and 30 have been fixed so far.
+The changes for the user-space driver can be found in the
+corresponding Mesa MR here:
+https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/25450
 
-Some of the still happening issues:
+Iago Toral Quiroga (3):
+  drm/v3d: fix up register addresses for V3D 7.x
+  drm/v3d: update UAPI to match user-space for V3D 7.x
+  drm/v3d: add brcm,2712-v3d as a compatible V3D device
 
-Ref Crashes Repro Title
-<1> 361     Yes   WARNING in drm_wait_one_vblank
-                  https://syzkaller.appspot.com/bug?extid=6f7fe2dbc479dca0ed17
-<2> 83      Yes   WARNING in vkms_get_vblank_timestamp (2)
-                  https://syzkaller.appspot.com/bug?extid=93bd128a383695391534
-<3> 43      Yes   WARNING in drm_syncobj_array_find
-                  https://syzkaller.appspot.com/bug?extid=95416f957d84e858b377
-<4> 6       No    linux-next boot error: WARNING: bad unlock balance in vkms_vblank_simulate
-                  https://syzkaller.appspot.com/bug?extid=204dd7e9a83cb8855b63
-<5> 5       Yes   divide error in drm_mode_vrefresh
-                  https://syzkaller.appspot.com/bug?extid=622bba18029bcde672e1
-<6> 3       Yes   WARNING in drm_gem_object_handle_put_unlocked
-                  https://syzkaller.appspot.com/bug?extid=ef3256a360c02207a4cb
-<7> 2       Yes   memory leak in vma_node_allow
-                  https://syzkaller.appspot.com/bug?extid=58ea3177ba8bd0a5d8ee
+ drivers/gpu/drm/v3d/v3d_debugfs.c | 173 +++++++++++++++++-------------
+ drivers/gpu/drm/v3d/v3d_drv.c     |   1 +
+ drivers/gpu/drm/v3d/v3d_gem.c     |   3 +
+ drivers/gpu/drm/v3d/v3d_irq.c     |  47 ++++----
+ drivers/gpu/drm/v3d/v3d_regs.h    |  51 ++++++++-
+ drivers/gpu/drm/v3d/v3d_sched.c   |  41 ++++---
+ include/uapi/drm/v3d_drm.h        |   5 +
+ 7 files changed, 206 insertions(+), 115 deletions(-)
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+-- 
+2.39.2
 
-To disable reminders for individual bugs, reply with the following command:
-#syz set <Ref> no-reminders
-
-To change bug's subsystems, reply with:
-#syz set <Ref> subsystems: new-subsystem
-
-You may send multiple commands in a single email message.
