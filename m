@@ -2,169 +2,118 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BC2B7B1354
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Sep 2023 08:48:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C65067B1368
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Sep 2023 08:56:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D711710E5D3;
-	Thu, 28 Sep 2023 06:48:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA8C510E5D5;
+	Thu, 28 Sep 2023 06:56:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABBB010E5D3
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Sep 2023 06:48:06 +0000 (UTC)
-X-UUID: f7c1d1e85dca11eea33bb35ae8d461a2-20230928
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:MIME-Version:Content-Transfer-Encoding:Content-ID:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From;
- bh=ZvmDA2V+HGYHEGl+uoaEWZ5eS+1e+e/j9L+VvFGKT5M=; 
- b=fYlToNmbO6jqstadcJTctsUX35GgZH+2uO8vcbN0DhvFnEaOhA6q+OLi2ObkcTPQ5zx7u2bAytcEthMqqK/XBwDQ0132LZoNUrHzKpROHfQ3D81TDT21Ol9jDZInzFj5cRJgleO5mDCH1Rmo7Tkl0llGtR9UeseMn/MeVSePZjY=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.32, REQID:874db624-75d8-497c-a19d-753a85fa67cb, IP:0,
- U
- RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
- release,TS:0
-X-CID-META: VersionHash:5f78ec9, CLOUDID:91c97814-4929-4845-9571-38c601e9c3c9,
- B
- ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:11|1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:
- NO,DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULN
-X-UUID: f7c1d1e85dca11eea33bb35ae8d461a2-20230928
-Received: from mtkmbs13n2.mediatek.inc [(172.21.101.108)] by
- mailgw01.mediatek.com (envelope-from <ck.hu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1153070846; Thu, 28 Sep 2023 14:48:01 +0800
-Received: from mtkmbs10n1.mediatek.inc (172.21.101.34) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Thu, 28 Sep 2023 14:48:00 +0800
-Received: from APC01-SG2-obe.outbound.protection.outlook.com (172.21.101.237)
- by mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP
- Server id
- 15.2.1118.26 via Frontend Transport; Thu, 28 Sep 2023 14:47:59 +0800
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2046.outbound.protection.outlook.com [40.107.93.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A6E810E5D5
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Sep 2023 06:56:29 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XkKNYX5RiP/nWcsk1WJ/aqQFbAcp07/Re6ovqCJ5/APAfoK9Y/rds3H0HIDFDY9zxEDe9u5S4+RTKwW7RSq729zUGGyPYfL/gR8I/pqNJvU1NkknIHyohglrodFlxkOm2xl4COo09JiAA+e43kC9ScJ3UjlBS4Jj1KTUbZy22m2x+P2GXdovHxtEsfkN986rSo3/ZHRsixvteOLaMPdj3MVD/ggWt5Kbv7ptKVwGak7RBgi2Qy3PLqBCcNLsmVRxY/ZSpp+KRop667ETYeVHgOOFEBdsO0WweiYKOReTuZIt7UeX0PmJxTbHRIl2Ki+N+BOXe9GG/ZaAa0kab3eKEg==
+ b=P4vRxGSXkkby2AVgv0BimJDrhfIFdyprC16ZONPeI5sbJ+1p8vjcCnJR95vUcxal4B1T3OTltVJZ6PaDZK2F7kf2n936Jndc87uwOppVfse+p344pxVVXoLEr75AujslsWt/Bk3GZMEWRvTu81+Kxs4KwyQ6vaBqzZbIYIZAUGYQaqOM/neYaGOvCqGf5ESjjmdRYj5m66nKlyjVKH28XcS/wYmusov0gcq5Vx+jZPvxh7fgVeI96o7DB7AxCzWkmD2pHKEeelvrenV/p3hfSdrCrJwobWor3t+kXxtQFikoOWl4fqjt/cs8Dg8EglC3KggLyc3HS9bRcN+VSePorA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JZ3lzCc7PlXX6cPojgDYoXnNiYZZGfKB0wjDCagkwIs=;
- b=jd5v9dIC7uZqVb/VZOjgpVnONtlv/W3YuqzsL31vfngDcG/C131g/qXCTuiEplCPT7A/CTBWLwl+DU6U1zMizyhzg9nDgqpkR6fIrt+MSeqyp7lSQvJcQdRRjrx9168FjC5+Rtz7KwqOE5Nhj1uDiKjjk01g1nyXTQCuW85AUjh4Ek6b2m0so9plY+XZvpvy6mcvLKl/XlIvb+ld9jwWev2X+7oZmnA2wxgUi4nlAmND+pYwSrprUCyIxe4PTp3TadFmI0baPBkV1x2tn8u9md3WLlWZIKHcMxLVfkQXYt4oZHiTD/GxHksG1K0k1ndFv0XjmwWYFkxysWas6vOvFA==
+ bh=IY6nirpNluipxq0v2dCGVrq11nEKwE8VnBxRZZeeM5Y=;
+ b=JpTiePcg91PX+LtZ8ttVk1fnOUrSMRi2E74GC+8oKchYAYXCr2lMQxuxy6IaFJRlhTdb1fvrrDkic94DTCep2z0IZ6Zuscq1S868D8IWgDQDAJ5kL6zVKsPq6JZEjwZNphgDHUc+vhvGunvYC5xc3zAOcqPoW/heQsyH8SuI1Yf6ZTQs5dEt5vOCIw6CFNdro09ETw6ZzJpxYEDfQ9FwHkuQq9VvcEbao/tjjWlbWlPnTmU8f4H5/zhM515NF22lv8zwBNiUW8vFm6WDumUdGxXweJ1VTAndCiycQop+O2HpMchWzlEdLnKcR4L6qd0KEq3HuyRwzRGQuM8OfdtYww==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
- dkim=pass header.d=mediatek.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JZ3lzCc7PlXX6cPojgDYoXnNiYZZGfKB0wjDCagkwIs=;
- b=ZP84bMxlmwq3L9HhyERHnBEQcATPuGfBoicSY34mhxJGsJWzVIMUsWe4HUSubRWL+UM3pw0xsF3VrrqRxlSROs0gu1qQIPFa7nC38Dw24bemLz1ZB7VMdM/7oTjVONE5OItfMlPitqacIOroIXd0Id8qQJWJTGUEAs+WSpiElBQ=
-Received: from TYZPR03MB6624.apcprd03.prod.outlook.com (2603:1096:400:1f4::13)
- by SEYPR03MB6815.apcprd03.prod.outlook.com (2603:1096:101:8e::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6813.28; Thu, 28 Sep
- 2023 06:47:56 +0000
-Received: from TYZPR03MB6624.apcprd03.prod.outlook.com
- ([fe80::9c2c:c08a:212f:e984]) by TYZPR03MB6624.apcprd03.prod.outlook.com
- ([fe80::9c2c:c08a:212f:e984%6]) with mapi id 15.20.6792.026; Thu, 28 Sep 2023
- 06:47:56 +0000
-From: =?utf-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>
-To: =?utf-8?B?U2hhd24gU3VuZyAo5a6L5a2d6KyZKQ==?= <Shawn.Sung@mediatek.com>,
- "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
- "angelogioacchino.delregno@collabora.com"
- <angelogioacchino.delregno@collabora.com>, "robh+dt@kernel.org"
- <robh+dt@kernel.org>, "krzysztof.kozlowski+dt@linaro.org"
- <krzysztof.kozlowski+dt@linaro.org>
-Subject: Re: [RESEND PATCH v6 19/20] drm/mediatek: Support MT8188 VDOSYS1 in
- display driver
-Thread-Topic: [RESEND PATCH v6 19/20] drm/mediatek: Support MT8188 VDOSYS1 in
- display driver
-Thread-Index: AQHZ5IO+UxaXw/JOeUmaTSqbnKHRTLAv5mOA
-Date: Thu, 28 Sep 2023 06:47:56 +0000
-Message-ID: <fbfc407213d2de1d781dc43f8cb2b4f3d67a67c8.camel@mediatek.com>
-References: <20230911074233.31556-1-shawn.sung@mediatek.com>
- <20230911074233.31556-20-shawn.sung@mediatek.com>
-In-Reply-To: <20230911074233.31556-20-shawn.sung@mediatek.com>
-Accept-Language: en-US
+ bh=IY6nirpNluipxq0v2dCGVrq11nEKwE8VnBxRZZeeM5Y=;
+ b=ynqSDCDGwJ4F+qnHjeOfibh/o/LVejVhHdMkFMeQEXMI5wg1cvHg1fVGTf7yiSTBk5APBhCNF6JtEQEmdRTrDqA+FpK5J/0N7WLNmG8xKT+pdjlyt8wrvI6bR9XegzmQa1gfaRRlhrR1Ozidyr+159CIUobVz+BE8nzI6Y40C7A=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BYAPR12MB3589.namprd12.prod.outlook.com (2603:10b6:a03:df::29)
+ by CY5PR12MB6273.namprd12.prod.outlook.com (2603:10b6:930:22::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6813.23; Thu, 28 Sep
+ 2023 06:56:27 +0000
+Received: from BYAPR12MB3589.namprd12.prod.outlook.com
+ ([fe80::ab9:d87b:dd03:4ee8]) by BYAPR12MB3589.namprd12.prod.outlook.com
+ ([fe80::ab9:d87b:dd03:4ee8%5]) with mapi id 15.20.6838.016; Thu, 28 Sep 2023
+ 06:56:27 +0000
+Message-ID: <a1316597-e91b-32f8-78d3-13977438149b@amd.com>
+Date: Thu, 28 Sep 2023 08:56:18 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH] drm/atomic: Perform blocking commits on workqueue
 Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=mediatek.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYZPR03MB6624:EE_|SEYPR03MB6815:EE_
-x-ms-office365-filtering-correlation-id: 00a50b15-8706-4f7a-8d41-08dbbfeed8e4
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: LyjijdnZfBPCnQOrqZwUb79GLaMQpeOjcBtKDg1N7lxAKxCfy5djG862jchD5h8XEkeHM4yKz2sFNLAnr5sNbwPe/bTJ7U9xgrRA06BokQM0xEbQDCq8VdvmkMqD3q5vRFY75FhY6adVhyULkj+pPVIINf5n0t8dixcqRvOuL1n50YVW2/3j+m64T1LI1dbTTb488Ad9yvE1sWt6juTcVrz4kxV/PkQhh0E4rJFYA9AcefKSrvUqlw+DI+GzLLT87gltszsmEGB3IeqFEGhd8K1mTXekbcjy2p1+o3U3MIlwU1I99JlNFmrOQ00l02ZZyz7aLbnOKgTtKXD70b9RC9UFymPwQbGlnBKkgLL1ccbyCJPLgCM1M2asNjj1nvEtSgVtKB5BgmDLC0O54GMNDwpc4UYeibl8tB/Z5PeNxHrxJKtB5zFtIWF0mkfXA3+iRn8yPyXLXCtH2IJT6p66hHIF66miP+ydgd5k6SIfe0mZBTKX0Nngx9M7NMiyW09Bi5xVWe/Wnuo/S0YmtZ6jby0qjon9Y7tY03smNugDnH14D4WAL/Y5dlpqy8gc2CipicEHwz0blJmTHcKxDL9xvow43Ety1sv/oF5oT8Sg3tLwpsDzwGbYOa0a7fDGOpKe37Z3baueR8/5EHPSUfMZyab6RwILLjNPwNN/cAgs64s=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:TYZPR03MB6624.apcprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(39860400002)(136003)(396003)(346002)(366004)(376002)(230922051799003)(186009)(64100799003)(1800799009)(451199024)(26005)(41300700001)(5660300002)(4326008)(8936002)(8676002)(7416002)(2906002)(86362001)(316002)(110136005)(76116006)(66946007)(54906003)(66446008)(64756008)(66556008)(66476007)(85182001)(6506007)(38070700005)(122000001)(478600001)(6512007)(36756003)(38100700002)(6486002)(71200400001)(2616005);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?UzBOWUdZL1RjTVF5SlFXUkYwREkwR29HSlovTm5jZy8xejhjbndVWE9SRTRx?=
- =?utf-8?B?aDRxWWFxVmlnTUowNmxKOCtMWGREV2dsbWlUN2xKZDNqZTE3bWFWQmpkelJR?=
- =?utf-8?B?MEFXVGozWlJjaEN0K2dKTlQ5dGMzUjU0WC82OVhDY3NvYmx6ci91YnA4UXQ3?=
- =?utf-8?B?V0F0aVRmN09IQ3NVQWxaZzM2WitZaUNWdEg2NWdEaFNFWC9IU21NK1p1T0lO?=
- =?utf-8?B?Z3plRjZqUjUvY1p3NnB2Nm4remF4MCtMWHZvNkFEcWpKQkhFNWMrK0FIL0JW?=
- =?utf-8?B?amZqaU40U2NlTlR4Y2U4U0NqV2ZGejlmQjNHQVdMeks1Rm5ENWprOHVmMS9K?=
- =?utf-8?B?cW1lV1FOLytMTjAyZzBjTFZaVG1qMC85UjA1YjN6Y0FOeHNVd1lZdXFvbGFQ?=
- =?utf-8?B?UHRrUkpEUmN4OU12aVk1VmhXbC95NUw1SFdvWTFveC9nZW43VlZLMnAzY1Jm?=
- =?utf-8?B?M2NFM0hHWHRtam1Tb3Zod2dFdWpmYzBVR2lpSUhsemNQT0F4Q2NVdkdYaFJY?=
- =?utf-8?B?TG5mQXo4OFNnaXZzbnFrRm5Vb09zckhvY0VySVNTbXhvaUdYN1ZZY2g0cEdJ?=
- =?utf-8?B?KzY4cnBPaDhucFRQbkwrZ0JWaUxwTVRpdEx2SlFFNkJ2TXFGV0lQdXJ2T2Uw?=
- =?utf-8?B?TEdKQ2o2TmFkTWVuWEdxSnhCd05vQUFYZDFXUlF5dFFDQ3JVTHN2UWZQSFdF?=
- =?utf-8?B?V0MvZVZxTkQ0ZE5UZUZDNXBEZUJsWlhrcEFYMjBVem1QdlZSTWIyOXlJczVm?=
- =?utf-8?B?TDZPYTlGVlhlWEJWMU9GaXl0WEpPWW5yZTgydGtsK2dOTk5qTHVXbnAwQVJz?=
- =?utf-8?B?R2dGcWlDZ2FPay9vdGl1OGQ3QklXVmtWeEhZSEMrSkI1VFNPUlVjclpUY0hM?=
- =?utf-8?B?QVZWb2xYMnZzbFhqS0R3U3JJMGVpK2t2VXNvUVNic3Z5NCt3S0tLS0w2M1hm?=
- =?utf-8?B?S0lBV1BDKzdFMmVtMnpGakdNelp0SUNFUDNuaG51MTArRU8rRUdPK1ZWcVpo?=
- =?utf-8?B?ZTV6cE1PcXhCL25DK05KN05nQ1ZqcHZScWRJeDBMbnhDbnlPeXZWMk5YUGFO?=
- =?utf-8?B?TG9zK25LN0R4RThxb1FnUzM5QW5uQWxPSGR3U3ZWYWJvVVBuc3JhMmpoK3Ur?=
- =?utf-8?B?V3BZVlRVTVQvYmNrS3A1dzBrTnZYa1lZM3VLWkY2a2g3TVZ2NFZMRXNNMjZq?=
- =?utf-8?B?ODh2eUdFSk02Ync1bjlnTHFCTXY4WEtURFhEKzZqSVFCdkt1TE8vcFFVU1h2?=
- =?utf-8?B?ZHU3YnJCaDdneFA3YTVNOEZoVEovM2hBR3hUbmN2UVRDYmpoYWthVFIzeVBa?=
- =?utf-8?B?N2EreVg1L1dLMTBoR2JMMEd4elFEbXdzeFM2ZCtOWkNPVTQ5WmZHNHBUemQy?=
- =?utf-8?B?bDRFeGNwQ29zb0JXeHBsbWpNKzRoWlJmWXhVcmg4dTAybWNhT3RkUkd3elBZ?=
- =?utf-8?B?MjFKeUU3dUxmWFZBQXRDV0pYTFNGMDVuUEx2Q2V6cjFjL2hiVGFqR0RtUnBz?=
- =?utf-8?B?em1hQ3VaSzVqQXV1TWdWU0JqRlBOdzF0d2l4MmQwZ2tlQXpTeVkyYnEvczY2?=
- =?utf-8?B?QS92RkJWdDdTOE1PeTI1aUFyREhFdEVIaG43SmF0ZEkzK2FOcjFidnpPRExy?=
- =?utf-8?B?cFdEZ2FHKzluYVdvd3NaejRhK21JOERyMkdCakNDVCtIRS9Fc2xHME5VV29x?=
- =?utf-8?B?N3Q3TGNPUlNST0ZvbEpDTVFJRDNmSjJ0bjlDdTd6a2lTQ1JobVo1dEtTMml0?=
- =?utf-8?B?eEtEN1Y1RXJueTU0NW5sVVFIMVc3bHVMdFNzWXF0bm5pRDdpSGZUbi9qNXF1?=
- =?utf-8?B?M01DZWRSTkp5cGNPNjI3c0ZlbjdRWGdvclJlcDkxbDNob1czQjVVajRJNTRQ?=
- =?utf-8?B?b1ZVeTlWZ3IzUVJmVHRxK0tiN0FPQndUTm44K3JvTUhOV2FEdERPM1hKSDVR?=
- =?utf-8?B?b01kUVZQbDVCUlpNVGs5MkNhbmFZOHVkTjdaTVc0VzYrdmZDT3BmdmZ2M3VU?=
- =?utf-8?B?b3VkeWhCb0MxWnVZQzM1RDI1N1lCOXc0bW4vSVdOeXFFdktKbnM2VmRJOWNt?=
- =?utf-8?B?dk1HciswVWhvb3ZoQlVxZ05scS9nbzdCTTFIQmlKejhxZkFlTjhSc0gvZjRu?=
- =?utf-8?Q?/8HHds+SWr8zHyfzdTVemwRW6?=
-Content-ID: <6F3B171F601E6E4DAEF38C17F0940025@apcprd03.prod.outlook.com>
-Content-Transfer-Encoding: base64
+To: Ray Strode <halfline@gmail.com>
+References: <20230926170549.2589045-1-halfline@gmail.com>
+ <c2ffc21e-bf92-81f6-aa9b-233e3475025f@amd.com>
+ <CAA_UwzKiNJe6hjbAo7SK7-OB7sb_ieV_DcQ_8vf6UYw2gppGcA@mail.gmail.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <CAA_UwzKiNJe6hjbAo7SK7-OB7sb_ieV_DcQ_8vf6UYw2gppGcA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR2P281CA0053.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:93::6) To BYAPR12MB3589.namprd12.prod.outlook.com
+ (2603:10b6:a03:df::29)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BYAPR12MB3589:EE_|CY5PR12MB6273:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8893fa2a-3606-4950-a0f3-08dbbff0089d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: L5YLbmUOUZwE9BdXa3sadmeAinZ7yG9rJA0ZeYwAWHzhgCulXKVvGo4UmCIMgrl1zanwGipia2kTerMe1H/GM3TOtjDDq+p05VXYWXmF7O8WvAODYdA9FsNJPPAL+N38Ue/nkIuQWrOcgvnuCAl6akzyqbBSed/Ty+/EIxtawSu6/xafXjyC0rZuJzwdcxkJ2qcDgNB9zuPXXJA+3yV1dq27jg1+QFji6yde7Brg+M731sJiOeUY2ztjMiig2Uah7r1PjPwtaTDHQE/MH+iEj0iUNHUqizJRF6lHzDUWqq0IFCgVKXwruYwTnH9Qy7x4+Gt52dg/DlCC8WLA9usTQ/u1xLP1UGYS6Nd7IP5KfdBBbE9SimiwifNpGcZ9GdGEvDisXj0jbLuvY2s7aR2tMnhui90CcZyRGpWZCGuso6/x8uL6mMNuzrbr05WgHaTBRQUZEMce+YuEOSLjAv1nrrDrKZoC/vgqVtauOExJxI2HXdSIT6GrAo3K7WfujYn7ijS6Fp5G9ALiFbVD3ziaQEh0NhaV+byptO2GYpHtQQfcf/Co+dA+RL4jq8HaqVrGJiU2pygNC1wOVldpTMa/Fp9TgxlOLuSScrce7sKjylG6GmWDoYtrrLzqHtRz6WZi1BzUh+0gi/ixT7TtxZ4Q4A==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR12MB3589.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(136003)(39860400002)(376002)(396003)(346002)(366004)(230922051799003)(186009)(1800799009)(64100799003)(451199024)(66574015)(6512007)(6486002)(6506007)(53546011)(6666004)(26005)(2616005)(41300700001)(316002)(66476007)(66556008)(6916009)(66946007)(2906002)(8936002)(8676002)(86362001)(38100700002)(31696002)(31686004)(4326008)(5660300002)(36756003)(478600001)(83380400001)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Y29aYnB5cnhHV3pNOVJTSHJFWVdmQS9IbkZES2syYXZWRCtYNm9nSWMvL3k0?=
+ =?utf-8?B?RjVlbFVvREh0eDY4bjJRYy9laVRNN2JEaTNUbjhCSTZzeXNCVzdrSHE5QUxt?=
+ =?utf-8?B?VHlVYWsycU5oQnZ4WERJNlRNVWZaaG9IOWhZbWhwTWlnVlBsd2RjUnVZOGM3?=
+ =?utf-8?B?bHdBbzMwUjlNc1NoUEkwVGZJQmx1ZGU1czFtQXRvOU00WEorY3NId0YxWHc3?=
+ =?utf-8?B?WFJnMjRDYWlGaHNQUkQ3R3hHQnowVU9qc2RyK25HWVpHRTB0b3dBMGtlSjZj?=
+ =?utf-8?B?ZXZicGcyd1NSSEhvcGViaUZZSzBuY3NxWWtzakgrSGZtOVV2cUV0QnNHMnVz?=
+ =?utf-8?B?R0tIa25JZ3o0Rk8yaWYyRGlCelBnSmt6bitZZmRCek1vc2RMek1ZQTRKSVJW?=
+ =?utf-8?B?V0MwUy8vK3gwZWFTTjBBWUg4ekJRVUduZFgvQnppREtPZWQ0TXltdlVqMDU3?=
+ =?utf-8?B?Q3gxaDZPbVdLMlVaVTlPK1VFcEoxcjZGSXJYMExXckFYV3VmVWpjV2lVTXYz?=
+ =?utf-8?B?TFQ3Uk5uN2hiWXFxWUgvcFN6aHpGSjJ1ZW0rcjN5WEhWdUhPcDRHQzlpK0sx?=
+ =?utf-8?B?STU0RUR5aTJRSGFEOEZmOUR0Sm9FOWZuZ0tKNEtEMUl1TGgyY0UvSk9nY0Y1?=
+ =?utf-8?B?RGlGeVZ6aDM2U2JReHIvckwxNVRmQlFoRTNwOHZRbCtjUTVFb1hjdkFKQm1D?=
+ =?utf-8?B?Sm9lUmk2aTBzOERpQzdTTW95RzBsQXFicURtTmxQZXBacnJhRitxajYwdEhK?=
+ =?utf-8?B?eTI5ZmFHSDlRZml2KzlMbjh2ZHFMMXNjeGZCNEVZak1pUGw4Rk9WQ2QxQTVj?=
+ =?utf-8?B?ZkFiMnh3VTVoYVMyQlB2WUhqM0x5VXlRb3RDbFYvelpsMjNubEFOQVoySDZS?=
+ =?utf-8?B?TWVQQlhqNjdZSzRtcGJhWTdlTk1KdkVRSUt2T0FBWXE3OXVWY0RCTDR1R3dP?=
+ =?utf-8?B?YjdsUlREOTV4MDI0aXl6eEZBMk9LNXJlalM4WWVPYkxuYW9hRDNtaDRyM3pX?=
+ =?utf-8?B?b2Y5Y3F2cHVhVEx1U2hsSU1tZXkxYkR3WnhIaGZtR3RZTmZaektpZU00QW5G?=
+ =?utf-8?B?c2N6THgzRlJiMWkvYzY4emsyTm5TY1RoMGhLWWZXaHpBRExPZmNFTENKQXhT?=
+ =?utf-8?B?a2Nqd3hPc05PMmljRUt6UWQ0ZWRRTS9FS3ZxSUh6a2xCeHhqMW1mQXdYVUZZ?=
+ =?utf-8?B?cWdjT0IwUjhjWnEwMnZVODZlTXJnblp5eXZ4ajBic1pkeWw5SFNsQWR0ZzZY?=
+ =?utf-8?B?WExXTVEyRUM1cEtodlVyZzhGWHJsNFQrdXhCeFZoSGxYRkhiWDFMeXVSYTZ4?=
+ =?utf-8?B?dFh2NGdnU3lSdi9qRERlbGx1djFDZWdycVJRU1Q0NGFuTVRwdWQvN3Y0UElQ?=
+ =?utf-8?B?dVFONlV3QmZEZjJ3N3daaDJLandJOTMyVDF3NzYrQnRuS2phSUxjOUh0d3cy?=
+ =?utf-8?B?Vk04dXNkYkNhbTVLeXZLa0Noa1VTK2JmUGh0aG1wb1pCZnJ0ZXJhRnZzUXpD?=
+ =?utf-8?B?Y1JJRXZ5eXplYXh4eGl1dk1MSnhJaGlIa0ZCdHhTZ2JtN3Zza0xmWHpXMkV1?=
+ =?utf-8?B?Z2ZMdUwvck5MMUdFNzdFMXdVWGZiMG9WL0ZBT0ZsQVhPWExVbldFbk5rY01U?=
+ =?utf-8?B?c1ZUVjFMaDVWM09HY1lmMkd1UTBUUmkwOVBBeWUrcXh3ZUtvVGE0VVBMSmpU?=
+ =?utf-8?B?cWRORGFtL21wZURyVkVhYkpPTDNRTWZwc1A1SEZyd0xaMVlQUFNpOWR0ZERn?=
+ =?utf-8?B?bGdHQXhyay9Ud2RkQ0hZMGNYTUxaSDlIWkpETUtKcHM3UU1UenlTWTJHTEk0?=
+ =?utf-8?B?V0J1NDhBNldsS1UyOWdYMHZLWUQ1RndMVVFweEdQNEFGU0M5akJpYTd3UmRv?=
+ =?utf-8?B?emdQcWJEUE1QdFA2eVY5dE9DK1liMUkzVlRybC83ajJ0bDcxK3FrTVl3ZzFB?=
+ =?utf-8?B?VTZMdTdKYWZ5Qkl6SGZtcjliUU4xUkxMSHZqd3N2YzZvQy91bnptdjdrSnlC?=
+ =?utf-8?B?RElkUlJXN2Q0eHdBUHQ0cVV3QzZSQmMxSE53Y1hyK1d5Qyt4OXBNSGFNWENU?=
+ =?utf-8?B?Ri95dkUwTDJlUjJtemMvcFhOUjVOdDg4MmZERDFadjhDWHYzanlCdy8xanlE?=
+ =?utf-8?Q?Z61MGbfIFJdwhrox7Pvx6cWnC?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8893fa2a-3606-4950-a0f3-08dbbff0089d
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB3589.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYZPR03MB6624.apcprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 00a50b15-8706-4f7a-8d41-08dbbfeed8e4
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Sep 2023 06:47:56.4960 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: OOxCdT05Uwxgk3oOIQvX4KOriaMIrwcWaEsnOA9Bkx9L7ZOx60DzJtiiQN6mB8vEPlbXXjR8dq8vu/LjaFpVSA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEYPR03MB6815
-X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-AS-Result: No-10--16.143900-8.000000
-X-TMASE-MatchedRID: cgbqQT5W8hc/XHdICuW5r97SWiiWSV/1jLOy13Cgb4+qvcIF1TcLYApB
- bGrMo6JyTPMwViVb9SUzQez0qIntbRnsS71Oo/Hw1ilQ4KKAwrfpJe7BSAYfSKmHdZcXDuA+8oL
- zUWewXkhOFu8ssjxG82lMzgdmISFzXqbZn4+AZIsMH4SsGvRsA7n7V+KB+3cumyiLZetSf8n5kv
- mj69FXvKEwgORH8p/AjaPj0W1qn0Q7AFczfjr/7ChJgLj8aapYq6OM8FAY9s8ICzmovpevUIALf
- BNkjKijTniYlUdPySc=
-X-TM-AS-User-Approved-Sender: No
-X-TM-AS-User-Blocked-Sender: No
-X-TMASE-Result: 10--16.143900-8.000000
-X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-SNTS-SMTP: 5D66AFF8336E609025CE968F444531AEB852B70CD4F4D770C12EA71B9BA2F78B2000:8
-Content-Type: multipart/alternative;
- boundary="__=_Part_Boundary_003_1744578524.2136180761"
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Sep 2023 06:56:26.5438 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7Qos8y2D2gAXy3lGK58l8G2ksqdnkBehHC3P+W2azT29C0N7NSRrCedTeSDUyAU5
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6273
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -177,126 +126,160 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "conor+dt@kernel.org" <conor+dt@kernel.org>,
- "nfraprado@collabora.com" <nfraprado@collabora.com>,
- =?utf-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>,
- =?utf-8?B?U2luZ28gQ2hhbmcgKOW8teiIiOWciyk=?= <Singo.Chang@mediatek.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Project_Global_Chrome_Upstream_Group
- <Project_Global_Chrome_Upstream_Group@mediatek.com>,
- =?utf-8?B?TmFuY3kgTGluICjmnpfmrKPonqIp?= <Nancy.Lin@mediatek.com>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Cc: daniel.vetter@ffwll.ch, Xinhui.Pan@amd.com, dri-devel@lists.freedesktop.org,
+ mdaenzer@redhat.com, alexander.deucher@amd.com, airlied@redhat.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---__=_Part_Boundary_003_1744578524.2136180761
-Content-Type: text/html;
-	charset="utf-8"
-Content-Transfer-Encoding: base64
+Hi Ray,
 
-PHByZT4NCkhpLCYjMzI7SHNpYW8tY2hpZW46DQoNCk9uJiMzMjtNb24sJiMzMjsyMDIzLTA5LTEx
-JiMzMjthdCYjMzI7MTU6NDImIzMyOyswODAwLCYjMzI7SHNpYW8mIzMyO0NoaWVuJiMzMjtTdW5n
-JiMzMjt3cm90ZToNCiZndDsmIzMyOy0mIzMyO1RoZSYjMzI7bW1zeXNfZGV2X251bSYjMzI7aW4m
-IzMyO01UODE4OCYjMzI7VkRPU1lTMCYjMzI7d2FzJiMzMjtzZXQmIzMyO3RvJiMzMjsxJiMzMjtz
-aW5jZQ0KJmd0OyYjMzI7JiMzMjsmIzMyO1ZET1NZUzEmIzMyO3dhcyYjMzI7bm90JiMzMjthdmFp
-bGFibGUmIzMyO2JlZm9yZS4mIzMyO0luY3JlYXNlJiMzMjtpdCYjMzI7dG8mIzMyO3N1cHBvcnQN
-CiZndDsmIzMyOyYjMzI7JiMzMjtWRE9TWVMxJiMzMjtpbiYjMzI7ZGlzcGxheSYjMzI7ZHJpdmVy
-Lg0KJmd0OyYjMzI7LSYjMzI7QWRkJiMzMjtjb21wYXRpYmxlJiMzMjtuYW1lJiMzMjtmb3ImIzMy
-O01UODE4OCYjMzI7VkRPU1lTMQ0KJmd0OyYjMzI7JiMzMjsmIzMyOyhzaGFyZXMmIzMyO3RoZSYj
-MzI7c2FtZSYjMzI7ZHJpdmVyJiMzMjtkYXRhJiMzMjt3aXRoJiMzMjtNVDgxOTUmIzMyO1ZET1NZ
-UzEpDQoNClJldmlld2VkLWJ5OiYjMzI7Q0smIzMyO0h1JiMzMjsmbHQ7Y2suaHVAbWVkaWF0ZWsu
-Y29tJmd0Ow0KDQomZ3Q7JiMzMjsNCiZndDsmIzMyO1Jldmlld2VkLWJ5OiYjMzI7QW5nZWxvR2lv
-YWNjaGlubyYjMzI7RGVsJiMzMjtSZWdubyYjMzI7Jmx0Ow0KJmd0OyYjMzI7YW5nZWxvZ2lvYWNj
-aGluby5kZWxyZWdub0Bjb2xsYWJvcmEuY29tJmd0Ow0KJmd0OyYjMzI7U2lnbmVkLW9mZi1ieTom
-IzMyO0hzaWFvJiMzMjtDaGllbiYjMzI7U3VuZyYjMzI7Jmx0O3NoYXduLnN1bmdAbWVkaWF0ZWsu
-Y29tJmd0Ow0KJmd0OyYjMzI7LS0tDQomZ3Q7JiMzMjsmIzMyO2RyaXZlcnMvZ3B1L2RybS9tZWRp
-YXRlay9tdGtfZHJtX2Rydi5jJiMzMjt8JiMzMjszJiMzMjsrKysNCiZndDsmIzMyOyYjMzI7MSYj
-MzI7ZmlsZSYjMzI7Y2hhbmdlZCwmIzMyOzMmIzMyO2luc2VydGlvbnMoKykNCiZndDsmIzMyOw0K
-Jmd0OyYjMzI7ZGlmZiYjMzI7LS1naXQmIzMyO2EvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210
-a19kcm1fZHJ2LmMNCiZndDsmIzMyO2IvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1f
-ZHJ2LmMNCiZndDsmIzMyO2luZGV4JiMzMjtjZGU2OWYzOWEwNjYuLjIxMjQ3NTQzNmY0NyYjMzI7
-MTAwNjQ0DQomZ3Q7JiMzMjstLS0mIzMyO2EvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19k
-cm1fZHJ2LmMNCiZndDsmIzMyOysrKyYjMzI7Yi9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRr
-X2RybV9kcnYuYw0KJmd0OyYjMzI7QEAmIzMyOy0yODgsNiYjMzI7KzI4OCw3JiMzMjtAQCYjMzI7
-c3RhdGljJiMzMjtjb25zdCYjMzI7c3RydWN0JiMzMjttdGtfbW1zeXNfZHJpdmVyX2RhdGENCiZn
-dDsmIzMyO210ODE4Nl9tbXN5c19kcml2ZXJfZGF0YSYjMzI7PSYjMzI7ew0KJmd0OyYjMzI7JiMz
-MjtzdGF0aWMmIzMyO2NvbnN0JiMzMjtzdHJ1Y3QmIzMyO210a19tbXN5c19kcml2ZXJfZGF0YSYj
-MzI7bXQ4MTg4X3Zkb3N5czBfZHJpdmVyX2RhdGENCiZndDsmIzMyOz0mIzMyO3sNCiZndDsmIzMy
-OyYjMzI7Lm1haW5fcGF0aCYjMzI7PSYjMzI7bXQ4MTg4X210a19kZHBfbWFpbiwNCiZndDsmIzMy
-OyYjMzI7Lm1haW5fbGVuJiMzMjs9JiMzMjtBUlJBWV9TSVpFKG10ODE4OF9tdGtfZGRwX21haW4p
-LA0KJmd0OyYjMzI7Ky5tbXN5c19kZXZfbnVtJiMzMjs9JiMzMjsyLA0KJmd0OyYjMzI7JiMzMjt9
-Ow0KJmd0OyYjMzI7DQomZ3Q7JiMzMjsmIzMyO3N0YXRpYyYjMzI7Y29uc3QmIzMyO3N0cnVjdCYj
-MzI7bXRrX21tc3lzX2RyaXZlcl9kYXRhJiMzMjttdDgxOTJfbW1zeXNfZHJpdmVyX2RhdGEmIzMy
-Oz0NCiZndDsmIzMyO3sNCiZndDsmIzMyO0BAJiMzMjstMzI4LDYmIzMyOyszMjksOCYjMzI7QEAm
-IzMyO3N0YXRpYyYjMzI7Y29uc3QmIzMyO3N0cnVjdCYjMzI7b2ZfZGV2aWNlX2lkJiMzMjttdGtf
-ZHJtX29mX2lkc1tdDQomZ3Q7JiMzMjs9JiMzMjt7DQomZ3Q7JiMzMjsmIzMyOyYjMzI7JiMzMjsu
-ZGF0YSYjMzI7PSYjMzI7JmFtcDttdDgxODZfbW1zeXNfZHJpdmVyX2RhdGF9LA0KJmd0OyYjMzI7
-JiMzMjt7JiMzMjsuY29tcGF0aWJsZSYjMzI7PSYjMzI7JnF1b3Q7bWVkaWF0ZWssbXQ4MTg4LXZk
-b3N5czAmcXVvdDssDQomZ3Q7JiMzMjsmIzMyOyYjMzI7JiMzMjsuZGF0YSYjMzI7PSYjMzI7JmFt
-cDttdDgxODhfdmRvc3lzMF9kcml2ZXJfZGF0YX0sDQomZ3Q7JiMzMjsreyYjMzI7LmNvbXBhdGli
-bGUmIzMyOz0mIzMyOyZxdW90O21lZGlhdGVrLG10ODE4OC12ZG9zeXMxJnF1b3Q7LA0KJmd0OyYj
-MzI7KyYjMzI7JiMzMjsuZGF0YSYjMzI7PSYjMzI7JmFtcDttdDgxOTVfdmRvc3lzMV9kcml2ZXJf
-ZGF0YX0sDQomZ3Q7JiMzMjsmIzMyO3smIzMyOy5jb21wYXRpYmxlJiMzMjs9JiMzMjsmcXVvdDtt
-ZWRpYXRlayxtdDgxOTItbW1zeXMmcXVvdDssDQomZ3Q7JiMzMjsmIzMyOyYjMzI7JiMzMjsuZGF0
-YSYjMzI7PSYjMzI7JmFtcDttdDgxOTJfbW1zeXNfZHJpdmVyX2RhdGF9LA0KJmd0OyYjMzI7JiMz
-Mjt7JiMzMjsuY29tcGF0aWJsZSYjMzI7PSYjMzI7JnF1b3Q7bWVkaWF0ZWssbXQ4MTk1LW1tc3lz
-JnF1b3Q7LA0KJmd0OyYjMzI7LS0NCiZndDsmIzMyOzIuMTguMA0KJmd0OyYjMzI7DQoNCjwvcHJl
-PjwhLS10eXBlOnRleHQtLT48IS0tey0tPjxwcmU+KioqKioqKioqKioqKiBNRURJQVRFSyBDb25m
-aWRlbnRpYWxpdHkgTm90aWNlICoqKioqKioqKioqKioqKioqKioqDQpUaGUgaW5mb3JtYXRpb24g
-Y29udGFpbmVkIGluIHRoaXMgZS1tYWlsIG1lc3NhZ2UgKGluY2x1ZGluZyBhbnkgDQphdHRhY2ht
-ZW50cykgbWF5IGJlIGNvbmZpZGVudGlhbCwgcHJvcHJpZXRhcnksIHByaXZpbGVnZWQsIG9yIG90
-aGVyd2lzZQ0KZXhlbXB0IGZyb20gZGlzY2xvc3VyZSB1bmRlciBhcHBsaWNhYmxlIGxhd3MuIEl0
-IGlzIGludGVuZGVkIHRvIGJlIA0KY29udmV5ZWQgb25seSB0byB0aGUgZGVzaWduYXRlZCByZWNp
-cGllbnQocykuIEFueSB1c2UsIGRpc3NlbWluYXRpb24sIA0KZGlzdHJpYnV0aW9uLCBwcmludGlu
-ZywgcmV0YWluaW5nIG9yIGNvcHlpbmcgb2YgdGhpcyBlLW1haWwgKGluY2x1ZGluZyBpdHMgDQph
-dHRhY2htZW50cykgYnkgdW5pbnRlbmRlZCByZWNpcGllbnQocykgaXMgc3RyaWN0bHkgcHJvaGli
-aXRlZCBhbmQgbWF5IA0KYmUgdW5sYXdmdWwuIElmIHlvdSBhcmUgbm90IGFuIGludGVuZGVkIHJl
-Y2lwaWVudCBvZiB0aGlzIGUtbWFpbCwgb3IgYmVsaWV2ZSANCnRoYXQgeW91IGhhdmUgcmVjZWl2
-ZWQgdGhpcyBlLW1haWwgaW4gZXJyb3IsIHBsZWFzZSBub3RpZnkgdGhlIHNlbmRlciANCmltbWVk
-aWF0ZWx5IChieSByZXBseWluZyB0byB0aGlzIGUtbWFpbCksIGRlbGV0ZSBhbnkgYW5kIGFsbCBj
-b3BpZXMgb2YgDQp0aGlzIGUtbWFpbCAoaW5jbHVkaW5nIGFueSBhdHRhY2htZW50cykgZnJvbSB5
-b3VyIHN5c3RlbSwgYW5kIGRvIG5vdA0KZGlzY2xvc2UgdGhlIGNvbnRlbnQgb2YgdGhpcyBlLW1h
-aWwgdG8gYW55IG90aGVyIHBlcnNvbi4gVGhhbmsgeW91IQ0KPC9wcmU+PCEtLX0tLT4=
+Am 27.09.23 um 22:25 schrieb Ray Strode:
+> Hi,
+>
+> On Wed, Sep 27, 2023 at 4:05 AM Christian König
+> <christian.koenig@amd.com> wrote:
+>> I'm not an expert for that stuff, but as far as I know the whole purpose
+>> of the blocking functionality is to make sure that the CPU overhead
+>> caused by the commit is accounted to the right process.
+> I'm not an expert either, but that's clearly wrong.
+>
+> The point of blocking functionality in drmAtomicCommit is for the
+> ioctl to block until the operation is completed, so userspace knows
+> that they can commit again after it returns without getting EBUSY, and
+> they can be sure, e.g., the mode is set or the displays are disabled
+> or whatever.
+>
+> To say the "whole point" is about CPU overhead accounting sounds
+> rather absurd to me. Is that really what you meant?
 
---__=_Part_Boundary_003_1744578524.2136180761
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: base64
+Yes, absolutely. See the functionality you try to implement already exists.
 
-SGksIEhzaWFvLWNoaWVuOg0KDQpPbiBNb24sIDIwMjMtMDktMTEgYXQgMTU6NDIgKzA4MDAsIEhz
-aWFvIENoaWVuIFN1bmcgd3JvdGU6DQo+IC0gVGhlIG1tc3lzX2Rldl9udW0gaW4gTVQ4MTg4IFZE
-T1NZUzAgd2FzIHNldCB0byAxIHNpbmNlDQo+ICAgVkRPU1lTMSB3YXMgbm90IGF2YWlsYWJsZSBi
-ZWZvcmUuIEluY3JlYXNlIGl0IHRvIHN1cHBvcnQNCj4gICBWRE9TWVMxIGluIGRpc3BsYXkgZHJp
-dmVyLg0KPiAtIEFkZCBjb21wYXRpYmxlIG5hbWUgZm9yIE1UODE4OCBWRE9TWVMxDQo+ICAgKHNo
-YXJlcyB0aGUgc2FtZSBkcml2ZXIgZGF0YSB3aXRoIE1UODE5NSBWRE9TWVMxKQ0KDQpSZXZpZXdl
-ZC1ieTogQ0sgSHUgPGNrLmh1QG1lZGlhdGVrLmNvbT4NCg0KPiANCj4gUmV2aWV3ZWQtYnk6IEFu
-Z2Vsb0dpb2FjY2hpbm8gRGVsIFJlZ25vIDwNCj4gYW5nZWxvZ2lvYWNjaGluby5kZWxyZWdub0Bj
-b2xsYWJvcmEuY29tPg0KPiBTaWduZWQtb2ZmLWJ5OiBIc2lhbyBDaGllbiBTdW5nIDxzaGF3bi5z
-dW5nQG1lZGlhdGVrLmNvbT4NCj4gLS0tDQo+ICBkcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRr
-X2RybV9kcnYuYyB8IDMgKysrDQo+ICAxIGZpbGUgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspDQo+
-IA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fZHJ2LmMN
-Cj4gYi9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9kcnYuYw0KPiBpbmRleCBjZGU2
-OWYzOWEwNjYuLjIxMjQ3NTQzNmY0NyAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL21l
-ZGlhdGVrL210a19kcm1fZHJ2LmMNCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210
-a19kcm1fZHJ2LmMNCj4gQEAgLTI4OCw2ICsyODgsNyBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IG10
-a19tbXN5c19kcml2ZXJfZGF0YQ0KPiBtdDgxODZfbW1zeXNfZHJpdmVyX2RhdGEgPSB7DQo+ICBz
-dGF0aWMgY29uc3Qgc3RydWN0IG10a19tbXN5c19kcml2ZXJfZGF0YSBtdDgxODhfdmRvc3lzMF9k
-cml2ZXJfZGF0YQ0KPiA9IHsNCj4gIAkubWFpbl9wYXRoID0gbXQ4MTg4X210a19kZHBfbWFpbiwN
-Cj4gIAkubWFpbl9sZW4gPSBBUlJBWV9TSVpFKG10ODE4OF9tdGtfZGRwX21haW4pLA0KPiArCS5t
-bXN5c19kZXZfbnVtID0gMiwNCj4gIH07DQo+IA0KPiAgc3RhdGljIGNvbnN0IHN0cnVjdCBtdGtf
-bW1zeXNfZHJpdmVyX2RhdGEgbXQ4MTkyX21tc3lzX2RyaXZlcl9kYXRhID0NCj4gew0KPiBAQCAt
-MzI4LDYgKzMyOSw4IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3Qgb2ZfZGV2aWNlX2lkIG10a19kcm1f
-b2ZfaWRzW10NCj4gPSB7DQo+ICAJICAuZGF0YSA9ICZtdDgxODZfbW1zeXNfZHJpdmVyX2RhdGF9
-LA0KPiAgCXsgLmNvbXBhdGlibGUgPSAibWVkaWF0ZWssbXQ4MTg4LXZkb3N5czAiLA0KPiAgCSAg
-LmRhdGEgPSAmbXQ4MTg4X3Zkb3N5czBfZHJpdmVyX2RhdGF9LA0KPiArCXsgLmNvbXBhdGlibGUg
-PSAibWVkaWF0ZWssbXQ4MTg4LXZkb3N5czEiLA0KPiArCSAgLmRhdGEgPSAmbXQ4MTk1X3Zkb3N5
-czFfZHJpdmVyX2RhdGF9LA0KPiAgCXsgLmNvbXBhdGlibGUgPSAibWVkaWF0ZWssbXQ4MTkyLW1t
-c3lzIiwNCj4gIAkgIC5kYXRhID0gJm10ODE5Ml9tbXN5c19kcml2ZXJfZGF0YX0sDQo+ICAJeyAu
-Y29tcGF0aWJsZSA9ICJtZWRpYXRlayxtdDgxOTUtbW1zeXMiLA0KPiAtLQ0KPiAyLjE4LjANCj4g
-DQo=
+After making a non blocking commit userspace can still wait on the 
+commit to finish by looking at the out fence.
 
---__=_Part_Boundary_003_1744578524.2136180761--
+This just happens asynchronously so you can use (for example) 
+select()/poll() etc on multiple events.
+
+> You could try to make the argument that one of the points of the
+> blocking call is about CPU accounting (instead of the whole point),
+> maybe that's what you meant? That seems likely wrong to me too. I mean
+> just check the docs:
+>
+>         RLIMIT_RTTIME (since Linux 2.6.25)
+>                This is a limit (in microseconds) on the amount of CPU
+> time that a process scheduled under a real‐time scheduling policy may
+> consume without making a blocking system call.  For  the  purpose  of
+>                this limit, each time a process makes a blocking system
+> call, the count of its consumed CPU time is reset to zero.
+> drmAtomicCommit() is making a blocking system call so the limit should
+> be reset, in my opinion.
+
+Exactly that's the point why I'm rejecting this. As far as I can see 
+this opinion does not match what RLIMIT_RTTIME is intended to do.
+
+A blocking system call in the sense of RLIMIT_RTTIME means something 
+which results in the process listening for external events, e.g. calling 
+select(), epoll() or read() on (for example) a network socket etc...
+
+As far as I can see drmAtomicCommit() is *not* meant with that what 
+similar to for example yield() also doesn't reset the RLIMIT_RTTIME counter.
+
+> Furthermore, a lot happens under the covers as part of drmAtomicCommit.
+>
+> Are you telling me that in all the drivers handling drmAtomicCommit,
+> none of the work from those drivers gets deferred outside of process
+> context if DRM_MODE_ATOMIC_NONBLOCK isn't set? I find that very hard
+> to believe. But it would have to be true, if one of the main points of
+> the blocking call is about CPU accounting, right? You can't say the
+> point is about CPU accounting if some of the work is handled in a
+> helper thread or work queue or whatever.
+>
+> ╎❯ git grep -E 'INIT_WORK|DECLARE_TASKLET|open_softirq|timer_setup|kthread_run'
+> | wc -l
+> 182
+>
+> There seems to be a lot of non-process context execution going on in the tree...
+>
+>> So what you are suggesting here is to actually break that functionality
+>> and that doesn't seem to make sense.
+> What's the use case here that could break?
+
+Well you are breaking the RLIMIT_RTTIME functionality.
+
+The purpose of that functionality is to allow debugging and monitoring 
+applications to make sure that they keep alive and can react to external 
+signals.
+
+ From the RLIMIT_RTTIME documentation: "The intended use of this limit 
+is to stop a runaway real-time process from locking up the system."
+
+And when drmAtomicCommit() is triggering this then we either have a 
+problem with the application doing something it is not supposed to do 
+(like blocking for vblank while it should listen to network traffic) or 
+the driver is somehow buggy.
+
+>   Walk me through a
+> real-world, sensible example where a program depends on
+> drmAtomicCommit() blocking and continuing to eat into process cpu time
+> while it blocks. I just want to see where you are coming from. Maybe
+> I'm being unimaginative but I just don't see it. I do see actual
+> main-stream display servers breaking today because the current
+> behavior defies expectations.
+>
+>> When it's really not desirable to account the CPU overhead to the
+>> process initiating it then you probably rather want to use an non
+>> blocking commit plus a dma_fence to wait for the work to end from userspace.
+> Well, first I don't think that's very convenient. You're talking about
+> a per-plane property, so there would need to be a separate file
+> descriptor allocated for every plane, right? and user-space would have
+> to block on all of them before proceeding? Also, are you sure that
+> works in all cases? The problematic case we're facing right now is
+> when all planes and all crtcs are getting disabled. I'm just skimming
+> over the code here, but I see this:
+>
+> →       for_each_new_crtc_in_state(state, crtc, crtc_state, i) {•
+> ...
+> →       →       if (arg->flags & DRM_MODE_PAGE_FLIP_EVENT || fence_ptr) {•
+> ...
+> →       →       →       e = create_vblank_event(crtc, arg->user_data);•
+> ...
+> →       →       →       crtc_state->event = e;•
+> →       →       }•
+> ...
+> →       →       if (fence_ptr) {•
+> ...
+> →       →       →       fence = drm_crtc_create_fence(crtc);•
+> ...
+> →       →       →       ret = setup_out_fence(&f[(*num_fences)++], fence);•
+> ...
+> →       →       →       crtc_state->event->base.fence = fence;•
+> →       →       }•
+>
+> Is the code really going to allocate a vblank_event when all the
+> crtc's are disabled ? I guess it's possible, but that's
+> counterintuitive to me. I really don't know. You're confident a set of
+> fences will actually work?
+
+No when you disable everything there is of course no fence allocated.
+
+But then you also should never see anything waiting for to long to 
+actually be able to trigger the RLIMIT_RTTIME.
+
+> Regardless, this seems like a roundabout way to address a problem that
+> we could just ... fix.
+
+Well to make it clear: This is not a problem but intended behavior!
+
+ From what I know RLIMIT_RTTIME usually works in units of multiple 
+seconds. Milliseconds are possible as well, but when an application sets 
+a low millisecond timeout and then blocks for a vblank which can easily 
+take 30ms to complete that means you have a bug inside your application.
+
+With this commit you are completely papering over that.
+
+Regards,
+Christian.
+
+>
+> --Ray
 
