@@ -2,76 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C5EB7B272C
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Sep 2023 23:11:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BC967B27A2
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Sep 2023 23:42:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 64EF610E0AE;
-	Thu, 28 Sep 2023 21:11:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5701410E6AE;
+	Thu, 28 Sep 2023 21:42:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3625C10E0AE
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Sep 2023 21:11:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1695935465;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4Gf4p1uEJwB77Lm6SIy/Ej2I7eFhDlgmjpD+naFs9dg=;
- b=jTvKB0kE15oDzn/PL9XS+2gjA/+t4GEXLrt9JsOf/9FTfRKQ6z1h78bDs7SbZewJzvpEqX
- 3WWytU9k+JxKhcesI41UtpBIKiTxmuWn+KaRCHD5xTLWIdytiRl1hxybTS9dp5PXMshf/5
- 1BSOLRWfUuPxv7aywZAOQx6RKStJdLU=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-674-tbZEQHbiM5yXr7ELe3g5iQ-1; Thu, 28 Sep 2023 17:11:03 -0400
-X-MC-Unique: tbZEQHbiM5yXr7ELe3g5iQ-1
-Received: by mail-wr1-f71.google.com with SMTP id
- ffacd0b85a97d-31fd48da316so10309572f8f.3
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Sep 2023 14:11:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1695935462; x=1696540262;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=4Gf4p1uEJwB77Lm6SIy/Ej2I7eFhDlgmjpD+naFs9dg=;
- b=PdyyuYWSte9FgsGihHjZb9wGXjLUkNis6ZhqT+AbKlwno0vLjMd9eUeDdNLn+oezA6
- E9v7uFfRyZ7/ABNfpLZeVyQVDWMxf/+shE3ByQmhsBwM58uovbiqXIFzTIekNUuFXee7
- BRr9Sz4O3tjV0OPjUi0S8R6iMqyom1dtZ9HjSp/O5BcwuLMjaZ52CoCAUjOPPUaP036W
- smBqsFglVfi28ta91V8uGkZXODPKOfPdUKihIR3OEIqtyZsyI1J+1KHxUjvEXA3H8/AL
- Fq0q+STgeiadcAdSFERzrGtgHJZr3Gk1s4tg7HwLM64CDbWR8ApsDBWoylt0xE7JMk3A
- nmCQ==
-X-Gm-Message-State: AOJu0YzRxXmmEOktH/Edt+wMJdsXjxNXBlzV5VinUhb/BfW3Rstgi7mo
- ME8qRYe8g8AIyzbFCGqvlcFj8uTCUVksVY8gykWJ42lNhVzIhkZ4Ntsf1B1AzSSTcLlPTMdgy+d
- 1SIKPGOaHwatsfm4Vr4T+TJ+rxE+8
-X-Received: by 2002:a5d:54ca:0:b0:314:748:d59d with SMTP id
- x10-20020a5d54ca000000b003140748d59dmr2212284wrv.27.1695935462475; 
- Thu, 28 Sep 2023 14:11:02 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFTcZDViznOS+Z5kDGH34AfAZ0fPb2Xiok4ghYy5tNixFUnuBdOf7r8LmYNPrNGXn3bR/aJjQ==
-X-Received: by 2002:a5d:54ca:0:b0:314:748:d59d with SMTP id
- x10-20020a5d54ca000000b003140748d59dmr2212275wrv.27.1695935462140; 
- Thu, 28 Sep 2023 14:11:02 -0700 (PDT)
-Received: from [10.10.158.202] ([213.144.205.82])
- by smtp.gmail.com with ESMTPSA id
- o5-20020a056000010500b0031ddf6cc89csm20014940wrx.98.2023.09.28.14.11.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 28 Sep 2023 14:11:01 -0700 (PDT)
-Message-ID: <c95d672e-1ec1-c901-602c-f472f57b65c3@redhat.com>
-Date: Thu, 28 Sep 2023 23:11:00 +0200
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 341BC10E6AE;
+ Thu, 28 Sep 2023 21:42:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1695937346; x=1727473346;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=XSK3lIfHsNt+XPdYFMrEPjhYa2PveYb5Yf0D3W8AJsA=;
+ b=jdb2Rkp85ekf6pAOXSUPu8bP0zv79Za2xAgAwoegTl67hCvVOkmgX9oa
+ ETyamlWfaBnRX33eAvTI7Ly1AkHfukNuUddsoPFlegJPpjMq9hu/CkCNe
+ N11frEppcjR8xk4wLs2fjvEPeJyuT5e4PUPUOi/H34jC8HjKbzBUgZVhY
+ UUXpgk2rAjGjNOMasGmi4L2JwPmGSLaOhGDL1OsoznVLelSwlsTUYPPLJ
+ /3vIwFOGsEeie3mUUCgWYg3Zb1aTVZFrD9l1YRjBeORWgs8J5LpJ5Ui46
+ 6bj2yOwBUaXCnOt60HYRAubC8vzkoLQWwpFzvi4HeX22Mh9Xywme2kGvS w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="468464588"
+X-IronPort-AV: E=Sophos;i="6.03,185,1694761200"; d="scan'208";a="468464588"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Sep 2023 14:42:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="840065895"
+X-IronPort-AV: E=Sophos;i="6.03,185,1694761200"; d="scan'208";a="840065895"
+Received: from ahajda-mobl.ger.corp.intel.com (HELO [10.213.10.92])
+ ([10.213.10.92])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Sep 2023 14:42:24 -0700
+Message-ID: <d8f739f9-a40d-1a69-e223-95441b249c98@intel.com>
+Date: Thu, 28 Sep 2023 23:42:21 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH] drm: panel-orientation-quirks: Add quirk for One Mix 2S
-To: Kai Uwe Broulik <foss-linux@broulik.de>, linux-kernel@vger.kernel.org
-References: <20230928193558.2228730-1-foss-linux@broulik.de>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20230928193558.2228730-1-foss-linux@broulik.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.15.1
+Subject: Re: [Intel-gfx] [PATCH v7 1/4] drm/i915: Introduce
+ intel_gt_mcr_lock_sanitize()
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
+To: Nirmoy Das <nirmoy.das@intel.com>, intel-gfx@lists.freedesktop.org
+References: <20230928130015.6758-1-nirmoy.das@intel.com>
+From: Andrzej Hajda <andrzej.hajda@intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <20230928130015.6758-1-nirmoy.das@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -85,70 +64,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: matthew.d.roper@intel.com, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On 9/28/23 21:35, Kai Uwe Broulik wrote:
-> The One Mix 2S is a mini laptop with a 1200x1920 portrait screen
-> mounted in a landscape oriented clamshell case. Because of the too
-> generic DMI strings this entry is also doing bios-date matching.
+On 28.09.2023 15:00, Nirmoy Das wrote:
+> Implement intel_gt_mcr_lock_sanitize() to provide a mechanism
+> for cleaning the steer semaphore when absolutely necessary.
 > 
-> Signed-off-by: Kai Uwe Broulik <foss-linux@broulik.de>
-
-Thanks, patch looks good to me:
-
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-
-drm-misc maintainers, I'm currently traveling can
-one of you push this to drm-misc-fixes please?
-
-Regards,
-
-Hans
-
-
-
-
+> v2: remove unnecessary lock(Andi, Matt)
+>      improve the kernel doc(Matt)
+>      s/intel_gt_mcr_lock_clear/intel_gt_mcr_lock_sanitize
+> 
+> Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
 > ---
->  drivers/gpu/drm/drm_panel_orientation_quirks.c | 16 ++++++++++++++++
->  1 file changed, 16 insertions(+)
+>   drivers/gpu/drm/i915/gt/intel_gt_mcr.c | 22 ++++++++++++++++++++++
+>   drivers/gpu/drm/i915/gt/intel_gt_mcr.h |  1 +
+>   2 files changed, 23 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-> index 0cb646cb04ee..cc9a9099faaf 100644
-> --- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
-> +++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-> @@ -38,6 +38,14 @@ static const struct drm_dmi_panel_orientation_data gpd_micropc = {
->  	.orientation = DRM_MODE_PANEL_ORIENTATION_RIGHT_UP,
->  };
->  
-> +static const struct drm_dmi_panel_orientation_data gpd_onemix2s = {
-> +	.width = 1200,
-> +	.height = 1920,
-> +	.bios_dates = (const char * const []){ "03/04/2019",
-> +		NULL },
-> +	.orientation = DRM_MODE_PANEL_ORIENTATION_RIGHT_UP,
-> +};
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_mcr.c b/drivers/gpu/drm/i915/gt/intel_gt_mcr.c
+> index bf4a933de03a..326c2ed1d99b 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gt_mcr.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_gt_mcr.c
+> @@ -419,6 +419,28 @@ void intel_gt_mcr_unlock(struct intel_gt *gt, unsigned long flags)
+>   		intel_uncore_write_fw(gt->uncore, MTL_STEER_SEMAPHORE, 0x1);
+>   }
+>   
+> +/**
+> + * intel_gt_mcr_lock_sanitize - Sanitize MCR steering lock
+> + * @gt: GT structure
+> + *
+> + * This will be used to sanitize the initial status of the hardware lock
+> + * during driver load and resume since there won't be any concurrent access
+> + * from other agents at those times, but it's possible that boot firmware
+> + * may have left the lock in a bad state.
+> + *
+> + */
+> +void intel_gt_mcr_lock_sanitize(struct intel_gt *gt)
+> +{
+> +	/*
+> +	 * This gets called at load/resume time, so we shouldn't be
+> +	 * racing with other driver threads grabbing the mcr lock.
+> +	 */
+> +	lockdep_assert_not_held(&gt->mcr_lock);
 > +
->  static const struct drm_dmi_panel_orientation_data gpd_pocket = {
->  	.width = 1200,
->  	.height = 1920,
-> @@ -401,6 +409,14 @@ static const struct dmi_system_id orientation_data[] = {
->  		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "LTH17"),
->  		},
->  		.driver_data = (void *)&lcd800x1280_rightside_up,
-> +	}, {	/* One Mix 2S (generic strings, also match on bios date) */
-> +		.matches = {
-> +		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "Default string"),
-> +		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "Default string"),
-> +		  DMI_EXACT_MATCH(DMI_BOARD_VENDOR, "Default string"),
-> +		  DMI_EXACT_MATCH(DMI_BOARD_NAME, "Default string"),
-> +		},
-> +		.driver_data = (void *)&gpd_onemix2s,
->  	},
->  	{}
->  };
+> +	if (GRAPHICS_VER_FULL(gt->i915) >= IP_VER(12, 70))
+> +		intel_uncore_write_fw(gt->uncore, MTL_STEER_SEMAPHORE, 0x1);
+
+I wonder if it wouldn't be useful to check and report if it is locked 
+before unconditional release, no strong feelings.
+
+Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
+
+Regards
+Andrzej
+
+
+> +}
+> +
+>   /**
+>    * intel_gt_mcr_read - read a specific instance of an MCR register
+>    * @gt: GT structure
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_mcr.h b/drivers/gpu/drm/i915/gt/intel_gt_mcr.h
+> index 41684495b7da..01ac565a56a4 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gt_mcr.h
+> +++ b/drivers/gpu/drm/i915/gt/intel_gt_mcr.h
+> @@ -11,6 +11,7 @@
+>   void intel_gt_mcr_init(struct intel_gt *gt);
+>   void intel_gt_mcr_lock(struct intel_gt *gt, unsigned long *flags);
+>   void intel_gt_mcr_unlock(struct intel_gt *gt, unsigned long flags);
+> +void intel_gt_mcr_lock_sanitize(struct intel_gt *gt);
+>   
+>   u32 intel_gt_mcr_read(struct intel_gt *gt,
+>   		      i915_mcr_reg_t reg,
 
