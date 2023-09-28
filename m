@@ -1,45 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26D6D7B1D30
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Sep 2023 15:00:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F6C87B1D2F
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Sep 2023 15:00:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F9A810E647;
-	Thu, 28 Sep 2023 13:00:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2984110E646;
+	Thu, 28 Sep 2023 13:00:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 043DC10E641;
- Thu, 28 Sep 2023 13:00:27 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A859410E641;
+ Thu, 28 Sep 2023 13:00:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1695906028; x=1727442028;
+ t=1695906029; x=1727442029;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=gAKFtHDKecsq4LAcANjzCt/gwGh6Bi3Fd1ppBUQlIno=;
- b=CUQtwHyp2/eJCLdy4mu/HlSxhPOoM1mrefFssOj/HowolGyB8lfdizZt
- qguCXrDkvrpRcUlgFlZJRJ7q9YCsEKWb+dJIJmAg+StlZC/Yn/dOt5avH
- ZspcSJjiM6AqYvfOE2MkLQO8WrG5XawOpqZMrdjcalMAAbS/G2PA7hPB8
- O3CUPIv/ReIpzPM6lQ96icTZqEfdxyIjFLXXfNvuk3AWnHrwrjB2BMzN1
- jCYWtOVMobWSV7eTRz8pTFqfwCwgOb26r50cnoYzkr4Wit+1Nv4GM8JRd
- 5a1hIuLoX9xqBRniqZ/hwMAGee3ekVeAXq+aAYDq4OYx0Ccp3kFsz0/ab Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="380925498"
-X-IronPort-AV: E=Sophos;i="6.03,184,1694761200"; d="scan'208";a="380925498"
+ bh=yVYOjD16lPxS35jtyj3M+NlpDlByKS0O7iJodZZ3QME=;
+ b=D58QlLxnZR1eSzv7XXQWv+oDk+GllzoM60f13IQxIk0elcw//dU/3R6I
+ K6pbJtzKKq8QROoW7ZTKVMYozLeL3qRUL1oG6UkKnVQFRQUn8T9mDSBUc
+ aXkICh/bNi45Lq/SjTj71cZIR4SG7wsK+2kmKnH/GK3uSYrD9IqU2Ugfl
+ UHPhPQ70/O0yuUJrKY9xi9dldQ8h+Jp2DVaANC8UUCcAxCw4i5LwimnOI
+ cvGncK5YJ4p0ai8hYsaJ4bjjcm//njoZzKg01bNTi2j4YG+ZyyR9Md/PI
+ lZLRAnQSSCl90/Z8QEHKCflsRovMK+uMWT0f1cTlBEbQhf3RbdHzzqKQm g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="380925510"
+X-IronPort-AV: E=Sophos;i="6.03,184,1694761200"; d="scan'208";a="380925510"
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Sep 2023 06:00:27 -0700
+ 28 Sep 2023 06:00:29 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="865247789"
-X-IronPort-AV: E=Sophos;i="6.03,184,1694761200"; d="scan'208";a="865247789"
+X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="865247807"
+X-IronPort-AV: E=Sophos;i="6.03,184,1694761200"; d="scan'208";a="865247807"
 Received: from nirmoyda-desk.igk.intel.com ([10.102.138.190])
  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Sep 2023 06:00:26 -0700
+ 28 Sep 2023 06:00:27 -0700
 From: Nirmoy Das <nirmoy.das@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v7 3/4] drm/i915: Clean steer semaphore on resume
-Date: Thu, 28 Sep 2023 15:00:14 +0200
-Message-ID: <20230928130015.6758-3-nirmoy.das@intel.com>
+Subject: [PATCH v7 4/4] drm/i915/mtl: Skip MCR ops for ring fault register
+Date: Thu, 28 Sep 2023 15:00:15 +0200
+Message-ID: <20230928130015.6758-4-nirmoy.das@intel.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230928130015.6758-1-nirmoy.das@intel.com>
 References: <20230928130015.6758-1-nirmoy.das@intel.com>
@@ -60,54 +60,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.d.roper@intel.com, andi.shyti@linux.intel.com,
- dri-devel@lists.freedesktop.org, Nirmoy Das <nirmoy.das@intel.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, matthew.d.roper@intel.com,
+ andi.shyti@linux.intel.com, dri-devel@lists.freedesktop.org,
+ Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-During resume, the steer semaphore on GT1 was observed to be held. The
-hardware team has confirmed the safety of clearing steer semaphores
-for all GTs during driver load/resume, as no lock acquisitions can occur
-in this process by other agents.
+On MTL GEN12_RING_FAULT_REG is not replicated so don't
+do mcr based operation for this register.
 
-v2: reset on resume not in intel_gt_init().
-v3: do the reset on intel_gt_resume_early()
-v4: do general sanitization for all GTs(Matt)
+v2: use MEDIA_VER() instead of GRAPHICS_VER()(Matt).
+v3: s/"MEDIA_VER(i915) == 13"/"MEDIA_VER(i915) >= 13"(Matt)
+    improve comment.
+v4: improve the comment further(Andi)
 
 Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
+Reviewed-by: Matt Roper <matthew.d.roper@intel.com>
 Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
+Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
 ---
- drivers/gpu/drm/i915/gt/intel_gt_pm.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ drivers/gpu/drm/i915/gt/intel_gt.c      | 13 ++++++++++++-
+ drivers/gpu/drm/i915/gt/intel_gt_regs.h |  1 +
+ drivers/gpu/drm/i915/i915_gpu_error.c   | 11 ++++++++++-
+ 3 files changed, 23 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm.c b/drivers/gpu/drm/i915/gt/intel_gt_pm.c
-index dab73980c9f1..3461f3e74277 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt_pm.c
-+++ b/drivers/gpu/drm/i915/gt/intel_gt_pm.c
-@@ -13,6 +13,7 @@
- #include "intel_engine_pm.h"
- #include "intel_gt.h"
- #include "intel_gt_clock_utils.h"
-+#include "intel_gt_mcr.h"
- #include "intel_gt_pm.h"
- #include "intel_gt_print.h"
- #include "intel_gt_requests.h"
-@@ -218,6 +219,15 @@ void intel_gt_pm_fini(struct intel_gt *gt)
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
+index 93062c35e072..dff8bba1f5d4 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt.c
++++ b/drivers/gpu/drm/i915/gt/intel_gt.c
+@@ -262,10 +262,21 @@ intel_gt_clear_error_registers(struct intel_gt *gt,
+ 				   I915_MASTER_ERROR_INTERRUPT);
+ 	}
  
- void intel_gt_resume_early(struct intel_gt *gt)
- {
+-	if (GRAPHICS_VER_FULL(i915) >= IP_VER(12, 50)) {
 +	/*
-+	 * Sanitize steer semaphores during driver resume. This is necessary
-+	 * to address observed cases of steer semaphores being
-+	 * held after a suspend operation. Confirmation from the hardware team
-+	 * assures the safety of this operation, as no lock acquisitions
-+	 * by other agents occur during driver load/resume process.
++	 * For the media GT, this ring fault register is not replicated,
++	 * so don't do multicast/replicated register read/write operation on it.
 +	 */
-+	intel_gt_mcr_lock_sanitize(gt);
++	if (MEDIA_VER(i915) >= 13 && gt->type == GT_MEDIA) {
++		intel_uncore_rmw(uncore, XELPMP_RING_FAULT_REG,
++				 RING_FAULT_VALID, 0);
++		intel_uncore_posting_read(uncore,
++					  XELPMP_RING_FAULT_REG);
 +
- 	intel_uncore_resume_early(gt->uncore);
- 	intel_gt_check_and_clear_faults(gt);
- }
++	} else if (GRAPHICS_VER_FULL(i915) >= IP_VER(12, 50)) {
+ 		intel_gt_mcr_multicast_rmw(gt, XEHP_RING_FAULT_REG,
+ 					   RING_FAULT_VALID, 0);
+ 		intel_gt_mcr_read_any(gt, XEHP_RING_FAULT_REG);
++
+ 	} else if (GRAPHICS_VER(i915) >= 12) {
+ 		intel_uncore_rmw(uncore, GEN12_RING_FAULT_REG, RING_FAULT_VALID, 0);
+ 		intel_uncore_posting_read(uncore, GEN12_RING_FAULT_REG);
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt_regs.h b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+index cca4bac8f8b0..eecd0a87a647 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt_regs.h
++++ b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+@@ -1084,6 +1084,7 @@
+ 
+ #define GEN12_RING_FAULT_REG			_MMIO(0xcec4)
+ #define XEHP_RING_FAULT_REG			MCR_REG(0xcec4)
++#define XELPMP_RING_FAULT_REG			_MMIO(0xcec4)
+ #define   GEN8_RING_FAULT_ENGINE_ID(x)		(((x) >> 12) & 0x7)
+ #define   RING_FAULT_GTTSEL_MASK		(1 << 11)
+ #define   RING_FAULT_SRCID(x)			(((x) >> 3) & 0xff)
+diff --git a/drivers/gpu/drm/i915/i915_gpu_error.c b/drivers/gpu/drm/i915/i915_gpu_error.c
+index f4ebcfb70289..b4e31e59c799 100644
+--- a/drivers/gpu/drm/i915/i915_gpu_error.c
++++ b/drivers/gpu/drm/i915/i915_gpu_error.c
+@@ -1234,7 +1234,16 @@ static void engine_record_registers(struct intel_engine_coredump *ee)
+ 	if (GRAPHICS_VER(i915) >= 6) {
+ 		ee->rc_psmi = ENGINE_READ(engine, RING_PSMI_CTL);
+ 
+-		if (GRAPHICS_VER_FULL(i915) >= IP_VER(12, 50))
++		/*
++		 * For the media GT, this ring fault register is not replicated,
++		 * so don't do multicast/replicated register read/write
++		 * operation on it.
++		 */
++		if (MEDIA_VER(i915) >= 13 && engine->gt->type == GT_MEDIA)
++			ee->fault_reg = intel_uncore_read(engine->uncore,
++							  XELPMP_RING_FAULT_REG);
++
++		else if (GRAPHICS_VER_FULL(i915) >= IP_VER(12, 50))
+ 			ee->fault_reg = intel_gt_mcr_read_any(engine->gt,
+ 							      XEHP_RING_FAULT_REG);
+ 		else if (GRAPHICS_VER(i915) >= 12)
 -- 
 2.41.0
 
