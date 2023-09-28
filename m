@@ -2,59 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14CFB7B1CD3
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Sep 2023 14:46:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 497C97B1CD5
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Sep 2023 14:46:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 75E1710E630;
-	Thu, 28 Sep 2023 12:46:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E43610E63A;
+	Thu, 28 Sep 2023 12:46:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 22B6510E630;
- Thu, 28 Sep 2023 12:46:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1695905177; x=1727441177;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=pzvd6AwCo5B7CqcnQjhji03Psj5df/ymWXmNm1FxerE=;
- b=CtjoVBOt/XFvtaqwmunVHuMhcqrzqNt51g0uGecsbALtaVTyyqOnP6j1
- EwvpLQJHm4lPsfQrOCXsKjKqcAPcUA4I00eVofp/3qKFosSOU/g4Qz1EQ
- flHFaef3rZW4DtlPtuxA3fCuSE1K4xiWs3bnxT2ZDTPRrOPnEzFWzTHNU
- PaehypgG7cOcCJQv0b1iooPUh0dLXVHwtLRItZ2LFjA2WHasPRPxJGb6g
- e6KP0qk3JR7mSxDstcdtBIxfBNE1cJnerkiYLX4HKj/GldP6mNX4krC41
- ZYIoUFGiSCHuhOcna2g5KXn3NcWRtxSe0anVMxpC/QuB02TqtywkFCFih g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="361419327"
-X-IronPort-AV: E=Sophos;i="6.03,184,1694761200"; d="scan'208";a="361419327"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Sep 2023 05:46:14 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="893000662"
-X-IronPort-AV: E=Sophos;i="6.03,184,1694761200"; d="scan'208";a="893000662"
-Received: from nlachman-mobl.ger.corp.intel.com (HELO [10.213.204.130])
- ([10.213.204.130])
- by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Sep 2023 05:45:02 -0700
-Message-ID: <fad657e7-beec-75fc-9003-5883412d6e6b@linux.intel.com>
-Date: Thu, 28 Sep 2023 13:46:10 +0100
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
+ [IPv6:2a00:1450:4864:20::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D551C10E63A
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Sep 2023 12:46:35 +0000 (UTC)
+Received: by mail-lf1-x133.google.com with SMTP id
+ 2adb3069b0e04-503056c8195so21322564e87.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Sep 2023 05:46:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1695905194; x=1696509994; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=aKElrUVGthSSgr9siZwsz3d0DNjpbgp7UvFIWdutyWk=;
+ b=PqKvggdmQyjorQ5uE60gpNAcr8vc/+ScGh7OniZ6FpppENOCXjyMBOHd4ZzGf9rowd
+ l+LU70Os64XMRfYjE+ReH5JOJtXuqdJrCNuslEQcwYKk+o6w6oRTW57GhSvlCKpclI55
+ C4DfyGCXMSduWhj2YNy57A5mEOLGQR4ymxaqTaYvks5wJf8lxbt3FSvKxAlgR8X+eA+X
+ pxpLJSvlabdT1FPp3upGRCiAKMBTf6cbkeTD4+nAX88a6zxpjAFKCphHkm1BgVKL+fwS
+ pMmNIA9rAjMyghqxrm8YhqVg2Oa+pIH53/69JN0tEeddW16m4EVUxYaIhTHwrvr0huGs
+ vVdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1695905194; x=1696509994;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=aKElrUVGthSSgr9siZwsz3d0DNjpbgp7UvFIWdutyWk=;
+ b=SR2Z5Ji9E4EScJPFbjmlPjNtfuoY/51hszt1/YV6LGXj5bN921Xv2vMOKKKCZxc/hK
+ 1smoWzB2BVpQEuiBKjXTAObAWEjs7YwK/G2hX1gCx8x5qvziYjlppIcQY7MzV4S6Gs8W
+ kt5vR2D1Qs6fjrU7dYrzlRwCtdb28k7hv5giNUhNcykcEBJpbrhTtReo6UU/tn/ZnJfL
+ bHYeTN6iQRgnX+84aDKzdCP/xB2+KIGYmTjlmekc19Dkcj1DpQbkXfeyVG+Ud9D625Wv
+ qtcUSfm2GEez7YCpoBahT9NmQMn+UKw8AdsM0Tg49scnxeS8JKbO70KanoBntX5b6347
+ q/zA==
+X-Gm-Message-State: AOJu0Yy41BIwErnG0E/v4Z38fxSTrP1C/m0qeomMytmItVFKO/6Z+YCy
+ kRTfFzWkOUAORNE9WPlId5o+gFHNybVOfgwMKVA=
+X-Google-Smtp-Source: AGHT+IFdfWwx3VcSWNsZ/3fLiQc2l85jJGSV2J7mS941JQGJg7tp2cx9UnKe0O+w/3NSJpBTJJgGduil68SA82mXL7Y=
+X-Received: by 2002:a19:7110:0:b0:502:9fce:b6da with SMTP id
+ m16-20020a197110000000b005029fceb6damr903027lfc.21.1695905193200; Thu, 28 Sep
+ 2023 05:46:33 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [Intel-gfx] [PATCH v4 3/3] drm/i915/gt: Timeout when waiting for
- idle in suspending
-Content-Language: en-US
-To: "Teres Alexis, Alan Previn" <alan.previn.teres.alexis@intel.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
-References: <20230926190518.105393-1-alan.previn.teres.alexis@intel.com>
- <20230926190518.105393-4-alan.previn.teres.alexis@intel.com>
- <9ca17c5c-7bb4-ff6b-69cb-3983299729c1@linux.intel.com>
- <123edf6b37aa982de20279d64c213156a2dc8c2e.camel@intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <123edf6b37aa982de20279d64c213156a2dc8c2e.camel@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20230926170549.2589045-1-halfline@gmail.com>
+ <c2ffc21e-bf92-81f6-aa9b-233e3475025f@amd.com>
+ <CAA_UwzKiNJe6hjbAo7SK7-OB7sb_ieV_DcQ_8vf6UYw2gppGcA@mail.gmail.com>
+ <a1316597-e91b-32f8-78d3-13977438149b@amd.com>
+In-Reply-To: <a1316597-e91b-32f8-78d3-13977438149b@amd.com>
+From: Ray Strode <halfline@gmail.com>
+Date: Thu, 28 Sep 2023 08:46:20 -0400
+Message-ID: <CAA_UwzLYbSXaa-JLHwcyKpe45MAkYuaheXNO2m6ZAW1iyMJ_yQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/atomic: Perform blocking commits on workqueue
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,104 +71,141 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Jana, Mousumi" <mousumi.jana@intel.com>,
- "intel.com@freedesktop.org" <intel.com@freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Vivi,
- Rodrigo" <rodrigo.vivi@intel.com>
+Cc: daniel.vetter@ffwll.ch, Xinhui.Pan@amd.com, dri-devel@lists.freedesktop.org,
+ mdaenzer@redhat.com, alexander.deucher@amd.com, airlied@redhat.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
-On 27/09/2023 17:36, Teres Alexis, Alan Previn wrote:
-> Thanks for taking the time to review this Tvrtko, replies inline below.
-> 
-> On Wed, 2023-09-27 at 10:02 +0100, Tvrtko Ursulin wrote:
->> On 26/09/2023 20:05, Alan Previn wrote:
->>> When suspending, add a timeout when calling
->>> intel_gt_pm_wait_for_idle else if we have a lost
->>> G2H event that holds a wakeref (which would be
->>> indicative of a bug elsewhere in the driver),
->>> driver will at least complete the suspend-resume
->>> cycle, (albeit not hitting all the targets for
->>> low power hw counters), instead of hanging in the kernel.
-> alan:snip
-> 
->>>    {
->>> +	int timeout_ms = CONFIG_DRM_I915_MAX_REQUEST_BUSYWAIT ? : 10000;
->>
->> CONFIG_DRM_I915_MAX_REQUEST_BUSYWAIT is in ns so assigning it to _ms is
->> a bit to arbitrary.
->>
->> Why not the existing I915_GT_SUSPEND_IDLE_TIMEOUT for instance?
-> alan: good catch, my bad. However I915_GT_SUSPEND_IDLE_TIMEOUT is only half a sec
-> which i feel is too quick. I guess i could create a new #define or a multiple
-> of I915_GT_SUSPEND_IDLE_TIMEOUT?
-> 
->>>    	/*
->>>    	 * On rare occasions, we've observed the fence completion trigger
->>>    	 * free_engines asynchronously via rcu_call. Ensure those are done.
->>> @@ -308,7 +309,10 @@ static void wait_for_suspend(struct intel_gt *gt)
->>>    		intel_gt_retire_requests(gt);
->>>    	}
->>>    
->>> -	intel_gt_pm_wait_for_idle(gt);
->>> +	/* we are suspending, so we shouldn't be waiting forever */
->>> +	if (intel_gt_pm_wait_timeout_for_idle(gt, timeout_ms) == -ETIMEDOUT)
->>> +		gt_warn(gt, "bailing from %s after %d milisec timeout\n",
->>> +			__func__, timeout_ms);
->>
->> Does the timeout in intel_gt_pm_wait_timeout_for_idle always comes in
->> pair with the timeout first in intel_gt_wait_for_idle?
-> alan: Not necessarily, ... IIRC in nearly all cases, the first wait call
-> complete in time (i.e. no more ongoing work) and the second wait
-> does wait only if the last bit of work 'just-finished', then that second
-> wait may take a touch bit longer because of possible async gt-pm-put calls.
-> (which appear in several places in the driver as part of regular runtime
-> operation including request completion). NOTE: this not high end workloads
-> so the
->>
->> Also, is the timeout here hit from the intel_gt_suspend_prepare,
->> intel_gt_suspend_late, or can be both?
->>
->> Main concern is that we need to be sure there are no possible
->> ill-effects, like letting the GPU/GuC scribble on some memory we
->> unmapped (or will unmap), having let the suspend continue after timing
->> out, and not perhaps doing the forced wedge like wait_for_suspend() does
->> on the existing timeout path.
-> alan: this will not happen because the held wakeref is never force-released
-> after the timeout - so what happens is the kernel would bail the suspend.
+On Thu, Sep 28, 2023 at 2:56=E2=80=AFAM Christian K=C3=B6nig
+<christian.koenig@amd.com> wrote:
+> > To say the "whole point" is about CPU overhead accounting sounds
+> > rather absurd to me. Is that really what you meant?
+>
+> Yes, absolutely. See the functionality you try to implement already exist=
+s.
 
-How does it know to fail the suspend when there is no error code 
-returned with this timeout? Maybe a stupid question.. my knowledge of 
-suspend-resume paths was not great even before I forgot it all.
+You say lower in this same message that you don't believe the
+functionality actually works for the dpms off case I mentioned.
 
->> Would it be possible to handle the lost G2H events directly in the
->> respective component instead of here? Like apply the timeout during the
->> step which explicitly idles the CT for suspend (presumably that
->> exists?), and so cleanup from there once declared a lost event.
-> alan: So yes, we don't solve the problem with this patch - Patch#2
-> is addressing the root cause - and verification is still ongoing - because its
-> hard to thoroughly test / reproduce. (i.e. Patch 2 could get re-rev'd).
-> 
-> Intent of this patch, is to be informed that gt-pm wait failed in prep for
-> suspending and kernel will eventually bail the suspend, that's all.
-> Because without this timed-out version of gt-pm-wait, if we did have a leaky
-> gt-wakeref, kernel will hang here forever and we will need to get serial
-> console or ramoops to eventually discover the kernel's cpu hung error with
-> call-stack pointing to this location. So the goal here is to help speed up
-> future debug process (if let's say some future code change with another
-> async gt-pm-put came along and caused new problems after Patch #2 resolved
-> this time).
-> 
-> Recap: so in both cases (original vs this patch), if we had a buggy gt-wakeref leak,
-> we dont get invalid guc-accesses, but without this patch, we wait forever,
-> and with this patch, we get some messages and eventually bail the suspend.
+> After making a non blocking commit userspace can still wait on the
+> commit to finish by looking at the out fence.
 
-It is not possible to wait for lost G2H in something like 
-intel_uc_suspend() and simply declare "bad things happened" if it times 
-out there, and forcibly clean it all up? (Which would include releasing 
-all the abandoned pm refs, so this patch wouldn't be needed.)
+fences, not fence, fences. drmModeAtomicCommit works on multiple objects
+at the same time. To follow the spirit of such an api, we would need a
+separate fd allocated for each crtc and would have to wait on all of
+them.  Surely you can see how that is much less straightforward than
+using a blocking api. But mutter already uses non-blocking apis for the
+lion's share of cases. It doesn't need fences for those cases, though,
+because it can just use page flip events.
 
-Regards,
+The main reason it uses blocking apis are for modesets and when doing
+dpms off. The latter case you said you don't think can use fences, and
+it certainly can't use page flip events.
 
-Tvrtko
+So if you're right that fences can't be used for the dpms off case, it's
+not workable answer. If you're wrong, and fences can be used for the
+dpms off case, then it's a messy answer.
+
+> A blocking system call in the sense of RLIMIT_RTTIME means something
+> which results in the process listening for external events, e.g. calling
+> select(), epoll() or read() on (for example) a network socket etc...
+>
+> As far as I can see drmAtomicCommit() is *not* meant with that what
+> similar to for example yield() also doesn't reset the RLIMIT_RTTIME count=
+er.
+No no no, drmModeAtomicCommit() is not like sched_yield(). That's a
+really strange thing to say (you do mean sched_yield() right?).
+sched_yield() is an oddball because it's specifically for giving other
+threads a turn if they need it without causing the current thread to
+sleep if they don't.  It's a niche api that's meant for high performance
+use cases. It's a way to reduce scheduling latency and increase running
+time predictability.  drmModeAtomicCommit() using up rt time, busy
+looping while waiting on the hardware to respond, eating into userspace
+RLIMIT_RTTIME is nothing like that.
+
+I'm getting the idea that you think there is some big bucket of kernel
+syscalls that block for a large fraction of a second by design and are
+not meant to reset RLIMIT_RTTIME. I could be wrong, but I don't think
+that's true. Off the top of my head, the only ones I can think of that
+might reasonably do that are futex() (which obviously can't sleep),
+sched_yield() (who's whole point is to not sleep), and maybe a
+some obscure ioctls (some probably legitimately, some probably
+illegitimately and noone has noticed.). I'm willing to be proven wrong
+here, and I might be, but right now from thinking about it, my guess is
+the above list is pretty close to complete.
+
+> Well you are breaking the RLIMIT_RTTIME functionality.
+>
+> The purpose of that functionality is to allow debugging and monitoring
+> applications to make sure that they keep alive and can react to external
+> signals.
+
+I don't think you really thought through what you're saying here. It
+just flatly doesn't apply for drmModeAtomicCommit. What is an
+application supposed to do? It can't block the SIGKILL that's coming.
+Respond to the preceding SIGXCPUs? What response could the application
+possibly make? I'm guessing drmModeAtomicCommit isn't going to EINTR
+because it's busy looping waiting on hardware in the process context.
+And the kernel doesn't even guarantee SIGXCPU is going to go to the
+thread with the stuck syscall, so even if there was a legitimate
+response (or even "pthread_cancel" or some wreckless nonsense like
+that), getting the notification to the right part of the program is an
+exercise in gymnastics.
+
+> From the RLIMIT_RTTIME documentation: "The intended use of this limit
+> is to stop a runaway real-time process from locking up the system."
+>
+> And when drmAtomicCommit() is triggering this then we either have a
+> problem with the application doing something it is not supposed to do
+> (like blocking for vblank while it should listen to network traffic) or
+> the driver is somehow buggy.
+
+drmModeAtomicCommit() is used by display servers. If drmModeAtomicCommit
+runs away in e.g. a set of 100ms busy loops responding to a confused or
+slow responding GPU, the system will seemingly lock up to the user. That
+is an intractable problem that we can not get away from. It doesn't
+matter if the kernel is stuck in process context or on a workqueue. And,
+regardless, it's not reasonable to expect userspace to craft elaborate
+workarounds for driver bugs. We just have to fix the bugs.
+
+> No when you disable everything there is of course no fence allocated.
+Okay, so it's not actually an answer
+
+> But then you also should never see anything waiting for to long to
+> actually be able to trigger the RLIMIT_RTTIME.
+
+But we do. That's the problem. That's like the whole problem. The amdgpu
+driver thinks it's okay to do something like:
+
+for_each_command_in_queue(&queue, command) {
+        execute_command(command);
+        while (1) {
+                wait_for_response();
+
+                if (delay++ > 100000)
+                        break;
+                udelay(1);
+        }
+}
+
+or something like that. all while keeping the process in the RUNNABLE
+state. It just seems wrong to me. At least let the userspace process
+get scheduled out.
+
+> > Regardless, this seems like a roundabout way to address a problem that
+> > we could just ... fix.
+>
+> Well to make it clear: This is not a problem but intended behavior!
+
+I'm going to be frank, I don't think this was intended behavior. We can
+wait for sima to get off PTO and chime in, to know one way or the other
+(or maybe airlied can chime in with his take?), but I doubt he was
+thinking about realtime scheduling minutiae when he put together the
+drmModeAtomicCommit implementation.
+
+There's no practical reason for doing things the way they're being done
+as far as I can tell.
+
+--Ray
