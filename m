@@ -1,51 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CE367B17FF
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Sep 2023 12:00:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C19897B180B
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Sep 2023 12:06:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 42D4D10E600;
-	Thu, 28 Sep 2023 10:00:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B829A10E602;
+	Thu, 28 Sep 2023 10:06:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E58010E600
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Sep 2023 10:00:34 +0000 (UTC)
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 317C966072EC;
- Thu, 28 Sep 2023 11:00:32 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1695895232;
- bh=IOt9+rGgYzpIVn9RzySH66oZB/5PUk0iIHrQnBjbmzY=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=JIGL0fdE9UtWJmr1uWbygEYpt3o+4EnArL7XJeSgBUPejcOFFJVirdQd3ldexweqv
- cKVL2jiX7yT548vDFMPobCMjvKUesNR3YMQYj2bJYA6mBLkA9X6YxNiN79VESu1GOF
- Qzu1aX0hGbtOyTFD2/tJMjMaVvrTLWnI1ZFsQMSsxCl451E18oLprQCebD42awVotj
- Zm7i8Y9c7BzY/xZxfGAYfLQ4JSrSn3E6EFdaU1g9ASd0Y1D4e1nAYGFSlkK5ZWNNTT
- zhhIL2rTmvg550GGqeOwKct3lt21DAZJNTyNadqTyotYS9YyDfW+gUseoV8VcOaMGf
- IEpYGSWSK7F8g==
-Message-ID: <891fe60a-cee9-29ab-3214-848b1161a0a7@collabora.com>
-Date: Thu, 28 Sep 2023 12:00:30 +0200
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6DC8B10E602;
+ Thu, 28 Sep 2023 10:06:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1695895572; x=1727431572;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=vmtwCfinNhAjDHLijq51HRZXO8ZaqJNWZhGx4mbypgw=;
+ b=Y6gYNuzT6jCGUKF230LTdg14402YzYjISxgoq5o2S3rjcFGrBD6k51QR
+ mXTGqM5eonJxRLao1IG40eYB2dDxRLIpKyRhc8D/mQnEpaRPTqm6M6srN
+ 8Pyaz9t0MGglukx+0owdBvUBp10/VVZ2LOB6PyXUbZTlNig//Bl+jicxb
+ KAsixFLOQsWgabzconwAvPpXh4cySN7tK4dZMcuO6HdgiuZhYMw1HtmEw
+ 4ykHPsr0RcfZuhsoDiDW0QR9oGN3t0R6oL6FzxmSGPQUKxs8hBK9IhwLa
+ NIqxMkjXbPdO8Y51E5hW6oz0NnM8HzEzYjGFYLHMUjfNmTyNriX3Q4CbX g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="380901729"
+X-IronPort-AV: E=Sophos;i="6.03,183,1694761200"; d="scan'208";a="380901729"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Sep 2023 03:06:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="819782302"
+X-IronPort-AV: E=Sophos;i="6.03,183,1694761200"; d="scan'208";a="819782302"
+Received: from nlachman-mobl.ger.corp.intel.com (HELO localhost.localdomain)
+ ([10.213.204.130])
+ by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Sep 2023 03:06:09 -0700
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+To: Intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [RFC] drm/i915/perf: Simplify perf query implementation
+Date: Thu, 28 Sep 2023 11:06:04 +0100
+Message-Id: <20230928100604.285923-1-tvrtko.ursulin@linux.intel.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.0
-Subject: Re: [PATCH v10 5/9] drm/mediatek: Add connector dynamic selection
- capability
-Content-Language: en-US
-To: "Jason-JH.Lin" <jason-jh.lin@mediatek.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>
-References: <20230927153833.23583-1-jason-jh.lin@mediatek.com>
- <20230927153833.23583-6-jason-jh.lin@mediatek.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20230927153833.23583-6-jason-jh.lin@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,276 +57,242 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nathan Lu <nathan.lu@mediatek.com>, Singo Chang <singo.chang@mediatek.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- Jason-ch Chen <jason-ch.chen@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>,
- Johnson Wang <johnson.wang@mediatek.com>, Shawn Sung <shawn.sung@mediatek.com>,
- Matthias Brugger <matthias.bgg@gmail.com>, linux-mediatek@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org
+Cc: Ashutosh Dixit <ashutosh.dixit@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>,
+ Lionel Landwerlin <lionel.g.landwerlin@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 27/09/23 17:38, Jason-JH.Lin ha scritto:
-> Add dynamic select available connector flow in mtk_drm_crtc_create()
-> and mtk_drm_crtc_atomic_enable().
-> 
-> In mtk_drm_crtc_create(), if there is a connector routes array in drm
-> driver data, all components definded in the connector routes array will
-> be checked and their encoder_index will be set.
-> 
-> In mtk_drm_crtc_atomic_enable(), crtc will check its encoder_index to
-> identify which componet in the connector routes array should append.
-> 
-> Signed-off-by: Nancy Lin <nancy.lin@mediatek.com>
-> Signed-off-by: Nathan Lu <nathan.lu@mediatek.com>
-> Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
-> Tested-by: Fei Shao <fshao@chromium.org>
-> ---
->   drivers/gpu/drm/mediatek/mtk_drm_crtc.c     | 78 ++++++++++++++++++++-
->   drivers/gpu/drm/mediatek/mtk_drm_crtc.h     |  5 +-
->   drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c | 27 ++++++-
->   drivers/gpu/drm/mediatek/mtk_drm_drv.c      | 13 +++-
->   drivers/gpu/drm/mediatek/mtk_drm_drv.h      |  7 ++
->   5 files changed, 123 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-> index b6fa4ad2f94d..8eb4d2646a76 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-> @@ -63,6 +63,8 @@ struct mtk_drm_crtc {
->   	struct mtk_mutex		*mutex;
->   	unsigned int			ddp_comp_nr;
->   	struct mtk_ddp_comp		**ddp_comp;
-> +	unsigned int			num_conn_routes;
-> +	const struct mtk_drm_route	*conn_routes;
->   
->   	/* lock for display hardware access */
->   	struct mutex			hw_lock;
-> @@ -647,6 +649,45 @@ static void mtk_drm_crtc_disable_vblank(struct drm_crtc *crtc)
->   	mtk_ddp_comp_disable_vblank(comp);
->   }
->   
-> +static void mtk_drm_crtc_update_output(struct drm_crtc *crtc,
-> +				       struct drm_atomic_state *state)
-> +{
-> +	int crtc_index = drm_crtc_index(crtc);
-> +	int i;
-> +	struct device *dev;
-> +	struct drm_crtc_state *crtc_state = state->crtcs[crtc_index].new_state;
-> +	struct mtk_drm_crtc *mtk_crtc = to_mtk_crtc(crtc);
-> +	struct mtk_drm_private *priv = crtc->dev->dev_private;
-> +	unsigned int comp_id;
+From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
-You're not using comp_id globally in this function....
+Simplify the implementation of perf/OA queries by re-ogranizing the way
+querying of the OA config list is done, how temporary storage is used,
+and also replace the multi-step manual retrieving of user data with the
+existing copy_query_item helper.
 
-> +	unsigned int encoder_mask = crtc_state->encoder_mask;
-> +
-> +	if (!crtc_state->connectors_changed)
-> +		return;
-> +
-> +	if (!mtk_crtc->num_conn_routes)
-> +		return;
-> +
-> +	priv = priv->all_drm_private[crtc_index];
+Note that this could be further simplified by not having a temporary
+array in query_perf_config_list() but directly doing put_user() as we walk
+the list of configs.
 
-This is a bit confusing. You're reassigning priv: please avoid that.
-I would prefer directly seeing the final assignment, or otherwise two pointers.
+Compile tested only!
 
-	struct mtk_drm_private *priv;
+If it works it does almost halve the number of lines needed to do these
+queries. But let me know first please if there is interest to simplify or
+just leave as is.
 
-	if ....
-	...........
+Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
+Cc: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
+Cc: Ashutosh Dixit <ashutosh.dixit@intel.com>
+---
+ drivers/gpu/drm/i915/i915_query.c | 120 +++++++++++-------------------
+ 1 file changed, 44 insertions(+), 76 deletions(-)
 
-	priv = crtc->dev->dev_private->all_drm_private[crtc_index];
-
-> +	dev = priv->dev;
-> +
-> +	dev_dbg(dev, "connector change:%d, encoder mask:0x%x for crtc:%d\n",
-> +		crtc_state->connectors_changed, encoder_mask, crtc_index);
-> +
-> +	for (i = 0; i < mtk_crtc->num_conn_routes; i++) {
-> +		struct mtk_ddp_comp *comp;
-
-...so you can move it here...
-
-		unsigned int comp_id = mtk_crtc->conn_routes[i].route_ddp;
-		struct mtk_ddp_comp *comp = &priv->ddp_comp[comp_id];
-
-> +
-> +		comp_id = mtk_crtc->conn_routes[i].route_ddp;
-> +		comp = &priv->ddp_comp[comp_id];
-> +		if (comp->encoder_index >= 0 &&
-> +		    encoder_mask & BIT(comp->encoder_index)) {
-
-For readability, I would prefer to see
-
-		if (comp->encoder_index >= 0 &&
-		    (encoder_mask & BIT(comp->encoder_index))) {
-
-...but I don't have strong opinions on that.
-
-> +			mtk_crtc->ddp_comp[mtk_crtc->ddp_comp_nr - 1] = comp;
-> +			dev_dbg(dev, "Add comp_id: %d at path index %d\n",
-> +				comp->id, mtk_crtc->ddp_comp_nr - 1);
-> +			break;
-> +		}
-> +	}
-> +}
-> +
->   int mtk_drm_crtc_plane_check(struct drm_crtc *crtc, struct drm_plane *plane,
->   			     struct mtk_plane_state *state)
->   {
-> @@ -679,6 +720,8 @@ static void mtk_drm_crtc_atomic_enable(struct drm_crtc *crtc,
->   
->   	DRM_DEBUG_DRIVER("%s %d\n", __func__, crtc->base.id);
->   
-> +	mtk_drm_crtc_update_output(crtc, state);
-> +
-
-What's the point of updating the output before pm_runtime_resume_and_get()?
-If PM resume fails we're not enabling the CRTC so the update is actually useless.
-
-Please move this after PM resume: that will also possibly come handy in the future.
-
-
->   	ret = pm_runtime_resume_and_get(comp->dev);
->   	if (ret < 0) {
->   		DRM_DEV_ERROR(comp->dev, "Failed to enable power domain: %d\n", ret);
-> @@ -884,7 +927,8 @@ struct device *mtk_drm_crtc_dma_dev_get(struct drm_crtc *crtc)
->   
->   int mtk_drm_crtc_create(struct drm_device *drm_dev,
->   			const unsigned int *path, unsigned int path_len,
-> -			int priv_data_index)
-> +			int priv_data_index, const struct mtk_drm_route *conn_routes,
-> +			unsigned int num_conn_routes)
->   {
->   	struct mtk_drm_private *priv = drm_dev->dev_private;
->   	struct device *dev = drm_dev->dev;
-> @@ -935,7 +979,8 @@ int mtk_drm_crtc_create(struct drm_device *drm_dev,
->   
->   	mtk_crtc->mmsys_dev = priv->mmsys_dev;
->   	mtk_crtc->ddp_comp_nr = path_len;
-> -	mtk_crtc->ddp_comp = devm_kmalloc_array(dev, mtk_crtc->ddp_comp_nr,
-> +	mtk_crtc->ddp_comp = devm_kmalloc_array(dev,
-> +						mtk_crtc->ddp_comp_nr + (conn_routes ? 1 : 0),
->   						sizeof(*mtk_crtc->ddp_comp),
->   						GFP_KERNEL);
->   	if (!mtk_crtc->ddp_comp)
-> @@ -1038,5 +1083,34 @@ int mtk_drm_crtc_create(struct drm_device *drm_dev,
->   		init_waitqueue_head(&mtk_crtc->cb_blocking_queue);
->   	}
->   #endif
-> +
-> +	if (conn_routes) {
-> +		struct device_node *node;
-> +		struct mtk_ddp_comp *comp;
-> +		unsigned int comp_id;
-> +
-> +		for (i = 0; i < num_conn_routes; i++) {
-
-Same here, you're locally using comp_id, node and comp *only* in the for loop....
-
-			unsigned int comp_id = conn_routes[i].route_ddp;
-			struct device_node *node = priv->comp_node[comp_id];
-			struct mtk_ddp_comp *comp = &priv->ddp_comp[comp_id];
-
-> +			comp_id = conn_routes[i].route_ddp;
-> +			node = priv->comp_node[comp_id];
-> +			comp = &priv->ddp_comp[comp_id];
-> +
-> +			if (!comp->dev) {
-> +				dev_dbg(dev, "comp_id:%d, Component %pOF not initialized\n",
-> +					comp_id, node);
-> +				/* mark encoder_index to -1, if route comp device is not enabled */
-> +				comp->encoder_index = -1;
-> +				continue;
-> +			}
-> +
-> +			mtk_ddp_comp_encoder_index_set(&priv->ddp_comp[comp_id]);
-> +		}
-> +
-> +		mtk_crtc->num_conn_routes = num_conn_routes;
-> +		mtk_crtc->conn_routes = conn_routes;
-> +
-> +		/* increase ddp_comp_nr at the end of mtk_drm_crtc_create */
-> +		mtk_crtc->ddp_comp_nr++;
-> +	}
-> +
->   	return 0;
->   }
-> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.h b/drivers/gpu/drm/mediatek/mtk_drm_crtc.h
-> index 3e9046993d09..3c224595fa71 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.h
-> +++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.h
-> @@ -8,6 +8,7 @@
->   
->   #include <drm/drm_crtc.h>
->   #include "mtk_drm_ddp_comp.h"
-> +#include "mtk_drm_drv.h"
->   #include "mtk_drm_plane.h"
->   
->   #define MTK_LUT_SIZE	512
-> @@ -18,7 +19,9 @@ void mtk_drm_crtc_commit(struct drm_crtc *crtc);
->   int mtk_drm_crtc_create(struct drm_device *drm_dev,
->   			const unsigned int *path,
->   			unsigned int path_len,
-> -			int priv_data_index);
-> +			int priv_data_index,
-> +			const struct mtk_drm_route *conn_routes,
-> +			unsigned int num_conn_routes);
->   int mtk_drm_crtc_plane_check(struct drm_crtc *crtc, struct drm_plane *plane,
->   			     struct mtk_plane_state *state);
->   void mtk_drm_crtc_async_update(struct drm_crtc *crtc, struct drm_plane *plane,
-> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-> index 771f4e173353..4ddb5e561116 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-> @@ -507,6 +507,23 @@ static bool mtk_drm_find_comp_in_ddp(struct device *dev,
->   	return false;
->   }
->   
-> +static int mtk_drm_find_comp_in_ddp_conn_path(struct device *dev,
-> +					      const struct mtk_drm_route *routes,
-> +					      unsigned int num_routes,
-> +					      struct mtk_ddp_comp *ddp_comp)
-> +{
-> +	unsigned int i;
-> +
-> +	if (!routes)
-> +		return -EINVAL;
-> +
-> +	for (i = 0; i < num_routes; i++)
-> +		if (dev == ddp_comp[routes[i].route_ddp].dev)
-> +			return BIT(routes[i].crtc_id);
-> +
-> +	return -ENODEV;
-> +}
-> +
->   int mtk_ddp_comp_get_id(struct device_node *node,
->   			enum mtk_ddp_comp_type comp_type)
->   {
-> @@ -538,7 +555,15 @@ unsigned int mtk_drm_find_possible_crtc_by_comp(struct drm_device *drm,
->   					  private->data->third_len, private->ddp_comp))
->   		ret = BIT(2);
->   	else
-> -		DRM_INFO("Failed to find comp in ddp table\n");
-> +		ret = mtk_drm_find_comp_in_ddp_conn_path(dev,
-> +							 private->data->conn_routes,
-> +							 private->data->num_conn_routes,
-> +							 private->ddp_comp);
-> +
-> +	if (ret <= 0) {
-> +		DRM_INFO("Failed to find comp in ddp table, ret =%d\n", ret);
-> +		ret = 0;
-
-Why are you returning 0 for error here?!
-
-> +	}
->   
->   	return ret;
->   }
-
-Regards,
-Angelo
+diff --git a/drivers/gpu/drm/i915/i915_query.c b/drivers/gpu/drm/i915/i915_query.c
+index ec658fc52834..23e2fe318c4d 100644
+--- a/drivers/gpu/drm/i915/i915_query.c
++++ b/drivers/gpu/drm/i915/i915_query.c
+@@ -227,17 +227,14 @@ static int query_perf_config_data(struct drm_i915_private *i915,
+ 				  struct drm_i915_query_item *query_item,
+ 				  bool use_uuid)
+ {
+-	struct drm_i915_query_perf_config __user *user_query_config_ptr =
+-		u64_to_user_ptr(query_item->data_ptr);
+ 	struct drm_i915_perf_oa_config __user *user_config_ptr =
+ 		u64_to_user_ptr(query_item->data_ptr +
+ 				sizeof(struct drm_i915_query_perf_config));
++	struct drm_i915_query_perf_config query_config;
+ 	struct drm_i915_perf_oa_config user_config;
+ 	struct i915_perf *perf = &i915->perf;
+ 	struct i915_oa_config *oa_config;
+-	char uuid[UUID_STRING_LEN + 1];
+-	u64 config_id;
+-	u32 flags, total_size;
++	u32 total_size;
+ 	int ret;
+ 
+ 	if (!perf->i915)
+@@ -247,47 +244,29 @@ static int query_perf_config_data(struct drm_i915_private *i915,
+ 		sizeof(struct drm_i915_query_perf_config) +
+ 		sizeof(struct drm_i915_perf_oa_config);
+ 
+-	if (query_item->length == 0)
+-		return total_size;
++	ret = copy_query_item(&query_config, sizeof(query_config), total_size,
++			      query_item);
++	if (ret != 0)
++		return ret;
+ 
+-	if (query_item->length < total_size) {
+-		drm_dbg(&i915->drm,
+-			"Invalid query config data item size=%u expected=%u\n",
+-			query_item->length, total_size);
+-		return -EINVAL;
+-	}
+-
+-	if (get_user(flags, &user_query_config_ptr->flags))
+-		return -EFAULT;
+-
+-	if (flags != 0)
++	if (query_config.flags != 0)
+ 		return -EINVAL;
+ 
+ 	if (use_uuid) {
+ 		struct i915_oa_config *tmp;
+ 		int id;
+ 
+-		BUILD_BUG_ON(sizeof(user_query_config_ptr->uuid) >= sizeof(uuid));
+-
+-		memset(&uuid, 0, sizeof(uuid));
+-		if (copy_from_user(uuid, user_query_config_ptr->uuid,
+-				     sizeof(user_query_config_ptr->uuid)))
+-			return -EFAULT;
+-
+ 		oa_config = NULL;
+ 		rcu_read_lock();
+ 		idr_for_each_entry(&perf->metrics_idr, tmp, id) {
+-			if (!strcmp(tmp->uuid, uuid)) {
++			if (!strcmp(tmp->uuid, query_config.uuid)) {
+ 				oa_config = i915_oa_config_get(tmp);
+ 				break;
+ 			}
+ 		}
+ 		rcu_read_unlock();
+ 	} else {
+-		if (get_user(config_id, &user_query_config_ptr->config))
+-			return -EFAULT;
+-
+-		oa_config = i915_perf_get_oa_config(perf, config_id);
++		oa_config = i915_perf_get_oa_config(perf, query_config.config);
+ 	}
+ 	if (!oa_config)
+ 		return -ENOENT;
+@@ -355,7 +334,7 @@ static size_t sizeof_perf_config_list(size_t count)
+ 	return sizeof(struct drm_i915_query_perf_config) + sizeof(u64) * count;
+ }
+ 
+-static size_t sizeof_perf_metrics(struct i915_perf *perf)
++static size_t sizeof_perf_metrics(struct i915_perf *perf, u64 *n_configs)
+ {
+ 	struct i915_oa_config *tmp;
+ 	size_t i;
+@@ -367,6 +346,8 @@ static size_t sizeof_perf_metrics(struct i915_perf *perf)
+ 		i++;
+ 	rcu_read_unlock();
+ 
++	*n_configs = i;
++
+ 	return sizeof_perf_config_list(i);
+ }
+ 
+@@ -375,72 +356,59 @@ static int query_perf_config_list(struct drm_i915_private *i915,
+ {
+ 	struct drm_i915_query_perf_config __user *user_query_config_ptr =
+ 		u64_to_user_ptr(query_item->data_ptr);
++	struct drm_i915_query_perf_config query_config;
+ 	struct i915_perf *perf = &i915->perf;
+-	u64 *oa_config_ids = NULL;
+-	int alloc, n_configs;
+-	u32 flags;
+-	int ret;
++	u64 *oa_config_ids, *ids, n_configs;
++	struct i915_oa_config *tmp;
++	u32 total_size;
++	int ret, id;
+ 
+ 	if (!perf->i915)
+ 		return -ENODEV;
+ 
+-	if (query_item->length == 0)
+-		return sizeof_perf_metrics(perf);
++	total_size = sizeof_perf_metrics(perf, &n_configs);
+ 
+-	if (get_user(flags, &user_query_config_ptr->flags))
+-		return -EFAULT;
++	ret = copy_query_item(&query_config, sizeof(query_config), total_size,
++			      query_item);
++	if (ret != 0)
++		return ret;
+ 
+-	if (flags != 0)
++	if (query_config.flags != 0)
+ 		return -EINVAL;
+ 
+-	n_configs = 1;
+-	do {
+-		struct i915_oa_config *tmp;
+-		u64 *ids;
+-		int id;
++	oa_config_ids = kcalloc(n_configs, sizeof(*oa_config_ids), GFP_KERNEL);
++	if (!oa_config_ids)
++		return -ENOMEM;
+ 
+-		ids = krealloc(oa_config_ids,
+-			       n_configs * sizeof(*oa_config_ids),
+-			       GFP_KERNEL);
+-		if (!ids)
+-			return -ENOMEM;
+-
+-		alloc = fetch_and_zero(&n_configs);
+-
+-		ids[n_configs++] = 1ull; /* reserved for test_config */
+-		rcu_read_lock();
+-		idr_for_each_entry(&perf->metrics_idr, tmp, id) {
+-			if (n_configs < alloc)
+-				ids[n_configs] = id;
+-			n_configs++;
++	ids = oa_config_ids;
++	*ids++ = 1ull; /* reserved for test_config */
++	ret = 1;
++	rcu_read_lock();
++	idr_for_each_entry(&perf->metrics_idr, tmp, id) {
++		if (ret++ >= n_configs) {
++			ret = -EINVAL; /* Try again, array grew since sizeof_perf_metrics() */
++			rcu_read_unlock();
++			goto out;
+ 		}
+-		rcu_read_unlock();
+-
+-		oa_config_ids = ids;
+-	} while (n_configs > alloc);
+-
+-	if (query_item->length < sizeof_perf_config_list(n_configs)) {
+-		drm_dbg(&i915->drm,
+-			"Invalid query config list item size=%u expected=%zu\n",
+-			query_item->length,
+-			sizeof_perf_config_list(n_configs));
+-		kfree(oa_config_ids);
+-		return -EINVAL;
++		*ids++ = id;
+ 	}
++	rcu_read_unlock();
+ 
+ 	if (put_user(n_configs, &user_query_config_ptr->config)) {
+-		kfree(oa_config_ids);
+-		return -EFAULT;
++		ret = -EFAULT;
++		goto out;
+ 	}
+ 
+ 	ret = copy_to_user(user_query_config_ptr + 1,
+ 			   oa_config_ids,
+ 			   n_configs * sizeof(*oa_config_ids));
++	if (ret)
++		ret = -EFAULT;
++
++out:
+ 	kfree(oa_config_ids);
+-	if (ret)
+-		return -EFAULT;
+ 
+-	return sizeof_perf_config_list(n_configs);
++	return ret ?: total_size;
+ }
+ 
+ static int query_perf_config(struct drm_i915_private *i915,
+-- 
+2.39.2
 
