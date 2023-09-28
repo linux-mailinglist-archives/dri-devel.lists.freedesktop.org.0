@@ -1,38 +1,155 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A1A67B1172
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Sep 2023 06:19:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 34A237B11AF
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Sep 2023 06:47:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A796810E505;
-	Thu, 28 Sep 2023 04:18:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F126A10E559;
+	Thu, 28 Sep 2023 04:47:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from letterbox.kde.org (letterbox.kde.org [46.43.1.242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB0E710E505
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Sep 2023 04:18:54 +0000 (UTC)
-Received: from vertex.localdomain (pool-173-49-113-140.phlapa.fios.verizon.net
- [173.49.113.140]) (Authenticated sender: zack)
- by letterbox.kde.org (Postfix) with ESMTPSA id 124E032B919;
- Thu, 28 Sep 2023 05:18:52 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kde.org; s=users;
- t=1695874733; bh=DVAmfWvfofCZnJTqtg5zob+KNXroT7kuMPBmtv7t5c4=;
- h=From:To:Cc:Subject:Date:From;
- b=eOroGbbxdVr/2pQfBxCRWMmTKwQXwnyMugLYl99E+CSUoM7DNN8Ir72U9UQjKJHmS
- GNKcKEuFXNaccTCa+mzY71gkCYL4fc3Su5BlAs52Q4KYdexDIDRXIcGZjTxy872j+A
- v0hyHDZTVaH9keFRbPur3WbtNt2Y4FjOsQ+cPclWEdGuRKIWQhDA0nf5AB89kvYL9Y
- bVOh5xOa4lULRnUBblXjL2i9pK3VojtkAjduvRi7gdMD8GbUJ4gj4RfmMHsXGK4ghU
- GM7TIAmpmBqHRoXEbbeDYYFw7r61aA/kv1ch23NFsC1QXlAZW6Kq28kUTuKfPKDGza
- 76Ej5AAUYu96w==
-From: Zack Rusin <zack@kde.org>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/vmwgfx: Refactor drm connector probing for display modes
-Date: Thu, 28 Sep 2023 00:18:49 -0400
-Message-Id: <20230928041849.740713-1-zack@kde.org>
-X-Mailer: git-send-email 2.39.2
-MIME-Version: 1.0
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C796910E559;
+ Thu, 28 Sep 2023 04:47:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1695876429; x=1727412429;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=+qrpY4sDJG1s61PTSKSWhcWtkC9I0TgQ9pJFxRodItI=;
+ b=Gh3F9erVaDJlcvujQYrCO0KeSkJ/RoowqUrylsUGklKoIBluqse+ipqV
+ bJv+H28IvaS8ZETTRI9gmjKAcmkBMeVekqGx7TwZFQa4/B1uwU2FCl8aB
+ CHb0Nn5nsoFsTFQqJz952cwLoOoII53LRazoOQHMKMkYlTdjdiKGRB5my
+ qj1dmW+PFVgLNnO0mdjJLy9xq1DtLvvgiOWR7mH9tjmo2+THcImskkBWG
+ ADr/MRVwZE696BYxyUYjF0x7G/K3rUb9jVNVTY+2zMZEuGrz0GK7FBvy7
+ oSgB+kdrv2sSA4JdqOPshGhJkbqDea/b9eGCIw3d4TouysOR1Zn1gujTY A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="381889566"
+X-IronPort-AV: E=Sophos;i="6.03,183,1694761200"; d="scan'208";a="381889566"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Sep 2023 21:47:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="726099346"
+X-IronPort-AV: E=Sophos;i="6.03,183,1694761200"; d="scan'208";a="726099346"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+ by orsmga006.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 27 Sep 2023 21:47:07 -0700
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Wed, 27 Sep 2023 21:47:07 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Wed, 27 Sep 2023 21:47:06 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32 via Frontend Transport; Wed, 27 Sep 2023 21:47:06 -0700
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.177)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.32; Wed, 27 Sep 2023 21:47:06 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Q4QXrgr8biWTSlINF+YroeWE9FpJgeQO/i6rFsxiJ55v+BR10J7hVZFzo/hO42DIez6DHbgDuyBmX95nXxZA/TmY8os8D54JTWyLwM3Tcysme0RJjM+VC18pquoEK9D8eJRvQoh+p5eGvUgsleKaEt5I6j3c93hfrve4b1ib50Skm9cGsL0sxpJqTlLZ3lS4qeEcQj225s97+zeihS+ekFmIrddRxHLRgzZCsJ9ZJqJBp2Dw/yFhoEYQVc2CE1xRGnRLYeKWesoDcE/H3foXJEHRGNlbXLzY0HlcNG8H5Q6tbFaOlf9LHouEJB5Ucl67MGb7nLUPuIbv7xpU71labA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=VhUN/tvj8UjTiR4LiKI5elwX3NL/cozaddOKK89RsE0=;
+ b=FBcOViA4Nt6FBmhDjuBYZuepN3wwj+N/SgNP5KIN8eMNQI1PZb2mSM4q4fNeiNUFPm1RD0Jh/WJscmZKJkM5kslCCmHehLuZxryqgqjeZyt6AZmC9ZUhpuoQoCe0iPuFzFtyRegLE3hQuugEXSwLAGHxxW4+K5EYxhkdN2TYM9Q8MnpjXy5kzIVGTkabkFRAdyk3qaLcSsmE7HFko5MGWA9q/r2jj7B1hUP/o6AHprB1jCKpkTMATEynTiOz8CiT87/1KMbZFypxUjgTFaSYIJz42x2e6Km8BGgz14ZFWR0bH2MTjiy2ayeH9HsCMYulMqZAyfmbO5MKkmN18DRzRQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SN6PR11MB3406.namprd11.prod.outlook.com (2603:10b6:805:bb::33)
+ by DM4PR11MB7760.namprd11.prod.outlook.com (2603:10b6:8:100::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6813.28; Thu, 28 Sep
+ 2023 04:46:59 +0000
+Received: from SN6PR11MB3406.namprd11.prod.outlook.com
+ ([fe80::1189:a7c5:3536:65fc]) by SN6PR11MB3406.namprd11.prod.outlook.com
+ ([fe80::1189:a7c5:3536:65fc%7]) with mapi id 15.20.6813.027; Thu, 28 Sep 2023
+ 04:46:58 +0000
+Message-ID: <de4ce324-eacd-09a8-6e2d-4a9d41a0683a@intel.com>
+Date: Wed, 27 Sep 2023 21:46:56 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [Intel-gfx] [Patch v1] drm/i915: Add uAPI to query
+ micro-controller FW version
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ <intel-gfx@lists.freedesktop.org>
+References: <900c90f4-8db5-b0b3-caec-4d7d76291f2c@intel.com>
+ <c248c6b1-923d-2e19-9ee9-60445d822fa9@linux.intel.com>
+Content-Language: en-US
+From: "Balasubrawmanian, Vivaik" <vivaik.balasubrawmanian@intel.com>
+In-Reply-To: <c248c6b1-923d-2e19-9ee9-60445d822fa9@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SJ0PR13CA0062.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c4::7) To SN6PR11MB3406.namprd11.prod.outlook.com
+ (2603:10b6:805:bb::33)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN6PR11MB3406:EE_|DM4PR11MB7760:EE_
+X-MS-Office365-Filtering-Correlation-Id: eeb096d0-4111-4539-8921-08dbbfddf286
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 9wNUAaiNVr1tCRWv/RWnKMoR2QNtp3MtvYC1B8F+75YuoBLI5IUlPku2lueAImZTyrtumpxJRgmvV7jKw6F5CXcz+KKMRKEgq95TVCFQylOIESE87ne8XrUV47eqkmqk+9F/xjXnE9flLxPlrX6FavqOnhTRxvBrkE7IJs4Y+wjZOHPNsKHeqVLtt8VeZrum5BwdYxO16jXdM7d1kBFTttkeA9g0P0nnVqdmGisO3nvYWMhQByVxYT+4gVzuNBX93C7SwRQsDq8VSraoFTZ6Wf9p8bR4PFXqI7vH2OilljvpW9/HiKKXfxvwMFiOYByg+mUPDHQIlv+Ba4BAAEds53WPw9qnfJO0556zJL5JQ5P1fMIo3NeMC/Gotdt9DqIT5CJehpvWWYhEoNQ4Cjvy1QDv3nAidNjnou7w2HR5RW/ak6dyOrOI9NtyHKIVtjTLLqQVZq1lqSOhGC0cVtsXAN/zBaUC0e0oNEQqusXrsdy8FI1g9cGHik5QVd5sZ5OgY8nzymg3MZ/Wjw4jAqCA2Ef8sH3DFwaOjJMuY1BOytj5JaW3pe7WmqiPSP7tdzjCTShkoUnugCahMv0BMnMA3VRTCKKECnYAAQWrZTzTZhUQwjonySxujf9TdsSfPtAYGztl7YCHAAFYJmAhF7bfOUe19glQZnKQX1jetDC+nxg=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN6PR11MB3406.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(396003)(366004)(376002)(346002)(136003)(39860400002)(230922051799003)(1800799009)(64100799003)(186009)(451199024)(6486002)(53546011)(6506007)(2906002)(6512007)(86362001)(31696002)(2616005)(966005)(36756003)(478600001)(8676002)(4326008)(8936002)(82960400001)(38100700002)(83380400001)(41300700001)(5660300002)(316002)(26005)(31686004)(66476007)(66946007)(66556008)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?M0YrRlNpVXZhOVpxeHVXYjZPZStpamVPcjFsc2NnSnpGeVZCRnA3dG9ldFlB?=
+ =?utf-8?B?YnJtYUxDMURaMnhzY1FOVTlJTThhTDZWRlZ6ZllsRzdDYTNaS3BXQi9rR0o3?=
+ =?utf-8?B?bnMzVEtOeFZvK29zRU1QTXVhN2I0Nit0TGVhUno0T2pGZXFtbTEyM1RQT1lj?=
+ =?utf-8?B?eWdhd0E1VEhyR2VORHIxRVcvWjdCaFJuRTdIOS80K0piS1FWQnBQS2dQN3o3?=
+ =?utf-8?B?dERJN2l4Y3ExeDZvUXFOTnpkVG91QlhiOXU1UWw5TUpKK2VqM2lIMktMSE02?=
+ =?utf-8?B?ZFBaZVkvR3loRlk2QlI5VWk5VWF4T1NFWmdTKzduQ2ZSb2F4SmZjYnFrMVlC?=
+ =?utf-8?B?aXBmV1VKcEx1aWptNFg4RWVrdVk0ZUdoeDZaYUQ2Q1FuZm5GaW94djJQMzdj?=
+ =?utf-8?B?Y1RNYlEvVEgrclRxUkVMelg2cERVQ0FGdEVIQWdnL0RxTjRXY3NVVU1FdnBj?=
+ =?utf-8?B?cWJ4RGtaMU1FOEtaRGk0WEZiaUFuRWVoSitvNSs3Rko3OHFlODRWQUNoQWZY?=
+ =?utf-8?B?RUZNZ1FXN1pUMGFhWHVmNk1vQ0lkbS9VMFB2S3J5RmV4ZTBSWlhnNUhpY0tr?=
+ =?utf-8?B?TjhhMk9KRkYzR3ZLY2NIczU5NDd3bG04UXJQWnFTVjI4NWY5dkJhdHhOcmJp?=
+ =?utf-8?B?c3pKNjUzQVBNaWNpRUp4dUJNQ1c0djRtZTJuNzdLN1B4b252REZJcTl4TlhP?=
+ =?utf-8?B?dkVrSnRMMi9CeHJ5SGExTThNLzF6TE15N0NoYllBallzdFVHMTBmMlNKT1Fz?=
+ =?utf-8?B?eS9LQjJmWS9GaVZBVThKS2p2alV6dHlvVElhY2JMVUUxaTF3SW1LczdpT2cv?=
+ =?utf-8?B?cXR6ZmpvMlZ5MUtVaEJ3L2RhazFrK3VjcGxpZjc5cExTUStldUh0ekMrRndE?=
+ =?utf-8?B?dFRwVnpBTWJETFcrNGZHRXQxV3FQYWppZW5PNzNWUVFjSEk2VDRwVVJnL0Qw?=
+ =?utf-8?B?MW1xVU1zaTNkazNxNlN6S2Q0THRjdDJSL0hzSlpsb0ZkUk9XcDZaaEFwM2Ns?=
+ =?utf-8?B?TVpGd1NwYUlyRWhZZWYyWVE1eFhZZExxeVc5RFRWT2xiY2lLVXJUV1BZdFoz?=
+ =?utf-8?B?NE9mbVJ1aXhGOEIvQXc4MmhCbDRUQlNUWDE5Z0pmcUlpSXpyTTdtcHBvR2p0?=
+ =?utf-8?B?dWxkYnVUbTRYMDdHaGxRZlFSVThSaWt0eXYvdWd4ZDlJM0Rmc3ZEb05Md3d5?=
+ =?utf-8?B?R0gxMDlqcjhWSjMxL0RIeDNRUmROYndkVmN6M3VnbTl6cVRrY0s0YUIvSzR3?=
+ =?utf-8?B?aGhkWURFRjViQzZzZnRIRzhNKyt5bVUxZVIyeFNUalVSaHVPd01Cc0ZoRzM2?=
+ =?utf-8?B?N2lVSThWZldZVTRCS2JyRFJQRVJaTFVWbW5FdW44MWxqN05oQmx0c3p1QlVU?=
+ =?utf-8?B?aHh1RTRYK25tSEI0ZzRzUE9jWjBueDJSdG5UUHBkdHhpQjl6THI2dmJmb0t1?=
+ =?utf-8?B?UWg4NFlOSXE5SkxVYjBPR0tua1I5ejRWM1IvYW0xbFNGa3RpcWRCNFYxYXV6?=
+ =?utf-8?B?VWtNakp2MnUxbnkzaWpJamZRWHRMaWEyRkpRQi9XVWFSMkVCVCtTRWxOdVpt?=
+ =?utf-8?B?SVJnMmZpazhlWk5mRmtjalJyMXRoWWkvd3c1bUl2NmtPakNxbHBJd1dVL00z?=
+ =?utf-8?B?UDJCamR3Rzc1clk2S0tmUUdpR3ZtejBBMFNXdWI2Umd6SDhCWnkydXREcnM2?=
+ =?utf-8?B?dEt3dWtKcEpVS0M2b2o4cEJkVGtHQWU1c0JseTYwL3JBUDB0Q3dOSkpGTlpn?=
+ =?utf-8?B?T2UrV0ZSbW5rRm12UlFLOEI4eHNJYlFVWU1zenQyNXB2aGFvWHBacVZ2YzIy?=
+ =?utf-8?B?ZTRQclBRMEgxVTBCeDREaGw5WjY1clZxUDVUZEcvMUc2UGdGd25jZTIrbkJ4?=
+ =?utf-8?B?TEgvbmlJV3RGWTRsODk4NXJkNFJXWUp6WXQyREZjSW82akdRMTdaN29HaGIr?=
+ =?utf-8?B?RHRxZFhTSDB2OHZvU1pXWGd1L1pNRGVIQnVTdzZkMGpQMi9uaXFOR0ZRQ3Zn?=
+ =?utf-8?B?ckxDd0VqNGRHOXVuL2d5cWtyZlJ1NjYrMGhwUFFSZEpVUWk0bC92cGdDVXFa?=
+ =?utf-8?B?eEdFZlk1ZVlpcTdnNVl3bFo5MGlpWFRZeGxVbG9sNm1JUmpLdko1emNqOTBP?=
+ =?utf-8?B?RG1rNkFxaURWbTBIS2JTMUtPZ21ibEs4TDIvNVIveWUyTjlzdmY1ZTBsQ01y?=
+ =?utf-8?Q?8PglgxJspKSqUDOF3U0P4pc=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: eeb096d0-4111-4539-8921-08dbbfddf286
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR11MB3406.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Sep 2023 04:46:58.7287 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: k/4/qRTFLYQMx937PpnjyQ86WgJwqzv4/3OtVUJ0DgPHk86b09hL7MrJQDDNQVGGKFXqbeaBgR4jmcAFnwi7v3yb2HfLr9uMkP3T/vjoSoZ6wUs/XhT27J59PNYXRtbP
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB7760
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,443 +162,211 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Zack Rusin <zackr@vmware.com>
-Cc: krastevm@vmware.com, iforbes@vmware.com, mombasawalam@vmware.com
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Martin Krastev <krastevm@vmware.com>
+On 9/27/2023 2:20 AM, Tvrtko Ursulin wrote:
+>
+> On 27/09/2023 05:14, Balasubrawmanian, Vivaik wrote:
+>> Due to a bug in GuC firmware, Mesa can't enable by default the usage 
+>> of compute engines in DG2 and newer.
+>>
+>>
+>> A new GuC firmware fixed the issue but until now there was no way
+>>
+>> for Mesa to know if KMD was running with the fixed GuC version or not,
+>>
+>> so this uAPI is required.
+>
+> Is the firmware bug making the ccs engines generally useless, or just 
+> not suitable for this specific Mesa use case?
 
-Implement drm_connector_helper_funcs.mode_valid and .get_modes,
-replacing custom drm_connector_funcs.fill_modes code with
-drm_helper_probe_single_connector_modes; for STDU, LDU & SOU
-display units.
+My understanding is that this issue was found as part of this specific 
+use case (enabling async compute queues on DG2).
 
-Signed-off-by: Martin Krastev <krastevm@vmware.com>
-Reviewed-by: Zack Rusin <zackr@vmware.com>
-Signed-off-by: Zack Rusin <zackr@vmware.com>
----
- drivers/gpu/drm/vmwgfx/vmwgfx_kms.c  | 272 +++++++++------------------
- drivers/gpu/drm/vmwgfx/vmwgfx_kms.h  |   6 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c  |   5 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c |   5 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c |   4 +-
- 5 files changed, 101 insertions(+), 191 deletions(-)
+We are adding the new uAPI to cover for similar situations in the 
+future. Will clarify in the description above.
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-index b62207be3363..f08ddcd2bb00 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-@@ -35,6 +35,7 @@
- #include <drm/drm_fourcc.h>
- #include <drm/drm_rect.h>
- #include <drm/drm_sysfs.h>
-+#include <drm/drm_edid.h>
- 
- void vmw_du_cleanup(struct vmw_display_unit *du)
- {
-@@ -2274,107 +2275,6 @@ vmw_du_connector_detect(struct drm_connector *connector, bool force)
- 		connector_status_connected : connector_status_disconnected);
- }
- 
--static struct drm_display_mode vmw_kms_connector_builtin[] = {
--	/* 640x480@60Hz */
--	{ DRM_MODE("640x480", DRM_MODE_TYPE_DRIVER, 25175, 640, 656,
--		   752, 800, 0, 480, 489, 492, 525, 0,
--		   DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC) },
--	/* 800x600@60Hz */
--	{ DRM_MODE("800x600", DRM_MODE_TYPE_DRIVER, 40000, 800, 840,
--		   968, 1056, 0, 600, 601, 605, 628, 0,
--		   DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC) },
--	/* 1024x768@60Hz */
--	{ DRM_MODE("1024x768", DRM_MODE_TYPE_DRIVER, 65000, 1024, 1048,
--		   1184, 1344, 0, 768, 771, 777, 806, 0,
--		   DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC) },
--	/* 1152x864@75Hz */
--	{ DRM_MODE("1152x864", DRM_MODE_TYPE_DRIVER, 108000, 1152, 1216,
--		   1344, 1600, 0, 864, 865, 868, 900, 0,
--		   DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC) },
--	/* 1280x720@60Hz */
--	{ DRM_MODE("1280x720", DRM_MODE_TYPE_DRIVER, 74500, 1280, 1344,
--		   1472, 1664, 0, 720, 723, 728, 748, 0,
--		   DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_PVSYNC) },
--	/* 1280x768@60Hz */
--	{ DRM_MODE("1280x768", DRM_MODE_TYPE_DRIVER, 79500, 1280, 1344,
--		   1472, 1664, 0, 768, 771, 778, 798, 0,
--		   DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_PVSYNC) },
--	/* 1280x800@60Hz */
--	{ DRM_MODE("1280x800", DRM_MODE_TYPE_DRIVER, 83500, 1280, 1352,
--		   1480, 1680, 0, 800, 803, 809, 831, 0,
--		   DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_NVSYNC) },
--	/* 1280x960@60Hz */
--	{ DRM_MODE("1280x960", DRM_MODE_TYPE_DRIVER, 108000, 1280, 1376,
--		   1488, 1800, 0, 960, 961, 964, 1000, 0,
--		   DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC) },
--	/* 1280x1024@60Hz */
--	{ DRM_MODE("1280x1024", DRM_MODE_TYPE_DRIVER, 108000, 1280, 1328,
--		   1440, 1688, 0, 1024, 1025, 1028, 1066, 0,
--		   DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC) },
--	/* 1360x768@60Hz */
--	{ DRM_MODE("1360x768", DRM_MODE_TYPE_DRIVER, 85500, 1360, 1424,
--		   1536, 1792, 0, 768, 771, 777, 795, 0,
--		   DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC) },
--	/* 1440x1050@60Hz */
--	{ DRM_MODE("1400x1050", DRM_MODE_TYPE_DRIVER, 121750, 1400, 1488,
--		   1632, 1864, 0, 1050, 1053, 1057, 1089, 0,
--		   DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_PVSYNC) },
--	/* 1440x900@60Hz */
--	{ DRM_MODE("1440x900", DRM_MODE_TYPE_DRIVER, 106500, 1440, 1520,
--		   1672, 1904, 0, 900, 903, 909, 934, 0,
--		   DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_PVSYNC) },
--	/* 1600x1200@60Hz */
--	{ DRM_MODE("1600x1200", DRM_MODE_TYPE_DRIVER, 162000, 1600, 1664,
--		   1856, 2160, 0, 1200, 1201, 1204, 1250, 0,
--		   DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC) },
--	/* 1680x1050@60Hz */
--	{ DRM_MODE("1680x1050", DRM_MODE_TYPE_DRIVER, 146250, 1680, 1784,
--		   1960, 2240, 0, 1050, 1053, 1059, 1089, 0,
--		   DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_PVSYNC) },
--	/* 1792x1344@60Hz */
--	{ DRM_MODE("1792x1344", DRM_MODE_TYPE_DRIVER, 204750, 1792, 1920,
--		   2120, 2448, 0, 1344, 1345, 1348, 1394, 0,
--		   DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_PVSYNC) },
--	/* 1853x1392@60Hz */
--	{ DRM_MODE("1856x1392", DRM_MODE_TYPE_DRIVER, 218250, 1856, 1952,
--		   2176, 2528, 0, 1392, 1393, 1396, 1439, 0,
--		   DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_PVSYNC) },
--	/* 1920x1080@60Hz */
--	{ DRM_MODE("1920x1080", DRM_MODE_TYPE_DRIVER, 173000, 1920, 2048,
--		   2248, 2576, 0, 1080, 1083, 1088, 1120, 0,
--		   DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_PVSYNC) },
--	/* 1920x1200@60Hz */
--	{ DRM_MODE("1920x1200", DRM_MODE_TYPE_DRIVER, 193250, 1920, 2056,
--		   2256, 2592, 0, 1200, 1203, 1209, 1245, 0,
--		   DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_PVSYNC) },
--	/* 1920x1440@60Hz */
--	{ DRM_MODE("1920x1440", DRM_MODE_TYPE_DRIVER, 234000, 1920, 2048,
--		   2256, 2600, 0, 1440, 1441, 1444, 1500, 0,
--		   DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_PVSYNC) },
--	/* 2560x1440@60Hz */
--	{ DRM_MODE("2560x1440", DRM_MODE_TYPE_DRIVER, 241500, 2560, 2608,
--		   2640, 2720, 0, 1440, 1443, 1448, 1481, 0,
--		   DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_NVSYNC) },
--	/* 2560x1600@60Hz */
--	{ DRM_MODE("2560x1600", DRM_MODE_TYPE_DRIVER, 348500, 2560, 2752,
--		   3032, 3504, 0, 1600, 1603, 1609, 1658, 0,
--		   DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_PVSYNC) },
--	/* 2880x1800@60Hz */
--	{ DRM_MODE("2880x1800", DRM_MODE_TYPE_DRIVER, 337500, 2880, 2928,
--		   2960, 3040, 0, 1800, 1803, 1809, 1852, 0,
--		   DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_NVSYNC) },
--	/* 3840x2160@60Hz */
--	{ DRM_MODE("3840x2160", DRM_MODE_TYPE_DRIVER, 533000, 3840, 3888,
--		   3920, 4000, 0, 2160, 2163, 2168, 2222, 0,
--		   DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_NVSYNC) },
--	/* 3840x2400@60Hz */
--	{ DRM_MODE("3840x2400", DRM_MODE_TYPE_DRIVER, 592250, 3840, 3888,
--		   3920, 4000, 0, 2400, 2403, 2409, 2469, 0,
--		   DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_NVSYNC) },
--	/* Terminate */
--	{ DRM_MODE("", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0) },
--};
--
- /**
-  * vmw_guess_mode_timing - Provide fake timings for a
-  * 60Hz vrefresh mode.
-@@ -2396,88 +2296,6 @@ void vmw_guess_mode_timing(struct drm_display_mode *mode)
- }
- 
- 
--int vmw_du_connector_fill_modes(struct drm_connector *connector,
--				uint32_t max_width, uint32_t max_height)
--{
--	struct vmw_display_unit *du = vmw_connector_to_du(connector);
--	struct drm_device *dev = connector->dev;
--	struct vmw_private *dev_priv = vmw_priv(dev);
--	struct drm_display_mode *mode = NULL;
--	struct drm_display_mode *bmode;
--	struct drm_display_mode prefmode = { DRM_MODE("preferred",
--		DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED,
--		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
--		DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_PVSYNC)
--	};
--	int i;
--	u32 assumed_bpp = 4;
--
--	if (dev_priv->assume_16bpp)
--		assumed_bpp = 2;
--
--	max_width  = min(max_width,  dev_priv->texture_max_width);
--	max_height = min(max_height, dev_priv->texture_max_height);
--
--	/*
--	 * For STDU extra limit for a mode on SVGA_REG_SCREENTARGET_MAX_WIDTH/
--	 * HEIGHT registers.
--	 */
--	if (dev_priv->active_display_unit == vmw_du_screen_target) {
--		max_width  = min(max_width,  dev_priv->stdu_max_width);
--		max_height = min(max_height, dev_priv->stdu_max_height);
--	}
--
--	/* Add preferred mode */
--	mode = drm_mode_duplicate(dev, &prefmode);
--	if (!mode)
--		return 0;
--	mode->hdisplay = du->pref_width;
--	mode->vdisplay = du->pref_height;
--	vmw_guess_mode_timing(mode);
--	drm_mode_set_name(mode);
--
--	if (vmw_kms_validate_mode_vram(dev_priv,
--					mode->hdisplay * assumed_bpp,
--					mode->vdisplay)) {
--		drm_mode_probed_add(connector, mode);
--	} else {
--		drm_mode_destroy(dev, mode);
--		mode = NULL;
--	}
--
--	if (du->pref_mode) {
--		list_del_init(&du->pref_mode->head);
--		drm_mode_destroy(dev, du->pref_mode);
--	}
--
--	/* mode might be null here, this is intended */
--	du->pref_mode = mode;
--
--	for (i = 0; vmw_kms_connector_builtin[i].type != 0; i++) {
--		bmode = &vmw_kms_connector_builtin[i];
--		if (bmode->hdisplay > max_width ||
--		    bmode->vdisplay > max_height)
--			continue;
--
--		if (!vmw_kms_validate_mode_vram(dev_priv,
--						bmode->hdisplay * assumed_bpp,
--						bmode->vdisplay))
--			continue;
--
--		mode = drm_mode_duplicate(dev, bmode);
--		if (!mode)
--			return 0;
--
--		drm_mode_probed_add(connector, mode);
--	}
--
--	drm_connector_list_update(connector);
--	/* Move the prefered mode first, help apps pick the right mode. */
--	drm_mode_sort(&connector->modes);
--
--	return 1;
--}
--
- /**
-  * vmw_kms_update_layout_ioctl - Handler for DRM_VMW_UPDATE_LAYOUT ioctl
-  * @dev: drm device for the ioctl
-@@ -3018,3 +2836,91 @@ int vmw_du_helper_plane_update(struct vmw_du_update_plane *update)
- 	vmw_validation_unref_lists(&val_ctx);
- 	return ret;
- }
-+
-+/**
-+ * vmw_connector_mode_valid - implements drm_connector_helper_funcs.mode_valid callback
-+ *
-+ * @connector: the drm connector, part of a DU container
-+ * @mode: drm mode to check
-+ *
-+ * Returns MODE_OK on success, or a drm_mode_status error code.
-+ */
-+enum drm_mode_status vmw_connector_mode_valid(struct drm_connector *connector,
-+					      struct drm_display_mode *mode)
-+{
-+	struct drm_device *dev = connector->dev;
-+	struct vmw_private *dev_priv = vmw_priv(dev);
-+	u32 max_width = dev_priv->texture_max_width;
-+	u32 max_height = dev_priv->texture_max_height;
-+	u32 assumed_cpp = 4;
-+
-+	if (dev_priv->assume_16bpp)
-+		assumed_cpp = 2;
-+
-+	if (dev_priv->active_display_unit == vmw_du_screen_target) {
-+		max_width  = min(dev_priv->stdu_max_width,  max_width);
-+		max_height = min(dev_priv->stdu_max_height, max_height);
-+	}
-+
-+	if (max_width < mode->hdisplay)
-+		return MODE_BAD_HVALUE;
-+
-+	if (max_height < mode->vdisplay)
-+		return MODE_BAD_VVALUE;
-+
-+	if (!vmw_kms_validate_mode_vram(dev_priv,
-+			mode->hdisplay * assumed_cpp,
-+			mode->vdisplay))
-+		return MODE_MEM;
-+
-+	return MODE_OK;
-+}
-+
-+/**
-+ * vmw_connector_get_modes - implements drm_connector_helper_funcs.get_modes callback
-+ *
-+ * @connector: the drm connector, part of a DU container
-+ *
-+ * Returns the number of added modes.
-+ */
-+int vmw_connector_get_modes(struct drm_connector *connector)
-+{
-+	struct vmw_display_unit *du = vmw_connector_to_du(connector);
-+	struct drm_device *dev = connector->dev;
-+	struct vmw_private *dev_priv = vmw_priv(dev);
-+	struct drm_display_mode *mode = NULL;
-+	struct drm_display_mode prefmode = { DRM_MODE("preferred",
-+		DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED,
-+		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-+		DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_PVSYNC)
-+	};
-+	u32 max_width;
-+	u32 max_height;
-+	u32 num_modes;
-+
-+	/* Add preferred mode */
-+	mode = drm_mode_duplicate(dev, &prefmode);
-+	if (!mode)
-+		return 0;
-+
-+	mode->hdisplay = du->pref_width;
-+	mode->vdisplay = du->pref_height;
-+	vmw_guess_mode_timing(mode);
-+	drm_mode_set_name(mode);
-+
-+	drm_mode_probed_add(connector, mode);
-+	drm_dbg_kms(dev, "preferred mode " DRM_MODE_FMT "\n", DRM_MODE_ARG(mode));
-+
-+	/* Probe connector for all modes not exceeding our geom limits */
-+	max_width  = dev_priv->texture_max_width;
-+	max_height = dev_priv->texture_max_height;
-+
-+	if (dev_priv->active_display_unit == vmw_du_screen_target) {
-+		max_width  = min(dev_priv->stdu_max_width,  max_width);
-+		max_height = min(dev_priv->stdu_max_height, max_height);
-+	}
-+
-+	num_modes = 1 + drm_add_modes_noedid(connector, max_width, max_height);
-+
-+	return num_modes;
-+}
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
-index db81e635dc06..a94947b588e8 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
-@@ -378,7 +378,6 @@ struct vmw_display_unit {
- 	unsigned pref_width;
- 	unsigned pref_height;
- 	bool pref_active;
--	struct drm_display_mode *pref_mode;
- 
- 	/*
- 	 * Gui positioning
-@@ -428,8 +427,6 @@ void vmw_du_connector_save(struct drm_connector *connector);
- void vmw_du_connector_restore(struct drm_connector *connector);
- enum drm_connector_status
- vmw_du_connector_detect(struct drm_connector *connector, bool force);
--int vmw_du_connector_fill_modes(struct drm_connector *connector,
--				uint32_t max_width, uint32_t max_height);
- int vmw_kms_helper_dirty(struct vmw_private *dev_priv,
- 			 struct vmw_framebuffer *framebuffer,
- 			 const struct drm_clip_rect *clips,
-@@ -438,6 +435,9 @@ int vmw_kms_helper_dirty(struct vmw_private *dev_priv,
- 			 int num_clips,
- 			 int increment,
- 			 struct vmw_kms_dirty *dirty);
-+enum drm_mode_status vmw_connector_mode_valid(struct drm_connector *connector,
-+					      struct drm_display_mode *mode);
-+int vmw_connector_get_modes(struct drm_connector *connector);
- 
- void vmw_kms_helper_validation_finish(struct vmw_private *dev_priv,
- 				      struct drm_file *file_priv,
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c b/drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c
-index a82fa9700370..c4db4aecca6c 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c
-@@ -304,7 +304,7 @@ static void vmw_ldu_connector_destroy(struct drm_connector *connector)
- static const struct drm_connector_funcs vmw_legacy_connector_funcs = {
- 	.dpms = vmw_du_connector_dpms,
- 	.detect = vmw_du_connector_detect,
--	.fill_modes = vmw_du_connector_fill_modes,
-+	.fill_modes = drm_helper_probe_single_connector_modes,
- 	.destroy = vmw_ldu_connector_destroy,
- 	.reset = vmw_du_connector_reset,
- 	.atomic_duplicate_state = vmw_du_connector_duplicate_state,
-@@ -313,6 +313,8 @@ static const struct drm_connector_funcs vmw_legacy_connector_funcs = {
- 
- static const struct
- drm_connector_helper_funcs vmw_ldu_connector_helper_funcs = {
-+	.get_modes = vmw_connector_get_modes,
-+	.mode_valid = vmw_connector_mode_valid
- };
- 
- static int vmw_kms_ldu_do_bo_dirty(struct vmw_private *dev_priv,
-@@ -449,7 +451,6 @@ static int vmw_ldu_init(struct vmw_private *dev_priv, unsigned unit)
- 	ldu->base.pref_active = (unit == 0);
- 	ldu->base.pref_width = dev_priv->initial_width;
- 	ldu->base.pref_height = dev_priv->initial_height;
--	ldu->base.pref_mode = NULL;
- 
- 	/*
- 	 * Remove this after enabling atomic because property values can
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c b/drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c
-index 556a403b7eb5..30c3ad27b662 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c
-@@ -347,7 +347,7 @@ static void vmw_sou_connector_destroy(struct drm_connector *connector)
- static const struct drm_connector_funcs vmw_sou_connector_funcs = {
- 	.dpms = vmw_du_connector_dpms,
- 	.detect = vmw_du_connector_detect,
--	.fill_modes = vmw_du_connector_fill_modes,
-+	.fill_modes = drm_helper_probe_single_connector_modes,
- 	.destroy = vmw_sou_connector_destroy,
- 	.reset = vmw_du_connector_reset,
- 	.atomic_duplicate_state = vmw_du_connector_duplicate_state,
-@@ -357,6 +357,8 @@ static const struct drm_connector_funcs vmw_sou_connector_funcs = {
- 
- static const struct
- drm_connector_helper_funcs vmw_sou_connector_helper_funcs = {
-+	.get_modes = vmw_connector_get_modes,
-+	.mode_valid = vmw_connector_mode_valid
- };
- 
- 
-@@ -826,7 +828,6 @@ static int vmw_sou_init(struct vmw_private *dev_priv, unsigned unit)
- 	sou->base.pref_active = (unit == 0);
- 	sou->base.pref_width = dev_priv->initial_width;
- 	sou->base.pref_height = dev_priv->initial_height;
--	sou->base.pref_mode = NULL;
- 
- 	/*
- 	 * Remove this after enabling atomic because property values can
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c b/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
-index ba0c0e12cfe9..12d623ee59c2 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
-@@ -830,7 +830,7 @@ static void vmw_stdu_connector_destroy(struct drm_connector *connector)
- static const struct drm_connector_funcs vmw_stdu_connector_funcs = {
- 	.dpms = vmw_du_connector_dpms,
- 	.detect = vmw_du_connector_detect,
--	.fill_modes = vmw_du_connector_fill_modes,
-+	.fill_modes = drm_helper_probe_single_connector_modes,
- 	.destroy = vmw_stdu_connector_destroy,
- 	.reset = vmw_du_connector_reset,
- 	.atomic_duplicate_state = vmw_du_connector_duplicate_state,
-@@ -840,6 +840,8 @@ static const struct drm_connector_funcs vmw_stdu_connector_funcs = {
- 
- static const struct
- drm_connector_helper_funcs vmw_stdu_connector_helper_funcs = {
-+	.get_modes = vmw_connector_get_modes,
-+	.mode_valid = vmw_connector_mode_valid
- };
- 
- 
--- 
-2.39.2
+>
+>> It may be expanded in future to query other firmware versions too.
+>>
+>> More information: 
+>> https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/23661
+>>
+>> Mesa usage: 
+>> https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/25233
+>>
+>>
+>> Cc: John Harrison <John.C.Harrison@Intel.com>
+>>
+>> Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+>>
+>> Cc: José Roberto de Souza <jose.souza@intel.com>
+>>
+>> Signed-off-by: Vivaik Balasubrawmanian 
+>> <vivaik.balasubrawmanian@intel.com>
+>> ---
+>>   drivers/gpu/drm/i915/i915_query.c | 47 +++++++++++++++++++++++++++++++
+>>   include/uapi/drm/i915_drm.h       | 32 +++++++++++++++++++++
+>>   2 files changed, 79 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/i915/i915_query.c 
+>> b/drivers/gpu/drm/i915/i915_query.c
+>> index 00871ef99792..7f22a49faae7 100644
+>> --- a/drivers/gpu/drm/i915/i915_query.c
+>> +++ b/drivers/gpu/drm/i915/i915_query.c
+>> @@ -551,6 +551,52 @@ static int query_hwconfig_blob(struct 
+>> drm_i915_private *i915,
+>>       return hwconfig->size;
+>>   }
+>>
+>> +static int
+>> +query_uc_fw_version(struct drm_i915_private *i915, struct 
+>> drm_i915_query_item *query)
+>> +{
+>> +    struct drm_i915_query_uc_fw_version __user *query_ptr = 
+>> u64_to_user_ptr(query->data_ptr);
+>> +    size_t size = sizeof(struct drm_i915_query_uc_fw_version);
+>> +    struct drm_i915_query_uc_fw_version resp;
+>> +
+>> +    if (query->length == 0) {
+>> +        query->length = size;
+>> +        return 0;
+>> +    } else if (query->length != size) {
+>> +        drm_dbg(&i915->drm,
+>> +            "Invalid uc_fw_version query item size=%u expected=%zu\n",
+>> +            query->length,    size);
+>> +        return -EINVAL;
+>> +    }
+>> +
+>> +    if (copy_from_user(&resp, query_ptr, size))
+>> +        return -EFAULT;
+>
+> The above can probably be replaced by using the copy_query_item() 
+> helper and it would work a bit better even since no reason to reject a 
+> buffer too large.
+>
+Yes makes sense. Will send out an updated revision.
+>> +
+>> +    if (resp.pad || resp.pad2 || resp.reserved) {
+>> +        drm_dbg(&i915->drm,
+>> +            "Invalid input fw version query structure parameters 
+>> received");
+>> +        return -EINVAL;
+>> +    }
+>> +
+>> +    switch (resp.uc_type) {
+>> +    case I915_QUERY_UC_TYPE_GUC: {
+>> +        struct intel_guc *guc = &i915->gt0.uc.guc;
+>> +
+>> +        resp.major_ver = guc->submission_version.major;
+>> +        resp.minor_ver = guc->submission_version.minor;
+>> +        resp.patch_ver = guc->submission_version.patch;
+>
+> Submission version is not the same as fw version, right? So 
+> DRM_I915_QUERY_UC_FW_VERSION and uapi kerneldoc is misleading.
+>
+> Name the query type I915_QUERY_UC_TYPE_GUC*_SUBMISSION* and make it 
+> clear?
+>
+> Regards,
+>
+> Tvrtko
+I think this makes sense. The use case requires a read of submission 
+version vs. the file version. Will update in the next revision.
+>
+>> +        resp.branch_ver = 0;
+>> +        break;
+>> +    }
+>> +    default:
+>> +        return -EINVAL;
+>> +    }
+>> +
+>> +    if (copy_to_user(query_ptr, &resp, size))
+>> +        return -EFAULT;
+>> +
+>> +    return 0;
+>> +}
+>> +
+>>   static int (* const i915_query_funcs[])(struct drm_i915_private 
+>> *dev_priv,
+>>                       struct drm_i915_query_item *query_item) = {
+>>       query_topology_info,
+>> @@ -559,6 +605,7 @@ static int (* const i915_query_funcs[])(struct 
+>> drm_i915_private *dev_priv,
+>>       query_memregion_info,
+>>       query_hwconfig_blob,
+>>       query_geometry_subslices,
+>> +    query_uc_fw_version,
+>>   };
+>>
+>>   int i915_query_ioctl(struct drm_device *dev, void *data, struct 
+>> drm_file *file)
+>> diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
+>> index 7000e5910a1d..9be241fb77d8 100644
+>> --- a/include/uapi/drm/i915_drm.h
+>> +++ b/include/uapi/drm/i915_drm.h
+>> @@ -3013,6 +3013,7 @@ struct drm_i915_query_item {
+>>        *  - %DRM_I915_QUERY_MEMORY_REGIONS (see struct 
+>> drm_i915_query_memory_regions)
+>>        *  - %DRM_I915_QUERY_HWCONFIG_BLOB (see `GuC HWCONFIG blob uAPI`)
+>>        *  - %DRM_I915_QUERY_GEOMETRY_SUBSLICES (see struct 
+>> drm_i915_query_topology_info)
+>> +     *  - %DRM_I915_QUERY_UC_FW_VERSION (see struct 
+>> drm_i915_query_uc_fw_version)
+>>        */
+>>       __u64 query_id;
+>>   #define DRM_I915_QUERY_TOPOLOGY_INFO        1
+>> @@ -3021,6 +3022,7 @@ struct drm_i915_query_item {
+>>   #define DRM_I915_QUERY_MEMORY_REGIONS        4
+>>   #define DRM_I915_QUERY_HWCONFIG_BLOB        5
+>>   #define DRM_I915_QUERY_GEOMETRY_SUBSLICES    6
+>> +#define DRM_I915_QUERY_UC_FW_VERSION        7
+>>   /* Must be kept compact -- no holes and well documented */
+>>
+>>       /**
+>> @@ -3213,6 +3215,36 @@ struct drm_i915_query_topology_info {
+>>       __u8 data[];
+>>   };
+>>
+>> +/**
+>> +* struct drm_i915_query_uc_fw_version - query a micro-controller 
+>> firmware version
+>> +*
+>> +* Given a uc_type this will return the major, minor, patch and 
+>> branch version
+>> +* of the micro-controller firmware.
+>> +*/
+>> +struct drm_i915_query_uc_fw_version {
+>> +    /** @uc: The micro-controller type to query firmware version */
+>> +#define I915_QUERY_UC_TYPE_GUC 0
+>> +    __u16 uc_type;
+>> +
+>> +    /** @pad: MBZ */
+>> +    __u16 pad;
+>> +
+>> +    /* @major_ver: major uc fw version */
+>> +    __u32 major_ver;
+>> +    /* @minor_ver: minor uc fw version */
+>> +    __u32 minor_ver;
+>> +    /* @patch_ver: patch uc fw version */
+>> +    __u32 patch_ver;
+>> +    /* @branch_ver: branch uc fw version */
+>> +    __u32 branch_ver;
+>> +
+>> +    /** @pad2: MBZ */
+>> +    __u32 pad2;
+>> +
+>> +    /** @reserved: Reserved */
+>> +    __u64 reserved;
+>> +};
+>> +
+>>   /**
+>>    * DOC: Engine Discovery uAPI
+>>    *
+>>
+>> base-commit: a42554bf0755b80fdfb8e91ca35ae6835bb3534d
+
+Thank you Tvrtko for the review and feedback. Deeply appreciated. - VB.
 
