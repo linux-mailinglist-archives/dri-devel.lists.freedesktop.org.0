@@ -2,89 +2,151 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1ED47B15CD
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Sep 2023 10:16:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A97D07B15D1
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Sep 2023 10:16:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC97510E088;
-	Thu, 28 Sep 2023 08:16:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2289210E5E6;
+	Thu, 28 Sep 2023 08:16:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5DD8410E088
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Sep 2023 08:16:00 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 172B01F45A;
- Thu, 28 Sep 2023 08:15:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1695888959; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=YNb6C0midkoQmdHxUbn+HFOKyyDd3bF2/h2FCrS19n4=;
- b=HMmopPzSEnBZZv3YI0Uc4vpu3WHEqZbkCfU8l+YFQ7Q/K/n5p3QKYxlUtSCA1CAjCv0gbU
- E9fgX6G5P920pcTg7lcKGsVPR6hQ3HVkQ6koRhAqWGGkzi8WUQJdXKtX7yNI/6oZ/CbM5i
- muwZi6ZukvRwSKGzmbWHJ+b5fO6NDAg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1695888959;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=YNb6C0midkoQmdHxUbn+HFOKyyDd3bF2/h2FCrS19n4=;
- b=fNG4hKgtNdiLzpHzv3lFcXQ3wAd6A8+hqy2cHEVbas0j6RtefwD+/kkthu4EPXRkSbjlEQ
- dBd732AtrnVYCBDQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D1A82138E9;
- Thu, 28 Sep 2023 08:15:58 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 0UwcMj42FWW/RAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 28 Sep 2023 08:15:58 +0000
-Message-ID: <0ead441a-a573-4da8-8125-ef3dfa3d751c@suse.de>
-Date: Thu, 28 Sep 2023 10:15:58 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/5] drm/simpledrm: Store xfrm buffer in device instance
-To: Jocelyn Falempe <jfalempe@redhat.com>, javierm@redhat.com,
- jose.exposito89@gmail.com, arthurgrillo@riseup.net, mairacanal@riseup.net,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
- daniel@ffwll.ch, noralf@tronnes.org
-References: <20230920142535.19321-1-tzimmermann@suse.de>
- <20230920142535.19321-4-tzimmermann@suse.de>
- <c19e0868-b84e-8eb6-909e-9e37e222b809@redhat.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 55A4010E5E5;
+ Thu, 28 Sep 2023 08:16:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1695888967; x=1727424967;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=x+sqVBtG9Yc5rGFKC9YMxcVa/elSF0HBNeCLiFKa6u0=;
+ b=PxYzlYr54jLzPUPsZPiJJwCm3HWDfxIZvxKpHINrllsZ2+htP4wBSFAw
+ p9oWwaIAtFMxqgV3cUA0vW05KFuLmAni/GTuJ/vTDdL1YWshKy/P+YNaG
+ W08B8rpHT+PeTJJ74Uif9+N0Cfq4chYGS52ZXZ5UeTTzbAwa8MDGu9z9I
+ eEiOLbHAuft2nJhDKhzwZvFCaSU4SWi0jXUhcqqU+2FknTlKxVkaJihXQ
+ ArOE77LWjl9RIgLjmxNDosqwHykfZGlgAqkLk5W8s/qdXEPdfnfRGiPlH
+ 3Xr4xo6Vrxw92eAz9tGm5hWgF9hbkITZUcKqrYl2127Bf7bWwUkFvcg/z g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="362251848"
+X-IronPort-AV: E=Sophos;i="6.03,183,1694761200"; d="scan'208";a="362251848"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Sep 2023 01:16:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="865174343"
+X-IronPort-AV: E=Sophos;i="6.03,183,1694761200"; d="scan'208";a="865174343"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+ by fmsmga002.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 28 Sep 2023 01:16:06 -0700
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Thu, 28 Sep 2023 01:16:06 -0700
+Received: from fmsmsx601.amr.corp.intel.com (10.18.126.81) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Thu, 28 Sep 2023 01:16:05 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32 via Frontend Transport; Thu, 28 Sep 2023 01:16:05 -0700
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.107)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.32; Thu, 28 Sep 2023 01:16:05 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Mj8G3RC62baLM77huXFQGZYIq9LiOoc/HiD8vk1R4ZtxozqdzZLhZUlq9+hGW+xfQ88ti717MlXkB0lJnTPQ9jxwle8mzNo1oUEiGw1TTUNZTtwf94n1dyCDKId6mCgz83e1cIjb7uyU2lE8GDvkj/i4JBDu11+wHk0IowTRv934OLAZVqiTGqCuzjzRcsQAGtBU/4NFZT0cNvC8ilWdwvc3sXHvw0+ITYNM8j7iO1zettJE/o0hj0TYbbC0A3DQTIFUTF2oUir/u8KRMQoRThsrTFeal/E3pa7eXgXwSX1A0fgnFpC6wFI7VsEGKJqifn8WXqriS99EQRxJu/bYoQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=4RBkVQfvmz9X4ACYjpWxK0vdCNMRDaAtBKFHZBJEHII=;
+ b=Vj3V+KNsi/z4PEMUApoWRKVyDtvD3cj8GjewQPYWRj24PDsCeZVjrZjFnWemTjUyLGrCnAT2T4itf73gbAgDFs2uupayQCqF+WmRcXS6otKSoM1cO6P+tJmEetZEXaETVXXMgMbfAoPyWjG6eGwMXp+qoRnhomlUbQvCUzgIuRA3rEsNJVSymZZC9GUi5XsPApzL0uh3sbqHsqjMg+aqvib/aJzj4lybmm4dD5vRg7zXY5sBBldtRxsgba7nu9Ks0nb/l0MIWpYTXFwtPAeupsEkrsy/8m4kRLUFDPkLjGtAfu5ECpc4bYArJgqolNwBDdOQRX2q5zlnhoRWGhkNsQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from BL0PR11MB2961.namprd11.prod.outlook.com (2603:10b6:208:76::23)
+ by BL1PR11MB5511.namprd11.prod.outlook.com (2603:10b6:208:317::7)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6813.23; Thu, 28 Sep
+ 2023 08:16:03 +0000
+Received: from BL0PR11MB2961.namprd11.prod.outlook.com
+ ([fe80::1d18:2488:73b2:e47d]) by BL0PR11MB2961.namprd11.prod.outlook.com
+ ([fe80::1d18:2488:73b2:e47d%6]) with mapi id 15.20.6813.027; Thu, 28 Sep 2023
+ 08:16:03 +0000
+Message-ID: <c6285d4e-caa1-55f7-45d7-f4bca3e5ed14@intel.com>
+Date: Thu, 28 Sep 2023 10:15:59 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v6 1/4] drm/i915: Introduce intel_gt_mcr_lock_reset()
 Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <c19e0868-b84e-8eb6-909e-9e37e222b809@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------zYFGsCFQOGFNZB1SCBRkTxqL"
+To: Matt Roper <matthew.d.roper@intel.com>
+References: <20230927210357.17461-1-nirmoy.das@intel.com>
+ <20230927222339.GD2706891@mdroper-desk1.amr.corp.intel.com>
+From: Nirmoy Das <nirmoy.das@intel.com>
+In-Reply-To: <20230927222339.GD2706891@mdroper-desk1.amr.corp.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR0P281CA0247.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:af::16) To BL0PR11MB2961.namprd11.prod.outlook.com
+ (2603:10b6:208:76::23)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL0PR11MB2961:EE_|BL1PR11MB5511:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7ea5f24e-b382-4d28-d3f5-08dbbffb27e0
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: YI9nQeNlPVOHTSOqXOahzcCPXu4UyBmDAKGygvSwr32RIFuRqWVtVtRZiAXfnRzOMMD69Pg7Xcb28XPnJKELbdZsVllpJC0v2/lL3Waaa/t4ZJJ2/jKB4cRZ9tvw8lJ22a7eN5KHF8MBgeQaeBkKN5ml0u5PM5YN0ek721suICHHA95ihNUrB/zoLEjAV/4CQkfCf2ryphjoVNgNCT5NznWVb2VejuFshkrNYsV62vgYQKeDGHp9kyAvdb5gJcsjum8Cuk9IdZdKJImrPgG6lxaW9+4jY+50Jzi2/PZGMA2Rp0yD18p9qIUhpYJaUdji/LbK0RmNxL9Z6awhbBH8kMy/4JCGVfGaKdJJMuH/LcGpDtwt7YNmlk9EmfiMajB/VTS36U1KDgCwSS+Bi5LJD3OtkHD8klgroBqdl4zrhfaOTX37rwfifYscUB1qx3CuwAdp9VroZwMvepOPfdMFW6glSB52ltClFxhs+1I0WHSxGmyRrUGARaHw3+bMPBal9SGv0wShVjicdTiryrYaeEqKyJXwB+yZ1OBz3oGb/AMRXCFbmPfWqPoiguME88eT5MNF74TnbaMCz/aZyHmJNHXcphs0XpL5g0e830I6Pi0PpvfRwKA6L78qTMLyP92VAmHF3ZRAdq2Ra0KMo2QSMw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BL0PR11MB2961.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(396003)(136003)(39860400002)(376002)(366004)(346002)(230922051799003)(64100799003)(1800799009)(186009)(451199024)(31686004)(6862004)(66476007)(44832011)(66556008)(66946007)(5660300002)(2906002)(478600001)(6666004)(6506007)(6486002)(6512007)(86362001)(53546011)(2616005)(41300700001)(26005)(316002)(6636002)(8676002)(4326008)(83380400001)(8936002)(38100700002)(36756003)(82960400001)(37006003)(31696002)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OHNhRnVnQVBtQ1dMNVA1R3J0MDFQR0FhamlTMklvWWlRUDU5OWFDYnFLK2VR?=
+ =?utf-8?B?ektoMWhydTZUUUhvS3lUem01Sm1ZZ20ra3VzVHM2VWxCUUl2cG5BNmhNWUsr?=
+ =?utf-8?B?c2RMc0c3K0V6aWViZXdWdTA5bDlnQjdiRTdDY1NaMTNSWm1TdXFQa2VqYXp1?=
+ =?utf-8?B?VUgvMGt3TWFydTFQU1lMdVJtNHZ3TDhxU2xmY25zZGl5by9KZDhQc1JHQnFo?=
+ =?utf-8?B?MXZGNUYwMVpjQ3gvU0RxSlE3bDZzNnREeHZSQzB3a3ozMHdwdW9sM01td1gv?=
+ =?utf-8?B?dWlxbW12aWRmM20rcTJ4VmhMZHAveDh0SDN0em1HSHp0Ni9ETFNGZG9zMFAy?=
+ =?utf-8?B?cDhJRXFzT0g4aFlnWWlhYnZEbUZKc0pKQW9oVTZxTGdwTUxvLzRzSU5TSGUx?=
+ =?utf-8?B?ZEVuczVsUDBnL1dCUzdTLytPUGdjSGJFTVVtUno4WjhtRUt1SUtocGhPczBa?=
+ =?utf-8?B?ODAxbU4wOFpJM1c5eGpXSExpQytvWk04MUdxR3F2SWZYRWU1RCtnU0hQQTU3?=
+ =?utf-8?B?Ymx2WXZuQ0ExaXJGRVlEcEc1dHlCUytxSDUrMmNYcGtFVkQ4NDF4R1ZKdzVJ?=
+ =?utf-8?B?VHhTRm5OYzA0a1QxOUQxRlFrUlBWRzQzUDFtM3NFTHhNRnh5L3AzdTU1Yk1X?=
+ =?utf-8?B?VWFWam4ydUlEOVhoT2NQcDhtSGpHMklybU1lNGFJcUdZLzFKUjl0OXd4VURl?=
+ =?utf-8?B?K0h5VDFTbGN2RWFzUXR4aGRxUXZuZGNRUGFZaDl5ZTlWd0U2ekg4RjNIWUUx?=
+ =?utf-8?B?cXdJSzAwZlkyRUlmZGRuakF2SWRiNi9QR3I1M05wWVlPT2RxWkpYOHF4WUsw?=
+ =?utf-8?B?UTlpcEJFWkF2NWZCYVY2NzBIN2JOVVZId1JDZ0FpZlFOVlQ0UHRRcVRUR2VB?=
+ =?utf-8?B?UDkzcUtSM1c2cUNxWEpYanYwS05rdU9NN00xN2EzNitXbzd1d2RxVXA2NjZq?=
+ =?utf-8?B?ZWV2QnQ1SmowOG1vdUFCQ0ZVcWd4MjNzako2QVR3bnpiRUFnUTVrQzBIcGxY?=
+ =?utf-8?B?VmxHTnc1bTBEK1hST3NEVGdWb3ZQdVgwVCtLK2pTQlFBZXpPRHZYVmIrYUNn?=
+ =?utf-8?B?RW9mVERBOG9KRmFJMS9ralFEaGxCdkxxVUNSKzFmL1JwS2NRSk5iNUxjK2pv?=
+ =?utf-8?B?N0tQUW9nMXRnVEcrMVlSU3JCSytVMzhjVHB2VnBMSnllOWVCQlZmOVVvMkk2?=
+ =?utf-8?B?ZFJ1UlE0UmJQRzFMNHYzdWIyQk5KT0pYdVhlN1VpbWhqL2p6VS9QVXAvR25x?=
+ =?utf-8?B?QVJmTnBKUDJMaEdPSERBekdTY0V3QzIwenkwVGRCQS94Z3ZMK2VkYVZHb3BD?=
+ =?utf-8?B?S1llRXpveHhEdCtVK0kxY3kvdmdwc2VHWlZtWW5SeDlLblhDTzNGQnVxZy9q?=
+ =?utf-8?B?ME1ydEU0dm84N255eWxKc0laUWx3U2liYWF2UGY4czNuc0ZSNGJHZzVCeUdC?=
+ =?utf-8?B?MlFJYVpDRmRHS09ocmhMaVNNdzBXSTVTMG9iY2FmTkh0OTVaQjVnNVkwMU4v?=
+ =?utf-8?B?S1pSSTFEMXRlbXA5K01QK09MaDBwMGVqVnoyT1NxZXJ0MTU3S0cxYUNUZXMv?=
+ =?utf-8?B?STJCVUlIQTBncktGR1B1Y1hhU3M2LzhaWmdXZ2xRYmpNNThuak53d3dub2NN?=
+ =?utf-8?B?UEdjbG9QWmhJNTJ3Y3NBYjNpK3VrSkxoekdrSkR2NUNXN1VINVpFQTAwSDhw?=
+ =?utf-8?B?UGlUK25uVGRQYzBlWmxrdXI4WTZTTXNHR3IvTTEwZ1kyeHgzY3ZRM2d4cHFD?=
+ =?utf-8?B?dUlHSDRUbW1rdjNsOUZjV0NLZkNrZDZ6VGF2TVNhU2pPdms4ckd5LzJoUzZz?=
+ =?utf-8?B?aWhLb0hYNjVVNWY5bm9qdGJKYndxSyt3cjN5VktFYjlYUFlXeXdwcm1FTTZw?=
+ =?utf-8?B?U2twY0cxWi9iNlkxSmxjdzE1RU5LeWxjbU54R1pHWnRaMEl6czZGaGJjdVV6?=
+ =?utf-8?B?RU5MVm5CL09LVHphbmFTODJabGx5enMwYVJzVHZ4Q3YrNUx3RUo3RGgwRWtY?=
+ =?utf-8?B?UWljYzF5ZnB5cmNXMTYwYlU5UXRyYXNBdC8vTENZVVBUWmFzTlN4c3ZLNlRS?=
+ =?utf-8?B?ZVo2MC8xenpPOXYwcDFxTEdIbHpvRXZERGE4Y01odmI3eE54Mkp0cXVkZkFO?=
+ =?utf-8?Q?86rNWdTQYbUajPOs09wGNDcCO?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7ea5f24e-b382-4d28-d3f5-08dbbffb27e0
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR11MB2961.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Sep 2023 08:16:03.1511 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: kNzjOCpz2VTSaioVUTO+a1G4eenfp+JY27jgKLBPvAIxVuHlkQW4FnJXGyBlQdierSd+w37JY3AQm5S1dfDUQQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR11MB5511
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,127 +159,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org, andi.shyti@linux.intel.com,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------zYFGsCFQOGFNZB1SCBRkTxqL
-Content-Type: multipart/mixed; boundary="------------ozfyj1ahRH0KwLRx3v4uNiiB";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Jocelyn Falempe <jfalempe@redhat.com>, javierm@redhat.com,
- jose.exposito89@gmail.com, arthurgrillo@riseup.net, mairacanal@riseup.net,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
- daniel@ffwll.ch, noralf@tronnes.org
-Cc: dri-devel@lists.freedesktop.org
-Message-ID: <0ead441a-a573-4da8-8125-ef3dfa3d751c@suse.de>
-Subject: Re: [PATCH v2 3/5] drm/simpledrm: Store xfrm buffer in device
- instance
-References: <20230920142535.19321-1-tzimmermann@suse.de>
- <20230920142535.19321-4-tzimmermann@suse.de>
- <c19e0868-b84e-8eb6-909e-9e37e222b809@redhat.com>
-In-Reply-To: <c19e0868-b84e-8eb6-909e-9e37e222b809@redhat.com>
 
---------------ozfyj1ahRH0KwLRx3v4uNiiB
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+On 9/28/2023 12:23 AM, Matt Roper wrote:
+> On Wed, Sep 27, 2023 at 11:03:54PM +0200, Nirmoy Das wrote:
+>> Implement intel_gt_mcr_lock_reset() to provide a mechanism
+>> for resetting the steer semaphore when absolutely necessary.
+>>
+>> Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
+>> ---
+>>   drivers/gpu/drm/i915/gt/intel_gt_mcr.c | 29 ++++++++++++++++++++++++++
+>>   drivers/gpu/drm/i915/gt/intel_gt_mcr.h |  1 +
+>>   2 files changed, 30 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_mcr.c b/drivers/gpu/drm/i915/gt/intel_gt_mcr.c
+>> index bf4a933de03a..d98e0d2fc2ee 100644
+>> --- a/drivers/gpu/drm/i915/gt/intel_gt_mcr.c
+>> +++ b/drivers/gpu/drm/i915/gt/intel_gt_mcr.c
+>> @@ -419,6 +419,35 @@ void intel_gt_mcr_unlock(struct intel_gt *gt, unsigned long flags)
+>>   		intel_uncore_write_fw(gt->uncore, MTL_STEER_SEMAPHORE, 0x1);
+>>   }
+>>   
+>> +/**
+>> + * intel_gt_mcr_lock_reset - Reset MCR steering lock
+>> + * @gt: GT structure
+>> + *
+>> + * Performs a steer semaphore reset operation. On MTL and beyond, a hardware
+>> + * lock will also be taken to serialize access not only for the driver,
+>> + * but also for external hardware and firmware agents.
+> The text here makes it sound like this reset function is going to take
+> the lock.  Since we have the same language in the lock() function's
+> kerneldoc, I think you can just delete this whole sentence.
+>
+>> + * However, there may be situations where the driver must reset the semaphore
+>> + * but only when it is absolutely certain that no other agent should own the
+>> + * lock at that given time.
+> This part leads to questions about what such situations would be and how
+> we'd know it's safe to use.  Maybe it's best to just say something like
+> "This will be used to sanitize the initial status of the hardware lock
+> during driver load and resume since there won't be any concurrent access
+> from other agents at those times, but it's possible that boot firmware
+> may have left the lock in a bad state."
+sounds better than mine. I will just keep that as description and remove 
+rest.
+>
+>> + *
+>> + * Context: Takes gt->mcr_lock.  uncore->lock should *not* be held when this
+>> + *          function is called, although it may be acquired after this
+>> + *          function call.
+>> + */
+>> +void intel_gt_mcr_lock_reset(struct intel_gt *gt)
+>> +{
+>> +	unsigned long __flags;
+>> +
+>> +	lockdep_assert_not_held(&gt->uncore->lock);
+>> +
+>> +	spin_lock_irqsave(&gt->mcr_lock, __flags);
+> If we're doing this to sanitize at load/resume, then presumably we
+> shouldn't ever be racing with other driver threads either, right?
 
-SGkNCg0KQW0gMjYuMDkuMjMgdW0gMDk6MzEgc2NocmllYiBKb2NlbHluIEZhbGVtcGU6DQo+
-IE9uIDIwLzA5LzIwMjMgMTY6MjQsIFRob21hcyBaaW1tZXJtYW5uIHdyb3RlOg0KPj4gU3Rv
-cmUgYW5kIGluc3RhbmNlIG9mIHN0cnVjdCBkcm1feGZybV9idWYgaW4gc3RydWN0IHNpbXBs
-ZWRybV9kZXZpY2UNCj4+IGFuZCBrZWVwIHRoZSBhbGxvY2F0ZWQgbWVtb3J5IGFsbG9jYXRl
-ZCBhY3Jvc3MgZGlzcGxheSB1cGRhdGVzLiBBdm9pZA0KPj4gcG9zc2libHkgcmVhbGxvY2F0
-aW5nIHRlbXBvcmFyeSBtZW1vcnkgb24gZWFjaCBkaXNwbGF5IHVwZGF0ZS4gSW5zdGVhZA0K
-Pj4gcHJlYWxsb2NhdGUgdGVtcG9yYXJ5IG1lbW9yeSBkdXJpbmcgaW5pdGlhbGl6YXRpb24u
-IFJlbGVhc2luZyB0aGUgRFJNDQo+PiBkZXZpY2UgYWxzbyByZWxlYXNlcyB0aGUgeGZybSBi
-dWZmZXIuDQo+Pg0KPj4gdjI6DQo+PiDCoMKgwqDCoCogcmVzZXJ2ZSBzdG9yYWdlIGR1cmlu
-ZyBwcm9iZQ0KPj4NCj4+IFNpZ25lZC1vZmYtYnk6IFRob21hcyBaaW1tZXJtYW5uIDx0emlt
-bWVybWFubkBzdXNlLmRlPg0KPj4gLS0tDQo+PiDCoCBkcml2ZXJzL2dwdS9kcm0vdGlueS9z
-aW1wbGVkcm0uYyB8IDEzICsrKysrKysrKystLS0NCj4+IMKgIDEgZmlsZSBjaGFuZ2VkLCAx
-MCBpbnNlcnRpb25zKCspLCAzIGRlbGV0aW9ucygtKQ0KPj4NCj4+IGRpZmYgLS1naXQgYS9k
-cml2ZXJzL2dwdS9kcm0vdGlueS9zaW1wbGVkcm0uYyANCj4+IGIvZHJpdmVycy9ncHUvZHJt
-L3Rpbnkvc2ltcGxlZHJtLmMNCj4+IGluZGV4IDhhY2ViN2QzNzhkZWEuLmEzZDhhOTU2YTRj
-NGUgMTAwNjQ0DQo+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vdGlueS9zaW1wbGVkcm0uYw0K
-Pj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3Rpbnkvc2ltcGxlZHJtLmMNCj4+IEBAIC0yMzIs
-NiArMjMyLDcgQEAgc3RydWN0IHNpbXBsZWRybV9kZXZpY2Ugew0KPj4gwqDCoMKgwqDCoCBz
-dHJ1Y3QgZHJtX2Rpc3BsYXlfbW9kZSBtb2RlOw0KPj4gwqDCoMKgwqDCoCBjb25zdCBzdHJ1
-Y3QgZHJtX2Zvcm1hdF9pbmZvICpmb3JtYXQ7DQo+PiDCoMKgwqDCoMKgIHVuc2lnbmVkIGlu
-dCBwaXRjaDsNCj4+ICvCoMKgwqAgc3RydWN0IGRybV94ZnJtX2J1ZiB4ZnJtOw0KPj4gwqDC
-oMKgwqDCoCAvKiBtZW1vcnkgbWFuYWdlbWVudCAqLw0KPj4gwqDCoMKgwqDCoCBzdHJ1Y3Qg
-aW9zeXNfbWFwIHNjcmVlbl9iYXNlOw0KPj4gQEAgLTQ4Niw3ICs0ODcsNiBAQCBzdGF0aWMg
-dm9pZCANCj4+IHNpbXBsZWRybV9wcmltYXJ5X3BsYW5lX2hlbHBlcl9hdG9taWNfdXBkYXRl
-KHN0cnVjdCBkcm1fcGxhbmUgKnBsYW5lDQo+PiDCoMKgwqDCoMKgIHN0cnVjdCBkcm1fZnJh
-bWVidWZmZXIgKmZiID0gcGxhbmVfc3RhdGUtPmZiOw0KPj4gwqDCoMKgwqDCoCBzdHJ1Y3Qg
-ZHJtX2RldmljZSAqZGV2ID0gcGxhbmUtPmRldjsNCj4+IMKgwqDCoMKgwqAgc3RydWN0IHNp
-bXBsZWRybV9kZXZpY2UgKnNkZXYgPSBzaW1wbGVkcm1fZGV2aWNlX29mX2RldihkZXYpOw0K
-Pj4gLcKgwqDCoCBzdHJ1Y3QgZHJtX3hmcm1fYnVmIHhmcm0gPSBEUk1fWEZSTV9CVUZfSU5J
-VDsNCj4+IMKgwqDCoMKgwqAgc3RydWN0IGRybV9hdG9taWNfaGVscGVyX2RhbWFnZV9pdGVy
-IGl0ZXI7DQo+PiDCoMKgwqDCoMKgIHN0cnVjdCBkcm1fcmVjdCBkYW1hZ2U7DQo+PiDCoMKg
-wqDCoMKgIGludCByZXQsIGlkeDsNCj4+IEBAIC01MDgsMTMgKzUwOCwxMiBAQCBzdGF0aWMg
-dm9pZCANCj4+IHNpbXBsZWRybV9wcmltYXJ5X3BsYW5lX2hlbHBlcl9hdG9taWNfdXBkYXRl
-KHN0cnVjdCBkcm1fcGxhbmUgKnBsYW5lDQo+PiDCoMKgwqDCoMKgwqDCoMKgwqAgaW9zeXNf
-bWFwX2luY3IoJmRzdCwgZHJtX2ZiX2NsaXBfb2Zmc2V0KHNkZXYtPnBpdGNoLCANCj4+IHNk
-ZXYtPmZvcm1hdCwgJmRzdF9jbGlwKSk7DQo+PiDCoMKgwqDCoMKgwqDCoMKgwqAgZHJtX2Zi
-X2JsaXQoJmRzdCwgJnNkZXYtPnBpdGNoLCBzZGV2LT5mb3JtYXQtPmZvcm1hdCwgDQo+PiBz
-aGFkb3dfcGxhbmVfc3RhdGUtPmRhdGEsDQo+PiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgIGZiLCAmZGFtYWdlLCAmeGZybSk7DQo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgIGZiLCAmZGFtYWdlLCAmc2Rldi0+eGZybSk7DQo+PiDCoMKgwqDCoMKgIH0N
-Cj4+IMKgwqDCoMKgwqAgZHJtX2Rldl9leGl0KGlkeCk7DQo+PiDCoCBvdXRfZHJtX2dlbV9m
-Yl9lbmRfY3B1X2FjY2VzczoNCj4+IMKgwqDCoMKgwqAgZHJtX2dlbV9mYl9lbmRfY3B1X2Fj
-Y2VzcyhmYiwgRE1BX0ZST01fREVWSUNFKTsNCj4+IC3CoMKgwqAgZHJtX3hmcm1fYnVmX3Jl
-bGVhc2UoJnhmcm0pOw0KPj4gwqAgfQ0KPj4gwqAgc3RhdGljIHZvaWQgc2ltcGxlZHJtX3By
-aW1hcnlfcGxhbmVfaGVscGVyX2F0b21pY19kaXNhYmxlKHN0cnVjdCANCj4+IGRybV9wbGFu
-ZSAqcGxhbmUsDQo+PiBAQCAtNjM3LDYgKzYzNiw3IEBAIHN0YXRpYyBzdHJ1Y3Qgc2ltcGxl
-ZHJtX2RldmljZSANCj4+ICpzaW1wbGVkcm1fZGV2aWNlX2NyZWF0ZShzdHJ1Y3QgZHJtX2Ry
-aXZlciAqZHJ2LA0KPj4gwqDCoMKgwqDCoCBzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29ubmVj
-dG9yOw0KPj4gwqDCoMKgwqDCoCB1bnNpZ25lZCBsb25nIG1heF93aWR0aCwgbWF4X2hlaWdo
-dDsNCj4+IMKgwqDCoMKgwqAgc2l6ZV90IG5mb3JtYXRzOw0KPj4gK8KgwqDCoCB2b2lkICpi
-dWY7DQo+PiDCoMKgwqDCoMKgIGludCByZXQ7DQo+PiDCoMKgwqDCoMKgIHNkZXYgPSBkZXZt
-X2RybV9kZXZfYWxsb2MoJnBkZXYtPmRldiwgZHJ2LCBzdHJ1Y3QgDQo+PiBzaW1wbGVkcm1f
-ZGV2aWNlLCBkZXYpOw0KPj4gQEAgLTcxOCw2ICs3MTgsMTMgQEAgc3RhdGljIHN0cnVjdCBz
-aW1wbGVkcm1fZGV2aWNlIA0KPj4gKnNpbXBsZWRybV9kZXZpY2VfY3JlYXRlKHN0cnVjdCBk
-cm1fZHJpdmVyICpkcnYsDQo+PiDCoMKgwqDCoMKgIGRybV9kYmcoZGV2LCAiZnJhbWVidWZm
-ZXIgZm9ybWF0PSVwNGNjLCBzaXplPSVkeCVkLCBzdHJpZGU9JWQgDQo+PiBieXRlXG4iLA0K
-Pj4gwqDCoMKgwqDCoMKgwqDCoMKgICZmb3JtYXQtPmZvcm1hdCwgd2lkdGgsIGhlaWdodCwg
-c3RyaWRlKTsNCj4+ICvCoMKgwqAgcmV0ID0gZHJtbV94ZnJtX2J1Zl9pbml0KGRldiwgJnNk
-ZXYtPnhmcm0pOw0KPj4gK8KgwqDCoCBpZiAocmV0KQ0KPj4gK8KgwqDCoMKgwqDCoMKgIHJl
-dHVybiBFUlJfUFRSKHJldCk7DQo+PiArwqDCoMKgIGJ1ZiA9IGRybV94ZnJtX2J1Zl9yZXNl
-cnZlKCZzZGV2LT54ZnJtLCBzZGV2LT5waXRjaCwgR0ZQX0tFUk5FTCk7DQo+PiArwqDCoMKg
-IGlmICghYnVmKQ0KPj4gK8KgwqDCoMKgwqDCoMKgIHJldHVybiBFUlJfUFRSKC1FTk9NRU0p
-Ow0KPj4gKw0KPiANCj4gSSB0aGluayBpdCB3b3VsZCBiZSBuaWNlIHRvIGhhdmUgYSAiaW5p
-dF9hbmRfcmVzZXJ2ZSgpIiBmdW5jdGlvbiwgdG8gDQo+IHNpbXBsaWZ5IHRoZSBjYWxsZXJz
-ID8NCg0KSSB0aGluayBJIGNhbiBhZGQgdGhlIHJlc2VydmUgcGFyYW1ldGVycyBkaXJlY3Rs
-eSB0byB0aGUgX2luaXQoKSANCmZ1bmN0aW9uLiBSZXNlcnZpbmcgJzAnIHdpbGwgdGhlbiBu
-b3QgcmVzZXJ2ZSBtZW1vcnkuDQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNCj4gDQo+PiDC
-oMKgwqDCoMKgIC8qDQo+PiDCoMKgwqDCoMKgwqAgKiBNZW1vcnkgbWFuYWdlbWVudA0KPj4g
-wqDCoMKgwqDCoMKgICovDQo+IA0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGlj
-cyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdt
-YkgNCkZyYW5rZW5zdHJhc3NlIDE0NiwgOTA0NjEgTnVlcm5iZXJnLCBHZXJtYW55DQpHRjog
-SXZvIFRvdGV2LCBBbmRyZXcgTXllcnMsIEFuZHJldyBNY0RvbmFsZCwgQm91ZGllbiBNb2Vy
-bWFuDQpIUkIgMzY4MDkgKEFHIE51ZXJuYmVyZykNCg==
 
---------------ozfyj1ahRH0KwLRx3v4uNiiB--
+Driver load and suspend/resume is single threaded afaik but I think I 
+just needed double conformation.
 
---------------zYFGsCFQOGFNZB1SCBRkTxqL
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+Will remove the lock.
 
------BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmUVNj4FAwAAAAAACgkQlh/E3EQov+DR
-uw/8C38A2am3kQttLIxiFe725Z4xh3ACsDv0rDSulbCd4LleN9M3MAaxAptBZx6xne4ireigPoiq
-FOxoQre/EVxdVqIlm5KLjwPzyTffABPsJwUvQn8z+9S/2xNWrcj61QLqif/Sa7gOyx5qREMt3iRp
-HzpqhT6TfeYetneJFzjHpUzYSV/ElYCi0sl/oUQC0kW0+q0FETmgxxN9EYtvt5G+AvEgHiS6VJPD
-YpcgsgBRYgxtFKw54aHkrWQusylKtNPOi/rhGPIyZ7NamC3Bns5HAAzRzf++2hhE2BGIXimnn7Ha
-IQdFw3z3RthTUh63m/gJ1JsX5lLatknYELj5wVRnyebcUEBZXYYxClpBxLNR7yb6lkIxKuBXwG9L
-hR16DxFDfsu6xnT4Nsjri4VZ5tmPtycrN+GyMbIpg4dIcuDNoGd8oy/jWv4UpG9x4+1igwMLU9Sf
-VyJAMMInze6jCxT6dhdhSnAZda4DD6mJMjLjCJt+KOBfDaM5h9q+D0emEA4bGO6OYOLE9M3Ns2F7
-w5VEkZdtGbGayHQ0w59YWuGLAtJbtFGD47+7DMxKw1IyQjH8I9yMIfapG1a6n6W7vItJjRPY22Zf
-iaI4FYIjOCnwiJFdqn2yg6y3qCmSDxgrZ8fF0XcMbHsR4L7G5zqbq0o6nKcr+wQzfN99EazWEXqZ
-ELE=
-=xpem
------END PGP SIGNATURE-----
+Thanks,
 
---------------zYFGsCFQOGFNZB1SCBRkTxqL--
+Nirmoy
+
+>   If it
+> was possible for some other thread to already be grabbing the MCR lock,
+> then that would mean it also isn't safe for us to reset it here either.
+>
+>
+> Matt
+>
+>> +
+>> +	if (GRAPHICS_VER_FULL(gt->i915) >= IP_VER(12, 70))
+>> +		intel_uncore_write_fw(gt->uncore, MTL_STEER_SEMAPHORE, 0x1);
+>> +
+>> +	spin_unlock_irqrestore(&gt->mcr_lock, __flags);
+>> +}
+>> +
+>>   /**
+>>    * intel_gt_mcr_read - read a specific instance of an MCR register
+>>    * @gt: GT structure
+>> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_mcr.h b/drivers/gpu/drm/i915/gt/intel_gt_mcr.h
+>> index 41684495b7da..485c7711f2e8 100644
+>> --- a/drivers/gpu/drm/i915/gt/intel_gt_mcr.h
+>> +++ b/drivers/gpu/drm/i915/gt/intel_gt_mcr.h
+>> @@ -11,6 +11,7 @@
+>>   void intel_gt_mcr_init(struct intel_gt *gt);
+>>   void intel_gt_mcr_lock(struct intel_gt *gt, unsigned long *flags);
+>>   void intel_gt_mcr_unlock(struct intel_gt *gt, unsigned long flags);
+>> +void intel_gt_mcr_lock_reset(struct intel_gt *gt);
+>>   
+>>   u32 intel_gt_mcr_read(struct intel_gt *gt,
+>>   		      i915_mcr_reg_t reg,
+>> -- 
+>> 2.41.0
+>>
