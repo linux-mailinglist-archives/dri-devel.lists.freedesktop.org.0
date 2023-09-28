@@ -1,57 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BC967B27A2
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Sep 2023 23:42:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 917917B27A8
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Sep 2023 23:42:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5701410E6AE;
-	Thu, 28 Sep 2023 21:42:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D40210E6B1;
+	Thu, 28 Sep 2023 21:42:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 341BC10E6AE;
- Thu, 28 Sep 2023 21:42:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1695937346; x=1727473346;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=XSK3lIfHsNt+XPdYFMrEPjhYa2PveYb5Yf0D3W8AJsA=;
- b=jdb2Rkp85ekf6pAOXSUPu8bP0zv79Za2xAgAwoegTl67hCvVOkmgX9oa
- ETyamlWfaBnRX33eAvTI7Ly1AkHfukNuUddsoPFlegJPpjMq9hu/CkCNe
- N11frEppcjR8xk4wLs2fjvEPeJyuT5e4PUPUOi/H34jC8HjKbzBUgZVhY
- UUXpgk2rAjGjNOMasGmi4L2JwPmGSLaOhGDL1OsoznVLelSwlsTUYPPLJ
- /3vIwFOGsEeie3mUUCgWYg3Zb1aTVZFrD9l1YRjBeORWgs8J5LpJ5Ui46
- 6bj2yOwBUaXCnOt60HYRAubC8vzkoLQWwpFzvi4HeX22Mh9Xywme2kGvS w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="468464588"
-X-IronPort-AV: E=Sophos;i="6.03,185,1694761200"; d="scan'208";a="468464588"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Sep 2023 14:42:25 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="840065895"
-X-IronPort-AV: E=Sophos;i="6.03,185,1694761200"; d="scan'208";a="840065895"
-Received: from ahajda-mobl.ger.corp.intel.com (HELO [10.213.10.92])
- ([10.213.10.92])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Sep 2023 14:42:24 -0700
-Message-ID: <d8f739f9-a40d-1a69-e223-95441b249c98@intel.com>
-Date: Thu, 28 Sep 2023 23:42:21 +0200
+Received: from mail-yw1-x1134.google.com (mail-yw1-x1134.google.com
+ [IPv6:2607:f8b0:4864:20::1134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 74BC210E6B1
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Sep 2023 21:42:47 +0000 (UTC)
+Received: by mail-yw1-x1134.google.com with SMTP id
+ 00721157ae682-59bebd5bdadso168362077b3.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Sep 2023 14:42:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1695937366; x=1696542166; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=dyjoKETvc8Jkre1VW0VcBJjtFjfQTAwv92MnVeCdm0U=;
+ b=P1PYDQHTKSAEOoFEJUyuVA8hdZNcI1h0tTib2NRjan44epuCazOZCipWvETn98kNaW
+ 4ji1QyCgn0Kv9SDOIkARkWxOVZKXS9hiUZNsjeHTICb3Us2X8a7glqak474XPbAdPkVJ
+ amZBe5KgYfxNahDzD7ckQG+eR1OVO+l5NM54j085DueffHO1Uo5VGi0rR6F9C8ehhHPC
+ ST8yoA1X5YHdcpdI7cz4ZDkX9QHpuvNIQ7bufgWJOjIz9k4zt3+aZRkj+5qXgUIQz40W
+ tu+H1/zRsCPg3zJ8YuFcF7bHuL18B59QRn/oGiVA4JzmWy4P4mZeKMn4sWUTNU37gxml
+ S4MQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1695937366; x=1696542166;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=dyjoKETvc8Jkre1VW0VcBJjtFjfQTAwv92MnVeCdm0U=;
+ b=udZ30ufLDO1+77m3C/0ZpnwTdBSD1VxzFFR0RrJEyVNuQ2zdy7JZsqXp2r2dy8L82P
+ FRGEx8Dmu44ooBJtCqB6YoLx80TJvzWQ1yeQmnvo1zhjYFQxlY9dxP4ya2A4pr76POmr
+ ovM88bWIg196FBnmB1HQBg5szb6+jYUGyAD2w+NEQeiALMPYwQS+y2IOjIVt0v6oqEJS
+ mXPxGoRWmtVBD/WmzDQ4um3T6T+soDJoAgRLYXt+TiNOig7KQP7xGtB0hd/tTVxL0VlH
+ yxKDneWmJP+wVOgFVtVtvNB+CDhpVIl3kSxfKrujfm+VrQm2nJ0IMuTMm7G6b3lhGDVx
+ YeSw==
+X-Gm-Message-State: AOJu0YzfoTut/rzokRLaTrlB57CxFwIi7uz+va6/XlYxJYHpxqpTEcHx
+ mJpivwwBibEVTGlBwEKULTAG2fTPceEACD2l3F3bnA==
+X-Google-Smtp-Source: AGHT+IGpk71VurMtp/ePcfVQM8FvTjVmQTqiAz9LlB+kRJrzAOI7qpjlMQxs+h+Ue0Bpl2YEFijapTB7lkIaA6g99sU=
+X-Received: by 2002:a0d:e001:0:b0:59f:687c:fb36 with SMTP id
+ j1-20020a0de001000000b0059f687cfb36mr2143294ywe.45.1695937366526; Thu, 28 Sep
+ 2023 14:42:46 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.15.1
-Subject: Re: [Intel-gfx] [PATCH v7 1/4] drm/i915: Introduce
- intel_gt_mcr_lock_sanitize()
-Content-Language: en-US
-To: Nirmoy Das <nirmoy.das@intel.com>, intel-gfx@lists.freedesktop.org
-References: <20230928130015.6758-1-nirmoy.das@intel.com>
-From: Andrzej Hajda <andrzej.hajda@intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <20230928130015.6758-1-nirmoy.das@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20230703-fix-boe-tv101wum-nl6-v3-0-bd6e9432c755@linaro.org>
+ <CAD=FV=W2AKQSnWh02Lxbqi47M325JNCaEn1_B0xAW3PKPKKF7Q@mail.gmail.com>
+ <CAD=FV=WZ+zX9jrwOhN_ZboSYSBomx2s5vifQEB6MzNFgj=g4Ow@mail.gmail.com>
+In-Reply-To: <CAD=FV=WZ+zX9jrwOhN_ZboSYSBomx2s5vifQEB6MzNFgj=g4Ow@mail.gmail.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Thu, 28 Sep 2023 23:42:34 +0200
+Message-ID: <CACRpkdZutdTDQkCSQoA0_0U=Qdf+xDWTu3PzvYRRz=cT18wHRA@mail.gmail.com>
+Subject: Re: [PATCH v3 0/4] Fix up the boe-tv101wum-nl6 panel driver
+To: Doug Anderson <dianders@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,77 +70,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.d.roper@intel.com, dri-devel@lists.freedesktop.org
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jitao Shi <jitao.shi@mediatek.com>,
+ Cong Yang <yangcong5@huaqin.corp-partner.google.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>,
+ Ruihai Zhou <zhouruihai@huaqin.corp-partner.google.com>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 28.09.2023 15:00, Nirmoy Das wrote:
-> Implement intel_gt_mcr_lock_sanitize() to provide a mechanism
-> for cleaning the steer semaphore when absolutely necessary.
-> 
-> v2: remove unnecessary lock(Andi, Matt)
->      improve the kernel doc(Matt)
->      s/intel_gt_mcr_lock_clear/intel_gt_mcr_lock_sanitize
-> 
-> Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
-> ---
->   drivers/gpu/drm/i915/gt/intel_gt_mcr.c | 22 ++++++++++++++++++++++
->   drivers/gpu/drm/i915/gt/intel_gt_mcr.h |  1 +
->   2 files changed, 23 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_mcr.c b/drivers/gpu/drm/i915/gt/intel_gt_mcr.c
-> index bf4a933de03a..326c2ed1d99b 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gt_mcr.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_gt_mcr.c
-> @@ -419,6 +419,28 @@ void intel_gt_mcr_unlock(struct intel_gt *gt, unsigned long flags)
->   		intel_uncore_write_fw(gt->uncore, MTL_STEER_SEMAPHORE, 0x1);
->   }
->   
-> +/**
-> + * intel_gt_mcr_lock_sanitize - Sanitize MCR steering lock
-> + * @gt: GT structure
-> + *
-> + * This will be used to sanitize the initial status of the hardware lock
-> + * during driver load and resume since there won't be any concurrent access
-> + * from other agents at those times, but it's possible that boot firmware
-> + * may have left the lock in a bad state.
-> + *
-> + */
-> +void intel_gt_mcr_lock_sanitize(struct intel_gt *gt)
-> +{
-> +	/*
-> +	 * This gets called at load/resume time, so we shouldn't be
-> +	 * racing with other driver threads grabbing the mcr lock.
-> +	 */
-> +	lockdep_assert_not_held(&gt->mcr_lock);
-> +
-> +	if (GRAPHICS_VER_FULL(gt->i915) >= IP_VER(12, 70))
-> +		intel_uncore_write_fw(gt->uncore, MTL_STEER_SEMAPHORE, 0x1);
+On Tue, Sep 26, 2023 at 11:49=E2=80=AFPM Doug Anderson <dianders@chromium.o=
+rg> wrote:
 
-I wonder if it wouldn't be useful to check and report if it is locked 
-before unconditional release, no strong feelings.
+> > I'm curious what the latest on this patch series is. Is it abandoned,
+> > or is it still on your list to move forward with it? If it's
+> > abandoned, does that mean we've abandoned the idea of breaking
+> > ili9882t into a separate driver?
+> >
+> > From looking at things that have landed downstream in the ChromeOS
+> > kernel trees it looks as if additional fixes are getting blocked from
+> > being posted/landed because of the limbo state that this is in.
+>
+> I presume Linus is busy or otherwise indisposed.
 
-Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
+Sorry I was looking for the branch with my patches and I have it
+somewhere not ordinary :/
 
-Regards
-Andrzej
+Originally I shelved it because I got requests to do additional
+patches to the driver:
+https://lore.kernel.org/dri-devel/CAD=3DFV=3DXkr3Qpd8m_6Xta_2jL_ezbxsmMyarb=
+KXTXL+UJLG9xNw@mail.gmail.com/
 
+To do measurements about binary code size in object files, and if it does,
+then I need to invent new sequence macros (IIUC):
+https://lore.kernel.org/dri-devel/CAD=3DFV=3DWju3WS45=3DEpXMUg7FjYDh3-=3Dmv=
+m_jS7TF1tsaAzbb4Uw@mail.gmail.com/
 
-> +}
-> +
->   /**
->    * intel_gt_mcr_read - read a specific instance of an MCR register
->    * @gt: GT structure
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_mcr.h b/drivers/gpu/drm/i915/gt/intel_gt_mcr.h
-> index 41684495b7da..01ac565a56a4 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gt_mcr.h
-> +++ b/drivers/gpu/drm/i915/gt/intel_gt_mcr.h
-> @@ -11,6 +11,7 @@
->   void intel_gt_mcr_init(struct intel_gt *gt);
->   void intel_gt_mcr_lock(struct intel_gt *gt, unsigned long *flags);
->   void intel_gt_mcr_unlock(struct intel_gt *gt, unsigned long flags);
-> +void intel_gt_mcr_lock_sanitize(struct intel_gt *gt);
->   
->   u32 intel_gt_mcr_read(struct intel_gt *gt,
->   		      i915_mcr_reg_t reg,
+So I just didn't have time for that extensive rework of the driver.
 
+It's good feedback, but I just wanted to make the situation a little
+bit better, and perfect is the enemy of good (TM).
+
+> So I guess we have two options here:
+>
+> a) Cong Yang can post any relevant fixes to the existing "monolithic"
+> panel driver so that we can get them landed and at least get things
+> fixed.
+>
+> - or -
+>
+> b) Cong Yang could take over all or some of Linus's series and post
+> new versions of it, addressing feedback.
+
+Either works for me, I would prefer b), Cong is welcome to adopt
+the patches if he/his employer want to. Go ahead!
+
+We can't really let this one-size-fits-all driver go on like this.
+
+My main concern with the "boe-tv101wum-nl6" driver is that it can
+be renamed "cromeos-hackfest" at this point because it becomes
+hard for any other system to reuse the panel drivers, the typical
+example would be a system using say ili9882t but with
+a different init sequence or something, why would they want
+support for 9 unrelated panels compiled in? The condition that
+these drivers should be related to the original panel that gave
+name to the file has seemingly been dropped long ago.
+
+It looks like the drivers only share the power lines (avdd, avee, pp3300,
+pp1800) then this can be broken out to a helper library. But I am
+sceptical about that too. I doubt that the vastly different panels
+actually have exactly these these supply line names, I think it is
+actually names of the rails on the chrome machine board. And that is
+not how these regulators should be named, they should be named after
+the input name on the component. This is really hard to catch in reviews wh=
+en
+we don't have datasheets so I'm not blaming anyone, but is this something
+that even needs fixing in the device tree bindings? (By deprecation
+and addition...) can we look into this?
+
+I would say can we at least agree that before we merge one more
+driver into this file, break out to subdrivers those that clearly have
+an identifiable display controller and is thus reusable? From my
+point of view I can just see the ili9882t so that's a good start.
+
+Yours,
+Linus Walleij
