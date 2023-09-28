@@ -1,44 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7B6F7B1DD6
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Sep 2023 15:21:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A1F27B1DE8
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Sep 2023 15:21:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4681E10E64B;
-	Thu, 28 Sep 2023 13:20:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5288C10E659;
+	Thu, 28 Sep 2023 13:21:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD01B10E64E;
- Thu, 28 Sep 2023 13:20:41 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org
+ [IPv6:2604:1380:40e1:4800::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B8D310E64B;
+ Thu, 28 Sep 2023 13:20:42 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 9D4FECE21BD;
+ by sin.source.kernel.org (Postfix) with ESMTP id C0CFCCE21C3;
  Thu, 28 Sep 2023 13:20:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 80E56C07618;
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 8CE4FC4AF5E;
  Thu, 28 Sep 2023 13:20:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1695907236;
- bh=jejSCWbFLCFF2dkjqTkEdiAPz2XEiyBfn7Kx6dJyBRE=;
+ bh=8o6Wkw35mSCVhnOKFt6ClknFvPUd13GONPb8bhwpADE=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=cZ7nyMzaaFGJTdj0cQqjiU1KLFU7WnEfcSz8Z8D1PNPaIUWfpiEvebX1GZG3Vu9xk
- pcCQC9yWnO5mDjBeYV68yUbfxRDGX0NUmqDLT9IPyXgaUbbXA2UKWfuTYHhsjplAVs
- sHYt++vYmu+132G0xpM5JpYteq3GwkUvZmpjMJ2kO4eAfNSzH/nteMMsaDWjkLc9D+
- Dab8WB+OuUjY9J4ifmA3HpOLo0eSGtZwKMnEb7ul//qTMBnvZ4PaJYrNi94a/7hF1c
- LKhHi0gdw60QhY+KcUG5P8VSRB3JuT1hyPOFvcUN+xR8XlYb3TwFJnXF93xwVUFv1d
- Y10RNqtfK6wXg==
+ b=HIlWOSKnflZYvel5mQyGeX+gmJJL1K+LilMXYd6IzuwCYD/pX0XE7cmHV9c4nOI4A
+ G/mkwjoUMxgPO9uLZV65HoYUoBxIiALIDd0v2EKOMEFnp5AOGGZpQFUJcruJ22uEaK
+ 6hZ/DjT4HKVs4Gn2aq0Qzauo+hlbISOX5wXlDc4/dqdkKwmBrrv64aJxB/7ayPmA3u
+ SkJc3jtqdOhQq7fmfr4AfTJYsZ9nSQh0GwQ3B3bM6Ss0AJ+E8yLi6VkYwl9SjIv0Nk
+ dbDndA8ukr878p7LrXNVzfNdGRORSE7mwMQVaG7cGntwej+ICqVYE0DUR7BraOIYwS
+ zpRNDsJdBMXOw==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
  (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id 60545E732D1;
+ by smtp.lore.kernel.org (Postfix) with ESMTP id 7596BE732D0;
  Thu, 28 Sep 2023 13:20:36 +0000 (UTC)
 From: Joel Granados via B4 Relay <devnull+j.granados.samsung.com@kernel.org>
-Date: Thu, 28 Sep 2023 15:21:29 +0200
-Subject: [PATCH 04/15] tty: Remove now superfluous sentinel element from
+Date: Thu, 28 Sep 2023 15:21:30 +0200
+Subject: [PATCH 05/15] scsi: Remove now superfluous sentinel element from
  ctl_table array
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230928-jag-sysctl_remove_empty_elem_drivers-v1-4-e59120fca9f9@samsung.com>
+Message-Id: <20230928-jag-sysctl_remove_empty_elem_drivers-v1-5-e59120fca9f9@samsung.com>
 References: <20230928-jag-sysctl_remove_empty_elem_drivers-v1-0-e59120fca9f9@samsung.com>
 In-Reply-To: <20230928-jag-sysctl_remove_empty_elem_drivers-v1-0-e59120fca9f9@samsung.com>
 To: Luis Chamberlain <mcgrof@kernel.org>, willy@infradead.org, 
@@ -70,18 +71,18 @@ To: Luis Chamberlain <mcgrof@kernel.org>, willy@infradead.org,
  Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, 
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
 X-Mailer: b4 0.13-dev-86aa5
-X-Developer-Signature: v=1; a=openpgp-sha256; l=879; i=j.granados@samsung.com; 
- h=from:subject:message-id;
- bh=8sTvUGRVDTp9H1bDylG6Zdr7SdjuawIyFt9Rw8abcOY=; 
- b=owEB7QES/pANAwAKAbqXzVK3lkFPAcsmYgBlFX3cdF4EIlnMzaDc9G1cMmQnLIu/8Bu3kPy9n
- QS3nW1BnkyJAbMEAAEKAB0WIQSuRwlXJeYxJc7LJ5C6l81St5ZBTwUCZRV93AAKCRC6l81St5ZB
- TymCC/93IOLpSBLeRvxqmQfi+lOXxSMU432q2hGOTJuwaFN4hoNYNr5JYby9ccthVv/ftgOHQWc
- M9C+kthX5+CFu7e0qqMVk/DE+aSJ4xeiApfapfP7GJjYu8sQ7XDPEVcqWSG0mWBUGo3CvDDgAXj
- VrOGclYbtMQ5oVdoJOzh/2ppeRTUPRIoeM/xZGcvNSsDeIPl0/3eOaTjZ5rXe5MVOagVGsiRTP3
- ezgKR03gT8Yingu9bLjUv7OnG9nl1QoJYIDP4/FVL1BTSUXU5yv7j77gZzRRQIbzk4ipEXAyv5c
- RrGUnHweFzoUFB4S3PkbWCKDKsNqwxU7WLvG2w5iAYfe/RYHS/0f9eRdcydszQ7u8ndwuDnCi9w
- uoQTfWDAeadPvRLvv6gnqZnsVQRFswvm9os0gC8/WUJizL51h0PN6Xk1tTcFBVrMNIOyHRONik8
- q0ZJIlhNLM4i70qg1sQ94ogeJkRyTF9X0puD9rr+5zpwm2KBw80tiFM1eim5U1g9W+n+o=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1435;
+ i=j.granados@samsung.com; h=from:subject:message-id;
+ bh=AA2i2ffT9doWEzIff4Zajp6KzJDIS2fsOGTMhAaBzPI=;
+ b=owEB7QES/pANAwAKAbqXzVK3lkFPAcsmYgBlFX3dBMzSGGCPjKqz33CWWmIlVPmX0ZG079rEE
+ swyLW78XdWJAbMEAAEKAB0WIQSuRwlXJeYxJc7LJ5C6l81St5ZBTwUCZRV93QAKCRC6l81St5ZB
+ T7GeC/9Fj9+4xEMnCkTQFapmBGFCFKtx2YJeRuHAo0GBWLACG0DDu2Bq/aeCqY5a1VRczUgy2iG
+ MrB6KcEeBrzNF65Rwq9n3LkqKtvhqBlEjpL5VUDRytrhp++LB+9uWq7GBE9kSvsg2iFVLzL5Kf1
+ vukcj20IN9ZHg5L7G6S1rf0Qme59NiTfQqPWrtQhBlLqQpUQFOyIwb4yWxeEK8uNy1IYuvqQ/E3
+ wpfg3TIxo1KHtVLm3h8zqAlW+Pf7n9Y1ojT4DscU67RqIoN6p133XKh/Uq1z4e72TMkqH1aD5Qi
+ l2C+Ecc0DO8jdIHFP+hmPcu5ZurChtUCC6BrrPHZRCo3loAWnJ5rBX3dOF4MCrvRNX6wOab8Flg
+ pn8K8Ewtqr7MP+RrGIXSz9pUu0EjBHk0kMBzENIu+m0ePrG3gpz7NpW2WUBWjZiSiw4buzxgKzz
+ ZFP6ljJZXft/+hBDXWcJJ+AnT99TNDZeD3fJ8/6bRGsWAUGQQuzNNpVq0vK4U47NfOCGI=
 X-Developer-Key: i=j.granados@samsung.com; a=openpgp;
  fpr=F1F8E46D30F0F6C4A45FF4465895FAAC338C6E77
 X-Endpoint-Received: by B4 Relay for j.granados@samsung.com/default with
@@ -117,27 +118,42 @@ will reduce the overall build time size of the kernel and run time
 memory bloat by ~64 bytes per sentinel (further information Link :
 https://lore.kernel.org/all/ZO5Yx5JFogGi%2FcBo@bombadil.infradead.org/)
 
-Remove sentinel from tty_table
+Remove sentinel from scsi_table and sg_sysctls.
 
 Signed-off-by: Joel Granados <j.granados@samsung.com>
 ---
- drivers/tty/tty_io.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/scsi/scsi_sysctl.c | 3 +--
+ drivers/scsi/sg.c          | 3 +--
+ 2 files changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/tty/tty_io.c b/drivers/tty/tty_io.c
-index 8a94e5a43c6d..2f925dc54a20 100644
---- a/drivers/tty/tty_io.c
-+++ b/drivers/tty/tty_io.c
-@@ -3607,8 +3607,7 @@ static struct ctl_table tty_table[] = {
- 		.proc_handler	= proc_dointvec,
- 		.extra1		= SYSCTL_ZERO,
- 		.extra2		= SYSCTL_ONE,
--	},
+diff --git a/drivers/scsi/scsi_sysctl.c b/drivers/scsi/scsi_sysctl.c
+index 7f0914ea168f..c74da88b20d3 100644
+--- a/drivers/scsi/scsi_sysctl.c
++++ b/drivers/scsi/scsi_sysctl.c
+@@ -17,8 +17,7 @@ static struct ctl_table scsi_table[] = {
+ 	  .data		= &scsi_logging_level,
+ 	  .maxlen	= sizeof(scsi_logging_level),
+ 	  .mode		= 0644,
+-	  .proc_handler	= proc_dointvec },
 -	{ }
++	  .proc_handler	= proc_dointvec }
+ };
+ 
+ static struct ctl_table_header *scsi_table_header;
+diff --git a/drivers/scsi/sg.c b/drivers/scsi/sg.c
+index 0d8afffd1683..22a59c5e22eb 100644
+--- a/drivers/scsi/sg.c
++++ b/drivers/scsi/sg.c
+@@ -1649,8 +1649,7 @@ static struct ctl_table sg_sysctls[] = {
+ 		.maxlen		= sizeof(int),
+ 		.mode		= 0444,
+ 		.proc_handler	= proc_dointvec,
+-	},
+-	{}
 +	}
  };
  
- /*
+ static struct ctl_table_header *hdr;
 
 -- 
 2.30.2
