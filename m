@@ -1,49 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B59AF7B1C07
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Sep 2023 14:19:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A8EDC7B1C9A
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Sep 2023 14:36:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DBEE210E639;
-	Thu, 28 Sep 2023 12:19:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 812F910E644;
+	Thu, 28 Sep 2023 12:36:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D98E010E639;
- Thu, 28 Sep 2023 12:19:49 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 091AA6607258;
- Thu, 28 Sep 2023 13:19:48 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1695903588;
- bh=FlxWm0KO/95SNT5YlRUVZt9iSvcyPyiN3E49R6C5oI0=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=nKI1xG+7fRFRRrjVsNsL1PE/UgVNPargbDyDTpeYOhqaQx0gqX9SdykZWHBgp/bmo
- wTu3SYPUp8sOGb/v6J9FuQNa5MGjgOzDvFawZ7TJi2u6YTI94CFx253rMlMWhYQgZg
- aQxYLZn+IoMCt3RW3iHMvJcRa7+sAeTCfRPFHf59Lh9vzB6R5i00GO7HnW0VCcmeEg
- ffuDvXoU6I+oKslkmWXpM7lh16u03wIcGeLMrVcD7IphfBJ1ivCg/Xb8l0c1n4jdFf
- CcGcOnTkY42oPENN84NdDb8vuHlhshqoa+hkCk94Rl+f7XmhS6oXgoseaQYNuh9UfC
- iIHF721Nnt/8w==
-Date: Thu, 28 Sep 2023 14:19:45 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Danilo Krummrich <dakr@redhat.com>
-Subject: Re: [PATCH drm-misc-next v4 6/8] drm/gpuvm: add drm_gpuvm_flags to
- drm_gpuvm
-Message-ID: <20230928141945.36dd44df@collabora.com>
-In-Reply-To: <810dc476-8ead-19e6-23fc-0f9cf35ba2b2@redhat.com>
-References: <20230920144343.64830-1-dakr@redhat.com>
- <20230920144343.64830-7-dakr@redhat.com>
- <20230922135842.242c865d@collabora.com>
- <810dc476-8ead-19e6-23fc-0f9cf35ba2b2@redhat.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 572ED10E628;
+ Thu, 28 Sep 2023 12:36:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1695904598; x=1727440598;
+ h=date:from:to:cc:subject:message-id:mime-version;
+ bh=FMo128/F27wQJxhudFRZuHJvwWPZ2MeyMJ9NetC3Qro=;
+ b=VDhJN4HSJpyXchozsmO6Q2WXRMrOLhlbh/oGmSEoBxGKp6KugCda+2Ly
+ 53pbDpq6TupLEMWpk6wDBrvvqK35Qhv0RLM3QZsTWzkDi3tqKrYtzVLvi
+ EWcqdzYXRTdUg8umokZYGGUArPXuFsqjLkpeQ0f3FGD19patgXuygFzbr
+ aP8ksbqKBS43VGuS57s6mM8LDwNcEIrFIvsrBdPrxGBcD11MG5XwDAqap
+ feO5Gv4yXhztozQ/cUnMPpF5aa5fwnhJZ1X2nIzwi/rU6Fd0/4r5qv6jP
+ CTafjLToqe7W5IaK5aFwjzVDNThSw32e9yixyNSiZN22qEYlTpLsweFhd Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="468330772"
+X-IronPort-AV: E=Sophos;i="6.03,184,1694761200"; d="scan'208";a="468330772"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Sep 2023 05:36:37 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="839835800"
+X-IronPort-AV: E=Sophos;i="6.03,184,1694761200"; d="scan'208";a="839835800"
+Received: from nlachman-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.213.204.130])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Sep 2023 05:36:34 -0700
+Date: Thu, 28 Sep 2023 13:36:32 +0100
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PULL] drm-intel-gt-next
+Message-ID: <ZRVzL02VFuwIkcGl@tursulin-desk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,75 +55,258 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.brost@intel.com, thomas.hellstrom@linux.intel.com,
- sarah.walker@imgtec.com, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- donald.robson@imgtec.com, christian.koenig@amd.com,
- faith.ekstrand@collabora.com
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 27 Sep 2023 18:52:55 +0200
-Danilo Krummrich <dakr@redhat.com> wrote:
+Hi Dave, Daniel,
 
-> On 9/22/23 13:58, Boris Brezillon wrote:
-> > On Wed, 20 Sep 2023 16:42:39 +0200
-> > Danilo Krummrich <dakr@redhat.com> wrote:
-> >   
-> >> +/**
-> >> + * enum drm_gpuvm_flags - flags for struct drm_gpuvm
-> >> + */
-> >> +enum drm_gpuvm_flags {
-> >> +	/**
-> >> +	 * @DRM_GPUVM_USERBITS: user defined bits
-> >> +	 */
-> >> +	DRM_GPUVM_USERBITS = (1 << 0),  
-> > 
-> > Nit: I tried declaring driver-specific flags, and I find this
-> > counter-intuitive. You basically end up with something like:
-> > 
-> > enum my_gpuvm_flags {
-> > 	MY_FLAG_X = DRM_GPUVM_USERBITS,
-> > 	MY_FLAG_Y = DRM_GPUVM_USERBITS << 1,
-> > };
-> > 
-> > instead of the usual
-> > 
-> > enum my_gpuvm_flags {
-> > 	MY_FLAG_X = BIT(0),
-> > 	MY_FLAG_Y = BIT(1),
-> > };
-> > 
-> > pattern.  
-> 
-> Right, same as with dma_fence flags.
-> 
-> > 
-> > Another issue I see coming is if we end up adding more core flags and
-> > drivers start falling short of bits for their own flags. This makes me
-> > wonder if we shouldn't kill this notion of USER flags and let drivers
-> > store their flags in some dedicated field, given they're likely to
-> > derive drm_gpuvm and drm_gpuva with their own object anyway.  
-> 
-> The only reason I have this in the code is that Xe asked for this with
-> drm_gpuva_flags. Hence, for consistency reasons I added it for drm_gpuvm_flags
-> too.
+Here goes the first pull request for 6.7.
 
-Yeah, my comment stands for both drm_gpuva_flags and drm_gpuvm_flags
-actually.
+Nothing major in this round - a bunch of fixes, mostly relating to various
+GuC and PXP features/functionalities, and a few new mostly DG2
+workarounds.
 
-> 
-> Drivers can still have their own flag fields if needed, otherwise I guess it
-> doesn't really hurt to keep DRM_GPUVM_USERBITS in case someone wants to use it.
+Tiny bit or Meteorlake enablement and a tiny bit of selftests fixes and
+even less code base tidies.
 
-Sure, it doesn't hurt, but given drivers are inheriting from this
-object anyway, I thought it'd be simpler/more future proof to let them
-have their flags in a separate field. It's not like we care about
-saving 4 bytes in such a big object. Might be a bit different for
-drm_gpuva given the amount of live mappings one VM might have, but even
-there, I suspect the current drm_gpuva size is going to hurt if we have
-millions of 4k mappings, so, four more bytes won't make a huge
-difference...
+Regards,
 
-Anyway, I don't think that's a blocker, I just thought I'd mention it,
-that's all.
+Tvrtko
+
+drm-intel-gt-next-2023-09-28:
+Driver Changes:
+
+Fixes/improvements/new stuff:
+
+- Fix TLB-Invalidation seqno store [mtl] (Alan Previn)
+- Force a reset on internal GuC error [guc] (John Harrison)
+- Define GSC fw [gsc] (Daniele Ceraolo Spurio)
+- Update workaround 14016712196 [dg2/mtl] (Tejas Upadhyay)
+- Mark requests for GuC virtual engines to avoid use-after-free (Andrzej Hajda)
+- Add Wa_14015150844 [dg2/mtl] (Shekhar Chauhan)
+- Prevent error pointer dereference (Dan Carpenter)
+- Add Wa_18022495364 [tgl,adl,rpl] (Dnyaneshwar Bhadane)
+- Fix GuC PMU by moving execlist stats initialization to execlist specific setup (Umesh Nerlige Ramappa)
+- Fix PXP firmware load [pxp/mtl] (Alan Previn)
+- Fix execution/context state of PXP contexts (Alan Previn)
+- Limit the length of an sg list to the requested length (Matthew Wilcox)
+- Fix reservation address in ggtt_reserve_guc_top [guc] (Javier Pello)
+- Add Wa_18028616096 [dg2] (Shekhar Chauhan)
+- Get runtime pm in busyness worker only if already active [guc/pmu] (Umesh Nerlige Ramappa)
+- Don't set PIPE_CONTROL_FLUSH_L3 for aux inval (Nirmoy Das)
+
+Future platform enablement:
+
+- Fix and consolidate some workaround checks, make others IP version based [mtl] (Matt Roper)
+- Replace Meteorlake subplatforms with IP version checks (Matt Roper)
+- Adding DeviceID for Arrowlake-S under MTL [mtl] (Nemesa Garg)
+- Run relevant bits of debugfs drop_caches per GT (Tvrtko Ursulin)
+
+Miscellaneous:
+
+- Remove Wa_15010599737 [dg2] (Shekhar Chauhan)
+- Align igt_spinner_create_request with hangcheck [selftests] (Jonathan Cavitt)
+- Remove pre-production workarounds [dg2] (Matt Roper)
+- Tidy some workaround definitions (Matt Roper)
+- Wait longer for tasks in migrate selftest [gt] (Jonathan Cavitt)
+- Skip WA verification for GEN7_MISCCPCTL on DG2 [gt] (Andrzej Hajda)
+- Silence injected failure in the load via GSC path [huc] (Daniele Ceraolo Spurio)
+- Refactor deprecated strncpy (Justin Stitt)
+- Update RC6 mask for mtl_drpc [debugfs/mtl] (Badal Nilawar)
+- Remove a static inline that requires including i915_drv.h [gt] (Jani Nikula)
+- Remove inlines from i915_gem_execbuffer.c [gem] (Jani Nikula)
+- Remove gtt_offset from stream->oa_buffer.head/.tail [perf] (Ashutosh Dixit)
+- Do not disable preemption for resets (Tvrtko Ursulin)
+The following changes since commit 788568fad4015406fa84fc86cefbef7c470c7c1f:
+
+  drm/i915/guc: Fix potential null pointer deref in GuC 'steal id' test (2023-08-10 16:02:01 -0700)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-gt-next-2023-09-28
+
+for you to fetch changes up to 03d681412b38558aefe4fb0f46e36efa94bb21ef:
+
+  drm/i915: Don't set PIPE_CONTROL_FLUSH_L3 for aux inval (2023-09-28 11:39:30 +0200)
+
+----------------------------------------------------------------
+Driver Changes:
+
+Fixes/improvements/new stuff:
+
+- Fix TLB-Invalidation seqno store [mtl] (Alan Previn)
+- Force a reset on internal GuC error [guc] (John Harrison)
+- Define GSC fw [gsc] (Daniele Ceraolo Spurio)
+- Update workaround 14016712196 [dg2/mtl] (Tejas Upadhyay)
+- Mark requests for GuC virtual engines to avoid use-after-free (Andrzej Hajda)
+- Add Wa_14015150844 [dg2/mtl] (Shekhar Chauhan)
+- Prevent error pointer dereference (Dan Carpenter)
+- Add Wa_18022495364 [tgl,adl,rpl] (Dnyaneshwar Bhadane)
+- Fix GuC PMU by moving execlist stats initialization to execlist specific setup (Umesh Nerlige Ramappa)
+- Fix PXP firmware load [pxp/mtl] (Alan Previn)
+- Fix execution/context state of PXP contexts (Alan Previn)
+- Limit the length of an sg list to the requested length (Matthew Wilcox)
+- Fix reservation address in ggtt_reserve_guc_top [guc] (Javier Pello)
+- Add Wa_18028616096 [dg2] (Shekhar Chauhan)
+- Get runtime pm in busyness worker only if already active [guc/pmu] (Umesh Nerlige Ramappa)
+- Don't set PIPE_CONTROL_FLUSH_L3 for aux inval (Nirmoy Das)
+
+Future platform enablement:
+
+- Fix and consolidate some workaround checks, make others IP version based [mtl] (Matt Roper)
+- Replace Meteorlake subplatforms with IP version checks (Matt Roper)
+- Adding DeviceID for Arrowlake-S under MTL [mtl] (Nemesa Garg)
+- Run relevant bits of debugfs drop_caches per GT (Tvrtko Ursulin)
+
+Miscellaneous:
+
+- Remove Wa_15010599737 [dg2] (Shekhar Chauhan)
+- Align igt_spinner_create_request with hangcheck [selftests] (Jonathan Cavitt)
+- Remove pre-production workarounds [dg2] (Matt Roper)
+- Tidy some workaround definitions (Matt Roper)
+- Wait longer for tasks in migrate selftest [gt] (Jonathan Cavitt)
+- Skip WA verification for GEN7_MISCCPCTL on DG2 [gt] (Andrzej Hajda)
+- Silence injected failure in the load via GSC path [huc] (Daniele Ceraolo Spurio)
+- Refactor deprecated strncpy (Justin Stitt)
+- Update RC6 mask for mtl_drpc [debugfs/mtl] (Badal Nilawar)
+- Remove a static inline that requires including i915_drv.h [gt] (Jani Nikula)
+- Remove inlines from i915_gem_execbuffer.c [gem] (Jani Nikula)
+- Remove gtt_offset from stream->oa_buffer.head/.tail [perf] (Ashutosh Dixit)
+- Do not disable preemption for resets (Tvrtko Ursulin)
+
+----------------------------------------------------------------
+Alan Previn (4):
+      drm/i915: Fix TLB-Invalidation seqno store
+      drm/i915/pxp/mtl: Update pxp-firmware response timeout
+      drm/i915/pxp/mtl: Update pxp-firmware packet size
+      drm/i915/lrc: User PXP contexts requires runalone bit in lrc
+
+Andrzej Hajda (2):
+      drm/i915: mark requests for GuC virtual engines to avoid use-after-free
+      drm/i915/gt: skip WA verification for GEN7_MISCCPCTL on DG2
+
+Ashutosh Dixit (1):
+      drm/i915/perf: Remove gtt_offset from stream->oa_buffer.head/.tail
+
+Badal Nilawar (1):
+      drm/i915/gt: Update RC6 mask for mtl_drpc
+
+Dan Carpenter (1):
+      drm/i915/gt: Prevent error pointer dereference
+
+Daniele Ceraolo Spurio (2):
+      drm/i915/gsc: define gsc fw
+      drm/i915/huc: silence injected failure in the load via GSC path
+
+Dnyaneshwar Bhadane (1):
+      drm/i915: Add Wa_18022495364
+
+Jani Nikula (2):
+      drm/i915/gt: remove a static inline that requires including i915_drv.h
+      drm/i915/gem: remove inlines from i915_gem_execbuffer.c
+
+Javier Pello (1):
+      drm/i915/gt: Fix reservation address in ggtt_reserve_guc_top
+
+John Harrison (1):
+      drm/i915/guc: Force a reset on internal GuC error
+
+Jonathan Cavitt (2):
+      drm/i915/selftests: Align igt_spinner_create_request with hangcheck
+      drm/i915/gt: Wait longer for tasks in migrate selftest
+
+Justin Stitt (1):
+      drm/i915: refactor deprecated strncpy
+
+Matt Roper (11):
+      drm/i915/dg2: Drop pre-production GT workarounds
+      drm/i915: Tidy workaround definitions
+      drm/i915/dg2: Drop Wa_16011777198
+      drm/i915: Consolidate condition for Wa_22011802037
+      drm/i915/xelpmp: Don't assume workarounds extend to future platforms
+      drm/i915/xelpg: Call Xe_LPG workaround functions based on IP version
+      drm/i915: Eliminate IS_MTL_GRAPHICS_STEP
+      drm/i915: Eliminate IS_MTL_MEDIA_STEP
+      drm/i915/mtl: Eliminate subplatforms
+      drm/i915: Replace several IS_METEORLAKE with proper IP version checks
+      drm/i915/mtl: Drop Wa_14017240301
+
+Matthew Wilcox (Oracle) (1):
+      i915: Limit the length of an sg list to the requested length
+
+Nemesa Garg (1):
+      drm/i915/mtl: Adding DeviceID for Arrowlake-S under MTL
+
+Nirmoy Das (1):
+      drm/i915: Don't set PIPE_CONTROL_FLUSH_L3 for aux inval
+
+Shekhar Chauhan (3):
+      drm/i915/dg2: Remove Wa_15010599737
+      drm/i915: Add Wa_14015150844
+      drm/i915: Add Wa_18028616096
+
+Tejas Upadhyay (1):
+      drm/i915/mtl: Update workaround 14016712196
+
+Tvrtko Ursulin (2):
+      drm/i915: Run relevant bits of debugfs drop_caches per GT
+      drm/i915: Do not disable preemption for resets
+
+Umesh Nerlige Ramappa (2):
+      i915/pmu: Move execlist stats initialization to execlist specific setup
+      i915/guc: Get runtime pm in busyness worker only if already active
+
+ drivers/gpu/drm/i915/display/skl_universal_plane.c |   6 +-
+ drivers/gpu/drm/i915/gem/i915_gem_create.c         |   4 +-
+ drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c     |  20 +-
+ drivers/gpu/drm/i915/gem/i915_gem_shmem.c          |  11 +-
+ drivers/gpu/drm/i915/gem/selftests/mock_context.c  |   2 +-
+ drivers/gpu/drm/i915/gt/gen8_engine_cs.c           |  21 +-
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c          |   5 +-
+ drivers/gpu/drm/i915/gt/intel_engine_pm.c          |   2 +-
+ drivers/gpu/drm/i915/gt/intel_engine_regs.h        |   1 +
+ drivers/gpu/drm/i915/gt/intel_engine_types.h       |   1 +
+ .../gpu/drm/i915/gt/intel_execlists_submission.c   |   6 +-
+ drivers/gpu/drm/i915/gt/intel_ggtt.c               |  23 +-
+ drivers/gpu/drm/i915/gt/intel_gt.c                 |   5 +
+ drivers/gpu/drm/i915/gt/intel_gt.h                 |  69 +++-
+ drivers/gpu/drm/i915/gt/intel_gt_mcr.c             |   6 +-
+ drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c      |   1 -
+ drivers/gpu/drm/i915/gt/intel_gt_regs.h            |  10 +-
+ drivers/gpu/drm/i915/gt/intel_lrc.c                |  79 ++--
+ drivers/gpu/drm/i915/gt/intel_mocs.c               |  23 +-
+ drivers/gpu/drm/i915/gt/intel_rc6.c                |   9 +-
+ drivers/gpu/drm/i915/gt/intel_reset.c              |  34 +-
+ drivers/gpu/drm/i915/gt/intel_reset.h              |   2 +
+ drivers/gpu/drm/i915/gt/intel_rps.c                |   2 +-
+ drivers/gpu/drm/i915/gt/intel_workarounds.c        | 407 ++++++---------------
+ drivers/gpu/drm/i915/gt/selftest_migrate.c         |   2 +-
+ .../drm/i915/gt/uc/intel_gsc_uc_heci_cmd_submit.c  |  20 +-
+ .../drm/i915/gt/uc/intel_gsc_uc_heci_cmd_submit.h  |   6 +
+ drivers/gpu/drm/i915/gt/uc/intel_guc.c             |  64 +++-
+ drivers/gpu/drm/i915/gt/uc/intel_guc.h             |  15 +
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c          |   6 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c        |  63 ----
+ drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h        |   2 -
+ drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c  |  47 ++-
+ drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c           |  32 +-
+ drivers/gpu/drm/i915/i915_debugfs.c                |  12 +-
+ drivers/gpu/drm/i915/i915_drv.h                    |  31 --
+ drivers/gpu/drm/i915/i915_perf.c                   | 110 ++----
+ drivers/gpu/drm/i915/i915_perf_types.h             |   6 -
+ drivers/gpu/drm/i915/i915_request.c                |   7 +-
+ drivers/gpu/drm/i915/i915_vma.c                    |   2 +-
+ drivers/gpu/drm/i915/intel_clock_gating.c          |   8 -
+ drivers/gpu/drm/i915/intel_device_info.c           |  14 -
+ drivers/gpu/drm/i915/intel_device_info.h           |   4 -
+ .../gpu/drm/i915/pxp/intel_pxp_cmd_interface_43.h  |   4 +-
+ drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.c         |   2 +-
+ drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.h         |  10 +-
+ drivers/gpu/drm/i915/pxp/intel_pxp_tee.c           |   6 +-
+ drivers/gpu/drm/i915/selftests/igt_spinner.c       |   3 +
+ include/drm/i915_pciids.h                          |  12 +-
+ 49 files changed, 529 insertions(+), 708 deletions(-)
