@@ -2,40 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C90157B1E9E
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Sep 2023 15:37:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63A9A7B1EA2
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Sep 2023 15:37:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6FE3110E65D;
-	Thu, 28 Sep 2023 13:37:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 80C2810E663;
+	Thu, 28 Sep 2023 13:37:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C5D310E65E;
- Thu, 28 Sep 2023 13:37:06 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id AF3DFCE21CE;
- Thu, 28 Sep 2023 13:37:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30ED8C433C8;
- Thu, 28 Sep 2023 13:36:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1695908220;
- bh=+wQRUm2msRT1Vv6LzHjx16q1r07oTZukLX6w4Q72cRo=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=fQY4RQBXMdvdqFGAIafv/Phk7Y1oE+EJjzKjC3TRuINAbWxqzcqLPwyX0a9VAn7db
- lrLv0OwYBTVD2TtgiIEZJRfo0bKqoMi2GBhCLXf4v+k2xekgAHOfI6frhHYfLI3c4k
- s478XPbm0PhMMeW0NqTPzj3Xl+SvTPCIBgs7SdE0=
-Date: Thu, 28 Sep 2023 15:36:55 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: j.granados@samsung.com
-Subject: Re: [PATCH 01/15] cdrom: Remove now superfluous sentinel element
- from ctl_table array
-Message-ID: <2023092855-cultivate-earthy-4d25@gregkh>
-References: <20230928-jag-sysctl_remove_empty_elem_drivers-v1-0-e59120fca9f9@samsung.com>
- <20230928-jag-sysctl_remove_empty_elem_drivers-v1-1-e59120fca9f9@samsung.com>
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org
+ [IPv6:2001:67c:2050:0:465::202])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C122510E65F
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Sep 2023 13:37:37 +0000 (UTC)
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4RxF0G0h5Tz9spq;
+ Thu, 28 Sep 2023 15:37:34 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1695908254;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1BMLvfin+hhelcAUDECynT792cOg0Q+TnEeHNrzaKpA=;
+ b=a+kCmGt9d8lqyWNozmKE/TerV7fdOdr1zs7UGdoRoLjHPkNK55k5Bu0jiCp36ZQhlhKFbO
+ VC9zkjk1jy1Y2Kdllfjv9yqF5LmIIe9sskXOwNE7yJzuVePQX6HnGo3nu/PgT+uFXMf6zg
+ NrL0ydTAtstjK6otQ6KQ9ymbw4qtrymtuA/PYJYLcDzPIHwfLfsc8zwFLLhklVPfI92JCL
+ 46bW673H7A19Hwo30Nhw37UUiJFPQNDD9gzUhvntyKvFC0AwHb/ql53yQD+A5AcTZ3Z3Q9
+ F4KAf12iW7slkz6LHxn+35+ElRqV8Auq/wOcpbg4YW4s6XHe/AB1WWn1Wyzkwg==
+Message-ID: <806ab015-215d-4b45-1702-429e39d6edc5@mailbox.org>
+Date: Thu, 28 Sep 2023 15:37:31 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230928-jag-sysctl_remove_empty_elem_drivers-v1-1-e59120fca9f9@samsung.com>
+Subject: Re: [PATCH] drm/atomic: Perform blocking commits on workqueue
+Content-Language: de-CH-frami, en-CA
+To: Ray Strode <halfline@gmail.com>
+References: <20230926170549.2589045-1-halfline@gmail.com>
+ <c2ffc21e-bf92-81f6-aa9b-233e3475025f@amd.com>
+ <CAA_UwzKiNJe6hjbAo7SK7-OB7sb_ieV_DcQ_8vf6UYw2gppGcA@mail.gmail.com>
+ <a1316597-e91b-32f8-78d3-13977438149b@amd.com>
+ <dbed4fe6-e99b-a31e-5715-7bd594fc22fb@mailbox.org>
+ <CAA_UwzLpRsNHK7yFWP3tzLFgeZMMpq_AiWBEHW5Om6hfBxyYbA@mail.gmail.com>
+From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel.daenzer@mailbox.org>
+In-Reply-To: <CAA_UwzLpRsNHK7yFWP3tzLFgeZMMpq_AiWBEHW5Om6hfBxyYbA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-ID: 426748dd95549b92ff1
+X-MBO-RS-META: nxw785e6weeugp3z8cn3e6b16nutderd
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,70 +61,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>, Steve Wahl <steve.wahl@hpe.com>,
- Clemens Ladisch <clemens@ladisch.de>, linux-hyperv@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Phillip Potter <phil@philpotter.co.uk>,
- Song Liu <song@kernel.org>, Eric Dumazet <edumazet@google.com>,
- "K. Y. Srinivasan" <kys@microsoft.com>, Jiri Slaby <jirislaby@kernel.org>,
- Russ Weight <russell.h.weight@intel.com>, Wei Liu <wei.liu@kernel.org>,
- Stefano Stabellini <sstabellini@kernel.org>, Corey Minyard <minyard@acm.org>,
- Leon Romanovsky <leon@kernel.org>, linux-rdma@vger.kernel.org,
- "Rafael J. Wysocki" <rafael@kernel.org>, Dexuan Cui <decui@microsoft.com>,
- willy@infradead.org, Jason Gunthorpe <jgg@ziepe.ca>,
- linux-serial@vger.kernel.org, Doug Gilbert <dgilbert@interlog.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Haiyang Zhang <haiyangz@microsoft.com>, Kees Cook <keescook@chromium.org>,
- Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
- "James E.J. Bottomley" <jejb@linux.ibm.com>, intel-gfx@lists.freedesktop.org,
- josh@joshtriplett.org, linux-raid@vger.kernel.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, xen-devel@lists.xenproject.org,
- openipmi-developer@lists.sourceforge.net, Juergen Gross <jgross@suse.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, Theodore Ts'o <tytso@mit.edu>,
- linux-scsi@vger.kernel.org, "Martin K. Petersen" <martin.petersen@oracle.com>,
- netdev@vger.kernel.org, David Ahern <dsahern@kernel.org>,
- Robin Holt <robinmholt@gmail.com>,
- Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
- Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
- Luis Chamberlain <mcgrof@kernel.org>, linuxppc-dev@lists.ozlabs.org,
- "David S. Miller" <davem@davemloft.net>
+Cc: daniel.vetter@ffwll.ch, Xinhui.Pan@amd.com, dri-devel@lists.freedesktop.org,
+ alexander.deucher@amd.com, airlied@redhat.com,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 28, 2023 at 03:21:26PM +0200, Joel Granados via B4 Relay wrote:
-> From: Joel Granados <j.granados@samsung.com>
+On 9/28/23 14:59, Ray Strode wrote:
+> On Thu, Sep 28, 2023 at 5:43 AM Michel Dänzer
+> <michel.daenzer@mailbox.org> wrote:
+>>>>> When it's really not desirable to account the CPU overhead to the
+>>>>> process initiating it then you probably rather want to use an non
+>>>>> blocking commit plus a dma_fence to wait for the work to end from userspace.
+>>>> Well, first I don't think that's very convenient. You're talking about
+>>>> a per-plane property, so there would need to be a separate file
+>>>> descriptor allocated for every plane, right? and user-space would have
+>>>> to block on all of them before proceeding?
+>>
+>> OUT_FENCE_PTR is a per-CRTC property, not per-plane.
 > 
-> This commit comes at the tail end of a greater effort to remove the
-> empty elements at the end of the ctl_table arrays (sentinels) which
-> will reduce the overall build time size of the kernel and run time
-> memory bloat by ~64 bytes per sentinel (further information Link :
-> https://lore.kernel.org/all/ZO5Yx5JFogGi%2FcBo@bombadil.infradead.org/)
+> Okay, sure.
 > 
-> Remove sentinel element from cdrom_table
+>> Also, at least in this particular case, a single sync file (not dma_fence) for any CRTC might suffice.
 > 
-> Signed-off-by: Joel Granados <j.granados@samsung.com>
-> ---
->  drivers/cdrom/cdrom.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/drivers/cdrom/cdrom.c b/drivers/cdrom/cdrom.c
-> index cc2839805983..451907ade389 100644
-> --- a/drivers/cdrom/cdrom.c
-> +++ b/drivers/cdrom/cdrom.c
-> @@ -3654,8 +3654,7 @@ static struct ctl_table cdrom_table[] = {
->  		.maxlen		= sizeof(int),
->  		.mode		= 0644,
->  		.proc_handler	= cdrom_sysctl_handler
-> -	},
-> -	{ }
-> +	}
+> I don't see how we could rely on that given the provided api and
+> multitude of drivers. It might work and then break randomly.
 
-You should have the final entry as "}," so as to make any future
-additions to the list to only contain that entry, that's long been the
-kernel style for lists like this.
+If it's supposed to work from the KMS API PoV, any bugs to the contrary should be fixed.
 
-So your patches will just remove one line, not 2 and add 1, making it a
-smaller diff.
+I'm not really seeing the big difference between using a single fence or multiple, anyway.
 
-thanks,
 
-greg k-h
+I do wonder if there might be a time window where the out fences have signalled, but the atomic commit ioctl will still fail with EBUSY. If there is though, I'd expect it to affect the flip completion events as well.
+
+
+-- 
+Earthling Michel Dänzer            |                  https://redhat.com
+Libre software enthusiast          |         Mesa and Xwayland developer
+
