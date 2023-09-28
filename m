@@ -1,53 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D1897B1AEB
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Sep 2023 13:25:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B4857B1B27
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Sep 2023 13:35:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41E9810E61C;
-	Thu, 28 Sep 2023 11:25:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21C8710E60F;
+	Thu, 28 Sep 2023 11:35:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 58D2210E61C;
- Thu, 28 Sep 2023 11:25:03 +0000 (UTC)
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 0DF68660733B;
- Thu, 28 Sep 2023 12:25:01 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1695900302;
- bh=K6uA1PO8CD/Zwv6tLLlM5khcBTgGIA3EYervuYZ7weo=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=W5DK82oYNHEpgnZPzpKhwCKqI0G48jbuv7hdWqHvHIQXDQ4JGtrpdsvHWv8bYvps5
- xQVI3jerDS0Aa2DIrkHjxeKer6Y+1KJy/iJ2srGQk/QBHj73o1GnNudrMppfgRrruG
- VbePDRoTU1usKr7OSDYBoCdocm1R4mhyWosjXfwFidDUNLXyX9G3waodxx4apJOE2k
- 4OEs3nn4lcGIQ1gTGoB7YmXR1EbGIDkcvuGX5R3+w2LHHF5c5bA9dNZ6jRgWhm4J44
- a58F28Kj6STLIWAaBuRV7mSKS+ZE2nWZW4NsDypnu9IMkCJ2JPYCZhflqOVgOMUf9z
- HjwNh/2HYqNQg==
-Message-ID: <479f9812-d8df-ed05-2bd6-e871e6175a82@collabora.com>
-Date: Thu, 28 Sep 2023 13:24:58 +0200
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
+ [IPv6:2a00:1450:4864:20::135])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A069410E056
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Sep 2023 11:35:38 +0000 (UTC)
+Received: by mail-lf1-x135.google.com with SMTP id
+ 2adb3069b0e04-50481a0eee7so3283686e87.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Sep 2023 04:35:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1695900937; x=1696505737; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=Yd9c6ztV9NgOdZFl/EIKNBqH7SPpFlvCiJ4afy1QU2w=;
+ b=EUXahAG+xS3GnKZVR+nulRVAUlQanOeukQjbIpz4CTNDTMbSB6Kewqdp5MEg32hoxY
+ UbVUkOqspuTgvwOudY5MhM5+Hl8R8g2W85a1LZLpahzu9r3snTO/NSu3ipliavc7e0LL
+ DFTw1Hm2DJM7f5Kf8wSV9rPka++OVNlcGfiJaate/N1Eq8PsH9VPh1Qi2XAsm/PLoHeI
+ hyiBY6R/JOTlqh4bbF7rDYVRqEkwwg70dYoTUdlzCX/5zwFpUTBTZtKYrjtHz21eoUGe
+ 9SHCjKbwaSYNqs3lP6cnHLXu0oq0oMtKVo0Kdkk9Gnguzp6wF0mRfGY58MjP9ogpkRtF
+ TLsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1695900937; x=1696505737;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Yd9c6ztV9NgOdZFl/EIKNBqH7SPpFlvCiJ4afy1QU2w=;
+ b=ND1sGRxbw8ifry9J2PFHoDNkUIQ3U+bY58ggYz6NfyacmGi6YDtqjLkkTL0R73x7Mt
+ ZdlC4iHNYKVzUUw3ujWdqpm8zCo/iyPZuaMlFh9vj+oCYjoo4SYbgkp8vbCWHr4Pb8ho
+ UvPTzgQx5P/FtpkoL31Yr7AmNmWn4oEHQX1OG/APf51bPaTX1mYbzubK0RLUCE8ZrxCG
+ pbrUw9GGqViv8rG8m4MuqqJ9AYHGD+SUJnksl3hzqBMIO72kBAhYHZ1VMCss/y43nhD9
+ E/ZOWBsmuoiQiR3ijvhQf5XlsJw369N9lWHTT2WafViDHka9RM5BE2XVkqI3vGwr1fO2
+ yUxw==
+X-Gm-Message-State: AOJu0YwHQtR/a0/OKlmMgwrEw6OskuU8z8QYWQepdoD/LVQggR3zhTtv
+ 0e1rqqTtfVJeNuIkS+QxyAl0Nw==
+X-Google-Smtp-Source: AGHT+IFptf8IZrGVaiyuvv1Y/4tf1gDesh8LBU7Yonb5WudtCFrSsWJ2l7SSrzYkZ+tT6JDJHTOP5A==
+X-Received: by 2002:a05:6512:110f:b0:503:cca:e535 with SMTP id
+ l15-20020a056512110f00b005030ccae535mr781994lfg.12.1695900936756; 
+ Thu, 28 Sep 2023 04:35:36 -0700 (PDT)
+Received: from umbar.unikie.fi ([192.130.178.91])
+ by smtp.gmail.com with ESMTPSA id
+ k14-20020a0565123d8e00b00504816564c7sm704327lfv.104.2023.09.28.04.35.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 28 Sep 2023 04:35:36 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>
+Subject: [PATCH v3 0/6] MDSS reg bus interconnect
+Date: Thu, 28 Sep 2023 14:35:29 +0300
+Message-Id: <20230928113535.1217613-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.0
-Subject: Re: [PATCH v7 1/5] drm/panfrost: Add cycle count GPU register
- definitions
-Content-Language: en-US
-To: =?UTF-8?Q?Adri=c3=a1n_Larumbe?= <adrian.larumbe@collabora.com>,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, daniel@ffwll.ch, robdclark@gmail.com,
- quic_abhinavk@quicinc.com, dmitry.baryshkov@linaro.org, sean@poorly.run,
- marijn.suijten@somainline.org, robh@kernel.org, steven.price@arm.com
-References: <20230927213133.1651169-1-adrian.larumbe@collabora.com>
- <20230927213133.1651169-2-adrian.larumbe@collabora.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20230927213133.1651169-2-adrian.larumbe@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -61,21 +72,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tvrtko.ursulin@linux.intel.com, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- healych@amazon.com, boris.brezillon@collabora.com, kernel@collabora.com,
- freedreno@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 27/09/23 23:29, Adrián Larumbe ha scritto:
-> These GPU registers will be used when programming the cycle counter, which
-> we need for providing accurate fdinfo drm-cycles values to user space.
-> 
-> Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
-> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
-> Reviewed-by: Steven Price <steven.price@arm.com>
+Per agreement with Konrad, picked up this patch series.
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Apart from the already handled data bus (MAS_MDP_Pn<->DDR), there's
+another path that needs to be handled to ensure MDSS functions properly,
+namely the "reg bus", a.k.a the CPU-MDSS interconnect.
 
+Gating that path may have a variety of effects. from none to otherwise
+inexplicable DSI timeouts.
+
+This series tries to address the lack of that.
+
+Changes since v2:
+- Rebased on top of msm/next aka 6.6-rc2, Dropped merged patches.
+- Dropped the *1000 factor from reg-bus BW values (Konrad).
+
+Changes since v1:
+- Dropped the DPU part, the MDSS vote seems to be enough
+- Reworked MDSS voting patch. Replaced static bw value with the
+  per-platform confgurable values.
+- Added sm8450 DT patch.
+
+Dmitry Baryshkov (3):
+  drm/msm/mdss: switch mdss to use devm_of_icc_get()
+  drm/msm/mdss: inline msm_mdss_icc_request_bw()
+  drm/msm/mdss: Handle the reg bus ICC path
+
+Konrad Dybcio (2):
+  dt-bindings: display/msm: Add reg bus and rotator interconnects
+  drm/msm/mdss: Rename path references to mdp_path
+
+Linus Torvalds (1):
+  Linux 6.6-rc2
+
+ .../bindings/display/msm/mdss-common.yaml     |  2 +
+ Makefile                                      |  2 +-
+ drivers/gpu/drm/msm/msm_mdss.c                | 96 ++++++++++++-------
+ drivers/gpu/drm/msm/msm_mdss.h                |  1 +
+ 4 files changed, 65 insertions(+), 36 deletions(-)
+
+-- 
+2.39.2
 
