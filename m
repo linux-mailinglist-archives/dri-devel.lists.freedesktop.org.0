@@ -2,43 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 176CA7B170B
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Sep 2023 11:20:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A89CF7B171F
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Sep 2023 11:21:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B42A210E0AA;
-	Thu, 28 Sep 2023 09:20:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B880810E0DF;
+	Thu, 28 Sep 2023 09:21:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 918A510E095
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Sep 2023 09:20:07 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id C90C4B81B7E;
- Thu, 28 Sep 2023 09:20:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1222DC433C7;
- Thu, 28 Sep 2023 09:20:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1695892805;
- bh=BMuxTiku+IlvNWwdHgMDtNzm/glYc+SS1e8AMX4mWDI=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=DcQuR0gUyWlSbivUkssE/B80V9GssI/Sv70+YozuQ8mwVjvvCppHi6w79RQGWwM0A
- AXrNFtz6WHErXiRxjmbS+BQomkhMwtD2/nhCPai/v0RdA7qvXrmb7lSGSIJ+bnW7tV
- 8pblNnvZfW6PVrPPTSmp2phezQQges2ydSBKEzuGMjMoiBm3JFojfdKj7a57M6ewy2
- PFm33xdcHFLvd1P/WVYknIwavX2OjMngsTN5Bb/Di45039mGZW0IPE275scvjABXVj
- IzQMnpIx2IvUpCbGPUgaTZPGbDsUDDoHdCnBFC8X8UuCE1UB/itxbXPGAQAmPFzzZO
- 4Cyl1INTMbrHw==
-From: Oded Gabbay <ogabbay@kernel.org>
-To: dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 3/3] accel/habanalabs/gaudi2: perform hard-reset upon PCIe AXI
- drain event
-Date: Thu, 28 Sep 2023 12:19:56 +0300
-Message-Id: <20230928091956.47762-3-ogabbay@kernel.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230928091956.47762-1-ogabbay@kernel.org>
-References: <20230928091956.47762-1-ogabbay@kernel.org>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 382FC10E0DF
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Sep 2023 09:21:22 +0000 (UTC)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 625E866072A2;
+ Thu, 28 Sep 2023 10:21:20 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1695892881;
+ bh=Wmquj5k4fklJequpW25oG3UqElIMnj5aU5gGo6GvfPo=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=IdwzOkViI7b01dmD/jSIGztbSZy8my/DLSq8JYYnbUNRkXGxcWIOVNEs4cI3i0f0r
+ 7/oHFzMzIbMckadZBqwEZFxEeHtzRvXvusNobcukQ3kKjsujIPq5M30Uk5u3lIK+2Z
+ RR/KurrUr8vTRwOhrKo4fbvooJ28zmgEEDbXCFHFCr8VXpnyJJ+rL9bd9JcwNxnjTQ
+ F1khGrj12qpMR7o333RvE1Qt6zHGV693XjeEef2a9GimV7+GPtPpdgCgmODmhqWdK5
+ ApgZ5V4yh3Ef19LQtoDZnWgICGesO5a7a8WDxgOlOfmg4C1pL1qM6YCwNneD2bjsvY
+ pJ+suxthfAoNg==
+Message-ID: <79c0e8b7-11b1-7025-47e0-402c95007824@collabora.com>
+Date: Thu, 28 Sep 2023 11:21:17 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.0
+Subject: Re: [PATCH v10 2/9] drm/mediatek: Add crtc path enum for all_drm_priv
+ array
+Content-Language: en-US
+To: "Jason-JH.Lin" <jason-jh.lin@mediatek.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>
+References: <20230927153833.23583-1-jason-jh.lin@mediatek.com>
+ <20230927153833.23583-3-jason-jh.lin@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20230927153833.23583-3-jason-jh.lin@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,38 +58,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomer Tayar <ttayar@habana.ai>
+Cc: Singo Chang <singo.chang@mediatek.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ Jason-ch Chen <jason-ch.chen@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>,
+ Johnson Wang <johnson.wang@mediatek.com>, Shawn Sung <shawn.sung@mediatek.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tomer Tayar <ttayar@habana.ai>
+Il 27/09/23 17:38, Jason-JH.Lin ha scritto:
+> Add mtk_drm_crtc_path enum for each display path.
+> 
+> Instead of using array index of all_drm_priv in mtk_drm_kms_init(),
+> mtk_drm_crtc_path enum can make code more readable.
+> 
+> Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
+> Reviewed-by: Fei Shao <fshao@chromium.org>
+> Reviewed-by: CK Hu <ck.hu@mediatek.com>
+> Tested-by: Fei Shao <fshao@chromium.org>
 
-Non-completed transactions from PCIe towards the device are handled by
-the AXI drain mechanism. This handling is in the PCIe level, but the
-transactions are still there in the device consuming some queues
-entries, and therefore the device must be reset.
-Modify to perform hard-reset upon PCIe AXI drain events.
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-Signed-off-by: Tomer Tayar <ttayar@habana.ai>
-Reviewed-by: Oded Gabbay <ogabbay@kernel.org>
-Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
----
- .../habanalabs/include/gaudi2/gaudi2_async_ids_map_extended.h   | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/accel/habanalabs/include/gaudi2/gaudi2_async_ids_map_extended.h b/drivers/accel/habanalabs/include/gaudi2/gaudi2_async_ids_map_extended.h
-index 57e661771b6c..b2dbe1f64430 100644
---- a/drivers/accel/habanalabs/include/gaudi2/gaudi2_async_ids_map_extended.h
-+++ b/drivers/accel/habanalabs/include/gaudi2/gaudi2_async_ids_map_extended.h
-@@ -1293,7 +1293,7 @@ static struct gaudi2_async_events_ids_map gaudi2_irq_map_table[] = {
- 		 .name = "" },
- 	{ .fc_id = 631, .cpu_id = 128, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_NONE,
- 		 .name = "PCIE_P2P_MSIX" },
--	{ .fc_id = 632, .cpu_id = 129, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_NONE,
-+	{ .fc_id = 632, .cpu_id = 129, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_HARD,
- 		 .name = "PCIE_DRAIN_COMPLETE" },
- 	{ .fc_id = 633, .cpu_id = 130, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_NONE,
- 		 .name = "TPC0_BMON_SPMU" },
--- 
-2.34.1
 
