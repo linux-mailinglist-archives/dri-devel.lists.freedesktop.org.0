@@ -1,66 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 174E97B2D18
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Sep 2023 09:34:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A4AA7B2D1B
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Sep 2023 09:35:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 40CBC10E6C5;
-	Fri, 29 Sep 2023 07:34:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5680C10E6C6;
+	Fri, 29 Sep 2023 07:35:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com
- [209.85.210.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B3A510E6C5
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Sep 2023 07:34:09 +0000 (UTC)
-Received: by mail-ot1-f49.google.com with SMTP id
- 46e09a7af769-6c4fc2ce697so3420086a34.0
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Sep 2023 00:34:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1695972848; x=1696577648;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=rUWQxOTsSrkcrkTI16CKvhBBl32jDdZTQBwnUO0YWt4=;
- b=hrUp9AoU9UefseR3SVFw0WJdmQhUHV40iZWm+99rBSGvT/2DojCM6uZwBy7AehXfZj
- 9Po5hT+0Ju4D3yvx34zTZ5a6ncjzUEsM5qJqb2ohu4O4TqsCk4gG7kuaCW+r6SGt88Uh
- rB03e/s3uEuD8nwr78oVogVAwuVcJHwfcbe2WnZ3KMzsGywMaFZSPeVzb+NGDDIvDUW3
- 71SZfQD4Ewgh2x0rsyd6zdU4JNdfTM/+0/xUzqXnrZK06U+pLW5vl23XHlWnA74nFm7n
- WHK2n9OSjwRf+ClCGyqsVDdLhxWttTuiZZr+RNkZw22mmTA3KDk6xBZ4A+1eHB7EzAQ1
- I1mw==
-X-Gm-Message-State: AOJu0Yx43W5gFv0clET1MSYE6F1+u99/CvxLRG9OrEQ2DO23epWKzDGz
- /+VWazB3MQIalMbiiw8aB/69C38XYgJ0M5uw
-X-Google-Smtp-Source: AGHT+IGAty4QpyqEA5/LEbNB2Mm/5A2kN9K/hN4m3kOSAGzUW4TtUjaqLiAGtdlXvbh9gsg9cjkXVw==
-X-Received: by 2002:a05:6830:11d8:b0:6bc:f6d0:87d9 with SMTP id
- v24-20020a05683011d800b006bcf6d087d9mr3659053otq.5.1695972848289; 
- Fri, 29 Sep 2023 00:34:08 -0700 (PDT)
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com.
- [209.85.128.176]) by smtp.gmail.com with ESMTPSA id
- t141-20020a0dea93000000b005a20ab8a184sm1744249ywe.31.2023.09.29.00.34.07
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 29 Sep 2023 00:34:07 -0700 (PDT)
-Received: by mail-yw1-f176.google.com with SMTP id
- 00721157ae682-5a1ec43870cso70585677b3.0
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Sep 2023 00:34:07 -0700 (PDT)
-X-Received: by 2002:a81:9152:0:b0:59b:c11:ad7c with SMTP id
- i79-20020a819152000000b0059b0c11ad7cmr3474689ywg.18.1695972847371; Fri, 29
- Sep 2023 00:34:07 -0700 (PDT)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB4D510E6C6;
+ Fri, 29 Sep 2023 07:35:34 +0000 (UTC)
+Received: from eldfell (unknown [194.136.85.206])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested) (Authenticated sender: pq)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 75811660733A;
+ Fri, 29 Sep 2023 08:35:32 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1695972933;
+ bh=qjPPqE9zHRE5tamuiVnfytx+s61U29Sk9qis654yxG4=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=BYhjZ9Q0fJSsrupaRff6yIGE3gpOlNNrSVua10loaeIXTNkUT8G8KoCrh2UMiycj2
+ gY+wlQVYChZ6bWW9opkcwyWvf8C1I2NbMjcJYgd28dRI3w+ISQsT0wNPFqkjTlqTNh
+ nR+B+J1k+WLFWUdlGGk3kx3u/6AF1lGHF8Mub9LlSlUibLgm25e2xfzJX+i6OfwKGN
+ trSYbNgIEDeNN+RN4NbySmaRg18PK+xWq778+SpSh5C2AKwXhVJQ2kBdpKIuP/vbjj
+ Gj6kBWlyxyeNrT00ox5ZQf4vvN20aJL6AAvutUaGrQqUtc8gVOJ+YULV8lKlaiMzX1
+ RQdkrbebGBdBg==
+Date: Fri, 29 Sep 2023 10:35:22 +0300
+From: Pekka Paalanen <pekka.paalanen@collabora.com>
+To: Harry Wentland <harry.wentland@amd.com>
+Subject: Re: [PATCH v3 07/32] drm/amd/display: document AMDGPU pre-defined
+ transfer functions
+Message-ID: <20230929103522.5635c48b.pekka.paalanen@collabora.com>
+In-Reply-To: <c1f850e7-7442-4cb9-a83f-289d467dc749@amd.com>
+References: <20230925194932.1329483-1-mwen@igalia.com>
+ <20230925194932.1329483-8-mwen@igalia.com>
+ <c1f850e7-7442-4cb9-a83f-289d467dc749@amd.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-References: <cover.1695903065.git.geert+renesas@glider.be>
- <0f0eae276da4f8ed44cd1a15ffa138879d27b148.1695903065.git.geert+renesas@glider.be>
- <d9020d20-f512-42e6-8259-a7377c3d0d58@suse.de>
- <CAMuHMdUXnT61Hj8JwPenD+x_0-k_wU3bUtj8k9wh7Dd+kN4_Dw@mail.gmail.com>
- <9af0ab00-7afd-493b-848a-a433e9b9e182@suse.de>
-In-Reply-To: <9af0ab00-7afd-493b-848a-a433e9b9e182@suse.de>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 29 Sep 2023 09:33:55 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXWRgL0uxLXt7geDCuHdQ=CDPhOzE7WCa4f4wRFvD50sw@mail.gmail.com>
-Message-ID: <CAMuHMdXWRgL0uxLXt7geDCuHdQ=CDPhOzE7WCa4f4wRFvD50sw@mail.gmail.com>
-Subject: Re: [PATCH/RFC 3/3] drm: Split drm_modeset_helper_vtables.h
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; boundary="Sig_/gLhra_5zRZi5cDlUfF6gIjx";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,100 +55,172 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Robert Foss <rfoss@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: Sebastian Wick <sebastian.wick@redhat.com>, kernel-dev@igalia.com,
+ Shashank Sharma <Shashank.Sharma@amd.com>, sunpeng.li@amd.com,
+ Xinhui.Pan@amd.com, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Xaver Hugl <xaver.hugl@gmail.com>, dri-devel@lists.freedesktop.org,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
+ Melissa Wen <mwen@igalia.com>, Alex Hung <alex.hung@amd.com>,
+ amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ christian.koenig@amd.com, Joshua Ashton <joshua@froggi.es>,
+ sungjoon.kim@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
+--Sig_/gLhra_5zRZi5cDlUfF6gIjx
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Sep 29, 2023 at 9:11=E2=80=AFAM Thomas Zimmermann <tzimmermann@suse=
-.de> wrote:
-> Am 28.09.23 um 17:32 schrieb Geert Uytterhoeven:
-> > On Thu, Sep 28, 2023 at 3:59=E2=80=AFPM Thomas Zimmermann <tzimmermann@=
-suse.de> wrote:
-> >> Am 28.09.23 um 14:16 schrieb Geert Uytterhoeven:
-> >>> <drm/drm_modeset_helper_vtables.h> is the second largest header file =
-in
-> >>> the DRM subsystem, and declares helpers vtables for various DRM
-> >>> components.  Several vtables contain methods with the same name, and =
-all
-> >>> but one vtable do not fit on the screen, making it hard to navigate t=
-o
-> >>> the actual method one is interested in.
-> >>>
-> >>> Make it easier for the casual reviewer to keep track by splitting
-> >>> <drm/drm_modeset_helper_vtables.h> in multiple header files, one per =
-DRM
-> >>> component.
-> >>
-> >> I never liked this header either, but do we need new header files? Eac=
-h
-> >> struct could be appended to the end of the regular header: struct
-> >> drm_plane_helper_funcs to drm_plane.h, drm_connector_helper_func to
-> >> drm_connector.h and so on.
-> >
-> > That would work for me, too.  But perhaps we want to maintain a clear
-> > separation between core and helpers?
-> >
-> > Note that moving the contents to *_helper.h would be another option,
-> > drm_crtc_helper.h and drm_plane_helper.h already exist.
->
-> I've taken a closer look at the users of the _vtables header. There's
-> code in drm_atomic_helper.c or drm_probe_helper.c that invokes the
-> callback functions.
->
-> The drivers fill the pointers with code that often comes from other
-> helper modules. That code is in files like drm_plane_helper.c or
-> drm_crtc_helper.c. There header files are drm_plane_helper.h, etc.
->
-> In that context, the _vtables header makes sense, as it separates the
-> callers from the callees. Putting the structs into headers like
-> drm_plane_helper.h would move it to the callee side.
->
-> I suggest to leave the header as it is. The fallout to the code base
-> from refactoring seems worse than the current state.
+On Thu, 28 Sep 2023 16:16:57 -0400
+Harry Wentland <harry.wentland@amd.com> wrote:
 
-To clarify: do you mean keeping the single big drm_modeset_helper_vtables.h=
-,
-or the split drm_*_helper_vtable.h set?
+> On 2023-09-25 15:49, Melissa Wen wrote:
+> > Brief documentation about pre-defined transfer function usage on AMD
+> > display driver and standardized EOTFs and inverse EOTFs.
+> >=20
+> > v3:
+> > - Document BT709 OETF (Pekka)
+> > - Fix description of sRGB and pure power funcs (Pekka)
+> >=20
+> > Co-developed-by: Harry Wentland <harry.wentland@amd.com>
+> > Signed-off-by: Harry Wentland <harry.wentland@amd.com>
+> > Signed-off-by: Melissa Wen <mwen@igalia.com>
+> > ---
+> >  .../amd/display/amdgpu_dm/amdgpu_dm_color.c   | 39 +++++++++++++++++++
+> >  1 file changed, 39 insertions(+)
+> >=20
+> > diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c b/=
+drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
+> > index d03bdb010e8b..14f9c02539c6 100644
+> > --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
+> > +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
+> > @@ -85,6 +85,45 @@ void amdgpu_dm_init_color_mod(void)
+> >  }
+> > =20
+> >  #ifdef AMD_PRIVATE_COLOR
+> > +/* Pre-defined Transfer Functions (TF)
+> > + *
+> > + * AMD driver supports pre-defined mathematical functions for transfer=
+ring
+> > + * between encoded values and optical/linear space. Depending on HW co=
+lor caps,
+> > + * ROMs and curves built by the AMD color module support these transfo=
+rms.
+> > + *
+> > + * The driver-specific color implementation exposes properties for pre=
+-blending
+> > + * degamma TF, shaper TF (before 3D LUT), and blend(dpp.ogam) TF and
+> > + * post-blending regamma (mpc.ogam) TF. However, only pre-blending deg=
+amma
+> > + * supports ROM curves. AMD color module uses pre-defined coefficients=
+ to build
+> > + * curves for the other blocks. What can be done by each color block is
+> > + * described by struct dpp_color_capsand struct mpc_color_caps.
+> > + *
+> > + * AMD driver-specific color API exposes the following pre-defined tra=
+nsfer
+> > + * functions:
+> > + *
+> > + * - Linear/Unity: linear/identity relationship between pixel value and
+> > + *   luminance value;
+> > + * - Gamma 2.2, Gamma 2.4, Gamma 2.6: pure power functions;
+> > + * - sRGB: 2.4: The piece-wise transfer function from IEC 61966-2-1:19=
+99;
+> > + * - BT.709: has a linear segment in the bottom part and then a power =
+function
+> > + *   with a 0.45 (~1/2.22) gamma for the rest of the range; standardiz=
+ed by
+> > + *   ITU-R BT.709-6;
+> > + * - PQ (Perceptual Quantizer): used for HDR display, allows luminance=
+ range
+> > + *   capability of 0 to 10,000 nits; standardized by SMPTE ST 2084.
+> > + * =20
+>=20
+> I think it's important to highlight that the AMD color model is
+> designed with an assumption that SDR (sRGB, BT.709, G2.2, etc.)
+> peak white maps (normalized to 1.0 FP) to 80 nits in the PQ system.
+> This has the implication that PQ EOTF (NL-to-L) maps to [0.0..125.0].
+> 125.0 =3D 10,000 nits / 80 nits
+>=20
+> I think we'll want table or some other way describing this:
+>=20
+> (Using L to mean linear and NL to mean non-linear.)
+>=20
+> =3D=3D sRGB, BT709, Gamma 2.x =3D=3D
+> NL form is either UNORM or [0.0, 1.0]
+> L form is [0.0, 1.0]
+>=20
+> Note that HDR multiplier can wide range beyond [0.0, 1.0].
+> In practice this means that PQ TF is needed for any subsequent
+> L-to-NL transforms.
+>=20
+> =3D=3D PQ =3D=3D
+> NL form is either UNORM or FP16 CCCS (Windows canonical composition color=
+ space, see [1])
+> L form is [0.0, 125.0]
 
-Thanks!
+Hi,
 
-> >>> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> >>> ---
-> >>> RFC, a future patch could replace inclusion of
-> >>> <drm/drm_modeset_helper_vtables.h> by inclusion of one or more of the
-> >>> new files, and reduce compilation time.
-> >>> ---
-> >>>    include/drm/drm_connector_helper_vtable.h   |  364 +++++
-> >>>    include/drm/drm_crtc_helper_vtable.h        |  483 ++++++
-> >>>    include/drm/drm_encoder_helper_vtable.h     |  381 +++++
-> >>>    include/drm/drm_mode_config_helper_vtable.h |   97 ++
-> >>>    include/drm/drm_modeset_helper_vtables.h    | 1466 +--------------=
-----
-> >>>    include/drm/drm_plane_helper_vtable.h       |  297 ++++
-> >>>    6 files changed, 1627 insertions(+), 1461 deletions(-)
-> >>>    create mode 100644 include/drm/drm_connector_helper_vtable.h
-> >>>    create mode 100644 include/drm/drm_crtc_helper_vtable.h
-> >>>    create mode 100644 include/drm/drm_encoder_helper_vtable.h
-> >>>    create mode 100644 include/drm/drm_mode_config_helper_vtable.h
-> >>>    create mode 100644 include/drm/drm_plane_helper_vtable.h
+what is [1]?
 
-Gr{oetje,eeting}s,
 
-                        Geert
+Thanks,
+pq
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+> =3D=3D Unity, Default =3D=3D
+> NL form is either UNORM or FP16 CCCS
+> L form is either [0.0, 1.0] (mapping from UNORM) or CCCS (mapping from CC=
+CS FP16)
+>=20
+> Harry
+>=20
+> > + * In the driver-specific API, color block names attached to TF proper=
+ties
+> > + * suggest the intention regarding non-linear encoding pixel's luminan=
+ce
+> > + * values. As some newer encodings don't use gamma curve, we make enco=
+ding and
+> > + * decoding explicit by defining an enum list of transfer functions su=
+pported
+> > + * in terms of EOTF and inverse EOTF, where:
+> > + *
+> > + * - EOTF (electro-optical transfer function): is the transfer functio=
+n to go
+> > + *   from the encoded value to an optical (linear) value. De-gamma fun=
+ctions
+> > + *   traditionally do this.
+> > + * - Inverse EOTF (simply the inverse of the EOTF): is usually intende=
+d to go
+> > + *   from an optical/linear space (which might have been used for blen=
+ding)
+> > + *   back to the encoded values. Gamma functions traditionally do this.
+> > + */
+> >  static const char * const
+> >  amdgpu_transfer_function_names[] =3D {
+> >  	[AMDGPU_TRANSFER_FUNCTION_DEFAULT]		=3D "Default", =20
+>=20
+>=20
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+
+--Sig_/gLhra_5zRZi5cDlUfF6gIjx
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmUWfjoACgkQI1/ltBGq
+qqcO0BAAjMBkEu6r6XkNgzlsRrL6NDIoXzH+tJmVA6FdEUKnv1yDdbN8lZ0zS+Uc
+kAYvKGM9CzXGIkR7eXSx7Bd87Jo13s8M7dKoXuH5vzhl9vwQp+5eRjWh1YPdJBZX
+L7u/HVZXE7W3699qyAt8SAQI6gz8IAepBR6Go2CZlVlNy/1TyIFlglKOS6c9cTzX
+zJqXoaGMY03w9e5CplI6AGV3WhixNfZxQXpRQ0hVTWhW+72lVDFaiqpcxru+0hQi
+9GdGJrBXKmQeebyyJoL3OqWeoenmlEbx+McYLwqrqJUMLsWWTqMq5PYFWu6JJSuI
+PbVVIlDaCk7VDg5jg3KiBVms2Y6SXTGnVf71qZ9lLAZKKzaBV6BLIZU92MHhnqTC
+gRtIY8xA0w54lM3G8LSBdckKxRRcga0rjJaHBI/nAnpm8EEWG/xW+XKVinurbfOF
+hEbkUMm0oKz1KW9KKm19aJcNVpcG+MUdrQYJdmtsDamll7QumCM5g8fviI6HfS2z
+qkVYXFIyBTedlFJMB79/659XmAPUBtWC7ydDACPDo6UZiCFVkq6XPP0gYZT3/CBK
+I5iM9MdkuliJ7YIpEu1eJdqJ/LQoCFNcmMhy4WrJPD3G5Xq57N+Vg9xcbmpKAY1+
+oETfwPVe9SxEw78HFy6wUNMrRSFVXhFeidCUpGaCm0GUTcLOYrY=
+=pNkG
+-----END PGP SIGNATURE-----
+
+--Sig_/gLhra_5zRZi5cDlUfF6gIjx--
