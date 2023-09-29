@@ -1,42 +1,130 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C71067B3BB6
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Sep 2023 23:03:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 06A1F7B3BE8
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Sep 2023 23:23:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1734610E157;
-	Fri, 29 Sep 2023 21:03:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B64510E0F1;
+	Fri, 29 Sep 2023 21:23:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 590 seconds by postgrey-1.36 at gabe;
- Fri, 29 Sep 2023 21:03:13 UTC
-Received: from mail.z3ntu.xyz (mail.z3ntu.xyz [128.199.32.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9FA5210E13D;
- Fri, 29 Sep 2023 21:03:13 +0000 (UTC)
-Received: from g550jk.localnet (k10064.upc-k.chello.nl [62.108.10.64])
- by mail.z3ntu.xyz (Postfix) with ESMTPSA id E8FA8CFAC3;
- Fri, 29 Sep 2023 20:52:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=z3ntu.xyz; s=z3ntu;
- t=1696020771; bh=rOwWRnzmTEhtrBiWpnqo0qRH9l50Qc4w3CK50V3P6gw=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References;
- b=GcQgubjfrbPW1OMbQBBs7RzwO2dsvGsEVXsvh2h4+nUrb28CfQ0LZgU+QgMKKBeFV
- j2o+7JmzB38gg4D9EPfdeF3YqArrlOa5XHrPG7XB9/uvab9ZKUVfoOWEXMOP6WE8+M
- YFdGBB5Rwmd2u6CFtGmPiZa3wTtSpLSS2+JhcnDQ=
-From: Luca Weiss <luca@z3ntu.xyz>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [RFC PATCH 1/3] drm/msm/dpu: add support for MSM8953
-Date: Fri, 29 Sep 2023 22:52:48 +0200
-Message-ID: <5711857.DvuYhMxLoT@z3ntu.xyz>
-In-Reply-To: <20230923214912.1095024-2-dmitry.baryshkov@linaro.org>
-References: <20230923214912.1095024-1-dmitry.baryshkov@linaro.org>
- <20230923214912.1095024-2-dmitry.baryshkov@linaro.org>
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2061b.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:fe5b::61b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 505AB10E0F1;
+ Fri, 29 Sep 2023 21:23:29 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Dn36K032VCiMrA/WUKBQE8aeCGcgebh12aetndxKmXvyXpyp8e9T3tROWcvhRvch+9dXe6Etug7Co+4LolWEk05R2Y3oXPCK61QmrzXMBARLGeIX5ei1PiNldZ0+t5kOnGGK/4PBU6iRtkLdkM53vHOXWjI+IZSvclJhS7klQhPM36JDbdQ3N2skqLBdwJGDec2ZdN6AP2Gy4avzs9TsqEj+OEVzelDjKp37HCwAx5XQwE+Yj/w57gonOrnKl3IFda3XimFBk2mqKHgyFK5NByKzSKWbyGkKKYZCfXifh1STrW1d6fkioqq1mpn76zrgfxJoOLfPkQEM0CT/GG1f0A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=z/sG7DDF+NqZPXgBpFIqsL01t3b3/sYhld5Pn7uRiE4=;
+ b=EUNJUtZDLZyK0KKdf6xn5307jrS+5H48lV2i8zn5d/TREClClYBzu+Q3Pwcx0Rj2CxDuTFJDu25jMHrB1AAQB5rnNmsj3jYIb4c9ejs4NPlSGNBRiN+Op8p/tfzHRikcs0a0rg1SzKxYPB6ehgvnN7MpBor1mVJwNHuyojpZI5HWNvjrjsHMVKKB/Uqe74+YJ3jhZ4i2EVnRn2hzgLQ5u7vun0LOQ/3hd6YMOUZkyM4c7B5eAbe8CZ+2vlbS8EmjLqst00vg5BZkbRTauQMCFUboo6ruWVYBK9/w0E+Ia6EIsYOuF6ss+PEof7RoL862LPzLTP3Lp7inESX3Ix7D9Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=z/sG7DDF+NqZPXgBpFIqsL01t3b3/sYhld5Pn7uRiE4=;
+ b=YGe4ByIFTcZyU/O8oNuDjI4mTn7kZIFRg+MthlSS/FAKz/uqtwN5k6P6Z0OYcLXA49HpTc4JSLwZyhQpaiP03tjB6UGFOrFAjsseAaE+Ige0v0groU58A+DklyavyT/9NsTSkSTWTxlFlfb4eVOFzrYLwXwP3YQrtzJVySd6AH0=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM6PR12MB3370.namprd12.prod.outlook.com (2603:10b6:5:38::25) by
+ BL0PR12MB4961.namprd12.prod.outlook.com (2603:10b6:208:1c9::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6813.28; Fri, 29 Sep
+ 2023 21:23:26 +0000
+Received: from DM6PR12MB3370.namprd12.prod.outlook.com
+ ([fe80::8a67:3bbe:8309:4f87]) by DM6PR12MB3370.namprd12.prod.outlook.com
+ ([fe80::8a67:3bbe:8309:4f87%3]) with mapi id 15.20.6768.029; Fri, 29 Sep 2023
+ 21:23:26 +0000
+Message-ID: <e8c7d8b9-f6fe-407b-9b61-e7ced8390997@amd.com>
+Date: Fri, 29 Sep 2023 17:23:23 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:115.0) Gecko/20100101
+ Thunderbird/115.3.0
+Subject: Re: [PATCH v4 06/10] drm/sched: Add drm_sched_start_timeout_unlocked
+ helper
+Content-Language: en-CA, en-US
+To: Matthew Brost <matthew.brost@intel.com>, dri-devel@lists.freedesktop.org, 
+ intel-xe@lists.freedesktop.org
+References: <20230919050155.2647172-1-matthew.brost@intel.com>
+ <20230919050155.2647172-7-matthew.brost@intel.com>
+From: Luben Tuikov <luben.tuikov@amd.com>
+Autocrypt: addr=luben.tuikov@amd.com; keydata=
+ xjMEY1i6jxYJKwYBBAHaRw8BAQdAhfD+Cc+P5t/fiF08Vw25EMLiwUuxULYRiDQAP6H50MTN
+ I0x1YmVuIFR1aWtvdiA8bHViZW4udHVpa292QGFtZC5jb20+wpkEExYKAEEWIQQyyR05VSHw
+ x45E/SoppxulNG8HhgUCY1i6jwIbAwUJCWYBgAULCQgHAgIiAgYVCgkICwIEFgIDAQIeBwIX
+ gAAKCRAppxulNG8Hhk53AP4k4UY5xfcje0c5OF1k22pNv8tErxtVpgKKZgvfetA4xwD+OoAh
+ vesLIYumBDxP0BoLiLN84udxdT15HwPFUGiDmwDOOARjWLqPEgorBgEEAZdVAQUBAQdAzSxY
+ a2EtvvIwd09NckBLSTarSLNDkUthmqPnwolwiDYDAQgHwn4EGBYKACYWIQQyyR05VSHwx45E
+ /SoppxulNG8HhgUCY1i6jwIbDAUJCWYBgAAKCRAppxulNG8HhnBLAP4yjSGpK6PE1mapKhrq
+ 8bSl9reo+F6EqdhE8X2TTHPycAEAt8EkTEstSiaOpM66gneU7r+xxzOYULo1b1XjXayGvwM=
+In-Reply-To: <20230919050155.2647172-7-matthew.brost@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: YQBPR01CA0059.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:2::31) To DM6PR12MB3370.namprd12.prod.outlook.com
+ (2603:10b6:5:38::25)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR12MB3370:EE_|BL0PR12MB4961:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9ef067eb-0038-462b-268b-08dbc1325197
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: bw/VszZ8NxVJTbtKcVgesnm1N/g84ijxd3zeRRqYlt+Xp/chd2mHxJMAk8YL3j04hCe6OdAEwwzzIC9KEuYMnZvAtaWOwdThtOTlsGhDDKDssKAZvKK7tfny5KKvlsdK92CR+PNvsQxqddhFxrMvflhEzSG4Th71+C7TyL7MInHy3TqGlQT4yjXcKStryLxW4rews+GzqBgyEc3kK+q74Mau837NdORTi9VN7hSii7cDjDfdE0Cd9TdbNUkA1mOHiK5vL+VlT5vRWcdSY9Y61UqqbYj0hihwv+wPXXw5lztlP6I97OOYiHC337u42NqBNBAwToyGkGRqpD9CsxzI7sx2oyQVmAHayjL9krieOiIYa3eZPZOER379WQx/ivmAkKXQWnyI1StV9MxMvdntHvbGSkX0kKL1rVrY5HfTpBJGDZOr48aWB7e2/i/1vTBtY2SYS8h28+8Tynu3yhQ6y/F97sPEsk/vt7+asSbwRC+tOmHw/y9BaNMTQRnCGfPHWqg+vHsa16pjckZKxQWshWKltlv+qU+icAO2XuErUrU/Ny1nmZe7hcVqg5CrkA+GwpB1kngSeS2bY6E8e0qd/XGMWPCgviXxb7F8DtEeMccZGgMT0AkBTPd1YIz9bqK7cxZOr+mIf/J8SRGB1z4s/A==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR12MB3370.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(396003)(346002)(39860400002)(376002)(366004)(136003)(230922051799003)(64100799003)(186009)(1800799009)(451199024)(66476007)(6506007)(6512007)(6666004)(2906002)(2616005)(53546011)(6486002)(478600001)(26005)(83380400001)(8676002)(44832011)(4326008)(5660300002)(8936002)(7416002)(316002)(41300700001)(66556008)(66946007)(38100700002)(31696002)(86362001)(36756003)(31686004)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RXJGWkVOQzY4WENwSVh4SDBONmVacnBuZ2pMQXM4WnFWcGNrakNmbEdRVWhD?=
+ =?utf-8?B?MFRIMFdFWVprY2hpOWlsMENPYjVQMTFLcWxHZ1YraXVlc1NpSTBKcjdFTkRC?=
+ =?utf-8?B?V0RKOG9OaldocFZVNVdOZm9LRDBXalhxZy9iVUJxN1JpNURZcVhXbTdxQmwy?=
+ =?utf-8?B?OEZiZkw5NXFpTDh1MytwdjVxRVFSOWZKaGF3aFZSUzkzVFdPQTAwM0ZzdFVM?=
+ =?utf-8?B?VzdycnRYSHRhT051ci9Zd1MzSWdndjVwNG93NmdZN096N3N6OUc5WTJqMGln?=
+ =?utf-8?B?RmFGQUFFbE0yVGgyMW1XQm0xOXRXRklBZU40M1NrREdZaXhLWVptTWJnOHRp?=
+ =?utf-8?B?ZXhianlKU3g1WnBXcU1NUWk1MHNUVW12Rm9PNTBPUVgvdm80cFJLYWhnSzQx?=
+ =?utf-8?B?Sm4wckNBSHNweWFOdlhMZ2UxTFRPSGV5eWlOOVdqTG5qbEN2ZVRCeTloVTZF?=
+ =?utf-8?B?TFFWRGkzSGtUek5UemtFcVFyQzhJZTg1WFp1YVBkVlBWMWhQMjNxdFgycGh5?=
+ =?utf-8?B?d0MzVFRiZjRBUkVhcW5BUnprMWYyK21hSCszUjlDZnNMMkRKamF4SlQzKzY5?=
+ =?utf-8?B?VVAvTHZwMVN6cDM3Vmc0ODkyWDBtaEFZN2xqUUdBNjUvR0cvd3lZRFZhT0FB?=
+ =?utf-8?B?K3I3L2hVQU9hUmtzcURITzllaUJaeG1wLzFUZm1iZEg1a3FYeFdVbUlTT2RL?=
+ =?utf-8?B?ck1TeVlvemNtN0RocjBGT2FqODVyNDBqMWFTQjhJVXhBamNid21qYlhSSFAz?=
+ =?utf-8?B?YW1zSnYwNU1uaGl3VG1VcXRUdDdaaDZsQytKTTkwV2QzeGk2WmNUeHRQSXh0?=
+ =?utf-8?B?NUlhME1peFVVNW13emozbWxabjZydm4vTlBQbC9OeGZBZTFyamgrMmczb2JC?=
+ =?utf-8?B?SURrbTZtc2U0dFpjanpmSUJuTlcyVkpUR3A5Z1pKeDlnOUY2d2V3NThiN3Fx?=
+ =?utf-8?B?WTk3WExvKysxTE9PZm1LREZmdUs5OW11c252TjdsL0xndXpNbjFFZlZ6ZG5Q?=
+ =?utf-8?B?R2lVVE5qenBGQjRKRjkwYnpsVmdLYVAwbmpvdlB6NGIrZ21DM01oUm0yQ3NF?=
+ =?utf-8?B?d2dnVEc1aHRaNElqVHg0WlRZUVJGYkw2MjdLRUtuYllEMHliUGZiNU5GY0cy?=
+ =?utf-8?B?N2lDNS9ORURJN2I5V3UrTi9qODZGVFlzZlRVd20vTGN1SHdyczVvVmZUUkov?=
+ =?utf-8?B?cGRaR2Qya1ZJb1Y3ZGFOaEJXYkREV3pUaU9TcEJNbmxFWGlvSzVCNXNKeGtU?=
+ =?utf-8?B?VjRkTGJhT0tGTXM3TGgzUEd0dWhxODdGRzB3MXlpU2VUaDd3aXRHV3NtQUkr?=
+ =?utf-8?B?TUkzSElNM1FnUnJJYVdha1ViZGdrNjBtVTVnMks0N3dUaDZpYnZQWFZ6RjNY?=
+ =?utf-8?B?RGtnR0dGMHVxV0UvUUdHdlhCalc2KzR1bGlhOEQ3T3p5cUpUNGdwOWFhNkRu?=
+ =?utf-8?B?c08rbkgyYXpwZjY1S010S2h4QTZxdkxLcUhqYVcrOEl1L2NYdEhpK0h4YUtQ?=
+ =?utf-8?B?cG5NYXMxcXlsMkpOSGtaNHQwdWVsL1NFWUxSeW9SbkFtdnI2T1VyTzNtcE5l?=
+ =?utf-8?B?U2dERXd2Rk5ZYmxPajA5NTA4UzMraTNsS1lMNkdtMkNkUUN5a0VCQUZEM0lO?=
+ =?utf-8?B?YzNzZlFILzh2QnUyQTNVYjY5bjRUTDNPbkJKVkFzM0FablBvUEd3NkZ5S1lB?=
+ =?utf-8?B?R0Y3eGdPNlZkSnBzc05aeGM5cGdHY2V2VG1Wb1pEQlFlY0dYMk5oYkNLMHgz?=
+ =?utf-8?B?OEMxS0RzNlNpRm1BS3cycUtCdUNXZnVJZVEvNWlkWkNZRk9qeS9qNk1HMFZ1?=
+ =?utf-8?B?RjZLVGJBNDRma1dGQ1RmZE9GUzFjUnQyd0pKUnhESFcrbzJUTm1PSjlwTWRN?=
+ =?utf-8?B?TCtKK1QzWXNRQjRYZFF6a0FPZ0RKZU1TbVVRSzhqVW85Q1hvS1lKbGlPTHlT?=
+ =?utf-8?B?UlE1b01uZ2k4eE42Q0dqdGR5RlFhZDcwaVlmOTU1Wk5NQi9NU3lHbFJoUjZV?=
+ =?utf-8?B?TXF0ME5KWmpYNXRVV3VBQ1NhTVpaVUg5MGZOaWVKN1pWcWV3Q1NMRWRwMTk5?=
+ =?utf-8?B?b2Nndmd6b0twTzhJSi9JZTB0aVlRbTJjWWJuMExCRzBDaDNIMUl2MXFHYkc4?=
+ =?utf-8?Q?iBgs8hYT0GyxJlLxIT+PMAv6C?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9ef067eb-0038-462b-268b-08dbc1325197
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3370.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Sep 2023 21:23:26.6462 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8E9Pt5++K6ot2Ym8/hF2lsmBzb6M8tiq9XtvKXzYwk16dQ2yO1e2lzH4yjFVOzEj
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB4961
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,347 +137,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>
+Cc: robdclark@chromium.org, thomas.hellstrom@linux.intel.com,
+ sarah.walker@imgtec.com, ketil.johnsen@arm.com, Liviu.Dudau@arm.com,
+ mcanal@igalia.com, boris.brezillon@collabora.com, dakr@redhat.com,
+ donald.robson@imgtec.com, lina@asahilina.net, christian.koenig@amd.com,
+ faith.ekstrand@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Samstag, 23. September 2023 23:49:10 CEST Dmitry Baryshkov wrote:
-> Experimental support for MSM8953, which has MDP5 v1.16. It looks like
-> trimmed down version of MSM8996. Less SSPP, LM and PP blocks. No DSC,
-> etc.
+Hi,
+
+On 2023-09-19 01:01, Matthew Brost wrote:
+> Also add a lockdep assert to drm_sched_start_timeout.
 > 
+> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
 
-Hi Dmitry,
+Reviewed-by: Luben Tuikov <luben.tuikov@amd.com>
 
-As written on IRC, on sdm632-fairphone-fp3 with this DPU patches the screen is
-initializing and displaying stuff :) But there's some errors, which presumably
-are the reason that the screen is only updating a few times per second.
+Thanks for this patch!
 
-[   22.774205] [drm:dpu_kms_hw_init:1164] dpu hardware revision:0x10100000
-[   23.099806] [drm:_dpu_encoder_phys_cmd_wait_for_ctl_start:657] [dpu error]enc31 intf1 ctl start interrupt wait failed
-[   23.099821] [drm:dpu_kms_wait_for_commit_done:495] [dpu error]wait for commit done returned -22
-
-These messages appear about 13 times per second but as I mentioned, the screen
-*is* updating (slowly) there.
-
-Also you for sure forgot to add "qcom,msm8953-mdp5" to the
-msm_mdp5_dpu_migration list, without this DPU is never even considered for
-8953.
-
-Regards
-Luca
-
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > ---
->  .../msm/disp/dpu1/catalog/dpu_1_16_msm8953.h  | 221 ++++++++++++++++++
->  .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    |  12 +
->  .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |   1 +
->  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |   1 +
->  4 files changed, 235 insertions(+)
->  create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_16_msm8953.h
+>  drivers/gpu/drm/scheduler/sched_main.c | 23 +++++++++++++----------
+>  1 file changed, 13 insertions(+), 10 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_16_msm8953.h
-> b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_16_msm8953.h new file mode
-> 100644
-> index 000000000000..6944bfa4568a
-> --- /dev/null
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_16_msm8953.h
-> @@ -0,0 +1,221 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +/*
-> + * Copyright (c) 2023, Linaro Limited
-> + */
+> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+> index 1e21d234fb5c..09ef07b9e9d5 100644
+> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> @@ -431,11 +431,20 @@ static void drm_sched_job_done_cb(struct dma_fence *f, struct dma_fence_cb *cb)
+>   */
+>  static void drm_sched_start_timeout(struct drm_gpu_scheduler *sched)
+>  {
+> +	lockdep_assert_held(&sched->job_list_lock);
 > +
-> +#ifndef _DPU_1_16_MSM8953_H
-> +#define _DPU_1_16_MSM8953_H
+>  	if (sched->timeout != MAX_SCHEDULE_TIMEOUT &&
+>  	    !list_empty(&sched->pending_list))
+>  		queue_delayed_work(sched->timeout_wq, &sched->work_tdr, sched->timeout);
+>  }
+>  
+> +static void drm_sched_start_timeout_unlocked(struct drm_gpu_scheduler *sched)
+> +{
+> +	spin_lock(&sched->job_list_lock);
+> +	drm_sched_start_timeout(sched);
+> +	spin_unlock(&sched->job_list_lock);
+> +}
 > +
-> +static const struct dpu_caps msm8953_dpu_caps = {
-> +	.max_mixer_width = DEFAULT_DPU_LINE_WIDTH,
-> +	.max_mixer_blendstages = 0x4,
-> +	.max_linewidth = DEFAULT_DPU_LINE_WIDTH,
-> +	.pixel_ram_size = 40 * 1024,
-> +	.max_hdeci_exp = MAX_HORZ_DECIMATION,
-> +	.max_vdeci_exp = MAX_VERT_DECIMATION,
-> +};
-> +
-> +static const struct dpu_mdp_cfg msm8953_mdp[] = {
-> +	{
-> +		.name = "top_0",
-> +		.base = 0x0, .len = 0x454,
-> +		.features = BIT(DPU_MDP_VSYNC_SEL),
-> +		.clk_ctrls = {
-> +			[DPU_CLK_CTRL_VIG0] = { .reg_off = 0x2ac, .bit_off = 0 },
-> +			[DPU_CLK_CTRL_RGB0] = { .reg_off = 0x2ac, .bit_off = 4 },
-> +			[DPU_CLK_CTRL_RGB1] = { .reg_off = 0x2b4, .bit_off = 4 },
-> +			[DPU_CLK_CTRL_DMA0] = { .reg_off = 0x2ac, .bit_off = 8 },
-> +			[DPU_CLK_CTRL_CURSOR0] = { .reg_off = 0x3a8, .bit_off = 16 },
-> +		},
-> +	},
-> +};
-> +
-> +static const struct dpu_ctl_cfg msm8953_ctl[] = {
-> +	{
-> +		.name = "ctl_0", .id = CTL_0,
-> +		.base = 0x1000, .len = 0x64,
-> +		.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 9),
-> +	}, {
-> +		.name = "ctl_1", .id = CTL_1,
-> +		.base = 0x1200, .len = 0x64,
-> +		.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 10),
-> +	}, {
-> +		.name = "ctl_2", .id = CTL_2,
-> +		.base = 0x1400, .len = 0x64,
-> +		.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 11),
-> +	},
-> +};
-> +
-> +static const struct dpu_sspp_cfg msm8953_sspp[] = {
-> +	{
-> +		.name = "sspp_0", .id = SSPP_VIG0,
-> +		.base = 0x4000, .len = 0x150,
-> +		.features = VIG_MSM8953_MASK,
-> +		.sblk = &dpu_vig_sblk_qseed2,
-> +		.xin_id = 0,
-> +		.type = SSPP_TYPE_VIG,
-> +		.clk_ctrl = DPU_CLK_CTRL_VIG0,
-> +	}, {
-> +		.name = "sspp_4", .id = SSPP_RGB0,
-> +		.base = 0x14000, .len = 0x150,
-> +		.features = RGB_MSM8953_MASK,
-> +		.sblk = &dpu_rgb_sblk,
-> +		.xin_id = 1,
-> +		.type = SSPP_TYPE_RGB,
-> +		.clk_ctrl = DPU_CLK_CTRL_RGB0,
-> +	}, {
-> +		.name = "sspp_5", .id = SSPP_RGB1,
-> +		.base = 0x16000, .len = 0x150,
-> +		.features = RGB_MSM8953_MASK,
-> +		.sblk = &dpu_rgb_sblk,
-> +		.xin_id = 5,
-> +		.type = SSPP_TYPE_RGB,
-> +		.clk_ctrl = DPU_CLK_CTRL_RGB1,
-> +	}, {
-> +		.name = "sspp_8", .id = SSPP_DMA0,
-> +		.base = 0x24000, .len = 0x150,
-> +		.features = DMA_MSM8953_MASK | BIT(DPU_SSPP_CURSOR),
-> +		.sblk = &dpu_dma_sblk,
-> +		.xin_id = 2,
-> +		.type = SSPP_TYPE_DMA,
-> +		.clk_ctrl = DPU_CLK_CTRL_DMA0,
-> +	},
-> +};
-> +
-> +static const struct dpu_lm_cfg msm8953_lm[] = {
-> +	{
-> +		.name = "lm_0", .id = LM_0,
-> +		.base = 0x44000, .len = 0x320,
-> +		.sblk = &msm8998_lm_sblk,
-> +		.lm_pair = LM_1,
-> +		.pingpong = PINGPONG_0,
-> +		.dspp = DSPP_0,
-> +	}, {
-> +		.name = "lm_1", .id = LM_1,
-> +		.base = 0x45000, .len = 0x320,
-> +		.sblk = &msm8998_lm_sblk,
-> +		.lm_pair = LM_0,
-> +		.pingpong = PINGPONG_1,
-> +	},
-> +};
-> +
-> +static const struct dpu_pingpong_cfg msm8953_pp[] = {
-> +	{
-> +		.name = "pingpong_0", .id = PINGPONG_0,
-> +		.base = 0x70000, .len = 0xd4,
-> +		.features = PINGPONG_MSM8996_MASK,
-> +		.sblk = &msm8996_pp_sblk,
-> +		.intr_done = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 8),
-> +		.intr_rdptr = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 12),
-> +	}, {
-> +		.name = "pingpong_1", .id = PINGPONG_1,
-> +		.base = 0x70800, .len = 0xd4,
-> +		.features = PINGPONG_MSM8996_MASK,
-> +		.sblk = &msm8996_pp_sblk,
-> +		.intr_done = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 9),
-> +		.intr_rdptr = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 13),
-> +	},
-> +};
-> +
-> +static const struct dpu_dspp_cfg msm8953_dspp[] = {
-> +	{
-> +		.name = "dspp_0", .id = DSPP_0,
-> +		.base = 0x54000, .len = 0x1800,
-> +		.features = DSPP_SC7180_MASK,
-> +		.sblk = &msm8998_dspp_sblk,
-> +	},
-> +};
-> +
-> +static const struct dpu_intf_cfg msm8953_intf[] = {
-> +	{
-> +		.name = "intf_0", .id = INTF_0,
-> +		.base = 0x6a000, .len = 0x268,
-> +		.type = INTF_NONE,
-> +		.prog_fetch_lines_worst_case = 14,
-> +		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 24),
-> +		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 25),
-> +		.intr_tear_rd_ptr = -1,
-> +	}, {
-> +		.name = "intf_1", .id = INTF_1,
-> +		.base = 0x6a800, .len = 0x268,
-> +		.type = INTF_DSI,
-> +		.controller_id = MSM_DSI_CONTROLLER_0,
-> +		.prog_fetch_lines_worst_case = 14,
-> +		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 26),
-> +		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 27),
-> +		.intr_tear_rd_ptr = -1,
-> +	}, {
-> +		.name = "intf_2", .id = INTF_2,
-> +		.base = 0x6b000, .len = 0x268,
-> +		.type = INTF_DSI,
-> +		.controller_id = MSM_DSI_CONTROLLER_1,
-> +		.prog_fetch_lines_worst_case = 14,
-> +		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 28),
-> +		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 29),
-> +		.intr_tear_rd_ptr = -1,
-> +	},
-> +};
-> +
-> +static const struct dpu_perf_cfg msm8953_perf_data = {
-> +	.max_bw_low = 3400000,
-> +	.max_bw_high = 3400000,
-> +	.min_core_ib = 2400000,
-> +	.min_llcc_ib = 0, /* No LLCC on this SoC */
-> +	.min_dram_ib = 800000,
-> +	.undersized_prefill_lines = 2,
-> +	.xtra_prefill_lines = 2,
-> +	.dest_scale_prefill_lines = 3,
-> +	.macrotile_prefill_lines = 4,
-> +	.yuv_nv12_prefill_lines = 8,
-> +	.linear_prefill_lines = 1,
-> +	.downscaling_prefill_lines = 1,
-> +	.amortizable_threshold = 25,
-> +	.min_prefill_lines = 14,
-> +	.danger_lut_tbl = {0xf, 0xffff, 0x0},
-> +	.safe_lut_tbl = {0xfffc, 0xff00, 0xffff},
-> +	.qos_lut_tbl = {
-> +		{.nentry = ARRAY_SIZE(msm8998_qos_linear),
-> +		.entries = msm8998_qos_linear
-> +		},
-> +		{.nentry = ARRAY_SIZE(msm8998_qos_macrotile),
-> +		.entries = msm8998_qos_macrotile
-> +		},
-> +		{.nentry = ARRAY_SIZE(msm8998_qos_nrt),
-> +		.entries = msm8998_qos_nrt
-> +		},
-> +	},
-> +	.cdp_cfg = {
-> +		{.rd_enable = 1, .wr_enable = 1},
-> +		{.rd_enable = 1, .wr_enable = 0}
-> +	},
-> +	.clk_inefficiency_factor = 105,
-> +	.bw_inefficiency_factor = 120,
-> +};
-> +
-> +static const struct dpu_mdss_version msm8953_mdss_ver = {
-> +	.core_major_ver = 1,
-> +	.core_minor_ver = 16,
-> +};
-> +
-> +const struct dpu_mdss_cfg dpu_msm8953_cfg = {
-> +	.mdss_ver = &msm8953_mdss_ver,
-> +	.caps = &msm8953_dpu_caps,
-> +	.mdp = msm8953_mdp,
-> +	.ctl_count = ARRAY_SIZE(msm8953_ctl),
-> +	.ctl = msm8953_ctl,
-> +	.sspp_count = ARRAY_SIZE(msm8953_sspp),
-> +	.sspp = msm8953_sspp,
-> +	.mixer_count = ARRAY_SIZE(msm8953_lm),
-> +	.mixer = msm8953_lm,
-> +	.dspp_count = ARRAY_SIZE(msm8953_dspp),
-> +	.dspp = msm8953_dspp,
-> +	.pingpong_count = ARRAY_SIZE(msm8953_pp),
-> +	.pingpong = msm8953_pp,
-> +	.intf_count = ARRAY_SIZE(msm8953_intf),
-> +	.intf = msm8953_intf,
-> +	.vbif_count = ARRAY_SIZE(msm8996_vbif),
-> +	.vbif = msm8996_vbif,
-> +	.perf = &msm8953_perf_data,
-> +};
-> +
-> +#endif
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c index
-> 5446a86308bf..20e31115e26d 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> @@ -21,6 +21,11 @@
->  	(VIG_BASE_MASK | \
->  	BIT(DPU_SSPP_CSC_10BIT))
-> 
-> +#define VIG_MSM8953_MASK \
-> +	(BIT(DPU_SSPP_QOS) |\
-> +	 BIT(DPU_SSPP_SCALER_QSEED2) |\
-> +	 BIT(DPU_SSPP_CSC))
-> +
->  #define VIG_MSM8996_MASK \
->  	(BIT(DPU_SSPP_QOS) | BIT(DPU_SSPP_CDP) |\
->  	 BIT(DPU_SSPP_TS_PREFILL) | BIT(DPU_SSPP_SCALER_QSEED2) |\
-> @@ -37,6 +42,9 @@
-> 
->  #define VIG_QCM2290_MASK (VIG_BASE_MASK | BIT(DPU_SSPP_QOS_8LVL))
-> 
-> +#define DMA_MSM8953_MASK \
-> +	(BIT(DPU_SSPP_QOS))
-> +
->  #define DMA_MSM8996_MASK \
->  	(BIT(DPU_SSPP_QOS) | BIT(DPU_SSPP_TS_PREFILL) | BIT(DPU_SSPP_CDP))
-> 
-> @@ -71,6 +79,9 @@
->  #define DMA_CURSOR_MSM8998_MASK \
->  	(DMA_MSM8998_MASK | BIT(DPU_SSPP_CURSOR))
-> 
-> +#define RGB_MSM8953_MASK \
-> +	(BIT(DPU_SSPP_QOS))
-> +
->  #define RGB_MSM8996_MASK \
->  	(BIT(DPU_SSPP_QOS) | BIT(DPU_SSPP_CDP) |\
->  	 BIT(DPU_SSPP_TS_PREFILL) | BIT(DPU_SSPP_SCALER_RGB))
-> @@ -705,6 +716,7 @@ static const struct dpu_qos_lut_entry sc7180_qos_nrt[] =
-> { *************************************************************/
-> 
->  #include "catalog/dpu_1_7_msm8996.h"
-> +#include "catalog/dpu_1_16_msm8953.h"
-> 
->  #include "catalog/dpu_3_0_msm8998.h"
->  #include "catalog/dpu_3_2_sdm660.h"
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-> b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h index
-> 8c3c6cd2a186..58891a19d2b0 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-> @@ -822,6 +822,7 @@ struct dpu_mdss_cfg {
->  	const struct dpu_format_extended *vig_formats;
->  };
-> 
-> +extern const struct dpu_mdss_cfg dpu_msm8953_cfg;
->  extern const struct dpu_mdss_cfg dpu_msm8996_cfg;
->  extern const struct dpu_mdss_cfg dpu_msm8998_cfg;
->  extern const struct dpu_mdss_cfg dpu_sdm630_cfg;
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c index 288458dcf234..5099618bfe11
-> 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> @@ -1415,6 +1415,7 @@ static const struct dev_pm_ops dpu_pm_ops = {
->  };
-> 
->  static const struct of_device_id dpu_dt_match[] = {
-> +	{ .compatible = "qcom,msm8953-mdp5", .data = &dpu_msm8953_cfg, },
->  	{ .compatible = "qcom,msm8996-mdp5", .data = &dpu_msm8996_cfg, },
->  	{ .compatible = "qcom,msm8998-dpu", .data = &dpu_msm8998_cfg, },
->  	{ .compatible = "qcom,qcm2290-dpu", .data = &dpu_qcm2290_cfg, },
+>  /**
+>   * drm_sched_fault - immediately start timeout handler
+>   *
+> @@ -548,11 +557,8 @@ static void drm_sched_job_timedout(struct work_struct *work)
+>  		spin_unlock(&sched->job_list_lock);
+>  	}
+>  
+> -	if (status != DRM_GPU_SCHED_STAT_ENODEV) {
+> -		spin_lock(&sched->job_list_lock);
+> -		drm_sched_start_timeout(sched);
+> -		spin_unlock(&sched->job_list_lock);
+> -	}
+> +	if (status != DRM_GPU_SCHED_STAT_ENODEV)
+> +		drm_sched_start_timeout_unlocked(sched);
+>  }
+>  
+>  /**
+> @@ -678,11 +684,8 @@ void drm_sched_start(struct drm_gpu_scheduler *sched, bool full_recovery)
+>  			drm_sched_job_done(s_job, -ECANCELED);
+>  	}
+>  
+> -	if (full_recovery) {
+> -		spin_lock(&sched->job_list_lock);
+> -		drm_sched_start_timeout(sched);
+> -		spin_unlock(&sched->job_list_lock);
+> -	}
+> +	if (full_recovery)
+> +		drm_sched_start_timeout_unlocked(sched);
+>  
+>  	drm_sched_submit_start(sched);
+>  }
 
-
-
+-- 
+Regards,
+Luben
 
