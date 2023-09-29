@@ -2,83 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A17287B29F0
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Sep 2023 02:46:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E5C27B2A2D
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Sep 2023 03:46:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 97E9810E041;
-	Fri, 29 Sep 2023 00:46:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 64D4810E0B8;
+	Fri, 29 Sep 2023 01:46:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D5CF10E041;
- Fri, 29 Sep 2023 00:46:32 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 38SNvgNl026356; Fri, 29 Sep 2023 00:46:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=afqAn7dGHUrlAfXXYIxYiEc20eODfjmPGA+l2AIO5QA=;
- b=lQCH7OLOzUdEnhZzixzvQz5U/EUMM82fB4kCv8ctjF/XnzOVjKc7wTj7REpsvwunQDbQ
- muVpMkt9FwQbPY3x/DP92fM+jkWSjezxXWS3G997LNu/0eH+kEfQNvleb15T/XQDcj0R
- EDPDYRbHrM0wQWBe992gMUYCB8xXK431197vg2gnebESjYBAnuvVf/poqAvDrc6kfuHv
- yDzTBw9/lJXZDZSpP9y0SvztOii9YipwceqHpKZ9pTzddTZaedespblTWLHKqGiZU+eL
- 5pT4Gc5LP3lnS8LjL6J4YM2xJBPTHob0nC+N4i4qKy5XRntVqvJ6G5ZHs+s6W+1KCGka uQ== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3tdfbrrgh3-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 29 Sep 2023 00:46:17 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 38T0kGXO005113
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 29 Sep 2023 00:46:16 GMT
-Received: from [10.110.70.158] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Thu, 28 Sep
- 2023 17:46:13 -0700
-Message-ID: <58701008-bb93-e5c6-9ca0-5bc43f9a46f0@quicinc.com>
-Date: Thu, 28 Sep 2023 17:46:11 -0700
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com
+ [IPv6:2a00:1450:4864:20::62d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E2A9910E0B8
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Sep 2023 01:46:25 +0000 (UTC)
+Received: by mail-ej1-x62d.google.com with SMTP id
+ a640c23a62f3a-9b27bc8b65eso1191030066b.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Sep 2023 18:46:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1695951984; x=1696556784; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=wjUlQwEjtZqxZu1kpUu5uRZmclkQBq6AV4M8yVChIbs=;
+ b=LrE3is+j5tnU3ojRWMaE9dan9OeuNg8IB56zA9kYCbVYLk6QFcIAHgZrurGn9Mkhvz
+ WAavd/r5oq2MRwxQQyLiDS77+46itksCS+zdShPDxCqTtibR0bOcIvtBy2bLnh1UmQKU
+ QyLSaMuubyGQK4YVgIymQc6qk71PVY1ebwTvG5IcwQVNY01JhupU7jdTshKf9tsz9LpX
+ EVJ2WsRcXM30XLAz+7j2/gNQ/7f+bQLyRfAQvVR7GAQbTw4ruJRvKOjYV+broNHexDpo
+ EYHjqZYITy1F2k87KXWbixVW4UVUA94Bm7nuLG4v0XRA1fcPJ1qbhVRl3ft4CPzRn0dv
+ EllA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1695951984; x=1696556784;
+ h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=wjUlQwEjtZqxZu1kpUu5uRZmclkQBq6AV4M8yVChIbs=;
+ b=ecLxjFCs+viujjbsrNlRwLNTOTh26nI6V+b6bzOFqNo1OGBxM24D1GgnLmOEur2TYo
+ hbhNMSLpV994/fDFvGvL8uPsa5pxARwo8zMjZqLMtSgLHW3hSt9np0oI61pKQWW7N2+e
+ 8PgVkCTZTUtJ66SQoF3bXldudk9vz9zUJnj3K98Jph0fUe3y02yL4KwDW73wszhfS49Q
+ oK5noVUVmXqj6z2BO874eDydRXYgzg9yP2NTIpy4xNDxiLyl4QBxzcJ2SRtbfgUGlaZX
+ Af3DPVvNix2XrXm4nkYmmqg7PcuKxHhbwQ4OnxK/cefyqkZ/mAB/1fmZA4OtQF8bdjbN
+ zOew==
+X-Gm-Message-State: AOJu0Yzfmhap0DSrIHDFozzJ5zG6vdLTjYHSxMwkWq1jVrhk/zcv/IG2
+ oXVsfuQWNpTwYGLT8WWcsWs8H9tSWVt+fDXuMp4=
+X-Google-Smtp-Source: AGHT+IG2KqTMcUpCdlErMwRz6hm4et4Spza854iJ+jKDKEAqLuSC7NzdrY9evQ7GP66ES+T5kBGHyeSkgIljsWjx/hk=
+X-Received: by 2002:a17:906:3cb1:b0:9a5:852f:10bd with SMTP id
+ b17-20020a1709063cb100b009a5852f10bdmr2468967ejh.62.1695951983947; Thu, 28
+ Sep 2023 18:46:23 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v3 6/7] drm/msm/dp: add pm_runtime_force_suspend()/resume()
-Content-Language: en-US
-To: Stephen Boyd <swboyd@chromium.org>, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>
-References: <1694813901-26952-1-git-send-email-quic_khsieh@quicinc.com>
- <1694813901-26952-7-git-send-email-quic_khsieh@quicinc.com>
- <CAA8EJpqPXoFX4LXyXYgfh07Vpxg-KgD8VBR6x5bXf4GOJmbOtw@mail.gmail.com>
- <2f98d5f1-57c1-d9fe-cb1c-b975db057287@quicinc.com>
- <CAA8EJpr2wRq6Txi7YAQpJKa_9UGqH_nmHzvVOaAPkwOrtDg4Tw@mail.gmail.com>
- <CAE-0n53dqHONzMTd_ZC-fKWTzDVq6Wqwo4OFZMUcghZ5SD5RhA@mail.gmail.com>
- <65566a68-3510-2e5f-7d57-e4dba08c008c@quicinc.com>
- <1d9bf80d-0267-937b-4dd9-c57db7a89cb4@quicinc.com>
- <CAE-0n51Hrs66oG4NF5rDETkVO-ocG_6_=Aqc5cE-qPDViSgKyA@mail.gmail.com>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <CAE-0n51Hrs66oG4NF5rDETkVO-ocG_6_=Aqc5cE-qPDViSgKyA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: f0UFRBg3XnK49yRbyxc7x5Rx8Tc3NF6g
-X-Proofpoint-GUID: f0UFRBg3XnK49yRbyxc7x5Rx8Tc3NF6g
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-09-28_24,2023-09-28_03,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 bulkscore=0
- malwarescore=0 impostorscore=0 mlxscore=0 suspectscore=0
- priorityscore=1501 lowpriorityscore=0 mlxlogscore=999 adultscore=0
- clxscore=1015 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2309180000 definitions=main-2309290004
+From: Dave Airlie <airlied@gmail.com>
+Date: Fri, 29 Sep 2023 11:46:12 +1000
+Message-ID: <CAPM=9twU2jO7zfje1XSmW55VnyKxWenszkLRFi-yLX7hQNG2+A@mail.gmail.com>
+Subject: [git pull] drm fixes for 6.6-rc4
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,85 +64,116 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, quic_sbillaka@quicinc.com,
- linux-kernel@vger.kernel.org, andersson@kernel.org,
- dri-devel@lists.freedesktop.org, dianders@chromium.org, vkoul@kernel.org,
- agross@kernel.org, marijn.suijten@somainline.org, quic_jesszhan@quicinc.com,
- sean@poorly.run, linux-arm-msm@vger.kernel.org
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hey Linus,
 
+Regular pull, this feel suspiciously light so I expect next week might
+be a bit heavier? lets see how we go. This is from a code point of
+view ivpu and i915 fixes.
 
-On 9/27/2023 3:01 PM, Stephen Boyd wrote:
-> Quoting Kuogee Hsieh (2023-09-25 09:07:18)
->>
->> On 9/22/2023 6:35 PM, Abhinav Kumar wrote:
->>>
->>> Doing link training when we get hpd instead of atomic_enable() is a
->>> design choice we have been following for a while because for the case
->>> when link training fails in atomic_enable() and setting the link
->>> status property as you mentioned, the compositor needs to be able to
->>> handle that and also needs to try with a different resolution or take
->>> some other corrective action. We have seen many compositors not able
->>> to handle this complexity. So the design sends the hotplug to usermode
->>> only after link training succeeds.
->>>
->>> I do not think we should change this design unless prototyped with an
->>> existing compositor such as chrome or android at this point.
->>>
->>> Thanks
->>>
->>> Abhinav
->>
->>
->> We did perform link training at atomic_enable() at eDP case since we can
->> assume link training will always success without link rate or link lane
->> being reduced.
->>
->> However for external DP case, link training can not be guarantee always
->> success without link rate or lane being reduced as Abhinav mentioned.
->>
->> In addition,  CTS (compliance test) it required to complete link
->> training within 10ms after hpd asserted.
-> 
-> Is it possible to change that timeout? I have to look around for the CTS
-> parameters because I'm pretty confused how it can work. What do we do if
-> DP wakes the system from suspend and asserts HPD? We need resume time to
-> be < 10ms?  That's not realistic.
-> 
+The only other patch is adding Danilo Krummrich to the nouveau
+maintainers, he's agreed to take on more of the roll after Ben
+retired.
 
-No, the CTS doesnt say we need to finish link training within 10ms after 
-HPD is asserted. It says it must be completed in 10ms after 
-TRAINING_PATTERN_SET dpcd write.
+Regards,
+Dave.
 
-"Wait until the Source DUT writes 00h to the TRAINING_PATTERN_SET byte 
-of Reference Sink DPCD Link Configuration Field to indicate the end of 
-the link training. Stop the link training timer. Verify that link 
-training completed in 10ms or less"
+drm-fixes-2023-09-29:
+drm fixes for 6.6-rc4
 
-That needs to be done independent of HPD so we can ignore the CTS point.
+MAINTAINERS:
+- add Danilo for nouveau
 
->>
->> I am not sure do link training at atomic_enable() can meet this timing
->> requirement.
->>
-> 
-> At least in the DP spec itself it doesn't require the link to be trained
-> within 10ms of HPD being asserted. Instead it simply recommends that the
-> OS start configuring the display promptly after HPD is asserted, e.g.
-> within 100ms. There's some strict timing on IRQ_HPD, so the driver must
-> read DPCD registers within 100ms of IRQ_HPD rising edge; maybe that is
-> what CTS is checking for?
-> 
-> TL;DR: I don't see why CTS should stop us from link training in
-> atomic_enable(). It would be beneficial to do so to make eDP and DP the
-> same. It would also help to report a drm connector being connected
-> _before_ link training so that userspace knows the link itself is the
-> bad part of the equation (and not that the DP connector looks
-> disconnected to userspace when in fact it really is connected and the
-> monitor is asserting HPD, just the link training failed).
+ivpu:
+- Add PCI ids for Arrow Lake
+- Fix memory corruption during IPC
+- Avoid dmesg flooding
+- 40xx: Wait for clock resource
+- 40xx: Fix interrupt usage
+- 40xx: Support caching when loading firmware
 
-Its the corrective action of the userspace when it finds link is bad is 
-the concern as I highlighted in the other response. Just reading and 
-resetting link_status is not enough to recover.
+i915:
+- Fix a panic regression on gen8_ggtt_insert_entries
+- Fix load issue due to reservation address in ggtt_reserve_guc_top
+- Fix a possible deadlock with guc busyness worker
+The following changes since commit 6465e260f48790807eef06b583b38ca9789b6072:
+
+  Linux 6.6-rc3 (2023-09-24 14:31:13 -0700)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2023-09-29
+
+for you to fetch changes up to 06365a04fd32af25f90d8ccb4fecdda1f0e1ab78:
+
+  Merge tag 'drm-intel-fixes-2023-09-28' of
+git://anongit.freedesktop.org/drm/drm-intel into drm-fixes (2023-09-29
+10:28:21 +1000)
+
+----------------------------------------------------------------
+drm fixes for 6.6-rc4
+
+MAINTAINERS:
+- add Danilo for nouveau
+
+ivpu:
+- Add PCI ids for Arrow Lake
+- Fix memory corruption during IPC
+- Avoid dmesg flooding
+- 40xx: Wait for clock resource
+- 40xx: Fix interrupt usage
+- 40xx: Support caching when loading firmware
+
+i915:
+- Fix a panic regression on gen8_ggtt_insert_entries
+- Fix load issue due to reservation address in ggtt_reserve_guc_top
+- Fix a possible deadlock with guc busyness worker
+
+----------------------------------------------------------------
+Danilo Krummrich (1):
+      MAINTAINERS: update nouveau maintainers
+
+Dave Airlie (2):
+      Merge tag 'drm-misc-fixes-2023-09-28' of
+git://anongit.freedesktop.org/drm/drm-misc into drm-fixes
+      Merge tag 'drm-intel-fixes-2023-09-28' of
+git://anongit.freedesktop.org/drm/drm-intel into drm-fixes
+
+Jacek Lawrynowicz (1):
+      accel/ivpu: Don't flood dmesg with VPU ready message
+
+Javier Pello (1):
+      drm/i915/gt: Fix reservation address in ggtt_reserve_guc_top
+
+Karol Wachowski (4):
+      accel/ivpu/40xx: Ensure clock resource ownership Ack before Power-Up
+      accel/ivpu/40xx: Disable frequency change interrupt
+      accel/ivpu/40xx: Fix missing VPUIP interrupts
+      accel/ivpu: Use cached buffers for FW loading
+
+Matthew Wilcox (Oracle) (1):
+      i915: Limit the length of an sg list to the requested length
+
+Stanislaw Gruszka (2):
+      accel/ivpu: Add Arrow Lake pci id
+      accel/ivpu: Do not use wait event interruptible
+
+Umesh Nerlige Ramappa (1):
+      i915/guc: Get runtime pm in busyness worker only if already active
+
+ MAINTAINERS                                       |  1 +
+ drivers/accel/ivpu/ivpu_drv.c                     |  3 +-
+ drivers/accel/ivpu/ivpu_drv.h                     |  2 ++
+ drivers/accel/ivpu/ivpu_fw.c                      |  8 +++--
+ drivers/accel/ivpu/ivpu_gem.h                     |  5 +++
+ drivers/accel/ivpu/ivpu_hw_40xx.c                 | 28 ++++++++++++-----
+ drivers/accel/ivpu/ivpu_hw_40xx_reg.h             |  2 ++
+ drivers/accel/ivpu/ivpu_ipc.c                     | 11 +++----
+ drivers/gpu/drm/i915/gem/i915_gem_shmem.c         | 11 ++++---
+ drivers/gpu/drm/i915/gt/intel_ggtt.c              | 23 ++++++++++----
+ drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 38 +++++++++++++++++++++--
+ 11 files changed, 100 insertions(+), 32 deletions(-)
