@@ -1,61 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EA7B7B3BF2
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Sep 2023 23:27:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8262E7B3C0A
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Sep 2023 23:38:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D1CD910E556;
-	Fri, 29 Sep 2023 21:27:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E3BE710E13D;
+	Fri, 29 Sep 2023 21:38:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x112c.google.com (mail-yw1-x112c.google.com
- [IPv6:2607:f8b0:4864:20::112c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CEB4C10E13D
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Sep 2023 21:27:03 +0000 (UTC)
-Received: by mail-yw1-x112c.google.com with SMTP id
- 00721157ae682-59f1dff5298so168351287b3.3
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Sep 2023 14:27:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1696022823; x=1696627623; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=KyO5YdXbOQnT5NUL8KE5RypLcV3p9aKnClGrB6+EVrQ=;
- b=jRiqptl8mNqExyNQfEx7nMfDhHTN/lq3WVStSpFxp/A/gS0bU8QC0tsZ5QS8WYsSzN
- 8cihimlUDd+UvVIul+trZQhZ3v5QCHAUobTrXTOUKacRshkaEIMASl+t25sN+mBS0nPc
- bb8phwtFYmZ8JR56OGXPYyR70kJpHFtPdrv8N/shQJSIqU9lxyWdmPefNrxUWpnQ0dkM
- g3oRVmlq9gItqmnDZbYNv4Fl/0aYAF3qntZIzBvtUhQb1PhhDS2UWCGJ4ynykLxIzj7R
- tXrbUeOY1eEVReF2TrLTsmJ0ZD/fUcf9/tOrcOzNT3UcxvR9gVNYrSqRfvUvrU6noSvO
- IiOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1696022823; x=1696627623;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=KyO5YdXbOQnT5NUL8KE5RypLcV3p9aKnClGrB6+EVrQ=;
- b=gzUWRUsK2JltjZshfh+zsBuodSogSucxqME/EeTKavsZ7pkQWYFe2Yeonn7KgM4Cq7
- JdrC49ktqNo3OIiomzkzCQMSyYTHddFogUzMJl96o18F+U+dlpjPHzbbh50QCxwfZtTq
- /suka5hW4iNAY1XsW9JovtGUcE4S+wXNJud1myh8HTra8TfaSOHzNKKXChPA+ClLb3F2
- lWENgl4yBdEPKTLWaO9Dqu7mMzkS4QaconMMCm+OeZAxbMkJv8b8EgPDu8Ku12tbVBK8
- MIHtXPXqZOTSQGRTzJA1V4JiupNDAlSLUyjfwIOEDCCKVWVXqxw5oXkwAWFjdVc++6jU
- /YLA==
-X-Gm-Message-State: AOJu0YyclJhIAeCE8nkKpk0vHN2zYnI20A9c+8OsfMcokEvNiR/P4LoU
- v0mA/oPzIjdJF47iHIwgwUqPPWzn9FEFbxh9WsfHtg==
-X-Google-Smtp-Source: AGHT+IEnJhcZf0E4NuAEZiI6Q/aukTwmvALGSr0FGxjLseNJGx8SqY5OUcj+mlsTT3G9JqD6pThykj8Ub6nQffD9YAU=
-X-Received: by 2002:a0d:d84f:0:b0:59b:51d9:1d6e with SMTP id
- a76-20020a0dd84f000000b0059b51d91d6emr5888082ywe.6.1696022822889; Fri, 29 Sep
- 2023 14:27:02 -0700 (PDT)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B80210E13D
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Sep 2023 21:38:11 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (85-76-116-43-nat.elisa-mobile.fi
+ [85.76.116.43])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 21DEC844;
+ Fri, 29 Sep 2023 23:36:25 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1696023386;
+ bh=EVzNApoD3AOoyuoMhFWMBQeyLIuJ2jjPmfo+8wSbqvo=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Rui7dFDOE9xIdZ2kM3Ff4A2QvcEvOSPekvBIoA4/xhGwZSnYtTwD9ezO/7CKUovfc
+ dqZl2mj8ZLbyVsYcISjVFmBcA0ewO9r2drMjf9ul4rMCQF3zlS3gYr7BxCtjQc9SCR
+ 0FdNWW04GJoEFNFahnY1qPXq7rtOFbfs3+j815zg=
+Date: Sat, 30 Sep 2023 00:38:17 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Mark Brown <broonie@kernel.org>
+Subject: Re: [PATCH] drm/bridge: adv7511: Convert to use maple tree register
+ cache
+Message-ID: <20230929213817.GB28737@pendragon.ideasonboard.com>
+References: <20230929-drm-adv7511-v1-1-b871b28ee594@kernel.org>
 MIME-Version: 1.0
-References: <20230923214912.1095024-1-dmitry.baryshkov@linaro.org>
- <20230923214912.1095024-2-dmitry.baryshkov@linaro.org>
- <5711857.DvuYhMxLoT@z3ntu.xyz>
-In-Reply-To: <5711857.DvuYhMxLoT@z3ntu.xyz>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Sat, 30 Sep 2023 00:26:51 +0300
-Message-ID: <CAA8EJpoq=6=__uGeQ2UhTn4+iqMY-p=XP3M6SdOWxoxChf=x5g@mail.gmail.com>
-Subject: Re: [RFC PATCH 1/3] drm/msm/dpu: add support for MSM8953
-To: Luca Weiss <luca@z3ntu.xyz>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230929-drm-adv7511-v1-1-b871b28ee594@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,49 +47,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Bjorn Andersson <andersson@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org,
- Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Jonas Karlman <jonas@kwiboo.se>, linux-kernel@vger.kernel.org,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, dri-devel@lists.freedesktop.org,
+ Andrzej Hajda <andrzej.hajda@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 29 Sept 2023 at 23:53, Luca Weiss <luca@z3ntu.xyz> wrote:
->
-> On Samstag, 23. September 2023 23:49:10 CEST Dmitry Baryshkov wrote:
-> > Experimental support for MSM8953, which has MDP5 v1.16. It looks like
-> > trimmed down version of MSM8996. Less SSPP, LM and PP blocks. No DSC,
-> > etc.
-> >
->
-> Hi Dmitry,
->
-> As written on IRC, on sdm632-fairphone-fp3 with this DPU patches the screen is
-> initializing and displaying stuff :) But there's some errors, which presumably
-> are the reason that the screen is only updating a few times per second.
->
-> [   22.774205] [drm:dpu_kms_hw_init:1164] dpu hardware revision:0x10100000
-> [   23.099806] [drm:_dpu_encoder_phys_cmd_wait_for_ctl_start:657] [dpu error]enc31 intf1 ctl start interrupt wait failed
-> [   23.099821] [drm:dpu_kms_wait_for_commit_done:495] [dpu error]wait for commit done returned -22
->
-> These messages appear about 13 times per second but as I mentioned, the screen
-> *is* updating (slowly) there.
+Hi Mark,
 
-Thank you for the testing, I'll see if I can determine what is causing
-the ctl start issue.
+Thank you for the patch.
 
->
-> Also you for sure forgot to add "qcom,msm8953-mdp5" to the
-> msm_mdp5_dpu_migration list, without this DPU is never even considered for
-> 8953.
+On Fri, Sep 29, 2023 at 02:54:19PM +0200, Mark Brown wrote:
+> The maple tree register cache is based on a much more modern data structure
+> than the rbtree cache and makes optimisation choices which are probably
+> more appropriate for modern systems than those made by the rbtree cache.
 
-Yep.
+I trust on your this statement.
 
->
-> Regards
-> Luca
+> Signed-off-by: Mark Brown <broonie@kernel.org>
 
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+Out of curiosity, is this part of an effort to drop the rbtree cache ?
+
+> ---
+>  drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+> index 2611afd2c1c1..d518de88b5c3 100644
+> --- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+> +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+> @@ -121,7 +121,7 @@ static const struct regmap_config adv7511_regmap_config = {
+>  	.val_bits = 8,
+>  
+>  	.max_register = 0xff,
+> -	.cache_type = REGCACHE_RBTREE,
+> +	.cache_type = REGCACHE_MAPLE,
+>  	.reg_defaults_raw = adv7511_register_defaults,
+>  	.num_reg_defaults_raw = ARRAY_SIZE(adv7511_register_defaults),
+>  
+> @@ -1068,7 +1068,7 @@ static const struct regmap_config adv7511_cec_regmap_config = {
+>  	.val_bits = 8,
+>  
+>  	.max_register = 0xff,
+> -	.cache_type = REGCACHE_RBTREE,
+> +	.cache_type = REGCACHE_MAPLE,
+>  	.volatile_reg = adv7511_cec_register_volatile,
+>  };
+>  
+> 
+> ---
+> base-commit: 6465e260f48790807eef06b583b38ca9789b6072
+> change-id: 20230929-drm-adv7511-2d592921f8a2
 
 -- 
-With best wishes
-Dmitry
+Regards,
+
+Laurent Pinchart
