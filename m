@@ -1,123 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCFA87B341D
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Sep 2023 16:02:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CEACA7B34B2
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Sep 2023 16:17:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2D5310E10A;
-	Fri, 29 Sep 2023 14:02:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DBFA310E142;
+	Fri, 29 Sep 2023 14:17:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
- [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C6D4510E10A;
- Fri, 29 Sep 2023 14:02:41 +0000 (UTC)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20230929140240euoutp01afe66b9e4e0ffa1bcecba49359025df5~JY4WWDxoK3251532515euoutp01d;
- Fri, 29 Sep 2023 14:02:40 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20230929140240euoutp01afe66b9e4e0ffa1bcecba49359025df5~JY4WWDxoK3251532515euoutp01d
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1695996160;
- bh=Btrm8Ac8d2kEpEoRPdLI6EsuqjId3rLOgFjkXf4LLYQ=;
- h=Date:From:To:CC:Subject:In-Reply-To:References:From;
- b=AFYNkKpSlDSLgKTy1BFqKkjzrxsiEUyok/P+wi9niUPxPhYWD9cBsK1yjoUw/noIU
- XMR9yFl90mqqjH9tb/YgNMjRvuGUqinn8j+EtI2Bt9enmbe4U3pQT008WX8/SYh93R
- gdC2CWgh1OKveRJVjaffdbYgq7tqctX33NWhJz6Y=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20230929140239eucas1p1917c6db31ae8d968a725d3a0824c4271~JY4WG4bVE1493514935eucas1p1Q;
- Fri, 29 Sep 2023 14:02:39 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
- eusmges2new.samsung.com (EUCPMTA) with SMTP id B7.4B.11320.FF8D6156; Fri, 29
- Sep 2023 15:02:39 +0100 (BST)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20230929140239eucas1p100707358803bb5652bd2e506e93dfaf3~JY4VkDryJ1519215192eucas1p12;
- Fri, 29 Sep 2023 14:02:39 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
- eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20230929140239eusmtrp20681390d79a16dcf189beecae65e74a3~JY4VidnSl1185111851eusmtrp2b;
- Fri, 29 Sep 2023 14:02:39 +0000 (GMT)
-X-AuditID: cbfec7f4-993ff70000022c38-bd-6516d8ffe5ca
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id 3B.14.10549.EF8D6156; Fri, 29
- Sep 2023 15:02:39 +0100 (BST)
-Received: from CAMSVWEXC02.scsc.local (unknown [106.1.227.72]) by
- eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20230929140238eusmtip2c25894434db9fa8e8bfc2867c15761a4~JY4VOmMMj3161831618eusmtip2F;
- Fri, 29 Sep 2023 14:02:38 +0000 (GMT)
-Received: from localhost (106.210.248.178) by CAMSVWEXC02.scsc.local
- (2002:6a01:e348::6a01:e348) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Fri, 29 Sep 2023 15:02:38 +0100
-Date: Fri, 29 Sep 2023 16:03:47 +0200
-From: Joel Granados <j.granados@samsung.com>
-To: Wei Liu <wei.liu@kernel.org>
-Subject: Re: [PATCH 14/15] hyper-v/azure: Remove now superfluous sentinel
- element from ctl_table array
-Message-ID: <20230929140347.dzpk5xfdfkxrcln7@localhost>
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
+ [IPv6:2a00:1450:4864:20::12a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D6EEB10E142
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Sep 2023 14:17:44 +0000 (UTC)
+Received: by mail-lf1-x12a.google.com with SMTP id
+ 2adb3069b0e04-5056ca2b6d1so900495e87.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Sep 2023 07:17:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1695997061; x=1696601861;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=wHZm/0dJ6cWlCinb/QJLx3AsO1RtLBLtwABzRD/dBUs=;
+ b=FwX0AsxTxNHKir8gPDJc8gwyuh7L/uTu7UjMODgqMgtPMy/9bp6Z9hQ//iO6gvvO36
+ ErbmRPLe2j5e4N4xnrXfmok028GpKvt0GAKmIQjhOfjOqiYvsJ1F2hAy8SmVpm5btrd8
+ xvczJCKewDYxMNVYAUeMLADAeKkJzKFp+wScY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1695997061; x=1696601861;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=wHZm/0dJ6cWlCinb/QJLx3AsO1RtLBLtwABzRD/dBUs=;
+ b=Si6Xf5lkXzlS5Pf9wazv204uVZD8aecQVYDQqOLJdPU12plragow1ZdzyBez4Jbu22
+ ZJAG+V4ydhp5qRhWhqNYWxyrZyqX4whXJYrmSdsBqc855ROSh10XntDskT1XTkIvWfvv
+ f5vbF4QNDjc3PvN3zpCBsZelOdiWHU/zlBFh3ofeP8QKPU/CYzQeJA8Dg/1dz+/LSbbZ
+ yr4AbsVUifS04+7HqU74dAsxOsaKxAkdIC6l65vKMoT+jWXzCnxA40jd45WRFiGuGt68
+ wh4PcFk/JG3cJpDlS+ZeQCIziy+YA689PwjMYyX6YSkP7MbdAXuiAJI4VqjZ+mlzfhhD
+ GkYA==
+X-Gm-Message-State: AOJu0YwP8ReT0DylMCOQpBUkE6ISRRJb+BHNoNN/yxzXE5oMSKappRZt
+ u/laMrf3ZYCfjsnp57fP/xpFTZ+W4qPlM7lvKTxWYYdA
+X-Google-Smtp-Source: AGHT+IED5PlXeUj1n1d5irgzzNbINzbe5OKrVUDS9oui3CZwmlFKVMMo/Ij9HGCh2lX2IeKU/sqyxg==
+X-Received: by 2002:a05:6512:34cb:b0:501:b929:48af with SMTP id
+ w11-20020a05651234cb00b00501b92948afmr2962453lfr.34.1695997060964; 
+ Fri, 29 Sep 2023 07:17:40 -0700 (PDT)
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com.
+ [209.85.167.54]) by smtp.gmail.com with ESMTPSA id
+ n19-20020a195513000000b004fba82dde47sm3530727lfe.123.2023.09.29.07.17.39
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 29 Sep 2023 07:17:39 -0700 (PDT)
+Received: by mail-lf1-f54.google.com with SMTP id
+ 2adb3069b0e04-502f29ed596so6390e87.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Sep 2023 07:17:39 -0700 (PDT)
+X-Received: by 2002:a19:c20f:0:b0:502:cdb6:f316 with SMTP id
+ l15-20020a19c20f000000b00502cdb6f316mr285906lfc.3.1695997059452; Fri, 29 Sep
+ 2023 07:17:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg="pgp-sha512";
- protocol="application/pgp-signature"; boundary="pe36q5lo2npaavkw"
-Content-Disposition: inline
-In-Reply-To: <ZRWbGDlXCS4t8tMf@liuwe-devbox-debian-v2>
-X-Originating-IP: [106.210.248.178]
-X-ClientProxiedBy: CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) To
- CAMSVWEXC02.scsc.local (2002:6a01:e348::6a01:e348)
-X-Brightmail-Tracker: H4sIAAAAAAAAA2VTfUxTVxzNfe/1vcpAn8jgBvwoqEtArcJQf3GwzMXF55Zs+0OXZdE4Im+g
- k9a1osyFpG6IAuNbptQyih20ilSsWNsqQljkY2XaDZDa0c0PmE7q0A3kS9pRH24m+++c8zvn
- 3t+5yRWTwX1MuHinbC+vkCXtjqIDKHPr+PUVPmcov8rSHAPtvScJmCppZeC79tsE+MzFJGiu
- Z1FwJcuE4MrxOhq6R4ZoMNoOETDQeoeBr3RnabhxkYMTRecJ0HedRXCrJxxOOs0ElB9vR6C5
- GQd/VsyHxqrp87Ry6MxLA4e5QAT9tRcYODpRTUJZ8SMaumwaGg5X2hD83pJPQV6vhYZOXT4D
- k6NeEejbvAQ4iwYQ5BYeRtCqDYWxyUkRXL7Vj+CJ3YOgrEYKFcNlJBg8FSQ0qW8wUF1uIKFN
- P0VDrXE7NB09Q0Kz/ei05D0Ah74eZ+B7k4uAybHpi0cbSok3VnNd3e9wkxMliDuh+oniGk7d
- JLi+aiviGp9oKc6qdjOc1pTO2WwHGe68IYbTXf6D4KZy1nCuwUTOdDqH5sYMhSRXdLIZvb/o
- o4CEZH73zn28YuXrHwekTvV0MnvyQjJs6kuECk2wuUgsxmw8truoXBQgDmYNCNfd/oUUyDDC
- /d+4kED+RriwZ4TJRbOeJZ4aymdceoRbXEPkv67GQ6OEQC4gPJllof0Ril2Kq358+ixOs8vx
- dU8f6cchrASb3SrGHyBZ4xw8dNcg8g/msan46j014cdB7FpsvVbKCHgu7ijvp/yYZDPwzz4d
- 4W9BshFY7xX75VnsGvxgvJASVl2Mx+rttIAz8Q8NrmfLYTY7EDcN6kjhBTZg00OF4JmHH7Q1
- zNScj33Wyhl/KcJN3keMQGoRrjk4Qgiu13BWd/9MYj1+fP/5obOx8+FcYc/ZuMR8bEYOwkey
- gwX3K7j2Vw9VhBarX2imfqGZ+r9mgrwcay/9Rf9PXoZrqgZJASdio3GI0iLmNArj05VpKbwy
- TsbvlyqT0pTpshTpDnmaCU1/Oru3bdiC9A8eS1sQIUYtaMl0+E59rQOFUzK5jI8KCcp2hPLB
- QclJnx/gFfLtivTdvLIFRYipqLCgZYkdO4LZlKS9/Kc8v4dXPJ8S4lnhKiK549K7czJdsU2b
- E6wSWFldsXDJwIL6Hs02Yr7U+mWCalm0s6JwaWCRJPBbzcVoLnZXKKrMXNvR5RqOL35c/dm6
- 6PwvHLGbblfGuWtydW7TvdlUnoob3/CWZPmHjQVvFp/IOdf8akaJzyt5e4Hnk9H6/N9y+8Ii
- txgt7ZGS4qp8e99lIuLMqSn39uGSI3clPZHuuDvhg4sGN5bFd/Z2uuVOi2jze/vtAatliaVV
- AdckWze9XBA24jhfWZAa4vDoJyJXZO/6QLa+F8uPiUUJzID0XMzdgc77iqW79oGje0lcYHf+
- pvJS27qr8HCVL3lz/LYtmpe2beg1bb3YdW5hSupiT10UpUxNio0hFcqkfwAu818d7wQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA2WTe1BUVRzHPfde7l1osBsgXomE1rCGcGEXWH8oOE5TebEam2oiqYQdvAEF
- u7QLaozNrMMb46XgwALGI1iUWgxkEUQgmpYt3iKIiA0Q4rAyIqmwvJZ225qc6b/P+f7O73N+
- c+YcHu6wQrrwoqXxnFwqieGTdkS3qev3XRujzpzP6VIC9DcrMFg/o6PgO/0kBhvaPBxK+pMJ
- aEuuR9BW+AMJN57Mk6BpScHgrm6KgqTKOhJGmlgozm3AQD1Uh2Bi2AUqRrUYFBXqEZTcEsGD
- Ule4Vm72lcmg53QsDGizbWC6tpGC/JUqHAryHpIw1FJCQtq3LQhmOrMIOH3zCgk9lVkUrC6Z
- bEDdZcJgNPcugsycNAS6Mmcwrq7aQOvENILF7jkEBdUCKH1cgEPNXCkO7aoRCqqKanDoUq+T
- UKsJg/b873Ho6M43R6ZESPlmmYKf68cwWDWaD166fBbb788O3XiLXV05g9hi5SDBXr5wC2PH
- q5oRe22xjGCbVXcotqw+gW1pOUWxDTWebGXrLMauZ4jZsftBbP3FDJI11uTgbG5FB3rXLVQQ
- KJclxHPuUTJFfBD/YyGIBMIAEIj8AgRC392f7hH58733BR7lYqKPcXLvfeGCqLyNQiIuw+lE
- +oMsQomMdCay5TG0H7NWU4RnIjueA12FGKUuj7AWXJkfHw/bWNmRWRvJJK2bFhCjHjUQ1kUj
- Yp70dZGWXQTtwZT3rlEWJmkvpn9uHLewE+3OaO8oKUsDTmueZbI6rFpHOor55Z4Ks7A9vZtp
- 7jtLWa3FGPOHoZa0Fp5jfi2a/nsmnD7GXDVqzFaemZ9n1CaeJbalxYxhOeefsXcwxkvdpJW/
- Zh6tz6Bc5Kh6yqR6yqT6z2SNPZlR0yz2v/hVprr8Pm7lIEajmSfKEHUROXEJitjIWIVQoJDE
- KhKkkYIIWWw9Mj98rW654Qo6b1gQdCKMhzrRS+bOqUu1A8iFkMqkHN/JPnXAmXOwPyr5KpGT
- y8LkCTGcohP5m68xD3fZEiEz/yJpfJhQ7OMv9BMH+PgHiH35W+2D49IlDnSkJJ77guPiOPm/
- fRjP1kWJvT7m7zWett+0zS2s1TdaLAmX8ju0IvEKb0kxnHrkfTjhEdBYEGwzFvLC58qXw3m9
- mZSkP5Tu+XDQePwTvZuBVSr+zA5+7zN9xF6N4WD6eRgfF82l73FOSlE/2tRmu7m3tqrVveWV
- mPYU92L7N+I9xlOnUqJ3vsjfu91QeP3tn9w2IrWGukB1yDMHZq+uh8xo8u0mpX1RDxeGFnlf
- em0xnNQfvj7ptJJ2mNt6aOLA2lTSIb9z98q3nTzlGtrkPZ+0Xp24Vqm6/U7yphzhbVHAjn4M
- iO2c3cF+m4Ijv7l6f4CTF9xnRnc5bP7o3LzuzeWCqqadxzOZwdd6shu64voWm0gPgk8ooiRC
- T1yukPwF2ZBtso0EAAA=
-X-CMS-MailID: 20230929140239eucas1p100707358803bb5652bd2e506e93dfaf3
-X-Msg-Generator: CA
-X-RootMTR: 20230928152622eucas1p20ca3dd701247895e232e59fb84e33e1f
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20230928152622eucas1p20ca3dd701247895e232e59fb84e33e1f
-References: <20230928-jag-sysctl_remove_empty_elem_drivers-v1-0-e59120fca9f9@samsung.com>
- <65157da8.050a0220.fb263.fdb1SMTPIN_ADDED_BROKEN@mx.google.com>
- <CGME20230928152622eucas1p20ca3dd701247895e232e59fb84e33e1f@eucas1p2.samsung.com>
- <ZRWbGDlXCS4t8tMf@liuwe-devbox-debian-v2>
+References: <20230703-fix-boe-tv101wum-nl6-v3-0-bd6e9432c755@linaro.org>
+ <CAD=FV=W2AKQSnWh02Lxbqi47M325JNCaEn1_B0xAW3PKPKKF7Q@mail.gmail.com>
+ <CAD=FV=WZ+zX9jrwOhN_ZboSYSBomx2s5vifQEB6MzNFgj=g4Ow@mail.gmail.com>
+ <CACRpkdZutdTDQkCSQoA0_0U=Qdf+xDWTu3PzvYRRz=cT18wHRA@mail.gmail.com>
+In-Reply-To: <CACRpkdZutdTDQkCSQoA0_0U=Qdf+xDWTu3PzvYRRz=cT18wHRA@mail.gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Fri, 29 Sep 2023 07:17:22 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=XG1yFfbvAh9t6XiMNKBc3kHNZ8FqVjayboQjuTfxt-6A@mail.gmail.com>
+Message-ID: <CAD=FV=XG1yFfbvAh9t6XiMNKBc3kHNZ8FqVjayboQjuTfxt-6A@mail.gmail.com>
+Subject: Re: [PATCH v3 0/4] Fix up the boe-tv101wum-nl6 panel driver
+To: Linus Walleij <linus.walleij@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,109 +82,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>, Steve Wahl <steve.wahl@hpe.com>,
- Clemens Ladisch <clemens@ladisch.de>, linux-hyperv@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Phillip Potter <phil@philpotter.co.uk>,
- Song Liu <song@kernel.org>, Eric Dumazet <edumazet@google.com>,
- "K. Y. Srinivasan" <kys@microsoft.com>, Jiri Slaby <jirislaby@kernel.org>,
- Russ Weight <russell.h.weight@intel.com>,
- Stefano Stabellini <sstabellini@kernel.org>, Corey Minyard <minyard@acm.org>,
- Leon Romanovsky <leon@kernel.org>, linux-rdma@vger.kernel.org,
- "Rafael J. Wysocki" <rafael@kernel.org>, Dexuan Cui <decui@microsoft.com>,
- willy@infradead.org, Jason Gunthorpe <jgg@ziepe.ca>,
- linux-serial@vger.kernel.org, Doug Gilbert <dgilbert@interlog.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Haiyang Zhang <haiyangz@microsoft.com>, Kees Cook <keescook@chromium.org>,
- Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
- "James E.J. Bottomley" <jejb@linux.ibm.com>, intel-gfx@lists.freedesktop.org,
- josh@joshtriplett.org, linux-raid@vger.kernel.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, xen-devel@lists.xenproject.org,
- openipmi-developer@lists.sourceforge.net, Juergen Gross <jgross@suse.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, Theodore Ts'o <tytso@mit.edu>,
- linux-scsi@vger.kernel.org, "Martin
- K. Petersen" <martin.petersen@oracle.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- David Ahern <dsahern@kernel.org>, Robin Holt <robinmholt@gmail.com>,
- "David S. Miller" <davem@davemloft.net>,
- Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
- Luis Chamberlain <mcgrof@kernel.org>, netdev@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, Sudip Mukherjee <sudipm.mukherjee@gmail.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jitao Shi <jitao.shi@mediatek.com>,
+ Cong Yang <yangcong5@huaqin.corp-partner.google.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>,
+ Ruihai Zhou <zhouruihai@huaqin.corp-partner.google.com>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---pe36q5lo2npaavkw
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi,
 
-On Thu, Sep 28, 2023 at 03:26:16PM +0000, Wei Liu wrote:
-> Please change the prefix to "Drivers: hv:" in the subject line in the
-> two patches.
-I'll change the commit message for the 14/15 patch from "hyper-v/azure"
-to "Drivers: hv:". But I only see one patch that needs this. Which is
-the other one?
+On Thu, Sep 28, 2023 at 2:42=E2=80=AFPM Linus Walleij <linus.walleij@linaro=
+.org> wrote:
+>
+> On Tue, Sep 26, 2023 at 11:49=E2=80=AFPM Doug Anderson <dianders@chromium=
+.org> wrote:
+>
+> > > I'm curious what the latest on this patch series is. Is it abandoned,
+> > > or is it still on your list to move forward with it? If it's
+> > > abandoned, does that mean we've abandoned the idea of breaking
+> > > ili9882t into a separate driver?
+> > >
+> > > From looking at things that have landed downstream in the ChromeOS
+> > > kernel trees it looks as if additional fixes are getting blocked from
+> > > being posted/landed because of the limbo state that this is in.
+> >
+> > I presume Linus is busy or otherwise indisposed.
+>
+> Sorry I was looking for the branch with my patches and I have it
+> somewhere not ordinary :/
+>
+> Originally I shelved it because I got requests to do additional
+> patches to the driver:
+> https://lore.kernel.org/dri-devel/CAD=3DFV=3DXkr3Qpd8m_6Xta_2jL_ezbxsmMya=
+rbKXTXL+UJLG9xNw@mail.gmail.com/
+>
+> To do measurements about binary code size in object files, and if it does=
+,
+> then I need to invent new sequence macros (IIUC):
+> https://lore.kernel.org/dri-devel/CAD=3DFV=3DWju3WS45=3DEpXMUg7FjYDh3-=3D=
+mvm_jS7TF1tsaAzbb4Uw@mail.gmail.com/
+>
+> So I just didn't have time for that extensive rework of the driver.
+>
+> It's good feedback, but I just wanted to make the situation a little
+> bit better, and perfect is the enemy of good (TM).
+>
+> > So I guess we have two options here:
+> >
+> > a) Cong Yang can post any relevant fixes to the existing "monolithic"
+> > panel driver so that we can get them landed and at least get things
+> > fixed.
+> >
+> > - or -
+> >
+> > b) Cong Yang could take over all or some of Linus's series and post
+> > new versions of it, addressing feedback.
+>
+> Either works for me, I would prefer b), Cong is welcome to adopt
+> the patches if he/his employer want to. Go ahead!
+>
+> We can't really let this one-size-fits-all driver go on like this.
+>
+> My main concern with the "boe-tv101wum-nl6" driver is that it can
+> be renamed "cromeos-hackfest" at this point because it becomes
+> hard for any other system to reuse the panel drivers, the typical
+> example would be a system using say ili9882t but with
+> a different init sequence or something, why would they want
+> support for 9 unrelated panels compiled in? The condition that
+> these drivers should be related to the original panel that gave
+> name to the file has seemingly been dropped long ago.
+>
+> It looks like the drivers only share the power lines (avdd, avee, pp3300,
+> pp1800) then this can be broken out to a helper library. But I am
+> sceptical about that too. I doubt that the vastly different panels
+> actually have exactly these these supply line names, I think it is
+> actually names of the rails on the chrome machine board. And that is
+> not how these regulators should be named, they should be named after
+> the input name on the component. This is really hard to catch in reviews =
+when
+> we don't have datasheets so I'm not blaming anyone, but is this something
+> that even needs fixing in the device tree bindings? (By deprecation
+> and addition...) can we look into this?
+>
+> I would say can we at least agree that before we merge one more
+> driver into this file, break out to subdrivers those that clearly have
+> an identifiable display controller and is thus reusable? From my
+> point of view I can just see the ili9882t so that's a good start.
 
-best
->=20
-> On Thu, Sep 28, 2023 at 03:21:39PM +0200, Joel Granados via B4 Relay wrot=
-e:
-> > From: Joel Granados <j.granados@samsung.com>
-> >=20
-> > This commit comes at the tail end of a greater effort to remove the
-> > empty elements at the end of the ctl_table arrays (sentinels) which
-> > will reduce the overall build time size of the kernel and run time
-> > memory bloat by ~64 bytes per sentinel (further information Link :
-> > https://lore.kernel.org/all/ZO5Yx5JFogGi%2FcBo@bombadil.infradead.org/)
-> >=20
-> > Remove sentinel from hv_ctl_table
-> >=20
-> > Signed-off-by: Joel Granados <j.granados@samsung.com>
-> > ---
-> >  drivers/hv/hv_common.c | 3 +--
-> >  1 file changed, 1 insertion(+), 2 deletions(-)
-> >=20
-> > diff --git a/drivers/hv/hv_common.c b/drivers/hv/hv_common.c
-> > index ccad7bca3fd3..bc7d678030aa 100644
-> > --- a/drivers/hv/hv_common.c
-> > +++ b/drivers/hv/hv_common.c
-> > @@ -147,8 +147,7 @@ static struct ctl_table hv_ctl_table[] =3D {
-> >  		.proc_handler	=3D proc_dointvec_minmax,
-> >  		.extra1		=3D SYSCTL_ZERO,
-> >  		.extra2		=3D SYSCTL_ONE
-> > -	},
-> > -	{}
-> > +	}
->=20
-> Please keep the comma at the end.
->=20
-> >  };
-> > =20
-> >  static int hv_die_panic_notify_crash(struct notifier_block *self,
-> >=20
-> > --=20
-> > 2.30.2
-> >=20
+This sounds like a reasonable plan to me. What if Cong posted patches
+that broke this up into a separate driver for the distinct controller
+but otherwise didn't substantially reorganize it? In other words both
+the old driver and the new one would keep the "struct panel_init_cmd"
+until we get some resolution about the binary size issue. That would
+at least let us move forward...
 
---=20
-
-Joel Granados
-
---pe36q5lo2npaavkw
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQGzBAABCgAdFiEErkcJVyXmMSXOyyeQupfNUreWQU8FAmUW2UEACgkQupfNUreW
-QU+ZyQv9HSXCGinIOipdlVjAjwhhj6RTSXKmVOPKYpS5Rg7aN0U82HzUpe/YGUvE
-dEkLD50b0Mo5onU0fxk7PxAo7caRLYwpTki5RqjceH1a3DgPuH0jozn4rbxb10ym
-v0B/fxvdHH9rxasac48TToOUPvqcbelPpQ59h7PEj84QwcYkd7pV6Wt7elbOt2fI
-w8dfe8vvnNXGLquYe0hqGv7c6TGjOXwY06dTtga5LzmalTp0IMELfKNebRsWhhPQ
-gsL9i6erlZUN75ZmgZM+YMnhEcEQwRFxapO1r2nENKMoWHNKglPIZ8BHfkZnXy48
-HCo5Kt8JZ1E1XArWKL6N58dcSyWJx2U9aMXC7Ugl8WWKDGuW3W9+v/1uxuxE7Bsi
-wfooQe5Df/UjY3wvmdcooleqJ8NFjWgv7/pU0i/WXS2dxzUB9VF27Ghgj9sRNY7V
-IUGRM7apb2US7rjwyn1DuDn4A+iO4ZRBH1tZr3RtnIigP9fboAI8E3+sEIhdL0FX
-R517c3qf
-=7vL7
------END PGP SIGNATURE-----
-
---pe36q5lo2npaavkw--
+-Doug
