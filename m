@@ -1,50 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D186A7B3100
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Sep 2023 13:03:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A95887B315A
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Sep 2023 13:27:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 10A0310E453;
-	Fri, 29 Sep 2023 11:03:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E2EFA10E11A;
+	Fri, 29 Sep 2023 11:27:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 54D6410E6F6;
- Fri, 29 Sep 2023 11:03:52 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6133110E11A
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Sep 2023 11:27:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1695985432; x=1727521432;
+ t=1695986848; x=1727522848;
  h=from:to:cc:subject:in-reply-to:references:date:
  message-id:mime-version;
- bh=64bD51VYxNRUHY49cDILKREu4yUDb8uw2aPlmWutxYQ=;
- b=HU6Bl09EMk6kLvVMRIjPBzgf/vPGUQkLcD9zWuSByJUlJWQCF4VDrbnM
- NA1TDJr5HiNQg26Vax8if736/8xSoa+wXfshitPHDBlS9qdE4b8l9/kSQ
- GnMfakw5dVkurU0hPxQX1HkNxcWn01aoaYvxkqd4W0ZgaMCoHellLjpAY
- mzPkTQ2Y9nIQ9N4njltlgnjCRgXl99aLwGlyWf8U2H73HoVXhlKDuCsH3
- deSN7rU8WhSXdFm1bLoy1119jvNPuEiPBti9I4AfQf1Da51ULR4fiSaH9
- etILa5EwHx+8GQXKol4OZsw8QRyK6/9jwDf/4W7LwzjGj8DHnniCqofwV g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="381163819"
-X-IronPort-AV: E=Sophos;i="6.03,187,1694761200"; d="scan'208";a="381163819"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Sep 2023 04:03:51 -0700
-X-ExtLoop1: 1
+ bh=xntQEvpoZ4lSuT64X8F2ZkdBs0aMLp7g+Fr1xpd4/iU=;
+ b=JqoWZgYnYlzrsy3jTk6D3aqcpvNvvdp/Lb4M7K/b/YA3o2LLXo5e9KiN
+ p4EvPx8P2A0ZeRaLpwwcfMSskEf8cIkz5y1T0YMlTa2JmfJ/i+5j0uRLS
+ uDAEmQZXtWZcLKSWTeC94UlsmVdznhyoHO2VnoaAQ5Gm7kPIT8gBLFXyN
+ jn4qVscKNramTASBwuqLwlgWFkWH3Wv4LyLLYgthHy8rxqWnPoss6Wl8W
+ R8ntFoz8fB6VlIljtSPz7W8WBAvU1bAUko6t8aj7mcFGrQvC5zqYZnkmq
+ j7Sl70akqor/i/nw71f9ApfPoItPVpjxtrM6OQIC+W2um6K2hHueC2Muu g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="880573"
 X-IronPort-AV: E=Sophos;i="6.03,187,1694761200"; 
-   d="scan'208";a="825038"
+   d="scan'208";a="880573"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Sep 2023 04:27:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="726566293"
+X-IronPort-AV: E=Sophos;i="6.03,187,1694761200"; d="scan'208";a="726566293"
 Received: from osalyk-mobl1.ger.corp.intel.com (HELO localhost)
  ([10.252.53.237])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Sep 2023 04:03:51 -0700
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Sep 2023 04:27:25 -0700
 From: Jani Nikula <jani.nikula@intel.com>
-To: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Subject: Re: [PATCH 00/19] drm/i915: prepare for xe driver display integration
-In-Reply-To: <ZQMefDTkBf35yRly@intel.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH 2/2] drm/bridge: lt9611uxc: use drm_bridge_get_edid()
+ instead of using ->get_edid directly
+In-Reply-To: <20230927223510.GY5854@pendragon.ideasonboard.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <cover.1694514689.git.jani.nikula@intel.com>
- <ZQMefDTkBf35yRly@intel.com>
-Date: Fri, 29 Sep 2023 14:03:47 +0300
-Message-ID: <87o7hli6lo.fsf@intel.com>
+References: <20230914131450.2473061-1-jani.nikula@intel.com>
+ <20230914131450.2473061-2-jani.nikula@intel.com>
+ <20230927113058.GA8079@pendragon.ideasonboard.com>
+ <87lecrk8rw.fsf@intel.com>
+ <20230927223510.GY5854@pendragon.ideasonboard.com>
+Date: Fri, 29 Sep 2023 14:27:22 +0300
+Message-ID: <87il7ti5id.fsf@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -59,109 +64,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, Lucas De Marchi <lucas.demarchi@intel.com>,
- dri-devel@lists.freedesktop.org
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 14 Sep 2023, Rodrigo Vivi <rodrigo.vivi@intel.com> wrote:
-> On Tue, Sep 12, 2023 at 02:06:27PM +0300, Jani Nikula wrote:
->> The upcoming drm/xe driver [1][2] will reuse the drm/i915 display code,
->> initially by compiling the relevant compilation units separately as part
->> of the xe driver. This series prepares for that in i915 side.
+On Thu, 28 Sep 2023, Laurent Pinchart <laurent.pinchart@ideasonboard.com> wrote:
+> On Wed, Sep 27, 2023 at 05:09:23PM +0300, Jani Nikula wrote:
+>> On Wed, 27 Sep 2023, Laurent Pinchart wrote:
+>> > On Thu, Sep 14, 2023 at 04:14:50PM +0300, Jani Nikula wrote:
+>> >> Make drm_bridge_get_edid() the one place to call the hook.
+>> >> 
+>> >> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+>> >> Cc: Neil Armstrong <neil.armstrong@linaro.org>
+>> >> Cc: Robert Foss <rfoss@kernel.org>
+>> >> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+>> >> Cc: Jonas Karlman <jonas@kwiboo.se>
+>> >> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+>> >> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+>> >> 
+>> >> ---
+>> >> 
+>> >> UNTESTED
+>> >
+>> > I can't test this either, but it looks fine.
 >> 
->> The first patch defines I915 during the i915 driver build, to allow
->> conditional compilation based on the driver the code is being built for.
->> 
->> The rest of the patches add stubs for functions in files that aren't
->> used in xe. The idea is that this is the least intrusive way of skipping
->> that code in xe, and is quite similar to the common kconfig stubs.
->> 
->> While this is arguably unused code for the time being, or only used in
->> an out-of-tree driver yet to be upstreamed, the upstreaming has to start
->> somewhere.
+>> Thanks. Are you okay with merging the two with review only?
 >
-> I see other benefits on adding this right now through drm-intel-next:
->
-> 1. Separate the good&ready patches from the other patches that are in
->    drm-xe-next, that would require more work.
-> 2. Minimize the non-xe patches in the xe pull-request. Cleaner and with
->    reduced risk of conflicts.
->
->> 
->> 
->> BR,
->> Jani.
->> 
->> 
->> [1] https://gitlab.freedesktop.org/drm/xe/kernel/-/tree/drm-xe-next
->> [2] https://patchwork.freedesktop.org/series/112188/
->> 
->> Cc: David Airlie <airlied@gmail.com>
->> Cc: Daniel Vetter <daniel@ffwll.ch>
->> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
->> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
->> Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
->> Cc: Lucas De Marchi <lucas.demarchi@intel.com>
->
-> Yeap, let's for sure get input from other maintainers, but meanwhile I'd
-> like to state that I have once more reviewed these patches and that
-> you can put my rv-b tag in all of them when we get the proper acks.
+> The changes are trivial, if we can't get anyone to test them, then I'm
+> OK merging them.
 
-Thanks. Pushed to drm-intel-next with Dave's IRC ack.
+Thanks, pushed to drm-misc-next.
 
 BR,
 Jani.
 
 
 >
->> 
->> Jani Nikula (19):
->>   drm/i915: define I915 during i915 driver build
->>   drm/i915/display: add I915 conditional build to intel_lvds.h
->>   drm/i915/display: add I915 conditional build to hsw_ips.h
->>   drm/i915/display: add I915 conditional build to i9xx_plane.h
->>   drm/i915/display: add I915 conditional build to intel_lpe_audio.h
->>   drm/i915/display: add I915 conditional build to intel_pch_refclk.h
->>   drm/i915/display: add I915 conditional build to intel_pch_display.h
->>   drm/i915/display: add I915 conditional build to intel_sprite.h
->>   drm/i915/display: add I915 conditional build to intel_overlay.h
->>   drm/i915/display: add I915 conditional build to g4x_dp.h
->>   drm/i915/display: add I915 conditional build to intel_dpio_phy.h
->>   drm/i915/display: add I915 conditional build to intel_crt.h
->>   drm/i915/display: add I915 conditional build to vlv_dsi.h
->>   drm/i915/display: add I915 conditional build to i9xx_wm.h
->>   drm/i915/display: add I915 conditional build to g4x_hdmi.h
->>   drm/i915/display: add I915 conditional build to intel_dvo.h
->>   drm/i915/display: add I915 conditional build to intel_sdvo.h
->>   drm/i915/display: add I915 conditional build to intel_tv.h
->>   drm/i915/display: add I915 conditional build to vlv_dsi_pll.h
->> 
->>  drivers/gpu/drm/i915/Makefile                 |  4 +
->>  drivers/gpu/drm/i915/display/g4x_dp.h         | 26 +++++
->>  drivers/gpu/drm/i915/display/g4x_hdmi.h       | 12 +++
->>  drivers/gpu/drm/i915/display/hsw_ips.h        | 35 +++++++
->>  drivers/gpu/drm/i915/display/i9xx_plane.h     | 23 +++++
->>  drivers/gpu/drm/i915/display/i9xx_wm.h        | 17 ++++
->>  drivers/gpu/drm/i915/display/intel_crt.h      | 14 +++
->>  drivers/gpu/drm/i915/display/intel_dpio_phy.h | 96 +++++++++++++++++++
->>  drivers/gpu/drm/i915/display/intel_dvo.h      |  6 ++
->>  .../gpu/drm/i915/display/intel_lpe_audio.h    | 18 ++++
->>  drivers/gpu/drm/i915/display/intel_lvds.h     | 19 ++++
->>  drivers/gpu/drm/i915/display/intel_overlay.h  | 35 +++++++
->>  .../gpu/drm/i915/display/intel_pch_display.h  | 53 ++++++++++
->>  .../gpu/drm/i915/display/intel_pch_refclk.h   | 23 +++++
->>  drivers/gpu/drm/i915/display/intel_sdvo.h     | 13 +++
->>  drivers/gpu/drm/i915/display/intel_sprite.h   |  8 ++
->>  drivers/gpu/drm/i915/display/intel_tv.h       |  6 ++
->>  drivers/gpu/drm/i915/display/vlv_dsi.h        | 13 +++
->>  drivers/gpu/drm/i915/display/vlv_dsi_pll.h    |  9 ++
->>  19 files changed, 430 insertions(+)
->> 
->> -- 
->> 2.39.2
->> 
+>> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>> >
+>> >> ---
+>> >>  drivers/gpu/drm/bridge/lontium-lt9611uxc.c | 2 +-
+>> >>  1 file changed, 1 insertion(+), 1 deletion(-)
+>> >> 
+>> >> diff --git a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
+>> >> index 22c84d29c2bc..7835738a532e 100644
+>> >> --- a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
+>> >> +++ b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
+>> >> @@ -296,7 +296,7 @@ static int lt9611uxc_connector_get_modes(struct drm_connector *connector)
+>> >>  	unsigned int count;
+>> >>  	struct edid *edid;
+>> >>  
+>> >> -	edid = lt9611uxc->bridge.funcs->get_edid(&lt9611uxc->bridge, connector);
+>> >> +	edid = drm_bridge_get_edid(&lt9611uxc->bridge, connector);
+>> >>  	drm_connector_update_edid_property(connector, edid);
+>> >>  	count = drm_add_edid_modes(connector, edid);
+>> >>  	kfree(edid);
 
 -- 
 Jani Nikula, Intel
