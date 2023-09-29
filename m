@@ -1,49 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 832977B382C
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Sep 2023 18:56:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DD407B3899
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Sep 2023 19:25:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE2D810E0A4;
-	Fri, 29 Sep 2023 16:55:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ADCF010E124;
+	Fri, 29 Sep 2023 17:25:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 430 seconds by postgrey-1.36 at gabe;
- Fri, 29 Sep 2023 16:55:55 UTC
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net
- [IPv6:2001:4b98:dc4:8::229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E65D810E0A4
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Sep 2023 16:55:55 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 1F11EFF80A;
- Fri, 29 Sep 2023 16:55:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1696006554;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0s6liZ65S6LcJzLjeut2b8fzES+0W9Bu/QBNIiJjhuo=;
- b=Srl+Z0pKN0Iy2DbOjmmfz1bA4sj8VMcOUJwle+YTtLygArIYYgu4JmXm4j5U2HmZVffHcT
- s0jxEaMmKFM1dMUZcM7u1gYTb8qdhuAhHiZ0okSY8dickP3CwH56uV30hcPBxwOtO50fdu
- tGZsz9kII8WUHXt9IosU8qyThOwREJ33b/GQivWQ3XTydHnw2tw2rOW/BKMQK+MVbZOAub
- Mrw8RTjfhgeFoWpL1i+uhEkFRlQYtn6hhtjMM1aZokrRxkJNz5hJBsFnNA1/2Gv8Fp7ZdZ
- rABKnf/VczcqehgJfCZW9d1ttUEL58CqoiH+wDtSe75Hle9IKw9RJxVP4270QA==
-Date: Fri, 29 Sep 2023 18:55:49 +0200
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Lucas Stach <l.stach@pengutronix.de>
-Subject: Re: [PATCH v4 2/2] drm/bridge: imx: add driver for HDMI TX Parallel
- Video Interface
-Message-ID: <20230929185549.18aa57e7@booty>
-In-Reply-To: <20230928125536.1782715-2-l.stach@pengutronix.de>
-References: <20230928125536.1782715-1-l.stach@pengutronix.de>
- <20230928125536.1782715-2-l.stach@pengutronix.de>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id AF5518910E;
+ Fri, 29 Sep 2023 17:25:34 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 666101FB;
+ Fri, 29 Sep 2023 10:26:12 -0700 (PDT)
+Received: from [10.1.196.40] (e121345-lin.cambridge.arm.com [10.1.196.40])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B96DD3F59C;
+ Fri, 29 Sep 2023 10:25:32 -0700 (PDT)
+Message-ID: <70d975d0-8ee7-9f08-7fae-4652a18df598@arm.com>
+Date: Fri, 29 Sep 2023 18:25:21 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH] drm/msm/a6xx: don't set IO_PGTABLE_QUIRK_ARM_OUTER_WBWA
+ with coherent SMMU
+Content-Language: en-GB
+To: Will Deacon <will@kernel.org>
+References: <20230410185226.3240336-1-dmitry.baryshkov@linaro.org>
+ <b1434fe7-3128-f390-7b13-3d460378e231@arm.com>
+ <20230929154507.GA30764@willie-the-truck>
+From: Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <20230929154507.GA30764@willie-the-truck>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-GND-Sasl: luca.ceresoli@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,55 +46,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Robert Foss <rfoss@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Jonas Karlman <jonas@kwiboo.se>, Liu Ying <victor.liu@nxp.com>,
- dri-devel@lists.freedesktop.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
- patchwork-lst@pengutronix.de, devicetree@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- linux-arm-kernel@lists.infradead.org, NXP Linux Team <linux-imx@nxp.com>
+Cc: Sean Paul <sean@poorly.run>, Bjorn Andersson <andersson@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, David Heidelberg <david@ixit.cz>,
+ linux-arm-msm@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Lucas,
-
-On Thu, 28 Sep 2023 14:55:36 +0200
-Lucas Stach <l.stach@pengutronix.de> wrote:
-
-> This IP block is found in the HDMI subsystem of the i.MX8MP SoC. It has a
-> full timing generator and can switch between different video sources. On
-> the i.MX8MP however the only supported source is the LCDIF. The block
-> just needs to be powered up and told about the polarity of the video
-> sync signals to act in bypass mode.
+On 29/09/2023 4:45 pm, Will Deacon wrote:
+> On Mon, Sep 25, 2023 at 06:54:42PM +0100, Robin Murphy wrote:
+>> On 2023-04-10 19:52, Dmitry Baryshkov wrote:
+>>> If the Adreno SMMU is dma-coherent, allocation will fail unless we
+>>> disable IO_PGTABLE_QUIRK_ARM_OUTER_WBWA. Skip setting this quirk for the
+>>> coherent SMMUs (like we have on sm8350 platform).
+>>
+>> Hmm, but is it right that it should fail in the first place? The fact is
+>> that if the SMMU is coherent then walks *will* be outer-WBWA, so I honestly
+>> can't see why the io-pgtable code is going out of its way to explicitly
+>> reject a request to give them the same attribute it's already giving then
+>> anyway :/
+>>
+>> Even if the original intent was for the quirk to have an over-specific
+>> implication of representing inner-NC as well, that hardly seems useful if
+>> what we've ended up with in practice is a nonsensical-looking check in one
+>> place and then a weird hacky bodge in another purely to work around it.
+>>
+>> Does anyone know a good reason why this is the way it is?
 > 
-> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
-> Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com> (v2)
+> I think it was mainly because the quick doesn't make sense for a coherent
+> page-table walker and we could in theory use that bit for something else
+> in that case.
 
-I was in Cc on your v3 but not on this v4. Maybe the " (v2)" on these
-lines confuses get_maintainers.pl?
+Yuck, even if we did want some horrible notion of quirks being 
+conditional on parts of the config rather than just the format, then the 
+users would need to be testing for the same condition as the pagetable 
+code itself (i.e. cfg->coherent_walk), rather than hoping some other 
+property of something else indirectly reflects the right information - 
+e.g. there'd be no hope of backporting this particular bodge before 5.19 
+where the old iommu_capable(IOMMU_CAP_CACHE_COHERENCY) always returned 
+true, and in future we could conceivably support coherent SMMUs being 
+configured for non-coherent walks on a per-domain basis.
 
-> Tested-by: Marek Vasut <marex@denx.de> (v1)
-> Tested-by: Luca Ceresoli <luca.ceresoli@bootlin.com> (v2)
-> Tested-by: Richard Leitner <richard.leitner@skidata.com> (v2)
-> Tested-by: Frieder Schrempf <frieder.schrempf@kontron.de> (v2)
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com> (v3)
+Furthermore, if we did overload a flag to have multiple meanings, then 
+we'd have no way of knowing which one the caller was actually expecting, 
+thus the illusion of being able to validate calls in the meantime isn't 
+necessarily as helpful as it seems, particularly in a case where the 
+"wrong" interpretation would be to have no effect anyway. Mostly though 
+I'd hope that if we ever got anywhere near the point of running out of 
+quirk bits we'd have already realised that it's time for a better 
+interface :(
 
-A changelog would be appreciated, especially as a long time has gone
-since I last looked at these patches.
+Based on that, I think that when I do get round to needing to touch this 
+code, I'll propose just streamlining the whole quirk.
 
-Confirmed for this v4:
-
-Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-[On Avnet MSC SM2-MB-EP1 based on the SMARC module]
-Tested-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-
-Luca
-
--- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Cheers,
+Robin.
