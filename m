@@ -2,38 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DD407B3899
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Sep 2023 19:25:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C21917B390F
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Sep 2023 19:42:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ADCF010E124;
-	Fri, 29 Sep 2023 17:25:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E294A10E147;
+	Fri, 29 Sep 2023 17:42:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id AF5518910E;
- Fri, 29 Sep 2023 17:25:34 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 666101FB;
- Fri, 29 Sep 2023 10:26:12 -0700 (PDT)
-Received: from [10.1.196.40] (e121345-lin.cambridge.arm.com [10.1.196.40])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B96DD3F59C;
- Fri, 29 Sep 2023 10:25:32 -0700 (PDT)
-Message-ID: <70d975d0-8ee7-9f08-7fae-4652a18df598@arm.com>
-Date: Fri, 29 Sep 2023 18:25:21 +0100
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E05B10E147
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Sep 2023 17:42:33 +0000 (UTC)
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
+ helo=[IPv6:::1]) by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1qmHVR-0006iq-QQ; Fri, 29 Sep 2023 19:42:25 +0200
+Message-ID: <246c5d9c6d591a1f54ac343b5edd4284ad1dd74f.camel@pengutronix.de>
+Subject: Re: [PATCH v4 1/2] dt-bindings: display: imx: add binding for
+ i.MX8MP HDMI PVI
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Date: Fri, 29 Sep 2023 19:42:24 +0200
+In-Reply-To: <20230929184835.1de69182@booty>
+References: <20230928125536.1782715-1-l.stach@pengutronix.de>
+ <20230929184835.1de69182@booty>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH] drm/msm/a6xx: don't set IO_PGTABLE_QUIRK_ARM_OUTER_WBWA
- with coherent SMMU
-Content-Language: en-GB
-To: Will Deacon <will@kernel.org>
-References: <20230410185226.3240336-1-dmitry.baryshkov@linaro.org>
- <b1434fe7-3128-f390-7b13-3d460378e231@arm.com>
- <20230929154507.GA30764@willie-the-truck>
-From: Robin Murphy <robin.murphy@arm.com>
-In-Reply-To: <20230929154507.GA30764@willie-the-truck>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,59 +48,126 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, Bjorn Andersson <andersson@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, David Heidelberg <david@ixit.cz>,
- linux-arm-msm@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno@lists.freedesktop.org
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Robert Foss <rfoss@kernel.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Liu Ying <victor.liu@nxp.com>, NXP Linux Team <linux-imx@nxp.com>,
+ dri-devel@lists.freedesktop.org, patchwork-lst@pengutronix.de,
+ devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ linux-arm-kernel@lists.infradead.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 29/09/2023 4:45 pm, Will Deacon wrote:
-> On Mon, Sep 25, 2023 at 06:54:42PM +0100, Robin Murphy wrote:
->> On 2023-04-10 19:52, Dmitry Baryshkov wrote:
->>> If the Adreno SMMU is dma-coherent, allocation will fail unless we
->>> disable IO_PGTABLE_QUIRK_ARM_OUTER_WBWA. Skip setting this quirk for the
->>> coherent SMMUs (like we have on sm8350 platform).
->>
->> Hmm, but is it right that it should fail in the first place? The fact is
->> that if the SMMU is coherent then walks *will* be outer-WBWA, so I honestly
->> can't see why the io-pgtable code is going out of its way to explicitly
->> reject a request to give them the same attribute it's already giving then
->> anyway :/
->>
->> Even if the original intent was for the quirk to have an over-specific
->> implication of representing inner-NC as well, that hardly seems useful if
->> what we've ended up with in practice is a nonsensical-looking check in one
->> place and then a weird hacky bodge in another purely to work around it.
->>
->> Does anyone know a good reason why this is the way it is?
-> 
-> I think it was mainly because the quick doesn't make sense for a coherent
-> page-table walker and we could in theory use that bit for something else
-> in that case.
+Hi Luca,
 
-Yuck, even if we did want some horrible notion of quirks being 
-conditional on parts of the config rather than just the format, then the 
-users would need to be testing for the same condition as the pagetable 
-code itself (i.e. cfg->coherent_walk), rather than hoping some other 
-property of something else indirectly reflects the right information - 
-e.g. there'd be no hope of backporting this particular bodge before 5.19 
-where the old iommu_capable(IOMMU_CAP_CACHE_COHERENCY) always returned 
-true, and in future we could conceivably support coherent SMMUs being 
-configured for non-coherent walks on a per-domain basis.
+Am Freitag, dem 29.09.2023 um 18:48 +0200 schrieb Luca Ceresoli:
+> Hi Lucas,
+>=20
+> On Thu, 28 Sep 2023 14:55:35 +0200
+> Lucas Stach <l.stach@pengutronix.de> wrote:
+>=20
+> > Add binding for the i.MX8MP HDMI parallel video interface block.
+> >=20
+> > Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > ---
+> >  .../display/imx/fsl,imx8mp-hdmi-pvi.yaml      | 83 +++++++++++++++++++
+> >  1 file changed, 83 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,i=
+mx8mp-hdmi-pvi.yaml
+> >=20
+> > diff --git a/Documentation/devicetree/bindings/display/imx/fsl,imx8mp-h=
+dmi-pvi.yaml b/Documentation/devicetree/bindings/display/imx/fsl,imx8mp-hdm=
+i-pvi.yaml
+> > new file mode 100644
+> > index 000000000000..df29006b4090
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/display/imx/fsl,imx8mp-hdmi-pvi=
+.yaml
+> > @@ -0,0 +1,83 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/display/imx/fsl,imx8mp-hdmi-pvi.yam=
+l#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Freescale i.MX8MP HDMI Parallel Video Interface
+> > +
+> > +maintainers:
+> > +  - Lucas Stach <l.stach@pengutronix.de>
+> > +
+> > +description: |
+> > +  The HDMI parallel video interface is a timing and sync generator blo=
+ck in the
+> > +  i.MX8MP SoC, that sits between the video source and the HDMI TX cont=
+roller.
+> > +
+> > +properties:
+> > +  compatible:
+> > +    const: fsl,imx8mp-hdmi-pvi
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  interrupts:
+> > +    maxItems: 1
+> > +
+> > +  power-domains:
+> > +    maxItems: 1
+> > +
+> > +  ports:
+> > +    $ref: /schemas/graph.yaml#/properties/ports
+> > +
+> > +    properties:
+> > +      port@0:
+> > +        $ref: /schemas/graph.yaml#/properties/port
+> > +        description: Input from the LCDIF controller.
+> > +
+> > +      port@1:
+> > +        $ref: /schemas/graph.yaml#/properties/port
+> > +        description: Output to the HDMI TX controller.
+> > +
+> > +    required:
+> > +      - port@0
+> > +      - port@1
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - interrupts
+>=20
+> Sure it is required? In the imx8mp.dtsi I have, which comes for a patch
+> you sent previously, there is no 'interrupts' property, and HDMI works.
+>=20
+Yes, the driver doesn't use/enforce this interrupt at the moment and
+will work without it. But since the IRQ is present in the only known HW
+implementation of this IP, I don't see a reason to make it optional in
+the DT, as that's just proper description of the HW.
 
-Furthermore, if we did overload a flag to have multiple meanings, then 
-we'd have no way of knowing which one the caller was actually expecting, 
-thus the illusion of being able to validate calls in the meantime isn't 
-necessarily as helpful as it seems, particularly in a case where the 
-"wrong" interpretation would be to have no effect anyway. Mostly though 
-I'd hope that if we ever got anywhere near the point of running out of 
-quirk bits we'd have already realised that it's time for a better 
-interface :(
+> > +  - power-domains
+> > +  - ports
+> > +
+> > +additionalProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/interrupt-controller/irq.h>
+> > +    #include <dt-bindings/power/imx8mp-power.h>
+> > +
+> > +    display-bridge@32fc4000 {
+> > +        compatible =3D "fsl,imx8mp-hdmi-pvi";
+> > +        reg =3D <0x32fc4000 0x40>;
+>=20
+> The device has up to register 0x40, thus I guess the second value should
+> be 0x44 here. Or maybe 0x100, just to be comfortable. :)
+>=20
+Right, I'll fix that.
 
-Based on that, I think that when I do get round to needing to touch this 
-code, I'll propose just streamlining the whole quirk.
+Regards,
+Lucas
 
-Cheers,
-Robin.
