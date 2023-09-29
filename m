@@ -1,51 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 276E57B3AE6
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Sep 2023 22:06:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 608B97B3B39
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Sep 2023 22:24:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4CAE310E14F;
-	Fri, 29 Sep 2023 20:06:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D318310E133;
+	Fri, 29 Sep 2023 20:24:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [IPv6:2607:7c80:54:3::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 443A310E14F;
- Fri, 29 Sep 2023 20:06:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
- Message-ID:Sender:Reply-To:Cc:Content-ID:Content-Description;
- bh=eC20//QhF98C1kt/J8oEmhBMKIruxNdmNuyRsqobxqI=; b=GIcXsx+P98ZligLGIAGNPJo1HF
- 3pCu/SJDukgoLmxrJGwCp8nMjDqbo4MzGF4aSYA/iFAGuWcSB1eAeUTw70DN8OrwARBazFPEMt3ES
- 4ktNO5V8FMa+U0zYBaIOw2l9ULCIcncUKuGAhPX8i79MuLA7cgsFd+KqYP52CPMyoxr1ib69K8WjG
- 5+rqzvmd8//Si+w3CmJ/NMZnVKmUBgQfuecosdg78IDAZ94ChIs+pR97sdy2hGxvy+YwA620+kR7M
- las0v7tJ7hAOQk9U0PHCMpLrQpnxndwiyI4Kh1kaiYzaISTB8hqwVjFGIMdPCJdslYiB0b/9iz8m8
- NCYxZN8A==;
-Received: from [50.53.46.231] (helo=[192.168.254.15])
- by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
- id 1qmJkk-008WRL-35; Fri, 29 Sep 2023 20:06:23 +0000
-Message-ID: <9270c1f3-c8f3-4b3c-91ec-ed17d97ecafd@infradead.org>
-Date: Fri, 29 Sep 2023 13:06:21 -0700
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 327CD10E133
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Sep 2023 20:24:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1696019063;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ewZiFHUKmV9xtcbcuN23GQRTu/CBTIx2ARUrFl0HY20=;
+ b=QalgCQB/SqnObkPb0I9fzOK1aOu9LvyZf+VovywgoWH5iCqOxst+jYtKeFBtccbfhv9EQt
+ WrzbjogUwaRQ0xW/NdxVsO5n8sJrRToh5qOcZgg4ZbRPAMVAJegA6CVwMLYrVe9COcKPsg
+ qus7aWdo3ESTqhYLtHznWJKtAxF/KLg=
+Received: from mail-oa1-f72.google.com (mail-oa1-f72.google.com
+ [209.85.160.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-644-jH0f9WoFMOeB5JtmVe0Nnw-1; Fri, 29 Sep 2023 16:24:21 -0400
+X-MC-Unique: jH0f9WoFMOeB5JtmVe0Nnw-1
+Received: by mail-oa1-f72.google.com with SMTP id
+ 586e51a60fabf-1dcdb642868so27822631fac.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Sep 2023 13:24:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1696019061; x=1696623861;
+ h=mime-version:user-agent:content-transfer-encoding:organization
+ :references:in-reply-to:date:cc:to:from:subject:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=6AMpb+2gDgq7RlPrOwXqsC5rvICGHGcOSn62cpzrOUk=;
+ b=dpOuG9/P09fUcgKHb9YIk35e5GPKbscJEMsz+K8+rw2/L/Os5nkWlUWMFkyKW+qPkx
+ LuJhBtDpLNBq/xBwGS3WZrYT54FPrskwg4N+3vJzBO2WPSBkzLI81njGBrEWK5XzwHfA
+ dcBOcZX1jAA8MMATzwFZfVcyeiFZzGQTRyPbGnUhlaQ8c7O26b2sD5zb+aD+e0/+Qwfw
+ SmsPcLj19MfZ8Xuu4b+HmzRRdbW/n8wfm7m9J8E9g/F/rEUm7ugXS53h+dKT+KQ6Ld0D
+ horBu53xNWcggxqLo6m/NdtBCZipqent1Sq2x4CkVZ5V/JtkC5sWm7dA+sy3yVjZxxAP
+ iqpA==
+X-Gm-Message-State: AOJu0Yz8YI0HOVwwRMAj/Tu/hTdeyPTYuCYho06Qjal43s9sD+Vz+e9r
+ /4Bib+qBDIoZyZS+BiV5dnSzFmdMDrr7tmXQDqFhH8J02r4C8cWQnZj7DlGDaEkTSL19NwK+N/g
+ fQdc6LWzXUU1XTA+3tTA+KHAuZNlFOFEoiT1W
+X-Received: by 2002:a05:6870:b507:b0:1c0:d0e8:8fda with SMTP id
+ v7-20020a056870b50700b001c0d0e88fdamr6227164oap.16.1696019060835; 
+ Fri, 29 Sep 2023 13:24:20 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHvm09Ewxw9lUjDhCKZhnPdCxi8jwKEnZc5hS6eklkvEm8RJG8FijD4Ce7C0XS6xgeA7v/m9A==
+X-Received: by 2002:a05:6870:b507:b0:1c0:d0e8:8fda with SMTP id
+ v7-20020a056870b50700b001c0d0e88fdamr6227152oap.16.1696019060595; 
+ Fri, 29 Sep 2023 13:24:20 -0700 (PDT)
+Received: from ?IPv6:2600:4040:5c6c:a300::feb? ([2600:4040:5c6c:a300::feb])
+ by smtp.gmail.com with ESMTPSA id
+ vu4-20020a05620a560400b00774309d3e89sm4398580qkn.7.2023.09.29.13.24.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 29 Sep 2023 13:24:20 -0700 (PDT)
+Message-ID: <9e699068d5cb644201a8b9be113a94a90299ac39.camel@redhat.com>
+Subject: Re: [PATCH] drm/nouveau: fence: fix type cast warning in
+ nouveau_fence_emit()
+From: Lyude Paul <lyude@redhat.com>
+To: Danilo Krummrich <dakr@redhat.com>, nouveau@lists.freedesktop.org
+Date: Fri, 29 Sep 2023 16:24:19 -0400
+In-Reply-To: <20230916011501.15813-1-dakr@redhat.com>
+References: <20230916011501.15813-1-dakr@redhat.com>
+Organization: Red Hat Inc.
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] add kernel docs for dc_dmub_caps
-Content-Language: en-US
-To: Sagar Vashnav <sagarvashnav72427@gmail.com>,
- Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <215ed02d-1dab-480f-84fb-a828b294f716@infradead.org>
- <20230929100055.17563-1-sagarvashnav72427@gmail.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20230929100055.17563-1-sagarvashnav72427@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,50 +85,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: dri-devel@lists.freedesktop.org, kherbst@redhat.com,
+ kernel test robot <lkp@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Reviewed-by: Lyude Paul <lyude@redhat.com>
 
-The $Subject could be improved, e.g.:
-
-[PATCH] drm/amd/display: add kernel docs for dc_dmub_caps
-
-
-On 9/29/23 03:00, Sagar Vashnav wrote:
-> Add kernel documentation for the dc_dmub_caps structure.
-> 
-> Signed-off-by: Sagar Vashnav <sagarvashnav72427@gmail.com>
-
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-
-Thanks.
-
+On Sat, 2023-09-16 at 03:14 +0200, Danilo Krummrich wrote:
+> Fix the following warning.
+>=20
+>   drivers/gpu/drm/nouveau/nouveau_fence.c:210:45: sparse: sparse:
+>   incorrect type in initializer (different address spaces)
+>   @@     expected struct nouveau_channel *chan
+>   @@     got struct nouveau_channel [noderef] __rcu *channel
+>=20
+> We're just about to emit the fence, there is nothing to protect against
+> yet, hence it is safe to just cast __rcu away.
+>=20
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202309140340.BwKXzaDx-lkp@i=
+ntel.com/
+> Fixes: 978474dc8278 ("drm/nouveau: fence: fix undefined fence state after=
+ emit")
+> Signed-off-by: Danilo Krummrich <dakr@redhat.com>
 > ---
->  drivers/gpu/drm/amd/display/dc/dc.h | 10 ++++++++++
->  1 file changed, 10 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/amd/display/dc/dc.h b/drivers/gpu/drm/amd/display/dc/dc.h
-> index 8125839..14b4c50 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dc.h
-> +++ b/drivers/gpu/drm/amd/display/dc/dc.h
-> @@ -208,6 +208,16 @@ struct dc_color_caps {
->  	struct mpc_color_caps mpc;
->  };
->  
-> +/**
-> + * struct dc_dmub_caps - DMUB (Display Microcontroller Unit) capabilities
-> + * @psr: support for PSR (Power Saving State Residency)
-> + * @mclk_sw: support for MCLK_SW (Memory Clock Switch)
-> + * @subvp_psr: support for SUBVP PSR (Sub-Viewport Power Saving State Residency)
-> + * @gecc_enable: GECC (Global Error Correcting Code) enablement.
-> + *
-> + * This structure describes the capabilities of the Display Microcontroller Unit (DMUB).
-> + * It specifies whether certain features like PSR and MCLK_SW are supported.
-> + */
->  struct dc_dmub_caps {
->  	bool psr;
->  	bool mclk_sw;
+>  drivers/gpu/drm/nouveau/nouveau_fence.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.c b/drivers/gpu/drm/no=
+uveau/nouveau_fence.c
+> index 61d9e70da9fd..ca762ea55413 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_fence.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_fence.c
+> @@ -207,7 +207,7 @@ nouveau_fence_context_new(struct nouveau_channel *cha=
+n, struct nouveau_fence_cha
+>  int
+>  nouveau_fence_emit(struct nouveau_fence *fence)
+>  {
+> -=09struct nouveau_channel *chan =3D fence->channel;
+> +=09struct nouveau_channel *chan =3D unrcu_pointer(fence->channel);
+>  =09struct nouveau_fence_chan *fctx =3D chan->fence;
+>  =09struct nouveau_fence_priv *priv =3D (void*)chan->drm->fence;
+>  =09int ret;
 
--- 
-~Randy
+--=20
+Cheers,
+ Lyude Paul (she/her)
+ Software Engineer at Red Hat
+
