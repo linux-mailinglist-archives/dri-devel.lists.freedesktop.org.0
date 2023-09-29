@@ -2,76 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C82397B2DCB
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Sep 2023 10:27:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68D527B2DE6
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Sep 2023 10:37:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A93010E58B;
-	Fri, 29 Sep 2023 08:27:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3679210E6D7;
+	Fri, 29 Sep 2023 08:37:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 690C910E58B
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Sep 2023 08:27:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1695976039;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=RIRSfgfaj1IEzG1vYEuTWc96zlUrVlwTVTdp7hmHhWg=;
- b=UI0OcXKTQHBpke3ZDodinkbCTvoPhoOklIiKJgDd2jzOPZSqJkorOuV7iamOyg1t6iTey6
- rWwLpQeBTuHT3fO41wh2RxVjM6HRXcBXRdxUgwjPkLVMX///woWP8TgQXZ264l23B2W/NC
- oxlqxSKeWqGndSbAZV13y1j+NDgC0r4=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-414-UE34n5fUM8idPMHMYauJSg-1; Fri, 29 Sep 2023 04:27:17 -0400
-X-MC-Unique: UE34n5fUM8idPMHMYauJSg-1
-Received: by mail-wm1-f69.google.com with SMTP id
- 5b1f17b1804b1-40652e8cb57so10478175e9.0
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Sep 2023 01:27:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1695976037; x=1696580837;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=RIRSfgfaj1IEzG1vYEuTWc96zlUrVlwTVTdp7hmHhWg=;
- b=taIsKxCOKDQlETIn0wNAXkkNQrhZDRJh/2dyH+TWVTN0+WtMgkdUCQ3tJ7C2QxNI0X
- ehzXjinPrbCyPezB7XjAJM7eIgZ/dtaG/Ios/sQ1KT6e25kiiAw+MHDXT7KGZcjefFL4
- 0xtu8OAsQPlMuw64GiJIqyctpbMUSdhskeNDwqCDggC2yyc6qmdM0s/MXE4suruVKeD9
- b/Ee2pd+wOwdSdaSPOHr87yfNfEppOkQAHVRmufTak1/pYwKLa1LunSGXE+uOwZdHLOH
- d6mxotIHkSAfWERrKxQjFC2ZeSIhIf8lDNQ8rsKYh/OQKcMKo8ezczVLj2E/wJ/KJLIS
- QYIA==
-X-Gm-Message-State: AOJu0YxaZeHRsQugGbUwXlwKer527uYDUwyM8CtRhD1LjusB6t3ZgzPo
- lQwMM/IxmeXqzFZnpQz1txEHr2k2SCOVmVbQMguBJqQLpfmUe3zFC44IhFV3KYrOI9dwvF7HWXM
- K20qX/zugWA7DRDeFahriEYqzwArq
-X-Received: by 2002:a7b:c409:0:b0:406:3f62:e583 with SMTP id
- k9-20020a7bc409000000b004063f62e583mr3304871wmi.40.1695976036818; 
- Fri, 29 Sep 2023 01:27:16 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGHPtcEiq9Ml3SzEfqGgEFTDug0vQDgDvMDoMtgh0E2USXvjGkR87om55yQGnxdvd9UqMF7BQ==
-X-Received: by 2002:a7b:c409:0:b0:406:3f62:e583 with SMTP id
- k9-20020a7bc409000000b004063f62e583mr3304857wmi.40.1695976036431; 
- Fri, 29 Sep 2023 01:27:16 -0700 (PDT)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- t20-20020a1c7714000000b00401e32b25adsm928133wmi.4.2023.09.29.01.27.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Sep 2023 01:27:16 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, jfalempe@redhat.com,
- jose.exposito89@gmail.com, arthurgrillo@riseup.net, mairacanal@riseup.net,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
- daniel@ffwll.ch, noralf@tronnes.org
-Subject: Re: [PATCH v2 1/5] drm/format-helper: Add struct drm_xfrm_buf to
- cache format conversion
-In-Reply-To: <20230920142535.19321-2-tzimmermann@suse.de>
-References: <20230920142535.19321-1-tzimmermann@suse.de>
- <20230920142535.19321-2-tzimmermann@suse.de>
-Date: Fri, 29 Sep 2023 10:27:15 +0200
-Message-ID: <87jzs94c64.fsf@minerva.mail-host-address-is-not-set>
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB08D10E6CC;
+ Fri, 29 Sep 2023 08:37:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1695976667; x=1727512667;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=Xz8d8GoDzs3kDhmUg2Lc1L3byZX99FHQxfjfiVY7eis=;
+ b=TfGmJuYxDzI3NtgLKboBH6uDzhy7phKz0BHfPaGwv+4TAuc7DLS0aRFj
+ 5DlO5PUf7KNcg4IX8W6JLodM7OrkCGkAQOXKiBWFomaIy42VWk6flOwCH
+ F/gyvEDhMknSckKt7RM+yiExJ4w53UB4hluOaeSY//s0dnDK96rXhSI2u
+ ndLBedU6Ejs9v1D7neOJ5sFLZml2oLrlMPln+ixlfLpE9k/O20ZXqoTUY
+ MmI5HnlLyWfnzOCvEzZ7RpNnIGO+PdujfSVIuEPlsqbIDBh9+oI4yfWb3
+ pfGogmorucrB6602sUwT7G1pHRgX7LcygZYA2ULxf7gK47dqsL76/WSEW w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="372611507"
+X-IronPort-AV: E=Sophos;i="6.03,186,1694761200"; d="scan'208";a="372611507"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Sep 2023 01:37:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="753311224"
+X-IronPort-AV: E=Sophos;i="6.03,186,1694761200"; d="scan'208";a="753311224"
+Received: from nirmoyda-mobl.ger.corp.intel.com (HELO [10.252.39.203])
+ ([10.252.39.203])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Sep 2023 01:37:45 -0700
+Message-ID: <7de6ddeb-0252-66a4-2c1e-8f1405b311af@linux.intel.com>
+Date: Fri, 29 Sep 2023 10:37:43 +0200
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v7 1/4] drm/i915: Introduce intel_gt_mcr_lock_sanitize()
+To: Nirmoy Das <nirmoy.das@intel.com>, intel-gfx@lists.freedesktop.org
+References: <20230928130015.6758-1-nirmoy.das@intel.com>
+Content-Language: en-US
+From: Nirmoy Das <nirmoy.das@linux.intel.com>
+In-Reply-To: <20230928130015.6758-1-nirmoy.das@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,62 +61,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, matthew.d.roper@intel.com,
+ dri-devel@lists.freedesktop.org, andi.shyti@linux.intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thomas Zimmermann <tzimmermann@suse.de> writes:
+Thanks reviewing this series. Merged it in  gt-next so hopefully we have 
+bit greener CI for MTL now.
 
-> Hold temporary memory for format conversion in an instance of struct
-> drm_xfrm_buf. Update internal helpers of DRM's format-conversion code
-> accordingly. Drivers will later be able to keep this cache across
-> display updates.
+
+Regards,
+
+Nirmoy
+
+On 9/28/2023 3:00 PM, Nirmoy Das wrote:
+> Implement intel_gt_mcr_lock_sanitize() to provide a mechanism
+> for cleaning the steer semaphore when absolutely necessary.
 >
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> v2: remove unnecessary lock(Andi, Matt)
+>      improve the kernel doc(Matt)
+>      s/intel_gt_mcr_lock_clear/intel_gt_mcr_lock_sanitize
+>
+> Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
 > ---
-
-[...]
-
-> +int drmm_xfrm_buf_init(struct drm_device *dev, struct drm_xfrm_buf *buf)
-> +{
-> +	buf->mem = NULL;
-> +	buf->size = 0;
-> +	buf->preallocated = false;
-> +
-> +	return drmm_add_action_or_reset(dev, drm_xfrm_buf_init_release, buf);
-> +}
-> +EXPORT_SYMBOL(drmm_xfrm_buf_init);
-> +
-
-Can we find a better name than xfrm? I know that this is what's used in
-the internal drm_format_helper.c helpers but if we are exposing this to
-drivers, then I think that the naming is not self explanatory.
-
+>   drivers/gpu/drm/i915/gt/intel_gt_mcr.c | 22 ++++++++++++++++++++++
+>   drivers/gpu/drm/i915/gt/intel_gt_mcr.h |  1 +
+>   2 files changed, 23 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_mcr.c b/drivers/gpu/drm/i915/gt/intel_gt_mcr.c
+> index bf4a933de03a..326c2ed1d99b 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gt_mcr.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_gt_mcr.c
+> @@ -419,6 +419,28 @@ void intel_gt_mcr_unlock(struct intel_gt *gt, unsigned long flags)
+>   		intel_uncore_write_fw(gt->uncore, MTL_STEER_SEMAPHORE, 0x1);
+>   }
+>   
 > +/**
-> + * drm_xfrm_buf_reserve - Allocates storage in an xfrm buffer
-> + * @buf: The xfrm buffer
-
-At least in the kernel-doc we can say "The buffer used for pixel format
-conversion" or something along those lines.
-
-[...]
-
-> +/**
-> + * struct drm_xfrm_buf - Stores transformation and conversion state
+> + * intel_gt_mcr_lock_sanitize - Sanitize MCR steering lock
+> + * @gt: GT structure
 > + *
-> + * DRM helpers for format conversion store temporary state in
-> + * struct drm_xfrm_buf. The buffer's resources can be reused
-
-And same here. Maybe struct drm_fmt_conversion_buf ?
-
-Other than this nit, the patch looks good to me.
-
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-
--- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+> + * This will be used to sanitize the initial status of the hardware lock
+> + * during driver load and resume since there won't be any concurrent access
+> + * from other agents at those times, but it's possible that boot firmware
+> + * may have left the lock in a bad state.
+> + *
+> + */
+> +void intel_gt_mcr_lock_sanitize(struct intel_gt *gt)
+> +{
+> +	/*
+> +	 * This gets called at load/resume time, so we shouldn't be
+> +	 * racing with other driver threads grabbing the mcr lock.
+> +	 */
+> +	lockdep_assert_not_held(&gt->mcr_lock);
+> +
+> +	if (GRAPHICS_VER_FULL(gt->i915) >= IP_VER(12, 70))
+> +		intel_uncore_write_fw(gt->uncore, MTL_STEER_SEMAPHORE, 0x1);
+> +}
+> +
+>   /**
+>    * intel_gt_mcr_read - read a specific instance of an MCR register
+>    * @gt: GT structure
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_mcr.h b/drivers/gpu/drm/i915/gt/intel_gt_mcr.h
+> index 41684495b7da..01ac565a56a4 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gt_mcr.h
+> +++ b/drivers/gpu/drm/i915/gt/intel_gt_mcr.h
+> @@ -11,6 +11,7 @@
+>   void intel_gt_mcr_init(struct intel_gt *gt);
+>   void intel_gt_mcr_lock(struct intel_gt *gt, unsigned long *flags);
+>   void intel_gt_mcr_unlock(struct intel_gt *gt, unsigned long flags);
+> +void intel_gt_mcr_lock_sanitize(struct intel_gt *gt);
+>   
+>   u32 intel_gt_mcr_read(struct intel_gt *gt,
+>   		      i915_mcr_reg_t reg,
