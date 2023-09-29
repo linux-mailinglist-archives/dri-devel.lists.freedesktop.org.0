@@ -1,63 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 683D27B2CB8
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Sep 2023 09:00:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EA16E7B2C50
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Sep 2023 08:30:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C2B9410E6B9;
-	Fri, 29 Sep 2023 07:00:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 143A610E0DB;
+	Fri, 29 Sep 2023 06:30:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B778C10E0D8
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Sep 2023 05:39:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net; s=s31663417;
- t=1695965986; x=1696570786; i=wahrenst@gmx.net;
- bh=419i6xJIeP7rl0R9x2nNayuMoFrALLyAr9RQWvc/CpE=;
- h=X-UI-Sender-Class:Date:In-Reply-To:To:Cc:From:Subject;
- b=r6IMvNp6iJpt/vn5MBWL3rGISC9DmYE2JlwCezJbzWgJAH2i+hpG0y9736sLAJ6neQImw6/j1PN
- BryJ8s7hPF/90h9gGub26QO+TbhMSztZ7vc4pPt2UPmjeS13FAH2sxz3jTKXbwo1g948dSpRNwAFL
- byQSMTZuw81AF6o2/iOAU8ks4WafMLuGJkFAIEZEcohR+UOTrcRnPERd5fuQqjPrESFx13/d6ondB
- N/VOxLfU9lpO39sATLlprD/Oi6RsYhOJwUWRyl+Q3Sj7/Gz6cMgR2gu7GlyvrOFVi5BNKwSc7G+wE
- S4qKErE/unV3T3FVY+O9yy7LLLm3C2Tk4AWQ==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.1.129] ([37.4.248.43]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1M9Wyy-1qgcUU2OeK-005YGR; Fri, 29
- Sep 2023 07:34:22 +0200
-Message-ID: <083b109c-4418-d613-1135-329a43dfac4b@gmx.net>
-Date: Fri, 29 Sep 2023 07:34:19 +0200
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C7C610E0DB
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Sep 2023 06:30:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:Message-ID:References:
+ In-Reply-To:Subject:Cc:To:From:Date:MIME-Version:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=LCi/ItBrB8zfDtQmLpPOOCv/1aH15m0ACf4f4ismWMA=; b=Y0p3BmRxnIL4oamQDY08WEL/Td
+ LyHo0ilqm9//HZCXNzZALac3DTvPUNg980so7dSiBEeI+ORdMBWp6H2rQWUIH+4EmHUHxw1w0pIaq
+ YRScQvwSVJWyvyFpDvgmDv/gV4IepHm24oX8+WH/FG1RJOCg3l3yGasd8/W8KPIq5N6kg3tJf7PKJ
+ nj3zfFmaDC5sDkJ6E3lzZEfJZxJundIFYc4MFATO8vaKfSPCmK87Wlx9lVwebHiZTpz+PVtzBO3Gm
+ DBr/ExFd0AYUvJSf+VlM0kS4TeiF3GX8xPuMCAf8wA4jN+16ahw3XdZntT8MkIMUiX6ZZtNab6vYt
+ uYeCINlA==;
+Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
+ by fanzine2.igalia.com with esmtps 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1qm71Q-009XiP-EM
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Sep 2023 08:30:44 +0200
+Received: from webmail.service.igalia.com ([192.168.21.45])
+ by mail.igalia.com with esmtp (Exim)
+ id 1qm71O-007UV1-AI; Fri, 29 Sep 2023 08:30:44 +0200
+Received: from localhost ([127.0.0.1] helo=webmail.igalia.com)
+ by webmail.service.igalia.com with esmtp (Exim 4.96)
+ (envelope-from <itoral@igalia.com>) id 1qm71O-004N01-0L;
+ Fri, 29 Sep 2023 08:30:42 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Content-Language: en-US
-In-Reply-To: <20230928114532.167854-4-itoral@igalia.com>
-To: Iago Toral Quiroga <itoral@igalia.com>
-From: Stefan Wahren <wahrenst@gmx.net>
-Subject: Re: [PATCH 3/3] drm/v3d: add brcm, 2712-v3d as a compatible V3D device
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:IhuYkVvwI13o0P3a9SfKxUmevUupKFz7JgtLLVDgn/oPv0hsyz+
- ILveWF4MtTM9IZ3oFUslgnumzySVuNGpQAwUaodmiL/B+j4M04jGvt4b6AXiYL2igavd18Z
- G1FhLNoYJPpK9eIVR8I73s8AQvWwWU2wnP4IHHV6x/5LQR+88j2F0FXoPQJPAYOuhuHnuOy
- zJ5jfAIiwWKA+CB5U6lAg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:01StSES/i8U=;gS4sRxx/TPUG2R5yltdhekeQrYI
- 2BfAbbZVOyJ0ebzqdqaQJJc/tFNVW9QLsOCLW4C5hAl9G04VNEJJFHJixq33rdPYGoecJHCr5
- 5Ca7gh0vroGURQGVZ7r1FM8wYZkNXBjj0ywvkernbY5BuxB/C6bflgufEEl6dXMCMS0KoYuB4
- a49r+lMBqMyzw5jt485Jxy6rqIu6S/ectuf8WI9qQVrLf5Il18fiOkfHTTH+G6tIqQ/t1ilfL
- 5lrXVLTrcyoIlRLf6sW0ST5i+JGIqjEzM/Vt7rXI1S48p5hdszAR+Ym5TyvXO/r3lLLBQMkj+
- /mh1ZxbR+97rSE+eNzk2bMsPKAn7yh0i5nXbTBJBR7u4wLc/jytZTJS/Evjh9xy+DSBXnRSP0
- grVK2qdnH44bw6kD1syN76VuHidtxzgsc28tVihh7bvxDoGQnNBTceeL9pzMNVbftTSLIbEoJ
- HA5zInZCvQRbZhuL29pz4MDJbZ6oY33ufGXnmgZdKblAa+q2fTlbWn+ZuqEj0Gy+f/HZbsUeM
- DCGu73sfdUHpffV99JVDXLgv/gbd/8+NCcSnMwqmiHQH6MBWdlgyB5AzKuEcyOTGIhoAbxP+X
- tYKuKCLPuA1W7EGNMViARbvAhGr/4u4spTFbHwgJdbo1yWoLWmZPhZA5ExJlNXza5ZCMHfCyN
- qKMXKJ2Z79Deu09hCxIgIN2BgTSPNSTa5h/Xu7NPkWz39HyLEATCqFW3XF6w0NgBS0Do7vZ8H
- hJW4kuLzN+Cde6E5UzbcScUH9fjO33Kpe34Dlaapo5zKiR8FoquVh5F7/CHsPVZ9bwHp2IFs9
- a8DqUSxL7jvQwMAmtlHu+bU6gpQQ1fMvmlEjtROW7ZM5KMmWQUDUGWpjVbVxrFwECxCeJ74o+
- H+MAnBJyEQWEP23NJtjwAHCh08qzZTg93qbJFoTZsEE2SNaRitkvISxVGmmaRP6LuSVh1pQTk
- teRLKg==
-X-Mailman-Approved-At: Fri, 29 Sep 2023 07:00:19 +0000
+Date: Fri, 29 Sep 2023 06:30:42 +0000
+From: itoral <itoral@igalia.com>
+To: Maira Canal <mcanal@igalia.com>
+Subject: Re: [PATCH 2/3] drm/v3d: update UAPI to match user-space for V3D 7.x
+In-Reply-To: <d01bd636-1cd4-1adc-208c-f92f10ce4a34@igalia.com>
+References: <20230928114532.167854-1-itoral@igalia.com>
+ <20230928114532.167854-3-itoral@igalia.com>
+ <d01bd636-1cd4-1adc-208c-f92f10ce4a34@igalia.com>
+Message-ID: <19eb6f26c4f560a8ab3fcba7e74c1230@igalia.com>
+X-Sender: itoral@igalia.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,21 +62,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maira Canal <mcanal@igalia.com>,
- DRI Development <dri-devel@lists.freedesktop.org>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Iago,
+On 2023-09-28 15:05, Maira Canal wrote:
+> Hi Iago,
+> 
+> On 9/28/23 08:45, Iago Toral Quiroga wrote:
+>> V3D t.x takes a new parameter to configure TFU jobs that needs
+> 
+> I believe t.x should be 7.x.
+> 
+>> to be provided by user space.
+> 
+> As I mentioned before, please, add your s-o-b.
+> 
+>> ---
+>>   include/uapi/drm/v3d_drm.h | 5 +++++
+>>   1 file changed, 5 insertions(+)
+>> 
+>> diff --git a/include/uapi/drm/v3d_drm.h b/include/uapi/drm/v3d_drm.h
+>> index 3dfc0af8756a..1a7d7a689de3 100644
+>> --- a/include/uapi/drm/v3d_drm.h
+>> +++ b/include/uapi/drm/v3d_drm.h
+>> @@ -319,6 +319,11 @@ struct drm_v3d_submit_tfu {
+>>     	/* Pointer to an array of ioctl extensions*/
+>>   	__u64 extensions;
+>> +
+>> +	struct {
+>> +		__u32 ioc;
+>> +		__u32 pad;
+>> +	} v71;
+> 
+> Is there any possibility that the name of the struct could be more
+> meaningful?
 
-additional to Maria's comments:
+The v71 stands for the hardware version where this field was introduced,
+so I am not sure how much more meaningful we can make it :)
 
-Please keep the order of the compatible strings.
+The idea for this was to pack version-specific fields into structs named
+vXX so that you can quickly tell in which version specific fields
+started being relevant directly from the code without having to look for
+documentation elsewhere. I don't have a better alternative for the name,
+since the point is to make the version explicit, but I am open to
+suggestions if you have any.
 
-Also you need to update the device tree binding before this patch:
-Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml
+Of course, we can also get rid of the struct if you prefer that, but
+then we should document explicitly that this field only applies to v71
+hardware and we would lose the explicit versioning when accessing the
+field from the code (unless we decide to add the v71 as a prefix or
+suffix in the ioc field, but that is kind of the same thing).
 
-Also make sure that the series is send to the maintainers, not just
-dri-devel by using scripts/get_maintainer.pl
+Iago
 
-Best regards
+> 
+> Best Regards,
+> - Maíra
+> 
+>>   };
+>>     /* Submits a compute shader for dispatch.  This job will block on any
