@@ -1,70 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D3AE7B306A
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Sep 2023 12:32:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA55C7B30D8
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Sep 2023 12:47:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D0C210E0FF;
-	Fri, 29 Sep 2023 10:32:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB6F710E108;
+	Fri, 29 Sep 2023 10:47:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
- [IPv6:2a00:1450:4864:20::62c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 019BD10E0FF;
- Fri, 29 Sep 2023 10:32:26 +0000 (UTC)
-Received: by mail-ej1-x62c.google.com with SMTP id
- a640c23a62f3a-9a648f9d8e3so1933656866b.1; 
- Fri, 29 Sep 2023 03:32:26 -0700 (PDT)
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com
+ [IPv6:2a00:1450:4864:20::530])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9279210E108
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Sep 2023 10:47:28 +0000 (UTC)
+Received: by mail-ed1-x530.google.com with SMTP id
+ 4fb4d7f45d1cf-5346b64f17aso8871859a12.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Sep 2023 03:47:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1695983545; x=1696588345; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=SWJdqBPnDAgywcBZidpvlgZ+YV2aBNzRsFnFunNvCTo=;
- b=CeYAQij2U5zYkbPYp8T8k0MpgJGVNPGjZFL5TVaFQ31XLb+TrYH+jluA+FhPPZ4ECm
- 8VxQ2/4n1T6dlP6uXwWg4c0QBQ6AGCG7RAWEoMW0Z3/uAGMqYcmx117Vt9ahzREs79gW
- 3Q58RmLGdj6pyLwJpohCJ9cz3EZw5Un81MVL9vcqKAVJYyk6XULwQz4zd69/DFLZjN8O
- S7a6zJgUdNi5gk5k2T6Syb86uFiacVqGTvTnBn8+B1sf0EaLKmdAY4lnwjfMvdO3z3p4
- rDqytZSI27MCagEU9HWNjj6NS/ZxDvYi9bw+XdedQJOGOwqsJXN4+uRpXcOgxremiONe
- pYjg==
+ d=gmail.com; s=20230601; t=1695984447; x=1696589247; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:from:to:cc:subject:date:message-id:reply-to;
+ bh=LERo11J4O6+7RDEZVuSSk1wmWvMcLrHBMBsGzR3meS4=;
+ b=OGWgIvEfypipi0zuIMqkxDWhp3qWRv2JZRUZpyoTTE5RrYjVBI3Q9xTGg0KhewR5FT
+ /YOtFGPSR63i3ksZaG5fEsx8JjbceAxorQVNQkUiThFDyMGp7pIaGrU0wAAlqtZGqgKH
+ oPeSUR32n4seSmLb6tquAxB+tRMu6ZeLH7rDj6oMeizL3xsYsJROuIDW/Siq/44NcXZR
+ yAUNj8B0pa+WCgd3f2+a+qyymaa3CVey3yrtaUNNDEuRWRo0sMD/dsvGWl/9jaw2IGIo
+ Cm5LtZM1su5EaNR4I38lvCIovX4ISg+ien7p8QZ3arNmLP+uj6VkKPBsgB/PlBZNBslV
+ irvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1695983545; x=1696588345;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=SWJdqBPnDAgywcBZidpvlgZ+YV2aBNzRsFnFunNvCTo=;
- b=K3BycIvT1l3Tlwrr06B8JKYlTfpp8xfrJNgHql+KUxGKojFLGS8Y71012vLLkyW4br
- qRk4yFeNib4ZhFGF5yrewaNnsnXYEeKIKZevZBMXzv1DZfd7jpl+EMAFZMcgL/0/DMAY
- PZgiNx66nKgWWEIi+mFMajC31d0Qa2YMo4Ib64mxBdMI97MizNGTe8+OWZWY7q9c7hH4
- zHPyEP4CZPocTR2pDfRdgZ8ieUxd3OTelBlBfzdAO30RCimEsdd+1rwa7nWmjyOy20JT
- cxcb8KaazN4N1qJmMdgGQi+SQWY1Hl1Qw5qqWzlfZ5fErQrAJtlm9KwQKJZO7Nqp5JEG
- huug==
-X-Gm-Message-State: AOJu0YzkjKPMWKo4BDv4mQ8LvkmQiqlM61aPoGfNvm2Lw5v6tzrrG6BU
- IqvFJp6j1PKeRsy0kQIyNBA=
-X-Google-Smtp-Source: AGHT+IHwAzEk47p3atUGX2xHAqL4CJe8oWQxMBDcSASlwdq6m/olOlBn2FKqZDILQOAgoVZkcA1g6g==
-X-Received: by 2002:a17:906:5dc1:b0:9ae:513d:47bd with SMTP id
- p1-20020a1709065dc100b009ae513d47bdmr3396092ejv.26.1695983545033; 
- Fri, 29 Sep 2023 03:32:25 -0700 (PDT)
-Received: from [192.168.178.25] ([185.254.126.65])
+ d=1e100.net; s=20230601; t=1695984447; x=1696589247;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=LERo11J4O6+7RDEZVuSSk1wmWvMcLrHBMBsGzR3meS4=;
+ b=NFFm6ocW+CHbfsFjQXw1LT9strw3Y/5Z7NdhHm44nYLke3KqodWGfkFynubOmDtSO5
+ dfczDeMXZypEHdu38Ytvir9lFgB8EIF74YU2fEAjJC5yB9ZUdVRGNVmfF9lYHj/31fGG
+ A/vZ4FPEPb7LHPlHdH8q+jO3kKb81l2cmMNp3HDq/3T/mf8Mi028+88ZquB9mwQ0Wtm5
+ I1PqvfQ+MaARL8jVqThzTFQ59Te5lRIO1clRJR3XLTeItrl+g0ss/1EPS+Kp0gWf/34O
+ R7DJkeNy4h1sUnK3d/7JH8eBmMxngLML3U6N13gM+gRdqmIkSB63uPFCDUapN3MuKySl
+ nkOA==
+X-Gm-Message-State: AOJu0Yw2YADK3ZrEMizhgRPF2s/sLvqM5S6t0/m+jnQrdgP5geetxbQp
+ 7xJeWVr4wK9uCOklmLGXqUztkosbxRGqyg==
+X-Google-Smtp-Source: AGHT+IGbt4TQLbp9kObpLUp0XR39p3urQCmx3MrwkydiXkxcEnWex5lOvK899mUbaicKFjWhkoFYPg==
+X-Received: by 2002:a17:907:2cc9:b0:9b2:7b89:8199 with SMTP id
+ hg9-20020a1709072cc900b009b27b898199mr3371291ejc.53.1695984446692; 
+ Fri, 29 Sep 2023 03:47:26 -0700 (PDT)
+Received: from able.fritz.box ([2a00:e180:1555:4100:a363:4f74:7970:95eb])
  by smtp.gmail.com with ESMTPSA id
- d12-20020a1709064c4c00b0099bd86f9248sm12316174ejw.63.2023.09.29.03.32.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 29 Sep 2023 03:32:24 -0700 (PDT)
-Message-ID: <6c937706-d171-817d-806f-602a939d5cb3@gmail.com>
-Date: Fri, 29 Sep 2023 12:32:22 +0200
+ l6-20020a1709060e0600b009ae05f9eab3sm12258841eji.65.2023.09.29.03.47.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 29 Sep 2023 03:47:26 -0700 (PDT)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+To: dri-devel@lists.freedesktop.org,
+	Yunxiang.Li@amd.com
+Subject: [PATCH] dma-buf: add dma_fence_timestamp helper
+Date: Fri, 29 Sep 2023 12:47:25 +0200
+Message-Id: <20230929104725.2358-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v8] drm/doc: Document DRM device reset expectations
-Content-Language: en-US
-To: =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@igalia.com>,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20230929092509.42042-1-andrealmeid@igalia.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <20230929092509.42042-1-andrealmeid@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -78,146 +73,123 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: pierre-eric.pelloux-prayer@amd.com,
- Sebastian Wick <sebastian.wick@redhat.com>, amaranath.somalapuram@amd.com,
- Pekka Paalanen <pekka.paalanen@collabora.com>, kernel-dev@igalia.com,
- =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>,
- =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel.daenzer@mailbox.org>,
- Randy Dunlap <rdunlap@infradead.org>, Pekka Paalanen <ppaalanen@gmail.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, alexander.deucher@amd.com,
- contactshashanksharma@gmail.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 29.09.23 um 11:25 schrieb André Almeida:
-> Create a section that specifies how to deal with DRM device resets for
-> kernel and userspace drivers.
->
-> Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-> Acked-by: Sebastian Wick <sebastian.wick@redhat.com>
-> Signed-off-by: André Almeida <andrealmeid@igalia.com>
+When a fence signals there is a very small race window where the timestamp
+isn't updated yet. sync_file solves this by busy waiting for the
+timestamp to appear, but on other ocassions didn't handled this
+correctly.
 
-Reviewed-by: Christian König <christian.koenig@amd.com>
+Provide a dma_fence_timestamp() helper function for this and use it in
+all appropriate cases.
 
-I think that is now ready to be pushed. Do you have commit rights to 
-drm-misc-next? If not please ping me.
+Another alternative would be to grab the spinlock when that happens.
 
-Regards,
-Christian.
+v2 by teddy: add a wait parameter to wait for the timestamp to show up, in case
+   the accurate timestamp is needed and/or the timestamp is not based on
+   ktime (e.g. hw timestamp)
+v3 chk: drop the parameter again for unified handling
 
-> ---
-> v8 changes:
-> - Add acked-by tags
->
-> v7: https://lore.kernel.org/dri-devel/20230818200642.276735-1-andrealmeid@igalia.com/
->
-> v7 changes:
->   - s/application/graphical API contex/ in the robustness part (Michel)
->   - Grammar fixes (Randy)
->
-> v6: https://lore.kernel.org/lkml/20230815185710.159779-1-andrealmeid@igalia.com/
->
-> v6 changes:
->   - Due to substantial changes in the content, dropped Pekka's Acked-by
->   - Grammar fixes (Randy)
->   - Add paragraph about disabling device resets
->   - Add note about integrating reset tracking in drm/sched
->   - Add note that KMD should return failure for contexts affected by
->     resets and UMD should check for this
->   - Add note about lack of consensus around what to do about non-robust
->     apps
->
-> v5: https://lore.kernel.org/dri-devel/20230627132323.115440-1-andrealmeid@igalia.com/
-> ---
->   Documentation/gpu/drm-uapi.rst | 77 ++++++++++++++++++++++++++++++++++
->   1 file changed, 77 insertions(+)
->
-> diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
-> index eef5fd19bc92..632989df3727 100644
-> --- a/Documentation/gpu/drm-uapi.rst
-> +++ b/Documentation/gpu/drm-uapi.rst
-> @@ -285,6 +285,83 @@ for GPU1 and GPU2 from different vendors, and a third handler for
->   mmapped regular files. Threads cause additional pain with signal
->   handling as well.
->   
-> +Device reset
-> +============
-> +
-> +The GPU stack is really complex and is prone to errors, from hardware bugs,
-> +faulty applications and everything in between the many layers. Some errors
-> +require resetting the device in order to make the device usable again. This
-> +section describes the expectations for DRM and usermode drivers when a
-> +device resets and how to propagate the reset status.
-> +
-> +Device resets can not be disabled without tainting the kernel, which can lead to
-> +hanging the entire kernel through shrinkers/mmu_notifiers. Userspace role in
-> +device resets is to propagate the message to the application and apply any
-> +special policy for blocking guilty applications, if any. Corollary is that
-> +debugging a hung GPU context require hardware support to be able to preempt such
-> +a GPU context while it's stopped.
-> +
-> +Kernel Mode Driver
-> +------------------
-> +
-> +The KMD is responsible for checking if the device needs a reset, and to perform
-> +it as needed. Usually a hang is detected when a job gets stuck executing. KMD
-> +should keep track of resets, because userspace can query any time about the
-> +reset status for a specific context. This is needed to propagate to the rest of
-> +the stack that a reset has happened. Currently, this is implemented by each
-> +driver separately, with no common DRM interface. Ideally this should be properly
-> +integrated at DRM scheduler to provide a common ground for all drivers. After a
-> +reset, KMD should reject new command submissions for affected contexts.
-> +
-> +User Mode Driver
-> +----------------
-> +
-> +After command submission, UMD should check if the submission was accepted or
-> +rejected. After a reset, KMD should reject submissions, and UMD can issue an
-> +ioctl to the KMD to check the reset status, and this can be checked more often
-> +if the UMD requires it. After detecting a reset, UMD will then proceed to report
-> +it to the application using the appropriate API error code, as explained in the
-> +section below about robustness.
-> +
-> +Robustness
-> +----------
-> +
-> +The only way to try to keep a graphical API context working after a reset is if
-> +it complies with the robustness aspects of the graphical API that it is using.
-> +
-> +Graphical APIs provide ways to applications to deal with device resets. However,
-> +there is no guarantee that the app will use such features correctly, and a
-> +userspace that doesn't support robust interfaces (like a non-robust
-> +OpenGL context or API without any robustness support like libva) leave the
-> +robustness handling entirely to the userspace driver. There is no strong
-> +community consensus on what the userspace driver should do in that case,
-> +since all reasonable approaches have some clear downsides.
-> +
-> +OpenGL
-> +~~~~~~
-> +
-> +Apps using OpenGL should use the available robust interfaces, like the
-> +extension ``GL_ARB_robustness`` (or ``GL_EXT_robustness`` for OpenGL ES). This
-> +interface tells if a reset has happened, and if so, all the context state is
-> +considered lost and the app proceeds by creating new ones. There's no consensus
-> +on what to do to if robustness is not in use.
-> +
-> +Vulkan
-> +~~~~~~
-> +
-> +Apps using Vulkan should check for ``VK_ERROR_DEVICE_LOST`` for submissions.
-> +This error code means, among other things, that a device reset has happened and
-> +it needs to recreate the contexts to keep going.
-> +
-> +Reporting causes of resets
-> +--------------------------
-> +
-> +Apart from propagating the reset through the stack so apps can recover, it's
-> +really useful for driver developers to learn more about what caused the reset in
-> +the first place. DRM devices should make use of devcoredump to store relevant
-> +information about the reset, so this information can be added to user bug
-> +reports.
-> +
->   .. _drm_driver_ioctl:
->   
->   IOCTL Support on Device Nodes
+Signed-off-by: Yunxiang Li <Yunxiang.Li@amd.com>
+Signed-off-by: Christian König <christian.koenig@amd.com>
+Fixes: 1774baa64f93 ("drm/scheduler: Change scheduled fence track v2")
+---
+ drivers/dma-buf/dma-fence-unwrap.c     | 13 ++++---------
+ drivers/dma-buf/sync_file.c            |  9 +++------
+ drivers/gpu/drm/scheduler/sched_main.c |  2 +-
+ include/linux/dma-fence.h              | 19 +++++++++++++++++++
+ 4 files changed, 27 insertions(+), 16 deletions(-)
+
+diff --git a/drivers/dma-buf/dma-fence-unwrap.c b/drivers/dma-buf/dma-fence-unwrap.c
+index c625bb2b5d56..628af51c81af 100644
+--- a/drivers/dma-buf/dma-fence-unwrap.c
++++ b/drivers/dma-buf/dma-fence-unwrap.c
+@@ -76,16 +76,11 @@ struct dma_fence *__dma_fence_unwrap_merge(unsigned int num_fences,
+ 		dma_fence_unwrap_for_each(tmp, &iter[i], fences[i]) {
+ 			if (!dma_fence_is_signaled(tmp)) {
+ 				++count;
+-			} else if (test_bit(DMA_FENCE_FLAG_TIMESTAMP_BIT,
+-					    &tmp->flags)) {
+-				if (ktime_after(tmp->timestamp, timestamp))
+-					timestamp = tmp->timestamp;
+ 			} else {
+-				/*
+-				 * Use the current time if the fence is
+-				 * currently signaling.
+-				 */
+-				timestamp = ktime_get();
++				ktime_t t = dma_fence_timestamp(tmp);
++
++				if (ktime_after(t, timestamp))
++					timestamp = t;
+ 			}
+ 		}
+ 	}
+diff --git a/drivers/dma-buf/sync_file.c b/drivers/dma-buf/sync_file.c
+index af57799c86ce..2e9a316c596a 100644
+--- a/drivers/dma-buf/sync_file.c
++++ b/drivers/dma-buf/sync_file.c
+@@ -268,13 +268,10 @@ static int sync_fill_fence_info(struct dma_fence *fence,
+ 		sizeof(info->driver_name));
+ 
+ 	info->status = dma_fence_get_status(fence);
+-	while (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags) &&
+-	       !test_bit(DMA_FENCE_FLAG_TIMESTAMP_BIT, &fence->flags))
+-		cpu_relax();
+ 	info->timestamp_ns =
+-		test_bit(DMA_FENCE_FLAG_TIMESTAMP_BIT, &fence->flags) ?
+-		ktime_to_ns(fence->timestamp) :
+-		ktime_set(0, 0);
++		dma_fence_is_signaled(fence) ?
++			ktime_to_ns(dma_fence_timestamp(fence)) :
++			ktime_set(0, 0);
+ 
+ 	return info->status;
+ }
+diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+index 506371c42745..5a3a622fc672 100644
+--- a/drivers/gpu/drm/scheduler/sched_main.c
++++ b/drivers/gpu/drm/scheduler/sched_main.c
+@@ -929,7 +929,7 @@ drm_sched_get_cleanup_job(struct drm_gpu_scheduler *sched)
+ 
+ 		if (next) {
+ 			next->s_fence->scheduled.timestamp =
+-				job->s_fence->finished.timestamp;
++				dma_fence_timestamp(&job->s_fence->finished);
+ 			/* start TO timer for next job */
+ 			drm_sched_start_timeout(sched);
+ 		}
+diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
+index 0d678e9a7b24..ebe78bd3d121 100644
+--- a/include/linux/dma-fence.h
++++ b/include/linux/dma-fence.h
+@@ -568,6 +568,25 @@ static inline void dma_fence_set_error(struct dma_fence *fence,
+ 	fence->error = error;
+ }
+ 
++/**
++ * dma_fence_timestamp - helper to get the completion timestamp of a fence
++ * @fence: fence to get the timestamp from.
++ *
++ * After a fence is signaled the timestamp is updated with the signaling time,
++ * but setting the timestamp can race with tasks waiting for the signaling. This
++ * helper busy waits for the correct timestamp to appear.
++ */
++static inline ktime_t dma_fence_timestamp(struct dma_fence *fence)
++{
++	if (WARN_ON(!test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags)))
++		return ktime_get();
++
++	while (!test_bit(DMA_FENCE_FLAG_TIMESTAMP_BIT, &fence->flags))
++		cpu_relax();
++
++	return fence->timestamp;
++}
++
+ signed long dma_fence_wait_timeout(struct dma_fence *,
+ 				   bool intr, signed long timeout);
+ signed long dma_fence_wait_any_timeout(struct dma_fence **fences,
+-- 
+2.34.1
 
