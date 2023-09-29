@@ -1,83 +1,111 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D45D37B287E
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Sep 2023 00:36:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D0C67B293C
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Sep 2023 02:03:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CB1610E6BB;
-	Thu, 28 Sep 2023 22:36:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE21B10E008;
+	Fri, 29 Sep 2023 00:03:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD38D10E6BD;
- Thu, 28 Sep 2023 22:36:14 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 38SLYRRB023964; Thu, 28 Sep 2023 22:35:55 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=0oLww7t8NDTz6izW9MTTTB5935394WQk9q/qSKmqzyc=;
- b=Ts92vjeVu9hrV6OvcFfsTQ6n19jahFEaBO1FxeOMc4eHXNNTkskYJjhanq81fnWvB0LG
- YwMxsxo+zlf1rPtfVMlvzyJ5SG1PNztSKusr5LGho7G5SmX9Rjh0ow5akA47tnxlgcaj
- EhU0/RlWNu1Xxds2algjTGI7OXJoy3Fb84eRECKKjrqQzGD0mJDNeBKmkgzCx6wAdCeR
- 5pEfcFy74YM+H8dTFyJYAFhKMUk7HyfbJ5BpFPkWgmq+nBdWI8VaUOGmwt9/stmKn+Wt
- v+o8DzbBZSALETLo3vgw/rK+r6toBSflsrEVUB+K3wT/O2z4xq2HkLbighr1haVoqMQE aw== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3tcpkguvc4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 28 Sep 2023 22:35:55 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 38SMZsD0031313
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 28 Sep 2023 22:35:54 GMT
-Received: from [10.110.70.158] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Thu, 28 Sep
- 2023 15:35:51 -0700
-Message-ID: <15ccacce-c20b-5fe2-5d89-a0627bd4a9e0@quicinc.com>
-Date: Thu, 28 Sep 2023 15:35:49 -0700
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
+ [IPv6:2a00:1450:4864:20::62a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7862810E008
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Sep 2023 00:03:02 +0000 (UTC)
+Received: by mail-ej1-x62a.google.com with SMTP id
+ a640c23a62f3a-9adb9fa7200so23699066b.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Sep 2023 17:03:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1695945780; x=1696550580; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+ :to:content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=fJoQABJwrjN7DXpldL83GMfqcCjhQ/lDP5wcxhA79e0=;
+ b=UWFxRXHUOLWKKiFZ2ZVClaojObriFNBh+TlA5TlrGDltC9HoTxhZ41vmWRrrzUhy8r
+ iQQLJfzWYaF4NQVZ/5uG9o3AUuuFrAYQLVbCCTpHJ5G+ICziAdJxvo8u9xkDf8/3JsZF
+ k5GNA8rgRwobo/7g9MmtoNnDAXmeQAdTrHOXR4f1r/YQii4iNi31ILYrnWiQxRUTQXk9
+ IDeXqmyshGcB9LOcGl2KVT3OYEvb0uptPoFRBbBXQqzW/4XHsrcMEfU1KHYMLnx58yjw
+ F0GRSVHku6liF9SyExLayC8MExouhQjpozdrXs9iXteyxPwD4kxd+dCdQB4y5zBNKZcc
+ dNPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1695945780; x=1696550580;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+ :to:content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=fJoQABJwrjN7DXpldL83GMfqcCjhQ/lDP5wcxhA79e0=;
+ b=SxZcCzahN6h2AC4x81DKZGonqmcRdwJEIsDDSziaoKwKsdoWA/Ghlr2K3NZ85c+xs7
+ Pok31XeIdxetGDEHtTIzDxckXmcP1N5UN4/+C28zxHInaah9bl0a4A3wn5ZjsqV5t8/f
+ zd2+Qvb4+hgPK6M3Wqs7u27nUDYNPcUpFYu3PGm6k/Eu5C9wzzvzMkEMsJgfr1ADF96S
+ dXLxUZRCBGXTq8VhfcMmJvzBHjVtCRKexuotYsWUGcVLWCHpmSQqD80YfG0B0HNNPGUY
+ SSHf2xZHGOA616bYnTiczOEaAZv08FzNKKcIEncWbxZ/CfmslFk48zr9Ldrl4TJPWTsh
+ acDg==
+X-Gm-Message-State: AOJu0YwB1mVQNQRaI5zWa2XlZSIb+sCff3GhWWY7sTD9VEPtYiQCpqsY
+ dnVhRMwb1un8bVVqOD3UtIy+Qw==
+X-Google-Smtp-Source: AGHT+IGcvT7rG1Dp9q+pepiUE9YMrXoIwg8rikPYq9kzHjH0K5DORbDTYbMi9f+iQ2jZA1cCt8uoBA==
+X-Received: by 2002:a17:907:6092:b0:9a5:c38d:6b75 with SMTP id
+ ht18-20020a170907609200b009a5c38d6b75mr2869547ejc.15.1695945780603; 
+ Thu, 28 Sep 2023 17:03:00 -0700 (PDT)
+Received: from [192.168.33.189]
+ (178235177217.dynamic-4-waw-k-1-1-0.vectranet.pl. [178.235.177.217])
+ by smtp.gmail.com with ESMTPSA id
+ t4-20020a1709064f0400b00992f2befcbcsm11434646eju.180.2023.09.28.17.02.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 28 Sep 2023 17:03:00 -0700 (PDT)
+Message-ID: <9febcacd-675f-4d91-9338-f8b3fad4cf62@linaro.org>
+Date: Fri, 29 Sep 2023 02:02:58 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v3 6/7] drm/msm/dp: add pm_runtime_force_suspend()/resume()
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] drm/panel: Add driver for BOE RM692E5 AMOLED panel
 Content-Language: en-US
-To: Stephen Boyd <swboyd@chromium.org>, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>
-References: <1694813901-26952-1-git-send-email-quic_khsieh@quicinc.com>
- <1694813901-26952-7-git-send-email-quic_khsieh@quicinc.com>
- <CAA8EJpqPXoFX4LXyXYgfh07Vpxg-KgD8VBR6x5bXf4GOJmbOtw@mail.gmail.com>
- <2f98d5f1-57c1-d9fe-cb1c-b975db057287@quicinc.com>
- <CAA8EJpr2wRq6Txi7YAQpJKa_9UGqH_nmHzvVOaAPkwOrtDg4Tw@mail.gmail.com>
- <CAE-0n53dqHONzMTd_ZC-fKWTzDVq6Wqwo4OFZMUcghZ5SD5RhA@mail.gmail.com>
- <65566a68-3510-2e5f-7d57-e4dba08c008c@quicinc.com>
- <CAE-0n51Ep4zBx6bswL4Yb+F0+8dW+L2kaKQaZBi-91jsVqm_9Q@mail.gmail.com>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <CAE-0n51Ep4zBx6bswL4Yb+F0+8dW+L2kaKQaZBi-91jsVqm_9Q@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: V3j7udvTMQzgURdnq_tEUPI5YIRroyh7
-X-Proofpoint-ORIG-GUID: V3j7udvTMQzgURdnq_tEUPI5YIRroyh7
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-09-28_22,2023-09-28_03,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- bulkscore=0 phishscore=0 spamscore=0 malwarescore=0 impostorscore=0
- mlxlogscore=999 suspectscore=0 lowpriorityscore=0 adultscore=0
- clxscore=1015 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2309180000 definitions=main-2309280193
+To: Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Sam Ravnborg <sam@ravnborg.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>
+References: <20230927-topic-fp5_disp-v1-0-a6aabd68199f@linaro.org>
+ <20230927-topic-fp5_disp-v1-2-a6aabd68199f@linaro.org>
+ <000416ca-3bbe-4913-9fe5-0993b90b2829@quicinc.com>
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
+ 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
+ izWDgYvmBE8=
+In-Reply-To: <000416ca-3bbe-4913-9fe5-0993b90b2829@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,117 +118,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, quic_sbillaka@quicinc.com,
- linux-kernel@vger.kernel.org, andersson@kernel.org,
- dri-devel@lists.freedesktop.org, dianders@chromium.org, vkoul@kernel.org,
- agross@kernel.org, marijn.suijten@somainline.org, quic_jesszhan@quicinc.com,
- sean@poorly.run, linux-arm-msm@vger.kernel.org
+Cc: Marijn Suijten <marijn.suijten@somainline.org>,
+ Luca Weiss <luca.weiss@fairphone.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 9/27/2023 2:41 PM, Stephen Boyd wrote:
-> Quoting Abhinav Kumar (2023-09-22 18:35:27)
->> On 9/22/2023 2:54 PM, Stephen Boyd wrote:
->>> Quoting Dmitry Baryshkov (2023-09-19 02:50:12)
->>>>
->>>> This should be hpd_notify, who starts link training, not some event.
->>>
->>> I think this driver should train the link during atomic_enable(), not
->>> hpd_notify() (or directly from the irq handler). The drm_bridge_funcs
->>> talk a bit about when the clocks and timing signals are supposed to be
->>> enabled. For example, struct drm_bridge_funcs::atomic_pre_enable() says
->>> the "display pipe (i.e.  clocks and timing signals) feeding this bridge
->>> will not yet be running when this callback is called". And struct
->>> drm_bridge_funcs::atomic_enable() says "this callback must enable the
->>> display link feeding the next bridge in the chain if there is one."
->>>
->>> That looks to me like link training, i.e. the display link, should
->>> happen in the enable path and not hpd_notify. It looks like link
->>> training could fail, but when that happens I believe the driver should
->>> call drm_connector_set_link_status_property() with
->>> DRM_MODE_LINK_STATUS_BAD. The two callers of that which exist in the
->>> tree also call drm_kms_helper_hotplug_event() or
->>> drm_kms_helper_connector_hotplug_event() after updating the link so that
->>> userspace knows to try again.
->>>
->>> It would be nice if there was some drm_bridge_set_link_status_bad() API
->>> that bridge drivers could use to signal that the link status is bad and
->>> call the hotplug helper. Maybe it could also record some diagnostics
->>> about which bridge failed to setup the link and stop the atomic_enable()
->>> chain for that connector.
+On 29.09.2023 00:00, Jessica Zhang wrote:
+> Hi Konrad,
+> 
+> On 9/27/2023 6:19 AM, Konrad Dybcio wrote:
+>> Add support for the 2700x1224 AMOLED BOE panel bundled with a RM692E5
+>> driver IC, as found on the Fairphone 5 smartphone.
 >>
->> Doing link training when we get hpd instead of atomic_enable() is a
->> design choice we have been following for a while because for the case
->> when link training fails in atomic_enable() and setting the link status
->> property as you mentioned, the compositor needs to be able to handle
->> that and also needs to try with a different resolution or take some
->> other corrective action. We have seen many compositors not able to
->> handle this complexity.
+>> Co-developed-by: Luca Weiss <luca.weiss@fairphone.com>
+>> Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
+>> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+>> ---
+[...]
+
+>> +static int rm692e5_on(struct rm692e5_panel *ctx)
+>> +{
+>> +    struct mipi_dsi_device *dsi = ctx->dsi;
+>> +    struct device *dev = &dsi->dev;
+>> +    int ret;
+>> +
+>> +    dsi->mode_flags |= MIPI_DSI_MODE_LPM;
+>> +
+>> +    mipi_dsi_generic_write_seq(dsi, 0xfe, 0x41);
+>> +    usleep_range(1000, 2000);
 > 
-> The chrome compositor handles this case[1]. If the link status is set to
-> bad and there are non-zero number of modes on a connected connector it
-> resets the status to good to try again.
-> 
+> I'm not familiar with this panel, but is calling usleep() after almost every single DCS command necessary or specified by the spec?
+Removing them doesn't seem to cause adverse effects, so I'm willing to
+do that :)
 
-Thanks for the link. Just resetting the property alone and trying again 
-is going to lead to the same failure again. So that alone is 
-insufficient and doesn't sound right.
+[...]
 
-As documented here:
+> Are these generic DCS commands? If so, can you use the MIPI_DCS_* command macros/helpers when applicable?
+Unfortunately, it doesn't seem so.
 
-https://www.kernel.org/doc/html/latest/gpu/drm-kms.html#standard-connector-properties
+[...]
 
-"When user-space receives the hotplug uevent and detects a "BAD" 
-link-status, the sink doesn't receive pixels anymore (e.g. the screen 
-becomes completely black). The list of available modes may have changed. 
-User-space is expected to pick a new mode if the current one has 
-disappeared and perform a new modeset with link-status set to "GOOD" to 
-re-enable the connector."
+> Just to check my understanding of the comment here.. so the above DCS command will set the panel to 90Hz, and if we change the parameter to 0x00, it will be set to 60Hz instead?
+Yes. Since the commands differ, I was reluctant to introduce
+a second, identical-except-60hz mode for now. Though I can
+define a driver-specific struct like this:
 
-Picking a different mode is a reasonable attempt to try again but even 
-that might fail again if it picks a mode which falls in the same link rate.
+struct rm69e25_panel_desc {
+	drm_display_mode drm_mode;
+	u8 framerate_magic;
+};
 
-Thats why, to re-iterate what i mentioned, we need to see if some sort 
-of a handshake fallback exists or can be implemented. It will need 
-compositor support as well as driver change to maybe remove that mode etc.
+and then define both a 60 and a 90 mode.
 
-We prioritized user experience here to make sure display_enable() wont 
-fail otherwise the user might keep waiting for the screen to come up 
-forever. With the driver ensuring link is trained and then reporting to 
-usermode, its a safer option as the driver will train with the highest 
-link rate / lane combination supported and also remove modes which dont 
-fall in this bucket in dp_bridge_mode_valid.
 
-Till we validate this, I would prefer to keep this change out of this 
-series.
+I also moved DCS calls from .unprepare to .disable so that they
+are not sent to a DSI host that's powered off and will include
+that in v2. LMK if you have more comments.
 
->> So the design sends the hotplug to usermode only
->> after link training succeeds.
-> 
-> I suspect this is why my trogdor device turns off after rebooting when I
-> apply a ChromeOS update with the lid closed and DP connected. Userspace
-> wants to know that a display is connected, but this driver is still link
-> training by the time userspace boots up so we don't see any drm
-> connector indicating status is connected. No drm connectors connected
-> means the OS should shutdown.
-> 
-
-Interesting use case but I am not sure if thats whats happening till we 
-debug that. Why should OS shutdown if connectors are not in "connected" 
-state? Agreed, display will be off. But shouldnt compositor be alive in 
-case it receives hotplug? The user (in this case you) never turned the 
-device off so why should the OS shutdown?
-
->>
->> I do not think we should change this design unless prototyped with an
->> existing compositor such as chrome or android at this point.
-> 
-> Is this driver used with android?
-> 
-
-There are some internal efforts ongoing with prototyping this but I 
-cannot comment more on this right now.
-
-> [1] https://source.chromium.org/chromium/chromium/src/+/main:ui/ozone/platform/drm/gpu/hardware_display_plane_manager_atomic.cc;l=114;drc=67520ac99db89395b10f2ab728b540eef0da8292
+Konrad
