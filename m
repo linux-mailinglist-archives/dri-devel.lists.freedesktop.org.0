@@ -2,40 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 783347B4122
-	for <lists+dri-devel@lfdr.de>; Sat, 30 Sep 2023 16:50:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC92F7B417A
+	for <lists+dri-devel@lfdr.de>; Sat, 30 Sep 2023 17:09:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 97F4910E150;
-	Sat, 30 Sep 2023 14:50:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B1B4510E02B;
+	Sat, 30 Sep 2023 15:09:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D7DD10E150
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Sep 2023 14:50:23 +0000 (UTC)
-Received: from pendragon.ideasonboard.com
- (lfbn-idf1-1-343-200.w86-195.abo.wanadoo.fr [86.195.61.200])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5E5954DA;
- Sat, 30 Sep 2023 16:48:38 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1696085318;
- bh=0YqXD3+eosGItzd6UoevtWRB5iXyw47u0+mzSfkk8OM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Lu/s6Pk3+5+wlQNXrGF+KamnzoFxnCp0+nR1rbVwdgkC2vj7wm7HuEBnFvyG4Nsd1
- joAE/wMKA1VsOPKxbdKr+eUktOnRQjaF9VY/KAgpH0M4sZ3R1RURV6Dhte3rdEfR6/
- vONkz129ed6k+z/3OEP2RgDrZRsULZC1NpNLlmtI=
-Date: Sat, 30 Sep 2023 17:50:32 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Alexandra Diupina <adiupina@astralinux.ru>
-Subject: Re: [PATCH v2] drm: rcar-du: turn rcar_du_group_get() into void and
- remove its return value check
-Message-ID: <20230930145032.GD31829@pendragon.ideasonboard.com>
-References: <169383224922.277971.15400887308406098634@ping.linuxembedded.co.uk>
- <20230927104438.30628-1-adiupina@astralinux.ru>
+Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FCA410E02B
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Sep 2023 15:09:32 +0000 (UTC)
+Received: from fews01-sea.riseup.net (fews01-sea-pn.riseup.net [10.0.1.109])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx1.riseup.net (Postfix) with ESMTPS id 4RyVxR6bBszDqYX;
+ Sat, 30 Sep 2023 15:09:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+ t=1696086572; bh=Njov9crEEAyx/ZH+dhm6ZLX4cUh6uOIBOlSxDq03oqs=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=JvvZTtrLRXj4D810D+aYKYJUIeJZg4Bs1AcAI9n4BJjvkDdYXMg9J8k80EhcDtzkL
+ SGHFgGlSxOT6v4KO00FHVlNZZRkoddgCFj9oDLPMp5pIn36UuK6WtlpJAo4ylVnf11
+ P6Xf54NRR4c+ZmDC3Mh5O8LMExn0tRjX/Coe0Sp4=
+X-Riseup-User-ID: C027825BD5B535AF7C62D6B8A5369EF8640170C15153CAFBB2DBDFB758649882
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ by fews01-sea.riseup.net (Postfix) with ESMTPSA id 4RyVxN6FyxzJntf;
+ Sat, 30 Sep 2023 15:09:28 +0000 (UTC)
+Message-ID: <3c3aed2c-cf87-7fcc-3e53-e2773e348367@riseup.net>
+Date: Sat, 30 Sep 2023 12:09:26 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230927104438.30628-1-adiupina@astralinux.ru>
+Subject: Re: [PATCH RESEND v3 0/2] Add KUnit tests for drm_fb_blit()
+To: Arthur Grillo <arthurgrillo@riseup.net>, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+References: <20230918-final-gsoc-v3-0-b999c042a4cc@riseup.net>
+Content-Language: en-US
+From: Maira Canal <mairacanal@riseup.net>
+In-Reply-To: <20230918-final-gsoc-v3-0-b999c042a4cc@riseup.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,89 +52,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: lvc-project@linuxtesting.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- Wolfram Sang <wsa+renesas@sang-engineering.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Jacopo Mondi <jacopo+renesas@jmondi.org>,
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
- Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, tales.aparecida@gmail.com,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>,
+ andrealmeid@riseup.net
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Alexandra,
+Hi Arthur,
 
-On Wed, Sep 27, 2023 at 01:44:38PM +0300, Alexandra Diupina wrote:
-> rcar_du_group_get() never returns a negative
-> error code (always returns 0), so change the comment
-> about returned value, turn function into void (return
-> code of rcar_du_group_get has been redundant for a
-> long time, so perhaps it's just not required) and
-> remove redundant error path handling in rcar_du_crtc_get()
+On 9/18/23 20:51, Arthur Grillo wrote:
+> This patchset tests the drm_fb_blit() function.
 > 
-> Found by Linux Verification Center (linuxtesting.org) with SVACE.
+> As this function can be used with already tested formats, the first
+> patch adds calls to drm_fb_blit() on the tests of supported formats.
+> 
+> Some supported formats were not yet covered by the existing tests
+> because they are only supported by drm_fb_blit(). The second patch
+> adds those format conversion tests.
+> 
+> Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
 
-Using tools to find issues is fine in principle, but not even
-compile-testing the resulting patch before submitting it is not.
+Applied to drm-misc/drm-misc-next!
 
-> Fixes: 0bb63534fdf3 ("drm: rcar-du: Perform the initial CRTC setup from rcar_du_crtc_get()")
-> Signed-off-by: Alexandra Diupina <adiupina@astralinux.ru>
+Thanks,
+- Maíra
+
 > ---
-> v2: rcar_du_group_get() is turned into void and its return 
-> value check is removed in rcar_du_crtc_get()
->  drivers/gpu/drm/renesas/rcar-du/rcar_du_crtc.c  | 6 +-----
->  drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c | 5 +----
->  2 files changed, 2 insertions(+), 9 deletions(-)
+> Changes in v3:
+> - Fix memset sizes to avoid out-of-bound access
+> - Link to v2: https://lore.kernel.org/r/20230905-final-gsoc-v2-0-b52e8cb068ea@riseup.net
 > 
-> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_crtc.c
-> index 7e175dbfd892..2be7c6e64d72 100644
-> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_crtc.c
-> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_crtc.c
-> @@ -565,17 +565,13 @@ static int rcar_du_crtc_get(struct rcar_du_crtc *rcrtc)
->  	if (ret < 0)
->  		goto error_clock;
->  
-> -	ret = rcar_du_group_get(rcrtc->group);
-> -	if (ret < 0)
-> -		goto error_group;
-> +	rcar_du_group_get(rcrtc->group);
->  
->  	rcar_du_crtc_setup(rcrtc);
->  	rcrtc->initialized = true;
->  
->  	return 0;
->  
-> -error_group:
-> -	clk_disable_unprepare(rcrtc->extclock);
->  error_clock:
->  	clk_disable_unprepare(rcrtc->clock);
->  	return ret;
-> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c
-> index 2ccd2581f544..7113025dabff 100644
-> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c
-> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c
-> @@ -199,10 +199,8 @@ static void rcar_du_group_setup(struct rcar_du_group *rgrp)
->   * before accessing any hardware registers.
->   *
->   * This function must be called with the DRM mode_config lock held.
-> - *
-> - * Return 0 in case of success or a negative error code otherwise.
->   */
-> -int rcar_du_group_get(struct rcar_du_group *rgrp)
-> +void rcar_du_group_get(struct rcar_du_group *rgrp)
->  {
->  	if (rgrp->use_count)
->  		goto done;
-> @@ -211,7 +209,6 @@ int rcar_du_group_get(struct rcar_du_group *rgrp)
->  
->  done:
->  	rgrp->use_count++;
-> -	return 0;
->  }
->  
->  /*
-
--- 
-Regards,
-
-Laurent Pinchart
+> Changes in v2:
+> - Split the patch into two (Maíra Canal)
+> - Link to v1: https://lore.kernel.org/r/20230901-final-gsoc-v1-1-e310c7685982@riseup.net
+> 
+> ---
+> Arthur Grillo (2):
+>        drm/tests: Add calls to drm_fb_blit() on supported format conversion tests
+>        drm/tests: Add new format conversion tests to better cover drm_fb_blit()
+> 
+>   drivers/gpu/drm/tests/drm_format_helper_test.c | 285 +++++++++++++++++++++++++
+>   1 file changed, 285 insertions(+)
+> ---
+> base-commit: 37454bcbb68601c326b58ac45f508067047d791f
+> change-id: 20230901-final-gsoc-395a84443c8f
+> 
+> Best regards,
