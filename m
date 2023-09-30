@@ -2,62 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19AEF7B3FFF
-	for <lists+dri-devel@lfdr.de>; Sat, 30 Sep 2023 12:33:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D64457B405F
+	for <lists+dri-devel@lfdr.de>; Sat, 30 Sep 2023 15:01:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BEB910E1C5;
-	Sat, 30 Sep 2023 10:33:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F0DFC10E16F;
+	Sat, 30 Sep 2023 13:01:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E922010E1C5
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Sep 2023 10:33:28 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 41B3C60B1F
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Sep 2023 10:33:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 53860C433C9
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Sep 2023 10:33:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1696070006;
- bh=6Mtb/423Hqb7kAdCuCc+Zzl0tFmU0XsbBcJEDtb+g+Y=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=IxZkuLjlXoD3vCK5Ah5Y5ZvDsXs9gmv+93C9RfTSvC/MLwnCvHzQ9dsBW/SnJIqye
- mgi0FAXYgUefimwBLZkyAizpA2/DcCDpNs6Sg3u5sWqHgwAcRhHMzaTYVT/yzZ0xwz
- YDn2fBuq0AU7L2SvURwN/XeG3kB58+v2lBUuD9Aiy4NSJUQzCKXcdCa/RBfwxrohsy
- GruSoG8q1YMtqZ1osa8cAUHJ4FlKS9EnlHGaRAgd19c81jVWXCJtczuhWS6g2OmrDX
- cqODmvQCIvyKDSsy3oMAAbbkrkDNmiqDDRJJQK9uPXryklU7ZVj3m22Dz8uIYdUSPu
- X5KvBfqX01L0g==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 2A222C53BC6; Sat, 30 Sep 2023 10:33:26 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 216806] [Raven Ridge] console disappears after framebuffer
- device loads
-Date: Sat, 30 Sep 2023 10:33:25 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: aros@gmx.com
-X-Bugzilla-Status: CLOSED
-X-Bugzilla-Resolution: ANSWERED
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-216806-2300-8r1haaaU5N@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-216806-2300@https.bugzilla.kernel.org/>
-References: <bug-216806-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com
+ [IPv6:2607:f8b0:4864:20::62d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4067010E16F
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Sep 2023 13:01:38 +0000 (UTC)
+Received: by mail-pl1-x62d.google.com with SMTP id
+ d9443c01a7336-1c72e235debso8681805ad.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Sep 2023 06:01:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1696078898; x=1696683698; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=LmYgX7BL5Yak5oQpgfXtsfulm672VZZiBhNC2u4UzfY=;
+ b=PDgbCFAtCQwybX9AMmGLzA8ieSmwLuAwcz0XVNf2JzoKt5Hje6FodOWlUiC4CV3g5V
+ BAbl1b2WaPAMEJyjj9BbmtMMhQ2xXpxck8MyAMvwrRkhqNVQHVhb3/dfeSlQeA4RfQ0K
+ nEjyvfuOi3LDkMfxaUlG3wEEV7Z+4Mc1+9Qpt18xkT3lGXvL/GardKjL/fGz7AmscTbN
+ YMtf4SIvqu2qX5zZdoqmq2Gicm0uY8h9owlLNEjGepuKTmqTSOYW6AB0FwundWykqFld
+ +kEyY6nnnrd3vQmp8fUxCRmknWf3AS7sVz7AINA4jbtWl0cdSfOHr46vXHl75LWBJgJZ
+ ErKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1696078898; x=1696683698;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=LmYgX7BL5Yak5oQpgfXtsfulm672VZZiBhNC2u4UzfY=;
+ b=mJ+g8xWi8Jcs04yaMcljU/SUS++lj6uZAt1WbVyCDIA/0THCx8Q0HYBFW14O7WuRZm
+ jsMyUQqizaoXgsT21CbsxLxjCoUOpK4SzMV1zw7Ug9xsePxwTo/bXBSon/+Zj4fhywUW
+ wox7SA+/U/otJAYhoeKKNV/W+93K39asDhrq0dlOvblwQ+vyewyfyV0C2NjmiXFVEOyk
+ qKVLWKDj47mL22jLsabLIpsZgjWEHx3JPD3fRsoJTo+eXOf61GOnniWyNiMoZI5IbPnA
+ Duk17fPzeTuc+5ABK2RinwE34ZvQjHsy6DLJl++Rk31fALnn+lGGKUoftEbSgLBTR1wo
+ nl5w==
+X-Gm-Message-State: AOJu0YyQyYdxnKXhzUj96Prg90vXElV6lzNCs0p3PZBzptYQK+KiOAnf
+ +Slhdo6n56lkUPK+Kjygd2Q=
+X-Google-Smtp-Source: AGHT+IHqZJT/snJoVf0cMhy8miKyFmGz3DHF93hzHe8fMGXyWWeqhhz5lpLolovaudCzWlT7jWWmzA==
+X-Received: by 2002:a17:902:b618:b0:1c7:5581:f9c with SMTP id
+ b24-20020a170902b61800b001c755810f9cmr2008137pls.0.1696078897620; 
+ Sat, 30 Sep 2023 06:01:37 -0700 (PDT)
+Received: from fabio-Precision-3551.. ([2804:14c:485:4b61:ec70:c4d5:afd8:ac4e])
+ by smtp.gmail.com with ESMTPSA id
+ x10-20020a170902820a00b001c1f161949fsm18577513pln.96.2023.09.30.06.01.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 30 Sep 2023 06:01:37 -0700 (PDT)
+From: Fabio Estevam <festevam@gmail.com>
+To: p.zabel@pengutronix.de
+Subject: [PATCH] dt-bindings: display: fsl,
+ imx6-hdmi: Change to 'unevaluatedProperties: false'
+Date: Sat, 30 Sep 2023 10:01:02 -0300
+Message-Id: <20230930130102.798822-1-festevam@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,25 +71,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: devicetree@vger.kernel.org, conor+dt@kernel.org,
+ Fabio Estevam <festevam@denx.de>, dri-devel@lists.freedesktop.org,
+ robh+dt@kernel.org, mripard@kernel.org, krzysztof.kozlowski+dt@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D216806
+From: Fabio Estevam <festevam@denx.de>
 
-Artem S. Tashkinov (aros@gmx.com) changed:
+fsl,imx6-hdmi.yaml makes a reference to synopsys,dw-hdmi.yaml.
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|NEEDINFO                    |CLOSED
-         Resolution|---                         |ANSWERED
+The 'interrupts'and 'reg' properties are described in synopsys,dw-hdmi.yaml,
+so use 'unevaluatedProperties: false' so that these two properties can
+be accepted. 
 
---- Comment #6 from Artem S. Tashkinov (aros@gmx.com) ---
-Please repost here:
+This fixes the following schema warnings:
 
-https://gitlab.freedesktop.org/drm/amd/-/issues
+hdmi@120000: 'interrupts', 'reg' do not match any of the regexes: 'pinctrl-[0-9]+'
+from schema $id: http://devicetree.org/schemas/display/imx/fsl,imx6-hdmi.yaml#
 
---=20
-You may reply to this email to add a comment.
+Signed-off-by: Fabio Estevam <festevam@denx.de>
+---
+ .../devicetree/bindings/display/imx/fsl,imx6-hdmi.yaml          | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+diff --git a/Documentation/devicetree/bindings/display/imx/fsl,imx6-hdmi.yaml b/Documentation/devicetree/bindings/display/imx/fsl,imx6-hdmi.yaml
+index af7fe9c4d196..7979cf07f119 100644
+--- a/Documentation/devicetree/bindings/display/imx/fsl,imx6-hdmi.yaml
++++ b/Documentation/devicetree/bindings/display/imx/fsl,imx6-hdmi.yaml
+@@ -87,7 +87,7 @@ required:
+   - interrupts
+   - ports
+ 
+-additionalProperties: false
++unevaluatedProperties: false
+ 
+ examples:
+   - |
+-- 
+2.34.1
+
