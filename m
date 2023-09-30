@@ -1,40 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 522997B3FDA
-	for <lists+dri-devel@lfdr.de>; Sat, 30 Sep 2023 12:16:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D7C0C7B3FEE
+	for <lists+dri-devel@lfdr.de>; Sat, 30 Sep 2023 12:26:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D52BD10E075;
-	Sat, 30 Sep 2023 10:16:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 65DD910E163;
+	Sat, 30 Sep 2023 10:26:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B0F9010E075
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Sep 2023 10:16:37 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C13810E163
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Sep 2023 10:25:58 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 43B55B80816
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Sep 2023 10:16:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 6F55EC433C8
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Sep 2023 10:16:35 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 53AC760B33
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Sep 2023 10:25:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 263CCC433C8
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Sep 2023 10:25:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1696068995;
- bh=5I2BWPPzg3tscpnt2hwdvY2rEJmrM4AFOO0Krwpdn6E=;
+ s=k20201202; t=1696069557;
+ bh=PffAAn38O3DC22IiVdpIdYp3TDF2ea1XfIBoUvpCKes=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=PTR/bhRFuY8KEcZgsFbojPm/3drlxs1U0ZBr+DxLi+E9IBZA/w0jVi6UaVpVHLj12
- wwU0gnRLnaLp5jAVousOeoAkmd0EWMkDA24a/+RT16mcVXkmc0j00ejU7/n4xMcv77
- gQoKsg0VigqxV3A/bVZ72/QqfFd2dY9QVx86QyCUbdADJ39VNwbuuRCsjFtYo5Ai4q
- aJ0/YQnsa4RTnRdcmAKz38j+3ZrnoNGffBtQw1HWwRAIyqbZPcQi+QkuGYjj4RDvbO
- 4xnnBeuWtY5vxMTEzPn6RYxfITMcM6EfbzdJwxM0qmH4uSFW99AnRTWwB7J5yDBoLa
- BvjsxDZ6GceYQ==
+ b=FAeLE8C2F8XDqlCQQ8ZDdHJ1D+iMWAJfnpAvtK/zGPQkoGXuKzn3i5IEzGXzFjJZa
+ QxTkXtrAtoPHWDzbNM5V2IE7rQA59hNQ2L6JcF41Rc4tFm6ztLQuGliny/IBSFy+O8
+ o0CM8nYSEXjQrOhk6s5E1A6eN6f44O3k1tGjZCcuT01NEjnn8O+0L0s7XmbcJalJdV
+ 4l6p7ivD7B+eDwK4f1D9lFuYZ8M5yCDOQpP9TwWMzNiOgDJq0BRY+b8v0STH2en55Q
+ sfnyyJEzcLGPhCGQMIjDkpm4I6/TkDfey90aC/orIXagUrojNWl31VTePTZyec1MdP
+ A4FqC94A83DRw==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 56785C53BD0; Sat, 30 Sep 2023 10:16:35 +0000 (UTC)
+ from userid 48) id 17257C53BD3; Sat, 30 Sep 2023 10:25:57 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 217958] Crashes if I boot the computer with the second display
- connected to HDMI output
-Date: Sat, 30 Sep 2023 10:16:35 +0000
+Subject: [Bug 201957] amdgpu: ring gfx timeout
+Date: Sat, 30 Sep 2023 10:25:53 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -42,17 +40,17 @@ X-Bugzilla-Product: Drivers
 X-Bugzilla-Component: Video(DRI - non Intel)
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
+X-Bugzilla-Severity: blocking
 X-Bugzilla-Who: aros@gmx.com
 X-Bugzilla-Status: RESOLVED
 X-Bugzilla-Resolution: ANSWERED
-X-Bugzilla-Priority: P3
+X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-217958-2300-hmeP0SUsPM@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-217958-2300@https.bugzilla.kernel.org/>
-References: <bug-217958-2300@https.bugzilla.kernel.org/>
+Message-ID: <bug-201957-2300-oi475Tbe5G@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-201957-2300@https.bugzilla.kernel.org/>
+References: <bug-201957-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -73,7 +71,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D217958
+https://bugzilla.kernel.org/show_bug.cgi?id=3D201957
 
 Artem S. Tashkinov (aros@gmx.com) changed:
 
@@ -82,10 +80,14 @@ Artem S. Tashkinov (aros@gmx.com) changed:
              Status|NEW                         |RESOLVED
          Resolution|---                         |ANSWERED
 
---- Comment #1 from Artem S. Tashkinov (aros@gmx.com) ---
-This bug reports belongs to https://gitlab.freedesktop.org/drm/amd/-/issues
+--- Comment #92 from Artem S. Tashkinov (aros@gmx.com) ---
+AMDGPU development is on its own bug tracker:
 
-Please repost.
+https://gitlab.freedesktop.org/drm/amd/-/issues
+
+If you're still affected, check for existing bug reports and if there are n=
+one,
+please repost over there.
 
 --=20
 You may reply to this email to add a comment.
