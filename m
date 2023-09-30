@@ -1,63 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A57667B40BC
-	for <lists+dri-devel@lfdr.de>; Sat, 30 Sep 2023 16:13:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 783347B4122
+	for <lists+dri-devel@lfdr.de>; Sat, 30 Sep 2023 16:50:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B81D010E079;
-	Sat, 30 Sep 2023 14:13:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 97F4910E150;
+	Sat, 30 Sep 2023 14:50:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA3A810E079
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Sep 2023 14:13:23 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 9B07FB8076E
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Sep 2023 14:13:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 02D6AC433C7
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Sep 2023 14:13:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1696083201;
- bh=u/pZL9dl1auWY+zUPJE/qvBNvATAzd2WbjXa4YG7K2k=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=hZz9wGXeX055TTSjWpEoFi+77WZDy8t3VnBdtek/hiWnHfUiONT4P6UkdjX8sid4o
- 9BnvScPd+d7RR+OjI6AUEFN5VZM68+C9c3X0U2OF5JEqD2G566zKLeNZFyYKLTf5wZ
- qBy+jswMs86CPVlG1K9iLU1VoO25FPHizQSg91/ecXb1gR++uUdcpO5tL+DEZho/jI
- h6APy9JqxQbLOyN+KqRA6InCkv1aYRUvz/3V+CkbKW8jkUxf/T5+rULmoLibnlL9av
- mctctiSEiG51c8EfUENq2lpWbvK3hoGY8fYoZuk0zg03MpvAlUBmg2+zb8cc/QXy2g
- 6U6a1kEYYkGTw==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id E7B07C53BD3; Sat, 30 Sep 2023 14:13:20 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 216806] [Raven Ridge] console disappears after framebuffer
- device loads
-Date: Sat, 30 Sep 2023 14:13:20 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: vinibali1@gmail.com
-X-Bugzilla-Status: CLOSED
-X-Bugzilla-Resolution: ANSWERED
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-216806-2300-PNSgWNJgbe@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-216806-2300@https.bugzilla.kernel.org/>
-References: <bug-216806-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D7DD10E150
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Sep 2023 14:50:23 +0000 (UTC)
+Received: from pendragon.ideasonboard.com
+ (lfbn-idf1-1-343-200.w86-195.abo.wanadoo.fr [86.195.61.200])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5E5954DA;
+ Sat, 30 Sep 2023 16:48:38 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1696085318;
+ bh=0YqXD3+eosGItzd6UoevtWRB5iXyw47u0+mzSfkk8OM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Lu/s6Pk3+5+wlQNXrGF+KamnzoFxnCp0+nR1rbVwdgkC2vj7wm7HuEBnFvyG4Nsd1
+ joAE/wMKA1VsOPKxbdKr+eUktOnRQjaF9VY/KAgpH0M4sZ3R1RURV6Dhte3rdEfR6/
+ vONkz129ed6k+z/3OEP2RgDrZRsULZC1NpNLlmtI=
+Date: Sat, 30 Sep 2023 17:50:32 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Alexandra Diupina <adiupina@astralinux.ru>
+Subject: Re: [PATCH v2] drm: rcar-du: turn rcar_du_group_get() into void and
+ remove its return value check
+Message-ID: <20230930145032.GD31829@pendragon.ideasonboard.com>
+References: <169383224922.277971.15400887308406098634@ping.linuxembedded.co.uk>
+ <20230927104438.30628-1-adiupina@astralinux.ru>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230927104438.30628-1-adiupina@astralinux.ru>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,17 +48,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: lvc-project@linuxtesting.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Jacopo Mondi <jacopo+renesas@jmondi.org>,
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+ Biju Das <biju.das.jz@bp.renesas.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D216806
+Hi Alexandra,
 
---- Comment #7 from Balazs Vinarz (vinibali1@gmail.com) ---
-It turned out with the latest kernel the amd_iommu=3Doff did the trick.
-https://gitlab.freedesktop.org/drm/amd/-/issues/2884
+On Wed, Sep 27, 2023 at 01:44:38PM +0300, Alexandra Diupina wrote:
+> rcar_du_group_get() never returns a negative
+> error code (always returns 0), so change the comment
+> about returned value, turn function into void (return
+> code of rcar_du_group_get has been redundant for a
+> long time, so perhaps it's just not required) and
+> remove redundant error path handling in rcar_du_crtc_get()
+> 
+> Found by Linux Verification Center (linuxtesting.org) with SVACE.
 
---=20
-You may reply to this email to add a comment.
+Using tools to find issues is fine in principle, but not even
+compile-testing the resulting patch before submitting it is not.
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+> Fixes: 0bb63534fdf3 ("drm: rcar-du: Perform the initial CRTC setup from rcar_du_crtc_get()")
+> Signed-off-by: Alexandra Diupina <adiupina@astralinux.ru>
+> ---
+> v2: rcar_du_group_get() is turned into void and its return 
+> value check is removed in rcar_du_crtc_get()
+>  drivers/gpu/drm/renesas/rcar-du/rcar_du_crtc.c  | 6 +-----
+>  drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c | 5 +----
+>  2 files changed, 2 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_crtc.c
+> index 7e175dbfd892..2be7c6e64d72 100644
+> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_crtc.c
+> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_crtc.c
+> @@ -565,17 +565,13 @@ static int rcar_du_crtc_get(struct rcar_du_crtc *rcrtc)
+>  	if (ret < 0)
+>  		goto error_clock;
+>  
+> -	ret = rcar_du_group_get(rcrtc->group);
+> -	if (ret < 0)
+> -		goto error_group;
+> +	rcar_du_group_get(rcrtc->group);
+>  
+>  	rcar_du_crtc_setup(rcrtc);
+>  	rcrtc->initialized = true;
+>  
+>  	return 0;
+>  
+> -error_group:
+> -	clk_disable_unprepare(rcrtc->extclock);
+>  error_clock:
+>  	clk_disable_unprepare(rcrtc->clock);
+>  	return ret;
+> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c
+> index 2ccd2581f544..7113025dabff 100644
+> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c
+> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c
+> @@ -199,10 +199,8 @@ static void rcar_du_group_setup(struct rcar_du_group *rgrp)
+>   * before accessing any hardware registers.
+>   *
+>   * This function must be called with the DRM mode_config lock held.
+> - *
+> - * Return 0 in case of success or a negative error code otherwise.
+>   */
+> -int rcar_du_group_get(struct rcar_du_group *rgrp)
+> +void rcar_du_group_get(struct rcar_du_group *rgrp)
+>  {
+>  	if (rgrp->use_count)
+>  		goto done;
+> @@ -211,7 +209,6 @@ int rcar_du_group_get(struct rcar_du_group *rgrp)
+>  
+>  done:
+>  	rgrp->use_count++;
+> -	return 0;
+>  }
+>  
+>  /*
+
+-- 
+Regards,
+
+Laurent Pinchart
