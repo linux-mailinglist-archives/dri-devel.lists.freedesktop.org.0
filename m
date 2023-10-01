@@ -1,78 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 165617B4750
-	for <lists+dri-devel@lfdr.de>; Sun,  1 Oct 2023 14:21:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C600E7B48A2
+	for <lists+dri-devel@lfdr.de>; Sun,  1 Oct 2023 18:32:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4AD3C10E1E9;
-	Sun,  1 Oct 2023 12:21:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D2DB10E028;
+	Sun,  1 Oct 2023 16:32:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D7DB10E1E9
- for <dri-devel@lists.freedesktop.org>; Sun,  1 Oct 2023 12:21:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1696162909;
+Received: from vulcan.natalenko.name (vulcan.natalenko.name [104.207.131.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D8AD610E028
+ for <dri-devel@lists.freedesktop.org>; Sun,  1 Oct 2023 16:32:51 +0000 (UTC)
+Received: from spock.localnet (unknown [94.142.239.106])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by vulcan.natalenko.name (Postfix) with ESMTPSA id 969DA15278A8;
+ Sun,  1 Oct 2023 18:32:47 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=natalenko.name;
+ s=dkim-20170712; t=1696177967;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=FMGIU5POL9SiIEmaULx1wsxg5CFJY+OhYIdZTwEiDKI=;
- b=S4tvRu8xVNVM3fEfFs+4FOZaVHp0Vt2zz7DzhQGygEbVlUXYi8IZu3+yF0H8ey0KBxhhlT
- +fgAFbvzTFYWLAYa/qt0jGetW0NJ+JsKYrrEjIVk6naSkjWVvEbwNH+T01603YYjcdEwMm
- adqN3rY6IP7yo93efFrnQJohsnTYUmE=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-447-bKkHNHi-N6CLs4ON9ZQ2DQ-1; Sun, 01 Oct 2023 08:21:48 -0400
-X-MC-Unique: bKkHNHi-N6CLs4ON9ZQ2DQ-1
-Received: by mail-ej1-f71.google.com with SMTP id
- a640c23a62f3a-9ae7663e604so1189998166b.3
- for <dri-devel@lists.freedesktop.org>; Sun, 01 Oct 2023 05:21:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1696162907; x=1696767707;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=FMGIU5POL9SiIEmaULx1wsxg5CFJY+OhYIdZTwEiDKI=;
- b=PC904FGJtKYkECqnbrfO2LD5l6v1cCLjCMV1PctIpa7IGbKs88ZgKutF9ANBowYGAj
- nZJN5BoKcFp1ODWX+K/77ToE16L6sEfakGaqZ+uNXUlYm1l6UWpuqMTJWVPz4RXLNkho
- kl/6PUaEobDA25xu5dM5vOwakb7sMJyb0qwFokaMyh4t226PWv/vIulIRZlzNT+8Otlo
- 6Ei6Z/oyIOfWXWr4DZ0OY1kHEUNouzdcTEGLolLKTLfqGct9y3zCqWTHkpOakzPsOtO4
- 4lml+uRFIkFcebSxDBf9pxFHRUA7P3RVzAtxJqrK+iwsSH9ytInDyKVU3Wd1aFxnVNQh
- mIbQ==
-X-Gm-Message-State: AOJu0Yy/ECvRWoxKZRx4Xd1YsIxFezfd0fkIGesjzQMuW5pORZrJtKLl
- b7zRI+c7LiOB17UUgDCCH7YpVna7kWIGaHdD26O530S9ID9RuZ2onyQ/OcMz7uYLaWfVj0Y57dH
- smiCAUMPD7ZYKrYmAofetLALCtPjPB9JwElZO
-X-Received: by 2002:a17:906:73d4:b0:9ae:5643:6493 with SMTP id
- n20-20020a17090673d400b009ae56436493mr6330468ejl.74.1696162906954; 
- Sun, 01 Oct 2023 05:21:46 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFqk5FvPhXMKuwUIH3oorHan+zY0M1hjcx4uYv3u22n+nlM2d//AN1UZsjIYxvE8lc2RM8HMw==
-X-Received: by 2002:a17:906:73d4:b0:9ae:5643:6493 with SMTP id
- n20-20020a17090673d400b009ae56436493mr6330460ejl.74.1696162906621; 
- Sun, 01 Oct 2023 05:21:46 -0700 (PDT)
-Received: from [10.101.1.23] (ip-185-104-137-32.ptr.icomera.net.
- [185.104.137.32]) by smtp.gmail.com with ESMTPSA id
- k17-20020a170906681100b00992b50fbbe9sm15468711ejr.90.2023.10.01.05.21.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 01 Oct 2023 05:21:46 -0700 (PDT)
-Message-ID: <4a86bbd4-4798-b81b-8f08-b2c8c125999d@redhat.com>
-Date: Sun, 1 Oct 2023 14:21:43 +0200
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+ bh=kzlx67CZy1QScrq/jKerHGDJqCFa+KgwdJ4AQpm3+/U=;
+ b=wBqt2wD+/+KVgBjumuMHmn7e24m7vh0dC5jcwSmWh+WHGJfdxoit0e8N0UgyRmw0UW66w8
+ TjqbY0kuJHHuNvHOC4fbYnt73wJogoap/aGirEUX1vDiKQkno2VY1axPktvNwrbuB21OhG
+ 8AszvDBNaOI55a6C9VdO1TN3kLWcOps=
+From: Oleksandr Natalenko <oleksandr@natalenko.name>
+To: linux-kernel@vger.kernel.org
+Subject: [REGRESSION] BUG: KFENCE: memory corruption in
+ drm_gem_put_pages+0x186/0x250
+Date: Sun, 01 Oct 2023 18:32:34 +0200
+Message-ID: <13360591.uLZWGnKmhe@natalenko.name>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v2] drm: panel-orientation-quirks: Add quirk for One Mix 2S
-To: Kai Uwe Broulik <foss-linux@broulik.de>, linux-kernel@vger.kernel.org
-References: <20231001114710.336172-1-foss-linux@broulik.de>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20231001114710.336172-1-foss-linux@broulik.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; boundary="nextPart2904309.e9J7NaK4W3";
+ micalg="pgp-sha256"; protocol="application/pgp-signature"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,73 +47,113 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Linux Regressions <regressions@lists.linux.dev>,
+ Maxime Ripard <mripard@kernel.org>,
+ Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+--nextPart2904309.e9J7NaK4W3
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"; protected-headers="v1"
+From: Oleksandr Natalenko <oleksandr@natalenko.name>
+To: linux-kernel@vger.kernel.org
+Date: Sun, 01 Oct 2023 18:32:34 +0200
+Message-ID: <13360591.uLZWGnKmhe@natalenko.name>
+MIME-Version: 1.0
 
-On 10/1/23 13:47, Kai Uwe Broulik wrote:
-> The One Mix 2S is a mini laptop with a 1200x1920 portrait screen
-> mounted in a landscape oriented clamshell case. Because of the too
-> generic DMI strings this entry is also doing bios-date matching.
-> 
-> Signed-off-by: Kai Uwe Broulik <foss-linux@broulik.de>
-> ---
-> Changes since v1:
-> * Got two more BIOS dates reported
+Hello.
 
-Thanks, patch still looks good to me:
+I've got a VM from a cloud provider, and since v6.5 I observe the following kfence splat in dmesg during boot:
 
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+```
+BUG: KFENCE: memory corruption in drm_gem_put_pages+0x186/0x250
 
-drm-misc maintainers, I'm currently traveling can
-one of you push this to drm-misc-fixes please?
+Corrupted memory at 0x00000000e173a294 [ ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ] (in kfence-#108):
+ drm_gem_put_pages+0x186/0x250
+ drm_gem_shmem_put_pages_locked+0x43/0xc0
+ drm_gem_shmem_object_vunmap+0x83/0xe0
+ drm_gem_vunmap_unlocked+0x46/0xb0
+ drm_fbdev_generic_helper_fb_dirty+0x1dc/0x310
+ drm_fb_helper_damage_work+0x96/0x170
+ process_one_work+0x254/0x470
+ worker_thread+0x55/0x4f0
+ kthread+0xe8/0x120
+ ret_from_fork+0x34/0x50
+ ret_from_fork_asm+0x1b/0x30
 
-Regards,
+kfence-#108: 0x00000000cda343af-0x00000000aec2c095, size=3072, cache=kmalloc-4k
 
-Hans
+allocated by task 51 on cpu 0 at 14.668667s:
+ drm_gem_get_pages+0x94/0x2b0
+ drm_gem_shmem_get_pages+0x5d/0x110
+ drm_gem_shmem_object_vmap+0xc4/0x1e0
+ drm_gem_vmap_unlocked+0x3c/0x70
+ drm_client_buffer_vmap+0x23/0x50
+ drm_fbdev_generic_helper_fb_dirty+0xae/0x310
+ drm_fb_helper_damage_work+0x96/0x170
+ process_one_work+0x254/0x470
+ worker_thread+0x55/0x4f0
+ kthread+0xe8/0x120
+ ret_from_fork+0x34/0x50
+ ret_from_fork_asm+0x1b/0x30
+
+freed by task 51 on cpu 0 at 14.668697s:
+ drm_gem_put_pages+0x186/0x250
+ drm_gem_shmem_put_pages_locked+0x43/0xc0
+ drm_gem_shmem_object_vunmap+0x83/0xe0
+ drm_gem_vunmap_unlocked+0x46/0xb0
+ drm_fbdev_generic_helper_fb_dirty+0x1dc/0x310
+ drm_fb_helper_damage_work+0x96/0x170
+ process_one_work+0x254/0x470
+ worker_thread+0x55/0x4f0
+ kthread+0xe8/0x120
+ ret_from_fork+0x34/0x50
+ ret_from_fork_asm+0x1b/0x30
+
+CPU: 0 PID: 51 Comm: kworker/0:2 Not tainted 6.5.0-pf4 #1 8b557a4173114d86eef7240f7a080080cfc4617e
+Hardware name: Red Hat KVM, BIOS 1.11.0-2.el7 04/01/2014
+Workqueue: events drm_fb_helper_damage_work
+```
+
+This repeats a couple of times and then stops.
+
+Currently, I'm running v6.5.5. So far, there's no impact on how VM functions for me.
+
+The VGA adapter is as follows: 00:02.0 VGA compatible controller: Cirrus Logic GD 5446
+
+Please check.
+
+Thanks.
+
+-- 
+Oleksandr Natalenko (post-factum)
+--nextPart2904309.e9J7NaK4W3
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part.
+Content-Transfer-Encoding: 7Bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEZUOOw5ESFLHZZtOKil/iNcg8M0sFAmUZnyIACgkQil/iNcg8
+M0tJmQ/8DhTcxuPGXLnGUgCfwyogSk1PChHX3rmyptaGWxzJGH5ztqyjcdoHIYkI
+38js69NPzumIuHUMhGF6ipb7ZDkqfhJTzVAWyf7s86Aau9SBWFkUDieoIxqm6CaJ
+CyIxgTtVi2FalaIZiRcrJOW4bOy7tujJKlEvz43RBSoHHgBEjSx3dCYiGHNWxvWw
+pG3SFZLdDNKzZs1kUdrfwqft6OxOvA85hATzVJDKs7OvMuYDCU2trDspGVs9XVa6
+I99s6DJGA2uGENneAlgwti8ACY3xH+IkfNI6Fe/9vIqQYHFHpTnKqyp3HbUN18fS
+En8QDtGCNChlHwFEWcB7HaFW9VXg89lpWM9MRyuSixVFijbq/vFt1AJMUEgUhYEu
+nGm68xtaE/OktfzsMuOm3VV5pt4Q5MfgbFMql/a1VBpqt+NQH1jf3U6X6Mu3CBrN
+QWUaQGgZMfF4y15r+lBKkDr4mrdH5kdWNu2kP5MNG8qixn4XrxCd/EkRvN4QpstC
+pP+lpwVuoPpDYnqOm//zhS3p+sJdTN5B9IhBhrFOCdgisLzIyJzyLlTjDi+CRGS9
+NXLPrzvFUxfpgy23N41lqYUvShb3WXsHnSWtULbrFv3J1JN/rCQ+I9tk7HuXW6W/
+SPJzW28+5hoTrUF7EPl84GYXm0dJBU0BA1atbhfqFJO/AKaWHKo=
+=wsqg
+-----END PGP SIGNATURE-----
+
+--nextPart2904309.e9J7NaK4W3--
 
 
-
-
-> 
->  drivers/gpu/drm/drm_panel_orientation_quirks.c | 16 ++++++++++++++++
->  1 file changed, 16 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-> index 0cb646cb04ee..d5c15292ae93 100644
-> --- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
-> +++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-> @@ -38,6 +38,14 @@ static const struct drm_dmi_panel_orientation_data gpd_micropc = {
->  	.orientation = DRM_MODE_PANEL_ORIENTATION_RIGHT_UP,
->  };
->  
-> +static const struct drm_dmi_panel_orientation_data gpd_onemix2s = {
-> +	.width = 1200,
-> +	.height = 1920,
-> +	.bios_dates = (const char * const []){ "05/21/2018", "10/26/2018",
-> +		"03/04/2019", NULL },
-> +	.orientation = DRM_MODE_PANEL_ORIENTATION_RIGHT_UP,
-> +};
-> +
->  static const struct drm_dmi_panel_orientation_data gpd_pocket = {
->  	.width = 1200,
->  	.height = 1920,
-> @@ -401,6 +409,14 @@ static const struct dmi_system_id orientation_data[] = {
->  		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "LTH17"),
->  		},
->  		.driver_data = (void *)&lcd800x1280_rightside_up,
-> +	}, {	/* One Mix 2S (generic strings, also match on bios date) */
-> +		.matches = {
-> +		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "Default string"),
-> +		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "Default string"),
-> +		  DMI_EXACT_MATCH(DMI_BOARD_VENDOR, "Default string"),
-> +		  DMI_EXACT_MATCH(DMI_BOARD_NAME, "Default string"),
-> +		},
-> +		.driver_data = (void *)&gpd_onemix2s,
->  	},
->  	{}
->  };
 
