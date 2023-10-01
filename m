@@ -2,56 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 935847B46C1
-	for <lists+dri-devel@lfdr.de>; Sun,  1 Oct 2023 12:26:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 921727B46C4
+	for <lists+dri-devel@lfdr.de>; Sun,  1 Oct 2023 12:27:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E5B1F10E1F3;
-	Sun,  1 Oct 2023 10:26:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6659610E1F4;
+	Sun,  1 Oct 2023 10:27:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6490310E1F3
- for <dri-devel@lists.freedesktop.org>; Sun,  1 Oct 2023 10:26:09 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org
+ [IPv6:2604:1380:40e1:4800::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A2D310E1F4
+ for <dri-devel@lists.freedesktop.org>; Sun,  1 Oct 2023 10:27:31 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 40800B808CE;
- Sun,  1 Oct 2023 10:26:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74055C433C9;
- Sun,  1 Oct 2023 10:26:04 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 86EE9CE0AB8;
+ Sun,  1 Oct 2023 10:27:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9403CC433C7;
+ Sun,  1 Oct 2023 10:27:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1696155966;
- bh=V7OXee8raUC8dwb0bE/FHj2NE8mjYScLr3Xy6xI6M8w=;
+ s=k20201202; t=1696156048;
+ bh=lwbgWor7IdiVFd94JhzsfGtJZuDZgy8xLTZUxSMiFhA=;
  h=From:Date:Subject:To:Cc:From;
- b=N80L8JfpgWjWlJsiV3V1Nn9qRslzlMmC9FqQdcakAFy4pf1S//kWMYSJXQ2twoa6l
- WBxzinVVKCTazkbAYGW8HqAs8VbG9e0h4tnOKR/xe9di0Pd1VRfCqfnv0vQDZEjYge
- nJKgLGHvVkB1mgSLkR5MF1pppld2Wh8FME5oSGA61oeAAUrpNEgO+zTDn5gu2Pc5m6
- so168JQE6fOQl68x9uorLhHrLNBPjT4N3kCFR5MDM2urbpdlPtcIQNoy+8mDHLxT3l
- DJSNpvOJiMBy77VuJ6c29UkHaTv15LN0k4fctRtfhzVGbiXpkrTqUNJM8xeV2hPCDE
- gRAiM3kO6aHLA==
+ b=bcFxDfiPyu4xsH1rIrSPDE6xggd7bLNd2YUYUzMr9pN64t0LDr5Exc/TWUSvNhSYn
+ 9q2yQCP9DJ9fkWRGjsgEnvNsTegfdaSooc/6p7METkcCNu4mDmMFi3Uq7Yk/D5goQh
+ Il0riAZ68W3uVHahQBuJAyfmdwDg/Fgr/GBuTM7JKF1RaE+pPc/2yhfAhz4lGRG8U3
+ YPHya/QmpBTE0AJxon8b88I/pX8Z1kA5GRKDnEz8htoBissBhi7ViFKZiz1H+wCKNf
+ MfyrOtmEdZeGsdldQ2cnXYYOPG+mRDJ6qZy+m76ulRmKIszcrwfcLzUOEw9C/Jar4f
+ KX1jmRbIlL1Rw==
 From: Mark Brown <broonie@kernel.org>
-Date: Sun, 01 Oct 2023 11:24:49 +0100
-Subject: [PATCH] drm/bridge: lt9211: Convert to use maple tree register cache
+Date: Sun, 01 Oct 2023 11:26:22 +0100
+Subject: [PATCH] drm/bridge: sn65dsi83: Convert to use maple tree register
+ cache
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20231001-drm-lt9211-maple-v1-1-1cf74fb10991@kernel.org>
-X-B4-Tracking: v=1; b=H4sIAPBIGWUC/x3MQQqAIBBA0avErBvQiSi7SrSwnGogLTQiiO6et
- HyL/x9IHIUTdMUDkS9JsocMXRYwrTYsjOKygRRVypBBFz1upyGt0dtjY5xpVK1q7OTqCnJ2RJ7
- l/pf98L4fUvH3PmIAAAA=
+Message-Id: <20231001-drm-sn65dsi83-maple-v1-1-cf8ad22b6be0@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAE1JGWUC/x3MwQpAQBCA4VfRnE2tXWS9ihwwgymWdkpK3t3m+
+ B3+/wHlKKzQZg9EvkTlCAlFnsG0DmFhFEoGa6wz3nqkuKOGuiKVxuE+nBvjXFSmtKN3NBGk8ow
+ 8y/1fu/59P5j5OyVlAAAA
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
 X-Mailer: b4 0.13-dev-0438c
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1044; i=broonie@kernel.org;
- h=from:subject:message-id; bh=V7OXee8raUC8dwb0bE/FHj2NE8mjYScLr3Xy6xI6M8w=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBlGUk7Pbq47HdMAkKf8TTVJkgCz7sN/pPbocs8f
- n4PSEdATuGJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCZRlJOwAKCRAk1otyXVSH
- 0JvKB/9gAuu+FkI5060DDDy64WpKt3+zKAM4KyMlW/FpnC18Qk9M1sx7PKpP2xRYpiZpXYrZ2+f
- +X7uFSzbRkPlgrWTppzExOFTxG1M/HaqlX5kJwKwH/kWRvMDcBIiPUms1FlbrkFMVMzb3th+Msh
- O1h/4cGSiEiKvGU2PW5ln/vyeWGSXriB55wQWqse+7aqkWZW5gRgU8mE1qmShLt5a33YIIXQGos
- iy5mE7cuFtYUD4bpDjbmuKos5M6ouGZd/rhe/EorSq5InJfqe+ULMm+JgoLLT5dud3I7OaTHUw9
- m8vilck7pmNRRhjR5ThzArxTsQ64YNToqeOVZIvInLfgi0F4
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1094; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=lwbgWor7IdiVFd94JhzsfGtJZuDZgy8xLTZUxSMiFhA=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBlGUmNiGi5FE7RLki0kcrsFODIcqN3ZHI7Apnvx
+ ojG20W/R5uJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCZRlJjQAKCRAk1otyXVSH
+ 0BrAB/0WfEoluBngAWe5KYK1BxB/h/5IVp4Wh/23MhNHLcRxIfZs/NQR8cI/l/2GLcz4L3M8TPC
+ sSHmvkch54ZAXDTXQPZKrk60RoJF/iomgvJsXhxHn0XdxTxJ2VlbTTDFsqV1xltRlak0QZHnxrS
+ QcYu6hjM1f7hp9jWkcwsh7O1lIAnmT/Q2Oo1IYpTU8TOv0brdnjgjOKgFevQEwRIqUlCWj2gImH
+ zkdbKYrduq945ij9ROL/+MMoWVyf1Bpe0YymZ0Zog3FJc4Jv+yoaNRo69RJE9JPkalsSV0r83gs
+ dBDhzB1QWWTNGqtkwbv6PkuMTZsd1ITg67ytMKzPxlNyyGfx
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -77,26 +79,26 @@ more appropriate for modern systems than those made by the rbtree cache.
 
 Signed-off-by: Mark Brown <broonie@kernel.org>
 ---
- drivers/gpu/drm/bridge/lontium-lt9211.c | 2 +-
+ drivers/gpu/drm/bridge/ti-sn65dsi83.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/bridge/lontium-lt9211.c b/drivers/gpu/drm/bridge/lontium-lt9211.c
-index 4d404f5ef87e..c8881796fba4 100644
---- a/drivers/gpu/drm/bridge/lontium-lt9211.c
-+++ b/drivers/gpu/drm/bridge/lontium-lt9211.c
-@@ -89,7 +89,7 @@ static const struct regmap_config lt9211_regmap_config = {
- 	.volatile_table	= &lt9211_rw_table,
- 	.ranges = &lt9211_range,
- 	.num_ranges = 1,
+diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+index 061e8bd5915d..4814b7b6d1fd 100644
+--- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
++++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+@@ -233,7 +233,7 @@ static const struct regmap_config sn65dsi83_regmap_config = {
+ 	.rd_table = &sn65dsi83_readable_table,
+ 	.wr_table = &sn65dsi83_writeable_table,
+ 	.volatile_table = &sn65dsi83_volatile_table,
 -	.cache_type = REGCACHE_RBTREE,
 +	.cache_type = REGCACHE_MAPLE,
- 	.max_register = 0xda00,
+ 	.max_register = REG_IRQ_STAT,
  };
  
 
 ---
 base-commit: 6465e260f48790807eef06b583b38ca9789b6072
-change-id: 20230929-drm-lt9211-maple-f2b0807acd53
+change-id: 20230929-drm-sn65dsi83-maple-f15042b93dcd
 
 Best regards,
 -- 
