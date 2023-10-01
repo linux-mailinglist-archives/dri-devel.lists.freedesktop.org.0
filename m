@@ -1,41 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37BE27B46BA
-	for <lists+dri-devel@lfdr.de>; Sun,  1 Oct 2023 12:24:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C82D57B46BB
+	for <lists+dri-devel@lfdr.de>; Sun,  1 Oct 2023 12:24:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 471C310E1F1;
-	Sun,  1 Oct 2023 10:24:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F67A10E1F2;
+	Sun,  1 Oct 2023 10:24:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7DB9D10E1F1
- for <dri-devel@lists.freedesktop.org>; Sun,  1 Oct 2023 10:24:27 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org
+ [IPv6:2604:1380:40e1:4800::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF7E910E1F2
+ for <dri-devel@lists.freedesktop.org>; Sun,  1 Oct 2023 10:24:32 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id EF12A60B87;
+ by sin.source.kernel.org (Postfix) with ESMTP id 24D70CE0A54;
+ Sun,  1 Oct 2023 10:24:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19773C433CA;
  Sun,  1 Oct 2023 10:24:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 552FEC433C8;
- Sun,  1 Oct 2023 10:24:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1696155866;
- bh=HXGeAMZr4b28kGCpvXR8zaxGeeL/xNxHkFhtrUEbvvA=;
+ s=k20201202; t=1696155869;
+ bh=yoJaYufx0bDHukVriI2up9rpCoy/yNPOKsU2euT4nUs=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=hZKEMFg9c8PCe2pzd9h4YdUxbxfFn4eKADK0KsByzGHRZFKsKTUBqbPSHkLBLn+Gh
- 75b4m5daka8Vfpvt7ghlVqHOGLASK+aPF2gJqYsbYnTsll3GdcuE6CKKn7/vTlXsKM
- eJcnYW+1cdTAXkTNWIZaLdqM9KrPpCmdKk7mDQ5DPwzp+62M+0JnBjOT5+g2Ndorg4
- Su78W53ZZikL0IV1Xk0ri7GRNtM3OH4vTZMRf3gJdrnsN7GRVX41KCQ12JXhzbzpL8
- w9xyLc1GT6xzst2mO8zPLA31zbjoh4d1sOOuudnCTZoOgxWs769P3liu7VXLXHcdFy
- 02H+PS4LBL9iA==
+ b=HsvrXYa4+n75/j7GM6S3kJy/In/n04B2J7QbMZoijCqpx2VN3oJC0M/g0jIGPp5ne
+ qIqLGLaUYo/16/U6iehlFfp+aszTeZF1eaX97SAAAU9ieLPpPx0muJ8okGfI/rGEQH
+ gD2PEfp26SQgbLmVTGGTh9vmfRdp1jd7UuK8RreuBvcdo/UV6iDaO5DfRdqyiGZpIP
+ pi8UjxtSYLQpkcQ2N9o9/dACMRvDkMRM5MDi76+7Eg/6fEBLqrxxfZEN7vUJQBmPeh
+ Kbe5xg2ab9YGkrdVx4aVzV6jWnvcv7FejFjsS9fR2PJPNVeoJMkkzHlwgm6YZGL5PY
+ WaIU0F7A6umLw==
 From: Mark Brown <broonie@kernel.org>
-Date: Sun, 01 Oct 2023 11:24:13 +0100
-Subject: [PATCH 1/2] drm/panel: ili9322: Remove redundant volatle_reg()
- operation
+Date: Sun, 01 Oct 2023 11:24:14 +0100
+Subject: [PATCH 2/2] drm/panel: ili9322: Convert to use maple tree register
+ cache
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20231001-drm-sn65dsi83-maple-v1-1-5519799a55e5@kernel.org>
+Message-Id: <20231001-drm-sn65dsi83-maple-v1-2-5519799a55e5@kernel.org>
 References: <20231001-drm-sn65dsi83-maple-v1-0-5519799a55e5@kernel.org>
 In-Reply-To: <20231001-drm-sn65dsi83-maple-v1-0-5519799a55e5@kernel.org>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -45,15 +45,15 @@ To: Andrzej Hajda <andrzej.hajda@intel.com>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
  Sam Ravnborg <sam@ravnborg.org>
 X-Mailer: b4 0.13-dev-0438c
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1243; i=broonie@kernel.org;
- h=from:subject:message-id; bh=HXGeAMZr4b28kGCpvXR8zaxGeeL/xNxHkFhtrUEbvvA=;
- b=owGbwMvMwMWocq27KDak/QLjabUkhlRJj8sv7G4HuGfPT89eULPD9bKlwxLbM/cNucMSV/ata
- ElInfSrk9GYhYGRi0FWTJFl7bOMVenhElvnP5r/CmYQKxPIFAYuTgGYiK8Y+/9SHoN/QZUZ6Z7G
- Dyq/li3kX71YlXHHYi9Hz8p7HwW+nbwYt2m5N3vbm/fRXNcXJN/2MFZoPv5et35T54nWpIxF8r2
- 7V9fP3xMd8/dOox5re9QLs3xNpgQ906bfx65PkU40PdeTn2EuuetBtP6RRVc733RFrdI4OsvBeU
- 12FnMEX3uuh32b3cq6K36KL6e4fyo+FmhidORB29GkyNfJ67+G7Tm9etk33jOyFeUxfn2W76PEI
- 7bxGMYcuX6loUlc2d9uBa9hYbBNwFLOoFd1HeeTpzbez3rC4elQ+Lfp/a7ay6FPNzi8rmOMvVE0
- /1Vn5MHcCVGGLLdcPgcvEpyT+NW2eQqLA9vsNJs9lovDAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=909; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=yoJaYufx0bDHukVriI2up9rpCoy/yNPOKsU2euT4nUs=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBlGUjUbXAPIdcoIRaC7s5THEK47MDpYdRSIEfxh
+ 0NG/vkXOGCJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCZRlI1AAKCRAk1otyXVSH
+ 0GZBB/sFh5p2w/DzoAd52ovSQCJ9Yk9dNho4/e/uF9fmrOQuWI1OiHPC18DjG1UYqn68tTH7N28
+ NKQqEOahpkorLzercnkkhVj0j4FWnZqcoerfBVGiB2v7gnvW0bV6GLY9lkh35GM0aF5mCLIBQ0F
+ Ccjpdu5q7bmkYLBYNAwIkK1dtmUGfbLNXUBY+4MQodxjDZMiIYx6yQbOfCOoxhFQ17tfuMa/FJN
+ sCEoVh4MquIQvUporpy4eZ1WSgRbNS5zq+3uFt6Ty/vIbh/bizE4uE/6mdlynRrHUhcAbWhjOQ5
+ IqPHS3ilhqu+9+0foiKHkUewvKmN7PFtwhd/ZT6/FaOw33fe
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -73,37 +73,25 @@ Cc: Mark Brown <broonie@kernel.org>, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The ili9322 driver has a volatile_reg() operation in it's regmap which
-always returns false. This is redundant since it is the default in the
-regmap core, remove the operation for a trivial code size and performance
-improvement.
+The maple tree register cache is based on a much more modern data structure
+than the rbtree cache and makes optimisation choices which are probably
+more appropriate for modern systems than those made by the rbtree cache.
 
 Signed-off-by: Mark Brown <broonie@kernel.org>
 ---
- drivers/gpu/drm/panel/panel-ilitek-ili9322.c | 6 ------
- 1 file changed, 6 deletions(-)
+ drivers/gpu/drm/panel/panel-ilitek-ili9322.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/panel/panel-ilitek-ili9322.c b/drivers/gpu/drm/panel/panel-ilitek-ili9322.c
-index 61c872f0f7ca..15b81e5228b5 100644
+index 15b81e5228b5..4a6dcfd781e8 100644
 --- a/drivers/gpu/drm/panel/panel-ilitek-ili9322.c
 +++ b/drivers/gpu/drm/panel/panel-ilitek-ili9322.c
-@@ -325,11 +325,6 @@ static struct regmap_bus ili9322_regmap_bus = {
- 	.val_format_endian_default = REGMAP_ENDIAN_BIG,
- };
- 
--static bool ili9322_volatile_reg(struct device *dev, unsigned int reg)
--{
--	return false;
--}
--
- static bool ili9322_writeable_reg(struct device *dev, unsigned int reg)
- {
- 	/* Just register 0 is read-only */
-@@ -343,7 +338,6 @@ static const struct regmap_config ili9322_regmap_config = {
+@@ -337,7 +337,7 @@ static const struct regmap_config ili9322_regmap_config = {
+ 	.reg_bits = 8,
  	.val_bits = 8,
  	.max_register = 0x44,
- 	.cache_type = REGCACHE_RBTREE,
--	.volatile_reg = ili9322_volatile_reg,
+-	.cache_type = REGCACHE_RBTREE,
++	.cache_type = REGCACHE_MAPLE,
  	.writeable_reg = ili9322_writeable_reg,
  };
  
