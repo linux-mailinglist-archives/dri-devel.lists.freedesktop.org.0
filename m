@@ -1,61 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 921727B46C4
-	for <lists+dri-devel@lfdr.de>; Sun,  1 Oct 2023 12:27:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 98C4B7B46C6
+	for <lists+dri-devel@lfdr.de>; Sun,  1 Oct 2023 12:27:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6659610E1F4;
-	Sun,  1 Oct 2023 10:27:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E60410E1F8;
+	Sun,  1 Oct 2023 10:27:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sin.source.kernel.org (sin.source.kernel.org
  [IPv6:2604:1380:40e1:4800::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A2D310E1F4
- for <dri-devel@lists.freedesktop.org>; Sun,  1 Oct 2023 10:27:31 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9086610E1F8
+ for <dri-devel@lists.freedesktop.org>; Sun,  1 Oct 2023 10:27:39 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 86EE9CE0AB8;
- Sun,  1 Oct 2023 10:27:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9403CC433C7;
- Sun,  1 Oct 2023 10:27:26 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id C5417CE0AC1;
+ Sun,  1 Oct 2023 10:27:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 815A4C433C9;
+ Sun,  1 Oct 2023 10:27:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1696156048;
- bh=lwbgWor7IdiVFd94JhzsfGtJZuDZgy8xLTZUxSMiFhA=;
- h=From:Date:Subject:To:Cc:From;
- b=bcFxDfiPyu4xsH1rIrSPDE6xggd7bLNd2YUYUzMr9pN64t0LDr5Exc/TWUSvNhSYn
- 9q2yQCP9DJ9fkWRGjsgEnvNsTegfdaSooc/6p7METkcCNu4mDmMFi3Uq7Yk/D5goQh
- Il0riAZ68W3uVHahQBuJAyfmdwDg/Fgr/GBuTM7JKF1RaE+pPc/2yhfAhz4lGRG8U3
- YPHya/QmpBTE0AJxon8b88I/pX8Z1kA5GRKDnEz8htoBissBhi7ViFKZiz1H+wCKNf
- MfyrOtmEdZeGsdldQ2cnXYYOPG+mRDJ6qZy+m76ulRmKIszcrwfcLzUOEw9C/Jar4f
- KX1jmRbIlL1Rw==
+ s=k20201202; t=1696156056;
+ bh=DxGyjWjHTUQSGvAYneZAx2lx1uJSp6o0TO6XeuUGZmI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=lx7PzT+VXZnHJG1WevUCUKF1YNah83tz+T7s/Cqkt6y+cwQ2WvvPTUJmEYngV3sUL
+ LsTH3/nQrN61nNdAD+9yhwxkhPsl5rKzx3O5AIbrlb1KbZGvozLHAdjWiAGk/no7sU
+ x8fSClmDfKoPmq65W6H1cLmz6niUYDGzdC/bbae7v+/R0F+L0mvsr8pPvbLygXYepj
+ JOx1BPyX1XH/tO031631FtlukHz/5fLRZMUEQejPYCP764ybKhI2RijC607E+Lezxc
+ ul/3HiOzeJ3eFGYhCfOf2W5c6O7HADw3vQReLWDPZL7ex1z88cxB5PEE8y/QPebDxc
+ Kfn7EM80k9n9w==
+Date: Sun, 1 Oct 2023 11:27:33 +0100
 From: Mark Brown <broonie@kernel.org>
-Date: Sun, 01 Oct 2023 11:26:22 +0100
-Subject: [PATCH] drm/bridge: sn65dsi83: Convert to use maple tree register
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH] drm/bridge: adv7511: Convert to use maple tree register
  cache
+Message-ID: <ZRlJlW/6fZeWjEpF@finisterre.sirena.org.uk>
+References: <20230929-drm-adv7511-v1-1-b871b28ee594@kernel.org>
+ <20230929213817.GB28737@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20231001-drm-sn65dsi83-maple-v1-1-cf8ad22b6be0@kernel.org>
-X-B4-Tracking: v=1; b=H4sIAE1JGWUC/x3MwQpAQBCA4VfRnE2tXWS9ihwwgymWdkpK3t3m+
- B3+/wHlKKzQZg9EvkTlCAlFnsG0DmFhFEoGa6wz3nqkuKOGuiKVxuE+nBvjXFSmtKN3NBGk8ow
- 8y/1fu/59P5j5OyVlAAAA
-To: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-X-Mailer: b4 0.13-dev-0438c
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1094; i=broonie@kernel.org;
- h=from:subject:message-id; bh=lwbgWor7IdiVFd94JhzsfGtJZuDZgy8xLTZUxSMiFhA=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBlGUmNiGi5FE7RLki0kcrsFODIcqN3ZHI7Apnvx
- ojG20W/R5uJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCZRlJjQAKCRAk1otyXVSH
- 0BrAB/0WfEoluBngAWe5KYK1BxB/h/5IVp4Wh/23MhNHLcRxIfZs/NQR8cI/l/2GLcz4L3M8TPC
- sSHmvkch54ZAXDTXQPZKrk60RoJF/iomgvJsXhxHn0XdxTxJ2VlbTTDFsqV1xltRlak0QZHnxrS
- QcYu6hjM1f7hp9jWkcwsh7O1lIAnmT/Q2Oo1IYpTU8TOv0brdnjgjOKgFevQEwRIqUlCWj2gImH
- zkdbKYrduq945ij9ROL/+MMoWVyf1Bpe0YymZ0Zog3FJc4Jv+yoaNRo69RJE9JPkalsSV0r83gs
- dBDhzB1QWWTNGqtkwbv6PkuMTZsd1ITg67ytMKzPxlNyyGfx
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="UUmRimESPwoHTN8f"
+Content-Disposition: inline
+In-Reply-To: <20230929213817.GB28737@pendragon.ideasonboard.com>
+X-Cookie: Save energy:  Drive a smaller shell.
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,39 +54,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Brown <broonie@kernel.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Jonas Karlman <jonas@kwiboo.se>, linux-kernel@vger.kernel.org,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, dri-devel@lists.freedesktop.org,
+ Andrzej Hajda <andrzej.hajda@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The maple tree register cache is based on a much more modern data structure
-than the rbtree cache and makes optimisation choices which are probably
-more appropriate for modern systems than those made by the rbtree cache.
 
-Signed-off-by: Mark Brown <broonie@kernel.org>
----
- drivers/gpu/drm/bridge/ti-sn65dsi83.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+--UUmRimESPwoHTN8f
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-index 061e8bd5915d..4814b7b6d1fd 100644
---- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-+++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-@@ -233,7 +233,7 @@ static const struct regmap_config sn65dsi83_regmap_config = {
- 	.rd_table = &sn65dsi83_readable_table,
- 	.wr_table = &sn65dsi83_writeable_table,
- 	.volatile_table = &sn65dsi83_volatile_table,
--	.cache_type = REGCACHE_RBTREE,
-+	.cache_type = REGCACHE_MAPLE,
- 	.max_register = REG_IRQ_STAT,
- };
- 
+On Sat, Sep 30, 2023 at 12:38:17AM +0300, Laurent Pinchart wrote:
 
----
-base-commit: 6465e260f48790807eef06b583b38ca9789b6072
-change-id: 20230929-drm-sn65dsi83-maple-f15042b93dcd
+> Out of curiosity, is this part of an effort to drop the rbtree cache ?
 
-Best regards,
--- 
-Mark Brown <broonie@kernel.org>
+Probably, yes - there's probably some drivers where it will make sense.
 
+--UUmRimESPwoHTN8f
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmUZSZUACgkQJNaLcl1U
+h9BxmggAgqyJ81ofkMwsTZ+GzDAAAwBb+/SIJtB7aqJg+Vh1/L4NYvaHarCvxL8t
+je7RCjIbkQQGB8BXBEeGunr6FqJoj1+37SmV4Qy5MDQhOC8DNempCqpzMgEAbgrB
+2OaryKHXgZRF0xKfCmJT2kPQcMK3Ibn+YK//0Y9Ee2LvrAuU5gQtHFwmI5mZCh57
+pESuf+mi5QIC4XWI+7g1sBCqsMtIVcDTfAz8/ZtH3JEgRmEr1rYJKkd91nGSJ6SO
+Cv0RrbTyjrWsPy7jPDD2HUoRh/rDXIg++YaBfccOuuW8YsuIbDDQ8tGWR3+Wi0z+
++9CngyLjEXD1PWVHR4LGh42s84LSWA==
+=03eq
+-----END PGP SIGNATURE-----
+
+--UUmRimESPwoHTN8f--
