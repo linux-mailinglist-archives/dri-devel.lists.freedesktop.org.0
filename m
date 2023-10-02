@@ -2,55 +2,125 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19BA27B4D29
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Oct 2023 10:16:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 472537B4D2D
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Oct 2023 10:17:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F146110E223;
-	Mon,  2 Oct 2023 08:16:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B93E10E221;
+	Mon,  2 Oct 2023 08:17:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A447A10E223
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Oct 2023 08:16:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1696234605; x=1727770605;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=CCm0nCaUAWiZf/2jiZ9UIxoAuD9LhOTJ2OhX2TS+RIA=;
- b=cdRGPp+aNuYehGWNHSd2m2aYXoNn01XAXhV8dqyTzpLsDTa61VjFms8R
- 0BlRHB6Nr+GK1Y1AH9OGmeLjfWkh0y8/xUxrYVwYHjJpeJEpIyVejVYfC
- oHFqXdTmSQWIqTcEGihbro64cLtFe63UonrdiMNgOOYKgMt9DdaOQel9s
- irr+7gjfot1+Dwzlq4/gVAJ/hqCLYdqvvTedehQ7/Gf0BqymtoStO/WXI
- QCg8Bg7r8uPRbL2x++kBkxW49WYZKAd/VEPML3CNbq0/aIrq4gtb2sUkE
- KMKofiUdB1dGIVGXrJaSNB5ePjpzCie3ySCHbCrOXHML5V6cXgDTlSDcI w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10850"; a="449090684"
-X-IronPort-AV: E=Sophos;i="6.03,193,1694761200"; d="scan'208";a="449090684"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Oct 2023 01:16:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10850"; a="1081578756"
-X-IronPort-AV: E=Sophos;i="6.03,193,1694761200"; d="scan'208";a="1081578756"
-Received: from satiarax-mobl1.gar.corp.intel.com (HELO [10.249.254.231])
- ([10.249.254.231])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Oct 2023 01:16:43 -0700
-Message-ID: <2b5648aa-f83d-d8f7-b0fd-39c859f32f33@linux.intel.com>
-Date: Mon, 2 Oct 2023 10:16:40 +0200
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
+ [209.85.221.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5727510E21F;
+ Mon,  2 Oct 2023 08:17:51 +0000 (UTC)
+Received: by mail-wr1-f51.google.com with SMTP id
+ ffacd0b85a97d-3248ac76acbso3485535f8f.1; 
+ Mon, 02 Oct 2023 01:17:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1696234669; x=1696839469;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+ :to:content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=XRQOEO20SFPJZYkkrpyqxPYtIEQ0W/EOrV8PhwlhHg8=;
+ b=vNjdOqTMo9c6r46XVrjkr9N3y8xzF/dv6xq4ekKEzejsK6AYPX2m+NRDxHBJbqiExX
+ WcDXoS5pPP64uN3xtIxEmQ1CmxL6y9T6fKb+iYp/bOTC8ptEW1hw65W48O6oKwq12S0o
+ jCZUICrFuc7kpm0HI3aVVKE0uCYFFacy6ud3BbHr3DNiWRYLT13ZTZOvlHL5hQZwKAdv
+ kuNg1M9AjVnJB9dBOERgqe3mDIZAgo90F55NH76KcJh92WUgPA/ndozaer3nU3QvuofI
+ xkCO8acJ9HjN9u6uzGQEJubYblO2o3odY3/UwP68q8y6dHBPv811CV7LJkz7/A4bsKRO
+ P46Q==
+X-Gm-Message-State: AOJu0YwrVMu8d2ADN1usUu4emwi3bsUzsKiA31BzKNi/Kuq2+WZMMOIy
+ r/uBQ8aVKXt933ddPuQGeWY=
+X-Google-Smtp-Source: AGHT+IE6HrD1SP43omFCmnfeDuQuwJDDr5YhRWwWimOS8yZlxQzIOJV17834hBNzEEyMX4qsTnK7jw==
+X-Received: by 2002:a5d:44cb:0:b0:317:df82:2868 with SMTP id
+ z11-20020a5d44cb000000b00317df822868mr9989967wrr.26.1696234669408; 
+ Mon, 02 Oct 2023 01:17:49 -0700 (PDT)
+Received: from [192.168.1.58] (185-219-167-24-static.vivo.cz. [185.219.167.24])
+ by smtp.gmail.com with ESMTPSA id
+ q12-20020adff94c000000b003233a31a467sm7157761wrr.34.2023.10.02.01.17.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 02 Oct 2023 01:17:48 -0700 (PDT)
+Message-ID: <63e7a4fe-58c9-470e-84c2-dd92e76462ae@kernel.org>
+Date: Mon, 2 Oct 2023 10:17:46 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v2] drm/ttm: Make sure the mapped tt pages are decrypted
- when needed
-To: Zack Rusin <zackr@vmware.com>, dri-devel@lists.freedesktop.org
-References: <20230926040359.3040017-1-zack@kde.org>
- <20230926175113.679880-1-zack@kde.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 04/15] tty: Remove now superfluous sentinel element from
+ ctl_table array
 Content-Language: en-US
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
-In-Reply-To: <20230926175113.679880-1-zack@kde.org>
+To: j.granados@samsung.com, Luis Chamberlain <mcgrof@kernel.org>,
+ willy@infradead.org, josh@joshtriplett.org, Kees Cook
+ <keescook@chromium.org>, Phillip Potter <phil@philpotter.co.uk>,
+ Clemens Ladisch <clemens@ladisch.de>, Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Juergen Gross <jgross@suse.com>, Stefano Stabellini
+ <sstabellini@kernel.org>,
+ Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
+ "James E.J. Bottomley" <jejb@linux.ibm.com>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Doug Gilbert <dgilbert@interlog.com>,
+ Sudip Mukherjee <sudipm.mukherjee@gmail.com>, Jason Gunthorpe
+ <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
+ Corey Minyard <minyard@acm.org>, Theodore Ts'o <tytso@mit.edu>,
+ "Jason A. Donenfeld" <Jason@zx2c4.com>, David Ahern <dsahern@kernel.org>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Robin Holt <robinmholt@gmail.com>, Steve Wahl <steve.wahl@hpe.com>,
+ Russ Weight <russell.h.weight@intel.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Song Liu <song@kernel.org>,
+ "K. Y. Srinivasan" <kys@microsoft.com>,
+ Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
+ Dexuan Cui <decui@microsoft.com>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+References: <20230928-jag-sysctl_remove_empty_elem_drivers-v1-0-e59120fca9f9@samsung.com>
+ <20230928-jag-sysctl_remove_empty_elem_drivers-v1-4-e59120fca9f9@samsung.com>
+From: Jiri Slaby <jirislaby@kernel.org>
+Autocrypt: addr=jirislaby@kernel.org; keydata=
+ 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
+In-Reply-To: <20230928-jag-sysctl_remove_empty_elem_drivers-v1-4-e59120fca9f9@samsung.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,157 +133,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Huang Rui <ray.huang@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- stable@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: linux-hyperv@vger.kernel.org, linux-scsi@vger.kernel.org,
+ linux-rdma@vger.kernel.org, netdev@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-raid@vger.kernel.org,
+ linux-serial@vger.kernel.org, xen-devel@lists.xenproject.org,
+ openipmi-developer@lists.sourceforge.net, linuxppc-dev@lists.ozlabs.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Zack
-
-On 9/26/23 19:51, Zack Rusin wrote:
-> From: Zack Rusin <zackr@vmware.com>
->
-> Some drivers require the mapped tt pages to be decrypted. In an ideal
-> world this would have been handled by the dma layer, but the TTM page
-> fault handling would have to be rewritten to able to do that.
->
-> A side-effect of the TTM page fault handling is using a dma allocation
-> per order (via ttm_pool_alloc_page) which makes it impossible to just
-> trivially use dma_mmap_attrs. As a result ttm has to be very careful
-> about trying to make its pgprot for the mapped tt pages match what
-> the dma layer thinks it is. At the ttm layer it's possible to
-> deduce the requirement to have tt pages decrypted by checking
-> whether coherent dma allocations have been requested and the system
-> is running with confidential computing technologies.
->
-> This approach isn't ideal but keeping TTM matching DMAs expectations
-> for the page properties is in general fragile, unfortunately proper
-> fix would require a rewrite of TTM's page fault handling.
->
-> Fixes vmwgfx with SEV enabled.
->
-> v2: Explicitly include cc_platform.h
->
-> Signed-off-by: Zack Rusin <zackr@vmware.com>
-> Fixes: 3bf3710e3718 ("drm/ttm: Add a generic TTM memcpy move for page-based iomem")
-> Cc: Christian König <christian.koenig@amd.com>
-> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> Cc: Huang Rui <ray.huang@amd.com>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: <stable@vger.kernel.org> # v5.14+
+On 28. 09. 23, 15:21, Joel Granados via B4 Relay wrote:
+> From: Joel Granados <j.granados@samsung.com>
+> 
+> This commit comes at the tail end of a greater effort to remove the
+> empty elements at the end of the ctl_table arrays (sentinels) which
+> will reduce the overall build time size of the kernel and run time
+> memory bloat by ~64 bytes per sentinel (further information Link :
+> https://lore.kernel.org/all/ZO5Yx5JFogGi%2FcBo@bombadil.infradead.org/)
+> 
+> Remove sentinel from tty_table
+> 
+> Signed-off-by: Joel Granados <j.granados@samsung.com>
 > ---
->   drivers/gpu/drm/ttm/ttm_bo_util.c | 13 +++++++++++--
->   drivers/gpu/drm/ttm/ttm_tt.c      |  8 ++++++++
->   include/drm/ttm/ttm_tt.h          |  9 ++++++++-
->   3 files changed, 27 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
-> index fd9fd3d15101..0b3f4267130c 100644
-> --- a/drivers/gpu/drm/ttm/ttm_bo_util.c
-> +++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
-> @@ -294,7 +294,13 @@ pgprot_t ttm_io_prot(struct ttm_buffer_object *bo, struct ttm_resource *res,
->   	enum ttm_caching caching;
->   
->   	man = ttm_manager_type(bo->bdev, res->mem_type);
-> -	caching = man->use_tt ? bo->ttm->caching : res->bus.caching;
-> +	if (man->use_tt) {
-> +		caching = bo->ttm->caching;
-> +		if (bo->ttm->page_flags & TTM_TT_FLAG_DECRYPTED)
-> +			tmp = pgprot_decrypted(tmp);
-> +	} else  {
-> +		caching = res->bus.caching;
+>   drivers/tty/tty_io.c | 3 +--
+>   1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/drivers/tty/tty_io.c b/drivers/tty/tty_io.c
+> index 8a94e5a43c6d..2f925dc54a20 100644
+> --- a/drivers/tty/tty_io.c
+> +++ b/drivers/tty/tty_io.c
+> @@ -3607,8 +3607,7 @@ static struct ctl_table tty_table[] = {
+>   		.proc_handler	= proc_dointvec,
+>   		.extra1		= SYSCTL_ZERO,
+>   		.extra2		= SYSCTL_ONE,
+> -	},
+> -	{ }
 > +	}
->   
->   	return ttm_prot_from_caching(caching, tmp);
->   }
-> @@ -337,6 +343,8 @@ static int ttm_bo_kmap_ttm(struct ttm_buffer_object *bo,
->   		.no_wait_gpu = false
->   	};
->   	struct ttm_tt *ttm = bo->ttm;
-> +	struct ttm_resource_manager *man =
-> +			ttm_manager_type(bo->bdev, bo->resource->mem_type);
->   	pgprot_t prot;
->   	int ret;
->   
-> @@ -346,7 +354,8 @@ static int ttm_bo_kmap_ttm(struct ttm_buffer_object *bo,
->   	if (ret)
->   		return ret;
->   
-> -	if (num_pages == 1 && ttm->caching == ttm_cached) {
-> +	if (num_pages == 1 && ttm->caching == ttm_cached &&
-> +	    !(man->use_tt && (ttm->page_flags & TTM_TT_FLAG_DECRYPTED))) {
->   		/*
->   		 * We're mapping a single page, and the desired
->   		 * page protection is consistent with the bo.
-> diff --git a/drivers/gpu/drm/ttm/ttm_tt.c b/drivers/gpu/drm/ttm/ttm_tt.c
-> index e0a77671edd6..e4966e2c988d 100644
-> --- a/drivers/gpu/drm/ttm/ttm_tt.c
-> +++ b/drivers/gpu/drm/ttm/ttm_tt.c
-> @@ -31,6 +31,7 @@
->   
->   #define pr_fmt(fmt) "[TTM] " fmt
->   
-> +#include <linux/cc_platform.h>
->   #include <linux/sched.h>
->   #include <linux/shmem_fs.h>
->   #include <linux/file.h>
-> @@ -81,6 +82,13 @@ int ttm_tt_create(struct ttm_buffer_object *bo, bool zero_alloc)
->   		pr_err("Illegal buffer object type\n");
->   		return -EINVAL;
->   	}
-> +	/*
-> +	 * When using dma_alloc_coherent with memory encryption the
-> +	 * mapped TT pages need to be decrypted or otherwise the drivers
-> +	 * will end up sending encrypted mem to the gpu.
-> +	 */
-> +	if (bdev->pool.use_dma_alloc && cc_platform_has(CC_ATTR_MEM_ENCRYPT))
 
-You need to use CC_ATTR_GUEST_MEM_ENCRYPT here rather than 
-CC_ATTR_MEM_ENCRYPT to avoid touching and breaking the SME case and only 
-fix the SEV / SEV-ES case. I'd also hold off the stable inclusion until 
-it's completely verified that this doesn't break anything because if it 
-does, I suspect all hell will break loose.
+Why to remove the comma? One would need to add one when adding a new entry?
 
-With that said, for the functionality
+thanks,
+-- 
+js
+suse labs
 
-Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-
-But I think this needs a wider Ack at the ttm / drm level for the 
-approach taken.
-
-/Thomas.
-
-> +		page_flags |= TTM_TT_FLAG_DECRYPTED;
->   
->   	bo->ttm = bdev->funcs->ttm_tt_create(bo, page_flags);
->   	if (unlikely(bo->ttm == NULL))
-> diff --git a/include/drm/ttm/ttm_tt.h b/include/drm/ttm/ttm_tt.h
-> index a4eff85b1f44..2b9d856ff388 100644
-> --- a/include/drm/ttm/ttm_tt.h
-> +++ b/include/drm/ttm/ttm_tt.h
-> @@ -79,6 +79,12 @@ struct ttm_tt {
->   	 *   page_flags = TTM_TT_FLAG_EXTERNAL |
->   	 *		  TTM_TT_FLAG_EXTERNAL_MAPPABLE;
->   	 *
-> +	 * TTM_TT_FLAG_DECRYPTED: The mapped ttm pages should be marked as
-> +	 * not encrypted. The framework will try to match what the dma layer
-> +	 * is doing, but note that it is a little fragile because ttm page
-> +	 * fault handling abuses the DMA api a bit and dma_map_attrs can't be
-> +	 * used to assure pgprot always matches.
-> +	 *
->   	 * TTM_TT_FLAG_PRIV_POPULATED: TTM internal only. DO NOT USE. This is
->   	 * set by TTM after ttm_tt_populate() has successfully returned, and is
->   	 * then unset when TTM calls ttm_tt_unpopulate().
-> @@ -87,8 +93,9 @@ struct ttm_tt {
->   #define TTM_TT_FLAG_ZERO_ALLOC		BIT(1)
->   #define TTM_TT_FLAG_EXTERNAL		BIT(2)
->   #define TTM_TT_FLAG_EXTERNAL_MAPPABLE	BIT(3)
-> +#define TTM_TT_FLAG_DECRYPTED		BIT(4)
->   
-> -#define TTM_TT_FLAG_PRIV_POPULATED	BIT(4)
-> +#define TTM_TT_FLAG_PRIV_POPULATED	BIT(5)
->   	uint32_t page_flags;
->   	/** @num_pages: Number of pages in the page array. */
->   	uint32_t num_pages;
