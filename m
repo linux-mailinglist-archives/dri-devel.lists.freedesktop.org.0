@@ -1,69 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29F7F7B5C9C
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Oct 2023 23:45:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4ECA67B5D19
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Oct 2023 00:24:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B9C3610E255;
-	Mon,  2 Oct 2023 21:45:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B34B10E08E;
+	Mon,  2 Oct 2023 22:24:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
- [IPv6:2a00:1450:4864:20::333])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 879C310E24F
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Oct 2023 21:45:32 +0000 (UTC)
-Received: by mail-wm1-x333.google.com with SMTP id
- 5b1f17b1804b1-406609df1a6so2486015e9.3
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Oct 2023 14:45:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=philpotter-co-uk.20230601.gappssmtp.com; s=20230601; t=1696283130;
- x=1696887930; darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=3dA79LkNYU7asBXwt/uQxW8bheOGwedQNE5Z+nFIVT0=;
- b=td5jLO3chvVCW90psAlNyX+PT3g9PLmhOtQkWq/qD0Ou3gAZJMBO8aozFC9d/r0xth
- ourlryNG/CaG5POD78+BfWOsH5jVScNxtW4Na/126ueDEgdXvIzggtIvc+h3BOoIzuwr
- MDbaa57mQXzMaZ5AWEVF8bNNFPKkekxdne3BHaWvR4DKBVplHnr9Z66/ddafSq8KleQb
- trFRgkm+Z0uPFAVqCTLdNdFFkql7ZjJma1rv6p43yjW3EN6HKPtK1PWoNbNpp64O1vg7
- EVBg23IdVf9I9o8xt8iYew3pgGHElgICvO8hU1Xl/qaGsZzM8k0O8Ike49++9pfN0+XZ
- Hxww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1696283130; x=1696887930;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=3dA79LkNYU7asBXwt/uQxW8bheOGwedQNE5Z+nFIVT0=;
- b=HnxZYGe6ub9dj8z+v0m//9QqBJ9vWuPNb6AOn7W9+B5q6Knk5x3d0JgWIFrIuPv4XP
- GIICSqVrmkK2o/4p1eV3FK16dLEtKC+xeBkD79/jVcP4t7AGl1V3lxFXs6rlGaJZGcOK
- CzRTsRY11ZtRv2HLIBNfKfYeiud4y25KRK4/kIeEmeMLVY9n4Pgnyl9TuqKBh4VoDGK0
- Woqg3HIedrMSEwU4BorX1duIzdeby5cLg6zbsSGMHt9xbJRJyJsNooOlJyUUJOQrJsns
- 3aShv2/wfaTFyJaEd0y/C1WCNSFmNZCTOKC3mkkoZMbMUv1pywZa/tAr9CgiRWypKNVa
- T9fA==
-X-Gm-Message-State: AOJu0YxHbuajUMm5OBEQ6n/iouvsaCUrki+mG6u2CZ82kHB/dfL3UOd+
- dDsZpQY27BBav2vwwfSR16U6Sg==
-X-Google-Smtp-Source: AGHT+IFQqDHrxS5nLVVcz3uYz3zBoh8PRAUblObfkXMiu+127hGE3d4cKV4jcsCeAwYclm/ssvuz7g==
-X-Received: by 2002:a1c:6a05:0:b0:404:757e:c5ba with SMTP id
- f5-20020a1c6a05000000b00404757ec5bamr10282866wmc.26.1696283130281; 
- Mon, 02 Oct 2023 14:45:30 -0700 (PDT)
-Received: from localhost.localdomain
- (3.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.6.1.f.d.0.b.8.0.1.0.0.2.ip6.arpa.
- [2001:8b0:df16::3]) by smtp.gmail.com with ESMTPSA id
- a11-20020a05600c2d4b00b004065daba6casm7974630wmg.46.2023.10.02.14.45.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Oct 2023 14:45:29 -0700 (PDT)
-From: Phillip Potter <phil@philpotter.co.uk>
-To: devnull+j.granados.samsung.com@kernel.org
-Subject: Re: [PATCH v2 01/15] cdrom: Remove now superfluous sentinel element
- from ctl_table array
-Date: Mon,  2 Oct 2023 22:45:28 +0100
-Message-ID: <20231002214528.15529-1-phil@philpotter.co.uk>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20231002-jag-sysctl_remove_empty_elem_drivers-v2-1-02dd0d46f71e@samsung.com>
-References: <20231002-jag-sysctl_remove_empty_elem_drivers-v2-1-02dd0d46f71e@samsung.com>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E59B210E08E;
+ Mon,  2 Oct 2023 22:24:33 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 392LdKio026935; Mon, 2 Oct 2023 22:24:27 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=Bu7GQgcLD57sCi8havLz2UUxlel0Fnz43rUFuDh2G20=;
+ b=JNn5uPI7XCAEo654z18Y4iIjV4p9qAuFVHR44J0rcYjq2GbvdHgxjxYJCUtd5uUsAVWA
+ LzMetiGWJRrovIR0Jdo8sr+EhRM3yIyA5XjARdM8WT7hh6+KKcX2Pnn/KirPVkR6FEn7
+ tNU8FNYT5Cl61VZ7XcGlhOH6KNn5Q4TqQ+o45us/gJQsnXEZ9I6kD6XqwVUqycejZvRj
+ dgl4QGOxp5aGiCsDwQ2JuD2dmzTewiJ+5e00pt/682r8q4owyhGywqOIBR4pzMyJXVU2
+ vnYzEfcYrP19To9vI5EUPEhov9sUTN7skahm2Ov+HsH3BOiWOefNd309CoNGETgw2S8Q kg== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3te91v4t5c-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 02 Oct 2023 22:24:26 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 392MOPoI015818
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 2 Oct 2023 22:24:25 GMT
+Received: from [10.110.36.217] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Mon, 2 Oct
+ 2023 15:24:24 -0700
+Message-ID: <6f99fe7f-aa1b-e85e-8f71-acb2e3ab7ebe@quicinc.com>
+Date: Mon, 2 Oct 2023 15:24:23 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v4 5/8] drm/msm/dp: incorporate pm_runtime framework into
+ DP driver
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+References: <1695848028-18023-1-git-send-email-quic_khsieh@quicinc.com>
+ <1695848028-18023-6-git-send-email-quic_khsieh@quicinc.com>
+ <CAA8EJpptTDQVO189OcXqJw+VN+1EkgaQd6TJwcGpGxdYTR1vhQ@mail.gmail.com>
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+In-Reply-To: <CAA8EJpptTDQVO189OcXqJw+VN+1EkgaQd6TJwcGpGxdYTR1vhQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: VDcmsND3inIPkhPxFyHJ0S5EsLyM_OkT
+X-Proofpoint-ORIG-GUID: VDcmsND3inIPkhPxFyHJ0S5EsLyM_OkT
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-10-02_15,2023-10-02_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 suspectscore=0
+ mlxlogscore=999 priorityscore=1501 malwarescore=0 phishscore=0
+ impostorscore=0 clxscore=1015 lowpriorityscore=0 mlxscore=0 adultscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2309180000 definitions=main-2310020174
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,64 +85,406 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: j.granados@samsung.com, Jason@zx2c4.com, rafael@kernel.org,
- clemens@ladisch.de, linux-hyperv@vger.kernel.org,
- dri-devel@lists.freedesktop.org, phil@philpotter.co.uk, song@kernel.org,
- edumazet@google.com, kys@microsoft.com, jirislaby@kernel.org,
- russell.h.weight@intel.com, wei.liu@kernel.org, sstabellini@kernel.org,
- minyard@acm.org, leon@kernel.org, linux-rdma@vger.kernel.org,
- steve.wahl@hpe.com, decui@microsoft.com, willy@infradead.org, jgg@ziepe.ca,
- linux-serial@vger.kernel.org, dgilbert@interlog.com, kuba@kernel.org,
- pabeni@redhat.com, intel-gfx@lists.freedesktop.org, keescook@chromium.org,
- arnd@arndb.de, haiyangz@microsoft.com, josh@joshtriplett.org,
- linux-raid@vger.kernel.org, rodrigo.vivi@intel.com,
- xen-devel@lists.xenproject.org, openipmi-developer@lists.sourceforge.net,
- jgross@suse.com, tvrtko.ursulin@linux.intel.com, tytso@mit.edu,
- linux-scsi@vger.kernel.org, martin.petersen@oracle.com,
- gregkh@linuxfoundation.org, dsahern@kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-kernel@vger.kernel.org, sudipm.mukherjee@gmail.com,
- oleksandr_tyshchenko@epam.com, mcgrof@kernel.org, robinmholt@gmail.com,
- netdev@vger.kernel.org, jejb@linux.ibm.com, davem@davemloft.net
+Cc: freedreno@lists.freedesktop.org, quic_sbillaka@quicinc.com,
+ linux-kernel@vger.kernel.org, quic_abhinavk@quicinc.com, andersson@kernel.org,
+ dri-devel@lists.freedesktop.org, dianders@chromium.org, vkoul@kernel.org,
+ agross@kernel.org, marijn.suijten@somainline.org, quic_jesszhan@quicinc.com,
+ swboyd@chromium.org, sean@poorly.run, linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> From: Joel Granados <j.granados@samsung.com>
->
-> This commit comes at the tail end of a greater effort to remove the
-> empty elements at the end of the ctl_table arrays (sentinels) which
-> will reduce the overall build time size of the kernel and run time
-> memory bloat by ~64 bytes per sentinel (further information Link :
-> https://lore.kernel.org/all/ZO5Yx5JFogGi%2FcBo@bombadil.infradead.org/)
->
-> Remove sentinel element from cdrom_table
->
-> Signed-off-by: Joel Granados <j.granados@samsung.com>
-> ---
->  drivers/cdrom/cdrom.c | 1 -
->  1 file changed, 1 deletion(-)
->
-> diff --git a/drivers/cdrom/cdrom.c b/drivers/cdrom/cdrom.c
-> index cc2839805983..a5e07270e0d4 100644
-> --- a/drivers/cdrom/cdrom.c
-> +++ b/drivers/cdrom/cdrom.c
-> @@ -3655,7 +3655,6 @@ static struct ctl_table cdrom_table[] = {
->  		.mode		= 0644,
->  		.proc_handler	= cdrom_sysctl_handler
->  	},
-> -	{ }
->  };
->  static struct ctl_table_header *cdrom_sysctl_header;
->
->
-> -- 
-> 2.30.2
 
+On 9/27/2023 2:41 PM, Dmitry Baryshkov wrote:
+> On Wed, 27 Sept 2023 at 23:54, Kuogee Hsieh <quic_khsieh@quicinc.com> wrote:
+>> Currently DP driver is executed independent of PM runtime framework.
+>> This lead to msm edp panel can not be detected by edp_panel driver at
+>> generic_edp_panel_probe() due to aux dpcd read failed at msm edp driver.
+> eDP, AUX, DPCD. leads. not being detected, s/at/during.
+>
+> Also there is no msm eDP driver.
+>
+>> Incorporating pm runtime framework into DP driver so that both power and
+> Incorporate. PM
+>
+>> clocks to enable/disable host controller fits with PM runtime mechanism.
+> Ugh?
+>
+>> Once pm runtime framework is incorporated into DP driver, wake up device
+> waking
+>
+>> from power up path is not necessary. Hence remove it.
+>> Since DP is part of user interface, we choice to use autosuspend feature
+>> with timer of one second. pm runtime suspends is prevented from happening
+>> until timer expired.
+> No, this is not the right reason to use autosuspend. Please use normal
+> suspend unless there is a performance regression caused by the
+> suspend/resume paths.
+>
+>> Changes in v4:
+>> -- reworded commit text to explain why pm_framework is required for edp panel
+>> -- reworded commit text to explain autosuspend is choiced
+>> -- delete EV_POWER_PM_GET and PM_EV_POWER_PUT from changes #3
+>> -- delete dp_display_pm_get() and dp_display_pm_Put() from changes #3
+>> -- return value from pm_runtime_resume_and_get() directly
+>> -- check return value of devm_pm_runtime_enable()
+>> -- delete pm_runtime_xxx from dp_display_remove()
+>> -- drop dp_display_host_init() from EV_HPD_INIT_SETUP
+>>
+>> Changes in v3:
+>> -- incorporate removing pm_runtime_xx() from dp_pwer.c to this patch
+>> -- use pm_runtime_resume_and_get() instead of pm_runtime_get()
+>> -- error checking pm_runtime_resume_and_get() return value
+>> -- add EV_POWER_PM_GET and PM_EV_POWER_PUT to handle HPD_GPIO case
+>>
+>> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+>> Reported-by: kernel test robot <lkp@intel.com>
+>> ---
+>>   drivers/gpu/drm/msm/dp/dp_aux.c     |  6 +++
+>>   drivers/gpu/drm/msm/dp/dp_display.c | 95 +++++++++++++++++++++++++++----------
+>>   drivers/gpu/drm/msm/dp/dp_power.c   | 16 -------
+>>   drivers/gpu/drm/msm/dp/dp_power.h   | 11 -----
+>>   4 files changed, 77 insertions(+), 51 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/msm/dp/dp_aux.c b/drivers/gpu/drm/msm/dp/dp_aux.c
+>> index 8e3b677..22eb774 100644
+>> --- a/drivers/gpu/drm/msm/dp/dp_aux.c
+>> +++ b/drivers/gpu/drm/msm/dp/dp_aux.c
+>> @@ -291,6 +291,10 @@ static ssize_t dp_aux_transfer(struct drm_dp_aux *dp_aux,
+>>                  return -EINVAL;
+>>          }
+>>
+>> +       ret = pm_runtime_resume_and_get(dp_aux->dev);
+>> +       if (ret)
+>> +               return  ret;
+>> +
+>>          mutex_lock(&aux->mutex);
+>>          if (!aux->initted) {
+>>                  ret = -EIO;
+>> @@ -364,6 +368,8 @@ static ssize_t dp_aux_transfer(struct drm_dp_aux *dp_aux,
+>>
+>>   exit:
+>>          mutex_unlock(&aux->mutex);
+>> +       pm_runtime_mark_last_busy(dp_aux->dev);
+>> +       pm_runtime_put_autosuspend(dp_aux->dev);
+>>
+>>          return ret;
+>>   }
+>> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+>> index 3ef141c..bfb4692 100644
+>> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+>> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+>> @@ -276,8 +276,6 @@ static int dp_display_bind(struct device *dev, struct device *master,
+>>          dp->dp_display.drm_dev = drm;
+>>          priv->dp[dp->id] = &dp->dp_display;
+>>
+>> -
+>> -
+> Is this also a part of pm_runtime support? No, it is not.
+>
+>>          dp->drm_dev = drm;
+>>          dp->aux->drm_dev = drm;
+>>          rc = dp_aux_register(dp->aux);
+>> @@ -286,7 +284,6 @@ static int dp_display_bind(struct device *dev, struct device *master,
+>>                  goto end;
+>>          }
+>>
+>> -
+> And this. If you want to clean up stray empty lines, please split that
+> to a separate patch.
+>
+>>          rc = dp_register_audio_driver(dev, dp->audio);
+>>          if (rc) {
+>>                  DRM_ERROR("Audio registration Dp failed\n");
+>> @@ -310,15 +307,10 @@ static void dp_display_unbind(struct device *dev, struct device *master,
+>>          struct dp_display_private *dp = dev_get_dp_display_private(dev);
+>>          struct msm_drm_private *priv = dev_get_drvdata(master);
+>>
+>> -       /* disable all HPD interrupts */
+>> -       if (dp->core_initialized)
+>> -               dp_catalog_hpd_config_intr(dp->catalog, DP_DP_HPD_INT_MASK, false);
+>> -
+>>          kthread_stop(dp->ev_tsk);
+>>
+>>          of_dp_aux_depopulate_bus(dp->aux);
+>>
+>> -       dp_power_client_deinit(dp->power);
+>>          dp_unregister_audio_driver(dev, dp->audio);
+>>          dp_aux_unregister(dp->aux);
+>>          dp->drm_dev = NULL;
+>> @@ -460,6 +452,16 @@ static void dp_display_host_deinit(struct dp_display_private *dp)
+>>   static int dp_display_usbpd_configure_cb(struct device *dev)
+>>   {
+>>          struct dp_display_private *dp = dev_get_dp_display_private(dev);
+>> +       int ret;
+>> +
+>> +       if (!dp->dp_display.internal_hpd) {
+> I'd say, drop the condition here.
 
-Hi Joel,
+ok,
 
-Looks good to me, many thanks. I'll send on for inclusion.
+to match p,_runtime_get and pm_runtime_put, I will move 
+pm_runtime_resume_and_get(&dp->pdev->dev) from here to 
+dp_hpd_plug_handle() and
 
-Reviewed-by: Phillip Potter <phil@philpotter.co.uk>
+add pm_runtime_put() at dp_hpd_unpluh_handle().
 
-Regards,
-Phil
+>
+>> +               /* hpd through gpio */
+> Why? !internal_hpd means any possible way of delivering an HPD event.
+> For example, via the USB-C TCPM.
+>
+>> +               ret = pm_runtime_resume_and_get(&dp->pdev->dev);
+> Which function contains corresponding pm_runtime_put()?
+
+should be at dp_hpd_unplug_handle().
+
+I had missed that, will add it at next patch.
+
+>
+>> +               if (ret) {
+>> +                       DRM_ERROR("failed to start power\n");
+> failed to resume
+>
+>> +                       return ret;
+>> +               }
+>> +       }
+>>
+>>          dp_display_host_phy_init(dp);
+>>
+>> @@ -1086,7 +1088,6 @@ static int hpd_event_thread(void *data)
+>>
+>>                  switch (todo->event_id) {
+>>                  case EV_HPD_INIT_SETUP:
+>> -                       dp_display_host_init(dp_priv);
+>>                          break;
+>>                  case EV_HPD_PLUG_INT:
+>>                          dp_hpd_plug_handle(dp_priv, todo->data);
+>> @@ -1263,6 +1264,13 @@ static int dp_display_probe(struct platform_device *pdev)
+>>
+>>          platform_set_drvdata(pdev, &dp->dp_display);
+>>
+>> +       rc = devm_pm_runtime_enable(&pdev->dev);
+>> +       if (rc)
+>> +               return rc;
+> Missing submodules deinit.
+>
+>> +
+>> +       pm_runtime_set_autosuspend_delay(&pdev->dev, 1000);
+>> +       pm_runtime_use_autosuspend(&pdev->dev);
+>> +
+>>          rc = dp_display_request_irq(dp);
+>>          if (rc)
+>>                  return rc;
+>> @@ -1285,6 +1293,34 @@ static int dp_display_remove(struct platform_device *pdev)
+>>
+>>          platform_set_drvdata(pdev, NULL);
+>>
+>> +       dp_display_deinit_sub_modules(dp);
+> There is already a call to dp_display_deinit_sub_modules() in
+> dp_display_remove().
+>> +
+>> +       return 0;
+>> +}
+>> +
+>> +static int dp_pm_runtime_suspend(struct device *dev)
+>> +{
+>> +       struct dp_display_private *dp = dev_get_dp_display_private(dev);
+>> +
+>> +       if (dp->dp_display.is_edp) {
+>> +               dp_display_host_phy_exit(dp);
+>> +               dp_catalog_ctrl_hpd_disable(dp->catalog);
+>> +       }
+> I don't see where this code was removed.
+>
+>> +       dp_display_host_deinit(dp);
+>> +
+>> +       return 0;
+>> +}
+>> +
+>> +static int dp_pm_runtime_resume(struct device *dev)
+>> +{
+>> +       struct dp_display_private *dp = dev_get_dp_display_private(dev);
+>> +
+>> +       dp_display_host_init(dp);
+>> +       if (dp->dp_display.is_edp) {
+>> +               dp_catalog_ctrl_hpd_enable(dp->catalog);
+>> +               dp_display_host_phy_init(dp);
+>> +       }
+>> +
+>>          return 0;
+>>   }
+>>
+>> @@ -1389,6 +1425,7 @@ static int dp_pm_suspend(struct device *dev)
+>>   }
+>>
+>>   static const struct dev_pm_ops dp_pm_ops = {
+>> +       SET_RUNTIME_PM_OPS(dp_pm_runtime_suspend, dp_pm_runtime_resume, NULL)
+>>          .suspend = dp_pm_suspend,
+>>          .resume =  dp_pm_resume,
+>>   };
+>> @@ -1473,10 +1510,6 @@ static int dp_display_get_next_bridge(struct msm_dp *dp)
+>>          aux_bus = of_get_child_by_name(dev->of_node, "aux-bus");
+>>
+>>          if (aux_bus && dp->is_edp) {
+>> -               dp_display_host_init(dp_priv);
+>> -               dp_catalog_ctrl_hpd_enable(dp_priv->catalog);
+>> -               dp_display_host_phy_init(dp_priv);
+>> -
+>>                  /*
+>>                   * The code below assumes that the panel will finish probing
+>>                   * by the time devm_of_dp_aux_populate_ep_devices() returns.
+>> @@ -1578,6 +1611,11 @@ void dp_bridge_atomic_enable(struct drm_bridge *drm_bridge,
+>>                  dp_hpd_plug_handle(dp_display, 0);
+>>
+>>          mutex_lock(&dp_display->event_mutex);
+>> +       if (pm_runtime_resume_and_get(&dp_display->pdev->dev)) {
+>> +               DRM_ERROR("failed to start power\n");
+> failed to resume.
+>
+>> +               mutex_unlock(&dp_display->event_mutex);
+>> +               return;
+>> +       }
+>>
+>>          state = dp_display->hpd_state;
+>>          if (state != ST_DISPLAY_OFF && state != ST_MAINLINK_READY) {
+>> @@ -1642,10 +1680,9 @@ void dp_bridge_atomic_post_disable(struct drm_bridge *drm_bridge,
+>>          mutex_lock(&dp_display->event_mutex);
+>>
+>>          state = dp_display->hpd_state;
+>> -       if (state != ST_DISCONNECT_PENDING && state != ST_CONNECTED) {
+>> -               mutex_unlock(&dp_display->event_mutex);
+>> -               return;
+>> -       }
+>> +       if (state != ST_DISCONNECT_PENDING && state != ST_CONNECTED)
+>> +               drm_dbg_dp(dp->drm_dev, "type=%d wrong hpd_state=%d\n",
+>> +                          dp->connector_type, state);
+>>
+>>          dp_display_disable(dp_display);
+>>
+>> @@ -1658,6 +1695,9 @@ void dp_bridge_atomic_post_disable(struct drm_bridge *drm_bridge,
+>>          }
+>>
+>>          drm_dbg_dp(dp->drm_dev, "type=%d Done\n", dp->connector_type);
+>> +
+>> +       pm_runtime_mark_last_busy(&dp_display->pdev->dev);
+>> +       pm_runtime_put_autosuspend(&dp_display->pdev->dev);
+>>          mutex_unlock(&dp_display->event_mutex);
+>>   }
+>>
+>> @@ -1697,6 +1737,12 @@ void dp_bridge_hpd_enable(struct drm_bridge *bridge)
+>>          struct dp_display_private *dp = container_of(dp_display, struct dp_display_private, dp_display);
+>>
+>>          mutex_lock(&dp->event_mutex);
+>> +       if (pm_runtime_resume_and_get(&dp->pdev->dev)) {
+>> +               DRM_ERROR("failed to start power\n");
+>> +               mutex_unlock(&dp->event_mutex);
+>> +               return;
+>> +       }
+>> +
+>>          dp_catalog_ctrl_hpd_enable(dp->catalog);
+>>
+>>          /* enable HDP interrupts */
+>> @@ -1718,6 +1764,9 @@ void dp_bridge_hpd_disable(struct drm_bridge *bridge)
+>>          dp_catalog_ctrl_hpd_disable(dp->catalog);
+>>
+>>          dp_display->internal_hpd = false;
+>> +
+>> +       pm_runtime_mark_last_busy(&dp->pdev->dev);
+>> +       pm_runtime_put_autosuspend(&dp->pdev->dev);
+>>          mutex_unlock(&dp->event_mutex);
+>>   }
+>>
+>> @@ -1732,13 +1781,11 @@ void dp_bridge_hpd_notify(struct drm_bridge *bridge,
+>>          if (dp_display->internal_hpd)
+>>                  return;
+>>
+>> -       if (!dp->core_initialized) {
+>> -               drm_dbg_dp(dp->drm_dev, "not initialized\n");
+>> -               return;
+>> -       }
+>> -
+>> -       if (!dp_display->link_ready && status == connector_status_connected)
+>> +       /* hpd through gpio */
+> Lack of the comment might be better than the incorrect comment.
+>
+>> +       if (!dp_display->link_ready && status == connector_status_connected) {
+>> +               dp->hpd_state = ST_DISCONNECTED;
+> Is this also a part of pm_runtime support?
+>
+>>                  dp_add_event(dp, EV_HPD_PLUG_INT, 0, 0);
+>> -       else if (dp_display->link_ready && status == connector_status_disconnected)
+>> +       } else if (dp_display->link_ready && status == connector_status_disconnected) {
+>>                  dp_add_event(dp, EV_HPD_UNPLUG_INT, 0, 0);
+>> +       }
+>>   }
+>> diff --git a/drivers/gpu/drm/msm/dp/dp_power.c b/drivers/gpu/drm/msm/dp/dp_power.c
+>> index 5cb84ca..863c766 100644
+>> --- a/drivers/gpu/drm/msm/dp/dp_power.c
+>> +++ b/drivers/gpu/drm/msm/dp/dp_power.c
+>> @@ -152,20 +152,9 @@ int dp_power_client_init(struct dp_power *dp_power)
+>>
+>>          power = container_of(dp_power, struct dp_power_private, dp_power);
+>>
+>> -       pm_runtime_enable(power->dev);
+>> -
+>>          return dp_power_clk_init(power);
+>>   }
+>>
+>> -void dp_power_client_deinit(struct dp_power *dp_power)
+>> -{
+>> -       struct dp_power_private *power;
+>> -
+>> -       power = container_of(dp_power, struct dp_power_private, dp_power);
+>> -
+>> -       pm_runtime_disable(power->dev);
+>> -}
+>> -
+>>   int dp_power_init(struct dp_power *dp_power)
+>>   {
+>>          int rc = 0;
+>> @@ -173,11 +162,7 @@ int dp_power_init(struct dp_power *dp_power)
+>>
+>>          power = container_of(dp_power, struct dp_power_private, dp_power);
+>>
+>> -       pm_runtime_get_sync(power->dev);
+>> -
+>>          rc = dp_power_clk_enable(dp_power, DP_CORE_PM, true);
+>> -       if (rc)
+>> -               pm_runtime_put_sync(power->dev);
+>>
+>>          return rc;
+>>   }
+>> @@ -189,7 +174,6 @@ int dp_power_deinit(struct dp_power *dp_power)
+>>          power = container_of(dp_power, struct dp_power_private, dp_power);
+>>
+>>          dp_power_clk_enable(dp_power, DP_CORE_PM, false);
+>> -       pm_runtime_put_sync(power->dev);
+>>          return 0;
+>>   }
+>>
+>> diff --git a/drivers/gpu/drm/msm/dp/dp_power.h b/drivers/gpu/drm/msm/dp/dp_power.h
+>> index a3dec20..55ada51 100644
+>> --- a/drivers/gpu/drm/msm/dp/dp_power.h
+>> +++ b/drivers/gpu/drm/msm/dp/dp_power.h
+>> @@ -81,17 +81,6 @@ int dp_power_clk_enable(struct dp_power *power, enum dp_pm_type pm_type,
+>>   int dp_power_client_init(struct dp_power *power);
+>>
+>>   /**
+>> - * dp_power_clinet_deinit() - de-initialize clock and regulator modules
+>> - *
+>> - * @power: instance of power module
+>> - * return: 0 for success, error for failure.
+>> - *
+>> - * This API will de-initialize the DisplayPort's clocks and regulator
+>> - * modules.
+>> - */
+>> -void dp_power_client_deinit(struct dp_power *power);
+>> -
+>> -/**
+>>    * dp_power_get() - configure and get the DisplayPort power module data
+>>    *
+>>    * @parser: instance of parser module
+>> --
+>> 2.7.4
+>>
+>
