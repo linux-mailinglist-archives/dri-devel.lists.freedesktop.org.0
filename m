@@ -1,44 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C33C7B5216
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Oct 2023 14:04:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A18D47B52D6
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Oct 2023 14:21:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BCEDD10E293;
-	Mon,  2 Oct 2023 12:04:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 764E210E295;
+	Mon,  2 Oct 2023 12:20:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF34210E293
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Oct 2023 12:04:27 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 1FA5BB80E9B;
- Mon,  2 Oct 2023 12:04:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98808C433C7;
- Mon,  2 Oct 2023 12:04:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1696248265;
- bh=t/JoZKBtiCmunUvWnl+umF9d9R9RF5wZ0yG+OcRgIzc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=LikAXwdfSRngVjW00SxTTaGA9D2gis2qmIOVDdqSX1cn7TgcY7VpLVxPKeAY3Uh9S
- 1GIE16alLVrBDc47cLiNQRn9HAEXZhfMjhU11VQhEgB03NwZxmrhPejpDZAzVF1kAB
- j9jOHDMWssc0CafOoS2Ih+fhh42U/0GOFi54FGFDsg7t1OQA9AnHJ8aBoQpFe7gSk6
- kGQA5qRQ7ohIbyUeoObiUCJ3WxW35TraoevXAPCLih1YJh/VnzD9PdIZscUHCgTp58
- HL1k9ykCmUWwnsaJGqN6jbxWvfYYTE9nx9oP9QPtLwnIXporllzBlpDtaEuDIE+t6X
- mJkgWLLgpoGdw==
-Date: Mon, 2 Oct 2023 13:04:21 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Fabio Estevam <festevam@gmail.com>
-Subject: Re: [PATCH] dt-bindings: display: fsl,imx6-hdmi: Change to
- 'unevaluatedProperties: false'
-Message-ID: <20231002-reversing-huntsman-55f9ab2d8108@spud>
-References: <20230930130102.798822-1-festevam@gmail.com>
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A54810E29F;
+ Mon,  2 Oct 2023 12:20:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1696249245; x=1727785245;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=TtzwBm9DERNLTiJPDvQed7U0fE/SYIghggWbRcXuo+g=;
+ b=DIsIkt5vRGHV5Je1tj5if1VHPPVGkulahESgYPIkN2nYqMibFZJ5vLM6
+ EbhbIHg3duiPh2i/spn8yxiV5er7lEqFpS0p+IRU+de2YY0NYt2yj6/PJ
+ F/Hy1h+JvgD+f/KQM6fBSyiWZYdQvKlqFkFfu0ozFbvdh5/gIyLk3IFsh
+ P8WcsMXva9uCp88i1mXGXUsGnK430JoENiWHpS1HoUng3PgaO2dXKfyGU
+ qLmKvgfHE3vdGHb/CP3pnr36afIeLpHVlyVfJHGNHuJArKoUkuAnFUz//
+ E2jIwfiUTg0yNLvnheq+hUGfMevu2oW8pEeA+LSfdCyF8H9Xxds8Eb3Y8 w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10850"; a="386501844"
+X-IronPort-AV: E=Sophos;i="6.03,194,1694761200"; d="scan'208";a="386501844"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Oct 2023 05:20:43 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10850"; a="779918158"
+X-IronPort-AV: E=Sophos;i="6.03,194,1694761200"; d="scan'208";a="779918158"
+Received: from nirmoyda-desk.igk.intel.com ([10.102.138.190])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Oct 2023 05:20:39 -0700
+From: Nirmoy Das <nirmoy.das@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH] drm/i915: Invalidate all GTs in flush_tlb_invalidate()
+Date: Mon,  2 Oct 2023 14:20:32 +0200
+Message-ID: <20231002122032.23703-1-nirmoy.das@intel.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="LraE7CjsrwJNOYcR"
-Content-Disposition: inline
-In-Reply-To: <20230930130102.798822-1-festevam@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Organization: Intel Deutschland GmbH, Registered Address: Am Campeon 10,
+ 85579 Neubiberg, Germany,
+ Commercial Register: Amtsgericht Muenchen HRB 186928 
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,73 +59,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, conor+dt@kernel.org,
- Fabio Estevam <festevam@denx.de>, dri-devel@lists.freedesktop.org,
- robh+dt@kernel.org, mripard@kernel.org, krzysztof.kozlowski+dt@linaro.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Fei Yang <fei.yang@intel.com>, Matt Roper <matthew.d.roper@intel.com>,
+ Matthew Auld <matthew.auld@intel.com>,
+ Jonathan Cavitt <jonathan.cavitt@intel.com>, dri-devel@lists.freedesktop.org,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Chris Wilson <chris.p.wilson@linux.intel.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Don't return early if one of the GT doesn't require
+any flushing.
 
---LraE7CjsrwJNOYcR
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Fixes: d6c531ab4820 ("drm/i915: Invalidate the TLBs on each GT")
+Cc: Chris Wilson <chris.p.wilson@linux.intel.com>
+Cc: Fei Yang <fei.yang@intel.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Andi Shyti <andi.shyti@linux.intel.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Cc: Nirmoy Das <nirmoy.das@intel.com>
+Cc: Matthew Auld <matthew.auld@intel.com>
+Cc: "Ville Syrjälä" <ville.syrjala@linux.intel.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: "Christian König" <christian.koenig@amd.com>
+Cc: Jonathan Cavitt <jonathan.cavitt@intel.com>
+Cc: Matt Roper <matthew.d.roper@intel.com>
+Cc: intel-gfx@lists.freedesktop.org
+Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
+---
+ drivers/gpu/drm/i915/gem/i915_gem_pages.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On Sat, Sep 30, 2023 at 10:01:02AM -0300, Fabio Estevam wrote:
-> From: Fabio Estevam <festevam@denx.de>
->=20
-> fsl,imx6-hdmi.yaml makes a reference to synopsys,dw-hdmi.yaml.
->=20
-> The 'interrupts'and 'reg' properties are described in synopsys,dw-hdmi.ya=
-ml,
-> so use 'unevaluatedProperties: false' so that these two properties can
-> be accepted.=20
->=20
-> This fixes the following schema warnings:
->=20
-> hdmi@120000: 'interrupts', 'reg' do not match any of the regexes: 'pinctr=
-l-[0-9]+'
-> from schema $id: http://devicetree.org/schemas/display/imx/fsl,imx6-hdmi.=
-yaml#
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_pages.c b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
+index 6b6d22c19411..0ba955611dfb 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_pages.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
+@@ -198,7 +198,7 @@ static void flush_tlb_invalidate(struct drm_i915_gem_object *obj)
+ 
+ 	for_each_gt(gt, i915, id) {
+ 		if (!obj->mm.tlb[id])
+-			return;
++			continue;
+ 
+ 		intel_gt_invalidate_tlb_full(gt, obj->mm.tlb[id]);
+ 		obj->mm.tlb[id] = 0;
+-- 
+2.41.0
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
-
-Thanks,
-Conor.
-
->=20
-> Signed-off-by: Fabio Estevam <festevam@denx.de>
-> ---
->  .../devicetree/bindings/display/imx/fsl,imx6-hdmi.yaml          | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/Documentation/devicetree/bindings/display/imx/fsl,imx6-hdmi.=
-yaml b/Documentation/devicetree/bindings/display/imx/fsl,imx6-hdmi.yaml
-> index af7fe9c4d196..7979cf07f119 100644
-> --- a/Documentation/devicetree/bindings/display/imx/fsl,imx6-hdmi.yaml
-> +++ b/Documentation/devicetree/bindings/display/imx/fsl,imx6-hdmi.yaml
-> @@ -87,7 +87,7 @@ required:
->    - interrupts
->    - ports
-> =20
-> -additionalProperties: false
-> +unevaluatedProperties: false
-> =20
->  examples:
->    - |
-> --=20
-> 2.34.1
->=20
-
---LraE7CjsrwJNOYcR
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZRqxxQAKCRB4tDGHoIJi
-0kpqAQCvouSSJ598ztgMpCb10c5uqqsUXnRT+B9zedetLA4AMgEAu/7rRAVCillx
-Z7HyaEMVJQ29wAWDRITfQY71IUij+w4=
-=GK57
------END PGP SIGNATURE-----
-
---LraE7CjsrwJNOYcR--
