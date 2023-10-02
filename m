@@ -2,45 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B88697B56C6
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Oct 2023 17:39:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6FCB7B56D1
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Oct 2023 17:41:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 391B610E074;
-	Mon,  2 Oct 2023 15:39:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E2EC10E2DF;
+	Mon,  2 Oct 2023 15:41:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from vulcan.natalenko.name (vulcan.natalenko.name
- [IPv6:2001:19f0:6c00:8846:5400:ff:fe0c:dfa0])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2EF6010E074
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Oct 2023 15:39:05 +0000 (UTC)
-Received: from spock.localnet (unknown [94.142.239.106])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by vulcan.natalenko.name (Postfix) with ESMTPSA id 9BE981528EB4;
- Mon,  2 Oct 2023 17:39:02 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=natalenko.name;
- s=dkim-20170712; t=1696261142;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=cOB88vPQiLyH370nTLoYIxokwI7a/8OLj2bT7Vxp3cw=;
- b=pWXunvHw7ykTJg5hBsOg9EX0UAyT7FxfqVQMTpPDUw0Ad3+mLwq+Vj11H1fg015DGMouCo
- HDMokGSEED/qVoVe/NscrAb22quvRHi7Y+jUpi2n0kKzJZt4v0y0NCA2RqDB8IODILxZlF
- JC4Gq82iC3zo/kynuS1cSb+zfeXbs2c=
-From: Oleksandr Natalenko <oleksandr@natalenko.name>
-To: Matthew Wilcox <willy@infradead.org>
-Subject: Re: [REGRESSION] BUG: KFENCE: memory corruption in
- drm_gem_put_pages+0x186/0x250
-Date: Mon, 02 Oct 2023 17:38:48 +0200
-Message-ID: <2160215.irdbgypaU6@natalenko.name>
-In-Reply-To: <ZRrUjcWqtmzPV3Fs@casper.infradead.org>
-References: <13360591.uLZWGnKmhe@natalenko.name>
- <2300189.ElGaqSPkdT@natalenko.name>
- <ZRrUjcWqtmzPV3Fs@casper.infradead.org>
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F9BE10E2DB;
+ Mon,  2 Oct 2023 15:41:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1696261268; x=1727797268;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=SDh69gAchoeUmTBcUVCtw20M7uUtrPDrCXD7/sO8i4g=;
+ b=ISQPUMX2AoUaGoLcf7rEwNrk8NLRJwVztuQ9CiZ91PeWSbrlejwwdArF
+ AhJklZaquR4y1F/pgIOPiFbAs5i6o+vHoGyebhOBqEAT0uojZD9NpXf/9
+ mPfjC0WcngZuvTUjAvS209SkhKgMLlZgZVTElPdO6ErrSFepioioWQ44I
+ nVdwZwJeEACfLGySUxfsalxTSXlRzuM/Z+WBKw1/FCidy4Q7xv6AteJOv
+ xBl9b9hcDfIyGWSRr7tI2dIjUroNwBSxVCvK2HjT9g+8FIviU8NCA0geB
+ TuSbGht9U0izPV+MFT8gR/a5PJayoRYjibTen/UzE40Vp2qy7htMdNKV7 w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="379950224"
+X-IronPort-AV: E=Sophos;i="6.03,194,1694761200"; d="scan'208";a="379950224"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Oct 2023 08:41:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="727314202"
+X-IronPort-AV: E=Sophos;i="6.03,194,1694761200"; d="scan'208";a="727314202"
+Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
+ by orsmga006.jf.intel.com with ESMTP; 02 Oct 2023 08:41:02 -0700
+Received: from kbuild by c3b01524d57c with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1qnL2a-0006A9-2D;
+ Mon, 02 Oct 2023 15:41:00 +0000
+Date: Mon, 2 Oct 2023 23:40:08 +0800
+From: kernel test robot <lkp@intel.com>
+To: Danilo Krummrich <dakr@redhat.com>, airlied@gmail.com, daniel@ffwll.ch,
+ matthew.brost@intel.com, thomas.hellstrom@linux.intel.com,
+ sarah.walker@imgtec.com, donald.robson@imgtec.com,
+ boris.brezillon@collabora.com, christian.koenig@amd.com,
+ faith@gfxstrand.net
+Subject: Re: [PATCH drm-misc-next v5 4/6] drm/gpuvm: track/lock/validate
+ external/evicted objects
+Message-ID: <202310022331.lPOA8kRt-lkp@intel.com>
+References: <20230928191624.13703-5-dakr@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="nextPart13361251.uLZWGnKmhe";
- micalg="pgp-sha256"; protocol="application/pgp-signature"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230928191624.13703-5-dakr@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,89 +64,116 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>,
- Linux Regressions <regressions@lists.linux.dev>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- linaro-mm-sig@lists.linaro.org, linux-mm@kvack.org,
- Maxime Ripard <mripard@kernel.org>, Bagas Sanjaya <bagasdotme@gmail.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org
+Cc: nouveau@lists.freedesktop.org, Danilo Krummrich <dakr@redhat.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ oe-kbuild-all@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---nextPart13361251.uLZWGnKmhe
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"; protected-headers="v1"
-From: Oleksandr Natalenko <oleksandr@natalenko.name>
-To: Matthew Wilcox <willy@infradead.org>
-Date: Mon, 02 Oct 2023 17:38:48 +0200
-Message-ID: <2160215.irdbgypaU6@natalenko.name>
-In-Reply-To: <ZRrUjcWqtmzPV3Fs@casper.infradead.org>
-MIME-Version: 1.0
+Hi Danilo,
 
-On pond=C4=9Bl=C3=AD 2. =C5=99=C3=ADjna 2023 16:32:45 CEST Matthew Wilcox w=
-rote:
-> On Mon, Oct 02, 2023 at 01:02:52PM +0200, Oleksandr Natalenko wrote:
-> > > > > > BUG: KFENCE: memory corruption in drm_gem_put_pages+0x186/0x250
-> > > > > >=20
-> > > > > > Corrupted memory at 0x00000000e173a294 [ ! ! ! ! ! ! ! ! ! ! ! =
-! ! ! ! ! ] (in kfence-#108):
-> > > > > >  drm_gem_put_pages+0x186/0x250
-> > > > > >  drm_gem_shmem_put_pages_locked+0x43/0xc0
-> > > > > >  drm_gem_shmem_object_vunmap+0x83/0xe0
-> > > > > >  drm_gem_vunmap_unlocked+0x46/0xb0
-> > > > > >  drm_fbdev_generic_helper_fb_dirty+0x1dc/0x310
-> > > > > >  drm_fb_helper_damage_work+0x96/0x170
-> >=20
-> > Matthew, before I start dancing around, do you think ^^ could have the =
-same cause as 0b62af28f249b9c4036a05acfb053058dc02e2e2 which got fixed by 8=
-63a8eb3f27098b42772f668e3977ff4cae10b04?
->=20
-> Yes, entirely plausible.  I think you have two useful points to look at
-> before delving into a full bisect -- 863a8e and the parent of 0b62af.
-> If either of them work, I think you have no more work to do.
+kernel test robot noticed the following build warnings:
 
-OK, I've did this against v6.5.5:
+[auto build test WARNING on a4ead6e37e3290cff399e2598d75e98777b69b37]
 
-```
-git log --oneline HEAD~3..
-7c1e7695ca9b8 (HEAD -> test) Revert "mm: remove struct pagevec"
-8f2ad53b6eac6 Revert "mm: remove check_move_unevictable_pages()"
-fa1e3c0b5453c Revert "drm: convert drm_gem_put_pages() to use a folio_batch"
-```
+url:    https://github.com/intel-lab-lkp/linux/commits/Danilo-Krummrich/drm-gpuvm-add-common-dma-resv-per-struct-drm_gpuvm/20230929-031831
+base:   a4ead6e37e3290cff399e2598d75e98777b69b37
+patch link:    https://lore.kernel.org/r/20230928191624.13703-5-dakr%40redhat.com
+patch subject: [PATCH drm-misc-next v5 4/6] drm/gpuvm: track/lock/validate external/evicted objects
+reproduce: (https://download.01.org/0day-ci/archive/20231002/202310022331.lPOA8kRt-lkp@intel.com/reproduce)
 
-then rebooted the host multiple times, and the issue is not seen any more.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310022331.lPOA8kRt-lkp@intel.com/
 
-So I guess 3291e09a463870610b8227f32b16b19a587edf33 is the culprit.
+All warnings (new ones prefixed by >>):
 
-Thanks.
+>> ./include/drm/drm_gpuvm.h:563: warning: Function parameter or member 'vm_exec' not described in 'drm_gpuvm_exec_unlock'
+>> ./include/drm/drm_gpuvm.h:563: warning: expecting prototype for drm_gpuvm_lock(). Prototype was for drm_gpuvm_exec_unlock() instead
+>> ./include/drm/drm_gpuvm.h:601: warning: expecting prototype for drm_gpuvm_exec_resv_add_fence(). Prototype was for drm_gpuvm_exec_validate() instead
 
-=2D-=20
-Oleksandr Natalenko (post-factum)
---nextPart13361251.uLZWGnKmhe
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part.
-Content-Transfer-Encoding: 7Bit
+vim +563 ./include/drm/drm_gpuvm.h
 
------BEGIN PGP SIGNATURE-----
+   527	
+   528	int drm_gpuvm_prepare_objects(struct drm_gpuvm *gpuvm,
+   529				      struct drm_exec *exec,
+   530				      unsigned int num_fences);
+   531	
+   532	int drm_gpuvm_prepare_range(struct drm_gpuvm *gpuvm,
+   533				    struct drm_exec *exec,
+   534				    u64 addr, u64 range,
+   535				    unsigned int num_fences);
+   536	
+   537	int drm_gpuvm_exec_lock(struct drm_gpuvm_exec *vm_exec,
+   538				unsigned int num_fences,
+   539				bool interruptible);
+   540	
+   541	int drm_gpuvm_exec_lock_array(struct drm_gpuvm_exec *vm_exec,
+   542				      struct drm_gem_object **objs,
+   543				      unsigned int num_objs,
+   544				      unsigned int num_fences,
+   545				      bool interruptible);
+   546	
+   547	int drm_gpuvm_exec_lock_range(struct drm_gpuvm_exec *vm_exec,
+   548				      u64 addr, u64 range,
+   549				      unsigned int num_fences,
+   550				      bool interruptible);
+   551	
+   552	/**
+   553	 * drm_gpuvm_lock() - lock all dma-resv of all assoiciated BOs
+   554	 * @gpuvm: the &drm_gpuvm
+   555	 *
+   556	 * Releases all dma-resv locks of all &drm_gem_objects previously acquired
+   557	 * through drm_gpuvm_lock() or its variants.
+   558	 *
+   559	 * Returns: 0 on success, negative error code on failure.
+   560	 */
+   561	static inline void
+   562	drm_gpuvm_exec_unlock(struct drm_gpuvm_exec *vm_exec)
+ > 563	{
+   564		drm_exec_fini(&vm_exec->exec);
+   565	}
+   566	
+   567	int drm_gpuvm_validate(struct drm_gpuvm *gpuvm, struct drm_exec *exec);
+   568	void drm_gpuvm_resv_add_fence(struct drm_gpuvm *gpuvm,
+   569				      struct drm_exec *exec,
+   570				      struct dma_fence *fence,
+   571				      enum dma_resv_usage private_usage,
+   572				      enum dma_resv_usage extobj_usage);
+   573	
+   574	/**
+   575	 * drm_gpuvm_exec_resv_add_fence()
+   576	 * @vm_exec: the &drm_gpuvm_exec abstraction
+   577	 * @fence: fence to add
+   578	 * @private_usage: private dma-resv usage
+   579	 * @extobj_usage: extobj dma-resv usage
+   580	 *
+   581	 * See drm_gpuvm_resv_add_fence().
+   582	 */
+   583	static inline void
+   584	drm_gpuvm_exec_resv_add_fence(struct drm_gpuvm_exec *vm_exec,
+   585				      struct dma_fence *fence,
+   586				      enum dma_resv_usage private_usage,
+   587				      enum dma_resv_usage extobj_usage)
+   588	{
+   589		drm_gpuvm_resv_add_fence(vm_exec->vm, &vm_exec->exec, fence,
+   590					 private_usage, extobj_usage);
+   591	}
+   592	
+   593	/**
+   594	 * drm_gpuvm_exec_resv_add_fence()
+   595	 * @vm_exec: the &drm_gpuvm_exec abstraction
+   596	 *
+   597	 * See drm_gpuvm_validate().
+   598	 */
+   599	static inline int
+   600	drm_gpuvm_exec_validate(struct drm_gpuvm_exec *vm_exec)
+ > 601	{
+   602		return drm_gpuvm_validate(vm_exec->vm, &vm_exec->exec);
+   603	}
+   604	
 
-iQIzBAABCAAdFiEEZUOOw5ESFLHZZtOKil/iNcg8M0sFAmUa5AgACgkQil/iNcg8
-M0syzg/7BciM9R4z20hUehuS7SJe83FiC1Cgucq3pMgk42d+48MZTzND3Xui+p8v
-WXpF98grtGA1nzPzfBngpkwzPVHCL2Psf/mT+ea86et2jNMPtoQBJ0BQYo4DL83F
-AG7VP9HRo9aPKwppoYsOnEEJmXqx1iqsHn0O89uworE0aV6aRRM4POZVsafKNjdT
-vAlYmRrueMS/F6YhfjcVlPd7G4K7SQTg0glBOgWo9rY9C7Ox/oNgf1MqGcp+L/V3
-2lYuFDFzj4fAHikW1zm74ujUbEXJ3FtG0knmkWcqNIjJ5yWwJk3l3birm0ni0PX6
-e22IoVoShI0W9rTpDlUEPkx7OEQ6taAwadWJbKhNdBMOjdpm1BFkDCmWH4HCWOgd
-o1ChU5iQfJldc50ymThnHVX5JxutVaPmNZDYWWAL9iMUdTkI0NkgqtWm5ZgaXRq3
-vJbZLqWAiHxA3UqvstvrzGwX3VswbJsjDV+Lqi1I27MW+xti81I3BzBP2+kfM/0I
-7bqi/XC5DboJFpNy5ac2BJdZn2ZktqAi3tkGKr4cAJViohE1/50kjAWrS+gWISOJ
-8f7UivDTV+AxizGySF88gekEA9raxURl40GK7rvBvQMwi7Fd1njzRct/O4neDlaP
-MlmoKVsz6VJoOuANweZqkyHyHYRALaxRGXxkE3yPXIfeWaFwGWc=
-=38a+
------END PGP SIGNATURE-----
-
---nextPart13361251.uLZWGnKmhe--
-
-
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
