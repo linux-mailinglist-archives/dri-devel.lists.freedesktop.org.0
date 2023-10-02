@@ -2,43 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB1417B4B63
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Oct 2023 08:20:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D31017B4B83
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Oct 2023 08:34:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C69C10E009;
-	Mon,  2 Oct 2023 06:20:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7FC0010E1A2;
+	Mon,  2 Oct 2023 06:34:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from vulcan.natalenko.name (vulcan.natalenko.name
- [IPv6:2001:19f0:6c00:8846:5400:ff:fe0c:dfa0])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8207B10E009
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Oct 2023 06:20:30 +0000 (UTC)
-Received: from spock.localnet (unknown [94.142.239.106])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by vulcan.natalenko.name (Postfix) with ESMTPSA id 4C3141528555;
- Mon,  2 Oct 2023 08:20:27 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=natalenko.name;
- s=dkim-20170712; t=1696227627;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=3fQdtHTcIZFqz9pyHvM86qId7PCboP0/SwERmpmp9sI=;
- b=ONz3hpW9j8RF6uHRMXa68TnztyZYRzydfE2lxBSAEw0iZGjJQah4g7y/OA1hihmmfMifaG
- F5ngSTIh0qsF2PRoFRSjBmpHTTk6n4p26wiJ1Ow6qddOhl7GR+IymQ9YRZ9O+xwlO9ejiH
- DyXUk27v4ac8uJe1qZiUK2zyj3mUpsU=
-From: Oleksandr Natalenko <oleksandr@natalenko.name>
-To: linux-kernel@vger.kernel.org, Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: Re: [REGRESSION] BUG: KFENCE: memory corruption in
- drm_gem_put_pages+0x186/0x250
-Date: Mon, 02 Oct 2023 08:20:15 +0200
-Message-ID: <2701570.mvXUDI8C0e@natalenko.name>
-In-Reply-To: <ZRoEqEPxPAz3QlEz@debian.me>
-References: <13360591.uLZWGnKmhe@natalenko.name> <ZRoEqEPxPAz3QlEz@debian.me>
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2363410E122;
+ Mon,  2 Oct 2023 06:34:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1696228475; x=1727764475;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=ohMoN0O13vl59/T1Y4daJDp+6LTZG589rbJO6FTJaDA=;
+ b=JiFrxD+p/fQnQoAwocTEp53E8IY/om3ErfRtkJhwZ1kcBQq/SQbErDfa
+ C3gxSOEGZLPlFWpylJC4qbv4aBrOJ9LYuq42yt2gWoLn4OuLaSPBoTREd
+ 7cohv6b12rBom+F6H69KSfhm9KheVlonF2iYeXTTJiegTbYLrp+eMvMOd
+ I+0swh17rvT1CEVwjOitmuvHgnpLAZLeinF2Hwopt8mdqlPhRqa0C3Otd
+ aE86Bimvr6bI2d4XFxxMAm4S4pW2AvKKWr0rMagyLw8uM2lkUC1ViV4hV
+ Aa4NWFceSUxooi6XTeDPONFUbgkBf5T7q7ah1gM/c+MWyU+kAzK1R5YzV w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10850"; a="468868675"
+X-IronPort-AV: E=Sophos;i="6.03,193,1694761200"; d="scan'208";a="468868675"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Oct 2023 23:34:34 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10850"; a="840902494"
+X-IronPort-AV: E=Sophos;i="6.03,193,1694761200"; d="scan'208";a="840902494"
+Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
+ by FMSMGA003.fm.intel.com with ESMTP; 01 Oct 2023 23:34:30 -0700
+Received: from kbuild by c3b01524d57c with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1qnCVg-0005p5-24;
+ Mon, 02 Oct 2023 06:34:28 +0000
+Date: Mon, 2 Oct 2023 14:34:02 +0800
+From: kernel test robot <lkp@intel.com>
+To: Danilo Krummrich <dakr@redhat.com>, airlied@gmail.com, daniel@ffwll.ch,
+ matthew.brost@intel.com, thomas.hellstrom@linux.intel.com,
+ sarah.walker@imgtec.com, donald.robson@imgtec.com,
+ boris.brezillon@collabora.com, christian.koenig@amd.com,
+ faith@gfxstrand.net
+Subject: Re: [PATCH drm-misc-next v5 3/6] drm/gpuvm: add an abstraction for a
+ VM / BO combination
+Message-ID: <202310021416.3jqeZtQG-lkp@intel.com>
+References: <20230928191624.13703-4-dakr@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="nextPart12296369.O9o76ZdvQC";
- micalg="pgp-sha256"; protocol="application/pgp-signature"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230928191624.13703-4-dakr@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,128 +64,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Regressions <regressions@lists.linux.dev>,
- Maxime Ripard <mripard@kernel.org>,
- Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org
+Cc: nouveau@lists.freedesktop.org, Danilo Krummrich <dakr@redhat.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ oe-kbuild-all@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---nextPart12296369.O9o76ZdvQC
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"; protected-headers="v1"
-From: Oleksandr Natalenko <oleksandr@natalenko.name>
-To: linux-kernel@vger.kernel.org, Bagas Sanjaya <bagasdotme@gmail.com>
-Date: Mon, 02 Oct 2023 08:20:15 +0200
-Message-ID: <2701570.mvXUDI8C0e@natalenko.name>
-In-Reply-To: <ZRoEqEPxPAz3QlEz@debian.me>
-MIME-Version: 1.0
+Hi Danilo,
 
-Hello.
+kernel test robot noticed the following build warnings:
 
-On pond=C4=9Bl=C3=AD 2. =C5=99=C3=ADjna 2023 1:45:44 CEST Bagas Sanjaya wro=
-te:
-> On Sun, Oct 01, 2023 at 06:32:34PM +0200, Oleksandr Natalenko wrote:
-> > Hello.
-> >=20
-> > I've got a VM from a cloud provider, and since v6.5 I observe the follo=
-wing kfence splat in dmesg during boot:
-> >=20
-> > ```
-> > BUG: KFENCE: memory corruption in drm_gem_put_pages+0x186/0x250
-> >=20
-> > Corrupted memory at 0x00000000e173a294 [ ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! =
-! ] (in kfence-#108):
-> >  drm_gem_put_pages+0x186/0x250
-> >  drm_gem_shmem_put_pages_locked+0x43/0xc0
-> >  drm_gem_shmem_object_vunmap+0x83/0xe0
-> >  drm_gem_vunmap_unlocked+0x46/0xb0
-> >  drm_fbdev_generic_helper_fb_dirty+0x1dc/0x310
-> >  drm_fb_helper_damage_work+0x96/0x170
-> >  process_one_work+0x254/0x470
-> >  worker_thread+0x55/0x4f0
-> >  kthread+0xe8/0x120
-> >  ret_from_fork+0x34/0x50
-> >  ret_from_fork_asm+0x1b/0x30
-> >=20
-> > kfence-#108: 0x00000000cda343af-0x00000000aec2c095, size=3D3072, cache=
-=3Dkmalloc-4k
-> >=20
-> > allocated by task 51 on cpu 0 at 14.668667s:
-> >  drm_gem_get_pages+0x94/0x2b0
-> >  drm_gem_shmem_get_pages+0x5d/0x110
-> >  drm_gem_shmem_object_vmap+0xc4/0x1e0
-> >  drm_gem_vmap_unlocked+0x3c/0x70
-> >  drm_client_buffer_vmap+0x23/0x50
-> >  drm_fbdev_generic_helper_fb_dirty+0xae/0x310
-> >  drm_fb_helper_damage_work+0x96/0x170
-> >  process_one_work+0x254/0x470
-> >  worker_thread+0x55/0x4f0
-> >  kthread+0xe8/0x120
-> >  ret_from_fork+0x34/0x50
-> >  ret_from_fork_asm+0x1b/0x30
-> >=20
-> > freed by task 51 on cpu 0 at 14.668697s:
-> >  drm_gem_put_pages+0x186/0x250
-> >  drm_gem_shmem_put_pages_locked+0x43/0xc0
-> >  drm_gem_shmem_object_vunmap+0x83/0xe0
-> >  drm_gem_vunmap_unlocked+0x46/0xb0
-> >  drm_fbdev_generic_helper_fb_dirty+0x1dc/0x310
-> >  drm_fb_helper_damage_work+0x96/0x170
-> >  process_one_work+0x254/0x470
-> >  worker_thread+0x55/0x4f0
-> >  kthread+0xe8/0x120
-> >  ret_from_fork+0x34/0x50
-> >  ret_from_fork_asm+0x1b/0x30
-> >=20
-> > CPU: 0 PID: 51 Comm: kworker/0:2 Not tainted 6.5.0-pf4 #1 8b557a4173114=
-d86eef7240f7a080080cfc4617e
-> > Hardware name: Red Hat KVM, BIOS 1.11.0-2.el7 04/01/2014
-> > Workqueue: events drm_fb_helper_damage_work
-> > ```
-> >=20
-> > This repeats a couple of times and then stops.
-> >=20
-> > Currently, I'm running v6.5.5. So far, there's no impact on how VM func=
-tions for me.
-> >=20
-> > The VGA adapter is as follows: 00:02.0 VGA compatible controller: Cirru=
-s Logic GD 5446
-> >=20
->=20
-> Do you have this issue on v6.4?
+[auto build test WARNING on a4ead6e37e3290cff399e2598d75e98777b69b37]
 
-No, I did not have this issue with v6.4.
+url:    https://github.com/intel-lab-lkp/linux/commits/Danilo-Krummrich/drm-gpuvm-add-common-dma-resv-per-struct-drm_gpuvm/20230929-031831
+base:   a4ead6e37e3290cff399e2598d75e98777b69b37
+patch link:    https://lore.kernel.org/r/20230928191624.13703-4-dakr%40redhat.com
+patch subject: [PATCH drm-misc-next v5 3/6] drm/gpuvm: add an abstraction for a VM / BO combination
+reproduce: (https://download.01.org/0day-ci/archive/20231002/202310021416.3jqeZtQG-lkp@intel.com/reproduce)
 
-Thanks.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310021416.3jqeZtQG-lkp@intel.com/
 
-=2D-=20
-Oleksandr Natalenko (post-factum)
---nextPart12296369.O9o76ZdvQC
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part.
-Content-Transfer-Encoding: 7Bit
+All warnings (new ones prefixed by >>):
 
------BEGIN PGP SIGNATURE-----
+>> ./include/drm/drm_gpuvm.h:464: warning: Function parameter or member 'vm' not described in 'drm_gpuvm_bo'
 
-iQIzBAABCAAdFiEEZUOOw5ESFLHZZtOKil/iNcg8M0sFAmUaYR8ACgkQil/iNcg8
-M0tfyBAAnP91s5U8yswmuT3DF9ceF6Wd92FqSCJ7Sl0tmXBvCZEeGDYG+mHJroBS
-vU/TynG7tClvuIbjGWMYtPY6rYpQ7R76RfzPvFVgweHxvlMgFZ4c5WWIeJ6DlaIO
-uQ+MEH+lxO/kdG3J9wgnpMKwzqqozP4k80oXibP0vFeoerb/UVnk+YHtXsBollmi
-kgxel8QcEZrwac33ns2JoxgDFULEoeUVAdOxrutl84ZRDhzR2RED08lnvoAVf+E7
-a8rwA3FQj4tg005l6X5Dgjs2QcAxDkpZ0A/n6ZoHdnMzO+3VBGfkOqGqOVlaOqYN
-cFjZ9rstkV6QA6mjAPAzoyPBASXK/jH0Aj2YAPZTSRh01H1BATbbduCp6Q/QtX4s
-PlrcWRprA22wyhhRsaMBAU0fjTgs4mVmZgdfflZR98Jzdb/J9SJFIl6bDlWE72C7
-l7NtFubLbuK3PsDVmvBa/r+QOLMCIZDQcDwAa+k+rn7eT+Is5CQC5YCCzL5hfyTJ
-Nu2pjwVR6qDY+/OEasJj7QQvRrgDfB6Bwr6MDvj5ktT0GO17XizM/u2Jq/z+xKpa
-8hqtszU5BHwIZdnt/MZTGCBghp7CoOKcV9uEUh13AKU5e0GiClb3DlpzWAhOF1KA
-gPE+PNMujL5D1SQ9k8cbEPoZuq91SStdFwEnk3e1nJMWeSjmmFs=
-=83J6
------END PGP SIGNATURE-----
+vim +464 ./include/drm/drm_gpuvm.h
 
---nextPart12296369.O9o76ZdvQC--
+   427	
+   428		/**
+   429		 * @gpuvm: The &drm_gpuvm the @obj is mapped in.
+   430		 */
+   431		struct drm_gpuvm *vm;
+   432	
+   433		/**
+   434		 * @obj: The &drm_gem_object being mapped in the @gpuvm.
+   435		 */
+   436		struct drm_gem_object *obj;
+   437	
+   438		/**
+   439		 * @kref: The reference count for this &drm_gpuvm_bo.
+   440		 */
+   441		struct kref kref;
+   442	
+   443		/**
+   444		 * @list: Structure containing all &list_heads.
+   445		 */
+   446		struct {
+   447			/**
+   448			 * @gpuva: The list of linked &drm_gpuvas.
+   449			 */
+   450			struct list_head gpuva;
+   451	
+   452			/**
+   453			 * @entry: Structure containing all &list_heads serving as
+   454			 * entry.
+   455			 */
+   456			struct {
+   457				/**
+   458				 * @gem: List entry to attach to the &drm_gem_objects
+   459				 * gpuva list.
+   460				 */
+   461				struct list_head gem;
+   462			} entry;
+   463		} list;
+ > 464	};
+   465	
 
-
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
