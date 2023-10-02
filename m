@@ -2,38 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1E017B4A78
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Oct 2023 03:08:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0367B7B4B10
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Oct 2023 06:42:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D09110E06F;
-	Mon,  2 Oct 2023 01:08:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7754210E104;
+	Mon,  2 Oct 2023 04:42:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [IPv6:2607:7c80:54:3::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C4BFC10E06F;
- Mon,  2 Oct 2023 01:08:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
- Content-ID:Content-Description:In-Reply-To:References;
- bh=wH7/31pgP4Qqz/GTmwVhvDUnl6SdoJ0Kf1GkPu3uznU=; b=tHs/GUKOMlHkTa807tWDqBNT4H
- cgf+NeRvGvMwxk/baCDflZQ7ikjRUP2eB/x/ZHoGYINDM6ddRkjPykT7yZAsI+Y1v6wfiXsYOSKmz
- tWAKyOyp85hT9bOu1imaMhopkTarYjeq+NhzzbqAbl2Gs6nSy8Uoxf1fGGAEQpuQHQ8UcpJYuMBTU
- 9Av5NV5VUJTDSchsVXkORj/vv6t2gwoBK953sqocacVbgQc3PydLkb1k/mdrZDStm27mm2RqG76Mn
- c6nAnYGGGdKSL6Ani0ixCrGELFEbfZBvKeyg4smk3X16W1zOenpXBa3Ie+qZflD9iLF/0Vicd+QJ8
- lyU+ys7Q==;
-Received: from [50.53.46.231] (helo=bombadil.infradead.org)
- by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
- id 1qn7Q9-00Bmz0-1k; Mon, 02 Oct 2023 01:08:25 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/i915/uapi: fix doc typos
-Date: Sun,  1 Oct 2023 18:08:24 -0700
-Message-ID: <20231002010824.14781-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.42.0
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com
+ [IPv6:2607:f8b0:4864:20::630])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3215010E104;
+ Mon,  2 Oct 2023 04:42:15 +0000 (UTC)
+Received: by mail-pl1-x630.google.com with SMTP id
+ d9443c01a7336-1c60a514f3aso112452365ad.3; 
+ Sun, 01 Oct 2023 21:42:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1696221734; x=1696826534; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=Apgh5I/AZlw1bZUGVlRw0FcB6BXkBGvFxHpXJVnA298=;
+ b=JaY7FRnu1tAAJqingLClp0rFuNETDjLxx0ZoxZaEuI/vf5Ukn2YjW+bNLusxY/oQM7
+ dSdTBJmHEt3irhggkoPsVnrcb6XyLYqwMc7ObWvn069OST4dF/nH0kvIzmYQ93iMl/PJ
+ wfsf3IcjFAF7ibJIoB86IQZlvmheYyHMPTxWGJTX7B6Cae/FJxXqkyp0MrrOGiCXHu5t
+ 9Y2T1w2UopFXVnwVmJICwCB06J1+Xp2ec8ZuXxo+4DG6eErbaOJiHAYZqWd555Kdp+M+
+ GvQtyXsleHn4/r2cCA/w2fRt3+pT3TxWKRIFfqXXmwHSZm+clj3/rBmPy36JsuGC1ro8
+ +jHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1696221734; x=1696826534;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Apgh5I/AZlw1bZUGVlRw0FcB6BXkBGvFxHpXJVnA298=;
+ b=wRM7VyKok7qz9+ykTh53G3cRCyHf8XCqlkXPoDSuAVT7oNbMy3MS6NElx0ws+0+/IZ
+ HGGBfT3z+MUu5FLVatsKyCSNIQNLmi0E4RGV+qu4rXjaJuKoOWM1B6BNe+NWfRC0ahiA
+ v/SYQJgGb+CGfc0OHLOkESY6LgPtRNkrIgeBxYj9v8eIhzYMiMoy5HS2gRUf3kMxyoKT
+ 4XSemfK3wpLHt4YGuP7mDQd7gntGfz2AZULhA3qSwZH8itduIHogvn7KUQ5ItULFCjCF
+ MKdCaOqrfiuOkOeJI81r9zyrX3kXZeJba842lnZtn/LLXEebmRE0omU69v3GydQ7uvdr
+ kfKA==
+X-Gm-Message-State: AOJu0Yxfz3UtOOqXDQhPkBAVImzhf6HGvRHyba7S/q4mDE5Y/uAkrJwP
+ jHrLRsgaFZYXBBkjd4E5SEg=
+X-Google-Smtp-Source: AGHT+IFFfibQl2jUVEX5S5XbCIBmeSoheGM2nkffMvC6cL/VFt9IIncdmDz+joXJ2xn+KBlnCBFneQ==
+X-Received: by 2002:a17:903:428b:b0:1b8:2c6f:3248 with SMTP id
+ ju11-20020a170903428b00b001b82c6f3248mr10461230plb.39.1696221734619; 
+ Sun, 01 Oct 2023 21:42:14 -0700 (PDT)
+Received: from sagar-virtual-machine.localdomain ([103.157.161.86])
+ by smtp.gmail.com with ESMTPSA id
+ jj7-20020a170903048700b001c73701bd17sm7397429plb.4.2023.10.01.21.42.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 01 Oct 2023 21:42:14 -0700 (PDT)
+From: Sagar Vashnav <sagarvashnav72427@gmail.com>
+To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Sagar Vashnav <sagarvashnav72427@gmail.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/amd/display: add kernel docs for dc_dmub_caps
+Date: Mon,  2 Oct 2023 00:41:19 -0400
+Message-Id: <20231002044126.70197-1-sagarvashnav72427@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <9270c1f3-c8f3-4b3c-91ec-ed17d97ecafd@infradead.org>
+References: <9270c1f3-c8f3-4b3c-91ec-ed17d97ecafd@infradead.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,47 +79,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Randy Dunlap <rdunlap@infradead.org>, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Correct typo of "its".
-Add a comma for clarity.
+Add kernel documentation for the dc_dmub_caps structure.
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Cc: intel-gfx@lists.freedesktop.org
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: dri-devel@lists.freedesktop.org
+Signed-off-by: Sagar Vashnav <sagarvashnav72427@gmail.com>
 ---
- include/uapi/drm/i915_drm.h |    6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/amd/display/dc/dc.h | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff -- a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
---- a/include/uapi/drm/i915_drm.h
-+++ b/include/uapi/drm/i915_drm.h
-@@ -38,13 +38,13 @@ extern "C" {
-  */
+diff --git a/drivers/gpu/drm/amd/display/dc/dc.h b/drivers/gpu/drm/amd/display/dc/dc.h
+index 81258392d..14b4c503d 100644
+--- a/drivers/gpu/drm/amd/display/dc/dc.h
++++ b/drivers/gpu/drm/amd/display/dc/dc.h
+@@ -208,6 +208,16 @@ struct dc_color_caps {
+ 	struct mpc_color_caps mpc;
+ };
  
- /**
-- * DOC: uevents generated by i915 on it's device node
-+ * DOC: uevents generated by i915 on its device node
-  *
-  * I915_L3_PARITY_UEVENT - Generated when the driver receives a parity mismatch
-- *	event from the gpu l3 cache. Additional information supplied is ROW,
-+ *	event from the GPU l3 cache. Additional information supplied is ROW,
-  *	BANK, SUBBANK, SLICE of the affected cacheline. Userspace should keep
-  *	track of these events and if a specific cache-line seems to have a
-- *	persistent error remap it with the l3 remapping tool supplied in
-+ *	persistent error, remap it with the l3 remapping tool supplied in
-  *	intel-gpu-tools.  The value supplied with the event is always 1.
-  *
-  * I915_ERROR_UEVENT - Generated upon error detection, currently only via
++/**
++ * struct dc_dmub_caps - DMUB (Display Microcontroller Unit) capabilities
++ * @psr: support for PSR (Power Saving State Residency)
++ * @mclk_sw: support for MCLK_SW (Memory Clock Switch)
++ * @subvp_psr: support for SUBVP PSR (Sub-Viewport Power Saving State Residency)
++ * @gecc_enable: GECC (Global Error Correcting Code) enablement.
++ *
++ * This structure describes the capabilities of the Display Microcontroller Unit (DMUB).
++ * It specifies whether certain features like PSR and MCLK_SW are supported.
++ */
+ struct dc_dmub_caps {
+ 	bool psr;
+ 	bool mclk_sw;
+-- 
+2.34.1
+
