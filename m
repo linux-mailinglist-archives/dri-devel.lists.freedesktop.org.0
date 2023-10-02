@@ -1,51 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B77197B4B8A
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Oct 2023 08:38:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C868B7B4BA5
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Oct 2023 08:47:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E78510E122;
-	Mon,  2 Oct 2023 06:38:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4EBFD10E152;
+	Mon,  2 Oct 2023 06:47:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [IPv6:2607:7c80:54:3::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 538FE10E134;
- Mon,  2 Oct 2023 06:38:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
- Message-ID:Sender:Reply-To:Cc:Content-ID:Content-Description;
- bh=qG2OUo0jkUhRHbJw+LMRYwNS/lqz8RgvctqBHgbaYYA=; b=4MUOLO87rx/lPtDgTJwXQ29UP7
- QG/sxrYlTeKR3HFKw5MNOBTUabL4asBe6nfOtzTeHjr0TMYECd36d9tQssft3KYTfkaGVtC5jkRGa
- 3EWqtcFHmJY8udUB4kPM6H6ze+or3bExDWaghN8RH2cP0L6BjsEbHizb9kc1SN+LJSHfm3s/FAlhm
- /VBceTCWttmhjlvtK60CshxG+HyXqg1pSMzhHVpF5eQ5UDfM6l9nJg6ILVnso6SnBWsGmm35jSYDd
- T/GoypBJi2ABcS8NZkneQxcoGBq1t2xtTckd76Gua491utE7IwM34WM1uQZKvvEWoeRTa/GQJnxXM
- tyi1eLYg==;
-Received: from [50.53.46.231] (helo=[192.168.254.15])
- by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
- id 1qnCZa-00C2GH-09; Mon, 02 Oct 2023 06:38:30 +0000
-Message-ID: <153b7d81-143a-4b82-8ec0-33ba130098a0@infradead.org>
-Date: Sun, 1 Oct 2023 23:38:28 -0700
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 59E0810E12A;
+ Mon,  2 Oct 2023 06:47:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1696229266; x=1727765266;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=f3POr1hTgs9BZkoiQNmow/8HaNbGbSX6TCGj1mzjNcc=;
+ b=QmdYnraiWYnZuqR87E5Ub+IEQa9ojciahPZ/Fw1CyD22s0hYnWZ+zxqM
+ SD1K6HnsIO40NdLT5DOWEq1n2n5YSe0WGZY5WADzy+GU6JyU2mfMU6/IV
+ FN50NQgR9fk1oYP9c5LBoGO8lnGfoI5fO7hKqIJQx8MB/Cui7hOR2T5/I
+ u6agYyn0DYyZ7EtYVV+6wH+t2XPVgGtoQ+YeyUYy4fkXeLJ0sUMfiYHhc
+ zhkvH3EgbDM3EqjihqCZIMDrSxubatKmyvqZfCiAOCdzjGol9FXDfZEK6
+ kbiSz15vRQp7ejKBnGPct2nd5MtzyZOSvBDncQJ+w1xSvx/iglQ+g/Bot g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10850"; a="449080373"
+X-IronPort-AV: E=Sophos;i="6.03,193,1694761200"; d="scan'208";a="449080373"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Oct 2023 23:47:45 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10850"; a="779854915"
+X-IronPort-AV: E=Sophos;i="6.03,193,1694761200"; d="scan'208";a="779854915"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.153])
+ by orsmga008.jf.intel.com with SMTP; 01 Oct 2023 23:47:42 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Mon, 02 Oct 2023 09:47:41 +0300
+Date: Mon, 2 Oct 2023 09:47:41 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH] drm/i915/uapi: fix doc typos
+Message-ID: <ZRpnjU3Myknj81Ff@intel.com>
+References: <20231002010824.14781-1-rdunlap@infradead.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/amd/display: add kernel docs for dc_dmub_caps
-Content-Language: en-US
-To: Sagar Vashnav <sagarvashnav72427@gmail.com>,
- Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <9270c1f3-c8f3-4b3c-91ec-ed17d97ecafd@infradead.org>
- <20231002044126.70197-1-sagarvashnav72427@gmail.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20231002044126.70197-1-sagarvashnav72427@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20231002010824.14781-1-rdunlap@infradead.org>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,45 +60,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 10/1/23 21:41, Sagar Vashnav wrote:
-> Add kernel documentation for the dc_dmub_caps structure.
+On Sun, Oct 01, 2023 at 06:08:24PM -0700, Randy Dunlap wrote:
+> Correct typo of "its".
+> Add a comma for clarity.
 > 
-> Signed-off-by: Sagar Vashnav <sagarvashnav72427@gmail.com>
-
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-
-Thanks.
-
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Jani Nikula <jani.nikula@linux.intel.com>
+> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+> Cc: intel-gfx@lists.freedesktop.org
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: dri-devel@lists.freedesktop.org
 > ---
->  drivers/gpu/drm/amd/display/dc/dc.h | 10 ++++++++++
->  1 file changed, 10 insertions(+)
+>  include/uapi/drm/i915_drm.h |    6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/amd/display/dc/dc.h b/drivers/gpu/drm/amd/display/dc/dc.h
-> index 81258392d..14b4c503d 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dc.h
-> +++ b/drivers/gpu/drm/amd/display/dc/dc.h
-> @@ -208,6 +208,16 @@ struct dc_color_caps {
->  	struct mpc_color_caps mpc;
->  };
+> diff -- a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
+> --- a/include/uapi/drm/i915_drm.h
+> +++ b/include/uapi/drm/i915_drm.h
+> @@ -38,13 +38,13 @@ extern "C" {
+>   */
 >  
-> +/**
-> + * struct dc_dmub_caps - DMUB (Display Microcontroller Unit) capabilities
-> + * @psr: support for PSR (Power Saving State Residency)
-> + * @mclk_sw: support for MCLK_SW (Memory Clock Switch)
-> + * @subvp_psr: support for SUBVP PSR (Sub-Viewport Power Saving State Residency)
-> + * @gecc_enable: GECC (Global Error Correcting Code) enablement.
-> + *
-> + * This structure describes the capabilities of the Display Microcontroller Unit (DMUB).
-> + * It specifies whether certain features like PSR and MCLK_SW are supported.
-> + */
->  struct dc_dmub_caps {
->  	bool psr;
->  	bool mclk_sw;
+>  /**
+> - * DOC: uevents generated by i915 on it's device node
+> + * DOC: uevents generated by i915 on its device node
+>   *
+>   * I915_L3_PARITY_UEVENT - Generated when the driver receives a parity mismatch
+> - *	event from the gpu l3 cache. Additional information supplied is ROW,
+> + *	event from the GPU l3 cache. Additional information supplied is ROW,
+
+s/l3/L3/ would also be appropriate if aim to fix the caps.
+
+>   *	BANK, SUBBANK, SLICE of the affected cacheline. Userspace should keep
+>   *	track of these events and if a specific cache-line seems to have a
+                             ^
+I'd put the comma there, but my grasp of English punctuation isn't
+all that great so I might be wrong. Or maybe both places should have
+one?
+
+> - *	persistent error remap it with the l3 remapping tool supplied in
+> + *	persistent error, remap it with the l3 remapping tool supplied in
+>   *	intel-gpu-tools.  The value supplied with the event is always 1.
+>   *
+>   * I915_ERROR_UEVENT - Generated upon error detection, currently only via
 
 -- 
-~Randy
+Ville Syrjälä
+Intel
