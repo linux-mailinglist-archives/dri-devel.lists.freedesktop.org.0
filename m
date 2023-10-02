@@ -1,65 +1,84 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C9B27B5C37
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Oct 2023 22:47:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F4ED7B5C79
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Oct 2023 23:27:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A044710E256;
-	Mon,  2 Oct 2023 20:47:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A5C3C10E24E;
+	Mon,  2 Oct 2023 21:27:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com
- [IPv6:2607:f8b0:4864:20::114a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D86D10E24E
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Oct 2023 20:47:14 +0000 (UTC)
-Received: by mail-yw1-x114a.google.com with SMTP id
- 00721157ae682-5a21c283542so3176977b3.3
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Oct 2023 13:47:14 -0700 (PDT)
+Received: from mail-vk1-xa2a.google.com (mail-vk1-xa2a.google.com
+ [IPv6:2607:f8b0:4864:20::a2a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DAA9910E107;
+ Mon,  2 Oct 2023 21:27:16 +0000 (UTC)
+Received: by mail-vk1-xa2a.google.com with SMTP id
+ 71dfb90a1353d-48feedb90d2so113248e0c.1; 
+ Mon, 02 Oct 2023 14:27:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1696279633; x=1696884433;
- darn=lists.freedesktop.org; 
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=8yKHHDWb85n6v2XkxGoEAyWUoF3CUTukuuv66+Rst4M=;
- b=hq/y/YUqAgfuROY/RLsN119Sf2glJhw07Pe7bXas3mcxf9vYcnwYdLSDO5uPtghcPt
- BvLEARjMjOTKQWPZKKTQVen+xCeSPPFxaNHwkfOGA2sML+v8yDN2NYBl3I3HmUASIU1W
- gufepqipfFl8XKL+ecX02mBQ6ggW5UzJHn3XTHBQatOi7COvvT71mp8ZQI4EipqILeRT
- HxJsFuLoFjETBUa50zm/PqQ12OJvpL/jkpWWEnOqa6HKSmVhV6snYBM98jK+JQF7XVCA
- r2mSJbOzE9cvzZ62nurmCQj9lMPsdnH4J6wtkLCPAe/8xpDM8SNn5mYgGGdyRYk3XAMf
- Q6PQ==
+ d=gmail.com; s=20230601; t=1696282036; x=1696886836; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=4tNkOteVS/UaA3JNDYOSsQf9478faNkt86P9y0gbwNo=;
+ b=MLrc6x3HVC4Lqr67n5DqjtlLVbr6ytGkm3fTDJx8WvToU4bdgcHHRBlcWHRyJiTluX
+ maP2WP8jMZhiq84PirOgqG0UkA1sSwqoJHlZU/4CZZiJDsYCAy1vjPn9fN/nVfZBx5uG
+ yKgPBEa8mdboyEQ8QGCW3o3VZNHi2B3FxWR5SOvtkC9Kq2CZvQcYix08HjRITLaQtN7D
+ jP8iTZ0bGjTYrHwrF5zQ1lMdjAps2WzV0Q6KDZoxgfCbJYpp2SaaNe/RAh2i3yD4V9tf
+ ykIEAVSsd5XCi2k8Q8GCCSCyF29p/32xINiYrpMxxiI4EZ3hXCoy0ziiXeI375xEGfLJ
+ XZNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1696279633; x=1696884433;
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=8yKHHDWb85n6v2XkxGoEAyWUoF3CUTukuuv66+Rst4M=;
- b=RXdCgwKI44f95azhFVAek8Y+g3SMJnMMPGy01lhWKKPz3RAvFe58f19OXhpRZi1CGc
- aAMPEkLsmb6nWXRTiXtZpc5Fq6dORxwDskd5i6A7enQ4SeU7HyckX2kWrkHLF4lBw/LS
- nkvsa3S7z/0DE6ixw6WSaVOjHZiQu2vFPN6b8Ctb/eCTTu1nwjutAzTo3LuMFaUK4qUi
- cpfTqo0WdQD6o6vEo5mQCoryvpEK6qwrP2EWbh9sv7zg/1OKQnzOcEcB+C9TCLsrtCn2
- Ymcd0a4/rL0M23KM2gHWpLWbEsbb3Qma85CFJbaf0TffPW7qZgBPVgBwnGEdnjE6Xkj/
- dwqg==
-X-Gm-Message-State: AOJu0YwTo/gNOcqF8IfNvtowu0pCtSLAuVxz4zOnEaILuCK1PdJglOu3
- qYYsiNcA6fKyzmxWs7nhiEd8gdhdTrLki++y/Whr1UPxZ0YySsKEocdo/FHxkFqLuaRivNmFFAa
- 5AWebwUjLGgpCjcEyso4EsUWxk4av1g3f8hBAskr7UE/TdUDTm6ZW9WagNKnjXeE/r/9N+QSdll
- zl8ElPKg==
-X-Google-Smtp-Source: AGHT+IEvotb0E5ph3Ae7fHDCFXWdTosepd+2CVLjv2QWi7FncyHFSks+fQ+kxfdvHpMiWSy9mCLY5F/W7D1bF3k=
-X-Received: from ntsirakis-x.c.googlers.com
- ([fda3:e722:ac3:cc00:dc:567e:c0a8:d4])
- (user=ntsirakis job=sendgmr) by 2002:a81:b612:0:b0:59b:edd3:fdab with SMTP id
- u18-20020a81b612000000b0059bedd3fdabmr214716ywh.4.1696279633135; Mon, 02 Oct
- 2023 13:47:13 -0700 (PDT)
-Date: Mon,  2 Oct 2023 20:47:09 +0000
-In-Reply-To: <20230816045654.833973-1-pceballos@google.com>
-Mime-Version: 1.0
-References: <20230816045654.833973-1-pceballos@google.com>
-X-Mailer: git-send-email 2.42.0.582.g8ccd20d70d-goog
-Message-ID: <20231002204709.761089-1-ntsirakis@google.com>
-Subject: [PATCH v4] drm/i915/display/lspcon: Increase LSPCON mode settle
- timeout
-From: Niko Tsirakis <ntsirakis@google.com>
-To: dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
+ d=1e100.net; s=20230601; t=1696282036; x=1696886836;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=4tNkOteVS/UaA3JNDYOSsQf9478faNkt86P9y0gbwNo=;
+ b=WtAoqQXJPlPnBTUgq50CJmkM/CtgJ0Yt7lvT17SeDYKACavugt5VTV5Xe0t15Nkh+S
+ PqwmOVd2ISV068euHXr5T2Nvdca316Ryqxau7dLs4I4iPCdk9T3pEcosGiRsUdkGCp1O
+ AUArJ2+g8X0r7WkAWLs4yR2VeLMWVeNhx/EtE3gy0F7OQGd9feECaer+yeOnBUbr7jca
+ xbT+Sp3udRzTSkuLddhx3meb7QNAx2tZQ1bdszcU/8yPcW+nulqa6bTx+1+o6GPkZ/wU
+ 6xjsGxydLYl5p0kgZq0ncpKQufZjR5fMG4twws9iMq6plo5j07ZCxwjDwEKxTc54fTBH
+ wN9A==
+X-Gm-Message-State: AOJu0Yx503tOnx2L7xqL63/zAf4FO1u8dtOe4/MPAKBBUqfE7GODisq6
+ mUZcpKKDkgW2VVMR58tdg7U=
+X-Google-Smtp-Source: AGHT+IGfcXn0kkMpQQ4lKn2ewW7zeEGedrPcMk1LY9cm9IBX+BrAm59deZ7oOIMqZU39gtqDFaJICA==
+X-Received: by 2002:a1f:e041:0:b0:495:be1c:5be9 with SMTP id
+ x62-20020a1fe041000000b00495be1c5be9mr9124261vkg.1.1696282035662; 
+ Mon, 02 Oct 2023 14:27:15 -0700 (PDT)
+Received: from localhost ([2607:fea8:529e:7800::efbe])
+ by smtp.gmail.com with ESMTPSA id
+ k9-20020a0cf289000000b0064f53943626sm6472330qvl.89.2023.10.02.14.27.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 02 Oct 2023 14:27:14 -0700 (PDT)
+Date: Mon, 2 Oct 2023 17:27:13 -0400
+From: Richard Acayan <mailingradian@gmail.com>
+To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Andy Gross <agross@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Vinod Polimera <quic_vpolimer@quicinc.com>,
+ Ryan McCann <quic_rmccann@quicinc.com>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Liu Shixin <liushixin2@huawei.com>,
+ Krishna Manikandan <quic_mkrishn@quicinc.com>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH 5/6] drm/msm/dpu: Add hw revision 4.1 (SDM670)
+Message-ID: <ZRs1se3P44_PjZ_P@radian>
+References: <20230925232625.846666-9-mailingradian@gmail.com>
+ <20230925232625.846666-14-mailingradian@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230925232625.846666-14-mailingradian@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,60 +91,189 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Niko Tsirakis <ntsirakis@google.com>, Pablo Ceballos <pceballos@google.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is to eliminate all cases of "*ERROR* LSPCON mode hasn't settled",
-followed by link training errors. Intel engineers recommended increasing
-this timeout and that does resolve the issue.
+On Mon, Sep 25, 2023 at 07:26:32PM -0400, Richard Acayan wrote:
+> The Snapdragon 670 uses similar clocks (with one frequency added) to the
+> Snapdragon 845 but reports DPU revision 4.1. Add support for this DPU
+> with configuration from the Pixel 3a downstream kernel.
+>
+> Since revision 4.0 is SDM845, reuse some configuration from its catalog
+> entry.
+>
+> Link: https://android.googlesource.com/kernel/msm/+/368478b0ae76566927a2769a2bf24dfe7f38bb78/arch/arm64/boot/dts/qcom/sdm670-sde.dtsi
+> Signed-off-by: Richard Acayan <mailingradian@gmail.com>
+> ---
+>  .../msm/disp/dpu1/catalog/dpu_4_1_sdm670.h    | 105 ++++++++++++++++++
+>  .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    |   6 +
+>  .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |   1 +
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |   1 +
+>  4 files changed, 113 insertions(+)
+>  create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_1_sdm670.h
+>
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_1_sdm670.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_1_sdm670.h
+> new file mode 100644
+> index 000000000000..eaccb16b5db9
+> --- /dev/null
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_1_sdm670.h
+> @@ -0,0 +1,105 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * Copyright (c) 2015-2018, The Linux Foundation. All rights reserved.
+> + * Copyright (c) 2022. Qualcomm Innovation Center, Inc. All rights reserved.
+> + * Copyright (c) 2023, Richard Acayan. All rights reserved.
+> + */
+> +
+> +#ifndef _DPU_4_1_SDM670_H
+> +#define _DPU_4_1_SDM670_H
+> +
+> +static const struct dpu_mdp_cfg sdm670_mdp = {
+> +	.name = "top_0",
+> +	.base = 0x0, .len = 0x45c,
+> +	.features = BIT(DPU_MDP_AUDIO_SELECT),
+> +	.clk_ctrls = {
+> +		[DPU_CLK_CTRL_VIG0] = { .reg_off = 0x2ac, .bit_off = 0},
+> +		[DPU_CLK_CTRL_VIG1] = { .reg_off = 0x2b4, .bit_off = 0},
+> +		[DPU_CLK_CTRL_DMA0] = { .reg_off = 0x2ac, .bit_off = 8},
+> +		[DPU_CLK_CTRL_DMA1] = { .reg_off = 0x2b4, .bit_off = 8},
+> +		[DPU_CLK_CTRL_DMA2] = { .reg_off = 0x2bc, .bit_off = 8},
+> +	},
+> +};
+> +
+> +static const struct dpu_sspp_cfg sdm670_sspp[] = {
+> +	{
+> +		.name = "sspp_0", .id = SSPP_VIG0,
+> +		.base = 0x4000, .len = 0x1c8,
+> +		.features = VIG_SDM845_MASK_SDMA,
+> +		.sblk = &sdm670_vig_sblk_0,
+> +		.xin_id = 0,
+> +		.type = SSPP_TYPE_VIG,
+> +		.clk_ctrl = DPU_CLK_CTRL_VIG0,
+> +	}, {
+> +		.name = "sspp_1", .id = SSPP_VIG1,
+> +		.base = 0x6000, .len = 0x1c8,
+> +		.features = VIG_SDM845_MASK_SDMA,
+> +		.sblk = &sdm670_vig_sblk_1,
+> +		.xin_id = 4,
+> +		.type = SSPP_TYPE_VIG,
+> +		.clk_ctrl = DPU_CLK_CTRL_VIG0,
+> +	}, {
+> +		.name = "sspp_8", .id = SSPP_DMA0,
+> +		.base = 0x24000, .len = 0x1c8,
+> +		.features = DMA_SDM845_MASK_SDMA,
+> +		.sblk = &sdm845_dma_sblk_0,
+> +		.xin_id = 1,
+> +		.type = SSPP_TYPE_DMA,
+> +		.clk_ctrl = DPU_CLK_CTRL_DMA0,
+> +	}, {
+> +		.name = "sspp_9", .id = SSPP_DMA1,
+> +		.base = 0x26000, .len = 0x1c8,
+> +		.features = DMA_CURSOR_SDM845_MASK_SDMA,
+> +		.sblk = &sdm845_dma_sblk_1,
+> +		.xin_id = 5,
+> +		.type = SSPP_TYPE_DMA,
+> +		.clk_ctrl = DPU_CLK_CTRL_DMA1,
+> +	}, {
+> +		.name = "sspp_10", .id = SSPP_DMA2,
+> +		.base = 0x28000, .len = 0x1c8,
+> +		.features = DMA_CURSOR_SDM845_MASK_SDMA,
+> +		.sblk = &sdm845_dma_sblk_2,
+> +		.xin_id = 9,
+> +		.type = SSPP_TYPE_DMA,
+> +		.clk_ctrl = DPU_CLK_CTRL_DMA2,
+> +	},
+> +};
+> +
+> +static struct dpu_dsc_cfg sdm670_dsc[] = {
+> +	{
+> +		.name = "dsc_0", .id = DSC_0,
+> +		.base = 0x80000, .len = 0x140,
+> +	},
+> +	{
 
-On some CometLake-based device designs the Parade PS175 takes more than
-400ms to settle in PCON mode. 100 reboot trials on one device resulted
-in a median settle time of 440ms and a maximum of 444ms. Even after
-increasing the timeout to 500ms, 2% of devices still had this error. So
-this increases the timeout to 800ms.
+Let's join these braces on the same line.
 
-Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/9443
-Signed-off-by: Pablo Ceballos <pceballos@google.com>
-Signed-off-by: Niko Tsirakis <ntsirakis@google.com>
----
- drivers/gpu/drm/i915/display/intel_lspcon.c | 15 ++++++++++++++-
- 1 file changed, 14 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/i915/display/intel_lspcon.c b/drivers/gpu/drm/i915/display/intel_lspcon.c
-index dc1b35559afd..92536482e657 100644
---- a/drivers/gpu/drm/i915/display/intel_lspcon.c
-+++ b/drivers/gpu/drm/i915/display/intel_lspcon.c
-@@ -116,6 +116,18 @@ static enum drm_lspcon_mode lspcon_get_current_mode(struct intel_lspcon *lspcon)
- 	return current_mode;
- }
- 
-+static int lspcon_get_mode_settle_timeout(struct intel_lspcon *lspcon)
-+{
-+	/*
-+	 * On some CometLake-based device designs the Parade PS175 takes more
-+	 * than 400ms to settle in PCON mode. 100 reboot trials on one device
-+	 * resulted in a median settle time of 440ms and a maximum of 444ms.
-+	 * Even after increasing the timeout to 500ms, 2% of devices still had
-+	 * this error. So this sets the timeout to 800ms.
-+	 */
-+	return lspcon->vendor == LSPCON_VENDOR_PARADE ? 800 : 400;
-+}
-+
- static enum drm_lspcon_mode lspcon_wait_mode(struct intel_lspcon *lspcon,
- 					     enum drm_lspcon_mode mode)
- {
-@@ -128,7 +140,8 @@ static enum drm_lspcon_mode lspcon_wait_mode(struct intel_lspcon *lspcon,
- 	DRM_DEBUG_KMS("Waiting for LSPCON mode %s to settle\n",
- 		      lspcon_mode_name(mode));
- 
--	wait_for((current_mode = lspcon_get_current_mode(lspcon)) == mode, 400);
-+	wait_for((current_mode = lspcon_get_current_mode(lspcon)) == mode,
-+		lspcon_get_mode_settle_timeout(lspcon));
- 	if (current_mode != mode)
- 		DRM_ERROR("LSPCON mode hasn't settled\n");
- 
--- 
-2.42.0.582.g8ccd20d70d-goog
-
+> +		.name = "dsc_1", .id = DSC_1,
+> +		.base = 0x80400, .len = 0x140,
+> +	},
+> +};
+> +
+> +static struct dpu_mdss_version sdm670_mdss_ver = {
+> +	.core_major_ver = 4,
+> +	.core_minor_ver = 1,
+> +};
+> +
+> +const struct dpu_mdss_cfg dpu_sdm670_cfg = {
+> +	.mdss_ver = &sdm670_mdss_ver,
+> +	.caps = &sdm845_dpu_caps,
+> +	.mdp = &sdm670_mdp,
+> +	.ctl_count = ARRAY_SIZE(sdm845_ctl),
+> +	.ctl = sdm845_ctl,
+> +	.sspp_count = ARRAY_SIZE(sdm670_sspp),
+> +	.sspp = sdm670_sspp,
+> +	.mixer_count = ARRAY_SIZE(sdm845_lm),
+> +	.mixer = sdm845_lm,
+> +	.pingpong_count = ARRAY_SIZE(sdm845_pp),
+> +	.pingpong = sdm845_pp,
+> +	.dsc_count = ARRAY_SIZE(sdm670_dsc),
+> +	.dsc = sdm670_dsc,
+> +	.intf_count = ARRAY_SIZE(sdm845_intf),
+> +	.intf = sdm845_intf,
+> +	.vbif_count = ARRAY_SIZE(sdm845_vbif),
+> +	.vbif = sdm845_vbif,
+> +	.perf = &sdm845_perf_data,
+> +};
+> +
+> +#endif
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> index 713dfc079718..63b274ae032a 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> @@ -313,6 +313,11 @@ static const struct dpu_rotation_cfg dpu_rot_sc7280_cfg_v2 = {
+>  	.rot_format_list = rotation_v2_formats,
+>  };
+>  
+> +static const struct dpu_sspp_sub_blks sdm670_vig_sblk_0 =
+> +				_VIG_SBLK(4, DPU_SSPP_SCALER_QSEED3);
+> +static const struct dpu_sspp_sub_blks sdm670_vig_sblk_1 =
+> +				_VIG_SBLK(5, DPU_SSPP_SCALER_QSEED3);
+> +
+>  static const struct dpu_sspp_sub_blks sdm845_vig_sblk_0 =
+>  				_VIG_SBLK(5, DPU_SSPP_SCALER_QSEED3);
+>  static const struct dpu_sspp_sub_blks sdm845_vig_sblk_1 =
+> @@ -655,6 +660,7 @@ static const struct dpu_qos_lut_entry sc7180_qos_nrt[] = {
+>  #include "catalog/dpu_3_0_msm8998.h"
+>  
+>  #include "catalog/dpu_4_0_sdm845.h"
+> +#include "catalog/dpu_4_1_sdm670.h"
+>  
+>  #include "catalog/dpu_5_0_sm8150.h"
+>  #include "catalog/dpu_5_1_sc8180x.h"
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> index 6c9634209e9f..dae5a1555e44 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> @@ -831,6 +831,7 @@ struct dpu_mdss_cfg {
+>  
+>  extern const struct dpu_mdss_cfg dpu_msm8998_cfg;
+>  extern const struct dpu_mdss_cfg dpu_sdm845_cfg;
+> +extern const struct dpu_mdss_cfg dpu_sdm670_cfg;
+>  extern const struct dpu_mdss_cfg dpu_sm8150_cfg;
+>  extern const struct dpu_mdss_cfg dpu_sc8180x_cfg;
+>  extern const struct dpu_mdss_cfg dpu_sm8250_cfg;
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> index aa6ba2cf4b84..0049fb1de1e8 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> @@ -1362,6 +1362,7 @@ static const struct dev_pm_ops dpu_pm_ops = {
+>  static const struct of_device_id dpu_dt_match[] = {
+>  	{ .compatible = "qcom,msm8998-dpu", .data = &dpu_msm8998_cfg, },
+>  	{ .compatible = "qcom,qcm2290-dpu", .data = &dpu_qcm2290_cfg, },
+> +	{ .compatible = "qcom,sdm670-dpu", .data = &dpu_sdm670_cfg, },
+>  	{ .compatible = "qcom,sdm845-dpu", .data = &dpu_sdm845_cfg, },
+>  	{ .compatible = "qcom,sc7180-dpu", .data = &dpu_sc7180_cfg, },
+>  	{ .compatible = "qcom,sc7280-dpu", .data = &dpu_sc7280_cfg, },
+> -- 
+> 2.42.0
+>
