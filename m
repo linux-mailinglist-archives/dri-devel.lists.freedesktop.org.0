@@ -2,56 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D31017B4B83
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Oct 2023 08:34:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B77197B4B8A
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Oct 2023 08:38:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7FC0010E1A2;
-	Mon,  2 Oct 2023 06:34:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E78510E122;
+	Mon,  2 Oct 2023 06:38:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2363410E122;
- Mon,  2 Oct 2023 06:34:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1696228475; x=1727764475;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=ohMoN0O13vl59/T1Y4daJDp+6LTZG589rbJO6FTJaDA=;
- b=JiFrxD+p/fQnQoAwocTEp53E8IY/om3ErfRtkJhwZ1kcBQq/SQbErDfa
- C3gxSOEGZLPlFWpylJC4qbv4aBrOJ9LYuq42yt2gWoLn4OuLaSPBoTREd
- 7cohv6b12rBom+F6H69KSfhm9KheVlonF2iYeXTTJiegTbYLrp+eMvMOd
- I+0swh17rvT1CEVwjOitmuvHgnpLAZLeinF2Hwopt8mdqlPhRqa0C3Otd
- aE86Bimvr6bI2d4XFxxMAm4S4pW2AvKKWr0rMagyLw8uM2lkUC1ViV4hV
- Aa4NWFceSUxooi6XTeDPONFUbgkBf5T7q7ah1gM/c+MWyU+kAzK1R5YzV w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10850"; a="468868675"
-X-IronPort-AV: E=Sophos;i="6.03,193,1694761200"; d="scan'208";a="468868675"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Oct 2023 23:34:34 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10850"; a="840902494"
-X-IronPort-AV: E=Sophos;i="6.03,193,1694761200"; d="scan'208";a="840902494"
-Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
- by FMSMGA003.fm.intel.com with ESMTP; 01 Oct 2023 23:34:30 -0700
-Received: from kbuild by c3b01524d57c with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1qnCVg-0005p5-24;
- Mon, 02 Oct 2023 06:34:28 +0000
-Date: Mon, 2 Oct 2023 14:34:02 +0800
-From: kernel test robot <lkp@intel.com>
-To: Danilo Krummrich <dakr@redhat.com>, airlied@gmail.com, daniel@ffwll.ch,
- matthew.brost@intel.com, thomas.hellstrom@linux.intel.com,
- sarah.walker@imgtec.com, donald.robson@imgtec.com,
- boris.brezillon@collabora.com, christian.koenig@amd.com,
- faith@gfxstrand.net
-Subject: Re: [PATCH drm-misc-next v5 3/6] drm/gpuvm: add an abstraction for a
- VM / BO combination
-Message-ID: <202310021416.3jqeZtQG-lkp@intel.com>
-References: <20230928191624.13703-4-dakr@redhat.com>
+Received: from bombadil.infradead.org (bombadil.infradead.org
+ [IPv6:2607:7c80:54:3::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 538FE10E134;
+ Mon,  2 Oct 2023 06:38:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+ Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
+ Message-ID:Sender:Reply-To:Cc:Content-ID:Content-Description;
+ bh=qG2OUo0jkUhRHbJw+LMRYwNS/lqz8RgvctqBHgbaYYA=; b=4MUOLO87rx/lPtDgTJwXQ29UP7
+ QG/sxrYlTeKR3HFKw5MNOBTUabL4asBe6nfOtzTeHjr0TMYECd36d9tQssft3KYTfkaGVtC5jkRGa
+ 3EWqtcFHmJY8udUB4kPM6H6ze+or3bExDWaghN8RH2cP0L6BjsEbHizb9kc1SN+LJSHfm3s/FAlhm
+ /VBceTCWttmhjlvtK60CshxG+HyXqg1pSMzhHVpF5eQ5UDfM6l9nJg6ILVnso6SnBWsGmm35jSYDd
+ T/GoypBJi2ABcS8NZkneQxcoGBq1t2xtTckd76Gua491utE7IwM34WM1uQZKvvEWoeRTa/GQJnxXM
+ tyi1eLYg==;
+Received: from [50.53.46.231] (helo=[192.168.254.15])
+ by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+ id 1qnCZa-00C2GH-09; Mon, 02 Oct 2023 06:38:30 +0000
+Message-ID: <153b7d81-143a-4b82-8ec0-33ba130098a0@infradead.org>
+Date: Sun, 1 Oct 2023 23:38:28 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230928191624.13703-4-dakr@redhat.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/amd/display: add kernel docs for dc_dmub_caps
+Content-Language: en-US
+To: Sagar Vashnav <sagarvashnav72427@gmail.com>,
+ Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <9270c1f3-c8f3-4b3c-91ec-ed17d97ecafd@infradead.org>
+ <20231002044126.70197-1-sagarvashnav72427@gmail.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20231002044126.70197-1-sagarvashnav72427@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,75 +58,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, Danilo Krummrich <dakr@redhat.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- oe-kbuild-all@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Danilo,
 
-kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on a4ead6e37e3290cff399e2598d75e98777b69b37]
+On 10/1/23 21:41, Sagar Vashnav wrote:
+> Add kernel documentation for the dc_dmub_caps structure.
+> 
+> Signed-off-by: Sagar Vashnav <sagarvashnav72427@gmail.com>
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Danilo-Krummrich/drm-gpuvm-add-common-dma-resv-per-struct-drm_gpuvm/20230929-031831
-base:   a4ead6e37e3290cff399e2598d75e98777b69b37
-patch link:    https://lore.kernel.org/r/20230928191624.13703-4-dakr%40redhat.com
-patch subject: [PATCH drm-misc-next v5 3/6] drm/gpuvm: add an abstraction for a VM / BO combination
-reproduce: (https://download.01.org/0day-ci/archive/20231002/202310021416.3jqeZtQG-lkp@intel.com/reproduce)
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310021416.3jqeZtQG-lkp@intel.com/
+Thanks.
 
-All warnings (new ones prefixed by >>):
-
->> ./include/drm/drm_gpuvm.h:464: warning: Function parameter or member 'vm' not described in 'drm_gpuvm_bo'
-
-vim +464 ./include/drm/drm_gpuvm.h
-
-   427	
-   428		/**
-   429		 * @gpuvm: The &drm_gpuvm the @obj is mapped in.
-   430		 */
-   431		struct drm_gpuvm *vm;
-   432	
-   433		/**
-   434		 * @obj: The &drm_gem_object being mapped in the @gpuvm.
-   435		 */
-   436		struct drm_gem_object *obj;
-   437	
-   438		/**
-   439		 * @kref: The reference count for this &drm_gpuvm_bo.
-   440		 */
-   441		struct kref kref;
-   442	
-   443		/**
-   444		 * @list: Structure containing all &list_heads.
-   445		 */
-   446		struct {
-   447			/**
-   448			 * @gpuva: The list of linked &drm_gpuvas.
-   449			 */
-   450			struct list_head gpuva;
-   451	
-   452			/**
-   453			 * @entry: Structure containing all &list_heads serving as
-   454			 * entry.
-   455			 */
-   456			struct {
-   457				/**
-   458				 * @gem: List entry to attach to the &drm_gem_objects
-   459				 * gpuva list.
-   460				 */
-   461				struct list_head gem;
-   462			} entry;
-   463		} list;
- > 464	};
-   465	
+> ---
+>  drivers/gpu/drm/amd/display/dc/dc.h | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/amd/display/dc/dc.h b/drivers/gpu/drm/amd/display/dc/dc.h
+> index 81258392d..14b4c503d 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dc.h
+> +++ b/drivers/gpu/drm/amd/display/dc/dc.h
+> @@ -208,6 +208,16 @@ struct dc_color_caps {
+>  	struct mpc_color_caps mpc;
+>  };
+>  
+> +/**
+> + * struct dc_dmub_caps - DMUB (Display Microcontroller Unit) capabilities
+> + * @psr: support for PSR (Power Saving State Residency)
+> + * @mclk_sw: support for MCLK_SW (Memory Clock Switch)
+> + * @subvp_psr: support for SUBVP PSR (Sub-Viewport Power Saving State Residency)
+> + * @gecc_enable: GECC (Global Error Correcting Code) enablement.
+> + *
+> + * This structure describes the capabilities of the Display Microcontroller Unit (DMUB).
+> + * It specifies whether certain features like PSR and MCLK_SW are supported.
+> + */
+>  struct dc_dmub_caps {
+>  	bool psr;
+>  	bool mclk_sw;
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+~Randy
