@@ -1,72 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DDA27B4C16
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Oct 2023 09:02:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 330057B4C17
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Oct 2023 09:02:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 967C710E183;
-	Mon,  2 Oct 2023 07:02:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70B6510E182;
+	Mon,  2 Oct 2023 07:02:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
- [IPv6:2a00:1450:4864:20::431])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 46EE410E17D
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Oct 2023 07:02:25 +0000 (UTC)
-Received: by mail-wr1-x431.google.com with SMTP id
- ffacd0b85a97d-32325534cfaso11338943f8f.3
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Oct 2023 00:02:25 -0700 (PDT)
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
+ [IPv6:2a00:1450:4864:20::42e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0490010E17D
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Oct 2023 07:02:30 +0000 (UTC)
+Received: by mail-wr1-x42e.google.com with SMTP id
+ ffacd0b85a97d-3248e90f032so3661569f8f.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Oct 2023 00:02:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1696230143; x=1696834943; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1696230149; x=1696834949; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :references:cc:to:content-language:subject:reply-to:from:user-agent
  :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=wPMc6aMQK0lRLH9xe8mE8M5I4jqy0/8Cc31SAdtz1GY=;
- b=Y4Tc5oY76v6urc9aaov7pu2SpoSB8//CkMqC2U03SBwtrCD81z+Pj2BYq+EWRl5GGA
- S6FOmkEaK2CrYTqJN1BB3ZysQUjF5Haxy6SWZdlArhh9CKqr2iSbMwxk8AledA0TXtOV
- IAT+yoC2v09YGqtqSnGcO1ZavzJVQrV3oKz2JGtvqa5wxB7gwiNtZCDYig+lN7tm2z8/
- dmLl/WQ5iWmOLWkfO46BKA5AboLurftMRm0Q+g6iEmba7LZlv+y/jV415NZVaghzKrJJ
- sed5ISWmUaK3weM/jaRqAOqi/yIrKXu6pT14D7cEwMbxX3arJtz6AKeRsZXwj3fvBynP
- ELGA==
+ :reply-to; bh=tr+xVqPNpMrLhcwFvaq34JU49vQK5SE2KksVYojk9ro=;
+ b=zfiESfBX3dypqWUkLw6nr5v28/KZA/IZOsaV2hFix6HeWFeybAZmJNIlNqD0Ku5GGK
+ 73p1OxJ6WPyFhgVKZhrisVzwtIbTjs3EfT2ZVuz1T+F7y5BiHvSrEH0wnSJ0YB2unF6U
+ pGZP7ILIuSnFrI/SYvWgUPDwNp6pffj/92SBUJGKtaFE79lEy7TAqiySTyKDyAtsX1LN
+ iDQ3v3EpMbZ43CKU+41FmlFZjA1qEUtFG7btQnh8J6s9Nc7/WTSSxWH6XmyQdNawB66P
+ QH5rckftbwtuJuQ2QsWlwY6q6W/7f25cRSnii6AFm5sHIsg2Ev1H+dzV3jGJn+fSRrMX
+ j8Fg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1696230143; x=1696834943;
+ d=1e100.net; s=20230601; t=1696230149; x=1696834949;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :references:cc:to:content-language:subject:reply-to:from:user-agent
  :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
  :date:message-id:reply-to;
- bh=wPMc6aMQK0lRLH9xe8mE8M5I4jqy0/8Cc31SAdtz1GY=;
- b=dLG7Z64tdWpXQFdWTqm/AKbrFe8/IWOQ641Tjqd8hVUJGeXMKgPkfBxYnc9ukVLnMp
- bP41VGvuM2IdCGv3IkKNdr4jFgH6IyYhgi0Wj1xqKSmaz9g7+FUGFz5vczO+o32dccXo
- iI66ybOWSZpufBAS7Aib5ejw0sGxszR3L6ELACstjKNr9+LvPV0ojp4l7YyxxP8BwSng
- Jd7BwApe3FgIOCZTRwY+mweLTpJNo5m4K+in6LLweUr/I3081c9yRiqGhKZwY2qeYTu7
- V/aF1j4jGsf/77c9rqSmXJysyWspLnX6PaPpbD4qgMI2RIyyfXGskDSyZafKEH9QIhLS
- NIVA==
-X-Gm-Message-State: AOJu0YwUE82R4ZiTQh6ptYpdzuFlZNH3czlIfjhm/x1ClV4Vrl2wN+TP
- vFV/QR/7b2CHT2s0mfPYO9Ua5Q==
-X-Google-Smtp-Source: AGHT+IFWAWAbqaH4c3PJxCdZs2YUSfB+WbWXjpIVquh9nHKgU/2pqOhxBYeK5rwuol7Oc7DylIj5lA==
-X-Received: by 2002:adf:de89:0:b0:31a:d49a:38d with SMTP id
- w9-20020adfde89000000b0031ad49a038dmr9784288wrl.54.1696230142604; 
- Mon, 02 Oct 2023 00:02:22 -0700 (PDT)
+ bh=tr+xVqPNpMrLhcwFvaq34JU49vQK5SE2KksVYojk9ro=;
+ b=UH+DiFgx+kH/lXZYvsvOJ34C21F25taJpEhGiAOruYWskpVdUdKaBqxj12841bVuc7
+ 2cV4im3mSHiTwwr92aWRE2f56zeSRxK6FKgvfdb6A82trHlZJ72Xt0ARqpqadl+BWA0s
+ VUQ0x/rlmZGkJbjhTrdZ26mo6g1WOWntkw0H1AQzIqyId4YOIAeEL5V/QAqw+y99KX/S
+ pBdsVgafUxeV6d8MndUSc+kf6Rr7R5J6kFkQr6JjmFdlomXd+gWVZY87VkC3tXQT2aXm
+ D25ZZjGpsfnWdhdkFmob/AdJOr3LMzZRZaVIDnijeuJ8+svClFAyTW7rk6rGLJAJjw6s
+ 29+g==
+X-Gm-Message-State: AOJu0Yyz/BpGv6mZS5P1BzVnWjiyUmVW02HtKjcuZWUamqk+caQvaZMU
+ EB5zgpBCF5S9oai1qSLw89v8Ng==
+X-Google-Smtp-Source: AGHT+IEp+mlKtqEqFmb41B9Z6vADDoCAU3pAs/lf8VMTSYO/ORbon65315cIj+DjD8xiU0z9VUNang==
+X-Received: by 2002:adf:f343:0:b0:317:6fb5:bafc with SMTP id
+ e3-20020adff343000000b003176fb5bafcmr8888151wrp.65.1696230148390; 
+ Mon, 02 Oct 2023 00:02:28 -0700 (PDT)
 Received: from ?IPV6:2a01:e0a:982:cbb0:b653:7e47:ffdd:9340?
  ([2a01:e0a:982:cbb0:b653:7e47:ffdd:9340])
  by smtp.gmail.com with ESMTPSA id
- g3-20020a5d5403000000b00325c7295450sm6832544wrv.3.2023.10.02.00.02.21
+ g3-20020a5d5403000000b00325c7295450sm6832544wrv.3.2023.10.02.00.02.27
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 02 Oct 2023 00:02:22 -0700 (PDT)
-Message-ID: <abcbdabd-ec3b-4d14-8774-c290866ad86a@linaro.org>
-Date: Mon, 2 Oct 2023 09:02:21 +0200
+ Mon, 02 Oct 2023 00:02:27 -0700 (PDT)
+Message-ID: <033469a4-1f16-4be9-8e97-5646d66b9fae@linaro.org>
+Date: Mon, 2 Oct 2023 09:02:27 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH] drm/bridge: icn6211: Convert to use maple tree register
+Subject: Re: [PATCH] drm/bridge: lt9211: Convert to use maple tree register
  cache
 Content-Language: en-US, fr
-To: Mark Brown <broonie@kernel.org>, Jagan Teki <jagan@amarulasolutions.com>, 
- Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
+To: Mark Brown <broonie@kernel.org>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Robert Foss <rfoss@kernel.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-References: <20231001-drm-chipone-maple-v1-1-fb3ce5a53710@kernel.org>
+References: <20231001-drm-lt9211-maple-v1-1-1cf74fb10991@kernel.org>
 Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
  GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
@@ -92,7 +92,7 @@ Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
  QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
 Organization: Linaro Developer Services
-In-Reply-To: <20231001-drm-chipone-maple-v1-1-fb3ce5a53710@kernel.org>
+In-Reply-To: <20231001-drm-lt9211-maple-v1-1-1cf74fb10991@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -112,33 +112,33 @@ Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 01/10/2023 01:46, Mark Brown wrote:
+On 01/10/2023 12:24, Mark Brown wrote:
 > The maple tree register cache is based on a much more modern data structure
 > than the rbtree cache and makes optimisation choices which are probably
 > more appropriate for modern systems than those made by the rbtree cache.
 > 
 > Signed-off-by: Mark Brown <broonie@kernel.org>
 > ---
->   drivers/gpu/drm/bridge/chipone-icn6211.c | 2 +-
+>   drivers/gpu/drm/bridge/lontium-lt9211.c | 2 +-
 >   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/gpu/drm/bridge/chipone-icn6211.c b/drivers/gpu/drm/bridge/chipone-icn6211.c
-> index d205e755e524..82d23e4df09e 100644
-> --- a/drivers/gpu/drm/bridge/chipone-icn6211.c
-> +++ b/drivers/gpu/drm/bridge/chipone-icn6211.c
-> @@ -197,7 +197,7 @@ static const struct regmap_config chipone_regmap_config = {
->   	.val_bits = 8,
->   	.rd_table = &chipone_dsi_readable_table,
->   	.wr_table = &chipone_dsi_writeable_table,
+> diff --git a/drivers/gpu/drm/bridge/lontium-lt9211.c b/drivers/gpu/drm/bridge/lontium-lt9211.c
+> index 4d404f5ef87e..c8881796fba4 100644
+> --- a/drivers/gpu/drm/bridge/lontium-lt9211.c
+> +++ b/drivers/gpu/drm/bridge/lontium-lt9211.c
+> @@ -89,7 +89,7 @@ static const struct regmap_config lt9211_regmap_config = {
+>   	.volatile_table	= &lt9211_rw_table,
+>   	.ranges = &lt9211_range,
+>   	.num_ranges = 1,
 > -	.cache_type = REGCACHE_RBTREE,
 > +	.cache_type = REGCACHE_MAPLE,
->   	.max_register = MIPI_ATE_STATUS(1),
+>   	.max_register = 0xda00,
 >   };
 >   
 > 
 > ---
 > base-commit: 6465e260f48790807eef06b583b38ca9789b6072
-> change-id: 20230929-drm-chipone-maple-1d5e37ce5ed0
+> change-id: 20230929-drm-lt9211-maple-f2b0807acd53
 > 
 > Best regards,
 
