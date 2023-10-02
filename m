@@ -2,44 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 219277B53D1
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Oct 2023 15:24:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A3F07B53F6
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Oct 2023 15:31:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3334710E0BA;
-	Mon,  2 Oct 2023 13:24:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CFBE910E032;
+	Mon,  2 Oct 2023 13:31:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD15210E0BA
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Oct 2023 13:24:35 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org
+ [IPv6:2604:1380:40e1:4800::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C04110E032
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Oct 2023 13:31:07 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 1B96460C34;
- Mon,  2 Oct 2023 13:24:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C5A1C433C8;
- Mon,  2 Oct 2023 13:24:34 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id E500CCE0FF0;
+ Mon,  2 Oct 2023 13:31:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40690C433C7;
+ Mon,  2 Oct 2023 13:31:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1696253074;
- bh=SiBXn7oJfwXt/oKihBFUqEUo3m244m5i8lyQ0JMROeI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Gl9Uak7jWLynA0VMv4AKjdR1l/hSzS4tQQFQClO5yyZgx7PiwAmI98NxRTfDU+5IQ
- Pe/ITOQoJ3c+R9F1iXSZ2Jj1hz5fXf/J+DuFgwljWb0XrDQrk2WjLembKJigkZf4Ts
- snvKQPwX+hAKao9Mrw219fk7HfP7XehXcZPAPIXVGQM+cwdo+BpZr6op6kvZo51tTT
- yQAauwMu6/0G1r5LUbNUDckTnf5YtM8h++0sy3EKkU0T8/+6IqNEZ8opqSbCy0T6SW
- hFM/nfgebNop+Au8ApO69kQErwgMdmiKJqPx+ob9rbRsrF/tuHCvBFbrsgTl1Bpyfj
- 2yeEzbW90zWgQ==
-Date: Mon, 2 Oct 2023 15:24:31 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v2 0/5] drm: Reuse temporary memory for format conversion
-Message-ID: <whemf4pr5qkkcww6pyzen5di44qvyhktmgt255ijphqufkgqfb@nmyfyfsrxo5k>
-References: <20230920142535.19321-1-tzimmermann@suse.de>
- <kvsuwskjydl24euafxnlr52xhozw7ldyut7hjib3sveb7uyo66@pkpncxahqx5l>
- <cf9eb014-8f84-4203-ba4e-a38f2aa7c769@suse.de>
+ s=k20201202; t=1696253463;
+ bh=kKBI77zp4+YZMVjG9R3aO6yIO3fcESRe+LYfl/ViOAE=;
+ h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+ b=KNXHjyCyehVxgxnfP/EJneEpx7BsYFX0ja0vLX5bH6vaOay+QK0lUozoK4taADcZf
+ ujjUx3S9/OGtXkS2684jUY0Dksova7zzlpyJDMbcO9/NOV/2h4m7RPp/G7QNdJwiHe
+ TkBEl2yBwHANTzFhpYe0eVhyQcgTHR1T5n9psuaqF61HwQ2Eybr9Rpc3LGv5DCUK2O
+ E2M4mJKn0sn6vHw3GXkUTHwnjOLm5xSurYbcdyRWVJtvWHoWNtwhcwBGHERylzKnZ2
+ Yu0+M3FyDqm7HxPSvLsQfyO0igmUWh88zqO9tP+Y5wbprc0EXjYeH1QfEPKhbeaPzv
+ W8XoCyslm2/Gw==
+Received: (nullmailer pid 1584324 invoked by uid 1000);
+ Mon, 02 Oct 2023 13:31:01 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="5hrycvayhttip7xy"
-Content-Disposition: inline
-In-Reply-To: <cf9eb014-8f84-4203-ba4e-a38f2aa7c769@suse.de>
+From: Rob Herring <robh@kernel.org>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+In-Reply-To: <20231002122740.220177-2-biju.das.jz@bp.renesas.com>
+References: <20231002122740.220177-1-biju.das.jz@bp.renesas.com>
+ <20231002122740.220177-2-biju.das.jz@bp.renesas.com>
+Message-Id: <169625346119.1584308.6712024438150463330.robh@kernel.org>
+Subject: Re: [PATCH v11 1/4] dt-bindings: display: Document Renesas RZ/G2L
+ DU bindings
+Date: Mon, 02 Oct 2023 08:31:01 -0500
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,119 +54,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jfalempe@redhat.com, javierm@redhat.com, dri-devel@lists.freedesktop.org,
- mairacanal@riseup.net, noralf@tronnes.org, jose.exposito89@gmail.com,
- arthurgrillo@riseup.net
+Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+ linux-renesas-soc@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ dri-devel@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---5hrycvayhttip7xy
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Mon, 02 Oct 2023 13:27:37 +0100, Biju Das wrote:
+> The RZ/G2L LCD controller is composed of Frame Compression Processor
+> (FCPVD), Video Signal Processor (VSPD), and Display Unit (DU).
+> 
+> The DU module supports the following hardware features
+> − Display Parallel Interface (DPI) and MIPI LINK Video Interface
+> − Display timing master
+> − Generates video timings
+> − Selecting the polarity of output DCLK, HSYNC, VSYNC, and DE
+> − Supports Progressive
+> − Input data format (from VSPD): RGB888, RGB666
+> − Output data format: same as Input data format
+> − Supporting Full HD (1920 pixels x 1080 lines) for MIPI-DSI Output
+> − Supporting WXGA (1280 pixels x 800 lines) for Parallel Output
+> 
+> This patch documents the DU module found on RZ/G2L LCDC.
+> 
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> ---
+> v10->v1:
+>  * No change
+> v9->v10:
+>  * Added Rb tag from Laurent
+>  * Updated the commit description.
+>  * Updated description of the port by dropping the text "specified in
+>    Documentation/devicetree/bindings/graph.txt."
+>  * Dropped empty endpoint from example.
+> v8->v9:
+>  * No change
+> v7->v8:
+>  * No change
+> v6->v7:
+>  * No change
+> v5->v6:
+>  * No change.
+> v4->v5:
+>  * Added Rb tag from Rob.
+> v3->v4:
+>  * Changed compatible name from renesas,du-r9a07g044->renesas,r9a07g044-du
+>  * started using same compatible for RZ/G2{L,LC}
+> v3: New patch
+> ---
+>  .../bindings/display/renesas,rzg2l-du.yaml    | 121 ++++++++++++++++++
+>  1 file changed, 121 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
+> 
 
-On Fri, Sep 29, 2023 at 04:58:30PM +0200, Thomas Zimmermann wrote:
-> Am 29.09.23 um 14:11 schrieb Maxime Ripard:
-> > On Wed, Sep 20, 2023 at 04:24:26PM +0200, Thomas Zimmermann wrote:
-> > > DRM's format-conversion helpers require temporary memory. Pass the
-> > > buffer from the caller and keep it allocated over several calls. Allow
-> > > the caller to preallocate the buffer memory.
-> > >=20
-> > > The motivation for this patchset is the recent work on a DRM panic
-> > > handler. The panic handler requires format conversion to display an
-> > > error to the screen. But allocating memory during kernel panics is
-> > > fragile. The changes in this patchset enable the DRM panic handler to
-> > > preallocate buffer storage before the panic occurs.
-> > >=20
-> > > As an additonal benefit, drivers can now keep the temporary storage
-> > > across multiple display updates. Avoiding memory allocation reduces
-> > > the CPU overhead of the format helpers.
-> >=20
-> > This argument is getting a bit tiring. The main reason is that it isn't
-> > one, and:
->=20
-> CPU overhead isn't the driver behind this patchset, but if it is affected,
-> why not say that in the commit message?
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-Any patch affects the CPU overhead then, one way or the other.
+yamllint warnings/errors:
+./Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml:64:11: [error] string value is redundantly quoted with any quotes (quoted-strings)
 
-> There's a alloc/free pair for each updated scanline. For a full-screen
-> updates, that's quite a bit.
->
-> >=20
-> >    - we allocate something in the 10-20 range objects at a given commit,
-> >      so another small one is not insignificant.
-> >=20
-> >    - If it was, it would be trivial to produce a benchmark, but no-one
-> >      ever actually showed a workload and numbers where there's actually
-> >      any difference.
-> >=20
-> >    - Also, the CPU overhead is indeed (even if marginally) decreased, b=
-ut
-> >      the memory overhead is increased. I don't know whether that's a go=
-od
-> >      trade-off or not, see the point above.
-> >=20
-> > It really sounds like an empty statement to me: "But just think of the
-> > CPU!".
-> >=20
-> > That being said, I also have more fundamental doubts about this series.
-> >=20
-> > The first one is that storing the buffer pointer in the device instead
-> > of the state makes it harder to reason about. When you have a state, the
-> > framework provides the guarantee at commit time that there's only going
-> > to be one at a given time. And since the buffer is stored in that state
-> > object, you can't access it by mistake. The buffer size also depends on
-> > the state, so that all makes sense from a logical PoV.
->=20
-> Yes. I discussed this with Javier already. Putting this into the state is
-> the clean solution.
->=20
-> >=20
-> > If we store the buffer into the device, then suddenly you have to think
-> > about whether there's multiple CRTCs or not (since commits aren't
-> > serialised if they affect different CRTCs), whether the buffer size you
-> > allocated is large enough now for your current resolution and format,
-> > etc. It adds a decent chunk of complexity on something that was quite
-> > complex already.
->=20
-> It's in the device because it's good enough for these simple drivers. The
-> next best place would be a dedicated plane structure in each driver. The
-> per-plane cache would then be clearly attributed to a single plane.
+dtschema/dtc warnings/errors:
 
-Right, but you still need to think about all that before figuring it
-out. And we now have simple drivers very likely to be used as an example
-unsafe-but-actually-aren't. When copied and pasted into a different
-context, it might not be safe anymore. And since those copy/pasting that
-code are super experienced, they won't know about it.
+doc reference errors (make refcheckdocs):
 
-> > I understand that the motivation is for drm_panic to have a buffer ready
-> > when it has to kick in. But why don't we just allocate (and check) a
-> > spare commit at probe time so we just have to commit it when we panic.
->=20
-> DRM panic doesn't commit anything. It picks up whatever the current scano=
-ut
-> buffer is and draws into that. If the DRM driver cannot provide a scanout
-> buffer, DRM panic does nothing.
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20231002122740.220177-2-biju.das.jz@bp.renesas.com
 
-My point is that it could do a commit if we have prepared everything. Or
-we could steal the current buffer. Or we could pre-allocate a dumb
-buffer for every device. You'll have to interact the state anyway for
-any proper driver, and I don't think just allocating it here like you do
-is safe and enough.
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
 
-Maxime
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
 
---5hrycvayhttip7xy
-Content-Type: application/pgp-signature; name="signature.asc"
+pip3 install dtschema --upgrade
 
------BEGIN PGP SIGNATURE-----
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZRrEjwAKCRDj7w1vZxhR
-xZR9AQCjfRVLysGjGgQFSPlMbYxng21Gk97uE8heJtOrlEoJjwD/YzlwKL+8rFyw
-+1gb+U0Liq7vkoPSho2eUk8cKu/dLQY=
-=T0Ba
------END PGP SIGNATURE-----
-
---5hrycvayhttip7xy--
