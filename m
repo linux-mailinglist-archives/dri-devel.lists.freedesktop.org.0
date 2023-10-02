@@ -1,53 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4C017B4FD4
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Oct 2023 12:01:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FF587B4FDF
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Oct 2023 12:06:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2CB4A10E26D;
-	Mon,  2 Oct 2023 10:00:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D41DB10E274;
+	Mon,  2 Oct 2023 10:06:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D9A7610E276;
- Mon,  2 Oct 2023 10:00:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1696240844; x=1727776844;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=jMA1qUgRZBOCtACv4+9yAge9XIVyKwYlEPTNSzbXWqE=;
- b=XNhJUMwfhK1Th5anDop7IdUnApPBg+r5eOx/JjYsAR72skRHg3Xz/YF0
- 2rhNZ6TUxFWgk0qHIQvXZLnEUJWiuZ+dz/kDG3MDgf8arPysxpdCeEtpo
- aEb7AXtsn+61D5slcfWYQ8sE1taebyl3SPUIqD69KYbQz3ruv/aGM4iZP
- wmy9esYMlQqM0fl+AII9RL84aTFnOc+OX2w51zzBkicJdvvZjOmE475Ql
- B9k5hyaH3JFpjVM50KdMg+f6wOMZsrpfUJdJ3VLtITo0/bPRVV18DT8aq
- AHISJMOdiTdDHEv4iQJK271N6wO1AJkZXTN92gsSDrv9ySsg5DUasmoFO g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10850"; a="468892070"
-X-IronPort-AV: E=Sophos;i="6.03,194,1694761200"; d="scan'208";a="468892070"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Oct 2023 03:00:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10850"; a="1081595161"
-X-IronPort-AV: E=Sophos;i="6.03,194,1694761200"; d="scan'208";a="1081595161"
-Received: from svandens-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.55.151])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Oct 2023 03:00:14 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Pablo Ceballos <pceballos@google.com>, Ankit K Nautiyal
- <ankit.k.nautiyal@intel.com>
-Subject: Re: [PATCH v3] drm/i915/display/lspcon: Increase LSPCON mode settle
- timeout
-In-Reply-To: <20230816045654.833973-1-pceballos@google.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20230816045654.833973-1-pceballos@google.com>
-Date: Mon, 02 Oct 2023 13:00:05 +0300
-Message-ID: <87r0mdgx96.fsf@intel.com>
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C3FD610E272;
+ Mon,  2 Oct 2023 10:06:05 +0000 (UTC)
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4Rzc6K39JBz9sjZ;
+ Mon,  2 Oct 2023 12:06:01 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1696241161;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ox+gKi4bLoFPXXWfih5IxNiXLO7vrIVUXFkXDUiuxVY=;
+ b=fi/SNZ9m3ulp2WS5NGQcISs+kt16+SCQ41dzctwiKAN0rwzeBYUdvE6oG3krUmOQGl2cEA
+ aIBopFdrHvt0EcdxSUPh8eYtC1In2mIv1gt4Wv+PxE5f551K3HyGGUWeILNSPN5IxxboWe
+ 6AetKPbjFjAxOt0eUoQlOUyInYlfHFcajDZBY/U/cXgkIGeYGnPDb2fu+IVLPpRWPgepwX
+ YjZc2wb79odiNPw/P7FGqZRPZPgVyzJ984IFY04V0reH38gSPuI5tFBXV5XyRta4nl4qzU
+ 7b9MCufos20Gawf4URqKIGMSCCbeGq8IC2NOQN6Aiwcm8cQMkYV40lHzPUZHjg==
+Message-ID: <2a8ebf1a-0d74-e068-6d68-de0ecae9bdf1@mailbox.org>
+Date: Mon, 2 Oct 2023 12:05:56 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
+Subject: Re: [PATCH] Revert "drm/amd/display: Check all enabled planes in
+ dm_check_crtc_cursor"
+Content-Language: en-CA
+To: Hamza Mahfooz <hamza.mahfooz@amd.com>
+References: <20230929204120.120795-1-hamza.mahfooz@amd.com>
+From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel.daenzer@mailbox.org>
+In-Reply-To: <20230929204120.120795-1-hamza.mahfooz@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-ID: bb25a72978e7ad443ec
+X-MBO-RS-META: jxzcx4axa4semwfmgchknxjnby4h5b5c
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,88 +56,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, imre.deak@linux.intel.com,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Pablo Ceballos <pceballos@google.com>
+Cc: Stylon Wang <stylon.wang@amd.com>, Ivan Lipski <ivlipski@amd.com>,
+ Leo Li <sunpeng.li@amd.com>, Qingqing Zhuo <Qingqing.Zhuo@amd.com>, "Pan,
+ Xinhui" <Xinhui.Pan@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Alex Hung <alex.hung@amd.com>,
+ =?UTF-8?Q?Michel_D=c3=a4nzer?= <mdaenzer@redhat.com>,
+ Aurabindo Pillai <aurabindo.pillai@amd.com>, Hersen Wu <hersenxs.wu@amd.com>,
+ amd-gfx@lists.freedesktop.org, Wayne Lin <wayne.lin@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 16 Aug 2023, Pablo Ceballos <pceballos@google.com> wrote:
-> This is to eliminate all cases of "*ERROR* LSPCON mode hasn't settled",
-> followed by link training errors. Intel engineers recommended increasing
-> this timeout and that does resolve the issue.
->
-> On some CometLake-based device designs the Parade PS175 takes more than
-> 400ms to settle in PCON mode. 100 reboot trials on one device resulted
-> in a median settle time of 440ms and a maximum of 444ms. Even after
-> increasing the timeout to 500ms, 2% of devices still had this error. So
-> this increases the timeout to 800ms.
->
-> Signed-off-by: Pablo Ceballos <pceballos@google.com>
+On 9/29/23 22:41, Hamza Mahfooz wrote:
+> From: Ivan Lipski <ivlipski@amd.com>
+> 
+> This reverts commit 45e1ade04b4d60fe5df859076005779f27c4c9be.
+> 
+> Since, it causes the following IGT tests to fail:
+> kms_cursor_legacy@cursor-vs-flip.*
+> kms_cursor_legacy@flip-vs-cursor.*
 
-Please file the issue at [1] as requested before, and reference it in
-the commit message.
+Any information about how those tests fail? Maybe they accidentally rely on the broken behaviour?
 
-[1] https://gitlab.freedesktop.org/drm/intel/-/issues/new
 
-> ---
->
-> V2: Added more details in the commit message
-> V3: Only apply the increased timeout if the vendor is Parade
->
-> drivers/gpu/drm/i915/display/intel_lspcon.c | 21 ++++++++++++++++++++-
->  1 file changed, 20 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/i915/display/intel_lspcon.c b/drivers/gpu/drm/i915/display/intel_lspcon.c
-> index bb3b5355a0d9..b07eab84cc63 100644
-> --- a/drivers/gpu/drm/i915/display/intel_lspcon.c
-> +++ b/drivers/gpu/drm/i915/display/intel_lspcon.c
-> @@ -153,6 +153,24 @@ static enum drm_lspcon_mode lspcon_get_current_mode(struct intel_lspcon *lspcon)
->  	return current_mode;
->  }
->  
-> +static u32 lspcon_get_mode_settle_timeout(struct intel_lspcon *lspcon)
-> +{
-> +	u32 timeout_ms = 400;
+FWIW, something like the reverted commit is definitely needed, see https://gitlab.gnome.org/GNOME/mutter/-/merge_requests/3177#note_1829068 . That MR is blocked by the reverted fix.
 
-Please use plain int for plain numbers. There's nothing u32 about this.
-
-> +
-> +	/*
-> +	 * On some CometLake-based device designs the Parade PS175 takes more
-> +	 * than 400ms to settle in PCON mode. 100 reboot trials on one device
-> +	 * resulted in a median settle time of 440ms and a maximum of 444ms.
-> +	 * Even after increasing the timeout to 500ms, 2% of devices still had
-> +	 * this error. So this sets the timeout to 800ms.
-> +	 */
-> +	if (lspcon->vendor == LSPCON_VENDOR_PARADE)
-> +		timeout_ms = 800;
-> +
-> +	return timeout_ms;
-
-All of the above is just
-
-	return lspcon->vendor == LSPCON_VENDOR_PARADE ? 800 : 400;
-
-BR,
-Jani.
-
-> +}
-> +
-> +
->  static enum drm_lspcon_mode lspcon_wait_mode(struct intel_lspcon *lspcon,
->  					     enum drm_lspcon_mode mode)
->  {
-> @@ -167,7 +185,8 @@ static enum drm_lspcon_mode lspcon_wait_mode(struct intel_lspcon *lspcon,
->  	drm_dbg_kms(&i915->drm, "Waiting for LSPCON mode %s to settle\n",
->  		    lspcon_mode_name(mode));
->  
-> -	wait_for((current_mode = lspcon_get_current_mode(lspcon)) == mode, 400);
-> +	wait_for((current_mode = lspcon_get_current_mode(lspcon)) == mode,
-> +		 lspcon_get_mode_settle_timeout(lspcon));
->  	if (current_mode != mode)
->  		drm_err(&i915->drm, "LSPCON mode hasn't settled\n");
 
 -- 
-Jani Nikula, Intel
+Earthling Michel Dänzer            |                  https://redhat.com
+Libre software enthusiast          |         Mesa and Xwayland developer
+
