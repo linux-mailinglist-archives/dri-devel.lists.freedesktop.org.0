@@ -1,67 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16A6A7B4C01
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Oct 2023 09:01:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FB9E7B4C0E
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Oct 2023 09:02:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F1D810E145;
-	Mon,  2 Oct 2023 07:01:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A4A310E174;
+	Mon,  2 Oct 2023 07:02:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
- [IPv6:2a00:1450:4864:20::432])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 63AF210E259
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Oct 2023 07:00:22 +0000 (UTC)
-Received: by mail-wr1-x432.google.com with SMTP id
- ffacd0b85a97d-3232be274a0so1563158f8f.1
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Oct 2023 00:00:22 -0700 (PDT)
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
+ [IPv6:2a00:1450:4864:20::435])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 387AC10E174
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Oct 2023 07:02:13 +0000 (UTC)
+Received: by mail-wr1-x435.google.com with SMTP id
+ ffacd0b85a97d-32003aae100so1574295f8f.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Oct 2023 00:02:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1696230020; x=1696834820; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1696230131; x=1696834931; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :references:cc:to:content-language:subject:reply-to:from:user-agent
  :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=65UjR/BYH4sgNp7jAQsrOIIv1FTbyb0+YEnzQHZ9wXU=;
- b=u2Xun9AXPJ/HOaWdLMWAoIzqzTg+Y8J4+ZvBBziRkX7PZZGNgIOl8a4uVI3K2EirDZ
- DWlNgS/db9bU2yCjJiDRfFUGOy7gFNo4mo5dNaYb/NH1hMVJmTYXycRtxFqZFwpdpff3
- D3VTvtZ0WM2qiFpeETMN/z7ETofsJG2EqX64H0svg/2BPytnlQv5AuPgSoAm0U8pKIFz
- Zh9iNFUy/Bixg43ipg56WBNsuEbF7KgaOMdpSJso28PLlCaEJh6PR9ZKsH1p3b14DT3e
- TgHZus3qDq2y+FuOguZH2wQjevzG0IfcGI2O75IFqhjJ+x4NyfR4EwCc29eRrpyr/nL4
- tNGQ==
+ :reply-to; bh=Uh6V+yik9Ib/JARzquX4rgox6eLV1JUajkuwrIR+ASE=;
+ b=Wl0PsdbmARSX0vH8DbMTjD2EUcFuC93UjF98sOZycPUmPRv87evTVN2RRKVct++JaQ
+ YVoGBVbbmwLR7s5Q5ZosBhqHkLkQAk69xDYtPlf1ecMx43SIo9qWQLIqKk/G34KiyuPm
+ Vh/rb028aaXUu4E8dTMw4YROrTMm5BP9sUfXrWmjhT0qedN+AX4q5cdjBQfQn5lKna99
+ JlMJfItIjobLCp8fq8TzQh4wJPwSumAz5tOINC8jtiCYNrD7VYHLeyREiu5zlGShxyXL
+ IRNG5mtZojZKephOUpBQKoL0y2PiRoyjbVNw8zSQlVlE+ctbIQ7gdTBGNm+djVgILExB
+ y9VA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1696230020; x=1696834820;
+ d=1e100.net; s=20230601; t=1696230131; x=1696834931;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :references:cc:to:content-language:subject:reply-to:from:user-agent
  :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
  :date:message-id:reply-to;
- bh=65UjR/BYH4sgNp7jAQsrOIIv1FTbyb0+YEnzQHZ9wXU=;
- b=FlNo78Wacy3Ka9EU5jhST8NBf7AHYaOxkqNYqsnDqRLpK1ru35EL9RQjFv4MpA/Xqn
- XRoQiqPqqPfksyzBDuijYyr4pUOv1zn/mZSjp+c8XnIMbp65z+3joplgK5pVVf+NJm4w
- hnC+HJWzTj0sMzn0LSM5Ht+l/RFsPQAp9sH97t19ICu7qm2wBPbI6Ct6LvyZ1kX/Y4M/
- krhlUSXLz23hH3CFkAu5s4FGhvN6VN/Lv5oSuynwuO55TGBU6mKI8ny3BVV3yybcLp2F
- v0/4h2YajyEedx9H5XgG37dmeXjKLAhlrG2U/gLp2DLD4KhAEIWLupVTQ/YoVswSk7uQ
- QkDg==
-X-Gm-Message-State: AOJu0YzA49HULDWxtKQ91kU+rXvOHQrpNSZ3ia4/HuPYcT2K3BAVlO2W
- 4HTZnkXPmdk2rKSGfUUwST3Vjw==
-X-Google-Smtp-Source: AGHT+IE2F7pfcHOX2OqOjdf/8yC0R+rXJgV623odj8DkbTqz9V9NQ2wG4qE6yedpKCypg3IborH+mQ==
-X-Received: by 2002:a05:6000:114b:b0:30e:56b3:60fe with SMTP id
- d11-20020a056000114b00b0030e56b360femr8811358wrx.4.1696230020459; 
- Mon, 02 Oct 2023 00:00:20 -0700 (PDT)
+ bh=Uh6V+yik9Ib/JARzquX4rgox6eLV1JUajkuwrIR+ASE=;
+ b=tfzm97FlejnWT+Y3urYcWRJFZG1lXEa7NsuglakH11z0R/HMVUqI2ls+J25cD4aRY5
+ eYgs+9P6lhMSjhCVfrkpjvLRDAGozSHoj5S1neyP2gHbiHLaYlYtyPMJgUfdb+XMq09l
+ ULGpl7R9IR1r2mLTpthdpwYv6nMIgQ4lzQ57/8phcTJCHzcSjeZ6d4wHHJiE5iN5udiV
+ lZ3l3dal2ew0mYv1jFyQnRMKRymaGMEaGqJvHvmreQEYCwy0lJk9zfCJ0bhnz3DCyQIw
+ avUchGVjDsZXNMuz6/dKWvv0zeo8HzstMM/WKdn8dxx50pmIV76OnaxXXMAlRFeZmVnB
+ wNAw==
+X-Gm-Message-State: AOJu0Yw/s4+vxrItRyx0WRl4M49NWikIu1dpl2bFFrtBxfOW30Rl3bxn
+ lwF8F0/w/Ixg3V703Ef2JtRDvw==
+X-Google-Smtp-Source: AGHT+IHFX1UiFe78PtuVf23Tu0d3OzPYiGs7ybCkVuk1lHeshLRibW5pmbWKb/Mop92Qk9LQx9oc2w==
+X-Received: by 2002:a5d:56c7:0:b0:31f:ebfa:54eb with SMTP id
+ m7-20020a5d56c7000000b0031febfa54ebmr8973311wrw.3.1696230131111; 
+ Mon, 02 Oct 2023 00:02:11 -0700 (PDT)
 Received: from ?IPV6:2a01:e0a:982:cbb0:b653:7e47:ffdd:9340?
  ([2a01:e0a:982:cbb0:b653:7e47:ffdd:9340])
  by smtp.gmail.com with ESMTPSA id
- d11-20020adff84b000000b0031980783d78sm12200252wrq.54.2023.10.02.00.00.19
+ g3-20020a5d5403000000b00325c7295450sm6832544wrv.3.2023.10.02.00.02.10
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 02 Oct 2023 00:00:19 -0700 (PDT)
-Message-ID: <7d157f25-a25d-41c2-9ff5-624721efcb92@linaro.org>
-Date: Mon, 2 Oct 2023 09:00:18 +0200
+ Mon, 02 Oct 2023 00:02:10 -0700 (PDT)
+Message-ID: <2e43e392-fcae-4594-a60d-eb8f07154a3a@linaro.org>
+Date: Mon, 2 Oct 2023 09:02:10 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: neil.armstrong@linaro.org
-Subject: Re: [PATCH] MAINTAINERS: drm/ci: add entries for xfail files
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH] drm/bridge: dpc3433: Convert to use maple tree register
+ cache
 Content-Language: en-US, fr
-To: Helen Koike <helen.koike@collabora.com>, dri-devel@lists.freedesktop.org
-References: <20230919182249.153499-1-helen.koike@collabora.com>
+To: Mark Brown <broonie@kernel.org>, Jagan Teki <jagan@amarulasolutions.com>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+References: <20231001-drm-dlpc3433-maple-v1-1-7d71170c010b@kernel.org>
 Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
  GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
@@ -87,7 +92,7 @@ Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
  QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
 Organization: Linaro Developer Services
-In-Reply-To: <20230919182249.153499-1-helen.koike@collabora.com>
+In-Reply-To: <20231001-drm-dlpc3433-maple-v1-1-7d71170c010b@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -103,87 +108,38 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Reply-To: neil.armstrong@linaro.org
-Cc: mripard@kernel.org, michel.daenzer@mailbox.org,
- linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org,
- amd-gfx@lists.freedesktop.org, airlied@redhat.com, alexander.deucher@amd.com,
- linux-amlogic@lists.infradead.org
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 19/09/2023 20:22, Helen Koike wrote:
-> DRM CI keeps track of which tests are failing, flaking or being skipped
-> by the ci in the expectations files. Add entries for those files to the
-> corresponding driver maintainer, so they can be notified when they
-> change.
+On 01/10/2023 01:42, Mark Brown wrote:
+> The maple tree register cache is based on a much more modern data structure
+> than the rbtree cache and makes optimisation choices which are probably
+> more appropriate for modern systems than those made by the rbtree cache.
 > 
-> Signed-off-by: Helen Koike <helen.koike@collabora.com>
+> Signed-off-by: Mark Brown <broonie@kernel.org>
 > ---
+>   drivers/gpu/drm/bridge/ti-dlpc3433.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> For reference: https://www.mail-archive.com/dri-devel@lists.freedesktop.org/msg463165.html
+> diff --git a/drivers/gpu/drm/bridge/ti-dlpc3433.c b/drivers/gpu/drm/bridge/ti-dlpc3433.c
+> index b65632ec7e7d..ca3348109bcd 100644
+> --- a/drivers/gpu/drm/bridge/ti-dlpc3433.c
+> +++ b/drivers/gpu/drm/bridge/ti-dlpc3433.c
+> @@ -100,7 +100,7 @@ static struct regmap_config dlpc_regmap_config = {
+>   	.max_register		= WR_DSI_PORT_EN,
+>   	.writeable_noinc_reg	= dlpc_writeable_noinc_reg,
+>   	.volatile_table		= &dlpc_volatile_table,
+> -	.cache_type		= REGCACHE_RBTREE,
+> +	.cache_type		= REGCACHE_MAPLE,
+>   	.name			= "dlpc3433",
+>   };
+>   
 > 
->   MAINTAINERS | 7 +++++++
->   1 file changed, 7 insertions(+)
+> ---
+> base-commit: 6465e260f48790807eef06b583b38ca9789b6072
+> change-id: 20230929-drm-dlpc3433-maple-7e76ba8e59be
 > 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 90f13281d297..740a2ce2689c 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -6614,6 +6614,7 @@ S:	Maintained
->   B:	https://gitlab.freedesktop.org/drm/msm/-/issues
->   T:	git https://gitlab.freedesktop.org/drm/msm.git
->   F:	Documentation/devicetree/bindings/display/msm/
-> +F:	drivers/gpu/drm/ci/xfails/msm*
->   F:	drivers/gpu/drm/msm/
->   F:	include/uapi/drm/msm_drm.h
->   
-> @@ -6886,6 +6887,7 @@ T:	git git://anongit.freedesktop.org/drm/drm-misc
->   F:	Documentation/devicetree/bindings/display/amlogic,meson-dw-hdmi.yaml
->   F:	Documentation/devicetree/bindings/display/amlogic,meson-vpu.yaml
->   F:	Documentation/gpu/meson.rst
-> +F:	drivers/gpu/drm/ci/xfails/meson*
->   F:	drivers/gpu/drm/meson/
->   
->   DRM DRIVERS FOR ATMEL HLCDC
-> @@ -6994,6 +6996,7 @@ L:	dri-devel@lists.freedesktop.org
->   L:	linux-mediatek@lists.infradead.org (moderated for non-subscribers)
->   S:	Supported
->   F:	Documentation/devicetree/bindings/display/mediatek/
-> +F:	drivers/gpu/drm/ci/xfails/mediatek*
->   F:	drivers/gpu/drm/mediatek/
->   F:	drivers/phy/mediatek/phy-mtk-dp.c
->   F:	drivers/phy/mediatek/phy-mtk-hdmi*
-> @@ -7034,6 +7037,7 @@ L:	dri-devel@lists.freedesktop.org
->   S:	Maintained
->   T:	git git://anongit.freedesktop.org/drm/drm-misc
->   F:	Documentation/devicetree/bindings/display/rockchip/
-> +F:	drivers/gpu/drm/ci/xfails/rockchip*
->   F:	drivers/gpu/drm/rockchip/
->   
->   DRM DRIVERS FOR STI
-> @@ -10476,6 +10480,7 @@ C:	irc://irc.oftc.net/intel-gfx
->   T:	git git://anongit.freedesktop.org/drm-intel
->   F:	Documentation/ABI/testing/sysfs-driver-intel-i915-hwmon
->   F:	Documentation/gpu/i915.rst
-> +F:	drivers/gpu/drm/ci/xfails/i915*
->   F:	drivers/gpu/drm/i915/
->   F:	include/drm/i915*
->   F:	include/uapi/drm/i915_drm.h
-> @@ -17862,6 +17867,7 @@ C:	irc://irc.oftc.net/radeon
->   T:	git https://gitlab.freedesktop.org/agd5f/linux.git
->   F:	Documentation/gpu/amdgpu/
->   F:	drivers/gpu/drm/amd/
-> +F:	drivers/gpu/drm/ci/xfails/amd*
->   F:	drivers/gpu/drm/radeon/
->   F:	include/uapi/drm/amdgpu_drm.h
->   F:	include/uapi/drm/radeon_drm.h
-> @@ -22846,6 +22852,7 @@ L:	dri-devel@lists.freedesktop.org
->   L:	virtualization@lists.linux-foundation.org
->   S:	Maintained
->   T:	git git://anongit.freedesktop.org/drm/drm-misc
-> +F:	drivers/gpu/drm/ci/xfails/virtio*
->   F:	drivers/gpu/drm/virtio/
->   F:	include/uapi/linux/virtio_gpu.h
->   
+> Best regards,
 
 Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
