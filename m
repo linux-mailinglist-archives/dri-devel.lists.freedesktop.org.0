@@ -2,72 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE9487B5D73
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Oct 2023 00:58:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA7637B5DB7
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Oct 2023 01:27:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 13E2410E08D;
-	Mon,  2 Oct 2023 22:58:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6797910E0C5;
+	Mon,  2 Oct 2023 23:27:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
- [IPv6:2a00:1450:4864:20::134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5332310E08D
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Oct 2023 22:58:09 +0000 (UTC)
-Received: by mail-lf1-x134.google.com with SMTP id
- 2adb3069b0e04-5033918c09eso272876e87.2
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Oct 2023 15:58:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1696287487; x=1696892287;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:user-agent
- :from:references:in-reply-to:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ZLskpeXIHd9AQB0pmS0kpklk4pQMX38Kb28MEbiPPRc=;
- b=jlGq35V820LhliD0xtui8aaBvcHYBM7wL+6VkFMo3fsH7/epobbVp/3UCnXUbQ0Wqa
- IsjAdugTWJ1Ejsh5lGiV3h9puBguA4+QTg7p5NpOsi/oSUPcs9aTnXuE7DO0dna434/F
- 2BgBTvpFFIMfmN+nYtgTDDT+JS0+RwWpox1Fg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1696287487; x=1696892287;
- h=content-transfer-encoding:cc:to:subject:message-id:date:user-agent
- :from:references:in-reply-to:mime-version:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=ZLskpeXIHd9AQB0pmS0kpklk4pQMX38Kb28MEbiPPRc=;
- b=vafaWVin8nBctnOLEmVzcC/MTiQjhaEFSSNHOi81IO+hXLw4A/KykmP8d2Uo3WrrvI
- b+sncn8+x47tVfJzsRAQd2hTaHClcz2v/jS5yRH1C/rtsqvEBnl9TsL+pu1NTOURDqHQ
- wGP5Td5RlXRSwW7aGHBU38GYgkJDpDcLdmXoHTbTvDx3ujekZJmn1I4NV7aTZ3le3HkB
- ixOz7pbRx1mO6WaAajQQIa/hETSXuR511iyN5iI5ZmqiEbai6/+z9MUpz6z0xCPDb6aB
- LED22kUCIAH+IKRbQNOVKpMJRSW+0aef2qy/sSXI3nAAYkj8Y89Wfxxe4FSs5B20InXd
- RQnw==
-X-Gm-Message-State: AOJu0Yx5oDUNHxx2kacWXOs3b7p22Jige45bR68MW8CTF//oYnSaxnRb
- fJJjr9ydEWJKYsoCZZSDcCqfeSd/pobgSM71MvdekQ==
-X-Google-Smtp-Source: AGHT+IG+XhRlziyXPAe6ffwhzMLbjXiah5u75GSqQh8c9zq4Zet1s6oInEMhAykPawNg7FfVh+RZo7+rNd/AUX798AU=
-X-Received: by 2002:a05:6512:3b28:b0:500:7de4:300e with SMTP id
- f40-20020a0565123b2800b005007de4300emr13351747lfv.58.1696287487183; Mon, 02
- Oct 2023 15:58:07 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 2 Oct 2023 17:58:06 -0500
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam04olkn2102.outbound.protection.outlook.com [40.92.46.102])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB20E10E0C5
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Oct 2023 23:27:50 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=P6LPwDCI1VNvg8RONYn2qRnvxiB87qRbgpm6t4tnooKWbTbNM2NBehGGi5aYdegeIHScRLWlHo9lGasDhaa4OsdPo4pmzvygGVOjpk8jqbqhjF3ZBroOAZpdHnoxydu8z11v/Oc5ZsoY1gvUPprEpWCNSA+LelKpKnYTmVS13X25HuyZlotvIx7G06DV+tHd7diTi7faTxYQACphIiAYUPP1GW2P0enjbFDKPnshAGKBM96zGucd/V+5zJfJZfQZ8dN5atWQmfEyicCVVkKxC2y8MRgVQ/raByXWnyCmwbdgk9pkNevRZes/mUbReoMq7xCQXCtBCp//zWpTmpDEXA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=pBRg8LgMHw5pnExKQkb8R1iNuzrJQQoHjOxQyQafWGs=;
+ b=GLv4uvYQ7nJkgKvvSar8WHlwaCc/IXF2mfY7niqtegFDueUfisCtaCS1Rz9rN6Q/0jk37PSGE7ywbkAknFqExMfCp87QSDVJjnffGsPMhEPsI8Ub3SZAmIRgjulgHKkjEYiGBlKapdZrwzW2Yl2BwQomgVIShr94c7E44fCmrNTbzrTOZp8BcG574lF1sBVvAdEHPjstZWfAS2Ev40WPQ8DH6CNhYEFJQsBM7u6V8pRIVpguwT526GkMX3r755o5Ep8pJFtrdMbY52wva97eX0XAHng0lmSc9exR2aK++P7YoaDqDvdvdjIIbJjBlFnSTQ4/hRdfp4OL2JTjRYA79A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=pBRg8LgMHw5pnExKQkb8R1iNuzrJQQoHjOxQyQafWGs=;
+ b=tnfo4kUlvJALWklq6/OV9EjG9V10KlyHXBvzAFoVwUg8JIhcFYAhaVfDeuh3MWRp/GMKCZDoZgohCzO8rRudA0deFyqq8/c4VHd05byhIqVBJnvExEtfq/AHldum7pF48Ft7ukZijkKfV44md1OiPrOkGEkyzhzlANBgOdU63NVOfa3I1m0O9V2eCUacB5ynB5lxyW/+RzjkVcoRHiEiQ4LhisF3R4fsPEHFcaMJrgT34B/NSxYA1HDSkRSbREPAICZKW2DqMnsHLh+afb9O7N/Z7sdxl5EowHxSzTpExfwXvmYt9Yqs/Ns/4QvpL10FVpSQAbzTiV6RcTpX1kUkWw==
+Received: from SN6PR06MB5342.namprd06.prod.outlook.com (2603:10b6:805:f9::31)
+ by CO6PR06MB7426.namprd06.prod.outlook.com (2603:10b6:303:ae::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6813.20; Mon, 2 Oct
+ 2023 23:27:48 +0000
+Received: from SN6PR06MB5342.namprd06.prod.outlook.com
+ ([fe80::c40c:bbc8:b103:459c]) by SN6PR06MB5342.namprd06.prod.outlook.com
+ ([fe80::c40c:bbc8:b103:459c%2]) with mapi id 15.20.6813.027; Mon, 2 Oct 2023
+ 23:27:48 +0000
+Date: Mon, 2 Oct 2023 18:27:45 -0500
+From: Chris Morgan <macromorgan@hotmail.com>
+To: Jessica Zhang <quic_jesszhan@quicinc.com>
+Subject: Re: [PATCH V3 2/2] drm/panel: nv3051d: Add Support for Anbernic 351V
+Message-ID: <SN6PR06MB5342D22FB6DC47A509976293A5C5A@SN6PR06MB5342.namprd06.prod.outlook.com>
+References: <20231002193016.139452-1-macroalpha82@gmail.com>
+ <20231002193016.139452-3-macroalpha82@gmail.com>
+ <c0b56123-7ce3-4975-aa68-ff50a616a578@quicinc.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c0b56123-7ce3-4975-aa68-ff50a616a578@quicinc.com>
+X-TMN: [r22YtD9pj5CD1RpFK8CYYw7lESwOhbTp]
+X-ClientProxiedBy: SN7PR04CA0034.namprd04.prod.outlook.com
+ (2603:10b6:806:120::9) To SN6PR06MB5342.namprd06.prod.outlook.com
+ (2603:10b6:805:f9::31)
+X-Microsoft-Original-Message-ID: <ZRtR8aO7YtGXpwMX@wintermute.localhost.fail>
 MIME-Version: 1.0
-In-Reply-To: <58701008-bb93-e5c6-9ca0-5bc43f9a46f0@quicinc.com>
-References: <1694813901-26952-1-git-send-email-quic_khsieh@quicinc.com>
- <1694813901-26952-7-git-send-email-quic_khsieh@quicinc.com>
- <CAA8EJpqPXoFX4LXyXYgfh07Vpxg-KgD8VBR6x5bXf4GOJmbOtw@mail.gmail.com>
- <2f98d5f1-57c1-d9fe-cb1c-b975db057287@quicinc.com>
- <CAA8EJpr2wRq6Txi7YAQpJKa_9UGqH_nmHzvVOaAPkwOrtDg4Tw@mail.gmail.com>
- <CAE-0n53dqHONzMTd_ZC-fKWTzDVq6Wqwo4OFZMUcghZ5SD5RhA@mail.gmail.com>
- <65566a68-3510-2e5f-7d57-e4dba08c008c@quicinc.com>
- <1d9bf80d-0267-937b-4dd9-c57db7a89cb4@quicinc.com>
- <CAE-0n51Hrs66oG4NF5rDETkVO-ocG_6_=Aqc5cE-qPDViSgKyA@mail.gmail.com>
- <58701008-bb93-e5c6-9ca0-5bc43f9a46f0@quicinc.com>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.10
-Date: Mon, 2 Oct 2023 17:58:06 -0500
-Message-ID: <CAE-0n50N6hXM7qQZzccKy2X-kcru9n7Nvgn_V4tOHTnLn64qjw@mail.gmail.com>
-Subject: Re: [PATCH v3 6/7] drm/msm/dp: add pm_runtime_force_suspend()/resume()
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN6PR06MB5342:EE_|CO6PR06MB7426:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3d9e1317-18a3-4be1-14c7-08dbc39f305c
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: hKpVw0QiHiy37IoJf7tRT9JhGo5gM4N82bcrrZ2V3FIz6N5FJjDKBBHcAmXYnhNFy/xH3VjZmNDS1lxy7tPgKFJAH47B1J5hgjbzRjh9vbgeFyq/X6eOSPQHjYCwPokFNycO33q/JqxUFo4YfLiiE8vzku2fIjiEmf7Dhh/M9Mzyzc7oyHYRbyWLxZ5kDZDIq+pfhpEttJxCDP3pGhQbD7QAhHO56AcpHFB4n27Azx9TlOAnWCOMrlOORU7uqXICs+2CpzPThnigCoQ280kFygeTnbDk1rfuPNBQ1TKATGx76icpNdIVf62ARYMiLcGmYV7R5GligW71+/yomcWuiP5SRXIHhvzsZhU7/mWRPgSZKlmR9oeUm0hEntJaMA6xEdlJJZ4goPohH39AMy6oxy767vY8VAbDCOFlNe45LjHqW8YEZ3lE+nUYL1R+Jt7dHrE/Z++Ls+/hqg78JnXszCD3tq/2rdBDHrr1FDNS784CdGqCpKPran0IqcCAWt0zJ5BL/11WpNu/BvusyzRyc0JBHEencbIYDmEYqZinkK2mZpr7YZAzGOCkPC4OyOjh
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Ar3rIdOStjHn2lopvD3fJcTgmJXwCL8ISguywLnaUB5eeXkmPn/n2vcq/NJw?=
+ =?us-ascii?Q?0MM2HzpDW8JAFR6KYhHRMa+bEX3+Yj4FxrZSJb/cvWXy4zRtdgEmxjwL1oKg?=
+ =?us-ascii?Q?D0stFbSOnKrOvliztNh7kg15Sbs8h5Rx2OBdAPQBUwbFl0gshn3hQFVwwabO?=
+ =?us-ascii?Q?nb1wHcEy2myFbY2MvEyOfbu6ygwBPZ/H9WyQHhLAkIwYJlkiDi2DWnH62D4J?=
+ =?us-ascii?Q?LabhMViyBcd1v5Tc3h0xnITBqBNZIRJKq0Z0GpfuJFls2wWyLpPVK3xfjGsW?=
+ =?us-ascii?Q?uHqpToG7597J4IH/rPq0RfBAhop5UpOLJPNNp3Ca/V7VV2y5+TmpMgu0WKnN?=
+ =?us-ascii?Q?0i7Mn6CiPLyjJE+G96F96SbiRBy4CS0lzmhI3jqHEaGjsIkWaxsDeSa+eqhE?=
+ =?us-ascii?Q?AwCXpgIIbSgtAxb7OVtt1m0nTnMjr9PkST9w/jYKkPieCzMfJwpWzNThPU61?=
+ =?us-ascii?Q?VDwtgAHHPLXFSTPU+9hpsTzA9KqQYPWe8+R2TdbhjNO8D0khAcg8Bv/1oyKR?=
+ =?us-ascii?Q?tkUcb5tyYNyJNCkCbsDBraTPBjoR24kg2UulPisbizGtM45cld7FwiE/x7pO?=
+ =?us-ascii?Q?vOhdI6wR5V7xnGT2wPWX1YBiwISHZO97dYgIgyVOO2wZnuBM0pMAKWcFfgtL?=
+ =?us-ascii?Q?YSBemGcxluQE7X16vqsCPld0snYENKGznhvAwMiEhm1i6G1+X7Gt0rvRC8i0?=
+ =?us-ascii?Q?gSRoJKxcfvfOYyE2zARmpoL9hNf18UnbFVq+ocEgAdhObBh1Jk8t0j1xFHyd?=
+ =?us-ascii?Q?FqAp41on8bsAmxu6Lodcj9SbwcAL2jhYdbaxBqx3TOdQLKwQ1q+NSwVZXUcw?=
+ =?us-ascii?Q?8JoRLQr9iFV8lnXr3oZTiV99M2Q6lByaqN78F5ga0yjja6UjxbSDkU0RXVOg?=
+ =?us-ascii?Q?xkB7Hq0Nj3yO2TelaqBfrJAM7fT6b/zLDCsMjj9xBX9W26RXliwJv4IwH/cf?=
+ =?us-ascii?Q?IPZGMtr4GUcdNqs7V69Of7NyMXqKeZjsp37nWactuEjudg3hr0+fOMX3tXlL?=
+ =?us-ascii?Q?PhChqWRPCPhufyqVvKkgnb67NvX77vaVS3zgY71CsmKcns6pyDihhgs23sOu?=
+ =?us-ascii?Q?kXxWgtx+D1nIiTJrjcR/VwpSHAsjEroQDoOJXuO3UzjGHxAGdJ+Bq9PKoTGR?=
+ =?us-ascii?Q?GtwcVU+VuZbXC2HzXh80Jhn4r4i0Gp8Xf/+vtURrw4wn7Ng7nvH2ZKcmP4Dw?=
+ =?us-ascii?Q?Lvc9vGDof5ZMobKviWRxZQdkLd4hyYQlBtQuzQG63+v/FA1n6IkxBBoDEaY?=
+ =?us-ascii?Q?=3D?=
+X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-89723.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3d9e1317-18a3-4be1-14c7-08dbc39f305c
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR06MB5342.namprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Oct 2023 23:27:48.7695 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR06MB7426
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,98 +103,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, quic_sbillaka@quicinc.com,
- linux-kernel@vger.kernel.org, andersson@kernel.org,
- dri-devel@lists.freedesktop.org, dianders@chromium.org, vkoul@kernel.org,
- agross@kernel.org, marijn.suijten@somainline.org, quic_jesszhan@quicinc.com,
- sean@poorly.run, linux-arm-msm@vger.kernel.org
+Cc: neil.armstrong@linaro.org, conor+dt@kernel.org, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Chris Morgan <macroalpha82@gmail.com>,
+ robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, sam@ravnborg.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Abhinav Kumar (2023-09-28 17:46:11)
-> On 9/27/2023 3:01 PM, Stephen Boyd wrote:
-> > Quoting Kuogee Hsieh (2023-09-25 09:07:18)
-> >>
-> >> However for external DP case, link training can not be guarantee alway=
-s
-> >> success without link rate or lane being reduced as Abhinav mentioned.
-> >>
-> >> In addition,=C2=A0 CTS (compliance test) it required to complete link
-> >> training within 10ms after hpd asserted.
-> >
-> > Is it possible to change that timeout? I have to look around for the CT=
-S
-> > parameters because I'm pretty confused how it can work. What do we do i=
-f
-> > DP wakes the system from suspend and asserts HPD? We need resume time t=
-o
-> > be < 10ms?  That's not realistic.
-> >
->
-> No, the CTS doesnt say we need to finish link training within 10ms after
-> HPD is asserted. It says it must be completed in 10ms after
-> TRAINING_PATTERN_SET dpcd write.
->
-> "Wait until the Source DUT writes 00h to the TRAINING_PATTERN_SET byte
-> of Reference Sink DPCD Link Configuration Field to indicate the end of
-> the link training. Stop the link training timer. Verify that link
-> training completed in 10ms or less"
->
-> That needs to be done independent of HPD so we can ignore the CTS point.
+On Mon, Oct 02, 2023 at 01:33:03PM -0700, Jessica Zhang wrote:
+> 
+> 
+> On 10/2/2023 12:30 PM, Chris Morgan wrote:
+> > From: Chris Morgan <macromorgan@hotmail.com>
+> > 
+> > Add support for the Anbernic 351V. Just like the 353 series the
+> > underlying vendor is unknown/unmarked (at least not visible in a
+> > non-destructive manner). The panel had slightly different init
+> > sequences and timings in the BSP kernel, but works fine with the
+> > same ones used in the existing driver. The panel will not work without
+> > the inclusion of the MIPI_DSI_CLOCK_NON_CONTINUOUS flag, and this flag
+> > prevents the 353 series from working correctly, so a new compatible
+> > string is added.
+> > 
+> > Tested colors and timings using modetest and all seem to work identical
+> > to the 353 otherwise.
+> > 
+> > Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+> > ---
+> >   drivers/gpu/drm/panel/panel-newvision-nv3051d.c | 8 ++++++++
+> >   1 file changed, 8 insertions(+)
+> > 
+> > diff --git a/drivers/gpu/drm/panel/panel-newvision-nv3051d.c b/drivers/gpu/drm/panel/panel-newvision-nv3051d.c
+> > index ad98dd9322b4..f644dbc8ee8a 100644
+> > --- a/drivers/gpu/drm/panel/panel-newvision-nv3051d.c
+> > +++ b/drivers/gpu/drm/panel/panel-newvision-nv3051d.c
+> > @@ -354,6 +354,7 @@ static const struct drm_panel_funcs panel_nv3051d_funcs = {
+> >   static int panel_nv3051d_probe(struct mipi_dsi_device *dsi)
+> >   {
+> >   	struct device *dev = &dsi->dev;
+> > +	struct device_node *np = dev->of_node;
+> 
+> Hi Chris,
+> 
+> Thanks for the patch.
+> 
+> It mostly looks good to me, but just one question here -- why not pass in
+> `dev->of_node` directly into `of_device_is_compatible()`?
 
-Great!
+It was an oversight on my part. I'll modify and resend, sorry about that.
 
->
-> >>
-> >> I am not sure do link training at atomic_enable() can meet this timing
-> >> requirement.
+Thank you.
 
-Why? It's putting some time bound on link training in general to only
-take 10ms, right?
-
-> >>
-> >
-> > At least in the DP spec itself it doesn't require the link to be traine=
-d
-> > within 10ms of HPD being asserted. Instead it simply recommends that th=
-e
-> > OS start configuring the display promptly after HPD is asserted, e.g.
-> > within 100ms. There's some strict timing on IRQ_HPD, so the driver must
-> > read DPCD registers within 100ms of IRQ_HPD rising edge; maybe that is
-> > what CTS is checking for?
-> >
-> > TL;DR: I don't see why CTS should stop us from link training in
-> > atomic_enable(). It would be beneficial to do so to make eDP and DP the
-> > same. It would also help to report a drm connector being connected
-> > _before_ link training so that userspace knows the link itself is the
-> > bad part of the equation (and not that the DP connector looks
-> > disconnected to userspace when in fact it really is connected and the
-> > monitor is asserting HPD, just the link training failed).
->
-> Its the corrective action of the userspace when it finds link is bad is
-> the concern as I highlighted in the other response. Just reading and
-> resetting link_status is not enough to recover.
-
-What needs to be done to recover? Userspace will try to set a mode on
-the connector again if the link status is bad and there were some modes
-available. If there are zero modes and the link is bad, then it ignores
-the connector. I'm not sure what else could be done to recover besides
-try again and stop trying if no modes exist.
-
-Acting like the connector isn't connected makes the situation worse for
-ChromeOS because userspace thinks there's nothing there so it can't try
-to retrain the link again. Instead, userspace has to rely on the kernel
-driver to train the link again. The kernel should just tell userspace
-the link is bad so userspace can implement the policy to either ignore
-the connector entirely or to consider it a display that is having link
-training problems.
-
-So again, I see no reason why the kernel driver thinks it can implement
-a policy to train the link before indicating the drm connector is
-connected. It should stop doing that. Instead it should tell userspace
-that the connector is connected and then train the link when there's a
-modeset. If the modeset fails then userspace can take action to either
-figure out that the link is bad, or notify the user that the cable is
-bad, or to try replugging or power cycle the monitor, etc. None of that
-can be done if the kernel lies about the state of the connector because
-the link training failed.
+> 
+> Thanks,
+> 
+> Jessica Zhang
+> 
+> >   	struct panel_nv3051d *ctx;
+> >   	int ret;
+> > @@ -388,6 +389,13 @@ static int panel_nv3051d_probe(struct mipi_dsi_device *dsi)
+> >   	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
+> >   			  MIPI_DSI_MODE_LPM | MIPI_DSI_MODE_NO_EOT_PACKET;
+> > +	/*
+> > +	 * The panel in the RG351V is identical to the 353P, except it
+> > +	 * requires MIPI_DSI_CLOCK_NON_CONTINUOUS to operate correctly.
+> > +	 */
+> > +	if (of_device_is_compatible(np, "anbernic,rg351v-panel"))
+> > +		dsi->mode_flags |= MIPI_DSI_CLOCK_NON_CONTINUOUS; > +
+> >   	drm_panel_init(&ctx->panel, &dsi->dev, &panel_nv3051d_funcs,
+> >   		       DRM_MODE_CONNECTOR_DSI);
+> > -- 
+> > 2.34.1
+> > 
