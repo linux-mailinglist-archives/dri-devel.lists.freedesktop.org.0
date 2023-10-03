@@ -1,156 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 996A07B5FC3
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Oct 2023 06:19:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 981277B605B
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Oct 2023 07:25:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 013E010E021;
-	Tue,  3 Oct 2023 04:19:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6192310E19F;
+	Tue,  3 Oct 2023 05:25:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com
- [68.232.153.233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D08E10E021
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Oct 2023 04:19:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
- t=1696306750; x=1727842750;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-id:content-transfer-encoding: mime-version;
- bh=w+wH1nIEYfqdOiQ3dPqdgQf6oUWPkQnhVd95q2BX08s=;
- b=cEP33n9DgRkiGwKzcKm1O7r/gQxa3ND5p9791T1XZk0RsUQFxz9jFWem
- h2ZYgS1sBAwhgFvKNM26d/HU+vqLrIvC6bENeVefWZlEfW1K0Yp63EKio
- AMFBH2PYC+O93WCO+geCPwHoeJMsmS/j4mzCg/LMlS0NfP94VYiGkZcou
- qWMyqFVz3v8Cb36x7rNZHF6VWUNKjk2CzQQKRxCRHWq9G4NN6+Sl12iog
- jDUZ6mrYM0uSYYPIKmMKn14h/Z515+FQfolLr5Y1zQaIS9iNB4pnkrs9U
- MGgSS4NcXtsRGoMrJlPQiKaAzxTsjrZFmUO9Su+VwGZuipaM829DhMVtg Q==;
-X-CSE-ConnectionGUID: iRXXdZPaS+e6eTa3iqcIiA==
-X-CSE-MsgGUID: udZpWNJwSK+qfAHGDIoKuA==
-X-ThreatScanner-Verdict: Negative
-X-IronPort-AV: E=Sophos;i="6.03,196,1694761200"; d="scan'208";a="238350352"
-X-Amp-Result: SKIPPED(no attachment in message)
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
- by esa5.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 02 Oct 2023 21:19:09 -0700
-Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
- chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Mon, 2 Oct 2023 21:18:41 -0700
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (10.10.215.89) by
- email.microchip.com (10.10.87.71) with Microsoft SMTP Server
- (version=TLS1_2, 
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21 via Frontend
- Transport; Mon, 2 Oct 2023 21:18:41 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PHIuS/NFad4v2xP9g5vm0PNhVbc6EeM1kBczRUZL54yuee46FbGsVzlqC5V+CN4/Gv7PlRWulMv3Mbi4vZ2VA7RqRw1ib9srYh1fwibn4rgNRZxW9RLnhj0bm7gFSu4wKjJsBsfv8Kb6LckCYTykUS9jUGpIR94B/QTEOJ0AUnNZ4OHbboRN29MuDbu5hKN6hq32sxGihp5SSu3PYM3Aht3rd/xJOz7dJ7DolMQICFNRL0IC4WqzzgZiWScE9WcKMabqwYjlnOTVLZoSSsZcosQd/tOSjxvDtQkTNzqMeODg2tfbuoG+0qOttlJL2r297wDDiGanhr5uFG2+e22KCQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=w+wH1nIEYfqdOiQ3dPqdgQf6oUWPkQnhVd95q2BX08s=;
- b=D9YC5xG7nQeeSZ9D5r3vboMWyazgToGeT51IQsABo6qHZsE3hwC1kBoWLCu8RKyFpyN1wGrjWxC0Uze1xo8vMhdlv+4k02btRHsugDzdD5PHyZm9qyOsvr78KttguuM5NjEuTe42XquZ/GJTWtNFIuQT8YMDaEPXIK/N4/45xgPvZmLIMTsG6aLxlz06nQY4UkXTHUqIbhKpt5zh/ddobkgdSSlQMTYxShMrwyYLVGciX+V6HDhYkMJitm0+K/MCCcbhMpxep0tV5QBjpF7+Im2B15jUwbf+HvMHAWwM93rOnUTBLzWJIw/OzDrDYXXxZLxhv5dPwJO9t09QxYHgoA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microchip.com; dmarc=pass action=none
- header.from=microchip.com; dkim=pass header.d=microchip.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=microchiptechnology.onmicrosoft.com;
- s=selector2-microchiptechnology-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=w+wH1nIEYfqdOiQ3dPqdgQf6oUWPkQnhVd95q2BX08s=;
- b=J/o/3cgatfjgupA5y+JChmBzwdqNgqC56RoX21Ot65R7oHpLvzMnfNREC5bQK/OluBD/uC/Bc4dC/TkxQnlBPkQ93jC1cQ0qhx/XTrlwP7v94wICZqKLBd60oUfg0ixMtQphZ8W0+3dYNv8dMErpPwQs2FThv6H+a7YgBTHDwA8=
-Received: from IA1PR11MB6193.namprd11.prod.outlook.com (2603:10b6:208:3eb::19)
- by BL3PR11MB6313.namprd11.prod.outlook.com (2603:10b6:208:3b0::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6838.26; Tue, 3 Oct
- 2023 04:18:38 +0000
-Received: from IA1PR11MB6193.namprd11.prod.outlook.com
- ([fe80::8bf2:b185:cfb9:de89]) by IA1PR11MB6193.namprd11.prod.outlook.com
- ([fe80::8bf2:b185:cfb9:de89%5]) with mapi id 15.20.6813.017; Tue, 3 Oct 2023
- 04:18:38 +0000
-From: <Manikandan.M@microchip.com>
-To: <claudiu.beznea@tuxon.dev>, <sam@ravnborg.org>, <bbrezillon@kernel.org>,
- <airlied@gmail.com>, <daniel@ffwll.ch>, <Nicolas.Ferre@microchip.com>,
- <alexandre.belloni@bootlin.com>, <lee@kernel.org>,
- <dri-devel@lists.freedesktop.org>, <linux-arm-kernel@lists.infradead.org>,
- <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v6 1/7] drm: atmel-hlcdc: add flag and driver ops to
- differentiate XLCDC and HLCDC IP
-Thread-Topic: [PATCH v6 1/7] drm: atmel-hlcdc: add flag and driver ops to
- differentiate XLCDC and HLCDC IP
-Thread-Index: AQHZ8SfBdAZUB301qEihS7VC9aVTxbAvwDQAgAe+2IA=
-Date: Tue, 3 Oct 2023 04:18:38 +0000
-Message-ID: <8b721bd5-187c-6aad-39ee-e9a5ded6cee5@microchip.com>
-References: <20230927094732.490228-1-manikandan.m@microchip.com>
- <20230927094732.490228-2-manikandan.m@microchip.com>
- <35d861b5-eca0-c817-684c-e39a841f17db@tuxon.dev>
-In-Reply-To: <35d861b5-eca0-c817-684c-e39a841f17db@tuxon.dev>
-Accept-Language: en-GB, en-US
-Content-Language: en-GB
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=microchip.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: IA1PR11MB6193:EE_|BL3PR11MB6313:EE_
-x-ms-office365-filtering-correlation-id: a3467262-2651-4e95-396f-08dbc3c7d19b
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: W96jlU05Kh9Hc3eIPHPuI/rYIr5Ims/lpb6Yt8qlO35HRbUU+UjdyKVj1j+eFXWc59jjGlJQp4nLEszZB34SIHnn4ZCX8XBYmWu3jg3srf2xoyNjso5w5+Up1/Zgq6BdwTBl5mFQ5hJe4so7AjioOeURBcnR5EI4CFcWY5koNkomU//sqmusiPCzsoGM74OsfUo5MFV6Dvw8pIQjRdWGzGsRA9FTBY87J9TiwjkgAXhFLtiRruQMcLKFSIZ2WMv6hrBVLMeJiZhP/RfwrEi6C/lE/KVrx6+xfdttv4UvAzybVEB1699rRPtp6XkUeJRE+XiQBbB/bJRwxmejHXtIgWXj67WajDwcENiWOV1VaW+YXhouY70w68h9h9SXETEKRJkGapOV+QmQ2kAHEaRnLjUECJQaWX4s9mMSIuhIwXMnr4iHGOrDHc+Fe2i+8Pm0HH0gxxMVGJk0vVbUc78Y+DJsZs57ZAb1zLbgIYt1x2hGbHdjRpb1v3ZwDa4jg8WsdjOYOLtOZEKIE/r6/3E+UJ85XMS464aOi7fhu3apHXd7IlDAh2nj73Wdgz2ndfdc6ZT4AVWyPu9A7gPND1x7Q7/7wLXTpFEOpGCvnGVzwZ1S2pr7uoiW88uzRO2zi8JGkA0E5961lo2jvH08N0mXyizt+qzw6mOHvLFY38quMno=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:IA1PR11MB6193.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(346002)(396003)(366004)(136003)(39860400002)(376002)(230922051799003)(451199024)(64100799003)(1800799009)(186009)(76116006)(316002)(66446008)(66476007)(66946007)(66556008)(64756008)(54906003)(8676002)(107886003)(8936002)(26005)(41300700001)(2616005)(36756003)(478600001)(83380400001)(53546011)(6486002)(71200400001)(6506007)(122000001)(38070700005)(86362001)(6512007)(38100700002)(921005)(31696002)(110136005)(91956017)(2906002)(7416002)(31686004)(5660300002)(4326008)(45980500001);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?R2IzQmFhNlJYeTBhVDFPUVR1dVpQalFzMnZXQm5Xb240VkhsckdYM1pVRW1i?=
- =?utf-8?B?amtnMEd3K25PdEdLZmhFUjJuOGpZNFR5T21wbm5HS2RleW9UekFNTVByT2Za?=
- =?utf-8?B?Q3MwR2U0b3ZCMEhvWnp5SU9qR1lDbC9QMnhRYWFkd0FXSlEwYWp2MFJTdENS?=
- =?utf-8?B?WDhaWDFpNVJhdnZjOVpJalBHQzRJNCtnbXpndHQweVF3Vnl1ejkzY2tsRlFm?=
- =?utf-8?B?Y3FobG5HR1ZpQW8vdEN5azBaaVlmN0k2dzhkaG9QdSthUXYzZjZqTVlIajFU?=
- =?utf-8?B?TE1VN2hKRXlIZENidDJZTVJwK05HSjYreDNpeGJNSVpSa3ZVZllPYTZ4TkpP?=
- =?utf-8?B?Ti9MSFVXeEo5L3NnWm1GVERQZjNoMFBaeUM2dXBqN3BMdlVhMytDTmJBQVBa?=
- =?utf-8?B?NlNVZHVGdUxIYjVUSUxXZmtFUHZSV3d5ZWVpRG5mditoUHBmL1BFNmlObjJo?=
- =?utf-8?B?eFhOUzhta3Bld1FCQzVrcHM3R01xQllneTFYYW52dmxSMkhsalFVL3BBWDd1?=
- =?utf-8?B?WE9neTM2Rjh2Qk5WdEl4KzEvQXBBTHNHTC9SWVlOVkE1UDd1SWRZRjJUZjZi?=
- =?utf-8?B?ZzllSEtDYmh0a1BubGtpNTYwTEJHeC8yS2VteDhySCtFTnlDNEVYSjlGUUgv?=
- =?utf-8?B?dWh5aFFMUVNMa3JMY3NYQm5jMXNsQk9qMG9XVTJTWk82aENBdTdYS2pFOGQ4?=
- =?utf-8?B?NUJKQTJWYjhyZitjTkVOK3Z3cmhCWWswWXZGbEc5ejVYOEVuRXZYV3hEQUhD?=
- =?utf-8?B?RkxBQzFDK3hnRk1qWkU2YjQ3c3BTNGFRRGJGR0laQ0YyNFJpdWtKdnZlaUtP?=
- =?utf-8?B?VjZ2czdjK1M2SVVSUU5sSVlVM2JUZkFPWCt3aWtaQTViR2JPb1RPMjNJdWFY?=
- =?utf-8?B?MktuNjJUSTdKQnoyL0F3d1ROdUh0NGdkaEhZcGtTMWtzTThoUTBvTDlUN3p1?=
- =?utf-8?B?SGlZN3VHY1BSY3FUenRHS1QwRmJUMnhpcmJta044aVJwc3ZNajdsMEpMSW5J?=
- =?utf-8?B?cjkrMWVQMkhNT1pEUUI0ZXpXeUJVNFdjWlpsRjhhRys1VlVKSnlvMmMyNzVD?=
- =?utf-8?B?aVlwOUd1MXZoMzhLYmQxOERjL1orSjVBdnM1Mml1WFZMellEUlF4UFprN1lO?=
- =?utf-8?B?RlpLditzOXdibzFjQ2dKMEJ2TzZjVzlqMVhLZWRHSU16ZitON0l6UWZ5SDJh?=
- =?utf-8?B?SUY2MVMvM1VTUFNTV1A1M2EzSjNXYjhuZlZxU1FVL3NVRkp6cW9aWXA5NVJ5?=
- =?utf-8?B?U1hRd0Y1SEJ2T2tsNEJjL0J1VktmcnVNa295MmtyRmg4dWMwa0FLVW9zTUh4?=
- =?utf-8?B?aENGSWR4ZmVxTktsWXRiWXZ1anRjdkhLZ2xGODZnaFRjd0Q3WmN0U2JDNHA0?=
- =?utf-8?B?OFoxaEtUWFpJQjc4R0djNGxHM3E2VnJQYytheXVtMmMweHJwbjNGb1hHV0Rh?=
- =?utf-8?B?YlluMENUL1pyRThKaEIybGZueWRkc0thSHNOTWZUVFE1UjRycjAwV3JnbThB?=
- =?utf-8?B?MFVoTkVIKzNkRU1udVZLNDNEcklOVk9aWUhuZVQ1VllnaGFGeUZMQlM5bCsy?=
- =?utf-8?B?STRXV1BwNjZONk1lQTNzS3RkM1F4K0VyakVYUFJway92RnIrUWROT3NCZzRn?=
- =?utf-8?B?eG56bzR6Y2dNZlJvSGEzQ2YvUHhoREtEcGhIbkVic2NjcGs2VGNIOERVdkU3?=
- =?utf-8?B?bjBBRG56QjdJdm16NDdHYWNRMHducGp5bjByNHVCck9FUkhsZjhJNDRjeU1J?=
- =?utf-8?B?Y0lSd3lERHloeEpoQ010MCtmL0hGR2ZtMDVGa3JNOXJCazhYWTQzNWl5Z3c1?=
- =?utf-8?B?SitaVFF2V0hNYSsrNlh5L3pMVE54VzJMSGpkMmQrYXNta3E0RjlTdmpqVXhG?=
- =?utf-8?B?RUlabUJFRG9KSFY2c0tVenFsVDczODJmS08zVm9UekZDQWpzSmV0b1BYOG5z?=
- =?utf-8?B?Z3J6Qm93allEZm5YTDJ2U0xoOWd0bEFodks2YVJnc0xsUzJKUlFNR3cwUUMy?=
- =?utf-8?B?T0ZlUEhJdUl2NHd0UzJmdzhUdmNGTE9kZ1BNTFc4SGVuWm52VFZIVEFnc3ZL?=
- =?utf-8?B?cVdqcndDZm1zZTZ5ajVBeml1SER4OWpTQ2dyaHlpeXp5cE9ETzE4R3BVQ3A3?=
- =?utf-8?Q?6jGxITLpbRKLlGA96mJNXSpu+?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <940A85C27D443345A3A3E423EC700FBA@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7209B10E19F
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Oct 2023 05:25:39 +0000 (UTC)
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+ by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 3935POiB114352;
+ Tue, 3 Oct 2023 00:25:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1696310724;
+ bh=DtLhN+uk/e+g9tnn5W0glAsvWoiFmIpmUyCtAJqK+zY=;
+ h=Date:Subject:To:CC:References:From:In-Reply-To;
+ b=Pk1hODw/O+7NvE94Y3Mg/9ewaDjeY+lXBXuSbUJqdqAtFI6MrOMRadF+juHukFJ6W
+ JAcyFYgYR7NWymb9NQeMLR9orpfWdRarKKeDxRXGWuRHxHKRAxB0y+KP2KSB4K+2mb
+ lN5U7mFhMT1XeK2mEJwwgmbiTEWk1PuHxACDgXbQ=
+Received: from DFLE101.ent.ti.com (dfle101.ent.ti.com [10.64.6.22])
+ by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 3935PORO080715
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Tue, 3 Oct 2023 00:25:24 -0500
+Received: from DFLE108.ent.ti.com (10.64.6.29) by DFLE101.ent.ti.com
+ (10.64.6.22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Tue, 3
+ Oct 2023 00:25:23 -0500
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE108.ent.ti.com
+ (10.64.6.29) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Tue, 3 Oct 2023 00:25:23 -0500
+Received: from [172.24.227.252] (ileaxei01-snat2.itg.ti.com [10.180.69.6])
+ by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 3935PKUJ004882;
+ Tue, 3 Oct 2023 00:25:21 -0500
+Message-ID: <484f6dd2-ed17-16af-0e1e-0ae6926eec53@ti.com>
+Date: Tue, 3 Oct 2023 10:55:20 +0530
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: IA1PR11MB6193.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a3467262-2651-4e95-396f-08dbc3c7d19b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Oct 2023 04:18:38.5383 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: qpSrmzJCGwFY/+hfh3r7IZ324C+UYbUG6iiyTO+gCei7koD+qOP8+O9QG9fHAItYoG4byCdF/PNoZvBHRLE5gw/8eTsxOXcG8HOOftktwhk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR11MB6313
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH 2/2] Revert "drm/omapdrm: Annotate dma-fence critical
+ section in commit path"
+Content-Language: en-US
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Daniel Vetter
+ <daniel@ffwll.ch>
+References: <20230920-dma-fence-annotation-revert-v1-0-7ebf6f7f5bf6@ideasonboard.com>
+ <20230920-dma-fence-annotation-revert-v1-2-7ebf6f7f5bf6@ideasonboard.com>
+From: Aradhya Bhatia <a-bhatia1@ti.com>
+In-Reply-To: <20230920-dma-fence-annotation-revert-v1-2-7ebf6f7f5bf6@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -163,56 +66,194 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Balakrishnan.S@microchip.com, Nayabbasha.Sayed@microchip.com,
- Balamanikandan.Gunasundar@microchip.com, Varshini.Rajendran@microchip.com,
- Dharma.B@microchip.com, Durai.ManickamKR@microchip.com,
- Hari.PrasathGE@microchip.com
+Cc: Jyri Sarha <jyri.sarha@iki.fi>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Francesco Dolcini <francesco@dolcini.it>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMjgvMDkvMjMgMTE6MzEgYW0sIGNsYXVkaXUgYmV6bmVhIHdyb3RlOg0KPiBFWFRFUk5BTCBF
-TUFJTDogRG8gbm90IGNsaWNrIGxpbmtzIG9yIG9wZW4gYXR0YWNobWVudHMgdW5sZXNzIHlvdSBr
-bm93IHRoZSBjb250ZW50IGlzIHNhZmUNCj4gDQo+IEhpLCBNYW5pa2FuZGFuLA0KPiANCj4gT24g
-MjcuMDkuMjAyMyAxMjo0NywgTWFuaWthbmRhbiBNdXJhbGlkaGFyYW4gd3JvdGU6DQo+PiArdm9p
-ZCBhdG1lbF9obGNkY19wbGFuZV9zZXR1cF9zY2FsZXIoc3RydWN0IGF0bWVsX2hsY2RjX3BsYW5l
-ICpwbGFuZSwNCj4+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBzdHJ1Y3QgYXRt
-ZWxfaGxjZGNfcGxhbmVfc3RhdGUgKnN0YXRlKTsNCj4+ICt2b2lkIGF0bWVsX3hsY2RjX3BsYW5l
-X3NldHVwX3NjYWxlcihzdHJ1Y3QgYXRtZWxfaGxjZGNfcGxhbmUgKnBsYW5lLA0KPj4gKyAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIHN0cnVjdCBhdG1lbF9obGNkY19wbGFuZV9zdGF0
-ZSAqc3RhdGUpOw0KPj4gK3ZvaWQgdXBkYXRlX2hsY2RjX2J1ZmZlcnMoc3RydWN0IGF0bWVsX2hs
-Y2RjX3BsYW5lICpwbGFuZSwNCj4+ICsgICAgICAgICAgICAgICAgICAgICAgIHN0cnVjdCBhdG1l
-bF9obGNkY19wbGFuZV9zdGF0ZSAqc3RhdGUsDQo+PiArICAgICAgICAgICAgICAgICAgICAgICB1
-MzIgc3IsIGludCBpKTsNCj4+ICt2b2lkIHVwZGF0ZV94bGNkY19idWZmZXJzKHN0cnVjdCBhdG1l
-bF9obGNkY19wbGFuZSAqcGxhbmUsDQo+PiArICAgICAgICAgICAgICAgICAgICAgICBzdHJ1Y3Qg
-YXRtZWxfaGxjZGNfcGxhbmVfc3RhdGUgKnN0YXRlLA0KPj4gKyAgICAgICAgICAgICAgICAgICAg
-ICAgdTMyIHNyLCBpbnQgaSk7DQo+PiArdm9pZCBobGNkY19hdG9taWNfZGlzYWJsZShzdHJ1Y3Qg
-YXRtZWxfaGxjZGNfcGxhbmUgKnBsYW5lKTsNCj4+ICt2b2lkIHhsY2RjX2F0b21pY19kaXNhYmxl
-KHN0cnVjdCBhdG1lbF9obGNkY19wbGFuZSAqcGxhbmUpOw0KPj4gK3ZvaWQNCj4+ICthdG1lbF9o
-bGNkY19wbGFuZV91cGRhdGVfZ2VuZXJhbF9zZXR0aW5ncyhzdHJ1Y3QgYXRtZWxfaGxjZGNfcGxh
-bmUgKnBsYW5lLA0KPj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHN0
-cnVjdCBhdG1lbF9obGNkY19wbGFuZV9zdGF0ZSAqc3RhdGUpOw0KPj4gK3ZvaWQNCj4+ICthdG1l
-bF94bGNkY19wbGFuZV91cGRhdGVfZ2VuZXJhbF9zZXR0aW5ncyhzdHJ1Y3QgYXRtZWxfaGxjZGNf
-cGxhbmUgKnBsYW5lLA0KPj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-IHN0cnVjdCBhdG1lbF9obGNkY19wbGFuZV9zdGF0ZSAqc3RhdGUpOw0KPj4gK3ZvaWQgaGxjZGNf
-YXRvbWljX3VwZGF0ZShzdHJ1Y3QgYXRtZWxfaGxjZGNfcGxhbmUgKnBsYW5lLA0KPj4gKyAgICAg
-ICAgICAgICAgICAgICAgICBzdHJ1Y3QgYXRtZWxfaGxjZGNfZGMgKmRjKTsNCj4+ICt2b2lkIHhs
-Y2RjX2F0b21pY191cGRhdGUoc3RydWN0IGF0bWVsX2hsY2RjX3BsYW5lICpwbGFuZSwNCj4+ICsg
-ICAgICAgICAgICAgICAgICAgICAgc3RydWN0IGF0bWVsX2hsY2RjX2RjICpkYyk7DQo+PiArdm9p
-ZCBobGNkY19jc2NfaW5pdChzdHJ1Y3QgYXRtZWxfaGxjZGNfcGxhbmUgKnBsYW5lLA0KPj4gKyAg
-ICAgICAgICAgICAgICAgY29uc3Qgc3RydWN0IGF0bWVsX2hsY2RjX2xheWVyX2Rlc2MgKmRlc2Mp
-Ow0KPj4gK3ZvaWQgeGxjZGNfY3NjX2luaXQoc3RydWN0IGF0bWVsX2hsY2RjX3BsYW5lICpwbGFu
-ZSwNCj4+ICsgICAgICAgICAgICAgICAgIGNvbnN0IHN0cnVjdCBhdG1lbF9obGNkY19sYXllcl9k
-ZXNjICpkZXNjKTsNCj4+ICt2b2lkIGhsY2RjX2lycV9kYmcoc3RydWN0IGF0bWVsX2hsY2RjX3Bs
-YW5lICpwbGFuZSwNCj4+ICsgICAgICAgICAgICAgICAgY29uc3Qgc3RydWN0IGF0bWVsX2hsY2Rj
-X2xheWVyX2Rlc2MgKmRlc2MpOw0KPj4gK3ZvaWQgeGxjZGNfaXJxX2RiZyhzdHJ1Y3QgYXRtZWxf
-aGxjZGNfcGxhbmUgKnBsYW5lLA0KPj4gKyAgICAgICAgICAgICAgICBjb25zdCBzdHJ1Y3QgYXRt
-ZWxfaGxjZGNfbGF5ZXJfZGVzYyAqZGVzYyk7DQo+PiArDQo+IA0KPiBUaGVzZSBhcmUgc3RpbGwg
-aGVyZS4uLiBJc24ndCB0aGUgc29sdXRpb24gSSBwcm9wb3NlZCB0byB5b3UgaW4gdGhlDQo+IHBy
-ZXZpb3VzIHZlcnNpb24gZ29vZCBlbm91Z2g/DQpIaSBDbGF1ZGl1DQoNClRoZXNlIGNoYW5nZXMg
-d2VyZSBpbnRlZ3JhdGVkIGluIHRoZSBjdXJyZW50IHBhdGNoIHNldCBiYXNlZCBvbiB0aGUgDQpz
-b2x1dGlvbiB3aGljaCB5b3UgcHJvcG9zZWQgaW4gdGhlIHByZXZpb3VzIHNlcmllcy4NClRoZSBY
-TENEQyBhbmQgSExDREMgZnVuY3Rpb25zIGNhbGxzIGFyZSBtb3ZlZCB0byBJUCBzcGVjaWZpYyBk
-cml2ZXItPm9wcw0KYW5kIHRoZWlyIGZ1bmN0aW9uIGRlY2xhcmF0aW9ucyBhcmUgbWFkZSBoZXJl
-IGluIGF0bWVsX2hsY2RjX2RjLmgNClJlc3Qgb2YgdGhlIGNoYW5nZXMgYXJlIGludGVncmF0ZWQg
-aW4gUGF0Y2ggNC83Lg0KPiANCj4gVGhhbmsgeW91LA0KPiBDbGF1ZGl1IEJlem5lYQ0KDQotLSAN
-ClRoYW5rcyBhbmQgUmVnYXJkcywNCk1hbmlrYW5kYW4gTS4NCg0K
+
+
+On 20-Sep-23 18:27, Tomi Valkeinen wrote:
+> This reverts commit 250aa22920cd5d956a5d3e9c6a43d671c2bae217.
+> 
+> The DMA-fence annotations cause a lockdep warning (see below). As per
+> https://patchwork.freedesktop.org/patch/462170/ it sounds like the
+> annotations don't work correctly.
+> 
+> ======================================================
+> WARNING: possible circular locking dependency detected
+> 6.5.0-rc2+ #2 Not tainted
+> ------------------------------------------------------
+> kmstest/219 is trying to acquire lock:
+> c4705838 (&hdmi->lock){+.+.}-{3:3}, at: hdmi5_bridge_mode_set+0x1c/0x50
+> 
+> but task is already holding lock:
+> c11e1128 (dma_fence_map){++++}-{0:0}, at: omap_atomic_commit_tail+0x14/0xbc
+> 
+> which lock already depends on the new lock.
+> 
+> the existing dependency chain (in reverse order) is:
+> 
+> -> #2 (dma_fence_map){++++}-{0:0}:
+>        __dma_fence_might_wait+0x48/0xb4
+>        dma_resv_lockdep+0x1b8/0x2bc
+>        do_one_initcall+0x68/0x3b0
+>        kernel_init_freeable+0x260/0x34c
+>        kernel_init+0x14/0x140
+>        ret_from_fork+0x14/0x28
+> 
+> -> #1 (fs_reclaim){+.+.}-{0:0}:
+>        fs_reclaim_acquire+0x70/0xa8
+>        __kmem_cache_alloc_node+0x3c/0x368
+>        kmalloc_trace+0x28/0x58
+>        _drm_do_get_edid+0x7c/0x35c
+>        hdmi5_bridge_get_edid+0xc8/0x1ac
+>        drm_bridge_connector_get_modes+0x64/0xc0
+>        drm_helper_probe_single_connector_modes+0x170/0x528
+>        drm_client_modeset_probe+0x208/0x1334
+>        __drm_fb_helper_initial_config_and_unlock+0x30/0x548
+>        omap_fbdev_client_hotplug+0x3c/0x6c
+>        drm_client_register+0x58/0x94
+>        pdev_probe+0x544/0x6b0
+>        platform_probe+0x58/0xbc
+>        really_probe+0xd8/0x3fc
+>        __driver_probe_device+0x94/0x1f4
+>        driver_probe_device+0x2c/0xc4
+>        __device_attach_driver+0xa4/0x11c
+>        bus_for_each_drv+0x84/0xdc
+>        __device_attach+0xac/0x20c
+>        bus_probe_device+0x8c/0x90
+>        device_add+0x588/0x7e0
+>        platform_device_add+0x110/0x24c
+>        platform_device_register_full+0x108/0x15c
+>        dss_bind+0x90/0xc0
+>        try_to_bring_up_aggregate_device+0x1e0/0x2c8
+>        __component_add+0xa4/0x174
+>        hdmi5_probe+0x1c8/0x270
+>        platform_probe+0x58/0xbc
+>        really_probe+0xd8/0x3fc
+>        __driver_probe_device+0x94/0x1f4
+>        driver_probe_device+0x2c/0xc4
+>        __device_attach_driver+0xa4/0x11c
+>        bus_for_each_drv+0x84/0xdc
+>        __device_attach+0xac/0x20c
+>        bus_probe_device+0x8c/0x90
+>        deferred_probe_work_func+0x8c/0xd8
+>        process_one_work+0x2ac/0x6e4
+>        worker_thread+0x30/0x4ec
+>        kthread+0x100/0x124
+>        ret_from_fork+0x14/0x28
+> 
+> -> #0 (&hdmi->lock){+.+.}-{3:3}:
+>        __lock_acquire+0x145c/0x29cc
+>        lock_acquire.part.0+0xb4/0x258
+>        __mutex_lock+0x90/0x950
+>        mutex_lock_nested+0x1c/0x24
+>        hdmi5_bridge_mode_set+0x1c/0x50
+>        drm_bridge_chain_mode_set+0x48/0x5c
+>        crtc_set_mode+0x188/0x1d0
+>        omap_atomic_commit_tail+0x2c/0xbc
+>        commit_tail+0x9c/0x188
+>        drm_atomic_helper_commit+0x158/0x18c
+>        drm_atomic_commit+0xa4/0xe8
+>        drm_mode_atomic_ioctl+0x9a4/0xc38
+>        drm_ioctl+0x210/0x4a8
+>        sys_ioctl+0x138/0xf00
+>        ret_fast_syscall+0x0/0x1c
+> 
+> other info that might help us debug this:
+> 
+> Chain exists of:
+>   &hdmi->lock --> fs_reclaim --> dma_fence_map
+> 
+>  Possible unsafe locking scenario:
+> 
+>        CPU0                    CPU1
+>        ----                    ----
+>   rlock(dma_fence_map);
+>                                lock(fs_reclaim);
+>                                lock(dma_fence_map);
+>   lock(&hdmi->lock);
+> 
+>  *** DEADLOCK ***
+> 
+> 3 locks held by kmstest/219:
+>  #0: f1011de4 (crtc_ww_class_acquire){+.+.}-{0:0}, at: drm_mode_atomic_ioctl+0xf0/0xc38
+>  #1: c47059c8 (crtc_ww_class_mutex){+.+.}-{3:3}, at: modeset_lock+0xf8/0x230
+>  #2: c11e1128 (dma_fence_map){++++}-{0:0}, at: omap_atomic_commit_tail+0x14/0xbc
+> 
+> stack backtrace:
+> CPU: 1 PID: 219 Comm: kmstest Not tainted 6.5.0-rc2+ #2
+> Hardware name: Generic DRA74X (Flattened Device Tree)
+>  unwind_backtrace from show_stack+0x10/0x14
+>  show_stack from dump_stack_lvl+0x58/0x70
+>  dump_stack_lvl from check_noncircular+0x164/0x198
+>  check_noncircular from __lock_acquire+0x145c/0x29cc
+>  __lock_acquire from lock_acquire.part.0+0xb4/0x258
+>  lock_acquire.part.0 from __mutex_lock+0x90/0x950
+>  __mutex_lock from mutex_lock_nested+0x1c/0x24
+>  mutex_lock_nested from hdmi5_bridge_mode_set+0x1c/0x50
+>  hdmi5_bridge_mode_set from drm_bridge_chain_mode_set+0x48/0x5c
+>  drm_bridge_chain_mode_set from crtc_set_mode+0x188/0x1d0
+>  crtc_set_mode from omap_atomic_commit_tail+0x2c/0xbc
+>  omap_atomic_commit_tail from commit_tail+0x9c/0x188
+>  commit_tail from drm_atomic_helper_commit+0x158/0x18c
+>  drm_atomic_helper_commit from drm_atomic_commit+0xa4/0xe8
+>  drm_atomic_commit from drm_mode_atomic_ioctl+0x9a4/0xc38
+>  drm_mode_atomic_ioctl from drm_ioctl+0x210/0x4a8
+>  drm_ioctl from sys_ioctl+0x138/0xf00
+>  sys_ioctl from ret_fast_syscall+0x0/0x1c
+> Exception stack(0xf1011fa8 to 0xf1011ff0)
+> 1fa0:                   00466d58 be9ab510 00000003 c03864bc be9ab510 be9ab4e0
+> 1fc0: 00466d58 be9ab510 c03864bc 00000036 00466ef0 00466fc0 00467020 00466f20
+> 1fe0: b6bc7ef4 be9ab4d0 b6bbbb00 b6cb2cc0
+> 
+> Fixes: 250aa22920cd ("drm/omapdrm: Annotate dma-fence critical section in commit path")
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> ---
+
+Reviewed-by: Aradhya Bhatia <a-bhatia1@ti.com>
+
+Regards
+Aradhya
+
+>  drivers/gpu/drm/omapdrm/omap_drv.c | 9 ++++-----
+>  1 file changed, 4 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/omapdrm/omap_drv.c b/drivers/gpu/drm/omapdrm/omap_drv.c
+> index afeeb7737552..e000577a95dd 100644
+> --- a/drivers/gpu/drm/omapdrm/omap_drv.c
+> +++ b/drivers/gpu/drm/omapdrm/omap_drv.c
+> @@ -69,7 +69,6 @@ static void omap_atomic_commit_tail(struct drm_atomic_state *old_state)
+>  {
+>  	struct drm_device *dev = old_state->dev;
+>  	struct omap_drm_private *priv = dev->dev_private;
+> -	bool fence_cookie = dma_fence_begin_signalling();
+>  
+>  	dispc_runtime_get(priv->dispc);
+>  
+> @@ -92,6 +91,8 @@ static void omap_atomic_commit_tail(struct drm_atomic_state *old_state)
+>  		omap_atomic_wait_for_completion(dev, old_state);
+>  
+>  		drm_atomic_helper_commit_planes(dev, old_state, 0);
+> +
+> +		drm_atomic_helper_commit_hw_done(old_state);
+>  	} else {
+>  		/*
+>  		 * OMAP3 DSS seems to have issues with the work-around above,
+> @@ -101,11 +102,9 @@ static void omap_atomic_commit_tail(struct drm_atomic_state *old_state)
+>  		drm_atomic_helper_commit_planes(dev, old_state, 0);
+>  
+>  		drm_atomic_helper_commit_modeset_enables(dev, old_state);
+> -	}
+>  
+> -	drm_atomic_helper_commit_hw_done(old_state);
+> -
+> -	dma_fence_end_signalling(fence_cookie);
+> +		drm_atomic_helper_commit_hw_done(old_state);
+> +	}
+>  
+>  	/*
+>  	 * Wait for completion of the page flips to ensure that old buffers
+> 
+
