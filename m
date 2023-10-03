@@ -1,46 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62DA27B5EA9
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Oct 2023 03:26:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BF357B5EAA
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Oct 2023 03:27:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A517110E199;
-	Tue,  3 Oct 2023 01:26:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E83F110E196;
+	Tue,  3 Oct 2023 01:26:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F44710E196
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Oct 2023 01:26:49 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C23710E196
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Oct 2023 01:26:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1696296407; x=1727832407;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=J5m7lzW0PJRq2RFkCNMr2d2VPojM5nDP15Bh8RCBpJQ=;
- b=XiSOAepy7Y5vXECp8u1Ehwxj/BxoTdrU5RQ8z9yfMAN2DGsIPxsm3y5r
- 47MkhXmhDkME0G3B0kBd4NZ9g971KNF2b0LPxpVoobIPgbyeHomqiUxL2
- CFhx7/BS3ijhMJytxs8nT0eT+7iSbwMATirmPWxH8AASL3SE8Xvnvr+9x
- dj03hJFdHRMdjezPAGcdpRdDomM+VkiJYUDUb5EXDS7p/fxw9Rs2Ac0SY
- 3VZrHfizoLXBc+V8jY4d6p8jQpBxuUbDWHMzctTtKkQ4DH5kyyfws1PS6
- cdBYkmWLPluZUYT7YsE4q5zyD82dM+lqlyotyV95FfbxghN8ALcdT20A/ w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="446933377"
-X-IronPort-AV: E=Sophos;i="6.03,194,1694761200"; d="scan'208";a="446933377"
+ t=1696296409; x=1727832409;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=CRC6NQ/PtPZXq2usTe0SRM+kyAhW1sOPpW8UNSV+k24=;
+ b=bhWZmQxUzPiyvqmGATqWn8s/eSqMBs5AJAH5JC8iAiSGQ9yxBmzt9YKx
+ wGS1HgsNxdf8JSeagjY/i5ZQEjK4UMcdEkYxt1H055Kug1WTUN/smrywQ
+ eqTDWw7UyH1m5vLGc8h44Ja6/k3PU/KJYS3KNwId1h53mo53VlW4xUX6B
+ 2KrS2LoMRbkJddejgs2i8frFmL/pj7thQuKekzdYXYvXWBgHv+qi7DIz2
+ w99iG7rzB5NIZqzQgA2DCYnk/vO3Yyu4h7q38Sh7t3nENEIxRlkOIuOIV
+ Id6JuDYpHAWD727BaPMU/yxwR5OIiu03nB2XOwzngvZue7/2LJu+o/DAK w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="446933384"
+X-IronPort-AV: E=Sophos;i="6.03,194,1694761200"; d="scan'208";a="446933384"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Oct 2023 18:26:47 -0700
+ 02 Oct 2023 18:26:49 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.03,194,1694761200"; 
-   d="scan'208";a="1717189"
+   d="scan'208";a="1717207"
 Received: from dongwonk-z390-aorus-ultra-intel-gfx.fm.intel.com
  ([10.105.129.124])
- by fmviesa001.fm.intel.com with ESMTP; 02 Oct 2023 18:26:51 -0700
+ by fmviesa001.fm.intel.com with ESMTP; 02 Oct 2023 18:26:53 -0700
 From: Dongwon Kim <dongwon.kim@intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [RFC PATCH v2 0/1] fence per plane state
-Date: Mon,  2 Oct 2023 18:00:12 -0700
-Message-Id: <20231003010013.15794-1-dongwon.kim@intel.com>
+Subject: [RFC PATCH v2 1/1] drm/virtio: new fence for every plane update
+Date: Mon,  2 Oct 2023 18:00:13 -0700
+Message-Id: <20231003010013.15794-2-dongwon.kim@intel.com>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20231003010013.15794-1-dongwon.kim@intel.com>
+References: <20231003010013.15794-1-dongwon.kim@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -60,38 +62,226 @@ Cc: Dongwon Kim <dongwon.kim@intel.com>, kraxel@redhat.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The patch "drm/virtio: new fence for every plane update" is to prevent a fence
-synchronization problem when multiple planes are referencing a single large FB
-(i.e. Xorg with multi displays configured as one extended surface.).
+Having a fence linked to a virtio_gpu_framebuffer in the plane update sequence
+would cause conflict when several planes referencing the same framebuffer
+(e.g. Xorg screen covering multi-displays configured for an extended mode)
+and those planes are updated concurrently. So it is needed to allocate a
+fence for every plane state instead of the framebuffer.
 
-One example of a possible problematic flow is
+The plane state for virtio-gpu, "struct virtio_gpu_plane_state" is added for
+this. This structure represents drm_plane_state and it contains the reference
+to virtio_gpu_fence, which was previously in "struct virtio_gpu_framebuffer".
 
-1.virtio_gpu_plane_prepare_fb(plane_A) -> A fence for the FB is created (fence A)
-2.virtio_gpu_resource_flush(plane_A) -> Fence A is emitted. Then it waits for the fence A
-  to be signaled.
-3.virtio_gpu_plane_prepare_fb(plane_B) -> A new fence for the FB is created (fence B) and
-  FB->fence is replaced with fence B.
-4.virtio_gpu_resource_flush(plane_A) -> Fence A is signaled but dma_fence_put is done for
-  fence B because FB->fence = fence B already.
-5.fence A won't be signaled or released for a long time, which leads to guest display and
-  dmesg shows fence timeout errors.
+"virtio_gpu_plane_duplicate_state" is added as well to create a
+virtio_gpu_plane_state on top of duplicated drm plane state.
 
-The root-cause for problems is that the fence for the FB can be replaced with the new one
-anytime another plain with the same FB is updated. So the proposed fix here is to allocate
-a new fence per the plane state instead of per FB as described in the patch.
+Several drm helpers were slightly modified accordingly to use the fence in new
+plane state structure. virtio_gpu_plane_cleanup_fb was completely removed as
+dma_fence_put shouldn't be called here as it can mess up with the ref count
+of the fence. The fence should be put after the fence is signaled in
+virtio_gpu_resource_flush then released in virtio_gpu_array_add_fence while
+the next virtio message is being queued.
 
-Tested system:
+Also, the condition for adding fence, (plane->state->fb != new_state->fb) was
+removed since we now allocate a new fence for the new plane state even if both
+old and new planes are pointing to the same framebuffer.
 
-Host: QEMU + KVM on Linux running on Intel 12th Gen.
-Guest: Ubuntu VM running Xorg w/ 2~3 virtual displays using blob scanouts
+v2: removed virtio_gpu_plane_duplicate_state as the existing helper,
+    drm_atomic_helper_plane_destroy_state does the same.
 
-Dongwon Kim (1):
-  drm/virtio: new fence for every plane update
-
+Cc: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>
+Signed-off-by: Dongwon Kim <dongwon.kim@intel.com>
+---
  drivers/gpu/drm/virtio/virtgpu_drv.h   |  7 +++
  drivers/gpu/drm/virtio/virtgpu_plane.c | 66 +++++++++++++++++---------
  2 files changed, 51 insertions(+), 22 deletions(-)
 
+diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
+index 8513b671f871..2568ad0c2d44 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_drv.h
++++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
+@@ -191,6 +191,13 @@ struct virtio_gpu_framebuffer {
+ #define to_virtio_gpu_framebuffer(x) \
+ 	container_of(x, struct virtio_gpu_framebuffer, base)
+ 
++struct virtio_gpu_plane_state {
++	struct drm_plane_state base;
++	struct virtio_gpu_fence *fence;
++};
++#define to_virtio_gpu_plane_state(x) \
++	container_of(x, struct virtio_gpu_plane_state, base)
++
+ struct virtio_gpu_queue {
+ 	struct virtqueue *vq;
+ 	spinlock_t qlock;
+diff --git a/drivers/gpu/drm/virtio/virtgpu_plane.c b/drivers/gpu/drm/virtio/virtgpu_plane.c
+index a2e045f3a000..cd962898023e 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_plane.c
++++ b/drivers/gpu/drm/virtio/virtgpu_plane.c
+@@ -66,11 +66,28 @@ uint32_t virtio_gpu_translate_format(uint32_t drm_fourcc)
+ 	return format;
+ }
+ 
++static struct
++drm_plane_state *virtio_gpu_plane_duplicate_state(struct drm_plane *plane)
++{
++	struct virtio_gpu_plane_state *new;
++
++	if (WARN_ON(!plane->state))
++		return NULL;
++
++	new = kzalloc(sizeof(*new), GFP_KERNEL);
++	if (!new)
++		return NULL;
++
++	__drm_atomic_helper_plane_duplicate_state(plane, &new->base);
++
++	return &new->base;
++}
++
+ static const struct drm_plane_funcs virtio_gpu_plane_funcs = {
+ 	.update_plane		= drm_atomic_helper_update_plane,
+ 	.disable_plane		= drm_atomic_helper_disable_plane,
+ 	.reset			= drm_atomic_helper_plane_reset,
+-	.atomic_duplicate_state = drm_atomic_helper_plane_duplicate_state,
++	.atomic_duplicate_state = virtio_gpu_plane_duplicate_state,
+ 	.atomic_destroy_state	= drm_atomic_helper_plane_destroy_state,
+ };
+ 
+@@ -128,11 +145,13 @@ static void virtio_gpu_resource_flush(struct drm_plane *plane,
+ 	struct drm_device *dev = plane->dev;
+ 	struct virtio_gpu_device *vgdev = dev->dev_private;
+ 	struct virtio_gpu_framebuffer *vgfb;
++	struct virtio_gpu_plane_state *vgplane_st;
+ 	struct virtio_gpu_object *bo;
+ 
+ 	vgfb = to_virtio_gpu_framebuffer(plane->state->fb);
++	vgplane_st = to_virtio_gpu_plane_state(plane->state);
+ 	bo = gem_to_virtio_gpu_obj(vgfb->base.obj[0]);
+-	if (vgfb->fence) {
++	if (vgplane_st->fence) {
+ 		struct virtio_gpu_object_array *objs;
+ 
+ 		objs = virtio_gpu_array_alloc(1);
+@@ -141,13 +160,12 @@ static void virtio_gpu_resource_flush(struct drm_plane *plane,
+ 		virtio_gpu_array_add_obj(objs, vgfb->base.obj[0]);
+ 		virtio_gpu_array_lock_resv(objs);
+ 		virtio_gpu_cmd_resource_flush(vgdev, bo->hw_res_handle, x, y,
+-					      width, height, objs, vgfb->fence);
++					      width, height, objs,
++					      vgplane_st->fence);
+ 		virtio_gpu_notify(vgdev);
+-
+-		dma_fence_wait_timeout(&vgfb->fence->f, true,
++		dma_fence_wait_timeout(&vgplane_st->fence->f, true,
+ 				       msecs_to_jiffies(50));
+-		dma_fence_put(&vgfb->fence->f);
+-		vgfb->fence = NULL;
++		dma_fence_put(&vgplane_st->fence->f);
+ 	} else {
+ 		virtio_gpu_cmd_resource_flush(vgdev, bo->hw_res_handle, x, y,
+ 					      width, height, NULL, NULL);
+@@ -237,20 +255,23 @@ static int virtio_gpu_plane_prepare_fb(struct drm_plane *plane,
+ 	struct drm_device *dev = plane->dev;
+ 	struct virtio_gpu_device *vgdev = dev->dev_private;
+ 	struct virtio_gpu_framebuffer *vgfb;
++	struct virtio_gpu_plane_state *vgplane_st;
+ 	struct virtio_gpu_object *bo;
+ 
+ 	if (!new_state->fb)
+ 		return 0;
+ 
+ 	vgfb = to_virtio_gpu_framebuffer(new_state->fb);
++	vgplane_st = to_virtio_gpu_plane_state(new_state);
+ 	bo = gem_to_virtio_gpu_obj(vgfb->base.obj[0]);
+ 	if (!bo || (plane->type == DRM_PLANE_TYPE_PRIMARY && !bo->guest_blob))
+ 		return 0;
+ 
+-	if (bo->dumb && (plane->state->fb != new_state->fb)) {
+-		vgfb->fence = virtio_gpu_fence_alloc(vgdev, vgdev->fence_drv.context,
++	if (bo->dumb) {
++		vgplane_st->fence = virtio_gpu_fence_alloc(vgdev,
++						     vgdev->fence_drv.context,
+ 						     0);
+-		if (!vgfb->fence)
++		if (!vgplane_st->fence)
+ 			return -ENOMEM;
+ 	}
+ 
+@@ -258,17 +279,17 @@ static int virtio_gpu_plane_prepare_fb(struct drm_plane *plane,
+ }
+ 
+ static void virtio_gpu_plane_cleanup_fb(struct drm_plane *plane,
+-					struct drm_plane_state *state)
++                                        struct drm_plane_state *state)
+ {
+-	struct virtio_gpu_framebuffer *vgfb;
++	struct virtio_gpu_plane_state *vgplane_st;
+ 
+ 	if (!state->fb)
+ 		return;
+ 
+-	vgfb = to_virtio_gpu_framebuffer(state->fb);
+-	if (vgfb->fence) {
+-		dma_fence_put(&vgfb->fence->f);
+-		vgfb->fence = NULL;
++	vgplane_st = to_virtio_gpu_plane_state(state);
++	if (vgplane_st->fence) {
++		dma_fence_put(&vgplane_st->fence->f);
++		vgplane_st->fence = NULL;
+ 	}
+ }
+ 
+@@ -281,6 +302,7 @@ static void virtio_gpu_cursor_plane_update(struct drm_plane *plane,
+ 	struct virtio_gpu_device *vgdev = dev->dev_private;
+ 	struct virtio_gpu_output *output = NULL;
+ 	struct virtio_gpu_framebuffer *vgfb;
++	struct virtio_gpu_plane_state *vgplane_st;
+ 	struct virtio_gpu_object *bo = NULL;
+ 	uint32_t handle;
+ 
+@@ -293,6 +315,7 @@ static void virtio_gpu_cursor_plane_update(struct drm_plane *plane,
+ 
+ 	if (plane->state->fb) {
+ 		vgfb = to_virtio_gpu_framebuffer(plane->state->fb);
++		vgplane_st = to_virtio_gpu_plane_state(plane->state);
+ 		bo = gem_to_virtio_gpu_obj(vgfb->base.obj[0]);
+ 		handle = bo->hw_res_handle;
+ 	} else {
+@@ -312,11 +335,10 @@ static void virtio_gpu_cursor_plane_update(struct drm_plane *plane,
+ 			(vgdev, 0,
+ 			 plane->state->crtc_w,
+ 			 plane->state->crtc_h,
+-			 0, 0, objs, vgfb->fence);
++			 0, 0, objs, vgplane_st->fence);
+ 		virtio_gpu_notify(vgdev);
+-		dma_fence_wait(&vgfb->fence->f, true);
+-		dma_fence_put(&vgfb->fence->f);
+-		vgfb->fence = NULL;
++		dma_fence_wait(&vgplane_st->fence->f, true);
++		dma_fence_put(&vgplane_st->fence->f);
+ 	}
+ 
+ 	if (plane->state->fb != old_state->fb) {
+@@ -351,14 +373,14 @@ static void virtio_gpu_cursor_plane_update(struct drm_plane *plane,
+ 
+ static const struct drm_plane_helper_funcs virtio_gpu_primary_helper_funcs = {
+ 	.prepare_fb		= virtio_gpu_plane_prepare_fb,
+-	.cleanup_fb		= virtio_gpu_plane_cleanup_fb,
++	.cleanup_fb             = virtio_gpu_plane_cleanup_fb,
+ 	.atomic_check		= virtio_gpu_plane_atomic_check,
+ 	.atomic_update		= virtio_gpu_primary_plane_update,
+ };
+ 
+ static const struct drm_plane_helper_funcs virtio_gpu_cursor_helper_funcs = {
+ 	.prepare_fb		= virtio_gpu_plane_prepare_fb,
+-	.cleanup_fb		= virtio_gpu_plane_cleanup_fb,
++	.cleanup_fb             = virtio_gpu_plane_cleanup_fb,
+ 	.atomic_check		= virtio_gpu_plane_atomic_check,
+ 	.atomic_update		= virtio_gpu_cursor_plane_update,
+ };
 -- 
 2.20.1
 
