@@ -1,62 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A79857B6E9C
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Oct 2023 18:34:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 02A907B6E9A
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Oct 2023 18:34:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C64E910E2EE;
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE04810E305;
 	Tue,  3 Oct 2023 16:34:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x2b.google.com (mail-oa1-x2b.google.com
- [IPv6:2001:4860:4864:20::2b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED3BA897D4
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Oct 2023 16:34:02 +0000 (UTC)
-Received: by mail-oa1-x2b.google.com with SMTP id
- 586e51a60fabf-1c0fcbf7ae4so788878fac.0
- for <dri-devel@lists.freedesktop.org>; Tue, 03 Oct 2023 09:34:02 -0700 (PDT)
+Received: from mail-ot1-x335.google.com (mail-ot1-x335.google.com
+ [IPv6:2607:f8b0:4864:20::335])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 58A73897D4
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Oct 2023 16:34:03 +0000 (UTC)
+Received: by mail-ot1-x335.google.com with SMTP id
+ 46e09a7af769-6c496719a9aso570934a34.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Oct 2023 09:34:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gmail.com; s=20230601; t=1696350842; x=1696955642; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=qkSQMV5DOXzEuPzZAkyJmDQmhsgIBtNj/QL5D2gyLgo=;
- b=Ymf5ZpKylAjwzVqYymwT/Kq0qcVIhbs7vmmDJ4CkS84xh0vs+MuTxS2tnqCOLCQXh/
- 1E2hlMSvljtETLItcJ61c5H7wQk6eanr3bekscNZgwbyoOII5jouTJk4IdbjOc5FigH1
- oZLJOnjARN868CZtLaotIq8gtw3e5xZFEsgLQw8kq3CZjIUzGhNzzUMy8MDgLlsciODf
- gO68NBBxgvl8Zr+o5cFWT4rEPL+hWBqk9wZw27wXl+BJWEyr46BHYCHKTd0DwCMCV1Bh
- 33fNvgXzuDv3umYLAvGprkUQFjxNybccejSFKohhrbGkoz3/PITxClCVqQQjfCqqJww1
- TKXQ==
+ bh=OOhsxi8PjymwwLh84f6DRmuTn2wewUc5+RB2fJ2TRcU=;
+ b=KPUzOvrIdimec4MhPw+Hom6pKmZGsGP4l6KTwto73ZfJrfZgWaCMWrWiqHCVqa1SbV
+ uN8mTLyDjpNpiWMOpDsGbZ0lBO02+S+GslgkBOfYHYqHd5Wk6hOqNFxLowxBLmolHWqY
+ NijVNERG0QOzZ3OQ/IBuoc0RBuiRDX5WZH3Gjg8wSFTKHJzVyAitBm4I2NV5zC5HUNbj
+ jY5kR217lwHzGt8XKn4AMTzZmaZu86mjptqcrjM/GKcRidvDPakFZkboVQf/F51gvdSq
+ 3eBYT8UJfyXcT5jhVPJh9v3iQTbyw2Ygcxq9v0Ldoy7TRg3B0+MRrCQACJUNS9CU11yT
+ q9rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20230601; t=1696350842; x=1696955642;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=qkSQMV5DOXzEuPzZAkyJmDQmhsgIBtNj/QL5D2gyLgo=;
- b=Izzu+Kb0cb6TYDaUtwYliYq7864YjRNFa+i4DbOt5vLjvLrqc6X8wuxTykI8JbyjH9
- a/QpS9qq08Z1SYSLWALw4LHAo3qMlZi1tmoxcHmXdt9a1SibodY894vEJhyZsuy0jfRf
- FgAb8DL344pU9tArz9kpbjRQeZzx7Mh2YFL9Bxv0MTMZ8l+0XAakoV99aqScaTpfyQFK
- PsT+LQQIiF+yB6abapOIhzJ61rUZDkesFd9FZ9EYdq/5O02wtWGrUhY6xIHGT+SkhSuA
- nXfE/ITTDqr0xTTqKBmSfPJcDfOKnS8zU7T30Ylz7zIlWKTNlxw5MEM0TumsJerYwi8D
- kdJA==
-X-Gm-Message-State: AOJu0YxDvkdZY0TwuK6dn/fdC5PGY15dKNTMmLU3X7SAGooUZUN4XBhM
- RcGAduwarvLjruyCdcOUPvDJC5CyCLQ=
-X-Google-Smtp-Source: AGHT+IGz6tiIp4sfz51Ai/HmYnZnC5ywaM9M/Efm8xudL0UkYP1dfVu6ftBUjCpW8qG6NSE3iKY/MQ==
-X-Received: by 2002:a05:6870:958b:b0:1bb:509a:824f with SMTP id
- k11-20020a056870958b00b001bb509a824fmr64092oao.55.1696350842018; 
+ bh=OOhsxi8PjymwwLh84f6DRmuTn2wewUc5+RB2fJ2TRcU=;
+ b=XrxTqfqCPUfNvz9WTmzuqnhU0w7NS+Z0FCurQbVXk9rmdBM1G2OxRIziIdxhE17D1e
+ JtoCCDr9uADHmfszZvsdVlusEbPaKzdtrF5sgM3HywGHGA5H7V97On2wg6iMKTTC/uPf
+ +VjvbpvtHvxn3q90WKa0c++YDVrlncuCObIZcjmBGoz6+tkHQoKUffErqHY/k4KVFF1E
+ +5kWfhSvPtQE3wdJprLm3cVUtvEvm5glSZNfN7oKibr3J+Sq2x++Ea+Co1XzDZm/Kfjo
+ n/oyqL9NPpFuJoy/835vQLQGU9LIfAdyQMh1T7lHMf447P/26OYjF7YmLEs0Rg1zqM1A
+ uxzw==
+X-Gm-Message-State: AOJu0YwFhnUp6hDokiNn1NWymygNA6umCVXneRHmphI/IfcbjCwvlvwr
+ cDYfDZXHKLLv9qzOGuoF8UA=
+X-Google-Smtp-Source: AGHT+IGHNXqHa6jkCe9KMpnHnliPmuqTDgmCLUyx/lAKaiY0iO/4u6SqhOLzt0FQ6WLR191Bt6Txnw==
+X-Received: by 2002:a9d:6c0f:0:b0:6ba:864e:c5de with SMTP id
+ f15-20020a9d6c0f000000b006ba864ec5demr1787223otq.8.1696350842548; 
  Tue, 03 Oct 2023 09:34:02 -0700 (PDT)
 Received: from localhost.localdomain ([75.28.21.198])
  by smtp.gmail.com with ESMTPSA id
- k6-20020a056830150600b006b74bea76c0sm198567otp.47.2023.10.03.09.34.01
+ k6-20020a056830150600b006b74bea76c0sm198567otp.47.2023.10.03.09.34.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Oct 2023 09:34:01 -0700 (PDT)
+ Tue, 03 Oct 2023 09:34:02 -0700 (PDT)
 From: Chris Morgan <macroalpha82@gmail.com>
 To: devicetree@vger.kernel.org
-Subject: [PATCH V4 1/2] dt-bindings: display: newvision,
- nv3051d: Add Anbernic  351V
-Date: Tue,  3 Oct 2023 11:33:54 -0500
-Message-Id: <20231003163355.143704-2-macroalpha82@gmail.com>
+Subject: [PATCH V4 2/2] drm/panel: nv3051d: Add Support for Anbernic 351V
+Date: Tue,  3 Oct 2023 11:33:55 -0500
+Message-Id: <20231003163355.143704-3-macroalpha82@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20231003163355.143704-1-macroalpha82@gmail.com>
 References: <20231003163355.143704-1-macroalpha82@gmail.com>
@@ -77,45 +76,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: neil.armstrong@linaro.org, conor+dt@kernel.org,
  krzysztof.kozlowski+dt@linaro.org, sam@ravnborg.org,
  Chris Morgan <macromorgan@hotmail.com>, dri-devel@lists.freedesktop.org,
- Conor Dooley <conor.dooley@microchip.com>, robh+dt@kernel.org
+ robh+dt@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Chris Morgan <macromorgan@hotmail.com>
 
-Document the Anbernic RG351V panel, which is identical to the panel
-used in their 353 series except for in inclusion of an additional DSI
-format flag.
+Add support for the Anbernic 351V. Just like the 353 series the
+underlying vendor is unknown/unmarked (at least not visible in a
+non-destructive manner). The panel had slightly different init
+sequences and timings in the BSP kernel, but works fine with the
+same ones used in the existing driver. The panel will not work without
+the inclusion of the MIPI_DSI_CLOCK_NON_CONTINUOUS flag, and this flag
+prevents the 353 series from working correctly, so a new compatible
+string is added.
+
+Tested colors and timings using modetest and all seem to work identical
+to the 353 otherwise.
 
 Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
 ---
- .../devicetree/bindings/display/panel/newvision,nv3051d.yaml | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/panel/panel-newvision-nv3051d.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/panel/newvision,nv3051d.yaml b/Documentation/devicetree/bindings/display/panel/newvision,nv3051d.yaml
-index 116c1b6030a2..cce775a87f87 100644
---- a/Documentation/devicetree/bindings/display/panel/newvision,nv3051d.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/newvision,nv3051d.yaml
-@@ -7,9 +7,7 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
- title: NewVision NV3051D based LCD panel
+diff --git a/drivers/gpu/drm/panel/panel-newvision-nv3051d.c b/drivers/gpu/drm/panel/panel-newvision-nv3051d.c
+index ad98dd9322b4..79de6c886292 100644
+--- a/drivers/gpu/drm/panel/panel-newvision-nv3051d.c
++++ b/drivers/gpu/drm/panel/panel-newvision-nv3051d.c
+@@ -388,6 +388,13 @@ static int panel_nv3051d_probe(struct mipi_dsi_device *dsi)
+ 	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
+ 			  MIPI_DSI_MODE_LPM | MIPI_DSI_MODE_NO_EOT_PACKET;
  
- description: |
--  The NewVision NV3051D is a driver chip used to drive DSI panels. For now,
--  this driver only supports the 640x480 panels found in the Anbernic RG353
--  based devices.
-+  The NewVision NV3051D is a driver chip used to drive DSI panels.
++	/*
++	 * The panel in the RG351V is identical to the 353P, except it
++	 * requires MIPI_DSI_CLOCK_NON_CONTINUOUS to operate correctly.
++	 */
++	if (of_device_is_compatible(dev->of_node, "anbernic,rg351v-panel"))
++		dsi->mode_flags |= MIPI_DSI_CLOCK_NON_CONTINUOUS;
++
+ 	drm_panel_init(&ctx->panel, &dsi->dev, &panel_nv3051d_funcs,
+ 		       DRM_MODE_CONNECTOR_DSI);
  
- maintainers:
-   - Chris Morgan <macromorgan@hotmail.com>
-@@ -21,6 +19,7 @@ properties:
-   compatible:
-     items:
-       - enum:
-+          - anbernic,rg351v-panel
-           - anbernic,rg353p-panel
-           - anbernic,rg353v-panel
-       - const: newvision,nv3051d
 -- 
 2.34.1
 
