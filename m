@@ -1,57 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78DAF7B6B6A
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Oct 2023 16:25:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE98A7B6C89
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Oct 2023 16:59:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B528F10E0E3;
-	Tue,  3 Oct 2023 14:25:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E256489580;
+	Tue,  3 Oct 2023 14:59:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 87F1710E191
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Oct 2023 14:25:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1696343140;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9X55W+MH50kwEHU7NYlBW3DVVy7f5PyOCoG6m/96NLo=;
- b=YMzlYCgkre4K4iVvd7wNuW8COkVGYLOgOxKyKwu4zsQwRUFYLMdIL4kSXDPo19PqCo0BHG
- IEFq9QK+tW3uP4mudMUusKsilT4d09tpRCK/1J5/2kGnlcMUL6O0rtlYsUgIfVJRghnGmQ
- ZMI5NAbuS//bUiPf6VGTl3Xo+eJLI6A=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-591-9E6x7BzHNvqNAWctp9cBGQ-1; Tue, 03 Oct 2023 10:25:28 -0400
-X-MC-Unique: 9E6x7BzHNvqNAWctp9cBGQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 48858101A53B;
- Tue,  3 Oct 2023 14:25:28 +0000 (UTC)
-Received: from hydra.redhat.com (unknown [10.39.193.87])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BFC2C2156701;
- Tue,  3 Oct 2023 14:25:26 +0000 (UTC)
-From: Jocelyn Falempe <jfalempe@redhat.com>
-To: dri-devel@lists.freedesktop.org, tzimmermann@suse.de, airlied@redhat.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, daniel@ffwll.ch,
- javierm@redhat.com, bluescreen_avenger@verizon.net
-Subject: [PATCH v4 4/4] drm/mgag200: Add drm_panic support
-Date: Tue,  3 Oct 2023 16:22:47 +0200
-Message-ID: <20231003142508.190246-5-jfalempe@redhat.com>
-In-Reply-To: <20231003142508.190246-1-jfalempe@redhat.com>
-References: <20231003142508.190246-1-jfalempe@redhat.com>
+Received: from mail-oo1-xc2e.google.com (mail-oo1-xc2e.google.com
+ [IPv6:2607:f8b0:4864:20::c2e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 227A189580
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Oct 2023 14:59:25 +0000 (UTC)
+Received: by mail-oo1-xc2e.google.com with SMTP id
+ 006d021491bc7-57bab8676f9so586131eaf.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Oct 2023 07:59:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1696345164; x=1696949964;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=paCC2yP2dDTzgPbMIpAziwv1LCMCxhhjgQrwrl1gs1o=;
+ b=wkL1dLJO9tcTskwsqp4s3XmvaGJ7Y06qjX/QO88zYmUNs6FFjKUT6QEXHi7ikg/sdJ
+ 081rRQfC66zRxx+KaFn6nxmHC/1h4z75L36QmFI9dRHzKogsKeOyWHpaKo8QclHHolI9
+ f1Tg0Eu46sxIf8JpuVKj0bAuKv8hra84MepuQqBSEaN956SxnQgVuxObSvH22MxAslDB
+ ZuvPuN5nCn4cQml7JRs6sfMkbD5zQc7mOTKcpDhl80TNE+zzdExYxtDCeXM3PsXZwWf6
+ pVbxUkVbtCORBZq9QlIjGGFYihZz42mJEs97zMJ5IMF4SdimHl86vmSwPNIki1H5z3ma
+ prZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1696345164; x=1696949964;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=paCC2yP2dDTzgPbMIpAziwv1LCMCxhhjgQrwrl1gs1o=;
+ b=FGuuJ0ptNHFsWNCPNho7m1y5qWQZg6DEJpd4RT1CRBiK24OgeGEdRm3t/q/AjMq4WW
+ I3GRHboNmakLnAt5f200AgjfwU6fXqAnApBAMZZnR3RkkjESHw/ikHVZwHuh3fdgLjm3
+ yZ/iL619a1ozEpPyTVvqO579BqCHY4E4MYkg+J9op7cudtqYdLR6vYumhM0mIRh3lRmZ
+ GjYD5TK/3NLVearCkXEfF9SJxTiCuXbZK9njrogeff8c3q3AL6ndIYwYmlKHhzS0ASGy
+ webQeqxLymzWMIYzDqBES2X+AiJOzZteLS2P+6iL4O0+eSiwORtHj9Atplpomt4aAL5x
+ iVzg==
+X-Gm-Message-State: AOJu0Yw8B0ge35m0AjDoUHoRQwoONzPbkeQyOr4CVjRn7z7o8kU8mxf9
+ cwD9FXRFwgyfct5fxshsRV4Joya/Who5rtmnY/xYsw==
+X-Google-Smtp-Source: AGHT+IEC/Kn3ElM9sRc8RziFnK7dG4Mz8Mu+9fXziWBkbOanl/IOsnZjGUYnuFHW5isQpUi/P4sO/SVenJA9KUgaiWk=
+X-Received: by 2002:a05:6358:2822:b0:143:8f7f:9150 with SMTP id
+ k34-20020a056358282200b001438f7f9150mr14957693rwb.13.1696345163992; Tue, 03
+ Oct 2023 07:59:23 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+References: <bc145167-0471-4ab3-935c-aa5dc20e342a@moroto.mountain>
+ <CABdmKX1PsCcRpsnUgwoS9yMhCXcin1bQt6D+N0b2mHP93cmX-A@mail.gmail.com>
+ <04ea5706-7373-48c4-a93e-e69c50816a0b@kadam.mountain>
+In-Reply-To: <04ea5706-7373-48c4-a93e-e69c50816a0b@kadam.mountain>
+From: "T.J. Mercier" <tjmercier@google.com>
+Date: Tue, 3 Oct 2023 07:59:12 -0700
+Message-ID: <CABdmKX3dg70gMnzmxOGHOM3ZucE6jFAFpskLShFNxE=g=LBy0g@mail.gmail.com>
+Subject: Re: [PATCH] dma-buf: heaps: Fix off by one in cma_heap_vm_fault()
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,71 +71,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: gpiccoli@igalia.com, Jocelyn Falempe <jfalempe@redhat.com>
+Cc: Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ kernel-janitors@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Sumit Semwal <sumit.semwal@linaro.org>, linaro-mm-sig@lists.linaro.org,
+ John Stultz <jstultz@google.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for the drm_panic module, which displays a message to
-the screen when a kernel panic occurs.
+On Tue, Oct 3, 2023 at 1:30=E2=80=AFAM Dan Carpenter <dan.carpenter@linaro.=
+org> wrote:
+>
+> On Mon, Oct 02, 2023 at 10:16:24AM -0700, T.J. Mercier wrote:
+> > On Mon, Oct 2, 2023 at 12:04=E2=80=AFAM Dan Carpenter <dan.carpenter@li=
+naro.org> wrote:
+> > >
+> > > The buffer->pages[] has "buffer->pagecount" elements so this > compar=
+ison
+> > > has to be changed to >=3D to avoid reading beyond the end of the arra=
+y.
+> > > The buffer->pages[] array is allocated in cma_heap_allocate().
+> > >
+> > > Fixes: a5d2d29e24be ("dma-buf: heaps: Move heap-helper logic into the=
+ cma_heap implementation")
+> > > Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+> > > ---
+> > >  drivers/dma-buf/heaps/cma_heap.c | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > >
+> > > diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps=
+/cma_heap.c
+> > > index ee899f8e6721..bea7e574f916 100644
+> > > --- a/drivers/dma-buf/heaps/cma_heap.c
+> > > +++ b/drivers/dma-buf/heaps/cma_heap.c
+> > > @@ -165,7 +165,7 @@ static vm_fault_t cma_heap_vm_fault(struct vm_fau=
+lt *vmf)
+> > >         struct vm_area_struct *vma =3D vmf->vma;
+> > >         struct cma_heap_buffer *buffer =3D vma->vm_private_data;
+> > >
+> > > -       if (vmf->pgoff > buffer->pagecount)
+> > > +       if (vmf->pgoff >=3D buffer->pagecount)
+> > >                 return VM_FAULT_SIGBUS;
+> > >
+> > Hi Dan,
+> >
+> > Your fix looks correct to me, but I'm curious if you observed this
+> > problem on a device? The mmap in dma-buf.c looks like it prevents
+> > creating a mapping that is too large, and I think an access beyond the
+> > VMA should segfault before reaching here.
+>
+> This is from static analysis and not from testing.  You could be correct
+> that this bug can't affect real life.
+>
+> regards,
+> dan carpenter
 
-Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
----
- drivers/gpu/drm/mgag200/mgag200_drv.c | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
+Ok, thanks Dan.
 
-diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.c b/drivers/gpu/drm/mgag200/mgag200_drv.c
-index 976f0ab2006b..229d9c116b42 100644
---- a/drivers/gpu/drm/mgag200/mgag200_drv.c
-+++ b/drivers/gpu/drm/mgag200/mgag200_drv.c
-@@ -12,10 +12,12 @@
- #include <drm/drm_aperture.h>
- #include <drm/drm_drv.h>
- #include <drm/drm_fbdev_generic.h>
-+#include <drm/drm_framebuffer.h>
- #include <drm/drm_file.h>
- #include <drm/drm_ioctl.h>
- #include <drm/drm_managed.h>
- #include <drm/drm_module.h>
-+#include <drm/drm_panic.h>
- #include <drm/drm_pciids.h>
- 
- #include "mgag200_drv.h"
-@@ -83,6 +85,27 @@ resource_size_t mgag200_probe_vram(void __iomem *mem, resource_size_t size)
- 	return offset - 65536;
- }
- 
-+static int mgag200_get_scanout_buffer(struct drm_device *dev,
-+				      struct drm_scanout_buffer *sb)
-+{
-+	struct drm_plane *plane;
-+	struct mga_device *mdev = to_mga_device(dev);
-+	struct iosys_map map = IOSYS_MAP_INIT_VADDR_IOMEM(mdev->vram);
-+
-+	/* mgag200 has only one plane */
-+	drm_for_each_plane(plane, dev) {
-+		if (!plane->state || !plane->state->fb)
-+			return -ENODEV;
-+		sb->format = plane->state->fb->format;
-+		sb->width = plane->state->fb->width;
-+		sb->height = plane->state->fb->height;
-+		sb->pitch = plane->state->fb->pitches[0];
-+		sb->map = map;
-+		return 0;
-+	}
-+	return -ENODEV;
-+}
-+
- /*
-  * DRM driver
-  */
-@@ -98,6 +121,7 @@ static const struct drm_driver mgag200_driver = {
- 	.major = DRIVER_MAJOR,
- 	.minor = DRIVER_MINOR,
- 	.patchlevel = DRIVER_PATCHLEVEL,
-+	.get_scanout_buffer = mgag200_get_scanout_buffer,
- 	DRM_GEM_SHMEM_DRIVER_OPS,
- };
- 
--- 
-2.41.0
-
+Reviewed-by: T.J. Mercier <tjmercier@google.com>
