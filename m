@@ -1,63 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3894E7B5DE6
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Oct 2023 01:54:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F3237B5DF8
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Oct 2023 02:10:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 07AFC10E091;
-	Mon,  2 Oct 2023 23:54:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 67C5C10E0D5;
+	Tue,  3 Oct 2023 00:10:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com
- [IPv6:2607:f8b0:4864:20::629])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 09B8410E13F
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Oct 2023 23:54:10 +0000 (UTC)
-Received: by mail-pl1-x629.google.com with SMTP id
- d9443c01a7336-1c61acd1285so2616315ad.2
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Oct 2023 16:54:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1696290850; x=1696895650;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=ri2H++HoCXFAmUL0q2wpktG5mORN8GB1kk/7QHCMaos=;
- b=ONT0wVBIJ0wXrXJVQzHmJ46L8KstR2NQkef1JeEuQ3mX1xtrgEUrvdwZbyRO8+Q398
- 5/Y+TMkz9BdALzkRjQfjplvg/HFMwg1IUgZ6LEddW5Xd+wRtVMma71hIPv5+osBFM4Ji
- aD0Rxhi60NiXNYALj4sOHEF0LQyLYlfh9DlZ0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1696290850; x=1696895650;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=ri2H++HoCXFAmUL0q2wpktG5mORN8GB1kk/7QHCMaos=;
- b=b8WNDDbPXfZQiV8d7Ld5/kc18Zx+VTkyt9GEquZgseVUnShg0bv15l1Bb1UFv61I5S
- c2ZQwQRg1eSl4j3DOd7HEFwL8xSUjat5+pCVeHO/Y8fr8LgTws6Eepk91BuDsAYowEHl
- aY5RgG4etAdk0GeHeDob2H5ViDJF2XfjQPN0Co8DoeLXiaHBWDUKu+aRZT31EzVpM69l
- fn3DZf1hyMdTlWAyzqMQYvTlxwaa8l580HKDeBGoxmCh5/xhACEe8bDEdAxXf9pgnuOE
- PYPFULLFDRfG+tdTmTTM6J+xxB+9Z61Z8lja9WZKonn7A2788vmX2uIUIzHT7ojIvXH5
- paxA==
-X-Gm-Message-State: AOJu0YzWiwAnuunVciIk3W2oWa2vBMp5KqohxtjBT73r593tsf8UjCyE
- dpAgruNgggJr8RU9auCu49FTgw==
-X-Google-Smtp-Source: AGHT+IGOU6FXeF+Mqr7pHXMQjIlmKusQnIePSZpUSkDMPro+oP9wmgspqehR3tapjacP7Wamne+/hg==
-X-Received: by 2002:a17:903:48c:b0:1c5:dfe9:b1f3 with SMTP id
- jj12-20020a170903048c00b001c5dfe9b1f3mr10596391plb.16.1696290850436; 
- Mon, 02 Oct 2023 16:54:10 -0700 (PDT)
-Received: from smtp.gmail.com ([2620:15c:11a:201:f676:8db:8677:aefe])
- by smtp.gmail.com with ESMTPSA id
- 12-20020a170902ee4c00b001c3ea6073e0sm32167plo.37.2023.10.02.16.54.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Oct 2023 16:54:09 -0700 (PDT)
-From: Stephen Boyd <swboyd@chromium.org>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>
-Subject: [PATCH] drm/bridge: ti-sn65dsi86: Associate DSI device lifetime with
- auxiliary device
-Date: Mon,  2 Oct 2023 16:54:06 -0700
-Message-ID: <20231002235407.769399-1-swboyd@chromium.org>
-X-Mailer: git-send-email 2.42.0.582.g8ccd20d70d-goog
+Received: from gandalf.ozlabs.org (mail.ozlabs.org
+ [IPv6:2404:9400:2221:ea00::3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 894BE10E0D5
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Oct 2023 00:10:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1696291800;
+ bh=qxtEAZde4kFbj1tXH6gOwr/ukfnaFXq940/Y/rS7DbI=;
+ h=Date:From:To:Cc:Subject:From;
+ b=BGeedbwldabh6z6QF3gwU1NWR5TdET3CLkHcmT+oCs7uyug4oskTp9CJR7aEAOuax
+ if/JQ3NmFoZG0KvXqG5adK3yB/dOxIZ98zUNP3a/LsJSXH3pKKIdEwQKCyptVku9R4
+ uhNBOz8127rhdVwxb1ElMJZBjzIf++j5W6PkIkudKQY4pwYBZfQapBID+Any83e/9u
+ L5+MkoUO+7/A6xscCUXyNFgkBJIJwd6P3UI7JMHQEI8suJhOkyjaLiz0BWOCL/6Uja
+ 4MG9b+jjAjsgV/4nPXCDqTzj+WfpRS+PqAQtRHlT8kLLnRCnDPMp+HebmKp28c5RB0
+ tKsjMSVVyrgBg==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4Rzyr66nM4z4x2r;
+ Tue,  3 Oct 2023 11:09:58 +1100 (AEDT)
+Date: Tue, 3 Oct 2023 11:09:57 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>, Jani Nikula
+ <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Dave Airlie <airlied@redhat.com>
+Subject: linux-next: manual merge of the drm-intel tree with the drm tree
+Message-ID: <20231003110957.34fc9483@canb.auug.org.au>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; boundary="Sig_/vcTvl.sbAssNW7vb1Uc0pbr";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,93 +52,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <maxime@cerno.tech>, Douglas Anderson <dianders@chromium.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- patches@lists.linux.dev
+Cc: Intel Graphics <intel-gfx@lists.freedesktop.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Matt Roper <matthew.d.roper@intel.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The kernel produces a warning splat and the DSI device fails to register
-in this driver if the i2c driver probes, populates child auxiliary
-devices, and then somewhere in ti_sn_bridge_probe() a function call
-returns -EPROBE_DEFER. When the auxiliary driver probe defers, the dsi
-device created by devm_mipi_dsi_device_register_full() is left
-registered because the devm managed device used to manage the lifetime
-of the DSI device is the parent i2c device, not the auxiliary device
-that is being probed.
+--Sig_/vcTvl.sbAssNW7vb1Uc0pbr
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Associate the DSI device created and managed by this driver to the
-lifetime of the auxiliary device, not the i2c device, so that the DSI
-device is removed when the auxiliary driver unbinds. Similarly change
-the device pointer used for dev_err_probe() so the deferred probe errors
-are associated with the auxiliary device instead of the parent i2c
-device so we can narrow down future problems faster.
+Hi all,
 
-Cc: Douglas Anderson <dianders@chromium.org>
-Cc: Maxime Ripard <maxime@cerno.tech>
-Fixes: c3b75d4734cb ("drm/bridge: sn65dsi86: Register and attach our DSI device at probe")
-Signed-off-by: Stephen Boyd <swboyd@chromium.org>
----
- drivers/gpu/drm/bridge/ti-sn65dsi86.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+Today's linux-next merge of the drm-intel tree got a conflict in:
 
-diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-index f448b903e190..84148a79414b 100644
---- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-+++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-@@ -692,7 +692,7 @@ static struct ti_sn65dsi86 *bridge_to_ti_sn65dsi86(struct drm_bridge *bridge)
- 	return container_of(bridge, struct ti_sn65dsi86, bridge);
- }
- 
--static int ti_sn_attach_host(struct ti_sn65dsi86 *pdata)
-+static int ti_sn_attach_host(struct auxiliary_device *adev, struct ti_sn65dsi86 *pdata)
- {
- 	int val;
- 	struct mipi_dsi_host *host;
-@@ -707,7 +707,7 @@ static int ti_sn_attach_host(struct ti_sn65dsi86 *pdata)
- 	if (!host)
- 		return -EPROBE_DEFER;
- 
--	dsi = devm_mipi_dsi_device_register_full(dev, host, &info);
-+	dsi = devm_mipi_dsi_device_register_full(&adev->dev, host, &info);
- 	if (IS_ERR(dsi))
- 		return PTR_ERR(dsi);
- 
-@@ -725,7 +725,7 @@ static int ti_sn_attach_host(struct ti_sn65dsi86 *pdata)
- 
- 	pdata->dsi = dsi;
- 
--	return devm_mipi_dsi_attach(dev, dsi);
-+	return devm_mipi_dsi_attach(&adev->dev, dsi);
- }
- 
- static int ti_sn_bridge_attach(struct drm_bridge *bridge,
-@@ -1298,9 +1298,9 @@ static int ti_sn_bridge_probe(struct auxiliary_device *adev,
- 	struct device_node *np = pdata->dev->of_node;
- 	int ret;
- 
--	pdata->next_bridge = devm_drm_of_get_bridge(pdata->dev, np, 1, 0);
-+	pdata->next_bridge = devm_drm_of_get_bridge(&adev->dev, np, 1, 0);
- 	if (IS_ERR(pdata->next_bridge))
--		return dev_err_probe(pdata->dev, PTR_ERR(pdata->next_bridge),
-+		return dev_err_probe(&adev->dev, PTR_ERR(pdata->next_bridge),
- 				     "failed to create panel bridge\n");
- 
- 	ti_sn_bridge_parse_lanes(pdata, np);
-@@ -1319,9 +1319,9 @@ static int ti_sn_bridge_probe(struct auxiliary_device *adev,
- 
- 	drm_bridge_add(&pdata->bridge);
- 
--	ret = ti_sn_attach_host(pdata);
-+	ret = ti_sn_attach_host(adev, pdata);
- 	if (ret) {
--		dev_err_probe(pdata->dev, ret, "failed to attach dsi host\n");
-+		dev_err_probe(&adev->dev, ret, "failed to attach dsi host\n");
- 		goto err_remove_bridge;
- 	}
- 
+  drivers/gpu/drm/i915/i915_drv.h
 
-base-commit: 0bb80ecc33a8fb5a682236443c1e740d5c917d1d
--- 
-https://chromeos.dev
+between commits:
 
+  c9517783060a ("drm/i915/dg2: Drop Wa_16011777198")
+  5a213086a025 ("drm/i915: Eliminate IS_MTL_GRAPHICS_STEP")
+  81af8abe6513 ("drm/i915: Eliminate IS_MTL_MEDIA_STEP")
+
+from the drm tree and commits:
+
+  e50086f3d313 ("drm/i915/dg2: Drop pre-production display workarounds")
+  213454b3af2e ("drm/i915: Eliminate IS_MTL_DISPLAY_STEP")
+
+from the drm-intel tree.
+
+I fixed it up (see below) and can carry the fix as necessary. This
+is now fixed as far as linux-next is concerned, but any non trivial
+conflicts should be mentioned to your upstream maintainer when your tree
+is submitted for merging.  You may also want to consider cooperating
+with the maintainer of the conflicting tree to minimise any particularly
+complex conflicts.
+
+--=20
+Cheers,
+Stephen Rothwell
+
+diff --cc drivers/gpu/drm/i915/i915_drv.h
+index e994bd2d69db,cc229f08dfdb..000000000000
+--- a/drivers/gpu/drm/i915/i915_drv.h
++++ b/drivers/gpu/drm/i915/i915_drv.h
+@@@ -647,21 -653,33 +649,6 @@@ IS_SUBPLATFORM(const struct drm_i915_pr
+  #define IS_XEHPSDV_GRAPHICS_STEP(__i915, since, until) \
+  	(IS_XEHPSDV(__i915) && IS_GRAPHICS_STEP(__i915, since, until))
+ =20
+- #define IS_MTL_DISPLAY_STEP(__i915, since, until) \
+ -#define IS_MTL_GRAPHICS_STEP(__i915, variant, since, until) \
+ -	(IS_SUBPLATFORM(__i915, INTEL_METEORLAKE, INTEL_SUBPLATFORM_##variant) &=
+& \
+ -	 IS_GRAPHICS_STEP(__i915, since, until))
+ -
+ -#define IS_MTL_MEDIA_STEP(__i915, since, until) \
+--	(IS_METEORLAKE(__i915) && \
+- 	 IS_DISPLAY_STEP(__i915, since, until))
+ -	 IS_MEDIA_STEP(__i915, since, until))
+--
+- #define IS_DG2_DISPLAY_STEP(__i915, since, until) \
+- 	(IS_DG2(__i915) && \
+- 	 IS_DISPLAY_STEP(__i915, since, until))
+ -/*
+ - * DG2 hardware steppings are a bit unusual.  The hardware design was for=
+ked to
+ - * create three variants (G10, G11, and G12) which each have distinct
+ - * workaround sets.  The G11 and G12 forks of the DG2 design reset the GT
+ - * stepping back to "A0" for their first iterations, even though they're =
+more
+ - * similar to a G10 B0 stepping and G10 C0 stepping respectively in terms=
+ of
+ - * functionality and workarounds.  However the display stepping does not =
+reset
+ - * in the same manner --- a specific stepping like "B0" has a consistent
+ - * meaning regardless of whether it belongs to a G10, G11, or G12 DG2.
+ - *
+ - * TLDR:  All GT workarounds and stepping-specific logic must be applied =
+in
+ - * relation to a specific subplatform (G10/G11/G12), whereas display work=
+arounds
+ - * and stepping-specific logic will be applied with a general DG2-wide st=
+epping
+ - * number.
+ - */
+ -#define IS_DG2_GRAPHICS_STEP(__i915, variant, since, until) \
+ -	(IS_SUBPLATFORM(__i915, INTEL_DG2, INTEL_SUBPLATFORM_##variant) && \
+ -	 IS_GRAPHICS_STEP(__i915, since, until))
+--
+  #define IS_PVC_BD_STEP(__i915, since, until) \
+  	(IS_PONTEVECCHIO(__i915) && \
+  	 IS_BASEDIE_STEP(__i915, since, until))
+
+--Sig_/vcTvl.sbAssNW7vb1Uc0pbr
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmUbW9UACgkQAVBC80lX
+0Gw26wf9HbL90IKPELoLLlVbG2JcbbZd08SCv86GTf2FIg+fvKLZSEZa4L5eyE+u
+VF2/6s177nCNBrWLbgyXu5NAJy33wOYu4xsn3lmEKeN2TxuXuaGbf956WJFqs4s6
++CbYsFEREk2lLTs7X4VhB5WwaWpHxzDd5x7prqZm26ELUS1iiSDEZh33SQRD/n/j
+Tqs10RiHUxOn4XQR3bjm0LCJS6/i59IEYJ757Vz/EzQ3TmJe8By1HDn6Cr2ccr/c
+Xwc5rLA4+m4yjgqgXBBnVq0Z85ewuFIbYmhe1+jQ3+NnLyUwRqy+mmgRZMQrgTOK
+RrxubzQynv20tGptEK6dL/H3ZiJs3w==
+=anKz
+-----END PGP SIGNATURE-----
+
+--Sig_/vcTvl.sbAssNW7vb1Uc0pbr--
