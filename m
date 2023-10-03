@@ -2,42 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A44B77B6F2E
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Oct 2023 19:00:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1BED7B6F3C
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Oct 2023 19:05:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7794510E2FA;
-	Tue,  3 Oct 2023 17:00:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 28ACE10E2FF;
+	Tue,  3 Oct 2023 17:04:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A66C10E2FA
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Oct 2023 17:00:22 +0000 (UTC)
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6902610E2FC
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Oct 2023 17:04:57 +0000 (UTC)
 Received: from localhost (unknown [IPv6:2601:281:8300:73::646])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ms.lwn.net (Postfix) with ESMTPSA id 3AF4C6E2;
- Tue,  3 Oct 2023 17:00:21 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 3AF4C6E2
+ by ms.lwn.net (Postfix) with ESMTPSA id D52552B4;
+ Tue,  3 Oct 2023 17:04:56 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net D52552B4
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
- t=1696352421; bh=90J31QEv8FGbWrRzoVwWZcTEzbXsi3Oh57o8nNW1+jU=;
+ t=1696352697; bh=yfhmtqCCvv97Y2SWhdu1bHhleLPoOqHF30l72GJ9Ltk=;
  h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
- b=Jv8wpMpY8gVh2mxKuopxJuPeE2oQ+5goX2MIa+p5pyooDgBitxunGJNmev59New5c
- X1dUpnyswLMSeqG1tYa5ubuQrWBX4xfGOfxGeYk8rBE62UIZGYUMMXM4Rod4PHhdSL
- yBzjtYL/zAoJCiDDia9BRgqDcm2D5gG15bYH2ixnbRGWeIplTynIFvGDotZMgQfm5F
- oj6MVXdCt5fyGlcmFrIlbaDvMmbr+gqLiQAY5NjLvzSoDdOEeaQiEJpSBzl0wjuECe
- rFHKA9AlXox3/bf0237lwnitDSge9UuZmQXN1+H8CJAd+sC/hBe6qSpv2l+R6T+AnY
- yxaYoq1/b4KZA==
+ b=H/05ERPWSImHNqwm9Zq8R0utmS9epf+7PtA/NbNBp4uw/BxS+wjtzIi0PldP1COFh
+ MkFuhIiYlGzA58hMCRpnhYT5MUDBXHantIdnjEiplg+OBqAEsbXvvdgy4czrH+ws4p
+ YLDpwrBc1/Rvx1rEYKMJ56nADEEsKnSW1JZQb/PVzQZEJn3lTRoxWvyLNvAumh3cFm
+ KJyTT8cdpe34bWGRJEi1aah7eQR3VXKs6OV3qlkDqmUP4qyZigGvkn8xXUhGKAiDGP
+ F4fn3Jth6eje/gFxZlir+3YpF5isP2V7b0KhqOw/oxfmagBXBH3RDYsDfqU6Nwr3hO
+ j6nN5q8SIfUbQ==
 From: Jonathan Corbet <corbet@lwn.net>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>, Linux Doc Mailing List
  <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH 0/2] Add support for inlined documentation for kunit and
- kselftests
-In-Reply-To: <cover.1693550658.git.mchehab@kernel.org>
+Subject: Re: [PATCH 2/2] drm: add documentation for drm_buddy_test kUnit test
+In-Reply-To: <da7e150c65b85b414f2f9790e04442408678877d.1693550658.git.mchehab@kernel.org>
 References: <cover.1693550658.git.mchehab@kernel.org>
-Date: Tue, 03 Oct 2023 11:00:20 -0600
-Message-ID: <87pm1vd4kb.fsf@meer.lwn.net>
+ <da7e150c65b85b414f2f9790e04442408678877d.1693550658.git.mchehab@kernel.org>
+Date: Tue, 03 Oct 2023 11:04:56 -0600
+Message-ID: <87lecjd4cn.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,43 +51,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>, David Gow <davidgow@google.com>,
+ =?utf-8?Q?Ma=C3=ADra?= Canal <mairacanal@riseup.net>,
+ Christian =?utf-8?Q?K?= =?utf-8?Q?=C3=B6nig?= <christian.koening@amd.com>,
+ Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Mauro Carvalho Chehab <mchehab@kernel.org>
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Arthur Grillo <arthurgrillo@riseup.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+One other little thing...
+
 Mauro Carvalho Chehab <mchehab@kernel.org> writes:
 
-> This is a follow-up of the discussions taken here:
+> As an example for the new documentation tool, add a documentation
+> for drm_buddy_test.
 >
->    https://lore.kernel.org/linux-doc/20230704132812.02ba97ba@maurocar-mobl2/T/#t
+> I opted to place this on a completely different directory, in order
+> to make easier to test the feature with:
 >
-> I sent a previous version as RFC. This is basically what we had there, with some
-> improvements at test_list.py.
+> 	$ make SPHINXDIRS=3D"tests" htmldocs
 >
-> It adds a new extension that allows documenting tests using the same tool we're
-> using for DRM unit tests at IGT GPU tools: https://gitlab.freedesktop.org/drm/igt-gpu-tools.
+> Acked-by: Christian K=C3=B6nig <christian.koening@amd.com>
+> Reviewed-by: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+> ---
+>  Documentation/index.rst                |  2 +-
+>  Documentation/tests/index.rst          |  6 ++++++
+>  Documentation/tests/kunit.rst          |  5 +++++
+>  drivers/gpu/drm/tests/drm_buddy_test.c | 12 ++++++++++++
+>  4 files changed, 24 insertions(+), 1 deletion(-)
+>  create mode 100644 Documentation/tests/index.rst
+>  create mode 100644 Documentation/tests/kunit.rst
 >
-> While kernel-doc has provided documentation for in-lined functions/struct comments,
-> it was not meant to document tests.
->
-> Tests need to be grouped by the test functions. It should also be possible to produce
-> other outputs from the documentation, to integrate it with test suites. For instance, 
-> Internally at Intel, we use the comments to generate DOT files hierarchically grouped
-> per feature categories.
->
-> This is meant to be an initial series to start documenting kunit.
+> diff --git a/Documentation/index.rst b/Documentation/index.rst
+> index 9dfdc826618c..80a6ce14a61a 100644
+> --- a/Documentation/index.rst
+> +++ b/Documentation/index.rst
+> @@ -60,7 +60,7 @@ Various other manuals with useful information for all k=
+ernel developers.
+>     fault-injection/index
+>     livepatch/index
+>     rust/index
+> -
+> +   test/index
 
-I've played with this a bit...a couple of quick impressions:
+Since you called the directory "tests", this generates a couple of
+warnings in the htmldocs build.
 
-- That's quite a chunk of Python code to be adding.  I've not yet had
-  the chance to read it through properly, will hopefully be able to do
-  so soon.  A bit more commenting would not have gone amiss here...
-
-- I kind of think that this should go under dev-tools rather than being
-  a new top-level directory.  Is there a reason not to put it there?
-
-Thanks,
+(but, again, I think it should be dev-tools/tests, and perhaps
+referenced from the selftest docs already there)
 
 jon
