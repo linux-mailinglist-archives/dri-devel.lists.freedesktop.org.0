@@ -1,57 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A0E97B68EE
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Oct 2023 14:26:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E6A27B6A50
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Oct 2023 15:21:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0910610E26F;
-	Tue,  3 Oct 2023 12:26:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 82E1210E05C;
+	Tue,  3 Oct 2023 13:21:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B58C10E04E;
- Tue,  3 Oct 2023 12:26:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1696335963; x=1727871963;
- h=message-id:subject:from:to:cc:date:in-reply-to:
- references:content-transfer-encoding:mime-version;
- bh=h+SKNqPou1zwDxYZgK8h0KS06+1YNpO5fxzYV7YI4q0=;
- b=AoyfzlPxpnAbYxRUt8nbgvqMzwm3yfzQ0DmYjB+6Msl/Ab+EQlYXvlvO
- IGOYW3uaEQtSybJK9na8nUfFznUhXQz1uh8/Ek6XaTkbDaAjvjNZvv6fF
- SsgE0XzrPC/LPC1ga5kGMc+QkgfTLN7hvvDjQARLwpUvH+JCDcpUxj3DX
- vrX8Tr9wH4f79AVpWGNOTtGuefjG2etDFOIdDzF8usAUrnbX8hRFufu+5
- YoyuWDIv4B1X7N9wwia7/iANPITm7mu84DJ95Q4a4ZFEbu7bOuYt1kBLD
- /nHRwkdDnTuqneLtEDSJiOVijaHVZE8Ra0DcmsjCWKcjsS+JkiXjuspe2 A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="449350387"
-X-IronPort-AV: E=Sophos;i="6.03,197,1694761200"; d="scan'208";a="449350387"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Oct 2023 05:26:02 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="997997355"
-X-IronPort-AV: E=Sophos;i="6.03,197,1694761200"; d="scan'208";a="997997355"
-Received: from fhoeg-mobl1.ger.corp.intel.com (HELO [10.249.254.234])
- ([10.249.254.234])
- by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Oct 2023 05:25:58 -0700
-Message-ID: <f551ee9059e52d46343f5fa997b7d9f8ab6654d9.camel@linux.intel.com>
-Subject: Re: [PATCH drm-misc-next v5 4/6] drm/gpuvm: track/lock/validate
- external/evicted objects
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Date: Tue, 03 Oct 2023 14:25:56 +0200
-In-Reply-To: <20231003120554.547090bc@collabora.com>
-References: <20230928191624.13703-1-dakr@redhat.com>
- <20230928191624.13703-5-dakr@redhat.com>
- <e4e68970-c7c9-55e2-9483-01252f38c956@linux.intel.com>
- <20231003120554.547090bc@collabora.com>
-Organization: Intel Sweden AB, Registration Number: 556189-6027
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E16B10E05C
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Oct 2023 13:21:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1696339284;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=DsSmi/Zt5uME6pvWTbk/N7D0/KT5w+J1b0pUC4h/oVU=;
+ b=gw7a3T6zIuZHm/9w6u7iamMJpVWnl/HVF1544sokAeUUxusf/q8hyoInLcnVxQmPJVhMiz
+ EO9uGS7NKoplqOJnZzmPsLE950uRDP/EMWMe2eWLAHHqWpheQByTPoonuyVKMQbthOJ13s
+ 7nEBqpsDm6Ub/CClPa8jrGh35OQMqlY=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-330-8QjpQ1M7Mxi1Nic3d2-OdA-1; Tue, 03 Oct 2023 09:21:17 -0400
+X-MC-Unique: 8QjpQ1M7Mxi1Nic3d2-OdA-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ ffacd0b85a97d-327b5f2235aso791315f8f.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Oct 2023 06:21:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1696339277; x=1696944077;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=DsSmi/Zt5uME6pvWTbk/N7D0/KT5w+J1b0pUC4h/oVU=;
+ b=kkkj4hQqxo0zqVQ5WN7J2l3/1oO01VPXyrXU3LOw7rTlNAEKqntpbKXUGGfFYN2QC6
+ TzsEP/wblYPwEavIVxd47IPO/YxmjCgMA61kB5YF3UqmsgvyJQg75J2cdLCEZo5ggpjs
+ dwhQX/K6wekCQi1d/EB/nvR5GBOjy3DinqnLBiF7RGEEaYu4uMKFC+lVv6MeS2VPIfE8
+ aYtL8KSSrYQ1m3s1K3xeq42fmyZpmRGQwu6J6KKVsNsjTgSc2dwrtbM81CoSWSxQGU+L
+ SHnFOdjmSNR+JZAdqciQ2t20e9OuTmj0yxJRvoXy9FnDJvjDAX6shYvOcOtIAxpD01DY
+ lnVg==
+X-Gm-Message-State: AOJu0YzBHYWno6Gl/mJiEqFLkGjmMJgFVrmpO8NXU8EKBJd1OuxBruyK
+ uRPPi4zGdNI3DAOm9oIAyMbxj1uparqdCVRToI7qvpZ5TlJK91N+OnTVzBbY+bOGP7bMrV9GBXa
+ jVwIdrHnK6zRWjQzFJic/TVRHssbl
+X-Received: by 2002:a5d:568e:0:b0:321:5d9f:2d9f with SMTP id
+ f14-20020a5d568e000000b003215d9f2d9fmr12401787wrv.47.1696339276724; 
+ Tue, 03 Oct 2023 06:21:16 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IF8jHDDQmTthN89Peo1PU8EJm/OLgNDz81/4SvjYgSZiWjXE3UuxBzNPv1BWoXgEuGYxf3wJg==
+X-Received: by 2002:a5d:568e:0:b0:321:5d9f:2d9f with SMTP id
+ f14-20020a5d568e000000b003215d9f2d9fmr12401757wrv.47.1696339276284; 
+ Tue, 03 Oct 2023 06:21:16 -0700 (PDT)
+Received: from redhat.com ([2.52.132.27]) by smtp.gmail.com with ESMTPSA id
+ j17-20020a5d5651000000b0031f82743e25sm1569843wrw.67.2023.10.03.06.20.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 03 Oct 2023 06:21:15 -0700 (PDT)
+Date: Tue, 3 Oct 2023 09:20:27 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Jiqian Chen <Jiqian.Chen@amd.com>
+Subject: Re: [LINUX KERNEL PATCH v5 1/2] virtio_pci: Add freeze_mode for
+ virtio_pci_common_cfg
+Message-ID: <20231003091644-mutt-send-email-mst@kernel.org>
+References: <20230919104607.2282248-1-Jiqian.Chen@amd.com>
+ <20230919104607.2282248-2-Jiqian.Chen@amd.com>
 MIME-Version: 1.0
+In-Reply-To: <20230919104607.2282248-2-Jiqian.Chen@amd.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,209 +82,239 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.brost@intel.com, sarah.walker@imgtec.com,
- nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, faith@gfxstrand.net,
- Danilo Krummrich <dakr@redhat.com>, donald.robson@imgtec.com,
- christian.koenig@amd.com
+Cc: Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org,
+ dri-devel@lists.freedesktop.org, Gurchetan Singh <gurchetansingh@chromium.org>,
+ Huang Rui <Ray.Huang@amd.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Julia Zhang <Julia.Zhang@amd.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+ Stefano Stabellini <sstabellini@kernel.org>, David Airlie <airlied@redhat.com>,
+ Juergen Gross <jgross@suse.com>, Honglei Huang <Honglei1.Huang@amd.com>,
+ Stewart Hildebrand <Stewart.Hildebrand@amd.com>,
+ Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+ virtualization@lists.linux-foundation.org,
+ Robert Beckett <bob.beckett@collabora.com>, linux-kernel@vger.kernel.org,
+ Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@gmail.com>,
+ Xenia Ragiadakou <burzalodowa@gmail.com>,
+ Alex Deucher <Alexander.Deucher@amd.com>,
+ Christian Koenig <Christian.Koenig@amd.com>,
+ Roger Pau =?iso-8859-1?Q?Monn=E9?= <roger.pau@citrix.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGksIEJvcmlzLAoKT24gVHVlLCAyMDIzLTEwLTAzIGF0IDEyOjA1ICswMjAwLCBCb3JpcyBCcmV6
-aWxsb24gd3JvdGU6Cj4gSGVsbG8gVGhvbWFzLAo+IAo+IE9uIFR1ZSwgMyBPY3QgMjAyMyAxMDoz
-NjoxMCArMDIwMAo+IFRob21hcyBIZWxsc3Ryw7ZtIDx0aG9tYXMuaGVsbHN0cm9tQGxpbnV4Lmlu
-dGVsLmNvbT4gd3JvdGU6Cj4gCj4gPiA+ICsvKioKPiA+ID4gKyAqIGdldF9uZXh0X3ZtX2JvX2Zy
-b21fbGlzdCgpIC0gZ2V0IHRoZSBuZXh0IHZtX2JvIGVsZW1lbnQKPiA+ID4gKyAqIEBfX2dwdXZt
-OiBUaGUgR1BVIFZNCj4gPiA+ICsgKiBAX19saXN0X25hbWU6IFRoZSBuYW1lIG9mIHRoZSBsaXN0
-IHdlJ3JlIGl0ZXJhdGluZyBvbgo+ID4gPiArICogQF9fbG9jYWxfbGlzdDogQSBwb2ludGVyIHRv
-IHRoZSBsb2NhbCBsaXN0IHVzZWQgdG8gc3RvcmUKPiA+ID4gYWxyZWFkeSBpdGVyYXRlZCBpdGVt
-cwo+ID4gPiArICogQF9fcHJldl92bV9ibzogVGhlIHByZXZpb3VzIGVsZW1lbnQgd2UgZ290IGZy
-b20KPiA+ID4gZHJtX2dwdXZtX2dldF9uZXh0X2NhY2hlZF92bV9ibygpCj4gPiA+ICsgKgo+ID4g
-PiArICogVGhpcyBoZWxwZXIgaXMgaGVyZSB0byBwcm92aWRlIGxvY2tsZXNzIGxpc3QgaXRlcmF0
-aW9uLgo+ID4gPiBMb2NrbGVzcyBhcyBpbiwgdGhlCj4gPiA+ICsgKiBpdGVyYXRvciByZWxlYXNl
-cyB0aGUgbG9jayBpbW1lZGlhdGVseSBhZnRlciBwaWNraW5nIHRoZQo+ID4gPiBmaXJzdCBlbGVt
-ZW50IGZyb20KPiA+ID4gKyAqIHRoZSBsaXN0LCBzbyBsaXN0IGluc2VydGlvbiBkZWxldGlvbiBj
-YW4gaGFwcGVuIGNvbmN1cnJlbnRseS4KPiA+ID4gKyAqCj4gPiA+ICsgKiBFbGVtZW50cyBwb3Bw
-ZWQgZnJvbSB0aGUgb3JpZ2luYWwgbGlzdCBhcmUga2VwdCBpbiBhIGxvY2FsCj4gPiA+IGxpc3Qs
-IHNvIHJlbW92YWwKPiA+ID4gKyAqIGFuZCBpc19lbXB0eSBjaGVja3MgY2FuIHN0aWxsIGhhcHBl
-biB3aGlsZSB3ZSdyZSBpdGVyYXRpbmcKPiA+ID4gdGhlIGxpc3QuCj4gPiA+ICsgKi8KPiA+ID4g
-KyNkZWZpbmUgZ2V0X25leHRfdm1fYm9fZnJvbV9saXN0KF9fZ3B1dm0sIF9fbGlzdF9uYW1lLAo+
-ID4gPiBfX2xvY2FsX2xpc3QsIF9fcHJldl92bV9ibynCoMKgwqDCoMKgXAo+ID4gPiArwqDCoMKg
-wqDCoMKgwqAoe8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgCj4gPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqBcCj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBzdHJ1Y3QgZHJtX2dwdXZt
-X2JvICpfX3ZtX2JvID0KPiA+ID4gTlVMTDvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBcCj4gPiA+ICvCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoAo+ID4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgXAo+ID4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgZHJtX2dwdXZtX2JvX3B1
-dChfX3ByZXZfdm1fYm8pO8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoAo+ID4g
-PiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgXAo+ID4gPiAr
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqAKPiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoFwKPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHNwaW5fbG9j
-aygmKF9fZ3B1dm0pLQo+ID4gPiA+X19saXN0X25hbWUubG9jayk7wqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoFzCoCAKPiA+IAo+
-ID4gSGVyZSB3ZSB1bmNvbmRpdGlvbmFsbHkgdGFrZSB0aGUgc3BpbmxvY2tzIHdoaWxlIGl0ZXJh
-dGluZywgYW5kIHRoZQo+ID4gbWFpbiAKPiA+IHBvaW50IG9mIERSTV9HUFVWTV9SRVNWX1BST1RF
-Q1RFRCB3YXMgcmVhbGx5IHRvIGF2b2lkIHRoYXQ/Cj4gPiAKPiA+IAo+ID4gPiArwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgaWYgKCEoX19ncHV2bSktCj4gPiA+ID5fX2xpc3RfbmFtZS5s
-b2NhbF9saXN0KcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoFwKPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqAoX19ncHV2bSktPl9fbGlzdF9uYW1lLmxvY2FsX2xpc3QgPQo+ID4g
-PiBfX2xvY2FsX2xpc3Q7wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgXAo+ID4gPiArwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgZWxzZcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoAo+ID4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgXAo+ID4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oFdBUk5fT04oKF9fZ3B1dm0pLT5fX2xpc3RfbmFtZS5sb2NhbF9saXN0Cj4gPiA+ICE9IF9fbG9j
-YWxfbGlzdCk7wqDCoMKgwqDCoFwKPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgCj4gPiA+IMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBcCj4gPiA+ICvCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqB3aGlsZSAoIWxpc3RfZW1wdHkoJihfX2dwdXZtKS0+X19saXN0
-X25hbWUubGlzdCkpCj4gPiA+IHvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqBcCj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgX192bV9ibyA9IGxpc3RfZmlyc3RfZW50cnkoJihfX2dwdXZtKS0KPiA+ID4gPl9fbGlzdF9u
-YW1lLmxpc3QswqDCoMKgwqDCoMKgwqDCoFwKPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgIHN0cnVjdAo+ID4gPiBkcm1fZ3B1dm1fYm8swqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoFwKPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgCj4gPiA+IGxpc3QuZW50cnkuX19saXN0X25hbWUpO8KgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgXAo+ID4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoGlmIChrcmVmX2dldF91bmxlc3NfemVybygmX192bV9iby0+a3JlZikpCj4g
-PiA+IHvCoCAKPiA+IEFuZCB1bm5lY2Vzc2FyaWx5IGdyYWIgYSByZWZlcmVuY2UgaW4gdGhlIFJF
-U1ZfUFJPVEVDVEVEIGNhc2UuCj4gPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoFwKPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgbGlzdF9tb3ZlX3RhaWwoJihfX3ZtX2JvKS0K
-PiA+ID4gPmxpc3QuZW50cnkuX19saXN0X25hbWUswqDCoMKgwqDCoMKgXAo+ID4gPiArwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgCj4gPiA+IF9fbG9jYWxfbGlzdCk7wqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgXAo+ID4gPiArwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqBicmVhazvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqAKPiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oFwKPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqB9
-IGVsc2UKPiA+ID4ge8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqBcCj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGxpc3RfZGVsX2luaXQoJihfX3ZtX2JvKS0KPiA+ID4g
-Pmxpc3QuZW50cnkuX19saXN0X25hbWUpO8KgwqDCoMKgwqDCoFwKPiA+ID4gK8KgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgX192bV9i
-byA9Cj4gPiA+IE5VTEw7wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoFwKPiA+ID4gK8KgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqB9wqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqAKPiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oFwKPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoH3CoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAKPiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoFwKPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oHNwaW5fdW5sb2NrKCYoX19ncHV2bSktCj4gPiA+ID5fX2xpc3RfbmFtZS5sb2NrKTvCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBcCj4g
-PiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoAo+ID4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgXAo+ID4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgX192
-bV9ibzvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgCj4gPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBcCj4gPiA+ICvCoMKgwqDCoMKgwqDCoH0pwqAgCj4g
-PiAKPiA+IElNSE8gdGhpcyBsb2NrbGVzcyBsaXN0IGl0ZXJhdGlvbiBsb29rcyB2ZXJ5IGNvbXBs
-ZXggYW5kIHNob3VsZCBiZSAKPiA+IHByZXR0eSBkaWZmaWN1bHQgdG8gbWFpbnRhaW4gd2hpbGUg
-bW92aW5nIGZvcndhcmQsIGFsc28gc2luY2UgaXQKPiA+IHB1bGxzIAo+ID4gdGhlIGdwdXZtX2Jv
-cyBvZmYgdGhlIGxpc3QsIGxpc3QgaXRlcmF0aW9uIG5lZWRzIHRvIGJlIHByb3RlY3RlZCBieQo+
-ID4gYW4gCj4gPiBvdXRlciBsb2NrIGFueXdheS4KPiAKPiBBcyBiZWluZyBwYXJ0bHkgcmVzcG9u
-c2libGUgZm9yIHRoaXMgY29udm9sdXRlZCBsaXN0IGl0ZXJhdG9yLCBJIG11c3QKPiBzYXkgSSBh
-Z3JlZSB3aXRoIHlvdS4gVGhlcmUncyBzbyBtYW55IHdheXMgdGhpcyBjYW4gZ28gd3JvbmcgaWYg
-dGhlCj4gdXNlciBkb2Vzbid0IGNhbGwgaXQgdGhlIHJpZ2h0IHdheSwgb3IgZG9lc24ndCBwcm90
-ZWN0IGNvbmN1cnJlbnQKPiBsaXN0Cj4gaXRlcmF0aW9ucyB3aXRoIGEgc2VwYXJhdGUgbG9jayAo
-bHVja2lseSwgdGhpcyBpcyBhIHByaXZhdGUKPiBpdGVyYXRvcikuIEkKPiBtZWFuLCBpdCB3b3Jr
-cywgc28gdGhlcmUncyBjZXJ0YWlubHkgYSB3YXkgdG8gZ2V0IGl0IHJpZ2h0LCBidXQgZ29zaCwK
-PiB0aGlzIGlzIHNvIGZhciBmcm9tIHRoZSBzaW1wbGUgQVBJIEkgaGFkIGhvcGVkIGZvci4KPiAK
-PiA+IEFsc28gZnJvbSB3aGF0IEkgdW5kZXJzdGFuZCBmcm9tIEJvcmlzLCB0aGUgZXh0b2JqIAo+
-ID4gbGlzdCB3b3VsZCB0eXBpY2FsbHkgbm90IG5lZWQgdGhlIGZpbmUtZ3JhaW5lZCBsb2NraW5n
-OyBvbmx5IHRoZQo+ID4gZXZpY3QgCj4gPiBsaXN0Pwo+IAo+IFJpZ2h0LCBJJ20gYWRkaW5nIHRo
-ZSBncHV2bV9ibyB0byBleHRvYmogbGlzdCBpbiB0aGUgaW9jdGwgcGF0aCwgd2hlbgo+IHRoZSBH
-RU0gYW5kIFZNIHJlc3ZzIGFyZSBoZWxkLCBhbmQgSSdtIGRlZmVycmluZyB0aGUKPiBkcm1fZ3B1
-dm1fYm9fcHV0KCkKPiBjYWxsIHRvIGEgd29yayB0aGF0J3Mgbm90IGluIHRoZSBkbWEtc2lnbmFs
-bGluZyBwYXRoLiBUaGlzIGJlaW5nCj4gc2FpZCwKPiBJJ20gc3RpbGwgbm90IGNvbWZvcnRhYmxl
-IHdpdGggdGhlCj4gCj4gZ2VtID0gZHJtX2dlbV9vYmplY3RfZ2V0KHZtX2JvLT5nZW0pOwo+IGRt
-YV9yZXN2X2xvY2soZ2VtLT5yZXN2KTsKPiBkcm1fZ3B1dm1fYm9fcHV0KHZtX2JvKTsKPiBkbWFf
-cmVzdl91bmxvY2soZ2VtLT5yZXN2KTsKPiBkcm1fZ2VtX29iamVjdF9wdXQoZ2VtKTsKPiAKPiBk
-YW5jZSB0aGF0J3MgbmVlZGVkIHRvIGF2b2lkIGEgVUFGIHdoZW4gdGhlIGdwdXZtX2JvIGlzIHRo
-ZSBsYXN0IEdFTQo+IG93bmVyLCBub3QgdG8gbWVudGlvbiB0aGF0IGRybV9ncHV2YV91bmxpbmso
-KSBjYWxscwo+IGRybV9ncHV2bV9ib19wdXQoKQo+IGFmdGVyIG1ha2luZyBzdXJlIHRoZSBHRU0g
-Z3B1dm1fbGlzdCBsb2NrIGlzIGhlbGQsIGJ1dCB0aGlzIGxvY2sKPiBtaWdodAo+IGRpZmZlciBm
-cm9tIHRoZSByZXN2IGxvY2sgKGN1c3RvbSBsb2NraW5nIHNvIHdlIGNhbiBjYWxsCj4gZ3B1dm1f
-dW5saW5rKCkgaW4gdGhlIGRtYS1zaWduYWxsaW5nIHBhdGgpLiBTbyB3ZSBub3cgaGF2ZSBwYXRo
-cwo+IHdoZXJlCj4gZHJtX2dwdXZtX2JvX3B1dCgpIGFyZSBjYWxsZWQgd2l0aCB0aGUgcmVzdiBs
-b2NrIGhlbGQsIGFuZCBvdGhlcnMKPiB3aGVyZQo+IHRoZXkgYXJlIG5vdCwgYW5kIHRoYXQgb25s
-eSB3b3JrcyBiZWNhdXNlIHdlJ3JlIHJlbHlpbmcgb24gdGhlIHRoZQo+IGZhY3QKPiB0aG9zZSBk
-cm1fZ3B1dm1fYm9fcHV0KCkgY2FsbHMgd29uJ3QgbWFrZSB0aGUgcmVmY291bnQgZHJvcCB0byB6
-ZXJvLAo+IGJlY2F1c2UgdGhlIGRlZmVycmVkIHZtX2JvX3B1dCgpIHdvcmsgc3RpbGwgb3ducyBh
-IHZtX2JvIHJlZi4KCkknbSBub3Qgc3VyZSBJIGZvbGxvdyB0byAxMDAlIGhlcmUsIGJ1dCBpbiB0
-aGUgY29kZSBzbmlwcGV0IGFib3ZlIGl0J3MKcHJldHR5IGNsZWFyIHRvIG1lIHRoYXQgaXQgbmVl
-ZHMgdG8gaG9sZCBhbiBleHBsaWNpdCBnZW0gb2JqZWN0CnJlZmVyZW5jZSB3aGVuIGNhbGxpbmcg
-ZG1hX3Jlc3ZfdW5sb2NrKGdlbS0+cmVzdikuIEVhY2ggdGltZSB5b3UgY29weSBhCnJlZmVyZW5j
-ZWQgcG9pbnRlciAoaGVyZSBmcm9tIHZtX2JvLT5nZW0gdG8gZ2VtKSB5b3UgbmVlZCB0byB1cCB0
-aGUKcmVmY291bnQgdW5sZXNzIHlvdSBtYWtlIHN1cmUgKGJ5IGxvY2tzIG9yIG90aGVyIG1lYW5z
-KSB0aGF0IHRoZSBzb3VyY2UKb2YgdGhlIGNvcHkgaGFzIGEgc3Ryb25nIHJlZmNvdW50IGFuZCBz
-dGF5cyBhbGl2ZSwgc28gdGhhdCdzIG5vIHdlaXJkCmFjdGlvbiB0byBtZS4gQ291bGQgcG9zc2li
-bHkgYWRkIGEgZHJtX2dwdXZtX2JvX2dldF9nZW0oKSB0byBhY2Nlc3MgdGhlCmdlbSBtZW1iZXIg
-KGFuZCB0aGF0IGFsc28gdGFrZXMgYSByZWZjb3VudCkgZm9yIGRyaXZlciB1c2VycyB0byBhdm9p
-ZAp0aGUgcG90ZW50aWFsIHBpdGZhbGwuCgo+IAo+IEFsbCB0aGVzZSB0aW55IGRldGFpbHMgYWRk
-IHRvIHRoZSBvdmVyYWxsIGNvbXBsZXhpdHkgb2YgdGhpcyBjb21tb24KPiBsYXllciwgYW5kIHRv
-IG1lLCB0aGF0J3Mgbm90IGFueSBiZXR0ZXIgdGhhbiB0aGUKPiBnZXRfbmV4dF92bV9ib19mcm9t
-X2xpc3QoKSBjb21wbGV4aXR5IHlvdSB3ZXJlIGNvbXBsYWluaW5nIGFib3V0Cj4gKG1pZ2h0Cj4g
-YmUgZXZlbiB3b3J0aCwgYmVjYXVzZSB0aGlzIHNvcnQgb2YgdGhpbmdzIGxlYWsgdG8gdXNlcnMp
-Lgo+IAo+IEhhdmluZyBhbiBpbnRlcm5hbCBsb2NrIHBhcnRseSBzb2x2ZXMgdGhhdCwgaW4gdGhh
-dCB0aGUgbG9ja2luZyBvZgo+IHRoZQo+IGV4dG9iaiBsaXN0IGlzIG5vdyBlbnRpcmVseSBvcnRo
-b2dvbmFsIHRvIHRoZSBHRU0gdGhhdCdzIGJlaW5nCj4gcmVtb3ZlZAo+IGZyb20gdGhpcyBsaXN0
-LCBhbmQgd2UgY2FuIGxvY2svdW5sb2NrIGludGVybmFsbHkgd2l0aG91dCBmb3JjaW5nIHRoZQo+
-IGNhbGxlciB0byB0YWtlIHdlaXJkIGFjdGlvbnMgdG8gbWFrZSBzdXJlIHRoaW5ncyBkb24ndCBl
-eHBsb2RlLiBEb24ndAo+IGdldCBtZSB3cm9uZywgSSBnZXQgdGhhdCB0aGlzIGxvY2tpbmcgb3Zl
-cmhlYWQgaXMgbm90IGFjY2VwdGFibGUgZm9yCj4gWGUsIGJ1dCBJIGZlZWwgbGlrZSB3ZSdyZSB0
-dXJuaW5nIGRybV9ncHV2bSBpbnRvIGEgd2hpdGUgZWxlcGhhbnQKPiB0aGF0Cj4gb25seSBmZXcg
-cGVvcGxlIHdpbGwgZ2V0IHJpZ2h0LgoKSSB0ZW5kIHRvIGFncmVlLCBidXQgdG8gbWUgdGhlIGJp
-ZyBjb21wbGljYXRpb24gY29tZXMgZnJvbSB0aGUgYXN5bmMKKGRtYSBzaWduYWxsaW5nIHBhdGgp
-IHN0YXRlIHVwZGF0ZXMuCgpMZXQncyBzYXkgZm9yIGV4YW1wbGUgd2UgaGF2ZSBhIGxvd2VyIGxl
-dmVsIGxvY2sgZm9yIHRoZSBnZW0gb2JqZWN0J3MKZ3B1dm1fYm8gbGlzdC4gU29tZSBkcml2ZXJz
-IGdyYWIgaXQgZnJvbSB0aGUgZG1hIGZlbmNlIHNpZ25hbGxpbmcgcGF0aCwKb3RoZXIgZHJpdmVy
-cyBuZWVkIHRvIGFjY2VzcyBhbGwgdm0ncyBvZiBhIGJvIHRvIGdyYWIgdGhlaXIgZG1hX3Jlc3YK
-bG9ja3MgdXNpbmcgYSBXVyB0cmFuc2FjdGlvbi4gVGhlcmUgd2lsbCBiZSBwcm9ibGVtcywgYWx0
-aG91Z2ggcHJvYmFibHkKc29sdmVhYmxlLgoKPiAKPiBUaGlzIGlzIGp1c3QgbXkgcGVyc29uYWwg
-dmlldyBvbiB0aGlzLCBhbmQgSSBjZXJ0YWlubHkgZG9uJ3Qgd2FudCB0bwo+IGJsb2NrIG9yIGRl
-bGF5IHRoZSBtZXJnaW5nIG9mIHRoaXMgcGF0Y2hzZXQsIGJ1dCBJIHRob3VnaHQgSSdkIHNoYXJl
-Cj4gbXkKPiBjb25jZXJucy4gQXMgc29tZW9uZSB3aG8ncyBiZWVuIGZvbGxvd2luZyB0aGUgZXZv
-bHV0aW9uIG9mIHRoaXMKPiBkcm1fZ3B1dmEvdm0gc2VyaWVzIGZvciB3ZWVrcywgYW5kIHdobydz
-IHN0aWxsIHNvbWV0aW1lcyBnZXR0aW5nCj4gbG9zdCwKPiBJIGNhbid0IGltYWdpbmUgaG93IG5l
-dyBkcm1fZ3B1dm0gdXNlcnMgd291bGQgZmVlbC4uLgoKCj4gCj4gPiBBbHNvIGl0IHNlZW1zIHRo
-YXQgaWYgd2UgYXJlIHRvIG1haW50YWluIHR3byBtb2RlcyBoZXJlLCBmb3IgCj4gPiByZWFzb25h
-Ymx5IGNsZWFuIGNvZGUgd2UnZCBuZWVkIHR3byBzZXBhcmF0ZSBpbnN0YW5jZXMgb2YgCj4gPiBn
-ZXRfbmV4dF9ib19mcm9tX2xpc3QoKS4KPiA+IAo+ID4gRm9yIHRoZSAhUkVTVl9QUk9URUNURUQg
-Y2FzZSwgcGVyaGFwcyBvbmUgd291bGQgd2FudCB0byBjb25zaWRlcgo+ID4gdGhlIAo+ID4gc29s
-dXRpb24gdXNlZCBjdXJyZW50bHkgaW4geGUsIHdoZXJlIHRoZSBWTSBtYWludGFpbnMgdHdvIGV2
-aWN0Cj4gPiBsaXN0cy4gCj4gPiBPbmUgcHJvdGVjdGVkIGJ5IGEgc3BpbmxvY2sgYW5kIG9uZSBw
-cm90ZWN0ZWQgYnkgdGhlIFZNIHJlc3YuIFdoZW4KPiA+IHRoZSAKPiA+IFZNIHJlc3YgaXMgbG9j
-a2VkIHRvIGJlZ2luIGxpc3QgdHJhdmVyc2FsLCB0aGUgc3BpbmxvY2sgaXMgbG9ja2VkCj4gPiAq
-b25jZSogCj4gPiBhbmQgdGhlIHNwaW5sb2NrLXByb3RlY3RlZCBsaXN0IGlzIGxvb3BlZCBvdmVy
-IGFuZCBjb3BpZWQgaW50byB0aGUKPiA+IHJlc3YgCj4gPiBwcm90ZWN0ZWQgb25lLiBGb3IgdHJh
-dmVyc2FsLCB0aGUgcmVzdiBwcm90ZWN0ZWQgb25lIGlzIHVzZWQuCj4gCj4gT2gsIHNvIHlvdSBk
-byBoYXZlIHRoZSBzYW1lIHNvcnQgb2YgdHJpY2sgd2hlcmUgeW91IG1vdmUgdGhlIGVudGlyZQo+
-IGxpc3QgdG8gYW5vdGhlciBsaXN0LCBzdWNoIHRoYXQgeW91IGNhbiBsZXQgb3RoZXIgcGF0aHMg
-dXBkYXRlIHRoZQo+IGxpc3QKPiB3aGlsZSB5b3UncmUgaXRlcmF0aW5nIHlvdXIgb3duIHNuYXBz
-aG90LiBUaGF0J3MgaW50ZXJlc3RpbmcuLi4KClllcywgaXQncyBpbnN0ZWFkIG9mIHRoZSAiZXZp
-Y3RlZCIgYm9vbCBzdWdnZXN0ZWQgaGVyZS4gSSB0aG91Z2h0IHRoZQpsYXR0ZXIgd291bGQgYmUg
-c2ltcGxlci4gQWx0aG91Z2ggdGhhdCByZW1haW5zIHRvIGJlIHNlZW4gYWZ0ZXIgYWxsCnVzZS1j
-YXNlcyBhcmUgaW1wbGVtZW50ZWQuCgpCdXQgaW4gZ2VuZXJhbCBJIHRoaW5rIHRoZSBjb25jZXB0
-IG9mIGNvcHlpbmcgZnJvbSBhIHN0YWdpbmcgbGlzdCB0bwphbm90aGVyIHdpdGggZGlmZmVyZW50
-IHByb3RlY3Rpb24gcmF0aGVyIHRoYW4gdHJhdmVyc2luZyB0aGUgZmlyc3QgbGlzdAphbmQgdW5s
-b2NraW5nIGJldHdlZW4gaXRlbXMgaXMgYSBnb29kIHdheSBvZiBzb2x2aW5nIHRoZSBsb2NraW5n
-CmludmVyc2lvbiBwcm9ibGVtIHdpdGggbWluaW1hbCBvdmVyaGVhZC4gV2UgdXNlIGl0IGFsc28g
-Zm9yIE8oMSkKdXNlcnB0ciB2YWxpZGF0aW9uLgoKL1Rob21hcwoKCj4gCj4gUmVnYXJkcywKPiAK
-PiBCb3JpcwoK
+On Tue, Sep 19, 2023 at 06:46:06PM +0800, Jiqian Chen wrote:
+> When guest vm does S3, Qemu will reset and clear some things of virtio
+> devices, but guest can't aware that, so that may cause some problems.
+> For excample, Qemu calls virtio_reset->virtio_gpu_gl_reset, that will
+> destroy render resources of virtio-gpu. As a result, after guest resume,
+> the display can't come back and we only saw a black screen. Due to guest
+> can't re-create all the resources, so we need to let Qemu not to destroy
+> them when S3.
+> 
+> For above purpose, this patch add a new parameter named freeze_mode to
+> struct virtio_pci_common_cfg, and when guest suspends, it can set
+> freeze_mode to be FREEZE_S3, so that virtio devices can change their
+> reset behavior on Qemu side according to that mode.
+> 
+> Signed-off-by: Jiqian Chen <Jiqian.Chen@amd.com>
+> ---
+>  drivers/virtio/virtio.c                | 13 +++++++++++++
+>  drivers/virtio/virtio_pci_modern.c     |  9 +++++++++
+>  drivers/virtio/virtio_pci_modern_dev.c | 16 ++++++++++++++++
+>  include/linux/virtio_config.h          |  1 +
+>  include/linux/virtio_pci_modern.h      |  2 ++
+>  include/uapi/linux/virtio_pci.h        | 16 ++++++++++++++--
+>  6 files changed, 55 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/virtio/virtio.c b/drivers/virtio/virtio.c
+> index 3893dc29eb26..b4eb8369d5a1 100644
+> --- a/drivers/virtio/virtio.c
+> +++ b/drivers/virtio/virtio.c
+> @@ -7,6 +7,7 @@
+>  #include <linux/idr.h>
+>  #include <linux/of.h>
+>  #include <uapi/linux/virtio_ids.h>
+> +#include <uapi/linux/virtio_pci.h>
+>  
+>  /* Unique numbering for virtio devices. */
+>  static DEFINE_IDA(virtio_index_ida);
+> @@ -486,10 +487,20 @@ void unregister_virtio_device(struct virtio_device *dev)
+>  EXPORT_SYMBOL_GPL(unregister_virtio_device);
+>  
+>  #ifdef CONFIG_PM_SLEEP
+> +static void virtio_set_freeze_mode(struct virtio_device *dev, u16 mode)
+> +{
+> +	if (!dev->config->set_freeze_mode)
+> +		return;
+> +	might_sleep();
+> +	dev->config->set_freeze_mode(dev, mode);
+> +}
+> +
+>  int virtio_device_freeze(struct virtio_device *dev)
+>  {
+>  	struct virtio_driver *drv = drv_to_virtio(dev->dev.driver);
+>  
+> +	virtio_set_freeze_mode(dev, VIRTIO_PCI_FREEZE_MODE_FREEZE_S3);
+> +
+>  	virtio_config_disable(dev);
+>  
+>  	dev->failed = dev->config->get_status(dev) & VIRTIO_CONFIG_S_FAILED;
+> @@ -544,6 +555,8 @@ int virtio_device_restore(struct virtio_device *dev)
+>  
+>  	virtio_config_enable(dev);
+>  
+> +	virtio_set_freeze_mode(dev, VIRTIO_PCI_FREEZE_MODE_UNFREEZE);
+> +
+>  	return 0;
+>  
+>  err:
+> diff --git a/drivers/virtio/virtio_pci_modern.c b/drivers/virtio/virtio_pci_modern.c
+> index d6bb68ba84e5..846b70919cbd 100644
+> --- a/drivers/virtio/virtio_pci_modern.c
+> +++ b/drivers/virtio/virtio_pci_modern.c
+> @@ -491,6 +491,13 @@ static bool vp_get_shm_region(struct virtio_device *vdev,
+>  	return true;
+>  }
+>  
+> +static void vp_set_freeze_mode(struct virtio_device *vdev, u16 mode)
+> +{
+> +	struct virtio_pci_device *vp_dev = to_vp_device(vdev);
+> +
+> +	vp_modern_set_freeze_mode(&vp_dev->mdev, mode);
+> +}
+> +
+>  static const struct virtio_config_ops virtio_pci_config_nodev_ops = {
+>  	.get		= NULL,
+>  	.set		= NULL,
+> @@ -509,6 +516,7 @@ static const struct virtio_config_ops virtio_pci_config_nodev_ops = {
+>  	.get_shm_region  = vp_get_shm_region,
+>  	.disable_vq_and_reset = vp_modern_disable_vq_and_reset,
+>  	.enable_vq_after_reset = vp_modern_enable_vq_after_reset,
+> +	.set_freeze_mode = vp_set_freeze_mode,
+>  };
+>  
+>  static const struct virtio_config_ops virtio_pci_config_ops = {
+> @@ -529,6 +537,7 @@ static const struct virtio_config_ops virtio_pci_config_ops = {
+>  	.get_shm_region  = vp_get_shm_region,
+>  	.disable_vq_and_reset = vp_modern_disable_vq_and_reset,
+>  	.enable_vq_after_reset = vp_modern_enable_vq_after_reset,
+> +	.set_freeze_mode = vp_set_freeze_mode,
+>  };
+>  
+>  /* the PCI probing function */
+> diff --git a/drivers/virtio/virtio_pci_modern_dev.c b/drivers/virtio/virtio_pci_modern_dev.c
+> index aad7d9296e77..4a6f7d130b6e 100644
+> --- a/drivers/virtio/virtio_pci_modern_dev.c
+> +++ b/drivers/virtio/virtio_pci_modern_dev.c
+> @@ -203,6 +203,8 @@ static inline void check_offsets(void)
+>  		     offsetof(struct virtio_pci_common_cfg, queue_used_lo));
+>  	BUILD_BUG_ON(VIRTIO_PCI_COMMON_Q_USEDHI !=
+>  		     offsetof(struct virtio_pci_common_cfg, queue_used_hi));
+> +	BUILD_BUG_ON(VIRTIO_PCI_COMMON_F_MODE !=
+> +		     offsetof(struct virtio_pci_common_cfg, freeze_mode));
+>  }
+>  
+>  /*
+> @@ -714,6 +716,20 @@ void __iomem *vp_modern_map_vq_notify(struct virtio_pci_modern_device *mdev,
+>  }
+>  EXPORT_SYMBOL_GPL(vp_modern_map_vq_notify);
+>  
+> +/*
+> + * vp_modern_set_freeze_mode - set freeze mode to device
+> + * @mdev: the modern virtio-pci device
+> + * @mode: the mode set to device
+> + */
+> +void vp_modern_set_freeze_mode(struct virtio_pci_modern_device *mdev,
+> +				 u16 mode)
+> +{
+> +	struct virtio_pci_common_cfg __iomem *cfg = mdev->common;
+> +
+> +	vp_iowrite16(mode, &cfg->freeze_mode);
+> +}
+> +EXPORT_SYMBOL_GPL(vp_modern_set_freeze_mode);
+> +
+>  MODULE_VERSION("0.1");
+>  MODULE_DESCRIPTION("Modern Virtio PCI Device");
+>  MODULE_AUTHOR("Jason Wang <jasowang@redhat.com>");
+> diff --git a/include/linux/virtio_config.h b/include/linux/virtio_config.h
+> index 2b3438de2c4d..2a7443ff7f12 100644
+> --- a/include/linux/virtio_config.h
+> +++ b/include/linux/virtio_config.h
+> @@ -120,6 +120,7 @@ struct virtio_config_ops {
+>  			       struct virtio_shm_region *region, u8 id);
+>  	int (*disable_vq_and_reset)(struct virtqueue *vq);
+>  	int (*enable_vq_after_reset)(struct virtqueue *vq);
+> +	void (*set_freeze_mode)(struct virtio_device *vdev, u16 mode);
+>  };
+>  
+>  /* If driver didn't advertise the feature, it will never appear. */
+> diff --git a/include/linux/virtio_pci_modern.h b/include/linux/virtio_pci_modern.h
+> index 067ac1d789bc..ba6eed216ded 100644
+> --- a/include/linux/virtio_pci_modern.h
+> +++ b/include/linux/virtio_pci_modern.h
+> @@ -121,4 +121,6 @@ int vp_modern_probe(struct virtio_pci_modern_device *mdev);
+>  void vp_modern_remove(struct virtio_pci_modern_device *mdev);
+>  int vp_modern_get_queue_reset(struct virtio_pci_modern_device *mdev, u16 index);
+>  void vp_modern_set_queue_reset(struct virtio_pci_modern_device *mdev, u16 index);
+> +void vp_modern_set_freeze_mode(struct virtio_pci_modern_device *mdev,
+> +		   u16 mode);
+>  #endif
+> diff --git a/include/uapi/linux/virtio_pci.h b/include/uapi/linux/virtio_pci.h
+> index f703afc7ad31..725ace458a1b 100644
+> --- a/include/uapi/linux/virtio_pci.h
+> +++ b/include/uapi/linux/virtio_pci.h
+> @@ -140,6 +140,15 @@ struct virtio_pci_notify_cap {
+>  	__le32 notify_off_multiplier;	/* Multiplier for queue_notify_off. */
+>  };
+>  
+> +typedef enum {
+> +       VIRTIO_PCI_FREEZE_MODE_UNFREEZE = 0,
+> +       VIRTIO_PCI_FREEZE_MODE_FREEZE_S3 = 3,
+> +} virtio_pci_freeze_mode_t;
+
+we don't normally do typedefs.
+
+> +
+> +#define VIRTIO_PCI_FREEZE_MODE_MASK \
+> +	((1 << VIRTIO_PCI_FREEZE_MODE_UNFREEZE) | \
+> +	(1 << VIRTIO_PCI_FREEZE_MODE_FREEZE_S3))
+> +
+
+not sure why is this useful generally.
+
+>  /* Fields in VIRTIO_PCI_CAP_COMMON_CFG: */
+>  struct virtio_pci_common_cfg {
+>  	/* About the whole device. */
+> @@ -164,6 +173,8 @@ struct virtio_pci_common_cfg {
+>  	__le32 queue_avail_hi;		/* read-write */
+>  	__le32 queue_used_lo;		/* read-write */
+>  	__le32 queue_used_hi;		/* read-write */
+> +
+> +	__le16 freeze_mode;		/* read-write */
+>  };
+>
+
+Your patch will likely break uses of sizeof(struct virtio_pci_common_cfg)
+on existing devices.
+  
+>  /* Fields in VIRTIO_PCI_CAP_PCI_CFG: */
+> @@ -202,8 +213,9 @@ struct virtio_pci_cfg_cap {
+>  #define VIRTIO_PCI_COMMON_Q_AVAILHI	44
+>  #define VIRTIO_PCI_COMMON_Q_USEDLO	48
+>  #define VIRTIO_PCI_COMMON_Q_USEDHI	52
+> -#define VIRTIO_PCI_COMMON_Q_NDATA	56
+> -#define VIRTIO_PCI_COMMON_Q_RESET	58
+> +#define VIRTIO_PCI_COMMON_F_MODE	56
+
+
+F_ here stands for freeze? Please don't abbreviate.
+Q for queue is a pun that works, F for freeze doesn't.
+
+
+> +#define VIRTIO_PCI_COMMON_Q_NDATA	58
+> +#define VIRTIO_PCI_COMMON_Q_RESET	60
+>  
+>  #endif /* VIRTIO_PCI_NO_MODERN */
+>  
+> -- 
+> 2.34.1
 
