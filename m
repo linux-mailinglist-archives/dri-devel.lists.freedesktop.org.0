@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2D4E7B5EA4
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Oct 2023 03:22:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C6AE7B5EA5
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Oct 2023 03:22:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BCD7210E258;
-	Tue,  3 Oct 2023 01:21:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED50A10E251;
+	Tue,  3 Oct 2023 01:21:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x732.google.com (mail-qk1-x732.google.com
- [IPv6:2607:f8b0:4864:20::732])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 00B0D10E24F;
- Tue,  3 Oct 2023 01:21:50 +0000 (UTC)
-Received: by mail-qk1-x732.google.com with SMTP id
- af79cd13be357-7742be66bd3so32325385a.3; 
- Mon, 02 Oct 2023 18:21:50 -0700 (PDT)
+Received: from mail-qk1-x731.google.com (mail-qk1-x731.google.com
+ [IPv6:2607:f8b0:4864:20::731])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D41A10E251;
+ Tue,  3 Oct 2023 01:21:53 +0000 (UTC)
+Received: by mail-qk1-x731.google.com with SMTP id
+ af79cd13be357-77574c6cab0so32237985a.3; 
+ Mon, 02 Oct 2023 18:21:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1696296110; x=1696900910; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1696296112; x=1696900912; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=9szRCpl0zDd5PZDPWIW0Lozwr+HbyIBZUxTAriHwdbY=;
- b=nkH50m97A72pSnpcUVp62XbvHNXwcLnJin172+XTeYfkMHDpiigm5FHkiievTET7TA
- H1obol2lF7Il6Kf5xMHdMcvFzTNlvzAX30OqLslmfLFzhasIIgmnZ3CcxHG6E1zLkM4L
- z/mXbjkapaF8J9Bt/1J2Zhnr9EMrzDaeTvxZWFIVi3G6dhCkQT3bqi/wndXVh5mbsFSo
- d46BjWCHhsv+8itz0Ih1bBqZFVp3lyySzHuy4XltZPd+9YdqkgC9tNxhHjM0CyO+HgkV
- jypnazpDoD8VeOV6QUCKsIta9n48PVpZa2Br4HoQof217WWZ8NEqJ3nbDy8LLD1fpQy9
- s8NA==
+ bh=TmawSKDHPmLbOIorFdlooZUH4qEwSf/uQjkWv2LDI2o=;
+ b=iVy9AVRXbyqaog7dfVU+a3sKZbtOPmSwvMWIIBsVsHnxoKREFiXxXC55fgybKrTS33
+ GPXPxXI8q5+PA6Q8S8UA5SvPLfrMt/ORfogPIcZmm8tLqleIm0ig/WoWgMB0odulssrY
+ zTtte7c3nvSGHapiFApmt0uO02PceC7PVZLVi4Zz+a6041i/Bp3ZL6RPLZG8/2FNuCNy
+ u0T07vJT9dTYC2l1kMg4jObk0sd5TD5fecXHFN5iSNNEXQu8d+lSlK7RJlqg6oJVAg7D
+ dluaydmV3022AhXbpGUe1mOR0HO1HHc9N9Mwi98QM5R5SpZuoF0SiYO/vzXwm34oKFkr
+ dx7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1696296110; x=1696900910;
+ d=1e100.net; s=20230601; t=1696296112; x=1696900912;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=9szRCpl0zDd5PZDPWIW0Lozwr+HbyIBZUxTAriHwdbY=;
- b=HNkihf6LWgpTjSFyR2Cq/z8qyIo6N6XS93WuJyzmgbyopsro5j4yYrU/FRSnVWUswr
- UhL57zABwGrCgRUNlCf9S0xhCET9/gU/5vtJiTLN44U3VYCdcpu/+LQPinlxvvTh5uv7
- 3sFygQDwwUvRrvTD5c+ZVF8FRDJirSVEGoMISdFimG6rMJSRzdJf7v/WTBkX+75DEHyu
- 6N3kNYSRh74wGn354k5eV0T4FDXpCoFABCI3SAKwc1oMRJJpnhUPF0PKjcGdT3D2s7xa
- 4GjPymjxlherGkXq6YXIjogx+aWfWKzZ5B10tVWLiQTaqNk8g93RSkn6iUDQznXRBLnC
- qezw==
-X-Gm-Message-State: AOJu0YyN9yByYEcBGtKpUaEtFSXuinInrjO9BVgrYsElk+JC0gdDG6Og
- JMdVuixCqFSwoyPHliDnumA=
-X-Google-Smtp-Source: AGHT+IF+Ej44iYR1xBElAjuqgP0aBqPKt5YYLZ9lO6IxYM7oFdlbzogJRYQ8fumzydsIahWS4/wIIw==
-X-Received: by 2002:a05:620a:23a:b0:76d:a8a8:edab with SMTP id
- u26-20020a05620a023a00b0076da8a8edabmr12858469qkm.75.1696296110030; 
- Mon, 02 Oct 2023 18:21:50 -0700 (PDT)
+ bh=TmawSKDHPmLbOIorFdlooZUH4qEwSf/uQjkWv2LDI2o=;
+ b=jDVsQHY6PIUNnm3xo+A4tQfLatxvYAn45Ptk7KXpCMCL9mcAQ+88awvi09vWvoySou
+ WcMHsL1ivArmWdB4MbHRw5GrakDQQFr1WnXpfskkfh6husealDbXxu8+pqVbr0jP28RR
+ WCxj9SqH5Eu3RxNu0gRG5dPZ8VP117nZenJZXsBV3KLGgQ0fo2BKlGlGVkQFM3xCdSNP
+ mEDR/OTNkGtsTk1EFpFYZQR+1pUhLTRwpbBs8NLumiV1Fm6ja3WAkdUpusLcwjoWZFRE
+ /avQI/YD4eEFGErONqUaUP8iSUANEhwgMattokiP+KJlwfl8+Swz0Lf2RQegs0UvVCQO
+ aIow==
+X-Gm-Message-State: AOJu0YxmX3V7FRBrFOWDmAo7dI1i9nWwPBghTew+s1weK4ddLly+rw/E
+ RU6tsKQhdR+VwS8m5gW8EZY=
+X-Google-Smtp-Source: AGHT+IG7S3j/uW/56XVWyVKQgd1db64YFHpCKslUxZEaqKsOrCOxD1qEivzGSfvFL6Sno8OWG/g9hw==
+X-Received: by 2002:a0c:b312:0:b0:65d:6665:b422 with SMTP id
+ s18-20020a0cb312000000b0065d6665b422mr10236666qve.33.1696296112570; 
+ Mon, 02 Oct 2023 18:21:52 -0700 (PDT)
 Received: from localhost ([2607:fea8:529e:7800::efbe])
  by smtp.gmail.com with ESMTPSA id
- 13-20020a05620a070d00b007756f60bcacsm48939qkc.79.2023.10.02.18.21.49
+ d9-20020a0cf0c9000000b00646e0411e8csm56779qvl.30.2023.10.02.18.21.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Oct 2023 18:21:49 -0700 (PDT)
+ Mon, 02 Oct 2023 18:21:52 -0700 (PDT)
 From: Richard Acayan <mailingradian@gmail.com>
 To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
@@ -71,9 +71,9 @@ To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Krishna Manikandan <quic_mkrishn@quicinc.com>,
  linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
-Subject: [PATCH v2 5/6] drm/msm/dpu: Add hw revision 4.1 (SDM670)
-Date: Mon,  2 Oct 2023 21:21:26 -0400
-Message-ID: <20231003012119.857198-14-mailingradian@gmail.com>
+Subject: [PATCH v2 6/6] arm64: dts: qcom: sdm670: add display subsystem
+Date: Mon,  2 Oct 2023 21:21:27 -0400
+Message-ID: <20231003012119.857198-15-mailingradian@gmail.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231003012119.857198-9-mailingradian@gmail.com>
 References: <20231003012119.857198-9-mailingradian@gmail.com>
@@ -95,181 +95,333 @@ Cc: Richard Acayan <mailingradian@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Snapdragon 670 uses similar clocks (with one frequency added) to the
-Snapdragon 845 but reports DPU revision 4.1. Add support for this DPU
-with configuration from the Pixel 3a downstream kernel.
+The Snapdragon 670 has a display subsystem for controlling and
+outputting to the display. Add support for it in the device tree.
 
-Since revision 4.0 is SDM845, reuse some configuration from its catalog
-entry.
-
-Link: https://android.googlesource.com/kernel/msm/+/368478b0ae76566927a2769a2bf24dfe7f38bb78/arch/arm64/boot/dts/qcom/sdm670-sde.dtsi
 Signed-off-by: Richard Acayan <mailingradian@gmail.com>
 ---
- .../msm/disp/dpu1/catalog/dpu_4_1_sdm670.h    | 104 ++++++++++++++++++
- .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    |   6 +
- .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |   1 +
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |   1 +
- 4 files changed, 112 insertions(+)
- create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_1_sdm670.h
+ arch/arm64/boot/dts/qcom/sdm670.dtsi | 294 +++++++++++++++++++++++++++
+ 1 file changed, 294 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_1_sdm670.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_1_sdm670.h
-new file mode 100644
-index 000000000000..01a9aec1c956
---- /dev/null
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_1_sdm670.h
-@@ -0,0 +1,104 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * Copyright (c) 2015-2018, The Linux Foundation. All rights reserved.
-+ * Copyright (c) 2022. Qualcomm Innovation Center, Inc. All rights reserved.
-+ * Copyright (c) 2023, Richard Acayan. All rights reserved.
-+ */
-+
-+#ifndef _DPU_4_1_SDM670_H
-+#define _DPU_4_1_SDM670_H
-+
-+static const struct dpu_mdp_cfg sdm670_mdp = {
-+	.name = "top_0",
-+	.base = 0x0, .len = 0x45c,
-+	.features = BIT(DPU_MDP_AUDIO_SELECT),
-+	.clk_ctrls = {
-+		[DPU_CLK_CTRL_VIG0] = { .reg_off = 0x2ac, .bit_off = 0 },
-+		[DPU_CLK_CTRL_VIG1] = { .reg_off = 0x2b4, .bit_off = 0 },
-+		[DPU_CLK_CTRL_DMA0] = { .reg_off = 0x2ac, .bit_off = 8 },
-+		[DPU_CLK_CTRL_DMA1] = { .reg_off = 0x2b4, .bit_off = 8 },
-+		[DPU_CLK_CTRL_DMA2] = { .reg_off = 0x2bc, .bit_off = 8 },
-+	},
-+};
-+
-+static const struct dpu_sspp_cfg sdm670_sspp[] = {
-+	{
-+		.name = "sspp_0", .id = SSPP_VIG0,
-+		.base = 0x4000, .len = 0x1c8,
-+		.features = VIG_SDM845_MASK_SDMA,
-+		.sblk = &sdm670_vig_sblk_0,
-+		.xin_id = 0,
-+		.type = SSPP_TYPE_VIG,
-+		.clk_ctrl = DPU_CLK_CTRL_VIG0,
-+	}, {
-+		.name = "sspp_1", .id = SSPP_VIG1,
-+		.base = 0x6000, .len = 0x1c8,
-+		.features = VIG_SDM845_MASK_SDMA,
-+		.sblk = &sdm670_vig_sblk_1,
-+		.xin_id = 4,
-+		.type = SSPP_TYPE_VIG,
-+		.clk_ctrl = DPU_CLK_CTRL_VIG0,
-+	}, {
-+		.name = "sspp_8", .id = SSPP_DMA0,
-+		.base = 0x24000, .len = 0x1c8,
-+		.features = DMA_SDM845_MASK_SDMA,
-+		.sblk = &sdm845_dma_sblk_0,
-+		.xin_id = 1,
-+		.type = SSPP_TYPE_DMA,
-+		.clk_ctrl = DPU_CLK_CTRL_DMA0,
-+	}, {
-+		.name = "sspp_9", .id = SSPP_DMA1,
-+		.base = 0x26000, .len = 0x1c8,
-+		.features = DMA_CURSOR_SDM845_MASK_SDMA,
-+		.sblk = &sdm845_dma_sblk_1,
-+		.xin_id = 5,
-+		.type = SSPP_TYPE_DMA,
-+		.clk_ctrl = DPU_CLK_CTRL_DMA1,
-+	}, {
-+		.name = "sspp_10", .id = SSPP_DMA2,
-+		.base = 0x28000, .len = 0x1c8,
-+		.features = DMA_CURSOR_SDM845_MASK_SDMA,
-+		.sblk = &sdm845_dma_sblk_2,
-+		.xin_id = 9,
-+		.type = SSPP_TYPE_DMA,
-+		.clk_ctrl = DPU_CLK_CTRL_DMA2,
-+	},
-+};
-+
-+static const struct dpu_dsc_cfg sdm670_dsc[] = {
-+	{
-+		.name = "dsc_0", .id = DSC_0,
-+		.base = 0x80000, .len = 0x140,
-+	}, {
-+		.name = "dsc_1", .id = DSC_1,
-+		.base = 0x80400, .len = 0x140,
-+	},
-+};
-+
-+static const struct dpu_mdss_version sdm670_mdss_ver = {
-+	.core_major_ver = 4,
-+	.core_minor_ver = 1,
-+};
-+
-+const struct dpu_mdss_cfg dpu_sdm670_cfg = {
-+	.mdss_ver = &sdm670_mdss_ver,
-+	.caps = &sdm845_dpu_caps,
-+	.mdp = &sdm670_mdp,
-+	.ctl_count = ARRAY_SIZE(sdm845_ctl),
-+	.ctl = sdm845_ctl,
-+	.sspp_count = ARRAY_SIZE(sdm670_sspp),
-+	.sspp = sdm670_sspp,
-+	.mixer_count = ARRAY_SIZE(sdm845_lm),
-+	.mixer = sdm845_lm,
-+	.pingpong_count = ARRAY_SIZE(sdm845_pp),
-+	.pingpong = sdm845_pp,
-+	.dsc_count = ARRAY_SIZE(sdm670_dsc),
-+	.dsc = sdm670_dsc,
-+	.intf_count = ARRAY_SIZE(sdm845_intf),
-+	.intf = sdm845_intf,
-+	.vbif_count = ARRAY_SIZE(sdm845_vbif),
-+	.vbif = sdm845_vbif,
-+	.perf = &sdm845_perf_data,
-+};
-+
-+#endif
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-index 713dfc079718..63b274ae032a 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-@@ -313,6 +313,11 @@ static const struct dpu_rotation_cfg dpu_rot_sc7280_cfg_v2 = {
- 	.rot_format_list = rotation_v2_formats,
- };
+diff --git a/arch/arm64/boot/dts/qcom/sdm670.dtsi b/arch/arm64/boot/dts/qcom/sdm670.dtsi
+index 84cd2e39266f..427415ed4e4a 100644
+--- a/arch/arm64/boot/dts/qcom/sdm670.dtsi
++++ b/arch/arm64/boot/dts/qcom/sdm670.dtsi
+@@ -6,6 +6,7 @@
+  * Copyright (c) 2022, Richard Acayan. All rights reserved.
+  */
  
-+static const struct dpu_sspp_sub_blks sdm670_vig_sblk_0 =
-+				_VIG_SBLK(4, DPU_SSPP_SCALER_QSEED3);
-+static const struct dpu_sspp_sub_blks sdm670_vig_sblk_1 =
-+				_VIG_SBLK(5, DPU_SSPP_SCALER_QSEED3);
++#include <dt-bindings/clock/qcom,dispcc-sdm845.h>
+ #include <dt-bindings/clock/qcom,gcc-sdm845.h>
+ #include <dt-bindings/clock/qcom,rpmh.h>
+ #include <dt-bindings/dma/qcom-gpi.h>
+@@ -400,6 +401,30 @@ cpu6_opp10: opp-1996800000 {
+ 		};
+ 	};
+ 
++	dsi_opp_table: opp-table-dsi {
++		compatible = "operating-points-v2";
 +
- static const struct dpu_sspp_sub_blks sdm845_vig_sblk_0 =
- 				_VIG_SBLK(5, DPU_SSPP_SCALER_QSEED3);
- static const struct dpu_sspp_sub_blks sdm845_vig_sblk_1 =
-@@ -655,6 +660,7 @@ static const struct dpu_qos_lut_entry sc7180_qos_nrt[] = {
- #include "catalog/dpu_3_0_msm8998.h"
++		opp-19200000 {
++			opp-hz = /bits/ 64 <19200000>;
++			required-opps = <&rpmhpd_opp_min_svs>;
++		};
++
++		opp-180000000 {
++			opp-hz = /bits/ 64 <180000000>;
++			required-opps = <&rpmhpd_opp_low_svs>;
++		};
++
++		opp-275000000 {
++			opp-hz = /bits/ 64 <275000000>;
++			required-opps = <&rpmhpd_opp_svs>;
++		};
++
++		opp-358000000 {
++			opp-hz = /bits/ 64 <358000000>;
++			required-opps = <&rpmhpd_opp_svs_l1>;
++		};
++	};
++
+ 	psci {
+ 		compatible = "arm,psci-1.0";
+ 		method = "smc";
+@@ -1352,6 +1377,275 @@ spmi_bus: spmi@c440000 {
+ 			#interrupt-cells = <4>;
+ 		};
  
- #include "catalog/dpu_4_0_sdm845.h"
-+#include "catalog/dpu_4_1_sdm670.h"
- 
- #include "catalog/dpu_5_0_sm8150.h"
- #include "catalog/dpu_5_1_sc8180x.h"
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-index 6c9634209e9f..dae5a1555e44 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-@@ -831,6 +831,7 @@ struct dpu_mdss_cfg {
- 
- extern const struct dpu_mdss_cfg dpu_msm8998_cfg;
- extern const struct dpu_mdss_cfg dpu_sdm845_cfg;
-+extern const struct dpu_mdss_cfg dpu_sdm670_cfg;
- extern const struct dpu_mdss_cfg dpu_sm8150_cfg;
- extern const struct dpu_mdss_cfg dpu_sc8180x_cfg;
- extern const struct dpu_mdss_cfg dpu_sm8250_cfg;
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-index aa6ba2cf4b84..0049fb1de1e8 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-@@ -1362,6 +1362,7 @@ static const struct dev_pm_ops dpu_pm_ops = {
- static const struct of_device_id dpu_dt_match[] = {
- 	{ .compatible = "qcom,msm8998-dpu", .data = &dpu_msm8998_cfg, },
- 	{ .compatible = "qcom,qcm2290-dpu", .data = &dpu_qcm2290_cfg, },
-+	{ .compatible = "qcom,sdm670-dpu", .data = &dpu_sdm670_cfg, },
- 	{ .compatible = "qcom,sdm845-dpu", .data = &dpu_sdm845_cfg, },
- 	{ .compatible = "qcom,sc7180-dpu", .data = &dpu_sc7180_cfg, },
- 	{ .compatible = "qcom,sc7280-dpu", .data = &dpu_sc7280_cfg, },
++		mdss: display-subsystem@ae00000 {
++			compatible = "qcom,sdm670-mdss";
++			reg = <0 0x0ae00000 0 0x1000>;
++			reg-names = "mdss";
++
++			power-domains = <&dispcc MDSS_GDSC>;
++
++			clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>,
++				 <&dispcc DISP_CC_MDSS_MDP_CLK>;
++			clock-names = "iface", "core";
++
++			interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
++			interrupt-controller;
++			#interrupt-cells = <1>;
++
++			interconnects = <&mmss_noc MASTER_MDP_PORT0 0 &mem_noc SLAVE_EBI_CH0 0>,
++					<&mmss_noc MASTER_MDP_PORT1 0 &mem_noc SLAVE_EBI_CH0 0>;
++			interconnect-names = "mdp0-mem", "mdp1-mem";
++
++			iommus = <&apps_smmu 0x880 0x8>,
++				 <&apps_smmu 0xc80 0x8>;
++
++			status = "disabled";
++
++			#address-cells = <2>;
++			#size-cells = <2>;
++			ranges;
++
++			mdss_mdp: display-controller@ae01000 {
++				compatible = "qcom,sdm670-dpu";
++				reg = <0 0x0ae01000 0 0x8f000>,
++				      <0 0x0aeb0000 0 0x2008>;
++				reg-names = "mdp", "vbif";
++
++				clocks = <&gcc GCC_DISP_AXI_CLK>,
++					 <&dispcc DISP_CC_MDSS_AHB_CLK>,
++					 <&dispcc DISP_CC_MDSS_AXI_CLK>,
++					 <&dispcc DISP_CC_MDSS_MDP_CLK>,
++					 <&dispcc DISP_CC_MDSS_VSYNC_CLK>;
++				clock-names = "gcc-bus", "iface", "bus", "core", "vsync";
++
++				assigned-clocks = <&dispcc DISP_CC_MDSS_VSYNC_CLK>;
++				assigned-clock-rates = <19200000>;
++				operating-points-v2 = <&mdp_opp_table>;
++				power-domains = <&rpmhpd SDM670_CX>;
++
++				interrupt-parent = <&mdss>;
++				interrupts = <0>;
++
++				ports {
++					#address-cells = <1>;
++					#size-cells = <0>;
++
++					port@0 {
++						reg = <0>;
++						dpu_intf0_out: endpoint {
++							remote-endpoint = <&mdss_dsi0_in>;
++						};
++					};
++
++					port@1 {
++						reg = <1>;
++						dpu_intf1_out: endpoint {
++							remote-endpoint = <&mdss_dsi1_in>;
++						};
++					};
++				};
++
++				mdp_opp_table: opp-table {
++					compatible = "operating-points-v2";
++
++					opp-19200000 {
++						opp-hz = /bits/ 64 <19200000>;
++						required-opps = <&rpmhpd_opp_min_svs>;
++					};
++
++					opp-171428571 {
++						opp-hz = /bits/ 64 <171428571>;
++						required-opps = <&rpmhpd_opp_low_svs>;
++					};
++
++					opp-358000000 {
++						opp-hz = /bits/ 64 <358000000>;
++						required-opps = <&rpmhpd_opp_svs_l1>;
++					};
++
++					opp-430000000 {
++						opp-hz = /bits/ 64 <430000000>;
++						required-opps = <&rpmhpd_opp_nom>;
++					};
++				};
++			};
++
++			mdss_dsi0: dsi@ae94000 {
++				compatible = "qcom,sdm670-dsi-ctrl",
++					     "qcom,mdss-dsi-ctrl";
++				reg = <0 0x0ae94000 0 0x400>;
++				reg-names = "dsi_ctrl";
++
++				interrupt-parent = <&mdss>;
++				interrupts = <4>;
++
++				clocks = <&dispcc DISP_CC_MDSS_BYTE0_CLK>,
++					 <&dispcc DISP_CC_MDSS_BYTE0_INTF_CLK>,
++					 <&dispcc DISP_CC_MDSS_PCLK0_CLK>,
++					 <&dispcc DISP_CC_MDSS_ESC0_CLK>,
++					 <&dispcc DISP_CC_MDSS_AHB_CLK>,
++					 <&dispcc DISP_CC_MDSS_AXI_CLK>;
++				clock-names = "byte",
++					      "byte_intf",
++					      "pixel",
++					      "core",
++					      "iface",
++					      "bus";
++				assigned-clocks = <&dispcc DISP_CC_MDSS_BYTE0_CLK_SRC>,
++						  <&dispcc DISP_CC_MDSS_PCLK0_CLK_SRC>;
++				assigned-clock-parents = <&mdss_dsi0_phy 0>,
++							 <&mdss_dsi0_phy 1>;
++
++				operating-points-v2 = <&dsi_opp_table>;
++				power-domains = <&rpmhpd SDM670_CX>;
++
++				phys = <&mdss_dsi0_phy>;
++				phy-names = "dsi";
++
++				status = "disabled";
++
++				#address-cells = <1>;
++				#size-cells = <0>;
++
++				ports {
++					#address-cells = <1>;
++					#size-cells = <0>;
++
++					port@0 {
++						reg = <0>;
++						mdss_dsi0_in: endpoint {
++							remote-endpoint = <&dpu_intf0_out>;
++						};
++					};
++
++					port@1 {
++						reg = <1>;
++						mdss_dsi0_out: endpoint {
++						};
++					};
++				};
++			};
++
++			mdss_dsi0_phy: phy@ae94400 {
++				compatible = "qcom,dsi-phy-10nm";
++				reg = <0 0x0ae94400 0 0x200>,
++				      <0 0x0ae94600 0 0x280>,
++				      <0 0x0ae94a00 0 0x1e0>;
++				reg-names = "dsi_phy",
++					    "dsi_phy_lane",
++					    "dsi_pll";
++
++				#clock-cells = <1>;
++				#phy-cells = <0>;
++
++				clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>,
++					 <&rpmhcc RPMH_CXO_CLK>;
++				clock-names = "iface", "ref";
++
++				status = "disabled";
++			};
++
++			mdss_dsi1: dsi@ae96000 {
++				compatible = "qcom,sdm670-dsi-ctrl",
++					     "qcom,mdss-dsi-ctrl";
++				reg = <0 0x0ae96000 0 0x400>;
++				reg-names = "dsi_ctrl";
++
++				interrupt-parent = <&mdss>;
++				interrupts = <5>;
++
++				clocks = <&dispcc DISP_CC_MDSS_BYTE1_CLK>,
++					 <&dispcc DISP_CC_MDSS_BYTE1_INTF_CLK>,
++					 <&dispcc DISP_CC_MDSS_PCLK1_CLK>,
++					 <&dispcc DISP_CC_MDSS_ESC1_CLK>,
++					 <&dispcc DISP_CC_MDSS_AHB_CLK>,
++					 <&dispcc DISP_CC_MDSS_AXI_CLK>;
++				clock-names = "byte",
++					      "byte_intf",
++					      "pixel",
++					      "core",
++					      "iface",
++					      "bus";
++				assigned-clocks = <&dispcc DISP_CC_MDSS_BYTE1_CLK_SRC>,
++						  <&dispcc DISP_CC_MDSS_PCLK1_CLK_SRC>;
++				assigned-clock-parents = <&mdss_dsi1_phy 0>, <&mdss_dsi1_phy 1>;
++
++				operating-points-v2 = <&dsi_opp_table>;
++				power-domains = <&rpmhpd SDM670_CX>;
++
++				phys = <&mdss_dsi1_phy>;
++				phy-names = "dsi";
++
++				status = "disabled";
++
++				#address-cells = <1>;
++				#size-cells = <0>;
++
++				ports {
++					#address-cells = <1>;
++					#size-cells = <0>;
++
++					port@0 {
++						reg = <0>;
++						mdss_dsi1_in: endpoint {
++							remote-endpoint = <&dpu_intf1_out>;
++						};
++					};
++
++					port@1 {
++						reg = <1>;
++						mdss_dsi1_out: endpoint {
++						};
++					};
++				};
++			};
++
++			mdss_dsi1_phy: phy@ae96400 {
++				compatible = "qcom,dsi-phy-10nm";
++				reg = <0 0x0ae96400 0 0x200>,
++				      <0 0x0ae96600 0 0x280>,
++				      <0 0x0ae96a00 0 0x10e>;
++				reg-names = "dsi_phy",
++					    "dsi_phy_lane",
++					    "dsi_pll";
++
++				#clock-cells = <1>;
++				#phy-cells = <0>;
++
++				clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>,
++					 <&rpmhcc RPMH_CXO_CLK>;
++				clock-names = "iface", "ref";
++
++				status = "disabled";
++			};
++		};
++
++		dispcc: clock-controller@af00000 {
++			compatible = "qcom,sdm845-dispcc";
++			reg = <0 0x0af00000 0 0x10000>;
++			clocks = <&rpmhcc RPMH_CXO_CLK>,
++				 <&gcc GCC_DISP_GPLL0_CLK_SRC>,
++				 <&gcc GCC_DISP_GPLL0_DIV_CLK_SRC>,
++				 <&mdss_dsi0_phy 0>,
++				 <&mdss_dsi0_phy 1>,
++				 <&mdss_dsi1_phy 0>,
++				 <&mdss_dsi1_phy 1>,
++				 <0>,
++				 <0>;
++			clock-names = "bi_tcxo",
++				      "gcc_disp_gpll0_clk_src",
++				      "gcc_disp_gpll0_div_clk_src",
++				      "dsi0_phy_pll_out_byteclk",
++				      "dsi0_phy_pll_out_dsiclk",
++				      "dsi1_phy_pll_out_byteclk",
++				      "dsi1_phy_pll_out_dsiclk",
++				      "dp_link_clk_divsel_ten",
++				      "dp_vco_divided_clk_src_mux";
++			#clock-cells = <1>;
++			#reset-cells = <1>;
++			#power-domain-cells = <1>;
++		};
++
+ 		apps_smmu: iommu@15000000 {
+ 			compatible = "qcom,sdm670-smmu-500", "qcom,smmu-500", "arm,mmu-500";
+ 			reg = <0 0x15000000 0 0x80000>;
 -- 
 2.42.0
 
