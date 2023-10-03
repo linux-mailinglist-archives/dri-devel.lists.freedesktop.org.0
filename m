@@ -2,111 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C81EE7B6DC2
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Oct 2023 18:00:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2278B7B6E38
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Oct 2023 18:18:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B70D710E04B;
-	Tue,  3 Oct 2023 16:00:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1886110E2CB;
+	Tue,  3 Oct 2023 16:18:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR02-AM0-obe.outbound.protection.outlook.com
- (mail-am0eur02on2041.outbound.protection.outlook.com [40.107.247.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D3C1A10E04B
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Oct 2023 16:00:36 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=CpMJLu3oQzgILN1J4YROpIx5JWsQL1HAVvxQIrwe04Opk4dBNPxICpZLhO5mV0QxsgT0zhqe1nyLT/vw+6fdVv0yItBV3wCd+/0/Fb83OaQstk5nRYf3Oh6hWdrPnFWWcfjDcF8nQh3UkRgwucgab3ByF4xUPvIxmINC2GlO8FgnUqDBse7Fd+eEzVlChZ1Hsob8OvAEC7Ml56F/FmVWVZRuE44RdIDm1A5HYcZdWN9RfUaL0i2XM4ZIEW6eTqBeugAb8AcxNfXvMDV32ptHmSDzKYe3GadGCPObAaJ6/NtP8vyXNoEIL1Jz8eGpPS9iQzOltvMWRQyfO5R2tljYlw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=F4n94L291UXsAO1OoSELIFe3BwGwBLYgxy3Pu2NnHMc=;
- b=K75qs2XR9A5loGhmLguIljn/HE2XXQp/gg5voFiVFaBsiAPuArQGUkghyfALDB+u0zb+Mg5Y7S6SROmozR7LEAxNn8W6kv0lJoQhirutx2Eq0isdG1QCdzMrE8YpwC2faPTtG7Di6AtEQ6eYDnXrnjIFfvdUslgbjmjOnJp2r+kYG12Sc9bHuEeqrVQt74pg3KvgkU1ia4DWnEYXrtD5d5vqbCw7rCjUUpV/en6BxpX0mMfy8GokjhbWzQUIjsGA1VEEbufYWyFKM9YNpeFkPjdyM7fultREKmSBSFRgG7Uasxb6VYJlNWHUxqPY941MNh4NkhNEwhLGnFqTdAxydg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=asem.it; dmarc=pass action=none header.from=asem.it; dkim=pass
- header.d=asem.it; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=asem.it; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=F4n94L291UXsAO1OoSELIFe3BwGwBLYgxy3Pu2NnHMc=;
- b=oLBqZecacAvviGxzZzTKaEPilDy/3vckFy4L/APdjGUKT+mfQYwRjhwvL7qriU/VD0dbkEhNHWMHnZ6tCr+WrfyqI28oY0Z8hQOkrhPspFEpHkBbv2HuyjyEJvPmcaOzY6Boi3K4HVmsItstS9joZb81AuYix6SwT5UGSiIg8TA=
-Received: from DU2PR01MB8034.eurprd01.prod.exchangelabs.com
- (2603:10a6:10:273::14) by DB9PR01MB9246.eurprd01.prod.exchangelabs.com
- (2603:10a6:10:366::15) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6863.21; Tue, 3 Oct
- 2023 16:00:32 +0000
-Received: from DU2PR01MB8034.eurprd01.prod.exchangelabs.com
- ([fe80::ad2b:a1e7:8828:ba2f]) by DU2PR01MB8034.eurprd01.prod.exchangelabs.com
- ([fe80::ad2b:a1e7:8828:ba2f%7]) with mapi id 15.20.6838.024; Tue, 3 Oct 2023
- 16:00:32 +0000
-From: Flavio Suligoi <f.suligoi@asem.it>
-To: Daniel Thompson <daniel.thompson@linaro.org>
-Subject: RE: [PATCH v3 1/2] dt-bindings: backlight: Add MPS MP3309C
-Thread-Topic: [PATCH v3 1/2] dt-bindings: backlight: Add MPS MP3309C
-Thread-Index: AQHZ76uO1Fb/EPNT/k67j1TrFzld37AtE7aAgAmVcBCAAT5MAIAAXgAg
-Date: Tue, 3 Oct 2023 16:00:32 +0000
-Message-ID: <DU2PR01MB80349344FB8CB1415BFA917DF9C4A@DU2PR01MB8034.eurprd01.prod.exchangelabs.com>
-References: <20230925122609.78849-1-f.suligoi@asem.it>
- <20230926130113.GB4356@aspen.lan>
- <DU2PR01MB8034F448F6E66BAC3823CDB1F9C4A@DU2PR01MB8034.eurprd01.prod.exchangelabs.com>
- <20231003102138.GB69443@aspen.lan>
-In-Reply-To: <20231003102138.GB69443@aspen.lan>
-Accept-Language: it-IT, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=asem.it;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DU2PR01MB8034:EE_|DB9PR01MB9246:EE_
-x-ms-office365-filtering-correlation-id: bd36f944-de3d-405f-a678-08dbc429df4e
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: QQPknnIm/etCA39/gf5CSzoAjhItFIL/5g+oTajiZX4uLW1NbAznMIGySXTABmynnO+rep5AYlUiHP1Ran8lEQA5RUzxU/pJQfXl+9kLQF7p2aJK4HQewvbCmM4zcpynTUbAnNEpkz3vRNtqyL0ZLn6EjNgnXPGpOolD40ab5ImLrVxKLeXU8xT2EVqHSEdqBfSJ1UB3SMeuHLHuFhHVd0EwdiHJKoIEd/zFoo5hc+o4RkPRNkzVfJEZsEDabqG1Wo4QTYVsaInJEDLk6dU2J/ndpi8Wv1cEYpgLo7cYKqY5t1GGfDLJSrowmEV93z9lLegiaMe8wmEKY1gjYQ1s1oB9bNCyzS4rxwWwp3ABWDcB1yR2Ki8zP3Gf4KuFQmHMZHgphPF20FOqt7zIHisKBCtbnCHtZ4SMtXqCsrej/skrFIkG3661UMud70h05tNeCu4r6BW6xFce6+NrwWfU0Ygu8u5S5ccz35SP5uJH2kdZyfg3F1FsyWvbxqVhCX/GiSBllSJLt7B6xzFsV8mQ6vxz5yo0Cp3WsN9RsGg46gZmIhtETNzQ4l59zxaw6JX6oLYla/00kf/rGndvgPUDyDraMbRvEz4qWymjiwWn5f5aOkkHQllktOnVZROxdnGA
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DU2PR01MB8034.eurprd01.prod.exchangelabs.com; PTR:;
- CAT:NONE;
- SFS:(13230031)(39850400004)(396003)(366004)(346002)(136003)(376002)(230922051799003)(1800799009)(64100799003)(451199024)(186009)(54906003)(66946007)(5660300002)(76116006)(316002)(6916009)(64756008)(52536014)(66556008)(66446008)(478600001)(66476007)(7416002)(2906002)(71200400001)(41300700001)(7696005)(6506007)(4326008)(8676002)(8936002)(26005)(9686003)(66899024)(38100700002)(55016003)(38070700005)(122000001)(33656002)(86362001);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?lJu/9rToUgFnyxLxTdoJ/gyCTk6jHQcI4oyXXqWTZgDyMoTaDWrf5JHFwx4n?=
- =?us-ascii?Q?GgvL4UYlp+9JbLpYvuK95Pnon+FIuYKrwHCOB11f7VZRy/UXv+q2pNUUdRLy?=
- =?us-ascii?Q?WkskGrOKFGPO5OpePh4bcDNpwT4YkbNEyjCIHMoQk6ppxGKt/O+3SVKHA7Z3?=
- =?us-ascii?Q?6x8OkjPRg2yKTnAfrQ0pDyH3Qyn9b9E//REEQeenVEoYBHTlGJ7IHEr+xzTg?=
- =?us-ascii?Q?lXc8QvvrS5YXsI36/GrF9HEAW8hD6B0GNVhs5oAGSte119ktjQ2lURFt4f55?=
- =?us-ascii?Q?trrGBLg0bPntyBtqwuPXndn94LD/W8EsuulFsSGC93Eht0qzBMVQgyVIuEPv?=
- =?us-ascii?Q?EFl4+XRCOhcbpVnnPPEN1Q4qnozZkDngMrnNZ71HcAuRiw+sWb3taFKOwJ4I?=
- =?us-ascii?Q?k29WLLgdhx1rLeMXmp9pqk2Umb1c5XDiBaRWJEdm4J4PonkMOTEVjfATKrvv?=
- =?us-ascii?Q?0L3kc4TZa9JOCBWfPKT9hQzEdFsYx3tx2q8VV9bnTLCsenpNsUIvutD8U48q?=
- =?us-ascii?Q?RX9wJbsHxHg4+5J/TYx2WTIDEKqHm0VVZmQOrUs4CC9IgmUA39Uld+6hyuvM?=
- =?us-ascii?Q?YuiOw1sLS5T1hJDxKKKLUDSJk6vZglp2sM8Aky7LMlo4d1Pxad4eNu81u4q1?=
- =?us-ascii?Q?m1TLqFdkDT4zwvtSVcKhkCM0BWI7FAQexhGbwENwUoyPpBKslzE+dhWNIGJc?=
- =?us-ascii?Q?8X++uFgWiAnPscXuQA/G/T/9ysFFYojVi1RAmPYhRZmsRXJ+EKWj9NJFat73?=
- =?us-ascii?Q?8x6qtj7kvC9YwUAQO7HTRSkROon9EoYuN0VgpPoXqfMhikDVf//V8u5YFU60?=
- =?us-ascii?Q?qbCY2vAgexBKeOMKtT0Olz+BJndb69S1OKzRYwRDX2rnCJlDTumAD1gjL5Ek?=
- =?us-ascii?Q?emw9t6T0gusmMSdyqslEa06pYXFiE9ah6HlQ4NNbuEOCxuD6PSbAus7jm1Wi?=
- =?us-ascii?Q?6FgCwKz9ucRvtbf5VqZG+wDMyC9pw3jelVehMqhF5E2UQcoPTCWMzN0bZpkD?=
- =?us-ascii?Q?hnD8aitu/bUbM+hFhbLrueBCmePClE7wkPY7pZ0y8QnW/IvKvNt76KebH3hX?=
- =?us-ascii?Q?eoYw5oCjasmVPT3Hi26K6FuGvwmQ2T5M6DHSVAEe90JNB7Scjsk32dWhZFiB?=
- =?us-ascii?Q?OvJRjY965rKXAlqS48xWDwioYt3fSrfj5aXQqtc4coOvyVftPwOH03LKKRQ7?=
- =?us-ascii?Q?35rgymGVpvJU6C2/PMzUZ5FSp9ru46lSaRf33ZyXt/u8j9C6qlSCYzyYcdcR?=
- =?us-ascii?Q?0qte6GD6tV2vbePVvWMqZjRqE5qAdYURD1L57wzk/bJCUDzX4rwu5Pzmmdnl?=
- =?us-ascii?Q?taOViKAgeQfIwGplgIOpCFSpl5NRZNCQ7vATb53QA49RmPWYSYG8V9Yodmz+?=
- =?us-ascii?Q?t5FI7wy38USxgE7bZqRIYf5Y/jfSun8m5+RWSjqAivyu1TCPzXnsdRkDfLEa?=
- =?us-ascii?Q?7N70wFkZy1ndy8RdhRuLh6+8sZSRF0MKaZnSO+LCCa6ibFlRNqATOfudbKLc?=
- =?us-ascii?Q?zzqtFphAaHe7mQNeTipjrAuRV5T9iUVEHWnMzpzr7f5B/R2B/zAkX4t4DzaM?=
- =?us-ascii?Q?WhOqoZ0d3bGmEoH/1Uo=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6FAAA10E044;
+ Tue,  3 Oct 2023 16:18:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+ Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=mC5KvqAUUt1HmxrwWBpCZ6+i79R9/zHwAdCBb4tj81Q=; b=j04w112eJ4csoDr1uhW3QWmV1T
+ 0BnUewlQ8jvxF6ZkfQEi1/+GV7RK2auoXXzDx0TmztMJ1g5KXGlxdCN/+zobmZWX/ZwqTma2eUr7X
+ WDD2YFpZhVnSyBtKYhz2TbzSMi0KhhsB35qjsfME1C7YATVNWUqrO/lmIBhpA55mvOelQKQE7rA7i
+ stia7j81yWCoBsofSSRa/ldW7WTlOPBlZ9lBBo1GEFOf/wV+Wz/uZTKxnpw818w3/VLSormUDAnwI
+ 51iDc4N1mbqqSj5V80iVWoRB143/fyhqFMuF9GQrWJwVQXpReC0gVesWcMAQIh88IYcsb19iD14oc
+ Jh/k68Ew==;
+Received: from [102.213.205.115] (helo=mail.igalia.com)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1qni5y-00BKVd-Sz; Tue, 03 Oct 2023 18:18:03 +0200
+Date: Tue, 3 Oct 2023 15:17:40 -0100
+From: Melissa Wen <mwen@igalia.com>
+To: Harry Wentland <harry.wentland@amd.com>
+Subject: Re: [PATCH v3 09/32] drm/amd/display: add plane 3D LUT
+ driver-specific properties
+Message-ID: <20231003161725.newwn5dthlk5ycqk@mail.igalia.com>
+References: <20230925194932.1329483-1-mwen@igalia.com>
+ <20230925194932.1329483-10-mwen@igalia.com>
+ <728a979a-7f0a-4a90-a7d5-1c8b1c3ab1d3@amd.com>
 MIME-Version: 1.0
-X-OriginatorOrg: asem.it
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DU2PR01MB8034.eurprd01.prod.exchangelabs.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bd36f944-de3d-405f-a678-08dbc429df4e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Oct 2023 16:00:32.1839 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: d0a766c6-7992-4344-a4a2-a467a7bb1ed2
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: LPxyVnC2mSC7UtP3T5UsTN22axMyizDcqkJsSZNAtrTwbvlWdCFwkFJfIwvZndAz9bmUiZ9myCBZDIjw9mVlfw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR01MB9246
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <728a979a-7f0a-4a90-a7d5-1c8b1c3ab1d3@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -119,90 +54,211 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Pavel Machek <pavel@ucw.cz>,
- Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
- Lee Jones <lee@kernel.org>,
- "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>
+Cc: Sebastian Wick <sebastian.wick@redhat.com>,
+ Pekka Paalanen <pekka.paalanen@collabora.com>, kernel-dev@igalia.com,
+ Shashank Sharma <Shashank.Sharma@amd.com>, sunpeng.li@amd.com,
+ Xinhui.Pan@amd.com, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Xaver Hugl <xaver.hugl@gmail.com>, dri-devel@lists.freedesktop.org,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
+ Alex Hung <alex.hung@amd.com>, amd-gfx@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>, christian.koenig@amd.com,
+ Joshua Ashton <joshua@froggi.es>, sungjoon.kim@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Daniel,
+On 09/27, Harry Wentland wrote:
+> 
+> 
+> On 2023-09-25 15:49, Melissa Wen wrote:
+> > Add 3D LUT property for plane color transformations using a 3D lookup
+> > table. 3D LUT allows for highly accurate and complex color
+> > transformations and is suitable to adjust the balance between color
+> > channels. It's also more complex to manage and require more
+> > computational resources. Since a 3D LUT has a limited number of entries
+> > in each dimension we want to use them in an optimal fashion. This means
+> > using the 3D LUT in a colorspace that is optimized for human vision,
+> > such as sRGB, PQ, or another non-linear space. Therefore, userpace may
+> > need one 1D LUT (shaper) before it to delinearize content and another 1D
+> > LUT after 3D LUT (blend) to linearize content again for blending. The
+> > next patches add these 1D LUTs to the plane color mgmt pipeline.
+> > 
+> > v3:
+> > - improve commit message about 3D LUT
+> > - describe the 3D LUT entries and size (Harry)
+> > 
+> > Signed-off-by: Melissa Wen <mwen@igalia.com>
+> > ---
+> >  drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h      | 17 ++++++++++++++
+> >  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h |  9 ++++++++
+> >  .../amd/display/amdgpu_dm/amdgpu_dm_color.c   | 14 +++++++++++
+> >  .../amd/display/amdgpu_dm/amdgpu_dm_plane.c   | 23 +++++++++++++++++++
+> >  4 files changed, 63 insertions(+)
+> > 
+> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
+> > index 66bae0eed80c..1b5f25989f7f 100644
+> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
+> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
+> > @@ -363,6 +363,23 @@ struct amdgpu_mode_info {
+> >  	 * @plane_hdr_mult_property:
+> >  	 */
+> >  	struct drm_property *plane_hdr_mult_property;
+> > +	/**
+> > +	 * @plane_lut3d_property: Plane property for color transformation using
+> > +	 * a 3D LUT (pre-blending), a three-dimensional array where each
+> > +	 * element is an RGB triplet. Each dimension has a size of the cubed
+> > +	 * root of lut3d_size. The array contains samples from the approximated
+> > +	 * function. On AMD, values between samples are estimated by
+> > +	 * tetrahedral interpolation. The array is accessed with three indices,
+> > +	 * one for each input dimension (color channel), blue being the
+> > +	 * outermost dimension, red the innermost.
+> > +	 */
+> > +	struct drm_property *plane_lut3d_property;
+> > +	/**
+> > +	 * @plane_degamma_lut_size_property: Plane property to define the max
+> > +	 * size of 3D LUT as supported by the driver (read-only). The max size
+> > +	 * is the max size of one dimension cubed.
+> > +	 */
+> 
+> I've been thinking about this some more and don't particulary
+> like that we're reporting the size as the dimension cubed, e.g.,
+> 4913 (17^3) instead of 17. This works for an AMD private API
+> (and I'm okay with keeping it as-is if changing it is a lot of
+> effort at this point) but in a generic API it would be a source
+> of bugs or undefined behavior if a driver mistakenly reported
+> a size that doesn't have an even cubed root.
+> 
+> Reporting the size of a single dimension (e.g., 17 in the case
+> of the current AMD driver) would be clearer.
+> 
+> Could we still change that?
 
-...
-> > > > +required:
-> > > > +  - compatible
-> > > > +  - reg
-> > > > +  - max-brightness
-> > >
-> > > Why is this mandatory?
-> > >
-> > > There's no point in setting max-brightness when running in I2C mode
-> > > (max- brightness should default to 31 in that case).
-> > >
-> > >
-> > > > +  - default-brightness
-> > >
-> > > Again. I'm not clear why this needs to be mandatory.
-> > >
-> > >
-> >
-> > Ok, you are right, I'll remove max-brightness and default-brightness
-> > from required properties list. I think to change these properties, for
-> > the pwm dimming, into a clearer:
-> >
-> > - brightness-levels (uint32)
-> > - default-brightness-levels (uint32).
-> >
-> > For example:
-> >
-> >   brightness-levels:
-> >     description:
-> >       Number of brightness levels. The actual brightness
-> >       level (PWM duty cycle) will be interpolated from 0 to this value.
-> >       0 means a  0% duty cycle (darkest/off), while the brightness-leve=
-ls
-> represents
-> >       a 100% duty cycle (brightest).
-> >     $ref: /schemas/types.yaml#/definitions/uint32
-> >
-> >   default-brightness-level:
-> >     description:
-> >       The default brightness level (from 0 to brightness-levels)
-> >     $ref: /schemas/types.yaml#/definitions/uint32
-> >
-> > Example:
-> > brightness-levels =3D <10>;
-> > default-brightness-level =3D <6>;
-> >
-> > What do you think about this solution?
->=20
-> If you want to introduce a brightness-levels property then I would expect=
- it to
-> be defined with the same meaning as pwm-backlight (it's not relevant to t=
-he
-> bindings but ideally it would be implemented by refactoring and reusing t=
-he
-> code from pwm_bl.c).
+I understand your points, makes sense. I'll send a version that fits the
+single-dimension size.
 
-ok, I'll use the brightness-levels property as used in pwm-backlight
+Thanks for the suggestion.
 
->=20
-> Same with default-brightness-level although I'm not sure why one wouldn't
-> just use default-brightness for new bindings (doesn't default-brightness-=
-level
-> simply do exactly the same thing as default-brightness).
+Melissa
 
-ok for default-brightness instead of default-brightness-level
-
->=20
->=20
-> Daniel.
-
-Thanks an best regards,
-Flavio
+> 
+> Harry
+> 
+> 
+> > +	struct drm_property *plane_lut3d_size_property;
+> >  };
+> >  
+> >  #define AMDGPU_MAX_BL_LEVEL 0xFF
+> > diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+> > index 7ca594c7dfbe..dbd36fc24eca 100644
+> > --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+> > +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+> > @@ -773,6 +773,11 @@ struct dm_plane_state {
+> >  	 * S31.32 sign-magnitude.
+> >  	 */
+> >  	__u64 hdr_mult;
+> > +	/**
+> > +	 * @lut3d: 3D lookup table blob. The blob (if not NULL) is an array of
+> > +	 * &struct drm_color_lut.
+> > +	 */
+> > +	struct drm_property_blob *lut3d;
+> >  };
+> >  
+> >  struct dm_crtc_state {
+> > @@ -858,6 +863,10 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
+> >  
+> >  void amdgpu_dm_trigger_timing_sync(struct drm_device *dev);
+> >  
+> > +/* 3D LUT max size is 17x17x17 */
+> > +#define MAX_COLOR_3DLUT_ENTRIES 4913
+> > +#define MAX_COLOR_3DLUT_BITDEPTH 12
+> > +/* 1D LUT size */
+> >  #define MAX_COLOR_LUT_ENTRIES 4096
+> >  /* Legacy gamm LUT users such as X doesn't like large LUT sizes */
+> >  #define MAX_COLOR_LEGACY_LUT_ENTRIES 256
+> > diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
+> > index f274909c0c7e..e2f3f2099cac 100644
+> > --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
+> > +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
+> > @@ -207,6 +207,20 @@ amdgpu_dm_create_color_properties(struct amdgpu_device *adev)
+> >  		return -ENOMEM;
+> >  	adev->mode_info.plane_hdr_mult_property = prop;
+> >  
+> > +	prop = drm_property_create(adev_to_drm(adev),
+> > +				   DRM_MODE_PROP_BLOB,
+> > +				   "AMD_PLANE_LUT3D", 0);
+> > +	if (!prop)
+> > +		return -ENOMEM;
+> > +	adev->mode_info.plane_lut3d_property = prop;
+> > +
+> > +	prop = drm_property_create_range(adev_to_drm(adev),
+> > +					 DRM_MODE_PROP_IMMUTABLE,
+> > +					 "AMD_PLANE_LUT3D_SIZE", 0, UINT_MAX);
+> > +	if (!prop)
+> > +		return -ENOMEM;
+> > +	adev->mode_info.plane_lut3d_size_property = prop;
+> > +
+> >  	return 0;
+> >  }
+> >  #endif
+> > diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+> > index b66da6b76f5c..56f9109ecf60 100644
+> > --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+> > +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+> > @@ -1361,6 +1361,8 @@ dm_drm_plane_duplicate_state(struct drm_plane *plane)
+> >  
+> >  	if (dm_plane_state->degamma_lut)
+> >  		drm_property_blob_get(dm_plane_state->degamma_lut);
+> > +	if (dm_plane_state->lut3d)
+> > +		drm_property_blob_get(dm_plane_state->lut3d);
+> >  
+> >  	dm_plane_state->degamma_tf = old_dm_plane_state->degamma_tf;
+> >  	dm_plane_state->hdr_mult = old_dm_plane_state->hdr_mult;
+> > @@ -1434,6 +1436,8 @@ static void dm_drm_plane_destroy_state(struct drm_plane *plane,
+> >  
+> >  	if (dm_plane_state->degamma_lut)
+> >  		drm_property_blob_put(dm_plane_state->degamma_lut);
+> > +	if (dm_plane_state->lut3d)
+> > +		drm_property_blob_put(dm_plane_state->lut3d);
+> >  
+> >  	if (dm_plane_state->dc_state)
+> >  		dc_plane_state_release(dm_plane_state->dc_state);
+> > @@ -1464,6 +1468,14 @@ dm_atomic_plane_attach_color_mgmt_properties(struct amdgpu_display_manager *dm,
+> >  	drm_object_attach_property(&plane->base,
+> >  				   dm->adev->mode_info.plane_hdr_mult_property,
+> >  				   AMDGPU_HDR_MULT_DEFAULT);
+> > +
+> > +	if (dpp_color_caps.hw_3d_lut) {
+> > +		drm_object_attach_property(&plane->base,
+> > +					   mode_info.plane_lut3d_property, 0);
+> > +		drm_object_attach_property(&plane->base,
+> > +					   mode_info.plane_lut3d_size_property,
+> > +					   MAX_COLOR_3DLUT_ENTRIES);
+> > +	}
+> >  }
+> >  
+> >  static int
+> > @@ -1495,6 +1507,14 @@ dm_atomic_plane_set_property(struct drm_plane *plane,
+> >  			dm_plane_state->hdr_mult = val;
+> >  			dm_plane_state->base.color_mgmt_changed = 1;
+> >  		}
+> > +	} else if (property == adev->mode_info.plane_lut3d_property) {
+> > +		ret = drm_property_replace_blob_from_id(plane->dev,
+> > +							&dm_plane_state->lut3d,
+> > +							val, -1,
+> > +							sizeof(struct drm_color_lut),
+> > +							&replaced);
+> > +		dm_plane_state->base.color_mgmt_changed |= replaced;
+> > +		return ret;
+> >  	} else {
+> >  		drm_dbg_atomic(plane->dev,
+> >  			       "[PLANE:%d:%s] unknown property [PROP:%d:%s]]\n",
+> > @@ -1522,6 +1542,9 @@ dm_atomic_plane_get_property(struct drm_plane *plane,
+> >  		*val = dm_plane_state->degamma_tf;
+> >  	} else if (property == adev->mode_info.plane_hdr_mult_property) {
+> >  		*val = dm_plane_state->hdr_mult;
+> > +	} else 	if (property == adev->mode_info.plane_lut3d_property) {
+> > +		*val = (dm_plane_state->lut3d) ?
+> > +			dm_plane_state->lut3d->base.id : 0;
+> >  	} else {
+> >  		return -EINVAL;
+> >  	}
+> 
