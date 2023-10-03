@@ -2,58 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 981277B605B
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Oct 2023 07:25:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F20A37B60E9
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Oct 2023 08:42:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6192310E19F;
-	Tue,  3 Oct 2023 05:25:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E0A310E086;
+	Tue,  3 Oct 2023 06:42:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7209B10E19F
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Oct 2023 05:25:39 +0000 (UTC)
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
- by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 3935POiB114352;
- Tue, 3 Oct 2023 00:25:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1696310724;
- bh=DtLhN+uk/e+g9tnn5W0glAsvWoiFmIpmUyCtAJqK+zY=;
- h=Date:Subject:To:CC:References:From:In-Reply-To;
- b=Pk1hODw/O+7NvE94Y3Mg/9ewaDjeY+lXBXuSbUJqdqAtFI6MrOMRadF+juHukFJ6W
- JAcyFYgYR7NWymb9NQeMLR9orpfWdRarKKeDxRXGWuRHxHKRAxB0y+KP2KSB4K+2mb
- lN5U7mFhMT1XeK2mEJwwgmbiTEWk1PuHxACDgXbQ=
-Received: from DFLE101.ent.ti.com (dfle101.ent.ti.com [10.64.6.22])
- by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 3935PORO080715
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 3 Oct 2023 00:25:24 -0500
-Received: from DFLE108.ent.ti.com (10.64.6.29) by DFLE101.ent.ti.com
- (10.64.6.22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Tue, 3
- Oct 2023 00:25:23 -0500
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE108.ent.ti.com
- (10.64.6.29) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Tue, 3 Oct 2023 00:25:23 -0500
-Received: from [172.24.227.252] (ileaxei01-snat2.itg.ti.com [10.180.69.6])
- by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 3935PKUJ004882;
- Tue, 3 Oct 2023 00:25:21 -0500
-Message-ID: <484f6dd2-ed17-16af-0e1e-0ae6926eec53@ti.com>
-Date: Tue, 3 Oct 2023 10:55:20 +0530
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3BDD610E086
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Oct 2023 06:42:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1696315338; x=1727851338;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=hnkGqnRmBcOTQ861IT+Z+AfLtrKVI2wFHyUbbT+KcFw=;
+ b=Pu/nJdyauk4ztzxS8HhVQ49SgJ2dNsylbBtSyt0QMWc4187NocNRZQvj
+ eqngKscfbgr5SOYHTL2qflzvGKJIb2Bz/qNXVX1jsu0lnTZ3boq8/ENFY
+ kxoSeql7Du3zUfFo2KJh1X/gorPIq3g4aT0Pkf6yZSZcyd+WMpnjFrD95
+ /rrPHSCpuas142+VTvEwiF69jZTTGVo6wEU5WNu47f/s/GZCE9RAm6MNW
+ k/LfBugn6biqH2YdPetmMaRZ8zCajrLGTGcQGsOxCBF9m9e/f0VcwD38S
+ pVa82JDJshemQnjrnU0mPkpBlmGWXuu7pnQnmEvcH4JbuqXfT4mslFKd2 A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="362175768"
+X-IronPort-AV: E=Sophos;i="6.03,196,1694761200"; d="scan'208";a="362175768"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Oct 2023 23:42:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="780191821"
+X-IronPort-AV: E=Sophos;i="6.03,196,1694761200"; d="scan'208";a="780191821"
+Received: from joe-255.igk.intel.com (HELO localhost) ([10.91.220.57])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Oct 2023 23:42:15 -0700
+From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] accel/ivpu: Don't enter d0i3 during FLR
+Date: Tue,  3 Oct 2023 08:42:13 +0200
+Message-Id: <20231003064213.1527327-1-stanislaw.gruszka@linux.intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH 2/2] Revert "drm/omapdrm: Annotate dma-fence critical
- section in commit path"
-Content-Language: en-US
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Daniel Vetter
- <daniel@ffwll.ch>
-References: <20230920-dma-fence-annotation-revert-v1-0-7ebf6f7f5bf6@ideasonboard.com>
- <20230920-dma-fence-annotation-revert-v1-2-7ebf6f7f5bf6@ideasonboard.com>
-From: Aradhya Bhatia <a-bhatia1@ti.com>
-In-Reply-To: <20230920-dma-fence-annotation-revert-v1-2-7ebf6f7f5bf6@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,194 +55,134 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jyri Sarha <jyri.sarha@iki.fi>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Francesco Dolcini <francesco@dolcini.it>
+Cc: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>, Jeffrey Hugo <quic_jhugo@quicinc.com>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 
+Fix a bug on some platforms where FLR causes complete system
+hang when CPU is low power states (C8 or above).
 
-On 20-Sep-23 18:27, Tomi Valkeinen wrote:
-> This reverts commit 250aa22920cd5d956a5d3e9c6a43d671c2bae217.
-> 
-> The DMA-fence annotations cause a lockdep warning (see below). As per
-> https://patchwork.freedesktop.org/patch/462170/ it sounds like the
-> annotations don't work correctly.
-> 
-> ======================================================
-> WARNING: possible circular locking dependency detected
-> 6.5.0-rc2+ #2 Not tainted
-> ------------------------------------------------------
-> kmstest/219 is trying to acquire lock:
-> c4705838 (&hdmi->lock){+.+.}-{3:3}, at: hdmi5_bridge_mode_set+0x1c/0x50
-> 
-> but task is already holding lock:
-> c11e1128 (dma_fence_map){++++}-{0:0}, at: omap_atomic_commit_tail+0x14/0xbc
-> 
-> which lock already depends on the new lock.
-> 
-> the existing dependency chain (in reverse order) is:
-> 
-> -> #2 (dma_fence_map){++++}-{0:0}:
->        __dma_fence_might_wait+0x48/0xb4
->        dma_resv_lockdep+0x1b8/0x2bc
->        do_one_initcall+0x68/0x3b0
->        kernel_init_freeable+0x260/0x34c
->        kernel_init+0x14/0x140
->        ret_from_fork+0x14/0x28
-> 
-> -> #1 (fs_reclaim){+.+.}-{0:0}:
->        fs_reclaim_acquire+0x70/0xa8
->        __kmem_cache_alloc_node+0x3c/0x368
->        kmalloc_trace+0x28/0x58
->        _drm_do_get_edid+0x7c/0x35c
->        hdmi5_bridge_get_edid+0xc8/0x1ac
->        drm_bridge_connector_get_modes+0x64/0xc0
->        drm_helper_probe_single_connector_modes+0x170/0x528
->        drm_client_modeset_probe+0x208/0x1334
->        __drm_fb_helper_initial_config_and_unlock+0x30/0x548
->        omap_fbdev_client_hotplug+0x3c/0x6c
->        drm_client_register+0x58/0x94
->        pdev_probe+0x544/0x6b0
->        platform_probe+0x58/0xbc
->        really_probe+0xd8/0x3fc
->        __driver_probe_device+0x94/0x1f4
->        driver_probe_device+0x2c/0xc4
->        __device_attach_driver+0xa4/0x11c
->        bus_for_each_drv+0x84/0xdc
->        __device_attach+0xac/0x20c
->        bus_probe_device+0x8c/0x90
->        device_add+0x588/0x7e0
->        platform_device_add+0x110/0x24c
->        platform_device_register_full+0x108/0x15c
->        dss_bind+0x90/0xc0
->        try_to_bring_up_aggregate_device+0x1e0/0x2c8
->        __component_add+0xa4/0x174
->        hdmi5_probe+0x1c8/0x270
->        platform_probe+0x58/0xbc
->        really_probe+0xd8/0x3fc
->        __driver_probe_device+0x94/0x1f4
->        driver_probe_device+0x2c/0xc4
->        __device_attach_driver+0xa4/0x11c
->        bus_for_each_drv+0x84/0xdc
->        __device_attach+0xac/0x20c
->        bus_probe_device+0x8c/0x90
->        deferred_probe_work_func+0x8c/0xd8
->        process_one_work+0x2ac/0x6e4
->        worker_thread+0x30/0x4ec
->        kthread+0x100/0x124
->        ret_from_fork+0x14/0x28
-> 
-> -> #0 (&hdmi->lock){+.+.}-{3:3}:
->        __lock_acquire+0x145c/0x29cc
->        lock_acquire.part.0+0xb4/0x258
->        __mutex_lock+0x90/0x950
->        mutex_lock_nested+0x1c/0x24
->        hdmi5_bridge_mode_set+0x1c/0x50
->        drm_bridge_chain_mode_set+0x48/0x5c
->        crtc_set_mode+0x188/0x1d0
->        omap_atomic_commit_tail+0x2c/0xbc
->        commit_tail+0x9c/0x188
->        drm_atomic_helper_commit+0x158/0x18c
->        drm_atomic_commit+0xa4/0xe8
->        drm_mode_atomic_ioctl+0x9a4/0xc38
->        drm_ioctl+0x210/0x4a8
->        sys_ioctl+0x138/0xf00
->        ret_fast_syscall+0x0/0x1c
-> 
-> other info that might help us debug this:
-> 
-> Chain exists of:
->   &hdmi->lock --> fs_reclaim --> dma_fence_map
-> 
->  Possible unsafe locking scenario:
-> 
->        CPU0                    CPU1
->        ----                    ----
->   rlock(dma_fence_map);
->                                lock(fs_reclaim);
->                                lock(dma_fence_map);
->   lock(&hdmi->lock);
-> 
->  *** DEADLOCK ***
-> 
-> 3 locks held by kmstest/219:
->  #0: f1011de4 (crtc_ww_class_acquire){+.+.}-{0:0}, at: drm_mode_atomic_ioctl+0xf0/0xc38
->  #1: c47059c8 (crtc_ww_class_mutex){+.+.}-{3:3}, at: modeset_lock+0xf8/0x230
->  #2: c11e1128 (dma_fence_map){++++}-{0:0}, at: omap_atomic_commit_tail+0x14/0xbc
-> 
-> stack backtrace:
-> CPU: 1 PID: 219 Comm: kmstest Not tainted 6.5.0-rc2+ #2
-> Hardware name: Generic DRA74X (Flattened Device Tree)
->  unwind_backtrace from show_stack+0x10/0x14
->  show_stack from dump_stack_lvl+0x58/0x70
->  dump_stack_lvl from check_noncircular+0x164/0x198
->  check_noncircular from __lock_acquire+0x145c/0x29cc
->  __lock_acquire from lock_acquire.part.0+0xb4/0x258
->  lock_acquire.part.0 from __mutex_lock+0x90/0x950
->  __mutex_lock from mutex_lock_nested+0x1c/0x24
->  mutex_lock_nested from hdmi5_bridge_mode_set+0x1c/0x50
->  hdmi5_bridge_mode_set from drm_bridge_chain_mode_set+0x48/0x5c
->  drm_bridge_chain_mode_set from crtc_set_mode+0x188/0x1d0
->  crtc_set_mode from omap_atomic_commit_tail+0x2c/0xbc
->  omap_atomic_commit_tail from commit_tail+0x9c/0x188
->  commit_tail from drm_atomic_helper_commit+0x158/0x18c
->  drm_atomic_helper_commit from drm_atomic_commit+0xa4/0xe8
->  drm_atomic_commit from drm_mode_atomic_ioctl+0x9a4/0xc38
->  drm_mode_atomic_ioctl from drm_ioctl+0x210/0x4a8
->  drm_ioctl from sys_ioctl+0x138/0xf00
->  sys_ioctl from ret_fast_syscall+0x0/0x1c
-> Exception stack(0xf1011fa8 to 0xf1011ff0)
-> 1fa0:                   00466d58 be9ab510 00000003 c03864bc be9ab510 be9ab4e0
-> 1fc0: 00466d58 be9ab510 c03864bc 00000036 00466ef0 00466fc0 00467020 00466f20
-> 1fe0: b6bc7ef4 be9ab4d0 b6bbbb00 b6cb2cc0
-> 
-> Fixes: 250aa22920cd ("drm/omapdrm: Annotate dma-fence critical section in commit path")
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> ---
+Fixes: 852be13f3bd3 ("accel/ivpu: Add PM support")
+Cc: stable@vger.kernel.org
+Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Reviewed-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+---
+ drivers/accel/ivpu/ivpu_drv.c     | 11 ++++++++---
+ drivers/accel/ivpu/ivpu_drv.h     |  1 +
+ drivers/accel/ivpu/ivpu_hw.h      |  8 ++++++++
+ drivers/accel/ivpu/ivpu_hw_37xx.c |  1 +
+ drivers/accel/ivpu/ivpu_hw_40xx.c |  1 +
+ drivers/accel/ivpu/ivpu_pm.c      |  3 ++-
+ 6 files changed, 21 insertions(+), 4 deletions(-)
 
-Reviewed-by: Aradhya Bhatia <a-bhatia1@ti.com>
-
-Regards
-Aradhya
-
->  drivers/gpu/drm/omapdrm/omap_drv.c | 9 ++++-----
->  1 file changed, 4 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/omapdrm/omap_drv.c b/drivers/gpu/drm/omapdrm/omap_drv.c
-> index afeeb7737552..e000577a95dd 100644
-> --- a/drivers/gpu/drm/omapdrm/omap_drv.c
-> +++ b/drivers/gpu/drm/omapdrm/omap_drv.c
-> @@ -69,7 +69,6 @@ static void omap_atomic_commit_tail(struct drm_atomic_state *old_state)
->  {
->  	struct drm_device *dev = old_state->dev;
->  	struct omap_drm_private *priv = dev->dev_private;
-> -	bool fence_cookie = dma_fence_begin_signalling();
->  
->  	dispc_runtime_get(priv->dispc);
->  
-> @@ -92,6 +91,8 @@ static void omap_atomic_commit_tail(struct drm_atomic_state *old_state)
->  		omap_atomic_wait_for_completion(dev, old_state);
->  
->  		drm_atomic_helper_commit_planes(dev, old_state, 0);
-> +
-> +		drm_atomic_helper_commit_hw_done(old_state);
->  	} else {
->  		/*
->  		 * OMAP3 DSS seems to have issues with the work-around above,
-> @@ -101,11 +102,9 @@ static void omap_atomic_commit_tail(struct drm_atomic_state *old_state)
->  		drm_atomic_helper_commit_planes(dev, old_state, 0);
->  
->  		drm_atomic_helper_commit_modeset_enables(dev, old_state);
-> -	}
->  
-> -	drm_atomic_helper_commit_hw_done(old_state);
-> -
-> -	dma_fence_end_signalling(fence_cookie);
-> +		drm_atomic_helper_commit_hw_done(old_state);
-> +	}
->  
->  	/*
->  	 * Wait for completion of the page flips to ensure that old buffers
-> 
+diff --git a/drivers/accel/ivpu/ivpu_drv.c b/drivers/accel/ivpu/ivpu_drv.c
+index 3f4efa07ce7c..1eb232e903e8 100644
+--- a/drivers/accel/ivpu/ivpu_drv.c
++++ b/drivers/accel/ivpu/ivpu_drv.c
+@@ -367,14 +367,19 @@ int ivpu_boot(struct ivpu_device *vdev)
+ 	return 0;
+ }
+ 
+-int ivpu_shutdown(struct ivpu_device *vdev)
++void ivpu_prepare_for_reset(struct ivpu_device *vdev)
+ {
+-	int ret;
+-
+ 	ivpu_hw_irq_disable(vdev);
+ 	disable_irq(vdev->irq);
+ 	ivpu_ipc_disable(vdev);
+ 	ivpu_mmu_disable(vdev);
++}
++
++int ivpu_shutdown(struct ivpu_device *vdev)
++{
++	int ret;
++
++	ivpu_prepare_for_reset(vdev);
+ 
+ 	ret = ivpu_hw_power_down(vdev);
+ 	if (ret)
+diff --git a/drivers/accel/ivpu/ivpu_drv.h b/drivers/accel/ivpu/ivpu_drv.h
+index 98380c1db9fa..a3b45032e6cf 100644
+--- a/drivers/accel/ivpu/ivpu_drv.h
++++ b/drivers/accel/ivpu/ivpu_drv.h
+@@ -158,6 +158,7 @@ void ivpu_file_priv_put(struct ivpu_file_priv **link);
+ 
+ int ivpu_boot(struct ivpu_device *vdev);
+ int ivpu_shutdown(struct ivpu_device *vdev);
++void ivpu_prepare_for_reset(struct ivpu_device *vdev);
+ 
+ static inline u8 ivpu_revision(struct ivpu_device *vdev)
+ {
+diff --git a/drivers/accel/ivpu/ivpu_hw.h b/drivers/accel/ivpu/ivpu_hw.h
+index ab341237bcf9..1079e06255ba 100644
+--- a/drivers/accel/ivpu/ivpu_hw.h
++++ b/drivers/accel/ivpu/ivpu_hw.h
+@@ -13,6 +13,7 @@ struct ivpu_hw_ops {
+ 	int (*power_up)(struct ivpu_device *vdev);
+ 	int (*boot_fw)(struct ivpu_device *vdev);
+ 	int (*power_down)(struct ivpu_device *vdev);
++	int (*reset)(struct ivpu_device *vdev);
+ 	bool (*is_idle)(struct ivpu_device *vdev);
+ 	void (*wdt_disable)(struct ivpu_device *vdev);
+ 	void (*diagnose_failure)(struct ivpu_device *vdev);
+@@ -91,6 +92,13 @@ static inline int ivpu_hw_power_down(struct ivpu_device *vdev)
+ 	return vdev->hw->ops->power_down(vdev);
+ };
+ 
++static inline int ivpu_hw_reset(struct ivpu_device *vdev)
++{
++	ivpu_dbg(vdev, PM, "HW reset\n");
++
++	return vdev->hw->ops->reset(vdev);
++};
++
+ static inline void ivpu_hw_wdt_disable(struct ivpu_device *vdev)
+ {
+ 	vdev->hw->ops->wdt_disable(vdev);
+diff --git a/drivers/accel/ivpu/ivpu_hw_37xx.c b/drivers/accel/ivpu/ivpu_hw_37xx.c
+index edd4d860f135..1e842739e937 100644
+--- a/drivers/accel/ivpu/ivpu_hw_37xx.c
++++ b/drivers/accel/ivpu/ivpu_hw_37xx.c
+@@ -1036,6 +1036,7 @@ const struct ivpu_hw_ops ivpu_hw_37xx_ops = {
+ 	.power_up = ivpu_hw_37xx_power_up,
+ 	.is_idle = ivpu_hw_37xx_is_idle,
+ 	.power_down = ivpu_hw_37xx_power_down,
++	.reset = ivpu_hw_37xx_reset,
+ 	.boot_fw = ivpu_hw_37xx_boot_fw,
+ 	.wdt_disable = ivpu_hw_37xx_wdt_disable,
+ 	.diagnose_failure = ivpu_hw_37xx_diagnose_failure,
+diff --git a/drivers/accel/ivpu/ivpu_hw_40xx.c b/drivers/accel/ivpu/ivpu_hw_40xx.c
+index a48cd36f9931..d7b8ec0410af 100644
+--- a/drivers/accel/ivpu/ivpu_hw_40xx.c
++++ b/drivers/accel/ivpu/ivpu_hw_40xx.c
+@@ -1186,6 +1186,7 @@ const struct ivpu_hw_ops ivpu_hw_40xx_ops = {
+ 	.power_up = ivpu_hw_40xx_power_up,
+ 	.is_idle = ivpu_hw_40xx_is_idle,
+ 	.power_down = ivpu_hw_40xx_power_down,
++	.reset = ivpu_hw_40xx_reset,
+ 	.boot_fw = ivpu_hw_40xx_boot_fw,
+ 	.wdt_disable = ivpu_hw_40xx_wdt_disable,
+ 	.diagnose_failure = ivpu_hw_40xx_diagnose_failure,
+diff --git a/drivers/accel/ivpu/ivpu_pm.c b/drivers/accel/ivpu/ivpu_pm.c
+index 28a0d1111e12..da46f95b008a 100644
+--- a/drivers/accel/ivpu/ivpu_pm.c
++++ b/drivers/accel/ivpu/ivpu_pm.c
+@@ -261,7 +261,8 @@ void ivpu_pm_reset_prepare_cb(struct pci_dev *pdev)
+ 	ivpu_dbg(vdev, PM, "Pre-reset..\n");
+ 	atomic_inc(&vdev->pm->reset_counter);
+ 	atomic_set(&vdev->pm->in_reset, 1);
+-	ivpu_shutdown(vdev);
++	ivpu_prepare_for_reset(vdev);
++	ivpu_hw_reset(vdev);
+ 	ivpu_pm_prepare_cold_boot(vdev);
+ 	ivpu_jobs_abort_all(vdev);
+ 	ivpu_dbg(vdev, PM, "Pre-reset done.\n");
+-- 
+2.25.1
 
