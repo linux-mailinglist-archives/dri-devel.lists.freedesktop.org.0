@@ -1,55 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C5EB7B5E90
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Oct 2023 03:21:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 08AF17B5E97
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Oct 2023 03:21:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 11AAA10E195;
-	Tue,  3 Oct 2023 01:21:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F367310E19A;
+	Tue,  3 Oct 2023 01:21:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf2f.google.com (mail-qv1-xf2f.google.com
- [IPv6:2607:f8b0:4864:20::f2f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 39ACC10E195;
- Tue,  3 Oct 2023 01:21:40 +0000 (UTC)
-Received: by mail-qv1-xf2f.google.com with SMTP id
- 6a1803df08f44-65b051a28b3so2600756d6.2; 
- Mon, 02 Oct 2023 18:21:40 -0700 (PDT)
+Received: from mail-qt1-x82f.google.com (mail-qt1-x82f.google.com
+ [IPv6:2607:f8b0:4864:20::82f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5B0810E195;
+ Tue,  3 Oct 2023 01:21:41 +0000 (UTC)
+Received: by mail-qt1-x82f.google.com with SMTP id
+ d75a77b69052e-41995d42c3bso2951141cf.1; 
+ Mon, 02 Oct 2023 18:21:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1696296099; x=1696900899; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=0vhZi82yU9f+9I66zAblRTPICxvjbQ5OMGMGyPzNQBM=;
- b=XSJH6FDHvfDGlCwVsdlzWuDbSUluH1CKr+4R7/VZAPKufLiAhCjddArHz8WNiFTpwX
- yYdFUMzcitvuyZjZe3AaUCdlBJNGNQA5cuSpLKZv59tn6hKzsWJDzRBtKwdlmGZyQ3N3
- g4OYq+nEhsg9QTBOLN9vbd4tsWiCidbLlFgPVoFq8uAPEuIWsswzy1TNL/BDN8+3RzXQ
- OILIDYueBC163S3ch6Y7mND1w1RPrXeW6yF//hNruvfRrYqDdYxYRIv3wOw2waFcdcJR
- +vm+Df4aY2EU4jrgo2V6u5eTyHfRmZveV4Sfz3SuoW7h22N6IMSWbXJMu4zX5C8GZHUv
- YKaw==
+ d=gmail.com; s=20230601; t=1696296101; x=1696900901; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=3/FjPGL9FZLD3HPQhfLZqhNvGFa7zL77tDFLRHXNnA8=;
+ b=IezNSpLR/VbqKIC7xGZaLTtQ5BfPpMb4X7MZ0BR8uSybtzAN9Yc4uS6ym+4KiwHnw1
+ 7GgM7HEmpAuM1VJePLyftY0FzjYq7PCPezend4P4vBvrONHI2zkAFbNNGgX3zb4k2Vde
+ gWqorns7JZC3pQtaBMmyupMq6ynL26CqjfmvwwlPyNkDmfCMvYYouM7hayCoHoYc4wNg
+ LEejvsdOLV+zq5zfSs6dn1tDsprqT9glc/LmUkMMvrBTdUy3/Xft9DzspAVzpzLMznii
+ wjx8wu8K0jEF7cS1kC3PGJGQi2uj2HhzGuHr+HrZPTRJditE6EoOfBaUBPkDaQndZ2rv
+ rFig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1696296099; x=1696900899;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=0vhZi82yU9f+9I66zAblRTPICxvjbQ5OMGMGyPzNQBM=;
- b=tkK5+fiCVt2d+cytV3UFq79l3FHp2QX4xX+825V4vmQKBbVy8sJBJAktqto4D8Fou4
- 9EPYEtFb+47d0APaqG7ubBRF+jEXrb1gFHM5xlId2uwhOtx8lLBS4d6Sb6n1R+gdArpd
- x09wPIvxx99Ow3z+LRbvhpgjVbiD95X1E10ZPpAm2qrqj4H5yN6kRfZhQ4Lw5bURCxAq
- vtuqn4CARjRsO4no2seZyZrOm94JQ4uQ5eQhks9BqnAkVM58TbUcYMDbOBhcCwP/u62u
- ZMkkqqury4y7ykyHQLZbBTMSr8NwEw8VQ29oc1uaIzNkCxQAaph7XjHKGbiqgNj0yKmz
- Dr2Q==
-X-Gm-Message-State: AOJu0YxEzldLLasuFK83/7+8wvt6HeKGtRx+kO4cnTlw5EC3zWNstM5p
- WPVki1IpcyB8pRkXJbXLeR0=
-X-Google-Smtp-Source: AGHT+IGkrxlOmVZRgiW1JdvxZW/v1DIl0xUWG2ue6i5gqYguwaGs+Oc5zoGwPn1UiqL60jwhHSP3tw==
-X-Received: by 2002:a0c:e30b:0:b0:65b:229e:cb8a with SMTP id
- s11-20020a0ce30b000000b0065b229ecb8amr12256754qvl.44.1696296098801; 
- Mon, 02 Oct 2023 18:21:38 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1696296101; x=1696900901;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=3/FjPGL9FZLD3HPQhfLZqhNvGFa7zL77tDFLRHXNnA8=;
+ b=YW3tWrGHXSw7FN04XIcdI1iC3vQPBxjnOuSm5gcSa7xsH8z96vlzFmYsIVbn9tw3A4
+ ixVcLsokjh0Q9QDSOPScO8SvhCn891zWJIkaMs1k0eGqLQQLMkWRt7LLvaDKAUunPQkf
+ h4CUIl/lJclPhq0MgGkDVsoWPuIH3TK4ahyQ/C4Fj2Mr+hXVhYsAbbWhapBCEVjVT7PI
+ KAha8VxPFcwrkbkZc9oEfGBcE7Ncn5uU9UdDj50QSjaZZ1xxGFV8e5vg1teBvuhQRXdn
+ wZ+obcXvYx8+uUjC25d+a8wqF/lQhMmd0SJStPExs2Fi4FcP9zwf4KUYt8usGV2k12Aw
+ RL/g==
+X-Gm-Message-State: AOJu0Yz5Tm90AQ7e8jDbH/1wzk1JKkUazr4cWUhcIYvEG3x44uheqV8K
+ RYaEhyyus0XqQ6jLl6s0Z0XBkE2U4K0=
+X-Google-Smtp-Source: AGHT+IGUk13Af36ePkPLK8OB/CE3KCsi4/aGMCMeOYFW3yq5+hgdDKY93tE+wZpuDlClyIr32vn6cg==
+X-Received: by 2002:a05:622a:1653:b0:418:11c4:bd34 with SMTP id
+ y19-20020a05622a165300b0041811c4bd34mr12285402qtj.35.1696296100693; 
+ Mon, 02 Oct 2023 18:21:40 -0700 (PDT)
 Received: from localhost ([2607:fea8:529e:7800::efbe])
  by smtp.gmail.com with ESMTPSA id
- j15-20020a0ce00f000000b0063d038df3f3sm56569qvk.52.2023.10.02.18.21.37
+ f15-20020ac8470f000000b00418be3e365fsm71687qtp.1.2023.10.02.18.21.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Oct 2023 18:21:38 -0700 (PDT)
+ Mon, 02 Oct 2023 18:21:40 -0700 (PDT)
 From: Richard Acayan <mailingradian@gmail.com>
 To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
@@ -70,10 +71,13 @@ To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Krishna Manikandan <quic_mkrishn@quicinc.com>,
  linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
-Subject: [PATCH v2 0/6] SDM670 display subsystem support
-Date: Mon,  2 Oct 2023 21:21:21 -0400
-Message-ID: <20231003012119.857198-9-mailingradian@gmail.com>
+Subject: [PATCH v2 1/6] dt-bindings: display/msm: dsi-controller-main: add
+ SDM670 compatible
+Date: Mon,  2 Oct 2023 21:21:22 -0400
+Message-ID: <20231003012119.857198-10-mailingradian@gmail.com>
 X-Mailer: git-send-email 2.42.0
+In-Reply-To: <20231003012119.857198-9-mailingradian@gmail.com>
+References: <20231003012119.857198-9-mailingradian@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -92,40 +96,26 @@ Cc: Richard Acayan <mailingradian@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Changes since v1 (20230925232625.846666-9-mailingradian@gmail.com):
- - prefix dsi1 labels with `mdss_` in example dts (3/6)
- - make all parts of catalog entry const (5/6)
- - add spaces before closing brackets on same line (5/6)
- - join opening and closing braces on the same line in dsc array (5/6)
+The SDM670 has DSI ports. Add the compatible for the controller.
 
-This series adds support for the display subsystem on the Snapdragon
-670. It is based on an earlier patch a few versions back, which had
-missing device tree bindings and device tree changes.
+Acked-by: Rob Herring <robh@kernel.org>
+Signed-off-by: Richard Acayan <mailingradian@gmail.com>
+---
+ .../devicetree/bindings/display/msm/dsi-controller-main.yaml     | 1 +
+ 1 file changed, 1 insertion(+)
 
-There is a separate IOMMU patch which adds the MDSS compatible to a
-workaround.
-
-Richard Acayan (6):
-  dt-bindings: display/msm: dsi-controller-main: add SDM670 compatible
-  dt-bindings: display/msm: sdm845-dpu: Describe SDM670
-  dt-bindings: display: msm: Add SDM670 MDSS
-  drm/msm: mdss: add support for SDM670
-  drm/msm/dpu: Add hw revision 4.1 (SDM670)
-  arm64: dts: qcom: sdm670: add display subsystem
-
- .../display/msm/dsi-controller-main.yaml      |   1 +
- .../display/msm/qcom,sdm670-mdss.yaml         | 287 +++++++++++++++++
- .../bindings/display/msm/qcom,sdm845-dpu.yaml |   4 +-
- arch/arm64/boot/dts/qcom/sdm670.dtsi          | 294 ++++++++++++++++++
- .../msm/disp/dpu1/catalog/dpu_4_1_sdm670.h    | 104 +++++++
- .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    |   6 +
- .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |   1 +
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |   1 +
- drivers/gpu/drm/msm/msm_mdss.c                |   7 +
- 9 files changed, 704 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,sdm670-mdss.yaml
- create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_1_sdm670.h
-
+diff --git a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
+index c6dbab65d5f7..887c7dcaf438 100644
+--- a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
++++ b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
+@@ -25,6 +25,7 @@ properties:
+               - qcom,sc7180-dsi-ctrl
+               - qcom,sc7280-dsi-ctrl
+               - qcom,sdm660-dsi-ctrl
++              - qcom,sdm670-dsi-ctrl
+               - qcom,sdm845-dsi-ctrl
+               - qcom,sm6115-dsi-ctrl
+               - qcom,sm6125-dsi-ctrl
 -- 
 2.42.0
 
