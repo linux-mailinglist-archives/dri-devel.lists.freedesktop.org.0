@@ -1,53 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 510717B6806
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Oct 2023 13:34:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 578AA7B6801
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Oct 2023 13:34:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E4BC110E288;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2837410E276;
 	Tue,  3 Oct 2023 11:34:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id 627FB10E0ED;
+ by gabe.freedesktop.org (Postfix) with ESMTP id 69A7410E1DB;
  Tue,  3 Oct 2023 11:34:00 +0000 (UTC)
 Received: from loongson.cn (unknown [10.20.42.43])
- by gateway (Coremail) with SMTP id _____8Bxyeom_BtlDs0uAA--.14452S3;
+ by gateway (Coremail) with SMTP id _____8Bxd+gm_BtlEs0uAA--.53569S3;
  Tue, 03 Oct 2023 19:33:58 +0800 (CST)
 Received: from openarena.loongson.cn (unknown [10.20.42.43])
  by localhost.localdomain (Coremail) with SMTP id
- AQAAf8Cx7y8k_Btl7JAXAA--.48472S3; 
- Tue, 03 Oct 2023 19:33:57 +0800 (CST)
+ AQAAf8Cx7y8k_Btl7JAXAA--.48472S4; 
+ Tue, 03 Oct 2023 19:33:58 +0800 (CST)
 From: Sui Jingfeng <suijingfeng@loongson.cn>
 To: Lucas Stach <l.stach@pengutronix.de>
-Subject: [PATCH v11 1/5] drm/etnaviv: Add a dedicated function to get various
- clocks
-Date: Tue,  3 Oct 2023 19:33:52 +0800
-Message-Id: <20231003113356.645394-2-suijingfeng@loongson.cn>
+Subject: [PATCH v11 2/5] drm/etnaviv: Add constructor and destructor function
+ for etnaviv_drm_private
+Date: Tue,  3 Oct 2023 19:33:53 +0800
+Message-Id: <20231003113356.645394-3-suijingfeng@loongson.cn>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20231003113356.645394-1-suijingfeng@loongson.cn>
 References: <20231003113356.645394-1-suijingfeng@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8Cx7y8k_Btl7JAXAA--.48472S3
+X-CM-TRANSID: AQAAf8Cx7y8k_Btl7JAXAA--.48472S4
 X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBj93XoWxXFW8KFWxCr17Gw48Zr47Awc_yoW5Aw48pa
- 1fJ3W5tr1UCryag3yxAF13tr1akr1xCa4xuwn5Zrn3Zws8WF4Ut3yYkrWYqF45ury8XFWS
- kw15GF4UCFyF9rbCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
+X-Coremail-Antispam: 1Uk129KBj93XoWxWFy3ZFyUtr1fJFyUAF4xAFc_yoW5Kw1Upa
+ n3ZFy0yrWkZF1kKa9xJr4rZa43ua1xWa48uasrWwn0qw4ayr1kWF1rtFyUCF93AFyrCF1a
+ yw4UtF1UWF40k3gCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
  sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
  0xBIdaVrnRJUUUk0b4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
  IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
- e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+ e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
  0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv6xkF7I0E14v2
  6r4j6r4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI0UMc
- 02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUXVWUAwAv7VC2z280aVAF
+ 02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUAVWUtwAv7VC2z280aVAF
  wI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxAIw28IcxkI7V
  AKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCj
  r7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6x
- IIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAI
+ IIjxv20xvE14v26r1I6r4UMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAI
  w20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x
- 0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjxU7_MaUUUUU
+ 0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjxU2nYFDUUUU
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,89 +66,131 @@ Cc: Christian Gmeiner <christian.gmeiner@gmail.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Because the current implement is platform-dependent, there are systems
-which don't has the DT-based clock device drivers support. Such as x86
-and Loongarch desktop platform. Don't rage quit if so. For the GPU in
-LS7A1000/LS2K1000, the working frequency of the GPU is control by the GFX
-PLL hardware. Typically, the GFX PLL will be configured by the platform
-BIOS(either UEFI or PMON) on per boot time.
+Noticed that there are a lot of members in the struct etnaviv_drm_private,
+which are intended to be shared by all GPU core. This patch introduces two
+helper functions for the construction and destruction of the instances of
+it. A side benefit is that the error handling needed can be simplified.
 
 Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
 ---
- drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 53 ++++++++++++++++-----------
- 1 file changed, 32 insertions(+), 21 deletions(-)
+ drivers/gpu/drm/etnaviv/etnaviv_drv.c | 70 +++++++++++++++++----------
+ 1 file changed, 44 insertions(+), 26 deletions(-)
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-index 9276756e1397..4aa7c59ae581 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-@@ -1586,6 +1586,35 @@ static irqreturn_t irq_handler(int irq, void *data)
- 	return ret;
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+index a9a1659840ec..41ef7a8b7839 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+@@ -41,6 +41,43 @@ static struct device_node *etnaviv_of_first_available_node(void)
+ 	return NULL;
  }
  
-+static int etnaviv_gpu_clk_get(struct etnaviv_gpu *gpu)
++static struct etnaviv_drm_private *etnaviv_alloc_private(struct device *dev)
 +{
-+	struct device *dev = gpu->dev;
++	struct etnaviv_drm_private *priv;
 +
-+	gpu->clk_reg = devm_clk_get_optional(dev, "reg");
-+	DBG("clk_reg: %p", gpu->clk_reg);
-+	if (IS_ERR(gpu->clk_reg))
-+		return PTR_ERR(gpu->clk_reg);
++	priv = kzalloc(sizeof(*priv), GFP_KERNEL);
++	if (!priv)
++		return ERR_PTR(-ENOMEM);
 +
-+	gpu->clk_bus = devm_clk_get_optional(dev, "bus");
-+	DBG("clk_bus: %p", gpu->clk_bus);
-+	if (IS_ERR(gpu->clk_bus))
-+		return PTR_ERR(gpu->clk_bus);
++	xa_init_flags(&priv->active_contexts, XA_FLAGS_ALLOC);
 +
-+	gpu->clk_core = devm_clk_get(dev, "core");
-+	DBG("clk_core: %p", gpu->clk_core);
-+	if (IS_ERR(gpu->clk_core))
-+		return PTR_ERR(gpu->clk_core);
-+	gpu->base_rate_core = clk_get_rate(gpu->clk_core);
++	mutex_init(&priv->gem_lock);
++	INIT_LIST_HEAD(&priv->gem_list);
++	priv->num_gpus = 0;
++	priv->shm_gfp_mask = GFP_HIGHUSER | __GFP_RETRY_MAYFAIL | __GFP_NOWARN;
 +
-+	gpu->clk_shader = devm_clk_get_optional(dev, "shader");
-+	DBG("clk_shader: %p", gpu->clk_shader);
-+	if (IS_ERR(gpu->clk_shader))
-+		return PTR_ERR(gpu->clk_shader);
-+	gpu->base_rate_shader = clk_get_rate(gpu->clk_shader);
++	priv->cmdbuf_suballoc = etnaviv_cmdbuf_suballoc_new(dev);
++	if (IS_ERR(priv->cmdbuf_suballoc)) {
++		kfree(priv);
++		dev_err(dev, "Failed to create cmdbuf suballocator\n");
++		return ERR_PTR(-ENOMEM);
++	}
 +
-+	return 0;
++	return priv;
 +}
 +
- static int etnaviv_gpu_clk_enable(struct etnaviv_gpu *gpu)
++static void etnaviv_free_private(struct etnaviv_drm_private *priv)
++{
++	if (!priv)
++		return;
++
++	etnaviv_cmdbuf_suballoc_destroy(priv->cmdbuf_suballoc);
++
++	xa_destroy(&priv->active_contexts);
++
++	kfree(priv);
++}
++
+ static void load_gpu(struct drm_device *dev)
  {
- 	int ret;
-@@ -1861,27 +1890,9 @@ static int etnaviv_gpu_platform_probe(struct platform_device *pdev)
+ 	struct etnaviv_drm_private *priv = dev->dev_private;
+@@ -521,35 +558,21 @@ static int etnaviv_bind(struct device *dev)
+ 	if (IS_ERR(drm))
+ 		return PTR_ERR(drm);
+ 
+-	priv = kzalloc(sizeof(*priv), GFP_KERNEL);
+-	if (!priv) {
+-		dev_err(dev, "failed to allocate private data\n");
+-		ret = -ENOMEM;
++	priv = etnaviv_alloc_private(dev);
++	if (IS_ERR(priv)) {
++		ret = PTR_ERR(priv);
+ 		goto out_put;
  	}
++
+ 	drm->dev_private = priv;
  
- 	/* Get Clocks: */
--	gpu->clk_reg = devm_clk_get_optional(&pdev->dev, "reg");
--	DBG("clk_reg: %p", gpu->clk_reg);
--	if (IS_ERR(gpu->clk_reg))
--		return PTR_ERR(gpu->clk_reg);
--
--	gpu->clk_bus = devm_clk_get_optional(&pdev->dev, "bus");
--	DBG("clk_bus: %p", gpu->clk_bus);
--	if (IS_ERR(gpu->clk_bus))
--		return PTR_ERR(gpu->clk_bus);
--
--	gpu->clk_core = devm_clk_get(&pdev->dev, "core");
--	DBG("clk_core: %p", gpu->clk_core);
--	if (IS_ERR(gpu->clk_core))
--		return PTR_ERR(gpu->clk_core);
--	gpu->base_rate_core = clk_get_rate(gpu->clk_core);
--
--	gpu->clk_shader = devm_clk_get_optional(&pdev->dev, "shader");
--	DBG("clk_shader: %p", gpu->clk_shader);
--	if (IS_ERR(gpu->clk_shader))
--		return PTR_ERR(gpu->clk_shader);
--	gpu->base_rate_shader = clk_get_rate(gpu->clk_shader);
-+	err = etnaviv_gpu_clk_get(gpu);
-+	if (err)
-+		return err;
+ 	dma_set_max_seg_size(dev, SZ_2G);
  
- 	/* TODO: figure out max mapped size */
- 	dev_set_drvdata(dev, gpu);
+-	xa_init_flags(&priv->active_contexts, XA_FLAGS_ALLOC);
+-
+-	mutex_init(&priv->gem_lock);
+-	INIT_LIST_HEAD(&priv->gem_list);
+-	priv->num_gpus = 0;
+-	priv->shm_gfp_mask = GFP_HIGHUSER | __GFP_RETRY_MAYFAIL | __GFP_NOWARN;
+-
+-	priv->cmdbuf_suballoc = etnaviv_cmdbuf_suballoc_new(drm->dev);
+-	if (IS_ERR(priv->cmdbuf_suballoc)) {
+-		dev_err(drm->dev, "Failed to create cmdbuf suballocator\n");
+-		ret = PTR_ERR(priv->cmdbuf_suballoc);
+-		goto out_free_priv;
+-	}
+-
+ 	dev_set_drvdata(dev, drm);
+ 
+ 	ret = component_bind_all(dev, drm);
+ 	if (ret < 0)
+-		goto out_destroy_suballoc;
++		goto out_free_priv;
+ 
+ 	load_gpu(drm);
+ 
+@@ -561,10 +584,8 @@ static int etnaviv_bind(struct device *dev)
+ 
+ out_unbind:
+ 	component_unbind_all(dev, drm);
+-out_destroy_suballoc:
+-	etnaviv_cmdbuf_suballoc_destroy(priv->cmdbuf_suballoc);
+ out_free_priv:
+-	kfree(priv);
++	etnaviv_free_private(priv);
+ out_put:
+ 	drm_dev_put(drm);
+ 
+@@ -580,12 +601,9 @@ static void etnaviv_unbind(struct device *dev)
+ 
+ 	component_unbind_all(dev, drm);
+ 
+-	etnaviv_cmdbuf_suballoc_destroy(priv->cmdbuf_suballoc);
+-
+-	xa_destroy(&priv->active_contexts);
++	etnaviv_free_private(priv);
+ 
+ 	drm->dev_private = NULL;
+-	kfree(priv);
+ 
+ 	drm_dev_put(drm);
+ }
 -- 
 2.34.1
 
