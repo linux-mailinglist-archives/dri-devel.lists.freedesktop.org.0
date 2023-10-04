@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9324D7B8914
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Oct 2023 20:22:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B91017B8A99
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Oct 2023 20:37:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AFE2310E3B4;
-	Wed,  4 Oct 2023 18:22:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 75AEB10E3B3;
+	Wed,  4 Oct 2023 18:37:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6FC6310E3B2
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Oct 2023 18:22:31 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 16B9F10E3B7
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Oct 2023 18:36:58 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id D5D91B81FDF;
- Wed,  4 Oct 2023 18:22:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A72A0C433C8;
- Wed,  4 Oct 2023 18:22:28 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id CF49FCE1E46;
+ Wed,  4 Oct 2023 18:36:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 906AEC433C7;
+ Wed,  4 Oct 2023 18:36:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1696443749;
- bh=Wf/ufhpGaHrezQV2LoiBocU0Ydi40DMYm2oMi951d2o=;
+ s=korg; t=1696444616;
+ bh=uznB3vNT3MYlhUeNlGRBWpY8cmpFZ/cDVamsEhsg2TQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=KB5V4ExZOOw7joaNN8A0fNd991yUq9kQswZxXZJqxlG6bzrLgJ7yFDnF7DTl0TlkD
- /xjVc8FshSfXv9FlJnv6arudT3dI8U3fV4WibkPO7F+dSZ2wiaDP9jl6nTODa3tsHp
- E206g0GK5MFf25cStMYLiZGhqyTOe5DY5JUmM++0=
+ b=UK3cTkmYhvSSuPoan8/FzF7ekHf6oNLvKPCJCHBN0kq/sxkAR/GmuUxrDTHPer92h
+ mf5Qvn5f2NOsxOK+8vmnGXh+nLEZiQW0aMIvrN4NHPGYezeaOJ5rYKC8sBJFpwbtc0
+ y7zUP7cyOLHEqXZPkn0iZ/C9X0LbjAU9iMuUuXDg=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
-Subject: [PATCH 6.1 256/259] drm/meson: fix memory leak on ->hpd_notify
+Subject: [PATCH 6.5 314/321] drm/meson: fix memory leak on ->hpd_notify
  callback
-Date: Wed,  4 Oct 2023 19:57:09 +0200
-Message-ID: <20231004175229.171558646@linuxfoundation.org>
+Date: Wed,  4 Oct 2023 19:57:39 +0200
+Message-ID: <20231004175243.827229020@linuxfoundation.org>
 X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231004175217.404851126@linuxfoundation.org>
-References: <20231004175217.404851126@linuxfoundation.org>
+In-Reply-To: <20231004175229.211487444@linuxfoundation.org>
+References: <20231004175229.211487444@linuxfoundation.org>
 User-Agent: quilt/0.67
 X-stable: review
 X-Patchwork-Hint: ignore
@@ -61,7 +61,7 @@ Cc: Neil Armstrong <neil.armstrong@linaro.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-6.1-stable review patch.  If anyone has any objections, please let me know.
+6.5-stable review patch.  If anyone has any objections, please let me know.
 
 ------------------
 
