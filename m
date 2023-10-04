@@ -1,152 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28C327B7A63
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Oct 2023 10:43:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ECE7F7B7A7B
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Oct 2023 10:45:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F89C10E345;
-	Wed,  4 Oct 2023 08:43:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD61A10E123;
+	Wed,  4 Oct 2023 08:45:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 69A8B10E123;
- Wed,  4 Oct 2023 08:43:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1696409004; x=1727945004;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=rnb5eNTmbR1yaJud2wc79eahaqRC4qN61wg13VPsjGM=;
- b=nr8C/feLjJLz+K0E1Rkuf+P6bLvCHN4HDoQQnlRph+ppweBkWvmz4KeF
- SkxlaWjPQb6hWh4wpm7UyKj0T3ljUcfokbM+enpClQkgXtPQEcaGGMSUR
- uSCuRJCvPoR37F6WDpsdlDOm4t6+XQ6wKNGzfstqKu+9oK8ApfB7ZQFaA
- hLMRtz2LGizFbgYhNYUvXp8T+N6XoBqkzzaWx3Vctgfwd3oIxIQae1N8z
- 5EwDyaprPzhIoX9Z1Y/vxYXkI7aV0z+u5YKnBMc10qRkH9/MlMP/fucGe
- UdomgDMlgJgZDxN5B108DpsdZfSRFgpBMVkv4tV2kIL4+QiHNNfMcOd/S A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="383007338"
-X-IronPort-AV: E=Sophos;i="6.03,199,1694761200"; d="scan'208";a="383007338"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Oct 2023 01:43:23 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="754784127"
-X-IronPort-AV: E=Sophos;i="6.03,199,1694761200"; d="scan'208";a="754784127"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
- by fmsmga007.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 04 Oct 2023 01:43:23 -0700
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32; Wed, 4 Oct 2023 01:43:23 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32 via Frontend Transport; Wed, 4 Oct 2023 01:43:22 -0700
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com (104.47.73.43) by
- edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.32; Wed, 4 Oct 2023 01:43:22 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GV/curz03c7ZfE36UUF9KKcGDnopc+eTDDQT8Z6MypGguNFRWZvCHBHb2nPViSFvpRqMJIDZKU09FmYnCKi7GdLDQs3XvloaUnc629PHw631CWeQ2WRZ7Wz3aSyeG9JO0SJxrLLykasW4lS+KWyHIz23cbMQ0r4Zz8v/FqOR4etgHERsn9Tjer9kaJR6fWK7UTCuO43an5TB4/3GJkeaPxtx6dzwlXInlJ7MYl6pqMJVxnx4AGt9eCyoyUQCzgZRYvdf+R/mLM5fIJrwUfYkUuhv6z7RrFg2jMionSJQ40SkHBz5g5GkOQPKl05Cl7tlY9EkfFTIiJqURP7+yOcJDg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rnb5eNTmbR1yaJud2wc79eahaqRC4qN61wg13VPsjGM=;
- b=Lt1GW9kdVAM/DiqxrV2Qcx7xsSB24M5/JvXOuXcxkFAWPQdkjJN5VoXYBFM7pObqfAbxzyzuAxh5f6KxvDXlJSCzMJxkRqFi8B7fnWbTQJZwQYvUeJJu5AzFaeTkXaEhMUTrhV/vvuGuT+jKG6JJoDXd38XJC2Q71r2ObuEckPF0wZ75LHPFKU82QxPweDPNEY/gDKkdfVK6zM8ucxHouhZNkFoLUd6lLGhC0kJ910RLWDis/Ixj2A5zLV9qkKm1rtXuCOa2LvQXFSyA8JVYX451twCS1vtWa2+hIyzvBLyfpefTN/JGTvDrfJvSioiL3hEcdKVKVfHIyvQ41SedAw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from DM6PR11MB3177.namprd11.prod.outlook.com (2603:10b6:5:c::28) by
- DS7PR11MB7782.namprd11.prod.outlook.com (2603:10b6:8:e0::8) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6838.35; Wed, 4 Oct 2023 08:43:21 +0000
-Received: from DM6PR11MB3177.namprd11.prod.outlook.com
- ([fe80::c013:26f7:5743:995b]) by DM6PR11MB3177.namprd11.prod.outlook.com
- ([fe80::c013:26f7:5743:995b%6]) with mapi id 15.20.6838.028; Wed, 4 Oct 2023
- 08:43:20 +0000
-From: "Murthy, Arun R" <arun.r.murthy@intel.com>
-To: "Manna, Animesh" <animesh.manna@intel.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
-Subject: RE: [PATCH v6 1/6] drm/panelreplay: dpcd register definition for
- panelreplay
-Thread-Topic: [PATCH v6 1/6] drm/panelreplay: dpcd register definition for
- panelreplay
-Thread-Index: AQHZ7FRgJreZtMur4k24SFH6wpJufbA5ZMLA
-Date: Wed, 4 Oct 2023 08:43:20 +0000
-Message-ID: <DM6PR11MB3177695B7E4BE5BC37BFF1EABACBA@DM6PR11MB3177.namprd11.prod.outlook.com>
-References: <20230921061335.454818-1-animesh.manna@intel.com>
- <20230921061335.454818-2-animesh.manna@intel.com>
-In-Reply-To: <20230921061335.454818-2-animesh.manna@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM6PR11MB3177:EE_|DS7PR11MB7782:EE_
-x-ms-office365-filtering-correlation-id: 716dfca3-69ee-456e-4d8d-08dbc4b5f6a1
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: ttv/zkAvLt587NgmEEj1XGu2hi9t5AnZ7mRTZu9R96wj9ZK6BRW/MsuwwsYnqomX4kk51ACY55Al0gjtSO+A2DLjGuVtboyWtnpHO+EyRIsXzvjodO8o7otvbi0GonpPX5CazEnMOT+NDYhdaZEvtcouontl137R4VH/VTr7M6bqbGzp3SQwsLeZCzvQzoKTdYbYuAGfB3eCzPhxYxhnQwHm4QAMb80Ftca9A6Lc2ItM+kBr0p0DGhBbPHbITVzXXIgkdYmjt4VXBf4yrEfVcYrWBcyH+3b/OmwXzqH9DtuNhGldSDIS6KtQ/4oM7wb6jq0v0EHO9Uqh56reeWXTRRMDq16M0J5gbYQ8cIfhfXyVQzCmqWQ5Ofdf4RN5QRGMS4SLsEKsDizSwJ4vDoD0ZCwFQK2w9yl8txylBFSI8nMpGu21tm9tgGiLwQt6rCwZCM8kQymkEsvbrb2BbeX4EK+VDHzU8LT39nePYlMRt7fUOaY2UhS4vufmu5J8rB4nQgtCBUkyjkddcYOiM3G/tHacESK6UNpwG6S61unAR/jtUwIT5oaj6LSk5LbZFCvTUuMsPUx/AE9QvHE6a9UTwMNGNcUlEqabBJxm3c9WM9fiP26IRIQNqpv8tD2In1Kl
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR11MB3177.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(39860400002)(136003)(366004)(346002)(396003)(376002)(230922051799003)(64100799003)(451199024)(1800799009)(186009)(55016003)(7696005)(71200400001)(55236004)(66574015)(53546011)(478600001)(6506007)(122000001)(86362001)(38100700002)(38070700005)(82960400001)(41300700001)(2906002)(83380400001)(107886003)(9686003)(26005)(64756008)(33656002)(54906003)(450100002)(66556008)(66476007)(66446008)(5660300002)(76116006)(316002)(110136005)(66946007)(8936002)(4326008)(8676002)(52536014);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?UEF5L2pGQkUxV3N6bkU5UlhlVkJjUzdHNEdFU09ubENZbFB1eFBDRnNtQm4w?=
- =?utf-8?B?T25wZDMyTTZkaFp3U280Z3hrUHN6MXpQSzY2RE5ZTzdNdlg4T1hxUUM3Uk9W?=
- =?utf-8?B?Z1hFMWlmYkdzWjg1K3MvdEdwQ0F5Zk8wRWc3dmZhS2JuQ1R3UnFncERuUEls?=
- =?utf-8?B?VE9ORk44MjRhL2hYaUVrK29LVHY1QWVZZXlqYTJqRG84czdNSEEvWDVsWmpJ?=
- =?utf-8?B?MHA4K2RqeWdkcE1VWFNsclF5SFB6cHZMb3UrS25oYUhBQnFrMEtoNVJROUtW?=
- =?utf-8?B?TmlNd25wRlI1NklqNWhxWDloSjlkOGplUmhDWGtFdUE2NGVjcjI4UjErVUY0?=
- =?utf-8?B?SjJIR0tQRFpVUVVZNG1odFlZUHNVQWZVUWhBMDdqaFRGd2twS3FZamZmNmdT?=
- =?utf-8?B?OW5GRzBVS1Z6aGlZeFJuSTYxYUVoVjRVZWR6QmVuSjhacmxORWxVS3BpZGRT?=
- =?utf-8?B?OTVqZTBFWnBFZzloZWtVRjVTalBON3hWMmRNVm5VVHRFRWgrUjJFOGtyMnFt?=
- =?utf-8?B?K3dVdWFNUFduVk5HdjAxdkdXaDBvM2hlTUY1aTA4NVZMSDJaK3FLbXNXMkpj?=
- =?utf-8?B?QUhuOHpjeE5NWEVjR0pIRjN5NlV2QTZ1bzNPdVJEU2lKb3NYaENTZHBDWGhj?=
- =?utf-8?B?dXQrTzZ6c05oa2xLOUVaNWdwNkdBQ0VZL0lNREFhVmxVNlIvZVBVUUt1RHds?=
- =?utf-8?B?RVdJdGwrcm5YbnJTVkswSTkzZkVvblVTT0svWTN3WC9SbWdDaWhYUXJEMFJw?=
- =?utf-8?B?SDJVQTIxZHNJSGh1VStXTXVGdWdzanFFWmE3VG9RVHNwMXpVZ3R4NHZ6cEFI?=
- =?utf-8?B?S0U5S3Jld3A3OUt4M1pQcnJQZDVsalZBSWVUbWRXRzFQTUxFUkNCT0FzRFlO?=
- =?utf-8?B?VWpzdEhZUkFVN1VmT0FOTGJuTTZYWG1lVDRESVdQOHRKdmlsUFM1TlpZWm9m?=
- =?utf-8?B?QWNlVE1FZWk0REJ1anRnSGtMOUZDUDR1TXVITzhRckpCZE1iazVVSTU3MjVz?=
- =?utf-8?B?MFZOWXIvZ2hmNnFMUk5ncG9hNURobzJiMU1WaHBoQ2tqYmwrOTBKK0k3NW04?=
- =?utf-8?B?VnBjV3hFZXoxMTZzQjZVbkVScVl0Y1ZsYlBpQmM4RzUvUzJac1htOCtWU3Jw?=
- =?utf-8?B?anduREd1Z2dZSUdFWThWaElHMnFjV3dPL0NUNGg1Q0g1MDMyblJKT2xIK2ly?=
- =?utf-8?B?SnRmczJaOXVDMi9wTUZyeXNXdmdQSXZuQU9OeHVkQllzbWk3MFNkR2VJdFh4?=
- =?utf-8?B?R29POXZac21RajN6UG80K1QzUkd5RjNRMVdOK2U5TUk0LzQrNUJ3K2d0c0Ew?=
- =?utf-8?B?M2huTzZVNWJwZFlCSTM3ODFXZEhrRlJZNWpqVEYydkE1QTJwRUpDdXloaFIx?=
- =?utf-8?B?M3pBUXJ6cVBDNkpCQVd2WWRRU2RMbHhyK1VsQ2wrNEhNejZpWjN6ZmJHMFFR?=
- =?utf-8?B?NkdBVVN5Nk52YVZEdVpFc1dkSUwyaHRYb2ZlOHJ5ZjVrektaS1A4cXZSUWtE?=
- =?utf-8?B?K3dDOWpyMDlUUmVVVWRVVy84eVE5ZS84THZPOUJuMVh5REJpVHlYK1ZYT0Fo?=
- =?utf-8?B?cTZZYi9Lc1A3cjJhSmtLdCtUM1hmZWZuZUtLcnhJeEtKMHhZajRud1dtdG0r?=
- =?utf-8?B?bGg3d2liRWs4SklXeWlSRGhCQ2FndzJmMitvdzBZR2tkYS9uVXY1SkhkeFZD?=
- =?utf-8?B?UDlVODZjMHRYdXd4aXNMRHdNWHNNV1A3dEQyRzV0cTA5anA1eFRDOVEzSHYv?=
- =?utf-8?B?c2VpeTYzb1p1T080T053TW94Ukk5bUVSajJDVG9oVUFSenRXQzdXNDlRVjRG?=
- =?utf-8?B?RnJUTUR1ci9VVGFuVDlERnowM1JHN2ttUmYwUVhTSW1JeHowRmRyZmFHQkpT?=
- =?utf-8?B?Q2RrN3RtRWdzd3l0VTN6eSs5UW5JMzNHRXE0b1RoUXpVYnY0M0Z6ZDU5b3Vh?=
- =?utf-8?B?eUdtRGt2UVJHQldaYW04TGVhQzNDT29Nd1hZalZ2RitCMWtJd3Z4UmQ5L2xQ?=
- =?utf-8?B?eGRYMnZXVGRUZHNkbzBzcVo1UDRaQ1EvY3JCMzFFbUVJTzdIbjRraG5oN0t1?=
- =?utf-8?B?cFNuTzVmV2piai92NkxJR2JkM0g5SnBlbzRZeWJNemF4ZWJpZ1Nab3c2V0hS?=
- =?utf-8?Q?VonEqe6NwU+NUCxmS/WUmnLVo?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Received: from mail-oi1-f207.google.com (mail-oi1-f207.google.com
+ [209.85.167.207])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B9B7610E123
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Oct 2023 08:45:47 +0000 (UTC)
+Received: by mail-oi1-f207.google.com with SMTP id
+ 5614622812f47-3af609cb0afso2685544b6e.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Oct 2023 01:45:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1696409147; x=1697013947;
+ h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=2LXOqdL09PdEzf2Z1P9MseJKNWEnjUR6MgaW5Ba4b4k=;
+ b=A7LeewKpkRMAzK0+ZSLMpIRnBrubZh+f26X8JLmYK1IST6Uf1wnPkzfKPEQFVqpHkt
+ Eh8YjKXXXLkR8adQulZSARTj2DMe3apW2z9AU8GJL808fuvVJb3O5PAZOm2epZ69/ag7
+ h0IFA2lDoP71GtoYi9JimwTfCKRYtkyKB5FC+orJHfNv3xYjT/bfOsRDZ1gppEM3OlPx
+ tCTUB7p7HOZ1070d2YDDr7v3SFJR6t1+C5eU8Lj3d4h70vBHxH1WbOA3ydAMQEKQWb4y
+ cKmMHugrWl7YEOOsaYgtonIwoCLbwdDRwDZK2sg/Ijhl/A19y2lEA62E7mMMGCS9X/GT
+ cwEw==
+X-Gm-Message-State: AOJu0YxLjObgdEmo4NhjpoWEGJrmoVoH0+bkL2s9vFtfsEjZCAx9xFrT
+ gQyZcNKa71TmS5ZlILoG3VQdusgaq3NT11ej22z4uUwlCue7
+X-Google-Smtp-Source: AGHT+IEWHp6cZMFHBw7kmkOx2YxIFrzIHl4HLYaXzfrBPgZGJg8qTVWaj9fO4RD6PsRAIDixFw9mWzpyJokD1Sg8QvuLcge10uZY
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3177.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 716dfca3-69ee-456e-4d8d-08dbc4b5f6a1
-X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Oct 2023 08:43:20.8601 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: kofWHWznc/38EAP2/zOmmD9nt8Yase9O/lwzQYohtqR3PM0H5kT4WFH0/kdWS9ayPpclAfPkEVL9nsrUzX3SBw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR11MB7782
-X-OriginatorOrg: intel.com
+X-Received: by 2002:a05:6808:23d0:b0:3a8:74ff:6c01 with SMTP id
+ bq16-20020a05680823d000b003a874ff6c01mr1053711oib.5.1696409147021; Wed, 04
+ Oct 2023 01:45:47 -0700 (PDT)
+Date: Wed, 04 Oct 2023 01:45:46 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000009a1d4a0606e008dc@google.com>
+Subject: [syzbot] [fbdev?] general protection fault in bit_putcs
+From: syzbot <syzbot+524697c54d6e7ec67cf2@syzkaller.appspotmail.com>
+To: daniel@ffwll.ch, deller@gmx.de, dri-devel@lists.freedesktop.org, 
+ linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -159,68 +56,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Nikula, Jani" <jani.nikula@intel.com>, "Hogander,
- Jouni" <jouni.hogander@intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogTWFubmEsIEFuaW1lc2gg
-PGFuaW1lc2gubWFubmFAaW50ZWwuY29tPg0KPiBTZW50OiBUaHVyc2RheSwgU2VwdGVtYmVyIDIx
-LCAyMDIzIDExOjQ0IEFNDQo+IFRvOiBpbnRlbC1nZnhAbGlzdHMuZnJlZWRlc2t0b3Aub3JnDQo+
-IENjOiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnOyBOaWt1bGEsIEphbmkgPGphbmku
-bmlrdWxhQGludGVsLmNvbT47DQo+IEhvZ2FuZGVyLCBKb3VuaSA8am91bmkuaG9nYW5kZXJAaW50
-ZWwuY29tPjsgTXVydGh5LCBBcnVuIFINCj4gPGFydW4uci5tdXJ0aHlAaW50ZWwuY29tPjsgTWFu
-bmEsIEFuaW1lc2ggPGFuaW1lc2gubWFubmFAaW50ZWwuY29tPg0KPiBTdWJqZWN0OiBbUEFUQ0gg
-djYgMS82XSBkcm0vcGFuZWxyZXBsYXk6IGRwY2QgcmVnaXN0ZXIgZGVmaW5pdGlvbiBmb3INCj4g
-cGFuZWxyZXBsYXkNCj4gDQo+IEFkZCBEUENEIHJlZ2lzdGVyIGRlZmluaXRpb24gZm9yIGRpc2Nv
-dmVyaW5nLCBlbmFibGluZyBhbmQgY2hlY2tpbmcgc3RhdHVzIG9mDQo+IHBhbmVsIHJlcGxheSBv
-ZiB0aGUgc2luay4NCj4gDQo+IENjOiBKb3VuaSBIw7ZnYW5kZXIgPGpvdW5pLmhvZ2FuZGVyQGlu
-dGVsLmNvbT4NCj4gU2lnbmVkLW9mZi1ieTogQW5pbWVzaCBNYW5uYSA8YW5pbWVzaC5tYW5uYUBp
-bnRlbC5jb20+DQoNClJldmlld2VkLWJ5OiBBcnVuIFIgTXVydGh5IDxhcnVuLnIubXVydGh5QGlu
-dGVsLmNvbT4NCg0KVGhhbmtzIGFuZCBSZWdhcmRzLA0KQXJ1biBSIE11cnRoeQ0KLS0tLS0tLS0t
-LS0tLS0tLS0tLQ0KPiAtLS0NCj4gIGluY2x1ZGUvZHJtL2Rpc3BsYXkvZHJtX2RwLmggfCAyMyAr
-KysrKysrKysrKysrKysrKysrKysrKw0KPiAgMSBmaWxlIGNoYW5nZWQsIDIzIGluc2VydGlvbnMo
-KykNCj4gDQo+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2RybS9kaXNwbGF5L2RybV9kcC5oIGIvaW5j
-bHVkZS9kcm0vZGlzcGxheS9kcm1fZHAuaA0KPiBpbmRleCBlNjljZWNlNDA0YjMuLmZjNDJiNjIy
-ZWYzMiAxMDA2NDQNCj4gLS0tIGEvaW5jbHVkZS9kcm0vZGlzcGxheS9kcm1fZHAuaA0KPiArKysg
-Yi9pbmNsdWRlL2RybS9kaXNwbGF5L2RybV9kcC5oDQo+IEBAIC01NDMsNiArNTQzLDEwIEBADQo+
-ICAvKiBERlAgQ2FwYWJpbGl0eSBFeHRlbnNpb24gKi8NCj4gICNkZWZpbmUgRFBfREZQX0NBUEFC
-SUxJVFlfRVhURU5TSU9OX1NVUFBPUlQJMHgwYTMJLyogMi4wICovDQo+IA0KPiArI2RlZmluZSBE
-UF9QQU5FTF9SRVBMQVlfQ0FQICAgICAgICAgICAgICAgICAweDBiMCAgLyogRFAgMi4wICovDQo+
-ICsjIGRlZmluZSBEUF9QQU5FTF9SRVBMQVlfU1VQUE9SVCAgICAgICAgICAgICgxIDw8IDApDQo+
-ICsjIGRlZmluZSBEUF9QQU5FTF9SRVBMQVlfU1VfU1VQUE9SVCAgICAgICAgICgxIDw8IDEpDQo+
-ICsNCj4gIC8qIExpbmsgQ29uZmlndXJhdGlvbiAqLw0KPiAgI2RlZmluZQlEUF9MSU5LX0JXX1NF
-VAkJICAgICAgICAgICAgMHgxMDANCj4gICMgZGVmaW5lIERQX0xJTktfUkFURV9UQUJMRQkJICAg
-IDB4MDAgICAgLyogZURQIDEuNCAqLw0KPiBAQCAtNzE2LDYgKzcyMCwxMyBAQA0KPiAgI2RlZmlu
-ZSBEUF9CUkFOQ0hfREVWSUNFX0NUUkwJCSAgICAweDFhMQ0KPiAgIyBkZWZpbmUgRFBfQlJBTkNI
-X0RFVklDRV9JUlFfSFBECSAgICAoMSA8PCAwKQ0KPiANCj4gKyNkZWZpbmUgUEFORUxfUkVQTEFZ
-X0NPTkZJRyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgMHgxYjAgIC8qIERQIDIuMCAqLw0K
-PiArIyBkZWZpbmUgRFBfUEFORUxfUkVQTEFZX0VOQUJMRSAgICAgICAgICAgICAgICAgICAgICAg
-ICAoMSA8PCAwKQ0KPiArIyBkZWZpbmUgRFBfUEFORUxfUkVQTEFZX1VOUkVDT1ZFUkFCTEVfRVJS
-T1JfRU4gICAgICAgICAoMSA8PCAzKQ0KPiArIyBkZWZpbmUgRFBfUEFORUxfUkVQTEFZX1JGQl9T
-VE9SQUdFX0VSUk9SX0VOICAgICAgICAgICAoMSA8PCA0KQ0KPiArIyBkZWZpbmUgRFBfUEFORUxf
-UkVQTEFZX0FDVElWRV9GUkFNRV9DUkNfRVJST1JfRU4gICAgICAoMSA8PCA1KQ0KPiArIyBkZWZp
-bmUgRFBfUEFORUxfUkVQTEFZX1NVX0VOQUJMRSAgICAgICAgICAgICAgICAgICAgICAoMSA8PCA2
-KQ0KPiArDQo+ICAjZGVmaW5lIERQX1BBWUxPQURfQUxMT0NBVEVfU0VUCQkgICAgMHgxYzANCj4g
-ICNkZWZpbmUgRFBfUEFZTE9BRF9BTExPQ0FURV9TVEFSVF9USU1FX1NMT1QgMHgxYzEgICNkZWZp
-bmUNCj4gRFBfUEFZTE9BRF9BTExPQ0FURV9USU1FX1NMT1RfQ09VTlQgMHgxYzIgQEAgLTExMDUs
-NiArMTExNiwxOA0KPiBAQA0KPiAgI2RlZmluZSBEUF9MQU5FX0FMSUdOX1NUQVRVU19VUERBVEVE
-X0VTSSAgICAgICAweDIwMGUgLyogc3RhdHVzIHNhbWUgYXMNCj4gMHgyMDQgKi8NCj4gICNkZWZp
-bmUgRFBfU0lOS19TVEFUVVNfRVNJICAgICAgICAgICAgICAgICAgICAgMHgyMDBmIC8qIHN0YXR1
-cyBzYW1lIGFzIDB4MjA1ICovDQo+IA0KPiArI2RlZmluZSBEUF9QQU5FTF9SRVBMQVlfRVJST1Jf
-U1RBVFVTICAgICAgICAgICAgICAgICAgIDB4MjAyMCAgLyogRFAgMi4xKi8NCj4gKyMgZGVmaW5l
-IERQX1BBTkVMX1JFUExBWV9MSU5LX0NSQ19FUlJPUiAgICAgICAgICAgICAgICAoMSA8PCAwKQ0K
-PiArIyBkZWZpbmUgRFBfUEFORUxfUkVQTEFZX1JGQl9TVE9SQUdFX0VSUk9SICAgICAgICAgICAg
-ICgxIDw8IDEpDQo+ICsjIGRlZmluZSBEUF9QQU5FTF9SRVBMQVlfVlNDX1NEUF9VTkNPUlJFQ1RB
-QkxFX0VSUk9SICAgKDEgPDwgMikNCj4gKw0KPiArI2RlZmluZSBEUF9TSU5LX0RFVklDRV9QUl9B
-TkRfRlJBTUVfTE9DS19TVEFUVVMgICAgICAgIDB4MjAyMiAgLyogRFANCj4gMi4xICovDQo+ICsj
-IGRlZmluZSBEUF9TSU5LX0RFVklDRV9QQU5FTF9SRVBMQVlfU1RBVFVTX01BU0sgICAgICAgKDcg
-PDwgMCkNCj4gKyMgZGVmaW5lIERQX1NJTktfRlJBTUVfTE9DS0VEX1NISUZUICAgICAgICAgICAg
-ICAgICAgICAzDQo+ICsjIGRlZmluZSBEUF9TSU5LX0ZSQU1FX0xPQ0tFRF9NQVNLICAgICAgICAg
-ICAgICAgICAgICAgKDMgPDwgMykNCj4gKyMgZGVmaW5lIERQX1NJTktfRlJBTUVfTE9DS0VEX1NU
-QVRVU19WQUxJRF9TSElGVCAgICAgICA1DQo+ICsjIGRlZmluZSBEUF9TSU5LX0ZSQU1FX0xPQ0tF
-RF9TVEFUVVNfVkFMSURfTUFTSyAgICAgICAgKDEgPDwgNSkNCj4gKw0KPiAgLyogRXh0ZW5kZWQg
-UmVjZWl2ZXIgQ2FwYWJpbGl0eTogU2VlIERQX0RQQ0RfUkVWIGZvciBkZWZpbml0aW9ucyAqLw0K
-PiAgI2RlZmluZSBEUF9EUDEzX0RQQ0RfUkVWICAgICAgICAgICAgICAgICAgICAweDIyMDANCj4g
-DQo+IC0tDQo+IDIuMjkuMA0KDQo=
+Hello,
+
+syzbot found the following issue on:
+
+HEAD commit:    2e530aeb342b Merge branch 'for-next/core', remote-tracking..
+git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-kernelci
+console output: https://syzkaller.appspot.com/x/log.txt?x=121c1fe6680000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=5cc95add722fb0c1
+dashboard link: https://syzkaller.appspot.com/bug?extid=524697c54d6e7ec67cf2
+compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
+userspace arch: arm64
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=10b93281680000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1076e749680000
+
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/2468ab4c933e/disk-2e530aeb.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/bd3708bf8a20/vmlinux-2e530aeb.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/86bc7d3468f9/Image-2e530aeb.gz.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+524697c54d6e7ec67cf2@syzkaller.appspotmail.com
+
+Unable to handle kernel paging request at virtual address dfff800000000040
+KASAN: null-ptr-deref in range [0x0000000000000200-0x0000000000000207]
+Mem abort info:
+  ESR = 0x0000000096000005
+  EC = 0x25: DABT (current EL), IL = 32 bits
+  SET = 0, FnV = 0
+  EA = 0, S1PTW = 0
+  FSC = 0x05: level 1 translation fault
+Data abort info:
+  ISV = 0, ISS = 0x00000005, ISS2 = 0x00000000
+  CM = 0, WnR = 0, TnD = 0, TagAccess = 0
+  GCS = 0, Overlay = 0, DirtyBit = 0, Xs = 0
+[dfff800000000040] address between user and kernel address ranges
+Internal error: Oops: 0000000096000005 [#1] PREEMPT SMP
+Modules linked in:
+CPU: 0 PID: 6015 Comm: syz-executor865 Not tainted 6.6.0-rc3-syzkaller-g2e530aeb342b #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 08/04/2023
+pstate: 80400005 (Nzcv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+pc : __fb_pad_aligned_buffer include/linux/fb.h:629 [inline]
+pc : bit_putcs_aligned drivers/video/fbdev/core/bitblit.c:96 [inline]
+pc : bit_putcs+0x958/0xe30 drivers/video/fbdev/core/bitblit.c:185
+lr : __fb_pad_aligned_buffer include/linux/fb.h:626 [inline]
+lr : bit_putcs_aligned drivers/video/fbdev/core/bitblit.c:96 [inline]
+lr : bit_putcs+0x93c/0xe30 drivers/video/fbdev/core/bitblit.c:185
+sp : ffff800096a974a0
+x29: ffff800096a976b0 x28: 0000000000000200 x27: ffff0000c8fb9010
+x26: ffff0000c8fb9010 x25: 000000000000000f x24: dfff800000000000
+x23: 0000000000000080 x22: 0000000000000000 x21: 0000000000000000
+x20: ffff0000c0032440 x19: 0000000000000200 x18: ffff800096a96dc0
+x17: ffff80008e19d000 x16: ffff80008a576f00 x15: 0000000000000009
+x14: 1ffff00012d52ec1 x13: 0000000000000000 x12: 00000000ffffffff
+x11: 0000000000000000 x10: 0000000000000000 x9 : 0000000000000000
+x8 : 0000000000000040 x7 : 0000000000000000 x6 : 0000000000000007
+x5 : 0000000000000000 x4 : 0000000000000008 x3 : ffff8000831e57e8
+x2 : 0000000000000800 x1 : 0000000000000010 x0 : 0000000000000000
+Call trace:
+ __fb_pad_aligned_buffer include/linux/fb.h:629 [inline]
+ bit_putcs_aligned drivers/video/fbdev/core/bitblit.c:96 [inline]
+ bit_putcs+0x958/0xe30 drivers/video/fbdev/core/bitblit.c:185
+ fbcon_putcs+0x318/0x4e8 drivers/video/fbdev/core/fbcon.c:1282
+ do_update_region+0x42c/0x5f8 drivers/tty/vt/vt.c:623
+ redraw_screen+0x82c/0xd54 drivers/tty/vt/vt.c:983
+ fbcon_modechanged+0x9f4/0x1090 drivers/video/fbdev/core/fbcon.c:2703
+ fbcon_update_vcs+0x3c/0x4c drivers/video/fbdev/core/fbcon.c:2748
+ do_fb_ioctl+0xa68/0xd24 drivers/video/fbdev/core/fb_chrdev.c:92
+ fb_ioctl+0xec/0x134 drivers/video/fbdev/core/fb_chrdev.c:169
+ vfs_ioctl fs/ioctl.c:51 [inline]
+ __do_sys_ioctl fs/ioctl.c:871 [inline]
+ __se_sys_ioctl fs/ioctl.c:857 [inline]
+ __arm64_sys_ioctl+0x14c/0x1c8 fs/ioctl.c:857
+ __invoke_syscall arch/arm64/kernel/syscall.c:37 [inline]
+ invoke_syscall+0x98/0x2b8 arch/arm64/kernel/syscall.c:51
+ el0_svc_common+0x130/0x23c arch/arm64/kernel/syscall.c:136
+ do_el0_svc+0x48/0x58 arch/arm64/kernel/syscall.c:155
+ el0_svc+0x58/0x16c arch/arm64/kernel/entry-common.c:678
+ el0t_64_sync_handler+0x84/0xfc arch/arm64/kernel/entry-common.c:696
+ el0t_64_sync+0x190/0x194 arch/arm64/kernel/entry.S:595
+Code: 51000679 aa1c03f3 d343fe68 12000a69 (38f86908) 
+---[ end trace 0000000000000000 ]---
+----------------
+Code disassembly (best guess):
+   0:	51000679 	sub	w25, w19, #0x1
+   4:	aa1c03f3 	mov	x19, x28
+   8:	d343fe68 	lsr	x8, x19, #3
+   c:	12000a69 	and	w9, w19, #0x7
+* 10:	38f86908 	ldrsb	w8, [x8, x24] <-- trapping instruction
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the bug is already fixed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to overwrite bug's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the bug is a duplicate of another bug, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
