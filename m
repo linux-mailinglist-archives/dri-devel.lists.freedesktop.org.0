@@ -2,60 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 203DB7B8394
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Oct 2023 17:29:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 667AA7B83B0
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Oct 2023 17:35:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC07610E0CC;
-	Wed,  4 Oct 2023 15:29:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B4D9210E171;
+	Wed,  4 Oct 2023 15:35:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 27A5510E0CC;
- Wed,  4 Oct 2023 15:29:52 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E65610E17B
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Oct 2023 15:35:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1696433392; x=1727969392;
- h=message-id:subject:from:to:cc:date:in-reply-to:
- references:content-transfer-encoding:mime-version;
- bh=NY9HB0zQGmhyY1YFpVA1//jEG21hilDIDTgq1LDfXtY=;
- b=D4XkU8W5sPUfLfIvB8RDwHGH5vgSPAhoMijxPLA1ZnOLVFM6tRnFf3NU
- 1pRG998LzhPV2brdC7DEWoSoh/Bv8vAJ078fH9kT3Gc0gQWO8Hc7xm8V5
- eMewgpJu6C92Wwr/uiAtYC0F2qxiiNBrRd1xOs2VEf9MDIGa0lBqucm4G
- zOqUkT0C9ysjWuRnOKDu4cJ3X000pqJmvyRLN2F/OR2nZrxUfxqdCUs2P
- A1EyGd+2FDWAe38i3lM5FMsIfFWhQlftt/b7cDuhU3jS7b/3+Y9y3Nu7Z
- RHC9WC3Q6oILugss9N5O3EYjO2pIqS/jg7ybG2/D1kIFZAqEEh3dw/9WB w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="449693839"
-X-IronPort-AV: E=Sophos;i="6.03,200,1694761200"; d="scan'208";a="449693839"
+ t=1696433740; x=1727969740;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=Hx7V+yVsMtVy4pESAElvmRBSgtPI3S8ueyYPH3wmwoc=;
+ b=h8aM0bLIu5OlZFiXaE85INSm+z/dkPJ3UqpXOtMhtmleTTSoj3KPne7/
+ 9KEaaFMnCqjQfxjh3BOBljTyY24tx99XlesJHoMC4TGsijcWIeyoMIzf2
+ X/k3x3ebRCWuwd8ngG3ssTzMqwwDKYtWq0N7GIjZ92t+2kFb4LuGVhvJ9
+ KH677vgEAaawgkuQOR0vgLiCacgiullL/Qn0jCu3wIgb5GhSGQZH7oIb7
+ A8kNwgd2MKVHIInvhzkFWr3Sgt4AA1RF0rTjhCmVgmty80phBdcFe7QXM
+ o2mup3gXSHsGjhQjHWn6gni/zTLckfspmWeh7Aol7AUohvHWiPyKIfjcK w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="449695282"
+X-IronPort-AV: E=Sophos;i="6.03,200,1694761200"; d="scan'208";a="449695282"
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Oct 2023 08:29:27 -0700
+ 04 Oct 2023 08:35:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="751348760"
-X-IronPort-AV: E=Sophos;i="6.03,200,1694761200"; d="scan'208";a="751348760"
-Received: from binsumax-mobl.gar.corp.intel.com (HELO [10.249.254.31])
- ([10.249.254.31])
+X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="751351447"
+X-IronPort-AV: E=Sophos;i="6.03,200,1694761200"; d="scan'208";a="751351447"
+Received: from msterni-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.56.48])
  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Oct 2023 08:29:22 -0700
-Message-ID: <36233651a7675ab894134e41fc711fdcc71eefec.camel@linux.intel.com>
-Subject: Re: [PATCH drm-misc-next v5 4/6] drm/gpuvm: track/lock/validate
- external/evicted objects
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Danilo Krummrich <dakr@redhat.com>, airlied@gmail.com, daniel@ffwll.ch, 
- matthew.brost@intel.com, sarah.walker@imgtec.com, donald.robson@imgtec.com,
- boris.brezillon@collabora.com, christian.koenig@amd.com,
- faith@gfxstrand.net
-Date: Wed, 04 Oct 2023 17:29:20 +0200
-In-Reply-To: <6489f31f-8929-3e59-fbef-a22049cccbe3@redhat.com>
-References: <20230928191624.13703-1-dakr@redhat.com>
- <20230928191624.13703-5-dakr@redhat.com>
- <e4e68970-c7c9-55e2-9483-01252f38c956@linux.intel.com>
- <6b16ab6f-b1a2-efdb-04bf-5af4c3de381b@linux.intel.com>
- <6489f31f-8929-3e59-fbef-a22049cccbe3@redhat.com>
-Organization: Intel Sweden AB, Registration Number: 556189-6027
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
+ 04 Oct 2023 08:35:37 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Niko Tsirakis <ntsirakis@google.com>, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v4] drm/i915/display/lspcon: Increase LSPCON mode settle
+ timeout
+In-Reply-To: <20231002204709.761089-1-ntsirakis@google.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20230816045654.833973-1-pceballos@google.com>
+ <20231002204709.761089-1-ntsirakis@google.com>
+Date: Wed, 04 Oct 2023 18:35:36 +0300
+Message-ID: <87fs2qe6yf.fsf@intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,94 +60,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Niko Tsirakis <ntsirakis@google.com>, Pablo Ceballos <pceballos@google.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, 02 Oct 2023, Niko Tsirakis <ntsirakis@google.com> wrote:
+> This is to eliminate all cases of "*ERROR* LSPCON mode hasn't settled",
+> followed by link training errors. Intel engineers recommended increasing
+> this timeout and that does resolve the issue.
+>
+> On some CometLake-based device designs the Parade PS175 takes more than
+> 400ms to settle in PCON mode. 100 reboot trials on one device resulted
+> in a median settle time of 440ms and a maximum of 444ms. Even after
+> increasing the timeout to 500ms, 2% of devices still had this error. So
+> this increases the timeout to 800ms.
+>
+> Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/9443
+> Signed-off-by: Pablo Ceballos <pceballos@google.com>
+> Signed-off-by: Niko Tsirakis <ntsirakis@google.com>
 
-On Wed, 2023-10-04 at 14:57 +0200, Danilo Krummrich wrote:
-> On 10/3/23 11:11, Thomas Hellstr=C3=B6m wrote:
->=20
-> <snip>
->=20
-> > > > +
-> > > > +/**
-> > > > + * drm_gpuvm_bo_evict() - add / remove a &drm_gpuvm_bo to /
-> > > > from the &drm_gpuvms
-> > > > + * evicted list
-> > > > + * @vm_bo: the &drm_gpuvm_bo to add or remove
-> > > > + * @evict: indicates whether the object is evicted
-> > > > + *
-> > > > + * Adds a &drm_gpuvm_bo to or removes it from the &drm_gpuvms
-> > > > evicted list.
-> > > > + */
-> > > > +void
-> > > > +drm_gpuvm_bo_evict(struct drm_gpuvm_bo *vm_bo, bool evict)
-> > > > +{
-> > > > +=C2=A0=C2=A0=C2=A0 struct drm_gem_object *obj =3D vm_bo->obj;
-> > > > +
-> > > > +=C2=A0=C2=A0=C2=A0 dma_resv_assert_held(obj->resv);
-> > > > +
-> > > > +=C2=A0=C2=A0=C2=A0 /* Always lock list transactions, even if
-> > > > DRM_GPUVM_RESV_PROTECTED is
-> > > > +=C2=A0=C2=A0=C2=A0=C2=A0 * set. This is required to protect multip=
-le concurrent
-> > > > calls to
-> > > > +=C2=A0=C2=A0=C2=A0=C2=A0 * drm_gpuvm_bo_evict() with BOs with diff=
-erent dma_resv.
-> > > > +=C2=A0=C2=A0=C2=A0=C2=A0 */
-> > >=20
-> > > This doesn't work. The RESV_PROTECTED case requires the evicted
-> > > flag we discussed before. The list is either protected by the
-> > > spinlock or the resv. Otherwise a list add could race with a list
-> > > removal elsewhere.
->=20
-> I think it does unless I miss something, but it might be a bit subtle
-> though.
->=20
-> Concurrent drm_gpuvm_bo_evict() are protected by the spinlock.
-> Additionally, when
-> drm_gpuvm_bo_evict() is called we hold the dma-resv of the
-> corresponding GEM object.
->=20
-> In drm_gpuvm_validate() I assert that we hold *all* dma-resv, which
-> implies that no
-> one can call drm_gpuvm_bo_evict() on any of the VM's objects and no
-> one can add a new
-> one and directly call drm_gpuvm_bo_evict() on it either.
+Thanks for the patch, pushed to drm-intel-next.
 
-But translated into how the data (the list in this case) is protected
-it becomes
+BR,
+Jani.
 
-"Either the spinlock and the bo resv of a single list item OR the bo
-resvs of all bos that can potentially be on the list",
+> ---
+>  drivers/gpu/drm/i915/display/intel_lspcon.c | 15 ++++++++++++++-
+>  1 file changed, 14 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/i915/display/intel_lspcon.c b/drivers/gpu/drm/i915/display/intel_lspcon.c
+> index dc1b35559afd..92536482e657 100644
+> --- a/drivers/gpu/drm/i915/display/intel_lspcon.c
+> +++ b/drivers/gpu/drm/i915/display/intel_lspcon.c
+> @@ -116,6 +116,18 @@ static enum drm_lspcon_mode lspcon_get_current_mode(struct intel_lspcon *lspcon)
+>  	return current_mode;
+>  }
+>  
+> +static int lspcon_get_mode_settle_timeout(struct intel_lspcon *lspcon)
+> +{
+> +	/*
+> +	 * On some CometLake-based device designs the Parade PS175 takes more
+> +	 * than 400ms to settle in PCON mode. 100 reboot trials on one device
+> +	 * resulted in a median settle time of 440ms and a maximum of 444ms.
+> +	 * Even after increasing the timeout to 500ms, 2% of devices still had
+> +	 * this error. So this sets the timeout to 800ms.
+> +	 */
+> +	return lspcon->vendor == LSPCON_VENDOR_PARADE ? 800 : 400;
+> +}
+> +
+>  static enum drm_lspcon_mode lspcon_wait_mode(struct intel_lspcon *lspcon,
+>  					     enum drm_lspcon_mode mode)
+>  {
+> @@ -128,7 +140,8 @@ static enum drm_lspcon_mode lspcon_wait_mode(struct intel_lspcon *lspcon,
+>  	DRM_DEBUG_KMS("Waiting for LSPCON mode %s to settle\n",
+>  		      lspcon_mode_name(mode));
+>  
+> -	wait_for((current_mode = lspcon_get_current_mode(lspcon)) == mode, 400);
+> +	wait_for((current_mode = lspcon_get_current_mode(lspcon)) == mode,
+> +		lspcon_get_mode_settle_timeout(lspcon));
+>  	if (current_mode != mode)
+>  		DRM_ERROR("LSPCON mode hasn't settled\n");
 
-while this is certainly possible to assert, any new / future code that
-manipulates the evict list will probably get this wrong and as a result
-the code becomes pretty fragile. I think drm_gpuvm_bo_destroy() already
-gets it wrong in that it, while holding a single resv, doesn't take the
-spinlock.
-
-So I think that needs fixing, and if keeping that protection I think it
-needs to be documented with the list member and ideally an assert. But
-also note that lockdep_assert_held will typically give false true for
-dma_resv locks; as long as the first dma_resv lock locked in a drm_exec
-sequence  remains locked, lockdep thinks *all* dma_resv locks are held.
-(or something along those lines), so the resv lockdep asserts are
-currently pretty useless.=20
-
-/Thomas
-
-
-
->=20
-> > >=20
-> > > Thanks,
-> > >=20
-> > > Thomas
-> > >=20
-> > >=20
-> >=20
->=20
-
+-- 
+Jani Nikula, Intel
