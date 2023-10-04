@@ -1,49 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD4F57B7AC5
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Oct 2023 10:53:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 99E0A7B7C86
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Oct 2023 11:44:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A0F810E348;
-	Wed,  4 Oct 2023 08:53:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A443E10E35E;
+	Wed,  4 Oct 2023 09:44:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AEE2D10E348;
- Wed,  4 Oct 2023 08:53:28 +0000 (UTC)
-Date: Wed, 4 Oct 2023 10:53:25 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1696409607;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=rgf8GRivj4qTsOt2d3XGukyfDCF2xbBG1R3w7WzCNvo=;
- b=hX/rO9iom5L8UkraYSKmVK/Rh2VGAwKpYbh6N8iWKusVg4rlobvQe1FgpsZtS0Qd0F6bWy
- EjihWD6jajPbtws1i55RhLLMh2SYTQxAM6NYtibIqrruG/z2LSkSDGJpJhYJFskpDIClIU
- Q1LTks99YbavJru9/G2Detk6ph7ghCt29+FoJBEeftQdVhS6fu77kYAmODhNFejF+7eM2g
- WBp26546c2t9HkuFz5y7ruJhx7l8bxCF/mcEUAVE4IIo8RXRkAYQ4Qnbh6ZXZ/5Thz2pRH
- lKsn1kE3AZ66IT++Al2wtMKaMuNMOtXC/mGyFsKYHKtz5e6Eo78lcsWaFPYzYw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1696409607;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=rgf8GRivj4qTsOt2d3XGukyfDCF2xbBG1R3w7WzCNvo=;
- b=VkA+R1ryLwSNaqdBtS0ALyRYsEc9TwdCz3bamM7HFUu0WvYO8CcdLI2rLyuRkeSGhnUbOA
- NI4/wWCe4ec/nQAg==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Harry Wentland <harry.wentland@amd.com>
-Subject: Re: [PATCH 1/5] drm/amd/display: Remove migrate_en/dis from
- dc_fpu_begin().
-Message-ID: <20231004085325.PandDs8m@linutronix.de>
-References: <20230921141516.520471-1-bigeasy@linutronix.de>
- <20230921141516.520471-2-bigeasy@linutronix.de>
- <ad5179f7-d2f6-4306-b70e-f0ae5cefcff6@amd.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E37910E0F0;
+ Wed,  4 Oct 2023 09:44:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1696412660; x=1727948660;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=85rzEJpftgMTkqSyS1PGwBnT/UNSKB6BVDUjA6tAkCE=;
+ b=NEtFcFhFSGauxPlKSxUEbrkqcxoCcCACeAoiNAPsIM7DHfcRH5KdxnIf
+ xD8VDVJblpP63mbTK19NvFQOU+LAUlpQg+2w/RU28DVT57kCmO0G8V+7h
+ L9oWUq/7oABfOWLFnFWYmuSIXR4e+iVN9HxzdKZ2caoJH2nRdtB0Enbdz
+ VT2WNeWsSFYr8ksf/8TOucnVCIDvzy5zCrAXUf8Q+MVRhJWot+cOSLdRv
+ QtZHq9CIF91WLIqZoHypxO+5BDv9uIN8NKPMGc7uvwQSIdxAulfiE4kmE
+ TP9bUl4JbNoP6Acg270ZBBTMD8wwPJo/FtGtN/rgNYlSEnRgtEfUYLKZD w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="362469503"
+X-IronPort-AV: E=Sophos;i="6.03,199,1694761200"; d="scan'208";a="362469503"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Oct 2023 02:44:18 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="744880645"
+X-IronPort-AV: E=Sophos;i="6.03,199,1694761200"; d="scan'208";a="744880645"
+Received: from azainola-mobl3.gar.corp.intel.com (HELO intel.com)
+ ([10.214.163.167])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Oct 2023 02:44:12 -0700
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Subject: [RFC PATCH] drm/i915/gt: Do not treat MCR locking timeouts as errors
+Date: Wed,  4 Oct 2023 11:43:57 +0200
+Message-Id: <20231004094357.634895-1-andi.shyti@linux.intel.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <ad5179f7-d2f6-4306-b70e-f0ae5cefcff6@amd.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,36 +57,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tianci Yin <tianci.yin@amd.com>, Leo Li <sunpeng.li@amd.com>, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- amd-gfx@lists.freedesktop.org, Peter Zijlstra <peterz@infradead.org>,
- Aurabindo Pillai <aurabindo.pillai@amd.com>, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>, Thomas Gleixner <tglx@linutronix.de>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: gregory.f.germano@intel.com, Matt Roper <matthew.d.roper@intel.com>,
+ Jonathan Cavitt <jonathan.cavitt@intel.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>, Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2023-10-03 15:53:41 [-0400], Harry Wentland wrote:
-> On 2023-09-21 10:15, Sebastian Andrzej Siewior wrote:
-> > This is a revert of the commit mentioned below while it is not wrong, as
-> > in the kernel will explode, having migrate_disable() here it is
-> > complete waste of resources.
-> > 
-> > Additionally commit message is plain wrong the review tag does not make
-> 
-> Not sure I follow what's unhelpful about the review tag with
-> 0c316556d1249 ("drm/amd/display: Disable migration to ensure consistency of per-CPU variable")
+The MCR steering semaphore is a shared lock entry between i915
+and various firmware components.
 
-I explained it below with two points what the reviewer should have
-noticed why reading the commit message even if he does not know what
-migrate_disable() itself does.
+Getting the lock might sinchronize on some shared resources.
+Sometimes though, it might happen that the firmware forgets to
+unlock causing unnecessary noise in the driver which keeps doing
+what was supposed to do, ignoring the problem.
 
-> I do wish the original patch showed the splat it's attempting
-> to fix. It apparently made a difference for something, whether
-> inadvertently or not. I wish I knew what that "something" was.
+Do not consider this failure as an error, but just print a debug
+message stating that the MCR locking has been skipped.
 
-As far as I can tell the patch does make a difference.
+On the driver side we still have spinlocks that make sure that
+the access to the resources is serialized.
 
-> Harry
+Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
+Cc: Jonathan Cavitt <jonathan.cavitt@intel.com>
+Cc: Matt Roper <matthew.d.roper@intel.com>
+Cc: Nirmoy Das <nirmoy.das@intel.com>
+---
+ drivers/gpu/drm/i915/gt/intel_gt_mcr.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-Sebastian
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt_mcr.c b/drivers/gpu/drm/i915/gt/intel_gt_mcr.c
+index 326c2ed1d99b..51eb693df39b 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt_mcr.c
++++ b/drivers/gpu/drm/i915/gt/intel_gt_mcr.c
+@@ -395,10 +395,8 @@ void intel_gt_mcr_lock(struct intel_gt *gt, unsigned long *flags)
+ 	 * would indicate some hardware/firmware is misbehaving and not
+ 	 * releasing it properly.
+ 	 */
+-	if (err == -ETIMEDOUT) {
+-		gt_err_ratelimited(gt, "hardware MCR steering semaphore timed out");
+-		add_taint_for_CI(gt->i915, TAINT_WARN);  /* CI is now unreliable */
+-	}
++	if (err == -ETIMEDOUT)
++		gt_dbg(gt, "hardware MCR steering semaphore timed out");
+ }
+ 
+ /**
+-- 
+2.40.1
+
