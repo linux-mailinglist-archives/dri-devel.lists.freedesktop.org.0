@@ -2,52 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6253B7B81D1
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Oct 2023 16:08:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C71997B822B
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Oct 2023 16:23:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4BA5810E119;
-	Wed,  4 Oct 2023 14:08:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C4C0B10E385;
+	Wed,  4 Oct 2023 14:23:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7093410E384;
- Wed,  4 Oct 2023 14:08:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1696428513; x=1727964513;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=PDAgwJnqqDtxT+kwV1/Ac14gPdxm2r08QHZbjZLLisQ=;
- b=K17HuEqBfbbsZqYI4nMPokWpCSwFBy8Ia6SGzcbNQcM+qD1znI18uyPN
- Xk8hUwYw2Yk+H0CY6TVAwfUb+Xugq5mVUiaMg/SBOsxhLy/VvEwGHjUze
- UaxPe+GZfRTYu4hY5Z8JICnVc2oxpbeOjpXph8xRId/ENNzuMxwcYqXht
- ZN1abFeFjWRFCtfcdF/VyS2vstWWalwohKUI4JT0GuUzfiA06BJU1F1xa
- 2Ra2tWh3QcW7LzdUrHZ4ey1YZobqZyli24MJxDQqKX55xX+8GqaLeuDbu
- mUFBPRd2Ht39zQXriEQ+4rBM//yraJX8N6VuMfCoZIGUOE2+plsML2DSZ g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="363448156"
-X-IronPort-AV: E=Sophos;i="6.03,200,1694761200"; d="scan'208";a="363448156"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Oct 2023 07:08:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="894969859"
-X-IronPort-AV: E=Sophos;i="6.03,200,1694761200"; d="scan'208";a="894969859"
-Received: from azainola-mobl3.gar.corp.intel.com (HELO intel.com)
- ([10.214.163.167])
- by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Oct 2023 07:06:57 -0700
-Date: Wed, 4 Oct 2023 16:08:18 +0200
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Subject: Re: [Intel-gfx] [RFC PATCH] drm/i915/gt: Do not treat MCR locking
- timeouts as errors
-Message-ID: <ZR1x0jlEzrCUNoip@ashyti-mobl2.lan>
-References: <20231004094357.634895-1-andi.shyti@linux.intel.com>
- <eefc8c62-1ac5-6604-2ee5-576ca87c2be5@linux.intel.com>
+X-Greylist: delayed 369 seconds by postgrey-1.36 at gabe;
+ Wed, 04 Oct 2023 14:23:34 UTC
+Received: from out203-205-221-153.mail.qq.com (out203-205-221-153.mail.qq.com
+ [203.205.221.153])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5667310E385
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Oct 2023 14:23:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
+ s=s201512; t=1696429409;
+ bh=IFCQ36qNYlflTBGjiB1GM2HwJb7GMQotoPrkQGvpdeg=;
+ h=From:To:Cc:Subject:Date;
+ b=rt5SZM/W7cAieYMelDWnyGDd9k9cJOhcILeSOS8D6Imk0175LVjcK0Ut0+dgasvyj
+ dO7jIaYkknO1+LnE9wp6gZ4Prf4l0Ur7j2vl+L29tMQG+4EK63gUBh+YqNha8vKzeA
+ FyCEUjLjiGEwgrwM9bgjJTuKF6E4mQibYZ57HjF0=
+Received: from KernelDevBox.byted.org ([180.184.49.4])
+ by newxmesmtplogicsvrszc5-0.qq.com (NewEsmtp) with SMTP
+ id 2B994C3D; Wed, 04 Oct 2023 22:10:57 +0800
+X-QQ-mid: xmsmtpt1696428657tu2n08duz
+Message-ID: <tencent_B13DB7F6C0023C46157250A524966F326A09@qq.com>
+X-QQ-XMAILINFO: N1rJBQiDRgEyuI+t+UbeNj+Wm8g6/mII93pNgmgQXgZB0grYJnsuHkWW150X/k
+ 21GnTcWuJzWLUqL8jZqdpOxpfpF6FU1hvRJVCLIRev+ZCgBZ26meJNtlueLs2atXChSz/wu8Uhdi
+ 1zfLBk6z/TKYpUs1BTpNJ1q8BtuzYOcupt1BvWYF0xFIE0W1XZoFXgXmqSzaRPNrRwfPnR7Cj0AX
+ 49UJtPqoxp06Y2YAPp48Dk13TNOqGe3QfnSFpjkkiQuALxDjCs4xkJpnEFt6opK4+dFlKDjJTg4n
+ /BciY+2ggHBHYTJ+3G6yzl7p/a5nV12/seqZI1BWIncNZK1jWw6GTU97fUOUtmb2we2pYTQ/mS87
+ eRIGzLReScHJklIuHkXJeKqya3oZ5fvn2b7hIPASKamKGLjk8/zxtufVn50zffSG7gm6+U4hfOac
+ QvRW4+m9bmCD0C3kC/mdf464elnxrcVc8V7bC+ulZljbNYEjlnyaqXpHXphNAia9TV3ehVciUX88
+ +hceXyGGaIcmEfX/QiI2A8YzgB2LTOk3eUT+B5o7duNc14v1rcJ5NNri37Ov9VogiuoKZJ9dqRzE
+ fPUUHV9G8HRRlp6UDAnpgwPQoDD/R3uJWY+1keSOtjusyk7xHhFFYFO/ZlsrGZa6gtK9rtr73Z7X
+ 8Ml0ikoD+oy7XOP4TuSn9/3t6tGG4jZeIBkqktbi7D9o4v8hH2oID+uNvRiwr9UNRDLRmZtwengf
+ EdswQUo0x47ZX+wdK69OoMk/KReFb8Gw1+JkptQu5nagvWa4pLPzLo/GaBB0TOwMFSZn/deSuCMN
+ FbvNdS9PTFiSGWqOBWPUKT+nqoDhFl+PjL1z7FRFREk3+pxZ5hKBpwn7hERWOx0BaRjN0uamYTXv
+ cz2XiaCiUgKc53/Q652LG7tOFeV0MH+ZKQJuT9CtuwrdyXITavWIJog4vreckh1kvdAnOaPYLmnL
+ Ne7En2TrRiI9wYk9AaeG/mFx81ROVXo3v5v+GJMemlCHx4WzH0CBbBviykDHvckCGb+oNwyEsn1r
+ 8FxM0qpaL3V0OLf7Am
+X-QQ-XMRINFO: NyFYKkN4Ny6FSmKK/uo/jdU=
+From: Zhang Shurong <zhang_shurong@foxmail.com>
+To: thierry.reding@gmail.com
+Subject: [PATCH] drm/tegra: dpaux: Fix PM disable depth imbalance in
+ tegra_dpaux_probe
+Date: Wed,  4 Oct 2023 22:10:55 +0800
+X-OQ-MSGID: <20231004141055.242982-1-zhang_shurong@foxmail.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <eefc8c62-1ac5-6604-2ee5-576ca87c2be5@linux.intel.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,76 +64,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
- Jonathan Cavitt <jonathan.cavitt@intel.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Andi Shyti <andi.shyti@linux.intel.com>, gregory.f.germano@intel.com,
- Matt Roper <matthew.d.roper@intel.com>, Nirmoy Das <nirmoy.das@intel.com>
+Cc: linux-kernel@vger.kernel.org, lgirdwood@gmail.com,
+ dri-devel@lists.freedesktop.org, jonathanh@nvidia.com, broonie@kernel.org,
+ linux-tegra@vger.kernel.org, mperttunen@nvidia.com,
+ Zhang Shurong <zhang_shurong@foxmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tvrtko,
+The pm_runtime_enable function increases the power disable depth,
+which means that we must perform a matching decrement on the error
+handling path to maintain balance within the given context.
+Additionally, we need to address the same issue for pm_runtime_get_sync.
+We fix this by invoking pm_runtime_disable and pm_runtime_put_sync
+when error returns.
 
-> > The MCR steering semaphore is a shared lock entry between i915
-> > and various firmware components.
-> > 
-> > Getting the lock might sinchronize on some shared resources.
-> > Sometimes though, it might happen that the firmware forgets to
-> > unlock causing unnecessary noise in the driver which keeps doing
-> > what was supposed to do, ignoring the problem.
-> > 
-> > Do not consider this failure as an error, but just print a debug
-> > message stating that the MCR locking has been skipped.
-> > 
-> > On the driver side we still have spinlocks that make sure that
-> > the access to the resources is serialized.
-> > 
-> > Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
-> > Cc: Jonathan Cavitt <jonathan.cavitt@intel.com>
-> > Cc: Matt Roper <matthew.d.roper@intel.com>
-> > Cc: Nirmoy Das <nirmoy.das@intel.com>
-> > ---
-> >   drivers/gpu/drm/i915/gt/intel_gt_mcr.c | 6 ++----
-> >   1 file changed, 2 insertions(+), 4 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/i915/gt/intel_gt_mcr.c b/drivers/gpu/drm/i915/gt/intel_gt_mcr.c
-> > index 326c2ed1d99b..51eb693df39b 100644
-> > --- a/drivers/gpu/drm/i915/gt/intel_gt_mcr.c
-> > +++ b/drivers/gpu/drm/i915/gt/intel_gt_mcr.c
-> > @@ -395,10 +395,8 @@ void intel_gt_mcr_lock(struct intel_gt *gt, unsigned long *flags)
-> >   	 * would indicate some hardware/firmware is misbehaving and not
-> >   	 * releasing it properly.
-> >   	 */
-> > -	if (err == -ETIMEDOUT) {
-> > -		gt_err_ratelimited(gt, "hardware MCR steering semaphore timed out");
-> > -		add_taint_for_CI(gt->i915, TAINT_WARN);  /* CI is now unreliable */
-> > -	}
-> > +	if (err == -ETIMEDOUT)
-> > +		gt_dbg(gt, "hardware MCR steering semaphore timed out");
-> >   }
-> >   /**
-> 
-> Are we sure this does not warrant a level higher than dbg, such as
-> notice/warn?
+Fixes: 82b81b3ec1a7 ("drm/tegra: dpaux: Implement runtime PM")
+Signed-off-by: Zhang Shurong <zhang_shurong@foxmail.com>
+---
+ drivers/gpu/drm/tegra/dpaux.c | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
 
-We might make it a warn, but this doesn't change much the economy
-of the driver as we will keep doing what we were supposed to do.
+diff --git a/drivers/gpu/drm/tegra/dpaux.c b/drivers/gpu/drm/tegra/dpaux.c
+index ef02d530f78d..ae12d001a04b 100644
+--- a/drivers/gpu/drm/tegra/dpaux.c
++++ b/drivers/gpu/drm/tegra/dpaux.c
+@@ -522,7 +522,7 @@ static int tegra_dpaux_probe(struct platform_device *pdev)
+ 	if (err < 0) {
+ 		dev_err(dpaux->dev, "failed to request IRQ#%u: %d\n",
+ 			dpaux->irq, err);
+-		return err;
++		goto err_pm_disable;
+ 	}
+ 
+ 	disable_irq(dpaux->irq);
+@@ -542,7 +542,7 @@ static int tegra_dpaux_probe(struct platform_device *pdev)
+ 	 */
+ 	err = tegra_dpaux_pad_config(dpaux, DPAUX_PADCTL_FUNC_I2C);
+ 	if (err < 0)
+-		return err;
++		goto err_pm_disable;
+ 
+ #ifdef CONFIG_GENERIC_PINCONF
+ 	dpaux->desc.name = dev_name(&pdev->dev);
+@@ -555,7 +555,8 @@ static int tegra_dpaux_probe(struct platform_device *pdev)
+ 	dpaux->pinctrl = devm_pinctrl_register(&pdev->dev, &dpaux->desc, dpaux);
+ 	if (IS_ERR(dpaux->pinctrl)) {
+ 		dev_err(&pdev->dev, "failed to register pincontrol\n");
+-		return PTR_ERR(dpaux->pinctrl);
++		err = PTR_ERR(dpaux->pinctrl);
++		goto err_pm_disable;
+ 	}
+ #endif
+ 	/* enable and clear all interrupts */
+@@ -571,10 +572,15 @@ static int tegra_dpaux_probe(struct platform_device *pdev)
+ 	err = devm_of_dp_aux_populate_ep_devices(&dpaux->aux);
+ 	if (err < 0) {
+ 		dev_err(dpaux->dev, "failed to populate AUX bus: %d\n", err);
+-		return err;
++		goto err_pm_disable;
+ 	}
+ 
+ 	return 0;
++
++err_pm_disable:
++	pm_runtime_put_sync(&pdev->dev);
++	pm_runtime_disable(&pdev->dev);
++	return err;
+ }
+ 
+ static void tegra_dpaux_remove(struct platform_device *pdev)
+-- 
+2.30.2
 
-> Because how can we be sure the two entities will not stomp on
-> each other toes if we failed to obtain lock?
-
-So far, in all the research I've done, no one looks like using
-MCR lock, but yet someone is stuck in it.
-
-> (How can we be sure about
-> "forgot to unlock" vs "in prolonged active use"?
-
-There is a patch from Jonathan that is testing a different
-timeout.
-
-> Or if we can be sure, can
-> we force unlock and take the lock for the driver explicitly?)
-
-I sent a patch with this solution and Matt turned it down.
-
-Andi
