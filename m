@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DACA7B8617
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Oct 2023 19:04:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 887027B861C
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Oct 2023 19:06:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 23F4B10E39A;
-	Wed,  4 Oct 2023 17:04:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C4AC110E3A3;
+	Wed,  4 Oct 2023 17:06:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0116310E39A
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Oct 2023 17:04:55 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org
+ [IPv6:2604:1380:40e1:4800::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C06FA10E3A3
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Oct 2023 17:06:21 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id A6855B81C0D;
- Wed,  4 Oct 2023 17:04:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6C99C433C7;
- Wed,  4 Oct 2023 17:04:53 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id E5F4DCE1DC3;
+ Wed,  4 Oct 2023 17:06:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7D52C433C7;
+ Wed,  4 Oct 2023 17:06:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1696439094;
- bh=Yzyl+TEYR2oYskXP24fXoVSAOYCviqn/Mu4EnfT7UOw=;
+ s=korg; t=1696439179;
+ bh=qFeYeq/QkDceQ2ltD1ff5MpvxGE35QdRHycIgonJW9M=;
  h=Subject:To:Cc:From:Date:From;
- b=gRFO5ksSXS0ZyF24WTqtrC9j+4tsu+gOYyhs2szJDt/+ru03zoUjcZNYA8s9rvOKL
- LQhjihWc73FriinR5IxT58lycaqLFH02tHNJoyZ2cCGzKCyvVRSHQI7yVmBzO4sTP9
- rNRDXxNM9FYMxUmUcpugqFHq2k/XuaF+Qx1ZkthY=
+ b=z5BwNXdTaa/0o7Z366fZEpwFByiNtrPtoiBzSMbSPhiNiRAOaln6gY1uAgOpKz7Mb
+ 8Agnom5Sut+l49JP+If8ZPnhWAVs01LT9a+1i/bukQhT1u2KD9l4S9FYHH4n0P2Uhm
+ SaEKdsctMciYvtlswAJ7cpzQacnRB1K+TJ1vhILk=
 Subject: Patch "drm/meson: fix memory leak on ->hpd_notify callback" has been
- added to the 6.1-stable tree
+ added to the 6.5-stable tree
 To: dri-devel@lists.freedesktop.org, gregkh@linuxfoundation.org,
  jani.nikula@intel.com, jbrunet@baylibre.com, khilman@baylibre.com,
  linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
  martin.blumenstingl@googlemail.com, narmstrong@baylibre.com,
  neil.armstrong@linaro.org, sam@ravnborg.org
 From: <gregkh@linuxfoundation.org>
-Date: Wed, 04 Oct 2023 19:04:13 +0200
-Message-ID: <2023100412-stooge-serving-4094@gregkh>
+Date: Wed, 04 Oct 2023 19:04:36 +0200
+Message-ID: <2023100436-breeze-collision-f94e@gregkh>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=ANSI_X3.4-1968
 Content-Transfer-Encoding: 8bit
@@ -61,12 +61,12 @@ This is a note to let you know that I've just added the patch titled
 
     drm/meson: fix memory leak on ->hpd_notify callback
 
-to the 6.1-stable tree which can be found at:
+to the 6.5-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
      drm-meson-fix-memory-leak-on-hpd_notify-callback.patch
-and it can be found in the queue-6.1 subdirectory.
+and it can be found in the queue-6.5 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
@@ -118,4 +118,4 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 Patches currently in stable-queue which might be from jani.nikula@intel.com are
 
-queue-6.1/drm-meson-fix-memory-leak-on-hpd_notify-callback.patch
+queue-6.5/drm-meson-fix-memory-leak-on-hpd_notify-callback.patch
