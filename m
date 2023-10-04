@@ -1,39 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBC0C7B87E1
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Oct 2023 20:10:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9324D7B8914
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Oct 2023 20:22:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 48E8610E3AF;
-	Wed,  4 Oct 2023 18:10:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AFE2310E3B4;
+	Wed,  4 Oct 2023 18:22:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org
- [IPv6:2604:1380:40e1:4800::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8510210E3AF
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Oct 2023 18:10:18 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6FC6310E3B2
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Oct 2023 18:22:31 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 43C9DCE1DD2;
- Wed,  4 Oct 2023 18:10:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50434C433C8;
- Wed,  4 Oct 2023 18:10:14 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTP id D5D91B81FDF;
+ Wed,  4 Oct 2023 18:22:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A72A0C433C8;
+ Wed,  4 Oct 2023 18:22:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1696443014;
- bh=szF38sJ8ljkXEhACc1bIr1v2OqJ1kRgEa2xGx3RjokY=;
+ s=korg; t=1696443749;
+ bh=Wf/ufhpGaHrezQV2LoiBocU0Ydi40DMYm2oMi951d2o=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=R1klw3XgaVrlEegycUzRLR8HRr4HaRENNuVdjF8HRoQ1zwuXAJIrHFIRnnjMQ+mBE
- oot0x1HAfiRuBB6/8EkQHFCLM0JiN+6fS9f/uD2sGY+ipNV6yOYL+RHPWL2vvgh1nx
- l+BTQnb2p8E/tIGd8/pFA/MB+nb5oCS2/jIoZ0+c=
+ b=KB5V4ExZOOw7joaNN8A0fNd991yUq9kQswZxXZJqxlG6bzrLgJ7yFDnF7DTl0TlkD
+ /xjVc8FshSfXv9FlJnv6arudT3dI8U3fV4WibkPO7F+dSZ2wiaDP9jl6nTODa3tsHp
+ E206g0GK5MFf25cStMYLiZGhqyTOe5DY5JUmM++0=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
-Subject: [PATCH 5.15 182/183] drm/meson: fix memory leak on ->hpd_notify
+Subject: [PATCH 6.1 256/259] drm/meson: fix memory leak on ->hpd_notify
  callback
-Date: Wed,  4 Oct 2023 19:56:53 +0200
-Message-ID: <20231004175211.713122603@linuxfoundation.org>
+Date: Wed,  4 Oct 2023 19:57:09 +0200
+Message-ID: <20231004175229.171558646@linuxfoundation.org>
 X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231004175203.943277832@linuxfoundation.org>
-References: <20231004175203.943277832@linuxfoundation.org>
+In-Reply-To: <20231004175217.404851126@linuxfoundation.org>
+References: <20231004175217.404851126@linuxfoundation.org>
 User-Agent: quilt/0.67
 X-stable: review
 X-Patchwork-Hint: ignore
@@ -62,7 +61,7 @@ Cc: Neil Armstrong <neil.armstrong@linaro.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-5.15-stable review patch.  If anyone has any objections, please let me know.
+6.1-stable review patch.  If anyone has any objections, please let me know.
 
 ------------------
 
@@ -94,7 +93,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 --- a/drivers/gpu/drm/meson/meson_encoder_hdmi.c
 +++ b/drivers/gpu/drm/meson/meson_encoder_hdmi.c
-@@ -326,6 +326,8 @@ static void meson_encoder_hdmi_hpd_notif
+@@ -332,6 +332,8 @@ static void meson_encoder_hdmi_hpd_notif
  			return;
  
  		cec_notifier_set_phys_addr_from_edid(encoder_hdmi->cec_notifier, edid);
