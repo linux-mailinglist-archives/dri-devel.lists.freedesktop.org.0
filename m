@@ -2,50 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22A1F7B7FB8
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Oct 2023 14:49:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EA6D7B7FEA
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Oct 2023 14:55:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 022C289317;
-	Wed,  4 Oct 2023 12:49:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E686410E36C;
+	Wed,  4 Oct 2023 12:55:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5426989317;
- Wed,  4 Oct 2023 12:49:13 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABBD710E36C;
+ Wed,  4 Oct 2023 12:55:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1696423753; x=1727959753;
- h=date:from:to:cc:subject:in-reply-to:message-id:
- references:mime-version;
- bh=rj9ckGhx7qabhBsJN6ooilfTGh5kM2iDQp2HkYAkZJ8=;
- b=QXCqHaMXFRX9hVTA4t7BmmaMO5+0WSqb/xq4nkAv7g2qL3HlGaAu32Xn
- pp4P8735OeUEm7i8490FIsjVYPCWnWg2J+YfzsRN6/+UBHMJ9DEjncjbT
- 00oqYD+GTx5NahCBPdTfdId1uSCEc0v2swHZqvbQLKgwV13vfZ4ve8emb
- RGzJ38ivipEwLQIGd/pgDMVcOOrZjB6s3EqVmMb970jlasxGq7HZpVwEW
- tGniqnv0x8bY5nndXtdiOVVztwnehKh+0Fkugz6CJqy3V96mgbG21pRDr
- +DxqoOOBJQA51TOCKnOBpo45NedvxDVR3lREslu25HAsg1o2zRl05mY92 w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="469431267"
-X-IronPort-AV: E=Sophos;i="6.03,200,1694761200"; d="scan'208";a="469431267"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Oct 2023 05:49:12 -0700
+ t=1696424138; x=1727960138;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=FSbrP4SEDCHk1TQ/mV1THXmdKHiA2kUovZnWxBk21Rs=;
+ b=bHq40djN72gtgDBcxzqVbo5DC0Em33fbtWDUmAo7Oyk+nYwGARloEvoe
+ Oukc2nSFtVjw7vv6R0I7sFJV7FnH9c8q7TLR7x8IVMLR0gtmiE5E13Lm3
+ 2wIHo7uwxLXDphgpxds+29XBRHEA9BD3fjQhz86WREsd4TfRccTe/goLQ
+ uEKszGv77SB83Jdd8hjsmHKE6TXrh/CkfWJtmkAR9+0LouK+0faliqYBz
+ eCzEkXeBDqI3zDGrPhCABQWgn42kXSD53MvHfjrZn8oOgh8iwX2Thrau7
+ fkBoNwzqI7XCVNVttPwhTaaLwsU+XHlRhij93mIlbmmvMOYgixr3Ksdr5 w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="362517456"
+X-IronPort-AV: E=Sophos;i="6.03,200,1694761200"; d="scan'208";a="362517456"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Oct 2023 05:55:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="817083231"
-X-IronPort-AV: E=Sophos;i="6.03,200,1694761200"; d="scan'208";a="817083231"
-Received: from cyrillet-mobl.ger.corp.intel.com ([10.252.55.203])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Oct 2023 05:49:08 -0700
-Date: Wed, 4 Oct 2023 15:49:05 +0300 (EEST)
-From: =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
-Subject: Re: [PATCH v2 12/16] platform/x86/amd/pmf: Add PMF-AMDGPU get
- interface
-In-Reply-To: <20230930083715.2050863-13-Shyam-sundar.S-k@amd.com>
-Message-ID: <e7b33961-23bb-cb8-2941-ced3f0cf2620@linux.intel.com>
-References: <20230930083715.2050863-1-Shyam-sundar.S-k@amd.com>
- <20230930083715.2050863-13-Shyam-sundar.S-k@amd.com>
+X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="841834662"
+X-IronPort-AV: E=Sophos;i="6.03,200,1694761200"; d="scan'208";a="841834662"
+Received: from msterni-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.56.48])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Oct 2023 05:55:36 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: dri-devel@lists.freedesktop.org, Dave Airlie <airlied@redhat.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH] drm/edid/firmware: drop drm_kms_helper.edid_firmware
+ backward compat
+In-Reply-To: <20230921153429.3822278-1-jani.nikula@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20230921153429.3822278-1-jani.nikula@intel.com>
+Date: Wed, 04 Oct 2023 15:55:34 +0300
+Message-ID: <87y1gieed5.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,72 +60,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Xinhui.Pan@amd.com, Patil.Reddy@amd.com, basavaraj.natikar@amd.com,
- dri-devel@lists.freedesktop.org, jikos@kernel.org,
- amd-gfx@lists.freedesktop.org, platform-driver-x86@vger.kernel.org,
- markgross@kernel.org, Hans de Goede <hdegoede@redhat.com>,
- benjamin.tissoires@redhat.com, mario.limonciello@amd.com,
- linux-input@vger.kernel.org, alexander.deucher@amd.com,
- christian.koenig@amd.com
+Cc: intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 30 Sep 2023, Shyam Sundar S K wrote:
+On Thu, 21 Sep 2023, Jani Nikula <jani.nikula@intel.com> wrote:
+> Since the edid_firmware module parameter was moved from
+> drm_kms_helper.ko to drm.ko in v4.15, we've had a backwards
+> compatibility helper in place, with a DRM_NOTE() suggesting to migrate
+> to drm.edid_firmware. This was added in commit ac6c35a4d8c7 ("drm: add
+> backwards compatibility support for drm_kms_helper.edid_firmware").
+>
+> More than five years and 30+ kernel releases later, see if we could drop
+> the backward compatibility. Leave some warnings in place for a while
+> longer.
 
-> In order to provide GPU inputs to TA for the Smart PC solution to work, we
-> need to have interface between the PMF driver and the AMDGPU driver.
-> 
-> Add the initial code path for get interface from AMDGPU.
-> 
-> Co-developed-by: Mario Limonciello <mario.limonciello@amd.com>
-> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
-> Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+Dave, Daniel, thoughts?
 
-> @@ -355,6 +356,21 @@ static int amd_pmf_get_bios_buffer(struct amd_pmf_dev *dev)
->  	return amd_pmf_start_policy_engine(dev);
+BR,
+Jani.
+
+>
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+> ---
+>  drivers/gpu/drm/drm_edid_load.c         | 16 ----------------
+>  drivers/gpu/drm/drm_kms_helper_common.c | 11 ++++++-----
+>  include/drm/drm_edid.h                  |  5 -----
+>  3 files changed, 6 insertions(+), 26 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_edid_load.c b/drivers/gpu/drm/drm_edid_load.c
+> index 5d9ef267ebb3..60fcb80bce61 100644
+> --- a/drivers/gpu/drm/drm_edid_load.c
+> +++ b/drivers/gpu/drm/drm_edid_load.c
+> @@ -23,22 +23,6 @@ module_param_string(edid_firmware, edid_firmware, sizeof(edid_firmware), 0644);
+>  MODULE_PARM_DESC(edid_firmware, "Do not probe monitor, use specified EDID blob "
+>  	"from built-in data or /lib/firmware instead. ");
+>  
+> -/* Use only for backward compatibility with drm_kms_helper.edid_firmware */
+> -int __drm_set_edid_firmware_path(const char *path)
+> -{
+> -	scnprintf(edid_firmware, sizeof(edid_firmware), "%s", path);
+> -
+> -	return 0;
+> -}
+> -EXPORT_SYMBOL(__drm_set_edid_firmware_path);
+> -
+> -/* Use only for backward compatibility with drm_kms_helper.edid_firmware */
+> -int __drm_get_edid_firmware_path(char *buf, size_t bufsize)
+> -{
+> -	return scnprintf(buf, bufsize, "%s", edid_firmware);
+> -}
+> -EXPORT_SYMBOL(__drm_get_edid_firmware_path);
+> -
+>  #define GENERIC_EDIDS 6
+>  static const char * const generic_edid_name[GENERIC_EDIDS] = {
+>  	"edid/800x600.bin",
+> diff --git a/drivers/gpu/drm/drm_kms_helper_common.c b/drivers/gpu/drm/drm_kms_helper_common.c
+> index 0bf0fc1abf54..924e0f7bd5b7 100644
+> --- a/drivers/gpu/drm/drm_kms_helper_common.c
+> +++ b/drivers/gpu/drm/drm_kms_helper_common.c
+> @@ -38,17 +38,18 @@ MODULE_LICENSE("GPL and additional rights");
+>  
+>  #if IS_ENABLED(CONFIG_DRM_LOAD_EDID_FIRMWARE)
+>  
+> -/* Backward compatibility for drm_kms_helper.edid_firmware */
+>  static int edid_firmware_set(const char *val, const struct kernel_param *kp)
+>  {
+> -	DRM_NOTE("drm_kms_helper.edid_firmware is deprecated, please use drm.edid_firmware instead.\n");
+> +	pr_warn("drm_kms_helper.edid_firmware has been removed, please use drm.edid_firmware instead.\n");
+>  
+> -	return __drm_set_edid_firmware_path(val);
+> +	return -ENOENT;
 >  }
 >  
-> +static int amd_pmf_get_gpu_handle(struct pci_dev *pdev, void *data)
-> +{
-> +	struct amd_pmf_dev *dev = data;
-> +
-> +	if (pdev->vendor == PCI_VENDOR_ID_ATI && pdev->devfn == 0) {
-> +		/* get the amdgpu handle from the pci root after walking through the pci bus */
-
-I can see from the code that you assign to amdgpu handle so this comment 
-added no information.
-
-It doesn't really answer at all why you're doing this second step. Based 
-on the give parameters to pci_get_device(), it looks as if you're asking 
-for the same device you already have in pdev to be searched to you.
-
-> +		dev->gfx_data.gpu_dev = pci_get_device(pdev->vendor, pdev->device, NULL);
-> +		if (dev->gfx_data.gpu_dev) {
-> +			pci_dev_put(pdev);
-> +			return 1; /* stop walking */
-> +		}
-> +	}
-> +	return 0; /* continue walking */
-> +}
-> +
->  static int amd_pmf_amdtee_ta_match(struct tee_ioctl_version_data *ver, const void *data)
+>  static int edid_firmware_get(char *buffer, const struct kernel_param *kp)
 >  {
->  	return ver->impl_id == TEE_IMPL_ID_AMDTEE;
-> @@ -451,6 +467,15 @@ int amd_pmf_init_smart_pc(struct amd_pmf_dev *dev)
->  	INIT_DELAYED_WORK(&dev->pb_work, amd_pmf_invoke_cmd);
->  	amd_pmf_set_dram_addr(dev);
->  	amd_pmf_get_bios_buffer(dev);
+> -	return __drm_get_edid_firmware_path(buffer, PAGE_SIZE);
+> +	pr_warn("drm_kms_helper.edid_firmware has been removed, please use drm.edid_firmware instead.\n");
 > +
-> +	/* get amdgpu handle */
-> +	pci_walk_bus(dev->root->bus, amd_pmf_get_gpu_handle, dev);
-> +	if (!dev->gfx_data.gpu_dev)
-> +		dev_err(dev->dev, "GPU handle not found!\n");
-> +
-> +	if (!amd_pmf_gpu_init(&dev->gfx_data))
-> +		dev->gfx_data.gpu_dev_en = true;
-> +
-
+> +	return -ENOENT;
+>  }
+>  
+>  static const struct kernel_param_ops edid_firmware_ops = {
+> @@ -59,6 +60,6 @@ static const struct kernel_param_ops edid_firmware_ops = {
+>  module_param_cb(edid_firmware, &edid_firmware_ops, NULL, 0644);
+>  __MODULE_PARM_TYPE(edid_firmware, "charp");
+>  MODULE_PARM_DESC(edid_firmware,
+> -		 "DEPRECATED. Use drm.edid_firmware module parameter instead.");
+> +		 "REMOVED. Use drm.edid_firmware module parameter instead.");
+>  
+>  #endif
+> diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
+> index 882d2638708e..00f0a778ab62 100644
+> --- a/include/drm/drm_edid.h
+> +++ b/include/drm/drm_edid.h
+> @@ -387,11 +387,6 @@ int drm_edid_to_speaker_allocation(const struct edid *edid, u8 **sadb);
+>  int drm_av_sync_delay(struct drm_connector *connector,
+>  		      const struct drm_display_mode *mode);
+>  
+> -#ifdef CONFIG_DRM_LOAD_EDID_FIRMWARE
+> -int __drm_set_edid_firmware_path(const char *path);
+> -int __drm_get_edid_firmware_path(char *buf, size_t bufsize);
+> -#endif
+> -
+>  bool drm_edid_are_equal(const struct edid *edid1, const struct edid *edid2);
+>  
+>  int
 
 -- 
- i.
-
+Jani Nikula, Intel
