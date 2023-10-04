@@ -1,50 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F05987B7A12
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Oct 2023 10:32:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8395C7B7A14
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Oct 2023 10:32:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05A8010E0E8;
-	Wed,  4 Oct 2023 08:32:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 458C010E35A;
+	Wed,  4 Oct 2023 08:32:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DCBE510E34D
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Oct 2023 08:32:26 +0000 (UTC)
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id DDC42660576C;
- Wed,  4 Oct 2023 09:32:24 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1696408345;
- bh=4Ba5LFXdDysLehenyraAH5emOyFnN5MNv84LC56TNIc=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=Zok3+TzrkyFWpS7sPVti62h/Okuw1RhGt+q1VisVyQRciWKRqAaLtgTd7SwlDW5hx
- Xwv0b0SWNSBTWNPqfc9fZCgg42nYsRXnGcjeVLZ/UGqGdeY7h5/GBYPWiNLOunFOc3
- rHZafdLei+Dd1ojVlJbIgAE9dtNlXoc8yWAXHK60VM8O8fYOa0LJxc6AzKjApgoRRH
- PTb0rXKiVt/2tWrLcT1eS5mLVRKVQdjwG4fKNqmd7CxBNEAnEPNf5NCbsIEtMlmG/Y
- kh5zNZAaFG4rMlOxrGl4zsjFgjbnrUszbLYSA540b1DDFncAf/ouOAdMs9NUUIY+t/
- iZrECxJxKBy7w==
-Message-ID: <022f57cc-9aff-2592-f4f9-5a10e1877554@collabora.com>
-Date: Wed, 4 Oct 2023 10:32:22 +0200
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com
+ [IPv6:2607:f8b0:4864:20::632])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 26A8C89167
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Oct 2023 08:32:32 +0000 (UTC)
+Received: by mail-pl1-x632.google.com with SMTP id
+ d9443c01a7336-1c5db4925f9so5413435ad.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Oct 2023 01:32:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1696408351; x=1697013151;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=ZldOxV+c4bwKc6J0kQAYnC3fAIMV5HICSvouxRGQ9mg=;
+ b=kKitn7PkN5qsb1DnEHYHwOGl81brEH8q8g3QcEAcPCU01s/+4srg/Q6vIX7Vmj00X/
+ 2mQ3LpAlsuI8PQhgRlsFxUPDqDKM41cfA774FF+3OEXfSV6wWVKzypnG6CHsCFnzr+B4
+ jO4fDwYYG/62kSstdUxAnEn1pUBAevqwfTam0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1696408351; x=1697013151;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=ZldOxV+c4bwKc6J0kQAYnC3fAIMV5HICSvouxRGQ9mg=;
+ b=YtqVbOKqq211i6Rhn/Kmk12T/xut7srqLCXZ5oT9jkqzFmf3RuohABKhUW4+S+Wihi
+ 2pKIz3mFRnbaDG52Brmx49oEZhnpzBysKwuMg3FPhg34aOybN4icQXw8/S2vcUco0Dx3
+ JV9N97u1qSXAUgcJpbABnf2Z5yNujNBzzcm2Ct8pbPeD1kD4OrtpQHHEBxXNXxu2QUsB
+ rXj8RVXstaeG5nQ+XL9mfHs5vOeKASvNlQ+dQb2x2A6EJqgphG3s2e2nz+lNM/g0d6hT
+ +TUIGn0PmlgfguiK8HgLXY8gaJQi8tLaraY3FrYXRgNAkwh2VowvJRlrvxP4d30G3waS
+ bA6A==
+X-Gm-Message-State: AOJu0YwrnStvlqNtqhw+KcEbdFguuUUy8KSkZuJyAQHqleiya0tbl9lN
+ zqSpeT1xm/HUcJS3dIvEHYEKaQ==
+X-Google-Smtp-Source: AGHT+IHPFtFRpDAbBWYZ0AkQ+t6cKaHbihDnGlYJ+Lg4L83KqHlHsnttPEhpVTVbh8QLQYPAN7bkZA==
+X-Received: by 2002:a17:902:db11:b0:1b8:8682:62fb with SMTP id
+ m17-20020a170902db1100b001b8868262fbmr8840475plx.4.1696408351467; 
+ Wed, 04 Oct 2023 01:32:31 -0700 (PDT)
+Received: from wenstp920.tpe.corp.google.com
+ ([2401:fa00:1:10:eff2:d66d:cbf7:f41b])
+ by smtp.gmail.com with ESMTPSA id
+ u11-20020a170902b28b00b001b890009634sm3015940plr.139.2023.10.04.01.32.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 04 Oct 2023 01:32:31 -0700 (PDT)
+From: Chen-Yu Tsai <wenst@chromium.org>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Subject: [PATCH v2] drm/mediatek: Correctly free sg_table in gem prime vmap
+Date: Wed,  4 Oct 2023 16:32:24 +0800
+Message-ID: <20231004083226.1940055-1-wenst@chromium.org>
+X-Mailer: git-send-email 2.42.0.582.g8ccd20d70d-goog
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.0
-Subject: Re: [PATCH v11 5/9] drm/mediatek: Add connector dynamic selection
- capability
-Content-Language: en-US
-To: "Jason-JH.Lin" <jason-jh.lin@mediatek.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>
-References: <20231004024013.18956-1-jason-jh.lin@mediatek.com>
- <20231004024013.18956-6-jason-jh.lin@mediatek.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20231004024013.18956-6-jason-jh.lin@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,32 +72,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nathan Lu <nathan.lu@mediatek.com>, Singo Chang <singo.chang@mediatek.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- Jason-ch Chen <jason-ch.chen@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>,
- Johnson Wang <johnson.wang@mediatek.com>, Shawn Sung <shawn.sung@mediatek.com>,
- Matthias Brugger <matthias.bgg@gmail.com>, linux-mediatek@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org
+Cc: linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ Chen-Yu Tsai <wenst@chromium.org>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 04/10/23 04:40, Jason-JH.Lin ha scritto:
-> Add dynamic select available connector flow in mtk_drm_crtc_create()
-> and mtk_drm_crtc_atomic_enable().
-> 
-> In mtk_drm_crtc_create(), if there is a connector routes array in drm
-> driver data, all components definded in the connector routes array will
-> be checked and their encoder_index will be set.
-> 
-> In mtk_drm_crtc_atomic_enable(), crtc will check its encoder_index to
-> identify which componet in the connector routes array should append.
-> 
-> Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
-> Signed-off-by: Nancy Lin <nancy.lin@mediatek.com>
-> Signed-off-by: Nathan Lu <nathan.lu@mediatek.com>
-> Tested-by: Fei Shao <fshao@chromium.org>
+The MediaTek DRM driver implements GEM PRIME vmap by fetching the
+sg_table for the object, iterating through the pages, and then
+vmapping them. In essence, unlike the GEM DMA helpers which vmap
+when the object is first created or imported, the MediaTek version
+does it on request.
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Unfortunately, the code never correctly frees the sg_table contents.
+This results in a kernel memory leak. On a Hayato device with a text
+console on the internal display, this results in the system running
+out of memory in a few days from all the console screen cursor updates.
 
+Add sg_free_table() to correctly free the contents of the sg_table. This
+was missing despite explicitly required by mtk_gem_prime_get_sg_table().
+
+Also move the "out" shortcut label to after the kfree() call for the
+sg_table. Having sg_free_table() together with kfree() makes more sense.
+The shortcut is only used when the object already has a kernel address,
+in which case the pointer is NULL and kfree() does nothing. Hence this
+change causes no functional change.
+
+Fixes: 3df64d7b0a4f ("drm/mediatek: Implement gem prime vmap/vunmap function")
+Cc: <stable@vger.kernel.org>
+Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+---
+Please merge for v6.6 fixes.
+
+Also, I was wondering why the MediaTek DRM driver implements a lot of
+the GEM functionality itself, instead of using the GEM DMA helpers.
+From what I could tell, the code closely follows the DMA helpers, except
+that it vmaps the buffers only upon request.
+
+ drivers/gpu/drm/mediatek/mtk_drm_gem.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_gem.c b/drivers/gpu/drm/mediatek/mtk_drm_gem.c
+index 9f364df52478..0e0a41b2f57f 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_gem.c
++++ b/drivers/gpu/drm/mediatek/mtk_drm_gem.c
+@@ -239,6 +239,7 @@ int mtk_drm_gem_prime_vmap(struct drm_gem_object *obj, struct iosys_map *map)
+ 	npages = obj->size >> PAGE_SHIFT;
+ 	mtk_gem->pages = kcalloc(npages, sizeof(*mtk_gem->pages), GFP_KERNEL);
+ 	if (!mtk_gem->pages) {
++		sg_free_table(sgt);
+ 		kfree(sgt);
+ 		return -ENOMEM;
+ 	}
+@@ -248,12 +249,15 @@ int mtk_drm_gem_prime_vmap(struct drm_gem_object *obj, struct iosys_map *map)
+ 	mtk_gem->kvaddr = vmap(mtk_gem->pages, npages, VM_MAP,
+ 			       pgprot_writecombine(PAGE_KERNEL));
+ 	if (!mtk_gem->kvaddr) {
++		sg_free_table(sgt);
+ 		kfree(sgt);
+ 		kfree(mtk_gem->pages);
+ 		return -ENOMEM;
+ 	}
+-out:
++	sg_free_table(sgt);
+ 	kfree(sgt);
++
++out:
+ 	iosys_map_set_vaddr(map, mtk_gem->kvaddr);
+ 
+ 	return 0;
+-- 
+2.42.0.582.g8ccd20d70d-goog
 
