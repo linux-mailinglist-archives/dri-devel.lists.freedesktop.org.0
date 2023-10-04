@@ -2,49 +2,142 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A55627B76E9
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Oct 2023 05:40:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96B8F7B76F4
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Oct 2023 05:53:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F15F10E320;
-	Wed,  4 Oct 2023 03:40:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A80C510E0C9;
+	Wed,  4 Oct 2023 03:53:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD0A510E320;
- Wed,  4 Oct 2023 03:40:22 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5586810E0C9;
+ Wed,  4 Oct 2023 03:53:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1696390822; x=1727926822;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=/hSDWFRYWYd09ryU4fxVLH3BV1ZYDDqRpoLBrYp55Uw=;
- b=TuXqO8lZaiMs5CEWi+AzXruRwglxVsAH+Luylq+yrxf/dF2JK07dW1r3
- sXJ46Uo3K9KvScZpdk6EXXak9qj9Om7BplKakhiFqMuNsh/BmudKOo5QC
- 7UzGsObYL6uWgSgtWxMtP+jy2KS2BZZ2AUko+fK7tTAujylIjdcQoCCzk
- fiIhnIEZxq4SVuMIa1ovTgDh2NzMKISPuHtJvwsLIJ289sL2O4vsu1/Lm
- yVvrdfCRgVtt0sHZg8sbtaDBM2Z0FKX1aGFIg5Pp+1V6YA+fL2+Oy33YU
- 3TI8PRA1POvMx00og4qIcoaLzL+aZrl9e3etVPEPv5ef/7vo4RcJ+Isx9 A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="449538870"
-X-IronPort-AV: E=Sophos;i="6.03,199,1694761200"; d="scan'208";a="449538870"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Oct 2023 20:40:21 -0700
+ t=1696391585; x=1727927585;
+ h=from:to:cc:subject:date:message-id:mime-version;
+ bh=0fWK9m5t4xsKGXyduTjn1swPekVxDUgaPE0JgJa1nAs=;
+ b=ATemMSDQ6uXW9YcCi8AZvCl9wN1hkABe5tBm8BSToTmX+XQTFp7TapbH
+ kZv87+BY3vZTAAHzFS0lVV6VTw71WE8XoNuTqd+tETz+MH7Xc9QCuJYQR
+ XkWZltnZKmUN0AP6ZZYvkFOT/7wRBlcGaLsjSW2FoqXXz8ElTzpwfi4Nq
+ Fneqlz9rSnhF+xj1aDnTiaONs612H5WbtGXFwWlKO1yREwcg6k3Ls110F
+ zg5BeskjPUSiJjkRtM6DSZcn/jvdKaVtddgKhl5zp19lN7BFfbOjdAMa5
+ rGw7goxzdPGcoC+sjYPDttgAb3u/H3ph96lEy4s6QshFvt65rg8w7OeKZ Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="368099616"
+X-IronPort-AV: E=Sophos;i="6.03,199,1694761200"; 
+ d="scan'208,217";a="368099616"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Oct 2023 20:53:04 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="841620847"
-X-IronPort-AV: E=Sophos;i="6.03,199,1694761200"; d="scan'208";a="841620847"
-Received: from orsosgc001.jf.intel.com (HELO unerlige-ril.jf.intel.com)
- ([10.165.21.138])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Oct 2023 20:40:20 -0700
-From: Vivaik Balasubrawmanian <vivaik.balasubrawmanian@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [Patch v2] Add uAPI to query microcontroller fw version
-Date: Tue,  3 Oct 2023 20:40:12 -0700
-Message-Id: <20231004034012.66334-1-vivaik.balasubrawmanian@intel.com>
-X-Mailer: git-send-email 2.36.1
+X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="894766011"
+X-IronPort-AV: E=Sophos;i="6.03,199,1694761200"; 
+ d="scan'208,217";a="894766011"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+ by fmsmga001.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 03 Oct 2023 20:51:39 -0700
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Tue, 3 Oct 2023 20:53:04 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Tue, 3 Oct 2023 20:53:03 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32 via Frontend Transport; Tue, 3 Oct 2023 20:53:03 -0700
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.169)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.32; Tue, 3 Oct 2023 20:52:53 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=aFyGocTzM4OqbjbFmA+y3DBzgNy4Uv7KU7GoxR8P9pn3NOk1Ri74L5gEviCgfIm++DV3H7TtZwslZnvHPioPI3eNoFz9XLi+XNKapufC1Y/5RL2lpnYVS4b3sfw1IeByDDHoYYs+EJq9MmLBY2SCJtzggyPUqTn7hpzSmI/Pmk6c6A/5Q1XGTMbU1sD8/MhbNLRN2+/cFVGwjbgXBF402zJgmS5IxGUfKBGLp0BDTHdbArQZfz9hScTG4TFF3xoHOruoMLpyqLGzjClbRWojv7yLRiiiZNNJ9pWk+uNnNHm7Jb4uC7OslfZ6gL5b8IRzClWubYFdYsa2LO35PKExIQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=0mkvNiL4PJKYuOFuDKGcSAgx8sRF9koasPkXeQSfzus=;
+ b=au/gheqPSZa8sKkoaY+8YgH+pVjWTzQFjU64zR48Ukkdk/jpQ90iJOv7KhwIhjYz+0sHTWGoXwO6jYzrN9w4TNMy1jOZHa+qwSx1x+SgH3ksNDaZE+SSNlHTkTlWKmybeLQUGuxcOdlHJLnhwQ5d2xfRfCaZaE19HsBYJ4U3naopvEY0Div7H94WmUPEKjl8hvitVdn9tegd8d/rMhNN2wq8G34jlEbqeC9qrAcR3tgoQJ9sENRHpIdlObFG+MWk5dVkHmgW+sDVOEnEPycsS6QA3QLDiCvlv1gjbs2yF+TVJBjqj/zq+9VloornIVlCBUm+XIBDzLrWyWI/uPtgTA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from SA1PR11MB6991.namprd11.prod.outlook.com (2603:10b6:806:2b8::21)
+ by LV3PR11MB8530.namprd11.prod.outlook.com (2603:10b6:408:1b8::6)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6838.33; Wed, 4 Oct
+ 2023 03:52:50 +0000
+Received: from SA1PR11MB6991.namprd11.prod.outlook.com
+ ([fe80::18a2:59e7:4541:b61c]) by SA1PR11MB6991.namprd11.prod.outlook.com
+ ([fe80::18a2:59e7:4541:b61c%3]) with mapi id 15.20.6838.027; Wed, 4 Oct 2023
+ 03:52:50 +0000
+From: "Zeng, Oak" <oak.zeng@intel.com>
+To: =?iso-8859-1?Q?Christian_K=F6nig?= <christian.koenig@amd.com>,
+ =?iso-8859-1?Q?Thomas_Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+Subject: bulk_move in ttm_resource manager
+Thread-Topic: bulk_move in ttm_resource manager
+Thread-Index: Adn2ctIrdkmtsoIjSwiVZseTI8cRhg==
+Date: Wed, 4 Oct 2023 03:52:49 +0000
+Message-ID: <SA1PR11MB69918FBD6B32447AEB6E0F6A92CBA@SA1PR11MB6991.namprd11.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SA1PR11MB6991:EE_|LV3PR11MB8530:EE_
+x-ms-office365-filtering-correlation-id: 4008d1f6-81f8-4ce5-2678-08dbc48d60b3
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: H+G4sLxvfOLsBkyxnGIUZF8oNfgzBcn/zIankDGAdUBrivJu4gXyjO6ce3pDOdDDUBH/z+Ft/k/MSXRDAmZB9/UjZSkaWg+FySKw6OQExdKHXudK8eS/TcdtGdv7aXioyYfUXXMnchRDasOi5H0FPCd1hq9buL1to0OHZH1q3QysG737O6rqFWzSlqWGqxLFT929czc1sc56zu7NsqOWTlp5U+cK6kW3GGernbpcAnsyeSkiKvU21LsgvoH3oLIxcRBVYZuVVAYunp0cCWZmiLqPiUSa1MCD18aqbL83lsnL+vHs0R7AQF935EuSEar5GpXH95b/uDb/2QidIw6p8vtx32uPDIF7XQ7cdombWo1GKKy53+ZG95S1/MKI6HTpKc150ZEdcllxv9OjSpXxm7FT6fpAxbF5j5r9JHJHOjGxU4Klrxtz+/kRn+Yeec3WsDgcm36U15cZGK7+wZA0HKS4NX6QyoRZMoC1EJvLu+/tI4Uy15G3fNu3QZ36RRj7Fp1PPgxTFBZUxBHLrql1CoVyYewVh1bnRIoUu6iGl8Lku82DuvQcUvjn4Wb99LcpcvtD1TskI4AWwFkVq0sseOIQFrZvVsGzJ3UE6Jh0leo=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SA1PR11MB6991.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(39860400002)(366004)(346002)(376002)(396003)(136003)(230922051799003)(186009)(64100799003)(1800799009)(451199024)(966005)(7696005)(6506007)(478600001)(9686003)(26005)(83380400001)(110136005)(71200400001)(2906002)(8936002)(54906003)(316002)(66556008)(8676002)(66446008)(21615005)(52536014)(66946007)(66476007)(9326002)(76116006)(41300700001)(5660300002)(64756008)(33656002)(4326008)(82960400001)(38070700005)(122000001)(166002)(86362001)(38100700002)(55016003);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?Xfiw8/CjQC+jZgkbNEZ2SkCciIx7IUpUAbvVVq5kDI3SMSxp5wize9x53O?=
+ =?iso-8859-1?Q?SEehde1xYLSGdHG2ntse99kl+gGZWZh9UFaq0/m+1tY2YI6qH3bY5TfaF7?=
+ =?iso-8859-1?Q?BPhaXs3zDTfDSH/39Io3+usdbB+n072/KvD9upvjpU6HT8sHqf0OpbFcan?=
+ =?iso-8859-1?Q?APZ75/f1HaBDyynHN4nYVY4N6RIM4K2ss6gQKHP5UJKMZYoo+nOQ9JLh/0?=
+ =?iso-8859-1?Q?BaPeCnjicKxKuidd9N8Eikfky+eh6btkeuuqgrLN60GrA6ZaabXrSwZo1j?=
+ =?iso-8859-1?Q?uZeOe8jPVGDAipMxSq98m5LVluxlgjjZOsuKac0ZKYgd6zuMZ6c1ibR29S?=
+ =?iso-8859-1?Q?iieq53v0TMvpvz30lxDj0n7FPun6sWVY4XGtZaBiQVHJk7zmINRbSZ/bR7?=
+ =?iso-8859-1?Q?NtiIUgFCoj+5XWANIP9WsWGbDdVkJMjwyoIOOWiGjKOaYqS0F14bi72hSY?=
+ =?iso-8859-1?Q?H7enpku7iQ/mjHc5c6LNQ/Cox16uBd6TbbrJlLRtRD+9DxJVYQwcKoQAJn?=
+ =?iso-8859-1?Q?W35WEgWr8NLXqUyyA+JSuwPuPctyJHZu3xFC5Y2aj4jpovKkYEFF83t/2g?=
+ =?iso-8859-1?Q?ZnmenWS9uxGk+utJZKTJbgyL65YY7KlccXYsezJAx17O3Bn9pWRDAiEo9Q?=
+ =?iso-8859-1?Q?rbA704PBV7JWZ+uWJj/VzHizjJRzlxERv63vMGNnQ9WWciEUrt9E8T6roW?=
+ =?iso-8859-1?Q?vBbORH6/XeV4A1dSoeztmeJyqfPTVvnQR7pYqaHEIkO9YW4myBZSGUxKSi?=
+ =?iso-8859-1?Q?5frjafJlstf0ROPhvOkSP9SGLsf07xBqzP1NEqQkIB6eeelWvCM4FkZ0Zq?=
+ =?iso-8859-1?Q?H/E8QbTbp2+o7rnWiU+fCiBEpNyIzpyBRVyuruSGCTVuFJFFqHPJoxk6mQ?=
+ =?iso-8859-1?Q?nuqpMKWYZNghba76sCMZiAQjaMZxtRzz3h55tbKZnBQ3BtU6iWto5MiAVO?=
+ =?iso-8859-1?Q?9W6kUCwQRuklMawookxK06sfxHlfalpUMJBU/vK13ViaeJjTPD4XWLxqvY?=
+ =?iso-8859-1?Q?YmNXBgrFS4ctdvFoWoaT7LSamGaL94Qe13tA5bZE4Hm3MgynVIcSxzAOrL?=
+ =?iso-8859-1?Q?ARoTlHzongq7kI7NQBv59mfkb/CXXbBnCgIzUS91aBkavOYMRAb1hUARkx?=
+ =?iso-8859-1?Q?U1AsNKQocjfZU2fYIvemovAx7Rzw323F6wHS2c3uOdWPYQfjv0NuCC83Hn?=
+ =?iso-8859-1?Q?qjGWYUROB1nwG9rsuZNSNvQKwz4rGwvp0Tib6HTABzETCbmA7Jt5qKIICM?=
+ =?iso-8859-1?Q?LrK1YYIjHNeTp5cbbDYDq/pccs0WrH7WZoqKLB/BK/ZJTgYkW1d5hkPDx9?=
+ =?iso-8859-1?Q?rzbaraHhIqFPGeNV1gIS4trgsy3NxvvYYEaFn76i7h4VN+I8HU7+ga0E1c?=
+ =?iso-8859-1?Q?UWXMgWpduZyeubL7QGMP625BQZSUlbBMZ+MfO4A+aCiihy/RxlWo5EUrrD?=
+ =?iso-8859-1?Q?U74PpnP2MIb2FCDq4xZNpmssBQgJOjQQqPmI/KokC19FCVqI6wE3EGE8O9?=
+ =?iso-8859-1?Q?slB2E3ZQ2grWKpkiObYzu8QMrNuUBmyYrPrBfi7LnaOz+V3TUiYt5OJzlN?=
+ =?iso-8859-1?Q?I3F1H6o56HHjUuVgTwwhueAJHkFpU3md7bjih5tQOiubxQgOssXRfqAQtF?=
+ =?iso-8859-1?Q?W1JTKF2/TmCr0=3D?=
+Content-Type: multipart/alternative;
+ boundary="_000_SA1PR11MB69918FBD6B32447AEB6E0F6A92CBASA1PR11MB6991namp_"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB6991.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4008d1f6-81f8-4ce5-2678-08dbc48d60b3
+X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Oct 2023 03:52:49.4646 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: yoF+zm5YDsYL1QS1NXtsvahVB5wYACz6/wCEcDtLwxGMJPhm9AMmx3Vg96ZCKT3zbJhDihkfj4jOfTn1VKN5Uw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR11MB8530
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,175 +150,144 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: vivaik.balasubrawmanian@intel.com, dri-devel@lists.freedesktop.org,
- daniele.ceraolospurio@intel.com, john.c.harrison@intel.com,
- jose.souza@intel.com
+Cc: "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Due to a bug in GuC firmware, Mesa can't enable by default the usage of 
-async compute engines feature in DG2 and newer. A new GuC firmware fixed the issue but 
-until now there was no way for Mesa to know if KMD was running with the fixed GuC version or not,
-so this uAPI is required.
+--_000_SA1PR11MB69918FBD6B32447AEB6E0F6A92CBASA1PR11MB6991namp_
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-More context on the issue:
-Vulkan allows applications to create types of queues: graphics, compute and copy.
-Today Intel Vulkan driver uses Render engine to implement all those 3 queues types.
+Hi Christian,
 
-There is a set of operations that a queue type is required to implement, 
-DG2 compute engine have almost all the operations required by compute queue but still lacks some.
-So the solution is to send those operations not supported by compute engine to render engine 
-and do some synchronization around it. But doing so causes the GuC scheduler to get stuck 
-around the synchronization, until KMD resets the engine and ban the application context.
-This issue was root caused to a GuC firmware issue and was fixed in newer version.
+As a follow up to this thread: https://www.spinics.net/lists/dri-devel/msg4=
+10740.html, I started the work of moving the lru out of ttm_resource_manage=
+r and make it a common library for both ttm and svm. While look into the de=
+tails of the bulk_move in ttm resource manager, I found a potential problem=
+:
 
-So Mesa can't enable the "async compute" without knowing for sure that KMD is running 
-with a GuC version that has the scheduler fix. Same will happen when Mesa start to use 
-copy engine.
+For simplicity, let's say we only have one memory type and one priority, so=
+ ttm resource manager only maintains one global lru list. Let's say this li=
+st has 10 nodes, node1 to node10.
 
-This uAPI  may be expanded in future to query other firmware versions too.
+But the lru_bulk_move is per vm. Let's say vm1 has a bulk_move covering nod=
+e range [node4, node7] and vm2 has a bulk_move covering node range [node6, =
+node9]. Notice those two range has an overlap. Since two vm can simultaneou=
+sly add nodes to lru, I think this scenario can happen.
 
-More information:
-https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/23661
-Mesa usage: https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/25233
+Now if we perform a bulk move for vm1, moving [node4, node7] to the tail of=
+ the lru list. The lru after this bulk move will be: node1, node2, node3,no=
+de8, node9, node10, node4, node5, node6, node7. Now notice that for vm2's b=
+ulk_move, the first pointer  (pointing to node6) is actually after the last=
+ pointer (pointing to node9), which doesn't make sense.
 
-v2:
-- incorporated feedback from Tvrtko Ursulin:
-  - updated patch description to clarify the use case that identified
-    this issue.
-  - updated query_uc_fw_version() to use copy_query_item() helper.
-  - updated the implemented GuC version query to return Submission
-    version.
+Is this a real problem? As I understand it, with this issue, we only mess u=
+p the lru list order, but there won't be any functional problem. If it is a=
+ real problem, should we make the bulk_move global instead of per vm based?
 
-Cc: John Harrison <John.C.Harrison@Intel.com>
-Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Cc: José Roberto de Souza <jose.souza@intel.com>
+Thanks,
+Oak
 
-Signed-off-by: Vivaik Balasubrawmanian <vivaik.balasubrawmanian@intel.com>
----
- drivers/gpu/drm/i915/i915_query.c | 42 +++++++++++++++++++++++++++++++
- include/uapi/drm/i915_drm.h       | 32 +++++++++++++++++++++++
- 2 files changed, 74 insertions(+)
 
-diff --git a/drivers/gpu/drm/i915/i915_query.c b/drivers/gpu/drm/i915/i915_query.c
-index 00871ef99792..3e3563ab62b7 100644
---- a/drivers/gpu/drm/i915/i915_query.c
-+++ b/drivers/gpu/drm/i915/i915_query.c
-@@ -551,6 +551,47 @@ static int query_hwconfig_blob(struct drm_i915_private *i915,
- 	return hwconfig->size;
- }
- 
-+static int
-+query_uc_fw_version(struct drm_i915_private *i915, struct drm_i915_query_item *query)
-+{
-+	struct drm_i915_query_uc_fw_version __user *query_ptr = u64_to_user_ptr(query->data_ptr);
-+	size_t size = sizeof(struct drm_i915_query_uc_fw_version);
-+	struct drm_i915_query_uc_fw_version resp;
-+	int ret;
-+
-+	ret = copy_query_item(&resp, size, size, query);
-+	if (ret == size) {
-+		query->length = size;
-+		return 0;
-+	} else if (ret != 0)
-+		return ret;
-+
-+	if (resp.pad || resp.pad2 || resp.reserved) {
-+		drm_dbg(&i915->drm,
-+			"Invalid input fw version query structure parameters received");
-+		return -EINVAL;
-+	}
-+
-+	switch (resp.uc_type) {
-+	case I915_QUERY_UC_TYPE_GUC_SUBMISSION: {
-+		struct intel_guc *guc = &i915->gt0.uc.guc;
-+
-+		resp.major_ver = guc->submission_version.major;
-+		resp.minor_ver = guc->submission_version.minor;
-+		resp.patch_ver = guc->submission_version.patch;
-+		resp.branch_ver = 0;
-+		break;
-+	}
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	if (copy_to_user(query_ptr, &resp, size))
-+		return -EFAULT;
-+
-+	return 0;
-+}
-+
- static int (* const i915_query_funcs[])(struct drm_i915_private *dev_priv,
- 					struct drm_i915_query_item *query_item) = {
- 	query_topology_info,
-@@ -559,6 +600,7 @@ static int (* const i915_query_funcs[])(struct drm_i915_private *dev_priv,
- 	query_memregion_info,
- 	query_hwconfig_blob,
- 	query_geometry_subslices,
-+	query_uc_fw_version,
- };
- 
- int i915_query_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
-diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
-index 7000e5910a1d..6f9d52263c77 100644
---- a/include/uapi/drm/i915_drm.h
-+++ b/include/uapi/drm/i915_drm.h
-@@ -3013,6 +3013,7 @@ struct drm_i915_query_item {
- 	 *  - %DRM_I915_QUERY_MEMORY_REGIONS (see struct drm_i915_query_memory_regions)
- 	 *  - %DRM_I915_QUERY_HWCONFIG_BLOB (see `GuC HWCONFIG blob uAPI`)
- 	 *  - %DRM_I915_QUERY_GEOMETRY_SUBSLICES (see struct drm_i915_query_topology_info)
-+	 *  - %DRM_I915_QUERY_UC_FW_VERSION (see struct drm_i915_query_uc_fw_version)
- 	 */
- 	__u64 query_id;
- #define DRM_I915_QUERY_TOPOLOGY_INFO		1
-@@ -3021,6 +3022,7 @@ struct drm_i915_query_item {
- #define DRM_I915_QUERY_MEMORY_REGIONS		4
- #define DRM_I915_QUERY_HWCONFIG_BLOB		5
- #define DRM_I915_QUERY_GEOMETRY_SUBSLICES	6
-+#define DRM_I915_QUERY_UC_FW_VERSION        7
- /* Must be kept compact -- no holes and well documented */
- 
- 	/**
-@@ -3213,6 +3215,36 @@ struct drm_i915_query_topology_info {
- 	__u8 data[];
- };
- 
-+/**
-+* struct drm_i915_query_uc_fw_version - query a micro-controller firmware version
-+*
-+* Given a uc_type this will return the major, minor, patch and branch version
-+* of the micro-controller firmware.
-+*/
-+struct drm_i915_query_uc_fw_version {
-+	/** @uc: The micro-controller type to query firmware version */
-+#define I915_QUERY_UC_TYPE_GUC_SUBMISSION 0
-+	__u16 uc_type;
-+
-+	/** @pad: MBZ */
-+	__u16 pad;
-+
-+	/* @major_ver: major uc fw version */
-+	__u32 major_ver;
-+	/* @minor_ver: minor uc fw version */
-+	__u32 minor_ver;
-+	/* @patch_ver: patch uc fw version */
-+	__u32 patch_ver;
-+	/* @branch_ver: branch uc fw version */
-+	__u32 branch_ver;
-+
-+	/** @pad2: MBZ */
-+	__u32 pad2;
-+
-+	/** @reserved: Reserved */
-+	__u64 reserved;
-+};
-+
- /**
-  * DOC: Engine Discovery uAPI
-  *
+--_000_SA1PR11MB69918FBD6B32447AEB6E0F6A92CBASA1PR11MB6991namp_
+Content-Type: text/html; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-base-commit: e2d29b46ca6d480bc3bc328a7775c3028bc1e5c8
--- 
-2.34.1
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
+1">
+<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:DengXian;
+	panose-1:2 1 6 0 3 1 1 1 1 1;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:"\@DengXian";
+	panose-1:2 1 6 0 3 1 1 1 1 1;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0cm;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+span.EmailStyle17
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-family:"Calibri",sans-serif;
+	mso-ligatures:none;}
+@page WordSection1
+	{size:612.0pt 792.0pt;
+	margin:72.0pt 72.0pt 72.0pt 72.0pt;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"EN-CA" link=3D"#0563C1" vlink=3D"#954F72" style=3D"word-wrap:=
+break-word">
+<div class=3D"WordSection1">
+<p class=3D"MsoNormal">Hi Christian,<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">As a follow up to this thread: <a href=3D"https://ww=
+w.spinics.net/lists/dri-devel/msg410740.html">
+https://www.spinics.net/lists/dri-devel/msg410740.html</a>, I started the w=
+ork of moving the lru out of ttm_resource_manager and make it a common libr=
+ary for both ttm and svm. While look into the details of the bulk_move in t=
+tm resource manager, I found a potential
+ problem:<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">For simplicity, let&#8217;s say we only have one mem=
+ory type and one priority, so ttm resource manager only maintains one globa=
+l lru list. Let&#8217;s say this list has 10 nodes, node1 to node10.<o:p></=
+o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">But the lru_bulk_move is per vm. Let&#8217;s say vm1=
+ has a bulk_move covering node range [node4, node7] and vm2 has a bulk_move=
+ covering node range [node6, node9]. Notice those two range has an overlap.=
+ Since two vm can simultaneously add nodes
+ to lru, I think this scenario can happen.<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Now if we perform a bulk move for vm1, moving [node4=
+, node7] to the tail of the lru list. The lru after this bulk move will be:=
+ node1, node2, node3,node8,
+<span style=3D"color:red">node9</span>, node10, node4, node5, <span style=
+=3D"color:red">
+node6</span>, node7. Now notice that for vm2&#8217;s bulk_move, the first p=
+ointer &nbsp;(pointing to node6) is actually after the last pointer (pointi=
+ng to node9), which doesn&#8217;t make sense.<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Is this a real problem? As I understand it, with thi=
+s issue, we only mess up the lru list order, but there won&#8217;t be any f=
+unctional problem. If it is a real problem, should we make the bulk_move gl=
+obal instead of per vm based?<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Thanks,<o:p></o:p></p>
+<p class=3D"MsoNormal">Oak<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+</div>
+</body>
+</html>
 
+--_000_SA1PR11MB69918FBD6B32447AEB6E0F6A92CBASA1PR11MB6991namp_--
