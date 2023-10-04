@@ -2,165 +2,141 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECC0B7B77D0
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Oct 2023 08:28:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89A6D7B77D7
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Oct 2023 08:34:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F243010E093;
-	Wed,  4 Oct 2023 06:28:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D42D110E33B;
+	Wed,  4 Oct 2023 06:34:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CAEA910E093
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Oct 2023 06:28:55 +0000 (UTC)
-X-UUID: 4694a4cc627f11eea33bb35ae8d461a2-20231004
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:MIME-Version:Content-Transfer-Encoding:Content-ID:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From;
- bh=LlNrPM4pcUoEAFCZpNaS6OH1Ut1xK46ItLWtRwbGIeU=; 
- b=RBNi9XClayIKlj0Y0F83pZhrlcgFTK3sEq/hR/RHWn8H0b5YlwVtEPLM4cawf2ev4MRLJFljaCfIUuC1KlDakX0bEFZqbe6JEhOVA9lAUARNi3X3YK7iSdpVY/H0PNyOZaoYm/4rWaiEEqwBMJxV9MhGL56vnDjBuAW58UlSMlU=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.32, REQID:927a8640-c9dd-4fb3-bb38-5819c8bd835f, IP:0,
- U
- RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
- release,TS:0
-X-CID-META: VersionHash:5f78ec9, CLOUDID:0fcbc1c3-1e57-4345-9d31-31ad9818b39f,
- B
- ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:11|1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:
- NO,DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULN
-X-UUID: 4694a4cc627f11eea33bb35ae8d461a2-20231004
-Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by
- mailgw01.mediatek.com (envelope-from <ck.hu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1228649834; Wed, 04 Oct 2023 14:28:47 +0800
-Received: from mtkmbs10n1.mediatek.inc (172.21.101.34) by
- MTKMBS14N1.mediatek.inc (172.21.101.75) with Microsoft SMTP Server
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8DD0910E33C;
+ Wed,  4 Oct 2023 06:34:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1696401265; x=1727937265;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=m0kG2Im5VB1zi/8jKc7GonTQ48/z54N3F5M2mGBP5uw=;
+ b=ZfpSOpj9HiWOXCdAxX3H9TV8789fRSRhceOMQ4zSxOtMi/TeDvXKP/wk
+ koQnJn6591TtUtDLPgwx8KByT1Rnm/YdmL6AEwWnqNfIRSwAg9WM+/9KT
+ f4YshiNT1PQupSvGH54cs5TGHWQav8LkxHhQvEFDP0W1pGtjPHD813NQx
+ 2G2pziEJxZ5iP351dz1MjaXwrb8nyEWylsFjoTvvciqKKKdevwKhf28HJ
+ Cy3XiowkAiuuN7aVDpSsW+aUSSpHYMU2l4/zEBvBLMoMnUFf5ZpYzqybJ
+ T+2TT9sNMsFjoYBL0neWVrHDCKMPnDef7gLA4egWhCJ7nojbn10ak0MSS w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="363345655"
+X-IronPort-AV: E=Sophos;i="6.03,199,1694761200"; d="scan'208";a="363345655"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Oct 2023 23:34:24 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="751164138"
+X-IronPort-AV: E=Sophos;i="6.03,199,1694761200"; d="scan'208";a="751164138"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+ by orsmga002.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 03 Oct 2023 23:34:22 -0700
+Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Tue, 3 Oct 2023 23:34:20 -0700
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32 via Frontend Transport; Tue, 3 Oct 2023 23:34:20 -0700
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.168)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Wed, 4 Oct 2023 14:28:44 +0800
-Received: from APC01-SG2-obe.outbound.protection.outlook.com (172.21.101.237)
- by mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP
- Server id
- 15.2.1118.26 via Frontend Transport; Wed, 4 Oct 2023 14:28:44 +0800
+ 15.1.2507.32; Tue, 3 Oct 2023 23:34:19 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=oRvlZvO2GHnxJth16oQXGOPL4a3ufRJWuY89xgXeLv+jEfJzMrsIHVzkXiCu7loFxWJ0veqocvmIV8r91kBAaoANDasomvahvOl9ARUSXXBI4qL8rGtG67yijcUPOtn7gQMmWmciXq8LnRWnY4OBItHOeO5jdldfxSSRlpEuk3l+8MtQa7DtfZaAmAdh992yUTjGPw/ZZNVj0oEzXnZjBU2/dqYcRLGlNucizSR9VNIT0q2EzoTsc59V0szd0M5MpduRdND5YazSmpIhhH7Ra123R0KTGqZT5Fwm5cGMI/QvgGHO03ONjv19d8bltRr5G/imxW+B+L/IjDK0kPpb3A==
+ b=X7HIkZqDYnHNRG4P6cVglmEfHbgG16fhCiy3ETJRGZ87+McAp5xdIH9obcAIrRvB/Yka5FxS9g+Rq8X5rnO4/FmRpMRyIzAXE1+LALqwvtkYyxIOZ9NVZZ5qy8tRqO6kGwGyUWf1Uwf+rLaGeJUYrynBwoNrbT6zcCYjwgChZUOtnFwBi+T5IV/IM6UljvUsv9VcuFNKd+ouquGBbFqdfpl0Yef/428sCF6cTVTogDU46yk7Ap0pAbR41TcZ8kzKNjNcPesxCcEG6lwEKs66bdGgsN7d62Fvb+Cspt6lolGy5lD8dB5K5CQeAt5UgnsyleKypyOjSGd9mNd/I31NcA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=yNdbkXJ8QV7mDyOZqeNNJuKJ9dU2uY2ia7UoIP1P/Xw=;
- b=QZurY9zH/hXkaVgxb8JQXPgo8KAAcwSxcPAw2jyuJx0xdaM1licTRcQ2/KoURWDYGDLZZh4tlM0swKIBjgJRRZgBMUiKMVYCBLwNE3l2faiSMcg4mYvCvidywhG5Y8EBQTPBhMQZPewWk5++DG1yIgrYZdBD2t71kw1KPSJbm6pPaiQsyGCuBjZj8WWXvLpwVWkh1tlN6yZY1z52VPCaA2RLarXWAqA6n9P8w1DPRiUpTPLhzwgwOZm2XDnNPLsdoOBhbnYaWP16SnVEyyHk/XWXjuqKS2F1XUcHAABGPBafiu9Dirm7LCv8TV+eHX3RbN81pHhsBlgCMh+XvYcgog==
+ bh=8WKjy7hqddBR8kRu2jEfMQ88GZbyWlpXQakWTt8aHqQ=;
+ b=fu7OJqMAl8LDcvsr6DAPBqmwML2d/UIfihNeOHLd3fG2Gg9CAsLrZAUnhzbJjwum+QdBq8l8dZtrqLesfmnEigfo6fHA+9F0K5RLjKKcqtUBNcF//q0Q9ayIlWepCmr0mXBPTleKu78fV9BYXGL6BE69o0IK2GTdNYg+pePNFtSjlPwIOf18i72RrhmBBZVxgGbBQZ6Xa99Jt4rT1extwS+LCG3Pk2PJkkcLuN7m8TePqxLj/vaIKvOf1QbDIfwl4wV24FLXqdlwXnuAzLYOt2qoNaWOoKTwbtz9iJaQ6xFrS146Iy5f785aFeH8N2H1y37ao+gnjWWWwN4ILDnJNw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
- dkim=pass header.d=mediatek.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yNdbkXJ8QV7mDyOZqeNNJuKJ9dU2uY2ia7UoIP1P/Xw=;
- b=nih1UzhPB8v1rQFLjUoQlqvDZXm3Ow9F+6oscYRQ+x8cYofSPkPjCq38JwqdOqxvKB/Z07XmUoxpFws9uKUBPoZfwwZDAbNzaEvWourum1ncEPuh55/8UoFs4Tr5wCK6iXZhxJdDr0OyPKVZQgA7eGFX1mVUmpB/6WfwXx1K/c4=
-Received: from TYZPR03MB6624.apcprd03.prod.outlook.com (2603:1096:400:1f4::13)
- by SEZPR03MB7444.apcprd03.prod.outlook.com (2603:1096:101:129::5)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6838.28; Wed, 4 Oct
- 2023 06:28:43 +0000
-Received: from TYZPR03MB6624.apcprd03.prod.outlook.com
- ([fe80::9c2c:c08a:212f:e984]) by TYZPR03MB6624.apcprd03.prod.outlook.com
- ([fe80::9c2c:c08a:212f:e984%7]) with mapi id 15.20.6792.026; Wed, 4 Oct 2023
- 06:28:43 +0000
-From: =?utf-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>
-To: "angelogioacchino.delregno@collabora.com"
- <angelogioacchino.delregno@collabora.com>, "chunkuang.hu@kernel.org"
- <chunkuang.hu@kernel.org>
-Subject: Re: [PATCH v10 15/16] drm/mediatek: gamma: Add kerneldoc for struct
- mtk_disp_gamma
-Thread-Topic: [PATCH v10 15/16] drm/mediatek: gamma: Add kerneldoc for struct
- mtk_disp_gamma
-Thread-Index: AQHZxqV0yQaRTCXQI0KdBYIPnOL2NrA5ir4A
-Date: Wed, 4 Oct 2023 06:28:43 +0000
-Message-ID: <8a442154abc2e59896e9829e688140d56201a379.camel@mediatek.com>
-References: <20230804072850.89365-1-angelogioacchino.delregno@collabora.com>
- <20230804072850.89365-16-angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20230804072850.89365-16-angelogioacchino.delregno@collabora.com>
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from CY5PR11MB6211.namprd11.prod.outlook.com (2603:10b6:930:25::6)
+ by DS0PR11MB7443.namprd11.prod.outlook.com (2603:10b6:8:148::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6838.25; Wed, 4 Oct
+ 2023 06:34:18 +0000
+Received: from CY5PR11MB6211.namprd11.prod.outlook.com
+ ([fe80::bddf:185b:23c:241]) by CY5PR11MB6211.namprd11.prod.outlook.com
+ ([fe80::bddf:185b:23c:241%7]) with mapi id 15.20.6838.024; Wed, 4 Oct 2023
+ 06:34:17 +0000
+From: "Gupta, Anshuman" <anshuman.gupta@intel.com>
+To: "Teres Alexis, Alan Previn" <alan.previn.teres.alexis@intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
+Subject: RE: [PATCH v4 2/3] drm/i915/guc: Close deregister-context race
+ against CT-loss
+Thread-Topic: [PATCH v4 2/3] drm/i915/guc: Close deregister-context race
+ against CT-loss
+Thread-Index: AQHZ8KxyUjK++eQzZEaWUKRz6VjvUbA5NvFQ
+Date: Wed, 4 Oct 2023 06:34:17 +0000
+Message-ID: <CY5PR11MB6211092F8BB449C358D59D2A95CBA@CY5PR11MB6211.namprd11.prod.outlook.com>
+References: <20230926190518.105393-1-alan.previn.teres.alexis@intel.com>
+ <20230926190518.105393-3-alan.previn.teres.alexis@intel.com>
+In-Reply-To: <20230926190518.105393-3-alan.previn.teres.alexis@intel.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=mediatek.com;
+ header.d=none;dmarc=none action=none header.from=intel.com;
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYZPR03MB6624:EE_|SEZPR03MB7444:EE_
-x-ms-office365-filtering-correlation-id: 5bf047c9-21cb-4d90-be0c-08dbc4a327eb
+x-ms-traffictypediagnostic: CY5PR11MB6211:EE_|DS0PR11MB7443:EE_
+x-ms-office365-filtering-correlation-id: b2e3c3e6-f2e0-4307-1b6c-08dbc4a3ef22
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: NHBuWtCpTYkeYM6DPVxPufKzt/rnC/DKkol6JESt6tzkVLaIqnk6YL2jQBMtCg98FiFJZmaIPIIro7KjoAbJM50RSzxFmxUwdhAoXb5Wko1MAO4N+GhSGbbuuZeDghHQSuEo3jLMK5M5RaGMOW+iQTawnno8RkEF2bc0MJDFk2Pp2iiDB0VGAGt0LbV7eYgySMJ0NUEyBm2Bot9fldQdCpwa/j+bNgX3sELg0SLV7OoCSXSo33OfkqyVk6biMTVA7vLgYKKi5O/maNMMUShBukzp3L7NPGLEiSARM27qO4fxNq7K/LFjVGiGaksyqRZvauBe/iS4ka28OjycCaDH6lK+By+aLucZ1UWWA66cwDCsAFJ99hk8csskjPKh6rmoP04cKLe+2DULAJKDunzlR2nQbBiH/izV28D+sHCYdRfV8SBeEUFyuCewcR7xmQoGTSSKyYV2fBcBE4GulZiMQDcSx5AyQb4PrFdilzDFB0aNjPj+yYkceky7mfIR9a3kSAgPLIwmI7RzI43tbaUP0wWi/SjyAubK0Ddq+OVaQ7g6pj/apvBRkI6uiZnrzbfaZMqiPV0V3akhmOWE3N0ua/dzI9feYpxQd3fzGg6Z60tg/eV8dM5a2o7Hvo3QOK2DPfj6ETWMBNZEl1O8tUwSljbTtWXqIqyeCSVa2DZS6UQ=
+x-microsoft-antispam-message-info: +sa741aP1XItRC7c1Gc93hn5q7aUkVTZhepdqWonQiQq++tjhSyIuqTW9wsN0L8ZToriKxQyg907jOl3LvzHVsEV42bx7ylwYhxy+OFeXObqNZbDFGGLuFIR6WD5D/MXIsg7VC2TahXeGaQis7LoOfWu97SUcrVV1pGdl2s2PYU1H2rnySruxIdF1kYOiHZDpi52bSIk+0XoY0z0guBe5ZuufxyFx/bH+dmXn/rHWHRS3CPW2bx7DaY7KTZyaRrYxFX9hKzWvilVpeO+Ty2I0w3xIDjQFbXAoO/K1vCG4PwBqN1Bp3mNORzyUDwsqu9Ebnw2majKuzPOsB6DC3og7qrXB7UaqWQdR2CxmCKeX3igz7Lb8ejbHbED4019MNKPDcx1lDdtaWsIlvYI5AF/8S9Z3hbqBP81FCQYkOIb64YAcN9Xq7ngdyFmTLBYhjukuyL2Iv4V/oHL+b1cGMTLi5O7NE0gimfdDMCKH7vda+eFDMcKcK1doHufiG0JsBX7f/27W9R+85FDh0QqiOrW9fbKVsqlqE+fLSYNCy1pDSrSPONPrdBJ47k+1gz1cjoq0EVg0vKRtDzlbio6Fy7rGzcBEET8xVcW1oFTWYsA3V2H8vtwIMT/m6K2RP1NEdAH
 x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:TYZPR03MB6624.apcprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(136003)(39860400002)(346002)(366004)(396003)(376002)(230922051799003)(186009)(1800799009)(451199024)(64100799003)(6512007)(66476007)(36756003)(26005)(41300700001)(2616005)(66946007)(66556008)(76116006)(85182001)(64756008)(54906003)(110136005)(38100700002)(38070700005)(71200400001)(6486002)(66446008)(478600001)(6506007)(122000001)(316002)(7416002)(2906002)(86362001)(83380400001)(8676002)(4326008)(8936002)(5660300002);
+ IPV:NLI; SFV:NSPM; H:CY5PR11MB6211.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(39860400002)(396003)(366004)(136003)(376002)(346002)(230922051799003)(1800799009)(186009)(451199024)(64100799003)(6506007)(478600001)(53546011)(7696005)(71200400001)(9686003)(107886003)(83380400001)(26005)(33656002)(66556008)(2906002)(450100002)(66946007)(76116006)(8676002)(110136005)(8936002)(66476007)(316002)(5660300002)(64756008)(52536014)(4326008)(66446008)(41300700001)(54906003)(38100700002)(86362001)(122000001)(38070700005)(82960400001)(55016003);
  DIR:OUT; SFP:1102; 
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?WTUwbFgvanZmRHlBU1NZUFdVTjRhSkJyK2xTOG9qQjJtYmlHdU5qMkdWMXdY?=
- =?utf-8?B?YzZDYUs4TkFoRDVWdUZCdVdTekV2SFg5T0lMeXcwRjRTcDJaQnBud1FxczZR?=
- =?utf-8?B?RVFZN05HUEp3TVZEU2ZzeFQzVEpLazlTUnkrUGNWczFQZTJCZmJRVUFGWTV6?=
- =?utf-8?B?Yi9EU2Y1S2NuMDY4MWxMYS95R0RGZStBYy9USkV2S3cyWkhuYzlEYUVlQ3g2?=
- =?utf-8?B?RXdPNndOWFpnS2JGMkFsVTZTWHR1QVJUeWpzWjJoZm44RDY1R016RENZS1ds?=
- =?utf-8?B?VVl6TEZKNUxrQ0YrKzNtZ0VGZ3UvUGxmVlNwZmZSMTltaVZDS2pxcnFLdVht?=
- =?utf-8?B?dW00WVJ2RmhiU1YzdGNENldxQSt6NTR2RkJob1FHdTgrZUFMZUU5Y3BxcVAy?=
- =?utf-8?B?ZXNFVlozbUV4ZGlwalJGZDB5S243YTRlRXB6YTRTZ1VONVUvOW90WndOZEEy?=
- =?utf-8?B?S1ZpSjBjSHdjUHBWbEd1RzVITmNOZzBlOGZXSzJ4S0c1VURPMFkxck5OWllT?=
- =?utf-8?B?NWkzWVlwZ3JSN2p0MGpEOG9pY2dVeW8rcnZaV0s1clpaYUdNNEI0VzBwLzl5?=
- =?utf-8?B?cVFENkRRSk9aSlpOWWhUSWtWQnZFU3UwT2hUZ01FZlJKbzd1cFVQYzMyWng4?=
- =?utf-8?B?QlU1TkF2WXZCQWhubkczM2tKSFJ5QmJ1SXQ0Y3N5eC9mbC9mNnZzcWg1NzJT?=
- =?utf-8?B?ZDFUZjFXZXVodjU4TDB4c0JUY3pUbWRpQmNJdmZnelJEbEtXcm5BeWtSNXFU?=
- =?utf-8?B?RFBxVGx4dVY2YkhmMlNGL1ZFU2h0T3p3bmdzYzZsYmFxZmFVVDFwQ1FISmpH?=
- =?utf-8?B?TndJWG9xWVV4QjM5MUh6RVNMSDhuR0prays4QmRmMGpRZ3luTkw0Sy9ITzRU?=
- =?utf-8?B?YVBlUFJDZG1qYjExd1FWQlZqMVM5N2JUcE5wbEhicjFpUEh0UTd1Y2E5ekNV?=
- =?utf-8?B?WmxCa3ZBT0hlMHZhVlM5VStoeTlGZnZYNTV3a1dJV3VVL01NTWZEZVZSejF6?=
- =?utf-8?B?WXJ1d0xrYTdBVkVvTXZiUDRXZjFxLy85MDBuYzlPVFVkbENqQmp1Mmt4dTkz?=
- =?utf-8?B?WXIrZFJyblNQSEp4dXg3cnJabUcwTXYwbys2UGtGR1d6bDVwMmpQOC9sRE9T?=
- =?utf-8?B?SzdDVnA2QmxESXNyUTI2aE91WUgydHFLOHFCMTVhdFo1R0tKTG92a1BsVlhK?=
- =?utf-8?B?djM3UlpaMzhiN0REUTBXR0hnNTNIK3dzTGpIdVlSS1VRZmNpYlFOb3VPUnls?=
- =?utf-8?B?NFQxakJMWFUxVm55ZzFGRFpKUXA0czlMNlBWT0hKb1pIcHVSdUR5ay9VZkJM?=
- =?utf-8?B?bkxSMi9tQmtqMDU5Wk5zSW5relJTNDY2UlowNWZIMjJPYkViZmZhWUZ2MHlu?=
- =?utf-8?B?SXZaN3EzdmhEd3duZlUvYzI2bElJWmpuVEVHNjJ2UnBGd2M5RkNvdWxkN2lS?=
- =?utf-8?B?cUFHazdjNzhDQVg1a1Z6VENidm52dlZUR05rUm05MEcwOVkwWXRwMXVHL1JD?=
- =?utf-8?B?cVdkSmQ1REtoN3k5bGZtOUl6Vk9UbFdhTWxLQUVMZ1dSNEMvV0ZudDJoWENp?=
- =?utf-8?B?WG5ZM1FvdEJhMzVib01HaVFCcU9hSXAwSmdyTU5sbE00Q0g4T0tIR0JjSmlX?=
- =?utf-8?B?SmxCZmlGVk5iQ3BOaVNoYURyUVNMc1BHcm52N2U2clBTYjFWVjM0Qitia3I3?=
- =?utf-8?B?N2pzU1JmV0N4TFJkdlo4WUViUVZINWlWVTJ6dUg2TDd6Vnl4RU95M0dwRFQz?=
- =?utf-8?B?aXI3MU10ajAzQ2F5RnJlNHgvOGRJcTVmMCs0S3p1Ykt1L1ZMc3RZYVM5dTg5?=
- =?utf-8?B?MEZUL2lVS0s0Q2hGYXJKTEFVY1JzTE8ycURudTNWVkRmbit0cjN0Q2svaGsz?=
- =?utf-8?B?bDJoTDBoUlk1YitsRG83SXkxRWIrQXpUL2U3SmZiVnZwTWtFVUpVY3lpUGZU?=
- =?utf-8?B?M1RLU2hkVnV1Nmx0UlN3anVVdmlnQUVJcXpXa2F4bzJQOVhxWTgvY3ZtS3dD?=
- =?utf-8?B?ejMzTngrVkM0MHlrdjF0MWNEKzRjaDdhaDB3bzRHbCtqOTF5by81dDlBelFD?=
- =?utf-8?B?WkJGMStGRmNWZFhUeGFlU0xiNHRmdzhFTm9EY3l3MHVCa1kvd1FUM1VZMSt4?=
- =?utf-8?Q?fk27rP1FQZV8CXMFKV+MUVSsO?=
-Content-ID: <B4F363669235DE4C8FCFA0A3912EFA96@apcprd03.prod.outlook.com>
-Content-Transfer-Encoding: base64
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?GRiqkcMbo9seEdOHyAlc8lP5z2GYRGhv2MEVxD4e/BeU4o1bCmcacLbHxqZc?=
+ =?us-ascii?Q?llLk+1RoIkuByq5ddo2oKxXXmviOINF83fVSib7MybSUmtQyZBMftMqUlPba?=
+ =?us-ascii?Q?UmLI7+4gCxy66bXKVoFL6Uez0jLk3NYxl3sI7SVhPfN0oL72eY4awXkZVcqw?=
+ =?us-ascii?Q?uxKm/L8U+/BpL6gjJm9SbgHkwYBe75dfEPpIqJG/q8poIOiSafUgOBjMwPgl?=
+ =?us-ascii?Q?Wvh5W8aYkM0JnpjMo5qFloeFbekckx+ljtjUpsI4K0T8ImumNxg095wg4AM2?=
+ =?us-ascii?Q?7VvE3pP7AJhkVUTQFHsn0zBK79oQazKNJj6Rbo/nKvGqSUPKJrRxKwkcIh6+?=
+ =?us-ascii?Q?+Sb0BD3bm4nK+KtGjVd5bKFPqWxxzxW85WKYa6uUymmrsvkLe2B2kfg5bYJv?=
+ =?us-ascii?Q?OOK+UL+BpB92CN/rNpD+zDavJfr8zWujG7BdWkORlqYBSlpn6MXHJrUnKL/U?=
+ =?us-ascii?Q?eKETc3kX7rHVizEhPwKqjL2CZFKdpHxJqrnyl9bv4cvTjefI7PcAkLKn7VCZ?=
+ =?us-ascii?Q?ePDz2aXCXDPWnTHrvcTvDRR0P1GQz8zwBlhLrzsJeYxD2DfWJ3PFmC4mIaRa?=
+ =?us-ascii?Q?nrEGBcRjZPXnenYqShml7kUOPV7Wl6J1cBOw/ZN7wX+svy1hopBhvQ2KlnAj?=
+ =?us-ascii?Q?wMq0KZAsIyALgVcfGzMjISQGnVZplR1wQO/O82JC0GnQCzMnKGw0mB3sCgUq?=
+ =?us-ascii?Q?ZIIJz7xHTujGJzPMnTJk8To0rL5iC0048adc0lRs8v500iuWnNfD2RD6p5LP?=
+ =?us-ascii?Q?k0p9NQN+xXcX0hmzCM8JkerF+RhfQyY+mxA4EhVh88vFwidUdTTMhlfx3bEW?=
+ =?us-ascii?Q?xTMFCdEtbFxl1RPPLc5FrCy/ksXiwWTH1q93q0m3gkOh1fx3gYySyvlrX9qQ?=
+ =?us-ascii?Q?m33a0zKiSEe/AGeVsQbTgEl7mT2Mvp9qmPRcFhHRy2cntn8H9RBwpWEBZ/Hr?=
+ =?us-ascii?Q?VJD4wCU76z49qrOakQOEMJwA7RNzH4Y27UJlA39P6p8RkGxmhaXYQMzsIlKO?=
+ =?us-ascii?Q?otsIEUKErChfxFVwHMYKzdClca1JIu/+JQp7tixACK17XX+Fd/qLmvo/tkoL?=
+ =?us-ascii?Q?xvL8fI1hx+RmLQwc7BH+yiJGyVXYHzlOeNeSTD12g2l5XQO5/mFti9hMePI9?=
+ =?us-ascii?Q?Yas8f0NpjOX2i6xqBoLZ1ZpVgMGe9oZFqRm04ZEZcw956CCW6twiWg+6IfVQ?=
+ =?us-ascii?Q?vWo8/gshi4mMihPi8f3fIA7G3HIE23GT3iLXdqlvrud0ENzGlUK0VkSjJbds?=
+ =?us-ascii?Q?EV9xPvWdWXXJU4KuSDcGTUNaNNd0FYej6yvp85KX9afkmbwDN1ati6/yGKGk?=
+ =?us-ascii?Q?DRWdp6KgWADmFRvWK/ocggwTrm3WRYF0bsxY3nNWNA6jI1rXh2Y0au1lVmE8?=
+ =?us-ascii?Q?oOnxNfq9Eofm9jPxz+W8CcmX4uTG3Bcbficg4fSW7bgDKWuvoiBCD6vUOFR5?=
+ =?us-ascii?Q?YnUFbDYzWAPj5/uDjptDc+ZaEhQ3bPfA74GuwIjwE3leTLs3qkQyQRBMNnkz?=
+ =?us-ascii?Q?klfqHv3/Nh/l27fwJM1K3wa5pwLJRpRx4nS2gWOzoxOsgA93OzdmZJpTrqle?=
+ =?us-ascii?Q?7ArVf0ksVCY+ggLWYzABmkC1j5NnkQwmoEDAzCW9?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYZPR03MB6624.apcprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5bf047c9-21cb-4d90-be0c-08dbc4a327eb
-X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Oct 2023 06:28:43.1110 (UTC)
+X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6211.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b2e3c3e6-f2e0-4307-1b6c-08dbc4a3ef22
+X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Oct 2023 06:34:17.3340 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: DPfrX+BOaVrexbEcAiK8sWk8PL6SnOb5YUQEKhR4GlN6W8JI2dL6lFcmB1KpWP6iQVnKUNcE8SVliYRt6OuCEg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEZPR03MB7444
-X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-AS-Result: No-10--11.699800-8.000000
-X-TMASE-MatchedRID: fgYTp5XatxYNtKv7cnNXnSa1MaKuob8PC/ExpXrHizxcKZwALwMGs3LM
- RSx26gTiE/inge20YcFxec6bnKstogDNPxu11HXjbc297PAGtWY9mZudjaoMiZsoi2XrUn/J+ZL
- 5o+vRV7yhMIDkR/KfwI2j49Ftap9EOwBXM346/+w7YX4KEf9blR63Iwd9mv1FCugoBWj5UHzwo3
- 7Eq1yEfM2nZUPF6j64
-X-TM-AS-User-Approved-Sender: No
-X-TM-AS-User-Blocked-Sender: No
-X-TMASE-Result: 10--11.699800-8.000000
-X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-SNTS-SMTP: F271091694363EE810DFDFB72DAA0B2A2E6B794BBC15C8B2B1D15A6CA8E208892000:8
-Content-Type: multipart/alternative;
- boundary="__=_Part_Boundary_005_13832418.796806127"
+X-MS-Exchange-CrossTenant-userprincipalname: Ou3bMITiE41wjSHgIGE8Hr9RhH/PV6jN/Txz70WpZnMPBWvaRvX0qC5FiRJmIsHYioDOT2lDMqZe/q7cKC37O0lb+JGKUmGc/W/mndQnRFo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7443
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -173,97 +149,272 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "ehristev@collabora.com" <ehristev@collabora.com>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "wenst@chromium.org" <wenst@chromium.org>,
- "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
- "kernel@collabora.com" <kernel@collabora.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Cc: ,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	"Ceraolo Spurio, Daniele" <daniele.ceraolospurio@intel.com>,
+	"Vivi,  Rodrigo" <rodrigo.vivi@intel.com>, intel.com@freedesktop.org,
+	"Jana,  Mousumi" <mousumi.jana@intel.com>,
+	"Harrison,  John C" <john.c.harrison@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---__=_Part_Boundary_005_13832418.796806127
-Content-Type: text/html;
-	charset="utf-8"
-Content-Transfer-Encoding: base64
 
-PHByZT4NCkhpLCYjMzI7QW5nZWxvOg0KDQpPbiYjMzI7RnJpLCYjMzI7MjAyMy0wOC0wNCYjMzI7
-YXQmIzMyOzA5OjI4JiMzMjsrMDIwMCwmIzMyO0FuZ2Vsb0dpb2FjY2hpbm8mIzMyO0RlbCYjMzI7
-UmVnbm8mIzMyO3dyb3RlOg0KJmd0OyYjMzI7VGhlJiMzMjttdGtfZGlzcF9nYW1tYSYjMzI7c3Ry
-dWN0dXJlJiMzMjt3YXMmIzMyO2NvbXBsZXRlbHkmIzMyO3VuZG9jdW1lbnRlZDomIzMyO2FkZCYj
-MzI7c29tZQ0KJmd0OyYjMzI7a2VybmVsZG9jJiMzMjtkb2N1bWVudGF0aW9uJiMzMjt0byYjMzI7
-aXQuDQoNClJldmlld2VkLWJ5OiYjMzI7Q0smIzMyO0h1JiMzMjsmbHQ7Y2suaHVAbWVkaWF0ZWsu
-Y29tJmd0Ow0KDQomZ3Q7JiMzMjsNCiZndDsmIzMyO1NpZ25lZC1vZmYtYnk6JiMzMjtBbmdlbG9H
-aW9hY2NoaW5vJiMzMjtEZWwmIzMyO1JlZ25vJiMzMjsmbHQ7DQomZ3Q7JiMzMjthbmdlbG9naW9h
-Y2NoaW5vLmRlbHJlZ25vQGNvbGxhYm9yYS5jb20mZ3Q7DQomZ3Q7JiMzMjstLS0NCiZndDsmIzMy
-OyYjMzI7ZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kaXNwX2dhbW1hLmMmIzMyO3wmIzMy
-OzgmIzMyOysrKysrKy0tDQomZ3Q7JiMzMjsmIzMyOzEmIzMyO2ZpbGUmIzMyO2NoYW5nZWQsJiMz
-Mjs2JiMzMjtpbnNlcnRpb25zKCspLCYjMzI7MiYjMzI7ZGVsZXRpb25zKC0pDQomZ3Q7JiMzMjsN
-CiZndDsmIzMyO2RpZmYmIzMyOy0tZ2l0JiMzMjthL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9t
-dGtfZGlzcF9nYW1tYS5jDQomZ3Q7JiMzMjtiL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtf
-ZGlzcF9nYW1tYS5jDQomZ3Q7JiMzMjtpbmRleCYjMzI7ZDlhNzAyMzhkNTI0Li44Njc0NDVhMmFm
-OWUmIzMyOzEwMDY0NA0KJmd0OyYjMzI7LS0tJiMzMjthL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRl
-ay9tdGtfZGlzcF9nYW1tYS5jDQomZ3Q7JiMzMjsrKysmIzMyO2IvZHJpdmVycy9ncHUvZHJtL21l
-ZGlhdGVrL210a19kaXNwX2dhbW1hLmMNCiZndDsmIzMyO0BAJiMzMjstNTQsOCYjMzI7KzU0LDEy
-JiMzMjtAQCYjMzI7c3RydWN0JiMzMjttdGtfZGlzcF9nYW1tYV9kYXRhJiMzMjt7DQomZ3Q7JiMz
-MjsmIzMyO3U4JiMzMjtsdXRfYml0czsNCiZndDsmIzMyOyYjMzI7fTsNCiZndDsmIzMyOyYjMzI7
-DQomZ3Q7JiMzMjstLyoNCiZndDsmIzMyOy0mIzMyOyomIzMyO3N0cnVjdCYjMzI7bXRrX2Rpc3Bf
-Z2FtbWEmIzMyOy0mIzMyO0RJU1BfR0FNTUEmIzMyO2RyaXZlciYjMzI7c3RydWN0dXJlDQomZ3Q7
-JiMzMjsrLyoqDQomZ3Q7JiMzMjsrJiMzMjsqJiMzMjtzdHJ1Y3QmIzMyO210a19kaXNwX2dhbW1h
-JiMzMjstJiMzMjtEaXNwbGF5JiMzMjtHYW1tYSYjMzI7ZHJpdmVyJiMzMjtzdHJ1Y3R1cmUNCiZn
-dDsmIzMyOysmIzMyOyomIzMyO0BjbGs6JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7Y2xv
-Y2smIzMyO2ZvciYjMzI7RElTUF9HQU1NQSYjMzI7YmxvY2sNCiZndDsmIzMyOysmIzMyOyomIzMy
-O0ByZWdzOiYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjtNTUlPJiMzMjtyZWdpc3RlcnMmIzMyO2Jh
-c2UNCiZndDsmIzMyOysmIzMyOyomIzMyO0BjbWRxX3JlZzomIzMyO0NNRFEmIzMyO0NsaWVudCYj
-MzI7cmVnaXN0ZXINCiZndDsmIzMyOysmIzMyOyomIzMyO0BkYXRhOiYjMzI7JiMzMjsmIzMyOyYj
-MzI7JiMzMjtwbGF0Zm9ybSYjMzI7ZGF0YSYjMzI7Zm9yJiMzMjtESVNQX0dBTU1BDQomZ3Q7JiMz
-MjsmIzMyOyYjMzI7Ki8NCiZndDsmIzMyOyYjMzI7c3RydWN0JiMzMjttdGtfZGlzcF9nYW1tYSYj
-MzI7ew0KJmd0OyYjMzI7JiMzMjtzdHJ1Y3QmIzMyO2NsayYjMzI7KmNsazsNCg0KPC9wcmU+PCEt
-LXR5cGU6dGV4dC0tPjwhLS17LS0+PHByZT4qKioqKioqKioqKioqIE1FRElBVEVLIENvbmZpZGVu
-dGlhbGl0eSBOb3RpY2UNCiAqKioqKioqKioqKioqKioqKioqKg0KVGhlIGluZm9ybWF0aW9uIGNv
-bnRhaW5lZCBpbiB0aGlzIGUtbWFpbCBtZXNzYWdlIChpbmNsdWRpbmcgYW55IA0KYXR0YWNobWVu
-dHMpIG1heSBiZSBjb25maWRlbnRpYWwsIHByb3ByaWV0YXJ5LCBwcml2aWxlZ2VkLCBvciBvdGhl
-cndpc2UNCmV4ZW1wdCBmcm9tIGRpc2Nsb3N1cmUgdW5kZXIgYXBwbGljYWJsZSBsYXdzLiBJdCBp
-cyBpbnRlbmRlZCB0byBiZSANCmNvbnZleWVkIG9ubHkgdG8gdGhlIGRlc2lnbmF0ZWQgcmVjaXBp
-ZW50KHMpLiBBbnkgdXNlLCBkaXNzZW1pbmF0aW9uLCANCmRpc3RyaWJ1dGlvbiwgcHJpbnRpbmcs
-IHJldGFpbmluZyBvciBjb3B5aW5nIG9mIHRoaXMgZS1tYWlsIChpbmNsdWRpbmcgaXRzIA0KYXR0
-YWNobWVudHMpIGJ5IHVuaW50ZW5kZWQgcmVjaXBpZW50KHMpIGlzIHN0cmljdGx5IHByb2hpYml0
-ZWQgYW5kIG1heSANCmJlIHVubGF3ZnVsLiBJZiB5b3UgYXJlIG5vdCBhbiBpbnRlbmRlZCByZWNp
-cGllbnQgb2YgdGhpcyBlLW1haWwsIG9yIGJlbGlldmUNCiANCnRoYXQgeW91IGhhdmUgcmVjZWl2
-ZWQgdGhpcyBlLW1haWwgaW4gZXJyb3IsIHBsZWFzZSBub3RpZnkgdGhlIHNlbmRlciANCmltbWVk
-aWF0ZWx5IChieSByZXBseWluZyB0byB0aGlzIGUtbWFpbCksIGRlbGV0ZSBhbnkgYW5kIGFsbCBj
-b3BpZXMgb2YgDQp0aGlzIGUtbWFpbCAoaW5jbHVkaW5nIGFueSBhdHRhY2htZW50cykgZnJvbSB5
-b3VyIHN5c3RlbSwgYW5kIGRvIG5vdA0KZGlzY2xvc2UgdGhlIGNvbnRlbnQgb2YgdGhpcyBlLW1h
-aWwgdG8gYW55IG90aGVyIHBlcnNvbi4gVGhhbmsgeW91IQ0KPC9wcmU+PCEtLX0tLT4=
 
---__=_Part_Boundary_005_13832418.796806127
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: base64
-
-SGksIEFuZ2VsbzoNCg0KT24gRnJpLCAyMDIzLTA4LTA0IGF0IDA5OjI4ICswMjAwLCBBbmdlbG9H
-aW9hY2NoaW5vIERlbCBSZWdubyB3cm90ZToNCj4gVGhlIG10a19kaXNwX2dhbW1hIHN0cnVjdHVy
-ZSB3YXMgY29tcGxldGVseSB1bmRvY3VtZW50ZWQ6IGFkZCBzb21lDQo+IGtlcm5lbGRvYyBkb2N1
-bWVudGF0aW9uIHRvIGl0Lg0KDQpSZXZpZXdlZC1ieTogQ0sgSHUgPGNrLmh1QG1lZGlhdGVrLmNv
-bT4NCg0KPiANCj4gU2lnbmVkLW9mZi1ieTogQW5nZWxvR2lvYWNjaGlubyBEZWwgUmVnbm8gPA0K
-PiBhbmdlbG9naW9hY2NoaW5vLmRlbHJlZ25vQGNvbGxhYm9yYS5jb20+DQo+IC0tLQ0KPiAgZHJp
-dmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kaXNwX2dhbW1hLmMgfCA4ICsrKysrKy0tDQo+ICAx
-IGZpbGUgY2hhbmdlZCwgNiBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQ0KPiANCj4gZGlm
-ZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZGlzcF9nYW1tYS5jDQo+IGIv
-ZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kaXNwX2dhbW1hLmMNCj4gaW5kZXggZDlhNzAy
-MzhkNTI0Li44Njc0NDVhMmFmOWUgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9tZWRp
-YXRlay9tdGtfZGlzcF9nYW1tYS5jDQo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9t
-dGtfZGlzcF9nYW1tYS5jDQo+IEBAIC01NCw4ICs1NCwxMiBAQCBzdHJ1Y3QgbXRrX2Rpc3BfZ2Ft
-bWFfZGF0YSB7DQo+ICAJdTggbHV0X2JpdHM7DQo+ICB9Ow0KPiAgDQo+IC0vKg0KPiAtICogc3Ry
-dWN0IG10a19kaXNwX2dhbW1hIC0gRElTUF9HQU1NQSBkcml2ZXIgc3RydWN0dXJlDQo+ICsvKioN
-Cj4gKyAqIHN0cnVjdCBtdGtfZGlzcF9nYW1tYSAtIERpc3BsYXkgR2FtbWEgZHJpdmVyIHN0cnVj
-dHVyZQ0KPiArICogQGNsazogICAgICBjbG9jayBmb3IgRElTUF9HQU1NQSBibG9jaw0KPiArICog
-QHJlZ3M6ICAgICBNTUlPIHJlZ2lzdGVycyBiYXNlDQo+ICsgKiBAY21kcV9yZWc6IENNRFEgQ2xp
-ZW50IHJlZ2lzdGVyDQo+ICsgKiBAZGF0YTogICAgIHBsYXRmb3JtIGRhdGEgZm9yIERJU1BfR0FN
-TUENCj4gICAqLw0KPiAgc3RydWN0IG10a19kaXNwX2dhbW1hIHsNCj4gIAlzdHJ1Y3QgY2xrICpj
-bGs7DQo=
-
---__=_Part_Boundary_005_13832418.796806127--
+> -----Original Message-----
+> From: Teres Alexis, Alan Previn <alan.previn.teres.alexis@intel.com>
+> Sent: Wednesday, September 27, 2023 12:35 AM
+> To: intel-gfx@lists.freedesktop.org
+> Cc: Teres Alexis, Alan Previn <alan.previn.teres.alexis@intel.com>; dri-
+> devel@lists.freedesktop.org; Vivi, Rodrigo <rodrigo.vivi@intel.com>; Cera=
+olo
+> Spurio, Daniele <daniele.ceraolospurio@intel.com>; Harrison, John C
+> <john.c.harrison@intel.com>; Anshuman Gupta Alan Previn
+> <anshuman.gupta@intel.comalan.previn.teres.alexis@intel.com>; Gupta,
+> Anshuman <anshuman.gupta@intel.com>; Jana, Mousumi
+> <mousumi.jana@intel.com>
+> Subject: [PATCH v4 2/3] drm/i915/guc: Close deregister-context race again=
+st CT-
+> loss
+>=20
+> If we are at the end of suspend or very early in resume its possible an a=
+sync fence
+> signal (via rcu_call) is triggered to free_engines which could lead us to=
+ the
+> execution of the context destruction worker (after a prior worker flush).
+>=20
+> Thus, when suspending, insert an rcu_barrier at the start of wait_for_sus=
+pend so
+> that all such cases have completed and context destruction list isn't mis=
+sing
+> anything.
+>=20
+> In destroyed_worker_func, close the race against CT-loss by checking that=
+ CT is
+> enabled before calling into deregister_destroyed_contexts.
+>=20
+> Based on testing, guc_lrc_desc_unpin may still race and fail as we traver=
+se the
+> GuC's context-destroy list because the CT could be disabled right before =
+calling
+> GuC's CT send function.
+>=20
+> We've witnessed this race condition once every ~6000-8000 suspend-resume
+> cycles while ensuring workloads that render something onscreen is continu=
+ously
+> started just before we suspend (and the workload is small enough to compl=
+ete
+> and trigger the queued engine/context free-up either very late in suspend=
+ or very
+> early in resume).
+>=20
+> In such a case, we need to unroll the entire process because guc-lrc-unpi=
+n takes a
+> gt wakeref which only gets released in the G2H IRQ reply that never comes
+> through in this corner case. Without the unroll, the taken wakeref is lea=
+ked and
+> will cascade into a kernel hang later at the tail end of suspend in this =
+function:
+>=20
+>    intel_wakeref_wait_for_idle(&gt->wakeref)
+>    (called by) - intel_gt_pm_wait_for_idle
+>    (called by) - wait_for_suspend
+>=20
+> Thus, do an unroll in guc_lrc_desc_unpin and deregister_destroyed_- conte=
+xts if
+> guc_lrc_desc_unpin fails due to CT send falure.
+> When unrolling, keep the context in the GuC's destroy-list so it can get =
+picked up
+> on the next destroy worker invocation (if suspend aborted) or get fully p=
+urged as
+> part of a GuC sanitization (end of suspend) or a reset flow.
+>=20
+> Signed-off-by: Alan Previn <alan.previn.teres.alexis@intel.com>
+> Signed-off-by: Anshuman Gupta <anshuman.gupta@intel.com>
+> Tested-by: Mousumi Jana <mousumi.jana@intel.com>
+> ---
+>  drivers/gpu/drm/i915/gt/intel_gt_pm.c         |  7 ++
+>  .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 81 ++++++++++++++++---
+>  2 files changed, 77 insertions(+), 11 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm.c
+> b/drivers/gpu/drm/i915/gt/intel_gt_pm.c
+> index 5a942af0a14e..59b5658a17fb 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gt_pm.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_gt_pm.c
+> @@ -289,6 +289,13 @@ int intel_gt_resume(struct intel_gt *gt)
+>=20
+>  static void wait_for_suspend(struct intel_gt *gt)  {
+> +	/*
+> +	 * On rare occasions, we've observed the fence completion trigger
+> +	 * free_engines asynchronously via rcu_call. Ensure those are done.
+> +	 * This path is only called on suspend, so it's an acceptable cost.
+> +	 */
+> +	rcu_barrier();
+Let's add the barrier after the end of prepare suspend and at start of late=
+ suspend.
+To make sure we don't have any async destroy from any user request or any i=
+nternal  kmd request during i915 suspend?
+Br,
+Anshuman Gupta.
+> +
+>  	if (!intel_gt_pm_is_awake(gt))
+>  		return;
+>=20
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> index fdd7179f502a..465baf7660d7 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> @@ -235,6 +235,13 @@ set_context_destroyed(struct intel_context *ce)
+>  	ce->guc_state.sched_state |=3D SCHED_STATE_DESTROYED;  }
+>=20
+> +static inline void
+> +clr_context_destroyed(struct intel_context *ce) {
+> +	lockdep_assert_held(&ce->guc_state.lock);
+> +	ce->guc_state.sched_state &=3D ~SCHED_STATE_DESTROYED; }
+> +
+>  static inline bool context_pending_disable(struct intel_context *ce)  {
+>  	return ce->guc_state.sched_state & SCHED_STATE_PENDING_DISABLE;
+> @@ -612,6 +619,8 @@ static int guc_submission_send_busy_loop(struct
+> intel_guc *guc,
+>  					 u32 g2h_len_dw,
+>  					 bool loop)
+>  {
+> +	int ret;
+> +
+>  	/*
+>  	 * We always loop when a send requires a reply (i.e. g2h_len_dw > 0),
+>  	 * so we don't handle the case where we don't get a reply because we
+> @@ -622,7 +631,11 @@ static int guc_submission_send_busy_loop(struct
+> intel_guc *guc,
+>  	if (g2h_len_dw)
+>  		atomic_inc(&guc->outstanding_submission_g2h);
+>=20
+> -	return intel_guc_send_busy_loop(guc, action, len, g2h_len_dw, loop);
+> +	ret =3D intel_guc_send_busy_loop(guc, action, len, g2h_len_dw, loop);
+> +	if (ret)
+> +		atomic_dec(&guc->outstanding_submission_g2h);
+> +
+> +	return ret;
+>  }
+>=20
+>  int intel_guc_wait_for_pending_msg(struct intel_guc *guc, @@ -3205,12
+> +3218,13 @@ static void guc_context_close(struct intel_context *ce)
+>  	spin_unlock_irqrestore(&ce->guc_state.lock, flags);  }
+>=20
+> -static inline void guc_lrc_desc_unpin(struct intel_context *ce)
+> +static inline int guc_lrc_desc_unpin(struct intel_context *ce)
+>  {
+>  	struct intel_guc *guc =3D ce_to_guc(ce);
+>  	struct intel_gt *gt =3D guc_to_gt(guc);
+>  	unsigned long flags;
+>  	bool disabled;
+> +	int ret;
+>=20
+>  	GEM_BUG_ON(!intel_gt_pm_is_awake(gt));
+>  	GEM_BUG_ON(!ctx_id_mapped(guc, ce->guc_id.id)); @@ -3220,19
+> +3234,38 @@ static inline void guc_lrc_desc_unpin(struct intel_context *c=
+e)
+>  	/* Seal race with Reset */
+>  	spin_lock_irqsave(&ce->guc_state.lock, flags);
+>  	disabled =3D submission_disabled(guc);
+> -	if (likely(!disabled)) {
+> -		__intel_gt_pm_get(gt);
+> -		set_context_destroyed(ce);
+> -		clr_context_registered(ce);
+> -	}
+> -	spin_unlock_irqrestore(&ce->guc_state.lock, flags);
+>  	if (unlikely(disabled)) {
+> +		spin_unlock_irqrestore(&ce->guc_state.lock, flags);
+>  		release_guc_id(guc, ce);
+>  		__guc_context_destroy(ce);
+> -		return;
+> +		return 0;
+>  	}
+>=20
+> -	deregister_context(ce, ce->guc_id.id);
+> +	/* GuC is active, lets destroy this context,
+> +	 * but at this point we can still be racing with
+> +	 * suspend, so we undo everything if the H2G fails
+> +	 */
+> +
+> +	/* Change context state to destroyed and get gt-pm */
+> +	__intel_gt_pm_get(gt);
+> +	set_context_destroyed(ce);
+> +	clr_context_registered(ce);
+> +
+> +	ret =3D deregister_context(ce, ce->guc_id.id);
+> +	if (ret) {
+> +		/* Undo the state change and put gt-pm if that failed */
+> +		set_context_registered(ce);
+> +		clr_context_destroyed(ce);
+> +		/*
+> +		 * Dont use might_sleep / ASYNC verion of put because
+> +		 * CT loss in deregister_context could mean an ongoing
+> +		 * reset or suspend flow. Immediately put before the unlock
+> +		 */
+> +		__intel_wakeref_put(&gt->wakeref, 0);
+> +	}
+> +	spin_unlock_irqrestore(&ce->guc_state.lock, flags);
+> +
+> +	return ret;
+>  }
+>=20
+>  static void __guc_context_destroy(struct intel_context *ce) @@ -3300,7
+> +3333,22 @@ static void deregister_destroyed_contexts(struct intel_guc *g=
+uc)
+>  		if (!ce)
+>  			break;
+>=20
+> -		guc_lrc_desc_unpin(ce);
+> +		if (guc_lrc_desc_unpin(ce)) {
+> +			/*
+> +			 * This means GuC's CT link severed mid-way which
+> could happen
+> +			 * in suspend-resume corner cases. In this case, put the
+> +			 * context back into the destroyed_contexts list which
+> will
+> +			 * get picked up on the next context deregistration event
+> or
+> +			 * purged in a GuC sanitization event
+> (reset/unload/wedged/...).
+> +			 */
+> +			spin_lock_irqsave(&guc->submission_state.lock, flags);
+> +			list_add_tail(&ce->destroyed_link,
+> +				      &guc-
+> >submission_state.destroyed_contexts);
+> +			spin_unlock_irqrestore(&guc->submission_state.lock,
+> flags);
+> +			/* Bail now since the list might never be emptied if h2gs
+> fail */
+> +			break;
+> +		}
+> +
+>  	}
+>  }
+>=20
+> @@ -3311,6 +3359,17 @@ static void destroyed_worker_func(struct
+> work_struct *w)
+>  	struct intel_gt *gt =3D guc_to_gt(guc);
+>  	int tmp;
+>=20
+> +	/*
+> +	 * In rare cases we can get here via async context-free fence-signals t=
+hat
+> +	 * come very late in suspend flow or very early in resume flows. In the=
+se
+> +	 * cases, GuC won't be ready but just skipping it here is fine as these
+> +	 * pending-destroy-contexts get destroyed totally at GuC reset time at
+> the
+> +	 * end of suspend.. OR.. this worker can be picked up later on the next
+> +	 * context destruction trigger after resume-completes
+> +	 */
+> +	if (!intel_guc_is_ready(guc))
+> +		return;
+> +
+>  	with_intel_gt_pm(gt, tmp)
+>  		deregister_destroyed_contexts(guc);
+>  }
+> --
+> 2.39.0
 
