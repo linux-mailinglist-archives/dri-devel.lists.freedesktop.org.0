@@ -2,52 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EA6D7B7FEA
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Oct 2023 14:55:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD2D57B7FF4
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Oct 2023 14:57:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E686410E36C;
-	Wed,  4 Oct 2023 12:55:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 225F410E361;
+	Wed,  4 Oct 2023 12:57:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABBD710E36C;
- Wed,  4 Oct 2023 12:55:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1696424138; x=1727960138;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=FSbrP4SEDCHk1TQ/mV1THXmdKHiA2kUovZnWxBk21Rs=;
- b=bHq40djN72gtgDBcxzqVbo5DC0Em33fbtWDUmAo7Oyk+nYwGARloEvoe
- Oukc2nSFtVjw7vv6R0I7sFJV7FnH9c8q7TLR7x8IVMLR0gtmiE5E13Lm3
- 2wIHo7uwxLXDphgpxds+29XBRHEA9BD3fjQhz86WREsd4TfRccTe/goLQ
- uEKszGv77SB83Jdd8hjsmHKE6TXrh/CkfWJtmkAR9+0LouK+0faliqYBz
- eCzEkXeBDqI3zDGrPhCABQWgn42kXSD53MvHfjrZn8oOgh8iwX2Thrau7
- fkBoNwzqI7XCVNVttPwhTaaLwsU+XHlRhij93mIlbmmvMOYgixr3Ksdr5 w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="362517456"
-X-IronPort-AV: E=Sophos;i="6.03,200,1694761200"; d="scan'208";a="362517456"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Oct 2023 05:55:38 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="841834662"
-X-IronPort-AV: E=Sophos;i="6.03,200,1694761200"; d="scan'208";a="841834662"
-Received: from msterni-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.56.48])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Oct 2023 05:55:36 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: dri-devel@lists.freedesktop.org, Dave Airlie <airlied@redhat.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH] drm/edid/firmware: drop drm_kms_helper.edid_firmware
- backward compat
-In-Reply-To: <20230921153429.3822278-1-jani.nikula@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20230921153429.3822278-1-jani.nikula@intel.com>
-Date: Wed, 04 Oct 2023 15:55:34 +0300
-Message-ID: <87y1gieed5.fsf@intel.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 16A6E10E109
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Oct 2023 12:57:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1696424240;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=UocplIidO7zTE/4ZN7c3P31bQ70zOq+bV6Role3kEz0=;
+ b=AYEkZh9MzX1Al1cWNSVw50m48w7rEYgdDPi8vTAfu6Vtw+K9Alc77RZ8CLbNAXqbCR/vtQ
+ 0zjJiX2tCoan3z8rpQ1fXKyt4OMtA3RhN+oZnH1xFBXJLdNywYHVaKBVyC4g5C3sNQ69LD
+ o+1w7KTTbryjxZLZb3ZFIUfRanmYyp0=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-561-GfWkXj6cPp6A9AxYbyTqfg-1; Wed, 04 Oct 2023 08:57:12 -0400
+X-MC-Unique: GfWkXj6cPp6A9AxYbyTqfg-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ a640c23a62f3a-99bebfada8cso187384966b.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Oct 2023 05:57:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1696424231; x=1697029031;
+ h=content-transfer-encoding:in-reply-to:organization:content-language
+ :references:cc:to:subject:from:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=UocplIidO7zTE/4ZN7c3P31bQ70zOq+bV6Role3kEz0=;
+ b=fl/vHI5xoEWRXBkNFNkO4QXi4zpdUKRbcdg+GwOMKqnbvUNh/e3NeD8u7jaXGPgoLz
+ U9gh4j7HlW06FxlLtHUyeggHvIPFdhjIyFvgYuSVvvBmi2pU7guUaUS2d6yOU/g8Ipxh
+ O80zMdsYufK0MzYEe97yiKyiMV5CFeNmN1FrSpEfMLxDwC1Ju1+J8HCsMW+KOq3jOleT
+ 9hoGmAfdwCAfXn0n8v99hyOvbLUKWrcLiyBU43NVFYE/fcFORWHE8Ivw544Yo2JaqOJp
+ 5cxvdxTnegjTNrsxSmaRcPdsx8qMMZiuvI2hNeaY7m8LqL6nYqd6cuwuuOh+6cWb0gxw
+ VVOQ==
+X-Gm-Message-State: AOJu0YxyNwXmBwtBEfKm0aBpstzeQv+76LBe4Qj9n5++/gtpsCh7OJfJ
+ RjASDpSrOvq4HSpv/18v5dqP8yiM11RshZIaYpzJB02b9NmJ2ue33jkgz6g3g6JPOomu6cSQCnF
+ woOUx1YUeTot0fYA1wn8EisRKvrvP
+X-Received: by 2002:a17:906:4d2:b0:9a2:26d8:f184 with SMTP id
+ g18-20020a17090604d200b009a226d8f184mr1535495eja.51.1696424230989; 
+ Wed, 04 Oct 2023 05:57:10 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHmt8ptQ+NpMGEA8WwD3MopWfb9O4X8+QQKV5V2rPVZNgpUR9p7BK5+q5JqnyoFPOngtFGAoA==
+X-Received: by 2002:a17:906:4d2:b0:9a2:26d8:f184 with SMTP id
+ g18-20020a17090604d200b009a226d8f184mr1535481eja.51.1696424230614; 
+ Wed, 04 Oct 2023 05:57:10 -0700 (PDT)
+Received: from ?IPV6:2a02:810d:4b3f:de9c:642:1aff:fe31:a15c?
+ ([2a02:810d:4b3f:de9c:642:1aff:fe31:a15c])
+ by smtp.gmail.com with ESMTPSA id
+ va17-20020a17090711d100b0099d804da2e9sm2828850ejb.225.2023.10.04.05.57.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 04 Oct 2023 05:57:09 -0700 (PDT)
+Message-ID: <6489f31f-8929-3e59-fbef-a22049cccbe3@redhat.com>
+Date: Wed, 4 Oct 2023 14:57:08 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+From: Danilo Krummrich <dakr@redhat.com>
+Subject: Re: [PATCH drm-misc-next v5 4/6] drm/gpuvm: track/lock/validate
+ external/evicted objects
+To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
+ airlied@gmail.com, daniel@ffwll.ch, matthew.brost@intel.com,
+ sarah.walker@imgtec.com, donald.robson@imgtec.com,
+ boris.brezillon@collabora.com, christian.koenig@amd.com, faith@gfxstrand.net
+References: <20230928191624.13703-1-dakr@redhat.com>
+ <20230928191624.13703-5-dakr@redhat.com>
+ <e4e68970-c7c9-55e2-9483-01252f38c956@linux.intel.com>
+ <6b16ab6f-b1a2-efdb-04bf-5af4c3de381b@linux.intel.com>
+Organization: RedHat
+In-Reply-To: <6b16ab6f-b1a2-efdb-04bf-5af4c3de381b@linux.intel.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,112 +95,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org
+Cc: nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 21 Sep 2023, Jani Nikula <jani.nikula@intel.com> wrote:
-> Since the edid_firmware module parameter was moved from
-> drm_kms_helper.ko to drm.ko in v4.15, we've had a backwards
-> compatibility helper in place, with a DRM_NOTE() suggesting to migrate
-> to drm.edid_firmware. This was added in commit ac6c35a4d8c7 ("drm: add
-> backwards compatibility support for drm_kms_helper.edid_firmware").
->
-> More than five years and 30+ kernel releases later, see if we could drop
-> the backward compatibility. Leave some warnings in place for a while
-> longer.
+On 10/3/23 11:11, Thomas Hellström wrote:
 
-Dave, Daniel, thoughts?
+<snip>
 
-BR,
-Jani.
+>>> +
+>>> +/**
+>>> + * drm_gpuvm_bo_evict() - add / remove a &drm_gpuvm_bo to / from the &drm_gpuvms
+>>> + * evicted list
+>>> + * @vm_bo: the &drm_gpuvm_bo to add or remove
+>>> + * @evict: indicates whether the object is evicted
+>>> + *
+>>> + * Adds a &drm_gpuvm_bo to or removes it from the &drm_gpuvms evicted list.
+>>> + */
+>>> +void
+>>> +drm_gpuvm_bo_evict(struct drm_gpuvm_bo *vm_bo, bool evict)
+>>> +{
+>>> +    struct drm_gem_object *obj = vm_bo->obj;
+>>> +
+>>> +    dma_resv_assert_held(obj->resv);
+>>> +
+>>> +    /* Always lock list transactions, even if DRM_GPUVM_RESV_PROTECTED is
+>>> +     * set. This is required to protect multiple concurrent calls to
+>>> +     * drm_gpuvm_bo_evict() with BOs with different dma_resv.
+>>> +     */
+>>
+>> This doesn't work. The RESV_PROTECTED case requires the evicted flag we discussed before. The list is either protected by the spinlock or the resv. Otherwise a list add could race with a list removal elsewhere.
 
->
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
-> ---
->  drivers/gpu/drm/drm_edid_load.c         | 16 ----------------
->  drivers/gpu/drm/drm_kms_helper_common.c | 11 ++++++-----
->  include/drm/drm_edid.h                  |  5 -----
->  3 files changed, 6 insertions(+), 26 deletions(-)
->
-> diff --git a/drivers/gpu/drm/drm_edid_load.c b/drivers/gpu/drm/drm_edid_load.c
-> index 5d9ef267ebb3..60fcb80bce61 100644
-> --- a/drivers/gpu/drm/drm_edid_load.c
-> +++ b/drivers/gpu/drm/drm_edid_load.c
-> @@ -23,22 +23,6 @@ module_param_string(edid_firmware, edid_firmware, sizeof(edid_firmware), 0644);
->  MODULE_PARM_DESC(edid_firmware, "Do not probe monitor, use specified EDID blob "
->  	"from built-in data or /lib/firmware instead. ");
->  
-> -/* Use only for backward compatibility with drm_kms_helper.edid_firmware */
-> -int __drm_set_edid_firmware_path(const char *path)
-> -{
-> -	scnprintf(edid_firmware, sizeof(edid_firmware), "%s", path);
-> -
-> -	return 0;
-> -}
-> -EXPORT_SYMBOL(__drm_set_edid_firmware_path);
-> -
-> -/* Use only for backward compatibility with drm_kms_helper.edid_firmware */
-> -int __drm_get_edid_firmware_path(char *buf, size_t bufsize)
-> -{
-> -	return scnprintf(buf, bufsize, "%s", edid_firmware);
-> -}
-> -EXPORT_SYMBOL(__drm_get_edid_firmware_path);
-> -
->  #define GENERIC_EDIDS 6
->  static const char * const generic_edid_name[GENERIC_EDIDS] = {
->  	"edid/800x600.bin",
-> diff --git a/drivers/gpu/drm/drm_kms_helper_common.c b/drivers/gpu/drm/drm_kms_helper_common.c
-> index 0bf0fc1abf54..924e0f7bd5b7 100644
-> --- a/drivers/gpu/drm/drm_kms_helper_common.c
-> +++ b/drivers/gpu/drm/drm_kms_helper_common.c
-> @@ -38,17 +38,18 @@ MODULE_LICENSE("GPL and additional rights");
->  
->  #if IS_ENABLED(CONFIG_DRM_LOAD_EDID_FIRMWARE)
->  
-> -/* Backward compatibility for drm_kms_helper.edid_firmware */
->  static int edid_firmware_set(const char *val, const struct kernel_param *kp)
->  {
-> -	DRM_NOTE("drm_kms_helper.edid_firmware is deprecated, please use drm.edid_firmware instead.\n");
-> +	pr_warn("drm_kms_helper.edid_firmware has been removed, please use drm.edid_firmware instead.\n");
->  
-> -	return __drm_set_edid_firmware_path(val);
-> +	return -ENOENT;
->  }
->  
->  static int edid_firmware_get(char *buffer, const struct kernel_param *kp)
->  {
-> -	return __drm_get_edid_firmware_path(buffer, PAGE_SIZE);
-> +	pr_warn("drm_kms_helper.edid_firmware has been removed, please use drm.edid_firmware instead.\n");
-> +
-> +	return -ENOENT;
->  }
->  
->  static const struct kernel_param_ops edid_firmware_ops = {
-> @@ -59,6 +60,6 @@ static const struct kernel_param_ops edid_firmware_ops = {
->  module_param_cb(edid_firmware, &edid_firmware_ops, NULL, 0644);
->  __MODULE_PARM_TYPE(edid_firmware, "charp");
->  MODULE_PARM_DESC(edid_firmware,
-> -		 "DEPRECATED. Use drm.edid_firmware module parameter instead.");
-> +		 "REMOVED. Use drm.edid_firmware module parameter instead.");
->  
->  #endif
-> diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
-> index 882d2638708e..00f0a778ab62 100644
-> --- a/include/drm/drm_edid.h
-> +++ b/include/drm/drm_edid.h
-> @@ -387,11 +387,6 @@ int drm_edid_to_speaker_allocation(const struct edid *edid, u8 **sadb);
->  int drm_av_sync_delay(struct drm_connector *connector,
->  		      const struct drm_display_mode *mode);
->  
-> -#ifdef CONFIG_DRM_LOAD_EDID_FIRMWARE
-> -int __drm_set_edid_firmware_path(const char *path);
-> -int __drm_get_edid_firmware_path(char *buf, size_t bufsize);
-> -#endif
-> -
->  bool drm_edid_are_equal(const struct edid *edid1, const struct edid *edid2);
->  
->  int
+I think it does unless I miss something, but it might be a bit subtle though.
 
--- 
-Jani Nikula, Intel
+Concurrent drm_gpuvm_bo_evict() are protected by the spinlock. Additionally, when
+drm_gpuvm_bo_evict() is called we hold the dma-resv of the corresponding GEM object.
+
+In drm_gpuvm_validate() I assert that we hold *all* dma-resv, which implies that no
+one can call drm_gpuvm_bo_evict() on any of the VM's objects and no one can add a new
+one and directly call drm_gpuvm_bo_evict() on it either.
+
+>>
+>> Thanks,
+>>
+>> Thomas
+>>
+>>
+> 
+
