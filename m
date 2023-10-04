@@ -1,29 +1,29 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0286D7B76A2
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Oct 2023 04:40:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E58167B76A3
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Oct 2023 04:40:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F3E110E326;
+	by gabe.freedesktop.org (Postfix) with ESMTP id DAC2910E331;
 	Wed,  4 Oct 2023 02:40:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F37F710E084
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Oct 2023 02:40:25 +0000 (UTC)
-X-UUID: 5a35c972625f11eea33bb35ae8d461a2-20231004
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E3FC110E084
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Oct 2023 02:40:24 +0000 (UTC)
+X-UUID: 5a883af4625f11eea33bb35ae8d461a2-20231004
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
  h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=Kj7d3b2V/urG9uE4NfBP32fnTVzk6OhPbsQz8CK3XZA=; 
- b=JF5QQZdbV9gZuIqwqtWU+i6AzvZZDnLYfCK+4M8GGcJVT0hN5s0EdK8MGkA1xZTpCiEF3/5JlYmpi1Wg8SenFRqO9/Z8FkGnOpyfoPnvNFPIJ0AgDTabjd6IEQGED831XhXXNF0hHlkKJRotN2c1aKzP6bKKpz9IcFQTQhaMapI=;
+ bh=GLG0McDXD3RiSj25NXjkBPEr/Jx8+lcRk5C/BaVVWvs=; 
+ b=JPRGvl0FyTzEaodFEzAHOLLR+NwMy7WHmz8Rua7uW3be5swTcdALVyi4YzScexnZfmozznyVcaqXXi3DGXR2TQ+9FGsj42p/Y8ZnxGkypMl6kfByWG8HgeYQG+3u09fq2zbZnzaqza7kuP6Bpoeh+YLnIwmdxoFVYcd7l4lS/iA=;
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.32, REQID:7b82b5ee-a5f4-44b3-a326-9d04bbddf435, IP:0,
+X-CID-O-INFO: VERSION:1.1.32, REQID:5a70a21a-4704-4945-a41b-af4a59a414ee, IP:0,
  U
- RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
- N:release,TS:-25
-X-CID-META: VersionHash:5f78ec9, CLOUDID:27ada814-4929-4845-9571-38c601e9c3c9,
+ RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+ :release,TS:-5
+X-CID-META: VersionHash:5f78ec9, CLOUDID:66708ebf-14cc-44ca-b657-2d2783296e72,
  B
  ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
  RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,
@@ -31,13 +31,13 @@ X-CID-META: VersionHash:5f78ec9, CLOUDID:27ada814-4929-4845-9571-38c601e9c3c9,
 X-CID-BVR: 0
 X-CID-BAS: 0,_,0,_
 X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: 5a35c972625f11eea33bb35ae8d461a2-20231004
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
+X-UUID: 5a883af4625f11eea33bb35ae8d461a2-20231004
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
  mailgw01.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1688145988; Wed, 04 Oct 2023 10:40:16 +0800
+ with ESMTP id 793373240; Wed, 04 Oct 2023 10:40:17 +0800
 Received: from mtkmbs13n2.mediatek.inc (172.21.101.108) by
- mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
+ MTKMBS14N2.mediatek.inc (172.21.101.76) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
  15.2.1118.26; Wed, 4 Oct 2023 10:40:15 +0800
 Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
@@ -46,14 +46,25 @@ Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
 From: Jason-JH.Lin <jason-jh.lin@mediatek.com>
 To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, AngeloGioacchino Del Regno
  <angelogioacchino.delregno@collabora.com>
-Subject: [PATCH v11 6/9] drm/mediatek: dpi: Support dynamic connector selection
-Date: Wed, 4 Oct 2023 10:40:10 +0800
-Message-ID: <20231004024013.18956-7-jason-jh.lin@mediatek.com>
+Subject: [PATCH v11 7/9] drm/mediatek: Support dynamic selection of DP_INTF0
+ on MT8188 VDOSYS0
+Date: Wed, 4 Oct 2023 10:40:11 +0800
+Message-ID: <20231004024013.18956-8-jason-jh.lin@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20231004024013.18956-1-jason-jh.lin@mediatek.com>
 References: <20231004024013.18956-1-jason-jh.lin@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain
+X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-AS-Result: No-10--5.967700-8.000000
+X-TMASE-MatchedRID: QNCxZxSW5lrUbyut0lXeoED6z8N1m1ALnhD9A3Sa7pZcU0dNErOD+vlY
+ oV6p/cSxNFCzr/YjTjM/j7zt48dCSZsYdIGP6PlZkDpLRKO9xhR9LQinZ4QefPcjNeVeWlqY+gt
+ Hj7OwNO0UQCQtpNwWeuvXUIEHYfY0GmaFOppS/NxmzbyaB9t9FR3vvlo+MTGG
+X-TM-AS-User-Approved-Sender: No
+X-TM-AS-User-Blocked-Sender: No
+X-TMASE-Result: 10--5.967700-8.000000
+X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-SNTS-SMTP: 980030E620D8BDC97A45A00A4B4E7DB9D4760DABC8FF37A7B7D3A75158DF0FE02000:8
 X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -78,61 +89,41 @@ Cc: "Jason-JH . Lin" <jason-jh.lin@mediatek.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add implementation of mtk_dpi_encoder_index to mtk_ddp_comp_func
-to make mtk_dpi support dynamic connector selection.
+Move DDP_COMPONENT_DP_INTF0 from mt8188_mtk_ddp_main array to a
+connector routes array called mt8188_mtk_ddp_main_routes to support
+dynamic selection capability for mt8188.
 
 Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
 Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 ---
- drivers/gpu/drm/mediatek/mtk_disp_drv.h     | 1 +
- drivers/gpu/drm/mediatek/mtk_dpi.c          | 9 +++++++++
- drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c | 1 +
- 3 files changed, 11 insertions(+)
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_drv.h b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-index 2254038519e1..5f07037670e9 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-@@ -44,6 +44,7 @@ void mtk_dither_set_common(void __iomem *regs, struct cmdq_client_reg *cmdq_reg,
- 
- void mtk_dpi_start(struct device *dev);
- void mtk_dpi_stop(struct device *dev);
-+unsigned int mtk_dpi_encoder_index(struct device *dev);
- 
- void mtk_dsi_ddp_start(struct device *dev);
- void mtk_dsi_ddp_stop(struct device *dev);
-diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediatek/mtk_dpi.c
-index 2f931e4e2b60..4e3d9f7b4d8c 100644
---- a/drivers/gpu/drm/mediatek/mtk_dpi.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
-@@ -781,6 +781,15 @@ void mtk_dpi_stop(struct device *dev)
- 	mtk_dpi_power_off(dpi);
- }
- 
-+unsigned int mtk_dpi_encoder_index(struct device *dev)
-+{
-+	struct mtk_dpi *dpi = dev_get_drvdata(dev);
-+	unsigned int encoder_index = drm_encoder_index(&dpi->encoder);
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+index 5d2e191b4106..70c9501250a0 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
++++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+@@ -186,7 +186,10 @@ static const unsigned int mt8188_mtk_ddp_main[] = {
+ 	DDP_COMPONENT_GAMMA,
+ 	DDP_COMPONENT_POSTMASK0,
+ 	DDP_COMPONENT_DITHER0,
+-	DDP_COMPONENT_DP_INTF0,
++};
 +
-+	dev_dbg(dev, "encoder index:%d\n", encoder_index);
-+	return encoder_index;
-+}
-+
- static int mtk_dpi_bind(struct device *dev, struct device *master, void *data)
- {
- 	struct mtk_dpi *dpi = dev_get_drvdata(dev);
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-index 02f0ada3754b..601755925520 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-@@ -304,6 +304,7 @@ static const struct mtk_ddp_comp_funcs ddp_dither = {
- static const struct mtk_ddp_comp_funcs ddp_dpi = {
- 	.start = mtk_dpi_start,
- 	.stop = mtk_dpi_stop,
-+	.encoder_index = mtk_dpi_encoder_index,
++static const struct mtk_drm_route mt8188_mtk_ddp_main_routes[] = {
++	{0, DDP_COMPONENT_DP_INTF0},
  };
  
- static const struct mtk_ddp_comp_funcs ddp_dsc = {
+ static const unsigned int mt8192_mtk_ddp_main[] = {
+@@ -288,6 +291,8 @@ static const struct mtk_mmsys_driver_data mt8186_mmsys_driver_data = {
+ static const struct mtk_mmsys_driver_data mt8188_vdosys0_driver_data = {
+ 	.main_path = mt8188_mtk_ddp_main,
+ 	.main_len = ARRAY_SIZE(mt8188_mtk_ddp_main),
++	.conn_routes = mt8188_mtk_ddp_main_routes,
++	.num_conn_routes = ARRAY_SIZE(mt8188_mtk_ddp_main_routes),
+ 	.mmsys_dev_num = 1,
+ };
+ 
 -- 
 2.18.0
 
