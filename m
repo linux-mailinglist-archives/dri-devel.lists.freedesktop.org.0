@@ -1,57 +1,118 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D0277B8E5F
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Oct 2023 22:58:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 026E27B8E6A
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Oct 2023 23:01:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D192010E13A;
-	Wed,  4 Oct 2023 20:58:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C351610E3B7;
+	Wed,  4 Oct 2023 21:01:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4BD9110E13A;
- Wed,  4 Oct 2023 20:58:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1696453128; x=1727989128;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=y5pXNFXelbboT4gg6FROl4vJrEX+k8iW+Y6+T7mpP5s=;
- b=O892v3rG5K/u6EypQC3rsDASYOE8+rc3WdBHXIeT1pCfxB5sMnmM8X4j
- nTqomqK/nwMTPJKXz6UQIiIfpE216G1K7xCxxyxkLAIoZoDzQkwA5FztK
- pOXHDJRprGP2wA5gHRhRZTkH3PkttBZFMUZq0AoC5WxRX9p6HD014jUdH
- bpUYmerXBcDBlEcBwpP33EZAjn+elLxC6yYnG7AwOBGFJmZ9XLvHIIl6p
- nGJLmR4rhDgO4Dwo3SJLNr05dEh9nQc0C9SFkxdVCfq37rrvSkgifgYrx
- rHi0q6pB4x0fFnNg/PwVD4EOQutBviL02UlpHzSD78bvl+WVF3pUMceym w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="469573936"
-X-IronPort-AV: E=Sophos;i="6.03,201,1694761200"; d="scan'208";a="469573936"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Oct 2023 13:58:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="875267222"
-X-IronPort-AV: E=Sophos;i="6.03,201,1694761200"; d="scan'208";a="875267222"
-Received: from nurf174x-mobl.gar.corp.intel.com (HELO intel.com)
- ([10.213.147.206])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Oct 2023 13:58:39 -0700
-Date: Wed, 4 Oct 2023 22:58:32 +0200
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Matt Roper <matthew.d.roper@intel.com>
-Subject: Re: [Intel-gfx] [RFC PATCH] drm/i915/gt: Do not treat MCR locking
- timeouts as errors
-Message-ID: <ZR3R+Hr5pv/YGeFu@ashyti-mobl2.lan>
-References: <20231004094357.634895-1-andi.shyti@linux.intel.com>
- <eefc8c62-1ac5-6604-2ee5-576ca87c2be5@linux.intel.com>
- <ZR1x0jlEzrCUNoip@ashyti-mobl2.lan>
- <4feb3f2e-ecbd-1fca-9568-409830f50ee5@intel.com>
- <ZR2+fyV6fW9PyILs@ashyti-mobl2.lan>
- <20231004200544.GE53570@mdroper-desk1.amr.corp.intel.com>
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2062.outbound.protection.outlook.com [40.107.220.62])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D87110E13B;
+ Wed,  4 Oct 2023 21:01:05 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ma9w5buxZTPkJfQa68em9jJC76IxjAPfzx1hEPIJrzkGYVGqi/ohvy0KudNlTbSbnUb45ehuSuKqtNRf0zAB42gcAKapWmtfBAKBXDqooSfukhCxgj2PjyMzB5hA+x8CLmvkZ98xjix/EzJSsIJGjerGzY8mmZw3xI0F9MQ+hQUedOz5uZ7oQJAurIDy0wVrMjVlSAezpx1zGzxDo/zxQBdCkqz7KkjuiT7KMTIB9jqdLog/FUviyHQMHwRKb8TlvpANxcAT/AONPEUU9o9yEWxA487NoX6Ge9lam33nFI1H1hVZ2GnfalZv2I7t2m8gZdQPfpb8u+5xixB0uIHtsA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=KkGw/kXl/tH3n5Hp1DiQGTOhY0nXPdyWGw3Z9ToDdWo=;
+ b=QSaHzHEs4Ea18m5U2uDVpS7ZEKkMxcQKBvdsmCF14wKktefm4xFvvpXJMcvF1ht9LKGu3IduppzUbxMwzgQsucVSR55JXL7EmWQcUBpmE3e5j2vlIPkZCGNVgbV2/GduABtj9siljf9VtLQWlvj8kg4P3lMGEt3PrJmoLzI0B4PepHhOZAiK2bsrK03g5MqATz8Byb07dwxyd8FP/44yPmZez5HrDFvsj6oX5NqfHjXKV4UfFDb3Tw5lVCbb6Hl8jNqLH0tyBAufHpdxGPxUW1A0GlfEbbxBZsXnVpFfjtssly8Fc3NmrWoHTtYIQLVKJAcgAmzla1vzWhcRpNUTWw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=KkGw/kXl/tH3n5Hp1DiQGTOhY0nXPdyWGw3Z9ToDdWo=;
+ b=oCxPXFndZ718bngWiT5duOLE4oOqktxZ1wZw5n1EXKI4DQTgE6NWuZ1VjgN/LxsXAKHsnT16AtiQ9uiJUOR4QTM2ml4AyQfPnh5feAXnVB7oup44MakmG2aSUvvtzk/6930tiWmXLemcZcuih29DuxL4fcvJvskJAchjJwj4E7k=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB2941.namprd12.prod.outlook.com (2603:10b6:208:a9::12)
+ by SN7PR12MB6911.namprd12.prod.outlook.com (2603:10b6:806:261::8)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6813.23; Wed, 4 Oct
+ 2023 21:01:02 +0000
+Received: from MN2PR12MB2941.namprd12.prod.outlook.com
+ ([fe80::9620:780c:562e:33a1]) by MN2PR12MB2941.namprd12.prod.outlook.com
+ ([fe80::9620:780c:562e:33a1%4]) with mapi id 15.20.6838.033; Wed, 4 Oct 2023
+ 21:01:02 +0000
+Message-ID: <d13aa2b8-9af4-4035-b3b8-f3ae7d0d15d8@amd.com>
+Date: Wed, 4 Oct 2023 15:00:57 -0600
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/5] drm/amd/display: Remove migrate-disable and move
+ memory allocation.
+Content-Language: en-US
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+References: <20230921141516.520471-1-bigeasy@linutronix.de>
+From: Rodrigo Siqueira Jordao <Rodrigo.Siqueira@amd.com>
+In-Reply-To: <20230921141516.520471-1-bigeasy@linutronix.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BN8PR07CA0028.namprd07.prod.outlook.com
+ (2603:10b6:408:ac::41) To MN2PR12MB2941.namprd12.prod.outlook.com
+ (2603:10b6:208:a9::12)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231004200544.GE53570@mdroper-desk1.amr.corp.intel.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN2PR12MB2941:EE_|SN7PR12MB6911:EE_
+X-MS-Office365-Filtering-Correlation-Id: fab24ea0-9334-4dc1-4a24-08dbc51d048c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: fDuge6MMks2Da/1szcHbLAKx09WOTiBeG/vybYQ6sN5tnwBXnsAL2977/5kPZL3+9T2Z8FaulikA04HcXTKJDqz9gZ33AHvbuf2XF6VdDE4ztFMAs6K3ccBOQlR8gb2sJ5GMlTyXNjAJasXVkwPu18ZtQX+wxGkAQNZN/FvVaO8C+oEo7fcOEBWGjP0o+lh1WR3P0QhbvkdfQeEVLSWlglUKOq1aNCs8bpwk2/KhO9E3/5uGQFZ55OHZ8zKvEPyTMHnIy37TEcRVW8F0gD0uWuXHNXSgNbxDXuYZtYyse4NEifGjV9jqhO1lPBQU6lLFhZEkYewm0TdIYG/lwtHgQuEM0d4a2IBi0NfC3sAl4W0sH9n9Twraqsyzx6zJQk8sBHJ15ao6InMchmI/2a0iHrZbLRs3jQJzwKr75B6QMcdVCtyltm5kpWa9ejHEwuYIjLhNlzSacyjem5YoD6UQmtzzd3s8Sgs69teoAYw5R3/y9i8+t7LENGjCf/EdS8IDRWC/lFZ2a7Acp9aUPm8oBNFADbNETQ2cpNYo3jwd3LhujHYc8eUS8AjghpIJNtDAAbM7V9Nm/38hMNU6jYotuvGvhpEiz9pPQcqp2FlX8jBgRyl0vrsdeQIFR8LE5O6F/zoqvkuKEyGHPfhr//pfiA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB2941.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(366004)(136003)(376002)(39860400002)(396003)(346002)(230922051799003)(64100799003)(1800799009)(451199024)(186009)(6666004)(6512007)(54906003)(53546011)(41300700001)(8676002)(8936002)(316002)(6506007)(31686004)(5660300002)(6486002)(4326008)(478600001)(4744005)(2616005)(66556008)(66476007)(26005)(66946007)(86362001)(36756003)(38100700002)(31696002)(2906002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UldxVlhvczJLN2hpRHpjQUFMdTNFZ1pNQ2p4c1hmbjdFVzg3RXc2bXVaTUJS?=
+ =?utf-8?B?eHVlN3F0VXdpTmFGQzkwNHREZFg3eFRMclRDSW5xM2xuUXhocGlBSHhkT2xO?=
+ =?utf-8?B?R0NlczZyT1NXS0Q1Q0hoYmR5VUs3TXZUemRSbmJUYSsvTHFLOXBrY2kxckk4?=
+ =?utf-8?B?bFBSYUQ2dnBxanZkR0pFcUpLcXFLRG5PWWFQSWc1ZUxnS1RVaU5kL250ZEl0?=
+ =?utf-8?B?QWpRWlRTbEszTWNNdVJQV0E1NjAzamhYZjRPVFRCVElZZ2FNalBDUUxGL2F2?=
+ =?utf-8?B?c21ib1JiRzJhN2JtNSttckVjeWk1cDZPVVVlNjBiWmxTM0ZBQUNVL3V3M3o2?=
+ =?utf-8?B?ZzUrdlBydEFRdG9DdFh2RTN2QjR5R25rZEU0ZDc2M3VPNWJ3QlFkdVQ4bitm?=
+ =?utf-8?B?TTA3Y29zazByZmpCSDE5WWVJd2dLSmlYT28yWUplU20yZGNEbnY1MVNqSHdh?=
+ =?utf-8?B?Z1BzeDQ4aWVNeWpYdk1vMUJyYm5GNUJSeFZZbkdVc21sRyswZGU4VStQNlU4?=
+ =?utf-8?B?YlI5NkRKVFhOVGNKbU12ZDRMa3ZyNDlCTW43ZSs1NWxYZlc4UVBOVjBRREJr?=
+ =?utf-8?B?UHRJZVBiL3VCWHhwYlhYYnhQM3UzRDNsSm9ERnpBK1ZKeGNvallXMXgwV0tW?=
+ =?utf-8?B?bEcwb0FuVmY1VFBPajB5NStTZ3lvazJBUUNJbzA3TE1LL3JrTzl0WDNSNXl2?=
+ =?utf-8?B?OVRFQ3l3cXpsZXcyRUpxTHpxY3o3dFVjeGprVEowdytqWExZZzZzZmxMdEdR?=
+ =?utf-8?B?bGFUTlRMM2g5anc3L1lVbW1xTlE5eVFINGtSdlVkaHlCRDdSVGMxYy9SQmhS?=
+ =?utf-8?B?b2M4eVR2aWtia2FuUkRhckx5ZjV6a3JSb2FGTWlDbjMxeW54bkFuMk5VMVZD?=
+ =?utf-8?B?YXUwa3pQaU9Vbzk1bTh2UWRrYWlqUHJ3L2lEWlBJUzc5RlVFTWlKdkJteWJY?=
+ =?utf-8?B?REVBd2JSYVUyemRrS0xWUHpiZ0dWd3pFZmxORW9xTW1OOUxUcUlJcytOZ1FY?=
+ =?utf-8?B?VWRKd2lMUEdHdEMrQzhUd2JnRE8xUkx6V3NhWFM5UTBDRFMwcVNLcTdqQWY4?=
+ =?utf-8?B?c29mK1RzMjJCaHFpc0pRMjRpdEZsdnUvTktGTFRvNkZJcVFiREViQUZkWnQv?=
+ =?utf-8?B?S0QvWVFUUnQ2MzRBbWhLMS90eG5pTUs3dGM5UlRWSi9qSjNXK2J1cG5XYmNw?=
+ =?utf-8?B?Q0ZiUjNWOXZLQlhPMWFseGthemxpWnphMFFMczE2c09lRVRhYkhqV0tUc2NW?=
+ =?utf-8?B?THVad3FzMitUUlBUL1JTa2cweExBSHl3SllZbEE3YUtGbmlxQkxCcUcxTW43?=
+ =?utf-8?B?ck1aVWZab293SUcyTE96Vjh0SmlxTWZMUURHM1Z6NWZvbHFRcXhEdWhzQUxU?=
+ =?utf-8?B?blpEYjZDNEwvdVVwWDVwRjJWVThoWE0rMFJKU0lrVXh6dDBhUDlhWm90OWt6?=
+ =?utf-8?B?clk5NFY5eEhDaW1lUzBGZVhmVEhUckxsdUpYVGZ0bVo1WDRKUXZrcCtONzls?=
+ =?utf-8?B?RHhlZ3h2Q3JyOUU1cGliUEJleGYvU2xEWTJRU29mb0JlQlZnUWtQWWtHTXJp?=
+ =?utf-8?B?L1h1SXl2dGlsODhsTVNFaDBmUmVud3pzWXhHOE5jMmwrTzVZb3BpYXFZOURL?=
+ =?utf-8?B?am41WnkvaWZKVlJOTHpOcWtiZmxSTnUyei92Q1lhM0xRUmNCS0Ewa2c1VWFG?=
+ =?utf-8?B?SEFoSVRlZkN3KzZtOE1SZU85NmVZNmRyT0VBUGkxZGtLU0prNXovWTlGZWdi?=
+ =?utf-8?B?Z1ZTbWdRWjdZVlNvbFduclBBc25GS3A3eVRKVkMxc29NZlJaRS9aemY5bnFP?=
+ =?utf-8?B?UXBUSEtSM3BrRnlhQUsxUE5laFg0Z2JqclAxSThmaE5vNDgrZHQ4VTUra0pB?=
+ =?utf-8?B?RDVWaU5PTjUwKzhnbG9QTWxNVzhrNGdXQWg2SU91aXVhRjJaTDNkTWRhVHhQ?=
+ =?utf-8?B?SXdWRDBET251NzNFL0hrY2RFZDdnWW4wTzlhaFNIMGRFaEk3Q2YvZVA2NzhJ?=
+ =?utf-8?B?ekV2VDJKYTVRRjBSaFZtajRMWGVmdXlsQ3FmbTQzdDNTT0IxQlhDTWxMZzkv?=
+ =?utf-8?B?OTZFVFd3ZXBkY2RBMFBtT2xoNVAzall6L3dDVnVib2FtVGhuTGFWRkFUdzBX?=
+ =?utf-8?Q?1wvWeZrTYI5s8Oe3zGujtzIbH?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fab24ea0-9334-4dc1-4a24-08dbc51d048c
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB2941.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Oct 2023 21:01:02.7733 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: OGpnN/8GlmGylS6oABnYKMlslEPMRZvOFcLG8sEr2U4H7TrbDPkMp5aflRthGKLW0WNCQ2QUDtAQjVpMuuv77g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB6911
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,196 +125,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- Jonathan Cavitt <jonathan.cavitt@intel.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Andi Shyti <andi.shyti@linux.intel.com>, gregory.f.germano@intel.com,
- John Harrison <john.c.harrison@intel.com>, Nirmoy Das <nirmoy.das@intel.com>
+Cc: Leo Li <sunpeng.li@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ Peter Zijlstra <peterz@infradead.org>,
+ Alex Deucher <alexander.deucher@amd.com>, Thomas Gleixner <tglx@linutronix.de>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Matt,
 
-> > > > > > The MCR steering semaphore is a shared lock entry between i915
-> > > > > > and various firmware components.
-> > > > > > 
-> > > > > > Getting the lock might sinchronize on some shared resources.
-> > > > > > Sometimes though, it might happen that the firmware forgets to
-> > > > > > unlock causing unnecessary noise in the driver which keeps doing
-> > > > > > what was supposed to do, ignoring the problem.
-> > > > > > 
-> > > > > > Do not consider this failure as an error, but just print a debug
-> > > > > > message stating that the MCR locking has been skipped.
-> > > > > > 
-> > > > > > On the driver side we still have spinlocks that make sure that
-> > > > > > the access to the resources is serialized.
-> > > > > > 
-> > > > > > Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
-> > > > > > Cc: Jonathan Cavitt <jonathan.cavitt@intel.com>
-> > > > > > Cc: Matt Roper <matthew.d.roper@intel.com>
-> > > > > > Cc: Nirmoy Das <nirmoy.das@intel.com>
-> > > > > > ---
-> > > > > >    drivers/gpu/drm/i915/gt/intel_gt_mcr.c | 6 ++----
-> > > > > >    1 file changed, 2 insertions(+), 4 deletions(-)
-> > > > > > 
-> > > > > > diff --git a/drivers/gpu/drm/i915/gt/intel_gt_mcr.c b/drivers/gpu/drm/i915/gt/intel_gt_mcr.c
-> > > > > > index 326c2ed1d99b..51eb693df39b 100644
-> > > > > > --- a/drivers/gpu/drm/i915/gt/intel_gt_mcr.c
-> > > > > > +++ b/drivers/gpu/drm/i915/gt/intel_gt_mcr.c
-> > > > > > @@ -395,10 +395,8 @@ void intel_gt_mcr_lock(struct intel_gt *gt, unsigned long *flags)
-> > > > > >    	 * would indicate some hardware/firmware is misbehaving and not
-> > > > > >    	 * releasing it properly.
-> > > > > >    	 */
-> > > > > > -	if (err == -ETIMEDOUT) {
-> > > > > > -		gt_err_ratelimited(gt, "hardware MCR steering semaphore timed out");
-> > > > > > -		add_taint_for_CI(gt->i915, TAINT_WARN);  /* CI is now unreliable */
-> > > > > > -	}
-> > > > > > +	if (err == -ETIMEDOUT)
-> > > > > > +		gt_dbg(gt, "hardware MCR steering semaphore timed out");
-> > > > > >    }
-> > > > > >    /**
-> > > > > Are we sure this does not warrant a level higher than dbg, such as
-> > > > > notice/warn?
-> > > > We might make it a warn, but this doesn't change much the economy
-> > > > of the driver as we will keep doing what we were supposed to do.
-> > > > 
-> > > > > Because how can we be sure the two entities will not stomp on
-> > > > > each other toes if we failed to obtain lock?
-> > > > So far, in all the research I've done, no one looks like using
-> > > > MCR lock, but yet someone is stuck in it.
-> > > 
-> > > If someone has the lock then that someone thinks they are using it. Just
-> > > because you can't see what someone piece of IFWI is doing doesn't mean it
-> > > isn't doing it. And if it is a genuinely missing unlock then it needs to be
-> > > tracked down and fixed with an IFWI update otherwise the system is going to
-> > > be unstable from that point on.
-> > 
-> > But I'm not changing here the behavior of the driver. The driver
-> > will keep doing what was doing before.
-> > 
-> > Because this most probably won't be noticed by the user, then I
-> > don't see why it should shout out loud that the system is
-> > unusable when most probably it is.
+
+On 9/21/23 08:15, Sebastian Andrzej Siewior wrote:
+> Hi,
 > 
-> That's like saying that any random race condition isn't likely to be
-> noticed by the user so it's not a big deal if we're missing a few
-> mutexes or spinlocks somewhere...even though there's likely to be no
-> user-visible impact to any race condition 99% of the time, it's the 1%
-> that winds up being absolutely catastrophic.
-
-Not really... normally if you hit a spinlock/mutex race
-condition, you end up in a deadlock and stall the system. In this
-case, I agree that the lock should be sorted out by the hardware,
-but in the meantime i915 is *already* ignoring it.
-
-I'm not making any behavioral change with this patch.
-
-What I'm trying to say is that if the system doesn't crash, then
-let it go... don't crash it on purpose just because there is a
-locking situation and we think it has a catastrophic effect, but
-in reality is not producing anything (like practically in our
-case, you can check the CI results[*]).
-
-[*] https://patchwork.freedesktop.org/patch/560733/?series=124599&rev=1
-
-> If we're not obtaining the MCR lock as expected and are simply moving
-> forward to force our own steering (possibly at the same time firmware is
-> programming steering to a different value), you probably won't actually
-> see a problem either because the operations won't wind up interleaving
-> in a problematic order, or because the driver and the firmware both
-> happen to be trying to steer to the same instance (e.g., instance #0 is
-> a quite common target).  But even if they're hard to hit, the
-> possibility for a major problem is still there and basically we need to
-> consider the whole platform to be in an unknown, unstable state once
-> we've detected one of these issues.
+> I stumbled uppon the amdgpu driver via a bugzilla report. The actual fix
+> is #4 + #5 and the rest was made while looking at the code.
 > 
-> Based on some earlier experiments, it sounds like the problem at the
-> moment is that we've just been too hasty with deciding that the lock is
-> "stuck."  There's no formal guidance on what an appropriate timeout is,
-> but Jonathan's patch to increase the timeout by 10x (from 100ms to 1s)
-> should hopefully take care of those cases and prevent us from causing
-> any unprotected races.
-
-Unfortunately it doesn't. Here[**] you can see how the situation
-doesn't change in mtlp-8.
-
-[**] https://intel-gfx-ci.01.org/tree/drm-tip/Patchwork_124576v2/index.html?
-
-> If we have any other problems where the lock is
-> truly stuck (as was seen after an S3 resume), that's a critical error
-> that needs to be escalated to whichever component is the culprit --- any
-> such system simply cannot be used safely.  Even if the KMD didn't notice
-> such stuck semaphores itself, one misbehaving firmware agent could still
-> block other firmware agents and cause major problems for the health of
-> the system.
-
-Agree... we are working with hardware guys to get down to the
-root cause. We knew already when we merged this patch[***] that
-this wouldn't fix the issue as the issue still lies underneath.
-
-[***] 37280ef5c1c4 ("drm/i915: Clean steer semaphore on resume")
-
-> > BTW, at my understanding this is not an IFWI problem. We checked
-> > with different version of IFWI and the issue is the same.
+> Sebastian
 > 
-> It may not be an IFWI _regression_, but unless we're contending with
-> ourselves (via different CPU threads, which I think we've already ruled
-> out through some ftrace experiments), then it does mean that something
-> in the IFWI is causing the lock to be held longer than expected.  That
-> may have always been the behavior since day 1 and we just didn't notice
-> until we got a relatively clean CI setup to start seeing these errors.
 > 
-> > 
-> > Besides we received reports also from systems that are not using
-> > IFWI at all.
-> 
-> What does this mean?  IFWI is just the generic term we use for the blob
-> we flash onto the system that bundles a bunch of different types of
-> firmware.  E.g., stuff like pcode firmware, csme, EFI GOP, etc.  If a
-> 3rd party is putting together a MTL device, they probably refer to their
-> firmware bundles with some term other than "IFWI" and may swap out some
-> of the specific components, but at the end of the day the system still
-> has the important low-level firmware running for things like pcode.
-> 
-> > 
-> > > 
-> > > > 
-> > > > > (How can we be sure about
-> > > > > "forgot to unlock" vs "in prolonged active use"?
-> > > > There is a patch from Jonathan that is testing a different
-> > > > timeout.
-> > > > 
-> > > > > Or if we can be sure, can
-> > > > > we force unlock and take the lock for the driver explicitly?)
-> > > > I sent a patch with this solution and Matt turned it down.
-> > > 
-> > > Presumably because both forcing a lock and ignoring a failed lock are Bad
-> > > Things to be doing!
-> > > Just because some entity out of our control isn't playing friendly doesn't
-> > > mean we can ignore the problem. The lock is there for a reason. If someone
-> > > else owns the lock then any steered access by i915 is potentially going to
-> > > be routed to the wrong register as the other entity re-directs the steering
-> > > behind out back. That is why there is an error message being printed.
-> > > Because things are quite possibly going to fail in some unknown manner.
-> > 
-> > Yes, agree. This has been already discussed here[*] where I sent
-> > such RFC for the sole purpose of receiving some opinions and
-> > check how CI would behave.
-> > 
-> > BTW, we are already doing this during the GT resume[**]... it's a
-> > bit of a different context, but it still forces the release of
-> > the lock.
-> 
-> That resume-time patch is only deemed safe because we got explicit
-> confirmation from the architects that it's not possible for any of the
-> external agents to truly be using the MCR lock at that point during
-> driver load and S3 resume.  It's still a serious bug in some firmware
-> component, but in that specific case it's one that we can fix up
-> ourselves without risk.  Any locking failures seen later on during
-> regular system use cannot be solves safely.
 
-Yes! Agree! :-)
+Hi Sebastian,
 
-Thanks, Matt!
-Andi
+Thanks a lot for this patchset. We tested it on multiple devices, and 
+everything looks good. I also reviewed it and lgtm.
+
+Reviewed-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+
+Thanks
+Siqueira
