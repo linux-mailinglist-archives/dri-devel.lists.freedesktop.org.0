@@ -1,79 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF87D7B9D1E
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Oct 2023 14:58:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F07007B9D2D
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Oct 2023 15:05:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C481710E3F0;
-	Thu,  5 Oct 2023 12:58:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9FF6A10E3F4;
+	Thu,  5 Oct 2023 13:05:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 35F4F10E3F0
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Oct 2023 12:58:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1696510713;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=6W8sT9rAMhqD2oqvCfRGrk/xzbFEyEVtrK+7IWn6j3c=;
- b=TZUYkXe+YvtCqF8ADTLxA0MFFwPbU1K4nJ2MgbqP4VByzw7n8LEBNrBL/oHzQjn/T//aXD
- K65osYPExtEwsEIg3kusZyIkYO41kLMD9MZDKx+u3DtsjSAxttvBNSiHiHN122BsBrVZ+W
- LcTtwUP6JP9cE+zvIoK0lqrHsEJvAs4=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-20-lFuCTyeLP1q144zur1iDPw-1; Thu, 05 Oct 2023 08:58:32 -0400
-X-MC-Unique: lFuCTyeLP1q144zur1iDPw-1
-Received: by mail-wm1-f71.google.com with SMTP id
- 5b1f17b1804b1-405629826ccso7345585e9.0
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Oct 2023 05:58:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1696510711; x=1697115511;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=6W8sT9rAMhqD2oqvCfRGrk/xzbFEyEVtrK+7IWn6j3c=;
- b=FSITgNfBzHq2jZeEX8/xbYZOenAUpnuUUibfn0Olcjmf07CEN02NE4X28wTjZ1K9FW
- aN5dDS8ZQz2AHoIx4Ie7Mz5YSGX4UAMPE9OMmMxgzdf4sj/MwSFgR59Os0I/AMp8KXy1
- +VBZ2F+NaeXh1e0yR/bLVA9A9BF1fYTs2dvcfjXXgHQ8xN886jZqYtyToVPPkLhe8CLE
- yrAZwOLbBxxstcQcK2rsiuQ/kIsqT5oE4hn/5UXqk/tqwLvgGp9kcP58ZGbuvztmO/O/
- WN24v1S0coP6BP0a8maQdEcT6ID87KYrV/zXZbk1/yDUFomzGHmg1A1WVohBlVLMGNHC
- zUFw==
-X-Gm-Message-State: AOJu0YzFEkx130TRLmCxYuiNXkL7i+APApnvAwmUdeyK0T7of3yGzwPQ
- iuV3BO4RizQOKlBJIveXnHFbJQrq2rIY+o/WLa3ugVmrtxxX+Bh1X5CqoAobsvefsyvlpj3w/qa
- OrX5UefuF0IMoiwCgP11uELuZ8BmK
-X-Received: by 2002:a05:600c:294a:b0:3f5:fff8:d4f3 with SMTP id
- n10-20020a05600c294a00b003f5fff8d4f3mr5201225wmd.7.1696510710729; 
- Thu, 05 Oct 2023 05:58:30 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGtSZioHDIpsJ2OM6grBNmo9B+wCvOmaWLkRX/V9k6TMbXNzk6hFc0KBkh6U6OaIXS9+73h2Q==
-X-Received: by 2002:a05:600c:294a:b0:3f5:fff8:d4f3 with SMTP id
- n10-20020a05600c294a00b003f5fff8d4f3mr5201211wmd.7.1696510710434; 
- Thu, 05 Oct 2023 05:58:30 -0700 (PDT)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- w21-20020a05600c015500b0040652e8ca13sm3702877wmm.43.2023.10.05.05.58.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Oct 2023 05:58:30 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, jfalempe@redhat.com,
- jose.exposito89@gmail.com, arthurgrillo@riseup.net, mairacanal@riseup.net,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
- daniel@ffwll.ch, noralf@tronnes.org
-Subject: Re: [PATCH v4 6/7] drm/ssd130x: Fix atomic_check for disabled planes
-In-Reply-To: <874jj58c10.fsf@minerva.mail-host-address-is-not-set>
-References: <20231005090520.16511-1-tzimmermann@suse.de>
- <20231005090520.16511-7-tzimmermann@suse.de>
- <8734ypwb9w.fsf@minerva.mail-host-address-is-not-set>
- <c4fd1d91-7d9b-483f-8b1d-10857a6f1016@suse.de>
- <874jj58c10.fsf@minerva.mail-host-address-is-not-set>
-Date: Thu, 05 Oct 2023 14:58:29 +0200
-Message-ID: <871qe98buy.fsf@minerva.mail-host-address-is-not-set>
+Received: from casper.infradead.org (casper.infradead.org
+ [IPv6:2001:8b0:10b:1236::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0BA3810E3F3
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Oct 2023 13:05:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+ References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=Mkk02uRjKGFB4e8aG+3kpHFTSQxewntkAdfkHaxdesI=; b=e8lzia3eWGjc2IATz+le3lrKVu
+ gOGiebot8NBca6IuY1/7+0Md+gtJwtDVfAHSbA0UWbreBJzbz2kT+hFv+RpLa6r5qqRoffNUXfRGU
+ VA7jnn8XW5RZTzKlM7OWo4x9vALqRV3miM8Zj4Wp1GxFCK1GDxu9CMi+opvVuCBcDMsxrXr1VD/GA
+ ISl5cGU9QCIbPRtkw/08b6pYXUxKIhk56rJaYx/OV4skaPAarzqcWN2klpsiXE8vITVUS0/02QcWn
+ rDUIB+fTSXu4BQliJpqS6UwH588iRi1GdKAdsFAPCdE/peTEyKFsQeCaJqVQf6gemqeoarlPqa0Hy
+ z8Nh6/3A==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red
+ Hat Linux)) id 1qoO2h-009V8J-IJ; Thu, 05 Oct 2023 13:05:27 +0000
+Date: Thu, 5 Oct 2023 14:05:27 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: Oleksandr Natalenko <oleksandr@natalenko.name>
+Subject: Re: [REGRESSION] BUG: KFENCE: memory corruption in
+ drm_gem_put_pages+0x186/0x250
+Message-ID: <ZR60lylMtLO6ZGp7@casper.infradead.org>
+References: <13360591.uLZWGnKmhe@natalenko.name>
+ <3254850.aeNJFYEL58@natalenko.name>
+ <ZR6p4MpDbQpZiUSZ@casper.infradead.org>
+ <22037450.EfDdHjke4D@natalenko.name>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <22037450.EfDdHjke4D@natalenko.name>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,46 +51,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>, dri-devel@lists.freedesktop.org
+Cc: Linux Regressions <regressions@lists.linux.dev>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Sumit Semwal <sumit.semwal@linaro.org>, linaro-mm-sig@lists.linaro.org,
+ linux-mm@kvack.org, Andrew Morton <akpm@linux-foundation.org>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Bagas Sanjaya <bagasdotme@gmail.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Javier Martinez Canillas <javierm@redhat.com> writes:
+On Thu, Oct 05, 2023 at 02:30:55PM +0200, Oleksandr Natalenko wrote:
+> No-no, sorry for possible confusion. Let me explain again:
+> 
+> 1. we had an issue with i915, which was introduced by 0b62af28f249, and later was fixed by 863a8eb3f270
+> 2. now I've discovered another issue, which looks very similar to 1., but in a VM with Cirrus VGA, and it happens even while having 863a8eb3f270 applied
+> 3. I've tried reverting 3291e09a4638, after which I cannot reproduce the issue with Cirrus VGA, but clearly there was no fix for it discussed
+> 
+> IOW, 863a8eb3f270 is the fix for 0b62af28f249, but not for 3291e09a4638. It looks like 3291e09a4638 requires a separate fix.
 
-> Thomas Zimmermann <tzimmermann@suse.de> writes:
->
-> Hello Thomas,
->
+Thank you!  Sorry about the misunderstanding.  Try this:
 
-[...]
+diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+index 6129b89bb366..44a948b80ee1 100644
+--- a/drivers/gpu/drm/drm_gem.c
++++ b/drivers/gpu/drm/drm_gem.c
+@@ -540,7 +540,7 @@ struct page **drm_gem_get_pages(struct drm_gem_object *obj)
+ 	struct page **pages;
+ 	struct folio *folio;
+ 	struct folio_batch fbatch;
+-	int i, j, npages;
++	long i, j, npages;
+ 
+ 	if (WARN_ON(!obj->filp))
+ 		return ERR_PTR(-EINVAL);
+@@ -564,11 +564,13 @@ struct page **drm_gem_get_pages(struct drm_gem_object *obj)
+ 
+ 	i = 0;
+ 	while (i < npages) {
++		long nr;
+ 		folio = shmem_read_folio_gfp(mapping, i,
+ 				mapping_gfp_mask(mapping));
+ 		if (IS_ERR(folio))
+ 			goto fail;
+-		for (j = 0; j < folio_nr_pages(folio); j++, i++)
++		nr = min(npages - i, folio_nr_pages(folio));
++		for (j = 0; j < nr; j++, i++)
+ 			pages[i] = folio_file_page(folio, i);
+ 
+ 		/* Make sure shmem keeps __GFP_DMA32 allocated pages in the
 
->>
->> You have a atomic_disable in that plane, so you're taking the branch at 
->> [2] for disabling the plane. No atomic_update then. If the plane has 
->> been enabled, you should take the branch at [3]. Without being able to 
->> move/scale the primary plane, I don't see how plane_state->visible could 
->> be false here. Right?
->>
->> AFAIKT there should not be a NULL-deref here. Can you do a test?
->>
->
-> You are correct, there's no NULL-deref and in fact you are fixing the
-> plane not disable bug, so your fix is correct and should be applied.
->
-> I still prefer as mentioned keeping the drm_plane_helper_atomic_check()
-> call instead of open coding it, but regardless of what is decided:
->
-> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
->
-
-And also for patches #1, #2, #3, #6 and #7, feel free to add:
-
-Tested-by: Javier Martinez Canillas <javierm@redhat.com>
-
--- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
 
