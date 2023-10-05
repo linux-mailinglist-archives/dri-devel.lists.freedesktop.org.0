@@ -2,16 +2,16 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEFAB7BA783
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Oct 2023 19:16:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 493BD7BA784
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Oct 2023 19:16:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05D2710E443;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1AAA810E444;
 	Thu,  5 Oct 2023 17:15:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 44B0610E43E;
- Thu,  5 Oct 2023 17:15:50 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6BD1D10E440;
+ Thu,  5 Oct 2023 17:15:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
@@ -19,26 +19,26 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=O7LWpEI4Wxo2nvObSMyljDk70IrD9o1uiIg+HiLdLbs=; b=L2Be+eiRd291PcqrjuxyVj1Q8Y
- xk2VGfJGYJf3JpYurbJAFG7+rmFBIRox7xQLZIo5AcaUotbbmZVKC6lrVfMt0OJA+Js0l2w0ek5vh
- zaDRmbIL9ggRTae8Sh089i0zWVMEuTvgYbV/GYVz2/XM8gXnDRXr/d9UyRlPEQ+VbNvcUJLTuAFRc
- ks0X5RkbYhaWeUjZ4W9Ml7WBpbwVH3mz16mwu/CgZCWjCW8Z4AXionSYK0gRujqxROOzTDd11V/ek
- HN5dDGsv+4XkanltVGDjPcz/Zh5J67L7RjCqlvSAWeVP1xBqP729MGP0M8pQX8arh8vG60U3KaDRI
- kvMo0uBw==;
+ bh=os9x7dOVexv2zixtCDQur0jlNbvrWUeMMnpkWXFo9/k=; b=HyDFKJjaLy4oQfluRNtTrfpKiI
+ U3oq5dmm4M3yC+/PXTUBjugX9+Or+b2zgr9gRv4R2xtkAGJspXRLj78Cl9FB3SSqfH4CS7ja4qt4d
+ 5ki6CrBujzOtRWwbRN1YCJ6Ebx1nmgfutHpGmN0DoWI/ySa0gbtxoSuuDJ8kNmk/BSET7GEHLqi64
+ sDPoy8mjuIYaMfyoe2OXJ4yAYatDP/RMgbOmqZ7u9P1jjwtOufEPBb3ZSK4N2slK4+KL8WqF9ScTw
+ kRhjrNi2c+rhn1u4gPxAT1itoPz08/o+Qvvq2rd6YyP6/BGVuDGGmxYK3lpmXynwwHxllkCHTdT07
+ nTC3sNaw==;
 Received: from [102.213.205.115] (helo=killbill.home)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1qoRwy-00CFJN-96; Thu, 05 Oct 2023 19:15:48 +0200
+ id 1qoRx0-00CFJN-CO; Thu, 05 Oct 2023 19:15:50 +0200
 From: Melissa Wen <mwen@igalia.com>
 To: amd-gfx@lists.freedesktop.org, Harry Wentland <harry.wentland@amd.com>,
  Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, sunpeng.li@amd.com,
  Alex Deucher <alexander.deucher@amd.com>, dri-devel@lists.freedesktop.org,
  christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
  daniel@ffwll.ch
-Subject: [PATCH v4 08/32] drm/amd/display: add plane HDR multiplier
- driver-specific property
-Date: Thu,  5 Oct 2023 16:15:03 -0100
-Message-Id: <20231005171527.203657-9-mwen@igalia.com>
+Subject: [PATCH v4 09/32] drm/amd/display: add plane 3D LUT driver-specific
+ properties
+Date: Thu,  5 Oct 2023 16:15:04 -0100
+Message-Id: <20231005171527.203657-10-mwen@igalia.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20231005171527.203657-1-mwen@igalia.com>
 References: <20231005171527.203657-1-mwen@igalia.com>
@@ -65,143 +65,175 @@ Cc: Sebastian Wick <sebastian.wick@redhat.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Joshua Ashton <joshua@froggi.es>
+Add 3D LUT property for plane color transformations using a 3D lookup
+table. 3D LUT allows for highly accurate and complex color
+transformations and is suitable to adjust the balance between color
+channels. It's also more complex to manage and require more
+computational resources.
 
-Multiplier to 'gain' the plane. When PQ is decoded using the fixed func
-transfer function to the internal FP16 fb, 1.0 -> 80 nits (on AMD at
-least) When sRGB is decoded, 1.0 -> 1.0.  Therefore, 1.0 multiplier = 80
-nits for SDR content. So if you want, 203 nits for SDR content, pass in
-(203.0 / 80.0).
+Since a 3D LUT has a limited number of entries in each dimension we want
+to use them in an optimal fashion. This means using the 3D LUT in a
+colorspace that is optimized for human vision, such as sRGB, PQ, or
+another non-linear space. Therefore, userpace may need one 1D LUT
+(shaper) before it to delinearize content and another 1D LUT after 3D
+LUT (blend) to linearize content again for blending. The next patches
+add these 1D LUTs to the plane color mgmt pipeline.
+
+v3:
+- improve commit message about 3D LUT
+- describe the 3D LUT entries and size (Harry)
 
 v4:
-- comment about the PQ TF need for L-to-NL (from Harry's review)
+- advertise 3D LUT max size as the size of a single-dimension
 
-Signed-off-by: Joshua Ashton <joshua@froggi.es>
-Co-developed-by: Melissa Wen <mwen@igalia.com>
 Signed-off-by: Melissa Wen <mwen@igalia.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h        |  4 ++++
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h   | 17 +++++++++++++++++
- .../drm/amd/display/amdgpu_dm/amdgpu_dm_color.c |  6 ++++++
- .../drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c | 13 +++++++++++++
- 4 files changed, 40 insertions(+)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h      | 18 +++++++++++++++
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h |  9 ++++++++
+ .../amd/display/amdgpu_dm/amdgpu_dm_color.c   | 14 +++++++++++
+ .../amd/display/amdgpu_dm/amdgpu_dm_plane.c   | 23 +++++++++++++++++++
+ 4 files changed, 64 insertions(+)
 
 diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
-index 9b6fab86c6c3..62044d41da75 100644
+index 62044d41da75..f7adaa52c23f 100644
 --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
 +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
-@@ -359,6 +359,10 @@ struct amdgpu_mode_info {
- 	 * to go from scanout/encoded values to linear values.
+@@ -363,6 +363,24 @@ struct amdgpu_mode_info {
+ 	 * @plane_hdr_mult_property:
  	 */
- 	struct drm_property *plane_degamma_tf_property;
+ 	struct drm_property *plane_hdr_mult_property;
 +	/**
-+	 * @plane_hdr_mult_property:
++	 * @plane_lut3d_property: Plane property for color transformation using
++	 * a 3D LUT (pre-blending), a three-dimensional array where each
++	 * element is an RGB triplet. Each dimension has a size of the cubed
++	 * root of lut3d_size. The array contains samples from the approximated
++	 * function. On AMD, values between samples are estimated by
++	 * tetrahedral interpolation. The array is accessed with three indices,
++	 * one for each input dimension (color channel), blue being the
++	 * outermost dimension, red the innermost.
 +	 */
-+	struct drm_property *plane_hdr_mult_property;
++	struct drm_property *plane_lut3d_property;
++	/**
++	 * @plane_degamma_lut_size_property: Plane property to define the max
++	 * size of 3D LUT as supported by the driver (read-only). The max size
++	 * is the max size of one dimension and, therefore, the max number of
++	 * entries for 3D LUT array is the 3D LUT size cubed;
++	 */
++	struct drm_property *plane_lut3d_size_property;
  };
  
  #define AMDGPU_MAX_BL_LEVEL 0xFF
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-index fc4f188d397e..bb2ce843369d 100644
+index bb2ce843369d..7a2350c62cf1 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-@@ -55,6 +55,9 @@
- #define HDMI_AMD_VENDOR_SPECIFIC_DATA_BLOCK_IEEE_REGISTRATION_ID 0x00001A
- #define AMD_VSDB_VERSION_3_FEATURECAP_REPLAYMODE 0x40
- #define HDMI_AMD_VENDOR_SPECIFIC_DATA_BLOCK_VERSION_3 0x3
-+
-+#define AMDGPU_HDR_MULT_DEFAULT (0x100000000LL)
-+
- /*
- #include "include/amdgpu_dal_power_if.h"
- #include "amdgpu_dm_irq.h"
-@@ -767,6 +770,20 @@ struct dm_plane_state {
- 	 * linearize.
+@@ -784,6 +784,11 @@ struct dm_plane_state {
+ 	 * TF is needed for any subsequent linear-to-non-linear transforms.
  	 */
- 	enum amdgpu_transfer_function degamma_tf;
+ 	__u64 hdr_mult;
 +	/**
-+	 * @hdr_mult:
-+	 *
-+	 * Multiplier to 'gain' the plane.  When PQ is decoded using the fixed
-+	 * func transfer function to the internal FP16 fb, 1.0 -> 80 nits (on
-+	 * AMD at least). When sRGB is decoded, 1.0 -> 1.0, obviously.
-+	 * Therefore, 1.0 multiplier = 80 nits for SDR content.  So if you
-+	 * want, 203 nits for SDR content, pass in (203.0 / 80.0).  Format is
-+	 * S31.32 sign-magnitude.
-+	 *
-+	 * HDR multiplier can wide range beyond [0.0, 1.0]. This means that PQ
-+	 * TF is needed for any subsequent linear-to-non-linear transforms.
++	 * @lut3d: 3D lookup table blob. The blob (if not NULL) is an array of
++	 * &struct drm_color_lut.
 +	 */
-+	__u64 hdr_mult;
++	struct drm_property_blob *lut3d;
  };
  
  struct dm_crtc_state {
+@@ -869,6 +874,10 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
+ 
+ void amdgpu_dm_trigger_timing_sync(struct drm_device *dev);
+ 
++/* 3D LUT max size is 17x17x17 (4913 entries) */
++#define MAX_COLOR_3DLUT_SIZE 17
++#define MAX_COLOR_3DLUT_BITDEPTH 12
++/* 1D LUT size */
+ #define MAX_COLOR_LUT_ENTRIES 4096
+ /* Legacy gamm LUT users such as X doesn't like large LUT sizes */
+ #define MAX_COLOR_LEGACY_LUT_ENTRIES 256
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
-index d5dbd20a6766..caf49a044ab4 100644
+index caf49a044ab4..011f2f9ec890 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
-@@ -224,6 +224,12 @@ amdgpu_dm_create_color_properties(struct amdgpu_device *adev)
+@@ -230,6 +230,20 @@ amdgpu_dm_create_color_properties(struct amdgpu_device *adev)
  		return -ENOMEM;
- 	adev->mode_info.plane_degamma_tf_property = prop;
+ 	adev->mode_info.plane_hdr_mult_property = prop;
  
-+	prop = drm_property_create_range(adev_to_drm(adev),
-+					 0, "AMD_PLANE_HDR_MULT", 0, U64_MAX);
++	prop = drm_property_create(adev_to_drm(adev),
++				   DRM_MODE_PROP_BLOB,
++				   "AMD_PLANE_LUT3D", 0);
 +	if (!prop)
 +		return -ENOMEM;
-+	adev->mode_info.plane_hdr_mult_property = prop;
++	adev->mode_info.plane_lut3d_property = prop;
++
++	prop = drm_property_create_range(adev_to_drm(adev),
++					 DRM_MODE_PROP_IMMUTABLE,
++					 "AMD_PLANE_LUT3D_SIZE", 0, UINT_MAX);
++	if (!prop)
++		return -ENOMEM;
++	adev->mode_info.plane_lut3d_size_property = prop;
 +
  	return 0;
  }
  #endif
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-index 04af6db8cffd..ae64d4b73360 100644
+index ae64d4b73360..068798ffdd56 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-@@ -1337,6 +1337,7 @@ static void dm_drm_plane_reset(struct drm_plane *plane)
+@@ -1359,6 +1359,8 @@ dm_drm_plane_duplicate_state(struct drm_plane *plane)
  
- 	__drm_atomic_helper_plane_reset(plane, &amdgpu_state->base);
- 	amdgpu_state->degamma_tf = AMDGPU_TRANSFER_FUNCTION_DEFAULT;
-+	amdgpu_state->hdr_mult = AMDGPU_HDR_MULT_DEFAULT;
- }
- 
- static struct drm_plane_state *
-@@ -1360,6 +1361,7 @@ dm_drm_plane_duplicate_state(struct drm_plane *plane)
+ 	if (dm_plane_state->degamma_lut)
  		drm_property_blob_get(dm_plane_state->degamma_lut);
++	if (dm_plane_state->lut3d)
++		drm_property_blob_get(dm_plane_state->lut3d);
  
  	dm_plane_state->degamma_tf = old_dm_plane_state->degamma_tf;
-+	dm_plane_state->hdr_mult = old_dm_plane_state->hdr_mult;
+ 	dm_plane_state->hdr_mult = old_dm_plane_state->hdr_mult;
+@@ -1432,6 +1434,8 @@ static void dm_drm_plane_destroy_state(struct drm_plane *plane,
  
- 	return &dm_plane_state->base;
- }
-@@ -1456,6 +1458,10 @@ dm_atomic_plane_attach_color_mgmt_properties(struct amdgpu_display_manager *dm,
- 					   dm->adev->mode_info.plane_degamma_tf_property,
- 					   AMDGPU_TRANSFER_FUNCTION_DEFAULT);
- 	}
-+	/* HDR MULT is always available */
-+	drm_object_attach_property(&plane->base,
-+				   dm->adev->mode_info.plane_hdr_mult_property,
-+				   AMDGPU_HDR_MULT_DEFAULT);
+ 	if (dm_plane_state->degamma_lut)
+ 		drm_property_blob_put(dm_plane_state->degamma_lut);
++	if (dm_plane_state->lut3d)
++		drm_property_blob_put(dm_plane_state->lut3d);
+ 
+ 	if (dm_plane_state->dc_state)
+ 		dc_plane_state_release(dm_plane_state->dc_state);
+@@ -1462,6 +1466,14 @@ dm_atomic_plane_attach_color_mgmt_properties(struct amdgpu_display_manager *dm,
+ 	drm_object_attach_property(&plane->base,
+ 				   dm->adev->mode_info.plane_hdr_mult_property,
+ 				   AMDGPU_HDR_MULT_DEFAULT);
++
++	if (dpp_color_caps.hw_3d_lut) {
++		drm_object_attach_property(&plane->base,
++					   mode_info.plane_lut3d_property, 0);
++		drm_object_attach_property(&plane->base,
++					   mode_info.plane_lut3d_size_property,
++					   MAX_COLOR_3DLUT_SIZE);
++	}
  }
  
  static int
-@@ -1482,6 +1488,11 @@ dm_atomic_plane_set_property(struct drm_plane *plane,
- 			dm_plane_state->degamma_tf = val;
+@@ -1493,6 +1505,14 @@ dm_atomic_plane_set_property(struct drm_plane *plane,
+ 			dm_plane_state->hdr_mult = val;
  			dm_plane_state->base.color_mgmt_changed = 1;
  		}
-+	} else if (property == adev->mode_info.plane_hdr_mult_property) {
-+		if (dm_plane_state->hdr_mult != val) {
-+			dm_plane_state->hdr_mult = val;
-+			dm_plane_state->base.color_mgmt_changed = 1;
-+		}
++	} else if (property == adev->mode_info.plane_lut3d_property) {
++		ret = drm_property_replace_blob_from_id(plane->dev,
++							&dm_plane_state->lut3d,
++							val, -1,
++							sizeof(struct drm_color_lut),
++							&replaced);
++		dm_plane_state->base.color_mgmt_changed |= replaced;
++		return ret;
  	} else {
  		drm_dbg_atomic(plane->dev,
  			       "[PLANE:%d:%s] unknown property [PROP:%d:%s]]\n",
-@@ -1507,6 +1518,8 @@ dm_atomic_plane_get_property(struct drm_plane *plane,
- 			dm_plane_state->degamma_lut->base.id : 0;
- 	} else if (property == adev->mode_info.plane_degamma_tf_property) {
+@@ -1520,6 +1540,9 @@ dm_atomic_plane_get_property(struct drm_plane *plane,
  		*val = dm_plane_state->degamma_tf;
-+	} else if (property == adev->mode_info.plane_hdr_mult_property) {
-+		*val = dm_plane_state->hdr_mult;
+ 	} else if (property == adev->mode_info.plane_hdr_mult_property) {
+ 		*val = dm_plane_state->hdr_mult;
++	} else 	if (property == adev->mode_info.plane_lut3d_property) {
++		*val = (dm_plane_state->lut3d) ?
++			dm_plane_state->lut3d->base.id : 0;
  	} else {
  		return -EINVAL;
  	}
