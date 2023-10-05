@@ -2,43 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F07007B9D2D
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Oct 2023 15:05:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C33DD7B9D42
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Oct 2023 15:16:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9FF6A10E3F4;
-	Thu,  5 Oct 2023 13:05:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 37CD410E407;
+	Thu,  5 Oct 2023 13:16:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from casper.infradead.org (casper.infradead.org
- [IPv6:2001:8b0:10b:1236::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0BA3810E3F3
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Oct 2023 13:05:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
- References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=Mkk02uRjKGFB4e8aG+3kpHFTSQxewntkAdfkHaxdesI=; b=e8lzia3eWGjc2IATz+le3lrKVu
- gOGiebot8NBca6IuY1/7+0Md+gtJwtDVfAHSbA0UWbreBJzbz2kT+hFv+RpLa6r5qqRoffNUXfRGU
- VA7jnn8XW5RZTzKlM7OWo4x9vALqRV3miM8Zj4Wp1GxFCK1GDxu9CMi+opvVuCBcDMsxrXr1VD/GA
- ISl5cGU9QCIbPRtkw/08b6pYXUxKIhk56rJaYx/OV4skaPAarzqcWN2klpsiXE8vITVUS0/02QcWn
- rDUIB+fTSXu4BQliJpqS6UwH588iRi1GdKAdsFAPCdE/peTEyKFsQeCaJqVQf6gemqeoarlPqa0Hy
- z8Nh6/3A==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red
- Hat Linux)) id 1qoO2h-009V8J-IJ; Thu, 05 Oct 2023 13:05:27 +0000
-Date: Thu, 5 Oct 2023 14:05:27 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: Oleksandr Natalenko <oleksandr@natalenko.name>
-Subject: Re: [REGRESSION] BUG: KFENCE: memory corruption in
- drm_gem_put_pages+0x186/0x250
-Message-ID: <ZR60lylMtLO6ZGp7@casper.infradead.org>
-References: <13360591.uLZWGnKmhe@natalenko.name>
- <3254850.aeNJFYEL58@natalenko.name>
- <ZR6p4MpDbQpZiUSZ@casper.infradead.org>
- <22037450.EfDdHjke4D@natalenko.name>
+Received: from mail-4323.proton.ch (mail-4323.proton.ch [185.70.43.23])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4419E10E3FD
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Oct 2023 13:16:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail2; t=1696511804; x=1696771004;
+ bh=kOhBFGbS2ZUNUCtKZ9QVq8iSXvwvdmAts+CrHGCN9G0=;
+ h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+ Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+ b=IG39VJj2RJoynxlAD55DeQgDSROnZS5Q8U04DVaZajX12F8Ng0GIc9rRDgFrZRmwE
+ 15F0vgAy13b2F6vHz9piDrhHdjtTiylBkhYR7N0/DYD7ez8/r4O0SLH2X8gMnmS1AO
+ uoQ3BjT2bgtxwhle8W8yD5P66eItqx0qA5v03fXF552L6lL5zBGkYRakab3qT3LEc9
+ bhV039CR2CVXe5YwX08ZNfFiSZrBnB8HFEuHez6tqyYWe3SWUiZdn7kwRDqXG2eY7C
+ XLQf7qvbZhMSXOPGdHYYsoyx6+UpvySzdNUhQr/w4oow59/QyaKPa5+pI44VV+SaW8
+ v7cxRYuods/Rw==
+Date: Thu, 05 Oct 2023 13:16:32 +0000
+To: dri-devel@lists.freedesktop.org
+From: Simon Ser <contact@emersion.fr>
+Subject: [PATCH] drm/atomic-helper: relax unregistered connector check
+Message-ID: <20231005131623.114379-1-contact@emersion.fr>
+Feedback-ID: 1358184:user:proton
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <22037450.EfDdHjke4D@natalenko.name>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,55 +44,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Regressions <regressions@lists.linux.dev>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Sumit Semwal <sumit.semwal@linaro.org>, linaro-mm-sig@lists.linaro.org,
- linux-mm@kvack.org, Andrew Morton <akpm@linux-foundation.org>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Bagas Sanjaya <bagasdotme@gmail.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- linux-media@vger.kernel.org
+Cc: Jani Nikula <jani.nikula@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 05, 2023 at 02:30:55PM +0200, Oleksandr Natalenko wrote:
-> No-no, sorry for possible confusion. Let me explain again:
-> 
-> 1. we had an issue with i915, which was introduced by 0b62af28f249, and later was fixed by 863a8eb3f270
-> 2. now I've discovered another issue, which looks very similar to 1., but in a VM with Cirrus VGA, and it happens even while having 863a8eb3f270 applied
-> 3. I've tried reverting 3291e09a4638, after which I cannot reproduce the issue with Cirrus VGA, but clearly there was no fix for it discussed
-> 
-> IOW, 863a8eb3f270 is the fix for 0b62af28f249, but not for 3291e09a4638. It looks like 3291e09a4638 requires a separate fix.
+The driver might pull connectors which weren't submitted by
+user-space into the atomic state. For instance,
+intel_dp_mst_atomic_master_trans_check() pulls in connectors
+sharing the same DP-MST stream. However, if the connector is
+unregistered, this later fails with:
 
-Thank you!  Sorry about the misunderstanding.  Try this:
+    [  559.425658] i915 0000:00:02.0: [drm:drm_atomic_helper_check_modeset]=
+ [CONNECTOR:378:DP-7] is not registered
 
-diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-index 6129b89bb366..44a948b80ee1 100644
---- a/drivers/gpu/drm/drm_gem.c
-+++ b/drivers/gpu/drm/drm_gem.c
-@@ -540,7 +540,7 @@ struct page **drm_gem_get_pages(struct drm_gem_object *obj)
- 	struct page **pages;
- 	struct folio *folio;
- 	struct folio_batch fbatch;
--	int i, j, npages;
-+	long i, j, npages;
- 
- 	if (WARN_ON(!obj->filp))
- 		return ERR_PTR(-EINVAL);
-@@ -564,11 +564,13 @@ struct page **drm_gem_get_pages(struct drm_gem_object *obj)
- 
- 	i = 0;
- 	while (i < npages) {
-+		long nr;
- 		folio = shmem_read_folio_gfp(mapping, i,
- 				mapping_gfp_mask(mapping));
- 		if (IS_ERR(folio))
- 			goto fail;
--		for (j = 0; j < folio_nr_pages(folio); j++, i++)
-+		nr = min(npages - i, folio_nr_pages(folio));
-+		for (j = 0; j < nr; j++, i++)
- 			pages[i] = folio_file_page(folio, i);
- 
- 		/* Make sure shmem keeps __GFP_DMA32 allocated pages in the
+Skip the unregistered connector check to allow user-space to turn
+off connectors one-by-one.
+
+See this wlroots issue:
+https://gitlab.freedesktop.org/wlroots/wlroots/-/issues/3407
+
+Previous discussion:
+https://lore.kernel.org/intel-gfx/Y6GX7z17WmDSKwta@ideak-desk.fi.intel.com/
+
+Signed-off-by: Simon Ser <contact@emersion.fr>
+Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+Cc: Jani Nikula <jani.nikula@intel.com>
+Cc: Lyude Paul <lyude@redhat.com>
+Cc: Imre Deak <imre.deak@intel.com>
+---
+ drivers/gpu/drm/drm_atomic_helper.c | 17 +++++++++++++----
+ 1 file changed, 13 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atom=
+ic_helper.c
+index 71d399397107..c9b8343eaa20 100644
+--- a/drivers/gpu/drm/drm_atomic_helper.c
++++ b/drivers/gpu/drm/drm_atomic_helper.c
+@@ -290,7 +290,8 @@ static int
+ update_connector_routing(struct drm_atomic_state *state,
+ =09=09=09 struct drm_connector *connector,
+ =09=09=09 struct drm_connector_state *old_connector_state,
+-=09=09=09 struct drm_connector_state *new_connector_state)
++=09=09=09 struct drm_connector_state *new_connector_state,
++=09=09=09 bool added_by_user)
+ {
+ =09const struct drm_connector_helper_funcs *funcs;
+ =09struct drm_encoder *new_encoder;
+@@ -339,9 +340,13 @@ update_connector_routing(struct drm_atomic_state *stat=
+e,
+ =09 * there's a chance the connector may have been destroyed during the
+ =09 * process, but it's better to ignore that then cause
+ =09 * drm_atomic_helper_resume() to fail.
++=09 *
++=09 * Last, we want to ignore connector registration when the connector
++=09 * was not pulled in the atomic state by user-space (ie, was pulled
++=09 * in by the driver, e.g. when updating a DP-MST stream).
+ =09 */
+ =09if (!state->duplicated && drm_connector_is_unregistered(connector) &&
+-=09    crtc_state->active) {
++=09    added_by_user && crtc_state->active) {
+ =09=09drm_dbg_atomic(connector->dev,
+ =09=09=09       "[CONNECTOR:%d:%s] is not registered\n",
+ =09=09=09       connector->base.id, connector->name);
+@@ -620,7 +625,10 @@ drm_atomic_helper_check_modeset(struct drm_device *dev=
+,
+ =09struct drm_connector *connector;
+ =09struct drm_connector_state *old_connector_state, *new_connector_state;
+ =09int i, ret;
+-=09unsigned int connectors_mask =3D 0;
++=09unsigned int connectors_mask =3D 0, user_connectors_mask =3D 0;
++
++=09for_each_oldnew_connector_in_state(state, connector, old_connector_stat=
+e, new_connector_state, i)
++=09=09user_connectors_mask |=3D BIT(i);
+=20
+ =09for_each_oldnew_crtc_in_state(state, crtc, old_crtc_state, new_crtc_sta=
+te, i) {
+ =09=09bool has_connectors =3D
+@@ -685,7 +693,8 @@ drm_atomic_helper_check_modeset(struct drm_device *dev,
+ =09=09 */
+ =09=09ret =3D update_connector_routing(state, connector,
+ =09=09=09=09=09       old_connector_state,
+-=09=09=09=09=09       new_connector_state);
++=09=09=09=09=09       new_connector_state,
++=09=09=09=09=09=09   BIT(i) & user_connectors_mask);
+ =09=09if (ret)
+ =09=09=09return ret;
+ =09=09if (old_connector_state->crtc) {
+--=20
+2.42.0
 
 
