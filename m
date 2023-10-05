@@ -1,17 +1,17 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 214CB7BA7A7
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Oct 2023 19:16:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B7707BA7A5
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Oct 2023 19:16:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0DB9010E460;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B49210E462;
 	Thu,  5 Oct 2023 17:16:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 82BFA10E458;
- Thu,  5 Oct 2023 17:16:15 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 98D3110E45B;
+ Thu,  5 Oct 2023 17:16:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
@@ -19,26 +19,25 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=m3bVD2CoGKk8m8IYYWKp1cJsDjPX9P2wVjICfPUHyTE=; b=DRymcGcjlDGOzpWXtormg1ALgO
- T8X62qQyajm8JPO3NolyD/nCUEs6DizNqSjDHIT5ClyNeNbTQNba2PCPtpdw4MX4fOyuSkpBxywSR
- 1T5l0gOcMIoRNNhVroSd4fIpXjgb7/mrv4gwfxKuIjTn9H0QCjin2gtpRv7NArOm3fncxOg+oSvQT
- scRgN/CAZ2ococHAWuUqSjXmPQxhn06FbHmu0yAxPMW1DuMgdgBniED+fE0Lb7YWY2ihEn8TS+QeR
- +01xLMbfT1rGnvqsN4pOBR2sb440P219WRGoN0xowWRIZwr2pvFn4p7W2DUFnWcI0ei/claC8totY
- WsqwsCxA==;
+ bh=unc2FXkdyB8riASJ7EBUi9PXmlVKHpbew+i9qDpQf70=; b=PqXoCuNf1FcZpColwgkPsf3mZ4
+ go5rj+ohwc4JNexMAZjaVxOHwmOHPWyo09t6WYxKX5Qryxtk5BCEGc3MiZxbuBq+n0My9PiQrBJIL
+ OHuDJuCLW9dyapOIc902fDbBMbGy/VwHHNuN+z0xmc8kk1jbWeTfQ4GD29fElnX5w/42Q1N/vscol
+ Q94SjFGknDZIFNTXZl/yjHMO3agWg4jHW9D96FX4MeInjfCPP7DBmNdQ3I1WdDaoL68Chwjmd8hwp
+ s5xuAmUTUpuMI/KexQDgC3T+v5QIT4KuIQxr/T3HrnKYvndUTdv0UO5GAasu3GsdZA6crD7nge/4X
+ xt9AvJUg==;
 Received: from [102.213.205.115] (helo=killbill.home)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1qoRxN-00CFJN-Hz; Thu, 05 Oct 2023 19:16:13 +0200
+ id 1qoRxP-00CFJN-LQ; Thu, 05 Oct 2023 19:16:15 +0200
 From: Melissa Wen <mwen@igalia.com>
 To: amd-gfx@lists.freedesktop.org, Harry Wentland <harry.wentland@amd.com>,
  Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, sunpeng.li@amd.com,
  Alex Deucher <alexander.deucher@amd.com>, dri-devel@lists.freedesktop.org,
  christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
  daniel@ffwll.ch
-Subject: [PATCH v4 20/32] drm/amd/display: reject atomic commit if setting
- both plane and CRTC degamma
-Date: Thu,  5 Oct 2023 16:15:15 -0100
-Message-Id: <20231005171527.203657-21-mwen@igalia.com>
+Subject: [PATCH v4 21/32] drm/amd/display: add dc_fixpt_from_s3132 helper
+Date: Thu,  5 Oct 2023 16:15:16 -0100
+Message-Id: <20231005171527.203657-22-mwen@igalia.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20231005171527.203657-1-mwen@igalia.com>
 References: <20231005171527.203657-1-mwen@igalia.com>
@@ -65,43 +64,68 @@ Cc: Sebastian Wick <sebastian.wick@redhat.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DC only has pre-blending degamma caps (plane/DPP) that is currently in
-use for CRTC/post-blending degamma, so that we don't have HW caps to
-perform plane and CRTC degamma at the same time. Reject atomic updates
-when serspace sets both plane and CRTC degamma properties.
+From: Joshua Ashton <joshua@froggi.es>
+
+Detach value translation from CTM to reuse it for programming HDR
+multiplier property.
 
 Reviewed-by: Harry Wentland <harry.wentland@amd.com>
+Signed-off-by: Joshua Ashton <joshua@froggi.es>
 Signed-off-by: Melissa Wen <mwen@igalia.com>
 ---
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c  |  8 +-------
+ drivers/gpu/drm/amd/display/include/fixed31_32.h     | 12 ++++++++++++
+ 2 files changed, 13 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
-index 6acc9ebc52da..354ab46894d2 100644
+index 354ab46894d2..599bba566226 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
-@@ -943,9 +943,20 @@ int amdgpu_dm_update_plane_color_mgmt(struct dm_crtc_state *crtc,
- 	has_crtc_cm_degamma = (crtc->cm_has_degamma || crtc->cm_is_degamma_srgb);
+@@ -404,7 +404,6 @@ static void __drm_lut_to_dc_gamma(const struct drm_color_lut *lut,
+ static void __drm_ctm_to_dc_matrix(const struct drm_color_ctm *ctm,
+ 				   struct fixed31_32 *matrix)
+ {
+-	int64_t val;
+ 	int i;
  
- 	ret = __set_dm_plane_degamma(plane_state, dc_plane_state);
--	if (ret != -EINVAL)
-+	if (ret == -ENOMEM)
- 		return ret;
+ 	/*
+@@ -423,12 +422,7 @@ static void __drm_ctm_to_dc_matrix(const struct drm_color_ctm *ctm,
+ 		}
  
-+	/* We only have one degamma block available (pre-blending) for the
-+	 * whole color correction pipeline, so that we can't actually perform
-+	 * plane and CRTC degamma at the same time. Explicitly reject atomic
-+	 * updates when userspace sets both plane and CRTC degamma properties.
-+	 */
-+	if (has_crtc_cm_degamma && ret != -EINVAL){
-+		drm_dbg_kms(crtc->base.crtc->dev,
-+			    "doesn't support plane and CRTC degamma at the same time\n");
-+			return -EINVAL;
-+	}
+ 		/* gamut_remap_matrix[i] = ctm[i - floor(i/4)] */
+-		val = ctm->matrix[i - (i / 4)];
+-		/* If negative, convert to 2's complement. */
+-		if (val & (1ULL << 63))
+-			val = -(val & ~(1ULL << 63));
+-
+-		matrix[i].value = val;
++		matrix[i] = dc_fixpt_from_s3132(ctm->matrix[i - (i / 4)]);
+ 	}
+ }
+ 
+diff --git a/drivers/gpu/drm/amd/display/include/fixed31_32.h b/drivers/gpu/drm/amd/display/include/fixed31_32.h
+index d4cf7ead1d87..84da1dd34efd 100644
+--- a/drivers/gpu/drm/amd/display/include/fixed31_32.h
++++ b/drivers/gpu/drm/amd/display/include/fixed31_32.h
+@@ -69,6 +69,18 @@ static const struct fixed31_32 dc_fixpt_epsilon = { 1LL };
+ static const struct fixed31_32 dc_fixpt_half = { 0x80000000LL };
+ static const struct fixed31_32 dc_fixpt_one = { 0x100000000LL };
+ 
++static inline struct fixed31_32 dc_fixpt_from_s3132(__u64 x)
++{
++	struct fixed31_32 val;
 +
- 	/* If we are here, it means we don't have plane degamma settings, check
- 	 * if we have CRTC degamma waiting for mapping to pre-blending degamma
- 	 * block
++	/* If negative, convert to 2's complement. */
++	if (x & (1ULL << 63))
++		x = -(x & ~(1ULL << 63));
++
++	val.value = x;
++	return val;
++}
++
+ /*
+  * @brief
+  * Initialization routines
 -- 
 2.40.1
 
