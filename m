@@ -2,53 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF9297B9C21
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Oct 2023 11:26:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA46E7B9C25
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Oct 2023 11:30:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CCB2310E1CA;
-	Thu,  5 Oct 2023 09:26:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 02CBE10E156;
+	Thu,  5 Oct 2023 09:30:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0205310E1C6;
- Thu,  5 Oct 2023 09:26:34 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id B953F1F8B3;
- Thu,  5 Oct 2023 09:26:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1696497993; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type;
- bh=lOH6BAbIYvDpsAUhkEh7WAIIMF115XOs+4uZkzmnSs0=;
- b=g91j30i0T8kcpWuKw+33QEjiKI94XpRd4KFcPUhMShoIt6T7b9b1zM68We2BbbFiWu/vVF
- 841gemAvGx1Qn+zOZEYDtxLoJ0iszaLVICFhG5b2PUCM3DzfswZnZqlmsXkMhoP3nKPrSy
- eG5KvB6OkxugRSO4w1VwyxTL2pvbnhk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1696497993;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type;
- bh=lOH6BAbIYvDpsAUhkEh7WAIIMF115XOs+4uZkzmnSs0=;
- b=sy19SUTGtpzS778N3EqIY7BOrtT+m0tvhLO5j8rL0x5abfItm2G+gIZY2gN5Amrusxd2ua
- w4zLABgfRhXbGCDQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7D8C2139C2;
- Thu,  5 Oct 2023 09:26:33 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id kxvQHUmBHmVTfgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 05 Oct 2023 09:26:33 +0000
-Date: Thu, 5 Oct 2023 11:26:32 +0200
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-misc-fixes
-Message-ID: <20231005092632.GA17332@linux-uq9g>
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com
+ [68.232.153.233])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EDE4E10E156
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Oct 2023 09:30:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+ t=1696498215; x=1728034215;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=uPW5WaZeYCNjpAiQXQ6dsyN5lBlDGiOxHHcb3Werqlg=;
+ b=emC626pGduOUkgoUvhprcnEzdbH5SAM3Y+WiaXihFgm0JPKoll9ndQQ4
+ wf+X6b6E8ylBbmiaL3VooENxCAWmExW05EYMAcrP0mIhOOmfuFgiferqt
+ C7hBEBsrbVjosbYNeRIw5rEUTTlr49va54shFSBRsUgO1uC99jF9mkbQe
+ DM1eXZglcP/gtLQc9wwfnCZSaD78Svi5z2f7OhRT87aUx8lHKYsgpELyB
+ 2JFFVAtGG7LTkZONDi6IiEFyVR3d4JRxKcwtiki6ESqodGR075ehmE7M7
+ 3XD2CIfJoocyZFZ7YH1y1Why6SfsBr9wsAtcCCF06H5Kvrdy8wY1rOqCa Q==;
+X-CSE-ConnectionGUID: pNqRUMmsQ46P00UoeOunFg==
+X-CSE-MsgGUID: 4CCEQRxATAWuAUPjZprfag==
+X-ThreatScanner-Verdict: Negative
+X-IronPort-AV: E=Sophos;i="6.03,202,1694761200"; 
+   d="scan'208";a="8182674"
+X-Amp-Result: SKIPPED(no attachment in message)
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+ by esa3.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 05 Oct 2023 02:30:14 -0700
+Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
+ chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Thu, 5 Oct 2023 02:30:04 -0700
+Received: from che-lt-i67131.microchip.com (10.10.85.11) by
+ chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server id
+ 15.1.2507.21 via Frontend Transport; Thu, 5 Oct 2023 02:29:58 -0700
+From: Manikandan Muralidharan <manikandan.m@microchip.com>
+To: <sam@ravnborg.org>, <bbrezillon@kernel.org>, <airlied@gmail.com>,
+ <daniel@ffwll.ch>, <nicolas.ferre@microchip.com>,
+ <alexandre.belloni@bootlin.com>, <lee@kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-kernel@vger.kernel.org>
+Subject: [PATCH v7 0/7] Add support for XLCDC to sam9x7 SoC family.
+Date: Thu, 5 Oct 2023 14:59:47 +0530
+Message-ID: <20231005092954.881059-1-manikandan.m@microchip.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,77 +66,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gfx@lists.freedesktop.org
+Cc: Balakrishnan.S@microchip.com, Nayabbasha.Sayed@microchip.com,
+ Balamanikandan.Gunasundar@microchip.com,
+ Manikandan Muralidharan <manikandan.m@microchip.com>,
+ Varshini.Rajendran@microchip.com, Dharma.B@microchip.com,
+ Durai.ManickamKR@microchip.com, Hari.PrasathGE@microchip.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave and Daniel,
+This patch series aims to add support for XLCDC IP of sam9x7 SoC family
+to the DRM subsystem.XLCDC IP has additional registers and new
+configuration bits compared to the existing register set of HLCDC IP.
+The new compatible string "microchip,sam9x75-xlcdc" is defined for sam9x75
+variant of the sam9x7 SoC family.The is_xlcdc flag under driver data and
+IP specific driver ops helps to differentiate the XLCDC and existing HLCDC
+code within the same driver.
 
-here's the weekly PR for drm-misc-fixes.
+changes in v7:
+* LCDC IP driver ops functions are declared static and its 
+declaration are removed.
 
-Best regards
-Thomas
+changes in v6:
+* Fixed Cosmetic defects.
+* Added comments for readability.
 
-drm-misc-fixes-2023-10-05:
-Short summary of fixes pull:
+changes in v5:
+* return value of regmap_read_poll_timeout is checked in failure
+case.
+* HLCDC and XLCDC specific driver functions are now invoked
+using its IP specific driver ops w/o the need of checking is_xlcdc flag.
+* Removed empty spaces and blank lines.
 
- * test: Fix kunit release
- * panel-orientation: Add quirk for One Mix 25
- * nouveau:
-   * Report IB limit via getparams
-   * Replace some magic numbers with constants
-   * Clean up
-The following changes since commit 645d694559cab36fe6a57c717efcfa27d9321396:
+changes in v4:
+* fixed kernel warnings reported by kernel test robot.
 
-  accel/ivpu: Use cached buffers for FW loading (2023-09-27 07:40:43 +0200)
+changes in v3:
+* Removed de-referencing the value of is_xlcdc flag multiple times in
+a single function.
+* Removed cpu_relax() call when using regmap_read_poll_timeout.
+* Updated xfactor and yfactor equations using shift operators
+* Defined CSC co-efficients in an array for code readability.
 
-are available in the Git repository at:
+changes in v2:
+* Change the driver compatible name from "microchip,sam9x7-xlcdc" to
+"microchip,sam9x75-xlcdc".
+* Move is_xlcdc flag to driver data.
+* Remove unsed Macro definitions.
+* Add co-developed-bys tags
+* Replace regmap_read() with regmap_read_poll_timeout() call
+* Split code into two helpers for code readablitity.
 
-  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-fixes-2023-10-05
+Durai Manickam KR (1):
+  drm: atmel-hlcdc: Define SAM9X7 SoC XLCDC specific registers
 
-for you to fetch changes up to d59e75eef52d89201aaf5342a3ac23ddf3e9b112:
+Manikandan Muralidharan (6):
+  drm: atmel-hlcdc: add flag and driver ops to differentiate XLCDC and
+    HLCDC IP
+  drm: atmel-hlcdc: add LCD controller layer definition for sam9x75
+  drm: atmel_hlcdc: Add support for XLCDC in atmel LCD driver
+  drm: atmel-hlcdc: add DPI mode support for XLCDC
+  drm: atmel-hlcdc: add vertical and horizontal scaling support for
+    XLCDC
+  drm: atmel-hlcdc: add support for DSI output formats
 
-  drm/nouveau: exec: report max pushs through getparam (2023-10-04 00:10:18 +0200)
-
-----------------------------------------------------------------
-Short summary of fixes pull:
-
- * test: Fix kunit release
- * panel-orientation: Add quirk for One Mix 25
- * nouveau:
-   * Report IB limit via getparams
-   * Replace some magic numbers with constants
-   * Clean up
-
-----------------------------------------------------------------
-Arthur Grillo (1):
-      drm/tests: Fix kunit_release_action ctx argument
-
-Danilo Krummrich (3):
-      drm/nouveau: chan: use struct nvif_mclass
-      drm/nouveau: chan: use channel class definitions
-      drm/nouveau: exec: report max pushs through getparam
-
-Kai Uwe Broulik (1):
-      drm: panel-orientation-quirks: Add quirk for One Mix 2S
-
- drivers/gpu/drm/drm_panel_orientation_quirks.c | 16 ++++++++++++++++
- drivers/gpu/drm/nouveau/nouveau_abi16.c        | 21 +++++++++++++++++++++
- drivers/gpu/drm/nouveau/nouveau_chan.c         | 15 +++++++--------
- drivers/gpu/drm/nouveau/nouveau_dma.h          |  3 +++
- drivers/gpu/drm/nouveau/nouveau_exec.c         |  7 ++++---
- drivers/gpu/drm/nouveau/nouveau_exec.h         | 10 ++++++++++
- drivers/gpu/drm/tests/drm_kunit_helpers.c      |  2 +-
- include/uapi/drm/nouveau_drm.h                 | 10 ++++++++++
- 8 files changed, 72 insertions(+), 12 deletions(-)
+ .../gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c    | 175 +++++++--
+ drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c  | 105 +++++
+ drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.h  |  86 ++++
+ .../gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c   | 369 +++++++++++++++---
+ include/linux/mfd/atmel-hlcdc.h               |  10 +
+ 5 files changed, 647 insertions(+), 98 deletions(-)
 
 -- 
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+2.25.1
+
