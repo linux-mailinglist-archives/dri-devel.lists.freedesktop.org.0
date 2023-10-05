@@ -1,49 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D8AC7BA786
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Oct 2023 19:16:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DEFAB7BA783
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Oct 2023 19:16:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E8AB510E446;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05D2710E443;
 	Thu,  5 Oct 2023 17:15:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 46AF610E43C;
- Thu,  5 Oct 2023 17:15:48 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 44B0610E43E;
+ Thu,  5 Oct 2023 17:15:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
- In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
+ h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
+ Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=GRrnDtFMyiMaU4LlgdhrT1yQ3d8NPGwHn28lmseYX4Y=; b=jBWxCoXorrrGX/ptqSX63EjxyS
- I0pPAbEf5tRho1ytSXildeWlzKxYquROUJeHvm8VnN7/BZEGh4HcZ0kuLINlNtzu6QQn+OZmxkffc
- S0Mjbxgd8EsihSuy+aWzTveFMVd4y7+geU5NFQyJd32XSAdnhqhMiZEldUZnj+qhY2F4doAQkyOcu
- Ky4iAgN12pKMc8Uoj1tqMF2wSrsWe2taQ0wj7ixJRxwKVRArmddO6RO59xXtcafk9FYFT6WNIetaV
- nXdFSZku9YW+MyN6rbJRYeAMhH5Rli/Vs4Lbgv51K2vH4/ghG4aKn3UimulSSg+YyRSMY8p1h3aKC
- /2+p7lHw==;
+ bh=O7LWpEI4Wxo2nvObSMyljDk70IrD9o1uiIg+HiLdLbs=; b=L2Be+eiRd291PcqrjuxyVj1Q8Y
+ xk2VGfJGYJf3JpYurbJAFG7+rmFBIRox7xQLZIo5AcaUotbbmZVKC6lrVfMt0OJA+Js0l2w0ek5vh
+ zaDRmbIL9ggRTae8Sh089i0zWVMEuTvgYbV/GYVz2/XM8gXnDRXr/d9UyRlPEQ+VbNvcUJLTuAFRc
+ ks0X5RkbYhaWeUjZ4W9Ml7WBpbwVH3mz16mwu/CgZCWjCW8Z4AXionSYK0gRujqxROOzTDd11V/ek
+ HN5dDGsv+4XkanltVGDjPcz/Zh5J67L7RjCqlvSAWeVP1xBqP729MGP0M8pQX8arh8vG60U3KaDRI
+ kvMo0uBw==;
 Received: from [102.213.205.115] (helo=killbill.home)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1qoRww-00CFJN-5n; Thu, 05 Oct 2023 19:15:46 +0200
+ id 1qoRwy-00CFJN-96; Thu, 05 Oct 2023 19:15:48 +0200
 From: Melissa Wen <mwen@igalia.com>
 To: amd-gfx@lists.freedesktop.org, Harry Wentland <harry.wentland@amd.com>,
  Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, sunpeng.li@amd.com,
  Alex Deucher <alexander.deucher@amd.com>, dri-devel@lists.freedesktop.org,
  christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
  daniel@ffwll.ch
-Subject: [PATCH v4 07/32] drm/amd/display: document AMDGPU pre-defined
- transfer functions
-Date: Thu,  5 Oct 2023 16:15:02 -0100
-Message-Id: <20231005171527.203657-8-mwen@igalia.com>
+Subject: [PATCH v4 08/32] drm/amd/display: add plane HDR multiplier
+ driver-specific property
+Date: Thu,  5 Oct 2023 16:15:03 -0100
+Message-Id: <20231005171527.203657-9-mwen@igalia.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20231005171527.203657-1-mwen@igalia.com>
 References: <20231005171527.203657-1-mwen@igalia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,96 +65,146 @@ Cc: Sebastian Wick <sebastian.wick@redhat.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Brief documentation about pre-defined transfer function usage on AMD
-display driver and standardized EOTFs and inverse EOTFs.
+From: Joshua Ashton <joshua@froggi.es>
 
-v3:
-- Document BT709 OETF (Pekka)
-- Fix description of sRGB and pure power funcs (Pekka)
+Multiplier to 'gain' the plane. When PQ is decoded using the fixed func
+transfer function to the internal FP16 fb, 1.0 -> 80 nits (on AMD at
+least) When sRGB is decoded, 1.0 -> 1.0.  Therefore, 1.0 multiplier = 80
+nits for SDR content. So if you want, 203 nits for SDR content, pass in
+(203.0 / 80.0).
 
 v4:
-- Add description of linear and non-linear forms (Harry)
+- comment about the PQ TF need for L-to-NL (from Harry's review)
 
-Co-developed-by: Harry Wentland <harry.wentland@amd.com>
-Signed-off-by: Harry Wentland <harry.wentland@amd.com>
+Signed-off-by: Joshua Ashton <joshua@froggi.es>
+Co-developed-by: Melissa Wen <mwen@igalia.com>
 Signed-off-by: Melissa Wen <mwen@igalia.com>
 ---
- .../amd/display/amdgpu_dm/amdgpu_dm_color.c   | 62 +++++++++++++++++++
- 1 file changed, 62 insertions(+)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h        |  4 ++++
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h   | 17 +++++++++++++++++
+ .../drm/amd/display/amdgpu_dm/amdgpu_dm_color.c |  6 ++++++
+ .../drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c | 13 +++++++++++++
+ 4 files changed, 40 insertions(+)
 
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
+index 9b6fab86c6c3..62044d41da75 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
+@@ -359,6 +359,10 @@ struct amdgpu_mode_info {
+ 	 * to go from scanout/encoded values to linear values.
+ 	 */
+ 	struct drm_property *plane_degamma_tf_property;
++	/**
++	 * @plane_hdr_mult_property:
++	 */
++	struct drm_property *plane_hdr_mult_property;
+ };
+ 
+ #define AMDGPU_MAX_BL_LEVEL 0xFF
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+index fc4f188d397e..bb2ce843369d 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+@@ -55,6 +55,9 @@
+ #define HDMI_AMD_VENDOR_SPECIFIC_DATA_BLOCK_IEEE_REGISTRATION_ID 0x00001A
+ #define AMD_VSDB_VERSION_3_FEATURECAP_REPLAYMODE 0x40
+ #define HDMI_AMD_VENDOR_SPECIFIC_DATA_BLOCK_VERSION_3 0x3
++
++#define AMDGPU_HDR_MULT_DEFAULT (0x100000000LL)
++
+ /*
+ #include "include/amdgpu_dal_power_if.h"
+ #include "amdgpu_dm_irq.h"
+@@ -767,6 +770,20 @@ struct dm_plane_state {
+ 	 * linearize.
+ 	 */
+ 	enum amdgpu_transfer_function degamma_tf;
++	/**
++	 * @hdr_mult:
++	 *
++	 * Multiplier to 'gain' the plane.  When PQ is decoded using the fixed
++	 * func transfer function to the internal FP16 fb, 1.0 -> 80 nits (on
++	 * AMD at least). When sRGB is decoded, 1.0 -> 1.0, obviously.
++	 * Therefore, 1.0 multiplier = 80 nits for SDR content.  So if you
++	 * want, 203 nits for SDR content, pass in (203.0 / 80.0).  Format is
++	 * S31.32 sign-magnitude.
++	 *
++	 * HDR multiplier can wide range beyond [0.0, 1.0]. This means that PQ
++	 * TF is needed for any subsequent linear-to-non-linear transforms.
++	 */
++	__u64 hdr_mult;
+ };
+ 
+ struct dm_crtc_state {
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
-index d03bdb010e8b..d5dbd20a6766 100644
+index d5dbd20a6766..caf49a044ab4 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
-@@ -85,6 +85,68 @@ void amdgpu_dm_init_color_mod(void)
+@@ -224,6 +224,12 @@ amdgpu_dm_create_color_properties(struct amdgpu_device *adev)
+ 		return -ENOMEM;
+ 	adev->mode_info.plane_degamma_tf_property = prop;
+ 
++	prop = drm_property_create_range(adev_to_drm(adev),
++					 0, "AMD_PLANE_HDR_MULT", 0, U64_MAX);
++	if (!prop)
++		return -ENOMEM;
++	adev->mode_info.plane_hdr_mult_property = prop;
++
+ 	return 0;
+ }
+ #endif
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+index 04af6db8cffd..ae64d4b73360 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+@@ -1337,6 +1337,7 @@ static void dm_drm_plane_reset(struct drm_plane *plane)
+ 
+ 	__drm_atomic_helper_plane_reset(plane, &amdgpu_state->base);
+ 	amdgpu_state->degamma_tf = AMDGPU_TRANSFER_FUNCTION_DEFAULT;
++	amdgpu_state->hdr_mult = AMDGPU_HDR_MULT_DEFAULT;
  }
  
- #ifdef AMD_PRIVATE_COLOR
-+/* Pre-defined Transfer Functions (TF)
-+ *
-+ * AMD driver supports pre-defined mathematical functions for transferring
-+ * between encoded values and optical/linear space. Depending on HW color caps,
-+ * ROMs and curves built by the AMD color module support these transforms.
-+ *
-+ * The driver-specific color implementation exposes properties for pre-blending
-+ * degamma TF, shaper TF (before 3D LUT), and blend(dpp.ogam) TF and
-+ * post-blending regamma (mpc.ogam) TF. However, only pre-blending degamma
-+ * supports ROM curves. AMD color module uses pre-defined coefficients to build
-+ * curves for the other blocks. What can be done by each color block is
-+ * described by struct dpp_color_capsand struct mpc_color_caps.
-+ *
-+ * AMD driver-specific color API exposes the following pre-defined transfer
-+ * functions:
-+ *
-+ * - Identity: linear/identity relationship between pixel value and
-+ *   luminance value;
-+ * - Gamma 2.2, Gamma 2.4, Gamma 2.6: pure power functions;
-+ * - sRGB: 2.4: The piece-wise transfer function from IEC 61966-2-1:1999;
-+ * - BT.709: has a linear segment in the bottom part and then a power function
-+ *   with a 0.45 (~1/2.22) gamma for the rest of the range; standardized by
-+ *   ITU-R BT.709-6;
-+ * - PQ (Perceptual Quantizer): used for HDR display, allows luminance range
-+ *   capability of 0 to 10,000 nits; standardized by SMPTE ST 2084.
-+ *
-+ * The AMD color model is designed with an assumption that SDR (sRGB, BT.709,
-+ * Gamma 2.2, etc.) peak white maps (normalized to 1.0 FP) to 80 nits in the PQ
-+ * system. This has the implication that PQ EOTF (non-linear to linear) maps to
-+ * [0.0..125.0] where 125.0 = 10,000 nits / 80 nits.
-+ *
-+ * Non-linear and linear forms are described in the table below:
-+ *
-+ * ┌───────────┬─────────────────────┬──────────────────────┐
-+ * │           │     Non-linear      │   Linear             │
-+ * ├───────────┼─────────────────────┼──────────────────────┤
-+ * │      sRGB │ UNORM or [0.0, 1.0] │ [0.0, 1.0]           │
-+ * ├───────────┼─────────────────────┼──────────────────────┤
-+ * │     BT709 │ UNORM or [0.0, 1.0] │ [0.0, 1.0]           │
-+ * ├───────────┼─────────────────────┼──────────────────────┤
-+ * │ Gamma 2.x │ UNORM or [0.0, 1.0] │ [0.0, 1.0]           │
-+ * ├───────────┼─────────────────────┼──────────────────────┤
-+ * │        PQ │ UNORM or FP16 CCCS* │ [0.0, 125.0]         │
-+ * ├───────────┼─────────────────────┼──────────────────────┤
-+ * │  Identity │ UNORM or FP16 CCCS* │ [0.0, 1.0] or CCCS** │
-+ * └───────────┴─────────────────────┴──────────────────────┘
-+ * * CCCS: Windows canonical composition color space
-+ * ** Respectively
-+ *
-+ * In the driver-specific API, color block names attached to TF properties
-+ * suggest the intention regarding non-linear encoding pixel's luminance
-+ * values. As some newer encodings don't use gamma curve, we make encoding and
-+ * decoding explicit by defining an enum list of transfer functions supported
-+ * in terms of EOTF and inverse EOTF, where:
-+ *
-+ * - EOTF (electro-optical transfer function): is the transfer function to go
-+ *   from the encoded value to an optical (linear) value. De-gamma functions
-+ *   traditionally do this.
-+ * - Inverse EOTF (simply the inverse of the EOTF): is usually intended to go
-+ *   from an optical/linear space (which might have been used for blending)
-+ *   back to the encoded values. Gamma functions traditionally do this.
-+ */
- static const char * const
- amdgpu_transfer_function_names[] = {
- 	[AMDGPU_TRANSFER_FUNCTION_DEFAULT]		= "Default",
+ static struct drm_plane_state *
+@@ -1360,6 +1361,7 @@ dm_drm_plane_duplicate_state(struct drm_plane *plane)
+ 		drm_property_blob_get(dm_plane_state->degamma_lut);
+ 
+ 	dm_plane_state->degamma_tf = old_dm_plane_state->degamma_tf;
++	dm_plane_state->hdr_mult = old_dm_plane_state->hdr_mult;
+ 
+ 	return &dm_plane_state->base;
+ }
+@@ -1456,6 +1458,10 @@ dm_atomic_plane_attach_color_mgmt_properties(struct amdgpu_display_manager *dm,
+ 					   dm->adev->mode_info.plane_degamma_tf_property,
+ 					   AMDGPU_TRANSFER_FUNCTION_DEFAULT);
+ 	}
++	/* HDR MULT is always available */
++	drm_object_attach_property(&plane->base,
++				   dm->adev->mode_info.plane_hdr_mult_property,
++				   AMDGPU_HDR_MULT_DEFAULT);
+ }
+ 
+ static int
+@@ -1482,6 +1488,11 @@ dm_atomic_plane_set_property(struct drm_plane *plane,
+ 			dm_plane_state->degamma_tf = val;
+ 			dm_plane_state->base.color_mgmt_changed = 1;
+ 		}
++	} else if (property == adev->mode_info.plane_hdr_mult_property) {
++		if (dm_plane_state->hdr_mult != val) {
++			dm_plane_state->hdr_mult = val;
++			dm_plane_state->base.color_mgmt_changed = 1;
++		}
+ 	} else {
+ 		drm_dbg_atomic(plane->dev,
+ 			       "[PLANE:%d:%s] unknown property [PROP:%d:%s]]\n",
+@@ -1507,6 +1518,8 @@ dm_atomic_plane_get_property(struct drm_plane *plane,
+ 			dm_plane_state->degamma_lut->base.id : 0;
+ 	} else if (property == adev->mode_info.plane_degamma_tf_property) {
+ 		*val = dm_plane_state->degamma_tf;
++	} else if (property == adev->mode_info.plane_hdr_mult_property) {
++		*val = dm_plane_state->hdr_mult;
+ 	} else {
+ 		return -EINVAL;
+ 	}
 -- 
 2.40.1
 
