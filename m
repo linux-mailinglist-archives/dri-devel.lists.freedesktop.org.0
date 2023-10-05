@@ -2,58 +2,116 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9DA27B9CCF
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Oct 2023 13:51:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A00F77B9CD0
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Oct 2023 13:51:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D24DB10E3D5;
-	Thu,  5 Oct 2023 11:51:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C79C610E3DC;
+	Thu,  5 Oct 2023 11:51:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 02F0810E1ED;
- Thu,  5 Oct 2023 11:51:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1696506669; x=1728042669;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=EuUfSc/9DJvgkg5jX55kOSekwCQJTKu9wciEg2nBNJE=;
- b=WB4hrev4SoIyegU9UfcXOiwSI3Gu4VcT4YF4N3gIx+BPABcA+lJc3qxQ
- KS78MlutDft88JP5YAcHLaY4jRBh8WF4FheG2CLrE023jRFhkekjBBif5
- XzZfl/JjvyA7dNFllJwZASKFqRBdvYI+fPLvow7RWfafJjnqXL0ppYsLi
- VSvSD9PJ6Rr59MBdklixmJ35C/KqMbSWAYlobzIVCUZZGVRmITzDfpbq/
- g19uKzt7vj27dBVbABP4LlX2JwmrcOor3f1Hij88VW996rUVTmJb4jXq/
- pTDm6nhKvIACMum9h869gFD2KLI84/ZQY+wc7IF7N+M+xIarMEVcyQTxy Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="2075747"
-X-IronPort-AV: E=Sophos;i="6.03,203,1694761200"; 
-   d="scan'208";a="2075747"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Oct 2023 04:51:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="842354522"
-X-IronPort-AV: E=Sophos;i="6.03,202,1694761200"; d="scan'208";a="842354522"
-Received: from lapeders-mobl1.ger.corp.intel.com (HELO [10.249.254.36])
- ([10.249.254.36])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Oct 2023 04:51:03 -0700
-Message-ID: <28528b64-e760-d9a8-c56d-e44672cb02fb@linux.intel.com>
-Date: Thu, 5 Oct 2023 13:51:00 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH drm-misc-next v5 3/6] drm/gpuvm: add an abstraction for a
- VM / BO combination
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2048.outbound.protection.outlook.com [40.107.223.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 156CC10E3D8
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Oct 2023 11:51:38 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Ewiy/F6crUYxHBIb6fpX/Ovg7/F71QEsmNSiN7ypWbmv762YXSBgx47IFMOYcrVEos4RLCqyqS04WPV6uBQMdt6TILRgueKHSUaRO1mxuU1FbKEd0CZyDJBCYX/CYVdpfAAWFqYcqgPMAb463qYbeWrjAlfhYdgpP9tZTuSjKZdivGKPXoAQwtJBcnSac5Cv4Jh+95WmQ3Jp7ukDRXodXnK6GTLoUSIGp9L7rAeJo+QogOK4zMHNS0Zvrsg3yqR6ixcPZ6NjBFeB9HuI3q9TYPJ82AUfCP4NnSUTaWK9A1FTbtFiS8/5iMYab4g79yIWj5bpIboA7ZDVVm7Zq5sozw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=OK77UjuZ6DK1hyD9oWL+471NbxO7ixS0g37cQE7W2fM=;
+ b=mHcC70/P8U3csj7aAmTP16DRqySu2zpq8DYKwqXyKp/2Q65HGLdeZ5eN495G6KN0s9sYI6ekeQy5Fz6UC44EU+dHZTJakCIpiEbdgtwVr5jP9+Dn6RKuIbtJ0dURiCpJ8CRLaeNDP767y/nR+GXn6sTFrh+x9H2VTypJyjQLNN/QlV1PXVnRHjV4ZIFcfs4DAX//WZWbKHqW4vLEtmBY2HGRvnXy9KPs3JYE6koi3k1Nre3vNAIRAsyvtSvKfi16W9L9GPMne2sI4M4x+OQFdhR+dmj2sxM3Xb6aZEL8L5gHGtaUVvDFeLfAphVEEEpUDjlUACIasj7A/0hT5YoJTw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=OK77UjuZ6DK1hyD9oWL+471NbxO7ixS0g37cQE7W2fM=;
+ b=hal3jTFInoxqKb2zzxtmdQwx7AdLE2LrwY2r4frbuSdx+s0xJeq1/wYhsBJEiQ5TKXd5VFKgbwJAvTq58jaJ2CgC0hUBWzU7EeKlBZIjuRimpkPZe7WIDBqJbDwEftsV/q7csbSMfYsM+0156y/p5wc4nAaj4Jf7vPICoCsrCPM=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by CH3PR12MB8756.namprd12.prod.outlook.com (2603:10b6:610:17f::8)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6838.33; Thu, 5 Oct
+ 2023 11:51:35 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::a7fa:4411:67a3:131d]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::a7fa:4411:67a3:131d%4]) with mapi id 15.20.6838.027; Thu, 5 Oct 2023
+ 11:51:35 +0000
+Message-ID: <29825574-858f-44e5-9814-e76452b7f06c@amd.com>
+Date: Thu, 5 Oct 2023 13:51:29 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/atomic: Perform blocking commits on workqueue
 Content-Language: en-US
-To: Danilo Krummrich <dakr@redhat.com>, airlied@gmail.com, daniel@ffwll.ch,
- matthew.brost@intel.com, sarah.walker@imgtec.com, donald.robson@imgtec.com,
- boris.brezillon@collabora.com, christian.koenig@amd.com, faith@gfxstrand.net
-References: <20230928191624.13703-1-dakr@redhat.com>
- <20230928191624.13703-4-dakr@redhat.com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
-In-Reply-To: <20230928191624.13703-4-dakr@redhat.com>
+To: Daniel Vetter <daniel@ffwll.ch>, Ray Strode <halfline@gmail.com>
+References: <20230926170549.2589045-1-halfline@gmail.com>
+ <ZR6IlVR-A5KtIHEU@phenom.ffwll.local>
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <ZR6IlVR-A5KtIHEU@phenom.ffwll.local>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR4P281CA0039.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:c7::18) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|CH3PR12MB8756:EE_
+X-MS-Office365-Filtering-Correlation-Id: addd0537-0913-4d25-52ae-08dbc5996d2f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: f0gJOe1Dxo1ycGuYfkdejWZmRIkF6v7Hq15M9HgbrbA6ztlv2o3zDDjx8VR+lq2e3oclYTH3mWZ3JlR/L2J8Dxb9a/AVu/ELrec2Pv9ShVY2i+jLZQAmmLXrMEuZCgY8g4n/a5USJWzvIhcVH7LW2dT+mgmiSo7/sNzx6IVxGfWZ1eBhf1jvN/SKQ5RFyRco6CH6oBvPT5w31HegO0pZLE6nNU5q4BhdIMplFRIKAcOTQAvUbySrhYsLF+CM/twSUesEmsOlluYhbAiiBXSm4VpyFosJ9M5BGXjs2CFKCS1ZIywbWk5Y4VUdrMIl9oU3unzxiKxv377GZyG2zjKCol0EBuyLMKyE69f9k+5S3lTGc+W62ENCbQV7dtDKmtJbvTErum3vXWBJADdzDpOs20VzVdzUKjbgIavxZ1NQ1CIdKKEARcYy8MQ9ftXSu8nSZD7BkA3TsXU2OpAnSo4c6nsm9CwzXTakafnh7YtvH7B6Q7WmU9Cyo13gQoXdH4oMPRYpS/jkTvhsOj58LIza4FoaQC7c3BAbz4UzsHAfK8mdSkz9JFNd+/6DI8U5PGkjxcFzRGWE2jTdo4lcla521RZF0vT+nYW6Ss/MYFQY9GAvXVAmdzrip7inBW4+HRK3
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(39860400002)(366004)(396003)(376002)(136003)(346002)(230922051799003)(64100799003)(451199024)(186009)(1800799009)(6506007)(478600001)(6486002)(6512007)(6666004)(966005)(5660300002)(83380400001)(26005)(66574015)(2616005)(2906002)(110136005)(4326008)(66556008)(41300700001)(66946007)(8936002)(8676002)(316002)(36756003)(38100700002)(86362001)(31696002)(66476007)(31686004)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZFJHcWNaN1BKa1o5ZFBYbnF1ZWxBa0lQUm9OWDZxREZnVDEvclVWN1dFclVl?=
+ =?utf-8?B?REhxdForZ0M2K0MzQ1BMQnF6Mmc3OEUxbldhTTJWQnhqdEZ5b0NNV0JycXZ1?=
+ =?utf-8?B?eHcrcUxoTFd5WnZ1bGpBcDZOZTRKcjhGRjhjcVZHTHkrc2RqRUxrNkQ5cGRo?=
+ =?utf-8?B?YWlSUHF0eVNBMDVYWlRyN1BhUFhGZW55N0pHQW5NOW9hTzBsbkJGd014R2xy?=
+ =?utf-8?B?NHNmSmJGMSs1RWNxc1NnTVZ3Nnk0Sk1oRU9JNStTenN6NzVDaGZ6c2NUc1ov?=
+ =?utf-8?B?bTRIendjb3BIR1NsRDV1QytFbUFsd1c0QU4yVXRZcHVNM0pzc2VJNy9sSjkw?=
+ =?utf-8?B?V1lERVZ1dHJSRnpyeDEvNThUTmd1QzJXMk5xR1VFNnBYM09nVkpHcG0xclFv?=
+ =?utf-8?B?aVlVbm5YQU5jZVZOcnROWXhVall0Z2ZZd2I0Q2d6S3N1SXloaCs0aXJRUmVL?=
+ =?utf-8?B?NzcrVjNLekxLaHhUVE5oaE1hM0hLbVNuSHJndWpGSWwrNnZldGNPSXF5eWJI?=
+ =?utf-8?B?OGdqWWxTQ3lqWUNvTGFuMXBGWDcrMUcxMUkyRFlMUGFQdDVZN0sxUVdVRDNX?=
+ =?utf-8?B?THJENEFJZEJHamVWOWREazVIUm8vQmt0a3FHSGJTcGQ1RVVCMDMvNkZSUTlW?=
+ =?utf-8?B?eWZQNzBUMy9IR2EwajZ5WFYvNFl6Y2pOTkRvSFVLUHdEWWlqQTdtQmhvQU9R?=
+ =?utf-8?B?ZVRQWUE5OW5hMGR5Wk56OVA3RW1ub1dMMUl6bklEcWQzeUN5elZTYnBBY3hv?=
+ =?utf-8?B?Vnk5dEk3blMrMVZDMlN5Y0FGV0JnNHNsR0ZPQ2M5bXJZcXpYZ1oyTUsyV1lX?=
+ =?utf-8?B?TTZOb0pERGgwV01GNGU1eG0wNWh0eDI0dzVrZk4yZXR0TUdZdmlmUzBaalpl?=
+ =?utf-8?B?RnEzelBVN1hjbkRqY21FK2F1dGIreVRRdDZDQjJTdzY3M2RobmwvbTM5UXRD?=
+ =?utf-8?B?OU5zeUtUTmxLMno1MkhSUCtRT1hJWnR3OG91NlEySHhieUxReUhUN2w4UlZZ?=
+ =?utf-8?B?ZXBjcFlYa1BaTVh0UE9PQU1sZEZtT2FMMG5UTDNtWEIxSzlEMW1HamZNRjRG?=
+ =?utf-8?B?OHJ4NnNNdTd2bnZWZ2FDdG0wdFhldjYwTUpVaWg0UjVlTnBxbHdjN0dKUFRk?=
+ =?utf-8?B?K05CUWd5c1dFT1JDQkdoVWRONXdHSEZXdWl5YTc5YVlFYUthWGdaRE8zdnZW?=
+ =?utf-8?B?blg2MkxEcVNWVkpCNEhuWmZ5eE5ERm5BdzBPcVpVRGxCaGFyNDZDVHU0OG9l?=
+ =?utf-8?B?Y2VOQkxaajUzNVpGQ3NTZlNGNGZPeUlvdUNLNUEvU09TR1BaZEVYMldzVUJh?=
+ =?utf-8?B?RzY2WHp5TUNMVGV1MWgzTVpQVkVVRTF4bXdOanlubCtSSWpPQ0tZY0dMWVVY?=
+ =?utf-8?B?dTZLaFpkaTZzMzV2MEVsNzc4eW0wQ2dRc0VKU2JnL0dsQjlwRmVYV0FxeGJq?=
+ =?utf-8?B?SWdEczFaUkVFMU5mUS9xeFdIZENYMHpIYVdmUjB5dzRaaWV6NWE0dDQ0WWFZ?=
+ =?utf-8?B?WWRhd0diUk8rR29Nc254eFRpL3BDZ3hib3dIZzVVMTBiK3ZWdERabGhsSVBP?=
+ =?utf-8?B?c0V2aTVvQ0FMVVRTb1FBejZRemIydG51OHdDcVFBV0daQzRiMll3cEJpNE1z?=
+ =?utf-8?B?NlV0SVZuZkMyeWRBRERsbTRUUllDUHVVbG9zVEJaOXp6YjRpVGZZVEJwOEFy?=
+ =?utf-8?B?dU0rZTRzc21RaXJlNkpkbDF5QVJjVFRhL0Rvd0FqM3JHd1Z6STNDdFFzamxu?=
+ =?utf-8?B?RVBFRXdZd1hXaXJBdkVhYnY1MVFWWHNiVEZtRXBJNHVQUWppTERYTmhzZmhz?=
+ =?utf-8?B?bDU1Zk9tQVNKMFg0cWZmQlhiK09BbmpNMWdIVndYZURLYi9Fc2JkbWRtV3dP?=
+ =?utf-8?B?dVg5dWJ4REM4Z2FXcGJENlBQNnBqMHpRa3JHK1dnejBoZlpUNmhXUWtIdEZG?=
+ =?utf-8?B?TTRXQkRGV1JqUThhRDVJY0pZZkZ5a2dIbEdsV2x3STZNcjZhVGsyWG96K3JW?=
+ =?utf-8?B?NDBwOVVJRk80QXo3OEVtemU5c1dJVDhrZFEyZDJFZjY3ZmYwTitlV2FZZVBQ?=
+ =?utf-8?B?YkxJVnprOTdFRXFDYWNiZnNHZkl1Q2VNSEF5MGFSWGZZTEU5UnFFWXVKK0Zx?=
+ =?utf-8?Q?5LGNfpxLz74BOK1jTYRDxC9Ay?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: addd0537-0913-4d25-52ae-08dbc5996d2f
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Oct 2023 11:51:35.6779 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Nxq+H61EHhB3RrvbXYLf08j7p8FzV4mnSxRMefwmrGeIb9iC33BiHvgbbW7nq7Eb
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8756
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,519 +124,171 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Ray Strode <rstrode@redhat.com>, daniel.vetter@ffwll.ch, Xinhui.Pan@amd.com,
+ dri-devel@lists.freedesktop.org, mdaenzer@redhat.com,
+ alexander.deucher@amd.com, airlied@redhat.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Am 05.10.23 um 11:57 schrieb Daniel Vetter:
+> On Tue, Sep 26, 2023 at 01:05:49PM -0400, Ray Strode wrote:
+>> From: Ray Strode <rstrode@redhat.com>
+>>
+>> A drm atomic commit can be quite slow on some hardware. It can lead
+>> to a lengthy queue of commands that need to get processed and waited
+>> on before control can go back to user space.
+>>
+>> If user space is a real-time thread, that delay can have severe
+>> consequences, leading to the process getting killed for exceeding
+>> rlimits.
+>>
+>> This commit addresses the problem by always running the slow part of
+>> a commit on a workqueue, separated from the task initiating the
+>> commit.
+>>
+>> This change makes the nonblocking and blocking paths work in the same way,
+>> and as a result allows the task to sleep and not use up its
+>> RLIMIT_RTTIME allocation.
+>>
+>> Link: https://gitlab.freedesktop.org/drm/amd/-/issues/2861
+>> Signed-off-by: Ray Strode <rstrode@redhat.com>
+> So imo the trouble with this is that we suddenly start to make
+> realtime/cpu usage guarantees in the atomic ioctl. That's a _huge_ uapi
+> change, because even limited to the case of !ALLOW_MODESET we do best
+> effort guarantees at best. And some drivers (again amd's dc) spend a ton
+> of cpu time recomputing state even for pure plane changes without any crtc
+> changes like dpms on/off (at least I remember some bug reports about
+> that). And that state recomputation has to happen synchronously, because
+> it always influences the ioctl errno return value.
+>
+> My take is that you're papering over a performance problem here of the
+> "the driver is too slow/wastes too much cpu time". We should fix the
+> driver, if that's possible.
+>
+> Another option would be if userspace drops realtime priorities for these
+> known-slow operations. And right now _all_ kms operations are potentially
+> cpu and real-time wasters, the entire uapi is best effort.
+>
+> We can also try to change the atomic uapi to give some hard real-time
+> guarantees so that running compositors as SCHED_RT is possible, but that
+> - means a very serious stream of bugs to fix all over
+> - therefore needs some very wide buy-in from drivers that they're willing
+>    to make this guarantee
+> - probably needs some really carefully carved out limitations, because
+>    there's imo flat-out no way we'll make all atomic ioctl hard time limit
+>    bound
 
-On 9/28/23 21:16, Danilo Krummrich wrote:
-> This patch adds an abstraction layer between the drm_gpuva mappings of
-NIT: imperative:  s/This patch adds/Add/
-> a particular drm_gem_object and this GEM object itself. The abstraction
-> represents a combination of a drm_gem_object and drm_gpuvm. The
-> drm_gem_object holds a list of drm_gpuvm_bo structures (the structure
-> representing this abstraction), while each drm_gpuvm_bo contains list of
-> mappings of this GEM object.
->
-> This has multiple advantages:
->
-> 1) We can use the drm_gpuvm_bo structure to attach it to various lists
->     of the drm_gpuvm. This is useful for tracking external and evicted
->     objects per VM, which is introduced in subsequent patches.
->
-> 2) Finding mappings of a certain drm_gem_object mapped in a certain
->     drm_gpuvm becomes much cheaper.
->
-> 3) Drivers can derive and extend the structure to easily represent
->     driver specific states of a BO for a certain GPUVM.
->
-> The idea of this abstraction was taken from amdgpu, hence the credit for
-> this idea goes to the developers of amdgpu.
->
-> Cc: Christian König <christian.koenig@amd.com>
-> Signed-off-by: Danilo Krummrich <dakr@redhat.com>
-> ---
->   drivers/gpu/drm/drm_gpuvm.c            | 334 +++++++++++++++++++++----
->   drivers/gpu/drm/nouveau/nouveau_uvmm.c |  64 +++--
->   include/drm/drm_gem.h                  |  32 +--
->   include/drm/drm_gpuvm.h                | 177 ++++++++++++-
->   4 files changed, 523 insertions(+), 84 deletions(-)
->
-> diff --git a/drivers/gpu/drm/drm_gpuvm.c b/drivers/gpu/drm/drm_gpuvm.c
-> index 6368dfdbe9dd..27100423154b 100644
-> --- a/drivers/gpu/drm/drm_gpuvm.c
-> +++ b/drivers/gpu/drm/drm_gpuvm.c
-> @@ -70,6 +70,18 @@
->    * &drm_gem_object, such as the &drm_gem_object containing the root page table,
->    * but it can also be a 'dummy' object, which can be allocated with
->    * drm_gpuvm_root_object_alloc().
-> + *
-> + * In order to connect a struct drm_gpuva its backing &drm_gem_object each
-> + * &drm_gem_object maintains a list of &drm_gpuvm_bo structures, and each
-> + * &drm_gpuvm_bo contains a list of &&drm_gpuva structures.
-> + *
-> + * A &drm_gpuvm_bo is an abstraction that represents a combination of a
-> + * &drm_gpuvm and a &drm_gem_object. Every such combination should be unique.
-> + * This is ensured by the API through drm_gpuvm_bo_obtain() and
-> + * drm_gpuvm_bo_obtain_prealloc() which first look into the corresponding
-> + * &drm_gem_object list of &drm_gpuvm_bos for an existing instance of this
-> + * particular combination. If not existent a new instance is created and linked
-> + * to the &drm_gem_object.
->    */
->   
->   /**
-> @@ -395,21 +407,28 @@
->   /**
->    * DOC: Locking
->    *
-> - * Generally, the GPU VA manager does not take care of locking itself, it is
-> - * the drivers responsibility to take care about locking. Drivers might want to
-> - * protect the following operations: inserting, removing and iterating
-> - * &drm_gpuva objects as well as generating all kinds of operations, such as
-> - * split / merge or prefetch.
-> - *
-> - * The GPU VA manager also does not take care of the locking of the backing
-> - * &drm_gem_object buffers GPU VA lists by itself; drivers are responsible to
-> - * enforce mutual exclusion using either the GEMs dma_resv lock or alternatively
-> - * a driver specific external lock. For the latter see also
-> - * drm_gem_gpuva_set_lock().
-> - *
-> - * However, the GPU VA manager contains lockdep checks to ensure callers of its
-> - * API hold the corresponding lock whenever the &drm_gem_objects GPU VA list is
-> - * accessed by functions such as drm_gpuva_link() or drm_gpuva_unlink().
-> + * In terms of managing &drm_gpuva entries DRM GPUVM does not take care of
-> + * locking itself, it is the drivers responsibility to take care about locking.
-> + * Drivers might want to protect the following operations: inserting, removing
-> + * and iterating &drm_gpuva objects as well as generating all kinds of
-> + * operations, such as split / merge or prefetch.
-> + *
-> + * DRM GPUVM also does not take care of the locking of the backing
-> + * &drm_gem_object buffers GPU VA lists and &drm_gpuvm_bo abstractions by
-> + * itself; drivers are responsible to enforce mutual exclusion using either the
-> + * GEMs dma_resv lock or alternatively a driver specific external lock. For the
-> + * latter see also drm_gem_gpuva_set_lock().
-> + *
-> + * However, DRM GPUVM contains lockdep checks to ensure callers of its API hold
-> + * the corresponding lock whenever the &drm_gem_objects GPU VA list is accessed
-> + * by functions such as drm_gpuva_link() or drm_gpuva_unlink(), but also
-> + * drm_gpuvm_bo_obtain() and drm_gpuvm_bo_put().
-> + *
-> + * The latter is required since on creation and destruction of a &drm_gpuvm_bo
-> + * the &drm_gpuvm_bo is attached / removed from the &drm_gem_objects gpuva list.
-> + * Subsequent calls to drm_gpuvm_bo_obtain() for the same &drm_gpuvm and
-> + * &drm_gem_object must be able to observe previous creations and destructions
-> + * of &drm_gpuvm_bos in order to keep instances unique.
->    */
->   
->   /**
-> @@ -439,6 +458,7 @@
->    *	{
->    *		struct drm_gpuva_ops *ops;
->    *		struct drm_gpuva_op *op
-> + *		struct drm_gpuvm_bo *vm_bo;
->    *
->    *		driver_lock_va_space();
->    *		ops = drm_gpuvm_sm_map_ops_create(gpuvm, addr, range,
-> @@ -446,6 +466,10 @@
->    *		if (IS_ERR(ops))
->    *			return PTR_ERR(ops);
->    *
-> + *		vm_bo = drm_gpuvm_bo_obtain(gpuvm, obj);
-> + *		if (IS_ERR(vm_bo))
-> + *			return PTR_ERR(vm_bo);
-> + *
->    *		drm_gpuva_for_each_op(op, ops) {
->    *			struct drm_gpuva *va;
->    *
-> @@ -458,7 +482,7 @@
->    *
->    *				driver_vm_map();
->    *				drm_gpuva_map(gpuvm, va, &op->map);
-> - *				drm_gpuva_link(va);
-> + *				drm_gpuva_link(va, vm_bo);
->    *
->    *				break;
->    *			case DRM_GPUVA_OP_REMAP: {
-> @@ -485,11 +509,11 @@
->    *				driver_vm_remap();
->    *				drm_gpuva_remap(prev, next, &op->remap);
->    *
-> - *				drm_gpuva_unlink(va);
->    *				if (prev)
-> - *					drm_gpuva_link(prev);
-> + *					drm_gpuva_link(prev, va->vm_bo);
->    *				if (next)
-> - *					drm_gpuva_link(next);
-> + *					drm_gpuva_link(next, va->vm_bo);
-> + *				drm_gpuva_unlink(va);
->    *
->    *				break;
->    *			}
-> @@ -505,6 +529,7 @@
->    *				break;
->    *			}
->    *		}
-> + *		drm_gpuvm_bo_put(vm_bo);
->    *		driver_unlock_va_space();
->    *
->    *		return 0;
-> @@ -514,6 +539,7 @@
->    *
->    *	struct driver_context {
->    *		struct drm_gpuvm *gpuvm;
-> + *		struct drm_gpuvm_bo *vm_bo;
->    *		struct drm_gpuva *new_va;
->    *		struct drm_gpuva *prev_va;
->    *		struct drm_gpuva *next_va;
-> @@ -534,6 +560,7 @@
->    *				  struct drm_gem_object *obj, u64 offset)
->    *	{
->    *		struct driver_context ctx;
-> + *		struct drm_gpuvm_bo *vm_bo;
->    *		struct drm_gpuva_ops *ops;
->    *		struct drm_gpuva_op *op;
->    *		int ret = 0;
-> @@ -543,16 +570,23 @@
->    *		ctx.new_va = kzalloc(sizeof(*ctx.new_va), GFP_KERNEL);
->    *		ctx.prev_va = kzalloc(sizeof(*ctx.prev_va), GFP_KERNEL);
->    *		ctx.next_va = kzalloc(sizeof(*ctx.next_va), GFP_KERNEL);
-> - *		if (!ctx.new_va || !ctx.prev_va || !ctx.next_va) {
-> + *		ctx.vm_bo = drm_gpuvm_bo_create(gpuvm, obj);
-> + *		if (!ctx.new_va || !ctx.prev_va || !ctx.next_va || !vm_bo) {
->    *			ret = -ENOMEM;
->    *			goto out;
->    *		}
->    *
-> + *		// Typically protected with a driver specific GEM gpuva lock
-> + *		// used in the fence signaling path for drm_gpuva_link() and
-> + *		// drm_gpuva_unlink(), hence pre-allocate.
-> + *		ctx.vm_bo = drm_gpuvm_bo_obtain_prealloc(ctx.vm_bo);
-> + *
->    *		driver_lock_va_space();
->    *		ret = drm_gpuvm_sm_map(gpuvm, &ctx, addr, range, obj, offset);
->    *		driver_unlock_va_space();
->    *
->    *	out:
-> + *		drm_gpuvm_bo_put(ctx.vm_bo);
->    *		kfree(ctx.new_va);
->    *		kfree(ctx.prev_va);
->    *		kfree(ctx.next_va);
-> @@ -565,7 +599,7 @@
->    *
->    *		drm_gpuva_map(ctx->vm, ctx->new_va, &op->map);
->    *
-> - *		drm_gpuva_link(ctx->new_va);
-> + *		drm_gpuva_link(ctx->new_va, ctx->vm_bo);
->    *
->    *		// prevent the new GPUVA from being freed in
->    *		// driver_mapping_create()
-> @@ -577,22 +611,23 @@
->    *	int driver_gpuva_remap(struct drm_gpuva_op *op, void *__ctx)
->    *	{
->    *		struct driver_context *ctx = __ctx;
-> + *		struct drm_gpuva *va = op->remap.unmap->va;
->    *
->    *		drm_gpuva_remap(ctx->prev_va, ctx->next_va, &op->remap);
->    *
-> - *		drm_gpuva_unlink(op->remap.unmap->va);
-> - *		kfree(op->remap.unmap->va);
-> - *
->    *		if (op->remap.prev) {
-> - *			drm_gpuva_link(ctx->prev_va);
-> + *			drm_gpuva_link(ctx->prev_va, va->vm_bo);
->    *			ctx->prev_va = NULL;
->    *		}
->    *
->    *		if (op->remap.next) {
-> - *			drm_gpuva_link(ctx->next_va);
-> + *			drm_gpuva_link(ctx->next_va, va->vm_bo);
->    *			ctx->next_va = NULL;
->    *		}
->    *
-> + *		drm_gpuva_unlink(va);
-> + *		kfree(va);
-> + *
->    *		return 0;
->    *	}
->    *
-> @@ -771,6 +806,194 @@ drm_gpuvm_destroy(struct drm_gpuvm *gpuvm)
->   }
->   EXPORT_SYMBOL_GPL(drm_gpuvm_destroy);
->   
-> +/**
-> + * drm_gpuvm_bo_create() - create a new instance of struct drm_gpuvm_bo
-> + * @gpuvm: The &drm_gpuvm the @obj is mapped in.
-> + * @obj: The &drm_gem_object being mapped in the @gpuvm.
-> + *
-> + * If provided by the driver, this function uses the &drm_gpuvm_ops
-> + * vm_bo_alloc() callback to allocate.
-> + *
-> + * Returns: a pointer to the &drm_gpuvm_bo on success, NULL on failure
-> + */
-> +struct drm_gpuvm_bo *
-> +drm_gpuvm_bo_create(struct drm_gpuvm *gpuvm,
-> +		    struct drm_gem_object *obj)
-> +{
-> +	const struct drm_gpuvm_ops *ops = gpuvm->ops;
-> +	struct drm_gpuvm_bo *vm_bo;
-> +
-> +	if (ops && ops->vm_bo_alloc)
-> +		vm_bo = ops->vm_bo_alloc();
-> +	else
-> +		vm_bo = kzalloc(sizeof(*vm_bo), GFP_KERNEL);
-> +
-> +	if (unlikely(!vm_bo))
-> +		return NULL;
-> +
-> +	vm_bo->vm = gpuvm;
-> +	vm_bo->obj = obj;
-> +
-> +	kref_init(&vm_bo->kref);
-> +	INIT_LIST_HEAD(&vm_bo->list.gpuva);
-> +	INIT_LIST_HEAD(&vm_bo->list.entry.gem);
-> +
-> +	drm_gem_object_get(obj);
-> +
-> +	return vm_bo;
-> +}
-> +EXPORT_SYMBOL_GPL(drm_gpuvm_bo_create);
-> +
-> +static void
-> +drm_gpuvm_bo_destroy(struct kref *kref)
-> +{
-> +	struct drm_gpuvm_bo *vm_bo = container_of(kref, struct drm_gpuvm_bo,
-> +						  kref);
-> +	struct drm_gpuvm *gpuvm = vm_bo->vm;
-> +	const struct drm_gpuvm_ops *ops = gpuvm->ops;
-> +	struct drm_gem_object *obj = vm_bo->obj;
-> +	bool lock = !drm_gpuvm_resv_protected(gpuvm);
-> +
-> +	drm_gem_gpuva_assert_lock_held(obj);
-> +	if (!lock)
-> +		drm_gpuvm_resv_assert_held(gpuvm);
-> +
-> +	list_del(&vm_bo->list.entry.gem);
-> +
-> +	drm_gem_object_put(obj);
-> +
-> +	if (ops && ops->vm_bo_free)
-> +		ops->vm_bo_free(vm_bo);
-> +	else
-> +		kfree(vm_bo);
-> +}
-> +
-> +/**
-> + * drm_gpuvm_bo_put() - drop a struct drm_gpuvm_bo reference
-> + * @vm_bo: the &drm_gpuvm_bo to release the reference of
-> + *
-> + * This releases a reference to @vm_bo.
-> + *
-> + * If the reference count drops to zero, the &gpuvm_bo is destroyed, which
-> + * includes removing it from the GEMs gpuva list. Hence, if a call to this
-> + * function can potentially let the reference count to zero the caller must
-> + * hold the dma-resv or driver specific GEM gpuva lock.
-> + */
-> +void
-> +drm_gpuvm_bo_put(struct drm_gpuvm_bo *vm_bo)
-> +{
-> +	if (vm_bo)
-> +		kref_put(&vm_bo->kref, drm_gpuvm_bo_destroy);
-> +}
-> +EXPORT_SYMBOL_GPL(drm_gpuvm_bo_put);
-> +
-> +static struct drm_gpuvm_bo *
-> +__drm_gpuvm_bo_find(struct drm_gpuvm *gpuvm,
-> +		    struct drm_gem_object *obj)
-> +{
-> +	struct drm_gpuvm_bo *vm_bo;
-> +
-> +	drm_gem_gpuva_assert_lock_held(obj);
-> +
-> +	drm_gem_for_each_gpuvm_bo(vm_bo, obj)
-> +		if (vm_bo->vm == gpuvm)
-> +			return vm_bo;
-> +
-> +	return NULL;
-> +}
-> +
-> +/**
-> + * drm_gpuvm_bo_find() - find the &drm_gpuvm_bo for the given
-> + * &drm_gpuvm and &drm_gem_object
-> + * @gpuvm: The &drm_gpuvm the @obj is mapped in.
-> + * @obj: The &drm_gem_object being mapped in the @gpuvm.
-> + *
-> + * Find the &drm_gpuvm_bo representing the combination of the given
-> + * &drm_gpuvm and &drm_gem_object. If found, increases the reference
-> + * count of the &drm_gpuvm_bo accordingly.
-> + *
-> + * Returns: a pointer to the &drm_gpuvm_bo on success, NULL on failure
-> + */
-> +struct drm_gpuvm_bo *
-> +drm_gpuvm_bo_find(struct drm_gpuvm *gpuvm,
-> +		  struct drm_gem_object *obj)
-> +{
-> +	struct drm_gpuvm_bo *vm_bo = __drm_gpuvm_bo_find(gpuvm, obj);
-> +
-> +	return vm_bo ? drm_gpuvm_bo_get(vm_bo) : NULL;
-> +}
-> +EXPORT_SYMBOL_GPL(drm_gpuvm_bo_find);
-> +
-> +/**
-> + * drm_gpuvm_bo_obtain() - obtains and instance of the &drm_gpuvm_bo for the
-> + * given &drm_gpuvm and &drm_gem_object
-> + * @gpuvm: The &drm_gpuvm the @obj is mapped in.
-> + * @obj: The &drm_gem_object being mapped in the @gpuvm.
-> + *
-> + * Find the &drm_gpuvm_bo representing the combination of the given
-> + * &drm_gpuvm and &drm_gem_object. If found, increases the reference
-> + * count of the &drm_gpuvm_bo accordingly. If not found, allocates a new
-> + * &drm_gpuvm_bo.
-> + *
-> + * A new &drm_gpuvm_bo is added to the GEMs gpuva list.
-> + *
-> + * Returns: a pointer to the &drm_gpuvm_bo on success, an ERR_PTR on failure
-> + */
-> +struct drm_gpuvm_bo *
-> +drm_gpuvm_bo_obtain(struct drm_gpuvm *gpuvm,
-> +		    struct drm_gem_object *obj)
-> +{
-> +	struct drm_gpuvm_bo *vm_bo;
-> +
-> +	vm_bo = drm_gpuvm_bo_find(gpuvm, obj);
-> +	if (vm_bo)
-> +		return vm_bo;
-> +
-> +	vm_bo = drm_gpuvm_bo_create(gpuvm, obj);
-> +	if (!vm_bo)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	list_add_tail(&vm_bo->list.entry.gem, &obj->gpuva.list);
-> +
-> +	return vm_bo;
-> +}
-> +EXPORT_SYMBOL_GPL(drm_gpuvm_bo_obtain);
-> +
-> +/**
-> + * drm_gpuvm_bo_obtain_prealloc() - obtains and instance of the &drm_gpuvm_bo
-> + * for the given &drm_gpuvm and &drm_gem_object
-> + * @__vm_bo: A pre-allocated struct drm_gpuvm_bo.
-> + *
-> + * Find the &drm_gpuvm_bo representing the combination of the given
-> + * &drm_gpuvm and &drm_gem_object. If found, increases the reference
-> + * count of the found &drm_gpuvm_bo accordingly, while the @__vm_bo reference
-> + * count is decreased. If not found @__vm_bo is returned without further
-> + * increase of the reference count.
-> + *
-> + * A new &drm_gpuvm_bo is added to the GEMs gpuva list.
-> + *
-> + * Returns: a pointer to the found &drm_gpuvm_bo or @__vm_bo if no existing
-> + * &drm_gpuvm_bo was found
-> + */
-> +struct drm_gpuvm_bo *
-> +drm_gpuvm_bo_obtain_prealloc(struct drm_gpuvm_bo *__vm_bo)
-> +{
-> +	struct drm_gpuvm *gpuvm = __vm_bo->vm;
-> +	struct drm_gem_object *obj = __vm_bo->obj;
-> +	struct drm_gpuvm_bo *vm_bo;
-> +
-> +	vm_bo = drm_gpuvm_bo_find(gpuvm, obj);
-> +	if (vm_bo) {
-> +		drm_gpuvm_bo_put(__vm_bo);
-> +		return vm_bo;
-> +	}
-> +
-> +	list_add_tail(&__vm_bo->list.entry.gem, &obj->gpuva.list);
-> +
-> +	return __vm_bo;
-> +}
-> +EXPORT_SYMBOL_GPL(drm_gpuvm_bo_obtain_prealloc);
-> +
->   static int
->   __drm_gpuva_insert(struct drm_gpuvm *gpuvm,
->   		   struct drm_gpuva *va)
-> @@ -860,24 +1083,33 @@ EXPORT_SYMBOL_GPL(drm_gpuva_remove);
->   /**
->    * drm_gpuva_link() - link a &drm_gpuva
->    * @va: the &drm_gpuva to link
-> + * @vm_bo: the &drm_gpuvm_bo to add the &drm_gpuva to
->    *
-> - * This adds the given &va to the GPU VA list of the &drm_gem_object it is
-> - * associated with.
-> + * This adds the given &va to the GPU VA list of the &drm_gpuvm_bo and the
-> + * &drm_gpuvm_bo to the &drm_gem_object it is associated with.
-> + *
-> + * For every &drm_gpuva entry added to the &drm_gpuvm_bo an additional
-> + * reference of the latter is taken.
->    *
->    * This function expects the caller to protect the GEM's GPUVA list against
-> - * concurrent access using the GEMs dma_resv lock.
-> + * concurrent access using either the GEMs dma_resv lock or a driver specific
-> + * lock set through drm_gem_gpuva_set_lock().
->    */
->   void
-> -drm_gpuva_link(struct drm_gpuva *va)
-> +drm_gpuva_link(struct drm_gpuva *va, struct drm_gpuvm_bo *vm_bo)
->   {
->   	struct drm_gem_object *obj = va->gem.obj;
->   
->   	if (unlikely(!obj))
->   		return;
->   
-> +	WARN_ON(obj != vm_bo->obj);
->   	drm_gem_gpuva_assert_lock_held(obj);
->   
-> -	list_add_tail(&va->gem.entry, &obj->gpuva.list);
-> +	drm_gpuvm_bo_get(vm_bo);
-> +
-> +	va->vm_bo = vm_bo;
-> +	list_add_tail(&va->gem.entry, &vm_bo->list.gpuva);
->   }
->   EXPORT_SYMBOL_GPL(drm_gpuva_link);
->   
-> @@ -888,13 +1120,22 @@ EXPORT_SYMBOL_GPL(drm_gpuva_link);
->    * This removes the given &va from the GPU VA list of the &drm_gem_object it is
->    * associated with.
->    *
-> + * This removes the given &va from the GPU VA list of the &drm_gpuvm_bo and
-> + * the &drm_gpuvm_bo from the &drm_gem_object it is associated with in case
-> + * this call unlinks the last &drm_gpuva from the &drm_gpuvm_bo.
-> + *
-> + * For every &drm_gpuva entry removed from the &drm_gpuvm_bo a reference of
-> + * the latter is dropped.
-> + *
->    * This function expects the caller to protect the GEM's GPUVA list against
-> - * concurrent access using the GEMs dma_resv lock.
-> + * concurrent access using either the GEMs dma_resv lock or a driver specific
-> + * lock set through drm_gem_gpuva_set_lock().
->    */
->   void
->   drm_gpuva_unlink(struct drm_gpuva *va)
->   {
->   	struct drm_gem_object *obj = va->gem.obj;
-Can we ditch va->gem.obj now and replace it with an accessor to the  
-vm_bo's pointer?
-> +	struct drm_gpuvm_bo *vm_bo = va->vm_bo;
->   
->   	if (unlikely(!obj))
->   		return;
-> @@ -902,6 +1143,11 @@ drm_gpuva_unlink(struct drm_gpuva *va)
->   	drm_gem_gpuva_assert_lock_held(obj);
->   
->   	list_del_init(&va->gem.entry);
-> +	va->vm_bo = NULL;
-> +
-> +	drm_gem_object_get(obj);
-> +	drm_gpuvm_bo_put(vm_bo);
-> +	drm_gem_object_put(obj);
+Well, we actually have a pending request to support some real time use 
+cases with the amdgpu driver.
 
-This get->put dance is unneccesary? If the caller is required to hold a 
-lock on obj it is also required to hold a reference on obj.
+And as I already said to Alex internally this is not a pile, but a 
+mountain of work even when we exclude DC.
 
-Besides, if the vm_bo's reference on obj is otherwise the last one, it 
-will still be freed before the function exits.
+Fixing DC to not busy wait for events which raise an interrupt is still 
+something we should absolutely do anyway, but that is an ongoing process.
 
-/Thomas
+> Also, as König has pointed out, you can roll this duct-tape out in
+> userspace by making the commit non-blocking and immediately waiting for
+> the fences.
 
+Oh, please don't use my last name like this. It reminds me of my 
+military time :)
+
+Regards,
+Christian.
+
+>
+> One thing I didn't see mention is that there's a very subtle uapi
+> difference between non-blocking and blocking:
+> - non-blocking is not allowed to get ahead of the previous commit, and
+>    will return EBUSY in that case. See the comment in
+>    drm_atomic_helper_commit()
+> - blocking otoh will just block until any previous pending commit has
+>    finished
+>
+> Not taking that into account in your patch here breaks uapi because
+> userspace will suddenly get EBUSY when they don't expect that.
+>
+> Cheers, Sima
+>
+>
+>> ---
+>>   drivers/gpu/drm/drm_atomic_helper.c | 7 +++----
+>>   1 file changed, 3 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+>> index 292e38eb6218..1a1e68d98d38 100644
+>> --- a/drivers/gpu/drm/drm_atomic_helper.c
+>> +++ b/drivers/gpu/drm/drm_atomic_helper.c
+>> @@ -2028,64 +2028,63 @@ int drm_atomic_helper_commit(struct drm_device *dev,
+>>   	 * This is the point of no return - everything below never fails except
+>>   	 * when the hw goes bonghits. Which means we can commit the new state on
+>>   	 * the software side now.
+>>   	 */
+>>   
+>>   	ret = drm_atomic_helper_swap_state(state, true);
+>>   	if (ret)
+>>   		goto err;
+>>   
+>>   	/*
+>>   	 * Everything below can be run asynchronously without the need to grab
+>>   	 * any modeset locks at all under one condition: It must be guaranteed
+>>   	 * that the asynchronous work has either been cancelled (if the driver
+>>   	 * supports it, which at least requires that the framebuffers get
+>>   	 * cleaned up with drm_atomic_helper_cleanup_planes()) or completed
+>>   	 * before the new state gets committed on the software side with
+>>   	 * drm_atomic_helper_swap_state().
+>>   	 *
+>>   	 * This scheme allows new atomic state updates to be prepared and
+>>   	 * checked in parallel to the asynchronous completion of the previous
+>>   	 * update. Which is important since compositors need to figure out the
+>>   	 * composition of the next frame right after having submitted the
+>>   	 * current layout.
+>>   	 *
+>>   	 * NOTE: Commit work has multiple phases, first hardware commit, then
+>>   	 * cleanup. We want them to overlap, hence need system_unbound_wq to
+>>   	 * make sure work items don't artificially stall on each another.
+>>   	 */
+>>   
+>>   	drm_atomic_state_get(state);
+>> -	if (nonblock)
+>> -		queue_work(system_unbound_wq, &state->commit_work);
+>> -	else
+>> -		commit_tail(state);
+>> +	queue_work(system_unbound_wq, &state->commit_work);
+>> +	if (!nonblock)
+>> +		flush_work(&state->commit_work);
+>>   
+>>   	return 0;
+>>   
+>>   err:
+>>   	drm_atomic_helper_cleanup_planes(dev, state);
+>>   	return ret;
+>>   }
+>>   EXPORT_SYMBOL(drm_atomic_helper_commit);
+>>   
+>>   /**
+>>    * DOC: implementing nonblocking commit
+>>    *
+>>    * Nonblocking atomic commits should use struct &drm_crtc_commit to sequence
+>>    * different operations against each another. Locks, especially struct
+>>    * &drm_modeset_lock, should not be held in worker threads or any other
+>>    * asynchronous context used to commit the hardware state.
+>>    *
+>>    * drm_atomic_helper_commit() implements the recommended sequence for
+>>    * nonblocking commits, using drm_atomic_helper_setup_commit() internally:
+>>    *
+>>    * 1. Run drm_atomic_helper_prepare_planes(). Since this can fail and we
+>>    * need to propagate out of memory/VRAM errors to userspace, it must be called
+>>    * synchronously.
+>>    *
+>>    * 2. Synchronize with any outstanding nonblocking commit worker threads which
+>>    * might be affected by the new state update. This is handled by
+>>    * drm_atomic_helper_setup_commit().
+>>    *
+>>    * Asynchronous workers need to have sufficient parallelism to be able to run
+>>    * different atomic commits on different CRTCs in parallel. The simplest way to
+>> -- 
+>> 2.41.0
+>>
 
