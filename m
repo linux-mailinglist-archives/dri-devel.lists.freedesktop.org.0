@@ -1,59 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 482A47B9C05
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Oct 2023 11:05:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D492E7B9C06
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Oct 2023 11:05:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5813110E130;
-	Thu,  5 Oct 2023 09:05:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 71B3F10E0BE;
+	Thu,  5 Oct 2023 09:05:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BAED210E12E
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Oct 2023 09:05:27 +0000 (UTC)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 312ED10E0BE
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Oct 2023 09:05:28 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id A4DBE2185C;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id E58F01F88C;
  Thu,  5 Oct 2023 09:05:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1696496726; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=ou3kdIeFToVcRv4iNdjLwdiN2Um5xKeZk6ZqufjokAs=;
- b=hl4NXN6Hd4J2EPjkDmuvdHglyriajBIkK2NaIOtvOF8K/8r5Bh8ZbEAlLUCaaqdOVua9Kl
- YNMFrAbIwHq0m0vGAs4PQBDYpnBbzTLb6P5oA5sfG7O9obZLR8a3DlaZwHUfdzBV5kVLRD
- YTsFiIkEXrfIM74LBvC3tB25HqqUz8Q=
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=zefbJcbTSAnyqf4wWHPiPQYZIpHSyCC4HF+6JZIcyIg=;
+ b=WbmCvrUehWXuyI/wnS+wfAcb+7eRkYpOG1g2NKfq2JhfItzSCaZ+FSekjO1yvJhGLSztuZ
+ 0cP3wOEfHoi7Rmqg6pnJlAOFRRV0eVHO45dPzGd25uJtbV/+N8WkU7/UwobA9vAbj82Qu6
+ je+i6BmWsFpLRREaYctAqqCcBanRA9c=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1696496726;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=ou3kdIeFToVcRv4iNdjLwdiN2Um5xKeZk6ZqufjokAs=;
- b=KcvjOlznNRocuX/DRypCKoRMB/cfxcCH2fFvOWYJF9+Vwaw/rNmtwnxMa/Ed6aOKSj4Z3o
- jQXyU/XiZxKfHqCg==
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=zefbJcbTSAnyqf4wWHPiPQYZIpHSyCC4HF+6JZIcyIg=;
+ b=t8Br392ptOmAGLyzpTijHZCiC7wAcyLHiXwmuIMQClmNmPgIfcWNYhGWgfhRIpMHo+aYi9
+ yOdOd2uzWpmQtPAQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6AFE9139C2;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A84AF13AD9;
  Thu,  5 Oct 2023 09:05:26 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id D3xFGVZ8HmXkcQAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id MB9CKFZ8HmXkcQAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Thu, 05 Oct 2023 09:05:26 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: javierm@redhat.com, jfalempe@redhat.com, jose.exposito89@gmail.com,
  arthurgrillo@riseup.net, mairacanal@riseup.net,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
  daniel@ffwll.ch, noralf@tronnes.org
-Subject: [PATCH v4 0/7] drm: Reuse temporary memory for format conversion
-Date: Thu,  5 Oct 2023 11:04:20 +0200
-Message-ID: <20231005090520.16511-1-tzimmermann@suse.de>
+Subject: [PATCH v4 1/7] drm/format-helper: Cache buffers with struct
+ drm_format_conv_state
+Date: Thu,  5 Oct 2023 11:04:21 +0200
+Message-ID: <20231005090520.16511-2-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.42.0
+In-Reply-To: <20231005090520.16511-1-tzimmermann@suse.de>
+References: <20231005090520.16511-1-tzimmermann@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,73 +75,273 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DRM's format-conversion helpers require temporary memory. Pass the
-buffer from the caller and keep it allocated over several calls. Allow
-the caller to preallocate the buffer memory.
+Hold temporary memory for format conversion in an instance of struct
+drm_format_conv_state. Update internal helpers of DRM's format-conversion
+code accordingly. Drivers will later be able to maintain this cache by
+themselves.
 
-The motivation for this patchset is the recent work on a DRM panic
-handler. [1] The panic handler requires format conversion to display an
-error to the screen. But allocating memory during kernel panics is
-fragile. The changes in this patchset enable the DRM panic handler to
-preallocate buffer storage before the panic occurs.
+Besides caching, struct drm_format_conv_state will be useful to hold
+additional information for format conversion, such as palette data or
+foreground/background colors. This will enable conversion from indexed
+color formats to component-based formats.
 
-As an additonal benefit, drivers can now keep the temporary storage
-across multiple updates. Avoiding memory allocation slightly reduces
-the CPU overhead of the format helpers.
-
-Patch 1 adds struct drm_format_conv_state, a simple interface to pass
-around the buffer storage. Patch 2 adds an instance of the struct to
-the shadow-plane state. Patch 3 moves the buffer's memory management
-from the format helpers into their callers within the DRM drivers. Most
-of the afected drivers use the state instance stored in their shadow-
-plane state. The shadow-plane code releases the buffer memory automatically.
-
-Patches 4 to 7 update three drivers to preallocate the format-conversion
-buffer in their plane's atomic_check function. The driver thus detects OOM
-errors before the display update begins.
-
-Tested with simpledrm.
-
-v4:
-	* rename struct to drm_format_conv_state (Javier)
-	* replace ARRAY_SIZE() with sizeof() (Jani)
-	* store buffer in shadow-plane state (Javier, Maxime)
-	* prealloc in atomic_check in several drivers
 v3:
-	* no changes
-v2:
-	* reserve storage during probing in the drivers
+	* rename struct drm_xfrm_buf to struct drm_format_conv_state
+	  (Javier)
+	* remove managed cleanup
+	* add drm_format_conv_state_copy() for shadow-plane support
 
-[1] https://patchwork.freedesktop.org/series/122244/
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+---
+ drivers/gpu/drm/drm_format_helper.c | 115 +++++++++++++++++++++++++---
+ include/drm/drm_format_helper.h     |  51 ++++++++++++
+ 2 files changed, 155 insertions(+), 11 deletions(-)
 
-Thomas Zimmermann (7):
-  drm/format-helper: Cache buffers with struct drm_format_conv_state
-  drm/atomic-helper: Add format-conversion state to shadow-plane state
-  drm/format-helper: Pass format-conversion state to helpers
-  drm/ofdrm: Preallocate format-conversion buffer in atomic_check
-  drm/simpledrm: Preallocate format-conversion buffer in atomic_check
-  drm/ssd130x: Fix atomic_check for disabled planes
-  drm/ssd130x: Preallocate format-conversion buffer in atomic_check
-
- drivers/gpu/drm/drm_format_helper.c           | 212 +++++++++++++-----
- drivers/gpu/drm/drm_gem_atomic_helper.c       |   9 +
- drivers/gpu/drm/drm_mipi_dbi.c                |  19 +-
- drivers/gpu/drm/gud/gud_pipe.c                |  30 ++-
- drivers/gpu/drm/solomon/ssd130x.c             |  36 ++-
- .../gpu/drm/tests/drm_format_helper_test.c    |  72 +++---
- drivers/gpu/drm/tiny/cirrus.c                 |   3 +-
- drivers/gpu/drm/tiny/ili9225.c                |  10 +-
- drivers/gpu/drm/tiny/ofdrm.c                  |  16 +-
- drivers/gpu/drm/tiny/repaper.c                |   8 +-
- drivers/gpu/drm/tiny/simpledrm.c              |  43 +++-
- drivers/gpu/drm/tiny/st7586.c                 |  19 +-
- include/drm/drm_format_helper.h               |  81 +++++--
- include/drm/drm_gem_atomic_helper.h           |  10 +
- include/drm/drm_mipi_dbi.h                    |   4 +-
- 15 files changed, 428 insertions(+), 144 deletions(-)
-
-
-base-commit: 57d3b83a83c5527325efb5bcaf594da09fe4a41b
+diff --git a/drivers/gpu/drm/drm_format_helper.c b/drivers/gpu/drm/drm_format_helper.c
+index f93a4efcee909..37c499ae4fe4f 100644
+--- a/drivers/gpu/drm/drm_format_helper.c
++++ b/drivers/gpu/drm/drm_format_helper.c
+@@ -20,6 +20,94 @@
+ #include <drm/drm_print.h>
+ #include <drm/drm_rect.h>
+ 
++/**
++ * drm_format_conv_state_init - Initialize format-conversion state
++ * @state: The state to initialize
++ *
++ * Clears all fields in struct drm_format_conv_state and installs a DRM
++ * release action for the buffer. The buffer will be empty with no
++ * preallocated resources.
++ */
++void drm_format_conv_state_init(struct drm_format_conv_state *state)
++{
++	state->tmp.mem = NULL;
++	state->tmp.size = 0;
++	state->tmp.preallocated = false;
++}
++EXPORT_SYMBOL(drm_format_conv_state_init);
++
++/**
++ * drm_format_conv_state_copy - Copy format-conversion state
++ * @state: Destination state
++ * @old_state: Source state
++ *
++ * Copies format-conversion state from @old_state to @state; except for
++ * temporary storage.
++ */
++void drm_format_conv_state_copy(struct drm_format_conv_state *state,
++				const struct drm_format_conv_state *old_state)
++{
++	state->tmp.mem = NULL;
++	state->tmp.size = 0;
++	state->tmp.preallocated = false;
++}
++EXPORT_SYMBOL(drm_format_conv_state_copy);
++
++/**
++ * drm_format_conv_state_reserve - Allocates storage for format conversion
++ * @state: The format-conversion state
++ * @new_size: The minimum allocation size
++ * @flags: Flags for kmalloc()
++ *
++ * Allocates at least @new_size bytes and returns a pointer to the memory
++ * range. After calling this function, previously returned memory blocks
++ * are invalid. It's best to collect all memory requirements of a format
++ * conversion and call this function once to allocate the range.
++ *
++ * Returns:
++ * A pointer to the allocated memory range, or NULL otherwise.
++ */
++void *drm_format_conv_state_reserve(struct drm_format_conv_state *state,
++				    size_t new_size, gfp_t flags)
++{
++	void *mem;
++
++	if (new_size <= state->tmp.size)
++		goto out;
++	else if (state->tmp.preallocated)
++		return NULL;
++
++	mem = krealloc(state->tmp.mem, new_size, flags);
++	if (!mem)
++		return NULL;
++
++	state->tmp.mem = mem;
++	state->tmp.size = new_size;
++
++out:
++	return state->tmp.mem;
++}
++EXPORT_SYMBOL(drm_format_conv_state_reserve);
++
++/**
++ * drm_format_conv_state_release - Releases an format-conversion storage
++ * @state: The format-conversion state
++ *
++ * Releases the memory range references by the xfrm buffer. After
++ * this call, all pointers to the memory are invalid. Prefer
++ * drm_format_conv_state_init() for cleaning up and unloading a driver.
++ */
++void drm_format_conv_state_release(struct drm_format_conv_state *state)
++{
++	if (state->tmp.preallocated)
++		return;
++
++	kfree(state->tmp.mem);
++	state->tmp.mem = NULL;
++	state->tmp.size = 0;
++}
++EXPORT_SYMBOL(drm_format_conv_state_release);
++
+ static unsigned int clip_offset(const struct drm_rect *clip, unsigned int pitch, unsigned int cpp)
+ {
+ 	return clip->y1 * pitch + clip->x1 * cpp;
+@@ -45,6 +133,7 @@ EXPORT_SYMBOL(drm_fb_clip_offset);
+ static int __drm_fb_xfrm(void *dst, unsigned long dst_pitch, unsigned long dst_pixsize,
+ 			 const void *vaddr, const struct drm_framebuffer *fb,
+ 			 const struct drm_rect *clip, bool vaddr_cached_hint,
++			 struct drm_format_conv_state *state,
+ 			 void (*xfrm_line)(void *dbuf, const void *sbuf, unsigned int npixels))
+ {
+ 	unsigned long linepixels = drm_rect_width(clip);
+@@ -60,7 +149,7 @@ static int __drm_fb_xfrm(void *dst, unsigned long dst_pitch, unsigned long dst_p
+ 	 * one line at a time.
+ 	 */
+ 	if (!vaddr_cached_hint) {
+-		stmp = kmalloc(sbuf_len, GFP_KERNEL);
++		stmp = drm_format_conv_state_reserve(state, sbuf_len, GFP_KERNEL);
+ 		if (!stmp)
+ 			return -ENOMEM;
+ 	}
+@@ -79,8 +168,6 @@ static int __drm_fb_xfrm(void *dst, unsigned long dst_pitch, unsigned long dst_p
+ 		dst += dst_pitch;
+ 	}
+ 
+-	kfree(stmp);
+-
+ 	return 0;
+ }
+ 
+@@ -88,6 +175,7 @@ static int __drm_fb_xfrm(void *dst, unsigned long dst_pitch, unsigned long dst_p
+ static int __drm_fb_xfrm_toio(void __iomem *dst, unsigned long dst_pitch, unsigned long dst_pixsize,
+ 			      const void *vaddr, const struct drm_framebuffer *fb,
+ 			      const struct drm_rect *clip, bool vaddr_cached_hint,
++			      struct drm_format_conv_state *state,
+ 			      void (*xfrm_line)(void *dbuf, const void *sbuf, unsigned int npixels))
+ {
+ 	unsigned long linepixels = drm_rect_width(clip);
+@@ -101,9 +189,9 @@ static int __drm_fb_xfrm_toio(void __iomem *dst, unsigned long dst_pitch, unsign
+ 	void *dbuf;
+ 
+ 	if (vaddr_cached_hint) {
+-		dbuf = kmalloc(dbuf_len, GFP_KERNEL);
++		dbuf = drm_format_conv_state_reserve(state, dbuf_len, GFP_KERNEL);
+ 	} else {
+-		dbuf = kmalloc(stmp_off + sbuf_len, GFP_KERNEL);
++		dbuf = drm_format_conv_state_reserve(state, stmp_off + sbuf_len, GFP_KERNEL);
+ 		stmp = dbuf + stmp_off;
+ 	}
+ 	if (!dbuf)
+@@ -124,8 +212,6 @@ static int __drm_fb_xfrm_toio(void __iomem *dst, unsigned long dst_pitch, unsign
+ 		dst += dst_pitch;
+ 	}
+ 
+-	kfree(dbuf);
+-
+ 	return 0;
+ }
+ 
+@@ -139,17 +225,24 @@ static int drm_fb_xfrm(struct iosys_map *dst,
+ 	static const unsigned int default_dst_pitch[DRM_FORMAT_MAX_PLANES] = {
+ 		0, 0, 0, 0
+ 	};
++	struct drm_format_conv_state fmtcnv_state = DRM_FORMAT_CONV_STATE_INIT;
++	int ret;
+ 
+ 	if (!dst_pitch)
+ 		dst_pitch = default_dst_pitch;
+ 
+ 	/* TODO: handle src in I/O memory here */
+ 	if (dst[0].is_iomem)
+-		return __drm_fb_xfrm_toio(dst[0].vaddr_iomem, dst_pitch[0], dst_pixsize[0],
+-					  src[0].vaddr, fb, clip, vaddr_cached_hint, xfrm_line);
++		ret = __drm_fb_xfrm_toio(dst[0].vaddr_iomem, dst_pitch[0], dst_pixsize[0],
++					 src[0].vaddr, fb, clip, vaddr_cached_hint, &fmtcnv_state,
++					 xfrm_line);
+ 	else
+-		return __drm_fb_xfrm(dst[0].vaddr, dst_pitch[0], dst_pixsize[0],
+-				     src[0].vaddr, fb, clip, vaddr_cached_hint, xfrm_line);
++		ret = __drm_fb_xfrm(dst[0].vaddr, dst_pitch[0], dst_pixsize[0],
++				    src[0].vaddr, fb, clip, vaddr_cached_hint, &fmtcnv_state,
++				    xfrm_line);
++	drm_format_conv_state_release(&fmtcnv_state);
++
++	return ret;
+ }
+ 
+ /**
+diff --git a/include/drm/drm_format_helper.h b/include/drm/drm_format_helper.h
+index 291deb09475bb..724a9baf7315d 100644
+--- a/include/drm/drm_format_helper.h
++++ b/include/drm/drm_format_helper.h
+@@ -15,6 +15,57 @@ struct drm_rect;
+ 
+ struct iosys_map;
+ 
++/**
++ * struct drm_format_conv_state - Stores format-conversion state
++ *
++ * DRM helpers for format conversion store temporary state in
++ * struct drm_xfrm_buf. The buffer's resources can be reused
++ * among multiple conversion operations.
++ *
++ * All fields are considered private.
++ */
++struct drm_format_conv_state {
++	struct {
++		void *mem;
++		size_t size;
++		bool preallocated;
++	} tmp;
++};
++
++#define __DRM_FORMAT_CONV_STATE_INIT(_mem, _size, _preallocated) { \
++		.tmp = { \
++			.mem = (_mem), \
++			.size = (_size), \
++			.preallocated = (_preallocated), \
++		} \
++	}
++
++/**
++ * DRM_FORMAT_CONV_STATE_INIT - Initializer for struct drm_format_conv_state
++ *
++ * Initializes an instance of struct drm_format_conv_state to default values.
++ */
++#define DRM_FORMAT_CONV_STATE_INIT \
++	__DRM_FORMAT_CONV_STATE_INIT(NULL, 0, false)
++
++/**
++ * DRM_FORMAT_CONV_STATE_INIT_PREALLOCATED - Initializer for struct drm_format_conv_state
++ * @_mem: The preallocated memory area
++ * @_size: The number of bytes in _mem
++ *
++ * Initializes an instance of struct drm_format_conv_state to preallocated
++ * storage. The caller is responsible for releasing the provided memory range.
++ */
++#define DRM_FORMAT_CONV_STATE_INIT_PREALLOCATED(_mem, _size) \
++	__DRM_FORMAT_CONV_STATE_INIT(_mem, _size, true)
++
++void drm_format_conv_state_init(struct drm_format_conv_state *state);
++void drm_format_conv_state_copy(struct drm_format_conv_state *state,
++				const struct drm_format_conv_state *old_state);
++void *drm_format_conv_state_reserve(struct drm_format_conv_state *state,
++				    size_t new_size, gfp_t flags);
++void drm_format_conv_state_release(struct drm_format_conv_state *state);
++
+ unsigned int drm_fb_clip_offset(unsigned int pitch, const struct drm_format_info *format,
+ 				const struct drm_rect *clip);
+ 
 -- 
 2.42.0
 
