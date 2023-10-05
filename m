@@ -1,77 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 146B27B9C46
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Oct 2023 11:42:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BF4017B9C5D
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Oct 2023 11:57:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 32F9E10E1E2;
-	Thu,  5 Oct 2023 09:42:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 708AC10E1D7;
+	Thu,  5 Oct 2023 09:57:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
- [IPv6:2a00:1450:4864:20::332])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 65EF010E1DC;
- Thu,  5 Oct 2023 09:42:46 +0000 (UTC)
-Received: by mail-wm1-x332.google.com with SMTP id
- 5b1f17b1804b1-4065f29e933so7125525e9.1; 
- Thu, 05 Oct 2023 02:42:46 -0700 (PDT)
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
+ [IPv6:2a00:1450:4864:20::42e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 35ED110E1D7
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Oct 2023 09:57:46 +0000 (UTC)
+Received: by mail-wr1-x42e.google.com with SMTP id
+ ffacd0b85a97d-3232e96deaaso178808f8f.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Oct 2023 02:57:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1696498964; x=1697103764; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=693KH3zKhYevDlo1VF7tZiOPFyQxum49fs5ILYx5v8c=;
- b=mCbRI0BTQFWTcRv5HCPwasg57TA8M4BnNk4LLdgYG/mOI26J+ZhW/S3NfwJGPvRKKW
- 1H/suJ1mAQNYt8cjKaDmmaWj8g14SXdedIJJHU4Z/LbpB/bsn5VK1m0GxHq9/Hf/0ibM
- 1liGoU0J9hKoMH45vXjzQED50pxmbXN9vYipxexL7/zJLeIsH4o4s6G4VdCBAHy598Uj
- rkzVlAbwX2yXwo7irgyCosQcqy739UU+AcN+o1uVfg+n+mXPmLTH412r4eXCgfdY827v
- GlSDfnajRxX06aPoMJERnFmYHUDEKZdDCDAZESy3ZQ2d4Iw8sjRNWYOWA5K8O+/JlOeU
- Udhg==
+ d=ffwll.ch; s=google; t=1696499864; x=1697104664; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=55vrEaxBIfc2hOYlLhsomDLx6DvcuVrww+Ib7FMrIAc=;
+ b=dtMP7zOlqZqnpWqeFNF5J9hEzIGbUjcs90/EeeNyG63aPDQlIawUxYCEPSGHKA1ysW
+ 2L91BXi/nxG028xd8XY2bg6pnFvuu95QfF5x79tHaocIEc+SzwLbD3PXOG1Qtzu3PmoV
+ /0FktK9+MKon87XkFuNNlFVoVjOpeBKI39AB4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1696498964; x=1697103764;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ d=1e100.net; s=20230601; t=1696499864; x=1697104664;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=693KH3zKhYevDlo1VF7tZiOPFyQxum49fs5ILYx5v8c=;
- b=uZSaLKdTXx2NA7dFIKJDEW2P6X0rWJzBB7SHKgHPc+0H9kgFjqKF+SJuGU8ALBJtCC
- ALI3En84Wleh+Pccdt8HMzcFWe7KZHvYdUL83/vVP8nfZaxdy4OjCSPNdjFvsHDX8QnW
- dNGq8GFxMRcZ8+26HaPkeJXhlOp6WzzkyZXbyl2OkBauirPigmsHtMYyvGR+mmpTmDFP
- WkFt7DVqZ0dewt4zLL0vOpq6P4OHdQVTYlJpg1QrSpjb53Zln7GwkrVybTPUGtT4koRb
- UKkglULZSje69Hx/wGDpIscd4UzkMW7MKSTEdkuQnV3HSSn73pKY6ofohr9C52H6QAOV
- uY+w==
-X-Gm-Message-State: AOJu0YzMGEgpjo37IM23PilaNtsHRXhmweBiurtZIUc2qT/12CmqBcDF
- QFn6WMBk3LdzJwsTssvKaLw=
-X-Google-Smtp-Source: AGHT+IEqCjtTNseNA7LGC5Lm5Y9+taQvSKRx7vpW4rapsxY7APIyKIIa0O5eElHs85P9+NWErlFwBw==
-X-Received: by 2002:a05:600c:c9:b0:405:3dee:3515 with SMTP id
- u9-20020a05600c00c900b004053dee3515mr4625492wmm.27.1696498964439; 
- Thu, 05 Oct 2023 02:42:44 -0700 (PDT)
-Received: from [10.254.108.106] (munvpn.amd.com. [165.204.72.6])
+ bh=55vrEaxBIfc2hOYlLhsomDLx6DvcuVrww+Ib7FMrIAc=;
+ b=QSWvchJwiwZ293hTNVY1KV1sa8wCkxC1PNLrSj5cWAnnAprtPPBr91WThKimKlHlCA
+ L80BERLXDwcOxeWgQamluclgAAXTAi7tZNdy47jfcuy2plEPuWl1TFyKWWocFGKPMvWd
+ YXpW7hAV24PplbxCEttxvuCsIzbefjPO0wIBS9FNMo0E2p7Gs1uX3DRdy8oXgQ4jJYs0
+ H03RBSbemkGERR8pmEP50fL5Jh7rwbfq4oQmqoked9yI6xSFkHLZ2n12gP3LgtOO6V61
+ tlmQrdNbW9Fl6/OGg1fwniBvvqndRJTtGg09+TzJMXv/p051+TyOAWv6GtltVzI0dzBk
+ uEDg==
+X-Gm-Message-State: AOJu0YzrtXAqIzYs/L97MYibdzcvaZpxc7sUhNuXd+YTSZ1SJkRZrWrh
+ UmUc8ku1f8M8C69D0Ba0/rdMbw==
+X-Google-Smtp-Source: AGHT+IHmCeFmzjbJXxxQtCTNex9LvPKVIcYgJK8N4EfWoXI36CZlnrA/ctzEtt98ok3364czJmFHqA==
+X-Received: by 2002:adf:cf0a:0:b0:31a:e54e:c790 with SMTP id
+ o10-20020adfcf0a000000b0031ae54ec790mr4150844wrj.6.1696499864256; 
+ Thu, 05 Oct 2023 02:57:44 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
  by smtp.gmail.com with ESMTPSA id
- w21-20020a05600c015500b0040535648639sm1103836wmm.36.2023.10.05.02.42.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 05 Oct 2023 02:42:43 -0700 (PDT)
-Message-ID: <d58bbe17-efa7-4548-9c7d-bf0310d31ef5@gmail.com>
-Date: Thu, 5 Oct 2023 11:42:38 +0200
+ b2-20020a5d5502000000b00323330edbc7sm1390726wrv.20.2023.10.05.02.57.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 05 Oct 2023 02:57:43 -0700 (PDT)
+Date: Thu, 5 Oct 2023 11:57:41 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Ray Strode <halfline@gmail.com>
+Subject: Re: [PATCH] drm/atomic: Perform blocking commits on workqueue
+Message-ID: <ZR6IlVR-A5KtIHEU@phenom.ffwll.local>
+References: <20230926170549.2589045-1-halfline@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/9] drm: Annotate structs with __counted_by
-To: Kees Cook <keescook@chromium.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-References: <20230922173110.work.084-kees@kernel.org>
- <169601600138.3014939.8511343741428844249.b4-ty@chromium.org>
- <83cd056c-52ae-01dd-7576-42d41da64c26@gmail.com>
- <CADnq5_Ma2CrLYggJHKFEObsNmUoqJwb2p1xai5DfL=m43U6zEA@mail.gmail.com>
- <202310020952.E7DE0948C0@keescook>
- <10644b5f-b0a7-85ef-0658-2353ee14df0d@gmail.com>
- <202310021107.9BB46FB8E@keescook>
- <0be2dfa4-b6c1-f62a-66e1-615da7aa3c76@amd.com>
- <202310021122.B6DA850FB0@keescook>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <202310021122.B6DA850FB0@keescook>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230926170549.2589045-1-halfline@gmail.com>
+X-Operating-System: Linux phenom 6.5.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,111 +72,159 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tejas Upadhyay <tejas.upadhyay@intel.com>, Emma Anholt <emma@anholt.net>,
- Tom Rix <trix@redhat.com>, llvm@lists.linux.dev,
- dri-devel@lists.freedesktop.org, Chris Wilson <chris@chris-wilson.co.uk>,
- Prike Liang <Prike.Liang@amd.com>, Huang Rui <ray.huang@amd.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Matthew Brost <matthew.brost@intel.com>, Karol Herbst <kherbst@redhat.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, amd-gfx@lists.freedesktop.org,
- Kuogee Hsieh <quic_khsieh@quicinc.com>,
- VMware Graphics Reviewers <linux-graphics-maintainer@vmware.com>,
- Ben Skeggs <bskeggs@redhat.com>, Andi Shyti <andi.shyti@linux.intel.com>,
- nouveau@lists.freedesktop.org, David Airlie <airlied@redhat.com>,
- virtualization@lists.linux-foundation.org, linux-hardening@vger.kernel.org,
- Alex Deucher <alexander.deucher@amd.com>, Lijo Lazar <lijo.lazar@amd.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, linux-arm-msm@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, Kevin Wang <kevin1.wang@amd.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Nathan Chancellor <nathan@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Maxime Ripard <mripard@kernel.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Evan Quan <evan.quan@amd.com>, Sean Paul <sean@poorly.run>,
- Yifan Zhang <yifan1.zhang@amd.com>, Xiaojian Du <Xiaojian.Du@amd.com>,
- Le Ma <le.ma@amd.com>, freedreno@lists.freedesktop.org,
- Bjorn Andersson <andersson@kernel.org>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
- Melissa Wen <mwen@igalia.com>, Nirmoy Das <nirmoy.das@intel.com>,
- Lang Yu <Lang.Yu@amd.com>, John Harrison <john.c.harrison@intel.com>,
- Hawking Zhang <Hawking.Zhang@amd.com>
+Cc: Ray Strode <rstrode@redhat.com>, daniel.vetter@ffwll.ch, Xinhui.Pan@amd.com,
+ dri-devel@lists.freedesktop.org, mdaenzer@redhat.com,
+ alexander.deucher@amd.com, airlied@redhat.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 02.10.23 um 20:22 schrieb Kees Cook:
-> On Mon, Oct 02, 2023 at 08:11:41PM +0200, Christian König wrote:
->> Am 02.10.23 um 20:08 schrieb Kees Cook:
->>> On Mon, Oct 02, 2023 at 08:01:57PM +0200, Christian König wrote:
->>>> Am 02.10.23 um 18:53 schrieb Kees Cook:
->>>>> On Mon, Oct 02, 2023 at 11:06:19AM -0400, Alex Deucher wrote:
->>>>>> On Mon, Oct 2, 2023 at 5:20 AM Christian König
->>>>>> <ckoenig.leichtzumerken@gmail.com> wrote:
->>>>>>> Am 29.09.23 um 21:33 schrieb Kees Cook:
->>>>>>>> On Fri, 22 Sep 2023 10:32:05 -0700, Kees Cook wrote:
->>>>>>>>> This is a batch of patches touching drm for preparing for the coming
->>>>>>>>> implementation by GCC and Clang of the __counted_by attribute. Flexible
->>>>>>>>> array members annotated with __counted_by can have their accesses
->>>>>>>>> bounds-checked at run-time checking via CONFIG_UBSAN_BOUNDS (for array
->>>>>>>>> indexing) and CONFIG_FORTIFY_SOURCE (for strcpy/memcpy-family functions).
->>>>>>>>>
->>>>>>>>> As found with Coccinelle[1], add __counted_by to structs that would
->>>>>>>>> benefit from the annotation.
->>>>>>>>>
->>>>>>>>> [...]
->>>>>>>> Since this got Acks, I figure I should carry it in my tree. Let me know
->>>>>>>> if this should go via drm instead.
->>>>>>>>
->>>>>>>> Applied to for-next/hardening, thanks!
->>>>>>>>
->>>>>>>> [1/9] drm/amd/pm: Annotate struct smu10_voltage_dependency_table with __counted_by
->>>>>>>>           https://git.kernel.org/kees/c/a6046ac659d6
->>>>>>> STOP! In a follow up discussion Alex and I figured out that this won't work.
->>>>> I'm so confused; from the discussion I saw that Alex said both instances
->>>>> were false positives?
->>>>>
->>>>>>> The value in the structure is byte swapped based on some firmware
->>>>>>> endianness which not necessary matches the CPU endianness.
->>>>>> SMU10 is APU only so the endianess of the SMU firmware and the CPU
->>>>>> will always match.
->>>>> Which I think is what is being said here?
->>>>>
->>>>>>> Please revert that one from going upstream if it's already on it's way.
->>>>>>>
->>>>>>> And because of those reasons I strongly think that patches like this
->>>>>>> should go through the DRM tree :)
->>>>> Sure, that's fine -- please let me know. It was others Acked/etc. Who
->>>>> should carry these patches?
->>>> Probably best if the relevant maintainer pick them up individually.
->>>>
->>>> Some of those structures are filled in by firmware/hardware and only the
->>>> maintainers can judge if that value actually matches what the compiler
->>>> needs.
->>>>
->>>> We have cases where individual bits are used as flags or when the size is
->>>> byte swapped etc...
->>>>
->>>> Even Alex and I didn't immediately say how and where that field is actually
->>>> used and had to dig that up. That's where the confusion came from.
->>> Okay, I've dropped them all from my tree. Several had Acks/Reviews, so
->>> hopefully those can get picked up for the DRM tree?
->> I will pick those up to go through drm-misc-next.
->>
->> Going to ping maintainers once more when I'm not sure if stuff is correct or
->> not.
-> Sounds great; thanks!
+On Tue, Sep 26, 2023 at 01:05:49PM -0400, Ray Strode wrote:
+> From: Ray Strode <rstrode@redhat.com>
+> 
+> A drm atomic commit can be quite slow on some hardware. It can lead
+> to a lengthy queue of commands that need to get processed and waited
+> on before control can go back to user space.
+> 
+> If user space is a real-time thread, that delay can have severe
+> consequences, leading to the process getting killed for exceeding
+> rlimits.
+> 
+> This commit addresses the problem by always running the slow part of
+> a commit on a workqueue, separated from the task initiating the
+> commit.
+> 
+> This change makes the nonblocking and blocking paths work in the same way,
+> and as a result allows the task to sleep and not use up its
+> RLIMIT_RTTIME allocation.
+> 
+> Link: https://gitlab.freedesktop.org/drm/amd/-/issues/2861
+> Signed-off-by: Ray Strode <rstrode@redhat.com>
 
-I wasn't 100% sure for the VC4 patch, but pushed the whole set to 
-drm-misc-next anyway.
+So imo the trouble with this is that we suddenly start to make
+realtime/cpu usage guarantees in the atomic ioctl. That's a _huge_ uapi
+change, because even limited to the case of !ALLOW_MODESET we do best
+effort guarantees at best. And some drivers (again amd's dc) spend a ton
+of cpu time recomputing state even for pure plane changes without any crtc
+changes like dpms on/off (at least I remember some bug reports about
+that). And that state recomputation has to happen synchronously, because
+it always influences the ioctl errno return value.
 
-This also means that the patches are now auto merged into the drm-tip 
-integration branch and should any build or unit test go boom we should 
-notice immediately and can revert it pretty easily.
+My take is that you're papering over a performance problem here of the
+"the driver is too slow/wastes too much cpu time". We should fix the
+driver, if that's possible.
 
-Thanks,
-Christian.
+Another option would be if userspace drops realtime priorities for these
+known-slow operations. And right now _all_ kms operations are potentially
+cpu and real-time wasters, the entire uapi is best effort.
 
->
-> -Kees
->
+We can also try to change the atomic uapi to give some hard real-time
+guarantees so that running compositors as SCHED_RT is possible, but that
+- means a very serious stream of bugs to fix all over
+- therefore needs some very wide buy-in from drivers that they're willing
+  to make this guarantee
+- probably needs some really carefully carved out limitations, because
+  there's imo flat-out no way we'll make all atomic ioctl hard time limit
+  bound
 
+Also, as K�nig has pointed out, you can roll this duct-tape out in
+userspace by making the commit non-blocking and immediately waiting for
+the fences.
+
+One thing I didn't see mention is that there's a very subtle uapi
+difference between non-blocking and blocking:
+- non-blocking is not allowed to get ahead of the previous commit, and
+  will return EBUSY in that case. See the comment in
+  drm_atomic_helper_commit()
+- blocking otoh will just block until any previous pending commit has
+  finished
+
+Not taking that into account in your patch here breaks uapi because
+userspace will suddenly get EBUSY when they don't expect that.
+
+Cheers, Sima
+
+
+> ---
+>  drivers/gpu/drm/drm_atomic_helper.c | 7 +++----
+>  1 file changed, 3 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+> index 292e38eb6218..1a1e68d98d38 100644
+> --- a/drivers/gpu/drm/drm_atomic_helper.c
+> +++ b/drivers/gpu/drm/drm_atomic_helper.c
+> @@ -2028,64 +2028,63 @@ int drm_atomic_helper_commit(struct drm_device *dev,
+>  	 * This is the point of no return - everything below never fails except
+>  	 * when the hw goes bonghits. Which means we can commit the new state on
+>  	 * the software side now.
+>  	 */
+>  
+>  	ret = drm_atomic_helper_swap_state(state, true);
+>  	if (ret)
+>  		goto err;
+>  
+>  	/*
+>  	 * Everything below can be run asynchronously without the need to grab
+>  	 * any modeset locks at all under one condition: It must be guaranteed
+>  	 * that the asynchronous work has either been cancelled (if the driver
+>  	 * supports it, which at least requires that the framebuffers get
+>  	 * cleaned up with drm_atomic_helper_cleanup_planes()) or completed
+>  	 * before the new state gets committed on the software side with
+>  	 * drm_atomic_helper_swap_state().
+>  	 *
+>  	 * This scheme allows new atomic state updates to be prepared and
+>  	 * checked in parallel to the asynchronous completion of the previous
+>  	 * update. Which is important since compositors need to figure out the
+>  	 * composition of the next frame right after having submitted the
+>  	 * current layout.
+>  	 *
+>  	 * NOTE: Commit work has multiple phases, first hardware commit, then
+>  	 * cleanup. We want them to overlap, hence need system_unbound_wq to
+>  	 * make sure work items don't artificially stall on each another.
+>  	 */
+>  
+>  	drm_atomic_state_get(state);
+> -	if (nonblock)
+> -		queue_work(system_unbound_wq, &state->commit_work);
+> -	else
+> -		commit_tail(state);
+> +	queue_work(system_unbound_wq, &state->commit_work);
+> +	if (!nonblock)
+> +		flush_work(&state->commit_work);
+>  
+>  	return 0;
+>  
+>  err:
+>  	drm_atomic_helper_cleanup_planes(dev, state);
+>  	return ret;
+>  }
+>  EXPORT_SYMBOL(drm_atomic_helper_commit);
+>  
+>  /**
+>   * DOC: implementing nonblocking commit
+>   *
+>   * Nonblocking atomic commits should use struct &drm_crtc_commit to sequence
+>   * different operations against each another. Locks, especially struct
+>   * &drm_modeset_lock, should not be held in worker threads or any other
+>   * asynchronous context used to commit the hardware state.
+>   *
+>   * drm_atomic_helper_commit() implements the recommended sequence for
+>   * nonblocking commits, using drm_atomic_helper_setup_commit() internally:
+>   *
+>   * 1. Run drm_atomic_helper_prepare_planes(). Since this can fail and we
+>   * need to propagate out of memory/VRAM errors to userspace, it must be called
+>   * synchronously.
+>   *
+>   * 2. Synchronize with any outstanding nonblocking commit worker threads which
+>   * might be affected by the new state update. This is handled by
+>   * drm_atomic_helper_setup_commit().
+>   *
+>   * Asynchronous workers need to have sufficient parallelism to be able to run
+>   * different atomic commits on different CRTCs in parallel. The simplest way to
+> -- 
+> 2.41.0
+> 
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
