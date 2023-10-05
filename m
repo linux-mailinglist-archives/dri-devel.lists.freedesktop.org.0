@@ -1,49 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D4817BA7BB
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Oct 2023 19:17:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5850A7BA7C4
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Oct 2023 19:19:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF21A10E473;
-	Thu,  5 Oct 2023 17:16:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9EB6510E472;
+	Thu,  5 Oct 2023 17:18:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF2AE10E46D;
- Thu,  5 Oct 2023 17:16:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
- Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=8vRTBnxiXm2Mmv5FX1iRb1SQ2SEIA7L7XpcdnKWARmw=; b=HQTjEWFYCE1TuzUMp18AgaLYLV
- UjIdgqmQAxWNSRR6U1a2q8gtrvK6s6m8GZ/Xi+FLqCH7RlktrV2PAnR8oeVBJ3XSMjWFjcEy5iiL7
- QQ1JA0kPQ5eNPQFuWC+CPM9vweMIIax6BPhUr5qGZdCvqBr925DcOWkvncUz8gykr+xIFpdxWZpaG
- Xj0bLw8e7gAVysfjr6gnIFTfKgWYY3uW4rEyxFgppDZ7/usD5MZ3XuFOOr1unKRZW55wtAuwyOk0V
- L18ZDyITmnS+jGjjjwEe1dp87lIcqr3kAcaIgMoOs3ET2kPSc3I/baeeDlHdFisPGGSpCFF8/ukLQ
- 9wbaCVGw==;
-Received: from [102.213.205.115] (helo=killbill.home)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1qoRxn-00CFJN-32; Thu, 05 Oct 2023 19:16:39 +0200
-From: Melissa Wen <mwen@igalia.com>
-To: amd-gfx@lists.freedesktop.org, Harry Wentland <harry.wentland@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, sunpeng.li@amd.com,
- Alex Deucher <alexander.deucher@amd.com>, dri-devel@lists.freedesktop.org,
- christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
- daniel@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de
-Subject: [PATCH v4 32/32] drm/amd/display: Add 3x4 CTM support for plane CTM
-Date: Thu,  5 Oct 2023 16:15:27 -0100
-Message-Id: <20231005171527.203657-33-mwen@igalia.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20231005171527.203657-1-mwen@igalia.com>
-References: <20231005171527.203657-1-mwen@igalia.com>
+Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com
+ [IPv6:2a00:1450:4864:20::234])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C472F10E472
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Oct 2023 17:18:57 +0000 (UTC)
+Received: by mail-lj1-x234.google.com with SMTP id
+ 38308e7fff4ca-2bfed7c4e6dso14056981fa.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Oct 2023 10:18:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1696526336; x=1697131136;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:user-agent
+ :from:references:in-reply-to:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=K4qtwUC5OWXLWsxsdHc8Vyp8jChtnD5xWpTwtPZAf1Y=;
+ b=J5DgrZ5gyEJZFPTQE8L8q74hZqXPOG193aS4SbcM5CBhhXf9GKaXp0DS18i4Vorar7
+ QpsWqPvDzG+yJW6fhhoS8gxoOu7day+j4h61EAdSvD750VzL/wVsp1fXSKiczpLERI3O
+ M3/8HEIKrvYI/DIYFPFhD8eOWWkbEZNugZ1Ag=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1696526336; x=1697131136;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:user-agent
+ :from:references:in-reply-to:mime-version:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=K4qtwUC5OWXLWsxsdHc8Vyp8jChtnD5xWpTwtPZAf1Y=;
+ b=IX8BC5b00l7mV83Vn9Ohoc9OcSszcQWMo3efh5VZHBE0IMrKvqixDT0cTCZp+MtWt1
+ la8pXAgJqYI+usnxoShNvt2sdyIXxoUA7/RNWcNRSgoeh+xVXR04WHfPfF0uexJUsn5Z
+ koUA3Kfkw0Dd/VhbG2HnPCKlzKdi2QCRqosdRh0SCvnmIaG9IPVuEcj9ZUmC6ZMG51fv
+ vgxOxMXuANr1+FRzKjDyzX6r6qWZ4HURcw5ZIhk3FVUkXDZuqmmVq11NTS8DUjBO4aQx
+ rtBSRRRgzRkm8lx7LWm0TLKs00QZwj83zAbqAdYYlf3e1qZuNXwt2cZUNHvlaCG3osKj
+ qogQ==
+X-Gm-Message-State: AOJu0Yxa+t2MkTEf/RKcJTrRouApCOtgCbeh8tvbBlvZNshI0h7gHeMV
+ QsP22PhmNJ9A7tKvHYoPS5oD2kwuiLEdEnGI21XQkg==
+X-Google-Smtp-Source: AGHT+IGz3dfXxzyBA3mj6bpkuScOj2CsByPZVzGVOuypWZVASQXSq77oLaNIiQZy12jlFuvTXd6MBb+9Nrb2xXw8Z0k=
+X-Received: by 2002:a05:6512:2030:b0:503:258f:fd15 with SMTP id
+ s16-20020a056512203000b00503258ffd15mr4793359lfs.20.1696526335763; Thu, 05
+ Oct 2023 10:18:55 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 5 Oct 2023 12:18:55 -0500
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAD=FV=U2dza-rxV=YtcfJwUY-gZw5FrCyn0NahOxvXJW2J2-vg@mail.gmail.com>
+References: <20231002235407.769399-1-swboyd@chromium.org>
+ <CAD=FV=U2dza-rxV=YtcfJwUY-gZw5FrCyn0NahOxvXJW2J2-vg@mail.gmail.com>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.10
+Date: Thu, 5 Oct 2023 12:18:55 -0500
+Message-ID: <CAE-0n51LJDgop-Nh+Aq1CTiu7xJZOqOsdSvHMmXzshkRKM3dgg@mail.gmail.com>
+Subject: Re: [PATCH] drm/bridge: ti-sn65dsi86: Associate DSI device lifetime
+ with auxiliary device
+To: Doug Anderson <dianders@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,123 +71,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sebastian Wick <sebastian.wick@redhat.com>,
- Pekka Paalanen <pekka.paalanen@collabora.com>,
- Shashank Sharma <Shashank.Sharma@amd.com>, Alex Hung <alex.hung@amd.com>,
- Xaver Hugl <xaver.hugl@gmail.com>, kernel-dev@igalia.com,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
- Joshua Ashton <joshua@froggi.es>, sungjoon.kim@amd.com
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ patches@lists.linux.dev, Maxime Ripard <maxime@cerno.tech>,
+ Andrzej Hajda <andrzej.hajda@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Joshua Ashton <joshua@froggi.es>
+Quoting Doug Anderson (2023-10-02 17:31:41)
+> Hi,
+>
+> On Mon, Oct 2, 2023 at 4:54=E2=80=AFPM Stephen Boyd <swboyd@chromium.org>=
+ wrote:
+> >
+> > The kernel produces a warning splat and the DSI device fails to registe=
+r
+> > in this driver if the i2c driver probes, populates child auxiliary
+> > devices, and then somewhere in ti_sn_bridge_probe() a function call
+> > returns -EPROBE_DEFER. When the auxiliary driver probe defers, the dsi
+> > device created by devm_mipi_dsi_device_register_full() is left
+> > registered because the devm managed device used to manage the lifetime
+> > of the DSI device is the parent i2c device, not the auxiliary device
+> > that is being probed.
+> >
+> > Associate the DSI device created and managed by this driver to the
+> > lifetime of the auxiliary device, not the i2c device, so that the DSI
+> > device is removed when the auxiliary driver unbinds. Similarly change
+> > the device pointer used for dev_err_probe() so the deferred probe error=
+s
+> > are associated with the auxiliary device instead of the parent i2c
+> > device so we can narrow down future problems faster.
+> >
+> > Cc: Douglas Anderson <dianders@chromium.org>
+> > Cc: Maxime Ripard <maxime@cerno.tech>
+> > Fixes: c3b75d4734cb ("drm/bridge: sn65dsi86: Register and attach our DS=
+I device at probe")
+>
+> Even before that commit I think it was using the main "dev" instead of
+> the auxiliary device's "dev" for some "devm" stuff. I guess the
+> difference is that it wouldn't mess with probe deferral? Searching
+> back, I think the first instance of a case that was using "devm_" with
+> the wrong device was commit 4e5763f03e10 ("drm/bridge: ti-sn65dsi86:
+> Wrap panel with panel-bridge")? Would it make sense to use that as a
+> Fixes, you think?
 
-Create drm_color_ctm_3x4 to support 3x4-dimension plane CTM matrix and
-convert DRM CTM to DC CSC float matrix.
+The problem for me is that the dsi device is registered twice. That
+happens because probe for the auxiliary device happens twice. I was
+cautious about the fixes tag here because it didn't look like probe
+deferral was happening before commit c3b75d4734cb.
 
-v3:
-- rename ctm2 to ctm_3x4 (Harry)
+>
+> In any case, this looks reasonable to me:
+>
+> Reviewed-by: Douglas Anderson <dianders@chromium.org>
+>
+> I'll give it a week and then apply to "-fixes" if everything is quiet.
 
-Reviewed-by: Harry Wentland <harry.wentland@amd.com>
-Signed-off-by: Joshua Ashton <joshua@froggi.es>
----
- .../amd/display/amdgpu_dm/amdgpu_dm_color.c   | 28 +++++++++++++++++--
- .../amd/display/amdgpu_dm/amdgpu_dm_plane.c   |  2 +-
- include/uapi/drm/drm_mode.h                   |  8 ++++++
- 3 files changed, 34 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
-index bc9dd75e8881..655c18c9a2d7 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
-@@ -433,6 +433,28 @@ static void __drm_ctm_to_dc_matrix(const struct drm_color_ctm *ctm,
- 	}
- }
- 
-+/**
-+ * __drm_ctm_3x4_to_dc_matrix - converts a DRM CTM 3x4 to a DC CSC float matrix
-+ * @ctm: DRM color transformation matrix with 3x4 dimensions
-+ * @matrix: DC CSC float matrix
-+ *
-+ * The matrix needs to be a 3x4 (12 entry) matrix.
-+ */
-+static void __drm_ctm_3x4_to_dc_matrix(const struct drm_color_ctm_3x4 *ctm,
-+				       struct fixed31_32 *matrix)
-+{
-+	int i;
-+
-+	/* The format provided is S31.32, using signed-magnitude representation.
-+	 * Our fixed31_32 is also S31.32, but is using 2's complement. We have
-+	 * to convert from signed-magnitude to 2's complement.
-+	 */
-+	for (i = 0; i < 12; i++) {
-+		/* gamut_remap_matrix[i] = ctm[i - floor(i/4)] */
-+		matrix[i] = dc_fixpt_from_s3132(ctm->matrix[i]);
-+	}
-+}
-+
- /**
-  * __set_legacy_tf - Calculates the legacy transfer function
-  * @func: transfer function
-@@ -1176,7 +1198,7 @@ int amdgpu_dm_update_plane_color_mgmt(struct dm_crtc_state *crtc,
- {
- 	struct amdgpu_device *adev = drm_to_adev(crtc->base.state->dev);
- 	struct dm_plane_state *dm_plane_state = to_dm_plane_state(plane_state);
--	struct drm_color_ctm *ctm = NULL;
-+	struct drm_color_ctm_3x4 *ctm = NULL;
- 	struct dc_color_caps *color_caps = NULL;
- 	bool has_crtc_cm_degamma;
- 	int ret;
-@@ -1231,7 +1253,7 @@ int amdgpu_dm_update_plane_color_mgmt(struct dm_crtc_state *crtc,
- 
- 	/* Setup CRTC CTM. */
- 	if (dm_plane_state->ctm) {
--		ctm = (struct drm_color_ctm *)dm_plane_state->ctm->data;
-+		ctm = (struct drm_color_ctm_3x4 *)dm_plane_state->ctm->data;
- 		/*
- 		 * DCN2 and older don't support both pre-blending and
- 		 * post-blending gamut remap. For this HW family, if we have
-@@ -1243,7 +1265,7 @@ int amdgpu_dm_update_plane_color_mgmt(struct dm_crtc_state *crtc,
- 		 * mapping CRTC CTM to MPC and keeping plane CTM setup at DPP,
- 		 * as it's done by dcn30_program_gamut_remap().
- 		 */
--		__drm_ctm_to_dc_matrix(ctm, dc_plane_state->gamut_remap_matrix.matrix);
-+		__drm_ctm_3x4_to_dc_matrix(ctm, dc_plane_state->gamut_remap_matrix.matrix);
- 
- 		dc_plane_state->gamut_remap_matrix.enable_remap = true;
- 		dc_plane_state->input_csc_color_matrix.enable_adjustment = false;
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-index d9537d9bf18c..a3935c56189b 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-@@ -1549,7 +1549,7 @@ dm_atomic_plane_set_property(struct drm_plane *plane,
- 		ret = drm_property_replace_blob_from_id(plane->dev,
- 							&dm_plane_state->ctm,
- 							val,
--							sizeof(struct drm_color_ctm), -1,
-+							sizeof(struct drm_color_ctm_3x4), -1,
- 							&replaced);
- 		dm_plane_state->base.color_mgmt_changed |= replaced;
- 		return ret;
-diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
-index 46becedf5b2f..a811d24e8ed5 100644
---- a/include/uapi/drm/drm_mode.h
-+++ b/include/uapi/drm/drm_mode.h
-@@ -838,6 +838,14 @@ struct drm_color_ctm {
- 	__u64 matrix[9];
- };
- 
-+struct drm_color_ctm_3x4 {
-+	/*
-+	 * Conversion matrix with 3x4 dimensions in S31.32 sign-magnitude
-+	 * (not two's complement!) format.
-+	 */
-+	__u64 matrix[12];
-+};
-+
- struct drm_color_lut {
- 	/*
- 	 * Values are mapped linearly to 0.0 - 1.0 range, with 0x0 == 0.0 and
--- 
-2.40.1
-
+Thanks!
