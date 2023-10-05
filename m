@@ -1,93 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 521687BAB90
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Oct 2023 22:40:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD1D47BABC3
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Oct 2023 23:05:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 37F6710E17F;
-	Thu,  5 Oct 2023 20:40:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1FC5A10E48D;
+	Thu,  5 Oct 2023 21:05:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D075210E17F
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Oct 2023 20:40:53 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 9493561B8C;
- Thu,  5 Oct 2023 20:40:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6401DC433C8;
- Thu,  5 Oct 2023 20:40:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1696538449;
- bh=ZiSfuU42hIkri3lX6i6qYBHumLjvADyoS7eztHiRywQ=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=nwlPnQ1BZh93ZRxulqGf6uh1OZFga1A6nrzFv/slg6YiIbBonM9PLUy42bhBxmlNO
- 40eQf+Ogdbr/d+1slQxQq4WAG6k7iNWb1QjWjqoTwKQw5psHQUAQJhzJzQPHW+k0wp
- pOeSGEtTJGhcpB7Sj3OqEbBh6pfS9Nw24WxOTi8EhwnTnUsB3D9kpgt4sSM1uzV2rT
- /fkTEYoVIN4OahNKwulmzaSXRd6hwsu12mtstLMw0rFenIXiztfq47t/FWgsVWovPk
- NKLaT+PQJjseqCibht83I5ary+udGCn18wwPJtUe8ujELVbCWPthpWe//C6SMs51Xl
- iegzjaAZqL8Iw==
-Message-ID: <d7f6edd4-d797-4a6f-8df5-d25bc557c9bb@kernel.org>
-Date: Thu, 5 Oct 2023 22:40:41 +0200
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
+ [IPv6:2a00:1450:4864:20::12d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D9A3210E48D
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Oct 2023 21:05:09 +0000 (UTC)
+Received: by mail-lf1-x12d.google.com with SMTP id
+ 2adb3069b0e04-5046bf37ec1so1898342e87.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Oct 2023 14:05:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1696539908; x=1697144708; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=kDM4KI/wqDTJJ5wNqotdZCJVORVVTKtHBOjsPHE/2Ck=;
+ b=Rus0ukVkWHShvpspLuUPT55SWLQJOwLgYGcw70+MROqzHfwJhNWAFgaAz49hr8Lk/I
+ qeK+rrx4tu3h2e5NIn2ExYag4MuhUkXIHBI8OSDe935HFtyJZ7s0pbACB/d+1EDby1QB
+ 6PViKLOTtmxTGc/0cJaVSFFkg/BjXbd0V1OQw1N2tL2JDV2tvCeRQs6kdqnYqjK2ni7y
+ gqaCJds6aOFDusonVqRMp7C9wP86ff/1ivsUPYvXzk9jcrRBoV7QPk6O9+iSicJMWHYq
+ mIay3vpXSUkSx7OzWeXB/9QPyi0KVyUZFqmF9enOPlEhAr7t1j0yZj4N9tTvpmC8QGIq
+ nfqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1696539908; x=1697144708;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=kDM4KI/wqDTJJ5wNqotdZCJVORVVTKtHBOjsPHE/2Ck=;
+ b=s1z0VPbaGIesURyG0SWsqFvkpoiR6StO1Or+76Ys5pVIru6bPQemUpQFbP6OSNadys
+ efpFBdQMq7nyVtpZHqKdEmWeq0eSBhFBNvyYXZL6/wVZXzfzbKefffrFOJ8fes6TA1jP
+ 8eDRZzj0XmdiweNCY6qlYKVmzBU8zEM7a9Ji1ZVtJ/g+Haqfe4yua62ogd2o+4FzA5oY
+ 610GXU6G70puUV5+IGNxdQUuG5buKpDWbg8QyVomWr5UUgrGvNghUWUiQ1+jDJQZYtUT
+ MchRt/1OUKK3xoQJt9+skYVlGrxpkHJA1Y1mkVcH/ppYIQZyaQlbvzV3ciSZ7pVqdrlu
+ zFSQ==
+X-Gm-Message-State: AOJu0YxtWcWWSMYKbLtekqjcm+P7NTkCeg5IlmN6kbUvCi/vy049LIjx
+ Xzd/AAA5HvR/92cDUkp9wuAG5Ibq+gA7/ZqSPJ1RExYdIM4=
+X-Google-Smtp-Source: AGHT+IFaXjxiapwdX5icqOInoxtSzbzgcAoaqJ+9oXqdfrH84IUAzVtVsMdKLxMYUovur8JVZs9i415igZGrmUQmdFo=
+X-Received: by 2002:a19:2d1c:0:b0:503:303:9e2d with SMTP id
+ k28-20020a192d1c000000b0050303039e2dmr5151954lfj.5.1696539907371; Thu, 05 Oct
+ 2023 14:05:07 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] backlight: Add Kinetic KTD2801 driver
-To: =?UTF-8?Q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>,
- Lee Jones <lee@kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>
-References: <20231005-ktd2801-v1-0-43cd85b0629a@skole.hr>
- <20231005-ktd2801-v1-2-43cd85b0629a@skole.hr>
-Content-Language: en-US
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20231005-ktd2801-v1-2-43cd85b0629a@skole.hr>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20230926170549.2589045-1-halfline@gmail.com>
+ <ZR6IlVR-A5KtIHEU@phenom.ffwll.local>
+In-Reply-To: <ZR6IlVR-A5KtIHEU@phenom.ffwll.local>
+From: Ray Strode <halfline@gmail.com>
+Date: Thu, 5 Oct 2023 17:04:55 -0400
+Message-ID: <CAA_UwzL=2PjeH_qW2GJa_XzJCeWkz9NcokPQX3-qn2f0iPz+Rw@mail.gmail.com>
+Subject: Re: [PATCH] drm/atomic: Perform blocking commits on workqueue
+To: Daniel Vetter <daniel@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,186 +69,166 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- ~postmarketos/upstreaming@lists.sr.ht, Karel Balej <balejk@matfyz.cz>,
- linux-leds@vger.kernel.org
+Cc: daniel.vetter@ffwll.ch, Xinhui.Pan@amd.com, dri-devel@lists.freedesktop.org,
+ mdaenzer@redhat.com, alexander.deucher@amd.com, airlied@redhat.com,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 05/10/2023 20:49, Duje Mihanović wrote:
-> Add driver for the Kinetic KTD2801 backlight driver.
-> 
-> Signed-off-by: Duje Mihanović <duje.mihanovic@skole.hr>
-> ---
->  MAINTAINERS                                 |   6 ++
->  drivers/video/backlight/Kconfig             |   7 ++
->  drivers/video/backlight/Makefile            |   1 +
->  drivers/video/backlight/ktd2801-backlight.c | 151 ++++++++++++++++++++++++++++
->  4 files changed, 165 insertions(+)
+Hi,
 
+On Thu, Oct 5, 2023 at 5:57=E2=80=AFAM Daniel Vetter <daniel@ffwll.ch> wrot=
+e:
+> So imo the trouble with this is that we suddenly start to make
+> realtime/cpu usage guarantees in the atomic ioctl. That's a _huge_ uapi
+> change, because even limited to the case of !ALLOW_MODESET we do best
+> effort guarantees at best.
+So you're saying there's a best effort to not use up process CPU time,
+but Christian was trying to argue nearly the opposite, that any needed
+CPU time for the operation should get accounted toward the process.
+
+What you're saying makes more sense to me and it tracks with what I'm
+getting skimming over the code. I see it potentially sleeps during
+blocking drmModeAtomicCommit() calls in several places:
+
+- copy_from_user when copying properties
+- fence and vblank event allocation
+- waiting on modeset locks
+- And even plane changes:
+
+for_each_new_plane_in_state(state, plane, new_plane_state, i) {=E2=80=A2
+...
+=E2=86=92       /*=E2=80=A2
+=E2=86=92        * If waiting for fences pre-swap (ie: nonblock), userspace=
+ can=E2=80=A2
+=E2=86=92        * still interrupt the operation. Instead of blocking until=
+ the=E2=80=A2
+=E2=86=92        * timer expires, make the wait interruptible.=E2=80=A2
+=E2=86=92        */=E2=80=A2
+=E2=86=92       ret =3D dma_fence_wait(new_plane_state->fence, pre_swap);=
+=E2=80=A2
+...
+}=E2=80=A2
+
+(Ignore the typo where it says "nonblock" instead of "!nonblock",
+the point is while waiting on plane state changes it sleeps.)
+
+So, in general, the ioctl sleeps when it needs to. It's not trying
+to be some non-premptible RT task with a dedicated cpu budget that it
+strictly adheres to. That makes sense to me.
+
+> And that state recomputation has to happen synchronously, because
+> it always influences the ioctl errno return value.
+
+Not sure I'm following. The task doesn't have to stay in RUNNING the
+entire time the ioctl is getting carried out. It can get preempted,
+and rescheduled later, all before returning from the ioctl and
+delivering the errno back to userspace. What am I missing?
+
+The problem isn't that the ioctl blocks, the problem is that when it
+blocks it shouldn't be leaving the task state in RUNNING.
+
+> My take is that you're papering over a performance problem here of the
+> "the driver is too slow/wastes too much cpu time". We should fix the
+> driver, if that's possible.
+
+I think everyone agrees the amdgpu DC code doing several 100ms busy
+loops in a row with no break in between is buggy behavior, and getting
+that fixed is important.
+
+Also, there's no dispute that the impetus for my proposed change was
+that misbehavior in the driver code.
+
+Neither of those facts mean we shouldn't improve
+drm_atomic_helper_commit too. Making the change is a good idea. It was
+even independently proposed a year ago, for reasons unrelated to the
+current situation. It makes the nonblock and the
+!nonblock code paths behave closer to the same. it makes the userspace
+experience better in the face of driver bugs. You said best effort
+earlier, this change helps provide a best effort.
+
+Realistically, if it was done this way from the start, no one would be
+batting an eye, right? It just improves things all around. I think
+maybe you're worried about a slippery slope?
+
+> We can also try to change the atomic uapi to give some hard real-time
+> guarantees so that running compositors as SCHED_RT is possible, but that
+> - means a very serious stream of bugs to fix all over
+> - therefore needs some very wide buy-in from drivers that they're willing
+>   to make this guarantee
+> - probably needs some really carefully carved out limitations, because
+>   there's imo flat-out no way we'll make all atomic ioctl hard time limit
+>   bound
+
+We don't need a guarantee that reprogramming ast BMC framebuffer
+offsets or displayport link training (or whatever) takes less than
+200ms.  If a driver has to sit and wait 32ms for vblank before
+twiddling things in hardware to keep crud from showing up on screen or
+something, that's fine.  But in none of these cases should the
+userspace process be kept in RUNNING while it does it!
+
+I take your point that there are a lot of drivers that may be doing
+slow things, but surely they should let the process nap while they do
+their work?
+
+> Also, as K=C3=B6nig has pointed out, you can roll this duct-tape out in
+> userspace by making the commit non-blocking and immediately waiting for
+> the fences.
+
+Sure, userspace can do that (even, it turns out, in the all crtc
+disabled case which was an open question earlier in the thread).
+
+That's not really an argument against fixing the !nonblock case
+though.
+
+> One thing I didn't see mention is that there's a very subtle uapi
+> difference between non-blocking and blocking:
+> - non-blocking is not allowed to get ahead of the previous commit, and
+>   will return EBUSY in that case. See the comment in
+>   drm_atomic_helper_commit()
+> - blocking otoh will just block until any previous pending commit has
+>   finished
+>
+> Not taking that into account in your patch here breaks uapi because
+> userspace will suddenly get EBUSY when they don't expect that.
+
+I don't think that's right, drm_atomic_helper_setup_commit has several
+chunks of code like this:
+
+=E2=86=92       =E2=86=92       if (nonblock && old_conn_state->commit &&=
+=E2=80=A2
+=E2=86=92       =E2=86=92
+!try_wait_for_completion(&old_conn_state->commit->flip_done)) {=E2=80=A2
+...
+=E2=86=92       =E2=86=92       =E2=86=92       return -EBUSY;=E2=80=A2
+=E2=86=92       =E2=86=92       }=E2=80=A2
+
+So it only returns EBUSY for DRM_MODE_ATOMIC_NONBLOCK cases.
+
+There's also this code earlier in the process:
+
+=E2=86=92       list_for_each_entry(commit, &crtc->commit_list, commit_entr=
+y) {=E2=80=A2
+...
+=E2=86=92       =E2=86=92       =E2=86=92       completed =3D
+try_wait_for_completion(&commit->flip_done);=E2=80=A2
+...
+=E2=86=92       =E2=86=92       =E2=86=92       if (!completed && nonblock)=
+ {=E2=80=A2
+...
+=E2=86=92       =E2=86=92       =E2=86=92       =E2=86=92       return -EBU=
+SY;=E2=80=A2
+=E2=86=92       =E2=86=92       =E2=86=92       }=E2=80=A2
+...
+=E2=86=92       }=E2=80=A2
+...
+=E2=86=92       ret =3D wait_for_completion_interruptible_timeout(&stall_co=
+mmit->cleanup_done,
+=E2=86=92       =E2=86=92       =E2=86=92       =E2=86=92       =E2=86=92  =
+     =E2=86=92       =E2=86=92       10*HZ);=E2=80=A2
 ...
 
-> +
-> +#define EW_DELAY	150
-> +#define EW_DET		270
-> +#define LOW_BIT_HIGH	5
-> +#define LOW_BIT_LOW	(4 * HIGH_BIT_LOW)
-> +#define HIGH_BIT_LOW	5
-> +#define HIGH_BIT_HIGH	(4 * HIGH_BIT_LOW)
-> +#define DS		5
-> +#define EOD_L		10
-> +#define EOD_H		350
-> +#define PWR_DOWN_DELAY	2600
-> +
-> +#define KTD2801_DEFAULT_BRIGHTNESS	100
-> +#define KTD2801_MAX_BRIGHTNESS		255
-> +
-> +struct ktd2801_backlight {
-> +	struct device *dev;
-> +	struct backlight_device *bd;
-> +	struct gpio_desc *desc;
+So it looks like it sleeps (not leaving the system in RUNNING state!) if
+there's an outstanding commit.
 
-s/desc/enable_gpio/ or something similar. desc is totally not related.
-
-> +	bool was_on;
-> +};
-> +
-> +static int ktd2801_update_status(struct backlight_device *bd)
-> +{
-> +	struct ktd2801_backlight *ktd2801 = bl_get_data(bd);
-> +	u8 brightness = (u8) backlight_get_brightness(bd);
-> +
-> +	if (backlight_is_blank(bd)) {
-> +		gpiod_set_value(ktd2801->desc, 1);
-> +		udelay(PWR_DOWN_DELAY);
-> +		ktd2801->was_on = false;
-> +		return 0;
-> +	}
-> +
-> +	if (!ktd2801->was_on) {
-> +		gpiod_set_value(ktd2801->desc, 0);
-> +		udelay(EW_DELAY);
-> +		gpiod_set_value(ktd2801->desc, 1);
-> +		udelay(EW_DET);
-> +		gpiod_set_value(ktd2801->desc, 0);
-> +		ktd2801->was_on = true;
-> +	}
-> +
-> +	gpiod_set_value(ktd2801->desc, 0);
-> +	udelay(DS);
-> +
-> +	for (int i = 0; i < 8; i++) {
-> +		u8 next_bit = (brightness & 0x80) >> 7;
-> +
-> +		if (!next_bit) {
-> +			gpiod_set_value(ktd2801->desc, 1);
-> +			udelay(LOW_BIT_LOW);
-> +			gpiod_set_value(ktd2801->desc, 0);
-> +			udelay(LOW_BIT_HIGH);
-> +		} else {
-> +			gpiod_set_value(ktd2801->desc, 1);
-> +			udelay(HIGH_BIT_LOW);
-> +			gpiod_set_value(ktd2801->desc, 0);
-> +			udelay(HIGH_BIT_HIGH);
-> +		}
-> +		brightness <<= 1;
-> +	}
-> +	gpiod_set_value(ktd2801->desc, 1);
-> +	udelay(EOD_L);
-> +	gpiod_set_value(ktd2801->desc, 0);
-> +	udelay(EOD_H);
-
-Hm, why device is kept off after this? Setting 0 means enable GPIO is
-logical 0.
-
-> +	return 0;
-> +}
-> +
-> +static const struct backlight_ops ktd2801_backlight_ops = {
-> +	.update_status = ktd2801_update_status,
-> +};
-> +
-> +static int ktd2801_backlight_probe(struct platform_device *pdev)
-> +{
-> +	struct device *dev = &pdev->dev;
-> +	struct backlight_device *bd;
-> +	struct ktd2801_backlight *ktd2801;
-> +	u32 brightness, max_brightness;
-> +	int ret;
-> +
-> +	ktd2801 = devm_kzalloc(dev, sizeof(*ktd2801), GFP_KERNEL);
-> +	if (!ktd2801)
-> +		return -ENOMEM;
-> +	ktd2801->dev = dev;
-> +	ktd2801->was_on = true;
-> +
-> +	ret = device_property_read_u32(dev, "max-brightness", &max_brightness);
-> +	if (ret)
-> +		max_brightness = KTD2801_MAX_BRIGHTNESS;
-> +	if (max_brightness > KTD2801_MAX_BRIGHTNESS) {
-> +		dev_err(dev, "illegal max brightness specified\n");
-> +		max_brightness = KTD2801_MAX_BRIGHTNESS;
-> +	}
-> +
-> +	ret = device_property_read_u32(dev, "default-brightness", &brightness);
-> +	if (ret)
-> +		brightness = KTD2801_DEFAULT_BRIGHTNESS;
-> +	if (brightness > max_brightness) {
-> +		dev_err(dev, "default brightness exceeds max\n");
-> +		brightness = max_brightness;
-> +	}
-> +
-> +	ktd2801->desc = devm_gpiod_get(dev, "enable", GPIOD_OUT_LOW);
-
-OUT_LOW is keep it disabled, so is this intentional?
-
-> +	if (IS_ERR(ktd2801->desc))
-> +		return dev_err_probe(dev, PTR_ERR(ktd2801->desc),
-> +				"failed to get backlight GPIO");
-> +	gpiod_set_consumer_name(ktd2801->desc, dev_name(dev));
-> +
-> +	bd = devm_backlight_device_register(dev, dev_name(dev), dev, ktd2801,
-> +			&ktd2801_backlight_ops, NULL);
-> +	if (IS_ERR(bd))
-> +		return dev_err_probe(dev, PTR_ERR(bd),
-> +				"failed to register backlight");
-> +
-> +	bd->props.max_brightness = max_brightness;
-> +	bd->props.brightness = brightness;
-> +
-> +	ktd2801->bd = bd;
-> +	platform_set_drvdata(pdev, bd);
-> +	backlight_update_status(bd);
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct of_device_id ktd2801_of_match[] = {
-> +	{ .compatible = "kinetic,ktd2801" },
-> +	{ }
-> +};
-> +MODULE_DEVICE_TABLE(of, ktd2801_of_match);
-> +
-> +static struct platform_driver ktd2801_backlight_driver = {
-> +	.driver = {
-> +		.name = "ktd2801-backlight",
-> +		.of_match_table = ktd2801_of_match,
-> +	},
-> +	.probe = ktd2801_backlight_probe,
-> +};
-> +module_platform_driver(ktd2801_backlight_driver);
-> +
-> +MODULE_AUTHOR("Duje Mihanović <duje.mihanovic@skole.hr>");
-> +MODULE_DESCRIPTION("Kinetic KTD2801 Backlight Driver");
-> +MODULE_LICENSE("GPL");
-> +MODULE_ALIAS("platform:ktd2801-backlight");
-
-You should not need MODULE_ALIAS() in normal cases. If you need it,
-usually it means your device ID table is wrong.
-
-> 
-
-Best regards,
-Krzysztof
-
+--Ray
