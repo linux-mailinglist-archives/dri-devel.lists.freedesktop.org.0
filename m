@@ -2,76 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C89357BA9AD
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Oct 2023 21:05:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C7B37BAB2F
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Oct 2023 22:01:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6CFC610E480;
-	Thu,  5 Oct 2023 19:05:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC52510E4A4;
+	Thu,  5 Oct 2023 20:01:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 018A910E480
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Oct 2023 19:05:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1696532717;
+X-Greylist: delayed 566 seconds by postgrey-1.36 at gabe;
+ Thu, 05 Oct 2023 19:56:02 UTC
+Received: from proxmox1.postmarketos.org (proxmox1.postmarketos.org
+ [213.239.216.189])
+ by gabe.freedesktop.org (Postfix) with ESMTP id F2D4010E49F
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Oct 2023 19:56:02 +0000 (UTC)
+Received: from [192.168.1.177] (unknown [10.0.0.254])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by proxmox1.postmarketos.org (Postfix) with ESMTPSA id C3509140B01;
+ Thu,  5 Oct 2023 19:46:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=postmarketos.org;
+ s=donut; t=1696535193;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=m3RHiQOi8vSHd3GhOyllnYGuVMmO9/kDaKlLaLnriao=;
- b=TvsU+18m0B0tLhw13k4J5tQMz2ExP2IrVYvmruvBCWIzloglNPSPX2njMiq9TlCQoijCWr
- X7haNpHzKmf0i9XfBocp2W/CLySxD4IT+ATiQQjpuDL3QKEJdgZJGplHclG1LvRMCDe0S+
- /hFVQdsNe/gyH0i0NTIv+NZ0BHnWrnQ=
-Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com
- [209.85.167.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-368-9gvzqU2mNdOkLkS968c32g-1; Thu, 05 Oct 2023 15:05:16 -0400
-X-MC-Unique: 9gvzqU2mNdOkLkS968c32g-1
-Received: by mail-oi1-f197.google.com with SMTP id
- 5614622812f47-3ae4cefdee5so2193913b6e.0
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Oct 2023 12:05:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1696532716; x=1697137516;
- h=mime-version:user-agent:content-transfer-encoding:organization
- :references:in-reply-to:date:cc:to:from:subject:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ubCYaKHia2FG51niBaO92zuboGWFZpjPXq8/tly3EBw=;
- b=fzLmr2A7zN2G8DIRYAw44OFjZBejT7j6jsvnRY/snid+4Dk47vlhtI2vL1mTXVlwjQ
- 1zboJk1M5ASEkocYJPSdkLGnSaRRuO6mgvmGgT8Shf24ghufvuwo3ZYU8LBxzTZkvTD0
- CSeRa7inPcs+BWTJkd46azJiPOJhlGMIdh/nxAhzoMbdVrPj8bnW1SVPg+7HF5/roFHt
- rhJF9+oZaT8HZ5lGuoPZ5JzkPPFxXRhe6SzOEdnG39n+w20kgIRqwzjsOq6NjGRSc9rR
- EcrYyYqtinHqNDOwFsz4KfwQlL/PX5JqyN1YMpCsmyDDOAuipy2i/VI4+A0INXhj141R
- Oduw==
-X-Gm-Message-State: AOJu0YzNDWoaJq2wmtOMfQlE3AnbSyLc3atRC6vwlfO+tHOvvbt6AW4H
- aIjzC5Al8onkNkQ7OsAwwDbrbMJj7Wtrrjep+JBd+FutwJqjiv7WwhAOa7+m/BG05GDvK8xcjlq
- 3KhvU2yqraS3u2yVjrJcuo+pFSrRj
-X-Received: by 2002:a05:6808:210c:b0:3ac:aae1:6d64 with SMTP id
- r12-20020a056808210c00b003acaae16d64mr7268939oiw.2.1696532715875; 
- Thu, 05 Oct 2023 12:05:15 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IF3Jq7fb0tJELcnl5xyrFVzSFNpqXv3kK6SW6AZNMANILqOas3p5vwogT3zchQwRTl0a36e4A==
-X-Received: by 2002:a05:6808:210c:b0:3ac:aae1:6d64 with SMTP id
- r12-20020a056808210c00b003acaae16d64mr7268923oiw.2.1696532715609; 
- Thu, 05 Oct 2023 12:05:15 -0700 (PDT)
-Received: from ?IPv6:2600:4040:5c6c:a300::feb? ([2600:4040:5c6c:a300::feb])
- by smtp.gmail.com with ESMTPSA id
- o17-20020ac85551000000b00419b6567ed6sm682289qtr.55.2023.10.05.12.05.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Oct 2023 12:05:15 -0700 (PDT)
-Message-ID: <8719554fccb599d77bdc27fa202eac69c7ea5d08.camel@redhat.com>
-Subject: Re: [PATCH] drm/atomic-helper: relax unregistered connector check
-From: Lyude Paul <lyude@redhat.com>
-To: Simon Ser <contact@emersion.fr>, dri-devel@lists.freedesktop.org
-Date: Thu, 05 Oct 2023 15:05:14 -0400
-In-Reply-To: <20231005131623.114379-1-contact@emersion.fr>
-References: <20231005131623.114379-1-contact@emersion.fr>
-Organization: Red Hat Inc.
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38)
+ bh=cIOhWmDhaGKnIOKqSallat4hBjPWg9wv14CRRkvBnO8=;
+ b=gkP75ATkFuJkXErAW/PpJat6k5/Htnp9NLF6G0yL5FPd9zb3e7/4+WegrFXn/YJQD6dv0d
+ wDuXLaeWdpjeOiVL+s7MmiUVDSub0JXNcdNWf290sEABUVFheVGLr10eIByPNP109dIJ7u
+ WbIGNxc7cBE21VbaBcnx/e9oYMG/TFg=
+Message-ID: <fe78f7e4-9655-639c-4a8c-120daa221ce7@postmarketos.org>
+Date: Thu, 5 Oct 2023 22:46:32 +0300
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH] drm/panel: Move AUX B116XW03 out of panel-edp back to
+ panel-simple
+Content-Language: en-US
+To: Doug Anderson <dianders@chromium.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+References: <20230925150010.1.Iff672233861bcc4cf25a7ad0a81308adc3bda8a4@changeid>
+ <b0037c9f-588b-4eb8-6415-0fe75bed264f@collabora.com>
+ <CAD=FV=UWQgLLfU4X+6OUR5AWOkJKwG9J7BbKGRCgze6LTY6JNw@mail.gmail.com>
+ <CAD=FV=UqG6DiAyjcLKeoUWKutepGd46Zx=8O-NWKoYC-fZEG6g@mail.gmail.com>
+From: Anton Bambura <jenneron@postmarketos.org>
+In-Reply-To: <CAD=FV=UqG6DiAyjcLKeoUWKutepGd46Zx=8O-NWKoYC-fZEG6g@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Thu, 05 Oct 2023 20:01:19 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,104 +62,131 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jani Nikula <jani.nikula@intel.com>
+Cc: devicetree@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+ jitao.shi@mediatek.com, Anton Bambura <jenneron@protonmail.com>,
+ neil.armstrong@linaro.org, sam@ravnborg.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ Hsin-Yi Wang <hsinyi@chromium.org>, matthias.bgg@gmail.com,
+ quic_jesszhan@quicinc.com, linux-arm-kernel@lists.infradead.org,
+ Marek Szyprowski <m.szyprowski@samsung.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This seems like a very good solution to the problem :)
 
-Reviewed-by: Lyude Paul <lyude@redhat.com>
+On 10/5/23 21:10, Doug Anderson wrote:
 
-On Thu, 2023-10-05 at 13:16 +0000, Simon Ser wrote:
-> The driver might pull connectors which weren't submitted by
-> user-space into the atomic state. For instance,
-> intel_dp_mst_atomic_master_trans_check() pulls in connectors
-> sharing the same DP-MST stream. However, if the connector is
-> unregistered, this later fails with:
->=20
->     [  559.425658] i915 0000:00:02.0: [drm:drm_atomic_helper_check_modese=
-t] [CONNECTOR:378:DP-7] is not registered
->=20
-> Skip the unregistered connector check to allow user-space to turn
-> off connectors one-by-one.
->=20
-> See this wlroots issue:
-> https://gitlab.freedesktop.org/wlroots/wlroots/-/issues/3407
->=20
-> Previous discussion:
-> https://lore.kernel.org/intel-gfx/Y6GX7z17WmDSKwta@ideak-desk.fi.intel.co=
-m/
->=20
-> Signed-off-by: Simon Ser <contact@emersion.fr>
-> Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
-> Cc: Jani Nikula <jani.nikula@intel.com>
-> Cc: Lyude Paul <lyude@redhat.com>
-> Cc: Imre Deak <imre.deak@intel.com>
-> ---
->  drivers/gpu/drm/drm_atomic_helper.c | 17 +++++++++++++----
->  1 file changed, 13 insertions(+), 4 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_at=
-omic_helper.c
-> index 71d399397107..c9b8343eaa20 100644
-> --- a/drivers/gpu/drm/drm_atomic_helper.c
-> +++ b/drivers/gpu/drm/drm_atomic_helper.c
-> @@ -290,7 +290,8 @@ static int
->  update_connector_routing(struct drm_atomic_state *state,
->  =09=09=09 struct drm_connector *connector,
->  =09=09=09 struct drm_connector_state *old_connector_state,
-> -=09=09=09 struct drm_connector_state *new_connector_state)
-> +=09=09=09 struct drm_connector_state *new_connector_state,
-> +=09=09=09 bool added_by_user)
->  {
->  =09const struct drm_connector_helper_funcs *funcs;
->  =09struct drm_encoder *new_encoder;
-> @@ -339,9 +340,13 @@ update_connector_routing(struct drm_atomic_state *st=
-ate,
->  =09 * there's a chance the connector may have been destroyed during the
->  =09 * process, but it's better to ignore that then cause
->  =09 * drm_atomic_helper_resume() to fail.
-> +=09 *
-> +=09 * Last, we want to ignore connector registration when the connector
-> +=09 * was not pulled in the atomic state by user-space (ie, was pulled
-> +=09 * in by the driver, e.g. when updating a DP-MST stream).
->  =09 */
->  =09if (!state->duplicated && drm_connector_is_unregistered(connector) &&
-> -=09    crtc_state->active) {
-> +=09    added_by_user && crtc_state->active) {
->  =09=09drm_dbg_atomic(connector->dev,
->  =09=09=09       "[CONNECTOR:%d:%s] is not registered\n",
->  =09=09=09       connector->base.id, connector->name);
-> @@ -620,7 +625,10 @@ drm_atomic_helper_check_modeset(struct drm_device *d=
-ev,
->  =09struct drm_connector *connector;
->  =09struct drm_connector_state *old_connector_state, *new_connector_state=
-;
->  =09int i, ret;
-> -=09unsigned int connectors_mask =3D 0;
-> +=09unsigned int connectors_mask =3D 0, user_connectors_mask =3D 0;
-> +
-> +=09for_each_oldnew_connector_in_state(state, connector, old_connector_st=
-ate, new_connector_state, i)
-> +=09=09user_connectors_mask |=3D BIT(i);
-> =20
->  =09for_each_oldnew_crtc_in_state(state, crtc, old_crtc_state, new_crtc_s=
-tate, i) {
->  =09=09bool has_connectors =3D
-> @@ -685,7 +693,8 @@ drm_atomic_helper_check_modeset(struct drm_device *de=
-v,
->  =09=09 */
->  =09=09ret =3D update_connector_routing(state, connector,
->  =09=09=09=09=09       old_connector_state,
-> -=09=09=09=09=09       new_connector_state);
-> +=09=09=09=09=09       new_connector_state,
-> +=09=09=09=09=09=09   BIT(i) & user_connectors_mask);
->  =09=09if (ret)
->  =09=09=09return ret;
->  =09=09if (old_connector_state->crtc) {
+> Hi,
+>
+> On Tue, Sep 26, 2023 at 7:01 AM Doug Anderson <dianders@chromium.org> wrote:
+>> Hi,
+>>
+>> On Tue, Sep 26, 2023 at 1:06 AM AngeloGioacchino Del Regno
+>> <angelogioacchino.delregno@collabora.com> wrote:
+>>> Il 26/09/23 00:00, Douglas Anderson ha scritto:
+>>>> In commit 5f04e7ce392d ("drm/panel-edp: Split eDP panels out of
+>>>> panel-simple") I moved a pile of panels out of panel-simple driver
+>>>> into the newly created panel-edp driver. One of those panels, however,
+>>>> shouldn't have been moved.
+>>>>
+>>>> As is clear from commit e35e305eff0f ("drm/panel: simple: Add AUO
+>>>> B116XW03 panel support"), AUX B116XW03 is an LVDS panel. It's used in
+>>>> exynos5250-snow and exynos5420-peach-pit where it's clear that the
+>>>> panel is hooked up with LVDS. Furthermore, searching for datasheets I
+>>>> found one that makes it clear that this panel is LVDS.
+>>>>
+>>>> As far as I can tell, I got confused because in commit 88d3457ceb82
+>>>> ("drm/panel: auo,b116xw03: fix flash backlight when power on") Jitao
+>>>> Shi added "DRM_MODE_CONNECTOR_eDP". That seems wrong. Looking at the
+>>>> downstream ChromeOS trees, it seems like some Mediatek boards are
+>>>> using a panel that they call "auo,b116xw03" that's an eDP panel. The
+>>>> best I can guess is that they actually have a different panel that has
+>>>> similar timing. If so then the proper panel should be used or they
+>>>> should switch to the generic "edp-panel" compatible.
+>>>>
+>>>> When moving this back to panel-edp, I wasn't sure what to use for
+>>>> .bus_flags and .bus_format and whether to add the extra "enable" delay
+>>>> from commit 88d3457ceb82 ("drm/panel: auo,b116xw03: fix flash
+>>>> backlight when power on"). I've added formats/flags/delays based on my
+>>>> (inexpert) analysis of the datasheet. These are untested.
+>>>>
+>>>> NOTE: if/when this is backported to stable, we might run into some
+>>>> trouble. Specifically, before 474c162878ba ("arm64: dts: mt8183:
+>>>> jacuzzi: Move panel under aux-bus") this panel was used by
+>>>> "mt8183-kukui-jacuzzi", which assumed it was an eDP panel. I don't
+>>>> know what to suggest for that other than someone making up a bogus
+>>>> panel for jacuzzi that's just for the stable channel.
+>>>>
+>>>> Fixes: 88d3457ceb82 ("drm/panel: auo,b116xw03: fix flash backlight when power on")
+>>>> Fixes: 5f04e7ce392d ("drm/panel-edp: Split eDP panels out of panel-simple")
+>>>> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+>>>> ---
+>>>> I haven't had a snow or peach-pit hooked up for debugging / testing
+>>>> for years. I presume that they must be broken and hope that this fixes
+>>>> them.
+>>> We could avoid backport breakages by avoiding to backport this to any kernel
+>>> that doesn't contain commit 474c162878ba ("arm64: dts: mt8183: jacuzzi: Move
+>>> panel under aux-bus")... because creating a dummy panel to get two wrongs
+>>> right is definitely not ok.
+>> Sure, except that leaves us with ... a breakage. :-P
+>>
+>> Although I haven't tested it, I have a hard time believing that
+>> exynos5250-snow and exynos5420-peach-pit will work properly with the
+>> panel defined as an eDP panel. That means that they will be broken. If
+>> someone cared to get those fixed in a stable backport then we'd be
+>> stuck deciding who to break. If you have any brilliant ideas then I'm
+>> all ears.
+>>
+>> ...then again, I presume this has been broken since commit
+>> 88d3457ceb82 ("drm/panel: auo,b116xw03: fix flash backlight when power
+>> on"). That was a little over 3 years ago. Maybe I'm wrong and somehow
+>> things still limp along and sorta work even though the panel is
+>> defined incorrectly?
+> I dug out a exynos5250-snow out of my pile and booted postmarket OS on
+> it, which was shockingly easy/pleasant (kudos to those involved!). I
+> found that it was booting a kernel based on 6.1.24. Digging into
+> sysfs, I found that indeed it appeared to be using the "panel-edp"
+> driver, so I guess it is limping along with the wrong driver and wrong
+> flags...
 
---=20
-Cheers,
- Lyude Paul (she/her)
- Software Engineer at Red Hat
+Hi. I'm the maintainer of chromebooks (including exynos 5 ones) in 
+postmarketOS.
+
+We are indeed on 6.1.24 yet, but we will upgrade it to the latest LTS soon.
+
+> It wasn't totally clear for me how to build a new kernel and deploy it
+> for postmarket OS, so I wasn't able to confirm this change. I've CCed
+> the person listed on the postmarket OS wiki though to see if they have
+> any insight.
+
+The recommended way to build kernel is envkernel, see
+
+https://wiki.postmarketos.org/wiki/Compiling_kernels_with_envkernel.sh. 
+This way you can build kernel, package it and sideload it to your 
+device, so it will get installed including updating /lib/modules and 
+flashing chrome os kernel partition.
+
+You would need to source envkernel.sh in your kernel tree, place kernel 
+config at .output/.config, build it and perform:
+pmbootstrap build --envkernel linux-postmarketos-exynos5
+pmbootstrap sideload --install-key --host <ip> linux-postmarketos-exynos5
+
+We use lts branch of https://gitlab.com/exynos5-mainline/linux with this 
+config:
+
+https://gitlab.com/postmarketOS/pmaports/-/blob/master/device/community/linux-postmarketos-exynos5/config-postmarketos-exynos5.armv7
+
+>
+> In any case, it sounds as if things are working well enough on older
+> OSes, so maybe we can just skip trying to do any stable backport on
+> this. It still seems like we should land it, though, since the current
+> state of the world seems pretty broken. Anyone willing to give a
+> Reviewed-by or Acked-by tag?
+>
+> -Doug
+>
+> _______________________________________________
+> linux-arm-kernel mailing list
+> linux-arm-kernel@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+
 
