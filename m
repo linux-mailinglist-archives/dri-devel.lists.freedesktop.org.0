@@ -1,117 +1,90 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A00F77B9CD0
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Oct 2023 13:51:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 54FC37B9CD2
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Oct 2023 13:55:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C79C610E3DC;
-	Thu,  5 Oct 2023 11:51:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 832DC10E3EB;
+	Thu,  5 Oct 2023 11:55:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2048.outbound.protection.outlook.com [40.107.223.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 156CC10E3D8
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Oct 2023 11:51:38 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Ewiy/F6crUYxHBIb6fpX/Ovg7/F71QEsmNSiN7ypWbmv762YXSBgx47IFMOYcrVEos4RLCqyqS04WPV6uBQMdt6TILRgueKHSUaRO1mxuU1FbKEd0CZyDJBCYX/CYVdpfAAWFqYcqgPMAb463qYbeWrjAlfhYdgpP9tZTuSjKZdivGKPXoAQwtJBcnSac5Cv4Jh+95WmQ3Jp7ukDRXodXnK6GTLoUSIGp9L7rAeJo+QogOK4zMHNS0Zvrsg3yqR6ixcPZ6NjBFeB9HuI3q9TYPJ82AUfCP4NnSUTaWK9A1FTbtFiS8/5iMYab4g79yIWj5bpIboA7ZDVVm7Zq5sozw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=OK77UjuZ6DK1hyD9oWL+471NbxO7ixS0g37cQE7W2fM=;
- b=mHcC70/P8U3csj7aAmTP16DRqySu2zpq8DYKwqXyKp/2Q65HGLdeZ5eN495G6KN0s9sYI6ekeQy5Fz6UC44EU+dHZTJakCIpiEbdgtwVr5jP9+Dn6RKuIbtJ0dURiCpJ8CRLaeNDP767y/nR+GXn6sTFrh+x9H2VTypJyjQLNN/QlV1PXVnRHjV4ZIFcfs4DAX//WZWbKHqW4vLEtmBY2HGRvnXy9KPs3JYE6koi3k1Nre3vNAIRAsyvtSvKfi16W9L9GPMne2sI4M4x+OQFdhR+dmj2sxM3Xb6aZEL8L5gHGtaUVvDFeLfAphVEEEpUDjlUACIasj7A/0hT5YoJTw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OK77UjuZ6DK1hyD9oWL+471NbxO7ixS0g37cQE7W2fM=;
- b=hal3jTFInoxqKb2zzxtmdQwx7AdLE2LrwY2r4frbuSdx+s0xJeq1/wYhsBJEiQ5TKXd5VFKgbwJAvTq58jaJ2CgC0hUBWzU7EeKlBZIjuRimpkPZe7WIDBqJbDwEftsV/q7csbSMfYsM+0156y/p5wc4nAaj4Jf7vPICoCsrCPM=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by CH3PR12MB8756.namprd12.prod.outlook.com (2603:10b6:610:17f::8)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6838.33; Thu, 5 Oct
- 2023 11:51:35 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::a7fa:4411:67a3:131d]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::a7fa:4411:67a3:131d%4]) with mapi id 15.20.6838.027; Thu, 5 Oct 2023
- 11:51:35 +0000
-Message-ID: <29825574-858f-44e5-9814-e76452b7f06c@amd.com>
-Date: Thu, 5 Oct 2023 13:51:29 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/atomic: Perform blocking commits on workqueue
-Content-Language: en-US
-To: Daniel Vetter <daniel@ffwll.ch>, Ray Strode <halfline@gmail.com>
-References: <20230926170549.2589045-1-halfline@gmail.com>
- <ZR6IlVR-A5KtIHEU@phenom.ffwll.local>
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <ZR6IlVR-A5KtIHEU@phenom.ffwll.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR4P281CA0039.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:c7::18) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BDC2510E3DB
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Oct 2023 11:54:57 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 77AC51F88C;
+ Thu,  5 Oct 2023 11:54:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1696506896; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=5p0A7/chiZsIq9MvBHh4HRv8lvISKuZtRy2G4vYeOho=;
+ b=t+9wKZRei/vTvzMH8p4PlnL/6w5VBO4waOQckZQ9zWAeN4RhSLBhPFjJZakS68Lh/zUsDT
+ Q7HvEV2PX94fyA6diqDyu/D7YnSGGIBWvkAo+AeL5SJchLh7dMYqxZ0nTbJMgAJzFvRLLv
+ lHcWHAz5DqAMlp+8wEhTuyiNy+SaF2g=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1696506896;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=5p0A7/chiZsIq9MvBHh4HRv8lvISKuZtRy2G4vYeOho=;
+ b=tLOCDPWDMIvCQFdNlvQGH8K3zIA6t8/yiSpE7K5oi71RH2v7CbsXMcfv0OORN0eIvChnfl
+ wBxNwPJDbntkcEDg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2A246139C2;
+ Thu,  5 Oct 2023 11:54:56 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id 10tECRCkHmU/VgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 05 Oct 2023 11:54:56 +0000
+Message-ID: <c4fd1d91-7d9b-483f-8b1d-10857a6f1016@suse.de>
+Date: Thu, 5 Oct 2023 13:54:55 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|CH3PR12MB8756:EE_
-X-MS-Office365-Filtering-Correlation-Id: addd0537-0913-4d25-52ae-08dbc5996d2f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: f0gJOe1Dxo1ycGuYfkdejWZmRIkF6v7Hq15M9HgbrbA6ztlv2o3zDDjx8VR+lq2e3oclYTH3mWZ3JlR/L2J8Dxb9a/AVu/ELrec2Pv9ShVY2i+jLZQAmmLXrMEuZCgY8g4n/a5USJWzvIhcVH7LW2dT+mgmiSo7/sNzx6IVxGfWZ1eBhf1jvN/SKQ5RFyRco6CH6oBvPT5w31HegO0pZLE6nNU5q4BhdIMplFRIKAcOTQAvUbySrhYsLF+CM/twSUesEmsOlluYhbAiiBXSm4VpyFosJ9M5BGXjs2CFKCS1ZIywbWk5Y4VUdrMIl9oU3unzxiKxv377GZyG2zjKCol0EBuyLMKyE69f9k+5S3lTGc+W62ENCbQV7dtDKmtJbvTErum3vXWBJADdzDpOs20VzVdzUKjbgIavxZ1NQ1CIdKKEARcYy8MQ9ftXSu8nSZD7BkA3TsXU2OpAnSo4c6nsm9CwzXTakafnh7YtvH7B6Q7WmU9Cyo13gQoXdH4oMPRYpS/jkTvhsOj58LIza4FoaQC7c3BAbz4UzsHAfK8mdSkz9JFNd+/6DI8U5PGkjxcFzRGWE2jTdo4lcla521RZF0vT+nYW6Ss/MYFQY9GAvXVAmdzrip7inBW4+HRK3
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(39860400002)(366004)(396003)(376002)(136003)(346002)(230922051799003)(64100799003)(451199024)(186009)(1800799009)(6506007)(478600001)(6486002)(6512007)(6666004)(966005)(5660300002)(83380400001)(26005)(66574015)(2616005)(2906002)(110136005)(4326008)(66556008)(41300700001)(66946007)(8936002)(8676002)(316002)(36756003)(38100700002)(86362001)(31696002)(66476007)(31686004)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZFJHcWNaN1BKa1o5ZFBYbnF1ZWxBa0lQUm9OWDZxREZnVDEvclVWN1dFclVl?=
- =?utf-8?B?REhxdForZ0M2K0MzQ1BMQnF6Mmc3OEUxbldhTTJWQnhqdEZ5b0NNV0JycXZ1?=
- =?utf-8?B?eHcrcUxoTFd5WnZ1bGpBcDZOZTRKcjhGRjhjcVZHTHkrc2RqRUxrNkQ5cGRo?=
- =?utf-8?B?YWlSUHF0eVNBMDVYWlRyN1BhUFhGZW55N0pHQW5NOW9hTzBsbkJGd014R2xy?=
- =?utf-8?B?NHNmSmJGMSs1RWNxc1NnTVZ3Nnk0Sk1oRU9JNStTenN6NzVDaGZ6c2NUc1ov?=
- =?utf-8?B?bTRIendjb3BIR1NsRDV1QytFbUFsd1c0QU4yVXRZcHVNM0pzc2VJNy9sSjkw?=
- =?utf-8?B?V1lERVZ1dHJSRnpyeDEvNThUTmd1QzJXMk5xR1VFNnBYM09nVkpHcG0xclFv?=
- =?utf-8?B?aVlVbm5YQU5jZVZOcnROWXhVall0Z2ZZd2I0Q2d6S3N1SXloaCs0aXJRUmVL?=
- =?utf-8?B?NzcrVjNLekxLaHhUVE5oaE1hM0hLbVNuSHJndWpGSWwrNnZldGNPSXF5eWJI?=
- =?utf-8?B?OGdqWWxTQ3lqWUNvTGFuMXBGWDcrMUcxMUkyRFlMUGFQdDVZN0sxUVdVRDNX?=
- =?utf-8?B?THJENEFJZEJHamVWOWREazVIUm8vQmt0a3FHSGJTcGQ1RVVCMDMvNkZSUTlW?=
- =?utf-8?B?eWZQNzBUMy9IR2EwajZ5WFYvNFl6Y2pOTkRvSFVLUHdEWWlqQTdtQmhvQU9R?=
- =?utf-8?B?ZVRQWUE5OW5hMGR5Wk56OVA3RW1ub1dMMUl6bklEcWQzeUN5elZTYnBBY3hv?=
- =?utf-8?B?Vnk5dEk3blMrMVZDMlN5Y0FGV0JnNHNsR0ZPQ2M5bXJZcXpYZ1oyTUsyV1lX?=
- =?utf-8?B?TTZOb0pERGgwV01GNGU1eG0wNWh0eDI0dzVrZk4yZXR0TUdZdmlmUzBaalpl?=
- =?utf-8?B?RnEzelBVN1hjbkRqY21FK2F1dGIreVRRdDZDQjJTdzY3M2RobmwvbTM5UXRD?=
- =?utf-8?B?OU5zeUtUTmxLMno1MkhSUCtRT1hJWnR3OG91NlEySHhieUxReUhUN2w4UlZZ?=
- =?utf-8?B?ZXBjcFlYa1BaTVh0UE9PQU1sZEZtT2FMMG5UTDNtWEIxSzlEMW1HamZNRjRG?=
- =?utf-8?B?OHJ4NnNNdTd2bnZWZ2FDdG0wdFhldjYwTUpVaWg0UjVlTnBxbHdjN0dKUFRk?=
- =?utf-8?B?K05CUWd5c1dFT1JDQkdoVWRONXdHSEZXdWl5YTc5YVlFYUthWGdaRE8zdnZW?=
- =?utf-8?B?blg2MkxEcVNWVkpCNEhuWmZ5eE5ERm5BdzBPcVpVRGxCaGFyNDZDVHU0OG9l?=
- =?utf-8?B?Y2VOQkxaajUzNVpGQ3NTZlNGNGZPeUlvdUNLNUEvU09TR1BaZEVYMldzVUJh?=
- =?utf-8?B?RzY2WHp5TUNMVGV1MWgzTVpQVkVVRTF4bXdOanlubCtSSWpPQ0tZY0dMWVVY?=
- =?utf-8?B?dTZLaFpkaTZzMzV2MEVsNzc4eW0wQ2dRc0VKU2JnL0dsQjlwRmVYV0FxeGJq?=
- =?utf-8?B?SWdEczFaUkVFMU5mUS9xeFdIZENYMHpIYVdmUjB5dzRaaWV6NWE0dDQ0WWFZ?=
- =?utf-8?B?WWRhd0diUk8rR29Nc254eFRpL3BDZ3hib3dIZzVVMTBiK3ZWdERabGhsSVBP?=
- =?utf-8?B?c0V2aTVvQ0FMVVRTb1FBejZRemIydG51OHdDcVFBV0daQzRiMll3cEJpNE1z?=
- =?utf-8?B?NlV0SVZuZkMyeWRBRERsbTRUUllDUHVVbG9zVEJaOXp6YjRpVGZZVEJwOEFy?=
- =?utf-8?B?dU0rZTRzc21RaXJlNkpkbDF5QVJjVFRhL0Rvd0FqM3JHd1Z6STNDdFFzamxu?=
- =?utf-8?B?RVBFRXdZd1hXaXJBdkVhYnY1MVFWWHNiVEZtRXBJNHVQUWppTERYTmhzZmhz?=
- =?utf-8?B?bDU1Zk9tQVNKMFg0cWZmQlhiK09BbmpNMWdIVndYZURLYi9Fc2JkbWRtV3dP?=
- =?utf-8?B?dVg5dWJ4REM4Z2FXcGJENlBQNnBqMHpRa3JHK1dnejBoZlpUNmhXUWtIdEZG?=
- =?utf-8?B?TTRXQkRGV1JqUThhRDVJY0pZZkZ5a2dIbEdsV2x3STZNcjZhVGsyWG96K3JW?=
- =?utf-8?B?NDBwOVVJRk80QXo3OEVtemU5c1dJVDhrZFEyZDJFZjY3ZmYwTitlV2FZZVBQ?=
- =?utf-8?B?YkxJVnprOTdFRXFDYWNiZnNHZkl1Q2VNSEF5MGFSWGZZTEU5UnFFWXVKK0Zx?=
- =?utf-8?Q?5LGNfpxLz74BOK1jTYRDxC9Ay?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: addd0537-0913-4d25-52ae-08dbc5996d2f
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Oct 2023 11:51:35.6779 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Nxq+H61EHhB3RrvbXYLf08j7p8FzV4mnSxRMefwmrGeIb9iC33BiHvgbbW7nq7Eb
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8756
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 6/7] drm/ssd130x: Fix atomic_check for disabled planes
+Content-Language: en-US
+To: Javier Martinez Canillas <javierm@redhat.com>, jfalempe@redhat.com,
+ jose.exposito89@gmail.com, arthurgrillo@riseup.net, mairacanal@riseup.net,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ daniel@ffwll.ch, noralf@tronnes.org
+References: <20231005090520.16511-1-tzimmermann@suse.de>
+ <20231005090520.16511-7-tzimmermann@suse.de>
+ <8734ypwb9w.fsf@minerva.mail-host-address-is-not-set>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <8734ypwb9w.fsf@minerva.mail-host-address-is-not-set>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------qC5wYuLJaN81Kmifvf89ep1n"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,171 +97,130 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ray Strode <rstrode@redhat.com>, daniel.vetter@ffwll.ch, Xinhui.Pan@amd.com,
- dri-devel@lists.freedesktop.org, mdaenzer@redhat.com,
- alexander.deucher@amd.com, airlied@redhat.com
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 05.10.23 um 11:57 schrieb Daniel Vetter:
-> On Tue, Sep 26, 2023 at 01:05:49PM -0400, Ray Strode wrote:
->> From: Ray Strode <rstrode@redhat.com>
->>
->> A drm atomic commit can be quite slow on some hardware. It can lead
->> to a lengthy queue of commands that need to get processed and waited
->> on before control can go back to user space.
->>
->> If user space is a real-time thread, that delay can have severe
->> consequences, leading to the process getting killed for exceeding
->> rlimits.
->>
->> This commit addresses the problem by always running the slow part of
->> a commit on a workqueue, separated from the task initiating the
->> commit.
->>
->> This change makes the nonblocking and blocking paths work in the same way,
->> and as a result allows the task to sleep and not use up its
->> RLIMIT_RTTIME allocation.
->>
->> Link: https://gitlab.freedesktop.org/drm/amd/-/issues/2861
->> Signed-off-by: Ray Strode <rstrode@redhat.com>
-> So imo the trouble with this is that we suddenly start to make
-> realtime/cpu usage guarantees in the atomic ioctl. That's a _huge_ uapi
-> change, because even limited to the case of !ALLOW_MODESET we do best
-> effort guarantees at best. And some drivers (again amd's dc) spend a ton
-> of cpu time recomputing state even for pure plane changes without any crtc
-> changes like dpms on/off (at least I remember some bug reports about
-> that). And that state recomputation has to happen synchronously, because
-> it always influences the ioctl errno return value.
->
-> My take is that you're papering over a performance problem here of the
-> "the driver is too slow/wastes too much cpu time". We should fix the
-> driver, if that's possible.
->
-> Another option would be if userspace drops realtime priorities for these
-> known-slow operations. And right now _all_ kms operations are potentially
-> cpu and real-time wasters, the entire uapi is best effort.
->
-> We can also try to change the atomic uapi to give some hard real-time
-> guarantees so that running compositors as SCHED_RT is possible, but that
-> - means a very serious stream of bugs to fix all over
-> - therefore needs some very wide buy-in from drivers that they're willing
->    to make this guarantee
-> - probably needs some really carefully carved out limitations, because
->    there's imo flat-out no way we'll make all atomic ioctl hard time limit
->    bound
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------qC5wYuLJaN81Kmifvf89ep1n
+Content-Type: multipart/mixed; boundary="------------dMLIwN1ZbxTs157Ebu2l1N8s";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Javier Martinez Canillas <javierm@redhat.com>, jfalempe@redhat.com,
+ jose.exposito89@gmail.com, arthurgrillo@riseup.net, mairacanal@riseup.net,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ daniel@ffwll.ch, noralf@tronnes.org
+Cc: dri-devel@lists.freedesktop.org, Geert Uytterhoeven <geert@linux-m68k.org>
+Message-ID: <c4fd1d91-7d9b-483f-8b1d-10857a6f1016@suse.de>
+Subject: Re: [PATCH v4 6/7] drm/ssd130x: Fix atomic_check for disabled planes
+References: <20231005090520.16511-1-tzimmermann@suse.de>
+ <20231005090520.16511-7-tzimmermann@suse.de>
+ <8734ypwb9w.fsf@minerva.mail-host-address-is-not-set>
+In-Reply-To: <8734ypwb9w.fsf@minerva.mail-host-address-is-not-set>
 
-Well, we actually have a pending request to support some real time use 
-cases with the amdgpu driver.
+--------------dMLIwN1ZbxTs157Ebu2l1N8s
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-And as I already said to Alex internally this is not a pile, but a 
-mountain of work even when we exclude DC.
+SGkgSmF2aWVyDQoNCkFtIDA1LjEwLjIzIHVtIDEzOjM3IHNjaHJpZWIgSmF2aWVyIE1hcnRp
+bmV6IENhbmlsbGFzOg0KPiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5k
+ZT4gd3JpdGVzOg0KPiANCj4gSGVsbG8gVGhvbWFzLA0KPiANCj4gVGhhbmtzIGZvciB5b3Vy
+IHBhdGNoLg0KPiANCj4+IFRoZSBwbGFuZSdzIGF0b21pY19jaGVjayByZXR1cm5zIC1FSU5W
+QUwgaWYgdGhlIENSVEMgaGFzIG5vdCBiZWVuDQo+PiBzZXQuIFRoaXMgaXMgdGhlIGNhc2Ug
+Zm9yIGRpc2FibGVkIHBsYW5lcywgZm9yIHdoaWNoIGF0b21pY19jaGVjaw0KPj4gc2hvdWxk
+IHJldHVybiAwLiBGb3IgZGlzYWJsZWQgcGxhbmVzLCBpdCBhbHNvIG9taXRzIHRoZSBtYW5k
+YXRvcnkNCj4+IGNhbGwgdG8gZHJtX2F0b21pY19oZWxwZXJfY2hlY2tfcGxhbmVfc3RhdGUo
+KS4NCj4+DQo+PiBSZXBsYWNlIHRoZSB0ZXN0IHdpdGggdGhlIGJvaWxlci1wbGF0ZSBjb2Rl
+IHRoYXQgZmlyc3QgaW52b2tlcw0KPj4gZHJtX2F0b21pY19oZWxwZXJfY2hlY2tfcGxhbmVf
+c3RhdGUoKSBhbmQgdGhlbiB0ZXN0cyBmb3IgdGhlIHBsYW5lDQo+PiB0byBiZSB2aXNpYmxl
+LiBSZXR1cm4gZWFybHkgZm9yIG5vbi12aXNpYmxlIHBsYW5lcy4NCj4+DQo+PiBTaWduZWQt
+b2ZmLWJ5OiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4NCj4+IEZp
+eGVzOiBkNTFmOWZiZDk4YjYgKCJkcm0vc3NkMTMweDogU3RvcmUgdGhlIEhXIGJ1ZmZlciBp
+biB0aGUgZHJpdmVyLXByaXZhdGUgQ1JUQyBzdGF0ZSIpDQo+PiBDYzogR2VlcnQgVXl0dGVy
+aG9ldmVuIDxnZWVydEBsaW51eC1tNjhrLm9yZz4NCj4+IENjOiBKYXZpZXIgTWFydGluZXog
+Q2FuaWxsYXMgPGphdmllcm1AcmVkaGF0LmNvbT4NCj4+IENjOiBNYXhpbWUgUmlwYXJkIDxt
+cmlwYXJkQGtlcm5lbC5vcmc+DQo+PiAtLS0NCj4+ICAgZHJpdmVycy9ncHUvZHJtL3NvbG9t
+b24vc3NkMTMweC5jIHwgMTcgKysrKysrKysrLS0tLS0tLS0NCj4+ICAgMSBmaWxlIGNoYW5n
+ZWQsIDkgaW5zZXJ0aW9ucygrKSwgOCBkZWxldGlvbnMoLSkNCj4+DQo+PiBkaWZmIC0tZ2l0
+IGEvZHJpdmVycy9ncHUvZHJtL3NvbG9tb24vc3NkMTMweC5jIGIvZHJpdmVycy9ncHUvZHJt
+L3NvbG9tb24vc3NkMTMweC5jDQo+PiBpbmRleCAzZGQ4ZThhNDQ0YjZmLi5kY2NiZmUzM2Vk
+YjVlIDEwMDY0NA0KPj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3NvbG9tb24vc3NkMTMweC5j
+DQo+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vc29sb21vbi9zc2QxMzB4LmMNCj4+IEBAIC02
+MzksMjEgKzYzOSwyMiBAQCBzdGF0aWMgaW50IHNzZDEzMHhfcHJpbWFyeV9wbGFuZV9hdG9t
+aWNfY2hlY2soc3RydWN0IGRybV9wbGFuZSAqcGxhbmUsDQo+PiAgIAlzdHJ1Y3QgZHJtX3Bs
+YW5lX3N0YXRlICpwbGFuZV9zdGF0ZSA9IGRybV9hdG9taWNfZ2V0X25ld19wbGFuZV9zdGF0
+ZShzdGF0ZSwgcGxhbmUpOw0KPj4gICAJc3RydWN0IHNzZDEzMHhfcGxhbmVfc3RhdGUgKnNz
+ZDEzMHhfc3RhdGUgPSB0b19zc2QxMzB4X3BsYW5lX3N0YXRlKHBsYW5lX3N0YXRlKTsNCj4+
+ICAgCXN0cnVjdCBkcm1fY3J0YyAqY3J0YyA9IHBsYW5lX3N0YXRlLT5jcnRjOw0KPj4gLQlz
+dHJ1Y3QgZHJtX2NydGNfc3RhdGUgKmNydGNfc3RhdGU7DQo+PiArCXN0cnVjdCBkcm1fY3J0
+Y19zdGF0ZSAqY3J0Y19zdGF0ZSA9IE5VTEw7DQo+PiAgIAljb25zdCBzdHJ1Y3QgZHJtX2Zv
+cm1hdF9pbmZvICpmaTsNCj4+ICAgCXVuc2lnbmVkIGludCBwaXRjaDsNCj4+ICAgCWludCBy
+ZXQ7DQo+PiAgIA0KPj4gLQlpZiAoIWNydGMpDQo+PiAtCQlyZXR1cm4gLUVJTlZBTDsNCj4+
+IC0NCj4+IC0JY3J0Y19zdGF0ZSA9IGRybV9hdG9taWNfZ2V0X2NydGNfc3RhdGUoc3RhdGUs
+IGNydGMpOw0KPj4gLQlpZiAoSVNfRVJSKGNydGNfc3RhdGUpKQ0KPj4gLQkJcmV0dXJuIFBU
+Ul9FUlIoY3J0Y19zdGF0ZSk7DQo+PiArCWlmIChjcnRjKQ0KPj4gKwkJY3J0Y19zdGF0ZSA9
+IGRybV9hdG9taWNfZ2V0X25ld19jcnRjX3N0YXRlKHN0YXRlLCBjcnRjKTsNCj4+ICAgDQo+
+PiAtCXJldCA9IGRybV9wbGFuZV9oZWxwZXJfYXRvbWljX2NoZWNrKHBsYW5lLCBzdGF0ZSk7
+DQo+PiArCXJldCA9IGRybV9hdG9taWNfaGVscGVyX2NoZWNrX3BsYW5lX3N0YXRlKHBsYW5l
+X3N0YXRlLCBjcnRjX3N0YXRlLA0KPj4gKwkJCQkJCSAgRFJNX1BMQU5FX05PX1NDQUxJTkcs
+DQo+PiArCQkJCQkJICBEUk1fUExBTkVfTk9fU0NBTElORywNCj4+ICsJCQkJCQkgIGZhbHNl
+LCBmYWxzZSk7DQo+IA0KPiBBcyBHZWVydCBtZW50aW9uZWQgeW91IGFyZSBvcGVuIGNvZGlu
+ZyBoZXJlIHdoYXQgdGhlIGNhbGxlZCBoZWxwZXIgYWxyZWFkeQ0KPiBkb2VzLiBJIHByZWZl
+ciB0byBrZWVwIGRvaW5nIHRoYXQsIGluc3RlYWQgb2YgYWRkaW5nIGJvaWxlciBwbGF0ZSBj
+b2RlLg0KDQpQbGVhc2Ugc2VlIG15IG90aGVyIGVtYWlsLg0KDQo+IA0KPiBPbmUgcXVlc3Rp
+b24sIHRoZSByZWFzb24gdG8gcmV0dXJuIC1FSU5WQUwgd2FzIHRvIHByZXZlbnQgdGhlIGNh
+bGxiYWNrDQo+IHNzZDEzMHhfcHJpbWFyeV9wbGFuZV9hdG9taWNfdXBkYXRlKCkgdG8gYmUg
+ZXhlY3V0ZWQsIHNpbmNlIHRoYXQgYXR0ZW1wdHMNCj4gdG8gZ2V0IHRoZSBDUlRDIHN0YXRl
+IHRvIHBhc3MgdGhlIEhXIGJ1ZmZlciB0byBzc2QxMzB4X2ZiX2JsaXRfcmVjdCgpLg0KDQpS
+ZXR1cm5pbmcgYW4gZXJybm8gY29kZSBhYm9ydHMgdGhlIGNvbW1pdC4gWzFdIFRoZSBDUlRD
+IGNhbiAobWF5YmUgDQpzaG91bGQ/KSBiZSBOVUxMIHRvIGRpc2FibGUgdGhlIHBsYW5lLiAo
+SXQgaXMgaW4gc3luYyB3aXRoIA0KcGxhbmVfc3RhdGUtPmZiIElJUkMuKQ0KDQpTbyBjYW4g
+eW91IGRpc2FibGUgdGhlIHBsYW5lIG5vdz8NCg0KWzFdIA0KaHR0cHM6Ly9lbGl4aXIuYm9v
+dGxpbi5jb20vbGludXgvdjYuNS9zb3VyY2UvZHJpdmVycy9ncHUvZHJtL2RybV9hdG9taWNf
+aGVscGVyLmMjTDk5Nw0KDQo+IA0KPiBJIGJlbGlldmUgdGhpcyBwYXRjaCB3aWxsIGludHJv
+ZHVjZSBhIHJlZ3Jlc3Npb24gYW5kIGNhdXNlIGEgTlVMTCBwb2ludGVyDQo+IGRlcmVmZXJl
+bmNlIHdoZW4gIXBsYW5lX3N0YXRlLT5jcnRjIGFuZCB5b3Ugc2hvdWxkIGFsc28gYWRkIGEg
+Y2hlY2sgZm9yDQo+IHBsYW5lX3N0YXRlLT52aXNpYmxlIGluIHNzZDEzMHhfcHJpbWFyeV9w
+bGFuZV9hdG9taWNfdXBkYXRlKCkgdG8gYmFpbCA/DQoNCllvdSBoYXZlIGEgYXRvbWljX2Rp
+c2FibGUgaW4gdGhhdCBwbGFuZSwgc28geW91J3JlIHRha2luZyB0aGUgYnJhbmNoIGF0IA0K
+WzJdIGZvciBkaXNhYmxpbmcgdGhlIHBsYW5lLiBObyBhdG9taWNfdXBkYXRlIHRoZW4uIElm
+IHRoZSBwbGFuZSBoYXMgDQpiZWVuIGVuYWJsZWQsIHlvdSBzaG91bGQgdGFrZSB0aGUgYnJh
+bmNoIGF0IFszXS4gV2l0aG91dCBiZWluZyBhYmxlIHRvIA0KbW92ZS9zY2FsZSB0aGUgcHJp
+bWFyeSBwbGFuZSwgSSBkb24ndCBzZWUgaG93IHBsYW5lX3N0YXRlLT52aXNpYmxlIGNvdWxk
+IA0KYmUgZmFsc2UgaGVyZS4gUmlnaHQ/DQoNCkFGQUlLVCB0aGVyZSBzaG91bGQgbm90IGJl
+IGEgTlVMTC1kZXJlZiBoZXJlLiBDYW4geW91IGRvIGEgdGVzdD8NCg0KWzJdIA0KaHR0cHM6
+Ly9lbGl4aXIuYm9vdGxpbi5jb20vbGludXgvdjYuNS9zb3VyY2UvZHJpdmVycy9ncHUvZHJt
+L2RybV9hdG9taWNfaGVscGVyLmMjTDI3NDUNClszXSANCmh0dHBzOi8vZWxpeGlyLmJvb3Rs
+aW4uY29tL2xpbnV4L3Y2LjUvc291cmNlL2RyaXZlcnMvZ3B1L2RybS9kcm1fYXRvbWljX2hl
+bHBlci5jI0wyNzU1DQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNCj4gDQo+IEkgaGF2ZW4n
+dCB0ZXN0ZWQgeW91ciBwYXRjaCB5ZXQgdGhvdWdoLCBzbyBtYXliZSBJJ20gd3JvbmcgYWJv
+dXQgdGhpcy4NCj4gDQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZl
+ciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KRnJh
+bmtlbnN0cmFzc2UgMTQ2LCA5MDQ2MSBOdWVybmJlcmcsIEdlcm1hbnkNCkdGOiBJdm8gVG90
+ZXYsIEFuZHJldyBNeWVycywgQW5kcmV3IE1jRG9uYWxkLCBCb3VkaWVuIE1vZXJtYW4NCkhS
+QiAzNjgwOSAoQUcgTnVlcm5iZXJnKQ0K
 
-Fixing DC to not busy wait for events which raise an interrupt is still 
-something we should absolutely do anyway, but that is an ongoing process.
+--------------dMLIwN1ZbxTs157Ebu2l1N8s--
 
-> Also, as König has pointed out, you can roll this duct-tape out in
-> userspace by making the commit non-blocking and immediately waiting for
-> the fences.
+--------------qC5wYuLJaN81Kmifvf89ep1n
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
 
-Oh, please don't use my last name like this. It reminds me of my 
-military time :)
+-----BEGIN PGP SIGNATURE-----
 
-Regards,
-Christian.
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmUepA8FAwAAAAAACgkQlh/E3EQov+Bz
+zhAAjyWU7s4LCb6y4lXhItreak7doYTsXOqaYqBwfihfUnYmmTZmLYGZVCRlWbNHeeBC+ZS/eFmk
++QOV4iu9PuojUohEZcOugoYzFyG6k8joRpHWW036sfE1oNoQyStpBat1RTVJv+Zqqoek767Ym+rk
+GrPD1QV52p8az5+lA8m0ywXlr8usJusJzGzEXlK8R1Cq99s6irNGltrk2kxRrwoCDpue6XfFnFnB
+benSCVawvt7XmRGbNdEI7OsFiuzo5871pBRN0WAE/75hAK1PdBS4q7iIipdSW1we8+DgdOpNIkIc
+9jypqKaMTHFlMrXbmwKBp6i0vZwE+FejUc/mBmxWYg945wxaX23pR3t1AZDwzjLiDiTsVu0xjksx
+VnW6NWL00p+qy9a0My/A9/7gaIXnjgGgOs1lCjHrhWDXh06/4nsy6s4mDQt4tzX3IqLXFBA0xd65
+LM+HzHsVePGKgLNAA+cGUd0CgRt9vboDUzlrbd6zIcQfnl4vJlci25xFiYBn+0jj3rURJgc8daDj
+rOEgDFDNsjPly0NwjkX/IyVTmVKjSyOxw1neWIOm8VpvI/HkB4QmfSDYptnSn+o4ZP5dEE1cVtel
+H81W0M+EmGtDuq/smhXDkMpooBVVWo/JdDP41FF3kciOU5IsU8r0loXdUSUkVkoEEPaVVB7359UL
+DSE=
+=Dvvy
+-----END PGP SIGNATURE-----
 
->
-> One thing I didn't see mention is that there's a very subtle uapi
-> difference between non-blocking and blocking:
-> - non-blocking is not allowed to get ahead of the previous commit, and
->    will return EBUSY in that case. See the comment in
->    drm_atomic_helper_commit()
-> - blocking otoh will just block until any previous pending commit has
->    finished
->
-> Not taking that into account in your patch here breaks uapi because
-> userspace will suddenly get EBUSY when they don't expect that.
->
-> Cheers, Sima
->
->
->> ---
->>   drivers/gpu/drm/drm_atomic_helper.c | 7 +++----
->>   1 file changed, 3 insertions(+), 4 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
->> index 292e38eb6218..1a1e68d98d38 100644
->> --- a/drivers/gpu/drm/drm_atomic_helper.c
->> +++ b/drivers/gpu/drm/drm_atomic_helper.c
->> @@ -2028,64 +2028,63 @@ int drm_atomic_helper_commit(struct drm_device *dev,
->>   	 * This is the point of no return - everything below never fails except
->>   	 * when the hw goes bonghits. Which means we can commit the new state on
->>   	 * the software side now.
->>   	 */
->>   
->>   	ret = drm_atomic_helper_swap_state(state, true);
->>   	if (ret)
->>   		goto err;
->>   
->>   	/*
->>   	 * Everything below can be run asynchronously without the need to grab
->>   	 * any modeset locks at all under one condition: It must be guaranteed
->>   	 * that the asynchronous work has either been cancelled (if the driver
->>   	 * supports it, which at least requires that the framebuffers get
->>   	 * cleaned up with drm_atomic_helper_cleanup_planes()) or completed
->>   	 * before the new state gets committed on the software side with
->>   	 * drm_atomic_helper_swap_state().
->>   	 *
->>   	 * This scheme allows new atomic state updates to be prepared and
->>   	 * checked in parallel to the asynchronous completion of the previous
->>   	 * update. Which is important since compositors need to figure out the
->>   	 * composition of the next frame right after having submitted the
->>   	 * current layout.
->>   	 *
->>   	 * NOTE: Commit work has multiple phases, first hardware commit, then
->>   	 * cleanup. We want them to overlap, hence need system_unbound_wq to
->>   	 * make sure work items don't artificially stall on each another.
->>   	 */
->>   
->>   	drm_atomic_state_get(state);
->> -	if (nonblock)
->> -		queue_work(system_unbound_wq, &state->commit_work);
->> -	else
->> -		commit_tail(state);
->> +	queue_work(system_unbound_wq, &state->commit_work);
->> +	if (!nonblock)
->> +		flush_work(&state->commit_work);
->>   
->>   	return 0;
->>   
->>   err:
->>   	drm_atomic_helper_cleanup_planes(dev, state);
->>   	return ret;
->>   }
->>   EXPORT_SYMBOL(drm_atomic_helper_commit);
->>   
->>   /**
->>    * DOC: implementing nonblocking commit
->>    *
->>    * Nonblocking atomic commits should use struct &drm_crtc_commit to sequence
->>    * different operations against each another. Locks, especially struct
->>    * &drm_modeset_lock, should not be held in worker threads or any other
->>    * asynchronous context used to commit the hardware state.
->>    *
->>    * drm_atomic_helper_commit() implements the recommended sequence for
->>    * nonblocking commits, using drm_atomic_helper_setup_commit() internally:
->>    *
->>    * 1. Run drm_atomic_helper_prepare_planes(). Since this can fail and we
->>    * need to propagate out of memory/VRAM errors to userspace, it must be called
->>    * synchronously.
->>    *
->>    * 2. Synchronize with any outstanding nonblocking commit worker threads which
->>    * might be affected by the new state update. This is handled by
->>    * drm_atomic_helper_setup_commit().
->>    *
->>    * Asynchronous workers need to have sufficient parallelism to be able to run
->>    * different atomic commits on different CRTCs in parallel. The simplest way to
->> -- 
->> 2.41.0
->>
-
+--------------qC5wYuLJaN81Kmifvf89ep1n--
