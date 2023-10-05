@@ -1,56 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58C097B9C35
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Oct 2023 11:36:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 146B27B9C46
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Oct 2023 11:42:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D35E410E1CF;
-	Thu,  5 Oct 2023 09:36:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 32F9E10E1E2;
+	Thu,  5 Oct 2023 09:42:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B08EA10E1CF;
- Thu,  5 Oct 2023 09:36:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1696498568; x=1728034568;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=s+8GEIU8kbyVPJj5X0oIaH9jUge71VFa1cd57LE7Cdg=;
- b=DKHIg4RL9s1TWwFr5J8M5ELL3RnbYrQhB/mIgpdn/F7IK4CrwUOvVxC7
- LeuJ2u8RKq6oUtyjIMCRgC/pZ3Rn3A9bFYXteoxwqZ5xyy3keVIS8zTpV
- YSh6wltJ5CzDupuY6ZqUU43kTniIQDn30tTCyIgEZIjCSo0dWnVWnnYL7
- Vuci1bDF1PUQmDwzLIiSsa9KGcZNh7BiR26gMEgAFyJRU9XOGHPJDJxjL
- ZaXw0LuYElayoT3cHfgVH3N0vNe23kIah58+BrtkzdRKdKwt3GFCYvgpU
- xTSiysheuBNZwVnD8P3N4dg7VJqd62YmbCzf5ajqMXJgMNFq1EzpQ2dm0 A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="368525746"
-X-IronPort-AV: E=Sophos;i="6.03,202,1694761200"; d="scan'208";a="368525746"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Oct 2023 02:36:07 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="822058580"
-X-IronPort-AV: E=Sophos;i="6.03,202,1694761200"; d="scan'208";a="822058580"
-Received: from vstill-mobl.ger.corp.intel.com (HELO [10.249.254.26])
- ([10.249.254.26])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Oct 2023 02:36:01 -0700
-Message-ID: <95bfbf5c-286c-57a4-0170-19d775cf8d6b@linux.intel.com>
-Date: Thu, 5 Oct 2023 11:35:57 +0200
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
+ [IPv6:2a00:1450:4864:20::332])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 65EF010E1DC;
+ Thu,  5 Oct 2023 09:42:46 +0000 (UTC)
+Received: by mail-wm1-x332.google.com with SMTP id
+ 5b1f17b1804b1-4065f29e933so7125525e9.1; 
+ Thu, 05 Oct 2023 02:42:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1696498964; x=1697103764; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=693KH3zKhYevDlo1VF7tZiOPFyQxum49fs5ILYx5v8c=;
+ b=mCbRI0BTQFWTcRv5HCPwasg57TA8M4BnNk4LLdgYG/mOI26J+ZhW/S3NfwJGPvRKKW
+ 1H/suJ1mAQNYt8cjKaDmmaWj8g14SXdedIJJHU4Z/LbpB/bsn5VK1m0GxHq9/Hf/0ibM
+ 1liGoU0J9hKoMH45vXjzQED50pxmbXN9vYipxexL7/zJLeIsH4o4s6G4VdCBAHy598Uj
+ rkzVlAbwX2yXwo7irgyCosQcqy739UU+AcN+o1uVfg+n+mXPmLTH412r4eXCgfdY827v
+ GlSDfnajRxX06aPoMJERnFmYHUDEKZdDCDAZESy3ZQ2d4Iw8sjRNWYOWA5K8O+/JlOeU
+ Udhg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1696498964; x=1697103764;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=693KH3zKhYevDlo1VF7tZiOPFyQxum49fs5ILYx5v8c=;
+ b=uZSaLKdTXx2NA7dFIKJDEW2P6X0rWJzBB7SHKgHPc+0H9kgFjqKF+SJuGU8ALBJtCC
+ ALI3En84Wleh+Pccdt8HMzcFWe7KZHvYdUL83/vVP8nfZaxdy4OjCSPNdjFvsHDX8QnW
+ dNGq8GFxMRcZ8+26HaPkeJXhlOp6WzzkyZXbyl2OkBauirPigmsHtMYyvGR+mmpTmDFP
+ WkFt7DVqZ0dewt4zLL0vOpq6P4OHdQVTYlJpg1QrSpjb53Zln7GwkrVybTPUGtT4koRb
+ UKkglULZSje69Hx/wGDpIscd4UzkMW7MKSTEdkuQnV3HSSn73pKY6ofohr9C52H6QAOV
+ uY+w==
+X-Gm-Message-State: AOJu0YzMGEgpjo37IM23PilaNtsHRXhmweBiurtZIUc2qT/12CmqBcDF
+ QFn6WMBk3LdzJwsTssvKaLw=
+X-Google-Smtp-Source: AGHT+IEqCjtTNseNA7LGC5Lm5Y9+taQvSKRx7vpW4rapsxY7APIyKIIa0O5eElHs85P9+NWErlFwBw==
+X-Received: by 2002:a05:600c:c9:b0:405:3dee:3515 with SMTP id
+ u9-20020a05600c00c900b004053dee3515mr4625492wmm.27.1696498964439; 
+ Thu, 05 Oct 2023 02:42:44 -0700 (PDT)
+Received: from [10.254.108.106] (munvpn.amd.com. [165.204.72.6])
+ by smtp.gmail.com with ESMTPSA id
+ w21-20020a05600c015500b0040535648639sm1103836wmm.36.2023.10.05.02.42.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 05 Oct 2023 02:42:43 -0700 (PDT)
+Message-ID: <d58bbe17-efa7-4548-9c7d-bf0310d31ef5@gmail.com>
+Date: Thu, 5 Oct 2023 11:42:38 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH drm-misc-next v5 0/6] [RFC] DRM GPUVM features
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/9] drm: Annotate structs with __counted_by
+To: Kees Cook <keescook@chromium.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+References: <20230922173110.work.084-kees@kernel.org>
+ <169601600138.3014939.8511343741428844249.b4-ty@chromium.org>
+ <83cd056c-52ae-01dd-7576-42d41da64c26@gmail.com>
+ <CADnq5_Ma2CrLYggJHKFEObsNmUoqJwb2p1xai5DfL=m43U6zEA@mail.gmail.com>
+ <202310020952.E7DE0948C0@keescook>
+ <10644b5f-b0a7-85ef-0658-2353ee14df0d@gmail.com>
+ <202310021107.9BB46FB8E@keescook>
+ <0be2dfa4-b6c1-f62a-66e1-615da7aa3c76@amd.com>
+ <202310021122.B6DA850FB0@keescook>
 Content-Language: en-US
-To: Danilo Krummrich <dakr@redhat.com>, airlied@gmail.com, daniel@ffwll.ch,
- matthew.brost@intel.com, sarah.walker@imgtec.com, donald.robson@imgtec.com,
- boris.brezillon@collabora.com, christian.koenig@amd.com, faith@gfxstrand.net
-References: <20230928191624.13703-1-dakr@redhat.com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
-In-Reply-To: <20230928191624.13703-1-dakr@redhat.com>
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <202310021122.B6DA850FB0@keescook>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,135 +84,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Tejas Upadhyay <tejas.upadhyay@intel.com>, Emma Anholt <emma@anholt.net>,
+ Tom Rix <trix@redhat.com>, llvm@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, Chris Wilson <chris@chris-wilson.co.uk>,
+ Prike Liang <Prike.Liang@amd.com>, Huang Rui <ray.huang@amd.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Matthew Brost <matthew.brost@intel.com>, Karol Herbst <kherbst@redhat.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, amd-gfx@lists.freedesktop.org,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ VMware Graphics Reviewers <linux-graphics-maintainer@vmware.com>,
+ Ben Skeggs <bskeggs@redhat.com>, Andi Shyti <andi.shyti@linux.intel.com>,
+ nouveau@lists.freedesktop.org, David Airlie <airlied@redhat.com>,
+ virtualization@lists.linux-foundation.org, linux-hardening@vger.kernel.org,
+ Alex Deucher <alexander.deucher@amd.com>, Lijo Lazar <lijo.lazar@amd.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, linux-arm-msm@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, Kevin Wang <kevin1.wang@amd.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Nathan Chancellor <nathan@kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Maxime Ripard <mripard@kernel.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Evan Quan <evan.quan@amd.com>, Sean Paul <sean@poorly.run>,
+ Yifan Zhang <yifan1.zhang@amd.com>, Xiaojian Du <Xiaojian.Du@amd.com>,
+ Le Ma <le.ma@amd.com>, freedreno@lists.freedesktop.org,
+ Bjorn Andersson <andersson@kernel.org>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
+ Melissa Wen <mwen@igalia.com>, Nirmoy Das <nirmoy.das@intel.com>,
+ Lang Yu <Lang.Yu@amd.com>, John Harrison <john.c.harrison@intel.com>,
+ Hawking Zhang <Hawking.Zhang@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Danilo
+Am 02.10.23 um 20:22 schrieb Kees Cook:
+> On Mon, Oct 02, 2023 at 08:11:41PM +0200, Christian König wrote:
+>> Am 02.10.23 um 20:08 schrieb Kees Cook:
+>>> On Mon, Oct 02, 2023 at 08:01:57PM +0200, Christian König wrote:
+>>>> Am 02.10.23 um 18:53 schrieb Kees Cook:
+>>>>> On Mon, Oct 02, 2023 at 11:06:19AM -0400, Alex Deucher wrote:
+>>>>>> On Mon, Oct 2, 2023 at 5:20 AM Christian König
+>>>>>> <ckoenig.leichtzumerken@gmail.com> wrote:
+>>>>>>> Am 29.09.23 um 21:33 schrieb Kees Cook:
+>>>>>>>> On Fri, 22 Sep 2023 10:32:05 -0700, Kees Cook wrote:
+>>>>>>>>> This is a batch of patches touching drm for preparing for the coming
+>>>>>>>>> implementation by GCC and Clang of the __counted_by attribute. Flexible
+>>>>>>>>> array members annotated with __counted_by can have their accesses
+>>>>>>>>> bounds-checked at run-time checking via CONFIG_UBSAN_BOUNDS (for array
+>>>>>>>>> indexing) and CONFIG_FORTIFY_SOURCE (for strcpy/memcpy-family functions).
+>>>>>>>>>
+>>>>>>>>> As found with Coccinelle[1], add __counted_by to structs that would
+>>>>>>>>> benefit from the annotation.
+>>>>>>>>>
+>>>>>>>>> [...]
+>>>>>>>> Since this got Acks, I figure I should carry it in my tree. Let me know
+>>>>>>>> if this should go via drm instead.
+>>>>>>>>
+>>>>>>>> Applied to for-next/hardening, thanks!
+>>>>>>>>
+>>>>>>>> [1/9] drm/amd/pm: Annotate struct smu10_voltage_dependency_table with __counted_by
+>>>>>>>>           https://git.kernel.org/kees/c/a6046ac659d6
+>>>>>>> STOP! In a follow up discussion Alex and I figured out that this won't work.
+>>>>> I'm so confused; from the discussion I saw that Alex said both instances
+>>>>> were false positives?
+>>>>>
+>>>>>>> The value in the structure is byte swapped based on some firmware
+>>>>>>> endianness which not necessary matches the CPU endianness.
+>>>>>> SMU10 is APU only so the endianess of the SMU firmware and the CPU
+>>>>>> will always match.
+>>>>> Which I think is what is being said here?
+>>>>>
+>>>>>>> Please revert that one from going upstream if it's already on it's way.
+>>>>>>>
+>>>>>>> And because of those reasons I strongly think that patches like this
+>>>>>>> should go through the DRM tree :)
+>>>>> Sure, that's fine -- please let me know. It was others Acked/etc. Who
+>>>>> should carry these patches?
+>>>> Probably best if the relevant maintainer pick them up individually.
+>>>>
+>>>> Some of those structures are filled in by firmware/hardware and only the
+>>>> maintainers can judge if that value actually matches what the compiler
+>>>> needs.
+>>>>
+>>>> We have cases where individual bits are used as flags or when the size is
+>>>> byte swapped etc...
+>>>>
+>>>> Even Alex and I didn't immediately say how and where that field is actually
+>>>> used and had to dig that up. That's where the confusion came from.
+>>> Okay, I've dropped them all from my tree. Several had Acks/Reviews, so
+>>> hopefully those can get picked up for the DRM tree?
+>> I will pick those up to go through drm-misc-next.
+>>
+>> Going to ping maintainers once more when I'm not sure if stuff is correct or
+>> not.
+> Sounds great; thanks!
 
-On 9/28/23 21:16, Danilo Krummrich wrote:
-> Currently GPUVM offers common infrastructure to track GPU VA allocations
-> and mappings, generically connect GPU VA mappings to their backing
-> buffers and perform more complex mapping operations on the GPU VA space.
->
-> However, there are more design patterns commonly used by drivers, which
-> can potentially be generalized in order to make GPUVM represent the
-> basis of a VM implementation. In this context, this patch series aims at
-> generalizing the following elements.
->
-> 1) Provide a common dma-resv for GEM objects not being used outside of
->     this GPU-VM.
->
-> 2) Provide tracking of external GEM objects (GEM objects which are
->     shared with other GPU-VMs).
->
-> 3) Provide functions to efficiently lock all GEM objects dma-resv the
->     GPU-VM contains mappings of.
->
-> 4) Provide tracking of evicted GEM objects the GPU-VM contains mappings
->     of, such that validation of evicted GEM objects is accelerated.
->
-> 5) Provide some convinience functions for common patterns.
->
-> The implementation introduces struct drm_gpuvm_bo, which serves as abstraction
-> combining a struct drm_gpuvm and struct drm_gem_object, similar to what
-> amdgpu does with struct amdgpu_bo_vm. While this adds a bit of complexity it
-> improves the efficiency of tracking external and evicted GEM objects.
->
-> This patch series is also available at [3].
->
-> [1] https://gitlab.freedesktop.org/nouvelles/kernel/-/commits/gpuvm-next
->
-> Changes in V2:
-> ==============
->    - rename 'drm_gpuva_manager' -> 'drm_gpuvm' which generally leads to more
->      consistent naming
->    - properly separate commits (introduce common dma-resv, drm_gpuvm_bo
->      abstraction, etc.)
->    - remove maple tree for tracking external objects, use a list drm_gpuvm_bos
->      per drm_gpuvm instead
->    - rework dma-resv locking helpers (Thomas)
->    - add a locking helper for a given range of the VA space (Christian)
->    - make the GPUVA manager buildable as module, rather than drm_exec
->      builtin (Christian)
->
-> Changes in V3:
-> ==============
->    - rename missing function and files (Boris)
->    - warn if vm_obj->obj != obj in drm_gpuva_link() (Boris)
->    - don't expose drm_gpuvm_bo_destroy() (Boris)
->    - unlink VM_BO from GEM in drm_gpuvm_bo_destroy() rather than
->      drm_gpuva_unlink() and link within drm_gpuvm_bo_obtain() to keep
->      drm_gpuvm_bo instances unique
->    - add internal locking to external and evicted object lists to support drivers
->      updating the VA space from within the fence signalling critical path (Boris)
->    - unlink external objects and evicted objects from the GPUVM's list in
->      drm_gpuvm_bo_destroy()
->    - add more documentation and fix some kernel doc issues
->
-> Changes in V4:
-> ==============
->    - add a drm_gpuvm_resv() helper (Boris)
->    - add a drm_gpuvm::<list_name>::local_list field (Boris)
->    - remove drm_gpuvm_bo_get_unless_zero() helper (Boris)
->    - fix missing NULL assignment in get_next_vm_bo_from_list() (Boris)
->    - keep a drm_gem_object reference on potential vm_bo destroy (alternatively we
->      could free the vm_bo and drop the vm_bo's drm_gem_object reference through
->      async work)
->    - introduce DRM_GPUVM_RESV_PROTECTED flag to indicate external locking through
->      the corresponding dma-resv locks to optimize for drivers already holding
->      them when needed; add the corresponding lock_assert_held() calls (Thomas)
->    - make drm_gpuvm_bo_evict() per vm_bo and add a drm_gpuvm_bo_gem_evict()
->      helper (Thomas)
->    - pass a drm_gpuvm_bo in drm_gpuvm_ops::vm_bo_validate() (Thomas)
->    - documentation fixes
->
-> Changes in V5:
-> ==============
->    - use a root drm_gem_object provided by the driver as a base for the VM's
->      common dma-resv (Christian)
->    - provide a helper to allocate a "dummy" root GEM object in case a driver
->      specific root GEM object isn't available
->    - add a dedicated patch for nouveau to make use of the GPUVM's shared dma-resv
->    - improve documentation (Boris)
->    - the following patches are removed from the series, since they already landed
->      in drm-misc-next
->      - f72c2db47080 ("drm/gpuvm: rename struct drm_gpuva_manager to struct drm_gpuvm")
->      - fe7acaa727e1 ("drm/gpuvm: allow building as module")
->      - 78f54469b871 ("drm/nouveau: uvmm: rename 'umgr' to 'base'")
->
-> Danilo Krummrich (6):
->    drm/gpuvm: add common dma-resv per struct drm_gpuvm
->    drm/gpuvm: add drm_gpuvm_flags to drm_gpuvm
->    drm/gpuvm: add an abstraction for a VM / BO combination
->    drm/gpuvm: track/lock/validate external/evicted objects
->    drm/nouveau: make use of the GPUVM's shared dma-resv
->    drm/nouveau: use GPUVM common infrastructure
->
->   drivers/gpu/drm/drm_gpuvm.c             | 1036 +++++++++++++++++++++--
->   drivers/gpu/drm/nouveau/nouveau_bo.c    |   15 +-
->   drivers/gpu/drm/nouveau/nouveau_bo.h    |    5 +
->   drivers/gpu/drm/nouveau/nouveau_exec.c  |   52 +-
->   drivers/gpu/drm/nouveau/nouveau_exec.h  |    4 -
->   drivers/gpu/drm/nouveau/nouveau_gem.c   |   10 +-
->   drivers/gpu/drm/nouveau/nouveau_sched.h |    4 +-
->   drivers/gpu/drm/nouveau/nouveau_uvmm.c  |  183 ++--
->   drivers/gpu/drm/nouveau/nouveau_uvmm.h  |    1 -
->   include/drm/drm_gem.h                   |   32 +-
->   include/drm/drm_gpuvm.h                 |  465 +++++++++-
->   11 files changed, 1625 insertions(+), 182 deletions(-)
->
->
-> base-commit: a4ead6e37e3290cff399e2598d75e98777b69b37
+I wasn't 100% sure for the VC4 patch, but pushed the whole set to 
+drm-misc-next anyway.
 
-One comment I had before on the GPUVM code in general was the licensing, 
-but I'm not sure there was a reply. Is it possible to have this code 
-dual MIT / GPLV2?
+This also means that the patches are now auto merged into the drm-tip 
+integration branch and should any build or unit test go boom we should 
+notice immediately and can revert it pretty easily.
 
 Thanks,
+Christian.
 
-Thomas
-
-
+>
+> -Kees
+>
 
