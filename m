@@ -1,61 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AE587B9C31
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Oct 2023 11:31:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 58C097B9C35
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Oct 2023 11:36:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8119910E1D0;
-	Thu,  5 Oct 2023 09:31:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D35E410E1CF;
+	Thu,  5 Oct 2023 09:36:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com
- [68.232.153.233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B505A10E1D3
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Oct 2023 09:31:09 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B08EA10E1CF;
+ Thu,  5 Oct 2023 09:36:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
- t=1696498269; x=1728034269;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=A7zhmYqSGF3f91x5Sfj8wc2+BL0d/H7Pomw5rky9/34=;
- b=j+fLK16oayU5F2122eSWXBF/2ntawBN8a1aXekONPm5W5uJk7NvnSlbV
- VP+Lx4XLF2Y4LU5yk4kbCZTw1oPrabv9H4jJaiVTCqOb7YIrCrugdtDcJ
- HJTPITCk8TvWTtudnQx5EnX3J+uRzWsnXzOUl9vQ4hrqYFLSdCeZQbQRz
- 28V0vhixtGGinPDwrcjm04ZpgmRkWsKdaIz5C80adZoJLf7Kb9NP9dixL
- TY67THLuPIMH/44BHNTR+Ivgcw/Fhi6Ld9ti+S/l/175jWP6CIplMxNcD
- Wgw1U6QCeEjBda5BnpBfsaErz/1BcHv7pwDmXJu3ux5oSUdQbbg1bshuj w==;
-X-CSE-ConnectionGUID: 4GRu7dlhS/uPWLgugUFv0A==
-X-CSE-MsgGUID: rHa3EQr2SRy/KcoCQJn5nA==
-X-ThreatScanner-Verdict: Negative
-X-IronPort-AV: E=Sophos;i="6.03,202,1694761200"; 
-   d="scan'208";a="8504922"
-X-Amp-Result: SKIPPED(no attachment in message)
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
- by esa1.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 05 Oct 2023 02:31:08 -0700
-Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
- chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Thu, 5 Oct 2023 02:30:58 -0700
-Received: from che-lt-i67131.microchip.com (10.10.85.11) by
- chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server id
- 15.1.2507.21 via Frontend Transport; Thu, 5 Oct 2023 02:30:50 -0700
-From: Manikandan Muralidharan <manikandan.m@microchip.com>
-To: <sam@ravnborg.org>, <bbrezillon@kernel.org>, <airlied@gmail.com>,
- <daniel@ffwll.ch>, <nicolas.ferre@microchip.com>,
- <alexandre.belloni@bootlin.com>, <lee@kernel.org>,
- <dri-devel@lists.freedesktop.org>, <linux-arm-kernel@lists.infradead.org>,
- <linux-kernel@vger.kernel.org>
-Subject: [PATCH v7 7/7] drm: atmel-hlcdc: add support for DSI output formats
-Date: Thu, 5 Oct 2023 14:59:54 +0530
-Message-ID: <20231005092954.881059-8-manikandan.m@microchip.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20231005092954.881059-1-manikandan.m@microchip.com>
-References: <20231005092954.881059-1-manikandan.m@microchip.com>
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1696498568; x=1728034568;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=s+8GEIU8kbyVPJj5X0oIaH9jUge71VFa1cd57LE7Cdg=;
+ b=DKHIg4RL9s1TWwFr5J8M5ELL3RnbYrQhB/mIgpdn/F7IK4CrwUOvVxC7
+ LeuJ2u8RKq6oUtyjIMCRgC/pZ3Rn3A9bFYXteoxwqZ5xyy3keVIS8zTpV
+ YSh6wltJ5CzDupuY6ZqUU43kTniIQDn30tTCyIgEZIjCSo0dWnVWnnYL7
+ Vuci1bDF1PUQmDwzLIiSsa9KGcZNh7BiR26gMEgAFyJRU9XOGHPJDJxjL
+ ZaXw0LuYElayoT3cHfgVH3N0vNe23kIah58+BrtkzdRKdKwt3GFCYvgpU
+ xTSiysheuBNZwVnD8P3N4dg7VJqd62YmbCzf5ajqMXJgMNFq1EzpQ2dm0 A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="368525746"
+X-IronPort-AV: E=Sophos;i="6.03,202,1694761200"; d="scan'208";a="368525746"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Oct 2023 02:36:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="822058580"
+X-IronPort-AV: E=Sophos;i="6.03,202,1694761200"; d="scan'208";a="822058580"
+Received: from vstill-mobl.ger.corp.intel.com (HELO [10.249.254.26])
+ ([10.249.254.26])
+ by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Oct 2023 02:36:01 -0700
+Message-ID: <95bfbf5c-286c-57a4-0170-19d775cf8d6b@linux.intel.com>
+Date: Thu, 5 Oct 2023 11:35:57 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH drm-misc-next v5 0/6] [RFC] DRM GPUVM features
+Content-Language: en-US
+To: Danilo Krummrich <dakr@redhat.com>, airlied@gmail.com, daniel@ffwll.ch,
+ matthew.brost@intel.com, sarah.walker@imgtec.com, donald.robson@imgtec.com,
+ boris.brezillon@collabora.com, christian.koenig@amd.com, faith@gfxstrand.net
+References: <20230928191624.13703-1-dakr@redhat.com>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
+In-Reply-To: <20230928191624.13703-1-dakr@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,197 +63,135 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Balakrishnan.S@microchip.com, Nayabbasha.Sayed@microchip.com,
- Balamanikandan.Gunasundar@microchip.com,
- Manikandan Muralidharan <manikandan.m@microchip.com>,
- Varshini.Rajendran@microchip.com, Dharma.B@microchip.com,
- Durai Manickam KR <durai.manickamkr@microchip.com>,
- Hari.PrasathGE@microchip.com
+Cc: nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for the following DPI mode if the encoder type
-is DSI as per the XLCDC IP datasheet:
-- 16BPPCFG1
-- 16BPPCFG2
-- 16BPPCFG3
-- 18BPPCFG1
-- 18BPPCFG2
-- 24BPP
+Hi, Danilo
 
-Signed-off-by: Manikandan Muralidharan <manikandan.m@microchip.com>
-[durai.manickamkr@microchip.com: update output format using is_xlcdc flag]
-Signed-off-by: Durai Manickam KR <durai.manickamkr@microchip.com>
----
- .../gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c    | 123 +++++++++++++-----
- 1 file changed, 88 insertions(+), 35 deletions(-)
+On 9/28/23 21:16, Danilo Krummrich wrote:
+> Currently GPUVM offers common infrastructure to track GPU VA allocations
+> and mappings, generically connect GPU VA mappings to their backing
+> buffers and perform more complex mapping operations on the GPU VA space.
+>
+> However, there are more design patterns commonly used by drivers, which
+> can potentially be generalized in order to make GPUVM represent the
+> basis of a VM implementation. In this context, this patch series aims at
+> generalizing the following elements.
+>
+> 1) Provide a common dma-resv for GEM objects not being used outside of
+>     this GPU-VM.
+>
+> 2) Provide tracking of external GEM objects (GEM objects which are
+>     shared with other GPU-VMs).
+>
+> 3) Provide functions to efficiently lock all GEM objects dma-resv the
+>     GPU-VM contains mappings of.
+>
+> 4) Provide tracking of evicted GEM objects the GPU-VM contains mappings
+>     of, such that validation of evicted GEM objects is accelerated.
+>
+> 5) Provide some convinience functions for common patterns.
+>
+> The implementation introduces struct drm_gpuvm_bo, which serves as abstraction
+> combining a struct drm_gpuvm and struct drm_gem_object, similar to what
+> amdgpu does with struct amdgpu_bo_vm. While this adds a bit of complexity it
+> improves the efficiency of tracking external and evicted GEM objects.
+>
+> This patch series is also available at [3].
+>
+> [1] https://gitlab.freedesktop.org/nouvelles/kernel/-/commits/gpuvm-next
+>
+> Changes in V2:
+> ==============
+>    - rename 'drm_gpuva_manager' -> 'drm_gpuvm' which generally leads to more
+>      consistent naming
+>    - properly separate commits (introduce common dma-resv, drm_gpuvm_bo
+>      abstraction, etc.)
+>    - remove maple tree for tracking external objects, use a list drm_gpuvm_bos
+>      per drm_gpuvm instead
+>    - rework dma-resv locking helpers (Thomas)
+>    - add a locking helper for a given range of the VA space (Christian)
+>    - make the GPUVA manager buildable as module, rather than drm_exec
+>      builtin (Christian)
+>
+> Changes in V3:
+> ==============
+>    - rename missing function and files (Boris)
+>    - warn if vm_obj->obj != obj in drm_gpuva_link() (Boris)
+>    - don't expose drm_gpuvm_bo_destroy() (Boris)
+>    - unlink VM_BO from GEM in drm_gpuvm_bo_destroy() rather than
+>      drm_gpuva_unlink() and link within drm_gpuvm_bo_obtain() to keep
+>      drm_gpuvm_bo instances unique
+>    - add internal locking to external and evicted object lists to support drivers
+>      updating the VA space from within the fence signalling critical path (Boris)
+>    - unlink external objects and evicted objects from the GPUVM's list in
+>      drm_gpuvm_bo_destroy()
+>    - add more documentation and fix some kernel doc issues
+>
+> Changes in V4:
+> ==============
+>    - add a drm_gpuvm_resv() helper (Boris)
+>    - add a drm_gpuvm::<list_name>::local_list field (Boris)
+>    - remove drm_gpuvm_bo_get_unless_zero() helper (Boris)
+>    - fix missing NULL assignment in get_next_vm_bo_from_list() (Boris)
+>    - keep a drm_gem_object reference on potential vm_bo destroy (alternatively we
+>      could free the vm_bo and drop the vm_bo's drm_gem_object reference through
+>      async work)
+>    - introduce DRM_GPUVM_RESV_PROTECTED flag to indicate external locking through
+>      the corresponding dma-resv locks to optimize for drivers already holding
+>      them when needed; add the corresponding lock_assert_held() calls (Thomas)
+>    - make drm_gpuvm_bo_evict() per vm_bo and add a drm_gpuvm_bo_gem_evict()
+>      helper (Thomas)
+>    - pass a drm_gpuvm_bo in drm_gpuvm_ops::vm_bo_validate() (Thomas)
+>    - documentation fixes
+>
+> Changes in V5:
+> ==============
+>    - use a root drm_gem_object provided by the driver as a base for the VM's
+>      common dma-resv (Christian)
+>    - provide a helper to allocate a "dummy" root GEM object in case a driver
+>      specific root GEM object isn't available
+>    - add a dedicated patch for nouveau to make use of the GPUVM's shared dma-resv
+>    - improve documentation (Boris)
+>    - the following patches are removed from the series, since they already landed
+>      in drm-misc-next
+>      - f72c2db47080 ("drm/gpuvm: rename struct drm_gpuva_manager to struct drm_gpuvm")
+>      - fe7acaa727e1 ("drm/gpuvm: allow building as module")
+>      - 78f54469b871 ("drm/nouveau: uvmm: rename 'umgr' to 'base'")
+>
+> Danilo Krummrich (6):
+>    drm/gpuvm: add common dma-resv per struct drm_gpuvm
+>    drm/gpuvm: add drm_gpuvm_flags to drm_gpuvm
+>    drm/gpuvm: add an abstraction for a VM / BO combination
+>    drm/gpuvm: track/lock/validate external/evicted objects
+>    drm/nouveau: make use of the GPUVM's shared dma-resv
+>    drm/nouveau: use GPUVM common infrastructure
+>
+>   drivers/gpu/drm/drm_gpuvm.c             | 1036 +++++++++++++++++++++--
+>   drivers/gpu/drm/nouveau/nouveau_bo.c    |   15 +-
+>   drivers/gpu/drm/nouveau/nouveau_bo.h    |    5 +
+>   drivers/gpu/drm/nouveau/nouveau_exec.c  |   52 +-
+>   drivers/gpu/drm/nouveau/nouveau_exec.h  |    4 -
+>   drivers/gpu/drm/nouveau/nouveau_gem.c   |   10 +-
+>   drivers/gpu/drm/nouveau/nouveau_sched.h |    4 +-
+>   drivers/gpu/drm/nouveau/nouveau_uvmm.c  |  183 ++--
+>   drivers/gpu/drm/nouveau/nouveau_uvmm.h  |    1 -
+>   include/drm/drm_gem.h                   |   32 +-
+>   include/drm/drm_gpuvm.h                 |  465 +++++++++-
+>   11 files changed, 1625 insertions(+), 182 deletions(-)
+>
+>
+> base-commit: a4ead6e37e3290cff399e2598d75e98777b69b37
 
-diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
-index 1899be2eb6a3..6f529769b036 100644
---- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
-+++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
-@@ -295,11 +295,18 @@ static void atmel_hlcdc_crtc_atomic_enable(struct drm_crtc *c,
- 
- }
- 
--#define ATMEL_HLCDC_RGB444_OUTPUT	BIT(0)
--#define ATMEL_HLCDC_RGB565_OUTPUT	BIT(1)
--#define ATMEL_HLCDC_RGB666_OUTPUT	BIT(2)
--#define ATMEL_HLCDC_RGB888_OUTPUT	BIT(3)
--#define ATMEL_HLCDC_OUTPUT_MODE_MASK	GENMASK(3, 0)
-+#define ATMEL_HLCDC_RGB444_OUTPUT		BIT(0)
-+#define ATMEL_HLCDC_RGB565_OUTPUT		BIT(1)
-+#define ATMEL_HLCDC_RGB666_OUTPUT		BIT(2)
-+#define ATMEL_HLCDC_RGB888_OUTPUT		BIT(3)
-+#define ATMEL_HLCDC_DPI_RGB565C1_OUTPUT		BIT(4)
-+#define ATMEL_HLCDC_DPI_RGB565C2_OUTPUT		BIT(5)
-+#define ATMEL_HLCDC_DPI_RGB565C3_OUTPUT		BIT(6)
-+#define ATMEL_HLCDC_DPI_RGB666C1_OUTPUT		BIT(7)
-+#define ATMEL_HLCDC_DPI_RGB666C2_OUTPUT		BIT(8)
-+#define ATMEL_HLCDC_DPI_RGB888_OUTPUT		BIT(9)
-+#define ATMEL_HLCDC_OUTPUT_MODE_MASK		GENMASK(3, 0)
-+#define ATMEL_XLCDC_OUTPUT_MODE_MASK		GENMASK(9, 0)
- 
- static int atmel_hlcdc_connector_output_mode(struct drm_connector_state *state)
- {
-@@ -313,53 +320,99 @@ static int atmel_hlcdc_connector_output_mode(struct drm_connector_state *state)
- 	if (!encoder)
- 		encoder = connector->encoder;
- 
--	switch (atmel_hlcdc_encoder_get_bus_fmt(encoder)) {
--	case 0:
--		break;
--	case MEDIA_BUS_FMT_RGB444_1X12:
--		return ATMEL_HLCDC_RGB444_OUTPUT;
--	case MEDIA_BUS_FMT_RGB565_1X16:
--		return ATMEL_HLCDC_RGB565_OUTPUT;
--	case MEDIA_BUS_FMT_RGB666_1X18:
--		return ATMEL_HLCDC_RGB666_OUTPUT;
--	case MEDIA_BUS_FMT_RGB888_1X24:
--		return ATMEL_HLCDC_RGB888_OUTPUT;
--	default:
--		return -EINVAL;
--	}
--
--	for (j = 0; j < info->num_bus_formats; j++) {
--		switch (info->bus_formats[j]) {
--		case MEDIA_BUS_FMT_RGB444_1X12:
--			supported_fmts |= ATMEL_HLCDC_RGB444_OUTPUT;
-+	if (encoder->encoder_type == DRM_MODE_ENCODER_DSI) {
-+		/*
-+		 * atmel-hlcdc to support DSI formats with DSI video pipeline
-+		 * when DRM_MODE_ENCODER_DSI type is set by
-+		 * connector driver component.
-+		 */
-+		switch (atmel_hlcdc_encoder_get_bus_fmt(encoder)) {
-+		case 0:
- 			break;
- 		case MEDIA_BUS_FMT_RGB565_1X16:
--			supported_fmts |= ATMEL_HLCDC_RGB565_OUTPUT;
--			break;
-+			return ATMEL_HLCDC_DPI_RGB565C1_OUTPUT;
- 		case MEDIA_BUS_FMT_RGB666_1X18:
--			supported_fmts |= ATMEL_HLCDC_RGB666_OUTPUT;
--			break;
-+			return ATMEL_HLCDC_DPI_RGB666C1_OUTPUT;
-+		case MEDIA_BUS_FMT_RGB666_1X24_CPADHI:
-+			return ATMEL_HLCDC_DPI_RGB666C2_OUTPUT;
- 		case MEDIA_BUS_FMT_RGB888_1X24:
--			supported_fmts |= ATMEL_HLCDC_RGB888_OUTPUT;
--			break;
-+			return ATMEL_HLCDC_DPI_RGB888_OUTPUT;
- 		default:
-+			return -EINVAL;
-+		}
-+
-+		for (j = 0; j < info->num_bus_formats; j++) {
-+			switch (info->bus_formats[j]) {
-+			case MEDIA_BUS_FMT_RGB565_1X16:
-+				supported_fmts |=
-+					ATMEL_HLCDC_DPI_RGB565C1_OUTPUT;
-+				break;
-+			case MEDIA_BUS_FMT_RGB666_1X18:
-+				supported_fmts |=
-+					ATMEL_HLCDC_DPI_RGB666C1_OUTPUT;
-+				break;
-+			case MEDIA_BUS_FMT_RGB666_1X24_CPADHI:
-+				supported_fmts |=
-+					ATMEL_HLCDC_DPI_RGB666C2_OUTPUT;
-+				break;
-+			case MEDIA_BUS_FMT_RGB888_1X24:
-+				supported_fmts |=
-+					ATMEL_HLCDC_DPI_RGB888_OUTPUT;
-+				break;
-+			default:
-+				break;
-+			}
-+		}
-+	} else {
-+		switch (atmel_hlcdc_encoder_get_bus_fmt(encoder)) {
-+		case 0:
- 			break;
-+		case MEDIA_BUS_FMT_RGB444_1X12:
-+			return ATMEL_HLCDC_RGB444_OUTPUT;
-+		case MEDIA_BUS_FMT_RGB565_1X16:
-+			return ATMEL_HLCDC_RGB565_OUTPUT;
-+		case MEDIA_BUS_FMT_RGB666_1X18:
-+			return ATMEL_HLCDC_RGB666_OUTPUT;
-+		case MEDIA_BUS_FMT_RGB888_1X24:
-+			return ATMEL_HLCDC_RGB888_OUTPUT;
-+		default:
-+			return -EINVAL;
- 		}
--	}
- 
-+		for (j = 0; j < info->num_bus_formats; j++) {
-+			switch (info->bus_formats[j]) {
-+			case MEDIA_BUS_FMT_RGB444_1X12:
-+				supported_fmts |= ATMEL_HLCDC_RGB444_OUTPUT;
-+				break;
-+			case MEDIA_BUS_FMT_RGB565_1X16:
-+				supported_fmts |= ATMEL_HLCDC_RGB565_OUTPUT;
-+				break;
-+			case MEDIA_BUS_FMT_RGB666_1X18:
-+				supported_fmts |= ATMEL_HLCDC_RGB666_OUTPUT;
-+				break;
-+			case MEDIA_BUS_FMT_RGB888_1X24:
-+				supported_fmts |= ATMEL_HLCDC_RGB888_OUTPUT;
-+				break;
-+			default:
-+				break;
-+			}
-+		}
-+	}
- 	return supported_fmts;
- }
- 
- static int atmel_hlcdc_crtc_select_output_mode(struct drm_crtc_state *state)
- {
--	unsigned int output_fmts = ATMEL_HLCDC_OUTPUT_MODE_MASK;
-+	unsigned int output_fmts;
- 	struct atmel_hlcdc_crtc_state *hstate;
- 	struct drm_connector_state *cstate;
- 	struct drm_connector *connector;
--	struct atmel_hlcdc_crtc *crtc;
-+	struct atmel_hlcdc_crtc *crtc = drm_crtc_to_atmel_hlcdc_crtc(state->crtc);
- 	int i;
-+	bool is_xlcdc = crtc->dc->desc->is_xlcdc;
- 
--	crtc = drm_crtc_to_atmel_hlcdc_crtc(state->crtc);
-+	output_fmts = is_xlcdc ? ATMEL_XLCDC_OUTPUT_MODE_MASK :
-+		      ATMEL_HLCDC_OUTPUT_MODE_MASK;
- 
- 	for_each_new_connector_in_state(state->state, connector, cstate, i) {
- 		unsigned int supported_fmts = 0;
-@@ -380,7 +433,7 @@ static int atmel_hlcdc_crtc_select_output_mode(struct drm_crtc_state *state)
- 
- 	hstate = drm_crtc_state_to_atmel_hlcdc_crtc_state(state);
- 	hstate->output_mode = fls(output_fmts) - 1;
--	if (crtc->dc->desc->is_xlcdc) {
-+	if (is_xlcdc) {
- 		/* check if MIPI DPI bit needs to be set */
- 		if (fls(output_fmts) > 3) {
- 			hstate->output_mode -= 4;
--- 
-2.25.1
+One comment I had before on the GPUVM code in general was the licensing, 
+but I'm not sure there was a reply. Is it possible to have this code 
+dual MIT / GPLV2?
+
+Thanks,
+
+Thomas
+
+
 
