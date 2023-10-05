@@ -1,17 +1,17 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B7707BA7A5
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Oct 2023 19:16:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CBA9F7BA7A6
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Oct 2023 19:16:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B49210E462;
-	Thu,  5 Oct 2023 17:16:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8ACD010E436;
+	Thu,  5 Oct 2023 17:16:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 98D3110E45B;
- Thu,  5 Oct 2023 17:16:17 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE53210E45A;
+ Thu,  5 Oct 2023 17:16:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
@@ -19,25 +19,25 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=unc2FXkdyB8riASJ7EBUi9PXmlVKHpbew+i9qDpQf70=; b=PqXoCuNf1FcZpColwgkPsf3mZ4
- go5rj+ohwc4JNexMAZjaVxOHwmOHPWyo09t6WYxKX5Qryxtk5BCEGc3MiZxbuBq+n0My9PiQrBJIL
- OHuDJuCLW9dyapOIc902fDbBMbGy/VwHHNuN+z0xmc8kk1jbWeTfQ4GD29fElnX5w/42Q1N/vscol
- Q94SjFGknDZIFNTXZl/yjHMO3agWg4jHW9D96FX4MeInjfCPP7DBmNdQ3I1WdDaoL68Chwjmd8hwp
- s5xuAmUTUpuMI/KexQDgC3T+v5QIT4KuIQxr/T3HrnKYvndUTdv0UO5GAasu3GsdZA6crD7nge/4X
- xt9AvJUg==;
+ bh=YRkqVKgaBThvnPOIBbulhGDIjyqULL+A0uJSLX8ijZg=; b=rgpprVlQ1kSi3vIozfaYo0tsao
+ imUdDCE+Qvgv6Up0jAosoknYgZMShCRHSFFsrflZ+vtHPXxF45Xa5k2+SNQOlCITAeKgFvCnhO03Q
+ nqIyTRW2cfF0VLaWE1gXvolbnxgwoAeAPsq/EyfmVwXSpGItl+3iSDO6xxH0xacll8KUhESlYze7l
+ hhvALo0Z7xZcuFIBqnf9dv52868epqErKbn6ExsGUohVq6tQ30HXgY2JSxD39YAgArccrIzT6InFu
+ sRyrta4Rmu/2aRUODTH5lzdovhYsJ8deHwViRF/WAr8CyH9GHG7SfOR0m1k4BWJSCtB3mTyPHY5aD
+ p312aTmg==;
 Received: from [102.213.205.115] (helo=killbill.home)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1qoRxP-00CFJN-LQ; Thu, 05 Oct 2023 19:16:15 +0200
+ id 1qoRxR-00CFJN-OM; Thu, 05 Oct 2023 19:16:17 +0200
 From: Melissa Wen <mwen@igalia.com>
 To: amd-gfx@lists.freedesktop.org, Harry Wentland <harry.wentland@amd.com>,
  Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, sunpeng.li@amd.com,
  Alex Deucher <alexander.deucher@amd.com>, dri-devel@lists.freedesktop.org,
  christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
  daniel@ffwll.ch
-Subject: [PATCH v4 21/32] drm/amd/display: add dc_fixpt_from_s3132 helper
-Date: Thu,  5 Oct 2023 16:15:16 -0100
-Message-Id: <20231005171527.203657-22-mwen@igalia.com>
+Subject: [PATCH v4 22/32] drm/amd/display: add HDR multiplier support
+Date: Thu,  5 Oct 2023 16:15:17 -0100
+Message-Id: <20231005171527.203657-23-mwen@igalia.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20231005171527.203657-1-mwen@igalia.com>
 References: <20231005171527.203657-1-mwen@igalia.com>
@@ -66,66 +66,50 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Joshua Ashton <joshua@froggi.es>
 
-Detach value translation from CTM to reuse it for programming HDR
-multiplier property.
+With `dc_fixpt_from_s3132()` translation, we can just use it to set
+hdr_mult.
 
 Reviewed-by: Harry Wentland <harry.wentland@amd.com>
 Signed-off-by: Joshua Ashton <joshua@froggi.es>
 Signed-off-by: Melissa Wen <mwen@igalia.com>
 ---
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c  |  8 +-------
- drivers/gpu/drm/amd/display/include/fixed31_32.h     | 12 ++++++++++++
- 2 files changed, 13 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c       | 1 +
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c | 3 +++
+ 2 files changed, 4 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
-index 354ab46894d2..599bba566226 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
-@@ -404,7 +404,6 @@ static void __drm_lut_to_dc_gamma(const struct drm_color_lut *lut,
- static void __drm_ctm_to_dc_matrix(const struct drm_color_ctm *ctm,
- 				   struct fixed31_32 *matrix)
- {
--	int64_t val;
- 	int i;
- 
- 	/*
-@@ -423,12 +422,7 @@ static void __drm_ctm_to_dc_matrix(const struct drm_color_ctm *ctm,
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index a8a1690b7322..ded52dd780c8 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -8286,6 +8286,7 @@ static void amdgpu_dm_commit_planes(struct drm_atomic_state *state,
+ 			bundle->surface_updates[planes_count].gamma = dc_plane->gamma_correction;
+ 			bundle->surface_updates[planes_count].in_transfer_func = dc_plane->in_transfer_func;
+ 			bundle->surface_updates[planes_count].gamut_remap_matrix = &dc_plane->gamut_remap_matrix;
++			bundle->surface_updates[planes_count].hdr_mult = dc_plane->hdr_mult;
  		}
  
- 		/* gamut_remap_matrix[i] = ctm[i - floor(i/4)] */
--		val = ctm->matrix[i - (i / 4)];
--		/* If negative, convert to 2's complement. */
--		if (val & (1ULL << 63))
--			val = -(val & ~(1ULL << 63));
--
--		matrix[i].value = val;
-+		matrix[i] = dc_fixpt_from_s3132(ctm->matrix[i - (i / 4)]);
- 	}
- }
+ 		amdgpu_dm_plane_fill_dc_scaling_info(dm->adev, new_plane_state,
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
+index 599bba566226..849e07dd436a 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
+@@ -926,6 +926,7 @@ int amdgpu_dm_update_plane_color_mgmt(struct dm_crtc_state *crtc,
+ 				      struct drm_plane_state *plane_state,
+ 				      struct dc_plane_state *dc_plane_state)
+ {
++	struct dm_plane_state *dm_plane_state = to_dm_plane_state(plane_state);
+ 	bool has_crtc_cm_degamma;
+ 	int ret;
  
-diff --git a/drivers/gpu/drm/amd/display/include/fixed31_32.h b/drivers/gpu/drm/amd/display/include/fixed31_32.h
-index d4cf7ead1d87..84da1dd34efd 100644
---- a/drivers/gpu/drm/amd/display/include/fixed31_32.h
-+++ b/drivers/gpu/drm/amd/display/include/fixed31_32.h
-@@ -69,6 +69,18 @@ static const struct fixed31_32 dc_fixpt_epsilon = { 1LL };
- static const struct fixed31_32 dc_fixpt_half = { 0x80000000LL };
- static const struct fixed31_32 dc_fixpt_one = { 0x100000000LL };
+@@ -936,6 +937,8 @@ int amdgpu_dm_update_plane_color_mgmt(struct dm_crtc_state *crtc,
+ 	/* After, we start to update values according to color props */
+ 	has_crtc_cm_degamma = (crtc->cm_has_degamma || crtc->cm_is_degamma_srgb);
  
-+static inline struct fixed31_32 dc_fixpt_from_s3132(__u64 x)
-+{
-+	struct fixed31_32 val;
++	dc_plane_state->hdr_mult = dc_fixpt_from_s3132(dm_plane_state->hdr_mult);
 +
-+	/* If negative, convert to 2's complement. */
-+	if (x & (1ULL << 63))
-+		x = -(x & ~(1ULL << 63));
-+
-+	val.value = x;
-+	return val;
-+}
-+
- /*
-  * @brief
-  * Initialization routines
+ 	ret = __set_dm_plane_degamma(plane_state, dc_plane_state);
+ 	if (ret == -ENOMEM)
+ 		return ret;
 -- 
 2.40.1
 
