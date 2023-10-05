@@ -1,61 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DACB77BA5C8
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Oct 2023 18:21:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E49487BA76E
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Oct 2023 19:15:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B244D10E428;
-	Thu,  5 Oct 2023 16:20:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8BCF010E42F;
+	Thu,  5 Oct 2023 17:15:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x33.google.com (mail-oa1-x33.google.com
- [IPv6:2001:4860:4864:20::33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D4F210E425;
- Thu,  5 Oct 2023 16:20:54 +0000 (UTC)
-Received: by mail-oa1-x33.google.com with SMTP id
- 586e51a60fabf-1dd8304b980so737292fac.2; 
- Thu, 05 Oct 2023 09:20:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1696522853; x=1697127653; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=CHuPA9EDctsR5mPS8VKo5pOonks660/cZg00M82Ff1U=;
- b=EcPqQXoeCmwh1luX8MvlHm+SmFJLJ52ZGhuZknIrocjS+dzmqeWWAfDcwCp+gfnagp
- 2juNvDeu/La14JEYb4WKSZmPba08QWID8v1zUR7NT0peSj6X59qftiErdUyDgZdW2yAO
- eD9U3V1vKhlnCLTMG0968GmeRr9XHMJaO2kGlqnFNhmAqfonmqwjyhNZ5kd4bi1HXSxW
- cIDG4qhn3hXL2fZkB5gkNUytKQD5ILDtkg1BZGwf/JIcyjcOUGXvr3dHOLS9S11DqPq/
- FBeSSVFAQvSX2wB5FuwlIhIYZqlYSLMMtwaSWM0vlsH5j+i8NQzzuh9tR7DRTddQu/mc
- ZoYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1696522853; x=1697127653;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=CHuPA9EDctsR5mPS8VKo5pOonks660/cZg00M82Ff1U=;
- b=FKDRduDGFiQ9mO3ZNtpNkUOqT1czW7c2/GWJmOQKp1GAeCgkrGFj8qNDmxVFOeycPF
- WCwjpHtJd1XlroBAhIakTWNA3ePL+hrXntSBPdHo1hhKcyC/RZXz8FCf4oSDqB3adl69
- O55RUhyHzCRrns8VWdHReuu4ir560Zj7g0gbtlYEZgvBS2kzZduA9DhIyulhijVNPudB
- 7g+bFSdVaJsbGuCAHzZeURfq/xQq7dfO1OkS7F7f9jq8IrLBiH6rpwHPMa2cd0+B5Sae
- 8Et0jdefPYdj1lwbEGeKzfOYmnX/wgGtqLIxFlnNu/Sb37PCT4/GVoJM4BzRCeC6KAk9
- FhAQ==
-X-Gm-Message-State: AOJu0YyWX1XCG7RJCQlJ1ndp6pVmFhB5Z1cjbyy9u1VHeoSGZohUdljU
- qKY6oSci9MvOhax+d6QrbqieGZWoysEfRIKt/RY=
-X-Google-Smtp-Source: AGHT+IHAPm2j6xnBpG6CVfnIUdRa+JLuLOkUt0G5jBlBP5px0CCT5yrdIxcva8i6Ap4rte17dG3/fIfBFQxwY2LOGYU=
-X-Received: by 2002:a05:6870:17a3:b0:1d6:5c40:11b6 with SMTP id
- r35-20020a05687017a300b001d65c4011b6mr6652121oae.14.1696522853250; Thu, 05
- Oct 2023 09:20:53 -0700 (PDT)
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF03910E42F;
+ Thu,  5 Oct 2023 17:15:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:
+ Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=KtgYZdGqgZYKZNTL7niuX79gqR56bbfsFB67NBzc4l0=; b=eOmMpFFtvhC3iMNUWkwo+26x/z
+ 49S6xpeTx4SiwKu0fRBs+mFQ81YwG7osgE+56zQSPPmANvYVna+pWyI5hQVb30FphXvbLDmXp5mJO
+ jJzN86jHNoShjR87AxPcuosOXE6ebJdSS+013FoX8d2BZ84+AE3x240EmyKAtDPd/nE/UHj+KdznN
+ Bhsd83Uhvu8e2GWw/tcwZrBkfA/K2n9f28gByo/sNyMKJKLJGgs8xpNmR8Y9WWzd85exzZtkZF3Np
+ 8gZ8lrAuHFCeeBrj3aqeeHnmQe1nNuDik1Zr9bTGC4XuAgVoGTU7w2H1CGmfN9xLgfaWy2oVKKbhN
+ tiHjIIgg==;
+Received: from [102.213.205.115] (helo=killbill.home)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1qoRwh-00CFJN-03; Thu, 05 Oct 2023 19:15:31 +0200
+From: Melissa Wen <mwen@igalia.com>
+To: amd-gfx@lists.freedesktop.org, Harry Wentland <harry.wentland@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, sunpeng.li@amd.com,
+ Alex Deucher <alexander.deucher@amd.com>, dri-devel@lists.freedesktop.org,
+ airlied@gmail.com, brian.starkey@arm.com, christian.koenig@amd.com,
+ daniel@ffwll.ch, liviu.dudau@arm.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, Xinhui.Pan@amd.com
+Subject: [PATCH v4 00/32] drm/amd/display: add AMD driver-specific properties
+ for color mgmt
+Date: Thu,  5 Oct 2023 16:14:55 -0100
+Message-Id: <20231005171527.203657-1-mwen@igalia.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-References: <20231005080405.169841-1-Wayne.Lin@amd.com>
-In-Reply-To: <20231005080405.169841-1-Wayne.Lin@amd.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 5 Oct 2023 12:20:42 -0400
-Message-ID: <CADnq5_Or472AG=G-Wp8af91tKCqPheWNnpgrsj4m23m4jQH3Xw@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: Fix mst hub unplug warning
-To: Wayne Lin <Wayne.Lin@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,131 +55,214 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jerry.zuo@amd.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
+Cc: Sebastian Wick <sebastian.wick@redhat.com>,
+ Pekka Paalanen <pekka.paalanen@collabora.com>,
+ Shashank Sharma <Shashank.Sharma@amd.com>, Alex Hung <alex.hung@amd.com>,
+ Xaver Hugl <xaver.hugl@gmail.com>, kernel-dev@igalia.com,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
+ Joshua Ashton <joshua@froggi.es>, sungjoon.kim@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 5, 2023 at 4:04=E2=80=AFAM Wayne Lin <Wayne.Lin@amd.com> wrote:
->
-> [Why]
-> Unplug mst hub will cause warning. That's because
-> dm_helpers_construct_old_payload() is changed to be called after
-> payload removement from dc link.
->
-> In dm_helpers_construct_old_payload(), We refer to the vcpi in
-> payload allocation table of dc link to construct the old payload
-> and payload is no longer in the table when we call the function
-> now.
->
-> [How]
-> Refer to the mst_state to construct the number of time slot for old
-> payload now. Note that dm_helpers_construct_old_payload() is just
-> a quick workaround before and we are going to abandon it soon.
->
-> Fixes: 5aa1dfcdf0a4 ("drm/mst: Refactor the flow for payload allocation/r=
-emovement")
-> Reviewed-by: Jerry Zuo <jerry.zuo@amd.com>
-> Signed-off-by: Wayne Lin <Wayne.Lin@amd.com>
+Hello,
 
-Pushed to drm-misc-next.  Thanks!
+Just another iteration for AMD driver-specific color properties.
+Basically, addressing comments from the previous version.
 
-Alex
+Recap: this series extends the current KMS color management API with AMD
+driver-specific properties to enhance the color management support on
+AMD Steam Deck. The key additions to the color pipeline include:
 
-> ---
->  .../amd/display/amdgpu_dm/amdgpu_dm_helpers.c | 38 +++++++++----------
->  1 file changed, 18 insertions(+), 20 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c b/=
-drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-> index baf7e5254fb3..2f94bcf128c0 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-> @@ -204,15 +204,16 @@ void dm_helpers_dp_update_branch_info(
->  {}
->
->  static void dm_helpers_construct_old_payload(
-> -                       struct dc_link *link,
-> -                       int pbn_per_slot,
-> +                       struct drm_dp_mst_topology_mgr *mgr,
-> +                       struct drm_dp_mst_topology_state *mst_state,
->                         struct drm_dp_mst_atomic_payload *new_payload,
->                         struct drm_dp_mst_atomic_payload *old_payload)
->  {
-> -       struct link_mst_stream_allocation_table current_link_table =3D
-> -                                                                       l=
-ink->mst_stream_alloc_table;
-> -       struct link_mst_stream_allocation *dc_alloc;
-> -       int i;
-> +       struct drm_dp_mst_atomic_payload *pos;
-> +       int pbn_per_slot =3D mst_state->pbn_div;
-> +       u8 next_payload_vc_start =3D mgr->next_start_slot;
-> +       u8 payload_vc_start =3D new_payload->vc_start_slot;
-> +       u8 allocated_time_slots;
->
->         *old_payload =3D *new_payload;
->
-> @@ -221,20 +222,17 @@ static void dm_helpers_construct_old_payload(
->          * struct drm_dp_mst_atomic_payload are don't care fields
->          * while calling drm_dp_remove_payload_part2()
->          */
-> -       for (i =3D 0; i < current_link_table.stream_count; i++) {
-> -               dc_alloc =3D
-> -                       &current_link_table.stream_allocations[i];
-> -
-> -               if (dc_alloc->vcp_id =3D=3D new_payload->vcpi) {
-> -                       old_payload->time_slots =3D dc_alloc->slot_count;
-> -                       old_payload->pbn =3D dc_alloc->slot_count * pbn_p=
-er_slot;
-> -                       break;
-> -               }
-> +       list_for_each_entry(pos, &mst_state->payloads, next) {
-> +               if (pos !=3D new_payload &&
-> +                   pos->vc_start_slot > payload_vc_start &&
-> +                   pos->vc_start_slot < next_payload_vc_start)
-> +                       next_payload_vc_start =3D pos->vc_start_slot;
->         }
->
-> -       /* make sure there is an old payload*/
-> -       ASSERT(i !=3D current_link_table.stream_count);
-> +       allocated_time_slots =3D next_payload_vc_start - payload_vc_start=
-;
->
-> +       old_payload->time_slots =3D allocated_time_slots;
-> +       old_payload->pbn =3D allocated_time_slots * pbn_per_slot;
->  }
->
->  /*
-> @@ -272,8 +270,8 @@ bool dm_helpers_dp_mst_write_payload_allocation_table=
-(
->                 drm_dp_add_payload_part1(mst_mgr, mst_state, new_payload)=
-;
->         } else {
->                 /* construct old payload by VCPI*/
-> -               dm_helpers_construct_old_payload(stream->link, mst_state-=
->pbn_div,
-> -                                               new_payload, &old_payload=
-);
-> +               dm_helpers_construct_old_payload(mst_mgr, mst_state,
-> +                                                new_payload, &old_payloa=
-d);
->                 target_payload =3D &old_payload;
->
->                 drm_dp_remove_payload_part1(mst_mgr, mst_state, new_paylo=
-ad);
-> @@ -366,7 +364,7 @@ bool dm_helpers_dp_mst_send_payload_allocation(
->         if (enable) {
->                 ret =3D drm_dp_add_payload_part2(mst_mgr, mst_state->base=
-.state, new_payload);
->         } else {
-> -               dm_helpers_construct_old_payload(stream->link, mst_state-=
->pbn_div,
-> +               dm_helpers_construct_old_payload(mst_mgr, mst_state,
->                                                  new_payload, &old_payloa=
-d);
->                 drm_dp_remove_payload_part2(mst_mgr, mst_state, &old_payl=
-oad, new_payload);
->         }
-> --
-> 2.37.3
->
+- plane degamma LUT and pre-defined TF;
+- plane HDR multiplier;
+- plane CTM 3x4;
+- plane shaper LUT and pre-defined TF;
+- plane 3D LUT;
+- plane blend LUT and pre-defined TF;
+- CRTC gamma pre-defined TF;
+
+You can find the AMD HW color capabilities documented here:
+https://dri.freedesktop.org/docs/drm/gpu/amdgpu/display/display-manager.html#color-management-properties
+
+The userspace case is Gamescope[1], the compositor for SteamOS.
+Gamescope has already adopted AMD driver-specific properties to
+implement comprehensive color management support, including gamut
+mapping, HDR rendering, SDR on HDR, HDR on SDR. Using these features in
+the SteamOS 3.5[2] users can expect a significantly enhanced visual
+experience. 
+
+You can find a brief overview of the Steam Deck color pipeline here:
+https://github.com/ValveSoftware/gamescope/blob/master/src/docs/Steam%20Deck%20Display%20Pipeline.png
+
+Changes from:
+
+[RFC] https://lore.kernel.org/dri-devel/20230423141051.702990-1-mwen@igalia.com
+- Remove KConfig and guard properties with `AMD_PRIVATE_COLOR`;
+- Remove properties for post-blending/CRTC shaper TF+LUT and 3D LUT;
+- Use color caps to improve the support of pre-defined curve;
+
+[v1] https://lore.kernel.org/dri-devel/20230523221520.3115570-1-mwen@igalia.com
+- Replace DRM_ by AMDGPU_ prefix for transfer function (TF) enum; 
+- Explicitly define EOTFs and inverse EOTFs and set props accordingly;
+- Document pre-defined transfer functions;
+- Remove HLG transfer function from supported TFs;
+- Remove misleading comments;
+- Remove post-blending shaper TF+LUT and 3D LUT support;
+- Move driver-specific property operations from amdgpu_display.c to
+  amdgpu_dm_color.c;
+- Reset planes if any color props change;
+- Add plane CTM 3x4 support;
+- Removed two DC fixes already applied upstream;
+
+[v2] https://lore.kernel.org/dri-devel/20230810160314.48225-1-mwen@igalia.com
+- Many documentation fixes: BT.709 OETF, description of sRGB and pure
+  power functions, TF+1D LUT behavior;
+- Rename CTM2 to CTM 3x4 and fix misleading comment about DC gamut remap;
+- Squash `Linear` and `Unity` TF in `Identity`;
+- Remove the `MPC gamut remap` patch already applied upstream[3];
+- Remove outdated delta segmentation fix;
+- Nits/small fixes;
+
+[v3] https://lore.kernel.org/amd-gfx/20230925194932.1329483-1-mwen@igalia.com
+- Add table to describe value range in linear and non-linear forms
+- Comment the PQ TF need after HDR multiplier
+- Advertise the 3D LUT size as the size of a single-dimension (read-only)
+- remove function to check expected size from 3DLUT caps
+- cleanup comments
+
+It's worth noting that driver-specific properties are guarded by
+`AMD_PRIVATE_COLOR`. So, finally, this is the color management API when
+driver-specific properties are enabled:
+
++----------------------+
+|   PLANE              |
+|                      |
+|  +----------------+  |
+|  | AMD Degamma    |  |
+|  |                |  |
+|  | EOTF | 1D LUT  |  |
+|  +--------+-------+  |
+|           |          |
+|  +--------v-------+  |
+|  |    AMD HDR     |  |
+|  |    Multiply    |  |
+|  +--------+-------+  |
+|           |          |
+|  +--------v-------+  |
+|  |  AMD CTM (3x4) |  |
+|  +--------+-------+  |
+|           |          |
+|  +--------v-------+  |
+|  | AMD Shaper     |  |
+|  |                |  |
+|  | inv_EOTF |     |  |
+|  | Custom 1D LUT  |  |
+|  +--------+-------+  |
+|           |          |
+|  +--------v-------+  |
+|  |   AMD 3D LUT   |  |
+|  |   17^3/12-bit  |  |
+|  +--------+-------+  |
+|           |          |
+|  +--------v-------+  |
+|  | AMD Blend      |  |
+|  |                |  |
+|  | EOTF | 1D LUT  |  |
+|  +--------+-------+  |
+|           |          |
+++----------v---------++
+||      Blending      ||
+++----------+---------++
+|    CRTC   |          |
+|           |          |
+|   +-------v-------+  |
+|   | DRM Degamma   |  |
+|   |               |  |
+|   | Custom 1D LUT |  |
+|   +-------+-------+  |
+|           |          |
+|   +-------v-------+  |
+|   | DRM CTM (3x3) |  |
+|   +-------+-------+  |
+|           |          |
+|   +-------v-------+  |
+|   | DRM Gamma     |  |
+|   |               |  |
+|   | Custom 1D LUT |  |
+|   +---------------+  |
+|   | *AMD Gamma    |  |
+|   |   inv_EOTF    |  |
+|   +---------------+  |
+|                      |
++----------------------+
+
+Please, let us know your thoughts.
+
+Best Regards,
+
+Melissa Wen
+
+[1] https://github.com/ValveSoftware/gamescope
+[2] https://store.steampowered.com/news/app/1675200/view/3686804163591367815
+[3] https://lore.kernel.org/dri-devel/20230721132431.692158-1-mwen@igalia.com
+
+Joshua Ashton (14):
+  drm/amd/display: add plane degamma TF driver-specific property
+  drm/amd/display: add plane HDR multiplier driver-specific property
+  drm/amd/display: add plane blend LUT and TF driver-specific properties
+  drm/amd/display: add CRTC gamma TF support
+  drm/amd/display: set sdr_ref_white_level to 80 for out_transfer_func
+  drm/amd/display: mark plane as needing reset if color props change
+  drm/amd/display: add plane degamma TF and LUT support
+  drm/amd/display: add dc_fixpt_from_s3132 helper
+  drm/amd/display: add HDR multiplier support
+  drm/amd/display: handle empty LUTs in __set_input_tf
+  drm/amd/display: add plane blend LUT and TF support
+  drm/amd/display: allow newer DC hardware to use degamma ROM for PQ/HLG
+  drm/amd/display: copy 3D LUT settings from crtc state to stream_update
+  drm/amd/display: Add 3x4 CTM support for plane CTM
+
+Melissa Wen (18):
+  drm/drm_mode_object: increase max objects to accommodate new color
+    props
+  drm/drm_property: make replace_property_blob_from_id a DRM helper
+  drm/drm_plane: track color mgmt changes per plane
+  drm/amd/display: add driver-specific property for plane degamma LUT
+  drm/amd/display: explicitly define EOTF and inverse EOTF
+  drm/amd/display: document AMDGPU pre-defined transfer functions
+  drm/amd/display: add plane 3D LUT driver-specific properties
+  drm/amd/display: add plane shaper LUT and TF driver-specific
+    properties
+  drm/amd/display: add CRTC gamma TF driver-specific property
+  drm/amd/display: add comments to describe DM crtc color mgmt behavior
+  drm/amd/display: encapsulate atomic regamma operation
+  drm/amd/display: decouple steps for mapping CRTC degamma to DC plane
+  drm/amd/display: reject atomic commit if setting both plane and CRTC
+    degamma
+  drm/amd/display: add plane shaper LUT support
+  drm/amd/display: add plane shaper TF support
+  drm/amd/display: add plane 3D LUT support
+  drm/amd/display: add plane CTM driver-specific property
+  drm/amd/display: add plane CTM support
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h      |  90 ++
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  34 +-
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h | 108 +++
+ .../amd/display/amdgpu_dm/amdgpu_dm_color.c   | 821 ++++++++++++++++--
+ .../amd/display/amdgpu_dm/amdgpu_dm_crtc.c    |  72 ++
+ .../amd/display/amdgpu_dm/amdgpu_dm_plane.c   | 224 ++++-
+ .../gpu/drm/amd/display/include/fixed31_32.h  |  12 +
+ drivers/gpu/drm/arm/malidp_crtc.c             |   2 +-
+ drivers/gpu/drm/drm_atomic.c                  |   1 +
+ drivers/gpu/drm/drm_atomic_state_helper.c     |   1 +
+ drivers/gpu/drm/drm_atomic_uapi.c             |  43 +-
+ drivers/gpu/drm/drm_property.c                |  49 ++
+ include/drm/drm_mode_object.h                 |   2 +-
+ include/drm/drm_plane.h                       |   7 +
+ include/drm/drm_property.h                    |   6 +
+ include/uapi/drm/drm_mode.h                   |   8 +
+ 16 files changed, 1371 insertions(+), 109 deletions(-)
+
+-- 
+2.40.1
+
