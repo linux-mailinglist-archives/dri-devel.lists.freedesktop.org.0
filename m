@@ -1,64 +1,94 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5850A7BA7C4
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Oct 2023 19:19:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F06A77BA7CC
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Oct 2023 19:21:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9EB6510E472;
-	Thu,  5 Oct 2023 17:18:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 56D4B10E477;
+	Thu,  5 Oct 2023 17:20:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com
- [IPv6:2a00:1450:4864:20::234])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C472F10E472
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Oct 2023 17:18:57 +0000 (UTC)
-Received: by mail-lj1-x234.google.com with SMTP id
- 38308e7fff4ca-2bfed7c4e6dso14056981fa.1
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Oct 2023 10:18:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1696526336; x=1697131136;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:user-agent
- :from:references:in-reply-to:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=K4qtwUC5OWXLWsxsdHc8Vyp8jChtnD5xWpTwtPZAf1Y=;
- b=J5DgrZ5gyEJZFPTQE8L8q74hZqXPOG193aS4SbcM5CBhhXf9GKaXp0DS18i4Vorar7
- QpsWqPvDzG+yJW6fhhoS8gxoOu7day+j4h61EAdSvD750VzL/wVsp1fXSKiczpLERI3O
- M3/8HEIKrvYI/DIYFPFhD8eOWWkbEZNugZ1Ag=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1696526336; x=1697131136;
- h=content-transfer-encoding:cc:to:subject:message-id:date:user-agent
- :from:references:in-reply-to:mime-version:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=K4qtwUC5OWXLWsxsdHc8Vyp8jChtnD5xWpTwtPZAf1Y=;
- b=IX8BC5b00l7mV83Vn9Ohoc9OcSszcQWMo3efh5VZHBE0IMrKvqixDT0cTCZp+MtWt1
- la8pXAgJqYI+usnxoShNvt2sdyIXxoUA7/RNWcNRSgoeh+xVXR04WHfPfF0uexJUsn5Z
- koUA3Kfkw0Dd/VhbG2HnPCKlzKdi2QCRqosdRh0SCvnmIaG9IPVuEcj9ZUmC6ZMG51fv
- vgxOxMXuANr1+FRzKjDyzX6r6qWZ4HURcw5ZIhk3FVUkXDZuqmmVq11NTS8DUjBO4aQx
- rtBSRRRgzRkm8lx7LWm0TLKs00QZwj83zAbqAdYYlf3e1qZuNXwt2cZUNHvlaCG3osKj
- qogQ==
-X-Gm-Message-State: AOJu0Yxa+t2MkTEf/RKcJTrRouApCOtgCbeh8tvbBlvZNshI0h7gHeMV
- QsP22PhmNJ9A7tKvHYoPS5oD2kwuiLEdEnGI21XQkg==
-X-Google-Smtp-Source: AGHT+IGz3dfXxzyBA3mj6bpkuScOj2CsByPZVzGVOuypWZVASQXSq77oLaNIiQZy12jlFuvTXd6MBb+9Nrb2xXw8Z0k=
-X-Received: by 2002:a05:6512:2030:b0:503:258f:fd15 with SMTP id
- s16-20020a056512203000b00503258ffd15mr4793359lfs.20.1696526335763; Thu, 05
- Oct 2023 10:18:55 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 5 Oct 2023 12:18:55 -0500
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam04on2041.outbound.protection.outlook.com [40.107.100.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF93E10E476;
+ Thu,  5 Oct 2023 17:20:53 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ZcZjjbTmWmemmoN8iOmJbkROjByiLp1qqi4yUL4pnLNCKa4erHTRbr8atIJcdNtAi1EfcR8ck+gHl5CSsi9I3VKHgx2Br+nYnYNqa7hT1gii50DXRmmB8ypuZ6PPoCSB9j1ccApelTkw4YOJwM0OFJ2M/74J2kDXto3XtNXm3RN+4PWL/FnZpG1XQEJC7QA0GEW8PSkS/qgxR4/MsgTZjbIvGYe7XaiEmAyt3b8Q0HTaLEU4+cr3X43mn6hEcllpMRxeJVrZgA2b9++DVacid1vhm8GGsDBo0KmJaTjBbaT9j7tEDvcSpEISZvCfvth1aBXLl2Q/BHQZ3Mqi/IWEWA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=JzbNQnM3FNHeNbAbr6R4lAyRL4pm65IdEdU17e359YI=;
+ b=OnN26PJCYNY0RCNKOX6rc89KDzFfuSnolrIr+83tYcTttxaGofabO0l3uXCWFhKkXpJj9KxcBSbh8tQmN6bFauCwSErsFwvhTcCxA1cBGoTseWfPRbBqX5XX0BWFxAAQ9BWEu/SezapWknNf+tXIUmSup4pwHgnWJSBRJxqcJejt1Z/wXfEbNP9fC8ElmB1FxMWK9KzusQa9K1Q/ZOgl2yMIlNA83z22h24yd9V015iuBEUrlKye4RpCpizC3cfRNuNwPCQR8bVo4Mfj4jDS+ULsyRV/05KZ+3dnARzswRPOMI5uBXLvnII4Ox+gL0vteJqv8SAcpfTifDVjODTDgA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=gmail.com smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=JzbNQnM3FNHeNbAbr6R4lAyRL4pm65IdEdU17e359YI=;
+ b=cHYkCendGHhYMU2W0k6adB4vzC1GuNjFDL2mxHCWK1Ti9ZhLZxrt8e9px1WGFL2qNQ95jqHGEeWQtaUIJIaIpdTQV0FWtEBwdkVkFp2RLf7f5lG3Fkm8+K6HID8XHkgB3VGF60b0hQhsZPY6u+tzzv8xJmaKLy//Y8xKZyosORc=
+Received: from CY5PR15CA0055.namprd15.prod.outlook.com (2603:10b6:930:1b::18)
+ by IA0PR12MB8205.namprd12.prod.outlook.com (2603:10b6:208:400::19)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6838.33; Thu, 5 Oct
+ 2023 17:20:51 +0000
+Received: from CY4PEPF0000EDD7.namprd03.prod.outlook.com
+ (2603:10b6:930:1b:cafe::ee) by CY5PR15CA0055.outlook.office365.com
+ (2603:10b6:930:1b::18) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6863.29 via Frontend
+ Transport; Thu, 5 Oct 2023 17:20:50 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CY4PEPF0000EDD7.mail.protection.outlook.com (10.167.241.211) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6838.14 via Frontend Transport; Thu, 5 Oct 2023 17:20:50 +0000
+Received: from rtg-Artic.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Thu, 5 Oct
+ 2023 12:20:46 -0500
+From: Arvind Yadav <Arvind.Yadav@amd.com>
+To: <Christian.Koenig@amd.com>, <alexander.deucher@amd.com>,
+ <shashank.sharma@amd.com>, <Felix.Kuehling@amd.com>, <Mukul.Joshi@amd.com>,
+ <Xinhui.Pan@amd.com>, <airlied@gmail.com>, <daniel@ffwll.ch>
+Subject: [PATCH v4 0/1] drm/amdkfd: Fix unaligned doorbell absolute offset for
+ gfx8
+Date: Thu, 5 Oct 2023 22:50:10 +0530
+Message-ID: <20231005172011.9271-1-Arvind.Yadav@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-In-Reply-To: <CAD=FV=U2dza-rxV=YtcfJwUY-gZw5FrCyn0NahOxvXJW2J2-vg@mail.gmail.com>
-References: <20231002235407.769399-1-swboyd@chromium.org>
- <CAD=FV=U2dza-rxV=YtcfJwUY-gZw5FrCyn0NahOxvXJW2J2-vg@mail.gmail.com>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.10
-Date: Thu, 5 Oct 2023 12:18:55 -0500
-Message-ID: <CAE-0n51LJDgop-Nh+Aq1CTiu7xJZOqOsdSvHMmXzshkRKM3dgg@mail.gmail.com>
-Subject: Re: [PATCH] drm/bridge: ti-sn65dsi86: Associate DSI device lifetime
- with auxiliary device
-To: Doug Anderson <dianders@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY4PEPF0000EDD7:EE_|IA0PR12MB8205:EE_
+X-MS-Office365-Filtering-Correlation-Id: 98d92610-58f3-4d83-5799-08dbc5c76c56
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: qIbt1uGW/MAOn6udHb5r9wckp9geCoLxx0gBQ1RRw+up6eET5KjNN8zXwIlX+HaO+vx1DJfaar6DJ77g3StH3a7lHGKhvVucYC3s2Vu+CXv0vNVAJc7U92FAc2zGbINgVP38+DVDY+rUX7gQA6m3GYPSor+78tqa3MQDlRUSqWE8IP5Xy1upXQA9YFVZyRlqrD/EUtXHpI3uVyXqR2Y1H7lPS4n+noV0YComqjWdX4Gw5jaXpvJUu7ek7ymPdzzORDBLyii/oFRgdk3GmbQ0m9CLmlj+aERZjb8i3MMI1FRVdJ7pDSeIDW+dX5rjaCwNd4SLrJlc3E6r4kVwTxEOk/bO5auWb9o651pM+xk7+tfe6lWqXgCDZc+MBaOBoXTF+3GogSwqpD40Wni3gSPiAOyzMYwMNUbw2lBJltgdSNrn2max+IOG9C8rV+IUPUe/ctDInStweZwyYeX3LcpGDtK2Rz6daAnVo8Wpo09BGVku4UPsX6FMQhCKqQ2l2aVnHJtBM0L+YiTCBI6QgTa85xzv3XsncM/qDJ3mhtfixvrkR0mId2V1bXtTv2Yv+uXCjl0P83gaACFrHFiVdqebzB4PIvjLsI7pBzs4oNlFnE1dg7vcqHfJ7D0KlYN8DO2K8cKIooB35jJSWsejydjzJbIFRvqaOiNYra3v3hcT/iVsvm5PZC0EVEECphzfWTkRkE60vylnqvvKt80Rb0ubZBd3eyKsZ/upaPHrfNi8M/qSrJg0Ib6W0tsp8cCYxrVa1vGdpxw24GvPnv4WlErDRA==
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230031)(4636009)(39860400002)(136003)(396003)(346002)(376002)(230922051799003)(451199024)(1800799009)(82310400011)(186009)(64100799003)(40470700004)(36840700001)(46966006)(40460700003)(40480700001)(426003)(7696005)(6666004)(478600001)(336012)(356005)(36860700001)(47076005)(86362001)(81166007)(82740400003)(2906002)(8936002)(1076003)(26005)(83380400001)(2616005)(16526019)(4744005)(316002)(36756003)(4326008)(70586007)(54906003)(5660300002)(110136005)(70206006)(41300700001)(8676002)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Oct 2023 17:20:50.8725 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 98d92610-58f3-4d83-5799-08dbc5c76c56
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CY4PEPF0000EDD7.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB8205
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,60 +101,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- patches@lists.linux.dev, Maxime Ripard <maxime@cerno.tech>,
- Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: Arvind Yadav <Arvind.Yadav@amd.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Doug Anderson (2023-10-02 17:31:41)
-> Hi,
->
-> On Mon, Oct 2, 2023 at 4:54=E2=80=AFPM Stephen Boyd <swboyd@chromium.org>=
- wrote:
-> >
-> > The kernel produces a warning splat and the DSI device fails to registe=
-r
-> > in this driver if the i2c driver probes, populates child auxiliary
-> > devices, and then somewhere in ti_sn_bridge_probe() a function call
-> > returns -EPROBE_DEFER. When the auxiliary driver probe defers, the dsi
-> > device created by devm_mipi_dsi_device_register_full() is left
-> > registered because the devm managed device used to manage the lifetime
-> > of the DSI device is the parent i2c device, not the auxiliary device
-> > that is being probed.
-> >
-> > Associate the DSI device created and managed by this driver to the
-> > lifetime of the auxiliary device, not the i2c device, so that the DSI
-> > device is removed when the auxiliary driver unbinds. Similarly change
-> > the device pointer used for dev_err_probe() so the deferred probe error=
-s
-> > are associated with the auxiliary device instead of the parent i2c
-> > device so we can narrow down future problems faster.
-> >
-> > Cc: Douglas Anderson <dianders@chromium.org>
-> > Cc: Maxime Ripard <maxime@cerno.tech>
-> > Fixes: c3b75d4734cb ("drm/bridge: sn65dsi86: Register and attach our DS=
-I device at probe")
->
-> Even before that commit I think it was using the main "dev" instead of
-> the auxiliary device's "dev" for some "devm" stuff. I guess the
-> difference is that it wouldn't mess with probe deferral? Searching
-> back, I think the first instance of a case that was using "devm_" with
-> the wrong device was commit 4e5763f03e10 ("drm/bridge: ti-sn65dsi86:
-> Wrap panel with panel-bridge")? Would it make sense to use that as a
-> Fixes, you think?
+On older chips, the absolute doorbell offset within
+the doorbell page is based on the queue ID.
+KFD is using queue ID and doorbell size to get an
+absolute doorbell offset in userspace.
 
-The problem for me is that the dsi device is registered twice. That
-happens because probe for the auxiliary device happens twice. I was
-cautious about the fixes tag here because it didn't look like probe
-deferral was happening before commit c3b75d4734cb.
+Here, adding db_size in byte to find the doorbell's
+absolute offset for both 32-bit and 64-bit doorbell sizes.
+So that doorbell offset will be aligned based on the doorbell
+size.
 
->
-> In any case, this looks reasonable to me:
->
-> Reviewed-by: Douglas Anderson <dianders@chromium.org>
->
-> I'll give it a week and then apply to "-fixes" if everything is quiet.
+v2:
+- Addressed the review comment from Felix.
 
-Thanks!
+v3:
+- Adding doorbell_size as parameter to get db absolute offset.  
+
+v4:
+  Squash the two patches into one.
+
+Arvind Yadav (1):
+  drm/amdkfd: get doorbell's absolute offset based on the db_size
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_doorbell.h        |  5 +++--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_doorbell_mgr.c    | 13 +++++++++----
+ .../gpu/drm/amd/amdkfd/kfd_device_queue_manager.c   |  3 ++-
+ drivers/gpu/drm/amd/amdkfd/kfd_doorbell.c           | 10 ++++++++--
+ .../gpu/drm/amd/amdkfd/kfd_process_queue_manager.c  |  3 ++-
+ 5 files changed, 24 insertions(+), 10 deletions(-)
+
+-- 
+2.34.1
+
