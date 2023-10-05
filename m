@@ -1,55 +1,85 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 706FE7B9B33
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Oct 2023 09:02:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CDDC7B9B6C
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Oct 2023 09:38:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2510210E04F;
-	Thu,  5 Oct 2023 07:02:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B5C310E05F;
+	Thu,  5 Oct 2023 07:37:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 60166 seconds by postgrey-1.36 at gabe;
- Thu, 05 Oct 2023 07:02:15 UTC
-Received: from out203-205-251-27.mail.qq.com (out203-205-251-27.mail.qq.com
- [203.205.251.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7807F10E1BA
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Oct 2023 07:02:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
- s=s201512; t=1696489325;
- bh=r0u4mBnaqi4GKs6c7eHWFsRbUYq0lOfRFobzAV6OvZA=;
- h=From:To:Cc:Subject:Date;
- b=U/GZxkkjMDeOdmZyxqENdpLR0Ohyn0r1RY7MvbiuU8Anyxn0owLNPLCuIPZWRvtD5
- jbwA12qKw3SAudzqQln0bzPsMJXiRvYRFaDqucDWcuvPqVBGpLR8sZnHuSxR9irs93
- z0u0rZNcluYtj/hKlenRyPRh6iPKW7ZAaecfEM3Y=
-Received: from KernelDevBox.byted.org ([180.184.51.134])
- by newxmesmtplogicsvrszc2-0.qq.com (NewEsmtp) with SMTP
- id 6A3786D; Thu, 05 Oct 2023 15:01:42 +0800
-X-QQ-mid: xmsmtpt1696489302tjj7ov6wx
-Message-ID: <tencent_55C1A344A101B55762ECA6A6366D0B0F8C05@qq.com>
-X-QQ-XMAILINFO: N9887S4huUpzQFADlprbpEj+DydrZRCAmNG800cbgpmSK4Yj8uwwdAJc4p1G2Y
- 9dtO13xcpjT44XfFygVOvcDTH6aUVz5LAmQpcz9IPlfObjWcIQuTt3AdzEhQ/p6qDgIhGXPut6y6
- mYWSTa+c98Lvi1+PohH+uIFtPkegHitu4waxbGsjvPlziWW6PUi20Kh7csoKU8O7ovZ7qiSVGMmi
- 8FtGCfVwm0r0bZnN61sC4IXb/q5N20hFDuQIVFnSe1CyqNgRdRz/AAGbV0t31G8PvzJxTrZZvkId
- yBeYNzQD6F6BD605lAMlW82At47MLBLQbGOprqBe0/FPXuDKeXmKyLG2EQjH1fW+evfff9NB8T0q
- jE5OfZ9mN5JzM0o6LO6AMlzj/XOB20ZqpX7krfUTCfuiPOvI8bl5s5ir0hn3GbM7csxeDF7T1bmq
- +Jq7w0GfiHK+pfLwEYTlyzS9oXaT63i9Sn7W9m2P5yT5guKp4SZxSjG4bvlej7t9xZOXnDpBLGcS
- 5mBMJpjzdQm+EJ13KwZE1fsi3gFq71eSBCuQ1ryRJICmSWcNTfLU/CcaRbTPbpWBE/9qWQ+0mqRZ
- jZyBI612yg7w1htvsRLBnrKQ5T9Sp8e5r0lNU1fSegw4htZepW2fVv0PFl/OT22497NtUsHmre0i
- Ho8GsDN7MIOHhZxgDrnb8ZKaZ+CfVECfuyDGEL5WRDOcIaSxYSVwjjkx+uk0Z5k0AQVYpUpIYgfb
- ktjyRrnf7IGgkdC0z5dauv6/3yfTbpPcgNOkT9Inf6JRAyOMaxZZOOZjjIBXIWZG5BPerPwhEKpx
- q2Jty9Sqc6S6IJqrn4Vutla+/FO3JC9DRZ6kpO77xGoANfgY9hJv4pP11AiPvRUjCZ6KiKO/305K
- fNxQGU5jWZwnmHU7hfrfog+kL9cnchxBParIpLqhd+CgIZ8eJxhLcJggkGOCNMVDpliP6cRhd8IS
- hasqqi9sR0Yh0RzeV9yrhbN6EEh/mq20wRqVRAafUgYiwGZpwQjLs9iYeWJ/lm
-X-QQ-XMRINFO: NS+P29fieYNw95Bth2bWPxk=
-From: Zhang Shurong <zhang_shurong@foxmail.com>
-To: deller@gmx.de
-Subject: [PATCH] video: fbdev: arkfb: fix possible object reference leak
-Date: Thu,  5 Oct 2023 15:01:41 +0800
-X-OQ-MSGID: <20231005070141.1633540-1-zhang_shurong@foxmail.com>
-X-Mailer: git-send-email 2.30.2
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7BE6110E05F
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Oct 2023 07:37:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1696491473;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=jH33QhYaNQ5bf9hjGQYFxdt8E9thgji4wm8Jia6pG4c=;
+ b=M68eVvErXjEVYw8YgGtgLIHz9mWz4XwM49zEcNnYZrc6aCVB3QFsncBEMRTdNaYxe5pChA
+ J0DaYhpKEiDyoePwrhCPYVtzUjbGl3dghXowXsxUG7FGSXJmPSazJ+eDTJL5IAmF9zrL+8
+ LBi05cJH36u+W2IkooL/VXFvP8qapkI=
+Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
+ [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-178-stAOxNDSMca6EXSIXsf5NQ-1; Thu, 05 Oct 2023 03:37:52 -0400
+X-MC-Unique: stAOxNDSMca6EXSIXsf5NQ-1
+Received: by mail-lf1-f69.google.com with SMTP id
+ 2adb3069b0e04-5056eada207so711111e87.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Oct 2023 00:37:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1696491470; x=1697096270;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=jH33QhYaNQ5bf9hjGQYFxdt8E9thgji4wm8Jia6pG4c=;
+ b=S/RIz0UyMMiE68DD2EurrX4HYhwztazBQGWxviB2kHfWFW3YZyTrgUPzQsD1SbwVGl
+ bVGHCryDl0z3fOgv+Tkf6YMSJ7/4r1AE5OvyjxBImF/+PEDqctFFp7SL8/W33B344/sr
+ /fF4vdkukptLPnTrXCOOTMyfZpsWNVDt+H9ecnFM5FFj9bCbjxmEwlfECsTxPaOCoD01
+ XWcpqIYaEmdp2K7EQux8b+KjZRf7AdGvZeBvHRSKVlK+CUte+8nlVkFLcwcV+m++vN09
+ Bg2ZtB+YlhiFz5mdL+SpXxRccX8fbAptimiOioQs8RQYiYnGT80Vj7GffsdmfiMFDUhz
+ vzCg==
+X-Gm-Message-State: AOJu0YwvOxEQxRfxvR8hMeO/j8UIoyMG3k1mi5913Xuc7BP0ZENFP1pK
+ 0smn4DyVIhrfMWqOIz37NDhrmlHAMsK9RRxSvYU8ShaYYr5WxcN12L5Z/DNCtY/haQyl+PNC/4x
+ za5t5gquy0ttC0bDJ74+53GisJIn9
+X-Received: by 2002:a05:6512:3e7:b0:503:c51:74df with SMTP id
+ n7-20020a05651203e700b005030c5174dfmr3261709lfq.48.1696491470749; 
+ Thu, 05 Oct 2023 00:37:50 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IF1ggDpXDUu1ISfpY/fUPvEkMXnYHSdGry0CFO1oL+9f7DdaBm1RdHjjx6O8uagVGoJoIFl2w==
+X-Received: by 2002:a05:6512:3e7:b0:503:c51:74df with SMTP id
+ n7-20020a05651203e700b005030c5174dfmr3261694lfq.48.1696491470374; 
+ Thu, 05 Oct 2023 00:37:50 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
+ ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
+ by smtp.gmail.com with ESMTPSA id
+ n16-20020a1c7210000000b00406725f27e1sm859649wmc.42.2023.10.05.00.37.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 05 Oct 2023 00:37:49 -0700 (PDT)
+Message-ID: <7082653f-e5d2-4852-a08f-2d8b638f0c53@redhat.com>
+Date: Thu, 5 Oct 2023 09:37:48 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v4 1/4] drm/format-helper: Export line conversion helper
+ for drm_panic
+To: nerdopolis <bluescreen_avenger@verizon.net>,
+ dri-devel@lists.freedesktop.org, tzimmermann@suse.de, airlied@redhat.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, daniel@ffwll.ch,
+ javierm@redhat.com
+References: <20231003142508.190246-1-jfalempe@redhat.com>
+ <20231003142508.190246-2-jfalempe@redhat.com>
+ <5210522.31r3eYUQgx@nerdopolis2>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <5210522.31r3eYUQgx@nerdopolis2>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,42 +92,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jiapeng.chong@linux.alibaba.com, linux-fbdev@vger.kernel.org,
- javierm@redhat.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, tzimmermann@suse.de,
- Zhang Shurong <zhang_shurong@foxmail.com>
+Cc: gpiccoli@igalia.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add missing pci_disable_device() in error path in ark_pci_probe().
+On 04/10/2023 03:45, nerdopolis wrote:
+> On Tuesday, October 3, 2023 10:22:44 AM EDT Jocelyn Falempe wrote:
+>> drm_panic will need the low-level drm_fb_xxxx_line functions.
+>> Also add drm_fb_r1_to_xrgb8888 to render the fonts.
+>>
+>> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+>> ---
+>>   drivers/gpu/drm/drm_format_helper.c | 88 ++++++++++++++++++++++++++---
+>>   include/drm/drm_format_helper.h     |  9 +++
+>>   2 files changed, 89 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/drm_format_helper.c b/drivers/gpu/drm/drm_format_helper.c
+>> index f93a4efcee90..c238e5d84f1f 100644
+>> --- a/drivers/gpu/drm/drm_format_helper.c
+>> +++ b/drivers/gpu/drm/drm_format_helper.c
+>> @@ -270,7 +270,30 @@ void drm_fb_swab(struct iosys_map *dst, const unsigned int *dst_pitch,
+>>   
+>>   	drm_fb_xfrm(dst, dst_pitch, &cpp, src, fb, clip, cached, swab_line);
+>>   }
+>> -EXPORT_SYMBOL(drm_fb_swab);
+> I had to add this line back to get it to build, but once I did, it worked.
 
-Signed-off-by: Zhang Shurong <zhang_shurong@foxmail.com>
----
- drivers/video/fbdev/arkfb.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Thanks, you're right that line shouldn't be removed.
 
-diff --git a/drivers/video/fbdev/arkfb.c b/drivers/video/fbdev/arkfb.c
-index 60a96fdb5dd8..6c4e5065646f 100644
---- a/drivers/video/fbdev/arkfb.c
-+++ b/drivers/video/fbdev/arkfb.c
-@@ -1064,7 +1064,7 @@ static int ark_pci_probe(struct pci_dev *dev, const struct pci_device_id *id)
- err_dac:
- 	pci_release_regions(dev);
- err_request_regions:
--/*	pci_disable_device(dev); */
-+	pci_disable_device(dev);
- err_enable_device:
- 	framebuffer_release(info);
- 	return rc;
-@@ -1085,7 +1085,7 @@ static void ark_pci_remove(struct pci_dev *dev)
- 
- 		pci_iounmap(dev, info->screen_base);
- 		pci_release_regions(dev);
--/*		pci_disable_device(dev); */
-+		pci_disable_device(dev);
- 
- 		framebuffer_release(info);
- 	}
+Best regards,
+
 -- 
-2.30.2
+
+Jocelyn
 
