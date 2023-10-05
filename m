@@ -2,36 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C33DD7B9D42
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Oct 2023 15:16:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5F197B9D48
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Oct 2023 15:18:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 37CD410E407;
-	Thu,  5 Oct 2023 13:16:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9BD5A10E3FA;
+	Thu,  5 Oct 2023 13:18:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-4323.proton.ch (mail-4323.proton.ch [185.70.43.23])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4419E10E3FD
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Oct 2023 13:16:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail2; t=1696511804; x=1696771004;
- bh=kOhBFGbS2ZUNUCtKZ9QVq8iSXvwvdmAts+CrHGCN9G0=;
- h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
- Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
- b=IG39VJj2RJoynxlAD55DeQgDSROnZS5Q8U04DVaZajX12F8Ng0GIc9rRDgFrZRmwE
- 15F0vgAy13b2F6vHz9piDrhHdjtTiylBkhYR7N0/DYD7ez8/r4O0SLH2X8gMnmS1AO
- uoQ3BjT2bgtxwhle8W8yD5P66eItqx0qA5v03fXF552L6lL5zBGkYRakab3qT3LEc9
- bhV039CR2CVXe5YwX08ZNfFiSZrBnB8HFEuHez6tqyYWe3SWUiZdn7kwRDqXG2eY7C
- XLQf7qvbZhMSXOPGdHYYsoyx6+UpvySzdNUhQr/w4oow59/QyaKPa5+pI44VV+SaW8
- v7cxRYuods/Rw==
-Date: Thu, 05 Oct 2023 13:16:32 +0000
-To: dri-devel@lists.freedesktop.org
-From: Simon Ser <contact@emersion.fr>
-Subject: [PATCH] drm/atomic-helper: relax unregistered connector check
-Message-ID: <20231005131623.114379-1-contact@emersion.fr>
-Feedback-ID: 1358184:user:proton
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A5E410E3FA
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Oct 2023 13:18:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1696511917;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=IwqSs3+/DmPy4uBb2/Z1zLNoXvAigFYFMa6dXUuHSsw=;
+ b=hV12M9we/a2PPr7BBPsyGXNyvP+p2seBJAt90jHLHNrL7eiizkwwqCmgnLNKmavaZUijr2
+ KQqD2T1nN7TglEbgn1Y2H1G2/OjjLLxtaiNA1SMhnezu9R99mfJkOeej/L66pBfeecVVo2
+ WB5DW+XrhWuZjbgEQKlloelzludYxfk=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-175-nErQRrj8O9OCh2ElhfdkpA-1; Thu, 05 Oct 2023 09:18:35 -0400
+X-MC-Unique: nErQRrj8O9OCh2ElhfdkpA-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ 5b1f17b1804b1-4054016ff33so4925115e9.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Oct 2023 06:18:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1696511914; x=1697116714;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=IwqSs3+/DmPy4uBb2/Z1zLNoXvAigFYFMa6dXUuHSsw=;
+ b=UyxCZTjMXDnqyHFWv5RPkuA/GIfLFXMdDJV9XHN3hhY/ayaG6txGVSfGU8aA/kASvp
+ OmitVlPifycIhGDqmK2hrCnPSb+HdwDXCDdPhmfRNdO0Zd39npQXhH0+aLCbTqyOva9Y
+ FUexIVo60Yf5u9Js8ra3nsKERlDFatxSHIDZxqH/avnTQzvkGocPHtWe+AMGyATIzrXy
+ N7xfHzCjOiSBfQfIlQ0SUAYjFtT3hMUJVYyG7DsLSyrftxTqgNlLejYHkA8BJgnCET5x
+ tVRisQ/oJdquLLQG50PgPJK0gAfWZK0ZwBkReZKid4py1KiZLvezET+xCbDOKbSOsPR0
+ zyPQ==
+X-Gm-Message-State: AOJu0YxzNTbiqcAe62oyfsySkPxCh+kROFkjMx+YR7YTEVPxej/FopMe
+ MZ7qzPPNhuBEBE1KiWPOVJ4MZS0C/+6ZDhHYhIjrU0oyJbZYyeYPQshjQzA1/aXf7O2VYVwxdDV
+ s29im54Lio15mOopsnz0g+Cen+++x
+X-Received: by 2002:a05:600c:21d7:b0:406:45c1:4dd with SMTP id
+ x23-20020a05600c21d700b0040645c104ddmr1439986wmj.14.1696511914701; 
+ Thu, 05 Oct 2023 06:18:34 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IErjYacLBg82C+9YjgKi/Jm5saEdIW4LKTkywsq/1FR/ujCssLbmny2rAsEIpmTagMdkfs1cw==
+X-Received: by 2002:a05:600c:21d7:b0:406:45c1:4dd with SMTP id
+ x23-20020a05600c21d700b0040645c104ddmr1439966wmj.14.1696511914343; 
+ Thu, 05 Oct 2023 06:18:34 -0700 (PDT)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ z7-20020a7bc7c7000000b003fee567235bsm3782885wmk.1.2023.10.05.06.18.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 05 Oct 2023 06:18:34 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, jfalempe@redhat.com,
+ jose.exposito89@gmail.com, arthurgrillo@riseup.net, mairacanal@riseup.net,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ daniel@ffwll.ch, noralf@tronnes.org
+Subject: Re: [PATCH v4 1/7] drm/format-helper: Cache buffers with struct
+ drm_format_conv_state
+In-Reply-To: <20231005090520.16511-2-tzimmermann@suse.de>
+References: <20231005090520.16511-1-tzimmermann@suse.de>
+ <20231005090520.16511-2-tzimmermann@suse.de>
+Date: Thu, 05 Oct 2023 15:18:33 +0200
+Message-ID: <87y1gh6wd2.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,94 +84,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jani Nikula <jani.nikula@intel.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The driver might pull connectors which weren't submitted by
-user-space into the atomic state. For instance,
-intel_dp_mst_atomic_master_trans_check() pulls in connectors
-sharing the same DP-MST stream. However, if the connector is
-unregistered, this later fails with:
+Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-    [  559.425658] i915 0000:00:02.0: [drm:drm_atomic_helper_check_modeset]=
- [CONNECTOR:378:DP-7] is not registered
+Hello Thomas,
 
-Skip the unregistered connector check to allow user-space to turn
-off connectors one-by-one.
+> Hold temporary memory for format conversion in an instance of struct
+> drm_format_conv_state. Update internal helpers of DRM's format-conversion
+> code accordingly. Drivers will later be able to maintain this cache by
+> themselves.
+>
+> Besides caching, struct drm_format_conv_state will be useful to hold
+> additional information for format conversion, such as palette data or
+> foreground/background colors. This will enable conversion from indexed
+> color formats to component-based formats.
+>
+> v3:
+> 	* rename struct drm_xfrm_buf to struct drm_format_conv_state
+> 	  (Javier)
+> 	* remove managed cleanup
+> 	* add drm_format_conv_state_copy() for shadow-plane support
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
 
-See this wlroots issue:
-https://gitlab.freedesktop.org/wlroots/wlroots/-/issues/3407
+[...]
 
-Previous discussion:
-https://lore.kernel.org/intel-gfx/Y6GX7z17WmDSKwta@ideak-desk.fi.intel.com/
+> +/**
+> + * drm_format_conv_state_init - Initialize format-conversion state
+> + * @state: The state to initialize
+> + *
+> + * Clears all fields in struct drm_format_conv_state and installs a DRM
+> + * release action for the buffer. The buffer will be empty with no
+> + * preallocated resources.
+> + */
+> +void drm_format_conv_state_init(struct drm_format_conv_state *state)
+> +{
+> +	state->tmp.mem = NULL;
+> +	state->tmp.size = 0;
+> +	state->tmp.preallocated = false;
+> +}
+> +EXPORT_SYMBOL(drm_format_conv_state_init);
+> +
+> +/**
+> + * drm_format_conv_state_copy - Copy format-conversion state
+> + * @state: Destination state
+> + * @old_state: Source state
+> + *
+> + * Copies format-conversion state from @old_state to @state; except for
+> + * temporary storage.
+> + */
+> +void drm_format_conv_state_copy(struct drm_format_conv_state *state,
+> +				const struct drm_format_conv_state *old_state)
+> +{
+> +	state->tmp.mem = NULL;
+> +	state->tmp.size = 0;
+> +	state->tmp.preallocated = false;
+> +}
+> +EXPORT_SYMBOL(drm_format_conv_state_copy);
+> +
 
-Signed-off-by: Simon Ser <contact@emersion.fr>
-Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
-Cc: Jani Nikula <jani.nikula@intel.com>
-Cc: Lyude Paul <lyude@redhat.com>
-Cc: Imre Deak <imre.deak@intel.com>
----
- drivers/gpu/drm/drm_atomic_helper.c | 17 +++++++++++++----
- 1 file changed, 13 insertions(+), 4 deletions(-)
+I'm confused, the copy helper is the same than init. What's the point of
+this function ? Why not just call drm_format_conv_state_init() from the
+__drm_gem_duplicate_shadow_plane_state() function in the next patch ?
 
-diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atom=
-ic_helper.c
-index 71d399397107..c9b8343eaa20 100644
---- a/drivers/gpu/drm/drm_atomic_helper.c
-+++ b/drivers/gpu/drm/drm_atomic_helper.c
-@@ -290,7 +290,8 @@ static int
- update_connector_routing(struct drm_atomic_state *state,
- =09=09=09 struct drm_connector *connector,
- =09=09=09 struct drm_connector_state *old_connector_state,
--=09=09=09 struct drm_connector_state *new_connector_state)
-+=09=09=09 struct drm_connector_state *new_connector_state,
-+=09=09=09 bool added_by_user)
- {
- =09const struct drm_connector_helper_funcs *funcs;
- =09struct drm_encoder *new_encoder;
-@@ -339,9 +340,13 @@ update_connector_routing(struct drm_atomic_state *stat=
-e,
- =09 * there's a chance the connector may have been destroyed during the
- =09 * process, but it's better to ignore that then cause
- =09 * drm_atomic_helper_resume() to fail.
-+=09 *
-+=09 * Last, we want to ignore connector registration when the connector
-+=09 * was not pulled in the atomic state by user-space (ie, was pulled
-+=09 * in by the driver, e.g. when updating a DP-MST stream).
- =09 */
- =09if (!state->duplicated && drm_connector_is_unregistered(connector) &&
--=09    crtc_state->active) {
-+=09    added_by_user && crtc_state->active) {
- =09=09drm_dbg_atomic(connector->dev,
- =09=09=09       "[CONNECTOR:%d:%s] is not registered\n",
- =09=09=09       connector->base.id, connector->name);
-@@ -620,7 +625,10 @@ drm_atomic_helper_check_modeset(struct drm_device *dev=
-,
- =09struct drm_connector *connector;
- =09struct drm_connector_state *old_connector_state, *new_connector_state;
- =09int i, ret;
--=09unsigned int connectors_mask =3D 0;
-+=09unsigned int connectors_mask =3D 0, user_connectors_mask =3D 0;
-+
-+=09for_each_oldnew_connector_in_state(state, connector, old_connector_stat=
-e, new_connector_state, i)
-+=09=09user_connectors_mask |=3D BIT(i);
-=20
- =09for_each_oldnew_crtc_in_state(state, crtc, old_crtc_state, new_crtc_sta=
-te, i) {
- =09=09bool has_connectors =3D
-@@ -685,7 +693,8 @@ drm_atomic_helper_check_modeset(struct drm_device *dev,
- =09=09 */
- =09=09ret =3D update_connector_routing(state, connector,
- =09=09=09=09=09       old_connector_state,
--=09=09=09=09=09       new_connector_state);
-+=09=09=09=09=09       new_connector_state,
-+=09=09=09=09=09=09   BIT(i) & user_connectors_mask);
- =09=09if (ret)
- =09=09=09return ret;
- =09=09if (old_connector_state->crtc) {
---=20
-2.42.0
+Other than that the patch looks good to me. After fixing the issue that
+Noralf pointed out:
 
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
