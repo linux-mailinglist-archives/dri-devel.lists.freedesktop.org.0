@@ -2,79 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 194167B9D52
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Oct 2023 15:28:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFE117B9D5A
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Oct 2023 15:34:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D8A710E401;
-	Thu,  5 Oct 2023 13:28:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A9FB210E402;
+	Thu,  5 Oct 2023 13:34:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F4D210E401
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Oct 2023 13:28:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1696512517;
+Received: from vulcan.natalenko.name (vulcan.natalenko.name
+ [IPv6:2001:19f0:6c00:8846:5400:ff:fe0c:dfa0])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1696410E402
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Oct 2023 13:34:54 +0000 (UTC)
+Received: from spock.localnet (unknown [94.142.239.106])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by vulcan.natalenko.name (Postfix) with ESMTPSA id A4062152ED08;
+ Thu,  5 Oct 2023 15:34:51 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=natalenko.name;
+ s=dkim-20170712; t=1696512891;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=O/T6KAgZt6jRiWe+ybUB6AIX3nwcf0FJQNLQ46tRdPo=;
- b=G2OQWUwS0geLPnAiHaynp648s2IE1y4CBfW/4g2a2AA396xZUQRG9VQM2iFaDv6t6VG1gv
- 2cweJksjgpEfXqe4ERgx/lmgyHHd0W/EKOrW80pjh9y3Ej4NlBWMElv+PiR3YxzFlsQCTA
- S15cJ59frCScxVUThsYam/H1JodALGE=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-154-R9vnuUjIP9-dMuFvcf3GKg-1; Thu, 05 Oct 2023 09:28:26 -0400
-X-MC-Unique: R9vnuUjIP9-dMuFvcf3GKg-1
-Received: by mail-wm1-f72.google.com with SMTP id
- 5b1f17b1804b1-3f41a04a297so6655155e9.3
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Oct 2023 06:28:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1696512505; x=1697117305;
- h=content-transfer-encoding:mime-version:message-id:date:references
- :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=DG7shVqw+DqkkC/CgOXstCgKuW3SoLye52Q36TTZ9VQ=;
- b=i+pC2Vn1bL/lvv5qP4ktHkKWroTR5e8kJ6vveBEfRqKgXefoagp8vPcsRQfRvQhYGu
- gWlxsLBBwwlxn9gDmuoe4B6If5d8J8eyS1k44ZDMixbN2sJXCtBtd5EzjHkgOiTnGKWo
- 3Eg2dY6Q8Pqa/BtUP7Mqz1ixsStcoPDzzXRE9ElUEGMbZzoSUmd1QnHQUf9D5pVqdd4O
- 8gYDjuoWCUsx8EzdqUfUcxkKlblkSlKtoDuWzCfJqiSrYwGYj5lbxzPqfmZQ4WsXNUhm
- M54/w9LG6WEP80/NYHyeVvF9X7CiwkSwmf/bWM/ZDrqsti1r1JVL1iatYGMBMUZgMV40
- u/fg==
-X-Gm-Message-State: AOJu0Yzq85/0cB1mJ0xWHp0e+2V8FNhO2ub3p9lxJlloMGL6+oH9BqZN
- GrpwIIG86XsmmAf2aGVlyIj4cZQDQxJEkqmxyZbW/ngHz9b44ZDvtDdVt85CLMOPAiROeS77pnf
- P+4SsKknCijnlfpBocgUbdOR7sBcU
-X-Received: by 2002:adf:fd8d:0:b0:317:55c:4936 with SMTP id
- d13-20020adffd8d000000b00317055c4936mr4620969wrr.9.1696512505488; 
- Thu, 05 Oct 2023 06:28:25 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFnLz+FaqH4udg93KcrFvsXYTF6X8GRQHLtWcygKE7da2QKZC4hb6MYTaNlHDsOjTTXoScBmg==
-X-Received: by 2002:adf:fd8d:0:b0:317:55c:4936 with SMTP id
- d13-20020adffd8d000000b00317055c4936mr4620958wrr.9.1696512505212; 
- Thu, 05 Oct 2023 06:28:25 -0700 (PDT)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- b2-20020a5d5502000000b00323330edbc7sm1797772wrv.20.2023.10.05.06.28.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Oct 2023 06:28:24 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, jfalempe@redhat.com,
- jose.exposito89@gmail.com, arthurgrillo@riseup.net, mairacanal@riseup.net,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
- daniel@ffwll.ch, noralf@tronnes.org
-Subject: Re: [PATCH v4 3/7] drm/format-helper: Pass format-conversion state
- to helpers
-In-Reply-To: <20231005090520.16511-4-tzimmermann@suse.de>
-References: <20231005090520.16511-1-tzimmermann@suse.de>
- <20231005090520.16511-4-tzimmermann@suse.de>
-Date: Thu, 05 Oct 2023 15:28:24 +0200
-Message-ID: <877co119mv.fsf@minerva.mail-host-address-is-not-set>
+ bh=G7OmVnDV4XM8M5IsSqI8Ix0o10uDr9wvy0myjlHH3sQ=;
+ b=havpDLvC8JWRtLhfFGMQj/UvPRh0H2e6jJMdt1Zz4hkVWvrV2SqusX3rt4TpbPHVlY9OAh
+ 8ANmKHrpFZ4FGDEDT1mIdcmdLwWnsS66V2HQv44D0pdkjD+Iqc+i7OmshCMHTNSVrwekOE
+ shIQriGGfhLeu/kTmHZVG6NVUU7SE4A=
+From: Oleksandr Natalenko <oleksandr@natalenko.name>
+To: Matthew Wilcox <willy@infradead.org>
+Subject: Re: [REGRESSION] BUG: KFENCE: memory corruption in
+ drm_gem_put_pages+0x186/0x250
+Date: Thu, 05 Oct 2023 15:34:41 +0200
+Message-ID: <9175204.CDJkKcVGEf@natalenko.name>
+In-Reply-To: <ZR60lylMtLO6ZGp7@casper.infradead.org>
+References: <13360591.uLZWGnKmhe@natalenko.name>
+ <22037450.EfDdHjke4D@natalenko.name>
+ <ZR60lylMtLO6ZGp7@casper.infradead.org>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; boundary="nextPart3187816.5fSG56mABF";
+ micalg="pgp-sha256"; protocol="application/pgp-signature"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,48 +53,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Lechner <david@lechnology.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: Linux Regressions <regressions@lists.linux.dev>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Sumit Semwal <sumit.semwal@linaro.org>, linaro-mm-sig@lists.linaro.org,
+ linux-mm@kvack.org, Andrew Morton <akpm@linux-foundation.org>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Bagas Sanjaya <bagasdotme@gmail.com>,
+ Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thomas Zimmermann <tzimmermann@suse.de> writes:
+--nextPart3187816.5fSG56mABF
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"; protected-headers="v1"
+From: Oleksandr Natalenko <oleksandr@natalenko.name>
+To: Matthew Wilcox <willy@infradead.org>
+Date: Thu, 05 Oct 2023 15:34:41 +0200
+Message-ID: <9175204.CDJkKcVGEf@natalenko.name>
+In-Reply-To: <ZR60lylMtLO6ZGp7@casper.infradead.org>
+MIME-Version: 1.0
 
-> Pass an instance of struct drm_format_conv_state to DRM's format
-> conversion helpers. Update all callers.
->
-> Most drivers can use the format-conversion state from their shadow-
-> plane state. The shadow plane's destroy function releases the
-> allocated buffer. Drivers will later be able to allocate a buffer
-> of appropriate size in their plane's atomic_check code.
->
-> The gud driver uses a separate thread for committing updates. For
-> now, the update worker contains its own format-conversion state.
->
-> Images in the format-helper tests are small. The tests preallocate
-> a static page for the temporary buffer. Unloading the module releases
-> the memory.
->
-> v3:
-> =09* store buffer in shadow-plane state (Javier, Maxime)
-> =09* replace ARRAY_SIZE() with sizeof() (Jani)
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Noralf Tr=C3=B8nnes <noralf@tronnes.org>
-> Cc: Javier Martinez Canillas <javierm@redhat.com>
-> Cc: Gerd Hoffmann <kraxel@redhat.com>
-> Cc: David Lechner <david@lechnology.com>
-> ---
+On =C4=8Dtvrtek 5. =C5=99=C3=ADjna 2023 15:05:27 CEST Matthew Wilcox wrote:
+> On Thu, Oct 05, 2023 at 02:30:55PM +0200, Oleksandr Natalenko wrote:
+> > No-no, sorry for possible confusion. Let me explain again:
+> >=20
+> > 1. we had an issue with i915, which was introduced by 0b62af28f249, and=
+ later was fixed by 863a8eb3f270
+> > 2. now I've discovered another issue, which looks very similar to 1., b=
+ut in a VM with Cirrus VGA, and it happens even while having 863a8eb3f270 a=
+pplied
+> > 3. I've tried reverting 3291e09a4638, after which I cannot reproduce th=
+e issue with Cirrus VGA, but clearly there was no fix for it discussed
+> >=20
+> > IOW, 863a8eb3f270 is the fix for 0b62af28f249, but not for 3291e09a4638=
+=2E It looks like 3291e09a4638 requires a separate fix.
+>=20
+> Thank you!  Sorry about the misunderstanding.  Try this:
+>=20
+> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+> index 6129b89bb366..44a948b80ee1 100644
+> --- a/drivers/gpu/drm/drm_gem.c
+> +++ b/drivers/gpu/drm/drm_gem.c
+> @@ -540,7 +540,7 @@ struct page **drm_gem_get_pages(struct drm_gem_object=
+ *obj)
+>  	struct page **pages;
+>  	struct folio *folio;
+>  	struct folio_batch fbatch;
+> -	int i, j, npages;
+> +	long i, j, npages;
+> =20
+>  	if (WARN_ON(!obj->filp))
+>  		return ERR_PTR(-EINVAL);
+> @@ -564,11 +564,13 @@ struct page **drm_gem_get_pages(struct drm_gem_obje=
+ct *obj)
+> =20
+>  	i =3D 0;
+>  	while (i < npages) {
+> +		long nr;
+>  		folio =3D shmem_read_folio_gfp(mapping, i,
+>  				mapping_gfp_mask(mapping));
+>  		if (IS_ERR(folio))
+>  			goto fail;
+> -		for (j =3D 0; j < folio_nr_pages(folio); j++, i++)
+> +		nr =3D min(npages - i, folio_nr_pages(folio));
+> +		for (j =3D 0; j < nr; j++, i++)
+>  			pages[i] =3D folio_file_page(folio, i);
+> =20
+>  		/* Make sure shmem keeps __GFP_DMA32 allocated pages in the
 
-For the drm_format_helper.{h,c} and ssd130x driver changes:
+No issues after five reboots with this patch applied on top of v6.5.5.
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+Reported-by: Oleksandr Natalenko <oleksandr@natalenko.name>
+Tested-by: Oleksandr Natalenko <oleksandr@natalenko.name>
+Link: https://lore.kernel.org/lkml/13360591.uLZWGnKmhe@natalenko.name/
+=46ixes: 3291e09a4638 ("drm: convert drm_gem_put_pages() to use a folio_bat=
+ch")
+Cc: stable@vger.kernel.org # 6.5.x
 
---=20
-Best regards,
+Thank you!
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+=2D-=20
+Oleksandr Natalenko (post-factum)
+--nextPart3187816.5fSG56mABF
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part.
+Content-Transfer-Encoding: 7Bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEZUOOw5ESFLHZZtOKil/iNcg8M0sFAmUeu3EACgkQil/iNcg8
+M0ukOxAAp/BVEyQy2PylnOYA9bNDAnOlxHaslswKSerCTxALAYhIo/Fs7a1/eOIf
+OosjDaawXSueUi47gxloa/ZdEi5RUtYZTBB8L2FK7QX9CdKwwHIWLfkMzW0AuIiY
+CVeP6MMsulrSD0Uu0IwaifAwP9G0AL9EE/a3dRbh29AJhqwmUmzHtxuqsJkg8/+e
+K3O7HedfPZg7bBHdyoNcpjDGdXQE/sZiCW8mSYJgM9kvoXEOsaB52TxGoiooF6Ti
+ETsLn2AQBabbt/XcTNMcLLf6hL56mmd7xA4LpGqkqftjTBVl9SjLKzrHu0fY4pMb
+eff23+Z1uRoHeEiSMpy75/JDN2emeYR5dsvpcFK/DcT4A3VLl9YyJ6iB9LBtLthk
+lMz1ftAOhBrULfLGMJQhub0PDxcRPuEgpwyu3IBqwuNAf9mlGH/SDMg/7Q7mX1Oe
+nVyhqhq9YHHe5ZgTkV8lTCMOPLwQAAIk2aRDmZQAhnhNtPpCaP6/FG6d9++y1hY/
+WglEFusswiz2sjm86xWHnvaX1TB7+eMf7yh8rhYjcVxR86QFDoGnVkdXFap6Hp7c
+uPQ/EoUocvVxfIqYBQlWf2Lrg4BGszBG1LDxie6bLQKoQWilFN3Z1CO/vWOfvfx+
+LJCyyZBPa6+M7ADFb1VLjQ/+sE9jimijlPcpm7degwY1X1+Ifck=
+=7qWv
+-----END PGP SIGNATURE-----
+
+--nextPart3187816.5fSG56mABF--
+
+
 
