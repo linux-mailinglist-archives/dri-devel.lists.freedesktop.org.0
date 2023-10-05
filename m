@@ -1,72 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 204467B9CC4
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Oct 2023 13:37:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 292B87B9CC7
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Oct 2023 13:43:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6726810E1D1;
-	Thu,  5 Oct 2023 11:37:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 749DC10E1EB;
+	Thu,  5 Oct 2023 11:43:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED89410E1EB
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Oct 2023 11:37:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5016E10E1EB
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Oct 2023 11:43:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1696505839;
+ s=mimecast20190719; t=1696506207;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=PTdoKjEVTqKstCwmpa8K7LCKs8UUEFAcUU4yzgI4+4Q=;
- b=cOPU84nnD2OOkgN1MaU89x5IOQbGpSbqAOwHyYPJJXss7Vpx/iOb2YLuLQTKhk1en3qvM3
- jA4QpX7ANvfTKacicLp5Ey0NCr9amhXvoG9ZsWhm3uBAcASvOZ/s6ZdCx448A2L+yV5lvL
- /hGXWlg8HXFFEzj+yjFlT54C9Baui5E=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=y4BzSPuYTD1RVTmtiPYRc2B/emmSLddqafmsMxkTjF0=;
+ b=f3vvIdG6xVQ4eUqzIu7yEM2k1EmrRirPjhCzWyFuos/jOORVO0MNJ+oP8vJCCyifyIzjfO
+ K+NM6Ogy87EmneBisnaMrAkyPpGj2Zdqs4j2F670NcUHOKqJK2p202/eyg6KmWl6d+qXOY
+ ZlrzoGtbBJRyxtbmMnAzSoH505CNx9k=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-625-a0grXZJsOtqiDVVfZli2-w-1; Thu, 05 Oct 2023 07:37:17 -0400
-X-MC-Unique: a0grXZJsOtqiDVVfZli2-w-1
-Received: by mail-wm1-f71.google.com with SMTP id
- 5b1f17b1804b1-40524bc3c5cso5348345e9.0
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Oct 2023 04:37:17 -0700 (PDT)
+ us-mta-389-Du4CeHwlPdyu6m9qUpVN0Q-1; Thu, 05 Oct 2023 07:43:24 -0400
+X-MC-Unique: Du4CeHwlPdyu6m9qUpVN0Q-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ 5b1f17b1804b1-4054016ff33so4441705e9.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Oct 2023 04:43:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1696505836; x=1697110636;
+ d=1e100.net; s=20230601; t=1696506203; x=1697111003;
  h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
  :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=PTdoKjEVTqKstCwmpa8K7LCKs8UUEFAcUU4yzgI4+4Q=;
- b=UmwC1PftrB49WNZnG6ZMENWvnOIbNSvBo9yxt/xbg1PW4Ggm4mHS+6bcp7Xrh7xapM
- V6t+34ELxI3u4tJQadTZGE1MPH6/iE3DLenq9shwtOsR2VbnRmuRIUIc/gT4aLftiPO5
- QPINyB6TCQDne4UenolHdqCIOHYWZXHdRtm6F84dzpZ3uiFRSrZoQ2p6LBdHUgnawMc9
- v6ofXr3JzZXY3QTGdHEJpYX5XXO+myNS2WXWM4UkMZnuqYWA+VnrusbrkXB9gCjxMFv9
- RylnSStpzAoAIi0q+9eJooit9crRbm/0GlZCgNRPI9xE878crPnO9FWvG6f4v2VirneV
- 8yLw==
-X-Gm-Message-State: AOJu0YyJUp4MmYVgwfp9s+Zx7pze1RuLRLBs0OqAu2PJUGUkh0Zm5nQq
- ihfahkM+eqPx8oP7W99K2RiOGx5BiZguOrilmTfe4PQiWih76uArNII6YHDTfIbeDoDFmPn1VVz
- sEu+rz+yFx/za9RtyvTcbeT7Ui6pB
-X-Received: by 2002:adf:f546:0:b0:317:634c:46e9 with SMTP id
- j6-20020adff546000000b00317634c46e9mr4886022wrp.43.1696505836451; 
- Thu, 05 Oct 2023 04:37:16 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGC5Wr6HRBOmeqxoL159OHtoAn1IB7DRRB4TDWcY8/PYw0BpT9gqz8RAPZrjlsTYHOhf56k/w==
-X-Received: by 2002:adf:f546:0:b0:317:634c:46e9 with SMTP id
- j6-20020adff546000000b00317634c46e9mr4886007wrp.43.1696505836082; 
- Thu, 05 Oct 2023 04:37:16 -0700 (PDT)
+ bh=y4BzSPuYTD1RVTmtiPYRc2B/emmSLddqafmsMxkTjF0=;
+ b=h4qzZKLrmwx88kT3e7y45bKfIB3K60rR4qS3iHl6bBhizBDw+JkEl9OyqciowKvcKr
+ 3mtlnlPVfgKm3cE1hSqGqxgm4GS27ZMxFi0qNtQejAWVBIE1mmMrLH8ZdpA/0OifB+6z
+ 1vliB1p7+ppSOLtA+joVIH8caDllYQ7KfSqDOK5e0U4ynT3T9vpOrsXRRcea/yRgiqdz
+ m+augtlMJ6QjT+YDVudLqvN3yDJyPbciwkSudGnb8pOBeL5qVtl4nMihpzuJnn4cLZkg
+ CW4hEQUNhFd940Tm/Ja4dlgTe8PAyqS0lcAEUPABjZE4Wxgn9cUl5KatwoJF+Et8dq5k
+ 687Q==
+X-Gm-Message-State: AOJu0YwIWTSlLpaQAJeypgWkqXT20rvCKwgzE52DxsgYZdU+VK7aERWD
+ JgX2rLHrV27W372gCUlf32GvsllQCY7LMAVLhFTsey61mf7IoKyBqGAgbriMb++3uk8+5mDnUad
+ a92g+lfJ1+PTWNCzI5rO7rnd48ICV
+X-Received: by 2002:a05:600c:1c96:b0:405:3622:382c with SMTP id
+ k22-20020a05600c1c9600b004053622382cmr1193566wms.17.1696506202960; 
+ Thu, 05 Oct 2023 04:43:22 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGGk2s+KSDiwz1IGM50cbC10slcMP+pa8JWn+JhQhAGbcjzZ86s/NiTCKhvWqtW662VSZY0AQ==
+X-Received: by 2002:a05:600c:1c96:b0:405:3622:382c with SMTP id
+ k22-20020a05600c1c9600b004053622382cmr1193547wms.17.1696506202630; 
+ Thu, 05 Oct 2023 04:43:22 -0700 (PDT)
 Received: from localhost (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- b10-20020a05600010ca00b003271be8440csm1588855wrx.101.2023.10.05.04.37.15
+ n1-20020adffe01000000b0031ae8d86af4sm1587316wrr.103.2023.10.05.04.43.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Oct 2023 04:37:15 -0700 (PDT)
+ Thu, 05 Oct 2023 04:43:22 -0700 (PDT)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: Thomas Zimmermann <tzimmermann@suse.de>, jfalempe@redhat.com,
  jose.exposito89@gmail.com, arthurgrillo@riseup.net, mairacanal@riseup.net,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
  daniel@ffwll.ch, noralf@tronnes.org
-Subject: Re: [PATCH v4 6/7] drm/ssd130x: Fix atomic_check for disabled planes
-In-Reply-To: <20231005090520.16511-7-tzimmermann@suse.de>
+Subject: Re: [PATCH v4 7/7] drm/ssd130x: Preallocate format-conversion
+ buffer in atomic_check
+In-Reply-To: <20231005090520.16511-8-tzimmermann@suse.de>
 References: <20231005090520.16511-1-tzimmermann@suse.de>
- <20231005090520.16511-7-tzimmermann@suse.de>
-Date: Thu, 05 Oct 2023 13:37:15 +0200
-Message-ID: <8734ypwb9w.fsf@minerva.mail-host-address-is-not-set>
+ <20231005090520.16511-8-tzimmermann@suse.de>
+Date: Thu, 05 Oct 2023 13:43:21 +0200
+Message-ID: <87zg0xuwfa.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
@@ -83,76 +84,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-Hello Thomas,
-
-Thanks for your patch.
-
-> The plane's atomic_check returns -EINVAL if the CRTC has not been
-> set. This is the case for disabled planes, for which atomic_check
-> should return 0. For disabled planes, it also omits the mandatory
-> call to drm_atomic_helper_check_plane_state().
->
-> Replace the test with the boiler-plate code that first invokes
-> drm_atomic_helper_check_plane_state() and then tests for the plane
-> to be visible. Return early for non-visible planes.
+> Preallocate the format-conversion state's storage in the plane's
+> atomic_check function if a format conversion is necessary. Allows
+> the update to fail if no memory is available. Avoids the same
+> allocation within atomic_update, which may not fail.
 >
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Fixes: d51f9fbd98b6 ("drm/ssd130x: Store the HW buffer in the driver-private CRTC state")
-> Cc: Geert Uytterhoeven <geert@linux-m68k.org>
-> Cc: Javier Martinez Canillas <javierm@redhat.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
 > ---
->  drivers/gpu/drm/solomon/ssd130x.c | 17 +++++++++--------
->  1 file changed, 9 insertions(+), 8 deletions(-)
->
-> diff --git a/drivers/gpu/drm/solomon/ssd130x.c b/drivers/gpu/drm/solomon/ssd130x.c
-> index 3dd8e8a444b6f..dccbfe33edb5e 100644
-> --- a/drivers/gpu/drm/solomon/ssd130x.c
-> +++ b/drivers/gpu/drm/solomon/ssd130x.c
-> @@ -639,21 +639,22 @@ static int ssd130x_primary_plane_atomic_check(struct drm_plane *plane,
->  	struct drm_plane_state *plane_state = drm_atomic_get_new_plane_state(state, plane);
->  	struct ssd130x_plane_state *ssd130x_state = to_ssd130x_plane_state(plane_state);
->  	struct drm_crtc *crtc = plane_state->crtc;
-> -	struct drm_crtc_state *crtc_state;
-> +	struct drm_crtc_state *crtc_state = NULL;
->  	const struct drm_format_info *fi;
->  	unsigned int pitch;
->  	int ret;
->  
-> -	if (!crtc)
-> -		return -EINVAL;
-> -
-> -	crtc_state = drm_atomic_get_crtc_state(state, crtc);
-> -	if (IS_ERR(crtc_state))
-> -		return PTR_ERR(crtc_state);
-> +	if (crtc)
-> +		crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
->  
-> -	ret = drm_plane_helper_atomic_check(plane, state);
-> +	ret = drm_atomic_helper_check_plane_state(plane_state, crtc_state,
-> +						  DRM_PLANE_NO_SCALING,
-> +						  DRM_PLANE_NO_SCALING,
-> +						  false, false);
 
-As Geert mentioned you are open coding here what the called helper already
-does. I prefer to keep doing that, instead of adding boiler plate code.
+I like that the preallocated format conversion state is now part of the
+shadow plane state. That makes a lot of sense to me.
 
-One question, the reason to return -EINVAL was to prevent the callback
-ssd130x_primary_plane_atomic_update() to be executed, since that attempts
-to get the CRTC state to pass the HW buffer to ssd130x_fb_blit_rect().
-
-I believe this patch will introduce a regression and cause a NULL pointer
-dereference when !plane_state->crtc and you should also add a check for
-plane_state->visible in ssd130x_primary_plane_atomic_update() to bail ?
-
-I haven't tested your patch yet though, so maybe I'm wrong about this.
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
 -- 
 Best regards,
