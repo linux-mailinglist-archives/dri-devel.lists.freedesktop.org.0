@@ -1,46 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D25B7B9CF8
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Oct 2023 14:31:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 55AAB7B9D19
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Oct 2023 14:55:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DBEAC10E3E9;
-	Thu,  5 Oct 2023 12:31:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC0A410E3E6;
+	Thu,  5 Oct 2023 12:54:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from vulcan.natalenko.name (vulcan.natalenko.name
- [IPv6:2001:19f0:6c00:8846:5400:ff:fe0c:dfa0])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6DE7310E3E9
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Oct 2023 12:31:15 +0000 (UTC)
-Received: from spock.localnet (unknown [94.142.239.106])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by vulcan.natalenko.name (Postfix) with ESMTPSA id 28C07152EC14;
- Thu,  5 Oct 2023 14:31:12 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=natalenko.name;
- s=dkim-20170712; t=1696509072;
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B51D810E3E6
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Oct 2023 12:54:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1696510495;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=/S7sO6RIBOF4vIV+ArsfqILLGplFRTHSIr7ucl8RgcU=;
- b=dKdsqudq0s8tzcvq9WwYKCnJB75WGj3Q+TxbsIUOt41RSK4oTHhaZpCpWTYP3GFlNrCRyl
- QjgTMW9kvm6qRUKKFdAxyeguyfc3Go1Fvitw0Vbvwnx4fPRPvj9rhbF3PEtpDMuRGBYnst
- t3efLn5VJy7aIewqLYsfbmP7Ke1Gte0=
-From: Oleksandr Natalenko <oleksandr@natalenko.name>
-To: Matthew Wilcox <willy@infradead.org>
-Subject: Re: [REGRESSION] BUG: KFENCE: memory corruption in
- drm_gem_put_pages+0x186/0x250
-Date: Thu, 05 Oct 2023 14:30:55 +0200
-Message-ID: <22037450.EfDdHjke4D@natalenko.name>
-In-Reply-To: <ZR6p4MpDbQpZiUSZ@casper.infradead.org>
-References: <13360591.uLZWGnKmhe@natalenko.name>
- <3254850.aeNJFYEL58@natalenko.name>
- <ZR6p4MpDbQpZiUSZ@casper.infradead.org>
+ bh=BdzaOA4Dk/0H60sKG/Uc21VcfuRV3bDv58sH463vRtU=;
+ b=bKj3ajRtkMOnpFyNEPlpVviTbnwWPV9nnRf71b13xwMLoGvGY3og2VCDtfGih51GbDIpGC
+ aJWMF+CM/pm2eGWPyK3ak1eF6ZRhErbD3hqI0A2Ow0S0Wofy6F9JCumZRpl78YXfItUIJk
+ cX6OsKN1KGJXYCK49B3g2WoYM7ZKD5c=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-90-hmukn1BZOk6RkBR0DRu1gQ-1; Thu, 05 Oct 2023 08:54:54 -0400
+X-MC-Unique: hmukn1BZOk6RkBR0DRu1gQ-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ ffacd0b85a97d-32323283257so803698f8f.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Oct 2023 05:54:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1696510493; x=1697115293;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=BdzaOA4Dk/0H60sKG/Uc21VcfuRV3bDv58sH463vRtU=;
+ b=wlNZXzdfBZTiEvIvFAqldEQftQf6eGWyxLoUDvSc3R8EZdPzW3snE1vPQvVX5hGvyy
+ EqXMkeEucdWlGrQ0ipd+QfeKkMOyNmrNEqrWdEYZTBogpoAA+5drEvx/UjzWmtvJ1lkG
+ C6z/SG0cm3lmNCJ7dx/TFk86coFOyhoB1jOsKeJplnE7uCIBe3fVwSd5pN+1W8+szS5f
+ pbkjdgMfT9F1TzSBFimrpVcFqXHqxbGxzsxxO2kfzxtHXMRSh2QV0/HSqSifR78ZkRQQ
+ zEY7tAU05zRxdH1FWF+xeZbthot9P0i4E41LR7UGbnqaN/wBIthaczsJGhP5mQk8eDLi
+ 0rpQ==
+X-Gm-Message-State: AOJu0Yx7z/Tb+gs5b/gcp/vBqv4TW8XcC0Bi47gjuixIFG5y8y51lnbE
+ dMA9NPIZ2TMrIbRiuuVP6M9E+pRvEeJF+3N40tT7AzV8msx7KiakjoUgltbwyoq4vPNN0E7/K0D
+ zUtAgD8w880uaxscVTGRD2RNbRHMh
+X-Received: by 2002:adf:f24f:0:b0:319:63f3:c0cb with SMTP id
+ b15-20020adff24f000000b0031963f3c0cbmr4744833wrp.40.1696510492953; 
+ Thu, 05 Oct 2023 05:54:52 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH66HaNIW3dLx9f4LOQ0Cv4en+cS25HhfKcnFgudT75LOahG8x1n95Gr4wyfDjl7i+CCz8qoQ==
+X-Received: by 2002:adf:f24f:0:b0:319:63f3:c0cb with SMTP id
+ b15-20020adff24f000000b0031963f3c0cbmr4744815wrp.40.1696510492565; 
+ Thu, 05 Oct 2023 05:54:52 -0700 (PDT)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ w5-20020adfd4c5000000b003143867d2ebsm1739612wrk.63.2023.10.05.05.54.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 05 Oct 2023 05:54:52 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, jfalempe@redhat.com,
+ jose.exposito89@gmail.com, arthurgrillo@riseup.net, mairacanal@riseup.net,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ daniel@ffwll.ch, noralf@tronnes.org
+Subject: Re: [PATCH v4 6/7] drm/ssd130x: Fix atomic_check for disabled planes
+In-Reply-To: <c4fd1d91-7d9b-483f-8b1d-10857a6f1016@suse.de>
+References: <20231005090520.16511-1-tzimmermann@suse.de>
+ <20231005090520.16511-7-tzimmermann@suse.de>
+ <8734ypwb9w.fsf@minerva.mail-host-address-is-not-set>
+ <c4fd1d91-7d9b-483f-8b1d-10857a6f1016@suse.de>
+Date: Thu, 05 Oct 2023 14:54:51 +0200
+Message-ID: <874jj58c10.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="nextPart7578566.EvYhyI6sBW";
- micalg="pgp-sha256"; protocol="application/pgp-signature"
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,129 +85,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Regressions <regressions@lists.linux.dev>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Sumit Semwal <sumit.semwal@linaro.org>, linaro-mm-sig@lists.linaro.org,
- linux-mm@kvack.org, Andrew Morton <akpm@linux-foundation.org>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Bagas Sanjaya <bagasdotme@gmail.com>,
- Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- linux-media@vger.kernel.org
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---nextPart7578566.EvYhyI6sBW
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"; protected-headers="v1"
-From: Oleksandr Natalenko <oleksandr@natalenko.name>
-To: Matthew Wilcox <willy@infradead.org>
-Date: Thu, 05 Oct 2023 14:30:55 +0200
-Message-ID: <22037450.EfDdHjke4D@natalenko.name>
-In-Reply-To: <ZR6p4MpDbQpZiUSZ@casper.infradead.org>
-MIME-Version: 1.0
+Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-Hello.
+Hello Thomas,
 
-On =C4=8Dtvrtek 5. =C5=99=C3=ADjna 2023 14:19:44 CEST Matthew Wilcox wrote:
-> On Thu, Oct 05, 2023 at 09:56:03AM +0200, Oleksandr Natalenko wrote:
-> > Hello.
-> >=20
-> > On =C4=8Dtvrtek 5. =C5=99=C3=ADjna 2023 9:44:42 CEST Thomas Zimmermann =
-wrote:
-> > > Hi
-> > >=20
-> > > Am 02.10.23 um 17:38 schrieb Oleksandr Natalenko:
-> > > > On pond=C4=9Bl=C3=AD 2. =C5=99=C3=ADjna 2023 16:32:45 CEST Matthew =
-Wilcox wrote:
-> > > >> On Mon, Oct 02, 2023 at 01:02:52PM +0200, Oleksandr Natalenko wrot=
-e:
-> > > >>>>>>> BUG: KFENCE: memory corruption in drm_gem_put_pages+0x186/0x2=
-50
-> > > >>>>>>>
-> > > >>>>>>> Corrupted memory at 0x00000000e173a294 [ ! ! ! ! ! ! ! ! ! ! =
-! ! ! ! ! ! ] (in kfence-#108):
-> > > >>>>>>>   drm_gem_put_pages+0x186/0x250
-> > > >>>>>>>   drm_gem_shmem_put_pages_locked+0x43/0xc0
-> > > >>>>>>>   drm_gem_shmem_object_vunmap+0x83/0xe0
-> > > >>>>>>>   drm_gem_vunmap_unlocked+0x46/0xb0
-> > > >>>>>>>   drm_fbdev_generic_helper_fb_dirty+0x1dc/0x310
-> > > >>>>>>>   drm_fb_helper_damage_work+0x96/0x170
-> > > >>>
-> > > >>> Matthew, before I start dancing around, do you think ^^ could hav=
-e the same cause as 0b62af28f249b9c4036a05acfb053058dc02e2e2 which got fixe=
-d by 863a8eb3f27098b42772f668e3977ff4cae10b04?
-> > > >>
-> > > >> Yes, entirely plausible.  I think you have two useful points to lo=
-ok at
-> > > >> before delving into a full bisect -- 863a8e and the parent of 0b62=
-af.
-> > > >> If either of them work, I think you have no more work to do.
-> > > >=20
-> > > > OK, I've did this against v6.5.5:
-> > > >=20
-> > > > ```
-> > > > git log --oneline HEAD~3..
-> > > > 7c1e7695ca9b8 (HEAD -> test) Revert "mm: remove struct pagevec"
-> > > > 8f2ad53b6eac6 Revert "mm: remove check_move_unevictable_pages()"
-> > > > fa1e3c0b5453c Revert "drm: convert drm_gem_put_pages() to use a fol=
-io_batch"
-> > > > ```
-> > > >=20
-> > > > then rebooted the host multiple times, and the issue is not seen an=
-y more.
-> > > >=20
-> > > > So I guess 3291e09a463870610b8227f32b16b19a587edf33 is the culprit.
-> > >=20
-> > > Ignore my other email. It's apparently been fixed already. Thanks!
-> >=20
-> > Has it? I think I was able to identify offending commit, but I'm not aw=
-are of any fix to that.
->=20
-> I don't understand; you said reverting those DRM commits fixed the
-> problem, so 863a8eb3f270 is the solution.  No?
+> Hi Javier
+>
+> Am 05.10.23 um 13:37 schrieb Javier Martinez Canillas:
 
-No-no, sorry for possible confusion. Let me explain again:
+[...]
 
-1. we had an issue with i915, which was introduced by 0b62af28f249, and lat=
-er was fixed by 863a8eb3f270
-2. now I've discovered another issue, which looks very similar to 1., but i=
-n a VM with Cirrus VGA, and it happens even while having 863a8eb3f270 appli=
-ed
-3. I've tried reverting 3291e09a4638, after which I cannot reproduce the is=
-sue with Cirrus VGA, but clearly there was no fix for it discussed
+>>> -	ret = drm_plane_helper_atomic_check(plane, state);
+>>> +	ret = drm_atomic_helper_check_plane_state(plane_state, crtc_state,
+>>> +						  DRM_PLANE_NO_SCALING,
+>>> +						  DRM_PLANE_NO_SCALING,
+>>> +						  false, false);
+>> 
+>> As Geert mentioned you are open coding here what the called helper already
+>> does. I prefer to keep doing that, instead of adding boiler plate code.
+>
+> Please see my other email.
+>
 
-IOW, 863a8eb3f270 is the fix for 0b62af28f249, but not for 3291e09a4638. It=
- looks like 3291e09a4638 requires a separate fix.
+Sure, let's continue this discussion there.
 
-Hope this gets clear.
+>> 
+>> One question, the reason to return -EINVAL was to prevent the callback
+>> ssd130x_primary_plane_atomic_update() to be executed, since that attempts
+>> to get the CRTC state to pass the HW buffer to ssd130x_fb_blit_rect().
+>
+> Returning an errno code aborts the commit. [1] The CRTC can (maybe 
+> should?) be NULL to disable the plane. (It is in sync with 
+> plane_state->fb IIRC.)
+>
 
-Thanks.
+Thanks for the explanation.
 
-=2D-=20
-Oleksandr Natalenko (post-factum)
---nextPart7578566.EvYhyI6sBW
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part.
-Content-Transfer-Encoding: 7Bit
+> So can you disable the plane now?
+>
 
------BEGIN PGP SIGNATURE-----
+It does not get disabled now indeed.
 
-iQIzBAABCAAdFiEEZUOOw5ESFLHZZtOKil/iNcg8M0sFAmUerH8ACgkQil/iNcg8
-M0uSnQ/8D3tmJs/f/83sUR46G/rwqMpmxwX6gQNu0TmxXVWRtMhvcJ0aPMOFOFyd
-4gIyLgpN6iwrx7q6CN4XH38pCgmbozKW1zhUC0WhUHgipOChC/levjj1yQbmPaYB
-zm0JAjP39Uq7JnUgdD0JwW54kJJy5ENthILoHDWhIMIXj7DHowiNIWxD16sBvRbG
-/ISVR18MvPTGL4J8M+Jj1HNWToBirW72r1xx6nO8G+rCnS/+vP6o5u/rJPoMBuKJ
-fZ/6gNzSKQ5r0VYHWdOB5ye+YI6WjCDgwBSKabQW3iZ4e53LS1m0xpUrqAU4J3w3
-q8CgV2cwe3ls36ihNwkJEU8dog1rJgLxphcA2Llqs3lweBi2D62EhLk3oHVsg5kD
-qeEymkFsYZYxvAymu/bgu6Jf0sniYYI7UxcWvFDEijM6NJiJ9F/u0bCsriaY392E
-HfGX70BX7lWVh0LXGkUgNqt1cAOthcmUGBL8SeD8vqKvqsZIv2GwqhzkuD+0lTAF
-mOpICu+WgTasm7naR9xvd8gj1OXgJZcZ8wVtzqi3hek+0e4n7Bzqb1E7b0iaUlf1
-SWKp+IQV6qEXmslnoMe8pYjJtTrT7fxTyZ5728wO5bakh5RzUEl99ilYA99abw19
-DaPTa54wxN/HxWZmyPJ2YZWqcjbIDBBhSTY07aWvZUcrvdbHToE=
-=ROyz
------END PGP SIGNATURE-----
+> [1] 
+> https://elixir.bootlin.com/linux/v6.5/source/drivers/gpu/drm/drm_atomic_helper.c#L997
+>
+>> 
+>> I believe this patch will introduce a regression and cause a NULL pointer
+>> dereference when !plane_state->crtc and you should also add a check for
+>> plane_state->visible in ssd130x_primary_plane_atomic_update() to bail ?
+>
+> You have a atomic_disable in that plane, so you're taking the branch at 
+> [2] for disabling the plane. No atomic_update then. If the plane has 
+> been enabled, you should take the branch at [3]. Without being able to 
+> move/scale the primary plane, I don't see how plane_state->visible could 
+> be false here. Right?
+>
+> AFAIKT there should not be a NULL-deref here. Can you do a test?
+>
 
---nextPart7578566.EvYhyI6sBW--
+You are correct, there's no NULL-deref and in fact you are fixing the
+plane not disable bug, so your fix is correct and should be applied.
 
+I still prefer as mentioned keeping the drm_plane_helper_atomic_check()
+call instead of open coding it, but regardless of what is decided:
 
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
