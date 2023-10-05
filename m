@@ -1,46 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EFD67B9BDE
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Oct 2023 10:43:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 482A47B9C05
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Oct 2023 11:05:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C93F810E1D6;
-	Thu,  5 Oct 2023 08:43:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5813110E130;
+	Thu,  5 Oct 2023 09:05:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D33E10E1D6
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Oct 2023 08:43:20 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id C5A01CE2013;
- Thu,  5 Oct 2023 08:43:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0661C116AE;
- Thu,  5 Oct 2023 08:43:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1696495397;
- bh=218XNg/GoPgABsb7uA/Apqobt3iP8Nl0g4cKkzZXagE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ROOqrXSmUkFTrQIF6h+xsidEe1fFjaTAcptBoB6is7u13GbqRZN1sWIYxqiq15I4H
- ZVpZwZm6kuZaYCPuVJGJ5NVi+rvEuQi2IUx5AUsE4qMvY2zWGIRFKQDMoPTizMh+w4
- JON4ps9MNemlO0HHE1flxciwRDAWpklgggtDFP70tMGnH+wq5kZuHDQuStZwtBQmVA
- 4kcTjHAmh4ZVUFBqQMJaWw1HlI1Ja3kk4i1SXTq6XkIf05xcsXsLUlWxSl2jHQYo8P
- 6vMweCA3M6eT8EhjHW3qOZ9faf2nLKZVMntzxRKmIAuGd56v0yiN6IE7cWJHbZ8voR
- mmD2Em27h8Gvw==
-Date: Thu, 5 Oct 2023 10:43:14 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>
-Subject: Re: [PATCH 5/7] drm/sun4i: dw-hdmi: Split driver registration
-Message-ID: <3cwcfx7fvtr75j6musdqttn6oto4wemsx7lh664gu3run6wxnz@5o5vao4wibm5>
-References: <20230924192604.3262187-1-jernej.skrabec@gmail.com>
- <20230924192604.3262187-6-jernej.skrabec@gmail.com>
- <rvqcfohw4i4y7amod3a5e4u4tkorqmaekvikyqg3fibvy53dsd@be4lk4ae35hq>
- <3441738.QJadu78ljV@jernej-laptop>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BAED210E12E
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Oct 2023 09:05:27 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id A4DBE2185C;
+ Thu,  5 Oct 2023 09:05:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1696496726; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=ou3kdIeFToVcRv4iNdjLwdiN2Um5xKeZk6ZqufjokAs=;
+ b=hl4NXN6Hd4J2EPjkDmuvdHglyriajBIkK2NaIOtvOF8K/8r5Bh8ZbEAlLUCaaqdOVua9Kl
+ YNMFrAbIwHq0m0vGAs4PQBDYpnBbzTLb6P5oA5sfG7O9obZLR8a3DlaZwHUfdzBV5kVLRD
+ YTsFiIkEXrfIM74LBvC3tB25HqqUz8Q=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1696496726;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=ou3kdIeFToVcRv4iNdjLwdiN2Um5xKeZk6ZqufjokAs=;
+ b=KcvjOlznNRocuX/DRypCKoRMB/cfxcCH2fFvOWYJF9+Vwaw/rNmtwnxMa/Ed6aOKSj4Z3o
+ jQXyU/XiZxKfHqCg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6AFE9139C2;
+ Thu,  5 Oct 2023 09:05:26 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id D3xFGVZ8HmXkcQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 05 Oct 2023 09:05:26 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: javierm@redhat.com, jfalempe@redhat.com, jose.exposito89@gmail.com,
+ arthurgrillo@riseup.net, mairacanal@riseup.net,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ daniel@ffwll.ch, noralf@tronnes.org
+Subject: [PATCH v4 0/7] drm: Reuse temporary memory for format conversion
+Date: Thu,  5 Oct 2023 11:04:20 +0200
+Message-ID: <20231005090520.16511-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="akojmyevkkccggkv"
-Content-Disposition: inline
-In-Reply-To: <3441738.QJadu78ljV@jernej-laptop>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,50 +67,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: samuel@sholland.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, wens@csie.org, linux-sunxi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+DRM's format-conversion helpers require temporary memory. Pass the
+buffer from the caller and keep it allocated over several calls. Allow
+the caller to preallocate the buffer memory.
 
---akojmyevkkccggkv
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The motivation for this patchset is the recent work on a DRM panic
+handler. [1] The panic handler requires format conversion to display an
+error to the screen. But allocating memory during kernel panics is
+fragile. The changes in this patchset enable the DRM panic handler to
+preallocate buffer storage before the panic occurs.
 
-On Mon, Sep 25, 2023 at 05:07:45PM +0200, Jernej =C5=A0krabec wrote:
-> Dne ponedeljek, 25. september 2023 ob 09:47:15 CEST je Maxime Ripard napi=
-sal(a):
-> > On Sun, Sep 24, 2023 at 09:26:02PM +0200, Jernej Skrabec wrote:
-> > > There is no reason to register two drivers in same place. Using macro
-> > > lowers amount of boilerplate code.
-> >=20
-> > There's one actually: you can't have several module_init functions in
-> > the some module, and both files are compiled into the same module.
->=20
-> Yeah, I figured as much. However, I think code clean up is good enough re=
-ason
-> to add hidden option in Kconfig and extra entry in Makefile (in v2).
->=20
-> Do you agree?
+As an additonal benefit, drivers can now keep the temporary storage
+across multiple updates. Avoiding memory allocation slightly reduces
+the CPU overhead of the format helpers.
 
-Yeah, I don't know. Adding more modules makes it more difficult to
-handle (especially autoloading) without a clear argument why.
-Module_init is simple enough as it is currently, maybe we should just
-add a comment to make it clearer?
+Patch 1 adds struct drm_format_conv_state, a simple interface to pass
+around the buffer storage. Patch 2 adds an instance of the struct to
+the shadow-plane state. Patch 3 moves the buffer's memory management
+from the format helpers into their callers within the DRM drivers. Most
+of the afected drivers use the state instance stored in their shadow-
+plane state. The shadow-plane code releases the buffer memory automatically.
 
-Maxime
+Patches 4 to 7 update three drivers to preallocate the format-conversion
+buffer in their plane's atomic_check function. The driver thus detects OOM
+errors before the display update begins.
 
---akojmyevkkccggkv
-Content-Type: application/pgp-signature; name="signature.asc"
+Tested with simpledrm.
 
------BEGIN PGP SIGNATURE-----
+v4:
+	* rename struct to drm_format_conv_state (Javier)
+	* replace ARRAY_SIZE() with sizeof() (Jani)
+	* store buffer in shadow-plane state (Javier, Maxime)
+	* prealloc in atomic_check in several drivers
+v3:
+	* no changes
+v2:
+	* reserve storage during probing in the drivers
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZR53IgAKCRDj7w1vZxhR
-xbUSAP9ybpgLK3mOS/+R2KPNbc5R8IB65px6R8ILedtprgVXPwD/YwX2t84ygDJ+
-MKsp/whtkWxQ9rbIzIt9+fO5LH6xvww=
-=W7Km
------END PGP SIGNATURE-----
+[1] https://patchwork.freedesktop.org/series/122244/
 
---akojmyevkkccggkv--
+Thomas Zimmermann (7):
+  drm/format-helper: Cache buffers with struct drm_format_conv_state
+  drm/atomic-helper: Add format-conversion state to shadow-plane state
+  drm/format-helper: Pass format-conversion state to helpers
+  drm/ofdrm: Preallocate format-conversion buffer in atomic_check
+  drm/simpledrm: Preallocate format-conversion buffer in atomic_check
+  drm/ssd130x: Fix atomic_check for disabled planes
+  drm/ssd130x: Preallocate format-conversion buffer in atomic_check
+
+ drivers/gpu/drm/drm_format_helper.c           | 212 +++++++++++++-----
+ drivers/gpu/drm/drm_gem_atomic_helper.c       |   9 +
+ drivers/gpu/drm/drm_mipi_dbi.c                |  19 +-
+ drivers/gpu/drm/gud/gud_pipe.c                |  30 ++-
+ drivers/gpu/drm/solomon/ssd130x.c             |  36 ++-
+ .../gpu/drm/tests/drm_format_helper_test.c    |  72 +++---
+ drivers/gpu/drm/tiny/cirrus.c                 |   3 +-
+ drivers/gpu/drm/tiny/ili9225.c                |  10 +-
+ drivers/gpu/drm/tiny/ofdrm.c                  |  16 +-
+ drivers/gpu/drm/tiny/repaper.c                |   8 +-
+ drivers/gpu/drm/tiny/simpledrm.c              |  43 +++-
+ drivers/gpu/drm/tiny/st7586.c                 |  19 +-
+ include/drm/drm_format_helper.h               |  81 +++++--
+ include/drm/drm_gem_atomic_helper.h           |  10 +
+ include/drm/drm_mipi_dbi.h                    |   4 +-
+ 15 files changed, 428 insertions(+), 144 deletions(-)
+
+
+base-commit: 57d3b83a83c5527325efb5bcaf594da09fe4a41b
+-- 
+2.42.0
+
