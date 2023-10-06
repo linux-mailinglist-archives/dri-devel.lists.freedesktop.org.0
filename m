@@ -1,44 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63F047BB026
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Oct 2023 03:45:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4791B7BB03B
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Oct 2023 04:20:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B409B10E18B;
-	Fri,  6 Oct 2023 01:44:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B466C10E4B1;
+	Fri,  6 Oct 2023 02:20:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gandalf.ozlabs.org (mail.ozlabs.org
- [IPv6:2404:9400:2221:ea00::3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D7C6710E085;
- Fri,  6 Oct 2023 01:44:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1696556690;
- bh=FEZ5Zt1GmousPutMjHkXHKTXZftkzEH+5BRetQ9SLH8=;
- h=Date:From:To:Cc:Subject:From;
- b=QPsAkMu3ouwOCN8SrhzPXaAqTmCtz+DPaSeZTeqeRbim3p4EL/Vlcb7Wkz/onPK4o
- T1E+FTSDxp8+LLlWXhFpOAZ8II+WFxUh/Xn7KHhCL3cUyJoO4riWlwVwTBi5+32CHz
- afj8enCEZX0e6VY5M1szvDeLMGHCMXPXxjTDJdOJppSflqRAdoZRX7/DO89tcwuRDe
- isQ2AZNzN8vN4pZPaYIXdlgTcW0cvYq8+fEIdx6QRsnpDNp8GLJ8daYEKki2XwK1LU
- FymHFqlrMdektyMorj/NzUaH9sHM6QEo0HtDDsgK4wFAv8iCiVKGbYANgcIjb/tjXw
- JsB41dGJP8kpg==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4S1rp93DYFz4x5k;
- Fri,  6 Oct 2023 12:44:49 +1100 (AEDT)
-Date: Fri, 6 Oct 2023 12:44:47 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Daniel Vetter
- <daniel.vetter@ffwll.ch>
-Subject: linux-next: manual merge of the drm-msm-lumag tree with the
- drm-misc tree
-Message-ID: <20231006124447.10031f6e@canb.auug.org.au>
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
+ [IPv6:2a00:1450:4864:20::432])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E7FD610E4B1
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Oct 2023 02:20:33 +0000 (UTC)
+Received: by mail-wr1-x432.google.com with SMTP id
+ ffacd0b85a97d-3214cdb4b27so1589679f8f.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Oct 2023 19:20:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1696558832; x=1697163632; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=7A6svaZ5NLBPCdvLBtrQYDjuifxfenalJYib+EmtrBE=;
+ b=LedytlNFBC/5DOViSteufXDoZZ+TWJQo/8ZvLvUD31lU/lbuEXZnhXQgxXDtO8FrQL
+ nhTRnVD24MueeMGPE06ovhQxF2tJbxDLOmOHBrTYv9Rafid/3zX8DLjIMPuA+JQmGpp8
+ aGlW5h05aGwFIYoxXSH95L9902PjxrqtmCYtES4UPvgW6Sbi/rADsXelziD8l6DsI3Le
+ Zj+f0h9LskKnufM7UCqDEQAGN9HTBytq538eh4qjpirmr2j7L4h7gavhu9ki2pG25tMZ
+ kWENOSFM2geaa9n/CxYevOUoZV4bsJ4PWegDBTVAj3NsazhTL2rIJU5x7aoDqN+jb7+2
+ 6pnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1696558832; x=1697163632;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=7A6svaZ5NLBPCdvLBtrQYDjuifxfenalJYib+EmtrBE=;
+ b=dk18UTaSgohqFzSaOKC9a/PCv4RSG7Nvkvd8zuhCFmyoeSV4JWmH9y6DQmfKPSWBdP
+ DV/IFmhUN+BTuDvg6ZUlNIgmGjacZyjp3jwIr0SqESM5A7cnJV9gStKfB3u1LzDkWwKa
+ YBR47naFFx1OKQPPfUu+/dZ52cw2a01qDb/1qbK57QKoxiYI4E770+WuxbUlqfGyxFUZ
+ gyBHVLN72faJqOoLJo+WBJGr38ELPAavnlLd45OfiKF4QQCzKXl+WjYlDxGreBewhZRl
+ bSKdvZPTJnVk0uPsiqMyBpY45Zy6R3+G0nfcV/DaO6N01r3TCQ9M/1klgKhRzVXhVQG0
+ ckVQ==
+X-Gm-Message-State: AOJu0Yz0IrXWEitwd9W4bdtnZJxLhEcJYtiYoE9DZZqj2eKzNelVEIKL
+ rNBWUpsA+zziRHSPIKioWWSPahcG6+RlGCDK+HY=
+X-Google-Smtp-Source: AGHT+IEiTyzp02X3Gv5QGee69SJTznrbwBrw/DOEGtGOalihMEdXuCrKaMq/kTK3AF19NS06vrJBgOIphrRfedf5MxU=
+X-Received: by 2002:adf:f546:0:b0:323:3421:9a9 with SMTP id
+ j6-20020adff546000000b00323342109a9mr6326854wrp.60.1696558831882; Thu, 05 Oct
+ 2023 19:20:31 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/eXIVIosoXmtrWkP4jtgIGQQ";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+References: <20230921192749.1542462-1-dianders@chromium.org>
+ <CGME20230921194907eucas1p1027c5dfc5c5f77bca3c43673427c89cc@eucas1p1.samsung.com>
+ <20230921122641.RFT.v2.9.Iea33274908b6b258955f45a8aaf6f5bba24ad6cd@changeid>
+ <fb9cd62b-6637-7bcc-e23d-37f3806f8460@samsung.com>
+In-Reply-To: <fb9cd62b-6637-7bcc-e23d-37f3806f8460@samsung.com>
+From: Inki Dae <daeinki@gmail.com>
+Date: Fri, 6 Oct 2023 11:19:54 +0900
+Message-ID: <CAAQKjZNn4RTJ-SHHEugcQoS2U9fzNTOGtUpSLLM0w1V6Pb0amw@mail.gmail.com>
+Subject: Re: [RFT PATCH v2 09/12] drm/exynos: Call drm_atomic_helper_shutdown()
+ at shutdown/unbind time
+To: Marek Szyprowski <m.szyprowski@samsung.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,62 +72,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kees Cook <keescook@chromium.org>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI <dri-devel@lists.freedesktop.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: linux-samsung-soc@vger.kernel.org, sw0312.kim@samsung.com,
+ Douglas Anderson <dianders@chromium.org>, Maxime Ripard <mripard@kernel.org>,
+ linux-kernel@vger.kernel.org, krzysztof.kozlowski@linaro.org,
+ dri-devel@lists.freedesktop.org, alim.akhtar@samsung.com,
+ kyungmin.park@samsung.com, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/eXIVIosoXmtrWkP4jtgIGQQ
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Thanks for testing. :)
 
-Hi all,
+Acked-by : Inki Dae <inki.dae@samsung.com>
 
-Today's linux-next merge of the drm-msm-lumag tree got a conflict in:
-
-  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.h
-
-between commit:
-
-  8f5d3daad715 ("drm/msm/dpu: Annotate struct dpu_hw_intr with __counted_by=
-")
-
-from the drm-misc tree and commits:
-
-  eb7af0e86349 ("drm/msm/dpu: add helper to get IRQ-related data")
-  07e7d96dcb08 ("drm/msm/dpu: make the irq table size static")
-
-from the drm-msm-lumag tree.
-
-I fixed it up (the latter 2 replaced what was updated by the former) and
-can carry the fix as necessary. This is now fixed as far as linux-next
-is concerned, but any non trivial conflicts should be mentioned to your
-upstream maintainer when your tree is submitted for merging.  You may
-also want to consider cooperating with the maintainer of the conflicting
-tree to minimise any particularly complex conflicts.
-
---=20
-Cheers,
-Stephen Rothwell
-
---Sig_/eXIVIosoXmtrWkP4jtgIGQQ
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmUfZo8ACgkQAVBC80lX
-0GzxjAgAoMVn3jWTorqxP+K3iyB+pqlcIgz90HiPbveLth6LEasVkPQQJsRKMUlt
-MgH791r86UQGTWQi1YTAfhGxj+wBrXUFYXzAUjlYsGLyBY8+q/reb3Tt+IydPBTB
-ZVWA50yhpS4c4jTkOKob8Y06hegR7anpPlypRxeSEU9beG8ZogLXN51FSGjiJBYX
-HquwMYxEWAqHBTk10vzSEEDEg8wVdmr6rdv7Gz4MbBdaJhqKEZaxNTkVGXXuy+kn
-jePWgxTaCPXNPzBW4+yJNVrkTdF4RklSCUoNuRKgFesWRLBnCabFVgwv7WVY4Ig1
-2p5BV5lb3L4x5JS07YcBEx69kL29VA==
-=D7A5
------END PGP SIGNATURE-----
-
---Sig_/eXIVIosoXmtrWkP4jtgIGQQ--
+2023=EB=85=84 9=EC=9B=94 22=EC=9D=BC (=EA=B8=88) =EC=98=A4=ED=9B=84 3:00, M=
+arek Szyprowski <m.szyprowski@samsung.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=
+=84=B1:
+>
+>
+> On 21.09.2023 21:26, Douglas Anderson wrote:
+> > Based on grepping through the source code this driver appears to be
+> > missing a call to drm_atomic_helper_shutdown() at system shutdown time
+> > and at driver unbind time. Among other things, this means that if a
+> > panel is in use that it won't be cleanly powered off at system
+> > shutdown time.
+> >
+> > The fact that we should call drm_atomic_helper_shutdown() in the case
+> > of OS shutdown/restart and at driver remove (or unbind) time comes
+> > straight out of the kernel doc "driver instance overview" in
+> > drm_drv.c.
+> >
+> > A few notes about this fix:
+> > - When adding drm_atomic_helper_shutdown() to the unbind path, I added
+> >    it after drm_kms_helper_poll_fini() since that's when other drivers
+> >    seemed to have it.
+> > - Technically with a previous patch, ("drm/atomic-helper:
+> >    drm_atomic_helper_shutdown(NULL) should be a noop"), we don't
+> >    actually need to check to see if our "drm" pointer is NULL before
+> >    calling drm_atomic_helper_shutdown(). We'll leave the "if" test in,
+> >    though, so that this patch can land without any dependencies. It
+> >    could potentially be removed later.
+> > - This patch also makes sure to set the drvdata to NULL in the case of
+> >    bind errors to make sure that shutdown can't access freed data.
+> >
+> > Suggested-by: Maxime Ripard <mripard@kernel.org>
+> > Reviewed-by: Maxime Ripard <mripard@kernel.org>
+> > Signed-off-by: Douglas Anderson <dianders@chromium.org>
+>
+> Seems to be working fine on all my test Exynos-based boards with display.
+>
+> Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
+>
+> Reviewed-by: Marek Szyprowski <m.szyprowski@samsung.com>
+>
+> > ---
+> > This commit is only compile-time tested.
+> >
+> > (no changes since v1)
+> >
+> >   drivers/gpu/drm/exynos/exynos_drm_drv.c | 11 +++++++++++
+> >   1 file changed, 11 insertions(+)
+> >
+> > diff --git a/drivers/gpu/drm/exynos/exynos_drm_drv.c b/drivers/gpu/drm/=
+exynos/exynos_drm_drv.c
+> > index 8399256cb5c9..5380fb6c55ae 100644
+> > --- a/drivers/gpu/drm/exynos/exynos_drm_drv.c
+> > +++ b/drivers/gpu/drm/exynos/exynos_drm_drv.c
+> > @@ -300,6 +300,7 @@ static int exynos_drm_bind(struct device *dev)
+> >       drm_mode_config_cleanup(drm);
+> >       exynos_drm_cleanup_dma(drm);
+> >       kfree(private);
+> > +     dev_set_drvdata(dev, NULL);
+> >   err_free_drm:
+> >       drm_dev_put(drm);
+> >
+> > @@ -313,6 +314,7 @@ static void exynos_drm_unbind(struct device *dev)
+> >       drm_dev_unregister(drm);
+> >
+> >       drm_kms_helper_poll_fini(drm);
+> > +     drm_atomic_helper_shutdown(drm);
+> >
+> >       component_unbind_all(drm->dev, drm);
+> >       drm_mode_config_cleanup(drm);
+> > @@ -350,9 +352,18 @@ static int exynos_drm_platform_remove(struct platf=
+orm_device *pdev)
+> >       return 0;
+> >   }
+> >
+> > +static void exynos_drm_platform_shutdown(struct platform_device *pdev)
+> > +{
+> > +     struct drm_device *drm =3D platform_get_drvdata(pdev);
+> > +
+> > +     if (drm)
+> > +             drm_atomic_helper_shutdown(drm);
+> > +}
+> > +
+> >   static struct platform_driver exynos_drm_platform_driver =3D {
+> >       .probe  =3D exynos_drm_platform_probe,
+> >       .remove =3D exynos_drm_platform_remove,
+> > +     .shutdown =3D exynos_drm_platform_shutdown,
+> >       .driver =3D {
+> >               .name   =3D "exynos-drm",
+> >               .pm     =3D &exynos_drm_pm_ops,
+>
+> Best regards
+> --
+> Marek Szyprowski, PhD
+> Samsung R&D Institute Poland
+>
