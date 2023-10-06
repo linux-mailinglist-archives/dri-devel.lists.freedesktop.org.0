@@ -1,63 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AF4B7BBDD2
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Oct 2023 19:32:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 44A2D7BBE1A
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Oct 2023 19:56:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B9B9E10E555;
-	Fri,  6 Oct 2023 17:32:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03EA910E553;
+	Fri,  6 Oct 2023 17:56:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com
- [IPv6:2607:f8b0:4864:20::431])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F73210E555
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Oct 2023 17:32:10 +0000 (UTC)
-Received: by mail-pf1-x431.google.com with SMTP id
- d2e1a72fcca58-690b7cb71aeso1894913b3a.0
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Oct 2023 10:32:10 -0700 (PDT)
+Received: from mail-yw1-x1132.google.com (mail-yw1-x1132.google.com
+ [IPv6:2607:f8b0:4864:20::1132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B70B110E553
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Oct 2023 17:56:43 +0000 (UTC)
+Received: by mail-yw1-x1132.google.com with SMTP id
+ 00721157ae682-5a24b03e22eso29429707b3.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 06 Oct 2023 10:56:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1696613529; x=1697218329; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=Uht+32O1H7tS91EbXmyBFBF49QB3RXcTs2kBCgDMo1c=;
- b=Dr3py/5AoMhAdNiKfJ4g0jztL0JlXwSzLWt0StXESBU7v2Bsnxf1by80kuzqPhn7BR
- mQJUP4y/30mDmYYq+48qgrRnSrCq5LA3/JKlYuXzb92iPOdRJQPb+EYBLPs6r3uH51q9
- 99QzLLKlM8uxcga6fP7WcLucagDQaouAKLf9wWgQLpj0O+VntdIJGZB4T/LK1/uJcqE2
- s/o9r2DrfjoGWt5KvKEwGpdF/p8AA0CmLuMSqukoQ3s7ExfsKoJUbSk5XlxnJ3i6pKi3
- ghSkIG6h8G/zs+xWQQpu+pIioR2Y5CVYFM3vfw2yPSxbZOuqWfu4+DySJrpKphX7478Y
- LIbQ==
+ d=linaro.org; s=google; t=1696615003; x=1697219803; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=KSCSizx6FgkyRIW0X32uY+4ZXkb204qdp7z+rYedcrk=;
+ b=ASOiN3S4WauqGQOetH7YzVSpZ4YD74piJ5aNfS0JTYXYpBjpxKMawrmn/C1V1mjVeG
+ ecQUn6VjvdoUjqIiPIDNE1saSRF54QoPm5zBEjQ4RlX2IFII4BZqez7fQyw08qGvzbBo
+ dIOMug1o8BsCogT5GvQjiLeZ6Pjo8wiuRZL6qzfk3LZ0DEuwuoDs2A6ukAjLhct7FaJO
+ 0/w8VWR76XuHW31/sHS4+dolHOgsvI3F86ts1KHtcRmxy/TAvjvfT9h4Y/ZTAueW3OWW
+ AvGI3U9NC6/N4tPitm/X7eMXNohCdrUks88791C0WQ3bItoaRT8AJIfn37NP43DvzLqK
+ SpaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1696613529; x=1697218329;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ d=1e100.net; s=20230601; t=1696615003; x=1697219803;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=Uht+32O1H7tS91EbXmyBFBF49QB3RXcTs2kBCgDMo1c=;
- b=RuNnkUTOSq7N33hIF+KPVHUb7psUg3lbKDYQNNuidSNY50CfoZ4nluL0l49dffri5a
- sEFt6AzCborlDPGFras1hbU14m6xxaM7JN4q+c43I+l9uoz68GhUg3L+WbbJ23+oT5F0
- jmpmPg5/rt0G923Zr846SXvXBrRITIbCm/orPQdEdjxcxS6oqNjZkztJ+88NX92e0qSx
- snD6Bc5ieTFVkO2/C5jpk8OFLBP4sZaLCbE+KsrvGYX3A1fwAtei/emneeWyeO4NOMJU
- s+wXOPf8JfrNyLjR3H/T9G1xCcrQUoxlDQlbxxet/7FzRV5IrSzXlV4GU6lMTATwdYNo
- EcOQ==
-X-Gm-Message-State: AOJu0YxRPkj6mizZiiIea1KUToIi2GzuqUH/tfHaWukZHVoZUWNxSqFl
- 8AkZ3Ee7RDyR0vx+I/Xr0kOaJBtfYhg=
-X-Google-Smtp-Source: AGHT+IF03+UeFYlMbGjpNfhcVQTy2jzlGLfhtzouZi5hnhM3IqftqKCIAYKKX1oupjvWcd0yojLG1Q==
-X-Received: by 2002:a05:6a00:b82:b0:68b:a137:373d with SMTP id
- g2-20020a056a000b8200b0068ba137373dmr9853667pfj.17.1696613529169; 
- Fri, 06 Oct 2023 10:32:09 -0700 (PDT)
-Received: from localhost ([2a00:79e1:abd:4a00:6c80:7c10:75a0:44f4])
- by smtp.gmail.com with ESMTPSA id
- k2-20020a632402000000b005898e4acf2dsm1577574pgk.49.2023.10.06.10.32.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 Oct 2023 10:32:08 -0700 (PDT)
-From: Rob Clark <robdclark@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/ci: Default to UART for logging
-Date: Fri,  6 Oct 2023 10:32:04 -0700
-Message-ID: <20231006173205.371205-1-robdclark@gmail.com>
-X-Mailer: git-send-email 2.41.0
+ bh=KSCSizx6FgkyRIW0X32uY+4ZXkb204qdp7z+rYedcrk=;
+ b=NiXJ3dW7lwBXat+vp3pDWxnookeRN9p+pdRvP1C/B8a8oW7RbLnSOzDfoMAX7YwZkR
+ Q8QRb+XCN9GUzejtBmV+eZaT9VAhSQiLQwDGqZcnQOwF74L/De5I/MF+pasORKRa8IwW
+ fZLGoGpafiu9NHiLetOzPCZiBeDtUX/usf36BcD9xHBjyPOj+eWhjd1+Jj3C0R9/NL5a
+ 7Dui33sSqajK4i9iPjpUeFMTaroFUTLineqehTq2R5OUh1/JSlgzL24lSOSLJvHJt2tO
+ nCmOOHn2kWl2diOnDL/Xg1WwUO5egFMJTdZFfPn49h3Dg61c3MDF3BmhJ2/wKxSDQg9q
+ 25bg==
+X-Gm-Message-State: AOJu0Yy100dpT9oGEE0r3B4bxrBkUUKVgFiUIOEm85h7Oq4C9OnWL2h0
+ yWaTFA3lWRdn8LmRyBV1Ed8D5T2+5c26L+9zP5xT8g==
+X-Google-Smtp-Source: AGHT+IFginRxo8IyMdo5XT8uPhfon+vST76i33p+mAlSB+loxSygqvparl4usE/bieB3hvzQ+T43mG/e0PrIrtMO1wU=
+X-Received: by 2002:a0d:d611:0:b0:577:1560:9e17 with SMTP id
+ y17-20020a0dd611000000b0057715609e17mr9380421ywd.35.1696615002833; Fri, 06
+ Oct 2023 10:56:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <1696436821-14261-1-git-send-email-quic_khsieh@quicinc.com>
+ <1696436821-14261-6-git-send-email-quic_khsieh@quicinc.com>
+In-Reply-To: <1696436821-14261-6-git-send-email-quic_khsieh@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Fri, 6 Oct 2023 20:56:31 +0300
+Message-ID: <CAA8EJprAQqNUvY8CMkKbUNEWo1vO1ZkgZzk4zhvAsuLc46KeXg@mail.gmail.com>
+Subject: Re: [PATCH v5 5/7] drm/msm/dp: incorporate pm_runtime framework into
+ DP driver
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,40 +68,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Emma Anholt <emma@anholt.net>,
- open list <linux-kernel@vger.kernel.org>,
- Helen Koike <helen.koike@collabora.com>
+Cc: freedreno@lists.freedesktop.org, quic_sbillaka@quicinc.com,
+ linux-kernel@vger.kernel.org, quic_abhinavk@quicinc.com, andersson@kernel.org,
+ dri-devel@lists.freedesktop.org, dianders@chromium.org, vkoul@kernel.org,
+ agross@kernel.org, marijn.suijten@somainline.org, quic_jesszhan@quicinc.com,
+ swboyd@chromium.org, sean@poorly.run, linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
+On Wed, 4 Oct 2023 at 19:27, Kuogee Hsieh <quic_khsieh@quicinc.com> wrote:
+>
+> Currently DP driver is executed independent of PM runtime framework.
+> This leads msm eDP panel can not being detected by edp_panel driver during
+> generic_edp_panel_probe() due to AUX DPCD read failed at edp panel driver.
+> Incorporate PM runtime framework into DP driver so that host controller's
+> power and clocks are enable/disable through PM runtime mechanism.
+> Once PM runtime framework is incorporated into DP driver, waking up device
+> from power up path is not necessary. Hence remove it.
+>
+> After incorporating pm_runtime framework into eDP/DP driver, dp_pm_suspend()
+> to handle power off both DP phy and controller during suspend and
+> dp_pm_resume() to handle power on both DP phy and controller during resume
+> are not necessary. Therefore both dp_pm_suspend() and dp_pm_resume() are
+> dropped and replace with dp_pm_runtime_suspend() and dp_pm_runtime_resume()
+> respectively.
+>
+> Changes in v5:
+> -- remove pm_runtime_put_autosuspend feature, use pm_runtime_put_sync() directly
+> -- squash add pm_runtime_force_suspend()/resume() patch into this patch
+>
+> Changes in v4:
+> -- reworded commit text to explain why pm_framework is required for edp panel
+> -- reworded commit text to explain autosuspend is choiced
+> -- delete EV_POWER_PM_GET and PM_EV_POWER_PUT from changes #3
+> -- delete dp_display_pm_get() and dp_display_pm_Put() from changes #3
+> -- return value from pm_runtime_resume_and_get() directly
+> -- check return value of devm_pm_runtime_enable()
+> -- delete pm_runtime_xxx from dp_display_remove()
+> -- drop dp_display_host_init() from EV_HPD_INIT_SETUP
+> -- drop both dp_pm_prepare() and dp_pm_compete() from this change
+> -- delete ST_SUSPENDED state
+> -- rewording commit text to add more details regrading the purpose
+>    of this change
+>
+> Changes in v3:
+> -- incorporate removing pm_runtime_xx() from dp_pwer.c to this patch
+> -- use pm_runtime_resume_and_get() instead of pm_runtime_get()
+> -- error checking pm_runtime_resume_and_get() return value
+> -- add EV_POWER_PM_GET and PM_EV_POWER_PUT to handle HPD_GPIO case
+> -- replace dp_pm_suspend() with pm_runtime_force_suspend()
+> -- replace dp_pm_resume() with pm_runtime_force_resume()
+>
+> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+> Reported-by: kernel test robot <lkp@intel.com>
+> ---
+>  drivers/gpu/drm/msm/dp/dp_aux.c     |   5 ++
+>  drivers/gpu/drm/msm/dp/dp_display.c | 166 ++++++++++++------------------------
+>  drivers/gpu/drm/msm/dp/dp_power.c   |  16 ----
+>  drivers/gpu/drm/msm/dp/dp_power.h   |  11 ---
+>  4 files changed, 59 insertions(+), 139 deletions(-)
 
-ssh logging is the default for mesa, as it is generally more reliable.
-But if there are kernel issues, especially at boot, UART logging is
-infinitely more useful.
+[skipped]
 
-Signed-off-by: Rob Clark <robdclark@chromium.org>
----
- drivers/gpu/drm/ci/gitlab-ci.yml | 6 ++++++
- 1 file changed, 6 insertions(+)
+> @@ -1702,6 +1638,12 @@ void dp_bridge_hpd_enable(struct drm_bridge *bridge)
+>         struct dp_display_private *dp = container_of(dp_display, struct dp_display_private, dp_display);
+>
+>         mutex_lock(&dp->event_mutex);
+> +       if (pm_runtime_resume_and_get(&dp->pdev->dev)) {
+> +               DRM_ERROR("failed to start power\n");
 
-diff --git a/drivers/gpu/drm/ci/gitlab-ci.yml b/drivers/gpu/drm/ci/gitlab-ci.yml
-index 2c4df53f5dfe..7c55f02f7313 100644
---- a/drivers/gpu/drm/ci/gitlab-ci.yml
-+++ b/drivers/gpu/drm/ci/gitlab-ci.yml
-@@ -27,6 +27,12 @@ variables:
- 
-   LAVA_JOB_PRIORITY: 30
- 
-+  # Default to UART logging.  Mesa uses ssh by default, as that is more
-+  # reliable if you have a stable kernel.  But kernel CI is more likely
-+  # to encounter unstable kernels (and has lower volume of CI jobs so is
-+  # less likely to be troubled by occasional UART flakes)
-+  LAVA_FORCE_UART: 1
-+
- default:
-   before_script:
-     - export SCRIPTS_DIR=$(mktemp -d)
+It was in the previous review comment:
+
+"failed to resume".
+
+> +               mutex_unlock(&dp->event_mutex);
+> +               return;
+> +       }
+> +
+
 -- 
-2.41.0
-
+With best wishes
+Dmitry
