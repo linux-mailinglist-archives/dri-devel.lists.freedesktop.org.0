@@ -1,59 +1,84 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 559567BB2C2
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Oct 2023 09:59:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD1D97BB2CC
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Oct 2023 10:03:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 97A3610E4BD;
-	Fri,  6 Oct 2023 07:59:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 60AFA10E4BF;
+	Fri,  6 Oct 2023 08:03:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A244F10E4C4;
- Fri,  6 Oct 2023 07:59:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1696579163; x=1728115163;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=pYvDRGKv2aNd/dUPwyz+6WoPu3Uw/6TuJyluJ90b2A0=;
- b=iCyHi705WM2v8wPgagUgtu2AHPX3ghyBdt+AQCa5rnbV+sf1DThQ5vs0
- CB87H903DkYRiAIwlV47/ifen4OzYxG9YK8vNKPjeuEosxaPywOtsBte5
- ARJcbZm2W6Xd3aa6uds724HzhN3RJlSWmbwi6rZXvVr4+qLzAXdGksd/7
- VE1caVKd/nUnwTQBIeJwAQC/6oBtZGii7MWBqNevb4LQcroFM7IN4H9TH
- FodR6rlNAB+Q36CLm0z64QuyWX8GcYVA4lpxbR/bUdr5ZtjLsJqR8LjM3
- Ni2sjJ1RqYobHM64fCjU0s8ebhWBbEodewHWrzo8VJhKd2pmrWAkNo4BB Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10854"; a="374049783"
-X-IronPort-AV: E=Sophos;i="6.03,203,1694761200"; d="scan'208";a="374049783"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Oct 2023 00:59:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10854"; a="875863724"
-X-IronPort-AV: E=Sophos;i="6.03,203,1694761200"; d="scan'208";a="875863724"
-Received: from stevegr-mobl3.ger.corp.intel.com (HELO [10.213.210.79])
- ([10.213.210.79])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Oct 2023 00:59:17 -0700
-Message-ID: <1e911601-f126-4e55-35e7-1a5e395b5fd2@linux.intel.com>
-Date: Fri, 6 Oct 2023 08:59:15 +0100
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EDD5610E4BF
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Oct 2023 08:03:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1696579417;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=XkP8fX/lwBAbWVwI0ovy1iMFjgsEo1LcLA94ICCi4H4=;
+ b=gssB4Gfo5RQPnVj2KroQjGbInqzC9KzBuSNcMQ1jK2xO2xNd3Lf0+K2Lj3g7smn92zsWXH
+ zaBY9xcS3t+ZTyWEJPklsQrGqYLBFvhpnsG6C3f5s9Ls/f9UGlrkCYBXgfFRmZJwI9xz3M
+ Mzf312Qo/PA0hL+xKdw49ah8tte8S/8=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-675-w-rdZvLDPV6zuUlfL8_uRA-1; Fri, 06 Oct 2023 04:03:36 -0400
+X-MC-Unique: w-rdZvLDPV6zuUlfL8_uRA-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ ffacd0b85a97d-3233a13b47eso1383063f8f.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 06 Oct 2023 01:03:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1696579415; x=1697184215;
+ h=content-transfer-encoding:in-reply-to:subject:organization:from
+ :references:cc:to:content-language:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=XkP8fX/lwBAbWVwI0ovy1iMFjgsEo1LcLA94ICCi4H4=;
+ b=ekvStnp5SqFHdaRAP3I2hGhABRC3jH7CUGopccPwbCNbFEXOtHwUsHTTWZ/neTxGeO
+ Pn70+47AiL3SJBKx9cd6pPQIk0kTzNxUCSoEZLv+ZOzo54Y9v6ULp7D87AAdMD5Rmt9e
+ 8T9phUwlRPS8LFPji1sFRHHvEN3S+5B9RPDGwoXFXupI3dm65b35YfhJSpVh7iAVzOQs
+ wyMNnRK1TadIuB4WeE8m6cMs6hc7gQ6CavQ7Y3U+PRdJqOk+V5cHE9CZ0AHs7E9lc+On
+ VVyfwtfpU2bwuHwBusfOcG2RCMekIL6O9CMc8BvEtDCJuTN1mvVvCPR0YS/6p+HSZWNw
+ WitQ==
+X-Gm-Message-State: AOJu0YwiBaCflMkWMd6EG3ugoxndV4pZ0yIJTPotSglRZLOb2ImbBPfI
+ aOOXA+XOYMId528HAf7bQMX88jprLuE4bb1VlaF7yYT95nHX8PchxeF+9bH5Nhy7Vo9+ZsZHLYG
+ ggAxJX+BgEHZWZ6Cp88WhJSiH6+vx
+X-Received: by 2002:a5d:500b:0:b0:31f:f753:5897 with SMTP id
+ e11-20020a5d500b000000b0031ff7535897mr6304256wrt.59.1696579415294; 
+ Fri, 06 Oct 2023 01:03:35 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGl7whorgWW11yV3Rlk/hS9JfFYJ9DRAM3E8dIDZfFdA9kZ3iHGe9Su0hKNaNQuWg7Aj9/xsA==
+X-Received: by 2002:a5d:500b:0:b0:31f:f753:5897 with SMTP id
+ e11-20020a5d500b000000b0031ff7535897mr6304211wrt.59.1696579414711; 
+ Fri, 06 Oct 2023 01:03:34 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c715:ee00:4e24:cf8e:3de0:8819?
+ (p200300cbc715ee004e24cf8e3de08819.dip0.t-ipconnect.de.
+ [2003:cb:c715:ee00:4e24:cf8e:3de0:8819])
+ by smtp.gmail.com with ESMTPSA id
+ c4-20020a5d4cc4000000b003247d3e5d99sm1025352wrt.55.2023.10.06.01.03.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 06 Oct 2023 01:03:34 -0700 (PDT)
+Message-ID: <4c272313-d2cd-fa29-3126-496636e14115@redhat.com>
+Date: Fri, 6 Oct 2023 10:03:33 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.15.1
-Subject: Re: [PATCH v4 02/10] drm/sched: Convert drm scheduler to use a work
- queue rather than kthread
+To: Vivek Kasireddy <vivek.kasireddy@intel.com>,
+ dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
+ Mike Kravetz <mike.kravetz@oracle.com>
+References: <20231003074447.3245729-1-vivek.kasireddy@intel.com>
+ <20231003074447.3245729-2-vivek.kasireddy@intel.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Subject: Re: [PATCH v1 1/3] mm/gup: Introduce pin_user_pages_fd() for pinning
+ shmem/hugetlbfs file pages
+In-Reply-To: <20231003074447.3245729-2-vivek.kasireddy@intel.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-To: Luben Tuikov <luben.tuikov@amd.com>,
- Matthew Brost <matthew.brost@intel.com>
-References: <20230919050155.2647172-1-matthew.brost@intel.com>
- <20230919050155.2647172-3-matthew.brost@intel.com>
- <bb9ab46d-326f-4ba9-b0a0-fcede8946a6b@amd.com>
- <ZR4upS/Mkh0lkzJ0@DUT025-TGLU.fm.intel.com>
- <a39eb381-4f2b-439b-b223-c5148167b225@amd.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <a39eb381-4f2b-439b-b223-c5148167b225@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -68,245 +93,182 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: robdclark@chromium.org, thomas.hellstrom@linux.intel.com,
- sarah.walker@imgtec.com, ketil.johnsen@arm.com, lina@asahilina.net,
- mcanal@igalia.com, Liviu.Dudau@arm.com, dri-devel@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, boris.brezillon@collabora.com, dakr@redhat.com,
- donald.robson@imgtec.com, christian.koenig@amd.com,
- faith.ekstrand@collabora.com
+Cc: Dongwon Kim <dongwon.kim@intel.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Hugh Dickins <hughd@google.com>, Peter Xu <peterx@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Jason Gunthorpe <jgg@nvidia.com>,
+ Junxiao Chang <junxiao.chang@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 03.10.23 09:44, Vivek Kasireddy wrote:
+> For drivers that would like to longterm-pin the pages associated
+> with a file, the pin_user_pages_fd() API provides an option to
+> not only FOLL_PIN the pages but also to check and migrate them
+> if they reside in movable zone or CMA block. For now, this API
+> can only work with files belonging to shmem or hugetlbfs given
+> that the udmabuf driver is the only user.
 
-On 05/10/2023 05:13, Luben Tuikov wrote:
-> On 2023-10-04 23:33, Matthew Brost wrote:
->> On Tue, Sep 26, 2023 at 11:32:10PM -0400, Luben Tuikov wrote:
->>> Hi,
->>>
->>> On 2023-09-19 01:01, Matthew Brost wrote:
->>>> In XE, the new Intel GPU driver, a choice has made to have a 1 to 1
->>>> mapping between a drm_gpu_scheduler and drm_sched_entity. At first this
->>>> seems a bit odd but let us explain the reasoning below.
->>>>
->>>> 1. In XE the submission order from multiple drm_sched_entity is not
->>>> guaranteed to be the same completion even if targeting the same hardware
->>>> engine. This is because in XE we have a firmware scheduler, the GuC,
->>>> which allowed to reorder, timeslice, and preempt submissions. If a using
->>>> shared drm_gpu_scheduler across multiple drm_sched_entity, the TDR falls
->>>> apart as the TDR expects submission order == completion order. Using a
->>>> dedicated drm_gpu_scheduler per drm_sched_entity solve this problem.
->>>>
->>>> 2. In XE submissions are done via programming a ring buffer (circular
->>>> buffer), a drm_gpu_scheduler provides a limit on number of jobs, if the
->>>> limit of number jobs is set to RING_SIZE / MAX_SIZE_PER_JOB we get flow
->>>> control on the ring for free.
->>>>
->>>> A problem with this design is currently a drm_gpu_scheduler uses a
->>>> kthread for submission / job cleanup. This doesn't scale if a large
->>>> number of drm_gpu_scheduler are used. To work around the scaling issue,
->>>> use a worker rather than kthread for submission / job cleanup.
->>>>
->>>> v2:
->>>>    - (Rob Clark) Fix msm build
->>>>    - Pass in run work queue
->>>> v3:
->>>>    - (Boris) don't have loop in worker
->>>> v4:
->>>>    - (Tvrtko) break out submit ready, stop, start helpers into own patch
->>>> v5:
->>>>    - (Boris) default to ordered work queue
->>>>
->>>> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
->>>> ---
->>>>   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c |   2 +-
->>>>   drivers/gpu/drm/etnaviv/etnaviv_sched.c    |   2 +-
->>>>   drivers/gpu/drm/lima/lima_sched.c          |   2 +-
->>>>   drivers/gpu/drm/msm/msm_ringbuffer.c       |   2 +-
->>>>   drivers/gpu/drm/nouveau/nouveau_sched.c    |   2 +-
->>>>   drivers/gpu/drm/panfrost/panfrost_job.c    |   2 +-
->>>>   drivers/gpu/drm/scheduler/sched_main.c     | 118 ++++++++++-----------
->>>>   drivers/gpu/drm/v3d/v3d_sched.c            |  10 +-
->>>>   include/drm/gpu_scheduler.h                |  14 ++-
->>>>   9 files changed, 79 insertions(+), 75 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
->>>> index e366f61c3aed..16f3cfe1574a 100644
->>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
->>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
->>>> @@ -2279,7 +2279,7 @@ static int amdgpu_device_init_schedulers(struct amdgpu_device *adev)
->>>>   			break;
->>>>   		}
->>>>   
->>>> -		r = drm_sched_init(&ring->sched, &amdgpu_sched_ops,
->>>> +		r = drm_sched_init(&ring->sched, &amdgpu_sched_ops, NULL,
->>>>   				   ring->num_hw_submission, 0,
->>>>   				   timeout, adev->reset_domain->wq,
->>>>   				   ring->sched_score, ring->name,
->>>> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.c b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
->>>> index 345fec6cb1a4..618a804ddc34 100644
->>>> --- a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
->>>> +++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
->>>> @@ -134,7 +134,7 @@ int etnaviv_sched_init(struct etnaviv_gpu *gpu)
->>>>   {
->>>>   	int ret;
->>>>   
->>>> -	ret = drm_sched_init(&gpu->sched, &etnaviv_sched_ops,
->>>> +	ret = drm_sched_init(&gpu->sched, &etnaviv_sched_ops, NULL,
->>>>   			     etnaviv_hw_jobs_limit, etnaviv_job_hang_limit,
->>>>   			     msecs_to_jiffies(500), NULL, NULL,
->>>>   			     dev_name(gpu->dev), gpu->dev);
->>>> diff --git a/drivers/gpu/drm/lima/lima_sched.c b/drivers/gpu/drm/lima/lima_sched.c
->>>> index ffd91a5ee299..8d858aed0e56 100644
->>>> --- a/drivers/gpu/drm/lima/lima_sched.c
->>>> +++ b/drivers/gpu/drm/lima/lima_sched.c
->>>> @@ -488,7 +488,7 @@ int lima_sched_pipe_init(struct lima_sched_pipe *pipe, const char *name)
->>>>   
->>>>   	INIT_WORK(&pipe->recover_work, lima_sched_recover_work);
->>>>   
->>>> -	return drm_sched_init(&pipe->base, &lima_sched_ops, 1,
->>>> +	return drm_sched_init(&pipe->base, &lima_sched_ops, NULL, 1,
->>>>   			      lima_job_hang_limit,
->>>>   			      msecs_to_jiffies(timeout), NULL,
->>>>   			      NULL, name, pipe->ldev->dev);
->>>> diff --git a/drivers/gpu/drm/msm/msm_ringbuffer.c b/drivers/gpu/drm/msm/msm_ringbuffer.c
->>>> index 40c0bc35a44c..b8865e61b40f 100644
->>>> --- a/drivers/gpu/drm/msm/msm_ringbuffer.c
->>>> +++ b/drivers/gpu/drm/msm/msm_ringbuffer.c
->>>> @@ -94,7 +94,7 @@ struct msm_ringbuffer *msm_ringbuffer_new(struct msm_gpu *gpu, int id,
->>>>   	 /* currently managing hangcheck ourselves: */
->>>>   	sched_timeout = MAX_SCHEDULE_TIMEOUT;
->>>>   
->>>> -	ret = drm_sched_init(&ring->sched, &msm_sched_ops,
->>>> +	ret = drm_sched_init(&ring->sched, &msm_sched_ops, NULL,
->>>>   			num_hw_submissions, 0, sched_timeout,
->>>>   			NULL, NULL, to_msm_bo(ring->bo)->name, gpu->dev->dev);
->>>
->>> checkpatch.pl complains here about unmatched open parens.
->>>
->>
->> Will fix and run checkpatch before posting next rev.
->>
->>>>   	if (ret) {
->>>> diff --git a/drivers/gpu/drm/nouveau/nouveau_sched.c b/drivers/gpu/drm/nouveau/nouveau_sched.c
->>>> index 88217185e0f3..d458c2227d4f 100644
->>>> --- a/drivers/gpu/drm/nouveau/nouveau_sched.c
->>>> +++ b/drivers/gpu/drm/nouveau/nouveau_sched.c
->>>> @@ -429,7 +429,7 @@ int nouveau_sched_init(struct nouveau_drm *drm)
->>>>   	if (!drm->sched_wq)
->>>>   		return -ENOMEM;
->>>>   
->>>> -	return drm_sched_init(sched, &nouveau_sched_ops,
->>>> +	return drm_sched_init(sched, &nouveau_sched_ops, NULL,
->>>>   			      NOUVEAU_SCHED_HW_SUBMISSIONS, 0, job_hang_limit,
->>>>   			      NULL, NULL, "nouveau_sched", drm->dev->dev);
->>>>   }
->>>> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
->>>> index 033f5e684707..326ca1ddf1d7 100644
->>>> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
->>>> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
->>>> @@ -831,7 +831,7 @@ int panfrost_job_init(struct panfrost_device *pfdev)
->>>>   		js->queue[j].fence_context = dma_fence_context_alloc(1);
->>>>   
->>>>   		ret = drm_sched_init(&js->queue[j].sched,
->>>> -				     &panfrost_sched_ops,
->>>> +				     &panfrost_sched_ops, NULL,
->>>>   				     nentries, 0,
->>>>   				     msecs_to_jiffies(JOB_TIMEOUT_MS),
->>>>   				     pfdev->reset.wq,
->>>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
->>>> index e4fa62abca41..ee6281942e36 100644
->>>> --- a/drivers/gpu/drm/scheduler/sched_main.c
->>>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
->>>> @@ -48,7 +48,6 @@
->>>>    * through the jobs entity pointer.
->>>>    */
->>>>   
->>>> -#include <linux/kthread.h>
->>>>   #include <linux/wait.h>
->>>>   #include <linux/sched.h>
->>>>   #include <linux/completion.h>
->>>> @@ -256,6 +255,16 @@ drm_sched_rq_select_entity_fifo(struct drm_sched_rq *rq)
->>>>   	return rb ? rb_entry(rb, struct drm_sched_entity, rb_tree_node) : NULL;
->>>>   }
->>>>   
->>>> +/**
->>>> + * drm_sched_submit_queue - scheduler queue submission
->>>
->>> There is no verb in the description, and is not clear what
->>> this function does unless one reads the code. Given that this
->>> is DOC, this should be clearer here. Something like "queue
->>> scheduler work to be executed" or something to that effect.
->>>
->>
->> Will fix.
->>   
->>> Coming back to this from reading the patch below, it was somewhat
->>> unclear what "drm_sched_submit_queue()" does, since when reading
->>> below, "submit" was being read by my mind as an adjective, as opposed
->>> to a verb. Perhaps something like:
->>>
->>> drm_sched_queue_submit(), or
->>> drm_sched_queue_exec(), or
->>> drm_sched_queue_push(), or something to that effect. You pick. :-)
->>>
->>
->> I prefer the name as is. In this patch we have:
->>
->> drm_sched_submit_queue()
->> drm_sched_submit_start)
->> drm_sched_submit_stop()
->> drm_sched_submit_ready()
->>
->> I like all these functions start with 'drm_sched_submit' which allows
->> for easy searching for the functions that touch the DRM scheduler
->> submission state.
->>
->> With a little better doc are you fine with the names as is.
-> 
-> Notice the following scheme in the naming,
-> 
-> drm_sched_submit_queue()
-> drm_sched_submit_start)
-> drm_sched_submit_stop()
-> drm_sched_submit_ready()
-> \---+---/ \--+-/ \-+-/
->      |        |     +---> a verb
->      |        +---------> should be a noun (something in the component)
->      +------------------> the kernel/software component
-> 
-> And although "queue" can technically be used as a verb too, I'd rather it be "enqueue",
-> like this:
-> 
-> drm_sched_submit_enqueue()
-> 
-> And using "submit" as the noun of the component is a bit cringy,
-> since "submit" is really a verb, and it's cringy to make it a "state"
-> or an "object" we operate on in the DRM Scheduler. "Submission" is
-> a noun, but "submission enqueue/start/stop/ready" doesn't sound
-> very well thought out. "Submission" really is what the work-queue
-> does.
-> 
-> I'd rather it be a real object, like for instance,
-> 
-> drm_sched_wqueue_enqueue()
-> drm_sched_wqueue_start)
-> drm_sched_wqueue_stop()
-> drm_sched_wqueue_ready()
-> 
-> Which tells me that the component is the DRM Scheduler, the object is a/the work-queue,
-> and the last word as the verb, is the action we're performing on the object, i.e. the work-queue.
-> Plus, all these functions actually do operate on work-queues, directly or indirectly,
-> are new, so it's a win-win naming scheme.
-> 
-> I think that that would be most likeable.
+Maybe add "Other files are rejected.". Wasn't clear to me before I 
+looked into the code.
 
-FWIW I was suggesting not to encode the fact submit queue is implemented 
-with a workqueue in the API name. IMO it would be nicer and less 
-maintenance churn should something channge if the external components 
-can be isolated from that detail.
+> 
+> It must be noted that the pages associated with hugetlbfs files
+> are expected to be found in the page cache. An error is returned
+> if they are not found. However, shmem pages can be swapped in or
+> allocated if they are not present in the page cache.
+> 
+> Cc: David Hildenbrand <david@redhat.com>
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Cc: Mike Kravetz <mike.kravetz@oracle.com>
+> Cc: Hugh Dickins <hughd@google.com>
+> Cc: Peter Xu <peterx@redhat.com>
+> Cc: Gerd Hoffmann <kraxel@redhat.com>
+> Cc: Dongwon Kim <dongwon.kim@intel.com>
+> Cc: Junxiao Chang <junxiao.chang@intel.com>
+> Suggested-by: Jason Gunthorpe <jgg@nvidia.com>
+> Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
+> ---
+>   include/linux/mm.h |  2 ++
+>   mm/gup.c           | 87 ++++++++++++++++++++++++++++++++++++++++++++++
+>   2 files changed, 89 insertions(+)
+> 
+> diff --git a/include/linux/mm.h b/include/linux/mm.h
+> index bf5d0b1b16f4..af2121fb8101 100644
+> --- a/include/linux/mm.h
+> +++ b/include/linux/mm.h
+> @@ -2457,6 +2457,8 @@ long get_user_pages_unlocked(unsigned long start, unsigned long nr_pages,
+>   		    struct page **pages, unsigned int gup_flags);
+>   long pin_user_pages_unlocked(unsigned long start, unsigned long nr_pages,
+>   		    struct page **pages, unsigned int gup_flags);
+> +long pin_user_pages_fd(int fd, pgoff_t start, unsigned long nr_pages,
+> +		       unsigned int gup_flags, struct page **pages);
+>   
+>   int get_user_pages_fast(unsigned long start, int nr_pages,
+>   			unsigned int gup_flags, struct page **pages);
+> diff --git a/mm/gup.c b/mm/gup.c
+> index 2f8a2d89fde1..e34b77a15fa8 100644
+> --- a/mm/gup.c
+> +++ b/mm/gup.c
+> @@ -3400,3 +3400,90 @@ long pin_user_pages_unlocked(unsigned long start, unsigned long nr_pages,
+>   				     &locked, gup_flags);
+>   }
+>   EXPORT_SYMBOL(pin_user_pages_unlocked);
+> +
 
-drm_sched_submit_queue_$verb? If not viewed as too verbose...
+This does look quite neat, nice! Let's take a closer look ...
 
-Regards,
+> +/**
+> + * pin_user_pages_fd() - pin user pages associated with a file
+> + * @fd:         the fd whose pages are to be pinned
+> + * @start:      starting file offset
+> + * @nr_pages:   number of pages from start to pin
+> + * @gup_flags:  flags modifying pin behaviour
 
-Tvrtko
+^ I assume we should drop that. At least for now the flags are 
+completely unused. And most likely we would want a different set of 
+flags later (GUPFD_ ...).
+
+> + * @pages:      array that receives pointers to the pages pinned.
+> + *              Should be at least nr_pages long.
+> + *
+> + * Attempt to pin (and migrate) pages associated with a file belonging to
+
+I'd drop the "and migrate" part, it's more of an implementation detail.
+
+> + * either shmem or hugetlbfs. An error is returned if pages associated with
+> + * hugetlbfs files are not present in the page cache. However, shmem pages
+> + * are swapped in or allocated if they are not present in the page cache.
+
+Why don't we do the same for hugetlbfs? Would make the interface more 
+streamlined.
+
+Certainly add that pinned pages have to be released using 
+unpin_user_pages().
+
+> + *
+> + * Returns number of pages pinned. This would be equal to the number of
+> + * pages requested.
+> + * If nr_pages is 0 or negative, returns 0. If no pages were pinned, returns
+> + * -errno.
+> + */
+> +long pin_user_pages_fd(int fd, pgoff_t start, unsigned long nr_pages,
+> +		       unsigned int gup_flags, struct page **pages)
+> +{
+> +	struct page *page;
+> +	struct file *filep;
+> +	unsigned int flags, i;
+> +	long ret;
+> +
+> +	if (nr_pages <= 0)
+> +		return 0;
+
+I think we should just forbid that and use a WARN_ON_ONCE() here / 
+return -EINVAL. So we'll never end up returning 0.
+
+> +	if (!is_valid_gup_args(pages, NULL, &gup_flags, FOLL_PIN))
+> +		return 0;
+> +
+> +	if (start < 0)
+> +		return -EINVAL;
+> +
+> +	filep = fget(fd);
+> +	if (!filep)
+> +	    return -EINVAL;
+> +
+> +	if (!shmem_file(filep) && !is_file_hugepages(filep))
+> +	    return -EINVAL;
+> +
+> +	flags = memalloc_pin_save();
+> +	do {
+> +		for (i = 0; i < nr_pages; i++) {
+> +			if (shmem_mapping(filep->f_mapping)) {
+> +				page = shmem_read_mapping_page(filep->f_mapping,
+> +							       start + i);
+> +				if (IS_ERR(page)) {
+> +					ret = PTR_ERR(page);
+> +					goto err;
+> +				}
+> +			} else {
+> +				page = find_get_page_flags(filep->f_mapping,
+> +							   start + i,
+> +							   FGP_ACCESSED);
+> +				if (!page) {
+> +					ret = -EINVAL;
+> +					goto err;
+> +				}
+> +			}
+> +			ret = try_grab_page(page, FOLL_PIN);
+> +			if (unlikely(ret))
+> +				goto err;
+> +
+> +			pages[i] = page;
+> +			put_page(pages[i]);
+> +		}
+> +
+> +		ret = check_and_migrate_movable_pages(nr_pages, pages);
+> +	} while (ret == -EAGAIN);
+> +
+> +err:
+> +	memalloc_pin_restore(flags);
+> +	fput(filep);
+> +	if (!ret)
+> +		return nr_pages;
+> +
+> +	while (i > 0 && pages[--i]) {
+> +		unpin_user_page(pages[i]);
+> +		pages[i] = NULL;
+
+If migrate_longterm_unpinnable_pages() failed, say with -ENOMEM, the 
+pages were already unpinned, but pages[i] has not been cleared, no?
+
+> +	}
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL_GPL(pin_user_pages_fd);
+> +
+
+-- 
+Cheers,
+
+David / dhildenb
+
