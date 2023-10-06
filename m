@@ -1,30 +1,30 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04AFF7BBB41
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Oct 2023 17:07:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED8CA7BBB43
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Oct 2023 17:07:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 377DF10E518;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8065010E50F;
 	Fri,  6 Oct 2023 15:07:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.whiteo.stw.pengutronix.de
  (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 876C810E516
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Oct 2023 15:07:21 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9ACA510E516
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Oct 2023 15:07:20 +0000 (UTC)
 Received: from dude05.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::54])
  by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
  (envelope-from <m.tretter@pengutronix.de>)
- id 1qomPy-00051v-5B; Fri, 06 Oct 2023 17:07:06 +0200
+ id 1qomPy-00051v-7N; Fri, 06 Oct 2023 17:07:06 +0200
 From: Michael Tretter <m.tretter@pengutronix.de>
-Date: Fri, 06 Oct 2023 17:07:04 +0200
-Subject: [PATCH v2 2/5] drm/bridge: samsung-dsim: reread ref clock before
- configuring PLL
+Date: Fri, 06 Oct 2023 17:07:05 +0200
+Subject: [PATCH v2 3/5] drm/bridge: samsung-dsim: update PLL reference
+ clock
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230818-samsung-dsim-v2-2-846603df0e0a@pengutronix.de>
+Message-Id: <20230818-samsung-dsim-v2-3-846603df0e0a@pengutronix.de>
 References: <20230818-samsung-dsim-v2-0-846603df0e0a@pengutronix.de>
 In-Reply-To: <20230818-samsung-dsim-v2-0-846603df0e0a@pengutronix.de>
 To: Inki Dae <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>, 
@@ -59,86 +59,123 @@ Cc: Marco Felsch <m.felsch@pengutronix.de>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The PLL reference clock may change at runtime when its parent clock
-changes. For example, this may happen on the i.MX8M Nano if the
-reference clock is a child of the Video PLL. If the pixel clock changes,
-this may propagate to the Video PLL and as a side effect change the
-reference clock. Thus, reading the clock rate during probe is not
-sufficient to correctly configure the PLL for the expected hs clock.
+The PLL requires a clock frequency in a certain platform-dependent range
+after the pre-divider. The reference clock for the PLL may change due to
+changes to it's parent clock. Thus, the frequency may be out of range or
+unsuited for generating the high speed clock for MIPI DSI.
 
-Read the actual rate of the reference clock before calculating the PLL
-configuration parameters.
+Try to keep the pre-devider small, and set the reference clock close to
+the upper limit before recalculating the PLL configuration. Use a
+divider with a power of two for the reference clock as this seems to
+work best in my tests.
 
-Note that the "samsung,pll-clock-frequency" is always preferred and PLL
-reference clock is only read from the clock tree if that device tree
-property is not set.
-
-Reviewed-by: Inki Dae <inki.dae@samsung.com>
-Acked-by: Inki Dae <inki.dae@samsung.com>
-Tested-by: Frieder Schrempf <frieder.schrempf@kontron.de> # Kontron BL i.MX8MM + Waveshare 10.1inch HDMI LCD (E)
 Reviewed-by: Marco Felsch <m.felsch@pengutronix.de>
+Tested-by: Frieder Schrempf <frieder.schrempf@kontron.de> # Kontron BL i.MX8MM + Waveshare 10.1inch HDMI LCD (E)
 Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
 
 ---
 Changes in v2:
-- Clarify commit message
+- Specify limits for the PLL input clock in samsung_dsim_driver_data
 ---
- drivers/gpu/drm/bridge/samsung-dsim.c | 16 +++++++++-------
- include/drm/bridge/samsung-dsim.h     |  1 +
- 2 files changed, 10 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/bridge/samsung-dsim.c | 27 +++++++++++++++++++++++++--
+ include/drm/bridge/samsung-dsim.h     |  2 ++
+ 2 files changed, 27 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
-index 3e8ee9d73a72..392c023c5925 100644
+index 392c023c5925..16c8326d921b 100644
 --- a/drivers/gpu/drm/bridge/samsung-dsim.c
 +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
-@@ -612,7 +612,12 @@ static unsigned long samsung_dsim_set_pll(struct samsung_dsim *dsi,
+@@ -410,6 +410,8 @@ static const struct samsung_dsim_driver_data exynos3_dsi_driver_data = {
+ 	.num_bits_resol = 11,
+ 	.pll_p_offset = 13,
+ 	.reg_values = reg_values,
++	.pll_fin_min = 6,
++	.pll_fin_max = 12,
+ 	.m_min = 41,
+ 	.m_max = 125,
+ 	.min_freq = 500,
+@@ -426,6 +428,8 @@ static const struct samsung_dsim_driver_data exynos4_dsi_driver_data = {
+ 	.num_bits_resol = 11,
+ 	.pll_p_offset = 13,
+ 	.reg_values = reg_values,
++	.pll_fin_min = 6,
++	.pll_fin_max = 12,
+ 	.m_min = 41,
+ 	.m_max = 125,
+ 	.min_freq = 500,
+@@ -440,6 +444,8 @@ static const struct samsung_dsim_driver_data exynos5_dsi_driver_data = {
+ 	.num_bits_resol = 11,
+ 	.pll_p_offset = 13,
+ 	.reg_values = reg_values,
++	.pll_fin_min = 6,
++	.pll_fin_max = 12,
+ 	.m_min = 41,
+ 	.m_max = 125,
+ 	.min_freq = 500,
+@@ -455,6 +461,8 @@ static const struct samsung_dsim_driver_data exynos5433_dsi_driver_data = {
+ 	.num_bits_resol = 12,
+ 	.pll_p_offset = 13,
+ 	.reg_values = exynos5433_reg_values,
++	.pll_fin_min = 6,
++	.pll_fin_max = 12,
+ 	.m_min = 41,
+ 	.m_max = 125,
+ 	.min_freq = 500,
+@@ -470,6 +478,8 @@ static const struct samsung_dsim_driver_data exynos5422_dsi_driver_data = {
+ 	.num_bits_resol = 12,
+ 	.pll_p_offset = 13,
+ 	.reg_values = exynos5422_reg_values,
++	.pll_fin_min = 6,
++	.pll_fin_max = 12,
+ 	.m_min = 41,
+ 	.m_max = 125,
+ 	.min_freq = 500,
+@@ -489,6 +499,8 @@ static const struct samsung_dsim_driver_data imx8mm_dsi_driver_data = {
+ 	 */
+ 	.pll_p_offset = 14,
+ 	.reg_values = imx8mm_dsim_reg_values,
++	.pll_fin_min = 2,
++	.pll_fin_max = 30,
+ 	.m_min = 64,
+ 	.m_max = 1023,
+ 	.min_freq = 1050,
+@@ -612,10 +624,21 @@ static unsigned long samsung_dsim_set_pll(struct samsung_dsim *dsi,
  	u16 m;
  	u32 reg;
  
--	fin = dsi->pll_clk_rate;
-+	if (dsi->pll_clk)
-+		fin = clk_get_rate(dsi->pll_clk);
-+	else
-+		fin = dsi->pll_clk_rate;
-+	dev_dbg(dsi->dev, "PLL ref clock freq %lu\n", fin);
+-	if (dsi->pll_clk)
++	if (dsi->pll_clk) {
++		/*
++		 * Ensure that the reference clock is generated with a power of
++		 * two divider from its parent, but close to the PLLs upper
++		 * limit.
++		 */
++		fin = clk_get_rate(clk_get_parent(dsi->pll_clk));
++		while (fin > driver_data->pll_fin_max * MHZ)
++			fin /= 2;
++		clk_set_rate(dsi->pll_clk, fin);
 +
+ 		fin = clk_get_rate(dsi->pll_clk);
+-	else
++	} else {
+ 		fin = dsi->pll_clk_rate;
++	}
+ 	dev_dbg(dsi->dev, "PLL ref clock freq %lu\n", fin);
+ 
  	fout = samsung_dsim_pll_find_pms(dsi, fin, freq, &p, &m, &s);
- 	if (!fout) {
- 		dev_err(dsi->dev,
-@@ -1822,18 +1827,15 @@ static int samsung_dsim_parse_dt(struct samsung_dsim *dsi)
- 	u32 lane_polarities[5] = { 0 };
- 	struct device_node *endpoint;
- 	int i, nr_lanes, ret;
--	struct clk *pll_clk;
- 
- 	ret = samsung_dsim_of_read_u32(node, "samsung,pll-clock-frequency",
- 				       &dsi->pll_clk_rate, 1);
- 	/* If it doesn't exist, read it from the clock instead of failing */
- 	if (ret < 0) {
- 		dev_dbg(dev, "Using sclk_mipi for pll clock frequency\n");
--		pll_clk = devm_clk_get(dev, "sclk_mipi");
--		if (!IS_ERR(pll_clk))
--			dsi->pll_clk_rate = clk_get_rate(pll_clk);
--		else
--			return PTR_ERR(pll_clk);
-+		dsi->pll_clk = devm_clk_get(dev, "sclk_mipi");
-+		if (IS_ERR(dsi->pll_clk))
-+			return PTR_ERR(dsi->pll_clk);
- 	}
- 
- 	/* If it doesn't exist, use pixel clock instead of failing */
 diff --git a/include/drm/bridge/samsung-dsim.h b/include/drm/bridge/samsung-dsim.h
-index 05100e91ecb9..31ff88f152fb 100644
+index 31ff88f152fb..3370f66ea80a 100644
 --- a/include/drm/bridge/samsung-dsim.h
 +++ b/include/drm/bridge/samsung-dsim.h
-@@ -87,6 +87,7 @@ struct samsung_dsim {
- 	void __iomem *reg_base;
- 	struct phy *phy;
- 	struct clk **clks;
-+	struct clk *pll_clk;
- 	struct regulator_bulk_data supplies[2];
- 	int irq;
- 	struct gpio_desc *te_gpio;
+@@ -60,6 +60,8 @@ struct samsung_dsim_driver_data {
+ 	unsigned int num_bits_resol;
+ 	unsigned int pll_p_offset;
+ 	const unsigned int *reg_values;
++	unsigned int pll_fin_min;
++	unsigned int pll_fin_max;
+ 	u16 m_min;
+ 	u16 m_max;
+ };
 
 -- 
 2.39.2
