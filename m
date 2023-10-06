@@ -2,49 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 418337BBAFC
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Oct 2023 16:58:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 696C17BBB2C
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Oct 2023 17:04:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C41110E513;
-	Fri,  6 Oct 2023 14:58:31 +0000 (UTC)
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B812110E50F;
- Fri,  6 Oct 2023 14:58:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1696604307; x=1728140307;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=o0yNj87ee0gEjKVJu0q5cjr25gvVCIvZpN/1babXRzQ=;
- b=czCdVMx/DgdEvSc9w46rdRFmKIYQXPmm+J2t/lp5XFG5ePHBuSxpw/Bo
- LzXaGNfoioHqcAti1jOFQRVGnq0SV+o2rFtB6MwFe/5xcI/EEHCLQOyPo
- FFmm/4AA9ZbeGN+JiJAXeYTxT2IDw25b1jmGYE4XWihO9h8Q1bWN8EO9W
- LDEiDSmhe+LO6G08A+exQ3pKUksU28qjpcpaqqKDy6zImk+9eP8RSlKF/
- 9TN+R2ByUSllnMLf2uRn0l7bYNVADpRmdGlLp2ry1BDkfTRI1/87JTE9w
- 0bQrLB4/g/D1Vgf8oTl57lIhJSCuu1/zFGzO7IGI005FZQTKKyIhyvhj+ A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10855"; a="363117532"
-X-IronPort-AV: E=Sophos;i="6.03,204,1694761200"; d="scan'208";a="363117532"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Oct 2023 07:58:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10855"; a="1083480585"
-X-IronPort-AV: E=Sophos;i="6.03,204,1694761200"; d="scan'208";a="1083480585"
-Received: from relo-linux-5.jf.intel.com ([10.165.21.152])
- by fmsmga005.fm.intel.com with ESMTP; 06 Oct 2023 07:58:26 -0700
-From: John.C.Harrison@Intel.com
-To: Intel-GFX@Lists.FreeDesktop.Org
-Subject: [PATCH] drm/i915/guc: Update 'recommended' version to 70.12.1 for
- DG2/ADL-S/ADL-P/MTL
-Date: Fri,  6 Oct 2023 07:58:01 -0700
-Message-ID: <20231006145801.161868-1-John.C.Harrison@Intel.com>
-X-Mailer: git-send-email 2.41.0
+	by gabe.freedesktop.org (Postfix) with ESMTP id 225E710E512;
+	Fri,  6 Oct 2023 15:04:40 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+X-Greylist: delayed 352 seconds by postgrey-1.36 at gabe;
+ Fri, 06 Oct 2023 15:04:38 UTC
+Received: from mail.ispras.ru (mail.ispras.ru [83.149.199.84])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F5C610E512
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Oct 2023 15:04:38 +0000 (UTC)
+Received: from localhost (unknown [176.59.162.175])
+ by mail.ispras.ru (Postfix) with ESMTPSA id F2AEF40AC4FC;
+ Fri,  6 Oct 2023 14:58:41 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.ispras.ru F2AEF40AC4FC
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ispras.ru;
+ s=default; t=1696604323;
+ bh=zZyzh/Wh062f7c3Pw72ZP1LjORx/TUbNNL9pBnx3IHs=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=dGwvyiTcJ+S7nXsfw+yGpzN82Io1YNvYzzMhEJvDFESLdGo1JnCxBS5Ow+rnAVJHA
+ Y17S495KNJrSmdRFRauK6uANBHgq1wX5el2eAzEaEqDxP05eKRQAZRZ7+wyc9g7ySH
+ v2075D6sZr8eINFOwb0AgzoPzBZ3hcdkU6HLDWjw=
+Date: Fri, 6 Oct 2023 17:58:35 +0300
+From: Fedor Pchelkin <pchelkin@ispras.ru>
+To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Dave Airlie <airlied@redhat.com>
+Subject: Re: [PATCH] drm/crtc: do not release uninitialized connector reference
+Message-ID: <3rrycldn3ssrqqyiowv3ariqigfonddps6d34zjquzar6fahtc@ozy6jqnaiq3c>
+References: <20230721101600.4392-1-pchelkin@ispras.ru>
 MIME-Version: 1.0
-Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
- Swindon SN3 1RJ
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230721101600.4392-1-pchelkin@ispras.ru>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,42 +48,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: John Harrison <John.C.Harrison@Intel.com>, DRI-Devel@Lists.FreeDesktop.Org
+Cc: Daniel Stone <daniels@collabora.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Alexey Khoroshilov <khoroshilov@ispras.ru>, lvc-project@linuxtesting.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: John Harrison <John.C.Harrison@Intel.com>
+On 23/07/21 01:15PM, Fedor Pchelkin wrote:
+> Inside drm_mode_setcrtc() connector_set is allocated using kmalloc_array()
+> so its values are uninitialized. When filling this array with actual
+> pointers to drm connector objects, an error caused with invalid ioctl
+> request data may occur leading us to put references to already taken
+> objects. However, the last elements of the array are left uninitialized
+> which makes drm_connector_put() to be called with an invalid argument.
+> 
+> We can obviously just initialize the array with kcalloc() but the current
+> fix chose a slightly different way.
+> 
+> The index of failing array element is known so just put references to the
+> array members with lower indices.
+> 
+> The temporary 'connector' pointer seems to be redundant as we can directly
+> fill the connector_set elements and thus avoid unnecessary NULL
+> assignments and checks.
+> 
+> Found by Linux Verification Center (linuxtesting.org) with Syzkaller.
+> 
+> Fixes: b164d31f50b2 ("drm/modes: add connector reference counting. (v2)")
+> Signed-off-by: Fedor Pchelkin <pchelkin@ispras.ru>
 
-The latest GuC has new features and new workarounds that we wish to
-enable. So let the universe know that it is useful to update their
-firmware.
+I'm sorry for bothering everyone with this issue, but status of the patch
+here [1] is still 'New', and I have no means to deduce whether the
+subsystem maintainers didn't have time to review (it is totally
+understandable as the amount of patches is enormous) or the patch was
+missed somehow.
 
-Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
----
- drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
-index 32e27e9a2490f..362639162ed60 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
-@@ -88,12 +88,12 @@ void intel_uc_fw_change_status(struct intel_uc_fw *uc_fw,
-  * security fixes, etc. to be enabled.
-  */
- #define INTEL_GUC_FIRMWARE_DEFS(fw_def, guc_maj, guc_mmp) \
--	fw_def(METEORLAKE,   0, guc_maj(mtl,  70, 6, 6)) \
--	fw_def(DG2,          0, guc_maj(dg2,  70, 5, 1)) \
--	fw_def(ALDERLAKE_P,  0, guc_maj(adlp, 70, 5, 1)) \
-+	fw_def(METEORLAKE,   0, guc_maj(mtl,  70, 12, 1)) \
-+	fw_def(DG2,          0, guc_maj(dg2,  70, 12, 1)) \
-+	fw_def(ALDERLAKE_P,  0, guc_maj(adlp, 70, 12, 1)) \
- 	fw_def(ALDERLAKE_P,  0, guc_mmp(adlp, 70, 1, 1)) \
- 	fw_def(ALDERLAKE_P,  0, guc_mmp(adlp, 69, 0, 3)) \
--	fw_def(ALDERLAKE_S,  0, guc_maj(tgl,  70, 5, 1)) \
-+	fw_def(ALDERLAKE_S,  0, guc_maj(tgl,  70, 12, 1)) \
- 	fw_def(ALDERLAKE_S,  0, guc_mmp(tgl,  70, 1, 1)) \
- 	fw_def(ALDERLAKE_S,  0, guc_mmp(tgl,  69, 0, 3)) \
- 	fw_def(DG1,          0, guc_maj(dg1,  70, 5, 1)) \
--- 
-2.41.0
-
+[1]: https://patchwork.kernel.org/project/dri-devel/patch/20230721101600.4392-1-pchelkin@ispras.ru/
