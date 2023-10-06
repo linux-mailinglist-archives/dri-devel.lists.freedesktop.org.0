@@ -2,52 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E43F17BBD49
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Oct 2023 18:54:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B0717BBD84
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Oct 2023 19:15:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A81F510E53B;
-	Fri,  6 Oct 2023 16:54:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E117A10E540;
+	Fri,  6 Oct 2023 17:15:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.domeneshop.no (smtp.domeneshop.no
- [IPv6:2a01:5b40:0:3006::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EDF5510E028
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Oct 2023 16:54:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
- ; s=ds202212;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=ZMYPCJyJeiJWFYUZcmVtFzwOLruN/7x9tV2gmTlqQWc=; b=oww2cSBdHOuvVwBMRmXjvp2Ao+
- n4yJmwmgadGV6n4pFOTyyec1FOYTdJ5sVwSgEaeoDGq3/ZSF3q2b5kPQ0Y1wEnBDexBNpqxSfQrQG
- fcg4JZtXxa8HdE+opks4rQNrMOzURhr8UqXskDAUA/TQrEuTHcv/NhVmuBufdHNEIh6RbJGE5+JTo
- v8hxDpIfA65Dfgo6IrsieE4W70zw2A05u7mDoSxOS/IqC/lhC5mN7dYOEwB6gEb+36mEP2b8ZkkzU
- vbpBiOw43dO5OLI6f5xu0BH6/9ZMzJAeh7hVcb84VbwoCAy+Rma0QaEWbukxaP/i9zgXmJQN+xO3T
- 0vC66OOw==;
-Received: from [2a01:799:95f:2800:2fb5:c6db:11b1:a10f] (port=37788)
- by smtp.domeneshop.no with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.95)
- (envelope-from <noralf@tronnes.org>) id 1qoo5h-00GyzC-OX;
- Fri, 06 Oct 2023 18:54:17 +0200
-Message-ID: <bd880231-f161-0773-63f7-ded6cb3fddc1@tronnes.org>
-Date: Fri, 6 Oct 2023 18:54:16 +0200
+Received: from mail-yw1-x112b.google.com (mail-yw1-x112b.google.com
+ [IPv6:2607:f8b0:4864:20::112b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C263A10E540
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Oct 2023 17:15:38 +0000 (UTC)
+Received: by mail-yw1-x112b.google.com with SMTP id
+ 00721157ae682-59e77e4f707so29480997b3.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 06 Oct 2023 10:15:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1696612538; x=1697217338; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=DgysTirqmULG/J429nwx5y0fkZ/uHjK7hUfCCLd/fc0=;
+ b=mlLPdzjY/KrxF3IJsuIu9PPd2XVtOI7cx/blK4O2DC5AMw0tINfeIB520fp9zBfMBR
+ yQU5mNo/gpsLqkh5tI9zGLxjkT1mc7FnMlgIqcciCqKVBeapFj+1h1O5u99sLFVwsmAW
+ sjnW0JH676RKCdulqli+wLD/HChtPzjAIwr6WDn/8P+VMK3dsbZwAt4VpLlgL2muvg45
+ zgA4MNvcS2dp2h4BFZko68/IH2mJW9vKnt/img9FDJNbCJAuER/OBrqqIV85q2XK0msP
+ m2c85hw5LQxp+U1u4LOzAKI+COk+Sxd6/3N722Ujjbs/PiUvx0s5x6YP2A1WR0nRKl2F
+ TSTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1696612538; x=1697217338;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=DgysTirqmULG/J429nwx5y0fkZ/uHjK7hUfCCLd/fc0=;
+ b=fnvOymvBwIkQvXjMJTFr2aaoel+UxhsEluOfjIKcqpt5iqHxZkqhiHMsvNs+jv/5WY
+ 7faZdaQRklbWfYIDyzNmJr6+uTizbotIeO+Y6jtohwG4K+GFB9FCrVukTG8/TtrN4gVp
+ ltnvgLKec0ljeBb/udtFUXTsXF8UJASqmXN5twLI44+jAkbOG3YrU1Z4ZMifzbyP4wyO
+ X5t83kdr9ZYsI4QLGCvjVBV/CClDvv4aDfvLpM3pvkDFUZCZpcMog0jcQuSS3twnJWEf
+ IU+EAnbgxyWlkcxs7WaQNuaSJBhYuuSjHLQM1mreAsBD1vcSTStUrnED68KrJR04fPyx
+ oU7A==
+X-Gm-Message-State: AOJu0YyEU9oFmM+p6b5NnA7+0nKRtvHDXnChWYmOqr0Yf4ODhT/wSq9j
+ BbFPoDyQLIo/xvu6y3L8FWu+0EwEUxMfFZiE4LRp9g==
+X-Google-Smtp-Source: AGHT+IEKS/WdshJVLzFYtfc+kTkKycORuNFX2eq0C2F534RbLGQrBtGUUIf2RHNfP7s3/ACwciMLZLlk6De/E4lepuc=
+X-Received: by 2002:a05:690c:2908:b0:5a5:7ea:5d0e with SMTP id
+ eg8-20020a05690c290800b005a507ea5d0emr5903018ywb.2.1696612537776; Fri, 06 Oct
+ 2023 10:15:37 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v4 2/4] drm/panic: Add a drm panic handler
-Content-Language: en-US
-To: Maxime Ripard <mripard@kernel.org>, Jocelyn Falempe <jfalempe@redhat.com>
-References: <20231003142508.190246-1-jfalempe@redhat.com>
- <20231003142508.190246-3-jfalempe@redhat.com>
- <lbwngkco3zam7yjo3owwpn47o3pe6g7oh5giglsclenx52jk5q@lw2fwsxz6kqp>
- <3a359910-31ae-355f-2608-239e04689fde@redhat.com>
- <6iaqx7ef4hdd6bucsxtfy37nsizloraxbudez4ms7jlusbghr3@i5hliqpimdp2>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-In-Reply-To: <6iaqx7ef4hdd6bucsxtfy37nsizloraxbudez4ms7jlusbghr3@i5hliqpimdp2>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20230923214912.1095024-1-dmitry.baryshkov@linaro.org>
+ <5711857.DvuYhMxLoT@z3ntu.xyz>
+ <019e66c4-8188-4fbb-b169-d2cec165c91b@linaro.org>
+ <12295796.O9o76ZdvQC@z3ntu.xyz>
+In-Reply-To: <12295796.O9o76ZdvQC@z3ntu.xyz>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Fri, 6 Oct 2023 20:15:26 +0300
+Message-ID: <CAA8EJpq2i+Ha33jPdCdHmi1jBFz+LzCia_bw-cDj8BsyrvSx8A@mail.gmail.com>
+Subject: Re: [RFC PATCH 1/3] drm/msm/dpu: add support for MSM8953
+To: Luca Weiss <luca@z3ntu.xyz>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,101 +69,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: bluescreen_avenger@verizon.net, javierm@redhat.com,
- dri-devel@lists.freedesktop.org, gpiccoli@igalia.com, noralf@tronnes.org,
- tzimmermann@suse.de, airlied@redhat.com
+Cc: freedreno@lists.freedesktop.org, Bjorn Andersson <andersson@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org,
+ Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, 6 Oct 2023 at 19:26, Luca Weiss <luca@z3ntu.xyz> wrote:
+>
+> On Freitag, 6. Oktober 2023 15:38:51 CEST Dmitry Baryshkov wrote:
+> > On 29/09/2023 23:52, Luca Weiss wrote:
+> > > On Samstag, 23. September 2023 23:49:10 CEST Dmitry Baryshkov wrote:
+> > >> Experimental support for MSM8953, which has MDP5 v1.16. It looks like
+> > >> trimmed down version of MSM8996. Less SSPP, LM and PP blocks. No DSC,
+> > >> etc.
+> > >
+> > > Hi Dmitry,
+> > >
+> > > As written on IRC, on sdm632-fairphone-fp3 with this DPU patches the
+> > > screen is initializing and displaying stuff :) But there's some errors,
+> > > which presumably are the reason that the screen is only updating a few
+> > > times per second.
+> > >
+> > > [   22.774205] [drm:dpu_kms_hw_init:1164] dpu hardware revision:0x10100000
+> > > [   23.099806] [drm:_dpu_encoder_phys_cmd_wait_for_ctl_start:657] [dpu
+> > > error]enc31 intf1 ctl start interrupt wait failed [   23.099821]
+> > > [drm:dpu_kms_wait_for_commit_done:495] [dpu error]wait for commit done
+> > > returned -22
+> > >
+> > > These messages appear about 13 times per second but as I mentioned, the
+> > > screen *is* updating (slowly) there.
+> >
+> > For my understanding, does it work with the MDP5 driver?
+>
+> Not perfectly, but it does work. What I mean is that the panel is running at
+> 30Hz (shown e.g. with kmscube) instead of the 60Hz it should run at.
+
+Interesting. If you have register dumps, it might be interesting to
+compare them.
+For DPU you can get them from debugfs/dri/0/kms. For MDP5 it is
+necessary to hook snapshotting first. The patch will be appreciated
+though ;-)
+
+Also, the CTL timeouts look familiar to what we saw on the FP while
+hacking it. I can suppose that it is a generic issue, just manifesting
+more visibly on the older platforms.
+
+>
+> One of the comments I got is that mdp5 is essentially unmaintained so I should
+> try DPU ;)
+
+I'd say, it is mostly in the fixes-only mode.
+
+> Also I can ask someone with a video-mode panel to test, maybe it works better
+> there. At least good to have more data points?
+
+Yes, please. Testing video panels would prove that the whole pipeline
+is working and we have only CMD-related issues.
+
+>
+> Regards
+> Luca
+>
+> >
+> > > Also you for sure forgot to add "qcom,msm8953-mdp5" to the
+> > > msm_mdp5_dpu_migration list, without this DPU is never even considered for
+> > > 8953.
 
 
-On 10/6/23 16:35, Maxime Ripard wrote:
-> Hi Jocelyn,
-> 
-> On Thu, Oct 05, 2023 at 11:16:15AM +0200, Jocelyn Falempe wrote:
->> On 05/10/2023 10:18, Maxime Ripard wrote:
->>> Hi,
->>>
->>> On Tue, Oct 03, 2023 at 04:22:45PM +0200, Jocelyn Falempe wrote:
->>>> diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
->>>> index 89e2706cac56..e538c87116d3 100644
->>>> --- a/include/drm/drm_drv.h
->>>> +++ b/include/drm/drm_drv.h
->>>> @@ -43,6 +43,7 @@ struct dma_buf_attachment;
->>>>   struct drm_display_mode;
->>>>   struct drm_mode_create_dumb;
->>>>   struct drm_printer;
->>>> +struct drm_scanout_buffer;
->>>>   struct sg_table;
->>>>   /**
->>>> @@ -408,6 +409,19 @@ struct drm_driver {
->>>>   	 */
->>>>   	void (*show_fdinfo)(struct drm_printer *p, struct drm_file *f);
->>>> +	/**
->>>> +	 * @get_scanout_buffer:
->>>> +	 *
->>>> +	 * Get the current scanout buffer, to display a panic message with drm_panic.
->>>> +	 * It is called from a panic callback, and must follow its restrictions.
->>>> +	 *
->>>> +	 * Returns:
->>>> +	 *
->>>> +	 * Zero on success, negative errno on failure.
->>>> +	 */
->>>> +	int (*get_scanout_buffer)(struct drm_device *dev,
->>>> +				  struct drm_scanout_buffer *sb);
->>>> +
->>>
->>> What is the format of that buffer? What is supposed to happen if the
->>> planes / CRTC are setup in a way that is incompatible with the buffer
->>> format?
->>
->> Currently, it only supports linear format, either in system memory, or
->> iomem.
->> But really what is needed is the screen size, and a way to write pixels to
->> it.
->> For more complex GPU, I don't know if it's easier to reprogram the GPU to
->> linear format, or to add a simple "tiled" support to drm_panic.
->> What would you propose as a panic interface to handle those complex format ?
-> 
-> It's not just about tiling, but also about YUV formats. If the display
-> engine is currently playing a video at the moment, it's probably going
-> to output some variation of multi-planar YUV and you won't have an RGB
-> buffer available.
-> 
-
-I had support for some YUV formats in my 2019 attempt on a panic
-handler[1] and I made a recording of a test run as well[2] (see 4:30 for
-YUV). There was a discussion about challenges and i915 can disable
-tiling by flipping a bit in a register[3] and AMD has a debug
-interface[4] they can use to write pixels.
-
-Noralf.
-
-[1]
-https://lore.kernel.org/dri-devel/20190311174218.51899-1-noralf@tronnes.org/
-[2] https://youtu.be/lZ80vL4dgpE
-[3]
-https://lore.kernel.org/dri-devel/20190314095004.GP2665@phenom.ffwll.local/
-[4]
-https://lore.kernel.org/dri-devel/d233c376-ed07-2127-6084-8292d313dac7@amd.com/
-
-> Same story if you're using a dma-buf buffer. You might not even be able
-> to access that buffer at all from the CPU or the kernel.
-> 
-> I really think we should have some emergency state ready to commit on
-> the side, and possibly a panic_commit function to prevent things like
-> sleeping or waiting that regular atomic_commit can use.
-> 
-> That way, you know have all the resources available to you any time.
-> 
->> Sometime it's also just not possible to write pixels to the screen, like if
->> the panic occurs in the middle of suspend/resume, or during a mode-setting,
->> and the hardware state is broken. In this case it's ok to return an error,
->> and nothing will get displayed.
-> 
-> And yeah, you won't be able to do it every time, but if it's never for
-> some workload it's going to be a concern.
-> 
-> Anyway, we should at the very least document what we expect here.
-> 
-> Maxime
+-- 
+With best wishes
+Dmitry
