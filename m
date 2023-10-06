@@ -1,54 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8EA67BC14A
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Oct 2023 23:39:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 915AE7BC149
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Oct 2023 23:39:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1DDE610E57F;
-	Fri,  6 Oct 2023 21:39:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F1D410E576;
+	Fri,  6 Oct 2023 21:39:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
  [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B361510E573;
- Fri,  6 Oct 2023 21:38:59 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C99510E575;
+ Fri,  6 Oct 2023 21:39:01 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 396KQvZf019844; Fri, 6 Oct 2023 21:38:55 GMT
+ 396LF0L0023886; Fri, 6 Oct 2023 21:38:56 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-type; s=qcppdkim1;
- bh=NX9udI4OjYVPmeSaybqsrXzGO0Y4SgBxWQnof8yCP2Q=;
- b=im8BKtq09em8A5UDmcWiKXfaEFy2EogaioQdUJB7RPLXRzjQp+0jIuytBYg+g83AMUoJ
- ho/0cGVpRXqblclBSaFi9GgN0IcYSPl8/OMuqCo9m0UL8t7Sh6dST97ul11E6667PfTD
- OIOeIpKxL9Uf2emLdeRz5+Dxb4W+RRw3cBdDw2b6m4DDULThw+N44YMYwSBPXd/0U+zt
- SeXxKjS/RTK7FWvx02pB/dBNps1wS4Mar+SbV1dlnsN/+jSfdu6MvWE5j1IZCygKSlGo
- 9n2QN5OFZi0Ysu2Q5+aVf04Vp8uTEEHhlukxXPT0X/OqrzLQT1VVG3KlMIWtZCbWxAu4 Kg== 
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ bh=zBySumyWUsTUJ5MWaB2XFCUX7En9cQIYGAhkyMs/2jM=;
+ b=djrX4fGT6m/IQ+TNS9G8n5xkSN/u6NT+kWtcwKsIdFUVRlx/vVoCfxRD32PPDH9uwZfJ
+ ihfj0Y1ei3jxsq4m5h2ge6zScAC24BIZzcULo9CoB7GPnFpFZkoPudy/4t8pR1OLcB0Y
+ 2g8zQMi/CAa71ce+GDRRHTKfvMraPbGOsxjxib/N+6NQJTjVL4/OT/x3gNWDneJR1sQz
+ n+ig77nRhkeIe9gbbr2iIRQqcEz0S47nJsCpCn0NOMWtlKADbrJ7IIkYb7fFtdZlncAq
+ Rg6rVwIfmD5V9MYcJf4ynVWpuMTj1pEUzpDvGCM0a5O2n2UhONUK0FztM0D9xvRT9crg Rw== 
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3tjnddgnkf-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3thrjdvd8g-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 06 Oct 2023 21:38:54 +0000
+ Fri, 06 Oct 2023 21:38:56 +0000
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
  [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 396LcsrF026427
+ by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 396LctFr030895
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 6 Oct 2023 21:38:54 GMT
+ Fri, 6 Oct 2023 21:38:55 GMT
 Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
  nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.36; Fri, 6 Oct 2023 14:38:53 -0700
+ 15.2.1118.36; Fri, 6 Oct 2023 14:38:54 -0700
 From: Kuogee Hsieh <quic_khsieh@quicinc.com>
 To: <dri-devel@lists.freedesktop.org>, <robdclark@gmail.com>,
  <sean@poorly.run>, <swboyd@chromium.org>, <dianders@chromium.org>,
  <vkoul@kernel.org>, <daniel@ffwll.ch>, <airlied@gmail.com>,
  <agross@kernel.org>, <dmitry.baryshkov@linaro.org>, <andersson@kernel.org>
-Subject: [PATCH v6 3/7] drm/msm/dp: use drm_bridge_hpd_notify() to report HPD
- status changes
-Date: Fri, 6 Oct 2023 14:38:34 -0700
-Message-ID: <1696628318-15095-4-git-send-email-quic_khsieh@quicinc.com>
+Subject: [PATCH v6 4/7] drm/msm/dp: move parser->parse() and
+ dp_power_client_init() to probe
+Date: Fri, 6 Oct 2023 14:38:35 -0700
+Message-ID: <1696628318-15095-5-git-send-email-quic_khsieh@quicinc.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1696628318-15095-1-git-send-email-quic_khsieh@quicinc.com>
 References: <1696628318-15095-1-git-send-email-quic_khsieh@quicinc.com>
@@ -60,16 +60,16 @@ X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-ORIG-GUID: hFdIzI-IB3CXZR0rCH_H1RuKz0fyDscX
-X-Proofpoint-GUID: hFdIzI-IB3CXZR0rCH_H1RuKz0fyDscX
+X-Proofpoint-ORIG-GUID: mxeyiVF2MEJX3St54dornCjpIyMMi6HG
+X-Proofpoint-GUID: mxeyiVF2MEJX3St54dornCjpIyMMi6HG
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2023-10-06_15,2023-10-06_01,2023-05-22_02
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0
- lowpriorityscore=0 phishscore=0 clxscore=1015 mlxscore=0 adultscore=0
- bulkscore=0 mlxlogscore=999 spamscore=0 suspectscore=0 malwarescore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ adultscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 priorityscore=1501 phishscore=0
+ mlxscore=0 mlxlogscore=999 impostorscore=0 bulkscore=0 suspectscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2309180000 definitions=main-2310060166
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -90,58 +90,89 @@ Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently DP driver use drm_helper_hpd_irq_event(), bypassing drm bridge
-framework, to report HPD status changes to user space frame work.
-Replace it with drm_bridge_hpd_notify() since DP driver is part of drm
-bridge.
+Original both parser->parse() and dp_power_client_init() are done at
+dp_display_bind() since eDP population is done at binding time.
+In the preparation of having eDP population done at probe() time,
+move both function from dp_display_bind() to dp_display_probe().
+
+Changes in v6:
+-- move dp_power_client_deinit() to remove()
+
+Changes in v5:
+-- explain why parser->parse() and dp_power_client_init() are moved to probe time
+-- tear down sub modules if failed
+
+Changes in v4:
+-- split this patch out of "incorporate pm_runtime framework into DP driver" patch
 
 Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/dp/dp_display.c | 20 ++------------------
- 1 file changed, 2 insertions(+), 18 deletions(-)
+ drivers/gpu/drm/msm/dp/dp_display.c | 24 +++++++++++++-----------
+ 1 file changed, 13 insertions(+), 11 deletions(-)
 
 diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index 9e51876..32663ea 100644
+index 32663ea..89fad67 100644
 --- a/drivers/gpu/drm/msm/dp/dp_display.c
 +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -356,26 +356,10 @@ static bool dp_display_is_sink_count_zero(struct dp_display_private *dp)
- 		(dp->link->sink_count == 0);
- }
+@@ -276,11 +276,6 @@ static int dp_display_bind(struct device *dev, struct device *master,
+ 	dp->dp_display.drm_dev = drm;
+ 	priv->dp[dp->id] = &dp->dp_display;
  
--static void dp_display_send_hpd_event(struct msm_dp *dp_display)
--{
--	struct dp_display_private *dp;
--	struct drm_connector *connector;
--
--	dp = container_of(dp_display, struct dp_display_private, dp_display);
--
--	connector = dp->dp_display.connector;
--	drm_helper_hpd_irq_event(connector->dev);
--}
--
- static int dp_display_send_hpd_notification(struct dp_display_private *dp,
- 					    bool hpd)
- {
--	if ((hpd && dp->dp_display.link_ready) ||
--			(!hpd && !dp->dp_display.link_ready)) {
--		drm_dbg_dp(dp->drm_dev, "HPD already %s\n",
--				(hpd ? "on" : "off"));
--		return 0;
+-	rc = dp->parser->parse(dp->parser);
+-	if (rc) {
+-		DRM_ERROR("device tree parsing failed\n");
+-		goto end;
 -	}
-+	struct drm_bridge *bridge = dp->dp_display.bridge;
  
- 	/* reset video pattern flag on disconnect */
- 	if (!hpd)
-@@ -385,7 +369,7 @@ static int dp_display_send_hpd_notification(struct dp_display_private *dp,
  
- 	drm_dbg_dp(dp->drm_dev, "type=%d hpd=%d\n",
- 			dp->dp_display.connector_type, hpd);
--	dp_display_send_hpd_event(&dp->dp_display);
-+	drm_bridge_hpd_notify(bridge, dp->dp_display.link_ready);
+ 	dp->drm_dev = drm;
+@@ -291,11 +286,6 @@ static int dp_display_bind(struct device *dev, struct device *master,
+ 		goto end;
+ 	}
  
- 	return 0;
- }
+-	rc = dp_power_client_init(dp->power);
+-	if (rc) {
+-		DRM_ERROR("Power client create failed\n");
+-		goto end;
+-	}
+ 
+ 	rc = dp_register_audio_driver(dev, dp->audio);
+ 	if (rc) {
+@@ -328,7 +318,6 @@ static void dp_display_unbind(struct device *dev, struct device *master,
+ 
+ 	of_dp_aux_depopulate_bus(dp->aux);
+ 
+-	dp_power_client_deinit(dp->power);
+ 	dp_unregister_audio_driver(dev, dp->audio);
+ 	dp_aux_unregister(dp->aux);
+ 	dp->drm_dev = NULL;
+@@ -1250,6 +1239,18 @@ static int dp_display_probe(struct platform_device *pdev)
+ 		return -EPROBE_DEFER;
+ 	}
+ 
++	rc = dp->parser->parse(dp->parser);
++	if (rc) {
++		DRM_ERROR("device tree parsing failed\n");
++		goto err;
++	}
++
++	rc = dp_power_client_init(dp->power);
++	if (rc) {
++		DRM_ERROR("Power client create failed\n");
++		goto err;
++	}
++
+ 	/* setup event q */
+ 	mutex_init(&dp->event_mutex);
+ 	init_waitqueue_head(&dp->event_q);
+@@ -1284,6 +1285,7 @@ static int dp_display_remove(struct platform_device *pdev)
+ 	struct dp_display_private *dp = dev_get_dp_display_private(&pdev->dev);
+ 
+ 	component_del(&pdev->dev, &dp_display_comp_ops);
++	dp_power_client_deinit(dp->power);
+ 	dp_display_deinit_sub_modules(dp);
+ 
+ 	platform_set_drvdata(pdev, NULL);
 -- 
 2.7.4
 
