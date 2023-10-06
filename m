@@ -2,60 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E6FE7BB0AF
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Oct 2023 06:10:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B818A7BB10F
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Oct 2023 06:58:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D80C210E1CE;
-	Fri,  6 Oct 2023 04:09:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F8E610E1D4;
+	Fri,  6 Oct 2023 04:58:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x329.google.com (mail-ot1-x329.google.com
- [IPv6:2607:f8b0:4864:20::329])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5798410E1CE
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Oct 2023 04:09:56 +0000 (UTC)
-Received: by mail-ot1-x329.google.com with SMTP id
- 46e09a7af769-6c49f781855so1104229a34.3
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Oct 2023 21:09:56 -0700 (PDT)
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
+ [IPv6:2a00:1450:4864:20::631])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BECDD10E1D4
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Oct 2023 04:58:51 +0000 (UTC)
+Received: by mail-ej1-x631.google.com with SMTP id
+ a640c23a62f3a-99de884ad25so306916066b.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Oct 2023 21:58:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1696565395; x=1697170195; darn=lists.freedesktop.org;
- h=message-id:date:subject:cc:to:from:sender:from:to:cc:subject:date
- :message-id:reply-to;
- bh=3WsyJr/JfGO9ZomYRC8lC2LpPAdcpUdaon1QvBmnp74=;
- b=b2pKHQ4JUuMKR0ZMl60h95iwtLiKRzOx1V9JOCzo9D1RB9qdwQt8g7qkq8+RwUGsyq
- li7RX0KGmzvFt1hR8ujAZfBgNMSyZnnwks45qdcqcSMfdMyeHx0+pw44+H5su8SIpD6L
- idnAvKaYWEtIpfYcpmXHVuIwglq5q01z4l8VtGQuzQHLcA3aT0DyqnmCydlZxocLU1Q4
- ndV7xfEdqZU7zHF9nnBvfcWO14GrzcIikhAFP0joIYnohcD3eX+kCbVZHNJFoAC5Z9cU
- 3cBzjkcD25QKRibby9GREr7fv7zzZgDL4eWnvhismUSSTwFLlM994jY3v5ZmP2Epk35v
- oUmg==
+ d=gmail.com; s=20230601; t=1696568330; x=1697173130; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=QjM0/Xrho/1FsrlLPD/qSWsu6B38wg4wh+AhjT9LTBY=;
+ b=RxCxpQqRjVc5FvRXQCFvNiFxwqR5uQ612ywZ49v/8RmdVxwEd43GR30+TaYgHMeOFa
+ SILUgjSvW/HGQMaLlH9gv4Iwe63b2H7MGQd521NqCQ3MH4q/t8s6jJ/LVujI4Xwa7JVi
+ e3p3JaoviqD6xhk89pB5ktLftQHR1KxI2xhcw/PYgXvAKEeOxcsPe6p9oO57URvf+Gvp
+ KM+fh3gdi8YjfeP0Mg4Uv6t3R168ZN5GaiCr+lS9RbZ6V3X8wRzhfk4/EvfQ4OryulBq
+ akG+PnmU4yMxSoCJHkndKb2DdRVQfI+h4W0L2PR8oJ3Tz8/pFmg2OWxYiFGVi3bClEja
+ K0UA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1696565395; x=1697170195;
- h=message-id:date:subject:cc:to:from:sender:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=3WsyJr/JfGO9ZomYRC8lC2LpPAdcpUdaon1QvBmnp74=;
- b=YHNkH8k2qurmsghhhNYnnB2xnaLCEvO6CwLBtkF3cKyVEGcsyRV0HUQ8eoyuQT1qsY
- Ytc8Qxt3JVKE+Iv+WeN20QzsSnXmrXy0VPlab6z8QSgOcV70oAwkypFcXrDv2CXf+jGf
- ehbl176ykcq6221H8dqwsBDl1J+29yv+Js3NsGloKjavrIyuc07CAu5qng/fdHhpeFEy
- H5eOHGooG2biTGGs2GksK0Dv+IxFFvSzJnwXUzJ4hh94iq6pBZi9xyQdP0deW98KrATn
- ywicFHgd4RhWbqAIKYlia7WXSsy0IlnDNgK/1AOoagOTwM/oGnTEQHMx/lJYzOUqkVRi
- VCLQ==
-X-Gm-Message-State: AOJu0YyZs/MFqCSg14arJ/KS/4ZPySzD2Pj4qhd7C3dgo9KUkgyfWsBy
- 9KbZEWIQixC3EF4gEPtlnkR0kmL7wZG26w==
-X-Google-Smtp-Source: AGHT+IFCd0i4QvBKYK+f8dhJ5cI0/kA3DGkHoagfKKeFHK1BPBs24cJNRsGhsisXeu/pFhEPdsv3Fg==
-X-Received: by 2002:a05:6870:ac26:b0:1b3:9e41:de07 with SMTP id
- kw38-20020a056870ac2600b001b39e41de07mr8591032oab.36.1696565395120; 
- Thu, 05 Oct 2023 21:09:55 -0700 (PDT)
-Received: from daeinki-virtual-machine.localdomain ([58.124.60.88])
- by smtp.gmail.com with ESMTPSA id
- h19-20020aa786d3000000b0068ff267f092sm391590pfo.216.2023.10.05.21.09.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Oct 2023 21:09:53 -0700 (PDT)
-From: Inki Dae <inki.dae@samsung.com>
-To: airlied@linux.ie,
-	daniel@ffwll.ch
-Subject: [GIT PULL] exynos-drm-fixes
-Date: Fri,  6 Oct 2023 13:09:50 +0900
-Message-Id: <20231006040950.4397-1-inki.dae@samsung.com>
-X-Mailer: git-send-email 2.17.1
+ d=1e100.net; s=20230601; t=1696568330; x=1697173130;
+ h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=QjM0/Xrho/1FsrlLPD/qSWsu6B38wg4wh+AhjT9LTBY=;
+ b=DIRZI/KNveRsOwRexcOqicIYsSGpsIMIcoFbgOC0Kqb1asLNsp2k4UpxMEQJ3geEDc
+ y3A7HmYuxHvenz01DZEwA2ofeLkGM8fAW0RxjmtNVeHuV/Xuudq3+jv9LJSpUepYn/N1
+ 6tmEQanwRh/NvuGO9O41pMtp/SfMbiFRd738G5y07M/9wjzyaycAOH7Fz8yGqwPVGm+l
+ iIJ9gmLB4VKvJe9F+8TPSIsx/p+2/U357q/fRHBH3irQpw2kypSdeYoFzvDVvsp6pGau
+ IiFvHXSLrOIcjG1o1kQmbRYUclMplmvej+lwNjIl1WdL2TI5HiNEm13HAJKBLqBmaqyK
+ YSoQ==
+X-Gm-Message-State: AOJu0YzSwW9Ay9TtCZMVoXE31pxSZ9MwVWcRzkPVrDEYUChHLZC/Hye0
+ pa21+BcJuSjJc1LuJBLpApvhWnfgKwW9ITxbFjlCAvov
+X-Google-Smtp-Source: AGHT+IEUaO5nhV0VxSuIsCXm8e8ey4jBrnKDPa3Z535adOENEt98qF3prSVDgVn1VMatECG+TbFP7rPdTNg2N50B2jc=
+X-Received: by 2002:a17:906:310b:b0:9b5:f25d:9261 with SMTP id
+ 11-20020a170906310b00b009b5f25d9261mr6501872ejx.22.1696568329877; Thu, 05 Oct
+ 2023 21:58:49 -0700 (PDT)
+MIME-Version: 1.0
+From: Dave Airlie <airlied@gmail.com>
+Date: Fri, 6 Oct 2023 14:58:38 +1000
+Message-ID: <CAPM=9txQG3XyUMBvFf5pj8ng0sKekGMw5A7nhU_eMN5ubkVGcA@mail.gmail.com>
+Subject: [git pull] drm fixes for 6.6-rc5
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,41 +64,144 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave and Daniel,
+Hi Linus,
 
-   Just one fixup to a potential error pointer dereference.
+Regular weekly pull, all seems pretty normal, i915 and amdgpu mostly.
 
-   Please kindly let me know if there is any problem.
+There is one small new uAPI addition for nouveau but getting it in now
+avoids a bunch of userspace dances, and it's for a userspace that
+hasn't yet released, so should have no side effects.
 
-Thanks,
-Inki Dae
+Dave.
 
+drm-fixes-2023-10-06:
+drm fixes for 6.6-rc5
 
+i915:
+- Fix for OpenGL CTS regression on Compute Shaders
+- Fix for default engines initialization
+- Fix TLB invalidation for Multi-GT devices
+
+amdgpu:
+- Add missing unique_id for GC 11.0.3
+- Fix memory leak in FRU error path
+- Fix PCIe link reporting on some SMU 11 parts
+- Fix ACPI _PR3 detection
+- Fix DISPCLK WDIVIDER handling in OTG code
+
+tests:
+- Fix kunit release
+
+panel:
+- panel-orientation: Add quirk for One Mix 25
+
+nouveau:
+- Report IB limit via getparams
+- Replace some magic numbers with constants
+- small clean up
 The following changes since commit 8a749fd1a8720d4619c91c8b6e7528c0a355c0aa:
 
   Linux 6.6-rc4 (2023-10-01 14:15:13 -0700)
 
 are available in the Git repository at:
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos tags/exynos-drm-fixes-for-v6.6-rc5
+  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2023-10-06
 
-for you to fetch changes up to e49c384dc1c62fb5bf57c7bf6598957197e57919:
+for you to fetch changes up to 67f35a41d3748b7bab8787d20b50cf33fafa2ae0:
 
-  drm/exynos: fix a potential error pointer dereference (2023-10-06 12:30:23 +0900)
-
-----------------------------------------------------------------
-One fixup
-- Fix a potential error pointer dereference by checking the return value
-  of exynos_drm_crtc_get_by_type() function before accessing to crtc
-  object.
+  Merge tag 'drm-misc-fixes-2023-10-05' of
+git://anongit.freedesktop.org/drm/drm-misc into drm-fixes (2023-10-06
+12:48:06 +1000)
 
 ----------------------------------------------------------------
-Xiang Yang (1):
-      drm/exynos: fix a potential error pointer dereference
+drm fixes for 6.6-rc5
 
- drivers/gpu/drm/exynos/exynos_hdmi.c | 2 ++
- 1 file changed, 2 insertions(+)
+i915:
+- Fix for OpenGL CTS regression on Compute Shaders
+- Fix for default engines initialization
+- Fix TLB invalidation for Multi-GT devices
+
+amdgpu:
+- Add missing unique_id for GC 11.0.3
+- Fix memory leak in FRU error path
+- Fix PCIe link reporting on some SMU 11 parts
+- Fix ACPI _PR3 detection
+- Fix DISPCLK WDIVIDER handling in OTG code
+
+tests:
+- Fix kunit release
+
+panel:
+- panel-orientation: Add quirk for One Mix 25
+
+nouveau:
+- Report IB limit via getparams
+- Replace some magic numbers with constants
+- small clean up
+
+----------------------------------------------------------------
+Arthur Grillo (1):
+      drm/tests: Fix kunit_release_action ctx argument
+
+Chris Wilson (1):
+      drm/i915: Invalidate the TLBs on each GT
+
+Danilo Krummrich (3):
+      drm/nouveau: chan: use struct nvif_mclass
+      drm/nouveau: chan: use channel class definitions
+      drm/nouveau: exec: report max pushs through getparam
+
+Dave Airlie (3):
+      Merge tag 'drm-intel-fixes-2023-10-05' of
+git://anongit.freedesktop.org/drm/drm-intel into drm-fixes
+      Merge tag 'amd-drm-fixes-6.6-2023-10-04' of
+https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
+      Merge tag 'drm-misc-fixes-2023-10-05' of
+git://anongit.freedesktop.org/drm/drm-misc into drm-fixes
+
+Kai Uwe Broulik (1):
+      drm: panel-orientation-quirks: Add quirk for One Mix 2S
+
+Kenneth Feng (1):
+      drm/amd/pm: add unique_id for gc 11.0.3
+
+Luben Tuikov (1):
+      drm/amdgpu: Fix a memory leak
+
+Mario Limonciello (2):
+      drm/amd: Fix logic error in sienna_cichlid_update_pcie_parameters()
+      drm/amd: Fix detection of _PR3 on the PCIe root port
+
+Mathias Krause (1):
+      drm/i915: Register engines early to avoid type confusion
+
+Nirmoy Das (1):
+      drm/i915: Don't set PIPE_CONTROL_FLUSH_L3 for aux inval
+
+Samson Tam (1):
+      drm/amd/display: apply edge-case DISPCLK WDIVIDER changes to
+master OTG pipes only
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c         |  2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_fru_eeprom.c     |  1 +
+ .../amd/display/dc/clk_mgr/dcn20/dcn20_clk_mgr.c   |  4 +--
+ .../amd/display/dc/clk_mgr/dcn32/dcn32_clk_mgr.c   |  4 +--
+ drivers/gpu/drm/amd/pm/amdgpu_pm.c                 |  1 +
+ .../drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c    | 41 ++++++++++++----------
+ drivers/gpu/drm/drm_panel_orientation_quirks.c     | 16 +++++++++
+ drivers/gpu/drm/i915/gem/i915_gem_pages.c          |  2 +-
+ drivers/gpu/drm/i915/gt/gen8_engine_cs.c           | 11 +++++-
+ drivers/gpu/drm/i915/i915_gem.c                    |  9 +++--
+ drivers/gpu/drm/nouveau/nouveau_abi16.c            | 21 +++++++++++
+ drivers/gpu/drm/nouveau/nouveau_chan.c             | 15 ++++----
+ drivers/gpu/drm/nouveau/nouveau_dma.h              |  3 ++
+ drivers/gpu/drm/nouveau/nouveau_exec.c             |  7 ++--
+ drivers/gpu/drm/nouveau/nouveau_exec.h             | 10 ++++++
+ drivers/gpu/drm/tests/drm_kunit_helpers.c          |  2 +-
+ include/uapi/drm/nouveau_drm.h                     | 10 ++++++
+ 17 files changed, 120 insertions(+), 39 deletions(-)
