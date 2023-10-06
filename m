@@ -2,60 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E04517BC08C
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Oct 2023 22:42:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B92C7BC08F
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Oct 2023 22:42:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 334D810E56B;
-	Fri,  6 Oct 2023 20:42:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D269410E563;
+	Fri,  6 Oct 2023 20:42:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com
- [IPv6:2607:f8b0:4864:20::62a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4CAAA10E563
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Oct 2023 20:42:08 +0000 (UTC)
-Received: by mail-pl1-x62a.google.com with SMTP id
- d9443c01a7336-1c3d8fb23d9so19870585ad.0
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Oct 2023 13:42:08 -0700 (PDT)
+Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com
+ [IPv6:2607:f8b0:4864:20::530])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1769F10E563
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Oct 2023 20:42:10 +0000 (UTC)
+Received: by mail-pg1-x530.google.com with SMTP id
+ 41be03b00d2f7-53fbf2c42bfso1983231a12.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 06 Oct 2023 13:42:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1696624928; x=1697229728; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=XkHUGyeeQEUIOHI53+FOR6+UrclISQhPbCFOjW4q478=;
- b=k1tQyB79zAOMM9oXfdFcms27h+wr9hXbq0pgLyVshnUKqsJOxGG0Tjbsu45Pj55jy6
- jmufk1FusrSKj+1HbmJa5ehTKptOT+Sj+gUadxO6+WwvLavCPe2F4NdpW2MII6BIq1bk
- CWA38W2haZCv+/vBTAlH595EcgLE4inQVlqBvHo879/VuU/9eaYOkUYHQOcwxTokbpFp
- fsdB0qo2Dt3RDP1A+U/9l7InbCVZoKRvuSgOondeUSfVW8EcwJvgmubf7DW6LGjwBmWC
- O4jBdBPFMl3NSpNFi3MKq3ku8d/8a1cLL3QKWefe7HvZjqAmn6QU4yNuEl3H91yCEGYI
- PHwg==
+ d=gmail.com; s=20230601; t=1696624929; x=1697229729; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=qBMYWbpbrSBVp77rMXiQ5aEdCcdBzlEfucMC9y2SIB4=;
+ b=iWXR3Kf+Am/QwISTgWHg1FPECcaJLAzCzVK6SwA2ZDWdaJdYq3++ziXf8vufDPNOfq
+ itCrQs23M4I3VK5rxyM5LsyqIFOG8fKfoBbWEORb7CL/UR62QLmiHAhM5p8Rc048Cxq0
+ NfC/j8Rc0bxmmmplHNs8mxNSHzUpgotOFpFPQvygyjqGSwFWh3XSeVRka+C5mM8jjaxz
+ whAO1moOnwi0D+pcehy4/yi+LMIFj7V70Ju/GL3WPDVJabA4VVR5ruFaOhRvjD9/bb6D
+ ED8qB5iPOO/4n5mrSexiIzhtxQARWXjm3Vx7wXeJ4W5/PQSXX4lU6CAMT+Hmc3h61jUJ
+ P/Eg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1696624928; x=1697229728;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=XkHUGyeeQEUIOHI53+FOR6+UrclISQhPbCFOjW4q478=;
- b=c7cHCm6gdvJrwS99VklbFy1XBlx3hLQKBlrh7G9aX3COfZ9vPAsXr2dUtdDP8BPn9I
- T0hc5Q0pNFppUf5jdM3mIjaW9NOP+P/MYrR57xdkd0Qr7sxMZmyN3LP9Suqj3sxLiPE2
- VcMZtiK65YslejNCyCvEzACJs9oI9ET9AjbqrSQrpsS6IDvCN+1Ho2Y9lWxD+1n7JUwr
- eUZv1FG60b89gZOD40TacoJPcpV2ndf0sCStXWQ2AEyrF+C7zG9VyddmVB6oYMfmJbTD
- in36gYGkblBFmyS2vtTYuGc3fUkrXg9r2OrG1cUGTuZEb/m/u+uqrdljW4UcetkrKxjs
- Ixjw==
-X-Gm-Message-State: AOJu0YxdL2w8ImuIATB1R3b5hKDrxe2KoSVb2ACNBc/TJEdaDzidpJdG
- gssePAFf+/XqyA7lPaUYttU=
-X-Google-Smtp-Source: AGHT+IFfUzWXcx4HOcloTttGcPyfnC7vf2Gwxm544SnsMKXrXiCHSuB4oHgc+C+zXJDGFPPHZUnsvg==
-X-Received: by 2002:a17:902:d2ce:b0:1c6:291e:24b6 with SMTP id
- n14-20020a170902d2ce00b001c6291e24b6mr11062023plc.37.1696624927793; 
- Fri, 06 Oct 2023 13:42:07 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1696624929; x=1697229729;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=qBMYWbpbrSBVp77rMXiQ5aEdCcdBzlEfucMC9y2SIB4=;
+ b=LOHNG6q83r7jN3pU04Ss4NSKqeRGdJF5kGGTTILiWr6oUUNUI4osRgMSRQuZ99S/Uu
+ u0FmHFzX2LBg7PGJhS1w0N2MO3YSYwnY4HAnNqEU/fqgimxyIzioCIvqh2wStJ+XmqNb
+ wHa5tEmoRllGoxCd9PLZ0RxvKeUyQKnX72CGfGCwX1kQCLal34Y0bA+a8Vbj97UZYjQ2
+ QjJuI2VKNJxnGSf/2zX9gUZvQrr4q1AGoqKXKKKM1liK6QHLSy77plZTi47WmpATIhAi
+ Y/l/qifi1kto64lOjBpxv6ay+21GrWcmyumP8OVGkmOtTkqE+2flTd6evgYcFZieMWOn
+ /WYg==
+X-Gm-Message-State: AOJu0YwPNX1pFqU3WfbwM/uyzU3PjxHrezaMLfDyN3i3eIMoplnw5UUy
+ HU3y1fE9KHqvZAjR2IqT8qQ=
+X-Google-Smtp-Source: AGHT+IFa1/kBnIsWAzQU0Ku07Ss5y1KElb0VFLIfeqm2Jxt2+RNafilfVdzo9PDcPLXoWFZp/0VLPA==
+X-Received: by 2002:a05:6a20:1455:b0:10f:be0:4dce with SMTP id
+ a21-20020a056a20145500b0010f0be04dcemr11141772pzi.8.1696624929602; 
+ Fri, 06 Oct 2023 13:42:09 -0700 (PDT)
 Received: from local.lan ([181.197.224.5]) by smtp.gmail.com with ESMTPSA id
- 10-20020a170902c20a00b001ae0152d280sm4355712pll.193.2023.10.06.13.42.06
+ 10-20020a170902c20a00b001ae0152d280sm4355712pll.193.2023.10.06.13.42.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 Oct 2023 13:42:07 -0700 (PDT)
+ Fri, 06 Oct 2023 13:42:09 -0700 (PDT)
 From: Jorge Maidana <jorgem.linux@gmail.com>
 To: Helge Deller <deller@gmx.de>
-Subject: [PATCH 1/2] fbdev/uvesafb: Remove uvesafb_exec() prototype from
- include/video/uvesafb.h
-Date: Fri,  6 Oct 2023 17:43:46 -0300
-Message-Id: <20231006204347.2594-1-jorgem.linux@gmail.com>
+Subject: [PATCH 2/2] fbdev/uvesafb: Call cn_del_callback() at the end of
+ uvesafb_exit()
+Date: Fri,  6 Oct 2023 17:43:47 -0300
+Message-Id: <20231006204347.2594-2-jorgem.linux@gmail.com>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20231006204347.2594-1-jorgem.linux@gmail.com>
+References: <20231006204347.2594-1-jorgem.linux@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -75,32 +78,33 @@ Cc: linux-fbdev@vger.kernel.org, Jorge Maidana <jorgem.linux@gmail.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-uvesafb_exec() is a static function defined and called only in
-drivers/video/fbdev/uvesafb.c, remove the prototype from
-include/video/uvesafb.h.
+Delete the v86d netlink only after all the VBE tasks have been
+completed.
 
-Fixes the warning:
-./include/video/uvesafb.h:112:12: warning: 'uvesafb_exec' declared 'static' but never defined [-Wunused-function]
-when including '<video/uvesafb.h>' in an external program.
+Fixes initial state restore on module unload:
+uvesafb: VBE state restore call failed (eax=0x4f04, err=-19)
 
 Signed-off-by: Jorge Maidana <jorgem.linux@gmail.com>
 ---
- include/video/uvesafb.h | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/video/fbdev/uvesafb.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/video/uvesafb.h b/include/video/uvesafb.h
-index 8d2a3bfc8..47d96e75e 100644
---- a/include/video/uvesafb.h
-+++ b/include/video/uvesafb.h
-@@ -109,8 +109,6 @@ struct uvesafb_ktask {
- 	u32 ack;
- };
+diff --git a/drivers/video/fbdev/uvesafb.c b/drivers/video/fbdev/uvesafb.c
+index a1a67830f..e1f421e91 100644
+--- a/drivers/video/fbdev/uvesafb.c
++++ b/drivers/video/fbdev/uvesafb.c
+@@ -1928,10 +1928,10 @@ static void uvesafb_exit(void)
+ 		}
+ 	}
  
--static int uvesafb_exec(struct uvesafb_ktask *tsk);
--
- #define UVESAFB_EXACT_RES	1
- #define UVESAFB_EXACT_DEPTH	2
+-	cn_del_callback(&uvesafb_cn_id);
+ 	driver_remove_file(&uvesafb_driver.driver, &driver_attr_v86d);
+ 	platform_device_unregister(uvesafb_device);
+ 	platform_driver_unregister(&uvesafb_driver);
++	cn_del_callback(&uvesafb_cn_id);
+ }
  
+ module_exit(uvesafb_exit);
 -- 
 2.30.2
 
