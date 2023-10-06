@@ -2,56 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B818A7BB10F
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Oct 2023 06:58:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFB227BB1D0
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Oct 2023 08:58:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F8E610E1D4;
-	Fri,  6 Oct 2023 04:58:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 95C5B10E200;
+	Fri,  6 Oct 2023 06:58:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
- [IPv6:2a00:1450:4864:20::631])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BECDD10E1D4
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Oct 2023 04:58:51 +0000 (UTC)
-Received: by mail-ej1-x631.google.com with SMTP id
- a640c23a62f3a-99de884ad25so306916066b.3
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Oct 2023 21:58:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1696568330; x=1697173130; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=QjM0/Xrho/1FsrlLPD/qSWsu6B38wg4wh+AhjT9LTBY=;
- b=RxCxpQqRjVc5FvRXQCFvNiFxwqR5uQ612ywZ49v/8RmdVxwEd43GR30+TaYgHMeOFa
- SILUgjSvW/HGQMaLlH9gv4Iwe63b2H7MGQd521NqCQ3MH4q/t8s6jJ/LVujI4Xwa7JVi
- e3p3JaoviqD6xhk89pB5ktLftQHR1KxI2xhcw/PYgXvAKEeOxcsPe6p9oO57URvf+Gvp
- KM+fh3gdi8YjfeP0Mg4Uv6t3R168ZN5GaiCr+lS9RbZ6V3X8wRzhfk4/EvfQ4OryulBq
- akG+PnmU4yMxSoCJHkndKb2DdRVQfI+h4W0L2PR8oJ3Tz8/pFmg2OWxYiFGVi3bClEja
- K0UA==
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com
+ [209.85.128.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2FA4D10E200
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Oct 2023 06:57:58 +0000 (UTC)
+Received: by mail-yw1-f175.google.com with SMTP id
+ 00721157ae682-5a21ea6baccso22057227b3.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Oct 2023 23:57:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1696568330; x=1697173130;
- h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=QjM0/Xrho/1FsrlLPD/qSWsu6B38wg4wh+AhjT9LTBY=;
- b=DIRZI/KNveRsOwRexcOqicIYsSGpsIMIcoFbgOC0Kqb1asLNsp2k4UpxMEQJ3geEDc
- y3A7HmYuxHvenz01DZEwA2ofeLkGM8fAW0RxjmtNVeHuV/Xuudq3+jv9LJSpUepYn/N1
- 6tmEQanwRh/NvuGO9O41pMtp/SfMbiFRd738G5y07M/9wjzyaycAOH7Fz8yGqwPVGm+l
- iIJ9gmLB4VKvJe9F+8TPSIsx/p+2/U357q/fRHBH3irQpw2kypSdeYoFzvDVvsp6pGau
- IiFvHXSLrOIcjG1o1kQmbRYUclMplmvej+lwNjIl1WdL2TI5HiNEm13HAJKBLqBmaqyK
- YSoQ==
-X-Gm-Message-State: AOJu0YzSwW9Ay9TtCZMVoXE31pxSZ9MwVWcRzkPVrDEYUChHLZC/Hye0
- pa21+BcJuSjJc1LuJBLpApvhWnfgKwW9ITxbFjlCAvov
-X-Google-Smtp-Source: AGHT+IEUaO5nhV0VxSuIsCXm8e8ey4jBrnKDPa3Z535adOENEt98qF3prSVDgVn1VMatECG+TbFP7rPdTNg2N50B2jc=
-X-Received: by 2002:a17:906:310b:b0:9b5:f25d:9261 with SMTP id
- 11-20020a170906310b00b009b5f25d9261mr6501872ejx.22.1696568329877; Thu, 05 Oct
- 2023 21:58:49 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1696575477; x=1697180277;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=gwH34nAKT/9gJP0Nz0nWG6ojc2t+JiQa+bhA5w8EoOU=;
+ b=Gx1bmJCe+v+pD4uslqBODfPudsQXyzfLxZARaXclQTWnKTuNAoaeRzY2QqmmcdKqiM
+ 8bu1r/gxgzsjpWS7fjBhvHrAEu2zrd6Rly9Zlt0bb7hcPAd16fXHDh2m8488o+qei7D/
+ XuiObKdvejhUjh2eREs+hLLcBzY96u6eHd1E58359d6QvRcHOnyEab7hiu4Wulz3RcqO
+ HBJlR3WjuoGvLPGFaatuXt+xSK3uFBIAmuQIf2KetQtvT/8RuVSWYg3EVcWcI9f+CkAz
+ P+4YWUNHKNjII7liUm6/NykyIECNwnDJEjGXuxc7Zjol/2x1Lv0KGyvB4EEAaACnFLSs
+ 4PEg==
+X-Gm-Message-State: AOJu0YydaVmhH0/QkTA6Wdelk1MiWWABFeCS4Kg6h/3vaM5CyeKy4GIO
+ M1OLU4pM5+lu/Hn2PSzKbtC6Hu2k8JDKkQ==
+X-Google-Smtp-Source: AGHT+IGePEUbZl8F5jmjwFbJJkAFzKrxZRI937M4P2SjrX3vmyMshdDr9N24x9saYlybsdNSIuRUcA==
+X-Received: by 2002:a81:c24a:0:b0:589:f995:eb9f with SMTP id
+ t10-20020a81c24a000000b00589f995eb9fmr7890070ywg.45.1696575477064; 
+ Thu, 05 Oct 2023 23:57:57 -0700 (PDT)
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com.
+ [209.85.128.172]) by smtp.gmail.com with ESMTPSA id
+ m73-20020a0dca4c000000b00570253fc3e5sm1070525ywd.105.2023.10.05.23.57.56
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 05 Oct 2023 23:57:56 -0700 (PDT)
+Received: by mail-yw1-f172.google.com with SMTP id
+ 00721157ae682-59f1dff5298so21848147b3.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Oct 2023 23:57:56 -0700 (PDT)
+X-Received: by 2002:a0d:dfc6:0:b0:57a:2e83:4daf with SMTP id
+ i189-20020a0ddfc6000000b0057a2e834dafmr7696369ywe.32.1696575475803; Thu, 05
+ Oct 2023 23:57:55 -0700 (PDT)
 MIME-Version: 1.0
-From: Dave Airlie <airlied@gmail.com>
-Date: Fri, 6 Oct 2023 14:58:38 +1000
-Message-ID: <CAPM=9txQG3XyUMBvFf5pj8ng0sKekGMw5A7nhU_eMN5ubkVGcA@mail.gmail.com>
-Subject: [git pull] drm fixes for 6.6-rc5
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
+References: <cover.1694767208.git.geert+renesas@glider.be>
+ <CAMuHMdWfBTKdXvZutg4LvWqBjuz-X=ZjzX0LKPqD=JxYuLoPRw@mail.gmail.com>
+ <20230919152428.GB18426@pendragon.ideasonboard.com>
+ <CAMuHMdUwBXQ2X6hOm+kcZOteDLMau8x5xUcRJr2zy9dXyVf9Xw@mail.gmail.com>
+In-Reply-To: <CAMuHMdUwBXQ2X6hOm+kcZOteDLMau8x5xUcRJr2zy9dXyVf9Xw@mail.gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 6 Oct 2023 08:57:43 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUnQx82bzJ7XyzCo6MuDHNhDviZigJOyuYvtUOCkogxqQ@mail.gmail.com>
+Message-ID: <CAMuHMdUnQx82bzJ7XyzCo6MuDHNhDviZigJOyuYvtUOCkogxqQ@mail.gmail.com>
+Subject: Re: [GIT PULL] drm: renesas: shmobile: Atomic conversion + DT support
+ (was: Re: [PATCH v4 00/41] drm: renesas: shmobile: Atomic conversion
+ + DT support)
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,144 +75,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>, Conor Dooley <conor+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Linux-sh list <linux-sh@vger.kernel.org>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus,
+Hi all,
 
-Regular weekly pull, all seems pretty normal, i915 and amdgpu mostly.
+On Tue, Sep 26, 2023 at 4:51=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68=
+k.org> wrote:
+> On Tue, Sep 19, 2023 at 5:24=E2=80=AFPM Laurent Pinchart
+> <laurent.pinchart@ideasonboard.com> wrote:
+> > On Tue, Sep 19, 2023 at 04:28:40PM +0200, Geert Uytterhoeven wrote:
+> > > The following changes since commit 0663e1da5ba8e6459e3555ac12c6274166=
+8c0d30:
+> > >
+> > >   drm/dp_mst: Tune down error message during payload addition
+> > > (2023-09-18 16:38:21 +0300)
+> > >
+> > > are available in the Git repository at:
+> > >
+> > >   git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers=
+.git
+> > > tags/shmob-drm-atomic-dt-tag1
+> > >
+> > > for you to fetch changes up to bfea0fa9052aa8d235b24957eb84d9ff20cb87=
+b7:
+> > >
+> > >   drm: renesas: shmobile: Add DT support (2023-09-19 15:58:04 +0200)
+> > >
+> > > ----------------------------------------------------------------
+> > > drm: renesas: shmobile: Atomic conversion + DT support
+> > >
+> > > Currently, there are two drivers for the LCD controller on Renesas
+> > > SuperH-based and ARM-based SH-Mobile and R-Mobile SoCs:
+> > >   1. sh_mobile_lcdcfb, using the fbdev framework,
+> > >   2. shmob_drm, using the DRM framework.
+> > > However, only the former driver is used, as all platform support
+> > > integrates the former.  None of these drivers support DT-based system=
+s.
+> > >
+> > > Convert the SH-Mobile DRM driver to atomic modesetting, and add DT
+> > > support, complemented by the customary set of fixes and improvements.
+> > >
+> > > Link: https://lore.kernel.org/r/cover.1694767208.git.geert+renesas@gl=
+ider.be/
+> > >
+> > > This PR is based on today's drm-misc/for-linux-next, to avoid a
+> > > conflict with commit 775b0669e19f2e4a ("drm/shmobile: Convert to
+> > > platform remove callback returning void") in drm-misc/for-linux-next
+>
+> Now drm-misc/for-linux-next (which is still at v6.5-rc2) has been
+> merged into drm/drm-next (which is at v6.6-rc2), do you want me to
+> rebase my branch to current drm/drm-next, or any other commit?
 
-There is one small new uAPI addition for nouveau but getting it in now
-avoids a bunch of userspace dances, and it's for a userspace that
-hasn't yet released, so should have no side effects.
+Please advise me what needs to be done to move this forward.
+Thanks!
 
-Dave.
+> > > Thanks for pulling!
+> > > ----------------------------------------------------------------
+> > > Geert Uytterhoeven (36):
+> > >       MAINTAINER: Create entry for Renesas SH-Mobile DRM drivers
+> >
+> > I'm technically listed as the maintainer for this driver until Geert
+> > takes over, so for this pull request,
+> >
+> > Acked-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> >
+> > And after that, shmobile won't need my ack to merge further changes :-)
+> >
+> > This is very nice work Geert. I'm looking forward to dropping the
+> > sh_mobile_lcdcfb driver.
 
-drm-fixes-2023-10-06:
-drm fixes for 6.6-rc5
+Gr{oetje,eeting}s,
 
-i915:
-- Fix for OpenGL CTS regression on Compute Shaders
-- Fix for default engines initialization
-- Fix TLB invalidation for Multi-GT devices
+                        Geert
 
-amdgpu:
-- Add missing unique_id for GC 11.0.3
-- Fix memory leak in FRU error path
-- Fix PCIe link reporting on some SMU 11 parts
-- Fix ACPI _PR3 detection
-- Fix DISPCLK WDIVIDER handling in OTG code
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-tests:
-- Fix kunit release
-
-panel:
-- panel-orientation: Add quirk for One Mix 25
-
-nouveau:
-- Report IB limit via getparams
-- Replace some magic numbers with constants
-- small clean up
-The following changes since commit 8a749fd1a8720d4619c91c8b6e7528c0a355c0aa:
-
-  Linux 6.6-rc4 (2023-10-01 14:15:13 -0700)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2023-10-06
-
-for you to fetch changes up to 67f35a41d3748b7bab8787d20b50cf33fafa2ae0:
-
-  Merge tag 'drm-misc-fixes-2023-10-05' of
-git://anongit.freedesktop.org/drm/drm-misc into drm-fixes (2023-10-06
-12:48:06 +1000)
-
-----------------------------------------------------------------
-drm fixes for 6.6-rc5
-
-i915:
-- Fix for OpenGL CTS regression on Compute Shaders
-- Fix for default engines initialization
-- Fix TLB invalidation for Multi-GT devices
-
-amdgpu:
-- Add missing unique_id for GC 11.0.3
-- Fix memory leak in FRU error path
-- Fix PCIe link reporting on some SMU 11 parts
-- Fix ACPI _PR3 detection
-- Fix DISPCLK WDIVIDER handling in OTG code
-
-tests:
-- Fix kunit release
-
-panel:
-- panel-orientation: Add quirk for One Mix 25
-
-nouveau:
-- Report IB limit via getparams
-- Replace some magic numbers with constants
-- small clean up
-
-----------------------------------------------------------------
-Arthur Grillo (1):
-      drm/tests: Fix kunit_release_action ctx argument
-
-Chris Wilson (1):
-      drm/i915: Invalidate the TLBs on each GT
-
-Danilo Krummrich (3):
-      drm/nouveau: chan: use struct nvif_mclass
-      drm/nouveau: chan: use channel class definitions
-      drm/nouveau: exec: report max pushs through getparam
-
-Dave Airlie (3):
-      Merge tag 'drm-intel-fixes-2023-10-05' of
-git://anongit.freedesktop.org/drm/drm-intel into drm-fixes
-      Merge tag 'amd-drm-fixes-6.6-2023-10-04' of
-https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
-      Merge tag 'drm-misc-fixes-2023-10-05' of
-git://anongit.freedesktop.org/drm/drm-misc into drm-fixes
-
-Kai Uwe Broulik (1):
-      drm: panel-orientation-quirks: Add quirk for One Mix 2S
-
-Kenneth Feng (1):
-      drm/amd/pm: add unique_id for gc 11.0.3
-
-Luben Tuikov (1):
-      drm/amdgpu: Fix a memory leak
-
-Mario Limonciello (2):
-      drm/amd: Fix logic error in sienna_cichlid_update_pcie_parameters()
-      drm/amd: Fix detection of _PR3 on the PCIe root port
-
-Mathias Krause (1):
-      drm/i915: Register engines early to avoid type confusion
-
-Nirmoy Das (1):
-      drm/i915: Don't set PIPE_CONTROL_FLUSH_L3 for aux inval
-
-Samson Tam (1):
-      drm/amd/display: apply edge-case DISPCLK WDIVIDER changes to
-master OTG pipes only
-
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c         |  2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_fru_eeprom.c     |  1 +
- .../amd/display/dc/clk_mgr/dcn20/dcn20_clk_mgr.c   |  4 +--
- .../amd/display/dc/clk_mgr/dcn32/dcn32_clk_mgr.c   |  4 +--
- drivers/gpu/drm/amd/pm/amdgpu_pm.c                 |  1 +
- .../drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c    | 41 ++++++++++++----------
- drivers/gpu/drm/drm_panel_orientation_quirks.c     | 16 +++++++++
- drivers/gpu/drm/i915/gem/i915_gem_pages.c          |  2 +-
- drivers/gpu/drm/i915/gt/gen8_engine_cs.c           | 11 +++++-
- drivers/gpu/drm/i915/i915_gem.c                    |  9 +++--
- drivers/gpu/drm/nouveau/nouveau_abi16.c            | 21 +++++++++++
- drivers/gpu/drm/nouveau/nouveau_chan.c             | 15 ++++----
- drivers/gpu/drm/nouveau/nouveau_dma.h              |  3 ++
- drivers/gpu/drm/nouveau/nouveau_exec.c             |  7 ++--
- drivers/gpu/drm/nouveau/nouveau_exec.h             | 10 ++++++
- drivers/gpu/drm/tests/drm_kunit_helpers.c          |  2 +-
- include/uapi/drm/nouveau_drm.h                     | 10 ++++++
- 17 files changed, 120 insertions(+), 39 deletions(-)
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
