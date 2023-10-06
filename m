@@ -2,45 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F249F7BB9DA
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Oct 2023 15:57:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE7817BBA82
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Oct 2023 16:41:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 19F9210E50E;
-	Fri,  6 Oct 2023 13:57:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C9AC910E509;
+	Fri,  6 Oct 2023 14:41:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BED6D10E4ED
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Oct 2023 13:57:05 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 1098BCE2612;
- Fri,  6 Oct 2023 13:57:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5246C433C8;
- Fri,  6 Oct 2023 13:57:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1696600622;
- bh=idFvMmY1v+sDVWq37NottVN3J7CQKXQP9kUYUL8wMos=;
- h=From:To:Cc:Subject:Date:From;
- b=ADRO7YOJLk4pL+lR2Q8XerSDTEGbzB98vkl0QxOZsXjHXyWI0LSlJ+E3w1la71SgH
- kf+91v1a2jTV9WpLphFY2sw+VTDfn516Yeutp4mWhppi0sIFYKfnA6mSGRWMr5OkVq
- AN8YTb6D2Ge0oMNudjP9xrG0/BVRbWiXbMkQqyik=
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] accel/habanalabs: make hl_class constant
-Date: Fri,  6 Oct 2023 15:56:55 +0200
-Message-ID: <2023100654-pointless-stem-5ee1@gregkh>
-X-Mailer: git-send-email 2.42.0
+X-Greylist: delayed 424 seconds by postgrey-1.36 at gabe;
+ Fri, 06 Oct 2023 14:41:15 UTC
+Received: from hosting.gsystem.sk (hosting.gsystem.sk [212.5.213.30])
+ by gabe.freedesktop.org (Postfix) with ESMTP id F250610E50B
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Oct 2023 14:41:15 +0000 (UTC)
+Received: from [192.168.1.3] (gsystem.sk [85.248.217.30])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by hosting.gsystem.sk (Postfix) with ESMTPSA id AEDAA7A025C;
+ Fri,  6 Oct 2023 16:34:09 +0200 (CEST)
+From: Ondrej Zary <linux@zary.sk>
+To: Helge Deller <deller@gmx.de>
+Subject: Re: [PATCH] video: fbdev: arkfb: fix possible object reference leak
+Date: Fri, 6 Oct 2023 16:34:01 +0200
+User-Agent: KMail/1.9.10
+References: <tencent_55C1A344A101B55762ECA6A6366D0B0F8C05@qq.com>
+ <b9e51034-bc6c-81d8-39ef-9fc74fa09c62@gmx.de>
+In-Reply-To: <b9e51034-bc6c-81d8-39ef-9fc74fa09c62@gmx.de>
+X-KMail-QuotePrefix: > 
 MIME-Version: 1.0
-Lines: 109
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4013;
- i=gregkh@linuxfoundation.org; h=from:subject:message-id;
- bh=idFvMmY1v+sDVWq37NottVN3J7CQKXQP9kUYUL8wMos=;
- b=owGbwMvMwCRo6H6F97bub03G02pJDKkKQupTl8/0sT7mGKj4PvFfbFzMWX+2F6eEOS8fLSuPe
- vDg7qHkjlgWBkEmBlkxRZYv23iO7q84pOhlaHsaZg4rE8gQBi5OAZjIs6cM82tlf2hOtHBbsv53
- cDjTtUfT66pWeTEs6OVTf6g0fWpBWOG8E5/OvMuy2jc1DQA=
-X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp;
- fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
-Content-Transfer-Encoding: 8bit
+Content-Type: Text/Plain;
+  charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+Message-Id: <202310061634.02110.linux@zary.sk>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,123 +47,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ohad Sharabi <osharabi@habana.ai>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Oded Gabbay <ogabbay@kernel.org>, Koby Elbaz <kelbaz@habana.ai>,
- linux-kernel@vger.kernel.org, Dafna Hirschfeld <dhirschfeld@habana.ai>,
- Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
- Tomer Tayar <ttayar@habana.ai>, Dani Liberman <dliberman@habana.ai>,
- Tal Cohen <talcohen@habana.ai>, Ofir Bitton <obitton@habana.ai>
+Cc: jiapeng.chong@linux.alibaba.com, linux-fbdev@vger.kernel.org,
+ javierm@redhat.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, tzimmermann@suse.de,
+ Zhang Shurong <zhang_shurong@foxmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that the driver core allows for struct class to be in read-only
-memory, we should make all 'class' structures declared at build time
-placing them into read-only memory, instead of having to be dynamically
-allocated at runtime.
+On Friday 06 October 2023, Helge Deller wrote:
+> On 10/5/23 09:01, Zhang Shurong wrote:
+> > Add missing pci_disable_device() in error path in ark_pci_probe().
+> 
+> Do you have this hardware and tested your patch?
+> I'm sure there is a reason, why "pci_disable_device()" was commented
+> out in the original submission in commit 681e14730c73c...
 
-This requires some passing of const struct class * around in the common
-habanalabs code as well as converting the structure itself.
+pci_disable_device() call is disabled in many fbdev drivers because calling it might prevent display from working.
 
-Cc: Dafna Hirschfeld <dhirschfeld@habana.ai>
-Cc: Dani Liberman <dliberman@habana.ai>
-Cc: Koby Elbaz <kelbaz@habana.ai>
-Cc: Oded Gabbay <ogabbay@kernel.org>
-Cc: Ofir Bitton <obitton@habana.ai>
-Cc: Ohad Sharabi <osharabi@habana.ai>
-Cc: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-Cc: Tal Cohen <talcohen@habana.ai>
-Cc: Tomer Tayar <ttayar@habana.ai>
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- drivers/accel/habanalabs/common/device.c        |  2 +-
- drivers/accel/habanalabs/common/habanalabs.h    |  2 +-
- .../accel/habanalabs/common/habanalabs_drv.c    | 17 ++++++++++-------
- 3 files changed, 12 insertions(+), 9 deletions(-)
+> 
+> Additionally I'm wondering why your patch doesn't show up in
+> the fbdev patchwork, although you added linux-fbdev mailing list.
+> Probably a vger issue.
+> 
+> Helge
+> 
+> 
+> > Signed-off-by: Zhang Shurong <zhang_shurong@foxmail.com>
+> > ---
+> >   drivers/video/fbdev/arkfb.c | 4 ++--
+> >   1 file changed, 2 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/video/fbdev/arkfb.c b/drivers/video/fbdev/arkfb.c
+> > index 60a96fdb5dd8..6c4e5065646f 100644
+> > --- a/drivers/video/fbdev/arkfb.c
+> > +++ b/drivers/video/fbdev/arkfb.c
+> > @@ -1064,7 +1064,7 @@ static int ark_pci_probe(struct pci_dev *dev, const struct pci_device_id *id)
+> >   err_dac:
+> >   	pci_release_regions(dev);
+> >   err_request_regions:
+> > -/*	pci_disable_device(dev); */
+> > +	pci_disable_device(dev);
+> >   err_enable_device:
+> >   	framebuffer_release(info);
+> >   	return rc;
+> > @@ -1085,7 +1085,7 @@ static void ark_pci_remove(struct pci_dev *dev)
+> >
+> >   		pci_iounmap(dev, info->screen_base);
+> >   		pci_release_regions(dev);
+> > -/*		pci_disable_device(dev); */
+> > +		pci_disable_device(dev);
+> >
+> >   		framebuffer_release(info);
+> >   	}
+> 
+> 
 
-diff --git a/drivers/accel/habanalabs/common/device.c b/drivers/accel/habanalabs/common/device.c
-index b97339d1f7c6..4c28d8cfbb68 100644
---- a/drivers/accel/habanalabs/common/device.c
-+++ b/drivers/accel/habanalabs/common/device.c
-@@ -652,7 +652,7 @@ static void device_release_func(struct device *dev)
-  *
-  * Initialize a cdev and a Linux device for habanalabs's device.
-  */
--static int device_init_cdev(struct hl_device *hdev, struct class *class,
-+static int device_init_cdev(struct hl_device *hdev, const struct class *class,
- 				int minor, const struct file_operations *fops,
- 				char *name, struct cdev *cdev,
- 				struct device **dev)
-diff --git a/drivers/accel/habanalabs/common/habanalabs.h b/drivers/accel/habanalabs/common/habanalabs.h
-index 2f027d5a8206..f1c78555e611 100644
---- a/drivers/accel/habanalabs/common/habanalabs.h
-+++ b/drivers/accel/habanalabs/common/habanalabs.h
-@@ -3308,7 +3308,7 @@ struct hl_device {
- 	u64				pcie_bar_phys[HL_PCI_NUM_BARS];
- 	void __iomem			*pcie_bar[HL_PCI_NUM_BARS];
- 	void __iomem			*rmmio;
--	struct class			*hclass;
-+	const struct class		*hclass;
- 	struct cdev			cdev;
- 	struct cdev			cdev_ctrl;
- 	struct device			*dev;
-diff --git a/drivers/accel/habanalabs/common/habanalabs_drv.c b/drivers/accel/habanalabs/common/habanalabs_drv.c
-index 7263e84c1a4d..4f1fdff3843d 100644
---- a/drivers/accel/habanalabs/common/habanalabs_drv.c
-+++ b/drivers/accel/habanalabs/common/habanalabs_drv.c
-@@ -27,7 +27,11 @@ MODULE_DESCRIPTION(HL_DRIVER_DESC);
- MODULE_LICENSE("GPL v2");
- 
- static int hl_major;
--static struct class *hl_class;
-+
-+static const struct class hl_class = {
-+	.name = HL_NAME,
-+};
-+
- static DEFINE_IDR(hl_devs_idr);
- static DEFINE_MUTEX(hl_devs_idr_lock);
- 
-@@ -317,7 +321,7 @@ static void copy_kernel_module_params_to_device(struct hl_device *hdev)
- 	hdev->asic_prop.fw_security_enabled = is_asic_secured(hdev->asic_type);
- 
- 	hdev->major = hl_major;
--	hdev->hclass = hl_class;
-+	hdev->hclass = &hl_class;
- 	hdev->memory_scrub = memory_scrub;
- 	hdev->reset_on_lockup = reset_on_lockup;
- 	hdev->boot_error_status_mask = boot_error_status_mask;
-@@ -691,10 +695,9 @@ static int __init hl_init(void)
- 
- 	hl_major = MAJOR(dev);
- 
--	hl_class = class_create(HL_NAME);
--	if (IS_ERR(hl_class)) {
-+	rc = class_register(&hl_class);
-+	if (rc) {
- 		pr_err("failed to allocate class\n");
--		rc = PTR_ERR(hl_class);
- 		goto remove_major;
- 	}
- 
-@@ -712,7 +715,7 @@ static int __init hl_init(void)
- 
- remove_debugfs:
- 	hl_debugfs_fini();
--	class_destroy(hl_class);
-+	class_unregister(&hl_class);
- remove_major:
- 	unregister_chrdev_region(MKDEV(hl_major, 0), HL_MAX_MINORS);
- 	return rc;
-@@ -732,7 +735,7 @@ static void __exit hl_exit(void)
- 	 */
- 	hl_debugfs_fini();
- 
--	class_destroy(hl_class);
-+	class_unregister(&hl_class);
- 	unregister_chrdev_region(MKDEV(hl_major, 0), HL_MAX_MINORS);
- 
- 	idr_destroy(&hl_devs_idr);
+
+
 -- 
-2.42.0
-
+Ondrej Zary
