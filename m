@@ -2,70 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20C8B7BB677
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Oct 2023 13:31:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C48B7BB685
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Oct 2023 13:37:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D29110E1EA;
-	Fri,  6 Oct 2023 11:31:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B66610E0D0;
+	Fri,  6 Oct 2023 11:37:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com
- [IPv6:2a00:1450:4864:20::22e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F158E10E1EA
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Oct 2023 11:31:50 +0000 (UTC)
-Received: by mail-lj1-x22e.google.com with SMTP id
- 38308e7fff4ca-2bb9a063f26so24328361fa.2
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Oct 2023 04:31:50 -0700 (PDT)
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
+ [IPv6:2a00:1450:4864:20::12d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CEB9010E0D0
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Oct 2023 11:37:17 +0000 (UTC)
+Received: by mail-lf1-x12d.google.com with SMTP id
+ 2adb3069b0e04-50444e756deso2721618e87.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 06 Oct 2023 04:37:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1696591909; x=1697196709; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1696592236; x=1697197036; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=a0TWF593bNTpaB3Tqqlr8JM3XLOkBPwK4clHQVWNSyM=;
- b=qwcmelSFydiMcNQjtE0N5F5b/2sRPCjWCLnLrRpKxUK1u1UKZv+bqiqYORlFdeLGC2
- 3a1ZB0t/wCOTq1oOYon3pguezG+QqKeDtV3X0hGAs4pLfsBAWw7zAQPj5dAosd0D5+pV
- Owdj5wgTiVU7nJQ4gIIovDhkmNqJ41siU148kPSInaJ9bDGwx4yb/TSqhizFMUA8oJiY
- OZAorK7OMnn0xHxgKjYPcQ/HDWLttDqhuSKzgqoX5Gl6kE7p+89Ea7Yqp21eBMZ8QDk+
- DpfV1HOkafCqZUwnvYWZCJFH13FwHeyTgNqOLnfVLLxNNLdTR1b2tOokRrvRIwgvT6Sl
- +BEw==
+ bh=W1VsvxhUXFiTgLAymq3ebUz3YFWk1kEe5SWqaT+jDqg=;
+ b=fp5oVsmW23OMkPtx+Z+ZjG2UP2omKRtRFfwZzY8ELpFa1ozam/bzBVzuUnKgGN0S4w
+ voXKIlTIRB7tfS0u79zGULNdVt4PbnfmTS0FEEszL+gpyD3zae9Sm9isFYq3/veecEQO
+ ZkO/hYHKyTPK6TMNu2GS+iV0gExezxf5iCXhyzABuHwn54MqAoIZBwRKVOIKIFF87vLm
+ u+rjzAbqYorE/UD6jcYvuGDxCbU73E3cQ65aBhdvEXIHCwGWBIBvv+lsSp42v3JXMLTC
+ YxJ3Gy+WAymvtOiJIqmezTiKk8eLey+b37XhQavtWnMA5HUL7coNby5MK4WgJbo8orwg
+ g1cw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1696591909; x=1697196709;
+ d=1e100.net; s=20230601; t=1696592236; x=1697197036;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=a0TWF593bNTpaB3Tqqlr8JM3XLOkBPwK4clHQVWNSyM=;
- b=XPRthE2Yd4mHz7pphGHFhHOL2EQ19HgY/K/wbRNLfQ8YXmzva1J6iUzm665Z9T+Pcg
- khdUgjOmJpb73txPU9TIsSa3DCTorahlbdTz8SnG2Ug0cUhBcYFe+GHIx14hAPc96skW
- 4t1vpEkhQoeE12Pg7/0R9Kay3aRbnEEFZO9jLNaATCA08Zj5lTkJFCngOkffczdwXSs1
- SAIRwWjZW63sD32+NDX12dMtlzHJkaaMtktnyVVAAJWhsnPdyPUWpGBG0pdpeZgYwxxi
- xjZsMBA/HwsIAanJWuGUhsHD3c/RjsmNdncm36RVBHqDgKmB5CYnSOYEKF71CB7cZymr
- NhHQ==
-X-Gm-Message-State: AOJu0YxaPNIP/2W07LwVCME0Ca36u7KtT73u2gd/+GLyDL012O9KCR5k
- UtwzgPGeFj2WqXVBbNgJDi447g==
-X-Google-Smtp-Source: AGHT+IEgFCEHn504tuKBVWYl0xhU1uiPtRBx27WqGJbL9nyuJRS1cbMMw8HuP1zpHgEZaEYk0xzkcg==
-X-Received: by 2002:a2e:8256:0:b0:2b6:e958:5700 with SMTP id
- j22-20020a2e8256000000b002b6e9585700mr6751826ljh.4.1696591909007; 
- Fri, 06 Oct 2023 04:31:49 -0700 (PDT)
+ bh=W1VsvxhUXFiTgLAymq3ebUz3YFWk1kEe5SWqaT+jDqg=;
+ b=EWZykhrK+p2Y/PE2iw3Xwt4kQ5EeODP0SzmkITm6dmKZlsfzRYThhsLZJfTDutuKcY
+ J/kmV8HrOKRjrPggXPqih6W5DjFbhNwl3ZUZ8nlph8mSivrvhRxhbf40fPxjVvzhkkbl
+ s42f7VV0mUQbXRW8jMyLJnVru1+yTKjQSP/C7Pz6VnlzBCYknhx3UQZwIFgbIWIg3aaX
+ eVskIsx6xKjWGe+zr6gFzLE5L1tlOtIFwulzzQo+OCYp85TwPOt12X5jNqS7GwB92oCQ
+ ErNyT8AwU1CMU8CcQwDmT/okydDvgnjf/xo3g6HGJJLItXlqurEe8UcHEU1pavT6rWE6
+ 41jg==
+X-Gm-Message-State: AOJu0Yx6Cj1wdSs/Lhb/LXQ+/hz02qaCzcz+Bx8/cQ6IS3k5WUvlpuWZ
+ Umy6SmrocHn0aBsZz6oljdS6dA==
+X-Google-Smtp-Source: AGHT+IF+Jpya32i8cpjd/eEUDafUcO+YT0nT8KXnyToGumNwtjpvCiq/Lgj7ChqbBTe+srBXkEe46g==
+X-Received: by 2002:a05:6512:4015:b0:503:9eb:d277 with SMTP id
+ br21-20020a056512401500b0050309ebd277mr8005030lfb.49.1696592235801; 
+ Fri, 06 Oct 2023 04:37:15 -0700 (PDT)
 Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
  (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
  by smtp.gmail.com with ESMTPSA id
- r6-20020a2e9946000000b002bce3123639sm743777ljj.98.2023.10.06.04.31.48
+ y20-20020ac24214000000b00500829f7b2bsm269094lfh.250.2023.10.06.04.37.15
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 06 Oct 2023 04:31:48 -0700 (PDT)
-Message-ID: <dce265a6-12af-4374-a156-7bceffd5e2ea@linaro.org>
-Date: Fri, 6 Oct 2023 14:31:48 +0300
+ Fri, 06 Oct 2023 04:37:15 -0700 (PDT)
+Message-ID: <1b317a1f-f7d1-4ec2-8e15-7c9cad3036bf@linaro.org>
+Date: Fri, 6 Oct 2023 14:37:14 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 2/7] drm/msm/dp: rename is_connected with link_ready
+Subject: Re: [PATCH v5 4/7] drm/msm/dp: move parser->parse() and
+ dp_power_client_init() to probe
 Content-Language: en-GB
 To: Kuogee Hsieh <quic_khsieh@quicinc.com>, dri-devel@lists.freedesktop.org,
  robdclark@gmail.com, sean@poorly.run, swboyd@chromium.org,
  dianders@chromium.org, vkoul@kernel.org, daniel@ffwll.ch, airlied@gmail.com,
  agross@kernel.org, andersson@kernel.org
 References: <1696436821-14261-1-git-send-email-quic_khsieh@quicinc.com>
- <1696436821-14261-3-git-send-email-quic_khsieh@quicinc.com>
+ <1696436821-14261-5-git-send-email-quic_khsieh@quicinc.com>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <1696436821-14261-3-git-send-email-quic_khsieh@quicinc.com>
+In-Reply-To: <1696436821-14261-5-git-send-email-quic_khsieh@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -88,27 +89,75 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 04/10/2023 19:26, Kuogee Hsieh wrote:
-> The is_connected flag is set to true after DP mainlink successfully
-> finishes link training to enter into ST_MAINLINK_READY state rather
-> than being set after the DP dongle is connected. Rename the
-> is_connected flag with link_ready flag to match the state of DP
-> driver's state machine.
-> 
-> Changes in v5:
-> -- reworded commit text according to review comments from change #4
+> Original both parser->parse() and dp_power_client_init() are done at
+> dp_display_bind() since eDP population is done at binding time.
+> In the preparation of having eDP population done at probe() time,
+> move both function from dp_display_bind() to dp_display_probe().
 > 
 > Changes in v4:
-> -- reworded commit text
+> -- explain why parser->parse() and dp_power_client_init() are moved to probe time
+> -- tear down sub modules if failed
+> 
+> Changes in v4:
+> -- split this patch out of "incorporate pm_runtime framework into DP driver" patch
 > 
 > Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
 > ---
->   drivers/gpu/drm/msm/dp/dp_display.c | 19 +++++++++----------
->   drivers/gpu/drm/msm/dp/dp_display.h |  2 +-
->   drivers/gpu/drm/msm/dp/dp_drm.c     | 14 +++++++-------
->   3 files changed, 17 insertions(+), 18 deletions(-)
+>   drivers/gpu/drm/msm/dp/dp_display.c | 22 ++++++++++++----------
+>   1 file changed, 12 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+> index 32663ea..e4942fc 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+> @@ -276,11 +276,6 @@ static int dp_display_bind(struct device *dev, struct device *master,
+>   	dp->dp_display.drm_dev = drm;
+>   	priv->dp[dp->id] = &dp->dp_display;
+>   
+> -	rc = dp->parser->parse(dp->parser);
+> -	if (rc) {
+> -		DRM_ERROR("device tree parsing failed\n");
+> -		goto end;
+> -	}
+>   
+>   
+>   	dp->drm_dev = drm;
+> @@ -291,11 +286,6 @@ static int dp_display_bind(struct device *dev, struct device *master,
+>   		goto end;
+>   	}
+>   
+> -	rc = dp_power_client_init(dp->power);
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+As we have moved dp_power_client_init() from bind() to probe(), we 
+should also move dp_power_client_deinit() to remove(). Otherwise after 
+several bind/unbind attempts the pm enablement count can become negative.
 
+> -	if (rc) {
+> -		DRM_ERROR("Power client create failed\n");
+> -		goto end;
+> -	}
+>   
+>   	rc = dp_register_audio_driver(dev, dp->audio);
+>   	if (rc) {
+> @@ -1250,6 +1240,18 @@ static int dp_display_probe(struct platform_device *pdev)
+>   		return -EPROBE_DEFER;
+>   	}
+>   
+> +	rc = dp->parser->parse(dp->parser);
+> +	if (rc) {
+> +		DRM_ERROR("device tree parsing failed\n");
+> +		goto err;
+> +	}
+> +
+> +	rc = dp_power_client_init(dp->power);
+> +	if (rc) {
+> +		DRM_ERROR("Power client create failed\n");
+> +		goto err;
+> +	}
+> +
+>   	/* setup event q */
+>   	mutex_init(&dp->event_mutex);
+>   	init_waitqueue_head(&dp->event_q);
 
 -- 
 With best wishes
