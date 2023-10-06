@@ -2,40 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C84D7BBCAF
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Oct 2023 18:27:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F23CA7BBCC7
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Oct 2023 18:32:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 61B0610E534;
-	Fri,  6 Oct 2023 16:27:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3201810E537;
+	Fri,  6 Oct 2023 16:32:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.z3ntu.xyz (mail.z3ntu.xyz [128.199.32.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A520610E534;
- Fri,  6 Oct 2023 16:27:05 +0000 (UTC)
-Received: from g550jk.localnet (k10064.upc-k.chello.nl [62.108.10.64])
- by mail.z3ntu.xyz (Postfix) with ESMTPSA id 49F5BC7DB1;
- Fri,  6 Oct 2023 16:26:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=z3ntu.xyz; s=z3ntu;
- t=1696609593; bh=7XUVrpq5dGvmYdD55o5iSVdInjOuv/+36iUevKirUmU=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References;
- b=edBJ2D4HGI5Mgg6i9lXKDzg631eax4/2CZiv0TFCbkjr926EZVXdV1BgTi56Y+Zif
- z6cCZhaZQARvLYd6OLPPTKXi/FImuQoflnpGnvzO84gysbHk25brze4AuhKlMtQYZY
- hWOVNoANlnYAP1Dczz1Thv5p6zMenQZ7xngS5CJU=
-From: Luca Weiss <luca@z3ntu.xyz>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [RFC PATCH 1/3] drm/msm/dpu: add support for MSM8953
-Date: Fri, 06 Oct 2023 18:26:32 +0200
-Message-ID: <12295796.O9o76ZdvQC@z3ntu.xyz>
-In-Reply-To: <019e66c4-8188-4fbb-b169-d2cec165c91b@linaro.org>
-References: <20230923214912.1095024-1-dmitry.baryshkov@linaro.org>
- <5711857.DvuYhMxLoT@z3ntu.xyz>
- <019e66c4-8188-4fbb-b169-d2cec165c91b@linaro.org>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3865910E535
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Oct 2023 16:32:42 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 396EOtPu004344; Fri, 6 Oct 2023 16:32:30 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=qcppdkim1;
+ bh=HXPKL6sAIKxyt5aLJOBFWambGx0/ZP4dbw2HCLmlOYo=;
+ b=heazUP4V8i560hmLzYvYXjVe/DlccBCTcieZHrqdyNE9lObX7jC/i9KLuHI252KRb601
+ XZae0qc/RE9nC2IVOh8QwQXSr1kakdNaaGsKZ8bvVSK38FOKAsarL55amxf/P8KRfenI
+ 9pM6WDZEz7hPT2G5GuUOcSi9kk+dqbZctmJhl1DM1hVB2oepaE2SkgKw4gcPOrOAtThR
+ ayjRcA71rsygD+8jDxckkvMh1uJMxiiWdVn9SC3lMEgb+ljzTFv9jG0zYxeKdP26Av9C
+ 0HOL6Thf0XkDdMEwEliUeYC+8BvDA3OavAXC3b52qTmKrE2aiD+vbOP+2ZxGWSDIYiwp 1Q== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3tjgc68why-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 06 Oct 2023 16:32:30 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 396GWT2m018322
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 6 Oct 2023 16:32:29 GMT
+Received: from jhugo-lnx.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.36; Fri, 6 Oct 2023 09:32:28 -0700
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+To: <quic_ajitpals@quicinc.com>, <quic_carlv@quicinc.com>,
+ <quic_pkanojiy@quicinc.com>, <stanislaw.gruszka@linux.intel.com>,
+ <ogabbay@kernel.org>
+Subject: [PATCH 0/2] accel/qaic: Add support for host/device timesync
+Date: Fri, 6 Oct 2023 10:32:08 -0600
+Message-ID: <20231006163210.21319-1-quic_jhugo@quicinc.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: xO1-aiUx61WfRmMDSfnjHKCQupj4E40S
+X-Proofpoint-GUID: xO1-aiUx61WfRmMDSfnjHKCQupj4E40S
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-10-06_12,2023-10-06_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0
+ lowpriorityscore=0 malwarescore=0 bulkscore=0 priorityscore=1501
+ mlxlogscore=999 impostorscore=0 adultscore=0 spamscore=0 phishscore=0
+ mlxscore=0 clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2309180000 definitions=main-2310060124
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,54 +80,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>
+Cc: linux-arm-msm@vger.kernel.org, Jeffrey Hugo <quic_jhugo@quicinc.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Freitag, 6. Oktober 2023 15:38:51 CEST Dmitry Baryshkov wrote:
-> On 29/09/2023 23:52, Luca Weiss wrote:
-> > On Samstag, 23. September 2023 23:49:10 CEST Dmitry Baryshkov wrote:
-> >> Experimental support for MSM8953, which has MDP5 v1.16. It looks like
-> >> trimmed down version of MSM8996. Less SSPP, LM and PP blocks. No DSC,
-> >> etc.
-> > 
-> > Hi Dmitry,
-> > 
-> > As written on IRC, on sdm632-fairphone-fp3 with this DPU patches the
-> > screen is initializing and displaying stuff :) But there's some errors,
-> > which presumably are the reason that the screen is only updating a few
-> > times per second.
-> > 
-> > [   22.774205] [drm:dpu_kms_hw_init:1164] dpu hardware revision:0x10100000
-> > [   23.099806] [drm:_dpu_encoder_phys_cmd_wait_for_ctl_start:657] [dpu
-> > error]enc31 intf1 ctl start interrupt wait failed [   23.099821]
-> > [drm:dpu_kms_wait_for_commit_done:495] [dpu error]wait for commit done
-> > returned -22
-> > 
-> > These messages appear about 13 times per second but as I mentioned, the
-> > screen *is* updating (slowly) there.
-> 
-> For my understanding, does it work with the MDP5 driver?
+AIC100 supports a timesync mechanism that allows AIC100 to timestamp
+device logs with a host based time. This becomes useful for putting host
+logs in a unified timeline with device logs for debugging and performance
+profiling. The mechanism consists of a boot-time initialization and a
+runtime perodic resync to counteract the effects of time source drift
+over time between the host and device.
 
-Not perfectly, but it does work. What I mean is that the panel is running at 
-30Hz (shown e.g. with kmscube) instead of the 60Hz it should run at.
+Ajit Pal Singh (1):
+  accel/qaic: Add support for periodic timesync
 
-One of the comments I got is that mdp5 is essentially unmaintained so I should 
-try DPU ;)
+Pranjal Ramajor Asha Kanojiya (1):
+  accel/qaic: Support MHI QAIC_TIMESYNC channel
 
-Also I can ask someone with a video-mode panel to test, maybe it works better 
-there. At least good to have more data points?
+ Documentation/accel/qaic/aic100.rst |   6 +-
+ Documentation/accel/qaic/qaic.rst   |   5 +
+ drivers/accel/qaic/Makefile         |   3 +-
+ drivers/accel/qaic/mhi_controller.c |  36 ++-
+ drivers/accel/qaic/qaic.h           |   4 +
+ drivers/accel/qaic/qaic_drv.c       |  17 ++
+ drivers/accel/qaic/qaic_timesync.c  | 379 ++++++++++++++++++++++++++++
+ drivers/accel/qaic/qaic_timesync.h  |  11 +
+ 8 files changed, 457 insertions(+), 4 deletions(-)
+ create mode 100644 drivers/accel/qaic/qaic_timesync.c
+ create mode 100644 drivers/accel/qaic/qaic_timesync.h
 
-Regards
-Luca
-
-> 
-> > Also you for sure forgot to add "qcom,msm8953-mdp5" to the
-> > msm_mdp5_dpu_migration list, without this DPU is never even considered for
-> > 8953.
-
-
-
+-- 
+2.40.1
 
