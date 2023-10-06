@@ -1,29 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B58437BB89C
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Oct 2023 15:09:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 182677BB8A8
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Oct 2023 15:12:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F0C5910E1FD;
-	Fri,  6 Oct 2023 13:08:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3507610E4E6;
+	Fri,  6 Oct 2023 13:12:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx.skole.hr (mx2.hosting.skole.hr [161.53.165.186])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 73C7C10E1FD
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Oct 2023 13:08:53 +0000 (UTC)
-Received: from mx2.hosting.skole.hr (localhost.localdomain [127.0.0.1])
- by mx.skole.hr (mx.skole.hr) with ESMTP id 84AE982D45;
- Fri,  6 Oct 2023 15:08:50 +0200 (CEST)
+Received: from mx.skole.hr (mx1.hosting.skole.hr [161.53.165.185])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C8B0810E4E6
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Oct 2023 13:12:08 +0000 (UTC)
+Received: from mx1.hosting.skole.hr (localhost.localdomain [127.0.0.1])
+ by mx.skole.hr (mx.skole.hr) with ESMTP id 6C52B82B94;
+ Fri,  6 Oct 2023 15:12:06 +0200 (CEST)
 From: Duje =?utf-8?B?TWloYW5vdmnEhw==?= <duje.mihanovic@skole.hr>
-To: Daniel Thompson <daniel.thompson@linaro.org>
-Subject: Re: [PATCH 1/2] dt-bindings: backlight: add Kinetic KTD2801 binding
-Date: Fri, 06 Oct 2023 15:08:42 +0200
-Message-ID: <5984411.lOV4Wx5bFT@radijator>
-In-Reply-To: <20231006123014.GA96854@aspen.lan>
+To: Lee Jones <lee@kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>, 
+ Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>,
+ Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH 2/2] backlight: Add Kinetic KTD2801 driver
+Date: Fri, 06 Oct 2023 15:11:58 +0200
+Message-ID: <2306278.ElGaqSPkdT@radijator>
+In-Reply-To: <d7f6edd4-d797-4a6f-8df5-d25bc557c9bb@kernel.org>
 References: <20231005-ktd2801-v1-0-43cd85b0629a@skole.hr>
- <20231005-ktd2801-v1-1-43cd85b0629a@skole.hr>
- <20231006123014.GA96854@aspen.lan>
+ <20231005-ktd2801-v1-2-43cd85b0629a@skole.hr>
+ <d7f6edd4-d797-4a6f-8df5-d25bc557c9bb@kernel.org>
 MIME-Version: 1.0
 Autocrypt: addr=duje.mihanovic@skole.hr; keydata=
  mQINBGBhuA8BEACtpIbYNfUtQkpVqgHMPlcQR/vZhB7VUh5S32uSyerG28gUxFs2be//GOhSHv+
@@ -123,32 +128,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- Pavel Machek <pavel@ucw.cz>, Jingoo Han <jingoohan1@gmail.com>,
- Helge Deller <deller@gmx.de>, Lee Jones <lee@kernel.org>,
+Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- ~postmarketos/upstreaming@lists.sr.ht,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Karel Balej <balejk@matfyz.cz>, linux-leds@vger.kernel.org
+ ~postmarketos/upstreaming@lists.sr.ht, Karel Balej <balejk@matfyz.cz>,
+ linux-leds@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Friday, October 6, 2023 2:30:14 PM CEST Daniel Thompson wrote:
-> On Thu, Oct 05, 2023 at 08:49:08PM +0200, Duje Mihanovi=C4=87 wrote:
-> > +  enable-gpios:
-> > +    maxItems: 1
+On Thursday, October 5, 2023 10:40:41 PM CEST Krzysztof Kozlowski wrote:
+> On 05/10/2023 20:49, Duje Mihanovi=C4=87 wrote:
+> > +	gpiod_set_value(ktd2801->desc, 0);
+> > +	udelay(EOD_H);
 >=20
-> Why "enable"? This is the line we are going to us to bitbang the
-> ExpressWire protocol. Doesn't that make it a control or data pin?
+> Hm, why device is kept off after this? Setting 0 means enable GPIO is
+> logical 0.
+=2E..
+> > +	ktd2801->desc =3D devm_gpiod_get(dev, "enable", GPIOD_OUT_LOW);
+>=20
+> OUT_LOW is keep it disabled, so is this intentional?
 
-I named it "enable" because the KTD253 driver does so too, but also because=
+I initially wrote the driver to expect GPIO_ACTIVE_LOW, a decision which in=
 =20
-that pin is also used to power down the IC. If "enable" isn't right=20
-regardless, is just "gpios" fine for this?
+retrospect indeed makes no sense. If you have no objections, I'll change it=
+ to=20
+expect GPIO_ACTIVE_HIGH.
 
 Regards,
 Duje
+
 
 
 
