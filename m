@@ -1,47 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 285417BBA5A
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Oct 2023 16:35:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C79827BBACC
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Oct 2023 16:49:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 411E810E505;
-	Fri,  6 Oct 2023 14:35:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED96B10E507;
+	Fri,  6 Oct 2023 14:49:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 596CB10E505
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Oct 2023 14:35:34 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A8BC310E507
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Oct 2023 14:49:45 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 5039E60AEB;
- Fri,  6 Oct 2023 14:35:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2FE3C433C8;
- Fri,  6 Oct 2023 14:35:30 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 0096960EC2;
+ Fri,  6 Oct 2023 14:49:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F930C433C7;
+ Fri,  6 Oct 2023 14:49:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1696602931;
- bh=j18kQfvGUFM+G38xoeEFfKXWXeHxm8lOEQM4nZafpoA=;
+ s=k20201202; t=1696603784;
+ bh=Ec25Rk0aaiTKAFv6uPcPQ7KEBj4Dq0aHRgdKbZ/UaIQ=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Hsv3T/EfT+VjjBqWbZ4R8PhSWQaDRV9KNU9ihiVXLoNgXTYgXJe4MnGGgazBELfxF
- wf+OuCh6guD0pESnNnTj16PDldwWjz3yLXEAu84Y8Va9Q5WVkK9x5e/fALNbLM7vx2
- DZqKcljgHk1J9IA8wDJnhOcdwheMP3NQTYUZ++ehd2ucaUJMGL3PxfYSCDzS0401yZ
- bzHdjXcoRE8EUJnlcd3JKwMKuJX0RUWMTYCfMwErykgFZ7dVJr6U1bYTF3JIrAawL9
- BDdNeSi2oqw7NYISsuvFvPIit4VpNVlfk2nfl7E6+/iE+tbnpXTvE+xwwns9j2MUou
- FbS7PB8tQ0HVA==
-Date: Fri, 6 Oct 2023 16:35:28 +0200
+ b=FGuz3enX8Rwcxn/tUjfdR6TX83fIV3fTxPe8qbKUXkDUmIFtlYPqGTsKvuie0HKmk
+ yNTDfjGDLsdFJeppggqASizmBOER+fDiu9iRukE0VeHrH5vYNMmIE1eabGqLIsINAS
+ 7TX94b0ivkNSuCTfC3EWGlbHEybuPmVrAK8QSMlOCGrsdNu5A30f1NtjrOlIQ0EPBr
+ JD8ptUSIQMF+cCEqRlFxAiiK4KINLggmVvhnT8gpYPPvd1bplbqU9D9PPDw5hxDUHV
+ zdQ1hDb0ppqwOckfWB6B9drxmuH5whtd3V/Sx7/7K32buJr/Xc6O8lq4eC2I9eKDwT
+ flaUW1YzkqPmA==
+Date: Fri, 6 Oct 2023 16:49:42 +0200
 From: Maxime Ripard <mripard@kernel.org>
-To: Jocelyn Falempe <jfalempe@redhat.com>
-Subject: Re: [PATCH v4 2/4] drm/panic: Add a drm panic handler
-Message-ID: <6iaqx7ef4hdd6bucsxtfy37nsizloraxbudez4ms7jlusbghr3@i5hliqpimdp2>
-References: <20231003142508.190246-1-jfalempe@redhat.com>
- <20231003142508.190246-3-jfalempe@redhat.com>
- <lbwngkco3zam7yjo3owwpn47o3pe6g7oh5giglsclenx52jk5q@lw2fwsxz6kqp>
- <3a359910-31ae-355f-2608-239e04689fde@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v4 0/7] drm: Reuse temporary memory for format conversion
+Message-ID: <ozoizmezbyhwtnsyxahdoibpkwm2gvxnclw5gyt5j257demgpd@3efr2ioqhgg2>
+References: <20231005090520.16511-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="3fiwbmorypye3cnj"
+ protocol="application/pgp-signature"; boundary="vhw3jh47qs4ze4i5"
 Content-Disposition: inline
-In-Reply-To: <3a359910-31ae-355f-2608-239e04689fde@redhat.com>
+In-Reply-To: <20231005090520.16511-1-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,104 +50,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: bluescreen_avenger@verizon.net, tzimmermann@suse.de, javierm@redhat.com,
- dri-devel@lists.freedesktop.org, gpiccoli@igalia.com, airlied@redhat.com
+Cc: jfalempe@redhat.com, javierm@redhat.com, dri-devel@lists.freedesktop.org,
+ mairacanal@riseup.net, noralf@tronnes.org, jose.exposito89@gmail.com,
+ arthurgrillo@riseup.net
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---3fiwbmorypye3cnj
+--vhw3jh47qs4ze4i5
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi Jocelyn,
+Hi,
 
-On Thu, Oct 05, 2023 at 11:16:15AM +0200, Jocelyn Falempe wrote:
-> On 05/10/2023 10:18, Maxime Ripard wrote:
-> > Hi,
-> >=20
-> > On Tue, Oct 03, 2023 at 04:22:45PM +0200, Jocelyn Falempe wrote:
-> > > diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
-> > > index 89e2706cac56..e538c87116d3 100644
-> > > --- a/include/drm/drm_drv.h
-> > > +++ b/include/drm/drm_drv.h
-> > > @@ -43,6 +43,7 @@ struct dma_buf_attachment;
-> > >   struct drm_display_mode;
-> > >   struct drm_mode_create_dumb;
-> > >   struct drm_printer;
-> > > +struct drm_scanout_buffer;
-> > >   struct sg_table;
-> > >   /**
-> > > @@ -408,6 +409,19 @@ struct drm_driver {
-> > >   	 */
-> > >   	void (*show_fdinfo)(struct drm_printer *p, struct drm_file *f);
-> > > +	/**
-> > > +	 * @get_scanout_buffer:
-> > > +	 *
-> > > +	 * Get the current scanout buffer, to display a panic message with =
-drm_panic.
-> > > +	 * It is called from a panic callback, and must follow its restrict=
-ions.
-> > > +	 *
-> > > +	 * Returns:
-> > > +	 *
-> > > +	 * Zero on success, negative errno on failure.
-> > > +	 */
-> > > +	int (*get_scanout_buffer)(struct drm_device *dev,
-> > > +				  struct drm_scanout_buffer *sb);
-> > > +
-> >=20
-> > What is the format of that buffer? What is supposed to happen if the
-> > planes / CRTC are setup in a way that is incompatible with the buffer
-> > format?
+On Thu, Oct 05, 2023 at 11:04:20AM +0200, Thomas Zimmermann wrote:
+> DRM's format-conversion helpers require temporary memory. Pass the
+> buffer from the caller and keep it allocated over several calls. Allow
+> the caller to preallocate the buffer memory.
+
+I'm sorry... but why? Why do you need to keep it allocated over several
+calls and preallocate the buffer? It's not clear to me at all.
+
+> The motivation for this patchset is the recent work on a DRM panic
+> handler. [1] The panic handler requires format conversion to display an
+> error to the screen. But allocating memory during kernel panics is
+> fragile.
+
+We agree that we shouldn't allocate memory during the panic. I still
+have concerns about how the panic handler will handle the driver
+currently set up for a plane that isn't using an RGB format, or a buffer
+not accessible by the kernel or CPU.
+
+You can't expect to get away with just a copy to the current active
+buffer.
+
+If that's the assumption that underlines that patch series, then I don't
+know why we need it at all, because that assumption is wrong to begin
+with, and way too restrictive.
+
+> The changes in this patchset enable the DRM panic handler to
+> preallocate buffer storage before the panic occurs.
 >=20
-> Currently, it only supports linear format, either in system memory, or
-> iomem.
-> But really what is needed is the screen size, and a way to write pixels to
-> it.
-> For more complex GPU, I don't know if it's easier to reprogram the GPU to
-> linear format, or to add a simple "tiled" support to drm_panic.
-> What would you propose as a panic interface to handle those complex forma=
-t ?
+> As an additonal benefit, drivers can now keep the temporary storage
+> across multiple updates. Avoiding memory allocation slightly reduces
+> the CPU overhead of the format helpers.
 
-It's not just about tiling, but also about YUV formats. If the display
-engine is currently playing a video at the moment, it's probably going
-to output some variation of multi-planar YUV and you won't have an RGB
-buffer available.
+I'm sorry to go over that again, but you can't write a performance
+improvement mechanism without some kind of benchmark. kmalloc has
+built-in caching, why do we absolutely need our own cache on top of it?
 
-Same story if you're using a dma-buf buffer. You might not even be able
-to access that buffer at all from the CPU or the kernel.
-
-I really think we should have some emergency state ready to commit on
-the side, and possibly a panic_commit function to prevent things like
-sleeping or waiting that regular atomic_commit can use.
-
-That way, you know have all the resources available to you any time.
-
-> Sometime it's also just not possible to write pixels to the screen, like =
-if
-> the panic occurs in the middle of suspend/resume, or during a mode-settin=
-g,
-> and the hardware state is broken. In this case it's ok to return an error,
-> and nothing will get displayed.
-
-And yeah, you won't be able to do it every time, but if it's never for
-some workload it's going to be a concern.
-
-Anyway, we should at the very least document what we expect here.
+If you never measured it, for all we know, we simply don't need it and
+kmalloc is good enough.
 
 Maxime
 
---3fiwbmorypye3cnj
+--vhw3jh47qs4ze4i5
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZSAbMAAKCRDj7w1vZxhR
-xQ1FAP9Jhh8XhmAtPzIoa7DE3N5EtXjU0fLclTb87jIDWHm63QD9F0iRpdni7vlk
-0+/p1M3SsR6jpO+aZOs5lchrbPfpRgo=
-=cOfS
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZSAehgAKCRDj7w1vZxhR
+xcEMAQD/vffXZ/JnP3mqi4VmA9LKtrlq/aMAT55FIx//v5tzvQEAvXeLIG6BXwly
+S6c0LUcguWp9c1D7As0ql8kb2mR3vQ0=
+=WfUq
 -----END PGP SIGNATURE-----
 
---3fiwbmorypye3cnj--
+--vhw3jh47qs4ze4i5--
