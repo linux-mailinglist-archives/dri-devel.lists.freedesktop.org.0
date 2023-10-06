@@ -2,120 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 182677BB8A8
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Oct 2023 15:12:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7FC07BB8BA
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Oct 2023 15:15:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3507610E4E6;
-	Fri,  6 Oct 2023 13:12:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BFA8E10E4E5;
+	Fri,  6 Oct 2023 13:14:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx.skole.hr (mx1.hosting.skole.hr [161.53.165.185])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C8B0810E4E6
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Oct 2023 13:12:08 +0000 (UTC)
-Received: from mx1.hosting.skole.hr (localhost.localdomain [127.0.0.1])
- by mx.skole.hr (mx.skole.hr) with ESMTP id 6C52B82B94;
- Fri,  6 Oct 2023 15:12:06 +0200 (CEST)
-From: Duje =?utf-8?B?TWloYW5vdmnEhw==?= <duje.mihanovic@skole.hr>
-To: Lee Jones <lee@kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>, 
- Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>,
- Krzysztof Kozlowski <krzk@kernel.org>
-Subject: Re: [PATCH 2/2] backlight: Add Kinetic KTD2801 driver
-Date: Fri, 06 Oct 2023 15:11:58 +0200
-Message-ID: <2306278.ElGaqSPkdT@radijator>
-In-Reply-To: <d7f6edd4-d797-4a6f-8df5-d25bc557c9bb@kernel.org>
-References: <20231005-ktd2801-v1-0-43cd85b0629a@skole.hr>
- <20231005-ktd2801-v1-2-43cd85b0629a@skole.hr>
- <d7f6edd4-d797-4a6f-8df5-d25bc557c9bb@kernel.org>
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
+ [IPv6:2a00:1450:4864:20::131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD8F210E209
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Oct 2023 13:14:53 +0000 (UTC)
+Received: by mail-lf1-x131.google.com with SMTP id
+ 2adb3069b0e04-5041cc983f9so2593823e87.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 06 Oct 2023 06:14:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1696598092; x=1697202892; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=itYPcSWRtAATpzEiTYMgzBqAA5lAMODL1AvBzjtdwpA=;
+ b=qgoqlt1zlzrb9D4ka8slyxN0qHIaU12MzHLcm7PpGHds4bZBk9wyNPJ5QBuJJWngNA
+ f1kVageuUR6AY7sYKyQ2U2N/iu2aTAoobQxRznjmJG3uSedN5PJl2xHpZFCC9AYobIJb
+ 05uV8paUMdGvY2b/xs0L7O5fIQr5HZ5/ddQJs08yBE4urkAUgaKhNMG45nYCZ45ouiJh
+ NY/eU0TZhRgJEP8LMKR18UmS3ePVPL9lMfxCEDDilW0W5JDVguBc632+qn2bVVk8GfiW
+ Y2XQYFAajDBo+8wpY+DNAxU+sIe+nveI59xLAot05gpQZrYblLVpC0fV170ox2Pwd31O
+ kBsw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1696598092; x=1697202892;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=itYPcSWRtAATpzEiTYMgzBqAA5lAMODL1AvBzjtdwpA=;
+ b=VWiLt+EA9uMwMseep6GiuMZb7MKkdZtUBy1DPlSzaBgv5DpsPqo7hkbywmEeDiUeS4
+ SqKuv1ITAl3FzPy+JO+skZpBnGqpyRE3x2x2yPAWe1WpjfeQ0H11f9aDSE8CRLaeF49H
+ sdByDv2Jxquag9oUddGRHU8OqaxIVVLaKMZ6+xE3qscJ9qcx5W7fPWhG8h64vAtic8YZ
+ 3+5hFcvbCW9VK5aTRbl+kQMNmL/g4wRKG+OaAmfPois7YxvXl1eqeSp1Um305fLpNnMn
+ 2Lqx6f97sLMGsmqMMrNMmCDpkdzPnkzqp5TVBQ8VyBNVU8TeATEHaUvDjA+zkRKlUNpF
+ ItvQ==
+X-Gm-Message-State: AOJu0Yx6bpwcTPEA1uEXbNuILqQumHaqRDqOoSNnzWRzODTf1yT5Io/n
+ ZWGen9MLE6h3I2F7usLLmMLQFA==
+X-Google-Smtp-Source: AGHT+IHbq76vq4MURTNm9Y5LCqyAQE07bF27ciPppI8aHjPFl4y5DPbVytYX/AkjdLIJxDGOFvlztg==
+X-Received: by 2002:ac2:4e6a:0:b0:501:c779:b3bb with SMTP id
+ y10-20020ac24e6a000000b00501c779b3bbmr6332687lfs.60.1696598091881; 
+ Fri, 06 Oct 2023 06:14:51 -0700 (PDT)
+Received: from umbar.unikie.fi ([192.130.178.91])
+ by smtp.gmail.com with ESMTPSA id
+ g9-20020a19ee09000000b004fbb011c9bcsm301285lfb.161.2023.10.06.06.14.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 06 Oct 2023 06:14:51 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>
+Subject: [PATCH v6 00/10] drm/msm/dpu: simplify DPU sub-blocks info
+Date: Fri,  6 Oct 2023 16:14:40 +0300
+Message-Id: <20231006131450.2436688-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Autocrypt: addr=duje.mihanovic@skole.hr; keydata=
- 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
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -128,34 +72,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- ~postmarketos/upstreaming@lists.sr.ht, Karel Balej <balejk@matfyz.cz>,
- linux-leds@vger.kernel.org
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thursday, October 5, 2023 10:40:41 PM CEST Krzysztof Kozlowski wrote:
-> On 05/10/2023 20:49, Duje Mihanovi=C4=87 wrote:
-> > +	gpiod_set_value(ktd2801->desc, 0);
-> > +	udelay(EOD_H);
->=20
-> Hm, why device is kept off after this? Setting 0 means enable GPIO is
-> logical 0.
-=2E..
-> > +	ktd2801->desc =3D devm_gpiod_get(dev, "enable", GPIOD_OUT_LOW);
->=20
-> OUT_LOW is keep it disabled, so is this intentional?
+The handling code also usually knows, which sub-block it is now looking
+at. Drop unused 'id' field and arguments and merge some of sub-block
+declarations.
 
-I initially wrote the driver to expect GPIO_ACTIVE_LOW, a decision which in=
-=20
-retrospect indeed makes no sense. If you have no objections, I'll change it=
- to=20
-expect GPIO_ACTIVE_HIGH.
+While we are at it, also fix all VIG subblocks to contain correct scaler
+block version and drop the becoming unused QSEED-related feature bits.
 
-Regards,
-Duje
+Changes since v5:
+- Fixed the rogue vig_qseed3_noscale sblk. There is no qseed3 in the
+  noscale VIG blocks.
 
+Changes since v4:
+- Renamed dpu_vig_sblk_x_y to dpu_vig_sblk_qseed3_1_2 (Abhinav)
+  Note: I've choosen _qseed3_ instead of the suggested _scaler_, as
+  there are other scaler types which might have their own versioning
+  scheme
+- Dropped the DPU_SSPP_SCALER and DPU_SSPP_CSC_ANY defines (Abhinav)
 
+Changes since v3:
+- Proprely describe dpu_scaler_blk::version field as the register value
+  (Marijn)
+- Picked up Marijn's prior art patches (sorry, missed them while
+  preparing v3) (Marijn)
 
+Changes since v2:
+- Reworked the VIG SBLK definitions to set the scaler version (Marijn,
+  Abhinav)
+- Rebased the reset of the patches on top of this (intrusive) change.
+- Folded QSEED3LITE and QSEED4 feature bits into QSEED3
+
+Dmitry Baryshkov (8):
+  drm/msm/dpu: populate SSPP scaler block version
+  drm/msm/dpu: drop the `id' field from DPU_HW_SUBBLK_INFO
+  drm/msm/dpu: drop the `smart_dma_priority' field from struct
+    dpu_sspp_sub_blks
+  drm/msm/dpu: deduplicate some (most) of SSPP sub-blocks
+  drm/msm/dpu: drop DPU_HW_SUBBLK_INFO macro
+  drm/msm/dpu: rewrite scaler and CSC presense checks
+  drm/msm/dpu: merge DPU_SSPP_SCALER_QSEED3, QSEED3LITE, QSEED4
+  drm/msm/gpu: drop duplicating VIG feature masks
+
+Marijn Suijten (2):
+  drm/msm/dpu: Drop unused get_scaler_ver callback from SSPP
+  drm/msm/dpu: Drop unused qseed_type from catalog dpu_caps
+
+ .../msm/disp/dpu1/catalog/dpu_3_0_msm8998.h   |  17 +-
+ .../msm/disp/dpu1/catalog/dpu_4_0_sdm845.h    |  17 +-
+ .../msm/disp/dpu1/catalog/dpu_5_0_sm8150.h    |  17 +-
+ .../msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h   |  17 +-
+ .../msm/disp/dpu1/catalog/dpu_5_4_sm6125.h    |   8 +-
+ .../msm/disp/dpu1/catalog/dpu_6_0_sm8250.h    |  25 ++-
+ .../msm/disp/dpu1/catalog/dpu_6_2_sc7180.h    |  11 +-
+ .../msm/disp/dpu1/catalog/dpu_6_3_sm6115.h    |   7 +-
+ .../msm/disp/dpu1/catalog/dpu_6_4_sm6350.h    |  11 +-
+ .../msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h   |   4 +-
+ .../msm/disp/dpu1/catalog/dpu_6_9_sm6375.h    |   7 +-
+ .../msm/disp/dpu1/catalog/dpu_7_0_sm8350.h    |  25 ++-
+ .../msm/disp/dpu1/catalog/dpu_7_2_sc7280.h    |   9 +-
+ .../msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h  |  25 ++-
+ .../msm/disp/dpu1/catalog/dpu_8_1_sm8450.h    |  25 ++-
+ .../msm/disp/dpu1/catalog/dpu_9_0_sm8550.h    |  29 ++--
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    | 145 +++++++-----------
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |  55 +++----
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c   |  20 +--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h   |  21 ---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c   |   6 -
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h   |   3 -
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c     |   7 +-
+ 23 files changed, 201 insertions(+), 310 deletions(-)
+
+-- 
+2.39.2
 
