@@ -2,71 +2,154 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6247D7BBBEE
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Oct 2023 17:42:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4351C7BBC04
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Oct 2023 17:45:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4242D10E52E;
-	Fri,  6 Oct 2023 15:42:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8FA7A10E52F;
+	Fri,  6 Oct 2023 15:45:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5886610E52E
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Oct 2023 15:42:18 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 396DNVc0004786; Fri, 6 Oct 2023 15:41:59 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding :
- content-type; s=qcppdkim1;
- bh=Syr3GmKE2Kpj4kQdBeU4m9mvwvYeknIWoqQWI/r4pd8=;
- b=jPEGV3gG4KvzN1BRmkwdkSnnECZDV5SezNW5OQZIa2FxFzl6ShSle8sryvww1D2aMuLu
- tybVvieetTyHrvbO4ORYjcUMAww7bxHi++fN9dIiyv7+az1O1Opkc4ysU2lQEEIpe9a1
- uoGgIlyKduwDm4VpZ/r3Aa1IvKP858z6kyX4m1eTlMKIyeBOreJM4mU3AEA8F+ziJlKB
- AArL/YDKLXG1Q3YQmzCCInp1bd4f1PA0Nlls4q1jMOUnnMA/aG5XWKBkEnimApAQo2ZT
- Cxaz/GNxb7lTsI4BbqCoDiTDjhz2lSP961FD7ew1f9OIofMh8PqawXYZN/n8Gz0l4cqL bQ== 
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3tjf5m8w3a-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 06 Oct 2023 15:41:58 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 396FfwsU007569
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 6 Oct 2023 15:41:58 GMT
-Received: from jhugo-lnx.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C15310E52F;
+ Fri,  6 Oct 2023 15:45:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1696607101; x=1728143101;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-id:content-transfer-encoding: mime-version;
+ bh=FcfBrVSLtx6Pc+Or6jcUoCkR5J7XxmbDG+CQO/qoCvM=;
+ b=WVRkmsYobpcpS65UbVWUlKK+P5wECteIbWqb3KnhTDo5ORd9GBFFOOIW
+ u1Ea47cpWr3ORfg4j2c2B6UHR5FqOxs2l0yc7vvp9iUjpKe5t3xvM4gw+
+ iqxioV/BA461dS5s3wOmZEtHZ4+uf3Fbh9vr3VkQ4266GqgG5G6aOQSzT
+ Swyv2u8UvrKmT4OcqyaQsmijLeAMBtZwQvrLIZBTflKVRNCgZ3Byl2coB
+ 4/Y2Vk/6Q70PdyL92jm9OVo7F3iZETC59lSgKk5Sj3c6zJK94GQx41pIT
+ vgfGvkALZRc0YMHZT6bRZLuo6Tmc4hdrsMJJgNhXRK8evrdvlzIz5/HvU g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10855"; a="450263828"
+X-IronPort-AV: E=Sophos;i="6.03,204,1694761200"; d="scan'208";a="450263828"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Oct 2023 08:45:00 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10855"; a="752229973"
+X-IronPort-AV: E=Sophos;i="6.03,204,1694761200"; d="scan'208";a="752229973"
+Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
+ by orsmga002.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 06 Oct 2023 08:45:00 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Fri, 6 Oct 2023 08:45:00 -0700
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32 via Frontend Transport; Fri, 6 Oct 2023 08:45:00 -0700
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.169)
+ by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.36; Fri, 6 Oct 2023 08:41:57 -0700
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-To: <quic_carlv@quicinc.com>, <quic_pkanojiy@quicinc.com>,
- <stanislaw.gruszka@linux.intel.com>, <ogabbay@kernel.org>
-Subject: [PATCH] accel/qaic: Enable 1 MSI fallback mode
-Date: Fri, 6 Oct 2023 09:41:40 -0600
-Message-ID: <20231006154140.4159-1-quic_jhugo@quicinc.com>
-X-Mailer: git-send-email 2.40.1
+ 15.1.2507.32; Fri, 6 Oct 2023 08:44:59 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=EwkLsizHvHyNoYBsCh/UtCuFSadBRF5JmkOv87lnhM0GcqazJ7vdTDdn5HJk6rucefXOsaXaGVUmioFsHJgySDeI/fy0b2Tk4zhq5h2OoP7rezCqfYFR/lnueS1wjJ6JkXII7nlxOAFXSn5vk4VQ0ODVCswn17GZQ3dbKcdZuEoYYFY773LBFHwS7NgXbp3J4fjmmROyAFVeBuzuLM/jOcoHvJSjixELJk0PyCUjOwHu1X30vErwCBYxk/144hfJxFHpGJ6Qrki91dLjx9wDx7mBAW6jONW1jx0382zdpAERxZs/rowydSxkAxya25u0JC1JajzFqoF0clmKOSSH6g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=FcfBrVSLtx6Pc+Or6jcUoCkR5J7XxmbDG+CQO/qoCvM=;
+ b=ZfMGLubKbTleVXhRkdRwcDzzkUyOH3PEBCbR6AbRQrqxvoeliI5gY5J305OHt5YCFXD1HDyQdIYM/1Dz3xzBkjD1Vg6qt+n1wi0XfFQNwr6DWJH36TEdQRgWTPwmzCDOh1kZEpVPw7rnE3BjY0ErwTKWErFTeJ3lDxS/m5s5Fh3H0/IPSfkr2Ha8YFrE9sAsSfTtyF8hMcwemg2g+ZIIatiMvkiEC8vspzSGQXXjb14Hp+goa0QmAKZhyQwR8ATzd+SHYatT2fIR1g/0+QuCUeC/kcKMXlBowDRXR1o88pfy4T6P4jPZk35dsI/Yqf+5R9LlkRIz770h2wIslA+q2Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from CO6PR11MB5620.namprd11.prod.outlook.com (2603:10b6:303:13e::17)
+ by CY5PR11MB6318.namprd11.prod.outlook.com (2603:10b6:930:3e::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6838.33; Fri, 6 Oct
+ 2023 15:44:57 +0000
+Received: from CO6PR11MB5620.namprd11.prod.outlook.com
+ ([fe80::f665:b942:9842:c322]) by CO6PR11MB5620.namprd11.prod.outlook.com
+ ([fe80::f665:b942:9842:c322%7]) with mapi id 15.20.6838.030; Fri, 6 Oct 2023
+ 15:44:57 +0000
+From: "Zanoni, Paulo R" <paulo.r.zanoni@intel.com>
+To: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "tvrtko.ursulin@linux.intel.com" <tvrtko.ursulin@linux.intel.com>,
+ "Intel-gfx@lists.freedesktop.org" <Intel-gfx@lists.freedesktop.org>
+Subject: Re: [PATCH 1/3] drm/i915: Remove early/pre-production Haswell code
+Thread-Topic: [PATCH 1/3] drm/i915: Remove early/pre-production Haswell code
+Thread-Index: AQHZ+C+EKOD3xrjKRkWotSZZq2kE3LA8570A
+Date: Fri, 6 Oct 2023 15:44:57 +0000
+Message-ID: <e792b13e3a1d45df7007d8524d906af675f09916.camel@intel.com>
+References: <20231006083103.660153-1-tvrtko.ursulin@linux.intel.com>
+ <20231006083103.660153-2-tvrtko.ursulin@linux.intel.com>
+In-Reply-To: <20231006083103.660153-2-tvrtko.ursulin@linux.intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.46.4-2 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: CO6PR11MB5620:EE_|CY5PR11MB6318:EE_
+x-ms-office365-filtering-correlation-id: a72b5c2f-6810-41bd-29fd-08dbc6833190
+x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: cgiQzAh/FMj5Qp+ngjCn0W1NLXblXr9qO5k84Z7pkT+h3xPBXJI3r9tpH48wrOoeX3UoSJuq692MNAf+OfHSWQsUUkM80o3EYXKZu6/iBV8Gj3+LAoOI235IJxNGlJS9o6/NJ3CYakCFzuo+moxMVkBYLDb0lJLGOyDiXB6S1tylc7wQguAfXqDWGksJkDPkFxlrjri8Rw+Dui4VZul6E4s2/XZq8nbfKXIktzEVLLQKd/4H0/+R2sMCNtmwk/AyHN2JyxOiWeLZzZnS+Kf3NE/0tyCMBRg52PzXajqamWxkSBwSxR6/AOdZ2aGFEEes+ONC+R1Us0dR3gvMSD1xsdeH0AHzNQNhRBLOeqZgNMRGp//xYA1jbgw3bBu97G4U3d5mD4ywE8i0xCamG/PBIuIjtxxx6+u+M1iYxCb2Qm3s4PGPKhkTCLQkx8J6kt3q9m2rwarPTR+biYf6uo5UR4TDxq9iJdRMbH0ctj2EWgs/sAKtsPHFProqbdwRcuj46OnqXGK+SP4A7smSncms4rUqovgy4Qg8Y/JFYZBHHcOgnEs98GmiRzm/Om4txXXZHpfoNugwRk+VtoT2wNL+vkxbmk2BkYvFxY57SNyiMA4S48fLa3LrEOV5N8UJmvDv
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CO6PR11MB5620.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(346002)(396003)(366004)(376002)(136003)(39860400002)(230922051799003)(451199024)(1800799009)(186009)(64100799003)(110136005)(6486002)(2616005)(66946007)(6506007)(6512007)(66446008)(41300700001)(64756008)(66556008)(76116006)(54906003)(66476007)(8676002)(4326008)(8936002)(5660300002)(478600001)(71200400001)(316002)(83380400001)(2906002)(36756003)(82960400001)(38070700005)(86362001)(122000001)(38100700002);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?Mk85MVZLZW93bGtQYUV4MGNYUktHc1grRytCTTR3bWpSZS82cytJejF0RVB0?=
+ =?utf-8?B?SzMvUDdsc294Z2syamhxQUJ6dkZ6elhQYjViTVFUL0FCdEQ1MmhjeTArWFEv?=
+ =?utf-8?B?bUU1NytRam9Ma3ExWWRMbzRZU3lQU3FQOUE1Q2gwZkxkNXU4VzVLc0lEcmUy?=
+ =?utf-8?B?QnBUOWRoUXlEWVFrTWhTWDlFWlA5T2JHaVFFL1JSRy9hZW83VStna2VkSlM5?=
+ =?utf-8?B?YkxFQ0JOMXNvWnlhWUlHS21WNmhVSmpUOVlzRlArcSt4NitIRnNLV3lXYldh?=
+ =?utf-8?B?RkRiREk2THFDeXBwMVBiVGVhSjNlZUdlMVVKTW9Mbm4zUzNaTUpsdVdEQmd1?=
+ =?utf-8?B?VHdUay9vTU1xaUtlblpCRzJtWWlIQ3phYXJ4SXJiUmwrM0JRMkFvcTM2V1VD?=
+ =?utf-8?B?d3o4NVRta3k4OEZDS1phQ2orcXBQS2lVWlc3WTV1MG5GSzRyYVhuSUhSU1Yz?=
+ =?utf-8?B?c3dKOGtiYVdDQ2g5c21vVnFLZ1NBbi93ZmU3bEtvZ2ZiNzNQSmxGTnJqSXIx?=
+ =?utf-8?B?RkVDVEg3cFlSRzQ3R0l6bytxcVY5eVJ5azRlL01FS2srWXhwSHp1ZWpaUVp4?=
+ =?utf-8?B?TW1aOVFUMDV6MXA4K1lJTDRHejBrbkVNcURkZWdKcFdsQSs3L3Eyb2NHR1Fl?=
+ =?utf-8?B?Qyt1YlJra28wSWxkZWtwYmdrbVYyWVhTcXFLTGY5UWc2Y2VTTjg5Rk1RRVI5?=
+ =?utf-8?B?U2xRRUhvcEdlWUtHQ2x6NEprWlRxNWt5czYyUFB1L3BsYXdmQm9DajdZUFl5?=
+ =?utf-8?B?c09ESTRFVk0xUVdvRFdCNk1aUTIzTGNFbC8zQnRtVHNPSnhEN291S2VoMVI0?=
+ =?utf-8?B?cDlZc2tLZGRSbG9YclpEQW51VHBwb0RoMWx0UkJkZit0bmFWWWU1bTAxMUhj?=
+ =?utf-8?B?NXdkUStSVm5kc0FtWmx5NDRleWt0RFh0WlVTMEhnV2RZY01QUGNOckk5cWVi?=
+ =?utf-8?B?RGpQSmJPb1FaMHRZWU9Ha2ovRkt6SHFiZ1VxaTZ2UWh1UTZFUkVheFBIMWtT?=
+ =?utf-8?B?a1I1VWpOUnc5SHY0bEZhRkZpRGJGMzk3WWowSHBTQmZvZnJoek1HWXZ2QjBy?=
+ =?utf-8?B?Qmd5ZG9vNlc2WnlVaytCM0VoczlDNG02N2E1TThOL2tSUnNYSy9aNERPelRC?=
+ =?utf-8?B?dzNGWE54cVJzZzhsME1yQzVWZlliVUl2U01Db0hVcjh3cytoaGhURmEzZ0Np?=
+ =?utf-8?B?aHVvdVpDQ1hBTndFZ2plN0xFV1FTWGo3SWpNUDlKWkN2K05rSVlnc09JSHNt?=
+ =?utf-8?B?N1RudStWSzlMS0JOTUoxNSs0TTJHcnljMXY0SGVXMU9ERnFPM1lQYkxTS2VR?=
+ =?utf-8?B?WlpuNEJUY3hEK2RMWG5STVBRUCtBVm5ScGZTV25ycUVIZ09MeEJVRWF5cFRZ?=
+ =?utf-8?B?OGNNbTJ1M3FIK1FKQ2NiT3phS3JNalBQWnhsV1pwZENrOEQ2RHRYV3VuMHo0?=
+ =?utf-8?B?ODc5WFFReHA4OEJva0ZUWW9pa3dVUHltZ29LNnVxdkpBSk1xZ3NDdWFBc1Ur?=
+ =?utf-8?B?Smx0eFZCMmd2ZkxDWmdSblVDTXJoT2pNR0xxYXhsRGtsUU5neGw4Vzg1M0Ux?=
+ =?utf-8?B?T2xHNW52aUVBYkJHZDNTTGt1TVBGSXZ6WGJnL3l5V21MVGVpMU1oZEY2cE14?=
+ =?utf-8?B?TC9kR3A2OWlhbElUaE1VV2k3d09NNS8yYnl2cGpmQmZ0UHVvcjAvMHkzdU9s?=
+ =?utf-8?B?ZEVacHNpNlozWXBhc2ZWU3RaS3EvL2FpOGlUR0hiVDlyb2NqN1hPaUh1Y0Zq?=
+ =?utf-8?B?ZU9WUmpyRzc5eWg1OUV5anlIM1NjN29VRGtaV0Eybk56TWhpSExMVUNXK2Yy?=
+ =?utf-8?B?RFZuWmFSRmsxcVBoL1lCKzJZc0o1dXNaVTRVVERnTzN3cGZ1V1A4cXkvMkxE?=
+ =?utf-8?B?VU5FODNNQVgzZm9ia1VnL0l3ZTd3WjZrR09sOHV2NGRsOEt4T2hXVlI0TURP?=
+ =?utf-8?B?WjRNMmR5cGVqWSs1Z04rSGxRWDE1WTRlVHR4dEs3MjdtczVZYlN3OWh0VTc3?=
+ =?utf-8?B?Q0tzUndmOHd1Nlp5Zk1td0hpbjVjTFFuckN6WCtkSWFCTi8rM2lFb0lqa25C?=
+ =?utf-8?B?UGFBSEFndUVjWGdudTc0T2lUS01DZnpSK0Y5SDM0SGFYaE96WG5lWnVpY1FS?=
+ =?utf-8?B?TGwyUGZwSHA2aUExVlRLelZPeER4R1d5TnhHSFVVZ2RBR0NBRXhBVmtEYTly?=
+ =?utf-8?B?TU9IY0NpeDYzOXYyMmEyWGU1WVdESFZ4MEE0MUpXUit1aUNMUFZZcDF1TlpZ?=
+ =?utf-8?B?MmM4WFFEc2NKYUtVekl2NDdBbUtRPT0=?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <2A6C840C5F726C449485705D52AE1AEA@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: 79ApOHZMM4sc1y7svTKrllhorci9Is1F
-X-Proofpoint-ORIG-GUID: 79ApOHZMM4sc1y7svTKrllhorci9Is1F
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-10-06_12,2023-10-06_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 phishscore=0
- lowpriorityscore=0 bulkscore=0 mlxlogscore=999 clxscore=1015
- priorityscore=1501 impostorscore=0 adultscore=0 malwarescore=0
- suspectscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2309180000 definitions=main-2310060117
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5620.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a72b5c2f-6810-41bd-29fd-08dbc6833190
+X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Oct 2023 15:44:57.7303 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: +gGYmhR+fSxAnDEHqCPryPTmQIiEy5ldZKDUTRIC1u/Fmw3QQkhGP1KZE8gL5NHO7t1gg0ByPK+rnjO0+PIzCZwG9TLGecs++2uxpPEXwIE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR11MB6318
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,307 +162,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, Jeffrey Hugo <quic_jhugo@quicinc.com>,
- dri-devel@lists.freedesktop.org
+Cc: "Nikula, Jani" <jani.nikula@intel.com>, "Roper,
+ Matthew D" <matthew.d.roper@intel.com>, "Vivi,
+ Rodrigo" <rodrigo.vivi@intel.com>, "De
+ Marchi, Lucas" <lucas.demarchi@intel.com>, "Ursulin,
+ Tvrtko" <tvrtko.ursulin@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Carl Vanderlip <quic_carlv@quicinc.com>
-
-Several virtualization use-cases either don't support 32 MultiMSIs
-(Xen/VMware) or have significant drawbacks to their use (KVM's vIOMMU,
-which is required to support 32 MSI, needs to allocate an alternate
-system memory space for each device using vIOMMU (e.g. 8GB VM mem and
-2 cards => 8 + 2 * 8 = 24GB host memory required)). Support these
-cases by enabling a 1 MSI fallback mode.
-
-Whenever all 32 MSIs requested are not available, a second request for
-a single MSI is made. Its success is the initiator of single MSI mode.
-This mode causes all interrupts generated by the device to be directed
-to the 0th MSI (firmware >=v1.10 will do this as a response to the PCIe
-MSI capability configuration). Likewise, all interrupt handlers for the
-device are registered to the 0th MSI.
-
-Since the DBC interrupt handler checks if the DBC is in use or if
-there is any pending changes, the 'spurious' interrupts are
-disregarded. If there is work to be done, the standard threaded IRQ
-handler is dispatched.
-
-On every interrupt, the MHI handler wakes up its threaded interrupt
-handler, and attempts to wake any waiters for MHI state events.
-
-Performance is within +-0.6% for test cases that typify real world
-use. Larger differences ([-4,+132]%, avg +47%) exist for very simple
-tasks (e.g. addition) compiled for single NSPs. It is assumed that the
-small work and many interrupts typically cause contention (e.g. 16 NSPs
-vs 4 CPUs), as evidenced by the standard deviation between runs also
-decreasing (r=-0.48 between delta(Performace_test) and
-delta(StdDev_test/Avg_test))
-
-Signed-off-by: Carl Vanderlip <quic_carlv@quicinc.com>
-Reviewed-by: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
-Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
----
- Documentation/accel/qaic/aic100.rst |  5 ++--
- Documentation/accel/qaic/qaic.rst   | 23 ++++++++++++++++++
- drivers/accel/qaic/mhi_controller.c |  6 ++++-
- drivers/accel/qaic/mhi_controller.h |  2 +-
- drivers/accel/qaic/qaic.h           |  2 ++
- drivers/accel/qaic/qaic_data.c      | 25 ++++++++++++++------
- drivers/accel/qaic/qaic_drv.c       | 36 ++++++++++++++++++++---------
- 7 files changed, 77 insertions(+), 22 deletions(-)
-
-diff --git a/Documentation/accel/qaic/aic100.rst b/Documentation/accel/qaic/aic100.rst
-index c80d0f1307db..a5fef0869aab 100644
---- a/Documentation/accel/qaic/aic100.rst
-+++ b/Documentation/accel/qaic/aic100.rst
-@@ -36,8 +36,9 @@ AIC100 DID (0xa100).
- 
- AIC100 does not implement FLR (function level reset).
- 
--AIC100 implements MSI but does not implement MSI-X. AIC100 requires 17 MSIs to
--operate (1 for MHI, 16 for the DMA Bridge).
-+AIC100 implements MSI but does not implement MSI-X. AIC100 prefers 17 MSIs to
-+operate (1 for MHI, 16 for the DMA Bridge). Falling back to 1 MSI is possible in
-+scenarios where reserving 32 MSIs isn't feasible.
- 
- As a PCIe device, AIC100 utilizes BARs to provide host interfaces to the device
- hardware. AIC100 provides 3, 64-bit BARs.
-diff --git a/Documentation/accel/qaic/qaic.rst b/Documentation/accel/qaic/qaic.rst
-index c88502383136..9ccbfea86f5a 100644
---- a/Documentation/accel/qaic/qaic.rst
-+++ b/Documentation/accel/qaic/qaic.rst
-@@ -10,6 +10,9 @@ accelerator products.
- Interrupts
- ==========
- 
-+IRQ Storm Mitigation
-+--------------------
-+
- While the AIC100 DMA Bridge hardware implements an IRQ storm mitigation
- mechanism, it is still possible for an IRQ storm to occur. A storm can happen
- if the workload is particularly quick, and the host is responsive. If the host
-@@ -35,6 +38,26 @@ generates 100k IRQs per second (per /proc/interrupts) is reduced to roughly 64
- IRQs over 5 minutes while keeping the host system stable, and having the same
- workload throughput performance (within run to run noise variation).
- 
-+Single MSI Mode
-+---------------
-+
-+MultiMSI is not well supported on all systems; virtualized ones even less so
-+(circa 2023). Between hypervisors masking the PCIe MSI capability structure to
-+large memory requirements for vIOMMUs (required for supporting MultiMSI), it is
-+useful to be able to fall back to a single MSI when needed.
-+
-+To support this fallback, we allow the case where only one MSI is able to be
-+allocated, and share that one MSI between MHI and the DBCs. The device detects
-+when only one MSI has been configured and directs the interrupts for the DBCs
-+to the interrupt normally used for MHI. Unfortunately this means that the
-+interrupt handlers for every DBC and MHI wake up for every interrupt that
-+arrives; however, the DBC threaded irq handlers only are started when work to be
-+done is detected (MHI will always start its threaded handler).
-+
-+If the DBC is configured to force MSI interrupts, this can circumvent the
-+software IRQ storm mitigation mentioned above. Since the MSI is shared it is
-+never disabled, allowing each new entry to the FIFO to trigger a new interrupt.
-+
- 
- Neural Network Control (NNC) Protocol
- =====================================
-diff --git a/drivers/accel/qaic/mhi_controller.c b/drivers/accel/qaic/mhi_controller.c
-index 5036e58e7235..41be3626587d 100644
---- a/drivers/accel/qaic/mhi_controller.c
-+++ b/drivers/accel/qaic/mhi_controller.c
-@@ -468,7 +468,7 @@ static int mhi_reset_and_async_power_up(struct mhi_controller *mhi_cntrl)
- }
- 
- struct mhi_controller *qaic_mhi_register_controller(struct pci_dev *pci_dev, void __iomem *mhi_bar,
--						    int mhi_irq)
-+						    int mhi_irq, bool shared_msi)
- {
- 	struct mhi_controller *mhi_cntrl;
- 	int ret;
-@@ -500,6 +500,10 @@ struct mhi_controller *qaic_mhi_register_controller(struct pci_dev *pci_dev, voi
- 		return ERR_PTR(-ENOMEM);
- 
- 	mhi_cntrl->irq[0] = mhi_irq;
-+
-+	if (shared_msi) /* MSI shared with data path, no IRQF_NO_SUSPEND */
-+		mhi_cntrl->irq_flags = IRQF_SHARED;
-+
- 	mhi_cntrl->fw_image = "qcom/aic100/sbl.bin";
- 
- 	/* use latest configured timeout */
-diff --git a/drivers/accel/qaic/mhi_controller.h b/drivers/accel/qaic/mhi_controller.h
-index 2ae45d768e24..500e7f4af2af 100644
---- a/drivers/accel/qaic/mhi_controller.h
-+++ b/drivers/accel/qaic/mhi_controller.h
-@@ -8,7 +8,7 @@
- #define MHICONTROLLERQAIC_H_
- 
- struct mhi_controller *qaic_mhi_register_controller(struct pci_dev *pci_dev, void __iomem *mhi_bar,
--						    int mhi_irq);
-+						    int mhi_irq, bool shared_msi);
- void qaic_mhi_free_controller(struct mhi_controller *mhi_cntrl, bool link_up);
- void qaic_mhi_start_reset(struct mhi_controller *mhi_cntrl);
- void qaic_mhi_reset_done(struct mhi_controller *mhi_cntrl);
-diff --git a/drivers/accel/qaic/qaic.h b/drivers/accel/qaic/qaic.h
-index e3f4c30f3ffd..01e9dda0cc37 100644
---- a/drivers/accel/qaic/qaic.h
-+++ b/drivers/accel/qaic/qaic.h
-@@ -123,6 +123,8 @@ struct qaic_device {
- 	struct srcu_struct	dev_lock;
- 	/* true: Device under reset; false: Device not under reset */
- 	bool			in_reset;
-+	/* true: single MSI is used to operate device */
-+	bool			single_msi;
- 	/*
- 	 * true: A tx MHI transaction has failed and a rx buffer is still queued
- 	 * in control device. Such a buffer is considered lost rx buffer
-diff --git a/drivers/accel/qaic/qaic_data.c b/drivers/accel/qaic/qaic_data.c
-index c90fa6a430f6..b868b4de4d0f 100644
---- a/drivers/accel/qaic/qaic_data.c
-+++ b/drivers/accel/qaic/qaic_data.c
-@@ -1465,6 +1465,16 @@ irqreturn_t dbc_irq_handler(int irq, void *data)
- 
- 	rcu_id = srcu_read_lock(&dbc->ch_lock);
- 
-+	if (datapath_polling) {
-+		srcu_read_unlock(&dbc->ch_lock, rcu_id);
-+		/*
-+		 * Normally datapath_polling will not have irqs enabled, but
-+		 * when running with only one MSI the interrupt is shared with
-+		 * MHI so it cannot be disabled. Return ASAP instead.
-+		 */
-+		return IRQ_HANDLED;
-+	}
-+
- 	if (!dbc->usr) {
- 		srcu_read_unlock(&dbc->ch_lock, rcu_id);
- 		return IRQ_HANDLED;
-@@ -1487,7 +1497,8 @@ irqreturn_t dbc_irq_handler(int irq, void *data)
- 		return IRQ_NONE;
- 	}
- 
--	disable_irq_nosync(irq);
-+	if (!dbc->qdev->single_msi)
-+		disable_irq_nosync(irq);
- 	srcu_read_unlock(&dbc->ch_lock, rcu_id);
- 	return IRQ_WAKE_THREAD;
- }
-@@ -1558,12 +1569,12 @@ irqreturn_t dbc_irq_threaded_fn(int irq, void *data)
- 	u32 tail;
- 
- 	rcu_id = srcu_read_lock(&dbc->ch_lock);
-+	qdev = dbc->qdev;
- 
- 	head = readl(dbc->dbc_base + RSPHP_OFF);
- 	if (head == U32_MAX) /* PCI link error */
- 		goto error_out;
- 
--	qdev = dbc->qdev;
- read_fifo:
- 
- 	if (!event_count) {
-@@ -1644,14 +1655,14 @@ irqreturn_t dbc_irq_threaded_fn(int irq, void *data)
- 	goto read_fifo;
- 
- normal_out:
--	if (likely(!datapath_polling))
-+	if (!qdev->single_msi && likely(!datapath_polling))
- 		enable_irq(irq);
--	else
-+	else if (unlikely(datapath_polling))
- 		schedule_work(&dbc->poll_work);
- 	/* checking the fifo and enabling irqs is a race, missed event check */
- 	tail = readl(dbc->dbc_base + RSPTP_OFF);
- 	if (tail != U32_MAX && head != tail) {
--		if (likely(!datapath_polling))
-+		if (!qdev->single_msi && likely(!datapath_polling))
- 			disable_irq_nosync(irq);
- 		goto read_fifo;
- 	}
-@@ -1660,9 +1671,9 @@ irqreturn_t dbc_irq_threaded_fn(int irq, void *data)
- 
- error_out:
- 	srcu_read_unlock(&dbc->ch_lock, rcu_id);
--	if (likely(!datapath_polling))
-+	if (!qdev->single_msi && likely(!datapath_polling))
- 		enable_irq(irq);
--	else
-+	else if (unlikely(datapath_polling))
- 		schedule_work(&dbc->poll_work);
- 
- 	return IRQ_HANDLED;
-diff --git a/drivers/accel/qaic/qaic_drv.c b/drivers/accel/qaic/qaic_drv.c
-index 6f58095767df..327831517853 100644
---- a/drivers/accel/qaic/qaic_drv.c
-+++ b/drivers/accel/qaic/qaic_drv.c
-@@ -424,14 +424,25 @@ static int init_msi(struct qaic_device *qdev, struct pci_dev *pdev)
- 	int i;
- 
- 	/* Managed release since we use pcim_enable_device */
--	ret = pci_alloc_irq_vectors(pdev, 1, 32, PCI_IRQ_MSI);
--	if (ret < 0)
--		return ret;
-+	ret = pci_alloc_irq_vectors(pdev, 32, 32, PCI_IRQ_MSI);
-+	if (ret == -ENOSPC) {
-+		ret = pci_alloc_irq_vectors(pdev, 1, 1, PCI_IRQ_MSI);
-+		if (ret < 0)
-+			return ret;
- 
--	if (ret < 32) {
--		pci_err(pdev, "%s: Requested 32 MSIs. Obtained %d MSIs which is less than the 32 required.\n",
--			__func__, ret);
--		return -ENODEV;
-+		/*
-+		 * Operate in one MSI mode. All interrupts will be directed to
-+		 * MSI0; every interrupt will wake up all the interrupt handlers
-+		 * (MHI and DBC[0-15]). Since the interrupt is now shared, it is
-+		 * not disabled during DBC threaded handler, but only one thread
-+		 * will be allowed to run per DBC, so while it can be
-+		 * interrupted, it shouldn't race with itself.
-+		 */
-+		qdev->single_msi = true;
-+		pci_info(pdev, "%s: Allocating 32 MSIs failed, operating in 1 MSI mode. Performance may be impacted.\n",
-+			 __func__);
-+	} else if (ret < 0) {
-+		return ret;
- 	}
- 
- 	mhi_irq = pci_irq_vector(pdev, 0);
-@@ -439,15 +450,17 @@ static int init_msi(struct qaic_device *qdev, struct pci_dev *pdev)
- 		return mhi_irq;
- 
- 	for (i = 0; i < qdev->num_dbc; ++i) {
--		ret = devm_request_threaded_irq(&pdev->dev, pci_irq_vector(pdev, i + 1),
-+		ret = devm_request_threaded_irq(&pdev->dev,
-+						pci_irq_vector(pdev, qdev->single_msi ? 0 : i + 1),
- 						dbc_irq_handler, dbc_irq_threaded_fn, IRQF_SHARED,
- 						"qaic_dbc", &qdev->dbc[i]);
- 		if (ret)
- 			return ret;
- 
- 		if (datapath_polling) {
--			qdev->dbc[i].irq = pci_irq_vector(pdev, i + 1);
--			disable_irq_nosync(qdev->dbc[i].irq);
-+			qdev->dbc[i].irq = pci_irq_vector(pdev, qdev->single_msi ? 0 : i + 1);
-+			if (!qdev->single_msi)
-+				disable_irq_nosync(qdev->dbc[i].irq);
- 			INIT_WORK(&qdev->dbc[i].poll_work, irq_polling_work);
- 		}
- 	}
-@@ -479,7 +492,8 @@ static int qaic_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 		goto cleanup_qdev;
- 	}
- 
--	qdev->mhi_cntrl = qaic_mhi_register_controller(pdev, qdev->bar_0, mhi_irq);
-+	qdev->mhi_cntrl = qaic_mhi_register_controller(pdev, qdev->bar_0, mhi_irq,
-+						       qdev->single_msi);
- 	if (IS_ERR(qdev->mhi_cntrl)) {
- 		ret = PTR_ERR(qdev->mhi_cntrl);
- 		goto cleanup_qdev;
--- 
-2.40.1
-
+T24gRnJpLCAyMDIzLTEwLTA2IGF0IDA5OjMxICswMTAwLCBUdnJ0a28gVXJzdWxpbiB3cm90ZToN
+Cj4gRnJvbTogVHZydGtvIFVyc3VsaW4gPHR2cnRrby51cnN1bGluQGludGVsLmNvbT4NCj4gDQo+
+IEl0IGlzIG5vdCBvdXIgcG9saWN5IHRvIGtlZXAgcHJlLXByb2R1Y3Rpb24gaGFyZHdhcmUgc3Vw
+cG9ydCBmb3IgdGhpcyBsb25nDQo+IHNvIEkgZ3Vlc3MgdGhpcyBvbmUgd2FzIGp1c3QgZm9yZ290
+dGVuLg0KDQpXb3VsZG4ndCBpdCBtYWtlIHNlbnNlIHRvIGFsc28gcmVtb3ZlIHRoZSBQQ0kgSURz
+IGlmIHRoZXkgbmV2ZXIgbWFkZSBpdA0KdG8gdGhlIHJlYWwgcHJvZHVjdGlvbiB3b3JsZCo/IENv
+dWxkbid0IHRoZXNlIElEcyBlbmQgdXAgZ2V0dGluZyByZXVzZWQNCmZvciBzb21ldGhpbmcgZWxz
+ZSAobWF5YmUgbm90IGV2ZW4gZ3JhcGhpY3MpIGF0IHNvbWUgcG9pbnQgaW4gdGhlDQpmdXR1cmU/
+DQoNCio6IEkgY2FuJ3QgY29uZmlybSB0aGlzIGlzIHRoZSBjYXNlLg0KDQo+IA0KPiBTaWduZWQt
+b2ZmLWJ5OiBUdnJ0a28gVXJzdWxpbiA8dHZydGtvLnVyc3VsaW5AaW50ZWwuY29tPg0KPiAtLS0N
+Cj4gIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2k5MTVfZHJpdmVyLmMgfCAxIC0NCj4gIGRyaXZlcnMv
+Z3B1L2RybS9pOTE1L2k5MTVfZHJ2LmggICAgfCAyIC0tDQo+ICAyIGZpbGVzIGNoYW5nZWQsIDMg
+ZGVsZXRpb25zKC0pDQo+IA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvaTkx
+NV9kcml2ZXIuYyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2k5MTVfZHJpdmVyLmMNCj4gaW5kZXgg
+Y2NiYjI4MzRjZGUwLi43OGE0MmM4YTg1MDkgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2Ry
+bS9pOTE1L2k5MTVfZHJpdmVyLmMNCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvaTkxNV9k
+cml2ZXIuYw0KPiBAQCAtMTc1LDcgKzE3NSw2IEBAIHN0YXRpYyB2b2lkIGludGVsX2RldGVjdF9w
+cmVwcm9kdWN0aW9uX2h3KHN0cnVjdCBkcm1faTkxNV9wcml2YXRlICpkZXZfcHJpdikNCj4gIHsN
+Cj4gIAlib29sIHByZSA9IGZhbHNlOw0KPiAgDQo+IC0JcHJlIHw9IElTX0hBU1dFTExfRUFSTFlf
+U0RWKGRldl9wcml2KTsNCj4gIAlwcmUgfD0gSVNfU0tZTEFLRShkZXZfcHJpdikgJiYgSU5URUxf
+UkVWSUQoZGV2X3ByaXYpIDwgMHg2Ow0KPiAgCXByZSB8PSBJU19CUk9YVE9OKGRldl9wcml2KSAm
+JiBJTlRFTF9SRVZJRChkZXZfcHJpdikgPCAweEE7DQo+ICAJcHJlIHw9IElTX0tBQllMQUtFKGRl
+dl9wcml2KSAmJiBJTlRFTF9SRVZJRChkZXZfcHJpdikgPCAweDE7DQo+IGRpZmYgLS1naXQgYS9k
+cml2ZXJzL2dwdS9kcm0vaTkxNS9pOTE1X2Rydi5oIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvaTkx
+NV9kcnYuaA0KPiBpbmRleCBjYjYwZmM5Y2Y4NzMuLjlkNDkzZmYxNjg1YSAxMDA2NDQNCj4gLS0t
+IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvaTkxNV9kcnYuaA0KPiArKysgYi9kcml2ZXJzL2dwdS9k
+cm0vaTkxNS9pOTE1X2Rydi5oDQo+IEBAIC01OTAsOCArNTkwLDYgQEAgSVNfU1VCUExBVEZPUk0o
+Y29uc3Qgc3RydWN0IGRybV9pOTE1X3ByaXZhdGUgKmk5MTUsDQo+ICAJSVNfU1VCUExBVEZPUk0o
+aTkxNSwgSU5URUxfQUxERVJMQUtFX1AsIElOVEVMX1NVQlBMQVRGT1JNX1JQTCkNCj4gICNkZWZp
+bmUgSVNfUkFQVE9STEFLRV9VKGk5MTUpIFwNCj4gIAlJU19TVUJQTEFURk9STShpOTE1LCBJTlRF
+TF9BTERFUkxBS0VfUCwgSU5URUxfU1VCUExBVEZPUk1fUlBMVSkNCj4gLSNkZWZpbmUgSVNfSEFT
+V0VMTF9FQVJMWV9TRFYoaTkxNSkgKElTX0hBU1dFTEwoaTkxNSkgJiYgXA0KPiAtCQkJCSAgICAo
+SU5URUxfREVWSUQoaTkxNSkgJiAweEZGMDApID09IDB4MEMwMCkNCj4gICNkZWZpbmUgSVNfQlJP
+QURXRUxMX1VMVChpOTE1KSBcDQo+ICAJSVNfU1VCUExBVEZPUk0oaTkxNSwgSU5URUxfQlJPQURX
+RUxMLCBJTlRFTF9TVUJQTEFURk9STV9VTFQpDQo+ICAjZGVmaW5lIElTX0JST0FEV0VMTF9VTFgo
+aTkxNSkgXA0KDQo=
