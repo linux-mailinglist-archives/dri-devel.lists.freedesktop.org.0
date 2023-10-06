@@ -1,63 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4791B7BB03B
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Oct 2023 04:20:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7095F7BB08D
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Oct 2023 05:40:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B466C10E4B1;
-	Fri,  6 Oct 2023 02:20:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C36D310E1C3;
+	Fri,  6 Oct 2023 03:40:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
- [IPv6:2a00:1450:4864:20::432])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E7FD610E4B1
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Oct 2023 02:20:33 +0000 (UTC)
-Received: by mail-wr1-x432.google.com with SMTP id
- ffacd0b85a97d-3214cdb4b27so1589679f8f.1
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Oct 2023 19:20:33 -0700 (PDT)
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
+ [IPv6:2a00:1450:4864:20::62a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CEECE10E1C3
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Oct 2023 03:40:38 +0000 (UTC)
+Received: by mail-ej1-x62a.google.com with SMTP id
+ a640c23a62f3a-9b98a699f45so288165566b.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Oct 2023 20:40:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1696558832; x=1697163632; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1696563637; x=1697168437; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=7A6svaZ5NLBPCdvLBtrQYDjuifxfenalJYib+EmtrBE=;
- b=LedytlNFBC/5DOViSteufXDoZZ+TWJQo/8ZvLvUD31lU/lbuEXZnhXQgxXDtO8FrQL
- nhTRnVD24MueeMGPE06ovhQxF2tJbxDLOmOHBrTYv9Rafid/3zX8DLjIMPuA+JQmGpp8
- aGlW5h05aGwFIYoxXSH95L9902PjxrqtmCYtES4UPvgW6Sbi/rADsXelziD8l6DsI3Le
- Zj+f0h9LskKnufM7UCqDEQAGN9HTBytq538eh4qjpirmr2j7L4h7gavhu9ki2pG25tMZ
- kWENOSFM2geaa9n/CxYevOUoZV4bsJ4PWegDBTVAj3NsazhTL2rIJU5x7aoDqN+jb7+2
- 6pnA==
+ bh=XpUyWVrE/iHQgC/ozZsC6NYywMSYpJaEzFJPxkfNEQE=;
+ b=KDb3KqtMTPJsLQOAkB6smgSEgk/pk06z3ZfPtJVAp7GM2PEDcR8gU321l7RKU9EZsy
+ 7JyPqCvIBOXh6g7XvnQsfgHRb3dL6+2s6xFE+nMjXuWSDZOmph4KFSBVP98O6DNc0LZE
+ OMnRbHXDaC/Zl5UyZrEcC3nYr3q5sYWC9m0gjYRlcMUwdei+rUZwGWRj1+4nBK/T9vki
+ sI+WkzjrOyx9YiBcEKYN5sftrw5dMsqZl7sUUI9uOFmvsS8TiosPHqD7k9Fxp0ElhiSL
+ jSQPu7HHAe1vK4mlfGSfHmyaiQ2XJK2f+HVpShhW+9NqBy6aha8yHXBHKH221ZR3GRvl
+ L4QA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1696558832; x=1697163632;
+ d=1e100.net; s=20230601; t=1696563637; x=1697168437;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=7A6svaZ5NLBPCdvLBtrQYDjuifxfenalJYib+EmtrBE=;
- b=dk18UTaSgohqFzSaOKC9a/PCv4RSG7Nvkvd8zuhCFmyoeSV4JWmH9y6DQmfKPSWBdP
- DV/IFmhUN+BTuDvg6ZUlNIgmGjacZyjp3jwIr0SqESM5A7cnJV9gStKfB3u1LzDkWwKa
- YBR47naFFx1OKQPPfUu+/dZ52cw2a01qDb/1qbK57QKoxiYI4E770+WuxbUlqfGyxFUZ
- gyBHVLN72faJqOoLJo+WBJGr38ELPAavnlLd45OfiKF4QQCzKXl+WjYlDxGreBewhZRl
- bSKdvZPTJnVk0uPsiqMyBpY45Zy6R3+G0nfcV/DaO6N01r3TCQ9M/1klgKhRzVXhVQG0
- ckVQ==
-X-Gm-Message-State: AOJu0Yz0IrXWEitwd9W4bdtnZJxLhEcJYtiYoE9DZZqj2eKzNelVEIKL
- rNBWUpsA+zziRHSPIKioWWSPahcG6+RlGCDK+HY=
-X-Google-Smtp-Source: AGHT+IEiTyzp02X3Gv5QGee69SJTznrbwBrw/DOEGtGOalihMEdXuCrKaMq/kTK3AF19NS06vrJBgOIphrRfedf5MxU=
-X-Received: by 2002:adf:f546:0:b0:323:3421:9a9 with SMTP id
- j6-20020adff546000000b00323342109a9mr6326854wrp.60.1696558831882; Thu, 05 Oct
- 2023 19:20:31 -0700 (PDT)
+ bh=XpUyWVrE/iHQgC/ozZsC6NYywMSYpJaEzFJPxkfNEQE=;
+ b=VVgRgLv36755Z4/IamCZVlAX7uTtzB/VsBq7cCJhsIG4DycytcpAHhlI9quOh4SukL
+ d7ADrPyUhvmUoN5lpaHJAYiuqSGxC/AerNrjzH6AZc4vWnViYDwvkAhcNM6GnsJ+hUso
+ Kg6aoAP4d4HAKzIrYnnhbKRu8i7j0crThtYAFkdmHqAtryNiwaY7YZ5QpOqMO7eOqYQX
+ QAAcd1SN7dT2x0FGhABX2gz71t9WIBtw3he0mQY7Z/s4B7S8EvyiWXgrScdBEZNmnkw9
+ ZX7fBfP13ZOg03t6lro+gxShfJy4LEAgC41tIS19/h5jjHb1I+M8Xq8p/M/xHYIUcOR3
+ blmw==
+X-Gm-Message-State: AOJu0Yzr6vA3JC5G2W2TRXCOqOUAn7jzVZ7uZJv1XiAZm79fSheYc7zX
+ S+ulRpmzXxV7oh2ZLYu3Tw6teIIwat/Oa0KGMqI=
+X-Google-Smtp-Source: AGHT+IEXSarpX4D9K7l62tqeOOFIuirkFViAjyDoJBqx2Dqb2516JHcFfgXOGpgW8/z7+m9+5EETDoyKYs0BcsQRPpY=
+X-Received: by 2002:a17:907:7857:b0:9ad:ef31:6efc with SMTP id
+ lb23-20020a170907785700b009adef316efcmr5953491ejc.21.1696563636811; Thu, 05
+ Oct 2023 20:40:36 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230921192749.1542462-1-dianders@chromium.org>
- <CGME20230921194907eucas1p1027c5dfc5c5f77bca3c43673427c89cc@eucas1p1.samsung.com>
- <20230921122641.RFT.v2.9.Iea33274908b6b258955f45a8aaf6f5bba24ad6cd@changeid>
- <fb9cd62b-6637-7bcc-e23d-37f3806f8460@samsung.com>
-In-Reply-To: <fb9cd62b-6637-7bcc-e23d-37f3806f8460@samsung.com>
+References: <20230919103939.1367659-1-u.kleine-koenig@pengutronix.de>
+In-Reply-To: <20230919103939.1367659-1-u.kleine-koenig@pengutronix.de>
 From: Inki Dae <daeinki@gmail.com>
-Date: Fri, 6 Oct 2023 11:19:54 +0900
-Message-ID: <CAAQKjZNn4RTJ-SHHEugcQoS2U9fzNTOGtUpSLLM0w1V6Pb0amw@mail.gmail.com>
-Subject: Re: [RFT PATCH v2 09/12] drm/exynos: Call drm_atomic_helper_shutdown()
- at shutdown/unbind time
-To: Marek Szyprowski <m.szyprowski@samsung.com>
+Date: Fri, 6 Oct 2023 12:39:59 +0900
+Message-ID: <CAAQKjZMiM+UwFZ8aN2L8THaHt6O6OZfdT1JXiZLm-QPN=OOwug@mail.gmail.com>
+Subject: Re: [PATCH] drm: exynos: dsi: Convert to platform remove callback
+ returning void
+To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -72,110 +69,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org, sw0312.kim@samsung.com,
- Douglas Anderson <dianders@chromium.org>, Maxime Ripard <mripard@kernel.org>,
- linux-kernel@vger.kernel.org, krzysztof.kozlowski@linaro.org,
- dri-devel@lists.freedesktop.org, alim.akhtar@samsung.com,
- kyungmin.park@samsung.com, linux-arm-kernel@lists.infradead.org
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ linux-samsung-soc@vger.kernel.org, Robert Foss <rfoss@kernel.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org, Jagan Teki <jagan@amarulasolutions.com>,
+ kernel@pengutronix.de, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thanks for testing. :)
+2023=EB=85=84 9=EC=9B=94 19=EC=9D=BC (=ED=99=94) =EC=98=A4=ED=9B=84 7:40, U=
+we Kleine-K=C3=B6nig
+<u.kleine-koenig@pengutronix.de>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
+>
+> The .remove() callback for a platform driver returns an int which makes
+> many driver authors wrongly assume it's possible to do error handling by
+> returning an error code. However the value returned is ignored (apart
+> from emitting a warning) and this typically results in resource leaks.
+> To improve here there is a quest to make the remove callback return
+> void. In the first step of this quest all drivers are converted to
+> .remove_new() which already returns void. Eventually after all drivers
+> are converted, .remove_new() is renamed to .remove().
+>
+> samsung_dsim_remove() returned 0 unconditionally. Make it return void
+> instead to convert the two related platform drivers to use
+> .remove_new().
+>
+> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
 
-Acked-by : Inki Dae <inki.dae@samsung.com>
+It'd be better to go to drm-misc.
 
-2023=EB=85=84 9=EC=9B=94 22=EC=9D=BC (=EA=B8=88) =EC=98=A4=ED=9B=84 3:00, M=
-arek Szyprowski <m.szyprowski@samsung.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=
-=84=B1:
+Reviewed-by: Inki Dae <inki.dae@samsung.com>
+Acked-by: Inki Dae <inki.dae@samsung.com>
+
+Thanks,
+Inki Dae
+
+> ---
+>  drivers/gpu/drm/bridge/samsung-dsim.c   | 6 ++----
+>  drivers/gpu/drm/exynos/exynos_drm_dsi.c | 2 +-
+>  include/drm/bridge/samsung-dsim.h       | 2 +-
+>  3 files changed, 4 insertions(+), 6 deletions(-)
 >
+> diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/brid=
+ge/samsung-dsim.c
+> index b1df91e37b1b..2b56a5bfe273 100644
+> --- a/drivers/gpu/drm/bridge/samsung-dsim.c
+> +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
+> @@ -1998,7 +1998,7 @@ int samsung_dsim_probe(struct platform_device *pdev=
+)
+>  }
+>  EXPORT_SYMBOL_GPL(samsung_dsim_probe);
 >
-> On 21.09.2023 21:26, Douglas Anderson wrote:
-> > Based on grepping through the source code this driver appears to be
-> > missing a call to drm_atomic_helper_shutdown() at system shutdown time
-> > and at driver unbind time. Among other things, this means that if a
-> > panel is in use that it won't be cleanly powered off at system
-> > shutdown time.
-> >
-> > The fact that we should call drm_atomic_helper_shutdown() in the case
-> > of OS shutdown/restart and at driver remove (or unbind) time comes
-> > straight out of the kernel doc "driver instance overview" in
-> > drm_drv.c.
-> >
-> > A few notes about this fix:
-> > - When adding drm_atomic_helper_shutdown() to the unbind path, I added
-> >    it after drm_kms_helper_poll_fini() since that's when other drivers
-> >    seemed to have it.
-> > - Technically with a previous patch, ("drm/atomic-helper:
-> >    drm_atomic_helper_shutdown(NULL) should be a noop"), we don't
-> >    actually need to check to see if our "drm" pointer is NULL before
-> >    calling drm_atomic_helper_shutdown(). We'll leave the "if" test in,
-> >    though, so that this patch can land without any dependencies. It
-> >    could potentially be removed later.
-> > - This patch also makes sure to set the drvdata to NULL in the case of
-> >    bind errors to make sure that shutdown can't access freed data.
-> >
-> > Suggested-by: Maxime Ripard <mripard@kernel.org>
-> > Reviewed-by: Maxime Ripard <mripard@kernel.org>
-> > Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> -int samsung_dsim_remove(struct platform_device *pdev)
+> +void samsung_dsim_remove(struct platform_device *pdev)
+>  {
+>         struct samsung_dsim *dsi =3D platform_get_drvdata(pdev);
 >
-> Seems to be working fine on all my test Exynos-based boards with display.
+> @@ -2006,8 +2006,6 @@ int samsung_dsim_remove(struct platform_device *pde=
+v)
 >
-> Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
+>         if (dsi->plat_data->host_ops && dsi->plat_data->host_ops->unregis=
+ter_host)
+>                 dsi->plat_data->host_ops->unregister_host(dsi);
+> -
+> -       return 0;
+>  }
+>  EXPORT_SYMBOL_GPL(samsung_dsim_remove);
 >
-> Reviewed-by: Marek Szyprowski <m.szyprowski@samsung.com>
+> @@ -2107,7 +2105,7 @@ MODULE_DEVICE_TABLE(of, samsung_dsim_of_match);
 >
-> > ---
-> > This commit is only compile-time tested.
-> >
-> > (no changes since v1)
-> >
-> >   drivers/gpu/drm/exynos/exynos_drm_drv.c | 11 +++++++++++
-> >   1 file changed, 11 insertions(+)
-> >
-> > diff --git a/drivers/gpu/drm/exynos/exynos_drm_drv.c b/drivers/gpu/drm/=
-exynos/exynos_drm_drv.c
-> > index 8399256cb5c9..5380fb6c55ae 100644
-> > --- a/drivers/gpu/drm/exynos/exynos_drm_drv.c
-> > +++ b/drivers/gpu/drm/exynos/exynos_drm_drv.c
-> > @@ -300,6 +300,7 @@ static int exynos_drm_bind(struct device *dev)
-> >       drm_mode_config_cleanup(drm);
-> >       exynos_drm_cleanup_dma(drm);
-> >       kfree(private);
-> > +     dev_set_drvdata(dev, NULL);
-> >   err_free_drm:
-> >       drm_dev_put(drm);
-> >
-> > @@ -313,6 +314,7 @@ static void exynos_drm_unbind(struct device *dev)
-> >       drm_dev_unregister(drm);
-> >
-> >       drm_kms_helper_poll_fini(drm);
-> > +     drm_atomic_helper_shutdown(drm);
-> >
-> >       component_unbind_all(drm->dev, drm);
-> >       drm_mode_config_cleanup(drm);
-> > @@ -350,9 +352,18 @@ static int exynos_drm_platform_remove(struct platf=
-orm_device *pdev)
-> >       return 0;
-> >   }
-> >
-> > +static void exynos_drm_platform_shutdown(struct platform_device *pdev)
-> > +{
-> > +     struct drm_device *drm =3D platform_get_drvdata(pdev);
-> > +
-> > +     if (drm)
-> > +             drm_atomic_helper_shutdown(drm);
-> > +}
-> > +
-> >   static struct platform_driver exynos_drm_platform_driver =3D {
-> >       .probe  =3D exynos_drm_platform_probe,
-> >       .remove =3D exynos_drm_platform_remove,
-> > +     .shutdown =3D exynos_drm_platform_shutdown,
-> >       .driver =3D {
-> >               .name   =3D "exynos-drm",
-> >               .pm     =3D &exynos_drm_pm_ops,
+>  static struct platform_driver samsung_dsim_driver =3D {
+>         .probe =3D samsung_dsim_probe,
+> -       .remove =3D samsung_dsim_remove,
+> +       .remove_new =3D samsung_dsim_remove,
+>         .driver =3D {
+>                    .name =3D "samsung-dsim",
+>                    .pm =3D &samsung_dsim_pm_ops,
+> diff --git a/drivers/gpu/drm/exynos/exynos_drm_dsi.c b/drivers/gpu/drm/ex=
+ynos/exynos_drm_dsi.c
+> index 69ea33cae651..2fe0e5f3f638 100644
+> --- a/drivers/gpu/drm/exynos/exynos_drm_dsi.c
+> +++ b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
+> @@ -181,7 +181,7 @@ MODULE_DEVICE_TABLE(of, exynos_dsi_of_match);
 >
-> Best regards
+>  struct platform_driver dsi_driver =3D {
+>         .probe =3D samsung_dsim_probe,
+> -       .remove =3D samsung_dsim_remove,
+> +       .remove_new =3D samsung_dsim_remove,
+>         .driver =3D {
+>                    .name =3D "exynos-dsi",
+>                    .owner =3D THIS_MODULE,
+> diff --git a/include/drm/bridge/samsung-dsim.h b/include/drm/bridge/samsu=
+ng-dsim.h
+> index 6fc9bb2979e4..3f8050d523eb 100644
+> --- a/include/drm/bridge/samsung-dsim.h
+> +++ b/include/drm/bridge/samsung-dsim.h
+> @@ -116,7 +116,7 @@ struct samsung_dsim {
+>  };
+>
+>  extern int samsung_dsim_probe(struct platform_device *pdev);
+> -extern int samsung_dsim_remove(struct platform_device *pdev);
+> +extern void samsung_dsim_remove(struct platform_device *pdev);
+>  extern const struct dev_pm_ops samsung_dsim_pm_ops;
+>
+>  #endif /* __SAMSUNG_DSIM__ */
+>
+> base-commit: 0663e1da5ba8e6459e3555ac12c62741668c0d30
 > --
-> Marek Szyprowski, PhD
-> Samsung R&D Institute Poland
+> 2.40.1
 >
