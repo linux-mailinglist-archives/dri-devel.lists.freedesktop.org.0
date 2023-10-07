@@ -2,46 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24B0F7BC9A4
-	for <lists+dri-devel@lfdr.de>; Sat,  7 Oct 2023 21:49:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99F687BC9F7
+	for <lists+dri-devel@lfdr.de>; Sat,  7 Oct 2023 23:42:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A540510E05E;
-	Sat,  7 Oct 2023 19:49:47 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 983C910E02F
- for <dri-devel@lists.freedesktop.org>; Sat,  7 Oct 2023 19:49:44 +0000 (UTC)
-Received: from workpc.. (109-252-153-31.dynamic.spd-mgts.ru [109.252.153.31])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 7CB7C66072F7;
- Sat,  7 Oct 2023 20:49:42 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1696708183;
- bh=QkG+4yqcf7f4GTT/p4sdMS0CGEUP0WepcZIWVD0r598=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=KODcYnt2BGZeotFxeDNzIdIxrU/Xg1Cvlilyw0XlMVa6DnT3S2EOw1jA/ts6Fwuya
- 8c9CLM60Zg4CVSn9kCVf2OR9k5WkP6cLUN7gzvwgbn6kUI2qdZO2oGmYhr+6Kx5CsE
- fXzZ8qquLLGorXOs00yi5hGje2e9pX346guqNOx+FqzwDPax6afKtJQH0gp7Nbxflg
- vTfeNuPJNLwL/4O4OKXTcMIjBEVWlS5xdrYX/T2GSQAebZMmzxJNW0OktZ7EktmMJP
- TwtKLUDoAwsxyT5SGFy6nwg8PlKcnSgbpTfxU3Wg6gwpCFlSGc/MkcMvPJMfSAU0rB
- 3UbyTyKF2mSGw==
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-To: David Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Chia-I Wu <olvaffe@gmail.com>, Rob Clark <robdclark@gmail.com>,
- Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-Subject: [RFC PATCH v1 1/1] drm/virtio: Support fence-passing feature
-Date: Sat,  7 Oct 2023 22:47:47 +0300
-Message-ID: <20231007194747.788934-2-dmitry.osipenko@collabora.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20231007194747.788934-1-dmitry.osipenko@collabora.com>
-References: <20231007194747.788934-1-dmitry.osipenko@collabora.com>
+	by gabe.freedesktop.org (Postfix) with ESMTP id 503F710E06A;
+	Sat,  7 Oct 2023 21:42:36 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B10AE10E063;
+ Sat,  7 Oct 2023 21:42:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1696714954; x=1728250954;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=d9qN3uPPOsdnm1kO4kw9GjK6xtUcXvNflL1OINjOCiU=;
+ b=oDjDtMus5WXyp8dnWICs046KAAvg/xuD8nao4ouuMAr0YOmc2jdV1ODu
+ Hw0IeqpH6iJEOMv3r7S1MdhIQkygVqizooQDyNXGmyRmU/YACpS4W4iNK
+ Ia4PRdiwHbKbbuKyx53+nMEENLzVzjdrM8yoecMePhett1j3e0y55ynJf
+ HJv/W3huejOmKqkGBiLloq8WzAwD59eGbyy6FMgtd/B61O/XXOF6qOoNl
+ PX4nNjJdgB9MZ8/GFKLDhM2EVG0H37R6zBVP3nb6c0a/iI2Z7CRxIYnKS
+ koSfqHw5LAZkBM0qdiVgCwEZxlD7QkGnVb81lQ/p+LdlXT73qOQNYz/WC Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10856"; a="2561781"
+X-IronPort-AV: E=Sophos;i="6.03,207,1694761200"; 
+   d="scan'208";a="2561781"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Oct 2023 14:42:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10856"; a="868775632"
+X-IronPort-AV: E=Sophos;i="6.03,207,1694761200"; d="scan'208";a="868775632"
+Received: from ahmadsay-mobl.gar.corp.intel.com (HELO intel.com)
+ ([10.215.158.178])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Oct 2023 14:42:29 -0700
+Date: Sat, 7 Oct 2023 23:42:21 +0200
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: John.C.Harrison@intel.com
+Subject: Re: [Intel-gfx] [PATCH] drm/i915/guc: Update 'recommended' version
+ to 70.12.1 for DG2/ADL-S/ADL-P/MTL
+Message-ID: <ZSHQvRmfoXaCN8GE@ashyti-mobl2.lan>
+References: <20231006145801.161868-1-John.C.Harrison@Intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231006145801.161868-1-John.C.Harrison@Intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,457 +60,20 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
+Cc: Intel-GFX@lists.freedesktop.org, DRI-Devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Support extended version of VIRTIO_GPU_CMD_SUBMIT_3D command that allows
-passing in-fence IDs to host for waiting, removing need to do expensive
-host-guest roundtrips in a case of waiting for fences on a guest side.
+Hi John,
 
-Guest userspace must enable new VIRTGPU_CONTEXT_PARAM_FENCE_PASSING flag
-and host must support new VIRTIO_GPU_F_FENCE_PASSING feature in order to
-activate the fence passing for a given virtio-gpu context. Array of
-in-fence IDs is then prepended to the VIRTIO_GPU_CMD_SUBMIT_3D's data,
-the previously unused padding field of the command is reused for the
-number of in-fences.
+> The latest GuC has new features and new workarounds that we wish to
+> enable. So let the universe know that it is useful to update their
+> firmware.
+> 
+> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
 
-A new VIRTGPU_EXECBUF_SHARED_FENCE flag is added to the job submission
-UAPI and must be set by userspace if it wants to make fence shareable
-with/on host. Certain jobs won't want to share fence, in particular Venus
-will benefit from this flag.
+CI is green, the patch is reviewed... I took the freedom to push
+it to drm-intel-gt-next... hope it's fine with you.
 
-Link: https://gitlab.freedesktop.org/virgl/virglrenderer/-/merge_requests/1138
-Link: https://gitlab.freedesktop.org/digetx/qemu/-/commits/native-context-iris
-Link: https://chromium-review.googlesource.com/c/crosvm/crosvm/+/4679609
-Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
----
- drivers/gpu/drm/virtio/virtgpu_drv.c    |  1 +
- drivers/gpu/drm/virtio/virtgpu_drv.h    | 11 ++-
- drivers/gpu/drm/virtio/virtgpu_fence.c  | 15 +++-
- drivers/gpu/drm/virtio/virtgpu_ioctl.c  | 11 ++-
- drivers/gpu/drm/virtio/virtgpu_kms.c    |  8 +-
- drivers/gpu/drm/virtio/virtgpu_submit.c | 99 ++++++++++++++++++++++++-
- drivers/gpu/drm/virtio/virtgpu_vq.c     |  7 +-
- include/uapi/drm/virtgpu_drm.h          |  3 +
- include/uapi/linux/virtio_gpu.h         | 11 ++-
- 9 files changed, 152 insertions(+), 14 deletions(-)
-
-diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.c b/drivers/gpu/drm/virtio/virtgpu_drv.c
-index 644b8ee51009..544918bd38e9 100644
---- a/drivers/gpu/drm/virtio/virtgpu_drv.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_drv.c
-@@ -148,6 +148,7 @@ static unsigned int features[] = {
- 	VIRTIO_GPU_F_RESOURCE_UUID,
- 	VIRTIO_GPU_F_RESOURCE_BLOB,
- 	VIRTIO_GPU_F_CONTEXT_INIT,
-+	VIRTIO_GPU_F_FENCE_PASSING,
- };
- static struct virtio_driver virtio_gpu_driver = {
- 	.feature_table = features,
-diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
-index 8513b671f871..1dc503cb53de 100644
---- a/drivers/gpu/drm/virtio/virtgpu_drv.h
-+++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
-@@ -149,6 +149,7 @@ struct virtio_gpu_fence {
- 	struct virtio_gpu_fence_event *e;
- 	struct virtio_gpu_fence_driver *drv;
- 	struct list_head node;
-+	bool host_shareable;
- };
- 
- struct virtio_gpu_vbuffer {
-@@ -246,6 +247,7 @@ struct virtio_gpu_device {
- 	bool has_resource_blob;
- 	bool has_host_visible;
- 	bool has_context_init;
-+	bool has_fence_passing;
- 	struct virtio_shm_region host_visible_region;
- 	struct drm_mm host_visible_mm;
- 
-@@ -273,6 +275,7 @@ struct virtio_gpu_fpriv {
- 	uint32_t num_rings;
- 	uint64_t base_fence_ctx;
- 	uint64_t ring_idx_mask;
-+	bool fence_passing_enabled;
- 	struct mutex context_lock;
- };
- 
-@@ -367,7 +370,9 @@ void virtio_gpu_cmd_submit(struct virtio_gpu_device *vgdev,
- 			   void *data, uint32_t data_size,
- 			   uint32_t ctx_id,
- 			   struct virtio_gpu_object_array *objs,
--			   struct virtio_gpu_fence *fence);
-+			   struct virtio_gpu_fence *fence,
-+			   uint32_t cmd_size,
-+			   unsigned int num_in_fences);
- void virtio_gpu_cmd_transfer_from_host_3d(struct virtio_gpu_device *vgdev,
- 					  uint32_t ctx_id,
- 					  uint64_t offset, uint32_t level,
-@@ -420,6 +425,9 @@ virtio_gpu_cmd_set_scanout_blob(struct virtio_gpu_device *vgdev,
- 				uint32_t width, uint32_t height,
- 				uint32_t x, uint32_t y);
- 
-+void virtio_gpu_cmd_in_fence(struct virtio_gpu_device *vgdev,
-+			     uint32_t ctx_id, uint64_t fence_id);
-+
- /* virtgpu_display.c */
- int virtio_gpu_modeset_init(struct virtio_gpu_device *vgdev);
- void virtio_gpu_modeset_fini(struct virtio_gpu_device *vgdev);
-@@ -439,6 +447,7 @@ void virtio_gpu_fence_emit(struct virtio_gpu_device *vgdev,
- 			  struct virtio_gpu_fence *fence);
- void virtio_gpu_fence_event_process(struct virtio_gpu_device *vdev,
- 				    u64 fence_id);
-+struct virtio_gpu_fence *to_virtio_gpu_fence(struct dma_fence *dma_fence);
- 
- /* virtgpu_object.c */
- void virtio_gpu_cleanup_object(struct virtio_gpu_object *bo);
-diff --git a/drivers/gpu/drm/virtio/virtgpu_fence.c b/drivers/gpu/drm/virtio/virtgpu_fence.c
-index f28357dbde35..1fd3cfeca2f5 100644
---- a/drivers/gpu/drm/virtio/virtgpu_fence.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_fence.c
-@@ -27,9 +27,6 @@
- 
- #include "virtgpu_drv.h"
- 
--#define to_virtio_gpu_fence(x) \
--	container_of(x, struct virtio_gpu_fence, f)
--
- static const char *virtio_gpu_get_driver_name(struct dma_fence *f)
- {
- 	return "virtio_gpu";
-@@ -71,6 +68,14 @@ static const struct dma_fence_ops virtio_gpu_fence_ops = {
- 	.timeline_value_str  = virtio_gpu_timeline_value_str,
- };
- 
-+struct virtio_gpu_fence *to_virtio_gpu_fence(struct dma_fence *dma_fence)
-+{
-+	if (dma_fence->ops != &virtio_gpu_fence_ops)
-+		return NULL;
-+
-+	return container_of(dma_fence, struct virtio_gpu_fence, f);
-+}
-+
- struct virtio_gpu_fence *virtio_gpu_fence_alloc(struct virtio_gpu_device *vgdev,
- 						uint64_t base_fence_ctx,
- 						uint32_t ring_idx)
-@@ -122,6 +127,10 @@ void virtio_gpu_fence_emit(struct virtio_gpu_device *vgdev,
- 			cpu_to_le32(VIRTIO_GPU_FLAG_INFO_RING_IDX);
- 		cmd_hdr->ring_idx = (u8)fence->ring_idx;
- 	}
-+
-+	if (fence->host_shareable)
-+		cmd_hdr->flags |=
-+			cpu_to_le32(VIRTIO_GPU_FLAG_FENCE_SHAREABLE);
- }
- 
- void virtio_gpu_fence_event_process(struct virtio_gpu_device *vgdev,
-diff --git a/drivers/gpu/drm/virtio/virtgpu_ioctl.c b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-index b24b11f25197..3028786c59cd 100644
---- a/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-@@ -514,7 +514,8 @@ static int virtio_gpu_resource_create_blob_ioctl(struct drm_device *dev,
- 			return PTR_ERR(buf);
- 
- 		virtio_gpu_cmd_submit(vgdev, buf, rc_blob->cmd_size,
--				      vfpriv->ctx_id, NULL, NULL);
-+				      vfpriv->ctx_id, NULL, NULL,
-+				      rc_blob->cmd_size, 0);
- 	}
- 
- 	if (guest_blob)
-@@ -642,6 +643,14 @@ static int virtio_gpu_context_init_ioctl(struct drm_device *dev,
- 
- 			vfpriv->ring_idx_mask = value;
- 			break;
-+		case VIRTGPU_CONTEXT_PARAM_FENCE_PASSING:
-+			if (!vgdev->has_fence_passing && value) {
-+				ret = -EINVAL;
-+				goto out_unlock;
-+			}
-+
-+			vfpriv->fence_passing_enabled = !!value;
-+			break;
- 		default:
- 			ret = -EINVAL;
- 			goto out_unlock;
-diff --git a/drivers/gpu/drm/virtio/virtgpu_kms.c b/drivers/gpu/drm/virtio/virtgpu_kms.c
-index 5a3b5aaed1f3..9f4617a75edd 100644
---- a/drivers/gpu/drm/virtio/virtgpu_kms.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_kms.c
-@@ -197,12 +197,16 @@ int virtio_gpu_init(struct virtio_device *vdev, struct drm_device *dev)
- 	if (virtio_has_feature(vgdev->vdev, VIRTIO_GPU_F_CONTEXT_INIT)) {
- 		vgdev->has_context_init = true;
- 	}
-+	if (virtio_has_feature(vgdev->vdev, VIRTIO_GPU_F_FENCE_PASSING)) {
-+		vgdev->has_fence_passing = true;
-+	}
- 
--	DRM_INFO("features: %cvirgl %cedid %cresource_blob %chost_visible",
-+	DRM_INFO("features: %cvirgl %cedid %cresource_blob %chost_visible %cfence_passing",
- 		 vgdev->has_virgl_3d    ? '+' : '-',
- 		 vgdev->has_edid        ? '+' : '-',
- 		 vgdev->has_resource_blob ? '+' : '-',
--		 vgdev->has_host_visible ? '+' : '-');
-+		 vgdev->has_host_visible ? '+' : '-',
-+		 vgdev->has_fence_passing ? '+' : '-');
- 
- 	DRM_INFO("features: %ccontext_init\n",
- 		 vgdev->has_context_init ? '+' : '-');
-diff --git a/drivers/gpu/drm/virtio/virtgpu_submit.c b/drivers/gpu/drm/virtio/virtgpu_submit.c
-index 3c00135ead45..129d063029a6 100644
---- a/drivers/gpu/drm/virtio/virtgpu_submit.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_submit.c
-@@ -25,6 +25,11 @@ struct virtio_gpu_submit_post_dep {
- 	u64 point;
- };
- 
-+struct virtio_gpu_in_fence {
-+	u64 id;
-+	u32 context;
-+};
-+
- struct virtio_gpu_submit {
- 	struct virtio_gpu_submit_post_dep *post_deps;
- 	unsigned int num_out_syncobjs;
-@@ -32,6 +37,9 @@ struct virtio_gpu_submit {
- 	struct drm_syncobj **in_syncobjs;
- 	unsigned int num_in_syncobjs;
- 
-+	struct virtio_gpu_in_fence *in_fences;
-+	unsigned int num_in_fences;
-+
- 	struct virtio_gpu_object_array *buflist;
- 	struct drm_virtgpu_execbuffer *exbuf;
- 	struct virtio_gpu_fence *out_fence;
-@@ -41,6 +49,8 @@ struct virtio_gpu_submit {
- 	struct drm_file *file;
- 	int out_fence_fd;
- 	u64 fence_ctx;
-+	u32 data_size;
-+	u32 cmd_size;
- 	u32 ring_idx;
- 	void *buf;
- };
-@@ -48,11 +58,44 @@ struct virtio_gpu_submit {
- static int virtio_gpu_do_fence_wait(struct virtio_gpu_submit *submit,
- 				    struct dma_fence *in_fence)
- {
-+	struct virtio_gpu_fence *fence = to_virtio_gpu_fence(in_fence);
- 	u32 context = submit->fence_ctx + submit->ring_idx;
-+	struct virtio_gpu_in_fence *vfence, *in_fences;
-+	u32 i;
- 
- 	if (dma_fence_match_context(in_fence, context))
- 		return 0;
- 
-+	if (fence && fence->host_shareable &&
-+	    submit->vfpriv->fence_passing_enabled) {
-+		/*
-+		 * Merge sync_file + syncobj in-fences to avoid sending more
-+		 * than one fence per-context to host. Use latest fence from
-+		 * the same context.
-+		 */
-+		for (i = 0; i < submit->num_in_fences; i++) {
-+			vfence = &submit->in_fences[i];
-+
-+			if (dma_fence_match_context(in_fence, vfence->context)) {
-+				vfence->id = max(vfence->id, fence->fence_id);
-+				return 0;
-+			}
-+		}
-+
-+		in_fences = krealloc_array(submit->in_fences,
-+					   submit->num_in_fences + 1,
-+					   sizeof(*in_fences), GFP_KERNEL);
-+		if (!in_fences)
-+			return -ENOMEM;
-+
-+		in_fences[submit->num_in_fences].id = fence->fence_id;
-+		in_fences[submit->num_in_fences].context = context;
-+		submit->in_fences = in_fences;
-+		submit->num_in_fences++;
-+
-+		return 0;
-+	}
-+
- 	return dma_fence_wait(in_fence, true);
- }
- 
-@@ -331,6 +374,7 @@ static void virtio_gpu_cleanup_submit(struct virtio_gpu_submit *submit)
- 	virtio_gpu_reset_syncobjs(submit->in_syncobjs, submit->num_in_syncobjs);
- 	virtio_gpu_free_syncobjs(submit->in_syncobjs, submit->num_in_syncobjs);
- 	virtio_gpu_free_post_deps(submit->post_deps, submit->num_out_syncobjs);
-+	kfree(submit->in_fences);
- 
- 	if (!IS_ERR(submit->buf))
- 		kvfree(submit->buf);
-@@ -348,12 +392,51 @@ static void virtio_gpu_cleanup_submit(struct virtio_gpu_submit *submit)
- 		fput(submit->sync_file->file);
- }
- 
--static void virtio_gpu_submit(struct virtio_gpu_submit *submit)
-+static int virtio_gpu_attach_in_fences(struct virtio_gpu_submit *submit)
- {
--	virtio_gpu_cmd_submit(submit->vgdev, submit->buf, submit->exbuf->size,
-+	size_t in_fences_size = sizeof(u64) * submit->num_in_fences;
-+	size_t new_data_size = submit->data_size + in_fences_size;
-+	void *buf = submit->buf;
-+	u64 *in_fences;
-+	unsigned int i;
-+
-+	if (new_data_size < submit->data_size)
-+		return -EINVAL;
-+
-+	buf = kvrealloc(buf, submit->data_size, new_data_size, GFP_KERNEL);
-+	if (!buf)
-+		return -ENOMEM;
-+
-+	memmove(buf + in_fences_size, buf, submit->data_size);
-+	in_fences = buf;
-+
-+	for (i = 0; i < submit->num_in_fences; i++)
-+		in_fences[i] = cpu_to_le64(submit->in_fences[i].id);
-+
-+	submit->data_size = new_data_size;
-+	submit->buf = buf;
-+
-+	return 0;
-+}
-+
-+static int virtio_gpu_submit(struct virtio_gpu_submit *submit)
-+{
-+	int err;
-+
-+	if (submit->num_in_fences) {
-+		err = virtio_gpu_attach_in_fences(submit);
-+		if (err)
-+			return err;
-+	}
-+
-+	virtio_gpu_cmd_submit(submit->vgdev, submit->buf, submit->data_size,
- 			      submit->vfpriv->ctx_id, submit->buflist,
--			      submit->out_fence);
-+			      submit->out_fence, submit->cmd_size,
-+			      submit->num_in_fences);
-+
- 	virtio_gpu_notify(submit->vgdev);
-+
-+	return 0;
- }
- 
- static void virtio_gpu_complete_submit(struct virtio_gpu_submit *submit)
-@@ -401,6 +484,12 @@ static int virtio_gpu_init_submit(struct virtio_gpu_submit *submit,
- 		}
- 	}
- 
-+	if ((exbuf->flags & VIRTGPU_EXECBUF_SHARED_FENCE) &&
-+	    vfpriv->fence_passing_enabled && out_fence)
-+		out_fence->host_shareable = true;
-+
-+	submit->data_size = exbuf->size;
-+	submit->cmd_size = exbuf->size;
- 	submit->out_fence = out_fence;
- 	submit->fence_ctx = fence_ctx;
- 	submit->ring_idx = ring_idx;
-@@ -527,7 +616,9 @@ int virtio_gpu_execbuffer_ioctl(struct drm_device *dev, void *data,
- 	if (ret)
- 		goto cleanup;
- 
--	virtio_gpu_submit(&submit);
-+	ret = virtio_gpu_submit(&submit);
-+	if (ret)
-+		goto cleanup;
- 
- 	/*
- 	 * Set up usr-out data after submitting the job to optimize
-diff --git a/drivers/gpu/drm/virtio/virtgpu_vq.c b/drivers/gpu/drm/virtio/virtgpu_vq.c
-index b1a00c0c25a7..29d462b69bad 100644
---- a/drivers/gpu/drm/virtio/virtgpu_vq.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_vq.c
-@@ -1079,7 +1079,9 @@ void virtio_gpu_cmd_submit(struct virtio_gpu_device *vgdev,
- 			   void *data, uint32_t data_size,
- 			   uint32_t ctx_id,
- 			   struct virtio_gpu_object_array *objs,
--			   struct virtio_gpu_fence *fence)
-+			   struct virtio_gpu_fence *fence,
-+			   uint32_t cmd_size,
-+			   unsigned int num_in_fences)
- {
- 	struct virtio_gpu_cmd_submit *cmd_p;
- 	struct virtio_gpu_vbuffer *vbuf;
-@@ -1093,7 +1095,8 @@ void virtio_gpu_cmd_submit(struct virtio_gpu_device *vgdev,
- 
- 	cmd_p->hdr.type = cpu_to_le32(VIRTIO_GPU_CMD_SUBMIT_3D);
- 	cmd_p->hdr.ctx_id = cpu_to_le32(ctx_id);
--	cmd_p->size = cpu_to_le32(data_size);
-+	cmd_p->size = cpu_to_le32(cmd_size);
-+	cmd_p->num_in_fences = cpu_to_le32(num_in_fences);
- 
- 	virtio_gpu_queue_fenced_ctrl_buffer(vgdev, vbuf, fence);
- }
-diff --git a/include/uapi/drm/virtgpu_drm.h b/include/uapi/drm/virtgpu_drm.h
-index b1d0e56565bc..fd486fdf0441 100644
---- a/include/uapi/drm/virtgpu_drm.h
-+++ b/include/uapi/drm/virtgpu_drm.h
-@@ -52,10 +52,12 @@ extern "C" {
- #define VIRTGPU_EXECBUF_FENCE_FD_IN	0x01
- #define VIRTGPU_EXECBUF_FENCE_FD_OUT	0x02
- #define VIRTGPU_EXECBUF_RING_IDX	0x04
-+#define VIRTGPU_EXECBUF_SHARED_FENCE	0x08
- #define VIRTGPU_EXECBUF_FLAGS  (\
- 		VIRTGPU_EXECBUF_FENCE_FD_IN |\
- 		VIRTGPU_EXECBUF_FENCE_FD_OUT |\
- 		VIRTGPU_EXECBUF_RING_IDX |\
-+		VIRTGPU_EXECBUF_SHARED_FENCE |\
- 		0)
- 
- struct drm_virtgpu_map {
-@@ -198,6 +200,7 @@ struct drm_virtgpu_resource_create_blob {
- #define VIRTGPU_CONTEXT_PARAM_CAPSET_ID       0x0001
- #define VIRTGPU_CONTEXT_PARAM_NUM_RINGS       0x0002
- #define VIRTGPU_CONTEXT_PARAM_POLL_RINGS_MASK 0x0003
-+#define VIRTGPU_CONTEXT_PARAM_FENCE_PASSING   0x0004
- struct drm_virtgpu_context_set_param {
- 	__u64 param;
- 	__u64 value;
-diff --git a/include/uapi/linux/virtio_gpu.h b/include/uapi/linux/virtio_gpu.h
-index f556fde07b76..c3182c8255cf 100644
---- a/include/uapi/linux/virtio_gpu.h
-+++ b/include/uapi/linux/virtio_gpu.h
-@@ -65,6 +65,11 @@
-  */
- #define VIRTIO_GPU_F_CONTEXT_INIT        4
- 
-+/*
-+ * VIRTIO_GPU_CMD_SUBMIT_3D
-+ */
-+#define VIRTIO_GPU_F_FENCE_PASSING       5
-+
- enum virtio_gpu_ctrl_type {
- 	VIRTIO_GPU_UNDEFINED = 0,
- 
-@@ -133,6 +138,10 @@ enum virtio_gpu_shm_id {
-  * of the command ring that needs to used when creating the fence
-  */
- #define VIRTIO_GPU_FLAG_INFO_RING_IDX (1 << 1)
-+/*
-+ * The fence is shareable between host contexts if flag is set.
-+ */
-+#define VIRTIO_GPU_FLAG_FENCE_SHAREABLE (1 << 2)
- 
- struct virtio_gpu_ctrl_hdr {
- 	__le32 type;
-@@ -304,7 +313,7 @@ struct virtio_gpu_ctx_resource {
- struct virtio_gpu_cmd_submit {
- 	struct virtio_gpu_ctrl_hdr hdr;
- 	__le32 size;
--	__le32 padding;
-+	__le32 num_in_fences;
- };
- 
- #define VIRTIO_GPU_CAPSET_VIRGL 1
--- 
-2.41.0
-
+Thanks,
+Andi
