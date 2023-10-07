@@ -1,52 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 863547BC797
-	for <lists+dri-devel@lfdr.de>; Sat,  7 Oct 2023 14:38:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E73C67BC7DD
+	for <lists+dri-devel@lfdr.de>; Sat,  7 Oct 2023 14:52:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB94510E042;
-	Sat,  7 Oct 2023 12:38:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 15B6610E062;
+	Sat,  7 Oct 2023 12:52:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.domeneshop.no (smtp.domeneshop.no
- [IPv6:2a01:5b40:0:3006::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 720C410E042
- for <dri-devel@lists.freedesktop.org>; Sat,  7 Oct 2023 12:38:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
- ; s=ds202212;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=aJZ1wERx8t06/X65STMSBu3JiTPzRYIDvUyKyEYDM9M=; b=Hci/GG9CxXdpoU9be5u8SQf2xk
- EoRXK1UpYcHUETd6VuuEnyZwy0EDs3FNuLWSMJrpAdlRF6BOOGYxBEj1yJFwdDoJHhTY2CClPVR4z
- qrWX0aPaY3AZOt+HOk+ijZ++wvVIKG+Q4TaBajGVKal0WC2C5XybVMoPZbZHZ7UD6cEGPTr68d5fY
- aloBLpytQ40zSdXIBUwmuhGTZQm8dlf4y451oGtOKpclzcVJMSPyCNkbXloPFC3++4R4WSw3vsNHW
- 6rRVxZW21G7iDRWfN1e81Il+EfiBFw4+rmFULDh58SBTJK/QESizjK5th+mKHyKAVUqn/dmDe6+6i
- Ra5bJPbQ==;
-Received: from [2a01:799:95f:2800:2fb5:c6db:11b1:a10f] (port=40012)
- by smtp.domeneshop.no with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.95)
- (envelope-from <noralf@tronnes.org>) id 1qp6ZZ-0034jm-Oc;
- Sat, 07 Oct 2023 14:38:21 +0200
-Message-ID: <7eee2ca0-d2d4-4bfe-b253-fe6147aec173@tronnes.org>
-Date: Sat, 7 Oct 2023 14:38:18 +0200
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2041210E062
+ for <dri-devel@lists.freedesktop.org>; Sat,  7 Oct 2023 12:52:34 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::646])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ms.lwn.net (Postfix) with ESMTPSA id 75EC27C0;
+ Sat,  7 Oct 2023 12:52:33 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 75EC27C0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+ t=1696683153; bh=PgWW8D6ZHEnTOunHt8IQOGYCHMCY50wDEuOa7EF0Gis=;
+ h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+ b=Cw1ttCn9rFw0TyTeC7CdnQpEyIZErUF5czDpJb7KKMWbh1YrKuQ4tDxh+lOOBbYWE
+ ZTmQTW5o11R7ZH/2vuzugrm5Zf8ETYGIS4rMq4qX4pmgUGdiHBdIlxbdzPVX4Kivct
+ dSNnA0kYjfZXX47zVgx0XJqr3bGG4heSy2jrWcPvSAud2BtNu5KgsdZQwyd8y9fV2C
+ vpGOtoahCJUKQOIZXjDkwraEZBWFf9w8jLyqt7MMItZToGpHxBWUyEm4/PF0Fjohr6
+ VUdp28VynOqWZJL2STT+lHKZBMpWf9+Cp54Sn3+xOdTuvoHcWVDzCoPrtQ1C5iO2Aw
+ uObVv+LxUBXug==
+From: Jonathan Corbet <corbet@lwn.net>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [PATCH 0/2] Add support for inlined documentation for kunit and
+ kselftests
+In-Reply-To: <20231007100946.396187d4@sal.lan>
+References: <cover.1693550658.git.mchehab@kernel.org>
+ <87pm1vd4kb.fsf@meer.lwn.net> <20231007100946.396187d4@sal.lan>
+Date: Sat, 07 Oct 2023 06:52:32 -0600
+Message-ID: <877cnyvblb.fsf@meer.lwn.net>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/4] drm/panic: Add a drm panic handler
-Content-Language: en-US
-To: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
- tzimmermann@suse.de, airlied@redhat.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, daniel@ffwll.ch, javierm@redhat.com,
- bluescreen_avenger@verizon.net
-References: <20231003142508.190246-1-jfalempe@redhat.com>
- <20231003142508.190246-3-jfalempe@redhat.com>
-From: =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>
-In-Reply-To: <20231003142508.190246-3-jfalempe@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,75 +50,20 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: gpiccoli@igalia.com, noralf@tronnes.org
+Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Mauro Carvalho Chehab <mchehab@kernel.org> writes:
 
+> Should I wait for you to take a look at patch 1/2 before sending
+> a new version?
 
-On 10/3/23 16:22, Jocelyn Falempe wrote:
-> This module displays a user friendly message when a kernel panic
-> occurs. It currently doesn't contain any debug information,
-> but that can be added later.
-> 
-> v2
->  * Use get_scanout_buffer() instead of the drm client API.
->   (Thomas Zimmermann)
->  * Add the panic reason to the panic message (Nerdopolis)
->  * Add an exclamation mark (Nerdopolis)
-> 
-> v3
->  * Rework the drawing functions, to write the pixels line by line and
->  to use the drm conversion helper to support other formats.
->  (Thomas Zimmermann)
-> 
-> v4
->  * Use drm_fb_r1_to_32bit for fonts (Thomas Zimmermann)
->  * Remove the default y to DRM_PANIC config option (Thomas Zimmermann)
->  * Add foreground/background color config option
->  * Fix the bottom lines not painted if the framebuffer height
->    is not a multiple of the font height.
->  * Automatically register the device to drm_panic, if the function
->    get_scanout_buffer exists. (Thomas Zimmermann)
-> 
-> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
-> ---
->  drivers/gpu/drm/Kconfig     |  22 ++
->  drivers/gpu/drm/Makefile    |   1 +
->  drivers/gpu/drm/drm_drv.c   |   8 +
->  drivers/gpu/drm/drm_panic.c | 413 ++++++++++++++++++++++++++++++++++++
->  include/drm/drm_drv.h       |  14 ++
->  include/drm/drm_panic.h     |  41 ++++
->  6 files changed, 499 insertions(+)
->  create mode 100644 drivers/gpu/drm/drm_panic.c
->  create mode 100644 include/drm/drm_panic.h
-> 
+Go ahead and resend whenever...I'm still digging out from the last few
+weeks.
 
-> diff --git a/drivers/gpu/drm/drm_panic.c b/drivers/gpu/drm/drm_panic.c
-> new file mode 100644
+Thanks,
 
-> +static void draw_panic_device(struct drm_device *dev, const char *msg)
-> +{
-> +	struct drm_scanout_buffer sb;
-> +
-> +	if (dev->driver->get_scanout_buffer(dev, &sb))
-> +		return;
-> +	if (!drm_panic_line_buf)
-> +		return;
-> +
-
-Unless something has changed since 2019 we need to make sure fbcon
-hasn't already printed the panic to avoid jumbled output. See [1] for
-more info.
-
-Noralf.
-
-[1]
-https://lore.kernel.org/dri-devel/20190312095320.GX2665@phenom.ffwll.local/
-
-> +	/* to avoid buffer overflow on drm_panic_line_buf */
-> +	if (sb.width > DRM_PANIC_MAX_WIDTH)
-> +		sb.width = DRM_PANIC_MAX_WIDTH;
-> +
-> +	draw_panic_static(&sb, msg);
-> +}
+jon
