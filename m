@@ -1,56 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D232B7BC90F
-	for <lists+dri-devel@lfdr.de>; Sat,  7 Oct 2023 18:24:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A1BEB7BC9A3
+	for <lists+dri-devel@lfdr.de>; Sat,  7 Oct 2023 21:49:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5469A10E06C;
-	Sat,  7 Oct 2023 16:24:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7937110E02F;
+	Sat,  7 Oct 2023 19:49:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com
- [IPv6:2a00:1450:4864:20::52e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E9BD610E040;
- Sat,  7 Oct 2023 16:24:45 +0000 (UTC)
-Received: by mail-ed1-x52e.google.com with SMTP id
- 4fb4d7f45d1cf-536b39daec1so5442016a12.2; 
- Sat, 07 Oct 2023 09:24:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1696695884; x=1697300684; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=vFIriXocAA6Pr+bHRL9FIc9QJhfcR0NHPuOKRd2IbkI=;
- b=CLnjpsVoCn8T6cSSW3ADMM8Eo6qKlFr+aK0ZYdQE8H9RuYkXp22aj/hK2DWK95BBsm
- 33FriDIwiqDqIFQ1imBlZ+6rg716n1ItL+QUOv3e5N/XCpOwlw1T3cl5Fw051wniC0cC
- /S6lpXhWAdRR8CDv+0i4jEzqCx11/gu9C7366bvNljybmDfErygtFO9Wausc5f6SY7RQ
- yp8Z04jKh1W9ThrrldB58uzW18j/e00IATz5WSRL++etZalhanETESlTqzYWtbecR2L6
- ykQZPHOJRGPy1CY93OkG1SqsCiuECBRfqixxbJvGFQkPYmKlnT0yYMGpykuPodnQgLfa
- tdwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1696695884; x=1697300684;
- h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=vFIriXocAA6Pr+bHRL9FIc9QJhfcR0NHPuOKRd2IbkI=;
- b=vBqAHDeRPMsmyAj3cPK8z3fWg7NuBgTAgbpo/KJS/kWP4tkXKAWlSDiA/4xnyKTozc
- +2qmVeLEZJgzEZoz38CBVn70xlCP3cmGa9P6qmvck0NvSMeeZkIWjLMUxS1Yk4FGIi3q
- Vluw7TVO26MqAJxLQKa9VHTZzphHdK1p32sNJrxUymOtcWus6iZug980c77XzmtMaoWF
- FiPf31GFblB6HqtBm9t9eaDHWUnm4tNGnOywT89dOelcXobFg0SGFKg+hVravI0R26gI
- KsrxRQBF/wzbb09ZkM6yH+dCbO9+pdXIcoVCySIrlg33HNWgNQN5i9Hn5CZgYw/DimJg
- Lk5g==
-X-Gm-Message-State: AOJu0Ywie6UJrQaomS0OiQYDVEwG/RgV/AT0ZjbeSHv79huJIQKA20zl
- lp9lVh6mzn4ngfLAuXq4xZnH6D4WekbF8cHLys0=
-X-Google-Smtp-Source: AGHT+IHsD4j1DRc/IkP3+RAGwobooxqBt64YmDAsovbTVmBVaJWqPkWECd69kpfWAN3zIo/dDfY1AkNerWDQ66imRaw=
-X-Received: by 2002:a05:6402:1b0e:b0:532:b974:671e with SMTP id
- by14-20020a0564021b0e00b00532b974671emr10209082edb.41.1696695884006; Sat, 07
- Oct 2023 09:24:44 -0700 (PDT)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C706510E02F
+ for <dri-devel@lists.freedesktop.org>; Sat,  7 Oct 2023 19:49:43 +0000 (UTC)
+Received: from workpc.. (109-252-153-31.dynamic.spd-mgts.ru [109.252.153.31])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ (Authenticated sender: dmitry.osipenko)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 7400F66072BB;
+ Sat,  7 Oct 2023 20:49:41 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1696708182;
+ bh=jxn4oc/yI6t62r9mg5ChscM72pMr3cCvBu3CCP7Cs/g=;
+ h=From:To:Cc:Subject:Date:From;
+ b=liqlmvSZT4yO6UtBzTcdCt/d6abZsK75MrkAEpI+A9MbqIPxv5WBFmvQh7Cbms9Ip
+ TYs9H636XezCKy0ebIHYapixbk57d02cwRdRKyDEY0zl6XwOhKAvGs5sbaFWvDSBnQ
+ xSLtyBxKlgVoq0t/Z7hB/o3fUOy840AngfP3X+ZNL1daTAfcVwcv5Sx+kyXOOaQo8f
+ 8QZRE517bHDxxejGN/p7h3P18xybpXr+LPLwW/UBi9uXyFKSLw77G3Zd0i/2BPfTi4
+ bWRZ+KQQ9xKsWvgF7LF9PsTP2FYoRlp1FHlCvLVS4ij58LEKoNELAXP3eBbxFZuVcW
+ f08VvYRj2I8iA==
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+To: David Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Chia-I Wu <olvaffe@gmail.com>, Rob Clark <robdclark@gmail.com>,
+ Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+Subject: [RFC PATCH v1 0/1] Support passing VirtIO-GPU fences to host for
+ waiting
+Date: Sat,  7 Oct 2023 22:47:46 +0300
+Message-ID: <20231007194747.788934-1-dmitry.osipenko@collabora.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-From: Rob Clark <robdclark@gmail.com>
-Date: Sat, 7 Oct 2023 09:24:32 -0700
-Message-ID: <CAF6AEGv-HNxQ=VBtZ8geGzYJum9jtManEdbvhcjo_WWF_J9Ziw@mail.gmail.com>
-Subject: [pull] drm/msm: drm-msm-fixes-2023-10-07 for v6.6-rc5
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,74 +53,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- freedreno <freedreno@lists.freedesktop.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave,
+Today's VirtIO-GPU driver always has to wait for in-fences on the guest
+side, creating bottleneck for workloads that produce lots of job submissions
+or require lower submission latency. This bottleneck is caused by a need
+to do extra round trips between host and guest for the fence signalling.
 
-Late fixes for v6.6, description below.
+The solution is to move fence signalling and waiting entierly to the host
+side, where it can be done more efficiently, without holding the guest side.
+The proposed patch introduces new "fence passing" VirtIO-GPU protocol
+feature, which extends VIRTIO_GPU_CMD_SUBMIT_3D with array of in-fence IDs
+that are passed from guest to host along with the 3D commands. Host then
+takes the in-fence IDs and passes them to virglrender, where the fence IDs
+are resolved into sync file fences and handled (waited) by a corresponding
+virglrender context.
 
-The following changes since commit ce9ecca0238b140b88f43859b211c9fdfd8e5b70:
+The patch is RFC because we want to do more testing with crosvm and
+CrOS first, support fence-passing for Venus and virtio-wl. The new
+virglrender experimental fence-passing API already has been merged [1]
+and crosvm support began to pick it up [2]. Qemu patch is available at [3].
 
-  Linux 6.6-rc2 (2023-09-17 14:40:24 -0700)
+Fence passing was tested using WIP amdgpu and intel native contexts,
+where it proved to be useful by increasing FPS up to 3x times.
 
-are available in the Git repository at:
+[1] https://gitlab.freedesktop.org/virgl/virglrenderer/-/merge_requests/1138
+[2] https://chromium-review.googlesource.com/c/crosvm/crosvm/+/4679609
+[3] https://gitlab.freedesktop.org/digetx/qemu/-/commits/native-context-iris
 
-  https://gitlab.freedesktop.org/drm/msm.git tags/drm-msm-fixes-2023-10-07
+Dmitry Osipenko (1):
+  drm/virtio: Support fence-passing feature
 
-for you to fetch changes up to 10f20628c9b8e924b8046e63b36b2cea4d2c85e4:
+ drivers/gpu/drm/virtio/virtgpu_drv.c    |  1 +
+ drivers/gpu/drm/virtio/virtgpu_drv.h    | 11 ++-
+ drivers/gpu/drm/virtio/virtgpu_fence.c  | 15 +++-
+ drivers/gpu/drm/virtio/virtgpu_ioctl.c  | 11 ++-
+ drivers/gpu/drm/virtio/virtgpu_kms.c    |  8 +-
+ drivers/gpu/drm/virtio/virtgpu_submit.c | 99 ++++++++++++++++++++++++-
+ drivers/gpu/drm/virtio/virtgpu_vq.c     |  7 +-
+ include/uapi/drm/virtgpu_drm.h          |  3 +
+ include/uapi/linux/virtio_gpu.h         | 11 ++-
+ 9 files changed, 152 insertions(+), 14 deletions(-)
 
-  drm/msm/dpu: fail dpu_plane_atomic_check() based on mdp clk limits
-(2023-10-05 10:18:10 -0700)
+-- 
+2.41.0
 
-----------------------------------------------------------------
-Fixes for v6.6-rc5
-
-- fix to not reset the PHY everytime we start link training but only
-  do it if link training fails. Without this, the PLL unlocked
-  interrupt fires causing "Unexpected DP AUX IRQ 0x01000000 when
-  not busy" spam in the logs since last 2-3 cycles
-- correct the highest bank bit to match downstream device tree for
-  msm8998
-- skip the video mode wait if the timing engine is not enabled. This
-  was introduced after pre_enable flag for DSI video mode panels
-  where we would end up waiting for the video mode done interrupt
-  even before enabling timing engine causing error spam and long
-  bootup times.
-- check the correct return code of irq_of_parse_and_map() in DSI code
-- avoid overflow issues in the dpu bandwidth calculation . This was
-  exposed for high resolution displays and a critical fix to avoid
-  atomic_check failure
-- minor fix to add new lines in DP print messages.
-- Fix to fail atomic_check() if the resolution exceeds max mdp clk.
-  This leads to underflow otherwise if we try to allow that frame.
-
-----------------------------------------------------------------
-Abhinav Kumar (3):
-      drm/msm/dsi: skip the wait for video mode done if not applicable
-      drm/msm/dpu: change _dpu_plane_calc_bw() to use u64 to avoid overflow
-      drm/msm/dpu: fail dpu_plane_atomic_check() based on mdp clk limits
-
-Dan Carpenter (1):
-      drm/msm/dsi: fix irq_of_parse_and_map() error checking
-
-Dmitry Baryshkov (1):
-      drm/msm/mdss: fix highest-bank-bit for msm8998
-
-Kuogee Hsieh (1):
-      drm/msm/dp: do not reinitialize phy unless retry during link training
-
-Stephen Boyd (1):
-      drm/msm/dp: Add newlines to debug printks
-
- drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 27 ++++++++++++++++++---------
- drivers/gpu/drm/msm/dp/dp_ctrl.c          | 13 ++++++-------
- drivers/gpu/drm/msm/dp/dp_link.c          |  4 ++--
- drivers/gpu/drm/msm/dsi/dsi_host.c        | 19 +++++++++++++++----
- drivers/gpu/drm/msm/msm_mdss.c            |  2 +-
- 5 files changed, 42 insertions(+), 23 deletions(-)
