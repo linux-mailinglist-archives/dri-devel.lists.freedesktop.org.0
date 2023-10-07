@@ -1,39 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E30F7BC36C
-	for <lists+dri-devel@lfdr.de>; Sat,  7 Oct 2023 02:55:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 10F987BC4D5
+	for <lists+dri-devel@lfdr.de>; Sat,  7 Oct 2023 07:41:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D6E7710E057;
-	Sat,  7 Oct 2023 00:55:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E497510E158;
+	Sat,  7 Oct 2023 05:41:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [IPv6:2607:7c80:54:3::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD77910E057;
- Sat,  7 Oct 2023 00:55:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
- Content-ID:Content-Description:In-Reply-To:References;
- bh=BT8tYl9kyCovYjvFEVeXbXj4P8U+VUi2Ywgg+MiH7SA=; b=2THIlO9aNRYwd5NkbeiK3pMNqH
- NVJFXMVfMrgYpaKmo+HvRdCyUG4hGIbVtdiNDP3LJWwpJcze8rqWWoMrlF6HpzEplrjlo2L3uEqoO
- 2akY3DOGppEY+2MAdVQBJzxXvNtA3FZDkbea43kc4zQGt7IB/EzjwJoZWWMwcmJAuJGa2n4GccFH3
- YLAiWQ91KBaxJEnWONEpkXb+XBptKQgXxOypuZz4euLfM5GTKTD68/Cgatlag5YEMqH5BvwS7sONk
- Qvk+boo4Hqr8MMDr9aeYTlMrnquP6ZF82521NciqUNbTCyFqov2Oz1IKQtiSpg2qbAbaRAvJzHEvA
- GdWZ/vVw==;
-Received: from [50.53.46.231] (helo=bombadil.infradead.org)
- by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
- id 1qovbD-006j2J-0g; Sat, 07 Oct 2023 00:55:19 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/nouveau: exec: fix ioctl kernel-doc warning
-Date: Fri,  6 Oct 2023 17:55:18 -0700
-Message-ID: <20231007005518.32015-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.42.0
+Received: from m15.mail.163.com (m15.mail.163.com [45.254.50.219])
+ by gabe.freedesktop.org (Postfix) with ESMTP id AFE8910E058
+ for <dri-devel@lists.freedesktop.org>; Sat,  7 Oct 2023 03:03:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=eXdTM
+ qOTVo37Vuo+Ii2+2vMJv7kgRRnrVpWPIL1gsDI=; b=KZJxd/jdNVT4o+gYnm2IU
+ GxGA/ZihRg6oC6c1CYAFJEvZymE3+T/a5mGXdIXI3OaH70JOdyMhvI1vAeqlffH0
+ IlztKSKbbbJHWo5lDB0TNFfONMjm2lTxBz3h48bmebY4J8j6KHdJnk+Xfc12TmdL
+ APzyao2b1ME89Rbe5yCrW0=
+Received: from icess-ProLiant-DL380-Gen10.. (unknown [183.174.60.14])
+ by zwqz-smtp-mta-g2-2 (Coremail) with SMTP id _____wDnFXp4yiBl5FAoEA--.48757S4;
+ Sat, 07 Oct 2023 11:03:29 +0800 (CST)
+From: Ma Ke <make_ruc2021@163.com>
+To: linus.walleij@linaro.org, neil.armstrong@linaro.org, sam@ravnborg.org,
+ airlied@gmail.com, daniel@ffwll.ch
+Subject: [PATCH] drm/panel/panel-tpo-tpg110: fix a possible null pointer
+ dereference
+Date: Sat,  7 Oct 2023 11:03:18 +0800
+Message-Id: <20231007030318.3996798-1-make_ruc2021@163.com>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: _____wDnFXp4yiBl5FAoEA--.48757S4
+X-Coremail-Antispam: 1Uf129KBjvdXoWrZrW8KFyfCw18AF47KFWrAFb_yoWDJFb_uF
+ 18XasrWr47W3Z7CF4Iva13Ar1ayFs8AF4kZ3WSkayIkrykGF17Jr1DWr909a4UuF17uFs8
+ Aa4xAF1YvFnrGjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUvcSsGvfC2KfnxnUUI43ZEXa7xRKLvK7UUUUU==
+X-Originating-IP: [183.174.60.14]
+X-CM-SenderInfo: 5pdnvshuxfjiisr6il2tof0z/xtbBFR4CC2B9oZk1SgAAsY
+X-Mailman-Approved-At: Sat, 07 Oct 2023 05:41:36 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,38 +51,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Karol Herbst <kherbst@redhat.com>, nouveau@lists.freedesktop.org,
- Randy Dunlap <rdunlap@infradead.org>, dri-devel@lists.freedesktop.org,
- Danilo Krummrich <dakr@redhat.com>, Dave Airlie <airlied@redhat.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Ma Ke <make_ruc2021@163.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-include/uapi/drm/nouveau_drm.h:49: warning: Cannot understand  * @NOUVEAU_GETPARAM_EXEC_PUSH_MAX
- on line 49 - I thought it was a doc line
+In radeon_fp_native_mode(), the return value of drm_mode_duplicate()
+is assigned to mode, which will lead to a NULL pointer dereference
+on failure of drm_mode_duplicate(). Add a check to avoid npd.
 
-Fixes: d59e75eef52d ("drm/nouveau: exec: report max pushs through getparam")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Dave Airlie <airlied@redhat.com>
-Cc: Danilo Krummrich <dakr@redhat.com>
-Cc: Karol Herbst <kherbst@redhat.com>
-Cc: Lyude Paul <lyude@redhat.com>
-Cc: dri-devel@lists.freedesktop.org
-Cc: nouveau@lists.freedesktop.org
+Signed-off-by: Ma Ke <make_ruc2021@163.com>
 ---
- include/uapi/drm/nouveau_drm.h |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/panel/panel-tpo-tpg110.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff -- a/include/uapi/drm/nouveau_drm.h b/include/uapi/drm/nouveau_drm.h
---- a/include/uapi/drm/nouveau_drm.h
-+++ b/include/uapi/drm/nouveau_drm.h
-@@ -45,8 +45,8 @@ extern "C" {
- #define NOUVEAU_GETPARAM_HAS_BO_USAGE    15
- #define NOUVEAU_GETPARAM_HAS_PAGEFLIP    16
+diff --git a/drivers/gpu/drm/panel/panel-tpo-tpg110.c b/drivers/gpu/drm/panel/panel-tpo-tpg110.c
+index 845304435e23..f6a212e542cb 100644
+--- a/drivers/gpu/drm/panel/panel-tpo-tpg110.c
++++ b/drivers/gpu/drm/panel/panel-tpo-tpg110.c
+@@ -379,6 +379,8 @@ static int tpg110_get_modes(struct drm_panel *panel,
+ 	connector->display_info.bus_flags = tpg->panel_mode->bus_flags;
  
--/**
-- * @NOUVEAU_GETPARAM_EXEC_PUSH_MAX
-+/*
-+ * NOUVEAU_GETPARAM_EXEC_PUSH_MAX - query max pushes through getparam
-  *
-  * Query the maximum amount of IBs that can be pushed through a single
-  * &drm_nouveau_exec structure and hence a single &DRM_IOCTL_NOUVEAU_EXEC
+ 	mode = drm_mode_duplicate(connector->dev, &tpg->panel_mode->mode);
++	if (!mode)
++		return -ENOMEM;
+ 	drm_mode_set_name(mode);
+ 	mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
+ 
+-- 
+2.37.2
+
