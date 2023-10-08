@@ -2,38 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 281887BCF5A
-	for <lists+dri-devel@lfdr.de>; Sun,  8 Oct 2023 19:15:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFDD57BCF45
+	for <lists+dri-devel@lfdr.de>; Sun,  8 Oct 2023 18:48:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D15F610E004;
-	Sun,  8 Oct 2023 17:15:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 341BF10E044;
+	Sun,  8 Oct 2023 16:48:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 432 seconds by postgrey-1.36 at gabe;
- Sun, 08 Oct 2023 14:44:12 UTC
-Received: from mail.ispras.ru (mail.ispras.ru [83.149.199.84])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD40510E0E3
- for <dri-devel@lists.freedesktop.org>; Sun,  8 Oct 2023 14:44:12 +0000 (UTC)
-Received: from localhost.localdomain (unknown [85.89.126.105])
- by mail.ispras.ru (Postfix) with ESMTPSA id 4C4ED40F1DEB;
- Sun,  8 Oct 2023 14:36:57 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.ispras.ru 4C4ED40F1DEB
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ispras.ru;
- s=default; t=1696775817;
- bh=RoI0NzZPsRKEzf3D3JCemfXog6bSvCczYoK0HGBz6tk=;
- h=From:To:Cc:Subject:Date:From;
- b=Q8eNVonyqxFLuwSGdRKO3poe5TFCrbHZorXms5AfSGQK/RYBvjDy5T6lJiNKTtKEM
- hisIozg7H45+6TZ4xM8DJF6FYvAC9qaMwpwZqpNpB2BIEmZfmAvjT3znNBXzTMpn4m
- y6DKkfx+IMycG/5rg0CdUm8BDz8h7RMB1UfPG9cQ=
-From: Pavel Sakharov <p.sakharov@ispras.ru>
-To: Sumit Semwal <sumit.semwal@linaro.org>
-Subject: [PATCH] dma-buf: Fix NULL pointer dereference in sanitycheck()
-Date: Sun,  8 Oct 2023 17:36:36 +0300
-Message-ID: <20231008143637.113957-1-p.sakharov@ispras.ru>
-X-Mailer: git-send-email 2.42.0
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 25FE010E044;
+ Sun,  8 Oct 2023 16:48:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1696783725; x=1728319725;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=dNl5OmrmUJZw5IyRI+6izMIu5Y4DVfiRjQzkFmrQT0Y=;
+ b=NTkhHGy2qXzosTAFWuLHoHgmXbjSbAt6BL0cR74vONppPrJyJUVKXhlM
+ neEdN/tBEnRPmuY3IN2Gj9mggHn4C/Pxhi109bKwTVhtOLZdzJIpF2YXR
+ /oQy6cbbTIJTRr2VsNjF86HakvN2BusHyBFQYGJh15f16RTayg0L1PQIy
+ GYY/ui0ji6BOXtXtnpXZCAocA9jRscTTPoy8+9raZCLy92lOyvF+aMBxi
+ ZAfFybG2whp0D0yOMtHVCjQSL8I7G5wrHUuOqyLFe7hEiVKHNCA0W7pAq
+ V5ob3TFQuhvYyz8E4kzYsy1SSIzybnpzj85ULM+8v/OYwjJ9mY6Jzk9Nq w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10857"; a="381286552"
+X-IronPort-AV: E=Sophos;i="6.03,207,1694761200"; d="scan'208";a="381286552"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Oct 2023 09:48:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10857"; a="702638700"
+X-IronPort-AV: E=Sophos;i="6.03,207,1694761200"; d="scan'208";a="702638700"
+Received: from yunningn-mobl1.gar.corp.intel.com (HELO intel.com)
+ ([10.214.162.182])
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Oct 2023 09:48:35 -0700
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Subject: [PATCH] drm/i915/mtl: Remove the 'force_probe' requirement for Meteor
+ Lake
+Date: Sun,  8 Oct 2023 18:48:24 +0200
+Message-Id: <20231008164824.919262-1-andi.shyti@linux.intel.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Sun, 08 Oct 2023 17:15:43 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,45 +58,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Pavel Sakharov <p.sakharov@ispras.ru>, lvc-project@linuxtesting.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, Arvind Yadav <Arvind.Yadav@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Alexey Khoroshilov <khoroshilov@ispras.ru>, linux-media@vger.kernel.org
+Cc: Aditya Chauhan <aditya.chauhan@intel.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>,
+ Radhakrishna Sripada <radhakrishna.sripada@intel.com>,
+ Jonathan Cavitt <jonathan.cavitt@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>,
+ Chris Wilson <chris.p.wilson@linux.intel.com>,
+ Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If mock_chain() returns NULL, NULL pointer is dereferenced in
-dma_fence_enable_sw_signaling().
+From: Radhakrishna Sripada <radhakrishna.sripada@intel.com>
 
-Found by Linux Verification Center (linuxtesting.org) with SVACE.
+Meteor Lake has demonstrated consistent stability for some time.
+All user-space API modifications tide to its core platform
+functions are operational.
 
-Signed-off-by: Pavel Sakharov <p.sakharov@ispras.ru>
+The necessary firmware components are set up and comprehensive
+testing has been condused over a period.
 
-Fixes: d62c43a953ce ("dma-buf: Enable signaling on fence for selftests")
+Given the recent faborable CI results, as well, we believe it's
+time to eliminate the 'force_probe' prerequisite and activate the
+platform by default.
+
+Signed-off-by: Aditya Chauhan <aditya.chauhan@intel.com>
+Signed-off-by: Andrzej Hajda <andrzej.hajda@intel.com>
+Signed-off-by: Chris Wilson <chris.p.wilson@linux.intel.com>
+Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+Signed-off-by: Jonathan Cavitt <jonathan.cavitt@intel.com>
+Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
+Signed-off-by: Radhakrishna Sripada <radhakrishna.sripada@intel.com>
+Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 ---
- drivers/dma-buf/st-dma-fence-chain.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Hello,
 
-diff --git a/drivers/dma-buf/st-dma-fence-chain.c b/drivers/dma-buf/st-dma-fence-chain.c
-index c0979c8049b5..661de4add4c7 100644
---- a/drivers/dma-buf/st-dma-fence-chain.c
-+++ b/drivers/dma-buf/st-dma-fence-chain.c
-@@ -84,11 +84,11 @@ static int sanitycheck(void *arg)
- 		return -ENOMEM;
- 
- 	chain = mock_chain(NULL, f, 1);
--	if (!chain)
-+	if (chain)
-+		dma_fence_enable_sw_signaling(chain);
-+	else
- 		err = -ENOMEM;
- 
--	dma_fence_enable_sw_signaling(chain);
--
- 	dma_fence_signal(f);
- 	dma_fence_put(f);
+This patch eliminates the 'force probe' for the MTL platforms. Over the recent
+weeks, MTL has demonstrated stability, consistently passing BAT tests with
+success rates ranging from 98% to 100%.
+
+There's a single issue hindering us from achieving a 100% BAT test coverage.
+Fortunately, we've identified the issue, and the proposed solution can be found
+here[*]. The CI results are encouraging.
+
+Once all reviews are addressed, we plan to submit this series with the "Fixes:"
+tag.
+
+Thank you and best regards,
+Andi and Radhakrishna
+
+[*] https://patchwork.freedesktop.org/series/124744/
+
+ drivers/gpu/drm/i915/i915_pci.c | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/i915/i915_pci.c b/drivers/gpu/drm/i915/i915_pci.c
+index df7c261410f7..fe748906c06f 100644
+--- a/drivers/gpu/drm/i915/i915_pci.c
++++ b/drivers/gpu/drm/i915/i915_pci.c
+@@ -836,7 +836,6 @@ static const struct intel_device_info mtl_info = {
+ 	.has_pxp = 1,
+ 	.memory_regions = REGION_SMEM | REGION_STOLEN_LMEM,
+ 	.platform_engine_mask = BIT(RCS0) | BIT(BCS0) | BIT(CCS0),
+-	.require_force_probe = 1,
+ 	MTL_CACHELEVEL,
+ };
  
 -- 
-2.42.0
+2.40.1
 
