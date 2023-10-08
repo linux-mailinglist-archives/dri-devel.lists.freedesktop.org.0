@@ -1,38 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FE927BD0EF
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Oct 2023 00:33:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B653D7BD0F0
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Oct 2023 00:33:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D1E8A10E025;
-	Sun,  8 Oct 2023 22:33:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0585110E07A;
+	Sun,  8 Oct 2023 22:33:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A625310E025
- for <dri-devel@lists.freedesktop.org>; Sun,  8 Oct 2023 22:33:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABE8110E07A
+ for <dri-devel@lists.freedesktop.org>; Sun,  8 Oct 2023 22:33:32 +0000 (UTC)
 Received: from tr.lan (ip-86-49-120-218.bb.vodafone.cz [86.49.120.218])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
  (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 6044F86CDB;
- Mon,  9 Oct 2023 00:33:04 +0200 (CEST)
+ by phobos.denx.de (Postfix) with ESMTPSA id 3EDD7863CF;
+ Mon,  9 Oct 2023 00:33:26 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1696804387;
- bh=gKcYdBG1htOzH5N6anQyRWU5kbG7koGh4+SFC7WXwHc=;
+ s=phobos-20191101; t=1696804408;
+ bh=n9XmF5Si4vJSskVeJOhg/Ma4E2jIuRX+O41PjK2Fg+8=;
  h=From:To:Cc:Subject:Date:From;
- b=ua88bF+uftrNfUSiRNa6TPrVIWLS1GLNwdj5uCzQcDqcJ422vLgmLbLb1VvDMulpv
- g0EJEbkwRDixyiElTQd0F2QOKNvX7O9vqwZZjC8fHddNXy41l9lYnyZ8LSKhlnmA/c
- h3+PywNfpfDR/XHVx1M1FXhhON0u5nsO8PGn6vKY9lg1WETgcqy7bPh3BBONmgU6Kw
- B2zwg1sWw9/jfhVpPFgkLUEB4fGO4ytEWZaL8mmfcfKgnZ8nujWE/Ppyn3BFOK+Aps
- JQUhe2zJJ2UQVYhjT2Jk04dLsM+8dtZzTvXc+jFA+HAiPXDzcu0AYPGXkw8Sbin/FY
- yTYG6vlra1MvA==
+ b=VOf7qbOUOMObB473yFxgEhIKYK77WtXWnuNlHo0qvBRdxwWVKUd2MCrQHhRZv2Gec
+ ocEJZ/fdUUvuhiAs/QW+ZEYEfTIL/4mLw9iiaDvZCXCmBOS5wOhubCSO7MrMYwBxTk
+ Mcv4uzhBViBCbol9CNsUDiTK/JxUdftaKHs6bAn1um42ry+BsFJgz3t1Zdsj+4HRsK
+ o/fNr1Gi+adndzafvwYrrN1sLsgUzlfaQI9XH86YsuAfIa/2Iz4281jmxCMesGbajP
+ NkvyQL9yUKD9MWKyvwYYKu/uQ5SxyCwuABnV9Pbol1soxPZDjNwT0Uei8bdIxN8FSH
+ GDyXqdPKAvGrg==
 From: Marek Vasut <marex@denx.de>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/panel: simple: Fix Innolux G101ICE-L01 timings
-Date: Mon,  9 Oct 2023 00:32:56 +0200
-Message-Id: <20231008223256.279196-1-marex@denx.de>
+Subject: [PATCH] drm/panel: simple: Fix Innolux G101ICE-L01 bus flags
+Date: Mon,  9 Oct 2023 00:33:15 +0200
+Message-Id: <20231008223315.279215-1-marex@denx.de>
 X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -56,16 +56,8 @@ Cc: Marek Vasut <marex@denx.de>, Neil Armstrong <neil.armstrong@linaro.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Innolux G101ICE-L01 datasheet [1] page 17 table
-6.1 INPUT SIGNAL TIMING SPECIFICATIONS
-indicates that maximum vertical blanking time is 40 lines.
-Currently the driver uses 29 lines.
-
-Fix it, and since this panel is a DE panel, adjust the timings
-to make them less hostile to controllers which cannot do 1 px
-HSA/VSA, distribute the delays evenly between all three parts.
-
-[1] https://www.data-modul.com/sites/default/files/products/G101ICE-L01-C2-specification-12042389.pdf
+Add missing .bus_flags = DRM_BUS_FLAG_DE_HIGH to this panel description,
+ones which match both the datasheet and the panel display_timing flags .
 
 Fixes: 1e29b840af9f ("drm/panel: simple: Add Innolux G101ICE-L01 panel")
 Signed-off-by: Marek Vasut <marex@denx.de>
@@ -80,31 +72,19 @@ Cc: Sam Ravnborg <sam@ravnborg.org>
 Cc: Thomas Zimmermann <tzimmermann@suse.de>
 Cc: dri-devel@lists.freedesktop.org
 ---
- drivers/gpu/drm/panel/panel-simple.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/panel/panel-simple.c | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index 7ce51ad616296..44c11c418cd56 100644
+index 44c11c418cd56..8e4ea15f0e1e5 100644
 --- a/drivers/gpu/drm/panel/panel-simple.c
 +++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -2295,13 +2295,13 @@ static const struct panel_desc innolux_g070y2_t02 = {
- static const struct display_timing innolux_g101ice_l01_timing = {
- 	.pixelclock = { 60400000, 71100000, 74700000 },
- 	.hactive = { 1280, 1280, 1280 },
--	.hfront_porch = { 41, 80, 100 },
--	.hback_porch = { 40, 79, 99 },
--	.hsync_len = { 1, 1, 1 },
-+	.hfront_porch = { 30, 60, 70 },
-+	.hback_porch = { 30, 60, 70 },
-+	.hsync_len = { 22, 40, 60 },
- 	.vactive = { 800, 800, 800 },
--	.vfront_porch = { 5, 11, 14 },
--	.vback_porch = { 4, 11, 14 },
--	.vsync_len = { 1, 1, 1 },
-+	.vfront_porch = { 3, 8, 14 },
-+	.vback_porch = { 3, 8, 14 },
-+	.vsync_len = { 4, 7, 12 },
- 	.flags = DISPLAY_FLAGS_DE_HIGH,
+@@ -2318,6 +2318,7 @@ static const struct panel_desc innolux_g101ice_l01 = {
+ 		.disable = 200,
+ 	},
+ 	.bus_format = MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,
++	.bus_flags = DRM_BUS_FLAG_DE_HIGH,
+ 	.connector_type = DRM_MODE_CONNECTOR_LVDS,
  };
  
 -- 
