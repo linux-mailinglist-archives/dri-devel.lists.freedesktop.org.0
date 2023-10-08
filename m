@@ -2,66 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 842B17BCD1C
-	for <lists+dri-devel@lfdr.de>; Sun,  8 Oct 2023 09:58:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 483C17BCCD9
+	for <lists+dri-devel@lfdr.de>; Sun,  8 Oct 2023 09:02:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C54A510E094;
-	Sun,  8 Oct 2023 07:57:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 23FCA10E00E;
+	Sun,  8 Oct 2023 07:02:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com
- [IPv6:2a00:1450:4864:20::52b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DCCA310E076
- for <dri-devel@lists.freedesktop.org>; Sat,  7 Oct 2023 22:22:50 +0000 (UTC)
-Received: by mail-ed1-x52b.google.com with SMTP id
- 4fb4d7f45d1cf-533c5d10dc7so5785393a12.3
- for <dri-devel@lists.freedesktop.org>; Sat, 07 Oct 2023 15:22:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1696717369; x=1697322169; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=IdB/BGfiU50tq91OXEW4jEb/ithHfUpM77EyD2syuso=;
- b=QvG/84eF+YfCm7OKIH8V/Ehfgwqk5cZPVoSy0XNuscm8kwPKQ356AuLsH1V27j/ySU
- d2FbQjl9S0qn8lqlbNC+0oi67E9/0le41LNx2QaVFbta5hp2O/XXpygmOgH+cofb1Cs0
- cRmm3VObQLxl5D+Y1e3DjV0/6TCWEaMqjxcCADpELdNA/VjIglSH1UzkygPV/Qt/cgPO
- OGOYpsaWKutzCrnIJK9d2tU2UpJYyL5XBofBUHnrh4gIQGgIEXY2ESQPoNwyCWvpfxHh
- ut5/yYWnV0NZ5XLdYJA8PH2uboELQM6QNfoFfl/VUojp7eeoVKd9yuRN+KBsxbh8DZ5D
- lhCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1696717369; x=1697322169;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=IdB/BGfiU50tq91OXEW4jEb/ithHfUpM77EyD2syuso=;
- b=S/olHS3FUfC4u3mTvlTc4XnErIepkAx57TUA3IPPkGS5LOksNG2mas8GB1vbLEKiz5
- 4mrsrE0JBHVq2e8Z9iU/vD2sWDoPiw8y7zMloO9iqiYOhidnxQU/P5E+WVnmiayS2+4W
- ULpjRUcVlogtU06EM/BiDp9U/xrh0jyVYIYx6Tt9JXGN6x+0+4hIj3VsqlMe6urYqaH3
- WqYNfsS7xGME2NW8rJq1BPd0mUZbPrdpEvCuqX3ODI4/eCZ3KXdIHrm5EBp/oscY29EY
- WsoD1VTjAvHGoKB1YAVCDHilz+Cv8rWEzXlBKW/r/C+iBxCNIDajCb52cw0SfbY4XANj
- wrBw==
-X-Gm-Message-State: AOJu0YzHU5ZrBdYQLtZL2tMyMH0IhFLG2jWJWVRphFaEVEtycTcEPOS1
- ECkNwuA31bMZ8iCUG0hbHak=
-X-Google-Smtp-Source: AGHT+IE5XwNPgW5i1gff9lZx5O8y0seN1+Vsx5TQstnKeLrpfJPXQk623LewLQsVUSD2NoeKkMi3gw==
-X-Received: by 2002:aa7:c154:0:b0:522:b112:6254 with SMTP id
- r20-20020aa7c154000000b00522b1126254mr10627245edp.4.1696717369194; 
- Sat, 07 Oct 2023 15:22:49 -0700 (PDT)
-Received: from Slimbook.. (181-251-201-31.ftth.glasoperator.nl.
- [31.201.251.181]) by smtp.gmail.com with ESMTPSA id
- p7-20020a056402074700b0052f3471ccf6sm4315631edy.6.2023.10.07.15.22.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 07 Oct 2023 15:22:48 -0700 (PDT)
-From: Bouke Sybren Haarsma <boukehaarsma23@gmail.com>
-To: maarten.lankhorst@linux.intel.com
-Subject: [PATCH 2/2] drm: panel-orientation-quirks: Add quirk for Ayn Loki Max
-Date: Sun,  8 Oct 2023 00:22:06 +0200
-Message-ID: <20231007222205.316032-4-boukehaarsma23@gmail.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20231007222205.316032-2-boukehaarsma23@gmail.com>
-References: <20231007222205.316032-2-boukehaarsma23@gmail.com>
+X-Greylist: delayed 901 seconds by postgrey-1.36 at gabe;
+ Sun, 08 Oct 2023 07:02:11 UTC
+Received: from sender4-op-o10.zoho.com (sender4-op-o10.zoho.com
+ [136.143.188.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F1DB010E00E;
+ Sun,  8 Oct 2023 07:02:11 +0000 (UTC)
+Delivered-To: uwu@icenowy.me
+ARC-Seal: i=1; a=rsa-sha256; t=1696747626; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=C+xtT5o59yBKvkvdGWfsavbX9C9diMp9oeuM2seXC0xBHilzTEMbcbDl8F+bS7YIKpV0FBxzZ+653IuTcxRzbYlFzopwj93kXE+rT3Lc8OnkcR3r93Iye0takdyWw1oQIMecthhjfQKUFe1mtVpOFLidnQWmi4+bvAAdN+bWI04=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1696747626;
+ h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=weMbYxjBW7zsozDxi0+RJ/KB4wodhcAWuB8NhqMRKDg=; 
+ b=FptwODOuGy1vS55C08tnghtAV+SRX8CyOpIxTVlhdejcf4TdqlQC9q03olFvDEVu712+v/LLMK8pdOFk5QBlwmYWTcP8BTtCxfDguP7FgPPz1Xw83VRNMHmE1kmcfpTHnsJVcajdBRZmr3Mg3+hElID14prrTDPKhVoKlgUC10o=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=icenowy.me;
+ spf=pass  smtp.mailfrom=uwu@icenowy.me;
+ dmarc=pass header.from=<uwu@icenowy.me>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1696747626; 
+ s=zmail2; d=icenowy.me; i=uwu@icenowy.me;
+ h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-Id:Message-Id:MIME-Version:Content-Transfer-Encoding:Reply-To;
+ bh=weMbYxjBW7zsozDxi0+RJ/KB4wodhcAWuB8NhqMRKDg=;
+ b=SWMpQ8nHWC6r95ZwSYxNM34L/yEvULe14JVMf5xZ5oFaz9+sSdWwskCl4LSqiX4x
+ R5OTDr1iTMhTbjCMoUlU1rD7r+WasUQkHTDem4iq8T+w1msVOCdUrfqf78TL5v3GQbG
+ ANxOwA9GfXAaZFbsqeueLrEW2Qjkn4gepp/vnKF56Oxs7yw5aKpq3zafRsXMjRSAKf6
+ QRL28gUjTGX1m1hi5i25gbj3e0C4xQCt07c/xjQH8YJ0mrt32OKH5orlcgYqmZRGCGD
+ cYX8Lz6CWVcrR+NluTwJCFW7F7H2vgts43LMLghntfsnQ83VrzdGBIIrXCVwMHDjgRV
+ I+EZoiGesA==
+Received: from edelgard.fodlan.icenowy.me (120.85.97.233 [120.85.97.233]) by
+ mx.zohomail.com with SMTPS id 169674762483518.300288135038954;
+ Sat, 7 Oct 2023 23:47:04 -0700 (PDT)
+From: Icenowy Zheng <uwu@icenowy.me>
+To: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Pan Xinhui <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Shashank Sharma <shashank.sharma@amd.com>,
+ Arvind Yadav <arvind.yadav@amd.com>
+Subject: [PATCH] drm/amdgpu: fix SI failure due to doorbells allocation
+Date: Sun,  8 Oct 2023 14:46:49 +0800
+Message-Id: <20231008064649.3184677-1-uwu@icenowy.me>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Sun, 08 Oct 2023 07:57:55 +0000
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,39 +66,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tzimmermann@suse.de, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, mripard@kernel.org, boukehaarsma23@gmail.com
+Cc: Icenowy Zheng <uwu@icenowy.me>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add quirk orientation for Ayn Loki Max model.
+SI hardware does not have doorbells at all, however currently the code
+will try to do the allocation and thus fail, makes SI AMDGPU not usable.
 
-This has been tested by JELOS team that uses their
-own patched kernel for a while now and confirmed by
-users in the ChimeraOS discord servers.
+Fix this failure by skipping doorbells allocation when doorbells count
+is zero.
 
-Signed-off-by: Bouke Sybren Haarsma <boukehaarsma23@gmail.com>
+Fixes: 54c30d2a8def ("drm/amdgpu: create kernel doorbell pages")
+Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
 ---
- drivers/gpu/drm/drm_panel_orientation_quirks.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_doorbell_mgr.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-index 7466354c7e5b..5adf9ff07c3e 100644
---- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
-+++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-@@ -196,6 +196,12 @@ static const struct dmi_system_id orientation_data[] = {
- 		  DMI_MATCH(DMI_BOARD_NAME, "NEXT"),
- 		},
- 		.driver_data = (void *)&lcd800x1280_rightside_up,
-+	}, {    /* AYN Loki Max */
-+		.matches = {
-+			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ayn"),
-+			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "Loki Max"),
-+		},
-+		.driver_data = (void *)&lcd1080x1920_leftside_up,
- 	}, {	/* AYN Loki Zero */
- 		.matches = {
- 			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ayn"),
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_doorbell_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_doorbell_mgr.c
+index d0249ada91d30..599aece42017a 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_doorbell_mgr.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_doorbell_mgr.c
+@@ -142,6 +142,10 @@ int amdgpu_doorbell_create_kernel_doorbells(struct amdgpu_device *adev)
+ 	int r;
+ 	int size;
+ 
++	/* SI HW does not have doorbells, skip allocation */
++	if (adev->doorbell.num_kernel_doorbells == 0)
++		return 0;
++
+ 	/* Reserve first num_kernel_doorbells (page-aligned) for kernel ops */
+ 	size = ALIGN(adev->doorbell.num_kernel_doorbells * sizeof(u32), PAGE_SIZE);
+ 
 -- 
-2.41.0
+2.39.1
 
