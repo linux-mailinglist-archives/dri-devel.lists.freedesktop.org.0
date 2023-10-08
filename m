@@ -2,71 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D63187BD136
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Oct 2023 01:32:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9EA87BD138
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Oct 2023 01:32:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC41110E19A;
-	Sun,  8 Oct 2023 23:32:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A2D710E1DA;
+	Sun,  8 Oct 2023 23:32:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E0B810E1DA
- for <dri-devel@lists.freedesktop.org>; Sun,  8 Oct 2023 23:32:43 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8415210E1F5
+ for <dri-devel@lists.freedesktop.org>; Sun,  8 Oct 2023 23:32:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1696807962;
+ s=mimecast20190719; t=1696807964;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=AhD6ZC3iGBzPWvT8PElG1SxOfr5EHAC4vZ+6Lwjv84w=;
- b=BOeQb4SOHlW+FVi9wRSgxCmq0/lUqyTABjAcvg7x1ERcwBnl8fg1tvvfn4nyeTnJ4aSnPI
- IjsRMmeqkTOxVsF9S8vUhWUWvzekb9Pp8sLZZwqLmXgudoW472LAwXGuaUFqxKYmoC1d3I
- 39G3612P8jK6IIlr2/n2rEvSLGKTTM0=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=0Eq7RwYw7vpfr3h67DRocDXJnZj3fX/pXAzh+FlTFe4=;
+ b=QqhFrnscEOZJeDcyN0+ImJMVNeVP1JG1TwWPTJmnEeYaRwqOhOfEFYoZh0aW8W/f+iHq2w
+ Qc0JZPAdsZODyDUwZs6VJDYJazqi7wwmh5tH1y0FLXy1s5iI3aQMn2XgAccNsGxi0fTW4o
+ E5YPGCNAL9QCz4z0OckPAGKDzPi05XQ=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-615-4Wqh2Q7dNFuxsG36pdR7AA-1; Sun, 08 Oct 2023 19:32:39 -0400
-X-MC-Unique: 4Wqh2Q7dNFuxsG36pdR7AA-1
-Received: by mail-ej1-f71.google.com with SMTP id
- a640c23a62f3a-9b98d8f6bafso323603966b.1
- for <dri-devel@lists.freedesktop.org>; Sun, 08 Oct 2023 16:32:39 -0700 (PDT)
+ us-mta-687-XxdND1rZOsuQjKS6SZbWzw-1; Sun, 08 Oct 2023 19:32:43 -0400
+X-MC-Unique: XxdND1rZOsuQjKS6SZbWzw-1
+Received: by mail-ej1-f70.google.com with SMTP id
+ a640c23a62f3a-99c8bbc902eso322760366b.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 08 Oct 2023 16:32:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1696807958; x=1697412758;
+ d=1e100.net; s=20230601; t=1696807962; x=1697412762;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=AhD6ZC3iGBzPWvT8PElG1SxOfr5EHAC4vZ+6Lwjv84w=;
- b=jcmhgHjtACWzhd/vPoTI2uKCz1J90GAelWYUozaVQuhwypeWFPszbPhHFRmup2hknp
- Zp2//ja/JN5T7wJkgOPY7qIaEWZfinb6Nw1F/SdyZ4zqhkV0blJbAmHoCR24DYBYAOA6
- 1SPLiFH73/EyA1zuurcAyVKgr9d1hlTfYMbnCU43gtG8MynBeSl7b0rLe84p5sI4AAp4
- OREevaiqCBp/xKI6HUPuKjOsh/NI79MtkRQwUqjQ/ih1peqQFvKsFjwJ8w+WDAIduL0L
- 1BYhjohZ7Y3SXsjfoihrFor12QLoAlF88Udauf9wvitRTimxgPoCoSnMr8XyNYV/barb
- fiYQ==
-X-Gm-Message-State: AOJu0Ywasvfmo8JiG49M3udHX+Nt8vY02/xCIw+l06ssPYeUnLjLg/ho
- tT/fdO1LwkaqNIqXwVo2X+qwyOeFipkTiGbZzVshSyTmoU/g8E/+Rr14KVi56m6NuC3Y1uowgfS
- DgsHraiQ72MfkgiBL8RceKnji+jgZ
-X-Received: by 2002:a17:906:3156:b0:9b2:b71f:83be with SMTP id
- e22-20020a170906315600b009b2b71f83bemr12122086eje.1.1696807958060; 
- Sun, 08 Oct 2023 16:32:38 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGWUfvC3fL0X75r2MYsMfgxAnjN7YwEtChtLsKpVpzfPnKaj7CEno2LVg0jOaSF8wZRn8IYyw==
-X-Received: by 2002:a17:906:3156:b0:9b2:b71f:83be with SMTP id
- e22-20020a170906315600b009b2b71f83bemr12122066eje.1.1696807957814; 
- Sun, 08 Oct 2023 16:32:37 -0700 (PDT)
+ bh=0Eq7RwYw7vpfr3h67DRocDXJnZj3fX/pXAzh+FlTFe4=;
+ b=brkhy4xj6HF0y/4TQK4q0+3ugXOecmL/Vtb+6Smb0SJEJnEHBvDe3vCYR42eiLjr3/
+ JxZAqcCnV/u7wn1ItbOs+k0xxRF3sndyMHRkTg8R6jEXFuGLGwHQsghHdhFT3MusbTYe
+ 0gAAalWkwcpBz8yhL5moF/NT+65KujpBcWcR7t4dyt9mzbKMZShqdVFybb9MCgJtGs/O
+ If3pz5nzkbBzNSdSVAf/DZiSRK8I0bWOSCWD1GVLFe8Owu5DRkXCMIqahCh7VnxE1NIR
+ OBO1H0HDJ29P/fIeh2VecKrGCK8pbDPks+cOFKegl/2eRo8t8EsPG/9RF2dIlnBGZwU+
+ KyvQ==
+X-Gm-Message-State: AOJu0YxNcHU2i850d7ZgG9OHXSjLhwQGILF7NvYqFwegXNF+OMIbrzAB
+ cZmnYHnZN4lEJmijDTDgdVrXNkASRomPGaMTA3Bj2tPw56WDaB4Om0r7EnwtJl+WY2mtwC1N/8l
+ ygtKU4Hj9h3fqLlrNgHccLBim2N/5
+X-Received: by 2002:a17:907:77d3:b0:9ad:f87c:57a8 with SMTP id
+ kz19-20020a17090777d300b009adf87c57a8mr12693978ejc.3.1696807961933; 
+ Sun, 08 Oct 2023 16:32:41 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IElStsUKI1ksmdnu/e98d/MWjrXSQ8fgAcUXuZ7VHzk/Jq2vXZTZx4D9yRYYK3/YSCY8ce8Qw==
+X-Received: by 2002:a17:907:77d3:b0:9ad:f87c:57a8 with SMTP id
+ kz19-20020a17090777d300b009adf87c57a8mr12693964ejc.3.1696807961705; 
+ Sun, 08 Oct 2023 16:32:41 -0700 (PDT)
 Received: from cassiopeiae.. ([2a02:810d:4b3f:de9c:642:1aff:fe31:a19f])
  by smtp.gmail.com with ESMTPSA id
- oy3-20020a170907104300b009ae482d70besm5950668ejb.134.2023.10.08.16.32.36
+ cd16-20020a170906b35000b00991faf3810esm6107279ejb.146.2023.10.08.16.32.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 08 Oct 2023 16:32:37 -0700 (PDT)
+ Sun, 08 Oct 2023 16:32:41 -0700 (PDT)
 From: Danilo Krummrich <dakr@redhat.com>
 To: airlied@gmail.com, daniel@ffwll.ch, matthew.brost@intel.com,
  thomas.hellstrom@linux.intel.com, sarah.walker@imgtec.com,
  donald.robson@imgtec.com, boris.brezillon@collabora.com,
  christian.koenig@amd.com, faith@gfxstrand.net
-Subject: [PATCH drm-misc-next v6 5/6] drm/nouveau: make use of the GPUVM's
- shared dma-resv
-Date: Mon,  9 Oct 2023 01:32:05 +0200
-Message-ID: <20231008233212.13815-6-dakr@redhat.com>
+Subject: [PATCH drm-misc-next v6 6/6] drm/nouveau: use GPUVM common
+ infrastructure
+Date: Mon,  9 Oct 2023 01:32:06 +0200
+Message-ID: <20231008233212.13815-7-dakr@redhat.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20231008233212.13815-1-dakr@redhat.com>
 References: <20231008233212.13815-1-dakr@redhat.com>
@@ -92,149 +92,379 @@ Cc: nouveau@lists.freedesktop.org, Danilo Krummrich <dakr@redhat.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DRM GEM objects private to a single GPUVM can use a shared dma-resv.
-Make use of the shared dma-resv of GPUVM rather than a driver specific
-one.
+GPUVM provides common infrastructure to track external and evicted GEM
+objects as well as locking and validation helpers.
 
-The shared dma-resv originates from a "root" GEM object serving as
-container for the dma-resv to make it compatible with drm_exec.
-
-In order to make sure the object proving the shared dma-resv can't be
-freed up before the objects making use of it, let every such GEM object
-take a reference on it.
+Especially external and evicted object tracking is a huge improvement
+compared to the current brute force approach of iterating all mappings
+in order to lock and validate the GPUVM's GEM objects. Hence, make us of
+it.
 
 Signed-off-by: Danilo Krummrich <dakr@redhat.com>
 ---
- drivers/gpu/drm/nouveau/nouveau_bo.c   | 11 +++++++++--
- drivers/gpu/drm/nouveau/nouveau_bo.h   |  5 +++++
- drivers/gpu/drm/nouveau/nouveau_gem.c  | 10 ++++++++--
- drivers/gpu/drm/nouveau/nouveau_uvmm.c |  7 ++-----
- drivers/gpu/drm/nouveau/nouveau_uvmm.h |  1 -
- 5 files changed, 24 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/nouveau/nouveau_bo.c    |  4 +-
+ drivers/gpu/drm/nouveau/nouveau_exec.c  | 52 +++----------
+ drivers/gpu/drm/nouveau/nouveau_exec.h  |  4 -
+ drivers/gpu/drm/nouveau/nouveau_sched.h |  4 +-
+ drivers/gpu/drm/nouveau/nouveau_uvmm.c  | 99 ++++++++++++++++---------
+ 5 files changed, 80 insertions(+), 83 deletions(-)
 
 diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouveau/nouveau_bo.c
-index 19cab37ac69c..dbb3facfd23d 100644
+index dbb3facfd23d..62371fe39e96 100644
 --- a/drivers/gpu/drm/nouveau/nouveau_bo.c
 +++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
-@@ -148,10 +148,17 @@ nouveau_bo_del_ttm(struct ttm_buffer_object *bo)
- 	 * If nouveau_bo_new() allocated this buffer, the GEM object was never
- 	 * initialized, so don't attempt to release it.
- 	 */
--	if (bo->base.dev)
-+	if (bo->base.dev) {
-+		/* Gem objects not being shared with other VMs get their
-+		 * dma_resv from a root GEM object.
-+		 */
-+		if (nvbo->no_share)
-+			drm_gem_object_put(nvbo->r_obj);
-+
- 		drm_gem_object_release(&bo->base);
--	else
-+	} else {
- 		dma_resv_fini(&bo->base._resv);
-+	}
+@@ -1067,17 +1067,18 @@ nouveau_bo_move(struct ttm_buffer_object *bo, bool evict,
+ {
+ 	struct nouveau_drm *drm = nouveau_bdev(bo->bdev);
+ 	struct nouveau_bo *nvbo = nouveau_bo(bo);
++	struct drm_gem_object *obj = &bo->base;
+ 	struct ttm_resource *old_reg = bo->resource;
+ 	struct nouveau_drm_tile *new_tile = NULL;
+ 	int ret = 0;
  
- 	kfree(nvbo);
- }
-diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.h b/drivers/gpu/drm/nouveau/nouveau_bo.h
-index 07f671cf895e..70c551921a9e 100644
---- a/drivers/gpu/drm/nouveau/nouveau_bo.h
-+++ b/drivers/gpu/drm/nouveau/nouveau_bo.h
-@@ -26,6 +26,11 @@ struct nouveau_bo {
- 	struct list_head entry;
- 	int pbbo_index;
- 	bool validate_mapped;
-+
-+	/* Root GEM object we derive the dma_resv of in case this BO is not
-+	 * shared between VMs.
-+	 */
-+	struct drm_gem_object *r_obj;
- 	bool no_share;
- 
- 	/* GPU address space is independent of CPU word size */
-diff --git a/drivers/gpu/drm/nouveau/nouveau_gem.c b/drivers/gpu/drm/nouveau/nouveau_gem.c
-index c0b10d8d3d03..7715baf85c7e 100644
---- a/drivers/gpu/drm/nouveau/nouveau_gem.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_gem.c
-@@ -111,7 +111,8 @@ nouveau_gem_object_open(struct drm_gem_object *gem, struct drm_file *file_priv)
- 	if (vmm->vmm.object.oclass < NVIF_CLASS_VMM_NV50)
- 		return 0;
- 
--	if (nvbo->no_share && uvmm && &uvmm->resv != nvbo->bo.base.resv)
-+	if (nvbo->no_share && uvmm &&
-+	    drm_gpuvm_resv(&uvmm->base) != nvbo->bo.base.resv)
- 		return -EPERM;
- 
- 	ret = ttm_bo_reserve(&nvbo->bo, false, false, NULL);
-@@ -245,7 +246,7 @@ nouveau_gem_new(struct nouveau_cli *cli, u64 size, int align, uint32_t domain,
- 		if (unlikely(!uvmm))
- 			return -EINVAL;
- 
--		resv = &uvmm->resv;
-+		resv = drm_gpuvm_resv(&uvmm->base);
+-
+ 	if (new_reg->mem_type == TTM_PL_TT) {
+ 		ret = nouveau_ttm_tt_bind(bo->bdev, bo->ttm, new_reg);
+ 		if (ret)
+ 			return ret;
  	}
  
- 	if (!(domain & (NOUVEAU_GEM_DOMAIN_VRAM | NOUVEAU_GEM_DOMAIN_GART)))
-@@ -288,6 +289,11 @@ nouveau_gem_new(struct nouveau_cli *cli, u64 size, int align, uint32_t domain,
- 	if (drm->client.device.info.family >= NV_DEVICE_INFO_V0_TESLA)
- 		nvbo->valid_domains &= domain;
- 
-+	if (nvbo->no_share) {
-+		nvbo->r_obj = drm_gpuvm_resv_obj(&uvmm->base);
-+		drm_gem_object_get(nvbo->r_obj);
-+	}
-+
- 	*pnvbo = nvbo;
- 	return 0;
++	drm_gpuvm_bo_gem_evict(obj, evict);
+ 	nouveau_bo_move_ntfy(bo, new_reg);
+ 	ret = ttm_bo_wait_ctx(bo, ctx);
+ 	if (ret)
+@@ -1142,6 +1143,7 @@ nouveau_bo_move(struct ttm_buffer_object *bo, bool evict,
+ out_ntfy:
+ 	if (ret) {
+ 		nouveau_bo_move_ntfy(bo, bo->resource);
++		drm_gpuvm_bo_gem_evict(obj, !evict);
+ 	}
+ 	return ret;
  }
-diff --git a/drivers/gpu/drm/nouveau/nouveau_uvmm.c b/drivers/gpu/drm/nouveau/nouveau_uvmm.c
-index 4e46f850e65f..436b0ac74ffe 100644
---- a/drivers/gpu/drm/nouveau/nouveau_uvmm.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_uvmm.c
-@@ -1841,7 +1841,6 @@ nouveau_uvmm_init(struct nouveau_uvmm *uvmm, struct nouveau_cli *cli,
+diff --git a/drivers/gpu/drm/nouveau/nouveau_exec.c b/drivers/gpu/drm/nouveau/nouveau_exec.c
+index b4239af29e5a..ba6913a3efb6 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_exec.c
++++ b/drivers/gpu/drm/nouveau/nouveau_exec.c
+@@ -1,7 +1,5 @@
+ // SPDX-License-Identifier: MIT
+ 
+-#include <drm/drm_exec.h>
+-
+ #include "nouveau_drv.h"
+ #include "nouveau_gem.h"
+ #include "nouveau_mem.h"
+@@ -91,9 +89,6 @@ nouveau_exec_job_submit(struct nouveau_job *job)
+ 	struct nouveau_exec_job *exec_job = to_nouveau_exec_job(job);
+ 	struct nouveau_cli *cli = job->cli;
+ 	struct nouveau_uvmm *uvmm = nouveau_cli_uvmm(cli);
+-	struct drm_exec *exec = &job->exec;
+-	struct drm_gem_object *obj;
+-	unsigned long index;
  	int ret;
  
- 	mutex_init(&uvmm->mutex);
--	dma_resv_init(&uvmm->resv);
- 	mt_init_flags(&uvmm->region_mt, MT_FLAGS_LOCK_EXTERN);
- 	mt_set_external_lock(&uvmm->region_mt, &uvmm->mutex);
+ 	ret = nouveau_fence_new(&exec_job->fence);
+@@ -101,52 +96,29 @@ nouveau_exec_job_submit(struct nouveau_job *job)
+ 		return ret;
  
-@@ -1884,14 +1883,14 @@ nouveau_uvmm_init(struct nouveau_uvmm *uvmm, struct nouveau_cli *cli,
- 			    kernel_managed_addr, kernel_managed_size,
- 			    NULL, 0, &cli->uvmm.vmm.vmm);
- 	if (ret)
--		goto out_free_gpuva_mgr;
-+		goto out_gpuvm_fini;
+ 	nouveau_uvmm_lock(uvmm);
+-	drm_exec_init(exec, DRM_EXEC_INTERRUPTIBLE_WAIT |
+-			    DRM_EXEC_IGNORE_DUPLICATES);
+-	drm_exec_until_all_locked(exec) {
+-		struct drm_gpuva *va;
+-
+-		drm_gpuvm_for_each_va(va, &uvmm->base) {
+-			if (unlikely(va == &uvmm->base.kernel_alloc_node))
+-				continue;
+-
+-			ret = drm_exec_prepare_obj(exec, va->gem.obj, 1);
+-			drm_exec_retry_on_contention(exec);
+-			if (ret)
+-				goto err_uvmm_unlock;
+-		}
++	job->vm_exec.vm = &uvmm->base;
++	ret = drm_gpuvm_exec_lock(&job->vm_exec, 1, false);
++	if (ret) {
++		nouveau_uvmm_unlock(uvmm);
++		return ret;
+ 	}
+ 	nouveau_uvmm_unlock(uvmm);
  
- 	cli->uvmm.vmm.cli = cli;
- 	mutex_unlock(&cli->mutex);
+-	drm_exec_for_each_locked_object(exec, index, obj) {
+-		struct nouveau_bo *nvbo = nouveau_gem_object(obj);
+-
+-		ret = nouveau_bo_validate(nvbo, true, false);
+-		if (ret)
+-			goto err_exec_fini;
++	ret = drm_gpuvm_exec_validate(&job->vm_exec);
++	if (ret) {
++		drm_gpuvm_exec_unlock(&job->vm_exec);
++		return ret;
+ 	}
  
  	return 0;
- 
--out_free_gpuva_mgr:
-+out_gpuvm_fini:
- 	drm_gpuvm_destroy(&uvmm->base);
- out_unlock:
- 	mutex_unlock(&cli->mutex);
-@@ -1949,6 +1948,4 @@ nouveau_uvmm_fini(struct nouveau_uvmm *uvmm)
- 	nouveau_vmm_fini(&uvmm->vmm);
- 	drm_gpuvm_destroy(&uvmm->base);
- 	mutex_unlock(&cli->mutex);
 -
--	dma_resv_fini(&uvmm->resv);
+-err_uvmm_unlock:
+-	nouveau_uvmm_unlock(uvmm);
+-err_exec_fini:
+-	drm_exec_fini(exec);
+-	return ret;
+-
  }
-diff --git a/drivers/gpu/drm/nouveau/nouveau_uvmm.h b/drivers/gpu/drm/nouveau/nouveau_uvmm.h
-index a308c59760a5..878cc7958483 100644
---- a/drivers/gpu/drm/nouveau/nouveau_uvmm.h
-+++ b/drivers/gpu/drm/nouveau/nouveau_uvmm.h
-@@ -12,7 +12,6 @@ struct nouveau_uvmm {
- 	struct nouveau_vmm vmm;
- 	struct maple_tree region_mt;
- 	struct mutex mutex;
--	struct dma_resv resv;
  
- 	u64 kernel_managed_addr;
- 	u64 kernel_managed_size;
+ static void
+ nouveau_exec_job_armed_submit(struct nouveau_job *job)
+ {
+-	struct drm_exec *exec = &job->exec;
+-	struct drm_gem_object *obj;
+-	unsigned long index;
+-
+-	drm_exec_for_each_locked_object(exec, index, obj)
+-		dma_resv_add_fence(obj->resv, job->done_fence, job->resv_usage);
+-
+-	drm_exec_fini(exec);
++	drm_gpuvm_exec_resv_add_fence(&job->vm_exec, job->done_fence,
++				      job->resv_usage, job->resv_usage);
++	drm_gpuvm_exec_unlock(&job->vm_exec);
+ }
+ 
+ static struct dma_fence *
+diff --git a/drivers/gpu/drm/nouveau/nouveau_exec.h b/drivers/gpu/drm/nouveau/nouveau_exec.h
+index 778cacd90f65..b815de2428f3 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_exec.h
++++ b/drivers/gpu/drm/nouveau/nouveau_exec.h
+@@ -3,16 +3,12 @@
+ #ifndef __NOUVEAU_EXEC_H__
+ #define __NOUVEAU_EXEC_H__
+ 
+-#include <drm/drm_exec.h>
+-
+ #include "nouveau_drv.h"
+ #include "nouveau_sched.h"
+ 
+ struct nouveau_exec_job_args {
+ 	struct drm_file *file_priv;
+ 	struct nouveau_sched_entity *sched_entity;
+-
+-	struct drm_exec exec;
+ 	struct nouveau_channel *chan;
+ 
+ 	struct {
+diff --git a/drivers/gpu/drm/nouveau/nouveau_sched.h b/drivers/gpu/drm/nouveau/nouveau_sched.h
+index 27ac19792597..54379af6f925 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_sched.h
++++ b/drivers/gpu/drm/nouveau/nouveau_sched.h
+@@ -5,7 +5,7 @@
+ 
+ #include <linux/types.h>
+ 
+-#include <drm/drm_exec.h>
++#include <drm/drm_gpuvm.h>
+ #include <drm/gpu_scheduler.h>
+ 
+ #include "nouveau_drv.h"
+@@ -54,7 +54,7 @@ struct nouveau_job {
+ 	struct drm_file *file_priv;
+ 	struct nouveau_cli *cli;
+ 
+-	struct drm_exec exec;
++	struct drm_gpuvm_exec vm_exec;
+ 	enum dma_resv_usage resv_usage;
+ 	struct dma_fence *done_fence;
+ 
+diff --git a/drivers/gpu/drm/nouveau/nouveau_uvmm.c b/drivers/gpu/drm/nouveau/nouveau_uvmm.c
+index 436b0ac74ffe..ba0f7fcb6f7c 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_uvmm.c
++++ b/drivers/gpu/drm/nouveau/nouveau_uvmm.c
+@@ -438,8 +438,9 @@ nouveau_uvma_region_complete(struct nouveau_uvma_region *reg)
+ static void
+ op_map_prepare_unwind(struct nouveau_uvma *uvma)
+ {
++	struct drm_gpuva *va = &uvma->va;
+ 	nouveau_uvma_gem_put(uvma);
+-	drm_gpuva_remove(&uvma->va);
++	drm_gpuva_remove(va);
+ 	nouveau_uvma_free(uvma);
+ }
+ 
+@@ -468,6 +469,7 @@ nouveau_uvmm_sm_prepare_unwind(struct nouveau_uvmm *uvmm,
+ 			break;
+ 		case DRM_GPUVA_OP_REMAP: {
+ 			struct drm_gpuva_op_remap *r = &op->remap;
++			struct drm_gpuva *va = r->unmap->va;
+ 
+ 			if (r->next)
+ 				op_map_prepare_unwind(new->next);
+@@ -475,7 +477,7 @@ nouveau_uvmm_sm_prepare_unwind(struct nouveau_uvmm *uvmm,
+ 			if (r->prev)
+ 				op_map_prepare_unwind(new->prev);
+ 
+-			op_unmap_prepare_unwind(r->unmap->va);
++			op_unmap_prepare_unwind(va);
+ 			break;
+ 		}
+ 		case DRM_GPUVA_OP_UNMAP:
+@@ -634,6 +636,7 @@ nouveau_uvmm_sm_prepare(struct nouveau_uvmm *uvmm,
+ 					goto unwind;
+ 				}
+ 			}
++
+ 			break;
+ 		}
+ 		case DRM_GPUVA_OP_REMAP: {
+@@ -1146,13 +1149,44 @@ bind_link_gpuvas(struct bind_job_op *bop)
+ 	}
+ }
+ 
++static int
++bind_lock_extra(struct drm_gpuvm_exec *vm_exec, unsigned int num_fences)
++{
++	struct nouveau_uvmm_bind_job *bind_job = vm_exec->extra.priv;
++	struct drm_exec *exec = &vm_exec->exec;
++	struct bind_job_op *op;
++	int ret;
++
++	list_for_each_op(op, &bind_job->ops) {
++		struct drm_gpuva_op *va_op;
++
++		if (IS_ERR_OR_NULL(op->ops))
++			continue;
++
++		drm_gpuva_for_each_op(va_op, op->ops) {
++			struct drm_gem_object *obj = op_gem_obj(va_op);
++
++			if (unlikely(!obj))
++				continue;
++
++			if (va_op->op != DRM_GPUVA_OP_UNMAP)
++				continue;
++
++			ret = drm_exec_prepare_obj(exec, obj, num_fences);
++			if (ret)
++				return ret;
++		}
++	}
++
++	return 0;
++}
++
+ static int
+ nouveau_uvmm_bind_job_submit(struct nouveau_job *job)
+ {
+ 	struct nouveau_uvmm *uvmm = nouveau_cli_uvmm(job->cli);
+ 	struct nouveau_uvmm_bind_job *bind_job = to_uvmm_bind_job(job);
+ 	struct nouveau_sched_entity *entity = job->entity;
+-	struct drm_exec *exec = &job->exec;
+ 	struct bind_job_op *op;
+ 	int ret;
+ 
+@@ -1170,6 +1204,8 @@ nouveau_uvmm_bind_job_submit(struct nouveau_job *job)
+ 			dma_resv_unlock(obj->resv);
+ 			if (IS_ERR(op->vm_bo))
+ 				return PTR_ERR(op->vm_bo);
++
++			drm_gpuvm_bo_extobj_add(op->vm_bo);
+ 		}
+ 
+ 		ret = bind_validate_op(job, op);
+@@ -1192,6 +1228,7 @@ nouveau_uvmm_bind_job_submit(struct nouveau_job *job)
+ 	 * unwind all GPU VA space changes on failure.
+ 	 */
+ 	nouveau_uvmm_lock(uvmm);
++
+ 	list_for_each_op(op, &bind_job->ops) {
+ 		switch (op->op) {
+ 		case OP_MAP_SPARSE:
+@@ -1303,30 +1340,13 @@ nouveau_uvmm_bind_job_submit(struct nouveau_job *job)
+ 		}
+ 	}
+ 
+-	drm_exec_init(exec, DRM_EXEC_INTERRUPTIBLE_WAIT |
+-			    DRM_EXEC_IGNORE_DUPLICATES);
+-	drm_exec_until_all_locked(exec) {
+-		list_for_each_op(op, &bind_job->ops) {
+-			struct drm_gpuva_op *va_op;
++	job->vm_exec.vm = &uvmm->base;
++	job->vm_exec.extra.fn = bind_lock_extra;
++	job->vm_exec.extra.priv = bind_job;
+ 
+-			if (IS_ERR_OR_NULL(op->ops))
+-				continue;
+-
+-			drm_gpuva_for_each_op(va_op, op->ops) {
+-				struct drm_gem_object *obj = op_gem_obj(va_op);
+-
+-				if (unlikely(!obj))
+-					continue;
+-
+-				ret = drm_exec_prepare_obj(exec, obj, 1);
+-				drm_exec_retry_on_contention(exec);
+-				if (ret) {
+-					op = list_last_op(&bind_job->ops);
+-					goto unwind;
+-				}
+-			}
+-		}
+-	}
++	ret = drm_gpuvm_exec_lock(&job->vm_exec, 1, false);
++	if (ret)
++		goto unwind_continue;
+ 
+ 	list_for_each_op(op, &bind_job->ops) {
+ 		struct drm_gpuva_op *va_op;
+@@ -1426,21 +1446,16 @@ nouveau_uvmm_bind_job_submit(struct nouveau_job *job)
+ 	}
+ 
+ 	nouveau_uvmm_unlock(uvmm);
+-	drm_exec_fini(exec);
++	drm_gpuvm_exec_unlock(&job->vm_exec);
+ 	return ret;
+ }
+ 
+ static void
+ nouveau_uvmm_bind_job_armed_submit(struct nouveau_job *job)
+ {
+-	struct drm_exec *exec = &job->exec;
+-	struct drm_gem_object *obj;
+-	unsigned long index;
+-
+-	drm_exec_for_each_locked_object(exec, index, obj)
+-		dma_resv_add_fence(obj->resv, job->done_fence, job->resv_usage);
+-
+-	drm_exec_fini(exec);
++	drm_gpuvm_exec_resv_add_fence(&job->vm_exec, job->done_fence,
++				      job->resv_usage, job->resv_usage);
++	drm_gpuvm_exec_unlock(&job->vm_exec);
+ }
+ 
+ static struct dma_fence *
+@@ -1832,6 +1847,18 @@ nouveau_uvmm_bo_unmap_all(struct nouveau_bo *nvbo)
+ 	}
+ }
+ 
++static int
++nouveau_uvmm_bo_validate(struct drm_gpuvm_bo *vm_bo, struct drm_exec *exec)
++{
++	struct nouveau_bo *nvbo = nouveau_gem_object(vm_bo->obj);
++
++	return nouveau_bo_validate(nvbo, true, false);
++}
++
++static const struct drm_gpuvm_ops gpuvm_ops = {
++	.vm_bo_validate = nouveau_uvmm_bo_validate,
++};
++
+ int
+ nouveau_uvmm_init(struct nouveau_uvmm *uvmm, struct nouveau_cli *cli,
+ 		  u64 kernel_managed_addr, u64 kernel_managed_size)
+@@ -1874,7 +1901,7 @@ nouveau_uvmm_init(struct nouveau_uvmm *uvmm, struct nouveau_cli *cli,
+ 		       NOUVEAU_VA_SPACE_START,
+ 		       NOUVEAU_VA_SPACE_END,
+ 		       kernel_managed_addr, kernel_managed_size,
+-		       NULL);
++		       &gpuvm_ops);
+ 	/* GPUVM takes care from here on. */
+ 	drm_gem_object_put(r_obj);
+ 
 -- 
 2.41.0
 
