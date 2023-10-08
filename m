@@ -1,67 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 995F27BCEC9
-	for <lists+dri-devel@lfdr.de>; Sun,  8 Oct 2023 16:01:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 986FE7BCECB
+	for <lists+dri-devel@lfdr.de>; Sun,  8 Oct 2023 16:02:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1BDF410E1A3;
-	Sun,  8 Oct 2023 14:01:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9EB2410E145;
+	Sun,  8 Oct 2023 14:02:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
- [IPv6:2a00:1450:4864:20::130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A38C510E179
- for <dri-devel@lists.freedesktop.org>; Sun,  8 Oct 2023 14:01:30 +0000 (UTC)
-Received: by mail-lf1-x130.google.com with SMTP id
- 2adb3069b0e04-5033918c09eso4659869e87.2
- for <dri-devel@lists.freedesktop.org>; Sun, 08 Oct 2023 07:01:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1696773689; x=1697378489; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=zFEz00dZt8b8WAE9A9YPgyljR1B8wQKrMenQPX4nHKw=;
- b=YRuzrK4Djd7bBYlQmgCQyGSyam61UGAyUNjSs8V/Sf4Fas2p8SlVy9Nbzn30bcbMIA
- GTKbF+zVj0SfIWdDtjuWLTUkTZRlQuT/cmDDLuFNngy7Ukr9OTK7/6dQRce14SUTC81Z
- JGkeyhaX1QXw1ihLTyL44fBTbQVigY1WSNbfR3yafjG9usqA4ChzztVLewlTg6d05pC+
- GgIjRMpRgEfVWKLpxQ95u7OORz736kFKai7dd8gMRujULTg3e+tc9QDZUaPFVZsZrMOi
- 9OcV/HJbAj3AODFZdoBNK30U1LkSkG9OkBCpyOw/HHQDa+Hso6y/ypP5w2YQ6Xg1hHaF
- Jx9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1696773689; x=1697378489;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=zFEz00dZt8b8WAE9A9YPgyljR1B8wQKrMenQPX4nHKw=;
- b=Z+6JSDE/ACF3ALTNPFBUN34vbvn+UhCrC6mUD+WUzX3A9kmZKsbum5UAsZyGXAURPO
- qH49vh9AQIslMcvnyVZWul84W4cJaSprX7V66lxRdNg74LoCto8HpOuM9vEUbOfWmLNd
- 4yfLCA9eO87Lp+Lfp4YYOM8+ER1aINUQvOn0R1Yo/emhXKAI+179iC68H1nSi4p8PYJo
- isMblcPCjP8HvvK09FHFs6yWj88gONk6DLPplhSwtxTAuwico7AZXvgsBcdg6ckVS19A
- yDztUFHnH9uKoUW4NR/a93gEcLsmtQYyk3iv7IU9Er3Q4lYctfcnzDcGpVzIU+xvI7jK
- xaKA==
-X-Gm-Message-State: AOJu0YxTRVpwEJk5IYuk5JlAe4HV1yQJoI1HG5bh2q5Ot9883lncEgkf
- fthJ3u2pqk+uvoGTY7IZoK6Bbg==
-X-Google-Smtp-Source: AGHT+IFOU5uXWmhXrIYbhgEpr4JZ8+yZty98yxpFi9UjGcKnTHEbTZyEkAOOOPx1Erbruxp2wwdBBQ==
-X-Received: by 2002:a05:6512:68a:b0:503:26bc:b08f with SMTP id
- t10-20020a056512068a00b0050326bcb08fmr13838821lfe.24.1696773688970; 
- Sun, 08 Oct 2023 07:01:28 -0700 (PDT)
-Received: from umbar.unikie.fi ([192.130.178.91])
- by smtp.gmail.com with ESMTPSA id
- q14-20020ac24a6e000000b00504211d2a73sm1080455lfp.230.2023.10.08.07.01.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 08 Oct 2023 07:01:28 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Stephen Boyd <swboyd@chromium.org>
-Subject: Re: [PATCH 0/7] drm/msm/dp: Simplify DPCD related code with helpers
-Date: Sun,  8 Oct 2023 17:01:20 +0300
-Message-Id: <169677306906.2570646.11717295539692431609.b4-ty@linaro.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230829184735.2841739-1-swboyd@chromium.org>
-References: <20230829184735.2841739-1-swboyd@chromium.org>
+Received: from bombadil.infradead.org (bombadil.infradead.org
+ [IPv6:2607:7c80:54:3::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0134610E145;
+ Sun,  8 Oct 2023 14:02:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+ MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+ Content-ID:Content-Description:In-Reply-To:References;
+ bh=figW6V5IxO3BN+Q3ev6fcFUCPxrFf784LSxaFnVtQh0=; b=hXUnR+z5iXugz8qJvJ6sO3rUMU
+ UeLlJjoEa0+ezplb8/cgbEVxY6c+TS+Ai6cz4h1cNpXUOjJ2NNk0+fESqqPVLe006JtsNF1dg9AWP
+ lfutHgYn+Rr3H3OV6fBEyxhXzfDxxeL2zgzbmdUfZYwuqximXP/PGjdZ5ZJuTU96ZKEpkvGyEqFmQ
+ mvguTtscESZ/a9E5tY4/P5VCh5iGSeGKbZ+B7qI0KVb7ITD423v0aCqdOJlBU9LWEEKDMwwODYFvX
+ pSo3X24IOb3FGnnQ3C/UYbPt9vwhLl7P8g3gGK1oESwLkdV5LQWVfoEDfyZwhCNn/NRckVnppBE84
+ TvF5BEJA==;
+Received: from [50.53.46.231] (helo=bombadil.infradead.org)
+ by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+ id 1qpUMZ-008vP6-2d; Sun, 08 Oct 2023 14:02:31 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH v2] drm/nouveau: exec: fix ioctl kernel-doc warning
+Date: Sun,  8 Oct 2023 07:02:31 -0700
+Message-ID: <20231008140231.17921-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -75,49 +46,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Vinod Polimera <quic_vpolimer@quicinc.com>,
- patches@lists.linux.dev, Kuogee Hsieh <quic_khsieh@quicinc.com>,
- freedreno@lists.freedesktop.org
+Cc: Karol Herbst <kherbst@redhat.com>,
+ Bragatheswaran Manickavel <bragathemanick0908@gmail.com>,
+ nouveau@lists.freedesktop.org, Randy Dunlap <rdunlap@infradead.org>,
+ dri-devel@lists.freedesktop.org, Danilo Krummrich <dakr@redhat.com>,
+ Dave Airlie <airlied@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+kernel-doc emits a warning:
 
-On Tue, 29 Aug 2023 11:47:25 -0700, Stephen Boyd wrote:
-> This driver open-codes a few of the DPCD register reads when it can be
-> simplified by using the helpers instead. This series reworks the MSM DP
-> driver to use the DPCD helpers and removes some dead code along the way.
-> There's the potential for even more code reduction around the test
-> registers, but I haven't tried to do that yet.
-> 
-> Stephen Boyd (7):
->   drm/msm/dp: Replace open-coded drm_dp_read_dpcd_caps()
->   drm/msm/dp: Use drm_dp_read_sink_count() helper
->   drm/msm/dp: Remove dead code related to downstream cap info
->   drm/msm/dp: Remove aux_cfg_update_done and related code
->   drm/msm/dp: Simplify with drm_dp_{max_link_rate,max_lane_count}()
->   drm/msm/dp: Inline dp_link_parse_sink_count()
->   drm/msm/dp: Remove dp_display_is_ds_bridge()
-> 
-> [...]
+include/uapi/drm/nouveau_drm.h:49: warning: Cannot understand  * @NOUVEAU_GETPARAM_EXEC_PUSH_MAX
+ on line 49 - I thought it was a doc line
 
-Applied, thanks!
+We don't have a way to document a macro value via kernel-doc, so
+change the "/**" kernel-doc marker to a C comment and format the comment
+more like a kernel-doc comment for consistency.
 
-[1/7] drm/msm/dp: Replace open-coded drm_dp_read_dpcd_caps()
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/f906b95755f7
-[2/7] drm/msm/dp: Use drm_dp_read_sink_count() helper
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/284a245d8bdc
-[3/7] drm/msm/dp: Remove dead code related to downstream cap info
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/8bddc2d12e9c
-[4/7] drm/msm/dp: Remove aux_cfg_update_done and related code
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/62ebb19fb32d
-[5/7] drm/msm/dp: Simplify with drm_dp_{max_link_rate,max_lane_count}()
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/a9905b469931
-[6/7] drm/msm/dp: Inline dp_link_parse_sink_count()
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/d89ce4cdb7a6
-[7/7] drm/msm/dp: Remove dp_display_is_ds_bridge()
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/b41c5ca70684
+Fixes: d59e75eef52d ("drm/nouveau: exec: report max pushs through getparam")
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Dave Airlie <airlied@redhat.com>
+Cc: Danilo Krummrich <dakr@redhat.com>
+Cc: Karol Herbst <kherbst@redhat.com>
+Cc: Lyude Paul <lyude@redhat.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: nouveau@lists.freedesktop.org
+Cc: Bragatheswaran Manickavel <bragathemanick0908@gmail.com>
+---
+v2: update commit text; somehow I sent a version of the patch before
+    adding the full text.
+v1: https://lore.kernel.org/lkml/20231007005518.32015-1-rdunlap@infradead.org/
 
-Best regards,
--- 
-Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+ include/uapi/drm/nouveau_drm.h |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff -- a/include/uapi/drm/nouveau_drm.h b/include/uapi/drm/nouveau_drm.h
+--- a/include/uapi/drm/nouveau_drm.h
++++ b/include/uapi/drm/nouveau_drm.h
+@@ -45,8 +45,8 @@ extern "C" {
+ #define NOUVEAU_GETPARAM_HAS_BO_USAGE    15
+ #define NOUVEAU_GETPARAM_HAS_PAGEFLIP    16
+ 
+-/**
+- * @NOUVEAU_GETPARAM_EXEC_PUSH_MAX
++/*
++ * NOUVEAU_GETPARAM_EXEC_PUSH_MAX - query max pushes through getparam
+  *
+  * Query the maximum amount of IBs that can be pushed through a single
+  * &drm_nouveau_exec structure and hence a single &DRM_IOCTL_NOUVEAU_EXEC
