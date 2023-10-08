@@ -1,71 +1,85 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFCCC7BCEC2
-	for <lists+dri-devel@lfdr.de>; Sun,  8 Oct 2023 16:01:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0397A7BCEC7
+	for <lists+dri-devel@lfdr.de>; Sun,  8 Oct 2023 16:01:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0DA3710E199;
+	by gabe.freedesktop.org (Postfix) with ESMTP id D112010E179;
 	Sun,  8 Oct 2023 14:01:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
- [IPv6:2a00:1450:4864:20::130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2274610E179
- for <dri-devel@lists.freedesktop.org>; Sun,  8 Oct 2023 14:01:28 +0000 (UTC)
-Received: by mail-lf1-x130.google.com with SMTP id
- 2adb3069b0e04-5046bf37daeso4801485e87.1
- for <dri-devel@lists.freedesktop.org>; Sun, 08 Oct 2023 07:01:28 -0700 (PDT)
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
+ [IPv6:2a00:1450:4864:20::12a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 540CE10E196
+ for <dri-devel@lists.freedesktop.org>; Sun,  8 Oct 2023 14:01:29 +0000 (UTC)
+Received: by mail-lf1-x12a.google.com with SMTP id
+ 2adb3069b0e04-5043a01ee20so4420644e87.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 08 Oct 2023 07:01:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1696773686; x=1697378486; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1696773687; x=1697378487; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=PSMUdpgtTg04OpFZxfxSUvT4pwJGZAYPeTOexRIr+Ds=;
- b=GQxIt7h/tqomMUeSdARf+W46IpZtibwqqfIDXOZLJ5Ewlzpd51fJBCdbXevu4RJBLN
- GQ6xCpB++1EBDwBMQPeB5nBBSsZv6yYKc4zL2Y+DIzEpdqv1tUERxett5HA3mHHJWQNf
- QsG1nOUNi+jOfV8h5hi3leTeSM2OFL9vutw2h87Y2xE6IEETiw/JvIjB0jvY0FJhe+lD
- vcAmLArAoGxagEq+gA7SCdiBHOQeSm1EVGp6UwnLdq+fwmmteOo6nS1G4vTCvBzOEbFz
- x1h5ZZxZ+8/8oI/kn/oFw8B+x3MV2MmeBXbMMHOJ8vZCcTWNF3xIwRXSJ3Ls7vgOKh8E
- R9uQ==
+ :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=zxakH265LpATzSTaf30OW9So30zUQfcE2yrNl/MhWDo=;
+ b=OK61mQ8jqLGUke1cuPXx8NXCdLPNvyoTrR7SeDFVNjKoxG1Mz6EipnwL8t+GjVmaDg
+ bBoxuTKfLmFuMJ1RGP1DqvD43wgRo2TEUQVz22LsyVqkuV+6ouI4rJNqM3m9bgqYEhfD
+ jF3ULFaA9I8yhgDmGNjtx0jlRZIf1pZd2R8m5PDnBZY/QV5wAMi4bVLJ29BKx5Zyhqhh
+ BzFGOHVRSnswkXL7/ZvooqutSGX15CRExpXKyfSGSQAuOKew+8NKNDF7SzSDoPIs4ZwS
+ UxCwJaUqTF6NpkLwGdJW4Gvm122hlQh7occexF1UDeBqxA6oi8TssMOLgttPO4g1xP5T
+ GVgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1696773686; x=1697378486;
+ d=1e100.net; s=20230601; t=1696773687; x=1697378487;
  h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=PSMUdpgtTg04OpFZxfxSUvT4pwJGZAYPeTOexRIr+Ds=;
- b=kkEzpdv+FMfw9WAdWr0gISycgy2TJrnFjonLRXKyj/rwO9KImfVU6lN4YY6n3F7VjF
- RNg2KYwzB0EwybKL0wBDunrYuwoCuIpv/upQRLZNLcN2Cuqv4Uypou+I7qSdOHtRU/w+
- Y/ZvbXSFAsrN2b4DyZqzRT3IJfLrFqu3vttALmX+lZUX1sFqEJUdpJVTfuoNVDov1xH6
- zH7l7AjCZAPZe9JND8L+vCF081o3jGHiqkdUNpya17JHOkoDXj5FKE1ouxgdyxnHmv85
- ZeyY2uGb97gsMasL+dYwC2Mb8QoaR+ow+yn5SsuHhv8eXK6/bVEFnMB3fDxuFduT/Krs
- DPuw==
-X-Gm-Message-State: AOJu0Ywy4HopaU4/JoRSPXhq8Ka4JJ1CPEbkZSjza36Pp3CnmL+9nhwK
- gE40I3h8xCRePvAvFoDT5Ym8pA==
-X-Google-Smtp-Source: AGHT+IGxfVDd6z3b4aL3PVKq8C7Mjb21gUGAEM9IbcbsGG5OCtfSfwwara4kEgcUl8RPGr9RfAl4FA==
-X-Received: by 2002:ac2:4a81:0:b0:4fb:8585:eefe with SMTP id
- l1-20020ac24a81000000b004fb8585eefemr9557457lfp.57.1696773686418; 
- Sun, 08 Oct 2023 07:01:26 -0700 (PDT)
+ bh=zxakH265LpATzSTaf30OW9So30zUQfcE2yrNl/MhWDo=;
+ b=KHwX2zAeWrp9Olcebzai6+GLZNJrUcJgXw4c0zhCxntol4ra6vVs5wVsq0rFo4/rhu
+ 6RPfquOmyESjyFE11n7MVSd2GanjUNFQCXB6sNm9JFzYvkOfD6fisFQSimQkLYAHYmG/
+ owoNQbHUUuvviKOq8WM61B9iFAQ9IJEb6KxUSRKd2sSpSuItNRY5YdFlDMk6Zej7Z2R8
+ wrEcoGjirSoKwbhx2q0KFPN7mfH4glUhMPeYsgqMBiC0976ZMKsKYT7r9dDuftABWfLa
+ k0/ZxFWcflmzMRuLWFe6U7sjKu+4dL2x/4GpajG7Be9kzmo9x+ViXjr8wYXAjQXoKSR5
+ Hl9A==
+X-Gm-Message-State: AOJu0YykmcZhBz+rVrWFgl/ZrpKITKp8sEenJwHtimjSzKLkUiX1ULA8
+ +79w8UbpxeS5F+1NPS/+OvMMBQ==
+X-Google-Smtp-Source: AGHT+IEZhcTkbfnDMA0TmtMUY6GUYhyBTjDeQoEWBa7c/RqNiiO7pOQy12FcGXqIQaqK7WTV5qhK2g==
+X-Received: by 2002:a19:910c:0:b0:501:c1d4:cf68 with SMTP id
+ t12-20020a19910c000000b00501c1d4cf68mr9460445lfd.15.1696773687355; 
+ Sun, 08 Oct 2023 07:01:27 -0700 (PDT)
 Received: from umbar.unikie.fi ([192.130.178.91])
  by smtp.gmail.com with ESMTPSA id
- q14-20020ac24a6e000000b00504211d2a73sm1080455lfp.230.2023.10.08.07.01.25
+ q14-20020ac24a6e000000b00504211d2a73sm1080455lfp.230.2023.10.08.07.01.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 08 Oct 2023 07:01:25 -0700 (PDT)
+ Sun, 08 Oct 2023 07:01:26 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH 1/2] dt-bindings: display: msm: Add missing
- unevaluatedProperties on child node schemas
-Date: Sun,  8 Oct 2023 17:01:17 +0300
-Message-Id: <169677325602.2570975.10339984139706350311.b4-ty@linaro.org>
+To: Felix.Kuehling@amd.com, alexander.deucher@amd.com,
+ christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
+ daniel@ffwll.ch, harry.wentland@amd.com, sunpeng.li@amd.com,
+ Rodrigo.Siqueira@amd.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, inki.dae@samsung.com,
+ sw0312.kim@samsung.com, kyungmin.park@samsung.com,
+ krzysztof.kozlowski@linaro.org, alim.akhtar@samsung.com,
+ robdclark@gmail.com, quic_abhinavk@quicinc.com, sean@poorly.run,
+ marijn.suijten@somainline.org, bskeggs@redhat.com, kherbst@redhat.com,
+ lyude@redhat.com, kraxel@redhat.com, gurchetansingh@chromium.org,
+ olvaffe@gmail.com, paulo.miguel.almeida.rodenas@gmail.com,
+ wenjing.liu@amd.com, haoping.liu@amd.com, Charlene.Liu@amd.com,
+ chiahsuan.chung@amd.com, george.shen@amd.com, sancchen@amd.com,
+ tony.tascioglu@amd.com, jaehyun.chung@amd.com, tales.aparecida@gmail.com,
+ drv@mailo.com, aurabindo.pillai@amd.com, quic_vpolimer@quicinc.com,
+ jiasheng@iscas.ac.cn, noralf@tronnes.org, jose.exposito89@gmail.com,
+ javierm@redhat.com, mairacanal@riseup.net, davidgow@google.com,
+ arthurgrillo@riseup.net, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org,
+ Ruan Jinjie <ruanjinjie@huawei.com>
+Subject: Re: [PATCH -next 0/7] drm: Remove many unnecessary NULL values
+Date: Sun,  8 Oct 2023 17:01:18 +0300
+Message-Id: <169677306919.2570646.8217027380730287216.b4-ty@linaro.org>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230925212434.1972368-1-robh@kernel.org>
-References: <20230925212434.1972368-1-robh@kernel.org>
+In-Reply-To: <20230809034445.434902-1-ruanjinjie@huawei.com>
+References: <20230809034445.434902-1-ruanjinjie@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -81,27 +95,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Mon, 25 Sep 2023 16:24:24 -0500, Rob Herring wrote:
-> Just as unevaluatedProperties or additionalProperties are required at
-> the top level of schemas, they should (and will) also be required for
-> child node schemas. That ensures only documented properties are
-> present for any node.
+On Wed, 09 Aug 2023 11:44:38 +0800, Ruan Jinjie wrote:
+> The NULL initialization of the pointers assigned by kzalloc() or
+> kunit_kzalloc() first is not necessary, because if the kzalloc() or
+> kunit_kzalloc() failed, the pointers will be assigned NULL, otherwise
+> it works as usual. so remove it.
 > 
+> Ruan Jinjie (7):
+>   drm/amdkfd: Remove unnecessary NULL values
+>   drm/amd/display: Remove unnecessary NULL values
+>   drm/msm: Remove unnecessary NULL values
+>   drm/radeon: Remove unnecessary NULL values
+>   drm/virtio: Remove an unnecessary NULL value
+>   drm/format-helper: Remove unnecessary NULL values
+>   drm: Remove unnecessary NULL values
 > 
+> [...]
 
 Applied, thanks!
 
-[1/2] dt-bindings: display: msm: Add missing unevaluatedProperties on child node schemas
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/08bf97ab16f3
-[2/2] dt-bindings: display: msm: Make "additionalProperties: true" explicit
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/55bbcadccdec
+[3/7] drm/msm: Remove unnecessary NULL values
+      https://gitlab.freedesktop.org/lumag/msm/-/commit/92a48b6ed510
 
 Best regards,
 -- 
