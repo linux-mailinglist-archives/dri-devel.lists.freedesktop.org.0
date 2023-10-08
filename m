@@ -1,55 +1,85 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AC527BCDCF
-	for <lists+dri-devel@lfdr.de>; Sun,  8 Oct 2023 12:38:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E15D57BCE6D
+	for <lists+dri-devel@lfdr.de>; Sun,  8 Oct 2023 15:03:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 10E9710E0D5;
-	Sun,  8 Oct 2023 10:38:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1596910E0CB;
+	Sun,  8 Oct 2023 13:03:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org
- [IPv6:2001:67c:2050:0:465::102])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C9B9C10E0D5
- for <dri-devel@lists.freedesktop.org>; Sun,  8 Oct 2023 10:38:00 +0000 (UTC)
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4S3JXP25rTz9sm9;
- Sun,  8 Oct 2023 12:37:57 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1696761477;
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B858A10E0CB
+ for <dri-devel@lists.freedesktop.org>; Sun,  8 Oct 2023 13:03:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1696770219;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5+tuAv/pj1ZLoJ+t+m4/ES6isn8uzyLyzOkk5zYx4lA=;
- b=hzTe0Zq01gQD9CzgUJqcB/br00AeG0hN0uw/e5uxxBoHWrs/Th6tRXnudiL0nnU/cqeOg2
- 66UzxLrHsqKriW3cUf9p0fq668pjmO++UaqeYdMMn95HD//At3bo6BvYVnNZP3wQQb/l89
- HAnsUovoGzQUpAFdddTHAPsOU1cGA1Q7arTpR5vXcOMs+XJJ66Fastr3woe4U1JkBHTQUg
- i+flkB5z2mezZbn1wOY0y6055n7fLbdsOnN8apotegnkBJcNsiguLgeZdPQo7gVUumJd9I
- pqfrIZbsNpkQmL1sAVtcqMo1COmfanJP1qcq6dxPc82SVp5m85pPpmLecRqo7Q==
-Message-ID: <87fe01dc-94f9-86b5-1718-de5df928d11c@mailbox.org>
-Date: Sun, 8 Oct 2023 12:37:54 +0200
+ bh=57zw0OKPUSzvJpAiJxGXUesAzc/Q2aH2UjVJr2ZxmAg=;
+ b=InFkQY4za6wpZ1t5IMjw2Dl1ybHeZs5Ljn5hPhOwANaH0W83JovIEfBx9e1nKIC5Fbn/zs
+ DjZgntUTKKyB8rt4jed3N/uutQkGcQc7F1heOPU6YZb7NG537d6SCmdj8qG03n0LINNGLp
+ FVRZrom14D0D7jG3Sld+44MQeOoR7c4=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-620-LPIpjc2GMuyCZ-544Fr4uQ-1; Sun, 08 Oct 2023 09:03:37 -0400
+X-MC-Unique: LPIpjc2GMuyCZ-544Fr4uQ-1
+Received: by mail-ej1-f70.google.com with SMTP id
+ a640c23a62f3a-9ae70250ef5so516607066b.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 08 Oct 2023 06:03:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1696770216; x=1697375016;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=57zw0OKPUSzvJpAiJxGXUesAzc/Q2aH2UjVJr2ZxmAg=;
+ b=Gh4fmxx8FyV3veLhZy4L/2wnjdosVNIJk/WgjZnH5Y+FSRa1tLlACqLswNdfZmEWb+
+ /Jp04JFDYOhLTYKbW0dN5x3M3L7FQh1WfxrGsJ8i9q9FyT7e0yJI5P8MsgStWfkSgG0h
+ 8vfw0eWCM+JDVbGzrkZKzjZ3mGNen9YfB3FSbQTIBSr5BAMmXcPymH8R1zkpj0d8IzK4
+ UiKnRvOqkIHFdj4vbhiiRiemdl9sDG8ww4YqFFLvGgvLO2OlWO8HmXSHtfULY0PKK/WO
+ Kj0wVtNCaL3JOTwF2rN2poPCL6OnePPFL0b5nWC5Od/zNGTCGlCiexqbpRib/a+pGX6B
+ zh1A==
+X-Gm-Message-State: AOJu0YwbG28Zpt8rx00QYpwWT2grQWJGkOe8ZAe1WXOTS8NNWXQrS3mF
+ 92kJKyAEiQs+wkJ8Qhk8btNHdAEVQgJiLFD+CTVGKG7BlRpquBsj6DVTK/IVbdtpLXHBtkSkIlo
+ zGC012kx4cTTgJQJOrTtBqM7ycmXd
+X-Received: by 2002:a17:906:3097:b0:9b2:b30f:deb with SMTP id
+ 23-20020a170906309700b009b2b30f0debmr8445273ejv.4.1696770216707; 
+ Sun, 08 Oct 2023 06:03:36 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH3NRRHjlJne5Or8peQMdH9SsX1fkZY8QkB6/VvPTeIFFhjxAtTfcdXCJNvJXeiU7bH85yWfg==
+X-Received: by 2002:a17:906:3097:b0:9b2:b30f:deb with SMTP id
+ 23-20020a170906309700b009b2b30f0debmr8445258ejv.4.1696770216410; 
+ Sun, 08 Oct 2023 06:03:36 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec?
+ (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl.
+ [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+ by smtp.gmail.com with ESMTPSA id
+ x6-20020a170906b08600b009a19701e7b5sm5496519ejy.96.2023.10.08.06.03.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 08 Oct 2023 06:03:35 -0700 (PDT)
+Message-ID: <b308ab49-ceec-e1eb-cbf4-b272cea91e2e@redhat.com>
+Date: Sun, 8 Oct 2023 15:03:34 +0200
 MIME-Version: 1.0
-Subject: Re: [PATCH] drm/atomic: Perform blocking commits on workqueue
-Content-Language: de-CH-frami, en-CA
-To: Ray Strode <halfline@gmail.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH 0/4] drm/i915/vlv_dsi: Add quirks for x86 android tablets
+ (v3)
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
  =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-References: <20230926170549.2589045-1-halfline@gmail.com>
- <ZR6IlVR-A5KtIHEU@phenom.ffwll.local>
- <CAA_UwzL=2PjeH_qW2GJa_XzJCeWkz9NcokPQX3-qn2f0iPz+Rw@mail.gmail.com>
- <90e7f66f-96bf-4e90-88c8-75019bc506a4@amd.com>
- <CAA_UwzJ7q8aq_iw3wimeQXmvKp8Z253J7oqi3UQqcKdkRmAcAA@mail.gmail.com>
-From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel.daenzer@mailbox.org>
-In-Reply-To: <CAA_UwzJ7q8aq_iw3wimeQXmvKp8Z253J7oqi3UQqcKdkRmAcAA@mail.gmail.com>
+References: <20230920195613.304091-1-hdegoede@redhat.com>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20230920195613.304091-1-hdegoede@redhat.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, nl
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: qn598uiika5qc5z6q8aofj6bectos8oz
-X-MBO-RS-ID: a4dae9d635a972d67e4
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,35 +92,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alexander.deucher@amd.com, daniel.vetter@ffwll.ch, Xinhui.Pan@amd.com,
- dri-devel@lists.freedesktop.org, airlied@redhat.com
+Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/6/23 20:48, Ray Strode wrote:
+Hi All,
+
+Ping what is the status of this now? This v3 addresses all review
+remarks from previous versions (specifically the request to file
++ link gitlab issues).
+
+So AFAICT this is ready for merging ?
+
+But I'm waiting for an ack for this before pushing it
+do drm-intel-next myself ...
+
+Regards,
+
+Hans
+
+
+
+
+On 9/20/23 21:56, Hans de Goede wrote:
+> Hi All,
 > 
-> Note, a point that I don't think has been brought up yet, too, is
-> the system unbound workqueue doesn't run with real time priority.
-> Given the lion's share of mutter's drmModeAtomicCommit calls are
-> nonblock, and so are using the system unbound workqueue for handling
-> the commits, even without this patch, that somewhat diminishes the
-> utility of using a realtime thread anyway. I believe the original
-> point of the realtime thread was to make sure mouse cursor motion
-> updates are as responsive as possible, because any latency there is
-> something the user really feels.
-
-Mutter's KMS thread needs to be real-time so that it can reliably schedule its work building up to calling the atomic commit ioctl for minimal input → output latency. That some of the ioctl's own work doesn't run at the same priority doesn't necessarily matter for this, as long as it can hit the next vertical blank period.
-
-BTW, I understand kwin has or is planning to get a real-time KMS thread as well, for the same reasons.
-
-
-> Maybe there needs to be a different mechanism in place to make sure
-> user perceived interactivity is given priority.
-
-The only alternative I'm aware of having been discussed so far is allowing atomic commits to be amended. I don't think that would be a great solution for this issue though, as it would result in Wayland compositors wasting CPU cycles (in other words, energy) for constant amendments of atomic commits, in the hope that one of them results in good latency.
-
-
--- 
-Earthling Michel Dänzer            |                  https://redhat.com
-Libre software enthusiast          |         Mesa and Xwayland developer
+> Some vlv/chv tablets ship with Android as factory OS. The factory OS
+> BSP style kernel on these tablets does not use the normal x86 hw
+> autodetection instead it hardcodes a whole bunch of things including
+> using panel drivers instead of relying on VBT MIPI sequences to
+> turn the panel/backlight on/off.
+> 
+> The normal i915 driver (which does not use panel drivers) mostly works
+> since the VBT still needs to contain valid info for the GOP, but because
+> of the Android kernel relying on panel drivers with various things
+> hardcoded some DMI quirks are necessary to fix some issues on these
+> devices.
+> 
+> Some of these issues also are related to which I2C bus to use for
+> MIPI sequence elements which do I2C transfers. This series also
+> includes a patch adding some extra debugging to mipi_exec_i2c() to
+> help with debugging similar issues in the future.
+> 
+> These patches have been posted before but back then I did not get around
+> to follow up on the series:
+> https://lore.kernel.org/intel-gfx/20220225214934.383168-1-hdegoede@redhat.com/
+> 
+> v2:
+> - Drop the changes how the I2C bus number is found, instead just have
+>   the quirks set the right number directly where necessary. This should
+>   avoid any chances of causing regressions on devices where the quirks
+>   do not apply.
+> - New quirk for backlight control issues on Lenovo Yoga Tab 3
+> - Address Jani Nikula's remark about __func__ being redundant when using
+>   drm_dbg_kms()
+> 
+> v3:
+> - File 3 gitlab issues with drm.debug=0xe dmesg output, VBT dump for all
+>   3 affected models. Add Closes: tags with links to gitlab issues
+> 
+> Regards,
+> 
+> Hans
+> 
+> 
+> Hans de Goede (4):
+>   drm/i915/vlv_dsi: Add DMI quirk for wrong panel modeline in BIOS on
+>     Asus TF103C (v3)
+>   drm/i915/vlv_dsi: Add DMI quirk for wrong I2C bus and panel size on
+>     Lenovo Yoga Tablet 2 series (v3)
+>   drm/i915/vlv_dsi: Add DMI quirk for backlight control issues on Lenovo
+>     Yoga Tab 3 (v2)
+>   drm/i915/dsi: Add some debug logging to mipi_exec_i2c (v2)
+> 
+>  drivers/gpu/drm/i915/display/intel_dsi_vbt.c |   3 +
+>  drivers/gpu/drm/i915/display/vlv_dsi.c       | 124 +++++++++++++++++++
+>  2 files changed, 127 insertions(+)
+> 
 
