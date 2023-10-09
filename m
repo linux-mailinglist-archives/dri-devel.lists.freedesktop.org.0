@@ -1,74 +1,96 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77F647BD67A
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Oct 2023 11:12:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BECA57BD67F
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Oct 2023 11:13:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1BAD410E248;
-	Mon,  9 Oct 2023 09:12:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7282110E24A;
+	Mon,  9 Oct 2023 09:13:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
- [IPv6:2a00:1450:4864:20::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 30AAF10E248
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Oct 2023 09:12:52 +0000 (UTC)
-Received: by mail-lf1-x133.google.com with SMTP id
- 2adb3069b0e04-5046bf37daeso5558232e87.1
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Oct 2023 02:12:52 -0700 (PDT)
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
+ [IPv6:2a00:1450:4864:20::42c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1CA6A10E24A
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Oct 2023 09:13:10 +0000 (UTC)
+Received: by mail-wr1-x42c.google.com with SMTP id
+ ffacd0b85a97d-3296b3f03e5so2443979f8f.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Oct 2023 02:13:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1696842770; x=1697447570; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Yf7MiBunBZOqUWS6hOjNshMjhVlI4vDHakb12kS/gTs=;
- b=tsZqnhX74s3oe0kiLAfqI38SWC465YPgeYTXPdAFqhraFAXWx6YEI/H6/PtsLQ5//T
- lBFQHSDprsKHnJf7vph8DgMeKRdi69hYHSnNWPfrzZH26EXPm6FhCf6nV+amXrXlVNVr
- e9T6/+RqqU6t3ery257d4NiwrZCttZdFBbhZcjhsNuL6sSY5Yn7KmKgcPm+ySv83T6iw
- s/VE3LabEOMqbUuCAC9LLVebPPmHNVw6TF6Xogxp/NkbNWfDpnRcYX/l9yRlc6VBSA2Z
- Tjc74Dc0NGmDUfhnSNRxRJoBlnL6HSTdihRdMCVgmLoFL8QpE7Yfunidjvvvnh3M3kzo
- vF4w==
+ d=linaro.org; s=google; t=1696842788; x=1697447588; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :references:cc:to:content-language:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:from:to:cc:subject:date:message-id
+ :reply-to; bh=riy2ohNnJTI8tyOBkVxN9+KyXQ2yc80mwJGtwl0WMgc=;
+ b=fxHdREqzzRGsG3ucvnPk7RpZWXF95hN86oEZLw+dJ9vBPi93LoRGHu26nry1Wax6m5
+ TE+pQRcI/xUuxC29t11NLWXmIz4BMGNukbblC88JpJ9eZC3egs7lZwKg8J9QP1wLvCGx
+ X9JrwvtoWRaKW+MWyS8wjQhrZeRxjG0KXsvyi3khxwpJVeIkkIi/rxgKPNC+okFu1tDX
+ cw2YBOm4ubQN9PkAzuH4kNfO80AcfQObVo3sjzzyZWdqyRUxQcuVn6ZhkkAxEFlbV/dx
+ Qpp32V63tMs8sUP04CC+W4YCfSsibeFWL2D2LddKg4ShUmmKF8jucdvqZmh3U5/v6hga
+ R5cQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1696842770; x=1697447570;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Yf7MiBunBZOqUWS6hOjNshMjhVlI4vDHakb12kS/gTs=;
- b=YV4XBSMdPADTB2hiMH18wbpp6jMNjZbBEZZoe0JA0b8ZsDg+rwSO5/HOommGXV4whK
- BchVGr+fHBT3VkugwgWKGCXQLy8fT5m+yGHFgD9dCaqBCs+jFNvhrxeMsLdQxkTUB2KT
- EJ6L3q6Z/ZCmMptB9T5zMCHcHheTHknMGFi1MZdrdw7MksAESOkIXjUCCjoPajf+O8Uw
- InrpY0tGsl3059AclV5QA8ZaSBiIbblPzacGfZDEj7YGqb+/uiDGwZlNYkL6qNvnJVDO
- qpGzkqT9vdTvJ8vyrtDDvNHogKBekbqPZbRLrdTgJVN2EejTzmMOi+nW4tGnpDEytjL8
- /WcA==
-X-Gm-Message-State: AOJu0YxXMgfED2WqJlZsp0OfpBEAtBKLCx1tAOXkdA0szfu8i3xMeP44
- 5cLWfSHBR/ZROJaW98WGdWeT0Q==
-X-Google-Smtp-Source: AGHT+IGMyxnedEUG4uP7pO+e1T7JWEiTXPEDl31ulZdWNKEeL1Anaezb98mfuU0uGdkstRj7BEbFgg==
-X-Received: by 2002:a05:6512:1391:b0:503:17fd:76bb with SMTP id
- fc17-20020a056512139100b0050317fd76bbmr15933979lfb.39.1696842770301; 
- Mon, 09 Oct 2023 02:12:50 -0700 (PDT)
-Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
+ d=1e100.net; s=20230601; t=1696842788; x=1697447588;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :references:cc:to:content-language:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=riy2ohNnJTI8tyOBkVxN9+KyXQ2yc80mwJGtwl0WMgc=;
+ b=hS35OhK+6iw1MjbUGuhNzs04Y0lAPj7E6eRSePpE9RhlqnY4QxqSukr0NZ1h9SB9IQ
+ CB07R9wCTDg99AHdgRrWPJjg9vjEDLTsxt2hAy1rL8DfbKmFXApmobusBTi7E19ua1wr
+ 2DdafrUdcl+EPCVwlL/j06zU77EMOR1OChSkg9oSygc2PisUc0dTpp0LSTN61rGJS3DG
+ SOk2JLMwr5nSSatTG03pG8fJXz6W0hAgVknUenHdYhM3D/kC7MysI5MwGKY0Gt8ftDS4
+ jy9Xi5yRh7J6LmRoWSrp8DaWQRhymdw2QzdnN1oNxg9UPxeUBMWUcC3pkMsiA4/MGOVm
+ mNjA==
+X-Gm-Message-State: AOJu0YxZIEphIdOjl7q1HCxYc2Fxd4+E0Dx6gBSjNAy1qWfrO42oSLXY
+ Iy95ujP4PhaSVjgdfw6oFZcaCw==
+X-Google-Smtp-Source: AGHT+IGUWNNjEgJ0FR3882pEmsZ7c1/CLbNVn8Kj5cKMrT9umktbrGd+rVu/jugoM9qaPAym4jSJug==
+X-Received: by 2002:adf:fdd0:0:b0:324:8353:716f with SMTP id
+ i16-20020adffdd0000000b003248353716fmr12227404wrs.20.1696842788387; 
+ Mon, 09 Oct 2023 02:13:08 -0700 (PDT)
+Received: from [192.168.27.65] (home.beaume.starnux.net. [82.66.176.246])
  by smtp.gmail.com with ESMTPSA id
- 1-20020a05600c230100b0040644e699a0sm12885533wmo.45.2023.10.09.02.12.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Oct 2023 02:12:49 -0700 (PDT)
-From: Neil Armstrong <neil.armstrong@linaro.org>
-To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>, 
- Johannes Zink <j.zink@pengutronix.de>
-In-Reply-To: <20230523-simplepanel_support_nondefault_datamapping-v5-0-0d7928edafab@pengutronix.de>
-References: <20230523-simplepanel_support_nondefault_datamapping-v5-0-0d7928edafab@pengutronix.de>
-Subject: Re: [PATCH v5 0/3] Support non-default LVDS data mapping for
- simple panel
-Message-Id: <169684276928.2063772.9134634213645233063.b4-ty@linaro.org>
-Date: Mon, 09 Oct 2023 11:12:49 +0200
+ e18-20020adffd12000000b0031980783d78sm9021939wrr.54.2023.10.09.02.13.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 09 Oct 2023 02:13:08 -0700 (PDT)
+Message-ID: <e6384e25-dae3-4488-b1ca-e0c07a601741@linaro.org>
+Date: Mon, 9 Oct 2023 11:13:08 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+From: neil.armstrong@linaro.org
+Subject: Re: [PATCH v2] drm/panel/panel-tpo-tpg110: fix a possible null
+ pointer dereference
+Content-Language: en-US, fr
+To: Ma Ke <make_ruc2021@163.com>, linus.walleij@linaro.org, sam@ravnborg.org, 
+ airlied@gmail.com, daniel@ffwll.ch
+References: <20231009090446.4043798-1-make_ruc2021@163.com>
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro Developer Services
+In-Reply-To: <20231009090446.4043798-1-make_ruc2021@163.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.12.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,36 +103,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Dan Carpenter <error27@gmail.com>, kernel test robot <lkp@intel.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Conor Dooley <conor.dooley@microchip.com>, kernel@pengutronix.de,
- patchwork-jzi@pengutronix.de
+Reply-To: neil.armstrong@linaro.org
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On Fri, 29 Sep 2023 14:33:30 +0200, Johannes Zink wrote:
-> Some LVDS panels, such as the innolux,g101ice-l01 support multiple LVDS
-> data mapping modes, which can be configured by strapping a dataformat
-> pin on the display to a specific voltage.
+On 09/10/2023 11:04, Ma Ke wrote:
+> In tpg110_get_modes(), the return value of drm_mode_duplicate() is
+> assigned to mode, which will lead to a NULL pointer dereference on
+> failure of drm_mode_duplicate(). Add a check to avoid npd.
 > 
-> This can be particularly useful for using the jeida-18 format, which
-> requires only 3 instead of 4 LVDS lanes.
+> Signed-off-by: Ma Ke <make_ruc2021@163.com>
+> ---
+>   drivers/gpu/drm/panel/panel-tpo-tpg110.c | 2 ++
+>   1 file changed, 2 insertions(+)
 > 
-> [...]
+> diff --git a/drivers/gpu/drm/panel/panel-tpo-tpg110.c b/drivers/gpu/drm/panel/panel-tpo-tpg110.c
+> index 845304435e23..f6a212e542cb 100644
+> --- a/drivers/gpu/drm/panel/panel-tpo-tpg110.c
+> +++ b/drivers/gpu/drm/panel/panel-tpo-tpg110.c
+> @@ -379,6 +379,8 @@ static int tpg110_get_modes(struct drm_panel *panel,
+>   	connector->display_info.bus_flags = tpg->panel_mode->bus_flags;
+>   
+>   	mode = drm_mode_duplicate(connector->dev, &tpg->panel_mode->mode);
+> +	if (!mode)
+> +		return -ENOMEM;
+>   	drm_mode_set_name(mode);
+>   	mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
+>   
 
-Thanks, Applied to https://anongit.freedesktop.org/git/drm/drm-misc.git (drm-misc-next)
-
-[1/3] dt-bindings: display: move LVDS data-mapping definition to separate file
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=5437d667a0cae87d34c321ce1819ea78011efdc1
-[2/3] dt-bindings: display: simple: support non-default data-mapping
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=66b66c97f4074c38b1c53c49625ebdd9a33ba56d
-[3/3] drm/panel-simple: allow LVDS format override
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=1cd3ea3e4b124120dbdff3faf00a71c8fc6f6402
-
--- 
-Neil
-
+Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
