@@ -2,70 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D468D7BD710
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Oct 2023 11:30:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20F0F7BD716
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Oct 2023 11:32:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C25E10E253;
-	Mon,  9 Oct 2023 09:30:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 150C910E250;
+	Mon,  9 Oct 2023 09:32:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
- [IPv6:2a00:1450:4864:20::12c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE47110E253
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Oct 2023 09:30:52 +0000 (UTC)
-Received: by mail-lf1-x12c.google.com with SMTP id
- 2adb3069b0e04-5068dab8c00so2537256e87.0
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Oct 2023 02:30:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1696843851; x=1697448651; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=gmwAEQHUShD13Crz4Xqpp8bdUVorE1C8HPaXCwJ5RJ8=;
- b=QIFjZlVYgnpiQzrpOZplI7GjhCDBUzUhU6n/ngcrkKKlqLhU/R/rmnkDPazHi37ljD
- A7vo5h/s/8MR3jUurAVxEG4trKIhw47MbqixpGBMddOfmN6CAa0xva6FqQIpiwzaJX2z
- mML974DpQt8Mg4F90akT9OkRTLUEF2IuhdmhlITQ/Pb81dkDJFX0dQtxqfH1g7bAk4Sc
- IptfTQpp40U5VA6efObIMBp8YuKUgqSpWBmKq9/95bL6Nbzyv+AB9/V/FmO4iTeGad0Y
- SLp7FuBj1keMjcht96KeCQjRRmXpx2bqcwryU5oh6rmJwTN6tLREWJuwWFuXqGzWsOtR
- M1Dw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1696843851; x=1697448651;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=gmwAEQHUShD13Crz4Xqpp8bdUVorE1C8HPaXCwJ5RJ8=;
- b=oDjTOnU/yz5WloToQRfl8CAZDE+qGUX5pA97cl21MsOfrSQbMVYfGxnm0yoaqUYJhk
- Mpn0NufFJGaNFvDP5ucwKXtnmWtS+y83LJr8LVk7PPjU+ar4iU8i147/QrZSUhhHrjnX
- JrpYcPaL98u9Amf47l4pAH/gNPu/tDgtdiIVhshISYiH9NcUvb/F84Sx4CWzOZa+Q3la
- EX8ydniEO6cj4PXYLlhqfkIjvHokLS2v+FjdHKzkKxgjQIE09/GN1JHl6WNT+jNOgZm0
- NuzSZWTzKzwz99psNvmReVz6ynWpPiQjrv/kJJKAw19GoK2QLXTubiskrtcWWGHU9j65
- zNPw==
-X-Gm-Message-State: AOJu0YyqfdciA0oYXtsEiHv78le9IEYRQeklIV3VsV5J1Bc0Cnd/4v7K
- /sw7JGNR0QWuw3vmxccgBe7EUkQhKf2mT88NV3ucjQ8Q
-X-Google-Smtp-Source: AGHT+IGHTGAuOleZS6uYzYovcWRJPRlE6qvUjsDstd5ZAD/P+o5pTl57ppGEmoWHacjXimQyT7/PjA==
-X-Received: by 2002:a05:6512:1245:b0:500:a7c8:1847 with SMTP id
- fb5-20020a056512124500b00500a7c81847mr16170277lfb.66.1696843851098; 
- Mon, 09 Oct 2023 02:30:51 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
- (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
- by smtp.gmail.com with ESMTPSA id
- h10-20020ac2596a000000b004fe26362d48sm1385178lfp.75.2023.10.09.02.30.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 09 Oct 2023 02:30:50 -0700 (PDT)
-Message-ID: <92377509-0f30-46ff-8b37-3b4b6fd53189@linaro.org>
-Date: Mon, 9 Oct 2023 12:30:49 +0300
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5BD710E250
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Oct 2023 09:32:38 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1qpmcq-0008RZ-Jd; Mon, 09 Oct 2023 11:32:32 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1qpmco-000NZy-UD; Mon, 09 Oct 2023 11:32:30 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1qpmco-00C59f-Kj; Mon, 09 Oct 2023 11:32:30 +0200
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Lee Jones <lee@kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>
+Subject: [PATCH v4] backlight: pwm_bl: Disable PWM on shutdown,
+ suspend and remove
+Date: Mon,  9 Oct 2023 11:32:23 +0200
+Message-Id: <20231009093223.227286-1-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 7/9] drm/ci: export kernel config
-Content-Language: en-GB
-To: Helen Koike <helen.koike@collabora.com>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-References: <20231009004953.203576-1-helen.koike@collabora.com>
- <20231009004953.203576-8-helen.koike@collabora.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20231009004953.203576-8-helen.koike@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2987;
+ i=u.kleine-koenig@pengutronix.de; h=from:subject;
+ bh=ukp03GXhJGGhriRo81oTqb+ZF09mBJI1HDBsdlZDDEw=;
+ b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlI8imhPFLFc7G9DQzsmEVrBtK7ni6oOsoVVU0d
+ du0W4DICtGJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZSPIpgAKCRCPgPtYfRL+
+ TpelB/9veiKkWgBLSFdRf8C/mZU536ZliA4SH6xEfVnniFW/RGorUdbDglV1YQkTaUbtOb6EwCT
+ WKwjQ0OCOnwbxoL6cxSDcUKVgLnHh9wOFP4dnnosQ3thzE83HFaiCLJLNLvWWHzsQIQOTisdCIM
+ FGESqKYG9TSdjVfI/Y8mQo2jTmwP1IdFUFfrU1P0GYum55T8xK8peNaSK1fP6T9/lDIlO6CfeOo
+ 1tjTEGqLjX49b1xNgegMOHzAfkeMg0EETle7IAeCSy9E+x5ajTvgbaBASBH4weevYfseX2h7UR8
+ uEW0PNIhm4irmPEbl9vEaBh8NUQ6nYUD3/+l3mjsy7kedtKc
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp;
+ fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,62 +66,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: robdclark@chromium.org, vignesh.raman@collabora.com,
- guilherme.gallo@collabora.com, sergi.blanch.torne@collabora.com,
- quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, david.heidelberg@collabora.com,
- quic_jesszhan@quicinc.com
+Cc: Aisheng Dong <aisheng.dong@nxp.com>, linux-pwm@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, Helge Deller <deller@gmx.de>,
+ dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
+ kernel@pengutronix.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 09/10/2023 03:49, Helen Koike wrote:
-> Export the resultant kernel config, making it easier to verify if the
-> resultant config was correctly generated.
-> 
-> Suggested-by: Rob Clark <robdclark@chromium.org>
-> Signed-off-by: Helen Koike <helen.koike@collabora.com>
+Since commit 00e7e698bff1 ("backlight: pwm_bl: Configure pwm only once
+per backlight toggle") calling pwm_backlight_power_off() doesn't disable
+the PWM any more. However this is necessary to suspend because PWM
+drivers usually refuse to suspend if they are still enabled.
 
-Acked-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Also adapt shutdown and remove callbacks to disable the PWM for similar
+reasons.
 
+Fixes: 00e7e698bff1 ("backlight: pwm_bl: Configure pwm only once per backlight toggle")
+Reported-by: Aisheng Dong <aisheng.dong@nxp.com>
+Tested-by: Aisheng Dong <aisheng.dong@nxp.com>
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+---
+Hello,
 
-I'd even say:
+Changes since v3 (available at
+https://lore.kernel.org/linux-fbdev/20230926150116.2124384-1-u.kleine-koenig@pengutronix.de):
 
-Appreciated-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+ - Fix buildfailure identified by the kernel test robot. (*Sigh*, that's
+   what you get if you improve a patch without build testing ...)
+ - Fix the Subject to also mention "remove".
 
-It will help a lot to debug possible Kconfig changes and/or omissions.
+Best regards
+Uwe
 
-> ---
->   drivers/gpu/drm/ci/build.sh       | 1 +
->   drivers/gpu/drm/ci/image-tags.yml | 2 +-
->   2 files changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/ci/build.sh b/drivers/gpu/drm/ci/build.sh
-> index 8eec15143bfe..740b5008be2e 100644
-> --- a/drivers/gpu/drm/ci/build.sh
-> +++ b/drivers/gpu/drm/ci/build.sh
-> @@ -148,6 +148,7 @@ mkdir -p artifacts/install/lib
->   mv install/* artifacts/install/.
->   rm -rf artifacts/install/modules
->   ln -s common artifacts/install/ci-common
-> +cp .config artifacts/${CI_JOB_NAME}_config
->   
->   for image in ${KERNEL_IMAGE_NAME}; do
->       cp /lava-files/$image artifacts/install/.
-> diff --git a/drivers/gpu/drm/ci/image-tags.yml b/drivers/gpu/drm/ci/image-tags.yml
-> index df94d8fb348e..3e5cd4e8be24 100644
-> --- a/drivers/gpu/drm/ci/image-tags.yml
-> +++ b/drivers/gpu/drm/ci/image-tags.yml
-> @@ -4,7 +4,7 @@ variables:
->      DEBIAN_BASE_TAG: "${CONTAINER_TAG}"
->   
->      DEBIAN_X86_64_BUILD_IMAGE_PATH: "debian/x86_64_build"
-> -   DEBIAN_BUILD_TAG: "2023-10-08-igt"
-> +   DEBIAN_BUILD_TAG: "2023-10-08-config"
->   
->      KERNEL_ROOTFS_TAG: "2023-10-06-amd"
->   
+ drivers/video/backlight/pwm_bl.c | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
 
+diff --git a/drivers/video/backlight/pwm_bl.c b/drivers/video/backlight/pwm_bl.c
+index a51fbab96368..289bd9ce4d36 100644
+--- a/drivers/video/backlight/pwm_bl.c
++++ b/drivers/video/backlight/pwm_bl.c
+@@ -626,9 +626,14 @@ static void pwm_backlight_remove(struct platform_device *pdev)
+ {
+ 	struct backlight_device *bl = platform_get_drvdata(pdev);
+ 	struct pwm_bl_data *pb = bl_get_data(bl);
++	struct pwm_state state;
+ 
+ 	backlight_device_unregister(bl);
+ 	pwm_backlight_power_off(pb);
++	pwm_get_state(pb->pwm, &state);
++	state.duty_cycle = 0;
++	state.enabled = false;
++	pwm_apply_state(pb->pwm, &state);
+ 
+ 	if (pb->exit)
+ 		pb->exit(&pdev->dev);
+@@ -638,8 +643,13 @@ static void pwm_backlight_shutdown(struct platform_device *pdev)
+ {
+ 	struct backlight_device *bl = platform_get_drvdata(pdev);
+ 	struct pwm_bl_data *pb = bl_get_data(bl);
++	struct pwm_state state;
+ 
+ 	pwm_backlight_power_off(pb);
++	pwm_get_state(pb->pwm, &state);
++	state.duty_cycle = 0;
++	state.enabled = false;
++	pwm_apply_state(pb->pwm, &state);
+ }
+ 
+ #ifdef CONFIG_PM_SLEEP
+@@ -647,12 +657,24 @@ static int pwm_backlight_suspend(struct device *dev)
+ {
+ 	struct backlight_device *bl = dev_get_drvdata(dev);
+ 	struct pwm_bl_data *pb = bl_get_data(bl);
++	struct pwm_state state;
+ 
+ 	if (pb->notify)
+ 		pb->notify(pb->dev, 0);
+ 
+ 	pwm_backlight_power_off(pb);
+ 
++	/*
++	 * Note that disabling the PWM doesn't guarantee that the output stays
++	 * at its inactive state. However without the PWM disabled, the PWM
++	 * driver refuses to suspend. So disable here even though this might
++	 * enable the backlight on poorly designed boards.
++	 */
++	pwm_get_state(pb->pwm, &state);
++	state.duty_cycle = 0;
++	state.enabled = false;
++	pwm_apply_state(pb->pwm, &state);
++
+ 	if (pb->notify_after)
+ 		pb->notify_after(pb->dev, 0);
+ 
+
+base-commit: 0bb80ecc33a8fb5a682236443c1e740d5c917d1d
 -- 
-With best wishes
-Dmitry
+2.40.1
 
