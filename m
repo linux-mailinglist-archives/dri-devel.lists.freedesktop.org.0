@@ -2,114 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 090AD7BD402
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Oct 2023 09:04:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A4897BD494
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Oct 2023 09:48:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7CB610E093;
-	Mon,  9 Oct 2023 07:04:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B19010E098;
+	Mon,  9 Oct 2023 07:47:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from JPN01-TYC-obe.outbound.protection.outlook.com
- (mail-tycjpn01on2070b.outbound.protection.outlook.com
- [IPv6:2a01:111:f403:7010::70b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD4CC10E093
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Oct 2023 07:04:47 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WiycmAKxWvDToeR0DHzEwqSXlAkc22QWLSKzrgydqHgNqLOcfMwy3bsT0oBlx6QhAfU59H0yFJnZgMAA+DThEyJChZ+Sg2w2lBx0X0kSECDZClYX37gzvotnFiXv7w5TSLVPdBzaprb7dJN5Q7fM8ajRz3OxOewOFF8b7ENHMecm0frj/48JVHwZezNAjdvp8DDOt9KTStQyGIFRvfbtma/FiTbIIz5Q7QAGn18lynis2jxddb/4sVHL4OhhDjUhRIJN+apaJ7j/EiwreIh/a7E4iItFiO7pXHRxXd1Ihfr57/yG4OzlFF2Uyirx/Ajj/g6NgrmBpbPUZ0ylbkHymw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ve5AQTkzAtDzNWmxsbi4i+zdENieW5/U1G9PmMxnMcs=;
- b=gS6isv8SGcHbzO7rzof/NVesSrvXc5zKZ7fj0bzf1nklbqIUFxMtupkP1DHMgyMH6Mip+iJSiopfbAwntDaKW/LH+vuuj3LPJDGHWzdTMYa4FJwJXP1vEQldIsYeTbw6x13mG0L8W8vCIDHFnKi4ybbzdDddMxqJwfiBnWKdnqAzM9cCaZ+rFEVzUAnYYYCEwvcClf+fi1LTtYS4gKc3imNoRBw0+uMITRPZ2kuFCUcCoMfq2IhsjP07fFg8eLKwJEDHV82KhgrfZV4UN7NeAgvrKetbTotZmvFA/VJEzRlGzbNWKPsapzQOOEp2H8phlqWI3eKN4brk4xOgbEuIuA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ve5AQTkzAtDzNWmxsbi4i+zdENieW5/U1G9PmMxnMcs=;
- b=TOp1D0rREa+5qCCoqQmbSdwQDfIGJUavnAhMckbieb9f7cYKcK01ijCAvSHw4Tm48l6IjyLNS/h8eBiFZ6BmXF3TQsODZD3SGMR3ecRPvG4D54umNKOZU9O8EH63Ewf7HB8TTbr6u6eih0ZNykjMBv3dA+MLJET6F+mODrzN4nM=
-Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
- (2603:1096:400:3c0::10) by TYBPR01MB5502.jpnprd01.prod.outlook.com
- (2603:1096:404:801e::16) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6863.36; Mon, 9 Oct
- 2023 07:04:44 +0000
-Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
- ([fe80::db75:e192:bbfa:78a2]) by TYCPR01MB11269.jpnprd01.prod.outlook.com
- ([fe80::db75:e192:bbfa:78a2%3]) with mapi id 15.20.6838.040; Mon, 9 Oct 2023
- 07:04:44 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
- <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Subject: RE: [PATCH v2 0/8] ADV7511 driver enhancements
-Thread-Topic: [PATCH v2 0/8] ADV7511 driver enhancements
-Thread-Index: AQHZ202jCBNL1aKlyEaWSc1tCd8m3rA2SVNggAr9Z7A=
-Date: Mon, 9 Oct 2023 07:04:44 +0000
-Message-ID: <TYCPR01MB112694B0087AA48173F0E5F9386CEA@TYCPR01MB11269.jpnprd01.prod.outlook.com>
-References: <20230830142358.275459-1-biju.das.jz@bp.renesas.com>
- <OS0PR01MB5922B6B282401FDB42135F1086C5A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-In-Reply-To: <OS0PR01MB5922B6B282401FDB42135F1086C5A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYCPR01MB11269:EE_|TYBPR01MB5502:EE_
-x-ms-office365-filtering-correlation-id: 04e664ac-20bf-44f3-41f5-08dbc8960454
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: r1B7AvaZgyTM7TZYiZhBUP7qXo78tDQkw554U2zRi6IVJ34Hyne5iDA5x08HA4BEcMN4Zp9Dke2k4JX7xQwqmihxxDWgaQlbb02Q1zwoEMF8Y7Ff27GbBujs3ohuPaUnxYkhn/wNGof4urJTKsRlgKMnTz6g3zmAsbYZm1PPLGkNyS9vfvNdIpw1HaNA/PMR8ufaGcKbeQ6of91kbydqNvSJYI/vga1pm2H9QLJJ3zCkH82Z01VoiYEG6XMFXpR9/gWgal5woDgJZfijmXmAxK9Kr/jQHVYCPvZ4dpHVczpvsx0deNDB1eIwFZM20v1D59vtx/F9K3ExNzThKBZJ1jz++9i/bxXn/WlO+eydecb4stJeretkEnAfADDmGZcC2isXZpMc4SizX5q1odtqIOWwEZXLYIw9Ant6W1NcNvv152URBArxUhQg2FAD2eSkZ2yV3XH8ZxcvA6Wn5qii9oO3EnqipU4KiRZjiRIvTjtdX9NSMLbiTEO6bgx2b9VjXYoevoM+u+ncfwGfa9pKQpGJkTpvLWbpG7KXcuVPYqcUs4L8IY5n8OKTIQFFBMxy+nEA6EW1Sd4qjor4h/8Lcw5t1Wma93JyeEQkhEhvGzxPKwGiXvR7tHjvBEjps0dG
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:TYCPR01MB11269.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(396003)(366004)(136003)(39860400002)(346002)(376002)(230922051799003)(451199024)(64100799003)(1800799009)(186009)(55016003)(83380400001)(26005)(64756008)(66476007)(66556008)(110136005)(66446008)(54906003)(76116006)(316002)(66946007)(7416002)(8936002)(8676002)(4326008)(5660300002)(41300700001)(7696005)(52536014)(53546011)(6506007)(71200400001)(2906002)(9686003)(478600001)(33656002)(38070700005)(38100700002)(122000001)(86362001);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?u3s8GXAE2MblQ68hTmi4/i0b0xMoR5s+2jWozUiQ3IeUaxh3NyyCMGAY3P?=
- =?iso-8859-1?Q?mlaQPYJSzge0ANMkyVwEJUFpiC82DjTh4q7p1Z0AMmBvaz9KYqPqEi2dlz?=
- =?iso-8859-1?Q?9F3S2AVb61L4Z/PPQFB1GP8eHUvNbgHleDZ7kbxA2kbCsm0DfcbgKPOXvF?=
- =?iso-8859-1?Q?Td8rym0bwJFZGP6j5jA3PCLJxE1i9I6TGgV6COvMhLCa2/oMQKzUFoyA4o?=
- =?iso-8859-1?Q?RbOJhvorXlDu3hedy+4aYtb34ubx014EHgsUTYGWCJahD6hOA+ahnnW6Mx?=
- =?iso-8859-1?Q?UsxEDRLNnKtsPrIxhcK9bty0S5Bh7mhL+Zd8wsZVf6gNkD2ihd6zIuBHiN?=
- =?iso-8859-1?Q?g3jtEGFlKtbTglMl/n6coORa4Df9CKi1roixQM1m/a48Lc5APK4lO2OPiu?=
- =?iso-8859-1?Q?xyxpg49Q1j3alGmLnSORhcddsn/JDuGCog9DGwdxCZtN/Zk+rTOaOMBWMt?=
- =?iso-8859-1?Q?LtBUtvsXWAJAqIzGrpyN7fGPxfJKfFGQ4K0SnPV1AFJqGkuCxSlTcgvK5a?=
- =?iso-8859-1?Q?JSyyzt9Hs/Lkjor0TIvuE+OIjh+jixyBu9n3NPlN8iowh7pF7ErqOlXVfX?=
- =?iso-8859-1?Q?lN+SGc2AIOJjTvCVsMc4IbrmICbo7RxUosEdsSMKOvSaABCTmBZxZUI2x9?=
- =?iso-8859-1?Q?I80Lf75Hzit9V9InL0W5FT+3vtv0cpGsYfyyLXvUIiZOCyg5DCoxe2BCs/?=
- =?iso-8859-1?Q?bjUa8pDNwKT3Y4CnIhLOdGmWQMaL9TWfREm3BDvVV+ZVI4SCfthmRY9wSX?=
- =?iso-8859-1?Q?OjRw2TkwaYe8yO5Nn17FRKId+Sig2yz54fb1gPyfPShii9XTvQJNekXIdM?=
- =?iso-8859-1?Q?MhFdSsmfrFUcU1ENhPXUVmds7U4o9pU3XPdHVBRG90s5fDWRKpTsRuu7or?=
- =?iso-8859-1?Q?1gZ9df1dOaeTNB6rS4ZiqiZNVTExfXc1X9MtTbyCuPkwXZ1oV8BGg5CeCL?=
- =?iso-8859-1?Q?LoIYBwGHpH6X0lr91kTZl4kRErKsYwLKeNbRMBOjWscB3rfp9wJsntrSM5?=
- =?iso-8859-1?Q?0OrFAbAP1RLmKqGDnkTF3RyidGjbrtWfL0Fg3l/HVd9aIeTuwjPRDXhKlf?=
- =?iso-8859-1?Q?hPMxO8zsvUO4/dKLP7VjKGGT5oBEOrqLkjEbJCGpuWzjOZQ9mYBWP1nsNy?=
- =?iso-8859-1?Q?bAmPKLG8HyFS+X4MWRzoSA/6D3uD9ltSiH0Jl3mnmteBjYzOAMwVq6ibC2?=
- =?iso-8859-1?Q?2sXRhm+bkdJyg1SDYJDhES/oioCycFWYBB6pNd92yayVUKGgnzJNMycajE?=
- =?iso-8859-1?Q?qKM0FU702tvF1he+TNSi3rIM8H7NJeFnrHCJXQyzaTTTtzI/pI2EnyixlA?=
- =?iso-8859-1?Q?kkEiy4S75yiZoV6C2YFdwEQdE3UcteyHjZwBLLtwwbamTaevswQh9qLakw?=
- =?iso-8859-1?Q?gCt6XaisEwjEn3wvtrbrXC+z+MqNDXaLaN7nsJWOZ8OHYs+LzeHP/tl1Zb?=
- =?iso-8859-1?Q?yenIqN0Gn31CnmulpPQ2wW+TEoxzQ+SgIsruc3hR28x463jjie0rtIRttZ?=
- =?iso-8859-1?Q?qvjgIvZg2HISjTxz8BIAcsMZFsaSfDnUTSNho8hXy4f87q+khc/4gnSnVy?=
- =?iso-8859-1?Q?LnM3DP3MFhvgvQkW+RMDFIrHVP0qRTiLQqj0qmGX3XJ3he9aUoXPXcW7hw?=
- =?iso-8859-1?Q?vhCiMk+gHTHzKJ6SAeQtxARJ+8l8iQL0F3adE5mG/HSMm9WqjhlmSBIA?=
- =?iso-8859-1?Q?=3D=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 89BDD10E098
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Oct 2023 07:47:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1696837674;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=xJBY/oZHYz4t9mZWE1oIrTf8De99FIs2hYZqRt7kFFs=;
+ b=I7iQSLvIiYQeLMxBh6OfrfcKkGmJVKbTXrwIqKZEM+9ksfRKBpWd6ulG47aQStuzfqrIPG
+ 7U6pHwudi9V28fq3T8BhQZW4nOQvaXHWwUekv1FFPXM2bkjxgOvx8ggZtLHuRT1bXEApH3
+ wdpDpTVDzQhntx3xxMSnRxwhqRx6qaY=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-475-7hN02ma_NM67ePkIngJ2HA-1; Mon, 09 Oct 2023 03:47:52 -0400
+X-MC-Unique: 7hN02ma_NM67ePkIngJ2HA-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ ffacd0b85a97d-3233a13b47eso3143676f8f.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Oct 2023 00:47:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1696837671; x=1697442471;
+ h=content-transfer-encoding:in-reply-to:content-language:references
+ :cc:to:subject:from:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=xJBY/oZHYz4t9mZWE1oIrTf8De99FIs2hYZqRt7kFFs=;
+ b=cUFd4hMg03BOzubGzVtokiGWwlAogZcjNhwswWULS2zaORG5LEXKEX6vN5s/waWDFQ
+ If8ApEz+x62TfiRARBOlft29uds4a8K5cLszSgfw62DGRFlF6/lUkCi7bmpH5OCFZYV4
+ 7fXUlVnwYZ20Kdj+WLpiT6M6UxdT2Q9SewpXI56qQR5T4oLgQPQPMcCiLKd528iSm2iy
+ zpjNXNIByxiZOj6hXJ1WJ8Qeh8Nf5LLeAf0L8+Q6w+0COUaVULMEbQGNIVEJk3eDrkGi
+ +zf4jWHBcUlwG6D87ev8UURnWGaNBp08jWW30lEMOX5Vc7nVpgEn5meg6nDlIVwTlGQd
+ FtbQ==
+X-Gm-Message-State: AOJu0Yy//zKxKI3dlv5bwyVluLcPQ1BTHnmbjRVAs4kD1GmTzz/qc+nx
+ /qEvRWZh8OKLd9fheWtvioCxGvtO4ViznGxybXBINZyIeb0sqRQx2GztxmmrDSxvj2lpR2x7IkJ
+ 43EeiORbgtM/yjwZo1kjjxN4H7V8/
+X-Received: by 2002:a05:6000:3c1:b0:329:6bdc:5a60 with SMTP id
+ b1-20020a05600003c100b003296bdc5a60mr7142304wrg.12.1696837671460; 
+ Mon, 09 Oct 2023 00:47:51 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEuwnPxS8/a8O0NOpmEXWvZcrkGqkmUm/fYYOWERh0gHqFDVxupytxt7vOLiorQGazUDjBptg==
+X-Received: by 2002:a05:6000:3c1:b0:329:6bdc:5a60 with SMTP id
+ b1-20020a05600003c100b003296bdc5a60mr7142290wrg.12.1696837671039; 
+ Mon, 09 Oct 2023 00:47:51 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
+ ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
+ by smtp.gmail.com with ESMTPSA id
+ c12-20020adfe74c000000b003258934a4bfsm8812861wrn.36.2023.10.09.00.47.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 09 Oct 2023 00:47:50 -0700 (PDT)
+Message-ID: <b4aadfb4-9393-d6b6-e876-a420afcf2b36@redhat.com>
+Date: Mon, 9 Oct 2023 09:47:49 +0200
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11269.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 04e664ac-20bf-44f3-41f5-08dbc8960454
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Oct 2023 07:04:44.5969 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: jXsUjUtuwmx62chV8gWaEGfwLvem/WTTuq8IunqW0tzFDmioZQx8yieYgmkwxgp/6vZ93lDAiI4bG9vGz4WvYUa38fBV8IgwDc3M8djVTTg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYBPR01MB5502
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+From: Jocelyn Falempe <jfalempe@redhat.com>
+Subject: Re: [PATCH v4 2/4] drm/panic: Add a drm panic handler
+To: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
+ Maxime Ripard <mripard@kernel.org>
+References: <20231003142508.190246-1-jfalempe@redhat.com>
+ <20231003142508.190246-3-jfalempe@redhat.com>
+ <lbwngkco3zam7yjo3owwpn47o3pe6g7oh5giglsclenx52jk5q@lw2fwsxz6kqp>
+ <3a359910-31ae-355f-2608-239e04689fde@redhat.com>
+ <6iaqx7ef4hdd6bucsxtfy37nsizloraxbudez4ms7jlusbghr3@i5hliqpimdp2>
+ <bd880231-f161-0773-63f7-ded6cb3fddc1@tronnes.org>
+In-Reply-To: <bd880231-f161-0773-63f7-ded6cb3fddc1@tronnes.org>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -122,92 +92,130 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ahmad Fatoum <a.fatoum@pengutronix.de>,
- Geert Uytterhoeven <geert+renesas@glider.be>, Jonas Karlman <jonas@kwiboo.se>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- Andy Shevchenko <andy.shevchenko@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- =?iso-8859-1?Q?Uwe_Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
- Adam Ford <aford173@gmail.com>, Bogdan Togorean <bogdan.togorean@analog.com>
+Cc: bluescreen_avenger@verizon.net, javierm@redhat.com,
+ dri-devel@lists.freedesktop.org, gpiccoli@igalia.com, tzimmermann@suse.de,
+ airlied@redhat.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi All,
+On 06/10/2023 18:54, Noralf Trønnes wrote:
+> 
+> 
+> On 10/6/23 16:35, Maxime Ripard wrote:
+>> Hi Jocelyn,
+>>
+>> On Thu, Oct 05, 2023 at 11:16:15AM +0200, Jocelyn Falempe wrote:
+>>> On 05/10/2023 10:18, Maxime Ripard wrote:
+>>>> Hi,
+>>>>
+>>>> On Tue, Oct 03, 2023 at 04:22:45PM +0200, Jocelyn Falempe wrote:
+>>>>> diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
+>>>>> index 89e2706cac56..e538c87116d3 100644
+>>>>> --- a/include/drm/drm_drv.h
+>>>>> +++ b/include/drm/drm_drv.h
+>>>>> @@ -43,6 +43,7 @@ struct dma_buf_attachment;
+>>>>>    struct drm_display_mode;
+>>>>>    struct drm_mode_create_dumb;
+>>>>>    struct drm_printer;
+>>>>> +struct drm_scanout_buffer;
+>>>>>    struct sg_table;
+>>>>>    /**
+>>>>> @@ -408,6 +409,19 @@ struct drm_driver {
+>>>>>    	 */
+>>>>>    	void (*show_fdinfo)(struct drm_printer *p, struct drm_file *f);
+>>>>> +	/**
+>>>>> +	 * @get_scanout_buffer:
+>>>>> +	 *
+>>>>> +	 * Get the current scanout buffer, to display a panic message with drm_panic.
+>>>>> +	 * It is called from a panic callback, and must follow its restrictions.
+>>>>> +	 *
+>>>>> +	 * Returns:
+>>>>> +	 *
+>>>>> +	 * Zero on success, negative errno on failure.
+>>>>> +	 */
+>>>>> +	int (*get_scanout_buffer)(struct drm_device *dev,
+>>>>> +				  struct drm_scanout_buffer *sb);
+>>>>> +
+>>>>
+>>>> What is the format of that buffer? What is supposed to happen if the
+>>>> planes / CRTC are setup in a way that is incompatible with the buffer
+>>>> format?
+>>>
+>>> Currently, it only supports linear format, either in system memory, or
+>>> iomem.
+>>> But really what is needed is the screen size, and a way to write pixels to
+>>> it.
+>>> For more complex GPU, I don't know if it's easier to reprogram the GPU to
+>>> linear format, or to add a simple "tiled" support to drm_panic.
+>>> What would you propose as a panic interface to handle those complex format ?
+>>
+>> It's not just about tiling, but also about YUV formats. If the display
+>> engine is currently playing a video at the moment, it's probably going
+>> to output some variation of multi-planar YUV and you won't have an RGB
+>> buffer available.
+>>
+> 
+> I had support for some YUV formats in my 2019 attempt on a panic
+> handler[1] and I made a recording of a test run as well[2] (see 4:30 for
+> YUV). There was a discussion about challenges and i915 can disable
+> tiling by flipping a bit in a register[3] and AMD has a debug
+> interface[4] they can use to write pixels.
 
-Gentle ping. Are we happy with this patch series?
-Is anything to be improved? Please let me know.
+I only added support for the format used by simpledrm, because I don't 
+want to add support for all possible format if no driver are using it.
+It should be possible to add YUV format too.
 
-Cheers,
-Biju
+I also prefer to convert only the foreground/background color, and then 
+write directly into the buffers, instead of converting line by line.
+It works for all format where pixel size is a multiple of byte.
 
-> -----Original Message-----
-> From: Biju Das
-> Sent: Monday, October 2, 2023 8:15 AM
-> Subject: RE: [PATCH v2 0/8] ADV7511 driver enhancements
+> 
+> Noralf.
+> 
+> [1]
+> https://lore.kernel.org/dri-devel/20190311174218.51899-1-noralf@tronnes.org/
+> [2] https://youtu.be/lZ80vL4dgpE
+> [3]
+> https://lore.kernel.org/dri-devel/20190314095004.GP2665@phenom.ffwll.local/
+> [4]
+> https://lore.kernel.org/dri-devel/d233c376-ed07-2127-6084-8292d313dac7@amd.com/
+> 
+>> Same story if you're using a dma-buf buffer. You might not even be able
+>> to access that buffer at all from the CPU or the kernel.
+>>
+>> I really think we should have some emergency state ready to commit on
+>> the side, and possibly a panic_commit function to prevent things like
+>> sleeping or waiting that regular atomic_commit can use.
+>>
+>> That way, you know have all the resources available to you any time.
 
-> > -----Original Message-----
-> > From: Biju Das <biju.das.jz@bp.renesas.com>
-> > Sent: Wednesday, August 30, 2023 3:24 PM
-> > Subject: [PATCH v2 0/8] ADV7511 driver enhancements
-> >
-> > This patch series aims to improve ADV7511 driver by adding feature
-> > bits and data instead of comparing enum adv7511_type for various
-> > hardware differences between ADV7511, ADV7533 and ADV7535.
-> >
-> > This patch series tested with[1] on RZ/G2L SMARC EVK which embeds
-> ADV7535.
-> >
-> > [1]
-> >
-> > v1->v2:
-> >  * Added Rb tag from Adam and Laurent.
-> >  * Added tested by tag from Adam and Fabio.
-> >  * Updated commit description with reason *why* the change is needed.
-> >  * Dropped the local info variable and instead started using
-> >    adv7511->info->type in probe().
-> >  * Replaced max_mode_clock->max_mode_clock_khz in struct
-> > adv7511_chip_info
-> >  * Replaced variable type for max_mode_clock_khz from
-> >    unsigned int->unsigned long.
-> >  * Replaced max_lane_freq->max_lane_freq_khz in struct adv7511_chip_inf=
-o.
-> >  * Replaced max_lane_freq_khz variable type from
-> >    unsigned long->unsigned int.
-> >  * Added trailing commas for num_supplies in adv753{3,5}_chip_info.
-> >  * Added patch#5 for adding the reg_cec_offset variable to struct
-> >    adv7511_chip_info.
-> >  * Replaced has_dsi variable type from unsigned->bool.
-> >  * Restored check using type for low_refresh_rate and
-> >    regmap_register_patch().
-> >  * Replaced link_config variable type from unsigned->bool.
-> >  * Restored enum adv7511_type as there are users.
-> >  * Replaced hpd_override_enable variable type from unsigned->bool.
-> >
-> > Biju Das (8):
-> >   drm: adv7511: Add struct adv7511_chip_info and use
-> >     i2c_get_match_data()
-> >   drm: adv7511: Add max_mode_clock_khz variable to struct
-> >     adv7511_chip_info
-> >   drm: adv7511: Add max_lane_freq_khz variable to struct
-> >     adv7511_chip_info
-> >   drm: adv7511: Add supply_names and num_supplies variables to struct
-> >     adv7511_chip_info
-> >   drm: adv7511: Add reg_cec_offset variable to struct adv7511_chip_info
-> >   drm: adv7511: Add has_dsi variable to struct adv7511_chip_info
-> >   drm: adv7511: Add link_config variable to struct adv7511_chip_info
-> >   drm: adv7511: Add hpd_override_enable variable to struct
-> >     adv7511_chip_info
-> >
-> >  drivers/gpu/drm/bridge/adv7511/adv7511.h     |  16 ++-
-> >  drivers/gpu/drm/bridge/adv7511/adv7511_cec.c |  14 +--
-> > drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 104 +++++++++++--------
-> >  drivers/gpu/drm/bridge/adv7511/adv7533.c     |   7 +-
-> >  4 files changed, 81 insertions(+), 60 deletions(-)
-> >
-> > --
-> > 2.25.1
+I think reusing the atomic commit functions might be hard, because there 
+are locks/allocation/threads hidden in drivers callback. I'm more in 
+favor of an emergency function, that each driver has to implement, and 
+use what the hardware can do to display a simple frame quickly.
+get_scanout_buffer() is a good start for simple driver, but will need 
+refactoring for the more complex case, like adding a callback to write 
+pixels one by one, if there is no memory mapped buffer available.
+
+>>
+>>> Sometime it's also just not possible to write pixels to the screen, like if
+>>> the panic occurs in the middle of suspend/resume, or during a mode-setting,
+>>> and the hardware state is broken. In this case it's ok to return an error,
+>>> and nothing will get displayed.
+>>
+>> And yeah, you won't be able to do it every time, but if it's never for
+>> some workload it's going to be a concern.
+>>
+>> Anyway, we should at the very least document what we expect here.
+
+Yes I should better document the drm panic feature, and the 
+get_scanout_buffer() interface.
+
+>>
+>> Maxime
+> 
+
+-- 
+
+Jocelyn
 
