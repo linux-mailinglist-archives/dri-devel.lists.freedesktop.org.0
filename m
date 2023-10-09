@@ -2,62 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 621627BE8FD
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Oct 2023 20:11:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 779A67BE906
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Oct 2023 20:11:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C06610E2A7;
-	Mon,  9 Oct 2023 18:10:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F145010E2D1;
+	Mon,  9 Oct 2023 18:10:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
  [IPv6:2a00:1450:4864:20::12d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5FA1610E2A5
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Oct 2023 18:10:51 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C02010E2AD
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Oct 2023 18:10:52 +0000 (UTC)
 Received: by mail-lf1-x12d.google.com with SMTP id
- 2adb3069b0e04-5045cb9c091so6364567e87.3
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Oct 2023 11:10:51 -0700 (PDT)
+ 2adb3069b0e04-5046bf37daeso6239316e87.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Oct 2023 11:10:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1696875049; x=1697479849; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1696875050; x=1697479850; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=7fO+sWOeSmRkDmpBJ32tICKPjdJ7k9e53PrGRnC7dXE=;
- b=g7ZjhgWrh+geC0uTx3Em0ynODktHfZhIoNH0UwGyKrU5Lzx4IvVbJ1SWWvI/0pEay/
- iRws4EAoNoCnGqGcMmYp9W4hlt5GHySxzOopkmpZ/1Nxs0MRtDXILj3mi90bmNwoFxep
- aAecQHboulTTHp270KknTZ5UjQawhJ72iO3h/bLFzpXxZBW/LOaMsMrD9F6X4O69VTJG
- 6E4R52fNkfZERuUg3l4y14Nir9muKs5bZXKKegCg/t2W9qwtdowlT8noXDOcMAl2U+Z2
- Y7t3XqsQ/r4zC2qXpuFr2dw4apyLuhLWZuNujrFATpKe3Ss77a+XJqasstuAO3LuLUtn
- DI/g==
+ bh=NMPNImdJ1XH1qKLcBF8egU3WJE3EwSdEbTA3EmbAyxE=;
+ b=XRDghrBgUqJAEZbB7N/BSTh0g62XFW3okuCq9LsfbEMP2OLNkUMqQfwm64v2hp2iNM
+ 3cJWSFZpeGD8yW5r1J7x+F74DmLAZ9YvbZZCE3sDulxTwuN8osWg3C1muL/D/pAXKIXN
+ 6NuAcXaAuJvxKiiPvc/JL+aQ59jc1uKCzrwrqOfk3HCIi8Lju+ERpTFEJUk+KERpJ/NU
+ 2REHrE1xEuX6vvFFep+Cp6DB51g5pOu+fD7ALssBQN2RWPQXFIGmf3dKb2VduFhGJCA6
+ oaeHX9cpuVHmSx99tlDJ8eXQXPlwTCvUxldfMET1CXEQXYRD8sqYZ5AVlK5W/Zka5LaR
+ ju7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1696875049; x=1697479849;
+ d=1e100.net; s=20230601; t=1696875050; x=1697479850;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=7fO+sWOeSmRkDmpBJ32tICKPjdJ7k9e53PrGRnC7dXE=;
- b=UeYa5/hFMoTZo4yW0TKf02DR8MSfCRMAuJNGIL9tvt9Z9w2gfGtE01eBsuQDCbY5It
- RE9XFiSjihFWZ7/Wm8avYY3xAHv6c756wCZc4N0B/0zFMi5hl7WfSX+NOdcec7V4Ylz7
- m8rfRTRIWHwr5TEcqRrGALz7/EvuorJ43CHJoTqt3DBgGLPBZPMWR8P4IweaiLocIzpF
- ukuQuR+PwQjGIQjPsFwwwkbcEYqJLRP7uwHg4meJRCNY++T79PHJ7hOD4bPfvFkaKHal
- NmEEprZsdEjapmHO7xn2E1WCPrSTB4VAlWgTndmjK7nH2EBTcPaksiaLIjmHrWhteHJB
- wEOg==
-X-Gm-Message-State: AOJu0YxRGcXtkJs/BleFVEjviJSBKYEqsZhSTYnXeHl5UGqxYOlSyjIZ
- rjzCaxZIl/Y7SryS5tnh5Zx23g==
-X-Google-Smtp-Source: AGHT+IHZ7AEHPT/cxBG7NCCQF47wnsevopIIA1mMp9bQWYMK3R/xYI3NkYAYd2aSmC4Qtnh1rgTQiQ==
-X-Received: by 2002:a05:6512:230d:b0:500:b7ed:105a with SMTP id
- o13-20020a056512230d00b00500b7ed105amr17536069lfu.29.1696875049664; 
- Mon, 09 Oct 2023 11:10:49 -0700 (PDT)
+ bh=NMPNImdJ1XH1qKLcBF8egU3WJE3EwSdEbTA3EmbAyxE=;
+ b=gquy7eagPG28Ua4prTeIqEQO7cMLpKHPgF6zNPTPcRYag3M1tFkMDZg765wD2laWbg
+ 8T7Hji9gitblW82hsLNNmC/vMl4HifOT1Az1dhJYnGvYhgqVvhftJANuuKdhmZLiIZCs
+ LMs0lCKTJT9dy7zyLEG2a3Nsb4LMq9odbRhrY0ZGXy/ybHpaiBuTAuAi76Aa+QU+mfPi
+ xuOLWXLkQxKLOIluB2gSbdB/vSKXVYlHknhY7EwlvgV4JodGELS2AQIoOi+l7zNUtoCv
+ XbAacAkj+54rb948TjJuMlR6ZPpT/ROBhXNw/BVpuxWKi3MBNUxmz9CDEjAbOSTiaoY/
+ ptQQ==
+X-Gm-Message-State: AOJu0Yy7srLzhlkdYAOGWiQ8yQqmzLHtyQDiGm7XHS2XyrSy7oR93yoU
+ yJL8/H0BIhDyMacjsGIInDbKjF+QQ2Vij26o2BgRFQ==
+X-Google-Smtp-Source: AGHT+IGxFWo1cv7MZPWO4e5pj8qUwRrrnJfIcbY5MCcf9WtFviJE0fE4zMGxdE7ohyapXkTdwdxUSg==
+X-Received: by 2002:a05:6512:3b29:b0:503:293a:dc1b with SMTP id
+ f41-20020a0565123b2900b00503293adc1bmr17109215lfv.30.1696875050408; 
+ Mon, 09 Oct 2023 11:10:50 -0700 (PDT)
 Received: from umbar.unikie.fi ([192.130.178.91])
  by smtp.gmail.com with ESMTPSA id
  d6-20020ac25446000000b00505677e7a99sm1506963lfn.139.2023.10.09.11.10.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Oct 2023 11:10:49 -0700 (PDT)
+ Mon, 09 Oct 2023 11:10:50 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Marijn Suijten <marijn.suijten@somainline.org>
-Subject: [PATCH v2 10/13] drm/msm: switch to drmm_mode_config_init()
-Date: Mon,  9 Oct 2023 21:10:37 +0300
-Message-Id: <20231009181040.2743847-11-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v2 11/13] drm/msm: only register 'kms' debug file if KMS is
+ used
+Date: Mon,  9 Oct 2023 21:10:38 +0300
+Message-Id: <20231009181040.2743847-12-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231009181040.2743847-1-dmitry.baryshkov@linaro.org>
 References: <20231009181040.2743847-1-dmitry.baryshkov@linaro.org>
@@ -81,54 +82,32 @@ Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Switch to drmm_mode_config_init() instead of drm_mode_config_init().
-Drop drm_mode_config_cleanup() calls.
+There is little point in having the empty debugfs file which always
+returns -ENODEV. Change this file to be created only if KMS is actually
+used.
 
 Reviewed-by: Rob Clark <robdclark@gmail.com>
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/msm_drv.c | 11 +++++------
- 1 file changed, 5 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/msm/msm_debugfs.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-index 8079f408c9ed..00ed71c3d503 100644
---- a/drivers/gpu/drm/msm/msm_drv.c
-+++ b/drivers/gpu/drm/msm/msm_drv.c
-@@ -238,8 +238,6 @@ static int msm_drm_uninit(struct device *dev)
- 	if (kms)
- 		msm_disp_snapshot_destroy(ddev);
+diff --git a/drivers/gpu/drm/msm/msm_debugfs.c b/drivers/gpu/drm/msm/msm_debugfs.c
+index a0a936f80ae3..06fc632fd6f9 100644
+--- a/drivers/gpu/drm/msm/msm_debugfs.c
++++ b/drivers/gpu/drm/msm/msm_debugfs.c
+@@ -314,8 +314,9 @@ void msm_debugfs_init(struct drm_minor *minor)
+ 	debugfs_create_file("gpu", S_IRUSR, minor->debugfs_root,
+ 		dev, &msm_gpu_fops);
  
--	drm_mode_config_cleanup(ddev);
--
- 	if (kms) {
- 		pm_runtime_get_sync(dev);
- 		msm_irq_uninstall(ddev);
-@@ -440,11 +438,13 @@ static int msm_drm_init(struct device *dev, const struct drm_driver *drv)
- 	might_lock(&priv->lru.lock);
- 	fs_reclaim_release(GFP_KERNEL);
+-	debugfs_create_file("kms", S_IRUSR, minor->debugfs_root,
+-		dev, &msm_kms_fops);
++	if (priv->kms)
++		debugfs_create_file("kms", S_IRUSR, minor->debugfs_root,
++				    dev, &msm_kms_fops);
  
--	drm_mode_config_init(ddev);
-+	ret = drmm_mode_config_init(ddev);
-+	if (ret)
-+		goto err_destroy_wq;
- 
- 	ret = msm_init_vram(ddev);
- 	if (ret)
--		goto err_cleanup_mode_config;
-+		goto err_destroy_wq;
- 
- 	dma_set_max_seg_size(dev, UINT_MAX);
- 
-@@ -555,8 +555,7 @@ static int msm_drm_init(struct device *dev, const struct drm_driver *drv)
- 
- err_deinit_vram:
- 	msm_deinit_vram(ddev);
--err_cleanup_mode_config:
--	drm_mode_config_cleanup(ddev);
-+err_destroy_wq:
- 	destroy_workqueue(priv->wq);
- err_put_dev:
- 	drm_dev_put(ddev);
+ 	debugfs_create_u32("hangcheck_period_ms", 0600, minor->debugfs_root,
+ 		&priv->hangcheck_period);
 -- 
 2.39.2
 
