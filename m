@@ -2,62 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 943117BE774
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Oct 2023 19:11:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E35117BE775
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Oct 2023 19:11:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C07B310E29A;
-	Mon,  9 Oct 2023 17:11:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 37D5010E289;
+	Mon,  9 Oct 2023 17:11:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
- [IPv6:2a00:1450:4864:20::12f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E43910E294
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
+ [IPv6:2a00:1450:4864:20::134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 89F0810E28B
  for <dri-devel@lists.freedesktop.org>; Mon,  9 Oct 2023 17:11:15 +0000 (UTC)
-Received: by mail-lf1-x12f.google.com with SMTP id
- 2adb3069b0e04-50308217223so5923475e87.3
+Received: by mail-lf1-x134.google.com with SMTP id
+ 2adb3069b0e04-50573e85ee0so5626866e87.3
  for <dri-devel@lists.freedesktop.org>; Mon, 09 Oct 2023 10:11:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1696871473; x=1697476273; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1696871474; x=1697476274; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=odaHH8HRWc/OWn81iArLzhiK7HKZi0DYnLBmf+zh6T8=;
- b=moghkUDa/L5y+dlQbBJf+1rpto//Sh9ILLZ3kvTRoAG/Z0YcmbipejMc6YbkMTUkWo
- eR1bMmjVnVmo7pGWwqGpDXqAlp9AMBr5Q7wGOt3yDXo3FH6bnH7DWYWcRo0nxSzOQ6VI
- 8/Q5UYls6b7lcPuU9Gq5OLOfHsZ26FBa3TcA0X/ykZSWUeDLx98x9OVSJFVI5h7dCcux
- olFtvvOGWtX1knqLZ4rVO0XN93T6FRelLTTR9dC18uKI+ASxiYRuFBn+n2ZlWjuJGPZQ
- /Rhw51ZGqVHW44XVskhnrh9QxdNsDX87f3JIxtVZqNhCi094S3seuQz2vo/075ZhODZ1
- khKw==
+ bh=Yj6njcBJvVSdEt/itrCaxDqmJfa3khgLnrpbIsNXMlQ=;
+ b=WAxXBS1s8wZft5xayMMV2tf0xvc3KYVZy4cZAySjMgqQqOHo0f3+KENDxbXrKNbkSg
+ AqdWRayE9tZRR5boUrfvLiHILbyAErq1uEht+N9m1anPKgZxqNFMGq4l8xE0XB0Ux0IP
+ 1R8X0CVVGghVGY1flZauXVKNO5oVDYxGuJWUDl7fdA1Ho5aEdzm2XpAhuKrTkwZSnnh3
+ NYpTCsyKmBR1KtYgiaRxCLbeHHUz+bp2bgazI3F2fUTuF6cCizZ+QGsynCLSSLqZuLhO
+ PGeVzr1LThX04rS0v3w95X3a/blqIWeUDaZD0MHrZPpedme1gUCmxpVPrdLVGczatsUb
+ nMJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1696871473; x=1697476273;
+ d=1e100.net; s=20230601; t=1696871474; x=1697476274;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=odaHH8HRWc/OWn81iArLzhiK7HKZi0DYnLBmf+zh6T8=;
- b=jRameEzYTXqqEsyjjjfbNMNx9Yz0Y5C4SQRXIPPvsHYuiMfgOm0zBU8+ISbgk9N3Fy
- iE5AB3lxpGidDUJxImeGv+m6Cm+qRs5wsSGIKpkUxYhw0ZHIjSQGL9Z1WjyG+c61LFFX
- TqDgGWtFXVjWQPwSG2X3Tl8wzeve0NkF/vSi32Pb1MwjEEScWXJYMkw8W+w0AR/4P/y/
- +Vw6grhW4LGvsxfyEAF7TiqFZsbavv76SG4Mkq50iwRmyc4S4rQ7QJr+ReL9BhMvfP/6
- cGL3WpBX6RB4WGh8CCosyccAaFgrlsUNWma0JDacXrTFqwmACTq8O1+KxCxyOCJTSmUf
- zQpg==
-X-Gm-Message-State: AOJu0YxfyqiG+B3WCuwk6vy9CRK6hctV73UlEpXhiNX3Gq7pQVDHAF2B
- CRBti14iNDX76ezHLq0mNwLu8A==
-X-Google-Smtp-Source: AGHT+IGeXW8xdsBULCu4mHfATtR355O0BFzXB/YgybW5EN9w2hzH/wQNVH3mdwftqYZcXO6Ib8LHcQ==
-X-Received: by 2002:a05:6512:3050:b0:503:653:5711 with SMTP id
- b16-20020a056512305000b0050306535711mr15653664lfb.9.1696871473112; 
+ bh=Yj6njcBJvVSdEt/itrCaxDqmJfa3khgLnrpbIsNXMlQ=;
+ b=wxFn7wgH7mAiAkocE4YXimN1SZHKhJI8WZ4o2y2DOnBf/Z6a8MwO2gLL26Qu0U4I45
+ QB53d82bNL4klYQyyL+brgLqWipCXPusKB+r6x9Hv28jVFgp9ZR+/jSHSzUZIS2C5Y8H
+ s6/Pzc/pAsb0NA0TCqHkL3LRfKDVXM7oQ1ylakP4MVDV/ve0h+b295AUHtwmBtqzuAkq
+ TpOoQ1bXRt0yFNbWW0QoBNtVfvnJ/kI52BR5E/2M1YoMnddBGRb0h5/+eFYIoWn8Esb8
+ 6/OBwoW05rfMRUJf0GdkpHz/ZBpMRwwBTrjE6lr2CLNm2UGFLOJlPkVWp7cn8fDv2qk1
+ lPQQ==
+X-Gm-Message-State: AOJu0YzRb85SwYWcLGKxXImp/B2pxx5hTNJHhw+U++SXcHKZMCKKSzU+
+ VBH1P5oBRUQYs3g7gi+rtgxbdQ==
+X-Google-Smtp-Source: AGHT+IF6x9eUIfqM1YlOqJeCkA5+e7lU1HnygagGf6z5gj4tauD5DVNCC9HYvmV7lqMjEci6dxJsVA==
+X-Received: by 2002:a19:771d:0:b0:505:6ede:20b0 with SMTP id
+ s29-20020a19771d000000b005056ede20b0mr12446558lfc.58.1696871473848; 
  Mon, 09 Oct 2023 10:11:13 -0700 (PDT)
 Received: from umbar.unikie.fi ([192.130.178.91])
  by smtp.gmail.com with ESMTPSA id
- x14-20020a19f60e000000b00502e0388846sm1475991lfe.244.2023.10.09.10.11.12
+ x14-20020a19f60e000000b00502e0388846sm1475991lfe.244.2023.10.09.10.11.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Oct 2023 10:11:12 -0700 (PDT)
+ Mon, 09 Oct 2023 10:11:13 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Marijn Suijten <marijn.suijten@somainline.org>
-Subject: [PATCH 2/3] drm/msm/dpu: enable writeback on SM8350
-Date: Mon,  9 Oct 2023 20:11:09 +0300
-Message-Id: <20231009171110.2691115-3-dmitry.baryshkov@linaro.org>
+Subject: [PATCH 3/3] drm/msm/dpu: enable writeback on SM8450
+Date: Mon,  9 Oct 2023 20:11:10 +0300
+Message-Id: <20231009171110.2691115-4-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231009171110.2691115-1-dmitry.baryshkov@linaro.org>
 References: <20231009171110.2691115-1-dmitry.baryshkov@linaro.org>
@@ -85,14 +85,14 @@ Enable WB2 hardware block, enabling writeback support on this platform.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- .../drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h | 18 ++++++++++++++++++
+ .../drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h | 18 ++++++++++++++++++
  1 file changed, 18 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
-index 8cfb1058e3cb..b2896018e05f 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
-@@ -31,6 +31,7 @@ static const struct dpu_mdp_cfg sm8350_mdp = {
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
+index d0214edcbb0e..9a3d1286d160 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
+@@ -32,6 +32,7 @@ static const struct dpu_mdp_cfg sm8450_mdp = {
  		[DPU_CLK_CTRL_DMA1] = { .reg_off = 0x2b4, .bit_off = 8 },
  		[DPU_CLK_CTRL_DMA2] = { .reg_off = 0x2bc, .bit_off = 8 },
  		[DPU_CLK_CTRL_DMA3] = { .reg_off = 0x2c4, .bit_off = 8 },
@@ -100,11 +100,11 @@ index 8cfb1058e3cb..b2896018e05f 100644
  		[DPU_CLK_CTRL_REG_DMA] = { .reg_off = 0x2bc, .bit_off = 20 },
  	},
  };
-@@ -304,6 +305,21 @@ static const struct dpu_dsc_cfg sm8350_dsc[] = {
+@@ -326,6 +327,21 @@ static const struct dpu_dsc_cfg sm8450_dsc[] = {
  	},
  };
  
-+static const struct dpu_wb_cfg sm8350_wb[] = {
++static const struct dpu_wb_cfg sm8450_wb[] = {
 +	{
 +		.name = "wb_2", .id = WB_2,
 +		.base = 0x65000, .len = 0x2c8,
@@ -119,17 +119,17 @@ index 8cfb1058e3cb..b2896018e05f 100644
 +	},
 +};
 +
- static const struct dpu_intf_cfg sm8350_intf[] = {
+ static const struct dpu_intf_cfg sm8450_intf[] = {
  	{
  		.name = "intf_0", .id = INTF_0,
-@@ -401,6 +417,8 @@ const struct dpu_mdss_cfg dpu_sm8350_cfg = {
- 	.dsc = sm8350_dsc,
- 	.merge_3d_count = ARRAY_SIZE(sm8350_merge_3d),
- 	.merge_3d = sm8350_merge_3d,
-+	.wb_count = ARRAY_SIZE(sm8350_wb),
-+	.wb = sm8350_wb,
- 	.intf_count = ARRAY_SIZE(sm8350_intf),
- 	.intf = sm8350_intf,
+@@ -423,6 +439,8 @@ const struct dpu_mdss_cfg dpu_sm8450_cfg = {
+ 	.dsc = sm8450_dsc,
+ 	.merge_3d_count = ARRAY_SIZE(sm8450_merge_3d),
+ 	.merge_3d = sm8450_merge_3d,
++	.wb_count = ARRAY_SIZE(sm8450_wb),
++	.wb = sm8450_wb,
+ 	.intf_count = ARRAY_SIZE(sm8450_intf),
+ 	.intf = sm8450_intf,
  	.vbif_count = ARRAY_SIZE(sdm845_vbif),
 -- 
 2.39.2
