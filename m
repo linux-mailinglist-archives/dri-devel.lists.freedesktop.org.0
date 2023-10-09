@@ -1,68 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F1487BD5E5
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Oct 2023 10:56:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 77BF67BD5E8
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Oct 2023 10:56:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D16A10E0E8;
-	Mon,  9 Oct 2023 08:56:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 99C5210E0E1;
+	Mon,  9 Oct 2023 08:56:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
- [IPv6:2a00:1450:4864:20::433])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C7D7110E0E1
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Oct 2023 08:56:18 +0000 (UTC)
-Received: by mail-wr1-x433.google.com with SMTP id
- ffacd0b85a97d-325e9cd483eso4087266f8f.2
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Oct 2023 01:56:18 -0700 (PDT)
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
+ [IPv6:2a00:1450:4864:20::130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2EB0410E0E1
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Oct 2023 08:56:30 +0000 (UTC)
+Received: by mail-lf1-x130.google.com with SMTP id
+ 2adb3069b0e04-503397ee920so5360041e87.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Oct 2023 01:56:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1696841777; x=1697446577; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1696841788; x=1697446588; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :references:cc:to:content-language:subject:reply-to:from:user-agent
  :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=ueES/8yBzYqCwOAJln/R5/6edxFgxoHrnNrLI+a2X2k=;
- b=W1VoT2GI+kASC7BzJpeb+lndDvlhDGvCVxqXkdQXF60PZWfiRP38vbFcG0N16QwZiq
- Jna8uTSj96ohVwU9zFR1/QEwcZ+Fqfukk1dPBxxAymy1sM10aT2YIhu9IHFEBsOc80R+
- RVwBpOFrZE2uG4axjMdc9mm+/BpxChqi6+5j+oQPBGBS4a9J4n2mmK9pki6FzrJ3he60
- IstUGJFvKEiZj14tnCaB7XNret8JCd7Z1+yuwyYKQEG/khWVD44PNvr0+eu4zrD6clrx
- rV0K/od8LOYTJU/moPI9PlFBTlA3UCXE1Au8eAXjnbTs/Jt42nRm/M1EqJRAgQn77xIs
- UxJw==
+ :reply-to; bh=ChWpLMUD+BbEHc72eqlablETJQRcBST3BsLrGcOm/6s=;
+ b=f8W236Jk6KjXjoUTffrbSDb4rlxF0d4puOODxdKnI9DOnXsbIOlaq1U13auGdiH9Hb
+ eMXi38YFYiP1zFfX9THoqcb3V7P2eyU2j2JIbkesBK1Wx+j8W1aT2UOgJ0NyYnDK3h2A
+ cxyaUnqB9YrNLSCuLF1Fbhxhu6X30W7EWrOHCiup7UzvWkSpM1rPbNrq4ifPTF/WjQwp
+ a3aBgGhXq1aqEL1hdLYfp8p9Rf2A72p2mWLft2NArCoA63AYgcnpzPuD00Lsno8DqaY0
+ Ef/rCgvfq/M4dHWVq9iLHIGTtg4jXg3nxA6r95r5PW0luGokzE3wPYKoygI39pBx31xS
+ YxVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1696841777; x=1697446577;
+ d=1e100.net; s=20230601; t=1696841788; x=1697446588;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :references:cc:to:content-language:subject:reply-to:from:user-agent
  :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
  :date:message-id:reply-to;
- bh=ueES/8yBzYqCwOAJln/R5/6edxFgxoHrnNrLI+a2X2k=;
- b=sT6JmEjReqrcp92QqHy9uQp/8EosRDxnmMgefqPMbhfExnfyOfi5BsxfDbkJ5W9ZoO
- KlFnF/rvs96IrqOo7Ap2u0enfdgKD6+1GhG2K7zUNBwdTBTCS9PND1Sb858LBW2NCk8v
- WcMcI2xnNvaiD2OXsOG7ACPdB3tKb3L9ioA/beoiqDBsRC4p6f3IitZ89m2o95Quqzif
- MTwhEjzUx7b5RBVTyUKn01Yc0HZQHduLMrUAJ7lRFhwy4Vnm51EzMNJbqh7lWok/auQu
- YYXfoqSPgj2S/9LRRY1buKa0GpWe37bjHsx23B0RyIUblsBpLjjqHOqpDoB52F9gatJ3
- Kn8Q==
-X-Gm-Message-State: AOJu0YzQ4uAIAJDE2AQzSCocLiOeM87/d4G9oi2QHpmOUd62uEV7+VPT
- 00K2dXZ6KHF60CA3TY8BapGUPQ==
-X-Google-Smtp-Source: AGHT+IFKl1Du09bcDEqIqN0Dx2j1ILGNurHoolKTWXzQ/hnHVeJLeVvEMzSxrr++xZO03RYyGjt2Og==
-X-Received: by 2002:a5d:630c:0:b0:31f:fa6a:936e with SMTP id
- i12-20020a5d630c000000b0031ffa6a936emr13100829wru.17.1696841777144; 
- Mon, 09 Oct 2023 01:56:17 -0700 (PDT)
+ bh=ChWpLMUD+BbEHc72eqlablETJQRcBST3BsLrGcOm/6s=;
+ b=uJ9uOkz3T87XS3vYzwn0cwdJVqo8V8cQEWOpL03bHtYAb2Mdys7pGcBSYCol5/579S
+ Yc3KA3UA6xyO8JIeeX02p8tlldoNS24DBViiN3Jbft+ANJwReqwZCKFs7BHFd6HuKiAZ
+ xB2sy7OJI4qJvUCYNGfgP8vZGx6rXwB3c7xk9zlobbG3v14jAuFmamJGmNNAUop9PmFu
+ zwpXeuUdcRdGjxUQ2iHljh19LlHBO50sHXi+RbaGWkSKZjUkc5euJ0S9BfuCXLGoXqOG
+ 2OI/pfgU5+xiBXzUGHXEmvj8YVaOhyC5tEDb5nB19KCHd5EuQ2B9eY3Klz/QTh62K3zA
+ gCOg==
+X-Gm-Message-State: AOJu0YzV9A3rRsdQHWVyUhsNBWCdv/l1smnLiNKtFLc3DLGeDmitYaGN
+ irtsGOHcS8MhDe+M3wD1nhkt9g==
+X-Google-Smtp-Source: AGHT+IGyuTLZ4fPvw+bBUFyo+rbizHaok4Vwz1d4frUaeSaATq0eKx9UQ6diDVdNYZraHDfo7Xs71w==
+X-Received: by 2002:a19:6709:0:b0:503:3ac:8457 with SMTP id
+ b9-20020a196709000000b0050303ac8457mr11851695lfc.45.1696841788363; 
+ Mon, 09 Oct 2023 01:56:28 -0700 (PDT)
 Received: from [192.168.27.65] (home.beaume.starnux.net. [82.66.176.246])
  by smtp.gmail.com with ESMTPSA id
- f15-20020a5d50cf000000b00323330edbc7sm8974100wrt.20.2023.10.09.01.56.16
+ f15-20020a5d50cf000000b00323330edbc7sm8974100wrt.20.2023.10.09.01.56.27
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 09 Oct 2023 01:56:16 -0700 (PDT)
-Message-ID: <1b9b0c61-1f28-4e5b-96bf-65c3d3896a0a@linaro.org>
-Date: Mon, 9 Oct 2023 10:56:17 +0200
+ Mon, 09 Oct 2023 01:56:27 -0700 (PDT)
+Message-ID: <63ff768e-2155-4e71-8888-8b9fe5079b76@linaro.org>
+Date: Mon, 9 Oct 2023 10:56:29 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: neil.armstrong@linaro.org
-Subject: Re: [PATCH] drm/panel/panel-tpo-tpg110: fix a possible null pointer
- dereference
+Subject: Re: [PATCH] drm/panel: fix a possible null pointer dereference
 Content-Language: en-US, fr
 To: Ma Ke <make_ruc2021@163.com>, linus.walleij@linaro.org, sam@ravnborg.org, 
  airlied@gmail.com, daniel@ffwll.ch
-References: <20231007030318.3996798-1-make_ruc2021@163.com>
+References: <20231007033105.3997998-1-make_ruc2021@163.com>
 Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
  GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
@@ -88,7 +87,7 @@ Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
  QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
 Organization: Linaro Developer Services
-In-Reply-To: <20231007030318.3996798-1-make_ruc2021@163.com>
+In-Reply-To: <20231007033105.3997998-1-make_ruc2021@163.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -108,33 +107,28 @@ Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 07/10/2023 05:03, Ma Ke wrote:
-> In radeon_fp_native_mode(), the return value of drm_mode_duplicate()
-
-Wrong function, it should be tpg110_get_modes()
-
-Thanks,
-Neil
-
+On 07/10/2023 05:31, Ma Ke wrote:
+> In versatile_panel_get_modes(), the return value of drm_mode_duplicate()
 > is assigned to mode, which will lead to a NULL pointer dereference
 > on failure of drm_mode_duplicate(). Add a check to avoid npd.
 > 
 > Signed-off-by: Ma Ke <make_ruc2021@163.com>
 > ---
->   drivers/gpu/drm/panel/panel-tpo-tpg110.c | 2 ++
+>   drivers/gpu/drm/panel/panel-arm-versatile.c | 2 ++
 >   1 file changed, 2 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/panel/panel-tpo-tpg110.c b/drivers/gpu/drm/panel/panel-tpo-tpg110.c
-> index 845304435e23..f6a212e542cb 100644
-> --- a/drivers/gpu/drm/panel/panel-tpo-tpg110.c
-> +++ b/drivers/gpu/drm/panel/panel-tpo-tpg110.c
-> @@ -379,6 +379,8 @@ static int tpg110_get_modes(struct drm_panel *panel,
->   	connector->display_info.bus_flags = tpg->panel_mode->bus_flags;
+> diff --git a/drivers/gpu/drm/panel/panel-arm-versatile.c b/drivers/gpu/drm/panel/panel-arm-versatile.c
+> index abb0788843c6..1811bfaeb9c7 100644
+> --- a/drivers/gpu/drm/panel/panel-arm-versatile.c
+> +++ b/drivers/gpu/drm/panel/panel-arm-versatile.c
+> @@ -267,6 +267,8 @@ static int versatile_panel_get_modes(struct drm_panel *panel,
+>   	connector->display_info.bus_flags = vpanel->panel_type->bus_flags;
 >   
->   	mode = drm_mode_duplicate(connector->dev, &tpg->panel_mode->mode);
+>   	mode = drm_mode_duplicate(connector->dev, &vpanel->panel_type->mode);
 > +	if (!mode)
 > +		return -ENOMEM;
 >   	drm_mode_set_name(mode);
 >   	mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
 >   
 
+Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
