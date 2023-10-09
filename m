@@ -1,93 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 954FB7BD68E
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Oct 2023 11:16:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CED957BD69C
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Oct 2023 11:21:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7CEE810E24E;
-	Mon,  9 Oct 2023 09:16:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1805710E24C;
+	Mon,  9 Oct 2023 09:21:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 77C1E10E24C
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Oct 2023 09:16:20 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 085D42185F;
- Mon,  9 Oct 2023 09:16:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1696842979; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=q4d3wViWxrfL0ebeQfO9XmGrQod9H9e6JJVeprt3snA=;
- b=BdR/V7S6eL2sKg3vIEH8uuxIh2tmR35A4838juNYShu9eP8bxKIjVGtYQ5u9GkNcs/ZCFl
- uxzsIYZzUpopusP68Tu12tEw6M2aKX69oH0CSb+x+BEFfzo9zzfgwc/q5ARLgFh491btCn
- +H6orHvwj1szXQOkREx1kxfyHnBQ6Qw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1696842979;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=q4d3wViWxrfL0ebeQfO9XmGrQod9H9e6JJVeprt3snA=;
- b=R0hjQdW6gVDcNyP19wsScjZUkcxiYQrIGRlNLdk0nhOSxUmmtHikz7AONA6c/TqP+4LjB6
- X/rVq5iLs68lGwCA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id BCD1213586;
- Mon,  9 Oct 2023 09:16:18 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id fM8gLeLEI2ViWwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 09 Oct 2023 09:16:18 +0000
-Message-ID: <8f501b5f-9541-425c-86b0-f3f267af6e6e@suse.de>
-Date: Mon, 9 Oct 2023 11:16:17 +0200
+Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com
+ [IPv6:2a00:1450:4864:20::234])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D7F2010E24C
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Oct 2023 09:21:07 +0000 (UTC)
+Received: by mail-lj1-x234.google.com with SMTP id
+ 38308e7fff4ca-2b95d5ee18dso51347831fa.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Oct 2023 02:21:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1696843266; x=1697448066; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=jcRTJtu5/xplXYf4mxgpTZIYcsNwbD0mhUQlRdvZ5Jw=;
+ b=xMUO7lTerc7PaYWCAt5zCOtzSxjcFaVA4pVqPcus99tbVsSKv16thUrHG/F6qYMJAE
+ wQWtc2TFk4PJVr68hW1iMvh38t6kelClwWcudGEmxqPoNmBtX99DdgOxgs+txXt/dLuh
+ O3masQwpSSxD8I6Sad/WYf+OvT3kFTHELNW40BXG384KTiTPRTubr4vnnDQD5R0KDd5j
+ zA19fKmAfFEg2MY9RYOaJ22hHHNZXvs1dxWzZuP+GY2K2RVP2a7vwAipAM4cd44KgMGC
+ IBe8F3vqu5ufE08ohbJi8c53U7cR94lNNZfVZygqTbuH37QrH1O+Ul2TahSba6IafRJz
+ sMNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1696843266; x=1697448066;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=jcRTJtu5/xplXYf4mxgpTZIYcsNwbD0mhUQlRdvZ5Jw=;
+ b=LQdwtIOdYaDIZBV/SuJiP4qWCzqjz1pVpF3oV5H1288IvATv04R1hWVfkZfueAG+n0
+ SVey4tpoYUP/5ZGKMNUfzBOX/ZUULYKOXdFgtP1gk5TpcUIHQf2DYqHmTd+5/7NkmQ6P
+ sxI5C/6OKFNoBsMMdKg3wdTaq4JMdcqreTrBbFrmcfwUPta+iaECG0OBp05q3KffpxqV
+ L8rdqwyTdf51uu/kyO4lohV1cZuQJbSlOyhv+p8PQGru4Nd/fjRhLxeF8CFXdURfMKNm
+ WeXOF86bpntcPoeBEDXHofjQ2zNqPXW+LCAYw0Iuw0rmzlxxIShV4qLcnESZVz60Oxy5
+ gdSA==
+X-Gm-Message-State: AOJu0Yx+8uLJxpQXopFp1Bk/MpBPIdDv3mQPCAe4qHJ6yAx2WBm+wysG
+ ccNIM7nH64Mgaw9j/U9xQbEQMA==
+X-Google-Smtp-Source: AGHT+IGht+RvnWroW3ujbIVtFNoEpt6TS29+ZsWLWowpvwWhX2hK9fCxDFD93GaUGI0u0FoeaydCUg==
+X-Received: by 2002:a05:6512:68a:b0:503:26bc:b08f with SMTP id
+ t10-20020a056512068a00b0050326bcb08fmr15658141lfe.24.1696843265916; 
+ Mon, 09 Oct 2023 02:21:05 -0700 (PDT)
+Received: from aspen.lan
+ (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
+ by smtp.gmail.com with ESMTPSA id
+ n5-20020a05600c294500b003fc02e8ea68sm12764192wmd.13.2023.10.09.02.21.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 09 Oct 2023 02:21:05 -0700 (PDT)
+Date: Mon, 9 Oct 2023 10:21:03 +0100
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Duje =?utf-8?Q?Mihanovi=C4=87?= <duje.mihanovic@skole.hr>
+Subject: Re: [PATCH 2/2] backlight: Add Kinetic KTD2801 driver
+Message-ID: <20231009092103.GB96854@aspen.lan>
+References: <20231005-ktd2801-v1-0-43cd85b0629a@skole.hr>
+ <20231005-ktd2801-v1-2-43cd85b0629a@skole.hr>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 5/7] drm/simpledrm: Preallocate format-conversion
- buffer in atomic_check
-Content-Language: en-US
-To: Javier Martinez Canillas <javierm@redhat.com>, jfalempe@redhat.com,
- jose.exposito89@gmail.com, arthurgrillo@riseup.net, mairacanal@riseup.net,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
- daniel@ffwll.ch, noralf@tronnes.org
-References: <20231005090520.16511-1-tzimmermann@suse.de>
- <20231005090520.16511-6-tzimmermann@suse.de>
- <87zg0xyysa.fsf@minerva.mail-host-address-is-not-set>
- <ae863124-17a9-44a7-9565-f8248e5d4317@suse.de>
- <874jj0rx3c.fsf@minerva.mail-host-address-is-not-set>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <874jj0rx3c.fsf@minerva.mail-host-address-is-not-set>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------CLRkd5Jv5YJLAOzv8bkfcI0g"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20231005-ktd2801-v1-2-43cd85b0629a@skole.hr>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,113 +76,203 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ Pavel Machek <pavel@ucw.cz>, Jingoo Han <jingoohan1@gmail.com>,
+ Helge Deller <deller@gmx.de>, Lee Jones <lee@kernel.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ ~postmarketos/upstreaming@lists.sr.ht,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Karel Balej <balejk@matfyz.cz>, linux-leds@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------CLRkd5Jv5YJLAOzv8bkfcI0g
-Content-Type: multipart/mixed; boundary="------------xvKHfMDF8yI0leOKLwHjEaQ2";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Javier Martinez Canillas <javierm@redhat.com>, jfalempe@redhat.com,
- jose.exposito89@gmail.com, arthurgrillo@riseup.net, mairacanal@riseup.net,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
- daniel@ffwll.ch, noralf@tronnes.org
-Cc: dri-devel@lists.freedesktop.org
-Message-ID: <8f501b5f-9541-425c-86b0-f3f267af6e6e@suse.de>
-Subject: Re: [PATCH v4 5/7] drm/simpledrm: Preallocate format-conversion
- buffer in atomic_check
-References: <20231005090520.16511-1-tzimmermann@suse.de>
- <20231005090520.16511-6-tzimmermann@suse.de>
- <87zg0xyysa.fsf@minerva.mail-host-address-is-not-set>
- <ae863124-17a9-44a7-9565-f8248e5d4317@suse.de>
- <874jj0rx3c.fsf@minerva.mail-host-address-is-not-set>
-In-Reply-To: <874jj0rx3c.fsf@minerva.mail-host-address-is-not-set>
+On Thu, Oct 05, 2023 at 08:49:09PM +0200, Duje Mihanović wrote:
+> Add driver for the Kinetic KTD2801 backlight driver.
+>
+> Signed-off-by: Duje Mihanović <duje.mihanovic@skole.hr>
+> ---
+>  MAINTAINERS                                 |   6 ++
+>  drivers/video/backlight/Kconfig             |   7 ++
+>  drivers/video/backlight/Makefile            |   1 +
+>  drivers/video/backlight/ktd2801-backlight.c | 151 ++++++++++++++++++++++++++++
+>  4 files changed, 165 insertions(+)
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 35977b269d5e..7da78f06a65d 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -11777,6 +11777,12 @@ S:	Maintained
+>  F:	Documentation/devicetree/bindings/leds/backlight/kinetic,ktd253.yaml
+>  F:	drivers/video/backlight/ktd253-backlight.c
+>
+> +KTD2801 BACKLIGHT DRIVER
+> +M:	Duje Mihanović <duje.mihanovic@skole.hr>
+> +S:	Maintained
+> +F:	Documentation/devicetree/bindings/leds/backlight/kinetic,ktd2801.yaml
+> +F:	drivers/video/backlight/ktd2801-backlight.c
+> +
+>  KTEST
+>  M:	Steven Rostedt <rostedt@goodmis.org>
+>  M:	John Hawley <warthog9@eaglescrag.net>
+> diff --git a/drivers/video/backlight/Kconfig b/drivers/video/backlight/Kconfig
+> index 51387b1ef012..a2b268293345 100644
+> --- a/drivers/video/backlight/Kconfig
+> +++ b/drivers/video/backlight/Kconfig
+> @@ -183,6 +183,13 @@ config BACKLIGHT_KTD253
+>  	  which is a 1-wire GPIO-controlled backlight found in some mobile
+>  	  phones.
+>
+> +config BACKLIGHT_KTD2801
+> +	tristate "Backlight Driver for Kinetic KTD2801"
+> +	depends on GPIOLIB || COMPILE_TEST
+> +	help
+> +	  Say Y to enable the backlight driver for the Kinetic KTD2801 1-wire
+> +	  GPIO-controlled backlight found in Samsung Galaxy Core Prime VE LTE.
+> +
+>  config BACKLIGHT_KTZ8866
+>  	tristate "Backlight Driver for Kinetic KTZ8866"
+>  	depends on I2C
+> diff --git a/drivers/video/backlight/Makefile b/drivers/video/backlight/Makefile
+> index f72e1c3c59e9..b33b647f31ca 100644
+> --- a/drivers/video/backlight/Makefile
+> +++ b/drivers/video/backlight/Makefile
+> @@ -35,6 +35,7 @@ obj-$(CONFIG_BACKLIGHT_HP680)		+= hp680_bl.o
+>  obj-$(CONFIG_BACKLIGHT_HP700)		+= jornada720_bl.o
+>  obj-$(CONFIG_BACKLIGHT_IPAQ_MICRO)	+= ipaq_micro_bl.o
+>  obj-$(CONFIG_BACKLIGHT_KTD253)		+= ktd253-backlight.o
+> +obj-$(CONFIG_BACKLIGHT_KTD2801)		+= ktd2801-backlight.o
+>  obj-$(CONFIG_BACKLIGHT_KTZ8866)		+= ktz8866.o
+>  obj-$(CONFIG_BACKLIGHT_LM3533)		+= lm3533_bl.o
+>  obj-$(CONFIG_BACKLIGHT_LM3630A)		+= lm3630a_bl.o
+> diff --git a/drivers/video/backlight/ktd2801-backlight.c b/drivers/video/backlight/ktd2801-backlight.c
+> new file mode 100644
+> index 000000000000..24a5f9e5d606
+> --- /dev/null
+> +++ b/drivers/video/backlight/ktd2801-backlight.c
+> @@ -0,0 +1,151 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +#include <linux/backlight.h>
+> +#include <linux/delay.h>
+> +#include <linux/gpio/consumer.h>
+> +#include <linux/of.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/property.h>
+> +
+> +#define EW_DELAY	150
+> +#define EW_DET		270
+> +#define LOW_BIT_HIGH	5
+> +#define LOW_BIT_LOW	(4 * HIGH_BIT_LOW)
+> +#define HIGH_BIT_LOW	5
+> +#define HIGH_BIT_HIGH	(4 * HIGH_BIT_LOW)
 
---------------xvKHfMDF8yI0leOKLwHjEaQ2
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+These names are pretty cryptic (they don't even mention that they
+are time values and that the unit is microseconds). They also look
+like they were derived by tuning so comments would be nice explaining
+where they come from (or, failing that, why they are correct).
 
-SGkgSmF2aWVyDQoNCkFtIDA5LjEwLjIzIHVtIDEwOjU4IHNjaHJpZWIgSmF2aWVyIE1hcnRp
-bmV6IENhbmlsbGFzOg0KPiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5k
-ZT4gd3JpdGVzOg0KPiANCj4gSGVsbG8gVGhvbWFzLA0KPiANCj4+IEhpIEphdmllcg0KPj4N
-Cj4+IEFtIDA1LjEwLjIzIHVtIDE1OjM4IHNjaHJpZWIgSmF2aWVyIE1hcnRpbmV6IENhbmls
-bGFzOg0KPj4+IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPiB3cml0
-ZXM6DQo+IA0KPiBbLi4uXQ0KPiANCj4+Pj4gK3N0YXRpYyBpbnQgc2ltcGxlZHJtX3ByaW1h
-cnlfcGxhbmVfaGVscGVyX2F0b21pY19jaGVjayhzdHJ1Y3QgZHJtX3BsYW5lICpwbGFuZSwN
-Cj4+Pj4gKwkJCQkJCSAgICAgICBzdHJ1Y3QgZHJtX2F0b21pY19zdGF0ZSAqc3RhdGUpDQo+
-Pj4+ICt7DQo+Pj4+ICsJc3RydWN0IGRybV9wbGFuZV9zdGF0ZSAqbmV3X3BsYW5lX3N0YXRl
-ID0gZHJtX2F0b21pY19nZXRfbmV3X3BsYW5lX3N0YXRlKHN0YXRlLCBwbGFuZSk7DQo+Pj4+
-ICsJc3RydWN0IGRybV9zaGFkb3dfcGxhbmVfc3RhdGUgKm5ld19zaGFkb3dfcGxhbmVfc3Rh
-dGUgPQ0KPj4+PiArCQl0b19kcm1fc2hhZG93X3BsYW5lX3N0YXRlKG5ld19wbGFuZV9zdGF0
-ZSk7DQo+Pj4+ICsJc3RydWN0IGRybV9mcmFtZWJ1ZmZlciAqbmV3X2ZiID0gbmV3X3BsYW5l
-X3N0YXRlLT5mYjsNCj4+Pj4gKwlzdHJ1Y3QgZHJtX2NydGMgKm5ld19jcnRjID0gbmV3X3Bs
-YW5lX3N0YXRlLT5jcnRjOw0KPj4+PiArCXN0cnVjdCBkcm1fY3J0Y19zdGF0ZSAqbmV3X2Ny
-dGNfc3RhdGUgPSBOVUxMOw0KPj4+PiArCXN0cnVjdCBkcm1fZGV2aWNlICpkZXYgPSBwbGFu
-ZS0+ZGV2Ow0KPj4+PiArCXN0cnVjdCBzaW1wbGVkcm1fZGV2aWNlICpzZGV2ID0gc2ltcGxl
-ZHJtX2RldmljZV9vZl9kZXYoZGV2KTsNCj4+Pj4gKwlpbnQgcmV0Ow0KPj4+PiArDQo+Pj4+
-ICsJaWYgKG5ld19jcnRjKQ0KPj4+PiArCQluZXdfY3J0Y19zdGF0ZSA9IGRybV9hdG9taWNf
-Z2V0X25ld19jcnRjX3N0YXRlKHN0YXRlLCBuZXdfY3J0Yyk7DQo+Pj4+ICsNCj4+Pj4gKwly
-ZXQgPSBkcm1fYXRvbWljX2hlbHBlcl9jaGVja19wbGFuZV9zdGF0ZShuZXdfcGxhbmVfc3Rh
-dGUsIG5ld19jcnRjX3N0YXRlLA0KPj4+PiArCQkJCQkJICBEUk1fUExBTkVfTk9fU0NBTElO
-RywNCj4+Pj4gKwkJCQkJCSAgRFJNX1BMQU5FX05PX1NDQUxJTkcsDQo+Pj4+ICsJCQkJCQkg
-IGZhbHNlLCBmYWxzZSk7DQo+Pj4NCj4+PiBTYW1lIGNvbW1lbnQgdGhhdCB3aXRoIHRoZSBz
-c2QxMzB4IGRyaXZlci4gSSB0aGluayB0aGF0IHdlIHNob3VsZCB1c2UgdGhlDQo+Pj4gZHJt
-X3BsYW5lX2hlbHBlcl9hdG9taWNfY2hlY2soKSBoZWxwZXIgaW5zdGVhZCBvZiBvcGVuIGNv
-ZGluZyBpdCBpbiBlYWNoDQo+Pg0KPj4gSSdtIGdvaW5nIHRvIHJlcGxhY2UgdGhlIGNhbGwg
-aW4gc2ltcGxlZHJtLg0KPj4gZHJtX3BsYW5lX2hlbHBlcl9hdG9taWNfY2hlY2soKSBpcyB1
-c2VmdWwgdG8gcmVtb3ZlIHRoZSBlbnRpcmUNCj4+IGF0b21pY19jaGVjayBmdW5jdGlvbiBm
-cm9tIHRoZSBkcml2ZXI7IGl0IGRvZXMgbm90aGluZyBhcGFydCBmcm9tIHRoYXQuDQo+PiBJ
-J3ZlIGJlZW4gY2FsbGVkIG91dCBiZWZvcmUgZm9yIHN1Y2ggZG8tbm90aGluZyBoZWxwZXJz
-OyBkZXNlcnZlZGx5IHNvLiBbMV0NCj4+DQo+IA0KPiBUaGUgYXJndW1lbnQgdGhlbiBpcyB0
-aGF0IGRyaXZlcnMgc2hvdWxkIG9wZW4gY29kZSAqZXhhY3RseSogdGhlIHNhbWUgY29kZQ0K
-PiB0aGF0IHRoZSBoZWxwZXIgZnVuY3Rpb24gYWxyZWFkeSBoYXMganVzdCBiZWNhdXNlIHRo
-ZXkgaW1wbGVtZW50IHRoZWlyIG93bg0KPiAuYXRvbWljX2NoZWNrIGNhbGxiYWNrPw0KPiAN
-Cj4gQW5kIHRoYXQgdGhlIGhlbHBlciBzaG91bGQgb25seSBiZSB1c2VkIHdoZW4gaXMgdGhl
-IC5hdG9taWNfY2hlY2sgY2FsbGJhY2sNCj4gYnV0IG5vdCBhcyBhIGhlbHBlciBmdW5jdGlv
-bj8NCg0KTXkgcG9pbnQgKGFuZCBJIHRoaW5rIHRoYXQncyB3aGF0IENocmlzdGlhbiB3YXMg
-YWxzbyByZWZlcnJpbmcgdG8pIGlzIA0KdGhhdCBkcm1fcGxhbmVfaGVscGVyX2F0b21pY19j
-aGVjaygpIGRvZXMgbGl0dGxlIG1vcmUgdGhhbiBwaWNrIGEgZmV3IA0KZGVmYXVsdCB2YWx1
-ZXMgZm9yIHRoZSBwYXJhbWV0ZXJzLiBJdCBkb2Vzbid0IGRvIGFueXRoaW5nIGluIHRlcm1z
-IG9mIA0KYWxnb3JpdGhtcy4gSGVuY2UgdGhlcmUncyBubyBzYXZpbmcgaGVyZSB0aGF0IG91
-dHdlaWdocyB0aGUgY29zdCBvZiANCnVzaW5nIHRoaXMgaGVscGVyLg0KDQo+IA0KPiBJIGRv
-bid0IHVuZGVyc3RhbmQgdGhhdCByYXRpb25hbGUgdG8gYmUgaG9uZXN0LCBidXQgaWYgdGhl
-cmUgaXMgb25lIHRoZW4NCj4gaXQgc2hvdWxkIGJlIHZlcnkgY2xlYXIgaW4gdGhlIGtlcm5l
-bC1kb2Mgd2hhdCBmdW5jdGlvbnMgYXJlIHN1cHBvc2VkIHRvDQo+IGJlIHVzZWQgb25seSBh
-cyBjYWxsYmFja3MgYW5kIHdoYXQgZnVuY3Rpb25zIGNhbiBhbHNvIGJlIHVzZWQgYXMgaGVs
-cGVycy4NCg0KVGhlcmUncyBubyBjbGVhciBydWxlIEFGQUlLLiBXZSBoYXZlIHRvIGRlY2lk
-ZSBjYXNlIGJ5IGNhc2UuIFRCSCBJIGRvbid0IA0KbWluZCByZS1ldmFsdWF0aW5nIGNhc2Vz
-IGZyb20gdGltZSB0byB0aW1lLiBBdCBsZWFzdCwgSSdtIGdvaW5nIHRvIA0KcmV2ZXJ0IHRo
-ZSBvcGVuLWNvZGVkIGhlbHBlciBpbiBzc2QxMzB4LCBhcyB5b3UgYXNrZWQgbWUgdG8uDQoN
-CkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNCg0KPiANCj4+IEJlc3QgcmVnYXJkcw0KPj4gVGhv
-bWFzDQo+Pg0KPiANCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVy
-IERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpGcmFu
-a2Vuc3RyYXNzZSAxNDYsIDkwNDYxIE51ZXJuYmVyZywgR2VybWFueQ0KR0Y6IEl2byBUb3Rl
-diwgQW5kcmV3IE15ZXJzLCBBbmRyZXcgTWNEb25hbGQsIEJvdWRpZW4gTW9lcm1hbg0KSFJC
-IDM2ODA5IChBRyBOdWVybmJlcmcpDQo=
 
---------------xvKHfMDF8yI0leOKLwHjEaQ2--
+> +#define DS		5
+> +#define EOD_L		10
+> +#define EOD_H		350
+> +#define PWR_DOWN_DELAY	2600
+> +
+> +#define KTD2801_DEFAULT_BRIGHTNESS	100
+> +#define KTD2801_MAX_BRIGHTNESS		255
+> +
+> +struct ktd2801_backlight {
+> +	struct device *dev;
+> +	struct backlight_device *bd;
+> +	struct gpio_desc *desc;
+> +	bool was_on;
+> +};
+> +
+> +static int ktd2801_update_status(struct backlight_device *bd)
+> +{
+> +	struct ktd2801_backlight *ktd2801 = bl_get_data(bd);
+> +	u8 brightness = (u8) backlight_get_brightness(bd);
+> +
+> +	if (backlight_is_blank(bd)) {
+> +		gpiod_set_value(ktd2801->desc, 1);
+> +		udelay(PWR_DOWN_DELAY);
+> +		ktd2801->was_on = false;
+> +		return 0;
+> +	}
+> +
+> +	if (!ktd2801->was_on) {
+> +		gpiod_set_value(ktd2801->desc, 0);
+> +		udelay(EW_DELAY);
+> +		gpiod_set_value(ktd2801->desc, 1);
+> +		udelay(EW_DET);
+> +		gpiod_set_value(ktd2801->desc, 0);
+> +		ktd2801->was_on = true;
+> +	}
 
---------------CLRkd5Jv5YJLAOzv8bkfcI0g
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+Isn't this implementing the same single GPIO line protocol used by
+drivers/leds/flash/leds-ktd2692.c?
 
------BEGIN PGP SIGNATURE-----
+If so, it would be good to pull the expresswire handling into a library
+so it can be shared between drivers. leds-ktd2692.c does a pretty
+good job of decomposing the expresswire management into functions (e.g.
+separating data framing from setting of control values). Expresswire is
+a data framing protocol rather than a bus so I think just implementing
+it as library code is probably sufficient.
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmUjxOIFAwAAAAAACgkQlh/E3EQov+CG
-+Q//WuX1KHUN2VYmjH6do1jYpgxBjOPBgZJVOW8Ihp+XKMNHYCmlrKZg9Hv++/HsQDBKZdqcpYDj
-BgtEmsz7W7DLrUdYOTznT+ZKzUslMZ4Gu8MTWaHy2V4mVDf51KnpVSbe6K3D9AR3jliBb4SVd8SM
-JNINtMV5zPpcVSty67EtreGiuj2Wwf/ObuLPpZLXXStkURnOtechAH9OCSF4+7OsQozSAOXJTDpY
-y3owKq0gI5IhqXG5gNOAYVLB00qthdeR60LNtRCPuOAGGp8Z6vo+z2kcujboQ5ov4ZFncA3i9LgW
-BJ8UNh2JFSgU9nsaIRBmlD+novmSiOInhd962UmCHsgtk7d6/AAT3ZMc8G/TRwFxiRMPBpPX+IX+
-hSBzCp22zgh5zi2ohXkyOnEsTt/a0S0+MDL71zZNhPtxXY1nqoXPOEtDNqpQhqVN5ZkfSE8P3E/C
-l75xvmM71F9g2kcTUAKU2Et1EupSv75OZseD6EosXr7S3OaqEeolhycA0XGC2OoLKq/oQkCefjur
-RDAg9bsnVcVbi1rNFxcsRelR/O/q07s6iMSqmczoaniUoZuH5B9DYt+1eTrb7xwJ5tN5lQdMH+lV
-IrPpkGghTR2jpuey/BWp8nbMIQ6cX7Zb+B0/OzErYsM6FhFg36pZQPwtLu6bldDeWyrUfnVTakb6
-698=
-=CtNU
------END PGP SIGNATURE-----
+Also, can the expresswire code have protocol-violation watchdogs that
+trigger a re-transmit of the message if we get pre-empted in the middle
+of sending a message to the backlight (see calls to ktime_get_ns() in
+ktd253-backlight.c ).
 
---------------CLRkd5Jv5YJLAOzv8bkfcI0g--
+
+> +
+> +	gpiod_set_value(ktd2801->desc, 0);
+> +	udelay(DS);
+> +
+> +	for (int i = 0; i < 8; i++) {
+> +		u8 next_bit = (brightness & 0x80) >> 7;
+> +
+> +		if (!next_bit) {
+> +			gpiod_set_value(ktd2801->desc, 1);
+> +			udelay(LOW_BIT_LOW);
+> +			gpiod_set_value(ktd2801->desc, 0);
+> +			udelay(LOW_BIT_HIGH);
+> +		} else {
+> +			gpiod_set_value(ktd2801->desc, 1);
+> +			udelay(HIGH_BIT_LOW);
+> +			gpiod_set_value(ktd2801->desc, 0);
+> +			udelay(HIGH_BIT_HIGH);
+> +		}
+> +		brightness <<= 1;
+> +	}
+> +	gpiod_set_value(ktd2801->desc, 1);
+> +	udelay(EOD_L);
+> +	gpiod_set_value(ktd2801->desc, 0);
+> +	udelay(EOD_H);
+> +	return 0;
+> +}
+> +
+> +static const struct backlight_ops ktd2801_backlight_ops = {
+> +	.update_status = ktd2801_update_status,
+> +};
+> +
+> +static int ktd2801_backlight_probe(struct platform_device *pdev)
+> +{
+> +	struct device *dev = &pdev->dev;
+> +	struct backlight_device *bd;
+> +	struct ktd2801_backlight *ktd2801;
+> +	u32 brightness, max_brightness;
+> +	int ret;
+> +
+> +	ktd2801 = devm_kzalloc(dev, sizeof(*ktd2801), GFP_KERNEL);
+> +	if (!ktd2801)
+> +		return -ENOMEM;
+> +	ktd2801->dev = dev;
+
+This appears to be a write-only variable.
+
+Overall the driver looks good but it would be nice to figure out how to
+share expresswire framing between drivers (don't worry about ktd253, it
+uses a different protocol).
+
+
+Daniel.
