@@ -2,48 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF0CF7BD19D
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Oct 2023 03:03:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2816F7BD1CC
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Oct 2023 03:27:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE05A10E207;
-	Mon,  9 Oct 2023 01:03:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 93EAC10E064;
+	Mon,  9 Oct 2023 01:27:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C3F010E207
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Oct 2023 01:03:36 +0000 (UTC)
-Received: from [192.168.0.206] (unknown [179.221.49.143])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: koike)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 4A3CF660708F;
- Mon,  9 Oct 2023 02:03:32 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1696813415;
- bh=35nrW3gO/6HnAGH/9ZbIoMBKqyABKYke37kZEOGECPw=;
- h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
- b=MWgvA4fPTMiJ8XcYVwh/DLS7FU9hQXlyHE4dJXuNACbckkLlDRQYceu18dvlYnFJy
- zAUZd4TSSDFVxdMHjisTWWkHKg0bIv9RYS8HSYVYVTqeQuhOGZGqACQ2rCp+hXY0pB
- sb0Q5tuoEPO+6OzYbb9hkwXRECy/Om6ll3OEN4HxpVDKdCWCctM9+kvw3W23p5e+JT
- M91PF14Jg7BIqIRES7SfwCE5xP9KmpZswbtqGWkHEX4JZoOVdmbEjpehVxHYu7a8hw
- fICgJpMHHraWGcfk1K+6Xd5w94zUt7ODAVw4LIwXqrxEEu/ZWEr82sPRE80HlEqG2q
- b+kmCGWF1zcfw==
-Message-ID: <a8feac7b-11aa-495a-837c-e6083ac8fa03@collabora.com>
-Date: Sun, 8 Oct 2023 22:03:27 -0300
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A1E510E064
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Oct 2023 01:27:20 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 73CD7CE0BAD
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Oct 2023 01:27:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9DABC433CB
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Oct 2023 01:27:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1696814836;
+ bh=ePI4sPrOJVud3B+wyuF05+QlHDAmRa99/XgMjusQ7CQ=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=QFERmspS24rcUU3iuTm8gr9nliikS/l5t9bTg7T1Q57nW8cP/fJ/AdsM7NcYGf0ex
+ xyANJy32Scm15YEev3mZgypetPQk+K2Ou2Jkn2F8EQWyTAZQNipIO+TOFqDT/TU1YI
+ kK9/rQ89qcBiLOPNW0wTHMGpHTMOsi4b4N26KWxOI57Tv0zX9SwdbkSDXUZOKUwfU6
+ Op7Hqb5VksdQfk8uZbMzkc/75P0aNbJMk5zIiJPV8ucBwkJtRTVAXaCFzisfAV0tnf
+ WCIwsEETjfdGfhe0c5tcmo/ZeLMJMQR6Ao6IZzWt/QIanpUzAZJUltH6R/HSgVkIDY
+ /AfHGLcBAqbCg==
+Received: by mail-ed1-f45.google.com with SMTP id
+ 4fb4d7f45d1cf-5363227cc80so6499945a12.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 08 Oct 2023 18:27:16 -0700 (PDT)
+X-Gm-Message-State: AOJu0YwnNza8QOx6j/jUOqJ3tQ/ydWepO5y2WecLxzRNsPtnYd+Bw3Wl
+ jryCMTPm5B1IJfwms303WrbcLQaRhLHfoZKhkeg=
+X-Google-Smtp-Source: AGHT+IFuDZWcAXMv/BZKi3giWjLwkrVXd4Fi2eK4WckAot0Lrfx277Vb/p+cHTJaqBzDigw2umg+GIz7HsTJU5Knxlw=
+X-Received: by 2002:aa7:d9d4:0:b0:52f:a162:f4c2 with SMTP id
+ v20-20020aa7d9d4000000b0052fa162f4c2mr11856309eds.22.1696814835101; Sun, 08
+ Oct 2023 18:27:15 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/ci: Uprev IGT to pull in fixes
-Content-Language: en-US
-From: Helen Koike <helen.koike@collabora.com>
-To: Rob Clark <robdclark@gmail.com>
-References: <20230920180526.137369-1-robdclark@gmail.com>
- <CAF6AEGvUOX-D+-vwov-FDp46rJdo8wq1Do-9Gj3k5v313wVJhA@mail.gmail.com>
- <2ec320ca-d768-89ec-200f-695839e48538@collabora.com>
- <CAF6AEGvhav3kX0fRpjeGbJYqQ_J5gonng-wYjZUeRunOBuUC1A@mail.gmail.com>
- <7318d141-12b7-eab7-52dd-8953305d85c6@collabora.com>
-In-Reply-To: <7318d141-12b7-eab7-52dd-8953305d85c6@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <7c50e051-eba2-09fc-da9f-023d592de457@ristioja.ee>
+ <31bdf7b1-0ed9-4217-b459-1d857e53120b@leemhuis.info>
+ <CAAhV-H7fRpykesVUEyaTpVnFiGwpP+fPbtdrp6JwfgD=bDp06Q@mail.gmail.com>
+In-Reply-To: <CAAhV-H7fRpykesVUEyaTpVnFiGwpP+fPbtdrp6JwfgD=bDp06Q@mail.gmail.com>
+From: Huacai Chen <chenhuacai@kernel.org>
+Date: Mon, 9 Oct 2023 09:27:02 +0800
+X-Gmail-Original-Message-ID: <CAAhV-H7XCmbgS=N4-SE8FnASAws8hnDRZsQJgXE+dwyARaqzNw@mail.gmail.com>
+Message-ID: <CAAhV-H7XCmbgS=N4-SE8FnASAws8hnDRZsQJgXE+dwyARaqzNw@mail.gmail.com>
+Subject: Re: Blank screen on boot of Linux 6.5 and later on Lenovo ThinkPad
+ L570
+To: Linux regressions mailing list <regressions@lists.linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,258 +62,129 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Daniel Stone <daniels@collabora.com>,
- linux-arm-msm@vger.kernel.org, open list <linux-kernel@vger.kernel.org>,
- dri-devel@lists.freedesktop.org,
- "open list:ARM/Rockchip SoC support" <linux-rockchip@lists.infradead.org>,
- "moderated list:ARM/Rockchip SoC support"
- <linux-arm-kernel@lists.infradead.org>
+Cc: Jaak Ristioja <jaak@ristioja.ee>, javierm@redhat.com,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi, all,
+
+On Tue, Sep 26, 2023 at 10:31=E2=80=AFPM Huacai Chen <chenhuacai@kernel.org=
+> wrote:
+>
+> Hi, all,
+>
+> On Tue, Sep 26, 2023 at 7:15=E2=80=AFPM Linux regression tracking (Thorst=
+en
+> Leemhuis) <regressions@leemhuis.info> wrote:
+> >
+> > [CCing the regression list, as it should be in the loop for regressions=
+:
+> > https://docs.kernel.org/admin-guide/reporting-regressions.html]
+> >
+> > Hi, Thorsten here, the Linux kernel's regression tracker.
+> >
+> > On 13.09.23 14:02, Jaak Ristioja wrote:
+> > >
+> > > Upgrading to Linux 6.5 on a Lenovo ThinkPad L570 (Integrated Intel HD
+> > > Graphics 620 (rev 02), Intel(R) Core(TM) i7-7500U) results in a blank
+> > > screen after boot until the display manager starts... if it does star=
+t
+> > > at all. Using the nomodeset kernel parameter seems to be a workaround=
+.
+> > >
+> > > I've bisected this to commit 60aebc9559492cea6a9625f514a8041717e3a2e4
+> > > ("drivers/firmware: Move sysfb_init() from device_initcall to
+> > > subsys_initcall_sync").
+> >
+> > Hmmm, no reaction since it was posted a while ago, unless I'm missing
+> > something.
+> >
+> > Huacai Chen, did you maybe miss this report? The problem is apparently
+> > caused by a commit of yours (that Javier applied), you hence should loo=
+k
+> > into this.
+> I'm sorry but it looks very strange, could you please share your config f=
+ile?
+As confirmed by Jaak, disabling DRM_SIMPLEDRM makes things work fine
+again. So I guess the reason:
+
+When SIMPLEDRM takes over the framebuffer, the screen is blank (don't
+know why). And before 60aebc9559492cea6a9625f ("drivers/firmware: Move
+sysfb_init() from device_initcall to subsys_initcall_sync") there is
+no platform device created for SIMPLEDRM at early stage, so it seems
+also "no problem".
+
+Huacai
 
 
-On 20/09/2023 20:22, Helen Koike wrote:
-> 
-> 
-> On 20/09/2023 16:44, Rob Clark wrote:
->> On Wed, Sep 20, 2023 at 11:53 AM Helen Koike 
->> <helen.koike@collabora.com> wrote:
->>>
->>> Hi Rob,
->>>
->>> Thanks for the patch.
->>>
->>> On 20/09/2023 15:10, Rob Clark wrote:
->>>> On Wed, Sep 20, 2023 at 11:06 AM Rob Clark <robdclark@gmail.com> wrote:
->>>>>
->>>>> From: Rob Clark <robdclark@chromium.org>
->>>>>
->>>>> There have been a few igt test fixes compared to the commit that we 
->>>>> were
->>>>> currently using.  Pull in a newer igt and update expectations.
->>>>>
->>>>> Signed-off-by: Rob Clark <robdclark@chromium.org>
->>>>> ---
->>>
->>> Could you send here the url of a pipeline run with this change?
->>
->> https://gitlab.freedesktop.org/drm/msm/-/pipelines/989913
-> 
-> Thanks, lgtm.
-> 
-> Acked-by: Helen Koike <helen.koike@collabora.com>
-
-Dear maintainers,
-
-I talked with Rob, after his igt patch got merged, we made a few fixes 
-and updates to the xfails, so we are dropping this patch in favor of the 
-series:
-
-	[PATCH 0/9] drm/ci: fixes and improvements
-
-https://lists.freedesktop.org/archives/dri-devel/2023-October/425909.html
-
-Thanks,
-Helen
-
-> 
->>
->> That was before I wrote a proper commit msg so you can ignore the
->> checkpatch job.. and there is an unrelated issue with the sdm845
->> runners not booting w/ v6.6-rc2, which still needs to be tracked down.
->>
->> BR,
->> -R
->>
->>>>>    drivers/gpu/drm/ci/gitlab-ci.yml               |  2 +-
->>>>>    .../gpu/drm/ci/xfails/amdgpu-stoney-fails.txt  |  4 ++--
->>>>>    drivers/gpu/drm/ci/xfails/i915-apl-fails.txt   | 11 -----------
->>>>>    drivers/gpu/drm/ci/xfails/i915-cml-fails.txt   |  2 +-
->>>>>    drivers/gpu/drm/ci/xfails/i915-tgl-fails.txt   |  1 -
->>>>>    drivers/gpu/drm/ci/xfails/msm-sc7180-skips.txt | 18 
->>>>> +-----------------
->>>>>    .../drm/ci/xfails/rockchip-rk3288-fails.txt    |  2 ++
->>>>>    7 files changed, 7 insertions(+), 33 deletions(-)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/ci/gitlab-ci.yml 
->>>>> b/drivers/gpu/drm/ci/gitlab-ci.yml
->>>>> index 2c4df53f5dfe..3ecb5879e80f 100644
->>>>> --- a/drivers/gpu/drm/ci/gitlab-ci.yml
->>>>> +++ b/drivers/gpu/drm/ci/gitlab-ci.yml
->>>>> @@ -5,7 +5,7 @@ variables:
->>>>>      UPSTREAM_REPO: git://anongit.freedesktop.org/drm/drm
->>>>>      TARGET_BRANCH: drm-next
->>>>>
->>>>> -  IGT_VERSION: 471bfababd070e1dac0ebb87470ac4f2ae85e663
->>>>> +  IGT_VERSION: 2517e42d612e0c1ca096acf8b5f6177f7ef4bce7
->>>>>
->>>>>      DEQP_RUNNER_GIT_URL: 
->>>>> https://gitlab.freedesktop.org/anholt/deqp-runner.git
->>>>>      DEQP_RUNNER_GIT_TAG: v0.15.0
->>>>> diff --git a/drivers/gpu/drm/ci/xfails/amdgpu-stoney-fails.txt 
->>>>> b/drivers/gpu/drm/ci/xfails/amdgpu-stoney-fails.txt
->>>>> index bd9392536e7c..bab21930a0d4 100644
->>>>> --- a/drivers/gpu/drm/ci/xfails/amdgpu-stoney-fails.txt
->>>>> +++ b/drivers/gpu/drm/ci/xfails/amdgpu-stoney-fails.txt
->>>>> @@ -1,7 +1,6 @@
->>>>>    kms_addfb_basic@bad-pitch-65536,Fail
->>>>>    kms_addfb_basic@bo-too-small,Fail
->>>>>    kms_async_flips@invalid-async-flip,Fail
->>>>> -kms_atomic@plane-immutable-zpos,Fail
->>>>>    kms_atomic_transition@plane-toggle-modeset-transition,Fail
->>>>>    kms_bw@linear-tiling-1-displays-2560x1440p,Fail
->>>>>    kms_bw@linear-tiling-1-displays-3840x2160p,Fail
->>>>> @@ -11,9 +10,10 @@ kms_color@degamma,Fail
->>>>>    kms_cursor_crc@cursor-size-change,Fail
->>>>>    kms_cursor_crc@pipe-A-cursor-size-change,Fail
->>>>>    kms_cursor_crc@pipe-B-cursor-size-change,Fail
->>>>> -kms_cursor_legacy@forked-move,Fail
->>>>>    kms_hdr@bpc-switch,Fail
->>>>>    kms_hdr@bpc-switch-dpms,Fail
->>>>>    kms_plane_multiple@atomic-pipe-A-tiling-none,Fail
->>>>>    kms_rmfb@close-fd,Fail
->>>>>    kms_rotation_crc@primary-rotation-180,Fail
->>>>> +kms_flip@flip-vs-modeset-vs-hang,Fail
->>>>> +kms_flip@flip-vs-panning-vs-hang,Fail
->>>>> diff --git a/drivers/gpu/drm/ci/xfails/i915-apl-fails.txt 
->>>>> b/drivers/gpu/drm/ci/xfails/i915-apl-fails.txt
->>>>> index 46397ce38d5a..2e3b7c5dac3c 100644
->>>>> --- a/drivers/gpu/drm/ci/xfails/i915-apl-fails.txt
->>>>> +++ b/drivers/gpu/drm/ci/xfails/i915-apl-fails.txt
->>>>> @@ -8,13 +8,6 @@ kms_bw@linear-tiling-3-displays-3840x2160p,Fail
->>>>>    kms_bw@linear-tiling-4-displays-1920x1080p,Fail
->>>>>    kms_bw@linear-tiling-4-displays-2560x1440p,Fail
->>>>>    kms_bw@linear-tiling-4-displays-3840x2160p,Fail
->>>>> -kms_color@ctm-0-25,Fail
->>>>> -kms_color@ctm-0-50,Fail
->>>>> -kms_color@ctm-0-75,Fail
->>>>> -kms_color@ctm-max,Fail
->>>>> -kms_color@ctm-negative,Fail
->>>>> -kms_color@ctm-red-to-blue,Fail
->>>>> -kms_color@ctm-signed,Fail
->>>>>    
->>>>> kms_flip_scaled_crc@flip-32bpp-linear-to-64bpp-linear-downscaling,Fail
->>>>>    
->>>>> kms_flip_scaled_crc@flip-32bpp-linear-to-64bpp-linear-upscaling,Fail
->>>>>    
->>>>> kms_flip_scaled_crc@flip-32bpp-xtile-to-64bpp-xtile-downscaling,Fail
->>>>> @@ -38,8 +31,6 @@ 
->>>>> kms_flip_scaled_crc@flip-64bpp-ytile-to-32bpp-ytile-upscaling,Fail
->>>>>    
->>>>> kms_flip_scaled_crc@flip-64bpp-ytile-to-32bpp-ytilegen12rcccs-upscaling,Fail
->>>>>    
->>>>> kms_flip_scaled_crc@flip-64bpp-ytile-to-32bpp-ytilercccs-downscaling,Fail
->>>>>    
->>>>> kms_flip_scaled_crc@flip-64bpp-ytile-to-32bpp-ytilercccs-upscaling,Fail
->>>>> -kms_hdmi_inject@inject-4k,Timeout
->>>>> -kms_plane@plane-position-hole,Timeout
->>>>>    kms_plane_alpha_blend@alpha-basic,Fail
->>>>>    kms_plane_alpha_blend@alpha-opaque-fb,Fail
->>>>>    kms_plane_alpha_blend@alpha-transparent-fb,Fail
->>>>> @@ -53,6 +44,4 @@ kms_plane_alpha_blend@pipe-B-constant-alpha-max,Fail
->>>>>    kms_plane_alpha_blend@pipe-C-alpha-opaque-fb,Fail
->>>>>    kms_plane_alpha_blend@pipe-C-alpha-transparent-fb,Fail
->>>>>    kms_plane_alpha_blend@pipe-C-constant-alpha-max,Fail
->>>>> -kms_plane_multiple@tiling-y,Timeout
->>>>> -kms_pwrite_crc,Timeout
->>>>>    kms_sysfs_edid_timing,Fail
->>>>> diff --git a/drivers/gpu/drm/ci/xfails/i915-cml-fails.txt 
->>>>> b/drivers/gpu/drm/ci/xfails/i915-cml-fails.txt
->>>>> index 6139b410e767..13c0a25fc627 100644
->>>>> --- a/drivers/gpu/drm/ci/xfails/i915-cml-fails.txt
->>>>> +++ b/drivers/gpu/drm/ci/xfails/i915-cml-fails.txt
->>>>> @@ -1,4 +1,3 @@
->>>>> -kms_color@ctm-0-25,Fail
->>>>>    
->>>>> kms_flip_scaled_crc@flip-32bpp-linear-to-64bpp-linear-downscaling,Fail
->>>>>    
->>>>> kms_flip_scaled_crc@flip-32bpp-linear-to-64bpp-linear-upscaling,Fail
->>>>>    
->>>>> kms_flip_scaled_crc@flip-32bpp-xtile-to-64bpp-xtile-downscaling,Fail
->>>>> @@ -16,3 +15,4 @@ kms_plane_alpha_blend@alpha-basic,Fail
->>>>>    kms_plane_alpha_blend@alpha-opaque-fb,Fail
->>>>>    kms_plane_alpha_blend@alpha-transparent-fb,Fail
->>>>>    kms_plane_alpha_blend@constant-alpha-max,Fail
->>>>> +kms_async_flips@crc,Fail
->>>>> diff --git a/drivers/gpu/drm/ci/xfails/i915-tgl-fails.txt 
->>>>> b/drivers/gpu/drm/ci/xfails/i915-tgl-fails.txt
->>>>> index a6da5544e198..27bfca1c6f2c 100644
->>>>> --- a/drivers/gpu/drm/ci/xfails/i915-tgl-fails.txt
->>>>> +++ b/drivers/gpu/drm/ci/xfails/i915-tgl-fails.txt
->>>>> @@ -8,7 +8,6 @@ kms_bw@linear-tiling-4-displays-3840x2160p,Fail
->>>>>    kms_bw@linear-tiling-5-displays-1920x1080p,Fail
->>>>>    kms_bw@linear-tiling-5-displays-2560x1440p,Fail
->>>>>    kms_bw@linear-tiling-5-displays-3840x2160p,Fail
->>>>> -kms_color@ctm-0-25,Fail
->>>>>    kms_flip@flip-vs-panning-vs-hang,Timeout
->>>>>    
->>>>> kms_flip_scaled_crc@flip-32bpp-linear-to-64bpp-linear-downscaling,Fail
->>>>>    
->>>>> kms_flip_scaled_crc@flip-32bpp-linear-to-64bpp-linear-upscaling,Fail
->>>>> diff --git a/drivers/gpu/drm/ci/xfails/msm-sc7180-skips.txt 
->>>>> b/drivers/gpu/drm/ci/xfails/msm-sc7180-skips.txt
->>>>> index 410e0eeb3161..e59a2fddfde0 100644
->>>>> --- a/drivers/gpu/drm/ci/xfails/msm-sc7180-skips.txt
->>>>> +++ b/drivers/gpu/drm/ci/xfails/msm-sc7180-skips.txt
->>>>
->>>> Side note, I noticed for sc7180-skips (and a lot of other boards) we 
->>>> have:
->>>>
->>>> # Suspend to RAM seems to be broken on this machine
->>>> .*suspend.*
->>>>
->>>> Locally I've not had problems with the suspend tests, I'm guessing the
->>>> actual issue is usb-ethernet vs nfsroot.  But maybe the filesys for
->>>> igt jobs is small enough that we can do initramfs instead?  Someone
->>>> should probably confirm what the root issue is and update the
->>>> comments, so developers aren't thinking that suspend is something that
->>>> needs to be debugged
->>>
->>> Agreed.
->>>
->>> Regards,
->>> Helen
->>>
->>>>
->>>> BR,
->>>> -R
->>>>
->>>>
->>>>> @@ -4,20 +4,4 @@
->>>>>    # Test incorrectly assumes that CTM support implies gamma/degamma
->>>>>    # LUT support.  None of the subtests handle the case of only having
->>>>>    # CTM support
->>>>> -kms_color.*
->>>>> -
->>>>> -# 4k@60 is not supported on this hw, but driver doesn't handle it
->>>>> -# too gracefully.. https://gitlab.freedesktop.org/drm/msm/-/issues/15
->>>>> -kms_bw@linear-tiling-.*-displays-3840x2160p
->>>>> -
->>>>> -# Until igt fix lands: 
->>>>> https://patchwork.freedesktop.org/patch/493175/
->>>>> -kms_bw@linear-tiling-2.*
->>>>> -kms_bw@linear-tiling-3.*
->>>>> -kms_bw@linear-tiling-4.*
->>>>> -kms_bw@linear-tiling-5.*
->>>>> -kms_bw@linear-tiling-6.*
->>>>> -
->>>>> -# igt fix posted: https://patchwork.freedesktop.org/patch/499926/
->>>>> -# failure mode is flakey due to randomization but fails frequently
->>>>> -# enough to be detected as a Crash or occasionally UnexpectedPass.
->>>>> -kms_plane_multiple@atomic-pipe-A-tiling-none
->>>>> +#kms_color.*
->>>>> diff --git a/drivers/gpu/drm/ci/xfails/rockchip-rk3288-fails.txt 
->>>>> b/drivers/gpu/drm/ci/xfails/rockchip-rk3288-fails.txt
->>>>> index 2a1baa948e12..15ac861a58bf 100644
->>>>> --- a/drivers/gpu/drm/ci/xfails/rockchip-rk3288-fails.txt
->>>>> +++ b/drivers/gpu/drm/ci/xfails/rockchip-rk3288-fails.txt
->>>>> @@ -46,3 +46,5 @@ kms_properties@connector-properties-legacy,Crash
->>>>>    kms_properties@get_properties-sanity-atomic,Crash
->>>>>    kms_properties@get_properties-sanity-non-atomic,Crash
->>>>>    kms_setmode@invalid-clone-single-crtc,Crash
->>>>> +kms_flip@flip-vs-modeset-vs-hang,Crash
->>>>> +kms_flip@flip-vs-panning-vs-hang,Crash
->>>>> -- 
->>>>> 2.41.0
->>>>>
+>
+> Huacai
+>
+> >
+> > Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat=
+)
+> > --
+> > Everything you wanna know about Linux kernel regression tracking:
+> > https://linux-regtracking.leemhuis.info/about/#tldr
+> > If I did something stupid, please tell me, as explained on that page.
+> >
+> > > git bisect start
+> > > # status: waiting for both good and bad commits
+> > > # good: [6995e2de6891c724bfeb2db33d7b87775f913ad1] Linux 6.4
+> > > git bisect good 6995e2de6891c724bfeb2db33d7b87775f913ad1
+> > > # status: waiting for bad commit, 1 good commit known
+> > > # bad: [2dde18cd1d8fac735875f2e4987f11817cc0bc2c] Linux 6.5
+> > > git bisect bad 2dde18cd1d8fac735875f2e4987f11817cc0bc2c
+> > > # bad: [b775d6c5859affe00527cbe74263de05cfe6b9f9] Merge tag 'mips_6.5=
+'
+> > > of git://git.kernel.org/pub/scm/linux/kernel/git/mips/linux
+> > > git bisect bad b775d6c5859affe00527cbe74263de05cfe6b9f9
+> > > # good: [3a8a670eeeaa40d87bd38a587438952741980c18] Merge tag
+> > > 'net-next-6.5' of
+> > > git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next
+> > > git bisect good 3a8a670eeeaa40d87bd38a587438952741980c18
+> > > # bad: [188d3f80fc6d8451ab5e570becd6a7b2d3033023] drm/amdgpu: vcn_4_0
+> > > set instance 0 init sched score to 1
+> > > git bisect bad 188d3f80fc6d8451ab5e570becd6a7b2d3033023
+> > > # good: [12fb1ad70d65edc3405884792d044fa79df7244f] drm/amdkfd: update
+> > > process interrupt handling for debug events
+> > > git bisect good 12fb1ad70d65edc3405884792d044fa79df7244f
+> > > # bad: [9cc31938d4586f72eb8e0235ad9d9eb22496fcee] i915/perf: Drop the
+> > > aging_tail logic in perf OA
+> > > git bisect bad 9cc31938d4586f72eb8e0235ad9d9eb22496fcee
+> > > # bad: [51d86ee5e07ccef85af04ee9850b0baa107999b6] drm/msm: Switch to
+> > > fdinfo helper
+> > > git bisect bad 51d86ee5e07ccef85af04ee9850b0baa107999b6
+> > > # good: [bfdede3a58ea970333d77a05144a7bcec13cf515] drm/rockchip: cdn-=
+dp:
+> > > call drm_connector_update_edid_property() unconditionally
+> > > git bisect good bfdede3a58ea970333d77a05144a7bcec13cf515
+> > > # good: [123ee07ba5b7123e0ce0e0f9d64938026c16a2ce] drm: sun4i_tcon: u=
+se
+> > > devm_clk_get_enabled in `sun4i_tcon_init_clocks`
+> > > git bisect good 123ee07ba5b7123e0ce0e0f9d64938026c16a2ce
+> > > # bad: [20d54e48d9c705091a025afff5839da2ea606f6b] fbdev: Rename
+> > > fb_mem*() helpers
+> > > git bisect bad 20d54e48d9c705091a025afff5839da2ea606f6b
+> > > # bad: [728cb3f061e2b3a002fd76d91c2449b1497b6640] gpu: drm: bridge: N=
+o
+> > > need to set device_driver owner
+> > > git bisect bad 728cb3f061e2b3a002fd76d91c2449b1497b6640
+> > > # bad: [0f1cb4d777281ca3360dbc8959befc488e0c327e] drm/ssd130x: Fix
+> > > include guard name
+> > > git bisect bad 0f1cb4d777281ca3360dbc8959befc488e0c327e
+> > > # good: [0bd5bd65cd2e4d1335ea6c17cd2c8664decbc630] dt-bindings: displ=
+ay:
+> > > simple: Add BOE EV121WXM-N10-1850 panel
+> > > git bisect good 0bd5bd65cd2e4d1335ea6c17cd2c8664decbc630
+> > > # bad: [60aebc9559492cea6a9625f514a8041717e3a2e4] drivers/firmware: M=
+ove
+> > > sysfb_init() from device_initcall to subsys_initcall_sync
+> > > git bisect bad 60aebc9559492cea6a9625f514a8041717e3a2e4
+> > > # good: [8bb7c7bca5b70f3cd22d95b4d36029295c4274f6] drm/panel:
+> > > panel-simple: Add BOE EV121WXM-N10-1850 panel support
+> > > git bisect good 8bb7c7bca5b70f3cd22d95b4d36029295c4274f6
+> > > # first bad commit: [60aebc9559492cea6a9625f514a8041717e3a2e4]
+> > > drivers/firmware: Move sysfb_init() from device_initcall to
+> > > subsys_initcall_sync
