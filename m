@@ -1,40 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1ECDA7BD189
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Oct 2023 02:52:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 310AB7BD18A
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Oct 2023 02:52:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A51C10E20D;
-	Mon,  9 Oct 2023 00:52:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3822510E212;
+	Mon,  9 Oct 2023 00:52:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0FB1810E212
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Oct 2023 00:52:01 +0000 (UTC)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 955A810E212
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Oct 2023 00:52:07 +0000 (UTC)
 Received: from localhost.localdomain (unknown [179.221.49.143])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: koike)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id CBE4C660708F;
- Mon,  9 Oct 2023 01:51:55 +0100 (BST)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id C84AB6607243;
+ Mon,  9 Oct 2023 01:52:00 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1696812719;
- bh=Y+j9Xsw46AsG5JPdCV09TevV027ik56XBQjQ+3I3yBQ=;
+ s=mail; t=1696812726;
+ bh=mZ+luv2HSDAJDTYyO4KODM5DbzIowrR9R5Z4YfYNXXc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=hhdpLJboVDPCZmaEkV+qeAUD1OVyuyyn0Pls27DDegt2Fa78QUEKlSEpDht8ZgFSN
- J2bMWY8m3uKCyuUwKjF4FTHlzbjYoKv6BVZ9snhHsvISgSB4uVfBPMhyWs3IOUlLdO
- q4DD0SjfI5dETgUmyKY1bcITTtZQ0xBMtUy1rm9/+XMkqe84KDPvUTGTD31v7VLpy2
- jW1nijf3K72aXf2KpJWJBawqSow0YKqUYyACm1ciCDzvoq9d+xLOlElo2tE0lcZLdW
- eySkHf9lJzE69PZkg1rB8beO833l/B4L3YfQNvcxU+fU7edDnmWQzpdseKO238rycg
- M7xhPFkmVHgMg==
+ b=lkwoVIdsokw32jVolK8n1/3bkwBBRcGGTSWMeQogZSTnEFOjERkVi/oht51soAxDd
+ 6sYXMHeNVAC8sGxpwpVdM1o1TVFA+0AzgU8PZMIqNATCjY/LeUC9E+5oGKY5Nxipat
+ 8Mh06K0HmD2KWA7q2BEr3ozQpnLK2z+tKo9l6TbYbaCh9s/ErH7cnv9s7P0yghLxjG
+ sk05509A0q6CvQxoXr8yNi6dSSK1aD5j2wVct4VvR7A4ycvLrIA/ARqse0uzFYhzq/
+ Mcw3heWk67Zn8yZjOJtYDFBWScN+rFNXtPQX/34kcuzzVmi/odNFPzT+Kp2TdwH0w5
+ hl/6ygtspkcyQ==
 From: Helen Koike <helen.koike@collabora.com>
 To: Helen Koike <helen.koike@collabora.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH 8/9] drm/ci: do not automatically retry on error
-Date: Sun,  8 Oct 2023 21:49:53 -0300
-Message-Id: <20231009004953.203576-9-helen.koike@collabora.com>
+ Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH 9/9] drm/ci: docs: add step about how to request privileges
+Date: Sun,  8 Oct 2023 21:49:54 -0300
+Message-Id: <20231009004953.203576-10-helen.koike@collabora.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20231009004953.203576-1-helen.koike@collabora.com>
 References: <20231009004953.203576-1-helen.koike@collabora.com>
@@ -52,49 +54,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: robdclark@chromium.org, vignesh.raman@collabora.com,
- guilherme.gallo@collabora.com, sergi.blanch.torne@collabora.com,
- quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, david.heidelberg@collabora.com,
- dmitry.baryshkov@linaro.org, quic_jesszhan@quicinc.com
+Cc: robdclark@chromium.org, linux-doc@vger.kernel.org,
+ vignesh.raman@collabora.com, guilherme.gallo@collabora.com,
+ sergi.blanch.torne@collabora.com, quic_abhinavk@quicinc.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ david.heidelberg@collabora.com, dmitry.baryshkov@linaro.org,
+ quic_jesszhan@quicinc.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since the kernel doesn't use a bot like Mesa that requires tests to pass
-in order to merge the patches, leave it to developers and/or maintainers
-to manually retry.
+Clarify the procedure developer must follow to request privileges to
+run tests on Freedesktop gitlab CI.
 
-Suggested-by: Rob Clark <robdclark@chromium.org>
+This measure was added to avoid untrusted people to misuse the
+infrastructure.
+
 Signed-off-by: Helen Koike <helen.koike@collabora.com>
 ---
- drivers/gpu/drm/ci/gitlab-ci.yml | 14 --------------
- 1 file changed, 14 deletions(-)
+ Documentation/gpu/automated_testing.rst | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/ci/gitlab-ci.yml b/drivers/gpu/drm/ci/gitlab-ci.yml
-index 9326522823bb..6c5bf6fac697 100644
---- a/drivers/gpu/drm/ci/gitlab-ci.yml
-+++ b/drivers/gpu/drm/ci/gitlab-ci.yml
-@@ -55,20 +55,6 @@ default:
-       export CI_JOB_JWT="$(<${CI_JOB_JWT_FILE})" &&
-       rm "${CI_JOB_JWT_FILE}"
+diff --git a/Documentation/gpu/automated_testing.rst b/Documentation/gpu/automated_testing.rst
+index 469b6fb65c30..8ec1878b44ab 100644
+--- a/Documentation/gpu/automated_testing.rst
++++ b/Documentation/gpu/automated_testing.rst
+@@ -86,10 +86,13 @@ https://gitlab.freedesktop.org/janedoe/linux/-/settings/ci_cd), change the
+ CI/CD configuration file from .gitlab-ci.yml to
+ drivers/gpu/drm/ci/gitlab-ci.yml.
  
--  # Retry when job fails.
--  retry:
--    max: 1
--    # Ignore runner_unsupported, stale_schedule, archived_failure, or
--    # unmet_prerequisites
--    when:
--      - api_failure
--      - runner_system_failure
--      - script_failure
--      - job_execution_timeout
--      - scheduler_failure
--      - data_integrity_failure
--      - unknown_failure
--
- include:
-   - project: 'freedesktop/ci-templates'
-     ref: 16bc29078de5e0a067ff84a1a199a3760d3b3811
+-3. Next time you push to this repository, you will see a CI pipeline being
++3. Request to be added to the drm/ci-ok group so that your user has the
++necessary privileges to run the CI on https://gitlab.freedesktop.org/drm/ci-ok
++
++4. Next time you push to this repository, you will see a CI pipeline being
+ created (eg. https://gitlab.freedesktop.org/janedoe/linux/-/pipelines)
+ 
+-4. The various jobs will be run and when the pipeline is finished, all jobs
++5. The various jobs will be run and when the pipeline is finished, all jobs
+ should be green unless a regression has been found.
+ 
+ 
 -- 
 2.34.1
 
