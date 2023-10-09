@@ -2,52 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED2D67BD926
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Oct 2023 13:02:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 047C37BD96D
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Oct 2023 13:20:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E3BE89226;
-	Mon,  9 Oct 2023 11:02:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F9D910E0F8;
+	Mon,  9 Oct 2023 11:19:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 08C2789226;
- Mon,  9 Oct 2023 11:02:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1696849357; x=1728385357;
- h=date:from:to:cc:subject:in-reply-to:message-id:
- references:mime-version;
- bh=MmMf258M2aynXUKykT7A9ZJ1flv5Ehw3wMtnyNA2/MI=;
- b=MaiDGI3bslFnMGKYgCxQVzfKGo8/0dHOojPDfBnnFFH2bU/J97vQcuBr
- +eiIg/rEXVtMtApeDGPuh13ZIhlP8R4Jn3aMEXA6GBbTy9qeTf/D5vQwW
- yR+J6upfChUpm9wE5yEA7Cjr3vwUzaVPmRF6i0VBuzBiCTdfJRZQIbfnP
- jgL6fB8u1VkeCc8NoAQIIIytUQwl+2gTRkEU2IrOyswsi5YFtTWsNAjA5
- +RSNXJwYAa/QhnknWujacSbFOtN6Vi3eTJfvypHWgLBUrP80ZqoAUH32g
- loYu1OeL89JfyjLsJSShXVuZ/rC9DSUJcBsNxLIzuF7wUWoPvyRZbSjUP g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10857"; a="382993239"
-X-IronPort-AV: E=Sophos;i="6.03,210,1694761200"; d="scan'208";a="382993239"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Oct 2023 04:02:36 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10857"; a="788124493"
-X-IronPort-AV: E=Sophos;i="6.03,210,1694761200"; d="scan'208";a="788124493"
-Received: from lshebash-mobl3.ccr.corp.intel.com ([10.252.57.254])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Oct 2023 04:02:31 -0700
-Date: Mon, 9 Oct 2023 14:02:29 +0300 (EEST)
-From: =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
-Subject: Re: [PATCH v2 12/16] platform/x86/amd/pmf: Add PMF-AMDGPU get
- interface
-In-Reply-To: <c5834d5e-af71-4d96-88ae-c2acd5f6604b@amd.com>
-Message-ID: <38f6ad4d-fbbe-2b43-61e-7c676e3dbac6@linux.intel.com>
-References: <20230930083715.2050863-1-Shyam-sundar.S-k@amd.com>
- <20230930083715.2050863-13-Shyam-sundar.S-k@amd.com>
- <e7b33961-23bb-cb8-2941-ced3f0cf2620@linux.intel.com>
- <c5834d5e-af71-4d96-88ae-c2acd5f6604b@amd.com>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B5E2D10E0F8
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Oct 2023 11:19:56 +0000 (UTC)
+Received: from [IPV6:2804:1b1:a940:c6b8:18b8:5ce:1f77:c31a] (unknown
+ [IPv6:2804:1b1:a940:c6b8:18b8:5ce:1f77:c31a])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: koike)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 7F1426605957;
+ Mon,  9 Oct 2023 12:19:52 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1696850395;
+ bh=se4MQkYBZRlBZRnBE1H+TAMveEHemZnZwrtB2S/ffb4=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=Ct1L0BTrXqTEc9k7qOFzpuOF9mBYePU+TjYBAHXz6sh1udRRDx4fLLNJthRKfLYrE
+ 3cAnPyuWtbi69xP87j7p12eFFmvCCw3vyIUxIgz8XzYd7pNKSk+WLBYHYmhA1X/xWU
+ VGriPXN7CM/m+RHecRLr9VEC693/FD1pM07LO041xcGvBO+5+Q4g2d9RCKJfo4/DY/
+ IaJ1Ssd4M5mfXsfl1FmpPsuA/m/visXVuQvNyJxwUMbH4syeio3leR1iaSaEjNvfIp
+ g5fEoee3R2UoFU02oPzYnHtHpvXFCz7oJlJpwTxYH+gOfpCYwjNEANdSxhlVx3rrMO
+ DKqTjbruW95ww==
+Message-ID: <57967900-d00e-4175-8c82-4a91c60022e5@collabora.com>
+Date: Mon, 9 Oct 2023 08:19:45 -0300
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323329-1989512445-1696849355=:1721"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/ci: Default to UART for logging
+Content-Language: en-US
+To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
+References: <20231006173205.371205-1-robdclark@gmail.com>
+From: Helen Koike <helen.koike@collabora.com>
+In-Reply-To: <20231006173205.371205-1-robdclark@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,91 +54,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Xinhui.Pan@amd.com, Patil.Reddy@amd.com, basavaraj.natikar@amd.com,
- dri-devel@lists.freedesktop.org, jikos@kernel.org,
- amd-gfx@lists.freedesktop.org, platform-driver-x86@vger.kernel.org,
- markgross@kernel.org, Hans de Goede <hdegoede@redhat.com>,
- benjamin.tissoires@redhat.com, mario.limonciello@amd.com,
- linux-input@vger.kernel.org, alexander.deucher@amd.com,
- christian.koenig@amd.com
+Cc: Rob Clark <robdclark@chromium.org>, Emma Anholt <emma@anholt.net>,
+ Guilherme Alcarde Gallo <guilherme.gallo@collabora.com>,
+ open list <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+cc +guilherme
 
---8323329-1989512445-1696849355=:1721
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
-
-On Mon, 9 Oct 2023, Shyam Sundar S K wrote:
-> On 10/4/2023 6:19 PM, Ilpo Järvinen wrote:
-> > On Sat, 30 Sep 2023, Shyam Sundar S K wrote:
-> > 
-> >> In order to provide GPU inputs to TA for the Smart PC solution to work, we
-> >> need to have interface between the PMF driver and the AMDGPU driver.
-> >>
-> >> Add the initial code path for get interface from AMDGPU.
-> >>
-> >> Co-developed-by: Mario Limonciello <mario.limonciello@amd.com>
-> >> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
-> >> Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
-> > 
-> >> @@ -355,6 +356,21 @@ static int amd_pmf_get_bios_buffer(struct amd_pmf_dev *dev)
-> >>  	return amd_pmf_start_policy_engine(dev);
-> >>  }
-> >>  
-> >> +static int amd_pmf_get_gpu_handle(struct pci_dev *pdev, void *data)
-> >> +{
-> >> +	struct amd_pmf_dev *dev = data;
-> >> +
-> >> +	if (pdev->vendor == PCI_VENDOR_ID_ATI && pdev->devfn == 0) {
-> >> +		/* get the amdgpu handle from the pci root after walking through the pci bus */
-> > 
-> > I can see from the code that you assign to amdgpu handle so this comment 
-> > added no information.
-> > 
-> > It doesn't really answer at all why you're doing this second step. Based 
-> > on the give parameters to pci_get_device(), it looks as if you're asking 
-> > for the same device you already have in pdev to be searched to you.
+On 06/10/2023 14:32, Rob Clark wrote:
+> From: Rob Clark <robdclark@chromium.org>
 > 
-> Not sure if I understand you remark completely.
+> ssh logging is the default for mesa, as it is generally more reliable.
+> But if there are kernel issues, especially at boot, UART logging is
+> infinitely more useful.
 > 
-> amd_pmf_get_gpu_handle() is a callback function for pci_walk_bus
-> (which is done below).
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> ---
+>   drivers/gpu/drm/ci/gitlab-ci.yml | 6 ++++++
+>   1 file changed, 6 insertions(+)
 > 
-> What I am trying to do here is to get the PCI handle for the GPU
-> device by walking the PCI bus.
-> 
-> I think the 'pdev' here refers to the pci root, using that root we
-> walk the entire tree and only stop walking when we find a handle to
-> GPU device.
-
-Not exactly what happens, in amd_pmf_get_gpu_handle() pdev changes on each 
-call so I don't know why you stated it is refering to the "pci root".
-
-> Do you want me to change the "pdev" parameter to be renamed as "root" ?
-
-No, please don't do that, it would be misleading.
-
-> Am I missing something?
-
-I meant that at some point of the walk through the PCI devices, you have 
-a PCI device pdev with ->vendor PCI_VENDOR_ID_AMD when that if condition 
-above matched. Please explain why you need to do another lookup with 
-pci_get_device() at that point (with the same ->vendor and ->device as 
-shown below)?
-
-> >> +		dev->gfx_data.gpu_dev = pci_get_device(pdev->vendor, pdev->device, NULL);
-> >> +		if (dev->gfx_data.gpu_dev) {
-> >> +			pci_dev_put(pdev);
-> >> +			return 1; /* stop walking */
-> >> +		}
-> >> +	}
-> >> +	return 0; /* continue walking */
-
-
--- 
- i.
-
---8323329-1989512445-1696849355=:1721--
+> diff --git a/drivers/gpu/drm/ci/gitlab-ci.yml b/drivers/gpu/drm/ci/gitlab-ci.yml
+> index 2c4df53f5dfe..7c55f02f7313 100644
+> --- a/drivers/gpu/drm/ci/gitlab-ci.yml
+> +++ b/drivers/gpu/drm/ci/gitlab-ci.yml
+> @@ -27,6 +27,12 @@ variables:
+>   
+>     LAVA_JOB_PRIORITY: 30
+>   
+> +  # Default to UART logging.  Mesa uses ssh by default, as that is more
+> +  # reliable if you have a stable kernel.  But kernel CI is more likely
+> +  # to encounter unstable kernels (and has lower volume of CI jobs so is
+> +  # less likely to be troubled by occasional UART flakes)
+> +  LAVA_FORCE_UART: 1
+> +
+>   default:
+>     before_script:
+>       - export SCRIPTS_DIR=$(mktemp -d)
