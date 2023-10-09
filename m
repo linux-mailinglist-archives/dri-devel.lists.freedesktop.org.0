@@ -1,66 +1,84 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED6817BF283
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Oct 2023 07:54:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 36A457BF46A
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Oct 2023 09:36:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3814510E21E;
-	Tue, 10 Oct 2023 05:54:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C61210E319;
+	Tue, 10 Oct 2023 07:36:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
- [IPv6:2a00:1450:4864:20::12a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 65C1F10E21E
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Oct 2023 05:54:28 +0000 (UTC)
-Received: by mail-lf1-x12a.google.com with SMTP id
- 2adb3069b0e04-503065c4b25so7025355e87.1
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Oct 2023 22:54:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1696917266; x=1697522066; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=QEUI7WElxyrFqo5uc28jvvLJFsc02bWiPPqj3cviB+U=;
- b=sSM3RybzMb5kpbyxds/N++WpiwE+00M3H42N2h9WeY6E99D6GcAFKRqIhYv8MHM+wK
- gxxQOzylph2BDgYesDOkv0buSRTLRmSiubbUvI1RzqA5dLPC0fETTlw93d2/TEC+YAPH
- diyQQYcQvFPxUHr1eobYKEdKO1OyYRYhzsccJQ4fjU73ryVUoliVsyyT4eJZBagDWUBT
- IDXQZcoM7+mjVSTNGia9ZFair1XXGUqW1rG2lvR+Ngx/Zrb51LqQAiWay/p0gdEbqwgx
- m5oG8kYw6jNJ901BowlmXJkVLtWBnT5mUXu56INOgOkFQ5qsHQhuTGhhMSCzWhvHX7va
- Q2Cw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1696917266; x=1697522066;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=QEUI7WElxyrFqo5uc28jvvLJFsc02bWiPPqj3cviB+U=;
- b=g3hmmVdJHrMbon+qYsHQtSS+9e3GabTS1kIZLhiRfQcvuHZYfsK8XjrB6yZSvuSgFj
- +wi3gcecn4UlN54D9lJXFs0p84J093cmvwAEuTiI8HIIVy+sI+VxiDh9POrgIK4EFjgo
- EG25CZGA2dG2Sq7xiyN4Z9nakqG29JbV1o7QfHAUuX4XkvqiDC///C1DonO30wPZXDiT
- YS4kFoORq3isALpFbV94bVfrfR2rpjCYq3aQViqw/uSQys+QyceW5LdstfZE6vLNbGvg
- NzL/E+0FSioL+D9nnFTcNL/X0/5BjPNz3LpvKFiKr1GN7Dci8is86mouZZuAKt+5d4EU
- yLrQ==
-X-Gm-Message-State: AOJu0YwtISyyDCdSWw86pgjFYnMYhgVpmbVuYy4pzImkMLKwsfD5JalN
- PsrkzQFynrZcRmRWa3i5RHjD/A==
-X-Google-Smtp-Source: AGHT+IGieqVKjLlnVHtcDymyKdRInCVinttJ4Uwo0Ld2tiGJ7uOdN5rtYPVDF6+cDspnRVciNuzVWg==
-X-Received: by 2002:a05:6512:758:b0:503:59d:fbff with SMTP id
- c24-20020a056512075800b00503059dfbffmr6273168lfs.2.1696917266417; 
- Mon, 09 Oct 2023 22:54:26 -0700 (PDT)
-Received: from umbar.unikie.fi ([192.130.178.91])
- by smtp.gmail.com with ESMTPSA id
- v2-20020ac25582000000b004fe1f1c0ee4sm1668371lfg.82.2023.10.09.22.54.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Oct 2023 22:54:26 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Marijn Suijten <marijn.suijten@somainline.org>
-Subject: [PATCH] drm/msm: don't create GPU-related debugfs files with no GPU
- present
-Date: Tue, 10 Oct 2023 08:54:25 +0300
-Message-Id: <20231010055425.2851776-1-dmitry.baryshkov@linaro.org>
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
+ [148.163.158.5])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABEFE10E082
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Oct 2023 22:16:34 +0000 (UTC)
+Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 399KvgKm027830; Mon, 9 Oct 2023 21:14:52 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : content-transfer-encoding : mime-version; s=pp1;
+ bh=5+pEpy1esTDnBoJJaotd858xWP0rcc3/1x8ExWl1X/w=;
+ b=aAkjifx18vMBFOfqGka7ZkkT/38XyxJambLZsm+jb8GFCKRNUmImRcv9175E3O4Y+BkW
+ R4B1W1CvX2isPslj7R5TQCPA0cEcnr4TFj+TgEaVVvtawF2oPbXV5Vt3nouu4Wg7v3SG
+ Vp2GN1CR2gvH5nbNJwxja3tSH7UlEebGFb65UJqiL0FkhIzsTQzst9KzK1XrQD4mZ9oh
+ HE7vYXsDcC5XNI5SZ+d5Qtkh0mPt3pMTE1KTssHyIYYnTJdXCKpbYFHLNGkooKD2MyT5
+ +oyzCDAOcU5LsJAoNSoVPjLWiBCK4xlKzW18p4488ft6DB30hBC7T8QEkQNrCzBkqnJE +w== 
+Received: from ppma11.dal12v.mail.ibm.com
+ (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3tms0srum4-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 09 Oct 2023 21:14:52 +0000
+Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
+ by ppma11.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 399IrmXU023094; Mon, 9 Oct 2023 21:14:51 GMT
+Received: from smtprelay01.wdc07v.mail.ibm.com ([172.16.1.68])
+ by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 3tkmc1b963-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 09 Oct 2023 21:14:51 +0000
+Received: from smtpav01.dal12v.mail.ibm.com (smtpav01.dal12v.mail.ibm.com
+ [10.241.53.100])
+ by smtprelay01.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 399LEndU17564408
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 9 Oct 2023 21:14:50 GMT
+Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D1B0458058;
+ Mon,  9 Oct 2023 21:14:49 +0000 (GMT)
+Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id BF5C958057;
+ Mon,  9 Oct 2023 21:14:49 +0000 (GMT)
+Received: from gfwa600.aus.stglabs.ibm.com (unknown [9.3.84.101])
+ by smtpav01.dal12v.mail.ibm.com (Postfix) with ESMTPS;
+ Mon,  9 Oct 2023 21:14:49 +0000 (GMT)
+Received: by gfwa600.aus.stglabs.ibm.com (Postfix, from userid 181152)
+ id 6707B740051; Mon,  9 Oct 2023 16:14:49 -0500 (CDT)
+From: Lakshmi Yadlapati <lakshmiy@us.ibm.com>
+To: linux@roeck-us.net, wsa@kernel.org, sumit.semwal@linaro.org,
+ christian.koenig@amd.com, jdelvare@suse.com, joel@jms.id.au,
+ andrew@aj.id.au, eajames@linux.ibm.com, ninad@linux.ibm.com
+Subject: [PATCH v1 0/2] [PATCH] hwmon: (pmbus/max31785) Add minimum delay
+ between bus accesses
+Date: Mon,  9 Oct 2023 16:14:18 -0500
+Message-Id: <20231009211420.3454026-1-lakshmiy@us.ibm.com>
 X-Mailer: git-send-email 2.39.2
-MIME-Version: 1.0
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: Y8ap5htUORrYlfEhm753yyHqf-pZGJfr
+X-Proofpoint-GUID: Y8ap5htUORrYlfEhm753yyHqf-pZGJfr
 Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-10-09_19,2023-10-09_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1011
+ priorityscore=1501 lowpriorityscore=0 adultscore=0 malwarescore=0
+ mlxlogscore=709 mlxscore=0 suspectscore=0 bulkscore=0 phishscore=0
+ impostorscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2309180000 definitions=main-2310090169
+X-Mailman-Approved-At: Tue, 10 Oct 2023 07:36:30 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,108 +91,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>
+Cc: linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-i2c@vger.kernel.org,
+ Lakshmi Yadlapati <lakshmiy@us.ibm.com>, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If there is no GPU present, skip creation of the GPU-related debugfs
-files, making the MSM's debugfs more usable.
+Reintroduce per-client throttling of transfers for improved compatibility.
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/msm/msm_debugfs.c | 41 +++++++++++++++++++------------
- drivers/gpu/drm/msm/msm_rd.c      |  3 +++
- 2 files changed, 28 insertions(+), 16 deletions(-)
+Some devices have experienced issues with small command turn-around times when using in-kernel device drivers. While a previous proposal was rejected due to concerns about error-prone open-coding of delays, recent upstream changes for similar problems in I2C devices (e.g., max15301 and ucd90320) and now max31785 make it sensible to reintroduce Andrew's generic solution. This change aims to improve compatibility for affected devices and may help avoid duplicating implementations of handlers for I2C and PMBus calls in driver code.
 
-diff --git a/drivers/gpu/drm/msm/msm_debugfs.c b/drivers/gpu/drm/msm/msm_debugfs.c
-index 04d304eed223..4494f6d1c7cb 100644
---- a/drivers/gpu/drm/msm/msm_debugfs.c
-+++ b/drivers/gpu/drm/msm/msm_debugfs.c
-@@ -304,36 +304,21 @@ int msm_debugfs_late_init(struct drm_device *dev)
- 	return ret;
- }
- 
--void msm_debugfs_init(struct drm_minor *minor)
-+static void msm_debugfs_gpu_init(struct drm_minor *minor)
- {
- 	struct drm_device *dev = minor->dev;
- 	struct msm_drm_private *priv = dev->dev_private;
- 	struct dentry *gpu_devfreq;
- 
--	drm_debugfs_create_files(msm_debugfs_list,
--				 ARRAY_SIZE(msm_debugfs_list),
--				 minor->debugfs_root, minor);
--
- 	debugfs_create_file("gpu", S_IRUSR, minor->debugfs_root,
- 		dev, &msm_gpu_fops);
- 
--	if (priv->kms) {
--		drm_debugfs_create_files(msm_kms_debugfs_list,
--					 ARRAY_SIZE(msm_kms_debugfs_list),
--					 minor->debugfs_root, minor);
--		debugfs_create_file("kms", S_IRUSR, minor->debugfs_root,
--				    dev, &msm_kms_fops);
--	}
--
- 	debugfs_create_u32("hangcheck_period_ms", 0600, minor->debugfs_root,
- 		&priv->hangcheck_period);
- 
- 	debugfs_create_bool("disable_err_irq", 0600, minor->debugfs_root,
- 		&priv->disable_err_irq);
- 
--	debugfs_create_file("shrink", S_IRWXU, minor->debugfs_root,
--		dev, &shrink_fops);
--
- 	gpu_devfreq = debugfs_create_dir("devfreq", minor->debugfs_root);
- 
- 	debugfs_create_bool("idle_clamp",0600, gpu_devfreq,
-@@ -344,6 +329,30 @@ void msm_debugfs_init(struct drm_minor *minor)
- 
- 	debugfs_create_u32("downdifferential",0600, gpu_devfreq,
- 			   &priv->gpu_devfreq_config.downdifferential);
-+}
-+
-+void msm_debugfs_init(struct drm_minor *minor)
-+{
-+	struct drm_device *dev = minor->dev;
-+	struct msm_drm_private *priv = dev->dev_private;
-+
-+	drm_debugfs_create_files(msm_debugfs_list,
-+				 ARRAY_SIZE(msm_debugfs_list),
-+				 minor->debugfs_root, minor);
-+
-+	if (priv->gpu_pdev)
-+		msm_debugfs_gpu_init(minor);
-+
-+	if (priv->kms) {
-+		drm_debugfs_create_files(msm_kms_debugfs_list,
-+					 ARRAY_SIZE(msm_kms_debugfs_list),
-+					 minor->debugfs_root, minor);
-+		debugfs_create_file("kms", S_IRUSR, minor->debugfs_root,
-+				    dev, &msm_kms_fops);
-+	}
-+
-+	debugfs_create_file("shrink", S_IRWXU, minor->debugfs_root,
-+		dev, &shrink_fops);
- 
- 	if (priv->kms && priv->kms->funcs->debugfs_init)
- 		priv->kms->funcs->debugfs_init(priv->kms, minor);
-diff --git a/drivers/gpu/drm/msm/msm_rd.c b/drivers/gpu/drm/msm/msm_rd.c
-index 5adc51f7ab59..ca44fd291c5b 100644
---- a/drivers/gpu/drm/msm/msm_rd.c
-+++ b/drivers/gpu/drm/msm/msm_rd.c
-@@ -270,6 +270,9 @@ int msm_rd_debugfs_init(struct drm_minor *minor)
- 	struct msm_rd_state *rd;
- 	int ret;
- 
-+	if (!priv->gpu_pdev)
-+		return 0;
-+
- 	/* only create on first minor: */
- 	if (priv->rd)
- 		return 0;
+Reference to Andrew's previous proposal:
+https://lore.kernel.org/all/20200914122811.3295678-1-andrew@aj.id.au/
+
+Lakshmi Yadlapati (2):
+  i2c: smbus: Allow throttling of transfers to client devices
+  hwmon: (pmbus/max31785) Add minimum delay between bus accesses
+
+ drivers/hwmon/pmbus/max31785.c |   8 ++
+ drivers/i2c/i2c-core-base.c    |   8 +-
+ drivers/i2c/i2c-core-smbus.c   | 143 ++++++++++++++++++++++++++-------
+ drivers/i2c/i2c-core.h         |  23 ++++++
+ include/linux/i2c.h            |   2 +
+ 5 files changed, 153 insertions(+), 31 deletions(-)
+
 -- 
 2.39.2
 
