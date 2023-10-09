@@ -1,63 +1,91 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC6977BD549
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Oct 2023 10:35:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F41277BD56A
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Oct 2023 10:43:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A05D10E22F;
-	Mon,  9 Oct 2023 08:35:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A0BC810E220;
+	Mon,  9 Oct 2023 08:43:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4042A10E228;
- Mon,  9 Oct 2023 08:35:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1696840541; x=1728376541;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=LCMY8Sk66B6RCc/oSyqNTmyHhvGsBFkQAr+C1fbVwNk=;
- b=idMKeS4L/5UJ24zRqaPodcjgFHtD0HgiRKayWqcp4zalwdqZSD/OaP5B
- 0osh7JdxbarcSlcqoYCyxjWJ1qtSZXR0Sf50j9rWseG/Wxwb3c7B9443u
- HaaRdqvSkmreqNnHQDjve2flFNlGaXmcqh1HJlfbHHeV8gYLsfRl8pN2x
- DfAwDlb+YpdMINSlLJkqnVBJJalMF0uo8hJYHbuIpV9y4bqBvBsxcR6SE
- QBRoKiQ73ECXsxebQvfVdQhlIpNWqHdoPdEqudQswadzzZ+cDQv8fZLyZ
- RlSOeUmJgNEGpBUU53sLjaGUAswJR0BaVVABZpjofl/7LmJ3r34llcevG Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10857"; a="448289424"
-X-IronPort-AV: E=Sophos;i="6.03,209,1694761200"; d="scan'208";a="448289424"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Oct 2023 01:35:40 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10857"; a="1084258372"
-X-IronPort-AV: E=Sophos;i="6.03,209,1694761200"; d="scan'208";a="1084258372"
-Received: from mquirke-mobl.ger.corp.intel.com (HELO [10.213.207.90])
- ([10.213.207.90])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Oct 2023 01:35:36 -0700
-Message-ID: <40094bd4-e372-a9e2-3b2c-b6c0f26bf02e@linux.intel.com>
-Date: Mon, 9 Oct 2023 09:35:34 +0100
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D096210E220
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Oct 2023 08:43:01 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 6D70921852;
+ Mon,  9 Oct 2023 08:43:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1696840980; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=Df8vOmpN8BVlzxo1w+iCyLYIVF0RtLnwhe2b1VWWXHc=;
+ b=uMfKMF73lBRT6iYqVfBruUdqfAhMOlHgQ7gQrS/batLdWLTj1xK8bAt8WwVC3jA82+I7Xs
+ H3Qupb8ByLBc6lzAlyIDsVmj6y9xf2fkNyN1c+B3FLBTlOPzCyROESHLIvPo7TndY05ol5
+ kdlfq7nCxAAT8Wlp0aPgZYM1Mkl/NCo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1696840980;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=Df8vOmpN8BVlzxo1w+iCyLYIVF0RtLnwhe2b1VWWXHc=;
+ b=GNsdbQVRy9vkxJO9HMuZKF+PIHlhP0N6fOoELPk658i7daub63zSPaeDyTWY/UNelXbnzR
+ HLWE+zDY7G1koOAA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3201D13586;
+ Mon,  9 Oct 2023 08:43:00 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id kWrEChS9I2VCSgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 09 Oct 2023 08:43:00 +0000
+Message-ID: <ae863124-17a9-44a7-9565-f8248e5d4317@suse.de>
+Date: Mon, 9 Oct 2023 10:42:59 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [Intel-xe] [PATCH v4 02/10] drm/sched: Convert drm scheduler to
- use a work queue rather than kthread
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 5/7] drm/simpledrm: Preallocate format-conversion
+ buffer in atomic_check
 Content-Language: en-US
-To: Matthew Brost <matthew.brost@intel.com>
-References: <20230919050155.2647172-1-matthew.brost@intel.com>
- <20230919050155.2647172-3-matthew.brost@intel.com>
- <bb9ab46d-326f-4ba9-b0a0-fcede8946a6b@amd.com>
- <ZR4upS/Mkh0lkzJ0@DUT025-TGLU.fm.intel.com>
- <a39eb381-4f2b-439b-b223-c5148167b225@amd.com>
- <1e911601-f126-4e55-35e7-1a5e395b5fd2@linux.intel.com>
- <ZSAkPF1nExMBz89Z@DUT025-TGLU.fm.intel.com>
- <ZSCbt8piGPlkkqfP@DUT025-TGLU.fm.intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <ZSCbt8piGPlkkqfP@DUT025-TGLU.fm.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+To: Javier Martinez Canillas <javierm@redhat.com>, jfalempe@redhat.com,
+ jose.exposito89@gmail.com, arthurgrillo@riseup.net, mairacanal@riseup.net,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ daniel@ffwll.ch, noralf@tronnes.org
+References: <20231005090520.16511-1-tzimmermann@suse.de>
+ <20231005090520.16511-6-tzimmermann@suse.de>
+ <87zg0xyysa.fsf@minerva.mail-host-address-is-not-set>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <87zg0xyysa.fsf@minerva.mail-host-address-is-not-set>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------DHFW7RSUfC74yJ9kT2VRtxRw"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,263 +98,115 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: robdclark@chromium.org, sarah.walker@imgtec.com, ketil.johnsen@arm.com,
- lina@asahilina.net, mcanal@igalia.com, Liviu.Dudau@arm.com,
- dri-devel@lists.freedesktop.org, christian.koenig@amd.com,
- Luben Tuikov <luben.tuikov@amd.com>, dakr@redhat.com, donald.robson@imgtec.com,
- boris.brezillon@collabora.com, intel-xe@lists.freedesktop.org,
- faith.ekstrand@collabora.com
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------DHFW7RSUfC74yJ9kT2VRtxRw
+Content-Type: multipart/mixed; boundary="------------ZUMnD47liySqWPjexD4I08b8";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Javier Martinez Canillas <javierm@redhat.com>, jfalempe@redhat.com,
+ jose.exposito89@gmail.com, arthurgrillo@riseup.net, mairacanal@riseup.net,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ daniel@ffwll.ch, noralf@tronnes.org
+Cc: dri-devel@lists.freedesktop.org
+Message-ID: <ae863124-17a9-44a7-9565-f8248e5d4317@suse.de>
+Subject: Re: [PATCH v4 5/7] drm/simpledrm: Preallocate format-conversion
+ buffer in atomic_check
+References: <20231005090520.16511-1-tzimmermann@suse.de>
+ <20231005090520.16511-6-tzimmermann@suse.de>
+ <87zg0xyysa.fsf@minerva.mail-host-address-is-not-set>
+In-Reply-To: <87zg0xyysa.fsf@minerva.mail-host-address-is-not-set>
 
-On 07/10/2023 00:43, Matthew Brost wrote:
-> On Fri, Oct 06, 2023 at 03:14:04PM +0000, Matthew Brost wrote:
->> On Fri, Oct 06, 2023 at 08:59:15AM +0100, Tvrtko Ursulin wrote:
->>>
->>> On 05/10/2023 05:13, Luben Tuikov wrote:
->>>> On 2023-10-04 23:33, Matthew Brost wrote:
->>>>> On Tue, Sep 26, 2023 at 11:32:10PM -0400, Luben Tuikov wrote:
->>>>>> Hi,
->>>>>>
->>>>>> On 2023-09-19 01:01, Matthew Brost wrote:
->>>>>>> In XE, the new Intel GPU driver, a choice has made to have a 1 to 1
->>>>>>> mapping between a drm_gpu_scheduler and drm_sched_entity. At first this
->>>>>>> seems a bit odd but let us explain the reasoning below.
->>>>>>>
->>>>>>> 1. In XE the submission order from multiple drm_sched_entity is not
->>>>>>> guaranteed to be the same completion even if targeting the same hardware
->>>>>>> engine. This is because in XE we have a firmware scheduler, the GuC,
->>>>>>> which allowed to reorder, timeslice, and preempt submissions. If a using
->>>>>>> shared drm_gpu_scheduler across multiple drm_sched_entity, the TDR falls
->>>>>>> apart as the TDR expects submission order == completion order. Using a
->>>>>>> dedicated drm_gpu_scheduler per drm_sched_entity solve this problem.
->>>>>>>
->>>>>>> 2. In XE submissions are done via programming a ring buffer (circular
->>>>>>> buffer), a drm_gpu_scheduler provides a limit on number of jobs, if the
->>>>>>> limit of number jobs is set to RING_SIZE / MAX_SIZE_PER_JOB we get flow
->>>>>>> control on the ring for free.
->>>>>>>
->>>>>>> A problem with this design is currently a drm_gpu_scheduler uses a
->>>>>>> kthread for submission / job cleanup. This doesn't scale if a large
->>>>>>> number of drm_gpu_scheduler are used. To work around the scaling issue,
->>>>>>> use a worker rather than kthread for submission / job cleanup.
->>>>>>>
->>>>>>> v2:
->>>>>>>     - (Rob Clark) Fix msm build
->>>>>>>     - Pass in run work queue
->>>>>>> v3:
->>>>>>>     - (Boris) don't have loop in worker
->>>>>>> v4:
->>>>>>>     - (Tvrtko) break out submit ready, stop, start helpers into own patch
->>>>>>> v5:
->>>>>>>     - (Boris) default to ordered work queue
->>>>>>>
->>>>>>> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
->>>>>>> ---
->>>>>>>    drivers/gpu/drm/amd/amdgpu/amdgpu_device.c |   2 +-
->>>>>>>    drivers/gpu/drm/etnaviv/etnaviv_sched.c    |   2 +-
->>>>>>>    drivers/gpu/drm/lima/lima_sched.c          |   2 +-
->>>>>>>    drivers/gpu/drm/msm/msm_ringbuffer.c       |   2 +-
->>>>>>>    drivers/gpu/drm/nouveau/nouveau_sched.c    |   2 +-
->>>>>>>    drivers/gpu/drm/panfrost/panfrost_job.c    |   2 +-
->>>>>>>    drivers/gpu/drm/scheduler/sched_main.c     | 118 ++++++++++-----------
->>>>>>>    drivers/gpu/drm/v3d/v3d_sched.c            |  10 +-
->>>>>>>    include/drm/gpu_scheduler.h                |  14 ++-
->>>>>>>    9 files changed, 79 insertions(+), 75 deletions(-)
->>>>>>>
->>>>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
->>>>>>> index e366f61c3aed..16f3cfe1574a 100644
->>>>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
->>>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
->>>>>>> @@ -2279,7 +2279,7 @@ static int amdgpu_device_init_schedulers(struct amdgpu_device *adev)
->>>>>>>    			break;
->>>>>>>    		}
->>>>>>> -		r = drm_sched_init(&ring->sched, &amdgpu_sched_ops,
->>>>>>> +		r = drm_sched_init(&ring->sched, &amdgpu_sched_ops, NULL,
->>>>>>>    				   ring->num_hw_submission, 0,
->>>>>>>    				   timeout, adev->reset_domain->wq,
->>>>>>>    				   ring->sched_score, ring->name,
->>>>>>> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.c b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
->>>>>>> index 345fec6cb1a4..618a804ddc34 100644
->>>>>>> --- a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
->>>>>>> +++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
->>>>>>> @@ -134,7 +134,7 @@ int etnaviv_sched_init(struct etnaviv_gpu *gpu)
->>>>>>>    {
->>>>>>>    	int ret;
->>>>>>> -	ret = drm_sched_init(&gpu->sched, &etnaviv_sched_ops,
->>>>>>> +	ret = drm_sched_init(&gpu->sched, &etnaviv_sched_ops, NULL,
->>>>>>>    			     etnaviv_hw_jobs_limit, etnaviv_job_hang_limit,
->>>>>>>    			     msecs_to_jiffies(500), NULL, NULL,
->>>>>>>    			     dev_name(gpu->dev), gpu->dev);
->>>>>>> diff --git a/drivers/gpu/drm/lima/lima_sched.c b/drivers/gpu/drm/lima/lima_sched.c
->>>>>>> index ffd91a5ee299..8d858aed0e56 100644
->>>>>>> --- a/drivers/gpu/drm/lima/lima_sched.c
->>>>>>> +++ b/drivers/gpu/drm/lima/lima_sched.c
->>>>>>> @@ -488,7 +488,7 @@ int lima_sched_pipe_init(struct lima_sched_pipe *pipe, const char *name)
->>>>>>>    	INIT_WORK(&pipe->recover_work, lima_sched_recover_work);
->>>>>>> -	return drm_sched_init(&pipe->base, &lima_sched_ops, 1,
->>>>>>> +	return drm_sched_init(&pipe->base, &lima_sched_ops, NULL, 1,
->>>>>>>    			      lima_job_hang_limit,
->>>>>>>    			      msecs_to_jiffies(timeout), NULL,
->>>>>>>    			      NULL, name, pipe->ldev->dev);
->>>>>>> diff --git a/drivers/gpu/drm/msm/msm_ringbuffer.c b/drivers/gpu/drm/msm/msm_ringbuffer.c
->>>>>>> index 40c0bc35a44c..b8865e61b40f 100644
->>>>>>> --- a/drivers/gpu/drm/msm/msm_ringbuffer.c
->>>>>>> +++ b/drivers/gpu/drm/msm/msm_ringbuffer.c
->>>>>>> @@ -94,7 +94,7 @@ struct msm_ringbuffer *msm_ringbuffer_new(struct msm_gpu *gpu, int id,
->>>>>>>    	 /* currently managing hangcheck ourselves: */
->>>>>>>    	sched_timeout = MAX_SCHEDULE_TIMEOUT;
->>>>>>> -	ret = drm_sched_init(&ring->sched, &msm_sched_ops,
->>>>>>> +	ret = drm_sched_init(&ring->sched, &msm_sched_ops, NULL,
->>>>>>>    			num_hw_submissions, 0, sched_timeout,
->>>>>>>    			NULL, NULL, to_msm_bo(ring->bo)->name, gpu->dev->dev);
->>>>>>
->>>>>> checkpatch.pl complains here about unmatched open parens.
->>>>>>
->>>>>
->>>>> Will fix and run checkpatch before posting next rev.
->>>>>
->>>>>>>    	if (ret) {
->>>>>>> diff --git a/drivers/gpu/drm/nouveau/nouveau_sched.c b/drivers/gpu/drm/nouveau/nouveau_sched.c
->>>>>>> index 88217185e0f3..d458c2227d4f 100644
->>>>>>> --- a/drivers/gpu/drm/nouveau/nouveau_sched.c
->>>>>>> +++ b/drivers/gpu/drm/nouveau/nouveau_sched.c
->>>>>>> @@ -429,7 +429,7 @@ int nouveau_sched_init(struct nouveau_drm *drm)
->>>>>>>    	if (!drm->sched_wq)
->>>>>>>    		return -ENOMEM;
->>>>>>> -	return drm_sched_init(sched, &nouveau_sched_ops,
->>>>>>> +	return drm_sched_init(sched, &nouveau_sched_ops, NULL,
->>>>>>>    			      NOUVEAU_SCHED_HW_SUBMISSIONS, 0, job_hang_limit,
->>>>>>>    			      NULL, NULL, "nouveau_sched", drm->dev->dev);
->>>>>>>    }
->>>>>>> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
->>>>>>> index 033f5e684707..326ca1ddf1d7 100644
->>>>>>> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
->>>>>>> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
->>>>>>> @@ -831,7 +831,7 @@ int panfrost_job_init(struct panfrost_device *pfdev)
->>>>>>>    		js->queue[j].fence_context = dma_fence_context_alloc(1);
->>>>>>>    		ret = drm_sched_init(&js->queue[j].sched,
->>>>>>> -				     &panfrost_sched_ops,
->>>>>>> +				     &panfrost_sched_ops, NULL,
->>>>>>>    				     nentries, 0,
->>>>>>>    				     msecs_to_jiffies(JOB_TIMEOUT_MS),
->>>>>>>    				     pfdev->reset.wq,
->>>>>>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
->>>>>>> index e4fa62abca41..ee6281942e36 100644
->>>>>>> --- a/drivers/gpu/drm/scheduler/sched_main.c
->>>>>>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
->>>>>>> @@ -48,7 +48,6 @@
->>>>>>>     * through the jobs entity pointer.
->>>>>>>     */
->>>>>>> -#include <linux/kthread.h>
->>>>>>>    #include <linux/wait.h>
->>>>>>>    #include <linux/sched.h>
->>>>>>>    #include <linux/completion.h>
->>>>>>> @@ -256,6 +255,16 @@ drm_sched_rq_select_entity_fifo(struct drm_sched_rq *rq)
->>>>>>>    	return rb ? rb_entry(rb, struct drm_sched_entity, rb_tree_node) : NULL;
->>>>>>>    }
->>>>>>> +/**
->>>>>>> + * drm_sched_submit_queue - scheduler queue submission
->>>>>>
->>>>>> There is no verb in the description, and is not clear what
->>>>>> this function does unless one reads the code. Given that this
->>>>>> is DOC, this should be clearer here. Something like "queue
->>>>>> scheduler work to be executed" or something to that effect.
->>>>>>
->>>>>
->>>>> Will fix.
->>>>>> Coming back to this from reading the patch below, it was somewhat
->>>>>> unclear what "drm_sched_submit_queue()" does, since when reading
->>>>>> below, "submit" was being read by my mind as an adjective, as opposed
->>>>>> to a verb. Perhaps something like:
->>>>>>
->>>>>> drm_sched_queue_submit(), or
->>>>>> drm_sched_queue_exec(), or
->>>>>> drm_sched_queue_push(), or something to that effect. You pick. :-)
->>>>>>
->>>>>
->>>>> I prefer the name as is. In this patch we have:
->>>>>
->>>>> drm_sched_submit_queue()
->>>>> drm_sched_submit_start)
->>>>> drm_sched_submit_stop()
->>>>> drm_sched_submit_ready()
->>>>>
->>>>> I like all these functions start with 'drm_sched_submit' which allows
->>>>> for easy searching for the functions that touch the DRM scheduler
->>>>> submission state.
->>>>>
->>>>> With a little better doc are you fine with the names as is.
->>>>
->>>> Notice the following scheme in the naming,
->>>>
->>>> drm_sched_submit_queue()
->>>> drm_sched_submit_start)
->>>> drm_sched_submit_stop()
->>>> drm_sched_submit_ready()
->>>> \---+---/ \--+-/ \-+-/
->>>>       |        |     +---> a verb
->>>>       |        +---------> should be a noun (something in the component)
->>>>       +------------------> the kernel/software component
->>>>
->>>> And although "queue" can technically be used as a verb too, I'd rather it be "enqueue",
->>>> like this:
->>>>
->>>> drm_sched_submit_enqueue()
->>>>
->>>> And using "submit" as the noun of the component is a bit cringy,
->>>> since "submit" is really a verb, and it's cringy to make it a "state"
->>>> or an "object" we operate on in the DRM Scheduler. "Submission" is
->>>> a noun, but "submission enqueue/start/stop/ready" doesn't sound
->>>> very well thought out. "Submission" really is what the work-queue
->>>> does.
->>>>
->>>> I'd rather it be a real object, like for instance,
->>>>
->>>> drm_sched_wqueue_enqueue()
->>>> drm_sched_wqueue_start)
->>>> drm_sched_wqueue_stop()
->>>> drm_sched_wqueue_ready()
->>>>
->>
->> How about:
->>
->> drm_sched_submission_enqueue()
->> drm_sched_submission_start)
->> drm_sched_submission_stop()
->> drm_sched_submission_ready()
->>
->> Matt
-> 
-> Ignore this, read Tvrtko commnt and not Luben's fully.
-> 
-> I prefer drm_sched_wqueue over drm_sched_submit_queue as submit queue is
-> a made of thing. drm_sched_submission would be my top choice but if Luben
-> is opposed will go with drm_sched_wqueue in next rev.
+--------------ZUMnD47liySqWPjexD4I08b8
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-I suppose you meant "made up"? All the verbs are also then made up so I 
-don't really see that as an argument why implementation detail should be 
-encoded into the API naming but your call folks.
+SGkgSmF2aWVyDQoNCkFtIDA1LjEwLjIzIHVtIDE1OjM4IHNjaHJpZWIgSmF2aWVyIE1hcnRp
+bmV6IENhbmlsbGFzOg0KPiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5k
+ZT4gd3JpdGVzOg0KPiANCj4gSGVsbG8gVGhvbWFzLA0KPiANCj4+IFByZWFsbG9jYXRlIHRo
+ZSBmb3JtYXQtY29udmVyc2lvbiBzdGF0ZSdzIHN0b3JhZ2UgaW4gdGhlIHBsYW5lJ3MNCj4+
+IGF0b21pY19jaGVjayBmdW5jdGlvbiBpZiBhIGZvcm1hdCBjb252ZXJzaW9uIGlzIG5lY2Vz
+c2FyeS4gQWxsb3dzDQo+PiB0aGUgdXBkYXRlIHRvIGZhaWwgaWYgbm8gbWVtb3J5IGlzIGF2
+YWlsYWJsZS4gQXZvaWRzIHRoZSBzYW1lDQo+PiBhbGxvY2F0aW9uIHdpdGhpbiBhdG9taWNf
+dXBkYXRlLCB3aGljaCBtYXkgbm90IGZhaWwuDQo+Pg0KPj4gQWxzbyBpbmxpbmUgZHJtX3Bs
+YW5lX2hlbHBlcl9hdG9taWNfY2hlY2soKSBpbnRvIHRoZSBkcml2ZXIgYW5kIHRodXMNCj4+
+IHJldHVybiBlYXJseSBmb3IgaW52aXNpYmxlIHBsYW5lcy4gQXZvaWRzIG1lbW9yeSBhbGxv
+Y2F0aW9uIGVudGlyZWx5DQo+PiBpbiB0aGlzIGNhc2UuDQo+Pg0KPj4gU2lnbmVkLW9mZi1i
+eTogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+DQo+PiAtLS0NCj4+
+ICAgZHJpdmVycy9ncHUvZHJtL3Rpbnkvc2ltcGxlZHJtLmMgfCA0MSArKysrKysrKysrKysr
+KysrKysrKysrKysrKysrKysrLQ0KPj4gICAxIGZpbGUgY2hhbmdlZCwgNDAgaW5zZXJ0aW9u
+cygrKSwgMSBkZWxldGlvbigtKQ0KPj4NCj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9k
+cm0vdGlueS9zaW1wbGVkcm0uYyBiL2RyaXZlcnMvZ3B1L2RybS90aW55L3NpbXBsZWRybS5j
+DQo+PiBpbmRleCA2Nzg4ZjQ2NTk5NWIzLi5kMjI4MGM4MWNiYWFlIDEwMDY0NA0KPj4gLS0t
+IGEvZHJpdmVycy9ncHUvZHJtL3Rpbnkvc2ltcGxlZHJtLmMNCj4+ICsrKyBiL2RyaXZlcnMv
+Z3B1L2RybS90aW55L3NpbXBsZWRybS5jDQo+PiBAQCAtMTksNiArMTksNyBAQA0KPj4gICAj
+aW5jbHVkZSA8ZHJtL2RybV9kcnYuaD4NCj4+ICAgI2luY2x1ZGUgPGRybS9kcm1fZmJkZXZf
+Z2VuZXJpYy5oPg0KPj4gICAjaW5jbHVkZSA8ZHJtL2RybV9mb3JtYXRfaGVscGVyLmg+DQo+
+PiArI2luY2x1ZGUgPGRybS9kcm1fZnJhbWVidWZmZXIuaD4NCj4+ICAgI2luY2x1ZGUgPGRy
+bS9kcm1fZ2VtX2F0b21pY19oZWxwZXIuaD4NCj4+ICAgI2luY2x1ZGUgPGRybS9kcm1fZ2Vt
+X2ZyYW1lYnVmZmVyX2hlbHBlci5oPg0KPj4gICAjaW5jbHVkZSA8ZHJtL2RybV9nZW1fc2ht
+ZW1faGVscGVyLmg+DQo+PiBAQCAtNTc5LDYgKzU4MCw0NCBAQCBzdGF0aWMgY29uc3QgdWlu
+dDY0X3Qgc2ltcGxlZHJtX3ByaW1hcnlfcGxhbmVfZm9ybWF0X21vZGlmaWVyc1tdID0gew0K
+Pj4gICAJRFJNX0ZPUk1BVF9NT0RfSU5WQUxJRA0KPj4gICB9Ow0KPj4gICANCj4+ICtzdGF0
+aWMgaW50IHNpbXBsZWRybV9wcmltYXJ5X3BsYW5lX2hlbHBlcl9hdG9taWNfY2hlY2soc3Ry
+dWN0IGRybV9wbGFuZSAqcGxhbmUsDQo+PiArCQkJCQkJICAgICAgIHN0cnVjdCBkcm1fYXRv
+bWljX3N0YXRlICpzdGF0ZSkNCj4+ICt7DQo+PiArCXN0cnVjdCBkcm1fcGxhbmVfc3RhdGUg
+Km5ld19wbGFuZV9zdGF0ZSA9IGRybV9hdG9taWNfZ2V0X25ld19wbGFuZV9zdGF0ZShzdGF0
+ZSwgcGxhbmUpOw0KPj4gKwlzdHJ1Y3QgZHJtX3NoYWRvd19wbGFuZV9zdGF0ZSAqbmV3X3No
+YWRvd19wbGFuZV9zdGF0ZSA9DQo+PiArCQl0b19kcm1fc2hhZG93X3BsYW5lX3N0YXRlKG5l
+d19wbGFuZV9zdGF0ZSk7DQo+PiArCXN0cnVjdCBkcm1fZnJhbWVidWZmZXIgKm5ld19mYiA9
+IG5ld19wbGFuZV9zdGF0ZS0+ZmI7DQo+PiArCXN0cnVjdCBkcm1fY3J0YyAqbmV3X2NydGMg
+PSBuZXdfcGxhbmVfc3RhdGUtPmNydGM7DQo+PiArCXN0cnVjdCBkcm1fY3J0Y19zdGF0ZSAq
+bmV3X2NydGNfc3RhdGUgPSBOVUxMOw0KPj4gKwlzdHJ1Y3QgZHJtX2RldmljZSAqZGV2ID0g
+cGxhbmUtPmRldjsNCj4+ICsJc3RydWN0IHNpbXBsZWRybV9kZXZpY2UgKnNkZXYgPSBzaW1w
+bGVkcm1fZGV2aWNlX29mX2RldihkZXYpOw0KPj4gKwlpbnQgcmV0Ow0KPj4gKw0KPj4gKwlp
+ZiAobmV3X2NydGMpDQo+PiArCQluZXdfY3J0Y19zdGF0ZSA9IGRybV9hdG9taWNfZ2V0X25l
+d19jcnRjX3N0YXRlKHN0YXRlLCBuZXdfY3J0Yyk7DQo+PiArDQo+PiArCXJldCA9IGRybV9h
+dG9taWNfaGVscGVyX2NoZWNrX3BsYW5lX3N0YXRlKG5ld19wbGFuZV9zdGF0ZSwgbmV3X2Ny
+dGNfc3RhdGUsDQo+PiArCQkJCQkJICBEUk1fUExBTkVfTk9fU0NBTElORywNCj4+ICsJCQkJ
+CQkgIERSTV9QTEFORV9OT19TQ0FMSU5HLA0KPj4gKwkJCQkJCSAgZmFsc2UsIGZhbHNlKTsN
+Cj4gDQo+IFNhbWUgY29tbWVudCB0aGF0IHdpdGggdGhlIHNzZDEzMHggZHJpdmVyLiBJIHRo
+aW5rIHRoYXQgd2Ugc2hvdWxkIHVzZSB0aGUNCj4gZHJtX3BsYW5lX2hlbHBlcl9hdG9taWNf
+Y2hlY2soKSBoZWxwZXIgaW5zdGVhZCBvZiBvcGVuIGNvZGluZyBpdCBpbiBlYWNoDQoNCkkn
+bSBnb2luZyB0byByZXBsYWNlIHRoZSBjYWxsIGluIHNpbXBsZWRybS4gDQpkcm1fcGxhbmVf
+aGVscGVyX2F0b21pY19jaGVjaygpIGlzIHVzZWZ1bCB0byByZW1vdmUgdGhlIGVudGlyZSAN
+CmF0b21pY19jaGVjayBmdW5jdGlvbiBmcm9tIHRoZSBkcml2ZXI7IGl0IGRvZXMgbm90aGlu
+ZyBhcGFydCBmcm9tIHRoYXQuIA0KSSd2ZSBiZWVuIGNhbGxlZCBvdXQgYmVmb3JlIGZvciBz
+dWNoIGRvLW5vdGhpbmcgaGVscGVyczsgZGVzZXJ2ZWRseSBzby4gWzFdDQoNCkJlc3QgcmVn
+YXJkcw0KVGhvbWFzDQoNClsxXSANCmh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2RyaS1kZXZl
+bC9hYTNjNGFkNi1mOTllLWRlNDgtZTc5Ny0wNzQ4Yzk3MDZlOWVAYW1kLmNvbS8NCg0KPiBk
+cml2ZXIuIEJ1dCByZWdhcmRsZXNzIG9mIHdoYXQncyBkZWNpZGVkIG9uIHRoYXQsIHRoZSBj
+aGFuZ2UgbG9va3MgZ29vZDoNCj4gDQo+IFJldmlld2VkLWJ5OiBKYXZpZXIgTWFydGluZXog
+Q2FuaWxsYXMgPGphdmllcm1AcmVkaGF0LmNvbT4NCj4gDQoNCi0tIA0KVGhvbWFzIFppbW1l
+cm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRp
+b25zIEdlcm1hbnkgR21iSA0KRnJhbmtlbnN0cmFzc2UgMTQ2LCA5MDQ2MSBOdWVybmJlcmcs
+IEdlcm1hbnkNCkdGOiBJdm8gVG90ZXYsIEFuZHJldyBNeWVycywgQW5kcmV3IE1jRG9uYWxk
+LCBCb3VkaWVuIE1vZXJtYW4NCkhSQiAzNjgwOSAoQUcgTnVlcm5iZXJnKQ0K
 
-Regards,
+--------------ZUMnD47liySqWPjexD4I08b8--
 
-Tvrtko
+--------------DHFW7RSUfC74yJ9kT2VRtxRw
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
 
->>>> Which tells me that the component is the DRM Scheduler, the object is a/the work-queue,
->>>> and the last word as the verb, is the action we're performing on the object, i.e. the work-queue.
->>>> Plus, all these functions actually do operate on work-queues, directly or indirectly,
->>>> are new, so it's a win-win naming scheme.
->>>>
->>>> I think that that would be most likeable.
->>>
->>> FWIW I was suggesting not to encode the fact submit queue is implemented
->>> with a workqueue in the API name. IMO it would be nicer and less maintenance
->>> churn should something channge if the external components can be isolated
->>> from that detail.
->>>
->>> drm_sched_submit_queue_$verb? If not viewed as too verbose...
->>>
->>> Regards,
->>>
->>> Tvrtko
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmUjvRMFAwAAAAAACgkQlh/E3EQov+D5
+pA//c3Vy6WI+zEanw8hF0CiLa+M3G6JfwxAN4wSe0kd/K4oORUaCHBG/3h0C4boUeE6sWkCweNYB
+9gDzXT3yENAs+hQyBITHTMTMs8vULVQH/+mXZehT374XVRnsamxRO7nPzdbpIUSmqtEJih0MU2et
+6t4UmV2KIH2kmVe/BB9EPxoDzl5SE+rkaTJRMKculxV0oqkh6vpBRafXc27yaJRCczfZCYr5RJBy
+yONgoynIOpzTCVPEY7+fFRMJE5OMqYmtfu6O3PGs85e2Tnggkxipm1mQHfBpR2QhkJDWSFVhKeDH
+AnFMVHLuJx2KCpP5PCKRJS5EaFpMWwQnaqeH/nxIf9DROnJ0iSTRe+eEMUaHIQQwPkn6QB4CXBTH
+ExaQT+7SgXLLvR2LdIswx5RJ2SoVP62hWjpqaGLmVmJBhtjSQYS5hGBiog5DrOqUwPv6cUViaC6B
+eSC6cYw3j48554axIvcZ36H7DUiPqn92m8jSuqT8XjIbNWvgDnuS8m7B5F2vZtWVSvokVTWMsx20
+Q68zuMxjXr0w0ZG4NHYWabeQvNAhv8anwSs8zzrXsxVf+nQP88oen2xCwYm0Q3zUw5UQfvHZrsS1
+41evwcDwTdYcMZspTjLTb2LW0Yf3b/IBXdQp1OIXQ22NYE2aIDnaPT4bLOs6hURz44XJfBJUfh0c
+PGE=
+=QPCO
+-----END PGP SIGNATURE-----
+
+--------------DHFW7RSUfC74yJ9kT2VRtxRw--
