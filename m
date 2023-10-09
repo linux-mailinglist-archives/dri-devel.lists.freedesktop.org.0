@@ -2,78 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E75047BD5F4
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Oct 2023 10:58:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D4657BD5F5
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Oct 2023 10:59:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F98810E237;
-	Mon,  9 Oct 2023 08:58:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 62DBA10E234;
+	Mon,  9 Oct 2023 08:58:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F19710E237
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Oct 2023 08:58:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1696841920;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=R1nusqQP3xNmGWFrmbYEDRYRk+KMjPpQtPXvPoeKfCc=;
- b=bIT+IUfcpcCCcfIXer0cJ84jgOAYWohcX3HEoz3q5jz2wGRQvMFDeQanXgohseqCapkqrv
- 83mO0pW/FQUyRWN6qcWktbnR0Id0jqk7p4PLoOs9vZWmbt+TqBD0seqgcjdltSXjIzGH50
- xlkUdHXI9NH88FfTblIXhiJUVvdaggA=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-645-YJXjE3ucPDmjCqB956MRuQ-1; Mon, 09 Oct 2023 04:58:34 -0400
-X-MC-Unique: YJXjE3ucPDmjCqB956MRuQ-1
-Received: by mail-wr1-f69.google.com with SMTP id
- ffacd0b85a97d-317d5b38194so1955799f8f.0
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Oct 2023 01:58:34 -0700 (PDT)
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
+ [IPv6:2a00:1450:4864:20::130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A70C10E234
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Oct 2023 08:58:57 +0000 (UTC)
+Received: by mail-lf1-x130.google.com with SMTP id
+ 2adb3069b0e04-504a7f9204eso5094954e87.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Oct 2023 01:58:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1696841935; x=1697446735; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :references:cc:to:content-language:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:from:to:cc:subject:date:message-id
+ :reply-to; bh=9OSDrrtdkYzSOjc15RRB/i7ba92vOhZ4Yf+0LV3PLJE=;
+ b=EdQ/NaY650Fy+kkxZWQDYiHJA3qLNQNoYbWEqA60n7KTSxRqcoRgmefh02cHiI91Zk
+ 6TYLtKmjov6vUsaV2dx4hmYlx1REQQhkL/HRNdve+8txRIcjxHyFz1b1uqfRUpRBQVee
+ dz00wuhrRNk7EVfTxUeWw3a7xDvSoD4AEfFAwBuzNe5W9ibEvHnN/lm6zkWcpFNYqrlT
+ D9gy5Ira8nYh/QM7G/X0JYWKgJ7N8XoLUPdX14DsJv1Z8b/zx4LDBG/D0jwgr9yreSgC
+ JcccCq4yLdZTl0p7m2JdtVXmbm+FVGTNcFSZgdutt8EcjCH4hV7UpqKAHpTwf+Sz2PSl
+ z8SQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1696841913; x=1697446713;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=R1nusqQP3xNmGWFrmbYEDRYRk+KMjPpQtPXvPoeKfCc=;
- b=qZsmQKKgRoVVsrAjReIYLwpQPAqauRrpyXr74I7Sr2jqP1K70IT7kQOX/k1E3vEazh
- Zkil1k2dlcnT4QGOOcrv02WExz/Lk7bLbds8DnT5BihYM2sUipjIVgAxSApwrz5GtDgF
- GtnM4pgOuzPwf8pBpfK0qFHkcIJWqgkvdrO/a7UQdlOsBW5NmHckHWW2b0cOD7cKeZe6
- qWcXyCZd8pr8h58lmseffkqbuCTcDy2+1hKENTKFGiRVLWPBF50m4dG+W9U06weqFX6i
- D3p2uhJ670vZdjjDE6yynKaDCfoJBN7eU+vt/3Uw1WwfYwyRoQgCojwiL8MloaKlkLc4
- h8mQ==
-X-Gm-Message-State: AOJu0Ywp9pZ/p0af5fvtZYAkv1EI9Ne2iBAqIcdNrhXjN+I1xt40ox7g
- 1q39jgE25EwUNux8pciGrLDMV6tbvZ0lJ8f0XWury28v+y4i20MfdxRtFYNYT5Oex12okMeE7Ey
- q2fgT1YDg8BMm9u8ZK6mmlt0sa0XF
-X-Received: by 2002:a5d:6452:0:b0:31f:f95c:dd7f with SMTP id
- d18-20020a5d6452000000b0031ff95cdd7fmr8521702wrw.12.1696841913064; 
- Mon, 09 Oct 2023 01:58:33 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFeaHGBlxdWYNq0j4ZPU1RBzwUADQ6UKXH/1f+4U0zanjq3k8QDhOI98MPAtMiyKgl5Bjy8ZA==
-X-Received: by 2002:a5d:6452:0:b0:31f:f95c:dd7f with SMTP id
- d18-20020a5d6452000000b0031ff95cdd7fmr8521690wrw.12.1696841912768; 
- Mon, 09 Oct 2023 01:58:32 -0700 (PDT)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- x3-20020a5d4903000000b0031fa870d4b3sm8901807wrq.60.2023.10.09.01.58.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Oct 2023 01:58:32 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, jfalempe@redhat.com,
- jose.exposito89@gmail.com, arthurgrillo@riseup.net, mairacanal@riseup.net,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
- daniel@ffwll.ch, noralf@tronnes.org
-Subject: Re: [PATCH v4 5/7] drm/simpledrm: Preallocate format-conversion
- buffer in atomic_check
-In-Reply-To: <ae863124-17a9-44a7-9565-f8248e5d4317@suse.de>
-References: <20231005090520.16511-1-tzimmermann@suse.de>
- <20231005090520.16511-6-tzimmermann@suse.de>
- <87zg0xyysa.fsf@minerva.mail-host-address-is-not-set>
- <ae863124-17a9-44a7-9565-f8248e5d4317@suse.de>
-Date: Mon, 09 Oct 2023 10:58:31 +0200
-Message-ID: <874jj0rx3c.fsf@minerva.mail-host-address-is-not-set>
+ d=1e100.net; s=20230601; t=1696841935; x=1697446735;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :references:cc:to:content-language:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=9OSDrrtdkYzSOjc15RRB/i7ba92vOhZ4Yf+0LV3PLJE=;
+ b=RoKN+aMl6c8ilnLAg7riLMoQF8tttj0r0wpNEY0188FB1Ivi10pw0bF2OudMtrbj4V
+ aOpG95Ew5y2ObqlmOVK+5OGDXo5+L/7qOGZkHqe+Cb64B1g1Mq0d4Gwg38WmtHlyO7Pb
+ c3xq4M/Xwk4GIOXDZCoQNNP2E4rfuOFl5k09mO4N+4OpfpG20bcGQNHDi648vn8Kwa//
+ jP4qolvnFR4Ib+nM5uwggP3MoHYVI21KzAAgQQaqgqjLVgYjnY3qVdyJApWgt6xrF9AX
+ TUnG+2+CX5HhDVcn/GFlV5D1QqD8dWyJcVvQzRfIhGPPSQYrkzPJVlmeuTGEAmAwjW3g
+ 0eoA==
+X-Gm-Message-State: AOJu0YwItXtJDTm8fkAeMnWk9MzfPUiS/hz29YRxj3JDmKXFj/oF/Iaz
+ QmlkXEH5ccIsZBdtvajvx//gSw==
+X-Google-Smtp-Source: AGHT+IErJTIkiQ/LbfX+yT/EhIeprQXGMkESqWV/lrzKa6Xofkw2DC7A6Hz1B6wtuHynkRnV3leNHA==
+X-Received: by 2002:a19:f516:0:b0:4fe:19ef:8791 with SMTP id
+ j22-20020a19f516000000b004fe19ef8791mr11302811lfb.38.1696841935377; 
+ Mon, 09 Oct 2023 01:58:55 -0700 (PDT)
+Received: from [192.168.27.65] (home.beaume.starnux.net. [82.66.176.246])
+ by smtp.gmail.com with ESMTPSA id
+ x9-20020a05600c21c900b003fefe70ec9csm12771157wmj.10.2023.10.09.01.58.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 09 Oct 2023 01:58:54 -0700 (PDT)
+Message-ID: <ea0e3550-83ca-4006-819a-64780589d687@linaro.org>
+Date: Mon, 9 Oct 2023 10:58:55 +0200
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH] drm/panel: simple: Fix Innolux G101ICE-L01 bus flags
+Content-Language: en-US, fr
+To: Marek Vasut <marex@denx.de>, dri-devel@lists.freedesktop.org
+References: <20231008223315.279215-1-marex@denx.de>
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro Developer Services
+In-Reply-To: <20231008223315.279215-1-marex@denx.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,70 +101,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Reply-To: neil.armstrong@linaro.org
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>,
+ Maxime Ripard <mripard@kernel.org>, Jessica Zhang <quic_jesszhan@quicinc.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thomas Zimmermann <tzimmermann@suse.de> writes:
+On 09/10/2023 00:33, Marek Vasut wrote:
+> Add missing .bus_flags = DRM_BUS_FLAG_DE_HIGH to this panel description,
+> ones which match both the datasheet and the panel display_timing flags .
+> 
+> Fixes: 1e29b840af9f ("drm/panel: simple: Add Innolux G101ICE-L01 panel")
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> ---
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Jessica Zhang <quic_jesszhan@quicinc.com>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Neil Armstrong <neil.armstrong@linaro.org>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: dri-devel@lists.freedesktop.org
+> ---
+>   drivers/gpu/drm/panel/panel-simple.c | 1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+> index 44c11c418cd56..8e4ea15f0e1e5 100644
+> --- a/drivers/gpu/drm/panel/panel-simple.c
+> +++ b/drivers/gpu/drm/panel/panel-simple.c
+> @@ -2318,6 +2318,7 @@ static const struct panel_desc innolux_g101ice_l01 = {
+>   		.disable = 200,
+>   	},
+>   	.bus_format = MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,
+> +	.bus_flags = DRM_BUS_FLAG_DE_HIGH,
+>   	.connector_type = DRM_MODE_CONNECTOR_LVDS,
+>   };
+>   
 
-Hello Thomas,
-
-> Hi Javier
->
-> Am 05.10.23 um 15:38 schrieb Javier Martinez Canillas:
->> Thomas Zimmermann <tzimmermann@suse.de> writes:
-
-[...]
-
->>> +static int simpledrm_primary_plane_helper_atomic_check(struct drm_plane *plane,
->>> +						       struct drm_atomic_state *state)
->>> +{
->>> +	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state, plane);
->>> +	struct drm_shadow_plane_state *new_shadow_plane_state =
->>> +		to_drm_shadow_plane_state(new_plane_state);
->>> +	struct drm_framebuffer *new_fb = new_plane_state->fb;
->>> +	struct drm_crtc *new_crtc = new_plane_state->crtc;
->>> +	struct drm_crtc_state *new_crtc_state = NULL;
->>> +	struct drm_device *dev = plane->dev;
->>> +	struct simpledrm_device *sdev = simpledrm_device_of_dev(dev);
->>> +	int ret;
->>> +
->>> +	if (new_crtc)
->>> +		new_crtc_state = drm_atomic_get_new_crtc_state(state, new_crtc);
->>> +
->>> +	ret = drm_atomic_helper_check_plane_state(new_plane_state, new_crtc_state,
->>> +						  DRM_PLANE_NO_SCALING,
->>> +						  DRM_PLANE_NO_SCALING,
->>> +						  false, false);
->> 
->> Same comment that with the ssd130x driver. I think that we should use the
->> drm_plane_helper_atomic_check() helper instead of open coding it in each
->
-> I'm going to replace the call in simpledrm. 
-> drm_plane_helper_atomic_check() is useful to remove the entire 
-> atomic_check function from the driver; it does nothing apart from that. 
-> I've been called out before for such do-nothing helpers; deservedly so. [1]
->
-
-The argument then is that drivers should open code *exactly* the same code
-that the helper function already has just because they implement their own
-.atomic_check callback?
-
-And that the helper should only be used when is the .atomic_check callback
-but not as a helper function?
-
-I don't understand that rationale to be honest, but if there is one then
-it should be very clear in the kernel-doc what functions are supposed to
-be used only as callbacks and what functions can also be used as helpers.
-
-> Best regards
-> Thomas
->
-
--- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
