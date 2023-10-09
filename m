@@ -1,79 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 203607BEB20
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Oct 2023 22:00:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A6537BEB26
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Oct 2023 22:03:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 627B910E2E2;
-	Mon,  9 Oct 2023 20:00:08 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3961410E2E2;
- Mon,  9 Oct 2023 20:00:06 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 399JY3RK010296; Mon, 9 Oct 2023 19:59:50 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=ukyla1Gh8KXTgVlJgQmTBf0Q2jNgG7LONWE6Fy16jMs=;
- b=Lu6PUXZPoHPDXDS5j6tmrs+MAK8F6KWpgNXFymX3deAvw9Bj4xuHXTw5zHgvjsy9KXaN
- Q9UPPp1IzJ0KyWIRZn893OB9MGcWVg3Pwxta6xc+XArgciGrFpKEikmtZwSWIGE/AA+y
- WUKH05OiAdxrZ+Sne2Ni4021rI8V5W9c5SJQMOsH+7Ee97RD++NWNJcxd2japXPBlIsX
- mB/baAPyG6FrUUISZ2lXp6pPpGIaZ9D0HqiySS5796xkF3EPhdbiDdERoIYNl22uIhxs
- ys7fwh1dMSdez0XJ/AR0hBE5OQ7jJwjnjwz/Oh5Dk4JSHl1dwpt7Vc2VhFaJkN44T8nw Lw== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3tmj0d8w6n-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 09 Oct 2023 19:59:50 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 399JxnAN007167
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 9 Oct 2023 19:59:49 GMT
-Received: from [10.110.90.239] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Mon, 9 Oct
- 2023 12:59:49 -0700
-Message-ID: <6a40489e-3504-3dc5-4c97-fc0522ebb5e7@quicinc.com>
-Date: Mon, 9 Oct 2023 12:59:48 -0700
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1CA2910E2E3;
+	Mon,  9 Oct 2023 20:02:56 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BAB4B10E11A;
+ Mon,  9 Oct 2023 20:02:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1696881773; x=1728417773;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=GTuv2kRinaCves6MI4W7BYJ13ER8xytThDbDIZ8joGQ=;
+ b=Yb6wgrcshiKNe4NLWSPXPi0TDmCL3vB6JV5bNJKK59vfrro8yjO5VqDa
+ FlrnrLfApCymadk1sgHdtIQmVqaAo7KDf6kbsvO1v8ivu+qzAXbi69ZUq
+ yemiBNKJA9Or1DX8FzEJqI4q4HNHyZdzcEdN11A8RdFDiDtJhbAkb1xnd
+ lunQ3mNg+HoBPYg00cOe4/h3pNVTosinENajj3fVeRyJM4szielvAO10W
+ lX+SKIMjX+DWAwoUP/XFrgDSneZ7gxhTFpgCl0pvw7CfymfmhHZIJP780
+ cb4AYjEdNVY0ntIyX3RQXlUKyTlepwqQo0JHzhP0uRpJsEaqgGdJRs5SR Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="364525220"
+X-IronPort-AV: E=Sophos;i="6.03,210,1694761200"; d="scan'208";a="364525220"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Oct 2023 13:02:51 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="1084439860"
+X-IronPort-AV: E=Sophos;i="6.03,210,1694761200"; d="scan'208";a="1084439860"
+Received: from ibrahim2-mobl2.gar.corp.intel.com (HELO intel.com)
+ ([10.213.42.185])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Oct 2023 13:02:47 -0700
+Date: Mon, 9 Oct 2023 22:02:41 +0200
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: John Harrison <john.c.harrison@intel.com>
+Subject: Re: [Intel-gfx] [PATCH 1/2] drm/i915/gt: More use of GT specific
+ print helpers
+Message-ID: <ZSRcYYZrwZ+fatQv@ashyti-mobl2.lan>
+References: <20231009183802.673882-1-John.C.Harrison@Intel.com>
+ <20231009183802.673882-2-John.C.Harrison@Intel.com>
+ <ZSRZjS6YOrOcIEoY@ashyti-mobl2.lan>
+ <5246139b-427e-4264-b21b-4562f55bbc45@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v2 08/13] drm/msm: remove shutdown callback from
- msm_platform_driver
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>
-References: <20231009181040.2743847-1-dmitry.baryshkov@linaro.org>
- <20231009181040.2743847-9-dmitry.baryshkov@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20231009181040.2743847-9-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: quzWq7AVtj07P_FnmyltSIsRl-Y1Bl4R
-X-Proofpoint-ORIG-GUID: quzWq7AVtj07P_FnmyltSIsRl-Y1Bl4R
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-10-09_18,2023-10-09_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- adultscore=0 spamscore=0 mlxscore=0 mlxlogscore=879 clxscore=1015
- priorityscore=1501 malwarescore=0 impostorscore=0 bulkscore=0
- suspectscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2309180000 definitions=main-2310090162
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5246139b-427e-4264-b21b-4562f55bbc45@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,24 +62,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>
+Cc: Intel-GFX@lists.freedesktop.org, DRI-Devel@lists.freedesktop.org,
+ Andi Shyti <andi.shyti@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi John,
 
+...
 
-On 10/9/2023 11:10 AM, Dmitry Baryshkov wrote:
-> The msm_drv_shutdown only makes sense for the KMS-enabled devices, while
-> msm_platform_driver is only used in the headless case. Remove the
-> shutdown callback from the driver structure.
-> 
-> Reviewed-by: Rob Clark <robdclark@gmail.com>
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->   drivers/gpu/drm/msm/msm_drv.c | 1 -
->   1 file changed, 1 deletion(-)
-> 
+> > >   	if (intf_id >= INTEL_GSC_NUM_INTERFACES) {
+> > > -		drm_warn_once(&gt->i915->drm, "GSC irq: intf_id %d is out of range", intf_id);
+> > > +		gt_warn_once(gt, "GSC irq: intf_id %d is out of range", intf_id);
+> > >   		return;
+> > >   	}
+> > >   	if (!HAS_HECI_GSC(gt->i915)) {
+> > > -		drm_warn_once(&gt->i915->drm, "GSC irq: not supported");
+> > > +		gt_warn_once(gt, "GSC irq: not supported");
+> > >   		return;
+> > >   	}
+> > > @@ -300,7 +301,7 @@ static void gsc_irq_handler(struct intel_gt *gt, unsigned int intf_id)
+> > >   	ret = generic_handle_irq(gt->gsc.intf[intf_id].irq);
+> > >   	if (ret)
+> > > -		drm_err_ratelimited(&gt->i915->drm, "error handling GSC irq: %d\n", ret);
+> > > +		gt_err_ratelimited(gt, "error handling GSC irq: %d\n", ret);
+> > >   }
+> > >   void intel_gsc_irq_handler(struct intel_gt *gt, u32 iir)
+> > > diff --git a/drivers/gpu/drm/i915/gt/intel_gt_print.h b/drivers/gpu/drm/i915/gt/intel_gt_print.h
+> > > index 55a336a9ff061..7fdc78c79273e 100644
+> > > --- a/drivers/gpu/drm/i915/gt/intel_gt_print.h
+> > > +++ b/drivers/gpu/drm/i915/gt/intel_gt_print.h
+> > > @@ -16,6 +16,9 @@
+> > >   #define gt_warn(_gt, _fmt, ...) \
+> > >   	drm_warn(&(_gt)->i915->drm, "GT%u: " _fmt, (_gt)->info.id, ##__VA_ARGS__)
+> > > +#define gt_warn_once(_gt, _fmt, ...) \
+> > > +	drm_warn_once(&(_gt)->i915->drm, "GT%u: " _fmt, (_gt)->info.id, ##__VA_ARGS__)
+> > > +
+> > I would add the gt_warn_once() part in a different patch.
+> But this is the patch that uses it. You should not add dead code. The only
+> exception being if it is something large and complex that needs to be added
+> in stages for ease of code review. But this really doesn't count as large or
+> complex!
 
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+I wouldn't call it dead code if it's used right after... you
+could also put all the *_warn_* changes in different patch.
+
+Anyway, I don't have a strong opinion for such a straight forward
+patch, so that I'm fine with it as it is:
+
+Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com> 
+
+Andi
