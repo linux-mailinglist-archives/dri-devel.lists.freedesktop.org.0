@@ -1,43 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F40737BED00
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Oct 2023 23:20:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D6457BED71
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Oct 2023 23:37:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4232F10E2F8;
-	Mon,  9 Oct 2023 21:20:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB98710E143;
+	Mon,  9 Oct 2023 21:37:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B6C6D10E2F8
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Oct 2023 21:20:47 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 1FACBB81733;
- Mon,  9 Oct 2023 21:20:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E5E9C433C8;
- Mon,  9 Oct 2023 21:20:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1696886445;
- bh=Izus3StnMYpbpfGzcH3rYhOA83ytnmOL3p/SwGQe1R4=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=fUNZTck4iaJOeM8Je3T8WvINpFaFE1urkvmBB0giTm0St8bMQ0quQi+ggYYVRP50h
- MahNO4+KavBiymB0NVI9XueRQWswedp5X3ZXh0GX0NqHzy+STs6J+OjLX6tyCJnsAh
- I9eaIX1k9ArCepOmU9Puaps1+rQZghRG8u5NrYungLv8mpdOzHVfoogxkQM4Tab66C
- 7ObaYxQtU3/hMaWj5eWKTqZe/UYdyPous2VOaV+30c+HISS0AwVZDrJLVUNT9q//rP
- DH2uu6ixRAvD7KQBwB+gyUasD8wt2LwYUN0ZsF4E+z52yoV+zJ7NHxDD1ThrW8D3OU
- PjqwmudJAgOlA==
-From: Arnd Bergmann <arnd@kernel.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 9/9] efi: move screen_info into efi init code
-Date: Mon,  9 Oct 2023 23:18:45 +0200
-Message-Id: <20231009211845.3136536-10-arnd@kernel.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20231009211845.3136536-1-arnd@kernel.org>
-References: <20231009211845.3136536-1-arnd@kernel.org>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B30810E143
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Oct 2023 21:37:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1696887453;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=8wiHOUxiajjnHeBrQroPQKoRKotH3a/t84SnD4V8y6c=;
+ b=V0k7MmFbJdglzFU7yoGQZyinRzc4Nj0fL5W7HA0TuIdLxrCbMjrmT7PedTuh1oHpapGRdN
+ 0BLTu8Ggs41KW1lLBWAv0K+v/h4z7R9lP+QjeJweSAl2HX7Z6cyWKldu/Ln2WejoVS2aXC
+ GqdpTxYZm5uLvRR2nykg88mGF1FPgag=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-313-rluCzkYIPNuGe8ZJmzn1mw-1; Mon, 09 Oct 2023 17:37:12 -0400
+X-MC-Unique: rluCzkYIPNuGe8ZJmzn1mw-1
+Received: by mail-qk1-f199.google.com with SMTP id
+ af79cd13be357-77586b4ae08so937747485a.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Oct 2023 14:37:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1696887431; x=1697492231;
+ h=mime-version:user-agent:content-transfer-encoding:organization
+ :references:in-reply-to:date:cc:to:from:subject:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=8wiHOUxiajjnHeBrQroPQKoRKotH3a/t84SnD4V8y6c=;
+ b=QII3pezI8h7LWXGUV+Kao4X4N4PQ+NDJc4AEOu0n5lT/y8LarHeq1SPYu+tWOkvb+9
+ nfGJJ5qLJbb40v9xAS6GwClnDvK9zhj9P88EPgmu6tCcBJTyVNnfGkiPn5RJplPGgSzB
+ XKOV+HBcEQJLAEeCiLAHyAw9d4HTlZgXixGZtv6tP8YaTeX2RF/JUIl5KNuAa0uFhuqy
+ RdySXHCiqhUbarmp1L5wnpx+XVVLgIca8i8tuKh5LaECFUAW2i5Y90L3v2+Nl48wFuRw
+ vZQBVcmtqL+rxHAmA5/BrJovHzIwPwg0kK7bpciKCoiJp5iySrVtQH4gSpZfxJ3N50Xy
+ IhvQ==
+X-Gm-Message-State: AOJu0Yyx2vC3JsKzzgmThpB3KAr4faMTIKhQN/6JvAmxi08uy2bKs26T
+ 0Cs0XH7rKYgfqe5lNLHtuT/zP58vnZ4z8Xetdbcbc796zidS/oyNsEg09s/bS8Psav16Cjzpsqs
+ Ppb93UWEFndAh91vTMXQPzyUfI5tB
+X-Received: by 2002:a05:620a:c45:b0:76c:b7f0:2bc9 with SMTP id
+ u5-20020a05620a0c4500b0076cb7f02bc9mr18775861qki.16.1696887431193; 
+ Mon, 09 Oct 2023 14:37:11 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IF1/DJrTyEIdfkS2nqcDd8qD8ykOPTlndQuH0p6ATWLeJ7BelfGg5ljaHhfNFoJXY4wO+aR8w==
+X-Received: by 2002:a05:620a:c45:b0:76c:b7f0:2bc9 with SMTP id
+ u5-20020a05620a0c4500b0076cb7f02bc9mr18775847qki.16.1696887430939; 
+ Mon, 09 Oct 2023 14:37:10 -0700 (PDT)
+Received: from ?IPv6:2600:4040:5c6c:a300::feb? ([2600:4040:5c6c:a300::feb])
+ by smtp.gmail.com with ESMTPSA id
+ v22-20020a05620a123600b0077423f849c3sm3804814qkj.24.2023.10.09.14.37.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 09 Oct 2023 14:37:10 -0700 (PDT)
+Message-ID: <a53adb9e7c598119a490dca20305644d6d7f312a.camel@redhat.com>
+Subject: Re: [PATCH v2] drm/nouveau: exec: fix ioctl kernel-doc warning
+From: Lyude Paul <lyude@redhat.com>
+To: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
+Date: Mon, 09 Oct 2023 17:37:09 -0400
+In-Reply-To: <20231008140231.17921-1-rdunlap@infradead.org>
+References: <20231008140231.17921-1-rdunlap@infradead.org>
+Organization: Red Hat Inc.
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,253 +84,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-hyperv@vger.kernel.org, x86@kernel.org, linux-ia64@vger.kernel.org,
- linux-sh@vger.kernel.org, Catalin Marinas <catalin.marinas@arm.com>,
- Dave Hansen <dave.hansen@linux.intel.com>,
- Russell King <linux@armlinux.org.uk>, Max Filippov <jcmvbkbc@gmail.com>,
- Will Deacon <will@kernel.org>, linux-efi@vger.kernel.org,
- Guo Ren <guoren@kernel.org>, linux-csky@vger.kernel.org,
- sparclinux@vger.kernel.org, linux-hexagon@vger.kernel.org,
- WANG Xuerui <kernel@xen0n.name>, "K. Y. Srinivasan" <kys@microsoft.com>,
- Ard Biesheuvel <ardb@kernel.org>, Wei Liu <wei.liu@kernel.org>,
- Michael Ellerman <mpe@ellerman.id.au>, Helge Deller <deller@gmx.de>,
- Huacai Chen <chenhuacai@kernel.org>, Dexuan Cui <decui@microsoft.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Christophe Leroy <christophe.leroy@csgroup.eu>,
- Deepak Rawat <drawat.floss@gmail.com>, Ingo Molnar <mingo@redhat.com>,
- Matt Turner <mattst88@gmail.com>, linux-mips@vger.kernel.org,
- Arnd Bergmann <arnd@arndb.de>, Haiyang Zhang <haiyangz@microsoft.com>,
- Nicholas Piggin <npiggin@gmail.com>, Borislav Petkov <bp@alien8.de>,
- loongarch@lists.linux.dev,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- Thomas Gleixner <tglx@linutronix.de>, linux-arm-kernel@lists.infradead.org,
- Khalid Aziz <khalid@gonehiking.org>, Brian Cain <bcain@quicinc.com>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- Dinh Nguyen <dinguyen@kernel.org>, linux-riscv@lists.infradead.org,
- Palmer Dabbelt <palmer@dabbelt.com>, linux-alpha@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, "David S. Miller" <davem@davemloft.net>
+Cc: Karol Herbst <kherbst@redhat.com>,
+ Bragatheswaran Manickavel <bragathemanick0908@gmail.com>,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Danilo Krummrich <dakr@redhat.com>, Dave Airlie <airlied@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Arnd Bergmann <arnd@arndb.de>
+Reviewed-by: Lyude Paul <lyude@redhat.com>
 
-After the vga console no longer relies on global screen_info, there are
-only two remaining use cases:
+On Sun, 2023-10-08 at 07:02 -0700, Randy Dunlap wrote:
+> kernel-doc emits a warning:
+>=20
+> include/uapi/drm/nouveau_drm.h:49: warning: Cannot understand  * @NOUVEAU=
+_GETPARAM_EXEC_PUSH_MAX
+>  on line 49 - I thought it was a doc line
+>=20
+> We don't have a way to document a macro value via kernel-doc, so
+> change the "/**" kernel-doc marker to a C comment and format the comment
+> more like a kernel-doc comment for consistency.
+>=20
+> Fixes: d59e75eef52d ("drm/nouveau: exec: report max pushs through getpara=
+m")
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Dave Airlie <airlied@redhat.com>
+> Cc: Danilo Krummrich <dakr@redhat.com>
+> Cc: Karol Herbst <kherbst@redhat.com>
+> Cc: Lyude Paul <lyude@redhat.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: nouveau@lists.freedesktop.org
+> Cc: Bragatheswaran Manickavel <bragathemanick0908@gmail.com>
+> ---
+> v2: update commit text; somehow I sent a version of the patch before
+>     adding the full text.
+> v1: https://lore.kernel.org/lkml/20231007005518.32015-1-rdunlap@infradead=
+.org/
+>=20
+>  include/uapi/drm/nouveau_drm.h |    4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff -- a/include/uapi/drm/nouveau_drm.h b/include/uapi/drm/nouveau_drm.h
+> --- a/include/uapi/drm/nouveau_drm.h
+> +++ b/include/uapi/drm/nouveau_drm.h
+> @@ -45,8 +45,8 @@ extern "C" {
+>  #define NOUVEAU_GETPARAM_HAS_BO_USAGE    15
+>  #define NOUVEAU_GETPARAM_HAS_PAGEFLIP    16
+> =20
+> -/**
+> - * @NOUVEAU_GETPARAM_EXEC_PUSH_MAX
+> +/*
+> + * NOUVEAU_GETPARAM_EXEC_PUSH_MAX - query max pushes through getparam
+>   *
+>   * Query the maximum amount of IBs that can be pushed through a single
+>   * &drm_nouveau_exec structure and hence a single &DRM_IOCTL_NOUVEAU_EXE=
+C
+>=20
 
- - on the x86 architecture, it is used for multiple boot methods
-   (bzImage, EFI, Xen, kexec) to commucate the initial VGA or framebuffer
-   settings to a number of device drivers.
-
- - on other architectures, it is only used as part of the EFI stub,
-   and only for the three sysfb framebuffers (simpledrm, simplefb, efifb).
-
-Remove the duplicate data structure definitions by moving it into the
-efi-init.c file that sets it up initially for the EFI case, leaving x86
-as an exception that retains its own definition for non-EFI boots.
-
-The added #ifdefs here are optional, I added them to further limit the
-reach of screen_info to configurations that have at least one of the
-users enabled.
-
-Reviewed-by: Ard Biesheuvel <ardb@kernel.org>
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-Acked-by: Helge Deller <deller@gmx.de>
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- arch/arm/kernel/setup.c                       |  4 ----
- arch/arm64/kernel/efi.c                       |  4 ----
- arch/arm64/kernel/image-vars.h                |  2 ++
- arch/loongarch/kernel/efi.c                   |  3 ++-
- arch/loongarch/kernel/image-vars.h            |  2 ++
- arch/loongarch/kernel/setup.c                 |  5 -----
- arch/riscv/kernel/image-vars.h                |  2 ++
- arch/riscv/kernel/setup.c                     |  5 -----
- drivers/firmware/efi/efi-init.c               | 14 +++++++++++++-
- drivers/firmware/efi/libstub/efi-stub-entry.c |  8 +++++++-
- 10 files changed, 28 insertions(+), 21 deletions(-)
-
-diff --git a/arch/arm/kernel/setup.c b/arch/arm/kernel/setup.c
-index c15dfdbe3d5ae..b808712e85981 100644
---- a/arch/arm/kernel/setup.c
-+++ b/arch/arm/kernel/setup.c
-@@ -939,10 +939,6 @@ static struct screen_info vgacon_screen_info = {
- };
- #endif
- 
--#if defined(CONFIG_EFI)
--struct screen_info screen_info;
--#endif
--
- static int __init customize_machine(void)
- {
- 	/*
-diff --git a/arch/arm64/kernel/efi.c b/arch/arm64/kernel/efi.c
-index 2b478ca356b00..52089f111c8db 100644
---- a/arch/arm64/kernel/efi.c
-+++ b/arch/arm64/kernel/efi.c
-@@ -71,10 +71,6 @@ static __init pteval_t create_mapping_protection(efi_memory_desc_t *md)
- 	return pgprot_val(PAGE_KERNEL_EXEC);
- }
- 
--/* we will fill this structure from the stub, so don't put it in .bss */
--struct screen_info screen_info __section(".data");
--EXPORT_SYMBOL(screen_info);
--
- int __init efi_create_mapping(struct mm_struct *mm, efi_memory_desc_t *md)
- {
- 	pteval_t prot_val = create_mapping_protection(md);
-diff --git a/arch/arm64/kernel/image-vars.h b/arch/arm64/kernel/image-vars.h
-index 35f3c79595137..5e4dc72ab1bda 100644
---- a/arch/arm64/kernel/image-vars.h
-+++ b/arch/arm64/kernel/image-vars.h
-@@ -27,7 +27,9 @@ PROVIDE(__efistub__text			= _text);
- PROVIDE(__efistub__end			= _end);
- PROVIDE(__efistub___inittext_end       	= __inittext_end);
- PROVIDE(__efistub__edata		= _edata);
-+#if defined(CONFIG_EFI_EARLYCON) || defined(CONFIG_SYSFB)
- PROVIDE(__efistub_screen_info		= screen_info);
-+#endif
- PROVIDE(__efistub__ctype		= _ctype);
- 
- PROVIDE(__pi___memcpy			= __pi_memcpy);
-diff --git a/arch/loongarch/kernel/efi.c b/arch/loongarch/kernel/efi.c
-index 9fc10cea21e10..df7db34024e61 100644
---- a/arch/loongarch/kernel/efi.c
-+++ b/arch/loongarch/kernel/efi.c
-@@ -115,7 +115,8 @@ void __init efi_init(void)
- 
- 	set_bit(EFI_CONFIG_TABLES, &efi.flags);
- 
--	init_screen_info();
-+	if (IS_ENABLED(CONFIG_EFI_EARLYCON) || IS_ENABLED(CONFIG_SYSFB))
-+		init_screen_info();
- 
- 	if (boot_memmap == EFI_INVALID_TABLE_ADDR)
- 		return;
-diff --git a/arch/loongarch/kernel/image-vars.h b/arch/loongarch/kernel/image-vars.h
-index e561989d02de9..5087416b9678d 100644
---- a/arch/loongarch/kernel/image-vars.h
-+++ b/arch/loongarch/kernel/image-vars.h
-@@ -12,7 +12,9 @@ __efistub_kernel_entry		= kernel_entry;
- __efistub_kernel_asize		= kernel_asize;
- __efistub_kernel_fsize		= kernel_fsize;
- __efistub_kernel_offset		= kernel_offset;
-+#if defined(CONFIG_EFI_EARLYCON) || defined(CONFIG_SYSFB)
- __efistub_screen_info		= screen_info;
-+#endif
- 
- #endif
- 
-diff --git a/arch/loongarch/kernel/setup.c b/arch/loongarch/kernel/setup.c
-index 0d5edf1f7e4a1..407cd6b49bef6 100644
---- a/arch/loongarch/kernel/setup.c
-+++ b/arch/loongarch/kernel/setup.c
-@@ -16,7 +16,6 @@
- #include <linux/dmi.h>
- #include <linux/efi.h>
- #include <linux/export.h>
--#include <linux/screen_info.h>
- #include <linux/memblock.h>
- #include <linux/initrd.h>
- #include <linux/ioport.h>
-@@ -57,10 +56,6 @@
- #define SMBIOS_CORE_PACKAGE_OFFSET	0x23
- #define LOONGSON_EFI_ENABLE		(1 << 3)
- 
--#ifdef CONFIG_EFI
--struct screen_info screen_info __section(".data");
--#endif
--
- unsigned long fw_arg0, fw_arg1, fw_arg2;
- DEFINE_PER_CPU(unsigned long, kernelsp);
- struct cpuinfo_loongarch cpu_data[NR_CPUS] __read_mostly;
-diff --git a/arch/riscv/kernel/image-vars.h b/arch/riscv/kernel/image-vars.h
-index ea1a10355ce90..3df30dd1c458b 100644
---- a/arch/riscv/kernel/image-vars.h
-+++ b/arch/riscv/kernel/image-vars.h
-@@ -28,7 +28,9 @@ __efistub__start_kernel		= _start_kernel;
- __efistub__end			= _end;
- __efistub__edata		= _edata;
- __efistub___init_text_end	= __init_text_end;
-+#if defined(CONFIG_EFI_EARLYCON) || defined(CONFIG_SYSFB)
- __efistub_screen_info		= screen_info;
-+#endif
- 
- #endif
- 
-diff --git a/arch/riscv/kernel/setup.c b/arch/riscv/kernel/setup.c
-index 0c466a50f1744..0624f44d43eca 100644
---- a/arch/riscv/kernel/setup.c
-+++ b/arch/riscv/kernel/setup.c
-@@ -15,7 +15,6 @@
- #include <linux/memblock.h>
- #include <linux/sched.h>
- #include <linux/console.h>
--#include <linux/screen_info.h>
- #include <linux/of_fdt.h>
- #include <linux/sched/task.h>
- #include <linux/smp.h>
-@@ -40,10 +39,6 @@
- 
- #include "head.h"
- 
--#if defined(CONFIG_EFI)
--struct screen_info screen_info __section(".data");
--#endif
--
- /*
-  * The lucky hart to first increment this variable will boot the other cores.
-  * This is used before the kernel initializes the BSS so it can't be in the
-diff --git a/drivers/firmware/efi/efi-init.c b/drivers/firmware/efi/efi-init.c
-index ef0820f1a9246..d4987d0130801 100644
---- a/drivers/firmware/efi/efi-init.c
-+++ b/drivers/firmware/efi/efi-init.c
-@@ -55,6 +55,15 @@ static phys_addr_t __init efi_to_phys(unsigned long addr)
- 
- extern __weak const efi_config_table_type_t efi_arch_tables[];
- 
-+/*
-+ * x86 defines its own screen_info and uses it even without EFI,
-+ * everything else can get it from here.
-+ */
-+#if !defined(CONFIG_X86) && (defined(CONFIG_SYSFB) || defined(CONFIG_EFI_EARLYCON))
-+struct screen_info screen_info __section(".data");
-+EXPORT_SYMBOL_GPL(screen_info);
-+#endif
-+
- static void __init init_screen_info(void)
- {
- 	struct screen_info *si;
-@@ -240,5 +249,8 @@ void __init efi_init(void)
- 	memblock_reserve(data.phys_map & PAGE_MASK,
- 			 PAGE_ALIGN(data.size + (data.phys_map & ~PAGE_MASK)));
- 
--	init_screen_info();
-+	if (IS_ENABLED(CONFIG_X86) ||
-+	    IS_ENABLED(CONFIG_SYSFB) ||
-+	    IS_ENABLED(CONFIG_EFI_EARLYCON))
-+		init_screen_info();
- }
-diff --git a/drivers/firmware/efi/libstub/efi-stub-entry.c b/drivers/firmware/efi/libstub/efi-stub-entry.c
-index 2f1902e5d4075..a6c0498351905 100644
---- a/drivers/firmware/efi/libstub/efi-stub-entry.c
-+++ b/drivers/firmware/efi/libstub/efi-stub-entry.c
-@@ -13,7 +13,13 @@ struct screen_info *alloc_screen_info(void)
- {
- 	if (IS_ENABLED(CONFIG_ARM))
- 		return __alloc_screen_info();
--	return (void *)&screen_info + screen_info_offset;
-+
-+	if (IS_ENABLED(CONFIG_X86) ||
-+	    IS_ENABLED(CONFIG_EFI_EARLYCON) ||
-+	    IS_ENABLED(CONFIG_SYSFB))
-+		return (void *)&screen_info + screen_info_offset;
-+
-+	return NULL;
- }
- 
- /*
--- 
-2.39.2
+--=20
+Cheers,
+ Lyude Paul (she/her)
+ Software Engineer at Red Hat
 
