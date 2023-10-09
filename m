@@ -1,84 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEA367BE836
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Oct 2023 19:33:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A1547BE864
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Oct 2023 19:40:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 804AF10E13E;
-	Mon,  9 Oct 2023 17:33:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C80F10E29E;
+	Mon,  9 Oct 2023 17:40:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
- [IPv6:2a00:1450:4864:20::331])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A8BC310E13E
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Oct 2023 17:33:07 +0000 (UTC)
-Received: by mail-wm1-x331.google.com with SMTP id
- 5b1f17b1804b1-406402933edso44539085e9.2
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Oct 2023 10:33:07 -0700 (PDT)
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com
+ [IPv6:2a00:1450:4864:20::532])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B85310E29E;
+ Mon,  9 Oct 2023 17:40:28 +0000 (UTC)
+Received: by mail-ed1-x532.google.com with SMTP id
+ 4fb4d7f45d1cf-533c5d10dc7so8432505a12.3; 
+ Mon, 09 Oct 2023 10:40:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1696872786; x=1697477586; darn=lists.freedesktop.org;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:from:to:cc:subject:date:message-id:reply-to;
- bh=ZcMcyZKlnP4WspTSCi1Haubc/6WCYhDr1nk35xCXfrc=;
- b=tFlpopGu+YAvks6RBvAzndTNdLSvDHvciQWj7YleF6CNDAV6v9ClWoxFDzCeprCFdt
- HJSXxeMa5Fh83NFVQTyzbHx2WN8MUzR0R816qRHw/aYq3B7tDYA9ro841AgqZ7eQZj1e
- hzw/8YLqCZCarldPh03z+FJV06WlSNwfkAfDqqtflbHeOqj7ycRy/WxVIgiluKfqFUak
- I6VsCGds7HSXLOQyarMJX1533KG8ipdxv/t4uRYuZNJsmc01xazDB0sRLzsJZ9zR7xBt
- 0bM5II1Lnaa/w6a5PZH9rBBNT+tJAWtueZMNyXmFN/gTawBpU4jwBP49ggWj8rug0CyH
- uwYA==
+ d=gmail.com; s=20230601; t=1696873226; x=1697478026; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=W0Hg74zU6ESH8XSh7ezPeKEnzmx/gMQe+/lsq3fFNmM=;
+ b=QYjBYeHYLkmbgFB/iPCPLGUtIThS5wU9AzPKfOwRyv9VZy+Z6kqQsNalfdpdYOa10v
+ y6OxcS9agc2egNk1glKWW/a7CHaqTphLKx1BHjrH2CuZSQfk+/650TAYjcIUrFAdtl4W
+ rDWaV/ORMl6QS1HuFFTuX1SzW8kmHGHPI6Q2H0FyPHWyT+8dCREEV1vl+SOvxkGj4NwL
+ Fe0VTZVfQi0lKf+E96MzWhSucTF9NyNng6JJ43am0QEPUDux+I/6HyOHTTM8fMWdJ1+m
+ /ULAMp+bet/luhx1Iuqw85BHDasMHqyvb4l/l32M5Ll5HFiL7wqf+SzS0qYn40xKNnP7
+ zNlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1696872786; x=1697477586;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=ZcMcyZKlnP4WspTSCi1Haubc/6WCYhDr1nk35xCXfrc=;
- b=nTlb95FqY61wGrIKciFhPvWIws6Vg+h7XRvXe9q6s2XxxiMpqM11nhpAMG4rU1xOjm
- gjdzrsfpF0XFKK+7/bV4XMfsgXtb3xFtGZubIzy+mOD/MMhwIrqXEtjfs27xXP0WqLE1
- FWLp6zyK+ew1FVOkOFC9P2Kb7MOrn/VnsqWErLwfZIOZmeiereuzDC9tIkqZLrvfjyB+
- eDJsGKCh99E/a7l60cbhIR+BOH0y2wOUtFQc98A2BLhQViFhajCx7/q28UTyoU5nQMzi
- /BC1eaMZuGgxKlZiInxMm6Y8fkeqRAOPsMx9cCPqjg8HmgEKKGbOU3jBvT7EyNp2ouh/
- LpOQ==
-X-Gm-Message-State: AOJu0YyIFAuaprbeo5Lvk2rKhMGCBmCJtqVyL+lMMWSwbWuDvb0lRvmP
- dkK67G00O5sbS5ec01I7aPfcjw==
-X-Google-Smtp-Source: AGHT+IFXMVi+f/zKGH6RmJTpFPuSVC2y6U19+gQuZGXDePsTdmR3HwCI2zSRqiKT7AkLvgLWc13Yyg==
-X-Received: by 2002:a05:600c:2a4e:b0:406:3f62:e591 with SMTP id
- x14-20020a05600c2a4e00b004063f62e591mr14788311wme.41.1696872785863; 
- Mon, 09 Oct 2023 10:33:05 -0700 (PDT)
-Received: from lion.localdomain (host-2-99-112-229.as13285.net. [2.99.112.229])
- by smtp.gmail.com with ESMTPSA id
- n22-20020a7bcbd6000000b004060f0a0fdbsm14095109wmi.41.2023.10.09.10.33.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Oct 2023 10:33:05 -0700 (PDT)
-From: Caleb Connolly <caleb.connolly@linaro.org>
-Date: Mon, 09 Oct 2023 18:32:50 +0100
-Subject: [PATCH RFC] dt-bindings: display: document display panel
- occlusions
+ d=1e100.net; s=20230601; t=1696873226; x=1697478026;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=W0Hg74zU6ESH8XSh7ezPeKEnzmx/gMQe+/lsq3fFNmM=;
+ b=wzqVbwWu4I/meEtpGoBKuI/J4c3yyP9Ee6Qz/kI8LRHTfDm0qMIZ07jxg4y2V2kaSc
+ w7fWlguLTJjrahNCT6FF0ehRPh3AQd/xyIz6QXA9UDpdowWVUGCgraKpAKnNORfqWTwt
+ vcRe/URy5D5eAi5tJ9VrbZkB0XjV1KQXBd4SSeWxsHh29mgMFeTpTfH6A67sdbKu5NCj
+ TK3SFg22i6ZJk4qGeZJ4xjF8SoZv6atmkjA+0miiJBCxO3afnEfri35nqdtHnggENoTb
+ oQOdqgvBjKc4ehB/MEHo/UMbafTnice8YCN6FCCovnJvH8wZ7yd4wkqtWPhAS+a+hKDR
+ axZg==
+X-Gm-Message-State: AOJu0YxKzMTuW4i2vNgvds9CObkzUvyQ6+mm0UG0JrRNaIlRYSY8ev1P
+ H3FmUOwf9TQsOeVCbbMlNhVyv65eeNNvMOagmS0=
+X-Google-Smtp-Source: AGHT+IEsjuGbN899zDjU9g+Ja6nOILX/d8R6MyZMLqwXE7TZqyeBrzEE089Layp1ZBdFnj1gZy4x69oWN2wfKnmsCPo=
+X-Received: by 2002:aa7:d1d7:0:b0:52f:a42a:85a3 with SMTP id
+ g23-20020aa7d1d7000000b0052fa42a85a3mr13979430edp.0.1696873226254; Mon, 09
+ Oct 2023 10:40:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20231009-caleb-notch-example-v1-1-9e0a43ae233c@linaro.org>
-X-B4-Tracking: v=1; b=H4sIAEE5JGUC/x2NwQrCMBAFf6Xs2YW0oYpeBT/Aq3jYxBcTiGlJV
- Aql/+7icQaGWamhJjQ6dStVfFNLU1Hodx35KOUJTg9lGsxge2OO7CXDcZnePjIWec0ZHIy1YQT
- GPQ6kpZMGdlWKj9qWT84q54qQlv/qRtfLme7b9gNtqYZQfwAAAA==
-To: Neil Armstrong <neil.armstrong@linaro.org>, 
- Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Thierry Reding <thierry.reding@gmail.com>, 
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
- Caleb Connolly <caleb.connolly@linaro.org>
-X-Mailer: b4 0.13-dev-46309
-X-Developer-Signature: v=1; a=openpgp-sha256; l=10493;
- i=caleb.connolly@linaro.org; h=from:subject:message-id;
- bh=rhVSYBZeAquBrfJRb865MEo3MYIxY0W6Tw/e0hrrO6s=;
- b=owGbwMvMwCFYaeA6f6eBkTjjabUkhlQVy4CDzyL9djglr7sw68mVayEBM5uvCGzpZJ1+vSVkm
- aVPkMetjlIWBkEOBlkxRRbxE8ssm9ZettfYvuACzBxWJpAhDFycAjCRoNOMDOsZXu7Z6biKb2/J
- 7S3K7n7RYvyTX55d9fw89zTPm9sOiOxl+CtrYKLz5nJU1/anZcefXXt/3bkw6vVJD8GK2Utjtqm
- f/twMAA==
-X-Developer-Key: i=caleb.connolly@linaro.org; a=openpgp;
- fpr=83B24DA7FE145076BC38BB250CD904EB673A7C47
+References: <20230703003745.34239-1-dmitry.baryshkov@linaro.org>
+In-Reply-To: <20230703003745.34239-1-dmitry.baryshkov@linaro.org>
+From: Rob Clark <robdclark@gmail.com>
+Date: Mon, 9 Oct 2023 10:40:13 -0700
+Message-ID: <CAF6AEGs-Ar0+gRrsEg_LuAXmsAhFg7MKZ=kLpQ=jZKTfdXBtOQ@mail.gmail.com>
+Subject: Re: [PATCH 00/13] drm/msm: move KMS code from msm_drv.c
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,285 +68,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Robert Mader <robert.mader@posteo.de>,
- Guido Gunther <agx@sigxcpu.org>, Hector Martin <marcan@marcan.st>,
- dri-devel@lists.freedesktop.org, asahi@lists.linux.dev,
- phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht
+Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org,
+ Marijn Suijten <marijn.suijten@somainline.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some display panels found in modern phones and laptops feature
-non-standard display shapes with features like rounded corners, notches
-(sections of the display that are cut-out from the edge), and cutouts
-(such as circular "hole punch" camera cutouts, or wider pill-shaped
-"islands").
+On Sun, Jul 2, 2023 at 5:37=E2=80=AFPM Dmitry Baryshkov
+<dmitry.baryshkov@linaro.org> wrote:
+>
+> Currently both msm_drm_init() and msm_drm_uninit() functions are trying
+> to handle both normal and headless Adreno cases. This results in a
+> suboptimal code, since headless case still gets modesetting and atomic
+> interfaces enabled. Two mentioned functions are a spaghetti of
+> `if (priv->kms)' conditional code.
+>
+> Move all KMS-related code (not limiting the init / teardown path) from
+> msm_drv.c to msm_kms.c, making it more self-contained. This also
+> disables ATOMIC and MODESET features for the headless case.
+>
+> Dependencies: [1]
+> [1] https://patchwork.freedesktop.org/series/105392/
+>
+> Dmitry Baryshkov (13):
+>   drm/msm/dsi: switch to devm_drm_bridge_add()
+>   drm/msm/hdmi: switch to devm_drm_bridge_add()
+>   drm/msm/dp: move pdev from struct dp_display_private to struct msm_dp
+>   drm/msm/dp: switch to devm_drm_bridge_add()
+>   drm/msm: remove msm_drm_private::bridges field
+>   drm/msm: drop pm ops from the headless msm driver
+>   drm/msm: rename msm_pm_prepare/complete to note the KMS nature
+>   drm/msm: remove shutdown callback from msm_platform_driver
+>   drm/msm: rename msm_drv_shutdown() to msm_kms_shutdown()
+>   drm/msm: switch to drmm_mode_config_init()
+>   drm/msm: only register 'kms' debug file if KMS is used
+>   drm/msm: make fb debugfs file available only in KMS case
+>   drm/msm: carve out KMS code from msm_drv.c
 
-Some discussion has been underway previously on how best to describe
-these features [1][2], including a reference userspace implementation
-using SVG paths [3]. Using this previous discussion as a jumping off
-point, this RFC allows for describing the following display features:
+Reviewed-by: Rob Clark <robdclark@gmail.com>
 
-* Corner radius (on a per-corner basis)
-* Circular or pill-shaped cutouts
-* Notches with arbitrary shapes
-
-It's easy to make a case for only using rectangles to describe these
-missing parts of a display, however this severely limits their utility.
-Describing display occlusions as accurately as possible allows for a lot of
-useful UX features. For example, displaying a ring around a hole-punch
-camera when it's in use, or wrapping UI elements around a notch. These
-behaviours are only possible to implement when the dimensions are known
-with near pixel-perfect accuracy.
-
-Cutouts are described as rectangles with a width, height, and corner
-radius.
-A radius of half the width longest edge will definitionally be an ellipse.
-This simple description is suitable for describing hole-punch cameras,
-as well
-as pill-shaped cutouts. I'm not aware of any devices that can't be
-described like this.
-
-Notches are a little more complicated, they usually feature convex and
-concave corners as well as straight lines. Here they are described as a
-sequence of optionally disjoint arcs, where the space between one arc ending
-and another starting is inferred to be a straight line.
-
-Each arc is described with an X and Y pixel coordinate, a radius, and a
-start and end point in degrees. These arcs can precisely describe the
-shape of a notch, and easily allow for a basic bounding box to be
-derived using the min/max coordinates specified in the path.
-
-Some displays feature partially occluded edges ("waterfall edges") where
-the screen bends, it may be useful for user interfaces to avoid placing
-certain UI elements like buttons too close to these edges. These edges
-are described by a distance from the edge where it begins to be
-occluded, and the number of degrees that the display curves (this
-directly affects how usable this edge of the screen is).
-
-[1]: https://lore.kernel.org/dri-devel/f8747f99-0695-5be0-841f-4f72ba5d5da3@connolly.tech/
-[2]: https://gitlab.freedesktop.org/wayland/wayland-protocols/-/issues/87
-[3]: https://gitlab.gnome.org/World/Phosh/gmobile
-
-Signed-off-by: Caleb Connolly <caleb.connolly@linaro.org>
----
-Some folks have previously suggested that this information belongs in
-userspace and not in devicetree. I would like to be clear that
-devicetree is for describing hardware, and parts of a display which can
-never actually be seen are very much properties of the underlying
-hardware.
----
-base-commit: 268c4b354d66908697299063c44c0b553b01d935
-
-// Caleb (they/them)
----
- .../bindings/display/panel/panel-common.yaml       |   7 +
- .../bindings/display/panel/panel-occlusions.yaml   | 182 +++++++++++++++++++++
- 2 files changed, 189 insertions(+)
-
-diff --git a/Documentation/devicetree/bindings/display/panel/panel-common.yaml b/Documentation/devicetree/bindings/display/panel/panel-common.yaml
-index 0a57a31f4f3d..6ea52a031872 100644
---- a/Documentation/devicetree/bindings/display/panel/panel-common.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/panel-common.yaml
-@@ -150,6 +150,13 @@ properties:
-       controller, this property contains a phandle that references the
-       controller.
- 
-+  occlusions:
-+    $ref: panel-occlusions.yaml#
-+    description:
-+      Some panels have non-standard shapes due to features like rounded corners,
-+      notches, cutouts, and "waterfall" edges. The panel-occlusions bindings
-+      can be used to describe these features.
-+
- dependencies:
-   width-mm: [ height-mm ]
-   height-mm: [ width-mm ]
-diff --git a/Documentation/devicetree/bindings/display/panel/panel-occlusions.yaml b/Documentation/devicetree/bindings/display/panel/panel-occlusions.yaml
-new file mode 100644
-index 000000000000..0932026bbd8c
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/panel/panel-occlusions.yaml
-@@ -0,0 +1,182 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/panel/panel-occlusions.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Common Properties for describing display notches, cutouts, and other occlusions
-+
-+maintainers:
-+  - Caleb Connolly <caleb.connolly@linaro.org>
-+
-+description: |
-+  This document defines devicetree nodes that can be used to describe
-+  different kind of display occlusions such as notches, camera cutouts, rounded
-+  corners, and other features that may require special treatment by the display
-+  subsystem. All pixel values should be given in the displays native resolution.
-+
-+properties:
-+  $nodename:
-+    const: occlusions
-+
-+  corners:
-+    type: object
-+    description: |
-+      An area of the display which is fully obscured by a notch.
-+    properties:
-+      radius-px:
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+        description: Describes the radius when it's identical for all corners
-+
-+      radius-top-px:
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+        description: Describes the radius when it's identical for both top corners
-+
-+      radius-bottom-px:
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+        description: Describes the radius when it's identical for both top corners
-+
-+      radius-top-left-px:
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+        description: The radius of the top left corner in pixels
-+
-+      radius-top-right-px:
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+        description: The radius of the top right corner in pixels
-+
-+      radius-bottom-left-px:
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+        description: The radius of the bottom left corner in pixels
-+
-+      radius-bottom-right-px:
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+        description: The radius of the bottom right corner in pixels
-+
-+    dependencies:
-+      radius-top-left-px: [ radius-top-right-px ]
-+      radius-top-right-px: [ radius-top-left-px ]
-+      radius-bottom-left-px: [ radius-bottom-right-px ]
-+      radius-bottom-right-px: [ radius-bottom-left-px ]
-+
-+    anyOf:
-+      - required:
-+          - radius-px
-+      - required:
-+          - radius-top-px
-+          - radius-bottom-px
-+      - required:
-+          - radius-top-px
-+          - radius-bottom-left-px
-+          - radius-bottom-right-px
-+      - required:
-+          - radius-bottom-px
-+          - radius-top-left-px
-+          - radius-top-right-px
-+      - required:
-+          - radius-top-left-px
-+          - radius-top-right-px
-+          - radius-bottom-left-px
-+          - radius-bottom-right-px
-+
-+    additionalProperties: false
-+
-+patternProperties:
-+  "^cutout(-[0-9])?$":
-+    type: object
-+    description: |
-+      An area of the display which is not directly adjacent to an
-+      edge and is fully occluded (for example, a camera cutout).
-+    properties:
-+      x-position-px:
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+        description: The horizontal coordinate of the center of the cutout.
-+
-+      y-position-px:
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+        description: The horizontal coordinate of the center of the cutout.
-+
-+      width-px:
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+        description: The width of the cutout in pixels.
-+
-+      height-px:
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+        description: The width of the cutout in pixels.
-+
-+      corner-radius-px:
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+        description: |
-+          The radius of the corners in pixels. For a circle this should be half of
-+          the width/height.
-+
-+    required:
-+      - x-position-px
-+      - y-position-px
-+      - width-px
-+      - height-px
-+      - corner-radius-px
-+
-+    additionalProperties: false
-+
-+  "^notch(-[0-9])?$":
-+    type: object
-+    description: |
-+      An area of the display which is fully occluded by a notch.
-+    properties:
-+      path:
-+        $ref: /schemas/types.yaml#/definitions/uint32-matrix
-+        description: |
-+          Sequence of values defining the arcs which describe this path. Lines
-+          are inserted between arcs that don't directly meet.
-+        maxItems: 8 # Ought to cover most scenarios
-+        items:
-+          items:
-+            - description: X coordinate of center point in pixels
-+            - description: Y coordinate of center point in pixels
-+            - description: Circle radius
-+            - description: Starting angle in degrees
-+            - description: Ending angle in degrees
-+
-+    required:
-+      - path
-+
-+    additionalProperties: false
-+
-+  "^(left|right|top|bottom)-edge$":
-+    type: object
-+    description: |
-+      An edge of the screen with reduced visibility due to a waterfall design
-+      or similar.
-+    properties:
-+      size-px:
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+        description: The distance from the edge where it begins to obscure visbility
-+
-+      curve-degrees:
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+        description: The number of degrees that the display curves.
-+        maximum: 100
-+
-+    required:
-+      - size-px
-+      - curve-degrees
-+
-+additionalProperties: false
-+
-+examples:
-+  - | # A panel with a large-ish notch on the top edge, and different corner radii
-+    panel {
-+        occlusions {
-+            notch {
-+                path = <360 8  10 0    90>,
-+                       <435 10 20 270 180>,
-+                       <645 10 20 180  90>,
-+                       <645 8  10  90   0>;
-+            };
-+
-+            corners {
-+                radius-top-px = <30>;
-+                radius-bottom-px = <40>;
-+            };
-+        };
-+    };
-
+>
+>  drivers/gpu/drm/msm/Makefile             |   1 +
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c  |   6 +-
+>  drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c |   6 +-
+>  drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c |   6 +-
+>  drivers/gpu/drm/msm/dp/dp_display.c      |  34 +--
+>  drivers/gpu/drm/msm/dp/dp_display.h      |   1 +
+>  drivers/gpu/drm/msm/dp/dp_drm.c          |  21 +-
+>  drivers/gpu/drm/msm/dp/dp_drm.h          |   2 +-
+>  drivers/gpu/drm/msm/dsi/dsi.c            |  28 +-
+>  drivers/gpu/drm/msm/dsi/dsi.h            |   3 +-
+>  drivers/gpu/drm/msm/dsi/dsi_manager.c    |  30 +-
+>  drivers/gpu/drm/msm/hdmi/hdmi.c          |  22 +-
+>  drivers/gpu/drm/msm/hdmi/hdmi.h          |   5 +-
+>  drivers/gpu/drm/msm/hdmi/hdmi_bridge.c   |  30 +-
+>  drivers/gpu/drm/msm/hdmi/hdmi_hpd.c      |   3 +-
+>  drivers/gpu/drm/msm/msm_debugfs.c        |  12 +-
+>  drivers/gpu/drm/msm/msm_drv.c            | 363 ++---------------------
+>  drivers/gpu/drm/msm/msm_drv.h            |   9 +-
+>  drivers/gpu/drm/msm/msm_kms.c            | 345 +++++++++++++++++++++
+>  drivers/gpu/drm/msm/msm_kms.h            |   3 +
+>  20 files changed, 452 insertions(+), 478 deletions(-)
+>  create mode 100644 drivers/gpu/drm/msm/msm_kms.c
+>
+> --
+> 2.39.2
+>
