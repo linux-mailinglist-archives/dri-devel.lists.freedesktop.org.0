@@ -1,63 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66D277BE8F3
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Oct 2023 20:10:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 65A637BE8F0
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Oct 2023 20:10:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 92ABA10E2A4;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B95F10E2A3;
 	Mon,  9 Oct 2023 18:10:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
- [IPv6:2a00:1450:4864:20::132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 43B2110E297
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Oct 2023 18:10:45 +0000 (UTC)
-Received: by mail-lf1-x132.google.com with SMTP id
- 2adb3069b0e04-50305abe5f0so6397937e87.2
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Oct 2023 11:10:45 -0700 (PDT)
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
+ [IPv6:2a00:1450:4864:20::130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 34DA410E29B
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Oct 2023 18:10:46 +0000 (UTC)
+Received: by mail-lf1-x130.google.com with SMTP id
+ 2adb3069b0e04-505748580ceso6029733e87.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Oct 2023 11:10:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1696875043; x=1697479843; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1696875044; x=1697479844; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=yo+Tbv6d2nOKlw4PvFCcvYipnGPPT636i5Xxfkjy52M=;
- b=R3mdqjLOtjdIpD3p2jQMYdtcAv6uQzW1PB/g/Zc9XZneW1xqmwTtkqmgaSPqPMnLnl
- JWVJU4uNK4vgKBGhIS07t7O5tIWq7yAazxR8nZaVqLljMYxbuE/X3erLvA/pU8mqztpc
- L1Lpy4FWR4RFf+r+JZL2gwG1qLhtMLrDcMDftsidbL07whKSAoE1b3XbluEneP5eFO79
- hh461uojG5MljZIldJHqPfO0xyM5XlJsI5X0McCxSXKviz0mHksK1E5x2Epl5fzmaUZ6
- l8gu/a7haZ5kje3g3WKqEE/kTzINIH3f6p53Snb0oPl+p6CD1b0OlNy1OHp2cRzHr0BS
- k2ug==
+ bh=0zhzV+U7efpSn+723yIcdjzHoi8KO2DqRUVlFbifyeE=;
+ b=JZK+qH3x6l2gvq+EQtc6bZ7haoQvk8H9/mz9mf5eeRXbA5fBU23aHJIBgInZDZ7N2z
+ RrDzD+39cSy5PYNNmaE9WC0nyRHQpy0Z7R/D40y/err0/lxNRZXWJAQKZpwaL3faVQu6
+ kMgR301lPTy/zRkzEAizeI6akh0iPv4D0buLFlPSnw5DJSqHs89kcY9chKw1XTJ/DIOS
+ qBSu1MBa5fILhwIvPaAqs3lcevMyUYGHulBRi/HotOPPkjy1z2+ou/RHjrrQarh6ZRlE
+ dke1/F9QUIrOOk8fyBsHp/BeRrfzucspWHU/APvxM135VnDtHm+wBYOQAOQ94iSygHNC
+ yVhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1696875043; x=1697479843;
+ d=1e100.net; s=20230601; t=1696875044; x=1697479844;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=yo+Tbv6d2nOKlw4PvFCcvYipnGPPT636i5Xxfkjy52M=;
- b=DgGy2DuJWQzG3Soz7+HvfOQqkyFA3fHYJFIZrnTh/qdRvGgovwdAgL34o9OOrw57zV
- cHdQkj5+QvF36dXpU1VBctcZUZvTwm7t/YHsGzeEpPHBDcvTmB3SFPbYTFKIygjLvBIx
- MZ6q+dEuJEnkYBS6Z4WuHIeH+B9rmQN9OhA2c6MJOR7xq7LUwBn01DIKqj79giK9eIdg
- VlkMMU//k4Hxz2nuJsbFyi1U1J0qLi9L8qKPDbNf3illoxvqt5g7hSsOUa3pR6sVbiQU
- mcGXExRgfBteilmaAIpmgEcIZKcLSWPq/xsUjm9QKiel/7AcLPlB6f0rtYsSd8GTW/0w
- C7lQ==
-X-Gm-Message-State: AOJu0YxMin3wIvEA7MeVHiT/DyhYI2hdtRyddkUwihcvNPRO+EH1xIuh
- kmq9kdEiyGPAg+Zy459+FlhEjA==
-X-Google-Smtp-Source: AGHT+IHsYTLLv3pichduCcVZyIWn3Q1VgNaZPfT4kj4iFfTQQ8zYXhA2XAxOTBNnfnHE7bN2hq4bAA==
-X-Received: by 2002:a19:a414:0:b0:503:ed:8616 with SMTP id
- q20-20020a19a414000000b0050300ed8616mr11682247lfc.59.1696875043563; 
- Mon, 09 Oct 2023 11:10:43 -0700 (PDT)
+ bh=0zhzV+U7efpSn+723yIcdjzHoi8KO2DqRUVlFbifyeE=;
+ b=FUAmveGQMAJaUqL7yUsyrkhx7/mh/+e92vDDBF0hkboBJw62nY7otQGHWWJ4mGK9AZ
+ bPXUe4NM4v3Q5cGi+85rxvjNAgm2uDw9wYPRLLhMCJ1eZY80UEBafCp5lWKoLQgkfEZ1
+ XoLFhXNkqbfbu1hmdbyyZ0JSbV5fWpBghN3VrnXyY/I3trMUqFcxRi3tOBS0X46+mBBJ
+ 8Hfo+VhH6/uj9ejPXK28kx+Hrp3y3jTiKGJwPvI6iSNEHMRxQuzN1eKPrS+OACyeaAt5
+ /x8KTZ7fTmzWkzLtwfPFpIVftDW9rp997jDsRAOdtqxbqiY4iPZpbJXlXgBLdW29xwca
+ z/TA==
+X-Gm-Message-State: AOJu0YxBGGVXQqiFChnhlWBClxDVgG/sxec5O22GICDPXhgE/H3H0qpj
+ 6y0QWehRCsbcYHX5YQ7xKhcDIg==
+X-Google-Smtp-Source: AGHT+IFmAdS1VzsJrY2RA16X9ZJRDThy7A/HeUgUe2JXph2AZoOw6bfFNxw2VxE5AJ+5etFYOBTxSg==
+X-Received: by 2002:ac2:4c4b:0:b0:503:cca:e52f with SMTP id
+ o11-20020ac24c4b000000b005030ccae52fmr17520979lfk.51.1696875044264; 
+ Mon, 09 Oct 2023 11:10:44 -0700 (PDT)
 Received: from umbar.unikie.fi ([192.130.178.91])
  by smtp.gmail.com with ESMTPSA id
- d6-20020ac25446000000b00505677e7a99sm1506963lfn.139.2023.10.09.11.10.42
+ d6-20020ac25446000000b00505677e7a99sm1506963lfn.139.2023.10.09.11.10.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Oct 2023 11:10:42 -0700 (PDT)
+ Mon, 09 Oct 2023 11:10:43 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Marijn Suijten <marijn.suijten@somainline.org>
-Subject: [PATCH v2 02/13] drm/msm/hdmi: switch to devm_drm_bridge_add()
-Date: Mon,  9 Oct 2023 21:10:29 +0300
-Message-Id: <20231009181040.2743847-3-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v2 03/13] drm/msm/dp: move pdev from struct dp_display_private
+ to struct msm_dp
+Date: Mon,  9 Oct 2023 21:10:30 +0300
+Message-Id: <20231009181040.2743847-4-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231009181040.2743847-1-dmitry.baryshkov@linaro.org>
 References: <20231009181040.2743847-1-dmitry.baryshkov@linaro.org>
@@ -81,178 +82,145 @@ Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Make MSM HDMI driver use devm_drm_bridge_add() instead of plain
-drm_bridge_add(). As the driver doesn't require any additional cleanup,
-stop adding created bridge to the priv->bridges array.
+The dp_drm needs accessing the DP's platform device. Move pdev to the
+public structure.
 
 Reviewed-by: Rob Clark <robdclark@gmail.com>
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/hdmi/hdmi.c        | 22 +++++--------------
- drivers/gpu/drm/msm/hdmi/hdmi.h        |  5 ++---
- drivers/gpu/drm/msm/hdmi/hdmi_bridge.c | 30 ++++++++------------------
- drivers/gpu/drm/msm/hdmi/hdmi_hpd.c    |  3 +--
- 4 files changed, 17 insertions(+), 43 deletions(-)
+ drivers/gpu/drm/msm/dp/dp_display.c | 25 ++++++++++++-------------
+ drivers/gpu/drm/msm/dp/dp_display.h |  1 +
+ 2 files changed, 13 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.c b/drivers/gpu/drm/msm/hdmi/hdmi.c
-index b6bcb9f675fe..c8ebd75176bb 100644
---- a/drivers/gpu/drm/msm/hdmi/hdmi.c
-+++ b/drivers/gpu/drm/msm/hdmi/hdmi.c
-@@ -160,24 +160,16 @@ static int msm_hdmi_init(struct hdmi *hdmi)
- int msm_hdmi_modeset_init(struct hdmi *hdmi,
- 		struct drm_device *dev, struct drm_encoder *encoder)
- {
--	struct msm_drm_private *priv = dev->dev_private;
- 	int ret;
+diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+index 0e1afff491af..172daa5ad004 100644
+--- a/drivers/gpu/drm/msm/dp/dp_display.c
++++ b/drivers/gpu/drm/msm/dp/dp_display.c
+@@ -88,7 +88,6 @@ struct dp_display_private {
+ 	bool audio_supported;
  
--	if (priv->num_bridges == ARRAY_SIZE(priv->bridges)) {
--		DRM_DEV_ERROR(dev->dev, "too many bridges\n");
--		return -ENOSPC;
--	}
--
- 	hdmi->dev = dev;
- 	hdmi->encoder = encoder;
+ 	struct drm_device *drm_dev;
+-	struct platform_device *pdev;
+ 	struct dentry *root;
  
- 	hdmi_audio_infoframe_init(&hdmi->audio.infoframe);
- 
--	hdmi->bridge = msm_hdmi_bridge_init(hdmi);
--	if (IS_ERR(hdmi->bridge)) {
--		ret = PTR_ERR(hdmi->bridge);
-+	ret = msm_hdmi_bridge_init(hdmi);
-+	if (ret) {
- 		DRM_DEV_ERROR(dev->dev, "failed to create HDMI bridge: %d\n", ret);
--		hdmi->bridge = NULL;
- 		goto fail;
+ 	struct dp_parser  *parser;
+@@ -595,7 +594,7 @@ static int dp_hpd_plug_handle(struct dp_display_private *dp, u32 data)
+ 		return 0;
  	}
  
-@@ -215,16 +207,9 @@ int msm_hdmi_modeset_init(struct hdmi *hdmi,
- 		goto fail;
+-	ret = dp_display_usbpd_configure_cb(&dp->pdev->dev);
++	ret = dp_display_usbpd_configure_cb(&dp->dp_display.pdev->dev);
+ 	if (ret) {	/* link train failed */
+ 		dp->hpd_state = ST_DISCONNECTED;
+ 	} else {
+@@ -643,7 +642,7 @@ static int dp_hpd_unplug_handle(struct dp_display_private *dp, u32 data)
+ 		if (dp->link->sink_count == 0) {
+ 			dp_display_host_phy_exit(dp);
+ 		}
+-		dp_display_notify_disconnect(&dp->pdev->dev);
++		dp_display_notify_disconnect(&dp->dp_display.pdev->dev);
+ 		mutex_unlock(&dp->event_mutex);
+ 		return 0;
+ 	} else if (state == ST_DISCONNECT_PENDING) {
+@@ -653,7 +652,7 @@ static int dp_hpd_unplug_handle(struct dp_display_private *dp, u32 data)
+ 		dp_ctrl_off_link(dp->ctrl);
+ 		dp_display_host_phy_exit(dp);
+ 		dp->hpd_state = ST_DISCONNECTED;
+-		dp_display_notify_disconnect(&dp->pdev->dev);
++		dp_display_notify_disconnect(&dp->dp_display.pdev->dev);
+ 		mutex_unlock(&dp->event_mutex);
+ 		return 0;
+ 	}
+@@ -662,7 +661,7 @@ static int dp_hpd_unplug_handle(struct dp_display_private *dp, u32 data)
+ 	 * We don't need separate work for disconnect as
+ 	 * connect/attention interrupts are disabled
+ 	 */
+-	dp_display_notify_disconnect(&dp->pdev->dev);
++	dp_display_notify_disconnect(&dp->dp_display.pdev->dev);
+ 
+ 	if (state == ST_DISPLAY_OFF) {
+ 		dp->hpd_state = ST_DISCONNECTED;
+@@ -704,7 +703,7 @@ static int dp_irq_hpd_handle(struct dp_display_private *dp, u32 data)
+ 		return 0;
  	}
  
--	priv->bridges[priv->num_bridges++]       = hdmi->bridge;
--
- 	return 0;
+-	dp_display_usbpd_attention_cb(&dp->pdev->dev);
++	dp_display_usbpd_attention_cb(&dp->dp_display.pdev->dev);
  
- fail:
--	/* bridge is normally destroyed by drm: */
--	if (hdmi->bridge) {
--		msm_hdmi_bridge_destroy(hdmi->bridge);
--		hdmi->bridge = NULL;
--	}
- 	if (hdmi->connector) {
- 		hdmi->connector->funcs->destroy(hdmi->connector);
- 		hdmi->connector = NULL;
-@@ -395,6 +380,9 @@ static void msm_hdmi_unbind(struct device *dev, struct device *master,
- 		if (priv->hdmi->audio_pdev)
- 			platform_device_unregister(priv->hdmi->audio_pdev);
+ 	drm_dbg_dp(dp->drm_dev, "After, type=%d hpd_state=%d\n",
+ 			dp->dp_display.connector_type, state);
+@@ -725,12 +724,12 @@ static void dp_display_deinit_sub_modules(struct dp_display_private *dp)
+ static int dp_init_sub_modules(struct dp_display_private *dp)
+ {
+ 	int rc = 0;
+-	struct device *dev = &dp->pdev->dev;
++	struct device *dev = &dp->dp_display.pdev->dev;
+ 	struct dp_panel_in panel_in = {
+ 		.dev = dev,
+ 	};
  
-+		if (priv->hdmi->bridge)
-+			msm_hdmi_hpd_disable(priv->hdmi);
-+
- 		msm_hdmi_destroy(priv->hdmi);
- 		priv->hdmi = NULL;
+-	dp->parser = dp_parser_get(dp->pdev);
++	dp->parser = dp_parser_get(dp->dp_display.pdev);
+ 	if (IS_ERR(dp->parser)) {
+ 		rc = PTR_ERR(dp->parser);
+ 		DRM_ERROR("failed to initialize parser, rc = %d\n", rc);
+@@ -791,7 +790,7 @@ static int dp_init_sub_modules(struct dp_display_private *dp)
+ 		goto error_ctrl;
  	}
-diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.h b/drivers/gpu/drm/msm/hdmi/hdmi.h
-index e8dbee50637f..ec5786440391 100644
---- a/drivers/gpu/drm/msm/hdmi/hdmi.h
-+++ b/drivers/gpu/drm/msm/hdmi/hdmi.h
-@@ -224,14 +224,13 @@ void msm_hdmi_audio_set_sample_rate(struct hdmi *hdmi, int rate);
-  * hdmi bridge:
-  */
  
--struct drm_bridge *msm_hdmi_bridge_init(struct hdmi *hdmi);
--void msm_hdmi_bridge_destroy(struct drm_bridge *bridge);
-+int msm_hdmi_bridge_init(struct hdmi *hdmi);
+-	dp->audio = dp_audio_get(dp->pdev, dp->panel, dp->catalog);
++	dp->audio = dp_audio_get(dp->dp_display.pdev, dp->panel, dp->catalog);
+ 	if (IS_ERR(dp->audio)) {
+ 		rc = PTR_ERR(dp->audio);
+ 		pr_err("failed to initialize audio, rc = %d\n", rc);
+@@ -1197,7 +1196,7 @@ int dp_display_request_irq(struct msm_dp *dp_display)
  
- void msm_hdmi_hpd_irq(struct drm_bridge *bridge);
- enum drm_connector_status msm_hdmi_bridge_detect(
- 		struct drm_bridge *bridge);
- int msm_hdmi_hpd_enable(struct drm_bridge *bridge);
--void msm_hdmi_hpd_disable(struct hdmi_bridge *hdmi_bridge);
-+void msm_hdmi_hpd_disable(struct hdmi *hdmi);
+ 	dp = container_of(dp_display, struct dp_display_private, dp_display);
  
- /*
-  * i2c adapter for ddc:
-diff --git a/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c b/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
-index 9b1391d27ed3..0b7a6a56677e 100644
---- a/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
-+++ b/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
-@@ -11,14 +11,6 @@
- #include "msm_kms.h"
- #include "hdmi.h"
+-	dp->irq = irq_of_parse_and_map(dp->pdev->dev.of_node, 0);
++	dp->irq = irq_of_parse_and_map(dp->dp_display.pdev->dev.of_node, 0);
+ 	if (!dp->irq) {
+ 		DRM_ERROR("failed to get irq\n");
+ 		return -EINVAL;
+@@ -1253,7 +1252,7 @@ static int dp_display_probe(struct platform_device *pdev)
+ 	if (!desc)
+ 		return -EINVAL;
  
--void msm_hdmi_bridge_destroy(struct drm_bridge *bridge)
--{
--	struct hdmi_bridge *hdmi_bridge = to_hdmi_bridge(bridge);
--
--	msm_hdmi_hpd_disable(hdmi_bridge);
--	drm_bridge_remove(bridge);
--}
--
- static void msm_hdmi_power_on(struct drm_bridge *bridge)
- {
- 	struct drm_device *dev = bridge->dev;
-@@ -317,7 +309,7 @@ msm_hdmi_hotplug_work(struct work_struct *work)
- }
+-	dp->pdev = pdev;
++	dp->dp_display.pdev = pdev;
+ 	dp->name = "drm_dp";
+ 	dp->id = desc->id;
+ 	dp->dp_display.connector_type = desc->connector_type;
+@@ -1459,7 +1458,7 @@ void msm_dp_debugfs_init(struct msm_dp *dp_display, struct drm_minor *minor)
+ 	int rc;
  
- /* initialize bridge */
--struct drm_bridge *msm_hdmi_bridge_init(struct hdmi *hdmi)
-+int msm_hdmi_bridge_init(struct hdmi *hdmi)
- {
- 	struct drm_bridge *bridge = NULL;
- 	struct hdmi_bridge *hdmi_bridge;
-@@ -325,10 +317,8 @@ struct drm_bridge *msm_hdmi_bridge_init(struct hdmi *hdmi)
+ 	dp = container_of(dp_display, struct dp_display_private, dp_display);
+-	dev = &dp->pdev->dev;
++	dev = &dp->dp_display.pdev->dev;
  
- 	hdmi_bridge = devm_kzalloc(hdmi->dev->dev,
- 			sizeof(*hdmi_bridge), GFP_KERNEL);
--	if (!hdmi_bridge) {
--		ret = -ENOMEM;
--		goto fail;
--	}
-+	if (!hdmi_bridge)
-+		return -ENOMEM;
+ 	dp->debug = dp_debug_get(dev, dp->panel,
+ 					dp->link, dp->dp_display.connector,
+@@ -1479,7 +1478,7 @@ static int dp_display_get_next_bridge(struct msm_dp *dp)
+ 	struct device *dev;
  
- 	hdmi_bridge->hdmi = hdmi;
- 	INIT_WORK(&hdmi_bridge->hpd_work, msm_hdmi_hotplug_work);
-@@ -341,17 +331,15 @@ struct drm_bridge *msm_hdmi_bridge_init(struct hdmi *hdmi)
- 		DRM_BRIDGE_OP_DETECT |
- 		DRM_BRIDGE_OP_EDID;
+ 	dp_priv = container_of(dp, struct dp_display_private, dp_display);
+-	dev = &dp_priv->pdev->dev;
++	dev = &dp_priv->dp_display.pdev->dev;
+ 	aux_bus = of_get_child_by_name(dev->of_node, "aux-bus");
  
--	drm_bridge_add(bridge);
-+	ret = devm_drm_bridge_add(&hdmi->pdev->dev, bridge);
-+	if (ret)
-+		return ret;
+ 	if (aux_bus && dp->is_edp) {
+diff --git a/drivers/gpu/drm/msm/dp/dp_display.h b/drivers/gpu/drm/msm/dp/dp_display.h
+index 1e9415ab15d8..f66cdbc35785 100644
+--- a/drivers/gpu/drm/msm/dp/dp_display.h
++++ b/drivers/gpu/drm/msm/dp/dp_display.h
+@@ -12,6 +12,7 @@
  
- 	ret = drm_bridge_attach(hdmi->encoder, bridge, NULL, DRM_BRIDGE_ATTACH_NO_CONNECTOR);
- 	if (ret)
--		goto fail;
-+		return ret;
- 
--	return bridge;
-+	hdmi->bridge = bridge;
- 
--fail:
--	if (bridge)
--		msm_hdmi_bridge_destroy(bridge);
--
--	return ERR_PTR(ret);
-+	return 0;
- }
-diff --git a/drivers/gpu/drm/msm/hdmi/hdmi_hpd.c b/drivers/gpu/drm/msm/hdmi/hdmi_hpd.c
-index bfa827b47989..9ce0ffa35417 100644
---- a/drivers/gpu/drm/msm/hdmi/hdmi_hpd.c
-+++ b/drivers/gpu/drm/msm/hdmi/hdmi_hpd.c
-@@ -147,9 +147,8 @@ int msm_hdmi_hpd_enable(struct drm_bridge *bridge)
- 	return ret;
- }
- 
--void msm_hdmi_hpd_disable(struct hdmi_bridge *hdmi_bridge)
-+void msm_hdmi_hpd_disable(struct hdmi *hdmi)
- {
--	struct hdmi *hdmi = hdmi_bridge->hdmi;
- 	const struct hdmi_platform_config *config = hdmi->config;
- 	struct device *dev = &hdmi->pdev->dev;
- 	int ret;
+ struct msm_dp {
+ 	struct drm_device *drm_dev;
++	struct platform_device *pdev;
+ 	struct device *codec_dev;
+ 	struct drm_bridge *bridge;
+ 	struct drm_connector *connector;
 -- 
 2.39.2
 
