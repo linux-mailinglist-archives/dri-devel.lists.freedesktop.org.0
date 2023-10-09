@@ -1,44 +1,81 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A1737BD6CA
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Oct 2023 11:23:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F84C7BD6DB
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Oct 2023 11:24:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D6B710E24B;
-	Mon,  9 Oct 2023 09:23:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1CEF10E24D;
+	Mon,  9 Oct 2023 09:24:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E9F010E24B
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Oct 2023 09:23:10 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 90B1F60FAF;
- Mon,  9 Oct 2023 09:23:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B8A5C433CB;
- Mon,  9 Oct 2023 09:23:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1696843389;
- bh=MOixYtjgC+jFK+ozB2lXZyQEyZ01mgvzgxPkOoCRIiY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=WmNnDvcpgacm8aiHUdsrPgE+ku4g9by7BPLUpUtnAX8gpu7wVnHwNKdv2xfjFAX7A
- hxJC0kFFNL1iFx9kSn1yLQ8X5df+dwInqg3yejydjK2Okrb2BnD0xhVxYDgPf1vZUh
- KU4q8quKCa9f8kXQtvmIc2qYwU59R4fDKbxI8yb20DbU43f4sCVz+1NeBcolGRPucW
- 5abtooqX1OSfq+XNlun14gG2rrcKYRbTH4WicZ/ISdZ4JUTa5lfMplFkJegyBQGlDx
- dHzXT6hkCpukNLi8s9SPlx9ZyZcB6mrESuKL6jfxRfTaqvVVSp5h7UxXd919wwXPt/
- nTOA8kSLIt0tA==
-Date: Mon, 9 Oct 2023 11:23:06 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Devarsh Thakkar <devarsht@ti.com>
-Subject: Re: [PATCH] drm/tidss: Power up attached PM domains on probe
-Message-ID: <bmemgnq3emddmjsho3c3h4cj2fyyyp3xll73ozpsxxmxxcr3bn@lffrmuqqpbl3>
-References: <20231009075018.2836020-1-devarsht@ti.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8DE4110E24D
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Oct 2023 09:24:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1696843457;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=SDDyWo1f7LALaeDYjdidYYxJrMnfDO+CI1lqzzRObkE=;
+ b=g8qVEKQrWiphX9X+TkntlaqrDLOevO937gMmdhO6Ye73AM8WMpfdvkA/HGP6HU69ZXljrN
+ JhcaEv9eVWQgIW3GljjrBaq3kpabLz/lC1m6T+gn8YPJCbQHmKqWwlPAMQu8V1wZkzYW1j
+ gleHSqMzcuLBz8MP0GqFWnOjKQrW8yo=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-687-wYlCsQf1MzivKM-zAGm8wQ-1; Mon, 09 Oct 2023 05:24:16 -0400
+X-MC-Unique: wYlCsQf1MzivKM-zAGm8wQ-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ 5b1f17b1804b1-40540179bcdso27924425e9.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Oct 2023 02:24:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1696843455; x=1697448255;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=SDDyWo1f7LALaeDYjdidYYxJrMnfDO+CI1lqzzRObkE=;
+ b=JUXWYDZukGnn+0MTiYOcR3IK/dRtVd6gXiq12h1mCaq5GDfH+2qVg0kkSAZw+7QaOq
+ K26wSFPVtlSlBBPgxcy05B7/VrvqV87SsAw/nn5kTU0EyLMWD//nx5tqvcBiNnSfOrpc
+ /OXmk1Olxi+I3mnl0x0ZeKzNZJ6mrL37ExgbwKDj5N/cgIJUVlgsDLhC37FnqbsTqo/z
+ +31qXkguNXa0+jvITUi7rrP1AAVU4fAgvLcfmypGzF+x9IZpVrJ6mWWVidcmbUGpEQ2E
+ Z0SS5+Vu7KvUH6bsqRlOB/pAdUwUsvhKcz/HM+X5J62xqt7aDQdSLNLRq69sN4VzQPfm
+ WF6Q==
+X-Gm-Message-State: AOJu0YxRZ5h6ziHema6S2BS7P+OfbE5pwdZQTtfHgpXcusT5DPTAaPIl
+ rINaQ5S00bIu43vKkAwv9Sorz/8Zs06yxdSXlsHEyUyJ0SxoOilHJ04onDUcvnXwZoPPxgFYBRd
+ 7Mj+BT9OQNuBq9DGk4fbVAtd2LCfa
+X-Received: by 2002:a1c:ed17:0:b0:404:7480:d821 with SMTP id
+ l23-20020a1ced17000000b004047480d821mr12961040wmh.37.1696843455127; 
+ Mon, 09 Oct 2023 02:24:15 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IF4bx7CHncQjUFsRBonnxE6cBpws/aVdsy4fZQFYpSjdieyk8quadKVQjptn5TWRVmEByXRWw==
+X-Received: by 2002:a1c:ed17:0:b0:404:7480:d821 with SMTP id
+ l23-20020a1ced17000000b004047480d821mr12961022wmh.37.1696843454653; 
+ Mon, 09 Oct 2023 02:24:14 -0700 (PDT)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ 11-20020a05600c230b00b004053a6b8c41sm10576639wmo.12.2023.10.09.02.24.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 09 Oct 2023 02:24:14 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, jfalempe@redhat.com,
+ jose.exposito89@gmail.com, arthurgrillo@riseup.net, mairacanal@riseup.net,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ daniel@ffwll.ch, noralf@tronnes.org
+Subject: Re: [PATCH v4 5/7] drm/simpledrm: Preallocate format-conversion
+ buffer in atomic_check
+In-Reply-To: <8f501b5f-9541-425c-86b0-f3f267af6e6e@suse.de>
+References: <20231005090520.16511-1-tzimmermann@suse.de>
+ <20231005090520.16511-6-tzimmermann@suse.de>
+ <87zg0xyysa.fsf@minerva.mail-host-address-is-not-set>
+ <ae863124-17a9-44a7-9565-f8248e5d4317@suse.de>
+ <874jj0rx3c.fsf@minerva.mail-host-address-is-not-set>
+ <8f501b5f-9541-425c-86b0-f3f267af6e6e@suse.de>
+Date: Mon, 09 Oct 2023 11:24:13 +0200
+Message-ID: <871qe4rvwi.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="mrqzgt3fldn3kjr2"
-Content-Disposition: inline
-In-Reply-To: <20231009075018.2836020-1-devarsht@ti.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,137 +88,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nm@ti.com, j-choudhary@ti.com, j-luthra@ti.com, a-bhatia1@ti.com,
- praneeth@ti.com, tomi.valkeinen@ideasonboard.com, jyri.sarha@iki.fi,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- tzimmermann@suse.de, r-ravikumar@ti.com, vigneshr@ti.com
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Thomas Zimmermann <tzimmermann@suse.de> writes:
 
---mrqzgt3fldn3kjr2
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hello Thomas,
 
-Hi Devarsh,
+> Hi Javier
+>
+> Am 09.10.23 um 10:58 schrieb Javier Martinez Canillas:
+>> Thomas Zimmermann <tzimmermann@suse.de> writes:
+>> 
+>> Hello Thomas,
+>> 
+>>> Hi Javier
+>>>
+>>> Am 05.10.23 um 15:38 schrieb Javier Martinez Canillas:
+>>>> Thomas Zimmermann <tzimmermann@suse.de> writes:
+>> 
+>> [...]
+>> 
+>>>>> +static int simpledrm_primary_plane_helper_atomic_check(struct drm_plane *plane,
+>>>>> +						       struct drm_atomic_state *state)
+>>>>> +{
+>>>>> +	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state, plane);
+>>>>> +	struct drm_shadow_plane_state *new_shadow_plane_state =
+>>>>> +		to_drm_shadow_plane_state(new_plane_state);
+>>>>> +	struct drm_framebuffer *new_fb = new_plane_state->fb;
+>>>>> +	struct drm_crtc *new_crtc = new_plane_state->crtc;
+>>>>> +	struct drm_crtc_state *new_crtc_state = NULL;
+>>>>> +	struct drm_device *dev = plane->dev;
+>>>>> +	struct simpledrm_device *sdev = simpledrm_device_of_dev(dev);
+>>>>> +	int ret;
+>>>>> +
+>>>>> +	if (new_crtc)
+>>>>> +		new_crtc_state = drm_atomic_get_new_crtc_state(state, new_crtc);
+>>>>> +
+>>>>> +	ret = drm_atomic_helper_check_plane_state(new_plane_state, new_crtc_state,
+>>>>> +						  DRM_PLANE_NO_SCALING,
+>>>>> +						  DRM_PLANE_NO_SCALING,
+>>>>> +						  false, false);
+>>>>
+>>>> Same comment that with the ssd130x driver. I think that we should use the
+>>>> drm_plane_helper_atomic_check() helper instead of open coding it in each
+>>>
+>>> I'm going to replace the call in simpledrm.
+>>> drm_plane_helper_atomic_check() is useful to remove the entire
+>>> atomic_check function from the driver; it does nothing apart from that.
+>>> I've been called out before for such do-nothing helpers; deservedly so. [1]
+>>>
+>> 
+>> The argument then is that drivers should open code *exactly* the same code
+>> that the helper function already has just because they implement their own
+>> .atomic_check callback?
+>> 
+>> And that the helper should only be used when is the .atomic_check callback
+>> but not as a helper function?
+>
+> My point (and I think that's what Christian was also referring to) is 
+> that drm_plane_helper_atomic_check() does little more than pick a few 
+> default values for the parameters. It doesn't do anything in terms of 
+> algorithms. Hence there's no saving here that outweighs the cost of 
+> using this helper.
+>
 
-On Mon, Oct 09, 2023 at 01:20:18PM +0530, Devarsh Thakkar wrote:
-> Some SoC's such as AM62P have dedicated power domains
-> for OLDI which need to be powered on separetely along
-> with display controller.
->=20
-> So during driver probe, power up all attached PM domains
-> enumerated in devicetree node for DSS.
->=20
-> This also prepares base to add display support for AM62P.
->=20
-> Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
-> ---
->  drivers/gpu/drm/tidss/tidss_drv.c | 76 +++++++++++++++++++++++++++++++
->  drivers/gpu/drm/tidss/tidss_drv.h |  5 ++
->  2 files changed, 81 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/tidss/tidss_drv.c b/drivers/gpu/drm/tidss/ti=
-dss_drv.c
-> index 4d063eb9cd0b..a703a27d17bf 100644
-> --- a/drivers/gpu/drm/tidss/tidss_drv.c
-> +++ b/drivers/gpu/drm/tidss/tidss_drv.c
-> @@ -8,6 +8,7 @@
->  #include <linux/of.h>
->  #include <linux/module.h>
->  #include <linux/pm_runtime.h>
-> +#include <linux/pm_domain.h>
-> =20
->  #include <drm/drm_atomic.h>
->  #include <drm/drm_atomic_helper.h>
-> @@ -114,6 +115,72 @@ static const struct drm_driver tidss_driver =3D {
->  	.minor			=3D 0,
->  };
-> =20
-> +static int tidss_detach_pm_domains(struct tidss_device *tidss)
-> +{
-> +	int i;
-> +
-> +	if (tidss->num_domains <=3D 1)
-> +		return 0;
-> +
-> +	for (i =3D 0; i < tidss->num_domains; i++) {
-> +		if (tidss->pd_link[i] && !IS_ERR(tidss->pd_link[i]))
-> +			device_link_del(tidss->pd_link[i]);
-> +		if (tidss->pd_dev[i] && !IS_ERR(tidss->pd_dev[i]))
-> +			dev_pm_domain_detach(tidss->pd_dev[i], true);
-> +		tidss->pd_dev[i] =3D NULL;
-> +		tidss->pd_link[i] =3D NULL;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int tidss_attach_pm_domains(struct tidss_device *tidss)
-> +{
-> +	struct device *dev =3D tidss->dev;
-> +	int i;
-> +	int ret;
-> +	struct platform_device *pdev =3D to_platform_device(dev);
-> +	struct device_node *np =3D pdev->dev.of_node;
-> +
-> +	tidss->num_domains =3D of_count_phandle_with_args(np, "power-domains",
-> +							"#power-domain-cells");
-> +	if (tidss->num_domains <=3D 1) {
-> +		dev_dbg(dev, "One or less power domains, no need to do attach domains\=
-n");
-> +		return 0;
-> +	}
-> +
-> +	tidss->pd_dev =3D devm_kmalloc_array(dev, tidss->num_domains,
-> +					   sizeof(*tidss->pd_dev), GFP_KERNEL);
-> +	if (!tidss->pd_dev)
-> +		return -ENOMEM;
-> +
-> +	tidss->pd_link =3D devm_kmalloc_array(dev, tidss->num_domains,
-> +					    sizeof(*tidss->pd_link), GFP_KERNEL);
-> +	if (!tidss->pd_link)
-> +		return -ENOMEM;
-> +
-> +	for (i =3D 0; i < tidss->num_domains; i++) {
-> +		tidss->pd_dev[i] =3D dev_pm_domain_attach_by_id(dev, i);
-> +		if (IS_ERR(tidss->pd_dev[i])) {
-> +			ret =3D PTR_ERR(tidss->pd_dev[i]);
-> +			goto fail;
-> +		}
-> +
-> +		tidss->pd_link[i] =3D device_link_add(dev, tidss->pd_dev[i],
-> +						    DL_FLAG_STATELESS |
-> +						    DL_FLAG_PM_RUNTIME | DL_FLAG_RPM_ACTIVE);
-> +		if (!tidss->pd_link[i]) {
-> +			ret =3D -EINVAL;
-> +			goto fail;
-> +		}
-> +	}
-> +
-> +	return 0;
-> +fail:
-> +	tidss_detach_pm_domains(tidss);
-> +	return ret;
-> +}
+Got it.
 
-My understanding is that this will be done automatically at probe time.
-Why do we need to roll our own there? A comment on top of the function
-and the commit log would help.
+>> 
+>> I don't understand that rationale to be honest, but if there is one then
+>> it should be very clear in the kernel-doc what functions are supposed to
+>> be used only as callbacks and what functions can also be used as helpers.
+>
+> There's no clear rule AFAIK. We have to decide case by case. TBH I don't 
+> mind re-evaluating cases from time to time. At least, I'm going to 
+> revert the open-coded helper in ssd130x, as you asked me to.
+>
 
-Thanks!
-Maxime
+No, that's OK. If you are going to revert also in simpledrm and the only
+user will be a driver that has it as a callback, then I'm fine with your
+original patch to ssd130x that open codes it in its .atomic_check as well.
 
---mrqzgt3fldn3kjr2
-Content-Type: application/pgp-signature; name="signature.asc"
+> Best regards
+> Thomas
+>
+>
 
------BEGIN PGP SIGNATURE-----
+-- 
+Best regards,
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZSPGegAKCRDj7w1vZxhR
-xQblAQDdpRuB3koCfhA6yeFq9+OCkuzwb/iHURYBnN1uENA07AEA25uctX3wDw0u
-/YjPlDpuhGFxweCfFLXH1VeE5ht1NAQ=
-=p9/r
------END PGP SIGNATURE-----
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
---mrqzgt3fldn3kjr2--
