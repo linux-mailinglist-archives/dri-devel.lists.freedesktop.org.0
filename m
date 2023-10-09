@@ -2,147 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D664F7BEA21
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Oct 2023 20:52:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6449F7BEA3D
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Oct 2023 21:01:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C996B10E2D5;
-	Mon,  9 Oct 2023 18:52:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5939610E2C7;
+	Mon,  9 Oct 2023 19:01:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A398210E2D0;
- Mon,  9 Oct 2023 18:52:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1696877573; x=1728413573;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=JoAp9Eai419ihzr4yaGdvpdM3/YpxYV/5nRNsw8W7QA=;
- b=l6FhWOL+Ns6QIu7D4U2xl2JblV6wsFCARETxtrCk9GD5G1vOmVtHaKSy
- M0X/RKKUdSd/8V86loS+M2VlGMNWZcDPLj4cEYdWDvZc3DndkVoGeCbfq
- 5Lxv6MV9aRgpG6QmPjOKf9Qj2lMuiFq/q/1ehoZVnP4PClL296Xe5BUoE
- kBvU0Bzh5Kfge6Pbt17PykXc1ur4B1EH9avE4p0VgyIiIjc3PbRUEoWeV
- XxKGYtM7UKrUbT36swhQQySOiupY4i0UWbQVvyynokvSuHJ/Iq1a9re+W
- ahIKEZUpUD8cEbRkt9pgmWq8D0nrKkYRkH25AnuloXPsxMvFOcrq72EDA A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="388088896"
-X-IronPort-AV: E=Sophos;i="6.03,210,1694761200"; d="scan'208";a="388088896"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Oct 2023 11:52:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="729787660"
-X-IronPort-AV: E=Sophos;i="6.03,210,1694761200"; d="scan'208";a="729787660"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
- by orsmga006.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 09 Oct 2023 11:52:42 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32; Mon, 9 Oct 2023 11:52:41 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32 via Frontend Transport; Mon, 9 Oct 2023 11:52:41 -0700
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.41) by
- edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.32; Mon, 9 Oct 2023 11:52:41 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hyqO4KagLRC9kKgUag/IPXKlmlJgyIJc2MJj/WNtnyNSDciyhS1iWl2pKfvlILAxwOnW5ZNzi0dD34jiChGVtp6wfvLz4QeAwoqnQJzV4n/oMJ3GMw3dXA7foLWy5hEYwVlbihuCdIRmgUvxGdtpEM3DdO/Z9tPE4XF09TgWxoqH15Sq3Yc9oMtId2rWNBeu3+PZFdmzdF5wESfHoHiyRXcn0al4fCv5zIwwr5dpeiXhCETXYIrE6N3lZFcsLeScvCxMj654nG7mY9y7ebMN0zpGADtCNOl5AL9P+C/0UkT908wG5fiD4rmhDqW/nXrk7Adr41Clm/WftWRStzskXA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ecHzbthfYKTYkjsH/6ysxa7QdzoJB00tzLByNZEVyos=;
- b=ihJv3NlYPOBLzijNYD0J5Ah8gIPyEVxCI7xlblpoy/dQdx7wZ2JO1sJcn3Mf/yOtfB7wVqYInktnJs5+8/TsJqNo/P8XXD3ydv5Yl4QzMYkUY/AxuTTpWC8lbHpq53n4VsIZudIfwLP8v1JPBoJ7QQrgqv9p6NP7AvSuy0AKhUKfxLH6nEpW5HSc/OYDQqcXTgq1gWm6vHJSr1MC5T+1tlTYBqlJ7SoR1J2G6qgnMjKGwlzWL486wBiCpJ6Ch0rsRDI6UU+Y0evFqsFP/IjzAdSOG95xzXRt4gMtWvzB052fsKz0ygZhKTfuYdEHxoBv3GOThOUmGrLjnTE9FfjIKw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from BY5PR11MB3911.namprd11.prod.outlook.com (2603:10b6:a03:18d::29)
- by CH3PR11MB7937.namprd11.prod.outlook.com (2603:10b6:610:12c::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6863.36; Mon, 9 Oct
- 2023 18:52:40 +0000
-Received: from BY5PR11MB3911.namprd11.prod.outlook.com
- ([fe80::a782:6fec:8d96:27b5]) by BY5PR11MB3911.namprd11.prod.outlook.com
- ([fe80::a782:6fec:8d96:27b5%6]) with mapi id 15.20.6863.032; Mon, 9 Oct 2023
- 18:52:39 +0000
-Message-ID: <2e44254d-5243-477a-8b2b-35623967ec1f@intel.com>
-Date: Mon, 9 Oct 2023 11:52:36 -0700
-User-Agent: Mozilla Thunderbird
-Subject: Re: [Intel-gfx] [PATCH] drm/print: Add drm_dbg_ratelimited
-To: Andi Shyti <andi.shyti@linux.intel.com>
-References: <20231006132606.810110-1-andi.shyti@linux.intel.com>
- <ZSQv69bLHoOglE+T@ashyti-mobl2.lan>
-Content-Language: en-GB
-From: John Harrison <john.c.harrison@intel.com>
-In-Reply-To: <ZSQv69bLHoOglE+T@ashyti-mobl2.lan>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MW4PR03CA0103.namprd03.prod.outlook.com
- (2603:10b6:303:b7::18) To BY5PR11MB3911.namprd11.prod.outlook.com
- (2603:10b6:a03:18d::29)
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
+ [IPv6:2a00:1450:4864:20::12d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D2BD10E1A5
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Oct 2023 19:01:33 +0000 (UTC)
+Received: by mail-lf1-x12d.google.com with SMTP id
+ 2adb3069b0e04-50305abe5f0so6463379e87.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Oct 2023 12:01:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1696878092; x=1697482892; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=sQRa7Z0itLNvQQvFmb48s32crEbJ5leinJHM1uy9rHo=;
+ b=AISmBf8WWa4l9jSemIgz00WJpTbM94noGjVU73ALtzQ8qebEtsDhQV+03vryRNeFJC
+ N1y24D+4S22OM6knVgc7jMCgWtq+00jzZKUEmH6xwhBwk6JcGNP2BqKj3uN2qoE1ZwgL
+ /57jdado6HP/fNjc7NrUKb/haOsyInXhj3UN70DUWar5WkB//rQfvot03q2Fn7nOX1JN
+ p2t1ZqS48IoN7Xyx4XtUF3KQqJE8AFR1gzU0Y7dCL5faE/8sTrEdGy38wu6U8QK4mpQe
+ fEx67NDXDLc0fCnhnkZ84rXVYqgHkpnN3cEIjkrl6G/mKJwpagiTDH1igBRzfE6jAi6R
+ Cy2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1696878092; x=1697482892;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=sQRa7Z0itLNvQQvFmb48s32crEbJ5leinJHM1uy9rHo=;
+ b=O4IIVzAUMKzdCQ1kvkwsvkE4RzEf7u6XCdNnoVCrHArVzWwfyO+pDIx8wbTJSwdzz1
+ vWE3oq3KNbPdcvCjY6rlAyXuVAc3BSY2KgAwEp0iJ3SNkIHq736qZI4//7XHtPV4dBLF
+ ysq/Fcses8eNf58EgbEbv3I0CMJVNnRiK+O3/y5af+LdcePcXYRnCWTlAswUi7O8xjIq
+ 2W6reV9w79ATdCeWUh3Mgqa0CwmbJK9WOZXFKwA9zoEvZycZy211m5XtbI/X9ZhLXHRV
+ AWk2y+YeI74Me/JGLdquViImYALZijGZgiL5ZM+KP2buoVXxRLjfilYxKNf+b26PrEIm
+ 7gSQ==
+X-Gm-Message-State: AOJu0YyHBvlTL6UCQ6ucBBAPZd5sXKOaAC4U1aOEq9WV3PvGbkhIHk2m
+ UxB7+zyCWjlbYj0KT0qXaA//Wg==
+X-Google-Smtp-Source: AGHT+IFdmlo3WD/utX3PApaKhD2XbKsYr7D00mGHP8ljVc9xIubtkwcWBI+UgQZqKuUplLltBNOnnA==
+X-Received: by 2002:a05:6512:3415:b0:501:bf37:1fc0 with SMTP id
+ i21-20020a056512341500b00501bf371fc0mr19064122lfr.33.1696878091412; 
+ Mon, 09 Oct 2023 12:01:31 -0700 (PDT)
+Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
+ (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
+ by smtp.gmail.com with ESMTPSA id
+ l4-20020ac24304000000b0050481c400e9sm1528086lfh.287.2023.10.09.12.01.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 09 Oct 2023 12:01:30 -0700 (PDT)
+Message-ID: <015b688e-836f-4cdb-a139-ed7ceb1489ef@linaro.org>
+Date: Mon, 9 Oct 2023 22:01:30 +0300
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BY5PR11MB3911:EE_|CH3PR11MB7937:EE_
-X-MS-Office365-Filtering-Correlation-Id: bbfbfbc7-6855-4122-b5a6-08dbc8f8e92b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: L/gABw7XEx/P3Kb8wDzpVg2LW6zgB07KDiTIah3EGjpXkXkYHb8rYTRSDviL24HYWAAiS3r3LYRuLDfd7jtGBDmzJNWWZAGZG+Z+4duuefzuFALsmdVpfIkp9iQyTtKND9mwr8ISK6G1zYOeXLCpXcZGeRbUVqRfpApoTjL4Y9zs31j1ZRQ667AG/0DXIuK3pNUSKMF2wWTCW/JtgFDZ7XjY42rDV3o3SYzoSg+RSgoK9uLrylyKIYqLTB5Dz8166ujIgpPIvKMTyizuxofGA6lPzhiVL3MTm+FL58scRm7mrYCKEoHYMQv998B0A3VgmRFeSBRu+egV43xsnDPa00xRVDoY0kvnlTT56b81jqEeM9V4dhRRdq7qWuD4RcOBei00w19v+x/5R24LRH28hxf6w/BVZ0Gbfrhghb/2PbRyWCklcZxJwtpJCMV7J436NrDIxwOzdWBLYMVvP8ZN6ze3KnY542P6gkQV38HCIJnA00ArIGGmTEyZnQB15u+NYlG+OrCL+R3l8MDcTrOdkgFH6iFhv+ZWNMptNMHEHn+jYxESSWeQRhrPmNfg+eDZO79RoyMgvp+BnH9LSItUnv16Gtz4+bjxDxDsow+ZNECCGw3bLHO/ZwANfMQiNvFdXTmH9dEJCY6xFihEgUddsQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BY5PR11MB3911.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(346002)(366004)(39860400002)(376002)(396003)(136003)(230922051799003)(1800799009)(451199024)(186009)(64100799003)(31696002)(38100700002)(86362001)(82960400001)(36756003)(31686004)(2906002)(6512007)(478600001)(6486002)(4744005)(41300700001)(53546011)(4326008)(6506007)(5660300002)(8936002)(83380400001)(2616005)(66476007)(66556008)(316002)(66946007)(8676002)(6916009)(6666004)(54906003)(26005)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?V2JZbjNrYk4vSFFYQlJnZ1pUVXBROWtMUytUdkoybnZtdS90ekpGdk9YS0wz?=
- =?utf-8?B?MGJxM1lrWGhub011RWxxU05lZDkxdjUyL2k4bDVVSXMyOElyRVhxQ3lRT0dP?=
- =?utf-8?B?V25vZWFYZ3dQSk11ODd5enp5TUFZREx1RzBjcFBVUWI0cXFiUDM4M1VDN08r?=
- =?utf-8?B?emxlWWZJN01RdDRBTFpreS91bFFMSDJFVmpuL3lEcmxmNHNucy81anlnYlZm?=
- =?utf-8?B?N1NnTHFGY3lIblBjcTVFcHpjcElmK3FvMTF4bkhUVTI4NE5NaXpBaU9QNXhr?=
- =?utf-8?B?R215YTNMT0ozVFNta3VUbGlZMVc4WU5hSmJlR2ExRFpIVGRrTUIrWVNhNlk3?=
- =?utf-8?B?OXZPRlFveU9IZWZUZHVwUjhNV3dpM0ZMTTZBUXlkcnhuN2IrNlRJa3F4bVM0?=
- =?utf-8?B?MXJRNDdPV0dDUkR3a0R2d0lIbzA4dXZQZDRBRW1KVWpiakhVMTNWaHQ2VHg0?=
- =?utf-8?B?Rm1ETndXVTZ1Y2JVZkIzTEV5SlVEUDRqdGNEM0Iza0M5djRmZDA3OFVJZHFw?=
- =?utf-8?B?TFpsdm45dEZZQXpKWVREMTVHVVl2SVVLME9DRjVwaHdSK2lYTC93ekZFcHBR?=
- =?utf-8?B?SlJsY1dlcnhldFZSWk9JMnQvaTExbHo2MmZudGdCUFlBTTl3QzBoUUY0b2Zk?=
- =?utf-8?B?a25lbFVOSmpkMjgvaTFNbTdzYUgzV2J4TUxnWGJTbjRNOXNRdXR1dGczeVMr?=
- =?utf-8?B?V3lTajZKVGNJT1RxUGswL1RYQXFzUU5Yc1NSaVhML1hWY0g1aVcwQzVLSmNU?=
- =?utf-8?B?d21PaGZKOG9ET3RQa05sbjhqVk9UbFByenFwN09VSGxOTm40TmgwODl3SDRF?=
- =?utf-8?B?MHFhSjJrZzl6ZlY3V1N2T0QwYnROTzBkU1YwVzVlS0NGSWRjRk1xM2pNOHNi?=
- =?utf-8?B?QVU5OW1ZSTFLWmNHMTF2aUtKYUhHaFpINnN1VS9WaDZiSHpWMkJkZjNlT1RW?=
- =?utf-8?B?dnltTXIxa2dpNDBPeFJzZTJlekVvMFRKdk1neFFaV2EzL24rQlBzdDFZRm1I?=
- =?utf-8?B?UWhWMFpUT2s3VkxmTmNCUlkzclhpUE5zL3R3TTkyWDM1ajNic29xb1Z2OE9I?=
- =?utf-8?B?RTNrYzhzV3BRUVdLT0JBOXlxTm5VWXpqUWxaaDBMbXJXRlNPNWorci9sS1cy?=
- =?utf-8?B?Z21aVUlZWm8wMzhPemFFSXlaVnRPelgvVGs2a24ycWJ4Zmc5OHN3bVJWTFRi?=
- =?utf-8?B?NU9kQUt1MVhIemdjV0t2cmcvWlp5a1JxcTFHc2F1RFJRUElsNjFWTXNFVEF2?=
- =?utf-8?B?bVlpa0FpUEJwTFdLWnZONlFVckNPUjFxYXR4anNrNkRPTDZ1TGQ2SEpWeWNU?=
- =?utf-8?B?RW5wN1ZuUzlKRGs1V1M0VThnS3ZKeFJFNFNjVmRIQzcwYm1RQjlqalFLSVd2?=
- =?utf-8?B?c1JzUHJZOTBNWTFySG9oTnpERHhqSG5zNHAwbmE0TUx6ZExTeDFMeEExNmdI?=
- =?utf-8?B?TjV0dFhHT1gzVWV2SkZXRkpZbmhvSUtCNUw1YVZpNFBYQ0UxRjNnWkN0Y3d0?=
- =?utf-8?B?eHVvTGQvSmFFbjBUN2RmY0JxTFU4TnZWcC9VZHI1RXJldHlNVDNPK1c0c2Rh?=
- =?utf-8?B?REFnN0JwcklLWXNoUHpJdFovakdyajFCZWQ1Ykl2c2hZV21zQUp1bEpLYlJz?=
- =?utf-8?B?c0JHQ3BaYU5IYXU5Y2I5UjNGbGx1Z2ZXYzNyQlBJUFFRa3VSQmttK3BIdTJv?=
- =?utf-8?B?dWdrSERPSVlQZWxOVDB1ZGNZc2VLR2p6NlZOU1RQaXB2WFFRcDl1bW0yNHky?=
- =?utf-8?B?OTlXYkRCbTJnbUNIWHVFTE0wTlp3eThSc3N4WUZhVVovSDZLU0hTWmcxcHdH?=
- =?utf-8?B?bGlxM0FuNlphU0JFOGNEdFozdGFIREJOSlJsTUExKzhTK2FqcmlYbWxiR0Fk?=
- =?utf-8?B?emdGQ0ozVE91TDR0bzA2eWl5WTVXOTIzY0ZXSXptSEcvNzVPMmM2VjVHc0g1?=
- =?utf-8?B?RjdUSmJJZHYzclo2Z1JreW9FTEcrUlkwd1pnZ2d1eUttUWVHekhhblRERWtL?=
- =?utf-8?B?NFp3bmlOOGQ4Y1I1ekxPWWtOckpJeXFDb3Nya2dKNlk5WDZMV1BwNDNFSWw4?=
- =?utf-8?B?Rzg0TXlqc1dacVZpekNweHpqWjFlUG15eU5FQXp5clN2dlJzSGdKd1VJbVRG?=
- =?utf-8?B?dzAzc1hZV2Q3NnJCalpGZjRCUnJYUmNQZ2tzUjgyUWV1RncwRHNVSVZaY0M1?=
- =?utf-8?B?aHc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: bbfbfbc7-6855-4122-b5a6-08dbc8f8e92b
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB3911.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Oct 2023 18:52:39.4172 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: g92vbz50ybSgwBe2swqJJb0Ao9YYKTnMhBTs2TJgVN3n4k3dtTj/S+mNJ5EhV5QCalRGX2LN0fa4GsHR3/DNEomV5D+SAExsggGvB/lWww0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB7937
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 01/13] drm/msm/dsi: switch to devm_drm_bridge_add()
+Content-Language: en-GB
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>
+References: <20231009181040.2743847-1-dmitry.baryshkov@linaro.org>
+ <20231009181040.2743847-2-dmitry.baryshkov@linaro.org>
+ <9cd7fcd1-19c3-ed9b-568d-4b67b3649e86@quicinc.com>
+ <0b201558-d794-4675-a20f-58d00a8b1a53@linaro.org>
+ <e3208975-84cb-5c44-2397-c6b31103659b@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <e3208975-84cb-5c44-2397-c6b31103659b@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -155,45 +82,191 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
- Maxime Ripard <mripard@kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Nirmoy Das <nirmoy.das@intel.com>,
- Matthew Auld <matthew.auld@intel.com>
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/9/2023 09:52, Andi Shyti wrote:
-> Hi,
->
->> From: Nirmoy Das <nirmoy.das@intel.com>
+On 09/10/2023 21:51, Abhinav Kumar wrote:
+> 
+> 
+> On 10/9/2023 11:46 AM, Dmitry Baryshkov wrote:
+>> On 09/10/2023 21:39, Abhinav Kumar wrote:
+>>>
+>>>
+>>> On 10/9/2023 11:10 AM, Dmitry Baryshkov wrote:
+>>>> Make MSM DSI driver use devm_drm_bridge_add() instead of plain
+>>>> drm_bridge_add(). As the driver doesn't require any additional cleanup,
+>>>> stop adding created bridge to the priv->bridges array.
+>>>>
+>>>> Reviewed-by: Rob Clark <robdclark@gmail.com>
+>>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>>>> ---
+>>>>   drivers/gpu/drm/msm/dsi/dsi.c         | 28 +++++--------------------
+>>>>   drivers/gpu/drm/msm/dsi/dsi.h         |  3 +--
+>>>>   drivers/gpu/drm/msm/dsi/dsi_manager.c | 30 
+>>>> +++++++++------------------
+>>>>   3 files changed, 16 insertions(+), 45 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/msm/dsi/dsi.c 
+>>>> b/drivers/gpu/drm/msm/dsi/dsi.c
+>>>> index d45e43024802..47f327e68471 100644
+>>>> --- a/drivers/gpu/drm/msm/dsi/dsi.c
+>>>> +++ b/drivers/gpu/drm/msm/dsi/dsi.c
+>>>> @@ -215,20 +215,14 @@ void __exit msm_dsi_unregister(void)
+>>>>   int msm_dsi_modeset_init(struct msm_dsi *msm_dsi, struct 
+>>>> drm_device *dev,
+>>>>                struct drm_encoder *encoder)
+>>>>   {
+>>>> -    struct msm_drm_private *priv = dev->dev_private;
+>>>>       int ret;
+>>>> -    if (priv->num_bridges == ARRAY_SIZE(priv->bridges)) {
+>>>> -        DRM_DEV_ERROR(dev->dev, "too many bridges\n");
+>>>> -        return -ENOSPC;
+>>>> -    }
+>>>> -
+>>>>       msm_dsi->dev = dev;
+>>>>       ret = msm_dsi_host_modeset_init(msm_dsi->host, dev);
+>>>>       if (ret) {
+>>>>           DRM_DEV_ERROR(dev->dev, "failed to modeset init host: 
+>>>> %d\n", ret);
+>>>> -        goto fail;
+>>>> +        return ret;
+>>>>       }
+>>>>       if (msm_dsi_is_bonded_dsi(msm_dsi) &&
+>>>> @@ -242,32 +236,20 @@ int msm_dsi_modeset_init(struct msm_dsi 
+>>>> *msm_dsi, struct drm_device *dev,
+>>>>       msm_dsi->encoder = encoder;
+>>>> -    msm_dsi->bridge = msm_dsi_manager_bridge_init(msm_dsi->id);
+>>>> -    if (IS_ERR(msm_dsi->bridge)) {
+>>>> -        ret = PTR_ERR(msm_dsi->bridge);
+>>>> +    ret = msm_dsi_manager_bridge_init(msm_dsi);
+>>>> +    if (ret) {
+>>>>           DRM_DEV_ERROR(dev->dev, "failed to create dsi bridge: 
+>>>> %d\n", ret);
+>>>> -        msm_dsi->bridge = NULL;
+>>>> -        goto fail;
+>>>> +        return ret;
+>>>>       }
+>>>>       ret = msm_dsi_manager_ext_bridge_init(msm_dsi->id);
+>>>>       if (ret) {
+>>>>           DRM_DEV_ERROR(dev->dev,
+>>>>               "failed to create dsi connector: %d\n", ret);
+>>>> -        goto fail;
+>>>> +        return ret;
+>>>>       }
+>>>> -    priv->bridges[priv->num_bridges++]       = msm_dsi->bridge;
+>>>> -
+>>>>       return 0;
+>>>> -fail:
+>>>> -    /* bridge/connector are normally destroyed by drm: */
+>>>> -    if (msm_dsi->bridge) {
+>>>> -        msm_dsi_manager_bridge_destroy(msm_dsi->bridge);
+>>>> -        msm_dsi->bridge = NULL;
+>>>> -    }
+>>>
+>>> We can drop msm_dsi_manager_bridge_destroy() now but dont we need to 
+>>> keep the part to reset msm_dsi->bridge to NULL in the fail tag if 
+>>> msm_dsi_manager_ext_bridge_init() fails?
 >>
->> Add a function for ratelimitted debug print.
+>> What for? This field is not read in the error /unbinding path.
+>> I'll send a followup that drops msm_dsi->bridge completely.
 >>
->> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
->> Cc: Maxime Ripard <mripard@kernel.org>
->> Cc: Thomas Zimmermann <tzimmermann@suse.de>
->> Cc: David Airlie <airlied@gmail.com>
->> Cc: Daniel Vetter <daniel@ffwll.ch>
->> Reviewed-by: Matthew Auld <matthew.auld@intel.com>
->> Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
->> Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
->> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
-> Just a kind reminder!
->
-> This is the second time this patch has been sent and we have seen
-> some potential use of the drm_dbg_ratelimited().
-But this patch does not actually add a user. So it is dead code at this 
-point, which is not allowed.
+> 
+> Not used in the error path. The behavior before this patch was, if 
+> msm_dsi_manager_ext_bridge_init failed, it was marking msm_dsi->bridge 
+> as NULL. Thats what I thought you would want to retain till you drop the 
+> msm_dsi->bridge.
 
-If you have code that wants to use such a helper then the helper should 
-be part of the patch that adds that code.
+Why would you like to keep the useless behaviour?
 
-John.
+> OR you can even add that line in the if (ret) of 
+> msm_dsi_manager_ext_bridge_init(msm_dsi->id); failure.
+> 
+>>>
+>>>> -
+>>>> -    return ret;
+>>>>   }
+>>>>   void msm_dsi_snapshot(struct msm_disp_state *disp_state, struct 
+>>>> msm_dsi *msm_dsi)
+>>>> diff --git a/drivers/gpu/drm/msm/dsi/dsi.h 
+>>>> b/drivers/gpu/drm/msm/dsi/dsi.h
+>>>> index d21867da78b8..a01c326774a6 100644
+>>>> --- a/drivers/gpu/drm/msm/dsi/dsi.h
+>>>> +++ b/drivers/gpu/drm/msm/dsi/dsi.h
+>>>> @@ -56,8 +56,7 @@ struct msm_dsi {
+>>>>   };
+>>>>   /* dsi manager */
+>>>> -struct drm_bridge *msm_dsi_manager_bridge_init(u8 id);
+>>>> -void msm_dsi_manager_bridge_destroy(struct drm_bridge *bridge);
+>>>> +int msm_dsi_manager_bridge_init(struct msm_dsi *msm_dsi);
+>>>>   int msm_dsi_manager_ext_bridge_init(u8 id);
+>>>>   int msm_dsi_manager_cmd_xfer(int id, const struct mipi_dsi_msg *msg);
+>>>>   bool msm_dsi_manager_cmd_xfer_trigger(int id, u32 dma_base, u32 len);
+>>>> diff --git a/drivers/gpu/drm/msm/dsi/dsi_manager.c 
+>>>> b/drivers/gpu/drm/msm/dsi/dsi_manager.c
+>>>> index 28b8012a21f2..17aa19bb6510 100644
+>>>> --- a/drivers/gpu/drm/msm/dsi/dsi_manager.c
+>>>> +++ b/drivers/gpu/drm/msm/dsi/dsi_manager.c
+>>>> @@ -466,9 +466,8 @@ static const struct drm_bridge_funcs 
+>>>> dsi_mgr_bridge_funcs = {
+>>>>   };
+>>>>   /* initialize bridge */
+>>>> -struct drm_bridge *msm_dsi_manager_bridge_init(u8 id)
+>>>> +int msm_dsi_manager_bridge_init(struct msm_dsi *msm_dsi)
+>>>>   {
+>>>> -    struct msm_dsi *msm_dsi = dsi_mgr_get_dsi(id);
+>>>>       struct drm_bridge *bridge = NULL;
+>>>>       struct dsi_bridge *dsi_bridge;
+>>>>       struct drm_encoder *encoder;
+>>>> @@ -476,31 +475,27 @@ struct drm_bridge 
+>>>> *msm_dsi_manager_bridge_init(u8 id)
+>>>>       dsi_bridge = devm_kzalloc(msm_dsi->dev->dev,
+>>>>                   sizeof(*dsi_bridge), GFP_KERNEL);
+>>>> -    if (!dsi_bridge) {
+>>>> -        ret = -ENOMEM;
+>>>> -        goto fail;
+>>>> -    }
+>>>> +    if (!dsi_bridge)
+>>>> +        return -ENOMEM;
+>>>> -    dsi_bridge->id = id;
+>>>> +    dsi_bridge->id = msm_dsi->id;
+>>>>       encoder = msm_dsi->encoder;
+>>>>       bridge = &dsi_bridge->base;
+>>>>       bridge->funcs = &dsi_mgr_bridge_funcs;
+>>>> -    drm_bridge_add(bridge);
+>>>> +    ret = devm_drm_bridge_add(&msm_dsi->pdev->dev, bridge);
+>>>> +    if (ret)
+>>>> +        return ret;
+>>>>       ret = drm_bridge_attach(encoder, bridge, NULL, 0);
+>>>>       if (ret)
+>>>> -        goto fail;
+>>>> +        return ret;
+>>>> -    return bridge;
+>>>> +    msm_dsi->bridge = bridge;
+>>>> -fail:
+>>>> -    if (bridge)
+>>>> -        msm_dsi_manager_bridge_destroy(bridge);
+>>>> -
+>>>> -    return ERR_PTR(ret);
+>>>> +    return 0;
+>>>>   }
+>>>>   int msm_dsi_manager_ext_bridge_init(u8 id)
+>>>> @@ -557,11 +552,6 @@ int msm_dsi_manager_ext_bridge_init(u8 id)
+>>>>       return 0;
+>>>>   }
+>>>> -void msm_dsi_manager_bridge_destroy(struct drm_bridge *bridge)
+>>>> -{
+>>>> -    drm_bridge_remove(bridge);
+>>>> -}
+>>>> -
+>>>>   int msm_dsi_manager_cmd_xfer(int id, const struct mipi_dsi_msg *msg)
+>>>>   {
+>>>>       struct msm_dsi *msm_dsi = dsi_mgr_get_dsi(id);
+>>
 
->
-> Any feedback?
->
-> Thanks,
-> Andi
+-- 
+With best wishes
+Dmitry
 
