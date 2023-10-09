@@ -2,71 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D005C7BEA02
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Oct 2023 20:46:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DCDD7BEA13
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Oct 2023 20:50:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF25810E2C6;
-	Mon,  9 Oct 2023 18:46:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6DB0F10E2C2;
+	Mon,  9 Oct 2023 18:50:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com
- [IPv6:2a00:1450:4864:20::22d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A617010E2C6
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Oct 2023 18:46:04 +0000 (UTC)
-Received: by mail-lj1-x22d.google.com with SMTP id
- 38308e7fff4ca-2c16bc71e4cso57275241fa.0
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Oct 2023 11:46:04 -0700 (PDT)
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
+ [IPv6:2a00:1450:4864:20::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B99D10E2C7
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Oct 2023 18:50:51 +0000 (UTC)
+Received: by mail-lf1-x133.google.com with SMTP id
+ 2adb3069b0e04-5068692b0d9so3888198e87.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Oct 2023 11:50:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1696877163; x=1697481963; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=15Qjgj7djDeAAXf961fVsM8P1Vswz7XY0us83EKsOMc=;
- b=lel8CFjfEGFCRqDkxoC7v5wC+B13QJuydNza67zofpyoxBNVJt6tupE8yBfz4i98st
- mUnwKB91oFHUiEyI2DxNA7M7TJCFZeAU5ZT5rcnJdNPEIEqKwXlu2qQ+wud+0u9c3NoB
- KXh8k6ZIdtGimoBAZtc928k1onrTR1kz+5HpAvk1OXNyNamPUPMYC69WKYOuzDAWCmbo
- n6kY/f7sZgtnlf7tdpxtzFJ4IGxyBKfY4NB/tIQqUGl761AVEm2Y30bFaLFb9mg6mZao
- 4JpyI3gkSmGvGsUdhIGhXwQdRnCTaGHU8CzHSjBZACz2lGv47HOUO6TMQgjY7hEERxgX
- ipsA==
+ d=linaro.org; s=google; t=1696877449; x=1697482249; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=slmO4xUHNmPhnYDTbWl3Wo5De7S89LXSHwl13Zbo/KM=;
+ b=dfYc6Eff5EUJwbT9WyyrREENYv/eloDwgJOrYUCc38P8Copv7V2CiK610CAJduwHSv
+ nnU/JVPr5Bj0nWvZdLlSOWLuFl1Dv+IHnQFKjofOEfgiYiJ6Kt1zqY1iS7yaQsXjkcr3
+ DWn8otlvtmCRQ8sjAZ1D5XZbtb27N7fg5kNlcBQgMDqQZv55FpKJbbZTjXiUNo4naNM7
+ WKVC3Bo0RqZQnA/nJ58mGCmqItb3+UCT/suTor5Gcsx3X7UckSDrshFUiTq8IfCgRGid
+ 84kIDEC4zbu+7KGn6NhcdzQNwM8hZtrFfSbJbcFZ17n60znzYU0ip9tr2g1Em4/yrZbz
+ AGbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1696877163; x=1697481963;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=15Qjgj7djDeAAXf961fVsM8P1Vswz7XY0us83EKsOMc=;
- b=tZ02zP2jh0Mov32uRZjuCnlPix/op2y328DPt8apRpcYcZTwSPupNCevy8aEE6IzJk
- WeviRGDjHDlXMHu2Fc5SPDvaVQuUUy6Txs0A1d8UeQUlgbJvvhrb3bXV9ZoZlyd/a2Zs
- a2mVNZ0/1eAc9jrPrdXxHz9roosdKKJRD80XO1qzOFBU8aKeqWoQCSUsjElFapC3b3pG
- XG59EynpqqgMvxzNAj2VSj5y2MTeD80VbUz2YiLzBWpnrWC5QtP4XjVeFLEMYQJab84P
- Lbs38nFtksDNK70eCqZO+Nq7n//zpnRFCE1OSj0j/oldQQPna8EfLDXCRdM4XkPEFTbd
- 6djA==
-X-Gm-Message-State: AOJu0YxobZAAoDEYtne9eP6sOqhrygLXtJLAAVOKu7nnSKbNI60dyuIl
- K09KEHImUbEWBoDhJK3A5nHZog==
-X-Google-Smtp-Source: AGHT+IHCffpTRQFeYAsx+4qld9spxX5wjlkwirzhfyC7Tn3unR0EQXhXD9EpACD85Zr6FsfLhtzbtA==
-X-Received: by 2002:a2e:bea3:0:b0:2c3:c75e:18cf with SMTP id
- a35-20020a2ebea3000000b002c3c75e18cfmr8915377ljr.0.1696877162733; 
- Mon, 09 Oct 2023 11:46:02 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
- (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
+ d=1e100.net; s=20230601; t=1696877449; x=1697482249;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=slmO4xUHNmPhnYDTbWl3Wo5De7S89LXSHwl13Zbo/KM=;
+ b=mF+hdiJR+Yyl4MSFarVktDFFjDY0KQJItAZdgN7p4b1Wo0QdxS/Hrr/3ihu1Sj/t5r
+ zlxavFwenOGGUrdpxyP2qXQbK4KxG+DkcvryuH8QPVkVQOs3VR0B8eGdsddgNxZ7dTyT
+ WSkasR5GlVG3l7sTz8GO1gLXtPepQPCU6wRLkdi6+XZXV6oP7Snu1fW5pWmn+S2cOfsa
+ VVU/nefxJgtDR+tEJSQE16JubsexqJQLCJwLTsfh6TrJ7bWizNLC2dsNCcr+7A1s6nVl
+ spyg5NzrIybVLDbZpU/vmKHeajYVjOAmrc3e5m70SB31h90FypyWJjWEW0kmz6+dRpDq
+ 2NEw==
+X-Gm-Message-State: AOJu0YzWHCOMR0d8l0zu7o0OY/wr82cGNJK3SZjWeFGle+YK5QUD+9Eu
+ PyQv+12FOcDIIVeKXhiSSxrcWQ==
+X-Google-Smtp-Source: AGHT+IHDJCsYlgFmsZsx0zm/DUdvCByNHIvnK0GLgP9SCszDGfUpRsPkhhEG6OZiSxjvTkmGv18DRA==
+X-Received: by 2002:a05:6512:3b9a:b0:503:18c5:6833 with SMTP id
+ g26-20020a0565123b9a00b0050318c56833mr17763900lfv.61.1696877449613; 
+ Mon, 09 Oct 2023 11:50:49 -0700 (PDT)
+Received: from umbar.unikie.fi ([192.130.178.91])
  by smtp.gmail.com with ESMTPSA id
- p18-20020a2e9ad2000000b002c17dcd8d91sm2160058ljj.120.2023.10.09.11.46.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 09 Oct 2023 11:46:02 -0700 (PDT)
-Message-ID: <0b201558-d794-4675-a20f-58d00a8b1a53@linaro.org>
-Date: Mon, 9 Oct 2023 21:46:01 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 01/13] drm/msm/dsi: switch to devm_drm_bridge_add()
-Content-Language: en-GB
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>
-References: <20231009181040.2743847-1-dmitry.baryshkov@linaro.org>
- <20231009181040.2743847-2-dmitry.baryshkov@linaro.org>
- <9cd7fcd1-19c3-ed9b-568d-4b67b3649e86@quicinc.com>
+ u7-20020a056512040700b00501ce0cacb6sm1529262lfk.188.2023.10.09.11.50.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 09 Oct 2023 11:50:49 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <9cd7fcd1-19c3-ed9b-568d-4b67b3649e86@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Rob Clark <robdclark@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>
+Subject: [PATCH v2 0/3] drm: introduce per-encoder debugfs directory
+Date: Mon,  9 Oct 2023 21:50:45 +0300
+Message-Id: <20231009185048.2758954-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.39.2
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -80,174 +80,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>
+Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 09/10/2023 21:39, Abhinav Kumar wrote:
-> 
-> 
-> On 10/9/2023 11:10 AM, Dmitry Baryshkov wrote:
->> Make MSM DSI driver use devm_drm_bridge_add() instead of plain
->> drm_bridge_add(). As the driver doesn't require any additional cleanup,
->> stop adding created bridge to the priv->bridges array.
->>
->> Reviewed-by: Rob Clark <robdclark@gmail.com>
->> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->> ---
->>   drivers/gpu/drm/msm/dsi/dsi.c         | 28 +++++--------------------
->>   drivers/gpu/drm/msm/dsi/dsi.h         |  3 +--
->>   drivers/gpu/drm/msm/dsi/dsi_manager.c | 30 +++++++++------------------
->>   3 files changed, 16 insertions(+), 45 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/msm/dsi/dsi.c 
->> b/drivers/gpu/drm/msm/dsi/dsi.c
->> index d45e43024802..47f327e68471 100644
->> --- a/drivers/gpu/drm/msm/dsi/dsi.c
->> +++ b/drivers/gpu/drm/msm/dsi/dsi.c
->> @@ -215,20 +215,14 @@ void __exit msm_dsi_unregister(void)
->>   int msm_dsi_modeset_init(struct msm_dsi *msm_dsi, struct drm_device 
->> *dev,
->>                struct drm_encoder *encoder)
->>   {
->> -    struct msm_drm_private *priv = dev->dev_private;
->>       int ret;
->> -    if (priv->num_bridges == ARRAY_SIZE(priv->bridges)) {
->> -        DRM_DEV_ERROR(dev->dev, "too many bridges\n");
->> -        return -ENOSPC;
->> -    }
->> -
->>       msm_dsi->dev = dev;
->>       ret = msm_dsi_host_modeset_init(msm_dsi->host, dev);
->>       if (ret) {
->>           DRM_DEV_ERROR(dev->dev, "failed to modeset init host: %d\n", 
->> ret);
->> -        goto fail;
->> +        return ret;
->>       }
->>       if (msm_dsi_is_bonded_dsi(msm_dsi) &&
->> @@ -242,32 +236,20 @@ int msm_dsi_modeset_init(struct msm_dsi 
->> *msm_dsi, struct drm_device *dev,
->>       msm_dsi->encoder = encoder;
->> -    msm_dsi->bridge = msm_dsi_manager_bridge_init(msm_dsi->id);
->> -    if (IS_ERR(msm_dsi->bridge)) {
->> -        ret = PTR_ERR(msm_dsi->bridge);
->> +    ret = msm_dsi_manager_bridge_init(msm_dsi);
->> +    if (ret) {
->>           DRM_DEV_ERROR(dev->dev, "failed to create dsi bridge: %d\n", 
->> ret);
->> -        msm_dsi->bridge = NULL;
->> -        goto fail;
->> +        return ret;
->>       }
->>       ret = msm_dsi_manager_ext_bridge_init(msm_dsi->id);
->>       if (ret) {
->>           DRM_DEV_ERROR(dev->dev,
->>               "failed to create dsi connector: %d\n", ret);
->> -        goto fail;
->> +        return ret;
->>       }
->> -    priv->bridges[priv->num_bridges++]       = msm_dsi->bridge;
->> -
->>       return 0;
->> -fail:
->> -    /* bridge/connector are normally destroyed by drm: */
->> -    if (msm_dsi->bridge) {
->> -        msm_dsi_manager_bridge_destroy(msm_dsi->bridge);
->> -        msm_dsi->bridge = NULL;
->> -    }
-> 
-> We can drop msm_dsi_manager_bridge_destroy() now but dont we need to 
-> keep the part to reset msm_dsi->bridge to NULL in the fail tag if 
-> msm_dsi_manager_ext_bridge_init() fails?
+Each of connectors and CRTCs used by the DRM device provides debugfs
+directory, which is used by several standard debugfs files and can
+further be extended by the driver. Add such generic debugfs directories
+for encoder. As a showcase for this dir, migrate `bridge_chains' debugfs
+file (which contains per-encoder data) and MSM custom encoder status to
+this new debugfs directory.
 
-What for? This field is not read in the error /unbinding path.
-I'll send a followup that drops msm_dsi->bridge completely.
+Changes since v1:
+- Brought back drm_printer usage to bridges_show (Tomi Valkeinen)
+- Updated the drm/bridge commit message to reflect format changes (Tomi
+  Valkeinen)
 
-> 
->> -
->> -    return ret;
->>   }
->>   void msm_dsi_snapshot(struct msm_disp_state *disp_state, struct 
->> msm_dsi *msm_dsi)
->> diff --git a/drivers/gpu/drm/msm/dsi/dsi.h 
->> b/drivers/gpu/drm/msm/dsi/dsi.h
->> index d21867da78b8..a01c326774a6 100644
->> --- a/drivers/gpu/drm/msm/dsi/dsi.h
->> +++ b/drivers/gpu/drm/msm/dsi/dsi.h
->> @@ -56,8 +56,7 @@ struct msm_dsi {
->>   };
->>   /* dsi manager */
->> -struct drm_bridge *msm_dsi_manager_bridge_init(u8 id);
->> -void msm_dsi_manager_bridge_destroy(struct drm_bridge *bridge);
->> +int msm_dsi_manager_bridge_init(struct msm_dsi *msm_dsi);
->>   int msm_dsi_manager_ext_bridge_init(u8 id);
->>   int msm_dsi_manager_cmd_xfer(int id, const struct mipi_dsi_msg *msg);
->>   bool msm_dsi_manager_cmd_xfer_trigger(int id, u32 dma_base, u32 len);
->> diff --git a/drivers/gpu/drm/msm/dsi/dsi_manager.c 
->> b/drivers/gpu/drm/msm/dsi/dsi_manager.c
->> index 28b8012a21f2..17aa19bb6510 100644
->> --- a/drivers/gpu/drm/msm/dsi/dsi_manager.c
->> +++ b/drivers/gpu/drm/msm/dsi/dsi_manager.c
->> @@ -466,9 +466,8 @@ static const struct drm_bridge_funcs 
->> dsi_mgr_bridge_funcs = {
->>   };
->>   /* initialize bridge */
->> -struct drm_bridge *msm_dsi_manager_bridge_init(u8 id)
->> +int msm_dsi_manager_bridge_init(struct msm_dsi *msm_dsi)
->>   {
->> -    struct msm_dsi *msm_dsi = dsi_mgr_get_dsi(id);
->>       struct drm_bridge *bridge = NULL;
->>       struct dsi_bridge *dsi_bridge;
->>       struct drm_encoder *encoder;
->> @@ -476,31 +475,27 @@ struct drm_bridge 
->> *msm_dsi_manager_bridge_init(u8 id)
->>       dsi_bridge = devm_kzalloc(msm_dsi->dev->dev,
->>                   sizeof(*dsi_bridge), GFP_KERNEL);
->> -    if (!dsi_bridge) {
->> -        ret = -ENOMEM;
->> -        goto fail;
->> -    }
->> +    if (!dsi_bridge)
->> +        return -ENOMEM;
->> -    dsi_bridge->id = id;
->> +    dsi_bridge->id = msm_dsi->id;
->>       encoder = msm_dsi->encoder;
->>       bridge = &dsi_bridge->base;
->>       bridge->funcs = &dsi_mgr_bridge_funcs;
->> -    drm_bridge_add(bridge);
->> +    ret = devm_drm_bridge_add(&msm_dsi->pdev->dev, bridge);
->> +    if (ret)
->> +        return ret;
->>       ret = drm_bridge_attach(encoder, bridge, NULL, 0);
->>       if (ret)
->> -        goto fail;
->> +        return ret;
->> -    return bridge;
->> +    msm_dsi->bridge = bridge;
->> -fail:
->> -    if (bridge)
->> -        msm_dsi_manager_bridge_destroy(bridge);
->> -
->> -    return ERR_PTR(ret);
->> +    return 0;
->>   }
->>   int msm_dsi_manager_ext_bridge_init(u8 id)
->> @@ -557,11 +552,6 @@ int msm_dsi_manager_ext_bridge_init(u8 id)
->>       return 0;
->>   }
->> -void msm_dsi_manager_bridge_destroy(struct drm_bridge *bridge)
->> -{
->> -    drm_bridge_remove(bridge);
->> -}
->> -
->>   int msm_dsi_manager_cmd_xfer(int id, const struct mipi_dsi_msg *msg)
->>   {
->>       struct msm_dsi *msm_dsi = dsi_mgr_get_dsi(id);
+Dmitry Baryshkov (3):
+  drm/encoder: register per-encoder debugfs dir
+  drm/bridge: migrate bridge_chains to per-encoder file
+  drm/msm/dpu: move encoder status to standard encoder debugfs dir
+
+ drivers/gpu/drm/drm_bridge.c                | 44 --------------
+ drivers/gpu/drm/drm_debugfs.c               | 65 ++++++++++++++++++++-
+ drivers/gpu/drm/drm_encoder.c               |  4 ++
+ drivers/gpu/drm/drm_internal.h              |  9 +++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 45 ++------------
+ include/drm/drm_bridge.h                    |  2 -
+ include/drm/drm_encoder.h                   | 16 ++++-
+ 7 files changed, 96 insertions(+), 89 deletions(-)
 
 -- 
-With best wishes
-Dmitry
+2.39.2
 
