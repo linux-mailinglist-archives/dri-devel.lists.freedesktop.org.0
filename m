@@ -2,49 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D10F97BE770
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Oct 2023 19:11:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD7257BE772
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Oct 2023 19:11:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B34310E295;
-	Mon,  9 Oct 2023 17:11:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EFA6810E293;
+	Mon,  9 Oct 2023 17:11:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
- [IPv6:2a00:1450:4864:20::136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E6E010E291
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Oct 2023 17:11:13 +0000 (UTC)
-Received: by mail-lf1-x136.google.com with SMTP id
- 2adb3069b0e04-5068dab8c00so3106901e87.0
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Oct 2023 10:11:13 -0700 (PDT)
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
+ [IPv6:2a00:1450:4864:20::134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 572CF10E28B
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Oct 2023 17:11:14 +0000 (UTC)
+Received: by mail-lf1-x134.google.com with SMTP id
+ 2adb3069b0e04-5068692b0d9so3769457e87.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Oct 2023 10:11:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linaro.org; s=google; t=1696871472; x=1697476272; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=30KcEZ4SIICqQVAYj3z91SvH9mOrlLfmUCguTSfxTSk=;
- b=qguY/Ab58d6YD3AlwkkeodrIirsKdXhi2J0LEJoDnAhr/9HnMK6bdmRWI/Z86hdH+b
- IhXx8qpo8yveRpUGy/fxagl183AnUrLj9gYk/6DYZrzI94ngKD0UXEbg+cOjHmcIqcxR
- EN3dznIfBSDR6O48qniyARSOMLLEmJN1S7w8bOpVOSRzZAI085PuZ/ZBnKfj3Hif0WJK
- uxQZcr8BNzBgc8NHZ662AjbI07OMZ1N7IL/Ag5eq8cIV9NBoVFbYh1myYle/d3esEHpS
- +4uCkTGcejP+oLRy93GcQ35yPp+e+yqdCmrhHAw0vZ1czAw0s55q//hFR0OW84TQU/Qg
- ki9g==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=HrOeSqSvWBurLO1tHVKBNeKW8O5/gmeYRnrbc2wTr9o=;
+ b=taNPstFsFqrxC0sTPSwJvXJgmNFhgf4TDtqG0m1MDjPdb5SArN++U0JDCVp3T4aDB+
+ FDLZroDXMT2Jp7fHwyfNieEGVFSij8WW/Fhb/8zhgst7vFqU70Cr4im8NA31txggBagS
+ ytdpqbCCsBzwv0dQU9V5ZpekQQni4fbbSHeYlV2lokihFs7amjSVN+x3PNIfBK42/SzI
+ kPiXUuSSoiz3D9z9VL2pApErungbac9clEoGEIbvEvW1XJNS5pxU3VFBDzgZYvG6bdB7
+ C9WmuDRRaP8Y2SNAkiK1tvE8XgEh9vuTn6nkL3z/whE85Mfz8/4CCnY3/pRun2m7pEJQ
+ QSig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20230601; t=1696871472; x=1697476272;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=30KcEZ4SIICqQVAYj3z91SvH9mOrlLfmUCguTSfxTSk=;
- b=kHjklM0cNUy/qhAb2FISpwsOOdCDI6cix8FSKekBWwSqFspka/7DQtnDz5NZ5vqe0u
- +k3uftkcKXCclim06ulyqVYZ3fsxluaVlE+wDp7BU0VZKDIyEUhIAuX9xYLm++A7fGPO
- Yt83ZRA+EELj1ACs25TfuMiCFIGzlGpSr4E0u4XgRjbmMYPX6fw8z2VjIOXwugcsfwcp
- JRZMIw9DfGH0WycpV99YjT+F+0BlyMv0uG3aBTbfg0djp0pzUSh00pVO+SAefzbTfCPj
- zXJhHzTT1p4+10Dg1bpZWI12iM/YDGhRoNwImKXHR39qQZIB0n94ZRmfM4cV7vfaogK6
- 2RJQ==
-X-Gm-Message-State: AOJu0Ywuowtl27gG4Xnr6bEWFBTaNM/vNE/+20MkXPrH7CPh5C2ZiJGf
- oSWopfsUAvJkkciXgzy/uFRSCg==
-X-Google-Smtp-Source: AGHT+IEBq766UMuWA+eeA5D2k84fHEbIsahHIHEvGO6Kg7wtTj42eDj0TYj1mQSbBwp3s1gqb2Niog==
-X-Received: by 2002:a19:6456:0:b0:503:442:5957 with SMTP id
- b22-20020a196456000000b0050304425957mr12147556lfj.41.1696871471681; 
- Mon, 09 Oct 2023 10:11:11 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=HrOeSqSvWBurLO1tHVKBNeKW8O5/gmeYRnrbc2wTr9o=;
+ b=F7Nq8AzrLse/jdnsGTtJv+OJH4VBSldEwf7rQuvN99MZTpE/dqylD+atw++RPACh3Y
+ lIgNfXwwAzOmFZ0w/k2GC6hQ29WD2cz5sZMZb/O6bFcqQ6mNELH2/YV/SAaue169arfG
+ EIYmu2A/KbgJRUJ5UTnI0/iPY3a7c52/+Xl1Jd/MDoSnRo9cLz4MpTypoH2kg6cR28WQ
+ EBDXoLaJBRcooqGCT4EYThysu/o8V8c+2sRDYSnF0BIKfklc26yeHd2IaeXlOep78ZgL
+ eAXkZtg8OFHrF4Kp5lUxikuibxOuid66byOj4GmIurjBOdeaYE/OVEi89okjz17SLCuC
+ jgUQ==
+X-Gm-Message-State: AOJu0YyyRo7mkr/c0v84oqsY5mSZjJU9GEDq8lmtiLs/IU9NWJj7ZIAa
+ msgJ5U49Qiv1Rkf7EWrK/3IAWA==
+X-Google-Smtp-Source: AGHT+IEydAT68rYk/7rWxi9ITpcyFc8MEOOyBPZk1rrH3Vv8ocA619aOEL17H/Z7wEHLrYN+Z5BcgQ==
+X-Received: by 2002:a05:6512:2f0:b0:500:780b:5bdc with SMTP id
+ m16-20020a05651202f000b00500780b5bdcmr13110820lfq.49.1696871472341; 
+ Mon, 09 Oct 2023 10:11:12 -0700 (PDT)
 Received: from umbar.unikie.fi ([192.130.178.91])
  by smtp.gmail.com with ESMTPSA id
  x14-20020a19f60e000000b00502e0388846sm1475991lfe.244.2023.10.09.10.11.11
@@ -54,10 +55,12 @@ From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Marijn Suijten <marijn.suijten@somainline.org>
-Subject: [PATCH 0/3] drm/msm/dpu: enable writeback on several platforms
-Date: Mon,  9 Oct 2023 20:11:07 +0300
-Message-Id: <20231009171110.2691115-1-dmitry.baryshkov@linaro.org>
+Subject: [PATCH 1/3] drm/msm/dpu: enable writeback on SDM845
+Date: Mon,  9 Oct 2023 20:11:08 +0300
+Message-Id: <20231009171110.2691115-2-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20231009171110.2691115-1-dmitry.baryshkov@linaro.org>
+References: <20231009171110.2691115-1-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -78,20 +81,80 @@ Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This enables writeback on several platforms where I could actually test
-it.
+Enable WB2 hardware block, enabling writeback support on this platform.
 
-Dmitry Baryshkov (3):
-  drm/msm/dpu: enable writeback on SDM845
-  drm/msm/dpu: enable writeback on SM8350
-  drm/msm/dpu: enable writeback on SM8450
-
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
  .../drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h | 18 ++++++++++++++++++
- .../drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h | 18 ++++++++++++++++++
- .../drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h | 18 ++++++++++++++++++
  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c |  6 ++++--
- 4 files changed, 58 insertions(+), 2 deletions(-)
+ 2 files changed, 22 insertions(+), 2 deletions(-)
 
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h
+index 88a5177dfdb7..14ea173dc986 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h
+@@ -34,6 +34,7 @@ static const struct dpu_mdp_cfg sdm845_mdp = {
+ 		[DPU_CLK_CTRL_DMA1] = { .reg_off = 0x2b4, .bit_off = 8 },
+ 		[DPU_CLK_CTRL_DMA2] = { .reg_off = 0x2bc, .bit_off = 8 },
+ 		[DPU_CLK_CTRL_DMA3] = { .reg_off = 0x2c4, .bit_off = 8 },
++		[DPU_CLK_CTRL_WB2] = { .reg_off = 0x3b8, .bit_off = 24 },
+ 	},
+ };
+ 
+@@ -251,6 +252,21 @@ static const struct dpu_dsc_cfg sdm845_dsc[] = {
+ 	},
+ };
+ 
++static const struct dpu_wb_cfg sdm845_wb[] = {
++	{
++		.name = "wb_2", .id = WB_2,
++		.base = 0x65000, .len = 0x2c8,
++		.features = WB_SDM845_MASK,
++		.format_list = wb2_formats,
++		.num_formats = ARRAY_SIZE(wb2_formats),
++		.clk_ctrl = DPU_CLK_CTRL_WB2,
++		.xin_id = 6,
++		.vbif_idx = VBIF_RT,
++		.maxlinewidth = 4096,
++		.intr_wb_done = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 4),
++	},
++};
++
+ static const struct dpu_intf_cfg sdm845_intf[] = {
+ 	{
+ 		.name = "intf_0", .id = INTF_0,
+@@ -348,6 +364,8 @@ const struct dpu_mdss_cfg dpu_sdm845_cfg = {
+ 	.pingpong = sdm845_pp,
+ 	.dsc_count = ARRAY_SIZE(sdm845_dsc),
+ 	.dsc = sdm845_dsc,
++	.wb_count = ARRAY_SIZE(sdm845_wb),
++	.wb = sdm845_wb,
+ 	.intf_count = ARRAY_SIZE(sdm845_intf),
+ 	.intf = sdm845_intf,
+ 	.vbif_count = ARRAY_SIZE(sdm845_vbif),
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+index 713dfc079718..cd86294d5818 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+@@ -106,14 +106,16 @@
+ 
+ #define INTF_SC7280_MASK (INTF_SC7180_MASK)
+ 
+-#define WB_SM8250_MASK (BIT(DPU_WB_LINE_MODE) | \
++#define WB_SDM845_MASK (BIT(DPU_WB_LINE_MODE) | \
+ 			 BIT(DPU_WB_UBWC) | \
+ 			 BIT(DPU_WB_YUV_CONFIG) | \
+ 			 BIT(DPU_WB_PIPE_ALPHA) | \
+ 			 BIT(DPU_WB_XY_ROI_OFFSET) | \
+ 			 BIT(DPU_WB_QOS) | \
+ 			 BIT(DPU_WB_QOS_8LVL) | \
+-			 BIT(DPU_WB_CDP) | \
++			 BIT(DPU_WB_CDP))
++
++#define WB_SM8250_MASK (WB_SDM845_MASK | \
+ 			 BIT(DPU_WB_INPUT_CTRL))
+ 
+ #define DEFAULT_PIXEL_RAM_SIZE		(50 * 1024)
 -- 
 2.39.2
 
