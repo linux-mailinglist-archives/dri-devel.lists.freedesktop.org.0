@@ -1,59 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50EAA7BE07A
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Oct 2023 15:40:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 99F1A7BDB71
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Oct 2023 14:19:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1BDC310E118;
-	Mon,  9 Oct 2023 13:40:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21B0310E10C;
+	Mon,  9 Oct 2023 12:19:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 8978 seconds by postgrey-1.36 at gabe;
- Mon, 09 Oct 2023 13:40:30 UTC
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5606610E118
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Oct 2023 13:40:30 +0000 (UTC)
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 399BAZnH029406;
- Mon, 9 Oct 2023 06:10:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1696849835;
- bh=gF3ltA5crJt+JrOf3lwJUGac88GUPpKqmKtpfO96kSo=;
- h=Date:Subject:To:CC:References:From:In-Reply-To;
- b=ywhUeh3NcbHDhCo4C4TZLyH8RuZ7wfJcPY501IF/1caj3C1SDkrtW2l1Jq8c20zLi
- HYUJU5LYd7U2szDazrrzKPB5KZzV5OUT59NapIbhLHO4+n7H51gSTCASO78BIxt/cT
- NFkM9su9hYmh0KwXXnqgGzC9JKreG8nLAfPZL1Wc=
-Received: from DFLE102.ent.ti.com (dfle102.ent.ti.com [10.64.6.23])
- by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 399BAZJC006911
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Mon, 9 Oct 2023 06:10:35 -0500
-Received: from DFLE100.ent.ti.com (10.64.6.21) by DFLE102.ent.ti.com
- (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Mon, 9
- Oct 2023 06:10:34 -0500
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE100.ent.ti.com
- (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Mon, 9 Oct 2023 06:10:34 -0500
-Received: from [172.24.227.6] (ileaxei01-snat2.itg.ti.com [10.180.69.6])
- by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 399BASAh024013;
- Mon, 9 Oct 2023 06:10:29 -0500
-Message-ID: <3c6e6538-bce6-e9f0-4307-72b3ffe6030e@ti.com>
-Date: Mon, 9 Oct 2023 16:40:28 +0530
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 08B1A10E10C
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Oct 2023 12:19:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1696853980; x=1728389980;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=orcsiRXreRBjsWfZ9tlQmbyEj+8pUqazTaxyGFk8vZ4=;
+ b=T8n6bCUooeYeSnuDipXFk4qklJvUDjy/RrBjshF4Wka2P7NURdVoAhzx
+ L9h/drwQfKQncrvay8l7+lnIIaNKXJU/lKP/egekmwNZEuIpAFXMssPXf
+ XvG9OrzNKqh7AH/bCWT/EfqYDycS6M0ZyjSzGpPyvDtF798c302CsOo/f
+ e/YeoBdFw4+AiNQRZxC2QI9xtv5BFhGl4muLBL2KHHolawxNBK1PWYJeD
+ orUDkrF9yQBjyvfcjPyM5K22IdgcjezVWM5mKzxEJAUUDKol8GDYfyrik
+ SocGSXj6T40SoWtmDqNNi6uJ/7XBRbfg1Q6Y4XTd3AjfcpyR7QL2ZZsBe w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="381392489"
+X-IronPort-AV: E=Sophos;i="6.03,210,1694761200"; d="scan'208";a="381392489"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Oct 2023 05:19:39 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="753001169"
+X-IronPort-AV: E=Sophos;i="6.03,210,1694761200"; d="scan'208";a="753001169"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.153])
+ by orsmga002.jf.intel.com with SMTP; 09 Oct 2023 05:19:34 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Mon, 09 Oct 2023 15:19:34 +0300
+Date: Mon, 9 Oct 2023 15:19:34 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: Re: [PATCH] drm/atomic: Perform blocking commits on workqueue
+Message-ID: <ZSPv1iAwJMgnsDu3@intel.com>
+References: <20230926170549.2589045-1-halfline@gmail.com>
+ <ZR6IlVR-A5KtIHEU@phenom.ffwll.local>
+ <CAA_UwzL=2PjeH_qW2GJa_XzJCeWkz9NcokPQX3-qn2f0iPz+Rw@mail.gmail.com>
+ <90e7f66f-96bf-4e90-88c8-75019bc506a4@amd.com>
+ <CAA_UwzJ7q8aq_iw3wimeQXmvKp8Z253J7oqi3UQqcKdkRmAcAA@mail.gmail.com>
+ <9f9b50fa-8bad-4e96-ac60-21c48f473fc6@amd.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH] drm/tidss: Power up attached PM domains on probe
-Content-Language: en-US
-To: Maxime Ripard <mripard@kernel.org>
-References: <20231009075018.2836020-1-devarsht@ti.com>
- <bmemgnq3emddmjsho3c3h4cj2fyyyp3xll73ozpsxxmxxcr3bn@lffrmuqqpbl3>
-From: Devarsh Thakkar <devarsht@ti.com>
-In-Reply-To: <bmemgnq3emddmjsho3c3h4cj2fyyyp3xll73ozpsxxmxxcr3bn@lffrmuqqpbl3>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <9f9b50fa-8bad-4e96-ac60-21c48f473fc6@amd.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,131 +65,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nm@ti.com, j-choudhary@ti.com, j-luthra@ti.com, a-bhatia1@ti.com,
- praneeth@ti.com, tomi.valkeinen@ideasonboard.com, jyri.sarha@iki.fi,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- tzimmermann@suse.de, r-ravikumar@ti.com, vigneshr@ti.com
+Cc: Ray Strode <halfline@gmail.com>, daniel.vetter@ffwll.ch, Xinhui.Pan@amd.com,
+ dri-devel@lists.freedesktop.org, mdaenzer@redhat.com,
+ alexander.deucher@amd.com, airlied@redhat.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
-
-Thanks for the review.
-
-On 09/10/23 14:53, Maxime Ripard wrote:
-> Hi Devarsh,
+On Mon, Oct 09, 2023 at 08:42:24AM +0200, Christian König wrote:
+> Am 06.10.23 um 20:48 schrieb Ray Strode:
+> > Hi,
+> >
+> > On Fri, Oct 6, 2023 at 3:12 AM Christian König <christian.koenig@amd.com> wrote:
+> >> When the operation busy waits then that *should* get accounted to the
+> >> CPU time of the current process. When the operation sleeps and waits for
+> >> some interrupt for example it should not get accounted.
+> >> What you suggest is to put the parts of the operation which busy wait
+> >> into a background task and then sleep for that task to complete. This is
+> >> not a solution to the problem, but just hides it.
+> > Actually, I think we both probably agree that there shouldn't be long
+> > busy waits in the context of the current process. After all, we both
+> > agree what the AMD DC driver code is doing is wrong.
+> >
+> > To be clear, my take is, if driver code is running in process context
+> > and needs to wait for periods of time on the order of or in excess of
+> > a typical process time slice it should be sleeping during the waiting.
+> > If the operation is at a point where it can be cancelled without side
+> > effects, the sleeping should be INTERRUPTIBLE. If it's past the point
+> > of no return, sleeping should be UNINTERRUPTIBLE. At no point, in my
+> > opinion, should kernel code busy block a typical process for dozens of
+> > milliseconds while keeping the process RUNNING. I don't think this is
+> > a controversial take.
 > 
-> On Mon, Oct 09, 2023 at 01:20:18PM +0530, Devarsh Thakkar wrote:
->> Some SoC's such as AM62P have dedicated power domains
->> for OLDI which need to be powered on separetely along
->> with display controller.
->>
->> So during driver probe, power up all attached PM domains
->> enumerated in devicetree node for DSS.
->>
->> This also prepares base to add display support for AM62P.
->>
->> Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
->> ---
->>  drivers/gpu/drm/tidss/tidss_drv.c | 76 +++++++++++++++++++++++++++++++
->>  drivers/gpu/drm/tidss/tidss_drv.h |  5 ++
->>  2 files changed, 81 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/tidss/tidss_drv.c b/drivers/gpu/drm/tidss/tidss_drv.c
->> index 4d063eb9cd0b..a703a27d17bf 100644
->> --- a/drivers/gpu/drm/tidss/tidss_drv.c
->> +++ b/drivers/gpu/drm/tidss/tidss_drv.c
->> @@ -8,6 +8,7 @@
->>  #include <linux/of.h>
->>  #include <linux/module.h>
->>  #include <linux/pm_runtime.h>
->> +#include <linux/pm_domain.h>
->>  
->>  #include <drm/drm_atomic.h>
->>  #include <drm/drm_atomic_helper.h>
->> @@ -114,6 +115,72 @@ static const struct drm_driver tidss_driver = {
->>  	.minor			= 0,
->>  };
->>  
->> +static int tidss_detach_pm_domains(struct tidss_device *tidss)
->> +{
->> +	int i;
->> +
->> +	if (tidss->num_domains <= 1)
->> +		return 0;
->> +
->> +	for (i = 0; i < tidss->num_domains; i++) {
->> +		if (tidss->pd_link[i] && !IS_ERR(tidss->pd_link[i]))
->> +			device_link_del(tidss->pd_link[i]);
->> +		if (tidss->pd_dev[i] && !IS_ERR(tidss->pd_dev[i]))
->> +			dev_pm_domain_detach(tidss->pd_dev[i], true);
->> +		tidss->pd_dev[i] = NULL;
->> +		tidss->pd_link[i] = NULL;
->> +	}
->> +
->> +	return 0;
->> +}
->> +
->> +static int tidss_attach_pm_domains(struct tidss_device *tidss)
->> +{
->> +	struct device *dev = tidss->dev;
->> +	int i;
->> +	int ret;
->> +	struct platform_device *pdev = to_platform_device(dev);
->> +	struct device_node *np = pdev->dev.of_node;
->> +
->> +	tidss->num_domains = of_count_phandle_with_args(np, "power-domains",
->> +							"#power-domain-cells");
->> +	if (tidss->num_domains <= 1) {
->> +		dev_dbg(dev, "One or less power domains, no need to do attach domains\n");
->> +		return 0;
->> +	}
->> +
->> +	tidss->pd_dev = devm_kmalloc_array(dev, tidss->num_domains,
->> +					   sizeof(*tidss->pd_dev), GFP_KERNEL);
->> +	if (!tidss->pd_dev)
->> +		return -ENOMEM;
->> +
->> +	tidss->pd_link = devm_kmalloc_array(dev, tidss->num_domains,
->> +					    sizeof(*tidss->pd_link), GFP_KERNEL);
->> +	if (!tidss->pd_link)
->> +		return -ENOMEM;
->> +
->> +	for (i = 0; i < tidss->num_domains; i++) {
->> +		tidss->pd_dev[i] = dev_pm_domain_attach_by_id(dev, i);
->> +		if (IS_ERR(tidss->pd_dev[i])) {
->> +			ret = PTR_ERR(tidss->pd_dev[i]);
->> +			goto fail;
->> +		}
->> +
->> +		tidss->pd_link[i] = device_link_add(dev, tidss->pd_dev[i],
->> +						    DL_FLAG_STATELESS |
->> +						    DL_FLAG_PM_RUNTIME | DL_FLAG_RPM_ACTIVE);
->> +		if (!tidss->pd_link[i]) {
->> +			ret = -EINVAL;
->> +			goto fail;
->> +		}
->> +	}
->> +
->> +	return 0;
->> +fail:
->> +	tidss_detach_pm_domains(tidss);
->> +	return ret;
->> +}
+> Exactly that's what I completely disagree on.
 > 
-> My understanding is that this will be done automatically at probe time.
-> Why do we need to roll our own there? A comment on top of the function
-> and the commit log would help.
-
-By default, the TI SCI power domain controller driver only powers up one power
-domain associated with device, With AM62P, we now have separate power domains
-for OLDI Tx ports (for more efficient power-saving control) which is different
-from core DSS device power domain, so this patch powers on the associated
-power domains too if enumerated in device-tree.
-
-Regards
-Devarsh
-
+> When the driver is burning CPU cycles on behalves of a process then 
+> those CPU cycles should be accounted to the process causing this.
 > 
-> Thanks!
-> Maxime
+> That the driver should probably improve it's behavior is a different issue.
+> 
+> > Actually, I think (maybe?) you might even agree with that, but you're
+> > also saying: user space processes aren't special here. While it's not
+> > okay to busy block them, it's also not okay to busy block on the
+> > system unbound workqueue either. If that's your sentiment, I don't
+> > disagree with it.
+> 
+> No, it's absolutely ok to busy block them it's just not nice to do so.
+> 
+> As Daniel pointed out this behavior is not incorrect at all. The DRM 
+> subsystem doesn't make any guarantee that drmModeAtomicCommit() will not 
+> burn CPU cycles.
+> 
+> >
+> > So I think we both agree the busy waiting is a problem, but maybe we
+> > disagree on the best place for the problem to manifest when it
+> > happens.
+> >
+> > One thought re the DC code is regardless of where the code is running,
+> > the scheduler is going to forcefully preempt it at some point right?
+> > Any writereg/udelay(1)/readreg loop is going to get disrupted by a
+> > much bigger than 1us delay by the kernel if the loop goes on long
+> > enough. I'm not wrong about that? if that's true, the code might as
+> > well switch out the udelay(1) for a usleep(1) and call it a day (well
+> > modulo the fact I think it can be called from an interrupt handler; at
+> > least "git grep" says there's a link_set_dpms_off in
+> > link_dp_irq_handler.c)
+> >
+> >> Stuff like that is not a valid justification for the change. Ville
+> >> changes on the other hand tried to prevent lock contention which is a
+> >> valid goal here.
+> > Okay so let's land his patchset! (assuming it's ready to go in).
+> > Ville, is that something you'd want to resend for review?
+> 
+> Well, while Ville patch has at least some justification I would still 
+> strongly object to move the work into a background thread to prevent 
+> userspace from being accounted for the work it causes.
+
+Aren't most wayland compositors using nonblocking commits anyway?
+If so they would already be bypassing proper CPU time accounting.
+Not saying we shouldn't try to fix that, but just pointing out that
+it already is an issue with nonblocking commits.
+
+-- 
+Ville Syrjälä
+Intel
