@@ -2,50 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AE357BE703
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Oct 2023 18:53:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B34D47BE711
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Oct 2023 18:56:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C8FE10E131;
-	Mon,  9 Oct 2023 16:53:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A85C910E175;
+	Mon,  9 Oct 2023 16:56:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D8CB10E131;
- Mon,  9 Oct 2023 16:53:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1696870397; x=1728406397;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=ft3bX+hksyHpBELr2Yl/p9GQf9RdkpUb3LQAB/o9oyw=;
- b=fb+4GsvmCe8wxFPPMHd7hQWdEAkXCx2BSOYQAxJ44lvK/ftJRAxgDJQb
- Msm7JQkfwJivHXXBChvZZy0W080BcFTvWN0YFGAbYv2Qj9Ly8TlEe+9lg
- ARS9F1gWS9gNrnOhrfVn+Bkpt0JIcd0gLyUsWUYEGsOvy4qqAsdyYXNdh
- QCLWbQfxnmu9QsvnNBdaDMJt/AXfc5vCLdaqk+jfoVGB7kw6m+QlHf9vh
- U8nZEbN+T1OSJ8hn7r5z059sf9AkN1AfAzgA0eA9Kw5uyrMQSQsk6Qlm+
- pqreEswurR9WLxmuj/T7tSh3k6ZW9fSsid7styBNT/5ZVCueitNLmhgut g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="450691505"
-X-IronPort-AV: E=Sophos;i="6.03,210,1694761200"; d="scan'208";a="450691505"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Oct 2023 09:53:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="818903327"
-X-IronPort-AV: E=Sophos;i="6.03,210,1694761200"; d="scan'208";a="818903327"
-Received: from ibrahim2-mobl2.gar.corp.intel.com (HELO intel.com)
- ([10.213.42.185])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Oct 2023 09:53:06 -0700
-Date: Mon, 9 Oct 2023 18:52:59 +0200
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Andi Shyti <andi.shyti@linux.intel.com>
-Subject: Re: [PATCH] drm/print: Add drm_dbg_ratelimited
-Message-ID: <ZSQv69bLHoOglE+T@ashyti-mobl2.lan>
-References: <20231006132606.810110-1-andi.shyti@linux.intel.com>
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
+ [IPv6:2a00:1450:4864:20::12a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7211A10E155
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Oct 2023 16:56:20 +0000 (UTC)
+Received: by mail-lf1-x12a.google.com with SMTP id
+ 2adb3069b0e04-50305abe5f0so6294665e87.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Oct 2023 09:56:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1696870578; x=1697475378; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=WlhqBQl9oFMKzadsnusYrJDuDpk68abfiZiL1f4YOiY=;
+ b=aQMdpJBfaq9V4xVzss4YqSDdCpfv8COa7cc43cLNa35HzIHeokz6YQFbZ9b1CZkb9J
+ 5S4AvXMZcMjexTvbqd8gnfz14rRe+xuV9NMmiwIRpsLqLZE1iC5O+OVnk3AfiRZ0nt1l
+ zIIQvF6geiWFhJqxaWokMDwfbAd7ABFxYLtylMIg/u0bDH63Gd8Tmdy5PYJmcX9mdxST
+ nGO1jWhNfLpBlF7oea8Cl95s6t/9g2C7zk0LVp+8bye13R31Tyu31DPkjgpkN/HNtwj/
+ 4UloKATHZ6dNZ9aBRz0zfkERe3WnlfgqJWAqw05dUtKOu4XbPam1jUP6a0IwesijHcLa
+ XUjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1696870578; x=1697475378;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=WlhqBQl9oFMKzadsnusYrJDuDpk68abfiZiL1f4YOiY=;
+ b=HzaqOa2v/QG1/Epj/7TbTcdmZysBgpEj+FzXPY3QjPaPfaD4hzjotocEMFe7WjWi1+
+ AJfLtugz8nJNCPt6WT4yw/p6YHdGehFJiCK5EG93cg9in6NB0tKAI+d0if0EXTKo63cN
+ dVSrsBknMmjLrQAUGPLsU5V2St3x7C/BVBakzeVIaHYSc5YnZqPzhRt/SlDJkcaEPd4+
+ z00XEcb3V/uFkRwstuX7DN3uF9CJlFC7yCLusBSUeXQ7CzQl/alf1JK7e1gMgEQbR5Fg
+ ZxhfWxd/TkOvwXsj1QORqHPcwGS0lZGf5CU3cqWclY9vUkDA1eS0qljw2q3Oegsjd/mi
+ eWtw==
+X-Gm-Message-State: AOJu0YwqOqShFTY67xdmzMkdR7mqQ5Un4pBWSuKcPzoBJzcy2T7NWH1b
+ KkCKp/+XA8xkmM/fQk5rKaT2vw==
+X-Google-Smtp-Source: AGHT+IEzc+wWdYLx/D2ts2ez2S94HZ9kZNSnVve1pOz142p3GNd2sRYfgrX3YVCBmxnsKQjBUkC4Lw==
+X-Received: by 2002:ac2:5fa7:0:b0:4ff:7004:545e with SMTP id
+ s7-20020ac25fa7000000b004ff7004545emr12437678lfe.4.1696870578282; 
+ Mon, 09 Oct 2023 09:56:18 -0700 (PDT)
+Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
+ (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
+ by smtp.gmail.com with ESMTPSA id
+ q18-20020a19a412000000b005047baf3385sm1488987lfc.181.2023.10.09.09.56.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 09 Oct 2023 09:56:17 -0700 (PDT)
+Message-ID: <ce15113b-c032-44ad-ab03-ff1b719fcb99@linaro.org>
+Date: Mon, 9 Oct 2023 19:56:17 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231006132606.810110-1-andi.shyti@linux.intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/msm/dpu: enable smartdma on sm8350
+Content-Language: en-GB
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ freedreno@lists.freedesktop.org, Rob Clark <robdclark@gmail.com>,
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+References: <20230908193314.27008-1-quic_abhinavk@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <20230908193314.27008-1-quic_abhinavk@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,35 +79,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
- Matthew Auld <matthew.auld@intel.com>, Maxime Ripard <mripard@kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Nirmoy Das <nirmoy.das@intel.com>
+Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, quic_parellan@quicinc.com,
+ quic_jesszhan@quicinc.com, nespera@igalia.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-> From: Nirmoy Das <nirmoy.das@intel.com>
+On 08/09/2023 22:33, Abhinav Kumar wrote:
+> To support high resolutions on sm8350, enable smartdma
+> in its catalog.
 > 
-> Add a function for ratelimitted debug print.
+> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+
+Tested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
+> ---
 > 
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Reviewed-by: Matthew Auld <matthew.auld@intel.com>
-> Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
-> Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
-> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
+> Notes:
+>      only compile tested, to be landed after sufficient testing
 
-Just a kind reminder!
+-- 
+With best wishes
+Dmitry
 
-This is the second time this patch has been sent and we have seen
-some potential use of the drm_dbg_ratelimited().
-
-Any feedback?
-
-Thanks,
-Andi
