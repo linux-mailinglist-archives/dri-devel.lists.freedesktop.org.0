@@ -2,68 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0FD47BD860
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Oct 2023 12:18:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0F557BD877
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Oct 2023 12:26:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 158B210E0F6;
-	Mon,  9 Oct 2023 10:18:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A86D10E263;
+	Mon,  9 Oct 2023 10:26:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
- [IPv6:2a00:1450:4864:20::136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 99E1710E0F6
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Oct 2023 10:18:37 +0000 (UTC)
-Received: by mail-lf1-x136.google.com with SMTP id
- 2adb3069b0e04-50585357903so5743204e87.2
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Oct 2023 03:18:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1696846716; x=1697451516; darn=lists.freedesktop.org;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=KzjqhcxTplk/fjWtjjswcwgpKZ+f2AVwpc+PUpIKpZs=;
- b=pwPPz9ySvq3ZaaPz+f8Wg0ugCD0ibbTCIRJemsXie98HIxbWARD2Vz8eq1GZZzYyrU
- IBgtKSto+MmPyT5qzqyl/TiuuWebcAw7brgrkT9KX9iCw++gYHXc5Z/XIeth5re5qqs3
- 8qJqy1Q19Ij5AV2edIXoLIm5Rqckf68kQ+ox956bvVfuCSN9IuSk+hZj0xUewFQ+CRBH
- yboN+DwZjvGNYFQwaYHXOCqBDuCwfr+wrw/g4Yt6ECswNLoOSM3171OWSeJ13M3ukkg+
- IVs6T42owYArfGVhZIqbZLavZg9CaMT3Lb65kJdsmcXJp4JB+Odwrqz7DZYFno2qDz45
- N46Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1696846716; x=1697451516;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=KzjqhcxTplk/fjWtjjswcwgpKZ+f2AVwpc+PUpIKpZs=;
- b=ffMan12e14TsuUUdA80fHBcH0ovGYnjsd6RDwRG61kOubaG+1b221wFWrxvLOd/rms
- lsW3WRBNhQ5oR0iXsQjaFcD/++iT0jcl3rA7Xn1Gm59WIodYooxDyfsg7lIISIBZS2m+
- vdoc61w5NlM8agnlJlSRTPWLxOojx1IBiofdPNryLTkdxtaHbAqaWoNGDlHa5c8MOVjq
- /+VBcT726X1Iflly/uBshZP5hkBNAdN8xVmEdHSKV4jnqeWd7+mVDZqEIOzE9qJIowlU
- IZqeENdOsFFDjZZSL552mi8ZiywzQFHBs8WN4dLgggE/rx6O/a2ObB1oCQGjIpK19lQF
- U5Iw==
-X-Gm-Message-State: AOJu0Yx8PsJRE0QMeqdgXELKuAy0CuLyNSpEoPuexxNF9Pg9qgwWYP97
- DyXLnEoo1IPBTYFHWOp9JkeixQ==
-X-Google-Smtp-Source: AGHT+IGY9WKDt7ALyy/qcEMDEosc8dNznZ/T5vS8ZD92++froNBAqLNU25PJBwaTdb63LswVmU9kIQ==
-X-Received: by 2002:a05:6512:250c:b0:503:8fa:da21 with SMTP id
- be12-20020a056512250c00b0050308fada21mr16362091lfb.43.1696846715809; 
- Mon, 09 Oct 2023 03:18:35 -0700 (PDT)
-Received: from aspen.lan
- (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
- by smtp.gmail.com with ESMTPSA id
- m19-20020a7bcb93000000b003fe61c33df5sm13038355wmi.3.2023.10.09.03.18.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Oct 2023 03:18:35 -0700 (PDT)
-Date: Mon, 9 Oct 2023 11:18:33 +0100
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-Subject: Re: [PATCH v4] backlight: pwm_bl: Disable PWM on shutdown, suspend
- and remove
-Message-ID: <20231009101833.GB223751@aspen.lan>
-References: <20231009093223.227286-1-u.kleine-koenig@pengutronix.de>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BBC0210E25C;
+ Mon,  9 Oct 2023 10:26:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1696847178; x=1728383178;
+ h=date:from:to:cc:subject:in-reply-to:message-id:
+ references:mime-version;
+ bh=1/cdl6TmyznVjvwUTt2iYmMvWoegBT6CdeEJuJVOJZQ=;
+ b=ddKOKiVqqpLfrkdj/ZvLn45ZIwIEss9f03JUBq7GoNAyxJtSl7Pybm6A
+ +grPLJmRUGrX1vgnJcgAdECxId3D/dOtxjvvbTTE1NHq4puNZRSiGQMOw
+ 7+Nrnwq9Qby3UCgWSEnytHqwL/ShAoWPH6dXHhUZ7QM4D1xzALcUqgVcb
+ 6OzuHd2W+2eGkKmQmqLEc8AfUJJuDxAjT8ZKF6LmMZ4e8DC7IEz+qU6is
+ OH8SvCOlc25X2zT1qUnxxfHX8bKo+HTJAavhLsBW3+sYEaZshTiLQj9yZ
+ aa7RkGlmhn5FrE0yx7dar7BtNGLcLEUJbAkkCMXhpQXAmwsG54ji7fNob w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10857"; a="5658460"
+X-IronPort-AV: E=Sophos;i="6.03,210,1694761200"; 
+   d="scan'208";a="5658460"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Oct 2023 03:26:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10857"; a="896716897"
+X-IronPort-AV: E=Sophos;i="6.03,210,1694761200"; d="scan'208";a="896716897"
+Received: from lshebash-mobl3.ccr.corp.intel.com ([10.252.57.254])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Oct 2023 03:24:33 -0700
+Date: Mon, 9 Oct 2023 13:26:06 +0300 (EEST)
+From: =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
+To: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+Subject: Re: [PATCH v2 06/16] platform/x86/amd/pmf: Add support to get inputs
+ from other subsystems
+In-Reply-To: <61840843-8cb6-4353-a92c-befc46960fad@amd.com>
+Message-ID: <bd917993-372f-3565-41d-5882e648e0b5@linux.intel.com>
+References: <20230930083715.2050863-1-Shyam-sundar.S-k@amd.com>
+ <20230930083715.2050863-7-Shyam-sundar.S-k@amd.com>
+ <2eb2b3e5-4849-10ec-1c1b-66d2f0ba561@linux.intel.com>
+ <61840843-8cb6-4353-a92c-befc46960fad@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231009093223.227286-1-u.kleine-koenig@pengutronix.de>
+Content-Type: multipart/mixed; boundary="8323329-1231359689-1696847176=:1721"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,29 +61,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Aisheng Dong <aisheng.dong@nxp.com>, linux-pwm@vger.kernel.org,
- linux-fbdev@vger.kernel.org, Jingoo Han <jingoohan1@gmail.com>,
- Helge Deller <deller@gmx.de>, Lee Jones <lee@kernel.org>,
- dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
- kernel@pengutronix.de
+Cc: Xinhui.Pan@amd.com, Patil.Reddy@amd.com, basavaraj.natikar@amd.com,
+ dri-devel@lists.freedesktop.org, jikos@kernel.org,
+ amd-gfx@lists.freedesktop.org, platform-driver-x86@vger.kernel.org,
+ markgross@kernel.org, Hans de Goede <hdegoede@redhat.com>,
+ benjamin.tissoires@redhat.com, mario.limonciello@amd.com,
+ linux-input@vger.kernel.org, alexander.deucher@amd.com,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 09, 2023 at 11:32:23AM +0200, Uwe Kleine-König wrote:
-> Since commit 00e7e698bff1 ("backlight: pwm_bl: Configure pwm only once
-> per backlight toggle") calling pwm_backlight_power_off() doesn't disable
-> the PWM any more. However this is necessary to suspend because PWM
-> drivers usually refuse to suspend if they are still enabled.
->
-> Also adapt shutdown and remove callbacks to disable the PWM for similar
-> reasons.
->
-> Fixes: 00e7e698bff1 ("backlight: pwm_bl: Configure pwm only once per backlight toggle")
-> Reported-by: Aisheng Dong <aisheng.dong@nxp.com>
-> Tested-by: Aisheng Dong <aisheng.dong@nxp.com>
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+--8323329-1231359689-1696847176=:1721
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 
+On Mon, 9 Oct 2023, Shyam Sundar S K wrote:
+> On 10/4/2023 5:44 PM, Ilpo JÃ¤rvinen wrote:
+> > On Sat, 30 Sep 2023, Shyam Sundar S K wrote:
+> > 
+> >> PMF driver sends changing inputs from each subystem to TA for evaluating
+> >> the conditions in the policy binary.
+> >>
+> >> Add initial support of plumbing in the PMF driver for Smart PC to get
+> >> information from other subsystems in the kernel.
+> >>
+> >> Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
 
-Daniel.
+> >> diff --git a/drivers/platform/x86/amd/pmf/spc.c b/drivers/platform/x86/amd/pmf/spc.c
+> >> new file mode 100644
+> >> index 000000000000..3113bde051d9
+> >> --- /dev/null
+> >> +++ b/drivers/platform/x86/amd/pmf/spc.c
+> >> @@ -0,0 +1,119 @@
+> >> +// SPDX-License-Identifier: GPL-2.0
+> >> +/*
+> >> + * AMD Platform Management Framework Driver - Smart PC Capabilities
+> >> + *
+> >> + * Copyright (c) 2023, Advanced Micro Devices, Inc.
+> >> + * All Rights Reserved.
+> >> + *
+> >> + * Authors: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+> >> + *          Patil Rajesh Reddy <Patil.Reddy@amd.com>
+> >> + */
+> >> +
+> >> +#include <acpi/button.h>
+> >> +#include <linux/power_supply.h>
+> >> +#include <linux/units.h>
+> >> +#include "pmf.h"
+> >> +
+> >> +static void amd_pmf_get_smu_info(struct amd_pmf_dev *dev, struct ta_pmf_enact_table *in)
+> >> +{
+> >> +	u16 max, avg = 0;
+> >> +	int i;
+> >> +
+> >> +	memset(dev->buf, 0, sizeof(dev->m_table));
+> >> +	amd_pmf_send_cmd(dev, SET_TRANSFER_TABLE, 0, 7, NULL);
+> >> +	memcpy(&dev->m_table, dev->buf, sizeof(dev->m_table));
+> >> +
+> >> +	in->ev_info.socket_power = dev->m_table.apu_power + dev->m_table.dgpu_power;
+> >> +	in->ev_info.skin_temperature = dev->m_table.skin_temp;
+> >> +
+> >> +	/* get the avg C0 residency of all the cores */
+> >> +	for (i = 0; i < ARRAY_SIZE(dev->m_table.avg_core_c0residency); i++)
+> >> +		avg += dev->m_table.avg_core_c0residency[i];
+> >> +
+> >> +	/* get the max C0 residency of all the cores */
+> >> +	max = dev->m_table.avg_core_c0residency[0];
+> >> +	for (i = 1; i < ARRAY_SIZE(dev->m_table.avg_core_c0residency); i++) {
+> >> +		if (dev->m_table.avg_core_c0residency[i] > max)
+> >> +			max = dev->m_table.avg_core_c0residency[i];
+> >> +	}
+> > 
+> > My comments weren't either answered adequately or changes made here.
+> > Please check the v1 comments. I hope it's not because you feel hurry to 
+> > get the next version out...
+> > 
+> > I'm still unsure if the u16 thing can overflow because I don't know what's 
+> > the max value for avg_core_c0residency[i].
+> 
+> the highest value for avg_core_c0residency[i] is merely a small number
+> and hence I retained the avg variable as u16. Not sure if there a
+> 'real' case where it can overflow.
+
+Okay, if you think it's fine, no problem with it then (not that there's 
+a big advantage having it as u16 instead of e.g. unsigned int).
+
+> Sorry, I missed to merge both into a single for loop. I will address
+> this in v3.
+
+Thanks.
+
+-- 
+ i.
+
+--8323329-1231359689-1696847176=:1721--
