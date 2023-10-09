@@ -1,77 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D2667BE745
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Oct 2023 19:01:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 49EC07BE748
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Oct 2023 19:02:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF6FA10E18E;
-	Mon,  9 Oct 2023 17:01:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E5AD610E0E5;
+	Mon,  9 Oct 2023 17:02:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
- [66.111.4.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5CA4310E18E
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Oct 2023 17:01:54 +0000 (UTC)
-Received: from compute7.internal (compute7.nyi.internal [10.202.2.48])
- by mailout.nyi.internal (Postfix) with ESMTP id B2B455C0299;
- Mon,  9 Oct 2023 13:01:53 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute7.internal (MEProxy); Mon, 09 Oct 2023 13:01:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.com; h=
- cc:cc:content-transfer-encoding:content-type:content-type:date
- :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:reply-to:sender:subject:subject:to:to; s=
- fm2; t=1696870913; x=1696957313; bh=paQJjbygAS4XBnXnJFWs7p6ECYxU
- FTJsVerqLkMEtno=; b=FBP9qBAoxYDHKgim3D9rx/5CT5xpCssCT7l/uvAlDvF4
- KKNN8HoQnmALj81ZYA3UdH1c47iehuAXtqSz6+NphnIo5FX/rfYV7OoiIQGjBFZo
- ACHBTtBc/2J7VRhujUYtXvZMaVJH9lVGSkch7tLhFQiLmKhRMmICPpq/JiTBlTYj
- LjBtJRPcErkq98U2EzgCN5pQ6X0N1uUOr81hTj88FE2NydF7MgYs+a9/6aHlyFRP
- hTe9BlT6zViIEJOpyDPk1kM5RtmvipYoGcHNrqI7ih1NaSXy/C8L7z7PDvNxzha3
- 7MG6x3sFOmt+k1f0uerz8h7TbszkXmzJl7xIoPxePA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:content-type:date:date:feedback-id:feedback-id
- :from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; t=1696870913; x=1696957313; bh=paQJjbygAS4XBnXnJFWs7p6ECYxU
- FTJsVerqLkMEtno=; b=clszmevcpDzdHOf7miCL8rpNnob8zD1z/djjAnsrUtrg
- h4iUr45vrVb0cR366Hf3Z/70bMXFBNRBZ6hPP8L2w/2R8V68Xvrw+kUKXMfO1kk6
- uycaxeUcaz0Sbe2xetjiueLxyyMqIgTolxYwHcvd5vYvwOsbS+tMtkjb0WLfH9d6
- mlyYx0e6H7vEJG7oCRE4aJM4V/GApvFJ8Tp8ycAwToQYqXHbfMryKw4f1LFUrW7n
- ic9I3iK7qdCJ7etgxywluZGuzsUX73HHtoovtM549Cwxa2IOr8HnnBMuZij6gzBq
- sifCPhHn2Gn05dBdxmW8mMgQ5EAPk5i4QA0iFimcpQ==
-X-ME-Sender: <xms:ATIkZcpaZJknlfcjKwNzH22vNzbtOZ8XIlT1Bw6lPCncu9X1abR95w>
- <xme:ATIkZSpAep-lPtW5SobfSA3P5314X9-rv348VBWtsB88zEn3u65HFxh4KSlWYWj75
- add8OBy8g2u3feMOqg>
-X-ME-Received: <xmr:ATIkZRNmy0ZVmLGPtqVtFANqarB38D6xSr8hsjLYW4iEqlulwiDvugmehdj5Hz65DNiTZAfOKgMCJxDyO8dibz7C_2RjsjSJ-gh1Mn-Kz9RO>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrheefgddutdejucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvvefufffkofgjfhhrgggtgfesthekredtredtjeenucfhrhhomhepfdfo
- rggriicuofhomhgsrghsrgifrghlrgculdggofifrghrvgdmfdcuoehmrggriihmsehfrg
- hsthhmrghilhdrtghomheqnecuggftrfgrthhtvghrnhepfeekheduleetkeduiefhffdv
- udefhfffgeeujefggeeiuedvtddugfekudetheefnecuvehluhhsthgvrhfuihiivgeptd
- enucfrrghrrghmpehmrghilhhfrhhomhepmhgrrgiimhesfhgrshhtmhgrihhlrdgtohhm
-X-ME-Proxy: <xmx:ATIkZT70trrYxcHrZbIgSzMIXtVH-wyqcV7VQ10S31L_wyxW082nxQ>
- <xmx:ATIkZb52wQgaokBuZYtyeMtftJyxrckBQjfGrqi15GXwgyt68Syz-w>
- <xmx:ATIkZTjfHEev24UCARrasTaVsrI1e-QuP4gp-A5mpNszo3UcaDGsrQ>
- <xmx:ATIkZe1oCCQmMqVr-P8imZuZUuXFZYceJZzg2NO773BgZ7D27ZBNYg>
-Feedback-ID: i1b1946fb:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 9 Oct 2023 13:01:52 -0400 (EDT)
-From: "Maaz Mombasawala (VMware)" <maazm@fastmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/2] drm/vmwgfx: Add SPDX header to vmwgfx_drm.h
-Date: Mon,  9 Oct 2023 09:59:58 -0700
-Message-Id: <20231009165958.2507668-2-maazm@fastmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20231009165958.2507668-1-maazm@fastmail.com>
-References: <20231009165958.2507668-1-maazm@fastmail.com>
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
+ [IPv6:2a00:1450:4864:20::136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DAE2710E0E5
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Oct 2023 17:02:42 +0000 (UTC)
+Received: by mail-lf1-x136.google.com with SMTP id
+ 2adb3069b0e04-50307acd445so5957821e87.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Oct 2023 10:02:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1696870961; x=1697475761; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=uRuutAZs8fFclbHqtZl6SoFD2RTZgdCG/+ruCdezTQs=;
+ b=L3bI6TEvqhbcC21KmSxJFe/3ZAyt3QJcDpuTigyuVKEEBm0kob2Jp+7IlzohEk9ldg
+ DzkBln5+c8aGQzurTHyJnylntgUhdiONXuDvpvuo4WiVTGbKbGRhprGtjUVFYPgVcvHb
+ +61C1pN1tiZJfCiOvoz8+W1ERT9EXElu5YcAsWnZ0bqHi7XafqTrQ8tQrxWqtw2FY7+h
+ 6PqCiFi2liFJREHipzu8VSPqtObMXeJTfAUkFCMkIg/uwHiWBJlXXQijEehSm3qw8z+e
+ 9ZYv/InBXI44oNaG+gQZ+cWMLFtHAyvypE9u4MY9j/wv01hiWShkzZ27o56iHt/It9RM
+ zFug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1696870961; x=1697475761;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=uRuutAZs8fFclbHqtZl6SoFD2RTZgdCG/+ruCdezTQs=;
+ b=cUVMY9CgG15q1fIgGEiNYCvoYAhbOZnJBORSOQP8hMZUvk3feUubntgk4OE6f/uTOk
+ cFTSUtmUe9y8+gAopgJII5k5O7gI1EKJlfFvDI9jdIC1L9dmxavqBSkyEqv6q3jtZghm
+ FJYtfB/dasnsSqoU9RnSOJ5mT43NAawfLSU+ell1I5T95NUH0qSkzDLLje4NXChKFYad
+ MVaQZJPeZJGVAg69gFJaF9EiiyfaH1oqohFIVVP41zguiY8Ip6/5wZiN+jjYS/nZVYGq
+ dznPEudsgo7rup3HrtbuGWQpdq/JqFIqZAafMXuNxhh1DV8fedtBqONJsF+jI/I3l0QC
+ EgAA==
+X-Gm-Message-State: AOJu0Yw1RYQEgmCMuRRaH0PE0HII6rurbPwECDZOiJFMJeZ+dlukL/yD
+ SrxZsKK5aJqIi0r9UEkCvHWevg==
+X-Google-Smtp-Source: AGHT+IG3N9oYTVVpWHCHcenUkG2u+mwOdltu7goVxMyVQmfsCsfNgPExviIbIkYFLeq5xxpYKPwL3Q==
+X-Received: by 2002:ac2:5b1b:0:b0:503:60e:91f5 with SMTP id
+ v27-20020ac25b1b000000b00503060e91f5mr14425167lfn.36.1696870961038; 
+ Mon, 09 Oct 2023 10:02:41 -0700 (PDT)
+Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
+ (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
+ by smtp.gmail.com with ESMTPSA id
+ r2-20020ac252a2000000b004f1400630d3sm1492618lfm.35.2023.10.09.10.02.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 09 Oct 2023 10:02:40 -0700 (PDT)
+Message-ID: <b0776261-323b-4f3f-a1d7-9a6b59f39276@linaro.org>
+Date: Mon, 9 Oct 2023 20:02:39 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC 3/5] drm/msm: dpu1: vbif: add
+ dpu_vbif_setup_clk_force_ctrl() helper
+Content-Language: en-GB
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+References: <20231009-topic-sm8550-graphics-sspp-split-clk-v1-0-806c0dee4e43@linaro.org>
+ <20231009-topic-sm8550-graphics-sspp-split-clk-v1-3-806c0dee4e43@linaro.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <20231009-topic-sm8550-graphics-sspp-split-clk-v1-3-806c0dee4e43@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,33 +81,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Maaz Mombasawala <mombasawalam@vmware.com>
-Cc: Maaz Mombasawala <maazm@fastmail.com>, krastevm@vmware.com,
- iforbes@vmware.com, Maaz Mombasawala <mombasawalam@vmware.com>
+Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Maaz Mombasawala <mombasawalam@vmware.com>
+On 09/10/2023 19:36, Neil Armstrong wrote:
+> Move the actual call to the MDP setup_clk_force_ctrl() op to
+> an helper which will call the correct op depending on the caps.
+> 
+> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+> ---
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_vbif.c | 15 +++++++++++----
+>   1 file changed, 11 insertions(+), 4 deletions(-)
+>
 
-Update vmwgfx_drm.h with SPDX-License-Identifier:
-(GPL-2.0 WITH Linux-syscall-note) OR MIT
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-Signed-off-by: Maaz Mombasawala <mombasawalam@vmware.com>
-Reviewed-by: Martin Krastev <krastevm@vmware.com>
-Signed-off-by: Maaz Mombasawala (VMware) <maazm@fastmail.com>
----
- include/uapi/drm/vmwgfx_drm.h | 1 +
- 1 file changed, 1 insertion(+)
 
-diff --git a/include/uapi/drm/vmwgfx_drm.h b/include/uapi/drm/vmwgfx_drm.h
-index 26d96fecb902..7d786a0cc835 100644
---- a/include/uapi/drm/vmwgfx_drm.h
-+++ b/include/uapi/drm/vmwgfx_drm.h
-@@ -1,3 +1,4 @@
-+/* SPDX-License-Identifier: (GPL-2.0 WITH Linux-syscall-note) OR MIT */
- /**************************************************************************
-  *
-  * Copyright © 2009-2023 VMware, Inc., Palo Alto, CA., USA
 -- 
-2.34.1
+With best wishes
+Dmitry
 
