@@ -1,72 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 441757BE744
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Oct 2023 19:01:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D2667BE745
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Oct 2023 19:01:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C8E110E15C;
-	Mon,  9 Oct 2023 17:01:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF6FA10E18E;
+	Mon,  9 Oct 2023 17:01:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
  [66.111.4.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D7CE310E15C
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Oct 2023 17:01:42 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.nyi.internal (Postfix) with ESMTP id 68A375C0198;
- Mon,  9 Oct 2023 13:01:40 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5CA4310E18E
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Oct 2023 17:01:54 +0000 (UTC)
+Received: from compute7.internal (compute7.nyi.internal [10.202.2.48])
+ by mailout.nyi.internal (Postfix) with ESMTP id B2B455C0299;
+ Mon,  9 Oct 2023 13:01:53 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute1.internal (MEProxy); Mon, 09 Oct 2023 13:01:40 -0400
+ by compute7.internal (MEProxy); Mon, 09 Oct 2023 13:01:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.com; h=
  cc:cc:content-transfer-encoding:content-type:content-type:date
- :date:from:from:in-reply-to:message-id:mime-version:reply-to
- :reply-to:sender:subject:subject:to:to; s=fm2; t=1696870900; x=
- 1696957300; bh=XoAdNK7MOwe9S8VFTUVUCx1LnB/CJcds+cnHVu5qmS8=; b=G
- mHGBQijc79KX0DhmI+60zB1K1+7Hn2AcT6QLkmMMHI8puou3fVbPGO9UCndwkpeR
- dLFiexiZ1IQkaYihquoNeZ3k9ZvgYnyKqsQtK7iGYlPDfy0qEy8svmrMuDP/VywK
- qADMFCFQbnfNSMBYhRZxCxvfbKyOc7R8Y2+GtkQf4Zojbr04CQkHhnfrN8RWzGMc
- y8+BaelIN1xXpinLgGz1uwfSoTZbc9DNIkGBnvTJmsjsSdz8nukTh3aUPtfPgGdS
- 483Q2m8iHbqiOoNexb/R4EuwxswikQpCugRfxKQyF8QoqSRkXVXGWe5ymvGSiMFg
- R33RgPcNDjpFmGWwKYx2g==
+ :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:reply-to:sender:subject:subject:to:to; s=
+ fm2; t=1696870913; x=1696957313; bh=paQJjbygAS4XBnXnJFWs7p6ECYxU
+ FTJsVerqLkMEtno=; b=FBP9qBAoxYDHKgim3D9rx/5CT5xpCssCT7l/uvAlDvF4
+ KKNN8HoQnmALj81ZYA3UdH1c47iehuAXtqSz6+NphnIo5FX/rfYV7OoiIQGjBFZo
+ ACHBTtBc/2J7VRhujUYtXvZMaVJH9lVGSkch7tLhFQiLmKhRMmICPpq/JiTBlTYj
+ LjBtJRPcErkq98U2EzgCN5pQ6X0N1uUOr81hTj88FE2NydF7MgYs+a9/6aHlyFRP
+ hTe9BlT6zViIEJOpyDPk1kM5RtmvipYoGcHNrqI7ih1NaSXy/C8L7z7PDvNxzha3
+ 7MG6x3sFOmt+k1f0uerz8h7TbszkXmzJl7xIoPxePA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:content-type:date:date:feedback-id:feedback-id
- :from:from:in-reply-to:message-id:mime-version:reply-to:reply-to
- :sender:subject:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender
- :x-me-sender:x-sasl-enc; s=fm2; t=1696870900; x=1696957300; bh=X
- oAdNK7MOwe9S8VFTUVUCx1LnB/CJcds+cnHVu5qmS8=; b=kKf/rY3kPppsBENc2
- /hce72mOQuY1HzfsDpEZle4wlimnIdvAw0LIjuJdXp85taaLHpnNFaOvcZY5ei65
- l92bvqFkGnTPRCgL6wWUYzlG7NovYA87lgJl3H17kJw1Z03lXncXC4K0ZxVL5zPp
- KDQQQtsadGhK8VNurwOBSUWUkOfdPpPhJaqpgT7hDb4i69Qzhjj40n0VT3y3d4Io
- BfxZgNjdv9TBQXK0gh46TVDcxyTpkFUDyr3L1YQPj2RIL/7ZGL2SEpLPT4OcMpgz
- iomFw4u9/hGG/SI/ZvWj6ogMjhoB2EtlI8swYqfwSDyAn52KJJVp02ng9IvJNIlf
- bRsrw==
-X-ME-Sender: <xms:9DEkZQGQIkGR_SZx-mhDYBlzeEnQ0me7cHaugVorFF-vI2hc13ckNQ>
- <xme:9DEkZZVS-q9tg2wJJEtS5LQpZ-mXjcy5hssoS72LUgkPIwyv7qupcbn_gI5WlRpvc
- 4FhTU4VcJntyukeR1M>
-X-ME-Received: <xmr:9DEkZaJfgyJE53UeTccjp65ZrJezQtCg7r-su32HCC8AiDkjQxPcwHlS8-wysXPKcyecyw0f9sE2njYX78n7W7RloNEbt5BDE0yCXCT9sZtg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrheefgddutdekucetufdoteggodetrfdotf
+ :from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm2; t=1696870913; x=1696957313; bh=paQJjbygAS4XBnXnJFWs7p6ECYxU
+ FTJsVerqLkMEtno=; b=clszmevcpDzdHOf7miCL8rpNnob8zD1z/djjAnsrUtrg
+ h4iUr45vrVb0cR366Hf3Z/70bMXFBNRBZ6hPP8L2w/2R8V68Xvrw+kUKXMfO1kk6
+ uycaxeUcaz0Sbe2xetjiueLxyyMqIgTolxYwHcvd5vYvwOsbS+tMtkjb0WLfH9d6
+ mlyYx0e6H7vEJG7oCRE4aJM4V/GApvFJ8Tp8ycAwToQYqXHbfMryKw4f1LFUrW7n
+ ic9I3iK7qdCJ7etgxywluZGuzsUX73HHtoovtM549Cwxa2IOr8HnnBMuZij6gzBq
+ sifCPhHn2Gn05dBdxmW8mMgQ5EAPk5i4QA0iFimcpQ==
+X-ME-Sender: <xms:ATIkZcpaZJknlfcjKwNzH22vNzbtOZ8XIlT1Bw6lPCncu9X1abR95w>
+ <xme:ATIkZSpAep-lPtW5SobfSA3P5314X9-rv348VBWtsB88zEn3u65HFxh4KSlWYWj75
+ add8OBy8g2u3feMOqg>
+X-ME-Received: <xmr:ATIkZRNmy0ZVmLGPtqVtFANqarB38D6xSr8hsjLYW4iEqlulwiDvugmehdj5Hz65DNiTZAfOKgMCJxDyO8dibz7C_2RjsjSJ-gh1Mn-Kz9RO>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrheefgddutdejucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvvefufffkofhrgggtgfesthekredtredtjeenucfhrhhomhepfdforggr
- iicuofhomhgsrghsrgifrghlrgculdggofifrghrvgdmfdcuoehmrggriihmsehfrghsth
- hmrghilhdrtghomheqnecuggftrfgrthhtvghrnhephfevvdfhudelveelveetlefgffdt
- tefhvdfhffeltdeugeegteegleegffefgfeunecuvehluhhsthgvrhfuihiivgeptdenuc
- frrghrrghmpehmrghilhhfrhhomhepmhgrrgiimhesfhgrshhtmhgrihhlrdgtohhm
-X-ME-Proxy: <xmx:9DEkZSGwFqTBQPvQIg92-Bp7l2GDSEfFv4pewrvFWhZXnP1yVtG03Q>
- <xmx:9DEkZWVolngHeVadbCzkI-hERJ-N3FJCMeqgrDfTefof53zJP3iJiw>
- <xmx:9DEkZVPN180E1r8l47cWlraC8GHFkRQA4pqaa6e4L7VrAUjoK6dq5g>
- <xmx:9DEkZUxdS4xoJz7T02_thCW-cSg1kwvbP4iAwSKldDZstcgcjH4VTg>
+ cujfgurhephffvvefufffkofgjfhhrgggtgfesthekredtredtjeenucfhrhhomhepfdfo
+ rggriicuofhomhgsrghsrgifrghlrgculdggofifrghrvgdmfdcuoehmrggriihmsehfrg
+ hsthhmrghilhdrtghomheqnecuggftrfgrthhtvghrnhepfeekheduleetkeduiefhffdv
+ udefhfffgeeujefggeeiuedvtddugfekudetheefnecuvehluhhsthgvrhfuihiivgeptd
+ enucfrrghrrghmpehmrghilhhfrhhomhepmhgrrgiimhesfhgrshhtmhgrihhlrdgtohhm
+X-ME-Proxy: <xmx:ATIkZT70trrYxcHrZbIgSzMIXtVH-wyqcV7VQ10S31L_wyxW082nxQ>
+ <xmx:ATIkZb52wQgaokBuZYtyeMtftJyxrckBQjfGrqi15GXwgyt68Syz-w>
+ <xmx:ATIkZTjfHEev24UCARrasTaVsrI1e-QuP4gp-A5mpNszo3UcaDGsrQ>
+ <xmx:ATIkZe1oCCQmMqVr-P8imZuZUuXFZYceJZzg2NO773BgZ7D27ZBNYg>
 Feedback-ID: i1b1946fb:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 9 Oct 2023 13:01:39 -0400 (EDT)
+ 9 Oct 2023 13:01:52 -0400 (EDT)
 From: "Maaz Mombasawala (VMware)" <maazm@fastmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 1/2] drm/vmwgfx: Make all surfaces shareable
-Date: Mon,  9 Oct 2023 09:59:57 -0700
-Message-Id: <20231009165958.2507668-1-maazm@fastmail.com>
+Subject: [PATCH 2/2] drm/vmwgfx: Add SPDX header to vmwgfx_drm.h
+Date: Mon,  9 Oct 2023 09:59:58 -0700
+Message-Id: <20231009165958.2507668-2-maazm@fastmail.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20231009165958.2507668-1-maazm@fastmail.com>
+References: <20231009165958.2507668-1-maazm@fastmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -90,153 +92,25 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Maaz Mombasawala <mombasawalam@vmware.com>
 
-There is no real need to have a separate pool for shareable and
-non-shareable surfaces. Make all surfaces shareable, regardless of whether
-the drm_vmw_surface_flag_shareable has been specified.
+Update vmwgfx_drm.h with SPDX-License-Identifier:
+(GPL-2.0 WITH Linux-syscall-note) OR MIT
 
 Signed-off-by: Maaz Mombasawala <mombasawalam@vmware.com>
 Reviewed-by: Martin Krastev <krastevm@vmware.com>
 Signed-off-by: Maaz Mombasawala (VMware) <maazm@fastmail.com>
 ---
- drivers/gpu/drm/vmwgfx/ttm_object.c     |  6 +++---
- drivers/gpu/drm/vmwgfx/ttm_object.h     |  3 +--
- drivers/gpu/drm/vmwgfx/vmwgfx_surface.c | 17 ++++++-----------
- include/uapi/drm/vmwgfx_drm.h           |  5 +++--
- 4 files changed, 13 insertions(+), 18 deletions(-)
+ include/uapi/drm/vmwgfx_drm.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/vmwgfx/ttm_object.c b/drivers/gpu/drm/vmwgfx/ttm_object.c
-index ddf8373c1d77..6806c05e57f6 100644
---- a/drivers/gpu/drm/vmwgfx/ttm_object.c
-+++ b/drivers/gpu/drm/vmwgfx/ttm_object.c
-@@ -1,7 +1,7 @@
- /* SPDX-License-Identifier: GPL-2.0 OR MIT */
- /**************************************************************************
-  *
-- * Copyright (c) 2009-2022 VMware, Inc., Palo Alto, CA., USA
-+ * Copyright (c) 2009-2023 VMware, Inc., Palo Alto, CA., USA
-  * All Rights Reserved.
-  *
-  * Permission is hereby granted, free of charge, to any person obtaining a
-@@ -648,7 +648,6 @@ int ttm_prime_handle_to_fd(struct ttm_object_file *tfile,
-  * @tfile: struct ttm_object_file identifying the caller
-  * @size: The size of the dma_bufs we export.
-  * @prime: The object to be initialized.
-- * @shareable: See ttm_base_object_init
-  * @type: See ttm_base_object_init
-  * @refcount_release: See ttm_base_object_init
-  *
-@@ -656,10 +655,11 @@ int ttm_prime_handle_to_fd(struct ttm_object_file *tfile,
-  * for data sharing between processes and devices.
-  */
- int ttm_prime_object_init(struct ttm_object_file *tfile, size_t size,
--			  struct ttm_prime_object *prime, bool shareable,
-+			  struct ttm_prime_object *prime,
- 			  enum ttm_object_type type,
- 			  void (*refcount_release) (struct ttm_base_object **))
- {
-+	bool shareable = !!(type == VMW_RES_SURFACE);
- 	mutex_init(&prime->mutex);
- 	prime->size = PAGE_ALIGN(size);
- 	prime->real_type = type;
-diff --git a/drivers/gpu/drm/vmwgfx/ttm_object.h b/drivers/gpu/drm/vmwgfx/ttm_object.h
-index e6b77ee33e55..573e038c0fab 100644
---- a/drivers/gpu/drm/vmwgfx/ttm_object.h
-+++ b/drivers/gpu/drm/vmwgfx/ttm_object.h
-@@ -1,6 +1,6 @@
- /**************************************************************************
-  *
-- * Copyright (c) 2006-2022 VMware, Inc., Palo Alto, CA., USA
-+ * Copyright (c) 2006-2023 VMware, Inc., Palo Alto, CA., USA
-  * All Rights Reserved.
-  *
-  * Permission is hereby granted, free of charge, to any person obtaining a
-@@ -288,7 +288,6 @@ extern void ttm_object_device_release(struct ttm_object_device **p_tdev);
- extern int ttm_prime_object_init(struct ttm_object_file *tfile,
- 				 size_t size,
- 				 struct ttm_prime_object *prime,
--				 bool shareable,
- 				 enum ttm_object_type type,
- 				 void (*refcount_release)
- 				 (struct ttm_base_object **));
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c b/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c
-index 5db403ee8261..3156bdd095e9 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c
-@@ -836,8 +836,6 @@ int vmw_surface_define_ioctl(struct drm_device *dev, void *data,
- 		srf->snooper.image = NULL;
- 	}
- 
--	user_srf->prime.base.shareable = false;
--	user_srf->prime.base.tfile = NULL;
- 	if (drm_is_primary_client(file_priv))
- 		user_srf->master = drm_file_get_master(file_priv);
- 
-@@ -851,10 +849,10 @@ int vmw_surface_define_ioctl(struct drm_device *dev, void *data,
- 		goto out_unlock;
- 
- 	/*
--	 * A gb-aware client referencing a shared surface will
--	 * expect a backup buffer to be present.
-+	 * A gb-aware client referencing a surface will expect a backup
-+	 * buffer to be present.
- 	 */
--	if (dev_priv->has_mob && req->shareable) {
-+	if (dev_priv->has_mob) {
- 		uint32_t backup_handle;
- 
- 		ret = vmw_gem_object_create_with_handle(dev_priv,
-@@ -875,8 +873,9 @@ int vmw_surface_define_ioctl(struct drm_device *dev, void *data,
- 	}
- 
- 	tmp = vmw_resource_reference(&srf->res);
--	ret = ttm_prime_object_init(tfile, res->guest_memory_size, &user_srf->prime,
--				    req->shareable, VMW_RES_SURFACE,
-+	ret = ttm_prime_object_init(tfile, res->guest_memory_size,
-+				    &user_srf->prime,
-+				    VMW_RES_SURFACE,
- 				    &vmw_user_surface_base_release);
- 
- 	if (unlikely(ret != 0)) {
-@@ -1557,8 +1556,6 @@ vmw_gb_surface_define_internal(struct drm_device *dev,
- 
- 	tmp = vmw_resource_reference(res);
- 	ret = ttm_prime_object_init(tfile, res->guest_memory_size, &user_srf->prime,
--				    req->base.drm_surface_flags &
--				    drm_vmw_surface_flag_shareable,
- 				    VMW_RES_SURFACE,
- 				    &vmw_user_surface_base_release);
- 
-@@ -2060,8 +2057,6 @@ int vmw_gb_surface_define(struct vmw_private *dev_priv,
- 	}
- 
- 	*srf_out  = &user_srf->srf;
--	user_srf->prime.base.shareable = false;
--	user_srf->prime.base.tfile = NULL;
- 
- 	srf = &user_srf->srf;
- 	srf->metadata = *req;
 diff --git a/include/uapi/drm/vmwgfx_drm.h b/include/uapi/drm/vmwgfx_drm.h
-index 26549c86a91f..26d96fecb902 100644
+index 26d96fecb902..7d786a0cc835 100644
 --- a/include/uapi/drm/vmwgfx_drm.h
 +++ b/include/uapi/drm/vmwgfx_drm.h
-@@ -1,6 +1,6 @@
+@@ -1,3 +1,4 @@
++/* SPDX-License-Identifier: (GPL-2.0 WITH Linux-syscall-note) OR MIT */
  /**************************************************************************
   *
-- * Copyright © 2009-2022 VMware, Inc., Palo Alto, CA., USA
-+ * Copyright © 2009-2023 VMware, Inc., Palo Alto, CA., USA
-  * All Rights Reserved.
-  *
-  * Permission is hereby granted, free of charge, to any person obtaining a
-@@ -902,7 +902,8 @@ struct drm_vmw_shader_arg {
- /**
-  * enum drm_vmw_surface_flags
-  *
-- * @drm_vmw_surface_flag_shareable:     Whether the surface is shareable
-+ * @drm_vmw_surface_flag_shareable:     Deprecated - all userspace surfaces are
-+ *                                      shareable.
-  * @drm_vmw_surface_flag_scanout:       Whether the surface is a scanout
-  *                                      surface.
-  * @drm_vmw_surface_flag_create_buffer: Create a backup buffer if none is
+  * Copyright © 2009-2023 VMware, Inc., Palo Alto, CA., USA
 -- 
 2.34.1
 
