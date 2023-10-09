@@ -2,63 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A4AC7BEC32
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Oct 2023 23:02:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C31777BEC45
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Oct 2023 23:05:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9BC2110E1AA;
-	Mon,  9 Oct 2023 21:02:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F3BE510E1AE;
+	Mon,  9 Oct 2023 21:05:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x112a.google.com (mail-yw1-x112a.google.com
- [IPv6:2607:f8b0:4864:20::112a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A80A10E1AA
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Oct 2023 21:02:51 +0000 (UTC)
-Received: by mail-yw1-x112a.google.com with SMTP id
- 00721157ae682-59f6492b415so43023067b3.0
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Oct 2023 14:02:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1696885370; x=1697490170; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=SJz0h0Tx8tbmQIBwQkViScvt69REAVK+f5XbSP6AYKE=;
- b=ihp5fZKtpFHGjdVW/ijaxgKcm41I56dy7i5ftE/uoruii4nuTIldXGpWuZMC2WSTyc
- Y9z/ePhbMeCltu0Lkeljy7Q21iNyeDa9GOwvDMbYj6O6S3ac3rHHOlvAzQMiYrAXdrSc
- NzqBE6/sY4Owu6Q7tKhcPYWV8FS2Ww9etPjnAKfeGyctCIkG1bKa5oo8A0HUxziXI4Xi
- snjDv+PQTIJRc4JJ7qm75IB9mMxIXlc2p/hE18noL7DoMG8O9qw7JJQBlerSHsgvaacN
- G9c9pR2rVJH/bg5hJHq1F+BLUX32sjgwKfS314WuF8l8Vgj+bNlYVzE8skT0fIABa1I2
- LExw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1696885370; x=1697490170;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=SJz0h0Tx8tbmQIBwQkViScvt69REAVK+f5XbSP6AYKE=;
- b=FSAvzWvIzJ+wOTghYvrIg/IvE3vBPVoxvLejYrNVTBDwIJnpH7Ri8xrGswbyXT15wD
- 7kSSq9+RKh+Ugmajjc9xQ/lrIXTkg2AAuR26JnB5+/BNwkP6lbK6a1c+pWX3SCZAvm1t
- yJsZKmIhnTlV/ukaj+bo46UgAKEbkn9J7dsXuPIzuIpBuiUdTP20B9XiKN/d8v/WkuR6
- e24Heb9Yq/ik7x+5BbRtq9Qr8uOv9li2a/5nEJ6rVcd/w976Jv+5sSQXsUjyzDTAZPX5
- CIYeg/regGhrWhgFVvM1B0xGQmZqys+8MyyXAnC1OuMp7iO9tOhsWgdHU3L1g4OijV7n
- OthQ==
-X-Gm-Message-State: AOJu0Ywt9iWsHkmqRIK/dPiBUyLpOwa6J8eLgxnJyI09oV7Cl0nWiYaF
- n48k51+Ci1NT3FTakhpD9WNrIPwLHma22QB9IfOLJg==
-X-Google-Smtp-Source: AGHT+IG7zTQ1sPIVq6sSufNIqZ5HokqJWtqPk7b7cMpFUs43lI/+XA7kKBK7iStn8zLZan3BdCgDzKJEQFuFjmdMKw0=
-X-Received: by 2002:a81:49d0:0:b0:56c:f0c7:7d72 with SMTP id
- w199-20020a8149d0000000b0056cf0c77d72mr10143379ywa.4.1696885370504; Mon, 09
- Oct 2023 14:02:50 -0700 (PDT)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C2F9810E1AE;
+ Mon,  9 Oct 2023 21:04:59 +0000 (UTC)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 399L0CKE001360; Mon, 9 Oct 2023 21:04:54 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=ChMcju+pTifVyziqoNB0tRDKzIbAvwByZj4c6UGk4Qk=;
+ b=joPsYxsgbl+Hanz95iRRL83pNE/Lhmj8KNy4O4IMkjDmuzslfEDKGUhskJK14vu80gCK
+ elQ5yqNpXZDXVMd7BKrVOlZuzu2U0IIy2HwDiEj2xczO8htRHDym++GaCTbbCxQx/wXl
+ GlMKjp1oKZv1WUv881UDJOH0MD4tHnlin5W7nIEgIglEJ7/yblayynwW9k7M9Y3vI9yw
+ cgpB+r+4IjeYo4wJS1Efux2XiKm+b2PLkFRAwgjD6jqDvKUqDlZO2igPd45uKEDvS+1M
+ vyt/aZfyNVbPzIrWNv91tsZho9Eh2/dRUurJGhOdWb7XhML61To7GCTt6riLxVNOsVHl Qw== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3tkhx2kf4d-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 09 Oct 2023 21:04:53 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 399L4qFR029232
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 9 Oct 2023 21:04:52 GMT
+Received: from [10.110.90.239] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Mon, 9 Oct
+ 2023 14:04:52 -0700
+Message-ID: <836a86ea-4a91-c649-fd3d-a9848eb8ecae@quicinc.com>
+Date: Mon, 9 Oct 2023 14:04:51 -0700
 MIME-Version: 1.0
-References: <20231007060639.725350-1-yangcong5@huaqin.corp-partner.google.com>
- <CACRpkdbek0-Vhk4_34qY+0=EGrQxJS_CfLuF_5fRozMMyc+=Kw@mail.gmail.com>
- <CAD=FV=UFa_AoJQvUT3BTiRs19WCA2xLVeQOU=+nYu_HaE0_c6Q@mail.gmail.com>
-In-Reply-To: <CAD=FV=UFa_AoJQvUT3BTiRs19WCA2xLVeQOU=+nYu_HaE0_c6Q@mail.gmail.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Mon, 9 Oct 2023 23:02:39 +0200
-Message-ID: <CACRpkdYrFhTCa9rJ4savOcqRxcnyqoojCnwaCk6cnJv=aWxo4A@mail.gmail.com>
-Subject: Re: [v1 0/2] Break out as separate driver from boe-tv101wum-nl6 panel
- driver
-To: Doug Anderson <dianders@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [Freedreno] [PATCH v2 02/13] drm/msm/hdmi: switch to
+ devm_drm_bridge_add()
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
+ <marijn.suijten@somainline.org>
+References: <20231009181040.2743847-1-dmitry.baryshkov@linaro.org>
+ <20231009181040.2743847-3-dmitry.baryshkov@linaro.org>
+ <d56daed9-35ac-0ee3-a0b4-f8596b0490fc@quicinc.com>
+ <aafb04ea-fde3-4c1b-aae4-5e7e50a945d6@linaro.org>
+ <8ef34ba0-f30a-45b0-991e-0a7eb573956d@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <8ef34ba0-f30a-45b0-991e-0a7eb573956d@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: awhEC9PUCDlYHrPFusMd7QQ71VObzRdU
+X-Proofpoint-ORIG-GUID: awhEC9PUCDlYHrPFusMd7QQ71VObzRdU
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-10-09_19,2023-10-09_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0
+ impostorscore=0 malwarescore=0 mlxscore=0 lowpriorityscore=0 phishscore=0
+ bulkscore=0 adultscore=0 priorityscore=1501 spamscore=0 mlxlogscore=853
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2309180000 definitions=main-2310090168
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,30 +89,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: neil.armstrong@linaro.org, devicetree@vger.kernel.org,
- Cong Yang <yangcong5@huaqin.corp-partner.google.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- swboyd@chromium.org, hsinyi@google.com, sam@ravnborg.org
+Cc: linux-arm-msm@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 9, 2023 at 10:53=E2=80=AFPM Doug Anderson <dianders@google.com>=
- wrote:
 
-> Also: just as a heads up, Hsin-Yi measured the impact of removing the
-> "command table" for init and replacing it with a whole pile of direct
-> function calls. She found that it added over 100K to the driver (!!!).
-> I believe it went from a 45K driver to a 152K driver. Something to
-> keep in mind. ;-)
 
-Sounds like Aarch64 code. I would love a comparison of the same
-driver compiled to ARMv7t thumb code. Just for the academic
-interest. Because I have heard about people running ARM32
-kernels on Aarch64 hardware for this exact reason: so they can
-have thumb, which is compact.
+On 10/9/2023 1:53 PM, Dmitry Baryshkov wrote:
+> On 09/10/2023 22:21, Dmitry Baryshkov wrote:
+>> On 09/10/2023 22:19, Abhinav Kumar wrote:
+>>>
+>>>
+>>> On 10/9/2023 11:10 AM, Dmitry Baryshkov wrote:
+>>>> Make MSM HDMI driver use devm_drm_bridge_add() instead of plain
+>>>> drm_bridge_add(). As the driver doesn't require any additional cleanup,
+>>>> stop adding created bridge to the priv->bridges array.
+>>>>
+>>>> Reviewed-by: Rob Clark <robdclark@gmail.com>
+>>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>>>> ---
+>>>>   drivers/gpu/drm/msm/hdmi/hdmi.c        | 22 +++++--------------
+>>>>   drivers/gpu/drm/msm/hdmi/hdmi.h        |  5 ++---
+>>>>   drivers/gpu/drm/msm/hdmi/hdmi_bridge.c | 30 
+>>>> ++++++++------------------
+>>>>   drivers/gpu/drm/msm/hdmi/hdmi_hpd.c    |  3 +--
+>>>>   4 files changed, 17 insertions(+), 43 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.c 
+>>>> b/drivers/gpu/drm/msm/hdmi/hdmi.c
+>>>> index b6bcb9f675fe..c8ebd75176bb 100644
+>>>> --- a/drivers/gpu/drm/msm/hdmi/hdmi.c
+>>>> +++ b/drivers/gpu/drm/msm/hdmi/hdmi.c
+>>>> @@ -160,24 +160,16 @@ static int msm_hdmi_init(struct hdmi *hdmi)
+>>>>   int msm_hdmi_modeset_init(struct hdmi *hdmi,
+>>>>           struct drm_device *dev, struct drm_encoder *encoder)
+>>>>   {
+>>>> -    struct msm_drm_private *priv = dev->dev_private;
+>>>>       int ret;
+>>>> -    if (priv->num_bridges == ARRAY_SIZE(priv->bridges)) {
+>>>> -        DRM_DEV_ERROR(dev->dev, "too many bridges\n");
+>>>> -        return -ENOSPC;
+>>>> -    }
+>>>> -
+>>>>       hdmi->dev = dev;
+>>>>       hdmi->encoder = encoder;
+>>>>       hdmi_audio_infoframe_init(&hdmi->audio.infoframe);
+>>>> -    hdmi->bridge = msm_hdmi_bridge_init(hdmi);
+>>>> -    if (IS_ERR(hdmi->bridge)) {
+>>>> -        ret = PTR_ERR(hdmi->bridge);
+>>>> +    ret = msm_hdmi_bridge_init(hdmi);
+>>>> +    if (ret) {
+>>>>           DRM_DEV_ERROR(dev->dev, "failed to create HDMI bridge: 
+>>>> %d\n", ret);
+>>>> -        hdmi->bridge = NULL;
+>>>>           goto fail;
+>>>>       }
+>>>> @@ -215,16 +207,9 @@ int msm_hdmi_modeset_init(struct hdmi *hdmi,
+>>>>           goto fail;
+>>>>       }
+>>>> -    priv->bridges[priv->num_bridges++]       = hdmi->bridge;
+>>>> -
+>>>>       return 0;
+>>>>   fail:
+>>>> -    /* bridge is normally destroyed by drm: */
+>>>> -    if (hdmi->bridge) {
+>>>> -        msm_hdmi_bridge_destroy(hdmi->bridge);
+>>>> -        hdmi->bridge = NULL;
+>>>> -    }
+>>>>       if (hdmi->connector) {
+>>>>           hdmi->connector->funcs->destroy(hdmi->connector);
+>>>>           hdmi->connector = NULL;
+>>>> @@ -395,6 +380,9 @@ static void msm_hdmi_unbind(struct device *dev, 
+>>>> struct device *master,
+>>>>           if (priv->hdmi->audio_pdev)
+>>>>               platform_device_unregister(priv->hdmi->audio_pdev);
+>>>> +        if (priv->hdmi->bridge)
+>>>> +            msm_hdmi_hpd_disable(priv->hdmi);
+>>>> +
+>>>
+>>> Now is this the only place where hdmi->bridge is used?
+>>>
+>>> Why cant we just keep msm_hdmi_hpd_disable(priv->hdmi) here since its 
+>>> anyway protected by if (priv->hdmi) and drop hdmi->bridge completely?
+>>
+>> Sure, sounds like a good idea, same followup as for the DSI.
+> 
+> I was wrong here. hdmi::bridge is used by the driver (e.g. for HPD 
+> reporting).
+> 
 
-OK OK we definitely need command sequence tables in the core,
-what we have now is each driver rolling its own which is looking bad.
-
-Yours,
-Linus Walleij
+hmmm, I thought HPD module uses hdmi_bridge->hdmi. here we are talking 
+about hdmi->bridge?
