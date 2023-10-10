@@ -1,52 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 097D57BF73F
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Oct 2023 11:25:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 355FA7BF75E
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Oct 2023 11:32:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C0E2810E130;
-	Tue, 10 Oct 2023 09:25:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 01E5A10E03F;
+	Tue, 10 Oct 2023 09:32:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D10DA10E130
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Oct 2023 09:25:46 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 313AB10E03F
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Oct 2023 09:32:06 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 1FAF961554;
- Tue, 10 Oct 2023 09:25:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7188BC433C7;
- Tue, 10 Oct 2023 09:25:45 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTP id C171FB81975;
+ Tue, 10 Oct 2023 09:32:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92338C433C7;
+ Tue, 10 Oct 2023 09:32:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1696929945;
- bh=BSeu8Gc8VhoMdfwjmsyAhazs4HI6gfcxwN3wmeX6TWM=;
+ s=k20201202; t=1696930324;
+ bh=RI4PKFKZirN9lXwh+R0Gc+kBsD9aM9F0KDe9jwrQRh8=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=O5BiqczMCJu+bwtkdid0mcdVRaPa83WRi0zbpFhpmuVQ8yQhObCut3hsqvHKv+B7o
- nEYvKl3X9Vps7HVScHZiXhlY4/TmncM3swRmhBa2K20caJBwcHgJIcc8AWd0DMNkF3
- fxTc/vZ3FiUT52k0wb2XXYgLQwyTtKplwY83V4ZCwt/xs0pxW6uuasZUzNDBQ0w5HO
- 8yla4X7Zlg2h8U1nASrbHFjPsXJK4BNhcUD3r7bP65r9LTtfOXcbI3/ukq4FuQk3st
- 85peu7JBttFNxiAs/up6ubR2z8wJbXSRLm05Git5UzD4d5KK3xC4jbKAGpVKYXFSr9
- xecsUhpWKGeMw==
-Date: Tue, 10 Oct 2023 11:25:42 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v4 2/4] drm/panic: Add a drm panic handler
-Message-ID: <63wdz6ns6wsu3avztqebmeo4aa4ltwmmmywlam3xe6fmftcf3p@5icc2cvy6xvh>
-References: <20231003142508.190246-3-jfalempe@redhat.com>
- <lbwngkco3zam7yjo3owwpn47o3pe6g7oh5giglsclenx52jk5q@lw2fwsxz6kqp>
- <3a359910-31ae-355f-2608-239e04689fde@redhat.com>
- <6iaqx7ef4hdd6bucsxtfy37nsizloraxbudez4ms7jlusbghr3@i5hliqpimdp2>
- <bd880231-f161-0773-63f7-ded6cb3fddc1@tronnes.org>
- <b4aadfb4-9393-d6b6-e876-a420afcf2b36@redhat.com>
- <wupxw7bs6yu4gtsbmuvdxhwpd4vkxvvl4aa6w7fumqekzvl7v7@akv2tifgsihl>
- <b764a8a7-db48-fd3b-6241-f3a07009e7dd@redhat.com>
- <xutxpbk476iogtgfbcxbebnud7t3oq6dlbhpniimna2uz2p2nb@hbrrwn4y3x6s>
- <cd54b5ab-5ac8-4569-991c-bf6e062e6400@suse.de>
+ b=r1A0ZUD435XGZf7Tq/wvizauSlKFROKpQiXdfZdJYqDlNkwrEOP6xjPCSRpHjkCl6
+ 6kxmoPQq4Q7/fXCbvpno0v2m+j2NK7cLUmpzDILoJ2yjaTgz4hiEuDv05+/rRr+sSq
+ 0Ju2cilIMUOb6a41l/oR/PC0ERiS+bH4QcWcQNJZQVY6+q2W1FAJtyRS8FE7lXBof7
+ iZB+B4pHzDebMf4vcqV6qPVwaJahlVd46ioUffYdmbfYJfiIepdV+/vFpIZ+a+qoaB
+ alrs/K8E8W4CH4zQXMrbS46C8IRScPVWZw7yVkhXMLMOfBEwx1uRLdRvjXroBRq7hc
+ uPS4MBgmi0U5g==
+Date: Tue, 10 Oct 2023 11:31:56 +0200
+From: Wolfram Sang <wsa@kernel.org>
+To: Lakshmi Yadlapati <lakshmiy@us.ibm.com>
+Subject: Re: [PATCH v1 0/2] [PATCH] hwmon: (pmbus/max31785) Add minimum delay
+ between bus accesses
+Message-ID: <ZSUaDIfWmEn5edrE@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
+ Lakshmi Yadlapati <lakshmiy@us.ibm.com>, linux@roeck-us.net,
+ sumit.semwal@linaro.org, christian.koenig@amd.com,
+ jdelvare@suse.com, joel@jms.id.au, andrew@aj.id.au,
+ eajames@linux.ibm.com, ninad@linux.ibm.com,
+ linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-hwmon@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+References: <20231009211420.3454026-1-lakshmiy@us.ibm.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="ysgobmdhxg3dxq5p"
+ protocol="application/pgp-signature"; boundary="EIXGnQky11Paxv1b"
 Content-Disposition: inline
-In-Reply-To: <cd54b5ab-5ac8-4569-991c-bf6e062e6400@suse.de>
+In-Reply-To: <20231009211420.3454026-1-lakshmiy@us.ibm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,92 +60,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jocelyn Falempe <jfalempe@redhat.com>, bluescreen_avenger@verizon.net,
- javierm@redhat.com, dri-devel@lists.freedesktop.org, gpiccoli@igalia.com,
- Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>, airlied@redhat.com
+Cc: linux-hwmon@vger.kernel.org, jdelvare@suse.com, andrew@aj.id.au,
+ eajames@linux.ibm.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, christian.koenig@amd.com, ninad@linux.ibm.com,
+ joel@jms.id.au, linux-media@vger.kernel.org, sumit.semwal@linaro.org,
+ linux@roeck-us.net, linux-i2c@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---ysgobmdhxg3dxq5p
+--EIXGnQky11Paxv1b
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+
+Hi,
+
+thanks for this series!
+
+> Reference to Andrew's previous proposal:
+> https://lore.kernel.org/all/20200914122811.3295678-1-andrew@aj.id.au/
+
+I do totally agree with Guenter's comment[1], though. This just affects
+a few drivers and this patch is way too intrusive for the I2C core. The
+later suggested prepare_device() callback[2] sounds better to me. I
+still haven't fully understood why this all cannot be handled in the
+driver's probe. Could someone give me a small summary about that?
+
+All the best,
+
+   Wolfram
 
 
+[1] https://lore.kernel.org/all/e7a64983-fe1d-1ba2-b0c3-ae4a791f7a75@roeck-us.net/
+[2] https://lore.kernel.org/all/120342ec-f44a-4550-8c54-45b97db41024@www.fastmail.com/
 
-On Tue, Oct 10, 2023 at 10:55:09AM +0200, Thomas Zimmermann wrote:
-> > > So if I understand correctly, drm_panic would pre-allocate a plane/co=
-mmit,
-> > > and use that when a panic occurs ?
-> >=20
-> > And have it checked already, yes. We would only wait for a panic to
-> > happen to pull the trigger on the commit.
-> >=20
-> > > I have two concern about this approach:
-> > > - How much memory would be allocated for this ? a whole framebuffer c=
-an be
-> > > big for just this use case.
->=20
-> As I outlined in my email at [1], there are a number of different scenari=
-os.
-> The question of atomic state and commits is entirely separate from the DRM
-> panic handler. We should not throw them together. Whatever is necessary is
-> get a scanout buffer, should happen on the driver side of
-> get_scanout_buffer, not on the drm_panic side.
->=20
-> [1] https://lore.kernel.org/dri-devel/39bd4c35-8a61-42ee-8675-ccea4f5d4ac=
-6@suse.de/T/#m22f116e9438e00a5f0a9dc43987d4153424f8be1
->=20
-> >=20
-> > I'dd expect a whole framebuffer for the current
-> > configuration/resolution. It would be typically 4MB for a full-HD system
-> > which isn't a lot really and I guess we can always add an option to
-> > disable the mechanism if needed.
-> >=20
-> > > - I find it risky to completely reconfigure the hardware in a panic h=
-andler.
-> >=20
-> > I would expect to only change the format and base address of the
-> > framebuffer. I guess it can fail, but it doesn't seem that different to
-> > the async plane update we already have and works well.
->=20
-> The one thing I don't understand is: Why should we use atomic commits in =
-the
-> first place? It doesn't make sense for firmware-based drivers.
 
-Because this is generic infrastructure that is valuable for any drivers
-and not only firmware-based drivers?
-
-> In some drivers, even the simple ast, we hold locks during the regular
-> commit. Trying to run the panic commit concurrently will likely give a
-> deadlock.
-
-You're in the middle of a panic. Don't take any locks and you won't deadloc=
-k.
-
-> In the end it's a per-driver decision, but in most cases, the driver can
-> easily switch to a default mode with some ad-hoc code.
-
-When was the last time a per-driver decision has been a good thing? I'm
-sorry, but the get_scanout_buffer approach buffer won't work for any
-driver out there.
-
-I'm fine with discussing alternatives if you don't like the ones I
-suggested, but they must allow the panic handler infrastructure to work
-with any driver we have, not just 4.
-
-Maxime
-
---ysgobmdhxg3dxq5p
+--EIXGnQky11Paxv1b
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZSUYlgAKCRDj7w1vZxhR
-xXudAP955KA0jLjNVAkSri47aIOlsnQ86ZjFCH/ruCETM9iCoAD+M1IFJpCFppKM
-G61/+M5pZ6ht98F81Lpm0otJayxrFgA=
-=Yno5
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmUlGggACgkQFA3kzBSg
+KbajcA//T55K8TsNJtLGqupsxrbujaZlGGmtYUPg71R123SnljP7NL27nCVsszFD
+ADZ7LHBj726el8TDBz9kEO9laIk7MtBjZrAdsaxHziTq9349D382MEwFyEGzVDRE
+cOQWfrdmYP64Q0/OK02wIfr4sZcRo7ruMsOt2/GRRX+SBy6zWSy7p4l1LOyPUbjx
+Xx9RHKSPUQ5rGvSyrl02MYKX9Ny6yI61bQt1SYtv0wHI8NWL26uN9p/K3mT3LYYw
+VjPHz3PNGbmz2FAY5ldzertNJV8TxVt5hBMG6T8nBOZYoVx7wrXSjzsc0UWfghwr
+n8z2dP55p5o8oxXcucnUX/PvEJSfWT/J3jUUa2iWmCtakIb7yapNXFRZmLlvj4bf
+wgXVaoymv0GlTtB1EZKIJlYMLSLfmSQXW1kvscYC2EzFu7SshkpDB6hsvHNtR42J
+5QIl3fuKOoFlO+iSR2qQz5paQ7OkDdUh6+b0zWBAfpQ5a2NV3F9esqneB4bYcgDw
+YAwt66KW2bW9X/I2G4mt45DHJC3OyQ7EgnYcE0gYtFOoAPHUqTt2wHJKIN+KBQ4q
+EPCYz+8EybZ5KfHsM04M0HSlzMysIWmkF7yLKUbucU82hVgU9x/AGRO0oZSRQLof
+bCHZ4nTmXnfKTqwQcqHdwjJJj4mT3dEqie13PzzveC8iuUJqvn0=
+=F3AD
 -----END PGP SIGNATURE-----
 
---ysgobmdhxg3dxq5p--
+--EIXGnQky11Paxv1b--
