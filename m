@@ -1,77 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A53DA7C00A1
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Oct 2023 17:46:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BDF817C00A9
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Oct 2023 17:47:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 14FBC10E399;
-	Tue, 10 Oct 2023 15:46:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DBD5210E3A4;
+	Tue, 10 Oct 2023 15:47:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
- [IPv6:2a00:1450:4864:20::62a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ACB7E10E399
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Oct 2023 15:46:34 +0000 (UTC)
-Received: by mail-ej1-x62a.google.com with SMTP id
- a640c23a62f3a-9b98a699f45so984369666b.3
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Oct 2023 08:46:34 -0700 (PDT)
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
+ [IPv6:2a00:1450:4864:20::62c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0FC7610E3A5
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Oct 2023 15:47:36 +0000 (UTC)
+Received: by mail-ej1-x62c.google.com with SMTP id
+ a640c23a62f3a-9ba081173a3so616772266b.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Oct 2023 08:47:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1696952793; x=1697557593; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ d=gmail.com; s=20230601; t=1696952854; x=1697557654; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ZMkYHrfhXWipN/ee6VJFogJnXBxiy/M8Hxj4mP6AF/w=;
- b=i7TH39Pw4sXrxZsDjcsIZE2RMepDNKnIlGW+XAKmm1M2zAewfArLmIGaHCNi5qM2fo
- grrQwogoKy+v0HA8JQednO+taogimLQR7Bw7OcCho27h53+7LOHCizUQmpx+/+cF1kov
- y+dEXvMZbr/gfFh8IV9irZ0X1n78XFIXQf1C63VXS5IBXkWtAUut15BznrXdBEBaK+81
- /d3zQO0mTztvVQkyGKKOYUhby+bcSsGsK4oynZuQ/FyweX8lrf/MGWPWcZvJRm+pol2X
- 4YIkVVIS8dvfufrg46jBUTyKYn39wAOwQbGWJe9Q2U9OaXc8ilyKWbSfouIe9z91BhRw
- nBJg==
+ bh=KKkGXdScv1Oyh1OtZfwEYCK039UMnBrmGwVDK++uXz0=;
+ b=GAwIsj7NE4sKuFLI5G/0vogIs8ZOQESqIA95y6kdYKZp/ErR6QfoyvfeQeuiI5S8QZ
+ rFhiMa+LzFtd3FDOMx2zMB3wnSkmrp1bfNDnTw0TAVDJusLgmsWI74qJwu7SvCbCYaqZ
+ 7iXATiLMOWEr/Vh5rrJGlXHjC7puhRJLAYD6mXJ3todNKAB0/8Z5kfvyM/LfUyK+cka0
+ LBC/yO96N8iXoo5QHmfJdQ/12wer0d6PoRgKXSR6YsgaCoqLuJBw3iIzFTJ4H2wDZs/b
+ T0uDDl2qMU456L/HIAXGFC5Lj4IweM5NIXsGvMya13/pB9R6zf1T+KWCbIZ64qwzQ21e
+ xgIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1696952793; x=1697557593;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20230601; t=1696952854; x=1697557654;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ZMkYHrfhXWipN/ee6VJFogJnXBxiy/M8Hxj4mP6AF/w=;
- b=bEsJUn2YgQX7MbpVCv/vjpxQMQnpwMvBGF5rxfHwbXukCe4z8gmROCTQIduJMMMoic
- cQplYCKNUcTs7q0sv0PouW6oUTdpNPr+hEVissBriY24IHCluNuCKdJvh964TqZjQBFx
- YCIJl5SsliTt2yzX9/MyGJLEkrEp6p8/tT9cAkQ7c+QXmKyBa86ghHc+D0qu+0JUa5pb
- XG/04BQkIAUqQODHjgfM+o71ZyW++n3Dm+JQ20FAfOzY9d/xyXMETxDlLyFQ8G6VPnlm
- fyCB/9qwV/A2zhMpwrpYRp3WcKNRyA1w2S/0tcmEJGBhuUpaZ8Z5PijtcwvOfDJos9bM
- a9tg==
-X-Gm-Message-State: AOJu0Yz2qisa2m+uGJq8Luu6alMukpoLf69nV8+yt4Xhjp92VoXDe2VD
- 38wKDEzNke10OAm2qi2CzYg=
-X-Google-Smtp-Source: AGHT+IG6zqiukIzWsJKn9OL4P8A2iPIED1bxFNTAhVCUbLFrwSbvu5J1IObjwfklPC/cJl6Vo5ewnQ==
-X-Received: by 2002:a17:906:3050:b0:9ad:df85:97ae with SMTP id
- d16-20020a170906305000b009addf8597aemr15366554ejd.66.1696952792886; 
- Tue, 10 Oct 2023 08:46:32 -0700 (PDT)
-Received: from localhost
- (p200300e41f3f4900f22f74fffe1f3a53.dip0.t-ipconnect.de.
- [2003:e4:1f3f:4900:f22f:74ff:fe1f:3a53])
- by smtp.gmail.com with ESMTPSA id
- k18-20020a1709065fd200b009adc7733f98sm8628023ejv.97.2023.10.10.08.46.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Oct 2023 08:46:30 -0700 (PDT)
-From: Thierry Reding <thierry.reding@gmail.com>
-To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Mikko Perttunen <mperttunen@nvidia.com>,
- Maxim Schwalm <maxim.schwalm@gmail.com>,
- Dmitry Osipenko <digetx@gmail.com>, Svyatoslav Ryhel <clamor95@gmail.com>
-Subject: Re: (subset) [PATCH v3 0/5] Support bridge/connector by Tegra HDMI
-Date: Tue, 10 Oct 2023 17:46:25 +0200
-Message-ID: <169695268806.976123.4285803254322342270.b4-ty@nvidia.com>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20230807143515.7882-1-clamor95@gmail.com>
-References: <20230807143515.7882-1-clamor95@gmail.com>
+ bh=KKkGXdScv1Oyh1OtZfwEYCK039UMnBrmGwVDK++uXz0=;
+ b=NQtXFfbOI56V671DWHmDZNkzxApkZOi4qNUnwEZWWejltGFz4tCuv9t/M/kuaOXktD
+ rrSGYew98r1BxnmRJiiitsVJUPl/n48vJQP9QBdp0Il0N+cH3O9oSxcDV2Kpm++7Qmv1
+ wMpGlTfhHQWGByVZelTK41Imc6JJ4/ZpsQy3rmr/TkW85N3nD0BIyGbpn+TktDQ0rZqX
+ pmrKrSgH7m2RB7RXoqI9yS4vNDFBYT44xkNp9hCiZlIAqWQn1Vp82XZYmzTVZQ8cO9nv
+ 2VCqRTfe3QVWA9RG8i/KYMsDyd9Zk74raF0DIYQuNhoH6xzNkvo5wWS4x8z32IqkIjg/
+ Ev8g==
+X-Gm-Message-State: AOJu0YxAsmazsntMmBEnpieghXd+6fumB0SjHU0h9UkGKYQ1thUb1n//
+ HDENx2eTAmuH/jTQIJW031qjQaZNbZbkabNvdfioaDDGI3Y=
+X-Google-Smtp-Source: AGHT+IF241DT80TkJ5sHFKC3eYt/LTp5cevbFpTG9oEYTutjLKN9gJny0Pdg8/WeLysTFf0Hej1uHeGIrIFE3+Ybifk=
+X-Received: by 2002:a17:907:1dd2:b0:9ae:406c:3425 with SMTP id
+ og18-20020a1709071dd200b009ae406c3425mr17287051ejc.0.1696952854189; Tue, 10
+ Oct 2023 08:47:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+References: <20230921192749.1542462-1-dianders@chromium.org>
+ <CGME20230921194907eucas1p1027c5dfc5c5f77bca3c43673427c89cc@eucas1p1.samsung.com>
+ <20230921122641.RFT.v2.9.Iea33274908b6b258955f45a8aaf6f5bba24ad6cd@changeid>
+ <fb9cd62b-6637-7bcc-e23d-37f3806f8460@samsung.com>
+ <CAAQKjZNn4RTJ-SHHEugcQoS2U9fzNTOGtUpSLLM0w1V6Pb0amw@mail.gmail.com>
+ <CAD=FV=V2JSHsrTfdxP4=-nU4GGZB999iAb+NU3en-4o3-rLmYQ@mail.gmail.com>
+In-Reply-To: <CAD=FV=V2JSHsrTfdxP4=-nU4GGZB999iAb+NU3en-4o3-rLmYQ@mail.gmail.com>
+From: Inki Dae <daeinki@gmail.com>
+Date: Wed, 11 Oct 2023 00:46:58 +0900
+Message-ID: <CAAQKjZNGnuJSErmn-48suoTUCM62pTXGrNux7XtCptHHXAgswA@mail.gmail.com>
+Subject: Re: [RFT PATCH v2 09/12] drm/exynos: Call drm_atomic_helper_shutdown()
+ at shutdown/unbind time
+To: Doug Anderson <dianders@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,31 +74,142 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: linux-samsung-soc@vger.kernel.org, sw0312.kim@samsung.com,
+ linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+ krzysztof.kozlowski@linaro.org, dri-devel@lists.freedesktop.org,
+ alim.akhtar@samsung.com, kyungmin.park@samsung.com,
+ linux-arm-kernel@lists.infradead.org,
+ Marek Szyprowski <m.szyprowski@samsung.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Thierry Reding <treding@nvidia.com>
+Hi,
 
+2023=EB=85=84 10=EC=9B=94 6=EC=9D=BC (=EA=B8=88) =EC=98=A4=ED=9B=84 10:51, =
+Doug Anderson <dianders@chromium.org>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
+>
+> Hi,
+>
+> On Thu, Oct 5, 2023 at 7:20=E2=80=AFPM Inki Dae <daeinki@gmail.com> wrote=
+:
+> >
+> > Thanks for testing. :)
+> >
+> > Acked-by : Inki Dae <inki.dae@samsung.com>
+>
+> Inki: does that mean you'd like this to go through drm-misc? I'm happy
+> to do that, but there are no dependencies here so this could easily go
+> through your tree.
 
-On Mon, 07 Aug 2023 17:35:10 +0300, Svyatoslav Ryhel wrote:
-> This patch adds support for the bridge/connector attached to the
-> HDMI output, allowing to model the hardware properly. It keeps
-> backwards compatibility with existing bindings and is required
-> by devices which have a simple or MHL bridge connected to HDMI
-> output like ASUS P1801-T or LG P880/P895 or HTC One X.
-> 
-> Tested on ASUS Transformers which have no dedicated bridge but
-> have type d HDMI connector directly available. Tests went smoothly.
-> 
-> [...]
+Ah, you are right. No dependency here. I will pick it up.
 
-Applied, thanks!
+Thanks,
+Inki Dae
 
-[1/5] ARM: dts: tegra: Drop unit-address from parallel RGB output port
-      (no commit info)
-
-Best regards,
--- 
-Thierry Reding <treding@nvidia.com>
+>
+>
+> > 2023=EB=85=84 9=EC=9B=94 22=EC=9D=BC (=EA=B8=88) =EC=98=A4=ED=9B=84 3:0=
+0, Marek Szyprowski <m.szyprowski@samsung.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=
+=EC=84=B1:
+> > >
+> > >
+> > > On 21.09.2023 21:26, Douglas Anderson wrote:
+> > > > Based on grepping through the source code this driver appears to be
+> > > > missing a call to drm_atomic_helper_shutdown() at system shutdown t=
+ime
+> > > > and at driver unbind time. Among other things, this means that if a
+> > > > panel is in use that it won't be cleanly powered off at system
+> > > > shutdown time.
+> > > >
+> > > > The fact that we should call drm_atomic_helper_shutdown() in the ca=
+se
+> > > > of OS shutdown/restart and at driver remove (or unbind) time comes
+> > > > straight out of the kernel doc "driver instance overview" in
+> > > > drm_drv.c.
+> > > >
+> > > > A few notes about this fix:
+> > > > - When adding drm_atomic_helper_shutdown() to the unbind path, I ad=
+ded
+> > > >    it after drm_kms_helper_poll_fini() since that's when other driv=
+ers
+> > > >    seemed to have it.
+> > > > - Technically with a previous patch, ("drm/atomic-helper:
+> > > >    drm_atomic_helper_shutdown(NULL) should be a noop"), we don't
+> > > >    actually need to check to see if our "drm" pointer is NULL befor=
+e
+> > > >    calling drm_atomic_helper_shutdown(). We'll leave the "if" test =
+in,
+> > > >    though, so that this patch can land without any dependencies. It
+> > > >    could potentially be removed later.
+> > > > - This patch also makes sure to set the drvdata to NULL in the case=
+ of
+> > > >    bind errors to make sure that shutdown can't access freed data.
+> > > >
+> > > > Suggested-by: Maxime Ripard <mripard@kernel.org>
+> > > > Reviewed-by: Maxime Ripard <mripard@kernel.org>
+> > > > Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> > >
+> > > Seems to be working fine on all my test Exynos-based boards with disp=
+lay.
+> > >
+> > > Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
+> > >
+> > > Reviewed-by: Marek Szyprowski <m.szyprowski@samsung.com>
+> > >
+> > > > ---
+> > > > This commit is only compile-time tested.
+> > > >
+> > > > (no changes since v1)
+> > > >
+> > > >   drivers/gpu/drm/exynos/exynos_drm_drv.c | 11 +++++++++++
+> > > >   1 file changed, 11 insertions(+)
+> > > >
+> > > > diff --git a/drivers/gpu/drm/exynos/exynos_drm_drv.c b/drivers/gpu/=
+drm/exynos/exynos_drm_drv.c
+> > > > index 8399256cb5c9..5380fb6c55ae 100644
+> > > > --- a/drivers/gpu/drm/exynos/exynos_drm_drv.c
+> > > > +++ b/drivers/gpu/drm/exynos/exynos_drm_drv.c
+> > > > @@ -300,6 +300,7 @@ static int exynos_drm_bind(struct device *dev)
+> > > >       drm_mode_config_cleanup(drm);
+> > > >       exynos_drm_cleanup_dma(drm);
+> > > >       kfree(private);
+> > > > +     dev_set_drvdata(dev, NULL);
+> > > >   err_free_drm:
+> > > >       drm_dev_put(drm);
+> > > >
+> > > > @@ -313,6 +314,7 @@ static void exynos_drm_unbind(struct device *de=
+v)
+> > > >       drm_dev_unregister(drm);
+> > > >
+> > > >       drm_kms_helper_poll_fini(drm);
+> > > > +     drm_atomic_helper_shutdown(drm);
+> > > >
+> > > >       component_unbind_all(drm->dev, drm);
+> > > >       drm_mode_config_cleanup(drm);
+> > > > @@ -350,9 +352,18 @@ static int exynos_drm_platform_remove(struct p=
+latform_device *pdev)
+> > > >       return 0;
+> > > >   }
+> > > >
+> > > > +static void exynos_drm_platform_shutdown(struct platform_device *p=
+dev)
+> > > > +{
+> > > > +     struct drm_device *drm =3D platform_get_drvdata(pdev);
+> > > > +
+> > > > +     if (drm)
+> > > > +             drm_atomic_helper_shutdown(drm);
+> > > > +}
+> > > > +
+> > > >   static struct platform_driver exynos_drm_platform_driver =3D {
+> > > >       .probe  =3D exynos_drm_platform_probe,
+> > > >       .remove =3D exynos_drm_platform_remove,
+> > > > +     .shutdown =3D exynos_drm_platform_shutdown,
+> > > >       .driver =3D {
+> > > >               .name   =3D "exynos-drm",
+> > > >               .pm     =3D &exynos_drm_pm_ops,
+> > >
+> > > Best regards
+> > > --
+> > > Marek Szyprowski, PhD
+> > > Samsung R&D Institute Poland
+> > >
