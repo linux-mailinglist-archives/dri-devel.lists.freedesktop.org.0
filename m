@@ -2,52 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76A677BF5E5
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Oct 2023 10:30:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FE3A7BF625
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Oct 2023 10:38:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C97D10E0FC;
-	Tue, 10 Oct 2023 08:30:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 089E410E159;
+	Tue, 10 Oct 2023 08:37:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D17C710E32D
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Oct 2023 08:30:49 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 58D0DB81894;
- Tue, 10 Oct 2023 08:30:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5BC25C433C7;
- Tue, 10 Oct 2023 08:30:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1696926647;
- bh=lQjd/Agoy1I28kNDea3kLyRBrAWsa2Q1g8LjHoux2xw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=NGhMu51yhMGgk0siqlfXOi6xKSi0v+a47A+QwpiA0XpVgenumZm45GP6nzk24736J
- jACvOEoqimUygxA1k29ChVE6NXDwy6elOPNitQ/PqioXIp15IXbSB5XdbpwieY8MuF
- jN9zeNnOtceEkxPf6zSNK1FWq+dHvKnW8cyQs1G30U8aB+VIJTCk949KxFPAW+lXKk
- p9qtvmX3sjjRQ3EqcM7tX0uv7iuIsUEpES4sVn+3GOeGwS6CUQ9SbTZ1JTsHy+ShBL
- erknvoF2BBS99CgNFSwezIULgQgpaRJ3qFkdv1GnncMQLUmIggSV4MxHXlcOrLW6V6
- R7WzvHLgl95QA==
-Date: Tue, 10 Oct 2023 10:30:44 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Jocelyn Falempe <jfalempe@redhat.com>
-Subject: Re: [PATCH v4 2/4] drm/panic: Add a drm panic handler
-Message-ID: <c3i5osk4hyzwr36j4khh3vegi7nsdizyb7juxizc4y5kp75fo2@isnl4jzs7rg3>
-References: <3a359910-31ae-355f-2608-239e04689fde@redhat.com>
- <6iaqx7ef4hdd6bucsxtfy37nsizloraxbudez4ms7jlusbghr3@i5hliqpimdp2>
- <bd880231-f161-0773-63f7-ded6cb3fddc1@tronnes.org>
- <b4aadfb4-9393-d6b6-e876-a420afcf2b36@redhat.com>
- <wupxw7bs6yu4gtsbmuvdxhwpd4vkxvvl4aa6w7fumqekzvl7v7@akv2tifgsihl>
- <b764a8a7-db48-fd3b-6241-f3a07009e7dd@redhat.com>
- <xutxpbk476iogtgfbcxbebnud7t3oq6dlbhpniimna2uz2p2nb@hbrrwn4y3x6s>
- <f9473f01-f78b-2ea0-0de4-116076ef7b5a@redhat.com>
- <pdzyzvq4bvaec5ohwoh3p2gdzul4vvqk5a3q2lkbmsx4lm4sem@uckgzhlhks53>
- <2b541955-11ba-d881-d2b2-c54cbae9d241@redhat.com>
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
+ [IPv6:2a00:1450:4864:20::42b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4CB6C10E159
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Oct 2023 08:37:54 +0000 (UTC)
+Received: by mail-wr1-x42b.google.com with SMTP id
+ ffacd0b85a97d-325e9cd483eso5135325f8f.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Oct 2023 01:37:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1696927072; x=1697531872; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=CLeTodDQewItkg/3d7H1CuYJRje+YY0rVU81amFMi/s=;
+ b=AmfoQFG5pcenJB7HREU9HWLd5KFM2lPtrEtmNipmsYBGswF7UoCR2U+xp6/idR5rTH
+ Z3l1aeOWgpBxmkwtv7UwRr0KI+VFaFjo4x6qcNALBDAoLGdZnfr6br9ODK0zDdt5NGyC
+ RsIGHEIq9gKid6QZ9SfuWmFATqMgdClXfP5uLmQfO9nlCtJQ2hkY1TDdbFLtdzQvMc7k
+ 4JVQA8lGjp2N/srn9D/Q1HVvDpx0gYnXQn1HRFjEjzZgSxsXqQBW6B9ln6UmVcoRiWc9
+ FX7RludjVGP6aWffx6qAvp7BgvQLIz/NbCln+Y9MmGv+IYzGmmfW1sX4jEkbso/LIIqj
+ AwXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1696927072; x=1697531872;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=CLeTodDQewItkg/3d7H1CuYJRje+YY0rVU81amFMi/s=;
+ b=CQQNvx7gbikZLGar7tnsasgMAvXbxN144Dernr0eS8Z2+D8YwMInu3bDvza4uQTe9f
+ 7heT2+Po3yv0HOfc9QbOziwA37l5THj9UiMzuaR1hzk/ehaZfRVgahSQVooREznPkT/I
+ /wk1GGckhcFYk2/1sy4eUqZ/iHxSEGRtC3UdFODPvpmDDmg2XLp+CEP/thBfST+r5W56
+ 7pjuZrar+BGDZfBXp7ef4KAcf8fEPgUu9DKti6POziRpWNFAJBbklUmIlAYqsliIO0KM
+ B5o8o5NO+W+0NYZfUPDalrcd52HhQ+IaDACbyrx1SlFckie/OZ3gSljW3+S4tWdY9zBh
+ EYSA==
+X-Gm-Message-State: AOJu0Yx4vpAWn+jOxzU1VVJ103tdR8JuNlNkf5DGd6tC3Tnvy+c3QIWN
+ GMN8QTGXh5EouTN/VaiNHdqqdg==
+X-Google-Smtp-Source: AGHT+IFOwKpu6jatNoo0Jz/ERH/tyMjrEWInTl16AWeunSBiQXAFTRMYQCdIRBIOjD2ktfFVdn73Vg==
+X-Received: by 2002:adf:e3d2:0:b0:32d:65ab:2228 with SMTP id
+ k18-20020adfe3d2000000b0032d65ab2228mr316418wrm.11.1696927072565; 
+ Tue, 10 Oct 2023 01:37:52 -0700 (PDT)
+Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
+ by smtp.gmail.com with ESMTPSA id
+ s4-20020a5d6a84000000b00327bf4f2f14sm11983147wru.88.2023.10.10.01.37.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 10 Oct 2023 01:37:52 -0700 (PDT)
+From: Neil Armstrong <neil.armstrong@linaro.org>
+To: linus.walleij@linaro.org, sam@ravnborg.org, airlied@gmail.com, 
+ daniel@ffwll.ch, Ma Ke <make_ruc2021@163.com>
+In-Reply-To: <20231007033105.3997998-1-make_ruc2021@163.com>
+References: <20231007033105.3997998-1-make_ruc2021@163.com>
+Subject: Re: [PATCH] drm/panel: fix a possible null pointer dereference
+Message-Id: <169692707182.2632460.7509507129195879705.b4-ty@linaro.org>
+Date: Tue, 10 Oct 2023 10:37:51 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="xxyyacvi4hjtv73m"
-Content-Disposition: inline
-In-Reply-To: <2b541955-11ba-d881-d2b2-c54cbae9d241@redhat.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.12.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,136 +75,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: bluescreen_avenger@verizon.net, javierm@redhat.com,
- dri-devel@lists.freedesktop.org, gpiccoli@igalia.com,
- Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>, tzimmermann@suse.de,
- airlied@redhat.com
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
---xxyyacvi4hjtv73m
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Sat, 07 Oct 2023 11:31:05 +0800, Ma Ke wrote:
+> In versatile_panel_get_modes(), the return value of drm_mode_duplicate()
+> is assigned to mode, which will lead to a NULL pointer dereference
+> on failure of drm_mode_duplicate(). Add a check to avoid npd.
+> 
+> 
 
-On Tue, Oct 10, 2023 at 09:55:46AM +0200, Jocelyn Falempe wrote:
-> On 09/10/2023 18:07, Maxime Ripard wrote:
-> > On Mon, Oct 09, 2023 at 04:05:19PM +0200, Jocelyn Falempe wrote:
-> > > > > - I find it risky to completely reconfigure the hardware in a pan=
-ic handler.
-> > > >=20
-> > > > I would expect to only change the format and base address of the
-> > > > framebuffer. I guess it can fail, but it doesn't seem that differen=
-t to
-> > > > the async plane update we already have and works well.
-> > > >=20
-> > > In this case it can work, but by using generic drm api, it's hard to =
-know
-> > > what the driver will do.
-> >=20
-> > We should document extensively what we expect drivers to do in those
-> > hooks, and possibly call cant_sleep() in the framework function to have
-> > some reporting at least.
-> >=20
-> > > > > Also how many drivers would need this ?
-> > > > >=20
-> > > > > Currently I was mostly considering x86 platform, so:
-> > > > >=20
-> > > > > simpledrm/ast/mgag200 which works well with the get_scanout_buffe=
-r().
-> > > > >=20
-> > > > > i915/amdgpu/nouveau, which are quite complex, and will need to do=
- their own
-> > > > > thing anyway.
-> > > >=20
-> > > > I guess we're not entirely aligned there then. I would expect that
-> > > > mechanism to work with any atomic KMS driver. You are right that i9=
-15,
-> > > > amdgpu and nouveau are special enough that some extra internal plum=
-bing
-> > > > is going to be required, but I'd expect it to be easy to support wi=
-th
-> > > > any other driver for a memory-mapped device.
-> > > >=20
-> > > > I guess what I'm trying to say is, even though it's totally fine th=
-at
-> > > > you only support those drivers at first, supporting in vc4 for exam=
-ple
-> > > > shouldn't require to rewrite the whole thing.
-> > >=20
-> > > Would that work for you to put that in a drm_panic_helper.c,
-> > > so that drivers can opt-in ?
-> > >=20
-> > > So the driver can call a drm_panic_helper_prepare_commit() at
-> > > initialization, and then in the get_scanout_buffer() function
-> >=20
-> > If we have a full blown commit with a new framebuffer, why do we need
-> > get_scanout_buffer? It should be either the framebuffer itself, or in
-> > the plane state if you have a conversion.
-> >=20
-> > > run the atomic_update() on it, and return this commit's framebuffer ?
-> > >=20
-> > > That way each driver have a better control on what the panic handler =
-will
-> > > do.
-> > > It can even call directly its internal functions, to avoid the locks =
-of the
-> > > drm generic functions, and make sure it will only change the format a=
-nd base
-> > > address.
-> > > That's a bit more work for each driver, but should be more reliable I=
- think.
-> >=20
-> > I don't think that better control there is a good idea, it's a path that
-> > won't get tested much so we'd be better off not allowing drivers to
-> > deviate too much from the "ideal" design.
-> >=20
-> > What I had in mind is something like:
-> >=20
-> >    - Add a panic hook in drm_mode_config_funcs, with a
-> >      drm_atomic_helper_panic helper;
-> >=20
-> >    - Provide an atomic_panic hook or something in drm_plane_helper_func=
-s;
-> >=20
-> >    - If they are set, we register the drm_panic handler;
-> >=20
-> >    - The handler will call drm_mode_config_funcs.panic, which will take
-> >      its prepared state, fill the framebuffer it allocated with the
-> >      penguin and backtrace, call drm_plane_helper_funcs.atomic_panic().
-> >=20
-> >    - The driver now updates the format and fb address.
-> >=20
-> >    - Halt and catch fire
-> >=20
-> > Does that make sense?
->=20
-> Yes, I will do some experiment with that, and see if I can make it
-> work this way.
+Thanks, Applied to https://anongit.freedesktop.org/git/drm/drm-misc.git (drm-misc-next)
 
-Thanks :)
+[1/1] drm/panel: fix a possible null pointer dereference
+      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=924e5814d1f84e6fa5cb19c6eceb69f066225229
 
-> If possible I still want to have a way for simple drivers like
-> simpledrm/mgag200 to not allocate a full framebuffer.
+-- 
+Neil
 
-I guess the split isn't going to be whether the driver is simple or not,
-but whether it always has access to the buffer used by the scanout.
-
-Like for simpledrm, we have that guarantee so it makes sense. For other,
-if we allow "direct" dma-buf, it's game over and we just can't.
-
-Maxime
-
---xxyyacvi4hjtv73m
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZSULtAAKCRDj7w1vZxhR
-xax3AQCrjA+UPsZK4AUGXxYRclMLXyJ9DD1qdfkwU07JuFd3VgD/djuV8Vbb6Qfe
-U+mjJE2LIR9Hg082Cmofki95SPUUfgM=
-=AgG1
------END PGP SIGNATURE-----
-
---xxyyacvi4hjtv73m--
