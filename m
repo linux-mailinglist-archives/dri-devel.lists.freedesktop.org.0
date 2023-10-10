@@ -1,46 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B3DE7BF79D
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Oct 2023 11:40:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB1D77BF7C5
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Oct 2023 11:46:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC95B10E162;
-	Tue, 10 Oct 2023 09:40:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE7C610E1C7;
+	Tue, 10 Oct 2023 09:46:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E78D10E162
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Oct 2023 09:40:29 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 07EBBCE1CE6;
- Tue, 10 Oct 2023 09:40:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF57BC433C8;
- Tue, 10 Oct 2023 09:40:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1696930826;
- bh=M9NQ/9ONnkLygtXrRPJyQLEJiZXZIH8yXqGEWj8Ynbk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=nHXweph2WmpGmsRDFRlbeznDnNI3YeIfPyqv7Q56S0JctrtvtpB/dti26q5SiV9uM
- Pcbn7Doi6zP/xaIrWPpjWvqoIOvvjXV4ymliUxHK63a2ftr5YeX5feFGcHCGPhKuJD
- LGkSkQ6szGhhRHMIV91jFZT+irqWv/Or+Iy/93W6Zg1/iOZfaWoaJzJzojvh3eVZdN
- dJ3aDwoUEc7RjMououblRwZS/N3yLDyYK5P/l03hl+ksNSiIKfI25QQx4bjOshYQ9t
- 3Lg72Fi7ACg5hcvmGfMmGgsPavSHaf4psBy817C5Pgn0du2Oz+gBD/v+ew9wDVbqbB
- 28LabWL7qC/OQ==
-Date: Tue, 10 Oct 2023 11:40:23 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Javier Martinez Canillas <javierm@redhat.com>
-Subject: Re: [PATCH v5 2/7] drm/atomic-helper: Add format-conversion state to
- shadow-plane state
-Message-ID: <qlp6jhzcgqhhyhdzbmijb4cujadru44dw53avvj46pbdhiqphy@lnvvbcbdejav>
-References: <20231009141018.11291-1-tzimmermann@suse.de>
- <20231009141018.11291-3-tzimmermann@suse.de>
- <87bkd7vpsq.fsf@minerva.mail-host-address-is-not-set>
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA21A10E1BE;
+ Tue, 10 Oct 2023 09:46:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1696931205; x=1728467205;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=rl6knOE9ydiSjJi6QeEGucWZc0t/cpv+Ijwqxq2/V+s=;
+ b=AAE/X3aYMdwCAwZdXl5wGcn4MRuSTJn5sl6p/tPQ+b+nHZICYESEQjOK
+ JO8yvWdJtoH+C6t1cOupvpyOxYcnTgHvCdqSPVtnURtlAdve3mEdRN5yq
+ fzekH1B33a7nWaR1p1gaWC9OTdS4jFHmznzv0i4HSwAXOMMiSD+SVXOMN
+ EZnl9fvrQSgvM7TR+bpjKM3OMX4/92S7eZvDXHcBk9EFb8PM5Aa/CZDwj
+ hiKEiZD4WN4RkQvTJN/qRDkgKxzo+OeRc27UTcahAZQuG3KQVmD2rqWmK
+ iahMk7LuUjLglp+nSD1um0LBYbbj2P5YYX0NrR9SDSYrule9bc8LE15mz g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="387190769"
+X-IronPort-AV: E=Sophos;i="6.03,212,1694761200"; d="scan'208";a="387190769"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Oct 2023 02:46:45 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="782810302"
+X-IronPort-AV: E=Sophos;i="6.03,212,1694761200"; d="scan'208";a="782810302"
+Received: from emikisch-mobl.amr.corp.intel.com (HELO [10.213.174.67])
+ ([10.213.174.67])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Oct 2023 02:46:43 -0700
+Message-ID: <741893db-a299-c944-a8ac-e5eac3651eb3@linux.intel.com>
+Date: Tue, 10 Oct 2023 10:46:41 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="sg2tn4wvi4qi6kod"
-Content-Disposition: inline
-In-Reply-To: <87bkd7vpsq.fsf@minerva.mail-host-address-is-not-set>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [Intel-gfx] [PATCH] drm/i915/mtl: Remove the 'force_probe'
+ requirement for Meteor Lake
+Content-Language: en-US
+To: Andi Shyti <andi.shyti@linux.intel.com>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+References: <20231008164824.919262-1-andi.shyti@linux.intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <20231008164824.919262-1-andi.shyti@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,47 +65,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jfalempe@redhat.com, dri-devel@lists.freedesktop.org, mairacanal@riseup.net,
- noralf@tronnes.org, Thomas Zimmermann <tzimmermann@suse.de>,
- jose.exposito89@gmail.com, arthurgrillo@riseup.net
+Cc: Aditya Chauhan <aditya.chauhan@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+ Jonathan Cavitt <jonathan.cavitt@intel.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Chris Wilson <chris.p.wilson@linux.intel.com>,
+ Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---sg2tn4wvi4qi6kod
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 08/10/2023 17:48, Andi Shyti wrote:
+> From: Radhakrishna Sripada <radhakrishna.sripada@intel.com>
+> 
+> Meteor Lake has demonstrated consistent stability for some time.
+> All user-space API modifications tide to its core platform
+> functions are operational.
+> 
+> The necessary firmware components are set up and comprehensive
+> testing has been condused over a period.
+> 
+> Given the recent faborable CI results, as well, we believe it's
+> time to eliminate the 'force_probe' prerequisite and activate the
+> platform by default.
+> 
+> Signed-off-by: Aditya Chauhan <aditya.chauhan@intel.com>
+> Signed-off-by: Andrzej Hajda <andrzej.hajda@intel.com>
+> Signed-off-by: Chris Wilson <chris.p.wilson@linux.intel.com>
+> Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+> Signed-off-by: Jonathan Cavitt <jonathan.cavitt@intel.com>
+> Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
+> Signed-off-by: Radhakrishna Sripada <radhakrishna.sripada@intel.com>
+> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
+> Cc: Jani Nikula <jani.nikula@linux.intel.com>
+> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> ---
+> Hello,
+> 
+> This patch eliminates the 'force probe' for the MTL platforms. Over the recent
+> weeks, MTL has demonstrated stability, consistently passing BAT tests with
+> success rates ranging from 98% to 100%.
+> 
+> There's a single issue hindering us from achieving a 100% BAT test coverage.
+> Fortunately, we've identified the issue, and the proposed solution can be found
+> here[*]. The CI results are encouraging.
+> 
+> Once all reviews are addressed, we plan to submit this series with the "Fixes:"
+> tag.
+> 
+> Thank you and best regards,
+> Andi and Radhakrishna
+> 
+> [*] https://patchwork.freedesktop.org/series/124744/
 
-On Mon, Oct 09, 2023 at 04:22:29PM +0200, Javier Martinez Canillas wrote:
-> Thomas Zimmermann <tzimmermann@suse.de> writes:
-> > Store an instance of struct drm_format_conv_state in the shadow-plane
-> > state struct drm_shadow_plane_state. Many drivers with shadow planes
-> > use DRM's format helpers to copy or convert the framebuffer data to
-> > backing storage in the scanout buffer. The shadow plane provides the
-> > necessary state and manages the conversion's intermediate buffer memory.
-> >
->=20
-> I would argue this is one of the primary selling points for this series
-> (since Maxime was asking about the motivation). As you point out, many
-> drivers that use a shadow-buffer can also expose a different format than
-> the native one to user-space, so makes sense to have the buffer used for
-> conversion as a part of the shadow-plane state.
+Have there been any more recent developments, given 
+https://patchwork.freedesktop.org/series/124866/, or proposal is still 
+to remove force probe?
 
-I'm confused, can we convert between formats or not? Or is it about
-XRGB8888 vs whatever native format is used by the device?
+Regards,
 
-Maxime
+Tvrtko
 
---sg2tn4wvi4qi6kod
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZSUcBwAKCRDj7w1vZxhR
-xa4RAQCI96hztBsOWmNeJ14S8PLBzHbAqUpZBH8nrTlJ5yPIigD/cMV3ZbiozH6q
-b9vVn84WlNLMluJeVr+00yQ33KogcQg=
-=GpUw
------END PGP SIGNATURE-----
-
---sg2tn4wvi4qi6kod--
+> 
+>   drivers/gpu/drm/i915/i915_pci.c | 1 -
+>   1 file changed, 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/i915_pci.c b/drivers/gpu/drm/i915/i915_pci.c
+> index df7c261410f7..fe748906c06f 100644
+> --- a/drivers/gpu/drm/i915/i915_pci.c
+> +++ b/drivers/gpu/drm/i915/i915_pci.c
+> @@ -836,7 +836,6 @@ static const struct intel_device_info mtl_info = {
+>   	.has_pxp = 1,
+>   	.memory_regions = REGION_SMEM | REGION_STOLEN_LMEM,
+>   	.platform_engine_mask = BIT(RCS0) | BIT(BCS0) | BIT(CCS0),
+> -	.require_force_probe = 1,
+>   	MTL_CACHELEVEL,
+>   };
+>   
