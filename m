@@ -1,46 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C244A7BF7F2
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Oct 2023 11:55:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 069007BF7F7
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Oct 2023 11:55:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3023210E156;
-	Tue, 10 Oct 2023 09:55:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E30E910E1BE;
+	Tue, 10 Oct 2023 09:55:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AEE8E10E156
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Oct 2023 09:55:04 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4267010E1BE
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Oct 2023 09:55:27 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 5F60BB81B6B;
- Tue, 10 Oct 2023 09:55:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 690F0C433C7;
- Tue, 10 Oct 2023 09:55:02 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id A60516159B;
+ Tue, 10 Oct 2023 09:55:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43F12C433C7;
+ Tue, 10 Oct 2023 09:55:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1696931702;
- bh=oDr3O6+l+YWjoydO5TRcIVJ64551cZEGsiw9mrbca0g=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=qjYRlGltx9K1W4DJRVwgKS191fs1FPqWe8kfxWdHpoAy7JVw7i1g3Wc6z6lAWBC0Z
- WfXKV4m4Ek6HmEDps4v8zLGKFpye7wTllPxZ07UzPSgBfXoygsKQ6iRCsZFPATUsWS
- wAl3I6U9fWSykutBwzoLJ9VeiuqH1EihINGMEDsO0dF281bhdOC5DRb7QDPFhUBIg+
- 2x3XaJaw/3sCnnjHb5er2v1mewPuybzE+wNjR0fF6FBXyOchEaYhpP++tdQw4kDNNm
- 5wbfolD1b8KO+bHQgf2IboR1WCP75XQ+h5e/wwAkoOXCFYaP2aiueKwqQ6Z5G17Jc5
- H3QKbPcTnGB6w==
-Date: Tue, 10 Oct 2023 11:55:00 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v4 0/7] drm: Reuse temporary memory for format conversion
-Message-ID: <ry2xlooaw3ipv3jewqpyx3wmk7t57jvajhaf3ut74hchxbw7i7@zdp5jwcenxha>
-References: <20231005090520.16511-1-tzimmermann@suse.de>
- <ozoizmezbyhwtnsyxahdoibpkwm2gvxnclw5gyt5j257demgpd@3efr2ioqhgg2>
- <e90dceff-5f8a-4d2c-b1a9-8afec856ba20@suse.de>
+ s=k20201202; t=1696931726;
+ bh=jBV5y4uEArflcPi3KjsalgYFx5L6UgWk4fNoDhi6KZY=;
+ h=Date:From:To:Cc:Subject:From;
+ b=HrcHwyYgw3OwH69eSi6foBg9n0dCjc34ecb3bye4wI2AOmyxU/CwnYyQZVuUvxUfd
+ ny3nTFm65ETaNoUeIi7ORimSJjA9hG1inUvRDQm14vx/n0YNDK4w+C67WO4oAYnrRw
+ 6pmuRAzclDiJIT/XRGZybvXrWGulNI+KWneZsWXXQDa9hU6JjI50IU4A8dDePVECjO
+ XB6xJ7xEOy5E18KXwkR4LCf8F6lMrAY+kbM/OXvqvojGAeyf468L14lPNxgnYwTSEH
+ sfve2pFg5I2j8pwMiKjXZZ27q7j0LDlkF073KsIZgoq/hC7Sz7HiByID0OtdlS6BE9
+ koxNKFHEXNTJA==
+Date: Tue, 10 Oct 2023 12:55:21 +0300
+From: Oded Gabbay <ogabbay@kernel.org>
+To: airlied@gmail.com, daniel.vetter@ffwll.ch
+Subject: [git pull] habanalabs for drm-next-6.7
+Message-ID: <ZSUfiX4J7v4Wn0cU@ogabbay-vm-u22.habana-labs.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="ra4nld76ztgghlo2"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <e90dceff-5f8a-4d2c-b1a9-8afec856ba20@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,134 +48,242 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jfalempe@redhat.com, javierm@redhat.com, dri-devel@lists.freedesktop.org,
- mairacanal@riseup.net, noralf@tronnes.org, jose.exposito89@gmail.com,
- arthurgrillo@riseup.net
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Dave, Daniel.
 
---ra4nld76ztgghlo2
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Habanalabs pull request for 6.7.
 
-On Mon, Oct 09, 2023 at 10:23:02AM +0200, Thomas Zimmermann wrote:
-> Hi Maxime
->=20
-> Am 06.10.23 um 16:49 schrieb Maxime Ripard:
-> > Hi,
-> >=20
-> > On Thu, Oct 05, 2023 at 11:04:20AM +0200, Thomas Zimmermann wrote:
-> > > DRM's format-conversion helpers require temporary memory. Pass the
-> > > buffer from the caller and keep it allocated over several calls. Allow
-> > > the caller to preallocate the buffer memory.
-> >=20
-> > I'm sorry... but why? Why do you need to keep it allocated over several
-> > calls and preallocate the buffer? It's not clear to me at all.
-> >
-> > > The motivation for this patchset is the recent work on a DRM panic
-> > > handler. [1] The panic handler requires format conversion to display =
-an
-> > > error to the screen. But allocating memory during kernel panics is
-> > > fragile.
-> >=20
-> > We agree that we shouldn't allocate memory during the panic. I still
-> > have concerns about how the panic handler will handle the driver
-> > currently set up for a plane that isn't using an RGB format, or a buffer
-> > not accessible by the kernel or CPU.
-> >=20
-> > You can't expect to get away with just a copy to the current active
-> > buffer.
->=20
-> In our current design, the panic handler calls get_scanout_buffer from
-> struct drm_driver to retrieve a scanout buffer. What happens within that
-> callback depends on the driver and hardware. Here are some of the expected
-> scenarios:
->=20
->  * simpledrm or ofdrm can return the firmware-provided scanout buffer. No
-> further action is required.
->=20
->  * Devices on a PCI-like bus:
->      * With a working mode in RGB colors, drivers can return the current
-> scanout buffer as well.
+It's a bit all over the place, a few uapi changes, mostly improvements and
+bug fixes.
 
-Nothing guarantees that this is true. Even if in RGB, the buffer could
-be unaccessible by the CPU, or still in an opaque format (when using
-AFBC for example).
+Notable things are the move to the accel subsystem in the code itself,
+meaning we removed the habanalabs class and the code to created device char
+and instead we are registering to accel. Also notable is moving some
+firmware interface files to include/linux/habanalabs. This is needed as
+a pre-requisite for upstreaming the Gaudi2 NIC drivers, which will include
+those files.
 
->      * Without a working mode, drivers likely attempt to program a common
-> display mode with RGB colors.
+Full details are in the signed tag.
 
-Which would potentially require extra allocations, computations, etc.
-that probably aren't doable in a panic handler path.
+Thanks,
+Oded
 
->  * Drivers for devices behind other busses, such as USB, will probably not
-> be able to reprogram during a panic or provide a useful scanout buffer at
-> all.
->=20
->  * The scanout buffer has to be mapped into kernel address space. This
-> operation might be fragile during a panic. So drivers could set aside a
-> slice of graphics memory and pre-map it; then use it during panic (requir=
-es
-> some mode programming).
->=20
-> I expect that we will eventually have helpers for the various scenarios.
-> Drivers will be able to implement their get_scanout_buffer with these
-> helpers.
+The following changes since commit 389af786f92ecdff35883551d54bf4e507ffcccb:
 
-What I'm trying to say is that it's not just about providing new
-helpers. Sure, we can make drivers do whatever they want and provide a
-scanout buffer. We still have to put that buffer into an active plane at
-some point. The current design doesn't provide any way to do that
-properly.
+  Merge tag 'drm-intel-next-2023-09-29' of git://anongit.freedesktop.org/drm/drm-intel into drm-next (2023-10-04 13:55:19 +1000)
 
-That's what I'd like to see addressed, and I will disagree with any
-proposal that just ignores it.
+are available in the Git repository at:
 
-> The font glyphs are 1-bit bitmaps. So we have to convert them to the scan=
-out
-> buffer's format in any case. We want to use the existing format-conversion
-> helpers were possible.
->=20
-> >=20
-> > If that's the assumption that underlines that patch series, then I don't
-> > know why we need it at all, because that assumption is wrong to begin
-> > with, and way too restrictive.
-> >=20
-> > > The changes in this patchset enable the DRM panic handler to
-> > > preallocate buffer storage before the panic occurs.
-> > >=20
-> > > As an additonal benefit, drivers can now keep the temporary storage
-> > > across multiple updates. Avoiding memory allocation slightly reduces
-> > > the CPU overhead of the format helpers.
-> >=20
-> > I'm sorry to go over that again, but you can't write a performance
-> > improvement mechanism without some kind of benchmark. kmalloc has
-> > built-in caching, why do we absolutely need our own cache on top of it?
-> >=20
-> > If you never measured it, for all we know, we simply don't need it and
-> > kmalloc is good enough.
->=20
-> I'll remove that paragraph if you find it so annoying. Let me just say ag=
-ain
-> that overhead is not the primary motivation behind these patches.
+  https://git.kernel.org/pub/scm/linux/kernel/git/ogabbay/linux.git tags/drm-habanalabs-next-2023-10-10
 
-I mean, I don't want to sweep the code under the rug but keep it. I want
-to know why we need that code in the first place. If there's no reason
-then we just shouldn't have that caching at all.
+for you to fetch changes up to 4db74c0fdeb8138f6438d42a015c5dcdb2e6874c:
 
-Maxime
+  accel/habanalabs/gaudi2: fix spmu mask creation (2023-10-09 12:37:24 +0300)
 
---ra4nld76ztgghlo2
-Content-Type: application/pgp-signature; name="signature.asc"
+----------------------------------------------------------------
+This tag contains habanalabs driver changes for v6.7.
 
------BEGIN PGP SIGNATURE-----
+The notable changes are:
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZSUfdAAKCRDj7w1vZxhR
-xU9IAP9dejooVpRHpBwOjuRDoJkq7+N/E1rtqYom4XpFCgvyswD+KEIqW1HUMWub
-19PoAoxD8lxm91c0SopZV3ANFD+7wwQ=
-=DuHu
------END PGP SIGNATURE-----
+- uAPI changes:
+  - Expose tsc clock sampling to better sync clock information in profiler.
+  - Enhance engine error reporting in the info ioctl.
+  - Block access to the eventfd operations through the control device.
+  - Disable the option of the user to register multiple times with the same
+    offset for timestamp dump by the driver. If a user wants to use the same
+    offset in the timestamp buffer for different interrupt, it needs to first
+    de-register the offset.
+  - When exporting dma-buf (for p2p), force the user to specify size/offset
+    in multiples of PAGE_SIZE. This is instead of the driver doing the
+    rounding to PAGE_SIZE, which has caused the driver to map more memory
+    than was intended by the user.
 
---ra4nld76ztgghlo2--
+- New features and improvements:
+  - Complete the move of the driver to the accel subsystem by removing the
+    custom habanalabs class and major and registering to accel subsystem.
+  - Move the firmware interface files to include/linux/habanalabs. This is
+    a pre-requisite for upstreaming the NIC drivers of Gaudi (as they need to
+    include those files).
+  - Perform device hard-reset upon PCIe AXI drain event to prevent the failure
+    from cascading to different IP blocks in the SoC. In secured environments,
+    this is done automatically by the firmware.
+  - Print device name when it is removed for better debuggability.
+  - Add support for trace of dma map sgtable operations.
+  - Optimize handling of user interrupts by splitting the interrupts to two
+    lists. One list for fast handling and second list for handling with
+    timestamp recording, which is slower.
+  - Prevent double device hard-reset due to 2 adjacent H/W events.
+  - Set device status 'malfunction' while in rmmod.
+
+- Firmware related fixes:
+  - Extend preboot timeout because preboot loading might take longer than
+    expected in certain cases.
+  - Add a protection mechanism for the Event Queue. In case it is full, the
+    firmware will be able to notify about it through a dedicated interrupt.
+  - Perform device hard-reset in case scrubbing of memory has failed.
+
+- Bug fixes and code cleanups:
+  - Small fixes of dma-buf handling in Gaudi2, such as handling an offset != 0,
+    using the correct exported size, creation of sg table.
+  - Fix spmu mask creation.
+  - Fix bug in wait for cs completion for decoder workloads.
+  - Cleanup Greco name from documentation.
+  - Fix bug in recording timestamp during cs completion interrupt handling.
+  - Fix CoreSight ETF configuration and flush logic.
+  - Fix small bug in hpriv_list handling (the list that contains the private
+    data per process that opens our device).
+
+----------------------------------------------------------------
+Ariel Suller (1):
+      accel/habanalabs: update boot status print
+
+Arnd Bergmann (1):
+      accel/habanalabs: add missing debugfs function stubs
+
+Benjamin Dotan (3):
+      accel/habanalabs/gaudi2 : remove psoc_arc access
+      accel/habanalabs: fix ETR/ETF flush logic
+      accel/habanalabs: improve etf configuration
+
+Christophe JAILLET (1):
+      accel/habanalabs/gaudi2: Fix incorrect string length computation in gaudi2_psoc_razwi_get_engines()
+
+Dafna Hirschfeld (5):
+      accel/habanalabs: disable events ioctls on control device
+      accel/habanalabs: fix inline doc typos
+      accel/habanalabs: add fw status SHUTDOWN_PREP
+      accel/habanalabs: extend preboot timeout when preboot might take longer
+      accel/habanalabs: remove wrong doc for init_phys_pg_pack_from_userptr
+
+Dani Liberman (2):
+      accel/habanalabs: handle arc farm razwi
+      accel/habanalabs: handle f/w reserved dram space request
+
+David Meriin (1):
+      accel/habanalabs: move cpucp interface to linux/habanalabs
+
+Hen Alon (1):
+      accel/habanalabs: add tsc clock sampling to clock sync info
+
+Igor Grinberg (2):
+      accel/habanalabs/gaudi2: prepare to remove soft_rst_irq
+      accel/habanalabs/gaudi2: prepare to remove cpu_rst_status
+
+Ivan Orlov (1):
+      accel: make accel_class a static const structure
+
+Juerg Haefliger (1):
+      accel/habanalabs/gaudi: Add MODULE_FIRMWARE macros
+
+Justin Stitt (2):
+      accel/habanalabs: refactor deprecated strncpy to strscpy_pad
+      accel/habanalabs: refactor deprecated strncpy
+
+Koby Elbaz (4):
+      accel/habanalabs: set device status 'malfunction' while in rmmod
+      accel/habanalabs: print return code when process termination fails
+      accel/habanalabs: call put_pid after hpriv list is updated
+      accel/habanalabs: rename fd_list to hpriv_list
+
+Moti Haimovski (1):
+      accel/habanalabs/gaudi2: print power-mode changes
+
+Oded Gabbay (14):
+      accel/habanalabs: remove pdev check on idle check
+      accel/habanalabs: reset device if scrubbing failed
+      accel/habanalabs/gaudi2: fix missing check of kernel ctx
+      accel/habanalabs: remove unused asic functions
+      accel/habanalabs: minor cosmetics update to cpucp_if.h
+      accel/habanalabs: minor cosmetics update to trace file
+      accel/habanalabs: change Greco to Gaudi2
+      accel/habanalabs/gaudi: remove unused structure definition
+      accel/habanalabs: remove unused field
+      accel/habanalabs: print device name when it is removed
+      accel/habanalabs: remove leftover code
+      accel/habanalabs/gaudi: remove define used for simulator
+      accel/habanalabs: minor cosmetic update to habanalabs.h
+      accel/habanalabs/gaudi2: fix spmu mask creation
+
+Ofir Bitton (6):
+      accel/habanalabs: notify user about undefined opcode event
+      accel/habanalabs: stop fetching MME SBTE error cause
+      accel/habanalabs: dump temperature threshold boot error
+      accel/habanalabs/gaudi2: unsecure tpc count registers
+      accel/habanalabs: add info ioctl for engine error reports
+      accel/habanalabs/gaudi2: include block id in ECC error reporting
+
+Ohad Sharabi (2):
+      accel/habanalabs: add traces for dma mappings
+      accel/habanalabs: trace dma map sgtable
+
+Tomer Tayar (19):
+      accel/habanalabs: prevent immediate hard reset due to 2 adjacent H/W events
+      accel/habanalabs: update pending reset flags with new reset requests
+      accel/habanalabs: print task name and request code upon ioctl failure
+      accel/habanalabs: print task name upon creation of a user context
+      accel/habanalabs/gaudi2: un-secure register for engine cores interrupt
+      accel/habanalabs: set default device release watchdog T/O as 30 sec
+      accel/habanalabs: register compute device as an accel device
+      accel/habanalabs: update sysfs-driver-habanalabs with the accel path
+      accel/habanalabs: update debugfs-driver-habanalabs with the accel path
+      accel/habanalabs: Move ioctls to the device specific ioctls range
+      accel/habanalabs: always pass exported size to alloc_sgt_from_device_pages()
+      accel/habanalabs: use exported size from dma_buf and not from phys_pg_pack
+      accel/habanalabs: export dma-buf only if size/offset multiples of PAGE_SIZE
+      accel/habanalabs: tiny refactor of hl_map_dmabuf()
+      accel/habanalabs: fix SG table creation for dma-buf mapping
+      accel/habanalabs: set hl_dmabuf_priv.device_address only when needed
+      accel/habanalabs: add missing offset handling for dma-buf
+      accel/habanalabs: add debug prints to dump content of SG table for dma-buf
+      accel/habanalabs/gaudi2: perform hard-reset upon PCIe AXI drain event
+
+farah kassabri (10):
+      accel/habanalabs: fix standalone preboot descriptor request
+      accel/habanalabs: Allow single timestamp registration request at a time
+      accel/habanalabs: fix wait_for_interrupt abortion flow
+      accel/habanalabs/gaudi2: handle eq health heartbeat check
+      accel/habanalabs/gaudi2: add eq health check using irq
+      accel/habanalabs: prevent sending heartbeat before events are enabled
+      accel/habanalabs: fix bug in timestamp interrupt handling
+      accel/habanalabs: optimize timestamp registration handler
+      accel/habanalabs: split user interrupts pending list
+      accel/habanalabs: fix bug in decoder wait for cs completion
+
+ .../ABI/testing/debugfs-driver-habanalabs          |  82 ++--
+ Documentation/ABI/testing/sysfs-driver-habanalabs  |  64 +--
+ MAINTAINERS                                        |   1 +
+ drivers/accel/drm_accel.c                          |  21 +-
+ drivers/accel/habanalabs/common/command_buffer.c   |   5 +-
+ .../accel/habanalabs/common/command_submission.c   | 488 ++++++++++++---------
+ drivers/accel/habanalabs/common/context.c          |   9 +-
+ drivers/accel/habanalabs/common/debugfs.c          |  22 +-
+ drivers/accel/habanalabs/common/device.c           | 425 +++++++++++-------
+ drivers/accel/habanalabs/common/firmware_if.c      |  45 +-
+ drivers/accel/habanalabs/common/habanalabs.h       | 212 +++++----
+ drivers/accel/habanalabs/common/habanalabs_drv.c   | 186 ++++----
+ drivers/accel/habanalabs/common/habanalabs_ioctl.c | 112 +++--
+ drivers/accel/habanalabs/common/irq.c              | 180 ++++++--
+ drivers/accel/habanalabs/common/memory.c           | 308 +++++++------
+ drivers/accel/habanalabs/gaudi/gaudi.c             |  17 +-
+ drivers/accel/habanalabs/gaudi/gaudiP.h            |   2 +-
+ drivers/accel/habanalabs/gaudi/gaudi_coresight.c   |  12 +
+ drivers/accel/habanalabs/gaudi2/gaudi2.c           | 487 ++++++++++++++++----
+ drivers/accel/habanalabs/gaudi2/gaudi2P.h          |   4 +-
+ drivers/accel/habanalabs/gaudi2/gaudi2_coresight.c |  46 +-
+ drivers/accel/habanalabs/gaudi2/gaudi2_security.c  |  21 +-
+ drivers/accel/habanalabs/goya/goya.c               |  10 +-
+ drivers/accel/habanalabs/goya/goyaP.h              |   2 +-
+ drivers/accel/habanalabs/goya/goya_coresight.c     |  10 +
+ .../accel/habanalabs/include/gaudi/gaudi_fw_if.h   |  32 --
+ .../include/gaudi2/gaudi2_async_events.h           |   7 +
+ .../include/gaudi2/gaudi2_async_ids_map_extended.h |  16 +-
+ .../common => include/linux/habanalabs}/cpucp_if.h |  36 +-
+ .../linux/habanalabs}/hl_boot_if.h                 |   7 +
+ include/trace/events/habanalabs.h                  |  45 +-
+ include/uapi/drm/habanalabs_accel.h                |  68 +--
+ 32 files changed, 1919 insertions(+), 1063 deletions(-)
+ rename {drivers/accel/habanalabs/include/common => include/linux/habanalabs}/cpucp_if.h (98%)
+ rename {drivers/accel/habanalabs/include/common => include/linux/habanalabs}/hl_boot_if.h (98%)
