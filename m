@@ -2,62 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9CEA7BF899
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Oct 2023 12:26:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 133297BF918
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Oct 2023 13:02:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F42110E1CA;
-	Tue, 10 Oct 2023 10:26:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D15B10E1C6;
+	Tue, 10 Oct 2023 11:02:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com
- [209.85.128.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A1A2010E1CA
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Oct 2023 10:26:26 +0000 (UTC)
-Received: by mail-yw1-f169.google.com with SMTP id
- 00721157ae682-59f4db9e11eso64637627b3.0
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Oct 2023 03:26:26 -0700 (PDT)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 376C210E1C6
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Oct 2023 11:02:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1696935721;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=7YKs8Uj33/Oy/FjcKUbtOfQkAtoq1k1T81Qax0mbPCo=;
+ b=Rd85N+eAWkoTSCZ1rvTOdup8jvLyPIGhLm84+ifnlG4wDjsfU7OBcQKtLj6myQkiBNFPVz
+ 1EQU37H4AuLjCU8esqMg3CC7+TIFOFjaYIdcPxBs4qD2qRhtsfy7SKe5o6pfyydMUqqIUc
+ dTXj8x4XjVxqFLbG8UrmM75NC2I0u3c=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-589-pbZxxnZTPbKTtW0l60oumg-1; Tue, 10 Oct 2023 07:01:59 -0400
+X-MC-Unique: pbZxxnZTPbKTtW0l60oumg-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ ffacd0b85a97d-32006e08483so3554439f8f.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Oct 2023 04:01:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1696933585; x=1697538385;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=vbmON3xp7LlIs9AFrDaNfaYi2KFfIcOVngy3VzyA1Hk=;
- b=dKUCopleFHdMZt9EtDHyMb39OdJ9sUcbq0I27754KW3WsSQNoYpxt9YCbMnn2gkm/G
- Wr96c9QZSWmRU1uGQkHGuJY9iE7uhq63Om//+JQDj/0RxnfKkkkTM+uquV575KL8O6EK
- ACSP9SacqWW+W1D5whWs/I/+YzwKMCpVioZxGfjgA2DzkYfLFzl7h4zwdNuUAILhPsHy
- yeKiy9QgWLazcPyGA8gNy+JHtIvtojt8A3ZeOXwgqtH0WDcH0m6Y5HGHuSJdG46DBzSF
- a50phw79KejLDyy+2n+BGog/6cQqDaUdoFqkHkalZHTL1aEYOrIyQprPfoxEipThjlxR
- qRQQ==
-X-Gm-Message-State: AOJu0YwzGHJPtB30LmrHvwtwLYtJHitVMc0AMJ3WJrweCGtbY9ziepB/
- uoQdH+irBJOvcsoCVkhh6NrhyGozjMQpqA==
-X-Google-Smtp-Source: AGHT+IFl6SZgXYyqew0kA+SCCrgLs4nfjzbc2q1z+0zOtjKX8D2lnyrMH8O1rHOtCgkPXOixd4nCEg==
-X-Received: by 2002:a81:9bd2:0:b0:5a7:af7d:cee7 with SMTP id
- s201-20020a819bd2000000b005a7af7dcee7mr2675209ywg.6.1696933585502; 
- Tue, 10 Oct 2023 03:26:25 -0700 (PDT)
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com.
- [209.85.128.177]) by smtp.gmail.com with ESMTPSA id
- r32-20020a814420000000b005a7afc19e8dsm690112ywa.28.2023.10.10.03.26.24
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 10 Oct 2023 03:26:24 -0700 (PDT)
-Received: by mail-yw1-f177.google.com with SMTP id
- 00721157ae682-5a7af52ee31so13934997b3.2
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Oct 2023 03:26:24 -0700 (PDT)
-X-Received: by 2002:a81:8647:0:b0:595:89b0:6b56 with SMTP id
- w68-20020a818647000000b0059589b06b56mr20014839ywf.28.1696933584327; Tue, 10
- Oct 2023 03:26:24 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1696935719; x=1697540519;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=7YKs8Uj33/Oy/FjcKUbtOfQkAtoq1k1T81Qax0mbPCo=;
+ b=bVwLnOryKrXfYuCqrVnHAZzor6h+GAS0G9wY+Y0zT4n1bu6blj4FgREKDfHzewBZr3
+ cPJbi4KF2FiUvZkCGxt+2ViYyPWwKqwv32LIZmVKXIEFdGeHEXx/6YLOOwhok+U2Kfcv
+ Jrzvaeh0gNoWogt6PWuMoceN4G/m1/0JbRLhww5CoW6ekcujsV9S5npc8Y9cDvVvAqu2
+ RT5zP6oIjZxFON5k38GEJ+z/64ruVdDqGHn7K6f1lJ5xGcVKfg+Wg4YroyfKc0X14FG4
+ VeDTtF3fNGzMFBsqYPtn8fAPeEinqz/NONkcbEmWGSCGeyEhdq5y5ZdugR4OSGvDR+qY
+ ZJlw==
+X-Gm-Message-State: AOJu0YznTJoZ5XJVhv/KAHTaP4dzUcsXMFEfALPqq6A9i5ePNHpULorD
+ K29ykzev97O8r5Lds5YJXOoFU9RdahY2lVwntnId6quQY5jczIdXuof3d6P61w9RuNJM+KSmC3e
+ EKMGwNp/sajdby7MdXooinkImWyZO
+X-Received: by 2002:a5d:69d0:0:b0:31f:fa61:961d with SMTP id
+ s16-20020a5d69d0000000b0031ffa61961dmr17401035wrw.63.1696935718851; 
+ Tue, 10 Oct 2023 04:01:58 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IE4LrgTXzy5GPorSLWipcFJgW+5ysQDvxfBrpCEoFuMMj2iJLZNZ9PwKjM1rArmSkVzeV1gHQ==
+X-Received: by 2002:a5d:69d0:0:b0:31f:fa61:961d with SMTP id
+ s16-20020a5d69d0000000b0031ffa61961dmr17400986wrw.63.1696935717967; 
+ Tue, 10 Oct 2023 04:01:57 -0700 (PDT)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ s11-20020a5d424b000000b003248a490e3asm12410973wrr.39.2023.10.10.04.01.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 10 Oct 2023 04:01:57 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Maxime Ripard <mripard@kernel.org>
+Subject: Re: [PATCH v5 2/7] drm/atomic-helper: Add format-conversion state
+ to shadow-plane state
+In-Reply-To: <qlp6jhzcgqhhyhdzbmijb4cujadru44dw53avvj46pbdhiqphy@lnvvbcbdejav>
+References: <20231009141018.11291-1-tzimmermann@suse.de>
+ <20231009141018.11291-3-tzimmermann@suse.de>
+ <87bkd7vpsq.fsf@minerva.mail-host-address-is-not-set>
+ <qlp6jhzcgqhhyhdzbmijb4cujadru44dw53avvj46pbdhiqphy@lnvvbcbdejav>
+Date: Tue, 10 Oct 2023 13:01:56 +0200
+Message-ID: <874jiyu4ez.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-References: <20231009211845.3136536-1-arnd@kernel.org>
- <20231009211845.3136536-2-arnd@kernel.org>
-In-Reply-To: <20231009211845.3136536-2-arnd@kernel.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 10 Oct 2023 12:26:07 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdU6MFLCOe4BSWr5oVC4JcLpBS+2PvQsoSEWMLRAFpvaGA@mail.gmail.com>
-Message-ID: <CAMuHMdU6MFLCOe4BSWr5oVC4JcLpBS+2PvQsoSEWMLRAFpvaGA@mail.gmail.com>
-Subject: Re: [PATCH v3 1/9] vgacon: rework Kconfig dependencies
-To: Arnd Bergmann <arnd@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,117 +83,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, x86@kernel.org, linux-ia64@vger.kernel.org,
- linux-sh@vger.kernel.org, Catalin Marinas <catalin.marinas@arm.com>,
- Dave Hansen <dave.hansen@linux.intel.com>, linux-hyperv@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Russell King <linux@armlinux.org.uk>,
- Max Filippov <jcmvbkbc@gmail.com>, Will Deacon <will@kernel.org>,
- linux-efi@vger.kernel.org, Guo Ren <guoren@kernel.org>,
- linux-csky@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-hexagon@vger.kernel.org, WANG Xuerui <kernel@xen0n.name>,
- "K. Y. Srinivasan" <kys@microsoft.com>, Ard Biesheuvel <ardb@kernel.org>,
- Wei Liu <wei.liu@kernel.org>, Michael Ellerman <mpe@ellerman.id.au>,
- Helge Deller <deller@gmx.de>, Huacai Chen <chenhuacai@kernel.org>,
- Dexuan Cui <decui@microsoft.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Christophe Leroy <christophe.leroy@csgroup.eu>,
- Deepak Rawat <drawat.floss@gmail.com>, Ingo Molnar <mingo@redhat.com>,
- Matt Turner <mattst88@gmail.com>, linux-mips@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Arnd Bergmann <arnd@arndb.de>,
- Haiyang Zhang <haiyangz@microsoft.com>, Nicholas Piggin <npiggin@gmail.com>,
- Borislav Petkov <bp@alien8.de>, loongarch@lists.linux.dev,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- Thomas Gleixner <tglx@linutronix.de>, linux-arm-kernel@lists.infradead.org,
- Khalid Aziz <khalid@gonehiking.org>, Brian Cain <bcain@quicinc.com>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- Dinh Nguyen <dinguyen@kernel.org>, linux-riscv@lists.infradead.org,
- Palmer Dabbelt <palmer@dabbelt.com>, linux-alpha@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, "David S. Miller" <davem@davemloft.net>
+Cc: jfalempe@redhat.com, dri-devel@lists.freedesktop.org, mairacanal@riseup.net,
+ noralf@tronnes.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ jose.exposito89@gmail.com, arthurgrillo@riseup.net
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Arnd,
+Maxime Ripard <mripard@kernel.org> writes:
 
-On Mon, Oct 9, 2023 at 11:19=E2=80=AFPM Arnd Bergmann <arnd@kernel.org> wro=
-te:
-> From: Arnd Bergmann <arnd@arndb.de>
+> On Mon, Oct 09, 2023 at 04:22:29PM +0200, Javier Martinez Canillas wrote:
+>> Thomas Zimmermann <tzimmermann@suse.de> writes:
+>> > Store an instance of struct drm_format_conv_state in the shadow-plane
+>> > state struct drm_shadow_plane_state. Many drivers with shadow planes
+>> > use DRM's format helpers to copy or convert the framebuffer data to
+>> > backing storage in the scanout buffer. The shadow plane provides the
+>> > necessary state and manages the conversion's intermediate buffer memory.
+>> >
+>> 
+>> I would argue this is one of the primary selling points for this series
+>> (since Maxime was asking about the motivation). As you point out, many
+>> drivers that use a shadow-buffer can also expose a different format than
+>> the native one to user-space, so makes sense to have the buffer used for
+>> conversion as a part of the shadow-plane state.
 >
-> The list of dependencies here is phrased as an opt-out, but this is missi=
-ng
-> a lot of architectures that don't actually support VGA consoles, and some
-> of the entries are stale:
+> I'm confused, can we convert between formats or not? Or is it about
+> XRGB8888 vs whatever native format is used by the device?
 >
->  - powerpc used to support VGA consoles in the old arch/ppc codebase, but
->    the merged arch/powerpc never did
->
->  - arm lists footbridge, integrator and netwinder, but netwinder is actua=
-lly
->    part of footbridge, and integrator does not appear to have an actual
->    VGA hardware, or list it in its ATAG or DT.
->
->  - mips has a few platforms (malta, sibyte, and sni) that initialize
->    screen_info, on everything else the console is selected but cannot
->    actually work.
->
->  - csky, hexgagon, loongarch, nios2, riscv and xtensa are not listed
->    in the opt-out table and declare a screen_info to allow building
->    vga_con, but this cannot work because the console is never selected.
->
-> Replace this with an opt-in table that lists only the platforms that
-> remain. This is effectively x86, plus a couple of historic workstation
-> and server machines that reused parts of the x86 system architecture.
->
-> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Reviewed-by: Khalid Aziz <khalid@gonehiking.org>
-> Acked-by: Helge Deller <deller@gmx.de>
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
-Thanks for your patch!
+It is about the latter, converting XRGB8888 to the native format.
 
-Reviewed-by: Geert Uytterhoeven <geert@linux-m68k.org>
+-- 
+Best regards,
 
-A few suggestions for simplification below...
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
-> --- a/drivers/video/console/Kconfig
-> +++ b/drivers/video/console/Kconfig
-> @@ -7,9 +7,9 @@ menu "Console display driver support"
->
->  config VGA_CONSOLE
->         bool "VGA text console" if EXPERT || !X86
-> -       depends on !4xx && !PPC_8xx && !SPARC && !M68K && !PARISC &&  !SU=
-PERH && \
-> -               (!ARM || ARCH_FOOTBRIDGE || ARCH_INTEGRATOR || ARCH_NETWI=
-NDER) && \
-> -               !ARM64 && !ARC && !MICROBLAZE && !OPENRISC && !S390 && !U=
-ML
-> +       depends on ALPHA || IA64 || X86 || \
-> +               (ARM && ARCH_FOOTBRIDGE) || \
-
-You can drop "ARM &&", as it is implied by ARCH_FOOTBRIDGE.
-
-> +               (MIPS && (MIPS_MALTA || SIBYTE_BCM112X || SIBYTE_SB1250 |=
-| SIBYTE_BCM1x80 || SNI_RM))
-
-Likewise for "MIPS &&".
-
-The 3 SIBYTE dependencies can be replaced by SIBYTE_SB1xxx_SOC.
-
->         select APERTURE_HELPERS if (DRM || FB || VFIO_PCI_CORE)
->         default y
->         help
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
