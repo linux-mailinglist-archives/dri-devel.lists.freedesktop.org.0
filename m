@@ -2,51 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB3A07BFEB8
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Oct 2023 16:06:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5756A7BFF36
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Oct 2023 16:27:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2AC2510E385;
-	Tue, 10 Oct 2023 14:06:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EFA4610E16F;
+	Tue, 10 Oct 2023 14:27:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB55B10E385;
- Tue, 10 Oct 2023 14:06:20 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 13EEA10E16F;
+ Tue, 10 Oct 2023 14:27:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1696946780; x=1728482780;
- h=date:from:to:cc:subject:in-reply-to:message-id:
- references:mime-version;
- bh=Tq2++7DJ1Qgh4FcFssSJwZYTvol7Vg9iuX28gFZTuao=;
- b=KS/sr5YAF165BEHLgK8XKEkigzOlh0SH30E2M1tji8TV8XJalOlYfK8+
- axUnubTH1kkQweXqDKY98n979r49laC3IxJOb7qXp8nRAI8UU41MNHXoS
- fUHGBKgIkkwNvL5mI+IF6krfwLJxcJluAzK0jvZSF0ybuKHTq8EQFcTGt
- Xt46LF4b/TglFFoHs7/v7wjdULHk7mtKKIyEsIbeFTvdoNPsNp2Ir17KQ
- cr5xrXPXNYH4ZSAz89Zr5WKrSRWg3fanut+M8OSZW39jt8c3QMUZ22O9F
- XfdXnYRBHCxOE8YuRDHFQZvwnaBBYu6G4njblMU/3oBeJjxpOojSgftX5 A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="363754217"
-X-IronPort-AV: E=Sophos;i="6.03,212,1694761200"; d="scan'208";a="363754217"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Oct 2023 07:03:34 -0700
+ t=1696948066; x=1728484066;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=5WdwfPpssWHEumsq9mc7e5KRo9vNp83NwtHC1MesJUc=;
+ b=nnsJAtqHofhb3Qc6nw6Vt+wjEAfe7iRvYh61rVMFuVDqjUifX5Rq8Ka/
+ 3BclbTALMl9EFil542YCD60ab0HRUP0BZKj31wslTkS2fxckOfmH1chWY
+ YF6noSJ51WkusAFi6Y6I56/8zT8zFSzvjHdLRBb/QIlZf6l+fUAHmE7ne
+ SvUdSsSqBUBo+pvO021cTH0FzTcnr8ABwn+Yh8DDD+N7A44xlH7g+QGND
+ nkHRj3CHQ7jwjBT6JzG9aIZYzqXSu+Kl6CIE/Blel8T0hqOIVguYZn11/
+ L/Y0xVy94DCrO40ApJHL7ruNv36pY4hDZJRb5MS6W29hNbHsx/nurI+fH w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="448598107"
+X-IronPort-AV: E=Sophos;i="6.03,213,1694761200"; d="scan'208";a="448598107"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Oct 2023 07:27:45 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="782890211"
-X-IronPort-AV: E=Sophos;i="6.03,212,1694761200"; d="scan'208";a="782890211"
-Received: from jthomasb-mobl1.ger.corp.intel.com ([10.252.42.94])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Oct 2023 07:03:29 -0700
-Date: Tue, 10 Oct 2023 17:03:27 +0300 (EEST)
-From: =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
-Subject: Re: [PATCH v3 11/16] platform/x86/amd/pmf: dump policy binary data
-In-Reply-To: <c9d53b05-68d0-4244-86cb-cb110c2c4af7@amd.com>
-Message-ID: <7118d392-f29b-a8b-6b46-a32bd1fc56c@linux.intel.com>
-References: <20231010125917.138225-1-Shyam-sundar.S-k@amd.com>
- <20231010125917.138225-12-Shyam-sundar.S-k@amd.com>
- <1f3e39fc-2c2f-72d5-ce61-16e7e5d257be@linux.intel.com>
- <c9d53b05-68d0-4244-86cb-cb110c2c4af7@amd.com>
+X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="869713704"
+X-IronPort-AV: E=Sophos;i="6.03,213,1694761200"; d="scan'208";a="869713704"
+Received: from agargas-mobl.ger.corp.intel.com (HELO fedora..)
+ ([10.249.254.164])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Oct 2023 07:27:43 -0700
+From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+To: intel-xe@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/gpuvm: Dual-licence the drm_gpuvm code GPL-2.0 OR MIT
+Date: Tue, 10 Oct 2023 16:27:24 +0200
+Message-ID: <20231010142725.8920-1-thomas.hellstrom@linux.intel.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323329-927937933-1696946613=:10675"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,82 +58,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Xinhui.Pan@amd.com, Patil.Reddy@amd.com, basavaraj.natikar@amd.com,
- dri-devel@lists.freedesktop.org, jikos@kernel.org,
- amd-gfx@lists.freedesktop.org, platform-driver-x86@vger.kernel.org,
- markgross@kernel.org, Hans de Goede <hdegoede@redhat.com>,
- benjamin.tissoires@redhat.com, mario.limonciello@amd.com,
- linux-input@vger.kernel.org, alexander.deucher@amd.com,
- christian.koenig@amd.com
+Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Danilo Krummrich <dakr@redhat.com>, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+Dual-licence in order to make it possible for other non-GPL os'es
+to re-implement the code. The use of EXPORT_SYMBOL_GPL() is intentionally
+left untouched to prevent use of drm_gpuvm as a proxy for non-GPL drivers
+to access GPL-only kernel symbols.
 
---8323329-927937933-1696946613=:10675
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+Much of the ideas and algorithms used in the drm_gpuvm code is already
+present in one way or another in MIT-licensed code.
 
-On Tue, 10 Oct 2023, Shyam Sundar S K wrote:
-> On 10/10/2023 6:38 PM, Ilpo Järvinen wrote:
-> > On Tue, 10 Oct 2023, Shyam Sundar S K wrote:
-> > 
-> >> Sometimes policy binary retrieved from the BIOS maybe incorrect that can
-> >> end up in failing to enable the Smart PC solution feature.
-> >>
-> >> Use print_hex_dump_debug() to dump the policy binary in hex, so that we
-> >> debug the issues related to the binary even before sending that to TA.
-> >>
-> >> Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
-> >> ---
-> >>  drivers/platform/x86/amd/pmf/tee-if.c | 9 +++++++++
-> >>  1 file changed, 9 insertions(+)
-> >>
-> >> diff --git a/drivers/platform/x86/amd/pmf/tee-if.c b/drivers/platform/x86/amd/pmf/tee-if.c
-> >> index 994daf945795..e4386f503ad0 100644
-> >> --- a/drivers/platform/x86/amd/pmf/tee-if.c
-> >> +++ b/drivers/platform/x86/amd/pmf/tee-if.c
-> >> @@ -275,6 +275,12 @@ static int amd_pmf_start_policy_engine(struct amd_pmf_dev *dev)
-> >>  }
-> >>  
-> >>  #ifdef CONFIG_AMD_PMF_DEBUG
-> >> +static void amd_pmf_hex_dump_pb(struct amd_pmf_dev *dev)
-> >> +{
-> >> +	print_hex_dump_debug("(pb):  ", DUMP_PREFIX_OFFSET, 16, 1, dev->policy_buf,
-> >> +			     dev->policy_sz, false);
-> >> +}
-> >> +
-> > 
-> > You forgot to add the empty version of amd_pmf_hex_dump_pb function into 
-> > #else part (so the compile fails if CONFIG_AMD_PMF_DEBUG is not set).
-> > 
-> 
-> It's there (see below). I have just grouped the functions that come
-> under #ifdef CONFIG_AMD_PMF_DEBUG and #else so that's more readable.
-> 
-> >>  static ssize_t amd_pmf_get_pb_data(struct file *filp, const char __user *buf,
-> >>  				   size_t length, loff_t *pos)
-> >>  {
-> >> @@ -289,6 +295,7 @@ static ssize_t amd_pmf_get_pb_data(struct file *filp, const char __user *buf,
-> >>  	if (copy_from_user(dev->policy_buf, buf, dev->policy_sz))
-> >>  		return -EFAULT;
-> >>  
-> >> +	amd_pmf_hex_dump_pb(dev);
-> >>  	ret = amd_pmf_start_policy_engine(dev);
-> >>  	if (ret)
-> >>  		return -EINVAL;
-> >> @@ -327,6 +334,7 @@ static int amd_pmf_open_pb(struct amd_pmf_dev *dev, struct dentry *debugfs_root)
-> >>  }
-> >>  
-> >>  static void amd_pmf_remove_pb(struct amd_pmf_dev *dev) {}
-> >> +static void amd_pmf_hex_dump_pb(struct amd_pmf_dev *dev) {}
-> 
-> Here is the empty amd_pmf_hex_dump_pb().
+Cc: Danilo Krummrich <dakr@redhat.com>
+Cc: airlied@gmail.com
+Cc: daniel@ffwll.ch
+Cc: linux-kernel@vger.kernel.org
+Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+---
+ drivers/gpu/drm/drm_gpuvm.c | 2 +-
+ include/drm/drm_gpuvm.h     | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-Ah, sorry. I was confused by the intermediate change.
-
+diff --git a/drivers/gpu/drm/drm_gpuvm.c b/drivers/gpu/drm/drm_gpuvm.c
+index 02ce6baacdad..08c088319652 100644
+--- a/drivers/gpu/drm/drm_gpuvm.c
++++ b/drivers/gpu/drm/drm_gpuvm.c
+@@ -1,4 +1,4 @@
+-// SPDX-License-Identifier: GPL-2.0-only
++// SPDX-License-Identifier: GPL-2.0 OR MIT
+ /*
+  * Copyright (c) 2022 Red Hat.
+  *
+diff --git a/include/drm/drm_gpuvm.h b/include/drm/drm_gpuvm.h
+index 361fea5cb849..21bbf11415b3 100644
+--- a/include/drm/drm_gpuvm.h
++++ b/include/drm/drm_gpuvm.h
+@@ -1,4 +1,4 @@
+-/* SPDX-License-Identifier: GPL-2.0-only */
++/* SPDX-License-Identifier: GPL-2.0 OR MIT */
+ 
+ #ifndef __DRM_GPUVM_H__
+ #define __DRM_GPUVM_H__
 -- 
- i.
+2.41.0
 
---8323329-927937933-1696946613=:10675--
