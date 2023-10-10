@@ -2,67 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86DA87BFAEB
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Oct 2023 14:14:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41DC87BFAF6
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Oct 2023 14:16:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7756010E33D;
-	Tue, 10 Oct 2023 12:14:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 784A210E1EB;
+	Tue, 10 Oct 2023 12:16:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com
- [IPv6:2607:f8b0:4864:20::62f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D6B9610E33D
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Oct 2023 12:14:38 +0000 (UTC)
-Received: by mail-pl1-x62f.google.com with SMTP id
- d9443c01a7336-1c8a1541233so16474885ad.1
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Oct 2023 05:14:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=huaqin-corp-partner-google-com.20230601.gappssmtp.com; s=20230601;
- t=1696940078; x=1697544878; darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=aHsWCEokA8wJ7YfM4FgwNRdXNr/eKs99se6DzVS9JbM=;
- b=J/ECZK+BKy0kf6uSzOp7I23Q0Kt9YavOrcQ73h0IN3YA+xYg2pIbJ7fd5gw3O/J1l5
- 6JGXs7veaV/sUnQ7feCPbdzbOfkWz8+50vAOTm+gWRlAYrnF6uUHG5gCApy/E3MRR5sa
- g2/RL50ovF03WgOrjddzDjal6BbaNnxwkey+VGtcuwJeU3mxl4Yg8OWbYI/BLybaHm4i
- o/hfIk8Qn4xm6h4i6PU9rN8H+Lesg87KgxK7m8HMSXivOVcG5NRA9UYEtgbEjjxkhBgZ
- tjj/y5ZCn31zZt/fSWt6LBP7FNtISLuuExb15yLPm9diF2Os5jXH8QxwUXojoyUajSpe
- lI4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1696940078; x=1697544878;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=aHsWCEokA8wJ7YfM4FgwNRdXNr/eKs99se6DzVS9JbM=;
- b=Z4gDfFBGB5B1+Iu56fuEXr20x6DXlFJxZFKpJYhQRHe7tTN8MX/6a6A0Z4aRo2XymP
- 4SrCt5h8yRgjgU5Cq0biDfuz2KXqoZn2FJlg37kgKEa+hatJkOB9e/qzsirRUvP4uYzf
- EKnuhaeUgRb2XZaYwd6p49kTOZaSc0ltJVQCf0onXH9YccRYXycoHvYcN8zXYbYfx3lv
- Y8kcVqJMF6UEloMpcaCGzlnzH4LzrVuEOmUvwvs+tc75Gx5O24R7ceMqsna5v0kUz0wl
- qcBRlNyVPHjpCOO9XwEvZVjHbJPe2fthdPX/gF9/Pfa03Qz21DbBQuRix/s92X335BtZ
- uWcw==
-X-Gm-Message-State: AOJu0YwyoI0mvwv3eKYlrg29KcHavKWJf2IUCU6xej6Wl3E9GxF/5xhL
- Q9wrOs5Sb/hLA696x0Wp0zySYQ==
-X-Google-Smtp-Source: AGHT+IGck34GYNROcm31U5to2+Wt94M5AiPktgd6gIlhLZHc/gXlIAqLYTYkmuycAiDWCaIZ/D9Ewg==
-X-Received: by 2002:a17:903:192:b0:1c8:9bc6:2a09 with SMTP id
- z18-20020a170903019200b001c89bc62a09mr6906643plg.15.1696940078421; 
- Tue, 10 Oct 2023 05:14:38 -0700 (PDT)
-Received: from yc.huaqin.com ([101.78.151.205])
- by smtp.gmail.com with ESMTPSA id
- a4-20020a170902ecc400b001c74df14e6esm11570486plh.51.2023.10.10.05.14.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Oct 2023 05:14:38 -0700 (PDT)
-From: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
-To: sam@ravnborg.org, neil.armstrong@linaro.org, daniel@ffwll.ch,
- dianders@google.com, hsinyi@google.com, linus.walleij@linaro.org,
- swboyd@chromium.org, airlied@gmail.com, catalin.marinas@arm.com,
- will@kernel.org
-Subject: [v2 3/3] arm64: defconfig: Enable ILITEK_ILI9882T panel
-Date: Tue, 10 Oct 2023 20:14:02 +0800
-Message-Id: <20231010121402.3687948-4-yangcong5@huaqin.corp-partner.google.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20231010121402.3687948-1-yangcong5@huaqin.corp-partner.google.com>
-References: <20231010121402.3687948-1-yangcong5@huaqin.corp-partner.google.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A9E6A10E1E7;
+ Tue, 10 Oct 2023 12:16:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1696940188; x=1728476188;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=TanU+TjJiGWDDPoccsVXHgSShJD0CZuV0MWwk4ETT3Y=;
+ b=n54gQQYhnYDpweF/GsqxZt/RjxutChpXzQAX5sfGwdwKes8Dd/KrmZzf
+ CKQtkW8NU7PKi2bbCuUk5X3KddZNOEogjOO208DLBRs3qysluVd+/r5Ps
+ QCKyY7GqitBkZ9x7MmG0gRQ/VnxHzG9R23rq2x8+bPs2LTOybZXIOIbUn
+ /ubLPbieAILqIZeJ/SOLQu2RehT+6yxDLVeNitLe6hEMAi5MT4ZGbvifK
+ H2/IZ8f7ZjGzf2JKHwn4X6Op1xzxiw66sViB5WIBDUfOtmjk7VR1TyCiU
+ yQGUSkpaPAwYR18ymYaDwBDaWG0llkJINIfbj6ypp62a8OJMG4d7zAjSZ Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="364673913"
+X-IronPort-AV: E=Sophos;i="6.03,212,1694761200"; d="scan'208";a="364673913"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Oct 2023 05:16:27 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="747055365"
+X-IronPort-AV: E=Sophos;i="6.03,212,1694761200"; d="scan'208";a="747055365"
+Received: from ppalanyk-mobl.gar.corp.intel.com (HELO intel.com)
+ ([10.213.148.82])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Oct 2023 05:16:19 -0700
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Subject: [PATCH RESEND v2 0/2] Add drm_dbg_ratelimited()
+Date: Tue, 10 Oct 2023 14:15:43 +0200
+Message-Id: <20231010121545.1046793-1-andi.shyti@linux.intel.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -77,31 +57,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Cong Yang <yangcong5@huaqin.corp-partner.google.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>,
+ Maxime Ripard <mripard@kernel.org>, Matthew Auld <matthew.auld@intel.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>,
+ John Harrison <John.C.Harrison@Intel.com>, Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Enable ILITEK_ILI9882T panel.
+Hi,
 
-Signed-off-by: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
----
- arch/arm64/configs/defconfig | 1 +
- 1 file changed, 1 insertion(+)
+I might have picked up the wrong series and missed some reviews
+and the extra patch from Nirmoy with a real use of the
+drm_dbg_ratelimited() that John was looking for.
 
-diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
-index 0777bcae9104..c3453dcbad3e 100644
---- a/arch/arm64/configs/defconfig
-+++ b/arch/arm64/configs/defconfig
-@@ -813,6 +813,7 @@ CONFIG_DRM_PANEL_BOE_TV101WUM_NL6=m
- CONFIG_DRM_PANEL_LVDS=m
- CONFIG_DRM_PANEL_SIMPLE=m
- CONFIG_DRM_PANEL_EDP=m
-+CONFIG_DRM_PANEL_ILITEK_ILI9882T=m
- CONFIG_DRM_PANEL_MANTIX_MLAF057WE51=m
- CONFIG_DRM_PANEL_RAYDIUM_RM67191=m
- CONFIG_DRM_PANEL_SITRONIX_ST7703=m
+Thanks,
+Andi
+
+v2:
+pick the right patch with the following changes:
+ - add more r-b's
+ - add a patch 2 where the drm_dbg_ratelimited is actually used.
+
+Nirmoy Das (2):
+  drm/print: Add drm_dbg_ratelimited
+  drm/i915: Ratelimit debug log in vm_fault_ttm
+
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c | 5 +++--
+ include/drm/drm_print.h                 | 3 +++
+ 2 files changed, 6 insertions(+), 2 deletions(-)
+
 -- 
-2.25.1
+2.40.1
 
