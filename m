@@ -2,63 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 411A27BF991
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Oct 2023 13:22:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E4AA7BF9BE
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Oct 2023 13:30:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 87E4510E1DE;
-	Tue, 10 Oct 2023 11:22:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A9DFB10E1E3;
+	Tue, 10 Oct 2023 11:29:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22e.google.com (mail-oi1-x22e.google.com
- [IPv6:2607:f8b0:4864:20::22e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9270010E1DE
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Oct 2023 11:22:03 +0000 (UTC)
-Received: by mail-oi1-x22e.google.com with SMTP id
- 5614622812f47-3af8b4a557dso3927034b6e.0
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Oct 2023 04:22:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1696936923; x=1697541723;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=iIDqPxwTUbRqPTvD/oGymQRcW9d2LB01AyGLCtA47MU=;
- b=RCu8UQNLHLwKiU4JGUB4kAW3ogbXzGPaZ8v0Th+HGR7cs2Yq1+fg9twcJ6nGhtchAw
- yf9nsJfhPCPSk/+rtLa+Ab0UmlovZbkeWnHHz8oN5xBbfqhy7yeKarTE5v5hx15TvEBR
- kjbd6zhXRxC2pXnw2fvBjhhQN0tzPSvYslOfD5tlNpF+RqrhulnJNUXSSRknCJRCz8ih
- /TkiPjGZzVTNGMvfdzOq0lXftfyhMlbP8eI9MSye2pGuvj/JrVPuqZOo1mUU9K14Nzkw
- qAFeBjLmnAAsYHlZ35YZQ2DHOOxyAtgPVkctcPGRt8SX5dDy3R7+4dOHSJqMyCSV1Mls
- xT3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1696936923; x=1697541723;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=iIDqPxwTUbRqPTvD/oGymQRcW9d2LB01AyGLCtA47MU=;
- b=UPlqUtGKfJY19Ub39B5OTz+cQWKcvlXBuqI5OUFMXvqBAxx0wltIAmXflt0K0LCdye
- dT7VICiLVC3olQt3Gjoj3N6QdHt4RPTiQc5B/X4Ahu+ujRaCq7r8nLWsDNbwcysaeJq/
- p/g9BBdncs10L3V6VBBmfApJGyf+YCETlaxMIjM1gZWynZxJVoj64wDDxT3KZCXorQ3h
- Xp5HMPzZIdJAyto9PwdZFq6uahW3JKKBwEd4uysIqA9CCcEhBRq2B7wgnp/asBLySIx5
- Gv6ltYLX7+do+IUcvfSoDhzAfso4dvgXOE+3ziebeRbDACJzAAdcQbdnfExMTi5JIJdn
- bfZg==
-X-Gm-Message-State: AOJu0Yy66HX0Tig+GKqF9jMQDXiH4iA8aWbnA53p4cc2nNDj/NGr44y4
- sfv9ssnx62P8CX1Nhn6sUXYcPBFKaVz1dShW9aG/rA==
-X-Google-Smtp-Source: AGHT+IEPsHAdybNHlhqULqHwmnZcm8PamxWfzC8OgThdXUdvxqpngIMjRF8ls07V5GFoCscEx4M+8PgbpcFucQXDt7E=
-X-Received: by 2002:a05:6358:5e0f:b0:134:e549:50d6 with SMTP id
- q15-20020a0563585e0f00b00134e54950d6mr22484878rwn.10.1696936922655; Tue, 10
- Oct 2023 04:22:02 -0700 (PDT)
+Received: from smtp.domeneshop.no (smtp.domeneshop.no
+ [IPv6:2a01:5b40:0:3006::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9858410E1D9
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Oct 2023 11:29:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+ ; s=ds202212;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=tuuPq9Y/8iwzIQigDfOAX0UcpzMj/9pMotrsb1Kxroc=; b=n7UedGFecxHbj7rIbLfGTX6bHw
+ 0ZpU7/EvTokgaDNxZR44J64Cs+4mXaTABJanIFKWyuqKo0uFwLaHrhOBiYhtWg3v9ye5mK3KOPeXm
+ UqBYhQTBGUR7STsZXtoMHcexHBigVfI2ok7JsJ6OUXJn2s/sygEr361ku2Er/0Vy/IRsBjkMlofJr
+ FaS1MoSPoDU5/tcODi7NaPsYmp8pjcbPgJo5Q2Ra3XXgphvNPzt6DvnhTkPbHRkX9Ny7Jf0TYszup
+ IS2oXxeTXV1mi33/Ou2yXQsWfY80T82eld7c7TKwND4LiNh5zstlhKNW/QJbJODlLsLrHI+ZoNmKE
+ ++X9SVcg==;
+Received: from [2a01:799:95f:2800:2fb5:c6db:11b1:a10f] (port=41420)
+ by smtp.domeneshop.no with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.95)
+ (envelope-from <noralf@tronnes.org>) id 1qqAvy-005CaL-Hw;
+ Tue, 10 Oct 2023 13:29:54 +0200
+Message-ID: <0a6c2a07-bf44-409a-8a09-827410f011a6@tronnes.org>
+Date: Tue, 10 Oct 2023 13:29:52 +0200
 MIME-Version: 1.0
-References: <20231007060639.725350-1-yangcong5@huaqin.corp-partner.google.com>
- <20231007060639.725350-2-yangcong5@huaqin.corp-partner.google.com>
- <CAD=FV=Ucpkvt_pjpRtG-6Yrwps7n=BncjWa0uSMsfraHYuK-ug@mail.gmail.com>
-In-Reply-To: <CAD=FV=Ucpkvt_pjpRtG-6Yrwps7n=BncjWa0uSMsfraHYuK-ug@mail.gmail.com>
-From: cong yang <yangcong5@huaqin.corp-partner.google.com>
-Date: Tue, 10 Oct 2023 19:21:51 +0800
-Message-ID: <CAHwB_NJvMEeQYK7ncFjayixA3OjrjJCbUb_Y3s0HYWJ+EVxm_Q@mail.gmail.com>
-Subject: Re: [v1 1/2] drm/panel: ili9882t: Break out as separate driver
-To: Doug Anderson <dianders@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 2/4] drm/panic: Add a drm panic handler
+Content-Language: en-US
+To: Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Daniel Vetter <daniel@ffwll.ch>
+References: <20231003142508.190246-3-jfalempe@redhat.com>
+ <lbwngkco3zam7yjo3owwpn47o3pe6g7oh5giglsclenx52jk5q@lw2fwsxz6kqp>
+ <3a359910-31ae-355f-2608-239e04689fde@redhat.com>
+ <6iaqx7ef4hdd6bucsxtfy37nsizloraxbudez4ms7jlusbghr3@i5hliqpimdp2>
+ <bd880231-f161-0773-63f7-ded6cb3fddc1@tronnes.org>
+ <b4aadfb4-9393-d6b6-e876-a420afcf2b36@redhat.com>
+ <wupxw7bs6yu4gtsbmuvdxhwpd4vkxvvl4aa6w7fumqekzvl7v7@akv2tifgsihl>
+ <b764a8a7-db48-fd3b-6241-f3a07009e7dd@redhat.com>
+ <xutxpbk476iogtgfbcxbebnud7t3oq6dlbhpniimna2uz2p2nb@hbrrwn4y3x6s>
+ <cd54b5ab-5ac8-4569-991c-bf6e062e6400@suse.de>
+ <63wdz6ns6wsu3avztqebmeo4aa4ltwmmmywlam3xe6fmftcf3p@5icc2cvy6xvh>
+From: =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>
+In-Reply-To: <63wdz6ns6wsu3avztqebmeo4aa4ltwmmmywlam3xe6fmftcf3p@5icc2cvy6xvh>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,343 +66,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: neil.armstrong@linaro.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- swboyd@chromium.org, hsinyi@google.com, sam@ravnborg.org
+Cc: Jocelyn Falempe <jfalempe@redhat.com>, bluescreen_avenger@verizon.net,
+ javierm@redhat.com, dri-devel@lists.freedesktop.org, gpiccoli@igalia.com,
+ airlied@redhat.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thanks for the review,I will modify these in V2.
 
-On Tue, Oct 10, 2023 at 4:44=E2=80=AFAM Doug Anderson <dianders@google.com>=
- wrote:
->
-> Hi,
->
-> On Fri, Oct 6, 2023 at 11:07=E2=80=AFPM Cong Yang
-> <yangcong5@huaqin.corp-partner.google.com> wrote:
-> >
-> > From: Linus Walleij <linus.walleij@linaro.org>
-> >
-> > The Starry ILI9882t-based panel should never have been part of the boe
-> > tv101wum driver, it is clearly based on the Ilitek ILI9882t display
-> > controller and if you look at the custom command sequences for the
-> > panel these clearly contain the signature Ilitek page switch (0xff)
-> > commands. The hardware has nothing in common with the other panels
-> > supported by this driver.
-> >
-> > Break this out into a separate driver and config symbol instead.
-> >
-> > If the placement here is out of convenience for using similar code,
-> > we should consider creating a helper library instead.
-> >
-> > Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
-> > Signed-off-by: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
-> > ---
-> >  drivers/gpu/drm/panel/Kconfig                 |   9 +
-> >  drivers/gpu/drm/panel/Makefile                |   1 +
-> >  .../gpu/drm/panel/panel-boe-tv101wum-nl6.c    | 371 ---------
-> >  drivers/gpu/drm/panel/panel-ilitek-ili9882t.c | 752 ++++++++++++++++++
-> >  4 files changed, 762 insertions(+), 371 deletions(-)
-> >  create mode 100644 drivers/gpu/drm/panel/panel-ilitek-ili9882t.c
-> >
-> > diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kcon=
-fig
-> > index ecb22ea326cb..99e14dc212ec 100644
-> > --- a/drivers/gpu/drm/panel/Kconfig
-> > +++ b/drivers/gpu/drm/panel/Kconfig
-> > @@ -203,6 +203,15 @@ config DRM_PANEL_ILITEK_ILI9881C
-> >           Say Y if you want to enable support for panels based on the
-> >           Ilitek ILI9881c controller.
-> >
-> > +config DRM_PANEL_ILITEK_ILI9882T
-> > +       tristate "Ilitek ILI9882t-based panels"
-> > +       depends on OF
-> > +       depends on DRM_MIPI_DSI
-> > +       depends on BACKLIGHT_CLASS_DEVICE
-> > +       help
-> > +         Say Y if you want to enable support for panels based on the
-> > +         Ilitek ILI9882t controller.
->
-> We'll of course run into the same problem we always run into when
-> Kconfig symbols get renamed or broken apart: people will have to know
-> to update their configs to include this. Not much we can do about it,
-> though. :-/ optional: I guess you could theoretically also include an
-> extra patch in your series to 'arch/arm64/configs/defconfig' enabling
-> this new config, since the old panel was enabled there...
->
->
-> > diff --git a/drivers/gpu/drm/panel/panel-ilitek-ili9882t.c b/drivers/gp=
-u/drm/panel/panel-ilitek-ili9882t.c
-> > new file mode 100644
-> > index 000000000000..bbfcffe65623
-> > --- /dev/null
-> > +++ b/drivers/gpu/drm/panel/panel-ilitek-ili9882t.c
-> > @@ -0,0 +1,752 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +/*
-> > + * Panels based on the Ilitek ILI9882T display controller.
-> > + */
-> > +#include <linux/delay.h>
-> > +#include <linux/gpio/consumer.h>
-> > +#include <linux/module.h>
-> > +#include <linux/of.h>
-> > +#include <linux/of_device.h>
-> > +#include <linux/regulator/consumer.h>
-> > +
-> > +#include <drm/drm_connector.h>
-> > +#include <drm/drm_crtc.h>
-> > +#include <drm/drm_mipi_dsi.h>
-> > +#include <drm/drm_panel.h>
-> > +
-> > +#include <video/mipi_display.h>
-> > +
-> > +/*
-> > + * Use this descriptor struct to describe different panels using the
-> > + * Ilitek ILI9882T display controller.
-> > + */
-> > +struct panel_desc {
-> > +       const struct drm_display_mode *modes;
-> > +       unsigned int bpc;
-> > +
-> > +       /**
-> > +        * @width_mm: width of the panel's active display area
-> > +        * @height_mm: height of the panel's active display area
-> > +        */
-> > +       struct {
-> > +               unsigned int width_mm;
-> > +               unsigned int height_mm;
-> > +       } size;
-> > +
-> > +       unsigned long mode_flags;
-> > +       enum mipi_dsi_pixel_format format;
-> > +       const struct panel_init_cmd *init_cmds;
-> > +       unsigned int init_cmd_length;
->
-> Why do you need 'init_cmd_length'? It seems like an arbitrary
-> difference between the two drivers. Your 'panel_init_cmd' in the new
-> driver still ends with a 0-length command so just use that so you
-> don't need to store the length.
->
->
-> > +/* ILI9882-specific commands, add new commands as you decode them */
-> > +#define ILI9882T_DCS_SWITCH_PAGE       0xFF
-> > +
-> > +static const struct panel_init_cmd starry_ili9882t_init_cmd[] =3D {
-> > +       _INIT_DELAY_CMD(5),
-> > +       _INIT_DCS_CMD(ILI9882T_DCS_SWITCH_PAGE, 0x98, 0x82, 0x01),
->
-> Slightly cleaner, can you do:
->
-> #define _INIT_SWITCH_PAGE_CMD(page) \
->   _INIT_DCS_CMD(ILI9882T_DCS_SWITCH_PAGE, 0x98, 0x82, (page))
->
-> Then in your array you can use stuff like
->
-> _INIT_SWITCH_PAGE_CMD(0x01);
->
->
-> > +static int ili9882t_prepare(struct drm_panel *panel)
-> > +{
-> > +       struct ili9882t *ili =3D to_ili9882t(panel);
-> > +       struct mipi_dsi_device *dsi =3D ili->dsi;
-> > +       int i, ret;
-> > +
-> > +       gpiod_set_value(ili->enable_gpio, 0);
-> > +       usleep_range(1000, 1500);
-> > +
-> > +       ret =3D regulator_enable(ili->pp3300);
-> > +       if (ret < 0)
-> > +               return ret;
-> > +
-> > +       ret =3D regulator_enable(ili->pp1800);
-> > +       if (ret < 0)
-> > +               return ret;
-> > +
-> > +       usleep_range(3000, 5000);
-> > +
-> > +       ret =3D regulator_enable(ili->avdd);
-> > +       if (ret < 0)
-> > +               goto poweroff1v8;
-> > +       ret =3D regulator_enable(ili->avee);
-> > +       if (ret < 0)
-> > +               goto poweroffavdd;
-> > +
-> > +       usleep_range(10000, 11000);
-> > +
-> > +       // MIPI needs to keep the LP11 state before the lcm_reset pin i=
-s pulled high
-> > +       mipi_dsi_dcs_nop(ili->dsi);
-> > +       usleep_range(1000, 2000);
-> > +
-> > +       gpiod_set_value(ili->enable_gpio, 1);
-> > +       usleep_range(1000, 2000);
-> > +       gpiod_set_value(ili->enable_gpio, 0);
-> > +       usleep_range(1000, 2000);
-> > +       gpiod_set_value(ili->enable_gpio, 1);
-> > +       usleep_range(6000, 10000);
-> > +
-> > +       for(i =3D 0; i < ili->desc->init_cmd_length; i++) {
-> > +               const struct panel_init_cmd *cmd =3D &ili->desc->init_c=
-mds[i];
-> > +               switch (cmd->type) {
-> > +               case DELAY_CMD:
-> > +                       msleep(cmd->data[0]);
-> > +                       ret =3D 0;
-> > +                       break;
-> > +
-> > +               case INIT_DCS_CMD:
-> > +                       ret =3D mipi_dsi_dcs_write(dsi, cmd->data[0],
-> > +                                                       cmd->len <=3D 1=
- ? NULL :
-> > +                                                       &cmd->data[1],
-> > +                                                       cmd->len - 1);
-> > +                       break;
-> > +
-> > +               default:
-> > +                       ret =3D -EINVAL;
-> > +               }
-> > +
-> > +               if (ret < 0) {
-> > +                       dev_err(panel->dev,
-> > +                               "failed to write command %u\n", i);
-> > +                  goto poweroff;
-> > +               }
-> > +       }
->
-> In the boe driver the above is in a sub-function
-> boe_panel_init_dcs_cmd(). Can you create a similar sub-function for
-> the ili9882t driver? It seems like a nice logical thing to break out
-> and nice not to have arbitrary differences between the two drivers
-> since they're so similar...
->
->
-> > +static const struct panel_desc starry_ili9882t_desc =3D {
-> > +       .modes =3D &starry_ili9882t_default_mode,
-> > +       .bpc =3D 8,
-> > +       .size =3D {
-> > +               .width_mm =3D 141,
-> > +               .height_mm =3D 226,
-> > +       },
-> > +       .lanes =3D 4,
-> > +       .format =3D MIPI_DSI_FMT_RGB888,
-> > +       .mode_flags =3D MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_SYNC_=
-PULSE |
-> > +                         MIPI_DSI_MODE_LPM,
->
-> nit: please fix indentation of the line above.
->
->
-> > +       .init_cmds =3D starry_ili9882t_init_cmd,
-> > +       .init_cmd_length =3D ARRAY_SIZE(starry_ili9882t_init_cmd),
-> > +};
-> > +
-> > +static int ili9882t_get_modes(struct drm_panel *panel,
-> > +                                  struct drm_connector *connector)
->
-> nit: please fix indentation of the line above.
->
->
-> > +static int ili9882t_add(struct ili9882t *ili)
-> > +{
-> > +       struct device *dev =3D &ili->dsi->dev;
-> > +       int err;
-> > +
-> > +       ili->avdd =3D devm_regulator_get(dev, "avdd");
-> > +       if (IS_ERR(ili->avdd))
-> > +               return PTR_ERR(ili->avdd);
-> > +
-> > +       ili->avee =3D devm_regulator_get(dev, "avee");
-> > +       if (IS_ERR(ili->avee))
-> > +               return PTR_ERR(ili->avee);
-> > +
-> > +       ili->pp3300 =3D devm_regulator_get(dev, "pp3300");
-> > +       if (IS_ERR(ili->pp3300))
-> > +               return PTR_ERR(ili->pp3300);
-> > +
-> > +       ili->pp1800 =3D devm_regulator_get(dev, "pp1800");
-> > +       if (IS_ERR(ili->pp1800))
-> > +               return PTR_ERR(ili->pp1800);
-> > +
-> > +       ili->enable_gpio =3D devm_gpiod_get(dev, "enable", GPIOD_OUT_LO=
-W);
-> > +       if (IS_ERR(ili->enable_gpio)) {
-> > +               dev_err(dev, "cannot get reset-gpios %ld\n",
-> > +                       PTR_ERR(ili->enable_gpio));
-> > +               return PTR_ERR(ili->enable_gpio);
-> > +       }
-> > +
-> > +       gpiod_set_value(ili->enable_gpio, 0);
-> > +
-> > +       drm_panel_init(&ili->base, dev, &ili9882t_funcs,
-> > +                          DRM_MODE_CONNECTOR_DSI);
->
-> nit: the indentation of the above line isn't quite right. Just put the
-> whole drm_panel_init() on one line even if it's slightly over 80
-> characters long.
->
->
-> > +static void ili9882t_shutdown(struct mipi_dsi_device *dsi)
-> > +{
-> > +       struct ili9882t *ili =3D mipi_dsi_get_drvdata(dsi);
-> > +
-> > +       drm_panel_disable(&ili->base);
-> > +       drm_panel_unprepare(&ili->base);
-> > +}
->
-> Please remove the "shutdown()" function. The above two calls to
-> drm_panel_disable() and drm_panel_unprepare() require that the panel
-> driver is tracking the "prepared" / "enabled" state and will trigger
-> warnings if you try shutting down while the panel was off.
->
-> We shouldn't need the shutdown functionality because all of the DRM
-> drivers that this panel is used together with should properly call
-> drm_atomic_helper_shutdown(). For details, see the long discussion in
-> reply to my patch at:
->
-> https://lore.kernel.org/r/20230804140605.RFC.4.I930069a32baab6faf46d6b234=
-f89613b5cec0f14@changeid
->
->
-> > +static void ili9882t_remove(struct mipi_dsi_device *dsi)
-> > +{
-> > +       struct ili9882t *ili =3D mipi_dsi_get_drvdata(dsi);
-> > +       int ret;
-> > +
-> > +       ili9882t_shutdown(dsi);
-> > +
-> > +       ret =3D mipi_dsi_detach(dsi);
-> > +       if (ret < 0)
-> > +               dev_err(&dsi->dev, "failed to detach from DSI host: %d\=
-n", ret);
-> > +
-> > +       if (ili->base.dev)
-> > +               drm_panel_remove(&ili->base);
-> > +}
-> > +
-> > +static const struct of_device_id ili9882t_of_match[] =3D {
-> > +       { .compatible =3D "starry,ili9882t",
-> > +         .data =3D &starry_ili9882t_desc
-> > +       },
-> > +       { /* sentinel */ }
-> > +};
-> > +MODULE_DEVICE_TABLE(of, ili9882t_of_match);
-> > +
-> > +static struct mipi_dsi_driver ili9882t_driver =3D {
-> > +       .driver =3D {
-> > +               .name =3D "panel-ili9882t",
-> > +               .of_match_table =3D ili9882t_of_match,
-> > +       },
-> > +       .probe =3D ili9882t_probe,
-> > +       .remove =3D ili9882t_remove,
-> > +       .shutdown =3D ili9882t_shutdown,
-> > +};
-> > +module_mipi_dsi_driver(ili9882t_driver);
-> > +
-> > +MODULE_AUTHOR("Linus Walleij <linus.walleij@linaro.org>");
-> > +MODULE_DESCRIPTION("Ilitek ILI9882T-based panels driver");
-> > +MODULE_LICENSE("GPL");
-> > \ No newline at end of file
->
-> Please make sure there's a newline at the end of the file so you don't
-> have the "No newline at end of file".
+
+On 10/10/23 11:25, Maxime Ripard wrote:
+> 
+> 
+> On Tue, Oct 10, 2023 at 10:55:09AM +0200, Thomas Zimmermann wrote:
+>>>> So if I understand correctly, drm_panic would pre-allocate a plane/commit,
+>>>> and use that when a panic occurs ?
+>>>
+>>> And have it checked already, yes. We would only wait for a panic to
+>>> happen to pull the trigger on the commit.
+>>>
+>>>> I have two concern about this approach:
+>>>> - How much memory would be allocated for this ? a whole framebuffer can be
+>>>> big for just this use case.
+>>
+>> As I outlined in my email at [1], there are a number of different scenarios.
+>> The question of atomic state and commits is entirely separate from the DRM
+>> panic handler. We should not throw them together. Whatever is necessary is
+>> get a scanout buffer, should happen on the driver side of
+>> get_scanout_buffer, not on the drm_panic side.
+>>
+>> [1] https://lore.kernel.org/dri-devel/39bd4c35-8a61-42ee-8675-ccea4f5d4ac6@suse.de/T/#m22f116e9438e00a5f0a9dc43987d4153424f8be1
+>>
+>>>
+>>> I'dd expect a whole framebuffer for the current
+>>> configuration/resolution. It would be typically 4MB for a full-HD system
+>>> which isn't a lot really and I guess we can always add an option to
+>>> disable the mechanism if needed.
+>>>
+>>>> - I find it risky to completely reconfigure the hardware in a panic handler.
+>>>
+>>> I would expect to only change the format and base address of the
+>>> framebuffer. I guess it can fail, but it doesn't seem that different to
+>>> the async plane update we already have and works well.
+>>
+>> The one thing I don't understand is: Why should we use atomic commits in the
+>> first place? It doesn't make sense for firmware-based drivers.
+> 
+> Because this is generic infrastructure that is valuable for any drivers
+> and not only firmware-based drivers?
+> 
+>> In some drivers, even the simple ast, we hold locks during the regular
+>> commit. Trying to run the panic commit concurrently will likely give a
+>> deadlock.
+> 
+> You're in the middle of a panic. Don't take any locks and you won't deadlock.
+> 
+>> In the end it's a per-driver decision, but in most cases, the driver can
+>> easily switch to a default mode with some ad-hoc code.
+> 
+> When was the last time a per-driver decision has been a good thing? I'm
+> sorry, but the get_scanout_buffer approach buffer won't work for any
+> driver out there.
+> 
+> I'm fine with discussing alternatives if you don't like the ones I
+> suggested, but they must allow the panic handler infrastructure to work
+> with any driver we have, not just 4.
+> 
+
+Why can't we use the model[1] suggested by Daniel using a draw_pixel
+callback giving drivers full control on how they can put a pixel on the
+display?
+
+This will even work for the AMD debug interface.
+In the linear CPU accessible buffer case, we can provide a helper for
+that, maybe we can do helpers for other common cases as well.
+
+Adding to that we would need a panic_setup/enter and panic_teardown/exit
+callback.
+
+Noralf.
+
+[1]
+https://lore.kernel.org/dri-devel/20160810091529.GQ6232@phenom.ffwll.local/
