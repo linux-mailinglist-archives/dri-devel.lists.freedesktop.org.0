@@ -2,46 +2,122 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9553D7C0178
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Oct 2023 18:20:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F2D37C0192
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Oct 2023 18:26:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7EDBD89125;
-	Tue, 10 Oct 2023 16:20:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A2C6C10E3A6;
+	Tue, 10 Oct 2023 16:26:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8EEEC89125;
- Tue, 10 Oct 2023 16:20:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=In-Reply-To:Content-Transfer-Encoding:Content-Type:MIME-Version
- :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=TLElLSEX7oRkdPHcLlY2IarVG1bW0QfSyFzShmPwp/I=; b=HYTXJahAbE0DIVXKUUF4WQUqrZ
- mgO9tSUnaVEfWTeBDikl44B+BiU/stvn2Fu3Rss+GMbg0xWR2XY20ym2KynXQeoRUACZ1Nhf8NyZM
- 6w6SIimbAZZ5bRThUVF7+GlVNHOd1m/f7zDhu3y/qFbW3oZs3M0SwvKG1CrfEeWYRPGlTrO9UWmWY
- QOpaK1u22nxxNUUjMTQneCTVBJwzL45h3TzLiRy/jrS1E9aABgmSxTvct9ezcvaD1adAyWWpQ5Wiy
- ISYY8HfZIc87ao2xAH6uXJ7LEwtvl4h99qXhbQvAR1Aa9YnjT62f0wCBW5o0SGwS4PDMD7nmuWQsN
- +j4Ukuqg==;
-Received: from [102.213.205.115] (helo=mail.igalia.com)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1qqFSs-00GWUZ-By; Tue, 10 Oct 2023 18:20:10 +0200
-Date: Tue, 10 Oct 2023 15:19:58 -0100
-From: Melissa Wen <mwen@igalia.com>
-To: Harry Wentland <harry.wentland@amd.com>
-Subject: Re: [RFC PATCH 02/10] drm/colorop: Introduce new drm_colorop mode
- object
-Message-ID: <20231010161958.lqg6sdepklfpgdzf@mail.igalia.com>
-References: <20230908150235.75918-1-harry.wentland@amd.com>
- <20230908150235.75918-3-harry.wentland@amd.com>
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on20616.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:7eab::616])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A31F510E32C;
+ Tue, 10 Oct 2023 16:26:20 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=O+CVXJXUvtjaHcW32gQ8gTLoBYnjHdoiKSTD3BiWYIpTrRt1gdpoIUuH/tz/rhWRw4y/rxgCZ7lViHpHTMaTXjhqWelwbTlB1NSwYI5dJLags1Bb1SjXEqt9vxwp0PpNOomC+kCaKI/G3qPgUWA8qf1aXGabz5+FRla+/qCTJ8ke1mbZ4OCjrGKujCWZ7Sl7eOLZVcK5aLPdu342Tc6Rp3ZtYjDzhsF0cZZ2h3pIpTX2EZeLnSmqp+j5OhkAnsSSL8a0bnJZweMuI2M6CLETRFKZaD9ReW8Mgj9X+WVPn2iEP1WseDGceFlO2ttORAdvIUa4ZNx1vqzYim8AkOs56Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=B+Fk2JaJo/EXHxhWzZWfZUUAY3zheNUk2u1kLF+/F4k=;
+ b=gNlJEGLiUYRWs0L/Dw2dBWs+JSCQdG0mm9p3qnCVmZfXF//37KLcaXCccJ8UnRdG+qO4dPvzILrDmiQ8OOgLhXbPEWYZjuHQ1q3keNLWsI1R0vA0bj+ES7rC667MM5Yg6r8AviQgb5/tohda3OnymHLiETBveuFFZYhZpvcxNdKMyKSEedP2z5gKPvegi9a6dQiyPNDKXr5AVYMeA996Ud0BjEVfxLi9rJKxHgrXhkBxW2ZAs3Xjs2xbxXtM8qEpfr0UG6gRFPPIg0+Os7rUFt9xjaANshnqk1A2EnrpNy2bZ356q5WTxzHMPYPE4xIiKLkUt4CZd/dT5dJrImtAkg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=B+Fk2JaJo/EXHxhWzZWfZUUAY3zheNUk2u1kLF+/F4k=;
+ b=elmA2y35OGN+pl+Njr/plTRC+37+xt2F/c0N92iqd497Z+xTEVJMo+cq8vJR7BPQtG1RlqL0LVWBKubncdGMIMQO1E51Cx2zZCM+lC9703JwxKibNlvBF4KfvOY0PzHHtPihU8RI6PfqmZLjlupB8wsZbyqaeTz8bPpe15ZCIFc=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MN0PR12MB6101.namprd12.prod.outlook.com (2603:10b6:208:3cb::10)
+ by PH7PR12MB7425.namprd12.prod.outlook.com (2603:10b6:510:200::8)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6863.36; Tue, 10 Oct
+ 2023 16:26:18 +0000
+Received: from MN0PR12MB6101.namprd12.prod.outlook.com
+ ([fe80::3e65:d396:58fb:27d4]) by MN0PR12MB6101.namprd12.prod.outlook.com
+ ([fe80::3e65:d396:58fb:27d4%3]) with mapi id 15.20.6863.032; Tue, 10 Oct 2023
+ 16:26:18 +0000
+Message-ID: <db29fe6f-1ac1-4e8f-9f77-f3569c503a76@amd.com>
+Date: Tue, 10 Oct 2023 11:26:14 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 04/16] platform/x86/amd/pmf: Add support for PMF Policy
+ Binary
+Content-Language: en-US
+To: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, hdegoede@redhat.com,
+ markgross@kernel.org, ilpo.jarvinen@linux.intel.com,
+ basavaraj.natikar@amd.com, jikos@kernel.org, benjamin.tissoires@redhat.com,
+ alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
+ airlied@gmail.com, daniel@ffwll.ch
+References: <20231010125917.138225-1-Shyam-sundar.S-k@amd.com>
+ <20231010125917.138225-5-Shyam-sundar.S-k@amd.com>
+From: Mario Limonciello <mario.limonciello@amd.com>
+In-Reply-To: <20231010125917.138225-5-Shyam-sundar.S-k@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SA1P222CA0159.NAMP222.PROD.OUTLOOK.COM
+ (2603:10b6:806:3c3::7) To MN0PR12MB6101.namprd12.prod.outlook.com
+ (2603:10b6:208:3cb::10)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230908150235.75918-3-harry.wentland@amd.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN0PR12MB6101:EE_|PH7PR12MB7425:EE_
+X-MS-Office365-Filtering-Correlation-Id: eaad2593-b4e1-4ad2-66fb-08dbc9ada165
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: G5Z4Y8GthOXVJD6vDmBYET+epMQ5L7vJ/d329+h87x9gxIdPN1STzMTKkSpiCDmQaa8viyB4FPpBuiMd3jUKC7mkQ9nNgIAYt7YjIm/DHgnm+7fIVJwyl/3DTMW9oU1Oo6PQfPPPW9VoMM49fwY+5CHVRLNIfBKrBk8PTUnFSUpIPsqPPbbkGGVbT4aB0w5GtkRudTqqDmB7N7xRQHiwUcKJNqthEZcovbgMzVbK8vKN7sZB1x/A+T+UGSZBZaXln6tzPKnQtrd6hWHHaNcc/kxRQM1HMPHhjUblOVp8noXVSHAQfliMDJnhoy3w3iZ5UNy096lQHdCcmc9DrjDhxlDHwUuTalHQHLcFTXZ3iPPEHaQEheYHQBLmU2zDC/xeRLSv+2yFSNVTTm8opFFD71a3NUl6+oxCjJppKbAH/gYXt2mnkFaWNmQZovlFJiHkvsqUFZ5LBvF+TOHFgKrL5t0RtodxtJBWsOnpzrugDSBxk1SUetZkUUZ47w5UAMpWRu0emC/BC9V7Xqav4Mw8x/yc/TI3miIEGeVWk7w/wn4ZKrT7pNSx8asbvua+PQxCB+j2YkXs9dmniRdeT4MWX/pabE3/zE81vJrFKtKjWP/9kTdLYvseWAINOY0Pu0Cf296u+8K3xyReVtbGm7JergY1PQOa5sEgzBsyAZ8QrTA=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN0PR12MB6101.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(396003)(346002)(376002)(366004)(39860400002)(136003)(230922051799003)(64100799003)(186009)(1800799009)(451199024)(26005)(53546011)(2616005)(6506007)(83380400001)(8676002)(6666004)(6512007)(4326008)(30864003)(2906002)(7416002)(478600001)(66476007)(316002)(66946007)(66556008)(41300700001)(6486002)(44832011)(5660300002)(86362001)(38100700002)(8936002)(921005)(36756003)(31696002)(31686004)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OHZmMTF5N3IzNk5jS0JkTlZMdWw3dGlPdFY0dVJSdUs5blNzVEtkTG85enh2?=
+ =?utf-8?B?RnNJc3JHNGE2bHJuKzduSzE0emlHeElHejhwRkI3ajhOVVdyMU11SVkyYnJX?=
+ =?utf-8?B?QlpDUzV1NmRDa1VpcHcxalpUTSs0cVJKZjN1eE1lK1lSd0ZoVm9mclRRSzdM?=
+ =?utf-8?B?dFJBM3BSeGJDQ0VnT1BKNGhrakVWSVdkQXp6Z1VYeG01L0wyMkVKMlJjM1pR?=
+ =?utf-8?B?QWFsTm5KL3ozaU9wMkp2emVrUGpkcC9TTnBZTjJReGgxeE03QzhNUzErYmtr?=
+ =?utf-8?B?c2hEbUg3NlIxNEJFZXhvRkxmZlZwbHhEd21GT1FyS25hekdYRnFCQW10bFZJ?=
+ =?utf-8?B?TExWVmUwZk5oR0dUQTAzeGc2QWNXUVVIeVljSHVjemtTRnpMajloNlF0VmRS?=
+ =?utf-8?B?WXVCS3Fwb0k1eUlOalhwaTZPWHBOZnk2S2R4bmVheDVEMHhZcTZNNG9EcjBF?=
+ =?utf-8?B?a1lUNDBkVlZXNVczUFRYUkJ4Sm9GOXIwdnBYYmF1KzJXbHBKVXBFb2NsUC9I?=
+ =?utf-8?B?RHRZM1M5ZUZTU3ZjNjZadFd6Q1FWeTlnTlVDMGk5VXl3TFdmYjlDWStwMmZB?=
+ =?utf-8?B?VVVMTG5xK3hhQmxwcXcyRnRoVkJ3dW00YjRsVW5SMDhCeFUwVllWYWVZWUZu?=
+ =?utf-8?B?aVJ5QmJEUzV4dFhrMjEwOFJFajRBSFBGMERHMzM3WmowMUxUUWdKNXA4dkZS?=
+ =?utf-8?B?R3laNldvUlNCZ0x3R0JrRFFSWFhlZGkzbW01dHRITHY5VXA1MWhKNzNJWTdT?=
+ =?utf-8?B?dGw2NG9MTUladWFEbnhMTm9XQkE1RTg3L1kzWDdWZHJ0eFhUMnh5WXpmZFlE?=
+ =?utf-8?B?NjJIa3QwRjRkU0RReUlzaUY5T3ltd2JUeE1uTmFVa0JBZFpHSUtwMDQzdzVO?=
+ =?utf-8?B?a2tLMldlMkkzYjBrcFhKVUlBbUxNOThXUm1kWXJXeTN2Z1NLTnA5TUlrNnZJ?=
+ =?utf-8?B?L2VuS05EMVBlcnQyazZocGUwNjhxb1Rjbnh0SFF5b2Yva3ZYN3ZjQ2N5dXBL?=
+ =?utf-8?B?eEhEZTJ0czk2dTBxTGxoNzRpZWg3bTFGeWw0Z3EwemhVMWkzdDFvT3dUWUJ4?=
+ =?utf-8?B?aVRBeTZLa205S0t6L09DeS9BTzNRNzRKRExXNlljUnY1eHlmWGNrYzQzSkRk?=
+ =?utf-8?B?Nk5Gd2wzb3FHa2FsMDNiR291SklZYmplNVdFUVdyTTBLUTF2dk8wZHNxSDBS?=
+ =?utf-8?B?OWZjV2U0WnEvWElNa24xNWdyNTVQbnBPMkNKZmRYV1R0QlJuWmlyM0FLc1Z5?=
+ =?utf-8?B?bXJzenIydU5MNENWeTQxN3RJTTFsU3JBVG52R3JkVks5eHp3R3hjbzBpbnkv?=
+ =?utf-8?B?aHVhcHhwN1hWT09Hekp2RWxTN3ZxZFNEbkFjZGVScVBwYzlGRXlPYXE2TnRZ?=
+ =?utf-8?B?N1hNdlRXMjk2dm9wVFVlS3NUb0NIeDgwOTZ4N0ZsWHhBbnJUMlB2aiszVlBi?=
+ =?utf-8?B?LzEyeTJvcHd4a3lPY0g3Y2lnMGJuY0pJdFp6TVZHL2lhWjFCRzFjR0cyT2ky?=
+ =?utf-8?B?eFkwcDMzTE8yQmoyUnoxK2tSdCszWWlaS3BWd25mYmEzVHZFNWxEd2Q1bTZy?=
+ =?utf-8?B?UUNNL3BvRDl6QUZuMVRvNzNSNVlGOXBySzdVK20xamhBVFVLSlpEblpVRHlx?=
+ =?utf-8?B?Nys2ZHlKd3Y0N0wzOG9UWUpVLzJpVk9OaWNGS3NOa1RSc044OWFuVlMwakZC?=
+ =?utf-8?B?bUpOTFBOdWUwdmxDSzZ6OXprMnJkR3ZhQlJTUG5RRTJSY1VLK0N3MXB5VkFE?=
+ =?utf-8?B?bVdmbnJHTlFZQXViVEtvRlBaVDZuY2R3YWlicVoya01BQlhSSFB1NDVxdDhZ?=
+ =?utf-8?B?YmZPdFJmU05jWU55VGJhMUNaak1JczZpVCtDY00ycFNLeWVvc0crdHh1V2dl?=
+ =?utf-8?B?VzltVnlQZHUzR09yTEZZRTkydVliZ1dkaWdpSXdta2Nxd0RnTzJSTVFkdnNY?=
+ =?utf-8?B?c3JsdmxpUk5Nb1UvaDQrcStSVWxmejhIL1VCNm1ibXNmWENqdUVKZjVIaFJj?=
+ =?utf-8?B?N3R5aWQxS0lsbG00dDNVRWlRbE1PbXFtTHFYSnJxK2VjZWE3Q0lOOWJPYkU2?=
+ =?utf-8?B?RzcyNC93KzRLVlRkUVBleGM1UXd0bm5vYXJhaTBJSkFpc0NYd1c5VmlUcURq?=
+ =?utf-8?Q?X98PvNJSYZT5SGqijnOuNFbZ6?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: eaad2593-b4e1-4ad2-66fb-08dbc9ada165
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB6101.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Oct 2023 16:26:17.9363 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: BVEduoj30vXF2uMHi66nMkDZUtKxxOzb+atIGFiU1gvMn4c0B+WTz1XInbAzYVwfMmK82F6Cr6Bq5+dBC1OV4A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB7425
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,910 +130,595 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sebastian Wick <sebastian.wick@redhat.com>,
- Pekka Paalanen <pekka.paalanen@collabora.com>,
- Shashank Sharma <shashank.sharma@amd.com>, dri-devel@lists.freedesktop.org,
- wayland-devel@lists.freedesktop.org, Xaver Hugl <xaver.hugl@gmail.com>,
- Jonas =?utf-8?B?w4VkYWhs?= <jadahl@redhat.com>,
- Uma Shankar <uma.shankar@intel.com>,
- Victoria Brekenfeld <victoria@system76.com>, Joshua Ashton <joshua@froggi.es>,
- Michel =?utf-8?Q?D=C3=A4nzer?= <mdaenzer@redhat.com>,
- Aleix Pol <aleixpol@kde.org>, Naseer Ahmed <quic_naseer@quicinc.com>,
- Christopher Braga <quic_cbraga@quicinc.com>
+Cc: dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, Patil.Reddy@amd.com,
+ platform-driver-x86@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 09/08, Harry Wentland wrote:
-> This patches introduces a new drm_colorop mode object. This
-> object represents color transformations and can be used to
-> define color pipelines.
+On 10/10/2023 07:59, Shyam Sundar S K wrote:
+> PMF Policy binary is a encrypted and signed binary that will be part
+> of the BIOS. PMF driver via the ACPI interface checks the existence
+> of Smart PC bit. If the advertised bit is found, PMF driver walks
+> the acpi namespace to find out the policy binary size and the address
+> which has to be passed to the TA during the TA init sequence.
 > 
-> We also introduce the drm_colorop_state here, as well as
-> various helpers and state tracking bits.
+> The policy binary is comprised of inputs (or the events) and outputs
+> (or the actions). With the PMF ecosystem, OEMs generate the policy
+> binary (or could be multiple binaries) that contains a supported set
+> of inputs and outputs which could be specifically carved out for each
+> usage segment (or for each user also) that could influence the system
+> behavior either by enriching the user experience or/and boost/throttle
+> power limits.
 > 
-> Signed-off-by: Harry Wentland <harry.wentland@amd.com>
-> Cc: Ville Syrjala <ville.syrjala@linux.intel.com>
-> Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
-> Cc: Simon Ser <contact@emersion.fr>
-> Cc: Harry Wentland <harry.wentland@amd.com>
-> Cc: Melissa Wen <mwen@igalia.com>
-> Cc: Jonas Ådahl <jadahl@redhat.com>
-> Cc: Sebastian Wick <sebastian.wick@redhat.com>
-> Cc: Shashank Sharma <shashank.sharma@amd.com>
-> Cc: Alexander Goins <agoins@nvidia.com>
-> Cc: Joshua Ashton <joshua@froggi.es>
-> Cc: Michel Dänzer <mdaenzer@redhat.com>
-> Cc: Aleix Pol <aleixpol@kde.org>
-> Cc: Xaver Hugl <xaver.hugl@gmail.com>
-> Cc: Victoria Brekenfeld <victoria@system76.com>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Uma Shankar <uma.shankar@intel.com>
-> Cc: Naseer Ahmed <quic_naseer@quicinc.com>
-> Cc: Christopher Braga <quic_cbraga@quicinc.com>
+> Once the TA init command succeeds, the PMF driver sends the changing
+> events in the current environment to the TA for a constant sampling
+> frequency time (the event here could be a lid close or open) and
+> if the policy binary has corresponding action built within it, the
+> TA sends the action for it in the subsequent enact command.
+> 
+> If the inputs sent to the TA has no output defined in the policy
+> binary generated by OEMs, there will be no action to be performed
+> by the PMF driver.
+> 
+> Example policies:
+> 
+> 1) if slider is performance ; set the SPL to 40W
+> Here PMF driver registers with the platform profile interface and
+> when the slider position is changed, PMF driver lets the TA know
+> about this. TA sends back an action to update the Sustained
+> Power Limit (SPL). PMF driver updates this limit via the PMFW mailbox.
+> 
+> 2) if user_away ; then lock the system
+> Here PMF driver hooks to the AMD SFH driver to know the user presence
+> and send the inputs to TA and if the condition is met, the TA sends
+> the action of locking the system. PMF driver generates a uevent and
+> based on the udev rule in the userland the system gets locked with
+> systemctl.
+> 
+> The intent here is to provide the OEM's to make a policy to lock the
+> system when the user is away ; but the userland can make a choice to
+> ignore it.
+> 
+> and so on.
+> 
+> The OEMs will have an utility to create numerous such policies and
+> the policies shall be reviewed by AMD before signing and encrypting
+> them. Policies are shared between operating systems to have seemless user
+> experience.
+> 
+> Since all this action has to happen via the "amdtee" driver, currently
+> there is no caller for it in the kernel which can load the amdtee driver.
+> Without amdtee driver loading onto the system the "tee" calls shall fail
+> from the PMF driver. Hence an explicit "request_module" has been added
+> to address this.
+> 
+> Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
 > ---
->  drivers/gpu/drm/Makefile            |   1 +
->  drivers/gpu/drm/drm_atomic.c        |  79 +++++++++++++
->  drivers/gpu/drm/drm_atomic_helper.c |  12 ++
->  drivers/gpu/drm/drm_atomic_uapi.c   |  48 ++++++++
->  drivers/gpu/drm/drm_colorop.c       | 169 ++++++++++++++++++++++++++++
->  drivers/gpu/drm/drm_mode_config.c   |   7 ++
->  drivers/gpu/drm/drm_plane_helper.c  |   2 +-
->  include/drm/drm_atomic.h            |  82 ++++++++++++++
->  include/drm/drm_atomic_uapi.h       |   1 +
->  include/drm/drm_colorop.h           | 157 ++++++++++++++++++++++++++
->  include/drm/drm_mode_config.h       |  18 +++
->  include/drm/drm_plane.h             |   2 +
->  include/uapi/drm/drm.h              |   3 +
->  include/uapi/drm/drm_mode.h         |   1 +
->  14 files changed, 581 insertions(+), 1 deletion(-)
->  create mode 100644 drivers/gpu/drm/drm_colorop.c
->  create mode 100644 include/drm/drm_colorop.h
+>   drivers/platform/x86/amd/pmf/Kconfig  |   2 +-
+>   drivers/platform/x86/amd/pmf/acpi.c   |  37 +++++++
+>   drivers/platform/x86/amd/pmf/core.c   |  13 +++
+>   drivers/platform/x86/amd/pmf/pmf.h    | 136 ++++++++++++++++++++++++
+>   drivers/platform/x86/amd/pmf/tee-if.c | 146 +++++++++++++++++++++++++-
+>   5 files changed, 331 insertions(+), 3 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-> index 1855863b4d7a..941de0269709 100644
-> --- a/drivers/gpu/drm/Makefile
-> +++ b/drivers/gpu/drm/Makefile
-> @@ -16,6 +16,7 @@ drm-y := \
->  	drm_client.o \
->  	drm_client_modeset.o \
->  	drm_color_mgmt.o \
-> +	drm_colorop.o \
->  	drm_connector.o \
->  	drm_crtc.o \
->  	drm_displayid.o \
-> diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
-> index 11f3a130f6f4..d734e9d5bfed 100644
-> --- a/drivers/gpu/drm/drm_atomic.c
-> +++ b/drivers/gpu/drm/drm_atomic.c
-> @@ -42,6 +42,7 @@
->  #include <drm/drm_mode.h>
->  #include <drm/drm_print.h>
->  #include <drm/drm_writeback.h>
-> +#include <drm/drm_colorop.h>
->  
->  #include "drm_crtc_internal.h"
->  #include "drm_internal.h"
-> @@ -108,6 +109,7 @@ void drm_atomic_state_default_release(struct drm_atomic_state *state)
->  	kfree(state->connectors);
->  	kfree(state->crtcs);
->  	kfree(state->planes);
-> +	kfree(state->colorops);
->  	kfree(state->private_objs);
->  }
->  EXPORT_SYMBOL(drm_atomic_state_default_release);
-> @@ -139,6 +141,10 @@ drm_atomic_state_init(struct drm_device *dev, struct drm_atomic_state *state)
->  				sizeof(*state->planes), GFP_KERNEL);
->  	if (!state->planes)
->  		goto fail;
-> +	state->colorops = kcalloc(dev->mode_config.num_colorop,
-> +				  sizeof(*state->colorops), GFP_KERNEL);
-> +	if (!state->colorops)
-> +		goto fail;
->  
->  	state->dev = dev;
->  
-> @@ -244,6 +250,20 @@ void drm_atomic_state_default_clear(struct drm_atomic_state *state)
->  		state->planes[i].new_state = NULL;
->  	}
->  
-> +	for (i = 0; i < config->num_colorop; i++) {
-> +		struct drm_colorop *colorop = state->colorops[i].ptr;
-> +
-> +		if (!colorop)
-> +			continue;
-> +
-> +		drm_colorop_atomic_destroy_state(colorop,
-> +						 state->colorops[i].state);
-> +		state->colorops[i].ptr = NULL;
-> +		state->colorops[i].state = NULL;
-> +		state->colorops[i].old_state = NULL;
-> +		state->colorops[i].new_state = NULL;
-> +	}
-> +
->  	for (i = 0; i < state->num_private_objs; i++) {
->  		struct drm_private_obj *obj = state->private_objs[i].ptr;
->  
-> @@ -562,6 +582,65 @@ drm_atomic_get_plane_state(struct drm_atomic_state *state,
->  }
->  EXPORT_SYMBOL(drm_atomic_get_plane_state);
->  
-> +
-> +/**
-> + * drm_atomic_get_colorop_state - get colorop state
-> + * @state: global atomic state object
-> + * @colorop: colorop to get state object for
-> + *
-> + * This function returns the colorop state for the given colorop, allocating it
-> + * if needed. It will also grab the relevant plane lock to make sure that the
-> + * state is consistent.
-> + *
-> + * Returns:
-> + *
-> + * Either the allocated state or the error code encoded into the pointer. When
-> + * the error is EDEADLK then the w/w mutex code has detected a deadlock and the
-> + * entire atomic sequence must be restarted. All other errors are fatal.
-> + */
-> +struct drm_colorop_state *
-> +drm_atomic_get_colorop_state(struct drm_atomic_state *state,
-> +			     struct drm_colorop *colorop)
+> diff --git a/drivers/platform/x86/amd/pmf/Kconfig b/drivers/platform/x86/amd/pmf/Kconfig
+> index 32a029e8db80..f246252bddd8 100644
+> --- a/drivers/platform/x86/amd/pmf/Kconfig
+> +++ b/drivers/platform/x86/amd/pmf/Kconfig
+> @@ -9,7 +9,7 @@ config AMD_PMF
+>   	depends on POWER_SUPPLY
+>   	depends on AMD_NB
+>   	select ACPI_PLATFORM_PROFILE
+> -	depends on TEE
+> +	depends on TEE && AMDTEE
+>   	help
+>   	  This driver provides support for the AMD Platform Management Framework.
+>   	  The goal is to enhance end user experience by making AMD PCs smarter,
+> diff --git a/drivers/platform/x86/amd/pmf/acpi.c b/drivers/platform/x86/amd/pmf/acpi.c
+> index 3fc5e4547d9f..d0512af2cd42 100644
+> --- a/drivers/platform/x86/amd/pmf/acpi.c
+> +++ b/drivers/platform/x86/amd/pmf/acpi.c
+> @@ -286,6 +286,43 @@ int apmf_install_handler(struct amd_pmf_dev *pmf_dev)
+>   	return 0;
+>   }
+>   
+> +static acpi_status apmf_walk_resources(struct acpi_resource *res, void *data)
 > +{
-> +	int ret, index = drm_colorop_index(colorop);
-> +	struct drm_colorop_state *colorop_state;
-> +	struct drm_plane_state *plane_state;
+> +	struct amd_pmf_dev *dev = data;
 > +
-> +	WARN_ON(!state->acquire_ctx);
-> +
-> +	colorop_state = drm_atomic_get_existing_colorop_state(state, colorop);
-> +	if (colorop_state)
-> +		return colorop_state;
-> +
-> +	/* TODO where is the unlock? */
-
-I understand that this is tracked by acquire-ctx and unlocked by
-`drm_modeset_drop_locks()` (?)
-
-> +	ret = drm_modeset_lock(&colorop->plane->mutex, state->acquire_ctx);
-> +	if (ret)
-> +		return ERR_PTR(ret);
-> +
-> +	colorop_state = drm_atomic_helper_colorop_duplicate_state(colorop);
-> +	if (!colorop_state)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	state->colorops[index].state = colorop_state;
-> +	state->colorops[index].ptr = colorop;
-> +	state->colorops[index].old_state = colorop->state;
-> +	state->colorops[index].new_state = colorop_state;
-> +	colorop_state->state = state;
-> +
-> +	drm_dbg_atomic(colorop->dev, "Added [COLOROP:%d] %p state to %p\n",
-> +		       colorop->base.id, colorop_state, state);
-> +
-> +	/* TODO is this necessary? */
-> +
-> +	plane_state = drm_atomic_get_plane_state(state,
-> +						 colorop->plane);
-> +	if (IS_ERR(plane_state))
-> +		return ERR_CAST(plane_state);
-> +
-> +	return colorop_state;
-> +}
-> +EXPORT_SYMBOL(drm_atomic_get_colorop_state);
-> +
->  static bool
->  plane_switching_crtc(const struct drm_plane_state *old_plane_state,
->  		     const struct drm_plane_state *new_plane_state)
-> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
-> index d579fd8f7cb8..0472f6182c0a 100644
-> --- a/drivers/gpu/drm/drm_atomic_helper.c
-> +++ b/drivers/gpu/drm/drm_atomic_helper.c
-> @@ -2921,6 +2921,8 @@ int drm_atomic_helper_swap_state(struct drm_atomic_state *state,
->  	struct drm_crtc_state *old_crtc_state, *new_crtc_state;
->  	struct drm_plane *plane;
->  	struct drm_plane_state *old_plane_state, *new_plane_state;
-> +	struct drm_colorop *colorop;
-> +	struct drm_colorop_state *old_colorop_state, *new_colorop_state;
->  	struct drm_crtc_commit *commit;
->  	struct drm_private_obj *obj;
->  	struct drm_private_state *old_obj_state, *new_obj_state;
-> @@ -2998,6 +3000,16 @@ int drm_atomic_helper_swap_state(struct drm_atomic_state *state,
->  		}
->  	}
->  
-> +	for_each_oldnew_colorop_in_state(state, colorop, old_colorop_state, new_colorop_state, i) {
-> +		WARN_ON(colorop->state != old_colorop_state);
-> +
-> +		old_colorop_state->state = state;
-> +		new_colorop_state->state = NULL;
-> +
-> +		state->colorops[i].state = old_colorop_state;
-> +		colorop->state = new_colorop_state;
-> +	}
-> +
->  	for_each_oldnew_plane_in_state(state, plane, old_plane_state, new_plane_state, i) {
->  		WARN_ON(plane->state != old_plane_state);
->  
-> diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
-> index d867e7f9f2cd..b1aa752c1848 100644
-> --- a/drivers/gpu/drm/drm_atomic_uapi.c
-> +++ b/drivers/gpu/drm/drm_atomic_uapi.c
-> @@ -34,6 +34,7 @@
->  #include <drm/drm_drv.h>
->  #include <drm/drm_writeback.h>
->  #include <drm/drm_vblank.h>
-> +#include <drm/drm_colorop.h>
->  
->  #include <linux/dma-fence.h>
->  #include <linux/uaccess.h>
-> @@ -642,6 +643,26 @@ drm_atomic_plane_get_property(struct drm_plane *plane,
->  	return 0;
->  }
->  
-> +
-> +static int drm_atomic_colorop_set_property(struct drm_colorop *colorop,
-> +		struct drm_colorop_state *state, struct drm_file *file_priv,
-> +		struct drm_property *property, uint64_t val)
-> +{
-> +	drm_dbg_atomic(colorop->dev,
-> +			"[COLOROP:%d] unknown property [PROP:%d:%s]]\n",
-> +			colorop->base.id,
-> +			property->base.id, property->name);
-> +	return -EINVAL;
-> +}
-> +
-> +static int
-> +drm_atomic_colorop_get_property(struct drm_colorop *colorop,
-> +		const struct drm_colorop_state *state,
-> +		struct drm_property *property, uint64_t *val)
-> +{
-> +	return -EINVAL;
-> +}
-> +
->  static int drm_atomic_set_writeback_fb_for_connector(
->  		struct drm_connector_state *conn_state,
->  		struct drm_framebuffer *fb)
-> @@ -893,6 +914,16 @@ int drm_atomic_get_property(struct drm_mode_object *obj,
->  				plane->state, property, val);
->  		break;
->  	}
-> +	case DRM_MODE_OBJECT_COLOROP: {
-> +		struct drm_colorop *colorop = obj_to_colorop(obj);
-> +
-> +		if (colorop->plane)
-> +			WARN_ON(!drm_modeset_is_locked(&colorop->plane->mutex));
-> +
-> +		ret = drm_atomic_colorop_get_property(colorop,
-> +				colorop->state, property, val);
+> +	switch (res->type) {
+> +	case ACPI_RESOURCE_TYPE_ADDRESS64:
+> +		dev->policy_addr = res->data.address64.address.minimum;
+> +		dev->policy_sz = res->data.address64.address.address_length;
+> +		break;
+> +	case ACPI_RESOURCE_TYPE_FIXED_MEMORY32:
+> +		dev->policy_addr = res->data.fixed_memory32.address;
+> +		dev->policy_sz = res->data.fixed_memory32.address_length;
 > +		break;
 > +	}
->  	default:
->  		ret = -EINVAL;
->  		break;
-> @@ -1027,6 +1058,23 @@ int drm_atomic_set_property(struct drm_atomic_state *state,
->  		ret = drm_atomic_plane_set_property(plane,
->  				plane_state, file_priv,
->  				prop, prop_value);
 > +
-> +		break;
+> +	if (!dev->policy_addr || dev->policy_sz > POLICY_BUF_MAX_SZ || dev->policy_sz == 0) {
+> +		pr_err("Incorrect Policy params, possibly a SBIOS bug\n");
+> +		return AE_ERROR;
 > +	}
-> +	case DRM_MODE_OBJECT_COLOROP: {
-> +		struct drm_colorop *colorop = obj_to_colorop(obj);
-> +		struct drm_colorop_state *colorop_state;
 > +
-> +		colorop_state = drm_atomic_get_colorop_state(state, colorop);
-> +		if (IS_ERR(colorop_state)) {
-> +			ret = PTR_ERR(colorop_state);
+> +	return AE_OK;
+> +}
+> +
+> +int apmf_check_smart_pc(struct amd_pmf_dev *pmf_dev)
+> +{
+> +	acpi_handle ahandle = ACPI_HANDLE(pmf_dev->dev);
+> +	acpi_status status;
+> +
+> +	status = acpi_walk_resources(ahandle, METHOD_NAME__CRS, apmf_walk_resources, pmf_dev);
+> +	if (ACPI_FAILURE(status)) {
+> +		dev_err(pmf_dev->dev, "acpi_walk_resources failed\n");
+> +		return status;
+
+You're returning acpi_status here, but the return for the function is 
+int.  It "happens to work" but I think it would be better to do 
+something like:
+
+dev_err(pmf_dev->dev, "acpi_walk_resources failed: %d\n, status);
+return -EINVAL;
+
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>   void apmf_acpi_deinit(struct amd_pmf_dev *pmf_dev)
+>   {
+>   	acpi_handle ahandle = ACPI_HANDLE(pmf_dev->dev);
+> diff --git a/drivers/platform/x86/amd/pmf/core.c b/drivers/platform/x86/amd/pmf/core.c
+> index ffb78e9709d9..96a41e7d4e7d 100644
+> --- a/drivers/platform/x86/amd/pmf/core.c
+> +++ b/drivers/platform/x86/amd/pmf/core.c
+> @@ -395,6 +395,19 @@ static int amd_pmf_probe(struct platform_device *pdev)
+>   		return -ENOMEM;
+>   
+>   	dev->dev = &pdev->dev;
+> +	err = apmf_check_smart_pc(dev);
+> +	if (!err) {
+
+Rather than just failing to init smart PC solution builder, shouldn't 
+you fail probe entirely if an err is set from probing the BIOS 
+resources?  This seems fairly fatal.
+
+For example I'd think that setting up static slider is relatively 
+pointless on a system intending to use smart PC solution builder if 
+smart PC solution builder isn't working.
+
+> +		/*
+> +		 * In order for Smart PC solution to work it has a hard dependency
+> +		 * on the amdtee driver to be loaded first even before the PMF driver
+> +		 * loads. PMF ASL has a _CRS method that advertises the existence
+> +		 * of Smart PC bit. If this information is present, use this to
+> +		 * explicitly probe the amdtee driver, so that "tee" plumbing is done
+> +		 * before the PMF Smart PC init happens.
+> +		 */
+> +		if (request_module("amdtee"))
+> +			pr_err("Failed to load amdtee. PMF Smart PC not enabled!\n");
+
+Did that softdep thing Ilpo mentioned not work for modprobe?  Hopefully 
+that generally works for everything except the insmod case so this code 
+path is unlikely to be hit in the wild.
+
+> +	}
+>   
+>   	rdev = pci_get_domain_bus_and_slot(0, 0, PCI_DEVFN(0, 0));
+>   	if (!rdev || !pci_match_id(pmf_pci_ids, rdev)) {
+> diff --git a/drivers/platform/x86/amd/pmf/pmf.h b/drivers/platform/x86/amd/pmf/pmf.h
+> index a91c22d9b532..51c0e17f7720 100644
+> --- a/drivers/platform/x86/amd/pmf/pmf.h
+> +++ b/drivers/platform/x86/amd/pmf/pmf.h
+> @@ -14,6 +14,11 @@
+>   #include <linux/acpi.h>
+>   #include <linux/platform_profile.h>
+>   
+> +#define POLICY_BUF_MAX_SZ		0x4b000
+> +#define POLICY_SIGN_COOKIE		0x31535024
+> +#define POLICY_COOKIE_OFFSET		0x10
+> +#define POLICY_COOKIE_LEN		0x14
+> +
+>   /* APMF Functions */
+>   #define APMF_FUNC_VERIFY_INTERFACE			0
+>   #define APMF_FUNC_GET_SYS_PARAMS			1
+> @@ -59,8 +64,21 @@
+>   #define ARG_NONE 0
+>   #define AVG_SAMPLE_SIZE 3
+>   
+> +/* Policy Actions */
+> +#define PMF_POLICY_SPL						2
+> +#define PMF_POLICY_SPPT						3
+> +#define PMF_POLICY_FPPT						4
+> +#define PMF_POLICY_SPPT_APU_ONLY				5
+> +#define PMF_POLICY_STT_MIN					6
+> +#define PMF_POLICY_STT_SKINTEMP_APU				7
+> +#define PMF_POLICY_STT_SKINTEMP_HS2				8
+> +
+>   /* TA macros */
+>   #define PMF_TA_IF_VERSION_MAJOR				1
+> +#define TA_PMF_ACTION_MAX					32
+> +#define TA_PMF_UNDO_MAX						8
+> +#define TA_OUTPUT_RESERVED_MEM				906
+> +#define MAX_OPERATION_PARAMS					4
+>   
+>   /* AMD PMF BIOS interfaces */
+>   struct apmf_verify_interface {
+> @@ -183,11 +201,16 @@ struct amd_pmf_dev {
+>   	bool cnqf_supported;
+>   	struct notifier_block pwr_src_notifier;
+>   	/* Smart PC solution builder */
+> +	unsigned char *policy_buf;
+> +	u32 policy_sz;
+>   	struct tee_context *tee_ctx;
+>   	struct tee_shm *fw_shm_pool;
+>   	u32 session_id;
+>   	void *shbuf;
+>   	struct delayed_work pb_work;
+> +	struct pmf_action_table *prev_data;
+> +	u64 policy_addr;
+> +	void *policy_base;
+>   	bool smart_pc_enabled;
+>   };
+>   
+> @@ -399,17 +422,129 @@ struct apmf_dyn_slider_output {
+>   	struct apmf_cnqf_power_set ps[APMF_CNQF_MAX];
+>   } __packed;
+>   
+> +/* Smart PC - TA internals */
+> +enum ta_slider {
+> +	TA_BEST_BATTERY,	/* Best Battery */
+> +	TA_BETTER_BATTERY,	/* Better Battery */
+> +	TA_BETTER_PERFORMANCE,	/* Better Performance */
+> +	TA_BEST_PERFORMANCE,	/* Best Performance */
+> +	TA_MAX,
+> +};
+
+The comments above at end of the line don't add any value.
+
+> +
+>   /* cmd ids for TA communication */
+>   enum ta_pmf_command {
+>   	TA_PMF_COMMAND_POLICY_BUILDER_INITIALIZE,
+>   	TA_PMF_COMMAND_POLICY_BUILDER_ENACT_POLICIES,
+>   };
+>   
+> +enum ta_pmf_error_type {
+> +	TA_PMF_TYPE_SUCCESS,
+> +	TA_PMF_ERROR_TYPE_GENERIC,
+> +	TA_PMF_ERROR_TYPE_CRYPTO,
+> +	TA_PMF_ERROR_TYPE_CRYPTO_VALIDATE,
+> +	TA_PMF_ERROR_TYPE_CRYPTO_VERIFY_OEM,
+> +	TA_PMF_ERROR_TYPE_POLICY_BUILDER,
+> +	TA_PMF_ERROR_TYPE_PB_CONVERT,
+> +	TA_PMF_ERROR_TYPE_PB_SETUP,
+> +	TA_PMF_ERROR_TYPE_PB_ENACT,
+> +	TA_PMF_ERROR_TYPE_ASD_GET_DEVICE_INFO,
+> +	TA_PMF_ERROR_TYPE_ASD_GET_DEVICE_PCIE_INFO,
+> +	TA_PMF_ERROR_TYPE_SYS_DRV_FW_VALIDATION,
+> +	TA_PMF_ERROR_TYPE_MAX,
+> +};
+> +
+> +struct pmf_action_table {
+> +	u32 spl;		/* in mW */
+> +	u32 sppt;		/* in mW */
+> +	u32 sppt_apuonly;	/* in mW */
+> +	u32 fppt;		/* in mW */
+> +	u32 stt_minlimit;	/* in mW */
+> +	u32 stt_skintemp_apu;	/* in C */
+> +	u32 stt_skintemp_hs2;	/* in C */
+> +};
+> +
+> +/* Input conditions */
+> +struct ta_pmf_condition_info {
+> +	u32 power_source;
+> +	u32 bat_percentage;
+> +	u32 power_slider;
+> +	u32 lid_state;
+> +	bool user_present;
+> +	u32 rsvd1[2];
+> +	u32 monitor_count;
+> +	u32 rsvd2[2];
+> +	u32 bat_design;
+> +	u32 full_charge_capacity;
+> +	int drain_rate;
+> +	bool user_engaged;
+> +	u32 device_state;
+> +	u32 socket_power;
+> +	u32 skin_temperature;
+> +	u32 rsvd3[5];
+> +	u32 ambient_light;
+> +	u32 length;
+> +	u32 avg_c0residency;
+> +	u32 max_c0residency;
+> +	u32 s0i3_entry;
+> +	u32 gfx_busy;
+> +	u32 rsvd4[7];
+> +	bool camera_state;
+> +	u32 workload_type;
+> +	u32 display_type;
+> +	u32 display_state;
+> +	u32 rsvd5[150];
+> +};
+> +
+> +struct ta_pmf_load_policy_table {
+> +	u32 table_size;
+> +	u8 table[POLICY_BUF_MAX_SZ];
+> +};
+> +
+> +/* TA initialization params */
+> +struct ta_pmf_init_table {
+> +	u32 frequency; /* SMU sampling frequency */
+> +	bool validate;
+> +	bool sku_check;
+> +	bool metadata_macrocheck;
+> +	struct ta_pmf_load_policy_table policies_table;
+> +};
+> +
+> +/* Everything the TA needs to Enact Policies */
+> +struct ta_pmf_enact_table {
+> +	struct ta_pmf_condition_info ev_info;
+> +	u32 name;
+> +};
+> +
+> +struct ta_pmf_action {
+> +	u32 action_index;
+> +	u32 value;
+> +};
+> +
+> +/* output actions from TA */
+> +struct ta_pmf_enact_result {
+> +	u32 actions_count;
+> +	struct ta_pmf_action actions_list[TA_PMF_ACTION_MAX];
+> +	u32 undo_count;
+> +	struct ta_pmf_action undo_list[TA_PMF_UNDO_MAX];
+> +};
+> +
+> +union ta_pmf_input {
+> +	struct ta_pmf_enact_table enact_table;
+> +	struct ta_pmf_init_table init_table;
+> +};
+> +
+> +union ta_pmf_output {
+> +	struct ta_pmf_enact_result policy_apply_table;
+> +	u32 rsvd[TA_OUTPUT_RESERVED_MEM];
+> +};
+> +
+>   struct ta_pmf_shared_memory {
+>   	int command_id;
+>   	int resp_id;
+>   	u32 pmf_result;
+>   	u32 if_version;
+> +	union ta_pmf_output pmf_output;
+> +	union ta_pmf_input pmf_input;
+>   };
+>   
+>   /* Core Layer */
+> @@ -460,4 +595,5 @@ extern const struct attribute_group cnqf_feature_attribute_group;
+>   /* Smart PC builder Layer */
+>   int amd_pmf_init_smart_pc(struct amd_pmf_dev *dev);
+>   void amd_pmf_deinit_smart_pc(struct amd_pmf_dev *dev);
+> +int apmf_check_smart_pc(struct amd_pmf_dev *pmf_dev);
+>   #endif /* PMF_H */
+> diff --git a/drivers/platform/x86/amd/pmf/tee-if.c b/drivers/platform/x86/amd/pmf/tee-if.c
+> index 4036f435f1e2..38f02676261d 100644
+> --- a/drivers/platform/x86/amd/pmf/tee-if.c
+> +++ b/drivers/platform/x86/amd/pmf/tee-if.c
+> @@ -42,9 +42,77 @@ static void amd_pmf_prepare_args(struct amd_pmf_dev *dev, int cmd,
+>   	param[0].u.memref.shm_offs = 0;
+>   }
+>   
+> +static void amd_pmf_apply_policies(struct amd_pmf_dev *dev, struct ta_pmf_enact_result *out)
+> +{
+> +	u32 val;
+> +	int idx;
+> +
+> +	for (idx = 0; idx < out->actions_count; idx++) {
+> +		val = out->actions_list[idx].value;
+> +		switch (out->actions_list[idx].action_index) {
+> +		case PMF_POLICY_SPL:
+> +			if (dev->prev_data->spl != val) {
+> +				amd_pmf_send_cmd(dev, SET_SPL, false, val, NULL);
+> +				dev_dbg(dev->dev, "update SPL : %u\n", val);
+> +				dev->prev_data->spl = val;
+> +			}
+> +			break;
+> +
+> +		case PMF_POLICY_SPPT:
+> +			if (dev->prev_data->sppt != val) {
+> +				amd_pmf_send_cmd(dev, SET_SPPT, false, val, NULL);
+> +				dev_dbg(dev->dev, "update SPPT : %u\n", val);
+> +				dev->prev_data->sppt = val;
+> +			}
+> +			break;
+> +
+> +		case PMF_POLICY_FPPT:
+> +			if (dev->prev_data->fppt != val) {
+> +				amd_pmf_send_cmd(dev, SET_FPPT, false, val, NULL);
+> +				dev_dbg(dev->dev, "update FPPT : %u\n", val);
+> +				dev->prev_data->fppt = val;
+> +			}
+> +			break;
+> +
+> +		case PMF_POLICY_SPPT_APU_ONLY:
+> +			if (dev->prev_data->sppt_apuonly != val) {
+> +				amd_pmf_send_cmd(dev, SET_SPPT_APU_ONLY, false, val, NULL);
+> +				dev_dbg(dev->dev, "update SPPT_APU_ONLY : %u\n", val);
+> +				dev->prev_data->sppt_apuonly = val;
+> +			}
+> +			break;
+> +
+> +		case PMF_POLICY_STT_MIN:
+> +			if (dev->prev_data->stt_minlimit != val) {
+> +				amd_pmf_send_cmd(dev, SET_STT_MIN_LIMIT, false, val, NULL);
+> +				dev_dbg(dev->dev, "update STT_MIN : %u\n", val);
+> +				dev->prev_data->stt_minlimit = val;
+> +			}
+> +			break;
+> +
+> +		case PMF_POLICY_STT_SKINTEMP_APU:
+> +			if (dev->prev_data->stt_skintemp_apu != val) {
+> +				amd_pmf_send_cmd(dev, SET_STT_LIMIT_APU, false, val, NULL);
+> +				dev_dbg(dev->dev, "update STT_SKINTEMP_APU : %u\n", val);
+> +				dev->prev_data->stt_skintemp_apu = val;
+> +			}
+> +			break;
+> +
+> +		case PMF_POLICY_STT_SKINTEMP_HS2:
+> +			if (dev->prev_data->stt_skintemp_hs2 != val) {
+> +				amd_pmf_send_cmd(dev, SET_STT_LIMIT_HS2, false, val, NULL);
+> +				dev_dbg(dev->dev, "update STT_SKINTEMP_HS2 : %u\n", val);
+> +				dev->prev_data->stt_skintemp_hs2 = val;
+> +			}
 > +			break;
 > +		}
-> +
-> +		ret = drm_atomic_colorop_set_property(colorop,
-> +				colorop_state, file_priv,
-> +				prop, prop_value);
-> +
->  		break;
->  	}
->  	default:
-> diff --git a/drivers/gpu/drm/drm_colorop.c b/drivers/gpu/drm/drm_colorop.c
-> new file mode 100644
-> index 000000000000..78d6a0067f5b
-> --- /dev/null
-> +++ b/drivers/gpu/drm/drm_colorop.c
-> @@ -0,0 +1,169 @@
-> +/*
-> + * Copyright (C) 2023 Advanced Micro Devices, Inc. All rights reserved.
-> + *
-> + * Permission is hereby granted, free of charge, to any person obtaining a
-> + * copy of this software and associated documentation files (the "Software"),
-> + * to deal in the Software without restriction, including without limitation
-> + * the rights to use, copy, modify, merge, publish, distribute, sublicense,
-> + * and/or sell copies of the Software, and to permit persons to whom the
-> + * Software is furnished to do so, subject to the following conditions:
-> + *
-> + * The above copyright notice and this permission notice shall be included in
-> + * all copies or substantial portions of the Software.
-> + *
-> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-> + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
-> + * THE COPYRIGHT HOLDER(S) OR AUTHOR(S) BE LIABLE FOR ANY CLAIM, DAMAGES OR
-> + * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
-> + * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-> + * OTHER DEALINGS IN THE SOFTWARE.
-> + *
-> + * Authors: AMD
-> + *
-> + */
-> +
-> +#include <drm/drm_colorop.h>
-> +#include <drm/drm_print.h>
-> +#include <drm/drm_drv.h>
-> +#include <drm/drm_plane.h>
-> +
-> +#include "drm_crtc_internal.h"
-> +
-> +/* TODO big colorop doc, including properties, etc. */
-> +
-> +/* Init Helpers */
-> +
-> +int drm_colorop_init(struct drm_device *dev, struct drm_colorop *colorop,
-> +		     struct drm_plane *plane)
-> +{
-> +	struct drm_mode_config *config = &dev->mode_config;
-> +	int ret = 0;
-> +
-> +	ret = drm_mode_object_add(dev, &colorop->base, DRM_MODE_OBJECT_COLOROP);
-> +	if (ret)
-> +		return ret;
-> +
-> +	colorop->base.properties = &colorop->properties;
-> +	colorop->dev = dev;
-> +	colorop->plane = plane;
-> +
-> +	list_add_tail(&colorop->head, &config->colorop_list);
-> +	colorop->index = config->num_colorop++;
-> +
-> +	/* add properties */
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL(drm_colorop_init);
-> +
-> +void __drm_atomic_helper_colorop_duplicate_state(struct drm_colorop *colorop,
-> +						 struct drm_colorop_state *state)
-> +{
-> +	memcpy(state, colorop->state, sizeof(*state));
+> +	}
 > +}
 > +
-> +struct drm_colorop_state *
-> +drm_atomic_helper_colorop_duplicate_state(struct drm_colorop *colorop)
+>   static int amd_pmf_invoke_cmd_enact(struct amd_pmf_dev *dev)
+>   {
+>   	struct ta_pmf_shared_memory *ta_sm = NULL;
+> +	struct ta_pmf_enact_result *out = NULL;
+>   	struct tee_param param[MAX_TEE_PARAM];
+>   	struct tee_ioctl_invoke_arg arg;
+>   	int ret = 0;
+> @@ -52,7 +120,10 @@ static int amd_pmf_invoke_cmd_enact(struct amd_pmf_dev *dev)
+>   	if (!dev->tee_ctx)
+>   		return -ENODEV;
+>   
+> +	memset(dev->shbuf, 0, dev->policy_sz);
+>   	ta_sm = dev->shbuf;
+> +	out = &ta_sm->pmf_output.policy_apply_table;
+> +
+>   	memset(ta_sm, 0, sizeof(*ta_sm));
+>   	ta_sm->command_id = TA_PMF_COMMAND_POLICY_BUILDER_ENACT_POLICIES;
+>   	ta_sm->if_version = PMF_TA_IF_VERSION_MAJOR;
+> @@ -65,6 +136,12 @@ static int amd_pmf_invoke_cmd_enact(struct amd_pmf_dev *dev)
+>   		return ret;
+>   	}
+>   
+> +	if (ta_sm->pmf_result == TA_PMF_TYPE_SUCCESS && out->actions_count) {
+> +		dev_dbg(dev->dev, "action count:%u result:%x\n", out->actions_count,
+> +			ta_sm->pmf_result);
+> +		amd_pmf_apply_policies(dev, out);
+> +	}
+> +
+>   	return 0;
+>   }
+>   
+> @@ -72,6 +149,7 @@ static int amd_pmf_invoke_cmd_init(struct amd_pmf_dev *dev)
+>   {
+>   	struct ta_pmf_shared_memory *ta_sm = NULL;
+>   	struct tee_param param[MAX_TEE_PARAM];
+> +	struct ta_pmf_init_table *in = NULL;
+>   	struct tee_ioctl_invoke_arg arg;
+>   	int ret = 0;
+>   
+> @@ -80,10 +158,21 @@ static int amd_pmf_invoke_cmd_init(struct amd_pmf_dev *dev)
+>   		return -ENODEV;
+>   	}
+>   
+> +	dev_dbg(dev->dev, "Policy Binary size: %u bytes\n", dev->policy_sz);
+> +	memset(dev->shbuf, 0, dev->policy_sz);
+>   	ta_sm = dev->shbuf;
+> +	in = &ta_sm->pmf_input.init_table;
+> +
+>   	ta_sm->command_id = TA_PMF_COMMAND_POLICY_BUILDER_INITIALIZE;
+>   	ta_sm->if_version = PMF_TA_IF_VERSION_MAJOR;
+>   
+> +	in->metadata_macrocheck = false;
+> +	in->sku_check = false;
+> +	in->validate = true;
+> +	in->frequency = pb_actions_ms;
+> +	in->policies_table.table_size = dev->policy_sz;
+> +
+> +	memcpy(in->policies_table.table, dev->policy_buf, dev->policy_sz);
+>   	amd_pmf_prepare_args(dev, TA_PMF_COMMAND_POLICY_BUILDER_INITIALIZE, &arg, param);
+>   
+>   	ret = tee_client_invoke_func(dev->tee_ctx, &arg, param);
+> @@ -103,6 +192,51 @@ static void amd_pmf_invoke_cmd(struct work_struct *work)
+>   	schedule_delayed_work(&dev->pb_work, msecs_to_jiffies(pb_actions_ms));
+>   }
+>   
+> +static int amd_pmf_start_policy_engine(struct amd_pmf_dev *dev)
 > +{
-> +	struct drm_colorop_state *state;
+> +	u32 cookie, length;
+> +	int res;
 > +
-> +	if (WARN_ON(!colorop->state))
-> +		return NULL;
+> +	cookie = readl(dev->policy_buf + POLICY_COOKIE_OFFSET);
+> +	length = readl(dev->policy_buf + POLICY_COOKIE_LEN);
 > +
-> +	state = kmalloc(sizeof(*state), GFP_KERNEL);
-> +	if (state)
-> +		__drm_atomic_helper_colorop_duplicate_state(colorop, state);
+> +	if (cookie != POLICY_SIGN_COOKIE || !length)
+> +		return -EINVAL;
 > +
-> +	return state;
+> +	/* update the actual length */
+> +	dev->policy_sz = length + 512;
+> +	res = amd_pmf_invoke_cmd_init(dev);
+> +	if (res == TA_PMF_TYPE_SUCCESS) {
+> +		/* now its safe to announce that smart pc is enabled */
+> +		dev->smart_pc_enabled = 1;
+> +		/*
+> +		 * Start collecting the data from PMFW after a small delay
+> +		 * or else, we might end up getting stale values.
+> +		 */
+> +		schedule_delayed_work(&dev->pb_work, msecs_to_jiffies(pb_actions_ms * 3));
+> +	} else {
+> +		dev_err(dev->dev, "ta invoke cmd init failed err: %x\n", res);
+> +		return res;
+> +	}
+> +
+> +	return 0;
 > +}
 > +
-> +
-> +void drm_colorop_atomic_destroy_state(struct drm_colorop *colorop,
-> +				      struct drm_colorop_state *state)
+> +static int amd_pmf_get_bios_buffer(struct amd_pmf_dev *dev)
 > +{
-> +	kfree(state);
+> +	dev->policy_buf = kzalloc(dev->policy_sz, GFP_KERNEL);
+> +	if (!dev->policy_buf)
+> +		return -ENOMEM;
+> +
+> +	dev->policy_base = devm_ioremap(dev->dev, dev->policy_addr, dev->policy_sz);
+> +	if (!dev->policy_base)
+> +		return -ENOMEM;
+> +
+> +	memcpy(dev->policy_buf, dev->policy_base, dev->policy_sz);
+> +
+> +	return amd_pmf_start_policy_engine(dev);
 > +}
 > +
-> +/**
-> + * __drm_colorop_destroy_state - release colorop state
-> + * @state: colorop state object to release
-> + *
-> + * Releases all resources stored in the colorop state without actually freeing
-> + * the memory of the colorop state. This is useful for drivers that subclass the
-> + * colorop state.
-> + */
-> +void __drm_colorop_destroy_state(struct drm_colorop_state *state)
-> +{
-> +	/* TODO might need this later */
-> +}
+>   static int amd_pmf_amdtee_ta_match(struct tee_ioctl_version_data *ver, const void *data)
+>   {
+>   	return ver->impl_id == TEE_IMPL_ID_AMDTEE;
+> @@ -146,7 +280,7 @@ static int amd_pmf_tee_init(struct amd_pmf_dev *dev)
+>   		goto out_ctx;
+>   	}
+>   
+> -	size = sizeof(struct ta_pmf_shared_memory);
+> +	size = sizeof(struct ta_pmf_shared_memory) + dev->policy_sz;
+>   	dev->fw_shm_pool = tee_shm_alloc_kernel_buf(dev->tee_ctx, size);
+>   	if (IS_ERR(dev->fw_shm_pool)) {
+>   		dev_err(dev->dev, "Failed to alloc TEE shared memory\n");
+> @@ -190,11 +324,19 @@ int amd_pmf_init_smart_pc(struct amd_pmf_dev *dev)
+>   		return ret;
+>   
+>   	INIT_DELAYED_WORK(&dev->pb_work, amd_pmf_invoke_cmd);
+> -	return 0;
+> +	amd_pmf_set_dram_addr(dev);
+> +	amd_pmf_get_bios_buffer(dev);
+> +	dev->prev_data = kzalloc(sizeof(*dev->prev_data), GFP_KERNEL);
+> +	if (!dev->prev_data)
+> +		return -ENOMEM;
 > +
-> +/**
-> + * drm_colorop_destroy_state - default state destroy hook
-> + * @colorop: drm colorop
-> + * @state: colorop state object to release
-> + *
-> + * Default colorop state destroy hook for drivers which don't have their own
-> + * subclassed colorop state structure.
-> + */
-> +void drm_colorop_destroy_state(struct drm_colorop *colorop,
-> +					   struct drm_colorop_state *state)
-> +{
-> +	kfree(state);
-> +}
-> +EXPORT_SYMBOL(drm_colorop_destroy_state);
-> +
-> +/**
-> + * __drm_colorop_state_reset - resets colorop state to default values
-> + * @colorop_state: atomic colorop state, must not be NULL
-> + * @colorop: colorop object, must not be NULL
-> + *
-> + * Initializes the newly allocated @colorop_state with default
-> + * values. This is useful for drivers that subclass the CRTC state.
-> + */
-> +void __drm_colorop_state_reset(struct drm_colorop_state *colorop_state,
-> +					   struct drm_colorop *colorop)
-> +{
-> +	colorop_state->colorop = colorop;
-> +}
-> +EXPORT_SYMBOL(__drm_colorop_state_reset);
-> +
-> +/**
-> + * __drm_colorop_reset - reset state on colorop
-> + * @colorop: drm colorop
-> + * @colorop_state: colorop state to assign
-> + *
-> + * Initializes the newly allocated @colorop_state and assigns it to
-> + * the &drm_crtc->state pointer of @colorop, usually required when
-> + * initializing the drivers or when called from the &drm_colorop_funcs.reset
-> + * hook.
-> + *
-> + * This is useful for drivers that subclass the colorop state.
-> + */
-> +void __drm_colorop_reset(struct drm_colorop *colorop,
-> +				     struct drm_colorop_state *colorop_state)
-> +{
-> +	if (colorop_state)
-> +		__drm_colorop_state_reset(colorop_state, colorop);
-> +
-> +	colorop->state = colorop_state;
-> +}
-> +
-> +/**
-> + * drm_colorop_reset - reset colorop atomic state
-> + * @colorop: drm colorop
-> + *
-> + * Resets the atomic state for @colorop by freeing the state pointer (which might
-> + * be NULL, e.g. at driver load time) and allocating a new empty state object.
-> + */
-> +void drm_colorop_reset(struct drm_colorop *colorop)
-> +{
-> +	if (colorop->state)
-> +		__drm_colorop_destroy_state(colorop->state);
-> +
-> +	kfree(colorop->state);
-> +	colorop->state = kzalloc(sizeof(*colorop->state), GFP_KERNEL);
-> +
-> +	if (colorop->state)
-> +		__drm_colorop_reset(colorop, colorop->state);
-> +}
-> +EXPORT_SYMBOL(drm_colorop_reset);
-> diff --git a/drivers/gpu/drm/drm_mode_config.c b/drivers/gpu/drm/drm_mode_config.c
-> index 87eb591fe9b5..5bdcf71e1ae0 100644
-> --- a/drivers/gpu/drm/drm_mode_config.c
-> +++ b/drivers/gpu/drm/drm_mode_config.c
-> @@ -29,6 +29,7 @@
->  #include <drm/drm_managed.h>
->  #include <drm/drm_mode_config.h>
->  #include <drm/drm_print.h>
-> +#include <drm/drm_colorop.h>
->  #include <linux/dma-resv.h>
->  
->  #include "drm_crtc_internal.h"
-> @@ -184,11 +185,15 @@ int drm_mode_getresources(struct drm_device *dev, void *data,
->  void drm_mode_config_reset(struct drm_device *dev)
->  {
->  	struct drm_crtc *crtc;
-> +	struct drm_colorop *colorop;
->  	struct drm_plane *plane;
->  	struct drm_encoder *encoder;
->  	struct drm_connector *connector;
->  	struct drm_connector_list_iter conn_iter;
->  
-> +	drm_for_each_colorop(colorop, dev)
-> +		drm_colorop_reset(colorop);
-> +
->  	drm_for_each_plane(plane, dev)
->  		if (plane->funcs->reset)
->  			plane->funcs->reset(plane);
-> @@ -415,6 +420,7 @@ int drmm_mode_config_init(struct drm_device *dev)
->  	INIT_LIST_HEAD(&dev->mode_config.property_list);
->  	INIT_LIST_HEAD(&dev->mode_config.property_blob_list);
->  	INIT_LIST_HEAD(&dev->mode_config.plane_list);
-> +	INIT_LIST_HEAD(&dev->mode_config.colorop_list);
->  	INIT_LIST_HEAD(&dev->mode_config.privobj_list);
->  	idr_init_base(&dev->mode_config.object_idr, 1);
->  	idr_init_base(&dev->mode_config.tile_idr, 1);
-> @@ -436,6 +442,7 @@ int drmm_mode_config_init(struct drm_device *dev)
->  	dev->mode_config.num_crtc = 0;
->  	dev->mode_config.num_encoder = 0;
->  	dev->mode_config.num_total_plane = 0;
-> +	dev->mode_config.num_colorop = 0;
->  
->  	if (IS_ENABLED(CONFIG_LOCKDEP)) {
->  		struct drm_modeset_acquire_ctx modeset_ctx;
-> diff --git a/drivers/gpu/drm/drm_plane_helper.c b/drivers/gpu/drm/drm_plane_helper.c
-> index c91e454eba09..69faa0eeb27f 100644
-> --- a/drivers/gpu/drm/drm_plane_helper.c
-> +++ b/drivers/gpu/drm/drm_plane_helper.c
-> @@ -318,4 +318,4 @@ int drm_plane_helper_atomic_check(struct drm_plane *plane, struct drm_atomic_sta
->  						   DRM_PLANE_NO_SCALING,
->  						   false, false);
->  }
-> -EXPORT_SYMBOL(drm_plane_helper_atomic_check);
-> +EXPORT_SYMBOL(drm_plane_helper_atomic_check);
-> \ No newline at end of file
-> diff --git a/include/drm/drm_atomic.h b/include/drm/drm_atomic.h
-> index 92586ab55ef5..dca8fc26ad71 100644
-> --- a/include/drm/drm_atomic.h
-> +++ b/include/drm/drm_atomic.h
-> @@ -30,6 +30,7 @@
->  
->  #include <drm/drm_crtc.h>
->  #include <drm/drm_util.h>
-> +#include <drm/drm_colorop.h>
->  
->  /**
->   * struct drm_crtc_commit - track modeset commits on a CRTC
-> @@ -157,6 +158,11 @@ struct drm_crtc_commit {
->  	bool abort_completion;
->  };
->  
-> +struct __drm_colorops_state {
-> +	struct drm_colorop *ptr;
-> +	struct drm_colorop_state *state, *old_state, *new_state;
-> +};
-> +
->  struct __drm_planes_state {
->  	struct drm_plane *ptr;
->  	struct drm_plane_state *state, *old_state, *new_state;
-> @@ -398,6 +404,7 @@ struct drm_atomic_state {
->  	 * states.
->  	 */
->  	bool duplicated : 1;
-> +	struct __drm_colorops_state *colorops;
->  	struct __drm_planes_state *planes;
->  	struct __drm_crtcs_state *crtcs;
->  	int num_connector;
-> @@ -501,6 +508,9 @@ drm_atomic_get_crtc_state(struct drm_atomic_state *state,
->  struct drm_plane_state * __must_check
->  drm_atomic_get_plane_state(struct drm_atomic_state *state,
->  			   struct drm_plane *plane);
-> +struct drm_colorop_state *
-> +drm_atomic_get_colorop_state(struct drm_atomic_state *state,
-> +			     struct drm_colorop *colorop);
->  struct drm_connector_state * __must_check
->  drm_atomic_get_connector_state(struct drm_atomic_state *state,
->  			       struct drm_connector *connector);
-> @@ -623,6 +633,55 @@ drm_atomic_get_new_plane_state(const struct drm_atomic_state *state,
->  	return state->planes[drm_plane_index(plane)].new_state;
->  }
->  
-> +
-> +/**
-> + * drm_atomic_get_existing_colorop_state - get colorop state, if it exists
-> + * @state: global atomic state object
-> + * @colorop: colorop to grab
-> + *
-> + * This function returns the colorop state for the given colorop, or NULL
-> + * if the colorop is not part of the global atomic state.
-> + *
-> + * This function is deprecated, @drm_atomic_get_old_colorop_state or
-> + * @drm_atomic_get_new_colorop_state should be used instead.
-> + */
-> +static inline struct drm_colorop_state *
-> +drm_atomic_get_existing_colorop_state(struct drm_atomic_state *state,
-> +				    struct drm_colorop *colorop)
-> +{
-> +	return state->colorops[drm_colorop_index(colorop)].state;
-> +}
-> +
-> +/**
-> + * drm_atomic_get_old_colorop_state - get colorop state, if it exists
-> + * @state: global atomic state object
-> + * @colorop: colorop to grab
-> + *
-> + * This function returns the old colorop state for the given colorop, or
-> + * NULL if the colorop is not part of the global atomic state.
-> + */
-> +static inline struct drm_colorop_state *
-> +drm_atomic_get_old_colorop_state(struct drm_atomic_state *state,
-> +			       struct drm_colorop *colorop)
-> +{
-> +	return state->colorops[drm_colorop_index(colorop)].old_state;
-> +}
-> +
-> +/**
-> + * drm_atomic_get_new_colorop_state - get colorop state, if it exists
-> + * @state: global atomic state object
-> + * @colorop: colorop to grab
-> + *
-> + * This function returns the new colorop state for the given colorop, or
-> + * NULL if the colorop is not part of the global atomic state.
-> + */
-> +static inline struct drm_colorop_state *
-> +drm_atomic_get_new_colorop_state(struct drm_atomic_state *state,
-> +			       struct drm_colorop *colorop)
-> +{
-> +	return state->colorops[drm_colorop_index(colorop)].new_state;
-> +}
-> +
->  /**
->   * drm_atomic_get_existing_connector_state - get connector state, if it exists
->   * @state: global atomic state object
-> @@ -870,6 +929,29 @@ void drm_state_dump(struct drm_device *dev, struct drm_printer *p);
->  			     (new_crtc_state) = (__state)->crtcs[__i].new_state, \
->  			     (void)(new_crtc_state) /* Only to avoid unused-but-set-variable warning */, 1))
->  
-> +/**
-> + * for_each_oldnew_colorop_in_state - iterate over all colorops in an atomic update
-> + * @__state: &struct drm_atomic_state pointer
-> + * @colorop: &struct drm_colorop iteration cursor
-> + * @old_colorop_state: &struct drm_colorop_state iteration cursor for the old state
-> + * @new_colorop_state: &struct drm_colorop_state iteration cursor for the new state
-> + * @__i: int iteration cursor, for macro-internal use
-> + *
-> + * This iterates over all colorops in an atomic update, tracking both old and
-> + * new state. This is useful in places where the state delta needs to be
-> + * considered, for example in atomic check functions.
-> + */
-> +#define for_each_oldnew_colorop_in_state(__state, colorop, old_colorop_state, new_colorop_state, __i) \
-> +	for ((__i) = 0;							\
-> +	     (__i) < (__state)->dev->mode_config.num_colorop;	\
-> +	     (__i)++)							\
-> +		for_each_if ((__state)->colorops[__i].ptr &&		\
-> +			     ((colorop) = (__state)->colorops[__i].ptr,	\
-> +			      (void)(colorop) /* Only to avoid unused-but-set-variable warning */, \
-> +			      (old_colorop_state) = (__state)->colorops[__i].old_state,\
-> +			      (new_colorop_state) = (__state)->colorops[__i].new_state, 1))
-> +
-> +
->  /**
->   * for_each_oldnew_plane_in_state - iterate over all planes in an atomic update
->   * @__state: &struct drm_atomic_state pointer
-> diff --git a/include/drm/drm_atomic_uapi.h b/include/drm/drm_atomic_uapi.h
-> index 4c6d39d7bdb2..70a115d523cd 100644
-> --- a/include/drm/drm_atomic_uapi.h
-> +++ b/include/drm/drm_atomic_uapi.h
-> @@ -37,6 +37,7 @@ struct drm_crtc;
->  struct drm_connector_state;
->  struct dma_fence;
->  struct drm_framebuffer;
-> +struct drm_colorop;
->  
->  int __must_check
->  drm_atomic_set_mode_for_crtc(struct drm_crtc_state *state,
-> diff --git a/include/drm/drm_colorop.h b/include/drm/drm_colorop.h
-> new file mode 100644
-> index 000000000000..3dd169b0317d
-> --- /dev/null
-> +++ b/include/drm/drm_colorop.h
-> @@ -0,0 +1,157 @@
-> +/*
-> + * Copyright (C) 2023 Advanced Micro Devices, Inc. All rights reserved.
-> + *
-> + * Permission is hereby granted, free of charge, to any person obtaining a
-> + * copy of this software and associated documentation files (the "Software"),
-> + * to deal in the Software without restriction, including without limitation
-> + * the rights to use, copy, modify, merge, publish, distribute, sublicense,
-> + * and/or sell copies of the Software, and to permit persons to whom the
-> + * Software is furnished to do so, subject to the following conditions:
-> + *
-> + * The above copyright notice and this permission notice shall be included in
-> + * all copies or substantial portions of the Software.
-> + *
-> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-> + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
-> + * THE COPYRIGHT HOLDER(S) OR AUTHOR(S) BE LIABLE FOR ANY CLAIM, DAMAGES OR
-> + * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
-> + * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-> + * OTHER DEALINGS IN THE SOFTWARE.
-> + *
-> + * Authors: AMD
-> + *
-> + */
-> +
-> +#ifndef __DRM_COLOROP_H__
-> +#define __DRM_COLOROP_H__
-> +
-> +#include <drm/drm_mode_object.h>
-> +#include <drm/drm_mode.h>
-> +#include <drm/drm_property.h>
-> +
-> +/**
-> + * struct drm_colorop_state - mutable colorop state
-> + */
-> +struct drm_colorop_state {
-> +	/** @colorop: backpointer to the colorop */
-> +	struct drm_colorop *colorop;
-> +
-> +	/* colorop properties */
-> +
-> +	/** @state: backpointer to global drm_atomic_state */
-> +	struct drm_atomic_state *state;
-> +};
-> +
-> +/**
-> + * struct drm_colorop - DRM color operation control structure
-> + *
-> + * A colorop represents one color operation. They can be chained via
-> + * the 'next' pointer to build a color pipeline.
-> + */
-> +struct drm_colorop {
-> +	/** @dev: parent DRM device */
-> +	struct drm_device *dev;
-> +
-> +	/**
-> +	 * @head:
-> +	 *
-> +	 * List of all colorops on @dev, linked from &drm_mode_config.colorop_list.
-> +	 * Invariant over the lifetime of @dev and therefore does not need
-> +	 * locking.
-> +	 */
-> +	struct list_head head;
-> +
-> +	/**
-> +	 * @index: Position inside the mode_config.list, can be used as an array
-> +	 * index. It is invariant over the lifetime of the plane.
-> +	 */
-> +	unsigned index;
-> +
-> +	/* TODO do we need a separate mutex or will we tag along with the plane mutex? */
-> +
-> +	/** @base base mode object*/
-> +	struct drm_mode_object base;
-> +
-> +	/**
-> +	 * @plane:
-> +	 *
-> +	 * The plane on which the colorop sits. A drm_colorop is always unique
-> +	 * to a plane.
-> +	 */
-> +	struct drm_plane *plane;
-> +
-> +	/**
-> +	 * @state:
-> +	 *
-> +	 * Current atomic state for this colorop.
-> +	 *
-> +	 * This is protected by @mutex. Note that nonblocking atomic commits
-> +	 * access the current colorop state without taking locks. Either by
-> +	 * going through the &struct drm_atomic_state pointers, see
-> +	 * for_each_oldnew_plane_in_state(), for_each_old_plane_in_state() and
-> +	 * for_each_new_plane_in_state(). Or through careful ordering of atomic
-> +	 * commit operations as implemented in the atomic helpers, see
-> +	 * &struct drm_crtc_commit.
-> +	 *
-> +	 * TODO keep, remove, or rewrite above plane references?
-> +	 */
-> +	struct drm_colorop_state *state;
-> +
-> +	/* colorop properties */
-> +
-> +	/** @properties: property tracking for this plane */
-> +	struct drm_object_properties properties;
-> +
-> +};
-> +
-> +#define obj_to_colorop(x) container_of(x, struct drm_colorop, base)
-> +
-> +/**
-> + * drm_crtc_find - look up a Colorop object from its ID
-> + * @dev: DRM device
-> + * @file_priv: drm file to check for lease against.
-> + * @id: &drm_mode_object ID
-> + *
-> + * This can be used to look up a Colorop from its userspace ID. Only used by
-> + * drivers for legacy IOCTLs and interface, nowadays extensions to the KMS
-> + * userspace interface should be done using &drm_property.
-> + */
-> +static inline struct drm_colorop *drm_colorop_find(struct drm_device *dev,
-> +		struct drm_file *file_priv,
-> +		uint32_t id)
-> +{
-> +	struct drm_mode_object *mo;
-> +	mo = drm_mode_object_find(dev, file_priv, id, DRM_MODE_OBJECT_COLOROP);
-> +	return mo ? obj_to_colorop(mo) : NULL;
-> +}
-> +
-> +int drm_colorop_init(struct drm_device *dev, struct drm_colorop *colorop,
-> +		     struct drm_plane *plane);
-> +
-> +struct drm_colorop_state *
-> +drm_atomic_helper_colorop_duplicate_state(struct drm_colorop *colorop);
-> +
-> +void drm_colorop_atomic_destroy_state(struct drm_colorop *colorop,
-> +				      struct drm_colorop_state *state);
-> +
-> +void drm_colorop_reset(struct drm_colorop *colorop);
-> +
-> +/**
-> + * drm_colorop_index - find the index of a registered colorop
-> + * @colorop: colorop to find index for
-> + *
-> + * Given a registered colorop, return the index of that colorop within a DRM
-> + * device's list of colorops.
-> + */
-> +static inline unsigned int drm_colorop_index(const struct drm_colorop *colorop)
-> +{
-> +	return colorop->index;
-> +}
-> +
-> +
-> +#define drm_for_each_colorop(colorop, dev) \
-> +	list_for_each_entry(colorop, &(dev)->mode_config.colorop_list, head)
-> +
-> +
-> +#endif /* __DRM_COLOROP_H__ */
-> diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
-> index e5b053001d22..f56d21d93cf0 100644
-> --- a/include/drm/drm_mode_config.h
-> +++ b/include/drm/drm_mode_config.h
-> @@ -505,6 +505,24 @@ struct drm_mode_config {
->  	 */
->  	struct list_head plane_list;
->  
-> +	/**
-> +	 * @num_colorop:
-> +	 *
-> +	 * Number of colorop objects on this device.
-> +	 * This is invariant over the lifetime of a device and hence doesn't
-> +	 * need any locks.
-> +	 */
-> +	int num_colorop;
-> +
-> +	/**
-> +	 * @colorops_list:
-> +	 *
-> +	 * List of colorop objects linked with &drm_colorop.head. This is
-> +	 * invariant over the lifetime of a device and hence doesn't need any
-> +	 * locks.
-> +	 */
-> +	struct list_head colorop_list;
-> +
->  	/**
->  	 * @num_crtc:
->  	 *
-> diff --git a/include/drm/drm_plane.h b/include/drm/drm_plane.h
-> index 51291983ea44..cfb8f46b94ab 100644
-> --- a/include/drm/drm_plane.h
-> +++ b/include/drm/drm_plane.h
-> @@ -227,6 +227,8 @@ struct drm_plane_state {
->  	 */
->  	enum drm_scaling_filter scaling_filter;
->  
-> +	struct drm_colorop *color_pipeline;
-> +
->  	/**
->  	 * @commit: Tracks the pending commit to prevent use-after-free conditions,
->  	 * and for async plane updates.
-> diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
-> index 642808520d92..dec498a44eae 100644
-> --- a/include/uapi/drm/drm.h
-> +++ b/include/uapi/drm/drm.h
-> @@ -1116,6 +1116,9 @@ extern "C" {
->   */
->  #define DRM_IOCTL_MODE_GETFB2		DRM_IOWR(0xCE, struct drm_mode_fb_cmd2)
->  
-> +#define DRM_IOCTL_MODE_GETCOLOROPRESOURCES DRM_IOWR(0xD0, struct drm_mode_get_colorop_res)
-> +#define DRM_IOCTL_MODE_GETCOLOROP          DRM_IOWR(0xD1, struct drm_mode_get_colorop)
-> +
->  /*
->   * Device specific ioctls should only be in their respective headers
->   * The device specific ioctl range is from 0x40 to 0x9f.
-> diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
-> index 46becedf5b2f..6dcf628def56 100644
-> --- a/include/uapi/drm/drm_mode.h
-> +++ b/include/uapi/drm/drm_mode.h
-> @@ -626,6 +626,7 @@ struct drm_mode_connector_set_property {
->  #define DRM_MODE_OBJECT_FB 0xfbfbfbfb
->  #define DRM_MODE_OBJECT_BLOB 0xbbbbbbbb
->  #define DRM_MODE_OBJECT_PLANE 0xeeeeeeee
-> +#define DRM_MODE_OBJECT_COLOROP 0xfafafafa
->  #define DRM_MODE_OBJECT_ANY 0
->  
->  struct drm_mode_obj_get_properties {
-> -- 
-> 2.42.0
-> 
+> +	return dev->smart_pc_enabled;
+>   }
+>   
+>   void amd_pmf_deinit_smart_pc(struct amd_pmf_dev *dev)
+>   {
+> +	kfree(dev->prev_data);
+> +	kfree(dev->policy_buf);
+>   	cancel_delayed_work_sync(&dev->pb_work);
+>   	amd_pmf_tee_deinit(dev);
+>   }
+
