@@ -2,84 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53D797C4083
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Oct 2023 22:01:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 370007C41B9
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Oct 2023 22:43:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8DF3210E186;
-	Tue, 10 Oct 2023 20:01:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E6C910E3E4;
+	Tue, 10 Oct 2023 20:42:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com
- [IPv6:2a00:1450:4864:20::231])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 98E6010E3D7
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Oct 2023 20:01:47 +0000 (UTC)
-Received: by mail-lj1-x231.google.com with SMTP id
- 38308e7fff4ca-2c3c661f1a8so54722821fa.0
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Oct 2023 13:01:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1696968106; x=1697572906; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=OXX99+sRerDKMbWnSh/67eMjmbNfBWKGv387Abrjh24=;
- b=hXGbk3MjHn4Udbteg/9sG0w5rynJ2vqrxg9FoiNHDhuZYMYJFnnAC1gJtadNW4OCbl
- ikSp+bKWKAtt8llZwaietxWGM5Au12kK6fo81M5CR+9u90HiRm9ri4iRI7CiMQwfmqaA
- yDzTgb9m2AQ7R9O+j7lsK/PPAzfsH21Ajb9NDDg09SlR5D7rEDEr8aw0VlUAuWZcH93M
- ZH/9sK1vPMbfcfmrVGLpXHV4UcXgUsAb78RNDdzsyDisBSX+tMcEl+B79KM8+hGzoxoQ
- 8qYSSfm796Q5vwIzHGl9he3ezY/VwinSo3Ru87+YLtdIk0AzZK4YTNSzZevq2i/X6rd+
- DiuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1696968106; x=1697572906;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=OXX99+sRerDKMbWnSh/67eMjmbNfBWKGv387Abrjh24=;
- b=UCJDKhwRDnke6Y8lBE4uULk02VkLFTRltjEZFFLcnGAwVMQ9Z3JDlx+gn4nqK2vJM+
- Dva7dHTS1nzd0FFeehl+0SY21mV+cGa9xzP544tProjL5LjCZ0mE8puoblLnf4VrbcyC
- V+s11i6fVzILeCpgyRflAOEQsBHe+NiiT0xDuyzcZL4CfHg28DPcfotSZriZ1Ua4L/Ae
- pfOKmXEHx0PIt9Nfv6dXXZHTvMrH/U38KBn7Pqa4qOs19JWjouFHiSiuBjSyow1UwfVj
- mWe5J1H2Mdc5gz1HaMepp4/obICbudrn5KTbJyIuYibguNNMIU0Qnl1b6qxSznuapyal
- gOKA==
-X-Gm-Message-State: AOJu0Yzj6iCabgMsWDchqF2PpRjWz4PC2MY5w7kyuA/b2rPJnJc/bgUZ
- 0XSfTGxQCHn91/w9ieDrDZQEGw==
-X-Google-Smtp-Source: AGHT+IES3FOwekUeUGnjvqsmKjGckDU98IL22Hd2kvjiIaEQqJaS4k4NQC94gT8gK/ckEx1HG4UMWQ==
-X-Received: by 2002:a2e:870f:0:b0:2b6:da1e:d063 with SMTP id
- m15-20020a2e870f000000b002b6da1ed063mr15571978lji.45.1696968105737; 
- Tue, 10 Oct 2023 13:01:45 -0700 (PDT)
-Received: from [172.30.204.182] (UNUSED.212-182-62-129.lubman.net.pl.
- [212.182.62.129]) by smtp.gmail.com with ESMTPSA id
- d17-20020a2e3311000000b002bcb9956a69sm2575632ljc.41.2023.10.10.13.01.42
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 10 Oct 2023 13:01:45 -0700 (PDT)
-Message-ID: <f8ecba86-2cce-48db-bf56-7d4ab2a1ef39@linaro.org>
-Date: Tue, 10 Oct 2023 22:01:40 +0200
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id D56C710E3B1
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Oct 2023 17:47:01 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B9AE7C15;
+ Tue, 10 Oct 2023 10:47:41 -0700 (PDT)
+Received: from e124191.cambridge.arm.com (e124191.cambridge.arm.com
+ [10.1.197.45])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 59DCB3F5A1;
+ Tue, 10 Oct 2023 10:47:00 -0700 (PDT)
+From: Joey Gouly <joey.gouly@arm.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v1] drm/tiny: correctly print `struct resource *` on error
+Date: Tue, 10 Oct 2023 18:46:52 +0100
+Message-Id: <20231010174652.2439513-1-joey.gouly@arm.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 6/6] arm64: dts: qcom: sdm670: add display subsystem
-Content-Language: en-US
-To: Richard Acayan <mailingradian@gmail.com>, Rob Clark
- <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Andy Gross <agross@kernel.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Vinod Polimera <quic_vpolimer@quicinc.com>,
- Ryan McCann <quic_rmccann@quicinc.com>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Liu Shixin
- <liushixin2@huawei.com>, Krishna Manikandan <quic_mkrishn@quicinc.com>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
-References: <20231009233337.485054-8-mailingradian@gmail.com>
- <20231009233337.485054-14-mailingradian@gmail.com>
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <20231009233337.485054-14-mailingradian@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Tue, 10 Oct 2023 20:42:56 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,32 +40,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: tzimmermann@suse.de, javierm@redhat.com, joey.gouly@arm.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+The `res` variable is already a `struct resource *`, don't take the address of it.
 
+Fixes incorrect output:
 
-On 10/10/23 01:33, Richard Acayan wrote:
-> The Snapdragon 670 has a display subsystem for controlling and
-> outputting to the display. Add support for it in the device tree.
-> 
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Signed-off-by: Richard Acayan <mailingradian@gmail.com>
-> ---
-[...]
+	simple-framebuffer 9e20dc000.framebuffer: [drm] *ERROR* could not acquire memory range [??? 0xffff4be88a387d00-0xfffffefffde0a240 flags 0x0]: -16
 
-> +			interconnects = <&mmss_noc MASTER_MDP_PORT0 0 &mem_noc SLAVE_EBI_CH0 0>,
-> +					<&mmss_noc MASTER_MDP_PORT1 0 &mem_noc SLAVE_EBI_CH0 0>;
-0 -> QCOM_ICC_TAG_ALWAYS (dt-bindings/interconnect/qcom,icc.h)
+To be correct:
 
-> +			interconnect-names = "mdp0-mem", "mdp1-mem";
-> +
-> +			iommus = <&apps_smmu 0x880 0x8>,
-> +				 <&apps_smmu 0xc80 0x8>;
-> +
-> +			status = "disabled";
-status after the block below, please
+	simple-framebuffer 9e20dc000.framebuffer: [drm] *ERROR* could not acquire memory range [mem 0x9e20dc000-0x9e307bfff flags 0x200]: -16
 
-and similarly below
+Signed-off-by: Joey Gouly <joey.gouly@arm.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Javier Martinez Canillas <javierm@redhat.com>
+---
+ drivers/gpu/drm/tiny/simpledrm.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Konrad
+diff --git a/drivers/gpu/drm/tiny/simpledrm.c b/drivers/gpu/drm/tiny/simpledrm.c
+index ff86ba1ae1b8..8ea120eb8674 100644
+--- a/drivers/gpu/drm/tiny/simpledrm.c
++++ b/drivers/gpu/drm/tiny/simpledrm.c
+@@ -745,7 +745,7 @@ static struct simpledrm_device *simpledrm_device_create(struct drm_driver *drv,
+ 
+ 		ret = devm_aperture_acquire_from_firmware(dev, res->start, resource_size(res));
+ 		if (ret) {
+-			drm_err(dev, "could not acquire memory range %pr: %d\n", &res, ret);
++			drm_err(dev, "could not acquire memory range %pr: %d\n", res, ret);
+ 			return ERR_PTR(ret);
+ 		}
+ 
+-- 
+2.25.1
+
