@@ -2,51 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D0B17BFAF0
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Oct 2023 14:15:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12E337BFAF8
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Oct 2023 14:16:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AFBDA10E1D1;
-	Tue, 10 Oct 2023 12:15:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F5EF10E33B;
+	Tue, 10 Oct 2023 12:16:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D7FD10E1D1
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Oct 2023 12:15:51 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 2FA1CB81B9D;
- Tue, 10 Oct 2023 12:15:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3335BC433C8;
- Tue, 10 Oct 2023 12:15:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1696940149;
- bh=DTiRuw0mREFsD1LxPgcJrByQ7NmKX6oBSmRhssaCWaA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=tzt4hj+6G0UurBB8/Zfoz4oPSO8b/1Nah8mQQWVBUN16LYwxZUY91fQc90KF54j2O
- hvDbKykh48hJNN31QDcvijg+Ol5weh1srjd4f5znlDhZmhQKcmR2LOJU+ImbkYfjcq
- Y7ziLAoxKfTGcH8FUlqUma7EAcUb+nMgdnHRfnxmY95oydRVWvbz2j+VQ9/be+n458
- oUIrIzk1y0YHlG6wxCif4HFm5Cv9ZLig2YlKpXlCMrYEBHzpE7i7PjLtBJuGsZm8AH
- /Nhq2esOw5UgiLnyOZMOgcMi7KdySSiCN0dBAP5pCx0NnW+epd0jW7OU5GpJ+GcX+7
- DZd/IKToepvnA==
-Date: Tue, 10 Oct 2023 14:15:47 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>
-Subject: Re: [PATCH v4 2/4] drm/panic: Add a drm panic handler
-Message-ID: <5l4wotvmflkl42ms2wbw6mcz7bevk246abouj33fjn5wzfh72i@3vhxratfu3xi>
-References: <3a359910-31ae-355f-2608-239e04689fde@redhat.com>
- <6iaqx7ef4hdd6bucsxtfy37nsizloraxbudez4ms7jlusbghr3@i5hliqpimdp2>
- <bd880231-f161-0773-63f7-ded6cb3fddc1@tronnes.org>
- <b4aadfb4-9393-d6b6-e876-a420afcf2b36@redhat.com>
- <wupxw7bs6yu4gtsbmuvdxhwpd4vkxvvl4aa6w7fumqekzvl7v7@akv2tifgsihl>
- <b764a8a7-db48-fd3b-6241-f3a07009e7dd@redhat.com>
- <xutxpbk476iogtgfbcxbebnud7t3oq6dlbhpniimna2uz2p2nb@hbrrwn4y3x6s>
- <cd54b5ab-5ac8-4569-991c-bf6e062e6400@suse.de>
- <63wdz6ns6wsu3avztqebmeo4aa4ltwmmmywlam3xe6fmftcf3p@5icc2cvy6xvh>
- <0a6c2a07-bf44-409a-8a09-827410f011a6@tronnes.org>
+Received: from EUR03-AM7-obe.outbound.protection.outlook.com
+ (mail-am7eur03on2052.outbound.protection.outlook.com [40.107.105.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 99CD910E1EC
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Oct 2023 12:16:30 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Q7AdxVrOw5H0LoozBtijGrvQro2hGqcDhVzC0LMVVwe9w4xXWmcNq41IFxGZtiq6u8kvGht2CE5FqQKaRiqVKbYtOUs9WcJE9gRBKeJzxiM0sSHB1qQUcFhLjg1wYvkrFXkjikoUHjovyuo9mpTny9KSEwwmhTVKUGm843EFKaFEA4HSY/RqCvQtGCXuPCTNoI6oTsNoo+xPDZXyEDc7ZOgTG8UTaIiH41Tf9Ht0e8I4BbXWcYvUMr/QhoYOYq+7gXD61iyaq2oGeh7K8S+0k35dCih7ToFXFClt6ZW84C4K1Bz3prHOcKjHXrqbFaSlbU2L1ZMEQ9FFDduGxaRFvA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=eiP9OYAokihYsk6mwFuxzU5u73vQxiEPThzkg+/dh7o=;
+ b=ZbFdBNypP05IdLrgtQgiV1UDEZs8AFQiP18n8ZIXq9OFiKVMr3WE3B3aJ9HoTYENTifLWtyT7XuOav3uKnQhs5L4b335XnLfrY3oOs8gFMl682xromUGv7o9od8Jpl7ZgtlyEk7vjvUCygx0KW/WnymRpDW7SflP+IM3StdrN16kCT1JLLndIYuW81dC8eyYMOysUirIxTsyG1oLNrjiK6161fPC9dfft+W6sSyk0O7ma2AaiMiJJEVOqiCk079Daf4I5qXPOAQFub8+D1J+ZWNxi8/Mkg+2MUDEsyvYD1BX1cPshx4sxpraLGlvnJbCvlZ2zSIXWIaPccoyoaRABA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 151.1.184.193) smtp.rcpttodomain=lists.freedesktop.org
+ smtp.mailfrom=asem.it; dmarc=fail (p=none sp=none pct=100) action=none
+ header.from=asem.it; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=asem.it; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=eiP9OYAokihYsk6mwFuxzU5u73vQxiEPThzkg+/dh7o=;
+ b=hiVt8qbY3uAMsnd1+mpvF9kIr9603jC44fEHGx4dR8muO/T9mppjtHkUzsRGRX3YDyWfgJmNNFNQNeFQ7Jgw2Lg0GmofDMElywe5+/SwJ+/Wg9fFjdRn0DSMOdeZRAFqM5+W6EBOTcbH3rInpQK0KbjBLr+ll50AU1NjC8v22OE=
+Received: from DB8PR06CA0037.eurprd06.prod.outlook.com (2603:10a6:10:120::11)
+ by AM8PR01MB7555.eurprd01.prod.exchangelabs.com
+ (2603:10a6:20b:244::9) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6863.37; Tue, 10 Oct
+ 2023 12:16:27 +0000
+Received: from DU6PEPF0000B621.eurprd02.prod.outlook.com
+ (2603:10a6:10:120:cafe::48) by DB8PR06CA0037.outlook.office365.com
+ (2603:10a6:10:120::11) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6838.33 via Frontend
+ Transport; Tue, 10 Oct 2023 12:16:27 +0000
+X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is
+ 151.1.184.193) smtp.mailfrom=asem.it; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=none header.from=asem.it;
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ asem.it discourages use of 151.1.184.193 as permitted sender)
+Received: from asas054.asem.intra (151.1.184.193) by
+ DU6PEPF0000B621.mail.protection.outlook.com (10.167.8.138) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6838.22 via Frontend Transport; Tue, 10 Oct 2023 12:16:26 +0000
+Received: from flavio-x.asem.intra ([172.16.18.47]) by asas054.asem.intra with
+ Microsoft SMTPSVC(10.0.14393.4169); Tue, 10 Oct 2023 14:16:26 +0200
+From: Flavio Suligoi <f.suligoi@asem.it>
+To: Lee Jones <lee@kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
+ Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>
+Subject: [PATCH v4 1/2] dt-bindings: backlight: Add MPS MP3309C
+Date: Tue, 10 Oct 2023 14:16:21 +0200
+Message-Id: <20231010121621.3009154-1-f.suligoi@asem.it>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="teya27cm2q7tdhvy"
-Content-Disposition: inline
-In-Reply-To: <0a6c2a07-bf44-409a-8a09-827410f011a6@tronnes.org>
+Content-Transfer-Encoding: 8bit
+X-OriginalArrivalTime: 10 Oct 2023 12:16:26.0024 (UTC)
+ FILETIME=[972CB280:01D9FB73]
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DU6PEPF0000B621:EE_|AM8PR01MB7555:EE_
+Content-Type: text/plain
+X-MS-Office365-Filtering-Correlation-Id: 2d1fef50-8da3-4be1-ab90-08dbc98aba0e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: hIruUgypPWbpbqsQxA7inlFTJDmipDMP0T80OPGzAxbeAPCZKepT5bagkSuWyt26LhdFOP1ALCRoNDlDfl8iWXKfr4f9wT1Vk8ietJxIAGbWZSL/pdjH0ToeOWaHZAZ90jlmimcGs8SNKSkPEtJbyl2ExQTE40G62siPYb5B/JwOcCxr9prYIkbtMhOyOaLvfTLTVi/eFH3Zkl/GZPZnDRKG9rNufAQ0oKaEXtGVo8C9oi0HRaVrDaHFsR3boKgo1b3okBS+wQsGyPWmLX+2bngqnesIvvsTViw5VmGdAI7hw2qWTSk3kxHJvqQuf2dRwITxxFqY6qNaTTbHVtLsRLUJHk+GeJcCVJq1dbZ9fqAK8sjF3a0aDir+ewrMNAGh/dzD+Xs+DhWxPUbYf1jakedz8n1NhgzYee5sATojeWoRA3Lyz2G1i5W99NVuaGgeP4txqn/k2GKrrUTI4FlfDwTBanxFmwBS2x08nu2PeBbsH2GusGyr6lMRtGUxEtcM9qU3v94lCk7MaMVp/C4Qc23jNfGxmf54HUx0vTN/gGzfkakN2Fpr5rSSuRc7YhghxWGrohaNOEN48SS/yBig6f0xkNSsLWc33rCtx5jRTR+UKCvp8HBDxBnwTjmi8gy6xJnXA4xuSobxzLUg13n0gFcIuLGmw+O4Y4p6pHyC9gglPhy/OPmjyxFZHPFOYuzEyUtD/SrKFgdQakpFXnKqWe/DSds6OBs9qaMowG1Qbeg=
+X-Forefront-Antispam-Report: CIP:151.1.184.193; CTRY:IT; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:asas054.asem.intra; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230031)(136003)(396003)(346002)(376002)(39840400004)(230922051799003)(186009)(1800799009)(82310400011)(451199024)(64100799003)(36840700001)(46966006)(40480700001)(70206006)(336012)(83380400001)(107886003)(2616005)(1076003)(70586007)(26005)(47076005)(36860700001)(316002)(110136005)(8676002)(4326008)(41300700001)(8936002)(2906002)(478600001)(5660300002)(966005)(6666004)(36756003)(81166007)(86362001)(356005)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: asem.it
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Oct 2023 12:16:26.6000 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2d1fef50-8da3-4be1-ab90-08dbc98aba0e
+X-MS-Exchange-CrossTenant-Id: d0a766c6-7992-4344-a4a2-a467a7bb1ed2
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=d0a766c6-7992-4344-a4a2-a467a7bb1ed2; Ip=[151.1.184.193];
+ Helo=[asas054.asem.intra]
+X-MS-Exchange-CrossTenant-AuthSource: DU6PEPF0000B621.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8PR01MB7555
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,126 +98,141 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jocelyn Falempe <jfalempe@redhat.com>, bluescreen_avenger@verizon.net,
- Thomas Zimmermann <tzimmermann@suse.de>, javierm@redhat.com,
- dri-devel@lists.freedesktop.org, gpiccoli@igalia.com, airlied@redhat.com
+Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Flavio Suligoi <f.suligoi@asem.it>, linux-leds@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+The Monolithic Power (MPS) MP3309C is a WLED step-up converter, featuring a
+programmable switching frequency to optimize efficiency.
+The brightness can be controlled either by I2C commands (called "analog"
+mode) or by a PWM input signal (PWM mode).
+This driver supports both modes.
 
---teya27cm2q7tdhvy
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+For device driver details, please refer to:
+- drivers/video/backlight/mp3309c_bl.c
 
-On Tue, Oct 10, 2023 at 01:29:52PM +0200, Noralf Tr=F8nnes wrote:
->=20
->=20
-> On 10/10/23 11:25, Maxime Ripard wrote:
-> >=20
-> >=20
-> > On Tue, Oct 10, 2023 at 10:55:09AM +0200, Thomas Zimmermann wrote:
-> >>>> So if I understand correctly, drm_panic would pre-allocate a plane/c=
-ommit,
-> >>>> and use that when a panic occurs ?
-> >>>
-> >>> And have it checked already, yes. We would only wait for a panic to
-> >>> happen to pull the trigger on the commit.
-> >>>
-> >>>> I have two concern about this approach:
-> >>>> - How much memory would be allocated for this ? a whole framebuffer =
-can be
-> >>>> big for just this use case.
-> >>
-> >> As I outlined in my email at [1], there are a number of different scen=
-arios.
-> >> The question of atomic state and commits is entirely separate from the=
- DRM
-> >> panic handler. We should not throw them together. Whatever is necessar=
-y is
-> >> get a scanout buffer, should happen on the driver side of
-> >> get_scanout_buffer, not on the drm_panic side.
-> >>
-> >> [1] https://lore.kernel.org/dri-devel/39bd4c35-8a61-42ee-8675-ccea4f5d=
-4ac6@suse.de/T/#m22f116e9438e00a5f0a9dc43987d4153424f8be1
-> >>
-> >>>
-> >>> I'dd expect a whole framebuffer for the current
-> >>> configuration/resolution. It would be typically 4MB for a full-HD sys=
-tem
-> >>> which isn't a lot really and I guess we can always add an option to
-> >>> disable the mechanism if needed.
-> >>>
-> >>>> - I find it risky to completely reconfigure the hardware in a panic =
-handler.
-> >>>
-> >>> I would expect to only change the format and base address of the
-> >>> framebuffer. I guess it can fail, but it doesn't seem that different =
-to
-> >>> the async plane update we already have and works well.
-> >>
-> >> The one thing I don't understand is: Why should we use atomic commits =
-in the
-> >> first place? It doesn't make sense for firmware-based drivers.
-> >=20
-> > Because this is generic infrastructure that is valuable for any drivers
-> > and not only firmware-based drivers?
-> >=20
-> >> In some drivers, even the simple ast, we hold locks during the regular
-> >> commit. Trying to run the panic commit concurrently will likely give a
-> >> deadlock.
-> >=20
-> > You're in the middle of a panic. Don't take any locks and you won't dea=
-dlock.
-> >=20
-> >> In the end it's a per-driver decision, but in most cases, the driver c=
-an
-> >> easily switch to a default mode with some ad-hoc code.
-> >=20
-> > When was the last time a per-driver decision has been a good thing? I'm
-> > sorry, but the get_scanout_buffer approach buffer won't work for any
-> > driver out there.
-> >=20
-> > I'm fine with discussing alternatives if you don't like the ones I
-> > suggested, but they must allow the panic handler infrastructure to work
-> > with any driver we have, not just 4.
-> >=20
->=20
-> Why can't we use the model[1] suggested by Daniel using a draw_pixel
-> callback giving drivers full control on how they can put a pixel on the
-> display?
+The datasheet is available at:
+- https://www.monolithicpower.com/en/mp3309c.html
 
-I share kind of the same general ideas/conclusions: "qthe idea is that
-all the fb selection and lookup is handled in shared code (and with
-proper locking, but only for atomic drivers)."
+Signed-off-by: Flavio Suligoi <f.suligoi@asem.it>
+---
 
-2016 is a bit old though and multiple developments happened since
-(secure playback is a thing now, framebuffer compression too), so I
-still think that their expectation that the framebuffer is accessible to
-/ writable by the CPU no longer holds true.
+v4:
+ - remove not more used allOf keyword
+ - add brightness-levels and default-brightness properties
+ - remove max-brightness and default-brightness from required properties
+ - update example, adding brightness-levels and default-brightness properties
+v3:
+ - add default value for mps,overvoltage-protection-microvolt property
+ - fix the example, changing from "mps,mp3309c-backlight" to "mps,mp3309c" in
+   compatible property
+v2:
+ - remove useless properties (dimming-mode, pinctrl-names, pinctrl-0,
+   switch-on-delay-ms, switch-off-delay-ms, reset-gpios, reset-on-delay-ms,
+   reset-on-length-ms)
+ - add common.yaml#
+ - remove already included properties (default-brightness, max-brightness)
+ - substitute three boolean properties, used for the overvoltage-protection
+   values, with a single enum property
+ - remove some conditional definitions
+ - remove the 2nd example
+v1:
+ - first version
 
-> This will even work for the AMD debug interface.
-> In the linear CPU accessible buffer case, we can provide a helper for
-> that, maybe we can do helpers for other common cases as well.
+ .../bindings/leds/backlight/mps,mp3309c.yaml  | 82 +++++++++++++++++++
+ 1 file changed, 82 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/leds/backlight/mps,mp3309c.yaml
 
-Yeah, their idea of a panic_draw would work great for that.
+diff --git a/Documentation/devicetree/bindings/leds/backlight/mps,mp3309c.yaml b/Documentation/devicetree/bindings/leds/backlight/mps,mp3309c.yaml
+new file mode 100644
+index 000000000000..e2f9ae2b3fb4
+--- /dev/null
++++ b/Documentation/devicetree/bindings/leds/backlight/mps,mp3309c.yaml
+@@ -0,0 +1,82 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/leds/backlight/mps,mp3309c.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: MPS MP3309C backlight
++
++maintainers:
++  - Flavio Suligoi <f.suligoi@asem.it>
++
++description: |
++  The Monolithic Power (MPS) MP3309C is a WLED step-up converter, featuring a
++  programmable switching frequency to optimize efficiency.
++  It supports two different dimming modes:
++
++  - analog mode, via I2C commands, as default mode (32 dimming levels)
++  - PWM controlled mode (optional)
++
++  The datasheet is available at:
++  https://www.monolithicpower.com/en/mp3309c.html
++
++properties:
++  compatible:
++    const: mps,mp3309c
++
++  reg:
++    maxItems: 1
++
++  pwms:
++    description: if present, the backlight is controlled in PWM mode.
++    maxItems: 1
++
++  enable-gpios:
++    description: GPIO used to enable the backlight in "analog-i2c" dimming mode.
++    maxItems: 1
++
++  brightness-levels:
++    description:
++      Array of distinct brightness levels, in PWM dimming mode.
++      Typically these are in the range from 0 to 255, but any range starting
++      at 0 will do.
++      The 0 value means a 0% duty cycle (darkest/off), while the last value in
++      the array represents a 100% duty cycle (brightest).
++    $ref: /schemas/types.yaml#/definitions/uint32-array
++
++  default-brightness:
++    description:
++      The default brightness (index into the levels array).
++    $ref: /schemas/types.yaml#/definitions/uint32
++
++  mps,overvoltage-protection-microvolt:
++    description: Overvoltage protection (13.5V, 24V or 35.5V).
++    enum: [ 13500000, 24000000, 35500000 ]
++    default: 35500000
++
++  mps,no-sync-mode:
++    description: disable synchronous rectification mode
++    type: boolean
++
++required:
++  - compatible
++  - reg
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        /* Backlight with PWM control */
++        backlight_pwm: backlight@17 {
++            compatible = "mps,mp3309c";
++            reg = <0x17>;
++            pwms = <&pwm1 0 3333333 0>; /* 300 Hz --> (1/f) * 1*10^9 */
++            brightness-levels = <0 1 2 3 4 5 6 7 8 9 10>;
++            default-brightness = <8>;
++            mps,overvoltage-protection-microvolt = <24000000>;
++        };
++    };
+-- 
+2.34.1
 
-> Adding to that we would need a panic_setup/enter and panic_teardown/exit
-> callback.
-
-What for?
-
-Maxime
-
---teya27cm2q7tdhvy
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZSVAcwAKCRDj7w1vZxhR
-xbI0AP9uAqeVd0Ve1GW3S6XFTSHuYXMoKCtRf5b0okKBkfe0agD+Pbg1SEl1bICN
-a2gG9XSm1p4TvRulWglY59WUMIXRWAE=
-=dF4U
------END PGP SIGNATURE-----
-
---teya27cm2q7tdhvy--
