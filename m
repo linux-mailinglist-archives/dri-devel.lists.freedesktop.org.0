@@ -1,68 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 842287C4115
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Oct 2023 22:23:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F2487C4132
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Oct 2023 22:27:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 68A4110E3D7;
-	Tue, 10 Oct 2023 20:23:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F163210E3DE;
+	Tue, 10 Oct 2023 20:27:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
- [IPv6:2a00:1450:4864:20::533])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA71810E3D7;
- Tue, 10 Oct 2023 20:23:30 +0000 (UTC)
-Received: by mail-ed1-x533.google.com with SMTP id
- 4fb4d7f45d1cf-53b962f09e0so5565117a12.0; 
- Tue, 10 Oct 2023 13:23:30 -0700 (PDT)
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
+ [IPv6:2a00:1450:4864:20::62b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E42B310E3DE
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Oct 2023 20:27:31 +0000 (UTC)
+Received: by mail-ej1-x62b.google.com with SMTP id
+ a640c23a62f3a-9adca291f99so1029502866b.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Oct 2023 13:27:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1696969409; x=1697574209; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Q9K/39pYVDB63ZN/U40w9C502En4aUTJoZoW8PKDMTc=;
- b=flT6kBIMJK1sCskugNg6/szqXf7r3hNjli+2gbs5TqJHnl6eQINcfIMLfzK++Hxe2j
- Xl/xCTwhBDvjXlY8UQlFrL7yaHOcw9UU6Wox7T5RjjWLLisQVkHZ/BkJDulmDh4a+rwh
- tsfYMqxdtuOvT1P3B9IDnn7CEGTdNkU1aSyEux3jsaYfz63+zwNummsu7RYXF06fNV+c
- Xv9g8ZBKhXgbR8EnubgG04fHXt05gJTa7VjckJBXiq/bKc9TMLWVOZja9wr/Wka9qL4U
- 6sPKEy6DFehshqgf64WDAp4IV4is6H6UfYDFq23e2rXHmJ4yYMTc4WapZ+GaPjdCwVMW
- srWQ==
+ d=linaro.org; s=google; t=1696969650; x=1697574450; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:subject:from:cc:to:content-language
+ :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=dMz0xfxZWQ5iD30pnXzqjQxLEDZhGPTotJuYkK2Gl6E=;
+ b=HfhWP2muxQsQS2YpXAc3APEOlNqKQmi7cGMWMzf9EH1b7GeAYm93L+gza56LtOzeZ/
+ jGB+ARquidKNrlXp+qi8yqN2QjhIiUSdHm6iIDsu9NH4rFLDvNrmlG8hm0JGJqAAvjt5
+ BEYJwcO43ShzVVZ6c87uk31jmtBprLC5jAMeAeWaA80HPW9+Ou3FvuCaguNWi4zRPbN+
+ eL0JNWLtnPrWpP9lXXalAy6J/P5pJlCneM2b3sc54H+sZFB9xRuWgsfmOizQQTuHlZAG
+ ne0K5Dak1rOFKdRGAP/3TnewnI+v1C55V3vNgWU53rDRaDnGKb4a/hnzeKob4iP7Xh+B
+ eivg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1696969409; x=1697574209;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Q9K/39pYVDB63ZN/U40w9C502En4aUTJoZoW8PKDMTc=;
- b=SSTT03Zb5PxOfTIh8cCLzlNauD2r/glnNi+ejxEned1SjUO1hDf+C31JCdu3F8ssVU
- 8XEyYOgS575w8yTpQ8WaIWaDfI1mh7hj4qwFWFBBnH/tLxSHGjJRLpumxNrWhCcxAyDk
- 14OQvc0Rg8rbWPFQYReIH/Rp50DVHL8pULxDkXmPI0TvM2TlLhkRDoKhmgiAQ13UlWdc
- z3sQbQQkxJpaiUCQr+KBWmP6NYf5TKvPI+JPU2AjGx3ElBxh09Nj3GRme6ewy8xWywdj
- fooi6ghMLcW1dhjFBP9Gv4/6SvrULrUxXRIwK/fPMbAFBDuelJNtwlrLRUflzU73OIck
- gwAA==
-X-Gm-Message-State: AOJu0YwGy4VbCJSW8a4YFADwWe76y/3uHWPw2BdWqd3ptVwPjPKVCVyv
- KPvIPYT0Nnr7Vf4HfNX6SuU/+gAgzCxBAnUVz40=
-X-Google-Smtp-Source: AGHT+IGllDkDZOXntggqqiPf3dVIEhRfn/puLAvLIPz+t1Q0k06Gc6OysEHoI/3TNpo+v9866aIG21AyO2mZjaS6mW4=
-X-Received: by 2002:a17:906:7398:b0:9b1:aa5d:5d1f with SMTP id
- f24-20020a170906739800b009b1aa5d5d1fmr15193521ejl.73.1696969408945; Tue, 10
- Oct 2023 13:23:28 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1696969650; x=1697574450;
+ h=content-transfer-encoding:subject:from:cc:to:content-language
+ :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=dMz0xfxZWQ5iD30pnXzqjQxLEDZhGPTotJuYkK2Gl6E=;
+ b=urIAOwMQf4F2ktqoQ/ePxAfKXAXkREi76G55SgLkuE5hbKS7imBblR+e9Mdqwrv9I+
+ dMYaNaHkUIFwGqMX+XmZoAYvha22C7VJW3qMk3dDJ7SbwG+zHYhIwRSWacln2WU8RCaE
+ ZPNEmWNTku0aOSJdnTlSVHVoCIEECsLIPeGIQydxEdshebiVhAdVhkEOJtwfd0st3ICd
+ U3ZnvpRf0YQn/TA41JljO/pJWChIPnqVNElrFC4ejaMXNnAjVQWTdrezU/FKCq0ECV3S
+ utGhU9jPHYGhMFzbOFcaYJD+7K6BpgBSWWb77B5tqzfS+JYyaciEUG1zbQNovkpyPL4C
+ g1SA==
+X-Gm-Message-State: AOJu0Yzj3er7ST8ZviMUzzcIYF+W1rV3FE16cl05aFaRM9RBFAm/FCzI
+ zQJriFl+KTK818A5cin7cVHrug==
+X-Google-Smtp-Source: AGHT+IHC/kwWiaqXvb0nGYRNaASLe26Qtou+/WAjNnon7U18sO0suzZHlgQJQf3+W2X/fudkzkKlfQ==
+X-Received: by 2002:a17:906:3107:b0:9b2:f506:165e with SMTP id
+ 7-20020a170906310700b009b2f506165emr15155725ejx.56.1696969650228; 
+ Tue, 10 Oct 2023 13:27:30 -0700 (PDT)
+Received: from [10.10.15.130] ([192.130.178.91])
+ by smtp.gmail.com with ESMTPSA id
+ lu20-20020a170906fad400b0099297782aa9sm8780942ejb.49.2023.10.10.13.27.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 10 Oct 2023 13:27:29 -0700 (PDT)
+Message-ID: <d1b9b7d7-7aec-4866-ac76-e39fbacc8d7c@linaro.org>
+Date: Tue, 10 Oct 2023 23:27:28 +0300
 MIME-Version: 1.0
-References: <20230820215320.4187-1-dakr@redhat.com>
- <20230820215320.4187-3-dakr@redhat.com>
- <0c50ff22-0f11-1e27-c32e-694ce2b1e6c5@shipmail.org> <ZO864yp3UyVEfEjz@pollux>
- <88c45fe6-0942-707c-9ea7-8486c177fcd7@shipmail.org> <ZO9Zq2RhbX8EeHrn@pollux>
- <736b6b6d-9e04-a27d-7d60-0c45d696b304@shipmail.org>
- <ZPB26A0/oLHTmyqk@cassiopeiae>
- <a8f28d62-daec-927a-a33d-5be3eec6a1ed@shipmail.org>
- <ZPDk/lao1JlBNGoJ@cassiopeiae>
- <8a8253ae-0b85-df90-b480-64eeebfafc6d@shipmail.org>
-In-Reply-To: <8a8253ae-0b85-df90-b480-64eeebfafc6d@shipmail.org>
-From: Dave Airlie <airlied@gmail.com>
-Date: Wed, 11 Oct 2023 06:23:16 +1000
-Message-ID: <CAPM=9tz3o-m+8VJJ6hxWhykat0kpp1UE7dBJE3X91aHHo1Y2VA@mail.gmail.com>
-Subject: Re: [PATCH drm-misc-next 2/3] drm/gpuva_mgr: generalize
- dma_resv/extobj handling and GEM validation
-To: =?UTF-8?Q?Thomas_Hellstr=C3=B6m_=28Intel=29?= <thomas_os@shipmail.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Content-Language: en-GB
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: please backmerge drm/drm-next into drm-misc/drm-misc-next
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,33 +74,19 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.brost@intel.com, thomas.hellstrom@linux.intel.com,
- sarah.walker@imgtec.com, nouveau@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Liam.Howlett@oracle.com, boris.brezillon@collabora.com,
- Danilo Krummrich <dakr@redhat.com>, donald.robson@imgtec.com,
- christian.koenig@amd.com, faith.ekstrand@collabora.com, bskeggs@redhat.com
+Cc: dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> I think we're then optimizing for different scenarios. Our compute
-> driver will use mostly external objects only, and if shared, I don't
-> forsee them bound to many VMs. What saves us currently here is that in
-> compute mode we only really traverse the extobj list after a preempt
-> fence wait, or when a vm is using a new context for the first time. So
-> vm's extobj list is pretty large. Each bo's vma list will typically be
-> pretty small.
+Hello,
 
-Can I ask why we are optimising for this userspace, this seems
-incredibly broken.
+drm-misc-next is currently stuck at 6.5-rc2. Could you please backmerge 
+drm-next into drm-misc-next to bring it to 6.6-rc2? I was going to apply 
+one of the pending series ([1]), but got conflicts because of the 
+outdated source tree. Thank you.
 
-We've has this sort of problem in the past with Intel letting the tail
-wag the horse, does anyone remember optimising relocations for a
-userspace that didn't actually need to use relocations?
+[1] https://patchwork.freedesktop.org/series/120393/#rev5
 
-We need to ask why this userspace is doing this, can we get some
-pointers to it? compute driver should have no reason to use mostly
-external objects, the OpenCL and level0 APIs should be good enough to
-figure this out.
-
-Dave.
+-- 
+With best wishes
+Dmitry
