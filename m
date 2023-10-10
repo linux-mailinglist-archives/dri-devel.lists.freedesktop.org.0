@@ -1,72 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB1D97BFDC9
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Oct 2023 15:39:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 23AAA7BFDCE
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Oct 2023 15:39:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B96610E37C;
-	Tue, 10 Oct 2023 13:39:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB30D10E381;
+	Tue, 10 Oct 2023 13:39:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx07-00376f01.pphosted.com (mx07-00376f01.pphosted.com
  [185.132.180.163])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D971510E378
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Oct 2023 13:38:55 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E3AAD10E37E
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Oct 2023 13:39:01 +0000 (UTC)
 Received: from pps.filterd (m0168889.ppops.net [127.0.0.1])
  by mx07-00376f01.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id
- 39A6eZgT030133; Tue, 10 Oct 2023 14:38:13 +0100
+ 39A6eZgV030133; Tue, 10 Oct 2023 14:38:15 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=imgtec.com; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
  :content-transfer-encoding:content-type:mime-version; s=
- dk201812; bh=IrMG9VqREhgYbg2+mmV6aFgpFgwVguMbYmRuhluut9g=; b=AY2
- XAT47ZNSTh+NTKJLYhEdYdbGsUyxPVWc2VjV1d4MtrrY0oMBeFVcOrvcw1AiZ5Sg
- 5DHu00QGk4GHoINyWVFjok900QLhwkuuE1JzaAXsLurFcm6ws35c1BVpD24d+2zq
- WL3Si/7RlX2zRQ9yNZAOkstVlIhuNRL8ILnm64tv2tgsLxXSoVb1vrfbBHqYus6e
- jD+8ijBtbw7/IJeWxXfAUXQhMchR8k+s0cpXkwKE1teR3Qd85ACACoX+6AjN1X9S
- Pv5Qvh53vcbhVCzZvBZYD416vK8Zs+0uclqmgDAwWOJzFy60rW/sUHNRa9RsD20e
- Kc2k2zVn00PzpKIA89A==
+ dk201812; bh=sYoo4haio8wbyitB6JJhiXyE4EYzftUZvfRse3A1S3s=; b=B3S
+ HUT0uQD2w5xoL1nMYXJF+eTbmMLYe0fYDrkpTwwdG7+hCMLtkOIClAfWY5lrrFu7
+ MAbgWh8Fvn4DHH0lSh/k0HkWHauJISp9iiGNfOWqSZuV1dBkBGNILCFIJFQCeI9P
+ 7zcjYhTmXllFb7Fs8DskQ7wbuxfJYhPCTY3B6YgH2yDx6una1OMN8fh0caYl45Uz
+ mbTIQgRArRxYDUSRWNsOFRaa7vjSwsbOVH7QbkHd47koRyaUWD9WOSKKrREpTnQx
+ 5doz2n4PupkoUIxDQAGrl67Z5L1oh+opN3xK9hMUWE8IPiHXl396Z/iFdNjBTsio
+ 8CKmmyLw94mDIcnqAdw==
 Received: from hhmail05.hh.imgtec.org ([217.156.249.195])
- by mx07-00376f01.pphosted.com (PPS) with ESMTPS id 3tjydrt72g-2
+ by mx07-00376f01.pphosted.com (PPS) with ESMTPS id 3tjydrt72g-4
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
- Tue, 10 Oct 2023 14:38:13 +0100 (BST)
+ Tue, 10 Oct 2023 14:38:14 +0100 (BST)
 Received: from HHMAIL05.hh.imgtec.org (10.100.10.120) by
  HHMAIL05.hh.imgtec.org (10.100.10.120) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.31; Tue, 10 Oct 2023 14:38:11 +0100
-Received: from GBR01-LO4-obe.outbound.protection.outlook.com (104.47.85.105)
- by email.imgtec.com (10.100.10.121) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.31 via Frontend Transport; Tue, 10 Oct 2023 14:38:11 +0100
+ 15.1.2507.31; Tue, 10 Oct 2023 14:38:13 +0100
+Received: from GBR01-LO2-obe.outbound.protection.outlook.com (104.47.21.50) by
+ email.imgtec.com (10.100.10.121) with Microsoft SMTP Server
+ (version=TLS1_2, 
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.31 via Frontend
+ Transport; Tue, 10 Oct 2023 14:38:13 +0100
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YQj8qQOmedPifx1QMq7mKTeQulDvu0b29xUEkJ35h2ebqanmmQonHWwQj29x9vmBHeBRUDNKmmt63dROY7Le4WxkzQKB5xBtZsHFA4Fv5zFebZRsxL5PJE9yWhvdCLUqJQ0nEWPJ281YsAzCmiUlVKMc5k39ZHfQeilcFfAg39yAN6d7NKTJFK3TTikJbNCH9yRvDcC+lXgkt6oK0iZdvFYgmPMjXZEuXb1l72bZYtFpFsjHgDEzefB3Qp564njf67yYOAtJSZmsDEAxnsaeNBjix1fsXOmBxcTm1Su/QT84g4YrmJh06LXg0A6hJXLa3y7HDrU+YURHc2AF2NDm6A==
+ b=OWfhnyRtQ54qqujxbrXQe7rClLpBS03xVtufJUB+lYZMzQofqhTEP2ExR4mLyHG2mbxWNXBODTTivYjxTgw0rJHACRqmfW6iXMARjpK2XmWwiW2iPHd9m5pKJAWemBPqMwMIaeRpqY4s5pgLzcwOxPT4s7mDym3ILE8jn7wxI+9YR5ZIKqtHnZoaN3mHL4rmOkGbGM9MipDpE3fBQaKtDzw/uGsOxkkgYEBI1a8wF7yiNvmzSUSoVXiPNrfNiamPKc+0gj7mK7wh1xGMfLqzb/ekj0cNzOhGlNOub4Dm7beT/OQPdjBI5wk71a+t/9BU+IpHjPRpsbkFVDYDCr8Xxw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IrMG9VqREhgYbg2+mmV6aFgpFgwVguMbYmRuhluut9g=;
- b=irx1WXcx4UN9rXW3w7LSqMJAI+wgFB6VTtscKGDZkvG1oX2sHkIVh0VBRZv5jKluq0zyra/ycijj5EiiUPSr0p55KHpftITgadf6h936NrIYuAThmVhZ9EkwA0pGT2xD3Dkvfahoji/c6DrulUFsmE+qFW+yctUUA5ibVsShfbmWnqLzCFDw8CmbLZJdElHw6at8/8FD5X2KqtOwBVNmm5BwVtUJNDUyfMFGXEU5SXWPxUVgYmY7Jyn9JUDj3rUyZvmAQYMPjVPvPkU9EbDCunpTE0JvdyOE7dq2LijNTC9yUOWpG+EeN71UxseB5IGAb9yYGXIw/wK7goshxDH4Lg==
+ bh=sYoo4haio8wbyitB6JJhiXyE4EYzftUZvfRse3A1S3s=;
+ b=oUKRGYk8oby4xS7/mOeEhueEMPjy3NwobMQQ2QyqIga8AuiFGQwHhlyr3K//M+g4mZIOU21ji8VE9kWELNY3zuH+oh0Wc7AX27pqublM33d4DT7azcYPBiPIYhKS/TFNzzVyZj3nfowNSml5Uq6a2XAtfFOiARDRqV8wdZqZGS6N7l3c4RssmTa0YI6igQNL8O0/ngYi6LmXWjwxCVN3pLZmE0k7C3WZFMNE3NfwEZT4p78RF0RkGqmOpYOB9yURITfK709dDUpTQ7nvAaaJsmjQYadFhSWj6eVLSZaRo9Di1O7B7we95C3djaaD+my9MFJ9NmiFqWX6owqoX3OgBA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=imgtec.com; dmarc=pass action=none header.from=imgtec.com;
  dkim=pass header.d=imgtec.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=IMGTecCRM.onmicrosoft.com; s=selector2-IMGTecCRM-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IrMG9VqREhgYbg2+mmV6aFgpFgwVguMbYmRuhluut9g=;
- b=GhdHAqrPuSkLaSS9fEoh2uLdI7xRgzksW2CvJmvkvQWnTSEzc0RH8z6gTgHpnkiqhLvn2ndnxJKdiiw8TL/w7izp5En41/lkyuqTgpBUbHHFa3Cc0v8DHsQ4cVlRgEaUYW1PvCmbfUICzLITbBi/Ru4G9tSAqZMAxyVaEXpRsL8=
+ bh=sYoo4haio8wbyitB6JJhiXyE4EYzftUZvfRse3A1S3s=;
+ b=JssNjQIjiHWM52gBj/3/Hoc2nP96WYODeDm5Wk1VzKfQkyL5E01mhTdTSp0QAOg9y/3OlfbxAz/WLiOzoYonk9W0mNBfn3Ln9wd09Dy/q2wxL9WzC9ylDqAuHvtRqDiY22tJkFqo6G3ZSlE7fSCJlxzstLQr+os5TzByHj7Kzk4=
 Received: from CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:170::9)
- by LNXP265MB2442.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:132::10) with
+ by CWLP265MB6168.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:182::13) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6863.38; Tue, 10 Oct
- 2023 13:38:10 +0000
+ 2023 13:38:11 +0000
 Received: from CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM
  ([fe80::1f14:8c15:179d:7afc]) by CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM
  ([fe80::1f14:8c15:179d:7afc%4]) with mapi id 15.20.6863.032; Tue, 10 Oct 2023
- 13:38:10 +0000
+ 13:38:11 +0000
 From: Sarah Walker <sarah.walker@imgtec.com>
 To: <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v7 06/20] drm/imagination: Get GPU resources
-Date: Tue, 10 Oct 2023 14:37:24 +0100
-Message-Id: <20231010133738.35274-7-sarah.walker@imgtec.com>
+Subject: [PATCH v7 08/20] drm/imagination: Add firmware and MMU related headers
+Date: Tue, 10 Oct 2023 14:37:26 +0100
+Message-Id: <20231010133738.35274-9-sarah.walker@imgtec.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20231010133738.35274-1-sarah.walker@imgtec.com>
 References: <20231010133738.35274-1-sarah.walker@imgtec.com>
@@ -77,57 +78,57 @@ X-ClientProxiedBy: LO4P123CA0183.GBRP123.PROD.OUTLOOK.COM
  (2603:10a6:400:170::9)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CWLP265MB4817:EE_|LNXP265MB2442:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4154031a-a201-4b12-a7d9-08dbc9962485
+X-MS-TrafficTypeDiagnostic: CWLP265MB4817:EE_|CWLP265MB6168:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0e32cd1e-39ca-4a76-6cc0-08dbc9962557
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 6DrFYHx86X/YEZfJ8SSeXhfyB/3M+7aSBoltfX/0s8BNfR5zcvNivBfU9EQX9H0Uyj+Wi7JwqQ622hVoQsUQIInvX0j+X8rKTFc5VmyXjVBgd4Cb6NcSI5h2lmx+NmhgiSEOKXEtFy4Gxa1IEl7FzivzCmmgNVOjXRhrqVbbZHaNVRrInpheKVTnRFso9MNqoanV/YC0bGmnHVXkNgpCQELzFZ+vwXVwpH0hyZxuJ1Fxvd2u9dzr8t1FAb4F4/aN+GXnVB2FG29Vcx4T0C6/kxp+hQ9morr8BG0w+hJ+g98WAig1/CI9j7raoNGswGc7Kpajg8EYXVI2tKGUfx1IOO5U90Hk8ue85hNgf1ehcrUfJUUud4hFFbB+5ZBjLBAAHg4l1kiLQ6M/XnmreqvKxwLBdOz3H9T72jrRdiyk+BZ/kbP+53Ayu7nEqvM/L8oISrQm2f47NpbSdK87Fo3P6hKN8voZJG3WDj1762ytprhnmRt6i1Vtq7LTbakCBC8LLjzr7M1SB3d5oAM6dhxL6NFZLV2XyFJvcnXGqDwckmCyn1cSSDbF5FaB07hfbojXqwUECuFJ6NvPHMTu18XQYcMNpJUa2IlmBcA5fDbOxonerrGu158Y0Zx3orZTqz+nIOAwSWEfKHGC6pMwfkcjYA==
+X-Microsoft-Antispam-Message-Info: TgtDdyj+id+XwEYI6DdyXF8u/PAWHBZT0FbkZfasm081uLtV2TwBjSuJOMEXSV08UFQbrynARpmHW/8limPe7eKU/7qmcbALymeLWGrOcSLYmJ+av8l4sDAXVjWyuXEYVaoVq7TjWkrWqAXLibWbOGD4RGKR8sEzmrdIVh2LK/OT9Ki7KkYzM/0vwqSpHfehQAj0W76izwamvJXCAqSuvAMZgGLidm2ca5LI2rgWqS/us8atQP8Qz5l783T3xujqvW7Y7dxc2DKqf+fYmWYLxzvfk4zkxvS296Uc3N51CWERX6avkQ35X4jEL0TAMCa5vjYE7nAuX6Ir8xeygU4abCSpsYXCtVEjMomHCQviyNILgRJ+9G8mjQwxRVbZoWqMWa7pQyPPHZTOtQMhqZki8fPoiGI6KWOGFbpTshGAKC+UMQBl4Ep0kA1qODUcyh9lghT+f0FQPL0ixgpMpaiOr3SkcmbebWJ3xk3KDVBfbL66jcZpVUhXKxGfxnXiq1A9MGB9DooUVWwPuOpO8c3pOnAQ29YJl0Oee+3uqR9L1LlSfFYZSgVUIylMWHMyQvNmMR8oEShI7KiydciCd5Hf9b7QPblYJ7HXk2QynVKl5bT29ZMXgYa9wFxozcyBcxUG
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
- SFS:(13230031)(366004)(136003)(376002)(346002)(396003)(39850400004)(230922051799003)(64100799003)(186009)(1800799009)(451199024)(107886003)(6512007)(52116002)(1076003)(6506007)(2616005)(478600001)(6486002)(6666004)(44832011)(26005)(83380400001)(7416002)(2906002)(30864003)(5660300002)(66556008)(66946007)(66476007)(8676002)(8936002)(6916009)(4326008)(41300700001)(316002)(36756003)(38350700002)(38100700002)(86362001)(134885004);
+ SFS:(13230031)(136003)(39850400004)(366004)(396003)(376002)(346002)(230922051799003)(451199024)(186009)(64100799003)(1800799009)(52116002)(478600001)(6506007)(6666004)(6486002)(6512007)(38100700002)(38350700002)(86362001)(36756003)(30864003)(2906002)(83380400001)(2616005)(1076003)(26005)(7416002)(66946007)(8676002)(66556008)(6916009)(316002)(66476007)(5660300002)(41300700001)(8936002)(4326008)(44832011)(579004);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?SGRfIrlby3y06kUL/p558EgCc8/WN/N9C05YkxIZQCaWoYkxoPY6Lp87Cb3n?=
- =?us-ascii?Q?XPkmZVkVlPD1fpxhtRv5WPdOCHWhYgJdFXYbtZ9R1RVH6yGNV9n0n5hs8z8T?=
- =?us-ascii?Q?JTxyBiFW3zKG1ofyHh62EUDr14/u5rD93JNts8Ch+IeIeCBhaFpV5I7hexPs?=
- =?us-ascii?Q?HWN+LmGSmmwtOxuZnADkw9jw5hNtnI/s0vFElvkOUjkaQgd+D2Ip/u48ftWW?=
- =?us-ascii?Q?1CC4LMS4iDIobRlMAWmQY/f+y+cBONYqSLz4Nagdnqk9EcaYkq7YuNQSIYdT?=
- =?us-ascii?Q?6ZbNNnlGLVHGCUuj3z4eHaprv7obHOS49Q0rgtWoC60jWKuD2oyoy9tlN5et?=
- =?us-ascii?Q?ERHYxRI1P3r8ksVcyZssn4xK0oVRG52704WM7dUbNEMiXjgnDqC+pBoU5vEG?=
- =?us-ascii?Q?ZgogRZs9PZDG1a8SjX6PvWIoQUn8GXRt7EKL2hA4k+5Y5C6TPcSe2Nf13TA+?=
- =?us-ascii?Q?+t/RlL+9v5M4J6cAgxvQPtLgepsEDt1nDHL+M5obD1kHSrTNBd3cyw21ad9S?=
- =?us-ascii?Q?ZcGvaxS1fE4iSPPGFxIe1RwkMEB/umfPDa2d+KsHDLMPyLwudT/9UPuSrx+Z?=
- =?us-ascii?Q?ra3qE6yBdNzRKPLyQLsxA88+uPx+2FFPgaQlWDC7bcYstFHyp38RsAI5lo1v?=
- =?us-ascii?Q?fPZivULN97x9Rp9TmPgF9DoDdxc4g+hexQs7umQY2COPtMIzcp7wBGd+xRup?=
- =?us-ascii?Q?X6Ro13LyeAKhmUYYtzxURygt4MIezQPQ7AnKgyruNgGBt8Q/y+n+xp/zMgFH?=
- =?us-ascii?Q?iGQc7S6QqvSHpm89pfd4MahSE36EyZ75qY4AHiyuE/diEdh1KMOakzN8NaFI?=
- =?us-ascii?Q?op1+GZROIWVE97mJay0JQkAi6hYm0NjbVuB1m8PwS1LKJIPOhpZPTKZ61syZ?=
- =?us-ascii?Q?ks46Xh5IsK9sZzTnlomOhF0Qseg055ugRaAA+V7GUI5f8AxmuK63XEf0gyGP?=
- =?us-ascii?Q?ow9rFnEsA9jQVMGbra44DS0mD2yFG/Hpa7S2nOkAPUk05wyKFBfzVNGMZchT?=
- =?us-ascii?Q?yoTiglOmft4srmc+hMLFDppUbR4/A6tyjSMG50aNrksQhxdqhEVtxQMZ1EDT?=
- =?us-ascii?Q?5qMwA0/39fwha8L/Rq6m7fX2Tnq/xuZBghqcAJstDU24B0yiOG1IbUWVKJcE?=
- =?us-ascii?Q?rCDqguMIdQWcHzkdiPpFylBhfwWRM+uRUWjvye/HoiXqPWkzelgXm3GmgQHk?=
- =?us-ascii?Q?4+3GhM8Kh+a2iU0lXujQ46ep/gecdKyrUMGI6GYvwp0evzmiz965lzy29oje?=
- =?us-ascii?Q?ZfyqHVEPB+Z9f0Pf5fNY3esQDeCWLVKpr1hpiJ2HY50WVz8C96IkR3uVNyss?=
- =?us-ascii?Q?d3UbvSa2e7vgDdkvozvIAgZEa91FPnu5u3Ozx7cVjzkpfkAL/hkk9jJ+xduG?=
- =?us-ascii?Q?LIfeld7n7ER1obXuU2r2zZzzetToIV2EDN4w0AUwUgPVwMN3GbH2Wxcsv5Wb?=
- =?us-ascii?Q?GPzkwNArBhx4Q97BJDouEbYH4YCKuYbH23Pu1sn/lIldOkoGpNaQE0dD9QTZ?=
- =?us-ascii?Q?vfTOjUzstA6I6zEWqLUKOrUsp1dNbsjU2rKePM8qTLrBm/KbD7/YqErX26xI?=
- =?us-ascii?Q?UgRxEY1+D5ERE5+0trDO2OsPlOz7+aN7tJ1wBfgi?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4154031a-a201-4b12-a7d9-08dbc9962485
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?dGMoy/n200U0PKRhBZcfMSWZ7lktChYI+iDEstQ9Pk+UA2urL/VjlWIiWmVt?=
+ =?us-ascii?Q?7G+kdxm0eBq2s7QNafGpDSNAtkVLVOFM1dZCDeAKLFJ2UI4V2QBtqp9fNqie?=
+ =?us-ascii?Q?5SCf20Gld0bVcDlCSA7oBvFsnIsnDh0/3wKl4NdSmcnqmhVXIYcKiyLi74k1?=
+ =?us-ascii?Q?gzu5qPqzcGV2/1YHaW9JZDgZ/T1DsnKJ5Iv/v/apPRh3yPWbMteUOm+/t4oi?=
+ =?us-ascii?Q?2cfgykwWw0Yz3qZfOHI2X3F60KfUWW8Bi0DMAgUiB+bWjTqRkF/TiJUtz5iJ?=
+ =?us-ascii?Q?cxYyjy3gIk+WZMveayMz4e6Ao5Js4wspjHIZUliagbbkBI+dNlKGdylMOPt1?=
+ =?us-ascii?Q?AV5sL/GlK7tRz6ZzrVwZuZeIEdkU26ju5PUSa2EDfuD5/MWzre/143XnR7QR?=
+ =?us-ascii?Q?LdNAlVL0I2VFXDoM0zXIsV53fg1WqJWUKuXSqNAXo5HZyC7LNGthWQiX4Fus?=
+ =?us-ascii?Q?6Z/9qB5niL3M/YNBWXeqz9fWY9I77/ogzJy9QEIeRDsXjHxF0R1jMqV1XJug?=
+ =?us-ascii?Q?Q830QiV6fcOTx2OHBCpBh5poYYpfGS8+ON1f2F8re8G3GCgAHjJOfC4p/rsB?=
+ =?us-ascii?Q?GzRuSyDsVYWUKRfaeSG26MC0T9h1wp81XmOMEu+9dEhFfCgcURee1PGINgew?=
+ =?us-ascii?Q?mToUd6m0s5PT28B/CsRqAtsRugOtFG7JbbAJRsJYHSyFwDKv1I7yzOFSQReQ?=
+ =?us-ascii?Q?HJrPC8aFZuVwgsEMQj8yLQVNeB2m1+qX9Pi1+EVNW9O0eMCbFEr5jG6wuuGG?=
+ =?us-ascii?Q?KEkCMxbPPLfusraobawoVFWZLSUauKQ+Yv4qhKM/MQL+IkDpjHuHyGF20c+1?=
+ =?us-ascii?Q?LVGmYFr1IcAHH9z1DWOdgsd3wBeqtWcDH6or8pGEL75oO4FiRHE6TPcxhLw7?=
+ =?us-ascii?Q?XRSzjBs+WC96BrNFkyinXYQYEtowY2YMzf+Zc4C43ijCjBX+rVzPVtrY1wsd?=
+ =?us-ascii?Q?a4UMUwFld9ldBGRNPGjfjB8BF4wb2T3skl+zueznMPCPL1Iws62IpMGWjuk0?=
+ =?us-ascii?Q?GKZFlQhZdaCSTMG/y5LQ8llOTmfD25hfvkF9UQDCueoVO6lqJMm6Bt6jRgKw?=
+ =?us-ascii?Q?PDa1wOhDO3Kdu3TfY17zRvrJimsaGrEGGkuBAhuA5NBpHB/eBhh2PPq0i4dd?=
+ =?us-ascii?Q?azCk3IBEwPTvbCK7MHwQu1oJZmg3t2fXBrfxU/T15nPR7cQN21q7nCk5cqVR?=
+ =?us-ascii?Q?BKBJpUSM8XLyWIKUeOsa/eHYP/X7h+KtU4821xKCmfRB0bDREw9hoM3F8Lsy?=
+ =?us-ascii?Q?37UiMRv9DsmmFHPwU2SHIu0WRsiL1KcWTDOGyGfxaLIl1BIGsGpxdO+K4PI5?=
+ =?us-ascii?Q?RhLcqrY2oZ1bgVxhdZg7oaT3Uikq5BVraMDBp82eAuc3xy+bAPsNg4j9ozRq?=
+ =?us-ascii?Q?k4RgWC9eXOkkZOOJCsj21PqVjWpMRJOn0bGM6NtKEo0G8gBFQK2PSS39CsCI?=
+ =?us-ascii?Q?eN3WUiDYDUpJnQr9klwskq3awYlHI1IcaRuKelwVdL3lRs+6RK/EA+VzdzIV?=
+ =?us-ascii?Q?Ts+kspiYBjjcepUk/i2zKoYc26je4sSVXNvVQ2+wBSgU6Vz5GFzcy4BahQoU?=
+ =?us-ascii?Q?Vo1LYA8oZXsPIOnhE5ReCJyhZN5okmpFN4gxevNR?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0e32cd1e-39ca-4a76-6cc0-08dbc9962557
 X-MS-Exchange-CrossTenant-AuthSource: CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Oct 2023 13:38:09.9771 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Oct 2023 13:38:11.3662 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0d5fd8bb-e8c2-4e0a-8dd5-2c264f7140fe
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: TWS6TpTNQy8dGZMGSYaRK0P8mFaAs7OOFfIxEeRFdXzpGUGQivphcZt6YC+CSe7h+edeJ+N0uhShkmY7HdPsgw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LNXP265MB2442
+X-MS-Exchange-CrossTenant-UserPrincipalName: UbPn+T8SiH6zegOANSCd9lxiiwM2B4sYK5T74itnhQ4Nlx2Mm5LDAk9e1Y5+oznb/OECO3wdZc72RyMWmjI90A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWLP265MB6168
 X-OriginatorOrg: imgtec.com
 X-EXCLAIMER-MD-CONFIG: 15a78312-3e47-46eb-9010-2e54d84a9631
-X-Proofpoint-GUID: kyrOjw9KxLENOKHaRWKpgvGcGZykoZoO
-X-Proofpoint-ORIG-GUID: kyrOjw9KxLENOKHaRWKpgvGcGZykoZoO
+X-Proofpoint-GUID: UMDGG-8fLJvFf32cwApsgGai4-fDTIDw
+X-Proofpoint-ORIG-GUID: UMDGG-8fLJvFf32cwApsgGai4-fDTIDw
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -144,430 +145,1058 @@ Cc: linux-doc@vger.kernel.org, hns@goldelico.com,
  krzysztof.kozlowski+dt@linaro.org, matthew.brost@intel.com, corbet@lwn.net,
  luben.tuikov@amd.com, dakr@redhat.com, donald.robson@imgtec.com,
  devicetree@vger.kernel.org, conor+dt@kernel.org, mripard@kernel.org,
- Matt Coster <matt.coster@imgtec.com>, robh+dt@kernel.org,
- faith.ekstrand@collabora.com, linux-kernel@vger.kernel.org, afd@ti.com,
- boris.brezillon@collabora.com, tzimmermann@suse.de, christian.koenig@amd.com
+ robh+dt@kernel.org, faith.ekstrand@collabora.com, linux-kernel@vger.kernel.org,
+ afd@ti.com, boris.brezillon@collabora.com, tzimmermann@suse.de,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Acquire clock and register resources, and enable/map as appropriate.
+Changes since v5:
+- Split up header commit due to size
 
-Changes since v3:
-- Remove regulator resource (not used on supported platform)
-- Use devm helpers
-- Use devm_clk_get_optional() for optional clocks
-- Don't prepare clocks on resource acquisition
-- Drop pvr_device_clk_core_get_freq() helper
-- Drop pvr_device_reg_fini()
-- Drop NULLing of clocks in pvr_device_clk_init()
-- Use dev_err_probe() on clock acquisition failure
-- Remove PVR_CR_READ/WRITE helper macros
-- Improve documentation for GPU clocks
-- Remove regs resource (not used in this commit)
-
-Co-developed-by: Frank Binns <frank.binns@imgtec.com>
-Signed-off-by: Frank Binns <frank.binns@imgtec.com>
-Co-developed-by: Matt Coster <matt.coster@imgtec.com>
-Signed-off-by: Matt Coster <matt.coster@imgtec.com>
 Signed-off-by: Sarah Walker <sarah.walker@imgtec.com>
-Reviewed-by: Maxime Ripard <mripard@kernel.org>
+Acked-by: Maxime Ripard <mripard@kernel.org>
 ---
- drivers/gpu/drm/imagination/Makefile     |   1 +
- drivers/gpu/drm/imagination/pvr_device.c | 147 ++++++++++++++++++++++
- drivers/gpu/drm/imagination/pvr_device.h | 152 +++++++++++++++++++++++
- drivers/gpu/drm/imagination/pvr_drv.c    |  18 ++-
- 4 files changed, 317 insertions(+), 1 deletion(-)
- create mode 100644 drivers/gpu/drm/imagination/pvr_device.c
+ .../drm/imagination/pvr_rogue_heap_config.h   | 113 ++++++
+ drivers/gpu/drm/imagination/pvr_rogue_meta.h  | 356 ++++++++++++++++++
+ drivers/gpu/drm/imagination/pvr_rogue_mips.h  | 335 ++++++++++++++++
+ .../drm/imagination/pvr_rogue_mips_check.h    |  58 +++
+ .../gpu/drm/imagination/pvr_rogue_mmu_defs.h  | 136 +++++++
+ 5 files changed, 998 insertions(+)
+ create mode 100644 drivers/gpu/drm/imagination/pvr_rogue_heap_config.h
+ create mode 100644 drivers/gpu/drm/imagination/pvr_rogue_meta.h
+ create mode 100644 drivers/gpu/drm/imagination/pvr_rogue_mips.h
+ create mode 100644 drivers/gpu/drm/imagination/pvr_rogue_mips_check.h
+ create mode 100644 drivers/gpu/drm/imagination/pvr_rogue_mmu_defs.h
 
-diff --git a/drivers/gpu/drm/imagination/Makefile b/drivers/gpu/drm/imagination/Makefile
-index 19b40c2d7356..b4aa190c9d4a 100644
---- a/drivers/gpu/drm/imagination/Makefile
-+++ b/drivers/gpu/drm/imagination/Makefile
-@@ -4,6 +4,7 @@
- subdir-ccflags-y := -I$(srctree)/$(src)
- 
- powervr-y := \
-+	pvr_device.o \
- 	pvr_drv.o \
- 
- obj-$(CONFIG_DRM_POWERVR) += powervr.o
-diff --git a/drivers/gpu/drm/imagination/pvr_device.c b/drivers/gpu/drm/imagination/pvr_device.c
+diff --git a/drivers/gpu/drm/imagination/pvr_rogue_heap_config.h b/drivers/gpu/drm/imagination/pvr_rogue_heap_config.h
 new file mode 100644
-index 000000000000..cef3511c0c42
+index 000000000000..632221b88281
 --- /dev/null
-+++ b/drivers/gpu/drm/imagination/pvr_device.c
-@@ -0,0 +1,147 @@
-+// SPDX-License-Identifier: GPL-2.0 OR MIT
++++ b/drivers/gpu/drm/imagination/pvr_rogue_heap_config.h
+@@ -0,0 +1,113 @@
++/* SPDX-License-Identifier: GPL-2.0 OR MIT */
 +/* Copyright (c) 2023 Imagination Technologies Ltd. */
 +
-+#include "pvr_device.h"
++#ifndef PVR_ROGUE_HEAP_CONFIG_H
++#define PVR_ROGUE_HEAP_CONFIG_H
 +
-+#include <drm/drm_print.h>
++#include <linux/sizes.h>
 +
-+#include <linux/clk.h>
-+#include <linux/compiler_attributes.h>
-+#include <linux/compiler_types.h>
-+#include <linux/dma-mapping.h>
-+#include <linux/err.h>
-+#include <linux/gfp.h>
-+#include <linux/platform_device.h>
-+#include <linux/slab.h>
-+#include <linux/stddef.h>
++/*
++ * ROGUE Device Virtual Address Space Definitions
++ *
++ * This file defines the ROGUE virtual address heaps that are used in
++ * application memory contexts. It also shows where the Firmware memory heap
++ * fits into this, but the firmware heap is only ever created in the
++ * kernel driver and never exposed to userspace.
++ *
++ * ROGUE_PDSCODEDATA_HEAP_BASE and ROGUE_USCCODE_HEAP_BASE will be programmed,
++ * on a global basis, into ROGUE_CR_PDS_EXEC_BASE and ROGUE_CR_USC_CODE_BASE_*
++ * respectively. Therefore if client drivers use multiple configs they must
++ * still be consistent with their definitions for these heaps.
++ *
++ * Base addresses have to be a multiple of 4MiB.
++ * Heaps must not start at 0x0000000000, as this is reserved for internal
++ * use within the driver.
++ * Range comments, those starting in column 0 below are a section heading of
++ * sorts and are above the heaps in that range. Often this is the reserved
++ * size of the heap within the range.
++ */
++
++/* 0x00_0000_0000 ************************************************************/
++
++/* 0x00_0000_0000 - 0x00_0040_0000 */
++/* 0 MiB to 4 MiB, size of 4 MiB : RESERVED */
++
++/* 0x00_0040_0000 - 0x7F_FFC0_0000 **/
++/* 4 MiB to 512 GiB, size of 512 GiB less 4 MiB : RESERVED **/
++
++/* 0x80_0000_0000 ************************************************************/
++
++/* 0x80_0000_0000 - 0x9F_FFFF_FFFF **/
++/* 512 GiB to 640 GiB, size of 128 GiB : GENERAL_HEAP **/
++#define ROGUE_GENERAL_HEAP_BASE 0x8000000000ull
++#define ROGUE_GENERAL_HEAP_SIZE SZ_128G
++
++/* 0xA0_0000_0000 - 0xAF_FFFF_FFFF */
++/* 640 GiB to 704 GiB, size of 64 GiB : FREE */
++
++/* B0_0000_0000 - 0xB7_FFFF_FFFF */
++/* 704 GiB to 736 GiB, size of 32 GiB : FREE */
++
++/* 0xB8_0000_0000 - 0xBF_FFFF_FFFF */
++/* 736 GiB to 768 GiB, size of 32 GiB : RESERVED */
++
++/* 0xC0_0000_0000 ************************************************************/
++
++/* 0xC0_0000_0000 - 0xD9_FFFF_FFFF */
++/* 768 GiB to 872 GiB, size of 104 GiB : FREE */
++
++/* 0xDA_0000_0000 - 0xDA_FFFF_FFFF */
++/* 872 GiB to 876 GiB, size of 4 GiB : PDSCODEDATA_HEAP */
++#define ROGUE_PDSCODEDATA_HEAP_BASE 0xDA00000000ull
++#define ROGUE_PDSCODEDATA_HEAP_SIZE SZ_4G
++
++/* 0xDB_0000_0000 - 0xDB_FFFF_FFFF */
++/* 876 GiB to 880 GiB, size of 256 MiB (reserved 4GiB) : BRN **/
++/*
++ * The BRN63142 quirk workaround requires Region Header memory to be at the top
++ * of a 16GiB aligned range. This is so when masked with 0x03FFFFFFFF the
++ * address will avoid aliasing PB addresses. Start at 879.75GiB. Size of 256MiB.
++ */
++#define ROGUE_RGNHDR_HEAP_BASE 0xDBF0000000ull
++#define ROGUE_RGNHDR_HEAP_SIZE SZ_256M
++
++/* 0xDC_0000_0000 - 0xDF_FFFF_FFFF */
++/* 880 GiB to 896 GiB, size of 16 GiB : FREE */
++
++/* 0xE0_0000_0000 - 0xE0_FFFF_FFFF */
++/* 896 GiB to 900 GiB, size of 4 GiB : USCCODE_HEAP */
++#define ROGUE_USCCODE_HEAP_BASE 0xE000000000ull
++#define ROGUE_USCCODE_HEAP_SIZE SZ_4G
++
++/* 0xE1_0000_0000 - 0xE1_BFFF_FFFF */
++/* 900 GiB to 903 GiB, size of 3 GiB : RESERVED */
++
++/* 0xE1_C000_000 - 0xE1_FFFF_FFFF */
++/* 903 GiB to 904 GiB, reserved 1 GiB, : FIRMWARE_HEAP */
++#define ROGUE_FW_HEAP_BASE 0xE1C0000000ull
++
++/* 0xE2_0000_0000 - 0xE3_FFFF_FFFF */
++/* 904 GiB to 912 GiB, size of 8 GiB : FREE */
++
++/* 0xE4_0000_0000 - 0xE7_FFFF_FFFF */
++/* 912 GiB to 968 GiB, size of 16 GiB : TRANSFER_FRAG */
++#define ROGUE_TRANSFER_FRAG_HEAP_BASE 0xE400000000ull
++#define ROGUE_TRANSFER_FRAG_HEAP_SIZE SZ_16G
++
++/* 0xE8_0000_0000 - 0xF1_FFFF_FFFF */
++/* 928 GiB to 968 GiB, size of 40 GiB : RESERVED */
++
++/* 0xF2_0000_0000 - 0xF2_001F_FFFF **/
++/* 968 GiB to 969 GiB, size of 2 MiB : VISTEST_HEAP */
++#define ROGUE_VISTEST_HEAP_BASE 0xF200000000ull
++#define ROGUE_VISTEST_HEAP_SIZE SZ_2M
++
++/* 0xF2_4000_0000 - 0xF2_FFFF_FFFF */
++/* 969 GiB to 972 GiB, size of 3 GiB : FREE */
++
++/* 0xF3_0000_0000 - 0xFF_FFFF_FFFF */
++/* 972 GiB to 1024 GiB, size of 52 GiB : FREE */
++
++/* 0xFF_FFFF_FFFF ************************************************************/
++
++#endif /* PVR_ROGUE_HEAP_CONFIG_H */
+diff --git a/drivers/gpu/drm/imagination/pvr_rogue_meta.h b/drivers/gpu/drm/imagination/pvr_rogue_meta.h
+new file mode 100644
+index 000000000000..736e94618832
+--- /dev/null
++++ b/drivers/gpu/drm/imagination/pvr_rogue_meta.h
+@@ -0,0 +1,356 @@
++/* SPDX-License-Identifier: GPL-2.0 OR MIT */
++/* Copyright (c) 2023 Imagination Technologies Ltd. */
++
++#ifndef PVR_ROGUE_META_H
++#define PVR_ROGUE_META_H
++
++/***** The META HW register definitions in the file are updated manually *****/
++
++#include <linux/bits.h>
 +#include <linux/types.h>
 +
-+/**
-+ * pvr_device_reg_init() - Initialize kernel access to a PowerVR device's
-+ * control registers.
-+ * @pvr_dev: Target PowerVR device.
-+ *
-+ * Sets struct pvr_device->regs.
-+ *
-+ * This method of mapping the device control registers into memory ensures that
-+ * they are unmapped when the driver is detached (i.e. no explicit cleanup is
-+ * required).
-+ *
-+ * Return:
-+ *  * 0 on success, or
-+ *  * Any error returned by devm_platform_ioremap_resource().
++/*
++ ******************************************************************************
++ * META registers and MACROS
++ *****************************************************************************
 + */
-+static int
-+pvr_device_reg_init(struct pvr_device *pvr_dev)
-+{
-+	struct drm_device *drm_dev = from_pvr_device(pvr_dev);
-+	struct platform_device *plat_dev = to_platform_device(drm_dev->dev);
-+	void __iomem *regs;
++#define META_CR_CTRLREG_BASE(t) (0x04800000U + (0x1000U * (t)))
 +
-+	pvr_dev->regs = NULL;
++#define META_CR_TXPRIVEXT (0x048000E8)
++#define META_CR_TXPRIVEXT_MINIM_EN BIT(7)
 +
-+	regs = devm_platform_ioremap_resource(plat_dev, 0);
-+	if (IS_ERR(regs))
-+		return dev_err_probe(drm_dev->dev, PTR_ERR(regs),
-+				     "failed to ioremap gpu registers\n");
++#define META_CR_SYSC_JTAG_THREAD (0x04830030)
++#define META_CR_SYSC_JTAG_THREAD_PRIV_EN (0x00000004)
 +
-+	pvr_dev->regs = regs;
++#define META_CR_PERF_COUNT0 (0x0480FFE0)
++#define META_CR_PERF_COUNT1 (0x0480FFE8)
++#define META_CR_PERF_COUNT_CTRL_SHIFT (28)
++#define META_CR_PERF_COUNT_CTRL_MASK (0xF0000000)
++#define META_CR_PERF_COUNT_CTRL_DCACHEHITS (8 << META_CR_PERF_COUNT_CTRL_SHIFT)
++#define META_CR_PERF_COUNT_CTRL_ICACHEHITS (9 << META_CR_PERF_COUNT_CTRL_SHIFT)
++#define META_CR_PERF_COUNT_CTRL_ICACHEMISS \
++	(0xA << META_CR_PERF_COUNT_CTRL_SHIFT)
++#define META_CR_PERF_COUNT_CTRL_ICORE (0xD << META_CR_PERF_COUNT_CTRL_SHIFT)
++#define META_CR_PERF_COUNT_THR_SHIFT (24)
++#define META_CR_PERF_COUNT_THR_MASK (0x0F000000)
++#define META_CR_PERF_COUNT_THR_0 (0x1 << META_CR_PERF_COUNT_THR_SHIFT)
++#define META_CR_PERF_COUNT_THR_1 (0x2 << META_CR_PERF_COUNT_THR_1)
 +
-+	return 0;
-+}
++#define META_CR_TxVECINT_BHALT (0x04820500)
++#define META_CR_PERF_ICORE0 (0x0480FFD0)
++#define META_CR_PERF_ICORE1 (0x0480FFD8)
++#define META_CR_PERF_ICORE_DCACHEMISS (0x8)
 +
-+/**
-+ * pvr_device_clk_init() - Initialize clocks required by a PowerVR device
-+ * @pvr_dev: Target PowerVR device.
-+ *
-+ * Sets struct pvr_device->core_clk, struct pvr_device->sys_clk and
-+ * struct pvr_device->mem_clk.
-+ *
-+ * Three clocks are required by the PowerVR device: core, sys and mem. On
-+ * return, this function guarantees that the clocks are in one of the following
-+ * states:
-+ *
-+ *  * All successfully initialized,
-+ *  * Core errored, sys and mem uninitialized,
-+ *  * Core deinitialized, sys errored, mem uninitialized, or
-+ *  * Core and sys deinitialized, mem errored.
-+ *
-+ * Return:
-+ *  * 0 on success,
-+ *  * Any error returned by devm_clk_get(), or
-+ *  * Any error returned by devm_clk_get_optional().
++#define META_CR_PERF_COUNT(ctrl, thr)                                        \
++	((META_CR_PERF_COUNT_CTRL_##ctrl << META_CR_PERF_COUNT_CTRL_SHIFT) | \
++	 ((thr) << META_CR_PERF_COUNT_THR_SHIFT))
++
++#define META_CR_TXUXXRXDT_OFFSET (META_CR_CTRLREG_BASE(0U) + 0x0000FFF0U)
++#define META_CR_TXUXXRXRQ_OFFSET (META_CR_CTRLREG_BASE(0U) + 0x0000FFF8U)
++
++/* Poll for done. */
++#define META_CR_TXUXXRXRQ_DREADY_BIT (0x80000000U)
++/* Set for read. */
++#define META_CR_TXUXXRXRQ_RDnWR_BIT (0x00010000U)
++#define META_CR_TXUXXRXRQ_TX_S (12)
++#define META_CR_TXUXXRXRQ_RX_S (4)
++#define META_CR_TXUXXRXRQ_UXX_S (0)
++
++/* Internal ctrl regs. */
++#define META_CR_TXUIN_ID (0x0)
++/* Data unit regs. */
++#define META_CR_TXUD0_ID (0x1)
++/* Data unit regs. */
++#define META_CR_TXUD1_ID (0x2)
++/* Address unit regs. */
++#define META_CR_TXUA0_ID (0x3)
++/* Address unit regs. */
++#define META_CR_TXUA1_ID (0x4)
++/* PC registers. */
++#define META_CR_TXUPC_ID (0x5)
++
++/* Macros to calculate register access values. */
++#define META_CR_CORE_REG(thr, reg_num, unit)          \
++	(((u32)(thr) << META_CR_TXUXXRXRQ_TX_S) |     \
++	 ((u32)(reg_num) << META_CR_TXUXXRXRQ_RX_S) | \
++	 ((u32)(unit) << META_CR_TXUXXRXRQ_UXX_S))
++
++#define META_CR_THR0_PC META_CR_CORE_REG(0, 0, META_CR_TXUPC_ID)
++#define META_CR_THR0_PCX META_CR_CORE_REG(0, 1, META_CR_TXUPC_ID)
++#define META_CR_THR0_SP META_CR_CORE_REG(0, 0, META_CR_TXUA0_ID)
++
++#define META_CR_THR1_PC META_CR_CORE_REG(1, 0, META_CR_TXUPC_ID)
++#define META_CR_THR1_PCX META_CR_CORE_REG(1, 1, META_CR_TXUPC_ID)
++#define META_CR_THR1_SP META_CR_CORE_REG(1, 0, META_CR_TXUA0_ID)
++
++#define SP_ACCESS(thread) META_CR_CORE_REG(thread, 0, META_CR_TXUA0_ID)
++#define PC_ACCESS(thread) META_CR_CORE_REG(thread, 0, META_CR_TXUPC_ID)
++
++#define META_CR_COREREG_ENABLE (0x0000000U)
++#define META_CR_COREREG_STATUS (0x0000010U)
++#define META_CR_COREREG_DEFR (0x00000A0U)
++#define META_CR_COREREG_PRIVEXT (0x00000E8U)
++
++#define META_CR_T0ENABLE_OFFSET \
++	(META_CR_CTRLREG_BASE(0U) + META_CR_COREREG_ENABLE)
++#define META_CR_T0STATUS_OFFSET \
++	(META_CR_CTRLREG_BASE(0U) + META_CR_COREREG_STATUS)
++#define META_CR_T0DEFR_OFFSET (META_CR_CTRLREG_BASE(0U) + META_CR_COREREG_DEFR)
++#define META_CR_T0PRIVEXT_OFFSET \
++	(META_CR_CTRLREG_BASE(0U) + META_CR_COREREG_PRIVEXT)
++
++#define META_CR_T1ENABLE_OFFSET \
++	(META_CR_CTRLREG_BASE(1U) + META_CR_COREREG_ENABLE)
++#define META_CR_T1STATUS_OFFSET \
++	(META_CR_CTRLREG_BASE(1U) + META_CR_COREREG_STATUS)
++#define META_CR_T1DEFR_OFFSET (META_CR_CTRLREG_BASE(1U) + META_CR_COREREG_DEFR)
++#define META_CR_T1PRIVEXT_OFFSET \
++	(META_CR_CTRLREG_BASE(1U) + META_CR_COREREG_PRIVEXT)
++
++#define META_CR_TXENABLE_ENABLE_BIT (0x00000001U) /* Set if running */
++#define META_CR_TXSTATUS_PRIV (0x00020000U)
++#define META_CR_TXPRIVEXT_MINIM (0x00000080U)
++
++#define META_MEM_GLOBAL_RANGE_BIT (0x80000000U)
++
++#define META_CR_TXCLKCTRL (0x048000B0)
++#define META_CR_TXCLKCTRL_ALL_ON (0x55111111)
++#define META_CR_TXCLKCTRL_ALL_AUTO (0xAA222222)
++
++#define META_CR_MMCU_LOCAL_EBCTRL (0x04830600)
++#define META_CR_MMCU_LOCAL_EBCTRL_ICWIN (0x3 << 14)
++#define META_CR_MMCU_LOCAL_EBCTRL_DCWIN (0x3 << 6)
++#define META_CR_SYSC_DCPART(n) (0x04830200 + (n) * 0x8)
++#define META_CR_SYSC_DCPARTX_CACHED_WRITE_ENABLE (0x1 << 31)
++#define META_CR_SYSC_ICPART(n) (0x04830220 + (n) * 0x8)
++#define META_CR_SYSC_XCPARTX_LOCAL_ADDR_OFFSET_TOP_HALF (0x8 << 16)
++#define META_CR_SYSC_XCPARTX_LOCAL_ADDR_FULL_CACHE (0xF)
++#define META_CR_SYSC_XCPARTX_LOCAL_ADDR_HALF_CACHE (0x7)
++#define META_CR_MMCU_DCACHE_CTRL (0x04830018)
++#define META_CR_MMCU_ICACHE_CTRL (0x04830020)
++#define META_CR_MMCU_XCACHE_CTRL_CACHE_HITS_EN (0x1)
++
++/*
++ ******************************************************************************
++ * META LDR Format
++ ******************************************************************************
 + */
-+static int pvr_device_clk_init(struct pvr_device *pvr_dev)
-+{
-+	struct drm_device *drm_dev = from_pvr_device(pvr_dev);
-+	struct clk *core_clk;
-+	struct clk *sys_clk;
-+	struct clk *mem_clk;
++/* Block header structure. */
++struct rogue_meta_ldr_block_hdr {
++	u32 dev_id;
++	u32 sl_code;
++	u32 sl_data;
++	u16 pc_ctrl;
++	u16 crc;
++};
 +
-+	core_clk = devm_clk_get(drm_dev->dev, "core");
-+	if (IS_ERR(core_clk))
-+		return dev_err_probe(drm_dev->dev, PTR_ERR(core_clk),
-+				     "failed to get core clock\n");
++/* High level data stream block structure. */
++struct rogue_meta_ldr_l1_data_blk {
++	u16 cmd;
++	u16 length;
++	u32 next;
++	u32 cmd_data[4];
++};
 +
-+	sys_clk = devm_clk_get_optional(drm_dev->dev, "sys");
-+	if (IS_ERR(sys_clk))
-+		return dev_err_probe(drm_dev->dev, PTR_ERR(core_clk),
-+				     "failed to get sys clock\n");
++/* High level data stream block structure. */
++struct rogue_meta_ldr_l2_data_blk {
++	u16 tag;
++	u16 length;
++	u32 block_data[4];
++};
 +
-+	mem_clk = devm_clk_get_optional(drm_dev->dev, "mem");
-+	if (IS_ERR(mem_clk))
-+		return dev_err_probe(drm_dev->dev, PTR_ERR(core_clk),
-+				     "failed to get mem clock\n");
++/* Config command structure. */
++struct rogue_meta_ldr_cfg_blk {
++	u32 type;
++	u32 block_data[4];
++};
 +
-+	pvr_dev->core_clk = core_clk;
-+	pvr_dev->sys_clk = sys_clk;
-+	pvr_dev->mem_clk = mem_clk;
++/* Block type definitions */
++#define ROGUE_META_LDR_COMMENT_TYPE_MASK (0x0010U)
++#define ROGUE_META_LDR_BLK_IS_COMMENT(x) (((x) & ROGUE_META_LDR_COMMENT_TYPE_MASK) != 0U)
 +
-+	return 0;
-+}
-+
-+/**
-+ * pvr_device_init() - Initialize a PowerVR device
-+ * @pvr_dev: Target PowerVR device.
-+ *
-+ * If this function returns successfully, the device will have been fully
-+ * initialized. Otherwise, any parts of the device initialized before an error
-+ * occurs will be de-initialized before returning.
-+ *
-+ * NOTE: The initialization steps currently taken are the bare minimum required
-+ *       to read from the control registers. The device is unlikely to function
-+ *       until further initialization steps are added. [This note should be
-+ *       removed when that happens.]
-+ *
-+ * Return:
-+ *  * 0 on success,
-+ *  * Any error returned by pvr_device_reg_init(),
-+ *  * Any error returned by pvr_device_clk_init(), or
-+ *  * Any error returned by pvr_device_gpu_init().
++/*
++ * Command definitions
++ *  Value   Name            Description
++ *  0       LoadMem         Load memory with binary data.
++ *  1       LoadCore        Load a set of core registers.
++ *  2       LoadMMReg       Load a set of memory mapped registers.
++ *  3       StartThreads    Set each thread PC and SP, then enable threads.
++ *  4       ZeroMem         Zeros a memory region.
++ *  5       Config          Perform a configuration command.
 + */
-+int
-+pvr_device_init(struct pvr_device *pvr_dev)
-+{
-+	int err;
++#define ROGUE_META_LDR_CMD_MASK (0x000FU)
 +
-+	/* Enable and initialize clocks required for the device to operate. */
-+	err = pvr_device_clk_init(pvr_dev);
-+	if (err)
-+		return err;
++#define ROGUE_META_LDR_CMD_LOADMEM (0x0000U)
++#define ROGUE_META_LDR_CMD_LOADCORE (0x0001U)
++#define ROGUE_META_LDR_CMD_LOADMMREG (0x0002U)
++#define ROGUE_META_LDR_CMD_START_THREADS (0x0003U)
++#define ROGUE_META_LDR_CMD_ZEROMEM (0x0004U)
++#define ROGUE_META_LDR_CMD_CONFIG (0x0005U)
 +
-+	/* Map the control registers into memory. */
-+	return pvr_device_reg_init(pvr_dev);
-+}
-+
-+/**
-+ * pvr_device_fini() - Deinitialize a PowerVR device
-+ * @pvr_dev: Target PowerVR device.
++/*
++ * Config Command definitions
++ *  Value   Name        Description
++ *  0       Pause       Pause for x times 100 instructions
++ *  1       Read        Read a value from register - No value return needed.
++ *                      Utilises effects of issuing reads to certain registers
++ *  2       Write       Write to mem location
++ *  3       MemSet      Set mem to value
++ *  4       MemCheck    check mem for specific value.
 + */
-+void
-+pvr_device_fini(struct pvr_device *pvr_dev)
-+{
-+	/*
-+	 * Deinitialization stages are performed in reverse order compared to
-+	 * the initialization stages in pvr_device_init().
-+	 */
-+}
-diff --git a/drivers/gpu/drm/imagination/pvr_device.h b/drivers/gpu/drm/imagination/pvr_device.h
-index 53b1cdb5a6a6..d61b3615b49f 100644
---- a/drivers/gpu/drm/imagination/pvr_device.h
-+++ b/drivers/gpu/drm/imagination/pvr_device.h
-@@ -11,9 +11,22 @@
- #include <linux/bits.h>
- #include <linux/compiler_attributes.h>
- #include <linux/compiler_types.h>
-+#include <linux/io.h>
-+#include <linux/iopoll.h>
- #include <linux/kernel.h>
-+#include <linux/math.h>
-+#include <linux/mutex.h>
-+#include <linux/timer.h>
- #include <linux/types.h>
- #include <linux/wait.h>
-+#include <linux/workqueue.h>
-+#include <linux/xarray.h>
++#define ROGUE_META_LDR_CFG_PAUSE (0x0000)
++#define ROGUE_META_LDR_CFG_READ (0x0001)
++#define ROGUE_META_LDR_CFG_WRITE (0x0002)
++#define ROGUE_META_LDR_CFG_MEMSET (0x0003)
++#define ROGUE_META_LDR_CFG_MEMCHECK (0x0004)
 +
-+/* Forward declaration from <linux/clk.h>. */
-+struct clk;
-+
-+/* Forward declaration from <linux/firmware.h>. */
-+struct firmware;
- 
- /**
-  * struct pvr_device - powervr-specific wrapper for &struct drm_device
-@@ -26,6 +39,37 @@ struct pvr_device {
- 	 * from_pvr_device().
- 	 */
- 	struct drm_device base;
-+
-+	/**
-+	 * @regs: Device control registers.
-+	 *
-+	 * These are mapped into memory when the device is initialized; that
-+	 * location is where this pointer points.
-+	 */
-+	void __iomem *regs;
-+
-+	/**
-+	 * @core_clk: General core clock.
-+	 *
-+	 * This is the primary clock used by the entire GPU core.
-+	 */
-+	struct clk *core_clk;
-+
-+	/**
-+	 * @sys_clk: Optional system bus clock.
-+	 *
-+	 * This may be used on some platforms to provide an independent clock to the SoC Interface
-+	 * (SOCIF). If present, this needs to be enabled/disabled together with @core_clk.
-+	 */
-+	struct clk *sys_clk;
-+
-+	/**
-+	 * @mem_clk: Optional memory clock.
-+	 *
-+	 * This may be used on some platforms to provide an independent clock to the Memory
-+	 * Interface (MEMIF). If present, this needs to be enabled/disabled together with @core_clk.
-+	 */
-+	struct clk *mem_clk;
- };
- 
- /**
-@@ -56,6 +100,114 @@ struct pvr_file {
- 
- #define to_pvr_file(file) ((file)->driver_priv)
- 
-+int pvr_device_init(struct pvr_device *pvr_dev);
-+void pvr_device_fini(struct pvr_device *pvr_dev);
-+
-+/**
-+ * PVR_CR_FIELD_GET() - Extract a single field from a PowerVR control register
-+ * @val: Value of the target register.
-+ * @field: Field specifier, as defined in "pvr_rogue_cr_defs.h".
-+ *
-+ * Return: The extracted field.
++/*
++ ******************************************************************************
++ * ROGUE FW segmented MMU definitions
++ ******************************************************************************
 + */
-+#define PVR_CR_FIELD_GET(val, field) FIELD_GET(~ROGUE_CR_##field##_CLRMSK, val)
++/* All threads can access the segment. */
++#define ROGUE_FW_SEGMMU_ALLTHRS (0xf << 8U)
++/* Writable. */
++#define ROGUE_FW_SEGMMU_WRITEABLE (0x1U << 1U)
++/* All threads can access and writable. */
++#define ROGUE_FW_SEGMMU_ALLTHRS_WRITEABLE \
++	(ROGUE_FW_SEGMMU_ALLTHRS | ROGUE_FW_SEGMMU_WRITEABLE)
 +
-+/**
-+ * pvr_cr_read32() - Read a 32-bit register from a PowerVR device
-+ * @pvr_dev: Target PowerVR device.
-+ * @reg: Target register.
-+ *
-+ * Return: The value of the requested register.
++/* Direct map region 10 used for mapping GPU memory - max 8MB. */
++#define ROGUE_FW_SEGMMU_DMAP_GPU_ID (10U)
++#define ROGUE_FW_SEGMMU_DMAP_GPU_ADDR_START (0x07000000U)
++#define ROGUE_FW_SEGMMU_DMAP_GPU_MAX_SIZE (0x00800000U)
++
++/* Segment IDs. */
++#define ROGUE_FW_SEGMMU_DATA_ID (1U)
++#define ROGUE_FW_SEGMMU_BOOTLDR_ID (2U)
++#define ROGUE_FW_SEGMMU_TEXT_ID (ROGUE_FW_SEGMMU_BOOTLDR_ID)
++
++/*
++ * SLC caching strategy in S7 and volcanic is emitted through the segment MMU.
++ * All the segments configured through the macro ROGUE_FW_SEGMMU_OUTADDR_TOP are
++ * CACHED in the SLC.
++ * The interface has been kept the same to simplify the code changes.
++ * The bifdm argument is ignored (no longer relevant) in S7 and volcanic.
 + */
-+static __always_inline u32
-+pvr_cr_read32(struct pvr_device *pvr_dev, u32 reg)
-+{
-+	return ioread32(pvr_dev->regs + reg);
-+}
++#define ROGUE_FW_SEGMMU_OUTADDR_TOP_VIVT_SLC(pers, slc_policy, mmu_ctx)  \
++	((((u64)((pers) & 0x3)) << 52) | (((u64)((mmu_ctx) & 0xFF)) << 44) | \
++	 (((u64)((slc_policy) & 0x1)) << 40))
++#define ROGUE_FW_SEGMMU_OUTADDR_TOP_VIVT_SLC_CACHED(mmu_ctx) \
++	ROGUE_FW_SEGMMU_OUTADDR_TOP_VIVT_SLC(0x3, 0x0, mmu_ctx)
++#define ROGUE_FW_SEGMMU_OUTADDR_TOP_VIVT_SLC_UNCACHED(mmu_ctx) \
++	ROGUE_FW_SEGMMU_OUTADDR_TOP_VIVT_SLC(0x0, 0x1, mmu_ctx)
 +
-+/**
-+ * pvr_cr_read64() - Read a 64-bit register from a PowerVR device
-+ * @pvr_dev: Target PowerVR device.
-+ * @reg: Target register.
-+ *
-+ * Return: The value of the requested register.
++/*
++ * To configure the Page Catalog and BIF-DM fed into the BIF for Garten
++ * accesses through this segment.
 + */
-+static __always_inline u64
-+pvr_cr_read64(struct pvr_device *pvr_dev, u32 reg)
-+{
-+	return ioread64(pvr_dev->regs + reg);
-+}
++#define ROGUE_FW_SEGMMU_OUTADDR_TOP_SLC(pc, bifdm) \
++	(((u64)((u64)(pc) & 0xFU) << 44U) | ((u64)((u64)(bifdm) & 0xFU) << 40U))
 +
-+/**
-+ * pvr_cr_write32() - Write to a 32-bit register in a PowerVR device
-+ * @pvr_dev: Target PowerVR device.
-+ * @reg: Target register.
-+ * @val: Value to write.
++#define ROGUE_FW_SEGMMU_META_BIFDM_ID (0x7U)
++
++/* META segments have 4kB minimum size. */
++#define ROGUE_FW_SEGMMU_ALIGN (0x1000U)
++
++/* Segmented MMU registers (n = segment id). */
++#define META_CR_MMCU_SEGMENT_N_BASE(n) (0x04850000U + ((n) * 0x10U))
++#define META_CR_MMCU_SEGMENT_N_LIMIT(n) (0x04850004U + ((n) * 0x10U))
++#define META_CR_MMCU_SEGMENT_N_OUTA0(n) (0x04850008U + ((n) * 0x10U))
++#define META_CR_MMCU_SEGMENT_N_OUTA1(n) (0x0485000CU + ((n) * 0x10U))
++
++/*
++ * The following defines must be recalculated if the Meta MMU segments used
++ * to access Host-FW data are changed
++ * Current combinations are:
++ * - SLC uncached, META cached,   FW base address 0x70000000
++ * - SLC uncached, META uncached, FW base address 0xF0000000
++ * - SLC cached,   META cached,   FW base address 0x10000000
++ * - SLC cached,   META uncached, FW base address 0x90000000
 + */
-+static __always_inline void
-+pvr_cr_write32(struct pvr_device *pvr_dev, u32 reg, u32 val)
-+{
-+	iowrite32(val, pvr_dev->regs + reg);
-+}
-+
-+/**
-+ * pvr_cr_write64() - Write to a 64-bit register in a PowerVR device
-+ * @pvr_dev: Target PowerVR device.
-+ * @reg: Target register.
-+ * @val: Value to write.
++#define ROGUE_FW_SEGMMU_DATA_BASE_ADDRESS (0x10000000U)
++#define ROGUE_FW_SEGMMU_DATA_META_CACHED (0x0U)
++#define ROGUE_FW_SEGMMU_DATA_META_UNCACHED (META_MEM_GLOBAL_RANGE_BIT)
++#define ROGUE_FW_SEGMMU_DATA_META_CACHE_MASK (META_MEM_GLOBAL_RANGE_BIT)
++/*
++ * For non-VIVT SLCs the cacheability of the FW data in the SLC is selected in
++ * the PTEs for the FW data, not in the Meta Segment MMU, which means these
++ * defines have no real effect in those cases.
 + */
-+static __always_inline void
-+pvr_cr_write64(struct pvr_device *pvr_dev, u32 reg, u64 val)
-+{
-+	iowrite64(val, pvr_dev->regs + reg);
-+}
++#define ROGUE_FW_SEGMMU_DATA_VIVT_SLC_CACHED (0x0U)
++#define ROGUE_FW_SEGMMU_DATA_VIVT_SLC_UNCACHED (0x60000000U)
++#define ROGUE_FW_SEGMMU_DATA_VIVT_SLC_CACHE_MASK (0x60000000U)
 +
-+/**
-+ * pvr_cr_poll_reg32() - Wait for a 32-bit register to match a given value by
-+ *                       polling
-+ * @pvr_dev: Target PowerVR device.
-+ * @reg_addr: Address of register.
-+ * @reg_value: Expected register value (after masking).
-+ * @reg_mask: Mask of bits valid for comparison with @reg_value.
-+ * @timeout_usec: Timeout length, in us.
-+ *
-+ * Returns:
-+ *  * 0 on success, or
-+ *  * -%ETIMEDOUT on timeout.
++/*
++ ******************************************************************************
++ * ROGUE FW Bootloader defaults
++ ******************************************************************************
 + */
-+static __always_inline int
-+pvr_cr_poll_reg32(struct pvr_device *pvr_dev, u32 reg_addr, u32 reg_value,
-+		  u32 reg_mask, u64 timeout_usec)
-+{
-+	u32 value;
++#define ROGUE_FW_BOOTLDR_META_ADDR (0x40000000U)
++#define ROGUE_FW_BOOTLDR_DEVV_ADDR_0 (0xC0000000U)
++#define ROGUE_FW_BOOTLDR_DEVV_ADDR_1 (0x000000E1)
++#define ROGUE_FW_BOOTLDR_DEVV_ADDR                     \
++	((((u64)ROGUE_FW_BOOTLDR_DEVV_ADDR_1) << 32) | \
++	 ROGUE_FW_BOOTLDR_DEVV_ADDR_0)
++#define ROGUE_FW_BOOTLDR_LIMIT (0x1FFFF000)
++#define ROGUE_FW_MAX_BOOTLDR_OFFSET (0x1000)
 +
-+	return readl_poll_timeout(pvr_dev->regs + reg_addr, value,
-+		(value & reg_mask) == reg_value, 0, timeout_usec);
-+}
++/* Bootloader configuration offset is in dwords (512 bytes) */
++#define ROGUE_FW_BOOTLDR_CONF_OFFSET (0x80)
 +
-+/**
-+ * pvr_cr_poll_reg64() - Wait for a 64-bit register to match a given value by
-+ *                       polling
-+ * @pvr_dev: Target PowerVR device.
-+ * @reg_addr: Address of register.
-+ * @reg_value: Expected register value (after masking).
-+ * @reg_mask: Mask of bits valid for comparison with @reg_value.
-+ * @timeout_usec: Timeout length, in us.
-+ *
-+ * Returns:
-+ *  * 0 on success, or
-+ *  * -%ETIMEDOUT on timeout.
++/*
++ ******************************************************************************
++ * ROGUE META Stack
++ ******************************************************************************
 + */
-+static __always_inline int
-+pvr_cr_poll_reg64(struct pvr_device *pvr_dev, u32 reg_addr, u64 reg_value,
-+		  u64 reg_mask, u64 timeout_usec)
-+{
-+	u64 value;
++#define ROGUE_META_STACK_SIZE (0x1000U)
 +
-+	return readq_poll_timeout(pvr_dev->regs + reg_addr, value,
-+		(value & reg_mask) == reg_value, 0, timeout_usec);
-+}
++/*
++ ******************************************************************************
++ * ROGUE META Core memory
++ ******************************************************************************
++ */
++/* Code and data both map to the same physical memory. */
++#define ROGUE_META_COREMEM_CODE_ADDR (0x80000000U)
++#define ROGUE_META_COREMEM_DATA_ADDR (0x82000000U)
++#define ROGUE_META_COREMEM_OFFSET_MASK (0x01ffffffU)
 +
- /**
-  * DOC: IOCTL validation helpers
-  *
-diff --git a/drivers/gpu/drm/imagination/pvr_drv.c b/drivers/gpu/drm/imagination/pvr_drv.c
-index a23bef62b52b..e007d6946bdc 100644
---- a/drivers/gpu/drm/imagination/pvr_drv.c
-+++ b/drivers/gpu/drm/imagination/pvr_drv.c
-@@ -464,6 +464,7 @@ pvr_probe(struct platform_device *plat_dev)
- {
- 	struct pvr_device *pvr_dev;
- 	struct drm_device *drm_dev;
-+	int err;
- 
- 	pvr_dev = devm_drm_dev_alloc(&plat_dev->dev, &pvr_drm_driver,
- 				     struct pvr_device, base);
-@@ -474,15 +475,30 @@ pvr_probe(struct platform_device *plat_dev)
- 
- 	platform_set_drvdata(plat_dev, drm_dev);
- 
--	return drm_dev_register(drm_dev, 0);
-+	err = pvr_device_init(pvr_dev);
-+	if (err)
-+		return err;
++#define ROGUE_META_IS_COREMEM_CODE(a, b)                                \
++	({                                                              \
++		u32 _a = (a), _b = (b);                                 \
++		((_a) >= ROGUE_META_COREMEM_CODE_ADDR) &&               \
++			((_a) < (ROGUE_META_COREMEM_CODE_ADDR + (_b))); \
++	})
++#define ROGUE_META_IS_COREMEM_DATA(a, b)                                \
++	({                                                              \
++		u32 _a = (a), _b = (b);                                 \
++		((_a) >= ROGUE_META_COREMEM_DATA_ADDR) &&               \
++			((_a) < (ROGUE_META_COREMEM_DATA_ADDR + (_b))); \
++	})
++/*
++ ******************************************************************************
++ * 2nd thread
++ ******************************************************************************
++ */
++#define ROGUE_FW_THR1_PC (0x18930000)
++#define ROGUE_FW_THR1_SP (0x78890000)
 +
-+	err = drm_dev_register(drm_dev, 0);
-+	if (err)
-+		goto err_device_fini;
++/*
++ ******************************************************************************
++ * META compatibility
++ ******************************************************************************
++ */
 +
-+	return 0;
++#define META_CR_CORE_ID (0x04831000)
++#define META_CR_CORE_ID_VER_SHIFT (16U)
++#define META_CR_CORE_ID_VER_CLRMSK (0XFF00FFFFU)
 +
-+err_device_fini:
-+	pvr_device_fini(pvr_dev);
++#define ROGUE_CR_META_MTP218_CORE_ID_VALUE 0x19
++#define ROGUE_CR_META_MTP219_CORE_ID_VALUE 0x1E
++#define ROGUE_CR_META_LTP218_CORE_ID_VALUE 0x1C
++#define ROGUE_CR_META_LTP217_CORE_ID_VALUE 0x1F
 +
-+	return err;
- }
- 
- static int
- pvr_remove(struct platform_device *plat_dev)
- {
- 	struct drm_device *drm_dev = platform_get_drvdata(plat_dev);
-+	struct pvr_device *pvr_dev = to_pvr_device(drm_dev);
- 
- 	drm_dev_unplug(drm_dev);
-+	pvr_device_fini(pvr_dev);
- 
- 	return 0;
- }
++#define ROGUE_FW_PROCESSOR_META "META"
++
++#endif /* PVR_ROGUE_META_H */
+diff --git a/drivers/gpu/drm/imagination/pvr_rogue_mips.h b/drivers/gpu/drm/imagination/pvr_rogue_mips.h
+new file mode 100644
+index 000000000000..fe5167bf7fba
+--- /dev/null
++++ b/drivers/gpu/drm/imagination/pvr_rogue_mips.h
+@@ -0,0 +1,335 @@
++/* SPDX-License-Identifier: GPL-2.0 OR MIT */
++/* Copyright (c) 2023 Imagination Technologies Ltd. */
++
++#ifndef PVR_ROGUE_MIPS_H
++#define PVR_ROGUE_MIPS_H
++
++#include <linux/bits.h>
++#include <linux/types.h>
++
++/* Utility defines for memory management. */
++#define ROGUE_MIPSFW_LOG2_PAGE_SIZE_4K (12)
++#define ROGUE_MIPSFW_PAGE_SIZE_4K (0x1 << ROGUE_MIPSFW_LOG2_PAGE_SIZE_4K)
++#define ROGUE_MIPSFW_PAGE_MASK_4K (ROGUE_MIPSFW_PAGE_SIZE_4K - 1)
++#define ROGUE_MIPSFW_LOG2_PAGE_SIZE_64K (16)
++#define ROGUE_MIPSFW_PAGE_SIZE_64K (0x1 << ROGUE_MIPSFW_LOG2_PAGE_SIZE_64K)
++#define ROGUE_MIPSFW_PAGE_MASK_64K (ROGUE_MIPSFW_PAGE_SIZE_64K - 1)
++#define ROGUE_MIPSFW_LOG2_PAGE_SIZE_256K (18)
++#define ROGUE_MIPSFW_PAGE_SIZE_256K (0x1 << ROGUE_MIPSFW_LOG2_PAGE_SIZE_256K)
++#define ROGUE_MIPSFW_PAGE_MASK_256K (ROGUE_MIPSFW_PAGE_SIZE_256K - 1)
++#define ROGUE_MIPSFW_LOG2_PAGE_SIZE_1MB (20)
++#define ROGUE_MIPSFW_PAGE_SIZE_1MB (0x1 << ROGUE_MIPSFW_LOG2_PAGE_SIZE_1MB)
++#define ROGUE_MIPSFW_PAGE_MASK_1MB (ROGUE_MIPSFW_PAGE_SIZE_1MB - 1)
++#define ROGUE_MIPSFW_LOG2_PAGE_SIZE_4MB (22)
++#define ROGUE_MIPSFW_PAGE_SIZE_4MB (0x1 << ROGUE_MIPSFW_LOG2_PAGE_SIZE_4MB)
++#define ROGUE_MIPSFW_PAGE_MASK_4MB (ROGUE_MIPSFW_PAGE_SIZE_4MB - 1)
++#define ROGUE_MIPSFW_LOG2_PTE_ENTRY_SIZE (2)
++/* log2 page table sizes dependent on FW heap size and page size (for each OS). */
++#define ROGUE_MIPSFW_LOG2_PAGETABLE_SIZE_4K(pvr_dev) ((pvr_dev)->fw_dev.fw_heap_info.log2_size - \
++						      ROGUE_MIPSFW_LOG2_PAGE_SIZE_4K +    \
++						      ROGUE_MIPSFW_LOG2_PTE_ENTRY_SIZE)
++#define ROGUE_MIPSFW_LOG2_PAGETABLE_SIZE_64K(pvr_dev) ((pvr_dev)->fw_dev.fw_heap_info.log2_size - \
++						       ROGUE_MIPSFW_LOG2_PAGE_SIZE_64K +   \
++						       ROGUE_MIPSFW_LOG2_PTE_ENTRY_SIZE)
++/* Maximum number of page table pages (both Host and MIPS pages). */
++#define ROGUE_MIPSFW_MAX_NUM_PAGETABLE_PAGES (4)
++/* Total number of TLB entries. */
++#define ROGUE_MIPSFW_NUMBER_OF_TLB_ENTRIES (16)
++/* "Uncached" caching policy. */
++#define ROGUE_MIPSFW_UNCACHED_CACHE_POLICY (2)
++/* "Write-back write-allocate" caching policy. */
++#define ROGUE_MIPSFW_WRITEBACK_CACHE_POLICY (3)
++/* "Write-through no write-allocate" caching policy. */
++#define ROGUE_MIPSFW_WRITETHROUGH_CACHE_POLICY (1)
++/* Cached policy used by MIPS in case of physical bus on 32 bit. */
++#define ROGUE_MIPSFW_CACHED_POLICY (ROGUE_MIPSFW_WRITEBACK_CACHE_POLICY)
++/* Cached policy used by MIPS in case of physical bus on more than 32 bit. */
++#define ROGUE_MIPSFW_CACHED_POLICY_ABOVE_32BIT (ROGUE_MIPSFW_WRITETHROUGH_CACHE_POLICY)
++/* Total number of Remap entries. */
++#define ROGUE_MIPSFW_NUMBER_OF_REMAP_ENTRIES (2 * ROGUE_MIPSFW_NUMBER_OF_TLB_ENTRIES)
++
++/* MIPS EntryLo/PTE format. */
++
++#define ROGUE_MIPSFW_ENTRYLO_READ_INHIBIT_SHIFT (31U)
++#define ROGUE_MIPSFW_ENTRYLO_READ_INHIBIT_CLRMSK (0X7FFFFFFF)
++#define ROGUE_MIPSFW_ENTRYLO_READ_INHIBIT_EN (0X80000000)
++
++#define ROGUE_MIPSFW_ENTRYLO_EXEC_INHIBIT_SHIFT (30U)
++#define ROGUE_MIPSFW_ENTRYLO_EXEC_INHIBIT_CLRMSK (0XBFFFFFFF)
++#define ROGUE_MIPSFW_ENTRYLO_EXEC_INHIBIT_EN (0X40000000)
++
++/* Page Frame Number */
++#define ROGUE_MIPSFW_ENTRYLO_PFN_SHIFT (6)
++#define ROGUE_MIPSFW_ENTRYLO_PFN_ALIGNSHIFT (12)
++/* Mask used for the MIPS Page Table in case of physical bus on 32 bit. */
++#define ROGUE_MIPSFW_ENTRYLO_PFN_MASK (0x03FFFFC0)
++#define ROGUE_MIPSFW_ENTRYLO_PFN_SIZE (20)
++/* Mask used for the MIPS Page Table in case of physical bus on more than 32 bit. */
++#define ROGUE_MIPSFW_ENTRYLO_PFN_MASK_ABOVE_32BIT (0x3FFFFFC0)
++#define ROGUE_MIPSFW_ENTRYLO_PFN_SIZE_ABOVE_32BIT (24)
++#define ROGUE_MIPSFW_ADDR_TO_ENTRYLO_PFN_RSHIFT (ROGUE_MIPSFW_ENTRYLO_PFN_ALIGNSHIFT - \
++						 ROGUE_MIPSFW_ENTRYLO_PFN_SHIFT)
++
++#define ROGUE_MIPSFW_ENTRYLO_CACHE_POLICY_SHIFT (3U)
++#define ROGUE_MIPSFW_ENTRYLO_CACHE_POLICY_CLRMSK (0XFFFFFFC7)
++
++#define ROGUE_MIPSFW_ENTRYLO_DIRTY_SHIFT (2U)
++#define ROGUE_MIPSFW_ENTRYLO_DIRTY_CLRMSK (0XFFFFFFFB)
++#define ROGUE_MIPSFW_ENTRYLO_DIRTY_EN (0X00000004)
++
++#define ROGUE_MIPSFW_ENTRYLO_VALID_SHIFT (1U)
++#define ROGUE_MIPSFW_ENTRYLO_VALID_CLRMSK (0XFFFFFFFD)
++#define ROGUE_MIPSFW_ENTRYLO_VALID_EN (0X00000002)
++
++#define ROGUE_MIPSFW_ENTRYLO_GLOBAL_SHIFT (0U)
++#define ROGUE_MIPSFW_ENTRYLO_GLOBAL_CLRMSK (0XFFFFFFFE)
++#define ROGUE_MIPSFW_ENTRYLO_GLOBAL_EN (0X00000001)
++
++#define ROGUE_MIPSFW_ENTRYLO_DVG (ROGUE_MIPSFW_ENTRYLO_DIRTY_EN | \
++				  ROGUE_MIPSFW_ENTRYLO_VALID_EN | \
++				  ROGUE_MIPSFW_ENTRYLO_GLOBAL_EN)
++#define ROGUE_MIPSFW_ENTRYLO_UNCACHED (ROGUE_MIPSFW_UNCACHED_CACHE_POLICY << \
++				       ROGUE_MIPSFW_ENTRYLO_CACHE_POLICY_SHIFT)
++#define ROGUE_MIPSFW_ENTRYLO_DVG_UNCACHED (ROGUE_MIPSFW_ENTRYLO_DVG | \
++					   ROGUE_MIPSFW_ENTRYLO_UNCACHED)
++
++/* Remap Range Config Addr Out. */
++/* These defines refer to the upper half of the Remap Range Config register. */
++#define ROGUE_MIPSFW_REMAP_RANGE_ADDR_OUT_MASK (0x0FFFFFF0)
++#define ROGUE_MIPSFW_REMAP_RANGE_ADDR_OUT_SHIFT (4) /* wrt upper half of the register. */
++#define ROGUE_MIPSFW_REMAP_RANGE_ADDR_OUT_ALIGNSHIFT (12)
++#define ROGUE_MIPSFW_ADDR_TO_RR_ADDR_OUT_RSHIFT (ROGUE_MIPSFW_REMAP_RANGE_ADDR_OUT_ALIGNSHIFT - \
++						 ROGUE_MIPSFW_REMAP_RANGE_ADDR_OUT_SHIFT)
++
++/*
++ * Pages to trampoline problematic physical addresses:
++ *   - ROGUE_MIPSFW_BOOT_REMAP_PHYS_ADDR_IN : 0x1FC0_0000
++ *   - ROGUE_MIPSFW_DATA_REMAP_PHYS_ADDR_IN : 0x1FC0_1000
++ *   - ROGUE_MIPSFW_CODE_REMAP_PHYS_ADDR_IN : 0x1FC0_2000
++ *   - (benign trampoline)               : 0x1FC0_3000
++ * that would otherwise be erroneously remapped by the MIPS wrapper.
++ * (see "Firmware virtual layout and remap configuration" section below)
++ */
++
++#define ROGUE_MIPSFW_TRAMPOLINE_LOG2_NUMPAGES (2)
++#define ROGUE_MIPSFW_TRAMPOLINE_NUMPAGES BIT(ROGUE_MIPSFW_TRAMPOLINE_LOG2_NUMPAGES)
++#define ROGUE_MIPSFW_TRAMPOLINE_SIZE (ROGUE_MIPSFW_TRAMPOLINE_NUMPAGES << \
++				      ROGUE_MIPSFW_LOG2_PAGE_SIZE_4K)
++#define ROGUE_MIPSFW_TRAMPOLINE_LOG2_SEGMENT_SIZE (ROGUE_MIPSFW_TRAMPOLINE_LOG2_NUMPAGES + \
++						   ROGUE_MIPSFW_LOG2_PAGE_SIZE_4K)
++
++#define ROGUE_MIPSFW_TRAMPOLINE_TARGET_PHYS_ADDR (ROGUE_MIPSFW_BOOT_REMAP_PHYS_ADDR_IN)
++#define ROGUE_MIPSFW_TRAMPOLINE_OFFSET(a) ((a) - ROGUE_MIPSFW_BOOT_REMAP_PHYS_ADDR_IN)
++
++#define ROGUE_MIPSFW_SENSITIVE_ADDR(a) (ROGUE_MIPSFW_BOOT_REMAP_PHYS_ADDR_IN == \
++					(~((1 << ROGUE_MIPSFW_TRAMPOLINE_LOG2_SEGMENT_SIZE) - 1) \
++					 & (a)))
++
++/* Firmware virtual layout and remap configuration. */
++/*
++ * For each remap region we define:
++ * - the virtual base used by the Firmware to access code/data through that region
++ * - the microAptivAP physical address correspondent to the virtual base address,
++ *   used as input address and remapped to the actual physical address
++ * - log2 of size of the region remapped by the MIPS wrapper, i.e. number of bits from
++ *   the bottom of the base input address that survive onto the output address
++ *   (this defines both the alignment and the maximum size of the remapped region)
++ * - one or more code/data segments within the remapped region.
++ */
++
++/* Boot remap setup. */
++#define ROGUE_MIPSFW_BOOT_REMAP_VIRTUAL_BASE (0xBFC00000)
++#define ROGUE_MIPSFW_BOOT_REMAP_PHYS_ADDR_IN (0x1FC00000)
++#define ROGUE_MIPSFW_BOOT_REMAP_LOG2_SEGMENT_SIZE (12)
++#define ROGUE_MIPSFW_BOOT_NMI_CODE_VIRTUAL_BASE (ROGUE_MIPSFW_BOOT_REMAP_VIRTUAL_BASE)
++
++/* Data remap setup. */
++#define ROGUE_MIPSFW_DATA_REMAP_VIRTUAL_BASE (0xBFC01000)
++#define ROGUE_MIPSFW_DATA_CACHED_REMAP_VIRTUAL_BASE (0x9FC01000)
++#define ROGUE_MIPSFW_DATA_REMAP_PHYS_ADDR_IN (0x1FC01000)
++#define ROGUE_MIPSFW_DATA_REMAP_LOG2_SEGMENT_SIZE (12)
++#define ROGUE_MIPSFW_BOOT_NMI_DATA_VIRTUAL_BASE (ROGUE_MIPSFW_DATA_REMAP_VIRTUAL_BASE)
++
++/* Code remap setup. */
++#define ROGUE_MIPSFW_CODE_REMAP_VIRTUAL_BASE (0x9FC02000)
++#define ROGUE_MIPSFW_CODE_REMAP_PHYS_ADDR_IN (0x1FC02000)
++#define ROGUE_MIPSFW_CODE_REMAP_LOG2_SEGMENT_SIZE (12)
++#define ROGUE_MIPSFW_EXCEPTIONS_VIRTUAL_BASE (ROGUE_MIPSFW_CODE_REMAP_VIRTUAL_BASE)
++
++/* Permanent mappings setup. */
++#define ROGUE_MIPSFW_PT_VIRTUAL_BASE (0xCF000000)
++#define ROGUE_MIPSFW_REGISTERS_VIRTUAL_BASE (0xCF800000)
++#define ROGUE_MIPSFW_STACK_VIRTUAL_BASE (0xCF600000)
++
++/* Bootloader configuration data. */
++/*
++ * Bootloader configuration offset (where ROGUE_MIPSFW_BOOT_DATA lives)
++ * within the bootloader/NMI data page.
++ */
++#define ROGUE_MIPSFW_BOOTLDR_CONF_OFFSET (0x0)
++
++/* NMI shared data. */
++/* Base address of the shared data within the bootloader/NMI data page. */
++#define ROGUE_MIPSFW_NMI_SHARED_DATA_BASE (0x100)
++/* Size used by Debug dump data. */
++#define ROGUE_MIPSFW_NMI_SHARED_SIZE (0x2B0)
++/* Offsets in the NMI shared area in 32-bit words. */
++#define ROGUE_MIPSFW_NMI_SYNC_FLAG_OFFSET (0x0)
++#define ROGUE_MIPSFW_NMI_STATE_OFFSET (0x1)
++#define ROGUE_MIPSFW_NMI_ERROR_STATE_SET (0x1)
++
++/* MIPS boot stage. */
++#define ROGUE_MIPSFW_BOOT_STAGE_OFFSET (0x400)
++
++/*
++ * MIPS private data in the bootloader data page.
++ * Memory below this offset is used by the FW only, no interface data allowed.
++ */
++#define ROGUE_MIPSFW_PRIVATE_DATA_OFFSET (0x800)
++
++struct rogue_mipsfw_boot_data {
++	u64 stack_phys_addr;
++	u64 reg_base;
++	u64 pt_phys_addr[ROGUE_MIPSFW_MAX_NUM_PAGETABLE_PAGES];
++	u32 pt_log2_page_size;
++	u32 pt_num_pages;
++	u32 reserved1;
++	u32 reserved2;
++};
++
++#define ROGUE_MIPSFW_GET_OFFSET_IN_DWORDS(offset) ((offset) / sizeof(u32))
++#define ROGUE_MIPSFW_GET_OFFSET_IN_QWORDS(offset) ((offset) / sizeof(u64))
++
++/* Used for compatibility checks. */
++#define ROGUE_MIPSFW_ARCHTYPE_VER_CLRMSK (0xFFFFE3FFU)
++#define ROGUE_MIPSFW_ARCHTYPE_VER_SHIFT (10U)
++#define ROGUE_MIPSFW_CORE_ID_VALUE (0x001U)
++#define ROGUE_FW_PROCESSOR_MIPS "MIPS"
++
++/* microAptivAP cache line size. */
++#define ROGUE_MIPSFW_MICROAPTIVEAP_CACHELINE_SIZE (16U)
++
++/*
++ * The SOCIF transactions are identified with the top 16 bits of the physical address emitted by
++ * the MIPS.
++ */
++#define ROGUE_MIPSFW_WRAPPER_CONFIG_REGBANK_ADDR_ALIGN (16U)
++
++/* Values to put in the MIPS selectors for performance counters. */
++/* Icache accesses in COUNTER0. */
++#define ROGUE_MIPSFW_PERF_COUNT_CTRL_ICACHE_ACCESSES_C0 (9U)
++/* Icache misses in COUNTER1. */
++#define ROGUE_MIPSFW_PERF_COUNT_CTRL_ICACHE_MISSES_C1 (9U)
++
++/* Dcache accesses in COUNTER0. */
++#define ROGUE_MIPSFW_PERF_COUNT_CTRL_DCACHE_ACCESSES_C0 (10U)
++/* Dcache misses in COUNTER1. */
++#define ROGUE_MIPSFW_PERF_COUNT_CTRL_DCACHE_MISSES_C1 (11U)
++
++/* ITLB instruction accesses in COUNTER0. */
++#define ROGUE_MIPSFW_PERF_COUNT_CTRL_ITLB_INSTR_ACCESSES_C0 (5U)
++/* JTLB instruction accesses misses in COUNTER1. */
++#define ROGUE_MIPSFW_PERF_COUNT_CTRL_JTLB_INSTR_MISSES_C1 (7U)
++
++  /* Instructions completed in COUNTER0. */
++#define ROGUE_MIPSFW_PERF_COUNT_CTRL_INSTR_COMPLETED_C0 (1U)
++/* JTLB data misses in COUNTER1. */
++#define ROGUE_MIPSFW_PERF_COUNT_CTRL_JTLB_DATA_MISSES_C1 (8U)
++
++/* Shift for the Event field in the MIPS perf ctrl registers. */
++#define ROGUE_MIPSFW_PERF_COUNT_CTRL_EVENT_SHIFT (5U)
++
++/* Additional flags for performance counters. See MIPS manual for further reference. */
++#define ROGUE_MIPSFW_PERF_COUNT_CTRL_COUNT_USER_MODE (8U)
++#define ROGUE_MIPSFW_PERF_COUNT_CTRL_COUNT_KERNEL_MODE (2U)
++#define ROGUE_MIPSFW_PERF_COUNT_CTRL_COUNT_EXL (1U)
++
++#define ROGUE_MIPSFW_C0_NBHWIRQ	8
++
++/* Macros to decode C0_Cause register. */
++#define ROGUE_MIPSFW_C0_CAUSE_EXCCODE(cause) (((cause) & 0x7c) >> 2)
++#define ROGUE_MIPSFW_C0_CAUSE_EXCCODE_FWERROR 9
++/* Use only when Coprocessor Unusable exception. */
++#define ROGUE_MIPSFW_C0_CAUSE_UNUSABLE_UNIT(cause) (((cause) >> 28) & 0x3)
++#define ROGUE_MIPSFW_C0_CAUSE_PENDING_HWIRQ(cause) (((cause) & 0x3fc00) >> 10)
++#define ROGUE_MIPSFW_C0_CAUSE_FDCIPENDING BIT(21)
++#define ROGUE_MIPSFW_C0_CAUSE_IV BIT(23)
++#define ROGUE_MIPSFW_C0_CAUSE_IC BIT(25)
++#define ROGUE_MIPSFW_C0_CAUSE_PCIPENDING BIT(26)
++#define ROGUE_MIPSFW_C0_CAUSE_TIPENDING BIT(30)
++#define ROGUE_MIPSFW_C0_CAUSE_BRANCH_DELAY BIT(31)
++
++/* Macros to decode C0_Debug register. */
++#define ROGUE_MIPSFW_C0_DEBUG_EXCCODE(debug) (((debug) >> 10) & 0x1f)
++#define ROGUE_MIPSFW_C0_DEBUG_DSS BIT(0)
++#define ROGUE_MIPSFW_C0_DEBUG_DBP BIT(1)
++#define ROGUE_MIPSFW_C0_DEBUG_DDBL BIT(2)
++#define ROGUE_MIPSFW_C0_DEBUG_DDBS BIT(3)
++#define ROGUE_MIPSFW_C0_DEBUG_DIB BIT(4)
++#define ROGUE_MIPSFW_C0_DEBUG_DINT BIT(5)
++#define ROGUE_MIPSFW_C0_DEBUG_DIBIMPR BIT(6)
++#define ROGUE_MIPSFW_C0_DEBUG_DDBLIMPR BIT(18)
++#define ROGUE_MIPSFW_C0_DEBUG_DDBSIMPR BIT(19)
++#define ROGUE_MIPSFW_C0_DEBUG_IEXI BIT(20)
++#define ROGUE_MIPSFW_C0_DEBUG_DBUSEP BIT(21)
++#define ROGUE_MIPSFW_C0_DEBUG_CACHEEP BIT(22)
++#define ROGUE_MIPSFW_C0_DEBUG_MCHECKP BIT(23)
++#define ROGUE_MIPSFW_C0_DEBUG_IBUSEP BIT(24)
++#define ROGUE_MIPSFW_C0_DEBUG_DM BIT(30)
++#define ROGUE_MIPSFW_C0_DEBUG_DBD BIT(31)
++
++/* Macros to decode TLB entries. */
++#define ROGUE_MIPSFW_TLB_GET_MASK(page_mask) (((page_mask) >> 13) & 0XFFFFU)
++/* Page size in KB. */
++#define ROGUE_MIPSFW_TLB_GET_PAGE_SIZE(page_mask) ((((page_mask) | 0x1FFF) + 1) >> 11)
++/* Page size in KB. */
++#define ROGUE_MIPSFW_TLB_GET_PAGE_MASK(page_size) ((((page_size) << 11) - 1) & ~0x7FF)
++#define ROGUE_MIPSFW_TLB_GET_VPN2(entry_hi) ((entry_hi) >> 13)
++#define ROGUE_MIPSFW_TLB_GET_COHERENCY(entry_lo) (((entry_lo) >> 3) & 0x7U)
++#define ROGUE_MIPSFW_TLB_GET_PFN(entry_lo) (((entry_lo) >> 6) & 0XFFFFFU)
++/* GET_PA uses a non-standard PFN mask for 36 bit addresses. */
++#define ROGUE_MIPSFW_TLB_GET_PA(entry_lo) (((u64)(entry_lo) & \
++					    ROGUE_MIPSFW_ENTRYLO_PFN_MASK_ABOVE_32BIT) << 6)
++#define ROGUE_MIPSFW_TLB_GET_INHIBIT(entry_lo) (((entry_lo) >> 30) & 0x3U)
++#define ROGUE_MIPSFW_TLB_GET_DGV(entry_lo) ((entry_lo) & 0x7U)
++#define ROGUE_MIPSFW_TLB_GLOBAL BIT(0)
++#define ROGUE_MIPSFW_TLB_VALID BIT(1)
++#define ROGUE_MIPSFW_TLB_DIRTY BIT(2)
++#define ROGUE_MIPSFW_TLB_XI BIT(30)
++#define ROGUE_MIPSFW_TLB_RI BIT(31)
++
++#define ROGUE_MIPSFW_REMAP_GET_REGION_SIZE(region_size_encoding) (1 << (((region_size_encoding) \
++									+ 1) << 1))
++
++struct rogue_mips_tlb_entry {
++	u32 tlb_page_mask;
++	u32 tlb_hi;
++	u32 tlb_lo0;
++	u32 tlb_lo1;
++};
++
++struct rogue_mips_remap_entry {
++	u32 remap_addr_in;  /* Always 4k aligned. */
++	u32 remap_addr_out; /* Always 4k aligned. */
++	u32 remap_region_size;
++};
++
++struct rogue_mips_state {
++	u32 error_state; /* This must come first in the structure. */
++	u32 error_epc;
++	u32 status_register;
++	u32 cause_register;
++	u32 bad_register;
++	u32 epc;
++	u32 sp;
++	u32 debug;
++	u32 depc;
++	u32 bad_instr;
++	u32 unmapped_address;
++	struct rogue_mips_tlb_entry tlb[ROGUE_MIPSFW_NUMBER_OF_TLB_ENTRIES];
++	struct rogue_mips_remap_entry remap[ROGUE_MIPSFW_NUMBER_OF_REMAP_ENTRIES];
++};
++
++#include "pvr_rogue_mips_check.h"
++
++#endif /* PVR_ROGUE_MIPS_H */
+diff --git a/drivers/gpu/drm/imagination/pvr_rogue_mips_check.h b/drivers/gpu/drm/imagination/pvr_rogue_mips_check.h
+new file mode 100644
+index 000000000000..efad38039cae
+--- /dev/null
++++ b/drivers/gpu/drm/imagination/pvr_rogue_mips_check.h
+@@ -0,0 +1,58 @@
++/* SPDX-License-Identifier: GPL-2.0 OR MIT */
++/* Copyright (c) 2023 Imagination Technologies Ltd. */
++
++#ifndef PVR_ROGUE_MIPS_CHECK_H
++#define PVR_ROGUE_MIPS_CHECK_H
++
++#include <linux/build_bug.h>
++
++static_assert(offsetof(struct rogue_mips_tlb_entry, tlb_page_mask) == 0,
++	      "offsetof(struct rogue_mips_tlb_entry, tlb_page_mask) incorrect");
++static_assert(offsetof(struct rogue_mips_tlb_entry, tlb_hi) == 4,
++	      "offsetof(struct rogue_mips_tlb_entry, tlb_hi) incorrect");
++static_assert(offsetof(struct rogue_mips_tlb_entry, tlb_lo0) == 8,
++	      "offsetof(struct rogue_mips_tlb_entry, tlb_lo0) incorrect");
++static_assert(offsetof(struct rogue_mips_tlb_entry, tlb_lo1) == 12,
++	      "offsetof(struct rogue_mips_tlb_entry, tlb_lo1) incorrect");
++static_assert(sizeof(struct rogue_mips_tlb_entry) == 16,
++	      "struct rogue_mips_tlb_entry is incorrect size");
++
++static_assert(offsetof(struct rogue_mips_remap_entry, remap_addr_in) == 0,
++	      "offsetof(struct rogue_mips_remap_entry, remap_addr_in) incorrect");
++static_assert(offsetof(struct rogue_mips_remap_entry, remap_addr_out) == 4,
++	      "offsetof(struct rogue_mips_remap_entry, remap_addr_out) incorrect");
++static_assert(offsetof(struct rogue_mips_remap_entry, remap_region_size) == 8,
++	      "offsetof(struct rogue_mips_remap_entry, remap_region_size) incorrect");
++static_assert(sizeof(struct rogue_mips_remap_entry) == 12,
++	      "struct rogue_mips_remap_entry is incorrect size");
++
++static_assert(offsetof(struct rogue_mips_state, error_state) == 0,
++	      "offsetof(struct rogue_mips_state, error_state) incorrect");
++static_assert(offsetof(struct rogue_mips_state, error_epc) == 4,
++	      "offsetof(struct rogue_mips_state, error_epc) incorrect");
++static_assert(offsetof(struct rogue_mips_state, status_register) == 8,
++	      "offsetof(struct rogue_mips_state, status_register) incorrect");
++static_assert(offsetof(struct rogue_mips_state, cause_register) == 12,
++	      "offsetof(struct rogue_mips_state, cause_register) incorrect");
++static_assert(offsetof(struct rogue_mips_state, bad_register) == 16,
++	      "offsetof(struct rogue_mips_state, bad_register) incorrect");
++static_assert(offsetof(struct rogue_mips_state, epc) == 20,
++	      "offsetof(struct rogue_mips_state, epc) incorrect");
++static_assert(offsetof(struct rogue_mips_state, sp) == 24,
++	      "offsetof(struct rogue_mips_state, sp) incorrect");
++static_assert(offsetof(struct rogue_mips_state, debug) == 28,
++	      "offsetof(struct rogue_mips_state, debug) incorrect");
++static_assert(offsetof(struct rogue_mips_state, depc) == 32,
++	      "offsetof(struct rogue_mips_state, depc) incorrect");
++static_assert(offsetof(struct rogue_mips_state, bad_instr) == 36,
++	      "offsetof(struct rogue_mips_state, bad_instr) incorrect");
++static_assert(offsetof(struct rogue_mips_state, unmapped_address) == 40,
++	      "offsetof(struct rogue_mips_state, unmapped_address) incorrect");
++static_assert(offsetof(struct rogue_mips_state, tlb) == 44,
++	      "offsetof(struct rogue_mips_state, tlb) incorrect");
++static_assert(offsetof(struct rogue_mips_state, remap) == 300,
++	      "offsetof(struct rogue_mips_state, remap) incorrect");
++static_assert(sizeof(struct rogue_mips_state) == 684,
++	      "struct rogue_mips_state is incorrect size");
++
++#endif /* PVR_ROGUE_MIPS_CHECK_H */
+diff --git a/drivers/gpu/drm/imagination/pvr_rogue_mmu_defs.h b/drivers/gpu/drm/imagination/pvr_rogue_mmu_defs.h
+new file mode 100644
+index 000000000000..cd28cded2741
+--- /dev/null
++++ b/drivers/gpu/drm/imagination/pvr_rogue_mmu_defs.h
+@@ -0,0 +1,136 @@
++/* SPDX-License-Identifier: GPL-2.0 OR MIT */
++/* Copyright (c) 2023 Imagination Technologies Ltd. */
++
++/*  *** Autogenerated C -- do not edit ***  */
++
++#ifndef PVR_ROGUE_MMU_DEFS_H
++#define PVR_ROGUE_MMU_DEFS_H
++
++#define ROGUE_MMU_DEFS_REVISION 0
++
++#define ROGUE_BIF_DM_ENCODING_VERTEX (0x00000000U)
++#define ROGUE_BIF_DM_ENCODING_PIXEL (0x00000001U)
++#define ROGUE_BIF_DM_ENCODING_COMPUTE (0x00000002U)
++#define ROGUE_BIF_DM_ENCODING_TLA (0x00000003U)
++#define ROGUE_BIF_DM_ENCODING_PB_VCE (0x00000004U)
++#define ROGUE_BIF_DM_ENCODING_PB_TE (0x00000005U)
++#define ROGUE_BIF_DM_ENCODING_META (0x00000007U)
++#define ROGUE_BIF_DM_ENCODING_HOST (0x00000008U)
++#define ROGUE_BIF_DM_ENCODING_PM_ALIST (0x00000009U)
++
++#define ROGUE_MMUCTRL_VADDR_PC_INDEX_SHIFT (30U)
++#define ROGUE_MMUCTRL_VADDR_PC_INDEX_CLRMSK (0xFFFFFF003FFFFFFFULL)
++#define ROGUE_MMUCTRL_VADDR_PD_INDEX_SHIFT (21U)
++#define ROGUE_MMUCTRL_VADDR_PD_INDEX_CLRMSK (0xFFFFFFFFC01FFFFFULL)
++#define ROGUE_MMUCTRL_VADDR_PT_INDEX_SHIFT (12U)
++#define ROGUE_MMUCTRL_VADDR_PT_INDEX_CLRMSK (0xFFFFFFFFFFE00FFFULL)
++
++#define ROGUE_MMUCTRL_ENTRIES_PC_VALUE (0x00000400U)
++#define ROGUE_MMUCTRL_ENTRIES_PD_VALUE (0x00000200U)
++#define ROGUE_MMUCTRL_ENTRIES_PT_VALUE (0x00000200U)
++
++#define ROGUE_MMUCTRL_ENTRY_SIZE_PC_VALUE (0x00000020U)
++#define ROGUE_MMUCTRL_ENTRY_SIZE_PD_VALUE (0x00000040U)
++#define ROGUE_MMUCTRL_ENTRY_SIZE_PT_VALUE (0x00000040U)
++
++#define ROGUE_MMUCTRL_PAGE_SIZE_MASK (0x00000007U)
++#define ROGUE_MMUCTRL_PAGE_SIZE_4KB (0x00000000U)
++#define ROGUE_MMUCTRL_PAGE_SIZE_16KB (0x00000001U)
++#define ROGUE_MMUCTRL_PAGE_SIZE_64KB (0x00000002U)
++#define ROGUE_MMUCTRL_PAGE_SIZE_256KB (0x00000003U)
++#define ROGUE_MMUCTRL_PAGE_SIZE_1MB (0x00000004U)
++#define ROGUE_MMUCTRL_PAGE_SIZE_2MB (0x00000005U)
++
++#define ROGUE_MMUCTRL_PAGE_4KB_RANGE_SHIFT (12U)
++#define ROGUE_MMUCTRL_PAGE_4KB_RANGE_CLRMSK (0xFFFFFF0000000FFFULL)
++
++#define ROGUE_MMUCTRL_PAGE_16KB_RANGE_SHIFT (14U)
++#define ROGUE_MMUCTRL_PAGE_16KB_RANGE_CLRMSK (0xFFFFFF0000003FFFULL)
++
++#define ROGUE_MMUCTRL_PAGE_64KB_RANGE_SHIFT (16U)
++#define ROGUE_MMUCTRL_PAGE_64KB_RANGE_CLRMSK (0xFFFFFF000000FFFFULL)
++
++#define ROGUE_MMUCTRL_PAGE_256KB_RANGE_SHIFT (18U)
++#define ROGUE_MMUCTRL_PAGE_256KB_RANGE_CLRMSK (0xFFFFFF000003FFFFULL)
++
++#define ROGUE_MMUCTRL_PAGE_1MB_RANGE_SHIFT (20U)
++#define ROGUE_MMUCTRL_PAGE_1MB_RANGE_CLRMSK (0xFFFFFF00000FFFFFULL)
++
++#define ROGUE_MMUCTRL_PAGE_2MB_RANGE_SHIFT (21U)
++#define ROGUE_MMUCTRL_PAGE_2MB_RANGE_CLRMSK (0xFFFFFF00001FFFFFULL)
++
++#define ROGUE_MMUCTRL_PT_BASE_4KB_RANGE_SHIFT (12U)
++#define ROGUE_MMUCTRL_PT_BASE_4KB_RANGE_CLRMSK (0xFFFFFF0000000FFFULL)
++
++#define ROGUE_MMUCTRL_PT_BASE_16KB_RANGE_SHIFT (10U)
++#define ROGUE_MMUCTRL_PT_BASE_16KB_RANGE_CLRMSK (0xFFFFFF00000003FFULL)
++
++#define ROGUE_MMUCTRL_PT_BASE_64KB_RANGE_SHIFT (8U)
++#define ROGUE_MMUCTRL_PT_BASE_64KB_RANGE_CLRMSK (0xFFFFFF00000000FFULL)
++
++#define ROGUE_MMUCTRL_PT_BASE_256KB_RANGE_SHIFT (6U)
++#define ROGUE_MMUCTRL_PT_BASE_256KB_RANGE_CLRMSK (0xFFFFFF000000003FULL)
++
++#define ROGUE_MMUCTRL_PT_BASE_1MB_RANGE_SHIFT (5U)
++#define ROGUE_MMUCTRL_PT_BASE_1MB_RANGE_CLRMSK (0xFFFFFF000000001FULL)
++
++#define ROGUE_MMUCTRL_PT_BASE_2MB_RANGE_SHIFT (5U)
++#define ROGUE_MMUCTRL_PT_BASE_2MB_RANGE_CLRMSK (0xFFFFFF000000001FULL)
++
++#define ROGUE_MMUCTRL_PT_DATA_PM_META_PROTECT_SHIFT (62U)
++#define ROGUE_MMUCTRL_PT_DATA_PM_META_PROTECT_CLRMSK (0xBFFFFFFFFFFFFFFFULL)
++#define ROGUE_MMUCTRL_PT_DATA_PM_META_PROTECT_EN (0x4000000000000000ULL)
++#define ROGUE_MMUCTRL_PT_DATA_VP_PAGE_HI_SHIFT (40U)
++#define ROGUE_MMUCTRL_PT_DATA_VP_PAGE_HI_CLRMSK (0xC00000FFFFFFFFFFULL)
++#define ROGUE_MMUCTRL_PT_DATA_PAGE_SHIFT (12U)
++#define ROGUE_MMUCTRL_PT_DATA_PAGE_CLRMSK (0xFFFFFF0000000FFFULL)
++#define ROGUE_MMUCTRL_PT_DATA_VP_PAGE_LO_SHIFT (6U)
++#define ROGUE_MMUCTRL_PT_DATA_VP_PAGE_LO_CLRMSK (0xFFFFFFFFFFFFF03FULL)
++#define ROGUE_MMUCTRL_PT_DATA_ENTRY_PENDING_SHIFT (5U)
++#define ROGUE_MMUCTRL_PT_DATA_ENTRY_PENDING_CLRMSK (0xFFFFFFFFFFFFFFDFULL)
++#define ROGUE_MMUCTRL_PT_DATA_ENTRY_PENDING_EN (0x0000000000000020ULL)
++#define ROGUE_MMUCTRL_PT_DATA_PM_SRC_SHIFT (4U)
++#define ROGUE_MMUCTRL_PT_DATA_PM_SRC_CLRMSK (0xFFFFFFFFFFFFFFEFULL)
++#define ROGUE_MMUCTRL_PT_DATA_PM_SRC_EN (0x0000000000000010ULL)
++#define ROGUE_MMUCTRL_PT_DATA_SLC_BYPASS_CTRL_SHIFT (3U)
++#define ROGUE_MMUCTRL_PT_DATA_SLC_BYPASS_CTRL_CLRMSK (0xFFFFFFFFFFFFFFF7ULL)
++#define ROGUE_MMUCTRL_PT_DATA_SLC_BYPASS_CTRL_EN (0x0000000000000008ULL)
++#define ROGUE_MMUCTRL_PT_DATA_CC_SHIFT (2U)
++#define ROGUE_MMUCTRL_PT_DATA_CC_CLRMSK (0xFFFFFFFFFFFFFFFBULL)
++#define ROGUE_MMUCTRL_PT_DATA_CC_EN (0x0000000000000004ULL)
++#define ROGUE_MMUCTRL_PT_DATA_READ_ONLY_SHIFT (1U)
++#define ROGUE_MMUCTRL_PT_DATA_READ_ONLY_CLRMSK (0xFFFFFFFFFFFFFFFDULL)
++#define ROGUE_MMUCTRL_PT_DATA_READ_ONLY_EN (0x0000000000000002ULL)
++#define ROGUE_MMUCTRL_PT_DATA_VALID_SHIFT (0U)
++#define ROGUE_MMUCTRL_PT_DATA_VALID_CLRMSK (0xFFFFFFFFFFFFFFFEULL)
++#define ROGUE_MMUCTRL_PT_DATA_VALID_EN (0x0000000000000001ULL)
++
++#define ROGUE_MMUCTRL_PD_DATA_ENTRY_PENDING_SHIFT (40U)
++#define ROGUE_MMUCTRL_PD_DATA_ENTRY_PENDING_CLRMSK (0xFFFFFEFFFFFFFFFFULL)
++#define ROGUE_MMUCTRL_PD_DATA_ENTRY_PENDING_EN (0x0000010000000000ULL)
++#define ROGUE_MMUCTRL_PD_DATA_PT_BASE_SHIFT (5U)
++#define ROGUE_MMUCTRL_PD_DATA_PT_BASE_CLRMSK (0xFFFFFF000000001FULL)
++#define ROGUE_MMUCTRL_PD_DATA_PAGE_SIZE_SHIFT (1U)
++#define ROGUE_MMUCTRL_PD_DATA_PAGE_SIZE_CLRMSK (0xFFFFFFFFFFFFFFF1ULL)
++#define ROGUE_MMUCTRL_PD_DATA_PAGE_SIZE_4KB (0x0000000000000000ULL)
++#define ROGUE_MMUCTRL_PD_DATA_PAGE_SIZE_16KB (0x0000000000000002ULL)
++#define ROGUE_MMUCTRL_PD_DATA_PAGE_SIZE_64KB (0x0000000000000004ULL)
++#define ROGUE_MMUCTRL_PD_DATA_PAGE_SIZE_256KB (0x0000000000000006ULL)
++#define ROGUE_MMUCTRL_PD_DATA_PAGE_SIZE_1MB (0x0000000000000008ULL)
++#define ROGUE_MMUCTRL_PD_DATA_PAGE_SIZE_2MB (0x000000000000000aULL)
++#define ROGUE_MMUCTRL_PD_DATA_VALID_SHIFT (0U)
++#define ROGUE_MMUCTRL_PD_DATA_VALID_CLRMSK (0xFFFFFFFFFFFFFFFEULL)
++#define ROGUE_MMUCTRL_PD_DATA_VALID_EN (0x0000000000000001ULL)
++
++#define ROGUE_MMUCTRL_PC_DATA_PD_BASE_SHIFT (4U)
++#define ROGUE_MMUCTRL_PC_DATA_PD_BASE_CLRMSK (0x0000000FU)
++#define ROGUE_MMUCTRL_PC_DATA_PD_BASE_ALIGNSHIFT (12U)
++#define ROGUE_MMUCTRL_PC_DATA_PD_BASE_ALIGNSIZE (4096U)
++#define ROGUE_MMUCTRL_PC_DATA_ENTRY_PENDING_SHIFT (1U)
++#define ROGUE_MMUCTRL_PC_DATA_ENTRY_PENDING_CLRMSK (0xFFFFFFFDU)
++#define ROGUE_MMUCTRL_PC_DATA_ENTRY_PENDING_EN (0x00000002U)
++#define ROGUE_MMUCTRL_PC_DATA_VALID_SHIFT (0U)
++#define ROGUE_MMUCTRL_PC_DATA_VALID_CLRMSK (0xFFFFFFFEU)
++#define ROGUE_MMUCTRL_PC_DATA_VALID_EN (0x00000001U)
++
++#endif /* PVR_ROGUE_MMU_DEFS_H */
 -- 
 2.42.0
 
