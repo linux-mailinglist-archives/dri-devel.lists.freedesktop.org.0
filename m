@@ -2,32 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 370007C41B9
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Oct 2023 22:43:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CA797C410B
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Oct 2023 22:22:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E6C910E3E4;
-	Tue, 10 Oct 2023 20:42:57 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id D56C710E3B1
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Oct 2023 17:47:01 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B9AE7C15;
- Tue, 10 Oct 2023 10:47:41 -0700 (PDT)
-Received: from e124191.cambridge.arm.com (e124191.cambridge.arm.com
- [10.1.197.45])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 59DCB3F5A1;
- Tue, 10 Oct 2023 10:47:00 -0700 (PDT)
-From: Joey Gouly <joey.gouly@arm.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v1] drm/tiny: correctly print `struct resource *` on error
-Date: Tue, 10 Oct 2023 18:46:52 +0100
-Message-Id: <20231010174652.2439513-1-joey.gouly@arm.com>
-X-Mailer: git-send-email 2.25.1
+	by gabe.freedesktop.org (Postfix) with ESMTP id C6B6910E17C;
+	Tue, 10 Oct 2023 20:22:40 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6267410E3E7;
+ Tue, 10 Oct 2023 20:22:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1696969358; x=1728505358;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=7ccquPyXL/FoCF2zzMIo1DhK/ffkDyyCgIckxDTquY8=;
+ b=NnLIkCLJ5KucW3fVmNqNrX59SuVDP494gO/GegsxfB0dgpyXaVY6QZgX
+ M7UpSYqO/NqFKMBJES7BQqa/WGeYeXeKc3+3lekuSxuxvTBL67TzwucBC
+ NmO2g1zvwCBn1vE8xk5X7YJtCyzcaRx19Ro7QtO8T+ZcfdX41v//uw2o+
+ 1Z6Vv7TGeb0kv8vJTWPMOOiRKJ+qZepeR4/3S3qhcAuUcfipZwVvE+Li2
+ fMK5iMfXF/Qrfd0e/M88N+X7wpjENuKWrZBUwq2aPN+uXPFzKYhx4295+
+ oAOIUCZZrohukwS70ABcvW7wDz62uCq0hV5H+4sRseRr3r77GiZtTf6cs w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="470763361"
+X-IronPort-AV: E=Sophos;i="6.03,213,1694761200"; d="scan'208";a="470763361"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Oct 2023 13:22:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="703432415"
+X-IronPort-AV: E=Sophos;i="6.03,213,1694761200"; d="scan'208";a="703432415"
+Received: from ppalanyk-mobl.gar.corp.intel.com (HELO intel.com)
+ ([10.213.148.82])
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Oct 2023 13:22:30 -0700
+Date: Tue, 10 Oct 2023 22:22:23 +0200
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: John Harrison <john.c.harrison@intel.com>
+Subject: Re: [Intel-gfx] [PATCH 2/2] drm/i915: More use of GT specific print
+ helpers
+Message-ID: <ZSWyf3eNGH/4MAuG@ashyti-mobl2.lan>
+References: <20231009183802.673882-1-John.C.Harrison@Intel.com>
+ <20231009183802.673882-3-John.C.Harrison@Intel.com>
+ <ZSRaaVzpL51DA3y+@ashyti-mobl2.lan>
+ <1409712e-d495-41df-842b-211fa3f37384@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Tue, 10 Oct 2023 20:42:56 +0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1409712e-d495-41df-842b-211fa3f37384@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -40,40 +62,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tzimmermann@suse.de, javierm@redhat.com, joey.gouly@arm.com
+Cc: Intel-GFX@lists.freedesktop.org, DRI-Devel@lists.freedesktop.org,
+ Andi Shyti <andi.shyti@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The `res` variable is already a `struct resource *`, don't take the address of it.
+Hi John,
 
-Fixes incorrect output:
+On Mon, Oct 09, 2023 at 12:57:55PM -0700, John Harrison wrote:
+> On 10/9/2023 12:54, Andi Shyti wrote:
+> > Hi John,
+> > 
+> > ...
+> > 
+> > > --- a/drivers/gpu/drm/i915/i915_driver.c
+> > > +++ b/drivers/gpu/drm/i915/i915_driver.c
+> > > @@ -71,6 +71,7 @@
+> > >   #include "gem/i915_gem_pm.h"
+> > >   #include "gt/intel_gt.h"
+> > >   #include "gt/intel_gt_pm.h"
+> > > +#include "gt/intel_gt_print.h"
+> > >   #include "gt/intel_rc6.h"
+> > >   #include "pxp/intel_pxp.h"
+> > > @@ -429,7 +430,7 @@ static int i915_pcode_init(struct drm_i915_private *i915)
+> > >   	for_each_gt(gt, i915, id) {
+> > >   		ret = intel_pcode_init(gt->uncore);
+> > >   		if (ret) {
+> > > -			drm_err(&gt->i915->drm, "gt%d: intel_pcode_init failed %d\n", id, ret);
+> > > +			gt_err(gt, "intel_pcode_init failed %d\n", ret);
+> > using gt_*() print functions in the upper layers looks a bit
+> > wrong to me. If we need GT printing, the prints need to be done
+> > inside the function called, in this case would be
+> > intel_pcode_init().
+> It is less wrong that using gt->i915->drm as a parameter and 'gt%d' in the
+> format string. That is the whole point of the helper. The code has access to
+> a gt object so it should use the gt helper to make use of that object rather
+> than unrolling it and diving in to the gt internals.
 
-	simple-framebuffer 9e20dc000.framebuffer: [drm] *ERROR* could not acquire memory range [??? 0xffff4be88a387d00-0xfffffefffde0a240 flags 0x0]: -16
+yes, it's an improvement
 
-To be correct:
+Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com> 
 
-	simple-framebuffer 9e20dc000.framebuffer: [drm] *ERROR* could not acquire memory range [mem 0x9e20dc000-0x9e307bfff flags 0x200]: -16
+> As for moving the error message inside the init function itself. That is
+> maybe a valid change but that potentially counts as a functional change and
+> should be done by someone who actually knows the code. All I'm doing is
+> improving the code layering by using the correct helper to hide the internal
+> details of an object this layer should not know about.
 
-Signed-off-by: Joey Gouly <joey.gouly@arm.com>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Javier Martinez Canillas <javierm@redhat.com>
----
- drivers/gpu/drm/tiny/simpledrm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+maybe one day we need to revisit all the gt dependency in the
+higher levels and the i915 dependencies in gt.
 
-diff --git a/drivers/gpu/drm/tiny/simpledrm.c b/drivers/gpu/drm/tiny/simpledrm.c
-index ff86ba1ae1b8..8ea120eb8674 100644
---- a/drivers/gpu/drm/tiny/simpledrm.c
-+++ b/drivers/gpu/drm/tiny/simpledrm.c
-@@ -745,7 +745,7 @@ static struct simpledrm_device *simpledrm_device_create(struct drm_driver *drv,
- 
- 		ret = devm_aperture_acquire_from_firmware(dev, res->start, resource_size(res));
- 		if (ret) {
--			drm_err(dev, "could not acquire memory range %pr: %d\n", &res, ret);
-+			drm_err(dev, "could not acquire memory range %pr: %d\n", res, ret);
- 			return ERR_PTR(ret);
- 		}
- 
--- 
-2.25.1
-
+Thanks,
+Andi
