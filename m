@@ -1,89 +1,101 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A07EB7BF4F9
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Oct 2023 09:56:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 83B087BF50C
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Oct 2023 09:58:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DF4810E322;
-	Tue, 10 Oct 2023 07:55:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AECE110E321;
+	Tue, 10 Oct 2023 07:58:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C831210E325
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Oct 2023 07:55:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1696924550;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+EPOESl+lEeZDZKmSy2QqN19OnEFo74lce2c+DMXR/o=;
- b=J2xvrjozynv/8oWfiNi1J+mYTnC4tZl4hggfMpls3OeB/28q+rWe6c9oobGWHa2EwSIZX8
- 0+PPXwN+DGMqmaIVz9Yy/arWZx9VgB72oGQT4GQEnHUGaTOj027HP8PxBy16wGjBPQsZ4v
- z5hC/1A4KIJWVtGNpteDzxn0kc5sKD8=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-437-PWf5wiKmNEid1Eda2N4U1A-1; Tue, 10 Oct 2023 03:55:49 -0400
-X-MC-Unique: PWf5wiKmNEid1Eda2N4U1A-1
-Received: by mail-wr1-f72.google.com with SMTP id
- ffacd0b85a97d-3248ebee5f4so3364509f8f.2
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Oct 2023 00:55:49 -0700 (PDT)
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
+ [IPv6:2a00:1450:4864:20::42c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F9CB10E321
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Oct 2023 07:58:39 +0000 (UTC)
+Received: by mail-wr1-x42c.google.com with SMTP id
+ ffacd0b85a97d-3231d67aff2so5333350f8f.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Oct 2023 00:58:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1696924718; x=1697529518; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :references:cc:to:content-language:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:from:to:cc:subject:date:message-id
+ :reply-to; bh=DuF08tiAL2vBsnI7ItZlNLjLI9/OSkp0LDsu4D+EiFA=;
+ b=reknD0Rvzfpl0msmSUMhhcBniWqgLTyubslCMovH+Ap1w2UglUapugXEosV1+RGBen
+ oW1RWrc0BvQ4fnnnhrJkwQBLuBGtEtoZuTs6Dhz/9jTkQVNWVtjvLpNqgXeHfp4Wb7af
+ arCDISC/qOl74pVAxjjT7CI2qdGNxKvpMcrkgUKzMXySAQNVo9KkYSaC2dvWUq8QOEpD
+ 8Fc31Kz3zqfRnD4pUOmnvRrvf3hi8cUDsQ2vq9wf+5HrdWxWtbVuARuxW1mYYjKZwRMb
+ bvHWTS+DwDcV8+4+TDngeJOqiesC6UiG9KoLUAytEX2Svv+JXJ+Y1Bve4x81eAH9B1mr
+ TEPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1696924548; x=1697529348;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=+EPOESl+lEeZDZKmSy2QqN19OnEFo74lce2c+DMXR/o=;
- b=Qzh2Qb8gu+AsrXUZ2NW2BAie4w8qgEi6WbTfbLO+89EYYD4OG1Tb+G2EBwFqh9bzLg
- k4e8rf6ZYTE+7Rq7Jt5ijX/oN5UhFVYTsocb+6emIBoaMRbQxsdUIFNhIOK6FK7+N9je
- zEiJu3a5cyJnVEo1H0/NSnWNyNkX8RlWuuXNAYf2V6sd8DDzFtdxNESRuriHl0HOSZ1H
- XVLro2Vkuej3v56PPdEvN1XGyfnkxPrdWALgWPwk4pMQhos7gqklDYAoF/0zIKfkIXyK
- 1fcct8hoV8OhpAhwxpRHDiHZTPzvlez7RYIqewuMHKZvBoQt5L/g0FjkjfXnEH8WI2Tc
- rlAQ==
-X-Gm-Message-State: AOJu0Yz6Y0u/AUvAMPuSqO75A1jBbVSUKa8f8yXa+X78qgRTZH8AhcVg
- VSzFz0wYdp144IyEyU6vdBc3WN1Erj4xenoIwFGQzPZIE1cCJiHnmQUJukQ/IYb0lDkG9kRHrEl
- JVrMcsR1ilO6f+xKD5vt45YCb4tVG
-X-Received: by 2002:a5d:6b82:0:b0:319:5677:f832 with SMTP id
- n2-20020a5d6b82000000b003195677f832mr13961557wrx.62.1696924548239; 
- Tue, 10 Oct 2023 00:55:48 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHFkJMgtmEI465e3B6hUxRzYm9eUQAG+r3VAUQ6EWjzAr/MHFwTRnByALelNLZRKBjaIvLD2w==
-X-Received: by 2002:a5d:6b82:0:b0:319:5677:f832 with SMTP id
- n2-20020a5d6b82000000b003195677f832mr13961549wrx.62.1696924547933; 
- Tue, 10 Oct 2023 00:55:47 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
- ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
+ d=1e100.net; s=20230601; t=1696924718; x=1697529518;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :references:cc:to:content-language:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=DuF08tiAL2vBsnI7ItZlNLjLI9/OSkp0LDsu4D+EiFA=;
+ b=gj1xJSvIRuG4kU+JOtnvcxjXZUVDM8Zf0IyPzDKnGtVUk2EMpwDTylpgrAQH3MstvW
+ 3ujOW+YCG2V6u/6NpTW4TLRdE3vDLTZUNMk8upgiKhSrlwOKRBG+GVvluXkZtvoO2HCR
+ a4jyWw+DM6hY7LmYLeSa1xlJ/Eh7vT9g7SPmPlGgwS477XhKeLbt8UWF0uzfYxpPqmm0
+ fa96jQSRedAZAedVzxHwYPXAs5/STJYXSjUEwjsuElYJR66ZtuCSK7StHSa3uCFnT1AM
+ X9fefT6pJGZWaoZk7xMvEdVUpzkfY8u7yg1BmOq2NuFNYtraVtRQqNk8W+4fp21Hsx2S
+ hHHQ==
+X-Gm-Message-State: AOJu0YxID7UD17CjzgWtgKADnBOtKVQ9Hp44hh/87mDO2pDpM0S2GMik
+ eyoQEUr46WVOWMOK5RDkrBk9nA==
+X-Google-Smtp-Source: AGHT+IHfVtV+fM/y8bb4Y20eH4zD+GGKjiUOYYRNx1gqzX/XHYwbaChonFJ07oxttNsmMG54NZcuEQ==
+X-Received: by 2002:a05:6000:1f0a:b0:32c:a930:fe0d with SMTP id
+ bv10-20020a0560001f0a00b0032ca930fe0dmr1261947wrb.4.1696924717664; 
+ Tue, 10 Oct 2023 00:58:37 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:982:cbb0:2eac:5b51:e0a4:4807?
+ ([2a01:e0a:982:cbb0:2eac:5b51:e0a4:4807])
  by smtp.gmail.com with ESMTPSA id
- q14-20020a5d574e000000b0031aef72a021sm11922733wrw.86.2023.10.10.00.55.47
+ t11-20020a5d534b000000b003232380ffd5sm11816539wrv.106.2023.10.10.00.58.36
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 10 Oct 2023 00:55:47 -0700 (PDT)
-Message-ID: <2b541955-11ba-d881-d2b2-c54cbae9d241@redhat.com>
-Date: Tue, 10 Oct 2023 09:55:46 +0200
+ Tue, 10 Oct 2023 00:58:37 -0700 (PDT)
+Message-ID: <6ba6331c-12c6-4cce-bbf9-0255d4f17118@linaro.org>
+Date: Tue, 10 Oct 2023 09:58:35 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v4 2/4] drm/panic: Add a drm panic handler
-To: Maxime Ripard <mripard@kernel.org>
-References: <20231003142508.190246-3-jfalempe@redhat.com>
- <lbwngkco3zam7yjo3owwpn47o3pe6g7oh5giglsclenx52jk5q@lw2fwsxz6kqp>
- <3a359910-31ae-355f-2608-239e04689fde@redhat.com>
- <6iaqx7ef4hdd6bucsxtfy37nsizloraxbudez4ms7jlusbghr3@i5hliqpimdp2>
- <bd880231-f161-0773-63f7-ded6cb3fddc1@tronnes.org>
- <b4aadfb4-9393-d6b6-e876-a420afcf2b36@redhat.com>
- <wupxw7bs6yu4gtsbmuvdxhwpd4vkxvvl4aa6w7fumqekzvl7v7@akv2tifgsihl>
- <b764a8a7-db48-fd3b-6241-f3a07009e7dd@redhat.com>
- <xutxpbk476iogtgfbcxbebnud7t3oq6dlbhpniimna2uz2p2nb@hbrrwn4y3x6s>
- <f9473f01-f78b-2ea0-0de4-116076ef7b5a@redhat.com>
- <pdzyzvq4bvaec5ohwoh3p2gdzul4vvqk5a3q2lkbmsx4lm4sem@uckgzhlhks53>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <pdzyzvq4bvaec5ohwoh3p2gdzul4vvqk5a3q2lkbmsx4lm4sem@uckgzhlhks53>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
+User-Agent: Mozilla Thunderbird
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH RFC 4/5] drm/msm: dpu1: call wb & sspp clk_force_ctrl op
+ if split clock control
+Content-Language: en-US, fr
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+References: <20231009-topic-sm8550-graphics-sspp-split-clk-v1-0-806c0dee4e43@linaro.org>
+ <20231009-topic-sm8550-graphics-sspp-split-clk-v1-4-806c0dee4e43@linaro.org>
+ <e1f70025-f93d-4d1f-bafa-1e834324ce62@linaro.org>
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro Developer Services
+In-Reply-To: <e1f70025-f93d-4d1f-bafa-1e834324ce62@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,97 +108,232 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: bluescreen_avenger@verizon.net, javierm@redhat.com,
- dri-devel@lists.freedesktop.org, gpiccoli@igalia.com,
- =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>, tzimmermann@suse.de,
- airlied@redhat.com
+Reply-To: neil.armstrong@linaro.org
+Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 09/10/2023 18:07, Maxime Ripard wrote:
-> On Mon, Oct 09, 2023 at 04:05:19PM +0200, Jocelyn Falempe wrote:
->>>> - I find it risky to completely reconfigure the hardware in a panic handler.
->>>
->>> I would expect to only change the format and base address of the
->>> framebuffer. I guess it can fail, but it doesn't seem that different to
->>> the async plane update we already have and works well.
->>>
->> In this case it can work, but by using generic drm api, it's hard to know
->> what the driver will do.
-> 
-> We should document extensively what we expect drivers to do in those
-> hooks, and possibly call cant_sleep() in the framework function to have
-> some reporting at least.
-> 
->>>> Also how many drivers would need this ?
->>>>
->>>> Currently I was mostly considering x86 platform, so:
->>>>
->>>> simpledrm/ast/mgag200 which works well with the get_scanout_buffer().
->>>>
->>>> i915/amdgpu/nouveau, which are quite complex, and will need to do their own
->>>> thing anyway.
->>>
->>> I guess we're not entirely aligned there then. I would expect that
->>> mechanism to work with any atomic KMS driver. You are right that i915,
->>> amdgpu and nouveau are special enough that some extra internal plumbing
->>> is going to be required, but I'd expect it to be easy to support with
->>> any other driver for a memory-mapped device.
->>>
->>> I guess what I'm trying to say is, even though it's totally fine that
->>> you only support those drivers at first, supporting in vc4 for example
->>> shouldn't require to rewrite the whole thing.
+On 09/10/2023 19:07, Dmitry Baryshkov wrote:
+> On 09/10/2023 19:36, Neil Armstrong wrote:
+>> Now clk_ctrl IDs can be optional and the clk_ctrl_reg can be specified
+>> on the SSPP & WB caps directly, pass the SSPP & WB hw struct to the
+>> qos & limit params then call the clk_force_ctrl() op accordingly.
 >>
->> Would that work for you to put that in a drm_panic_helper.c,
->> so that drivers can opt-in ?
+>> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+>> ---
+>>   .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c    |  4 +--
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c          |  9 +++---
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_vbif.c           | 37 +++++++++++++++-------
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_vbif.h           | 12 ++++---
+>>   4 files changed, 40 insertions(+), 22 deletions(-)
 >>
->> So the driver can call a drm_panic_helper_prepare_commit() at
->> initialization, and then in the get_scanout_buffer() function
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
+>> index 78037a697633..e4dfe0be7207 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
+>> @@ -45,6 +45,7 @@ static void dpu_encoder_phys_wb_set_ot_limit(
+>>       struct dpu_vbif_set_ot_params ot_params;
+>>       memset(&ot_params, 0, sizeof(ot_params));
+>> +    ot_params.wb = hw_wb;
+>>       ot_params.xin_id = hw_wb->caps->xin_id;
+>>       ot_params.num = hw_wb->idx - WB_0;
+>>       ot_params.width = phys_enc->cached_mode.hdisplay;
+>> @@ -52,7 +53,6 @@ static void dpu_encoder_phys_wb_set_ot_limit(
+>>       ot_params.is_wfd = true;
+>>       ot_params.frame_rate = drm_mode_vrefresh(&phys_enc->cached_mode);
+>>       ot_params.vbif_idx = hw_wb->caps->vbif_idx;
+>> -    ot_params.clk_ctrl = hw_wb->caps->clk_ctrl;
+>>       ot_params.rd = false;
+>>       dpu_vbif_set_ot_limit(phys_enc->dpu_kms, &ot_params);
+>> @@ -81,9 +81,9 @@ static void dpu_encoder_phys_wb_set_qos_remap(
+>>       hw_wb = phys_enc->hw_wb;
+>>       memset(&qos_params, 0, sizeof(qos_params));
+>> +    qos_params.wb = hw_wb;
+>>       qos_params.vbif_idx = hw_wb->caps->vbif_idx;
+>>       qos_params.xin_id = hw_wb->caps->xin_id;
+>> -    qos_params.clk_ctrl = hw_wb->caps->clk_ctrl;
+>>       qos_params.num = hw_wb->idx - WB_0;
+>>       qos_params.is_rt = false;
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+>> index c2aaaded07ed..b0b662068377 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+>> @@ -350,6 +350,7 @@ static void _dpu_plane_set_ot_limit(struct drm_plane *plane,
+>>       struct dpu_kms *dpu_kms = _dpu_plane_get_kms(plane);
+>>       memset(&ot_params, 0, sizeof(ot_params));
+>> +    ot_params.sspp = pipe->sspp;
+>>       ot_params.xin_id = pipe->sspp->cap->xin_id;
+>>       ot_params.num = pipe->sspp->idx - SSPP_NONE;
+>>       ot_params.width = drm_rect_width(&pipe_cfg->src_rect);
+>> @@ -357,7 +358,6 @@ static void _dpu_plane_set_ot_limit(struct drm_plane *plane,
+>>       ot_params.is_wfd = !pdpu->is_rt_pipe;
+>>       ot_params.frame_rate = frame_rate;
+>>       ot_params.vbif_idx = VBIF_RT;
+>> -    ot_params.clk_ctrl = pipe->sspp->cap->clk_ctrl;
+>>       ot_params.rd = true;
+>>       dpu_vbif_set_ot_limit(dpu_kms, &ot_params);
+>> @@ -377,16 +377,15 @@ static void _dpu_plane_set_qos_remap(struct drm_plane *plane,
+>>       memset(&qos_params, 0, sizeof(qos_params));
+>>       qos_params.vbif_idx = VBIF_RT;
+>> -    qos_params.clk_ctrl = pipe->sspp->cap->clk_ctrl;
+>> +    qos_params.sspp = pipe->sspp;
+>>       qos_params.xin_id = pipe->sspp->cap->xin_id;
+>>       qos_params.num = pipe->sspp->idx - SSPP_VIG0;
+>>       qos_params.is_rt = pdpu->is_rt_pipe;
+>> -    DPU_DEBUG_PLANE(pdpu, "pipe:%d vbif:%d xin:%d rt:%d, clk_ctrl:%d\n",
+>> +    DPU_DEBUG_PLANE(pdpu, "pipe:%d vbif:%d xin:%d rt:%d\n",
+>>               qos_params.num,
+>>               qos_params.vbif_idx,
+>> -            qos_params.xin_id, qos_params.is_rt,
+>> -            qos_params.clk_ctrl);
+>> +            qos_params.xin_id, qos_params.is_rt);
+>>       dpu_vbif_set_qos_remap(dpu_kms, &qos_params);
+>>   }
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_vbif.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_vbif.c
+>> index 2ae5cba1848b..a79559084a91 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_vbif.c
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_vbif.c
+>> @@ -158,11 +158,19 @@ static u32 _dpu_vbif_get_ot_limit(struct dpu_hw_vbif *vbif,
+>>       return ot_lim;
+>>   }
+>> -static bool dpu_vbif_setup_clk_force_ctrl(struct dpu_hw_mdp *mdp,
+>> -                      unsigned int clk_ctrl,
+>> +static bool dpu_vbif_setup_clk_force_ctrl(struct dpu_hw_sspp *sspp,
+>> +                      struct dpu_hw_wb *wb,
+>> +                      struct dpu_hw_mdp *mdp,
+>>                         bool enable)
+>>   {
+>> -    return mdp->ops.setup_clk_force_ctrl(mdp, clk_ctrl, enable);
+>> +    if (sspp && sspp->cap->clk_ctrl_reg)
+>> +        return sspp->ops.setup_clk_force_ctrl(sspp, enable);
+>> +    else if (wb && wb->caps->clk_ctrl_reg)
+>> +        return wb->ops.setup_clk_force_ctrl(wb, enable);
+>> +    else
 > 
-> If we have a full blown commit with a new framebuffer, why do we need
-> get_scanout_buffer? It should be either the framebuffer itself, or in
-> the plane state if you have a conversion.
+> This is what I wanted to avoid.
 > 
->> run the atomic_update() on it, and return this commit's framebuffer ?
+> If we move the caller function to the sspp / WB, we will not need this kind of wrapper.
+
+I tried it, but it requires passing the mdp pointer to the setup_clk_force_ctrl op,
+which is IMHO not super clean... or if you have a way to get dpu_hw_mdp from
+within hw_sspp/hw_wb it would help.
+
+> 
+>> +        return mdp->ops.setup_clk_force_ctrl(mdp,
+>> +                sspp ? sspp->cap->clk_ctrl : wb->caps->clk_ctrl,
+>> +                enable);
+>>   }
+>>   /**
+>> @@ -190,9 +198,13 @@ void dpu_vbif_set_ot_limit(struct dpu_kms *dpu_kms,
+>>           return;
+>>       }
+>> -    if (!mdp->ops.setup_clk_force_ctrl ||
+>> -            !vbif->ops.set_limit_conf ||
+>> -            !vbif->ops.set_halt_ctrl)
+>> +    if ((!params->sspp && !params->wb) ||
+>> +        (params->sspp && !params->sspp->ops.setup_clk_force_ctrl) ||
+>> +        (params->wb && !params->wb->ops.setup_clk_force_ctrl) ||
+>> +        !mdp->ops.setup_clk_force_ctrl)
+>> +        return;
+>> +
+>> +    if (!vbif->ops.set_limit_conf || !vbif->ops.set_halt_ctrl)
+>>           return;
+>>       /* set write_gather_en for all write clients */
+>> @@ -207,7 +219,7 @@ void dpu_vbif_set_ot_limit(struct dpu_kms *dpu_kms,
+>>       trace_dpu_perf_set_ot(params->num, params->xin_id, ot_lim,
+>>           params->vbif_idx);
+>> -    forced_on = dpu_vbif_setup_clk_force_ctrl(mdp, params->clk_ctrl, true);
+>> +    forced_on = dpu_vbif_setup_clk_force_ctrl(params->sspp, params->wb, mdp, true);
+> 
+> I'd suggest removing the setup_clk_force_ctrl from dpu_vbif_set_ot_limit() and dpu_vbif_set_qos_remap(). Instead make dpu_plane / dpu_encoder_phys_wb call into dpu_hw_sspp / dpu_hw_wb, which will enable the clock, call dpu_vbif then disable the clock.
+> 
+> In my opinion this is simpler than the condition in the previous chunk.
+
+Indeed this is a nice option, but the hw_mdp pointer requirement into hw_sspp/hw_wb
+still puzzles me.
+
+> 
+>>       vbif->ops.set_limit_conf(vbif, params->xin_id, params->rd, ot_lim);
+>> @@ -220,7 +232,7 @@ void dpu_vbif_set_ot_limit(struct dpu_kms *dpu_kms,
+>>       vbif->ops.set_halt_ctrl(vbif, params->xin_id, false);
+>>       if (forced_on)
+>> -        dpu_vbif_setup_clk_force_ctrl(mdp,  params->clk_ctrl, false);
+>> +        dpu_vbif_setup_clk_force_ctrl(params->sspp, params->wb, mdp, false);
+>>   }
+>>   void dpu_vbif_set_qos_remap(struct dpu_kms *dpu_kms,
+>> @@ -245,7 +257,10 @@ void dpu_vbif_set_qos_remap(struct dpu_kms *dpu_kms,
+>>           return;
+>>       }
+>> -    if (!vbif->ops.set_qos_remap || !mdp->ops.setup_clk_force_ctrl) {
+>> +    if ((!params->sspp && !params->wb) ||
+>> +        (params->sspp && !params->sspp->ops.setup_clk_force_ctrl) ||
+>> +        (params->wb && !params->wb->ops.setup_clk_force_ctrl) ||
+>> +        !mdp->ops.setup_clk_force_ctrl || !vbif->ops.set_qos_remap) {
+>>           DRM_DEBUG_ATOMIC("qos remap not supported\n");
+>>           return;
+>>       }
+>> @@ -258,7 +273,7 @@ void dpu_vbif_set_qos_remap(struct dpu_kms *dpu_kms,
+>>           return;
+>>       }
+>> -    forced_on = dpu_vbif_setup_clk_force_ctrl(mdp, params->clk_ctrl, true);
+>> +    forced_on = dpu_vbif_setup_clk_force_ctrl(params->sspp, params->wb, mdp, true);
+>>       for (i = 0; i < qos_tbl->npriority_lvl; i++) {
+>>           DRM_DEBUG_ATOMIC("%s xin:%d lvl:%d/%d\n",
+>> @@ -269,7 +284,7 @@ void dpu_vbif_set_qos_remap(struct dpu_kms *dpu_kms,
+>>       }
+>>       if (forced_on)
+>> -        dpu_vbif_setup_clk_force_ctrl(mdp, params->clk_ctrl, false);
+>> +        dpu_vbif_setup_clk_force_ctrl(params->sspp, params->wb, mdp, false);
+>>   }
+>>   void dpu_vbif_clear_errors(struct dpu_kms *dpu_kms)
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_vbif.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_vbif.h
+>> index ab490177d886..a4fe76e390d9 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_vbif.h
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_vbif.h
+>> @@ -7,7 +7,12 @@
+>>   #include "dpu_kms.h"
+>> +struct dpu_hw_sspp;
+>> +struct dpu_hw_wb;
+>> +
+>>   struct dpu_vbif_set_ot_params {
+>> +    struct dpu_hw_sspp *sspp;
+>> +    struct dpu_hw_wb *wb;
+>>       u32 xin_id;
+>>       u32 num;
+>>       u32 width;
+>> @@ -16,28 +21,27 @@ struct dpu_vbif_set_ot_params {
+>>       bool rd;
+>>       bool is_wfd;
+>>       u32 vbif_idx;
+>> -    u32 clk_ctrl;
+>>   };
+>>   struct dpu_vbif_set_memtype_params {
+>>       u32 xin_id;
+>>       u32 vbif_idx;
+>> -    u32 clk_ctrl;
+>>       bool is_cacheable;
+>>   };
+>>   /**
+>>    * struct dpu_vbif_set_qos_params - QoS remapper parameter
+>> + * @sspp: backing SSPP
+>>    * @vbif_idx: vbif identifier
+>>    * @xin_id: client interface identifier
+>> - * @clk_ctrl: clock control identifier of the xin
+>>    * @num: pipe identifier (debug only)
+>>    * @is_rt: true if pipe is used in real-time use case
+>>    */
+>>   struct dpu_vbif_set_qos_params {
+>> +    struct dpu_hw_sspp *sspp;
+>> +    struct dpu_hw_wb *wb;
+>>       u32 vbif_idx;
+>>       u32 xin_id;
+>> -    u32 clk_ctrl;
+>>       u32 num;
+>>       bool is_rt;
+>>   };
 >>
->> That way each driver have a better control on what the panic handler will
->> do.
->> It can even call directly its internal functions, to avoid the locks of the
->> drm generic functions, and make sure it will only change the format and base
->> address.
->> That's a bit more work for each driver, but should be more reliable I think.
 > 
-> I don't think that better control there is a good idea, it's a path that
-> won't get tested much so we'd be better off not allowing drivers to
-> deviate too much from the "ideal" design.
-> 
-> What I had in mind is something like:
-> 
->    - Add a panic hook in drm_mode_config_funcs, with a
->      drm_atomic_helper_panic helper;
-> 
->    - Provide an atomic_panic hook or something in drm_plane_helper_funcs;
-> 
->    - If they are set, we register the drm_panic handler;
-> 
->    - The handler will call drm_mode_config_funcs.panic, which will take
->      its prepared state, fill the framebuffer it allocated with the
->      penguin and backtrace, call drm_plane_helper_funcs.atomic_panic().
-> 
->    - The driver now updates the format and fb address.
-> 
->    - Halt and catch fire
-> 
-> Does that make sense?
 
-Yes, I will do some experiment with that, and see if I can make it work 
-this way.
-If possible I still want to have a way for simple drivers like 
-simpledrm/mgag200 to not allocate a full framebuffer.
-
-> Maxime
-
--- 
-
-Jocelyn
-
+Thanks,
+Neil
