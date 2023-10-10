@@ -1,54 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D973B7BFCF2
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Oct 2023 15:10:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 07B2A7BFCE7
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Oct 2023 15:08:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8386210E365;
-	Tue, 10 Oct 2023 13:10:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB4A410E363;
+	Tue, 10 Oct 2023 13:08:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0EAB410E366
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Oct 2023 13:10:31 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 071FC10E363;
+ Tue, 10 Oct 2023 13:08:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1696943432; x=1728479432;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=LfvkyWWgd3eiHj7mOmx4QZJ3G+O2ECJyREGq8SLfUKo=;
- b=gu0iz8O48TKgy80zGTJUshXnCZ0uagvN4AirBIM4vVufayYiAsv1dbJW
- rL2uouY31J1806Tu3FU8xTAU5lSk8dQyZhiwqYHfnfhK89mcYvVNN8Tgg
- 7VFcYK9ZuyLFlRife7hXEKfaRsYdgbW9yJlWEzf1K4ywBfx/ARfUauaaS
- Jlpz5P+SxgTzTtuLf73UDD85DEgCGugp2uZHswK17nvtGbVEr6X8zt/rF
- D+CCG+niDp4RJw2WshIPmB3CBNs5Z84aVMLZajJA1LxThEoDq9Hvujtdv
- ol/6xhJ0MNCmkCGaiwV5B8v2KqtWFnUzOvHGDh9fINcnE7f2J64MHYnye g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="470651154"
-X-IronPort-AV: E=Sophos;i="6.03,212,1694761200"; d="scan'208";a="470651154"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Oct 2023 06:08:25 -0700
+ t=1696943311; x=1728479311;
+ h=date:from:to:cc:subject:in-reply-to:message-id:
+ references:mime-version;
+ bh=ySyQf6rgVg5IYZAWGy7uT+d1sPeGVBK59rJjjADPH1U=;
+ b=PuVcTCGIAcoMDZPTLrv06Oq822AA18oT/FTf4BW8e6puKWjmxJX752K5
+ 5drHobOPaDbMVgWYLP/dX2OJh3Jr18d/kuagV+qZi06xGX3J8P0j36OLD
+ LF4nclPGVau/wl/RnJIora6f9m1FNNhyLn0+kNeaZnagWz4qs6hEZ1StA
+ QAve4Y+G8ZAJFHYdbB3lFH0FR7fH6j5Y37LqTk3rvnW8yqyRqnyxs+Qi/
+ Evf8aM+aM79Ov1UQUYJ0rwursHJTS/UzeiDmUrdal5gkBeLfh3GmK7FAG
+ GVR6o4YXFtqxul8xLlwPbG3EjH82H1RJ77XXf65aTdEZmXYIZ3mFlCJFY A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="363737079"
+X-IronPort-AV: E=Sophos;i="6.03,212,1694761200"; d="scan'208";a="363737079"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Oct 2023 06:08:30 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="897186185"
-X-IronPort-AV: E=Sophos;i="6.03,212,1694761200"; d="scan'208";a="897186185"
-Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
- by fmsmga001.fm.intel.com with ESMTP; 10 Oct 2023 06:06:40 -0700
-Received: from kbuild by f64821696465 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1qqCTC-0000SW-2x;
- Tue, 10 Oct 2023 13:08:19 +0000
-Date: Tue, 10 Oct 2023 21:08:15 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>, quic_ajitpals@quicinc.com,
- quic_carlv@quicinc.com, quic_pkanojiy@quicinc.com,
- stanislaw.gruszka@linux.intel.com, ogabbay@kernel.org
-Subject: Re: [PATCH 1/2] accel/qaic: Add support for periodic timesync
-Message-ID: <202310102021.xKVfIhRT-lkp@intel.com>
-References: <20231006163210.21319-2-quic_jhugo@quicinc.com>
+X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="788576409"
+X-IronPort-AV: E=Sophos;i="6.03,212,1694761200"; d="scan'208";a="788576409"
+Received: from jthomasb-mobl1.ger.corp.intel.com ([10.252.42.94])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Oct 2023 06:08:25 -0700
+Date: Tue, 10 Oct 2023 16:08:23 +0300 (EEST)
+From: =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
+To: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+Subject: Re: [PATCH v3 11/16] platform/x86/amd/pmf: dump policy binary data
+In-Reply-To: <20231010125917.138225-12-Shyam-sundar.S-k@amd.com>
+Message-ID: <1f3e39fc-2c2f-72d5-ce61-16e7e5d257be@linux.intel.com>
+References: <20231010125917.138225-1-Shyam-sundar.S-k@amd.com>
+ <20231010125917.138225-12-Shyam-sundar.S-k@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231006163210.21319-2-quic_jhugo@quicinc.com>
+Content-Type: text/plain; charset=US-ASCII
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,93 +57,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, Jeffrey Hugo <quic_jhugo@quicinc.com>,
- dri-devel@lists.freedesktop.org, oe-kbuild-all@lists.linux.dev
+Cc: Xinhui.Pan@amd.com, Patil.Reddy@amd.com, basavaraj.natikar@amd.com,
+ dri-devel@lists.freedesktop.org, jikos@kernel.org,
+ amd-gfx@lists.freedesktop.org, platform-driver-x86@vger.kernel.org,
+ markgross@kernel.org, Hans de Goede <hdegoede@redhat.com>,
+ benjamin.tissoires@redhat.com, mario.limonciello@amd.com,
+ linux-input@vger.kernel.org, alexander.deucher@amd.com,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jeffrey,
+On Tue, 10 Oct 2023, Shyam Sundar S K wrote:
 
-kernel test robot noticed the following build errors:
+> Sometimes policy binary retrieved from the BIOS maybe incorrect that can
+> end up in failing to enable the Smart PC solution feature.
+> 
+> Use print_hex_dump_debug() to dump the policy binary in hex, so that we
+> debug the issues related to the binary even before sending that to TA.
+> 
+> Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+> ---
+>  drivers/platform/x86/amd/pmf/tee-if.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+> 
+> diff --git a/drivers/platform/x86/amd/pmf/tee-if.c b/drivers/platform/x86/amd/pmf/tee-if.c
+> index 994daf945795..e4386f503ad0 100644
+> --- a/drivers/platform/x86/amd/pmf/tee-if.c
+> +++ b/drivers/platform/x86/amd/pmf/tee-if.c
+> @@ -275,6 +275,12 @@ static int amd_pmf_start_policy_engine(struct amd_pmf_dev *dev)
+>  }
+>  
+>  #ifdef CONFIG_AMD_PMF_DEBUG
+> +static void amd_pmf_hex_dump_pb(struct amd_pmf_dev *dev)
+> +{
+> +	print_hex_dump_debug("(pb):  ", DUMP_PREFIX_OFFSET, 16, 1, dev->policy_buf,
+> +			     dev->policy_sz, false);
+> +}
+> +
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on next-20231010]
-[cannot apply to linus/master v6.6-rc5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+You forgot to add the empty version of amd_pmf_hex_dump_pb function into 
+#else part (so the compile fails if CONFIG_AMD_PMF_DEBUG is not set).
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jeffrey-Hugo/accel-qaic-Add-support-for-periodic-timesync/20231007-003324
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20231006163210.21319-2-quic_jhugo%40quicinc.com
-patch subject: [PATCH 1/2] accel/qaic: Add support for periodic timesync
-config: powerpc-randconfig-003-20231010 (https://download.01.org/0day-ci/archive/20231010/202310102021.xKVfIhRT-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231010/202310102021.xKVfIhRT-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310102021.xKVfIhRT-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/accel/qaic/qaic_timesync.c: In function 'qaic_timesync_timer':
->> drivers/accel/qaic/qaic_timesync.c:125:25: error: implicit declaration of function 'readq'; did you mean 'readl'? [-Werror=implicit-function-declaration]
-     125 |         device_qtimer = readq(mqtsdev->qtimer_addr);
-         |                         ^~~~~
-         |                         readl
-   cc1: some warnings being treated as errors
-
-
-vim +125 drivers/accel/qaic/qaic_timesync.c
-
-   102	
-   103	static void qaic_timesync_timer(struct timer_list *t)
-   104	{
-   105		struct mqts_dev *mqtsdev = from_timer(mqtsdev, t, timer);
-   106		struct qts_host_time_sync_msg_data *sync_msg;
-   107		u64 device_qtimer_us;
-   108		u64 device_qtimer;
-   109		u64 host_time_us;
-   110		u64 offset_us;
-   111		u64 host_sec;
-   112		int ret;
-   113	
-   114		if (atomic_read(&mqtsdev->buff_in_use)) {
-   115			dev_dbg(mqtsdev->dev, "%s buffer not free, schedule next cycle\n", __func__);
-   116			goto mod_timer;
-   117		}
-   118		atomic_set(&mqtsdev->buff_in_use, 1);
-   119	
-   120		sync_msg = mqtsdev->sync_msg;
-   121		sync_msg->header.signature = cpu_to_le16(QAIC_TIMESYNC_SIGNATURE);
-   122		sync_msg->header.msg_type = QAIC_TS_SYNC_REQ;
-   123		/* Read host UTC time and convert to uS*/
-   124		host_time_us = div_u64(ktime_get_real_ns(), NSEC_PER_USEC);
- > 125		device_qtimer = readq(mqtsdev->qtimer_addr);
-   126		device_qtimer_us = QAIC_CONV_QTIMER_TO_US(device_qtimer);
-   127		/* Offset between host UTC and device time */
-   128		offset_us = host_time_us - device_qtimer_us;
-   129	
-   130		host_sec = div_u64(offset_us, USEC_PER_SEC);
-   131		sync_msg->data.tv_usec = cpu_to_le64(offset_us - host_sec * USEC_PER_SEC);
-   132		sync_msg->data.tv_sec = cpu_to_le64(host_sec);
-   133		ret = mhi_queue_buf(mqtsdev->mhi_dev, DMA_TO_DEVICE, sync_msg, sizeof(*sync_msg), MHI_EOT);
-   134		if (ret && (ret != -EAGAIN)) {
-   135			dev_err(mqtsdev->dev, "%s unable to queue to mhi:%d\n", __func__, ret);
-   136			return;
-   137		} else if (ret == -EAGAIN) {
-   138			atomic_set(&mqtsdev->buff_in_use, 0);
-   139		}
-   140	
-   141	mod_timer:
-   142		ret = mod_timer(t, jiffies + msecs_to_jiffies(timesync_delay_ms));
-   143		if (ret)
-   144			dev_err(mqtsdev->dev, "%s mod_timer error:%d\n", __func__, ret);
-   145	}
-   146	
+>  static ssize_t amd_pmf_get_pb_data(struct file *filp, const char __user *buf,
+>  				   size_t length, loff_t *pos)
+>  {
+> @@ -289,6 +295,7 @@ static ssize_t amd_pmf_get_pb_data(struct file *filp, const char __user *buf,
+>  	if (copy_from_user(dev->policy_buf, buf, dev->policy_sz))
+>  		return -EFAULT;
+>  
+> +	amd_pmf_hex_dump_pb(dev);
+>  	ret = amd_pmf_start_policy_engine(dev);
+>  	if (ret)
+>  		return -EINVAL;
+> @@ -327,6 +334,7 @@ static int amd_pmf_open_pb(struct amd_pmf_dev *dev, struct dentry *debugfs_root)
+>  }
+>  
+>  static void amd_pmf_remove_pb(struct amd_pmf_dev *dev) {}
+> +static void amd_pmf_hex_dump_pb(struct amd_pmf_dev *dev) {}
+>  #endif
+>  
+>  static int amd_pmf_get_bios_buffer(struct amd_pmf_dev *dev)
+> @@ -341,6 +349,7 @@ static int amd_pmf_get_bios_buffer(struct amd_pmf_dev *dev)
+>  
+>  	memcpy(dev->policy_buf, dev->policy_base, dev->policy_sz);
+>  
+> +	amd_pmf_hex_dump_pb(dev);
+>  	if (pb_side_load)
+>  		amd_pmf_open_pb(dev, dev->dbgfs_dir);
+>  
+> 
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+ i.
+
