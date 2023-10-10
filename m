@@ -1,133 +1,118 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C26677BFDC0
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Oct 2023 15:38:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A9C17BFDCF
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Oct 2023 15:39:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 681E910E374;
-	Tue, 10 Oct 2023 13:38:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD41010E375;
+	Tue, 10 Oct 2023 13:39:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx08-00376f01.pphosted.com (mx08-00376f01.pphosted.com
- [91.207.212.86])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 34DC010E36C
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Oct 2023 13:38:37 +0000 (UTC)
-Received: from pps.filterd (m0168888.ppops.net [127.0.0.1])
- by mx08-00376f01.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id
- 39ACSosc008503; Tue, 10 Oct 2023 14:38:21 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=imgtec.com; h=
- from:to:cc:subject:date:message-id:in-reply-to:references
- :content-transfer-encoding:content-type:mime-version; s=
- dk201812; bh=SWulkRh5piq82U81/z0a4vAjT+FfK7VRfpgJWBpZt0Y=; b=X3N
- aa6FQ1IozvKh7SOPozlDOVlfDYX1KbnwDkZcWZZ/18Sk56iRgu60D2F4WGbmaXs1
- zxzrt5Tt/ryoq6yR2OabOoES84zswtqA/k2D8gyZqUO3aNp8rG9tK+NS9iplMpZl
- iFdgvKFiw/OEM4iW8qa9ibwT6YUjx3QeqjQGUAi0XxryruS+W/3qFYbneG9vjlpG
- V0AZYKM34qlQDBO+e0JBYBrUV0YEGEmC62AZDnP5FUeMmXt4dbtRg8EBdKYAYk5D
- Ok89SH/FdWuZiUx0lPC50Hja7yAyZtCV07vg0cbzjHANxYbkdS2ROzH/C+3cvY8U
- t3p5G1BDf6ozJjU4ESw==
-Received: from hhmail04.hh.imgtec.org ([217.156.249.195])
- by mx08-00376f01.pphosted.com (PPS) with ESMTPS id 3tjwkq2a69-2
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
- Tue, 10 Oct 2023 14:38:20 +0100 (BST)
-Received: from HHMAIL05.hh.imgtec.org (10.100.10.120) by
- HHMAIL04.hh.imgtec.org (10.100.10.119) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.31; Tue, 10 Oct 2023 14:38:19 +0100
-Received: from GBR01-LO4-obe.outbound.protection.outlook.com (104.47.85.104)
- by email.imgtec.com (10.100.10.121) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.31 via Frontend Transport; Tue, 10 Oct 2023 14:38:19 +0100
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2055.outbound.protection.outlook.com [40.107.93.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A67F010E378;
+ Tue, 10 Oct 2023 13:38:57 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Q6FIHg7854pehFVPfCCb0b1HdR6dsgdnjs3GS6R2AmlnplkYuddCBdkQibcdwtVmmMyvpC23QlSdX4+LSmL4qfJuHf7SPCL7TgSRiXq+Ng9u2VGDZ81FmLtK+bY9Yq6NygXrqC5uw3JrvHqo15xfhVNeL7w8TXFL1WiNNiH9LHpJWDTFdKFNtwe3hx2B2Z/1+aYwGfAnv69ePOKYFj7hpDpwD71EzDyLe+fZ01w9XeufeiBv5kK43KJ46j6CZx08QoxdkYI26azsul69FU1IU+HQGae9OrwCqpKIgtno7rUaWBzqXs2+DZSIXYdZ+XYfNV5fpiRBiTBESVjK9NJnNw==
+ b=gYQ9NuMZQ36I1IUNu2+QwtjXuwKPj7il2wJyVlz7i0Jc8DHR6UW3RRQDqIw6bfxWLEQppuXAgc6VRT8+mTLV4Sn7VsTiXNegq/xzKbO/DN/s6GJJ784pnGbRZlAWEkUccITRPdn+A1QJ7lZHRHY0KKdfQwThJv6cVdC5OXoZQFdvLQx9l3wRU1MrCJvHO0zl+eQd+V1e0r9wO5QXIfCtJoT5Y7IUc5AN3b7zXPvQWJg0h9ynGHels2V054akzQYIcLqT7eJcdwp2YgB2oTZh3JUM9zBl+cGyNe1/7gorLy7Evkdh3EQvHczBOuc7ShUXYY9EaE0rmUzQ7fGJWPuU7Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=SWulkRh5piq82U81/z0a4vAjT+FfK7VRfpgJWBpZt0Y=;
- b=ehvfWdE5v3p/8BfoSYp5XRckl6zq66a6GLpGzDs2Cq1EOCsDLoScL4d9yaDjBPkiRfV6s+3VRN5F86endv4z8ZFg79Rbax3fwroOVBkynrlp7RcHa9eGmtB3cx+hQ8eLO+tn6viSGko5MeQWbmIBYQkB4NcK5JTVyidEOnJzAd5EXTu5bCeKY+GkA8M2a5vkYqpKRt6htf/P5bSyzR2j0VZQXP2LQrG30fbNt+JA4Y+Ds4Mr7tUc9tJexsacfVSl22aIADGsQOoRtofQ9nJp0bxqtNL9vFtM4tz8r5jNC5gEDou7Gb+IuAmE/B2v0lLXqb7QQBHz3HzfDbhgSgnhgg==
+ bh=PIwmqFBhg3wSTu6llPJQMo9Ki5096wWhpwBYM299x7A=;
+ b=bVNWV/uVFgobKTAZXOPkQHVflALcUtKxOdPjgAN7T6twRDptQdesP/U+aygGEOl36Z96GCMwLcFs1KqFsRmFbMC16ile+O7NTVphhM/8LEDNQF7n1+r7z1z0GrSHouj7BY60sq9AtSE7W1xfVx1OJ/uu4B/PQWvS2yfedZR3boNGNMEJN0/kuMuB+ug2duapZRkHIL1GgYyGfSWC48Nrp3T5Xi/uIypwrA97zaSkKtrMI83BebAgqsBOMuM7gL11aPzp4sMxk+ELBtFIkUlULpEi7t8M81Ll9x3+nL0zuZUQiTUdVcsgSnTB5Kjr9Z54V4oEaxCapDEVUFA5VX7x7g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=imgtec.com; dmarc=pass action=none header.from=imgtec.com;
- dkim=pass header.d=imgtec.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=IMGTecCRM.onmicrosoft.com; s=selector2-IMGTecCRM-onmicrosoft-com;
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SWulkRh5piq82U81/z0a4vAjT+FfK7VRfpgJWBpZt0Y=;
- b=F6+JVBgnxpwXc9OoCMtBO3jdMtDBczJu5QkMWmgEIK8D7VQ2mVyTDffmMMuKHPVSZ+qeCWHBvN/4GVsBn7cTBPTmMdE7DE+Z1RBSICMdN2hVukXXpvynU5sVk8krjJnlXCT0RQ0qFGP1JBEZdkE8nyKpmOKnS6lNBu0ZMNHJ+tI=
-Received: from CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:170::9)
- by CWLP265MB6168.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:182::13) with
+ bh=PIwmqFBhg3wSTu6llPJQMo9Ki5096wWhpwBYM299x7A=;
+ b=GuYl4mb+ami5sPn0yL8V3/DbNHfwCFE/dlWHoI5OarixsIyOAe/ORC5t06SMMTZyAMvtdM7hLxFTWJrt5I9o/EFMP7qObkXexi7LuFLYH1ZG/3uanKFsVSZ0zoLS2UDRNz1J0mkR3Q5hm8ekWr3p2O4YlV0dvUE9jk1m11iFhY8=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BL1PR12MB5176.namprd12.prod.outlook.com (2603:10b6:208:311::19)
+ by PH0PR12MB5500.namprd12.prod.outlook.com (2603:10b6:510:ef::8) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6863.38; Tue, 10 Oct
- 2023 13:38:18 +0000
-Received: from CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1f14:8c15:179d:7afc]) by CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1f14:8c15:179d:7afc%4]) with mapi id 15.20.6863.032; Tue, 10 Oct 2023
- 13:38:18 +0000
-From: Sarah Walker <sarah.walker@imgtec.com>
-To: <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v7 20/20] drm/imagination: Add driver documentation
-Date: Tue, 10 Oct 2023 14:37:38 +0100
-Message-Id: <20231010133738.35274-21-sarah.walker@imgtec.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20231010133738.35274-1-sarah.walker@imgtec.com>
-References: <20231010133738.35274-1-sarah.walker@imgtec.com>
+ 2023 13:38:55 +0000
+Received: from BL1PR12MB5176.namprd12.prod.outlook.com
+ ([fe80::19d3:7b27:a6fc:95c5]) by BL1PR12MB5176.namprd12.prod.outlook.com
+ ([fe80::19d3:7b27:a6fc:95c5%4]) with mapi id 15.20.6863.032; Tue, 10 Oct 2023
+ 13:38:54 +0000
+Message-ID: <c9d53b05-68d0-4244-86cb-cb110c2c4af7@amd.com>
+Date: Tue, 10 Oct 2023 19:08:42 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 11/16] platform/x86/amd/pmf: dump policy binary data
+Content-Language: en-US
+To: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+References: <20231010125917.138225-1-Shyam-sundar.S-k@amd.com>
+ <20231010125917.138225-12-Shyam-sundar.S-k@amd.com>
+ <1f3e39fc-2c2f-72d5-ce61-16e7e5d257be@linux.intel.com>
+From: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+In-Reply-To: <1f3e39fc-2c2f-72d5-ce61-16e7e5d257be@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: LO4P123CA0183.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:1a4::8) To CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:400:170::9)
+X-ClientProxiedBy: PN3PR01CA0006.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:95::10) To BL1PR12MB5176.namprd12.prod.outlook.com
+ (2603:10b6:208:311::19)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CWLP265MB4817:EE_|CWLP265MB6168:EE_
-X-MS-Office365-Filtering-Correlation-Id: a2aa019f-9ddb-4128-a794-08dbc9962972
+X-MS-TrafficTypeDiagnostic: BL1PR12MB5176:EE_|PH0PR12MB5500:EE_
+X-MS-Office365-Filtering-Correlation-Id: 48260d52-6f5c-4d57-8fd9-08dbc9963f26
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: s2Uk9Pb6BlzolM1daSMr1TBGXi5FyobMMcKdqypeHjORz/XMi/g9uTHHMS3uccQZx4FGUIq/QByEP9vZRDd4CNAjRiYBDPp6pFc6w/pcLWTLxKO5SP14utSy7e7i/yAMsRrWRdSztIBFWPvgvo566hsjzvBdBhhDkQ+1pN1HmVGhklrt9+9ZuBidtmoyOmco2Pu9RW61yyGvF9ALV/ZP+hGrYT0lUiNIKJqEX2ug5PAemTbkVnUYGlROMj4noFQ9lO/RpL618krrJW/C1qaZSOuJMtvaNrQVl3yB5ELM1hVt92reCTvwtwCd65FZ1eTFLpmvO9L3nXy+3/NBCvfaNLRmr6vECrMqs2BxUeuflvNhJfnWEawH5nvvede7vnd//pnsOOzsC2ccw3U97i9dLn2DZ7XA8P784/A9zgrYLeBLrr8L7bGY7b2CvofdM6V72bNv3iaj/LgM/tlCJOYQN/pJGurJjgVhsi1ya413GKphxJZNPCW3Z+DxIVdlMAQXO7sUjOP2PK8B1Y/QNFnIBXEiFwwmPi1Z5PtZMRYqF//9Dy3SDZaTDQWgEs/14nb7P3rBdIqU9u4PrbKKkUay5sinkU/z04rWo+gFe2YZqHFYqPwtMJmMDEtOun3smG86
+X-Microsoft-Antispam-Message-Info: rkdSkZLNC026rnHDodQVaA2NTh3nEtgdP107/8jG5uvUy4v3Ml/c428ItOtljVNpkNxOKQXPCdaqqO+ulTMOXCoqHfIgrXMznCUUWtxXo9E6j9GF3Ma/J4ERBfmhF3GVZFGUzDJTCRmF+a63VK73NaYKfHbbsNO7lGuUR2U1s/+W+rmumBDuaLExa4mcJGIiENCUySttWPMU18eIikulUc1aI6y4ZlOFh3nXB1hnPsVXQzQFiOLxNsiUtvCZG9LI1A5scQVS2MWGe2jFBecCbHHfy0jle+wHjz5mMO0mR0DpLbry9JMKlsbwdIOppucGvvqaJ1JlW4E1960U+OwOtsAaQwY2t4303IDEel7zeDlTErW9Xmu8gJMd+rB0SlybRt0lsyPcori2GkhysSekR1hRWKPo/E6b4oF+tv48OoFPUogptgtKRxlDwgvRLV1BdV87t53Mr8u9DgYn7iRaLiTYuWajRp4hXtThsTwR8QxxZ0ZtfmHlmAXOCK2Y07R7SXdUY8VwdDfuQ8RJKLkriF/HPgANqwV/FmRHty6TP6oZ1LqfDVoXxNGWDghrG9jotGTlCHZBeH1ziAMoTNFiYPp2b9KdeXqwSTGgRent8/54O1lnoWh6J3dCvdTGepOjCqERbPbaMckyQpv9zUR5XA==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
- SFS:(13230031)(136003)(39850400004)(366004)(396003)(376002)(346002)(230922051799003)(451199024)(186009)(64100799003)(1800799009)(52116002)(478600001)(6506007)(6666004)(6486002)(6512007)(107886003)(38100700002)(38350700002)(86362001)(36756003)(2906002)(2616005)(1076003)(26005)(7416002)(66946007)(8676002)(66556008)(6916009)(316002)(66476007)(5660300002)(41300700001)(8936002)(4326008)(44832011);
- DIR:OUT; SFP:1102; 
+ IPV:NLI; SFV:NSPM; H:BL1PR12MB5176.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(346002)(376002)(39860400002)(366004)(396003)(136003)(230922051799003)(1800799009)(186009)(64100799003)(451199024)(6506007)(41300700001)(26005)(8936002)(38100700002)(8676002)(4326008)(66476007)(66946007)(66556008)(6512007)(6916009)(5660300002)(6486002)(7416002)(478600001)(53546011)(2616005)(2906002)(316002)(6666004)(36756003)(31696002)(86362001)(31686004)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ok7VZP909PAuAakUN2m99qCXUkZeZnT/UQOOwhxNrSfMdNxDMQkjmr4uQyJO?=
- =?us-ascii?Q?ptdscqjj+CPP+Ha8h2UeYeNUZSOQ/jQztVE710zWJ5JsCQpsCgcIoYxySRzq?=
- =?us-ascii?Q?iNngPe1387iSzP8sA/dea4hXevrILfWcEPhro4LflHxOSAsicL/Ru1bDrpdt?=
- =?us-ascii?Q?8h1PAm7xB4C+Y/W99q6bk+zNGpjjssI327ZejWnyIIeaWBqgZFQmnqcMvX6C?=
- =?us-ascii?Q?JPDtiDhd8o4a+KEtbM9R+Ul9TOwywanBjJHwMjapXjY728bAtWc9Om7ncDXs?=
- =?us-ascii?Q?g6hafkFDRksaLXf3qyWKg4LzL/S0n70yckOcLAs0BnLg+g768x8uFwuGVsUT?=
- =?us-ascii?Q?0khTuEEB3MIkzJA7nyTARI9vQMC0eIaVolGqcrWG1DYgNwUDJBKR41xh0MP3?=
- =?us-ascii?Q?7GBStvAiFRnEQdoBqu+zRGp7OzY+tjlJU3ec/jDuIfIiXKzTfAVApNR4hxj9?=
- =?us-ascii?Q?l7/p+ffh0c4eulwSTlNNP6CH3XIjZthVWZ3BWzjxLAcYcoJqmEklUcdBRa9I?=
- =?us-ascii?Q?Eqr31H6S+zWue7usaO/G0I6fcEUvcp9aXYOSMbwl9m/C16gnqPqhDJ9nFr6+?=
- =?us-ascii?Q?IgoTB2GPmZJdWNUOQahqT+JviyAMEo0xf484lEk+nOjPHmHnmWDHaUNK11wV?=
- =?us-ascii?Q?eFfu4Llrghut72FUmHyPhcvFILcrEjESBMmfJmFB8ZQ5xYSMnz5+5j436pLK?=
- =?us-ascii?Q?g0P85CcJHU9V13zUssDo2FCaGstvm+KdmqoNdDRRnNPMOb+GRmmAJkLyzVCu?=
- =?us-ascii?Q?s76H2cbmt28ctlN9DNIAev+a3KnXMsqrHVSNvpH+DBDmw4UM9//y3pVynPBG?=
- =?us-ascii?Q?JIr5pf4+E8UVnReqE7M/lXiMxeGFFAT0wbmp8OAd11CMA9yfDKkFGc4XKfQj?=
- =?us-ascii?Q?94ON/FyNjoGISlUce5VJNpMklI/qM4DTDXGulAspb9BJi59svsSilWFTFFAi?=
- =?us-ascii?Q?7itXJLhISJv9YkvsvwjCxTcWl75kEGZF13p/nSzniUEQA3iN3motVvuVDZxI?=
- =?us-ascii?Q?JGFDWuJDGJwEFdB3zdGoVQ7MBjkUeoZ1Tg7hk9J979oVR7qFmDZcGKoyVVI9?=
- =?us-ascii?Q?C46G6mFPSfit70SeO4lQumtRS84Gqv1Q8xa4MtFKZM4Gu5XTRb5uFigRwYYg?=
- =?us-ascii?Q?GqcGdgblNLNFbko6srRRSUa+nmU64MQVIkT57oDCcBX9F6aeeJXG0WY35h70?=
- =?us-ascii?Q?wtb/JYFCu3mE158uhQ08a7vPiQII/FuRrSV0Nk1yPA6+BEzj9GsdMAlidWsy?=
- =?us-ascii?Q?8p9Mb7hi06JZrRt8iNCmNxcjEngFz7ATqIMckOuesVeQT7YGrD2iZgmK24Lo?=
- =?us-ascii?Q?53kOC3f43p3EYjAEXIv5QMBExTxUxiOyuNM2eTWgf0H6TR7af9thtnnm1/Dg?=
- =?us-ascii?Q?zKOR4qPj6UiEuynvYENnlzMdF9nAh+JvZ3uW0gUseLp82l+TW8rzVqEbdDHW?=
- =?us-ascii?Q?iZD34OYuot/la+MhpmFFYbuMlO4MUrWJb/CvZrrPiijIiG2U2aSQaSXGunbu?=
- =?us-ascii?Q?Knnuj4/k6GJkTkK+d9qcMZ5J8sRGVTdTbXlVl3QgqAzR//cn+HRW6gEKL4Dy?=
- =?us-ascii?Q?ZBT3naoKZ7Jv0VrXFtlyi4cO5qPiu8z/qA5I/qBY?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: a2aa019f-9ddb-4128-a794-08dbc9962972
-X-MS-Exchange-CrossTenant-AuthSource: CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ei8vRi9IbDFHa0c0NnZjQXZqRjhTRy9CUXd5L01ZSGVzNWdJa1pZS2dsNk9l?=
+ =?utf-8?B?L3pUc2czSXZyckFIeFFtdFJTRWd1YU5HYlVaRUprbDBEeGNSUkJTRmxVQlZo?=
+ =?utf-8?B?RXdiS1pkS29WRmZjNGFpWXc3eGlFRE9keHRpbjZCQ0V0WjRqZGt2ajM1U2cz?=
+ =?utf-8?B?WjA5cFQzZzhCVCt6MHVnc2kwR3NkdFRnNlBhRlN0TmhGT1VNK0ZsMXk4QjNU?=
+ =?utf-8?B?d3ZWenU0UU1EdWVIZDkzWmVNdEs5d0FEZG84QlhUSUNvakJsSmRuaXo0UDE1?=
+ =?utf-8?B?bVJUVmpDbHU5MEV5aGFrTUp2Y0xJMVFRUXpMRWlsdkorUzM4RmRvdHpmemgy?=
+ =?utf-8?B?SU5LTHNHQndZTnVmTWtTdVdRejQzb1FUSnoydmRWV2Q0THBhQkl3WGhNaWlY?=
+ =?utf-8?B?NmZKUUZYQ3FHa2d1UjFhU1ZmRmhJWFVQejNZcC9JN085czhLWnVGZEhlSGRm?=
+ =?utf-8?B?WHhTczNjVkhMNkV1bkoyRkI3aTl2a1FZWjV2Q3J1cHhLMzBKb2xvZEc3eVF5?=
+ =?utf-8?B?MGhJaXUzMGRnUWhTZXBBandyZ2grMm92ZUk3N21VWmw1TFVra1dkQldtaWUz?=
+ =?utf-8?B?SzJzbVVsWTJzc2pyOHhNUkpCVHg5Rkh6K2w2R0lpK3o1OWEvZGE2K0I1YUJW?=
+ =?utf-8?B?UHpHTWs4ckVYUEV2eDd6WkVUZVJUa0pWRzViVjh3Sm9GU283RDBCZTZFbU1N?=
+ =?utf-8?B?TTFGZWR5MzFudGhmRmV0NE5HQThRb0lYT0hpT0F4THdaOTlqaEYwTDF0Rk9q?=
+ =?utf-8?B?bWU4WFlVdWJnT0RnRkZ6b2Y0cnBVTTB1V3dzUmJ0aGdiVE1lMlpMbDloQWQ0?=
+ =?utf-8?B?RmwwM1hwd01WZGYrYzdzckNtckZzL21OZ00zK0lOUmVxMm1KRGpSYU1xT2Uv?=
+ =?utf-8?B?eHN2UFFUdnp2WHJMSzJ3TWZuYnE5djhBZWNFR2ZBQ1haektxT1dJMmRMSVR3?=
+ =?utf-8?B?ZkhUcnFMaUhlaGtnN2QzTzgyYVMwamVlcDNOWndBZUlscExVMml1WkdNTUpJ?=
+ =?utf-8?B?ckZKQzI2aGVFV1AwTk1wMHBBenEyczJTaHVKaG9iQWZaNmV3KzN5NUlNUnBp?=
+ =?utf-8?B?K2w0OWlTN1h4aStwVmRhTXpjWFMweW95NjE0R3VPNHlnOERFSTY4Mkd1ZzBI?=
+ =?utf-8?B?d0VwL2gzN0pZZENtK1lXRDBxNTR0SG9uVGNBWDF0WWc0MlYzTGRieWNQYUFC?=
+ =?utf-8?B?aWsxUW82ck5lOEN5UVNUUjl3aTdLN1hXaVFIOU9tUUFsYjZLdkZhc09iNER0?=
+ =?utf-8?B?Z0FoeFVDR3M3Q2xmYXUvajVjeWtOOUpVSzV2UkxzQUIyUGw4NVR2eitqeGd4?=
+ =?utf-8?B?VEY0WkFjd1hRV1N4cWtTTXRiRUYvOU1ZOGF6S0MydURCOERLWEt0WmZWalZE?=
+ =?utf-8?B?dVBlZVUxRnhuTjE1UGgxRndzdGM4Z1E0cGs4QUhad0JZenFLTGVYYytFaEhD?=
+ =?utf-8?B?VzRLbzNYZmovSlpCM2J6NkpRSUlmL3lsM2gwR3phQXJSNDVwNjE5QWVIaGl5?=
+ =?utf-8?B?UHdwM2tHaFpYbHgzWSs3QmpoTHpmWGZrdmhOdTRXZE00ZFBONStCRnVxSmFJ?=
+ =?utf-8?B?ajd3UHhDKzgrSEZucDFHK0tIRHA2TEtJbndsMEQwVy8zWldRSElZYmkvZXZB?=
+ =?utf-8?B?UUJkaHE3TGQvKzFFU2htRnViQmlRUmxreU9xMHB3b0o2MkxUSWZnVXlmVUlj?=
+ =?utf-8?B?a2NlVllDQVJrSmMxTjdyb1pJTDVKZGlleW42NEVGVTVhSWdFT1ZXN21wUGVG?=
+ =?utf-8?B?MWNYVzRGMHUrZGdvUnk4cDl2UUd1ODlFR3NqaVBRWFVubW51a0ExYlNCVWdr?=
+ =?utf-8?B?Mk9CRFcwbU9PNlRlVVFUT2pwYkhadmMreU54S0FaWVRaazVXNWNldzBZbTg5?=
+ =?utf-8?B?WCtmSmppMzd5Ti9nbFFGNFQxV3BFTmxnQVVKLzNmU2YzK2ZPVjJKbldhdE1L?=
+ =?utf-8?B?NlNPbmU3a2tlQzB1RHhNQ2JrV2Nra3l2blQyTzR0WloxM3BFbXBJZ0N3bTdo?=
+ =?utf-8?B?OHpFMUNDanRpbDVSSG0xbEVQMy9wWGtZZFhsY3dlWWhwS2JWU1FiM1RCNFc0?=
+ =?utf-8?B?Nk9EQUxLVlFhVjZuaXYwNjB1bzJQMEhISk5JM2RjUldCREgwUGdGUWNJN1RJ?=
+ =?utf-8?Q?wU5bAf4rclg/xryTeXYPSCXbW?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 48260d52-6f5c-4d57-8fd9-08dbc9963f26
+X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5176.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Oct 2023 13:38:18.2035 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Oct 2023 13:38:54.7936 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0d5fd8bb-e8c2-4e0a-8dd5-2c264f7140fe
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 7jsoAwmVeV8Aa9s1oKAvnCTdvuxQWCgxgr7NvlTbhu+EFRVgt490npAL14xBcNCUU43qYV7Kaig0+CzSLj6mPQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWLP265MB6168
-X-OriginatorOrg: imgtec.com
-X-EXCLAIMER-MD-CONFIG: 15a78312-3e47-46eb-9010-2e54d84a9631
-X-Proofpoint-GUID: KC6qOPrpzKOMyUl9_74j8mNVrGiEMW_H
-X-Proofpoint-ORIG-GUID: KC6qOPrpzKOMyUl9_74j8mNVrGiEMW_H
+X-MS-Exchange-CrossTenant-UserPrincipalName: fopC++jab0vJ8VyOni01gg1VQkzfDM0ueYae69tvJqkiUpijFaSZrNTQFzoA30OdI8VCSWqdUerGnxJPA7OM0A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB5500
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -140,263 +125,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-doc@vger.kernel.org, hns@goldelico.com,
- krzysztof.kozlowski+dt@linaro.org, matthew.brost@intel.com, corbet@lwn.net,
- luben.tuikov@amd.com, dakr@redhat.com, donald.robson@imgtec.com,
- devicetree@vger.kernel.org, conor+dt@kernel.org, mripard@kernel.org,
- Matt Coster <matt.coster@imgtec.com>, robh+dt@kernel.org,
- faith.ekstrand@collabora.com, linux-kernel@vger.kernel.org, afd@ti.com,
- boris.brezillon@collabora.com, tzimmermann@suse.de, christian.koenig@amd.com
+Cc: Xinhui.Pan@amd.com, Patil.Reddy@amd.com, basavaraj.natikar@amd.com,
+ dri-devel@lists.freedesktop.org, jikos@kernel.org,
+ amd-gfx@lists.freedesktop.org, platform-driver-x86@vger.kernel.org,
+ markgross@kernel.org, Hans de Goede <hdegoede@redhat.com>,
+ benjamin.tissoires@redhat.com, mario.limonciello@amd.com,
+ linux-input@vger.kernel.org, alexander.deucher@amd.com,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add documentation for the UAPI.
 
-Changes since v5:
-- Remove obsolete VM documentation
 
-Co-developed-by: Matt Coster <matt.coster@imgtec.com>
-Signed-off-by: Matt Coster <matt.coster@imgtec.com>
-Co-developed-by: Donald Robson <donald.robson@imgtec.com>
-Signed-off-by: Donald Robson <donald.robson@imgtec.com>
-Signed-off-by: Sarah Walker <sarah.walker@imgtec.com>
-Reviewed-by: Maxime Ripard <mripard@kernel.org>
----
- Documentation/gpu/drivers.rst           |   2 +
- Documentation/gpu/imagination/index.rst |  13 ++
- Documentation/gpu/imagination/uapi.rst  | 174 ++++++++++++++++++++++++
- MAINTAINERS                             |   1 +
- 4 files changed, 190 insertions(+)
- create mode 100644 Documentation/gpu/imagination/index.rst
- create mode 100644 Documentation/gpu/imagination/uapi.rst
+On 10/10/2023 6:38 PM, Ilpo Järvinen wrote:
+> On Tue, 10 Oct 2023, Shyam Sundar S K wrote:
+> 
+>> Sometimes policy binary retrieved from the BIOS maybe incorrect that can
+>> end up in failing to enable the Smart PC solution feature.
+>>
+>> Use print_hex_dump_debug() to dump the policy binary in hex, so that we
+>> debug the issues related to the binary even before sending that to TA.
+>>
+>> Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+>> ---
+>>  drivers/platform/x86/amd/pmf/tee-if.c | 9 +++++++++
+>>  1 file changed, 9 insertions(+)
+>>
+>> diff --git a/drivers/platform/x86/amd/pmf/tee-if.c b/drivers/platform/x86/amd/pmf/tee-if.c
+>> index 994daf945795..e4386f503ad0 100644
+>> --- a/drivers/platform/x86/amd/pmf/tee-if.c
+>> +++ b/drivers/platform/x86/amd/pmf/tee-if.c
+>> @@ -275,6 +275,12 @@ static int amd_pmf_start_policy_engine(struct amd_pmf_dev *dev)
+>>  }
+>>  
+>>  #ifdef CONFIG_AMD_PMF_DEBUG
+>> +static void amd_pmf_hex_dump_pb(struct amd_pmf_dev *dev)
+>> +{
+>> +	print_hex_dump_debug("(pb):  ", DUMP_PREFIX_OFFSET, 16, 1, dev->policy_buf,
+>> +			     dev->policy_sz, false);
+>> +}
+>> +
+> 
+> You forgot to add the empty version of amd_pmf_hex_dump_pb function into 
+> #else part (so the compile fails if CONFIG_AMD_PMF_DEBUG is not set).
+> 
 
-diff --git a/Documentation/gpu/drivers.rst b/Documentation/gpu/drivers.rst
-index 3a52f48215a3..5487deb218a3 100644
---- a/Documentation/gpu/drivers.rst
-+++ b/Documentation/gpu/drivers.rst
-@@ -3,9 +3,11 @@ GPU Driver Documentation
- ========================
- 
- .. toctree::
-+   :maxdepth: 3
- 
-    amdgpu/index
-    i915
-+   imagination/index
-    mcde
-    meson
-    pl111
-diff --git a/Documentation/gpu/imagination/index.rst b/Documentation/gpu/imagination/index.rst
-new file mode 100644
-index 000000000000..dc9579e758c3
---- /dev/null
-+++ b/Documentation/gpu/imagination/index.rst
-@@ -0,0 +1,13 @@
-+=======================================
-+drm/imagination PowerVR Graphics Driver
-+=======================================
-+
-+.. kernel-doc:: drivers/gpu/drm/imagination/pvr_drv.c
-+   :doc: PowerVR Graphics Driver
-+
-+Contents
-+========
-+.. toctree::
-+   :maxdepth: 2
-+
-+   uapi
-diff --git a/Documentation/gpu/imagination/uapi.rst b/Documentation/gpu/imagination/uapi.rst
-new file mode 100644
-index 000000000000..2227ea7e6222
---- /dev/null
-+++ b/Documentation/gpu/imagination/uapi.rst
-@@ -0,0 +1,174 @@
-+====
-+UAPI
-+====
-+The sources associated with this section can be found in ``pvr_drm.h``.
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :doc: PowerVR UAPI
-+
-+OBJECT ARRAYS
-+=============
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :identifiers: drm_pvr_obj_array
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :identifiers: DRM_PVR_OBJ_ARRAY
-+
-+IOCTLS
-+======
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :doc: PowerVR IOCTL interface
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :identifiers: PVR_IOCTL
-+
-+DEV_QUERY
-+---------
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :doc: PowerVR IOCTL DEV_QUERY interface
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :identifiers: drm_pvr_dev_query
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :identifiers: drm_pvr_ioctl_dev_query_args
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :identifiers: drm_pvr_dev_query_gpu_info
-+                 drm_pvr_dev_query_runtime_info
-+                 drm_pvr_dev_query_hwrt_info
-+                 drm_pvr_dev_query_quirks
-+                 drm_pvr_dev_query_enhancements
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :identifiers: drm_pvr_heap_id
-+                 drm_pvr_heap
-+                 drm_pvr_dev_query_heap_info
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :doc: Flags for DRM_PVR_DEV_QUERY_HEAP_INFO_GET.
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :identifiers: drm_pvr_static_data_area_usage
-+                 drm_pvr_static_data_area
-+                 drm_pvr_dev_query_static_data_areas
-+
-+CREATE_BO
-+---------
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :doc: PowerVR IOCTL CREATE_BO interface
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :identifiers: drm_pvr_ioctl_create_bo_args
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :doc: Flags for CREATE_BO
-+
-+GET_BO_MMAP_OFFSET
-+------------------
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :doc: PowerVR IOCTL GET_BO_MMAP_OFFSET interface
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :identifiers: drm_pvr_ioctl_get_bo_mmap_offset_args
-+
-+CREATE_VM_CONTEXT and DESTROY_VM_CONTEXT
-+----------------------------------------
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :doc: PowerVR IOCTL CREATE_VM_CONTEXT and DESTROY_VM_CONTEXT interfaces
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :identifiers: drm_pvr_ioctl_create_vm_context_args
-+                 drm_pvr_ioctl_destroy_vm_context_args
-+
-+VM_MAP and VM_UNMAP
-+-------------------
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :doc: PowerVR IOCTL VM_MAP and VM_UNMAP interfaces
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :identifiers: drm_pvr_ioctl_vm_map_args
-+                 drm_pvr_ioctl_vm_unmap_args
-+
-+CREATE_CONTEXT and DESTROY_CONTEXT
-+----------------------------------
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :doc: PowerVR IOCTL CREATE_CONTEXT and DESTROY_CONTEXT interfaces
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :identifiers: drm_pvr_ioctl_create_context_args
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :identifiers: drm_pvr_ctx_priority
-+                 drm_pvr_ctx_type
-+                 drm_pvr_static_render_context_state
-+                 drm_pvr_static_render_context_state_format
-+                 drm_pvr_reset_framework
-+                 drm_pvr_reset_framework_format
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :identifiers: drm_pvr_ioctl_destroy_context_args
-+
-+CREATE_FREE_LIST and DESTROY_FREE_LIST
-+--------------------------------------
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :doc: PowerVR IOCTL CREATE_FREE_LIST and DESTROY_FREE_LIST interfaces
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :identifiers: drm_pvr_ioctl_create_free_list_args
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :identifiers: drm_pvr_ioctl_destroy_free_list_args
-+
-+CREATE_HWRT_DATASET and DESTROY_HWRT_DATASET
-+--------------------------------------
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :doc: PowerVR IOCTL CREATE_HWRT_DATASET and DESTROY_HWRT_DATASET interfaces
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :identifiers: drm_pvr_ioctl_create_hwrt_dataset_args
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :identifiers: drm_pvr_create_hwrt_geom_data_args
-+                 drm_pvr_create_hwrt_rt_data_args
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :identifiers: drm_pvr_ioctl_destroy_hwrt_dataset_args
-+
-+SUBMIT_JOBS
-+-----------
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :doc: PowerVR IOCTL SUBMIT_JOBS interface
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :doc: Flags for the drm_pvr_sync_op object.
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :identifiers: drm_pvr_ioctl_submit_jobs_args
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :doc: Flags for SUBMIT_JOB ioctl geometry command.
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :doc: Flags for SUBMIT_JOB ioctl fragment command.
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :doc: Flags for SUBMIT_JOB ioctl compute command.
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :doc: Flags for SUBMIT_JOB ioctl transfer command.
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :identifiers: drm_pvr_sync_op
-+                 drm_pvr_job_type
-+                 drm_pvr_hwrt_data_ref
-+                 drm_pvr_job
-+
-+Internal notes
-+==============
-+.. kernel-doc:: drivers/gpu/drm/imagination/pvr_device.h
-+   :doc: IOCTL validation helpers
-+
-+.. kernel-doc:: drivers/gpu/drm/imagination/pvr_device.h
-+   :identifiers: PVR_STATIC_ASSERT_64BIT_ALIGNED PVR_IOCTL_UNION_PADDING_CHECK
-+                 pvr_ioctl_union_padding_check
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 6bcd86fb44ee..f341f577f695 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -10233,6 +10233,7 @@ M:	Frank Binns <frank.binns@imgtec.com>
- M:	Donald Robson <donald.robson@imgtec.com>
- S:	Supported
- F:	Documentation/devicetree/bindings/gpu/img,powervr.yaml
-+F:	Documentation/gpu/imagination/
- F:	drivers/gpu/drm/imagination/
- F:	include/uapi/drm/pvr_drm.h
- 
--- 
-2.42.0
+It's there (see below). I have just grouped the functions that come
+under #ifdef CONFIG_AMD_PMF_DEBUG and #else so that's more readable.
 
+>>  static ssize_t amd_pmf_get_pb_data(struct file *filp, const char __user *buf,
+>>  				   size_t length, loff_t *pos)
+>>  {
+>> @@ -289,6 +295,7 @@ static ssize_t amd_pmf_get_pb_data(struct file *filp, const char __user *buf,
+>>  	if (copy_from_user(dev->policy_buf, buf, dev->policy_sz))
+>>  		return -EFAULT;
+>>  
+>> +	amd_pmf_hex_dump_pb(dev);
+>>  	ret = amd_pmf_start_policy_engine(dev);
+>>  	if (ret)
+>>  		return -EINVAL;
+>> @@ -327,6 +334,7 @@ static int amd_pmf_open_pb(struct amd_pmf_dev *dev, struct dentry *debugfs_root)
+>>  }
+>>  
+>>  static void amd_pmf_remove_pb(struct amd_pmf_dev *dev) {}
+>> +static void amd_pmf_hex_dump_pb(struct amd_pmf_dev *dev) {}
+
+Here is the empty amd_pmf_hex_dump_pb().
+
+Thanks,
+Shyam
+
+>>  #endif
+>>  
+>>  static int amd_pmf_get_bios_buffer(struct amd_pmf_dev *dev)
+>> @@ -341,6 +349,7 @@ static int amd_pmf_get_bios_buffer(struct amd_pmf_dev *dev)
+>>  
+>>  	memcpy(dev->policy_buf, dev->policy_base, dev->policy_sz);
+>>  
+>> +	amd_pmf_hex_dump_pb(dev);
+>>  	if (pb_side_load)
+>>  		amd_pmf_open_pb(dev, dev->dbgfs_dir);
+>>  
+>>
+> 
