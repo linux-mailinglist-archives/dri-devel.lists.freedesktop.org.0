@@ -2,70 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F2C27BF9F5
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Oct 2023 13:41:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8941A7BFA26
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Oct 2023 13:46:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0503310E1DF;
-	Tue, 10 Oct 2023 11:41:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE3FE10E337;
+	Tue, 10 Oct 2023 11:46:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
- [IPv6:2a00:1450:4864:20::329])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 620DC10E075
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Oct 2023 11:41:33 +0000 (UTC)
-Received: by mail-wm1-x329.google.com with SMTP id
- 5b1f17b1804b1-406532c49dcso14544555e9.0
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Oct 2023 04:41:33 -0700 (PDT)
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
+ [IPv6:2a00:1450:4864:20::42c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA89710E33B
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Oct 2023 11:46:01 +0000 (UTC)
+Received: by mail-wr1-x42c.google.com with SMTP id
+ ffacd0b85a97d-32337a39009so1340898f8f.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Oct 2023 04:46:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1696938092; x=1697542892; darn=lists.freedesktop.org; 
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=P82aE7KWL887ic1Co4y1/2QcPcXZ/cg/z9YhXgPh0vM=;
- b=jBT9XJ3xSMSyOJJuo/4xn6Jq2hpU1CdiLtOW+nfHGbc8wmZBC/L9Vtw0usdP7PXDsL
- 6qGVL6pH3wgnWh43g2Hzls9bMaOW2SvAwBS8CbvGhNutk0ywQ8JreiCItcoRvV0h3n6P
- pX5zXDxO9uk8k5LUlLDR341IkVZ7eFGIR1c7w=
+ d=ffwll.ch; s=google; t=1696938360; x=1697543160; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=aiA4D11X2sFtXKvFj+BVZkBdxaJKzeEbh5cY8Yxytvg=;
+ b=CfWkFQkNQFdEhzhIovWlC/gMyVZPvmXiKyt6pf/T8Yz3JeflvwGjcsczLUmGJUW6yQ
+ yLxVWITS/8IwslfMbuSHdk3P7Xfac3Gh370SCVO6q0fF6V/QZYw4rHf5eGJcxfuK5/wY
+ SLsY2VnzfG4GYo0tYaGG9vkcAZxU4wBGfKkr4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1696938092; x=1697542892;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
+ d=1e100.net; s=20230601; t=1696938360; x=1697543160;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=P82aE7KWL887ic1Co4y1/2QcPcXZ/cg/z9YhXgPh0vM=;
- b=gbic1TLsJlYv3+GoiePGdX9g71w/4dkCrKWww5UvAxqdfdfo+tk2tVfGfpko2Pxnes
- cWt6eN4UCFhQzc7uAaBMFT/AgF7M00wk4a9ISSdmaUtRvuqzWWDMaQmzhAGe6gUpVx4p
- TJrJYG2JGLhkBSNF0zSOe754yhrqAFvCUm+3fyM9mrKNFdzPHe6Ch60ePru8vfph4JQo
- xPWw+we8AaTWeZ21PpqbXn5/zNPW5HVUBoTu1Nk1xvn96/ym6GOUmbQWzhOQXLeyYzo6
- pgp615QgEuAfEuLSb05tGs0PtLZ8DArA/hnVn1ZuFfjUHOgyGo4EEq30Z5D6DU0GKwZH
- CvtQ==
-X-Gm-Message-State: AOJu0Yy3t4SEQqpymWJW16uUFsv+RCj1/XAtsS3mIBdiCIcy5XpKozqb
- e1adP0MymSglxq1A8wQf4Ts0xw==
-X-Google-Smtp-Source: AGHT+IG30Nh0NorW20vOn1LyjzjTqfhoCwFyUDC2tPl0NrEP0BiNkz+RW34/CV9t0nqc/Nb2g4eF7Q==
-X-Received: by 2002:a05:600c:1d03:b0:404:7606:a871 with SMTP id
- l3-20020a05600c1d0300b004047606a871mr15860437wms.2.1696938091417; 
- Tue, 10 Oct 2023 04:41:31 -0700 (PDT)
+ bh=aiA4D11X2sFtXKvFj+BVZkBdxaJKzeEbh5cY8Yxytvg=;
+ b=gOTq5IWiFgjzkA0s4FKkbSmjpv9fBmep1o3u8C4NWCTkamD3rBa+uRgF/5x0FC1Mpx
+ ydkbtHGEfUhtGnsougEQSJkI1thwa510NVo+UsuMmheTgyxGMaToPQjtYbqw+tMVLfS4
+ 4lvaaW35jXc5fDQIOuFBP6U/dRcTG8R+Er4AiTwUE/Jf1XxdQlY8W3QsCwmJpHp+PlHo
+ h8LLxegFUZXcGTQWi2Q/Phdekk3Bfo3sZdaXQUwpXWb4+4mtRIfoxXDtdcbX1qoUc0SM
+ 7KA6D+U0Im4xrO1DkbdzEPvegfeqB40ytuWPZvjL5Evlavedan5RBN18y7V+AKDgm6ex
+ Gftw==
+X-Gm-Message-State: AOJu0YyhNe8SZ2uOgJR3MKtmh8ffrOlK657E38S9TAAheTY75pbo3GQi
+ Mu15gOdbiv3AhUauhRXaXS0rmA==
+X-Google-Smtp-Source: AGHT+IE4/UvRoJK4tGLVIxW4ixF9DbnO2siW/LMpb7C9C8dsXdtbYclfJKlYBA0WjLwnhm1UDv3LbA==
+X-Received: by 2002:a5d:6909:0:b0:320:8f0:b93d with SMTP id
+ t9-20020a5d6909000000b0032008f0b93dmr14892975wru.3.1696938360227; 
+ Tue, 10 Oct 2023 04:46:00 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
  by smtp.gmail.com with ESMTPSA id
- y19-20020a05600c20d300b004075b3ce03asm367882wmm.6.2023.10.10.04.41.30
+ h9-20020a5d6889000000b0031c52e81490sm12640936wru.72.2023.10.10.04.45.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Oct 2023 04:41:30 -0700 (PDT)
-Date: Tue, 10 Oct 2023 13:41:28 +0200
+ Tue, 10 Oct 2023 04:45:59 -0700 (PDT)
+Date: Tue, 10 Oct 2023 13:45:57 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Subject: Re: [PATCH] drm/atomic: Perform blocking commits on workqueue
-Message-ID: <ZSU4aGnYsqUvz1ry@phenom.ffwll.local>
-References: <20230926170549.2589045-1-halfline@gmail.com>
- <ZR6IlVR-A5KtIHEU@phenom.ffwll.local>
- <CAA_UwzL=2PjeH_qW2GJa_XzJCeWkz9NcokPQX3-qn2f0iPz+Rw@mail.gmail.com>
- <90e7f66f-96bf-4e90-88c8-75019bc506a4@amd.com>
- <CAA_UwzJ7q8aq_iw3wimeQXmvKp8Z253J7oqi3UQqcKdkRmAcAA@mail.gmail.com>
- <9f9b50fa-8bad-4e96-ac60-21c48f473fc6@amd.com>
- <ZSPv1iAwJMgnsDu3@intel.com>
- <dc0c733e-df75-42f8-a920-cca8eebfa0dc@amd.com>
+To: Ondrej Zary <linux@zary.sk>
+Subject: Re: [PATCH] video: fbdev: arkfb: fix possible object reference leak
+Message-ID: <ZSU5dZJqd8CIFzM6@phenom.ffwll.local>
+Mail-Followup-To: Ondrej Zary <linux@zary.sk>, Helge Deller <deller@gmx.de>,
+ jiapeng.chong@linux.alibaba.com, linux-fbdev@vger.kernel.org,
+ javierm@redhat.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, tzimmermann@suse.de,
+ Zhang Shurong <zhang_shurong@foxmail.com>
+References: <tencent_55C1A344A101B55762ECA6A6366D0B0F8C05@qq.com>
+ <b9e51034-bc6c-81d8-39ef-9fc74fa09c62@gmx.de>
+ <202310061634.02110.linux@zary.sk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <dc0c733e-df75-42f8-a920-cca8eebfa0dc@amd.com>
+In-Reply-To: <202310061634.02110.linux@zary.sk>
 X-Operating-System: Linux phenom 6.5.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -79,112 +78,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ray Strode <halfline@gmail.com>, daniel.vetter@ffwll.ch, Xinhui.Pan@amd.com,
- dri-devel@lists.freedesktop.org, mdaenzer@redhat.com,
- alexander.deucher@amd.com, airlied@redhat.com
+Cc: jiapeng.chong@linux.alibaba.com, linux-fbdev@vger.kernel.org,
+ Helge Deller <deller@gmx.de>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, javierm@redhat.com, tzimmermann@suse.de,
+ Zhang Shurong <zhang_shurong@foxmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 09, 2023 at 02:36:17PM +0200, Christian König wrote:
-> Am 09.10.23 um 14:19 schrieb Ville Syrjälä:
-> > On Mon, Oct 09, 2023 at 08:42:24AM +0200, Christian König wrote:
-> > > Am 06.10.23 um 20:48 schrieb Ray Strode:
-> > > > Hi,
-> > > > 
-> > > > On Fri, Oct 6, 2023 at 3:12 AM Christian König <christian.koenig@amd.com> wrote:
-> > > > > When the operation busy waits then that *should* get accounted to the
-> > > > > CPU time of the current process. When the operation sleeps and waits for
-> > > > > some interrupt for example it should not get accounted.
-> > > > > What you suggest is to put the parts of the operation which busy wait
-> > > > > into a background task and then sleep for that task to complete. This is
-> > > > > not a solution to the problem, but just hides it.
-> > > > Actually, I think we both probably agree that there shouldn't be long
-> > > > busy waits in the context of the current process. After all, we both
-> > > > agree what the AMD DC driver code is doing is wrong.
-> > > > 
-> > > > To be clear, my take is, if driver code is running in process context
-> > > > and needs to wait for periods of time on the order of or in excess of
-> > > > a typical process time slice it should be sleeping during the waiting.
-> > > > If the operation is at a point where it can be cancelled without side
-> > > > effects, the sleeping should be INTERRUPTIBLE. If it's past the point
-> > > > of no return, sleeping should be UNINTERRUPTIBLE. At no point, in my
-> > > > opinion, should kernel code busy block a typical process for dozens of
-> > > > milliseconds while keeping the process RUNNING. I don't think this is
-> > > > a controversial take.
-> > > Exactly that's what I completely disagree on.
-> > > 
-> > > When the driver is burning CPU cycles on behalves of a process then
-> > > those CPU cycles should be accounted to the process causing this.
-> > > 
-> > > That the driver should probably improve it's behavior is a different issue.
-> > > 
-> > > > Actually, I think (maybe?) you might even agree with that, but you're
-> > > > also saying: user space processes aren't special here. While it's not
-> > > > okay to busy block them, it's also not okay to busy block on the
-> > > > system unbound workqueue either. If that's your sentiment, I don't
-> > > > disagree with it.
-> > > No, it's absolutely ok to busy block them it's just not nice to do so.
-> > > 
-> > > As Daniel pointed out this behavior is not incorrect at all. The DRM
-> > > subsystem doesn't make any guarantee that drmModeAtomicCommit() will not
-> > > burn CPU cycles.
-> > > 
-> > > > So I think we both agree the busy waiting is a problem, but maybe we
-> > > > disagree on the best place for the problem to manifest when it
-> > > > happens.
-> > > > 
-> > > > One thought re the DC code is regardless of where the code is running,
-> > > > the scheduler is going to forcefully preempt it at some point right?
-> > > > Any writereg/udelay(1)/readreg loop is going to get disrupted by a
-> > > > much bigger than 1us delay by the kernel if the loop goes on long
-> > > > enough. I'm not wrong about that? if that's true, the code might as
-> > > > well switch out the udelay(1) for a usleep(1) and call it a day (well
-> > > > modulo the fact I think it can be called from an interrupt handler; at
-> > > > least "git grep" says there's a link_set_dpms_off in
-> > > > link_dp_irq_handler.c)
-> > > > 
-> > > > > Stuff like that is not a valid justification for the change. Ville
-> > > > > changes on the other hand tried to prevent lock contention which is a
-> > > > > valid goal here.
-> > > > Okay so let's land his patchset! (assuming it's ready to go in).
-> > > > Ville, is that something you'd want to resend for review?
-> > > Well, while Ville patch has at least some justification I would still
-> > > strongly object to move the work into a background thread to prevent
-> > > userspace from being accounted for the work it causes.
-> > Aren't most wayland compositors using nonblocking commits anyway?
-> > If so they would already be bypassing proper CPU time accounting.
-> > Not saying we shouldn't try to fix that, but just pointing out that
-> > it already is an issue with nonblocking commits.
+On Fri, Oct 06, 2023 at 04:34:01PM +0200, Ondrej Zary wrote:
+> On Friday 06 October 2023, Helge Deller wrote:
+> > On 10/5/23 09:01, Zhang Shurong wrote:
+> > > Add missing pci_disable_device() in error path in ark_pci_probe().
+> > 
+> > Do you have this hardware and tested your patch?
+> > I'm sure there is a reason, why "pci_disable_device()" was commented
+> > out in the original submission in commit 681e14730c73c...
 > 
-> That's a rather good argument, but for async operations background work is
-> simply a necessity because you otherwise can't implement them.
+> pci_disable_device() call is disabled in many fbdev drivers because
+> calling it might prevent display from working.
 
-Yeah I don't think we can use "we need to properly account" stuff to
-reject this, because we don't. Also we already do fail with inheriting the
-priority properly, so another nail in the "kms is best effort".
+Yeah I've recently hit some _really_ interesting regression report where
+essentially fbdev driver and vgacon where managing the hardware
+collaboratively. There's enormous amounts of "this shouldn't work like
+that, but it is how it does" going on in old fbdev drivers, and what you
+brought up is also what I immediately thought of.
 
-> The key point here is that the patch puts the work into the background just
-> to avoid that it is accounted to the thread issuing it, and that in turn is
-> not valid as far as I can see.
-
-Yeah it's that aspect I'm really worried about, because we essentially
-start to support some gurantees that a) most drivers can't uphold without
-a huge amount of work, some of the DC state recomputations are _really_
-expensive b) without actually making the semantics clear, it's just
-duct-tape.
-
-Yes compositors want to run kms in real-time, and yes that results in fun
-if you try to strictly account for cpu time spent. Especially if your
-policy is to just nuke the real time thread instead of demoting it to
-SCHED_NORMAL for a time.
-
-I think if we want more than hacks here we need to answer two questions:
-- which parts of the kms api are real time
-- what exactly do we guarantee with that
-
-And that answer probably needs to include things like the real time thread
-workers for cursor and other nonblocking commits.
+This patch feels way too risky to me that we should apply it ...
 -Sima
+
+> 
+> > 
+> > Additionally I'm wondering why your patch doesn't show up in
+> > the fbdev patchwork, although you added linux-fbdev mailing list.
+> > Probably a vger issue.
+> > 
+> > Helge
+> > 
+> > 
+> > > Signed-off-by: Zhang Shurong <zhang_shurong@foxmail.com>
+> > > ---
+> > >   drivers/video/fbdev/arkfb.c | 4 ++--
+> > >   1 file changed, 2 insertions(+), 2 deletions(-)
+> > >
+> > > diff --git a/drivers/video/fbdev/arkfb.c b/drivers/video/fbdev/arkfb.c
+> > > index 60a96fdb5dd8..6c4e5065646f 100644
+> > > --- a/drivers/video/fbdev/arkfb.c
+> > > +++ b/drivers/video/fbdev/arkfb.c
+> > > @@ -1064,7 +1064,7 @@ static int ark_pci_probe(struct pci_dev *dev, const struct pci_device_id *id)
+> > >   err_dac:
+> > >   	pci_release_regions(dev);
+> > >   err_request_regions:
+> > > -/*	pci_disable_device(dev); */
+> > > +	pci_disable_device(dev);
+> > >   err_enable_device:
+> > >   	framebuffer_release(info);
+> > >   	return rc;
+> > > @@ -1085,7 +1085,7 @@ static void ark_pci_remove(struct pci_dev *dev)
+> > >
+> > >   		pci_iounmap(dev, info->screen_base);
+> > >   		pci_release_regions(dev);
+> > > -/*		pci_disable_device(dev); */
+> > > +		pci_disable_device(dev);
+> > >
+> > >   		framebuffer_release(info);
+> > >   	}
+> > 
+> > 
+> 
+> 
+> 
+> -- 
+> Ondrej Zary
+
 -- 
 Daniel Vetter
 Software Engineer, Intel Corporation
