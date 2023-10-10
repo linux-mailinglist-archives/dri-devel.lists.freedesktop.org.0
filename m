@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D434E7C43D7
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Oct 2023 00:26:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 333567C43D9
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Oct 2023 00:26:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3905010E3F3;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 68BAC10E3F4;
 	Tue, 10 Oct 2023 22:26:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
  [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C3D4410E3F0;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 836E310E3EE;
  Tue, 10 Oct 2023 22:26:05 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 39ALHTYr030463; Tue, 10 Oct 2023 22:26:01 GMT
+ 39ALTFvM021718; Tue, 10 Oct 2023 22:26:02 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : subject :
- date : message-id : mime-version : content-type :
- content-transfer-encoding : to : cc; s=qcppdkim1;
- bh=/RjSZVFNK9E06ffbGyJiSg+nkUelh8sulDb1cFG1V14=;
- b=N92p/1bj/XlarBSMxJLsRfDuQc/K7WLuFMKGq6wIe4h6OMSvWWZP1LuJP5i0c6dKDtFo
- esg3xu+5fdcDWs1fU/ZYPnK55RyR1e0t6kJxJTAgUQPQgJ2Q+tcB8GSTjHWZlrFDLuF5
- pFaquQD2nuZRAz1dt++NNbpZNcMgeDpY/zLvsXHf/g/+3Cyp8K3vVpKAS3t8PwTRy9HD
- asX9TuW/3E/h10FNaitdbJb7LvxwDY5okcMBd4Gq+cpNRBIOae5x4u3TAMMvB6m8pjbd
- B2e8MAQS62h/zradTKBmDEtnn897TAwg337kkKmW806/s6NDybdxE6cA8bqk3HnJhUQh Ww== 
-Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com
+ h=from : date :
+ subject : mime-version : content-type : content-transfer-encoding :
+ message-id : references : in-reply-to : to : cc; s=qcppdkim1;
+ bh=Aj9U9fI3f4a2Ip9hx+Ecv5NzDfwsXL7mLeWAMLh6lFM=;
+ b=NYiodHLfYLILXI8nip9PV6QHb4r7WIJq4uRw9rv/CWETEPKB2P6AV8NehtL8LdNfCBxG
+ 6CiKVTa98++KOV/6l7NpH47hkABPU//4OxHyRCuovrKoHW8GpPr4G+5CZNW14h5Rcf5T
+ 5dsVt1OFf7iKTeYUBbsCwh8KTdJcq2RgaZYUTGc9SNeX/PzrVFG6q0ekQs+m8mQtsjDr
+ 7B+0NT0ADsYpxrxYzg9O4h3HqHzdjPALE41D50aTLdG0Yp8mIMJRFulAWLSUtHVwG5df
+ PPZ/Y6ugUoipA2HFrZ1PYX1ACxy/9MPvqzW+Fg60vbMI31aVWncR3ejvafiV76MpNYSx bQ== 
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com
  [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3tmw3j29bd-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3tn3s19mm3-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Tue, 10 Oct 2023 22:26:01 +0000
 Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
  [10.46.141.250])
- by NASANPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 39AMQ0ep024670
+ by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 39AMQ0Dh000492
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Tue, 10 Oct 2023 22:26:00 GMT
 Received: from jesszhan-linux.qualcomm.com (10.80.80.8) by
@@ -41,23 +41,22 @@ Received: from jesszhan-linux.qualcomm.com (10.80.80.8) by
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
  15.2.1118.36; Tue, 10 Oct 2023 15:26:00 -0700
 From: Jessica Zhang <quic_jesszhan@quicinc.com>
-Subject: [PATCH 0/3] drm/ci: Add support for SM8250 Gitlab Runner
-Date: Tue, 10 Oct 2023 15:25:34 -0700
-Message-ID: <20231010-rb5-runner-v1-0-aba1fcc6e3aa@quicinc.com>
+Date: Tue, 10 Oct 2023 15:25:35 -0700
+Subject: [PATCH 1/3] drm/ci: Add SM8250 job to CI
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAF7PJWUC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDI2MDS0NL3aIkU92i0ry81CJdc/PUZGOjpBQzw1RzJaCGgqLUtMwKsGHRsbW
- 1APCzI79cAAAA
+Message-ID: <20231010-rb5-runner-v1-1-aba1fcc6e3aa@quicinc.com>
+References: <20231010-rb5-runner-v1-0-aba1fcc6e3aa@quicinc.com>
+In-Reply-To: <20231010-rb5-runner-v1-0-aba1fcc6e3aa@quicinc.com>
 To: Helen Koike <helen.koike@collabora.com>, David Airlie <airlied@gmail.com>, 
  Daniel Vetter <daniel@ffwll.ch>
 X-Mailer: b4 0.13-dev-0438c
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1696976760; l=1258;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1696976760; l=1974;
  i=quic_jesszhan@quicinc.com; s=20230329; h=from:subject:message-id;
- bh=7774+Yar/yF4QNmVtl4jiaQb4T4f9W0lL92diuZmKh8=;
- b=R/BWz8KXrPfJtJq095CJvGnQuc5TbPCYAF7hiht5u5RwOB4GMLCpDD5jv/Kyf6hhhq98huFd8
- pi6rp3wR5BNBcJ9rmeztCFtq6UolF2yOoGxzRy44jjU42FJifRQcivT
+ bh=+xGEx1U3mdrd85xIqftmS00zV1XP0XlMOhsUfd1Dsp0=;
+ b=p5KkHoRoIRqHn9LQt57ysjVuK2O6qHpj1yfJSzdhGk7pSGAEgbYh7yI5RBn2FVAWZcaRkiOaW
+ P5lnFXHl/EFCmx2b770FmnpefvipA81mJ6+OXHlB6R+ytgBT9xxtsPj
 X-Developer-Key: i=quic_jesszhan@quicinc.com; a=ed25519;
  pk=gAUCgHZ6wTJOzQa3U0GfeCDH7iZLlqIEPo4rrjfDpWE=
 X-Originating-IP: [10.80.80.8]
@@ -66,15 +65,15 @@ X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-GUID: riyVsbYpsz8ta3U7mvt8SgBJtxrCl1p_
-X-Proofpoint-ORIG-GUID: riyVsbYpsz8ta3U7mvt8SgBJtxrCl1p_
+X-Proofpoint-ORIG-GUID: a66gBpERF98WNaMPbxgi1AhuXBOdKtJw
+X-Proofpoint-GUID: a66gBpERF98WNaMPbxgi1AhuXBOdKtJw
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2023-10-10_18,2023-10-10_01,2023-05-22_02
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 clxscore=1011
- impostorscore=0 mlxlogscore=744 malwarescore=0 adultscore=0 mlxscore=0
- priorityscore=1501 lowpriorityscore=0 bulkscore=0 suspectscore=0
+ priorityscore=1501
+ malwarescore=0 suspectscore=0 bulkscore=0 spamscore=0 impostorscore=0
+ lowpriorityscore=0 clxscore=1015 mlxlogscore=918 mlxscore=0 adultscore=0
  phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2309180000 definitions=main-2310100171
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -95,36 +94,60 @@ Cc: robdclark@chromium.org, quic_abhinavk@quicinc.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Recently, we've registered a Gitlab runner for a Qualcomm RB5 device that will be
-hosted and maintained in Qualcomm labs.
+Add job for testing the Qualcomm RB5 board to CI. This will allow developers
+working on MSM chipsets to test their changes on the SM8250 chipset.
 
-This series will add a corresponding CI job for testing SM8250 devices and add the
-skip/fails/flakes list. We were able to complete a successful run [1] with these
-changes.
+This board shall be hosted and maintained by Qualcomm.
 
-For now, we will keep the job as manual trigger only and drop that rule later
-after we stabilize the tests.
+For now, keep the test a manual-run only. We will drop the tag after stabilizing
+the tests and addressing some outstanding failures.
 
-[1] https://gitlab.freedesktop.org/drm/msm/-/jobs/50092719
-
+Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
 ---
-Jessica Zhang (3):
-      drm/ci: Add SM8250 job to CI
-      drm/ci: enable CONFIG_INTERCONNECT_QCOM_SM8250 for arm64 config
-      drm/ci: Add skips, fails and flakes for SM8250
+ drivers/gpu/drm/ci/build.sh |  1 +
+ drivers/gpu/drm/ci/test.yml | 15 +++++++++++++++
+ 2 files changed, 16 insertions(+)
 
- drivers/gpu/drm/ci/arm64.config                 |  1 +
- drivers/gpu/drm/ci/build.sh                     |  1 +
- drivers/gpu/drm/ci/test.yml                     | 15 +++++++++++++
- drivers/gpu/drm/ci/xfails/msm-sm8250-fails.txt  | 29 +++++++++++++++++++++++++
- drivers/gpu/drm/ci/xfails/msm-sm8250-flakes.txt |  3 +++
- drivers/gpu/drm/ci/xfails/msm-sm8250-skips.txt  |  8 +++++++
- 6 files changed, 57 insertions(+)
----
-base-commit: dcd88f8c63341ed11a8c5019408f62202cd9d1f2
-change-id: 20230919-rb5-runner-77ec32bd61e7
+diff --git a/drivers/gpu/drm/ci/build.sh b/drivers/gpu/drm/ci/build.sh
+index 7b014287a041..63bfdcaa897e 100644
+--- a/drivers/gpu/drm/ci/build.sh
++++ b/drivers/gpu/drm/ci/build.sh
+@@ -26,6 +26,7 @@ if [[ "$KERNEL_ARCH" = "arm64" ]]; then
+     DEVICE_TREES+=" arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-juniper-sku16.dtb"
+     DEVICE_TREES+=" arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb"
+     DEVICE_TREES+=" arch/arm64/boot/dts/qcom/sc7180-trogdor-lazor-limozeen-nots-r5.dtb"
++    DEVICE_TREES+=" arch/arm64/boot/dts/qcom/qrb5165-rb5.dtb"
+ elif [[ "$KERNEL_ARCH" = "arm" ]]; then
+     GCC_ARCH="arm-linux-gnueabihf"
+     DEBIAN_ARCH="armhf"
+diff --git a/drivers/gpu/drm/ci/test.yml b/drivers/gpu/drm/ci/test.yml
+index 6473cddaa7a9..7ef0d261216e 100644
+--- a/drivers/gpu/drm/ci/test.yml
++++ b/drivers/gpu/drm/ci/test.yml
+@@ -138,6 +138,21 @@ msm:sdm845:
+   script:
+     - ./install/bare-metal/cros-servo.sh
+ 
++msm:sm8250:
++  extends:
++    - .baremetal-igt-arm64
++  stage: msm
++  variables:
++    DRIVER_NAME: msm
++    BM_DTB: https://${PIPELINE_ARTIFACTS_BASE}/arm64/qrb5165-rb5.dtb
++    GPU_VERSION: sm8250
++    RUNNER_TAG: qcom-freedreno-rb5
++    TEST_PHASE_TIMEOUT: 180
++  script:
++    - ./install/bare-metal/fastboot.sh
++  rules:
++    - when: manual
++
+ rockchip:rk3288:
+   extends:
+     - .lava-igt:arm32
 
-Best regards,
 -- 
-Jessica Zhang <quic_jesszhan@quicinc.com>
+2.42.0
 
