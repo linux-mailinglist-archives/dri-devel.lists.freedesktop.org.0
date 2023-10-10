@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D79A07C0423
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Oct 2023 21:11:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B560B7C0426
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Oct 2023 21:11:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA6A410E3D4;
-	Tue, 10 Oct 2023 19:11:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1240B10E3D9;
+	Tue, 10 Oct 2023 19:11:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
- [IPv6:2a00:1450:4864:20::332])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C28ED10E3D2
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Oct 2023 19:11:03 +0000 (UTC)
-Received: by mail-wm1-x332.google.com with SMTP id
- 5b1f17b1804b1-40662119cd0so14745e9.1
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Oct 2023 12:11:03 -0700 (PDT)
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
+ [IPv6:2a00:1450:4864:20::32f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E3E710E3D8
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Oct 2023 19:11:24 +0000 (UTC)
+Received: by mail-wm1-x32f.google.com with SMTP id
+ 5b1f17b1804b1-4063bfc6c03so16325e9.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Oct 2023 12:11:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1696965062; x=1697569862;
+ d=google.com; s=20230601; t=1696965083; x=1697569883;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=IpCceZmbnmWfyUfaN7Neh9lmGF2UPo2D6Q93y/7mO30=;
- b=wRMXVUVMCoT3U7yNbxdkTf3LV2O8OpCqA9lKSUhx3aSi1alAacGoJRp5lRk4q4hneA
- R1FOl6vlW8OXpwNfsE1hSkGmNrOLmeFhYybRbUD62WwJyFZFx+VAbZjSWRN2q99jsTG4
- Cd0XvtlNbkZXI7yC5GCR3U4hvl+ztnHWqEN8XHgKOJsP0ohKu1gCzYr7d+1mcl1u5uq0
- ZBIg555j8YCoGIBS6u+NwqTsaajK+JArt7OJ2jfbC4XMOjAgPMBqnQrVQEyVgAwBd04P
- P3ETdxfTh5nfQ870xy8kvoJnybdtmulO0xEyQK5QEP5poanyUJZa+p66JgQDyOasEn5Q
- m0fw==
+ bh=JZoGL2Uu638tVmdTCZX+Di3sr5kqYNA/LstDS+q6xb8=;
+ b=dpUm19aK29yRcF8YfBd/t0SapgsQmRP+ZcO4D8BUdYrSGiYxgacUmsMa4XM+K6H2zr
+ 3cvXJS2gOvNj5BYu9xZ1mglG4VxVN3oV+aOBoWn52XxZvkupLvw8GFyrNpQuKooDvS6E
+ 23muUW9TWs5e2JC7nul3lKM5qH0wMoM6cLzlKFITtWDW2f2C25W3QvXJUGSjUAZ5g2B0
+ FcicD3TpGSmWZusZtLxFGrmQ3WZoiRYbiEFIM8VCjpdMhID2dsew9xR4v3IUTHAQ2zW9
+ mNCSkDLDpqp/kl5AXNRhTy74d0QLJpLwSXJ/WodRJaaTo02uBdlzjqra5Iv8l8zFshTG
+ nGbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1696965062; x=1697569862;
+ d=1e100.net; s=20230601; t=1696965083; x=1697569883;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=IpCceZmbnmWfyUfaN7Neh9lmGF2UPo2D6Q93y/7mO30=;
- b=IEUyeNm4sS5xGLYcny3Nh2sMwNKPmDWyiu3YHD68DHf7Eq5dgRqjh4v5Qv65G9mf/v
- lLUJchDT8BhOeO3FtpigPCYF+q9Xc0P8johK8L9Ui6fvWiQVxzYt+iYmmQ2VpRA0Fqh4
- BiWWQ1OSlQJeKV7TE8iAkxJw7xfd34EZjqWPCNhoi3P5OLB7uVwU+8oiqcu82haiTJMz
- rIbmbMOI667Qq45D4pzzD4hi7o9/m1a68jIZKeg6POZ5huX8WdGxnEGce9xeRtOtIVTz
- 6VugIEH6oxkymK+Izs58RjSFJE6wsVInDQtGkoMuDikeQT9H6R+uvfEVLWw8p4zjMeAH
- FL2Q==
-X-Gm-Message-State: AOJu0YwicDlHd/B66NzjpCKnjU0aqm1IZVFwkY+bT14E3gxHGg6IBZPq
- 47vcIxAd0tijTO/uNil5/SnzteViRuXgG+x3mvq8+A==
-X-Google-Smtp-Source: AGHT+IGyHcc065zalL/uMb2Rg27kWBnlQyHv0EoUM7psUnegw6ZMk2u3/+9u8kfQGzLaQsojexxvzbM0/ypCwMkEx8M=
-X-Received: by 2002:a05:600c:1f8e:b0:400:fffe:edf6 with SMTP id
- je14-20020a05600c1f8e00b00400fffeedf6mr23995wmb.1.1696965061918; Tue, 10 Oct
- 2023 12:11:01 -0700 (PDT)
+ bh=JZoGL2Uu638tVmdTCZX+Di3sr5kqYNA/LstDS+q6xb8=;
+ b=Qb17yC6+IdSZpAgWAgAzr4rRsCJid0p2p+pkpT8wOzIbQ2PRw8yrLCAbbo6VqAqZKg
+ CDx7ucjH0ISU10isueBHxofn0DOqGtgfcUQ3X54jsQRUZcnomY35GcdhHPiUy9BSJlyr
+ WuPnpov2/+oIWmGYwpHiLikvWE0Stkkqiiadvp+U6k5i3suIA31XbKuZbJ8YTJpgfKNu
+ x0QBzsYrrCo8ElEa7hrgenlTTqAfJcoWXocnZAGFdgdhgoLn/CCFBgAcGBWdDvuliB12
+ aPf7nD95vil+emO+roxxRwGGk/HgnszVXkEQJwGK62lf3ki+7B60Fhek20if4vPXSdWj
+ g0Yw==
+X-Gm-Message-State: AOJu0Yw8usw9i3uEaJF2U7do2wb1CQPAFFKdQtX7peBjSFi2jFEmtm+J
+ nr9jgwITUUzAY6q9heiATLeTqvu6iNo0VcZiRlGLzw==
+X-Google-Smtp-Source: AGHT+IEekinj3pkVvXzCInSnjbCb1228aec9HG4yoCfY5EOtyEFUlTMrjRNS5gs3ENf9m3nv9ehAAvyirrVc4ZhO290=
+X-Received: by 2002:a05:600c:4fc2:b0:406:5779:181d with SMTP id
+ o2-20020a05600c4fc200b004065779181dmr25484wmq.2.1696965082564; Tue, 10 Oct
+ 2023 12:11:22 -0700 (PDT)
 MIME-Version: 1.0
 References: <20231010121402.3687948-1-yangcong5@huaqin.corp-partner.google.com>
- <20231010121402.3687948-2-yangcong5@huaqin.corp-partner.google.com>
-In-Reply-To: <20231010121402.3687948-2-yangcong5@huaqin.corp-partner.google.com>
+ <20231010121402.3687948-3-yangcong5@huaqin.corp-partner.google.com>
+In-Reply-To: <20231010121402.3687948-3-yangcong5@huaqin.corp-partner.google.com>
 From: Doug Anderson <dianders@google.com>
-Date: Tue, 10 Oct 2023 12:10:45 -0700
-Message-ID: <CAD=FV=VsjB-gsqXyAs+G8DpHJqHNTxeFXwbpgt20-Wgb757z1w@mail.gmail.com>
-Subject: Re: [v2 1/3] drm/panel: ili9882t: Break out as separate driver
+Date: Tue, 10 Oct 2023 12:11:04 -0700
+Message-ID: <CAD=FV=XXGBatMjFCeSuxCy0i1FK=ekU2yq7eXb1a9J3jSYAbhw@mail.gmail.com>
+Subject: Re: [v2 2/3] drm/panel: ili9882t: Avoid blurred screen from fast sleep
 To: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -82,72 +82,88 @@ Hi,
 On Tue, Oct 10, 2023 at 5:14=E2=80=AFAM Cong Yang
 <yangcong5@huaqin.corp-partner.google.com> wrote:
 >
+> At present, we have found that there may be a problem of blurred
+> screen during fast sleep/resume. The direct cause of the blurred
+> screen is that the IC does not receive 0x28/0x10. Because of the
+> particularity of the IC, before the panel enters sleep hid must
+> stop scanning, i2c_hid_core_suspend before ili9882t_disable.
+> This doesn't look very spec-compliant. So in order to solve this
+> problem, the IC can handle it through the exception mechanism when
+> it cannot receive 0X28/0X10 command. Handling exceptions requires a reset
+
+very nitty, but can you make the "X" lowercase? ...so 0x28 not 0X28.
+
+
+> 50ms delay. Refer to vendor detailed analysis [1].
+>
+> Ilitek vendor also suggested switching the page before entering sleep to
+> avoid panel IC not receiving 0x28/0x10 command.
+>
+> Note: 0x28 is display off, 0x10 is sleep in.
+>
+> [1]: https://github.com/ILITEK-LoganLin/Document/tree/main/ILITEK_Power_S=
+equence
+>
+> Signed-off-by: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
+> ---
+>  drivers/gpu/drm/panel/panel-ilitek-ili9882t.c | 22 ++++++++++++++++++-
+>  1 file changed, 21 insertions(+), 1 deletion(-)
+>
 > diff --git a/drivers/gpu/drm/panel/panel-ilitek-ili9882t.c b/drivers/gpu/=
 drm/panel/panel-ilitek-ili9882t.c
-> new file mode 100644
-> index 000000000000..e095ad91c4bc
-> --- /dev/null
+> index e095ad91c4bc..20ae370ebe2f 100644
+> --- a/drivers/gpu/drm/panel/panel-ilitek-ili9882t.c
 > +++ b/drivers/gpu/drm/panel/panel-ilitek-ili9882t.c
-> @@ -0,0 +1,762 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Panels based on the Ilitek ILI9882T display controller.
-> + */
-> +#include <linux/delay.h>
-> +#include <linux/gpio/consumer.h>
-> +#include <linux/module.h>
-> +#include <linux/of.h>
-> +#include <linux/of_device.h>
-
-nit: remove include of linux/of_device.h since you don't use any of
-the functions declared there.
-
-
-> +#include <linux/regulator/consumer.h>
-> +
-> +#include <drm/drm_connector.h>
-> +#include <drm/drm_crtc.h>
-> +#include <drm/drm_mipi_dsi.h>
-> +#include <drm/drm_panel.h>
-> +
-> +#include <video/mipi_display.h>
-> +
-> +/*
-> + * Use this descriptor struct to describe different panels using the
-> + * Ilitek ILI9882T display controller.
-> + */
-> +struct panel_desc {
-> +       const struct drm_display_mode *modes;
-> +       unsigned int bpc;
-> +
-> +       /**
-> +        * @width_mm: width of the panel's active display area
-> +        * @height_mm: height of the panel's active display area
-> +        */
-> +       struct {
-> +               unsigned int width_mm;
-> +               unsigned int height_mm;
-> +       } size;
-> +
-> +       unsigned long mode_flags;
-> +       enum mipi_dsi_pixel_format format;
-> +       const struct panel_init_cmd *init_cmds;
-> +       unsigned int init_cmd_length;
-
-Remove "init_cmd_length" since it's now unused.
-
-
-> +static void ili9882t_remove(struct mipi_dsi_device *dsi)
+> @@ -465,6 +465,24 @@ static int ili9882t_init_dcs_cmd(struct ili9882t *il=
+i)
+>         return 0;
+>  }
+>
+> +static int ili9882t_switch_page(struct mipi_dsi_device *dsi, u8 page)
 > +{
-> +       struct ili9882t *ili =3D mipi_dsi_get_drvdata(dsi);
 > +       int ret;
+> +       const struct panel_init_cmd cmd =3D _INIT_SWITCH_PAGE_CMD(page);
 > +
+> +       ret =3D mipi_dsi_dcs_write(dsi, cmd.data[0],
+> +                                cmd.len <=3D 1 ? NULL :
+> +                                &cmd.data[1],
+> +                                cmd.len - 1);
+> +       if (ret) {
+> +               dev_err(&dsi->dev,
+> +                       "error switching panel controller page (%d)\n", r=
+et);
+> +               return ret;
+> +       }
 > +
-> +       ret =3D mipi_dsi_detach(dsi);
+> +       return 0;
+> +}
+> +
+>  static int ili9882t_enter_sleep_mode(struct ili9882t *ili)
+>  {
+>         struct mipi_dsi_device *dsi =3D ili->dsi;
+> @@ -486,8 +504,10 @@ static int ili9882t_enter_sleep_mode(struct ili9882t=
+ *ili)
+>  static int ili9882t_disable(struct drm_panel *panel)
+>  {
+>         struct ili9882t *ili =3D to_ili9882t(panel);
+> +       struct mipi_dsi_device *dsi =3D ili->dsi;
+>         int ret;
+>
+> +       ili9882t_switch_page(dsi, 0x00);
+>         ret =3D ili9882t_enter_sleep_mode(ili);
+>         if (ret < 0) {
+>                 dev_err(panel->dev, "failed to set panel off: %d\n", ret)=
+;
+> @@ -548,7 +568,7 @@ static int ili9882t_prepare(struct drm_panel *panel)
+>         gpiod_set_value(ili->enable_gpio, 1);
+>         usleep_range(1000, 2000);
+>         gpiod_set_value(ili->enable_gpio, 0);
+> -       usleep_range(1000, 2000);
+> +       usleep_range(40000, 50000);
 
-nit: remove extra blank line above.
-
-
-Other than nits, this looks good to me now.
-
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+In response to v1 you said that you actually needed 50 ms here. Oh, I
+guess that's also in the patch description. The above allows the
+kernel to delay 40 ms. We need to change it to something that will
+force the kernel to do 50 ms. That could be: "usleep_range(50000,
+51000)", but actually when we're this order of magnitude it should be
+just "msleep(50)".
