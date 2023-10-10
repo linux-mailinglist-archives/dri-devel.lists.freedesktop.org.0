@@ -2,41 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 062757BF32A
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Oct 2023 08:34:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04A677BF337
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Oct 2023 08:40:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F76810E19C;
-	Tue, 10 Oct 2023 06:34:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7735C10E31A;
+	Tue, 10 Oct 2023 06:40:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0643910E19C
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Oct 2023 06:34:17 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 2BC2A61517;
- Tue, 10 Oct 2023 06:34:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A2F8C433C8;
- Tue, 10 Oct 2023 06:34:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1696919656;
- bh=dQkrwgbVocyStNG+wztd+ijksIIgK9fPEm9nKavB/1c=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=cPs+1DpzEHlU66F/axWpFTLecuCC/Fi5sZlVCJpVmIHvmfYXq64FESX6r7xbqo7yC
- JY+68qFve2kFyyd+5cHEiG/ByNxM2cTYp95VDitXWHTDB7T7P+nGEWODCIggjU74YD
- w/kxlDmVn88KsJtkcZlpGy5yQfl7JFdivd7njL68=
-Date: Tue, 10 Oct 2023 08:34:13 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Oded Gabbay <ogabbay@kernel.org>
-Subject: Re: [PATCH] accel/habanalabs: make hl_class constant
-Message-ID: <2023101053-clambake-mollusk-2953@gregkh>
-References: <2023100654-pointless-stem-5ee1@gregkh>
- <CAFCwf10o8J2JYue9Spc0qmSnH671ySuDeUggJ3J6mhXVTc7kTA@mail.gmail.com>
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 21A0F10E317;
+ Tue, 10 Oct 2023 06:40:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1696920027; x=1728456027;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=qyS78X6kgyN72gNbojsrXZvOfLJcf47vxLUxZFdsRK0=;
+ b=NlZm0Ww+w7zGkGyicDohqKOAA9v8ydx2N1kTmoqKw4utdyPOKOcKS3bY
+ 07yWEHWTo0ZSobryBUA0cx0GyIm86PJm+8TOeMA69VVtbI/cMnwgRBF9/
+ TEFCF+frjXRRy/SS37MAaiK22G8R8iuQYSwB8MnDANohXnRA+zuY5W7zE
+ kGkpdOm+liNqx4WfCmDLziZQ9osQYAWIUVKYSrvlZGVWljVVGeyMUiJgs
+ WKCzKDM+FId52YkxPawh7c5wzmE02Y0xd2rw1LZlSqv+SxV+aE1KYHwCU
+ //XITgWYsKTj9NAzvXQcacBve7f+ZnmF01nkMZyos4pVt15Zlvjhek3vi A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="369390602"
+X-IronPort-AV: E=Sophos;i="6.03,211,1694761200"; d="scan'208";a="369390602"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Oct 2023 23:40:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="746962821"
+X-IronPort-AV: E=Sophos;i="6.03,211,1694761200"; d="scan'208";a="746962821"
+Received: from agargas-mobl.ger.corp.intel.com (HELO [10.249.254.164])
+ ([10.249.254.164])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Oct 2023 23:40:21 -0700
+Message-ID: <c6ce663d-dd69-46a2-7b55-359169b6c03c@linux.intel.com>
+Date: Tue, 10 Oct 2023 08:40:17 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAFCwf10o8J2JYue9Spc0qmSnH671ySuDeUggJ3J6mhXVTc7kTA@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH drm-misc-next v6 4/6] drm/gpuvm: track/lock/validate
+ external/evicted objects
+Content-Language: en-US
+To: Danilo Krummrich <dakr@redhat.com>, airlied@gmail.com, daniel@ffwll.ch,
+ matthew.brost@intel.com, sarah.walker@imgtec.com, donald.robson@imgtec.com,
+ boris.brezillon@collabora.com, christian.koenig@amd.com, faith@gfxstrand.net
+References: <20231008233212.13815-1-dakr@redhat.com>
+ <20231008233212.13815-5-dakr@redhat.com>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
+In-Reply-To: <20231008233212.13815-5-dakr@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,34 +65,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ohad Sharabi <osharabi@habana.ai>, Dani Liberman <dliberman@habana.ai>,
- Koby Elbaz <kelbaz@habana.ai>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Dafna Hirschfeld <dhirschfeld@habana.ai>,
- Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
- Tomer Tayar <ttayar@habana.ai>, Tal Cohen <talcohen@habana.ai>,
- Ofir Bitton <obitton@habana.ai>
+Cc: nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 10, 2023 at 09:07:53AM +0300, Oded Gabbay wrote:
-> On Fri, Oct 6, 2023 at 4:57 PM Greg Kroah-Hartman
-> <gregkh@linuxfoundation.org> wrote:
-> >
-> > Now that the driver core allows for struct class to be in read-only
-> > memory, we should make all 'class' structures declared at build time
-> > placing them into read-only memory, instead of having to be dynamically
-> > allocated at runtime.
-> >
-> > This requires some passing of const struct class * around in the common
-> > habanalabs code as well as converting the structure itself.
-> 
-> Hi Greg,
-> Thanks for the patch but if you look at our tip of habanalabs-next
-> branch (to be merged in 6.7), you will see the hl_class related code
-> no longer exists, as we moved completely to the new accel char device
-> class.
-> So, I'm dropping this patch.
 
-Ah, no code is better, thanks!
+On 10/9/23 01:32, Danilo Krummrich wrote:
+> Currently the DRM GPUVM offers common infrastructure to track GPU VA
+> allocations and mappings, generically connect GPU VA mappings to their
+> backing buffers and perform more complex mapping operations on the GPU VA
+> space.
+>
+> However, there are more design patterns commonly used by drivers, which
+> can potentially be generalized in order to make the DRM GPUVM represent
+> a basis for GPU-VM implementations. In this context, this patch aims
+> at generalizing the following elements.
+>
+> 1) Provide a common dma-resv for GEM objects not being used outside of
+>     this GPU-VM.
+>
+> 2) Provide tracking of external GEM objects (GEM objects which are
+>     shared with other GPU-VMs).
+>
+> 3) Provide functions to efficiently lock all GEM objects dma-resv the
+>     GPU-VM contains mappings of.
+>
+> 4) Provide tracking of evicted GEM objects the GPU-VM contains mappings
+>     of, such that validation of evicted GEM objects is accelerated.
+>
+> 5) Provide some convinience functions for common patterns.
+>
+> Big thanks to Boris Brezillon for his help to figure out locking for
+> drivers updating the GPU VA space within the fence signalling path.
+>
+> Suggested-by: Matthew Brost <matthew.brost@intel.com>
+> Signed-off-by: Danilo Krummrich <dakr@redhat.com>
+>
+> +/**
+> + * drm_gpuvm_resv_add_fence - add fence to private and all extobj
+> + * dma-resv
+> + * @gpuvm: the &drm_gpuvm to add a fence to
+> + * @exec: the &drm_exec locking context
+> + * @fence: fence to add
+> + * @private_usage: private dma-resv usage
+> + * @extobj_usage: extobj dma-resv usage
+> + */
+> +void
+> +drm_gpuvm_resv_add_fence(struct drm_gpuvm *gpuvm,
+> +			 struct drm_exec *exec,
+> +			 struct dma_fence *fence,
+> +			 enum dma_resv_usage private_usage,
+> +			 enum dma_resv_usage extobj_usage)
+> +{
+> +	struct drm_gem_object *obj;
+> +	unsigned long index;
+> +
+> +	drm_exec_for_each_locked_object(exec, index, obj) {
+> +		dma_resv_assert_held(obj->resv);
+> +		dma_resv_add_fence(obj->resv, fence,
+> +				   drm_gpuvm_is_extobj(gpuvm, obj) ?
+> +				   private_usage : extobj_usage);
 
-greg k-h
+It looks like private_usage and extobj_usage are mixed up above?
+
+
+> +	}
+> +}
+> +EXPORT_SYMBOL_GPL(drm_gpuvm_resv_add_fence);
+> +
+
+Thanks,
+
+Thomas
+
+
