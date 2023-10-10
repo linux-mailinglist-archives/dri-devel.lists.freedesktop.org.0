@@ -1,69 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 515147BF626
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Oct 2023 10:38:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 33CE57BF629
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Oct 2023 10:38:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5CBD210E1BB;
-	Tue, 10 Oct 2023 08:37:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4BCC810E329;
+	Tue, 10 Oct 2023 08:38:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
- [IPv6:2a00:1450:4864:20::432])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E42B10E159
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Oct 2023 08:37:55 +0000 (UTC)
-Received: by mail-wr1-x432.google.com with SMTP id
- ffacd0b85a97d-317c3ac7339so4930009f8f.0
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Oct 2023 01:37:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1696927073; x=1697531873; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=bM0cR+jHfOI2qILAaNh+9FecRjTICMAQmR3rcDSCM5s=;
- b=NdAVRWz/zmJTyZrfS4dAsZn+emFTX2RcpsetTC36ExyVcW8yzArxPmUiqxhMBA6HC1
- FJOEffxJWI627hBqRXtnERUaMFivEt8n5QuyRt2dTN3m1rKC/BwEmf6L2f1gdt0SIFh5
- NPlmt1VTulrqIUXjMWGStBGKNBNpXOZ52A5l/fjroLWkM6VGfRUC1x+VYh20iA+IMIrz
- HzsJ2dG3dpADDWjSbsh9v60beeYuMxMz7vHH34g/OmXtjdYwLkRfLDgUxKVwKFPtzcmW
- RILqzQ1utrNtzs9Q2EbTNAKPjqcgv1xseTqSDxFdp6SagQluXeVnB/OerD64D3Maay50
- d5pQ==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A599F10E329
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Oct 2023 08:38:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1696927134;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=n//jsDJfypoE/LOiLD/tH7GoyXaKfj2A1kjaWCaSoa4=;
+ b=CfaefVF4zsFKBAcFjtJsn0Izn7c/tqh7m7YdAbCPs7fUwoIYhUHd6t9wHw3U2qEVZBKcK0
+ 3JaZFBO3NWmOw1jIIzmJApfj4BBIfzEJBgvwdvNrnh7+aCDrxSl99qjqLCLJA+exZppu8e
+ Inm8932vU88+m1H0CfXeHiq1t/Wy7TQ=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-657-gKwkVboIOm-4tKwngQqPtg-1; Tue, 10 Oct 2023 04:38:53 -0400
+X-MC-Unique: gKwkVboIOm-4tKwngQqPtg-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ 5b1f17b1804b1-405917470e8so40842135e9.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Oct 2023 01:38:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1696927073; x=1697531873;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=bM0cR+jHfOI2qILAaNh+9FecRjTICMAQmR3rcDSCM5s=;
- b=sbn+oN0hNWZs+DpQOl4KyzO04/JUnjs/Kj3p/mGEM9iPNCi34BpDNGRWlm0LbnitNi
- duuz7PU0rCGVf3bZV1GExVomEDC/hbY0nwGXlglqOlgj5QLFqcOFGyUxmbQ9Wy3yEXZE
- 7FkJHLjCNHXJMs5plKifyEvNtzxS2yolSzT/DQQdfNb36cVuu2ZDYrqONXI5sPUagOdX
- a3AeInmfoz7Teu7TDJ3hvWXjHKgrLAD49+kCz6JgyDGTKdL9rNo0K4jR8LcexybknlHE
- lXVnoIFYZxBzHDYm4QYB8dkAX4r/HUjF+MkAjXJ0TVgnangjaKL5m6yLXrTPdviJoD51
- 0rNA==
-X-Gm-Message-State: AOJu0YwYtMAqxDAtsXihCBALUopL04NwM+pkaM894ya5pUGmddqRzeNO
- 64hkS/lVQStP6XC6LW7wx6vp5g==
-X-Google-Smtp-Source: AGHT+IG9IppgKYYkVDqtUqADzSZdWZdWAucN7caZjsxQ4qL8cKRUnJM4yujPA6kDuAL7oB8yi8j+dQ==
-X-Received: by 2002:adf:d1cf:0:b0:32c:d0e0:3e71 with SMTP id
- b15-20020adfd1cf000000b0032cd0e03e71mr1289947wrd.38.1696927073358; 
- Tue, 10 Oct 2023 01:37:53 -0700 (PDT)
-Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
- by smtp.gmail.com with ESMTPSA id
- s4-20020a5d6a84000000b00327bf4f2f14sm11983147wru.88.2023.10.10.01.37.52
+ d=1e100.net; s=20230601; t=1696927132; x=1697531932;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=n//jsDJfypoE/LOiLD/tH7GoyXaKfj2A1kjaWCaSoa4=;
+ b=DzPoVaOuyU0Tmv5J3p7qEiGIOe9EYcdNL6LT1LkhB70SMoVKSogbW5kaHYaBSLcOx5
+ K4xbs+FyFeed5xhpF5EiYcvAVUQLM7vdvQbHbLSiwwHrvlF1ss7Z8UgzrR4XUDFGie/o
+ hI/K8WI8Go2or0TyN+/zfaGbDcYjfORi4WFAN795QKR2sGWbsNrGemsM83kD2y7klcsR
+ JWwJcAiY3FOZfBZF2f0W1Xf0CDe07aWm5h3ksPiPZeSNJF6g7HsdR4UNzJ8EweCDEHkA
+ D0BP3Ci3xD1L2yNlL4+kaOeOjc5rscRTbj4FtiCHsZAGXlhjQ/A+ojXvGvc7ihvQ9mRU
+ /Yqg==
+X-Gm-Message-State: AOJu0YyzLUAm89uiVoRGNPuPAVXtWOag3UP/vGUQe3tWHFUvukQ029+T
+ nZ4R64EX3ssS9+QxpPGOs3RiJeeGo4rt7RDpwoQPVOjhyrxqO7XIHgzcHcFznnEUW9CAxNE2PlT
+ KUJfvcHR1R6RABF5aJeAXqrsGq6m2ZCOkwW+h
+X-Received: by 2002:a05:600c:220b:b0:406:7029:c4f2 with SMTP id
+ z11-20020a05600c220b00b004067029c4f2mr15142592wml.26.1696927132138; 
+ Tue, 10 Oct 2023 01:38:52 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFxPcuYqMPw8109qxsMV7LN4jYO5X+gVGkVFnZppMIRXqHgr44a7fh+Ud+Q6ZZnEL2EottGHQ==
+X-Received: by 2002:a05:600c:220b:b0:406:7029:c4f2 with SMTP id
+ z11-20020a05600c220b00b004067029c4f2mr15142575wml.26.1696927131818; 
+ Tue, 10 Oct 2023 01:38:51 -0700 (PDT)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ p15-20020a7bcc8f000000b003fee6e170f9sm13447886wma.45.2023.10.10.01.38.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Oct 2023 01:37:53 -0700 (PDT)
-From: Neil Armstrong <neil.armstrong@linaro.org>
-To: linus.walleij@linaro.org, sam@ravnborg.org, airlied@gmail.com, 
- daniel@ffwll.ch, Ma Ke <make_ruc2021@163.com>
-In-Reply-To: <20231009090446.4043798-1-make_ruc2021@163.com>
-References: <20231009090446.4043798-1-make_ruc2021@163.com>
-Subject: Re: [PATCH v2] drm/panel/panel-tpo-tpg110: fix a possible null
- pointer dereference
-Message-Id: <169692707268.2632460.16120897194118078768.b4-ty@linaro.org>
-Date: Tue, 10 Oct 2023 10:37:52 +0200
+ Tue, 10 Oct 2023 01:38:51 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Maxime Ripard <mripard@kernel.org>
+Subject: Re: [PATCH 1/8] drm/solomon: Rename ssd130x driver to ssd13xx
+In-Reply-To: <now7afxcqtkizrxy45t5lmit4kpwkoxkogbhgnflje2frspnas@dh65qao7fhfm>
+References: <20231009183522.543918-1-javierm@redhat.com>
+ <20231009183522.543918-2-javierm@redhat.com>
+ <now7afxcqtkizrxy45t5lmit4kpwkoxkogbhgnflje2frspnas@dh65qao7fhfm>
+Date: Tue, 10 Oct 2023 10:38:50 +0200
+Message-ID: <87cyxm50th.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.12.3
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,24 +81,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Geert Uytterhoeven <geert@linux-m68k.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Maxime Ripard <mripard@kernel.org> writes:
 
-On Mon, 09 Oct 2023 17:04:46 +0800, Ma Ke wrote:
-> In tpg110_get_modes(), the return value of drm_mode_duplicate() is
-> assigned to mode, which will lead to a NULL pointer dereference on
-> failure of drm_mode_duplicate(). Add a check to avoid npd.
-> 
-> 
+Hello Maxime,
 
-Thanks, Applied to https://anongit.freedesktop.org/git/drm/drm-misc.git (drm-misc-next)
+Thanks for the feedback.
 
-[1/1] drm/panel/panel-tpo-tpg110: fix a possible null pointer dereference
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=f22def5970c423ea7f87d5247bd0ef91416b0658
+> Hi,
+>
+> On Mon, Oct 09, 2023 at 08:34:15PM +0200, Javier Martinez Canillas wrote:
+>> The driver only supports the SSD130x family of Solomon OLED controllers
+>> now, but will be extended to also support the SSD132x (4-bit grayscale)
+>> and SSD133x (16-bit RGB) controller families. Rename driver to ssd13xx.
+>> 
+>> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+>
+> I'm not sure it's worth it. I understand what you want to achieve, but
+> this will create conflicts, affect the configuration of everyone
+> enabling that driver, etc.
+>
+> And we have plenty of drivers that don't match all the devices they
+> support anyway.
+>
+
+Yeah, I was on the fence and even discussed this with others. I'm OK with
+dropping this patch if the agreegment is that isn't worth it to make the
+name more accurate.
+
+> Plus ....
+>
+>> @@ -11,10 +11,10 @@
+>>  #include <linux/i2c.h>
+>>  #include <linux/module.h>
+>>  
+>> -#include "ssd130x.h"
+>> +#include "ssd13xx.h"
+>>  
+>> -#define DRIVER_NAME	"ssd130x-i2c"
+>> -#define DRIVER_DESC	"DRM driver for Solomon SSD130x OLED displays (I2C)"
+>> +#define DRIVER_NAME	"ssd13xx-i2c"
+>> +#define DRIVER_DESC	"DRM driver for Solomon SSD13xx OLED displays (I2C)"
+>>  
+>>  static const struct regmap_config ssd130x_i2c_regmap_config = {
+>>  	.reg_bits = 8,
+>
+> ... We now end up with a lot of inconsistencies where some things are
+> called ssd130x and others ssd13xx.
+>
+
+Yes, but I fix that in patch #2.
+
+> Maxime
 
 -- 
-Neil
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
