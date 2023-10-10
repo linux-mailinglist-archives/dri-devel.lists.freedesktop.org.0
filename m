@@ -1,59 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E4AA7BF9BE
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Oct 2023 13:30:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 349637BF9DB
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Oct 2023 13:36:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A9DFB10E1E3;
-	Tue, 10 Oct 2023 11:29:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 19E5810E1D9;
+	Tue, 10 Oct 2023 11:36:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.domeneshop.no (smtp.domeneshop.no
- [IPv6:2a01:5b40:0:3006::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9858410E1D9
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Oct 2023 11:29:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
- ; s=ds202212;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=tuuPq9Y/8iwzIQigDfOAX0UcpzMj/9pMotrsb1Kxroc=; b=n7UedGFecxHbj7rIbLfGTX6bHw
- 0ZpU7/EvTokgaDNxZR44J64Cs+4mXaTABJanIFKWyuqKo0uFwLaHrhOBiYhtWg3v9ye5mK3KOPeXm
- UqBYhQTBGUR7STsZXtoMHcexHBigVfI2ok7JsJ6OUXJn2s/sygEr361ku2Er/0Vy/IRsBjkMlofJr
- FaS1MoSPoDU5/tcODi7NaPsYmp8pjcbPgJo5Q2Ra3XXgphvNPzt6DvnhTkPbHRkX9Ny7Jf0TYszup
- IS2oXxeTXV1mi33/Ou2yXQsWfY80T82eld7c7TKwND4LiNh5zstlhKNW/QJbJODlLsLrHI+ZoNmKE
- ++X9SVcg==;
-Received: from [2a01:799:95f:2800:2fb5:c6db:11b1:a10f] (port=41420)
- by smtp.domeneshop.no with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.95)
- (envelope-from <noralf@tronnes.org>) id 1qqAvy-005CaL-Hw;
- Tue, 10 Oct 2023 13:29:54 +0200
-Message-ID: <0a6c2a07-bf44-409a-8a09-827410f011a6@tronnes.org>
-Date: Tue, 10 Oct 2023 13:29:52 +0200
+Received: from mail-oi1-x22d.google.com (mail-oi1-x22d.google.com
+ [IPv6:2607:f8b0:4864:20::22d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1903A10E1D9
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Oct 2023 11:36:17 +0000 (UTC)
+Received: by mail-oi1-x22d.google.com with SMTP id
+ 5614622812f47-3b0dcbf3672so648455b6e.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Oct 2023 04:36:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1696937776; x=1697542576;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=vqt1li5npzbMPmUrjQpxaenaIH2mnyz+ZsNA//4Hc1E=;
+ b=y/hgz1f7FOMx5B0pTH+UDblbYbiKaTfsR6ijU4uD5l8dZGdp7hb51UnK1zxAQhYCyr
+ 73q0FaW6GJ0dNgtkDPncetsGndGXFKM8Zf9wvEPVxVI2tngutbfb1DZsriScKwDtuR+0
+ eHf/3XXzYyf8IJJDAJ25W4VcxbC8PleirkKD0UAPHgw4n83VijtYhfiOFeAzDOy6JCjw
+ rSZQXNDxwndJGQv5ZNVx0KDdIQOAV6O9XPfP9utJZ/+IP5/Qt3Adc3XtL/PGy+GWtX9X
+ hbAoLUcNFtG7FiCMhw4CjOhxwr7GJtylqGimfXIg8Jt+wUgQJYTLdtxZiaRF+2GPTcGH
+ 6auA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1696937776; x=1697542576;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=vqt1li5npzbMPmUrjQpxaenaIH2mnyz+ZsNA//4Hc1E=;
+ b=rpa58I6Iuyjtg6+NsNvUCTTD0X+WIoVN/BErzKJG8h2Aa/nPvWb21L0uu+1FjgHCYj
+ MzJclS3MaOjy+vLTSeNbKylh5dxzWVgGOSWY1gmY7gylvP2k+X658EAz67sx0PaQWud/
+ Vp2ggzf9hqVLgLFciuNRL8TCg5iDdIFhs+0RUpaMjr72Wmb4y2JEUjk5fXuosck0U09a
+ Yo+D73CFnNq6pFHI8loDgc7jyPk9ex/nkoOnpF4aM0Sg0C3lCWOY2xq01652+4qoyQ9j
+ EmvxMhqXexpgAsDsySGOxKp08EKPm4X4qcMTo0wk8USlDmN4ITfGKK3wcGgHD4s8PRSI
+ V7/g==
+X-Gm-Message-State: AOJu0YzC/DKlTOxGp0b0RAKz069dWmmPYVDTfH3PdO0LRW1kiD1gG2Qw
+ KeQVAqWU8AMoIZZh2XFZdTKLGyqTnBazcSlaIIDgjQ==
+X-Google-Smtp-Source: AGHT+IF6PQHUp+2decfVNVGCfI2Ki3R4/iuCCfsMaLJgDhaNhJCQObl0/R9wqaoh8xJssd8PKVUcrtCY59CI6aFxsAg=
+X-Received: by 2002:a05:6358:88f:b0:143:61d:ffd3 with SMTP id
+ m15-20020a056358088f00b00143061dffd3mr20923846rwj.4.1696937776108; Tue, 10
+ Oct 2023 04:36:16 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/4] drm/panic: Add a drm panic handler
-Content-Language: en-US
-To: Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Daniel Vetter <daniel@ffwll.ch>
-References: <20231003142508.190246-3-jfalempe@redhat.com>
- <lbwngkco3zam7yjo3owwpn47o3pe6g7oh5giglsclenx52jk5q@lw2fwsxz6kqp>
- <3a359910-31ae-355f-2608-239e04689fde@redhat.com>
- <6iaqx7ef4hdd6bucsxtfy37nsizloraxbudez4ms7jlusbghr3@i5hliqpimdp2>
- <bd880231-f161-0773-63f7-ded6cb3fddc1@tronnes.org>
- <b4aadfb4-9393-d6b6-e876-a420afcf2b36@redhat.com>
- <wupxw7bs6yu4gtsbmuvdxhwpd4vkxvvl4aa6w7fumqekzvl7v7@akv2tifgsihl>
- <b764a8a7-db48-fd3b-6241-f3a07009e7dd@redhat.com>
- <xutxpbk476iogtgfbcxbebnud7t3oq6dlbhpniimna2uz2p2nb@hbrrwn4y3x6s>
- <cd54b5ab-5ac8-4569-991c-bf6e062e6400@suse.de>
- <63wdz6ns6wsu3avztqebmeo4aa4ltwmmmywlam3xe6fmftcf3p@5icc2cvy6xvh>
-From: =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>
-In-Reply-To: <63wdz6ns6wsu3avztqebmeo4aa4ltwmmmywlam3xe6fmftcf3p@5icc2cvy6xvh>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20231007060639.725350-1-yangcong5@huaqin.corp-partner.google.com>
+ <20231007060639.725350-3-yangcong5@huaqin.corp-partner.google.com>
+ <CAD=FV=W3ef3vWrWRDPKgeUjcapEticj4=EWdC-bOb=ph0DShsA@mail.gmail.com>
+In-Reply-To: <CAD=FV=W3ef3vWrWRDPKgeUjcapEticj4=EWdC-bOb=ph0DShsA@mail.gmail.com>
+From: cong yang <yangcong5@huaqin.corp-partner.google.com>
+Date: Tue, 10 Oct 2023 19:36:04 +0800
+Message-ID: <CAHwB_N+=h8-5H6SM8REAge19SgLvrZD=drAP83QnSuuqB5gN8A@mail.gmail.com>
+Subject: Re: [v1 2/2] drm/panel: ili9882t: Avoid blurred screen from fast sleep
+To: Doug Anderson <dianders@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,84 +71,134 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jocelyn Falempe <jfalempe@redhat.com>, bluescreen_avenger@verizon.net,
- javierm@redhat.com, dri-devel@lists.freedesktop.org, gpiccoli@igalia.com,
- airlied@redhat.com
+Cc: neil.armstrong@linaro.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ swboyd@chromium.org, hsinyi@google.com, sam@ravnborg.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
+On Tue, Oct 10, 2023 at 4:44=E2=80=AFAM Doug Anderson <dianders@google.com>=
+ wrote:
+>
+> Hi,
+>
+> On Fri, Oct 6, 2023 at 11:07=E2=80=AFPM Cong Yang
+> <yangcong5@huaqin.corp-partner.google.com> wrote:
+> >
+> > At present, we have found that there may be a problem of blurred
+> > screen during fast sleep/resume. The direct cause of the blurred
+> > screen is that the IC does not receive 0x28/0x10. Because of the
+> > particularity of the IC, before the panel enters sleep hid must
+> > stop scanning, i2c_hid_core_suspend before ili9882t_disable.
+> > This doesn't look very spec-compliant.
+>
+> Presumably you could be more spec compliant if we used
+> "panel_follower" in this case? Would that be a better solution?
 
-On 10/10/23 11:25, Maxime Ripard wrote:
-> 
-> 
-> On Tue, Oct 10, 2023 at 10:55:09AM +0200, Thomas Zimmermann wrote:
->>>> So if I understand correctly, drm_panic would pre-allocate a plane/commit,
->>>> and use that when a panic occurs ?
->>>
->>> And have it checked already, yes. We would only wait for a panic to
->>> happen to pull the trigger on the commit.
->>>
->>>> I have two concern about this approach:
->>>> - How much memory would be allocated for this ? a whole framebuffer can be
->>>> big for just this use case.
->>
->> As I outlined in my email at [1], there are a number of different scenarios.
->> The question of atomic state and commits is entirely separate from the DRM
->> panic handler. We should not throw them together. Whatever is necessary is
->> get a scanout buffer, should happen on the driver side of
->> get_scanout_buffer, not on the drm_panic side.
->>
->> [1] https://lore.kernel.org/dri-devel/39bd4c35-8a61-42ee-8675-ccea4f5d4ac6@suse.de/T/#m22f116e9438e00a5f0a9dc43987d4153424f8be1
->>
->>>
->>> I'dd expect a whole framebuffer for the current
->>> configuration/resolution. It would be typically 4MB for a full-HD system
->>> which isn't a lot really and I guess we can always add an option to
->>> disable the mechanism if needed.
->>>
->>>> - I find it risky to completely reconfigure the hardware in a panic handler.
->>>
->>> I would expect to only change the format and base address of the
->>> framebuffer. I guess it can fail, but it doesn't seem that different to
->>> the async plane update we already have and works well.
->>
->> The one thing I don't understand is: Why should we use atomic commits in the
->> first place? It doesn't make sense for firmware-based drivers.
-> 
-> Because this is generic infrastructure that is valuable for any drivers
-> and not only firmware-based drivers?
-> 
->> In some drivers, even the simple ast, we hold locks during the regular
->> commit. Trying to run the panic commit concurrently will likely give a
->> deadlock.
-> 
-> You're in the middle of a panic. Don't take any locks and you won't deadlock.
-> 
->> In the end it's a per-driver decision, but in most cases, the driver can
->> easily switch to a default mode with some ad-hoc code.
-> 
-> When was the last time a per-driver decision has been a good thing? I'm
-> sorry, but the get_scanout_buffer approach buffer won't work for any
-> driver out there.
-> 
-> I'm fine with discussing alternatives if you don't like the ones I
-> suggested, but they must allow the panic handler infrastructure to work
-> with any driver we have, not just 4.
-> 
+In the "panel_follower" solution, the phenomenon is the same.
+The current order is
+ili9882t_disable=3D>i2c_hid_core_suspend=3D>elan_i2c_hid_power_down=3D>ili9=
+882t_unprepare,
+ili9882t need touchpanel stop scanning,i2c_hid_core_suspend before
+ili9882t_disable.
+>
+>
+> > So in order to solve this
+> > problem, the IC can handle it through the exception mechanism when
+> > it cannot receive 0X28/0X10 command. Handling exceptions requires a res=
+et
+> > 50ms delay. Refer to vendor detailed analysis [1].
+> >
+> > Ilitek vendor also suggested switching the page before entering sleep t=
+o
+> > avoid panel IC not receiving 0x28/0x10 command.
+> >
+> > Note: 0x28 is display off, 0x10 is sleep in.
+> >
+> > [1]: https://github.com/ILITEK-LoganLin/Document/tree/main/ILITEK_Power=
+_Sequence
+> >
+> > Signed-off-by: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
+> > ---
+> >  drivers/gpu/drm/panel/panel-ilitek-ili9882t.c | 21 ++++++++++++++++++-
+> >  1 file changed, 20 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/gpu/drm/panel/panel-ilitek-ili9882t.c b/drivers/gp=
+u/drm/panel/panel-ilitek-ili9882t.c
+> > index bbfcffe65623..0a1dd987b204 100644
+> > --- a/drivers/gpu/drm/panel/panel-ilitek-ili9882t.c
+> > +++ b/drivers/gpu/drm/panel/panel-ilitek-ili9882t.c
+> > @@ -423,6 +423,23 @@ static inline struct ili9882t *to_ili9882t(struct =
+drm_panel *panel)
+> >         return container_of(panel, struct ili9882t, base);
+> >  }
+> >
+> > +static int ili9882t_switch_page(struct mipi_dsi_device *dsi, u8 page)
+> > +{
+> > +       u8 switch_cmd[] =3D {0x98, 0x82, 0x00};
+>
+> Can't you just replace the last 0x00 above with "page" and get rid of
+> the manual assignment below?
+>
+>
+> > +       int ret;
+> > +
+> > +       switch_cmd[2] =3D page;
+> > +
+> > +       ret =3D mipi_dsi_dcs_write(dsi, ILI9882T_DCS_SWITCH_PAGE, switc=
+h_cmd, 3);
+>
+> Instead of hardcoding 3, should use ARRAY_SIZE().
+>
+>
+> > +       if (ret) {
+> > +               dev_err(&dsi->dev,
+> > +                       "error switching panel controller page (%d)\n",=
+ ret);
+> > +               return ret;
+> > +       }
+> > +
+> > +       return 0;
+> > +}
+>
+> optional: It feels like it would be nice to somehow use the
+> "_INIT_SWITCH_PAGE_CMD" macro I suggested in patch #1 instead of
+> having to hardcode 0x98, 0x82 again. In patch #1 I already suggested
+> breaking out the function to send a sequence of commands. If you had
+> that function take a pointer instead of hardcoding it to look at
+> ->init_cmds then you could probably use the same function that you do
+> at init time?
+>
+>
+> >  static int ili9882t_enter_sleep_mode(struct ili9882t *ili)
+> >  {
+> >         struct mipi_dsi_device *dsi =3D ili->dsi;
+> > @@ -444,8 +461,10 @@ static int ili9882t_enter_sleep_mode(struct ili988=
+2t *ili)
+> >  static int ili9882t_disable(struct drm_panel *panel)
+> >  {
+> >         struct ili9882t *ili =3D to_ili9882t(panel);
+> > +       struct mipi_dsi_device *dsi =3D ili->dsi;
+> >         int ret;
+> >
+> > +       ili9882t_switch_page(dsi, 0x00);
+> >         ret =3D ili9882t_enter_sleep_mode(ili);
+> >         if (ret < 0) {
+> >                 dev_err(panel->dev, "failed to set panel off: %d\n", re=
+t);
+> > @@ -507,7 +526,7 @@ static int ili9882t_prepare(struct drm_panel *panel=
+)
+> >         gpiod_set_value(ili->enable_gpio, 1);
+> >         usleep_range(1000, 2000);
+> >         gpiod_set_value(ili->enable_gpio, 0);
+> > -       usleep_range(1000, 2000);
+> > +       usleep_range(40000, 50000);
+>
+> nit: use 40000, 41000 instead of 40000, 50000. Linux almost always
+> uses the longer delay, so that'll save ~9 ms. The only reason for the
+> range is to optimize kernel wakeups which is really not a concern
+> here.
 
-Why can't we use the model[1] suggested by Daniel using a draw_pixel
-callback giving drivers full control on how they can put a pixel on the
-display?
-
-This will even work for the AMD debug interface.
-In the linear CPU accessible buffer case, we can provide a helper for
-that, maybe we can do helpers for other common cases as well.
-
-Adding to that we would need a panic_setup/enter and panic_teardown/exit
-callback.
-
-Noralf.
-
-[1]
-https://lore.kernel.org/dri-devel/20160810091529.GQ6232@phenom.ffwll.local/
+We need 50ms delay to meet the requirement.
