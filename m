@@ -1,67 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F2487C4132
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Oct 2023 22:27:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E44E97C4143
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Oct 2023 22:31:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F163210E3DE;
-	Tue, 10 Oct 2023 20:27:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E11A10E3DF;
+	Tue, 10 Oct 2023 20:31:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
- [IPv6:2a00:1450:4864:20::62b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E42B310E3DE
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Oct 2023 20:27:31 +0000 (UTC)
-Received: by mail-ej1-x62b.google.com with SMTP id
- a640c23a62f3a-9adca291f99so1029502866b.2
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Oct 2023 13:27:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1696969650; x=1697574450; darn=lists.freedesktop.org;
- h=content-transfer-encoding:subject:from:cc:to:content-language
- :user-agent:mime-version:date:message-id:from:to:cc:subject:date
- :message-id:reply-to;
- bh=dMz0xfxZWQ5iD30pnXzqjQxLEDZhGPTotJuYkK2Gl6E=;
- b=HfhWP2muxQsQS2YpXAc3APEOlNqKQmi7cGMWMzf9EH1b7GeAYm93L+gza56LtOzeZ/
- jGB+ARquidKNrlXp+qi8yqN2QjhIiUSdHm6iIDsu9NH4rFLDvNrmlG8hm0JGJqAAvjt5
- BEYJwcO43ShzVVZ6c87uk31jmtBprLC5jAMeAeWaA80HPW9+Ou3FvuCaguNWi4zRPbN+
- eL0JNWLtnPrWpP9lXXalAy6J/P5pJlCneM2b3sc54H+sZFB9xRuWgsfmOizQQTuHlZAG
- ne0K5Dak1rOFKdRGAP/3TnewnI+v1C55V3vNgWU53rDRaDnGKb4a/hnzeKob4iP7Xh+B
- eivg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1696969650; x=1697574450;
- h=content-transfer-encoding:subject:from:cc:to:content-language
- :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=dMz0xfxZWQ5iD30pnXzqjQxLEDZhGPTotJuYkK2Gl6E=;
- b=urIAOwMQf4F2ktqoQ/ePxAfKXAXkREi76G55SgLkuE5hbKS7imBblR+e9Mdqwrv9I+
- dMYaNaHkUIFwGqMX+XmZoAYvha22C7VJW3qMk3dDJ7SbwG+zHYhIwRSWacln2WU8RCaE
- ZPNEmWNTku0aOSJdnTlSVHVoCIEECsLIPeGIQydxEdshebiVhAdVhkEOJtwfd0st3ICd
- U3ZnvpRf0YQn/TA41JljO/pJWChIPnqVNElrFC4ejaMXNnAjVQWTdrezU/FKCq0ECV3S
- utGhU9jPHYGhMFzbOFcaYJD+7K6BpgBSWWb77B5tqzfS+JYyaciEUG1zbQNovkpyPL4C
- g1SA==
-X-Gm-Message-State: AOJu0Yzj3er7ST8ZviMUzzcIYF+W1rV3FE16cl05aFaRM9RBFAm/FCzI
- zQJriFl+KTK818A5cin7cVHrug==
-X-Google-Smtp-Source: AGHT+IHC/kwWiaqXvb0nGYRNaASLe26Qtou+/WAjNnon7U18sO0suzZHlgQJQf3+W2X/fudkzkKlfQ==
-X-Received: by 2002:a17:906:3107:b0:9b2:f506:165e with SMTP id
- 7-20020a170906310700b009b2f506165emr15155725ejx.56.1696969650228; 
- Tue, 10 Oct 2023 13:27:30 -0700 (PDT)
-Received: from [10.10.15.130] ([192.130.178.91])
- by smtp.gmail.com with ESMTPSA id
- lu20-20020a170906fad400b0099297782aa9sm8780942ejb.49.2023.10.10.13.27.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 10 Oct 2023 13:27:29 -0700 (PDT)
-Message-ID: <d1b9b7d7-7aec-4866-ac76-e39fbacc8d7c@linaro.org>
-Date: Tue, 10 Oct 2023 23:27:28 +0300
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A0E1610E3DF;
+ Tue, 10 Oct 2023 20:31:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1696969884; x=1728505884;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=qBvsRXPAp8rlG1g/uACPWJkTIGo1tkCFpVM9Tinsmn4=;
+ b=cmk1TYTYpQuxn+5lkovPzwLJvbkFl43l9Wj4d+odOnc/TpizDamdj8DH
+ sNj1Ipkx8NFqVd24Ibf4ZZIlZIxgeF8/MDCo/1GZqiqJO3kbTTiCwhvNR
+ 0dfU1q9LdC8DGJDbqyITtTEC48wnQKinti8bsjJYm8OVQx6cV5CwL5cES
+ h8v1r1JbMzyXIfA9zxsFQLy10/h0Q/9PJGCvh/rkTN6LZwlH3BZDoX17j
+ KBf+aPw3oSB0nUQvITLDSjxFbnmYW3eNtSeQRDGuKGmxttUnwxgwwp90t
+ xTihDHd+4aK9oGozooftbBS0+E1RMu4Dd0IqX8CJp7wS9vnbDSJy8DfiA A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="374843876"
+X-IronPort-AV: E=Sophos;i="6.03,213,1694761200"; d="scan'208";a="374843876"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Oct 2023 13:31:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="747180147"
+X-IronPort-AV: E=Sophos;i="6.03,213,1694761200"; d="scan'208";a="747180147"
+Received: from ppalanyk-mobl.gar.corp.intel.com (HELO intel.com)
+ ([10.213.148.82])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Oct 2023 13:31:07 -0700
+Date: Tue, 10 Oct 2023 22:31:01 +0200
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: John Harrison <john.c.harrison@intel.com>
+Subject: Re: [PATCH RESEND v2 0/2] Add drm_dbg_ratelimited()
+Message-ID: <ZSW0hY7MWWAWAfcZ@ashyti-mobl2.lan>
+References: <20231010121545.1046793-1-andi.shyti@linux.intel.com>
+ <5f879ced-6d70-43e5-83d5-276f561f66f0@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-GB
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: please backmerge drm/drm-next into drm-misc/drm-misc-next
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5f879ced-6d70-43e5-83d5-276f561f66f0@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,19 +59,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Maxime Ripard <mripard@kernel.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Matthew Auld <matthew.auld@intel.com>, Andi Shyti <andi.shyti@linux.intel.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+Hi John,
 
-drm-misc-next is currently stuck at 6.5-rc2. Could you please backmerge 
-drm-next into drm-misc-next to bring it to 6.6-rc2? I was going to apply 
-one of the pending series ([1]), but got conflicts because of the 
-outdated source tree. Thank you.
+On Tue, Oct 10, 2023 at 11:25:03AM -0700, John Harrison wrote:
+> On 10/10/2023 05:15, Andi Shyti wrote:
+> > Hi,
+> > 
+> > I might have picked up the wrong series and missed some reviews
+> > and the extra patch from Nirmoy with a real use of the
+> > drm_dbg_ratelimited() that John was looking for.
+> > 
+> > Thanks,
+> > Andi
+> I just found the original post of this from back in January
+> (https://patchwork.freedesktop.org/series/112925/). Is there a reason why it
+> was never merged? As noted, it appears to have a whole bunch of r-b's on it.
 
-[1] https://patchwork.freedesktop.org/series/120393/#rev5
+yes, the patch was widely appreciated by reviewers... but I think
+somehow it was forgotten... that's why I am resending it :-)
 
--- 
-With best wishes
-Dmitry
+Andi
