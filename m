@@ -2,72 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05F057C524D
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Oct 2023 13:41:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 482F47C527D
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Oct 2023 13:52:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C5EAE10E71C;
-	Wed, 11 Oct 2023 11:41:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1BC7410E0CA;
+	Wed, 11 Oct 2023 11:52:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D67E010E71C
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Oct 2023 11:41:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1697024501;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=8NURkiBAbS6tTinRtwOYWNtz0h6Ztp9Eip3YWpE10Qw=;
- b=Kko4B7XV5o6WAN7gQn1CJ4yGT0mWZnZU4BjafXcsd5Kvcv8UpX30HKSE5YwYVm8gmYBAgC
- e/PYKeNggeo8VKtuFzwAv7oXwTWZHgv6Yq2vGJ/HPszjp00hO24f0lsCQimpoThrmFDrMS
- 5LesvTPkHjNJeJbPeHELWIedTmda6pE=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-597-QXsSJSKtNoeZm_Wmg7N-Rg-1; Wed, 11 Oct 2023 07:41:40 -0400
-X-MC-Unique: QXsSJSKtNoeZm_Wmg7N-Rg-1
-Received: by mail-qk1-f198.google.com with SMTP id
- af79cd13be357-7741abfbe9fso132965485a.0
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Oct 2023 04:41:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1697024500; x=1697629300;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=8NURkiBAbS6tTinRtwOYWNtz0h6Ztp9Eip3YWpE10Qw=;
- b=FVL+Ar4bq32KMFpwhXGE8RcRNW5Zp3CXbBjqvBD7j11QrIlGr1pII7zlAJ+ROMQjVq
- vlDK0ewRcpbKWFwOpYe61u3F/dAGq3YRxkepysPAVOKkMCM8Pyd+7zH3EQSpiiiZPiGv
- kUXfZoZxwH8PFcNii0qjN+m3kKrEbqaOyn59L/4omZ5PptCxr3zg528rcVaGvntZcDcg
- t7myPrAMdyWDQ9bQMRcjf7elhzd6nqw9IRr+0DIdUkUOm9jIHwDEcI3qdBGmNfXmpO/M
- hDmn8JCi8imWEk/dWA+OW/95juX4TnrwfPDLGFxaOJ9XQX06OWDlr6//Ra2CXeG8Rqbp
- +c/Q==
-X-Gm-Message-State: AOJu0Yxx9QAoZC0shTqMkmSeDy8+bkAPL6KQJ2Fs9ZBMkIfXajpMKhtQ
- /AfKyKXFKm4vorDiPBksG5Rg13RVz+/AWPVt6R6/K1WQJx+iEXGpPVbW8ptYUpCXScLWcUzAIzn
- wst3tfu13Q5k+jL4r9AKJGLd+oYZB
-X-Received: by 2002:a05:6214:c6a:b0:65a:fd40:b79 with SMTP id
- t10-20020a0562140c6a00b0065afd400b79mr23067472qvj.5.1697024500063; 
- Wed, 11 Oct 2023 04:41:40 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IH/PJFqEzyZ8u0zaKxnpGRj7gcP1T2JeVyTubg38E45fbagYfNnX/UGlmnBkSjQ63uUN62XNg==
-X-Received: by 2002:a05:6214:c6a:b0:65a:fd40:b79 with SMTP id
- t10-20020a0562140c6a00b0065afd400b79mr23067452qvj.5.1697024499781; 
- Wed, 11 Oct 2023 04:41:39 -0700 (PDT)
-Received: from kherbst.pingu.com ([178.24.169.250])
- by smtp.gmail.com with ESMTPSA id
- d1-20020a05620a136100b00774309d3e89sm5153179qkl.7.2023.10.11.04.41.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Oct 2023 04:41:38 -0700 (PDT)
-From: Karol Herbst <kherbst@redhat.com>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/nouveau/disp: fix DP capable DSM connectors
-Date: Wed, 11 Oct 2023 13:41:34 +0200
-Message-ID: <20231011114134.861818-1-kherbst@redhat.com>
-X-Mailer: git-send-email 2.41.0
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D0B5F10E0CA
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Oct 2023 11:52:01 +0000 (UTC)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id B3CC0660087A;
+ Wed, 11 Oct 2023 12:51:59 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1697025120;
+ bh=eRu5lKk7+OejAbFhvWpEvS41OBC3vHDtq4IrLCQJyKA=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=RpCAi674MfIJ/5bGRDeE79dbFuPBeeUxmT4oDfHqEel39/euOrE1ZRjdzUB5Y9B2f
+ SeFRFYlfWRIlHddKdbAZ8Z3eUhfLa4uSpsbKdIi2hkx8jgtL0zl32O5YX+83WhBYJ7
+ Ub78kTw6dE9xnxayIj8jwLKQKGbHtpiPoexC7hiBip28S5bIPZ5y6Ot3nuOmp59Fzk
+ uoT/wBmYL8dRDe01y8CIdaQRg3AwRBc1p6Z1e6/EMzKuG45L5PTxevIu5KCwDvxhu7
+ 7Li2mgcqMd3jLvpJ9ImBZ0LkdNu13x0pF3g7TCdy/edbULYDumF6PTbXfOZSuzF+ux
+ UQ62WbM+l4kDg==
+Message-ID: <ea747fbe-7311-dcec-20dc-2649bc5dd531@collabora.com>
+Date: Wed, 11 Oct 2023 13:51:57 +0200
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.0
+Subject: Re: [PATCH v2 04/11] drm/mediatek: Add OVL compatible name for MT8195
+Content-Language: en-US
+To: =?UTF-8?B?U2hhd24gU3VuZyAo5a6L5a2d6KyZKQ==?= <Shawn.Sung@mediatek.com>,
+ =?UTF-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+ "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>
+References: <20230918084207.23604-1-shawn.sung@mediatek.com>
+ <20230918084207.23604-5-shawn.sung@mediatek.com>
+ <ffcf35cb8ca1ff0fe0a0f0176e3199b9c944b3b9.camel@mediatek.com>
+ <30cc93a5-b3de-d23f-fd4d-e695551a71e3@collabora.com>
+ <4f16a8ab0b2f5af0bf0d31ad26c83d7ab695c304.camel@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <4f16a8ab0b2f5af0bf0d31ad26c83d7ab695c304.camel@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,58 +61,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, stable@vger.kernel.org,
- Karol Herbst <kherbst@redhat.com>, dri-devel@lists.freedesktop.org
+Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "wenst@chromium.org" <wenst@chromium.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Just special case DP DSM connectors until we properly figure out how to
-deal with this.
+Il 11/10/23 11:38, Shawn Sung (宋孝謙) ha scritto:
+> Hi, Angelo and CK,
+> 
+> On Mon, 2023-09-18 at 11:21 +0200, AngeloGioacchino Del Regno wrote:
+>> Il 18/09/23 11:09, CK Hu (胡俊光) ha scritto:
+>>> On Mon, 2023-09-18 at 16:42 +0800, Hsiao Chien Sung wrote:
+>>>> Add OVL compatible name for MT8195.
+>>>
+>>> Reviewed-by: CK Hu <ck.hu@mediatek.com>
+>>>
+>>> but it's weird to put this patch into IGT series. Without this
+>>> patch,
+>>> mt8195 drm driver does not work not only IGT.
+>>>
+>>
+>> The driver does work because the devicetree node declares two
+>> compatibles,
+>> "mediatek,mt8195-disp-ovl", "mediatek,mt8183-disp-ovl" where the
+>> second
+>> compatible is matched in mtk_drm_drv, and the first is matched in
+>> mtk_disp_ovl
+>> as both are platform_driver.
+>>
+>> This commit is not necessary, even... :-)
+>>
+>> Regards,
+>> Angelo
+>>
+>>> Regards,
+>>> CK
+>>>
+>>>>
+>>>> Signed-off-by: Hsiao Chien Sung <shawn.sung@mediatek.com>
+>>>> ---
+>>>>    drivers/gpu/drm/mediatek/mtk_drm_drv.c | 2 ++
+>>>>    1 file changed, 2 insertions(+)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+>>>> b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+>>>> index 93552d76b6e7..7759a06e5c0e 100644
+>>>> --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+>>>> +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+>>>> @@ -715,6 +715,8 @@ static const struct of_device_id
+>>>> mtk_ddp_comp_dt_ids[] = {
+>>>>    	  .data = (void *)MTK_DISP_OVL },
+>>>>    	{ .compatible = "mediatek,mt8192-disp-ovl",
+>>>>    	  .data = (void *)MTK_DISP_OVL },
+>>>> +	{ .compatible = "mediatek,mt8195-disp-ovl",
+>>>> +	  .data = (void *)MTK_DISP_OVL },
+>>>>    	{ .compatible = "mediatek,mt8183-disp-ovl-2l",
+>>>>    	  .data = (void *)MTK_DISP_OVL_2L },
+>>>>    	{ .compatible = "mediatek,mt8192-disp-ovl-2l",
+>>
+>>
+> 
+> Please refer to c6aa5f1fb505. This is the main reason why we have to
+> use MT8195 instead of MT8183/MT8192. Most of the formats required by
+> IGT is not supported.
+> 
+> Without this commit, DRM won't work after changing the compatible name
+> of ovl0 to "mediatek,mt8195-disp-ovl" in the dts.
+> 
+> Thanks,
+> Shawn
 
-This resolves user regressions on GPUs with such connectors without
-reverting the original fix.
+You don't have to change anything at all in the dts.
 
-Cc: Lyude Paul <lyude@redhat.com>
-Cc: stable@vger.kernel.org # 6.4+
-Closes: https://gitlab.freedesktop.org/drm/nouveau/-/issues/255
-Fixes: 2b5d1c29f6c4 ("drm/nouveau/disp: PIOR DP uses GPIO for HPD, not PMGR AUX interrupts")
-Signed-off-by: Karol Herbst <kherbst@redhat.com>
----
- drivers/gpu/drm/nouveau/nvkm/engine/disp/uconn.c | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
+The current mt8195.dtsi declares:
+compatible = "mediatek,mt8195-disp-ovl", "mediatek,mt8183-disp-ovl";
 
-diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/disp/uconn.c b/drivers/gpu/drm/nouveau/nvkm/engine/disp/uconn.c
-index 46b057fe1412e..3249e5c1c8930 100644
---- a/drivers/gpu/drm/nouveau/nvkm/engine/disp/uconn.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/engine/disp/uconn.c
-@@ -62,6 +62,18 @@ nvkm_uconn_uevent_gpio(struct nvkm_object *object, u64 token, u32 bits)
- 	return object->client->event(token, &args, sizeof(args.v0));
- }
- 
-+static bool
-+nvkm_connector_is_dp_dms(u8 type)
-+{
-+	switch (type) {
-+	case DCB_CONNECTOR_DMS59_DP0:
-+	case DCB_CONNECTOR_DMS59_DP1:
-+		return true;
-+	default:
-+		return false;
-+	}
-+}
-+
- static int
- nvkm_uconn_uevent(struct nvkm_object *object, void *argv, u32 argc, struct nvkm_uevent *uevent)
- {
-@@ -101,7 +113,7 @@ nvkm_uconn_uevent(struct nvkm_object *object, void *argv, u32 argc, struct nvkm_
- 	if (args->v0.types & NVIF_CONN_EVENT_V0_UNPLUG) bits |= NVKM_GPIO_LO;
- 	if (args->v0.types & NVIF_CONN_EVENT_V0_IRQ) {
- 		/* TODO: support DP IRQ on ANX9805 and remove this hack. */
--		if (!outp->info.location)
-+		if (!outp->info.location && !nvkm_connector_is_dp_dms(conn->info.type))
- 			return -EINVAL;
- 	}
- 
--- 
-2.41.0
+..this is enough to get the mediatek,mt8195-disp-ovl match in mtk_disp_ovl.
 
+Regards,
+Angelo
