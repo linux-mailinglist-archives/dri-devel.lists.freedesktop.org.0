@@ -2,68 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BA0E7C5E9B
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Oct 2023 22:44:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7742C7C5E9C
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Oct 2023 22:44:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 85C8E10E1DD;
-	Wed, 11 Oct 2023 20:44:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A1B3910E1E9;
+	Wed, 11 Oct 2023 20:44:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
- [IPv6:2a00:1450:4864:20::134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2BB8910E1DD
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Oct 2023 20:44:26 +0000 (UTC)
-Received: by mail-lf1-x134.google.com with SMTP id
- 2adb3069b0e04-5046bf37daeso394396e87.1
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Oct 2023 13:44:26 -0700 (PDT)
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com
+ [IPv6:2a00:1450:4864:20::633])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7875110E1E9
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Oct 2023 20:44:43 +0000 (UTC)
+Received: by mail-ej1-x633.google.com with SMTP id
+ a640c23a62f3a-9b6559cbd74so42519466b.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Oct 2023 13:44:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1697057064; x=1697661864; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1697057082; x=1697661882; darn=lists.freedesktop.org;
  h=user-agent:in-reply-to:content-disposition:mime-version:references
  :message-id:subject:cc:to:from:date:from:to:cc:subject:date
  :message-id:reply-to;
- bh=K6aX66cBRnDCOi0/Gtt5IiwJFoyeUsRSX/ZtkBcBa+s=;
- b=ACM2eV5j4Of2TzwQoGy48gvTFJaLidExH6yM9TW9AGrJ320lgE++Uwpp+bTEfLjiyy
- WmRlT4GnpfuxPcbbFeGVpgvkghNxCdxvlHNRlT9LESmwR1S+y0qt//HyV01holh5hHKM
- 92Uoy5pI37miPVvYJ4ptd2woYp1xw/qIJU18DmpTvLMtiTMzxhY7v2E1W/ZaLP5ADiZt
- UFAu+jUz8s4nZIg03XgfoIi4wl0kuWWbHfJGtyAO21SUrMrY4/hC0P7Lg4JN+lIERxTm
- x8qhs0Z60GaTai+NmA87byg9kOkREbMCDIGgwQwNMNUV8Qrt9VqJ+O7I1BiVAmIjLXjc
- +00w==
+ bh=ekSd27xlwThNX/Q4Rmy9BVkLLGiyelkBChOxdtoZaAU=;
+ b=AU4c0evwP2UOO4+nOGVMArlIRdwF9HKwTuUNMymkPefUcpSCqWvUs32scjVek5YR28
+ EW3ojyBwLDzjb/8S/Z/KHUqCbWfRAbfY5Xc5eCblINSrWM+gLKHFuXc31dqgz4WgKAXh
+ Bdpko4kDqfQfPIzReVyeA6nv+w3G03nqM/bM0lEgbYLLBPAlq9+63+aFG44PeHoSNu3f
+ lYDvVSwb5WnujDcPxJknHuwXjXqCDcSYG2ynuTtZ18Jq0P+DpLMePkOfo1o1PS95Dmud
+ TeVGDwghOJcuyw5ohZUdmekwA9WFAjwJC1mhkoZrzzwkNGt/vBNue3A7F2ygt6m80e5M
+ CbvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1697057064; x=1697661864;
+ d=1e100.net; s=20230601; t=1697057082; x=1697661882;
  h=user-agent:in-reply-to:content-disposition:mime-version:references
  :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=K6aX66cBRnDCOi0/Gtt5IiwJFoyeUsRSX/ZtkBcBa+s=;
- b=L3IfBa7NkbgTBee0olNZD/dTraS4aR0e9TvtWsyigzCBuJ6Rqt4igpc3qloM6y0fb1
- NEvcC2ZHyKRhJKHmTusTiEJN9KOPkEGdycSZlGdRRwB8X/WUVyeu0JFMZ1zatSku9pN5
- TcOFHfQKWXBb/uR8j0s8KgSO5lpBZRfyxO1t7YnQ3pQVwr2op+rbHfPwLJRjn8vs/V3d
- 5wXC6DwwVKlTAdt8KYyoYYa8Ov9sq+6eF/7DvQ42FIAomeV2GRjdUEXTokFAS+R9b6i4
- XLbjPydyMk+y+WcBDVJEhiAkmpw1DHAYkV/UWkZ7LhBWwnBOKizl0iMH6Vy1GwIiB8Dk
- 2XQg==
-X-Gm-Message-State: AOJu0YyNqNYmWbicZKsSsLnSSybfevdolTmhBQWgBYGWmGXD7oGpel3T
- qsbu8xRLDpSyi2VBWi0NjJo=
-X-Google-Smtp-Source: AGHT+IE7sKq4jPXrCAsC/5GytMCkM078l9PvAPXBt3mMese9W1ktImwgukCNXyq+AIq5dY9A6mIVNA==
-X-Received: by 2002:ac2:5a5a:0:b0:500:9ab8:b790 with SMTP id
- r26-20020ac25a5a000000b005009ab8b790mr17215603lfn.60.1697057064140; 
- Wed, 11 Oct 2023 13:44:24 -0700 (PDT)
+ bh=ekSd27xlwThNX/Q4Rmy9BVkLLGiyelkBChOxdtoZaAU=;
+ b=N8zY9U51JWKCQIorRPPj1lq6PZ2p0w7hsMvSMGubgGRaxwTGecnFmqVz2vCialWjnc
+ i3uLukfm/hZD/ALurRJneE05ij8qGWZJchhmP6hhx2F1Yhs4pgEc8qGeRwSg1qGV3qtD
+ FVSzmcMKqrGywN41GSVYBR+inICkaD+e3FsFbJs+egSCpge6RQO8kW4CwBvpn8fiH7vR
+ whlipS+ikMwEtRnKsN7KPEDTzGz+QRx35qMyNfjD94UxsAvuIWZo2pmF/TEpmruudfXc
+ OqtLHbiz5McpjrcfwhDsWjKgjM6PKWT+Sayi8VHjODfeaJuNPOQ/rTAgY1iF4VXksozX
+ 32iA==
+X-Gm-Message-State: AOJu0YyndHFyOnIdgzlMJhKP3aBrX5lUdejRa8TmGM0zxNwrSHUkgTnp
+ yMXD/CEsigrWxpVDKVtoR8Q=
+X-Google-Smtp-Source: AGHT+IGs+QPMwkJTsynUOVn4VkRAiWxZMwrR441kv446Bslzb6MbVsgant46R2AnlsPNf3FCwukPnQ==
+X-Received: by 2002:a17:906:5a6b:b0:9a9:e3a9:af02 with SMTP id
+ my43-20020a1709065a6b00b009a9e3a9af02mr20192152ejc.8.1697057081631; 
+ Wed, 11 Oct 2023 13:44:41 -0700 (PDT)
 Received: from orome.fritz.box
  (p200300e41f3f4900f22f74fffe1f3a53.dip0.t-ipconnect.de.
  [2003:e4:1f3f:4900:f22f:74ff:fe1f:3a53])
  by smtp.gmail.com with ESMTPSA id
- k16-20020aa7d8d0000000b0053112d6a40esm9275903eds.82.2023.10.11.13.44.23
+ ov19-20020a170906fc1300b009a193a5acffsm10125559ejb.121.2023.10.11.13.44.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Oct 2023 13:44:23 -0700 (PDT)
-Date: Wed, 11 Oct 2023 22:44:22 +0200
+ Wed, 11 Oct 2023 13:44:41 -0700 (PDT)
+Date: Wed, 11 Oct 2023 22:44:39 +0200
 From: Thierry Reding <thierry.reding@gmail.com>
 To: Mikko Perttunen <cyndis@kapsi.fi>
-Subject: Re: [PATCH] gpu: host1x: Syncpoint interrupt sharding
-Message-ID: <ZScJJprT7_OENKCF@orome.fritz.box>
-References: <20230901114008.672433-1-cyndis@kapsi.fi>
+Subject: Re: [PATCH 1/2] gpu: host1x: Correct allocated size for contexts
+Message-ID: <ZScJN6I2zdO5Jeum@orome.fritz.box>
+References: <20230901115910.701518-1-cyndis@kapsi.fi>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="FC6eHs6d84hP5f0G"
+ protocol="application/pgp-signature"; boundary="zsqpP2XHutRMmF6h"
 Content-Disposition: inline
-In-Reply-To: <20230901114008.672433-1-cyndis@kapsi.fi>
+In-Reply-To: <20230901115910.701518-1-cyndis@kapsi.fi>
 User-Agent: Mutt/2.2.12 (2023-09-09)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -77,54 +77,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Mikko Perttunen <mperttunen@nvidia.com>
+Cc: linux-tegra@vger.kernel.org, Mikko Perttunen <mperttunen@nvidia.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Johnny Liu <johnliu@nvidia.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---FC6eHs6d84hP5f0G
+--zsqpP2XHutRMmF6h
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Sep 01, 2023 at 02:40:07PM +0300, Mikko Perttunen wrote:
-> From: Mikko Perttunen <mperttunen@nvidia.com>
+On Fri, Sep 01, 2023 at 02:59:09PM +0300, Mikko Perttunen wrote:
+> From: Johnny Liu <johnliu@nvidia.com>
 >=20
-> Support sharded syncpoint interrupts on Tegra234+. This feature
-> allows specifying one of eight interrupt lines for each syncpoint
-> to lower processing latency of syncpoint threshold
-> interrupts.
+> Original implementation over allocates the memory size for the
+> contexts list. The size of memory for the contexts list is based
+> on the number of iommu groups specified in the device tree.
 >=20
+> Fixes: 8aa5bcb61612 ("gpu: host1x: Add context device management code")
+> Signed-off-by: Johnny Liu <johnliu@nvidia.com>
 > Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
 > ---
->  drivers/gpu/host1x/dev.c        | 28 +++++++++++++++++---
->  drivers/gpu/host1x/dev.h        |  3 ++-
->  drivers/gpu/host1x/hw/intr_hw.c | 46 ++++++++++++++++++++++++---------
->  3 files changed, 60 insertions(+), 17 deletions(-)
+>  drivers/gpu/host1x/context.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 
-Applied, thanks.
+Both patches applied, thanks.
 
 Thierry
 
---FC6eHs6d84hP5f0G
+--zsqpP2XHutRMmF6h
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmUnCSYACgkQ3SOs138+
-s6Ew/BAArOBHH6vqDRGiO/kZL3ugUGYqKa+95TNhWu4EJWYU8TgAka59tiQgccxB
-j4E2kaomdW0JZnrUbZQ1lcyolQbx3lvAlvAU9LuwiqoBrnFbLD6ioKELWm8yzz4d
-wX2uRHIOORzfK9PbUK841e8E8IGbt03SQWCRXuKlTJcfZgnkmkl+PICKwpvCYiv5
-Z/afeOfyIGHmgVxNrmAzk4DZ7irMZMahGepCO/Cd3Z4WpUD0SINHrFvJYWqO4g/k
-KPDMFgmdubjWGTSADIyiblneFVZT9Md8DcfwDUqJSyUwLQx0gfunBf4Sy79lCmxI
-U49Q9/hBcOhGEbCCz4xr2nqE00rxwNxAau+7zbzjF4g8LDFiYOcLjoOxBBCk4hB9
-4gmY7p87+82ZmTg4BFvlIM5XQnOsxnRj5EoAqF7/TSKlNrrmgUZrzy62GALYpjs5
-+93hxN2bLge8h9r+B0dTxpwBEIqvZ60wPzlGHQBUKOROZQCnbIA+HTVmY0d+LScF
-MGs+fHAm2nJI9778aGde3aBHooPB+rFgq0jctldbBHnRQdtWfvCmiYmkFM+sM/Sf
-efxhaO9ymb+Mzc3vkzK610aBssHBjO+54kubkAWsGZ4bkg6T4tW3mBvMjjwQJNiJ
-aZ5N6JRGLJAovX0QgdmOWnu9Vbb59DcN48vP+OglK7Iska1mdTY=
-=1sQv
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmUnCTcACgkQ3SOs138+
+s6GZEA/9EdvqUmfzSRbzjrdgiT88qxR7YL/IsDRoy2WAc4H+VIn5GdsUOrrhhvOy
+417AETxf+XE82vrtEJtLDcrDCO96pyt0BvKySl1nuD1VS/67s4c6gAS5xXd4tn+/
+Az7rKc0h/7Ut15oo991yUldkqNZG1CNJvLdBfeeALQQswxEPQmwtJpxK4I8ze2HD
+UOU5i6QRJDPhq8F+yD6mzX86Sb+yAplPw9dLDDzE7k+KIX2ccgLjtwy0D03fpHq0
+dnjfJiSiPdhZNaD6rWBtqtLOz4+rg9ADtwJxG0mWnTfZopfdUe3Od8LCibBmcaiM
+d6sCnC9WG2PtKc1+dfscs/LRq7yvQh35K0Jh5Y8NY4/YoQh4rZB1MtvP7HknFes3
+arm3dLaQjNYXOJxY2IQBAuniATwtxxp61aS+vO/hgiTShXwiPTz8ZRm5rAxwX8Xj
+Zb2xPOwQiBD8HzAwuddwqFuQ//0byWE6HkJXm7L5cEK3d9yvSedIEau4uYilT8aw
+/NaCme/LVVs1YTrMUtwkGgj9zxs5fikzfNE3ErTZZXFLJPUxJknrVPN9VZ8NcHsh
+N/wDrikDp0bE9GujnEgaWMhfkaOGcEOsHewtFZkB+rN9TeZ2KY1G8eJMqV15MWrS
+dksIMqcpjU0d9Oc8M9GzIANN1dgS8GTNieAOnWtwLHrj4fDGGcs=
+=cyGi
 -----END PGP SIGNATURE-----
 
---FC6eHs6d84hP5f0G--
+--zsqpP2XHutRMmF6h--
