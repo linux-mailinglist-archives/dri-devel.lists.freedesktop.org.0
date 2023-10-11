@@ -2,43 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B7FF7C5650
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Oct 2023 16:03:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE6957C56E3
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Oct 2023 16:32:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D44C10E4F6;
-	Wed, 11 Oct 2023 14:03:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E86AC10E485;
+	Wed, 11 Oct 2023 14:32:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A670810E4F6
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Oct 2023 14:03:49 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 1557FB82134;
- Wed, 11 Oct 2023 14:03:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D101C433C8;
- Wed, 11 Oct 2023 14:03:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1697033027;
- bh=Zh3bJ54D4zW63Ncr/mu6xJinQ4B8/2BBuvC0nnjCJ+c=;
- h=Date:From:To:Cc:Subject:From;
- b=ZkP4DcvHTv+CAU+Bxp7bY8mRMIANtm2V9mIigWhS4C7tKd8ksjtwI42hJdKV47med
- Zbh8xz/Qia5Y0t4GtL+bAr4a4l8PKf5ZgCLjus2Zq+ODqvNMgmih9PufW6kUfk51mI
- BZ2j/V/EkLskGGRbRjul2+hRAY8mXTUH+y05qVcxCZRllwFjc8O5kvg564yw6Vctkm
- ZesOPr/II66swDL/BQ1+W5CawaE4hg0vrD8HdvBIFpSIZaSt82Px8k4kKlJeQRwDR6
- Sz+vbYcmtVygTHd5vsfk0MRCm6zl/6eriAYykaLUak4pPitWYW56gTGnVIVmUAQGoo
- c3iDm5VQFx7OQ==
-Date: Wed, 11 Oct 2023 08:03:43 -0600
-From: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-To: Sumit Semwal <sumit.semwal@linaro.org>,
- Gustavo Padovan <gustavo@padovan.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Arvind Yadav <Arvind.Yadav@amd.com>
-Subject: [PATCH][next] dma-buf: Fix NULL pointer dereference in
- dma_fence_enable_sw_signaling()
-Message-ID: <ZSarP0/+hG8/87//@work>
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
+ [IPv6:2a00:1450:4864:20::42e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B57410E485
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Oct 2023 14:32:36 +0000 (UTC)
+Received: by mail-wr1-x42e.google.com with SMTP id
+ ffacd0b85a97d-32483535e51so6653817f8f.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Oct 2023 07:32:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1697034754; x=1697639554; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=sTtJMo0juSmapt/R8b9SSAuK0+/FIDelqIgKW8tSTFE=;
+ b=dluo9E/HfTp/gvW1p78BdT1Ec7FaN7+0QxtC60T1g3FNtbjmImXIwONncQxMlZvXF3
+ fvspR9flUNK/sL6XHWJ4K6wTcbRkw+ubYkKXurwlPwx4oPHGDdbmhgJXfmR5AUXA9ija
+ 7UfjOJlTYo/G6gPq8JBUZNFG08Ms6iUylxnQhYztGt8YtiopIaH9Sc1NPeUzR9m3F5Rl
+ DC7tACAbNR4i3cu1dG0mK04hxeQBAOUV9A66Dd/WsUXrqF1Gg9+RrQ2A8CvMUQGhm0PT
+ +kuzIyGD4/YTqkQfK2F4/GF41xUvsUrmegO/ysCVgCBrskXxd/+XdO33eOfTiY/Czvnv
+ B7Ag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1697034754; x=1697639554;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=sTtJMo0juSmapt/R8b9SSAuK0+/FIDelqIgKW8tSTFE=;
+ b=PTOWHkF6m8AjKyz9DftK/CzFEnNG6uqlSTOU24c5co55MHQDBrhDnbpPqE7GTbqQ/t
+ GWUw54S6LoSskCJIorM6EJ1wgMUr50pJDkaBMYFRjtHPjp7Zyk4wxASglEIdepoBD/H0
+ NjxNQCDRZTdjjdXvG/ifKnGIMHNU9lA6C5SY4zZv36/bU6Iolu/Y3WoOpLTKjrk5FKPG
+ NWPGJOfAKk6ecNTx8HbFnpvhkk7a1/3Losowd5YEK5cpqBs5bw0yPpGQr1ZhgZisreBa
+ gOwIpM8ivX7pSAXlKP2jK2AnWbVwo1BxzEJXuav7yA42FKfJfh3V+hbIDlooXC2IKZcU
+ ohtA==
+X-Gm-Message-State: AOJu0YzFknCKz24dErriFezNtqsKjDWYLjmTfA57hEcrkalKIHzSJmVW
+ 8h7rvxqQgf/AjNy7MyX1HHOqYMEW9tc=
+X-Google-Smtp-Source: AGHT+IHROD9WzgYNQrtPYlnn6WTEbZRyHoqKUPApqIQ74TTatxptjd6ef73+0cP85IVM3MmB7LYzLg==
+X-Received: by 2002:adf:f084:0:b0:314:a3f:9c08 with SMTP id
+ n4-20020adff084000000b003140a3f9c08mr17751151wro.39.1697034753798; 
+ Wed, 11 Oct 2023 07:32:33 -0700 (PDT)
+Received: from localhost
+ (p200300e41f3f4900f22f74fffe1f3a53.dip0.t-ipconnect.de.
+ [2003:e4:1f3f:4900:f22f:74ff:fe1f:3a53])
+ by smtp.gmail.com with ESMTPSA id
+ e28-20020adfa45c000000b0032d892e70b4sm1367341wra.37.2023.10.11.07.32.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 11 Oct 2023 07:32:33 -0700 (PDT)
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>,
+ Javier Martinez Canillas <javierm@redhat.com>
+Subject: [PATCH] drm/simpledrm: Fix power domain device link validity check
+Date: Wed, 11 Oct 2023 16:32:30 +0200
+Message-ID: <20231011143230.1107731-1-thierry.reding@gmail.com>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,93 +73,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, linux-hardening@vger.kernel.org,
- linux-media@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently, a NULL pointer dereference will happen in function
-`dma_fence_enable_sw_signaling()` (at line 615), in case `chain`
-is not allocated in `mock_chain()` and this function returns
-`NULL` (at line 86). See below:
+From: Thierry Reding <treding@nvidia.com>
 
-drivers/dma-buf/st-dma-fence-chain.c:
- 86         chain = mock_chain(NULL, f, 1);
- 87         if (!chain)
- 88                 err = -ENOMEM;
- 89
- 90         dma_fence_enable_sw_signaling(chain);
+We need to check if a link is non-NULL before trying to delete it.
 
-drivers/dma-buf/dma-fence.c:
- 611 void dma_fence_enable_sw_signaling(struct dma_fence *fence)
- 612 {
- 613         unsigned long flags;
- 614
- 615         spin_lock_irqsave(fence->lock, flags);
-			       ^^^^^^^^^^^
-				    |
-			  NULL pointer reference
-			  if fence == NULL
-
- 616         __dma_fence_enable_signaling(fence);
- 617         spin_unlock_irqrestore(fence->lock, flags);
- 618 }
-
-Fix this by adding a NULL check before dereferencing `fence` in
-`dma_fence_enable_sw_signaling()`. This will prevent any other NULL
-pointer dereference when the `fence` passed as an argument is `NULL`.
-
-Addresses-Coverity: ("Dereference after null check")
-Fixes: d62c43a953ce ("dma-buf: Enable signaling on fence for selftests")
-Cc: stable@vger.kernel.org
-Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- drivers/dma-buf/dma-fence.c | 9 ++++++++-
- include/linux/dma-fence.h   | 2 +-
- 2 files changed, 9 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/tiny/simpledrm.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
-index 8aa8f8cb7071..4d2f13560d0f 100644
---- a/drivers/dma-buf/dma-fence.c
-+++ b/drivers/dma-buf/dma-fence.c
-@@ -607,14 +607,21 @@ static bool __dma_fence_enable_signaling(struct dma_fence *fence)
-  * This will request for sw signaling to be enabled, to make the fence
-  * complete as soon as possible. This calls &dma_fence_ops.enable_signaling
-  * internally.
-+ *
-+ * Returns 0 on success and a negative error value when @fence is NULL.
-  */
--void dma_fence_enable_sw_signaling(struct dma_fence *fence)
-+int dma_fence_enable_sw_signaling(struct dma_fence *fence)
- {
- 	unsigned long flags;
+diff --git a/drivers/gpu/drm/tiny/simpledrm.c b/drivers/gpu/drm/tiny/simpledrm.c
+index 9c597461d1e2..8bdaf66044fc 100644
+--- a/drivers/gpu/drm/tiny/simpledrm.c
++++ b/drivers/gpu/drm/tiny/simpledrm.c
+@@ -506,7 +506,7 @@ static void simpledrm_device_detach_genpd(void *res)
+ 		return;
  
-+	if (!fence)
-+		return -EINVAL;
-+
- 	spin_lock_irqsave(fence->lock, flags);
- 	__dma_fence_enable_signaling(fence);
- 	spin_unlock_irqrestore(fence->lock, flags);
-+
-+	return 0;
- }
- EXPORT_SYMBOL(dma_fence_enable_sw_signaling);
- 
-diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
-index ebe78bd3d121..1e4025e925e6 100644
---- a/include/linux/dma-fence.h
-+++ b/include/linux/dma-fence.h
-@@ -399,7 +399,7 @@ int dma_fence_add_callback(struct dma_fence *fence,
- 			   dma_fence_func_t func);
- bool dma_fence_remove_callback(struct dma_fence *fence,
- 			       struct dma_fence_cb *cb);
--void dma_fence_enable_sw_signaling(struct dma_fence *fence);
-+int dma_fence_enable_sw_signaling(struct dma_fence *fence);
- 
- /**
-  * dma_fence_is_signaled_locked - Return an indication if the fence
+ 	for (i = sdev->pwr_dom_count - 1; i >= 0; i--) {
+-		if (!sdev->pwr_dom_links[i])
++		if (sdev->pwr_dom_links[i])
+ 			device_link_del(sdev->pwr_dom_links[i]);
+ 		if (!IS_ERR_OR_NULL(sdev->pwr_dom_devs[i]))
+ 			dev_pm_domain_detach(sdev->pwr_dom_devs[i], true);
 -- 
-2.34.1
+2.42.0
 
