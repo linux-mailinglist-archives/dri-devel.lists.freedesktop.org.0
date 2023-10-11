@@ -1,64 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E99067C58CA
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Oct 2023 18:04:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C2E977C58D5
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Oct 2023 18:05:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3FC6710E529;
-	Wed, 11 Oct 2023 16:04:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0258B10E486;
+	Wed, 11 Oct 2023 16:05:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com
- [IPv6:2607:f8b0:4864:20::62e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC65E10E529
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Oct 2023 16:04:01 +0000 (UTC)
-Received: by mail-pl1-x62e.google.com with SMTP id
- d9443c01a7336-1c0ecb9a075so47485385ad.2
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Oct 2023 09:04:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1697040241; x=1697645041;
- darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=/JdPIzkZRw+UEDCwPct/StXsx1OeuztdzUWh/BOTJXs=;
- b=FGz3P1PqjDjw3USmDdcKE8sCLOtEeTLLk/QqToWWko7/ixzBbxy/SoxGpOK9jz+M4/
- GGNKviAvok9hRQJPFsxlhJoFHJDXbIhH5U7saGnEAOQQbjCarJ+CvGWlwt3MhVI/7Bkr
- 8PwrAXg1BjpQFUBfLxx0KnvGci1jxo04k55fM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1697040241; x=1697645041;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=/JdPIzkZRw+UEDCwPct/StXsx1OeuztdzUWh/BOTJXs=;
- b=Ebki/smbFYEsOwrfaudXLiWLTiONxv1P5TYOPVZzIUBWe6ByAF0lv81XjQtE+hCuDV
- FGvXynmbddJECdzoyliLMYv4D8zC//jlyzcIrNO2PEE275AXdjN7LeSBKYYeL9pjTY1W
- 7nyN3C0dvp9pEXba47dTPhl7jusEfvuwMA6V6SFKkur+apeEivSAYrlf5DmSDldev5NY
- j23Ag4r2fzRBMYTc6uM1P5XN3hat2xCcK5nQ/HTZlmj1Ae9SPFFFZDvaSiOXZHEDo+ph
- 2uh/LQn6fgbYpvLWzZ3jVFGrqgHvacdEhc/36BAqthqB/UI6uAd5fuqHXjytlXoHSEDf
- PKrw==
-X-Gm-Message-State: AOJu0YyxlqkpyuiK/zk+4AAVgsvF/YrAYEO1AOxWoNCXgfTym4Oo3Di4
- AWhb/DZ44rhnYOAEd0CwolYRfA==
-X-Google-Smtp-Source: AGHT+IGqjWqrCIqSHnONJ5fjKcFYrHjY07tSyis9X/kZiXSoJrS/q64lZQJ+lrnayGHRVg3N8XWShA==
-X-Received: by 2002:a17:903:2289:b0:1c6:28f6:9545 with SMTP id
- b9-20020a170903228900b001c628f69545mr21755725plh.45.1697040241156; 
- Wed, 11 Oct 2023 09:04:01 -0700 (PDT)
-Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net.
- [198.0.35.241]) by smtp.gmail.com with ESMTPSA id
- jw14-20020a170903278e00b001adf6b21c77sm9908plb.107.2023.10.11.09.04.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Oct 2023 09:04:00 -0700 (PDT)
-Date: Wed, 11 Oct 2023 09:03:58 -0700
-From: Kees Cook <keescook@chromium.org>
-To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Subject: Re: [PATCH][next] dma-buf: Fix NULL pointer dereference in
- dma_fence_enable_sw_signaling()
-Message-ID: <202310110903.FE533CBCD@keescook>
-References: <ZSarP0/+hG8/87//@work>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7287710E486
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Oct 2023 16:05:27 +0000 (UTC)
+Received: from notapiano (zone.collabora.co.uk [167.235.23.81])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ (Authenticated sender: nfraprado)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 0AC3866072FC;
+ Wed, 11 Oct 2023 17:05:23 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1697040326;
+ bh=JX/FNFTRvgUjRggNucUPj/avlj5AIJtfvklHcuIrhpc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=FOvsvP2z4ELP9LV96w8lC8IG53tbUcpfdEjCzCWhy/UHUKlqPJKxAjKU7yzF4Yy7N
+ /YC08oleXh/SM7zMPX0cUpXEghvg0c950bgpJPz3XHcjo2sb972iSTv1/L3xRhurGj
+ cqtbstLlprV0C0Hw/4WhEkTTMeynQsyOW7QZqYgbgGrkwUapU9I7r5hQnaIyl2f/0A
+ ekkyHILY/UiLaVp9xK0pQl107nduU5BO6a+DG7nIu9xxO6KKiqcPzwa8ZDF7HKMnbZ
+ gzaWCPuhM0PrsfZodIBY96FK42HFPak2R1vZO01rFQo6VmvwZro0xCeYca14c6COUA
+ iyESeUwrHaw9w==
+Date: Wed, 11 Oct 2023 12:05:19 -0400
+From: =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado <nfraprado@collabora.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Subject: Re: [PATCH v10 08/16] drm/mediatek: De-commonize disp_aal/disp_gamma
+ gamma_set functions
+Message-ID: <8cf3d18a-fe99-49c5-8d0c-eb5deaef79d6@notapiano>
+References: <20230804072850.89365-1-angelogioacchino.delregno@collabora.com>
+ <20230804072850.89365-9-angelogioacchino.delregno@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <ZSarP0/+hG8/87//@work>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230804072850.89365-9-angelogioacchino.delregno@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,106 +54,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Gustavo Padovan <gustavo@padovan.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- linaro-mm-sig@lists.linaro.org, linux-hardening@vger.kernel.org,
- Arvind Yadav <Arvind.Yadav@amd.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- linux-media@vger.kernel.org
+Cc: chunkuang.hu@kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ ehristev@collabora.com, wenst@chromium.org, matthias.bgg@gmail.com,
+ kernel@collabora.com, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Oct 11, 2023 at 08:03:43AM -0600, Gustavo A. R. Silva wrote:
-> Currently, a NULL pointer dereference will happen in function
-> `dma_fence_enable_sw_signaling()` (at line 615), in case `chain`
-> is not allocated in `mock_chain()` and this function returns
-> `NULL` (at line 86). See below:
+On Fri, Aug 04, 2023 at 09:28:42AM +0200, AngeloGioacchino Del Regno wrote:
+> In preparation for adding a 12-bits gamma support for the DISP_GAMMA
+> IP, remove the mtk_gamma_set_common() function and move the relevant
+> bits in mtk_gamma_set() for DISP_GAMMA and mtk_aal_gamma_set() for
+> DISP_AAL: since the latter has no more support for gamma manipulation
+> (being moved to a different IP) in newer revisions, those functions
+> are about to diverge and it makes no sense to keep a common one (with
+> all the complications of passing common data and making exclusions
+> for device driver data) for just a few bits.
 > 
-> drivers/dma-buf/st-dma-fence-chain.c:
->  86         chain = mock_chain(NULL, f, 1);
->  87         if (!chain)
->  88                 err = -ENOMEM;
->  89
->  90         dma_fence_enable_sw_signaling(chain);
-
-Instead of the larger patch, should line 88 here just do a "return
--ENOMEM" instead?
-
--Kees
-
+> This commit brings no functional changes.
 > 
-> drivers/dma-buf/dma-fence.c:
->  611 void dma_fence_enable_sw_signaling(struct dma_fence *fence)
->  612 {
->  613         unsigned long flags;
->  614
->  615         spin_lock_irqsave(fence->lock, flags);
-> 			       ^^^^^^^^^^^
-> 				    |
-> 			  NULL pointer reference
-> 			  if fence == NULL
-> 
->  616         __dma_fence_enable_signaling(fence);
->  617         spin_unlock_irqrestore(fence->lock, flags);
->  618 }
-> 
-> Fix this by adding a NULL check before dereferencing `fence` in
-> `dma_fence_enable_sw_signaling()`. This will prevent any other NULL
-> pointer dereference when the `fence` passed as an argument is `NULL`.
-> 
-> Addresses-Coverity: ("Dereference after null check")
-> Fixes: d62c43a953ce ("dma-buf: Enable signaling on fence for selftests")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 > ---
->  drivers/dma-buf/dma-fence.c | 9 ++++++++-
->  include/linux/dma-fence.h   | 2 +-
->  2 files changed, 9 insertions(+), 2 deletions(-)
+>  drivers/gpu/drm/mediatek/mtk_disp_aal.c   | 39 +++++++++++++++++++++--
+>  drivers/gpu/drm/mediatek/mtk_disp_drv.h   |  1 -
+>  drivers/gpu/drm/mediatek/mtk_disp_gamma.c | 34 ++++----------------
+>  3 files changed, 44 insertions(+), 30 deletions(-)
 > 
-> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
-> index 8aa8f8cb7071..4d2f13560d0f 100644
-> --- a/drivers/dma-buf/dma-fence.c
-> +++ b/drivers/dma-buf/dma-fence.c
-> @@ -607,14 +607,21 @@ static bool __dma_fence_enable_signaling(struct dma_fence *fence)
->   * This will request for sw signaling to be enabled, to make the fence
->   * complete as soon as possible. This calls &dma_fence_ops.enable_signaling
->   * internally.
-> + *
-> + * Returns 0 on success and a negative error value when @fence is NULL.
->   */
-> -void dma_fence_enable_sw_signaling(struct dma_fence *fence)
-> +int dma_fence_enable_sw_signaling(struct dma_fence *fence)
+> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_aal.c b/drivers/gpu/drm/mediatek/mtk_disp_aal.c
+> index bec035780db0..21b25470e9b7 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_disp_aal.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_disp_aal.c
+> @@ -17,10 +17,18 @@
+>  
+>  #define DISP_AAL_EN				0x0000
+>  #define AAL_EN						BIT(0)
+> +#define DISP_AAL_CFG				0x0020
+> +#define AAL_RELAY_MODE					BIT(0)
+> +#define AAL_GAMMA_LUT_EN				BIT(1)
+>  #define DISP_AAL_SIZE				0x0030
+>  #define DISP_AAL_SIZE_HSIZE				GENMASK(28, 16)
+>  #define DISP_AAL_SIZE_VSIZE				GENMASK(12, 0)
+>  #define DISP_AAL_OUTPUT_SIZE			0x04d8
+> +#define DISP_AAL_GAMMA_LUT			0x0700
+> +#define DISP_AAL_GAMMA_LUT_R				GENMASK(29, 20)
+> +#define DISP_AAL_GAMMA_LUT_G				GENMASK(19, 10)
+> +#define DISP_AAL_GAMMA_LUT_B				GENMASK(9, 0)
+> +#define DISP_AAL_LUT_BITS			10
+>  #define DISP_AAL_LUT_SIZE			512
+>  
+>  struct mtk_disp_aal_data {
+> @@ -85,9 +93,36 @@ unsigned int mtk_aal_gamma_get_lut_size(struct device *dev)
+>  void mtk_aal_gamma_set(struct device *dev, struct drm_crtc_state *state)
 >  {
->  	unsigned long flags;
->  
-> +	if (!fence)
-> +		return -EINVAL;
+>  	struct mtk_disp_aal *aal = dev_get_drvdata(dev);
+> +	struct drm_color_lut *lut;
+> +	unsigned int i;
+> +	u32 cfg_val;
 > +
->  	spin_lock_irqsave(fence->lock, flags);
->  	__dma_fence_enable_signaling(fence);
->  	spin_unlock_irqrestore(fence->lock, flags);
+> +	/* If gamma is not supported in AAL, go out immediately */
+> +	if (!(aal->data && aal->data->has_gamma))
+> +		return;
 > +
-> +	return 0;
->  }
->  EXPORT_SYMBOL(dma_fence_enable_sw_signaling);
->  
-> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
-> index ebe78bd3d121..1e4025e925e6 100644
-> --- a/include/linux/dma-fence.h
-> +++ b/include/linux/dma-fence.h
-> @@ -399,7 +399,7 @@ int dma_fence_add_callback(struct dma_fence *fence,
->  			   dma_fence_func_t func);
->  bool dma_fence_remove_callback(struct dma_fence *fence,
->  			       struct dma_fence_cb *cb);
-> -void dma_fence_enable_sw_signaling(struct dma_fence *fence);
-> +int dma_fence_enable_sw_signaling(struct dma_fence *fence);
->  
->  /**
->   * dma_fence_is_signaled_locked - Return an indication if the fence
-> -- 
-> 2.34.1
-> 
-> 
+> +	/* Also, if there's no gamma lut there's nothing to do here. */
+> +	if (!state->gamma_lut)
+> +		return;
+> +
+> +	cfg_val = readl(aal->regs + DISP_AAL_CFG);
+> +	lut = (struct drm_color_lut *)state->gamma_lut->data;
+> +
+> +	for (i = 0; i < DISP_AAL_LUT_SIZE; i++) {
+> +		struct drm_color_lut hwlut = {
+> +			.red = drm_color_lut_extract(lut[i].red, DISP_AAL_LUT_BITS),
+> +			.green = drm_color_lut_extract(lut[i].green, DISP_AAL_LUT_BITS),
+> +			.blue = drm_color_lut_extract(lut[i].blue, DISP_AAL_LUT_BITS)
+> +		};
+> +		u32 word;
+> +
+> +		word = FIELD_PREP(DISP_AAL_GAMMA_LUT_R, hwlut.red);
+> +		word |= FIELD_PREP(DISP_AAL_GAMMA_LUT_G, hwlut.green);
+> +		word |= FIELD_PREP(DISP_AAL_GAMMA_LUT_B, hwlut.blue);
+> +		writel(word, (aal->regs + DISP_AAL_GAMMA_LUT) + (i * 4));
+> +	}
 
--- 
-Kees Cook
+Hi Angelo,
+
+it looks like you're missing a
+
+  	cfg_val |= FIELD_PREP(AAL_GAMMA_LUT_EN, 1);
+
+to actually enable the AAL gamma table here, like was done in the common
+function.
+
+Thanks,
+Nícolas
+
+>  
+> -	if (aal->data && aal->data->has_gamma)
+> -		mtk_gamma_set_common(NULL, aal->regs, state);
+> +	writel(cfg_val, aal->regs + DISP_AAL_CFG);
+>  }
+[..]
