@@ -1,64 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E28F57C4C81
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Oct 2023 10:00:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EDD527C4C91
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Oct 2023 10:01:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A63F510E2D6;
-	Wed, 11 Oct 2023 08:00:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E8DB410E27C;
+	Wed, 11 Oct 2023 08:01:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com
- [209.85.128.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 783AB10E249
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Oct 2023 08:00:08 +0000 (UTC)
-Received: by mail-yw1-f178.google.com with SMTP id
- 00721157ae682-5a7e5dc8573so2427457b3.0
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Oct 2023 01:00:08 -0700 (PDT)
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
+ [IPv6:2a00:1450:4864:20::435])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 49AA210E27C
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Oct 2023 08:01:54 +0000 (UTC)
+Received: by mail-wr1-x435.google.com with SMTP id
+ ffacd0b85a97d-32d849cc152so363918f8f.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Oct 2023 01:01:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1697011312; x=1697616112; darn=lists.freedesktop.org;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=YZT/8mXHXiKgkNO5lwynSIruokO6XSAvA489Hqpy4Bo=;
+ b=ZNEf4ha2U80DgGQDhcuhUq5JpvmeNkbwR2bKNSgBesYgM8LRxxWOeBwcOEg4e92jLU
+ O+rOGUpiv8w9MHGANFK4Zki0muwzEuWvGsQX8ez5iSYt140KGRMRg3jvemD5XOqAL4lS
+ z0K1w1Lqf6QqrVXpwaYGSNCou/B0hMdMr33NXFOIaXTzzKFBdTaQkUX4qnATefIYiS3w
+ vUG8X0nrr1Ck9Q3HfVmSL9en+sXv+OXsh9IrkwkH5lBahA0UE/ofrkWiCcbk9wx0Lkrs
+ 54Ao7XUG2cbKjpjd2X9tiYN8g0fsZ98LOx4XSbepb4oQB1epnH4cCIj7xtAy+vvGnl6N
+ LzOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1697011207; x=1697616007;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=EJXeUKTthXt8M2vbMgjrZC204wLHYXruTCm+pLMNj8I=;
- b=PCFPRCvxTjD3Z2pbotgTJ72v2LC+r7SAyTxgwwMApZJ561ix0RAXiOO+sM7+n2l0gZ
- NvAvxqWBgMVRBzUSuuJVOovITiE8gVztRbLX3TyTXgCSYn8dSzcQaCw3bTsBGVR+PlDa
- b13PTiJiG318eaXI7mz+2jN++QDWQoOPWQ2uegzMNdEydDTmaAQQJiQjsOM6/oK2s7F6
- LWi3YHDdDzGHgPE3ZRJHvLH3L5K4pOv/Yw1PWGuq4VaZPmEV1WB3EYvH2ahupF2HENaz
- Km+/Us1AbJbeO6cut0V6nAoFBaypiyDaG75OBQsgCmd14K0Cr7Pr0oP99xqaUCQCeepE
- 5lfA==
-X-Gm-Message-State: AOJu0Yw8wzelsEk6/Gj9zvECXACbuS0cpOlKVa2NWb8i9fFYpE5r4KFK
- /gVn1pJkWgKxgFurEOq7eBxXfSGj9mNN4g==
-X-Google-Smtp-Source: AGHT+IGUvPazm3yp3bvObOMCVIwAmjQDE3lP/ilMxE45jQvlhGRRID2VaDF6BepTTsNAL8RfmSI3jQ==
-X-Received: by 2002:a81:4a87:0:b0:59f:519e:3e9a with SMTP id
- x129-20020a814a87000000b0059f519e3e9amr19990729ywa.20.1697011207342; 
- Wed, 11 Oct 2023 01:00:07 -0700 (PDT)
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com.
- [209.85.128.179]) by smtp.gmail.com with ESMTPSA id
- w130-20020a814988000000b0059c0629d59csm5074480ywa.115.2023.10.11.01.00.07
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 11 Oct 2023 01:00:07 -0700 (PDT)
-Received: by mail-yw1-f179.google.com with SMTP id
- 00721157ae682-5a7a77e736dso29508127b3.1
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Oct 2023 01:00:07 -0700 (PDT)
-X-Received: by 2002:a81:5bd5:0:b0:589:f9f0:2e8c with SMTP id
- p204-20020a815bd5000000b00589f9f02e8cmr20463475ywb.48.1697011207007; Wed, 11
- Oct 2023 01:00:07 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1697011312; x=1697616112;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=YZT/8mXHXiKgkNO5lwynSIruokO6XSAvA489Hqpy4Bo=;
+ b=D5G+1znZViyr6ts10c8RpnZRy8LxxWA47LmXe2HZ+gevJk5dUOHlsGMPwSgdTRHL0w
+ 7L38aRiaI1mlMa84P55F2o0wWRnP1F1wOgmPQNVT80uYceD+fLxVP1DjUsVszvv/kOZs
+ mEQO+smkjFd/LVwYxxyJorUqr1rOqjaP0qHmvms4L33HqkhkRz6NTT4IBp6C/xTHVoUe
+ C/fAlwpW6LJ+0PpgxhqJiRcN/PorjFZ7Qm2HcngKauXXGxRcMhMKdNOypXlVxHamvZtO
+ WTyrllP0mAYsn8Jax9gaZIJIseRZv9m987ds1vmtfAT8NLGvGFqD3vkwpwM9SYuKyrTh
+ XA1w==
+X-Gm-Message-State: AOJu0YxJun521LQjsMpvp9a/aREDczeXEAfyJuez4dtZrnLfKELTjPw3
+ xcxAMp8IwrgmVTj1XCEJU+JPNQ==
+X-Google-Smtp-Source: AGHT+IHlYGaipThrXKIKMr2CcQW1kf8ZvYk9AY5BdTWtgsZ4chvat2yBykWEZU5sAaKVW2Tsl/EQeQ==
+X-Received: by 2002:a5d:5911:0:b0:324:e284:fab8 with SMTP id
+ v17-20020a5d5911000000b00324e284fab8mr19093365wrd.39.1697011312630; 
+ Wed, 11 Oct 2023 01:01:52 -0700 (PDT)
+Received: from localhost ([102.36.222.112]) by smtp.gmail.com with ESMTPSA id
+ n6-20020adffe06000000b003140f47224csm14690117wrr.15.2023.10.11.01.01.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 11 Oct 2023 01:01:52 -0700 (PDT)
+Date: Wed, 11 Oct 2023 11:01:48 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Tomasz Figa <tfiga@chromium.org>
+Subject: [PATCH] drm/rockchip: Fix type promotion bug in
+ rockchip_gem_iommu_map()
+Message-ID: <2bfa28b5-145d-4b9e-a18a-98819dd686ce@moroto.mountain>
 MIME-Version: 1.0
-References: <20231009183522.543918-1-javierm@redhat.com>
- <20231009183522.543918-5-javierm@redhat.com>
-In-Reply-To: <20231009183522.543918-5-javierm@redhat.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 11 Oct 2023 09:59:56 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWmzUx6iOhSSfNz4NyMZ0vY6Md6cn86S0BjOjhzzPuO=g@mail.gmail.com>
-Message-ID: <CAMuHMdWmzUx6iOhSSfNz4NyMZ0vY6Md6cn86S0BjOjhzzPuO=g@mail.gmail.com>
-Subject: Re: [PATCH 4/8] drm/ssd13xx: Use drm_format_info_min_pitch() to
- calculate the dest_pitch
-To: Javier Martinez Canillas <javierm@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,47 +70,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
- Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org
+Cc: kernel-janitors@vger.kernel.org, Shunqian Zheng <zhengsq@rock-chips.com>,
+ Sandy Huang <hjc@rock-chips.com>, Maxime Ripard <mripard@kernel.org>,
+ linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, rjan Eide <orjan.eide@arm.com>,
+ Mark Yao <markyao0591@gmail.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Javier,
+The "ret" variable is declared as ssize_t and it can hold negative error
+codes but the "rk_obj->base.size" variable is type size_t.  This means
+that when we compare them, they are both type promoted to size_t and the
+negative error code becomes a high unsigned value and is treated as
+success.  Add a cast to fix this.
 
-On Mon, Oct 9, 2023 at 8:36=E2=80=AFPM Javier Martinez Canillas
-<javierm@redhat.com> wrote:
-> Don't assume bpp of 1 and instead compute the destination pitch using the
-> intermediate buffer pixel format info when doing a format conversion.
->
-> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+Fixes: 38f993b7c59e ("drm/rockchip: Do not use DMA mapping API if attached to IOMMU domain")
+Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+---
+ drivers/gpu/drm/rockchip/rockchip_drm_gem.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thanks for your patch!
+diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_gem.c b/drivers/gpu/drm/rockchip/rockchip_drm_gem.c
+index b8f8b45ebf59..93ed841f5dce 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_drm_gem.c
++++ b/drivers/gpu/drm/rockchip/rockchip_drm_gem.c
+@@ -40,7 +40,7 @@ static int rockchip_gem_iommu_map(struct rockchip_gem_object *rk_obj)
+ 
+ 	ret = iommu_map_sgtable(private->domain, rk_obj->dma_addr, rk_obj->sgt,
+ 				prot);
+-	if (ret < rk_obj->base.size) {
++	if (ret < (ssize_t)rk_obj->base.size) {
+ 		DRM_ERROR("failed to map buffer: size=%zd request_size=%zd\n",
+ 			  ret, rk_obj->base.size);
+ 		ret = -ENOMEM;
+-- 
+2.39.2
 
-> --- a/drivers/gpu/drm/solomon/ssd13xx.c
-> +++ b/drivers/gpu/drm/solomon/ssd13xx.c
-> @@ -148,6 +148,8 @@ struct ssd13xx_plane_state {
->         struct drm_shadow_plane_state base;
->         /* Intermediate buffer to convert pixels from XRGB8888 to HW form=
-at */
->         u8 *buffer;
-> +       /* Pixel format info for the intermediate buffer */
-> +       const struct drm_format_info *fi;
-
-This is really intermediate, as it is removed again in the next patch :-)
-
-In fact 60% of this patch is changed again in the next patch.
-So perhaps combine this with the next patch?
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
