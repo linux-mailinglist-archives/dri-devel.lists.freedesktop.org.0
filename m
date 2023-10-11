@@ -2,71 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7840A7C4D8B
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Oct 2023 10:48:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 608D77C4D97
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Oct 2023 10:49:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8DE3910E5C5;
-	Wed, 11 Oct 2023 08:48:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED14E10E5F1;
+	Wed, 11 Oct 2023 08:49:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1928510E5C5
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Oct 2023 08:48:49 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B5FA10E5D1
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Oct 2023 08:49:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1697014128;
+ s=mimecast20190719; t=1697014182;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vTr3a3ppGDhi4twhrc1i0AvUfZQFLysYuWMZiZ0XSmc=;
- b=B+cRIZp0FTsfBJSt6mZpbgXHte1sy/3D5JJLJDN0kOegiaPbdWhWvHCmJEakCD8WZPmMy7
- 6z/JbXC0XanKFFIWdOhX9dMjTW6ISmv0+Yx0titKdLev/Y2W4UcSMH3aBK9T6bX65OpthT
- QxD71nJkeq+SZWjH0/NwMpFFyKGbQSg=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=v7p+gT1BFGsm9JpR0WAEA6fS7XL44+MjD9PCU+IXIk8=;
+ b=OPQWE13cYAc4q01+FGjkBTJIncxSGeYU8UybIpgALbU+zrbVmsC3SVld5YAvHaPjwlJpPW
+ QbO6tJ/5OfJdZy7Ui8jY43iziMMm4trlt1Fcof0/zBi8Ko2XWvOVx5LJaev7VWNlmv4+Jl
+ c9gp9PCgqUqhenB0nfxEGOimkEpdWDQ=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-588-ZLPXFkwQNE-Lfx3rqtvdJQ-1; Wed, 11 Oct 2023 04:48:41 -0400
-X-MC-Unique: ZLPXFkwQNE-Lfx3rqtvdJQ-1
-Received: by mail-wr1-f72.google.com with SMTP id
- ffacd0b85a97d-3172a94b274so4466049f8f.0
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Oct 2023 01:48:41 -0700 (PDT)
+ us-mta-97-gmEKif3vO_CTMm5TzpooCQ-1; Wed, 11 Oct 2023 04:49:41 -0400
+X-MC-Unique: gmEKif3vO_CTMm5TzpooCQ-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ 5b1f17b1804b1-4075a573035so7860285e9.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Oct 2023 01:49:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1697014120; x=1697618920;
+ d=1e100.net; s=20230601; t=1697014180; x=1697618980;
  h=content-transfer-encoding:mime-version:message-id:date:references
  :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=KC8w0Fq0raXD6liRw4fjPK1Tcvy7e0RKiaMGufrFBog=;
- b=onS10TL3ArND4Lh1+iIgfRWeyNsIXd3mf3wWkKe0DyZChZxFHvwBMUVq8VMCDJFRZk
- 604t0YYfUhMAb74JbtqLsFqKweGhPet7o/G9EyrW7XvMWY8G+v8e/Lc35MlCOkVjn5aW
- A9G8t10MVyg+6XraxoUBJE2wFm6x1du8Lb/+Kk1UtbcpvVyx6ai6s+VtwJxJOSsLje8K
- d2WhI7YTnGtvHchRDUm9fgDuOXyV2nPsR1OcJgN3Zfu8ZHD+XCMRPG819QBTD4or9wLq
- WU4066pujm61LXZfjc9gU9DpgY/djeE0R+IPkJcE70EWUeo48A8d9eqmi3xHjWD5u/Fi
- Tc6g==
-X-Gm-Message-State: AOJu0YzHD76WUUMusrcnAWUSzMPwfHPEmzpLqdedWKYxzRdyCs7fRk8a
- YN3q5iUiKOnoAMQNo2yrgfB6Vz9U9rpmsLLxeosdky74iSFjRnq3xUDtqMaGCskyApbaEok9I8p
- vBJk5fQBRZO497hN8g7e7FDSImoFl
-X-Received: by 2002:a5d:4fd2:0:b0:314:15a8:7879 with SMTP id
- h18-20020a5d4fd2000000b0031415a87879mr16709913wrw.34.1697014120693; 
- Wed, 11 Oct 2023 01:48:40 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGu7Ki2HA96j+VxEN6W2qlhAocs8VRGy4ACvoVY0BEVlpMah6SSArUaqxvpmFWqRt/6v3MMRg==
-X-Received: by 2002:a5d:4fd2:0:b0:314:15a8:7879 with SMTP id
- h18-20020a5d4fd2000000b0031415a87879mr16709893wrw.34.1697014120369; 
- Wed, 11 Oct 2023 01:48:40 -0700 (PDT)
+ bh=v7p+gT1BFGsm9JpR0WAEA6fS7XL44+MjD9PCU+IXIk8=;
+ b=G2KKCxXC1wSdR/LBFXfws6NUMDXoaOlCnhcFpMMeKLFY/wMzeyxQG6MqeTJN3YxzGu
+ mHTBlr+RghexUsISIPUPY0bxb8uSEAIKkboEf3Zb/gDNxTw/TNOsqFcyfWT6DkLgsRzU
+ s22sCzuuO2WaNFzigCbZHu8o6LAIjo+ITNidiyrD3D4NeXFawuh29mkkoMnpVJ10j1pG
+ nmP9FiLXq86Iou4abVz8cD0Fj3znqYodqxjeI5mtTpO6scLqNkLmMiiOjMUxQjk+xQK8
+ WSqTFMWR7eJYjcPcZbHJAXVL9kI8OckPSfceqF95XMqnYr6MLQf6dbDRNV9NfLB5MdK3
+ y3GQ==
+X-Gm-Message-State: AOJu0Yy8p1pODdjQQbmecI3cAztoyQGKN4YiBlJRj4cAf66SPbhkAYFb
+ V3zfbXuX/0FSNAby6woWmu6Vs1cPXQ0kaUlM/6FGHnINWrbFVhJh/ZcaFjZ523oz9RtW8jUstSf
+ HlnqhW64TVa872SavB0KBuUdVE5QA
+X-Received: by 2002:a05:600c:3b89:b0:406:478e:9e2d with SMTP id
+ n9-20020a05600c3b8900b00406478e9e2dmr17266870wms.26.1697014180238; 
+ Wed, 11 Oct 2023 01:49:40 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHMk/WfgoVRBsAcpGEPEZXx8KzMpE03uuKB/MMWvjPxgBJOuXw+ZzUoM4SqRqGjbIVG7/sI1g==
+X-Received: by 2002:a05:600c:3b89:b0:406:478e:9e2d with SMTP id
+ n9-20020a05600c3b8900b00406478e9e2dmr17266861wms.26.1697014179892; 
+ Wed, 11 Oct 2023 01:49:39 -0700 (PDT)
 Received: from localhost ([185.124.31.160]) by smtp.gmail.com with ESMTPSA id
- j16-20020a5d6190000000b003217cbab88bsm14702622wru.16.2023.10.11.01.48.39
+ n16-20020a1c7210000000b00406725f27e1sm16090936wmc.42.2023.10.11.01.49.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Oct 2023 01:48:40 -0700 (PDT)
+ Wed, 11 Oct 2023 01:49:39 -0700 (PDT)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH 5/8] drm/ssd13xx: Add a per controller family functions
- table
-In-Reply-To: <CAMuHMdX0gvW4Y5ppWi=qF6mZF00m4G-fP1-Wg+sKW43Ku5fz9A@mail.gmail.com>
+Subject: Re: [PATCH 7/8] drm/ssd13xx: Add support for the SSD132x OLED
+ controller family
+In-Reply-To: <CAMuHMdVnJPBfcaPSpeONuz0dPsWUD69_GnWXwbs9VPgN+fhmtw@mail.gmail.com>
 References: <20231009183522.543918-1-javierm@redhat.com>
- <20231009183522.543918-6-javierm@redhat.com>
- <CAMuHMdX0gvW4Y5ppWi=qF6mZF00m4G-fP1-Wg+sKW43Ku5fz9A@mail.gmail.com>
-Date: Wed, 11 Oct 2023 10:48:38 +0200
-Message-ID: <87jzrtsfx5.fsf@minerva.mail-host-address-is-not-set>
+ <20231009183522.543918-8-javierm@redhat.com>
+ <CAMuHMdVnJPBfcaPSpeONuz0dPsWUD69_GnWXwbs9VPgN+fhmtw@mail.gmail.com>
+Date: Wed, 11 Oct 2023 10:49:38 +0200
+Message-ID: <87h6mxsfvh.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
@@ -84,8 +84,8 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
- Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org
+Cc: Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -95,15 +95,11 @@ Geert Uytterhoeven <geert@linux-m68k.org> writes:
 >
 > On Mon, Oct 9, 2023 at 8:36=E2=80=AFPM Javier Martinez Canillas
 > <javierm@redhat.com> wrote:
->> To allow the driver to decouple the common logic in the function callbac=
-ks
->> from the behaviour that is specific of a given Solomon controller family=
-.
->>
->> For this, include a chip family to the device info and add fields to the
->> driver-private device struct, to store the hardware buffer maximum size,
->> the intermediate buffer maximum size and pixel format, and a set of per
->> chip family function handlers.
+>> The Solomon SSD132x controllers (such as the SSD1322, SSD1325 and SSD132=
+7)
+>> are used by 16 grayscale dot matrix OLED panels, extend the driver to al=
+so
+>> support this chip family.
 >>
 >> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
 >
@@ -111,52 +107,34 @@ ks
 >
 >> --- a/drivers/gpu/drm/solomon/ssd13xx.c
 >> +++ b/drivers/gpu/drm/solomon/ssd13xx.c
->> @@ -104,6 +104,7 @@ const struct ssd13xx_deviceinfo ssd13xx_variants[] =
-=3D {
->>                 .default_width =3D 132,
->>                 .default_height =3D 64,
->>                 .page_mode_only =3D 1,
->> +               .family_id =3D SSD130X_FAMILY,
 >
-> Why not store &ssd13xx_family_funcs[SSD130X_FAMILY]?
->
-
-I could do that, yeah. Originally thought that could be useful besides the
-per chip functions, but I don't think that it's used for anything else...
-
-[...]
-
->> +       switch (family_id) {
->> +       case SSD130X_FAMILY:
->> +               unsigned int pages =3D DIV_ROUND_UP(ssd13xx->height, SSD=
-130X_PAGE_HEIGHT);
->> +
->> +               ssd13xx->data_array_size =3D ssd13xx->width * pages;
->> +
->> +               fi =3D drm_format_info(DRM_FORMAT_R1);
->> +               break;
+>> @@ -631,9 +821,12 @@ static int ssd13xx_fb_blit_rect(struct drm_framebuf=
+fer *fb,
+>>         unsigned int dst_pitch;
+>>         int ret =3D 0;
+>>
+>> -       /* Align y to display page boundaries */
+>> -       rect->y1 =3D round_down(rect->y1, SSD130X_PAGE_HEIGHT);
+>> -       rect->y2 =3D min_t(unsigned int, round_up(rect->y2, SSD130X_PAGE=
+_HEIGHT), ssd13xx->height);
+>> +       if (ssd13xx->device_info->family_id =3D=3D SSD130X_FAMILY) {
+>> +               /* Align y to display page boundaries */
+>> +               rect->y1 =3D round_down(rect->y1, SSD130X_PAGE_HEIGHT);
+>> +               rect->y2 =3D min_t(unsigned int, round_up(rect->y2, SSD1=
+30X_PAGE_HEIGHT),
+>> +                                ssd13xx->height);
 >> +       }
 >
-> Please don't mix ssd13xx_funcs[family_id] and switch (family_id).
-> The switch() could be replaced by an extra function pointer in
-> ssd13xx_funcs, and by storing fi in ssd13xx_funcs, too.
+> Don't you need to align to page boundaries (2 pixels per page)
+> on SSD132X?
 >
 
-Yes, I didn't want to store the format info in struct ssd13xx_funcs
-because the idea was for that struct to only have chip operations.
+I guess so, yes. I'll add that to v2 as well.
 
-But could do that. I wonder if should rename that struct thought? to
-something that better denotes is more than function handlers.
-
-> Note that you don't really need the full drm_format_info, the number
-> of bits per pixel is sufficient.  But having the drm_format_info is
-> nice, as fmt_convert() will need it later when adding support for
-> fbdev emulation using R1 or R4 ;-)
+> This should be handled through ssd13xx_funcs instead of a family check.
 >
 
-Exactly, thinking in your patches is why I stored the full format info :)
-
-> Gr{oetje,eeting}s,
+Agreed.
 
 --=20
 Best regards,
