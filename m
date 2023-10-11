@@ -1,64 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AACE87C5F4F
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Oct 2023 23:47:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ADF187C5F4D
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Oct 2023 23:47:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C9C0110E209;
-	Wed, 11 Oct 2023 21:47:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2683F10E22E;
+	Wed, 11 Oct 2023 21:47:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
- [IPv6:2a00:1450:4864:20::134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A729E10E1FD
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Oct 2023 21:47:09 +0000 (UTC)
-Received: by mail-lf1-x134.google.com with SMTP id
- 2adb3069b0e04-5041cc983f9so424848e87.3
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Oct 2023 14:47:09 -0700 (PDT)
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
+ [IPv6:2a00:1450:4864:20::12a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 54DD810E1FD
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Oct 2023 21:47:10 +0000 (UTC)
+Received: by mail-lf1-x12a.google.com with SMTP id
+ 2adb3069b0e04-5044dd5b561so442426e87.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Oct 2023 14:47:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1697060827; x=1697665627; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1697060828; x=1697665628; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=wPUGWW275MYstsSHxHHUDypFjqdrph9V1YvKG1p4fyc=;
- b=YgJtaMbm2xwRT1vQP4H+zgNvc1R0QD64oEaEIaZpSb/HICKI/XgB2IkU63h+zmhias
- 1rp7yUSaWiw6MzKB3F0u54r6do2cSnTcEmtKUux0DaIHZXo0WzFglQT25AS2ifvgIMpe
- oQkAiyQPA0jh0yO9tGoTqCNLkaZuuWK9BmNyqCMfru5RJVFBwMauc/EpX1M0JrwYp0nn
- WX7JM5qu+C/qd+eDQsydcizFMXqeLeJ03tOqi63S+jgXR2QTRASoyNntXJxiV3zAm+wo
- pYvBy0qc7QrwVkTFwacvU23ZKrmyJFYr6rvMiW5eKNWWAJgFLJT20tg1RoYI2XKRtLI8
- xFYg==
+ bh=8NowKG+uxNaCu9ectHj5Raem53l31lC3gwF/MNNR9FI=;
+ b=QmsblmOGTqDE5Jlqe82P1dMNyNK3WJG7zNoYR3Mk3vAnXCNwd/NtGM6kMWdI2JELPf
+ cCNEZVEDEiaixd/63fRitceqMa/jYeK6urvb5iKylQtyttgxWlqVKcTNFgZ/nKeegZaa
+ mnda85TxT0dkEQJYWsf/RX8L+mYCrMO995GTzjcpdEcl/DUUCdwSnYLZSz71BMjV+kHn
+ ky4sIbtL7K8L9gg3oAW6jOKBR+K9n7ZLWtKH+NLQXyl6JhWfL6yfeOhihq3wurwWg4+A
+ dTHFF0WR3ABk3E5V81ycfAMwsfYUtfhn5JUBGtG8nKrcLMQDNDwQnNe0IxlPFCzkwD0R
+ 8aYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1697060827; x=1697665627;
+ d=1e100.net; s=20230601; t=1697060828; x=1697665628;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=wPUGWW275MYstsSHxHHUDypFjqdrph9V1YvKG1p4fyc=;
- b=g/DqHux3rDKuJnGMXK8bu45RneDi5jl83H4eJfMwVPn0/P3BVLPg8AjS1dpFSHUs8s
- t7GIHIe5Pr28gtMy79U/L5z19yNWyrcPWFDkrooG6AuW4XJguUL9hK+hhjxIQmeL9mX4
- uz0TU2gSBciqBPBLHbYBPmw2y9foE8JOiuh8xdz83VjxRgluscCy4FncGdXCQ4E3OOej
- 90qqNxm7H8ZuiibaweSc0KjDSSKc2LgESgBkQ+ds617xtyZDottdR52SSgoMTYj6wY9h
- bPmdM28KOI7td7qsznPwST+8Gsvk/+qKzR5ndeQ12gN6yQH1muL0l8F+CMGAvaBBgjSD
- WVkQ==
-X-Gm-Message-State: AOJu0YzLqrx8L1HjlxM7ezLQ9BR4PE9wPejukgMkqfZcgR5Vsycu/KxM
- EhQAHoE6TJeDmAPtOks/Fuin9Q==
-X-Google-Smtp-Source: AGHT+IHAQzCJ2KIdfIvr74FJ4FmySCFQSZAxPAtlfM1u4q0G9LMI7SdYKf1D9vU2z0PW+GjWV/UsDg==
-X-Received: by 2002:a05:6512:e9f:b0:500:d960:8b6d with SMTP id
- bi31-20020a0565120e9f00b00500d9608b6dmr23912348lfb.33.1697060827655; 
- Wed, 11 Oct 2023 14:47:07 -0700 (PDT)
+ bh=8NowKG+uxNaCu9ectHj5Raem53l31lC3gwF/MNNR9FI=;
+ b=OEP07/uIGFj+9L/ZPYfU6lhIzV+940xXaPRjt9kcXoPN+6YucCYLEuB1QQy0sUUeo3
+ erk4yWScjmWCwDnruFWklRGIlfa5MKUpBFr3No3m5ENmPHPyVbLEYaahJ4fw5ovoM1Xw
+ fxQFjr2JGB5Py4C7Kx7zqpzQvolz30/Akj+ss9z+OarkTRJ+1nQ5yRnGgoKsGzFxKonc
+ yfvPT56yG+gz4+1ZdzTlu4xwtj3JTXV7Kijso08u42cdXgv0ECmI2MbL9a55FmITjydN
+ H4OFaCCMPM+eFBX3xq2CN9PrDK33J30Qg1KicFnv12QTbP/uLBASVUEd8ArQRyOAyKaR
+ D1cQ==
+X-Gm-Message-State: AOJu0Yyq60VfmpXBfqag2EGzP+xy4D+Oy08hXG8D6mpVWJplvpkUNOJv
+ /WlhjcV5cLuKSt75Vf0Y/nqA9w==
+X-Google-Smtp-Source: AGHT+IEP+I6YA9pAFP7bcd4lqSHrBa9fvXnpEuDyIcwcYbYyLPFB6oI7N62F8hACTs5u5PBR627VZQ==
+X-Received: by 2002:a05:6512:b23:b0:503:1913:ed8e with SMTP id
+ w35-20020a0565120b2300b005031913ed8emr18628281lfu.61.1697060828355; 
+ Wed, 11 Oct 2023 14:47:08 -0700 (PDT)
 Received: from umbar.unikie.fi ([192.130.178.91])
  by smtp.gmail.com with ESMTPSA id
  o15-20020a056512050f00b004fbab80ecefsm2452485lfb.145.2023.10.11.14.47.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Oct 2023 14:47:07 -0700 (PDT)
+ Wed, 11 Oct 2023 14:47:08 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Marijn Suijten <marijn.suijten@somainline.org>
-Subject: [PATCH 2/3] drm/msm/hdmi: use correct lifetime device for
+Subject: [PATCH 3/3] drm/msm/dp: use correct lifetime device for
  devm_drm_bridge_add
-Date: Thu, 12 Oct 2023 00:47:04 +0300
-Message-Id: <20231011214705.375738-3-dmitry.baryshkov@linaro.org>
+Date: Thu, 12 Oct 2023 00:47:05 +0300
+Message-Id: <20231011214705.375738-4-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231011214705.375738-1-dmitry.baryshkov@linaro.org>
 References: <20231011214705.375738-1-dmitry.baryshkov@linaro.org>
@@ -83,27 +83,27 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 The lifetime of the created drm_bridge is attached to the drm_device
-rather than the HDMI's platform_device. Use correct lifetime for
+rather than the DP's platform_device. Use correct lifetime for
 devm_drm_bridge_add() call.
 
-Fixes: 719093a67c7f ("drm/msm/hdmi: switch to devm_drm_bridge_add()")
+Fixes: 61a72d5efce5 ("drm/msm/dp: switch to devm_drm_bridge_add()")
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/hdmi/hdmi_bridge.c | 2 +-
+ drivers/gpu/drm/msm/dp/dp_drm.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c b/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
-index 0b7a6a56677e..f5e01471b0b0 100644
---- a/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
-+++ b/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
-@@ -331,7 +331,7 @@ int msm_hdmi_bridge_init(struct hdmi *hdmi)
- 		DRM_BRIDGE_OP_DETECT |
- 		DRM_BRIDGE_OP_EDID;
+diff --git a/drivers/gpu/drm/msm/dp/dp_drm.c b/drivers/gpu/drm/msm/dp/dp_drm.c
+index 284ff7df058a..40e7344180e3 100644
+--- a/drivers/gpu/drm/msm/dp/dp_drm.c
++++ b/drivers/gpu/drm/msm/dp/dp_drm.c
+@@ -307,7 +307,7 @@ int dp_bridge_init(struct msm_dp *dp_display, struct drm_device *dev,
+ 			DRM_BRIDGE_OP_MODES;
+ 	}
  
--	ret = devm_drm_bridge_add(&hdmi->pdev->dev, bridge);
-+	ret = devm_drm_bridge_add(hdmi->dev->dev, bridge);
- 	if (ret)
- 		return ret;
+-	rc = devm_drm_bridge_add(&dp_display->pdev->dev, bridge);
++	rc = devm_drm_bridge_add(dev->dev, bridge);
+ 	if (rc) {
+ 		DRM_ERROR("failed to add bridge, rc=%d\n", rc);
  
 -- 
 2.39.2
