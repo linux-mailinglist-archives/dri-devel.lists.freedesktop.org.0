@@ -2,50 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21F077C53B5
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Oct 2023 14:23:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B37EB7C53FF
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Oct 2023 14:28:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4293910E775;
-	Wed, 11 Oct 2023 12:22:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB91710E79B;
+	Wed, 11 Oct 2023 12:28:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD27D10E775;
- Wed, 11 Oct 2023 12:22:57 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8CD8810E79B;
+ Wed, 11 Oct 2023 12:28:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1697026977; x=1728562977;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=ukyM1nyUD8h4FqTTfVPlu/qrLCSFGeo5UO8ELRbaF1c=;
- b=grMj+BQtwqdIE8ZDCdphk44qSQpgVJiuuaSdPqm1TS8pkY5Mcngl/dNB
- stlOT89o9ODypJBnTfdCBXDC4JB6gp9XamP0aDcIscqF8VGZ+u9YTNDWN
- VqK2y1OWgQ+Oe/7jyFIOyGBecjJXiyBepI9gtt6uW4M9YDg4tBvjFz1Mi
- CbW2y3XsEM54PviF1cJY9nVu3baVAQWwAYrDilsqc9P4sZmsVv0pNNtmz
- kPdgrvODx5vjbSXc9h7lcCd0PDMYoqRx9fjrd1DFiwfpAfpLWWoW7zdgw
- Avk0a+Tl1KxMI5PnvSge+9MGHdQIxnP+xaVlmnkZP7lwELOvGuWhufOdi g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="448846900"
-X-IronPort-AV: E=Sophos;i="6.03,214,1694761200"; d="scan'208";a="448846900"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Oct 2023 05:22:48 -0700
+ t=1697027319; x=1728563319;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=+s/G1zQJT7/8qCmC5wN7UlGy4M8EwtHsEx/YO2Fapqs=;
+ b=GhMhAZs9tQharEFZFDBT1jSyEi6E7t7Dm+9trEJCk2iQR7eUu07MD0e8
+ STvD09uPbhnsHT310gmBCJ1kFriwQDAUC+BpLQzMh61TP+ZcYemOaI1kt
+ Q7uofpcEOhJEN6x2Z/6wgd9+c0JGE085pTvJKnbtj9oADVnn4ksnZ6Gbr
+ LvP+oK6sTQkms6ai/FtfJqq8z+5jldCV23VVCrrQKzJ0JPzbFk/gHJVgh
+ sDy4KsoyTJTTYU0XM8XUP6JgAtT5YHiouugXL0nppczDX9Pl0vfvlV7OZ
+ Ty2mOQ6sgbj2ofuERcaXKwO+A89Hxs78ei4LBDSDa2/5xIVbPAd9P3yun g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10860"; a="6207829"
+X-IronPort-AV: E=Sophos;i="6.03,214,1694761200"; 
+   d="scan'208";a="6207829"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Oct 2023 05:25:57 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="897610432"
-X-IronPort-AV: E=Sophos;i="6.03,214,1694761200"; d="scan'208";a="897610432"
-Received: from lyemeeki-mobl2.gar.corp.intel.com (HELO intel.com)
- ([10.214.156.206])
- by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Oct 2023 05:20:59 -0700
-Date: Wed, 11 Oct 2023 14:22:39 +0200
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Nirmoy Das <nirmoy.das@intel.com>
-Subject: Re: [PATCH] drm/i915: Prevent potential UAF in engine_init_common
-Message-ID: <ZSaTj8aUqhOiTcmm@ashyti-mobl2.lan>
-References: <20231011115451.12521-1-nirmoy.das@intel.com>
+X-IronPort-AV: E=McAfee;i="6600,9927,10860"; a="877643229"
+X-IronPort-AV: E=Sophos;i="6.03,214,1694761200"; d="scan'208";a="877643229"
+Received: from nirmoyda-desk.igk.intel.com ([10.102.138.190])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Oct 2023 05:25:54 -0700
+From: Nirmoy Das <nirmoy.das@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v2] drm/i915: Prevent potential null-ptr-deref in
+ engine_init_common
+Date: Wed, 11 Oct 2023 14:25:47 +0200
+Message-ID: <20231011122547.7085-1-nirmoy.das@intel.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231011115451.12521-1-nirmoy.das@intel.com>
+Organization: Intel Deutschland GmbH, Registered Address: Am Campeon 10,
+ 85579 Neubiberg, Germany,
+ Commercial Register: Amtsgericht Muenchen HRB 186928 
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,23 +60,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, Oak Zeng <oak.zeng@intel.com>,
- dri-devel@lists.freedesktop.org, Andi Shyti <andi.shyti@linux.intel.com>
+Cc: Andi Shyti <andi.shyti@linux.intel.com>, Oak Zeng <oak.zeng@intel.com>,
+ dri-devel@lists.freedesktop.org, Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Nirmoy,
+If measure_breadcrumb_dw() returns an error and bce isn't created,
+this commit ensures that intel_engine_destroy_pinned_context()
+is not called with a NULL bce.
 
-On Wed, Oct 11, 2023 at 01:54:51PM +0200, Nirmoy Das wrote:
-> If measure_breadcrumb_dw() returns an error and bce isn't created,
-> this commit ensures that intel_engine_destroy_pinned_context()
-> is not called with a NULL bce.
-> 
-> Fixes: b35274993680 ("drm/i915: Create a kernel context for GGTT updates")
-> Cc: Oak Zeng <oak.zeng@intel.com>
-> Cc: Andi Shyti <andi.shyti@linux.intel.com>
-> Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
+v2: Fix the subject s/UAF/null-ptr-deref(Jani)
 
-Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com> 
+Fixes: b35274993680 ("drm/i915: Create a kernel context for GGTT updates")
+Cc: Oak Zeng <oak.zeng@intel.com>
+Cc: Andi Shyti <andi.shyti@linux.intel.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>
+Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
+---
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Andi
+diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+index 179d9546865b..4a11219e560e 100644
+--- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
++++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+@@ -1491,7 +1491,8 @@ static int engine_init_common(struct intel_engine_cs *engine)
+ 	return 0;
+ 
+ err_bce_context:
+-	intel_engine_destroy_pinned_context(bce);
++	if (bce)
++		intel_engine_destroy_pinned_context(bce);
+ err_ce_context:
+ 	intel_engine_destroy_pinned_context(ce);
+ 	return ret;
+-- 
+2.41.0
+
