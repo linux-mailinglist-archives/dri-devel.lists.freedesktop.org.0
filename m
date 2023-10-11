@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DC837C5717
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Oct 2023 16:38:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D90947C5716
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Oct 2023 16:38:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F40C210E4F7;
-	Wed, 11 Oct 2023 14:38:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 683D210E4FD;
+	Wed, 11 Oct 2023 14:38:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com
- [IPv6:2a00:1450:4864:20::634])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A5AC510E4E9
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Oct 2023 14:38:13 +0000 (UTC)
-Received: by mail-ej1-x634.google.com with SMTP id
- a640c23a62f3a-99bdeae1d0aso1256827066b.1
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Oct 2023 07:38:13 -0700 (PDT)
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
+ [IPv6:2a00:1450:4864:20::435])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C112410E4F7
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Oct 2023 14:38:14 +0000 (UTC)
+Received: by mail-wr1-x435.google.com with SMTP id
+ ffacd0b85a97d-32167a4adaaso6282060f8f.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Oct 2023 07:38:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1697035092; x=1697639892; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1697035093; x=1697639893; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=C0H21NAxHWpVVzgKPMwSiQ6VL6uuihpmAvcOM/Zucss=;
- b=nNEZP50dKy4el8p2mnbfdvznV85CfiTAq+Rf/1dg7ZWB88n5VvMBoagVDFOLuLaAzR
- zpVm2Xz3V7YaxdGNjy039OGBWCtpgF2ESJ7tQlVZeUhZNHcKOhy2sKHX9e/nWrE9FDEt
- o284GudktBVA3eq1N60vWbkF11R/2Rcz4FVBib+3HwaaTyl61ylwQHbSkead3MLiYsIz
- 9qK8Sk4stwTvhGIs8dsP93Q5avx92aWr4ynPuPtNt3Uc5lkUprP30+V+r1buqFpavx9I
- sCWngw3M9uH6s3XWYdjBKRCmbuLidqlm7bbHX0GAeT5p3t5bs7y5TwTuy7yxIG0ROwRj
- xQhA==
+ bh=vF4uO90NovqaRh6VMscLRyanHDtPOqcaalcaa8i5r2I=;
+ b=ONJonBXXDF6K4z+HSsPF9nteITU7vXFgRk4L4T6NoITnhMPI5FBxZgMtgK3kMh6Eb3
+ fVSVrgqsrp/D4WwFc7RjAvriQ5Ey7rDfr+crdu0Fx1O72bFAF/+cFIQSdhB332Tq3wCl
+ UUvR90aliYT9Rhii6Oi1OwZ9LgqeG3vxniwzOHFN4Ibwo2ojEDHY3mbC4vd4+Axj4DYX
+ ePITJXnyEdhk7a+lhUjgpM+al+OBT7bFO+jUFQmLEhY4K/XxpPL2CBKmI8UxxuSd4WDn
+ CrE2z0eD0Ma1SyW08ClLfrKsG8p0WYBO9876ilXgAzpvxKypxQuEnOjBP3M2kA8DJPxy
+ sG9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1697035092; x=1697639892;
+ d=1e100.net; s=20230601; t=1697035093; x=1697639893;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=C0H21NAxHWpVVzgKPMwSiQ6VL6uuihpmAvcOM/Zucss=;
- b=SXKWetLWLZ1dg5Bo2oQYGje2qa3vh5szF7e3yPcqsBf6Gsqsyet1sGekm5yZTTGlL+
- KWAvLrYB663HBQ4pB8Mg5gHFIpv5pJgThlUtMeasPmHhQnoBQsnlDSyVzWGAmPisSW20
- K8BhlEaX13+iAAwrXU3PiA1/xAfG1hN4ooJabQjaMlRuMfSStEZCqTZokHiJrrVDHnI0
- 076lthSez5NOMRnMd9Tb4Q1FNCtBJw8m0BBrrmaGkzTts76gRer1hE86aBNaRxeOAWDg
- EZc2WbiB/DGs76v7pkm6D3FC//NU6JI4agKv9xmRGU7BKn4Z+MwZ0rMRAC6JmSxuuzeF
- YvXg==
-X-Gm-Message-State: AOJu0YwpPOxGKh17bS+Gxx5SbzVXfa6+N1eFHlEllJXXPezP0dNhjEBG
- BCK4eHf/kcTiJrgahpZWuBY=
-X-Google-Smtp-Source: AGHT+IFkW31k/TJYDnRHJXlJQmJc6ZC0M1NnjX6UKAFzKEHalfSt4SHdlfpvmLIIIw3xese1yVQXGQ==
-X-Received: by 2002:a17:906:319a:b0:9a5:9f8d:770 with SMTP id
- 26-20020a170906319a00b009a59f8d0770mr19331256ejy.46.1697035091924; 
- Wed, 11 Oct 2023 07:38:11 -0700 (PDT)
+ bh=vF4uO90NovqaRh6VMscLRyanHDtPOqcaalcaa8i5r2I=;
+ b=Onz6CJmqNrFBysTsJ7W8LDWbREc+XvkjuEvMtbu0rdBqoxgnc8a99bH9pSYBwfXljM
+ EC8ASfTlIjr855Go2+9OepptmdSKW6odDDNc4jJ03MudFkrAApWo5ZTaNv0DenGnv/cn
+ Kevwpsnd0+kDXz1uiDgg8RnxNElddLQykYfMRDSlasVbU9AQv5/Gl/MmS3qsR1a8FYSf
+ veH0PsM8XMF+6mgcIPAqGJMexprOYdGQUpdaIefMsJvEmfazw1YHoGFgN+0ueC2wDnIi
+ o97C6CdhhqltPj84dsc+5Mryr9rz2RENQClqPXMffUQCIkcjN7EGHQegqbnRvFQ0auh7
+ c+VQ==
+X-Gm-Message-State: AOJu0YzBAer5gVpi3R8zRPXnxlsTAKrcHKVtuXWIQ4z32JUgBFf/QplC
+ /nJoWfipteAaL4KS2BnY9nQ=
+X-Google-Smtp-Source: AGHT+IHChBapVzVvAYkFv62bxpTDvF0tfbAwpm266ScxTppnDb9LHy1SGE1EUMg7OwHDyYDQZ8k7HA==
+X-Received: by 2002:a5d:6390:0:b0:32d:3ecc:38c9 with SMTP id
+ p16-20020a5d6390000000b0032d3ecc38c9mr3933985wru.0.1697035093055; 
+ Wed, 11 Oct 2023 07:38:13 -0700 (PDT)
 Received: from localhost
  (p200300e41f3f4900f22f74fffe1f3a53.dip0.t-ipconnect.de.
  [2003:e4:1f3f:4900:f22f:74ff:fe1f:3a53])
  by smtp.gmail.com with ESMTPSA id
- n12-20020a170906378c00b0099d45ed589csm9842711ejc.125.2023.10.11.07.38.11
+ p22-20020a05640210d600b00530a9488623sm8962615edu.46.2023.10.11.07.38.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Oct 2023 07:38:11 -0700 (PDT)
+ Wed, 11 Oct 2023 07:38:12 -0700 (PDT)
 From: Thierry Reding <thierry.reding@gmail.com>
 To: Hans de Goede <hdegoede@redhat.com>,
 	Helge Deller <deller@gmx.de>
-Subject: [PATCH 1/2] fbdev/simplefb: Support memory-region property
-Date: Wed, 11 Oct 2023 16:38:08 +0200
-Message-ID: <20231011143809.1108034-2-thierry.reding@gmail.com>
+Subject: [PATCH 2/2] fbdev/simplefb: Add support for generic power-domains
+Date: Wed, 11 Oct 2023 16:38:09 +0200
+Message-ID: <20231011143809.1108034-3-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231011143809.1108034-1-thierry.reding@gmail.com>
 References: <20231011143809.1108034-1-thierry.reding@gmail.com>
@@ -83,95 +83,157 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Thierry Reding <treding@nvidia.com>
 
-The simple-framebuffer bindings specify that the "memory-region"
-property can be used as an alternative to the "reg" property to define
-the framebuffer memory used by the display hardware. Implement support
-for this in the simplefb driver.
+The simple-framebuffer device tree bindings document the power-domains
+property, so make sure that simplefb supports it. This ensures that the
+power domains remain enabled as long as simplefb is active.
 
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- drivers/video/fbdev/simplefb.c | 35 +++++++++++++++++++++++++++++-----
- 1 file changed, 30 insertions(+), 5 deletions(-)
+ drivers/video/fbdev/simplefb.c | 93 +++++++++++++++++++++++++++++++++-
+ 1 file changed, 91 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/video/fbdev/simplefb.c b/drivers/video/fbdev/simplefb.c
-index 62f99f6fccd3..18025f34fde7 100644
+index 18025f34fde7..e69fb0ad2d54 100644
 --- a/drivers/video/fbdev/simplefb.c
 +++ b/drivers/video/fbdev/simplefb.c
-@@ -21,6 +21,7 @@
- #include <linux/platform_device.h>
- #include <linux/clk.h>
- #include <linux/of.h>
-+#include <linux/of_address.h>
+@@ -25,6 +25,7 @@
  #include <linux/of_clk.h>
  #include <linux/of_platform.h>
  #include <linux/parser.h>
-@@ -121,12 +122,13 @@ struct simplefb_params {
- 	u32 height;
- 	u32 stride;
- 	struct simplefb_format *format;
-+	struct resource memory;
- };
++#include <linux/pm_domain.h>
+ #include <linux/regulator/consumer.h>
  
- static int simplefb_parse_dt(struct platform_device *pdev,
- 			   struct simplefb_params *params)
- {
--	struct device_node *np = pdev->dev.of_node;
-+	struct device_node *np = pdev->dev.of_node, *mem;
- 	int ret;
- 	const char *format;
- 	int i;
-@@ -166,6 +168,23 @@ static int simplefb_parse_dt(struct platform_device *pdev,
- 		return -EINVAL;
- 	}
+ static const struct fb_fix_screeninfo simplefb_fix = {
+@@ -78,6 +79,11 @@ struct simplefb_par {
+ 	unsigned int clk_count;
+ 	struct clk **clks;
+ #endif
++#if defined CONFIG_OF && defined CONFIG_PM_GENERIC_DOMAINS
++	unsigned int num_genpds;
++	struct device **genpds;
++	struct device_link **genpd_links;
++#endif
+ #if defined CONFIG_OF && defined CONFIG_REGULATOR
+ 	bool regulators_enabled;
+ 	u32 regulator_count;
+@@ -432,6 +438,83 @@ static void simplefb_regulators_enable(struct simplefb_par *par,
+ static void simplefb_regulators_destroy(struct simplefb_par *par) { }
+ #endif
  
-+	mem = of_parse_phandle(np, "memory-region", 0);
-+	if (mem) {
-+		ret = of_address_to_resource(mem, 0, &params->memory);
-+		if (ret < 0) {
-+			dev_err(&pdev->dev, "failed to parse memory-region\n");
-+			of_node_put(mem);
-+			return ret;
++#if defined CONFIG_OF && defined CONFIG_PM_GENERIC_DOMAINS
++static void simplefb_detach_genpds(void *res)
++{
++	struct simplefb_par *par = res;
++	unsigned int i = par->num_genpds;
++
++	if (par->num_genpds <= 1)
++		return;
++
++	while (i--) {
++		if (par->genpd_links[i])
++			device_link_del(par->genpd_links[i]);
++
++		if (!IS_ERR_OR_NULL(par->genpds[i]))
++			dev_pm_domain_detach(par->genpds[i], true);
++	}
++}
++
++static int simplefb_attach_genpd(struct simplefb_par *par,
++				 struct platform_device *pdev)
++{
++	struct device *dev = &pdev->dev;
++	unsigned int i;
++	int err;
++
++	par->num_genpds = of_count_phandle_with_args(dev->of_node,
++						     "power-domains",
++						     "#power-domain-cells");
++	/*
++	 * Single power-domain devices are handled by the driver core, so
++	 * nothing to do here.
++	 */
++	if (par->num_genpds <= 1)
++		return 0;
++
++	par->genpds = devm_kcalloc(dev, par->num_genpds, sizeof(*par->genpds),
++				   GFP_KERNEL);
++	if (!par->genpds)
++		return -ENOMEM;
++
++	par->genpd_links = devm_kcalloc(dev, par->num_genpds,
++					sizeof(*par->genpd_links),
++					GFP_KERNEL);
++	if (!par->genpd_links)
++		return -ENOMEM;
++
++	for (i = 0; i < par->num_genpds; i++) {
++		par->genpds[i] = dev_pm_domain_attach_by_id(dev, i);
++		if (IS_ERR(par->genpds[i])) {
++			err = PTR_ERR(par->genpds[i]);
++			if (err == -EPROBE_DEFER) {
++				simplefb_detach_genpds(par);
++				return err;
++			}
++
++			dev_warn(dev, "failed to attach domain %u: %d\n", i, err);
++			continue;
 +		}
 +
-+		if (of_property_present(np, "reg"))
-+			dev_warn(&pdev->dev, "preferring \"memory-region\" over \"reg\" property\n");
-+
-+		of_node_put(mem);
-+	} else {
-+		memset(&params->memory, 0, sizeof(params->memory));
++		par->genpd_links[i] = device_link_add(dev, par->genpds[i],
++						      DL_FLAG_STATELESS |
++						      DL_FLAG_PM_RUNTIME |
++						      DL_FLAG_RPM_ACTIVE);
++		if (!par->genpd_links[i])
++			dev_warn(dev, "failed to link power-domain %u\n", i);
 +	}
 +
- 	return 0;
- }
- 
-@@ -193,6 +212,8 @@ static int simplefb_parse_pd(struct platform_device *pdev,
- 		return -EINVAL;
- 	}
- 
-+	memset(&params->memory, 0, sizeof(params->memory));
++	return devm_add_action_or_reset(dev, simplefb_detach_genpds, par);
++}
++#else
++static int simplefb_attach_genpd(struct simplefb_par *par,
++				 struct platform_device *pdev)
++{
++	return 0;
++}
++#endif
 +
- 	return 0;
- }
+ static int simplefb_probe(struct platform_device *pdev)
+ {
+ 	int ret;
+@@ -518,6 +601,10 @@ static int simplefb_probe(struct platform_device *pdev)
+ 	if (ret < 0)
+ 		goto error_clocks;
  
-@@ -431,10 +452,14 @@ static int simplefb_probe(struct platform_device *pdev)
- 	if (ret)
- 		return ret;
++	ret = simplefb_attach_genpd(par, pdev);
++	if (ret < 0)
++		goto error_regulators;
++
+ 	simplefb_clocks_enable(par, pdev);
+ 	simplefb_regulators_enable(par, pdev);
  
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	if (!res) {
--		dev_err(&pdev->dev, "No memory resource\n");
--		return -EINVAL;
-+	if (params.memory.start == 0 && params.memory.end == 0) {
-+		res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-+		if (!res) {
-+			dev_err(&pdev->dev, "No memory resource\n");
-+			return -EINVAL;
-+		}
-+	} else {
-+		res = &params.memory;
+@@ -534,18 +621,20 @@ static int simplefb_probe(struct platform_device *pdev)
+ 	ret = devm_aperture_acquire_for_platform_device(pdev, par->base, par->size);
+ 	if (ret) {
+ 		dev_err(&pdev->dev, "Unable to acquire aperture: %d\n", ret);
+-		goto error_regulators;
++		goto error_genpds;
+ 	}
+ 	ret = register_framebuffer(info);
+ 	if (ret < 0) {
+ 		dev_err(&pdev->dev, "Unable to register simplefb: %d\n", ret);
+-		goto error_regulators;
++		goto error_genpds;
  	}
  
- 	mem = request_mem_region(res->start, resource_size(res), "simplefb");
+ 	dev_info(&pdev->dev, "fb%d: simplefb registered!\n", info->node);
+ 
+ 	return 0;
+ 
++error_genpds:
++	simplefb_detach_genpds(par);
+ error_regulators:
+ 	simplefb_regulators_destroy(par);
+ error_clocks:
 -- 
 2.42.0
 
