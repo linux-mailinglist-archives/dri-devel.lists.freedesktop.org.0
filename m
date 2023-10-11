@@ -2,57 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F5167C552D
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Oct 2023 15:23:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B7FF7C5650
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Oct 2023 16:03:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 72B0F10E7F9;
-	Wed, 11 Oct 2023 13:23:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D44C10E4F6;
+	Wed, 11 Oct 2023 14:03:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x33.google.com (mail-oa1-x33.google.com
- [IPv6:2001:4860:4864:20::33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5EAB110E7F9
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Oct 2023 13:23:30 +0000 (UTC)
-Received: by mail-oa1-x33.google.com with SMTP id
- 586e51a60fabf-1dd4115b369so964449fac.1
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Oct 2023 06:23:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1697030609; x=1697635409; darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=aPMFXAItQQgSeDMu106EsctnKTGFX+nLv6VS+2VQ9ec=;
- b=Qgy740XV7/nuos3b/MaDYrFRgBMdj1RgSxLNXlyDjfxfAeH4/DCwjyrGLwxNe3Udwm
- OxNjYWaGmzkf6J0LEN1PKDwFKK+/dE/OXm03UDiSA7P4l8fus7D5nHxO4X/XwrJPAuJa
- NCqoZQ+xx8avTl36JOZZ2Ihq6DOnpSW5wGmBk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1697030609; x=1697635409;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=aPMFXAItQQgSeDMu106EsctnKTGFX+nLv6VS+2VQ9ec=;
- b=s+RJepX6TfgXsZW81UM0g18H7S9eYJ5LrBkFfKJr2l/bjoEHTqIsnke9Dx6eITEX4h
- TNRGKxWYVemxYBacVXWYSYaf+sXytkxrtZWilmjwPfJNpMw5Nk+LVltkwZcfcdPKo/Eg
- p9/ocYdEn1cQCcEKtM0cUv/f/3FvXkQVza9acWDMEdM2VMCtKHQybtYwdPpPekqEPPY5
- SzPnWjWSOOhiOoOsfSQ91mUM+lKyA5VP3sDgssHx2wTrMv9EgqDrcw4YTQPqshdcg6D4
- GSL1wLkxlPoDelw1NENvRPsNBSdc+UKojrv44LFoBpPGuP9mVaJru5wmMlJuMArfbHAH
- SoFQ==
-X-Gm-Message-State: AOJu0YzwwIRe8ceLl0NylP4iucAfbo8yh+qdvbspItEka/DcvHGYGOTG
- 7oAJ3LWkx4Af/BYm+3Afbmmg/TZOZF3WdsaAWfr6awCbogZMfja9
-X-Google-Smtp-Source: AGHT+IGVhxusHGjoJmoPuM9cn7HjoSWRP/Xoy6wQeSEGov+GTITI1G1n3+rHZH7wMU4MS9XvJaCi7ILcvXNbsMYMGuk=
-X-Received: by 2002:a05:6870:c689:b0:1e1:e6ee:94b6 with SMTP id
- cv9-20020a056870c68900b001e1e6ee94b6mr23108366oab.4.1697030609252; Wed, 11
- Oct 2023 06:23:29 -0700 (PDT)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A670810E4F6
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Oct 2023 14:03:49 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by ams.source.kernel.org (Postfix) with ESMTP id 1557FB82134;
+ Wed, 11 Oct 2023 14:03:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D101C433C8;
+ Wed, 11 Oct 2023 14:03:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1697033027;
+ bh=Zh3bJ54D4zW63Ncr/mu6xJinQ4B8/2BBuvC0nnjCJ+c=;
+ h=Date:From:To:Cc:Subject:From;
+ b=ZkP4DcvHTv+CAU+Bxp7bY8mRMIANtm2V9mIigWhS4C7tKd8ksjtwI42hJdKV47med
+ Zbh8xz/Qia5Y0t4GtL+bAr4a4l8PKf5ZgCLjus2Zq+ODqvNMgmih9PufW6kUfk51mI
+ BZ2j/V/EkLskGGRbRjul2+hRAY8mXTUH+y05qVcxCZRllwFjc8O5kvg564yw6Vctkm
+ ZesOPr/II66swDL/BQ1+W5CawaE4hg0vrD8HdvBIFpSIZaSt82Px8k4kKlJeQRwDR6
+ Sz+vbYcmtVygTHd5vsfk0MRCm6zl/6eriAYykaLUak4pPitWYW56gTGnVIVmUAQGoo
+ c3iDm5VQFx7OQ==
+Date: Wed, 11 Oct 2023 08:03:43 -0600
+From: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+To: Sumit Semwal <sumit.semwal@linaro.org>,
+ Gustavo Padovan <gustavo@padovan.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Arvind Yadav <Arvind.Yadav@amd.com>
+Subject: [PATCH][next] dma-buf: Fix NULL pointer dereference in
+ dma_fence_enable_sw_signaling()
+Message-ID: <ZSarP0/+hG8/87//@work>
 MIME-Version: 1.0
-References: <20221207-rpi-hdmi-improvements-v3-0-bdd54f66884e@cerno.tech>
- <20221207-rpi-hdmi-improvements-v3-3-bdd54f66884e@cerno.tech>
-In-Reply-To: <20221207-rpi-hdmi-improvements-v3-3-bdd54f66884e@cerno.tech>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Wed, 11 Oct 2023 15:23:18 +0200
-Message-ID: <CAKMK7uFQ8yJLKgTrQdmhwmq9uL-hbUsfUeU6cxWdB2AW3i4vOg@mail.gmail.com>
-Subject: Re: [PATCH v3 3/9] drm/vc4: hdmi: Add Broadcast RGB property to allow
- override of RGB range
-To: Maxime Ripard <maxime@cerno.tech>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,273 +51,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emma Anholt <emma@anholt.net>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Hans Verkuil <hverkuil@xs4all.nl>,
- Maxime Ripard <mripard@kernel.org>
+Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, linux-hardening@vger.kernel.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 6 Mar 2023 at 11:49, Maxime Ripard <maxime@cerno.tech> wrote:
->
-> From: Dave Stevenson <dave.stevenson@raspberrypi.com>
->
-> Copy Intel's "Broadcast RGB" property semantics to add manual override
-> of the HDMI pixel range for monitors that don't abide by the content
-> of the AVI Infoframe.
->
-> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+Currently, a NULL pointer dereference will happen in function
+`dma_fence_enable_sw_signaling()` (at line 615), in case `chain`
+is not allocated in `mock_chain()` and this function returns
+`NULL` (at line 86). See below:
 
-Stumbled over this grepping around, but would have been nice to lift
-this into drm code and document the property. It's one of the legacy
-ones from the table of horrors after all ...
+drivers/dma-buf/st-dma-fence-chain.c:
+ 86         chain = mock_chain(NULL, f, 1);
+ 87         if (!chain)
+ 88                 err = -ENOMEM;
+ 89
+ 90         dma_fence_enable_sw_signaling(chain);
 
-Shouldn't be an uapi problem because it's copypasted to much, just not great.
--Sima
-> ---
->  drivers/gpu/drm/vc4/vc4_hdmi.c | 97 ++++++++++++++++++++++++++++++++++++++++--
->  drivers/gpu/drm/vc4/vc4_hdmi.h |  9 ++++
->  2 files changed, 102 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> index 522cfbc83fe4..d23c0c3df2ee 100644
-> --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> @@ -154,10 +154,16 @@ static bool vc4_hdmi_mode_needs_scrambling(const struct drm_display_mode *mode,
->  }
->
->  static bool vc4_hdmi_is_full_range_rgb(struct vc4_hdmi *vc4_hdmi,
-> -                                      const struct drm_display_mode *mode)
-> +                                      struct vc4_hdmi_connector_state *vc4_state)
->  {
-> +       const struct drm_display_mode *mode = &vc4_hdmi->saved_adjusted_mode;
->         struct drm_display_info *display = &vc4_hdmi->connector.display_info;
->
-> +       if (vc4_state->broadcast_rgb == VC4_HDMI_BROADCAST_RGB_LIMITED)
-> +               return false;
-> +       else if (vc4_state->broadcast_rgb == VC4_HDMI_BROADCAST_RGB_FULL)
-> +               return true;
-> +
->         return !display->is_hdmi ||
->                 drm_default_rgb_quant_range(mode) == HDMI_QUANTIZATION_RANGE_FULL;
->  }
-> @@ -528,8 +534,12 @@ static int vc4_hdmi_connector_atomic_check(struct drm_connector *connector,
->  {
->         struct drm_connector_state *old_state =
->                 drm_atomic_get_old_connector_state(state, connector);
-> +       struct vc4_hdmi_connector_state *old_vc4_state =
-> +               conn_state_to_vc4_hdmi_conn_state(old_state);
->         struct drm_connector_state *new_state =
->                 drm_atomic_get_new_connector_state(state, connector);
-> +       struct vc4_hdmi_connector_state *new_vc4_state =
-> +               conn_state_to_vc4_hdmi_conn_state(new_state);
->         struct drm_crtc *crtc = new_state->crtc;
->
->         if (!crtc)
-> @@ -562,6 +572,7 @@ static int vc4_hdmi_connector_atomic_check(struct drm_connector *connector,
->         }
->
->         if (old_state->colorspace != new_state->colorspace ||
-> +           old_vc4_state->broadcast_rgb != new_vc4_state->broadcast_rgb ||
->             !drm_connector_atomic_hdr_metadata_equal(old_state, new_state)) {
->                 struct drm_crtc_state *crtc_state;
->
-> @@ -575,6 +586,49 @@ static int vc4_hdmi_connector_atomic_check(struct drm_connector *connector,
->         return 0;
->  }
->
-> +static int vc4_hdmi_connector_get_property(struct drm_connector *connector,
-> +                                          const struct drm_connector_state *state,
-> +                                          struct drm_property *property,
-> +                                          uint64_t *val)
-> +{
-> +       struct drm_device *drm = connector->dev;
-> +       struct vc4_hdmi *vc4_hdmi =
-> +               connector_to_vc4_hdmi(connector);
-> +       const struct vc4_hdmi_connector_state *vc4_conn_state =
-> +               conn_state_to_vc4_hdmi_conn_state(state);
-> +
-> +       if (property == vc4_hdmi->broadcast_rgb_property) {
-> +               *val = vc4_conn_state->broadcast_rgb;
-> +       } else {
-> +               drm_dbg(drm, "Unknown property [PROP:%d:%s]\n",
-> +                       property->base.id, property->name);
-> +               return -EINVAL;
-> +       }
-> +
-> +       return 0;
-> +}
-> +
-> +static int vc4_hdmi_connector_set_property(struct drm_connector *connector,
-> +                                          struct drm_connector_state *state,
-> +                                          struct drm_property *property,
-> +                                          uint64_t val)
-> +{
-> +       struct drm_device *drm = connector->dev;
-> +       struct vc4_hdmi *vc4_hdmi =
-> +               connector_to_vc4_hdmi(connector);
-> +       struct vc4_hdmi_connector_state *vc4_conn_state =
-> +               conn_state_to_vc4_hdmi_conn_state(state);
-> +
-> +       if (property == vc4_hdmi->broadcast_rgb_property) {
-> +               vc4_conn_state->broadcast_rgb = val;
-> +               return 0;
-> +       }
-> +
-> +       drm_dbg(drm, "Unknown property [PROP:%d:%s]\n",
-> +               property->base.id, property->name);
-> +       return -EINVAL;
-> +}
-> +
->  static void vc4_hdmi_connector_reset(struct drm_connector *connector)
->  {
->         struct vc4_hdmi_connector_state *old_state =
-> @@ -594,6 +648,7 @@ static void vc4_hdmi_connector_reset(struct drm_connector *connector)
->         new_state->base.max_bpc = 8;
->         new_state->base.max_requested_bpc = 8;
->         new_state->output_format = VC4_HDMI_OUTPUT_RGB;
-> +       new_state->broadcast_rgb = VC4_HDMI_BROADCAST_RGB_AUTO;
->         drm_atomic_helper_connector_tv_margins_reset(connector);
->  }
->
-> @@ -611,6 +666,7 @@ vc4_hdmi_connector_duplicate_state(struct drm_connector *connector)
->         new_state->tmds_char_rate = vc4_state->tmds_char_rate;
->         new_state->output_bpc = vc4_state->output_bpc;
->         new_state->output_format = vc4_state->output_format;
-> +       new_state->broadcast_rgb = vc4_state->broadcast_rgb;
->         __drm_atomic_helper_connector_duplicate_state(connector, &new_state->base);
->
->         return &new_state->base;
-> @@ -621,6 +677,8 @@ static const struct drm_connector_funcs vc4_hdmi_connector_funcs = {
->         .reset = vc4_hdmi_connector_reset,
->         .atomic_duplicate_state = vc4_hdmi_connector_duplicate_state,
->         .atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
-> +       .atomic_get_property = vc4_hdmi_connector_get_property,
-> +       .atomic_set_property = vc4_hdmi_connector_set_property,
->  };
->
->  static const struct drm_connector_helper_funcs vc4_hdmi_connector_helper_funcs = {
-> @@ -629,6 +687,33 @@ static const struct drm_connector_helper_funcs vc4_hdmi_connector_helper_funcs =
->         .atomic_check = vc4_hdmi_connector_atomic_check,
->  };
->
-> +static const struct drm_prop_enum_list broadcast_rgb_names[] = {
-> +       { VC4_HDMI_BROADCAST_RGB_AUTO, "Automatic" },
-> +       { VC4_HDMI_BROADCAST_RGB_FULL, "Full" },
-> +       { VC4_HDMI_BROADCAST_RGB_LIMITED, "Limited 16:235" },
-> +};
-> +
-> +static void
-> +vc4_hdmi_attach_broadcast_rgb_property(struct drm_device *dev,
-> +                                      struct vc4_hdmi *vc4_hdmi)
-> +{
-> +       struct drm_property *prop = vc4_hdmi->broadcast_rgb_property;
-> +
-> +       if (!prop) {
-> +               prop = drm_property_create_enum(dev, DRM_MODE_PROP_ENUM,
-> +                                               "Broadcast RGB",
-> +                                               broadcast_rgb_names,
-> +                                               ARRAY_SIZE(broadcast_rgb_names));
-> +               if (!prop)
-> +                       return;
-> +
-> +               vc4_hdmi->broadcast_rgb_property = prop;
-> +       }
-> +
-> +       drm_object_attach_property(&vc4_hdmi->connector.base, prop,
-> +                                  VC4_HDMI_BROADCAST_RGB_AUTO);
-> +}
-> +
->  static int vc4_hdmi_connector_init(struct drm_device *dev,
->                                    struct vc4_hdmi *vc4_hdmi)
->  {
-> @@ -675,6 +760,8 @@ static int vc4_hdmi_connector_init(struct drm_device *dev,
->         if (vc4_hdmi->variant->supports_hdr)
->                 drm_connector_attach_hdr_output_metadata_property(connector);
->
-> +       vc4_hdmi_attach_broadcast_rgb_property(dev, vc4_hdmi);
-> +
->         drm_connector_attach_encoder(connector, encoder);
->
->         return 0;
-> @@ -829,7 +916,7 @@ static void vc4_hdmi_set_avi_infoframe(struct drm_encoder *encoder)
->
->         drm_hdmi_avi_infoframe_quant_range(&frame.avi,
->                                            connector, mode,
-> -                                          vc4_hdmi_is_full_range_rgb(vc4_hdmi, mode) ?
-> +                                          vc4_hdmi_is_full_range_rgb(vc4_hdmi, vc4_state) ?
->                                            HDMI_QUANTIZATION_RANGE_FULL :
->                                            HDMI_QUANTIZATION_RANGE_LIMITED);
->         drm_hdmi_avi_infoframe_colorimetry(&frame.avi, cstate);
-> @@ -1069,6 +1156,8 @@ static void vc4_hdmi_csc_setup(struct vc4_hdmi *vc4_hdmi,
->                                struct drm_connector_state *state,
->                                const struct drm_display_mode *mode)
->  {
-> +       struct vc4_hdmi_connector_state *vc4_state =
-> +               conn_state_to_vc4_hdmi_conn_state(state);
->         struct drm_device *drm = vc4_hdmi->connector.dev;
->         unsigned long flags;
->         u32 csc_ctl;
-> @@ -1082,7 +1171,7 @@ static void vc4_hdmi_csc_setup(struct vc4_hdmi *vc4_hdmi,
->         csc_ctl = VC4_SET_FIELD(VC4_HD_CSC_CTL_ORDER_BGR,
->                                 VC4_HD_CSC_CTL_ORDER);
->
-> -       if (!vc4_hdmi_is_full_range_rgb(vc4_hdmi, mode)) {
-> +       if (!vc4_hdmi_is_full_range_rgb(vc4_hdmi, vc4_state)) {
->                 /* CEA VICs other than #1 requre limited range RGB
->                  * output unless overridden by an AVI infoframe.
->                  * Apply a colorspace conversion to squash 0-255 down
-> @@ -1235,7 +1324,7 @@ static void vc5_hdmi_csc_setup(struct vc4_hdmi *vc4_hdmi,
->         case VC4_HDMI_OUTPUT_RGB:
->                 if_xbar = 0x354021;
->
-> -               if (!vc4_hdmi_is_full_range_rgb(vc4_hdmi, mode))
-> +               if (!vc4_hdmi_is_full_range_rgb(vc4_hdmi, vc4_state))
->                         vc5_hdmi_set_csc_coeffs(vc4_hdmi, vc5_hdmi_csc_full_rgb_to_limited_rgb);
->                 else
->                         vc5_hdmi_set_csc_coeffs(vc4_hdmi, vc5_hdmi_csc_full_rgb_unity);
-> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.h b/drivers/gpu/drm/vc4/vc4_hdmi.h
-> index 5d249ac54cd1..89800c48aa24 100644
-> --- a/drivers/gpu/drm/vc4/vc4_hdmi.h
-> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.h
-> @@ -117,6 +117,12 @@ enum vc4_hdmi_output_format {
->         VC4_HDMI_OUTPUT_YUV420,
->  };
->
-> +enum vc4_hdmi_broadcast_rgb {
-> +       VC4_HDMI_BROADCAST_RGB_AUTO,
-> +       VC4_HDMI_BROADCAST_RGB_FULL,
-> +       VC4_HDMI_BROADCAST_RGB_LIMITED,
-> +};
-> +
->  /* General HDMI hardware state. */
->  struct vc4_hdmi {
->         struct vc4_hdmi_audio audio;
-> @@ -129,6 +135,8 @@ struct vc4_hdmi {
->
->         struct delayed_work scrambling_work;
->
-> +       struct drm_property *broadcast_rgb_property;
-> +
->         struct i2c_adapter *ddc;
->         void __iomem *hdmicore_regs;
->         void __iomem *hd_regs;
-> @@ -238,6 +246,7 @@ struct vc4_hdmi_connector_state {
->         unsigned long long              tmds_char_rate;
->         unsigned int                    output_bpc;
->         enum vc4_hdmi_output_format     output_format;
-> +       enum vc4_hdmi_broadcast_rgb     broadcast_rgb;
->  };
->
->  #define conn_state_to_vc4_hdmi_conn_state(_state)                      \
->
-> --
-> 2.39.2
->
+drivers/dma-buf/dma-fence.c:
+ 611 void dma_fence_enable_sw_signaling(struct dma_fence *fence)
+ 612 {
+ 613         unsigned long flags;
+ 614
+ 615         spin_lock_irqsave(fence->lock, flags);
+			       ^^^^^^^^^^^
+				    |
+			  NULL pointer reference
+			  if fence == NULL
 
+ 616         __dma_fence_enable_signaling(fence);
+ 617         spin_unlock_irqrestore(fence->lock, flags);
+ 618 }
 
+Fix this by adding a NULL check before dereferencing `fence` in
+`dma_fence_enable_sw_signaling()`. This will prevent any other NULL
+pointer dereference when the `fence` passed as an argument is `NULL`.
+
+Addresses-Coverity: ("Dereference after null check")
+Fixes: d62c43a953ce ("dma-buf: Enable signaling on fence for selftests")
+Cc: stable@vger.kernel.org
+Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+---
+ drivers/dma-buf/dma-fence.c | 9 ++++++++-
+ include/linux/dma-fence.h   | 2 +-
+ 2 files changed, 9 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+index 8aa8f8cb7071..4d2f13560d0f 100644
+--- a/drivers/dma-buf/dma-fence.c
++++ b/drivers/dma-buf/dma-fence.c
+@@ -607,14 +607,21 @@ static bool __dma_fence_enable_signaling(struct dma_fence *fence)
+  * This will request for sw signaling to be enabled, to make the fence
+  * complete as soon as possible. This calls &dma_fence_ops.enable_signaling
+  * internally.
++ *
++ * Returns 0 on success and a negative error value when @fence is NULL.
+  */
+-void dma_fence_enable_sw_signaling(struct dma_fence *fence)
++int dma_fence_enable_sw_signaling(struct dma_fence *fence)
+ {
+ 	unsigned long flags;
+ 
++	if (!fence)
++		return -EINVAL;
++
+ 	spin_lock_irqsave(fence->lock, flags);
+ 	__dma_fence_enable_signaling(fence);
+ 	spin_unlock_irqrestore(fence->lock, flags);
++
++	return 0;
+ }
+ EXPORT_SYMBOL(dma_fence_enable_sw_signaling);
+ 
+diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
+index ebe78bd3d121..1e4025e925e6 100644
+--- a/include/linux/dma-fence.h
++++ b/include/linux/dma-fence.h
+@@ -399,7 +399,7 @@ int dma_fence_add_callback(struct dma_fence *fence,
+ 			   dma_fence_func_t func);
+ bool dma_fence_remove_callback(struct dma_fence *fence,
+ 			       struct dma_fence_cb *cb);
+-void dma_fence_enable_sw_signaling(struct dma_fence *fence);
++int dma_fence_enable_sw_signaling(struct dma_fence *fence);
+ 
+ /**
+  * dma_fence_is_signaled_locked - Return an indication if the fence
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.34.1
+
