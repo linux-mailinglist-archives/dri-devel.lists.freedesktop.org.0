@@ -1,67 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADF187C5F4D
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Oct 2023 23:47:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E5407C6019
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Oct 2023 00:00:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2683F10E22E;
-	Wed, 11 Oct 2023 21:47:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F13CF10E205;
+	Wed, 11 Oct 2023 22:00:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
- [IPv6:2a00:1450:4864:20::12a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 54DD810E1FD
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Oct 2023 21:47:10 +0000 (UTC)
-Received: by mail-lf1-x12a.google.com with SMTP id
- 2adb3069b0e04-5044dd5b561so442426e87.1
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Oct 2023 14:47:10 -0700 (PDT)
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
+ [IPv6:2a00:1450:4864:20::131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 65A8F10E205
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Oct 2023 22:00:05 +0000 (UTC)
+Received: by mail-lf1-x131.google.com with SMTP id
+ 2adb3069b0e04-50567477b29so448369e87.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Oct 2023 15:00:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1697060828; x=1697665628; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=8NowKG+uxNaCu9ectHj5Raem53l31lC3gwF/MNNR9FI=;
- b=QmsblmOGTqDE5Jlqe82P1dMNyNK3WJG7zNoYR3Mk3vAnXCNwd/NtGM6kMWdI2JELPf
- cCNEZVEDEiaixd/63fRitceqMa/jYeK6urvb5iKylQtyttgxWlqVKcTNFgZ/nKeegZaa
- mnda85TxT0dkEQJYWsf/RX8L+mYCrMO995GTzjcpdEcl/DUUCdwSnYLZSz71BMjV+kHn
- ky4sIbtL7K8L9gg3oAW6jOKBR+K9n7ZLWtKH+NLQXyl6JhWfL6yfeOhihq3wurwWg4+A
- dTHFF0WR3ABk3E5V81ycfAMwsfYUtfhn5JUBGtG8nKrcLMQDNDwQnNe0IxlPFCzkwD0R
- 8aYg==
+ d=linaro.org; s=google; t=1697061603; x=1697666403; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=6dnOwyLkeu2poleUggkw2VTOJ6asuAXQcOkA3t8XKg0=;
+ b=NwZtROgjGSowEg15Hu8QhuhYquIqYKtU4VV479vtHWdh8xPdpSwGJeWkbONgp8aV9R
+ JbpTOAZvWYUd2G8Qnu6i432cApPdBM3i1FnmpIofkdAgM7wbVjXVvVYu43n7OE3BpPwi
+ d9RioOsz2jmYKNJTyhyttzBr/NB3Bqkce4dNBr9fdA5TiQDra5oimbE3uBfn3cz2AE7N
+ q7DsGajY+3JdK0y/oQe5trQCjxnXWzll2AuwcoMxSz2G9tlYuDt/YB9VzMH9K1DNJzDe
+ fztKGuKNQATkOakiHVc5Sgaumsd0WamjcQlxSimmUgnKjFY4dbOt4/rgHIYy6v8gNdVY
+ Yz8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1697060828; x=1697665628;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=8NowKG+uxNaCu9ectHj5Raem53l31lC3gwF/MNNR9FI=;
- b=OEP07/uIGFj+9L/ZPYfU6lhIzV+940xXaPRjt9kcXoPN+6YucCYLEuB1QQy0sUUeo3
- erk4yWScjmWCwDnruFWklRGIlfa5MKUpBFr3No3m5ENmPHPyVbLEYaahJ4fw5ovoM1Xw
- fxQFjr2JGB5Py4C7Kx7zqpzQvolz30/Akj+ss9z+OarkTRJ+1nQ5yRnGgoKsGzFxKonc
- yfvPT56yG+gz4+1ZdzTlu4xwtj3JTXV7Kijso08u42cdXgv0ECmI2MbL9a55FmITjydN
- H4OFaCCMPM+eFBX3xq2CN9PrDK33J30Qg1KicFnv12QTbP/uLBASVUEd8ArQRyOAyKaR
- D1cQ==
-X-Gm-Message-State: AOJu0Yyq60VfmpXBfqag2EGzP+xy4D+Oy08hXG8D6mpVWJplvpkUNOJv
- /WlhjcV5cLuKSt75Vf0Y/nqA9w==
-X-Google-Smtp-Source: AGHT+IEP+I6YA9pAFP7bcd4lqSHrBa9fvXnpEuDyIcwcYbYyLPFB6oI7N62F8hACTs5u5PBR627VZQ==
-X-Received: by 2002:a05:6512:b23:b0:503:1913:ed8e with SMTP id
- w35-20020a0565120b2300b005031913ed8emr18628281lfu.61.1697060828355; 
- Wed, 11 Oct 2023 14:47:08 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1697061603; x=1697666403;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=6dnOwyLkeu2poleUggkw2VTOJ6asuAXQcOkA3t8XKg0=;
+ b=FudaOWQMoj2OZBONsPeAnzOdIqSIj2x71VZ2TDkdD37ysNYZNphx/lUxoTfk0Br1C+
+ 1IjqPFvGK95qIOkitp57uya5qqRXbzDMfnBGoBfFb18GFIpx5baZGgRORcfPdqOpLdqd
+ dyaA59RCptDHJUkMBJWhCdA+lqa9ZX5jhaGTamL152dOt5QUWy5KC5VX8KWNvEovzYUT
+ +ZP6SU2ijapKsLEEbkPcLzfLEdvG/vu2gCxffvLrBdmkM32gRUJ/09x1HJNde42xHEQi
+ h6JgJdPe1gFvREwB0ts8un/KjiKgDVfwklmKq5PdsSyW+nrP3d5wKWWV1dscCv9dm0G0
+ UZxg==
+X-Gm-Message-State: AOJu0YyvcyEa3MKB9IloWkrSfsni+UOUnL8KiBK8oQV1aGg4M4T2DmBe
+ 3faAehs8c1p635bUPBZR9XdlczTB2xLtofR4eL0=
+X-Google-Smtp-Source: AGHT+IF/kXNPyNqyu2vPC5qLpcYMwT3qAa/akcYT73kRn3qd6eUvszcXinR7fcSIFXWGYFvfd5mowg==
+X-Received: by 2002:a05:6512:128a:b0:503:3278:3221 with SMTP id
+ u10-20020a056512128a00b0050332783221mr23787913lfs.69.1697061603349; 
+ Wed, 11 Oct 2023 15:00:03 -0700 (PDT)
 Received: from umbar.unikie.fi ([192.130.178.91])
  by smtp.gmail.com with ESMTPSA id
- o15-20020a056512050f00b004fbab80ecefsm2452485lfb.145.2023.10.11.14.47.07
+ a14-20020ac2520e000000b00502b04e2722sm2461092lfl.3.2023.10.11.15.00.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Oct 2023 14:47:08 -0700 (PDT)
+ Wed, 11 Oct 2023 15:00:02 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Marijn Suijten <marijn.suijten@somainline.org>
-Subject: [PATCH 3/3] drm/msm/dp: use correct lifetime device for
- devm_drm_bridge_add
-Date: Thu, 12 Oct 2023 00:47:05 +0300
-Message-Id: <20231011214705.375738-4-dmitry.baryshkov@linaro.org>
+To: Vinod Koul <vkoul@kernel.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
+Subject: [PATCH] drm/bridge: lt9611uxc: fix the race in the error path
+Date: Thu, 12 Oct 2023 01:00:02 +0300
+Message-Id: <20231011220002.382422-1-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20231011214705.375738-1-dmitry.baryshkov@linaro.org>
-References: <20231011214705.375738-1-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -76,35 +73,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>
+Cc: freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The lifetime of the created drm_bridge is attached to the drm_device
-rather than the DP's platform_device. Use correct lifetime for
-devm_drm_bridge_add() call.
+If DSI host attachment fails, the LT9611UXC driver will remove the
+bridge without ensuring that there is no outstanding HPD work being
+done. In rare cases this can result in the warnings regarding the mutex
+being incorrect. Fix this by forcebly freing IRQ and flushing the work.
 
-Fixes: 61a72d5efce5 ("drm/msm/dp: switch to devm_drm_bridge_add()")
+DEBUG_LOCKS_WARN_ON(lock->magic != lock)
+WARNING: CPU: 0 PID: 10 at kernel/locking/mutex.c:582 __mutex_lock+0x468/0x77c
+Modules linked in:
+CPU: 0 PID: 10 Comm: kworker/0:1 Tainted: G     U             6.6.0-rc5-next-20231011-gd81f81c2b682-dirty #1206
+Hardware name: Qualcomm Technologies, Inc. Robotics RB5 (DT)
+Workqueue: events lt9611uxc_hpd_work
+pstate: 60400005 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+pc : __mutex_lock+0x468/0x77c
+lr : __mutex_lock+0x468/0x77c
+sp : ffff8000800a3c70
+x29: ffff8000800a3c70 x28: 0000000000000000 x27: ffffd595fe333000
+x26: ffff7c2f0002c005 x25: ffffd595ff1b3000 x24: ffffd595fccda5a0
+x23: 0000000000000000 x22: 0000000000000002 x21: ffff7c2f056d91c8
+x20: 0000000000000000 x19: ffff7c2f056d91c8 x18: fffffffffffe8db0
+x17: 000000040044ffff x16: 005000f2b5503510 x15: 0000000000000000
+x14: 000000000006efb8 x13: 0000000000000000 x12: 0000000000000037
+x11: 0000000000000001 x10: 0000000000001470 x9 : ffff8000800a3ae0
+x8 : ffff7c2f0027f8d0 x7 : ffff7c2f0027e400 x6 : ffffd595fc702b54
+x5 : 0000000000000000 x4 : ffff8000800a0000 x3 : 0000000000000000
+x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffff7c2f0027e400
+Call trace:
+ __mutex_lock+0x468/0x77c
+ mutex_lock_nested+0x24/0x30
+ drm_bridge_hpd_notify+0x2c/0x5c
+ lt9611uxc_hpd_work+0x6c/0x80
+ process_one_work+0x1ec/0x51c
+ worker_thread+0x1ec/0x3e4
+ kthread+0x120/0x124
+ ret_from_fork+0x10/0x20
+irq event stamp: 15799
+hardirqs last  enabled at (15799): [<ffffd595fc702ba4>] finish_task_switch.isra.0+0xa8/0x278
+hardirqs last disabled at (15798): [<ffffd595fd5a1580>] __schedule+0x7b8/0xbd8
+softirqs last  enabled at (15794): [<ffffd595fc690698>] __do_softirq+0x498/0x4e0
+softirqs last disabled at (15771): [<ffffd595fc69615c>] ____do_softirq+0x10/0x1c
+
+Fixes: bc6fa8676ebb ("drm/bridge/lontium-lt9611uxc: move HPD notification out of IRQ handler")
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/dp/dp_drm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/bridge/lontium-lt9611uxc.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/dp/dp_drm.c b/drivers/gpu/drm/msm/dp/dp_drm.c
-index 284ff7df058a..40e7344180e3 100644
---- a/drivers/gpu/drm/msm/dp/dp_drm.c
-+++ b/drivers/gpu/drm/msm/dp/dp_drm.c
-@@ -307,7 +307,7 @@ int dp_bridge_init(struct msm_dp *dp_display, struct drm_device *dev,
- 			DRM_BRIDGE_OP_MODES;
- 	}
+diff --git a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
+index 7835738a532e..e971b75e90ad 100644
+--- a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
++++ b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
+@@ -929,9 +929,9 @@ static int lt9611uxc_probe(struct i2c_client *client)
+ 	init_waitqueue_head(&lt9611uxc->wq);
+ 	INIT_WORK(&lt9611uxc->work, lt9611uxc_hpd_work);
  
--	rc = devm_drm_bridge_add(&dp_display->pdev->dev, bridge);
-+	rc = devm_drm_bridge_add(dev->dev, bridge);
- 	if (rc) {
- 		DRM_ERROR("failed to add bridge, rc=%d\n", rc);
+-	ret = devm_request_threaded_irq(dev, client->irq, NULL,
+-					lt9611uxc_irq_thread_handler,
+-					IRQF_ONESHOT, "lt9611uxc", lt9611uxc);
++	ret = request_threaded_irq(client->irq, NULL,
++				   lt9611uxc_irq_thread_handler,
++				   IRQF_ONESHOT, "lt9611uxc", lt9611uxc);
+ 	if (ret) {
+ 		dev_err(dev, "failed to request irq\n");
+ 		goto err_disable_regulators;
+@@ -967,6 +967,8 @@ static int lt9611uxc_probe(struct i2c_client *client)
+ 	return lt9611uxc_audio_init(dev, lt9611uxc);
  
+ err_remove_bridge:
++	free_irq(client->irq, lt9611uxc);
++	cancel_work_sync(&lt9611uxc->work);
+ 	drm_bridge_remove(&lt9611uxc->bridge);
+ 
+ err_disable_regulators:
+@@ -983,7 +985,7 @@ static void lt9611uxc_remove(struct i2c_client *client)
+ {
+ 	struct lt9611uxc *lt9611uxc = i2c_get_clientdata(client);
+ 
+-	disable_irq(client->irq);
++	free_irq(client->irq, lt9611uxc);
+ 	cancel_work_sync(&lt9611uxc->work);
+ 	lt9611uxc_audio_exit(lt9611uxc);
+ 	drm_bridge_remove(&lt9611uxc->bridge);
 -- 
 2.39.2
 
