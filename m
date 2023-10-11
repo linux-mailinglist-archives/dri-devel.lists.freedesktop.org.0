@@ -1,67 +1,154 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09A6C7C4FF7
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Oct 2023 12:20:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A99D7C501B
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Oct 2023 12:29:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE6B610E63D;
-	Wed, 11 Oct 2023 10:20:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD0D810E653;
+	Wed, 11 Oct 2023 10:28:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
- [IPv6:2a00:1450:4864:20::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B23C410E635;
- Wed, 11 Oct 2023 10:20:19 +0000 (UTC)
-Received: by mail-lf1-x133.google.com with SMTP id
- 2adb3069b0e04-503f39d3236so8031459e87.0; 
- Wed, 11 Oct 2023 03:20:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1697019618; x=1697624418; darn=lists.freedesktop.org;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=ApWxUM+KiewVt2MnppbOpApBUskpn3kN8APwyXQwGmk=;
- b=Pr1GQDhrUxhyscWuf2tv/6aUcppmO+zWCiSsqEqK7vce/m6wyLsurAOCSt1gaMT9d1
- s+nkIBeSGu8eC4pEeYbFRIkQvwoPx/drDvB9d+W5jS/72Yc7WHqoY2TFpQLI+ol8/2zM
- 9OiwUJlIbxZE9o7P4pBBrx2LwGiy3zftdA/hnMOb97EJDs/muIxDZMFOqpAYM0YFAzLN
- Dyk+5RvzmAJstcr8wSJgGwy2+KsN+X5ybhDYWe0C8emO+t1sbVN1Hc80Itbdn1uRd6RV
- My4tXBa09L57YgWUyZiOs+yfsCfTmYcJ6acHC7ppcF38n94W/JHeAZvLxfeLhEecGJwW
- UI6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1697019618; x=1697624418;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ApWxUM+KiewVt2MnppbOpApBUskpn3kN8APwyXQwGmk=;
- b=nk6fT5j5xwev9rr3qY3PP7rSwXWB84G0c+0batn6TMkNe4cxu/FIzt8qcgliY7i0R6
- dEBayd2Q4nWGcvczLMLyE+28Ixa1xa5lx9vytoEm3KSIMWlEI9nqw48yx+0s4FFrvEzI
- 4ponpexgrao9koEtSC3xXfpyEMBr0nxhAW8aFP1QSrMCEdJz9fMwQdlUx2ghMie1abnL
- OeuFbdoVXb0lYNB3zP6Tu+jS7y88+YKjE9gwLaY5keQKpZ6+BXy9Kx1Gyio/DlrzCI+d
- axHvgZqtzLmrR55fdz1UYkh9UqsmG0PWP9vSIzithSZiMsE6bNKoytV0ryWWtMJiUoch
- TiSQ==
-X-Gm-Message-State: AOJu0YwdoQfDd/5N68xXKOvb5k5YKIbW2h/KLbJ2fhBhnZxFgnkBVYPf
- SPimhfPxMWQBr2u02Th+Csw=
-X-Google-Smtp-Source: AGHT+IEokYBC02QSpzt8BMNVAcXpB/DIq0AUKiRWefV/DCz0PO7+Eg0aneBmw6sm80FLqcztet+m4A==
-X-Received: by 2002:a05:6512:44d:b0:500:a092:d085 with SMTP id
- y13-20020a056512044d00b00500a092d085mr17404331lfk.68.1697019617332; 
- Wed, 11 Oct 2023 03:20:17 -0700 (PDT)
-Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- y18-20020a197512000000b00503f39e6bcesm2195539lfe.95.2023.10.11.03.20.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Oct 2023 03:20:16 -0700 (PDT)
-Date: Wed, 11 Oct 2023 13:20:05 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Melissa Wen <mwen@igalia.com>
-Subject: Re: [RFC PATCH 01/10] drm/doc/rfc: Describe why prescriptive color
- pipeline is needed
-Message-ID: <20231011132005.43d2a86a@eldfell>
-In-Reply-To: <20231010161322.topz6zfealkxtwjj@mail.igalia.com>
-References: <20230908150235.75918-1-harry.wentland@amd.com>
- <20230908150235.75918-2-harry.wentland@amd.com>
- <20231010161322.topz6zfealkxtwjj@mail.igalia.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-pc-linux-gnu)
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6453D10E4D6;
+ Wed, 11 Oct 2023 10:28:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1697020135; x=1728556135;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=YPSza6Mbd7JAV1Nj+gxO9bjSynYO3xKSwwV35Qx0LOA=;
+ b=HGifDm33ye51XQ3vKwHDH8G58E7AbLgHdjhPY78HmDh0fdqaoASUW+r7
+ nP30EsjRZvLKjKgBf9WMqyz5j/VbYU/77cgCVjHFEQO+a0iSz9RV+6Jiv
+ 7L8cE5G/dp9FTpWxmG/GjPolJ4qnqxbFlIFrqrHCk5Kde2Q0VSfyt3KWP
+ /mUvjx0nKfRXU20wYAzDWaJIzbdXoGGUL1ugAxw3TJFyUVQQpUyBTffwR
+ mAyBrk/OAupphwVcqaPK9bTNtgGTn+ILirKvML4fv+0JQYJsFyk/T4++p
+ /mYfYwzRB3gVTtO3NbQf0/tpqz6KN/o/Umbie9YEXSfGkuFqfviOzDZto Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="387474388"
+X-IronPort-AV: E=Sophos;i="6.03,214,1694761200"; d="scan'208";a="387474388"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Oct 2023 03:28:54 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="757512461"
+X-IronPort-AV: E=Sophos;i="6.03,214,1694761200"; d="scan'208";a="757512461"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+ by fmsmga007.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 11 Oct 2023 03:28:54 -0700
+Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Wed, 11 Oct 2023 03:28:54 -0700
+Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
+ fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Wed, 11 Oct 2023 03:28:53 -0700
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32 via Frontend Transport; Wed, 11 Oct 2023 03:28:53 -0700
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com (104.47.56.41) by
+ edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.32; Wed, 11 Oct 2023 03:28:53 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=NXR8EY88gTGnU5xDOmajqkUwtBXSo32DGZj6340tF8X/038gih2nM3+JOP8lRRUMbGxy0veDljkrP4zVcC7S5Miu9oFAzmzMvQWj/QbczlLYkcpbOBIUm9qutnm7WIQoYnF16W6WVsrjFFWGWHB77OzeFJTohrnWecrLBJy8WzY/NxBLjwDanF/SbN0+eamFtca18s6b3VzSgGi85ifpUktTS9b+GfdkgbZSiMvWjKqI4Dhy+JhuabmhSJNMW74dba71w+OODT76SOVcFaXd4jRFgTuZogYZELwo78j6pe65Ae+RTz1K+bx1gD86SzwATuNJwEh8QtrsgELzBsPIkA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vxOKsV06ppaHoHNLp2wZf0rBbS9ZiD+ZzvlW8Esvke0=;
+ b=hzhaEDifDvu8XDpf+fhr70FKMgz86/itMBNhyu5DA1tnpUXrV4/r+ob8Zy3HUdhoyQe7sqWKrPxpuyz0iiLbH5vAVi++MjCXfWpirYmjkI8N1X2f30LH1ba/q7ZJmkMxi/kMu9f+NU3d6h5DpA/+Z1k+M7g1n+Vyj2cSdHSyMRSR/0U2fneKIulcLUCMCxJC+PwckGzGwxIzAJY44rdAddtqU+7j8R8+HhbRxC3wsdhqoSc9flhzOFBJj9WMe1bMCVZ1JcHJjU1A5kJJSrRHiatrybRahHG7KhKsYkyKNg8FN5C9SPVpvTqfunHvLAwLVnvR3xfoP8biBB6dlYk1Jw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CH0PR11MB5690.namprd11.prod.outlook.com (2603:10b6:610:ed::9)
+ by DS7PR11MB5992.namprd11.prod.outlook.com (2603:10b6:8:73::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6863.42; Wed, 11 Oct
+ 2023 10:28:50 +0000
+Received: from CH0PR11MB5690.namprd11.prod.outlook.com
+ ([fe80::72ba:c492:8b29:c776]) by CH0PR11MB5690.namprd11.prod.outlook.com
+ ([fe80::72ba:c492:8b29:c776%4]) with mapi id 15.20.6863.032; Wed, 11 Oct 2023
+ 10:28:50 +0000
+Message-ID: <eec94294-fde4-5e54-ad72-b4404026e168@intel.com>
+Date: Wed, 11 Oct 2023 15:58:38 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [Intel-gfx] [PATCH] drm/i915/mtl: Remove the 'force_probe'
+ requirement for Meteor Lake
+To: Andi Shyti <andi.shyti@linux.intel.com>, intel-gfx
+ <intel-gfx@lists.freedesktop.org>, dri-devel
+ <dri-devel@lists.freedesktop.org>
+References: <20231008164824.919262-1-andi.shyti@linux.intel.com>
+Content-Language: en-US
+From: Karthik B S <karthik.b.s@intel.com>
+In-Reply-To: <20231008164824.919262-1-andi.shyti@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MA0PR01CA0020.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a01:b8::8) To CH0PR11MB5690.namprd11.prod.outlook.com
+ (2603:10b6:610:ed::9)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/BolVCRejD.IPfg=R/IvyE43";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH0PR11MB5690:EE_|DS7PR11MB5992:EE_
+X-MS-Office365-Filtering-Correlation-Id: e1f8cb46-f313-4fc6-c5a6-08dbca44dc22
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: TnAAON01vohA3xJfX2EcWopXTz/U5OCAcgLd5xNdDLyKIZLpfWpiVTckolWWRfekyRPVDQcY4ybi7D3VI7R8TZegUcO2k7RwmB8/3wcjnnqEQfuUAGH019W1gIZ3IrCP6uduVdmGcNPACpfIAeiGbntJLre7xOIgElTFCO62l4y+48kvszttQUhPDrFB3AjYHtq3HqjJQU9xJNfqnFd5jzWUiuvNpls58prUmnh0poGbhE/oGtgGdtF65PgyXaiitje9l2rAZ1jtJ9XZiiaP/SSjBcwGwaS/I2yoyHepE7dk8LTQSD4xw6E5HPkZSaOo51BSkWQFFWo0JK9JNig32L2flvViFSRlHgLlGMPoOANTV9ht7bb+XMRxnChSswdyqinelKCB36ZtWdRShWP6PBAt43wBLywAw7cXoEy0lMjxOct0cB7dCiq2CgT3kxR7MJFL4pNoWxzp9fZyqdavL7obnYK2f7TbgPCIU5vIpZQgZnKb6tPagXYof4JnziNH5rRwyH0+yC+0GG5JS64PfU0rFTEjvQj3Z0fyqr3NavH4QqfYY4UtFpr6o07p6D6lCDrGQqRax4/KE1wruo6ZNPXfKBDh+eceV9DsOe++23X7HTr5jDbOODb0OqP8pnpx
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CH0PR11MB5690.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(366004)(346002)(39860400002)(376002)(136003)(396003)(230922051799003)(186009)(1800799009)(64100799003)(451199024)(478600001)(966005)(6666004)(6486002)(31686004)(6506007)(53546011)(5660300002)(83380400001)(8936002)(2906002)(8676002)(4326008)(2616005)(38100700002)(36756003)(31696002)(86362001)(316002)(110136005)(66556008)(66946007)(66476007)(54906003)(82960400001)(6512007)(26005)(41300700001)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?K0lsKzBncXRBQXhoTVNqSlVyUlpGNE9LUzJTcDhmVTZtUXlsUlpHeEc2L3FL?=
+ =?utf-8?B?bFVmVGVGYTFDbmR6MmF4VXBMS29udTFLcWhaSGFtZmhNYWpudHpxREV2dEs1?=
+ =?utf-8?B?K0FxT3YrOFl5cTNleDArZ1YwZ0YwOGUwYUpvWEEwc2o1NTUyS0pYMVlsL05l?=
+ =?utf-8?B?RFpDUWhuTmZicDB6NGFwSi92RlJiVUZVSVJ0N2VJTlZualNtVmVGUS9HeE5x?=
+ =?utf-8?B?dTBqY0l5cVlBVjRGOThPdHgxWThPVGFweE9oM3V4Nnl4UmR4cklxRzdXOUcv?=
+ =?utf-8?B?RmoxVUFTaVY0ajRXWGdJWDdDSmZoc2VvNThLdU56cDJtbFhlVGxLTTI5bTJF?=
+ =?utf-8?B?RDlKbUlDODRHZjI2STZnM0dLUkQ0aWwwZzdWajc1aWFuMks3aEtTVUlXanc4?=
+ =?utf-8?B?ZEU2VmZFNmJKTG1tM3pQbHp0YVN3MUVTYnF3SHJuSnpQL3MxT0JqNi9Zdlpa?=
+ =?utf-8?B?T0VSWjVabGFraW5oV2xxMEJJMTY2bjd4TkhmTDhzR0dJbEM4RFdwdXVBbnFH?=
+ =?utf-8?B?aWxvNkJ1cHdUSTkwTE9uMjhCQ05wNDJZQmpqNHJCZy9jYmZxdGJ1M3VLNTk0?=
+ =?utf-8?B?ek9uNGFhaktrWVIrVU56WUE2SlhZUHJUTUtsSVd1cjhsRWRPTi90VUxHWTVI?=
+ =?utf-8?B?OXNOK3prKytGSzM3dkhkQXJpc0o3dVR6bzlSeW5naHRMTW1rcXRhb2tQTWVj?=
+ =?utf-8?B?WldvelkxdysvQS9LN2hpZEhXQWhxRE85N1RTM3FXNURuc3NCTXVNTDJDY3dY?=
+ =?utf-8?B?UzRBNmdUL1lRZTdoRVJieGFYa3JhREJta0dRK0hQSHZud2M0K1lPazlVT3Zs?=
+ =?utf-8?B?ZzJ1bzVyZ0t4TTJ1THdGaE1qMjNDRzM3dm1TbWVQMENBVGtiNWNYeCt3Ky9i?=
+ =?utf-8?B?b3FlanlnUXFITzVOOEpyaVFqOFN6NGduUUthUVJVckxVZnRkekNUSGdhWkZM?=
+ =?utf-8?B?UW96SU9WQ1hJNDJucld2TTdJNnZYVy9wek5lVUY0MzJlR2kzaXBZME9SRnVr?=
+ =?utf-8?B?eVk5aW80Zm5kTEN3ZEJSR3VORmRaaDNoTnBnOGs5K3dCN2JLOTBPckU2R0xm?=
+ =?utf-8?B?OUp4dnhqK2tHbjRzSVRIQm8xaStlTUpXSzB0RzFSVHBnZVRTTzlENWQyNFkw?=
+ =?utf-8?B?MXpad3lkalMwYUVXZmFqc1Jaa05Zek9iZGozK1hCTFIvUVZwU2tpZnNseVZP?=
+ =?utf-8?B?Y2R2ZkEzeTNpMDZwQnU3SG1JOUg2NjE1YVZndmplaXg0Ny9DNzIzMEYrNndr?=
+ =?utf-8?B?cm5EMlNHbnh1K2YxSU8zOVdCcDEzSjQzYkx2M0JURHZmSitIcmhGVXNZa1B3?=
+ =?utf-8?B?eE5abFRwK2lmVEJhdGw1SHJMZUxiWk9uL25Xb29pMnNySnY1OHRIQTZLUy9V?=
+ =?utf-8?B?T0J1K0ZVbGtIdTNSWjlST0JOTmJiLzhSOHRWWXNpTmJXcis3MEdWTTRUZXF4?=
+ =?utf-8?B?cHMyYzVvUXV5WjlTRXJtT01mVUhVL3RKZW1YbDRZYnhFdkEyZlFESEp5SGt4?=
+ =?utf-8?B?Y1NqYmRlZW1KWmpzWG1aaGZLM3dMNmZmRENuTDR3dG96dXFMK2p2WkFQUHAv?=
+ =?utf-8?B?anNKQzErcmZLTFR6SDRIT0FCV1BGaytYZTZWbjJ2TzJySjRaSHcyb3hlSnR5?=
+ =?utf-8?B?YkliOWU3S2wvbFZLbHZXcEZiY0duUHdEMytndFByS0dqajdiMWpZN1grRHYv?=
+ =?utf-8?B?amhyUm9PTnA1THFJWkIybjRxR0VkTmRRQVBJdEh3dGxQSmVheEU2ZUZnaDR5?=
+ =?utf-8?B?ZGdRWkM5VU45SXBMM3BaQXJLQi9aOFdOQUhhdjJ2cXl3NTVLbHFub3Ruc1Jh?=
+ =?utf-8?B?VmU1QjRQcHhBWEZsTkRMT1VKaHpZNld0VElMWnZUajJmSFRNOWlCNUJ0VDdK?=
+ =?utf-8?B?NytIMXBERm9KRVQreDJDVjBIL3lUQU41V2Y0K0o3RXhVUXo5Njg3RmNhWThN?=
+ =?utf-8?B?YWVzRFNqaHM0cWxxNVZ4aEtHSjM4TDFFSmQzeGxtK242OStDdGVneW8zSkZZ?=
+ =?utf-8?B?S1l0WXhzbzZCR21XTDNDbGtXVTQyYVlCM0NzamtUYVBOdUM4RVQ3TVYwdVFM?=
+ =?utf-8?B?c0ZUV3ovQ1NSeTNNQ21JSkd6RjJoUE5mL0dIQVh3V25MaGFqV3o1N1ozOFBn?=
+ =?utf-8?Q?M0Pk9AysLR9kCk54+3nRQrzEf?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: e1f8cb46-f313-4fc6-c5a6-08dbca44dc22
+X-MS-Exchange-CrossTenant-AuthSource: CH0PR11MB5690.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Oct 2023 10:28:50.7166 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: aNIWvCNL6+qus5HzrVu9W4sFVfRTIMklPuzTJ8Gl7i8JV/5ZCUUzoimyvU55xll5c2XOHXcJPcOAy+RGKvtGJA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR11MB5992
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,247 +161,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sebastian Wick <sebastian.wick@redhat.com>,
- Shashank Sharma <shashank.sharma@amd.com>, dri-devel@lists.freedesktop.org,
- wayland-devel@lists.freedesktop.org, Xaver Hugl <xaver.hugl@gmail.com>,
- Jonas =?UTF-8?B?w4VkYWhs?= <jadahl@redhat.com>,
- Uma Shankar <uma.shankar@intel.com>,
- Michel =?UTF-8?B?RMOkbnplcg==?= <mdaenzer@redhat.com>,
- Victoria Brekenfeld <victoria@system76.com>, Aleix Pol <aleixpol@kde.org>,
- Naseer Ahmed <quic_naseer@quicinc.com>,
- Christopher Braga <quic_cbraga@quicinc.com>, Joshua Ashton <joshua@froggi.es>
+Cc: Aditya Chauhan <aditya.chauhan@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+ Jonathan Cavitt <jonathan.cavitt@intel.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Chris Wilson <chris.p.wilson@linux.intel.com>,
+ Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/BolVCRejD.IPfg=R/IvyE43
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Hi,
 
-On Tue, 10 Oct 2023 15:13:46 -0100
-Melissa Wen <mwen@igalia.com> wrote:
+On 10/8/2023 10:18 PM, Andi Shyti wrote:
+> From: Radhakrishna Sripada <radhakrishna.sripada@intel.com>
+>
+> Meteor Lake has demonstrated consistent stability for some time.
+> All user-space API modifications tide to its core platform
+> functions are operational.
+>
+> The necessary firmware components are set up and comprehensive
+> testing has been condused over a period.
+>
+> Given the recent faborable CI results, as well, we believe it's
+> time to eliminate the 'force_probe' prerequisite and activate the
+> platform by default.
+>
+> Signed-off-by: Aditya Chauhan <aditya.chauhan@intel.com>
+> Signed-off-by: Andrzej Hajda <andrzej.hajda@intel.com>
+> Signed-off-by: Chris Wilson <chris.p.wilson@linux.intel.com>
+> Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+> Signed-off-by: Jonathan Cavitt <jonathan.cavitt@intel.com>
+> Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
+> Signed-off-by: Radhakrishna Sripada <radhakrishna.sripada@intel.com>
+> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
+> Cc: Jani Nikula <jani.nikula@linux.intel.com>
+> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
-> O 09/08, Harry Wentland wrote:
-> > Signed-off-by: Harry Wentland <harry.wentland@amd.com>
-> > Cc: Ville Syrjala <ville.syrjala@linux.intel.com>
-> > Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
-> > Cc: Simon Ser <contact@emersion.fr>
-> > Cc: Harry Wentland <harry.wentland@amd.com>
-> > Cc: Melissa Wen <mwen@igalia.com>
-> > Cc: Jonas =C3=85dahl <jadahl@redhat.com>
-> > Cc: Sebastian Wick <sebastian.wick@redhat.com>
-> > Cc: Shashank Sharma <shashank.sharma@amd.com>
-> > Cc: Alexander Goins <agoins@nvidia.com>
-> > Cc: Joshua Ashton <joshua@froggi.es>
-> > Cc: Michel D=C3=A4nzer <mdaenzer@redhat.com>
-> > Cc: Aleix Pol <aleixpol@kde.org>
-> > Cc: Xaver Hugl <xaver.hugl@gmail.com>
-> > Cc: Victoria Brekenfeld <victoria@system76.com>
-> > Cc: Daniel Vetter <daniel@ffwll.ch>
-> > Cc: Uma Shankar <uma.shankar@intel.com>
-> > Cc: Naseer Ahmed <quic_naseer@quicinc.com>
-> > Cc: Christopher Braga <quic_cbraga@quicinc.com>
-> > ---
-> >  Documentation/gpu/rfc/color_pipeline.rst | 278 +++++++++++++++++++++++
-> >  1 file changed, 278 insertions(+)
-> >  create mode 100644 Documentation/gpu/rfc/color_pipeline.rst
-> >=20
-> > diff --git a/Documentation/gpu/rfc/color_pipeline.rst b/Documentation/g=
-pu/rfc/color_pipeline.rst
-> > new file mode 100644
-> > index 000000000000..bfa4a8f12087
-> > --- /dev/null
-> > +++ b/Documentation/gpu/rfc/color_pipeline.rst
+Verified with the latest drmtip(CI_DRM_13736) on eDP+HDMI config on MTL. 
+System is booting seamlessly into Ubuntu UI and played around with a few 
+display settings as well.(Single display, clone and extended modes).
 
-...
+Also tried hot-unplug and plug for the HDMI and is working as expected. 
+Basic video playback was also verified on both eDP and HDMI.
 
-> > +Color Pipeline Discovery
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D
-> > +
-> > +A DRM client wanting color management on a drm_plane will:
-> > +
-> > +1. Read all drm_colorop objects
-> > +2. Get the COLOR_PIPELINE property of the plane
-> > +3. iterate all COLOR_PIPELINE enum values
-> > +4. for each enum value walk the color pipeline (via the NEXT pointers)
-> > +   and see if the available color operations are suitable for the
-> > +   desired color management operations
-> > +
-> > +An example of chained properties to define an AMD pre-blending color
-> > +pipeline might look like this:: =20
->=20
-> Hi Harry,
->=20
-> Thanks for sharing this proposal. Overall I think it's very aligned with
-> Simon's description of the generic KMS color API. I think it's a good
-> start point and we can refine over iterations. My general questions have
-> already been pointed out by Sebastian and Pekka (mainly regarding the
-> BYPASS property).
->=20
-> I still have some doubts on how to fit these set of colorops with some
-> AMD corners cases as below:
->=20
-> > +
-> > +    Plane 10
-> > +    =E2=94=9C=E2=94=80 "type": immutable enum {Overlay, Primary, Curso=
-r} =3D Primary
-> > +    =E2=94=94=E2=94=80 "color_pipeline": enum {0, 42} =3D 0
-> > +    Color operation 42 (input CSC)
-> > +    =E2=94=9C=E2=94=80 "type": enum {Bypass, Matrix} =3D Matrix
-> > +    =E2=94=9C=E2=94=80 "matrix_data": blob
-> > +    =E2=94=94=E2=94=80 "next": immutable color operation ID =3D 43 =20
->=20
-> IIUC, for input CSC, there are currently two possiblities, or we use
-> `drm_plane_color_encoding` and `drm_plane_color range` to get
-> pre-defined coefficients or we set a custom matrix here, right? If so, I
-> think we need some kind of pre-defined matrix option?
->=20
-> Also, with this new plane API in place, I understand that we will
-> already need think on how to deal with the mixing between old drm color
-> properties (color encoding and color range) and these new way of setting
-> plane color properties. IIUC, Pekka asked a related question about it
-> when talking about CRTC automatic RGB->YUV (?)=20
+Tested-by: Karthik B S <karthik.b.s@intel.com>
 
-I didn't realize color encoding and color range KMS plane properties
-even existed. There is even color space on rockchip!
-
-https://drmdb.emersion.fr/properties?object-type=3D4008636142
-
-That list has even more conflicts: DEGAMMA_MODE, EOTF, FEATURE,
-NV_INPUT_COLORSPACE, SCALING_FILTER, WATERMARK, alpha, GLOBAL_ALPHA,
-brightness, colorkey, contrast, and more. I hope most of them are
-actually from downstream drivers.
-
-I think they should be forbidden to be used together with the new
-pipeline UAPI. Mixing does not work in the long run, it would be
-undefined at what position do the old properties apply in a pipeline.
-
-Apparently, we already need a DRM client cap for the new color pipeline
-UAPI to hide these legacy things.
-
-
-This is different from "CRTC automatic RGB->YUV", because the CRTC
-thing is chosen silently by the driver and there is nothing after it.
-Those old plane properties are explicitly programmed by userspace.
-
-
-Thanks,
-pq
-
-> > +    Color operation 43
-> > +    =E2=94=9C=E2=94=80 "type": enum {Scaling} =3D Scaling
-> > +    =E2=94=94=E2=94=80 "next": immutable color operation ID =3D 44
-> > +    Color operation 44 (DeGamma)
-> > +    =E2=94=9C=E2=94=80 "type": enum {Bypass, 1D curve} =3D 1D curve
-> > +    =E2=94=9C=E2=94=80 "1d_curve_type": enum {sRGB, PQ, =E2=80=A6} =3D=
- sRGB
-> > +    =E2=94=94=E2=94=80 "next": immutable color operation ID =3D 45
-> > +    Color operation 45 (gamut remap)
-> > +    =E2=94=9C=E2=94=80 "type": enum {Bypass, Matrix} =3D Matrix
-> > +    =E2=94=9C=E2=94=80 "matrix_data": blob
-> > +    =E2=94=94=E2=94=80 "next": immutable color operation ID =3D 46
-> > +    Color operation 46 (shaper LUT RAM)
-> > +    =E2=94=9C=E2=94=80 "type": enum {Bypass, 1D curve} =3D 1D curve
-> > +    =E2=94=9C=E2=94=80 "1d_curve_type": enum {LUT} =3D LUT
-> > +    =E2=94=9C=E2=94=80 "lut_size": immutable range =3D 4096
-> > +    =E2=94=9C=E2=94=80 "lut_data": blob
-> > +    =E2=94=94=E2=94=80 "next": immutable color operation ID =3D 47 =20
->=20
-> For shaper and blend LUT RAM, that the driver supports pre-defined
-> curves and custom LUT at the same time but the resulted LUT is a
-> combination of those, how to make this behavior clear? Could this
-> behavior be described by two colorop in a row: for example, one for
-> shaper TF and,just after, another for shaper LUT or would it not be the
-> right representation?
->=20
-> > +    Color operation 47 (3D LUT RAM)
-> > +    =E2=94=9C=E2=94=80 "type": enum {Bypass, 3D LUT} =3D 3D LUT
-> > +    =E2=94=9C=E2=94=80 "lut_size": immutable range =3D 17
-> > +    =E2=94=9C=E2=94=80 "lut_data": blob
-> > +    =E2=94=94=E2=94=80 "next": immutable color operation ID =3D 48
-> > +    Color operation 48 (blend gamma)
-> > +    =E2=94=9C=E2=94=80 "type": enum {Bypass, 1D curve} =3D 1D curve
-> > +    =E2=94=9C=E2=94=80 "1d_curve_type": enum {LUT, sRGB, PQ, =E2=80=A6=
-} =3D LUT
-> > +    =E2=94=9C=E2=94=80 "lut_size": immutable range =3D 4096
-> > +    =E2=94=9C=E2=94=80 "lut_data": blob
-> > +    =E2=94=94=E2=94=80 "next": immutable color operation ID =3D 0
-> > +
-> > +
-> > +Color Pipeline Programming
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D
-> > +
-> > +Once a DRM client has found a suitable pipeline it will:
-> > +
-> > +1. Set the COLOR_PIPELINE enum value to the one pointing at the first
-> > +   drm_colorop object of the desired pipeline
-> > +2. Set the properties for all drm_colorop objects in the pipeline to t=
-he
-> > +   desired values, setting BYPASS to true for unused drm_colorop block=
-s,
-> > +   and false for enabled drm_colorop blocks
-> > +3. Perform atomic_check/commit as desired
-> > +
-> > +To configure the pipeline for an HDR10 PQ plane and blending in linear
-> > +space, a compositor might perform an atomic commit with the following
-> > +property values::
-> > +
-> > +    Plane 10
-> > +    =E2=94=94=E2=94=80 "color_pipeline" =3D 42
-> > +    Color operation 42 (input CSC)
-> > +    =E2=94=94=E2=94=80 "bypass" =3D true
-> > +    Color operation 44 (DeGamma)
-> > +    =E2=94=94=E2=94=80 "bypass" =3D true
-> > +    Color operation 45 (gamut remap)
-> > +    =E2=94=94=E2=94=80 "bypasse" =3D true
-> > +    Color operation 46 (shaper LUT RAM)
-> > +    =E2=94=94=E2=94=80 "bypass" =3D true
-> > +    Color operation 47 (3D LUT RAM)
-> > +    =E2=94=94=E2=94=80 "lut_data" =3D Gamut mapping + tone mapping + n=
-ight mode
-> > +    Color operation 48 (blend gamma)
-> > +    =E2=94=94=E2=94=80 "1d_curve_type" =3D PQ inverse EOTF =20
->=20
-> Isn't it a PQ EOTF for blend gamma?
->=20
-> Best Regards,
->=20
-> Melissa
->=20
-> > +
-> > +
-> > +References
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > +
-> > +1. https://lore.kernel.org/dri-devel/QMers3awXvNCQlyhWdTtsPwkp5ie9bze_=
-hD5nAccFW7a_RXlWjYB7MoUW_8CKLT2bSQwIXVi5H6VULYIxCdgvryZoAoJnC5lZgyK1QWn488=
-=3D@emersion.fr/
-> > \ No newline at end of file
-> > --=20
-> > 2.42.0
-> >  =20
-
-
---Sig_/BolVCRejD.IPfg=R/IvyE43
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmUmdtUACgkQI1/ltBGq
-qqfHZg/9GYh1504SC3uZHYZkvJ7ILq5e/rqpSucZeDMr9R6A2ke9+ngIT1Wixlk/
-69ebgzU9tFAu1vHMTred9acYG3KymK9bDJ2zbshSzx4VmgDNDx9cGvD8GU5SlBnP
-ELZED7ZIkxDQxKcqeVPOaLXzTbD1EEQ4LWwx3LpEhYKkDETp/wnS6CFpFeVVvdf6
-3VjaqKH782tyAVZTgaZrAG5K9xXPphP1ZXSSVNywn5xm3txcsxUf3eyju9gpzsxo
-Q8SXvSTXCIZHa2sFlFWJDSRfVt2WwTe5spCDubznQRUbU9Wa4pIvrke9TfObrz2B
-Q95tR5sGtTq/wTy2Z6wuO32p8dN/waicIImsCGQD+DM8AmkJqf3HtJfSpkVIirx0
-LQpAhKGGzUxU6AyLzDdH+r7IhS5V6v3TNPKrkq8YLdwsvFXLbLEzHSwAr0EteYd2
-oo9adr9SAxpaINV4I7246Vky6SsQnUSTzN3GnkLGUmUaEWV63AYjh2ekAU+NTEDO
-fnoNNFQiuC+GphUBm1GkGbs0G6u3Lph1RGcwfgiB4iiFg/pLaQfTWjEmDGY7CV42
-HYGbL8uAX6wU4lauTMWuUJjiA34zdOBlM6VsAgW1GseJhC7Cvp/KL2m6W2mC7J8O
-ow0AlIdIs2JbmuspCL6uxiJO0s3CeWfS5K3XrUR2SQ/fdbJbKKY=
-=tSCA
------END PGP SIGNATURE-----
-
---Sig_/BolVCRejD.IPfg=R/IvyE43--
+> ---
+> Hello,
+>
+> This patch eliminates the 'force probe' for the MTL platforms. Over the recent
+> weeks, MTL has demonstrated stability, consistently passing BAT tests with
+> success rates ranging from 98% to 100%.
+>
+> There's a single issue hindering us from achieving a 100% BAT test coverage.
+> Fortunately, we've identified the issue, and the proposed solution can be found
+> here[*]. The CI results are encouraging.
+>
+> Once all reviews are addressed, we plan to submit this series with the "Fixes:"
+> tag.
+>
+> Thank you and best regards,
+> Andi and Radhakrishna
+>
+> [*] https://patchwork.freedesktop.org/series/124744/
+>
+>   drivers/gpu/drm/i915/i915_pci.c | 1 -
+>   1 file changed, 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/i915/i915_pci.c b/drivers/gpu/drm/i915/i915_pci.c
+> index df7c261410f7..fe748906c06f 100644
+> --- a/drivers/gpu/drm/i915/i915_pci.c
+> +++ b/drivers/gpu/drm/i915/i915_pci.c
+> @@ -836,7 +836,6 @@ static const struct intel_device_info mtl_info = {
+>   	.has_pxp = 1,
+>   	.memory_regions = REGION_SMEM | REGION_STOLEN_LMEM,
+>   	.platform_engine_mask = BIT(RCS0) | BIT(BCS0) | BIT(CCS0),
+> -	.require_force_probe = 1,
+>   	MTL_CACHELEVEL,
+>   };
+>   
