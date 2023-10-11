@@ -2,69 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96B2A7C4AB3
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Oct 2023 08:34:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2BBF7C4AC4
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Oct 2023 08:39:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7560310E463;
-	Wed, 11 Oct 2023 06:34:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 751AA10E467;
+	Wed, 11 Oct 2023 06:39:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6DC3210E463
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Oct 2023 06:34:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B02D010E467
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Oct 2023 06:39:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1697006073;
+ s=mimecast20190719; t=1697006344;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=jCqyGdsD5AcMFlVOcceMRSGgH6K4lj4Nvbst1STzOBA=;
- b=UBpD4shiv31ghvoIqsYg0G5OiMlKgFVP7zkx7KZcBaP0/2SvzUjdAWJVzczjShhTZz56p7
- tcb7zaDhzQ9bxDkzmIZlivpVZBgXKmQNdc5b+nbBwG1c9Ex5Mr1p8JG5uO+LzgNp5Dfosr
- lDJ7yGVnNYRPyBbZqEFdr1WpUeEC1YA=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=2AQICOphbR/iChM23xva2V4U+VZ5WTSVXUiRAK42TaU=;
+ b=P3YpTGs54C/FVG/c3UEdcQWA+zzZNDNLjrqfcThgTJxWP8cnDrDe4siIviab3u0Vz/584Y
+ 0sX4bbh4tvr1/q0/xi3GM+5tFhMLGLiPIMno6JNjcR8AuMb3eqdndO5kT9vyc48jyPmMdu
+ dD8eeeycgVO3FBgV0nYLLMpiEcncGiE=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-302-t3q8TTDaMd26-AYNvMmjUg-1; Wed, 11 Oct 2023 02:34:32 -0400
-X-MC-Unique: t3q8TTDaMd26-AYNvMmjUg-1
-Received: by mail-wr1-f69.google.com with SMTP id
- ffacd0b85a97d-32980f21cd4so2164593f8f.0
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Oct 2023 23:34:31 -0700 (PDT)
+ us-mta-260-SHDEa3gENWuPmG3j84usBg-1; Wed, 11 Oct 2023 02:39:03 -0400
+X-MC-Unique: SHDEa3gENWuPmG3j84usBg-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ ffacd0b85a97d-32320b9d671so4670413f8f.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Oct 2023 23:39:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1697006070; x=1697610870;
+ d=1e100.net; s=20230601; t=1697006341; x=1697611141;
  h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
  :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=jCqyGdsD5AcMFlVOcceMRSGgH6K4lj4Nvbst1STzOBA=;
- b=VHHuxgpQc9tUxYY3xqqLYfVBPl+GkKU3FKyakDeq/2ZNDVZ4I4uTbRjs0clQ3Ky21I
- HT7zUB8Izb3NfQjKAnSEzofeYR+u/iiI7UeZIG1xgYzY/ki52j/COQNrnXUfqMMftTo1
- jdAiSDzWAq+xUCnBkW2nTAdN5zLtztgOPaw/LoOWSlBsRl68IYTMGHKDwUtMAGOtCLCp
- vf3FrGPB/MG9O/BwmZztquP5vHMul9Hm55JWgK7MLFR1/8/4PQxd8FV6rtcH6HklEza5
- /x6UYble/2Mq6eFiQlwAcxJQvb4hf7oWz6h/RcedtiqF/ZILHrJdDSYQ0qSQQxiGefC9
- iEVA==
-X-Gm-Message-State: AOJu0Yy80MIur6J2eDJ8vT5iatdSWtdX4XFcR9VoDSdYWGwjZji932G6
- 4I2lhpcaiggNkgP0+iKMqu+6gnK8QYq2VmejuLiD5NOK4kemdDQb/T5EmFpkOGMhuBc0WQ8YkYm
- WjX5dU6v+boSC9ik8yiBbFnfL3ql4uEizMl+d
-X-Received: by 2002:adf:8bde:0:b0:32c:e910:b69f with SMTP id
- w30-20020adf8bde000000b0032ce910b69fmr3104145wra.56.1697006070735; 
- Tue, 10 Oct 2023 23:34:30 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHn1mtTeV29rnDa6jf79nXH+N2kbU5qoJT18TCRs5EkAnTEIyRFWTjc0V0TBxpSuSsrLcZUkg==
-X-Received: by 2002:adf:8bde:0:b0:32c:e910:b69f with SMTP id
- w30-20020adf8bde000000b0032ce910b69fmr3104127wra.56.1697006070424; 
- Tue, 10 Oct 2023 23:34:30 -0700 (PDT)
+ bh=2AQICOphbR/iChM23xva2V4U+VZ5WTSVXUiRAK42TaU=;
+ b=fmAF2NEUi+R8AFkWPpxSZXCUFcaFY/HpyY2SiEqzFF24xcavvWxsx0XGC1xCNEWOAW
+ +zp3ZNsK1FlXsFHL1srUNw/98kces5KpIIqjgozs+EYeW6U5Xm0q3Sx64zHp7d6+zQs4
+ bQLv38BbsR3n8E8FZ5ej4J1WEhcg9+se4tJ6OZrZy0f5XyHmy4EvaM2khUuqewzUqX+W
+ aZz69qRe7q92JfVdPCK/zrugYzigtyMVbd4+DOXhgIdXFsQ8nFFeaWDstH/ZwqVSgGTm
+ vJvpSX7gQAuf+CB1PgFFsojj1N4z1WOx0s8YUT1I6NdJ2QxYVPzZsK1G6xHytxDDVosL
+ EYsA==
+X-Gm-Message-State: AOJu0Yz7tUukLRYdciL6ZpVwLcVYMhPkMhPhYRquk7GdWIt1l8uw2C1q
+ J8SUbxGxezGPu1kGwUDVxuOeOM+A1ToofN0aSVnL8+cuHTgE28MeFtoBWk800cbx6YY2PbX4fZn
+ jE3CYZZuG3ZiW/TAyHXRnH0EzI7jKaBX6jHQX
+X-Received: by 2002:adf:fc09:0:b0:31c:7ada:5e05 with SMTP id
+ i9-20020adffc09000000b0031c7ada5e05mr15801539wrr.51.1697006341653; 
+ Tue, 10 Oct 2023 23:39:01 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEP8vt8qsdEsiFmwa873YPkNT/MZf/VyaBdGjVbnmKBvLnf6NE1iPBeouliki4SV7iFb1ottA==
+X-Received: by 2002:adf:fc09:0:b0:31c:7ada:5e05 with SMTP id
+ i9-20020adffc09000000b0031c7ada5e05mr15801526wrr.51.1697006341282; 
+ Tue, 10 Oct 2023 23:39:01 -0700 (PDT)
 Received: from localhost (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- x3-20020a5d4903000000b0031fa870d4b3sm14382993wrq.60.2023.10.10.23.34.29
+ n9-20020adff089000000b0031ad2f9269dsm14433335wro.40.2023.10.10.23.39.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Oct 2023 23:34:29 -0700 (PDT)
+ Tue, 10 Oct 2023 23:39:01 -0700 (PDT)
 From: Javier Martinez Canillas <javierm@redhat.com>
-To: Conor Dooley <conor@kernel.org>
+To: Rob Herring <robh@kernel.org>
 Subject: Re: [PATCH 8/8] dt-bindings: display: Add SSD132x OLED controllers
-In-Reply-To: <20231010-headache-hazard-834a3338c473@spud>
+In-Reply-To: <20231010165838.GA1039918-robh@kernel.org>
 References: <20231009183522.543918-1-javierm@redhat.com>
  <20231009183522.543918-9-javierm@redhat.com>
- <20231010-headache-hazard-834a3338c473@spud>
-Date: Wed, 11 Oct 2023 08:34:29 +0200
-Message-ID: <87y1g9sm4q.fsf@minerva.mail-host-address-is-not-set>
+ <20231010165838.GA1039918-robh@kernel.org>
+Date: Wed, 11 Oct 2023 08:39:00 +0200
+Message-ID: <87v8bdslx7.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
@@ -83,122 +83,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
- Maxime Ripard <mripard@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, dri-devel@lists.freedesktop.org,
+ Maxime Ripard <mripard@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>,
+ dri-devel@lists.freedesktop.org,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Conor Dooley <conor@kernel.org> writes:
+Rob Herring <robh@kernel.org> writes:
 
-Hello Conor,
+Hello Rob,
 
 Thanks a lot for your feedback.
 
-> Hey,
->
 > On Mon, Oct 09, 2023 at 08:34:22PM +0200, Javier Martinez Canillas wrote:
+>> Add a Device Tree binding schema for the OLED panels based on the Solomon
+>> SSD132x family of controllers.
+>
+> Looks like the same binding as solomon,ssd1307fb.yaml. Why a different 
+> binding? Why does that binding need a slew of custom properties and here 
+> you don't?
+>
+
+It's a sub-set of it. Because only the minimum required properties are
+defined. But also, is a clean slate schema because the old ssd1307fb fbdev
+driver only supports the Solomon SSD130x family, so there is no need to
+follow the existing solomon,ssd1307fb.yaml nor the need for backward compat.
 
 [...]
 
->> +properties:
->> +  compatible:
->> +    oneOf:
->> +      - enum:
->> +          - solomon,ssd1322
->> +          - solomon,ssd1325
->> +          - solomon,ssd1327
->
-> You don't need the oneOf here here as there is only the enum as a
-> possible item.
-
-Indeed. I'll fix that in v2.
-
-> I didn't get anything else in the series, I have to ask - are these
-> controllers not compatible with eachother?
->
-
-They are not, basically the difference is in the default width and height
-for each controller. That's why the width and height fields are optional.
-
-But other than the default resolution, yes the controllers are very much
-the same.
-
->> +
->> +  reg:
->> +    maxItems: 1
->> +
->> +  reset-gpios:
->> +    maxItems: 1
->> +
->> +  # Only required for SPI
->> +  dc-gpios:
->> +    description:
->> +      GPIO connected to the controller's D/C# (Data/Command) pin,
->> +      that is needed for 4-wire SPI to tell the controller if the
->> +      data sent is for a command register or the display data RAM
->> +    maxItems: 1
->> +
 >> +  solomon,height:
 >> +    $ref: /schemas/types.yaml#/definitions/uint32
 >> +    description:
 >> +      Height in pixel of the screen driven by the controller.
 >> +      The default value is controller-dependent.
->
-> You probably know better than me, operating in drm stuff, but are there
-> really no generic properties for the weidth/height of a display?
->
-
-There are some common properties, such as the width-mm and height-mm for
-the panel-common:
-
-Documentation/devicetree/bindings/display/panel/panel-common.yaml
-
-But those are to describe the physical area expressed in millimeters and
-the Solomon drivers (the old ssd1307fb fbdev driver and the new ssd130x
-DRM driver for backward compatibility with existing DTB) express the width
-and height in pixels.
-
-That's why are Solomon controller specific properties "solomon,width" and
-"solomon,height".
-
-[...]
-
->> +    then:
->> +      properties:
->> +        width:
->> +          default: 128
->> +        height:
->> +          default: 128
->
-> Unless you did it like this for clarity, 2 of these have the same
-> default width and 2 have the same default height. You could cut this
-> down to a pair of if/then/else on that basis AFAICT.
-> :wq
->
-
-Yes, this was done like that for clarity. Because is easier for someone
-reading the DT binding schema to reason about resolution (width,height)
-for a given SSD132x controller, rather than following the if/else logic.
-
 >> +
->> +unevaluatedProperties: false
->> +
->> +examples:
->> +  - |
->> +    i2c {
->> +            #address-cells = <1>;
->> +            #size-cells = <0>;
->> +
->> +            ssd1327_i2c: oled@3c {
+>> +  solomon,width:
+>> +    $ref: /schemas/types.yaml#/definitions/uint32
+>> +    description:
+>> +      Width in pixel of the screen driven by the controller.
+>> +      The default value is controller-dependent.
 >
-> This label is unused as far as I can tell. Ditto below.
+> Don't define the same properties twice. Either share the binding or 
+> split out the common properties into their own schema file.
 >
 
-Right, I'll drop those too.
+Agreed. I'll do that in v2.
 
-> Cheers,
-> Conor.
+> Rob
 >
 
 -- 
