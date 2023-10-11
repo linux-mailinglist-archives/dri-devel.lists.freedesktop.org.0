@@ -1,65 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D99CB7C56F5
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Oct 2023 16:36:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D7C147C5712
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Oct 2023 16:38:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0CD1210E8ED;
-	Wed, 11 Oct 2023 14:36:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F158510E4E9;
+	Wed, 11 Oct 2023 14:38:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com
- [IPv6:2a00:1450:4864:20::52b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1AF7D10E8ED
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Oct 2023 14:36:11 +0000 (UTC)
-Received: by mail-ed1-x52b.google.com with SMTP id
- 4fb4d7f45d1cf-534694a9f26so11805a12.1
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Oct 2023 07:36:11 -0700 (PDT)
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com
+ [IPv6:2a00:1450:4864:20::529])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8122810E4E9
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Oct 2023 14:38:12 +0000 (UTC)
+Received: by mail-ed1-x529.google.com with SMTP id
+ 4fb4d7f45d1cf-53db3811d8fso2232825a12.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Oct 2023 07:38:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1697034969; x=1697639769;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=fRia8k+03Oqwx1GX3n4lKL8Fmr4eu0Kd6W6Uh3EpGVs=;
- b=bSFKtyEh35086CeE7fqU/5C1YqyaSysUIzHgXX7AbzZTi2BcP6Iag6UVJBqIv0vHIk
- YjLDbgC6XlkPJh+9zEtV6n6i1SdFb4jrBuHjPRPSGZozTBIpC6E7tDOp5/KyLHkfzpch
- m7+YpyuBxAHrVQEWasqX8RIs6QxwsUQAAq7oCI7r2G42Y0AoOJmQJjTkhtSFUnyu/X+Q
- SvmxZzYiy5ok6+s7uy82aOYsEWkOm2pV0vQkrFhu9I/UbtJA5YoC/iwv0CGmexJltlAb
- UHVjYGRSJ5J82Yeev7s06HmZvmOWJOvrsaY2MSAQAYRmWT543bsXoGtAF0IpOTrdYqGs
- 0FUA==
+ d=gmail.com; s=20230601; t=1697035091; x=1697639891; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=0vZToVsgXRWZfLo5rsOcN+LGMRHmIudHJDej1lZABCM=;
+ b=CYVQYMicJosEo3IVQO/WpzWYpoLbodCLENUU0NNleozs3UuH1RCVrfzQlbQpvu+aie
+ PpRHnwAbpGL2E9scUNoPIdH+5HBTl+31gvYl8zSdavaD83AYU1+l8ByMxqxgaoKPmtSO
+ 8UCPFjlS2xqfyf835v1hMxamRErguDMe2qT2fM2gLWZzKavraOjQXpbzwcacmDKxI50N
+ at32eMLCC+yh+15TfzcpSjcWtuUV6DqXDFiF2O8C9gY6Oc2NSK37gRN1APM2cUD7EQz9
+ C5cQTLP9JBpIaEn+gx08qspMsYLMgM0Q8D+lxa4OPtVqZH0gFNnDh0jr2t7nWsf8kYWM
+ Uscg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1697034969; x=1697639769;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=fRia8k+03Oqwx1GX3n4lKL8Fmr4eu0Kd6W6Uh3EpGVs=;
- b=hRxFhu5XUjbFxklAKknMiwP/uXhC/BtT/gsijDMYiMKQ8+0n6UrBZQ8EEAnfFLSpb8
- czCV7iclYyWd8p/Ov5WzasNs6yuL4OGl5pnsKRGQOHwRQjOvgvMOjShACNQmt0zpboh8
- 3FIhpyTHkwkFyAgMd+iSLp1ktsK1GAzSGxo3Tt4Q8iRGs2KYZmk/Ltt2u4omG20Qe5T1
- TPmsBAfHY67cJ2sZdnRBZIBRKl77mR62h+c5Eq7JP0LyPQmK5ZRucsP1wHalhwgXIxJV
- rOpihYmnBCPldji5mitTRNqN/rg1POQExkdVu4STMfjMZ5NQxgFvJer5oUIJ4xjTy6EL
- +1sA==
-X-Gm-Message-State: AOJu0YxlVKlKYk0QhuWzmtC/p2fOfNRuLB7+u/OfxyGaZewO4zl+XzTn
- eXjAtWAqTF5nDp7p+EV2CPeaT3P25KsLeeuIXD+VEQ==
-X-Google-Smtp-Source: AGHT+IGp0aCbVch3aWSyH7cHVNbtanzJle7cJ1cAmpcUd/wMeHz4+z/v7vHIwU0O/XV3e1Y9FOEIZ+CBjOydn+x9eiA=
-X-Received: by 2002:a50:8ad1:0:b0:538:5f9e:f0fc with SMTP id
- k17-20020a508ad1000000b005385f9ef0fcmr158758edk.0.1697034969289; Wed, 11 Oct
- 2023 07:36:09 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1697035091; x=1697639891;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=0vZToVsgXRWZfLo5rsOcN+LGMRHmIudHJDej1lZABCM=;
+ b=GnA7zMwgGwtFESYlkKCli+7KAoRLzt9h798BhoUSlnBFJz+KQX3dPqBEgTu1toi1Xx
+ W+nn+yLktNemQSOUTQVNLkELDKjeiCWr0ilUjEgMKzTrrx7oAMSsNywbeNJ229yyzCC+
+ k2w5jeY7Tvn60dbTS14zZcOpxWC/yTWcWCmBGKeIqRUoLqPBRzOhluAhyV7sNLJ47QwD
+ VCOWJd3p724vVZPQEKlh6hb0sfrLx4UbIlQjERPAMU4fQ2ET+2CsumeSCizh4q0vNrxZ
+ m09Lczq5pyIh+uVxb4cXUrUA+cJkMW1QHz+zG3svbYp4f7as2wflWbAY84odOpv3ggXe
+ Lygg==
+X-Gm-Message-State: AOJu0YzovtDulAwUFs8bzs1ho5t/LV2Z8yrStitGa+qu6cZzz/OC77oF
+ /i3QJh3mhKBS17uo6bOl1v0=
+X-Google-Smtp-Source: AGHT+IEgMDBcdZeBV7mjfwI0zrFa57ZIWS69YdUT342bDnOI5fH1lDw2opQoqPAh1K00pWXBJvDyrA==
+X-Received: by 2002:a50:fb0c:0:b0:530:8759:a3ac with SMTP id
+ d12-20020a50fb0c000000b005308759a3acmr18356337edq.2.1697035090568; 
+ Wed, 11 Oct 2023 07:38:10 -0700 (PDT)
+Received: from localhost
+ (p200300e41f3f4900f22f74fffe1f3a53.dip0.t-ipconnect.de.
+ [2003:e4:1f3f:4900:f22f:74ff:fe1f:3a53])
+ by smtp.gmail.com with ESMTPSA id
+ d5-20020aa7ce05000000b005346a263bb1sm8872167edv.63.2023.10.11.07.38.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 11 Oct 2023 07:38:10 -0700 (PDT)
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Hans de Goede <hdegoede@redhat.com>,
+	Helge Deller <deller@gmx.de>
+Subject: [PATCH 0/2] fbdev/simplefb: Add missing simple-framebuffer features
+Date: Wed, 11 Oct 2023 16:38:07 +0200
+Message-ID: <20231011143809.1108034-1-thierry.reding@gmail.com>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
-References: <20231010121402.3687948-1-yangcong5@huaqin.corp-partner.google.com>
- <20231010121402.3687948-2-yangcong5@huaqin.corp-partner.google.com>
- <CAD=FV=VsjB-gsqXyAs+G8DpHJqHNTxeFXwbpgt20-Wgb757z1w@mail.gmail.com>
- <CAHwB_NKVSOLwBttWG9GQMvKEFGzuGeE6ukR=vNDNLpdVjjohng@mail.gmail.com>
-In-Reply-To: <CAHwB_NKVSOLwBttWG9GQMvKEFGzuGeE6ukR=vNDNLpdVjjohng@mail.gmail.com>
-From: Doug Anderson <dianders@google.com>
-Date: Wed, 11 Oct 2023 07:35:53 -0700
-Message-ID: <CAD=FV=WFkRqkp8wcGG5uxE+7RqAQ40rSU-12Zig1R--ykcO8ZA@mail.gmail.com>
-Subject: Re: [v2 1/3] drm/panel: ili9882t: Break out as separate driver
-To: cong yang <yangcong5@huaqin.corp-partner.google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,57 +73,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: neil.armstrong@linaro.org, will@kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- swboyd@chromium.org, catalin.marinas@arm.com, hsinyi@google.com,
- sam@ravnborg.org
+Cc: linux-fbdev@vger.kernel.org, Robert Foss <rfoss@kernel.org>,
+ dri-devel@lists.freedesktop.org, Jon Hunter <jonathanh@nvidia.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: Thierry Reding <treding@nvidia.com>
+
 Hi,
 
-On Tue, Oct 10, 2023 at 10:42=E2=80=AFPM cong yang
-<yangcong5@huaqin.corp-partner.google.com> wrote:
->
-> Hi,
->
-> On Wed, Oct 11, 2023 at 3:11=E2=80=AFAM Doug Anderson <dianders@google.co=
-m> wrote:
-> >
-> > Hi,
-> >
-> > On Tue, Oct 10, 2023 at 5:14=E2=80=AFAM Cong Yang
-> > <yangcong5@huaqin.corp-partner.google.com> wrote:
-> > >
-> > > diff --git a/drivers/gpu/drm/panel/panel-ilitek-ili9882t.c b/drivers/=
-gpu/drm/panel/panel-ilitek-ili9882t.c
-> > > new file mode 100644
-> > > index 000000000000..e095ad91c4bc
-> > > --- /dev/null
-> > > +++ b/drivers/gpu/drm/panel/panel-ilitek-ili9882t.c
-> > > @@ -0,0 +1,762 @@
-> > > +// SPDX-License-Identifier: GPL-2.0
-> > > +/*
-> > > + * Panels based on the Ilitek ILI9882T display controller.
-> > > + */
-> > > +#include <linux/delay.h>
-> > > +#include <linux/gpio/consumer.h>
-> > > +#include <linux/module.h>
-> > > +#include <linux/of.h>
-> > > +#include <linux/of_device.h>
-> >
-> > nit: remove include of linux/of_device.h since you don't use any of
-> > the functions declared there.
->
-> It seems that of_device_get_match_data will be used.
+This contains two patches that bring simplefb up to feature parity with
+simpledrm. The patches add support for the "memory-region" property that
+provides an alternative to the "reg" property to describe the memory
+used for the framebuffer and allow attaching the simple-framebuffer
+device to one or more generic power domains to make sure they aren't
+turned off during the boot process and take down the display
+configuration.
 
-Right... ...and of_device_get_match_data() is declared in...
-<linux/of.h>. :-) See commit 82174a0a9c5c ("of: Move
-of_device_get_match_data() declaration") and commit 722d4f06e560
-("drm: Explicitly include correct DT includes").
+Thanks,
+Thierry
 
-We'll probably need to handle that when picking to downstream, but for
-upstream you shouldn't be re-introducing of_device.h.
+Thierry Reding (2):
+  fbdev/simplefb: Support memory-region property
+  fbdev/simplefb: Add support for generic power-domains
 
+ drivers/video/fbdev/simplefb.c | 128 +++++++++++++++++++++++++++++++--
+ 1 file changed, 121 insertions(+), 7 deletions(-)
 
--Doug
+-- 
+2.42.0
+
