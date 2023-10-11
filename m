@@ -2,84 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EB8E7C4B9D
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Oct 2023 09:19:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6ED27C4BF6
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Oct 2023 09:34:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F3C610E200;
-	Wed, 11 Oct 2023 07:19:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B75710E206;
+	Wed, 11 Oct 2023 07:34:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8BA7510E200
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Oct 2023 07:19:24 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 4E8ED21860;
- Wed, 11 Oct 2023 07:19:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1697008763; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=dt24z3e7RmTaeNEuZ+cTAZvxkgnUpTCDbZzPBNSTYwA=;
- b=bu0xvWF3EUsQAW9TCepFJM52ebBOlux0XeuZfLpIMPxNkyvUKnD2L1dLoQpz1z7VtTC1ke
- w+Fv3IIp4VsIT5bx0uS70ynApxYGgwXAPn2PwIk4M2NxpoAEFTy9UC/F+igbVrb6gfo829
- xFwcbdmETO0EJb04z6AL9skww7g4ncI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1697008763;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=dt24z3e7RmTaeNEuZ+cTAZvxkgnUpTCDbZzPBNSTYwA=;
- b=rp/GjvV62tsDBV2/bcLhJPYccLW1sWff/EgsJU30F07MPPuRjiZbohk4z8P6WD3SmNYIaT
- mGy5dm+pvp6HhiCg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 02BBF134F5;
- Wed, 11 Oct 2023 07:19:22 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id nU36N3pMJmUmegAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Wed, 11 Oct 2023 07:19:22 +0000
-Message-ID: <afdb69df-abcc-4dbb-91b0-638ddfd99cc0@suse.de>
-Date: Wed, 11 Oct 2023 09:19:21 +0200
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 06D3610E206
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Oct 2023 07:34:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1697009672;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=PT6Sw/x4JIJ/TiIyhjM4l1jVYrrCLNDF9k0rE6BJkQw=;
+ b=chuoiV0VqFMTKQ5zoKLV6pB7cCE0j6BGryVfgc+vwjFKHeVzRZvAlOCOcG3P4zwFVzwMsU
+ 7ak96X42Bqwkgi9uwxyYvNKZqz0GXgKD9lwWOE9hUe3YosXXItO+YYm0iRjiLFJh5ycSUQ
+ X8j923ywtuWLBpNJF0hkTYBczHh0mPU=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-111-P9tH7JWMMUy77n8cfCIcCQ-1; Wed, 11 Oct 2023 03:34:30 -0400
+X-MC-Unique: P9tH7JWMMUy77n8cfCIcCQ-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ 5b1f17b1804b1-4074cdf2566so2897645e9.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Oct 2023 00:34:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1697009669; x=1697614469;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=PT6Sw/x4JIJ/TiIyhjM4l1jVYrrCLNDF9k0rE6BJkQw=;
+ b=jLzWyAf3s/w/SyO8Nk7F/hC1mQ8+DaN0SnjttIOvEFY3vRUEzTlL35U4AeZ1Tm7+iZ
+ spIDI/8a/ZQsYDOB+0/CuN3hNtagOE5ZwwMwElIvgREKzd8V44hpu2drVJjnRqxGSw4J
+ egxdwaXtgWnq4YBgRcstsE9T/yMyCAxtTTyKADEDU4mwdKidBeM3h6tmI+eTbcwVw0I3
+ VouCvMPAxyGIdh7HP9PduRAo9rBgNb0VSwNCdctlSQVc4s0fAq6/LKmuJ/NhEc999I4N
+ ta65eBn/MNnb+x2jHHvfksRanKF0PGNS4SYxVS/tyDKCZ7hdeYTm9c5eLK5+K7/kFpKK
+ 9bTw==
+X-Gm-Message-State: AOJu0YyHoQ5+XFkT6eQqTXbg8QFLxTQDlbmUFZkVm1nHsVMB25ZWN/Rv
+ R5+oYy7nhCUn/3LkIst/pHmBvOGHVPbs+lPf+whDX6SQFHLx1wGn0y24pXi1Fud0R+h7ARhta02
+ wUbChBtq/nDY1IQhnzczxdjQdeYUM5AFyYbkB
+X-Received: by 2002:a05:600c:827:b0:405:2d29:1648 with SMTP id
+ k39-20020a05600c082700b004052d291648mr13461809wmp.19.1697009669622; 
+ Wed, 11 Oct 2023 00:34:29 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGsejCRRnJRskgCxuslOB4PnR/uGl69Os7lgF/uOLkrZgLkZeJMtWHRM0lwrPP4gwBR56jZDQ==
+X-Received: by 2002:a05:600c:827:b0:405:2d29:1648 with SMTP id
+ k39-20020a05600c082700b004052d291648mr13461784wmp.19.1697009669247; 
+ Wed, 11 Oct 2023 00:34:29 -0700 (PDT)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ f19-20020a7bc8d3000000b00405959469afsm16076183wml.3.2023.10.11.00.34.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 11 Oct 2023 00:34:28 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH 8/8] dt-bindings: display: Add SSD132x OLED controllers
+In-Reply-To: <87v8bdslx7.fsf@minerva.mail-host-address-is-not-set>
+References: <20231009183522.543918-1-javierm@redhat.com>
+ <20231009183522.543918-9-javierm@redhat.com>
+ <20231010165838.GA1039918-robh@kernel.org>
+ <87v8bdslx7.fsf@minerva.mail-host-address-is-not-set>
+Date: Wed, 11 Oct 2023 09:34:28 +0200
+Message-ID: <87sf6hsjcr.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1] drm/tiny: correctly print `struct resource *` on error
-To: Joey Gouly <joey.gouly@arm.com>, dri-devel@lists.freedesktop.org
-References: <20231010174652.2439513-1-joey.gouly@arm.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20231010174652.2439513-1-joey.gouly@arm.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------NgQWvICxbM6UbRAVwCA0nM2G"
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,79 +82,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: javierm@redhat.com
+Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
+ Maxime Ripard <mripard@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>,
+ dri-devel@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------NgQWvICxbM6UbRAVwCA0nM2G
-Content-Type: multipart/mixed; boundary="------------TplMxA0bEIfVKuDsn4w7QVwx";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Joey Gouly <joey.gouly@arm.com>, dri-devel@lists.freedesktop.org
-Cc: javierm@redhat.com
-Message-ID: <afdb69df-abcc-4dbb-91b0-638ddfd99cc0@suse.de>
-Subject: Re: [PATCH v1] drm/tiny: correctly print `struct resource *` on error
-References: <20231010174652.2439513-1-joey.gouly@arm.com>
-In-Reply-To: <20231010174652.2439513-1-joey.gouly@arm.com>
+Javier Martinez Canillas <javierm@redhat.com> writes:
 
---------------TplMxA0bEIfVKuDsn4w7QVwx
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+> Rob Herring <robh@kernel.org> writes:
+>
+> Hello Rob,
+>
+> Thanks a lot for your feedback.
+>
+>> On Mon, Oct 09, 2023 at 08:34:22PM +0200, Javier Martinez Canillas wrote:
+>>> Add a Device Tree binding schema for the OLED panels based on the Solomon
+>>> SSD132x family of controllers.
+>>
+>> Looks like the same binding as solomon,ssd1307fb.yaml. Why a different 
+>> binding? Why does that binding need a slew of custom properties and here 
+>> you don't?
+>>
+>
+> It's a sub-set of it. Because only the minimum required properties are
+> defined. But also, is a clean slate schema because the old ssd1307fb fbdev
+> driver only supports the Solomon SSD130x family, so there is no need to
+> follow the existing solomon,ssd1307fb.yaml nor the need for backward compat.
+>
 
-DQoNCkFtIDEwLjEwLjIzIHVtIDE5OjQ2IHNjaHJpZWIgSm9leSBHb3VseToNCj4gVGhlIGBy
-ZXNgIHZhcmlhYmxlIGlzIGFscmVhZHkgYSBgc3RydWN0IHJlc291cmNlICpgLCBkb24ndCB0
-YWtlIHRoZSBhZGRyZXNzIG9mIGl0Lg0KPiANCj4gRml4ZXMgaW5jb3JyZWN0IG91dHB1dDoN
-Cj4gDQo+IAlzaW1wbGUtZnJhbWVidWZmZXIgOWUyMGRjMDAwLmZyYW1lYnVmZmVyOiBbZHJt
-XSAqRVJST1IqIGNvdWxkIG5vdCBhY3F1aXJlIG1lbW9yeSByYW5nZSBbPz8/IDB4ZmZmZjRi
-ZTg4YTM4N2QwMC0weGZmZmZmZWZmZmRlMGEyNDAgZmxhZ3MgMHgwXTogLTE2DQo+IA0KPiBU
-byBiZSBjb3JyZWN0Og0KPiANCj4gCXNpbXBsZS1mcmFtZWJ1ZmZlciA5ZTIwZGMwMDAuZnJh
-bWVidWZmZXI6IFtkcm1dICpFUlJPUiogY291bGQgbm90IGFjcXVpcmUgbWVtb3J5IHJhbmdl
-IFttZW0gMHg5ZTIwZGMwMDAtMHg5ZTMwN2JmZmYgZmxhZ3MgMHgyMDBdOiAtMTYNCj4gDQo+
-IFNpZ25lZC1vZmYtYnk6IEpvZXkgR291bHkgPGpvZXkuZ291bHlAYXJtLmNvbT4NCj4gQ2M6
-IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPg0KPiBDYzogSmF2aWVy
-IE1hcnRpbmV6IENhbmlsbGFzIDxqYXZpZXJtQHJlZGhhdC5jb20+DQoNClJldmlld2VkLWJ5
-OiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4NCg0KVGhhbmtzIGZv
-ciB0aGUgcGF0Y2guDQoNCj4gLS0tDQo+ICAgZHJpdmVycy9ncHUvZHJtL3Rpbnkvc2ltcGxl
-ZHJtLmMgfCAyICstDQo+ICAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRl
-bGV0aW9uKC0pDQo+IA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3Rpbnkvc2lt
-cGxlZHJtLmMgYi9kcml2ZXJzL2dwdS9kcm0vdGlueS9zaW1wbGVkcm0uYw0KPiBpbmRleCBm
-Zjg2YmExYWUxYjguLjhlYTEyMGViODY3NCAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9ncHUv
-ZHJtL3Rpbnkvc2ltcGxlZHJtLmMNCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3Rpbnkvc2lt
-cGxlZHJtLmMNCj4gQEAgLTc0NSw3ICs3NDUsNyBAQCBzdGF0aWMgc3RydWN0IHNpbXBsZWRy
-bV9kZXZpY2UgKnNpbXBsZWRybV9kZXZpY2VfY3JlYXRlKHN0cnVjdCBkcm1fZHJpdmVyICpk
-cnYsDQo+ICAgDQo+ICAgCQlyZXQgPSBkZXZtX2FwZXJ0dXJlX2FjcXVpcmVfZnJvbV9maXJt
-d2FyZShkZXYsIHJlcy0+c3RhcnQsIHJlc291cmNlX3NpemUocmVzKSk7DQo+ICAgCQlpZiAo
-cmV0KSB7DQo+IC0JCQlkcm1fZXJyKGRldiwgImNvdWxkIG5vdCBhY3F1aXJlIG1lbW9yeSBy
-YW5nZSAlcHI6ICVkXG4iLCAmcmVzLCByZXQpOw0KPiArCQkJZHJtX2VycihkZXYsICJjb3Vs
-ZCBub3QgYWNxdWlyZSBtZW1vcnkgcmFuZ2UgJXByOiAlZFxuIiwgcmVzLCByZXQpOw0KPiAg
-IAkJCXJldHVybiBFUlJfUFRSKHJldCk7DQo+ICAgCQl9DQo+ICAgDQoNCi0tIA0KVGhvbWFz
-IFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUg
-U29sdXRpb25zIEdlcm1hbnkgR21iSA0KRnJhbmtlbnN0cmFzc2UgMTQ2LCA5MDQ2MSBOdWVy
-bmJlcmcsIEdlcm1hbnkNCkdGOiBJdm8gVG90ZXYsIEFuZHJldyBNeWVycywgQW5kcmV3IE1j
-RG9uYWxkLCBCb3VkaWVuIE1vZXJtYW4NCkhSQiAzNjgwOSAoQUcgTnVlcm5iZXJnKQ0K
+I think this answer was a little sparse, let me elaborate a bit. The Solomon
+display controllers are quite flexible, so that could be used with different
+OLED panels.
 
---------------TplMxA0bEIfVKuDsn4w7QVwx--
+And the ssd1307fb binding schema defines a set of properties that are almost
+a 1:1 mapping from properties to the configuration registers. This makes the
+driver to support most SSD130x controller + panel configurations but at the
+expense of making the binding more complicated (a slew of custom propertie
+as you pointed out).
 
---------------NgQWvICxbM6UbRAVwCA0nM2G
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+Now, as mentioned this is support for greyscale Solomon controllers (the old
+fbdev driver only supports monochrome controllers) so we don't care about DT
+backward compatibility.
 
------BEGIN PGP SIGNATURE-----
+I decided for now to keep the binding at a minimum and be more opinionated in
+the driver with having what I think are sane defaults for most of the config
+registers.
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmUmTHoFAwAAAAAACgkQlh/E3EQov+BD
-+hAAuTaaeQpP1HVEefBOxqxwh3nVHDl/71k/9Jtxge9Le9jvlwotBgg+NvbE2u8uC6fQujcQMIS2
-bsq5sX7TmdmI0l6lfesiisJdMlL8aOJI2Iq3y1oXpJoj4JwsT1Hz8XuHVX2aILpX+H/DmILaf9U+
-0UHWd6qacUFKaJaQlPeBjAdWrWWYUMlSs4SGu2/l5kho4aPYm+/qdWgl1ROML61IAhDv/+cUXtiB
-6W307w7uiLB5adM6EzqlP2ewjzHgf+rk8KW/uiPUdnMo4k9SmxJuboadkVCqRi9pBTJYwqnxmzou
-2z4SWSN6O6dlZ+rDm8ZLz8D2u9Qbh3pU00gJDi2s8g24WxvvZMlJMRSieyjvypHMFYILzeUBn3rt
-k1yQW+rhpSdBDyETodyvJZeyhYvCjX2oZSdueu2RWhvE2/wt++Uw67pTREJ3KNyesNoJH/MFk7le
-+YwTTe3FHNJVSflI82G/ZlxpZ6qZxDjvnNIwSmMMRqaIpQAsiEyEDc58lu39mWogwU5UEAZ5TK6g
-yCK1T976JyS6PwTAV/IKZnBC++8j8SgspeSrIE1M3TrzTT7we9yKtUnqX6IIXg1nCcz8KAZiVG64
-Pqbeodhe4knQJz5VrjdlwHDbt4D0gLxp0jeXNiuyBKtDw2FlehjMsqF+mVRROBcL4q9nkSGU4Vmr
-IIY=
-=GcJC
------END PGP SIGNATURE-----
+If there is a need to expose any of this configuration as DT properties, then
+we can later added it share some of the existing solomon,ssd1307fb.yaml custom
+properties and move them to a common schema.
 
---------------NgQWvICxbM6UbRAVwCA0nM2G--
+We can always change the driver in the future anyways, but we can't do the same
+with the DT binding schema since that is considered an ABI.
+
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
