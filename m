@@ -2,60 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C413D7C5488
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Oct 2023 14:56:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F75B7C54C3
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Oct 2023 15:05:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 16B8610E7DC;
-	Wed, 11 Oct 2023 12:55:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E1F5E10E7EB;
+	Wed, 11 Oct 2023 13:05:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x1136.google.com (mail-yw1-x1136.google.com
- [IPv6:2607:f8b0:4864:20::1136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5BDFD10E7DC
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Oct 2023 12:55:56 +0000 (UTC)
-Received: by mail-yw1-x1136.google.com with SMTP id
- 00721157ae682-5a7ad24b3aaso31181577b3.2
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Oct 2023 05:55:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1697028955; x=1697633755; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=EMpanbuMcLckus9ZARSZ53Uwja0e50NWNJtv+xhA5TM=;
- b=KaYUuZqZeN4wjd5zioAWpKmCiLrX6Igmv+wwEfMpy3qdYBeywJj+z/8l5UYkF+AYW5
- Q0aW2pSkBW6re4WYbROHlzvhbXXslRD59GEAqdqSKqxzXMCKBuP/Suds6bVaztMpLgbn
- fY0QuldVM7tjL0/fBcq/AHnZxG5Szaidxi9gENyWEpFLhJJqIM634y9htjmLEg6eD+pJ
- IX/9agYBDV8Z9V3g1auDyB1xXo1psGuuR4dP+z/otBPys+hQ4dC463HXblet9ZZ97+zJ
- dDYM8rOB3jbUsPH1TYHeWXUln3vFVxrWrO5KumvMBWJjqby8Y8iDO9goBvr5ZVAWFPEr
- LWCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1697028955; x=1697633755;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=EMpanbuMcLckus9ZARSZ53Uwja0e50NWNJtv+xhA5TM=;
- b=r79bHIhnxIEMRznPp1jPMy1tyy8Qkpa+JVonsx1wbwVmegs4oMpDCB+ntnoMDZ7pTa
- pnsy9mNyVqmXRhZpw5bsihGJrb5I2aBHEVlLqQUTFaxB47CtANR7blTGXr8OENIg9HCA
- IZEAgEaaKr/7HmxTKhniKUYT7TLHmx97700yQHZXQ4fyrUR9umvqohMgACTo/sFUy9Ad
- ChwYDvdKbnTIyqes0MDXNWt6wrkL9VxfjEeQG6AMyFkR5YZOnpjMr/jIKltiq5YqYuRF
- YdkYUQ8oHhf13mW5qIM0LnC7eyRv/dnnyySc1mg2MViQiVwgmEel0ptEV8t1PbnF+M1K
- Jwhg==
-X-Gm-Message-State: AOJu0Yy4Nbe9BtKkPDaQE+NMYxaJ7iaHUUBE4u3zs1tKLfZZ0QwNygnO
- q+BJdgqBsp6l30w3x1szLCkP/VjYIvKCD4194MI8WQ==
-X-Google-Smtp-Source: AGHT+IEIo1rpWm9ozb2LC8BBsWDuwXIWlIvdWVu7bjYXOoAjwOwLrnyyqhLenYE18qjjRDtzEBTv1V0bMC53GjFv++k=
-X-Received: by 2002:a81:9149:0:b0:5a7:b782:6dd9 with SMTP id
- i70-20020a819149000000b005a7b7826dd9mr6553527ywg.26.1697028955491; Wed, 11
- Oct 2023 05:55:55 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8306C10E802;
+ Wed, 11 Oct 2023 13:05:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1697029510; x=1728565510;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=bsszA6xE3LIClaTQcB826KjOONiJLIxrIgfytHrRW84=;
+ b=Bax8NJTvPhtWuZZtD8N/7m20KkEAnccWt+iaVeI+JBv87casUqxaavnx
+ iQ9q/S9wuYlNABOfocsZYxgkP8KbO8SVeTXtVwf9g+uuf1CKfTeiSZbvU
+ IRPEHFVQbApfv9LYmmyEIs1MkzoRM1a53IuRhlerzLZfiC0VuZuaEJcQM
+ zIkki1T8kXzjF+Bg7ZNg/+t/KRR8hcwMACFWB2M4N5idTD7mUHeq+si11
+ bOB6mcwPC6ZKpUD5mcz3l6RWntIbg5e57kSqEUwGkrmArmU/IendsoAqz
+ j+HmW3PeTV2/dgv92Sre64DHDtEIQ/QFYHiWq3jkBQuNwdpbcfpbtEfVt A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10860"; a="470918522"
+X-IronPort-AV: E=Sophos;i="6.03,216,1694761200"; d="scan'208";a="470918522"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Oct 2023 06:05:09 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10860"; a="927562644"
+X-IronPort-AV: E=Sophos;i="6.03,216,1694761200"; d="scan'208";a="927562644"
+Received: from bjvanakk-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.42.111])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Oct 2023 06:05:06 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Hans de Goede <hdegoede@redhat.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, Ville =?utf-8?B?U3lyasOk?=
+ =?utf-8?B?bMOk?= <ville.syrjala@linux.intel.com>
+Subject: Re: [PATCH 0/4] drm/i915/vlv_dsi: Add quirks for x86 android
+ tablets (v3)
+In-Reply-To: <b308ab49-ceec-e1eb-cbf4-b272cea91e2e@redhat.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20230920195613.304091-1-hdegoede@redhat.com>
+ <b308ab49-ceec-e1eb-cbf4-b272cea91e2e@redhat.com>
+Date: Wed, 11 Oct 2023 16:05:02 +0300
+Message-ID: <875y3d48e9.fsf@intel.com>
 MIME-Version: 1.0
-References: <20231011-topic-sm8550-graphics-sspp-split-clk-v2-0-b219c945df53@linaro.org>
- <20231011-topic-sm8550-graphics-sspp-split-clk-v2-4-b219c945df53@linaro.org>
-In-Reply-To: <20231011-topic-sm8550-graphics-sspp-split-clk-v2-4-b219c945df53@linaro.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Wed, 11 Oct 2023 15:55:44 +0300
-Message-ID: <CAA8EJpq_DnKseY_CGJ36V1v_vc2dsCS4UCiEYWnbfz4Cp5vtfQ@mail.gmail.com>
-Subject: Re: [PATCH v2 4/5] drm/msm/dpu: sm8550: remove unused VIG and DMA
- clock controls entries
-To: Neil Armstrong <neil.armstrong@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,27 +63,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, Marijn Suijten <marijn.suijten@somainline.org>,
- Sean Paul <sean@poorly.run>
+Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 11 Oct 2023 at 14:59, Neil Armstrong <neil.armstrong@linaro.org> wrote:
+On Sun, 08 Oct 2023, Hans de Goede <hdegoede@redhat.com> wrote:
+> Hi All,
 >
-> The SM8550 has the SSPP clk_ctrl in the SSPP registers, remove the
-> duplicate clock controls from the MDP top.
+> Ping what is the status of this now? This v3 addresses all review
+> remarks from previous versions (specifically the request to file
+> + link gitlab issues).
 >
-> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
-> ---
->  .../gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h   | 20 --------------------
->  1 file changed, 20 deletions(-)
+> So AFAICT this is ready for merging ?
+>
+> But I'm waiting for an ack for this before pushing it
+> do drm-intel-next myself ...
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+There are maybe one or two things I could nitpick about, such as casting
+away the const in there, but then I just don't have the time to look
+into this much deeper, it's all fairly isolated, and, let's be honest,
+you of all people probably have the best idea how well the vlv dsi code
+works out in the real world.
+
+Thanks for fixing all this stuff, and please just merge.
+
+Acked-by: Jani Nikula <jani.nikula@intel.com>
 
 
+>
+> Regards,
+>
+> Hans
+>
+>
+>
+>
+> On 9/20/23 21:56, Hans de Goede wrote:
+>> Hi All,
+>> 
+>> Some vlv/chv tablets ship with Android as factory OS. The factory OS
+>> BSP style kernel on these tablets does not use the normal x86 hw
+>> autodetection instead it hardcodes a whole bunch of things including
+>> using panel drivers instead of relying on VBT MIPI sequences to
+>> turn the panel/backlight on/off.
+>> 
+>> The normal i915 driver (which does not use panel drivers) mostly works
+>> since the VBT still needs to contain valid info for the GOP, but because
+>> of the Android kernel relying on panel drivers with various things
+>> hardcoded some DMI quirks are necessary to fix some issues on these
+>> devices.
+>> 
+>> Some of these issues also are related to which I2C bus to use for
+>> MIPI sequence elements which do I2C transfers. This series also
+>> includes a patch adding some extra debugging to mipi_exec_i2c() to
+>> help with debugging similar issues in the future.
+>> 
+>> These patches have been posted before but back then I did not get around
+>> to follow up on the series:
+>> https://lore.kernel.org/intel-gfx/20220225214934.383168-1-hdegoede@redhat.com/
+>> 
+>> v2:
+>> - Drop the changes how the I2C bus number is found, instead just have
+>>   the quirks set the right number directly where necessary. This should
+>>   avoid any chances of causing regressions on devices where the quirks
+>>   do not apply.
+>> - New quirk for backlight control issues on Lenovo Yoga Tab 3
+>> - Address Jani Nikula's remark about __func__ being redundant when using
+>>   drm_dbg_kms()
+>> 
+>> v3:
+>> - File 3 gitlab issues with drm.debug=0xe dmesg output, VBT dump for all
+>>   3 affected models. Add Closes: tags with links to gitlab issues
+>> 
+>> Regards,
+>> 
+>> Hans
+>> 
+>> 
+>> Hans de Goede (4):
+>>   drm/i915/vlv_dsi: Add DMI quirk for wrong panel modeline in BIOS on
+>>     Asus TF103C (v3)
+>>   drm/i915/vlv_dsi: Add DMI quirk for wrong I2C bus and panel size on
+>>     Lenovo Yoga Tablet 2 series (v3)
+>>   drm/i915/vlv_dsi: Add DMI quirk for backlight control issues on Lenovo
+>>     Yoga Tab 3 (v2)
+>>   drm/i915/dsi: Add some debug logging to mipi_exec_i2c (v2)
+>> 
+>>  drivers/gpu/drm/i915/display/intel_dsi_vbt.c |   3 +
+>>  drivers/gpu/drm/i915/display/vlv_dsi.c       | 124 +++++++++++++++++++
+>>  2 files changed, 127 insertions(+)
+>> 
+>
 
 -- 
-With best wishes
-Dmitry
+Jani Nikula, Intel
