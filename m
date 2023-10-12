@@ -2,39 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 680D17C6A9A
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Oct 2023 12:10:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 736FE7C6A9C
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Oct 2023 12:10:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 74FFB10E49A;
-	Thu, 12 Oct 2023 10:10:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 12A5710E483;
+	Thu, 12 Oct 2023 10:10:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9282A10E459
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Oct 2023 10:10:34 +0000 (UTC)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D3BD510E49D
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Oct 2023 10:10:40 +0000 (UTC)
 Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
  [2.237.20.237])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits))
  (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 8C1956607347;
- Thu, 12 Oct 2023 11:10:32 +0100 (BST)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id E1174660734B;
+ Thu, 12 Oct 2023 11:10:38 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1697105433;
- bh=cTAEEkRbGv814Gyc885IuRoS5GtMoQSfLY3IUSMSg34=;
+ s=mail; t=1697105439;
+ bh=r/lBRI9wg4q1nZC/riRFQ/pU+ub6HAJsHjOSH0GVVyw=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=g/cnw0F3XJgB/36LzTLsNs+Xq+URACVf2pfcIF8g1v+mlLdrhljBPMHBsj9Ebk6fo
- auMKHhvMXuPiFj6p3FvSdNicuOym0FuBoOUvaTGFu3P7udDl1BRi86BuqLbr33PeRJ
- uD+1Fs3/e6jjjQrFntOFmDAXWJqbGpmNVeF3h6MskKhHk+pO2GDVfMxjXA56IslZed
- uccu6Az27+VijqXMkpPx4N3BpHIcrD6855R/rcL5CnJSddH5bIaCf/qvhbB7eAntVO
- 8Q1KQi9DrLLwvcmy5HZEfMldUY43j2Tie1kMeOn+hG9SjqeUKQEpi9UvdBK0LiIQtR
- lSU5py4UDZRCQ==
-Message-ID: <99f8d80b-16f0-0b50-35e1-bc54737fb008@collabora.com>
-Date: Thu, 12 Oct 2023 12:10:30 +0200
+ b=dxRH85fvTZSfy0zyMfkyLK4eWbWJp1vF1rT0vkwY+TPieZk+Z6czWUe67/Jl1rMN/
+ JAmer9L/pLRr7zEdAJVGQIQcJBDMIGAaAWyTSRixu/fIhTfO2LCEn9xwZ6xI0wQ2x6
+ t7/gC8c1qTWODmDwM4mw4iBgvHuHscsciUGLbDuDA38LA9yFTsTDnO3g3qJhINsuIi
+ G6tQw2yw+dXXv7QORE0fpUi9EmZMRGKEbWQx7+drXErC+1inV/s7IdrbhdJ5vgnxqL
+ z13sm3PX+dTkkkrzJoLjcUtYB6Y+zA7FfdOlOPGMtL8kCUAJjYT4da18al/+OYQrzg
+ 0lVUVrFBXaSLA==
+Message-ID: <f291150f-f99b-02be-03fa-0f5dcd1cec42@collabora.com>
+Date: Thu, 12 Oct 2023 12:10:36 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.15.0
-Subject: Re: [PATCH v7 11/16] dt-bindings: display: mediatek: aal: add
+Subject: Re: [PATCH v7 12/16] dt-bindings: display: mediatek: color: add
  compatible for MT8195
 Content-Language: en-US
 To: Moudy Ho <moudy.ho@mediatek.com>, Chun-Kuang Hu
@@ -47,9 +48,9 @@ To: Moudy Ho <moudy.ho@mediatek.com>, Chun-Kuang Hu
  Matthias Brugger <matthias.bgg@gmail.com>,
  Hans Verkuil <hverkuil-cisco@xs4all.nl>
 References: <20231012084037.19376-1-moudy.ho@mediatek.com>
- <20231012084037.19376-12-moudy.ho@mediatek.com>
+ <20231012084037.19376-13-moudy.ho@mediatek.com>
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20231012084037.19376-12-moudy.ho@mediatek.com>
+In-Reply-To: <20231012084037.19376-13-moudy.ho@mediatek.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -71,11 +72,10 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Il 12/10/23 10:40, Moudy Ho ha scritto:
-> Add a compatible string for the AAL block in MediaTek MT8195 that
+> Add a compatible string for the COLOR block in MediaTek MT8195 that
 > is controlled by MDP3.
 > 
 > Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
-> Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
 Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
