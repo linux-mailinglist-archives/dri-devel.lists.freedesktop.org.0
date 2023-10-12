@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA40F7C6A1E
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Oct 2023 11:58:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 098997C6A2A
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Oct 2023 11:58:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3806110E48C;
-	Thu, 12 Oct 2023 09:58:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D23A10E494;
+	Thu, 12 Oct 2023 09:58:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A4B6810E48A
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Oct 2023 09:57:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D75310E48B
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Oct 2023 09:57:59 +0000 (UTC)
 Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it
  [2.237.20.237])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id A76036607353;
- Thu, 12 Oct 2023 10:57:56 +0100 (BST)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 984976607362;
+ Thu, 12 Oct 2023 10:57:57 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1697104677;
- bh=F86yWw2q9jRPtZJ/+Z1yLORSlOTQBx0C3WCmrGPVXMo=;
+ s=mail; t=1697104678;
+ bh=yTuzr7kwQWHUl8HtZXARUiw4vwCiedeVUiWy+PyIDto=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=LDRmH/+XLLQ8NVYfRr/Kni7gONMnyJ9bi/N3lXRnNeDQlmehZoP++yqJIQTXKy/Wo
- CX7K+DXcbNviXcrRYIF1QktlhT/IbCXaX42ZCy4gTL/imQIPsEDDdeqldWMAD+Kg7M
- g7pO3XQ0DxbxfKrmLSaDqYZBassxSP5ZKuuiDPxUJVQ0izlvC53rLqmp2/j6AnXeah
- xyIfcMKbkgUKQqoJCB2Sfv9hZ6+Ocg0a51fDfO1FJXRxKcCyp8XqmmRc4MHHToRAMk
- oeLt9m0A0sX+5jn8+2NKHwp5VMEFbQobvCkQHQGFTdNCggiTbjGjza/mP4YfcLWeh3
- vbQ49hOTaQLFw==
+ b=SKGyDy9ocMehP5Q106HwzwZAExymO3OnWVdnh8WmarSyzztnnoin1zD/e8IBFqTy5
+ 8TNsvNWL6ADTgCxAd6Kcg9uk0urAqKIQWctJb5iTm8PI/eYlShc3Ga22CMU+g6J+5p
+ aS+8kXeHZg95Bcf5mYMgnUDeYNWIwVm87hm3y3XqQ04sKWvdkSDCEI+2WhPbeGaqet
+ GvGJE2K3oB1jiwBWddeCb3lhscvtcHCp3orcnnEKPKLn0LsS2nrADLeToB0W7F1eGJ
+ dOY8IF2vS4Q7OpKgTGA19vV3coVFVE3tV01AJau9CZ4vRCUb60j2rpEiMfxu+u6m5V
+ rAfGReDSOxKFg==
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 To: chunkuang.hu@kernel.org
-Subject: [PATCH v11 15/16] drm/mediatek: gamma: Add kerneldoc for struct
- mtk_disp_gamma
-Date: Thu, 12 Oct 2023 11:57:35 +0200
-Message-ID: <20231012095736.100784-16-angelogioacchino.delregno@collabora.com>
+Subject: [PATCH v11 16/16] drm/mediatek: aal: Compress of_device_id entries
+ and add sentinel
+Date: Thu, 12 Oct 2023 11:57:36 +0200
+Message-ID: <20231012095736.100784-17-angelogioacchino.delregno@collabora.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231012095736.100784-1-angelogioacchino.delregno@collabora.com>
 References: <20231012095736.100784-1-angelogioacchino.delregno@collabora.com>
@@ -60,34 +60,36 @@ Cc: nfraprado@collabora.com, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The mtk_disp_gamma structure was completely undocumented: add some
-kerneldoc documentation to it.
+Compress the entry for mediatek,mt8173-disp-aal, as it fits in one
+line, and fix the style; while at it, also add the usual sentinel
+comment to the last entry.
+
+This commit brings no functional changes.
 
 Reviewed-by: CK Hu <ck.hu@mediatek.com>
 Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 ---
- drivers/gpu/drm/mediatek/mtk_disp_gamma.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/mediatek/mtk_disp_aal.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_gamma.c b/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
-index 0f116c0e51b5..52c752bc5f41 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
-@@ -50,8 +50,12 @@ struct mtk_disp_gamma_data {
- 	u8 lut_bits;
+diff --git a/drivers/gpu/drm/mediatek/mtk_disp_aal.c b/drivers/gpu/drm/mediatek/mtk_disp_aal.c
+index 7b3e1c275056..677e7d378e7a 100644
+--- a/drivers/gpu/drm/mediatek/mtk_disp_aal.c
++++ b/drivers/gpu/drm/mediatek/mtk_disp_aal.c
+@@ -209,10 +209,9 @@ static const struct mtk_disp_aal_data mt8173_aal_driver_data = {
  };
  
--/*
-- * struct mtk_disp_gamma - DISP_GAMMA driver structure
-+/**
-+ * struct mtk_disp_gamma - Display Gamma driver structure
-+ * @clk:      clock for DISP_GAMMA block
-+ * @regs:     MMIO registers base
-+ * @cmdq_reg: CMDQ Client register
-+ * @data:     platform data for DISP_GAMMA
-  */
- struct mtk_disp_gamma {
- 	struct clk *clk;
+ static const struct of_device_id mtk_disp_aal_driver_dt_match[] = {
+-	{ .compatible = "mediatek,mt8173-disp-aal",
+-	  .data = &mt8173_aal_driver_data},
+-	{ .compatible = "mediatek,mt8183-disp-aal"},
+-	{},
++	{ .compatible = "mediatek,mt8173-disp-aal", .data = &mt8173_aal_driver_data },
++	{ .compatible = "mediatek,mt8183-disp-aal" },
++	{ /* sentinel */ }
+ };
+ MODULE_DEVICE_TABLE(of, mtk_disp_aal_driver_dt_match);
+ 
 -- 
 2.42.0
 
