@@ -2,48 +2,128 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74C477C6F81
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Oct 2023 15:43:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CF767C70A9
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Oct 2023 16:48:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6748A10E4F2;
-	Thu, 12 Oct 2023 13:43:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66E9E10E4EF;
+	Thu, 12 Oct 2023 14:48:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B6F3B10E4EF;
- Thu, 12 Oct 2023 13:43:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1697118207; x=1728654207;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=czmuGnuhoZwDVrZ1N60qwIORAiC/Nse4LYw3afGhwQo=;
- b=ID5AZAr0jrwkG+9z2QxTc4V4Odmzp8np5dGZJn1PlYG9+iaQYu6rHpnC
- uJAeGafkDJAWdM27feWLCh67rSMoRuUgNu/A44e8LoWJTxyw5GIerZGvz
- SGfD3tTsuSF48Nw4uCw4oLSxIOKR7xYs6fu5+SNTnla8YPFJlh5OXak41
- dJfaA0h0CAZ0FD/RQg+MqbMTMhU9Ts2pZlqH8aceyiKPWKvoOZ2WkFb0b
- PDN+pKjR94fF0ILMpkQFnYK9Ck56WnBAeg3gLTTJ9Cf/K2htALn6v9s/S
- FjBSmem+sb8Ca71AE4GfjYaDunVXH9lZnw0iNVb+tlM0Cs6P12GHZ0fmR Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="415972116"
-X-IronPort-AV: E=Sophos;i="6.03,219,1694761200"; d="scan'208";a="415972116"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Oct 2023 06:43:25 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="927999708"
-X-IronPort-AV: E=Sophos;i="6.03,219,1694761200"; d="scan'208";a="927999708"
-Received: from jnikula-mobl4.fi.intel.com (HELO localhost) ([10.237.66.162])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Oct 2023 06:42:53 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-intel-next
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Date: Thu, 12 Oct 2023 16:42:47 +0300
-Message-ID: <87r0m00xew.fsf@intel.com>
+Received: from EUR03-DBA-obe.outbound.protection.outlook.com
+ (mail-dbaeur03on2051.outbound.protection.outlook.com [40.107.104.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD40810E043
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Oct 2023 14:18:12 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ZFB+89MtwXpYV0+xlrpT1R7Sdlh1fb6Fs1CrDFeNrt9FFO+nW1Z1DjOsTFgN/UlLlvfKT3eLtPCoLQiiulj1L9EANTCDPWvwbIOgfxoHiy9ihXC8/XVzJGJhUz41UiBi8W+jduEH3AGdxGDfaD6Ff2zNVMmOfNZmsf4GOtnm94qq1QhzGiUId99z8fVlYmYJszFUiLrDKZvb9cvGVcJGEyckR7awJsFkUv7PimqLnPPZTp6+x+ZB08ejK7TnowHpjKXp2FsEqCh3XPOG5TIc9sSkxO65hWK5Y+z6vDVxMwsXng1L2z9OEcQSyx3+gDSzG6l8gTAaWPajgbytSxK6lw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=rnp9tDgopSL741e9o3xpR12fNbL5YwDtSJrN4x1x7P4=;
+ b=PFlVr/6C7fXDSXgkh+VHwWU48DmBi/OmhXxbXoGrJL8OS6phm7MkvxM3nt7bwQrMXb3BNLCfxfo37hXPGCWhAI4llKypz/Eub7b/p3Ne2GkiofwnYFdqQvtZdxcVyaJVXGC57R6OxkegzhCRRR+WrdYGCEe00n93yIdciIJPhUvqHOcl/8xyNn1U7G7/vCZFtB7izB75J6Yyk6Tct/0wvLzGS2QT+33SSiwOpth55p7scqJVvb1920ZZLrBJDPEg0KIJxphQThSMqijEoFlUV6e+8mrtvNydoyTo+5nibzaFRW1CUaeOFMCO5/AnJ/DtC9Ujhe0QavfFO9aKuMEeEw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=suse.com; dmarc=pass action=none header.from=suse.com;
+ dkim=pass header.d=suse.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rnp9tDgopSL741e9o3xpR12fNbL5YwDtSJrN4x1x7P4=;
+ b=Q/nVUo7MW5fsJpklfdlVzhf0ZamD8x/BEFKue0SziTyaA1ykUQt2+Dod/6JIH/a+D3V+BkgTeh8UwIMUqfIrAfNHgQShGRcupmeG3rr8Ar3VFwxGtaVkaOtWLU12huYk9Fv7RL8eE0KwsVHLyWfskLoi8rwD5JGZKX8K/3VMSdpFxwsQGeHX4LaqHAkROCUf6DsmhV1ntXHoDczXLdrK97+lyuRqbWs+rs0wgNPK+FGwmnPytXqSp34GlLtWDIHeCg/Vad+/HfyrZzKcE0Bftvcve/G8WNbCLII5Mp1IQSrA+Ykff5nJhhcVAbw5MjBm3/Iz+2xFIzDFBg/o9cXuQA==
+Received: from DB9PR04MB9476.eurprd04.prod.outlook.com (2603:10a6:10:366::11)
+ by DU2PR04MB8968.eurprd04.prod.outlook.com (2603:10a6:10:2e3::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6863.43; Thu, 12 Oct
+ 2023 14:18:10 +0000
+Received: from DB9PR04MB9476.eurprd04.prod.outlook.com
+ ([fe80::fbfc:dc11:f951:1665]) by DB9PR04MB9476.eurprd04.prod.outlook.com
+ ([fe80::fbfc:dc11:f951:1665%7]) with mapi id 15.20.6838.040; Thu, 12 Oct 2023
+ 14:18:10 +0000
+From: Jean Delvare <jdelvare@suse.com>
+To: "lakshmiy@us.ibm.com" <lakshmiy@us.ibm.com>, "linux@roeck-us.net"
+ <linux@roeck-us.net>, "joel@jms.id.au" <joel@jms.id.au>,
+ "christian.koenig@amd.com" <christian.koenig@amd.com>, "andrew@aj.id.au"
+ <andrew@aj.id.au>, "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
+ "ninad@linux.ibm.com" <ninad@linux.ibm.com>, "eajames@linux.ibm.com"
+ <eajames@linux.ibm.com>, "wsa@kernel.org" <wsa@kernel.org>
+Subject: Re: [PATCH v1 1/2] i2c: smbus: Allow throttling of transfers to
+ client devices
+Thread-Topic: [PATCH v1 1/2] i2c: smbus: Allow throttling of transfers to
+ client devices
+Thread-Index: AQHZ+vW1cWNDUbRyxki9mDjkT198L7BGN+6A
+Date: Thu, 12 Oct 2023 14:18:09 +0000
+Message-ID: <bf0d71383958e7cc88bc84c7e2378f10d3a486f3.camel@suse.com>
+References: <20231009211420.3454026-1-lakshmiy@us.ibm.com>
+ <20231009211420.3454026-2-lakshmiy@us.ibm.com>
+In-Reply-To: <20231009211420.3454026-2-lakshmiy@us.ibm.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.42.4 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=suse.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DB9PR04MB9476:EE_|DU2PR04MB8968:EE_
+x-ms-office365-filtering-correlation-id: 68837fc9-af02-4e09-1257-08dbcb2e0fe8
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: aM8sy2AoyL9Yea9jpQXe8pFCnNWLQqKRJZ1Qc8R7yic0y/O4uMExx4rmb5bTyXLLAGANJ3Xsc8fJpOwq9U2ydiRJmCz6tUrjB+k6NDo0soDOE3VkHZ3hogrtDT7xysGLtIFUB04VoweVYd6q5noEt2ifHqvQ+kyhJicFBmK0LrB234h+LHIVXdhJGT0sDdSTy2dWIbn5n/a3X+wLu5q8pYPVuEZ5n/uebSrhc2NDqhiiHzOQddc9nlE6Arm8IiI3Wy6t/XCc00n6J8/OStcwWMczf0Ll94u/eEIQE2LsPGTIdVmB+hj/WQGoR9DJTY+/J7s+7pfTUtyKi2stjU46ocYntBcmePYznxUYEW4hj1Q1EJSChs5mAfl47zbJRq+YrbRz8f+2T9QVTMhWOP9TbLiSFUyawRnapJ5e+1FMn9vSxAN58fx4zqaPkS1VAnd7S9joY28++8T6bE2g1AvZ3tEAOh5DIVYlXuaU0NLIhZ0lRyaq1rcv8UOzfJPz8UNpY17ivxoj1lDa/aXQFSZo23fLm2YFdMhsgXLsW+reR3fBcTyNtoLig3rtRcDlld1JGfWxuf54ylbjFFYyXL+ZJjgQk2uRKrwkY6b0YgfyNflSmPExmB8TAdPVgreYW74T
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DB9PR04MB9476.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(396003)(346002)(136003)(366004)(376002)(39860400002)(230922051799003)(451199024)(186009)(64100799003)(1800799009)(110136005)(76116006)(54906003)(91956017)(66946007)(66446008)(66476007)(64756008)(66556008)(38070700005)(2616005)(316002)(6506007)(71200400001)(38100700002)(2906002)(4744005)(5660300002)(8676002)(4326008)(478600001)(6486002)(8936002)(86362001)(7416002)(122000001)(41300700001)(6512007)(36756003)(83380400001);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?TUg1RkRaQkN1ZW5PNW9Jdk9XTDlGQlNsVlFLRHRnQzh0azBwNWw5bHZaSnY3?=
+ =?utf-8?B?L2NVaWNCcHFjTWpKdWlrMFdFZnBDVEs4ZHFWVXZWbjZEcnc3VmZWVlh0QUZF?=
+ =?utf-8?B?ZHVHVnBtNTk2L2xLYVh5ZzBDdDhCVVQ3ampvVDU1NWJiV2poQW9ZWGFDeitz?=
+ =?utf-8?B?T1VOejRpeW5FQ21oaXpKQkxlV3grWldvUlJWT0dJa1pFOWlwL0lZMU4rT1pB?=
+ =?utf-8?B?dTYwM2FmVDBjN0hneWZxY3VaQ1FhL2dYSGJVelEweUZlTTR3bHRTV0YxaUJV?=
+ =?utf-8?B?UmtGRncvVUNXWWNMalRpNTRObWdac014d1ZWK2o2d09na0pBNktaTW1FVWQx?=
+ =?utf-8?B?cTdMYU8ybmdGa1M2Y0JYN1hpTGIySTNqVmF3VjNJSDJTNGo4VENRNFplcW5W?=
+ =?utf-8?B?VjFlbS9pNmp4d0IrZWR3RGJyK1pCb1NkOWkrZTc1SDd5cHJYMFU5SURmRWFy?=
+ =?utf-8?B?Q1lTeVNVSmdod1EybTRSR2lCYXpDUGIvTjI2dWkzVVJjeG1lK3NkYnc4Y3Qv?=
+ =?utf-8?B?aFQ5aDBUTFhFRmlzdENkakp4QUdFV245bXYrelJTWU85a1drR05CR1JnMXl3?=
+ =?utf-8?B?Q21SNEFGdVdMWlMrQWlYa1BvTkZHYjJTS1FVUXI4ZHJyMzNkM2NoRjltNDhq?=
+ =?utf-8?B?NTZaczI4S1duUWN1dkgyS3Q3S2xQdlBSdDFQb2J2T3hobTJXaTJkOVNBVXlr?=
+ =?utf-8?B?b1BnaVhIWnl6Yy9BTksrWklxTWVkWGx1UGZrRGdEN0NydWxaM1B5QVN5STF1?=
+ =?utf-8?B?dFFyZHFTbHBxNkl4b1VFNVFsSDAzUzVkV2YzVkliNHNRYzB4L3JCdXpBL05J?=
+ =?utf-8?B?Q0xMTVdobGtVM0JpRW9XSEQ1YjlLcjhsMllwMWVTNTRSWFVCRW9Mb1NoY0dq?=
+ =?utf-8?B?SXVuVkwrYUJnUDJoWUFESG9Ra29pYWJSVFQ5SW01Zkd3Z0ordWdSSUdYOG0y?=
+ =?utf-8?B?WWlzbkw1Z1ZsZEc1Ulk3Z1NpYjZRSjdOUWN3OTNzSEZJdlBkT2RXOWxNWDFn?=
+ =?utf-8?B?SThJbnVGbEVNWERaRVN3SFNFZ2poT1BZczh6M1dwNkh6SUluRUl3TFYzdVVk?=
+ =?utf-8?B?eXhTQUVaUGlxaFRka0dVeUZjTENsODV0UWZQNFpIK2NEcjlGdGRuMDNJTmxR?=
+ =?utf-8?B?RDNicFdZWE1CNXBFR0xkbVZ4dXpUMmRZVjUvNHl2SjhPQU5vTHExaVYya1h0?=
+ =?utf-8?B?WmIvWEZ2VDRtL3VCbkttRmxLSnBTblNMM2JjWjRRY3ZDclNEaFliSWZ4MW9r?=
+ =?utf-8?B?c2M3N2ZUYjBjaWNRQVQwU3pSUkxmL0RycGd6VFpRcDhwd2F0TUsxZGh1ZDB2?=
+ =?utf-8?B?YXlNcEpDaU1CWkxOdmMxYnNuOENTM1F0WW84Y2FieXV2bE5XTmFtT1kreE1C?=
+ =?utf-8?B?L2t2WkpqcHMzZkNESVZEZTZUWDJOTHIrZUMrand6QnJwMUIyM1hqQWIxZnk5?=
+ =?utf-8?B?RGJmVU8wdDZOeS9YVHZjMHhWK2ZuNnNFYmE4ZjlBTklUbXhlb09FMW1nbEkw?=
+ =?utf-8?B?WXBVYWFzQm9UWDNRcVNKTHV1dnhxUURyOUkraGdtWGxUSmZEaUI1eUxhc1U2?=
+ =?utf-8?B?WWtTc0ZTL1VHdm9YR1FQUkw3NWN3VXczeVlnT2hBeTl2MHNJTmQ1YmM0c1g5?=
+ =?utf-8?B?bDhkb3F4aDlFbXZRNFRNTlBzTGJ6NWZEbFVTYUdjdU43QVBTVmRtSmk4R1d0?=
+ =?utf-8?B?VlFjR3Bjc1VidEVFeC8wcnVCRVZXcVdFNjhURTBzazBHN1JzcjIzZVhRVW5Y?=
+ =?utf-8?B?Q3NPM0hKaU1zMnhkUTN0NUpqSDkySzBYanZCY0hNVFNIdXhNdTRxSjBaQzEr?=
+ =?utf-8?B?NHZ5USsrRkF3NGxWRHVpKzBPL05oeThVSU9uaGNBRGc5aUZ5c2ZLNnpoekJu?=
+ =?utf-8?B?Zk1sdWNGRVluV1FIRjZYSHhaLy81aktUT1VOdFFqNUxlT2x4NGg3SjhvdDFi?=
+ =?utf-8?B?NkEySE02c0lrUzZPem5jZnB1Ri95ZWNqRGEva0JTYlJJQnkzZTluRDFuMjZp?=
+ =?utf-8?B?OTAyalp4N1NKejdSdFZmQ0hSRGNxYms0aG1na3RKTWpTQnBSaEJ6c1c0UzlS?=
+ =?utf-8?B?SjhGbHhzc21zR0hMeHRxZmxCRERDTUIyMmxaRHFPQnppNTdwV0VlZU5nRmxh?=
+ =?utf-8?B?TTBiQjduTUdURFBWRnBsbmk3alZ4dk5GMXpidWVHa1NPNXhlamR4TWMraVU4?=
+ =?utf-8?Q?vs3BQYSXgnRnC0JCzLt9ylqghvEQ31gGT8XSumVk0Wb3?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <D716FAD5F46005459B6F5FCF2C7A6381@eurprd04.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+X-OriginatorOrg: suse.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DB9PR04MB9476.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 68837fc9-af02-4e09-1257-08dbcb2e0fe8
+X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Oct 2023 14:18:09.8327 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: f7a17af6-1c5c-4a36-aa8b-f5be247aa4ba
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Oxeg1c1bsvFtUsiGD2pmDHCGezlH2VncpnNtKcofh5BHp7hLI3lxg5VvUImVkaSshL+UpZJMXnl/JwKhAia+Fg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU2PR04MB8968
+X-Mailman-Approved-At: Thu, 12 Oct 2023 14:48:32 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,447 +136,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gfx@lists.freedesktop.org
+Cc: "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-Hi Dave & Sima -
-
-Here's the 2nd i915 feature pull for v6.7.
-
-There might be another small feature pull coming next week, mainly to
-remove force probe for Meteorlake, and promote it to fully
-supported. There are some final issues being ironed out still.
-
-There's a backmerge in there; I acknowledge I should pay more attention
-to the details in the backmerge commit message. There was a conflict
-between the drm-intel-next and drm-intel-gt-next branches I wanted to
-clear before applying more patches on top.
-
-
-drm-intel-next-2023-10-12:
-drm/i915 feature pull #2 for v6.7:
-
-Features and functionality:
-- Preparation for i915 display code reuse in upcoming Xe driver (Jani)
-- Drop the fastboot module parameter and use the platform defaults (Arun)
-- Enable new LNL FBC features (Vinod)
-- Add LNL display feature capability reads (Vinod)
-
-Refactoring and cleanups:
-- Locally enable W=3D1 warnings by default in i915 (Jani)
-- Move HDCP GSC message code to a separate file (Suraj)
-- GVT include cleanups (Jani)
-- Move more display init under display/ (Jani)
-- DPLL ID refactoring (Ville)
-- Better abstraction of GT0 (Jani)
-- Move VGA decode function to GMCH code (Uma)
-- Use local64_try_cmpxchg() to optimize PMU event read (Uros Bizjak)
-- Clean up FBC checks (Ville)
-- Constify and unify state checker calling conventions (Ville)
-- Add display step name helper (Chaitanya)
-
-Documentation:
-- Update CCS and GSC CS documentation (Rodrigo)
-- Fix a number of documentation typos (Randy Dunlap)
-
-Fixes:
-- VLV DSI fixes and quirks (Hans)
-- Fix crtc state memory leaks (Suraj)
-- Increase LSPCON mode settle timeout (Niko Tsirakis)
-- Stop clobbering old crtc state during state check (Ville)
-- Fix VLV color state readout (Ville)
-- Fix cx0 PHY pipe reset to allow S0iX (Khaled)
-- Ensure DP MST pbn_div is up-to-date after sink reconnect (Imre)
-- Drop an unnecessary NULL check to fix static analyzer warning (Suraj)
-- Use an explicit rather than implicit include for frontbuffer tracking (Jo=
-uni)
-
-Merges:
-- Backmerge drm-next to fix a conflict (Jani)
-
-BR,
-Jani.
-
-The following changes since commit caacbdc28f545744770fb2caf347b3c4be9a6299:
-
-  Merge tag 'drm-intel-gt-next-2023-09-28' of git://anongit.freedesktop.org=
-/drm/drm-intel into drm-next (2023-10-03 06:02:30 +1000)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-next-2023-10-12
-
-for you to fetch changes up to a6028afef98a6e3f059a014452914eb01035d530:
-
-  drm/i915/dsi: Add some debug logging to mipi_exec_i2c (v2) (2023-10-12 12=
-:41:54 +0200)
-
-----------------------------------------------------------------
-drm/i915 feature pull #2 for v6.7:
-
-Features and functionality:
-- Preparation for i915 display code reuse in upcoming Xe driver (Jani)
-- Drop the fastboot module parameter and use the platform defaults (Arun)
-- Enable new LNL FBC features (Vinod)
-- Add LNL display feature capability reads (Vinod)
-
-Refactoring and cleanups:
-- Locally enable W=3D1 warnings by default in i915 (Jani)
-- Move HDCP GSC message code to a separate file (Suraj)
-- GVT include cleanups (Jani)
-- Move more display init under display/ (Jani)
-- DPLL ID refactoring (Ville)
-- Better abstraction of GT0 (Jani)
-- Move VGA decode function to GMCH code (Uma)
-- Use local64_try_cmpxchg() to optimize PMU event read (Uros Bizjak)
-- Clean up FBC checks (Ville)
-- Constify and unify state checker calling conventions (Ville)
-- Add display step name helper (Chaitanya)
-
-Documentation:
-- Update CCS and GSC CS documentation (Rodrigo)
-- Fix a number of documentation typos (Randy Dunlap)
-
-Fixes:
-- VLV DSI fixes and quirks (Hans)
-- Fix crtc state memory leaks (Suraj)
-- Increase LSPCON mode settle timeout (Niko Tsirakis)
-- Stop clobbering old crtc state during state check (Ville)
-- Fix VLV color state readout (Ville)
-- Fix cx0 PHY pipe reset to allow S0iX (Khaled)
-- Ensure DP MST pbn_div is up-to-date after sink reconnect (Imre)
-- Drop an unnecessary NULL check to fix static analyzer warning (Suraj)
-- Use an explicit rather than implicit include for frontbuffer tracking (Jo=
-uni)
-
-Merges:
-- Backmerge drm-next to fix a conflict (Jani)
-
-----------------------------------------------------------------
-Arun R Murthy (1):
-      drm/i915: Remove the module parameter 'fastboot'
-
-Chaitanya Kumar Borah (1):
-      drm/i915: Add wrapper for getting display step
-
-Hans de Goede (4):
-      drm/i915/vlv_dsi: Add DMI quirk for wrong panel modeline in BIOS on A=
-sus TF103C (v3)
-      drm/i915/vlv_dsi: Add DMI quirk for wrong I2C bus and panel size on L=
-enovo Yoga Tablet 2 series (v3)
-      drm/i915/vlv_dsi: Add DMI quirk for backlight control issues on Lenov=
-o Yoga Tab 3 (v2)
-      drm/i915/dsi: Add some debug logging to mipi_exec_i2c (v2)
-
-Imre Deak (1):
-      drm/i915/dp_mst: Make sure pbn_div is up-to-date after sink reconnect
-
-Jani Nikula (33):
-      drm/i915: define I915 during i915 driver build
-      drm/i915/display: add I915 conditional build to intel_lvds.h
-      drm/i915/display: add I915 conditional build to hsw_ips.h
-      drm/i915/display: add I915 conditional build to i9xx_plane.h
-      drm/i915/display: add I915 conditional build to intel_lpe_audio.h
-      drm/i915/display: add I915 conditional build to intel_pch_refclk.h
-      drm/i915/display: add I915 conditional build to intel_pch_display.h
-      drm/i915/display: add I915 conditional build to intel_sprite.h
-      drm/i915/display: add I915 conditional build to intel_overlay.h
-      drm/i915/display: add I915 conditional build to g4x_dp.h
-      drm/i915/display: add I915 conditional build to intel_dpio_phy.h
-      drm/i915/display: add I915 conditional build to intel_crt.h
-      drm/i915/display: add I915 conditional build to vlv_dsi.h
-      drm/i915/display: add I915 conditional build to i9xx_wm.h
-      drm/i915/display: add I915 conditional build to g4x_hdmi.h
-      drm/i915/display: add I915 conditional build to intel_dvo.h
-      drm/i915/display: add I915 conditional build to intel_sdvo.h
-      drm/i915/display: add I915 conditional build to intel_tv.h
-      drm/i915/display: add I915 conditional build to vlv_dsi_pll.h
-      drm/i915: convert INTEL_DISPLAY_ENABLED() into a function
-      drm/i915: move display info related macros to display
-      drm/i915: separate display runtime info init
-      drm/i915: separate subplatform init and runtime feature init
-      Merge drm/drm-next into drm-intel-next
-      drm/i915/mocs: use to_gt() instead of direct &i915->gt
-      drm/i915: allocate i915->gt0 dynamically
-      drm/i915/gt: remove i915->gt0 in favour of i915->gt[0]
-      drm/i915/gvt: remove unused to_gvt() and reduce includes
-      drm/i915/gvt: don't include gvt.h from intel_gvt_mmio_table.h
-      drm/i915/gvt: move struct engine_mmio to mmio_context.c
-      drm/i915/gvt: move structs intel_gvt_irq_info and intel_gvt_irq_map t=
-o interrupt.c
-      drm/i915: drop -Wall and related disables from cflags as redundant
-      drm/i915: enable W=3D1 warnings by default
-
-Jouni H=C3=B6gander (1):
-      drm/i915/display: Include i915_active header in frontbuffer tracking =
-code
-
-Khaled Almahallawy (1):
-      drm/i915/cx0: Only clear/set the Pipe Reset bit of the PHY Lanes Owned
-
-Niko Tsirakis (1):
-      drm/i915/display/lspcon: Increase LSPCON mode settle timeout
-
-Randy Dunlap (1):
-      drm/i915/uapi: fix doc typos
-
-Rodrigo Vivi (3):
-      drm/i915: Abstract display info away during probe
-      drm/i915: Add missing CCS documentation
-      drm/i915: Add missing GSCCS documentation
-
-Suraj Kandpal (6):
-      drm/i915/ddi: Remove redundant intel_connector NULL check
-      drm/i915/display: Free crtc_state in verify_crtc_state
-      drm/i915/display: Use intel_crtc_destroy_state instead kfree
-      drm/i915/display: Use correct method to free crtc_state
-      drm/i915/hdcp: Move checks for gsc health status
-      drm/i915/hdcp: Move common message filling function to its own file
-
-Uma Shankar (1):
-      drm/i915/display: Created exclusive version of vga decode setup
-
-Uros Bizjak (1):
-      drm/i915/pmu: Use local64_try_cmpxchg in i915_pmu_event_read
-
-Ville Syrj=C3=A4l=C3=A4 (23):
-      drm/i915: Stop requiring PLL index =3D=3D PLL ID
-      drm/i915: Decouple I915_NUM_PLLS from PLL IDs
-      drm/i915: Introduce for_each_shared_dpll()
-      drm/i915: s/dev_priv/i915/ in the shared_dpll code
-      drm/i915/fbc: Remove ancient 16k plane stride limit
-      drm/i915/fbc: Split plane stride checks per-platform
-      drm/i915/fbc: Split plane tiling checks per-platform
-      drm/i915/fbc: Split plane rotation checks per-platform
-      drm/i915/fbc: Split plane pixel format checks per-platform
-      drm/i915/fbc: Remove pointless "stride is multiple of 64 bytes" check
-      drm/i915/psr: Unify PSR pre/post plane update hooks
-      drm/i915: Stop clobbering old crtc state during state check
-      drm/i915: Constify the crtc states in the DPLL checker
-      drm/i915: Simplify DPLL state checker calling convention
-      drm/i915: Constify watermark state checker
-      drm/i915: Simplify watermark state checker calling convention
-      drm/i915: Constify the snps/c10x PLL state checkers
-      drm/i915: Simplify snps/c10x DPLL state checker calling convetion
-      drm/i915: Constify remainder of the state checker
-      drm/i915: Simplify the state checker calling convetions
-      drm/i915: s/pipe_config/crtc_state/ in the state checker
-      drm/i915: s/dev_priv/i915/ in the state checker
-      drm/i915: Fix VLV color state readout
-
-Vinod Govindapillai (5):
-      drm/i915/lnl: possibility to enable FBC on first three planes
-      drm/i915/lnl: update the supported plane formats with FBC
-      drm/i915/xe2lpd: display capability register definitions
-      drm/i915/xe2lpd: update the dsc feature capability
-      drm/i915/xe2lpd: update the scaler feature capability
-
- Documentation/gpu/i915.rst                         |  29 +-
- drivers/gpu/drm/display/drm_dp_cec.c               |  23 +-
- drivers/gpu/drm/display/drm_dp_helper.c            |   8 +-
- drivers/gpu/drm/drm_connector.c                    |  11 +-
- drivers/gpu/drm/drm_edid.c                         |  22 +-
- drivers/gpu/drm/drm_internal.h                     |   2 +
- drivers/gpu/drm/drm_sysfs.c                        |  22 +-
- drivers/gpu/drm/i915/Makefile                      |  49 +-
- drivers/gpu/drm/i915/display/g4x_dp.c              |  10 +-
- drivers/gpu/drm/i915/display/g4x_dp.h              |  26 +
- drivers/gpu/drm/i915/display/g4x_hdmi.c            |   6 +-
- drivers/gpu/drm/i915/display/g4x_hdmi.h            |  12 +
- drivers/gpu/drm/i915/display/hsw_ips.c             |   1 +
- drivers/gpu/drm/i915/display/hsw_ips.h             |  35 +
- drivers/gpu/drm/i915/display/i9xx_plane.c          |   1 +
- drivers/gpu/drm/i915/display/i9xx_plane.h          |  23 +
- drivers/gpu/drm/i915/display/i9xx_wm.h             |  17 +
- drivers/gpu/drm/i915/display/icl_dsi.c             |  13 +-
- drivers/gpu/drm/i915/display/intel_atomic.c        |   2 +
- drivers/gpu/drm/i915/display/intel_atomic_plane.c  |  14 +-
- drivers/gpu/drm/i915/display/intel_audio.c         |   6 +-
- drivers/gpu/drm/i915/display/intel_audio.h         |   3 +-
- drivers/gpu/drm/i915/display/intel_bios.c          |  26 +-
- drivers/gpu/drm/i915/display/intel_cdclk.c         | 107 ++-
- drivers/gpu/drm/i915/display/intel_color.c         | 155 +++-
- drivers/gpu/drm/i915/display/intel_color.h         |   2 +
- drivers/gpu/drm/i915/display/intel_color_regs.h    | 286 ++++++
- drivers/gpu/drm/i915/display/intel_combo_phy.c     |  17 +-
- drivers/gpu/drm/i915/display/intel_connector.c     |   6 +-
- drivers/gpu/drm/i915/display/intel_connector.h     |   2 +-
- drivers/gpu/drm/i915/display/intel_crt.c           |  66 +-
- drivers/gpu/drm/i915/display/intel_crt.h           |  14 +
- drivers/gpu/drm/i915/display/intel_crtc.c          | 118 ++-
- drivers/gpu/drm/i915/display/intel_crtc.h          |   6 +-
- .../gpu/drm/i915/display/intel_crtc_state_dump.c   |   3 +
- drivers/gpu/drm/i915/display/intel_cx0_phy.c       | 215 ++---
- drivers/gpu/drm/i915/display/intel_cx0_phy.h       |  17 +-
- drivers/gpu/drm/i915/display/intel_cx0_phy_regs.h  |  13 +
- drivers/gpu/drm/i915/display/intel_ddi.c           |  40 +-
- drivers/gpu/drm/i915/display/intel_display.c       | 490 +++++++---
- drivers/gpu/drm/i915/display/intel_display.h       |   8 +-
- .../gpu/drm/i915/display/intel_display_debugfs.c   |  13 +-
- .../gpu/drm/i915/display/intel_display_device.c    | 156 +++-
- .../gpu/drm/i915/display/intel_display_device.h    |  41 +-
- .../gpu/drm/i915/display/intel_display_driver.c    |   8 +
- drivers/gpu/drm/i915/display/intel_display_irq.c   |   4 +-
- drivers/gpu/drm/i915/display/intel_display_power.c |  10 +-
- drivers/gpu/drm/i915/display/intel_display_power.h |   1 -
- .../gpu/drm/i915/display/intel_display_power_map.c |  63 +-
- .../drm/i915/display/intel_display_power_well.c    |  52 +-
- .../drm/i915/display/intel_display_power_well.h    |   1 +
- drivers/gpu/drm/i915/display/intel_display_types.h |  49 +-
- drivers/gpu/drm/i915/display/intel_display_wa.c    |  48 +
- drivers/gpu/drm/i915/display/intel_display_wa.h    |  13 +
- drivers/gpu/drm/i915/display/intel_dmc.c           |   4 +-
- drivers/gpu/drm/i915/display/intel_dp.c            | 879 +++++++++++++-----
- drivers/gpu/drm/i915/display/intel_dp.h            |  34 +-
- drivers/gpu/drm/i915/display/intel_dp_aux.c        |  49 +-
- drivers/gpu/drm/i915/display/intel_dp_aux_regs.h   |  80 +-
- drivers/gpu/drm/i915/display/intel_dp_hdcp.c       |  87 +-
- .../gpu/drm/i915/display/intel_dp_link_training.c  |  14 +-
- drivers/gpu/drm/i915/display/intel_dp_mst.c        | 167 ++--
- drivers/gpu/drm/i915/display/intel_dpio_phy.h      |  96 ++
- drivers/gpu/drm/i915/display/intel_dpll.c          |  57 +-
- drivers/gpu/drm/i915/display/intel_dpll_mgr.c      | 987 +++++++++++------=
-----
- drivers/gpu/drm/i915/display/intel_dpll_mgr.h      |  33 +-
- drivers/gpu/drm/i915/display/intel_dpt.c           |   2 +-
- drivers/gpu/drm/i915/display/intel_drrs.c          |   1 +
- drivers/gpu/drm/i915/display/intel_dsb.c           | 217 ++++-
- drivers/gpu/drm/i915/display/intel_dsb.h           |   9 +-
- drivers/gpu/drm/i915/display/intel_dsb_regs.h      |  31 +
- drivers/gpu/drm/i915/display/intel_dsi_vbt.c       |   3 +
- drivers/gpu/drm/i915/display/intel_dvo.c           |  13 +-
- drivers/gpu/drm/i915/display/intel_dvo.h           |   6 +
- drivers/gpu/drm/i915/display/intel_fb.c            |  61 +-
- drivers/gpu/drm/i915/display/intel_fb_pin.c        |   3 +-
- drivers/gpu/drm/i915/display/intel_fbc.c           | 181 +++-
- drivers/gpu/drm/i915/display/intel_fbc.h           |   2 +
- drivers/gpu/drm/i915/display/intel_fdi.c           | 169 +++-
- drivers/gpu/drm/i915/display/intel_fdi.h           |   8 +
- drivers/gpu/drm/i915/display/intel_frontbuffer.c   |  35 +-
- drivers/gpu/drm/i915/display/intel_frontbuffer.h   |   4 +
- drivers/gpu/drm/i915/display/intel_gmbus.c         |   5 +-
- drivers/gpu/drm/i915/display/intel_hdcp.c          |  41 +-
- drivers/gpu/drm/i915/display/intel_hdcp_gsc.c      | 617 +------------
- drivers/gpu/drm/i915/display/intel_hdcp_gsc.h      |   1 +
- .../gpu/drm/i915/display/intel_hdcp_gsc_message.c  | 592 ++++++++++++
- .../gpu/drm/i915/display/intel_hdcp_gsc_message.h  |  72 ++
- drivers/gpu/drm/i915/display/intel_hdmi.c          | 123 +--
- drivers/gpu/drm/i915/display/intel_hotplug.c       |  87 +-
- drivers/gpu/drm/i915/display/intel_hotplug_irq.c   |  24 +-
- drivers/gpu/drm/i915/display/intel_link_bw.c       | 212 +++++
- drivers/gpu/drm/i915/display/intel_link_bw.h       |  37 +
- drivers/gpu/drm/i915/display/intel_lpe_audio.h     |  18 +
- drivers/gpu/drm/i915/display/intel_lspcon.c        |  29 +-
- drivers/gpu/drm/i915/display/intel_lvds.c          |  33 +-
- drivers/gpu/drm/i915/display/intel_lvds.h          |  19 +
- .../gpu/drm/i915/display/intel_modeset_verify.c    | 134 +--
- .../gpu/drm/i915/display/intel_modeset_verify.h    |  11 +-
- drivers/gpu/drm/i915/display/intel_overlay.c       |   2 +
- drivers/gpu/drm/i915/display/intel_overlay.h       |  35 +
- drivers/gpu/drm/i915/display/intel_panel.c         |  19 +-
- drivers/gpu/drm/i915/display/intel_pch_display.h   |  53 ++
- drivers/gpu/drm/i915/display/intel_pch_refclk.c    |   7 +-
- drivers/gpu/drm/i915/display/intel_pch_refclk.h    |  23 +
- drivers/gpu/drm/i915/display/intel_plane_initial.c |   1 +
- drivers/gpu/drm/i915/display/intel_pmdemand.c      |   2 +-
- drivers/gpu/drm/i915/display/intel_psr.c           |  72 +-
- drivers/gpu/drm/i915/display/intel_psr.h           |   3 +-
- drivers/gpu/drm/i915/display/intel_sdvo.c          | 383 ++++----
- drivers/gpu/drm/i915/display/intel_sdvo.h          |  13 +
- drivers/gpu/drm/i915/display/intel_sdvo_regs.h     |   2 +-
- drivers/gpu/drm/i915/display/intel_snps_phy.c      |   7 +-
- drivers/gpu/drm/i915/display/intel_snps_phy.h      |   3 +-
- drivers/gpu/drm/i915/display/intel_sprite.c        |   1 +
- drivers/gpu/drm/i915/display/intel_sprite.h        |   8 +
- drivers/gpu/drm/i915/display/intel_tc.c            |  66 +-
- drivers/gpu/drm/i915/display/intel_tc.h            |   3 +-
- drivers/gpu/drm/i915/display/intel_tv.c            |   2 +-
- drivers/gpu/drm/i915/display/intel_tv.h            |   6 +
- drivers/gpu/drm/i915/display/intel_vblank.c        |  14 +
- drivers/gpu/drm/i915/display/intel_vblank.h        |   1 +
- drivers/gpu/drm/i915/display/intel_vdsc.c          | 630 ++++++-------
- drivers/gpu/drm/i915/display/intel_vdsc_regs.h     | 397 +++------
- drivers/gpu/drm/i915/display/intel_vga.c           |  18 +-
- drivers/gpu/drm/i915/display/intel_vrr.c           |  18 +-
- drivers/gpu/drm/i915/display/intel_vrr.h           |   1 +
- drivers/gpu/drm/i915/display/skl_universal_plane.c |  16 +-
- drivers/gpu/drm/i915/display/skl_watermark.c       |  40 +-
- drivers/gpu/drm/i915/display/skl_watermark.h       |   6 +-
- drivers/gpu/drm/i915/display/vlv_dsi.c             | 130 +++
- drivers/gpu/drm/i915/display/vlv_dsi.h             |  13 +
- drivers/gpu/drm/i915/display/vlv_dsi_pll.h         |   9 +
- drivers/gpu/drm/i915/gem/i915_gem_clflush.c        |   3 +-
- drivers/gpu/drm/i915/gem/i915_gem_domain.c         |   2 +-
- drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c     |   4 +-
- drivers/gpu/drm/i915/gem/i915_gem_object.c         |   1 +
- drivers/gpu/drm/i915/gem/i915_gem_object.h         |  89 --
- .../gpu/drm/i915/gem/i915_gem_object_frontbuffer.h | 103 +++
- drivers/gpu/drm/i915/gem/i915_gem_phys.c           |   1 +
- .../drm/i915/gem/selftests/i915_gem_client_blt.c   |  39 +-
- drivers/gpu/drm/i915/gt/gen8_ppgtt.c               |  36 +-
- drivers/gpu/drm/i915/gt/intel_gt.c                 |  10 +-
- drivers/gpu/drm/i915/gt/intel_gtt.h                |   4 +-
- drivers/gpu/drm/i915/gt/intel_mocs.c               |   4 +-
- drivers/gpu/drm/i915/gvt/gvt.h                     |   9 +-
- drivers/gpu/drm/i915/gvt/interrupt.c               |  17 +
- drivers/gpu/drm/i915/gvt/interrupt.h               |  31 +-
- drivers/gpu/drm/i915/gvt/mmio_context.c            |   8 +
- drivers/gpu/drm/i915/gvt/mmio_context.h            |  10 -
- drivers/gpu/drm/i915/i915_driver.c                 |  11 +-
- drivers/gpu/drm/i915/i915_driver.h                 |   4 +-
- drivers/gpu/drm/i915/i915_drv.h                    |  38 +-
- drivers/gpu/drm/i915/i915_gem.c                    |   2 +-
- drivers/gpu/drm/i915/i915_getparam.c               |   2 +-
- drivers/gpu/drm/i915/i915_gpu_error.c              |   4 +-
- drivers/gpu/drm/i915/i915_irq.c                    |   2 +
- drivers/gpu/drm/i915/i915_params.c                 |   5 -
- drivers/gpu/drm/i915/i915_params.h                 |   1 -
- drivers/gpu/drm/i915/i915_pci.c                    |   1 -
- drivers/gpu/drm/i915/i915_pmu.c                    |   9 +-
- drivers/gpu/drm/i915/i915_reg.h                    | 290 +-----
- drivers/gpu/drm/i915/i915_vma.c                    |   1 +
- drivers/gpu/drm/i915/i915_vma_resource.c           |   2 +-
- drivers/gpu/drm/i915/intel_clock_gating.c          |  52 +-
- drivers/gpu/drm/i915/intel_device_info.c           |  36 -
- drivers/gpu/drm/i915/intel_device_info.h           |   1 -
- drivers/gpu/drm/i915/intel_gvt_mmio_table.c        |   4 +-
- drivers/gpu/drm/i915/intel_runtime_pm.c            |   1 -
- drivers/gpu/drm/i915/intel_runtime_pm.h            |   4 +-
- drivers/gpu/drm/i915/intel_step.c                  |   6 +
- drivers/gpu/drm/i915/intel_step.h                  |   1 +
- drivers/gpu/drm/i915/pxp/intel_pxp.c               |  40 +-
- drivers/gpu/drm/i915/pxp/intel_pxp.h               |   2 +-
- drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.c         |   7 +-
- drivers/gpu/drm/i915/pxp/intel_pxp_pm.c            |  18 +-
- drivers/gpu/drm/i915/pxp/intel_pxp_pm.h            |   5 +-
- drivers/gpu/drm/i915/pxp/intel_pxp_tee.c           |   7 +-
- drivers/gpu/drm/i915/pxp/intel_pxp_types.h         |   9 +
- drivers/gpu/drm/i915/selftests/mock_gem_device.c   |   3 +-
- drivers/gpu/drm/i915/soc/intel_gmch.c              |  14 +
- drivers/gpu/drm/i915/soc/intel_gmch.h              |   2 +
- drivers/gpu/drm/i915/soc/intel_pch.c               |  12 +-
- drivers/gpu/drm/i915/soc/intel_pch.h               |   2 +
- drivers/media/cec/core/cec-adap.c                  |   5 +
- drivers/media/cec/core/cec-notifier.c              |   5 +
- include/drm/display/drm_dp_helper.h                |   6 +
- include/drm/drm_connector.h                        |   8 +
- include/drm/drm_edid.h                             |   1 +
- include/drm/i915_pciids.h                          |   8 +-
- include/uapi/drm/i915_drm.h                        |   8 +-
- 191 files changed, 6812 insertions(+), 3874 deletions(-)
- create mode 100644 drivers/gpu/drm/i915/display/intel_color_regs.h
- create mode 100644 drivers/gpu/drm/i915/display/intel_display_wa.c
- create mode 100644 drivers/gpu/drm/i915/display/intel_display_wa.h
- create mode 100644 drivers/gpu/drm/i915/display/intel_hdcp_gsc_message.c
- create mode 100644 drivers/gpu/drm/i915/display/intel_hdcp_gsc_message.h
- create mode 100644 drivers/gpu/drm/i915/display/intel_link_bw.c
- create mode 100644 drivers/gpu/drm/i915/display/intel_link_bw.h
- create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_object_frontbuffer.h
-
---=20
-Jani Nikula, Intel
+T24gTW9uLCAyMDIzLTEwLTA5IGF0IDE2OjE0IC0wNTAwLCBMYWtzaG1pIFlhZGxhcGF0aSB3cm90
+ZToNCj4gU2lnbmVkLW9mZi1ieTogTGFrc2htaSBZYWRsYXBhdGkgPGxha3NobWl5QHVzLmlibS5j
+b20+DQo+IC0tLQ0KPiDCoGRyaXZlcnMvaTJjL2kyYy1jb3JlLWJhc2UuY8KgIHzCoMKgIDggKy0N
+Cj4gwqBkcml2ZXJzL2kyYy9pMmMtY29yZS1zbWJ1cy5jIHwgMTQzICsrKysrKysrKysrKysrKysr
+KysrKysrKysrKystLS0tLS0tDQo+IMKgZHJpdmVycy9pMmMvaTJjLWNvcmUuaMKgwqDCoMKgwqDC
+oCB8wqAgMjMgKysrKysrDQo+IMKgaW5jbHVkZS9saW51eC9pMmMuaMKgwqDCoMKgwqDCoMKgwqDC
+oCB8wqDCoCAyICsNCj4gwqA0IGZpbGVzIGNoYW5nZWQsIDE0NSBpbnNlcnRpb25zKCspLCAzMSBk
+ZWxldGlvbnMoLSkNCj4gKC4uLikNCg0KTm9uLXRyaXZpYWwgcGF0Y2ggd2l0aCBubyBkZXNjcmlw
+dGlvbiAtPiBub3QgZXZlbiBsb29raW5nLCBzb3JyeS4gWW91DQpjYW4ndCBwb3NzaWJseSBwcm9w
+b3NlIGEgY2hhbmdlIHRvIHRoZSBjb3JlIG9mIGEgc3Vic3lzdGVtIGFuZCBub3QNCmJvdGhlciBl
+eHBsYWluaW5nIHdoeSB0aGlzIGNoYW5nZSBpcyBuZWVkZWQgb3Igd2hhdCBwdXJwb3NlIGl0IHNl
+cnZlcy4NCg0KKEFuZCB5ZXMgSSBrbm93IHRoZXJlJ3Mgc29tZSBpbmZvcm1hdGlvbiBpbiBwYXRj
+aCAwLzIsIGJ1dCB0aGF0J3Mgbm90DQpnb2luZyB0byBtYWtlIGl0IGludG8gZ2l0LCBzbyBpdCB3
+aWxsIGJlIGxvc3QuIENvbW1pdHMgc2hvdWxkIGJlIHNlbGYtDQpzdWZmaWNpZW50LCBub3Qgb25s
+eSB0aGUgaW1wbGVtZW50YXRpb24sIGJ1dCBhbHNvIHRoZSBkZXNjcmlwdGlvbi4pDQoNCkkgd291
+bGQgYWxzbyBzdWdnZXN0IHRyaW1taW5nIHRoZSBUbyBhbmQgQ2MgbGlzdHMuIEkgY2FuJ3QgcmVh
+bGx5IHNlZQ0KaG93IGxpbnV4LW1lZGlhIGFuZCBkcmktZGV2ZWwgYXJlIHJlbGV2YW50IGhlcmUg
+Zm9yIGV4YW1wbGUuDQoNCi0tIA0KSmVhbiBEZWx2YXJlDQpTVVNFIEwzIFN1cHBvcnQNCg==
