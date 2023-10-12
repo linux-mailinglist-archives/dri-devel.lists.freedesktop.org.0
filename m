@@ -1,76 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D0D07C65F6
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Oct 2023 08:58:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E2A5B7C65FB
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Oct 2023 08:59:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 838EF10E41E;
-	Thu, 12 Oct 2023 06:58:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1AC3810E41B;
+	Thu, 12 Oct 2023 06:59:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2FCA310E41B
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Oct 2023 06:58:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1697093917;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HDry+FhkIeT/NRPHa1BVdFItba2J4DOxCsv4jEZYJSQ=;
- b=cBDoNC7zR9vuHKD3taGQWkCo1HlN9ysT04MGdVoi0EjxiR7vaouRuV/q5zELhyCLh4dDAz
- bcUyKg4LV3QUFE+1GlyqB7kta+QG6cZB2UmKlGvshEEaMHgXXeeRuMHM7OAa0Oa0CrNTvL
- sBXChxR1yHLb67/rHBCPMj/gF7+FOnA=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-518-rXBHT9mcNCGmsKCpJpNwRQ-1; Thu, 12 Oct 2023 02:58:35 -0400
-X-MC-Unique: rXBHT9mcNCGmsKCpJpNwRQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- 5b1f17b1804b1-40540179bcdso6143195e9.2
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Oct 2023 23:58:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1697093914; x=1697698714;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=HDry+FhkIeT/NRPHa1BVdFItba2J4DOxCsv4jEZYJSQ=;
- b=H9nRNZp2RNiI3kYwRBF2nxCR6YwDqM8cFkcINKgW2OgHWUGlHrK6kfEDDtVKEf/ZpU
- C2/as59M9hh2ejAtVjId7SwseU07bLr1aPkcYH1/3Z1jJ3rip/kYNuDFX07lH9jlJO3u
- ZngPqWWVa2ibSsp8UbhdvKT/k7UZtrZPepp1toaozggE6GOSjhj/XfeAXhQpQGTHqVrB
- 4nbSzVT4bvBG8umBg3+rFrZB27qW8uJQ4+yvPZ2g2A2F/iG/SRBA8w3WBIZMqO6SeCbB
- wMaFpJti9qohohSRktiGiPwwhnfaCz0Urqow3dyOVqwhmsgMS/cnOIyDhdbGBmxIL+of
- yu4g==
-X-Gm-Message-State: AOJu0Yx6ONA8A2yCL7hAgzRa7laNknY5Uc22lCjW75R0cVAE7xgrH68x
- 9OKikYnwLrBiQU2HdBh7SXrKTO0inhUAqwg4yMkj2+2HBa1FpVxzmWRnled1QGthDKqBzoCeuxd
- RMp9Q88CfbYc1i+trCEZd19uCTpPH
-X-Received: by 2002:a05:600c:c8b:b0:401:b2c7:34aa with SMTP id
- fj11-20020a05600c0c8b00b00401b2c734aamr20358187wmb.33.1697093914585; 
- Wed, 11 Oct 2023 23:58:34 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGJUdJAE+J+1gnbUCfPDDysmAo9MVCsBEBf74Ya+bU1awzyJ/Fc2/4hxnuN0VxAQe5EBOIOFQ==
-X-Received: by 2002:a05:600c:c8b:b0:401:b2c7:34aa with SMTP id
- fj11-20020a05600c0c8b00b00401b2c734aamr20358177wmb.33.1697093914403; 
- Wed, 11 Oct 2023 23:58:34 -0700 (PDT)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- 6-20020a05600c22c600b0040303a9965asm21113713wmg.40.2023.10.11.23.58.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Oct 2023 23:58:34 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH v2 6/6] dt-bindings: display: Add SSD132x OLED controllers
-Date: Thu, 12 Oct 2023 08:58:15 +0200
-Message-ID: <20231012065822.1007930-7-javierm@redhat.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20231012065822.1007930-1-javierm@redhat.com>
-References: <20231012065822.1007930-1-javierm@redhat.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4013310E41B
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Oct 2023 06:59:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1697093952; x=1728629952;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=JEQtMyPEUMT8YzBgRZ5JST75BtIEg2mXzghTJIME9sA=;
+ b=Mo9cBGch28kTz7xfHCk/WxnRl6Dynt5y9zcD4H9B6oOGEhY5Ib8OQuW/
+ E8aFwzkarmiupO68xChvLA478azXDLL1L2U0bzETRURMIcY6hMy14wm6H
+ u1H2fdaHQKX2IPU5PzDl+dIw7tYZJWeTCLAl0NoZB7VLSeet6BSJ4pcxr
+ jfrxb8RNO38aCKXXyhgTjV6usNZa+yMm9vdVIhMc2rYezziVzZDS0Pu05
+ 155PKlvx0rsqgPNgls1EIg6hJsoZFAQw8SWe6MbClckWTmXUEIZxywP85
+ TDjHYENBTARREXoEQVPKGC8whNMCT+A95gAJlPje7nyaUij9Sw0ydraUv A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10860"; a="471104295"
+X-IronPort-AV: E=Sophos;i="6.03,218,1694761200"; d="scan'208";a="471104295"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Oct 2023 23:59:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10860"; a="897969016"
+X-IronPort-AV: E=Sophos;i="6.03,218,1694761200"; d="scan'208";a="897969016"
+Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
+ by fmsmga001.fm.intel.com with ESMTP; 11 Oct 2023 23:57:18 -0700
+Received: from kbuild by f64821696465 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1qqpev-0003Ht-2n;
+ Thu, 12 Oct 2023 06:59:02 +0000
+Date: Thu, 12 Oct 2023 14:58:17 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sarah Walker <sarah.walker@imgtec.com>, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v7 10/20] drm/imagination: Add GPU ID parsing and
+ firmware loading
+Message-ID: <202310121406.jT1fEThj-lkp@intel.com>
+References: <20231010133738.35274-11-sarah.walker@imgtec.com>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231010133738.35274-11-sarah.walker@imgtec.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,140 +60,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Conor Dooley <conor+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Javier Martinez Canillas <javierm@redhat.com>,
- Maxime Ripard <mripard@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Conor Dooley <conor@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Peter Robinson <pbrobinson@gmail.com>
+Cc: matthew.brost@intel.com, devicetree@vger.kernel.org, conor+dt@kernel.org,
+ tzimmermann@suse.de, corbet@lwn.net, hns@goldelico.com,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, mripard@kernel.org,
+ afd@ti.com, robh+dt@kernel.org, Matt Coster <matt.coster@imgtec.com>,
+ luben.tuikov@amd.com, dakr@redhat.com, donald.robson@imgtec.com,
+ krzysztof.kozlowski+dt@linaro.org, oe-kbuild-all@lists.linux.dev,
+ boris.brezillon@collabora.com, christian.koenig@amd.com,
+ faith.ekstrand@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a Device Tree binding schema for the OLED panels based on the Solomon
-SSD132x family of controllers.
+Hi Sarah,
 
-Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
----
+kernel test robot noticed the following build warnings:
 
-Changes in v2:
-- Remove unnecessary 'oneOf' in the SSD132x DT binding schema (Conor Dooley).
-- Remove unused DT nodes labels in the binding schema examples (Conor Dooley).
-- Split out common Solomon properties into a separate schema (Rob Herring).
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on drm/drm-next drm-intel/for-linux-next drm-tip/drm-tip next-20231011]
+[cannot apply to drm-exynos/exynos-drm-next drm-intel/for-linux-next-fixes linus/master v6.6-rc5]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
- .../bindings/display/solomon,ssd132x.yaml     | 89 +++++++++++++++++++
- MAINTAINERS                                   |  2 +-
- 2 files changed, 90 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/devicetree/bindings/display/solomon,ssd132x.yaml
+url:    https://github.com/intel-lab-lkp/linux/commits/Sarah-Walker/sizes-h-Add-entries-between-SZ_32G-and-SZ_64T/20231010-221057
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20231010133738.35274-11-sarah.walker%40imgtec.com
+patch subject: [PATCH v7 10/20] drm/imagination: Add GPU ID parsing and firmware loading
+config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20231012/202310121406.jT1fEThj-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231012/202310121406.jT1fEThj-lkp@intel.com/reproduce)
 
-diff --git a/Documentation/devicetree/bindings/display/solomon,ssd132x.yaml b/Documentation/devicetree/bindings/display/solomon,ssd132x.yaml
-new file mode 100644
-index 000000000000..0aa41bd9ddca
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/solomon,ssd132x.yaml
-@@ -0,0 +1,89 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/solomon,ssd132x.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Solomon SSD132x OLED Display Controllers
-+
-+maintainers:
-+  - Javier Martinez Canillas <javierm@redhat.com>
-+
-+properties:
-+  compatible:
-+    - enum:
-+        - solomon,ssd1322
-+        - solomon,ssd1325
-+        - solomon,ssd1327
-+
-+required:
-+  - compatible
-+  - reg
-+
-+allOf:
-+  - $ref: solomon,ssd-common.yaml#
-+
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: solomon,ssd1322
-+    then:
-+      properties:
-+        width:
-+          default: 480
-+        height:
-+          default: 128
-+
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: solomon,ssd1325
-+    then:
-+      properties:
-+        width:
-+          default: 128
-+        height:
-+          default: 80
-+
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: solomon,ssd1327
-+    then:
-+      properties:
-+        width:
-+          default: 128
-+        height:
-+          default: 128
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    i2c {
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+
-+            oled@3c {
-+                    compatible = "solomon,ssd1327";
-+                    reg = <0x3c>;
-+                    reset-gpios = <&gpio2 7>;
-+            };
-+
-+    };
-+  - |
-+    spi {
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+
-+            oled@0 {
-+                    compatible = "solomon,ssd1327";
-+                    reg = <0x0>;
-+                    reset-gpios = <&gpio2 7>;
-+                    dc-gpios = <&gpio2 8>;
-+                    spi-max-frequency = <10000000>;
-+            };
-+    };
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 4a3baf970839..5257e0074f2b 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -6733,7 +6733,7 @@ M:	Javier Martinez Canillas <javierm@redhat.com>
- S:	Maintained
- T:	git git://anongit.freedesktop.org/drm/drm-misc
- F:	Documentation/devicetree/bindings/display/solomon,ssd-common.yaml
--F:	Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml
-+F:	Documentation/devicetree/bindings/display/solomon,ssd13*.yaml
- F:	drivers/gpu/drm/solomon/ssd130x*
- 
- DRM DRIVER FOR ST-ERICSSON MCDE
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310121406.jT1fEThj-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/gpu/drm/imagination/pvr_device_info.c:106: warning: Function parameter or member 'enhancements' not described in 'pvr_device_info_set_enhancements'
+>> drivers/gpu/drm/imagination/pvr_device_info.c:106: warning: Function parameter or member 'enhancements_size' not described in 'pvr_device_info_set_enhancements'
+>> drivers/gpu/drm/imagination/pvr_device_info.c:106: warning: Excess function parameter 'quirks' description in 'pvr_device_info_set_enhancements'
+>> drivers/gpu/drm/imagination/pvr_device_info.c:106: warning: Excess function parameter 'quirks_size' description in 'pvr_device_info_set_enhancements'
+
+
+vim +106 drivers/gpu/drm/imagination/pvr_device_info.c
+
+    97	
+    98	/**
+    99	 * pvr_device_info_set_enhancements() - Set device enhancements from device information in firmware
+   100	 * @pvr_dev: Device pointer.
+   101	 * @quirks: Pointer to enhancements mask in device information.
+   102	 * @quirks_size: Size of enhancements mask, in u64s.
+   103	 */
+   104	void pvr_device_info_set_enhancements(struct pvr_device *pvr_dev, const u64 *enhancements,
+   105					      u32 enhancements_size)
+ > 106	{
+   107		BUILD_BUG_ON(ARRAY_SIZE(enhancements_mapping) != PVR_FW_HAS_ERN_MAX);
+   108	
+   109		pvr_device_info_set_common(pvr_dev, enhancements, enhancements_size,
+   110					   enhancements_mapping, ARRAY_SIZE(enhancements_mapping));
+   111	}
+   112	
+
 -- 
-2.41.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
