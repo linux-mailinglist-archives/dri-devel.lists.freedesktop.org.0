@@ -2,40 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1453A7C6ACC
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Oct 2023 12:17:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2C9C7C6ADB
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Oct 2023 12:21:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C9C0410E49C;
-	Thu, 12 Oct 2023 10:17:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F31F210E49D;
+	Thu, 12 Oct 2023 10:21:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6ADEE10E49C
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Oct 2023 10:17:42 +0000 (UTC)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6FAA310E49D
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Oct 2023 10:21:10 +0000 (UTC)
 Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
  [2.237.20.237])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits))
  (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 5F39E660730F;
- Thu, 12 Oct 2023 11:17:40 +0100 (BST)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 7B7B8660730F;
+ Thu, 12 Oct 2023 11:21:08 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1697105861;
- bh=g3ns2c4RoQU8nzXEQ8VUyBiWwm9Ooa52x4tpLHq9B+0=;
+ s=mail; t=1697106069;
+ bh=a+fkA7bTx2HmKy1KBcir6vM3hIgk7fN7zSjSs52u8LQ=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=fC555cNGl+Ly1HW1tK2ksVyK0MG/FjTo1j7THokikv5Pi+FlMYaEBcFRQIq/sOJPq
- gG8CzEadDaVkkrjxrtNyi12WdRGBXqVWmTcsB0emaDAOaTXsv4J1cbYFWlurVuC8Tr
- 6CgODM0m3/HeVgY6dTl+qoBlhstBeHXlbkLdQqX0CxnDpSJzWb/V6VQ0ZTupzKmH7c
- LVaIRests9W7dMrsDPtZmcD4iplXgD0o2NbQrBB2sDIOxYVMqFd/6Yl9eIQHcTx6OY
- mwSwZBOOJSCir8hJTx0yTTvX2jIWRnD8CiwjAJTPDpoG5txZRgj+VsbFf36wXe0beU
- 66/Mjz8eo1p+w==
-Message-ID: <bf2cf999-7a1a-df14-7ba9-ac5047c998c0@collabora.com>
-Date: Thu, 12 Oct 2023 12:17:37 +0200
+ b=dh7UUQCdpNslVzlbMA4pDRnnP32NLBuzoe9urs7hXSxHGj9MkBvBqgPYVUyzY4aQ4
+ Ri+K66ougoMrSNU+x0KOlOv7WbA2nBDrhKQpWPA6eV7eUzjMiQseWAq5b1rept1m3K
+ IJPAVlHRKZEKTcPAnnqOP03C0gwmjGgIazFe7GAr5tdDUKsqnPzAqtKB2OEkWflIcT
+ euDYsaKrlGvIgJaov5scdSIx7vW8MkM5DE+geH4o++q2IaFjyWKKznX4GlFc4Z7RHO
+ di/y4JgtFVltcW3jlxV7uxg00kZxp/kS9/sRuXSHkgTrfpP+o8skGDYofmBSk27MiD
+ eJ8X89qdSAmTg==
+Message-ID: <91d58b8b-aa63-70a7-253e-7f351a5b5e1b@collabora.com>
+Date: Thu, 12 Oct 2023 12:21:06 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.15.0
-Subject: Re: [PATCH v7 09/16] dt-bindings: media: mediatek: mdp3: add
- component TCC for MT8195
+Subject: Re: [PATCH v7 07/16] dt-bindings: media: mediatek: mdp3: add
+ component HDR for MT8195
 Content-Language: en-US
 To: Moudy Ho <moudy.ho@mediatek.com>, Chun-Kuang Hu
  <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
@@ -47,9 +48,9 @@ To: Moudy Ho <moudy.ho@mediatek.com>, Chun-Kuang Hu
  Matthias Brugger <matthias.bgg@gmail.com>,
  Hans Verkuil <hverkuil-cisco@xs4all.nl>
 References: <20231012084037.19376-1-moudy.ho@mediatek.com>
- <20231012084037.19376-10-moudy.ho@mediatek.com>
+ <20231012084037.19376-8-moudy.ho@mediatek.com>
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20231012084037.19376-10-moudy.ho@mediatek.com>
+In-Reply-To: <20231012084037.19376-8-moudy.ho@mediatek.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -71,32 +72,41 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Il 12/10/23 10:40, Moudy Ho ha scritto:
-> Add the fundamental hardware configuration of component TCC,
+> Add the fundamental hardware configuration of component HDR,
 > which is controlled by MDP3 on MT8195.
 > 
 > Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
 > ---
->   .../bindings/media/mediatek,mdp3-tcc.yaml     | 62 +++++++++++++++++++
->   1 file changed, 62 insertions(+)
->   create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-tcc.yaml
+>   .../bindings/media/mediatek,mdp3-hdr.yaml     | 60 +++++++++++++++++++
+>   1 file changed, 60 insertions(+)
+>   create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-hdr.yaml
 > 
-> diff --git a/Documentation/devicetree/bindings/media/mediatek,mdp3-tcc.yaml b/Documentation/devicetree/bindings/media/mediatek,mdp3-tcc.yaml
+> diff --git a/Documentation/devicetree/bindings/media/mediatek,mdp3-hdr.yaml b/Documentation/devicetree/bindings/media/mediatek,mdp3-hdr.yaml
 > new file mode 100644
-> index 000000000000..f134160f85b9
+> index 000000000000..98db6cb4d03a
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/mediatek,mdp3-tcc.yaml
-> @@ -0,0 +1,62 @@
+> +++ b/Documentation/devicetree/bindings/media/mediatek,mdp3-hdr.yaml
+> @@ -0,0 +1,60 @@
 > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 > +%YAML 1.2
 > +---
-> +$id: http://devicetree.org/schemas/media/mediatek,mdp3-tcc.yaml#
+> +$id: http://devicetree.org/schemas/media/mediatek,mdp3-hdr.yaml#
 > +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +title: MediaTek Media Data Path 3 TCC
+> +title: MediaTek Media Data Path 3 HDR Remapping
+> +
+> +maintainers:
+> +  - Matthias Brugger <matthias.bgg@gmail.com>
+> +  - Moudy Ho <moudy.ho@mediatek.com>
+> +
+> +description:
+> +  One of Media Data Path 3 (MDP3) components used to perform HDR to SDR
 
-MediaTek Media Data Path 3 Tone Curve Conversion
+A Media Data Path 3 (MDP3) component used to perform conversion from
+High Dynamic Range (HDR) to Standard Dynamic Range (SDR).
 
-
-after which:
+after which
 
 Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+
+
