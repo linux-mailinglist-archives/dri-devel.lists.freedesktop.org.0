@@ -1,57 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E1C77C6E33
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Oct 2023 14:35:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 918757C6E62
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Oct 2023 14:41:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1084F10E4BC;
-	Thu, 12 Oct 2023 12:35:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF1BA10E4C1;
+	Thu, 12 Oct 2023 12:41:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0508510E4B9
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Oct 2023 12:35:35 +0000 (UTC)
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id C5776660733F;
- Thu, 12 Oct 2023 13:35:32 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1697114133;
- bh=9YwrfxspUnb7imS3HOKEtNqbSdskF65SOc98nxt5Q60=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=DD0jWufzf2Jb+8PBpFQg3JL3LMJXE/jZPx+1hghxyJ/1FWsByQccKV50tHxcZtolj
- 2U+eaP0yAJDigMDweHV/VLIQi/304DfbEn99rDuYWwsYtWhNLKBPfCOjlsLlfDXg3j
- rMVnDRUH/1u8RraORenVNeWvKBZatHTIp20A9YupE/tmyCUpJn3EY4ZWHN7Ue9rXyj
- 4koTJWKPEKpmBDVYd6j33LB8bFYwtTPpdBGes0SbfhSX3Gq+KpSZOrP+m1QS6BrZ87
- UIy8fJb11mjYb1iBuZUrcEyrWb/z7HBcBcPc9HiFrl7wWz+rFAg0eOZwAUPg8Fztc5
- DKBVX71CZZWTQ==
-Message-ID: <49a4be76-e389-c6aa-6176-41b351c6446a@collabora.com>
-Date: Thu, 12 Oct 2023 14:35:29 +0200
+Received: from sin.source.kernel.org (sin.source.kernel.org
+ [IPv6:2604:1380:40e1:4800::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1580F10E4B9
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Oct 2023 12:41:05 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 66231CE284F;
+ Thu, 12 Oct 2023 12:41:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46495C433C7;
+ Thu, 12 Oct 2023 12:41:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1697114462;
+ bh=S+JE9f5yFI5LpkybuTpXi2ppei+deRtKMWJ4sWWwkwY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=AEhBi5yZTs2RCp/rbxUts8TnzXMLRcM5e48EerX+lfTZX8g+3AOCnW02A7rQwunD3
+ 52qmFcC2hOdCMXZmBFuzNzPjZqkBcdHx9F/B1joFycUVcG/WcMz9j9xeCVnpL3qmFR
+ SSrQ/DH6F63RTp6quwYWRVzV1ZW+/ovYj49vQszbqXbBntVrsfgNSRXMGRv8/DVC9O
+ 6S/UJW0yA3OYQkwezMbfE8Xe/G092KsiY7K2SKuUEcuK1XXz3/FgjN8scu5ArZcWdU
+ Eac+U56OUlL825tgkD4IhALAjVuO5Cva1z3YoHHU25ZIwQJJoVtTz00RpjxXZiCoWs
+ 9P6RUjb5B1Qiw==
+Date: Thu, 12 Oct 2023 14:40:56 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Devarsh Thakkar <devarsht@ti.com>
+Subject: Re: [PATCH] drm/tidss: Power up attached PM domains on probe
+Message-ID: <libnfyaftywmfr2gmkdjsv6cptzjyrrx2tkxczusifnwthyh36@olzd2e5hagtr>
+References: <20231009075018.2836020-1-devarsht@ti.com>
+ <c9f17f9e-b9b5-9685-30ca-6a7d041dd8aa@ti.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.0
-Subject: Re: [PATCH v7 16/16] dt-bindings: display: mediatek: padding: add
- compatible for MT8195
-Content-Language: en-US
-To: Moudy Ho <moudy.ho@mediatek.com>, Chun-Kuang Hu
- <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>
-References: <20231012084037.19376-1-moudy.ho@mediatek.com>
- <20231012084037.19376-17-moudy.ho@mediatek.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20231012084037.19376-17-moudy.ho@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="dml2l2bctoq47jl4"
+Content-Disposition: inline
+In-Reply-To: <c9f17f9e-b9b5-9685-30ca-6a7d041dd8aa@ti.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,41 +52,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Cc: nm@ti.com, j-choudhary@ti.com, j-luthra@ti.com, a-bhatia1@ti.com,
+ praneeth@ti.com, tomi.valkeinen@ideasonboard.com, jyri.sarha@iki.fi,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ tzimmermann@suse.de, r-ravikumar@ti.com, vigneshr@ti.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 12/10/23 10:40, Moudy Ho ha scritto:
-> Add a compatible string for the PAD block in MediaTek MT8195 that
-> is controlled by MDP3.
-> 
-> Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
-> ---
->   .../bindings/display/mediatek/mediatek,padding.yaml           | 4 +++-
->   1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,padding.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,padding.yaml
-> index db24801ebc48..636b69133acc 100644
-> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,padding.yaml
-> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,padding.yaml
-> @@ -20,7 +20,9 @@ description:
->   
->   properties:
->     compatible:
-> -    const: mediatek,mt8188-padding
-> +    enum:
-> +      - mediatek,mt8188-padding
-> +      - mediatek,mt8195-mdp3-pad
 
-mediatek,mt8195-mdp3-padding please!
+--dml2l2bctoq47jl4
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks,
-Angelo
+Hi,
 
->   
->     reg:
->       maxItems: 1
+On Thu, Oct 12, 2023 at 05:10:06PM +0530, Devarsh Thakkar wrote:
+> On 09/10/23 13:20, Devarsh Thakkar wrote:
+> > Some SoC's such as AM62P have dedicated power domains
+> > for OLDI which need to be powered on separetely along
+> > with display controller.
+> >=20
+> > So during driver probe, power up all attached PM domains
+> > enumerated in devicetree node for DSS.
+> >=20
+> > This also prepares base to add display support for AM62P.
+> >=20
+>=20
+> NAK, for this patch, as discussed with team there are already plans
+> to have separate OLDI bridge driver which should eventually handle
+> the additional power domains.
 
+Just for the record in case your current plan doesn't work out and we
+need to revisit this patch: my point was that it's something that
+deviates by a margin from what drivers are usually expected to do, so we
+should document why that deviation is there.
 
+The patch itself looks reasonable to me otherwise.
+
+Maxime
+
+--dml2l2bctoq47jl4
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZSfpWAAKCRDj7w1vZxhR
+xRRwAP91VGXS8cZOVzri71ykEss+wKMy4btdAbjPDACQgrhVYwD9EfdK3i474qdL
+ZCVDRPfwLGIXZo5THQXx4sYZM9RT7ww=
+=lW56
+-----END PGP SIGNATURE-----
+
+--dml2l2bctoq47jl4--
