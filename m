@@ -1,73 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1DA97C7354
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Oct 2023 18:44:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 47D357C735B
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Oct 2023 18:45:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4989710E06C;
-	Thu, 12 Oct 2023 16:44:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7507F10E503;
+	Thu, 12 Oct 2023 16:45:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com
- [IPv6:2a00:1450:4864:20::530])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1158E10E06C
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Oct 2023 16:44:17 +0000 (UTC)
-Received: by mail-ed1-x530.google.com with SMTP id
- 4fb4d7f45d1cf-5230a22cfd1so2157443a12.1
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Oct 2023 09:44:17 -0700 (PDT)
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com
+ [IPv6:2a00:1450:4864:20::629])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6091710E503
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Oct 2023 16:45:26 +0000 (UTC)
+Received: by mail-ej1-x629.google.com with SMTP id
+ a640c23a62f3a-9ada2e6e75fso208137166b.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Oct 2023 09:45:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1697129055; x=1697733855;
+ d=chromium.org; s=google; t=1697129123; x=1697733923;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=z24YZGqTCXcSjZw7pVvFeMUQZsyzVXoHF/bkKgAPfjE=;
- b=Yt7UzKf93VLuoPFUXw/7P5jzutFLjhGN2loZ26aFDvUgNYSjPPFRvfc+lZKJ2bZQjT
- y92aGXFVXuMjAIpi79Mw3NfWuksFOR36HCroiCy1CTJWHnVGyICo9dVUupiW523UthrZ
- Gw7KsGpr2wl2mpTMNyo1lzwh4DF12yUgJDqbU=
+ bh=XB7Wf5LgsYf36+k+zhs9TduHabjcJcCiXT3QAGky0tQ=;
+ b=FbrLah/HCZXxBf+vuPb5jWJC2dip/r1I5uAN4jdlDRXFXIAlcXjaWQ7y2Hgplbi/p2
+ ifZcuJiLlec8sLmJc3ldY2WK1+JwoML3/p46FCAtgNVPYzDGDO5jOHOJP/LPKtrCZ31z
+ TgyZyKZfgzN7TnMNTpNw4K8Lt/Lucm/QvyAoA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1697129055; x=1697733855;
+ d=1e100.net; s=20230601; t=1697129123; x=1697733923;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=z24YZGqTCXcSjZw7pVvFeMUQZsyzVXoHF/bkKgAPfjE=;
- b=Zxj9r3oMPcrczmlF+cuLr/IzObaHBJW12DhBWIH+sRnQzgUOMOxgjZLi2BlkIAQIe4
- Vw6xk6OwytNCvOeom4kc8NMsB6oDop5oPlOUEvaCbyIyrIDR8oRJ5X9BgUAcx1cmsxFp
- M+y14bW+AT94jsp/1xsOS0rHVqZoy6XAAe86uGH2qZqzgOoscsaGl/8I75TKdjKeZIcF
- Zo2b8xy4UoMIYGKMw3nMBmwEPGW3ir0IS9f4BV5Ae0GA+6r0dqIzjmsG/iMVUoNMjlpj
- bUYfHJdvd3zVGDfKxe6O0Pk1oyA6mIb7Myz/f2GFvgdv/kMQo2xg437RtVzdQE+4CAUX
- vjAA==
-X-Gm-Message-State: AOJu0YzVCWpZq0RKTgGutaPecgF0SRqWelBQd0kQ7HsHkCh0g5MG1msQ
- +soKTgj0QV0M360PE4eOM+ojw7rAL8SgSMRF2a9LHA==
-X-Google-Smtp-Source: AGHT+IE8bcvwCVwSSi6oS1JbBZdP1yzlmG3+/MQ++UM/ptQ6USXnqrcF7afjYZmAGHjdEMPUIT/YjQ==
-X-Received: by 2002:a05:6402:541a:b0:53d:b2c8:6783 with SMTP id
- ev26-20020a056402541a00b0053db2c86783mr5975747edb.14.1697129054956; 
- Thu, 12 Oct 2023 09:44:14 -0700 (PDT)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com.
- [209.85.128.42]) by smtp.gmail.com with ESMTPSA id
- er24-20020a056402449800b0052febc781bfsm3178421edb.36.2023.10.12.09.44.14
+ bh=XB7Wf5LgsYf36+k+zhs9TduHabjcJcCiXT3QAGky0tQ=;
+ b=SyoEfZMd5OeyOqtsvr6F7Coy9RwnVieIU9oC0zH12R7CBQCEi5JlfENZSmtkPaBA0J
+ jHiImTt6N5M1heKpgj1PgsAWunfxQKg+4r7nmZRZZ2MSaIwPYikJOJ6Fv0gBz4RSvPHU
+ vYdkrgtZ3W5DIe2qbzDYT+XCz93kg2T33m/5LUZzSYN+9O6nA/LPqkg8BSFM2sHaxevO
+ 33ogSwObKbP3ijmPRYUEgOpiLIZPox/chJujJ686sDgqIKBpqso92To1iK3pEb7RMscq
+ XTyCpSnOpwZGXY+9IWTHDF+A9jicicJjzUUf27NqEO+7u6nsIyuJIBdTj9PMtmrlwd1K
+ gPBQ==
+X-Gm-Message-State: AOJu0YwHdTK9v8uAHyKFy1jElHFoztqKRgb8NGwZeDaAiO5Tr/xunoOp
+ 8rRjEhy888P8xhh3YTIF+LstubYuKya8gttQFDLzuQ==
+X-Google-Smtp-Source: AGHT+IG0g8mqVk6FomGyPdnGIwNHYqRQzCacVvUWvMFP/CXUrWc091Zb38xxnRrezbo68PmEAkH0AQ==
+X-Received: by 2002:a17:906:53c8:b0:9ae:522e:8f78 with SMTP id
+ p8-20020a17090653c800b009ae522e8f78mr20316814ejo.74.1697129122792; 
+ Thu, 12 Oct 2023 09:45:22 -0700 (PDT)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com.
+ [209.85.128.45]) by smtp.gmail.com with ESMTPSA id
+ cd16-20020a170906b35000b00991faf3810esm11408255ejb.146.2023.10.12.09.45.22
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 12 Oct 2023 09:44:14 -0700 (PDT)
-Received: by mail-wm1-f42.google.com with SMTP id
- 5b1f17b1804b1-405459d9a96so1875e9.0
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Oct 2023 09:44:14 -0700 (PDT)
-X-Received: by 2002:a05:600c:1d10:b0:404:7462:1f87 with SMTP id
- l16-20020a05600c1d1000b0040474621f87mr293864wms.6.1697129053819; Thu, 12 Oct
- 2023 09:44:13 -0700 (PDT)
+ Thu, 12 Oct 2023 09:45:22 -0700 (PDT)
+Received: by mail-wm1-f45.google.com with SMTP id
+ 5b1f17b1804b1-4053f24c900so325e9.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Oct 2023 09:45:22 -0700 (PDT)
+X-Received: by 2002:a05:600c:3c96:b0:3f6:f4b:d4a6 with SMTP id
+ bg22-20020a05600c3c9600b003f60f4bd4a6mr262956wmb.7.1697129121865; Thu, 12 Oct
+ 2023 09:45:21 -0700 (PDT)
 MIME-Version: 1.0
-References: <20231002235407.769399-1-swboyd@chromium.org>
- <CAD=FV=U2dza-rxV=YtcfJwUY-gZw5FrCyn0NahOxvXJW2J2-vg@mail.gmail.com>
- <CAE-0n51LJDgop-Nh+Aq1CTiu7xJZOqOsdSvHMmXzshkRKM3dgg@mail.gmail.com>
-In-Reply-To: <CAE-0n51LJDgop-Nh+Aq1CTiu7xJZOqOsdSvHMmXzshkRKM3dgg@mail.gmail.com>
+References: <20230925150010.1.Iff672233861bcc4cf25a7ad0a81308adc3bda8a4@changeid>
+ <b0037c9f-588b-4eb8-6415-0fe75bed264f@collabora.com>
+ <CAD=FV=UWQgLLfU4X+6OUR5AWOkJKwG9J7BbKGRCgze6LTY6JNw@mail.gmail.com>
+ <CAD=FV=UqG6DiAyjcLKeoUWKutepGd46Zx=8O-NWKoYC-fZEG6g@mail.gmail.com>
+ <c3380c97-1b8c-5a68-168e-fc6150701365@postmarketos.org>
+In-Reply-To: <c3380c97-1b8c-5a68-168e-fc6150701365@postmarketos.org>
 From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 12 Oct 2023 09:43:57 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=UGP9L341iDd44rUPKf_jZ5Y6qodPKZ_BLgMq-HnkBmbQ@mail.gmail.com>
-Message-ID: <CAD=FV=UGP9L341iDd44rUPKf_jZ5Y6qodPKZ_BLgMq-HnkBmbQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/bridge: ti-sn65dsi86: Associate DSI device lifetime
- with auxiliary device
-To: Stephen Boyd <swboyd@chromium.org>
+Date: Thu, 12 Oct 2023 09:45:09 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=WAYYv5h6oWWhEJHyZesE5cguBqVufCmK6s4gvMeNkCWg@mail.gmail.com>
+Message-ID: <CAD=FV=WAYYv5h6oWWhEJHyZesE5cguBqVufCmK6s4gvMeNkCWg@mail.gmail.com>
+Subject: Re: [PATCH] drm/panel: Move AUX B116XW03 out of panel-edp back to
+ panel-simple
+To: Anton Bambura <jenneron@postmarketos.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -82,74 +84,123 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- patches@lists.linux.dev, Maxime Ripard <maxime@cerno.tech>,
- Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: devicetree@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+ jitao.shi@mediatek.com, Anton Bambura <jenneron@protonmail.com>,
+ neil.armstrong@linaro.org, sam@ravnborg.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ Hsin-Yi Wang <hsinyi@chromium.org>, matthias.bgg@gmail.com,
+ quic_jesszhan@quicinc.com, Marek Szyprowski <m.szyprowski@samsung.com>,
+ linux-arm-kernel@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On Thu, Oct 5, 2023 at 10:18=E2=80=AFAM Stephen Boyd <swboyd@chromium.org> =
-wrote:
+On Sun, Oct 8, 2023 at 1:52=E2=80=AFPM Anton Bambura <jenneron@postmarketos=
+.org> wrote:
 >
-> Quoting Doug Anderson (2023-10-02 17:31:41)
+>
+> On 10/5/23 21:10, Doug Anderson wrote:
 > > Hi,
 > >
-> > On Mon, Oct 2, 2023 at 4:54=E2=80=AFPM Stephen Boyd <swboyd@chromium.or=
-g> wrote:
-> > >
-> > > The kernel produces a warning splat and the DSI device fails to regis=
-ter
-> > > in this driver if the i2c driver probes, populates child auxiliary
-> > > devices, and then somewhere in ti_sn_bridge_probe() a function call
-> > > returns -EPROBE_DEFER. When the auxiliary driver probe defers, the ds=
-i
-> > > device created by devm_mipi_dsi_device_register_full() is left
-> > > registered because the devm managed device used to manage the lifetim=
-e
-> > > of the DSI device is the parent i2c device, not the auxiliary device
-> > > that is being probed.
-> > >
-> > > Associate the DSI device created and managed by this driver to the
-> > > lifetime of the auxiliary device, not the i2c device, so that the DSI
-> > > device is removed when the auxiliary driver unbinds. Similarly change
-> > > the device pointer used for dev_err_probe() so the deferred probe err=
-ors
-> > > are associated with the auxiliary device instead of the parent i2c
-> > > device so we can narrow down future problems faster.
-> > >
-> > > Cc: Douglas Anderson <dianders@chromium.org>
-> > > Cc: Maxime Ripard <maxime@cerno.tech>
-> > > Fixes: c3b75d4734cb ("drm/bridge: sn65dsi86: Register and attach our =
-DSI device at probe")
+> > On Tue, Sep 26, 2023 at 7:01=E2=80=AFAM Doug Anderson <dianders@chromiu=
+m.org> wrote:
+> >> Hi,
+> >>
+> >> On Tue, Sep 26, 2023 at 1:06=E2=80=AFAM AngeloGioacchino Del Regno
+> >> <angelogioacchino.delregno@collabora.com> wrote:
+> >>> Il 26/09/23 00:00, Douglas Anderson ha scritto:
+> >>>> In commit 5f04e7ce392d ("drm/panel-edp: Split eDP panels out of
+> >>>> panel-simple") I moved a pile of panels out of panel-simple driver
+> >>>> into the newly created panel-edp driver. One of those panels, howeve=
+r,
+> >>>> shouldn't have been moved.
+> >>>>
+> >>>> As is clear from commit e35e305eff0f ("drm/panel: simple: Add AUO
+> >>>> B116XW03 panel support"), AUX B116XW03 is an LVDS panel. It's used i=
+n
+> >>>> exynos5250-snow and exynos5420-peach-pit where it's clear that the
+> >>>> panel is hooked up with LVDS. Furthermore, searching for datasheets =
+I
+> >>>> found one that makes it clear that this panel is LVDS.
+> >>>>
+> >>>> As far as I can tell, I got confused because in commit 88d3457ceb82
+> >>>> ("drm/panel: auo,b116xw03: fix flash backlight when power on") Jitao
+> >>>> Shi added "DRM_MODE_CONNECTOR_eDP". That seems wrong. Looking at the
+> >>>> downstream ChromeOS trees, it seems like some Mediatek boards are
+> >>>> using a panel that they call "auo,b116xw03" that's an eDP panel. The
+> >>>> best I can guess is that they actually have a different panel that h=
+as
+> >>>> similar timing. If so then the proper panel should be used or they
+> >>>> should switch to the generic "edp-panel" compatible.
+> >>>>
+> >>>> When moving this back to panel-edp, I wasn't sure what to use for
+> >>>> .bus_flags and .bus_format and whether to add the extra "enable" del=
+ay
+> >>>> from commit 88d3457ceb82 ("drm/panel: auo,b116xw03: fix flash
+> >>>> backlight when power on"). I've added formats/flags/delays based on =
+my
+> >>>> (inexpert) analysis of the datasheet. These are untested.
+> >>>>
+> >>>> NOTE: if/when this is backported to stable, we might run into some
+> >>>> trouble. Specifically, before 474c162878ba ("arm64: dts: mt8183:
+> >>>> jacuzzi: Move panel under aux-bus") this panel was used by
+> >>>> "mt8183-kukui-jacuzzi", which assumed it was an eDP panel. I don't
+> >>>> know what to suggest for that other than someone making up a bogus
+> >>>> panel for jacuzzi that's just for the stable channel.
+> >>>>
+> >>>> Fixes: 88d3457ceb82 ("drm/panel: auo,b116xw03: fix flash backlight w=
+hen power on")
+> >>>> Fixes: 5f04e7ce392d ("drm/panel-edp: Split eDP panels out of panel-s=
+imple")
+> >>>> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> >>>> ---
+> >>>> I haven't had a snow or peach-pit hooked up for debugging / testing
+> >>>> for years. I presume that they must be broken and hope that this fix=
+es
+> >>>> them.
+> >>> We could avoid backport breakages by avoiding to backport this to any=
+ kernel
+> >>> that doesn't contain commit 474c162878ba ("arm64: dts: mt8183: jacuzz=
+i: Move
+> >>> panel under aux-bus")... because creating a dummy panel to get two wr=
+ongs
+> >>> right is definitely not ok.
+> >> Sure, except that leaves us with ... a breakage. :-P
+> >>
+> >> Although I haven't tested it, I have a hard time believing that
+> >> exynos5250-snow and exynos5420-peach-pit will work properly with the
+> >> panel defined as an eDP panel. That means that they will be broken. If
+> >> someone cared to get those fixed in a stable backport then we'd be
+> >> stuck deciding who to break. If you have any brilliant ideas then I'm
+> >> all ears.
+> >>
+> >> ...then again, I presume this has been broken since commit
+> >> 88d3457ceb82 ("drm/panel: auo,b116xw03: fix flash backlight when power
+> >> on"). That was a little over 3 years ago. Maybe I'm wrong and somehow
+> >> things still limp along and sorta work even though the panel is
+> >> defined incorrectly?
+> > I dug out a exynos5250-snow out of my pile and booted postmarket OS on
+> > it, which was shockingly easy/pleasant (kudos to those involved!). I
+> > found that it was booting a kernel based on 6.1.24. Digging into
+> > sysfs, I found that indeed it appeared to be using the "panel-edp"
+> > driver, so I guess it is limping along with the wrong driver and wrong
+> > flags...
 > >
-> > Even before that commit I think it was using the main "dev" instead of
-> > the auxiliary device's "dev" for some "devm" stuff. I guess the
-> > difference is that it wouldn't mess with probe deferral? Searching
-> > back, I think the first instance of a case that was using "devm_" with
-> > the wrong device was commit 4e5763f03e10 ("drm/bridge: ti-sn65dsi86:
-> > Wrap panel with panel-bridge")? Would it make sense to use that as a
-> > Fixes, you think?
+> > It wasn't totally clear for me how to build a new kernel and deploy it
+> > for postmarket OS, so I wasn't able to confirm this change. I've CCed
+> > the person listed on the postmarket OS wiki though to see if they have
+> > any insight.
+> Tested it on peach-pit using linux-next with this patch applied. Panel
+> still works and "dmesg | grep panel" returns panel_simple instead of
+> panel_edp.
 >
-> The problem for me is that the dsi device is registered twice. That
-> happens because probe for the auxiliary device happens twice. I was
-> cautious about the fixes tag here because it didn't look like probe
-> deferral was happening before commit c3b75d4734cb.
->
-> >
-> > In any case, this looks reasonable to me:
-> >
-> > Reviewed-by: Douglas Anderson <dianders@chromium.org>
-> >
-> > I'll give it a week and then apply to "-fixes" if everything is quiet.
->
-> Thanks!
+> Tested-by: Anton Bambura <jenneron@postmarketos.org>
 
-Pushed to drm-misc-fixes leaving your existing "Fixes" line:
+Pushed to drm-misc-fixes:
 
-7b821db95140 drm/bridge: ti-sn65dsi86: Associate DSI device lifetime
-with auxiliary device
+ad3e33fe071d drm/panel: Move AUX B116XW03 out of panel-edp back to panel-si=
+mple
 
 -Doug
