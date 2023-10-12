@@ -1,44 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FE2D7C6315
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Oct 2023 04:50:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C00027C6316
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Oct 2023 04:52:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6330310E3E6;
-	Thu, 12 Oct 2023 02:50:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 00C9F10E3EA;
+	Thu, 12 Oct 2023 02:52:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 929 seconds by postgrey-1.36 at gabe;
- Thu, 12 Oct 2023 02:50:29 UTC
-Received: from m15.mail.163.com (m15.mail.163.com [45.254.50.219])
- by gabe.freedesktop.org (Postfix) with ESMTP id 4A87A10E3E6
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Oct 2023 02:50:29 +0000 (UTC)
+Received: from m15.mail.163.com (m15.mail.163.com [45.254.50.220])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 3262B10E3EA
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Oct 2023 02:52:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=FM/51
- lprc62FftfFgEkfdi8Uf1+NtYbM/Ep3GchyGRA=; b=EzS2j/Csc1e/WcDfNZDpK
- 1LIgRBTZflP5fyaI+5IaYheCKp0SNNNqKsEOgv7wo4ScrlUns+mQvz4I423ffBrK
- XlZ0I4/ERL73hJ5ylOUjWdDtPx+yjteBCEkREvdESpohLj6RxiR+RQaqOcChHq9U
- Qx8Ul2VPLK4YVJH9uKGFLA=
+ s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=qwKAK
+ Yj+at97vp/dZZhMcvfPdPnSJotWH98ffVHtzrU=; b=KCAr9DDmD2M7ECl7v71A0
+ Ruz1OO2T3xclKVkj2CpfJL1QhHwPy46IVFDm1eownQlq0JiJ/KR7C1URaBYMoQTg
+ ZJwk8aWXFjCTtIIhNT8JQMy24z+PH0Wm9qHAXkDnzZp5VSTCEp88tgwgqTAeLclr
+ xjTNw+OVoDBvYPoDkDuCqc=
 Received: from ProDesk.. (unknown [58.22.7.114])
- by zwqz-smtp-mta-g0-4 (Coremail) with SMTP id _____wD3PyRBWydlz+ZEAQ--.58711S2;
- Thu, 12 Oct 2023 10:34:45 +0800 (CST)
+ by zwqz-smtp-mta-g2-0 (Coremail) with SMTP id _____wDHL8mvWydlY0ZDAQ--.59239S2;
+ Thu, 12 Oct 2023 10:36:34 +0800 (CST)
 From: Andy Yan <andyshrk@163.com>
 To: linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org,
  heiko@sntech.de
-Subject: [PATCH 0/3] Some cleanup of vop2 driver
-Date: Thu, 12 Oct 2023 10:34:39 +0800
-Message-Id: <20231012023439.1497304-1-andyshrk@163.com>
+Subject: [PATCH 2/3] drm/rockchip: remove NR_LAYERS macro on vop2
+Date: Thu, 12 Oct 2023 10:36:30 +0800
+Message-Id: <20231012023630.1497499-1-andyshrk@163.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20231012023439.1497304-1-andyshrk@163.com>
+References: <20231012023439.1497304-1-andyshrk@163.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: _____wD3PyRBWydlz+ZEAQ--.58711S2
-X-Coremail-Antispam: 1Uf129KBjvdXoW7Gry5urW7tr4DCr45ZFyxZrb_yoWxuwbEvF
- y2q345WFs7WF98J3WkGw4xGFZrtay29Fn5Kay0yF4kAr92ywn7X3WSy3yxWa4YvF129r1D
- GayUXFy0kFnxCjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IUn7PEDUUUUU==
+X-CM-TRANSID: _____wDHL8mvWydlY0ZDAQ--.59239S2
+X-Coremail-Antispam: 1Uf129KBjvdXoW7XF45CryfAr4fAr47JF17GFg_yoWDuFbEk3
+ W7Wrn8GF4kurn5Aw4DCrWfJF9rKanruF1kZa10qa45ZF1kJw1xt3s2q3y7WFy5AF1xWFnF
+ 93WYqry3CFn3GjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IU058n5UUUUU==
 X-Originating-IP: [58.22.7.114]
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/1tbiMw0HXlXmHAJABAABsP
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/1tbiTBkHXmI0beLBsgAAsm
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,23 +59,36 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Andy Yan <andy.yan@rock-chips.com>
 
-This is a preparation for the upcoming support for rk3588 vop.
+There are 8 layers on rk3588, so a fix defined macro is
+not appropriate.
+Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
+---
 
-Patch 1 remove unused struct
-Patch 2 remove NR_LAYERS macro to support more layers on rk3588
-Patch 3 are plane format fix and rename to support more format on rk3588
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-
-Andy Yan (3):
-  drm/rockchip: remove unused struct in vop2
-  drm/rockchip: remove NR_LAYERS macro on vop2
-  drm/rockchip: fix the plane format defination of rk3568/6
-
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.c |  6 +--
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.h |  3 --
- drivers/gpu/drm/rockchip/rockchip_vop2_reg.c | 53 +++++++++++---------
- 3 files changed, 31 insertions(+), 31 deletions(-)
-
+diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+index 3c524ca23d53..57c05c6b246c 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
++++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+@@ -2251,8 +2251,6 @@ static struct vop2_video_port *find_vp_without_primary(struct vop2 *vop2)
+ 	return NULL;
+ }
+ 
+-#define NR_LAYERS 6
+-
+ static int vop2_create_crtcs(struct vop2 *vop2)
+ {
+ 	const struct vop2_data *vop2_data = vop2->data;
+@@ -2371,7 +2369,7 @@ static int vop2_create_crtcs(struct vop2 *vop2)
+ 		struct vop2_video_port *vp = &vop2->vps[i];
+ 
+ 		if (vp->crtc.port)
+-			vp->nlayers = NR_LAYERS / nvps;
++			vp->nlayers = vop2_data->win_size / nvps;
+ 	}
+ 
+ 	return 0;
 -- 
 2.34.1
 
