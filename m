@@ -1,103 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1A437C66CD
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Oct 2023 09:56:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C1B7B7C6748
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Oct 2023 09:57:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE8F110E426;
-	Thu, 12 Oct 2023 07:56:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A24BD10E430;
+	Thu, 12 Oct 2023 07:57:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 289A310E426
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Oct 2023 07:56:46 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 3DD0C21833;
- Thu, 12 Oct 2023 07:56:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1697097404; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=hrj0obP3S6cAjgl0VbNnEW+KQ9Hbu28sU99NH9hQKSs=;
- b=Mzf+jAnn3ctoiY6sqRcokbGye8wq22krifI1uB5Qz1anRBaYaPQnT7ggHsHv8KMQu8B4VU
- vdEzKM6k0bOr1+MXFd5vDbb9+lq/oTr5vto2GdJ+AiLvbPQfkEp+HoBcH0YXlBRfpiPI4G
- rxlqZBv55XydXe29wme6kW0XDVlLZ4E=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1697097404;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=hrj0obP3S6cAjgl0VbNnEW+KQ9Hbu28sU99NH9hQKSs=;
- b=ou1tQozk4bcpUcNu073sqDWvrPvFNv5SxY/aP5zoxuWs8cp4hjUyfMo1jFUCrDu0Yd20wB
- Zs4o1duNGbEgO7CQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 28331139F9;
- Thu, 12 Oct 2023 07:56:44 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id mWwBCbymJ2WZOwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 12 Oct 2023 07:56:44 +0000
-Message-ID: <00b60389-90e5-48b9-b8db-f8de0a373859@suse.de>
-Date: Thu, 12 Oct 2023 09:56:43 +0200
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com
+ [209.85.128.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8BC5810E430
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Oct 2023 07:57:47 +0000 (UTC)
+Received: by mail-yw1-f181.google.com with SMTP id
+ 00721157ae682-5a7dd65052aso9922417b3.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Oct 2023 00:57:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1697097466; x=1697702266;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=LoocAAYpHjIjnl+lXEbw5oajucsokY7PPaRYp92RNBU=;
+ b=sOoB/mWaIcSrzGu/cSJU+7yt0TeNl7FNHuJJBTXWqjyT2pi1jyfmbHQseTk2GlCF+n
+ ow264fbWB5y1PAc3DIgZlq6gZneYi5tSwrq8jvcvG1kj0gua6138xkL5KHdiQIlnO0YW
+ 611FcZ6WMbbGuzzDXx5DjYjIRHB/V2phNueJZegDbRVW3QWsW98AmUOSmEbItBY8MJQZ
+ MwIXzNEh7lEnDy5cPhwGHq3kOzVtMtIjnh27z5zvk84D7YCQBjnyzv0WwGg1n2cf/SUl
+ WZ9g7dkY+G8AhMGWaYnumZrko5I8b4+RlhHno2/9A8fLxR6TQGdA+Q2eo01THzsLfXyU
+ QrFA==
+X-Gm-Message-State: AOJu0YzNv+96I7ipy5uHEEIOv+cSSRtNaXRR8MIZWMMcmyXW1WtUae08
+ QHwDtk7ci+FQVWrDed+DYfSj+owRTIRa5Q==
+X-Google-Smtp-Source: AGHT+IG7gXOt7kQkUTJX9PCEoEzmxfcICdNs7BZx/F5wRKhtT9j8bUhb+2/zrYnIcCwT6SiM+a3vRw==
+X-Received: by 2002:a0d:eac3:0:b0:5a7:ddc0:6f59 with SMTP id
+ t186-20020a0deac3000000b005a7ddc06f59mr4755235ywe.6.1697097466438; 
+ Thu, 12 Oct 2023 00:57:46 -0700 (PDT)
+Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com.
+ [209.85.219.182]) by smtp.gmail.com with ESMTPSA id
+ n20-20020a819e54000000b005a206896d62sm5697830ywj.111.2023.10.12.00.57.45
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 12 Oct 2023 00:57:45 -0700 (PDT)
+Received: by mail-yb1-f182.google.com with SMTP id
+ 3f1490d57ef6-d9a64ca9cedso655790276.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Oct 2023 00:57:45 -0700 (PDT)
+X-Received: by 2002:a25:400f:0:b0:d9a:68db:7f96 with SMTP id
+ n15-20020a25400f000000b00d9a68db7f96mr6501132yba.21.1697097465754; Thu, 12
+ Oct 2023 00:57:45 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] iosys-map: fix kernel-doc typos
-Content-Language: en-US
-To: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
-References: <20230930221428.18463-1-rdunlap@infradead.org>
- <20230930221428.18463-2-rdunlap@infradead.org>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20230930221428.18463-2-rdunlap@infradead.org>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------S80Jn3n04PSKdefh50JtKNM9"
-Authentication-Results: smtp-out1.suse.de;
-	none
-X-Spam-Level: 
-X-Spam-Score: -5.09
-X-Spamd-Result: default: False [-5.09 / 50.00]; ARC_NA(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[]; XM_UA_NO_VERSION(0.01)[];
- FROM_HAS_DN(0.00)[]; RCPT_COUNT_THREE(0.00)[3];
- TO_DN_SOME(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- MIME_GOOD(-0.20)[multipart/signed,multipart/mixed,text/plain];
- HAS_ATTACHMENT(0.00)[]; NEURAL_HAM_LONG(-3.00)[-1.000];
- MIME_BASE64_TEXT_BOGUS(1.00)[]; BAYES_HAM(-0.00)[12.57%];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-1.00)[-1.000]; MIME_BASE64_TEXT(0.10)[];
- SIGNED_PGP(-2.00)[]; FROM_EQ_ENVFROM(0.00)[];
- MIME_TRACE(0.00)[0:+,1:+,2:+,3:~]; RCVD_COUNT_TWO(0.00)[2];
- RCVD_TLS_ALL(0.00)[]; MID_RHS_MATCH_FROM(0.00)[]
-X-Spam-Flag: NO
+References: <20231012065822.1007930-1-javierm@redhat.com>
+ <20231012065822.1007930-5-javierm@redhat.com>
+In-Reply-To: <20231012065822.1007930-5-javierm@redhat.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 12 Oct 2023 09:57:33 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVuDvomz57RHr2NMG9+a=AXy1H39Tv5jN+1J2sqv4+3rg@mail.gmail.com>
+Message-ID: <CAMuHMdVuDvomz57RHr2NMG9+a=AXy1H39Tv5jN+1J2sqv4+3rg@mail.gmail.com>
+Subject: Re: [PATCH v2 4/6] drm/ssd130x: Add support for the SSD132x OLED
+ controller family
+To: Javier Martinez Canillas <javierm@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -110,82 +71,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Maxime Ripard <mripard@kernel.org>, Conor Dooley <conor@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Peter Robinson <pbrobinson@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------S80Jn3n04PSKdefh50JtKNM9
-Content-Type: multipart/mixed; boundary="------------LZMvJG0ZDocDviLEJzyZ366F";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Message-ID: <00b60389-90e5-48b9-b8db-f8de0a373859@suse.de>
-Subject: Re: [PATCH] iosys-map: fix kernel-doc typos
-References: <20230930221428.18463-1-rdunlap@infradead.org>
- <20230930221428.18463-2-rdunlap@infradead.org>
-In-Reply-To: <20230930221428.18463-2-rdunlap@infradead.org>
+Hi Javier,
 
---------------LZMvJG0ZDocDviLEJzyZ366F
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+On Thu, Oct 12, 2023 at 8:58=E2=80=AFAM Javier Martinez Canillas
+<javierm@redhat.com> wrote:
+> The Solomon SSD132x controllers (such as the SSD1322, SSD1325 and SSD1327=
+)
+> are used by 16 grayscale dot matrix OLED panels, extend the driver to als=
+o
+> support this chip family.
+>
+> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+> ---
+>
+> Changes in v2:
+> - Align the rectangle to the segment width (Geert Uytterhoeven).
 
-SGksDQoNCnNvcnJ5LCBJIG1pc3NlZCB0aGlzIHBhdGNoIGF0IGZpcnN0Lg0KDQpBbSAwMS4x
-MC4yMyB1bSAwMDoxNCBzY2hyaWViIFJhbmR5IER1bmxhcDoNCj4gQ29ycmVjdCBzcGVsbGlu
-ZyBvZiAiYmVnaW5uaW5nIi4NCj4gDQo+IFNpZ25lZC1vZmYtYnk6IFJhbmR5IER1bmxhcCA8
-cmR1bmxhcEBpbmZyYWRlYWQub3JnPg0KPiBDYzogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1t
-ZXJtYW5uQHN1c2UuZGU+DQo+IENjOiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-DQoNClJldmlld2VkLWJ5OiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5k
-ZT4NCg0KPiAtLS0NCj4gICBpbmNsdWRlL2xpbnV4L2lvc3lzLW1hcC5oIHwgICAgNCArKy0t
-DQo+ICAgMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkN
-Cj4gDQo+IGRpZmYgLS0gYS9pbmNsdWRlL2xpbnV4L2lvc3lzLW1hcC5oIGIvaW5jbHVkZS9s
-aW51eC9pb3N5cy1tYXAuaA0KPiAtLS0gYS9pbmNsdWRlL2xpbnV4L2lvc3lzLW1hcC5oDQo+
-ICsrKyBiL2luY2x1ZGUvbGludXgvaW9zeXMtbWFwLmgNCj4gQEAgLTQyNiw3ICs0MjYsNyBA
-QCBzdGF0aWMgaW5saW5lIHZvaWQgaW9zeXNfbWFwX21lbXNldChzdHJ1DQo+ICAgICogaW9z
-eXNfbWFwX3JkX2ZpZWxkIC0gUmVhZCBhIG1lbWJlciBmcm9tIGEgc3RydWN0IGluIHRoZSBp
-b3N5c19tYXANCj4gICAgKg0KPiAgICAqIEBtYXBfXzoJCVRoZSBpb3N5c19tYXAgc3RydWN0
-dXJlDQo+IC0gKiBAc3RydWN0X29mZnNldF9fOglPZmZzZXQgZnJvbSB0aGUgYmVnZ2luaW5n
-IG9mIHRoZSBtYXAsIHdoZXJlIHRoZSBzdHJ1Y3QNCj4gKyAqIEBzdHJ1Y3Rfb2Zmc2V0X186
-CU9mZnNldCBmcm9tIHRoZSBiZWdpbm5pbmcgb2YgdGhlIG1hcCwgd2hlcmUgdGhlIHN0cnVj
-dA0KPiAgICAqCQkJaXMgbG9jYXRlZA0KPiAgICAqIEBzdHJ1Y3RfdHlwZV9fOglUaGUgc3Ry
-dWN0IGRlc2NyaWJpbmcgdGhlIGxheW91dCBvZiB0aGUgbWFwcGluZw0KPiAgICAqIEBmaWVs
-ZF9fOgkJTWVtYmVyIG9mIHRoZSBzdHJ1Y3QgdG8gcmVhZA0KPiBAQCAtNDk0LDcgKzQ5NCw3
-IEBAIHN0YXRpYyBpbmxpbmUgdm9pZCBpb3N5c19tYXBfbWVtc2V0KHN0cnUNCj4gICAgKiBp
-b3N5c19tYXBfd3JfZmllbGQgLSBXcml0ZSB0byBhIG1lbWJlciBvZiBhIHN0cnVjdCBpbiB0
-aGUgaW9zeXNfbWFwDQo+ICAgICoNCj4gICAgKiBAbWFwX186CQlUaGUgaW9zeXNfbWFwIHN0
-cnVjdHVyZQ0KPiAtICogQHN0cnVjdF9vZmZzZXRfXzoJT2Zmc2V0IGZyb20gdGhlIGJlZ2dp
-bmluZyBvZiB0aGUgbWFwLCB3aGVyZSB0aGUgc3RydWN0DQo+ICsgKiBAc3RydWN0X29mZnNl
-dF9fOglPZmZzZXQgZnJvbSB0aGUgYmVnaW5uaW5nIG9mIHRoZSBtYXAsIHdoZXJlIHRoZSBz
-dHJ1Y3QNCj4gICAgKgkJCWlzIGxvY2F0ZWQNCj4gICAgKiBAc3RydWN0X3R5cGVfXzoJVGhl
-IHN0cnVjdCBkZXNjcmliaW5nIHRoZSBsYXlvdXQgb2YgdGhlIG1hcHBpbmcNCj4gICAgKiBA
-ZmllbGRfXzoJCU1lbWJlciBvZiB0aGUgc3RydWN0IHRvIHJlYWQNCg0KLS0gDQpUaG9tYXMg
-WmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBT
-b2x1dGlvbnMgR2VybWFueSBHbWJIDQpGcmFua2Vuc3RyYXNzZSAxNDYsIDkwNDYxIE51ZXJu
-YmVyZywgR2VybWFueQ0KR0Y6IEl2byBUb3RldiwgQW5kcmV3IE15ZXJzLCBBbmRyZXcgTWNE
-b25hbGQsIEJvdWRpZW4gTW9lcm1hbg0KSFJCIDM2ODA5IChBRyBOdWVybmJlcmcpDQo=
+Thanks for the update!
 
---------------LZMvJG0ZDocDviLEJzyZ366F--
+> --- a/drivers/gpu/drm/solomon/ssd130x.c
+> +++ b/drivers/gpu/drm/solomon/ssd130x.c
 
---------------S80Jn3n04PSKdefh50JtKNM9
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+> +static int ssd132x_update_rect(struct ssd130x_device *ssd130x,
+> +                              struct drm_rect *rect, u8 *buf,
+> +                              u8 *data_array)
+> +{
+> +       unsigned int x =3D rect->x1;
+> +       unsigned int y =3D rect->y1;
+> +       unsigned int segment_width =3D SSD132X_SEGMENT_WIDTH;
+> +       unsigned int width =3D drm_rect_width(rect);
+> +       unsigned int height =3D drm_rect_height(rect);
+> +       unsigned int columns =3D DIV_ROUND_UP(width, segment_width);
+> +       unsigned int rows =3D height;
+> +       struct drm_device *drm =3D &ssd130x->drm;
+> +       u32 array_idx =3D 0;
+> +       int ret, i, j;
 
------BEGIN PGP SIGNATURE-----
+unsigned int i, j;
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmUnprsFAwAAAAAACgkQlh/E3EQov+DR
-kQ//aV72b+OihC1iiwLm0rHg2OG7Io5N1qwGuqJzFJj2yAMByPv3Gv4XmC5McopOWA6iaOK6+U9q
-ZX8d7olvHNyFUN33LXFBafVz/51iZn+4AtFB1aY0lH11g/034h70CswtM1TgRrTHVuC9+goceemU
-yLXwYj3stD8x/YBunsU4N0J+N3AO3XRZIhKqw0Rf2NnPULdTNw/folNFnU9JMwmvHtgyMHpvhdC3
-4ZcoCkWwVD+7oS9qT9qaGGKlW6ah6QRWfvKxxACHGU3lhcCWDaBcwGRRLTKFDD6MqX3lpzHZYNRJ
-FGLim1vAUzJqtRlsSGWR/wtu40CUx/2cdaV0O+MABb5eI/I2YhX6xhmmcJMf+vAJBuv+P2HCeWvg
-z5gzKwlhVwHEVqhk0ovN1cczKQiLlUNFlP9aBgokBQqmZe1bAwT3R4g1kCh8S+M8FXna0bwEV6vo
-1d07wHxuUBCnNMAu/NSf4x+GDmRXqWmh7yPjYYerWEs8nT6uV/IglYPwFqiiCxillSnoQYuWqmhy
-8esQyg4iZcRbqF0LID5LKkaIoSET0o0hOq0tT0dHFlxe9+cycWQOZ8DqVKtvJVODGyC5H74j4NME
-p1UqKepWMtGP38OB6+b6dcHzBTl6bjhxCUcOu9B60Pd9JIUmE6TOn1S6bRrqyocUisv+UBP2SGEl
-NDM=
-=jxKG
------END PGP SIGNATURE-----
+> +
+> +       drm_WARN_ONCE(drm, x % segment_width !=3D 0, "x must be aligned t=
+o screen segment\n");
+> +
+> +       /*
+> +        * The screen is divided in Segment and Common outputs, where
+> +        * COM0 to COM[N - 1] are the rows and SEG0 to SEG[M - 1] are
+> +        * the columns.
+> +        *
+> +        * Each Segment has a 4-bit pixel and each Common output has a
+> +        * row of pixels. When using the (default) horizontal address
+> +        * increment mode, each byte of data sent to the controller has
+> +        * two Segments (e.g: SEG0 and SEG1) that are stored in the lower
+> +        * and higher nibbles of a single byte representing one column.
+> +        * That is, the first byte are SEG0 (D0[3:0]) and SEG1 (D0[7:4]),
+> +        * the second byte are SEG2 (D1[3:0]) and SEG3 (D1[7:4]) and so o=
+n.
+> +        */
+> +
+> +       /* Set column start and end */
+> +       ret =3D ssd130x_write_cmd(ssd130x, 3, SSD132X_SET_COL_RANGE, x / =
+segment_width, columns - 1);
+> +       if (ret < 0)
+> +               return ret;
+> +
+> +       /* Set row start and end */
+> +       ret =3D ssd130x_write_cmd(ssd130x, 3, SSD132X_SET_ROW_RANGE, y, r=
+ows - 1);
+> +       if (ret < 0)
+> +               return ret;
+> +
+> +       for (i =3D 0; i < height; i++) {
+> +               /* Process pair of pixels and combine them into a single =
+byte */
+> +               for (j =3D 0; j < width; j +=3D segment_width) {
+> +                       u8 n1 =3D buf[i * width + j];
+> +                       u8 n2 =3D buf[i * width + j + 1];
+> +
+> +                       data_array[array_idx++] =3D (n2 << 4) | n1;
+> +               }
+> +       }
+> +
+> +       /* Write out update in one go since horizontal addressing mode is=
+ used */
+> +       ret =3D ssd130x_write_data(ssd130x, data_array, columns * rows);
+> +
+> +       return ret;
+> +}
 
---------------S80Jn3n04PSKdefh50JtKNM9--
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
