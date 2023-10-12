@@ -2,47 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6D4F7C6B21
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Oct 2023 12:30:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E69F7C6B32
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Oct 2023 12:33:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B5CDB10E4A5;
-	Thu, 12 Oct 2023 10:30:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 44CEF10E4A2;
+	Thu, 12 Oct 2023 10:33:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E37F110E4A5;
- Thu, 12 Oct 2023 10:30:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1697106628; x=1728642628;
- h=date:from:to:cc:subject:message-id:mime-version;
- bh=2G5aHJXgXzxiNEF12IpXPvDXikJGB7QgCvYazrQTKnk=;
- b=E292HJmaOJyV+BR8d+1Ytla520adJ1rswlCyojPXckRbAE/QwPWGdWiR
- 0bSjHyshoy50quQjcYDb6Q8Ksdca4NyDXqiMy4V/azFKlQ+BRlQIvuVAB
- fiCW7egLsNEh6Nmoj1o5K11sKsB6Iw32L9yJ+ucKXfamopyAamkVYo9I7
- N8CAxOq25TvPnI2d6Cwui0m+dWMMFYmv8a98OophQrjVVtj1loCwFID5h
- GA9LPSI4Jn7sPPXsdUEgaJxJEx6K3MnlNykh3+FrnyxaCpiH+TwRUFLK5
- f/f3AK0cUduDbYQKAgDnLM0h2ZzGu/wYChMWj98zQZXxXJfGp3mgY3Nh1 w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10860"; a="384736230"
-X-IronPort-AV: E=Sophos;i="6.03,218,1694761200"; d="scan'208";a="384736230"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Oct 2023 03:30:28 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10860"; a="927940941"
-X-IronPort-AV: E=Sophos;i="6.03,218,1694761200"; d="scan'208";a="927940941"
-Received: from maloneyj-mobl.ger.corp.intel.com (HELO localhost)
- ([10.213.239.225])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Oct 2023 03:30:25 -0700
-Date: Thu, 12 Oct 2023 11:30:23 +0100
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-intel-gt-next
-Message-ID: <ZSfKotZVdypU6NaX@tursulin-desk>
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com
+ [IPv6:2a00:1450:4864:20::633])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FA8310E49E;
+ Thu, 12 Oct 2023 10:33:27 +0000 (UTC)
+Received: by mail-ej1-x633.google.com with SMTP id
+ a640c23a62f3a-9a6190af24aso135358166b.0; 
+ Thu, 12 Oct 2023 03:33:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1697106806; x=1697711606; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=+trYhH6pdvjtTzpwC/GNcRs1Ixqq8ebN0gecPy8EoRE=;
+ b=IgoeBI5ayUOrNFLIgTuWUdQwzHoNGmKgtWzBRUeeDpFnEOTWXs8mjPGSlC+bh3Vjty
+ wW1y/yVShNmaWA6YougTpjozUiI1dLG+BZZxMKPnjuqBExEZOjL6sgwvDeWnP44sIrdp
+ hNgLKZTP3RkjsWPd7Qq8Ze9oB6CBdhCzYeBFV4gWmiBCPbYVqfLDUdMEbFUYNDYadzjX
+ WVPR8NxMaSHobFGNPANt7sK8i5R0jLNdZZOUiF9r3jEWENi22jURj/qwZWssOHm/6pU8
+ 2ZvVL9fh8hTyfJ+Pb0/R3MWYRL2IZJqKe9Lmrd+N5cx5qFbXmXt9SUBZ5hoW63c3pOr8
+ 0O9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1697106806; x=1697711606;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=+trYhH6pdvjtTzpwC/GNcRs1Ixqq8ebN0gecPy8EoRE=;
+ b=tE+N2mm2NtTPQeahgPTPiOR++7MGDDhkzkz4x/riOkzvqx5IPGBq0QkESKStdRTue/
+ l3O7zZUJk/mD9Omojqwx2+MP1rc+DJK1xD+Y7DUh+/fD6R7IOs5fVqgr+A6Ia0yGsOdx
+ gyIQnpm4GCBlfVh2/tBdHnkVGp0ga4TnHjWhVXOScU9PJicCq4Z+v9j9NDj/jScE7Dei
+ lrENrvGBnaM642SlXVkrYg7K2MGmGx/LkI+qBwmMFSCxeG+UcraAyp7IkKm37A8nA/DT
+ 7nJS9WUz60qa/AesfWrToHQmrKx1RuummZPb9Q5upkr4rMvmel062FV9d8wDHGL5Z5F6
+ inCw==
+X-Gm-Message-State: AOJu0YxkmKjUGWrzXKX4xeB0irSBn2hBagWzf0DulZN63YCAUtbg90rc
+ Rrqj/86UUXm4YY15Th7ytvxnRCOGLnOwvdEituA=
+X-Google-Smtp-Source: AGHT+IEoaB7SxZK8hFiCbD0c+W1n4JETZOdvrlo3gJ+KsJAs7mMU2QDRBvipZgMugULsUgkZhMfURFQaMQedjh8/nA0=
+X-Received: by 2002:a17:906:8b:b0:9b2:bb02:a543 with SMTP id
+ 11-20020a170906008b00b009b2bb02a543mr23857083ejc.74.1697106805715; Thu, 12
+ Oct 2023 03:33:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20230820215320.4187-1-dakr@redhat.com>
+ <20230820215320.4187-3-dakr@redhat.com>
+ <0c50ff22-0f11-1e27-c32e-694ce2b1e6c5@shipmail.org> <ZO864yp3UyVEfEjz@pollux>
+ <88c45fe6-0942-707c-9ea7-8486c177fcd7@shipmail.org> <ZO9Zq2RhbX8EeHrn@pollux>
+ <736b6b6d-9e04-a27d-7d60-0c45d696b304@shipmail.org>
+ <ZPB26A0/oLHTmyqk@cassiopeiae>
+ <a8f28d62-daec-927a-a33d-5be3eec6a1ed@shipmail.org>
+ <ZPDk/lao1JlBNGoJ@cassiopeiae>
+ <8a8253ae-0b85-df90-b480-64eeebfafc6d@shipmail.org>
+ <CAPM=9tz3o-m+8VJJ6hxWhykat0kpp1UE7dBJE3X91aHHo1Y2VA@mail.gmail.com>
+ <76963abd-77a1-4bbd-9537-7b230e648a90@amd.com>
+In-Reply-To: <76963abd-77a1-4bbd-9537-7b230e648a90@amd.com>
+From: Dave Airlie <airlied@gmail.com>
+Date: Thu, 12 Oct 2023 20:33:13 +1000
+Message-ID: <CAPM=9twSHGRoSoXxG+hz1T8iBX2VgPFvFsNCDnK_nHW9WJYBtw@mail.gmail.com>
+Subject: Re: [PATCH drm-misc-next 2/3] drm/gpuva_mgr: generalize
+ dma_resv/extobj handling and GEM validation
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,158 +79,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gfx@lists.freedesktop.org
+Cc: matthew.brost@intel.com, thomas.hellstrom@linux.intel.com,
+ sarah.walker@imgtec.com, dri-devel@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m_=28Intel=29?= <thomas_os@shipmail.org>,
+ linux-kernel@vger.kernel.org, Liam.Howlett@oracle.com,
+ boris.brezillon@collabora.com, Danilo Krummrich <dakr@redhat.com>,
+ donald.robson@imgtec.com, faith.ekstrand@collabora.com, bskeggs@redhat.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Daniel,
+On Wed, 11 Oct 2023 at 17:07, Christian K=C3=B6nig <christian.koenig@amd.co=
+m> wrote:
+>
+> Am 10.10.23 um 22:23 schrieb Dave Airlie:
+> >> I think we're then optimizing for different scenarios. Our compute
+> >> driver will use mostly external objects only, and if shared, I don't
+> >> forsee them bound to many VMs. What saves us currently here is that in
+> >> compute mode we only really traverse the extobj list after a preempt
+> >> fence wait, or when a vm is using a new context for the first time. So
+> >> vm's extobj list is pretty large. Each bo's vma list will typically be
+> >> pretty small.
+> > Can I ask why we are optimising for this userspace, this seems
+> > incredibly broken.
+> >
+> > We've has this sort of problem in the past with Intel letting the tail
+> > wag the horse, does anyone remember optimising relocations for a
+> > userspace that didn't actually need to use relocations?
+> >
+> > We need to ask why this userspace is doing this, can we get some
+> > pointers to it? compute driver should have no reason to use mostly
+> > external objects, the OpenCL and level0 APIs should be good enough to
+> > figure this out.
+>
+> Well that is pretty normal use case, AMD works the same way.
+>
+> In a multi GPU compute stack you have mostly all the data shared between
+> different hardware devices.
+>
+> As I said before looking at just the Vulcan use case is not a good idea
+> at all.
+>
 
-Here is the second pull request for 6.7.
+It's okay, I don't think anyone is doing that, some of the these
+use-cases are buried in server land and you guys don't communicate
+them very well.
 
-I say second and not final because there is a very small chance we might
-be doing another one next week, to bring Meteorlake out of force probe
-status, which was quite close this week but apparently not quite there.
-At the moment it looks like chances are low, with some last minute
-findings putting a spanner in the works so this will likely end up the
-final pull request after all.
+multi-gpu compute would I'd hope be moving towards HMM/SVM type
+solutions though?
 
-In terms of content there is not much in this one. Mostly more work on
-enabling Meteorlake and some minor fixes here and there.
+I'm also not into looking at use-cases that used to be important but
+might not as important going forward.
 
-Regards,
+Dave.
 
-Tvrtko
 
-drm-intel-gt-next-2023-10-12:
-Driver Changes:
-
-Fixes/improvements/new stuff:
-
-- Register engines early to avoid type confusion (Mathias Krause)
-- Suppress 'ignoring reset notification' message [guc] (John Harrison)
-- Update 'recommended' version to 70.12.1 for DG2/ADL-S/ADL-P/MTL [guc] (John Harrison)
-- Enable WA 14018913170 [guc, dg2] (Daniele Ceraolo Spurio)
-
-Future platform enablement:
-
-- Clean steer semaphore on resume (Nirmoy Das)
-- Skip MCR ops for ring fault register [mtl] (Nirmoy Das)
-- Make i915_gem_shrinker multi-gt aware [gem] (Jonathan Cavitt)
-- Enable GGTT updates with binder in MTL (Nirmoy Das, Chris Wilson)
-- Invalidate the TLBs on each GT (Chris Wilson)
-
-Miscellaneous:
-
-- Clarify type evolution of uabi_node/uabi_engines (Mathias Krause)
-- Annotate struct ct_incoming_msg with __counted_by [guc] (Kees Cook)
-- More use of GT specific print helpers [gt] (John Harrison)
-The following changes since commit 03d681412b38558aefe4fb0f46e36efa94bb21ef:
-
-  drm/i915: Don't set PIPE_CONTROL_FLUSH_L3 for aux inval (2023-09-28 11:39:30 +0200)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-gt-next-2023-10-12
-
-for you to fetch changes up to 039adf3947252693f7c882607dac2dc67e7f7ab2:
-
-  drm/i915: More use of GT specific print helpers (2023-10-10 15:40:26 -0700)
-
-----------------------------------------------------------------
-Driver Changes:
-
-Fixes/improvements/new stuff:
-
-- Register engines early to avoid type confusion (Mathias Krause)
-- Suppress 'ignoring reset notification' message [guc] (John Harrison)
-- Update 'recommended' version to 70.12.1 for DG2/ADL-S/ADL-P/MTL [guc] (John Harrison)
-- Enable WA 14018913170 [guc, dg2] (Daniele Ceraolo Spurio)
-
-Future platform enablement:
-
-- Clean steer semaphore on resume (Nirmoy Das)
-- Skip MCR ops for ring fault register [mtl] (Nirmoy Das)
-- Make i915_gem_shrinker multi-gt aware [gem] (Jonathan Cavitt)
-- Enable GGTT updates with binder in MTL (Nirmoy Das, Chris Wilson)
-- Invalidate the TLBs on each GT (Chris Wilson)
-
-Miscellaneous:
-
-- Clarify type evolution of uabi_node/uabi_engines (Mathias Krause)
-- Annotate struct ct_incoming_msg with __counted_by [guc] (Kees Cook)
-- More use of GT specific print helpers [gt] (John Harrison)
-
-----------------------------------------------------------------
-Chris Wilson (2):
-      drm/i915: Lift runtime-pm acquire callbacks out of intel_wakeref.mutex
-      drm/i915: Invalidate the TLBs on each GT
-
-Daniele Ceraolo Spurio (1):
-      drm/i915/guc: Enable WA 14018913170
-
-John Harrison (4):
-      drm/i915/guc: Suppress 'ignoring reset notification' message
-      drm/i915/guc: Update 'recommended' version to 70.12.1 for DG2/ADL-S/ADL-P/MTL
-      drm/i915/gt: More use of GT specific print helpers
-      drm/i915: More use of GT specific print helpers
-
-Jonathan Cavitt (1):
-      drm/i915/gem: Make i915_gem_shrinker multi-gt aware
-
-Kees Cook (1):
-      drm/i915/guc: Annotate struct ct_incoming_msg with __counted_by
-
-Mathias Krause (2):
-      drm/i915: Register engines early to avoid type confusion
-      drm/i915: Clarify type evolution of uabi_node/uabi_engines
-
-Nirmoy Das (10):
-      drm/i915: Introduce intel_gt_mcr_lock_sanitize()
-      drm/i915: Introduce the intel_gt_resume_early()
-      drm/i915: Clean steer semaphore on resume
-      drm/i915/mtl: Skip MCR ops for ring fault register
-      drm/i915: Create a kernel context for GGTT updates
-      drm/i915: Implement for_each_sgt_daddr_next
-      drm/i915: Parameterize binder context creation
-      drm/i915: Implement GGTT update method with MI_UPDATE_GTT
-      drm/i915: Toggle binder context ready status
-      drm/i915: Enable GGTT updates with binder in MTL
-
- drivers/gpu/drm/i915/gem/i915_gem_pages.c         |   2 +-
- drivers/gpu/drm/i915/gem/i915_gem_shrinker.c      |  42 ++--
- drivers/gpu/drm/i915/gt/intel_engine.h            |   2 +
- drivers/gpu/drm/i915/gt/intel_engine_cs.c         |  69 +++++--
- drivers/gpu/drm/i915/gt/intel_engine_types.h      |  13 +-
- drivers/gpu/drm/i915/gt/intel_engine_user.c       |  17 +-
- drivers/gpu/drm/i915/gt/intel_ggtt.c              | 235 ++++++++++++++++++++++
- drivers/gpu/drm/i915/gt/intel_gsc.c               |  11 +-
- drivers/gpu/drm/i915/gt/intel_gt.c                |  62 +++++-
- drivers/gpu/drm/i915/gt/intel_gt.h                |   3 +
- drivers/gpu/drm/i915/gt/intel_gt_mcr.c            |  22 ++
- drivers/gpu/drm/i915/gt/intel_gt_mcr.h            |   1 +
- drivers/gpu/drm/i915/gt/intel_gt_pm.c             |  20 ++
- drivers/gpu/drm/i915/gt/intel_gt_pm.h             |   1 +
- drivers/gpu/drm/i915/gt/intel_gt_print.h          |   3 +
- drivers/gpu/drm/i915/gt/intel_gt_regs.h           |   1 +
- drivers/gpu/drm/i915/gt/intel_gtt.c               |   5 +
- drivers/gpu/drm/i915/gt/intel_gtt.h               |   5 +
- drivers/gpu/drm/i915/gt/intel_reset.c             |  26 +--
- drivers/gpu/drm/i915/gt/intel_workarounds.c       |  13 +-
- drivers/gpu/drm/i915/gt/uc/intel_gsc_uc.c         |   8 +-
- drivers/gpu/drm/i915/gt/uc/intel_guc.c            |   6 +
- drivers/gpu/drm/i915/gt/uc/intel_guc.h            |   1 +
- drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c         |   2 +-
- drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h       |   1 +
- drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c |  10 +-
- drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c          |   8 +-
- drivers/gpu/drm/i915/i915_driver.c                |   9 +-
- drivers/gpu/drm/i915/i915_drv.h                   |  17 +-
- drivers/gpu/drm/i915/i915_gem.c                   |   9 +-
- drivers/gpu/drm/i915/i915_gpu_error.c             |  11 +-
- drivers/gpu/drm/i915/i915_perf.c                  |   8 +-
- drivers/gpu/drm/i915/i915_scatterlist.h           |  10 +
- drivers/gpu/drm/i915/intel_wakeref.c              |  52 ++---
- 34 files changed, 576 insertions(+), 129 deletions(-)
+> Christian.
+>
+> >
+> > Dave.
+>
