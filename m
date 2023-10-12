@@ -1,45 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2BA17C6758
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Oct 2023 10:01:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7219F7C6759
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Oct 2023 10:02:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B66C10E437;
-	Thu, 12 Oct 2023 08:01:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9EB6310E43D;
+	Thu, 12 Oct 2023 08:02:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from vulcan.natalenko.name (vulcan.natalenko.name
- [IPv6:2001:19f0:6c00:8846:5400:ff:fe0c:dfa0])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D06DC10E437
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Oct 2023 08:01:41 +0000 (UTC)
-Received: from spock.localnet (unknown [94.142.239.106])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by vulcan.natalenko.name (Postfix) with ESMTPSA id 37FDE153CACD;
- Thu, 12 Oct 2023 10:01:38 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=natalenko.name;
- s=dkim-20170712; t=1697097698;
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A02A10E43F
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Oct 2023 08:02:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1697097769;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=ym8znVE/KNVZ2ABkurRPnWvCdBcwyMiA231koj0IzME=;
- b=RHv5a8hfYSsjGosuqXiM5HN4jBVFx9JzxhfRYPkbwVRUiakAp/Hupi2vIYb+4UPZc3sKSd
- 9NUE2039F9zJvlRGh3tY8xURchgzAgNstbmNDKkqwtbEYng4RqvFmbNzyALxU+QbluM9tv
- G7di96YOnIw3j0q3NyvORUekdJK7uvM=
-From: Oleksandr Natalenko <oleksandr@natalenko.name>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>
-Subject: Re: [PATCH] drm: Do not overrun array in drm_gem_get_pages()
-Date: Thu, 12 Oct 2023 10:01:23 +0200
-Message-ID: <2703014.mvXUDI8C0e@natalenko.name>
-In-Reply-To: <20231005135648.2317298-1-willy@infradead.org>
-References: <20231005135648.2317298-1-willy@infradead.org>
+ bh=/ZJmk/yvxywysiwqAeSgrduB50WCm2128HhTQfYvMZg=;
+ b=d3mdDMCHqPgWDLyAH7mIRPidATvbeWc1g+r6kVxKHwlNX0upiw+HPMMEwVivfu4ETDb6L+
+ MJM8hol2n7vWRcN561KW6jaWaSHUlUkdBNlyGlvZV+1FIn1HsOxUgpT/orZaXK8+btaVES
+ UjZI+8QJwBCrEBrIixWkVsRUaeVEkFY=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-371-ngoGMMx5OxyL-hy5xRGCOw-1; Thu, 12 Oct 2023 04:02:38 -0400
+X-MC-Unique: ngoGMMx5OxyL-hy5xRGCOw-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ 5b1f17b1804b1-3f42bcef2acso4583725e9.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Oct 2023 01:02:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1697097757; x=1697702557;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=/ZJmk/yvxywysiwqAeSgrduB50WCm2128HhTQfYvMZg=;
+ b=I857sKI9cklfYhBIkqlkiAzTTNeDOFWNDQL9IMMqQ8jarJJioe6n02QIXwQV4gmB2E
+ nWyQ/6Ln6GH4+DXGcMALuTbn3xfGvOIO/4TJD2IjAtypFkCx/4KWJtWFeBW0k+1UqDtM
+ z4IC7R6DJ4VF11vHyLKtnBDva+6eZuzmvpXrK9ErmHf7/GO4V93gEggE/t4hr60Q5Zig
+ 1Av4Cb3jMw3clegkQL8gM2ADaOtPVT0yuz2FbY4LK80pwhzehbQj9zOeKwxGP15rZJZ2
+ jve5QG9T1Fj5ZOPlbFnNlzcJ6NY8G3kXQiMM82DuMSu4jGUhnz/PkARpUvDHtcbbJ459
+ lpeg==
+X-Gm-Message-State: AOJu0YyP0r79klFMdPt7Lmq9I/q7NQg3Rt9UVoH/kuO0u+rrohC567q/
+ rJBvQ5EWXWjTKHaGemn0V8d1LllE39VWGZ+W/GM8aAGZnBL+MgFql5MCEJKDn2yKm32fIl6H4vQ
+ 61rixQTZW0aP2Td3l63qwBM4Ma8ns
+X-Received: by 2002:a7b:c3d2:0:b0:405:514d:eb13 with SMTP id
+ t18-20020a7bc3d2000000b00405514deb13mr20614248wmj.24.1697097757428; 
+ Thu, 12 Oct 2023 01:02:37 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEv0KCNuksA2uv+yIsdoxozzE1E60kM7Qujdqf8Krj5f35WHmA6AkUHXRhBkdQLnBpDMh81EA==
+X-Received: by 2002:a7b:c3d2:0:b0:405:514d:eb13 with SMTP id
+ t18-20020a7bc3d2000000b00405514deb13mr20614210wmj.24.1697097756750; 
+ Thu, 12 Oct 2023 01:02:36 -0700 (PDT)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ q15-20020a5d574f000000b00323384e04e8sm17558032wrw.111.2023.10.12.01.02.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 12 Oct 2023 01:02:36 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/6] drm/ssd130x: Add a per controller family
+ functions table
+In-Reply-To: <e6593ea5-daa1-466a-9d42-0c1872f41a13@suse.de>
+References: <20231012065822.1007930-1-javierm@redhat.com>
+ <20231012065822.1007930-3-javierm@redhat.com>
+ <e6593ea5-daa1-466a-9d42-0c1872f41a13@suse.de>
+Date: Thu, 12 Oct 2023 10:02:35 +0200
+Message-ID: <87a5so46as.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="nextPart12302735.O9o76ZdvQC";
- micalg="pgp-sha256"; protocol="application/pgp-signature"
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,101 +82,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: stable@vger.kernel.org, dri-devel@lists.freedesktop.org,
- "Matthew Wilcox \(Oracle\)" <willy@infradead.org>
+Cc: Peter Robinson <pbrobinson@gmail.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Maxime Ripard <mripard@kernel.org>,
+ dri-devel@lists.freedesktop.org, Conor Dooley <conor@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---nextPart12302735.O9o76ZdvQC
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"; protected-headers="v1"
-From: Oleksandr Natalenko <oleksandr@natalenko.name>
-Subject: Re: [PATCH] drm: Do not overrun array in drm_gem_get_pages()
-Date: Thu, 12 Oct 2023 10:01:23 +0200
-Message-ID: <2703014.mvXUDI8C0e@natalenko.name>
-In-Reply-To: <20231005135648.2317298-1-willy@infradead.org>
-References: <20231005135648.2317298-1-willy@infradead.org>
-MIME-Version: 1.0
+Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-On =C4=8Dtvrtek 5. =C5=99=C3=ADjna 2023 15:56:47 CEST Matthew Wilcox (Oracl=
-e) wrote:
-> If the shared memory object is larger than the DRM object that it backs,
-> we can overrun the page array.  Limit the number of pages we install
-> from each folio to prevent this.
->=20
-> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
-> Reported-by: Oleksandr Natalenko <oleksandr@natalenko.name>
-> Tested-by: Oleksandr Natalenko <oleksandr@natalenko.name>
-> Link: https://lore.kernel.org/lkml/13360591.uLZWGnKmhe@natalenko.name/
-> Fixes: 3291e09a4638 ("drm: convert drm_gem_put_pages() to use a folio_bat=
-ch")
-> Cc: stable@vger.kernel.org # 6.5.x
-> ---
->  drivers/gpu/drm/drm_gem.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-> index 6129b89bb366..44a948b80ee1 100644
-> --- a/drivers/gpu/drm/drm_gem.c
-> +++ b/drivers/gpu/drm/drm_gem.c
-> @@ -540,7 +540,7 @@ struct page **drm_gem_get_pages(struct drm_gem_object=
- *obj)
->  	struct page **pages;
->  	struct folio *folio;
->  	struct folio_batch fbatch;
-> -	int i, j, npages;
-> +	long i, j, npages;
-> =20
->  	if (WARN_ON(!obj->filp))
->  		return ERR_PTR(-EINVAL);
-> @@ -564,11 +564,13 @@ struct page **drm_gem_get_pages(struct drm_gem_obje=
-ct *obj)
-> =20
->  	i =3D 0;
->  	while (i < npages) {
-> +		long nr;
->  		folio =3D shmem_read_folio_gfp(mapping, i,
->  				mapping_gfp_mask(mapping));
->  		if (IS_ERR(folio))
->  			goto fail;
-> -		for (j =3D 0; j < folio_nr_pages(folio); j++, i++)
-> +		nr =3D min(npages - i, folio_nr_pages(folio));
-> +		for (j =3D 0; j < nr; j++, i++)
->  			pages[i] =3D folio_file_page(folio, i);
-> =20
->  		/* Make sure shmem keeps __GFP_DMA32 allocated pages in the
->=20
+Hello Thomas,
 
-Gentle ping. It would be nice to have this picked so that it gets into the =
-stable kernel rather sooner than later.
+Thanks a lot for your feedback.
 
-Thanks.
+> Hi Javier
+>
+> Am 12.10.23 um 08:58 schrieb Javier Martinez Canillas:
+> [...]
+>>   
+>> +struct ssd130x_funcs {
+>> +	int (*init)(struct ssd130x_device *ssd130x);
+>> +	int (*set_buffer_sizes)(struct ssd130x_device *ssd130x);
+>> +	void (*align_rect)(struct ssd130x_device *ssd130x, struct drm_rect *rect);
+>> +	int (*update_rect)(struct ssd130x_device *ssd130x, struct drm_rect *rect,
+>> +			   u8 *buf, u8 *data_array);
+>> +	void (*clear_screen)(struct ssd130x_device *ssd130x,
+>> +			     u8 *data_array);
+>> +	void (*fmt_convert)(struct iosys_map *dst, const unsigned int *dst_pitch,
+>> +			    const struct iosys_map *src, const struct drm_framebuffer *fb,
+>> +			    const struct drm_rect *clip);
+>> +};
+>> +
+>
+> You are reinventing DRM's atomic helpers. I strongly advised against 
+> doing that, as it often turns out bad. Maybe see my rant at [1] wrt to 
+> another driver.
+>
+> It's much better to create a separate mode-setting pipeline for the 
+> ssd132x series and share the common code among pipelines. Your driver 
+> will have a clean and readable implementation for each supported 
+> chipset. Compare an old version of mgag200 [2] with the current driver 
+> to see the difference.
+>
 
-=2D-=20
-Oleksandr Natalenko (post-factum)
---nextPart12302735.O9o76ZdvQC
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part.
-Content-Transfer-Encoding: 7Bit
+I see what you mean. The reason why I didn't go that route was to minimize
+code duplication, but you are correct that each level of indirection makes
+the driver harder to read, to reason about and fragile (modifying a common
+callback could have undesired effects on other chip families as you said).
 
------BEGIN PGP SIGNATURE-----
+I'll give it a try to what you propose in v3, have separate modesetting
+pipeline for SSD130x and SSD132x, even if this could lead to a little more
+duplicated code.
 
-iQIzBAABCAAdFiEEZUOOw5ESFLHZZtOKil/iNcg8M0sFAmUnp9MACgkQil/iNcg8
-M0syoA//dDht5ZzqbjFSuWQmAUIPSUFsvQJN++9JIZ3meMgB/R8u8l0+hvQgo5pa
-SSOW/C6YPgDJn40fjQy/D+Z7WlbfpLdfm2SfE2TIvG2D87b1ve8iY2/Opk2LA9l5
-ezOWkm+M1Pq2Hrht7xiUGH4Y1WPuj4GRNl6ZAVQ0iLHUuFcNfcmio0lLY/z+1RN+
-6ODQv9nXMEhmsAWXQHNQ7PpJz0lyzYM8pe/CJM+gn1jtTBlIE9bN7AktIVR1XOvC
-7XMRiMbBKe7q/osmyDJ1VBgSn1EEWzupLnCwIjuLY0v9Hm7hTS030lbd0zUsiUe3
-PvtR96R+3udApMH0ch6bBBCuKjXSBoDlbtFrEgJy9UFlJsqvNyEipsYFRDe2qKJ7
-tNBOWQJCkTucQnn5e81XzzE429nqUYjUlR5qfYQF/sPXO7NewC1km/xO3bhePH3B
-vGOQAvpGrJ1llN8HQr3PNgDuviJIXqVSIGLvXLf/FdKlN6NmxOgQdeq0+BQq91dN
-s3J6ZxcGyoPt7y2WfY3ruExAl3lbpebYmK9Ti1O7mNpsIxdIl1gOkT3EtFICAIvJ
-rTz3ie7SKhie3FudN5ceC6s2/Di2k5ute1a2gVsKrbSMsAwxJczb2r/7H/EwGExw
-xMnCWyJ/SFIaxNcBIFTU7hQQcfbofJ7+Bf1mdhD6sCjfWfj0BwI=
-=Gk16
------END PGP SIGNATURE-----
+> Best regards
+> Thomas
+>
 
---nextPart12302735.O9o76ZdvQC--
+-- 
+Best regards,
 
-
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
