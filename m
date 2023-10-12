@@ -2,83 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8138C7C6EF6
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Oct 2023 15:15:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA74D7C6F04
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Oct 2023 15:18:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09AA110E4DC;
-	Thu, 12 Oct 2023 13:15:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2060110E4E2;
+	Thu, 12 Oct 2023 13:18:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
- [IPv6:2a00:1450:4864:20::62f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F24E710E4DC
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Oct 2023 13:15:05 +0000 (UTC)
-Received: by mail-ej1-x62f.google.com with SMTP id
- a640c23a62f3a-9ba041d7930so31251566b.1
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Oct 2023 06:15:05 -0700 (PDT)
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com
+ [IPv6:2a00:1450:4864:20::52e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E843C10E4EA
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Oct 2023 13:18:50 +0000 (UTC)
+Received: by mail-ed1-x52e.google.com with SMTP id
+ 4fb4d7f45d1cf-53e17a2eabcso153208a12.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Oct 2023 06:18:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1697116504; x=1697721304; darn=lists.freedesktop.org; 
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:mail-followup-to:message-id:subject:cc:to
- :from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=Yt4vMxdhc5OiS38raoXweqMb1s/YLyfC9lsMx2p9myQ=;
- b=Eq5rveCyycrADm7AhLbTJgejjo0SfLDVZElR+VSeMTFMxHfhTduT+8VgRtEyDYmBbJ
- CANCJyr3uXTa4o0SERba+7Nw8wJrsLce8znWTI68TPST8QVGAULGKqKAt2YjRq8pxCK0
- d2FTeIOn3oltuGXoit40agYy9m0Vy+d81Jwfc=
+ d=ffwll.ch; s=google; t=1697116729; x=1697721529; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=7pESXSq2cB1yHJ+chcqnwZf4qBvXPZQ+xBIxCqTvUZk=;
+ b=dGzcn5kvFvS4neuopcfM8o9k5wh8mPNo0pWsAA9YmCZjRXoV1lOveewO8pE53MOjFM
+ Df93GpOXKtHJwMlPidSSFRKXhiEy5i9Ufne/6/T4/cxgVuJTOlEHg2pb6d1RO5eA0yc7
+ uyxJNDFuhQWYKQ6oqICxlNeieROMtiAPp8CE8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1697116504; x=1697721304;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:mail-followup-to:message-id:subject:cc:to
- :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Yt4vMxdhc5OiS38raoXweqMb1s/YLyfC9lsMx2p9myQ=;
- b=QLCiGGSrNrtYVLJ9momoSNt3j8wmljOlKMgwqSQaIigCvBT3IQKCZzAHmtqIWe854v
- 9xQtFMPHJuSn/V5CVKACGEZur6a84j3lfKmGauPymvG/3uWjFOXCX3XrGwi1wxJcMzuN
- VPz/+nrrPCLRidEjNTdFRhe3+3hFQXOpkMwpIub0OVa9Pc724KXjQtha2e/iuAfkF2rk
- ZY/uWOvU4Z+ntprIeM3ohpd5f23ZlYIYGIxAgobptFgn+BPKA3AzkFxrKc3pFK6AFuHc
- Qjd5N8PTRUTKCkYzg6wr7kAs1WS7j3eSGnJHjGPJWY4y5X6wf6+dlmS1OhnoZiNlKeCI
- RYvw==
-X-Gm-Message-State: AOJu0YyfmHMd9ju/Dsc8X1kMZyV6X5uV8ee5Z+4NZKl4lQZqjqw7Yh8a
- OdYW6ELL/EYNLzAMXN4r30r7Yw==
-X-Google-Smtp-Source: AGHT+IG1wzY++o5tjLk6V/f5yQyOkJd2nDhrUvnp9sslLy1xRLXgeWc9DgSOIu1gb5dgIYqodHnzlg==
-X-Received: by 2002:a17:906:100c:b0:9ae:6da8:181c with SMTP id
- 12-20020a170906100c00b009ae6da8181cmr18888342ejm.7.1697116503968; 
- Thu, 12 Oct 2023 06:15:03 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1697116729; x=1697721529;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=7pESXSq2cB1yHJ+chcqnwZf4qBvXPZQ+xBIxCqTvUZk=;
+ b=kolslVT2dm1XZnMCInALs3XKXICTr+Ouq4mj4XMT9OC4ecd72ySRo4unuko6eLdYiH
+ BDEspayH8XoGbGIwt0oDSIhRaWCbc4a9q7Kg110N2WEHlwUa/zwHQfcQUSRVIJRpJdzM
+ aWtFw1RdckKq9ohHzLZPGGS21OLrvG41Y9lXuePRgMvRkDNVQ7s6lZ9hC7IOY/EzwAV+
+ /D2PHgfDeOIe1FR0A4gFyqK8tTuUklYeYiii/0xkLSkYwwdhknBXRdqXrQapVlQNgUK2
+ 9Psr7yaKflaljctWYiP0kjubr15RJsAum6I6mJjaaG1mW3i0gH27izIUd5CBwhOIunLc
+ sO3A==
+X-Gm-Message-State: AOJu0Yz604EQbF5fn3iV/XoLp58ix1wfIRMWlP14jQ8ilnPc+L7y7wKb
+ Suxwo68Hh8vuTmg2YIwcR+TfYw==
+X-Google-Smtp-Source: AGHT+IGJcRZ7cTA96fEttPOGRTmKTsJPCw4j/SDo4Z8rYwpHN8ZI7B+Q4X82DmJvmTQpxyufoY2UqQ==
+X-Received: by 2002:a05:6402:278c:b0:523:2e64:122b with SMTP id
+ b12-20020a056402278c00b005232e64122bmr22060277ede.3.1697116729023; 
+ Thu, 12 Oct 2023 06:18:49 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
  by smtp.gmail.com with ESMTPSA id
- w19-20020a170906481300b009b9720a85e5sm11049401ejq.38.2023.10.12.06.15.02
+ gy6-20020a0564025bc600b0053e2a64b5f8sm137382edb.14.2023.10.12.06.18.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 Oct 2023 06:15:02 -0700 (PDT)
-Date: Thu, 12 Oct 2023 15:15:00 +0200
+ Thu, 12 Oct 2023 06:18:48 -0700 (PDT)
+Date: Thu, 12 Oct 2023 15:18:46 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Subject: Re: [PATCH drm-misc-next 2/3] drm/gpuva_mgr: generalize
- dma_resv/extobj handling and GEM validation
-Message-ID: <ZSfxVFe-cm70xM5s@phenom.ffwll.local>
-Mail-Followup-To: Christian =?iso-8859-1?Q?K=F6nig?=
- <christian.koenig@amd.com>, Dave Airlie <airlied@gmail.com>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m_=28Intel=29?= <thomas_os@shipmail.org>,
- Danilo Krummrich <dakr@redhat.com>, matthew.brost@intel.com,
- thomas.hellstrom@linux.intel.com, sarah.walker@imgtec.com,
- donald.robson@imgtec.com, boris.brezillon@collabora.com,
- faith.ekstrand@collabora.com, bskeggs@redhat.com,
- Liam.Howlett@oracle.com, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-References: <ZO9Zq2RhbX8EeHrn@pollux>
- <736b6b6d-9e04-a27d-7d60-0c45d696b304@shipmail.org>
- <ZPB26A0/oLHTmyqk@cassiopeiae>
- <a8f28d62-daec-927a-a33d-5be3eec6a1ed@shipmail.org>
- <ZPDk/lao1JlBNGoJ@cassiopeiae>
- <8a8253ae-0b85-df90-b480-64eeebfafc6d@shipmail.org>
- <CAPM=9tz3o-m+8VJJ6hxWhykat0kpp1UE7dBJE3X91aHHo1Y2VA@mail.gmail.com>
- <76963abd-77a1-4bbd-9537-7b230e648a90@amd.com>
- <CAPM=9twSHGRoSoXxG+hz1T8iBX2VgPFvFsNCDnK_nHW9WJYBtw@mail.gmail.com>
- <1333e15b-f229-460a-8965-01ff3e778a4d@amd.com>
+To: Pekka Paalanen <ppaalanen@gmail.com>
+Subject: Re: [PATCH v1] dynamic_debug: add support for logs destination
+Message-ID: <ZSfyNgaHGGPiKqjN@phenom.ffwll.local>
+Mail-Followup-To: Pekka Paalanen <ppaalanen@gmail.com>, jim.cromie@gmail.com,
+ =?utf-8?Q?=C5=81ukasz?= Bartosik <lb@semihalf.com>,
+ linux-kernel@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
+ "wayland-devel@lists.freedesktop.org" <wayland-devel@lists.freedesktop.org>,
+ Sean Paul <seanpaul@chromium.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+References: <CAK8ByeLNc9UbTNG4x=40AxYqjjRCsvBNtNFai0PMveM2X4XCow@mail.gmail.com>
+ <CAJfuBxyRF4q_T8LmHwR=-PKKDDpiFg2nO03uLnL8aGpRyBByKw@mail.gmail.com>
+ <CAK8ByeLpkSV6o6gPw8eJVqq5+ynQrSDjemY7mXkO1ZmA0rYKfQ@mail.gmail.com>
+ <CAJfuBxw+ANLwssAGWpkn5PeJb8ZKn4LXQkk2Gfv3aGsSN=S55Q@mail.gmail.com>
+ <CAJfuBxy9qn-4i3SteTL1LBbBxPrFM52KkBd=1UhcKV3S_KdQvw@mail.gmail.com>
+ <20231011114816.19d79f43@eldfell>
+ <ZSZuACLwt5_XAL2n@phenom.ffwll.local>
+ <20231012115548.292fa0bb@eldfell>
+ <ZSfCMBXOOi9Luc6F@phenom.ffwll.local>
+ <20231012133944.69711822@eldfell>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1333e15b-f229-460a-8965-01ff3e778a4d@amd.com>
+In-Reply-To: <20231012133944.69711822@eldfell>
 X-Operating-System: Linux phenom 6.5.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -92,102 +86,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.brost@intel.com, thomas.hellstrom@linux.intel.com,
- sarah.walker@imgtec.com, dri-devel@lists.freedesktop.org,
- nouveau@lists.freedesktop.org,
- Thomas =?iso-8859-1?Q?Hellstr=F6m_=28Intel=29?= <thomas_os@shipmail.org>,
- linux-kernel@vger.kernel.org, Liam.Howlett@oracle.com,
- boris.brezillon@collabora.com, Danilo Krummrich <dakr@redhat.com>,
- donald.robson@imgtec.com, faith.ekstrand@collabora.com, bskeggs@redhat.com
+Cc: =?utf-8?Q?=C5=81ukasz?= Bartosik <lb@semihalf.com>,
+ linux-kernel@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
+ "wayland-devel@lists.freedesktop.org" <wayland-devel@lists.freedesktop.org>,
+ Sean Paul <seanpaul@chromium.org>, dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 12, 2023 at 02:35:15PM +0200, Christian König wrote:
-> Am 12.10.23 um 12:33 schrieb Dave Airlie:
-> > On Wed, 11 Oct 2023 at 17:07, Christian König <christian.koenig@amd.com> wrote:
-> > > Am 10.10.23 um 22:23 schrieb Dave Airlie:
-> > > > > I think we're then optimizing for different scenarios. Our compute
-> > > > > driver will use mostly external objects only, and if shared, I don't
-> > > > > forsee them bound to many VMs. What saves us currently here is that in
-> > > > > compute mode we only really traverse the extobj list after a preempt
-> > > > > fence wait, or when a vm is using a new context for the first time. So
-> > > > > vm's extobj list is pretty large. Each bo's vma list will typically be
-> > > > > pretty small.
-> > > > Can I ask why we are optimising for this userspace, this seems
-> > > > incredibly broken.
+On Thu, Oct 12, 2023 at 01:39:44PM +0300, Pekka Paalanen wrote:
+> On Thu, 12 Oct 2023 11:53:52 +0200
+> Daniel Vetter <daniel@ffwll.ch> wrote:
+> 
+> > On Thu, Oct 12, 2023 at 11:55:48AM +0300, Pekka Paalanen wrote:
+> > > On Wed, 11 Oct 2023 11:42:24 +0200
+> > > Daniel Vetter <daniel@ffwll.ch> wrote:
+> > >   
+> > > > On Wed, Oct 11, 2023 at 11:48:16AM +0300, Pekka Paalanen wrote:  
+> 
+> ...
+> 
+> > > > > - all selections tailored separately for each userspace subscriber
+> > > > > (- per open device file description selection of messages)    
 > > > > 
-> > > > We've has this sort of problem in the past with Intel letting the tail
-> > > > wag the horse, does anyone remember optimising relocations for a
-> > > > userspace that didn't actually need to use relocations?
-> > > > 
-> > > > We need to ask why this userspace is doing this, can we get some
-> > > > pointers to it? compute driver should have no reason to use mostly
-> > > > external objects, the OpenCL and level0 APIs should be good enough to
-> > > > figure this out.
-> > > Well that is pretty normal use case, AMD works the same way.
+> > > > Again this feels like a userspace problem. Sessions could register what
+> > > > kind of info they need for their session, and something like journald can
+> > > > figure out how to record it all.  
 > > > 
-> > > In a multi GPU compute stack you have mostly all the data shared between
-> > > different hardware devices.
-> > > 
-> > > As I said before looking at just the Vulcan use case is not a good idea
-> > > at all.
-> > > 
-> > It's okay, I don't think anyone is doing that, some of the these
-> > use-cases are buried in server land and you guys don't communicate
-> > them very well.
-> 
-> Yeah, well everybody is trying very hard to get away from those approaches
-> :)
-> 
-> But so far there hasn't been any breakthrough.
-> 
+> > > Only if the kernel actually attaches all the required information to
+> > > the debug messages *in machine readable form* so that userspace
+> > > actually can do the filtering. And that makes *that* information UABI.
+> > > Maybe that's fine? I wouldn't know.  
 > > 
-> > multi-gpu compute would I'd hope be moving towards HMM/SVM type
-> > solutions though?
+> > Well if you configure the filters to go into separate ringbuffers for each
+> > session (or whatever you want to split) it also becomes uapi.
 > 
-> Unfortunately not in the foreseeable future. HMM seems more and more like a
-> dead end, at least for AMD.
+> It's a different UAPI: filter configuration vs. message structure. I
+> don't mind which it is, I just suspect one is easier to maintain and
+> extend than the other.
 > 
-> AMD still has hardware support in all of their MI* products, but for Navi
-> the features necessary for implementing HMM have been dropped. And it looks
-> more and more like their are not going to come back.
+> > Also I'd say that for the first cut just getting the logs out on demand
+> > should be good enough, multi-gpu (or multi-compositor) systems are a step
+> > further. We can figure those out when we get there.
 > 
-> Additional to that from the software side Felix summarized it in the HMM
-> peer2peer discussion thread recently quite well. A buffer object based
-> approach is not only simpler to handle, but also performant vise multiple
-> magnitudes faster.
+> This reminds me of what you recently said in IRC about a very different
+> topic:
+> 
+> 	<sima> swick[m], tell this past me roughly 10 years ago, would
+> 	have been easy to add into the design back when there was no
+> 	driver code yet 
+> 
+> I just want to mention today everything I can see as useful. It's up to
+> the people doing the actual work to decide what they include and how.
 
-This matches what I'm hearing from all over. Turns out that handling page
-faults in full generality in a compute/accel device (not just gpu) is just
-too damn hard. At least for anyone who isn't nvidia. Usually time bound
-preemption guarantees are the first to go, followed right after by a long
-list of more fixed function hardware blocks that outright can't cope with
-page faults.
+I actually pondered this a bit more today, and I think even with hindsight
+the atomic design we ended up with was probably rather close to optimal.
 
-There's so many corner cases where it breaks down that I feel like device
-driver allocated memory of one flavor or another will stick around for a
-very long time.
+Sure there's a bunch of things that would have been nice to include, but
+another very hard requirement of atomic was that it's feasible to convert
+current drivers over to it. And I think going full free-standing state
+structures with unlimited (at least at the design level) queue depth would
+have been a bridge too far.
 
-This isn't even counting the software challenges.
+The hacks and conversion helpers are all gone by now, but "you can just
+peek at the object struct to get your state" was a huge help in reducing
+the conversion churn.
+
+But it definitely resulted in a big price we're still paying.
+
+tldr I don't think getting somewhere useful, even if somewhat deficient,
+is bad.
 -Sima
-
-> > I'm also not into looking at use-cases that used to be important but
-> > might not as important going forward.
-> 
-> Well multimedia applications and OpenGL are still around, but it's not the
-> main focus any more.
-> 
-> Christian.
-> 
-> > 
-> > Dave.
-> > 
-> > 
-> > > Christian.
-> > > 
-> > > > Dave.
-> 
-
 -- 
 Daniel Vetter
 Software Engineer, Intel Corporation
