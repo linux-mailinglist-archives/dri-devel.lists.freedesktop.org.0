@@ -2,73 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C2ED7C6208
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Oct 2023 03:04:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65C567C6226
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Oct 2023 03:20:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09DE710E051;
-	Thu, 12 Oct 2023 01:04:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3EF6D10E2EB;
+	Thu, 12 Oct 2023 01:20:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
- [IPv6:2a00:1450:4864:20::131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 07A1010E051
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Oct 2023 01:04:10 +0000 (UTC)
-Received: by mail-lf1-x131.google.com with SMTP id
- 2adb3069b0e04-50573e85ee0so573842e87.3
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Oct 2023 18:04:10 -0700 (PDT)
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
+ [IPv6:2a00:1450:4864:20::132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 37B3710E2EB
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Oct 2023 01:20:16 +0000 (UTC)
+Received: by mail-lf1-x132.google.com with SMTP id
+ 2adb3069b0e04-5041d6d8b10so620560e87.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Oct 2023 18:20:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1697072649; x=1697677449; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=cT2LvUtpeUGiSyAgace36wLACMbz8k4swUVY/0XIdR4=;
- b=TbH9CwNYpTx2eOC/9G/iMqAlIoYqe9hsFJ1x3XhW0JIr7yU0/zG/LhAX1mtq0ixWEw
- yheRRh22pwk9A8d7dnI/PcaMDi5JWEwijKkxtfie3uCLYwN2O+MgK5ZBUK2Aa1tkugN8
- LEOT5dmN4sqXYQ6M/P3bSZCA3B0pvFkim/KEDvrm8d/GsY82J3l4NufEgt57OQryu3Yt
- bq0X2J0uy3YBF8c9ZvPRfWAu8W++/LEmnRxEe4KHAxlEz7si1Bnkm0CHmssFIUHsuxlO
- Crg4y/pUizAsNmvcRNlvPMVf84IouGX9b33FUvIYlTl/XkPQJuZfZDQfsKiLRQkhYXcs
- Akmw==
+ d=linaro.org; s=google; t=1697073614; x=1697678414; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=z0QpM7iUu/pH8/30Lj+P5P2kendMvJf7ma+nZODDuwY=;
+ b=ak0S6yRciUmmYjpNqbIw4uu8yQgbcGiwKujPy56606f69k3uPJoAmIgT4MVZSOX8wN
+ qKK+9Rgo7+f/APeopvKAWUGSTPIEUMAtBVnN6Uwum8mwlaWzhC6MAdMeWKzjHmBJxPnX
+ 7ywPY/Lew6K9RpJLhohQZoFyVhyG2Z9UtnnOU2V5uJKXb3E2BJchACtu7IadfiU68P22
+ EFD82WqQrT0IvdHciHlgwChf1KmXNDP+UGPaLd212Fc/jrZ2cjsD8Kaqz7NPY7SRiAER
+ nCJjcyGqdiwQcT1ju2hQHMIZAgQLHa8PsLnim9BmJuzyyzSO3bkvEXh2VxgCy+qxCM07
+ hunQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1697072649; x=1697677449;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=cT2LvUtpeUGiSyAgace36wLACMbz8k4swUVY/0XIdR4=;
- b=IG9fJ0CIH5xwehtcEL8h5pBIHBfgjbpehRkNp92V+BMlZMvHFbO0cIUqcuGKD8yp9T
- jaORY8rvW8osrci4lccdKvJJQItTnCIG7OTdD7hzSQQAslJhtIkmNWHTY4QWxUU7Y8VP
- b88Zct3dLczPw3UCXgbzJmGfIA5XlbNI4ypymWqeZ71GAT3WWeAYpO2yhP+R8gb5AE4Q
- 8Jb4eY77+zxijJVx0bVuqxzQkfPOFyrDNQ5E+jDvJf3tcU3sr++w2HIbZFE8/EEjj8NM
- sP6FqLaLijF5T2wkXm7UsmFYKdW1qghKR7nrytKcYwRDjb7QrpOp9aoScKUGgHbgs5GQ
- DfUQ==
-X-Gm-Message-State: AOJu0YxEyKkGli4eV3nFm4TFivdB2svHE02RgmX9a7uAyxNvcNKawwu1
- /l3JG+okNCSjJFuH5+dZuZGqRQ==
-X-Google-Smtp-Source: AGHT+IGSAu+eKUIXsF6dkBUn9j2AAUPMBTfKhJbCHRbAEys0dyVfEobQLZa2SxiiI3uhWGT0+ZG/Zg==
-X-Received: by 2002:a19:ad04:0:b0:503:eac:747 with SMTP id
- t4-20020a19ad04000000b005030eac0747mr17643177lfc.47.1697072648996; 
- Wed, 11 Oct 2023 18:04:08 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
- (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
+ d=1e100.net; s=20230601; t=1697073614; x=1697678414;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=z0QpM7iUu/pH8/30Lj+P5P2kendMvJf7ma+nZODDuwY=;
+ b=ctua+08Lm6H+1T8LBkli5NeKt6X4SnWB3XPM2lHtkC+SAFQ6EJhvb/UBXthDhrXgdu
+ jDfZAJu8rLfXj5StqCwjGm5CSCVyJUIJv9aRHLqjb7kEacOauhgvlYGA3udQpT6+8iwU
+ 4Vupz+RgGcv01W5Wjg5DD1t75Uxyw429sLuJzoEUR/VdDhH4k2UhaQgbG6O9mNfDMmEa
+ T6g9v1QqA/gX0eFZZbSAcPlxfcCme6F4SxybLysG1ABiRaeG8SGno8k9dsPIu1JanHH8
+ 6LUPJAYFx0IXgZscC2A6SkzVnVKnwHIBimzKlD7UDPNZ4neJXTOez8CozSntSJGhIpnM
+ lA3A==
+X-Gm-Message-State: AOJu0YzuswB8ePZYw4z9p08dJclcrcT5ze5Sq/pUO1hT5UoFxQb/OCXf
+ 3Sl8x9LR8ZabwM/4blsPYlx/Tw==
+X-Google-Smtp-Source: AGHT+IH8qnQEiUNTgWFQZB4vHjuJ93fMWk4a1pMikLcYkzsMQSZa8cpLIN5nllg75n69SRdjQB5nbA==
+X-Received: by 2002:a05:6512:3118:b0:500:a0a3:80ff with SMTP id
+ n24-20020a056512311800b00500a0a380ffmr17005309lfb.58.1697073614266; 
+ Wed, 11 Oct 2023 18:20:14 -0700 (PDT)
+Received: from umbar.unikie.fi ([192.130.178.91])
  by smtp.gmail.com with ESMTPSA id
- c20-20020ac25314000000b004fdba93b92asm2526936lfh.252.2023.10.11.18.04.07
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 11 Oct 2023 18:04:08 -0700 (PDT)
-Message-ID: <c7e8d791-c8d5-440c-804d-4aa29be40f13@linaro.org>
-Date: Thu, 12 Oct 2023 04:04:07 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 5/7] drm/msm/dp: incorporate pm_runtime framework into
- DP driver
-Content-Language: en-GB
-To: Kuogee Hsieh <quic_khsieh@quicinc.com>, dri-devel@lists.freedesktop.org,
- robdclark@gmail.com, sean@poorly.run, swboyd@chromium.org,
- dianders@chromium.org, vkoul@kernel.org, daniel@ffwll.ch, airlied@gmail.com,
- agross@kernel.org, andersson@kernel.org
-References: <1696632910-21942-1-git-send-email-quic_khsieh@quicinc.com>
- <1696632910-21942-6-git-send-email-quic_khsieh@quicinc.com>
+ y21-20020ac255b5000000b005056c997ed6sm2518994lfg.163.2023.10.11.18.20.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 11 Oct 2023 18:20:13 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <1696632910-21942-6-git-send-email-quic_khsieh@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>
+Subject: [PATCH] drm/msm/a7xx: actually use a7xx state registers
+Date: Thu, 12 Oct 2023 04:20:13 +0300
+Message-Id: <20231012012013.449918-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.39.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,102 +73,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, linux-kernel@vger.kernel.org,
- marijn.suijten@somainline.org, quic_jesszhan@quicinc.com,
- freedreno@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 07/10/2023 01:55, Kuogee Hsieh wrote:
-> Currently DP driver is executed independent of PM runtime framework.
-> This leads msm eDP panel can not being detected by edp_panel driver
-> during generic_edp_panel_probe() due to AUX DPCD read failed at
-> edp panel driver. Incorporate PM runtime framework into DP driver so
-> that host controller's power and clocks are enable/disable through
-> PM runtime mechanism.  Once PM runtime framework is incorporated into
-> DP driver, waking up device from power up path is not necessary. Hence
-> remove it.
-> 
-> After incorporating pm_runtime framework into eDP/DP driver,
-> dp_pm_suspend() to handle power off both DP phy and controller during
-> suspend and dp_pm_resume() to handle power on both DP phy and controller
-> during resume are not necessary. Therefore both dp_pm_suspend() and
-> dp_pm_resume() are dropped and replace with dp_pm_runtime_suspend() and
-> dp_pm_runtime_resume() respectively.
-> 
-> Changes in v7:
-> -- add comments to dp_pm_runtime_resume()
-> -- add comments to dp_bridge_hpd_enable()
-> -- delete dp->hpd_state = ST_DISCONNECTED from dp_bridge_hpd_notify()
-> 
-> Changes in v6:
-> -- delete dp_power_client_deinit(dp->power);
-> -- remove if (!dp->dp_display.is_edp) condition checkout at plug_handle()
-> -- remove if (!dp->dp_display.is_edp) condition checkout at unplug_handle()
-> -- add IRQF_NO_AUTOEN to devm_request_irq()
-> -- add enable_irq() and disable_irq() to pm_runtime_resume()/suspend()
-> -- del dp->hpd_state = ST_DISCONNECTED from dp_bridge_hpd_disable()
-> 
-> Changes in v5:
-> -- remove pm_runtime_put_autosuspend feature, use pm_runtime_put_sync()
-> -- squash add pm_runtime_force_suspend()/resume() patch into this patch
-> 
-> Changes in v4:
-> -- reworded commit text to explain why pm_framework is required for
->     edp panel
-> -- reworded commit text to explain autosuspend is choiced
-> -- delete EV_POWER_PM_GET and PM_EV_POWER_PUT from changes #3
-> -- delete dp_display_pm_get() and dp_display_pm_Put() from changes #3
-> -- return value from pm_runtime_resume_and_get() directly
-> -- check return value of devm_pm_runtime_enable()
-> -- delete pm_runtime_xxx from dp_display_remove()
-> -- drop dp_display_host_init() from EV_HPD_INIT_SETUP
-> -- drop both dp_pm_prepare() and dp_pm_compete() from this change
-> -- delete ST_SUSPENDED state
-> -- rewording commit text to add more details regrading the purpose
->     of this change
-> 
-> Changes in v3:
-> -- incorporate removing pm_runtime_xx() from dp_pwer.c to this patch
-> -- use pm_runtime_resume_and_get() instead of pm_runtime_get()
-> -- error checking pm_runtime_resume_and_get() return value
-> -- add EV_POWER_PM_GET and PM_EV_POWER_PUT to handle HPD_GPIO case
-> -- replace dp_pm_suspend() with pm_runtime_force_suspend()
-> -- replace dp_pm_resume() with pm_runtime_force_resume()
-> 
-> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
-> ---
->   drivers/gpu/drm/msm/dp/dp_aux.c     |   5 +
->   drivers/gpu/drm/msm/dp/dp_display.c | 177 ++++++++++++++----------------------
->   drivers/gpu/drm/msm/dp/dp_power.c   |  16 ----
->   drivers/gpu/drm/msm/dp/dp_power.h   |  11 ---
->   4 files changed, 72 insertions(+), 137 deletions(-)
+Make a6xx_get_registers() use a7xx registers instead of a6xx ones if the
+detected Adreno is from the A7xx family.
 
+Fixes: e997ae5f45ca ("drm/msm/a6xx: Mostly implement A7xx gpu_state")
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+ drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c | 17 +++++++++++++----
+ drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h | 10 ++++------
+ 2 files changed, 17 insertions(+), 10 deletions(-)
 
-[skipped the rest]
-
-> @@ -173,11 +162,7 @@ int dp_power_init(struct dp_power *dp_power)
->   
->   	power = container_of(dp_power, struct dp_power_private, dp_power);
->   
-> -	pm_runtime_get_sync(power->dev);
-> -
->   	rc = dp_power_clk_enable(dp_power, DP_CORE_PM, true);
-> -	if (rc)
-> -		pm_runtime_put_sync(power->dev);
->   
->   	return rc;
-
-Also this can not be as simple as:
-
-int dp_power_init(struct dp_power *dp_power)
-{
-   	return dp_power_clk_enable(dp_power, DP_CORE_PM, true);
-}
-
-
->   }-- 
-With best wishes
-Dmitry
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
+index 18be2d3bde09..91a564a24dbe 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
+@@ -882,12 +882,13 @@ static void a6xx_snapshot_gmu_hfi_history(struct msm_gpu *gpu,
+ 	}
+ }
+ 
++#define A6XX_REGLIST_SIZE        1
+ #define A6XX_GBIF_REGLIST_SIZE   1
+ static void a6xx_get_registers(struct msm_gpu *gpu,
+ 		struct a6xx_gpu_state *a6xx_state,
+ 		struct a6xx_crashdumper *dumper)
+ {
+-	int i, count = ARRAY_SIZE(a6xx_ahb_reglist) +
++	int i, count = A6XX_REGLIST_SIZE +
+ 		ARRAY_SIZE(a6xx_reglist) +
+ 		ARRAY_SIZE(a6xx_hlsq_reglist) + A6XX_GBIF_REGLIST_SIZE;
+ 	int index = 0;
+@@ -901,12 +902,20 @@ static void a6xx_get_registers(struct msm_gpu *gpu,
+ 
+ 	a6xx_state->nr_registers = count;
+ 
+-	for (i = 0; i < ARRAY_SIZE(a6xx_ahb_reglist); i++)
++	if (adreno_is_a7xx(adreno_gpu))
+ 		a6xx_get_ahb_gpu_registers(gpu,
+-			a6xx_state, &a6xx_ahb_reglist[i],
++			a6xx_state, &a7xx_ahb_reglist,
++			&a6xx_state->registers[index++]);
++	else
++		a6xx_get_ahb_gpu_registers(gpu,
++			a6xx_state, &a6xx_ahb_reglist,
+ 			&a6xx_state->registers[index++]);
+ 
+-	if (a6xx_has_gbif(adreno_gpu))
++	if (adreno_is_a7xx(adreno_gpu))
++		a6xx_get_ahb_gpu_registers(gpu,
++				a6xx_state, &a7xx_gbif_reglist,
++				&a6xx_state->registers[index++]);
++	else if (a6xx_has_gbif(adreno_gpu))
+ 		a6xx_get_ahb_gpu_registers(gpu,
+ 				a6xx_state, &a6xx_gbif_reglist,
+ 				&a6xx_state->registers[index++]);
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h
+index 8d7e6f26480a..9560fc1b858a 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h
+@@ -328,9 +328,8 @@ static const u32 a6xx_gbif_registers[] = {
+ 	0x3C00, 0X3C0B, 0X3C40, 0X3C47, 0X3CC0, 0X3CD1, 0xE3A, 0xE3A,
+ };
+ 
+-static const struct a6xx_registers a6xx_ahb_reglist[] = {
+-	REGS(a6xx_ahb_registers, 0, 0),
+-};
++static const struct a6xx_registers a6xx_ahb_reglist =
++	REGS(a6xx_ahb_registers, 0, 0);
+ 
+ static const struct a6xx_registers a6xx_vbif_reglist =
+ 			REGS(a6xx_vbif_registers, 0, 0);
+@@ -353,9 +352,8 @@ static const u32 a7xx_gbif_registers[] = {
+ 	0x3cc0, 0x3cd1,
+ };
+ 
+-static const struct a6xx_registers a7xx_ahb_reglist[] = {
+-	REGS(a7xx_ahb_registers, 0, 0),
+-};
++static const struct a6xx_registers a7xx_ahb_reglist=
++	REGS(a7xx_ahb_registers, 0, 0);
+ 
+ static const struct a6xx_registers a7xx_gbif_reglist =
+ 	REGS(a7xx_gbif_registers, 0, 0);
+-- 
+2.39.2
 
