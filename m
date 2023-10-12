@@ -1,63 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F04347C73FF
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Oct 2023 19:21:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C2FCC7C7403
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Oct 2023 19:21:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0956610E517;
-	Thu, 12 Oct 2023 17:21:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AEDCF10E4F3;
+	Thu, 12 Oct 2023 17:21:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd2f.google.com (mail-io1-xd2f.google.com
- [IPv6:2607:f8b0:4864:20::d2f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3474E10E4B4;
- Thu, 12 Oct 2023 17:21:18 +0000 (UTC)
-Received: by mail-io1-xd2f.google.com with SMTP id
- ca18e2360f4ac-79faba5fe12so44623839f.3; 
- Thu, 12 Oct 2023 10:21:18 -0700 (PDT)
+Received: from mail-io1-xd30.google.com (mail-io1-xd30.google.com
+ [IPv6:2607:f8b0:4864:20::d30])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC58110E4F3;
+ Thu, 12 Oct 2023 17:21:45 +0000 (UTC)
+Received: by mail-io1-xd30.google.com with SMTP id
+ ca18e2360f4ac-79fa2dbd793so50598839f.2; 
+ Thu, 12 Oct 2023 10:21:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1697131277; x=1697736077; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1697131305; x=1697736105; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
  bh=dJs8k/8KlrmQtpA0CkiLpHx7YBAuj0tXGKp3HNTHAHg=;
- b=XhTUziKp1cUnqRF3/IQ3mojeIAl2NDFAUk37JUGElsx7fQfsy4cR/Dg8hxwkAItcNl
- fk45W9LbL6Zb165qxV/7yUXpDI47TQ7fr0oop1y/LKUcrbszQrPtyKTqYu2/wnRTPSpq
- zphqgCo9VLOC9qBT0zv3Mf6dRras/92VyjMCCJ/Fdi/qy5DQM2NuKX7EFh7L9A8G32fN
- z7uJ5o8g2eQwB/hbB1lj19Sa6d4xoTYSxg1QlGsGFO1UKOD/Fp0Z5J9MXatQ88YtfqBD
- yC3MWbfRjxmZWAAqjSVH4/VGJrwi89gZcUjxbAxLvomsUDPUbjkrks22jYiCE6H0CXzz
- OHkg==
+ b=kp1GaCB1AQzhtUc2PLShfRvNNxKnvddj3o/Frm8gFrxdQF5IeVdrzE6fTiWLF0PoUr
+ mfdvRw4SkWr58/vvBX924xhqUZ+ui6Jgcl8JNk8zNmh1PiOo9GwNx0uPsneiAaywQukZ
+ Vd4qJtgi/aAaY1ZyzGQIQtmFSmwrjnjJPH5WyyvEsTY6c5d2+jCLEyZmxisYBEf/n1pR
+ zwcXZKmsCmuEd1hzDkY3LAKi0PMbF4vh+TsYo43/tEySLuFPMIpG5NGlSKnM+SmWk3PI
+ 15KuFwBOjiU8YkVEIcND0jq3gywAJRXe3W+HBS+RDT+Y8GSCRtpR39mgIlrIL4tKhT4n
+ HaCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1697131277; x=1697736077;
+ d=1e100.net; s=20230601; t=1697131305; x=1697736105;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
  bh=dJs8k/8KlrmQtpA0CkiLpHx7YBAuj0tXGKp3HNTHAHg=;
- b=xNAejw4HTZYj7TfdIh/jC61mKgIWZGRdWhCqAkP8YcG4eZr44L5Zpic6Rn6rpNpVT9
- 8oyahF/aci2YefCZ+sb5I6yfI9l7eD1VjizgQt0sn605HewX1W8sJ9eeZ4QMiw++gS3m
- hdgDAP1pH24n7C7s3OBd42XT4vyL9g1S/WYhu3VRYTLGr/MDmHm8glUqrWvwucSl1FzJ
- x4NjuEbObvoR3Sjhi/MQanUdd0bR2/sfQerAiGVpgnbqbcG2qGOhTYCFAhKXDeFZb4Qi
- kgaU6iZdLAAbm5+I6FY7Y60i5yJZBHo/2qLhRSC+gqUGHlyStCb8rHn+IvSrT0nozcaS
- 2juQ==
-X-Gm-Message-State: AOJu0YwaCAO3xXaoZAnxaDxnkwwjXDgolLy/2zEBRyXKnGl3dDUgtznE
- 3q22BRs6tMyrYEjt8BMkWzo=
-X-Google-Smtp-Source: AGHT+IHV/ava8TUw4o/Box0EbUYCUqjT8Ot3xjTM70VD0AOzL+MB23CnCIvAgGF++9/cOhKjF2u+Mg==
-X-Received: by 2002:a5e:c24d:0:b0:79f:e9ac:f60a with SMTP id
- w13-20020a5ec24d000000b0079fe9acf60amr26747610iop.20.1697131277257; 
- Thu, 12 Oct 2023 10:21:17 -0700 (PDT)
+ b=sk9jetshcirPgcS4OCQG2GTnkoORFDqYMzlE2MkTv5UfeTWnwPw5mHTykslP6+6EGf
+ VqzRaf+9ruTaoXtRsMxYEo3sQF1kohyfnzYQhLYsXrZub/cqkZ+AGLNZxOYOxfw7MH6t
+ 2GVTDsr3bIhxRZL6oqaWJwTddC/SInhZFswzzj5oIWxaIa2MQAGfrR6imKMOgCBh4/ZL
+ QDooz3lOC3Jkuw0pVz4/uuPcx144gSTAPd48bKFa8mjoGPcYn/opwQl+BT7wxxDOX5KW
+ cKkdZco8byP9UJJwvzC6OhUs6FYh7o5m/Oz5TbDhhRfaRhnFvjVtkj972XV5Ho6Z2Mgr
+ QIRw==
+X-Gm-Message-State: AOJu0YzxmmgOMWqnG1SubHPJSfUTczkgDxy+aNk5ePBAbc2wQheQoYqn
+ weoiJ7lJHyAkE6vImj1hgu0=
+X-Google-Smtp-Source: AGHT+IFSbmKh2tgHdx5hRKItGC6Ju6zKHgF0pi/HbnUffxRaaDdOTY5F94hWaW5GBheN4k6+tUCr1g==
+X-Received: by 2002:a5d:9ac4:0:b0:79f:d195:5384 with SMTP id
+ x4-20020a5d9ac4000000b0079fd1955384mr27162668ion.17.1697131304923; 
+ Thu, 12 Oct 2023 10:21:44 -0700 (PDT)
 Received: from frodo.. (c-73-78-62-130.hsd1.co.comcast.net. [73.78.62.130])
  by smtp.googlemail.com with ESMTPSA id
- fx23-20020a0566381e1700b0042b47e8869bsm4180518jab.49.2023.10.12.10.21.16
+ r25-20020a028819000000b0043cef0711c1sm3992211jai.158.2023.10.12.10.21.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 Oct 2023 10:21:16 -0700 (PDT)
+ Thu, 12 Oct 2023 10:21:44 -0700 (PDT)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: linux-kernel@vger.kernel.org, jbaron@akamai.com,
  gregkh@linuxfoundation.org, dri-devel@lists.freedesktop.org,
  amd-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org,
  intel-gfx@lists.freedesktop.org
 Subject: [PATCH v7 00/25] fix DRM_USE_DYNAMIC_DEBUG=y regression
-Date: Thu, 12 Oct 2023 11:20:39 -0600
-Message-ID: <20231012172104.3286499-1-jim.cromie@gmail.com>
+Date: Thu, 12 Oct 2023 11:21:11 -0600
+Message-ID: <20231012172137.3286566-1-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
