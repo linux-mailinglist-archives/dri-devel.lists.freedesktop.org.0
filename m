@@ -1,44 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C00027C6316
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Oct 2023 04:52:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E8B957C6319
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Oct 2023 04:52:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 00C9F10E3EA;
-	Thu, 12 Oct 2023 02:52:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 18F6510E3EB;
+	Thu, 12 Oct 2023 02:52:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m15.mail.163.com (m15.mail.163.com [45.254.50.220])
- by gabe.freedesktop.org (Postfix) with ESMTP id 3262B10E3EA
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Oct 2023 02:52:06 +0000 (UTC)
+X-Greylist: delayed 920 seconds by postgrey-1.36 at gabe;
+ Thu, 12 Oct 2023 02:52:29 UTC
+Received: from m12.mail.163.com (m12.mail.163.com [220.181.12.196])
+ by gabe.freedesktop.org (Postfix) with ESMTP id DB41410E3EB
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Oct 2023 02:52:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=qwKAK
- Yj+at97vp/dZZhMcvfPdPnSJotWH98ffVHtzrU=; b=KCAr9DDmD2M7ECl7v71A0
- Ruz1OO2T3xclKVkj2CpfJL1QhHwPy46IVFDm1eownQlq0JiJ/KR7C1URaBYMoQTg
- ZJwk8aWXFjCTtIIhNT8JQMy24z+PH0Wm9qHAXkDnzZp5VSTCEp88tgwgqTAeLclr
- xjTNw+OVoDBvYPoDkDuCqc=
+ s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=KJQPI
+ JNNz5TybaQPkseB57wueWUVNWfwhY7sgUvbTGk=; b=CXeSv8bRwE0J8BJiFk/RO
+ EnLkPgJmpfI5PhgjRbKv7snEdubdMnYZWz9nKn4vAfzbHlCp1TeXs3cL79Meol/Z
+ jIWrcEjl0NspzRz1mi0KlZZvYay3cOzuXNe/dVHoz/VUdE21xfYaPlvfkz4KdUvi
+ dTLTDGq6oxIXUf9EsGa79c=
 Received: from ProDesk.. (unknown [58.22.7.114])
- by zwqz-smtp-mta-g2-0 (Coremail) with SMTP id _____wDHL8mvWydlY0ZDAQ--.59239S2;
- Thu, 12 Oct 2023 10:36:34 +0800 (CST)
+ by zwqz-smtp-mta-g4-2 (Coremail) with SMTP id _____wD3_+XGWydlPrpMAQ--.22452S2;
+ Thu, 12 Oct 2023 10:36:57 +0800 (CST)
 From: Andy Yan <andyshrk@163.com>
 To: linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org,
  heiko@sntech.de
-Subject: [PATCH 2/3] drm/rockchip: remove NR_LAYERS macro on vop2
-Date: Thu, 12 Oct 2023 10:36:30 +0800
-Message-Id: <20231012023630.1497499-1-andyshrk@163.com>
+Subject: [PATCH 1/3] drm/rockchip: remove unused struct in vop2
+Date: Thu, 12 Oct 2023 10:36:53 +0800
+Message-Id: <20231012023653.1497576-1-andyshrk@163.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20231012023439.1497304-1-andyshrk@163.com>
 References: <20231012023439.1497304-1-andyshrk@163.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: _____wDHL8mvWydlY0ZDAQ--.59239S2
-X-Coremail-Antispam: 1Uf129KBjvdXoW7XF45CryfAr4fAr47JF17GFg_yoWDuFbEk3
- W7Wrn8GF4kurn5Aw4DCrWfJF9rKanruF1kZa10qa45ZF1kJw1xt3s2q3y7WFy5AF1xWFnF
- 93WYqry3CFn3GjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IU058n5UUUUU==
+X-CM-TRANSID: _____wD3_+XGWydlPrpMAQ--.22452S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7trWUKrW3Kw4fArWDWrWrAFb_yoW8CF1Dpa
+ yDA34jqrWxKFWjgr1DJF4Dur1SywnFkay2kFs7G3ZIqFyIgr1DA3W5Kr1rArsxZF129rW7
+ tFnFq34UXF429r7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jk18PUUUUU=
 X-Originating-IP: [58.22.7.114]
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/1tbiTBkHXmI0beLBsgAAsm
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/1tbiTBkHXmI0beLBsgACsk
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,36 +61,58 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Andy Yan <andy.yan@rock-chips.com>
 
-There are 8 layers on rk3588, so a fix defined macro is
-not appropriate.
+These structs are undefined and un used.
+Fixes: 604be85547ce ("drm/rockchip: Add VOP2 driver")
+
 Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
+
 ---
 
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 2 --
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.h | 3 ---
+ 2 files changed, 5 deletions(-)
 
 diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-index 3c524ca23d53..57c05c6b246c 100644
+index 583df4d22f7e..3c524ca23d53 100644
 --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
 +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-@@ -2251,8 +2251,6 @@ static struct vop2_video_port *find_vp_without_primary(struct vop2 *vop2)
- 	return NULL;
- }
+@@ -160,7 +160,6 @@ struct vop2_video_port {
+ 	struct vop2 *vop2;
+ 	struct clk *dclk;
+ 	unsigned int id;
+-	const struct vop2_video_port_regs *regs;
+ 	const struct vop2_video_port_data *data;
  
--#define NR_LAYERS 6
--
- static int vop2_create_crtcs(struct vop2 *vop2)
- {
- 	const struct vop2_data *vop2_data = vop2->data;
-@@ -2371,7 +2369,7 @@ static int vop2_create_crtcs(struct vop2 *vop2)
- 		struct vop2_video_port *vp = &vop2->vps[i];
+ 	struct completion dsp_hold_completion;
+@@ -2274,7 +2273,6 @@ static int vop2_create_crtcs(struct vop2 *vop2)
+ 		vp = &vop2->vps[i];
+ 		vp->vop2 = vop2;
+ 		vp->id = vp_data->id;
+-		vp->regs = vp_data->regs;
+ 		vp->data = vp_data;
  
- 		if (vp->crtc.port)
--			vp->nlayers = NR_LAYERS / nvps;
-+			vp->nlayers = vop2_data->win_size / nvps;
- 	}
+ 		snprintf(dclk_name, sizeof(dclk_name), "dclk_vp%d", vp->id);
+diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
+index f1234a151130..56fd31e05238 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
++++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
+@@ -134,16 +134,13 @@ struct vop2_video_port_data {
+ 	u16 cubic_lut_len;
+ 	struct vop_rect max_output;
+ 	const u8 pre_scan_max_dly[4];
+-	const struct vop2_video_port_regs *regs;
+ 	unsigned int offset;
+ };
  
- 	return 0;
+ struct vop2_data {
+ 	u8 nr_vps;
+-	const struct vop2_ctrl *ctrl;
+ 	const struct vop2_win_data *win;
+ 	const struct vop2_video_port_data *vp;
+-	const struct vop_csc_table *csc_table;
+ 	struct vop_rect max_input;
+ 	struct vop_rect max_output;
+ 
 -- 
 2.34.1
 
