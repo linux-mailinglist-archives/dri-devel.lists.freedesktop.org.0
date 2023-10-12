@@ -2,68 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07D037C78B7
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Oct 2023 23:39:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 083267C78B8
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Oct 2023 23:39:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 66ADB10E567;
-	Thu, 12 Oct 2023 21:39:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9551A10E56F;
+	Thu, 12 Oct 2023 21:39:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B379310E555
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Oct 2023 21:39:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D2A7410E57D
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Oct 2023 21:39:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1697146755;
+ s=mimecast20190719; t=1697146769;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Zvrgj9LmWX09P0otLVv1M+TO46oxoY5RjfV1LrD5p/Y=;
- b=Qj/zyzwV9ohdof1Y6DdsCCeYGIgMNYDb0Q+Ui/Fots3y/hUvews1ZhNEbiJUaaxfgtzxLl
- RxoQZ3l5MmZvfKKICS2xfTUSc6oyaiC/Ay68oyyCvP0CwI2dYc+W1Weloi4YTCajyBRIq7
- izX9nZ/9g3nsHY6DDoJ9IvPWkO1veiY=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=o3yRqYZd7hXBCjj0x6r+xRvOZ/+by8OSU47aD3csnLU=;
+ b=FZnLhmbU4DG8vzThyvHMxnfTRxmIgHnfc4Ln8f2IH2FFM6AjP0uVvCJUtGvIXkI+YYNE67
+ xQGyAHzeoBE0zOQi5lysNeM46g63ut/Csft4nJoLD85ZWU2W9hkF8+/VIyb+pVQZZkcbdY
+ wD/8yfvvE0MGnVILT/7mk3pDyyK5wcQ=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-335-yjrAqB3nP3auYha_0kTkZA-1; Thu, 12 Oct 2023 17:39:14 -0400
-X-MC-Unique: yjrAqB3nP3auYha_0kTkZA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- 5b1f17b1804b1-4066e59840eso10033435e9.1
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Oct 2023 14:39:14 -0700 (PDT)
+ us-mta-231-hKrWm94FPrW4GKsvAsWrnw-1; Thu, 12 Oct 2023 17:39:15 -0400
+X-MC-Unique: hKrWm94FPrW4GKsvAsWrnw-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ 5b1f17b1804b1-3f42bcef2acso9902405e9.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Oct 2023 14:39:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1697146753; x=1697751553;
+ d=1e100.net; s=20230601; t=1697146754; x=1697751554;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Zvrgj9LmWX09P0otLVv1M+TO46oxoY5RjfV1LrD5p/Y=;
- b=f+23vk4FvkmBCO9LXSg15sAU6oltisaIt6JABNIGzfHB1yxv2+LaqD1WpKqg+SS5WE
- 8TrCZFAsu9fNLUUOlvGluEKoquTTsZyGUfuY/Vebdt9oB+GOcqW8nLtJyKcL3y0r3Qon
- ujlszHdq2KB7yMtYipeUxComlxDuAtSK344jr6caHiKv+XZkYTe0qkeSVeFFrrxwdv27
- sTTkMfNqKOz+W6IeG44QTlYjX5Nx+/obv1J4NThW14GfZ+Gs17+WUUzag6y54ig3IzUR
- 4dP3Hp0IVfPR2rRV7Y32keE99QRS0JiCeSlAhNjMry+UzZUucMDLuwZpLTwy5tcmALRX
- uxPA==
-X-Gm-Message-State: AOJu0YyfZfcMLO/9BxOJ3X1TVntVg7UWz0k11ifKgG1/nx/UpoTz1oJD
- 8SPignIQbI3xHAgnyWM7MFZzy4DlrnRvtWvtEnqeAuPAcBdzNUwzKbsR4tE0lwWow7fFma9tpGU
- 0RMPgr9v8f3D6mYfKcXIE4V0XKCYK
-X-Received: by 2002:a05:6000:c47:b0:32d:96e0:8048 with SMTP id
- do7-20020a0560000c4700b0032d96e08048mr1285797wrb.9.1697146753375; 
- Thu, 12 Oct 2023 14:39:13 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHa0OCXnp4TmZg8fDDOv2923o5ApTWRzYFiWzqeGRiluRFdYCqG4XtpAfQeNB8xNHJ97UalbQ==
-X-Received: by 2002:a05:6000:c47:b0:32d:96e0:8048 with SMTP id
- do7-20020a0560000c4700b0032d96e08048mr1285788wrb.9.1697146753151; 
- Thu, 12 Oct 2023 14:39:13 -0700 (PDT)
+ bh=o3yRqYZd7hXBCjj0x6r+xRvOZ/+by8OSU47aD3csnLU=;
+ b=Y0zBKm5V7nf2PuuidkylJxL5t1QcPKgl4yhZ/299lFB/p75fuweHHOmDmsTrju6wPg
+ wV87J66/22hdpgeE6s387Zh7SijK8HQRqPmGjUodp4EXb+3xSs+a7E6bQOMTI9Wz/Aj2
+ gvuwBl0pTgPQkt2e89YtW0nsNGWgJBVZmRMJLBW6gP3pbbiQhS1fPuncYpbu4OCnZYlc
+ qZ7lgH4wjyokH2BZwM+R9aaQRZ5IRSGqf8a3KYb2GkRuPQxdWfQ7GS1E9D9EjACCFZlq
+ Ekbu1vhvHsqZ8p00P8IDQPYZT0pAY89Qrdy8xNHx8fW81DCAuGWZakx/fOxAIlBD6J1h
+ iAFQ==
+X-Gm-Message-State: AOJu0YzjgmYQ8eMrDsG+++nd0iM1xax4gafFzNpW3jDIqmWqA3XfuW6z
+ fpGZeFtn2Yyfys7658nI4bcWrFemDM1qkimL9HaaLgJKMSDLZozSYEMWEjCvXmqt5M+1lGITfmm
+ 2QquMBO5nrRcQwnZq9K1HfTzoQnDn
+X-Received: by 2002:a05:600c:22d5:b0:406:52e4:cd23 with SMTP id
+ 21-20020a05600c22d500b0040652e4cd23mr21842877wmg.0.1697146754729; 
+ Thu, 12 Oct 2023 14:39:14 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IF+XVdeKgSPhHzOip6DG8FcebZmLSy2zD26qDPnYqZ7qCmWMDHxCbKD8PAFohtrJ32KHy3KEw==
+X-Received: by 2002:a05:600c:22d5:b0:406:52e4:cd23 with SMTP id
+ 21-20020a05600c22d500b0040652e4cd23mr21842864wmg.0.1697146754547; 
+ Thu, 12 Oct 2023 14:39:14 -0700 (PDT)
 Received: from localhost (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- l16-20020a056000023000b0032d893d8dc8sm4982734wrz.2.2023.10.12.14.39.12
+ y10-20020a05600c364a00b0040648217f4fsm800706wmq.39.2023.10.12.14.39.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 Oct 2023 14:39:12 -0700 (PDT)
+ Thu, 12 Oct 2023 14:39:14 -0700 (PDT)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH v3 5/6] dt-bindings: display: Split common Solomon properties
- in their own schema
-Date: Thu, 12 Oct 2023 23:38:35 +0200
-Message-ID: <20231012213843.1151060-6-javierm@redhat.com>
+Subject: [PATCH v3 6/6] dt-bindings: display: Add SSD132x OLED controllers
+Date: Thu, 12 Oct 2023 23:38:36 +0200
+Message-ID: <20231012213843.1151060-7-javierm@redhat.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20231012213843.1151060-1-javierm@redhat.com>
 References: <20231012213843.1151060-1-javierm@redhat.com>
@@ -94,137 +93,134 @@ Cc: Conor Dooley <conor+dt@kernel.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There are DT properties that can be shared across different Solomon OLED
-Display Controller families. Split them into a separate common schema to
-avoid these properties to be duplicated in different DT bindings schemas.
+Add a Device Tree binding schema for the OLED panels based on the Solomon
+SSD132x family of controllers.
 
-Suggested-by: Rob Herring <robh@kernel.org>
 Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
 Reviewed-by: Rob Herring <robh@kernel.org>
 ---
 
 Changes in v3:
-- Fix "No newline at end of file" in solomon,ssd-common.yaml (Rob Herring).
-- Add Rob Herring's Reviewed-by tag to patch #5.
+- Add Rob Herring's Reviewed-by tag to patch #6.
 
- .../bindings/display/solomon,ssd-common.yaml  | 42 +++++++++++++++++++
- .../bindings/display/solomon,ssd1307fb.yaml   | 28 +------------
- MAINTAINERS                                   |  1 +
- 3 files changed, 44 insertions(+), 27 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/display/solomon,ssd-common.yaml
+Changes in v2:
+- Remove unnecessary 'oneOf' in the SSD132x DT binding schema (Conor Dooley).
+- Remove unused DT nodes labels in the binding schema examples (Conor Dooley).
+- Split out common Solomon properties into a separate schema (Rob Herring).
 
-diff --git a/Documentation/devicetree/bindings/display/solomon,ssd-common.yaml b/Documentation/devicetree/bindings/display/solomon,ssd-common.yaml
+ .../bindings/display/solomon,ssd132x.yaml     | 89 +++++++++++++++++++
+ MAINTAINERS                                   |  2 +-
+ 2 files changed, 90 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/devicetree/bindings/display/solomon,ssd132x.yaml
+
+diff --git a/Documentation/devicetree/bindings/display/solomon,ssd132x.yaml b/Documentation/devicetree/bindings/display/solomon,ssd132x.yaml
 new file mode 100644
-index 000000000000..3e6998481a75
+index 000000000000..0aa41bd9ddca
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/display/solomon,ssd-common.yaml
-@@ -0,0 +1,42 @@
++++ b/Documentation/devicetree/bindings/display/solomon,ssd132x.yaml
+@@ -0,0 +1,89 @@
 +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 +%YAML 1.2
 +---
-+$id: http://devicetree.org/schemas/display/solomon,ssd-common.yaml#
++$id: http://devicetree.org/schemas/display/solomon,ssd132x.yaml#
 +$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+title: Common properties for Solomon OLED Display Controllers
++title: Solomon SSD132x OLED Display Controllers
 +
 +maintainers:
 +  - Javier Martinez Canillas <javierm@redhat.com>
 +
 +properties:
-+  reg:
-+    maxItems: 1
++  compatible:
++    - enum:
++        - solomon,ssd1322
++        - solomon,ssd1325
++        - solomon,ssd1327
 +
-+  reset-gpios:
-+    maxItems: 1
-+
-+  # Only required for SPI
-+  dc-gpios:
-+    description:
-+      GPIO connected to the controller's D/C# (Data/Command) pin,
-+      that is needed for 4-wire SPI to tell the controller if the
-+      data sent is for a command register or the display data RAM
-+    maxItems: 1
-+
-+  solomon,height:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    description:
-+      Height in pixel of the screen driven by the controller.
-+      The default value is controller-dependent.
-+
-+  solomon,width:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    description:
-+      Width in pixel of the screen driven by the controller.
-+      The default value is controller-dependent.
++required:
++  - compatible
++  - reg
 +
 +allOf:
-+  - $ref: /schemas/spi/spi-peripheral-props.yaml#
-+
-+additionalProperties: true
-diff --git a/Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml b/Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml
-index 20e2bd15d4d2..3afbb52d1b7f 100644
---- a/Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml
-+++ b/Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml
-@@ -27,38 +27,12 @@ properties:
-           - solomon,ssd1307
-           - solomon,ssd1309
- 
--  reg:
--    maxItems: 1
--
-   pwms:
-     maxItems: 1
- 
--  reset-gpios:
--    maxItems: 1
--
--  # Only required for SPI
--  dc-gpios:
--    description:
--      GPIO connected to the controller's D/C# (Data/Command) pin,
--      that is needed for 4-wire SPI to tell the controller if the
--      data sent is for a command register or the display data RAM
--    maxItems: 1
--
-   vbat-supply:
-     description: The supply for VBAT
- 
--  solomon,height:
--    $ref: /schemas/types.yaml#/definitions/uint32
--    description:
--      Height in pixel of the screen driven by the controller.
--      The default value is controller-dependent.
--
--  solomon,width:
--    $ref: /schemas/types.yaml#/definitions/uint32
--    description:
--      Width in pixel of the screen driven by the controller.
--      The default value is controller-dependent.
--
-   solomon,page-offset:
-     $ref: /schemas/types.yaml#/definitions/uint32
-     default: 1
-@@ -148,7 +122,7 @@ required:
-   - reg
- 
- allOf:
--  - $ref: /schemas/spi/spi-peripheral-props.yaml#
 +  - $ref: solomon,ssd-common.yaml#
- 
-   - if:
-       properties:
++
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: solomon,ssd1322
++    then:
++      properties:
++        width:
++          default: 480
++        height:
++          default: 128
++
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: solomon,ssd1325
++    then:
++      properties:
++        width:
++          default: 128
++        height:
++          default: 80
++
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: solomon,ssd1327
++    then:
++      properties:
++        width:
++          default: 128
++        height:
++          default: 128
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    i2c {
++            #address-cells = <1>;
++            #size-cells = <0>;
++
++            oled@3c {
++                    compatible = "solomon,ssd1327";
++                    reg = <0x3c>;
++                    reset-gpios = <&gpio2 7>;
++            };
++
++    };
++  - |
++    spi {
++            #address-cells = <1>;
++            #size-cells = <0>;
++
++            oled@0 {
++                    compatible = "solomon,ssd1327";
++                    reg = <0x0>;
++                    reset-gpios = <&gpio2 7>;
++                    dc-gpios = <&gpio2 8>;
++                    spi-max-frequency = <10000000>;
++            };
++    };
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 46ca5c4affdb..4a3baf970839 100644
+index 4a3baf970839..5257e0074f2b 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -6732,6 +6732,7 @@ DRM DRIVER FOR SOLOMON SSD130X OLED DISPLAYS
- M:	Javier Martinez Canillas <javierm@redhat.com>
+@@ -6733,7 +6733,7 @@ M:	Javier Martinez Canillas <javierm@redhat.com>
  S:	Maintained
  T:	git git://anongit.freedesktop.org/drm/drm-misc
-+F:	Documentation/devicetree/bindings/display/solomon,ssd-common.yaml
- F:	Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml
+ F:	Documentation/devicetree/bindings/display/solomon,ssd-common.yaml
+-F:	Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml
++F:	Documentation/devicetree/bindings/display/solomon,ssd13*.yaml
  F:	drivers/gpu/drm/solomon/ssd130x*
  
+ DRM DRIVER FOR ST-ERICSSON MCDE
 -- 
 2.41.0
 
