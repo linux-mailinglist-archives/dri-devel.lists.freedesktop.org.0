@@ -2,68 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E79087C78B0
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Oct 2023 23:39:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57E6E7C78B2
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Oct 2023 23:39:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E25FE10E05A;
-	Thu, 12 Oct 2023 21:39:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 32A4910E552;
+	Thu, 12 Oct 2023 21:39:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0AF1710E05A
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Oct 2023 21:39:09 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 43FB510E05A
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Oct 2023 21:39:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1697146749;
+ s=mimecast20190719; t=1697146750;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=INep8i8sbenIwLGJRXBkUlhgQipbWBmkoX/InCWHVwU=;
- b=anhNCSkE6soRN728wYtTjWwbev0eEXOeEcPwsjDS95iRfokSy1wtG5xTWXKJL0BWTaTSuF
- 0/uWg9jsPP+3zKuKAfpxaNH4YB0BgCiV3GAaEhrkVG9V86qAuVQFxYkjtlN67c9TLX9f+Q
- pklPEoox2JPMcomWIk8oUQhJEeZybes=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=ZJ9Uk8vtob23yRuVF7wPahjMzWrUIOh41bFxqRCyBio=;
+ b=FC8f6K1BMLyDugBzl33LrhHd6K2ZK38LrpSkmCT60XDbiyAfYZLpHRAjtehOs5PV6LsXY5
+ nNjOG0ih7gD7zdUpr63SOQpIt58+2wwvQm63jbYExQnTQ1McbWdf0qa5JOY5NLHVBOtvx+
+ Dz5cp6WlEdZaDVvU211gWnKDYJc52V4=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-185-2zjyOa3fN4uqwIT3K29-hw-1; Thu, 12 Oct 2023 17:39:07 -0400
-X-MC-Unique: 2zjyOa3fN4uqwIT3K29-hw-1
-Received: by mail-wm1-f70.google.com with SMTP id
- 5b1f17b1804b1-3f41a04a297so11369415e9.3
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Oct 2023 14:39:07 -0700 (PDT)
+ us-mta-682-55cwIoN9NNOooxaJEe2GYA-1; Thu, 12 Oct 2023 17:39:09 -0400
+X-MC-Unique: 55cwIoN9NNOooxaJEe2GYA-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ 5b1f17b1804b1-3fe182913c5so9890525e9.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Oct 2023 14:39:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1697146746; x=1697751546;
+ d=1e100.net; s=20230601; t=1697146748; x=1697751548;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=INep8i8sbenIwLGJRXBkUlhgQipbWBmkoX/InCWHVwU=;
- b=RxhaeEboPVyAXI2hlKKSpQSgK0NCNj+mJP2sgFVVbsFaEGjJpCPMtrRE1qCFpalmtZ
- 8f5tPuHbiwWcogCwHYqQuVL/YXQM/zdLnSsOuwP+uNdujA6NE5g+HYQ2UOCrFaWJfzyP
- svxSx//vbHRWjVfPlWWI39h/1ENjrrtpvExos2WTdCWZ2LXgcHo4AKgL8ySOqDN6C6tP
- RZt5s/jH1y6SJ4OnJ78uS2xWaL97K+Vvba9QMGQjqheICc1Ni9arm+1PVE9hSOfA+JO+
- WmM0CDzB5zSM70zfQrMnQ02ZOgSRqWQLSEjWR+IQfsrrN6cAZV+/tcLTzcsUK11JC7vU
- 1l7w==
-X-Gm-Message-State: AOJu0YzDWwiFgV8SCYjI0W+0YdCoiyseX0d9LYjuugQFUpB0B8ETNcH2
- dxixnP3+PQIbxWg+H85iGWUuqCB66dgM9tisHVksTJGyKbdZbLToCpt9hi40VznkGjsWVUrKSKt
- yeOeDdfdv67NxhLhswBMLt4IqRU6c
-X-Received: by 2002:a5d:420a:0:b0:31f:bdbc:d762 with SMTP id
- n10-20020a5d420a000000b0031fbdbcd762mr22193685wrq.44.1697146746310; 
- Thu, 12 Oct 2023 14:39:06 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEITWOiFRDBaMa3BIQfN7qZthWNJ6qUOFmGj/e9e8uZBGgxAq6NJ6l0kBdch0A5y6pTiUrCaw==
-X-Received: by 2002:a5d:420a:0:b0:31f:bdbc:d762 with SMTP id
- n10-20020a5d420a000000b0031fbdbcd762mr22193673wrq.44.1697146745960; 
- Thu, 12 Oct 2023 14:39:05 -0700 (PDT)
+ bh=ZJ9Uk8vtob23yRuVF7wPahjMzWrUIOh41bFxqRCyBio=;
+ b=i2FAccSD2RFlqok8xlAsZi2NU+SU+Un4cz+HDibJ9ZaxZ85oBTO5jvOU3meUXD7c3w
+ DKJX9z7iWb8QEaPfJXyc6bFwTutHHgLfjvbvSdd1NGRq4LJi2DIh3Md+3tBKilTGvfIA
+ H8GGd96d2f4MS+NCKaG7ehZAsznslfUYuXUw72HB+RUO/8KJ33I3m6D8rUZrVEa4xqpb
+ x6Ml6dJ3OSoMGUf+xSXtRmfYQ78Q1JNFWgX8RxWoO0Kf65IsdYRTpv22/ktH0rq6wFMH
+ hRUgQMvsRr/+FbVhK/C4IuA4aUWgWw8LAr+fzljlqps9yis8jn2aLQqE+qTCaIOgmt3w
+ Nz3Q==
+X-Gm-Message-State: AOJu0Ywbvkdlj5YaK/oaNNgYzpfenR598eclWWV6LCJrqPHI1c3Sf6PG
+ oVFv9ZEPuf5zFQkS1jRmZ+npyoBEjEO50EeCrLrUHYzNHUYl+lGgTV+L0iRjtFUNPiiEmsh1mo8
+ 9AYHQbRgm2+jbAoZH/W9RrguPsFAL
+X-Received: by 2002:a05:600c:c9:b0:406:4d8f:9fee with SMTP id
+ u9-20020a05600c00c900b004064d8f9feemr22839622wmm.24.1697146747835; 
+ Thu, 12 Oct 2023 14:39:07 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEVwgjP/Hf7E+GTWU2/1n528HLM8zVIW2Oo2fN83cMqwCJNV+YlT48U377E2jCVzQzV4FwMbQ==
+X-Received: by 2002:a05:600c:c9:b0:406:4d8f:9fee with SMTP id
+ u9-20020a05600c00c900b004064d8f9feemr22839612wmm.24.1697146747448; 
+ Thu, 12 Oct 2023 14:39:07 -0700 (PDT)
 Received: from localhost (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- k17-20020adff291000000b003143867d2ebsm19284275wro.63.2023.10.12.14.39.05
+ p23-20020a05600c205700b004064741f855sm801123wmg.47.2023.10.12.14.39.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 Oct 2023 14:39:05 -0700 (PDT)
+ Thu, 12 Oct 2023 14:39:07 -0700 (PDT)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH v3 1/6] drm/ssd130x: Replace .page_height field in device info
- with a constant
-Date: Thu, 12 Oct 2023 23:38:31 +0200
-Message-ID: <20231012213843.1151060-2-javierm@redhat.com>
+Subject: [PATCH v3 2/6] drm/ssd130x: Add a controller family id to the device
+ info data
+Date: Thu, 12 Oct 2023 23:38:32 +0200
+Message-ID: <20231012213843.1151060-3-javierm@redhat.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20231012213843.1151060-1-javierm@redhat.com>
 References: <20231012213843.1151060-1-javierm@redhat.com>
@@ -84,195 +84,139 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
- Conor Dooley <conor@kernel.org>, dri-devel@lists.freedesktop.org,
+Cc: Conor Dooley <conor@kernel.org>, dri-devel@lists.freedesktop.org,
  Javier Martinez Canillas <javierm@redhat.com>,
  Maxime Ripard <mripard@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>,
  Peter Robinson <pbrobinson@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This deemed useful to avoid hardcoding a page height and allow to support
-other Solomon controller families, but dividing the screen in pages seems
-to be something that is specific to the SSD130x chip family.
-
-For example, SSD132x chip family divides the screen in segments (columns)
-and common outputs (rows), so the concept of screen pages does not exist
-for the SSD132x family.
-
-Let's drop this field from the device info struct and just use a constant
-SSD130X_PAGE_HEIGHT macro to define the page height. While being there,
-replace hardcoded 8 values in places where it is used as the page height.
+To allow the driver to have a per Solomon display controller modesetting
+pipeline and support aother controller families besides SSD130x.
 
 Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
 
-(no changes since v2)
+Changes in v3:
+- Drop the per controller family functions table (Thomas Zimmermann).
 
 Changes in v2:
-- Add Geert Uytterhoeven's Reviewed-by tag to patch #1.
+- Squash patch that uses drm_format_info_min_pitch() to calculate dest_pitch
+  with the following patch (Geert Uytterhoeven).
+- Store ssd13xx_family_funcs[SSD130X_FAMILY] in struct ssd130x_deviceinfo
+  (Geert Uytterhoeven).
+- Don't mix switch (family_id) and ssd13xx_funcs[family_id] (Geert Uytterhoeven).
+- Replace switch (family_id) by an .set_buffer_sizes (Geert Uytterhoeven).
+- Move the rect alignment to a per chip family function (Geert Uytterhoeven).
 
- drivers/gpu/drm/solomon/ssd130x.c | 37 +++++++++++++++----------------
- drivers/gpu/drm/solomon/ssd130x.h |  1 -
- 2 files changed, 18 insertions(+), 20 deletions(-)
+ drivers/gpu/drm/solomon/ssd130x-i2c.c | 1 +
+ drivers/gpu/drm/solomon/ssd130x-spi.c | 2 ++
+ drivers/gpu/drm/solomon/ssd130x.c     | 5 +++++
+ drivers/gpu/drm/solomon/ssd130x.h     | 7 +++++++
+ 4 files changed, 15 insertions(+)
 
+diff --git a/drivers/gpu/drm/solomon/ssd130x-i2c.c b/drivers/gpu/drm/solomon/ssd130x-i2c.c
+index b4eb2d64bf6e..8f89b89d553f 100644
+--- a/drivers/gpu/drm/solomon/ssd130x-i2c.c
++++ b/drivers/gpu/drm/solomon/ssd130x-i2c.c
+@@ -54,6 +54,7 @@ static void ssd130x_i2c_shutdown(struct i2c_client *client)
+ }
+ 
+ static const struct of_device_id ssd130x_of_match[] = {
++	/* ssd130x family */
+ 	{
+ 		.compatible = "sinowealth,sh1106",
+ 		.data = &ssd130x_variants[SH1106_ID],
+diff --git a/drivers/gpu/drm/solomon/ssd130x-spi.c b/drivers/gpu/drm/solomon/ssd130x-spi.c
+index 19ab4942cb33..257819bccbc8 100644
+--- a/drivers/gpu/drm/solomon/ssd130x-spi.c
++++ b/drivers/gpu/drm/solomon/ssd130x-spi.c
+@@ -108,6 +108,7 @@ static void ssd130x_spi_shutdown(struct spi_device *spi)
+ }
+ 
+ static const struct of_device_id ssd130x_of_match[] = {
++	/* ssd130x family */
+ 	{
+ 		.compatible = "sinowealth,sh1106",
+ 		.data = &ssd130x_variants[SH1106_ID],
+@@ -142,6 +143,7 @@ MODULE_DEVICE_TABLE(of, ssd130x_of_match);
+  * not be needed for this driver to match the registered SPI devices.
+  */
+ static const struct spi_device_id ssd130x_spi_table[] = {
++	/* ssd130x family */
+ 	{ "sh1106",  SH1106_ID },
+ 	{ "ssd1305", SSD1305_ID },
+ 	{ "ssd1306", SSD1306_ID },
 diff --git a/drivers/gpu/drm/solomon/ssd130x.c b/drivers/gpu/drm/solomon/ssd130x.c
-index 6dcf3e041113..2852cddb098b 100644
+index 2852cddb098b..4df4c4ed61f1 100644
 --- a/drivers/gpu/drm/solomon/ssd130x.c
 +++ b/drivers/gpu/drm/solomon/ssd130x.c
-@@ -42,6 +42,8 @@
- #define DRIVER_MAJOR	1
- #define DRIVER_MINOR	0
- 
-+#define SSD130X_PAGE_HEIGHT 8
-+
- #define SSD130X_PAGE_COL_START_LOW		0x00
- #define SSD130X_PAGE_COL_START_HIGH		0x10
- #define SSD130X_SET_ADDRESS_MODE		0x20
-@@ -102,7 +104,6 @@ const struct ssd130x_deviceinfo ssd130x_variants[] = {
+@@ -104,6 +104,7 @@ const struct ssd130x_deviceinfo ssd130x_variants[] = {
  		.default_width = 132,
  		.default_height = 64,
  		.page_mode_only = 1,
--		.page_height = 8,
++		.family_id = SSD130X_FAMILY,
  	},
  	[SSD1305_ID] = {
  		.default_vcomh = 0x34,
-@@ -110,7 +111,6 @@ const struct ssd130x_deviceinfo ssd130x_variants[] = {
+@@ -111,6 +112,7 @@ const struct ssd130x_deviceinfo ssd130x_variants[] = {
  		.default_dclk_frq = 7,
  		.default_width = 132,
  		.default_height = 64,
--		.page_height = 8,
++		.family_id = SSD130X_FAMILY,
  	},
  	[SSD1306_ID] = {
  		.default_vcomh = 0x20,
-@@ -119,7 +119,6 @@ const struct ssd130x_deviceinfo ssd130x_variants[] = {
+@@ -119,6 +121,7 @@ const struct ssd130x_deviceinfo ssd130x_variants[] = {
  		.need_chargepump = 1,
  		.default_width = 128,
  		.default_height = 64,
--		.page_height = 8,
++		.family_id = SSD130X_FAMILY,
  	},
  	[SSD1307_ID] = {
  		.default_vcomh = 0x20,
-@@ -128,7 +127,6 @@ const struct ssd130x_deviceinfo ssd130x_variants[] = {
+@@ -127,6 +130,7 @@ const struct ssd130x_deviceinfo ssd130x_variants[] = {
  		.need_pwm = 1,
  		.default_width = 128,
  		.default_height = 39,
--		.page_height = 8,
++		.family_id = SSD130X_FAMILY,
  	},
  	[SSD1309_ID] = {
  		.default_vcomh = 0x34,
-@@ -136,7 +134,6 @@ const struct ssd130x_deviceinfo ssd130x_variants[] = {
+@@ -134,6 +138,7 @@ const struct ssd130x_deviceinfo ssd130x_variants[] = {
  		.default_dclk_frq = 10,
  		.default_width = 128,
  		.default_height = 64,
--		.page_height = 8,
++		.family_id = SSD130X_FAMILY,
  	}
  };
  EXPORT_SYMBOL_NS_GPL(ssd130x_variants, DRM_SSD130X);
-@@ -465,13 +462,13 @@ static int ssd130x_update_rect(struct ssd130x_device *ssd130x,
- 	unsigned int width = drm_rect_width(rect);
- 	unsigned int height = drm_rect_height(rect);
- 	unsigned int line_length = DIV_ROUND_UP(width, 8);
--	unsigned int page_height = ssd130x->device_info->page_height;
-+	unsigned int page_height = SSD130X_PAGE_HEIGHT;
- 	unsigned int pages = DIV_ROUND_UP(height, page_height);
- 	struct drm_device *drm = &ssd130x->drm;
- 	u32 array_idx = 0;
- 	int ret, i, j, k;
- 
--	drm_WARN_ONCE(drm, y % 8 != 0, "y must be aligned to screen page\n");
-+	drm_WARN_ONCE(drm, y % page_height != 0, "y must be aligned to screen page\n");
- 
- 	/*
- 	 * The screen is divided in pages, each having a height of 8
-@@ -503,27 +500,32 @@ static int ssd130x_update_rect(struct ssd130x_device *ssd130x,
- 	 */
- 
- 	if (!ssd130x->page_address_mode) {
-+		u8 page_start;
-+
- 		/* Set address range for horizontal addressing mode */
- 		ret = ssd130x_set_col_range(ssd130x, ssd130x->col_offset + x, width);
- 		if (ret < 0)
- 			return ret;
- 
--		ret = ssd130x_set_page_range(ssd130x, ssd130x->page_offset + y / 8, pages);
-+		page_start = ssd130x->page_offset + y / page_height;
-+		ret = ssd130x_set_page_range(ssd130x, page_start, pages);
- 		if (ret < 0)
- 			return ret;
- 	}
- 
- 	for (i = 0; i < pages; i++) {
--		int m = 8;
-+		int m = page_height;
- 
- 		/* Last page may be partial */
--		if (8 * (y / 8 + i + 1) > ssd130x->height)
--			m = ssd130x->height % 8;
-+		if (page_height * (y / page_height + i + 1) > ssd130x->height)
-+			m = ssd130x->height % page_height;
-+
- 		for (j = 0; j < width; j++) {
- 			u8 data = 0;
- 
- 			for (k = 0; k < m; k++) {
--				u8 byte = buf[(8 * i + k) * line_length + j / 8];
-+				u32 idx = (page_height * i + k) * line_length + j / 8;
-+				u8 byte = buf[idx];
- 				u8 bit = (byte >> (j % 8)) & 1;
- 
- 				data |= bit << k;
-@@ -559,8 +561,7 @@ static int ssd130x_update_rect(struct ssd130x_device *ssd130x,
- 
- static void ssd130x_clear_screen(struct ssd130x_device *ssd130x, u8 *data_array)
- {
--	unsigned int page_height = ssd130x->device_info->page_height;
--	unsigned int pages = DIV_ROUND_UP(ssd130x->height, page_height);
-+	unsigned int pages = DIV_ROUND_UP(ssd130x->height, SSD130X_PAGE_HEIGHT);
- 	unsigned int width = ssd130x->width;
- 	int ret, i;
- 
-@@ -605,14 +606,13 @@ static int ssd130x_fb_blit_rect(struct drm_framebuffer *fb,
- 				u8 *buf, u8 *data_array)
- {
- 	struct ssd130x_device *ssd130x = drm_to_ssd130x(fb->dev);
--	unsigned int page_height = ssd130x->device_info->page_height;
- 	struct iosys_map dst;
- 	unsigned int dst_pitch;
- 	int ret = 0;
- 
- 	/* Align y to display page boundaries */
--	rect->y1 = round_down(rect->y1, page_height);
--	rect->y2 = min_t(unsigned int, round_up(rect->y2, page_height), ssd130x->height);
-+	rect->y1 = round_down(rect->y1, SSD130X_PAGE_HEIGHT);
-+	rect->y2 = min_t(unsigned int, round_up(rect->y2, SSD130X_PAGE_HEIGHT), ssd130x->height);
- 
- 	dst_pitch = DIV_ROUND_UP(drm_rect_width(rect), 8);
- 
-@@ -814,8 +814,7 @@ static int ssd130x_crtc_atomic_check(struct drm_crtc *crtc,
- 	struct ssd130x_device *ssd130x = drm_to_ssd130x(drm);
- 	struct drm_crtc_state *crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
- 	struct ssd130x_crtc_state *ssd130x_state = to_ssd130x_crtc_state(crtc_state);
--	unsigned int page_height = ssd130x->device_info->page_height;
--	unsigned int pages = DIV_ROUND_UP(ssd130x->height, page_height);
-+	unsigned int pages = DIV_ROUND_UP(ssd130x->height, SSD130X_PAGE_HEIGHT);
- 	int ret;
- 
- 	ret = drm_crtc_helper_atomic_check(crtc, state);
 diff --git a/drivers/gpu/drm/solomon/ssd130x.h b/drivers/gpu/drm/solomon/ssd130x.h
-index aa39b13615eb..bbe374453605 100644
+index bbe374453605..c562c2d00c16 100644
 --- a/drivers/gpu/drm/solomon/ssd130x.h
 +++ b/drivers/gpu/drm/solomon/ssd130x.h
-@@ -39,7 +39,6 @@ struct ssd130x_deviceinfo {
- 	u32 default_dclk_frq;
- 	u32 default_width;
- 	u32 default_height;
--	u32 page_height;
+@@ -24,7 +24,12 @@
+ #define SSD130X_DATA				0x40
+ #define SSD130X_COMMAND				0x80
+ 
++enum ssd130x_family_ids {
++	SSD130X_FAMILY
++};
++
+ enum ssd130x_variants {
++	/* ssd130x family */
+ 	SH1106_ID,
+ 	SSD1305_ID,
+ 	SSD1306_ID,
+@@ -42,6 +47,8 @@ struct ssd130x_deviceinfo {
  	bool need_pwm;
  	bool need_chargepump;
  	bool page_mode_only;
++
++	enum ssd130x_family_ids family_id;
+ };
+ 
+ struct ssd130x_device {
 -- 
 2.41.0
 
