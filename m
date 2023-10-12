@@ -1,67 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96AC17C67CA
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Oct 2023 10:41:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 334DF7C67D6
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Oct 2023 10:42:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B859D10E45F;
-	Thu, 12 Oct 2023 08:41:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2CCF388FB2;
+	Thu, 12 Oct 2023 08:42:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB57010E456
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Oct 2023 08:40:50 +0000 (UTC)
-X-UUID: 0907d85668db11eea33bb35ae8d461a2-20231012
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=wPAZy6ESnioZH+kLVb+rHtDuQKaIt/qY8aIqjrMpNI8=; 
- b=L8OSc4vJQntTruUQt16AbXKPnOVDmBzGDgZ2qhn66P5yMVNBA9y+PQUPOTHnI4LU+lqBB/pbGa6bcrU6vVUQ3nO9S3k+Rg0caPQq4hoIi2Fxu6Duuc9hfPlEYf3usv81c5j1BsPWab1TLuly7PhOJIBJRQjwO5mpdK/Wa+qL9fg=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.32, REQID:04cde37d-f2f9-40d6-891b-5687618bd252, IP:0,
- U
- RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
- release,TS:0
-X-CID-META: VersionHash:5f78ec9, CLOUDID:55f009c4-1e57-4345-9d31-31ad9818b39f,
- B
- ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,
- DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: 0907d85668db11eea33bb35ae8d461a2-20231012
-Received: from mtkmbs14n1.mediatek.inc [(172.21.101.75)] by
- mailgw01.mediatek.com (envelope-from <moudy.ho@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1779128172; Thu, 12 Oct 2023 16:40:45 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs13n2.mediatek.inc (172.21.101.108) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Thu, 12 Oct 2023 16:40:44 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
- mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Thu, 12 Oct 2023 16:40:44 +0800
-From: Moudy Ho <moudy.ho@mediatek.com>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel
- <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>, Daniel Vetter
- <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>, Hans Verkuil
- <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH v7 16/16] dt-bindings: display: mediatek: padding: add
- compatible for MT8195
-Date: Thu, 12 Oct 2023 16:40:37 +0800
-Message-ID: <20231012084037.19376-17-moudy.ho@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20231012084037.19376-1-moudy.ho@mediatek.com>
-References: <20231012084037.19376-1-moudy.ho@mediatek.com>
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 118C810E45D
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Oct 2023 08:42:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1697100133; x=1728636133;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=HD7jH7viAq//eqJGWBJ78WdMU/P/dhkuZ8Xm+g0owI4=;
+ b=OFrBMfnpbnz1tQOuPptJI8lflACoZ8BDrg+CtLYmF9szY0TpM9FrVKXT
+ 27/ao3n2s2LDML0DSPO6YAYjWgXM5XhwcFaDqjZd6AhBitKkMbb8V2RvN
+ t1rh+SMmTV6AFNXqgU2lhTkYIWe3Z08HevN3hUXFWWmk3KzVSKwcrEG1Y
+ 794azYiD4IhLw6/zWP5df+vg3mw5DnVqqcv/1eHLaiC4LLN1NzCjHtSvk
+ KvtpM0/C/6C0FO/LRvysepcc0rmM7QUo00K0rg+lMZqdS+womMjr3PJ0q
+ 3gWkxgpT6iRF/G7QZ4NtwOqFZP/PVBSeaa0QAp0ZcOaDW9BvvNJmG4JdW w==;
+X-IronPort-AV: E=Sophos;i="6.03,218,1694728800"; d="scan'208";a="33424448"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+ by mx1.tq-group.com with ESMTP; 12 Oct 2023 10:42:10 +0200
+Received: from steina-w.tq-net.de (steina-w.tq-net.de [10.123.53.18])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id BDF9F280082;
+ Thu, 12 Oct 2023 10:42:10 +0200 (CEST)
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH v2 1/1] drm: panel-simple: add missing bus flags for Tianma
+ tm070jvhg[30/33]
+Date: Thu, 12 Oct 2023 10:42:08 +0200
+Message-Id: <20231012084208.2731650-1-alexander.stein@ew.tq-group.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK: N
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,36 +59,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Moudy Ho <moudy.ho@mediatek.com>,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-media@vger.kernel.org
+Cc: Alexander Stein <alexander.stein@ew.tq-group.com>,
+ Markus Niebel <Markus.Niebel@ew.tq-group.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a compatible string for the PAD block in MediaTek MT8195 that
-is controlled by MDP3.
+From: Markus Niebel <Markus.Niebel@ew.tq-group.com>
 
-Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
+The DE signal is active high on this display, fill in the missing
+bus_flags. This aligns panel_desc with its display_timing.
+
+Fixes: 9a2654c0f62a ("drm/panel: Add and fill drm_panel type field")
+Fixes: b3bfcdf8a3b6 ("drm/panel: simple: add Tianma TM070JVHG33")
+
+Signed-off-by: Markus Niebel <Markus.Niebel@ew.tq-group.com>
+Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
 ---
- .../bindings/display/mediatek/mediatek,padding.yaml           | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Changes in v2:
+* Collected Sam's R-b
 
-diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,padding.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,padding.yaml
-index db24801ebc48..636b69133acc 100644
---- a/Documentation/devicetree/bindings/display/mediatek/mediatek,padding.yaml
-+++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,padding.yaml
-@@ -20,7 +20,9 @@ description:
+ drivers/gpu/drm/panel/panel-simple.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+index 07c627de70534..b5b79f1789519 100644
+--- a/drivers/gpu/drm/panel/panel-simple.c
++++ b/drivers/gpu/drm/panel/panel-simple.c
+@@ -3867,6 +3867,7 @@ static const struct panel_desc tianma_tm070jdhg30 = {
+ 	},
+ 	.bus_format = MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,
+ 	.connector_type = DRM_MODE_CONNECTOR_LVDS,
++	.bus_flags = DRM_BUS_FLAG_DE_HIGH,
+ };
  
- properties:
-   compatible:
--    const: mediatek,mt8188-padding
-+    enum:
-+      - mediatek,mt8188-padding
-+      - mediatek,mt8195-mdp3-pad
+ static const struct panel_desc tianma_tm070jvhg33 = {
+@@ -3879,6 +3880,7 @@ static const struct panel_desc tianma_tm070jvhg33 = {
+ 	},
+ 	.bus_format = MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,
+ 	.connector_type = DRM_MODE_CONNECTOR_LVDS,
++	.bus_flags = DRM_BUS_FLAG_DE_HIGH,
+ };
  
-   reg:
-     maxItems: 1
+ static const struct display_timing tianma_tm070rvhg71_timing = {
 -- 
-2.18.0
+2.34.1
 
