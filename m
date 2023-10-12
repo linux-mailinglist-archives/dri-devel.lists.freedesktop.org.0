@@ -1,86 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF6407C679D
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Oct 2023 10:36:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 431A27C67A9
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Oct 2023 10:40:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D947C10E009;
-	Thu, 12 Oct 2023 08:36:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1884310E442;
+	Thu, 12 Oct 2023 08:40:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F57910E009
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Oct 2023 08:36:20 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id B23231F86C;
- Thu, 12 Oct 2023 08:36:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1697099778; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=xFx278HO4jWhTf9NFENFXAJk6jA4TQn2rp1rSyORXnE=;
- b=GtJYjjWpCjuO4GJEJQbjSNRaLLH6sciXS0TwvEzsZvjNgyIi4TFdhgykuUVc7GKZxibXJE
- 2WODwqcTFkt+wMBZ59X7dAGdpp8plcvN5YntRhlUogVTqB1W9GDaNsnSwt/coF4Bovxa+r
- yCjWcTASDPA6hEbm31vKgxaxmqHPluw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1697099778;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=xFx278HO4jWhTf9NFENFXAJk6jA4TQn2rp1rSyORXnE=;
- b=JLxcdz7HNnZpaJLnZ1CgBi/X6gKbA7nnYXokBbQK5CzPrcOljSw5wsykm6cXgdaC4idhVS
- IbzsbB+4NU9LAACA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9C275139F9;
- Thu, 12 Oct 2023 08:36:18 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id blJBJQKwJ2VWUQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 12 Oct 2023 08:36:18 +0000
-Message-ID: <61b17d9d-1984-4444-88ef-72b9552edeca@suse.de>
-Date: Thu, 12 Oct 2023 10:36:17 +0200
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B82A10E442
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Oct 2023 08:40:44 +0000 (UTC)
+X-UUID: 062162b068db11eea33bb35ae8d461a2-20231012
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From;
+ bh=5oPuZOvqen0FMPYfEAl+dBXKiTdxJ+Ejr226OwSHeAA=; 
+ b=PN/xcoaEgaPyAwmA1Ipe16F0WqDvK0zkJTkup/fLZoBRSSzDQ7P9nOEpSIK0sx5tD4lgvEVnR6GKC9gg6EeHY7tomgplfMH6u+3DJgPk3LbKM63/OhHLIdetcs/hw38slF/feMEcPku98g5G6YeUJc+C2Rzv05ULIEJ1jhNrPGw=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.32, REQID:71ed4e3e-ae11-4f02-9c9d-24c2402cc881, IP:0,
+ U
+ RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+ :release,TS:-5
+X-CID-META: VersionHash:5f78ec9, CLOUDID:0eddd8bf-14cc-44ca-b657-2d2783296e72,
+ B
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,
+ DKR:0,DKP:0,BRR:0,BRE:0
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-UUID: 062162b068db11eea33bb35ae8d461a2-20231012
+Received: from mtkmbs14n1.mediatek.inc [(172.21.101.75)] by
+ mailgw01.mediatek.com (envelope-from <moudy.ho@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 753838986; Thu, 12 Oct 2023 16:40:40 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Thu, 12 Oct 2023 16:40:38 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
+ mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Thu, 12 Oct 2023 16:40:38 +0800
+From: Moudy Ho <moudy.ho@mediatek.com>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel
+ <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>, Daniel Vetter
+ <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>, Hans Verkuil
+ <hverkuil-cisco@xs4all.nl>
+Subject: [PATCH v7 00/16] introduce more MDP3 components in MT8195
+Date: Thu, 12 Oct 2023 16:40:21 +0800
+Message-ID: <20231012084037.19376-1-moudy.ho@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/simpledrm: Fix power domain device link validity check
-Content-Language: en-US
-To: Thierry Reding <thierry.reding@gmail.com>,
- Javier Martinez Canillas <javierm@redhat.com>
-References: <20231011143230.1107731-1-thierry.reding@gmail.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20231011143230.1107731-1-thierry.reding@gmail.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------UT2X2EAtbTaInZfGAtW7TkqW"
+Content-Type: text/plain
+X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-AS-Result: No-10--6.944500-8.000000
+X-TMASE-MatchedRID: P9jnqXW9GD/sAGjS6lxxKhlckvO1m+Jc0r/qCu/cY51GL0g1nVmkYT5R
+ eTebdoC/4ifNBjPqKM9JnSNmmtyKC1iMfoAkKtzEgZTbeFUhryFbAoaK+wS4jctau7i1GewkQzG
+ yMtNT2iodi6rnZPhS04gANQweFs1E717yJ8IcCtsmZusHWPhfCjGZtPrBBPZrY7wPREa5LOgDxm
+ wJdBHa0yykokHH0nckrDEfwE8Ux42R9GF2J2xqMxRFJJyf5BJe3QfwsVk0UbtuRXh7bFKB7syxk
+ dqOJMSC2X5HPRT4be6+grGwIemnJbaq3yu6EJozH8FerAT0dJY=
+X-TM-AS-User-Approved-Sender: No
+X-TM-AS-User-Blocked-Sender: No
+X-TMASE-Result: 10--6.944500-8.000000
+X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-SNTS-SMTP: 93E4BCFCF75A704338DC21C9CB6EA4D573D07B2CB3EBFA5F5CD7390CD74FC1F42000:8
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,77 +83,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Moudy
+ Ho <moudy.ho@mediatek.com>, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------UT2X2EAtbTaInZfGAtW7TkqW
-Content-Type: multipart/mixed; boundary="------------CyGPkoCGc1qOQPBKBRoercTQ";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Thierry Reding <thierry.reding@gmail.com>,
- Javier Martinez Canillas <javierm@redhat.com>
-Cc: dri-devel@lists.freedesktop.org
-Message-ID: <61b17d9d-1984-4444-88ef-72b9552edeca@suse.de>
-Subject: Re: [PATCH] drm/simpledrm: Fix power domain device link validity
- check
-References: <20231011143230.1107731-1-thierry.reding@gmail.com>
-In-Reply-To: <20231011143230.1107731-1-thierry.reding@gmail.com>
+Changes since v6:
+- Rebase on v6.6-rc5.
+- Dependent dtsi files:
+  https://patchwork.kernel.org/project/linux-mediatek/list/?series=792079
+- Depends on:
+  Message ID = 20231006073831.10402-5-shawn.sung@mediatek.com
+- Discard splitting RDMA's common properties and instead use 'allOf' to
+  isolate different platform features.
+- Revise the incorrect properties in FG, HDR, STITCH, TCC and TDAP bindings.
+- Adding SoC-specific compatible string to components, like WROT and RSZ,
+  that are inherited from MT8183.
+- Fixed typos in TCC patch and enhancing its hardware description.
 
---------------CyGPkoCGc1qOQPBKBRoercTQ
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Changes since v5:
+- Rebase on v6.6-rc2.
+- Dependent dtsi files:
+  https://patchwork.kernel.org/project/linux-mediatek/list/?series=786511
+- Depends on:
+  Message ID = 20230911074233.31556-5-shawn.sung@mediatek.com
+- Split out common propertis for RDMA.
+- Split each component into independent patches.
 
-SGkNCg0KQW0gMTEuMTAuMjMgdW0gMTY6MzIgc2NocmllYiBUaGllcnJ5IFJlZGluZzoNCj4g
-RnJvbTogVGhpZXJyeSBSZWRpbmcgPHRyZWRpbmdAbnZpZGlhLmNvbT4NCj4gDQo+IFdlIG5l
-ZWQgdG8gY2hlY2sgaWYgYSBsaW5rIGlzIG5vbi1OVUxMIGJlZm9yZSB0cnlpbmcgdG8gZGVs
-ZXRlIGl0Lg0KPiANCj4gU2lnbmVkLW9mZi1ieTogVGhpZXJyeSBSZWRpbmcgPHRyZWRpbmdA
-bnZpZGlhLmNvbT4NCg0KUmV2aWV3ZWQtYnk6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVy
-bWFubkBzdXNlLmRlPg0KDQpJJ20gZ29pbmcgdG8gbWVyZ2UgdGhlIHBhdGNoIGludG8gZHJt
-LW1pc2MtbmV4dCB3aXRoIHRoZSBhZGRpdGlvbmFsIA0KRml4ZXMgdGFnDQoNCkZpeGVzOiA2
-MWRmOWNhMjMxMDcgKCJkcm0vc2ltcGxlZHJtOiBBZGQgc3VwcG9ydCBmb3IgbXVsdGlwbGUg
-DQoicG93ZXItZG9tYWlucyIiKQ0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQoNCj4gLS0t
-DQo+ICAgZHJpdmVycy9ncHUvZHJtL3Rpbnkvc2ltcGxlZHJtLmMgfCAyICstDQo+ICAgMSBm
-aWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pDQo+IA0KPiBkaWZm
-IC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3Rpbnkvc2ltcGxlZHJtLmMgYi9kcml2ZXJzL2dw
-dS9kcm0vdGlueS9zaW1wbGVkcm0uYw0KPiBpbmRleCA5YzU5NzQ2MWQxZTIuLjhiZGFmNjYw
-NDRmYyAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3Rpbnkvc2ltcGxlZHJtLmMN
-Cj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3Rpbnkvc2ltcGxlZHJtLmMNCj4gQEAgLTUwNiw3
-ICs1MDYsNyBAQCBzdGF0aWMgdm9pZCBzaW1wbGVkcm1fZGV2aWNlX2RldGFjaF9nZW5wZCh2
-b2lkICpyZXMpDQo+ICAgCQlyZXR1cm47DQo+ICAgDQo+ICAgCWZvciAoaSA9IHNkZXYtPnB3
-cl9kb21fY291bnQgLSAxOyBpID49IDA7IGktLSkgew0KPiAtCQlpZiAoIXNkZXYtPnB3cl9k
-b21fbGlua3NbaV0pDQo+ICsJCWlmIChzZGV2LT5wd3JfZG9tX2xpbmtzW2ldKQ0KPiAgIAkJ
-CWRldmljZV9saW5rX2RlbChzZGV2LT5wd3JfZG9tX2xpbmtzW2ldKTsNCj4gICAJCWlmICgh
-SVNfRVJSX09SX05VTEwoc2Rldi0+cHdyX2RvbV9kZXZzW2ldKSkNCj4gICAJCQlkZXZfcG1f
-ZG9tYWluX2RldGFjaChzZGV2LT5wd3JfZG9tX2RldnNbaV0sIHRydWUpOw0KDQotLSANClRo
-b21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3
-YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCkZyYW5rZW5zdHJhc3NlIDE0NiwgOTA0NjEg
-TnVlcm5iZXJnLCBHZXJtYW55DQpHRjogSXZvIFRvdGV2LCBBbmRyZXcgTXllcnMsIEFuZHJl
-dyBNY0RvbmFsZCwgQm91ZGllbiBNb2VybWFuDQpIUkIgMzY4MDkgKEFHIE51ZXJuYmVyZykN
-Cg==
+Changes since v4:
+- Rebase on v6.6-rc1
+- Organize identical hardware components into their respective files.
 
---------------CyGPkoCGc1qOQPBKBRoercTQ--
+Hi,
 
---------------UT2X2EAtbTaInZfGAtW7TkqW
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+The purpose of this patch is to separate the MDP3-related bindings from
+the original mailing list mentioned below:
+https://lore.kernel.org/all/20230208092209.19472-1-moudy.ho@mediatek.com/
+Those binding files describe additional components that
+are present in the mt8195.
 
------BEGIN PGP SIGNATURE-----
+Moudy Ho (16):
+  dt-bindings: media: mediatek: mdp3: correct RDMA and WROT node with
+    generic names
+  dt-bindings: media: mediatek: mdp3: merge the indentical RDMA under
+    display
+  dt-bindings: media: mediatek: mdp3: add config for MT8195 RDMA
+  dt-bindings: media: mediatek: mdp3: add compatible for MT8195 RSZ
+  dt-bindings: media: mediatek: mdp3: add compatible for MT8195 WROT
+  dt-bindings: media: mediatek: mdp3: add component FG for MT8195
+  dt-bindings: media: mediatek: mdp3: add component HDR for MT8195
+  dt-bindings: media: mediatek: mdp3: add component STITCH for MT8195
+  dt-bindings: media: mediatek: mdp3: add component TCC for MT8195
+  dt-bindings: media: mediatek: mdp3: add component TDSHP for MT8195
+  dt-bindings: display: mediatek: aal: add compatible for MT8195
+  dt-bindings: display: mediatek: color: add compatible for MT8195
+  dt-bindings: display: mediatek: merge: add compatible for MT8195
+  dt-bindings: display: mediatek: ovl: add compatible for MT8195
+  dt-bindings: display: mediatek: split: add compatible for MT8195
+  dt-bindings: display: mediatek: padding: add compatible for MT8195
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmUnsAIFAwAAAAAACgkQlh/E3EQov+DD
-Rw/+KuyHo2Lb5Fx1fTxhzYpYw4PMo40iF/Wpqfq/rPW6LO4EzYdHTUrs6oPS2lY6OM547e0XnPmH
-dOXa9R2FqA1GoUYQimdja/lEPoQEJIdFikAyH+OOeyQ0yaBNW62xAp/UUll0fXxq3uws6VHv9cR3
-ADYK3CMocYzi4Ng5398uhDJoZato00ZHQzb1Z+ZD0dTZ6lk7gwQBwJelRn7GEOuqp748D9EQBBR/
-PdvVjEcFE5t1IgYhzShmV7WJcgVG1bHSNAQ+jNruKsxgefj95+MZ5MqBsZWhDOFxhP/pg4gtXjKn
-j/twGmCfSAsnhZM6ddXn59YHrLPXCfQF48Gbejss2Q06ccWejSdb/TBZlcakdDNoxlo6g3Bhdwik
-fWKhgp48wJOXnFfsBBuMiYSemKZ2wg+g+2z59TAv72ntIpLNJk0JahYkUTtyzh+wN4oYI+8CZB8r
-Ck3NGf+tKH2+lnISp5M2v83Z2k4LgI/joIAtc9il3fXhj87CyeOelsOA2R0qMqM06dP6dVsfM9v6
-OwP7LRLyV4lgnY5CpL/pQCeW6x/cyDPZ4RGu/UiDODFTgD5U8LV5gy8IrQkRwoSA5g5XHpi6vRZe
-5R0RSTozSKfaH36vcMPQfFkRrhHDEe51K9g3bRZ9us4i51HtVhcDkguiQ8YqaZXIS1pHtlSMEorx
-sK0=
-=5xWD
------END PGP SIGNATURE-----
+ .../display/mediatek/mediatek,aal.yaml        |   1 +
+ .../display/mediatek/mediatek,color.yaml      |   1 +
+ .../display/mediatek/mediatek,mdp-rdma.yaml   |  88 --------------
+ .../display/mediatek/mediatek,merge.yaml      |   1 +
+ .../display/mediatek/mediatek,ovl.yaml        |   1 +
+ .../display/mediatek/mediatek,padding.yaml    |   4 +-
+ .../display/mediatek/mediatek,split.yaml      |  27 +++++
+ .../bindings/media/mediatek,mdp3-fg.yaml      |  61 ++++++++++
+ .../bindings/media/mediatek,mdp3-hdr.yaml     |  60 ++++++++++
+ .../bindings/media/mediatek,mdp3-rdma.yaml    | 108 ++++++++++++++----
+ .../bindings/media/mediatek,mdp3-rsz.yaml     |   6 +-
+ .../bindings/media/mediatek,mdp3-stitch.yaml  |  61 ++++++++++
+ .../bindings/media/mediatek,mdp3-tcc.yaml     |  62 ++++++++++
+ .../bindings/media/mediatek,mdp3-tdshp.yaml   |  61 ++++++++++
+ .../bindings/media/mediatek,mdp3-wrot.yaml    |  29 +++--
+ 15 files changed, 449 insertions(+), 122 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,mdp-rdma.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-fg.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-hdr.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-stitch.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-tcc.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-tdshp.yaml
 
---------------UT2X2EAtbTaInZfGAtW7TkqW--
+-- 
+2.18.0
+
