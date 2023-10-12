@@ -2,127 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 686677C61E3
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Oct 2023 02:40:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 175FE7C6200
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Oct 2023 03:02:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A255610E36F;
-	Thu, 12 Oct 2023 00:40:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 10A4910E169;
+	Thu, 12 Oct 2023 01:02:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam04on2050.outbound.protection.outlook.com [40.107.102.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E90F210E169;
- Thu, 12 Oct 2023 00:40:02 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MXkY1YU1OvOUVuD+sf73lxct+A3spWRgvvnsBG5/KpZqVbipZmUbO/0TqSz0JVlKbwUAD3FrknIXHmgDQtRCQ7HV23SRGXAvLEH9EXzpGnx+7FQnL5x4drUp0RBCDULnI71J0aOXEfcUVgouD87eluQ3xNj/6PwK45W7DHYxYAFTcd1+SSFOBqTnEjBqDq5wc9yKBQatcVaMgwNBxrajhsVJV4oGq1q3xqlrspwNgf9EPg5XTPhIfHuB2iCK5SHdbdgkCtIaHmTqw4lcnz5Kz5qPjyg1rua58/2hOzGfMYuVf/fNITIM3gbwvlBCOjfEjyErbpPtYVoJj1N1Q4ktmg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Ml0cENs0T6Gy2nch3XEWXYGe1UreWqVDTcyikLVqvgs=;
- b=H/8EQ+mpc9f7TTY3Lz5jhVFfX4EmSVh5zkfvGAPtCPHwJe6V5rCEaE1uUPi/AlJrpr16GFKuLyPgeda1GylmwrGxc3RLRsKxVJ7j/d+VuvlHoOJufcPQsfVbkxNF/P34o1klQXLRyQoMLVf4Tx6Zc7TNOUj7x8trFRxJNIUTIVFqy52sWzaWwJ26jbSZVNEygv9b9FEcKfAMfLd5R7I+QGCLF42k8KEZ0PO6eb4HrH0FRL5LdLZ2QCwUt/4ukwBGJlORjS9umZ/hah0WBH9nDDSzVJsfsCZq/cFwpQbjp094ILerZDf8BNKKv3rkL1A34T8sdX8IpBHX1nJQ4aaztQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Ml0cENs0T6Gy2nch3XEWXYGe1UreWqVDTcyikLVqvgs=;
- b=DVOpZFuM2CRhgpcaO75yz9F4pGWezm2fYlAqXa6gSw4rdnuIN/fvD4mop7TgqSYwnRCVF+GHL6J9CVVUBjEPP5v+JvpOvlyHpkpyMbkwqImTfGd8dZaQ/k6T9WGmhtituzt7MbpM3zxZ7BpUDXutps5kyJeiYBGGa7DV2ToLsd4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM6PR12MB3370.namprd12.prod.outlook.com (2603:10b6:5:38::25) by
- MN0PR12MB6101.namprd12.prod.outlook.com (2603:10b6:208:3cb::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6863.36; Thu, 12 Oct
- 2023 00:40:00 +0000
-Received: from DM6PR12MB3370.namprd12.prod.outlook.com
- ([fe80::b80b:7138:6ceb:9aef]) by DM6PR12MB3370.namprd12.prod.outlook.com
- ([fe80::b80b:7138:6ceb:9aef%5]) with mapi id 15.20.6863.043; Thu, 12 Oct 2023
- 00:39:59 +0000
-Message-ID: <34a4a2f4-a907-4fa2-9705-878106155639@amd.com>
-Date: Wed, 11 Oct 2023 20:39:55 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:115.0) Gecko/20100101
- Thunderbird/115.3.2
-Subject: Re: [PATCH v5 3/7] drm/sched: Move schedule policy to scheduler
-Content-Language: en-CA, en-US
-To: Matthew Brost <matthew.brost@intel.com>, dri-devel@lists.freedesktop.org, 
- intel-xe@lists.freedesktop.org
-References: <20231011235826.585624-1-matthew.brost@intel.com>
- <20231011235826.585624-4-matthew.brost@intel.com>
-From: Luben Tuikov <luben.tuikov@amd.com>
-Autocrypt: addr=luben.tuikov@amd.com; keydata=
- xjMEY1i6jxYJKwYBBAHaRw8BAQdAhfD+Cc+P5t/fiF08Vw25EMLiwUuxULYRiDQAP6H50MTN
- I0x1YmVuIFR1aWtvdiA8bHViZW4udHVpa292QGFtZC5jb20+wpkEExYKAEEWIQQyyR05VSHw
- x45E/SoppxulNG8HhgUCY1i6jwIbAwUJCWYBgAULCQgHAgIiAgYVCgkICwIEFgIDAQIeBwIX
- gAAKCRAppxulNG8Hhk53AP4k4UY5xfcje0c5OF1k22pNv8tErxtVpgKKZgvfetA4xwD+OoAh
- vesLIYumBDxP0BoLiLN84udxdT15HwPFUGiDmwDOOARjWLqPEgorBgEEAZdVAQUBAQdAzSxY
- a2EtvvIwd09NckBLSTarSLNDkUthmqPnwolwiDYDAQgHwn4EGBYKACYWIQQyyR05VSHwx45E
- /SoppxulNG8HhgUCY1i6jwIbDAUJCWYBgAAKCRAppxulNG8HhnBLAP4yjSGpK6PE1mapKhrq
- 8bSl9reo+F6EqdhE8X2TTHPycAEAt8EkTEstSiaOpM66gneU7r+xxzOYULo1b1XjXayGvwM=
-In-Reply-To: <20231011235826.585624-4-matthew.brost@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YQBPR0101CA0127.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c01:5::30) To DM6PR12MB3370.namprd12.prod.outlook.com
- (2603:10b6:5:38::25)
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
+ [IPv6:2a00:1450:4864:20::12a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3FBC910E169
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Oct 2023 01:02:06 +0000 (UTC)
+Received: by mail-lf1-x12a.google.com with SMTP id
+ 2adb3069b0e04-5041cc983f9so576117e87.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Oct 2023 18:02:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1697072524; x=1697677324; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=sBUfxydwH59AB7jn1gEz+qzjLhyE4iPqxxBUNPPiln0=;
+ b=GBJjw5DKhozy5nnvHXUr8QF53Jkbvx3fzNILqkf5ybFiRxcYQnxz0661z+AQodOln1
+ nuOrxAZ4hOvjH/iJTyeEsZ/Q8r/wOm4jV/3+FFmT+LNbj7yQlR6KzoUuUSiXAKAYpdai
+ lKz6PVP4D+UDCiK9/0r5Itzlf8roFyl9ANcU+SAbUfIIzhX3c/dHABdUQBPdcLGjngZ+
+ SEeveRElAwKy5+3jiJTH/zle76v9jkx0nESOc5GDsBkExUMk5HSer8ZjHyshDhDpgVHv
+ EoyHR5qbp3N3ZU1X5CnjY2bgPBEm2Qf59OlgVHSeOeHPlziBjCmdPWMf7nKX3oSPgzW8
+ 8MQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1697072524; x=1697677324;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=sBUfxydwH59AB7jn1gEz+qzjLhyE4iPqxxBUNPPiln0=;
+ b=eCVQ4VWNyXfyjAt5Km9IVCeXHvrNCg/2SRUzkBVsNKrWWjZib7HipLzRDTumeG0qMT
+ ZD7nATNKyGWb1aiAIP/SiXSODM/Rpi7KZYM1biC46IZJSbrtoH2/Zsko8Jyf5nPMMRaL
+ wqU+S3fIp9WiHAg+PC8KVMjv5gu7YdRqQKPiLDNCjdbjQ97szeqnlQLfJJCvdw/XobSX
+ ymz5isfUFMucp+jjjPMoyj95TqKPqlbceu3uQ/0uMSHSZ15SF+XzZcLMF+XZ02WYZS7f
+ 263laDAAknUvRqxXliKs7g2oqws5R8G/j13tqnRFKhC3GQjUUrRekFOW/tj+JvFNO+7W
+ 7RcQ==
+X-Gm-Message-State: AOJu0Yy6UVSgdEjRWC+M855+vD1HVAhZgeBkQBPoUV4wUVePAvHtYLSj
+ OMrjSTe/oaxmNZG6o1L9+CvX0w==
+X-Google-Smtp-Source: AGHT+IEsBFPHHzjPBXENCv+Ra61Yrmd7vJ6WW5b43AjW47oQ0rR447fMVDjpRa6B5xix85CmMdCzSg==
+X-Received: by 2002:ac2:5de4:0:b0:4ff:a02e:a53f with SMTP id
+ z4-20020ac25de4000000b004ffa02ea53fmr16577875lfq.52.1697072524107; 
+ Wed, 11 Oct 2023 18:02:04 -0700 (PDT)
+Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
+ (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
+ by smtp.gmail.com with ESMTPSA id
+ k17-20020ac24571000000b004fb738796casm2520627lfm.40.2023.10.11.18.02.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 11 Oct 2023 18:02:03 -0700 (PDT)
+Message-ID: <d411e042-e719-44c9-a5c4-bbd42bb46dd2@linaro.org>
+Date: Thu, 12 Oct 2023 04:02:02 +0300
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR12MB3370:EE_|MN0PR12MB6101:EE_
-X-MS-Office365-Filtering-Correlation-Id: c80e91d9-d16a-4043-b20e-08dbcabbc2ea
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: f7OZk6zK50sh/qNHEmB1TEzdih4l/GVWiiMlvaSg8J+qUocstPx4+Hl/Uoe3tozhL5yUxIBrebKJMGV4cju901FO3DdCCNlb/6QK2P3OI4CkQESXTnahkFEYSlFwanIxtB4+z0RNvYe7KN/rBt1B3XFWwhtDFlcqqpInS/UrgcJFIvJeqWajRu8BCDBJ/3UKhlihdzgviLzAoMXWfzhWXsSZFgyaVCncRdi3peKa47e5ynHQdfDKIwKrcKcICjOXbx29hK3dR01lg5ILwH7lP1lcVQ2h1+cUP5isjTohA6IpJ56De+6ztDGZj7gowT8MHImN6dalMJ2Wi2lmWGNtQOFysWfKU+R75WL8qeTQPjKuzeBwYkhHxo/1OgGgsN78yqVcSFZUDI/HF/5oiLLzcnn7d9OHXc/gKtq9r+QNemXM22823fFWzhhHcghJ3vlQXtF32BFg0WQXq9aFfl8z6w4SfXeQU+Ovq/6OK5kG5kJj+Zqx9jBt7/yh+UUnOecZThde1tJ9Z3YP7lzlSy4o2n5Zr05x29IleIURHBZah/Zo5ITcUAS6FwmPfEOsWaxbFI2IXBADhHt4fZ2AjMvyNPWQwa5cotRfmS11D9WqBQFFmKSiWnBinl3rBloMVBR3KunuOhVK4YbTTCN3ASNR7Q==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR12MB3370.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(39860400002)(376002)(396003)(136003)(366004)(346002)(230922051799003)(64100799003)(1800799009)(186009)(451199024)(8936002)(316002)(83380400001)(2616005)(66556008)(7416002)(66476007)(26005)(8676002)(66946007)(5660300002)(4326008)(478600001)(6486002)(30864003)(2906002)(6512007)(41300700001)(4001150100001)(6506007)(44832011)(53546011)(36756003)(31696002)(38100700002)(86362001)(6666004)(31686004)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MkZkS0tER0FGOFRzME5nQ09wLzFOeDk5V3lmRWJCMkkrK3BycktTc2dIZUxj?=
- =?utf-8?B?bUQrLzNXandTZUY1VFNtR0Nqc1lwZ2QzNHdsR1ppZGxxMnJiOHFWSGQvem1V?=
- =?utf-8?B?OGNTWGtqbXZkODFacWJSdjllSTBLaThUQXAzNVErMGlZV0JDQ2V5bkpia2tv?=
- =?utf-8?B?RVM3dzlDb05KNEhKZDNaTXMxVGQ3U25SRUdCRy9XVGpIamcxZ3Zlb1dvd2J6?=
- =?utf-8?B?ODVHK1BiOTRQWUl5SnpMSFVnTlY1QnQxYVB5MjNVWjk2WWRyUVVnWGo1U3hH?=
- =?utf-8?B?MUNLaTREek45czQrQ1N0WWJBdmgyZDJPWFYwZUFHclVpRWU0K3Q3aGFrYzhJ?=
- =?utf-8?B?SzFCSFd3YzZGMzJXbzlQdUVWSENRYU9PeWFFSit2a1hlTTRtSGFYaVZwNkpJ?=
- =?utf-8?B?Y2pPZDJsaXNsSXZNVDE2aHlzUHJBSU9ZM0htdFUxSmVCaEV2SnBhcjM0SzQ4?=
- =?utf-8?B?enAvaVNVY1VvR0U2azcvb1pBQjZpN2p2ZzdmcVY2VkZMUXp4V3E4WjQrVE5N?=
- =?utf-8?B?OGlQaUs0S2hhWWxJcWNraUN0bmNBbTlGVU54VC8razlPVjQzVUtVNnpuaE1j?=
- =?utf-8?B?QkZTbjY3RlJNdFY1eHNFcHNPbHZ1aGxEaGZnNTkzQ2wwRjY1WmlYWitRNWQw?=
- =?utf-8?B?aUlxaVJickg1VW5ZS3RDMkd2dGJBZVlyRVZhN2J3aDN1dXJPaUhMeU9jNmpX?=
- =?utf-8?B?NW5ZS2F0ejQ5aUE1OEVLcDVFOTFWd2lwUncvVVlobzE4aGZyYk1xTWREM3dy?=
- =?utf-8?B?aWdKMndNS2FXWGowNFA2SlhYSmxkeUpMQnhCRURrYVR5YUlEUks1bHYxMENu?=
- =?utf-8?B?SGZIYThlOUxGQUc2Nkh0UU4wK1J1TXVWQmxuWjFvZVBLTTE5bitEemlOUGh0?=
- =?utf-8?B?cFRBN3B2K3ZkOHdGZEl3WlM2MHpXNkVVZUQ3L3I2VVNOdVA4T3dRcW9vZnRJ?=
- =?utf-8?B?MXNzSEJaa0ZxWVdqSEVjZWlxakxrbVVEV1VCd2pPMnZsVHB4YjA3OGxteGJO?=
- =?utf-8?B?TVNqVGl3am9WMExXazJaRWRUS3VpRmkvOFl3d0wvM3BGRlV1QTRsdWxrc1lh?=
- =?utf-8?B?djdlaVpVUm0yUVRlb1U2MGR0SCtOOHNzS0p1c1I1R2MwUVl5V1dnM3pkOENr?=
- =?utf-8?B?VXhLNHN0b2F5WVlSRFZrTUFUdEp3SE5LUUtrOG56YlJBM0s2SERGTjZKWjFj?=
- =?utf-8?B?dTdQZzcxbXY2dFFFNlU1alc5MHpORi9CRnJsVEt3SHVrdFdUNGtZTmxseHVq?=
- =?utf-8?B?ay9XSjFYcFNnTnRwbFVyeFNkZ0x2VDIvdDkxczAwUFJhYlJmc0VYOS9TNTM2?=
- =?utf-8?B?OXRUZnZnUG1TYTIySVBmWTZxeEFOcWQ1TnpwK3RYNit1K3g0OGtxRWRTTVFj?=
- =?utf-8?B?enBZRTg0YUtyajhFKytnODQwRFhXMGp0dEQ0ellNUWQvWWw3WEVaS0VpZWY4?=
- =?utf-8?B?V3NQQkkvT0hxMGk3VGFlQ2xuN1NZTVV3TlJTZHBJOGE0K1NWQkIyVnlPbm9X?=
- =?utf-8?B?cFFvOXR6NVQ1NEVKdHVtbUFYVEJqcHhKYTJFNEJlMXNqTFVUZFRYblhtVS9r?=
- =?utf-8?B?UWxqK0diMUZ6VGVXSERla1p0N01ESVpzanJWcFo2TUNLMEhIQ1c5MlRXNG9H?=
- =?utf-8?B?TGVMdjZZMzYvRnBmN3c5OHg4R1lqdnFYeWQ4THNtOEJ0cUd5Z2JDc1hZZ2lE?=
- =?utf-8?B?bUhCN3Y1c0piUFlVUHplZ3hXVVZ1S2dNa2kyWlgyelNQVW90UXk3MDgyYmEz?=
- =?utf-8?B?WUE4R1NWaitRUDZubkVLeFdIQVgvdDQ1TzMxQXFGMCs3YzVQYlEydXJja05a?=
- =?utf-8?B?OGRQZ3RLWEFITERwcExkVWZSeEZGN3dpVnNsK2VHMGp4N2NwMFg2cUdRcnpt?=
- =?utf-8?B?aDVwM1UvK01pK0FGNSt5Si9qclRRVUdub2o4c1FLemh0cTViZ1hrS3I4dHVM?=
- =?utf-8?B?N0JmcVBXVG1sbTZxaVpscy9PUWtEM3R0SU5JblVHN3laN3lCZ0dhWjhCVnVx?=
- =?utf-8?B?L1Q5cDd2ZHJKZVdLU296bHA2ZHBTWFlXL3o2bDkzNWFzSFVyZFFTZzd1ZWRk?=
- =?utf-8?B?SEhyT1BUSWlWdUZSYWtqRnQrbEZTRHVXaC9RQk1WTjhLNzYrUlE5bTJHdTNB?=
- =?utf-8?Q?2SDExsNA/JbKZteMICPf6ioow?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c80e91d9-d16a-4043-b20e-08dbcabbc2ea
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3370.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Oct 2023 00:39:58.2523 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mYDQDLsNB6l1xgW0pRJ6l0W/SABMBMOSgeXhwVP71YtMkgTPlarPD21+4oytHiQm
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB6101
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 5/7] drm/msm/dp: incorporate pm_runtime framework into
+ DP driver
+Content-Language: en-GB
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>, dri-devel@lists.freedesktop.org,
+ robdclark@gmail.com, sean@poorly.run, swboyd@chromium.org,
+ dianders@chromium.org, vkoul@kernel.org, daniel@ffwll.ch, airlied@gmail.com,
+ agross@kernel.org, andersson@kernel.org
+References: <1696632910-21942-1-git-send-email-quic_khsieh@quicinc.com>
+ <1696632910-21942-6-git-send-email-quic_khsieh@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <1696632910-21942-6-git-send-email-quic_khsieh@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -135,383 +81,507 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: robdclark@chromium.org, thomas.hellstrom@linux.intel.com,
- sarah.walker@imgtec.com, ketil.johnsen@arm.com, Liviu.Dudau@arm.com,
- mcanal@igalia.com, boris.brezillon@collabora.com, dakr@redhat.com,
- donald.robson@imgtec.com, lina@asahilina.net, christian.koenig@amd.com,
- faith.ekstrand@collabora.com
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, linux-kernel@vger.kernel.org,
+ marijn.suijten@somainline.org, quic_jesszhan@quicinc.com,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2023-10-11 19:58, Matthew Brost wrote:
-> Rather than a global modparam for scheduling policy, move the scheduling
-> policy to scheduler so user can control each scheduler policy.
+On 07/10/2023 01:55, Kuogee Hsieh wrote:
+> Currently DP driver is executed independent of PM runtime framework.
+> This leads msm eDP panel can not being detected by edp_panel driver
+> during generic_edp_panel_probe() due to AUX DPCD read failed at
+> edp panel driver. Incorporate PM runtime framework into DP driver so
+> that host controller's power and clocks are enable/disable through
+> PM runtime mechanism.  Once PM runtime framework is incorporated into
+> DP driver, waking up device from power up path is not necessary. Hence
+> remove it.
 > 
-> v2:
->   - s/DRM_SCHED_POLICY_MAX/DRM_SCHED_POLICY_COUNT (Luben)
->   - Only include policy in scheduler (Luben)
-> v3:
->   - use a ternary operator as opposed to an if-control (Luben)
->   - s/DRM_SCHED_POLICY_DEFAULT/DRM_SCHED_POLICY_UNSET/ (Luben)
->   - s/default_drm_sched_policy/drm_sched_policy_default/ (Luben)
->   - Update commit message (Boris)
->   - Fix v3d build (CI)
->   - s/bad_policies/drm_sched_policy_mismatch/ (Luben)
->   - Don't update modparam doc (Luben)
-> v4:
->   - Fix alignment in msm_ringbuffer_new (Luben / checkpatch)
+> After incorporating pm_runtime framework into eDP/DP driver,
+> dp_pm_suspend() to handle power off both DP phy and controller during
+> suspend and dp_pm_resume() to handle power on both DP phy and controller
+> during resume are not necessary. Therefore both dp_pm_suspend() and
+> dp_pm_resume() are dropped and replace with dp_pm_runtime_suspend() and
+> dp_pm_runtime_resume() respectively.
 > 
-> Reviewed-by: Luben Tuikov <luben.tuikov@amd.com>
-> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-
-Was the R-V added by hand? (As in editing the commit message manually?)
-
-I use automated tools for this which do not re-order the tags.
-IOW, the S-O-B is first as this is how it appears in the patch,
-then the R-V most probably added by automated tools, and then
-any other as are tacked on by other automated tools.
-
-This also shows the timeline of the tags and I believe this is
-another one of the important facts tags show us.
--- 
-Regards,
-Luben
-
-
+> Changes in v7:
+> -- add comments to dp_pm_runtime_resume()
+> -- add comments to dp_bridge_hpd_enable()
+> -- delete dp->hpd_state = ST_DISCONNECTED from dp_bridge_hpd_notify()
+> 
+> Changes in v6:
+> -- delete dp_power_client_deinit(dp->power);
+> -- remove if (!dp->dp_display.is_edp) condition checkout at plug_handle()
+> -- remove if (!dp->dp_display.is_edp) condition checkout at unplug_handle()
+> -- add IRQF_NO_AUTOEN to devm_request_irq()
+> -- add enable_irq() and disable_irq() to pm_runtime_resume()/suspend()
+> -- del dp->hpd_state = ST_DISCONNECTED from dp_bridge_hpd_disable()
+> 
+> Changes in v5:
+> -- remove pm_runtime_put_autosuspend feature, use pm_runtime_put_sync()
+> -- squash add pm_runtime_force_suspend()/resume() patch into this patch
+> 
+> Changes in v4:
+> -- reworded commit text to explain why pm_framework is required for
+>     edp panel
+> -- reworded commit text to explain autosuspend is choiced
+> -- delete EV_POWER_PM_GET and PM_EV_POWER_PUT from changes #3
+> -- delete dp_display_pm_get() and dp_display_pm_Put() from changes #3
+> -- return value from pm_runtime_resume_and_get() directly
+> -- check return value of devm_pm_runtime_enable()
+> -- delete pm_runtime_xxx from dp_display_remove()
+> -- drop dp_display_host_init() from EV_HPD_INIT_SETUP
+> -- drop both dp_pm_prepare() and dp_pm_compete() from this change
+> -- delete ST_SUSPENDED state
+> -- rewording commit text to add more details regrading the purpose
+>     of this change
+> 
+> Changes in v3:
+> -- incorporate removing pm_runtime_xx() from dp_pwer.c to this patch
+> -- use pm_runtime_resume_and_get() instead of pm_runtime_get()
+> -- error checking pm_runtime_resume_and_get() return value
+> -- add EV_POWER_PM_GET and PM_EV_POWER_PUT to handle HPD_GPIO case
+> -- replace dp_pm_suspend() with pm_runtime_force_suspend()
+> -- replace dp_pm_resume() with pm_runtime_force_resume()
+> 
+> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
 > ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_device.c |  1 +
->  drivers/gpu/drm/etnaviv/etnaviv_sched.c    |  3 ++-
->  drivers/gpu/drm/lima/lima_sched.c          |  3 ++-
->  drivers/gpu/drm/msm/msm_ringbuffer.c       |  2 +-
->  drivers/gpu/drm/nouveau/nouveau_sched.c    |  3 ++-
->  drivers/gpu/drm/panfrost/panfrost_job.c    |  3 ++-
->  drivers/gpu/drm/scheduler/sched_entity.c   | 24 ++++++++++++++++++----
->  drivers/gpu/drm/scheduler/sched_main.c     | 19 ++++++++++++-----
->  drivers/gpu/drm/v3d/v3d_sched.c            | 15 +++++++++-----
->  include/drm/gpu_scheduler.h                | 20 ++++++++++++------
->  10 files changed, 68 insertions(+), 25 deletions(-)
+>   drivers/gpu/drm/msm/dp/dp_aux.c     |   5 +
+>   drivers/gpu/drm/msm/dp/dp_display.c | 177 ++++++++++++++----------------------
+>   drivers/gpu/drm/msm/dp/dp_power.c   |  16 ----
+>   drivers/gpu/drm/msm/dp/dp_power.h   |  11 ---
+>   4 files changed, 72 insertions(+), 137 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> index b54c4d771104..e4e6f91450a4 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> @@ -2283,6 +2283,7 @@ static int amdgpu_device_init_schedulers(struct amdgpu_device *adev)
->  				   ring->num_hw_submission, 0,
->  				   timeout, adev->reset_domain->wq,
->  				   ring->sched_score, ring->name,
-> +				   DRM_SCHED_POLICY_UNSET,
->  				   adev->dev);
->  		if (r) {
->  			DRM_ERROR("Failed to create scheduler on ring %s.\n",
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.c b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-> index 618a804ddc34..15b0e2f1abe5 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-> @@ -137,7 +137,8 @@ int etnaviv_sched_init(struct etnaviv_gpu *gpu)
->  	ret = drm_sched_init(&gpu->sched, &etnaviv_sched_ops, NULL,
->  			     etnaviv_hw_jobs_limit, etnaviv_job_hang_limit,
->  			     msecs_to_jiffies(500), NULL, NULL,
-> -			     dev_name(gpu->dev), gpu->dev);
-> +			     dev_name(gpu->dev), DRM_SCHED_POLICY_UNSET,
-> +			     gpu->dev);
->  	if (ret)
->  		return ret;
->  
-> diff --git a/drivers/gpu/drm/lima/lima_sched.c b/drivers/gpu/drm/lima/lima_sched.c
-> index 8d858aed0e56..50c2075228aa 100644
-> --- a/drivers/gpu/drm/lima/lima_sched.c
-> +++ b/drivers/gpu/drm/lima/lima_sched.c
-> @@ -491,7 +491,8 @@ int lima_sched_pipe_init(struct lima_sched_pipe *pipe, const char *name)
->  	return drm_sched_init(&pipe->base, &lima_sched_ops, NULL, 1,
->  			      lima_job_hang_limit,
->  			      msecs_to_jiffies(timeout), NULL,
-> -			      NULL, name, pipe->ldev->dev);
-> +			      NULL, name, DRM_SCHED_POLICY_UNSET,
-> +			      pipe->ldev->dev);
->  }
->  
->  void lima_sched_pipe_fini(struct lima_sched_pipe *pipe)
-> diff --git a/drivers/gpu/drm/msm/msm_ringbuffer.c b/drivers/gpu/drm/msm/msm_ringbuffer.c
-> index 1097f8e93d6b..173ad2f17c50 100644
-> --- a/drivers/gpu/drm/msm/msm_ringbuffer.c
-> +++ b/drivers/gpu/drm/msm/msm_ringbuffer.c
-> @@ -97,7 +97,7 @@ struct msm_ringbuffer *msm_ringbuffer_new(struct msm_gpu *gpu, int id,
->  	ret = drm_sched_init(&ring->sched, &msm_sched_ops, NULL,
->  			     num_hw_submissions, 0, sched_timeout,
->  			     NULL, NULL, to_msm_bo(ring->bo)->name,
-> -			     gpu->dev->dev);
-> +			     DRM_SCHED_POLICY_UNSET, gpu->dev->dev);
->  	if (ret) {
->  		goto fail;
->  	}
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_sched.c b/drivers/gpu/drm/nouveau/nouveau_sched.c
-> index 4c959dec42b3..c4e09d2e77f9 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_sched.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_sched.c
-> @@ -437,7 +437,8 @@ int nouveau_sched_init(struct nouveau_drm *drm)
->  
->  	return drm_sched_init(sched, &nouveau_sched_ops, NULL,
->  			      NOUVEAU_SCHED_HW_SUBMISSIONS, 0, job_hang_limit,
-> -			      NULL, NULL, "nouveau_sched", drm->dev->dev);
-> +			      NULL, NULL, "nouveau_sched",
-> +			      DRM_SCHED_POLICY_UNSET, drm->dev->dev);
->  }
->  
->  void nouveau_sched_fini(struct nouveau_drm *drm)
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
-> index 934b7b930c76..95330ff402ba 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
-> @@ -856,7 +856,8 @@ int panfrost_job_init(struct panfrost_device *pfdev)
->  				     nentries, 0,
->  				     msecs_to_jiffies(JOB_TIMEOUT_MS),
->  				     pfdev->reset.wq,
-> -				     NULL, "pan_js", pfdev->dev);
-> +				     NULL, "pan_js", DRM_SCHED_POLICY_UNSET,
-> +				     pfdev->dev);
->  		if (ret) {
->  			dev_err(pfdev->dev, "Failed to create scheduler: %d.", ret);
->  			goto err_sched;
-> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
-> index a42763e1429d..cf42e2265d64 100644
-> --- a/drivers/gpu/drm/scheduler/sched_entity.c
-> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
-> @@ -33,6 +33,20 @@
->  #define to_drm_sched_job(sched_job)		\
->  		container_of((sched_job), struct drm_sched_job, queue_node)
->  
-> +static bool drm_sched_policy_mismatch(struct drm_gpu_scheduler **sched_list,
-> +				      unsigned int num_sched_list)
-> +{
-> +	enum drm_sched_policy sched_policy = sched_list[0]->sched_policy;
-> +	unsigned int i;
+> diff --git a/drivers/gpu/drm/msm/dp/dp_aux.c b/drivers/gpu/drm/msm/dp/dp_aux.c
+> index 8e3b677..10b6eeb 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_aux.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_aux.c
+> @@ -291,6 +291,10 @@ static ssize_t dp_aux_transfer(struct drm_dp_aux *dp_aux,
+>   		return -EINVAL;
+>   	}
+>   
+> +	ret = pm_runtime_resume_and_get(dp_aux->dev);
+> +	if (ret)
+> +		return  ret;
 > +
-> +	/* All schedule policies must match */
-> +	for (i = 1; i < num_sched_list; ++i)
-> +		if (sched_policy != sched_list[i]->sched_policy)
-> +			return true;
-> +
-> +	return false;
-> +}
-> +
->  /**
->   * drm_sched_entity_init - Init a context entity used by scheduler when
->   * submit to HW ring.
-> @@ -62,7 +76,8 @@ int drm_sched_entity_init(struct drm_sched_entity *entity,
->  			  unsigned int num_sched_list,
->  			  atomic_t *guilty)
->  {
-> -	if (!(entity && sched_list && (num_sched_list == 0 || sched_list[0])))
-> +	if (!(entity && sched_list && (num_sched_list == 0 || sched_list[0])) ||
-> +	    drm_sched_policy_mismatch(sched_list, num_sched_list))
->  		return -EINVAL;
->  
->  	memset(entity, 0, sizeof(struct drm_sched_entity));
-> @@ -486,7 +501,7 @@ struct drm_sched_job *drm_sched_entity_pop_job(struct drm_sched_entity *entity)
->  	 * Update the entity's location in the min heap according to
->  	 * the timestamp of the next job, if any.
->  	 */
-> -	if (drm_sched_policy == DRM_SCHED_POLICY_FIFO) {
-> +	if (entity->rq->sched->sched_policy == DRM_SCHED_POLICY_FIFO) {
->  		struct drm_sched_job *next;
->  
->  		next = to_drm_sched_job(spsc_queue_peek(&entity->job_queue));
-> @@ -558,7 +573,8 @@ void drm_sched_entity_select_rq(struct drm_sched_entity *entity)
->  void drm_sched_entity_push_job(struct drm_sched_job *sched_job)
->  {
->  	struct drm_sched_entity *entity = sched_job->entity;
-> -	bool first;
-> +	bool first, fifo = entity->rq->sched->sched_policy ==
-> +		DRM_SCHED_POLICY_FIFO;
->  	ktime_t submit_ts;
->  
->  	trace_drm_sched_job(sched_job, entity);
-> @@ -587,7 +603,7 @@ void drm_sched_entity_push_job(struct drm_sched_job *sched_job)
->  		drm_sched_rq_add_entity(entity->rq, entity);
->  		spin_unlock(&entity->rq_lock);
->  
-> -		if (drm_sched_policy == DRM_SCHED_POLICY_FIFO)
-> +		if (fifo)
->  			drm_sched_rq_update_fifo(entity, submit_ts);
->  
->  		drm_sched_wakeup_if_can_queue(entity->rq->sched);
-> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-> index 8b1d52cff1e9..150e5330f0fa 100644
-> --- a/drivers/gpu/drm/scheduler/sched_main.c
-> +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> @@ -66,14 +66,14 @@
->  #define to_drm_sched_job(sched_job)		\
->  		container_of((sched_job), struct drm_sched_job, queue_node)
->  
-> -int drm_sched_policy = DRM_SCHED_POLICY_FIFO;
-> +int drm_sched_policy_default = DRM_SCHED_POLICY_FIFO;
->  
->  /**
->   * DOC: sched_policy (int)
->   * Used to override default entities scheduling policy in a run queue.
->   */
->  MODULE_PARM_DESC(sched_policy, "Specify the scheduling policy for entities on a run-queue, " __stringify(DRM_SCHED_POLICY_RR) " = Round Robin, " __stringify(DRM_SCHED_POLICY_FIFO) " = FIFO (default).");
-> -module_param_named(sched_policy, drm_sched_policy, int, 0444);
-> +module_param_named(sched_policy, drm_sched_policy_default, int, 0444);
->  
->  static __always_inline bool drm_sched_entity_compare_before(struct rb_node *a,
->  							    const struct rb_node *b)
-> @@ -177,7 +177,7 @@ void drm_sched_rq_remove_entity(struct drm_sched_rq *rq,
->  	if (rq->current_entity == entity)
->  		rq->current_entity = NULL;
->  
-> -	if (drm_sched_policy == DRM_SCHED_POLICY_FIFO)
-> +	if (rq->sched->sched_policy == DRM_SCHED_POLICY_FIFO)
->  		drm_sched_rq_remove_fifo_locked(entity);
->  
->  	spin_unlock(&rq->lock);
-> @@ -898,7 +898,7 @@ drm_sched_select_entity(struct drm_gpu_scheduler *sched)
->  
->  	/* Kernel run queue has higher priority than normal run queue*/
->  	for (i = DRM_SCHED_PRIORITY_COUNT - 1; i >= DRM_SCHED_PRIORITY_MIN; i--) {
-> -		entity = drm_sched_policy == DRM_SCHED_POLICY_FIFO ?
-> +		entity = sched->sched_policy == DRM_SCHED_POLICY_FIFO ?
->  			drm_sched_rq_select_entity_fifo(&sched->sched_rq[i]) :
->  			drm_sched_rq_select_entity_rr(&sched->sched_rq[i]);
->  		if (entity)
-> @@ -1072,6 +1072,7 @@ static void drm_sched_main(struct work_struct *w)
->   *		used
->   * @score: optional score atomic shared with other schedulers
->   * @name: name used for debugging
-> + * @sched_policy: schedule policy
->   * @dev: target &struct device
->   *
->   * Return 0 on success, otherwise error code.
-> @@ -1081,9 +1082,15 @@ int drm_sched_init(struct drm_gpu_scheduler *sched,
->  		   struct workqueue_struct *submit_wq,
->  		   unsigned hw_submission, unsigned hang_limit,
->  		   long timeout, struct workqueue_struct *timeout_wq,
-> -		   atomic_t *score, const char *name, struct device *dev)
-> +		   atomic_t *score, const char *name,
-> +		   enum drm_sched_policy sched_policy,
-> +		   struct device *dev)
->  {
->  	int i;
-> +
-> +	if (sched_policy >= DRM_SCHED_POLICY_COUNT)
-> +		return -EINVAL;
-> +
->  	sched->ops = ops;
->  	sched->hw_submission_limit = hw_submission;
->  	sched->name = name;
-> @@ -1102,6 +1109,8 @@ int drm_sched_init(struct drm_gpu_scheduler *sched,
->  	sched->hang_limit = hang_limit;
->  	sched->score = score ? score : &sched->_score;
->  	sched->dev = dev;
-> +	sched->sched_policy = sched_policy == DRM_SCHED_POLICY_UNSET ?
-> +		drm_sched_policy_default : sched_policy;
->  	for (i = DRM_SCHED_PRIORITY_MIN; i < DRM_SCHED_PRIORITY_COUNT; i++)
->  		drm_sched_rq_init(sched, &sched->sched_rq[i]);
->  
-> diff --git a/drivers/gpu/drm/v3d/v3d_sched.c b/drivers/gpu/drm/v3d/v3d_sched.c
-> index 38e092ea41e6..dec89c5b8cb1 100644
-> --- a/drivers/gpu/drm/v3d/v3d_sched.c
-> +++ b/drivers/gpu/drm/v3d/v3d_sched.c
-> @@ -391,7 +391,8 @@ v3d_sched_init(struct v3d_dev *v3d)
->  			     &v3d_bin_sched_ops, NULL,
->  			     hw_jobs_limit, job_hang_limit,
->  			     msecs_to_jiffies(hang_limit_ms), NULL,
-> -			     NULL, "v3d_bin", v3d->drm.dev);
-> +			     NULL, "v3d_bin", DRM_SCHED_POLICY_UNSET,
-> +			     v3d->drm.dev);
->  	if (ret)
->  		return ret;
->  
-> @@ -399,7 +400,8 @@ v3d_sched_init(struct v3d_dev *v3d)
->  			     &v3d_render_sched_ops, NULL,
->  			     hw_jobs_limit, job_hang_limit,
->  			     msecs_to_jiffies(hang_limit_ms), NULL,
-> -			     NULL, "v3d_render", v3d->drm.dev);
-> +			     NULL, "v3d_render", DRM_SCHED_POLICY_UNSET,
-> +			     v3d->drm.dev);
->  	if (ret)
->  		goto fail;
->  
-> @@ -407,7 +409,8 @@ v3d_sched_init(struct v3d_dev *v3d)
->  			     &v3d_tfu_sched_ops, NULL,
->  			     hw_jobs_limit, job_hang_limit,
->  			     msecs_to_jiffies(hang_limit_ms), NULL,
-> -			     NULL, "v3d_tfu", v3d->drm.dev);
-> +			     NULL, "v3d_tfu", DRM_SCHED_POLICY_UNSET,
-> +			     v3d->drm.dev);
->  	if (ret)
->  		goto fail;
->  
-> @@ -416,7 +419,8 @@ v3d_sched_init(struct v3d_dev *v3d)
->  				     &v3d_csd_sched_ops, NULL,
->  				     hw_jobs_limit, job_hang_limit,
->  				     msecs_to_jiffies(hang_limit_ms), NULL,
-> -				     NULL, "v3d_csd", v3d->drm.dev);
-> +				     NULL, "v3d_csd", DRM_SCHED_POLICY_UNSET,
-> +				     v3d->drm.dev);
->  		if (ret)
->  			goto fail;
->  
-> @@ -424,7 +428,8 @@ v3d_sched_init(struct v3d_dev *v3d)
->  				     &v3d_cache_clean_sched_ops, NULL,
->  				     hw_jobs_limit, job_hang_limit,
->  				     msecs_to_jiffies(hang_limit_ms), NULL,
-> -				     NULL, "v3d_cache_clean", v3d->drm.dev);
-> +				     NULL, "v3d_cache_clean",
-> +				     DRM_SCHED_POLICY_UNSET, v3d->drm.dev);
->  		if (ret)
->  			goto fail;
->  	}
-> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-> index 211bd3cdabdc..320f0a720486 100644
-> --- a/include/drm/gpu_scheduler.h
-> +++ b/include/drm/gpu_scheduler.h
-> @@ -72,11 +72,15 @@ enum drm_sched_priority {
->  	DRM_SCHED_PRIORITY_UNSET = -2
->  };
->  
-> -/* Used to chose between FIFO and RR jobs scheduling */
-> -extern int drm_sched_policy;
+>   	mutex_lock(&aux->mutex);
+>   	if (!aux->initted) {
+>   		ret = -EIO;
+> @@ -364,6 +368,7 @@ static ssize_t dp_aux_transfer(struct drm_dp_aux *dp_aux,
+>   
+>   exit:
+>   	mutex_unlock(&aux->mutex);
+> +	pm_runtime_put_sync(dp_aux->dev);
+>   
+>   	return ret;
+>   }
+> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+> index 89fad67..acda544 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+> @@ -49,7 +49,6 @@ enum {
+>   	ST_CONNECTED,
+>   	ST_DISCONNECT_PENDING,
+>   	ST_DISPLAY_OFF,
+> -	ST_SUSPENDED,
+>   };
+>   
+>   enum {
+> @@ -310,10 +309,6 @@ static void dp_display_unbind(struct device *dev, struct device *master,
+>   	struct dp_display_private *dp = dev_get_dp_display_private(dev);
+>   	struct msm_drm_private *priv = dev_get_drvdata(master);
+>   
+> -	/* disable all HPD interrupts */
+> -	if (dp->core_initialized)
+> -		dp_catalog_hpd_config_intr(dp->catalog, DP_DP_HPD_INT_MASK, false);
 > -
-> -#define DRM_SCHED_POLICY_RR    0
-> -#define DRM_SCHED_POLICY_FIFO  1
-> +/* Used to chose default scheduling policy*/
-> +extern int default_drm_sched_policy;
+>   	kthread_stop(dp->ev_tsk);
+>   
+>   	of_dp_aux_depopulate_bus(dp->aux);
+> @@ -558,7 +553,7 @@ static int dp_hpd_plug_handle(struct dp_display_private *dp, u32 data)
+>   	drm_dbg_dp(dp->drm_dev, "Before, type=%d hpd_state=%d\n",
+>   			dp->dp_display.connector_type, state);
+>   
+> -	if (state == ST_DISPLAY_OFF || state == ST_SUSPENDED) {
+> +	if (state == ST_DISPLAY_OFF) {
+>   		mutex_unlock(&dp->event_mutex);
+>   		return 0;
+>   	}
+> @@ -575,6 +570,12 @@ static int dp_hpd_plug_handle(struct dp_display_private *dp, u32 data)
+>   		return 0;
+>   	}
+>   
+> +	ret = pm_runtime_resume_and_get(&dp->pdev->dev);
+> +	if (ret) {
+> +		DRM_ERROR("failed to pm_runtime_resume\n");
+> +		return ret;
+> +	}
 > +
-> +enum drm_sched_policy {
-> +	DRM_SCHED_POLICY_UNSET,
-> +	DRM_SCHED_POLICY_RR,
-> +	DRM_SCHED_POLICY_FIFO,
-> +	DRM_SCHED_POLICY_COUNT,
-> +};
->  
->  /**
->   * struct drm_sched_entity - A wrapper around a job queue (typically
-> @@ -489,6 +493,7 @@ struct drm_sched_backend_ops {
->   *              guilty and it will no longer be considered for scheduling.
->   * @score: score to help loadbalancer pick a idle sched
->   * @_score: score used when the driver doesn't provide one
-> + * @sched_policy: Schedule policy for scheduler
->   * @ready: marks if the underlying HW is ready to work
->   * @free_guilty: A hit to time out handler to free the guilty job.
->   * @pause_submit: pause queuing of @work_submit on @submit_wq
-> @@ -515,6 +520,7 @@ struct drm_gpu_scheduler {
->  	int				hang_limit;
->  	atomic_t                        *score;
->  	atomic_t                        _score;
-> +	enum drm_sched_policy		sched_policy;
->  	bool				ready;
->  	bool				free_guilty;
->  	bool				pause_submit;
-> @@ -527,7 +533,9 @@ int drm_sched_init(struct drm_gpu_scheduler *sched,
->  		   struct workqueue_struct *submit_wq,
->  		   uint32_t hw_submission, unsigned hang_limit,
->  		   long timeout, struct workqueue_struct *timeout_wq,
-> -		   atomic_t *score, const char *name, struct device *dev);
-> +		   atomic_t *score, const char *name,
-> +		   enum drm_sched_policy sched_policy,
-> +		   struct device *dev);
->  
->  void drm_sched_fini(struct drm_gpu_scheduler *sched);
->  int drm_sched_job_init(struct drm_sched_job *job,
+>   	ret = dp_display_usbpd_configure_cb(&dp->pdev->dev);
+>   	if (ret) {	/* link train failed */
+>   		dp->hpd_state = ST_DISCONNECTED;
+> @@ -657,6 +658,7 @@ static int dp_hpd_unplug_handle(struct dp_display_private *dp, u32 data)
+>   			dp->dp_display.connector_type, state);
+>   
+>   	/* uevent will complete disconnection part */
+> +	pm_runtime_put_sync(&dp->pdev->dev);
+>   	mutex_unlock(&dp->event_mutex);
+>   	return 0;
+>   }
+> @@ -672,7 +674,7 @@ static int dp_irq_hpd_handle(struct dp_display_private *dp, u32 data)
+>   	drm_dbg_dp(dp->drm_dev, "Before, type=%d hpd_state=%d\n",
+>   			dp->dp_display.connector_type, state);
+>   
+> -	if (state == ST_DISPLAY_OFF || state == ST_SUSPENDED) {
+> +	if (state == ST_DISPLAY_OFF) {
+>   		mutex_unlock(&dp->event_mutex);
+>   		return 0;
+>   	}
+> @@ -1085,7 +1087,6 @@ static int hpd_event_thread(void *data)
+>   
+>   		switch (todo->event_id) {
+>   		case EV_HPD_INIT_SETUP:
+> -			dp_display_host_init(dp_priv);
+>   			break;
+>   		case EV_HPD_PLUG_INT:
+>   			dp_hpd_plug_handle(dp_priv, todo->data);
+> @@ -1177,7 +1178,9 @@ static int dp_display_request_irq(struct dp_display_private *dp)
+>   	}
+>   
+>   	rc = devm_request_irq(dev, dp->irq, dp_display_irq_handler,
+> -			IRQF_TRIGGER_HIGH, "dp_display_isr", dp);
+> +			      IRQF_TRIGGER_HIGH|IRQF_NO_AUTOEN,
+> +			      "dp_display_isr", dp);
+> +
+>   	if (rc < 0) {
+>   		DRM_ERROR("failed to request IRQ%u: %d\n",
+>   				dp->irq, rc);
+> @@ -1263,6 +1266,10 @@ static int dp_display_probe(struct platform_device *pdev)
+>   
+>   	platform_set_drvdata(pdev, &dp->dp_display);
+>   
+> +	rc = devm_pm_runtime_enable(&pdev->dev);
+> +	if (rc)
+> +		goto err;
+> +
+>   	rc = dp_display_request_irq(dp);
+>   	if (rc)
+>   		goto err;
+> @@ -1285,7 +1292,6 @@ static int dp_display_remove(struct platform_device *pdev)
+>   	struct dp_display_private *dp = dev_get_dp_display_private(&pdev->dev);
+>   
+>   	component_del(&pdev->dev, &dp_display_comp_ops);
+> -	dp_power_client_deinit(dp->power);
+>   	dp_display_deinit_sub_modules(dp);
+>   
+>   	platform_set_drvdata(pdev, NULL);
+> @@ -1293,109 +1299,47 @@ static int dp_display_remove(struct platform_device *pdev)
+>   	return 0;
+>   }
+>   
+> -static int dp_pm_resume(struct device *dev)
+> +static int dp_pm_runtime_suspend(struct device *dev)
+>   {
+> -	struct platform_device *pdev = to_platform_device(dev);
+> -	struct msm_dp *dp_display = platform_get_drvdata(pdev);
+> -	struct dp_display_private *dp;
+> -	int sink_count = 0;
+> -
+> -	dp = container_of(dp_display, struct dp_display_private, dp_display);
+> -
+> -	mutex_lock(&dp->event_mutex);
+> -
+> -	drm_dbg_dp(dp->drm_dev,
+> -		"Before, type=%d core_inited=%d phy_inited=%d power_on=%d\n",
+> -		dp->dp_display.connector_type, dp->core_initialized,
+> -		dp->phy_initialized, dp_display->power_on);
+> -
+> -	/* start from disconnected state */
+> -	dp->hpd_state = ST_DISCONNECTED;
+> -
+> -	/* turn on dp ctrl/phy */
+> -	dp_display_host_init(dp);
+> -
+> -	if (dp_display->is_edp)
+> -		dp_catalog_ctrl_hpd_enable(dp->catalog);
+> +	struct dp_display_private *dp = dev_get_dp_display_private(dev);
+>   
+> -	if (dp_catalog_link_is_connected(dp->catalog)) {
+> -		/*
+> -		 * set sink to normal operation mode -- D0
+> -		 * before dpcd read
+> -		 */
+> -		dp_display_host_phy_init(dp);
+> -		dp_link_psm_config(dp->link, &dp->panel->link_info, false);
+> -		sink_count = drm_dp_read_sink_count(dp->aux);
+> -		if (sink_count < 0)
+> -			sink_count = 0;
+> +	disable_irq(dp->irq);
+>   
+> +	if (dp->dp_display.is_edp) {
+>   		dp_display_host_phy_exit(dp);
+> +		dp_catalog_ctrl_hpd_disable(dp->catalog);
+>   	}
+> -
+> -	dp->link->sink_count = sink_count;
+> -	/*
+> -	 * can not declared display is connected unless
+> -	 * HDMI cable is plugged in and sink_count of
+> -	 * dongle become 1
+> -	 * also only signal audio when disconnected
+> -	 */
+> -	if (dp->link->sink_count) {
+> -		dp->dp_display.link_ready = true;
+> -	} else {
+> -		dp->dp_display.link_ready = false;
+> -		dp_display_handle_plugged_change(dp_display, false);
+> -	}
+> -
+> -	drm_dbg_dp(dp->drm_dev,
+> -		"After, type=%d sink=%d conn=%d core_init=%d phy_init=%d power=%d\n",
+> -		dp->dp_display.connector_type, dp->link->sink_count,
+> -		dp->dp_display.link_ready, dp->core_initialized,
+> -		dp->phy_initialized, dp_display->power_on);
+> -
+> -	mutex_unlock(&dp->event_mutex);
+> +	dp_display_host_deinit(dp);
+>   
+>   	return 0;
+>   }
+>   
+> -static int dp_pm_suspend(struct device *dev)
+> +static int dp_pm_runtime_resume(struct device *dev)
+>   {
+> -	struct platform_device *pdev = to_platform_device(dev);
+> -	struct msm_dp *dp_display = platform_get_drvdata(pdev);
+> -	struct dp_display_private *dp;
+> -
+> -	dp = container_of(dp_display, struct dp_display_private, dp_display);
+> -
+> -	mutex_lock(&dp->event_mutex);
+> -
+> -	drm_dbg_dp(dp->drm_dev,
+> -		"Before, type=%d core_inited=%d  phy_inited=%d power_on=%d\n",
+> -		dp->dp_display.connector_type, dp->core_initialized,
+> -		dp->phy_initialized, dp_display->power_on);
+> -
+> -	/* mainlink enabled */
+> -	if (dp_power_clk_status(dp->power, DP_CTRL_PM))
+> -		dp_ctrl_off_link_stream(dp->ctrl);
+> -
+> -	dp_display_host_phy_exit(dp);
+> -
+> -	/* host_init will be called at pm_resume */
+> -	dp_display_host_deinit(dp);
+> -
+> -	dp->hpd_state = ST_SUSPENDED;
+> -
+> -	drm_dbg_dp(dp->drm_dev,
+> -		"After, type=%d core_inited=%d phy_inited=%d power_on=%d\n",
+> -		dp->dp_display.connector_type, dp->core_initialized,
+> -		dp->phy_initialized, dp_display->power_on);
+> +	struct dp_display_private *dp = dev_get_dp_display_private(dev);
+>   
+> -	mutex_unlock(&dp->event_mutex);
+> +	/*
+> +	 * for eDP, host cotroller, HPD block and PHY are enabled here
+> +	 * but with HPD irq disabled
+> +	 *
+> +	 * for DP, only host controller is enabled here.
+> +	 * HPD block is enabled at dp_bridge_hpd_enable()
+> +	 * PHY will be enabled at plugin handler later
+> +	 */
+> +	dp_display_host_init(dp);
+> +	if (dp->dp_display.is_edp) {
+> +		dp_catalog_ctrl_hpd_enable(dp->catalog);
+> +		dp_display_host_phy_init(dp);
+> +	}
+>   
+> +	enable_irq(dp->irq);
+>   	return 0;
+>   }
+>   
+>   static const struct dev_pm_ops dp_pm_ops = {
+> -	.suspend = dp_pm_suspend,
+> -	.resume =  dp_pm_resume,
+> +	SET_RUNTIME_PM_OPS(dp_pm_runtime_suspend, dp_pm_runtime_resume, NULL)
+> +	SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
+> +				pm_runtime_force_resume)
+>   };
+>   
+>   static struct platform_driver dp_display_driver = {
+> @@ -1478,10 +1422,6 @@ static int dp_display_get_next_bridge(struct msm_dp *dp)
+>   	aux_bus = of_get_child_by_name(dev->of_node, "aux-bus");
+>   
+>   	if (aux_bus && dp->is_edp) {
+> -		dp_display_host_init(dp_priv);
+> -		dp_catalog_ctrl_hpd_enable(dp_priv->catalog);
+> -		dp_display_host_phy_init(dp_priv);
+> -
+>   		/*
+>   		 * The code below assumes that the panel will finish probing
+>   		 * by the time devm_of_dp_aux_populate_ep_devices() returns.
+> @@ -1583,6 +1523,11 @@ void dp_bridge_atomic_enable(struct drm_bridge *drm_bridge,
+>   		dp_hpd_plug_handle(dp_display, 0);
+>   
+>   	mutex_lock(&dp_display->event_mutex);
+> +	if (pm_runtime_resume_and_get(&dp_display->pdev->dev)) {
+> +		DRM_ERROR("failed to pm_runtime_resume\n");
+> +		mutex_unlock(&dp_display->event_mutex);
+> +		return;
+> +	}
+>   
+>   	state = dp_display->hpd_state;
+>   	if (state != ST_DISPLAY_OFF && state != ST_MAINLINK_READY) {
+> @@ -1647,10 +1592,9 @@ void dp_bridge_atomic_post_disable(struct drm_bridge *drm_bridge,
+>   	mutex_lock(&dp_display->event_mutex);
+>   
+>   	state = dp_display->hpd_state;
+> -	if (state != ST_DISCONNECT_PENDING && state != ST_CONNECTED) {
+> -		mutex_unlock(&dp_display->event_mutex);
+> -		return;
+> -	}
+> +	if (state != ST_DISCONNECT_PENDING && state != ST_CONNECTED)
+> +		drm_dbg_dp(dp->drm_dev, "type=%d wrong hpd_state=%d\n",
+> +			   dp->connector_type, state);
+>   
+>   	dp_display_disable(dp_display);
+>   
+> @@ -1663,6 +1607,8 @@ void dp_bridge_atomic_post_disable(struct drm_bridge *drm_bridge,
+>   	}
+>   
+>   	drm_dbg_dp(dp->drm_dev, "type=%d Done\n", dp->connector_type);
+> +
+> +	pm_runtime_put_sync(&dp_display->pdev->dev);
+>   	mutex_unlock(&dp_display->event_mutex);
+>   }
+>   
+> @@ -1701,7 +1647,21 @@ void dp_bridge_hpd_enable(struct drm_bridge *bridge)
+>   	struct msm_dp *dp_display = dp_bridge->dp_display;
+>   	struct dp_display_private *dp = container_of(dp_display, struct dp_display_private, dp_display);
+>   
+> +	/*
+> +	 * this is for external DP with hpd irq enabled case,
+> +	 * step-1: dp_pm_runtime_resume() enable dp host only
+> +	 * step-2: enable hdp block and have hpd irq enabled here
+> +	 * step-3: waiting for plugin irq while phy is not initialized
+> +	 * step-4: DP PHY is initialized at plugin handler before link training
+> +	 *
+> +	 */
+>   	mutex_lock(&dp->event_mutex);
+> +	if (pm_runtime_resume_and_get(&dp->pdev->dev)) {
+> +		DRM_ERROR("failed to resume power\n");
+> +		mutex_unlock(&dp->event_mutex);
+> +		return;
+> +	}
+> +
+>   	dp_catalog_ctrl_hpd_enable(dp->catalog);
+>   
+>   	/* enable HDP interrupts */
+> @@ -1723,6 +1683,8 @@ void dp_bridge_hpd_disable(struct drm_bridge *bridge)
+>   	dp_catalog_ctrl_hpd_disable(dp->catalog);
+>   
+>   	dp_display->internal_hpd = false;
+> +
+> +	pm_runtime_put_sync(&dp->pdev->dev);
+>   	mutex_unlock(&dp->event_mutex);
+>   }
+>   
+> @@ -1737,11 +1699,6 @@ void dp_bridge_hpd_notify(struct drm_bridge *bridge,
+>   	if (dp_display->internal_hpd)
+>   		return;
+>   
+> -	if (!dp->core_initialized) {
+> -		drm_dbg_dp(dp->drm_dev, "not initialized\n");
+> -		return;
+> -	}
+> -
+>   	if (!dp_display->link_ready && status == connector_status_connected)
+>   		dp_add_event(dp, EV_HPD_PLUG_INT, 0, 0);
+>   	else if (dp_display->link_ready && status == connector_status_disconnected)
+> diff --git a/drivers/gpu/drm/msm/dp/dp_power.c b/drivers/gpu/drm/msm/dp/dp_power.c
+> index 5cb84ca..863c766 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_power.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_power.c
+> @@ -152,20 +152,9 @@ int dp_power_client_init(struct dp_power *dp_power)
+>   
+>   	power = container_of(dp_power, struct dp_power_private, dp_power);
+>   
+> -	pm_runtime_enable(power->dev);
+> -
+>   	return dp_power_clk_init(power);
+>   }
+>   
+> -void dp_power_client_deinit(struct dp_power *dp_power)
+> -{
+> -	struct dp_power_private *power;
+> -
+> -	power = container_of(dp_power, struct dp_power_private, dp_power);
+> -
+> -	pm_runtime_disable(power->dev);
+> -}
+> -
+>   int dp_power_init(struct dp_power *dp_power)
+>   {
+>   	int rc = 0;
+> @@ -173,11 +162,7 @@ int dp_power_init(struct dp_power *dp_power)
+>   
+>   	power = container_of(dp_power, struct dp_power_private, dp_power);
+>   
+> -	pm_runtime_get_sync(power->dev); 
+
+With W=1 I'm getting the following warnings:
+
+drivers/gpu/drm/msm/dp/dp_power.c: In function ‘dp_power_init’:
+drivers/gpu/drm/msm/dp/dp_power.c:161:34: warning: variable ‘power’ set 
+but not used [-Wunused-but-set-variable]
+
+> -
+>   	rc = dp_power_clk_enable(dp_power, DP_CORE_PM, true);
+> -	if (rc)
+> -		pm_runtime_put_sync(power->dev);
+>   
+>   	return rc;
+>   }
+> @@ -189,7 +174,6 @@ int dp_power_deinit(struct dp_power *dp_power)
+>   	power = container_of(dp_power, struct dp_power_private, dp_power);
+>   
+>   	dp_power_clk_enable(dp_power, DP_CORE_PM, false);
+> -	pm_runtime_put_sync(power->dev);
+
+drivers/gpu/drm/msm/dp/dp_power.c: In function ‘dp_power_deinit’:
+drivers/gpu/drm/msm/dp/dp_power.c:172:34: warning: variable ‘power’ set 
+but not used [-Wunused-but-set-variable]
+
+
+>   	return 0;
+>   }
+>   
+> diff --git a/drivers/gpu/drm/msm/dp/dp_power.h b/drivers/gpu/drm/msm/dp/dp_power.h
+> index a3dec20..55ada51 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_power.h
+> +++ b/drivers/gpu/drm/msm/dp/dp_power.h
+> @@ -81,17 +81,6 @@ int dp_power_clk_enable(struct dp_power *power, enum dp_pm_type pm_type,
+>   int dp_power_client_init(struct dp_power *power);
+>   
+>   /**
+> - * dp_power_clinet_deinit() - de-initialize clock and regulator modules
+> - *
+> - * @power: instance of power module
+> - * return: 0 for success, error for failure.
+> - *
+> - * This API will de-initialize the DisplayPort's clocks and regulator
+> - * modules.
+> - */
+> -void dp_power_client_deinit(struct dp_power *power);
+> -
+> -/**
+>    * dp_power_get() - configure and get the DisplayPort power module data
+>    *
+>    * @parser: instance of parser module
+
+-- 
+With best wishes
+Dmitry
 
