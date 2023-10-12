@@ -1,42 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 726217C6B30
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Oct 2023 12:33:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A38457C6B44
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Oct 2023 12:37:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE2FF10E49E;
-	Thu, 12 Oct 2023 10:33:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 257EB10E4A9;
+	Thu, 12 Oct 2023 10:37:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madras.collabora.co.uk (madras.collabora.co.uk
  [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2994F10E49E
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Oct 2023 10:33:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2461710E4A9
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Oct 2023 10:37:32 +0000 (UTC)
 Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
  [2.237.20.237])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
  (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id F243E660733F;
- Thu, 12 Oct 2023 11:33:22 +0100 (BST)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 08666660733F;
+ Thu, 12 Oct 2023 11:37:29 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1697106803;
- bh=00AF0ZzRGxYkozvqS7tP70zcKb+I/COOXlccZYk/8bg=;
+ s=mail; t=1697107050;
+ bh=lNyFtEdQTDuc65MqDEMsAQSJCURe+5Hc0l5j1I+nClk=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=LMNU9QqICRKVi5V1+62Z9wy0+S9uRYM/HPL7fMGlmJ+QSN8/ueXOrPuJUExo7h94p
- 3STQ7GpZaK35JRBEcPQDrBPWgSOg/gaBksKBiiGie6OFVwgqbt+9eFus+0U4zUajm2
- EIJL2hCv07hDMWXuMPHP4auyj6SaYMXjdoPjkD5Ds4Y/BRmHrVV+lJs6nSliddwnWh
- V4nAd/JabPblCdWTEzbLxxqVrT+pcbYdztJ34uh1LXVnq0bg1orcdiS7Gb4FKNMdwU
- oVwyXrel3Qc98LGWb8H7lH8myYoB/SZxR2h7mxh/l54RrR67mE1AEmWwYgkHNVqYkA
- +cffWlzKUUKIw==
-Message-ID: <83545460-deac-2793-ad97-3957b09e4aaa@collabora.com>
-Date: Thu, 12 Oct 2023 12:33:20 +0200
+ b=DY1opsTgYfOqAY8qFy2hg8GrEoAO+EuqCr6eiOsIX7kahRCO9NeYsDOkRL++LM2+5
+ pYwsdZTydV+3c+D9aiC89n2ZdVbD75x1yLpQ6gfs4JpSpJhuZrr5oaRo2oEYnOcnlS
+ B5zdVWt/vGDtuu7KGPU7VC38/eWQ/a1g99Hv1puyinQcm8FVMs6GulWGOSRuLbQcvl
+ oV0Kfs2A3UPoOeSFSAo8bdTOAUQ+cxCimjm/ZdUwc702CZmXGDGF6uW+hGHxYCDnEt
+ n+8HJgbe1VFusuXZj3exjWFUxN39PDEzfOhkAnQfds2Uvf6KQmcsK0quvxCs/AJi7S
+ lBuFyDvXYQPbQ==
+Message-ID: <6d9bdf5d-e741-038e-3c5a-589b54d15846@collabora.com>
+Date: Thu, 12 Oct 2023 12:37:28 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.15.0
-Subject: Re: [PATCH v7 02/16] dt-bindings: media: mediatek: mdp3: merge the
- indentical RDMA under display
+Subject: Re: [PATCH v7 01/16] dt-bindings: media: mediatek: mdp3: correct RDMA
+ and WROT node with generic names
 Content-Language: en-US
 To: Moudy Ho <moudy.ho@mediatek.com>, Chun-Kuang Hu
  <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
@@ -48,9 +48,9 @@ To: Moudy Ho <moudy.ho@mediatek.com>, Chun-Kuang Hu
  Matthias Brugger <matthias.bgg@gmail.com>,
  Hans Verkuil <hverkuil-cisco@xs4all.nl>
 References: <20231012084037.19376-1-moudy.ho@mediatek.com>
- <20231012084037.19376-3-moudy.ho@mediatek.com>
+ <20231012084037.19376-2-moudy.ho@mediatek.com>
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20231012084037.19376-3-moudy.ho@mediatek.com>
+In-Reply-To: <20231012084037.19376-2-moudy.ho@mediatek.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -72,21 +72,12 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Il 12/10/23 10:40, Moudy Ho ha scritto:
-> To simplify maintenance and avoid branches, the identical component
-> should be merged and placed in the path belonging to the MDP
-> (from display/* to media/*).
+> The DMA-related nodes RDMA/WROT in MDP3 should be changed to generic names.
+> In addition, fix improper space indent in example.
 > 
-> In addition, currently only MDP utilizes RDMA through CMDQ, and the
-> necessary properties for "mediatek,gce-events", and "mboxes" have been
-> set up for this purpose.
-> Within DISP, it directly receives component interrupt signals.
-> 
+> Fixes: 4ad7b39623ab ("media: dt-binding: mediatek: add bindings for MediaTek MDP3 components")
 > Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
-
-I agree in that this belongs to bindings/media and not bindings/display, as the
-display-specific RDMA component is display/mediatek/mediatek,rdma.yaml.
-
-The merge looks good to me, so...
+> Acked-by: Rob Herring <robh@kernel.org>
 
 Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
