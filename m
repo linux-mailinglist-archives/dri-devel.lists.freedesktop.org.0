@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BC6A7C6A18
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Oct 2023 11:58:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A74777C6A26
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Oct 2023 11:58:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC98510E487;
-	Thu, 12 Oct 2023 09:57:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A80010E492;
+	Thu, 12 Oct 2023 09:58:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2947E10E484
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F38E810E484
  for <dri-devel@lists.freedesktop.org>; Thu, 12 Oct 2023 09:57:48 +0000 (UTC)
 Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it
  [2.237.20.237])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id CFAAD660734B;
- Thu, 12 Oct 2023 10:57:45 +0100 (BST)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id DC1936607348;
+ Thu, 12 Oct 2023 10:57:46 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1697104666;
- bh=skAu7ZS20gD3ZXT+OV72kM7TJ+5GEtjNjK2WnVYj0aA=;
+ s=mail; t=1697104667;
+ bh=KlnYZ3Z57VDCZfFhh+UwghQixUf4esaXMSIcKtMmbP0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=dtX10vzIdQ7pXXAttUPQR1RzBhy9peMo6gqfWewec4zrCLJErj7h8pfOfmFBNAiiZ
- LCBST07K7i4jzbnmXB+poEcJnyzwit8b8XIfmM9yLL+sL2Bt7O+2f/H+/2BrEhUgrq
- Avf3BJkgViZ+0upe7ibFiavIsUqPYOV+bPh6+2lrRvLbZgraJhRqlE+PZ7j49Cz3tB
- zkGcPQpNSPzkFk07yk6nG9ABQTHSVkHFIBOhhGkHpwFQxI2sTG3JQ9XboZ1iWTTMVU
- M26P/Q3GjTQNMU6+gVdbu5Wce+5IGBDZn6Q19Mv1KY6SUmkOKtg6rCuyzQ/KvbM/ke
- EQuWG+sRvFVBw==
+ b=eKp2dFfcKA81iQpEHXop2fX8jb8z7V6zWCI/pxHB1i+MPu7aZDpZQsMmPRIxBKNIY
+ BMRf93lxL4E8SlXyWN/Zdskdm6LoPIPzNll1PvMmc0/k3R53YAHDUhh9n+QLEmQpEJ
+ Blu5Hd4YrBFU/ZThera+ThxnzCaHsmOHhG5itg2D/yxV4ekJaXljmLPzZT8HE2icJ3
+ SR2QubIkiNf9LAHV1vEL7lFWA6xbV+G3bb7lBdwna1+xLuyYzZK+5J9lxK+AXCLE4R
+ P1VT3doy57/Im7owYFfhR+0umDDTCf3W9wDDFZ1pVEH7wWMIjO8IPN6o/FBGd2CAAz
+ sluN5SOMzNOCQ==
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 To: chunkuang.hu@kernel.org
-Subject: [PATCH v11 04/16] drm/mediatek: gamma: Improve and simplify HW LUT
- calculation
-Date: Thu, 12 Oct 2023 11:57:24 +0200
-Message-ID: <20231012095736.100784-5-angelogioacchino.delregno@collabora.com>
+Subject: [PATCH v11 05/16] drm/mediatek: gamma: Enable the Gamma LUT table
+ only after programming
+Date: Thu, 12 Oct 2023 11:57:25 +0200
+Message-ID: <20231012095736.100784-6-angelogioacchino.delregno@collabora.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231012095736.100784-1-angelogioacchino.delregno@collabora.com>
 References: <20231012095736.100784-1-angelogioacchino.delregno@collabora.com>
@@ -61,82 +61,68 @@ Cc: nfraprado@collabora.com, Alexandre Mergnat <amergnat@baylibre.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use drm_color_lut_extract() to avoid open-coding the bits reduction
-calculations for each color channel and use a struct drm_color_lut
-to temporarily store the information instead of an array of u32.
+Move the write to DISP_GAMMA_CFG to enable the Gamma LUT to after
+programming the actual table to avoid potential visual glitches during
+table modification.
 
-Also, slightly improve the precision of the HW LUT calculation in the
-LUT DIFF case by performing the subtractions on the 16-bits values and
-doing the 10 bits conversion later.
+Note:
+GAMMA should get enabled in between vblanks, but this requires many
+efforts in order to make this happen, as that requires migrating all
+of the writes to make use of CMDQ instead of cpu writes and that's
+not trivial. For this reason, this patch only moves the LUT enable.
+The CMDQ rework will come at a later time.
 
 Reviewed-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
 Reviewed-by: Alexandre Mergnat <amergnat@baylibre.com>
 Reviewed-by: CK Hu <ck.hu@mediatek.com>
 Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 ---
- drivers/gpu/drm/mediatek/mtk_disp_gamma.c | 32 ++++++++++++++---------
- 1 file changed, 20 insertions(+), 12 deletions(-)
+ drivers/gpu/drm/mediatek/mtk_disp_gamma.c | 14 +++++++++-----
+ 1 file changed, 9 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/gpu/drm/mediatek/mtk_disp_gamma.c b/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
-index bb237523d4b7..8506b9a0a811 100644
+index 8506b9a0a811..d35eaf6dbc2d 100644
 --- a/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
 +++ b/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
-@@ -23,8 +23,6 @@
- #define DISP_GAMMA_SIZE				0x0030
- #define DISP_GAMMA_LUT				0x0700
- 
--#define LUT_10BIT_MASK				0x03ff
--
- struct mtk_disp_gamma_data {
- 	bool has_dither;
- 	bool lut_diff;
-@@ -73,7 +71,6 @@ void mtk_gamma_set_common(struct device *dev, void __iomem *regs, struct drm_crt
+@@ -65,12 +65,12 @@ unsigned int mtk_gamma_get_lut_size(struct device *dev)
+ void mtk_gamma_set_common(struct device *dev, void __iomem *regs, struct drm_crtc_state *state)
+ {
+ 	struct mtk_disp_gamma *gamma;
+-	unsigned int i, reg;
++	unsigned int i;
+ 	struct drm_color_lut *lut;
+ 	void __iomem *lut_base;
  	bool lut_diff;
  	u16 lut_size;
- 	u32 word;
--	u32 diff[3] = {0};
+-	u32 word;
++	u32 cfg_val, word;
  
  	/* If there's no gamma lut there's nothing to do here. */
  	if (!state->gamma_lut)
-@@ -96,18 +93,29 @@ void mtk_gamma_set_common(struct device *dev, void __iomem *regs, struct drm_crt
+@@ -87,9 +87,6 @@ void mtk_gamma_set_common(struct device *dev, void __iomem *regs, struct drm_crt
+ 		lut_size = 512;
+ 	}
+ 
+-	reg = readl(regs + DISP_GAMMA_CFG);
+-	reg = reg | GAMMA_LUT_EN;
+-	writel(reg, regs + DISP_GAMMA_CFG);
  	lut_base = regs + DISP_GAMMA_LUT;
  	lut = (struct drm_color_lut *)state->gamma_lut->data;
  	for (i = 0; i < lut_size; i++) {
-+		struct drm_color_lut diff, hwlut;
-+
-+		hwlut.red = drm_color_lut_extract(lut[i].red, 10);
-+		hwlut.green = drm_color_lut_extract(lut[i].green, 10);
-+		hwlut.blue = drm_color_lut_extract(lut[i].blue, 10);
-+
- 		if (!lut_diff || (i % 2 == 0)) {
--			word = (((lut[i].red >> 6) & LUT_10BIT_MASK) << 20) +
--				(((lut[i].green >> 6) & LUT_10BIT_MASK) << 10) +
--				((lut[i].blue >> 6) & LUT_10BIT_MASK);
-+			word = hwlut.red << 20 +
-+			       hwlut.green << 10 +
-+			       hwlut.red;
- 		} else {
--			diff[0] = (lut[i].red >> 6) - (lut[i - 1].red >> 6);
--			diff[1] = (lut[i].green >> 6) - (lut[i - 1].green >> 6);
--			diff[2] = (lut[i].blue >> 6) - (lut[i - 1].blue >> 6);
-+			diff.red = lut[i].red - lut[i - 1].red;
-+			diff.red = drm_color_lut_extract(diff.red, 10);
-+
-+			diff.green = lut[i].green - lut[i - 1].green;
-+			diff.green = drm_color_lut_extract(diff.green, 10);
-+
-+			diff.blue = lut[i].blue - lut[i - 1].blue;
-+			diff.blue = drm_color_lut_extract(diff.blue, 10);
- 
--			word = ((diff[0] & LUT_10BIT_MASK) << 20) +
--				((diff[1] & LUT_10BIT_MASK) << 10) +
--				(diff[2] & LUT_10BIT_MASK);
-+			word = diff.blue << 20 +
-+			       diff.green << 10 +
-+			       diff.red;
+@@ -119,6 +116,13 @@ void mtk_gamma_set_common(struct device *dev, void __iomem *regs, struct drm_crt
  		}
  		writel(word, (lut_base + i * 4));
  	}
++
++	cfg_val = readl(regs + DISP_GAMMA_CFG);
++
++	/* Enable the gamma table */
++	cfg_val |= GAMMA_LUT_EN;
++
++	writel(cfg_val, regs + DISP_GAMMA_CFG);
+ }
+ 
+ void mtk_gamma_set(struct device *dev, struct drm_crtc_state *state)
 -- 
 2.42.0
 
