@@ -1,43 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7CAA7C6233
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Oct 2023 03:28:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7653E7C6238
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Oct 2023 03:29:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 69E0C10E3EF;
-	Thu, 12 Oct 2023 01:27:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 99C2410E20F;
+	Thu, 12 Oct 2023 01:29:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CDFE110E3CE;
- Thu, 12 Oct 2023 01:27:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1697074070;
- bh=J8Qnx2sCAxUCzPDNIHkIPr+OI4WaMav0iSRgTQB3ipU=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=lck2TuazuWYN1RyagGvhZVEPKye8aEe20EGf6lj90LuwyXsu6wAzZhIBJcwzBoykF
- QNC9xmP/ROpfLTa4PN5W++QjZhIy7DSArV4alnOo7G4k8ZnK+ig2bUEjKDSA6p0WQN
- L7AmpbVpdz36+65RbNQ+3PKQE0UPbJKlcMuNKtR84RvhKL5g891DfdJtmZ3zjC3L5c
- Z/hWqsy2kk96tkO5W/j1PCpKeBjL/d03cc+bv4Qi+1yh1lajvRwH8hY9htGGDcuHhs
- ZN5sqeP8lHbX/boCVJ4hPELposgsIpAmvkkhbkwt22R2N6P3B12hNTh9hwnwf2lZ2W
- evdA0jh1U+D6w==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4S5X7n6gk2z4xPY;
- Thu, 12 Oct 2023 12:27:49 +1100 (AEDT)
-Date: Thu, 12 Oct 2023 12:27:49 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: linux-next: build failure after merge of the drm-misc tree
-Message-ID: <20231012122749.45d37e52@canb.auug.org.au>
-In-Reply-To: <20231012122209.6f2768df@canb.auug.org.au>
-References: <20231012122209.6f2768df@canb.auug.org.au>
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
+ [IPv6:2a00:1450:4864:20::12c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A22B710E3BA
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Oct 2023 01:29:12 +0000 (UTC)
+Received: by mail-lf1-x12c.google.com with SMTP id
+ 2adb3069b0e04-5043a01ee20so630444e87.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Oct 2023 18:29:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1697074151; x=1697678951; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=1LZ/fmrZeDBE6BtfmuHqkriwEyl/J2HH4t6ZgQ8OUD4=;
+ b=QhONWUs42N213lP42JA1mz8DhQg7RYZByAKmMe92pugKmrPsyL4UIngL+YI8Eh2MW4
+ lVkfzLqIQTrCxw8QpYGL4p45rkzq2Q1e1+s+R6tNnoKT4yDcMQRgG+dIVqYTSFcAWqQe
+ exPynZHTf5rHK44gXglez17m1tLWVeIP2IVlHQ4ggGXTOun5Bdzog1rk6SUmh8KFtXFO
+ ZFiH53SJy4nkA50jrRVuuHxmStMaujs7LCi8lHMwy6q571rHflifLqcYtG8c2SYURKsQ
+ oPAqU6j5zamGedM1hiFlBsfuJQwR9qCBT7K4Nih6IjMMwuM8i1rwQ9BE/slVuhu5g70b
+ BLDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1697074151; x=1697678951;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=1LZ/fmrZeDBE6BtfmuHqkriwEyl/J2HH4t6ZgQ8OUD4=;
+ b=JjPkEwEBTDLB1gXJHHKiNybsOPWyU2/loDwcbD3bx6JJEIrt9PfMChcTAPLgajFMaE
+ axaixt5talpZfrpNdv4iumdaSwy4YGoaLeZONbujS3voDLiUB3wYD05QJI7LcucOD4IN
+ aGAxksrqFn+kVeXsvwk0cYns+vpq65VqQMBeYR8kbwBolTDuuxReH50wZy19XkIqDHz+
+ 0bPm98/MX32MzOHJrfJyEK43hg0801c6OaJl4d92qG3C46QJwmEzN6K4ow5DQ5zsixcl
+ 7nX9o5FZsgnObSrP9OLiMC46rLfyj4TTeXutdooQQ6S+0QjMbQ1FmvKcqCbqiFTmxoWa
+ WisA==
+X-Gm-Message-State: AOJu0Yz7zAhfdWJLlltR6D1uenNJM2sXpMOwjo8LcGZawUHkiW17npKn
+ v6l7A+0iZE/Kt7JfO6ATIjAYag==
+X-Google-Smtp-Source: AGHT+IGIhydsigk/7G8XsFp+TM/XUj2EU2zE5Yu3YD+5mM3M3/pAT5rjdqpKvpH16nV+s3xX+P+7Gw==
+X-Received: by 2002:a05:6512:220b:b0:500:a66b:b189 with SMTP id
+ h11-20020a056512220b00b00500a66bb189mr23826766lfu.51.1697074150778; 
+ Wed, 11 Oct 2023 18:29:10 -0700 (PDT)
+Received: from umbar.unikie.fi ([192.130.178.91])
+ by smtp.gmail.com with ESMTPSA id
+ k10-20020ac2456a000000b004fe3a8a9a0bsm2526588lfm.202.2023.10.11.18.29.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 11 Oct 2023 18:29:10 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>
+Subject: [PATCH v2 0/2] drm/msm/dsi: fix handling of TX DMA buffer
+Date: Thu, 12 Oct 2023 04:29:07 +0300
+Message-Id: <20231012012909.450501-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/VHNQbpLwKeOceXrqi_0uSe6";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,109 +72,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI <dri-devel@lists.freedesktop.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- RD Babiera <rdbabiera@google.com>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Bjorn Andersson <andersson@kernel.org>
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/VHNQbpLwKeOceXrqi_0uSe6
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Fix two issues in how the MSM DSI driver handles the GEM-allocated TX
+DMA buffer object.
 
-Hi all,
+Changes since v1:
+- Dropped the unused 'priv' variable from msm_dsi_tx_buf_free()
 
-On Thu, 12 Oct 2023 12:22:09 +1100 Stephen Rothwell <sfr@canb.auug.org.au> =
-wrote:
->
-> After merging the drm-misc tree, today's linux-next build (x86_64
-> allmodconfig) failed like this:
->=20
-> drivers/usb/typec/altmodes/displayport.c: In function 'dp_altmode_vdm':
-> drivers/usb/typec/altmodes/displayport.c:309:33: error: too few arguments=
- to function 'drm_connector_oob_hotplug_event'
->   309 |                                 drm_connector_oob_hotplug_event(d=
-p->connector_fwnode);
->       |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> In file included from drivers/usb/typec/altmodes/displayport.c:17:
-> include/drm/drm_connector.h:1984:6: note: declared here
->  1984 | void drm_connector_oob_hotplug_event(struct fwnode_handle *connec=
-tor_fwnode,
->       |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->=20
-> Caused by commit
->=20
->   fc93835bb0d7 ("drm: Add HPD state to drm_connector_oob_hotplug_event()")
->=20
-> interacting with commit
->=20
->   89434b069e46 ("usb: typec: altmodes/displayport: Signal hpd low when ex=
-iting mode")
->=20
-> from the usb.current tree.
->=20
-> I have applied the following merge fix patch.
->=20
-> From: Stephen Rothwell <sfr@canb.auug.org.au>
-> Date: Thu, 12 Oct 2023 12:17:31 +1100
-> Subject: [PATCH] fix up for "drm: Add HPD state to
->  drm_connector_oob_hotplug_event()"
->=20
-> interacting with commit
->=20
->   89434b069e46 ("usb: typec: altmodes/displayport: Signal hpd low when ex=
-iting mode")
->=20
-> Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> ---
->  drivers/usb/typec/altmodes/displayport.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->=20
-> diff --git a/drivers/usb/typec/altmodes/displayport.c b/drivers/usb/typec=
-/altmodes/displayport.c
-> index ddfb5b6ace4f..eb0bf08fc97a 100644
-> --- a/drivers/usb/typec/altmodes/displayport.c
-> +++ b/drivers/usb/typec/altmodes/displayport.c
-> @@ -306,7 +306,8 @@ static int dp_altmode_vdm(struct typec_altmode *alt,
->  			dp->data.status =3D 0;
->  			dp->data.conf =3D 0;
->  			if (dp->hpd) {
-> -				drm_connector_oob_hotplug_event(dp->connector_fwnode);
-> +				drm_connector_oob_hotplug_event(dp->connector_fwnode
+Dmitry Baryshkov (2):
+  drm/msm/dsi: use msm_gem_kernel_put to free TX buffer
+  drm/msm/dsi: free TX buffer in unbind
 
-Pretend that there is a comma at the end of the above line :-)
+ drivers/gpu/drm/msm/dsi/dsi.c      |  1 +
+ drivers/gpu/drm/msm/dsi/dsi.h      |  1 +
+ drivers/gpu/drm/msm/dsi/dsi_host.c | 16 +++++++++-------
+ 3 files changed, 11 insertions(+), 7 deletions(-)
 
-> +								connector_status_disconnected);
->  				dp->hpd =3D false;
->  				sysfs_notify(&dp->alt->dev.kobj, "displayport", "hpd");
->  			}
-> --=20
-> 2.40.1
+-- 
+2.39.2
 
---=20
-Cheers,
-Stephen Rothwell
-
---Sig_/VHNQbpLwKeOceXrqi_0uSe6
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmUnS5UACgkQAVBC80lX
-0GwDZgf+NaN4xD1Pb86+Q0qdo86qD1QPdJ3JvRCXl4ThEjqTA4eHqE/ZA+kHiXpt
-ylUTlQI6D2UqLTvbG1lUTrTbhfaUA0JjkctwA4nu6VWbbZbvnUMjO/FiP0VisGys
-6seAZxDIk22ejVC3hExiM/Y/EH2MsAwehpOmCXyGxQ1YOBrvMW1G59OyEuZKNRxB
-bGKcYO89Fvq+gs9CVGHezfCYXZOzm7yX2sPs0kQEnabKsA511+NGuBAUeqP5bsPU
-t9C1L3TV7uaR4qqAUUiq4PfiThICk7ZlS7ugr3ZHnZEr1rM7GYvK2Ls4/1I++/6S
-axHrG/X5alpWf3WJ/3tjGQrvkSV52g==
-=2mTb
------END PGP SIGNATURE-----
-
---Sig_/VHNQbpLwKeOceXrqi_0uSe6--
