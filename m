@@ -1,65 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73E737C7496
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Oct 2023 19:23:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC3C67C74A1
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Oct 2023 19:23:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A11510E572;
-	Thu, 12 Oct 2023 17:22:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DDDBE10E535;
+	Thu, 12 Oct 2023 17:22:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd2f.google.com (mail-io1-xd2f.google.com
- [IPv6:2607:f8b0:4864:20::d2f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B047010E55F;
- Thu, 12 Oct 2023 17:22:11 +0000 (UTC)
-Received: by mail-io1-xd2f.google.com with SMTP id
- ca18e2360f4ac-7a26fbfcf8eso46465639f.2; 
- Thu, 12 Oct 2023 10:22:11 -0700 (PDT)
+Received: from mail-io1-xd35.google.com (mail-io1-xd35.google.com
+ [IPv6:2607:f8b0:4864:20::d35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0226B10E551;
+ Thu, 12 Oct 2023 17:22:13 +0000 (UTC)
+Received: by mail-io1-xd35.google.com with SMTP id
+ ca18e2360f4ac-76c64da0e46so48043139f.0; 
+ Thu, 12 Oct 2023 10:22:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1697131331; x=1697736131; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1697131332; x=1697736132; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=jwbGLv7+qIU1qCKTfLfixrysNO4bjXZnfSqF5055b/A=;
- b=UbcbsXVzGUIle2T/UOVK10PA02iLosKm3iYjiPPR7OufOkyB/VWpdMDD9RITB3WBn9
- V+ouhNDwXIGBPTVI4hCNm8BHKBZQuXGwVHOWjDjultCQW5OgiHEIXvgxCt0P5vcdsmCB
- nsq+lVHlbrpmxig5P14jn+ax3VXA5U/4Pa1sHSmqwE35G9PCAzos5eKyn2BejDbu7Xy3
- Ivw2ZEH6ROaCBb3hptimxqpJOQlC2HXsnaqOXnhi/YoG8n8eRO1Ehpu/9Oz0x9h/QsVU
- oPqxusKteSNVLB8I0F8hm77n6LYwHQvTdCOXz5su2H5StjNlPHHMekSjx1dMYO/p2Ika
- L+dg==
+ bh=5LQP5MFDhA+xfUDGLuGe24GCmwsysAw7CRqOtSg8az8=;
+ b=SD24BUt3E41LuY3EvwaINfdENumu5wYmWwOydcm90k/Eye+6iQWT80OEaCSoXkeFkj
+ zneIBY/mMic6CAza7Vp/IB7PwH4y7+0FvYoPcSHXxvFA1cHSAcTw3z/IVnU46TM5QTZl
+ CNjn8OH1artLJ35M7hDzAaJC39/W7KYEAaoHX7675jO6ISXFvzDOtUeRMwGAnRSqZVDy
+ aYDHnWJTsCQh5ca0eqLx0q7JZzZmPsf46734tgDZd5brDeqxs3E/01pPrPXlHx7jigLV
+ 4FgC2B3oHg/VdqzSHb64Imr5NhT/Oo8wz70EkmcJm8oSwxPKAev6mQEeWX+NLUNWeYeY
+ YcvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1697131331; x=1697736131;
+ d=1e100.net; s=20230601; t=1697131332; x=1697736132;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=jwbGLv7+qIU1qCKTfLfixrysNO4bjXZnfSqF5055b/A=;
- b=R8nNLSHKwpIDi1C37Xw2ahF9ObOBpS4F+jR4YpRxXJNdWHKsr0p7JdaDCGXKsLreKu
- Kba3BiEigSx6pURDKGDH6tHJPtWygQR1c0RoydgwND8P6jgZa94Havn0ZIzsEHRGhCLu
- lLYcBWse6f05nFcqjBzRmQJOLA2/qJKYWqJVE2HHETRI/GJ1wKKg8YVwLkT1FC3Wiehf
- YdvIuanLVdnDGJBi/nIClyYPil8PiWUDQkVKSxOLmOZTRQrpBYxuybALYR3YT2YQWiN5
- KoX+m38/t/k2SPO5eXUAzcZoztNXgGY+Lwcw74aJZWDItHR/hQlYOTMi2A2Jawhxwdgz
- uYkg==
-X-Gm-Message-State: AOJu0YxFQktabdndLCtxodfrNP+sBX+C4XPhJ/ye+WuxqWKaqDAm8Y01
- v6YP8G8RnZ9B5zOaAFlsSEo=
-X-Google-Smtp-Source: AGHT+IECtPOLBs2br6sMKT09k7PFb8qWkcW7q5x1QEYhPaTgMqhZEUB2IkNqklsbRaZ6DquL0rs/LQ==
-X-Received: by 2002:a5d:9743:0:b0:79f:96db:f33d with SMTP id
- c3-20020a5d9743000000b0079f96dbf33dmr27485863ioo.9.1697131330992; 
- Thu, 12 Oct 2023 10:22:10 -0700 (PDT)
+ bh=5LQP5MFDhA+xfUDGLuGe24GCmwsysAw7CRqOtSg8az8=;
+ b=IcW4hLZC++55Ga2dlb0bDffyiQevZlNwKKKzAr7cqVTTBD+GAHtHn0yXVddAmZIfVb
+ 6lpw5NjxrLtM1vSMxYTGo1eChmWxSeKreWjwsgO7gbr0wubkm1tfDVLiDOJWs/51T0Nt
+ 7ZkAE369HjdqTwlw0HL51McGXBGH2+EBPI9ZheZ6A/SK0lchPiwBnNBla4LZQI6a1DgE
+ uDaZ7JEnrLgMIp6Gid0qiWSUfQEik9VWnafKuNyrJoIBnnhn8zc6bZIoakljhCqqjZv6
+ CvHbDfVS1h1GaSGKSGTaBM3tcFGngW6Z839iBitEWA6MhDKlJ+4gMYGrEvEMDWrLeOKR
+ H61Q==
+X-Gm-Message-State: AOJu0YzTP5gPhW/mEFn+d6xeYYf2KXrW5xZdTsfAaZB2zhE6RZIH6GKN
+ ZxsxTCYegUv+QTcG5AJQdPc=
+X-Google-Smtp-Source: AGHT+IHzdz6j/vLvb13hWGyitF0NYfQ+58DfX66YHxmuF+rTNL+ptBqWkmhR8dXqdb+0bFLGeWyapA==
+X-Received: by 2002:a5e:aa0c:0:b0:794:e96f:b87d with SMTP id
+ s12-20020a5eaa0c000000b00794e96fb87dmr27630637ioe.0.1697131332304; 
+ Thu, 12 Oct 2023 10:22:12 -0700 (PDT)
 Received: from frodo.. (c-73-78-62-130.hsd1.co.comcast.net. [73.78.62.130])
  by smtp.googlemail.com with ESMTPSA id
- r25-20020a028819000000b0043cef0711c1sm3992211jai.158.2023.10.12.10.22.10
+ r25-20020a028819000000b0043cef0711c1sm3992211jai.158.2023.10.12.10.22.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 Oct 2023 10:22:10 -0700 (PDT)
+ Thu, 12 Oct 2023 10:22:11 -0700 (PDT)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: linux-kernel@vger.kernel.org, jbaron@akamai.com,
  gregkh@linuxfoundation.org, dri-devel@lists.freedesktop.org,
  amd-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org,
  intel-gfx@lists.freedesktop.org
-Subject: [PATCH v7 22/25] dyndbg: improve err report in
- attach_user_module_classes
-Date: Thu, 12 Oct 2023 11:21:33 -0600
-Message-ID: <20231012172137.3286566-23-jim.cromie@gmail.com>
+Subject: [PATCH v7 23/25] drm: use correct ccflags-y spelling
+Date: Thu, 12 Oct 2023 11:21:34 -0600
+Message-ID: <20231012172137.3286566-24-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20231012172137.3286566-1-jim.cromie@gmail.com>
 References: <20231012172137.3286566-1-jim.cromie@gmail.com>
@@ -83,39 +82,35 @@ Cc: groeck@google.com, linux-doc@vger.kernel.org, jani.nikula@intel.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-convert a WARN on 3 conditions, into BUG_ON 2 of them (which don't
-happen), and an early return on (!cli->user_mod_name), which *was*
-happening, so should be seen going forward.  Maybe this should be a
-WARN.
+Incorrectly spelled CFLAGS- failed to add -DDYNAMIC_DEBUG_MODULE,
+which broke builds with:
 
-NB: The underlying problem was a missing __align(8) in the
-DYNDBG_CLASSMAP_USE, which manifested as a corrupt record with a map
-pointer which segv'd.
+CONFIG_DRM_USE_DYNAMIC_DEBUG=y
+CONFIG_DYNAMIC_DEBUG_CORE=y
+CONFIG_DYNAMIC_DEBUG=n
 
+Also add subdir-ccflags so that all drivers pick up the addition.
+
+Fixes: 84ec67288c10 ("drm_print: wrap drm_*_dbg in dyndbg descriptor factory macro")
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
- lib/dynamic_debug.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/Makefile | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
-index 974395bf8a83..3dc512fb1d66 100644
---- a/lib/dynamic_debug.c
-+++ b/lib/dynamic_debug.c
-@@ -1284,9 +1284,11 @@ static void ddebug_attach_user_module_classes(struct ddebug_table *dt,
- 	 */
- 	for_each_boxed_vector(di, class_users, num_class_users, i, cli) {
+diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+index 215e78e79125..22b1984cc982 100644
+--- a/drivers/gpu/drm/Makefile
++++ b/drivers/gpu/drm/Makefile
+@@ -3,7 +3,8 @@
+ # Makefile for the drm device driver.  This driver provides support for the
+ # Direct Rendering Infrastructure (DRI) in XFree86 4.1.0 and higher.
  
--		if (WARN_ON(!cli || !cli->map || !cli->user_mod_name))
--			continue;
--
-+		BUG_ON(!cli || !cli->map);
-+		if (!cli->user_mod_name) {
-+			pr_warn("class_ref[%d] !user-mod-name looking for %s\n", i, dt->mod_name);
-+			return;
-+		}
- 		if (!strcmp(cli->user_mod_name, dt->mod_name)) {
+-CFLAGS-$(CONFIG_DRM_USE_DYNAMIC_DEBUG)	+= -DDYNAMIC_DEBUG_MODULE
++ccflags-$(CONFIG_DRM_USE_DYNAMIC_DEBUG)		+= -DDYNAMIC_DEBUG_MODULE
++subdir-ccflags-$(CONFIG_DRM_USE_DYNAMIC_DEBUG)	+= -DDYNAMIC_DEBUG_MODULE
  
- 			vpr_cm_info(cli->map, "class_ref[%d] %s -> %s", i,
+ drm-y := \
+ 	drm_aperture.o \
 -- 
 2.41.0
 
