@@ -1,75 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47D357C735B
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Oct 2023 18:45:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F2E37C7370
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Oct 2023 18:49:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7507F10E503;
-	Thu, 12 Oct 2023 16:45:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1803B10E507;
+	Thu, 12 Oct 2023 16:49:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com
- [IPv6:2a00:1450:4864:20::629])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6091710E503
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Oct 2023 16:45:26 +0000 (UTC)
-Received: by mail-ej1-x629.google.com with SMTP id
- a640c23a62f3a-9ada2e6e75fso208137166b.2
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Oct 2023 09:45:26 -0700 (PDT)
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com
+ [IPv6:2607:f8b0:4864:20::632])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CAC8210E507
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Oct 2023 16:49:29 +0000 (UTC)
+Received: by mail-pl1-x632.google.com with SMTP id
+ d9443c01a7336-1c9d4f08d7cso4595ad.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Oct 2023 09:49:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1697129123; x=1697733923;
+ d=google.com; s=20230601; t=1697129369; x=1697734169;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=XB7Wf5LgsYf36+k+zhs9TduHabjcJcCiXT3QAGky0tQ=;
- b=FbrLah/HCZXxBf+vuPb5jWJC2dip/r1I5uAN4jdlDRXFXIAlcXjaWQ7y2Hgplbi/p2
- ifZcuJiLlec8sLmJc3ldY2WK1+JwoML3/p46FCAtgNVPYzDGDO5jOHOJP/LPKtrCZ31z
- TgyZyKZfgzN7TnMNTpNw4K8Lt/Lucm/QvyAoA=
+ bh=9+ity2qTw7r/kpXykK9MCuhfw80NyC/9PfFPohTRZ0k=;
+ b=WTCE8KmDHKkGpwXDgAobBDQq/Py4T8YwmXiahEJGNLw8WHgAsQIOdJCGRWq4X4gfD0
+ k16bJ2RhJeP3+2OgYwbTuy2mSAuBx1MC1b+6imTQNz6A17gOqCGs24IHOT7KRvpvKidC
+ XMapqA0EKA88Ek8AgrhQ66v/eWr9h6TGgadJntXKRnyHMBfCVkBWpf16uyWth8Eu5u69
+ 9GVptJjVhNfZX61Dya04hexhpGH+/+n4yiqdVj3Sf3k1ie4XfIEO9XtbhHirCySR8S73
+ sL1LwYn1tFO6F1rutDFjI2Bfu9Gi9CtLE8DIZKPVYJRUNLshIs5SB2WMPfcCfyXSHlbX
+ Pivw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1697129123; x=1697733923;
+ d=1e100.net; s=20230601; t=1697129369; x=1697734169;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=XB7Wf5LgsYf36+k+zhs9TduHabjcJcCiXT3QAGky0tQ=;
- b=SyoEfZMd5OeyOqtsvr6F7Coy9RwnVieIU9oC0zH12R7CBQCEi5JlfENZSmtkPaBA0J
- jHiImTt6N5M1heKpgj1PgsAWunfxQKg+4r7nmZRZZ2MSaIwPYikJOJ6Fv0gBz4RSvPHU
- vYdkrgtZ3W5DIe2qbzDYT+XCz93kg2T33m/5LUZzSYN+9O6nA/LPqkg8BSFM2sHaxevO
- 33ogSwObKbP3ijmPRYUEgOpiLIZPox/chJujJ686sDgqIKBpqso92To1iK3pEb7RMscq
- XTyCpSnOpwZGXY+9IWTHDF+A9jicicJjzUUf27NqEO+7u6nsIyuJIBdTj9PMtmrlwd1K
- gPBQ==
-X-Gm-Message-State: AOJu0YwHdTK9v8uAHyKFy1jElHFoztqKRgb8NGwZeDaAiO5Tr/xunoOp
- 8rRjEhy888P8xhh3YTIF+LstubYuKya8gttQFDLzuQ==
-X-Google-Smtp-Source: AGHT+IG0g8mqVk6FomGyPdnGIwNHYqRQzCacVvUWvMFP/CXUrWc091Zb38xxnRrezbo68PmEAkH0AQ==
-X-Received: by 2002:a17:906:53c8:b0:9ae:522e:8f78 with SMTP id
- p8-20020a17090653c800b009ae522e8f78mr20316814ejo.74.1697129122792; 
- Thu, 12 Oct 2023 09:45:22 -0700 (PDT)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com.
- [209.85.128.45]) by smtp.gmail.com with ESMTPSA id
- cd16-20020a170906b35000b00991faf3810esm11408255ejb.146.2023.10.12.09.45.22
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 12 Oct 2023 09:45:22 -0700 (PDT)
-Received: by mail-wm1-f45.google.com with SMTP id
- 5b1f17b1804b1-4053f24c900so325e9.1
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Oct 2023 09:45:22 -0700 (PDT)
-X-Received: by 2002:a05:600c:3c96:b0:3f6:f4b:d4a6 with SMTP id
- bg22-20020a05600c3c9600b003f60f4bd4a6mr262956wmb.7.1697129121865; Thu, 12 Oct
- 2023 09:45:21 -0700 (PDT)
+ bh=9+ity2qTw7r/kpXykK9MCuhfw80NyC/9PfFPohTRZ0k=;
+ b=dqIMazK+2Qhgrr0oGYY/Bevu7+QbHKWXtA2DJlyS0oS4wjnIUZov92hJLOrt+f/a+F
+ HQkyn4g3xX04c9dd0UYP6M9OB/U8wDV9AGmQaUTX0B1S8FcyBdQ6Qj8ep7HmfigzhrRd
+ MRf0G83sY14inueuMMzv/keVlN1ltCRwTv9pajJUTa/8kELYtAykEc39IHH5b5HcvLnW
+ 2uN9nVHoaqNC+UzvF3xMjC4A8dOjxVTRrDHnk1mRBXPZMv3BqcxrKvJbKj8VwSqsCAQy
+ 5jjrgWNBj0lFTTqTRngZVz+1vqezT4jx7R2CY58b5SunVhY3NSM3XbwoL6EpXuOA0pUg
+ IgDQ==
+X-Gm-Message-State: AOJu0YxPk/SXZjsA7au7+NaoUp6qgDP1c2hJkT/NtEjaFL8kXpZ/Kt3t
+ Bq6qS6kGE9auQSkH4hXYfKVn/sBW6TbUbbKSDQLQew==
+X-Google-Smtp-Source: AGHT+IEkh2osPD0bI28v9aMSShgDDKs5Lo9FYv9+wqXCGF/dtjKcb0biTQ2kHFhXhOmi20vmy2QIafWABrspTiXnehs=
+X-Received: by 2002:a17:902:f68c:b0:1c4:1392:e4b5 with SMTP id
+ l12-20020a170902f68c00b001c41392e4b5mr489049plg.21.1697129369120; Thu, 12 Oct
+ 2023 09:49:29 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230925150010.1.Iff672233861bcc4cf25a7ad0a81308adc3bda8a4@changeid>
- <b0037c9f-588b-4eb8-6415-0fe75bed264f@collabora.com>
- <CAD=FV=UWQgLLfU4X+6OUR5AWOkJKwG9J7BbKGRCgze6LTY6JNw@mail.gmail.com>
- <CAD=FV=UqG6DiAyjcLKeoUWKutepGd46Zx=8O-NWKoYC-fZEG6g@mail.gmail.com>
- <c3380c97-1b8c-5a68-168e-fc6150701365@postmarketos.org>
-In-Reply-To: <c3380c97-1b8c-5a68-168e-fc6150701365@postmarketos.org>
-From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 12 Oct 2023 09:45:09 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=WAYYv5h6oWWhEJHyZesE5cguBqVufCmK6s4gvMeNkCWg@mail.gmail.com>
-Message-ID: <CAD=FV=WAYYv5h6oWWhEJHyZesE5cguBqVufCmK6s4gvMeNkCWg@mail.gmail.com>
-Subject: Re: [PATCH] drm/panel: Move AUX B116XW03 out of panel-edp back to
- panel-simple
-To: Anton Bambura <jenneron@postmarketos.org>
+References: <0000000000008d231506067f6a78@google.com>
+ <20230929133644.2072910-1-nogikh@google.com>
+In-Reply-To: <20230929133644.2072910-1-nogikh@google.com>
+From: Aleksandr Nogikh <nogikh@google.com>
+Date: Thu, 12 Oct 2023 18:49:17 +0200
+Message-ID: <CANp29Y6O9Fwqn8YrTehriz2nujpasSpsECqofWFZwSdp5JHdVw@mail.gmail.com>
+Subject: Re: [syzbot] upstream boot error: can't ssh into the instance (15)
+To: syzbot+be9661ba81a9c1cf6b15@syzkaller.appspotmail.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -84,123 +70,201 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- jitao.shi@mediatek.com, Anton Bambura <jenneron@protonmail.com>,
- neil.armstrong@linaro.org, sam@ravnborg.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- Hsin-Yi Wang <hsinyi@chromium.org>, matthias.bgg@gmail.com,
- quic_jesszhan@quicinc.com, Marek Szyprowski <m.szyprowski@samsung.com>,
- linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: syzkaller-bugs@googlegroups.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, dvyukov@google.com,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+For the record: the problems were solved by switching to qemu v8.
 
-On Sun, Oct 8, 2023 at 1:52=E2=80=AFPM Anton Bambura <jenneron@postmarketos=
-.org> wrote:
+#syz invalid
+
+On Fri, Sep 29, 2023 at 3:36=E2=80=AFPM Aleksandr Nogikh <nogikh@google.com=
+> wrote:
 >
 >
-> On 10/5/23 21:10, Doug Anderson wrote:
-> > Hi,
+> On Fri, Sep 29, 2023 at 3:29 PM syzbot <syzbot+be9661ba81a9c1cf6b15@syzka=
+ller.appspotmail.com> wrote:
 > >
-> > On Tue, Sep 26, 2023 at 7:01=E2=80=AFAM Doug Anderson <dianders@chromiu=
-m.org> wrote:
-> >> Hi,
-> >>
-> >> On Tue, Sep 26, 2023 at 1:06=E2=80=AFAM AngeloGioacchino Del Regno
-> >> <angelogioacchino.delregno@collabora.com> wrote:
-> >>> Il 26/09/23 00:00, Douglas Anderson ha scritto:
-> >>>> In commit 5f04e7ce392d ("drm/panel-edp: Split eDP panels out of
-> >>>> panel-simple") I moved a pile of panels out of panel-simple driver
-> >>>> into the newly created panel-edp driver. One of those panels, howeve=
-r,
-> >>>> shouldn't have been moved.
-> >>>>
-> >>>> As is clear from commit e35e305eff0f ("drm/panel: simple: Add AUO
-> >>>> B116XW03 panel support"), AUX B116XW03 is an LVDS panel. It's used i=
-n
-> >>>> exynos5250-snow and exynos5420-peach-pit where it's clear that the
-> >>>> panel is hooked up with LVDS. Furthermore, searching for datasheets =
-I
-> >>>> found one that makes it clear that this panel is LVDS.
-> >>>>
-> >>>> As far as I can tell, I got confused because in commit 88d3457ceb82
-> >>>> ("drm/panel: auo,b116xw03: fix flash backlight when power on") Jitao
-> >>>> Shi added "DRM_MODE_CONNECTOR_eDP". That seems wrong. Looking at the
-> >>>> downstream ChromeOS trees, it seems like some Mediatek boards are
-> >>>> using a panel that they call "auo,b116xw03" that's an eDP panel. The
-> >>>> best I can guess is that they actually have a different panel that h=
-as
-> >>>> similar timing. If so then the proper panel should be used or they
-> >>>> should switch to the generic "edp-panel" compatible.
-> >>>>
-> >>>> When moving this back to panel-edp, I wasn't sure what to use for
-> >>>> .bus_flags and .bus_format and whether to add the extra "enable" del=
-ay
-> >>>> from commit 88d3457ceb82 ("drm/panel: auo,b116xw03: fix flash
-> >>>> backlight when power on"). I've added formats/flags/delays based on =
-my
-> >>>> (inexpert) analysis of the datasheet. These are untested.
-> >>>>
-> >>>> NOTE: if/when this is backported to stable, we might run into some
-> >>>> trouble. Specifically, before 474c162878ba ("arm64: dts: mt8183:
-> >>>> jacuzzi: Move panel under aux-bus") this panel was used by
-> >>>> "mt8183-kukui-jacuzzi", which assumed it was an eDP panel. I don't
-> >>>> know what to suggest for that other than someone making up a bogus
-> >>>> panel for jacuzzi that's just for the stable channel.
-> >>>>
-> >>>> Fixes: 88d3457ceb82 ("drm/panel: auo,b116xw03: fix flash backlight w=
-hen power on")
-> >>>> Fixes: 5f04e7ce392d ("drm/panel-edp: Split eDP panels out of panel-s=
-imple")
-> >>>> Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> >>>> ---
-> >>>> I haven't had a snow or peach-pit hooked up for debugging / testing
-> >>>> for years. I presume that they must be broken and hope that this fix=
-es
-> >>>> them.
-> >>> We could avoid backport breakages by avoiding to backport this to any=
- kernel
-> >>> that doesn't contain commit 474c162878ba ("arm64: dts: mt8183: jacuzz=
-i: Move
-> >>> panel under aux-bus")... because creating a dummy panel to get two wr=
-ongs
-> >>> right is definitely not ok.
-> >> Sure, except that leaves us with ... a breakage. :-P
-> >>
-> >> Although I haven't tested it, I have a hard time believing that
-> >> exynos5250-snow and exynos5420-peach-pit will work properly with the
-> >> panel defined as an eDP panel. That means that they will be broken. If
-> >> someone cared to get those fixed in a stable backport then we'd be
-> >> stuck deciding who to break. If you have any brilliant ideas then I'm
-> >> all ears.
-> >>
-> >> ...then again, I presume this has been broken since commit
-> >> 88d3457ceb82 ("drm/panel: auo,b116xw03: fix flash backlight when power
-> >> on"). That was a little over 3 years ago. Maybe I'm wrong and somehow
-> >> things still limp along and sorta work even though the panel is
-> >> defined incorrectly?
-> > I dug out a exynos5250-snow out of my pile and booted postmarket OS on
-> > it, which was shockingly easy/pleasant (kudos to those involved!). I
-> > found that it was booting a kernel based on 6.1.24. Digging into
-> > sysfs, I found that indeed it appeared to be using the "panel-edp"
-> > driver, so I guess it is limping along with the wrong driver and wrong
-> > flags...
+> > Hello,
 > >
-> > It wasn't totally clear for me how to build a new kernel and deploy it
-> > for postmarket OS, so I wasn't able to confirm this change. I've CCed
-> > the person listed on the postmarket OS wiki though to see if they have
-> > any insight.
-> Tested it on peach-pit using linux-next with this patch applied. Panel
-> still works and "dmesg | grep panel" returns panel_simple instead of
-> panel_edp.
+> > syzbot found the following issue on:
+> >
+> > HEAD commit:    9ed22ae6be81 Merge tag 'spi-fix-v6.6-rc3' of git://git.=
+ker..
+> > git tree:       upstream
+> > console output: https://syzkaller.appspot.com/x/log.txt?x=3D14b37a7c680=
+000
+> > kernel config:  https://syzkaller.appspot.com/x/.config?x=3Dd4bdf71ec9a=
+ec6cc
+> > dashboard link: https://syzkaller.appspot.com/bug?extid=3Dbe9661ba81a9c=
+1cf6b15
+> > compiler:       aarch64-linux-gnu-gcc (Debian 12.2.0-14) 12.2.0, GNU ld=
+ (GNU Binutils for Debian) 2.40
+> > userspace arch: arm64
+> >
+> > Downloadable assets:
+> > disk image (non-bootable): https://storage.googleapis.com/syzbot-assets=
+/384ffdcca292/non_bootable_disk-9ed22ae6.raw.xz
+> > vmlinux: https://storage.googleapis.com/syzbot-assets/2c3d5eea45bd/vmli=
+nux-9ed22ae6.xz
+> > kernel image: https://storage.googleapis.com/syzbot-assets/54444f361432=
+/Image-9ed22ae6.gz.xz
 >
-> Tested-by: Anton Bambura <jenneron@postmarketos.org>
-
-Pushed to drm-misc-fixes:
-
-ad3e33fe071d drm/panel: Move AUX B116XW03 out of panel-edp back to panel-si=
-mple
-
--Doug
+> This appears on qemu-system-aarch64 with virt,virtualization=3Don,mte=3Do=
+n,graphics=3Don,usb=3Don.
+>
+> I've run it locally using the assets above and it seems there are actuall=
+y two problems behind the report.
+>
+> 1) For some reason, v7.2 of qemu-system-aarch64 just hangs with "-smp 2" =
+and prints no output.
+>
+> Interestingly, it all works fine on qemu v8.0.4, so I don't know if it's =
+a qemu or a kernel problem.
+> Qemu v8 is unfortunately still too new for many distributions (we use deb=
+ian:bookworm on syzbot
+> and v7.2 is the latest there).
+>
+> 2) If I set "-smp 1", it begins to boot, but quickly fails with several m=
+essages. First with
+>
+> [    0.000000][    T0] =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> [    0.000000][    T0] BUG: KASAN: slab-out-of-bounds in __kasan_slab_all=
+oc+0x7c/0xcc
+> [    0.000000][    T0] Read at addr fcff000002c01008 by task swapper/0
+> [    0.000000][    T0] Pointer tag: [fc], memory tag: [f5]
+> [    0.000000][    T0]
+> [    0.000000][    T0] CPU: 0 PID: 0 Comm: swapper Not tainted 6.6.0-rc3-=
+syzkaller-00055-g9ed22ae6be81 #0
+> [    0.000000][    T0] Hardware name: linux,dummy-virt (DT)
+> [    0.000000][    T0] Call trace:
+> [    0.000000][    T0]  dump_backtrace+0x94/0xec
+> [    0.000000][    T0]  show_stack+0x18/0x24
+> [    0.000000][    T0]  dump_stack_lvl+0x48/0x60
+> [    0.000000][    T0]  print_report+0x108/0x618
+> [    0.000000][    T0]  kasan_report+0x88/0xac
+> [    0.000000][    T0]  __do_kernel_fault+0x17c/0x1e8
+> [    0.000000][    T0]  do_tag_check_fault+0x78/0x8c
+> [    0.000000][    T0]  do_mem_abort+0x44/0x94
+> [    0.000000][    T0]  el1_abort+0x40/0x60
+> [    0.000000][    T0]  el1h_64_sync_handler+0xd8/0xe4
+> [    0.000000][    T0]  el1h_64_sync+0x64/0x68
+> [    0.000000][    T0]  __kasan_slab_alloc+0x7c/0xcc
+> [    0.000000][    T0]  kmem_cache_alloc+0x144/0x290
+> [    0.000000][    T0]  bootstrap+0x2c/0x174
+> [    0.000000][    T0]  kmem_cache_init+0x144/0x1c8
+> [    0.000000][    T0]  mm_core_init+0x240/0x2d4
+> [    0.000000][    T0]  start_kernel+0x220/0x5fc
+> [    0.000000][    T0]  __primary_switched+0xb4/0xbc
+> [    0.000000][    T0]
+> [    0.000000][    T0] Allocated by task 0:
+> [    0.000000][    T0]  kasan_save_stack+0x3c/0x64
+> [    0.000000][    T0]  save_stack_info+0x38/0x118
+> [    0.000000][    T0]  kasan_save_alloc_info+0x14/0x20
+> [    0.000000][    T0]  __kasan_slab_alloc+0x94/0xcc
+> [    0.000000][    T0]  kmem_cache_alloc+0x144/0x290
+> [    0.000000][    T0]  bootstrap+0x2c/0x174
+> [    0.000000][    T0]  kmem_cache_init+0x134/0x1c8
+> [    0.000000][    T0]  mm_core_init+0x240/0x2d4
+> [    0.000000][    T0]  start_kernel+0x220/0x5fc
+> [    0.000000][    T0]  __primary_switched+0xb4/0xbc
+> [    0.000000][    T0]
+> [    0.000000][    T0] The buggy address belongs to the object at ffff000=
+002c01000
+> [    0.000000][    T0]  which belongs to the cache kmem_cache of size 208
+> [    0.000000][    T0] The buggy address is located 8 bytes inside of
+> [    0.000000][    T0]  208-byte region [ffff000002c01000, ffff000002c010=
+d0)
+> [    0.000000][    T0]
+> [    0.000000][    T0] The buggy address belongs to the physical page:
+> [    0.000000][    T0] page:(____ptrval____) refcount:1 mapcount:0 mappin=
+g:0000000000000000 index:0x0 pfn:0x42c01
+> [    0.000000][    T0] flags: 0x1ffc00000000800(slab|node=3D0|zone=3D0|la=
+stcpupid=3D0x7ff|kasantag=3D0x0)
+> [    0.000000][    T0] page_type: 0xffffffff()
+> [    0.000000][    T0] raw: 01ffc00000000800 fcff000002c01000 dead0000000=
+00100 dead000000000122
+> [    0.000000][    T0] raw: 0000000000000000 0000000080100010 00000001fff=
+fffff 0000000000000000
+> [    0.000000][    T0] page dumped because: kasan: bad access detected
+> [    0.000000][    T0]
+> [    0.000000][    T0] Memory state around the buggy address:
+> [    0.000000][    T0]  ffff000002c00e00: f0 f0 f0 f0 f0 f0 f0 f0 f0 f0 f=
+0 f0 f0 f0 f0 f0
+> [    0.000000][    T0]  ffff000002c00f00: f0 f0 f0 f0 f0 f0 f0 f0 f0 f0 f=
+0 f0 f0 f0 f0 f0
+> [    0.000000][    T0] >ffff000002c01000: f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f=
+5 f5 f5 f5 f5 f5
+> [    0.000000][    T0]                    ^
+> [    0.000000][    T0]  ffff000002c01100: f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f=
+5 f5 f5 f5 f5 f5
+> [    0.000000][    T0]  ffff000002c01200: f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f=
+5 f5 f5 f5 f5 f5
+> [    0.000000][    T0] =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>
+> And then with
+>
+> [    8.765595][    T1] ------------[ cut here ]------------
+> [    8.766137][    T1] WARNING: CPU: 0 PID: 1 at drivers/gpu/drm/drm_mana=
+ged.c:133 drmm_add_final_kfree+0x7c/0x98
+> [    8.767715][    T1] Modules linked in:
+> [    8.768946][    T1] CPU: 0 PID: 1 Comm: swapper/0 Tainted: G    B     =
+         6.6.0-rc3-syzkaller-00055-g9ed22ae6be81 #0
+> [    8.769970][    T1] Hardware name: linux,dummy-virt (DT)
+> [    8.770655][    T1] pstate: 20400009 (nzCv daif +PAN -UAO -TCO -DIT -S=
+SBS BTYPE=3D--)
+> [    8.771383][    T1] pc : drmm_add_final_kfree+0x7c/0x98
+> [    8.771878][    T1] lr : drmm_add_final_kfree+0x30/0x98
+> [    8.772388][    T1] sp : ffff80008000bcd0
+> [    8.772772][    T1] x29: ffff80008000bcd0 x28: 0000000000000000 x27: f=
+fff8000823c6068
+> [    8.773750][    T1] x26: ffff8000822c00b0 x25: ffff8000821eed90 x24: f=
+fff800082299df0
+> [    8.774586][    T1] x23: ffff8000823c6078 x22: faff000003c53010 x21: 0=
+000000000000000
+> [    8.775410][    T1] x20: f6ff000003850800 x19: f6ff000003850800 x18: f=
+fffffffffffffff
+> [    8.776238][    T1] x17: ffff80008082a678 x16: ffff8000808dbae8 x15: f=
+fff8000808db33c
+> [    8.777061][    T1] x14: ffff800080248568 x13: ffff800080015698 x12: f=
+fff800081893acc
+> [    8.777884][    T1] x11: ffff8000822c110c x10: ffff8000800145b4 x9 : f=
+fff8000802b8dcc
+> [    8.778747][    T1] x8 : ffff80008000bc90 x7 : 0000000000000000 x6 : 0=
+000000000008000
+> [    8.779554][    T1] x5 : f1ff000003794f00 x4 : 0000000000000000 x3 : 0=
+000000000000020
+> [    8.780369][    T1] x2 : 0000000000000000 x1 : f6ff000003850e38 x0 : f=
+6ff000003850800
+> [    8.781301][    T1] Call trace:
+> [    8.781667][    T1]  drmm_add_final_kfree+0x7c/0x98
+> [    8.782209][    T1]  __devm_drm_dev_alloc+0xb4/0xd4
+> [    8.782692][    T1]  vgem_init+0xac/0x140
+> [    8.783141][    T1]  do_one_initcall+0x80/0x1c4
+> [    8.783614][    T1]  kernel_init_freeable+0x1c8/0x290
+> [    8.784114][    T1]  kernel_init+0x24/0x1e0
+> [    8.784556][    T1]  ret_from_fork+0x10/0x20
+> [    8.785109][    T1] ---[ end trace 0000000000000000 ]---
+>
+> For what it's worth, here are the commands I used to boot qemu:
+>
+> $ cd /tmp
+> $ wget -O - 'https://storage.googleapis.com/syzbot-assets/7153da9da559/Im=
+age-9ed22ae6.gz.xz' | unxz > Image-9ed22ae6
+> $ wget -O - 'https://storage.googleapis.com/syzbot-assets/384ffdcca292/no=
+n_bootable_disk-9ed22ae6.raw.xz' | unxz > non_bootable_disk-9ed22ae6.raw
+> $ qemu-system-aarch64 -machine virt,virtualization=3Don,mte=3Don,graphics=
+=3Don,usb=3Don -cpu max -smp 1 -m 2048 -display none -serial stdio -drive f=
+ile=3D/tmp/non_bootable_disk-9ed22ae6.raw,if=3Dnone,format=3Draw,id=3Dhd0 -=
+device virtio-blk-device,drive=3Dhd0 -snapshot -kernel /tmp/Image-9ed22ae6
+>
+>
+> I'll tag the report as follows, feel free to update.
+>
+> #syz set subsystems: arm, dri
