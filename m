@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4436B7C8806
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Oct 2023 16:43:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BC487C8802
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Oct 2023 16:43:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F2BD10E196;
-	Fri, 13 Oct 2023 14:43:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21C6710E184;
+	Fri, 13 Oct 2023 14:43:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from laurent.telenet-ops.be (laurent.telenet-ops.be
- [IPv6:2a02:1800:110:4::f00:19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B74210E16B
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Oct 2023 14:43:20 +0000 (UTC)
+Received: from albert.telenet-ops.be (albert.telenet-ops.be
+ [IPv6:2a02:1800:110:4::f00:1a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 10FCA10E16B
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Oct 2023 14:43:22 +0000 (UTC)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:f151:5551:1af6:b316])
- by laurent.telenet-ops.be with bizsmtp
- id xSjJ2A00456FAx301SjJtb; Fri, 13 Oct 2023 16:43:18 +0200
+ by albert.telenet-ops.be with bizsmtp
+ id xSjN2A00L56FAx306SjN9p; Fri, 13 Oct 2023 16:43:22 +0200
 Received: from rox.of.borg ([192.168.97.57])
  by ramsan.of.borg with esmtp (Exim 4.95)
- (envelope-from <geert@linux-m68k.org>) id 1qrJNi-006Gwq-FT;
+ (envelope-from <geert@linux-m68k.org>) id 1qrJNi-006Gwt-GB;
  Fri, 13 Oct 2023 16:43:17 +0200
 Received: from geert by rox.of.borg with local (Exim 4.95)
- (envelope-from <geert@linux-m68k.org>) id 1qrJNl-002VpO-TR;
+ (envelope-from <geert@linux-m68k.org>) id 1qrJNl-002VpS-UI;
  Fri, 13 Oct 2023 16:43:17 +0200
 From: Geert Uytterhoeven <geert@linux-m68k.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH libdrm v4 4/9] util: store number of colors for indexed formats
-Date: Fri, 13 Oct 2023 16:43:06 +0200
-Message-Id: <0d330383122825e424fedfc99ddb2cd16ca314dd.1697207862.git.geert@linux-m68k.org>
+Subject: [PATCH libdrm v4 5/9] util: add SMPTE pattern support for C4 format
+Date: Fri, 13 Oct 2023 16:43:07 +0200
+Message-Id: <0b644e3864c66d90d313a19b15d4ee76c73c3ff3.1697207862.git.geert@linux-m68k.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1697207862.git.geert@linux-m68k.org>
 References: <cover.1697207862.git.geert@linux-m68k.org>
@@ -49,10 +49,8 @@ Cc: Sam Ravnborg <sam@ravnborg.org>, Geert Uytterhoeven <geert@linux-m68k.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Store the number of available colors for color-indexed frame
-buffer formats in the format_info[] array.  This avoids the need of test
-code for having to use switch statements all the time to obtain the
-number of colors, or to check if a mode is color-indexed or not.
+Add support for drawing the SMPTE pattern in a buffer using the C4
+indexed format.
 
 Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
 Acked-by: Sam Ravnborg <sam@ravnborg.org>
@@ -64,43 +62,72 @@ v3:
   - Add Acked-by,
 
 v2:
-  - New.
+  - Use new smpte_top[],
+  - Split off changes to tests/util/pattern.c.
 ---
- tests/util/format.c | 8 ++++----
- tests/util/format.h | 1 +
- 2 files changed, 5 insertions(+), 4 deletions(-)
+ tests/util/pattern.c | 42 ++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 42 insertions(+)
 
-diff --git a/tests/util/format.c b/tests/util/format.c
-index b3d2abdc8e67eed0..b99cc9c3599d9237 100644
---- a/tests/util/format.c
-+++ b/tests/util/format.c
-@@ -40,10 +40,10 @@
+diff --git a/tests/util/pattern.c b/tests/util/pattern.c
+index fc457c4ac61e404a..17074265dc60033c 100644
+--- a/tests/util/pattern.c
++++ b/tests/util/pattern.c
+@@ -672,6 +672,46 @@ static const struct drm_color_lut smpte_color_lut[] = {
  
- static const struct util_format_info format_info[] = {
- 	/* Indexed */
--	{ DRM_FORMAT_C1, "C1" },
--	{ DRM_FORMAT_C2, "C2" },
--	{ DRM_FORMAT_C4, "C4" },
--	{ DRM_FORMAT_C8, "C8" },
-+	{ DRM_FORMAT_C1, "C1", .ncolors = 2 },
-+	{ DRM_FORMAT_C2, "C2", .ncolors = 4 },
-+	{ DRM_FORMAT_C4, "C4", .ncolors = 16 },
-+	{ DRM_FORMAT_C8, "C8", .ncolors = 256 },
- 	/* YUV packed */
- 	{ DRM_FORMAT_UYVY, "UYVY", MAKE_YUV_INFO(YUV_YCbCr | YUV_CY, 2, 2, 2) },
- 	{ DRM_FORMAT_VYUY, "VYUY", MAKE_YUV_INFO(YUV_YCrCb | YUV_CY, 2, 2, 2) },
-diff --git a/tests/util/format.h b/tests/util/format.h
-index 2ce1c021fd78d51d..b847c9f2933b3cde 100644
---- a/tests/util/format.h
-+++ b/tests/util/format.h
-@@ -55,6 +55,7 @@ struct util_yuv_info {
- struct util_format_info {
- 	uint32_t format;
- 	const char *name;
-+	unsigned int ncolors;
- 	const struct util_rgb_info rgb;
- 	const struct util_yuv_info yuv;
- };
+ #undef EXPAND_COLOR
+ 
++static void write_pixel_4(uint8_t *mem, unsigned int x, unsigned int pixel)
++{
++	if (x & 1)
++		mem[x / 2] = (mem[x / 2] & 0xf0) | (pixel & 0x0f);
++	else
++		mem[x / 2] = (mem[x / 2] & 0x0f) | (pixel << 4);
++}
++
++static void fill_smpte_c4(void *mem, unsigned int width, unsigned int height,
++			  unsigned int stride)
++{
++	unsigned int x;
++	unsigned int y;
++
++	for (y = 0; y < height * 6 / 9; ++y) {
++		for (x = 0; x < width; ++x)
++			write_pixel_4(mem, x, smpte_top[x * 7 / width]);
++		mem += stride;
++	}
++
++	for (; y < height * 7 / 9; ++y) {
++		for (x = 0; x < width; ++x)
++			write_pixel_4(mem, x, smpte_middle[x * 7 / width]);
++		mem += stride;
++	}
++
++	for (; y < height; ++y) {
++		for (x = 0; x < width * 5 / 7; ++x)
++			write_pixel_4(mem, x,
++				      smpte_bottom[x * 4 / (width * 5 / 7)]);
++		for (; x < width * 6 / 7; ++x)
++			write_pixel_4(mem, x,
++				      smpte_bottom[(x - width * 5 / 7) * 3 /
++						   (width / 7) + 4]);
++		for (; x < width; ++x)
++			write_pixel_4(mem, x, smpte_bottom[7]);
++		mem += stride;
++	}
++}
++
+ static void fill_smpte_c8(void *mem, unsigned int width, unsigned int height,
+ 			  unsigned int stride)
+ {
+@@ -723,6 +763,8 @@ static void fill_smpte(const struct util_format_info *info, void *planes[3],
+ 	unsigned char *u, *v;
+ 
+ 	switch (info->format) {
++	case DRM_FORMAT_C4:
++		return fill_smpte_c4(planes[0], width, height, stride);
+ 	case DRM_FORMAT_C8:
+ 		return fill_smpte_c8(planes[0], width, height, stride);
+ 	case DRM_FORMAT_UYVY:
 -- 
 2.34.1
 
