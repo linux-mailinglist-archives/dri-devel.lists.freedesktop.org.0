@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85AB07C7DFC
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Oct 2023 08:49:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36E897C7E01
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Oct 2023 08:49:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F5A910E08D;
-	Fri, 13 Oct 2023 06:49:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 68D2110E5B0;
+	Fri, 13 Oct 2023 06:49:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
- [IPv6:2a00:1450:4864:20::42e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B25C10E08D
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Oct 2023 06:49:22 +0000 (UTC)
-Received: by mail-wr1-x42e.google.com with SMTP id
- ffacd0b85a97d-3296b3f03e5so1572783f8f.2
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Oct 2023 23:49:22 -0700 (PDT)
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
+ [IPv6:2a00:1450:4864:20::333])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE99210E5B0
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Oct 2023 06:49:52 +0000 (UTC)
+Received: by mail-wm1-x333.google.com with SMTP id
+ 5b1f17b1804b1-40572aeb73cso18876465e9.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Oct 2023 23:49:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1697179761; x=1697784561; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1697179791; x=1697784591; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=t2VbTHuOYQMEtxcLnmdeRWBq/2F+g/Zf0eDRJkGO3F4=;
- b=e8kFvdLS0EjSMI58IA7ag61GdMKm35pk6F088/in0X/lAzZfVyahb8ol4g+YjUOyme
- ktptB/Ebh8cyvQgJXBcmHwa9FOdVJxpAHJaZOFU0o5wuMLeymobOQj1//tVFFysvzAzt
- vyLOx0aaExMB2tllf/FheVOVupyMjiTcxjudGq7K0QsYo3/RXQmA5Q6F+Sw53nLpUXtA
- ARJxwuAWBKZRv9VavM2+Lc7jZTCkg9/Kp55GnOehG4ifK6NoNjp2mOK/+iOve2j7YdpK
- jBM54482HAeDm4JqW4NTILxo4DRoL+hItbIp0ckuqP8SzmcOWTodbflJ62YpHUbrKXxC
- vzew==
+ bh=nkoCSM1ABtqDXvYJzGFHcVaBiD5BwS+b9b7ESsnLlh8=;
+ b=X3AV+FP4Kp2T1ABqpWsu6TIygDwmfmqEoDdSf1Ga91rLVfKlAhblgR1g3d/vgAQUXb
+ sYlkDwsMaed1lUWi1zT0amQA1xdipe4zYRmPDB+WyxtCWaXYdv0ZzjRGUDwcU6qfkLnB
+ hchEW2dLOoajVnq3uhlrarzVFIf/LGJU9VyACjwTvsy9xnLjhPZyGN1uzKQBiw4hjt6G
+ 99sBOBjQ2S5uIOafH+IfriWCuYCatv8oXyAQShMiWpDGUPoCgcs2JVdNnuk1hT/rRqPB
+ izMX6p94+lKub5tNn0cW7kjLm3zeddv1qive/hwyf6LUeNBWAR6waAny0GmzxEvf4u14
+ W7tQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1697179761; x=1697784561;
+ d=1e100.net; s=20230601; t=1697179791; x=1697784591;
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=t2VbTHuOYQMEtxcLnmdeRWBq/2F+g/Zf0eDRJkGO3F4=;
- b=GbEpMK8vAmJ/lT56EKZpMQp5CiJudBs9qg2bgViBw5WxmLDZ7aY2QaoJvafFIeyaUS
- LupyDdyol4P9imtrzN2iJ3fS7lBmdpInCglHmizJyhcIKOEYfthSJ60MoENLF/rln8Vf
- LOmbaY2vTaI/yhtApSHUvh9orMOZ09DPRkVzYH2ND3PHED1atK1l4z3yVfP0s1kBDb4d
- Q+6VhYhZRhR0PXlLJPYJm6+4FKRHf4RpyubgTsm0/B5Unib7iMA0KtyZ5DgKpbEeAZV5
- +7xgrpFWyrt113fYcNXC1cQ1MR8wXL0aQ7sb4k0cahY/0gdIwtFap0rETWpxUJjcqJke
- H60Q==
-X-Gm-Message-State: AOJu0YwX7kQPpkYUvpzzNVyY5xogo13RtYDQ1NFAEP8xHXtDvF8PG6x/
- JEntzqNdOZ2fAda7kD5wJNEZHQ==
-X-Google-Smtp-Source: AGHT+IGZMXd2r1ViYo0Of1THYELk6tHbu+Ld7t1fqQplT/kxHciDw+AXiCoskIVClCvMLhNqPMnH0w==
-X-Received: by 2002:a05:6000:4b:b0:32d:9ce0:35ae with SMTP id
- k11-20020a056000004b00b0032d9ce035aemr576099wrx.52.1697179760922; 
- Thu, 12 Oct 2023 23:49:20 -0700 (PDT)
+ bh=nkoCSM1ABtqDXvYJzGFHcVaBiD5BwS+b9b7ESsnLlh8=;
+ b=iEJa3/8TofY5IjRTr9yfYcHZf7Rh3z7tIKFy5QuZqkYBzq/dH1MKZgPCwczj7jRJ36
+ 6sY9MkM0Df8oanX+DjRBwy2h7UlvDhK1QyzZ+783l5uHx/V68qCYO3yoEPO+OojCe2lC
+ v++yOu9xUh8HhkXWxFWhtklYzOCrRoxXuAmg4Y4h3uh5qOt4oroeSq71hz5yvcjY2goR
+ yvF98SdgmdDtA8+8CeTW9vbw0kmB38GR1JprEWBXIwy7lQyX8/zFXT+LQp/3HzafrCkR
+ 7LVYSmD85mFt4dEOC0uDaNQxUodVdPxrOn0ZnURJMYfUP5cvsqoYdl8C0NY3WuZth4kl
+ humw==
+X-Gm-Message-State: AOJu0YyN4xKjA4Co8CqwrY+uzGQOFqVCgqEJ4QkfTj8D8Z7SJC0U2R1n
+ Lo5RlIXVbZks0YVTDdFhj7w1YA==
+X-Google-Smtp-Source: AGHT+IHsrzXz/ZgyWXbrtdy/kdSrit1jKBtnrg/JPGcuQ+jQcuolHeYjDnNNR3QA1GgvRVPNdMOmTA==
+X-Received: by 2002:a05:600c:5120:b0:407:5b54:bb09 with SMTP id
+ o32-20020a05600c512000b004075b54bb09mr7201979wms.7.1697179791336; 
+ Thu, 12 Oct 2023 23:49:51 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.219.100])
  by smtp.gmail.com with ESMTPSA id
- n9-20020adff089000000b0031ad2f9269dsm19962518wro.40.2023.10.12.23.49.19
+ n9-20020adff089000000b0031ad2f9269dsm19962518wro.40.2023.10.12.23.49.49
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 12 Oct 2023 23:49:20 -0700 (PDT)
-Message-ID: <f285dc8b-f95f-47ad-b2d6-95b90b42e5ce@linaro.org>
-Date: Fri, 13 Oct 2023 08:49:19 +0200
+ Thu, 12 Oct 2023 23:49:50 -0700 (PDT)
+Message-ID: <1c8814f1-9c7f-4962-93fd-14d3d39ce1ce@linaro.org>
+Date: Fri, 13 Oct 2023 08:49:49 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 06/16] dt-bindings: media: mediatek: mdp3: add
- component FG for MT8195
+Subject: Re: [PATCH v7 07/16] dt-bindings: media: mediatek: mdp3: add
+ component HDR for MT8195
 Content-Language: en-US
 To: Moudy Ho <moudy.ho@mediatek.com>, Chun-Kuang Hu
  <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
@@ -69,7 +69,7 @@ To: Moudy Ho <moudy.ho@mediatek.com>, Chun-Kuang Hu
  AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
  Hans Verkuil <hverkuil-cisco@xs4all.nl>
 References: <20231012084037.19376-1-moudy.ho@mediatek.com>
- <20231012084037.19376-7-moudy.ho@mediatek.com>
+ <20231012084037.19376-8-moudy.ho@mediatek.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -115,7 +115,7 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231012084037.19376-7-moudy.ho@mediatek.com>
+In-Reply-To: <20231012084037.19376-8-moudy.ho@mediatek.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -137,11 +137,10 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 12/10/2023 10:40, Moudy Ho wrote:
-> Add the fundamental hardware configuration of component FG,
+> Add the fundamental hardware configuration of component HDR,
 > which is controlled by MDP3 on MT8195.
 > 
 > Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
-> ---
 
 Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
