@@ -1,52 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35F997C7D8D
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Oct 2023 08:13:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 372187C7E00
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Oct 2023 08:49:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4829610E5A8;
-	Fri, 13 Oct 2023 06:13:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 11F5010E5AF;
+	Fri, 13 Oct 2023 06:49:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 58C8410E5A8
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Oct 2023 06:13:50 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.whiteo.stw.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <sha@pengutronix.de>)
- id 1qrBQg-0000vt-Ij; Fri, 13 Oct 2023 08:13:46 +0200
-Received: from [2a0a:edc0:2:b01:1d::c0] (helo=ptx.whiteo.stw.pengutronix.de)
- by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <sha@pengutronix.de>)
- id 1qrBQf-001Kft-Ab; Fri, 13 Oct 2023 08:13:45 +0200
-Received: from sha by ptx.whiteo.stw.pengutronix.de with local (Exim 4.92)
- (envelope-from <sha@pengutronix.de>)
- id 1qrBQf-00EE5J-7t; Fri, 13 Oct 2023 08:13:45 +0200
-Date: Fri, 13 Oct 2023 08:13:45 +0200
-From: Sascha Hauer <s.hauer@pengutronix.de>
-To: Andy Yan <andyshrk@163.com>
-Subject: Re: [PATCH 1/3] drm/rockchip: remove unused struct in vop2
-Message-ID: <20231013061345.GJ3359458@pengutronix.de>
-References: <20231012023439.1497304-1-andyshrk@163.com>
- <20231012023653.1497576-1-andyshrk@163.com>
+X-Greylist: delayed 365 seconds by postgrey-1.36 at gabe;
+ Fri, 13 Oct 2023 06:49:45 UTC
+Received: from mail-m12793.qiye.163.com (mail-m12793.qiye.163.com
+ [115.236.127.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1056410E5AF
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Oct 2023 06:49:44 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256;
+ b=SXvp1Hqo4KrRsJir5t70t3q3+nMGTk5T7wLEuHW1pshyvOE2QXQBe2a3iWqj9rPQRw9u5a9cMLq1nxYTqe0+Pc0bWCUFepNmjWXsZu8h7KFslrPp+R/vI2sm9ma6KfVjyAmze4c3DLUxOc7o827ph4PjpYBu2+lwi+D9wtGCiGM=;
+ s=default; c=relaxed/relaxed; d=rock-chips.com; v=1;
+ bh=/J8MCPtcoAdb5sqYoyuWKaTpAz3ggHxQnms1iSj6HBA=;
+ h=date:mime-version:subject:message-id:from;
+Received: from [172.16.12.141] (unknown [58.22.7.114])
+ by mail-m12779.qiye.163.com (Hmail) with ESMTPA id 18953780307;
+ Fri, 13 Oct 2023 14:43:32 +0800 (CST)
+Message-ID: <afd589f4-4fcc-4ede-8e16-a8bb4d8f29f2@rock-chips.com>
+Date: Fri, 13 Oct 2023 14:43:31 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231012023653.1497576-1-andyshrk@163.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: sha@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/3] drm/rockchip: fix the plane format defination of
+ rk3568/6
+Content-Language: en-US
+To: Sascha Hauer <s.hauer@pengutronix.de>, Andy Yan <andyshrk@163.com>
+References: <20231012023439.1497304-1-andyshrk@163.com>
+ <20231012023705.1497648-1-andyshrk@163.com>
+ <20231013061106.GH3359458@pengutronix.de>
+From: Andy Yan <andy.yan@rock-chips.com>
+In-Reply-To: <20231013061106.GH3359458@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+ tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGUtJT1ZDSUwdSxlCGk1CSE5VEwETFh
+ oSFyQUDg9ZV1kYEgtZQVlOQ1VJSVVMVUpKT1lXWRYaDxIVHRRZQVlPS0hVSk5MSUpJVUpLS1VKQl
+ kG
+X-HM-Tid: 0a8b27c6a73eb24fkuuu18953780307
+X-HM-MType: 1
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6NzI6Fww*CDw*LgkuCyI5Mj8c
+ LzJPCRxVSlVKTUJMSkxCT0pJQ05MVTMWGhIXVRoVHwJVAhoVOwkUGBBWGBMSCwhVGBQWRVlXWRIL
+ WUFZTkNVSUlVTFVKSk9ZV1kIAVlBQ0tISzcG
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,77 +61,176 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: sjoerd.simons@collabora.com, sebastian.reichel@collabora.com,
  dri-devel@lists.freedesktop.org, hjc@rock-chips.com,
- linux-rockchip@lists.infradead.org, Andy Yan <andy.yan@rock-chips.com>
+ linux-rockchip@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 12, 2023 at 10:36:53AM +0800, Andy Yan wrote:
-> From: Andy Yan <andy.yan@rock-chips.com>
-> 
-> These structs are undefined and un used.
-> Fixes: 604be85547ce ("drm/rockchip: Add VOP2 driver")
-> 
-> Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
+Hi Sacha:
 
-Reviewed-by: Sascha Hauer <s.hauer@pengutronix.de>
+On 10/13/23 14:11, Sascha Hauer wrote:
+> On Thu, Oct 12, 2023 at 10:37:05AM +0800, Andy Yan wrote:
+>> From: Andy Yan <andy.yan@rock-chips.com>
+>>
+>> The cluster windows on rk3568/6 only support afbc format,
+>> linear format(RGB/YUV) are not supported.
+>> The cluster windows on rk3588 support both linear and afbc rgb
+>> format, but for yuv format it only support afbc.
+>>
+>> The esmart windows on rk3588 support uv swap for yuyv, but
+>> rk356x does not support it.
+> It's a bit hard to track which sentence in the description refers to
+> which change in the patch. Could you split this up into multiple patches
+> to make this easier reviewable?
+>
+> Renaming of the formats could also be a separate patch. Patches marked
+> with "no functional change" are nice and easy to review.
 
-Sascha
 
-> 
-> ---
-> 
->  drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 2 --
->  drivers/gpu/drm/rockchip/rockchip_drm_vop2.h | 3 ---
->  2 files changed, 5 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-> index 583df4d22f7e..3c524ca23d53 100644
-> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-> @@ -160,7 +160,6 @@ struct vop2_video_port {
->  	struct vop2 *vop2;
->  	struct clk *dclk;
->  	unsigned int id;
-> -	const struct vop2_video_port_regs *regs;
->  	const struct vop2_video_port_data *data;
->  
->  	struct completion dsp_hold_completion;
-> @@ -2274,7 +2273,6 @@ static int vop2_create_crtcs(struct vop2 *vop2)
->  		vp = &vop2->vps[i];
->  		vp->vop2 = vop2;
->  		vp->id = vp_data->id;
-> -		vp->regs = vp_data->regs;
->  		vp->data = vp_data;
->  
->  		snprintf(dclk_name, sizeof(dclk_name), "dclk_vp%d", vp->id);
-> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
-> index f1234a151130..56fd31e05238 100644
-> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
-> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
-> @@ -134,16 +134,13 @@ struct vop2_video_port_data {
->  	u16 cubic_lut_len;
->  	struct vop_rect max_output;
->  	const u8 pre_scan_max_dly[4];
-> -	const struct vop2_video_port_regs *regs;
->  	unsigned int offset;
->  };
->  
->  struct vop2_data {
->  	u8 nr_vps;
-> -	const struct vop2_ctrl *ctrl;
->  	const struct vop2_win_data *win;
->  	const struct vop2_video_port_data *vp;
-> -	const struct vop_csc_table *csc_table;
->  	struct vop_rect max_input;
->  	struct vop_rect max_output;
->  
-> -- 
-> 2.34.1
-> 
-> 
+How do you like if I split  the patch like bellow:
 
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+PATCH 1 : fix the format
+
+PATCH 2: rename: s/formats_win_full_10bit/formats_cluster/
+
+s/formats_win_full_10bit_yuyv/formats_rk356x_esmart/
+
+s/formats_win_little/formats_win_smart/
+
+>> Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
+>> ---
+>>
+>>   drivers/gpu/drm/rockchip/rockchip_vop2_reg.c | 53 +++++++++++---------
+>>   1 file changed, 30 insertions(+), 23 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c b/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
+>> index 62b573f282a7..cde85a17f138 100644
+>> --- a/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
+>> +++ b/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
+>> @@ -15,7 +15,11 @@
+>>   
+>>   #include "rockchip_drm_vop2.h"
+>>   
+>> -static const uint32_t formats_win_full_10bit[] = {
+>> +static const uint32_t formats_for_cluster[] = {
+> You can drop the "for_"
+>
+> Sascha
+>
+>> +	DRM_FORMAT_XRGB2101010,
+>> +	DRM_FORMAT_ARGB2101010,
+>> +	DRM_FORMAT_XBGR2101010,
+>> +	DRM_FORMAT_ABGR2101010,
+>>   	DRM_FORMAT_XRGB8888,
+>>   	DRM_FORMAT_ARGB8888,
+>>   	DRM_FORMAT_XBGR8888,
+>> @@ -24,12 +28,14 @@ static const uint32_t formats_win_full_10bit[] = {
+>>   	DRM_FORMAT_BGR888,
+>>   	DRM_FORMAT_RGB565,
+>>   	DRM_FORMAT_BGR565,
+>> -	DRM_FORMAT_NV12,
+>> -	DRM_FORMAT_NV16,
+>> -	DRM_FORMAT_NV24,
+>> +	DRM_FORMAT_YUV420_8BIT, /* yuv420_8bit non-Linear mode only */
+>> +	DRM_FORMAT_YUV420_10BIT, /* yuv420_10bit non-Linear mode only */
+>> +	DRM_FORMAT_YUYV, /* yuv422_8bit non-Linear mode only*/
+>> +	DRM_FORMAT_Y210, /* yuv422_10bit non-Linear mode only */
+>>   };
+>>   
+>> -static const uint32_t formats_win_full_10bit_yuyv[] = {
+>> +/* RK356x can't support uv swap for YUYV and UYVY */
+>> +static const uint32_t formats_for_rk356x_esmart[] = {
+>>   	DRM_FORMAT_XRGB8888,
+>>   	DRM_FORMAT_ARGB8888,
+>>   	DRM_FORMAT_XBGR8888,
+>> @@ -38,14 +44,15 @@ static const uint32_t formats_win_full_10bit_yuyv[] = {
+>>   	DRM_FORMAT_BGR888,
+>>   	DRM_FORMAT_RGB565,
+>>   	DRM_FORMAT_BGR565,
+>> -	DRM_FORMAT_NV12,
+>> -	DRM_FORMAT_NV16,
+>> -	DRM_FORMAT_NV24,
+>> -	DRM_FORMAT_YVYU,
+>> -	DRM_FORMAT_VYUY,
+>> +	DRM_FORMAT_NV12, /* yuv420_8bit linear mode, 2 plane */
+>> +	DRM_FORMAT_NV16, /* yuv422_8bit linear mode, 2 plane */
+>> +	DRM_FORMAT_NV24, /* yuv444_8bit linear mode, 2 plane */
+>> +	DRM_FORMAT_NV15, /* yuv420_10bit linear mode, 2 plane, no padding */
+>> +	DRM_FORMAT_YUYV, /* yuv422_8bit[YUYV] linear mode */
+>> +	DRM_FORMAT_UYVY, /* yuv422_8bit[UYVY] linear mode */
+>>   };
+>>   
+>> -static const uint32_t formats_win_lite[] = {
+>> +static const uint32_t formats_for_smart[] = {
+>>   	DRM_FORMAT_XRGB8888,
+>>   	DRM_FORMAT_ARGB8888,
+>>   	DRM_FORMAT_XBGR8888,
+>> @@ -144,8 +151,8 @@ static const struct vop2_win_data rk3568_vop_win_data[] = {
+>>   		.name = "Smart0-win0",
+>>   		.phys_id = ROCKCHIP_VOP2_SMART0,
+>>   		.base = 0x1c00,
+>> -		.formats = formats_win_lite,
+>> -		.nformats = ARRAY_SIZE(formats_win_lite),
+>> +		.formats = formats_for_smart,
+>> +		.nformats = ARRAY_SIZE(formats_for_smart),
+>>   		.format_modifiers = format_modifiers,
+>>   		.layer_sel_id = 3,
+>>   		.supported_rotations = DRM_MODE_REFLECT_Y,
+>> @@ -156,8 +163,8 @@ static const struct vop2_win_data rk3568_vop_win_data[] = {
+>>   	}, {
+>>   		.name = "Smart1-win0",
+>>   		.phys_id = ROCKCHIP_VOP2_SMART1,
+>> -		.formats = formats_win_lite,
+>> -		.nformats = ARRAY_SIZE(formats_win_lite),
+>> +		.formats = formats_for_smart,
+>> +		.nformats = ARRAY_SIZE(formats_for_smart),
+>>   		.format_modifiers = format_modifiers,
+>>   		.base = 0x1e00,
+>>   		.layer_sel_id = 7,
+>> @@ -169,8 +176,8 @@ static const struct vop2_win_data rk3568_vop_win_data[] = {
+>>   	}, {
+>>   		.name = "Esmart1-win0",
+>>   		.phys_id = ROCKCHIP_VOP2_ESMART1,
+>> -		.formats = formats_win_full_10bit_yuyv,
+>> -		.nformats = ARRAY_SIZE(formats_win_full_10bit_yuyv),
+>> +		.formats = formats_for_rk356x_esmart,
+>> +		.nformats = ARRAY_SIZE(formats_for_rk356x_esmart),
+>>   		.format_modifiers = format_modifiers,
+>>   		.base = 0x1a00,
+>>   		.layer_sel_id = 6,
+>> @@ -182,8 +189,8 @@ static const struct vop2_win_data rk3568_vop_win_data[] = {
+>>   	}, {
+>>   		.name = "Esmart0-win0",
+>>   		.phys_id = ROCKCHIP_VOP2_ESMART0,
+>> -		.formats = formats_win_full_10bit_yuyv,
+>> -		.nformats = ARRAY_SIZE(formats_win_full_10bit_yuyv),
+>> +		.formats = formats_for_rk356x_esmart,
+>> +		.nformats = ARRAY_SIZE(formats_for_rk356x_esmart),
+>>   		.format_modifiers = format_modifiers,
+>>   		.base = 0x1800,
+>>   		.layer_sel_id = 2,
+>> @@ -196,8 +203,8 @@ static const struct vop2_win_data rk3568_vop_win_data[] = {
+>>   		.name = "Cluster0-win0",
+>>   		.phys_id = ROCKCHIP_VOP2_CLUSTER0,
+>>   		.base = 0x1000,
+>> -		.formats = formats_win_full_10bit,
+>> -		.nformats = ARRAY_SIZE(formats_win_full_10bit),
+>> +		.formats = formats_for_cluster,
+>> +		.nformats = ARRAY_SIZE(formats_for_cluster),
+>>   		.format_modifiers = format_modifiers_afbc,
+>>   		.layer_sel_id = 0,
+>>   		.supported_rotations = DRM_MODE_ROTATE_90 | DRM_MODE_ROTATE_270 |
+>> @@ -211,8 +218,8 @@ static const struct vop2_win_data rk3568_vop_win_data[] = {
+>>   		.name = "Cluster1-win0",
+>>   		.phys_id = ROCKCHIP_VOP2_CLUSTER1,
+>>   		.base = 0x1200,
+>> -		.formats = formats_win_full_10bit,
+>> -		.nformats = ARRAY_SIZE(formats_win_full_10bit),
+>> +		.formats = formats_for_cluster,
+>> +		.nformats = ARRAY_SIZE(formats_for_cluster),
+>>   		.format_modifiers = format_modifiers_afbc,
+>>   		.layer_sel_id = 1,
+>>   		.supported_rotations = DRM_MODE_ROTATE_90 | DRM_MODE_ROTATE_270 |
+>> -- 
+>> 2.34.1
+>>
+>>
