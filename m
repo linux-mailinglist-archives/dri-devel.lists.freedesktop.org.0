@@ -1,33 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 296557C8805
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Oct 2023 16:43:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9672F7C8801
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Oct 2023 16:43:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 82A2910E195;
-	Fri, 13 Oct 2023 14:43:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0520D10E15B;
+	Fri, 13 Oct 2023 14:43:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from albert.telenet-ops.be (albert.telenet-ops.be
- [IPv6:2a02:1800:110:4::f00:1a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9AFF410E15B
+Received: from laurent.telenet-ops.be (laurent.telenet-ops.be
+ [IPv6:2a02:1800:110:4::f00:19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A45910E05C
  for <dri-devel@lists.freedesktop.org>; Fri, 13 Oct 2023 14:43:20 +0000 (UTC)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:f151:5551:1af6:b316])
- by albert.telenet-ops.be with bizsmtp
- id xSjJ2A00856FAx306SjJ91; Fri, 13 Oct 2023 16:43:18 +0200
+ by laurent.telenet-ops.be with bizsmtp
+ id xSjJ2A00956FAx301SjJtd; Fri, 13 Oct 2023 16:43:18 +0200
 Received: from rox.of.borg ([192.168.97.57])
  by ramsan.of.borg with esmtp (Exim 4.95)
- (envelope-from <geert@linux-m68k.org>) id 1qrJNi-006Gx3-Hm;
+ (envelope-from <geert@linux-m68k.org>) id 1qrJNi-006Gx5-IT;
  Fri, 13 Oct 2023 16:43:18 +0200
 Received: from geert by rox.of.borg with local (Exim 4.95)
- (envelope-from <geert@linux-m68k.org>) id 1qrJNl-002Vpd-Vn;
- Fri, 13 Oct 2023 16:43:17 +0200
+ (envelope-from <geert@linux-m68k.org>) id 1qrJNm-002Vpi-0M;
+ Fri, 13 Oct 2023 16:43:18 +0200
 From: Geert Uytterhoeven <geert@linux-m68k.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH libdrm v4 7/9] util: add SMPTE pattern support for C2 format
-Date: Fri, 13 Oct 2023 16:43:09 +0200
-Message-Id: <9b90d5737317474d42acfffe0bb9fcab3c923139.1697207862.git.geert@linux-m68k.org>
+Subject: [PATCH libdrm v4 8/9] modetest: add support for DRM_FORMAT_C[124]
+Date: Fri, 13 Oct 2023 16:43:10 +0200
+Message-Id: <f56a54c506ddca865edcb4e336e342bd02e06840.1697207862.git.geert@linux-m68k.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1697207862.git.geert@linux-m68k.org>
 References: <cover.1697207862.git.geert@linux-m68k.org>
@@ -49,164 +49,57 @@ Cc: Sam Ravnborg <sam@ravnborg.org>, Geert Uytterhoeven <geert@linux-m68k.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for drawing the SMPTE pattern in a buffer using the C2
-indexed format.
-
-As only four colors are available, resolution is halved, and the pattern
-is drawn in a PenTile RG-GB matrix, using Floyd-Steinberg dithering.
-The magnitude of the green subpixels is reduced, as there are twice as
-many green subpixels as red or blue subpixels.
+Add support for creating buffers using the new color-indexed frame
+buffer formats with two, four, and sixteen colors.
 
 Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
 Acked-by: Sam Ravnborg <sam@ravnborg.org>
 ---
-Dithering example at https://drive.google.com/file/d/1g5O8XeacrjrC8rgaVENvR65YeI6QvmtO/view
-
 v4:
-  - Replace FILL_COLOR() use by pentile_color_lut[],
+  - No changes,
 
 v3:
   - Add Acked-by,
 
 v2:
-  - New.
+  - Split off changes to tests/modetest/buffers.c.
 ---
- tests/util/pattern.c | 100 ++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 99 insertions(+), 1 deletion(-)
+ tests/modetest/buffers.c | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-diff --git a/tests/util/pattern.c b/tests/util/pattern.c
-index 2362555356e0dd71..f69c5206d96eff02 100644
---- a/tests/util/pattern.c
-+++ b/tests/util/pattern.c
-@@ -659,6 +659,14 @@ static const struct drm_color_lut bw_color_lut[] = {
- 	EXPAND_COLOR(255, 255, 255),	/* white */
- };
+diff --git a/tests/modetest/buffers.c b/tests/modetest/buffers.c
+index c122fb3fe9429190..65f1cfb32ab9eeae 100644
+--- a/tests/modetest/buffers.c
++++ b/tests/modetest/buffers.c
+@@ -124,6 +124,18 @@ bo_create(int fd, unsigned int format,
+ 	int ret;
  
-+static const struct drm_color_lut pentile_color_lut[] = {
-+	/* PenTile RG-GB */
-+	EXPAND_COLOR(  0,   0,   0),	/* black */
-+	EXPAND_COLOR(255,   0,   0),	/* red */
-+	EXPAND_COLOR(  0, 207,   0),	/* green */
-+	EXPAND_COLOR(  0,   0, 255),	/* blue */
-+};
+ 	switch (format) {
++	case DRM_FORMAT_C1:
++		bpp = 1;
++		break;
 +
- static const struct drm_color_lut smpte_color_lut[] = {
- 	[SMPTE_COLOR_GREY] =        EXPAND_COLOR(192, 192, 192),
- 	[SMPTE_COLOR_YELLOW] =      EXPAND_COLOR(192, 192,   0),
-@@ -835,6 +843,92 @@ static void fill_smpte_c1(void *mem, unsigned int width, unsigned int height,
- 	free(fsd);
- }
- 
-+static void write_pixel_2(uint8_t *mem, unsigned int x, unsigned int pixel)
-+{
-+	unsigned int shift = 6 - 2 * (x & 3);
-+	unsigned int mask = 3U << shift;
-+
-+	mem[x / 4] = (mem[x / 4] & ~mask) | ((pixel << shift) & mask);
-+}
-+
-+static void write_color_2(struct fsd *fsd, uint8_t *mem, unsigned int stride,
-+			  unsigned int x, unsigned int index)
-+{
-+	struct drm_color_lut color = smpte_color_lut[index];
-+	unsigned int r, g, b;
-+
-+	fsd_dither(fsd, &color);
-+
-+	if (color.red >= 32768) {
-+		r = 1;
-+		color.red = 65535;
-+	} else {
-+		r = 0;
-+		color.red = 0;
-+	}
-+	if (color.green >= 32768) {
-+		g = 2;
-+		color.green = 65535;
-+	} else {
-+		g = 0;
-+		color.green = 0;
-+	}
-+	if (color.blue >= 32768) {
-+		b = 3;
-+		color.blue = 65535;
-+	} else {
-+		b = 0;
-+		color.blue = 0;
-+	}
-+
-+	fsd_update(fsd, &color);
-+
-+	/* Use PenTile RG-GB */
-+	write_pixel_2(mem, 2 * x, r);
-+	write_pixel_2(mem, 2 * x + 1, g);
-+	write_pixel_2(mem + stride, 2 * x, g);
-+	write_pixel_2(mem + stride, 2 * x + 1, b);
-+}
-+
-+static void fill_smpte_c2(void *mem, unsigned int width, unsigned int height,
-+			  unsigned int stride)
-+{
-+	struct fsd *fsd = fsd_alloc(width);
-+	unsigned int x;
-+	unsigned int y;
-+
-+	/* Half resolution for PenTile RG-GB */
-+	width /= 2;
-+	height /= 2;
-+
-+	for (y = 0; y < height * 6 / 9; ++y) {
-+		for (x = 0; x < width; ++x)
-+			write_color_2(fsd, mem, stride, x, smpte_top[x * 7 / width]);
-+		mem += 2 * stride;
-+	}
-+
-+	for (; y < height * 7 / 9; ++y) {
-+		for (x = 0; x < width; ++x)
-+			write_color_2(fsd, mem, stride, x, smpte_middle[x * 7 / width]);
-+		mem += 2 * stride;
-+	}
-+
-+	for (; y < height; ++y) {
-+		for (x = 0; x < width * 5 / 7; ++x)
-+			write_color_2(fsd, mem, stride, x,
-+				      smpte_bottom[x * 4 / (width * 5 / 7)]);
-+		for (; x < width * 6 / 7; ++x)
-+			write_color_2(fsd, mem, stride, x,
-+				      smpte_bottom[(x - width * 5 / 7) * 3 /
-+						   (width / 7) + 4]);
-+		for (; x < width; ++x)
-+			write_color_2(fsd, mem, stride, x, smpte_bottom[7]);
-+		mem += 2 * stride;
-+	}
-+
-+	free(fsd);
-+}
-+
- static void write_pixel_4(uint8_t *mem, unsigned int x, unsigned int pixel)
- {
- 	if (x & 1)
-@@ -916,8 +1010,10 @@ void util_smpte_fill_lut(unsigned int ncolors, struct drm_color_lut *lut)
- 	}
- 	memset(lut, 0, ncolors * sizeof(struct drm_color_lut));
- 
--	if (ncolors < ARRAY_SIZE(smpte_color_lut))
-+	if (ncolors < ARRAY_SIZE(pentile_color_lut))
- 		memcpy(lut, bw_color_lut, sizeof(bw_color_lut));
-+	else if (ncolors < ARRAY_SIZE(smpte_color_lut))
-+		memcpy(lut, pentile_color_lut, sizeof(pentile_color_lut));
- 	else
- 		memcpy(lut, smpte_color_lut, sizeof(smpte_color_lut));
- }
-@@ -931,6 +1027,8 @@ static void fill_smpte(const struct util_format_info *info, void *planes[3],
- 	switch (info->format) {
- 	case DRM_FORMAT_C1:
- 		return fill_smpte_c1(planes[0], width, height, stride);
 +	case DRM_FORMAT_C2:
-+		return fill_smpte_c2(planes[0], width, height, stride);
- 	case DRM_FORMAT_C4:
- 		return fill_smpte_c4(planes[0], width, height, stride);
++		bpp = 2;
++		break;
++
++	case DRM_FORMAT_C4:
++		bpp = 4;
++		break;
++
  	case DRM_FORMAT_C8:
+ 	case DRM_FORMAT_NV12:
+ 	case DRM_FORMAT_NV21:
+@@ -292,6 +304,9 @@ bo_create(int fd, unsigned int format,
+ 		planes[2] = virtual + offsets[2];
+ 		break;
+ 
++	case DRM_FORMAT_C1:
++	case DRM_FORMAT_C2:
++	case DRM_FORMAT_C4:
+ 	case DRM_FORMAT_C8:
+ 	case DRM_FORMAT_ARGB4444:
+ 	case DRM_FORMAT_XRGB4444:
 -- 
 2.34.1
 
