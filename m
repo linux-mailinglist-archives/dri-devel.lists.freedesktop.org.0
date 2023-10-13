@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95A337C8D23
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Oct 2023 20:39:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C661B7C8D2E
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Oct 2023 20:39:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 39FD410E630;
-	Fri, 13 Oct 2023 18:39:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2881610E634;
+	Fri, 13 Oct 2023 18:39:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22f.google.com (mail-oi1-x22f.google.com
- [IPv6:2607:f8b0:4864:20::22f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 304B610E62D
+Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com
+ [IPv6:2607:f8b0:4864:20::22c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 009CD10E62D
  for <dri-devel@lists.freedesktop.org>; Fri, 13 Oct 2023 18:39:27 +0000 (UTC)
-Received: by mail-oi1-x22f.google.com with SMTP id
- 5614622812f47-3af5fda8f6fso1475553b6e.3
+Received: by mail-oi1-x22c.google.com with SMTP id
+ 5614622812f47-3af608eb34bso1449856b6e.1
  for <dri-devel@lists.freedesktop.org>; Fri, 13 Oct 2023 11:39:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1697222366; x=1697827166; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1697222367; x=1697827167; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=F1wTDexLYvM5LHX90F6rxGOJ9LXZcSYzdsLh84YqciA=;
- b=YowubsORr/PK5gY/LtB1VtLpv7DuryfWWBv5bPfXNuc7Cc5oRfV7K+/yNAK1eMXYxL
- mg0F6oxBzx51RQ/TTabCuWEbq3ekHjsLg8gR+YIpRc9kwABX5SPNJOBKsbbWetgfdDsQ
- +j6Xwt40m5NLgbNys5V4a9PvJZ3oKdPFuY2D3sPfaI1h2zmgV9yt0vB2tZhnrqUwAFIT
- 7+6KN48thdjFkdD6bULtXeJkzhkIgEwXysSADIL5HuJfp225ocBmN7ov4+NaFbZAwDqQ
- /2nXJVAsO7WSkkmfcw17W1lXNMs/zvD0yugCdNCbivhSmFrUAouFh0CYJv678srgFN3X
- 0+pQ==
+ bh=XpG74RYAbsyeZPWO/cKaZxYQssK+OjpMXseuuKjO9Ig=;
+ b=ZyfG6a2RBZeg6IQt2D4C+ToISB6b3Az/XaERX9yoFeJWdHrhakSi2VaESlByp526N1
+ KR7fEWobpXsptT8G9PhHBbou1xHsMjLPverR0GsA5N07t+bxgacckGI2miRE7sICFdGd
+ BDZANMDzaAR6Vo9R/9VMV+VQwaFGUo1YQWJe7KV/xpl1nmj1YtuZ5vwvabQtaVaZiHdE
+ pRAGDER9aNT4BCz3TvqKeua4XLvuQHnPSuCHI5WAceqSfRGWaptwNTmVC57uJ/ftoNpn
+ FNA/rfyti/64fNYQffilxU03MaOXpUpWpbapdUTJC2FxkvTrQY8/YvL/fZmAlfED3zaM
+ 9oNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1697222366; x=1697827166;
+ d=1e100.net; s=20230601; t=1697222367; x=1697827167;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=F1wTDexLYvM5LHX90F6rxGOJ9LXZcSYzdsLh84YqciA=;
- b=EQCYFeuPH79HDz4f9Z3A7tUoH2yyvz0rxty/DlvSIZT2SeomGh5nef0No5AddwJga+
- pZqKRfssnscBwhM0r3D+TynHpHG9yjLMgJB0hAxTTRAnHgmuDvunEoKrqB12bdgNsuLe
- c9XCvpDF3o1TNOEpOc+maViIsiWuqeqYfzQwDqe0VySPzcLEnp29hXSf1PwhCbrQ2c37
- eqmPoC9yEXLthsAwBxWbCqNRXkS+FLBD5GKzSopUoC8yfSXJ5P8W984NkyPQjw+0iAnS
- spy6Xd8Nbn/z/HRGAHnd6hC9WwuGAcZy3yS8ROYuRn/PlY/X0X/yU70aBAqHWv2H4TjM
- 3KQg==
-X-Gm-Message-State: AOJu0Yz5ZN4J6zkwGJt+z+JGUeRIRDjYiBeGU3Rcu1dKMTjrAr+Y8s7Z
- 6uMjClIpYhUwymRV8rbt3v4=
-X-Google-Smtp-Source: AGHT+IHdkztdQit8wuetjEnY18VnhEAH1GKxj23Osp/28dvXk64uW/pxMEBq7iAjlCbL8hSHMTdQhw==
-X-Received: by 2002:a05:6808:1994:b0:3a7:366f:3b01 with SMTP id
- bj20-20020a056808199400b003a7366f3b01mr37101888oib.33.1697222366461; 
- Fri, 13 Oct 2023 11:39:26 -0700 (PDT)
+ bh=XpG74RYAbsyeZPWO/cKaZxYQssK+OjpMXseuuKjO9Ig=;
+ b=IpsJ07v6chWAGwQMdoFMBQxqS7hvcDxu1jLRV1yraDzYGh0B/kq02OLBWC+bOELFrp
+ RWrveQOCj91gzaGMjODGFpLTk9Poa4eXUkYkVmBYM1/QOVfsrg5BNMT6Fhd9UBqpuhcN
+ YE1YU/rhQ2F+eU0VE5EN3TnucBbhbb6q9whTpcwAGcYZhou68GGQp1PkjFpaAqpMTkye
+ 0wC3BIRtDINCLA17++t4ZwFkS+55pMyLrz7JVeG7mKxwOaXfWDU1Z/EooYi+TH8gzDsZ
+ 86uq1eHKYoghWubZigB71jPuRTgLF6B+9YKT6+p3PTKCqjIUnOotIwJyhAyAjSj0LHvY
+ K4/A==
+X-Gm-Message-State: AOJu0YwPt5XexEF9KSlzo6OdUMVnIFuASmcTQTOTGdmVSaJA4fPrXXqB
+ +GFuP7I5G3yFCQe7E4iw+XE=
+X-Google-Smtp-Source: AGHT+IHCXxF7b1a3M3ZOkohw9lmflcVGCXq9oBMeHI9psiYwcW1lfGHZUQH76xDQHNnig2e2Hmhpxg==
+X-Received: by 2002:a05:6808:1823:b0:3ad:9540:5475 with SMTP id
+ bh35-20020a056808182300b003ad95405475mr35536504oib.45.1697222367085; 
+ Fri, 13 Oct 2023 11:39:27 -0700 (PDT)
 Received: from localhost.localdomain ([75.28.21.198])
  by smtp.gmail.com with ESMTPSA id
- bx19-20020a0568081b1300b003afe584ed4fsm842159oib.42.2023.10.13.11.39.25
+ bx19-20020a0568081b1300b003afe584ed4fsm842159oib.42.2023.10.13.11.39.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 13 Oct 2023 11:39:26 -0700 (PDT)
 From: Chris Morgan <macroalpha82@gmail.com>
 To: linux-rockchip@lists.infradead.org
-Subject: [PATCH 2/5] dt-bindings: panel: Add Powkiddy RGB30 panel compatible
-Date: Fri, 13 Oct 2023 13:39:15 -0500
-Message-Id: <20231013183918.225666-3-macroalpha82@gmail.com>
+Subject: [PATCH 3/5] drm/panel: st7703: Add Powkiddy RGB30 Panel Support
+Date: Fri, 13 Oct 2023 13:39:16 -0500
+Message-Id: <20231013183918.225666-4-macroalpha82@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20231013183918.225666-1-macroalpha82@gmail.com>
 References: <20231013183918.225666-1-macroalpha82@gmail.com>
@@ -83,31 +83,124 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Chris Morgan <macromorgan@hotmail.com>
 
-The Powkiddy RGB30 panel is a 4 inch 720x720 MIPI-DSI LCD panel. It
-appears to be based on the ST7703 LCD controller (this is assumed from
-the init sequence similarity between this and other displays). Powkiddy
-would not share the part number or name for the display from the bill
-of materials and there were no obvious external markings, so name the
-panel for the device (Powkiddy RGB30).
+The Powkiddy RGB30 4 inch panel is a 4 inch 720x720 DSI panel used in
+the Powkiddy RGB30 handheld gaming device. Add support for it.
+
+TODO: The panel seems to not resume properly from suspend. I've
+confirmed on the other ST7703 based devices it works correctly.
 
 Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
 ---
- .../devicetree/bindings/display/panel/rocktech,jh057n00900.yaml | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/gpu/drm/panel/panel-sitronix-st7703.c | 89 +++++++++++++++++++
+ 1 file changed, 89 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/panel/rocktech,jh057n00900.yaml b/Documentation/devicetree/bindings/display/panel/rocktech,jh057n00900.yaml
-index 5ea74426b1d5..97cccd8a8479 100644
---- a/Documentation/devicetree/bindings/display/panel/rocktech,jh057n00900.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/rocktech,jh057n00900.yaml
-@@ -22,6 +22,8 @@ properties:
-     enum:
-       # Anberic RG353V-V2 5.0" 640x480 TFT LCD panel
-       - anbernic,rg353v-panel-v2
-+      # Powkiddy RGB30 3.0" 720x720 TFT LCD panel
-+      - powkiddy,rgb30-panel
-       # Rocktech JH057N00900 5.5" 720x1440 TFT LCD panel
-       - rocktech,jh057n00900
-       # Xingbangda XBD599 5.99" 720x1440 TFT LCD panel
+diff --git a/drivers/gpu/drm/panel/panel-sitronix-st7703.c b/drivers/gpu/drm/panel/panel-sitronix-st7703.c
+index 6a3945639535..a9892a4447fb 100644
+--- a/drivers/gpu/drm/panel/panel-sitronix-st7703.c
++++ b/drivers/gpu/drm/panel/panel-sitronix-st7703.c
+@@ -433,6 +433,94 @@ static const struct st7703_panel_desc rg353v2_desc = {
+ 	.init_sequence = rg353v2_init_sequence,
+ };
+ 
++static int rgb30panel_init_sequence(struct st7703 *ctx)
++{
++	struct mipi_dsi_device *dsi = to_mipi_dsi_device(ctx->dev);
++
++	/* Init sequence extracted from Powkiddy RGB30 BSP kernel. */
++
++	/*
++	 * For some reason this specific panel must be taken out of sleep
++	 * before the full init sequence, or else it will not display.
++	 */
++	mipi_dsi_dcs_exit_sleep_mode(dsi);
++	msleep(250);
++
++	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETEXTC, 0xf1, 0x12, 0x83);
++	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETMIPI, 0x33, 0x81, 0x05, 0xf9,
++			       0x0e, 0x0e, 0x20, 0x00, 0x00, 0x00, 0x00, 0x00,
++			       0x00, 0x00, 0x44, 0x25, 0x00, 0x90, 0x0a, 0x00,
++			       0x00, 0x01, 0x4f, 0x01, 0x00, 0x00, 0x37);
++	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETPOWER_EXT, 0x25, 0x22, 0xf0,
++			       0x63);
++	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_UNKNOWN_BF, 0x02, 0x11, 0x00);
++	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETRGBIF, 0x10, 0x10, 0x28,
++			       0x28, 0x03, 0xff, 0x00, 0x00, 0x00, 0x00);
++	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETSCR, 0x73, 0x73, 0x50, 0x50,
++			       0x00, 0x00, 0x12, 0x70, 0x00);
++	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETVDC, 0x46);
++	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETPANEL, 0x0b);
++	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETCYC, 0x80);
++	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETDISP, 0x3c, 0x12, 0x30);
++	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETEQ, 0x07, 0x07, 0x0b, 0x0b,
++			       0x03, 0x0b, 0x00, 0x00, 0x00, 0x00, 0xff, 0x00,
++			       0xc0, 0x10);
++	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETPOWER, 0x36, 0x00, 0x32,
++			       0x32, 0x77, 0xf1, 0xcc, 0xcc, 0x77, 0x77, 0x33,
++			       0x33);
++	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETBGP, 0x0a, 0x0a);
++	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETVCOM, 0x88, 0x88);
++	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETGIP1, 0xc8, 0x10, 0x0a, 0x10,
++			       0x0f, 0xa1, 0x80, 0x12, 0x31, 0x23, 0x47, 0x86,
++			       0xa1, 0x80, 0x47, 0x08, 0x00, 0x00, 0x0d, 0x00,
++			       0x00, 0x00, 0x00, 0x00, 0x0d, 0x00, 0x00, 0x00,
++			       0x48, 0x02, 0x8b, 0xaf, 0x46, 0x02, 0x88, 0x88,
++			       0x88, 0x88, 0x88, 0x48, 0x13, 0x8b, 0xaf, 0x57,
++			       0x13, 0x88, 0x88, 0x88, 0x88, 0x88, 0x00, 0x00,
++			       0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++			       0x00, 0x00, 0x00);
++	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETGIP2, 0x96, 0x12, 0x01, 0x01,
++			       0x01, 0x78, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00,
++			       0x4f, 0x31, 0x8b, 0xa8, 0x31, 0x75, 0x88, 0x88,
++			       0x88, 0x88, 0x88, 0x4f, 0x20, 0x8b, 0xa8, 0x20,
++			       0x64, 0x88, 0x88, 0x88, 0x88, 0x88, 0x23, 0x00,
++			       0x00, 0x01, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00,
++			       0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++			       0x00, 0x00, 0x40, 0xa1, 0x80, 0x00, 0x00, 0x00,
++			       0x00);
++	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETGAMMA, 0x00, 0x0a, 0x0f,
++			       0x29, 0x3b, 0x3f, 0x42, 0x39, 0x06, 0x0d, 0x10,
++			       0x13, 0x15, 0x14, 0x15, 0x10, 0x17, 0x00, 0x0a,
++			       0x0f, 0x29, 0x3b, 0x3f, 0x42, 0x39, 0x06, 0x0d,
++			       0x10, 0x13, 0x15, 0x14, 0x15, 0x10, 0x17);
++
++	return 0;
++}
++
++static const struct drm_display_mode rgb30panel_mode = {
++	.hdisplay	= 720,
++	.hsync_start	= 720 + 45,
++	.hsync_end	= 720 + 45 + 4,
++	.htotal		= 720 + 45 + 4 + 45,
++	.vdisplay	= 720,
++	.vsync_start	= 720 + 15,
++	.vsync_end	= 720 + 15 + 3,
++	.vtotal		= 720 + 15 + 3 + 11,
++	.clock		= 36570,
++	.flags		= DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC,
++	.width_mm	= 76,
++	.height_mm	= 76,
++};
++
++static const struct st7703_panel_desc rgb30panel_desc = {
++	.mode = &rgb30panel_mode,
++	.lanes = 4,
++	.mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
++		      MIPI_DSI_MODE_NO_EOT_PACKET | MIPI_DSI_MODE_LPM,
++	.format = MIPI_DSI_FMT_RGB888,
++	.init_sequence = rgb30panel_init_sequence,
++};
++
+ static int st7703_enable(struct drm_panel *panel)
+ {
+ 	struct st7703 *ctx = panel_to_st7703(panel);
+@@ -694,6 +782,7 @@ static void st7703_remove(struct mipi_dsi_device *dsi)
+ 
+ static const struct of_device_id st7703_of_match[] = {
+ 	{ .compatible = "anbernic,rg353v-panel-v2", .data = &rg353v2_desc },
++	{ .compatible = "powkiddy,rgb30-panel", .data = &rgb30panel_desc },
+ 	{ .compatible = "rocktech,jh057n00900", .data = &jh057n00900_panel_desc },
+ 	{ .compatible = "xingbangda,xbd599", .data = &xbd599_desc },
+ 	{ /* sentinel */ }
 -- 
 2.34.1
 
