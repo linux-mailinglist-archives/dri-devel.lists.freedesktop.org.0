@@ -1,44 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 357D47C7F40
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Oct 2023 10:02:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 49D197C7FB7
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Oct 2023 10:12:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA53710E5C7;
-	Fri, 13 Oct 2023 08:02:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0076410E00E;
+	Fri, 13 Oct 2023 08:12:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.whiteo.stw.pengutronix.de
  (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0EC3B10E00E
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Oct 2023 08:02:00 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A026910E00E
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Oct 2023 08:12:30 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
  by metis.whiteo.stw.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1qrD7I-00035s-Mq; Fri, 13 Oct 2023 10:01:52 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+ (envelope-from <sha@pengutronix.de>)
+ id 1qrDHW-0004ZQ-77; Fri, 13 Oct 2023 10:12:26 +0200
+Received: from [2a0a:edc0:2:b01:1d::c0] (helo=ptx.whiteo.stw.pengutronix.de)
  by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1qrD7F-001LQq-WA; Fri, 13 Oct 2023 10:01:50 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1qrD7F-00FPlj-Ma; Fri, 13 Oct 2023 10:01:49 +0200
-Date: Fri, 13 Oct 2023 10:01:49 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Subject: Re: [PATCH] drm/msm: remove unnecessary NULL check
-Message-ID: <20231013080149.hbcuxww6w362g6xh@pengutronix.de>
-References: <5de18b71-c3db-4820-b35e-262b4cac35fc@moroto.mountain>
+ (envelope-from <sha@pengutronix.de>)
+ id 1qrDHR-001Ltf-TW; Fri, 13 Oct 2023 10:12:21 +0200
+Received: from sha by ptx.whiteo.stw.pengutronix.de with local (Exim 4.92)
+ (envelope-from <sha@pengutronix.de>)
+ id 1qrDHR-00EF2M-Qh; Fri, 13 Oct 2023 10:12:21 +0200
+Date: Fri, 13 Oct 2023 10:12:21 +0200
+From: Sascha Hauer <s.hauer@pengutronix.de>
+To: Andy Yan <andy.yan@rock-chips.com>
+Subject: Re: [PATCH 3/3] drm/rockchip: fix the plane format defination of
+ rk3568/6
+Message-ID: <20231013081221.GN3359458@pengutronix.de>
+References: <20231012023439.1497304-1-andyshrk@163.com>
+ <20231012023705.1497648-1-andyshrk@163.com>
+ <20231013061106.GH3359458@pengutronix.de>
+ <afd589f4-4fcc-4ede-8e16-a8bb4d8f29f2@rock-chips.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="wji2ulhqnz43jxlv"
+Content-Type: text/plain; charset=iso-8859-15
 Content-Disposition: inline
-In-Reply-To: <5de18b71-c3db-4820-b35e-262b4cac35fc@moroto.mountain>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <afd589f4-4fcc-4ede-8e16-a8bb4d8f29f2@rock-chips.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Mail-From: sha@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
  SAEximRunCond expanded to false
 X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
@@ -54,63 +63,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Su Hui <suhui@nfschina.com>,
- kernel-janitors@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>
+Cc: sjoerd.simons@collabora.com, hjc@rock-chips.com,
+ dri-devel@lists.freedesktop.org, sebastian.reichel@collabora.com,
+ linux-rockchip@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, Oct 13, 2023 at 02:43:31PM +0800, Andy Yan wrote:
+> Hi Sacha:
+> 
+> On 10/13/23 14:11, Sascha Hauer wrote:
+> > On Thu, Oct 12, 2023 at 10:37:05AM +0800, Andy Yan wrote:
+> > > From: Andy Yan <andy.yan@rock-chips.com>
+> > > 
+> > > The cluster windows on rk3568/6 only support afbc format,
+> > > linear format(RGB/YUV) are not supported.
+> > > The cluster windows on rk3588 support both linear and afbc rgb
+> > > format, but for yuv format it only support afbc.
+> > > 
+> > > The esmart windows on rk3588 support uv swap for yuyv, but
+> > > rk356x does not support it.
+> > It's a bit hard to track which sentence in the description refers to
+> > which change in the patch. Could you split this up into multiple patches
+> > to make this easier reviewable?
+> > 
+> > Renaming of the formats could also be a separate patch. Patches marked
+> > with "no functional change" are nice and easy to review.
+> 
+> 
+> How do you like if I split  the patch like bellow:
+> 
+> PATCH 1 : fix the format
 
---wji2ulhqnz43jxlv
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+When you say "The cluster windows on rk3568/6 only support afbc format, ..."
+and "The esmart windows on rk3588 support uv swap for yuyv, ..."
+it sounds like two orthogonal changes which should be done in two
+patches.
 
-Hello,
+> 
+> PATCH 2: rename: s/formats_win_full_10bit/formats_cluster/
+> 
+> s/formats_win_full_10bit_yuyv/formats_rk356x_esmart/
+> 
+> s/formats_win_little/formats_win_smart/
 
-On Fri, Oct 13, 2023 at 10:17:08AM +0300, Dan Carpenter wrote:
-> This NULL check was required when it was added, but we shuffled the code
-> around in commit 1f50db2f3e1e ("drm/msm/mdp5: move resource allocation
-> to the _probe function") and now it's not.  The inconsistent NULL
-> checking triggers a Smatch warning:
->=20
->     drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:847 mdp5_init() warn:
->     variable dereferenced before check 'mdp5_kms' (see line 782)
->=20
-> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+I'd likely do the rename first, but I guess that's just a matter of
+taste.
 
-LGTM
+Sascha
 
-Reviewed-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
-
-This patch opportunity is valid since commit 1f50db2f3e1e
-("drm/msm/mdp5: move resource allocation to the _probe function") but
-applies to older trees (where it introduces a bug).
-On one hand it's not really a fix, but maybe still add a Fixes: line to
-ensure it's not backported to older stables? Hmm, I don't know.
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---wji2ulhqnz43jxlv
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmUo+WwACgkQj4D7WH0S
-/k4sEAf/UXusWyq09WzDKD7Q9pMG1laxguZOi/eLb/9XaAILoRE0zOQmC0FxjO7q
-23Ob8SBUww+V/X9zK1YOXP0gipT9qtG1RuEi5n02EArrrAs6cMbVYoAsuJ96JeaB
-WMkYfZAQbyioIsWqY44m9NxQYK8fJSGn7sg7da7sJkljUlqNVrN/WIKVjyKWO37N
-hA0ee7JDSOzjH5dN+n0CsYiBKSkapwUKbGm+SHFXhPSLfKsnYYl3vzTkVt26N1xo
-h5JpqEaBCzMdzfWCaCwEMGfTjl/VAxWS7gsft/X6q2MHNQSyyoEFPqdu3qY4JEvo
-3YEc6QGLuJlYfVNLxSwN8jm0zfIYlA==
-=5nCZ
------END PGP SIGNATURE-----
-
---wji2ulhqnz43jxlv--
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
