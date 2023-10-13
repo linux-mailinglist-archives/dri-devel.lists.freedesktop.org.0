@@ -1,123 +1,103 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 000167C7E23
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Oct 2023 08:52:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8E7D7C7E3F
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Oct 2023 08:56:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CBB2210E5B9;
-	Fri, 13 Oct 2023 06:52:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 50CE710E5BA;
+	Fri, 13 Oct 2023 06:56:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com
- [IPv6:2a00:1450:4864:20::22a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 86F2310E5B9
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Oct 2023 06:52:21 +0000 (UTC)
-Received: by mail-lj1-x22a.google.com with SMTP id
- 38308e7fff4ca-2b9d07a8d84so22496951fa.3
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Oct 2023 23:52:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1697179940; x=1697784740; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
- :to:content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=wRvzuM3dXYzryQCk7xWcNKlO4Iw1AA1aiww1cz8HI1c=;
- b=XEHXKbSC1RAZH319dBsQzwfX9oveb5wI0eQUM5cjDSh3BjwUQ9FwbRAQ8FWCcoNM3T
- ZHbF0mEoo9Tuyo/HHUs1U76szsr/lLFB2lxv1goo5OYAv2yt7Leiehb05cJ2YZaeOozk
- 4qT2jqzKzKobK6g0JiOXDbrl7PNgTWIkCucFqzfEPCMDXnR9lU8+oq1ZB+XMrt/oUWU2
- tBiRD00SwUejFAJQU1qmhYII2L4krxFgrCUx54VfHWAkKT+4futWzhvFUAF/K72HP2fU
- LNYtVQS3xba1LH+Y4U/NBWxZFhNPN1xDtd9B1HRNs8Xq2dc7mdnDcI93ztbEeihHeijO
- mcAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1697179940; x=1697784740;
- h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
- :to:content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=wRvzuM3dXYzryQCk7xWcNKlO4Iw1AA1aiww1cz8HI1c=;
- b=Sli4ER6+ycsnrqkMYfJExGz0ejL+Ge7uHRJeAqertz9fDZiGRdTRMSnuyBguVTFtXX
- 7lEjNVmx/e3L3vcVckt6xBYobEbKErrlKgMiYeXarau1H5T9TPr/N5CiEyvvmxCoZ98s
- +pg01V9zPkiDYQOEBTy/LcXRbTK+MBbOsv/90uEtMUrlxjwHGrHMavaljRCvTJ2ojs37
- AowDrZ970OvPLZoyMVGlTq1q6wfpgL/W4sNs6lZSqHSURG5UtHdyc4ucL5GmNbzw2ZTu
- v3NHVwpzvhTGhndhI+i3VjxAHzp6EnvXU7zIu3J79M9a7iGF0RvJWd+OHJGzg55ilPWn
- kzCQ==
-X-Gm-Message-State: AOJu0Ywz8RohWhvIkuawrpv4sF85KQGX6Np/DvKkQjEA8C4NIn4r5OL+
- BWQ0fhOjONKiW7xVGVq9qHNCTw==
-X-Google-Smtp-Source: AGHT+IFADddCYZ38EnTUlRm0EqHQtivs9ca8CdPuf4zS7leyOacZHyyn6vDZMQw0pAQ1qx77VWhF+g==
-X-Received: by 2002:a2e:9a84:0:b0:2c2:8e57:24a7 with SMTP id
- p4-20020a2e9a84000000b002c28e5724a7mr24109272lji.21.1697179939751; 
- Thu, 12 Oct 2023 23:52:19 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.219.100])
- by smtp.gmail.com with ESMTPSA id
- n9-20020adff089000000b0031ad2f9269dsm19962518wro.40.2023.10.12.23.52.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 12 Oct 2023 23:52:18 -0700 (PDT)
-Message-ID: <e58ecc95-5133-4542-8178-338583bca2ab@linaro.org>
-Date: Fri, 13 Oct 2023 08:52:17 +0200
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E69510E5BA
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Oct 2023 06:56:11 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 832AE1FD7F;
+ Fri, 13 Oct 2023 06:56:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1697180169; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=iC5xG2dkuARYh+ufKdzBKK3ruYfmvxzyiAwACTALF5I=;
+ b=eCn+GnNeOXJwINRjvJZ/JoooGnKHO4RRpDVyQ4M/tJej7IPJFoAIE8VEssan1oEVMTbWJh
+ jA+1GyVHcmVLvocO1tZQbJfScRiq4soRrD85xdwFItdHcwIp1f5DymmuwT9QT6pJSb1GVC
+ xmphn7762R/YZWhIskOrjlBwgBgmZ/o=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1697180169;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=iC5xG2dkuARYh+ufKdzBKK3ruYfmvxzyiAwACTALF5I=;
+ b=NQuIVeaqrbfRR3MsGM8DWUkJnxP+E494zL3w+Pw1k3TPkTcx3mL/VM7zU5C1XXuHFbT1Xh
+ YmaAwhS4kI3iQ3Ag==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 680841358F;
+ Fri, 13 Oct 2023 06:56:09 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id 675hGAnqKGULRgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Fri, 13 Oct 2023 06:56:09 +0000
+Message-ID: <d7011af6-6955-4ce9-8d8b-5b6dd6cfd829@suse.de>
+Date: Fri, 13 Oct 2023 08:56:08 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 15/16] dt-bindings: display: mediatek: split: add
- compatible for MT8195
+Subject: Re: [PATCH] iosys-map: Clean up errors in iosys-map.h
+To: chenguohua@jari.cn
+References: <14ac9e76.941.18b26f86290.Coremail.chenguohua@jari.cn>
 Content-Language: en-US
-To: Moudy Ho <moudy.ho@mediatek.com>, Chun-Kuang Hu
- <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>
-References: <20231012084037.19376-1-moudy.ho@mediatek.com>
- <20231012084037.19376-16-moudy.ho@mediatek.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231012084037.19376-16-moudy.ho@mediatek.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <14ac9e76.941.18b26f86290.Coremail.chenguohua@jari.cn>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------oqVBiOxNQVXnU6hpVPz7xlXx"
+Authentication-Results: smtp-out2.suse.de;
+	none
+X-Spam-Level: 
+X-Spam-Score: -12.09
+X-Spamd-Result: default: False [-12.09 / 50.00]; ARC_NA(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; XM_UA_NO_VERSION(0.01)[];
+ FROM_HAS_DN(0.00)[]; RCPT_COUNT_THREE(0.00)[3];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; BAYES_HAM(-3.00)[100.00%];
+ MIME_GOOD(-0.20)[multipart/signed,multipart/mixed,text/plain];
+ HAS_ATTACHMENT(0.00)[]; REPLY(-4.00)[];
+ MIME_BASE64_TEXT_BOGUS(1.00)[]; TO_DN_NONE(0.00)[];
+ NEURAL_HAM_LONG(-3.00)[-1.000];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-1.00)[-1.000]; MIME_BASE64_TEXT(0.10)[];
+ SIGNED_PGP(-2.00)[]; FROM_EQ_ENVFROM(0.00)[];
+ MIME_TRACE(0.00)[0:+,1:+,2:+,3:~]; RCVD_COUNT_TWO(0.00)[2];
+ RCVD_TLS_ALL(0.00)[]; MID_RHS_MATCH_FROM(0.00)[]
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,39 +110,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/10/2023 10:40, Moudy Ho wrote:
-> Add compatible string and GCE property for MT8195 SPLIT, of
-> which is operated by MDP3.
-> 
-> Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------oqVBiOxNQVXnU6hpVPz7xlXx
+Content-Type: multipart/mixed; boundary="------------vAMMIhEYx0HC0OdizLS7C3GL";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: chenguohua@jari.cn
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Message-ID: <d7011af6-6955-4ce9-8d8b-5b6dd6cfd829@suse.de>
+Subject: Re: [PATCH] iosys-map: Clean up errors in iosys-map.h
+References: <14ac9e76.941.18b26f86290.Coremail.chenguohua@jari.cn>
+In-Reply-To: <14ac9e76.941.18b26f86290.Coremail.chenguohua@jari.cn>
 
+--------------vAMMIhEYx0HC0OdizLS7C3GL
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-> +allOf:
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: mediatek,mt8195-mdp3-split
-> +
-> +    then:
-> +      required:
-> +        - mediatek,gce-client-reg
+SGkNCg0KQW0gMTMuMTAuMjMgdW0gMDQ6NTggc2NocmllYiBjaGVuZ3VvaHVhQGphcmkuY246
+DQo+IEZpeCB0aGUgZm9sbG93aW5nIGVycm9ycyByZXBvcnRlZCBieSBjaGVja3BhdGNoOg0K
+PiANCj4gRVJST1I6IHNwYWNlcyByZXF1aXJlZCBhcm91bmQgdGhhdCAnOicgKGN0eDpWeFcp
+DQoNClRoaXMgbG9va3MgbGlrZSBhIGZhbHNlLXBvc2l0aXZlIHJlcG9ydCBhbmQgSSdkIHNh
+eSB0aGF0IGNoZWNrcGF0Y2ggDQphc3N1bWVzIHRoYXQgaXQncyBhID86IG9wZXJhdG9yLiBC
+dXQgdGhlc2UgbWFjcm9zIGNvbnRhaW4gX0dlbmVyaWMgDQpzdGF0ZW1lbnRzLCB3aGljaCBh
+cmUgc2ltaWxhciB0byBzd2l0Y2guDQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNCj4gDQo+
+IFNpZ25lZC1vZmYtYnk6IEd1b0h1YSBDaGVuZyA8Y2hlbmd1b2h1YUBqYXJpLmNuPg0KPiAt
+LS0NCj4gICBpbmNsdWRlL2xpbnV4L2lvc3lzLW1hcC5oIHwgMjAgKysrKysrKysrKy0tLS0t
+LS0tLS0NCj4gICAxIGZpbGUgY2hhbmdlZCwgMTAgaW5zZXJ0aW9ucygrKSwgMTAgZGVsZXRp
+b25zKC0pDQo+IA0KPiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9saW51eC9pb3N5cy1tYXAuaCBi
+L2luY2x1ZGUvbGludXgvaW9zeXMtbWFwLmgNCj4gaW5kZXggY2I3MWFhNjE2YmQzLi4xMDhm
+ZDBkZDkxMjEgMTAwNjQ0DQo+IC0tLSBhL2luY2x1ZGUvbGludXgvaW9zeXMtbWFwLmgNCj4g
+KysrIGIvaW5jbHVkZS9saW51eC9pb3N5cy1tYXAuaA0KPiBAQCAtMzQ5LDI5ICszNDksMjkg
+QEAgc3RhdGljIGlubGluZSB2b2lkIGlvc3lzX21hcF9tZW1zZXQoc3RydWN0IGlvc3lzX21h
+cCAqZHN0LCBzaXplX3Qgb2Zmc2V0LA0KPiAgIA0KPiAgICNpZmRlZiBDT05GSUdfNjRCSVQN
+Cj4gICAjZGVmaW5lIF9faW9zeXNfbWFwX3JkX2lvX3U2NF9jYXNlKHZhbF8sIHZhZGRyX2lv
+bWVtXykJCQkJXA0KPiAtCXU2NDogdmFsXyA9IHJlYWRxKHZhZGRyX2lvbWVtXykNCj4gKwl1
+NjQgOiB2YWxfID0gcmVhZHEodmFkZHJfaW9tZW1fKQ0KPiAgICNkZWZpbmUgX19pb3N5c19t
+YXBfd3JfaW9fdTY0X2Nhc2UodmFsXywgdmFkZHJfaW9tZW1fKQkJCQlcDQo+IC0JdTY0OiB3
+cml0ZXEodmFsXywgdmFkZHJfaW9tZW1fKQ0KPiArCXU2NCA6IHdyaXRlcSh2YWxfLCB2YWRk
+cl9pb21lbV8pDQo+ICAgI2Vsc2UNCj4gICAjZGVmaW5lIF9faW9zeXNfbWFwX3JkX2lvX3U2
+NF9jYXNlKHZhbF8sIHZhZGRyX2lvbWVtXykJCQkJXA0KPiAtCXU2NDogbWVtY3B5X2Zyb21p
+bygmKHZhbF8pLCB2YWRkcl9pb21lbV8sIHNpemVvZih1NjQpKQ0KPiArCXU2NCA6IG1lbWNw
+eV9mcm9taW8oJih2YWxfKSwgdmFkZHJfaW9tZW1fLCBzaXplb2YodTY0KSkNCj4gICAjZGVm
+aW5lIF9faW9zeXNfbWFwX3dyX2lvX3U2NF9jYXNlKHZhbF8sIHZhZGRyX2lvbWVtXykJCQkJ
+XA0KPiAtCXU2NDogbWVtY3B5X3RvaW8odmFkZHJfaW9tZW1fLCAmKHZhbF8pLCBzaXplb2Yo
+dTY0KSkNCj4gKwl1NjQgOiBtZW1jcHlfdG9pbyh2YWRkcl9pb21lbV8sICYodmFsXyksIHNp
+emVvZih1NjQpKQ0KPiAgICNlbmRpZg0KPiAgIA0KPiAgICNkZWZpbmUgX19pb3N5c19tYXBf
+cmRfaW8odmFsX18sIHZhZGRyX2lvbWVtX18sIHR5cGVfXykgX0dlbmVyaWModmFsX18sCQlc
+DQo+IC0JdTg6IHZhbF9fID0gcmVhZGIodmFkZHJfaW9tZW1fXyksCQkJCQlcDQo+IC0JdTE2
+OiB2YWxfXyA9IHJlYWR3KHZhZGRyX2lvbWVtX18pLAkJCQkJXA0KPiAtCXUzMjogdmFsX18g
+PSByZWFkbCh2YWRkcl9pb21lbV9fKSwJCQkJCVwNCj4gKwl1OCA6IHZhbF9fID0gcmVhZGIo
+dmFkZHJfaW9tZW1fXyksCQkJCQlcDQo+ICsJdTE2IDogdmFsX18gPSByZWFkdyh2YWRkcl9p
+b21lbV9fKSwJCQkJCVwNCj4gKwl1MzIgOiB2YWxfXyA9IHJlYWRsKHZhZGRyX2lvbWVtX18p
+LAkJCQkJXA0KPiAgIAlfX2lvc3lzX21hcF9yZF9pb191NjRfY2FzZSh2YWxfXywgdmFkZHJf
+aW9tZW1fXykpDQo+ICAgDQo+ICAgI2RlZmluZSBfX2lvc3lzX21hcF9yZF9zeXModmFsX18s
+IHZhZGRyX18sIHR5cGVfXykJCQkJXA0KPiAgIAl2YWxfXyA9IFJFQURfT05DRSgqKHR5cGVf
+XyAqKSh2YWRkcl9fKSkNCj4gICANCj4gICAjZGVmaW5lIF9faW9zeXNfbWFwX3dyX2lvKHZh
+bF9fLCB2YWRkcl9pb21lbV9fLCB0eXBlX18pIF9HZW5lcmljKHZhbF9fLAkJXA0KPiAtCXU4
+OiB3cml0ZWIodmFsX18sIHZhZGRyX2lvbWVtX18pLAkJCQkJXA0KPiAtCXUxNjogd3JpdGV3
+KHZhbF9fLCB2YWRkcl9pb21lbV9fKSwJCQkJCVwNCj4gLQl1MzI6IHdyaXRlbCh2YWxfXywg
+dmFkZHJfaW9tZW1fXyksCQkJCQlcDQo+ICsJdTggOiB3cml0ZWIodmFsX18sIHZhZGRyX2lv
+bWVtX18pLAkJCQkJXA0KPiArCXUxNiA6IHdyaXRldyh2YWxfXywgdmFkZHJfaW9tZW1fXyks
+CQkJCQlcDQo+ICsJdTMyIDogd3JpdGVsKHZhbF9fLCB2YWRkcl9pb21lbV9fKSwJCQkJCVwN
+Cj4gICAJX19pb3N5c19tYXBfd3JfaW9fdTY0X2Nhc2UodmFsX18sIHZhZGRyX2lvbWVtX18p
+KQ0KPiAgIA0KPiAgICNkZWZpbmUgX19pb3N5c19tYXBfd3Jfc3lzKHZhbF9fLCB2YWRkcl9f
+LCB0eXBlX18pCQkJCVwNCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJp
+dmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpG
+cmFua2Vuc3RyYXNzZSAxNDYsIDkwNDYxIE51ZXJuYmVyZywgR2VybWFueQ0KR0Y6IEl2byBU
+b3RldiwgQW5kcmV3IE15ZXJzLCBBbmRyZXcgTWNEb25hbGQsIEJvdWRpZW4gTW9lcm1hbg0K
+SFJCIDM2ODA5IChBRyBOdWVybmJlcmcpDQo=
 
-else:
-  mediatek,gce-client-reg: false
+--------------vAMMIhEYx0HC0OdizLS7C3GL--
 
+--------------oqVBiOxNQVXnU6hpVPz7xlXx
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
 
-> +
->  additionalProperties: false
->  
->  examples:
+-----BEGIN PGP SIGNATURE-----
 
-Best regards,
-Krzysztof
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmUo6gkFAwAAAAAACgkQlh/E3EQov+A0
+6g//QvNDef+SKvuQ3o1WxEuLcABLcTqJfTtX14OFhMR/NxPpC1XNAlvPpu2bLVqBwxOsZYHEJxtK
+ZGc07w33DCPc8hIavr5YNJcGcbOJiBvrh7AEJgb0eH3kRXSrmrtKdpO+qMBjJG2wIyF2CIUdbZ23
+xvjC4DeJ8I0jIK2k9v5Px2/SjcHP1bwnLji2fNRqujfbe67mlwbUjjBm9DPrRY7GyL+5abUxbEgb
+FEHOsB7i606/jg2XfY5vY2PzGWTjLZPaXEyc9am+hIBgVbQADweE7ScZSoHF8fyiI4fKP0JE5Usz
+xQZbvGR6uOA5/uFhaiA9fbxKh7gp4nzY1haGcUhdnOyGXqJcsGdQEiusFrNBwohqJArBDaagp8b0
+3z7DahhHX1EC6KLxJW3SAjWZIKwZy9oe43x7wz/2X6FUSg+YsXsI88aPn9umbrcRWO6Eck74MEWh
+mHkgDjXRF4defE5FlJx/FQ1SCrbZQ8pJRQZiEnTfRuDKIf+9LdqGkKUmHSy7OwLULhzfQJ8mc5BW
+qJRWab3TfS1AjU1E4ndq0jKrBGh0eULikzPrWC5Wv0OZcbHVeMsxKbqlOJ1eLlKN89aAXcitQO07
++7VUAoaALUAyco8yZ+uxraa/phF6ssdBJiaPOt44841Rw0uzhbBhY8MyLHl+3JznhKjtgB+JLaLq
+AhM=
+=MBzz
+-----END PGP SIGNATURE-----
 
+--------------oqVBiOxNQVXnU6hpVPz7xlXx--
