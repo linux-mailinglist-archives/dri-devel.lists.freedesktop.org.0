@@ -2,46 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 557537C8290
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Oct 2023 11:54:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B8BE7C82EB
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Oct 2023 12:23:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 95FEC10E09B;
-	Fri, 13 Oct 2023 09:54:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0761410E0C8;
+	Fri, 13 Oct 2023 10:22:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 73CBF10E09B
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Oct 2023 09:54:44 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.whiteo.stw.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1qrEsQ-0007Xb-Kn; Fri, 13 Oct 2023 11:54:38 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
- by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1qrEsP-001Mg2-3t; Fri, 13 Oct 2023 11:54:37 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1qrEsO-00FU43-QC; Fri, 13 Oct 2023 11:54:36 +0200
-Date: Fri, 13 Oct 2023 11:54:36 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Subject: Re: [PATCH v2] drm/msm: remove unnecessary NULL check
-Message-ID: <20231013095436.fo5rieew5z74ck42@pengutronix.de>
-References: <ZSj+6/J6YsoSpLak@kadam>
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org
+ [IPv6:2001:67c:2050:0:465::101])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CFF0910E5D4
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Oct 2023 10:22:57 +0000 (UTC)
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4S6Myk33b1z9st0;
+ Fri, 13 Oct 2023 12:22:54 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1697192574;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+7Fm0Kv6UOgaMzCusyoEOSULpE/m8KVT7FMKs/BR0Ys=;
+ b=FOmtRxf37zr6oKHfmsEO/FKw2bEELABW08wdh6XA9SCVo/VljS9JclP8pjgT3cg6t2zzT2
+ FyhzbeMhYlCCXru4h08eaLWwW7jXAGc/ZX3pnMsOa1a6/uwZDeusf0oKvPwnD3FIAbCqy6
+ ahwgxBEW1t4DwgyFWY4M99Tr8gHAkhUXJDDrDlsSfCYPzfgg0Diu3EqGM00HBsFsw0nL28
+ OqRiGv/I/T36JWjxWjGBVlHGdwAoO37I/K8VnC4kLKZ85zztiuHyFVrA1YKuRpKId09CKX
+ qICKQ0Jyb9bD2vIXz2w8PEHZ/twI/rveXOyht5/ArEYQL/7Qufw3MZuJCBvgKg==
+Message-ID: <a4a5dc87-001b-2948-e74f-8c51d170b9b2@mailbox.org>
+Date: Fri, 13 Oct 2023 12:22:52 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="azie4tzhhm5wnxd7"
-Content-Disposition: inline
-In-Reply-To: <ZSj+6/J6YsoSpLak@kadam>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] drm/atomic: Perform blocking commits on workqueue
+Content-Language: en-CA
+To: Daniel Vetter <daniel@ffwll.ch>, Ray Strode <halfline@gmail.com>
+References: <20230926170549.2589045-1-halfline@gmail.com>
+ <ZR6IlVR-A5KtIHEU@phenom.ffwll.local>
+ <CAA_UwzL=2PjeH_qW2GJa_XzJCeWkz9NcokPQX3-qn2f0iPz+Rw@mail.gmail.com>
+ <90e7f66f-96bf-4e90-88c8-75019bc506a4@amd.com>
+ <CAA_UwzJ7q8aq_iw3wimeQXmvKp8Z253J7oqi3UQqcKdkRmAcAA@mail.gmail.com>
+ <9f9b50fa-8bad-4e96-ac60-21c48f473fc6@amd.com> <ZSPv1iAwJMgnsDu3@intel.com>
+ <dc0c733e-df75-42f8-a920-cca8eebfa0dc@amd.com>
+ <ZSU4aGnYsqUvz1ry@phenom.ffwll.local>
+ <CAA_UwzJF3Smi_JSQ4S3B1kG23MEXppVfm0Sc1ftVktaoumymuA@mail.gmail.com>
+ <ZSkQxEL4596_pQW1@phenom.ffwll.local>
+From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel.daenzer@mailbox.org>
+In-Reply-To: <ZSkQxEL4596_pQW1@phenom.ffwll.local>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: tqxdmjbcipo9sxqoxiws34jyfjamy379
+X-MBO-RS-ID: 0a43f868be203d7b721
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,56 +65,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Su Hui <suhui@nfschina.com>,
- kernel-janitors@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>
+Cc: daniel.vetter@ffwll.ch, Xinhui.Pan@amd.com, dri-devel@lists.freedesktop.org,
+ alexander.deucher@amd.com, airlied@redhat.com,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 10/13/23 11:41, Daniel Vetter wrote:
+> On Thu, Oct 12, 2023 at 02:19:41PM -0400, Ray Strode wrote:
+>> On Mon, Oct 09, 2023 at 02:36:17PM +0200, Christian König wrote:
+>>>>>> To be clear, my take is, if driver code is running in process context
+>>>>>> and needs to wait for periods of time on the order of or in excess of
+>>>>>> a typical process time slice it should be sleeping during the waiting.
+>>>>>> If the operation is at a point where it can be cancelled without side
+>>>>>> effects, the sleeping should be INTERRUPTIBLE. If it's past the point
+>>>>>> of no return, sleeping should be UNINTERRUPTIBLE. At no point, in my
+>>>>>> opinion, should kernel code busy block a typical process for dozens of
+>>>>>> milliseconds while keeping the process RUNNING. I don't think this is
+>>>>>> a controversial take.
+>>>>> Exactly that's what I completely disagree on.
+>>
+>> Okay if we can't agree that it's not okay for user space (or the
+>> kernel running in the context of user space) to busy loop a cpu core
+>> at 100% utilization throughout and beyond the process's entire
+>> scheduled time slice then we really are at an impasse. I gotta say i'm
+>> astonished that this seemingly indefensible behavior is somehow a
+>> point of contention, but I'm not going to keep arguing about it beyond
+>> this email.
+>>
+>> I mean we're not talking about scientific computing, or code
+>> compilation, or seti@home. We're talking about nearly the equivalent
+>> of `while (1) __asm__ ("nop");`
+> 
+> I don't think anyone said this shouldn't be fixed or improved.
+> 
+> What I'm saying is that the atomic ioctl is not going to make guarantees
+> that it will not take up to much cpu time (for some extremely vague value
+> of "too much") to the point that userspace can configure it's compositor
+> in a way that it _will_ get killed if we _ever_ violate this rule.
+> 
+> We should of course try to do as good as job as possible, but that's not
+> what you're asking for. You're asking for a hard real-time guarantee with
+> the implication if we ever break it, it's a regression, and the kernel has
+> to bend over backwards with tricks like in your patch to make it work.
 
---azie4tzhhm5wnxd7
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I don't think mutter really needs or wants such a hard real-time guarantee. What it needs is a fighting chance to react before the kernel kills its process.
 
-On Fri, Oct 13, 2023 at 11:25:15AM +0300, Dan Carpenter wrote:
-> This NULL check was required when it was added, but we shuffled the code
-> around and now it's not.  The inconsistent NULL checking triggers a
-> Smatch warning:
->=20
->     drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:847 mdp5_init() warn:
->     variable dereferenced before check 'mdp5_kms' (see line 782)
->=20
-> Fixes: 1f50db2f3e1e ("drm/msm/mdp5: move resource allocation to the _prob=
-e function"
-> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+The intended mechanism for this is SIGXCPU, but that can't work if the kernel is stuck in a busy-loop. Ray's patch seems like one way to avoid that.
 
-Reviewed-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+That said, as long as SIGXCPU can work as intended with the non-blocking commits mutter uses for everything except modesets, mutter's workaround of dropping RT priority for the blocking commits seems acceptable for the time being.
 
-(already provided for (implicit) v1, but wasn't picked up)
 
-Thanks
-Uwe
+-- 
+Earthling Michel Dänzer            |                  https://redhat.com
+Libre software enthusiast          |         Mesa and Xwayland developer
 
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---azie4tzhhm5wnxd7
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmUpE9sACgkQj4D7WH0S
-/k7/mgf/eePbGSTxnx4bSU48gePsiOai39SNEhuEk2iMBkHEaEE8kbcY9d2HO/Fn
-ULnenRAalSQCnIDqzahTlQLieRBsBHdyT68+Y+4TS3n6gpGKUxi03gq1NJiIeql2
-tNtmWBtntXzSBb02rbdzJEfoWUu9VUajD6cY+PVPSDMLnwMImygX+0WFsM3AACPG
-eTb1bwsu08/JRAzkj5nWqshlZekBEVg3KKucphJA+jKP0R9yCkR1ErzACUSFrK1E
-yTBJYS28zv3OfxKUUoEGQ0S7BHZiYCMjALJk1C1sUDmYoLDkI0MtRQ5o83d79kPx
-2c64Eqk0cGyDnsy6ygTwEFkI6DvwXw==
-=UDqN
------END PGP SIGNATURE-----
-
---azie4tzhhm5wnxd7--
