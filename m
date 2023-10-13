@@ -1,52 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E211D7C860B
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Oct 2023 14:48:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A78A97C8636
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Oct 2023 14:56:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A05510E029;
-	Fri, 13 Oct 2023 12:48:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3BFE610E600;
+	Fri, 13 Oct 2023 12:56:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C97610E029
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Oct 2023 12:48:20 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 489AD10E600;
+ Fri, 13 Oct 2023 12:56:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1697201300; x=1728737300;
+ t=1697201765; x=1728737765;
  h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=o60+COZma8TeT2EpeOij8I3evH4uZFQtT4ewUOYUpfI=;
- b=ONzCKknMCIVIK7n3JwMpgBaNI3D+kEtS0ZvEUreuIpKv6+i7LTwLLgOH
- KHxi9H/I+F6y1qMEsHiiu/y1xc8rk+++zKUX8ZqIMn1yEXpG/A0azKpwI
- rk0HcwikFUwMOWoIdvphGBGQ02PTGPGJZ//Y4s73zez/yjDsYLgNoFK39
- c2IWGAUwmRJCds949U7x/Ct9YSMrFQqrkS61sMOleZeFTngCjY/SuhorY
- yp62M7M6RHppso00IfBm9OD1fPoAzGvEJNsv+QKGLLHh/F82pqzGZjmRA
- Sop7vJ66MY+mOcH0mMpaE7sEQzOavNii+4suO1Djlt8zC/5LAZelWlYYF Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10862"; a="384036307"
-X-IronPort-AV: E=Sophos;i="6.03,222,1694761200"; d="scan'208";a="384036307"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Oct 2023 05:48:19 -0700
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=zMLD2+97ZJNhpw6RdKVyZ6wlpplAV7WG4TyReIqNY2M=;
+ b=DnFS8BU6mFCpY/KdOsmDeBxm1+9FtB81KQBdO3UwEp72eudRtXVUfoje
+ fuouNHvTdAhYaTEJxezej97dNFi5tMpeR5k7eETMmzCST7vUOXUtYJ5jQ
+ DEirKXM3f9OIpZrbWwTWvUPPAssT+f9ulcV4K0jgftgYIxQ9rOi9slB4N
+ rCDLql38NXjV7os+sPdyq+WdOChDnGMLdjCbjOgANIqSyi5YWwIxRevp/
+ XxRxFqdUm/7GvxGJILr5wrfwb9vnilPtJYQwDQRU4AK5gcjehE0BovauC
+ 9h71ZudqYeZF6mVGzp47b51QR79/BoDlfaM37ovtS9B4tQ27KPtySFw+g g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10862"; a="471413100"
+X-IronPort-AV: E=Sophos;i="6.03,222,1694761200"; d="scan'208";a="471413100"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Oct 2023 05:56:04 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10862"; a="898547173"
-X-IronPort-AV: E=Sophos;i="6.03,222,1694761200"; d="scan'208";a="898547173"
-Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
- by fmsmga001.fm.intel.com with ESMTP; 13 Oct 2023 05:46:23 -0700
-Received: from kbuild by f64821696465 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1qrHaN-0004mH-1z;
- Fri, 13 Oct 2023 12:48:11 +0000
-Date: Fri, 13 Oct 2023 20:47:29 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sarah Walker <sarah.walker@imgtec.com>, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v7 11/20] drm/imagination: Add GEM and VM related code
-Message-ID: <202310132017.sS9EaOVp-lkp@intel.com>
-References: <20231010133738.35274-12-sarah.walker@imgtec.com>
+X-IronPort-AV: E=McAfee;i="6600,9927,10862"; a="789857951"
+X-IronPort-AV: E=Sophos;i="6.03,222,1694761200"; d="scan'208";a="789857951"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
+ by orsmga001.jf.intel.com with SMTP; 13 Oct 2023 05:56:00 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Fri, 13 Oct 2023 15:55:59 +0300
+Date: Fri, 13 Oct 2023 15:55:59 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Nirmoy Das <nirmoy.das@intel.com>
+Subject: Re: [PATCH] drm/i915: Flush WC GGTT only on required platforms
+Message-ID: <ZSk-X7oe2eVqmuW3@intel.com>
+References: <20231013103140.12192-1-nirmoy.das@intel.com>
+ <ZSkg47slZ25rSQK4@intel.com>
+ <ae8d62c9-ddfb-8913-6b67-681d9cf70978@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20231010133738.35274-12-sarah.walker@imgtec.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ae8d62c9-ddfb-8913-6b67-681d9cf70978@intel.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,82 +62,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-doc@vger.kernel.org, hns@goldelico.com,
- krzysztof.kozlowski+dt@linaro.org, matthew.brost@intel.com, corbet@lwn.net,
- luben.tuikov@amd.com, dakr@redhat.com, donald.robson@imgtec.com,
- devicetree@vger.kernel.org, conor+dt@kernel.org, mripard@kernel.org,
- Matt Coster <matt.coster@imgtec.com>, robh+dt@kernel.org,
- oe-kbuild-all@lists.linux.dev, faith.ekstrand@collabora.com,
- linux-kernel@vger.kernel.org, afd@ti.com, boris.brezillon@collabora.com,
- tzimmermann@suse.de, christian.koenig@amd.com
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, Jonathan Cavitt <jonathan.cavitt@intel.com>,
+ dri-devel@lists.freedesktop.org, stable@vger.kernel.org,
+ Andi Shyti <andi.shyti@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Matt Roper <matthew.d.roper@intel.com>,
+ John Harrison <john.c.harrison@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sarah,
+On Fri, Oct 13, 2023 at 02:28:21PM +0200, Nirmoy Das wrote:
+> Hi Ville,
+> 
+> On 10/13/2023 12:50 PM, Ville Syrjälä wrote:
+> > On Fri, Oct 13, 2023 at 12:31:40PM +0200, Nirmoy Das wrote:
+> >> gen8_ggtt_invalidate() is only needed for limitted set of platforms
+> >> where GGTT is mapped as WC
+> > I know there is supposed to be some kind hw snooping of the ggtt
+> > pte writes to invalidate the tlb, but are we sure GFX_FLSH_CNTL
+> > has no other side effects we depend on?
+> 
+> I spent some time searching through the gfxspec. This GFX_FLSH_CNTL 
+> register only seems to be for
+> 
+> invalidating TLB for GUnit  and (from git log ) we started to do that to 
+> enable WC based GGTT updates.
+> 
+> 
+> So if I am not missing anything obvious then this should be safe.
 
-kernel test robot noticed the following build warnings:
+OK.
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on drm/drm-next drm-intel/for-linux-next drm-tip/drm-tip next-20231012]
-[cannot apply to drm-exynos/exynos-drm-next drm-intel/for-linux-next-fixes linus/master v6.6-rc5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+The only code related complaint I have is that you are now duplicating
+that same platform check in two different places. It's always better to
+have a single point of truth instead of two or more, so that there is
+no risk of introducing bugs due to mismatches.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Sarah-Walker/sizes-h-Add-entries-between-SZ_32G-and-SZ_64T/20231010-221057
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20231010133738.35274-12-sarah.walker%40imgtec.com
-patch subject: [PATCH v7 11/20] drm/imagination: Add GEM and VM related code
-config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20231013/202310132017.sS9EaOVp-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231013/202310132017.sS9EaOVp-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310132017.sS9EaOVp-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from drivers/gpu/drm/imagination/pvr_mmu.c:9:
->> drivers/gpu/drm/imagination/pvr_rogue_fwif.h:56:52: warning: 'rogue_fwif_log_group_name_value_map' defined but not used [-Wunused-const-variable=]
-      56 | static const struct rogue_fwif_log_group_map_entry rogue_fwif_log_group_name_value_map[] = {
-         |                                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
---
->> drivers/gpu/drm/imagination/pvr_mmu.c:1331: warning: Incorrect use of kernel-doc format:          * @curr_page - A reference to a single physical page as indexed by
->> drivers/gpu/drm/imagination/pvr_mmu.c:1345: warning: Function parameter or member 'curr_page' not described in 'pvr_mmu_op_context'
->> drivers/gpu/drm/imagination/pvr_mmu.c:1744: warning: Function parameter or member 'ctx' not described in 'pvr_mmu_get_root_table_dma_addr'
->> drivers/gpu/drm/imagination/pvr_mmu.c:1744: warning: Excess function parameter 'root' description in 'pvr_mmu_get_root_table_dma_addr'
->> drivers/gpu/drm/imagination/pvr_mmu.c:2156: warning: Excess function parameter 'ptr' description in 'pvr_page_destroy'
-
-
-vim +/rogue_fwif_log_group_name_value_map +56 drivers/gpu/drm/imagination/pvr_rogue_fwif.h
-
-b4ef9acd8e065c Sarah Walker 2023-10-10  51  
-b4ef9acd8e065c Sarah Walker 2023-10-10  52  /*
-b4ef9acd8e065c Sarah Walker 2023-10-10  53   * Macro for use with the ROGUE_FWIF_LOG_GROUP_MAP_ENTRY type to create a lookup
-b4ef9acd8e065c Sarah Walker 2023-10-10  54   * table where needed. Keep log group names short, no more than 20 chars.
-b4ef9acd8e065c Sarah Walker 2023-10-10  55   */
-b4ef9acd8e065c Sarah Walker 2023-10-10 @56  static const struct rogue_fwif_log_group_map_entry rogue_fwif_log_group_name_value_map[] = {
-b4ef9acd8e065c Sarah Walker 2023-10-10  57  	{"none", ROGUE_FWIF_LOG_TYPE_NONE},
-b4ef9acd8e065c Sarah Walker 2023-10-10  58  	{"main", ROGUE_FWIF_LOG_TYPE_GROUP_MAIN},
-b4ef9acd8e065c Sarah Walker 2023-10-10  59  	{"mts", ROGUE_FWIF_LOG_TYPE_GROUP_MTS},
-b4ef9acd8e065c Sarah Walker 2023-10-10  60  	{"cleanup", ROGUE_FWIF_LOG_TYPE_GROUP_CLEANUP},
-b4ef9acd8e065c Sarah Walker 2023-10-10  61  	{"csw", ROGUE_FWIF_LOG_TYPE_GROUP_CSW},
-b4ef9acd8e065c Sarah Walker 2023-10-10  62  	{"bif", ROGUE_FWIF_LOG_TYPE_GROUP_BIF},
-b4ef9acd8e065c Sarah Walker 2023-10-10  63  	{"pm", ROGUE_FWIF_LOG_TYPE_GROUP_PM},
-b4ef9acd8e065c Sarah Walker 2023-10-10  64  	{"rtd", ROGUE_FWIF_LOG_TYPE_GROUP_RTD},
-b4ef9acd8e065c Sarah Walker 2023-10-10  65  	{"spm", ROGUE_FWIF_LOG_TYPE_GROUP_SPM},
-b4ef9acd8e065c Sarah Walker 2023-10-10  66  	{"pow", ROGUE_FWIF_LOG_TYPE_GROUP_POW},
-b4ef9acd8e065c Sarah Walker 2023-10-10  67  	{"hwr", ROGUE_FWIF_LOG_TYPE_GROUP_HWR},
-b4ef9acd8e065c Sarah Walker 2023-10-10  68  	{"hwp", ROGUE_FWIF_LOG_TYPE_GROUP_HWP},
-b4ef9acd8e065c Sarah Walker 2023-10-10  69  	{"rpm", ROGUE_FWIF_LOG_TYPE_GROUP_RPM},
-b4ef9acd8e065c Sarah Walker 2023-10-10  70  	{"dma", ROGUE_FWIF_LOG_TYPE_GROUP_DMA},
-b4ef9acd8e065c Sarah Walker 2023-10-10  71  	{"misc", ROGUE_FWIF_LOG_TYPE_GROUP_MISC},
-b4ef9acd8e065c Sarah Walker 2023-10-10  72  	{"debug", ROGUE_FWIF_LOG_TYPE_GROUP_DEBUG}
-b4ef9acd8e065c Sarah Walker 2023-10-10  73  };
-b4ef9acd8e065c Sarah Walker 2023-10-10  74  
+> 
+> 
+> Regards,
+> 
+> Nirmoy
+> 
+> >
+> >> otherwise this can cause unwanted
+> >> side-effects on XE_HP platforms where GFX_FLSH_CNTL_GEN6 is not
+> >> valid.
+> >>
+> >> Fixes: d2eae8e98d59 ("drm/i915/dg2: Drop force_probe requirement")
+> >> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> >> Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+> >> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+> >> Cc: Jani Nikula <jani.nikula@linux.intel.com>
+> >> Cc: Jonathan Cavitt <jonathan.cavitt@intel.com>
+> >> Cc: John Harrison <john.c.harrison@intel.com>
+> >> Cc: Andi Shyti <andi.shyti@linux.intel.com>
+> >> Cc: <stable@vger.kernel.org> # v6.2+
+> >> Suggested-by: Matt Roper <matthew.d.roper@intel.com>
+> >> Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
+> >> ---
+> >>   drivers/gpu/drm/i915/gt/intel_ggtt.c | 6 +++++-
+> >>   1 file changed, 5 insertions(+), 1 deletion(-)
+> >>
+> >> diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt.c b/drivers/gpu/drm/i915/gt/intel_ggtt.c
+> >> index 4d7d88b92632..c2858d434bce 100644
+> >> --- a/drivers/gpu/drm/i915/gt/intel_ggtt.c
+> >> +++ b/drivers/gpu/drm/i915/gt/intel_ggtt.c
+> >> @@ -197,13 +197,17 @@ void gen6_ggtt_invalidate(struct i915_ggtt *ggtt)
+> >>   
+> >>   static void gen8_ggtt_invalidate(struct i915_ggtt *ggtt)
+> >>   {
+> >> +	struct drm_i915_private *i915 = ggtt->vm.i915;
+> >>   	struct intel_uncore *uncore = ggtt->vm.gt->uncore;
+> >>   
+> >>   	/*
+> >>   	 * Note that as an uncached mmio write, this will flush the
+> >>   	 * WCB of the writes into the GGTT before it triggers the invalidate.
+> >> +	 *
+> >> +	 * Only perform this when GGTT is mapped as WC, see ggtt_probe_common().
+> >>   	 */
+> >> -	intel_uncore_write_fw(uncore, GFX_FLSH_CNTL_GEN6, GFX_FLSH_CNTL_EN);
+> >> +	if (!IS_GEN9_LP(i915) && GRAPHICS_VER(i915) < 11)
+> >> +		intel_uncore_write_fw(uncore, GFX_FLSH_CNTL_GEN6, GFX_FLSH_CNTL_EN);
+> >>   }
+> >>   
+> >>   static void guc_ggtt_invalidate(struct i915_ggtt *ggtt)
+> >> -- 
+> >> 2.41.0
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Ville Syrjälä
+Intel
