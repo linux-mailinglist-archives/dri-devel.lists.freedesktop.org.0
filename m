@@ -2,46 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E746D7C87ED
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Oct 2023 16:34:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F3897C87FF
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Oct 2023 16:43:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3743410E10E;
-	Fri, 13 Oct 2023 14:34:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3764010E05C;
+	Fri, 13 Oct 2023 14:43:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9890410E10E
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Oct 2023 14:34:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1697207692; x=1728743692;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=x9TAgWn1t+sPUilXVrm5Zzp5IO0+tb79z0zkmZZdkjg=;
- b=M8Djm9fofiNnBy6ca4G/t+fjtoT7A3s4k30BSSp7Q2olXtgYQTv/yEka
- Nvk57uelqp2s96hvG2CS4ytArrFLwJ+LMoy4CRRa4V0AjODiXPAS8Xfga
- AHbyKqnFhW9v93Wa+7PCxN4h9hU6pC8IJd8jK85KxSN57r7LnEzZEpx6C
- LO99pDJ20AKomeXI8mIddE79lmqokUQN+R1/ZkykidgEF6tmg1bvK39jY
- s8fuvrdMC5HwWWjh8+/Z5wntztRIg2uHqBwcIlrUGcT9NaaW3LHJntdWq
- TgiS8/4B1vJ++PJJPafeDpdR4yx66CxOGkVDOjFiZiwPoqPGZgKNV2+67 A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10862"; a="364555862"
-X-IronPort-AV: E=Sophos;i="6.03,222,1694761200"; d="scan'208";a="364555862"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Oct 2023 07:34:24 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10862"; a="825074594"
-X-IronPort-AV: E=Sophos;i="6.03,222,1694761200"; d="scan'208";a="825074594"
-Received: from mmach-mobl.ger.corp.intel.com (HELO kdrobnik-desk.intel.com)
- ([10.213.17.253])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Oct 2023 07:34:22 -0700
-From: Karolina Stolarek <karolina.stolarek@intel.com>
+Received: from michel.telenet-ops.be (michel.telenet-ops.be
+ [IPv6:2a02:1800:110:4::f00:18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9BD1910E184
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Oct 2023 14:43:20 +0000 (UTC)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:f151:5551:1af6:b316])
+ by michel.telenet-ops.be with bizsmtp
+ id xSjH2A00C56FAx306SjJx3; Fri, 13 Oct 2023 16:43:18 +0200
+Received: from rox.of.borg ([192.168.97.57])
+ by ramsan.of.borg with esmtp (Exim 4.95)
+ (envelope-from <geert@linux-m68k.org>) id 1qrJNi-006Gwc-Cs;
+ Fri, 13 Oct 2023 16:43:17 +0200
+Received: from geert by rox.of.borg with local (Exim 4.95)
+ (envelope-from <geert@linux-m68k.org>) id 1qrJNl-002Vp9-Pl;
+ Fri, 13 Oct 2023 16:43:17 +0200
+From: Geert Uytterhoeven <geert@linux-m68k.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/ttm: Drain workqueue before sys manager release
-Date: Fri, 13 Oct 2023 16:34:23 +0200
-Message-Id: <20231013143423.1503088-1-karolina.stolarek@intel.com>
-X-Mailer: git-send-email 2.25.1
+Subject: [PATCH libdrm v4 0/9] util,
+ modetest: add support for low-color frame buffer formats
+Date: Fri, 13 Oct 2023 16:43:02 +0200
+Message-Id: <cover.1697207862.git.geert@linux-m68k.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -56,55 +44,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Karolina Stolarek <karolina.stolarek@intel.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In rare cases, a delayed destruction of a BO with a system resource
-could stay in the workqueue until drain_workqueue() is called
-in ttm_device_fini(). An attempt to free a resource from an already
-released manager results in NULL pointer dereference. Move the step
-of draining and destroying the workqueue so it happens before
-the ttm_sys_manager cleanup.
+	Hi all,
 
-Fixes: 9bff18d13473 ("drm/ttm: use per BO cleanup workers")
-Signed-off-by: Karolina Stolarek <karolina.stolarek@intel.com>
----
-Some background: I stumbled upon this issue when testing
-ttm_bo_pipeline_gutting() with BO with an active dma_resv fence. In ~2% of
-the runs, the delayed destruction of the ghost wouldn't happen until the
-drain_queue() step. man->func->free(man, *res) got called via
-ttm_bo_cleanup_memtype_use(), the manager and its functions were nowhere to
-be seen, resulting in a nulptr deref.
+A long outstanding issue with the DRM subsystem has been the lack of
+support for low-color displays, as used typically on older desktop
+systems, and on small embedded displays.
 
- drivers/gpu/drm/ttm/ttm_device.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+This patch series adds support for color-indexed frame buffer formats
+with 2, 4, and 16 colors.  It has been tested on ARAnyM using a
+work-in-progress Atari DRM driver.
 
-diff --git a/drivers/gpu/drm/ttm/ttm_device.c b/drivers/gpu/drm/ttm/ttm_device.c
-index 7726a72befc5..753126581620 100644
---- a/drivers/gpu/drm/ttm/ttm_device.c
-+++ b/drivers/gpu/drm/ttm/ttm_device.c
-@@ -232,6 +232,9 @@ void ttm_device_fini(struct ttm_device *bdev)
- 	struct ttm_resource_manager *man;
- 	unsigned i;
- 
-+	drain_workqueue(bdev->wq);
-+	destroy_workqueue(bdev->wq);
-+
- 	man = ttm_manager_type(bdev, TTM_PL_SYSTEM);
- 	ttm_resource_manager_set_used(man, false);
- 	ttm_set_driver_manager(bdev, TTM_PL_SYSTEM, NULL);
-@@ -240,9 +243,6 @@ void ttm_device_fini(struct ttm_device *bdev)
- 	list_del(&bdev->device_list);
- 	mutex_unlock(&ttm_global_mutex);
- 
--	drain_workqueue(bdev->wq);
--	destroy_workqueue(bdev->wq);
--
- 	spin_lock(&bdev->lru_lock);
- 	for (i = 0; i < TTM_MAX_BO_PRIORITY; ++i)
- 		if (list_empty(&man->lru[0]))
+Changes compared to v3[1]:
+  - Rename util_smpte_index_gamma() to util_smpte_fill_lut(), and its
+    first parameter from size to ncolors,
+  - Move smpte_color_lut[] down,
+  - Kill FILL_COLOR() macro,
+  - Add and use EXPAND_COLOR() macro,
+  - Replace FILL_COLOR() use by bw_color_lut[],
+  - Replace FILL_COLOR() use by pentile_color_lut[],
+  - Add missing C[12] to oneline-summary,
+  - Do not remove memset() of full lut, else some entries may stay
+    uninitialized.
+
+Changes compared to v2[2]:
+  - Add Acked-by,
+  - Add Wikipedia link,
+  - Dropped "[RFC] drm_fourcc: Add DRM_FORMAT_C[124]", as these were
+    added in commit 329eebcf32793361 ("drm_fourcc: sync drm_fourcc with
+    latest drm-next kernel") in libdrm-2.4.115.
+
+Changes compared to v1[3]:
+  - SMPTE color LUT accuracy,
+  - Factor out smpte color LUT,
+  - Restructure patches,
+  - Improve descriptions.
+  - Store number of colors for indexed formats,
+  - Add SMPTE pattern support for the C1 and C2 formats.
+
+I have also updated the merge request at [4].
+
+Thanks for your comments!
+
+[1] https://lore.kernel.org/r/cover.1690537375.git.geert@linux-m68k.org
+[2] https://lore.kernel.org/r/cover.1657302034.git.geert@linux-m68k.org/
+[3] https://lore.kernel.org/r/cover.1646683737.git.geert@linux-m68k.org/
+[4] https://gitlab.freedesktop.org/mesa/drm/-/merge_requests/314
+
+Geert Uytterhoeven (9):
+  util: improve SMPTE color LUT accuracy
+  util: factor out and optimize C8 SMPTE color LUT
+  util: add support for DRM_FORMAT_C[124]
+  util: store number of colors for indexed formats
+  util: add SMPTE pattern support for C4 format
+  util: add SMPTE pattern support for C1 format
+  util: add SMPTE pattern support for C2 format
+  modetest: add support for DRM_FORMAT_C[124]
+  modetest: add SMPTE pattern support for C[124] formats
+
+ tests/modetest/buffers.c  |  15 ++
+ tests/modetest/modetest.c |   9 +-
+ tests/util/format.c       |   5 +-
+ tests/util/format.h       |   1 +
+ tests/util/pattern.c      | 430 ++++++++++++++++++++++++++++++++++----
+ tests/util/pattern.h      |   2 +-
+ 6 files changed, 415 insertions(+), 47 deletions(-)
+
 -- 
-2.25.1
+2.34.1
 
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
