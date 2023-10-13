@@ -1,61 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A17597C87E6
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Oct 2023 16:33:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E746D7C87ED
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Oct 2023 16:34:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B966F10E107;
-	Fri, 13 Oct 2023 14:33:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3743410E10E;
+	Fri, 13 Oct 2023 14:34:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com
- [IPv6:2607:f8b0:4864:20::b30])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A1AF010E107
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Oct 2023 14:33:40 +0000 (UTC)
-Received: by mail-yb1-xb30.google.com with SMTP id
- 3f1490d57ef6-d8a000f6a51so2354570276.3
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Oct 2023 07:33:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google; t=1697207619; x=1697812419;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Z3oXaouEHmr+WTYhzt/7QpBoxGJiT+pK6mrKYEvkBIs=;
- b=pN6Nx9BhTe6uiVKUNIH0w/y3heZX4BUHiP41FSRcNRQGCIzFnYoy1lm2kUX17W+rxZ
- 96ssUKpdWoU5oGT28Ex0y3FZ3+V/y1Aw5zznfI193B4/lHBQYVbXUYn3EJWQox8ritGj
- auTJVIxE7A/Bu3U476Q+dgoQ9SH88R/5Aj0ITdfY3jbw/37n4vczC4hbAeoxAYu20Jff
- Ua4fDT2SASn9bGQad3ad3K04U78bjSlHZ+Y+goQE7EQ6P4whxYvYHsNKQTGWRYI14Fq4
- eUMtH5rO6Q7ixdnnL1fXoYhzZYeABBRrU7lb04QeFGqPiAGVcYWuL9OCR2ajXXKED/Ti
- HzXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1697207619; x=1697812419;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Z3oXaouEHmr+WTYhzt/7QpBoxGJiT+pK6mrKYEvkBIs=;
- b=g4Gh/xAruU/GUdou/nGltTaLveMkUWle+/rrNmjzBVLKy9z5X6t6keZIi5WLlma2jK
- Cd9dzVBi6D7lcTlvF+D0QtBu3vp03sokMlLGPBt2PHvJHVLm1DMni20/qsg5261H1/xX
- AvsMRaYKqBAJBESiosJLMjWbCT8LkJxpjF8OjXLP7K8xTrmlnnKgPLBs+pKHxZlp4bQt
- mhoqy8RULfLfV274wBuvjVnPobIqFY/THAkx2Bul5HYjxRxtYdvwBx5N03/PySIeq9iP
- UjTM+9J1P3d/7kwZxo+NmsVoVYR0crqxlJ7lUCkjqR5VLv9IPRNVHd13MiaTfQygdYUB
- aoww==
-X-Gm-Message-State: AOJu0YzCQe9I9PvdEXy6aw33/IYetesrUuM8kevYKmduDnIs3wSIEiTk
- m209je8kDpYqYEzQ69ZKDgATTq53GVQV1F4eTzlSfw==
-X-Google-Smtp-Source: AGHT+IHtqtQspOz8AHnlOeLvgsa/5+0UggoJt8F503MopGvgal84493gvpcLAi8oz0PV27sAiGZSziFoeNjCzg2Zo0w=
-X-Received: by 2002:a25:d493:0:b0:d9a:ef4e:547b with SMTP id
- m141-20020a25d493000000b00d9aef4e547bmr3508342ybf.41.1697207619513; Fri, 13
- Oct 2023 07:33:39 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9890410E10E
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Oct 2023 14:34:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1697207692; x=1728743692;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=x9TAgWn1t+sPUilXVrm5Zzp5IO0+tb79z0zkmZZdkjg=;
+ b=M8Djm9fofiNnBy6ca4G/t+fjtoT7A3s4k30BSSp7Q2olXtgYQTv/yEka
+ Nvk57uelqp2s96hvG2CS4ytArrFLwJ+LMoy4CRRa4V0AjODiXPAS8Xfga
+ AHbyKqnFhW9v93Wa+7PCxN4h9hU6pC8IJd8jK85KxSN57r7LnEzZEpx6C
+ LO99pDJ20AKomeXI8mIddE79lmqokUQN+R1/ZkykidgEF6tmg1bvK39jY
+ s8fuvrdMC5HwWWjh8+/Z5wntztRIg2uHqBwcIlrUGcT9NaaW3LHJntdWq
+ TgiS8/4B1vJ++PJJPafeDpdR4yx66CxOGkVDOjFiZiwPoqPGZgKNV2+67 A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10862"; a="364555862"
+X-IronPort-AV: E=Sophos;i="6.03,222,1694761200"; d="scan'208";a="364555862"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Oct 2023 07:34:24 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10862"; a="825074594"
+X-IronPort-AV: E=Sophos;i="6.03,222,1694761200"; d="scan'208";a="825074594"
+Received: from mmach-mobl.ger.corp.intel.com (HELO kdrobnik-desk.intel.com)
+ ([10.213.17.253])
+ by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Oct 2023 07:34:22 -0700
+From: Karolina Stolarek <karolina.stolarek@intel.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/ttm: Drain workqueue before sys manager release
+Date: Fri, 13 Oct 2023 16:34:23 +0200
+Message-Id: <20231013143423.1503088-1-karolina.stolarek@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <CAPY8ntCFbHff-Ac1DjFJhj4ghZ1wjemnc6PoT_n7zbjoWG3+aA@mail.gmail.com>
- <60a006cd-cf2e-4e72-9c77-369f3476c81d@suse.de>
-In-Reply-To: <60a006cd-cf2e-4e72-9c77-369f3476c81d@suse.de>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Fri, 13 Oct 2023 15:33:23 +0100
-Message-ID: <CAPY8ntAFFv-Zvt7DGz2hprXz9CrO61Wu2ow_rzioMKsKFwu-PQ@mail.gmail.com>
-Subject: Re: DRM FB emulation initialisation leaving the display disabled
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,91 +56,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: DRI Development <dri-devel@lists.freedesktop.org>
+Cc: Karolina Stolarek <karolina.stolarek@intel.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas
+In rare cases, a delayed destruction of a BO with a system resource
+could stay in the workqueue until drain_workqueue() is called
+in ttm_device_fini(). An attempt to free a resource from an already
+released manager results in NULL pointer dereference. Move the step
+of draining and destroying the workqueue so it happens before
+the ttm_sys_manager cleanup.
 
-Thanks for the response.
+Fixes: 9bff18d13473 ("drm/ttm: use per BO cleanup workers")
+Signed-off-by: Karolina Stolarek <karolina.stolarek@intel.com>
+---
+Some background: I stumbled upon this issue when testing
+ttm_bo_pipeline_gutting() with BO with an active dma_resv fence. In ~2% of
+the runs, the delayed destruction of the ghost wouldn't happen until the
+drain_queue() step. man->func->free(man, *res) got called via
+ttm_bo_cleanup_memtype_use(), the manager and its functions were nowhere to
+be seen, resulting in a nulptr deref.
 
-On Thu, 12 Oct 2023 at 08:03, Thomas Zimmermann <tzimmermann@suse.de> wrote:
->
-> Hi Dave
->
-> Am 11.10.23 um 17:52 schrieb Dave Stevenson:
-> > Hi Thomas (and everyone else)
-> >
-> > Maxime has suggested you're the person for DRM framebuffer emulation.
-> >
-> > I'm getting some unexpected behaviour when there are multiple DRM
-> > drivers in play. In this case it happens to be vc4 and the tiny
-> > hx8357d SPI display driver, but this affects most of the tiny DRM
-> > drivers and also the DSI and DPI outputs on the Pi5.
-> > We get different behaviour depending on whether vc4 or hx8357d
-> > initialises first.
-> >
-> > If hx8357d loads first and registers as /dev/fb0 through the fb
-> > emulation, then we get fbcon enabling the display and putting the
-> > emulated framebuffer on it. vc4 then loads, registers /dev/fb1, and
-> > through the hotplug handler it enables the display
-> > (drm_fb_helper_hotplug_event calls, drm_fb_helper_set_par, which calls
-> > __drm_fb_helper_restore_fbdev_mode_unlocked).
-> >
-> > If vc4 loads first and claims /dev/fb0, fbcon initalises and enables
-> > the display. hx8357d then loads and registers as /dev/fb1. fbcon is
-> > not configured for that fb, and there is no subsequent hotplug event
-> > (SPI displays aren't hotpluggable), so we have a fully configured
-> > framebuffer exposed to userspace but the display itself isn't enabled
-> > so we don't see anything :-(
-> > Open and close /dev/dri/card1 and the lastclose hook calls
-> > drm_fb_helper_restore_fbdev_mode_unlocked and we get the display
-> > enabled.
->
-> What you're describing sounds like the recent bug report at
->
->    https://gitlab.freedesktop.org/drm/amd/-/issues/2649
->
-> which had similar symptoms with amdgpu. IIRC the console didn't
-> initialize if the DRM hotplugging event happened before fbdev emulation
-> was ready. DRM's fbdev code would then not see the hotplugged connector.
->
-> Do you have commit 27655b9bb9f0 ("drm/client: Send hotplug event after
-> registering a client") in your tree? (It's been ported into various
-> stable branches as well.)
+ drivers/gpu/drm/ttm/ttm_device.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-I was about to switch from my 6.1.55 build to the latest just to
-ensure it hadn't been fixed, but that commit hit the 6.1 stable branch
-in 6.1.43, so I do have it.
+diff --git a/drivers/gpu/drm/ttm/ttm_device.c b/drivers/gpu/drm/ttm/ttm_device.c
+index 7726a72befc5..753126581620 100644
+--- a/drivers/gpu/drm/ttm/ttm_device.c
++++ b/drivers/gpu/drm/ttm/ttm_device.c
+@@ -232,6 +232,9 @@ void ttm_device_fini(struct ttm_device *bdev)
+ 	struct ttm_resource_manager *man;
+ 	unsigned i;
+ 
++	drain_workqueue(bdev->wq);
++	destroy_workqueue(bdev->wq);
++
+ 	man = ttm_manager_type(bdev, TTM_PL_SYSTEM);
+ 	ttm_resource_manager_set_used(man, false);
+ 	ttm_set_driver_manager(bdev, TTM_PL_SYSTEM, NULL);
+@@ -240,9 +243,6 @@ void ttm_device_fini(struct ttm_device *bdev)
+ 	list_del(&bdev->device_list);
+ 	mutex_unlock(&ttm_global_mutex);
+ 
+-	drain_workqueue(bdev->wq);
+-	destroy_workqueue(bdev->wq);
+-
+ 	spin_lock(&bdev->lru_lock);
+ 	for (i = 0; i < TTM_MAX_BO_PRIORITY; ++i)
+ 		if (list_empty(&man->lru[0]))
+-- 
+2.25.1
 
-Other priorities have overtaken my investigation of this, but at least
-knowing that it should enable the outputs (and nominally through the
-hotplug hook) I can have another look at what is actually going on.
-
-Thanks again
-  Dave
-
-> Best regard
-> Thomas
->
-> >
-> > Is it intentional that we're left in this limbo state with the display
-> > not enabled if fbcon isn't enabled on a framebuffer?
-> >
-> > We're trying to get people to transition from the fbdev drivers to DRM
-> > equivalents, but this seems to be a backwards step if there is an
-> > extra step required to get the display enabled. Many users are still
-> > just using the framebuffer.
-> >
-> > Any input is much appreciated.
-> >
-> > Thanks,
-> >    Dave
->
-> --
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Frankenstrasse 146, 90461 Nuernberg, Germany
-> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-> HRB 36809 (AG Nuernberg)
