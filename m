@@ -1,39 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA5AB7C8807
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Oct 2023 16:43:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 82C007C892C
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Oct 2023 17:55:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BBC1210E610;
-	Fri, 13 Oct 2023 14:43:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 07C9510E00A;
+	Fri, 13 Oct 2023 15:55:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from albert.telenet-ops.be (albert.telenet-ops.be
- [IPv6:2a02:1800:110:4::f00:1a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F02C10E16B
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Oct 2023 14:43:24 +0000 (UTC)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:f151:5551:1af6:b316])
- by albert.telenet-ops.be with bizsmtp
- id xSjN2A00M56FAx306SjN9r; Fri, 13 Oct 2023 16:43:22 +0200
-Received: from rox.of.borg ([192.168.97.57])
- by ramsan.of.borg with esmtp (Exim 4.95)
- (envelope-from <geert@linux-m68k.org>) id 1qrJNi-006GxA-JM;
- Fri, 13 Oct 2023 16:43:18 +0200
-Received: from geert by rox.of.borg with local (Exim 4.95)
- (envelope-from <geert@linux-m68k.org>) id 1qrJNm-002Vpn-16;
- Fri, 13 Oct 2023 16:43:18 +0200
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH libdrm v4 9/9] modetest: add SMPTE pattern support for C[124]
- formats
-Date: Fri, 13 Oct 2023 16:43:11 +0200
-Message-Id: <e17a24bb12fde9c332a797dbcd55b0a5f7d7bfff.1697207862.git.geert@linux-m68k.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1697207862.git.geert@linux-m68k.org>
-References: <cover.1697207862.git.geert@linux-m68k.org>
+X-Greylist: delayed 478 seconds by postgrey-1.36 at gabe;
+ Fri, 13 Oct 2023 14:56:20 UTC
+Received: from gw.red-soft.ru (red-soft.ru [188.246.186.2])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 4A81B10E17A
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Oct 2023 14:56:20 +0000 (UTC)
+Received: from localhost.biz (unknown [10.81.81.211])
+ by gw.red-soft.ru (Postfix) with ESMTPA id DAADE3E0D09;
+ Fri, 13 Oct 2023 17:48:18 +0300 (MSK)
+From: Artem Chernyshev <artem.chernyshev@red-soft.ru>
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>
+Subject: [PATCH] drm/bridge: analogix: anx78xx: Check return value
+Date: Fri, 13 Oct 2023 17:48:13 +0300
+Message-Id: <20231013144813.354353-1-artem.chernyshev@red-soft.ru>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-KLMS-Rule-ID: 1
+X-KLMS-Message-Action: clean
+X-KLMS-AntiSpam-Lua-Profiles: 180612 [Oct 13 2023]
+X-KLMS-AntiSpam-Version: 6.0.0.2
+X-KLMS-AntiSpam-Envelope-From: artem.chernyshev@red-soft.ru
+X-KLMS-AntiSpam-Rate: 0
+X-KLMS-AntiSpam-Status: not_detected
+X-KLMS-AntiSpam-Method: none
+X-KLMS-AntiSpam-Auth: dkim=none
+X-KLMS-AntiSpam-Info: LuaCore: 539 539
+ 807534d9021bfe9ca369c363d15ac993cd93d4d9,
+ {Tracking_from_domain_doesnt_match_to}, red-soft.ru:7.1.1; localhost.biz:7.1.1;
+ d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;
+ 127.0.0.199:7.1.2, FromAlignment: s
+X-MS-Exchange-Organization-SCL: -1
+X-KLMS-AntiSpam-Interceptor-Info: scan successful
+X-KLMS-AntiPhishing: Clean, bases: 2023/10/13 13:20:00
+X-KLMS-AntiVirus: Kaspersky Security for Linux Mail Server, version 8.0.3.30,
+ bases: 2023/10/13 11:13:00 #22181246
+X-KLMS-AntiVirus-Status: Clean, skipped
+X-Mailman-Approved-At: Fri, 13 Oct 2023 15:55:14 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,81 +59,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sam Ravnborg <sam@ravnborg.org>, Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: lvc-project@linuxtesting.org, Jonas Karlman <jonas@kwiboo.se>,
+ Artem Chernyshev <artem.chernyshev@red-soft.ru>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for drawing the SMPTE pattern in buffers using a
-color-indexed frame buffer formats with two, four, or sixteen colors.
+In anx78xx_start() err value of anx78xx_clear_bits()
+overwriting without check.
 
-Note that this still uses 256 as the CLUT size, as
-DRM_IOCTL_MODE_SETGAMMA enforces that the size matches against the
-(fixed) gamma size, while the CLUT size depends on the format.
+Found by Linux Verification Center (linuxtesting.org) with SVACE.
 
-Move clearing the color LUT entries from util_smpte_index_gamma() to its
-caller, as only the caller knows how many entries there really are
-(currently DRM always assumes 256 entries).
-
-Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
+Signed-off-by: Artem Chernyshev <artem.chernyshev@red-soft.ru>
 ---
-v4:
-  - Add missing C[12] to oneline-summary,
-  - Do not remove memset() of full lut, else some entries may stay
-    uninitialized,
+ drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-v3:
-  - Add Acked-by,
-
-v2:
-  - Split off changes to tests/modetest/modetest.c,
-  - Add C1 and C2 support.
-
-The linuxdoc comments say userspace can query the gamma size:
-
- * drm_mode_gamma_set_ioctl - set the gamma table
- *
- * Set the gamma table of a CRTC to the one passed in by the user. Userspace can
- * inquire the required gamma table size through drm_mode_gamma_get_ioctl.
-
- * drm_mode_gamma_get_ioctl - get the gamma table
- *
- * Copy the current gamma table into the storage provided. This also provides
- * the gamma table size the driver expects, which can be used to size the
- * allocated storage.
-
-but the code doesn't seem to support that in an easy way (like setting
-red/green/blue to NULL on input, retrieving gamma_size on output), only
-by providing big enough buffers for red/green/blue, and looping over
-gamma_size until -EINVAL is no longer returned.
----
- tests/modetest/modetest.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
-
-diff --git a/tests/modetest/modetest.c b/tests/modetest/modetest.c
-index 9504fbd8af59ff21..9b1aa537be8716cf 100644
---- a/tests/modetest/modetest.c
-+++ b/tests/modetest/modetest.c
-@@ -1149,13 +1149,16 @@ static bool add_property_optional(struct device *dev, uint32_t obj_id,
- static void set_gamma(struct device *dev, unsigned crtc_id, unsigned fourcc)
- {
- 	unsigned blob_id = 0;
-+	const struct util_format_info *info;
- 	/* TODO: support 1024-sized LUTs, when the use-case arises */
- 	struct drm_color_lut gamma_lut[256];
- 	int i, ret;
+diff --git a/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c b/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c
+index 800555aef97f..c966e661b9b9 100644
+--- a/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c
++++ b/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c
+@@ -537,6 +537,10 @@ static int anx78xx_start(struct anx78xx *anx78xx)
+ 				 SP_POWERDOWN_CTRL_REG,
+ 				 SP_HDCP_PD | SP_AUDIO_PD | SP_VIDEO_PD |
+ 				 SP_LINK_PD);
++	if (err) {
++		DRM_ERROR("Failed to clear bits: %d\n", err);
++		goto err_poweroff;
++	}
  
--	if (fourcc == DRM_FORMAT_C8) {
--		/* TODO: Add C8 support for more patterns */
--		util_smpte_fill_lut(256, gamma_lut);
-+	info = util_format_info_find(fourcc);
-+	if (info->ncolors) {
-+		memset(gamma_lut, 0, sizeof(gamma_lut));
-+		/* TODO: Add index support for more patterns */
-+		util_smpte_fill_lut(info->ncolors, gamma_lut);
- 		drmModeCreatePropertyBlob(dev->fd, gamma_lut, sizeof(gamma_lut), &blob_id);
- 	} else {
- 		/*
+ 	err = anx78xx_enable_interrupts(anx78xx);
+ 	if (err) {
 -- 
-2.34.1
+2.37.3
 
