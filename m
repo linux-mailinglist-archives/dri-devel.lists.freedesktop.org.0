@@ -2,116 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EADA7C848B
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Oct 2023 13:37:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 429507C849D
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Oct 2023 13:38:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E69EF10E073;
-	Fri, 13 Oct 2023 11:37:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 422B410E0BD;
+	Fri, 13 Oct 2023 11:38:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2060.outbound.protection.outlook.com [40.107.93.60])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC3C810E067;
- Fri, 13 Oct 2023 11:37:14 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KlcKPQeuXJlZu/MjZvzKH7cNWUoJsdqDBmj+pY+E3/6M2eLFnC86vwqfJhBGp0O4pChrdKRXdsLWDWnfdUqZVaKLtEY8wDUtwcrjkFSBdGDydHJNz5Zdgucu23XoWxYskZ2d+IVxg/zVatnqtNR8IKFvnK+CkTRsW9Sb0Y91Y8XcfyJk1Tx15rbFORWqDnhzo3RORfjBoYVe5SqnneeNNtUA6MMW1YTX8ChOrpriyr5paFgI81MNd8S5Z9lCRvQV3JMtzunw4wnCSd3BAzRDDjmbHIE0rJiS2BqEwwl4pH11v0zvFFeR8vGN3mYfGu2TMOz9rURT8nWTvk6aISvvZg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8ZYM5GY2zTSu6VwKLieOUUPjaU67nd29Z4DDwhv0LCA=;
- b=GK++yO+JYwKUu/s8RFSMjzTWlok+jabyviVklIFQaPCvXVWuYf9wCise/QRFhYEEwfdl34poyTOE88vvmFrbcz34QAcsKDiQtXicXdmm1ScBx78u2r1FQJoibGgbYGPuF6YGhCCPWfds3LqGFn1W1xE1RY12HqI41cQ4B3MSoSoaXf859iRSJaIP50GbArYOJUXvbf97NTMZJri/FLQFtK/7QjUUF7B1JBhQqYfMpywIWFLDy53CtBrUBqhUbIV/Y8krCAxjx2lCjwr95vKXrRA/9wXy4qwKYPE22xct+Ou9aMVTpPXlgtwqSNshjH4Lx0fS4xctP/4DlqXtUvsGsg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8ZYM5GY2zTSu6VwKLieOUUPjaU67nd29Z4DDwhv0LCA=;
- b=bRjRNLoBhdNq/TGRugdf+Se0ViTRekXJ80RshINeMi8TnTagaIAX51OLJySjUmkQafRIHzrUm/K6SlHF3MBlzw7zozKuicED5GX+lHutK4uM/igUPm0X6saHCm5Sq9Skb/i9+8l59CXm3/ytLthzdMMF9V0lydpyEDzKDVdKNug=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM4PR12MB6280.namprd12.prod.outlook.com (2603:10b6:8:a2::11) by
- CH3PR12MB8534.namprd12.prod.outlook.com (2603:10b6:610:15a::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6863.41; Fri, 13 Oct
- 2023 11:37:10 +0000
-Received: from DM4PR12MB6280.namprd12.prod.outlook.com
- ([fe80::5aa2:3605:1718:3332]) by DM4PR12MB6280.namprd12.prod.outlook.com
- ([fe80::5aa2:3605:1718:3332%7]) with mapi id 15.20.6863.043; Fri, 13 Oct 2023
- 11:37:10 +0000
-Message-ID: <9d371f71-b7f9-4c4e-b42b-20cabaa42567@amd.com>
-Date: Fri, 13 Oct 2023 07:37:06 -0400
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/edid: add 8 bpc quirk to the BenQ GW2765
-To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-References: <20231012184927.133137-1-hamza.mahfooz@amd.com>
- <ZSkcX1nJ4Ipf2ICd@intel.com>
-Content-Language: en-US
-From: Hamza Mahfooz <hamza.mahfooz@amd.com>
-In-Reply-To: <ZSkcX1nJ4Ipf2ICd@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: YQZPR01CA0145.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c01:8c::11) To DM4PR12MB6280.namprd12.prod.outlook.com
- (2603:10b6:8:a2::11)
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1EDFE10E067;
+ Fri, 13 Oct 2023 11:38:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1697197111; x=1728733111;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=hpyotjG7IxpE5ZY2cRrspdLLsq0EZ5MINn9yN05T6ak=;
+ b=OAPoDSGzddQDmdQkSFnGzrTXXCQck9NPXaW0N/F2NaHwJZZr+S2khFTj
+ gNJlM64LtEofE1aLBnelgjlAYE07eoCk3rlMYznX7IaDAOPXfu79YfUMd
+ 6cT6OGSl4Uf+OnqFi3c5sV5uj4+ItCHNcMOHXPV6Iq241LCeTTecPme5i
+ MpjeYYpmCQvnN5q4JxqFq4L/k5NyN9olpMFL9YTOzNWQRenncQjPdH9E1
+ d5VJarbiMWO+qbouf8PG3iBQxeVZv+5V8jkjnIJlu+B8BTeJXhzTaHKMr
+ 8zuT4sV6xpoZLQLfqww/9yOKMmYkpz1SpOkv1rjpfPpKRaxADGNd8BolZ w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="451635202"
+X-IronPort-AV: E=Sophos;i="6.03,222,1694761200"; d="scan'208";a="451635202"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Oct 2023 04:38:30 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="845443018"
+X-IronPort-AV: E=Sophos;i="6.03,222,1694761200"; d="scan'208";a="845443018"
+Received: from dstacken-mobl1.ger.corp.intel.com (HELO [10.249.254.172])
+ ([10.249.254.172])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Oct 2023 04:38:27 -0700
+Message-ID: <65e96c3465a47440ca44b3182e257cb40e745f8b.camel@linux.intel.com>
+Subject: Re: [PATCH drm-misc-next v6 1/6] drm/gpuvm: add common dma-resv per
+ struct drm_gpuvm
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Danilo Krummrich <dakr@redhat.com>, airlied@gmail.com, daniel@ffwll.ch, 
+ matthew.brost@intel.com, sarah.walker@imgtec.com, donald.robson@imgtec.com,
+ boris.brezillon@collabora.com, christian.koenig@amd.com,
+ faith@gfxstrand.net
+Date: Fri, 13 Oct 2023 13:38:12 +0200
+In-Reply-To: <20231008233212.13815-2-dakr@redhat.com>
+References: <20231008233212.13815-1-dakr@redhat.com>
+ <20231008233212.13815-2-dakr@redhat.com>
+Organization: Intel Sweden AB, Registration Number: 556189-6027
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR12MB6280:EE_|CH3PR12MB8534:EE_
-X-MS-Office365-Filtering-Correlation-Id: a29d453e-c095-4d8d-409b-08dbcbe0bc8f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: IBsXEKx1LVCnXXYODDW9qhJh3N0h/MVInMrRIfehog6V+1BeZG9dDKcWx7b8bDt9pDFucTBs60k0X++OWfhmEqLejXi1SRLzh4lmlEwD2Yy0kwxSekrRlctIAZOkiBbpRKgw0uBjJf1ojq61rEmyTP4N51pyUON0D4n4RUPqoJwIIl5L/+Wdyg/8btaW4zzscdiOk/OWUSWsSATH8J7/R49CmJuVqDd7E+Hj+lvEzskr2zJUi0I755rBqV1RUUE9+x3nozG29ZZXhy0HMqWpIKC61fId80k4BtNjTcgicJkC95DGdwQTe9HFTJ9d8KvcEO1l7erEOEZDb/e00mphwemr/lSBvOul1fPrT8HIsP4Z8ksLdMkqOiT377hj3J9HewIGUmA0BpAC3JjMYwtV7khyWpPuJevZR3YbWgp1BoZ7aAzXF85bLbr7kVkuH2FI9PG9gu51QEtLyD+yvK6zbOwtn3RtHzONYtx0cpehorvLHgqn+Z3DqA34QuhliHyiwrqsLwgz4JSzpCajPT/50ekJHw3LWSWcb2gqPxPWyheKLJvJp142RqbIQqvBkIbnuhQqCItvNFazdoESQo+tMmPOm2AjavYusL/kqvp5EFDe37d3wpfoOEObFNSvAH49
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR12MB6280.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(396003)(136003)(39860400002)(376002)(346002)(366004)(230922051799003)(451199024)(186009)(1800799009)(64100799003)(54906003)(66574015)(2616005)(316002)(66556008)(6916009)(6512007)(66476007)(66946007)(6506007)(53546011)(38100700002)(6486002)(26005)(966005)(478600001)(83380400001)(6666004)(44832011)(31696002)(86362001)(2906002)(8936002)(8676002)(41300700001)(5660300002)(4326008)(36756003)(31686004)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Rmp6OHRwcU9BTnNONGlHY3N0UmoyK2E5VWZiMGhMZk1rVzlCRGh3eGd5Q0Vw?=
- =?utf-8?B?eGJHcnBPMFF1Y2MzaWZ3YWZ0ZmVyZzg5SWk5Mno1Wi9BdGpUNldYS0hqWE9P?=
- =?utf-8?B?UGdaS0RiZVZRMFk2ZTJqLzNjZVBwcjlXVzNpVUw1Y2lCSGIxU0Y1TWZhTTdC?=
- =?utf-8?B?dU9Eczh2NlRmU2I3cC9xUjlUVUpNMTV0RklsVkZXWkdyOHBDdW1jL1RlSEhl?=
- =?utf-8?B?eEtXRDFDQWJzVkdlT0cyRHF1T0JyZzlla3IxUGNBTHFsVlJSc2p1QVlGbnNG?=
- =?utf-8?B?ZE5WOWwvTTFnVmRWTWZmMWhyaHF6SVk0bE5YNCtrUmNZMXMrb1FwYjNxcG5r?=
- =?utf-8?B?LzFyT2F5ejVHdWI3eEZlZjhZTmdsalFRMm5iUDNIR3BneHJzL2xMd2Vpb2JN?=
- =?utf-8?B?UkNCYTZBRHZyOUxRUWRUd1U1VURpd1o2a0JONXBxWXUwY3BqN2VEVkl2c3dn?=
- =?utf-8?B?MHNzRnBhVEJXUFdVcGVXREdvdmZLOWRtV3ZuK2h0YVRZekFlNjA4ZXFpZlQ5?=
- =?utf-8?B?Qi9SdEN1bzlncDFURUZ1NWkxMk9uWWptdldLRzdOUThPN2YrVVhPbit3VHU5?=
- =?utf-8?B?NnV1NTd6bkpaUjNEWGQ0bGxOYm5sTEZKYk54V084ZkNONkFCNjIzSXhBMXlW?=
- =?utf-8?B?Q2lrWDAvbDJmOXR4QlE2TmpNSXphM3RQQnozQ0QzaHd0cnk0K25BZm84M29I?=
- =?utf-8?B?bjcxZXBibnhqdThoeEhhdEJLaFpYd01ZYTk0aDgvZFo5a0luT0g5amxrYkdE?=
- =?utf-8?B?UGQwYWRhZUF2YjAzUmxwbytvNHVjc3N0aUtpQktLb2ZGRFNMU3JwNjhTVzBJ?=
- =?utf-8?B?bDVQWGZ3ZDFrb2NSNDJvU0NBMjhDNXN6b0FwdEMvbVRMYUxsc0czTHRoQkR0?=
- =?utf-8?B?OFRZUkJFYTJvZW1DMHZPcHlDeXNxcms5UEJJaGpjdnFDcHNZeFI4NWZhR09E?=
- =?utf-8?B?aEtCK0xhRXU1VzY2eVVvMkptdXhucjdyc2ZKM1ljNFVLd2h1SUJ2R3daSVhn?=
- =?utf-8?B?a2x2elR4aXZNUXFYS3J2TlFrdkQ4UEFpN0tucEFHSUVWaUtLRER2NjJsRlBH?=
- =?utf-8?B?bDFNY3pFNG40TkpmMXEzZkZZYXNvalZwbVFiWHF6NHBGdVZyWmttdTVJMHZX?=
- =?utf-8?B?cmdpaFgvTDcwWVlHV0sxdmp4b1hGc2R2NlIwWGdETEdTZklpbU1VL1BPWHZs?=
- =?utf-8?B?dXc0RURRLzFpMEFxdGF5SWI3MnJMNlppY0ZTdDJFTW5kbmZwbzA0RFJkR1gx?=
- =?utf-8?B?NCtpdG0wWnd4T2ZzVzF0T1J5T1E4TE43OU5iUk5mU2xDTURMelhXTWpoVU51?=
- =?utf-8?B?NldNMnJ2SU5lT2Y5dGYwM0JVakFYV2ZxbTFscVdJa2Z6UEVodlhheDdjZ21H?=
- =?utf-8?B?V0hMR2t2TmNuT01nNy82ZWlCeUtzTGZWc3JwdndCUHVSZDNrZm51SU85N2g0?=
- =?utf-8?B?aFd4K09lMVFsRlhLbE1la3orcERIR2cxeERFeURBQkFTMUhuMkJhMmQ2Z2g3?=
- =?utf-8?B?dGt1WjdMUExGMXBZdFJNaE9jQTVjcGdZbTJBVyt5Qng0Szg0UlZuaGV0WHpj?=
- =?utf-8?B?MEEvZHhpSVo4YTMrTk5MMDhZdnMxd3lkYTJhV0dSTzY0ZkpkN0d4ZCtDVTk1?=
- =?utf-8?B?OWtjd1d2cVl6cWsyOUFITnAxVTJDUGt2SHJnR1JxbEkvWlFWYnYvL1gyZ0Jo?=
- =?utf-8?B?aHY3dkw2RFlaTExIQXJzRWpvOXJIcXdUUFBhcWQxampCY3E0WlFkRmJtZzNV?=
- =?utf-8?B?TnhpZHVUNUdiRGx6djhLdEcrSFZieGo2Q0U4aTRlSWxwMVJmSm82ay9kOUZu?=
- =?utf-8?B?NkpJNGtnY2F0b2lZTmwzUmRCTTh2MWlYY1pmdjl3eURXQmNwUXJRQ3FzRlN5?=
- =?utf-8?B?anZVVks4T0EzbHp6d0VGcW1RYkJuMmFCTThacTNSZ3B2MnVlTmNsSUdlZ2ZO?=
- =?utf-8?B?NGdqV3ljcVlGMTd3am1JN0t1YkM1WlZITjJiV204c0tMMkRRKzhpSVQwQ0ZI?=
- =?utf-8?B?RFR6SGFhTkErUHl1UmIxY2NzbTZaOUduQldYOUh2N2xIbEVLRlJUdmNsK0c0?=
- =?utf-8?B?ZlQ0cG9JTExhYjc2WWdCUmR6a0VFQlB4aHl2Z0JtcVRQTS80bWp1VFU0L091?=
- =?utf-8?Q?t1Tx/u7EIqNyZ0hdC4k6GyCAV?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a29d453e-c095-4d8d-409b-08dbcbe0bc8f
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB6280.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Oct 2023 11:37:10.1446 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 1Jn0B3zQGmHEosataAYoPBF5GRaomaTAHJcEnCdrrA8x+ISH3xSgoP9x2bMznAM9Q5HCFOujdoRlMGFLDp8OGQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8534
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,50 +65,306 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Alex Deucher <alexander.deucher@amd.com>
+Cc: nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/13/23 06:30, Ville Syrjälä wrote:
-> On Thu, Oct 12, 2023 at 02:49:27PM -0400, Hamza Mahfooz wrote:
->> The BenQ GW2765 reports that it supports higher (> 8) bpc modes, but
->> when trying to set them we end up with a black screen. So, limit it to 8
->> bpc modes.
-> 
-> Bad cable/etc was ruled out as the cause?
+On Mon, 2023-10-09 at 01:32 +0200, Danilo Krummrich wrote:
+> Provide a common dma-resv for GEM objects not being used outside of
+> this
+> GPU-VM. This is used in a subsequent patch to generalize dma-resv,
+> external and evicted object handling and GEM validation.
+>=20
+> Signed-off-by: Danilo Krummrich <dakr@redhat.com>
+> ---
+> =C2=A0drivers/gpu/drm/drm_gpuvm.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 56
+> +++++++++++++++++++++++++-
+> =C2=A0drivers/gpu/drm/nouveau/nouveau_uvmm.c | 13 +++++-
+> =C2=A0include/drm/drm_gpuvm.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 35 +++++++++++++++-
+> =C2=A03 files changed, 99 insertions(+), 5 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/drm_gpuvm.c
+> b/drivers/gpu/drm/drm_gpuvm.c
+> index 02ecb45a2544..ebda9d594165 100644
+> --- a/drivers/gpu/drm/drm_gpuvm.c
+> +++ b/drivers/gpu/drm/drm_gpuvm.c
+> @@ -61,6 +61,15 @@
+> =C2=A0 * contained within struct drm_gpuva already. Hence, for inserting
+> &drm_gpuva
+> =C2=A0 * entries from within dma-fence signalling critical sections it is
+> enough to
+> =C2=A0 * pre-allocate the &drm_gpuva structures.
+> + *
+> + * &drm_gem_objects which are private to a single VM can share a
+> common
+> + * &dma_resv in order to improve locking efficiency (e.g. with
+> &drm_exec).
+> + * For this purpose drivers must pass a &drm_gem_object to
+> drm_gpuvm_init(), in
+> + * the following called 'root object', which serves as the container
 
-Yup, the issue was also reproduced by two different people with same
-aforementioned monitor.
+Nit: Perhaps resv object altough it might typically be the root page-
+table object, that doesn't have any meaning to drm_gpuvm, which uses it
+solely as a container for the resv?
 
-> 
->>
->> Cc: stable@vger.kernel.org # 6.5+
->> Link: https://gitlab.freedesktop.org/drm/amd/-/issues/2610
->> Signed-off-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
->> ---
->>   drivers/gpu/drm/drm_edid.c | 3 +++
->>   1 file changed, 3 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
->> index 0454da505687..bca2af4fe1fc 100644
->> --- a/drivers/gpu/drm/drm_edid.c
->> +++ b/drivers/gpu/drm/drm_edid.c
->> @@ -123,6 +123,9 @@ static const struct edid_quirk {
->>   	/* AEO model 0 reports 8 bpc, but is a 6 bpc panel */
->>   	EDID_QUIRK('A', 'E', 'O', 0, EDID_QUIRK_FORCE_6BPC),
->>   
->> +	/* BenQ GW2765 */
->> +	EDID_QUIRK('B', 'N', 'Q', 0x78d6, EDID_QUIRK_FORCE_8BPC),
->> +
->>   	/* BOE model on HP Pavilion 15-n233sl reports 8 bpc, but is a 6 bpc panel */
->>   	EDID_QUIRK('B', 'O', 'E', 0x78b, EDID_QUIRK_FORCE_6BPC),
->>   
->> -- 
->> 2.42.0
-> 
--- 
-Hamza
+> of the
+> + * GPUVM's shared &dma_resv. This root object can be a driver
+> specific
+> + * &drm_gem_object, such as the &drm_gem_object containing the root
+> page table,
+> + * but it can also be a 'dummy' object, which can be allocated with
+> + * drm_gpuvm_root_object_alloc().
+> =C2=A0 */
+> =C2=A0
+> =C2=A0/**
+> @@ -652,9 +661,47 @@ drm_gpuvm_range_valid(struct drm_gpuvm *gpuvm,
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 !drm_gpuvm_in_kernel_node(gpuvm, addr, range);
+> =C2=A0}
+> =C2=A0
+> +static void
+> +drm_gpuvm_gem_object_free(struct drm_gem_object *obj)
+> +{
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0drm_gem_object_release(obj);
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0kfree(obj);
+> +}
+> +
+> +static const struct drm_gem_object_funcs drm_gpuvm_object_funcs =3D {
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.free =3D drm_gpuvm_gem_object=
+_free,
+> +};
+> +
+> +/**
+> + * drm_gpuvm_root_object_alloc() - allocate a dummy &drm_gem_object
+> + * @drm: the drivers &drm_device
+> + *
+> + * Allocates a dummy &drm_gem_object which can be passed to
+> drm_gpuvm_init() in
+> + * order to serve as root GEM object providing the &drm_resv shared
+> across
+> + * &drm_gem_objects local to a single GPUVM.
+> + *
+> + * Returns: the &drm_gem_object on success, NULL on failure
+> + */
+> +struct drm_gem_object *
+> +drm_gpuvm_root_object_alloc(struct drm_device *drm)
+> +{
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct drm_gem_object *obj;
+> +
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0obj =3D kzalloc(sizeof(*obj), =
+GFP_KERNEL);
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (!obj)
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0return NULL;
+> +
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0obj->funcs =3D &drm_gpuvm_obje=
+ct_funcs;
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0drm_gem_private_object_init(dr=
+m, obj, 0);
+> +
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0return obj;
+> +}
+> +EXPORT_SYMBOL_GPL(drm_gpuvm_root_object_alloc);
+> +
+> =C2=A0/**
+> =C2=A0 * drm_gpuvm_init() - initialize a &drm_gpuvm
+> =C2=A0 * @gpuvm: pointer to the &drm_gpuvm to initialize
+> + * @r_obj: the root &drm_gem_object providing the GPUVM's common
+> &dma_resv
+> =C2=A0 * @name: the name of the GPU VA space
+> =C2=A0 * @start_offset: the start offset of the GPU VA space
+> =C2=A0 * @range: the size of the GPU VA space
+> @@ -668,7 +715,7 @@ drm_gpuvm_range_valid(struct drm_gpuvm *gpuvm,
+> =C2=A0 * &name is expected to be managed by the surrounding driver
+> structures.
+> =C2=A0 */
+> =C2=A0void
+> -drm_gpuvm_init(struct drm_gpuvm *gpuvm,
+> +drm_gpuvm_init(struct drm_gpuvm *gpuvm, struct drm_gem_object
+> *r_obj,
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 const char *name,
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 u64 start_offset, u64 range,
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 u64 reserve_offset, u64 reserve_range,
+> @@ -683,6 +730,9 @@ drm_gpuvm_init(struct drm_gpuvm *gpuvm,
+> =C2=A0
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0gpuvm->name =3D name ? na=
+me : "unknown";
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0gpuvm->ops =3D ops;
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0gpuvm->r_obj =3D r_obj;
+> +
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0drm_gem_object_get(r_obj);
+> =C2=A0
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0memset(&gpuvm->kernel_all=
+oc_node, 0, sizeof(struct
+> drm_gpuva));
+> =C2=A0
+> @@ -713,7 +763,9 @@ drm_gpuvm_destroy(struct drm_gpuvm *gpuvm)
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0__drm_gpuva_remove(&gpuvm->kernel_alloc_node);
+> =C2=A0
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0WARN(!RB_EMPTY_ROOT(&gpuv=
+m->rb.tree.rb_root),
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "GPUV=
+A tree is not empty, potentially leaking memory.");
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "GPUV=
+A tree is not empty, potentially leaking
+> memory.\n");
+
+Should we cache the drm device in struct drm_gpuvm and use drm_warn()
+here instead of WARN?
+
+> +
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0drm_gem_object_put(gpuvm->r_ob=
+j);
+> =C2=A0}
+> =C2=A0EXPORT_SYMBOL_GPL(drm_gpuvm_destroy);
+> =C2=A0
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_uvmm.c
+> b/drivers/gpu/drm/nouveau/nouveau_uvmm.c
+> index 5cf892c50f43..4dea847ef989 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_uvmm.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_uvmm.c
+> @@ -1808,8 +1808,9 @@ int
+> =C2=A0nouveau_uvmm_init(struct nouveau_uvmm *uvmm, struct nouveau_cli
+> *cli,
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 u64 kernel_managed_addr, u64 kernel_managed_=
+size)
+> =C2=A0{
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0int ret;
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct drm_gem_object *r_obj;
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0u64 kernel_managed_end =
+=3D kernel_managed_addr +
+> kernel_managed_size;
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0int ret;
+> =C2=A0
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0mutex_init(&uvmm->mutex);
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0dma_resv_init(&uvmm->resv=
+);
+> @@ -1833,14 +1834,22 @@ nouveau_uvmm_init(struct nouveau_uvmm *uvmm,
+> struct nouveau_cli *cli,
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0goto out_unlock;
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0}
+> =C2=A0
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0r_obj =3D drm_gpuvm_root_objec=
+t_alloc(cli->drm->dev);
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (!r_obj) {
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0ret =3D -ENOMEM;
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0goto out_unlock;
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0}
+> +
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0uvmm->kernel_managed_addr=
+ =3D kernel_managed_addr;
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0uvmm->kernel_managed_size=
+ =3D kernel_managed_size;
+> =C2=A0
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0drm_gpuvm_init(&uvmm->base, cl=
+i->name,
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0drm_gpuvm_init(&uvmm->base, r_=
+obj, cli->name,
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 NOUVEAU_VA_SPA=
+CE_START,
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 NOUVEAU_VA_SPA=
+CE_END,
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 kernel_managed=
+_addr, kernel_managed_size,
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 NULL);
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0/* GPUVM takes care from here =
+on. */
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0drm_gem_object_put(r_obj);
+> =C2=A0
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0ret =3D nvif_vmm_ctor(&cl=
+i->mmu, "uvmm",
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 cli->vmm.vmm.object.oclass, RAW,
+> diff --git a/include/drm/drm_gpuvm.h b/include/drm/drm_gpuvm.h
+> index c7ed6bf441d4..0aec14d8b259 100644
+> --- a/include/drm/drm_gpuvm.h
+> +++ b/include/drm/drm_gpuvm.h
+> @@ -238,9 +238,15 @@ struct drm_gpuvm {
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * @ops: &drm_gpuvm_ops p=
+roviding the split/merge steps to
+> drivers
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0const struct drm_gpuvm_op=
+s *ops;
+> +
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0/**
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * @r_obj: Root GEM object; re=
+presenting the GPUVM's common
+> &dma_resv.
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct drm_gem_object *r_obj;
+> =C2=A0};
+> =C2=A0
+> -void drm_gpuvm_init(struct drm_gpuvm *gpuvm, const char *name,
+> +void drm_gpuvm_init(struct drm_gpuvm *gpuvm, struct drm_gem_object
+> *r_obj,
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 const char *name,
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 u64 start_offset, u64 range,
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 u64 reserve_offset, u64 reserve_=
+range,
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 const struct drm_gpuvm_ops *ops)=
+;
+> @@ -248,6 +254,33 @@ void drm_gpuvm_destroy(struct drm_gpuvm *gpuvm);
+> =C2=A0
+> =C2=A0bool drm_gpuvm_interval_empty(struct drm_gpuvm *gpuvm, u64 addr, u6=
+4
+> range);
+> =C2=A0
+> +struct drm_gem_object *
+> +drm_gpuvm_root_object_alloc(struct drm_device *drm);
+> +
+> +/**
+> + * drm_gpuvm_resv() - returns the &drm_gpuvm's &dma_resv
+> + * @gpuvm__: the &drm_gpuvm
+> + *
+> + * Returns: a pointer to the &drm_gpuvm's shared &dma_resv
+> + */
+> +#define drm_gpuvm_resv(gpuvm__) ((gpuvm__)->r_obj->resv)
+> +
+> +/**
+> + * drm_gpuvm_resv_obj() - returns the &drm_gem_object holding the
+> &drm_gpuvm's
+> + * &dma_resv
+> + * @gpuvm__: the &drm_gpuvm
+> + *
+> + * Returns: a pointer to the &drm_gem_object holding the
+> &drm_gpuvm's shared
+> + * &dma_resv
+> + */
+> +#define drm_gpuvm_resv_obj(gpuvm__) ((gpuvm__)->r_obj)
+> +
+> +#define drm_gpuvm_resv_held(gpuvm__) \
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0dma_resv_held(drm_gpuvm_resv(g=
+puvm__))
+> +
+> +#define drm_gpuvm_resv_assert_held(gpuvm__) \
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0dma_resv_assert_held(drm_gpuvm=
+_resv(gpuvm__))
+> +
+> =C2=A0static inline struct drm_gpuva *
+> =C2=A0__drm_gpuva_next(struct drm_gpuva *va)
+> =C2=A0{
+
+Reviewed-by: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
+
 
