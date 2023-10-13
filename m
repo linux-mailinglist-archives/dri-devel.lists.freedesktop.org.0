@@ -1,63 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B543B7C7DD6
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Oct 2023 08:46:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4590F7C7DDC
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Oct 2023 08:47:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE51A10E5AB;
-	Fri, 13 Oct 2023 06:46:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5135110E5AE;
+	Fri, 13 Oct 2023 06:47:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
- [IPv6:2a00:1450:4864:20::42e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 838C810E5AB
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Oct 2023 06:46:12 +0000 (UTC)
-Received: by mail-wr1-x42e.google.com with SMTP id
- ffacd0b85a97d-313e742a787so1070777f8f.1
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Oct 2023 23:46:12 -0700 (PDT)
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
+ [IPv6:2a00:1450:4864:20::431])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C198B89A77
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Oct 2023 06:47:16 +0000 (UTC)
+Received: by mail-wr1-x431.google.com with SMTP id
+ ffacd0b85a97d-32d9552d765so1050822f8f.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Oct 2023 23:47:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1697179570; x=1697784370; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:autocrypt:from
- :content-language:references:cc:to:subject:user-agent:mime-version
- :date:message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=VfuCZ1aZoqluUffIFaghB+5m1laq1jm/KJJ3FY8NzhI=;
- b=m1eglr38+FyngPPUmknlPDcT9puETeOe5Ok5P2mdL33IA1emEYK3KEzRcOdgaOZQUy
- WltgaVsfSk9U3v+G20phHEbgUm9PWQIlFWO/+uCI06n5tZNxb8BuzRpWvHNAymi+TjBd
- bR7KqZS1xFJ4oYUA/j2IESMXCgqf+yAkdnGTdn+Rxxm9HK5PfwJWiDO19aeYkWDMpF/q
- OKJZSWqVJKGdofT44XTMhW2Bqg5mJKSNHXWXsx5mu87nJ/LIvZqC5PV8bFK+/NMS/RYB
- uHzO2Su+2cvosqlnf6ktgy1L2ubu4Ew8m6MLdrpc4UmPo3Mvp85lj/E7duJ6ilE7QP/0
- vYbQ==
+ d=linaro.org; s=google; t=1697179635; x=1697784435; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+ :to:content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=9zUq+Fpo8hofAyxUMN6IML8iePFOZ34qIGUiNuN117s=;
+ b=GLpVFt8dsP2AvTC5hhynG6yLq/WKZRIqk7ZRnSyjc9tE5yETraJLem/EXcBZsGEjwU
+ zq+KqYkEHI9HHEwLpOxwkd4qdAQADtyYpvLdbk0ahZW26A1v3r4TQ8Mp4Is2NZDAhqbK
+ 33CArfZBywHSBR/8J1LlqgjZHCoQ5Kth1r2GYdXBWcv8D+NlqQNSBvmQH6nWFEWAj6kE
+ BI2MfstYL4AjQ92UxaFD/fhOGJwIQygUrtJaWRR0NQYC89i0PBqcD2YlpVkiXoKZGG9O
+ 9if7WHHkvvMh8zszuZMT8IUw7NXEHGaIziTXu4DZCbiC2P5UZk6fnmYIu0nvd1D6MtgD
+ rc/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1697179570; x=1697784370;
- h=content-transfer-encoding:in-reply-to:autocrypt:from
- :content-language:references:cc:to:subject:user-agent:mime-version
- :date:message-id:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=VfuCZ1aZoqluUffIFaghB+5m1laq1jm/KJJ3FY8NzhI=;
- b=BOh8D7k8ZyCrJ4UqR9CjGXnQr8gC9MemwFkj+B2GvjmGuEKhy6buQWvwu19LW3lNxS
- QdNAylUa6r030phOnRlmbZAQF62zOjRKMjzlyJJ1a6ueVZYqqF277C4tX3+2QXOGMaKP
- X3tnwiPOOPx8GkR935O8C871Zntlo5Pu7n2zCIoGECwAmyCqpXK+1Abjr06a9Hz1mrj9
- UUm+lvkiTH+ZA/KZqeL11XWyU+QhUG3MiaYNatWmR6W49j6UBng2ipTCDh8X9L7quCEf
- /Oc0L4xk//XI3huOoXTXFcyH3l4m26Muf3eutZxYEQ1pLEgQvVMyc5d9Pv2ChqpCLouD
- kIgw==
-X-Gm-Message-State: AOJu0YzkiDKmU+iaaldOYPn4YTgA6+ErbWrLTGqnlplfYWa8UXc3Qtm/
- 79kqUeKmYY4sihlKTuQJUvTOWQ==
-X-Google-Smtp-Source: AGHT+IERgsLgQ3Jk7JTMsv5Fzp2ccPiuC/UAkG2yPXHZxR4WbChOgg4cZSXJ7MFTS+paUXgbuQ5bXw==
-X-Received: by 2002:a5d:5c07:0:b0:31f:d50e:a14f with SMTP id
- cc7-20020a5d5c07000000b0031fd50ea14fmr26160325wrb.10.1697179570612; 
- Thu, 12 Oct 2023 23:46:10 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1697179635; x=1697784435;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+ :to:content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=9zUq+Fpo8hofAyxUMN6IML8iePFOZ34qIGUiNuN117s=;
+ b=kn1sOozN0SD6gIoi8933gWpvWt4rW33WZLaWJ2N84ZHmWiESfEaLaiHr+fYdhRiSYH
+ gfWdS3ArUBR7QSoBFGlEtUwkv6E9Iba64CLk9COdxyIjRWJRUdJY4UszRNRuFZpuK1e7
+ OS8NvMp/AqXy93mfALTHOD7tC3IW4XlNKCCMBpuqpTWbtAlwYdrtgbrLPsjdZDR7kVuv
+ QmI+zZq5xqv+iehk3dA1adCLOpquWIDbbAK6HN2BAwk1o+KcBbiRxbO/MgJg6z5jum1v
+ KCwgWpv7BUo8SiwZLZSgazbAMAqd9YTq7QdX2/i/L6CdI7Y4wt8Lot+sjUMnB9ixI7Sy
+ J23Q==
+X-Gm-Message-State: AOJu0YyD31MCy0jmPob7c3HWUtWdfH7L3SyjeI3t2La3ssNtcfga4QXy
+ v38q7Bk2nXSvggHuWMmnBxaZuw==
+X-Google-Smtp-Source: AGHT+IGoFR/Z0YhXX5G6tR6vbzZHoBDPmPhYB6SQX+8E/WKMlTYQTswVuNMMHz1iiB/jUUewH+N/Ug==
+X-Received: by 2002:a05:6000:49:b0:32d:5cc0:2f0c with SMTP id
+ k9-20020a056000004900b0032d5cc02f0cmr8531095wrx.40.1697179635147; 
+ Thu, 12 Oct 2023 23:47:15 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.219.100])
  by smtp.gmail.com with ESMTPSA id
- n9-20020adff089000000b0031ad2f9269dsm19962518wro.40.2023.10.12.23.46.08
+ n9-20020adff089000000b0031ad2f9269dsm19962518wro.40.2023.10.12.23.47.13
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 12 Oct 2023 23:46:09 -0700 (PDT)
-Message-ID: <0e972a0a-af27-4837-a80c-cbab0002d368@linaro.org>
-Date: Fri, 13 Oct 2023 08:46:07 +0200
+ Thu, 12 Oct 2023 23:47:14 -0700 (PDT)
+Message-ID: <f13be1b0-f78c-4684-9af1-16b176587182@linaro.org>
+Date: Fri, 13 Oct 2023 08:47:13 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 02/16] dt-bindings: media: mediatek: mdp3: merge the
- indentical RDMA under display
+Subject: Re: [PATCH v7 03/16] dt-bindings: media: mediatek: mdp3: add config
+ for MT8195 RDMA
+Content-Language: en-US
 To: Moudy Ho <moudy.ho@mediatek.com>, Chun-Kuang Hu
  <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
@@ -69,8 +69,7 @@ To: Moudy Ho <moudy.ho@mediatek.com>, Chun-Kuang Hu
  AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
  Hans Verkuil <hverkuil-cisco@xs4all.nl>
 References: <20231012084037.19376-1-moudy.ho@mediatek.com>
- <20231012084037.19376-3-moudy.ho@mediatek.com>
-Content-Language: en-US
+ <20231012084037.19376-4-moudy.ho@mediatek.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -116,7 +115,7 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231012084037.19376-3-moudy.ho@mediatek.com>
+In-Reply-To: <20231012084037.19376-4-moudy.ho@mediatek.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -138,59 +137,60 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 12/10/2023 10:40, Moudy Ho wrote:
-
+> Added the configuration for MT8195 RDMA. In comparison to MT8183, it
+> no longer shares SRAM with RSZ, and there are now preconfigured 5 mbox.
+> 
+> Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
+> ---
+>  .../bindings/media/mediatek,mdp3-rdma.yaml    | 26 ++++++++++++++++++-
+>  1 file changed, 25 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/mediatek,mdp3-rdma.yaml b/Documentation/devicetree/bindings/media/mediatek,mdp3-rdma.yaml
+> index c043204cf210..504334a76fb3 100644
+> --- a/Documentation/devicetree/bindings/media/mediatek,mdp3-rdma.yaml
+> +++ b/Documentation/devicetree/bindings/media/mediatek,mdp3-rdma.yaml
+> @@ -22,6 +22,7 @@ properties:
+>    compatible:
+>      enum:
+>        - mediatek,mt8183-mdp3-rdma
+> +      - mediatek,mt8195-mdp3-rdma
+>        - mediatek,mt8195-vdo1-rdma
 >  
-> +allOf:
+>    reg:
+> @@ -58,7 +59,7 @@ properties:
+>  
+>    mboxes:
+>      minItems: 1
+> -    maxItems: 2
+> +    maxItems: 5
+>  
+>    interrupts:
+>      maxItems: 1
+> @@ -98,6 +99,29 @@ allOf:
+>          - mboxes
+>          - mediatek,gce-events
+>  
 > +  - if:
 > +      properties:
 > +        compatible:
 > +          contains:
-> +            const: mediatek,mt8183-mdp3-rdma
+> +            const: mediatek,mt8195-mdp3-rdma
 > +
 > +    then:
 > +      properties:
 > +        clocks:
 > +          items:
 > +            - description: RDMA clock
-> +            - description: RSZ clock (shared SRAM with RDMA)
 > +
 > +        mboxes:
 > +          items:
 > +            - description: used for 1st data pipe from RDMA
 > +            - description: used for 2nd data pipe from RDMA
+> +            - description: used for 3rd data pipe from RDMA
+> +            - description: used for 4th data pipe from RDMA
+> +            - description: used for the data pipe from SPLIT
 
-interrupts:
-  false
-
-> +
-> +      required:
-> +        - mboxes
-> +        - mediatek,gce-events
-> +
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: mediatek,mt8195-vdo1-rdma
-> +
-> +    then:
-> +      properties:
-> +        clocks:
-> +          items:
-> +            - description: RDMA clock
-
-mboxes: false
-mediatek,gce-events: false
-
-I am not so sure it is actually "simpler" to merge these. They are quite
-different. You will end up with unmanageable allOf  with a lot of
-branches (which supposedly you want to remove).
-
-
-> +
->  additionalProperties: false
->  
->  examples:
+Missing interrupts
 
 Best regards,
 Krzysztof
