@@ -2,57 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BE947C92BC
-	for <lists+dri-devel@lfdr.de>; Sat, 14 Oct 2023 06:17:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A420A7C931D
+	for <lists+dri-devel@lfdr.de>; Sat, 14 Oct 2023 09:15:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C6BAE10E008;
-	Sat, 14 Oct 2023 04:16:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C8D010E084;
+	Sat, 14 Oct 2023 07:15:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 89AF210E008;
- Sat, 14 Oct 2023 04:16:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1697257013; x=1728793013;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=3r/8q1XI29rdQEGxNz6p37DXj12l7HnDpzLdqMNJSFQ=;
- b=Ic+oSLGSYoooh68Tgq/GmeQ+Xz0iixsJEMmLAl8GyCUgYxcbZkOh8CCW
- RtIbF69VFc0koG9S3kad9oy2MS+7ngFrh8xpNTKK+54BAyKFvaxAcI1pO
- zmCnGq7RhW0kwibBkzckopTAKbTGRisZB0Ii3FKVxiun+TwqzCgSZ6Bkb
- vHWYJxfZD3d5O71AF1C3Tv4BHxbT/eBr2Jb+86AHjDweP+6/6QfL/svUN
- Y44dAXonlS+w2pxYIGtwhNE6M2r5eJDTaqHXGJq0DbD2NybvbWvjQjrOx
- KXcYMTQyyItBQHkIs6/aQkwc6dubl+jdSjAnI8u/BbGHlO6DxU9/lmlt0 Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10862"; a="416363943"
-X-IronPort-AV: E=Sophos;i="6.03,224,1694761200"; d="scan'208";a="416363943"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Oct 2023 21:16:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10862"; a="871354127"
-X-IronPort-AV: E=Sophos;i="6.03,224,1694761200"; d="scan'208";a="871354127"
-Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
- by fmsmga002.fm.intel.com with ESMTP; 13 Oct 2023 21:16:48 -0700
-Received: from kbuild by f64821696465 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1qrW50-0005ge-0O;
- Sat, 14 Oct 2023 04:16:46 +0000
-Date: Sat, 14 Oct 2023 12:16:15 +0800
-From: kernel test robot <lkp@intel.com>
-To: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, hdegoede@redhat.com,
- markgross@kernel.org, ilpo.jarvinen@linux.intel.com,
- basavaraj.natikar@amd.com, jikos@kernel.org,
- benjamin.tissoires@redhat.com, alexander.deucher@amd.com,
- christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
- daniel@ffwll.ch
-Subject: Re: [PATCH v3 09/16] platform/x86/amd/pmf: Add facility to dump TA
- inputs
-Message-ID: <202310141247.22Coajca-lkp@intel.com>
-References: <20231010125917.138225-10-Shyam-sundar.S-k@amd.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EEA9310E066
+ for <dri-devel@lists.freedesktop.org>; Sat, 14 Oct 2023 07:15:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1697267731;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=/5sur0d8z6Ch5nawEvWUvmJt66ioO3eas3zF7Y15+CY=;
+ b=H0cIYoeQnICnuFtPlNHeZZkJzkrWIi7kwp2wRZkeeX7dtxfh4OdoUCgVSXwPxM3K24YJ7M
+ Fqmkowt7heRfeAf4SEuCeE3BDik02egTR7/YPPFM2vY+Y1wp2R0gqp99aKTNBvxGaUZ1D3
+ u8XLF0XZgL+GH3QHbF5jfF7gUjRGnlc=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-259-_Uy2qmBQO0GWUzFe57UmNQ-1; Sat, 14 Oct 2023 03:15:28 -0400
+X-MC-Unique: _Uy2qmBQO0GWUzFe57UmNQ-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ ffacd0b85a97d-3296bd73d91so1678092f8f.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 14 Oct 2023 00:15:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1697267725; x=1697872525;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=/5sur0d8z6Ch5nawEvWUvmJt66ioO3eas3zF7Y15+CY=;
+ b=hWrPYuuZ1mm6pQAGDpLv4qdpSwm6jm0bjVQVg5DbbCLlLugZxLFCNQNKVclAwNM0Cz
+ +StuDtXe9yzSfRqyg02nOQWhJaZ3jehN2URwzsaezOpEaJOIyMaJj5jaj1FoJ5jFiwtL
+ NCe0AINLbNa458bT7ywO9bNwkOstBOeqPeJ6fSqkITuxFXzSzNXC6KTnV3h9oLmeByp2
+ PFSMO5CIpAB4/MS9c4R4ErR18JoJP6nNikpr8xVQm5i1jwWzPnfTk8bL+9HXHF1zqIQ0
+ 28RjBAjoAfRuMJtAKiyBRGF4R2tzyY6aH5oH20WTXmShdjWBT4bRLif5LONWoUmg4PFF
+ zZHA==
+X-Gm-Message-State: AOJu0Yy6z6yFUBIEaEt6KNVsxLiVAeKEEJ0ldnglW/kXqIWuhJX8n4w+
+ asHYGRDxro6mu+d5gnqS+VwJuBlrS9L1Ih9F0yIUMlatrqGaVjXpcfGUm7TjZJ/UDU0Kyud+ymK
+ CCDqA+HaHNJ4VElS54orogD9HSd7s
+X-Received: by 2002:adf:cc8a:0:b0:31a:d49a:38d with SMTP id
+ p10-20020adfcc8a000000b0031ad49a038dmr25614657wrj.54.1697267725170; 
+ Sat, 14 Oct 2023 00:15:25 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFtx68sm77fSM2l+MPku3L9wgkn1CIXV77p6tOGdf1hWrtQhINmwCfG/IjzsrkVnrDfksdvNw==
+X-Received: by 2002:adf:cc8a:0:b0:31a:d49a:38d with SMTP id
+ p10-20020adfcc8a000000b0031ad49a038dmr25614629wrj.54.1697267724773; 
+ Sat, 14 Oct 2023 00:15:24 -0700 (PDT)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ w15-20020a5d404f000000b0032da471c0c1sm866163wrp.7.2023.10.14.00.15.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 14 Oct 2023 00:15:24 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH v4 0/6] drm/solomon: Add support for the SSD132x controller
+ family
+Date: Sat, 14 Oct 2023 09:15:02 +0200
+Message-ID: <20231014071520.1342189-1-javierm@redhat.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231010125917.138225-10-Shyam-sundar.S-k@amd.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,131 +81,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, linux-input@vger.kernel.org,
- dri-devel@lists.freedesktop.org, platform-driver-x86@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, Patil.Reddy@amd.com,
- oe-kbuild-all@lists.linux.dev, mario.limonciello@amd.com
+Cc: Conor Dooley <conor+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Maxime Ripard <mripard@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Conor Dooley <conor@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Peter Robinson <pbrobinson@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Shyam,
+Hello,
 
-kernel test robot noticed the following build warnings:
+This patch-set adds support for the family of SSD132x Solomon controllers,
+such as the SSD1322, SSD1325 and SSD1327 chips. These are used for 16 Gray
+Scale Dot Matrix OLED panels.
 
-[auto build test WARNING on hid/for-next]
-[also build test WARNING on drm-misc/drm-misc-next linus/master v6.6-rc5 next-20231013]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+This is a v4 that just rebases on top of commit a48e2cc92835 ("drm/ssd130x:
+Fix atomic_check for disabled planes"), that landed in drm-misc tree and
+conflicts with this series.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Shyam-Sundar-S-K/platform-x86-amd-pmf-Add-PMF-TEE-interface/20231010-210347
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
-patch link:    https://lore.kernel.org/r/20231010125917.138225-10-Shyam-sundar.S-k%40amd.com
-patch subject: [PATCH v3 09/16] platform/x86/amd/pmf: Add facility to dump TA inputs
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20231014/202310141247.22Coajca-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231014/202310141247.22Coajca-lkp@intel.com/reproduce)
+It also fixes ssd132x_primary_plane_atomic_check(), using the same change
+in the mentioned commit to fix the ssd132x_primary_plane_atomic_check()
+callback function.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310141247.22Coajca-lkp@intel.com/
+The patches were tested on a Waveshare SSD1327 display using glmark2-drm,
+fbcon, fbtests and the retroarch emulator.
 
-All warnings (new ones prefixed by >>):
+Patch #1 drops the .page_height field from the device info with a constant
+because it's only needed by the SSD130x family and not the SSD132x family.
 
-   In file included from include/linux/printk.h:564,
-                    from include/linux/kernel.h:30,
-                    from arch/x86/include/asm/percpu.h:27,
-                    from arch/x86/include/asm/preempt.h:6,
-                    from include/linux/preempt.h:79,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/slab.h:16,
-                    from include/linux/resource_ext.h:11,
-                    from include/linux/acpi.h:13,
-                    from drivers/platform/x86/amd/pmf/pmf.h:14,
-                    from drivers/platform/x86/amd/pmf/sps.c:11:
-   drivers/platform/x86/amd/pmf/sps.c: In function 'amd_pmf_dump_sps_defaults':
-   drivers/platform/x86/amd/pmf/sps.c:50:65: error: implicit declaration of function 'source_as_str' [-Werror=implicit-function-declaration]
-      50 |                         pr_debug("--- Source:%s Mode:%s ---\n", source_as_str(i), slider_as_str(j));
-         |                                                                 ^~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:224:29: note: in definition of macro '__dynamic_func_call_cls'
-     224 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:250:9: note: in expansion of macro '_dynamic_func_call_cls'
-     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:269:9: note: in expansion of macro '_dynamic_func_call'
-     269 |         _dynamic_func_call(fmt, __dynamic_pr_debug,             \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:579:9: note: in expansion of macro 'dynamic_pr_debug'
-     579 |         dynamic_pr_debug(fmt, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~
-   drivers/platform/x86/amd/pmf/sps.c:50:25: note: in expansion of macro 'pr_debug'
-      50 |                         pr_debug("--- Source:%s Mode:%s ---\n", source_as_str(i), slider_as_str(j));
-         |                         ^~~~~~~~
->> drivers/platform/x86/amd/pmf/sps.c:50:34: warning: format '%s' expects argument of type 'char *', but argument 3 has type 'int' [-Wformat=]
-      50 |                         pr_debug("--- Source:%s Mode:%s ---\n", source_as_str(i), slider_as_str(j));
-         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:345:21: note: in definition of macro 'pr_fmt'
-     345 | #define pr_fmt(fmt) fmt
-         |                     ^~~
-   include/linux/dynamic_debug.h:248:9: note: in expansion of macro '__dynamic_func_call_cls'
-     248 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:250:9: note: in expansion of macro '_dynamic_func_call_cls'
-     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:269:9: note: in expansion of macro '_dynamic_func_call'
-     269 |         _dynamic_func_call(fmt, __dynamic_pr_debug,             \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:579:9: note: in expansion of macro 'dynamic_pr_debug'
-     579 |         dynamic_pr_debug(fmt, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~
-   drivers/platform/x86/amd/pmf/sps.c:50:25: note: in expansion of macro 'pr_debug'
-      50 |                         pr_debug("--- Source:%s Mode:%s ---\n", source_as_str(i), slider_as_str(j));
-         |                         ^~~~~~~~
-   drivers/platform/x86/amd/pmf/sps.c:50:47: note: format string is defined here
-      50 |                         pr_debug("--- Source:%s Mode:%s ---\n", source_as_str(i), slider_as_str(j));
-         |                                              ~^
-         |                                               |
-         |                                               char *
-         |                                              %d
-   cc1: some warnings being treated as errors
+Patch #2 adds a per controller family id field to the device info data, to
+allow the driver to support different Solomon display controller families.
 
+Patch #3 renames some SSD130X_* commands that are shared by both families.
 
-vim +50 drivers/platform/x86/amd/pmf/sps.c
+Patch #4 adds the support for the SSD132x controller family.
 
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  41  
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  42  static void amd_pmf_dump_sps_defaults(struct amd_pmf_static_slider_granular *data)
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  43  {
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  44  	int i, j;
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  45  
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  46  	pr_debug("Static Slider Data - BEGIN\n");
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  47  
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  48  	for (i = 0; i < POWER_SOURCE_MAX; i++) {
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  49  		for (j = 0; j < POWER_MODE_MAX; j++) {
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10 @50  			pr_debug("--- Source:%s Mode:%s ---\n", source_as_str(i), slider_as_str(j));
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  51  			pr_debug("SPL: %u mW\n", data->prop[i][j].spl);
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  52  			pr_debug("SPPT: %u mW\n", data->prop[i][j].sppt);
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  53  			pr_debug("SPPT_ApuOnly: %u mW\n", data->prop[i][j].sppt_apu_only);
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  54  			pr_debug("FPPT: %u mW\n", data->prop[i][j].fppt);
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  55  			pr_debug("STTMinLimit: %u mW\n", data->prop[i][j].stt_min);
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  56  			pr_debug("STT_SkinTempLimit_APU: %u C\n",
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  57  				 data->prop[i][j].stt_skin_temp[STT_TEMP_APU]);
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  58  			pr_debug("STT_SkinTempLimit_HS2: %u C\n",
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  59  				 data->prop[i][j].stt_skin_temp[STT_TEMP_HS2]);
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  60  		}
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  61  	}
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  62  
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  63  	pr_debug("Static Slider Data - END\n");
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  64  }
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  65  #else
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  66  static void amd_pmf_dump_sps_defaults(struct amd_pmf_static_slider_granular *data) {}
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  67  #endif
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  68  
+Patch #5 splits out some properties that are shared across both controller
+families bindings and move them into a separate solomon,ssd-common schema.
+
+Finally patch #6 adds a DT binding schema for the SSD132x controllers.
+
+Best regards,
+Javier
+
+Changes in v4:
+- Fix ssd132x_primary_plane_atomic_check() with the same change that commit
+  48e2cc92835 ("drm/ssd130x: Fix atomic_check for disabled planes") did for
+  the ssd130x_primary_plane_atomic_check() callback.
+- Add Thomas Zimmermann's Acked-by tag to all the patches in the series.
+
+Changes in v3:
+- Drop the per controller family functions table (Thomas Zimmermann).
+- Use different modesetting pipelines for chip families (Thomas Zimmermann).
+- Change the i,j variables type to unsigned int (Geert Uytterhoeven).
+- Fix "No newline at end of file" in solomon,ssd-common.yaml (Rob Herring).
+- Add Rob Herring's Reviewed-by tag to patch #5.
+- Add Rob Herring's Reviewed-by tag to patch #6.
+
+Changes in v2:
+- Add Geert Uytterhoeven's Reviewed-by tag to patch #1.
+- Squash patch that uses drm_format_info_min_pitch() to calculate dest_pitch
+  with the following patch (Geert Uytterhoeven).
+- Store ssd13xx_family_funcs[SSD130X_FAMILY] in struct ssd130x_deviceinfo
+  (Geert Uytterhoeven).
+- Don't mix switch (family_id) and ssd13xx_funcs[family_id] (Geert Uytterhoeven).
+- Replace switch (family_id) by an .set_buffer_sizes (Geert Uytterhoeven).
+- Move the rect alignment to a per chip family function (Geert Uytterhoeven).
+- Align the rectangle to the segment width (Geert Uytterhoeven).
+- Drop patches that rename driver and prefixes (Maxime Ripard, Peter Robinson).
+- Remove unnecessary 'oneOf' in the SSD132x DT binding schema (Conor Dooley).
+- Remove unused DT nodes labels in the binding schema examples (Conor Dooley).
+- Split out common Solomon properties into a separate schema (Rob Herring).
+
+Javier Martinez Canillas (6):
+  drm/ssd130x: Replace .page_height field in device info with a constant
+  drm/ssd130x: Add a controller family id to the device info data
+  drm/ssd130x: Rename commands that are shared across chip families
+  drm/ssd130x: Add support for the SSD132x OLED controller family
+  dt-bindings: display: Split common Solomon properties in their own
+    schema
+  dt-bindings: display: Add SSD132x OLED controllers
+
+ .../bindings/display/solomon,ssd-common.yaml  |  42 ++
+ .../bindings/display/solomon,ssd1307fb.yaml   |  28 +-
+ .../bindings/display/solomon,ssd132x.yaml     |  89 +++
+ MAINTAINERS                                   |   3 +-
+ drivers/gpu/drm/solomon/Kconfig               |  12 +-
+ drivers/gpu/drm/solomon/ssd130x-i2c.c         |  18 +-
+ drivers/gpu/drm/solomon/ssd130x-spi.c         |  27 +-
+ drivers/gpu/drm/solomon/ssd130x.c             | 508 ++++++++++++++++--
+ drivers/gpu/drm/solomon/ssd130x.h             |  17 +-
+ 9 files changed, 645 insertions(+), 99 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/solomon,ssd-common.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/solomon,ssd132x.yaml
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.41.0
+
