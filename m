@@ -1,121 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2F657C9620
-	for <lists+dri-devel@lfdr.de>; Sat, 14 Oct 2023 21:48:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E7ADD7C9724
+	for <lists+dri-devel@lfdr.de>; Sun, 15 Oct 2023 00:54:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 46E6C10E06D;
-	Sat, 14 Oct 2023 19:48:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 17ADA10E0E0;
+	Sat, 14 Oct 2023 22:54:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR01-HE1-obe.outbound.protection.outlook.com
- (mail-he1eur01on2108.outbound.protection.outlook.com [40.107.13.108])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 31E3210E06D
- for <dri-devel@lists.freedesktop.org>; Sat, 14 Oct 2023 19:48:22 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KuGArKBUVWuSJ4fIajntVAfQrOq3sFfrzsBjqZElsboclHJ+uV2PVKFwWRnm2jlZDJVgQN4XDVRR6X1NLNgbUavKzeuDSs69E2IcPNp6X1xnfwWDOnJd4o3zgtXUL/1b9OMqfhi9eXm1Ulys2BvF7SazcYicpZrjtPH/DbGtRzTx3TV0/5hhJUEQ4mdaATAYHWmEuBKp3CVgnjBuHNAWciQPHL1fwxO8oCrgUrKBL41yB9SW+32TFQI1yae8luqzjIjm+U4qOBG3XF8ZQRcDiE1xL1AfazP2BGTUfLRTIJPEhjase4c/xkGRY2JSrjk8PhCH2eKWRpFt0/6j1ChILA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=I6laOVlqVYatfQGeyyKrE00YmW0thGkrTqj9DbWPycw=;
- b=acOLJfnctpnAO/ky0XP3R+jJbTTOEqsXTpeDt1kENDVY6nbiGU2CbfihuRgQ10MvocapvsoFpRqlodF4Do8+5iujStka3lq+zh4H17T4e8DA3T6iALJ2knwzn9BWzGRAuiiiW4CdaFWaDHZTa8vnOcZEl46IhoK26fjA1TATRc9N7DHroQlnbCBjv4ku4/RuPqsXeMAmOSn/U1XvvYS8dfr5UK/FcnxBlSS90vGpniYA1l86GIyujfkIyo4KJFRoPe0a/KUN9zLUR2OrE/ubzt0jhNgGpziMWDuZI8O9CuvgWlqipj2OGJLsyWMPOdLjxbTFQqLhAbWNPBZm99XGGg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bang-olufsen.dk; dmarc=pass action=none
- header.from=bang-olufsen.dk; dkim=pass header.d=bang-olufsen.dk; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bang-olufsen.dk;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=I6laOVlqVYatfQGeyyKrE00YmW0thGkrTqj9DbWPycw=;
- b=evXKiRZmnJue6H88P07yetxEgBqOn1DQJN16W57FCr2SfwKPKY8id/61uQUX6uzYnfHg5Z+4f6MlflfZTRUhJeeIJhuQnK3uRGtcPptLqhpxF3bXZBUO7v+yjQbIVC8HOObHJAiKxn50iwDsVHf5pVPCsaWddXrOuans5z9xhpU=
-Received: from AM6PR03MB3943.eurprd03.prod.outlook.com (2603:10a6:20b:26::24)
- by PA4PR03MB6797.eurprd03.prod.outlook.com (2603:10a6:102:f1::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6863.46; Sat, 14 Oct
- 2023 19:48:19 +0000
-Received: from AM6PR03MB3943.eurprd03.prod.outlook.com
- ([fe80::fb3c:4931:e74e:c691]) by AM6PR03MB3943.eurprd03.prod.outlook.com
- ([fe80::fb3c:4931:e74e:c691%3]) with mapi id 15.20.6863.043; Sat, 14 Oct 2023
- 19:48:19 +0000
-From: =?utf-8?B?QWx2aW4gxaBpcHJhZ2E=?= <ALSI@bang-olufsen.dk>
-To: =?utf-8?B?QWx2aW4gxaBpcHJhZ2E=?= <alvin@pqrs.dk>
-Subject: Re: [PATCH] drm: bridge: adv7511: get edid in hpd_work to update CEC
- phys address
-Thread-Topic: [PATCH] drm: bridge: adv7511: get edid in hpd_work to update CEC
- phys address
-Thread-Index: AQHZ/taq5D2UjK1S+kWjz8DqNvYQ77BJsRQA
-Date: Sat, 14 Oct 2023 19:48:18 +0000
-Message-ID: <suuq6vyosh6ddh7szjwuznmr326cpxjtugw3chbnogome7lmpp@fr2lblb6qudg>
-References: <20231014-adv7511-cec-edid-v1-1-a58ceae0b57e@bang-olufsen.dk>
-In-Reply-To: <20231014-adv7511-cec-edid-v1-1-a58ceae0b57e@bang-olufsen.dk>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bang-olufsen.dk;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AM6PR03MB3943:EE_|PA4PR03MB6797:EE_
-x-ms-office365-filtering-correlation-id: a87eb120-976a-40cd-23ed-08dbccee83d3
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: G3zFLwfYbW7Z73DDeFvwrfviCYVaLNR8sZsFDQZjuRZx1u+7a7TFuloDoLqvhYFErwlnxxdovQlW3ACXy4dNIDXB3FVmUx3IeURDL6KkGg6K8spQ743pxL3AOsJjQRciZ0wW/HT9m//6r5VWupnaYxxOpqNUgXX9k8nhnW2kuOUtDirOz04PyNacYfl6ogPNawRiJtXVOPLJI/GRq283SS9DqdIIqZQ7105bA8Nn4B6koE9UZpYDo2t+L5hwU/zcxPet/4LiH9OpIOvTwxL156parLVK/4wqcI+NRR+DnQ7h+yz746Pkx6aYPM55U5lGXvp24Phhr4gmrh/WbkoT33rvVuG+AXWnO7L6D7EQH2egyhJBTmWrobvW+nD1xtnKCL+ELJEbs0qyiHKsfXwYWCxG6C/3v99F2lUYWA9XIBf2lAmrgSMOUnbIzNLkiBFam5gNN1+KCcEjRt8hM+OTewUq7NWb9P/j9RQizZJpOCjN3LLtCWOaNNwf2YY214pnUPXNhVm/6CqLA57DzDeXCnMqLsCNZ62sMa5HnVryRXqV3Vh2MDyFUKmEPDAhCk0UDBxGDGBoPJf9TmfV30b+qtxyRcxG+bZ1jPnwJKBnMEPJj2ZBPOdN2jylNvXnt0FO
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM6PR03MB3943.eurprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(7916004)(396003)(366004)(346002)(136003)(376002)(39850400004)(230922051799003)(64100799003)(451199024)(1800799009)(186009)(6506007)(9686003)(6512007)(71200400001)(6486002)(478600001)(33716001)(86362001)(122000001)(85182001)(85202003)(38070700005)(38100700002)(2906002)(7416002)(83380400001)(316002)(66574015)(26005)(64756008)(4744005)(76116006)(66446008)(6916009)(91956017)(66946007)(66556008)(66476007)(54906003)(8936002)(5660300002)(4326008)(41300700001)(8676002);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?NGN3MnVVUGdJcXFBNnIwNWU0OEcwQlJENE5BSTNRdjhyTFI3eGJhcW0raHBj?=
- =?utf-8?B?TUNPZ2MwbCtVV0kyNTJTU2JzL2pORE8rWGpDbzlGd3FCTWFCa255T2dWTVV2?=
- =?utf-8?B?VGhmSW41VTRBUjFmNE42TWlMeWJQb2g1WTJGZXk2WmR2NDBiY2REZkJ3NSt0?=
- =?utf-8?B?dmlHUHB5eU0xSWRVNXkvRlJQTTNnTHA1UnB3eUVEMkUvRldDaWN2SytocnRR?=
- =?utf-8?B?SUFuNWtMalVveHoxZUhsdjFqc2NVWSt1NHlvR1JrUGtRVXBRdlhtUkhDc0I2?=
- =?utf-8?B?VnJyOWFsS0tjZWdOc3h5c29ML1ZodDIrVTVzaW9sQitaNUtxS3RJSEI1dytI?=
- =?utf-8?B?aXU1QjFKVVhlSGIxZFFyUDE5OGtiazg4ZVdpQzUxcmRUZWpZYnBvaGsyaHlz?=
- =?utf-8?B?V3hCRytzd0Nwc0dEWVJVK1padHpuVUlXOEVmYXNWNXp0aHZoV3VtUlVPQTNy?=
- =?utf-8?B?K2Rwa1ExaStUOTkveTVWNldoY0hETVIxbUFUdTZkbVlOaEt6WFprc0oxOVFl?=
- =?utf-8?B?K3lhN3V6ZnFjUk5OUU1oVS8yUi83dVlIMjNYay95ZjdVd2JRR3FBOHR5cDNI?=
- =?utf-8?B?cmovOGJPTVJFN1pOR3pPTWxINmpLZWQyeTBkcU9QWFQ3QnM1aFpYZkllSXhD?=
- =?utf-8?B?UitQSE9DWjhJbmpBVFhyaFRnazJwN0ZKejYwRGN1TzM5YzN1Z09zL04rUTFn?=
- =?utf-8?B?S2h5QXpCbGJwdzdud1IvRCtkUUZIQTM3RkNqTmkwdXg4QVNBVW9VYnE1Wjl1?=
- =?utf-8?B?UVdvWGV5SDdwVkpWU3pmT2RDVkNBN08rLy9HZkdDR1ljUktycFZOUDE2bWR1?=
- =?utf-8?B?S1lDTE5ZVDF5T2lRamZxSHplLzNwQWxvSFNYdWVZdmtRWHdlVGZMZ3hsdGtW?=
- =?utf-8?B?b1Z4dVFXc0MycjNMb0RhOHRtcFQ3K1ZVeHlOTXhDNkZ0UDQxRTNQc3Z2Rmcw?=
- =?utf-8?B?REF5RDdQMHJISXFKYXcrMFBkeWlha3gvS05SSFB4OU1mUEdTNW02S3JVZ3Vn?=
- =?utf-8?B?c1AwOFhxaWd5K051Z0FIL3ExWXpucnZLYkJiaDVJakFSUGt4SWJjdWRZTlMv?=
- =?utf-8?B?U1lJRGpTK01Fem4zcHF4L1JCK2tPQllnRUFyeU9WYUlsc3Z4NXhMaXJZZXVG?=
- =?utf-8?B?SnBVOW4wMElZV0JOcUNSWGxXNWpoNXZBeGRvYTZsS2xlelp0cHJjcStScGs2?=
- =?utf-8?B?WXZ0YVE1VUlxYkgwRHBOUEZhcysxRGFqVHBwM1FsWThFaEVHWGZZSVNNS2di?=
- =?utf-8?B?UVFUNlRnemw1elQ0UXVhSGJkRnNoYTdVY290TTVlTUtSeW9pMWxXY2JRZ1Fl?=
- =?utf-8?B?TVZzeVp4bWNZMFZqUm9zTk4yNThWOWdRQ0c3QkM2U2VEQ25reTM2QTFGeFYx?=
- =?utf-8?B?ejE2b1pxYTlDY1BwZmM0NGJNSExiVXFqbGpVYlcvdWpUNkNGbHpNcHhUWlJq?=
- =?utf-8?B?d1M3RVJxYWtLZ1QwRi9CdUJXL2RLT2hMZXhTQ2QreUNOWVVadGovT3RVN25H?=
- =?utf-8?B?aUpuVVk0RTBFZ2lEQnNFN0dSZmNGNGRPd1Z3MWp6cmdtMDBLU2ZEOWtMU1E5?=
- =?utf-8?B?bGNuZzZOYmt6RXZONmxkZVZxdXVRdjVaL1hWRTlPU1VYV2pXdFVVYnluTk9q?=
- =?utf-8?B?MXM0aFlWWU4vMVY3alVscUwrNm1pZWJ4Y0VOOVB0SVA0NnhWNTFTMjJvYWpW?=
- =?utf-8?B?LythR3kxb3BBSkZKVEFqWlNJak04UnJxT2d1ZDhIeVdLQm13SWtkLzdiekFC?=
- =?utf-8?B?QU1NeW9JM2dRSjlqTjJCSlhyeDl2VmpIL3Y4NWdOZEkrMnZZeTBNQk9QSjdC?=
- =?utf-8?B?dFVxNWZHcDAxU1QrdlZCVXh6MHdncnA2M3E1TUhWR3kzOG9jb3RDZU1rbE05?=
- =?utf-8?B?Sjh1ck1ya0ozZXBnZ3hMWFNBMEluTVVHbUFrU2NUVHZxdzNZc2RSSDN0dzFi?=
- =?utf-8?B?UVBWTi9DeEZ2aHV5NHM0NHh0SWRSVnlNMUFLK0ZUL1p0WHpycHZrTXB5RkY4?=
- =?utf-8?B?NzlwU1FuK2x5S0hhRFJiQ3JqNFlvRjN2NVNtVkJ4eFJyRkkrOURUcjFtaUlt?=
- =?utf-8?B?RWhoWmM2Z3p0SU9ydE03N2p1Zld5TTVOR2IwZXFMemdsNE04MjdDLzUyL05P?=
- =?utf-8?Q?+Sum6dwN0ynVA545jM8taCrdJ?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <AEE2F442A810F14AA91C6A54B4680B7A@eurprd03.prod.outlook.com>
-Content-Transfer-Encoding: base64
+Received: from mail-vk1-xa2d.google.com (mail-vk1-xa2d.google.com
+ [IPv6:2607:f8b0:4864:20::a2d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 200B810E00F;
+ Sat, 14 Oct 2023 22:54:36 +0000 (UTC)
+Received: by mail-vk1-xa2d.google.com with SMTP id
+ 71dfb90a1353d-49d55b90a5aso2214865e0c.0; 
+ Sat, 14 Oct 2023 15:54:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1697324075; x=1697928875; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=E3dgwAPbWgceK8XnpO8ceX742rck1tlUzuW6UkEbMaQ=;
+ b=ePrDhLbtJ4Exoer2Js7/+nfAlFKJ5MDzZ/EQ5O/p7q078RZeftkitF8aF37pBXYGDf
+ NfVnvtfj8Wc2UhIAUgtK2/0rp5I0hcC0BlONIFHL4qTNedSuQUpgn/bDL5ku8IFiWfJn
+ kAMGZ4lA6HwjcrDOYsdqC3ysXrdJFB2HFRiwJqpU9ecNEJib3UygXPfwLcYsjBwT//EV
+ SzUVOO8J/QN/5a8qXj2fNrjs/3/jezC63EYmPD8piYQa0x9XBh6/aAegr/SibwmMFHGN
+ GtcvS1B7jdydrgD2YB6UibUhEvnaFWXU7Uu2koItKYgIGUzKFOw+V8mp6711u9wy9245
+ tx3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1697324075; x=1697928875;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=E3dgwAPbWgceK8XnpO8ceX742rck1tlUzuW6UkEbMaQ=;
+ b=m1JD1ak5G5nZq2Z5MUeoW+pKB7HEtIdAiJlCMxAkzg180FqxKB+5iqBtIKC3+6WaZP
+ rt5NAa2uzRzzEIXH0L6poMWjybQNOB+Tk6LfURBRa9KTvBv6uqvq9ciRWMB2QHpmT+Kt
+ w8qJPb4RFFNU3PvDakNoqubt/HeqVjAyE7YT481HwEjdXxLUn1MjkJdpB5XRWx3BemLN
+ HvxbfWniGkFsfWFANdozNVlFm20iXpDv7uiF/hFsZssOLzuuz4chemW9EgCAIBsDLSeM
+ PULzHrnDqeCl9K3tno2fWe5SNFUwVVW3vvzDQfmRmAQ1hXUTxzNHNFadAxag2k8aPx6d
+ mbpg==
+X-Gm-Message-State: AOJu0YxNkJb1E0rvbn+/2HF5Qp64vvs4d+FF6Zb+JDpMckEaQhq5RkRg
+ teHmdbJNRfCIC7yIHDoPBW0fLEYpRbktjtVU/w8SgrVoSsfwDQ==
+X-Google-Smtp-Source: AGHT+IFfT3nqs45wSlTdh49Mfqnd7iS4fm3NazMXcrcNd0WEk8mfYCYz456yTKkBrC2Rm6aiZ0xPlI+0DL8Ucy3wF44=
+X-Received: by 2002:a05:6122:1681:b0:49a:b587:ab79 with SMTP id
+ 1-20020a056122168100b0049ab587ab79mr2277741vkl.8.1697324075009; Sat, 14 Oct
+ 2023 15:54:35 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: bang-olufsen.dk
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AM6PR03MB3943.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a87eb120-976a-40cd-23ed-08dbccee83d3
-X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Oct 2023 19:48:18.8409 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 210d08b8-83f7-470a-bc96-381193ca14a1
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: I4uaRLpzPHc9y5HShDlF3KXpsTlZNLSCaT+NMDQ90nUifCm5M+Alo1SuZeZuaBTrKfjHvrLT6gkQ+ldvxkUEKA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR03MB6797
+References: <20231013224818.3456409-1-jim.cromie@gmail.com>
+In-Reply-To: <20231013224818.3456409-1-jim.cromie@gmail.com>
+From: jim.cromie@gmail.com
+Date: Sat, 14 Oct 2023 16:54:08 -0600
+Message-ID: <CAJfuBxxc1HxYNbp1vdkh8yTOTHV-5ohskCA-twx5Uf2SmWTffg@mail.gmail.com>
+Subject: Re: [PATCH v7b 00/25] fix DRM_USE_DYNAMIC_DEBUG=y regression
+To: linux-kernel@vger.kernel.org, jbaron@akamai.com, 
+ gregkh@linuxfoundation.org, dri-devel@lists.freedesktop.org, 
+ amd-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org, 
+ intel-gfx@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -128,31 +71,186 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: lb@semihalf.com, groeck@google.com, linux-doc@vger.kernel.org,
+ jani.nikula@intel.com, daniel.vetter@ffwll.ch, linux@rasmusvillemoes.dk,
+ mcgrof@kernel.org, seanpaul@chromium.org, joe@perches.com, bleung@google.com,
+ yanivt@google.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gU2F0LCBPY3QgMTQsIDIwMjMgYXQgMDk6NDM6MDFQTSArMDIwMCwgQWx2aW4gxaBpcHJhZ2Eg
-d3JvdGU6DQo+IEZyb206IEFsdmluIMWgaXByYWdhIDxhbHNpQGJhbmctb2x1ZnNlbi5kaz4NCj4g
-DQo+IFRoZSBhZHY3NTExIGRyaXZlciBpcyBzb2xlbHkgcmVzcG9uc2libGUgZm9yIHNldHRpbmcg
-dGhlIHBoeXNpY2FsDQo+IGFkZHJlc3Mgb2YgaXRzIENFQyBhZGFwdGVyLiBUbyBkbyB0aGlzLCBp
-dCBtdXN0IHJlYWQgdGhlIEVESUQuIEhvd2V2ZXIsDQo+IEVESUQgaXMgb25seSByZWFkIHdoZW4g
-ZWl0aGVyIHRoZSBkcm1fYnJpZGdlX2Z1bmNzIDo6IGdldF9lZGlkIG9yDQo+IGRybV9jb25uZWN0
-b3JfaGVscGVyX2Z1bmNzIDo6IGdldF9tb2RlcyBvcHMgYXJlIGNhbGxlZC4gV2l0aG91dCBsb3Nz
-IG9mDQo+IGdlbmVyYWxpdHksIGl0IGNhbm5vdCBiZSBhc3N1bWVkIHRoYXQgdGhlc2Ugb3BzIGFy
-ZSBjYWxsZWQgd2hlbiBhIHNpbmsNCj4gZ2V0cyBhdHRhY2hlZC4gVGhlcmVmb3JlIHRoZXJlIGV4
-aXN0IHNjZW5hcmlvcyBpbiB3aGljaCB0aGUgQ0VDIHBoeXNpY2FsDQo+IGFkZHJlc3Mgd2lsbCBi
-ZSBpbnZhbGlkIChmLmYuZi5mKSwgcmVuZGVyaW5nIHRoZSBDRUMgYWRhcHRlciBpbm9wZXJhYmxl
-Lg0KPiANCj4gQWRkcmVzcyB0aGlzIHByb2JsZW0gYnkgYWx3YXlzIGZldGNoaW5nIHRoZSBFRElE
-IGluIHRoZSBIUEQgd29yayB3aGVuIHdlDQo+IGRldGVjdCBhIGNvbm5lY3Rpb24uIFRoZSBDRUMg
-cGh5c2ljYWwgYWRkcmVzcyBpcyBzZXQgaW4gdGhlIHByb2Nlc3MuDQo+IA0KPiBTaWduZWQtb2Zm
-LWJ5OiBBbHZpbiDFoGlwcmFnYSA8YWxzaUBiYW5nLW9sdWZzZW4uZGs+DQoNCg0KT29wcywgSSB0
-aGluayB0aGF0IEkgZ290IHRoZSBzdWJqZWN0IHByZWZpeCB3cm9uZy4gSXQgc2hvdWxkIGJlDQoN
-CiAgICBkcm0vYnJpZGdlOg0KDQphbmQgbm90DQoNCiAgICBkcm06IGJyaWRnZToNCg0KcmlnaHQ/
-DQoNClRoYW5rcy4NCg0KS2luZCByZWdhcmRzLA0KQWx2aW4=
+On Fri, Oct 13, 2023 at 4:48=E2=80=AFPM Jim Cromie <jim.cromie@gmail.com> w=
+rote:
+>
+> hi Jason, DRM-folk
+>
+> (now with checkpatch fixes)
+
+I missed fixing boxed-vector, am just dropping it.
+
+>
+> This patchest fixes the chicken-egg initialization problem in the 1st
+> version of ddebug-class-maps, that DRM-CI uncovered.
+>
+> The root-problem was DECLARE_DYNDBG_CLASSMAP, which broke the K&R rule:
+> "define once, refer many".  In patch 14 it is replaced by:
+>
+>  DYNDBG_CLASSMAP_DEFINE - define and export a struct ddebug_class_map
+>  DYNDBG_CLASSMAP_USE - ref the exported struct
+>
+> test-dynamic-debug is also extended with a -submod.ko, in order to
+> recapitulate the drm & drivers initialization scenario.
+>
+> They're on v6.6-rc5 now, and apply cleanly to drm-tip/drm-tip.
+>
+> Ive been running recent revs on rc3+, on my desktop and laptop.
+>
+> The final blocker was a missing __align(8) on the ddebug_class_user
+> record inserted by DYNDBG_CLASSMAP_USE.  This caused DRM=3Dy (builtin
+> only) to have a corrupt record for drm_kms_helper (builtin dependent).
+> Curiously, a clang build did not exhibit this problem.
+>
+
+>
+> Widespread testing is appreciated.
+> I have scripts if anyone wants them.
+>
+> I'll forward lkp-robot reports here when I get them.
+> Patches also at https://github.com/jimc/linux (dd-fix-7b)
+>
+
+Date: Sat, 14 Oct 2023 18:22:28 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jim Cromie <jim.cromie@gmail.com>
+Subject: [jimc:dd-fix-7a] BUILD SUCCESS 8e96f63f570a462b859876601a5f795a159=
+99f6b
+Message-ID: <202310141826.AN7MAD40-lkp@intel.com>
+User-Agent: s-nail v14.9.24
+
+tree/branch: https://github.com/jimc/linux.git dd-fix-7a
+branch HEAD: 8e96f63f570a462b859876601a5f795a15999f6b  drm: restore
+CONFIG_DRM_USE_DYNAMIC_DEBUG un-BROKEN
+
+elapsed time: 3187m
+
+configs tested: 103
+configs skipped: 2
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+tested configs:
+alpha                             allnoconfig   gcc
+alpha                            allyesconfig   gcc
+alpha                               defconfig   gcc
+arc                              allmodconfig   gcc
+arc                               allnoconfig   gcc
+arc                              allyesconfig   gcc
+arc                                 defconfig   gcc
+arc                   randconfig-001-20231012   gcc
+arm                              allmodconfig   gcc
+arm                               allnoconfig   gcc
+arm                              allyesconfig   gcc
+arm                                 defconfig   gcc
+arm                   randconfig-001-20231013   gcc
+arm64                            allmodconfig   gcc
+arm64                             allnoconfig   gcc
+arm64                            allyesconfig   gcc
+arm64                               defconfig   gcc
+csky                             allmodconfig   gcc
+csky                              allnoconfig   gcc
+csky                             allyesconfig   gcc
+csky                                defconfig   gcc
+i386                             allmodconfig   gcc
+i386                              allnoconfig   gcc
+i386                             allyesconfig   gcc
+i386                              debian-10.3   gcc
+i386                                defconfig   gcc
+i386                  randconfig-001-20231013   gcc
+i386                  randconfig-002-20231013   gcc
+i386                  randconfig-003-20231013   gcc
+i386                  randconfig-004-20231013   gcc
+i386                  randconfig-005-20231013   gcc
+i386                  randconfig-006-20231013   gcc
+loongarch                        allmodconfig   gcc
+loongarch                         allnoconfig   gcc
+loongarch                        allyesconfig   gcc
+loongarch                           defconfig   gcc
+loongarch             randconfig-001-20231012   gcc
+m68k                             allmodconfig   gcc
+m68k                              allnoconfig   gcc
+m68k                             allyesconfig   gcc
+m68k                                defconfig   gcc
+microblaze                       allmodconfig   gcc
+microblaze                        allnoconfig   gcc
+microblaze                       allyesconfig   gcc
+microblaze                          defconfig   gcc
+mips                             allmodconfig   gcc
+mips                              allnoconfig   gcc
+mips                             allyesconfig   gcc
+nios2                            allmodconfig   gcc
+nios2                             allnoconfig   gcc
+nios2                            allyesconfig   gcc
+nios2                               defconfig   gcc
+openrisc                         allmodconfig   gcc
+openrisc                          allnoconfig   gcc
+openrisc                         allyesconfig   gcc
+openrisc                            defconfig   gcc
+parisc                           allmodconfig   gcc
+parisc                            allnoconfig   gcc
+parisc                           allyesconfig   gcc
+parisc                              defconfig   gcc
+parisc64                            defconfig   gcc
+powerpc                           allnoconfig   gcc
+powerpc                          allyesconfig   gcc
+riscv                            allmodconfig   gcc
+riscv                             allnoconfig   gcc
+riscv                            allyesconfig   gcc
+riscv                               defconfig   gcc
+riscv                 randconfig-001-20231012   gcc
+riscv                          rv32_defconfig   gcc
+s390                             allmodconfig   gcc
+s390                              allnoconfig   gcc
+s390                             allyesconfig   gcc
+s390                                defconfig   gcc
+s390                  randconfig-001-20231012   gcc
+sh                               allmodconfig   gcc
+sh                                allnoconfig   gcc
+sh                               allyesconfig   gcc
+sh                                  defconfig   gcc
+sparc                            allmodconfig   gcc
+sparc                             allnoconfig   gcc
+sparc                            allyesconfig   gcc
+sparc                               defconfig   gcc
+sparc                 randconfig-001-20231013   gcc
+sparc64                          allmodconfig   gcc
+sparc64                          allyesconfig   gcc
+sparc64                             defconfig   gcc
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   clang
+um                                  defconfig   gcc
+um                             i386_defconfig   gcc
+um                           x86_64_defconfig   gcc
+x86_64                            allnoconfig   gcc
+x86_64                           allyesconfig   gcc
+x86_64                              defconfig   gcc
+x86_64                randconfig-001-20231013   gcc
+x86_64                randconfig-002-20231013   gcc
+x86_64                randconfig-003-20231013   gcc
+x86_64                randconfig-004-20231013   gcc
+x86_64                randconfig-005-20231013   gcc
+x86_64                randconfig-006-20231013   gcc
+x86_64                          rhel-8.3-rust   clang
+x86_64                               rhel-8.3   gcc
+
+--=20
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
+
+> Jim Cromie (25):
+
+>   dyndbg: add for_each_boxed_vector
+
+Im dropping this one, more trouble than its worth.
+hopefully one falls out of flex-array work.
