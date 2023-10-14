@@ -1,53 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 265FD7C9391
-	for <lists+dri-devel@lfdr.de>; Sat, 14 Oct 2023 10:51:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E208A7C948C
+	for <lists+dri-devel@lfdr.de>; Sat, 14 Oct 2023 14:15:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DAF2210E093;
-	Sat, 14 Oct 2023 08:51:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1272E10E010;
+	Sat, 14 Oct 2023 12:15:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E2DF10E093;
- Sat, 14 Oct 2023 08:51:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1697273498; x=1728809498;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=fHTAeI3l4XQDaB/GNzh2C+XRjtoMqm0TgHpfTMeoA6U=;
- b=mzgfIzcdoLjbGCsNdmmbAC/ZYUcs5cuwl/E5lWKZc5DsbNT7GEYZpC2A
- NYHubDYh9p5nEEPTg5C18JpIakyZxamr+5AxXGh5iic21dMA5+h/2L4N2
- XBOEYGWxQ/h1pNDq8fDKwNQ6T/3lc5wlPfw9bKoD3bN6wxbniBlxPMBtR
- osW/uXKMpJdNV3kGC3uYbPVSCvJz1F+EppszxjVxWe5xcefEeCSSf5q7U
- bEbuSA79kKTzp3TsWAHbpZ0+JF0OEJHVkJvyiTv4yivcVAkGZRE7zx0td
- XR7ZuGeqi42rHAc+2Ob+oKDLfVOcSZU2YAIzM7i+JT8DNnIlwvfwc0UrB g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10862"; a="6875603"
-X-IronPort-AV: E=Sophos;i="6.03,224,1694761200"; 
-   d="scan'208";a="6875603"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Oct 2023 01:51:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10862"; a="1086434465"
-X-IronPort-AV: E=Sophos;i="6.03,224,1694761200"; d="scan'208";a="1086434465"
-Received: from phamt-mobl2.ccr.corp.intel.com (HELO intel.com)
- ([10.214.145.117])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Oct 2023 01:51:30 -0700
-Date: Sat, 14 Oct 2023 10:51:25 +0200
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Nirmoy Das <nirmoy.das@intel.com>
-Subject: Re: [PATCH v2] drm/i915: Flush WC GGTT only on required platforms
-Message-ID: <ZSpWjR+gtjt2oMJZ@ashyti-mobl2.lan>
-References: <20231013134439.13579-1-nirmoy.das@intel.com>
+Received: from out203-205-221-245.mail.qq.com (out203-205-221-245.mail.qq.com
+ [203.205.221.245])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 19DD210E010
+ for <dri-devel@lists.freedesktop.org>; Sat, 14 Oct 2023 12:15:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
+ s=s201512; t=1697285697;
+ bh=YQheIxJjOau1s9uk+wO2dkdpHL1+wExdCD1+23pg5Oc=;
+ h=From:To:Cc:Subject:Date;
+ b=aHgkbvsTX81K37sYgwyGDW1oDVk/2Hm/y3Stw7Y6MIqA0MuOafDWaaxHYZZ8iKC/q
+ bTTKm4qU/E5AzIRC452sJn+FmUX9G8UuA+Ji80DIIVgBgGSrhJK8EjokFoCqO4QOnj
+ S7q6+2OFjczStaEMvvQdQqu+Ut+xv0AqUJAojzyk=
+Received: from KernelDevBox.byted.org ([180.184.49.4])
+ by newxmesmtplogicsvrszb9-0.qq.com (NewEsmtp) with SMTP
+ id 3B6A8E9A; Sat, 14 Oct 2023 20:14:54 +0800
+X-QQ-mid: xmsmtpt1697285694tghy4mbab
+Message-ID: <tencent_C816151C508524D86E346A69B706C0D03C09@qq.com>
+X-QQ-XMAILINFO: OGEC8BYa7lsBWWZ/vEd4TQyQV9TARh6WvGGkSsO7/3IuF9yTmPnEUCQIn8ey2z
+ F64IQTFMZP37lymHUS6B2HZo4knNaarGV2AJKI0/yTUoLqfNF4afRuhhV4FTNaoSbeWeTktBa01p
+ JD4VwXJudoABheJBhAln465jjNlbz+PN6oeSO6JNDmPskkFClQDABviiDTBWrUidCOn/iR6SKVep
+ 7P9tbTQhjAEBati0PEr7KJd0GzpWhIerLX/BtXOXLvC+fTwkCfM/Hj5SgJp9yum/bb1Qznc1tjE6
+ 3tMx7ExLXY1y821ipYkuuelfpdP31zq/zL3ipJuYIxBBHuGaWnnPq++I8dYdCV/Ture6ssLqk9qC
+ qcCXEO9lC+0o5c68yDTu7NMukeKRl1O04UQQC2cA8N9Kr2qFbphyC1HIieIeJ6IfywqBlXKajofI
+ O2x5CIeWnDQh+ONXQVm8VaB+Gt3U57AncYVPzbSHGuo/sRxPzwOyHT2IcqQmNtTv4iUqMme0TEl/
+ CuZ63UASKrVN7Ylw6O/N2yqTpEdXvUyAk5RQRMBU1FdfIY3Wa6eHYSWxzgK3VMt9AVTkjt2FDT2w
+ 1encBQgxY5THYl1runLZR1+trSAJvHQiZ8gtGSJwmy5ole1jRD60lrSLrsoAzJcweW5jFIfEvVJ2
+ quMcPFQzMVZiEOpGHUgrbsVbM2lpYXNPYT0TNGcZbowROSBnw/gEqK6XoY1SquAj0S2SGZrFnVEh
+ rj+wdVDzIkbrNbojMWEv1G1JkWvt6gsdIWZZgCvkltWD8U/OdcOyRHnlgbJJncplq2uVO/sjNeul
+ fw5AvqlFOJUW1rebBiLRw9F+xJy49ZA5xYdVZqEND1+p2VWkBEHCSzw9E8e8cr0ppCgKhdMAFmBm
+ ymULOurlgBRfIeZKtH6SY/6KRUEsomydJTRfpNl5zmUjj40C0xNJ5k0SD1JQKkT6qgAH/po+Q1rP
+ cfaacsbGI0CrhReW36tO2u3h4ZBtlznK+ZlUdGM6Ok9boHcJb3JuvvMCpr0qOVHOq3AyYnD1RGzF
+ 0YUZGzbA==
+X-QQ-XMRINFO: NS+P29fieYNw95Bth2bWPxk=
+From: Zhang Shurong <zhang_shurong@foxmail.com>
+To: daniel@ffwll.ch
+Subject: [PATCH] fbdev: fbmon: fix potential divide error in fb_validate_mode
+Date: Sat, 14 Oct 2023 20:14:53 +0800
+X-OQ-MSGID: <20231014121453.3034941-1-zhang_shurong@foxmail.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-15
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231013134439.13579-1-nirmoy.das@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,43 +61,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, Jonathan Cavitt <jonathan.cavitt@intel.com>,
- dri-devel@lists.freedesktop.org, Andi Shyti <andi.shyti@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, stable@vger.kernel.org,
- Matt Roper <matthew.d.roper@intel.com>,
- John Harrison <john.c.harrison@intel.com>
+Cc: deller@gmx.de, Zhang Shurong <zhang_shurong@foxmail.com>,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Nirmoy,
+We can easily use FBIOPUT_VSCREENINFO set fb_var_screeninfo, so
+it's possible for a divide by zero error to occur.
 
-On Fri, Oct 13, 2023 at 03:44:39PM +0200, Nirmoy Das wrote:
-> gen8_ggtt_invalidate() is only needed for limited set of platforms
-> where GGTT is mapped as WC otherwise this can cause unwanted
-> side-effects on XE_HP platforms where GFX_FLSH_CNTL_GEN6 is not
-> valid.
-> 
-> v2: Add a func to detect wc ggtt detection (Ville)
-> 
-> Fixes: d2eae8e98d59 ("drm/i915/dg2: Drop force_probe requirement")
-> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-> Cc: Jani Nikula <jani.nikula@linux.intel.com>
-> Cc: Jonathan Cavitt <jonathan.cavitt@intel.com>
-> Cc: John Harrison <john.c.harrison@intel.com>
-> Cc: Andi Shyti <andi.shyti@linux.intel.com>
-> Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> Cc: <stable@vger.kernel.org> # v6.2+
-> Suggested-by: Matt Roper <matthew.d.roper@intel.com>
-> Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
-> Acked-by: Andi Shyti <andi.shyti@linux.intel.com>
+Fix this by making sure the divisor is non-zero before the computation.
 
-I took some time to look at this and you can swap the a-b with
-an r-b:
+Signed-off-by: Zhang Shurong <zhang_shurong@foxmail.com>
+---
+ drivers/video/fbdev/core/fbmon.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com> 
+diff --git a/drivers/video/fbdev/core/fbmon.c b/drivers/video/fbdev/core/fbmon.c
+index 79e5bfbdd34c..bdd15b8e3a71 100644
+--- a/drivers/video/fbdev/core/fbmon.c
++++ b/drivers/video/fbdev/core/fbmon.c
+@@ -1470,6 +1470,9 @@ int fb_validate_mode(const struct fb_var_screeninfo *var, struct fb_info *info)
+ 	if (var->vmode & FB_VMODE_DOUBLE)
+ 		vtotal *= 2;
+ 
++	if (!htotal || !vtotal)
++		return -EINVAL;
++
+ 	hfreq = pixclock/htotal;
+ 	hfreq = (hfreq + 500) / 1000 * 1000;
+ 
+-- 
+2.30.2
 
-Thanks,
-Andi
