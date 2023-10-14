@@ -2,129 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E9667C9262
-	for <lists+dri-devel@lfdr.de>; Sat, 14 Oct 2023 05:05:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BE947C92BC
+	for <lists+dri-devel@lfdr.de>; Sat, 14 Oct 2023 06:17:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 50FD710E064;
-	Sat, 14 Oct 2023 03:04:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C6BAE10E008;
+	Sat, 14 Oct 2023 04:16:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2060c.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:fe5b::60c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DFDEA10E008;
- Sat, 14 Oct 2023 03:04:54 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ISC27+GbSiJXYzJX7TO7iu+Ywl8Nb2B3dEo2Mj9HBAqArayVidJku032kV9ZSOnKyNTo9SmVbZFC7FeeCnkYED/ENLgZW85kWKupHyekBHBw0O+H7LMhHrDPUlpeSyyVU5UzzusO+d1Tl9k25VS9MXOOn1tW6fynZrMmpQ8d0X/MUOnIbWUCcKpqY/fx3QI0nAGoOhoCUgEDVbUVM9bmSCo5Gf2+8/miYVpqsmSv4qya+GLlibo8nBzEDDVc5hy3XFBahMefmj9OSXNQQMXiijtnkkPpjpq5AYZlwed+VwW6KV39aCtKLYO0AYWnpL0t4AHp0/DvCY2beQGUa7Uc7A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9FrF6phLVtFuDJjFWGssY2EkwocvZ0kSdx5Q6J68Xjk=;
- b=KRE3XMVY4++hXg9k8PJLr/5Ce8Et1/YRzK4Vr+CCE9Jhzhd6L3hXtmJ97pDg3vogTXeSR4TArRNiLatmgxhYQ0EsywwDNz3UzHRM/Ltl3Ow7Xq2upYHv3VkU6SwETUurW/O0GZSpElBqqgv+DPgB63/HWlz2QyJt2vhdaXp8B8/O/iy947lpWwcY3FU/eGef+0djIuMCrpmH7WIyhTAvN66DfDGXS9og5B8axSYa4Yts2KfxW8oui8Yktz4R7O3N89k51XuIHEGMvyBU37oFT7vO0r5MjncvhuBYlOHkb1YHZHUL0Ns5gcUWIZN0iUtPshp8CzclXsm+CUgD1wJIyA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9FrF6phLVtFuDJjFWGssY2EkwocvZ0kSdx5Q6J68Xjk=;
- b=RiGLTuLx9SfbzBM/sZvUtkVVle/A1DfF/pXw3x+6524ECPuM9XXGJHou9WFlg9w/r8U8WtAzyML6c3PJqSqkCrX9ijJz5VIM3I+t9sLuK68rYR8rEeUq2bBkhvgg1xzF18U62gFontGf/YW79nXYH6PokyLdGagHS0ihq9nvbIo=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM6PR12MB3370.namprd12.prod.outlook.com (2603:10b6:5:38::25) by
- DM4PR12MB5376.namprd12.prod.outlook.com (2603:10b6:5:39f::11) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6863.45; Sat, 14 Oct 2023 03:04:50 +0000
-Received: from DM6PR12MB3370.namprd12.prod.outlook.com
- ([fe80::b80b:7138:6ceb:9aef]) by DM6PR12MB3370.namprd12.prod.outlook.com
- ([fe80::b80b:7138:6ceb:9aef%5]) with mapi id 15.20.6863.047; Sat, 14 Oct 2023
- 03:04:50 +0000
-Message-ID: <5bb39d18-f5de-4b74-b55a-6067b6166309@amd.com>
-Date: Fri, 13 Oct 2023 23:04:47 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:115.0) Gecko/20100101
- Thunderbird/115.3.2
-Subject: Re: [PATCH v5 7/7] drm/sched: Add helper to queue TDR immediately for
- current and future jobs
-Content-Language: en-CA, en-US
-To: Matthew Brost <matthew.brost@intel.com>, dri-devel@lists.freedesktop.org, 
- intel-xe@lists.freedesktop.org
-References: <20231011235826.585624-1-matthew.brost@intel.com>
- <20231011235826.585624-8-matthew.brost@intel.com>
-From: Luben Tuikov <luben.tuikov@amd.com>
-Autocrypt: addr=luben.tuikov@amd.com; keydata=
- xjMEY1i6jxYJKwYBBAHaRw8BAQdAhfD+Cc+P5t/fiF08Vw25EMLiwUuxULYRiDQAP6H50MTN
- I0x1YmVuIFR1aWtvdiA8bHViZW4udHVpa292QGFtZC5jb20+wpkEExYKAEEWIQQyyR05VSHw
- x45E/SoppxulNG8HhgUCY1i6jwIbAwUJCWYBgAULCQgHAgIiAgYVCgkICwIEFgIDAQIeBwIX
- gAAKCRAppxulNG8Hhk53AP4k4UY5xfcje0c5OF1k22pNv8tErxtVpgKKZgvfetA4xwD+OoAh
- vesLIYumBDxP0BoLiLN84udxdT15HwPFUGiDmwDOOARjWLqPEgorBgEEAZdVAQUBAQdAzSxY
- a2EtvvIwd09NckBLSTarSLNDkUthmqPnwolwiDYDAQgHwn4EGBYKACYWIQQyyR05VSHwx45E
- /SoppxulNG8HhgUCY1i6jwIbDAUJCWYBgAAKCRAppxulNG8HhnBLAP4yjSGpK6PE1mapKhrq
- 8bSl9reo+F6EqdhE8X2TTHPycAEAt8EkTEstSiaOpM66gneU7r+xxzOYULo1b1XjXayGvwM=
-In-Reply-To: <20231011235826.585624-8-matthew.brost@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YT2PR01CA0018.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:38::23) To DM6PR12MB3370.namprd12.prod.outlook.com
- (2603:10b6:5:38::25)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 89AF210E008;
+ Sat, 14 Oct 2023 04:16:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1697257013; x=1728793013;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=3r/8q1XI29rdQEGxNz6p37DXj12l7HnDpzLdqMNJSFQ=;
+ b=Ic+oSLGSYoooh68Tgq/GmeQ+Xz0iixsJEMmLAl8GyCUgYxcbZkOh8CCW
+ RtIbF69VFc0koG9S3kad9oy2MS+7ngFrh8xpNTKK+54BAyKFvaxAcI1pO
+ zmCnGq7RhW0kwibBkzckopTAKbTGRisZB0Ii3FKVxiun+TwqzCgSZ6Bkb
+ vHWYJxfZD3d5O71AF1C3Tv4BHxbT/eBr2Jb+86AHjDweP+6/6QfL/svUN
+ Y44dAXonlS+w2pxYIGtwhNE6M2r5eJDTaqHXGJq0DbD2NybvbWvjQjrOx
+ KXcYMTQyyItBQHkIs6/aQkwc6dubl+jdSjAnI8u/BbGHlO6DxU9/lmlt0 Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10862"; a="416363943"
+X-IronPort-AV: E=Sophos;i="6.03,224,1694761200"; d="scan'208";a="416363943"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Oct 2023 21:16:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10862"; a="871354127"
+X-IronPort-AV: E=Sophos;i="6.03,224,1694761200"; d="scan'208";a="871354127"
+Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
+ by fmsmga002.fm.intel.com with ESMTP; 13 Oct 2023 21:16:48 -0700
+Received: from kbuild by f64821696465 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1qrW50-0005ge-0O;
+ Sat, 14 Oct 2023 04:16:46 +0000
+Date: Sat, 14 Oct 2023 12:16:15 +0800
+From: kernel test robot <lkp@intel.com>
+To: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, hdegoede@redhat.com,
+ markgross@kernel.org, ilpo.jarvinen@linux.intel.com,
+ basavaraj.natikar@amd.com, jikos@kernel.org,
+ benjamin.tissoires@redhat.com, alexander.deucher@amd.com,
+ christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
+ daniel@ffwll.ch
+Subject: Re: [PATCH v3 09/16] platform/x86/amd/pmf: Add facility to dump TA
+ inputs
+Message-ID: <202310141247.22Coajca-lkp@intel.com>
+References: <20231010125917.138225-10-Shyam-sundar.S-k@amd.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR12MB3370:EE_|DM4PR12MB5376:EE_
-X-MS-Office365-Filtering-Correlation-Id: c3fb2004-43ad-479f-2686-08dbcc625486
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: hVN23On4CdYUpnUneKMOml+iR+oFzlKybc4MYGSsg/wJDghznNZgAT0iw1RV8lUB+zXdELFMSZOy/PaNcqcxbVQa7vhj1mjsgidzP9fTLXcn5aln3hbOZZPYXcqlKLMMAyXbAyLtT2mXZ0sHtOdb8kDhmSzeD6C8T37DzwUKnlPsDroKn5Byyakv64K93QsgOvY7h1XndMlahAp1O4Ps48TIMSLMjBHiR0NeMAG5XVuovPvsGdE1raPtUGIhuj2SFKAJ+j4C5CywUbgs24krukfNrHFKvArPSbXAjSnFWPHnMA/xOywmK/0BhC7JiL0wg2gXdopwoQsTnAc8kCXlfI8DccHnXMKu1wZuzP+pGuYb5IhhtWPnf49i1RqhnyrrGkTX/FkC6pVRqtzqNdetXIyar7/IRShkByLTHiAKSSEcZop9R6kqt6i+UjfDguiY9DTzKEhcklFFQyzLHMMjRqd7BrAxfED5gmha1glXeU2HM3VRfI92e9zISe75eiIcYZvlmDyh14g7J5AD29nVI9SdozcxZQ79NK/W6afc9vv1TAI5bMUnLZ2ZVUZoBA29Dun4k7sHd2MllXojb1VMKFHJ92/y7yqiN86+xKBEqRxPCi2uLhndScdg3P2Hv8WCzAAZ4BRwhVSpOFofnCgOCtceEA8dsJLAqU9hNQIPmjc=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR12MB3370.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(346002)(136003)(39860400002)(366004)(376002)(396003)(230922051799003)(1800799009)(186009)(451199024)(64100799003)(7416002)(14773004)(6666004)(2906002)(6486002)(478600001)(31696002)(41300700001)(4326008)(8676002)(8936002)(5660300002)(36756003)(66556008)(44832011)(66946007)(316002)(83380400001)(66476007)(26005)(6506007)(4001150100001)(2616005)(6512007)(38100700002)(31686004)(86362001)(53546011)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?V2lvbHlmVzlVdE4wRmpROXhrYXA2bDl6QTJqNjQydXdSYVRGa2ZPeFAvNXdQ?=
- =?utf-8?B?YkR2THgvUk11NnlwSmRjOGJFZy9OOVBnM3hSWjVVN1lVM3oxZnZ3NmYyeEtG?=
- =?utf-8?B?a2x1ZlUxRW55ellOZUt6Q2V0K0JzMFZ2SzEybm5rZ1V1VVNzMUhUcW1qeGFi?=
- =?utf-8?B?TFVhbUtERTdYSWJuQU5wRzhmQVZBS3lVU1pyRXM4TEFZRXZBcXREUE1OR3NM?=
- =?utf-8?B?VWt2eTBlcVV6aVhOM3RPck9ITHRaYzdqdGNCUDlkZ05ubGprWE00TkN5TDlG?=
- =?utf-8?B?WlRxbGVKdnBES25HN05uMlE0Z3pPbHlCOFdOaXR1TWN0WTE0TGtGZ3loeGlO?=
- =?utf-8?B?RERYM1NITUZvMC9yUUFqOXhkQy81Y2gwS21PNmI1UVZOdFFiWEUxSmNmVTVu?=
- =?utf-8?B?L2dzMDRENDRxRkwrN1lQbk85MHBJcmk1MElSZEd2Q3ptcDJlR2IvM3lNU01J?=
- =?utf-8?B?NVY2cU9tVGQ3bGxlRW9NNGQ0aUVteGYvNjJIeWNDaURrTEZ0U2FFdXByeFZj?=
- =?utf-8?B?WE13eStQSVJMWUlMSTBWZU10QUhMdWRlSlYwaGpQa2krSU1DbzlwN3FUeEI0?=
- =?utf-8?B?ZFVSazg0VlpkazYyQU9uTVlsUE84YjloN2h5bUFGSWVwV0VzNDg4WWFFdXQ3?=
- =?utf-8?B?dlA5TGFrdnpkMGNxSWwyMy83WHk4ZUVPWnpLNFNpM1ZycmNyYzIxSmRqbHFr?=
- =?utf-8?B?dG55LzhuKzF2SWNkekFBTGVQSjJvaWtUMjRKQitWeStGOFVJK0lPY2FqUUVF?=
- =?utf-8?B?aG1PV1RPeFdpQ3JVYzFDMHBQQklnZDl2bW5sSUdIVkJ2cjNrOUFLYytTSGph?=
- =?utf-8?B?YnBrdmE1K1pRcFVPcklCOEkwdFJoNXdMdVpIRlBDTTlTd3BoZnBHOUFQVnQz?=
- =?utf-8?B?L3M0Z1VvblRTS0ZBVUYyamRINVF6Z2RhckRDTHBpeGgxRHVTclNmY2hWaGl4?=
- =?utf-8?B?NUJxU0dpMWxqZ2VzL2UvZHluQUdodk10VFA0NVpNejlGWE5jK1JpNzZ6b1pH?=
- =?utf-8?B?Tkh3Tit0MnlDcjl4Szh5ZEpmbUFidEFneVptSTg5QUFiRlUrOEVSdUx3Rm1h?=
- =?utf-8?B?T0pHUmZQbG5RamJkMXkvbWJDMGhpamdSMmhrQ1plS0xKU1F6ZHV3amtPYzBM?=
- =?utf-8?B?cTNFSEtCZWMxS2dLZnAwamQwNWE2RkNoT2I5d0tOaVlZNFJ4MGVUUTVpbTZm?=
- =?utf-8?B?UHhxdHA5eWlTL2pLRmViN0Q4L3RzN3dpaEN0SVhaSU5aZ1JndjBzK2VyR0dy?=
- =?utf-8?B?UHVFNHNvUmd5M3JQa2hhWHRQNldJWmdiMzB1blJhb3lGU0lMMjhCa0tFR1pl?=
- =?utf-8?B?d2JKQXlmK2JESDFhRUNRT25td25IbmYyTUwvdzQySFExQnlTQ2hpQi9La2tj?=
- =?utf-8?B?dUVlTTBBY1Exa2J6Z2JNNUExMEtLVXQrNzBkUmlIL3ZiWTJvZTY3ZWpYNFIr?=
- =?utf-8?B?SDJBYmFiSUkvTHdoTUxtb21JQWJKYmJVVWo1Tk10bFUwZzNhZXRhcEdMcXpm?=
- =?utf-8?B?Qld3QnN5ZjVBcHQ2U2NleGlNaTJQTU1vN01xMVVmUTNnbFJtQTQrL2FFRXBP?=
- =?utf-8?B?YVVqdzlQOXQ4UjhSdXpVR3Y3UitXbElhSEx4ZnJ2bHR2V1Y0RDdhTVduWVZB?=
- =?utf-8?B?R05VZWhTNkh0RkROYzhCNldnV3V3VE1nKy9TQkNpSWxuNkRDWWcvY0JnSFY4?=
- =?utf-8?B?N0dEM3haSjlBOElNVXl6OW0zdGdHTkN1KzRLUCs2VXhpaUJBa1NNNnRPOFlz?=
- =?utf-8?B?bzV2U3NUVFdtOUloMm1wdHJsMytHQ2Vrd2RLTWpyRFA4WDZqMTNtbEdmdlV0?=
- =?utf-8?B?RlkwcmRzdUN0K3UwVkxJaFFGbU55Zk5IclBVaGFpaSs5ZldNdVY3V0Zod0NC?=
- =?utf-8?B?TDQ1dFJYd3Z5azB1cW9RdW5SZW9xZmFXRElvOTZlY1Q3d2lMVjVUdlJURVVx?=
- =?utf-8?B?czVKZmQyL242ei8zeFhLSVAzSjNoMkpvdTUxb2N3aitvb2tIOUFBcWVKK2JB?=
- =?utf-8?B?NkxJbTlYMlpoamFCaEpheDRMRWtnd3BnK1RDeEtuOTJZUm01NHMwcGxNeklR?=
- =?utf-8?B?TUdRUWxGeHBobU45VThKMFJqYUFaOVh1bFNGTVptTVBITEIyM0tnakNpQ1JV?=
- =?utf-8?Q?NEN7TqGww3vp75Zxs2PvTWWJ4?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c3fb2004-43ad-479f-2686-08dbcc625486
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3370.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Oct 2023 03:04:50.1592 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: RO1WxG8sBVyXpDXPZyL8ie9TKDKPn8ey5SR7qoxpyrdMv4zg+o0lyxnAUS6oMNcf
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5376
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231010125917.138225-10-Shyam-sundar.S-k@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -137,101 +65,131 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: robdclark@chromium.org, thomas.hellstrom@linux.intel.com,
- sarah.walker@imgtec.com, ketil.johnsen@arm.com, Liviu.Dudau@arm.com,
- mcanal@igalia.com, boris.brezillon@collabora.com, dakr@redhat.com,
- donald.robson@imgtec.com, lina@asahilina.net, christian.koenig@amd.com,
- faith.ekstrand@collabora.com
+Cc: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, linux-input@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, platform-driver-x86@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, Patil.Reddy@amd.com,
+ oe-kbuild-all@lists.linux.dev, mario.limonciello@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2023-10-11 19:58, Matthew Brost wrote:
-> Add helper to queue TDR immediately for current and future jobs. This is
-> used in Xe, a new Intel GPU driver, to trigger a TDR to cleanup a
-> drm_scheduler that encounter errors.
+Hi Shyam,
 
-I think the best (most optimal) thing to do is to remove the last sentence
-mentioning Xe. It is irrelevant to this patch. This patch is functional
-as is, and worth having it as is.
+kernel test robot noticed the following build warnings:
 
-So it's best to have just:
+[auto build test WARNING on hid/for-next]
+[also build test WARNING on drm-misc/drm-misc-next linus/master v6.6-rc5 next-20231013]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-	Add a helper whereby a driver can invoke TDR immediately.
+url:    https://github.com/intel-lab-lkp/linux/commits/Shyam-Sundar-S-K/platform-x86-amd-pmf-Add-PMF-TEE-interface/20231010-210347
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
+patch link:    https://lore.kernel.org/r/20231010125917.138225-10-Shyam-sundar.S-k%40amd.com
+patch subject: [PATCH v3 09/16] platform/x86/amd/pmf: Add facility to dump TA inputs
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20231014/202310141247.22Coajca-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231014/202310141247.22Coajca-lkp@intel.com/reproduce)
 
-Also remove "for current and future jobs" from the title, as it is
-implied by how TDR works. We want to say less.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310141247.22Coajca-lkp@intel.com/
 
-	drm/sched: Add a helper to queue TDR immediately
+All warnings (new ones prefixed by >>):
 
-These are only GPU scheduler changes, worth having on their own. The fact
-that a new (future as of this moment) driver (Xe) would use them is irrelevant
-at the moment. Other drivers (new, current?) would most likely end up using the changes
-of these patches, and these changes go in on their own merit.
+   In file included from include/linux/printk.h:564,
+                    from include/linux/kernel.h:30,
+                    from arch/x86/include/asm/percpu.h:27,
+                    from arch/x86/include/asm/preempt.h:6,
+                    from include/linux/preempt.h:79,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/slab.h:16,
+                    from include/linux/resource_ext.h:11,
+                    from include/linux/acpi.h:13,
+                    from drivers/platform/x86/amd/pmf/pmf.h:14,
+                    from drivers/platform/x86/amd/pmf/sps.c:11:
+   drivers/platform/x86/amd/pmf/sps.c: In function 'amd_pmf_dump_sps_defaults':
+   drivers/platform/x86/amd/pmf/sps.c:50:65: error: implicit declaration of function 'source_as_str' [-Werror=implicit-function-declaration]
+      50 |                         pr_debug("--- Source:%s Mode:%s ---\n", source_as_str(i), slider_as_str(j));
+         |                                                                 ^~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:224:29: note: in definition of macro '__dynamic_func_call_cls'
+     224 |                 func(&id, ##__VA_ARGS__);                       \
+         |                             ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:250:9: note: in expansion of macro '_dynamic_func_call_cls'
+     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:269:9: note: in expansion of macro '_dynamic_func_call'
+     269 |         _dynamic_func_call(fmt, __dynamic_pr_debug,             \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/printk.h:579:9: note: in expansion of macro 'dynamic_pr_debug'
+     579 |         dynamic_pr_debug(fmt, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~
+   drivers/platform/x86/amd/pmf/sps.c:50:25: note: in expansion of macro 'pr_debug'
+      50 |                         pr_debug("--- Source:%s Mode:%s ---\n", source_as_str(i), slider_as_str(j));
+         |                         ^~~~~~~~
+>> drivers/platform/x86/amd/pmf/sps.c:50:34: warning: format '%s' expects argument of type 'char *', but argument 3 has type 'int' [-Wformat=]
+      50 |                         pr_debug("--- Source:%s Mode:%s ---\n", source_as_str(i), slider_as_str(j));
+         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/printk.h:345:21: note: in definition of macro 'pr_fmt'
+     345 | #define pr_fmt(fmt) fmt
+         |                     ^~~
+   include/linux/dynamic_debug.h:248:9: note: in expansion of macro '__dynamic_func_call_cls'
+     248 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:250:9: note: in expansion of macro '_dynamic_func_call_cls'
+     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:269:9: note: in expansion of macro '_dynamic_func_call'
+     269 |         _dynamic_func_call(fmt, __dynamic_pr_debug,             \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/printk.h:579:9: note: in expansion of macro 'dynamic_pr_debug'
+     579 |         dynamic_pr_debug(fmt, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~
+   drivers/platform/x86/amd/pmf/sps.c:50:25: note: in expansion of macro 'pr_debug'
+      50 |                         pr_debug("--- Source:%s Mode:%s ---\n", source_as_str(i), slider_as_str(j));
+         |                         ^~~~~~~~
+   drivers/platform/x86/amd/pmf/sps.c:50:47: note: format string is defined here
+      50 |                         pr_debug("--- Source:%s Mode:%s ---\n", source_as_str(i), slider_as_str(j));
+         |                                              ~^
+         |                                               |
+         |                                               char *
+         |                                              %d
+   cc1: some warnings being treated as errors
 
-Regards,
-Luben
 
-> 
-> v2:
->  - Drop timeout args, rename function, use mod delayed work (Luben)
-> v3:
->  - s/XE/Xe (Luben)
->  - present tense in commit message (Luben)
->  - Adjust comment for drm_sched_tdr_queue_imm (Luben)
-> 
-> Cc: Luben Tuikov <luben.tuikov@amd.com>
-> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> ---
->  drivers/gpu/drm/scheduler/sched_main.c | 18 +++++++++++++++++-
->  include/drm/gpu_scheduler.h            |  1 +
->  2 files changed, 18 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-> index c4d5c3d265a8..f2846745b067 100644
-> --- a/drivers/gpu/drm/scheduler/sched_main.c
-> +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> @@ -431,7 +431,7 @@ static void drm_sched_start_timeout(struct drm_gpu_scheduler *sched)
->  
->  	if (sched->timeout != MAX_SCHEDULE_TIMEOUT &&
->  	    !list_empty(&sched->pending_list))
-> -		queue_delayed_work(sched->timeout_wq, &sched->work_tdr, sched->timeout);
-> +		mod_delayed_work(sched->timeout_wq, &sched->work_tdr, sched->timeout);
->  }
->  
->  static void drm_sched_start_timeout_unlocked(struct drm_gpu_scheduler *sched)
-> @@ -441,6 +441,22 @@ static void drm_sched_start_timeout_unlocked(struct drm_gpu_scheduler *sched)
->  	spin_unlock(&sched->job_list_lock);
->  }
->  
-> +/**
-> + * drm_sched_tdr_queue_imm: - immediately start job timeout handler
-> + *
-> + * @sched: scheduler for which the timeout handling should be started.
-> + *
-> + * Start timeout handling immediately for the named scheduler.
-> + */
-> +void drm_sched_tdr_queue_imm(struct drm_gpu_scheduler *sched)
-> +{
-> +	spin_lock(&sched->job_list_lock);
-> +	sched->timeout = 0;
-> +	drm_sched_start_timeout(sched);
-> +	spin_unlock(&sched->job_list_lock);
-> +}
-> +EXPORT_SYMBOL(drm_sched_tdr_queue_imm);
-> +
->  /**
->   * drm_sched_fault - immediately start timeout handler
->   *
-> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-> index 625ffe040de3..998b32b8d212 100644
-> --- a/include/drm/gpu_scheduler.h
-> +++ b/include/drm/gpu_scheduler.h
-> @@ -568,6 +568,7 @@ void drm_sched_entity_modify_sched(struct drm_sched_entity *entity,
->  				    struct drm_gpu_scheduler **sched_list,
->                                     unsigned int num_sched_list);
->  
-> +void drm_sched_tdr_queue_imm(struct drm_gpu_scheduler *sched);
->  void drm_sched_job_cleanup(struct drm_sched_job *job);
->  void drm_sched_wakeup_if_can_queue(struct drm_gpu_scheduler *sched);
->  bool drm_sched_wqueue_ready(struct drm_gpu_scheduler *sched);
+vim +50 drivers/platform/x86/amd/pmf/sps.c
 
+a82ebb3d800d7b Shyam Sundar S K 2023-05-10  41  
+a82ebb3d800d7b Shyam Sundar S K 2023-05-10  42  static void amd_pmf_dump_sps_defaults(struct amd_pmf_static_slider_granular *data)
+a82ebb3d800d7b Shyam Sundar S K 2023-05-10  43  {
+a82ebb3d800d7b Shyam Sundar S K 2023-05-10  44  	int i, j;
+a82ebb3d800d7b Shyam Sundar S K 2023-05-10  45  
+a82ebb3d800d7b Shyam Sundar S K 2023-05-10  46  	pr_debug("Static Slider Data - BEGIN\n");
+a82ebb3d800d7b Shyam Sundar S K 2023-05-10  47  
+a82ebb3d800d7b Shyam Sundar S K 2023-05-10  48  	for (i = 0; i < POWER_SOURCE_MAX; i++) {
+a82ebb3d800d7b Shyam Sundar S K 2023-05-10  49  		for (j = 0; j < POWER_MODE_MAX; j++) {
+a82ebb3d800d7b Shyam Sundar S K 2023-05-10 @50  			pr_debug("--- Source:%s Mode:%s ---\n", source_as_str(i), slider_as_str(j));
+a82ebb3d800d7b Shyam Sundar S K 2023-05-10  51  			pr_debug("SPL: %u mW\n", data->prop[i][j].spl);
+a82ebb3d800d7b Shyam Sundar S K 2023-05-10  52  			pr_debug("SPPT: %u mW\n", data->prop[i][j].sppt);
+a82ebb3d800d7b Shyam Sundar S K 2023-05-10  53  			pr_debug("SPPT_ApuOnly: %u mW\n", data->prop[i][j].sppt_apu_only);
+a82ebb3d800d7b Shyam Sundar S K 2023-05-10  54  			pr_debug("FPPT: %u mW\n", data->prop[i][j].fppt);
+a82ebb3d800d7b Shyam Sundar S K 2023-05-10  55  			pr_debug("STTMinLimit: %u mW\n", data->prop[i][j].stt_min);
+a82ebb3d800d7b Shyam Sundar S K 2023-05-10  56  			pr_debug("STT_SkinTempLimit_APU: %u C\n",
+a82ebb3d800d7b Shyam Sundar S K 2023-05-10  57  				 data->prop[i][j].stt_skin_temp[STT_TEMP_APU]);
+a82ebb3d800d7b Shyam Sundar S K 2023-05-10  58  			pr_debug("STT_SkinTempLimit_HS2: %u C\n",
+a82ebb3d800d7b Shyam Sundar S K 2023-05-10  59  				 data->prop[i][j].stt_skin_temp[STT_TEMP_HS2]);
+a82ebb3d800d7b Shyam Sundar S K 2023-05-10  60  		}
+a82ebb3d800d7b Shyam Sundar S K 2023-05-10  61  	}
+a82ebb3d800d7b Shyam Sundar S K 2023-05-10  62  
+a82ebb3d800d7b Shyam Sundar S K 2023-05-10  63  	pr_debug("Static Slider Data - END\n");
+a82ebb3d800d7b Shyam Sundar S K 2023-05-10  64  }
+a82ebb3d800d7b Shyam Sundar S K 2023-05-10  65  #else
+a82ebb3d800d7b Shyam Sundar S K 2023-05-10  66  static void amd_pmf_dump_sps_defaults(struct amd_pmf_static_slider_granular *data) {}
+a82ebb3d800d7b Shyam Sundar S K 2023-05-10  67  #endif
+a82ebb3d800d7b Shyam Sundar S K 2023-05-10  68  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
