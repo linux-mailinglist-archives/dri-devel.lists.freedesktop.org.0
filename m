@@ -2,77 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C3C27C912E
-	for <lists+dri-devel@lfdr.de>; Sat, 14 Oct 2023 01:08:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E7267C91D5
+	for <lists+dri-devel@lfdr.de>; Sat, 14 Oct 2023 02:33:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5340E10E07D;
-	Fri, 13 Oct 2023 23:08:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2422310E052;
+	Sat, 14 Oct 2023 00:33:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
- [IPv6:2a00:1450:4864:20::135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A8B210E07A
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Oct 2023 23:07:59 +0000 (UTC)
-Received: by mail-lf1-x135.google.com with SMTP id
- 2adb3069b0e04-5043a01ee20so3380485e87.0
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Oct 2023 16:07:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1697238478; x=1697843278; darn=lists.freedesktop.org;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:from:to:cc:subject:date:message-id:reply-to;
- bh=ntpWA0KpoWbL2Mip0SNW/VcCmMEOAdpN3Qpqu/MvN+k=;
- b=IxOj7CLgThdJyk+HByJFf/wtHtgmjnQKdMchSfLvp/PNTFxP7vCLVAKLwIf8OoUvVF
- /8RBfWroOcYAjA/w+JmTxA6wbIKWhxaM345EGnC0UBdmmoZ4hnD/k5z1fNBcz7tkyiyh
- DyLn76QAyWQTfQD3585I9mkMUEASTfqtJEilmNzPda9QR/G8OrOAUJREhgznsCqVuSAK
- qmnScD0VhezfdEoftHHqwJT4K8Qn8HC9UopH1QtJ2+4qEkrX4Nn3vgI5NtvVf2lgymFt
- h9PnAM6VdkN+SBpBlEUOsE41+4EUol3SjK2eN78FHhmVMHtynZ5A7zuC22vmcaQmiw2y
- 2P9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1697238478; x=1697843278;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=ntpWA0KpoWbL2Mip0SNW/VcCmMEOAdpN3Qpqu/MvN+k=;
- b=Tua1zF3d83yGz4ocijy4ak7H2XaNsIxQqKUHQk0G3+wHJxqki5TxIwUioTJ8NO1qaQ
- difaN5ai7aGciLodJXIvmJOQe+/te+Qsyuw0+mUL50iz0wmYo3q3EVE5UVD6DyPGKKt4
- IjFxnYAOn7sueJ1qjz0ZumW8MowmYA9/gbf6Z8Y+HcQmBhjWLfdZebTPG69axwat8uzS
- zM4ng9DyxyCXmfOHVWK1uNzLbraD0ZRHN8rnwqm9ElGcUMYdvByPuXnPV0Q0ImYJn3FW
- RrNo+avf6S9ZOTcztxKlkj4GQZgQEFGrkWSf1jMQz2U7qh+zwQ+NIBQz2i6jIkWfLq3I
- qC4Q==
-X-Gm-Message-State: AOJu0YzPM6aDJhiWhDf3MX50ssUsNpiUFFs/OffUSgQhaWNZlBIwsbfF
- hJIvLIU3NCpqnj/3Q/SmPomcIg==
-X-Google-Smtp-Source: AGHT+IEJMwBj1J0JzYtqJnElPMCb2Qn7Ch45pieeJc7RnMmM9cj9AkGLOPOfCuprWfC3Xg3v4+RMlA==
-X-Received: by 2002:a05:6512:1246:b0:500:9839:b13a with SMTP id
- fb6-20020a056512124600b005009839b13amr30206505lfb.66.1697238477814; 
- Fri, 13 Oct 2023 16:07:57 -0700 (PDT)
-Received: from [10.167.154.1]
- (178235177169.dynamic-4-waw-k-1-1-0.vectranet.pl. [178.235.177.169])
- by smtp.gmail.com with ESMTPSA id
- u13-20020ac248ad000000b00504818fcb07sm3553202lfg.266.2023.10.13.16.07.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Oct 2023 16:07:57 -0700 (PDT)
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-Date: Sat, 14 Oct 2023 01:07:46 +0200
-Subject: [PATCH] drm/msm/a6xx: Fix up QMP handling
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 39A0010E034;
+ Sat, 14 Oct 2023 00:33:29 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 39DMmB17020965; Sat, 14 Oct 2023 00:33:14 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=cjipiq3+EJ1v6XustUMA+8h3rIsxAxc3vEfkaVgcIPo=;
+ b=ajTDmgHfvQroK560PsctRlgutYR8IznAjXnoC6AykAwmxWEAB4CBDJvtVsuy3ugcQ4F2
+ X9itI4JNlxb6vDsKm+cQq3gPvCLF0UfpWtoVh9bCrPvHRQt6OCoLlie2hti4cUbg2+3q
+ yhwmewxD/ptK0x1V96hvbgPg+BNYpC3lYIFZahNFCOtMe6S+904Q5egNZLkOz9/+lIQC
+ VpMH64xbD8eZIeMoIDEVMLKagYkqCaspkmjSRF3MtCx6qRkcj4Om/GmvqqEbZdJb6SJJ
+ pIeM20uW9FC6xnhlv5fsqhZDadzalAgy2y+y/UWvUsr72yqXamyn6HSnEXGLfjtH2KPM 9Q== 
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3tpt10b4ug-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sat, 14 Oct 2023 00:33:14 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 39E0XDgu013616
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sat, 14 Oct 2023 00:33:13 GMT
+Received: from [10.110.47.104] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Fri, 13 Oct
+ 2023 17:33:12 -0700
+Message-ID: <956c53b4-d4f4-5a08-b86d-8c48374caa4f@quicinc.com>
+Date: Fri, 13 Oct 2023 17:33:11 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v2 1/2] drm/msm/dsi: use msm_gem_kernel_put to free TX
+ buffer
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
+ <marijn.suijten@somainline.org>
+References: <20231012012909.450501-1-dmitry.baryshkov@linaro.org>
+ <20231012012909.450501-2-dmitry.baryshkov@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20231012012909.450501-2-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20231014-topic-a7xxv3-v1-1-616bc95f21ce@linaro.org>
-X-B4-Tracking: v=1; b=H4sIAMHNKWUC/x2N0QqDMAwAf0XyvEBTNxR/RfYQ2zgDUqV1UhD/f
- WGPd3DcBUWySoGhuSDLqUW3ZECPBsLC6SOo0Ri88y05euKx7RqQu1rPFqOb2UfqO08vsGTiIjh
- lTmGxKH3X1eSeZdb6f4zv+/4Bzr+H7HMAAAA=
-To: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1697238476; l=2554;
- i=konrad.dybcio@linaro.org; s=20230215; h=from:subject:message-id;
- bh=L0RoG9B+wKNyrZ4UA2Vwj13Xo0muadgjIRaCHVUzQ3I=;
- b=0Tz640xtbRU3aIFgDrl3cQRCFtrEfteAL/Yvax+E5GHso3rsWZ6bqFX9Y5eSvxekDoMSTJduI
- Bz7I7UTi6RMAfWwBf2cx/MoFPYBqP+UETorzEdjQS28mwPa60aYQxVG
-X-Developer-Key: i=konrad.dybcio@linaro.org; a=ed25519;
- pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: AVvVmyd2onyecKIVG7xlYKl-2qpar6u2
+X-Proofpoint-ORIG-GUID: AVvVmyd2onyecKIVG7xlYKl-2qpar6u2
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-10-13_12,2023-10-12_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 adultscore=0
+ spamscore=0 bulkscore=0 suspectscore=0 mlxscore=0 lowpriorityscore=0
+ priorityscore=1501 mlxlogscore=830 phishscore=0 malwarescore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2309180000 definitions=main-2310140002
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,92 +86,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- freedreno@lists.freedesktop.org, Dan Carpenter <dan.carpenter@linaro.org>
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The commit referenced in the Fixes tag had a couple problems (as
-pointed out by Dan):
 
-- qmp_put was never called, resulting in refcnt leaks
-- failling to acquire the QMP mailbox on A7xx would not undo the probe
-  function properly
-- the qmp_put call present in the code was unreachable
 
-Fix all of these issues.
+On 10/11/2023 6:29 PM, Dmitry Baryshkov wrote:
+> Use exiting function to free the allocated GEM object instead of
+> open-coding it. This has a bonus of internally calling
+> msm_gem_put_vaddr() to compensate for msm_gem_get_vaddr() in
+> msm_get_kernel_new().
+> 
+> Fixes: 1e29dff00400 ("drm/msm: Add a common function to free kernel buffer objects")
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>   drivers/gpu/drm/msm/dsi/dsi_host.c | 3 +--
+>   1 file changed, 1 insertion(+), 2 deletions(-)
+> 
 
-Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-Fixes: 88a0997f2f94 ("drm/msm/a6xx: Send ACD state to QMP at GMU resume")
-Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
----
- drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 18 ++++++++++++------
- 1 file changed, 12 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-index 0555a0134fad..8c4900444b2c 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-@@ -1558,6 +1558,9 @@ void a6xx_gmu_remove(struct a6xx_gpu *a6xx_gpu)
- 		dev_pm_domain_detach(gmu->gxpd, false);
- 	}
- 
-+	if (!IS_ERR_OR_NULL(gmu->qmp))
-+		qmp_put(gmu->qmp);
-+
- 	iounmap(gmu->mmio);
- 	if (platform_get_resource_byname(pdev, IORESOURCE_MEM, "rscc"))
- 		iounmap(gmu->rscc);
-@@ -1654,6 +1657,7 @@ int a6xx_gmu_init(struct a6xx_gpu *a6xx_gpu, struct device_node *node)
- 	struct adreno_gpu *adreno_gpu = &a6xx_gpu->base;
- 	struct a6xx_gmu *gmu = &a6xx_gpu->gmu;
- 	struct platform_device *pdev = of_find_device_by_node(node);
-+	struct device_link *link;
- 	int ret;
- 
- 	if (!pdev)
-@@ -1777,15 +1781,17 @@ int a6xx_gmu_init(struct a6xx_gpu *a6xx_gpu, struct device_node *node)
- 		goto err_mmio;
- 	}
- 
--	if (!device_link_add(gmu->dev, gmu->cxpd,
--					DL_FLAG_PM_RUNTIME)) {
-+	link = device_link_add(gmu->dev, gmu->cxpd, DL_FLAG_PM_RUNTIME);
-+	if (!link) {
- 		ret = -ENODEV;
- 		goto detach_cxpd;
- 	}
- 
- 	gmu->qmp = qmp_get(gmu->dev);
--	if (IS_ERR(gmu->qmp) && adreno_is_a7xx(adreno_gpu))
--		return PTR_ERR(gmu->qmp);
-+	if (IS_ERR(gmu->qmp) && adreno_is_a7xx(adreno_gpu)) {
-+		ret = PTR_ERR(gmu->qmp);
-+		goto remove_device_link;
-+	}
- 
- 	init_completion(&gmu->pd_gate);
- 	complete_all(&gmu->pd_gate);
-@@ -1810,8 +1816,8 @@ int a6xx_gmu_init(struct a6xx_gpu *a6xx_gpu, struct device_node *node)
- 
- 	return 0;
- 
--	if (!IS_ERR_OR_NULL(gmu->qmp))
--		qmp_put(gmu->qmp);
-+remove_device_link:
-+	device_link_del(link);
- 
- detach_cxpd:
- 	dev_pm_domain_detach(gmu->cxpd, false);
-
----
-base-commit: e3b18f7200f45d66f7141136c25554ac1e82009b
-change-id: 20231014-topic-a7xxv3-d0fa2d187215
-
-Best regards,
--- 
-Konrad Dybcio <konrad.dybcio@linaro.org>
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 
