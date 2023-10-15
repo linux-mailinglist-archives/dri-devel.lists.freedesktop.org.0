@@ -1,64 +1,129 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7ADD7C9724
-	for <lists+dri-devel@lfdr.de>; Sun, 15 Oct 2023 00:54:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 81DF57C975A
+	for <lists+dri-devel@lfdr.de>; Sun, 15 Oct 2023 02:09:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 17ADA10E0E0;
-	Sat, 14 Oct 2023 22:54:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B392710E0C0;
+	Sun, 15 Oct 2023 00:09:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-xa2d.google.com (mail-vk1-xa2d.google.com
- [IPv6:2607:f8b0:4864:20::a2d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 200B810E00F;
- Sat, 14 Oct 2023 22:54:36 +0000 (UTC)
-Received: by mail-vk1-xa2d.google.com with SMTP id
- 71dfb90a1353d-49d55b90a5aso2214865e0c.0; 
- Sat, 14 Oct 2023 15:54:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1697324075; x=1697928875; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=E3dgwAPbWgceK8XnpO8ceX742rck1tlUzuW6UkEbMaQ=;
- b=ePrDhLbtJ4Exoer2Js7/+nfAlFKJ5MDzZ/EQ5O/p7q078RZeftkitF8aF37pBXYGDf
- NfVnvtfj8Wc2UhIAUgtK2/0rp5I0hcC0BlONIFHL4qTNedSuQUpgn/bDL5ku8IFiWfJn
- kAMGZ4lA6HwjcrDOYsdqC3ysXrdJFB2HFRiwJqpU9ecNEJib3UygXPfwLcYsjBwT//EV
- SzUVOO8J/QN/5a8qXj2fNrjs/3/jezC63EYmPD8piYQa0x9XBh6/aAegr/SibwmMFHGN
- GtcvS1B7jdydrgD2YB6UibUhEvnaFWXU7Uu2koItKYgIGUzKFOw+V8mp6711u9wy9245
- tx3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1697324075; x=1697928875;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=E3dgwAPbWgceK8XnpO8ceX742rck1tlUzuW6UkEbMaQ=;
- b=m1JD1ak5G5nZq2Z5MUeoW+pKB7HEtIdAiJlCMxAkzg180FqxKB+5iqBtIKC3+6WaZP
- rt5NAa2uzRzzEIXH0L6poMWjybQNOB+Tk6LfURBRa9KTvBv6uqvq9ciRWMB2QHpmT+Kt
- w8qJPb4RFFNU3PvDakNoqubt/HeqVjAyE7YT481HwEjdXxLUn1MjkJdpB5XRWx3BemLN
- HvxbfWniGkFsfWFANdozNVlFm20iXpDv7uiF/hFsZssOLzuuz4chemW9EgCAIBsDLSeM
- PULzHrnDqeCl9K3tno2fWe5SNFUwVVW3vvzDQfmRmAQ1hXUTxzNHNFadAxag2k8aPx6d
- mbpg==
-X-Gm-Message-State: AOJu0YxNkJb1E0rvbn+/2HF5Qp64vvs4d+FF6Zb+JDpMckEaQhq5RkRg
- teHmdbJNRfCIC7yIHDoPBW0fLEYpRbktjtVU/w8SgrVoSsfwDQ==
-X-Google-Smtp-Source: AGHT+IFfT3nqs45wSlTdh49Mfqnd7iS4fm3NazMXcrcNd0WEk8mfYCYz456yTKkBrC2Rm6aiZ0xPlI+0DL8Ucy3wF44=
-X-Received: by 2002:a05:6122:1681:b0:49a:b587:ab79 with SMTP id
- 1-20020a056122168100b0049ab587ab79mr2277741vkl.8.1697324075009; Sat, 14 Oct
- 2023 15:54:35 -0700 (PDT)
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2081.outbound.protection.outlook.com [40.107.237.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 71A1710E07B;
+ Sun, 15 Oct 2023 00:09:40 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Ta23EcaCMcF1AvD0blypWFnZltDIIg2D9oEAIa+j3ecLSCDSTcbtRw4DPE3FG5CJY8VKRBC8bdydSjrVFBa8pBqJR5qY3Vj6qqb7Exew5iAHZJKBCErvj01rwd21F/8pUw3ERJuv9tPHY4rTq7n3VI4x/y3/9ZsyOFoehclA8MkbUq3zMMdJxwWLsjk4KKq3fjfq5W2nZ4WxIQj6+J9KGCxqwwPZGN2iuO1fy0wPyrBFleE8FOB/dOtdsAFC+us+PIDIoo3+qfAnGdppcUUcYCXZ8O860pSaQPWLYEsMFwwj+XQ45626UhrPWLqO4Yj/69wnd7edckdZpisn8fK0pA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=014sDnm1UPr5BkiUgg3mdtnTyY8HeRX8AYI5SiMwVps=;
+ b=mosVagK5GWUy1ioflkNgXmoUmMzD+LLV7eAX1aTsTd1sEXhmwwOYQX/nW/SjTRkgwfWUu+PekBd8MecNUyeTyfcgbeVyagWGo385PxNaD2lQsDIyQxbFI0M9iGrRRy3OBfRuojsP7fZCjMmSgavHUFhWQoMtIdgDfEGLxggwc1rdpiQvHAvhjFP6mtDFFcTc3hi7rQx+DICdUzFAL/8nqA8c/jFCfYj4mWRlXOQU16Uo9zWYClXpURDtRkrN6+mSDRWQdafphimHXGUCSUMZenfHeip94e7w6bBdCODDdhHX0fSNdUlS1dxIBHtbpUhvmQMAm3S0AgXnGyQQ954dOg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=014sDnm1UPr5BkiUgg3mdtnTyY8HeRX8AYI5SiMwVps=;
+ b=t9CGaB5+G6FKe9fvfPcsyOPo8Js7OWH6sBudCyESy78K8alNgCXBn8HhWejSJI2/gAmzuxVxm4mzoyp27sktdrAg3lzvNoHw1kl5j9tu35bo7BwRIBchsAa7FRaOYCNiNXVWvHaQ3adAxSjpT7yJGCzzOlujlwsAPaLmlHLpKvQ=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM6PR12MB3370.namprd12.prod.outlook.com (2603:10b6:5:38::25) by
+ SN7PR12MB8002.namprd12.prod.outlook.com (2603:10b6:806:34b::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6886.34; Sun, 15 Oct
+ 2023 00:09:36 +0000
+Received: from DM6PR12MB3370.namprd12.prod.outlook.com
+ ([fe80::b80b:7138:6ceb:9aef]) by DM6PR12MB3370.namprd12.prod.outlook.com
+ ([fe80::b80b:7138:6ceb:9aef%5]) with mapi id 15.20.6863.047; Sun, 15 Oct 2023
+ 00:09:35 +0000
+Message-ID: <c91d3a47-df4a-4be8-8f27-c850289df281@amd.com>
+Date: Sat, 14 Oct 2023 20:09:31 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:115.0) Gecko/20100101
+ Thunderbird/115.3.2
+Subject: Re: [PATCH v5 5/7] drm/sched: Split free_job into own work item
+Content-Language: en-CA, en-US
+From: Luben Tuikov <luben.tuikov@amd.com>
+To: Matthew Brost <matthew.brost@intel.com>, dri-devel@lists.freedesktop.org, 
+ intel-xe@lists.freedesktop.org
+References: <20231011235826.585624-1-matthew.brost@intel.com>
+ <20231011235826.585624-6-matthew.brost@intel.com>
+ <23cceeb8-5d86-4923-a072-b9e72b74d36b@amd.com>
+Autocrypt: addr=luben.tuikov@amd.com; keydata=
+ xjMEY1i6jxYJKwYBBAHaRw8BAQdAhfD+Cc+P5t/fiF08Vw25EMLiwUuxULYRiDQAP6H50MTN
+ I0x1YmVuIFR1aWtvdiA8bHViZW4udHVpa292QGFtZC5jb20+wpkEExYKAEEWIQQyyR05VSHw
+ x45E/SoppxulNG8HhgUCY1i6jwIbAwUJCWYBgAULCQgHAgIiAgYVCgkICwIEFgIDAQIeBwIX
+ gAAKCRAppxulNG8Hhk53AP4k4UY5xfcje0c5OF1k22pNv8tErxtVpgKKZgvfetA4xwD+OoAh
+ vesLIYumBDxP0BoLiLN84udxdT15HwPFUGiDmwDOOARjWLqPEgorBgEEAZdVAQUBAQdAzSxY
+ a2EtvvIwd09NckBLSTarSLNDkUthmqPnwolwiDYDAQgHwn4EGBYKACYWIQQyyR05VSHwx45E
+ /SoppxulNG8HhgUCY1i6jwIbDAUJCWYBgAAKCRAppxulNG8HhnBLAP4yjSGpK6PE1mapKhrq
+ 8bSl9reo+F6EqdhE8X2TTHPycAEAt8EkTEstSiaOpM66gneU7r+xxzOYULo1b1XjXayGvwM=
+In-Reply-To: <23cceeb8-5d86-4923-a072-b9e72b74d36b@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: YQBPR0101CA0285.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:6d::21) To DM6PR12MB3370.namprd12.prod.outlook.com
+ (2603:10b6:5:38::25)
 MIME-Version: 1.0
-References: <20231013224818.3456409-1-jim.cromie@gmail.com>
-In-Reply-To: <20231013224818.3456409-1-jim.cromie@gmail.com>
-From: jim.cromie@gmail.com
-Date: Sat, 14 Oct 2023 16:54:08 -0600
-Message-ID: <CAJfuBxxc1HxYNbp1vdkh8yTOTHV-5ohskCA-twx5Uf2SmWTffg@mail.gmail.com>
-Subject: Re: [PATCH v7b 00/25] fix DRM_USE_DYNAMIC_DEBUG=y regression
-To: linux-kernel@vger.kernel.org, jbaron@akamai.com, 
- gregkh@linuxfoundation.org, dri-devel@lists.freedesktop.org, 
- amd-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org, 
- intel-gfx@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR12MB3370:EE_|SN7PR12MB8002:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6762c38c-229d-48fa-22be-08dbcd130338
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: FCrcnbpQU5fnwgo4OOc+tSQhh23M6NzPS3bGdZyiwVP+tWPjh86b03hC9L2BkoeHXGGGZPa2qLIjPVPG6TnCB1L3ufMCOu9PlM3ow4JLaZT7RXviVkkScWweGP8WY0OZe8oqPeUgaUhhqNdPvUOeap//1Zz4LoBWb/A9YodoYdcGVpex8+j6086VODmuJvBr1SEvF1S4hBFs9fd2UawlXJd6pj6wxSTYBI8MntkT3XSsqutHS73RwLFluiSxTvlAoRwSb7alTdiFQ4U6h0BDmJJArSWBy5J17QPeb3eX5S221KQCxdzIyjyb6su+ZdDHuFZC64hihPSmzVDRrbXPjwk7ulnFk7j40FdPBN7pWb6jtdsrZM2ogP5Ev+yG9C/1QKmJpAye/JnkJIx4JtlAaEbMEhnmwfneU6t/GDUcJ3uWyAuTkTprKN6iDf1LekfQZNyYA9Hy59MC4f7td+yETVEzxcdfWvpIlF0F6nE7/azh+JpiTGWId/hldl2GBThK2a1OZpfm1bdW4x8jOUqRL1AwdrzQTd94yvacgpntlKNM8x6/hmykarrqvtCAUHp+bO5hQcJPb5eI4GDhflHcUWpmUsPVobSZdp1XuNSWmy+nJ8+ddseB8hnd7DNU3Ks/GFWuZtfpGmFz5rr48q2okQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR12MB3370.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(39860400002)(136003)(396003)(376002)(346002)(366004)(230922051799003)(186009)(1800799009)(64100799003)(451199024)(4001150100001)(2906002)(7416002)(86362001)(31696002)(316002)(66556008)(38100700002)(66946007)(66476007)(53546011)(6506007)(6512007)(6666004)(6486002)(478600001)(83380400001)(2616005)(26005)(44832011)(5660300002)(41300700001)(36756003)(8936002)(8676002)(4326008)(31686004)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VW9sSVAvOSsxdGltR1g0djJwUVhzYXJqM1MrZFVESEc3NlRKV2tWNEQzMHdu?=
+ =?utf-8?B?MWh6RXU5V2FnRjYxRGVhejFvSUFlNlNIMTRnTTRIRkI1VXpsU2N2UlN0cTRQ?=
+ =?utf-8?B?QjNFc2JITHJaMTZRaUV6VTJkYzBjWGd1UU9IYTZOem9rZWdCRVM0R2cvVk5V?=
+ =?utf-8?B?WWJhZnBIMk0rb1ZBTHdWdVZhcDJMOGsxaEt1ei85aFo3dFJVbXUxZ3VJNVVO?=
+ =?utf-8?B?cUZZaVFialB3bzNYS1FhLzZhREoxdmhTQ0xVZURKVVJ3ajRNTzcxSC9mMk1Y?=
+ =?utf-8?B?aElWLzJWQ09id3h3bFIxQUVpSkNhb0ZRcDlJUXpEaWF4RnVIQTVjRDc5eHlT?=
+ =?utf-8?B?cDVnNCtvTW9Cd1VZVnRsUXJFTW45dmdKN2xrdkx0NUQ2aVpVdGNTOTc2Zks2?=
+ =?utf-8?B?YXFzeERvb0pxcFRJSUVDU1A2ZjlNYUl4YWlSRWFOMC9IKzFTTC92N0VtTUJY?=
+ =?utf-8?B?NjlCM3NnR205U2tVZ2cxWHc2cDMwc1Vuc2JjZDhPNDdhRE5vaEZvWEtJaC92?=
+ =?utf-8?B?ZVlRZnY2OHZEUEdQdHpuWXd2dkhwaUZPRDBrL2hzYjJTL0VlQkY5UTVnWHlw?=
+ =?utf-8?B?WGUveHlHMmw0UFIxeUROdXhndTVUbG80NWNOZjBGdVZQVWdpMm9iZDNvUE1k?=
+ =?utf-8?B?TkdJYTVnMTVpTSs0eVBDa08xL1p1SVNodTNjK2FWV243VHJ4VVhHaGV1ajBD?=
+ =?utf-8?B?ell0dVB1NVg4RDR6TjQ5aGJ1U0VxTkE1ZDcrd21aMWhrSjM1d3NkL3JvQ3BQ?=
+ =?utf-8?B?M3dmT2g4VVVlRHJFZFZEYnFnNkpTc3hRclNJYnFtS2JaUUpXbjY0QnRaUk90?=
+ =?utf-8?B?dFZNeEpvK2NrQXZkZitndytMM2l1Y1lTV0t1TWlvTGZVa1g1dEpBcUdhZW9i?=
+ =?utf-8?B?MStZNGVuSWtKWk8yNWh4NVM4bFdjNWg0Z2pkRDNMNVhqb3VWajJvMXh2K3Vl?=
+ =?utf-8?B?WU83cnhSeFRyaDVMMlNQZFU2Mk5PUnRGazY3V0pyd284WktnSzFrakxlL2dJ?=
+ =?utf-8?B?TkU0bTM5Lzl0STUybGx1WG1HMjFRU2tlUmxFaHhZZGcxY3FoZGkvZUwyQ1Fz?=
+ =?utf-8?B?bzVoWXBnMDNDV1haMmhkbmdZMXVQcHdYVys1YjdOUFN1OFRnb3kxaW9TY3Bl?=
+ =?utf-8?B?bXJhK3pPb2JoOWF5SlhWaEwxY1pCNWlTeUxRUERIL3piaWFmSjcxNFg3d0xL?=
+ =?utf-8?B?cS83QzNUanc2QUtTdlBOMkxSZGRXWDVHeWR4eHEzVWEvNzFLTExZeHdtUmJU?=
+ =?utf-8?B?a2RYZXgxaGhFcEU5anptazdnWTJLY0UwSWNTd0ZtUURuNlRQLzZ6cnF0Y3Ew?=
+ =?utf-8?B?V01CZy9lM3pQcTdjUGt5SzhpdEZjTDQ2Si9kdXR6S0JIZlc5NEcweFF1bmdP?=
+ =?utf-8?B?djczRWQ2ZWNpMTJ1MVBPYWtxekllZ2lSdy9BbGNTZStheEczUmxXTmRlT2FQ?=
+ =?utf-8?B?OTRrbmpwVFJNdmxLY0ZPOVQxb1IxQWVaeE9iSkFzVWxyWnF3eG1VeCtVMU1N?=
+ =?utf-8?B?VlVZbVdQN2FiVGVaNlYvbVUrWVBzcU5jY0ttUnhmYllLckg3WkhvOGpWKzBt?=
+ =?utf-8?B?OXJPUS9nSTJ2WkpPTWxzSHRiQ1NKWEZWWm45bjNUNi9seXRGWFl6SkdjbDFD?=
+ =?utf-8?B?YU5hdmI1SnNGeHI5eHNKNmpvU1QzUWp4MTJrR0J0ZVNGNGUweTRudmM5SHBB?=
+ =?utf-8?B?b2lmYzJnOGVjVE9OS0RpK1BRT3dIaFhJNWJlc1ovYi95ZURpL2o3VDZtd1dV?=
+ =?utf-8?B?dFNOTTA0dUdvSk5iODl6UjlYVG5xNElBYUJQeUlBWVJIYllZZFZOdUdEaGlK?=
+ =?utf-8?B?VldNL01PUjZ2RWQzendzK0hHYzBTL0Fta21zUGtUWGgxckJnZGdTL3RvcmU2?=
+ =?utf-8?B?K3NVeDU3NUxqK3ZLTmFZaE9Ubll1cllpVXJiTFpBR25pamlNZDFReWVndnE4?=
+ =?utf-8?B?L2pYejhEZEoxeFpTUmRDUzBqdCtIUWZDYWQ4YlVkYS9HSlltZVdVTmljR0tD?=
+ =?utf-8?B?cEtFaURianVSamc1OFlKV0lWaCs5citRSEQvZDA2a2I5RVNySWM1Ulp0Q0RZ?=
+ =?utf-8?B?aWRWa2l4QWpmTk1OMDFyMUlDQU9rTU12K1FkYlZaRHF2NlM2YmlxaUlBWUwr?=
+ =?utf-8?Q?g4QtnozheU4mvQbxM9p559wik?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6762c38c-229d-48fa-22be-08dbcd130338
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3370.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Oct 2023 00:09:35.0193 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: I2R00pzOUaYIfFbJ+q3rB9K7/CV8z7N5rzOPqhOonTiOcUYCEnOZ6vx4z+uZYeks
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB8002
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,186 +136,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: lb@semihalf.com, groeck@google.com, linux-doc@vger.kernel.org,
- jani.nikula@intel.com, daniel.vetter@ffwll.ch, linux@rasmusvillemoes.dk,
- mcgrof@kernel.org, seanpaul@chromium.org, joe@perches.com, bleung@google.com,
- yanivt@google.com
+Cc: robdclark@chromium.org, thomas.hellstrom@linux.intel.com,
+ sarah.walker@imgtec.com, ketil.johnsen@arm.com, Liviu.Dudau@arm.com,
+ mcanal@igalia.com, boris.brezillon@collabora.com, dakr@redhat.com,
+ donald.robson@imgtec.com, lina@asahilina.net, christian.koenig@amd.com,
+ faith.ekstrand@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 13, 2023 at 4:48=E2=80=AFPM Jim Cromie <jim.cromie@gmail.com> w=
-rote:
->
-> hi Jason, DRM-folk
->
-> (now with checkpatch fixes)
+On 2023-10-13 22:49, Luben Tuikov wrote:
+> On 2023-10-11 19:58, Matthew Brost wrote:
+>> Rather than call free_job and run_job in same work item have a dedicated
+>> work item for each. This aligns with the design and intended use of work
+>> queues.
+>>
+>> v2:
+>>    - Test for DMA_FENCE_FLAG_TIMESTAMP_BIT before setting
+>>      timestamp in free_job() work item (Danilo)
+>> v3:
+>>   - Drop forward dec of drm_sched_select_entity (Boris)
+>>   - Return in drm_sched_run_job_work if entity NULL (Boris)
+>> v4:
+>>   - Replace dequeue with peek and invert logic (Luben)
+>>   - Wrap to 100 lines (Luben)
+>>   - Update comments for *_queue / *_queue_if_ready functions (Luben)
+>>
+>> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> 
+> I wasn't able to apply this patch on top of drm-misc-next at a48e2cc92835fa.
+> 
+> Create a branch off of a *clean* drm-misc-next and rebase/reapply/cherry-pick all
+> 7 patches on top of that clean drm-misc-next branch. You should also run
+> scripts/checkpatch.pl --strict on all your patches, or integrate it into the precommit
+> hook, see githooks(5), so you don't have to run it manually.
+> 
+> Set format.useAutobase to whenAble somewhere in your Git configs (global/local),
+> or use --base=auto to git-format-patch when you format your patches before
+> git-send-email-ing them.
+> 
+> Repost your patches.
+> 
+> The base commit will be added to the bottom of the cover letter. It should
+> be an ancestor (or tip) of drm-misc-next (git branch --contains <base> --list etc.).
+> If it is not, your base tree wasn't clean, and you should redo this process.
 
-I missed fixing boxed-vector, am just dropping it.
+Poking around I found out that this patch set is based off of drm-misc-fixes.
+Had the base been included, it would've made this easier.
+-- 
+Regards,
+Luben
 
->
-> This patchest fixes the chicken-egg initialization problem in the 1st
-> version of ddebug-class-maps, that DRM-CI uncovered.
->
-> The root-problem was DECLARE_DYNDBG_CLASSMAP, which broke the K&R rule:
-> "define once, refer many".  In patch 14 it is replaced by:
->
->  DYNDBG_CLASSMAP_DEFINE - define and export a struct ddebug_class_map
->  DYNDBG_CLASSMAP_USE - ref the exported struct
->
-> test-dynamic-debug is also extended with a -submod.ko, in order to
-> recapitulate the drm & drivers initialization scenario.
->
-> They're on v6.6-rc5 now, and apply cleanly to drm-tip/drm-tip.
->
-> Ive been running recent revs on rc3+, on my desktop and laptop.
->
-> The final blocker was a missing __align(8) on the ddebug_class_user
-> record inserted by DYNDBG_CLASSMAP_USE.  This caused DRM=3Dy (builtin
-> only) to have a corrupt record for drm_kms_helper (builtin dependent).
-> Curiously, a clang build did not exhibit this problem.
->
-
->
-> Widespread testing is appreciated.
-> I have scripts if anyone wants them.
->
-> I'll forward lkp-robot reports here when I get them.
-> Patches also at https://github.com/jimc/linux (dd-fix-7b)
->
-
-Date: Sat, 14 Oct 2023 18:22:28 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jim Cromie <jim.cromie@gmail.com>
-Subject: [jimc:dd-fix-7a] BUILD SUCCESS 8e96f63f570a462b859876601a5f795a159=
-99f6b
-Message-ID: <202310141826.AN7MAD40-lkp@intel.com>
-User-Agent: s-nail v14.9.24
-
-tree/branch: https://github.com/jimc/linux.git dd-fix-7a
-branch HEAD: 8e96f63f570a462b859876601a5f795a15999f6b  drm: restore
-CONFIG_DRM_USE_DYNAMIC_DEBUG un-BROKEN
-
-elapsed time: 3187m
-
-configs tested: 103
-configs skipped: 2
-
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-tested configs:
-alpha                             allnoconfig   gcc
-alpha                            allyesconfig   gcc
-alpha                               defconfig   gcc
-arc                              allmodconfig   gcc
-arc                               allnoconfig   gcc
-arc                              allyesconfig   gcc
-arc                                 defconfig   gcc
-arc                   randconfig-001-20231012   gcc
-arm                              allmodconfig   gcc
-arm                               allnoconfig   gcc
-arm                              allyesconfig   gcc
-arm                                 defconfig   gcc
-arm                   randconfig-001-20231013   gcc
-arm64                            allmodconfig   gcc
-arm64                             allnoconfig   gcc
-arm64                            allyesconfig   gcc
-arm64                               defconfig   gcc
-csky                             allmodconfig   gcc
-csky                              allnoconfig   gcc
-csky                             allyesconfig   gcc
-csky                                defconfig   gcc
-i386                             allmodconfig   gcc
-i386                              allnoconfig   gcc
-i386                             allyesconfig   gcc
-i386                              debian-10.3   gcc
-i386                                defconfig   gcc
-i386                  randconfig-001-20231013   gcc
-i386                  randconfig-002-20231013   gcc
-i386                  randconfig-003-20231013   gcc
-i386                  randconfig-004-20231013   gcc
-i386                  randconfig-005-20231013   gcc
-i386                  randconfig-006-20231013   gcc
-loongarch                        allmodconfig   gcc
-loongarch                         allnoconfig   gcc
-loongarch                        allyesconfig   gcc
-loongarch                           defconfig   gcc
-loongarch             randconfig-001-20231012   gcc
-m68k                             allmodconfig   gcc
-m68k                              allnoconfig   gcc
-m68k                             allyesconfig   gcc
-m68k                                defconfig   gcc
-microblaze                       allmodconfig   gcc
-microblaze                        allnoconfig   gcc
-microblaze                       allyesconfig   gcc
-microblaze                          defconfig   gcc
-mips                             allmodconfig   gcc
-mips                              allnoconfig   gcc
-mips                             allyesconfig   gcc
-nios2                            allmodconfig   gcc
-nios2                             allnoconfig   gcc
-nios2                            allyesconfig   gcc
-nios2                               defconfig   gcc
-openrisc                         allmodconfig   gcc
-openrisc                          allnoconfig   gcc
-openrisc                         allyesconfig   gcc
-openrisc                            defconfig   gcc
-parisc                           allmodconfig   gcc
-parisc                            allnoconfig   gcc
-parisc                           allyesconfig   gcc
-parisc                              defconfig   gcc
-parisc64                            defconfig   gcc
-powerpc                           allnoconfig   gcc
-powerpc                          allyesconfig   gcc
-riscv                            allmodconfig   gcc
-riscv                             allnoconfig   gcc
-riscv                            allyesconfig   gcc
-riscv                               defconfig   gcc
-riscv                 randconfig-001-20231012   gcc
-riscv                          rv32_defconfig   gcc
-s390                             allmodconfig   gcc
-s390                              allnoconfig   gcc
-s390                             allyesconfig   gcc
-s390                                defconfig   gcc
-s390                  randconfig-001-20231012   gcc
-sh                               allmodconfig   gcc
-sh                                allnoconfig   gcc
-sh                               allyesconfig   gcc
-sh                                  defconfig   gcc
-sparc                            allmodconfig   gcc
-sparc                             allnoconfig   gcc
-sparc                            allyesconfig   gcc
-sparc                               defconfig   gcc
-sparc                 randconfig-001-20231013   gcc
-sparc64                          allmodconfig   gcc
-sparc64                          allyesconfig   gcc
-sparc64                             defconfig   gcc
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   clang
-um                                  defconfig   gcc
-um                             i386_defconfig   gcc
-um                           x86_64_defconfig   gcc
-x86_64                            allnoconfig   gcc
-x86_64                           allyesconfig   gcc
-x86_64                              defconfig   gcc
-x86_64                randconfig-001-20231013   gcc
-x86_64                randconfig-002-20231013   gcc
-x86_64                randconfig-003-20231013   gcc
-x86_64                randconfig-004-20231013   gcc
-x86_64                randconfig-005-20231013   gcc
-x86_64                randconfig-006-20231013   gcc
-x86_64                          rhel-8.3-rust   clang
-x86_64                               rhel-8.3   gcc
-
---=20
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
-
-> Jim Cromie (25):
-
->   dyndbg: add for_each_boxed_vector
-
-Im dropping this one, more trouble than its worth.
-hopefully one falls out of flex-array work.
