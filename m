@@ -1,37 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BDF07C98C1
-	for <lists+dri-devel@lfdr.de>; Sun, 15 Oct 2023 13:06:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C0CDA7C98E6
+	for <lists+dri-devel@lfdr.de>; Sun, 15 Oct 2023 14:09:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C440610E0A0;
-	Sun, 15 Oct 2023 11:06:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA65410E036;
+	Sun, 15 Oct 2023 12:09:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 399 seconds by postgrey-1.36 at gabe;
- Sun, 15 Oct 2023 11:06:06 UTC
-Received: from honk.sigxcpu.org (honk.sigxcpu.org [24.134.29.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A17B10E0A0
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Oct 2023 11:06:05 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by honk.sigxcpu.org (Postfix) with ESMTP id 5B2C2FB06;
- Sun, 15 Oct 2023 12:59:25 +0200 (CEST)
-Received: from honk.sigxcpu.org ([127.0.0.1])
- by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id f7l20BZCmacd; Sun, 15 Oct 2023 12:59:24 +0200 (CEST)
-Date: Sun, 15 Oct 2023 12:59:22 +0200
-From: Guido =?iso-8859-1?Q?G=FCnther?= <guido.gunther@puri.sm>
-To: Frank Oltmanns <frank@oltmanns.dev>
-Subject: Re: [PATCH 1/1] drm/panel: st7703: Pick different reset sequence
-Message-ID: <ZSvGCvniKkT-YPkJ@qwark.sigxcpu.org>
-References: <20230211171748.36692-1-frank@oltmanns.dev>
- <20230211171748.36692-2-frank@oltmanns.dev>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 52FBD10E036
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Oct 2023 12:09:16 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 91F1860B85
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Oct 2023 12:09:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id B97C5C433CA
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Oct 2023 12:09:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1697371754;
+ bh=pM1zKc7f+lL2S0LBgIftBNQ9QpBXYlPzZTZQLPwev9A=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=Q/+Aaw+f+KkC8+lbTYL88EJ20oM/qsVc3qR6LYOE0oUCunMbFJhw0CcygFKUX08xr
+ ZQZVZ9pLXYZY4fYrDRevi2/WJYAi1uRCWbtcciPbZVMv/TjkMt7O+uXLiLiKWBpX1z
+ YPnB/wvzMuJw/YV+X5JutjHI3/WAfbDnR7A+Di3ybYTYjRcRQ2FIKd3xoMmMrDK66w
+ tlmev6K//sMcGgiRG2jUldJUYWV/JrnTe44C6Aw5VprhBvGD4NMp4GicIvwQvfLoOc
+ +6J9SI4Dnf8vNfbKn3dHo3B++19an7DZ49oX2EPkyYZqb3qQVJL+spJCrKJoyppiPO
+ tO6+4pwn8lZGQ==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id A8104C53BD2; Sun, 15 Oct 2023 12:09:14 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 205089] amdgpu : drm:amdgpu_cs_ioctl : Failed to initialize
+ parser -125
+Date: Sun, 15 Oct 2023 12:09:13 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: nintyfan19@gmail.com
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: CODE_FIX
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-205089-2300-7DhXxRonaH@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-205089-2300@https.bugzilla.kernel.org/>
+References: <bug-205089-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230211171748.36692-2-frank@oltmanns.dev>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,90 +69,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ondrej Jirman <megous@megous.com>, Purism Kernel Team <kernel@puri.sm>,
- Samuel Holland <samuel@sholland.org>, Sam Ravnborg <sam@ravnborg.org>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
- Thierry Reding <thierry.reding@gmail.com>, Ondrej Jirman <megi@xff.cz>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-On Sat, Feb 11, 2023 at 06:17:48PM +0100, Frank Oltmanns wrote:
-> From: Ondrej Jirman <megi@xff.cz>
-> 
-> Switching to a different reset sequence, enabling IOVCC before enabling
-> VCC.
-> 
-> There also needs to be a delay after enabling the supplies and before
-> deasserting the reset. The datasheet specifies 1ms after the supplies
-> reach the required voltage. Use 10-20ms to also give the power supplies
-> some time to reach the required voltage, too.
-> 
-> This fixes intermittent panel initialization failures and screen
-> corruption during resume from sleep on panel xingbangda,xbd599 (e.g.
-> used in PinePhone).
-> 
-> Signed-off-by: Ondrej Jirman <megi@xff.cz>
-> Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
-> Reported-by: Samuel Holland <samuel@sholland.org>
-> ---
->  drivers/gpu/drm/panel/panel-sitronix-st7703.c | 25 ++++++++++---------
->  1 file changed, 13 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panel/panel-sitronix-st7703.c b/drivers/gpu/drm/panel/panel-sitronix-st7703.c
-> index 6747ca237ced..45695aa51f62 100644
-> --- a/drivers/gpu/drm/panel/panel-sitronix-st7703.c
-> +++ b/drivers/gpu/drm/panel/panel-sitronix-st7703.c
-> @@ -411,29 +411,30 @@ static int st7703_prepare(struct drm_panel *panel)
->  		return 0;
->  
->  	dev_dbg(ctx->dev, "Resetting the panel\n");
-> -	ret = regulator_enable(ctx->vcc);
-> +	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
-> +
-> +	ret = regulator_enable(ctx->iovcc);
->  	if (ret < 0) {
-> -		dev_err(ctx->dev, "Failed to enable vcc supply: %d\n", ret);
-> +		dev_err(ctx->dev, "Failed to enable iovcc supply: %d\n", ret);
->  		return ret;
->  	}
-> -	ret = regulator_enable(ctx->iovcc);
-> +
-> +	ret = regulator_enable(ctx->vcc);
->  	if (ret < 0) {
-> -		dev_err(ctx->dev, "Failed to enable iovcc supply: %d\n", ret);
-> -		goto disable_vcc;
-> +		dev_err(ctx->dev, "Failed to enable vcc supply: %d\n", ret);
-> +		regulator_disable(ctx->iovcc);
-> +		return ret;
->  	}
->  
-> -	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
-> -	usleep_range(20, 40);
-> +	/* Give power supplies time to stabilize before deasserting reset. */
-> +	usleep_range(10000, 20000);
-> +
->  	gpiod_set_value_cansleep(ctx->reset_gpio, 0);
-> -	msleep(20);
-> +	usleep_range(15000, 20000);
->  
->  	ctx->prepared = true;
->  
->  	return 0;
-> -
-> -disable_vcc:
-> -	regulator_disable(ctx->vcc);
-> -	return ret;
->  }
->  
->  static const u32 mantix_bus_formats[] = {
+https://bugzilla.kernel.org/show_bug.cgi?id=3D205089
 
-Reviewed-by: Guido Günther <agx@sigxcpu.org>
+--- Comment #60 from nintyfan19@gmail.com (nintyfan19@gmail.com) ---
 
-Cheers,
- -- Guido
+Memory info (GL_NVX_gpu_memory_info):
+    Dedicated video memory: 512 MB
+    Total available memory: 8210 MB
+    Currently available dedicated video memory: 19 MB
 
-> -- 
-> 2.39.1
-> 
+This makes me nervous long ago. It always allocate near 512 MB. No matter i=
+f It
+displays only blank desktop or I use many applications with games. Maybe th=
+ere
+is problem?
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
