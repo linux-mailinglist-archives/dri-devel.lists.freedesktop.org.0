@@ -2,39 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 455507C9991
-	for <lists+dri-devel@lfdr.de>; Sun, 15 Oct 2023 16:27:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F1287C99C9
+	for <lists+dri-devel@lfdr.de>; Sun, 15 Oct 2023 17:35:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 278C810E0F6;
-	Sun, 15 Oct 2023 14:27:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3800810E0F7;
+	Sun, 15 Oct 2023 15:35:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from xavier.telenet-ops.be (xavier.telenet-ops.be
- [IPv6:2a02:1800:120:4::f00:14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 086CB10E0F7
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Oct 2023 14:27:09 +0000 (UTC)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:441e:d899:20f9:b692])
- by xavier.telenet-ops.be with bizsmtp
- id yET62A00B0qPBYQ01ET6N8; Sun, 15 Oct 2023 16:27:07 +0200
-Received: from rox.of.borg ([192.168.97.57])
- by ramsan.of.borg with esmtp (Exim 4.95)
- (envelope-from <geert@linux-m68k.org>) id 1qs258-006eyF-Ll;
- Sun, 15 Oct 2023 16:27:06 +0200
-Received: from geert by rox.of.borg with local (Exim 4.95)
- (envelope-from <geert@linux-m68k.org>) id 1qs25C-002gOf-1v;
- Sun, 15 Oct 2023 16:27:06 +0200
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v3] drm/client: Convert drm_client_buffer_addfb() to
- drm_mode_addfb2()
-Date: Sun, 15 Oct 2023 16:27:04 +0200
-Message-Id: <4b84adfc686288714e69d0442d22f1259ff74903.1697379891.git.geert@linux-m68k.org>
-X-Mailer: git-send-email 2.34.1
+Received: from bombadil.infradead.org (bombadil.infradead.org
+ [IPv6:2607:7c80:54:3::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B968C10E0F7
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Oct 2023 15:35:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+ Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+ Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+ bh=HGu2TaKT3AxH2/KDcfAn+b808o6kLJvW+inbCvMRQfA=; b=TlB9LrBEvBR8U9kbW3JXBYMqhS
+ IMRLVtX+gud02KZZLfT6KxH6GIUrTwr65NYCZNPIoyR4ts1bf1BGjZZOCak40c/IDhYMV0UzzNd2I
+ uSlOjBjnOCxtVPP9vAbCVi05hFP8XrXAo71uBJWxDyqShQcpVbDaCjFZijgpDgKuG74XWkxvKaX6S
+ pE8McOzLpU1Qdpw+iE+5RQeoZsDSv3XouuLZD0+2GIftQgOyNZ0sJ2C7qcpCEP3SggwRZMxdh3w9f
+ /bCirbus8+q2Jo4NbwFelF//3rJMdszdGQSEMqNat/Bm8q8RxlTlmuoJ0zPq2Oj8llZkmmLJzpHhn
+ +9R+SwvA==;
+Received: from [50.53.46.231] (helo=[192.168.254.15])
+ by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+ id 1qs39D-007Ntb-2R; Sun, 15 Oct 2023 15:35:19 +0000
+Message-ID: <35984b5f-d4f5-4d45-9e17-b41140ff78e0@infradead.org>
+Date: Sun, 15 Oct 2023 08:35:17 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/tiny: print 'struct resource *' correctly
+Content-Language: en-US
+To: Yussef Dalton <yussef.dalton@gmail.com>, tzimmermann@suse.de
+References: <20231015131100.331880-1-yussef.dalton@gmail.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20231015131100.331880-1-yussef.dalton@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,63 +50,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Javier Martinez Canillas <javierm@redhat.com>
+Cc: javierm@redhat.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently drm_client_buffer_addfb() uses the legacy drm_mode_addfb(),
-which uses bpp and depth to guess the wanted buffer format.
-However, drm_client_buffer_addfb() already knows the exact buffer
-format, so there is no need to convert back and forth between buffer
-format and bpp/depth, and the function can just call drm_mode_addfb2()
-directly instead.
 
-Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-Tested-by: Javier Martinez Canillas <javierm@redhat.com>
----
-v3:
-  - Extract from series "[PATCH v2 0/8] drm: fb-helper/ssd130x: Add
-    support for DRM_FORMAT_R1"
-    (https://lore.kernel.org/all/cover.1692888745.git.geert@linux-m68k.org),
-    as this patch has merits on its own,
-v2:
-  - Add Reviewed-by, Tested-by,
-  - s/drm_mode_create_dumb/drm_client_buffer_addfb/ in one-line summary.
----
- drivers/gpu/drm/drm_client.c | 13 +++++--------
- 1 file changed, 5 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_client.c b/drivers/gpu/drm/drm_client.c
-index d4296440f297fc5a..a780832a0963fe38 100644
---- a/drivers/gpu/drm/drm_client.c
-+++ b/drivers/gpu/drm/drm_client.c
-@@ -395,19 +395,16 @@ static int drm_client_buffer_addfb(struct drm_client_buffer *buffer,
- 				   u32 handle)
- {
- 	struct drm_client_dev *client = buffer->client;
--	struct drm_mode_fb_cmd fb_req = { };
--	const struct drm_format_info *info;
-+	struct drm_mode_fb_cmd2 fb_req = { };
- 	int ret;
- 
--	info = drm_format_info(format);
--	fb_req.bpp = drm_format_info_bpp(info, 0);
--	fb_req.depth = info->depth;
- 	fb_req.width = width;
- 	fb_req.height = height;
--	fb_req.handle = handle;
--	fb_req.pitch = buffer->pitch;
-+	fb_req.pixel_format = format;
-+	fb_req.handles[0] = handle;
-+	fb_req.pitches[0] = buffer->pitch;
- 
--	ret = drm_mode_addfb(client->dev, &fb_req, client->file);
-+	ret = drm_mode_addfb2(client->dev, &fb_req, client->file);
- 	if (ret)
- 		return ret;
- 
+On 10/15/23 06:11, Yussef Dalton wrote:
+> Since format specifier %pr refers to a 'struct resource *', there is no
+> need to take the address of the 'res' variable since it is already of
+> type 'struct resource *'.
+> 
+> Signed-off-by: Yussef Dalton <yussef.dalton@gmail.com>
+
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+
+Thanks.
+
+> ---
+>  drivers/gpu/drm/tiny/ofdrm.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/tiny/ofdrm.c b/drivers/gpu/drm/tiny/ofdrm.c
+> index 2d999a0facde..6372ab383747 100644
+> --- a/drivers/gpu/drm/tiny/ofdrm.c
+> +++ b/drivers/gpu/drm/tiny/ofdrm.c
+> @@ -1208,13 +1208,13 @@ static struct ofdrm_device *ofdrm_device_create(struct drm_driver *drv,
+>  
+>  	ret = devm_aperture_acquire_from_firmware(dev, fb_pgbase, fb_pgsize);
+>  	if (ret) {
+> -		drm_err(dev, "could not acquire memory range %pr: error %d\n", &res, ret);
+> +		drm_err(dev, "could not acquire memory range %pr: error %d\n", res, ret);
+>  		return ERR_PTR(ret);
+>  	}
+>  
+>  	mem = devm_request_mem_region(&pdev->dev, fb_pgbase, fb_pgsize, drv->name);
+>  	if (!mem) {
+> -		drm_warn(dev, "could not acquire memory region %pr\n", &res);
+> +		drm_warn(dev, "could not acquire memory region %pr\n", res);
+>  		return ERR_PTR(-ENOMEM);
+>  	}
+>  
+
 -- 
-2.34.1
-
+~Randy
