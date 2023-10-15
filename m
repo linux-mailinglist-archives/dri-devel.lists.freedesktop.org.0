@@ -2,34 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3E4C7C9907
-	for <lists+dri-devel@lfdr.de>; Sun, 15 Oct 2023 14:50:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 455507C9991
+	for <lists+dri-devel@lfdr.de>; Sun, 15 Oct 2023 16:27:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9AF4C10E0E2;
-	Sun, 15 Oct 2023 12:50:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 278C810E0F6;
+	Sun, 15 Oct 2023 14:27:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from honk.sigxcpu.org (honk.sigxcpu.org [24.134.29.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F3B2510E0E2
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Oct 2023 12:50:10 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by honk.sigxcpu.org (Postfix) with ESMTP id 7D3AFFB04;
- Sun, 15 Oct 2023 14:50:09 +0200 (CEST)
-Received: from honk.sigxcpu.org ([127.0.0.1])
- by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id sQ3EZ0YgUYnD; Sun, 15 Oct 2023 14:50:06 +0200 (CEST)
-Date: Sun, 15 Oct 2023 14:50:03 +0200
-From: Guido =?iso-8859-1?Q?G=FCnther?= <guido.gunther@puri.sm>
-To: Frank Oltmanns <frank@oltmanns.dev>
-Subject: Re: [PATCH v2 1/1] drm/panel: st7703: Fix timings when
- entering/exiting sleep
-Message-ID: <ZSvf-xHBKRPzmNVf@qwark.sigxcpu.org>
-References: <20230213123238.76889-1-frank@oltmanns.dev>
- <20230213123238.76889-2-frank@oltmanns.dev>
+Received: from xavier.telenet-ops.be (xavier.telenet-ops.be
+ [IPv6:2a02:1800:120:4::f00:14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 086CB10E0F7
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Oct 2023 14:27:09 +0000 (UTC)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:441e:d899:20f9:b692])
+ by xavier.telenet-ops.be with bizsmtp
+ id yET62A00B0qPBYQ01ET6N8; Sun, 15 Oct 2023 16:27:07 +0200
+Received: from rox.of.borg ([192.168.97.57])
+ by ramsan.of.borg with esmtp (Exim 4.95)
+ (envelope-from <geert@linux-m68k.org>) id 1qs258-006eyF-Ll;
+ Sun, 15 Oct 2023 16:27:06 +0200
+Received: from geert by rox.of.borg with local (Exim 4.95)
+ (envelope-from <geert@linux-m68k.org>) id 1qs25C-002gOf-1v;
+ Sun, 15 Oct 2023 16:27:06 +0200
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH v3] drm/client: Convert drm_client_buffer_addfb() to
+ drm_mode_addfb2()
+Date: Sun, 15 Oct 2023 16:27:04 +0200
+Message-Id: <4b84adfc686288714e69d0442d22f1259ff74903.1697379891.git.geert@linux-m68k.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230213123238.76889-2-frank@oltmanns.dev>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,95 +47,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ondrej Jirman <megous@megous.com>, Purism Kernel Team <kernel@puri.sm>,
- Samuel Holland <samuel@sholland.org>, open list <linux-kernel@vger.kernel.org>,
- "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
- Thierry Reding <thierry.reding@gmail.com>, Ondrej Jirman <megi@xff.cz>,
- phone-devel@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Javier Martinez Canillas <javierm@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-On Mon, Feb 13, 2023 at 01:32:38PM +0100, Frank Oltmanns wrote:
-> Fix flickering of the pinephone's XDB599 panel that happens after
-> resume.
-> 
-> Extend the delay after issuing the command to exit sleep mode from 60 to
-> 120 msec as per the controller's specification.
-> 
-> Introduce a 120 msec delay after issuing the command to enter sleep
-> mode. This is needed in order for the controller to reliably finalize
-> the sleep in sequence before switching of power supply.
-> 
-> In contrast to the JH057N panel, the XBD599 panel does not require a 20
-> msec delay after initialization and exiting sleep mode. Therefore, move
-> the delay into the already existing device specific initialization
-> function.
-> 
-> The XDB599 does not require a 20 msec delay between the SETBGP and
-> SETVCOM commands. Therefore, remove the delay from the device specific
-> initialization function.
+Currently drm_client_buffer_addfb() uses the legacy drm_mode_addfb(),
+which uses bpp and depth to guess the wanted buffer format.
+However, drm_client_buffer_addfb() already knows the exact buffer
+format, so there is no need to convert back and forth between buffer
+format and bpp/depth, and the function can just call drm_mode_addfb2()
+directly instead.
 
-Thanks. Applied to drm-misc-next.
-Cheers,
- -- Guido
+Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+Tested-by: Javier Martinez Canillas <javierm@redhat.com>
+---
+v3:
+  - Extract from series "[PATCH v2 0/8] drm: fb-helper/ssd130x: Add
+    support for DRM_FORMAT_R1"
+    (https://lore.kernel.org/all/cover.1692888745.git.geert@linux-m68k.org),
+    as this patch has merits on its own,
+v2:
+  - Add Reviewed-by, Tested-by,
+  - s/drm_mode_create_dumb/drm_client_buffer_addfb/ in one-line summary.
+---
+ drivers/gpu/drm/drm_client.c | 13 +++++--------
+ 1 file changed, 5 insertions(+), 8 deletions(-)
 
-> Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
-> Cc: Ondrej Jirman <megi@xff.cz>
-> Reported-by: Samuel Holland <samuel@sholland.org>
-> ---
->  drivers/gpu/drm/panel/panel-sitronix-st7703.c | 11 ++++++-----
->  1 file changed, 6 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panel/panel-sitronix-st7703.c b/drivers/gpu/drm/panel/panel-sitronix-st7703.c
-> index 6747ca237ced..c49f4ef883fc 100644
-> --- a/drivers/gpu/drm/panel/panel-sitronix-st7703.c
-> +++ b/drivers/gpu/drm/panel/panel-sitronix-st7703.c
-> @@ -126,6 +126,7 @@ static int jh057n_init_sequence(struct st7703 *ctx)
->  				   0x18, 0x00, 0x09, 0x0E, 0x29, 0x2D, 0x3C, 0x41,
->  				   0x37, 0x07, 0x0B, 0x0D, 0x10, 0x11, 0x0F, 0x10,
->  				   0x11, 0x18);
-> +	msleep(20);
->  
->  	return 0;
->  }
-> @@ -273,7 +274,6 @@ static int xbd599_init_sequence(struct st7703 *ctx)
->  	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETBGP,
->  			       0x07, /* VREF_SEL = 4.2V */
->  			       0x07  /* NVREF_SEL = 4.2V */);
-> -	msleep(20);
->  
->  	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETVCOM,
->  			       0x2C, /* VCOMDC_F = -0.67V */
-> @@ -350,16 +350,14 @@ static int st7703_enable(struct drm_panel *panel)
->  		return ret;
->  	}
->  
-> -	msleep(20);
-> -
->  	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
->  	if (ret < 0) {
->  		dev_err(ctx->dev, "Failed to exit sleep mode: %d\n", ret);
->  		return ret;
->  	}
->  
-> -	/* Panel is operational 120 msec after reset */
-> -	msleep(60);
-> +	/* It takes the controller 120 msec to wake up after sleep. */
-> +	msleep(120);
->  
->  	ret = mipi_dsi_dcs_set_display_on(dsi);
->  	if (ret)
-> @@ -384,6 +382,9 @@ static int st7703_disable(struct drm_panel *panel)
->  	if (ret < 0)
->  		dev_err(ctx->dev, "Failed to enter sleep mode: %d\n", ret);
->  
-> +	/* It takes the controller 120 msec to enter sleep mode. */
-> +	msleep(120);
-> +
->  	return 0;
->  }
->  
-> -- 
-> 2.39.1
-> 
+diff --git a/drivers/gpu/drm/drm_client.c b/drivers/gpu/drm/drm_client.c
+index d4296440f297fc5a..a780832a0963fe38 100644
+--- a/drivers/gpu/drm/drm_client.c
++++ b/drivers/gpu/drm/drm_client.c
+@@ -395,19 +395,16 @@ static int drm_client_buffer_addfb(struct drm_client_buffer *buffer,
+ 				   u32 handle)
+ {
+ 	struct drm_client_dev *client = buffer->client;
+-	struct drm_mode_fb_cmd fb_req = { };
+-	const struct drm_format_info *info;
++	struct drm_mode_fb_cmd2 fb_req = { };
+ 	int ret;
+ 
+-	info = drm_format_info(format);
+-	fb_req.bpp = drm_format_info_bpp(info, 0);
+-	fb_req.depth = info->depth;
+ 	fb_req.width = width;
+ 	fb_req.height = height;
+-	fb_req.handle = handle;
+-	fb_req.pitch = buffer->pitch;
++	fb_req.pixel_format = format;
++	fb_req.handles[0] = handle;
++	fb_req.pitches[0] = buffer->pitch;
+ 
+-	ret = drm_mode_addfb(client->dev, &fb_req, client->file);
++	ret = drm_mode_addfb2(client->dev, &fb_req, client->file);
+ 	if (ret)
+ 		return ret;
+ 
+-- 
+2.34.1
+
