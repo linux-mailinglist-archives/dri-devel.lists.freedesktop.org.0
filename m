@@ -1,51 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21F377CA2AA
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Oct 2023 10:52:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 036687CA2F3
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Oct 2023 10:58:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C38210E150;
-	Mon, 16 Oct 2023 08:52:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA3D510E147;
+	Mon, 16 Oct 2023 08:58:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EDDED10E14D
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Oct 2023 08:52:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1697446352; x=1728982352;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=uREWBZ3QE3lo5PZJ/8XOcyWiLRSSuZeDtPbh0pmAYkg=;
- b=BLKckb0+IJ4hFCi5OJJ047Q0m4nVzTi/iXGny8rspDkLdJK9Jef9Z4B1
- DM47nUqXomyCx/Zb0Wjn8D2Vxi2rmGym1h8udUEY6zWoO73Vmk7oteBn9
- /jxB5VWfN124Ywwg6zb7u2ldarZDaSx0AuItvEmRGA0XfUdUCY7nl2aD2
- l/2C80oVEF754vkH5oAdXjelG0QezY1YWOFZTf55XTYrqEihZB0iTO8JT
- hf9p+KBh8+qQuF0yJHdAH9iYLIw00HChT7RKVtrJMmlTNTFWJc6Yo46BB
- 6uTDlV/ixEUmoasa/poaAPGmLRGocj5a54yxiJbRCnnJZEB9JIfInn4kn Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="416548628"
-X-IronPort-AV: E=Sophos;i="6.03,229,1694761200"; d="scan'208";a="416548628"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Oct 2023 01:52:32 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="1002858723"
-X-IronPort-AV: E=Sophos;i="6.03,229,1694761200"; d="scan'208";a="1002858723"
-Received: from gsawicki-mobl1.ger.corp.intel.com (HELO
- kdrobnik-desk.intel.com) ([10.213.0.246])
- by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Oct 2023 01:52:30 -0700
-From: Karolina Stolarek <karolina.stolarek@intel.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v5 4/4] drm/ttm/tests: Fix argument in ttm_tt_kunit_init()
-Date: Mon, 16 Oct 2023 10:52:10 +0200
-Message-Id: <e6d4e94e871e9e8b5b39872e6e0b25613968b5a6.1697445193.git.karolina.stolarek@intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1697445193.git.karolina.stolarek@intel.com>
-References: <cover.1697445193.git.karolina.stolarek@intel.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C42310E147
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Oct 2023 08:58:32 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id DFF7160DFA
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Oct 2023 08:58:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20C80C4339A
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Oct 2023 08:58:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1697446711;
+ bh=FVlzKdkhbVh9N/JYCCY5N9wSb/ETjh4QaFHnI885+mE=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=jvjTiB583yaaJab0KTp70GgVD5MN2PYGRxy+Q2EjjKpdqr+gHtM8SpuiiYP9eZJB6
+ 65KbZwU40hgdQbNG8VZsccHwJg3kzLv4YUHsRB4DPanNv90VlqUMvMdiDIybB6OflA
+ DBJpgeT1hOGeSNF9ra5j1JUYPCSXIPhk7U6m++kcPrGr/dfhZL9oNNiS54WrOsqBjg
+ HvWHDZ/XbKuD+PrnbANbT8d6BQRF17LvRDCt0Ng+Po102ZX2qj3/Ymmc6wFUdeVnV+
+ sb+sSxAN87+JtgBJ2/BXHLguej+LckJQ1fWo5+1DYlXyEdY2IQqdz+EdVqH0WKQ0BP
+ fPAo4P3lSqDzw==
+Received: by mail-pg1-f182.google.com with SMTP id
+ 41be03b00d2f7-5a1d89ff4b9so2236079a12.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Oct 2023 01:58:31 -0700 (PDT)
+X-Gm-Message-State: AOJu0YyvZIJ1CCjhQPW+bHpg/jqYU/6yqqUpMruuFLeBTJ12R38G8U6N
+ NY7dJPWMS2J9rJ4FGIUx2qjWf5W31/KnH6HA6nLfxQ==
+X-Google-Smtp-Source: AGHT+IF0dH+E4iRL1ATyZdgOpqAKjDow1ZApMe7Grdp4tpvczPCF0AuTrdebh7+8LKPOx98vXrgZTIq2piUVcOiJTR4=
+X-Received: by 2002:a17:90a:8404:b0:27d:1d1f:1551 with SMTP id
+ j4-20020a17090a840400b0027d1d1f1551mr8979649pjn.29.1697446710582; Mon, 16 Oct
+ 2023 01:58:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230830142358.275459-1-biju.das.jz@bp.renesas.com>
+ <20230830142358.275459-6-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20230830142358.275459-6-biju.das.jz@bp.renesas.com>
+From: Robert Foss <rfoss@kernel.org>
+Date: Mon, 16 Oct 2023 10:58:19 +0200
+X-Gmail-Original-Message-ID: <CAN6tsi7P4ooXeD_EGmMbGu-wtGaZjpbZ6N-Lkan+Q5GE4z-dQw@mail.gmail.com>
+Message-ID: <CAN6tsi7P4ooXeD_EGmMbGu-wtGaZjpbZ6N-Lkan+Q5GE4z-dQw@mail.gmail.com>
+Subject: Re: [PATCH v2 5/8] drm: adv7511: Add reg_cec_offset variable to
+ struct adv7511_chip_info
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,36 +61,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Amaranath Somalapuram <Amaranath.Somalapuram@amd.com>,
- Karolina Stolarek <karolina.stolarek@intel.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Ahmad Fatoum <a.fatoum@pengutronix.de>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, Jonas Karlman <jonas@kwiboo.se>,
+ Adam Ford <aford173@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel@lists.freedesktop.org, Javier Martinez Canillas <javierm@redhat.com>,
+ linux-renesas-soc@vger.kernel.org, Andy Shevchenko <andy.shevchenko@gmail.com>,
+ Bogdan Togorean <bogdan.togorean@analog.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Remove a leftover definition of page order and pass an empty flag value
-in ttm_pool_pre_populated().
+On Wed, Aug 30, 2023 at 4:24=E2=80=AFPM Biju Das <biju.das.jz@bp.renesas.co=
+m> wrote:
+>
+> The ADV7533 and ADV7535 have an offset(0x70) for the CEC register map
+> compared to ADV7511. Add the reg_cec_offset variable to struct
+> adv7511_chip_info to handle this difference and drop the reg_cec_offset
+> variable from struct adv7511.
+>
+> This will avoid assigning reg_cec_offset based on chip type and also
+> testing for multiple chip types for calling adv7533_patch_cec_registers()=
+.
 
-Signed-off-by: Karolina Stolarek <karolina.stolarek@intel.com>
----
- drivers/gpu/drm/ttm/tests/ttm_pool_test.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+s/for calling/by calling/ ?
 
-diff --git a/drivers/gpu/drm/ttm/tests/ttm_pool_test.c b/drivers/gpu/drm/ttm/tests/ttm_pool_test.c
-index 2d9cae8cd984..b97f7b6daf5b 100644
---- a/drivers/gpu/drm/ttm/tests/ttm_pool_test.c
-+++ b/drivers/gpu/drm/ttm/tests/ttm_pool_test.c
-@@ -78,10 +78,9 @@ static struct ttm_pool *ttm_pool_pre_populated(struct kunit *test,
- 	struct ttm_test_devices *devs = priv->devs;
- 	struct ttm_pool *pool;
- 	struct ttm_tt *tt;
--	unsigned long order = __fls(size / PAGE_SIZE);
- 	int err;
- 
--	tt = ttm_tt_kunit_init(test, order, caching, size);
-+	tt = ttm_tt_kunit_init(test, 0, caching, size);
- 	KUNIT_ASSERT_NOT_NULL(test, tt);
- 
- 	pool = kunit_kzalloc(test, sizeof(*pool), GFP_KERNEL);
--- 
-2.25.1
-
+Reviewed-by: Robert Foss <rfoss@kernel.org>
