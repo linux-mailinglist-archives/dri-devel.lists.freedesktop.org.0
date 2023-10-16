@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A91657CA112
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Oct 2023 09:56:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44AD77CA113
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Oct 2023 09:57:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F19D210E12B;
-	Mon, 16 Oct 2023 07:56:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 121A310E12C;
+	Mon, 16 Oct 2023 07:57:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF42710E12B
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Oct 2023 07:56:13 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 766F510E12C
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Oct 2023 07:57:24 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 52827B8111A
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Oct 2023 07:56:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id AAFDAC433C7
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Oct 2023 07:56:11 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id AB7D660CF9
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Oct 2023 07:57:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 59BA1C433CC
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Oct 2023 07:57:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1697442971;
- bh=bXL5cT3WavoLhL+r/1nMQ2vzCRJXNtEP5yfF5TwAoww=;
+ s=k20201202; t=1697443043;
+ bh=jJv/Gh7m9cExVYLY5aEJ+kzcTA2UVp4FOxocaYxY/S8=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=suW9Q6468iE9ls6BVujQl3dHhTOY1jjah1kDbPloBFPF0D5qMEPTuHrJQddBSyI20
- dt089CgvUrtbet29Dsd72bUK1+LXhSmMOvJ+8j4/zKWqWr7wRXT5sdNlxZlKOP+fgt
- Bbyxu6vaec/b9KlnPPrYqOfqJtWJBil5Io6yKXKSRl8vbtAL2Ok1G1m32KFK0FSS4b
- 6BeO7THH4+2LpNTG+fQN9XRQwk1WYF415Yh5fi8KbJqKin+B6qUSuffStWmvZ7F8Tq
- jSj9XKu5MAm57bYET1G5IEo/D/NrpA02os7aMy3RUJ2fKc8KEbUr5IxU0Bkjxn/vIe
- 12ZwunPovSSvA==
+ b=ByYq+59yf4Xz6Zydhf1CvWYG0zoltiOVhLFnfT/N2+I+iNFDtX6R/snibGz8bEROv
+ RL9UnG9dy1nJA/N47IE94FMggehckvc1yUHja2UljSiJZsN2A/4dnbEfTemW2+awAi
+ 5bT3Qj4kZn97MrFw+8f3697wcKFSw0Y+KREw6iMj/K8YMGCuR65WA3NlbxlqKBENWq
+ ciU4U3PgXAdvW7+8I35hcPOi/tiTJCJhhZ2BXZ83Jelj9aPkihI16Ohrsh17xW1TgO
+ kVSTiGXJ8Fqon0GeW61DgzpFwTjTzXdDNtus67Ti/Wu0UssXviaPVNy44eiwm6t/7U
+ rLeUse6zI7MUQ==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 95E4CC53BD3; Mon, 16 Oct 2023 07:56:11 +0000 (UTC)
+ from userid 48) id 46539C53BD0; Mon, 16 Oct 2023 07:57:23 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 218015] amdgpu powerplay: Spontaneous changes to
  power_dpm_force_performance_level
-Date: Mon, 16 Oct 2023 07:56:11 +0000
+Date: Mon, 16 Oct 2023 07:57:22 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -50,7 +50,7 @@ X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-218015-2300-moTtsIE7ai@https.bugzilla.kernel.org/>
+Message-ID: <bug-218015-2300-bva5pri9CP@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-218015-2300@https.bugzilla.kernel.org/>
 References: <bug-218015-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -75,10 +75,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D218015
 
---- Comment #1 from Roman =C5=BDilka (roman.zilka@gmail.com) ---
-Created attachment 305225
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D305225&action=3Dedit
-config-6.1.57
+--- Comment #2 from Roman =C5=BDilka (roman.zilka@gmail.com) ---
+Created attachment 305226
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D305226&action=3Dedit
+lspci -vv
 
 --=20
 You may reply to this email to add a comment.
