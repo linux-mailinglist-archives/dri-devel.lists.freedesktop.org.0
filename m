@@ -2,116 +2,113 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D82577CA7F5
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Oct 2023 14:29:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77EFF7CA7F7
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Oct 2023 14:29:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 601BE10E1D0;
-	Mon, 16 Oct 2023 12:29:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4FA3210E1CC;
+	Mon, 16 Oct 2023 12:29:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on2082.outbound.protection.outlook.com [40.107.244.82])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80AC110E1D0
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Oct 2023 12:29:03 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=V1nPwwxgTuy1qkenXlPU+DQzdKhA6qUQ5EofkeGngnsHhA6CWrW6hFkfzsJ5/7xlLrs0KLIgtvREADsBh4X/9Zy2Jv5zhFhIeBH/+xPEpXZKULQTqI/bT5Fusy7zINrcpgdTzJvi4Lw22ducYWnyOkK8tvzlqYmZjXzbOnSUEAxaeMBIQg7ZT2Yt33UGV1g+y76HUTYHT+cCghCwBdro++Ad59VHacB56sw9s4meJlnkZ90CnwbSYA2xeJPXkamYDuMj/RZLKyAUHFl6K5bLahrLU5liBT7TpoTPKwDwJ5k4rhR0elW9ktdyGCske8ll3ZI7Lq06zRBCBPRIRaT0aw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8zxhZVn6/bz4XtYN48ZxeAPZMHzmgKfW5Gp/NHEvsbM=;
- b=U6wZ0lfVZ9g1qrfE0VpMQXgP0gaijlKkzmHezmJYey9RHuf4Ok7h7yfcpJm2cpH46XEZAepUUYZ3lBo71DBumvfOVt0PrZhwoKExxPVkRGuJN3B3ORfsXThfJ136KMEhXwomG4olhovKKamWFrE0kkZRrN5lQtHE80Ho4BHkEOSb2emPxuAe1n5WN9uU1niuYVv9VqCee9/JVb2OOEYnpx/3XXz+gKoCAAxykFUh5VdGVioljXQUL63myoOiMRdpcylDmlzN9fBacXpwmT+ulY9F7d0wHz7Me24RCvmri7pzScC5CjOos59MTxT0MSrXWx/sTQvgEk9bNEPKA761ag==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8zxhZVn6/bz4XtYN48ZxeAPZMHzmgKfW5Gp/NHEvsbM=;
- b=ubSjgyzjO0MBy1AKGQCWqNkHF4w4oOL09fSLX/5W9NDnj7cV/gkT8OkispHE23v7a5X62baXXPa9npmbJbW9OiAkLnHWewLeXr2w5X3zlORir0isjDLccwmblP+tb7ozA0Q9bq9iC1eul3RqTd6IVIjRoyffOfa6WJVGHlAhfhk=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by DM3PR12MB9436.namprd12.prod.outlook.com (2603:10b6:8:1af::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6886.36; Mon, 16 Oct
- 2023 12:29:00 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::a7fa:4411:67a3:131d]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::a7fa:4411:67a3:131d%4]) with mapi id 15.20.6886.034; Mon, 16 Oct 2023
- 12:29:00 +0000
-Message-ID: <d9816efd-7677-4c72-9f30-3049d1df05ac@amd.com>
-Date: Mon, 16 Oct 2023 14:28:53 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/ttm: Reorder sys manager cleanup step
-Content-Language: en-US
-To: Karolina Stolarek <karolina.stolarek@intel.com>,
- dri-devel@lists.freedesktop.org
-References: <20231016121525.2237838-1-karolina.stolarek@intel.com>
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20231016121525.2237838-1-karolina.stolarek@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BE1P281CA0229.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:b10:8c::19) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
+ [IPv6:2a00:1450:4864:20::32d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D47D610E1D2
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Oct 2023 12:29:08 +0000 (UTC)
+Received: by mail-wm1-x32d.google.com with SMTP id
+ 5b1f17b1804b1-40566f89f6eso51126035e9.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Oct 2023 05:29:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1697459347; x=1698064147; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+ :to:content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=4finqyXhH9LnXtXrWYKjQ3daBsFlTGuZg+2p6VUb1Yw=;
+ b=W7Pb2YN6FKvYZYdlyZLkBKdIZCGgDDqmlhQuPgoW/aeVnjmks3NIdPOhkgteKHlRUG
+ HMiVzw+WqZ8EidWPNc40PSFYDt9sYFKHLAsUv3LZhQy1aD6v9u/psDeUAe+Z0NVsk8vY
+ fw2EfL5eOTXiqIIf8oleX3dCu1B+o224tgSA0Ko1XMXyhxqt9VpP15W11gh4xuwGZ6aQ
+ SBsxSjhiTBXe0wyTTqJ1HNLL0D3XeQtDN4LUq0Q/C6lD6RiEnxjQFz/hwBp4QgJQV8zX
+ H9J/XQuCSevRVr6AA4xZjzNZVRkkKTw52+0yN7jj4IVwhmp86gPLUvahj7N5xNUKwQhx
+ l0ww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1697459347; x=1698064147;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+ :to:content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=4finqyXhH9LnXtXrWYKjQ3daBsFlTGuZg+2p6VUb1Yw=;
+ b=u72Jxg3gXd2Ct9H+cG/2CZ72P8KuN5RXL/T+ae55lhj7bmm69Hzfc0As6jbGBnCndd
+ gNr7nr1TmZ7h8MZ8a7DfMnV9Wd6UoeTPuQKmVxzVchV1rwl5O0XS5SLPVrrJELsblNqL
+ jo6TsuBsfkZWXT8QxQTRXlTpnCvR5mg45tibzPGK/jFkhY2ZFyAo3WM0yZNOgRO+oZ3Q
+ L0i6G0xVwUGfStdk7skJ7Qua97V0/Md+rTHig2WszLhSsIKpyl5HqRmZ0Ycxed320Y+h
+ 80iwGUtD8vzOelonEyjNxaD11tgvqNSePFLFo80P92SgGc6fIWxtZSoPo8xYxtQhxEEV
+ JTIA==
+X-Gm-Message-State: AOJu0YxioyJwnbWv4+/m/eoFMf5kPKSegOW3BUQycw2VByGf1mkZh+4k
+ 3okfTKOMhD2xllDxlc+aS1D/OQ==
+X-Google-Smtp-Source: AGHT+IEru9oDUIKXVJPPywLYzN5dyEeh3V8L0Qt4dJ5ayQJCSmQ1etgSR3rBCtb45JrSOdP65S+X7w==
+X-Received: by 2002:a05:600c:3657:b0:401:b0f2:88c1 with SMTP id
+ y23-20020a05600c365700b00401b0f288c1mr30246310wmq.29.1697459347168; 
+ Mon, 16 Oct 2023 05:29:07 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.219.154])
+ by smtp.gmail.com with ESMTPSA id
+ l11-20020a05600c1d0b00b00401e32b25adsm7111236wms.4.2023.10.16.05.29.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 16 Oct 2023 05:29:06 -0700 (PDT)
+Message-ID: <6fcc0838-9a94-4ff4-b2d7-b86815a8af12@linaro.org>
+Date: Mon, 16 Oct 2023 14:29:05 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|DM3PR12MB9436:EE_
-X-MS-Office365-Filtering-Correlation-Id: cc59d46a-d349-4bfe-3f9f-08dbce437975
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: hJuYGAVUphmbYrKIJy+073f9Y07fMFj44tYp2yRRGbX0TyRDXW6p2CUJABkz80W69tATovwXiVeNcOKvGuR094q0CITZ+PwK9REt9V9H93qsFMxndtpA//KqjQZ4spvAE85hSsC2RLTaVtCb03qM2LWy0rH6BIU12WR39PAyfYRxqQuWioQTMAfWFQOoLjkZFlhPwWj8+qhsG0eg+pisJC/aFvnSDiMx0QoqBi28TyqEGf9q8wNVgi3wwx09K41jQiA1O/jM5c7LsgvFimG+JtN2+QkH7ImvkDRNUrT/4gaRC7/KQAXp0lR5l6NNiGPf9BgTt5j9MTMVGhTQc5+Hn8ij4HbM71IymoGoEqCua2AEgwtDBxSpHifRlSDpW6WC0yGU+NDZ9XQ1JkEngnXAx4ggl9Rnbfc3KgHSuP7UmxD9x7ehD+JoK76ASPtopaHligYDEET0UxCkvtTf/brCMJlOGLvH/3rpg3tPiIa5iGpNnR0UoEMKra4xldjsrOfVYELiwc3WslKccHN5k8JKB06r4hsTBKAQD8t3aVXcz5U0vDn216LVAm7xGVuMGMbjH1UpAijeujCn7bm/0E8XSPGmiFEKaUY7v4OMZ7Ea4jYzzG2q+npl68lIpx6B0iWF5Jiq3EgqdJOB2JMowJDkEA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(396003)(39860400002)(346002)(366004)(376002)(136003)(230922051799003)(186009)(1800799009)(64100799003)(451199024)(316002)(478600001)(6486002)(66476007)(66556008)(66946007)(6666004)(26005)(6506007)(2616005)(6512007)(8936002)(8676002)(2906002)(5660300002)(41300700001)(36756003)(86362001)(31696002)(83380400001)(38100700002)(31686004)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cVpjV3JYWnhWaGwveXRSem5CbGo2T2huTjZqbGRwL3ErNjNjYy8yTzUyQkZZ?=
- =?utf-8?B?RzJISnRyWnplVlBqTVRoQjJxbU5Oa1FiVzdYM3lqUkNaSUNmdGYvcXFLSFZ0?=
- =?utf-8?B?cTZrOW1hSEx0eHM2N3JNUURZdUZGTTNISnFHMkJrbm9LbmJScTF5MGI1WUVU?=
- =?utf-8?B?Slc0bU1YM2F2UkpHN0IrdWJwWHhUL1pONk5Dd1h4MFErZ2Z2ZFpKZkJxeE5r?=
- =?utf-8?B?K2lWNGhEeWpYbFRqeEFLa3F4SW8zTWdwdkRFZUxLNzMxWDRsUHpzSjJNVjZI?=
- =?utf-8?B?V21td2ZtTXJZSUtUNnR4VUVtK2gwcForaEdoa3F2bFYxMm5acElqQUdIMnhX?=
- =?utf-8?B?aGs1c3l2ZDVSZzRpcDlCOEtpNWZaTUI3MjZ1R2pqMFI0OEl0blN6ZVpCbnli?=
- =?utf-8?B?a1ZEbEREdk1hVFpCVktNTUJhcTJ3OTVSb2xHZEs5Q29qOE1mUVpQSFdlQWZq?=
- =?utf-8?B?cUJEd1RLZmltcG9mWW9idkk2azFyRHI3ZXhGb2JwSmtwb3NzbVRPdGQvQmVS?=
- =?utf-8?B?U05obHRkcmM0aUx1YkIwdEJhbXVJbW1LaDh4SVExdjBXSUF1UlJhZW8xT3lI?=
- =?utf-8?B?RkJBY0hHQkxXalBNdko5Y1FhRTgyRXZ1Qy9oMkwwRytldC8wUjc1T3A5UEtv?=
- =?utf-8?B?ZGU5WjBmaXVjaERMUG1PTFJ0NHh1Q0pWdTA1L2EzM2hwQWdKOEpsdkVoNEVD?=
- =?utf-8?B?UzNyRGgxSFNXb2dhVlV0Rk5LNVVXYk01SnFMZUVJQWhweTBDUWRjdXNWMW5N?=
- =?utf-8?B?UXdFZG9Ba0NBc0dRMjdNVlk4WHVwa2VyOG1TMkVnYmVkK0NlbHUrY2FxZmRF?=
- =?utf-8?B?Zm01T1BzV0Y1a1JUb2VNamRRVm1kcGxYMDE1YmIycm1rVm9vUXUvaWU5OU00?=
- =?utf-8?B?Y1VROUxqaStVanFITE54dkJDQi9aaURMUUI4QVFRUUVOd2V1NkxZZFhsdGhZ?=
- =?utf-8?B?S2dLQjd5Ry9CVE5Zd3ZjbnRaZmhtdmxJQUpUUWxMeWo3VXFyUUc1R2RzdjdS?=
- =?utf-8?B?R0dWKzYyWVZoWEljaithTWRxT25JZWI1cW5CcmFzMlQ1UFZSMnZ6dnNJVzNW?=
- =?utf-8?B?NU1Ea1hPRDJBVmpwaG02dktFL2sxRzdyYVYxRWVNcnpVYTFUTkZvb1hrK3Yv?=
- =?utf-8?B?R3l2bC9ZaEdVdmovQkVUc0J0bmFVN0p5eGQ5S1E4VFBFQ1UyeFRNYUlqTXdM?=
- =?utf-8?B?OXFhZS9uNzlUb1pCK3hCb1NGb0dqS0hIVUFqVlNyVmtNbkY0L25KcU5XVXJG?=
- =?utf-8?B?OEhCeXNhTkp6OWpzTkFsMHBjc1RrRkxwMGtQR3lQV2I2VEl0VTRjekZmc3l0?=
- =?utf-8?B?OG1KeGltbjBOSFpTN0RRRGQ0dTFXSUUrTHd6WVU1YzcxL2JsL2xIWWxyazdm?=
- =?utf-8?B?VzZJUjQ5Z1czNG80eldpZ3QveFY4aHJMbzZrd2pLRnNGbXoxT3VOd1duMnl5?=
- =?utf-8?B?L05Ja1dzTUFiUnRXWmtEd1RmNWZRb0hnY3pZZHJ0YzBuYXNSYnF2a0tnZ3VY?=
- =?utf-8?B?dlVxL0d3NW1xbXJuc0Fmckxmb2hwMWQxaXRwaEZhS09JKzNqdDg4M0xiZjlI?=
- =?utf-8?B?YVNqZ2dCRGRZNHY3cGRSb3VkSHRmZ3QxRkswVXU1TkdGeTRvWHdPckdrbDUy?=
- =?utf-8?B?dzJ0VWhuWUhTaXlvZ1NCdzRoZTYxTUJ6K0pVQ1RmZU9MUG9Kbm5aZ0o5aVpX?=
- =?utf-8?B?Ylh5QTFoMHpjWXY4MG0vSkYvTHNiUUJCRGpQcVhsbWRIMU0xWjVwYjhWM25Q?=
- =?utf-8?B?UlZLSDJSTnFGdHJacW5rMHJ4TlZ0R3V5bzFqekt1eVNWL09ZOURTclE3WFJ1?=
- =?utf-8?B?SERRY2ZPcXVHdEJkM3RkYk15eWt0M1VyRzZxUzlzVGlvbDhmbnFQdlJaYVB1?=
- =?utf-8?B?bWhkUWJDdVZhQWcyRDI2QWtoYm1vSkVmeXl1WTJ6eFZ3Z1lKODhXWHlmUjU4?=
- =?utf-8?B?UkNlUXQyb3NFbTV0cy9acFQ0K29uUDdjN0w4aFNkVGJNOVhpYnA3cFJvdWJB?=
- =?utf-8?B?UVh3aWdXOFNBK0ovZHJsV2VYTVhoOTFOQUlMNnpYcVJRK1krbW5GdTNhWkVz?=
- =?utf-8?B?M0ZDc0FTb2pleHRXZWR2N0c1YkIwQzVZbGdSM2NyTXpVQVFrVTdGMzJST0NX?=
- =?utf-8?Q?8rPs=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cc59d46a-d349-4bfe-3f9f-08dbce437975
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Oct 2023 12:29:00.1478 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 1o8+T7Snv1PbHB4hCI7ZLi63L8OmW8xg2CRLU/OhfQ6pVOxzRcXWz+Eojz9zPjoB
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM3PR12MB9436
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/5] dt-bindings: panel: Add Powkiddy RGB30 panel
+ compatible
+Content-Language: en-US
+To: Chris Morgan <macroalpha82@gmail.com>, linux-rockchip@lists.infradead.org
+References: <20231013183918.225666-1-macroalpha82@gmail.com>
+ <20231013183918.225666-3-macroalpha82@gmail.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20231013183918.225666-3-macroalpha82@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,59 +121,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: megous@megous.com, devicetree@vger.kernel.org, conor+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, kernel@puri.sm, sam@ravnborg.org,
+ neil.armstrong@linaro.org, agx@sigxcpu.org,
+ Chris Morgan <macromorgan@hotmail.com>, sebastian.reichel@collabora.com,
+ dri-devel@lists.freedesktop.org, jagan@edgeble.ai, robh+dt@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 16.10.23 um 14:15 schrieb Karolina Stolarek:
-> With the current cleanup flow, we could trigger a NULL pointer
-> dereference if there is a delayed destruction of a BO with a
-> system resource that gets executed on drain_workqueue() call,
-> as we attempt to free a resource using an already released
-> resource manager.
->
-> Remove the device from the device list and drain its workqueue
-> before releasing the system domain manager in ttm_device_fini().
->
-> Signed-off-by: Karolina Stolarek <karolina.stolarek@intel.com>
+On 13/10/2023 20:39, Chris Morgan wrote:
+> From: Chris Morgan <macromorgan@hotmail.com>
+> 
+> The Powkiddy RGB30 panel is a 4 inch 720x720 MIPI-DSI LCD panel. It
+> appears to be based on the ST7703 LCD controller (this is assumed from
+> the init sequence similarity between this and other displays). Powkiddy
+> would not share the part number or name for the display from the bill
+> of materials and there were no obvious external markings, so name the
+> panel for the device (Powkiddy RGB30).
 
-Reviewed and pushed to drm-misc-fixes.
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Thanks,
-Christian
-
-> ---
-> This is actually a reiteration of a patch sent in [1], but the
-> solution and commit message changed significantly, so I decided
-> not to send it as v2.
-> [1] - 20231013143423.1503088-1-karolina.stolarek@intel.com
->
->   drivers/gpu/drm/ttm/ttm_device.c | 8 ++++----
->   1 file changed, 4 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/gpu/drm/ttm/ttm_device.c b/drivers/gpu/drm/ttm/ttm_device.c
-> index 7726a72befc5..d48b39132b32 100644
-> --- a/drivers/gpu/drm/ttm/ttm_device.c
-> +++ b/drivers/gpu/drm/ttm/ttm_device.c
-> @@ -232,10 +232,6 @@ void ttm_device_fini(struct ttm_device *bdev)
->   	struct ttm_resource_manager *man;
->   	unsigned i;
->   
-> -	man = ttm_manager_type(bdev, TTM_PL_SYSTEM);
-> -	ttm_resource_manager_set_used(man, false);
-> -	ttm_set_driver_manager(bdev, TTM_PL_SYSTEM, NULL);
-> -
->   	mutex_lock(&ttm_global_mutex);
->   	list_del(&bdev->device_list);
->   	mutex_unlock(&ttm_global_mutex);
-> @@ -243,6 +239,10 @@ void ttm_device_fini(struct ttm_device *bdev)
->   	drain_workqueue(bdev->wq);
->   	destroy_workqueue(bdev->wq);
->   
-> +	man = ttm_manager_type(bdev, TTM_PL_SYSTEM);
-> +	ttm_resource_manager_set_used(man, false);
-> +	ttm_set_driver_manager(bdev, TTM_PL_SYSTEM, NULL);
-> +
->   	spin_lock(&bdev->lru_lock);
->   	for (i = 0; i < TTM_MAX_BO_PRIORITY; ++i)
->   		if (list_empty(&man->lru[0]))
+Best regards,
+Krzysztof
 
