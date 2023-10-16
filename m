@@ -2,44 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B7047CA46C
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Oct 2023 11:42:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5F2F7CA47C
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Oct 2023 11:47:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 323E210E17C;
-	Mon, 16 Oct 2023 09:42:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D607A10E188;
+	Mon, 16 Oct 2023 09:47:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A37C10E177
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Oct 2023 09:42:16 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 85F8910E177;
+ Mon, 16 Oct 2023 09:47:30 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 9FA7C60ACE;
- Mon, 16 Oct 2023 09:42:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB327C433C8;
- Mon, 16 Oct 2023 09:42:08 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 081EB60DF5;
+ Mon, 16 Oct 2023 09:47:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47337C433C7;
+ Mon, 16 Oct 2023 09:47:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1697449335;
- bh=1I7dIX7GqvLMEA2fUJIzQxzuYe7pwiH/zksIhIJbzKY=;
- h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
- b=O46nt9Z5kLfZ/tmbUT2RnKqug8FypN/I1SAQ0LGt4hMHOz5FwMe6B32iPr2WVwpOe
- numa1CDNR/IKeSY1+1a2cKRhcPtyqNByqLDLMm1qX+3MzT12UE2Z6ZDJL4OTBFeuB9
- JCYW0FVo5nO+37tD5jogG3tWwZusWbpa9aejHSomcki3eOBOUA4fIdMujZKZNRroqu
- 761J/wnGI1xSToYuWpHHx5zAAHOE8e9PbteLUiGIaKXBbDXK6lMHXYtuczhL8TL7vm
- vWKNM9T4X4xrusTsU3a8I2QSFwZ/yVmJ4G4uzL/Ry06SyFs/wqe7QLQQiiPuro3iEU
- WNn+p9kIPT9Hw==
+ s=k20201202; t=1697449649;
+ bh=G4zxpVoIMd4Dnto6BtVe4r6qfQl1/1fiHD54t0GVFU4=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=hVAkS7u8Fc5baxMKgoXIQdQb5R/sdJcjx1QHfKbjdKFLXlqMoIzgTGaY/nb/i0hcr
+ 9R2cDxdFjF3fUcIbuxxv37SWswJwQqo9dyFz5A52VT/wiMZlfZagU3YkvHrZMyTE8z
+ kUIceh+GveaonVkHMUh9FzwBVKDxiWw+KPEdtIKHxFF+FVnem2jvOFLjZO4BEycbCV
+ LR5l6NKf+NOLS9Wj9rgcxjzy7RXOeqT1X7RdHBAgwmOtUP9BDFpi66ug8PRQTkmlju
+ 9xcitjY7+Oxq2qAV20oZ6tGY0Y+Zg62Q7ekpKwao0AV871HVeIxRs7Mno8vigbThZn
+ lNk+FxWJ5ILsA==
 From: Robert Foss <rfoss@kernel.org>
-To: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, Liu Ying <victor.liu@nxp.com>
-In-Reply-To: <20230821034008.3876938-1-victor.liu@nxp.com>
-References: <20230821034008.3876938-1-victor.liu@nxp.com>
-Subject: Re: [PATCH v3 RESEND 0/9] drm/bridge: imx: Add i.MX93 MIPI DSI support
-Message-Id: <169744932839.577518.15289591083022609443.b4-ty@kernel.org>
-Date: Mon, 16 Oct 2023 11:42:08 +0200
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Vinod Koul <vkoul@kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH] drm/bridge: lt9611uxc: fix the race in the error path
+Date: Mon, 16 Oct 2023 11:47:23 +0200
+Message-ID: <169744963234.583969.6401171307334981045.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20231011220002.382422-1-dmitry.baryshkov@linaro.org>
+References: <20231011220002.382422-1-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.10.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,48 +55,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: krzysztof.kozlowski+dt@linaro.org, alexander.stein@ew.tq-group.com,
- Laurent.pinchart@ideasonboard.com, andrzej.hajda@intel.com, zyw@rock-chips.com,
- sam@ravnborg.org, jonas@kwiboo.se, jernej.skrabec@gmail.com,
- jagan@amarulasolutions.com, linux-imx@nxp.com, conor+dt@kernel.org,
- kernel@pengutronix.de, raphael.gallais-pou@foss.st.com, s.hauer@pengutronix.de,
- robh+dt@kernel.org, neil.armstrong@linaro.org, yannick.fertre@foss.st.com,
- hjc@rock-chips.com, philippe.cornu@foss.st.com, shawnguo@kernel.org
+Cc: freedreno@lists.freedesktop.org, Robert Foss <rfoss@kernel.org>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 21 Aug 2023 11:39:59 +0800, Liu Ying wrote:
-> This series aims to add MIPI DSI support for Freescale i.MX93 SoC.
+On Thu, 12 Oct 2023 01:00:02 +0300, Dmitry Baryshkov wrote:
+> If DSI host attachment fails, the LT9611UXC driver will remove the
+> bridge without ensuring that there is no outstanding HPD work being
+> done. In rare cases this can result in the warnings regarding the mutex
+> being incorrect. Fix this by forcebly freing IRQ and flushing the work.
 > 
-> There is a Synopsys DesignWare MIPI DSI host controller and a Synopsys
-> Designware MIPI DPHY embedded in i.MX93.  Some configurations and
-> extensions to them are controlled by i.MX93 media blk-ctrl.
-> 
-> Add a DRM bridge for i.MX93 MIPI DSI by using existing DW MIPI DSI
-> bridge helpers and implementing i.MX93 MIPI DSI specific extensions.
+> DEBUG_LOCKS_WARN_ON(lock->magic != lock)
+> WARNING: CPU: 0 PID: 10 at kernel/locking/mutex.c:582 __mutex_lock+0x468/0x77c
+> Modules linked in:
+> CPU: 0 PID: 10 Comm: kworker/0:1 Tainted: G     U             6.6.0-rc5-next-20231011-gd81f81c2b682-dirty #1206
+> Hardware name: Qualcomm Technologies, Inc. Robotics RB5 (DT)
+> Workqueue: events lt9611uxc_hpd_work
+> pstate: 60400005 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+> pc : __mutex_lock+0x468/0x77c
+> lr : __mutex_lock+0x468/0x77c
+> sp : ffff8000800a3c70
+> x29: ffff8000800a3c70 x28: 0000000000000000 x27: ffffd595fe333000
+> x26: ffff7c2f0002c005 x25: ffffd595ff1b3000 x24: ffffd595fccda5a0
+> x23: 0000000000000000 x22: 0000000000000002 x21: ffff7c2f056d91c8
+> x20: 0000000000000000 x19: ffff7c2f056d91c8 x18: fffffffffffe8db0
+> x17: 000000040044ffff x16: 005000f2b5503510 x15: 0000000000000000
+> x14: 000000000006efb8 x13: 0000000000000000 x12: 0000000000000037
+> x11: 0000000000000001 x10: 0000000000001470 x9 : ffff8000800a3ae0
+> x8 : ffff7c2f0027f8d0 x7 : ffff7c2f0027e400 x6 : ffffd595fc702b54
+> x5 : 0000000000000000 x4 : ffff8000800a0000 x3 : 0000000000000000
+> x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffff7c2f0027e400
+> Call trace:
+>  __mutex_lock+0x468/0x77c
+>  mutex_lock_nested+0x24/0x30
+>  drm_bridge_hpd_notify+0x2c/0x5c
+>  lt9611uxc_hpd_work+0x6c/0x80
+>  process_one_work+0x1ec/0x51c
+>  worker_thread+0x1ec/0x3e4
+>  kthread+0x120/0x124
+>  ret_from_fork+0x10/0x20
+> irq event stamp: 15799
+> hardirqs last  enabled at (15799): [<ffffd595fc702ba4>] finish_task_switch.isra.0+0xa8/0x278
+> hardirqs last disabled at (15798): [<ffffd595fd5a1580>] __schedule+0x7b8/0xbd8
+> softirqs last  enabled at (15794): [<ffffd595fc690698>] __do_softirq+0x498/0x4e0
+> softirqs last disabled at (15771): [<ffffd595fc69615c>] ____do_softirq+0x10/0x1c
 > 
 > [...]
 
 Applied, thanks!
 
-[1/9] drm/bridge: synopsys: dw-mipi-dsi: Add dw_mipi_dsi_get_bridge() helper
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=ec20c510ee2d
-[2/9] drm/bridge: synopsys: dw-mipi-dsi: Add input bus format negotiation support
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=0de852d4c23a
-[3/9] drm/bridge: synopsys: dw-mipi-dsi: Force input bus flags
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=d5116fb29dc0
-[4/9] drm/bridge: synopsys: dw-mipi-dsi: Add mode fixup support
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=5a67ec8c64ec
-[5/9] drm/bridge: synopsys: dw-mipi-dsi: Use pixel clock rate to calculate lbcc
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=ac87d23694f4
-[6/9] drm/bridge: synopsys: dw-mipi-dsi: Set minimum lane byte clock cycles for HSA and HBP
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=d22e9a6df2db
-[7/9] drm/bridge: synopsys: dw-mipi-dsi: Disable HSTX and LPRX timeout check
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=743bf594a3b1
-[8/9] dt-bindings: display: bridge: Document Freescale i.MX93 MIPI DSI
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=db95a55ccec7
-[9/9] drm/bridge: imx: Add i.MX93 MIPI DSI support
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=ce62f8ea7e3f
+[1/1] drm/bridge: lt9611uxc: fix the race in the error path
+      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=15fe53be46ea
 
 
 
