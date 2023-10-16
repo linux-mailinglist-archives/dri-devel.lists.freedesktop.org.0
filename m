@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B332A7CB061
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Oct 2023 18:54:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67B8C7CB063
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Oct 2023 18:54:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5BDB610E22A;
-	Mon, 16 Oct 2023 16:54:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E01C10E22D;
+	Mon, 16 Oct 2023 16:54:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
- [IPv6:2a00:1450:4864:20::336])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8FDF510E226
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Oct 2023 16:54:01 +0000 (UTC)
-Received: by mail-wm1-x336.google.com with SMTP id
- 5b1f17b1804b1-40572aeb6d0so46860395e9.1
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Oct 2023 09:54:01 -0700 (PDT)
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
+ [IPv6:2a00:1450:4864:20::330])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 703C310E22C
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Oct 2023 16:54:03 +0000 (UTC)
+Received: by mail-wm1-x330.google.com with SMTP id
+ 5b1f17b1804b1-40776b200e5so26430395e9.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Oct 2023 09:54:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1697475240; x=1698080040; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1697475242; x=1698080042; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=FXcBslb1MNvlJH1zjcV0wxGhoCZ7RiOAEccFN8ak0qg=;
- b=tBf2rDyMI8Sqi3c8svIG1Pr762CY2L35QAE/CySWgsGYyqwOujFQ0ZV612zEf/DABv
- 7B8fyl7jXcoPWOEKYQpDXiW7DuFxilkpAHs4sED6uyK1JCNaPrOmTCZEp/u4S5WEVlv0
- DzNMkZAEvgcbKtegMkTC8ftoGm+mX1WgalH2wFavnlaHWRVGfcRvA3mjKXN2wtXP75Zv
- SPd7v2hh0/L2t7FoVcc33VGIbgUQCLtV7op6WQshOAUYhqOjRnXt+SoAUkBNd9B73Nb5
- jWfjJZMerypGEHhkVYganWfA4eBpGjP7EhDQ1z3Q9WLAAdMfOIpNBwb7vVnfomChmWoG
- 6Qzw==
+ bh=y4YcpFsN2TSMs34leTZQIhhDmmY5p8SAeysdXXfcQJY=;
+ b=AHXclUCufmyqBG9zld6n+XXn0fA5S7UPoB4A3djOcPqi6/EM0tlbThXeiEuYNNY18q
+ PR0mdxu2PHHS6CDeJv6gVF9NPPTZZFl/d6R9ewI/Mib0D7rOlS6SqazZIjKP5hKJECn4
+ MxoA6OaaQRNIp1QcqileJfGQICvS+aWJhNePtbX5GitQ7lB/j09EzoraqfihPrB5u4Yk
+ t+8uw8ymgMcmCQ1Jf2t3YV2QjF1QOih8cYMSWcYr+vb8xEwJo28dCZ3F6lJBpRfUI2j7
+ 4vAr4pgSEgYnI9YM7QtfctLjMI1dSbKHXp+sxvM65jkOvKPOO9SnP+0HiIeR7pPFJJC2
+ ljhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1697475240; x=1698080040;
+ d=1e100.net; s=20230601; t=1697475242; x=1698080042;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=FXcBslb1MNvlJH1zjcV0wxGhoCZ7RiOAEccFN8ak0qg=;
- b=XfyzY8Jtpgx/kJASxMxpEMyi4ao0O09k24v7ZgZbkW0OAiMtyYN5LWO/6Ga/KkKMy9
- 0fCAsWJzMYIJivLp+2suvBQ60yKr7tjr0ApN+N0hGtOgBfmTSTD6dNH/bB8iWGOlQkQt
- 6jgbGCLHjSlZy214ExlA8Vq2kARivMabuAZFWmj+Z/MCNCMllJQ0MymNW5t+i9m0Lgsz
- Fv8RoTRm1Acma6+bXhMFPoF2Q9ajUppwy9SGsaDdu5VoGv9zNUnc234gb7tl73QG8lZI
- DnS5VRDLs46F/09mQz8W9ryW4YsMghusAzSCw1m1JJBTNw3a/rEKr5u/nofryh4S0DcK
- ztDA==
-X-Gm-Message-State: AOJu0YxGC6OyXi2AhtrvnFsfSZ6NJOTasS6Naggjoi1HQXBsctOOJYIT
- tUqPdp2atcY/qrApmIgm+JZwJA==
-X-Google-Smtp-Source: AGHT+IHoONg9qNPiKGeTIHddHvmhDg1GDHSsCUAu6Z2s65378ibuLRfTX/M31ed4RtOSacgQiyUf0g==
-X-Received: by 2002:a1c:4b11:0:b0:405:3455:e1a3 with SMTP id
- y17-20020a1c4b11000000b004053455e1a3mr30359791wma.17.1697475240062; 
- Mon, 16 Oct 2023 09:54:00 -0700 (PDT)
+ bh=y4YcpFsN2TSMs34leTZQIhhDmmY5p8SAeysdXXfcQJY=;
+ b=friBnohOn/hjR+cQ1pLclLHOSJevjXnDyvUJThiXba79HzYzpaypmA1L44i0D8NJQW
+ /Re2ux/dk2SrVTQlE3swBsiu85U2SQWLcq8Oj/LRSBaafUpgbbCfvL4H60wYVTKXtE/f
+ uSaCvs9kgEhFPPicKJ7iBqWaoF5yGnNOyEyLphsFYN5G38fOeslrOIf/1mD5XfLvaKYB
+ L8WoAl/MO1aUTWoF1lJEHJHVaHJDTvGdtFlER57TgFFdyTs67HG/Ux1nQTN6Qt1iJMlh
+ FGvH37lm2kjq6/q6KVC0fuoHnY195eBE0hcrKr0SllYLhsAaSUew5oZH0Eu2FSIwZPG2
+ wnUw==
+X-Gm-Message-State: AOJu0YwzJseVIw1XazWVQpidimy1HPI+Ws134qJZQRMIOQPcglZLxHZK
+ wIsOOYir1UEsK5HhHVOoXHOjjg==
+X-Google-Smtp-Source: AGHT+IG9ptuOZK2qMMs221TBvhrKBhc0p1PMjKU8/S3TkYk4xU7qgakeBAb/XsiPpTTx7XzPxsCcZA==
+X-Received: by 2002:a7b:c394:0:b0:403:31a:77b9 with SMTP id
+ s20-20020a7bc394000000b00403031a77b9mr30584923wmj.37.1697475241822; 
+ Mon, 16 Oct 2023 09:54:01 -0700 (PDT)
 Received: from eriador.lumag.spb.ru ([45.84.211.189])
  by smtp.gmail.com with ESMTPSA id
- s19-20020a05600c45d300b0040648217f4fsm7638996wmo.39.2023.10.16.09.53.58
+ s19-20020a05600c45d300b0040648217f4fsm7638996wmo.39.2023.10.16.09.54.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Oct 2023 09:53:59 -0700 (PDT)
+ Mon, 16 Oct 2023 09:54:01 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Dave Stevenson <dave.stevenson@raspberrypi.com>,
  Andrzej Hajda <andrzej.hajda@intel.com>,
@@ -67,10 +67,9 @@ To: Dave Stevenson <dave.stevenson@raspberrypi.com>,
  Marijn Suijten <marijn.suijten@somainline.org>,
  Konrad Dybcio <konrad.dybcio@linaro.org>,
  Jessica Zhang <quic_jesszhan@quicinc.com>
-Subject: [RFC PATCH 01/10] Revert "drm/bridge: tc358762: Split register
- programming from pre-enable to enable"
-Date: Mon, 16 Oct 2023 19:53:46 +0300
-Message-ID: <20231016165355.1327217-2-dmitry.baryshkov@linaro.org>
+Subject: [RFC PATCH 02/10] drm/mipi-dsi: document DSI hosts limitations
+Date: Mon, 16 Oct 2023 19:53:47 +0300
+Message-ID: <20231016165355.1327217-3-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231016165355.1327217-1-dmitry.baryshkov@linaro.org>
 References: <20231016165355.1327217-1-dmitry.baryshkov@linaro.org>
@@ -94,55 +93,29 @@ Cc: Marek Vasut <marex@denx.de>, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It has been pointed out (e.g. in [1]) that enable is not the best place
-for sending the DSI commands. There are hosts (sunxi) that can not
-support sending DSI commands once video stream has enabled.
+Document the known limititations of the DSI hosts vs commands transfers
+in LP mode. For the details see sun6i_dsi_encoder_enable().
 
-Also most panel drivers send DSI commands in the prepare() callback
-(which maps to drm_bridg_funcs::pre_enable()). Thus the DSIM host should
-be fixed to be able to send DSI commands from pre_enable() state.
-
-[1] https://lore.kernel.org/dri-devel/CAPY8ntBrhYAmsraDqJGuTrSL6VjGXBAMVoN7xweV7E4qZv+v3Q@mail.gmail.com/
-[2] https://github.com/torvalds/lincux/blob/master/include/drm/drm_mipi_dsi.h#L84-L87
-
-Cc: Marek Vasut <marex@denx.de>
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/bridge/tc358762.c | 11 ++---------
- 1 file changed, 2 insertions(+), 9 deletions(-)
+ include/drm/drm_mipi_dsi.h | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/gpu/drm/bridge/tc358762.c b/drivers/gpu/drm/bridge/tc358762.c
-index 46198af9eebb..7b9f05f95fd1 100644
---- a/drivers/gpu/drm/bridge/tc358762.c
-+++ b/drivers/gpu/drm/bridge/tc358762.c
-@@ -185,17 +185,11 @@ static void tc358762_pre_enable(struct drm_bridge *bridge, struct drm_bridge_sta
- 		usleep_range(5000, 10000);
- 	}
- 
--	ctx->pre_enabled = true;
--}
--
--static void tc358762_enable(struct drm_bridge *bridge, struct drm_bridge_state *state)
--{
--	struct tc358762 *ctx = bridge_to_tc358762(bridge);
--	int ret;
--
- 	ret = tc358762_init(ctx);
- 	if (ret < 0)
- 		dev_err(ctx->dev, "error initializing bridge (%d)\n", ret);
-+
-+	ctx->pre_enabled = true;
- }
- 
- static int tc358762_attach(struct drm_bridge *bridge,
-@@ -219,7 +213,6 @@ static void tc358762_bridge_mode_set(struct drm_bridge *bridge,
- static const struct drm_bridge_funcs tc358762_bridge_funcs = {
- 	.atomic_post_disable = tc358762_post_disable,
- 	.atomic_pre_enable = tc358762_pre_enable,
--	.atomic_enable = tc358762_enable,
- 	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
- 	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
- 	.atomic_reset = drm_atomic_helper_bridge_reset,
+diff --git a/include/drm/drm_mipi_dsi.h b/include/drm/drm_mipi_dsi.h
+index c9df0407980c..167742e579e3 100644
+--- a/include/drm/drm_mipi_dsi.h
++++ b/include/drm/drm_mipi_dsi.h
+@@ -85,6 +85,10 @@ int mipi_dsi_create_packet(struct mipi_dsi_packet *packet,
+  * host is in. Drivers that need the underlying device to be powered to
+  * perform these operations will first need to make sure it's been
+  * properly enabled.
++ *
++ * Note: some hosts (sunxi) can not send LP commands between HS video
++ * packets. Thus all DSI transfers sent in LP mode should be limited to the
++ * drm_bridge_funcs::pre_enable() and drm_panel_funcs::prepare() callbacks.
+  */
+ struct mipi_dsi_host_ops {
+ 	int (*attach)(struct mipi_dsi_host *host,
 -- 
 2.42.0
 
