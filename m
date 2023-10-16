@@ -1,139 +1,93 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28C317CACE4
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Oct 2023 17:05:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF4AF7CACEA
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Oct 2023 17:06:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3151610E214;
-	Mon, 16 Oct 2023 15:05:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 35D7010E211;
+	Mon, 16 Oct 2023 15:06:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4445710E211;
- Mon, 16 Oct 2023 15:05:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1697468733; x=1729004733;
- h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=AXzusKii0QF/Mq6tds+8bhhHrhaeYoJhdnLtkumOq1c=;
- b=fNfoXE9Maqz0LeKbvSoIJegqBuKxpWcuJDigWf54YeXU+ISnpHOj+0Xh
- SFI77k/iay7P/zwvfr/cLan6hSzT0a7B0wEwu/ENjfEOJUhCyFRrgt8XX
- HdVmdgxOjaA/djWjG1as1Ijl+Gd5yBpjKcKfr1cnFeE8LseB/GIgEOYQ8
- us/U/MdyOoYnqatx8QXywTRb6RWc6MH+Cuai69zAs+rEZADC9NUHbYnzJ
- CHv6LLGE5PJgmcBfLSgaO9DS9RAiS4NDdKL31CjFcIC74OKGDfR/Lu2vM
- bS0S41oxKFQwh8hvjdAwVycLkyvhwWWrR5wJ3TU/SSYPrYSDwr36aWIgc g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="389409816"
-X-IronPort-AV: E=Sophos;i="6.03,229,1694761200"; d="scan'208";a="389409816"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Oct 2023 08:05:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="846418235"
-X-IronPort-AV: E=Sophos;i="6.03,229,1694761200"; d="scan'208";a="846418235"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
- by FMSMGA003.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 16 Oct 2023 08:05:06 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32; Mon, 16 Oct 2023 08:05:05 -0700
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32 via Frontend Transport; Mon, 16 Oct 2023 08:05:05 -0700
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.168)
- by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.32; Mon, 16 Oct 2023 08:05:05 -0700
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com
+ (mail-db8eur05on20629.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:7e1a::629])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E5CF10E211
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Oct 2023 15:06:00 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QQJMRpier6BYDLaYfHF10/uarogLXQyHuRCgUk1TbMwN5ke0e7wKr5F7l0pZsGcoFo/gjWa3BdsG0p7BJF1eDtODG/M+6rkVff4jYxLR/9KqpJy0NMWMqsMjDKUYCYqyocuxFnMpd+a+7p2QHby4pYKcbvtCzkhlnKWzldMj72YAN23XBR14Z5cBAIGv/V1c5hptfapQ1hbfQQysfetuvCjVWo8oTWku/To1E7vNEVJICdkHBrvXdF8x9FS+TN+o2SNcxo/G8sLmhuToj3FuAdhWqFyTfXY9XAmXVyQ4Jqr1z2z1pk+rK3JM23o3xLq63B0C2Kt7m8YM6mE/epaF4g==
+ b=DH2DaGjajM3ugKSw7t2yJ4v5cI3qNki6R09L0BQr2KhGzwHp5w6i2FmNJrYvGd7SYQ6iieSCDFqziDMMzTBU46flp+Hxmv+KJmeZjeABrXdbtRFMAqNK0XO1UbfI8Toto9SRmKzPBo1za2S/gD3FRojkZoUc1n4RjL+JJcq7Eq/BBjrYw41yad9QJPSTctekVjQplGKyn55ge4bWANAJcO/TS+f/00GMY8ckYht8Wvjjj/5tA+cPL9TJka9lGThkO+dKJdgvE0jpLuu134W1WEFu328e7oSFUnoZDtEjFd2eD6QUsJXXN83WPT+WNaz7QXq7M/gavkJNojrI+P242A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gNhzu0Q9iUA8XAhw3Ntiql+jPPGZE1rt9TYri5QOmkM=;
- b=dA2RWl4I+WKuOw37jiuX7ZL1SxNGw4lzxqEtNTjosS2IOKzYAF3W7o9fsGRiT2Kg+ukEYfM180GHrfkrNUnes7kSKtd4ByGCwUXwZdU3hb9mkmLELQfQ0O60/d97Ktt4QM5fw2VXQdKYU2D5kKXheKZv29bK17bYGeqSOJiAVnSUiFEfStrZiwHzZXdnrCyAxClo6ToreqrvFzW0qPQ0D+JAcK54mriY78pRWMWM5WbXkhIJhkAuF10rNMppzV2oqlvIa4ryECi9NpVnBVu4LtFNOcez6Qlfht73Fp1siatQIF2t3C3cdEZNs6szpqeQia1EAXuS488zYM8WWDJzgg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
- by CY8PR11MB6939.namprd11.prod.outlook.com (2603:10b6:930:59::17)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6863.45; Mon, 16 Oct
- 2023 15:05:03 +0000
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::3f66:aa7d:51d5:777]) by PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::3f66:aa7d:51d5:777%6]) with mapi id 15.20.6886.034; Mon, 16 Oct 2023
- 15:05:02 +0000
-Date: Mon, 16 Oct 2023 15:03:37 +0000
-From: Matthew Brost <matthew.brost@intel.com>
-To: Luben Tuikov <luben.tuikov@amd.com>
-Subject: Re: [PATCH v5 7/7] drm/sched: Add helper to queue TDR immediately
- for current and future jobs
-Message-ID: <ZS1QyQ5KCFHLw4Vy@DUT025-TGLU.fm.intel.com>
-References: <20231011235826.585624-1-matthew.brost@intel.com>
- <20231011235826.585624-8-matthew.brost@intel.com>
- <5bb39d18-f5de-4b74-b55a-6067b6166309@amd.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <5bb39d18-f5de-4b74-b55a-6067b6166309@amd.com>
-X-ClientProxiedBy: BY3PR05CA0024.namprd05.prod.outlook.com
- (2603:10b6:a03:254::29) To PH7PR11MB6522.namprd11.prod.outlook.com
- (2603:10b6:510:212::12)
+ bh=0Sf04cX8xj6HqeOX4705suelc72pKv+ouylBGyQLNTY=;
+ b=OZoM7RfrXdRCMGiLn415YDBMKY5HOPOtObY9JogpMXdyZRbEAZvDQLKbaqbQIMmPQfssbKWv0Pmo6YurYfl8VLSGa4ezixDgSTMHNQqrUPmPlMzRfRYXF32Nf1T56oRj942WfPsA3nTJcucYOvE9sE8aiq7/V7zo8SvtVdKWthaYvK6lRyDpFewe+QTH+QhrIRfIUAo2tnFlUF0/mXEOwqbSch+N4JABvQ+OaJkarRA33E7GHU+ER868EEgaP2J3u/H1kxpx0kIAgllP9NyyARG2PEgUEZq3tPb/74AuQifsh2pGBC16ytwnl5zyR8cO4nq+kynWeAhvn3Bk6q+6Og==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 151.1.184.193) smtp.rcpttodomain=lists.freedesktop.org
+ smtp.mailfrom=asem.it; dmarc=fail (p=none sp=none pct=100) action=none
+ header.from=asem.it; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=asem.it; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0Sf04cX8xj6HqeOX4705suelc72pKv+ouylBGyQLNTY=;
+ b=PNiu14tTNHQeOV3x3hPWIWpdnRP97/zO2JRA1jsHbTZOK9e1GOjl0h5KDngw6N2bkYGRi+E7/6HFAvOoiPQkeUAc0dFwOgmRda5N765A88azCZ0NhpHWDFg08UEPbpVOx4IFRM6le3lAPFbONkZ8G52iM4v8i92USxSk2h/xRgQ=
+Received: from AM8P190CA0024.EURP190.PROD.OUTLOOK.COM (2603:10a6:20b:219::29)
+ by PAXPR01MB9027.eurprd01.prod.exchangelabs.com
+ (2603:10a6:102:2b3::13) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6907.16; Mon, 16 Oct
+ 2023 15:05:57 +0000
+Received: from AM3PEPF0000A790.eurprd04.prod.outlook.com
+ (2603:10a6:20b:219:cafe::2a) by AM8P190CA0024.outlook.office365.com
+ (2603:10a6:20b:219::29) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6886.35 via Frontend
+ Transport; Mon, 16 Oct 2023 15:05:57 +0000
+X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is
+ 151.1.184.193) smtp.mailfrom=asem.it; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=none header.from=asem.it;
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ asem.it discourages use of 151.1.184.193 as permitted sender)
+Received: from asas054.asem.intra (151.1.184.193) by
+ AM3PEPF0000A790.mail.protection.outlook.com (10.167.16.119) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6838.22 via Frontend Transport; Mon, 16 Oct 2023 15:05:56 +0000
+Received: from flavio-x.asem.intra ([172.16.18.47]) by asas054.asem.intra with
+ Microsoft SMTPSVC(10.0.14393.4169); Mon, 16 Oct 2023 17:05:56 +0200
+From: Flavio Suligoi <f.suligoi@asem.it>
+To: Lee Jones <lee@kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
+ Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>
+Subject: [PATCH v1] dt-bindings: backlight: add brightness-levels related
+ common properties
+Date: Mon, 16 Oct 2023 17:05:54 +0200
+Message-Id: <20231016150554.27144-1-f.suligoi@asem.it>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-OriginalArrivalTime: 16 Oct 2023 15:05:56.0419 (UTC)
+ FILETIME=[43AE5130:01DA0042]
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|CY8PR11MB6939:EE_
-X-MS-Office365-Filtering-Correlation-Id: 30402e3f-e761-4224-8c3c-08dbce594624
+X-MS-TrafficTypeDiagnostic: AM3PEPF0000A790:EE_|PAXPR01MB9027:EE_
+Content-Type: text/plain
+X-MS-Office365-Filtering-Correlation-Id: 17a726e0-08e7-45a1-a5fc-08dbce596683
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: x9kBxLJ67a17svem1Jr+mZ6ByR7BMkX98FaSPoZeJvX5q/J5Ux59UGTV+EHLwKOiC1xmVOJcWP4Mgb98Czr7SKys3TJSQpFBqOURIiwr1BbTkzkEMU9R1wekWzZjEup3jN3k+ucsaIpmKAvcMUi2m+9cUUB18fz109xPWFXNLmUft9lcjfDrWf4s8bNmoUxflw3Er6CUWnxNgoqqD2fpXKM3JOzTHbnbi1Fz/fOba5zAWzldQyqNKmhI3OcO5vKIHArOb04Rs6sb9ZKW05rRiTs98zNKmwljNT4W6d/hrrZyydu/IzEo7R6vIQNRKNvGzT6gDpehxnVW26zU58+TLI+fJmC5kL1StOiwoFw7wqh0aP6maY0hWh8f2Kbrb1qdrUUT5mOlKrheNOBCkhAer1cUffmnytKDab7BT8A2p4Oea/izYsfTo6ydjhRaP/cy5+8b4i+J/BeE+eZRrhecC95j2KFR7MP61l6xfvaOQ2ZQB8qSQvoUI7CwXi70FVH+531woxO4kNPgJz+kft5pYBu3C4MrIqfRAtwYmf5m98/IAWB9vccf5YDXxzjE7yweLAT1MQ6zH8XE4TjHxccsduiLTekVELLF745iE2S7kfw=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(396003)(376002)(366004)(39860400002)(136003)(346002)(230922051799003)(186009)(1800799009)(451199024)(64100799003)(44832011)(86362001)(41300700001)(2906002)(7416002)(5660300002)(8676002)(4001150100001)(4326008)(6486002)(66946007)(66556008)(83380400001)(6916009)(316002)(8936002)(66476007)(478600001)(6512007)(38100700002)(53546011)(6666004)(82960400001)(26005)(6506007)(14773004);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?wJzU0IHNxCQnrJ6iJSmg396EBcZvk/4wISMyiZ6P6toQVT61t86pm/fr6LZc?=
- =?us-ascii?Q?T5K2+XyXSArR8/wgF7O0jTRYwzxvVdQbEexd+yCS0amNo4Lc4K9jCuMOLYDe?=
- =?us-ascii?Q?ax6j84Jzl3PRoDAeBALYhKxDUJ3IYTUTI2FpPKJtvY12Vla7KKLtFGs3u42O?=
- =?us-ascii?Q?74H2PqkIT+dNl8ZWewk2Xu9M7AJHWm9cIlqGeEbABO4R2ap4WD9bCwFNJz0x?=
- =?us-ascii?Q?hu4hVDbJ7CAwNwnmaSxalTseX0noJkb3lB5RvQ9fqeSrYWpJYRV81YkpCvF4?=
- =?us-ascii?Q?DE9dzkmzmHz1PUeOn5Lm7Jd0hN46FFraGEdKeMwu6fBDkj15vxpmHOquQ+fR?=
- =?us-ascii?Q?MO4jRRx+eVxH9+5jNYsM7d4ft2sUoysFH/ymTrsM86d9Stzh0BYgqR8p11cT?=
- =?us-ascii?Q?Xi1NexuRQMLu4tZFfepXXvYPxXJtH50O6n7b1XG9NkWkyYAMwNCnTgl+sCm2?=
- =?us-ascii?Q?J7LnI1cnLkGU/xtx4NO3W1EMFzBO9lGOB7U7Ydp90Q7gFn2TZnaDvChdBXsU?=
- =?us-ascii?Q?N+7fef8Mrl8iCrtL1vbpWOP6aBSPbcLx0x07+64xoJqHrQgPFivkqtD//H7v?=
- =?us-ascii?Q?qVo6JwN4ENYLEtuez+5n+3k/aPcwphJoxGOZUWEnVBT0kHt4NRczAqHKvxqS?=
- =?us-ascii?Q?YisoHw587QezxuBe5Qt9CLJtfYiuHNnhiQ00+7znYqvWKQ3KanhBdgdjhfS7?=
- =?us-ascii?Q?iSeyVuXUujGjRDlnJseuU3MeDI1T16EqYGGRIfPn+vefhDacwS3eOxMcXZWV?=
- =?us-ascii?Q?1otMUAzUNdxOMGZvtUk5YgDO3JHZH49ZIHGCXyYr2X137PdgkXkkCg3f+IiC?=
- =?us-ascii?Q?kAZv3L/DdTUqonc7oLJWDDnCG9lrlggK1uAsh0IUTLhKhNyv9coMTiR07wT0?=
- =?us-ascii?Q?BjP5YRgcGdeVIeoeugeo9XQCkpyM+WyV+tAiORoSAvYAhzc6NkKDLkzSrRkj?=
- =?us-ascii?Q?v6kUHWWSplnWg1RhfO19ox5riAVUzifrDb8l+oA4Twoz69QmN5Gcs6mRQbAK?=
- =?us-ascii?Q?doHh772WC3HMWDb3qpfCW+wxo8mJ8NTf9hGR9DTfTVcmoHwrn+dXtIiscoZ2?=
- =?us-ascii?Q?xP1csMt4d0MtwL5Z7Ws67mKgAfbtoPJc3UHNSogXyyCiGFbx22aGDrAKZ19X?=
- =?us-ascii?Q?iRI/Zy4jTr1egvSjAwZHzX3CeIzEtlwMuDRv7ThFGDLpFglwmM0qvciHgzNj?=
- =?us-ascii?Q?2LHez8wYMxh3OBoqQ8JEFsS7pWroXF3SdpwHscuDpEShtwgv8aYgeVEm/g5n?=
- =?us-ascii?Q?b+eVPAO4AGkuKCNfVJiTkNxqjB7ONXhGpMfmLlBM+7HlF+XGO029eINaqqnE?=
- =?us-ascii?Q?QJ5R+31s8B586LCOj8yZVvDBwP22EWBSICTRDKZKajdCslMWqdjHBhzKY96h?=
- =?us-ascii?Q?TOBjUiRPuHoKg4/Wy9MySetnILvWtfmmydRSuXohDeAclj5APX2qvQQsPqRW?=
- =?us-ascii?Q?qpNRkYq13fRO06r/+GkQWkh6kY8fzCsTxhO7qIE8E6OKr3Ur6OJ+1BSQe+Xt?=
- =?us-ascii?Q?csVYqkBXKaoj/khyy3/Y34MSL96bcGyeIfduul8wohQFnrVllOmu9i85I2Qp?=
- =?us-ascii?Q?lzTdop8TkE9Q7mH7XO9UJhgO6z6wGXnM0JQOn2a9Tc4h7bO1sL6WbQdJeU51?=
- =?us-ascii?Q?YA=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 30402e3f-e761-4224-8c3c-08dbce594624
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Oct 2023 15:05:02.9181 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: NTOJ0tQ9RwBYRrXSdQTMVH/rCffPh0bXMNlCe48CbckvCLJX32IJVRUScwKy0xYZiHQpKRayDMAV2ZrFRplu1A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR11MB6939
-X-OriginatorOrg: intel.com
+X-Microsoft-Antispam-Message-Info: QVBbpgsw0FK4LH9clR2SCgGSYV4gCF9xIqVNiLZS8Fm1MfRPSh9SnKIYF/YTMc6oHv7nzVaUyU73yQlFQlroOaZ2R+GgBtIRs8ZUrps7TTlUQI+HAvclpdfGc5bERnd2SJ19IRuqf6IB+YnXP0XMv46rshXOVchbxD1KNevkvvYSrUW1p5nxE94kR/sjajcWq1RNifO8CDAdmf1d3A7Qf6l+1BBZzLtfQ273YBlTl+8M/JN5dTs9kHLELsgc7mNfhugorqN4qQhYvFwmlAEq8j5jU3zBQGvgtkQ9CjAG6D4sLmauVTA1U/Oh/XQrUAb3MwbH5Eb4VwNYp3+bIbdulD3XC5bwfgOaSiSoKM7mpPp8Pr3LRAuPr3qO5Bxw75DZj9FV/F+15OhuuxLmOC1WZ97ZhLdqRZyotDSQQg2NoJFB/dlx9tZwK+aEgrI0lCQnjkSO6x8n0EMy3qhVxXRcsIGVGzfFSgmZu2APte62IlbqdNKt9BiFKNWHE6L3UfGeR9IwYXMv/DooU8W1Yf7+U1kKZLfVpCmA6RUj6SgKGe73VkvuYqzlGOHUpsKOh1u1efgnFLkhVqKnZi//a4XYxjsLapQ3cC3B0OEBHo47ES8aTSUJrheBA0bTDzk+BbSz1q89tieYNXOTEmjBingBf0Yc0vyZdzXf3W4cKRrVyhV7zA2JhOzmt+S3Lboqg9YXxi0JVvxOkWn2epUrnw0G7MqxKmEdEl4OPiBJivir52yER4fio+e9bdEKVMJ6Qkf/
+X-Forefront-Antispam-Report: CIP:151.1.184.193; CTRY:IT; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:asas054.asem.intra; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230031)(39850400004)(346002)(396003)(136003)(376002)(230922051799003)(186009)(1800799009)(64100799003)(82310400011)(451199024)(36840700001)(46966006)(36860700001)(47076005)(40480700001)(356005)(81166007)(82740400003)(478600001)(2906002)(70586007)(316002)(70206006)(4326008)(41300700001)(5660300002)(8936002)(110136005)(8676002)(107886003)(83380400001)(336012)(1076003)(26005)(2616005)(36756003)(86362001)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: asem.it
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Oct 2023 15:05:56.9434 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 17a726e0-08e7-45a1-a5fc-08dbce596683
+X-MS-Exchange-CrossTenant-Id: d0a766c6-7992-4344-a4a2-a467a7bb1ed2
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=d0a766c6-7992-4344-a4a2-a467a7bb1ed2; Ip=[151.1.184.193];
+ Helo=[asas054.asem.intra]
+X-MS-Exchange-CrossTenant-AuthSource: AM3PEPF0000A790.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR01MB9027
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -146,111 +100,139 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: robdclark@chromium.org, thomas.hellstrom@linux.intel.com,
- sarah.walker@imgtec.com, ketil.johnsen@arm.com, Liviu.Dudau@arm.com,
- mcanal@igalia.com, dri-devel@lists.freedesktop.org, christian.koenig@amd.com,
- boris.brezillon@collabora.com, dakr@redhat.com, donald.robson@imgtec.com,
- lina@asahilina.net, intel-xe@lists.freedesktop.org,
- faith.ekstrand@collabora.com
+Cc: devicetree@vger.kernel.org, Flavio Suligoi <f.suligoi@asem.it>,
+ linux-leds@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 13, 2023 at 11:04:47PM -0400, Luben Tuikov wrote:
-> On 2023-10-11 19:58, Matthew Brost wrote:
-> > Add helper to queue TDR immediately for current and future jobs. This is
-> > used in Xe, a new Intel GPU driver, to trigger a TDR to cleanup a
-> > drm_scheduler that encounter errors.
-> 
-> I think the best (most optimal) thing to do is to remove the last sentence
-> mentioning Xe. It is irrelevant to this patch. This patch is functional
-> as is, and worth having it as is.
-> 
-> So it's best to have just:
-> 
-> 	Add a helper whereby a driver can invoke TDR immediately.
-> 
+Both files pwm-backlight.yaml and led-backlight.yaml contain properties
+in common with each other, regarding the brightness levels:
 
-+1.
+- brightness-levels
+- default-brightness-level
 
-> Also remove "for current and future jobs" from the title, as it is
-> implied by how TDR works. We want to say less.
-> 
-> 	drm/sched: Add a helper to queue TDR immediately
->
+These properties can then be moved to backlight/common.yaml.
 
-Yep, my bad I forgot to adjust the commit message in this rev. Will fix.
+Signed-off-by: Flavio Suligoi <f.suligoi@asem.it>
+---
+ .../bindings/leds/backlight/common.yaml       | 17 ++++++++++++++++
+ .../leds/backlight/led-backlight.yaml         | 19 ++++--------------
+ .../leds/backlight/pwm-backlight.yaml         | 20 ++++---------------
+ 3 files changed, 25 insertions(+), 31 deletions(-)
 
-Matt
+diff --git a/Documentation/devicetree/bindings/leds/backlight/common.yaml b/Documentation/devicetree/bindings/leds/backlight/common.yaml
+index 3b60afbab68b..e0983e44934c 100644
+--- a/Documentation/devicetree/bindings/leds/backlight/common.yaml
++++ b/Documentation/devicetree/bindings/leds/backlight/common.yaml
+@@ -33,4 +33,21 @@ properties:
+       due to restrictions in a specific system, such as mounting conditions.
+     $ref: /schemas/types.yaml#/definitions/uint32
+ 
++  brightness-levels:
++    description:
++      Array of distinct brightness levels. The levels must be in the range
++      accepted by the underlying LED device. Typically these are in the range
++      from 0 to 255, but any range starting at 0 will do, as long as they are
++      accepted by the LED.
++      The 0 value means a 0% of brightness (darkest/off), while the last value
++      in the array represents a full 100% brightness (brightest).
++      If this array is not provided, the driver default mapping is used.
++    $ref: /schemas/types.yaml#/definitions/uint32-array
++
++  default-brightness-level:
++    description:
++      The default brightness level (index into the array defined by the
++      "brightness-levels" property).
++    $ref: /schemas/types.yaml#/definitions/uint32
++
+ additionalProperties: true
+diff --git a/Documentation/devicetree/bindings/leds/backlight/led-backlight.yaml b/Documentation/devicetree/bindings/leds/backlight/led-backlight.yaml
+index d7b78198abc2..f5554da6bc6c 100644
+--- a/Documentation/devicetree/bindings/leds/backlight/led-backlight.yaml
++++ b/Documentation/devicetree/bindings/leds/backlight/led-backlight.yaml
+@@ -16,6 +16,9 @@ description:
+   can also be used to describe a backlight device controlled by the output of
+   a LED driver.
+ 
++allOf:
++  - $ref: common.yaml#
++
+ properties:
+   compatible:
+     const: led-backlight
+@@ -26,25 +29,11 @@ properties:
+     items:
+       maxItems: 1
+ 
+-  brightness-levels:
+-    description:
+-      Array of distinct brightness levels. The levels must be in the range
+-      accepted by the underlying LED devices. This is used to translate a
+-      backlight brightness level into a LED brightness level. If it is not
+-      provided, the identity mapping is used.
+-    $ref: /schemas/types.yaml#/definitions/uint32-array
+-
+-  default-brightness-level:
+-    description:
+-      The default brightness level (index into the array defined by the
+-      "brightness-levels" property).
+-    $ref: /schemas/types.yaml#/definitions/uint32
+-
+ required:
+   - compatible
+   - leds
+ 
+-additionalProperties: false
++unevaluatedProperties: false
+ 
+ examples:
+   - |
+diff --git a/Documentation/devicetree/bindings/leds/backlight/pwm-backlight.yaml b/Documentation/devicetree/bindings/leds/backlight/pwm-backlight.yaml
+index 535690288990..b71f6454a4ac 100644
+--- a/Documentation/devicetree/bindings/leds/backlight/pwm-backlight.yaml
++++ b/Documentation/devicetree/bindings/leds/backlight/pwm-backlight.yaml
+@@ -11,6 +11,9 @@ maintainers:
+   - Daniel Thompson <daniel.thompson@linaro.org>
+   - Jingoo Han <jingoohan1@gmail.com>
+ 
++allOf:
++  - $ref: common.yaml#
++
+ properties:
+   compatible:
+     const: pwm-backlight
+@@ -39,21 +42,6 @@ properties:
+       Delay in ms between disabling the backlight using GPIO and setting PWM
+       value to 0.
+ 
+-  brightness-levels:
+-    description:
+-      Array of distinct brightness levels. Typically these are in the range
+-      from 0 to 255, but any range starting at 0 will do. The actual brightness
+-      level (PWM duty cycle) will be interpolated from these values. 0 means a
+-      0% duty cycle (darkest/off), while the last value in the array represents
+-      a 100% duty cycle (brightest).
+-    $ref: /schemas/types.yaml#/definitions/uint32-array
+-
+-  default-brightness-level:
+-    description:
+-      The default brightness level (index into the array defined by the
+-      "brightness-levels" property).
+-    $ref: /schemas/types.yaml#/definitions/uint32
+-
+   num-interpolated-steps:
+     description:
+       Number of interpolated steps between each value of brightness-levels
+@@ -69,7 +57,7 @@ required:
+   - compatible
+   - pwms
+ 
+-additionalProperties: false
++unevaluatedProperties: false
+ 
+ examples:
+   - |
+-- 
+2.34.1
 
-> These are only GPU scheduler changes, worth having on their own. The fact
-> that a new (future as of this moment) driver (Xe) would use them is irrelevant
-> at the moment. Other drivers (new, current?) would most likely end up using the changes
-> of these patches, and these changes go in on their own merit.
-> 
-> Regards,
-> Luben
-> 
-> > 
-> > v2:
-> >  - Drop timeout args, rename function, use mod delayed work (Luben)
-> > v3:
-> >  - s/XE/Xe (Luben)
-> >  - present tense in commit message (Luben)
-> >  - Adjust comment for drm_sched_tdr_queue_imm (Luben)
-> > 
-> > Cc: Luben Tuikov <luben.tuikov@amd.com>
-> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> > ---
-> >  drivers/gpu/drm/scheduler/sched_main.c | 18 +++++++++++++++++-
-> >  include/drm/gpu_scheduler.h            |  1 +
-> >  2 files changed, 18 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-> > index c4d5c3d265a8..f2846745b067 100644
-> > --- a/drivers/gpu/drm/scheduler/sched_main.c
-> > +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> > @@ -431,7 +431,7 @@ static void drm_sched_start_timeout(struct drm_gpu_scheduler *sched)
-> >  
-> >  	if (sched->timeout != MAX_SCHEDULE_TIMEOUT &&
-> >  	    !list_empty(&sched->pending_list))
-> > -		queue_delayed_work(sched->timeout_wq, &sched->work_tdr, sched->timeout);
-> > +		mod_delayed_work(sched->timeout_wq, &sched->work_tdr, sched->timeout);
-> >  }
-> >  
-> >  static void drm_sched_start_timeout_unlocked(struct drm_gpu_scheduler *sched)
-> > @@ -441,6 +441,22 @@ static void drm_sched_start_timeout_unlocked(struct drm_gpu_scheduler *sched)
-> >  	spin_unlock(&sched->job_list_lock);
-> >  }
-> >  
-> > +/**
-> > + * drm_sched_tdr_queue_imm: - immediately start job timeout handler
-> > + *
-> > + * @sched: scheduler for which the timeout handling should be started.
-> > + *
-> > + * Start timeout handling immediately for the named scheduler.
-> > + */
-> > +void drm_sched_tdr_queue_imm(struct drm_gpu_scheduler *sched)
-> > +{
-> > +	spin_lock(&sched->job_list_lock);
-> > +	sched->timeout = 0;
-> > +	drm_sched_start_timeout(sched);
-> > +	spin_unlock(&sched->job_list_lock);
-> > +}
-> > +EXPORT_SYMBOL(drm_sched_tdr_queue_imm);
-> > +
-> >  /**
-> >   * drm_sched_fault - immediately start timeout handler
-> >   *
-> > diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-> > index 625ffe040de3..998b32b8d212 100644
-> > --- a/include/drm/gpu_scheduler.h
-> > +++ b/include/drm/gpu_scheduler.h
-> > @@ -568,6 +568,7 @@ void drm_sched_entity_modify_sched(struct drm_sched_entity *entity,
-> >  				    struct drm_gpu_scheduler **sched_list,
-> >                                     unsigned int num_sched_list);
-> >  
-> > +void drm_sched_tdr_queue_imm(struct drm_gpu_scheduler *sched);
-> >  void drm_sched_job_cleanup(struct drm_sched_job *job);
-> >  void drm_sched_wakeup_if_can_queue(struct drm_gpu_scheduler *sched);
-> >  bool drm_sched_wqueue_ready(struct drm_gpu_scheduler *sched);
-> 
