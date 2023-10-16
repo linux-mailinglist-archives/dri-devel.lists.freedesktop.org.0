@@ -2,47 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 234C37CB627
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Oct 2023 00:01:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C37E47CB642
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Oct 2023 00:11:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EABCD10E1E8;
-	Mon, 16 Oct 2023 22:00:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B836410E180;
+	Mon, 16 Oct 2023 22:11:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 109397 seconds by postgrey-1.36 at gabe;
- Mon, 16 Oct 2023 22:00:56 UTC
-Received: from mail-4323.proton.ch (mail-4323.proton.ch [185.70.43.23])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E04510E1D4;
- Mon, 16 Oct 2023 22:00:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail2; t=1697493654; x=1697752854;
- bh=lcrxJ62ovmcgufbYpw2zpeWY7Qp+hqWh8XzmUljEu2Y=;
- h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
- Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
- Message-ID:BIMI-Selector;
- b=a71ythfxsG8+Qe76wJBozaaajSCSFFsi3XMTnaOKQu13/kRHSGTpwBhbPlCsofuTj
- VQuadXMHYXJLTrbuUCMrLFgP35DvECdH+xzctH+VzwOn5rF5uCI51jfYNZxq/nNIqg
- 3NkKecbSO7kVKgcvFlz2/Ruzc2OWC0vN/GTKyG7UMycvs22reo2zIGRYpcQByc5G2w
- qUNXaLJ3zbIK1Dd/dKhcZ6uITQbspn8l7IVTxfvhSvSa2dlgk743m29rO4p+ujblIs
- FB7nNR4c+9xeONeltKdGado8qYuZWb3QhDDdmQ7YfkIVMVeGS3quAVxpxW3Ppqa5Ko
- o4OPUP02XTvJQ==
-Date: Mon, 16 Oct 2023 22:00:51 +0000
-To: =?utf-8?Q?Ville_Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>
-From: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH v6 6/6] drm/doc: Define KMS atomic state set
-Message-ID: <8NqDNz1Y8H5I_WhNhOj0ERarBH7nJhGQAsDHbmSnwzoOFtXPBPILwxLlF8-vDPKR06Uknp1BDSt7-6gTmHls62k79ETajXDfPRsmIP-cZN0=@emersion.fr>
-In-Reply-To: <ZS1ST6XAUHilBg3d@intel.com>
-References: <20230815185710.159779-1-andrealmeid@igalia.com>
- <20230815185710.159779-7-andrealmeid@igalia.com>
- <1b23576d-1649-ff5c-6273-b54729ea46d8@mailbox.org>
- <b48bd1fc-fcb0-481b-8413-9210d44d709b@igalia.com>
- <20231016151856.74af9305@eldfell>
- <aa424bf8-5652-4a44-9b93-bdc0a31d835a@igalia.com>
- <20231016175222.7a89e6ab@eldfell> <ZS1ST6XAUHilBg3d@intel.com>
-Feedback-ID: 1358184:user:proton
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 127DD10E180;
+ Mon, 16 Oct 2023 22:11:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1697494266; x=1729030266;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=uOSGYUIh2bCQLm9WrX2gbSaTh3qGkOYaDbBrkhXMx+E=;
+ b=EsT1VTe+9GsZWYRbiU6wcAamRcTJW+jmyZBTPfpfpDs9VTSSxYW7mq+k
+ /eoYpyZii0cq3+Ml/f+PSd7bzFoVfk8RkwWXIAqwqAyVZSo+ZJazkW0Ca
+ eo2Gzv/UMwyDZ0YeHloTEoHYgyshWSA0PG5gz4NoE8ZBtTEwVwqrKLIa5
+ H6/gn7PhOsxyiNxwNwHcGPCbkxVGM4MCleZl2AkMHDkLtLGUzRkIPXs76
+ Xuc7Xgl/v304+X30yxigJ4/9324h2pir9Jkd0RYCIIxpxkSg2UC3bosPf
+ NhomoR77+XH8X7L78DYz8jw5LCh8PvrG/dDO9ZbmrZo0Imofq2zXYsUWG w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10865"; a="370723373"
+X-IronPort-AV: E=Sophos;i="6.03,230,1694761200"; d="scan'208";a="370723373"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Oct 2023 15:11:02 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10865"; a="1087243992"
+X-IronPort-AV: E=Sophos;i="6.03,230,1694761200"; d="scan'208";a="1087243992"
+Received: from yckhoo-mobl2.gar.corp.intel.com (HELO intel.com)
+ ([10.215.157.119])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Oct 2023 15:10:54 -0700
+Date: Tue, 17 Oct 2023 00:10:49 +0200
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Arnd Bergmann <arnd@kernel.org>
+Subject: Re: [Intel-gfx] [PATCH] drm/i915/mtl: avoid stringop-overflow warning
+Message-ID: <ZS206TuYnhE3PozK@ashyti-mobl2.lan>
+References: <20231016201012.1022812-1-arnd@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231016201012.1022812-1-arnd@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,91 +58,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: pierre-eric.pelloux-prayer@amd.com,
- =?utf-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>,
- =?utf-8?Q?=27Marek_Ol=C5=A1=C3=A1k=27?= <maraeo@gmail.com>,
- =?utf-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
- Randy Dunlap <rdunlap@infradead.org>, xaver.hugl@gmail.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Pekka Paalanen <ppaalanen@gmail.com>, amd-gfx@lists.freedesktop.org,
- kernel-dev@igalia.com, alexander.deucher@amd.com,
- wayland-devel@lists.freedesktop.org, hwentlan@amd.com,
- christian.koenig@amd.com, joshua@froggi.es
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Badal Nilawar <badal.nilawar@intel.com>, Arnd Bergmann <arnd@arndb.de>,
+ Matt Roper <matthew.d.roper@intel.com>, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Ashutosh Dixit <ashutosh.dixit@intel.com>,
+ dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Monday, October 16th, 2023 at 17:10, Ville Syrj=C3=A4l=C3=A4 <ville.syrj=
-ala@linux.intel.com> wrote:
+Hi Arnd,
 
-> On Mon, Oct 16, 2023 at 05:52:22PM +0300, Pekka Paalanen wrote:
->=20
-> > On Mon, 16 Oct 2023 15:42:16 +0200
-> > Andr=C3=A9 Almeida andrealmeid@igalia.com wrote:
-> >=20
-> > > Hi Pekka,
-> > >=20
-> > > On 10/16/23 14:18, Pekka Paalanen wrote:
-> > >=20
-> > > > On Mon, 16 Oct 2023 12:52:32 +0200
-> > > > Andr=C3=A9 Almeida andrealmeid@igalia.com wrote:
-> > > >=20
-> > > > > Hi Michel,
-> > > > >=20
-> > > > > On 8/17/23 12:37, Michel D=C3=A4nzer wrote:
-> > > > >=20
-> > > > > > On 8/15/23 20:57, Andr=C3=A9 Almeida wrote:
-> > > > > >=20
-> > > > > > > From: Pekka Paalanen pekka.paalanen@collabora.com
-> > > > > > >=20
-> > > > > > > Specify how the atomic state is maintained between userspace =
-and
-> > > > > > > kernel, plus the special case for async flips.
-> > > > > > >=20
-> > > > > > > Signed-off-by: Pekka Paalanen pekka.paalanen@collabora.com
-> > > > > > > Signed-off-by: Andr=C3=A9 Almeida andrealmeid@igalia.com
-> > > > > > > [...]
-> > > > > >=20
-> > > > > > > +An atomic commit with the flag DRM_MODE_PAGE_FLIP_ASYNC is a=
-llowed to
-> > > > > > > +effectively change only the FB_ID property on any planes. No=
--operation changes
-> > > > > > > +are ignored as always. [...]
-> > > > > > > During the hackfest in Brno, it was mentioned that a commit w=
-hich re-sets the same FB_ID could actually have an effect with VRR: It coul=
-d trigger scanout of the next frame before vertical blank has reached its m=
-aximum duration. Some kind of mechanism is required for this in order to al=
-low user space to perform low frame rate compensation.
-> > > > >=20
-> > > > > Xaver tested this hypothesis in a flipping the same fb in a VRR m=
-onitor
-> > > > > and it worked as expected, so this shouldn't be a concern.
-> > > > > Right, so it must have some effect. It cannot be simply ignored l=
-ike in
-> > > > > the proposed doc wording. Do we special-case re-setting the same =
-FB_ID
-> > > > > as "not a no-op" or "not ignored" or some other way?
-> > > > > There's an effect in the refresh rate, the image won't change but=
- it
-> > > > > will report that a flip had happened asynchronously so the report=
-ed
-> > > > > framerate will be increased. Maybe an additional wording could be=
- like:
-> > >=20
-> > > Flipping to the same FB_ID will result in a immediate flip as if it w=
-as
-> > > changing to a different one, with no effect on the image but effectin=
-g
-> > > the reported frame rate.
-> >=20
-> > Re-setting FB_ID to its current value is a special case regardless of
-> > PAGE_FLIP_ASYNC, is it not?
->=20
-> No. The rule has so far been that all side effects are observed
-> even if you flip to the same fb. And that is one of my annoyances
-> with this proposal. The rules will now be different for async flips
-> vs. everything else.
+>  static void rc6_res_reg_init(struct intel_rc6 *rc6)
+>  {
+> -	memset(rc6->res_reg, INVALID_MMIO_REG.reg, sizeof(rc6->res_reg));
 
-Well with the patches the async page-flip case is exactly the same as
-the non-async page-flip case. In both cases, if a FB_ID is included in
-an atomic commit then the side effects are triggered even if the property
-value didn't change. The rules are the same for everything.
+This is a complex initialization, indeed... how about just
+
+   memset(rc6->res_reg, 0, sizeof(rc6->res_reg));
+
+> +	i915_reg_t res_reg[INTEL_RC6_RES_MAX] = {
+> +		[0 ... INTEL_RC6_RES_MAX - 1] = INVALID_MMIO_REG,
+> +	};
+
+This is basically a
+
+   i915_reg_t res_reg[INTEL_RC6_RES_MAX] = { };
+
+Don't know which one is clearer.
+
+Andi
