@@ -2,65 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77EFF7CA7F7
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Oct 2023 14:29:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA08B7CA7F9
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Oct 2023 14:29:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4FA3210E1CC;
-	Mon, 16 Oct 2023 12:29:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 381FA10E1D2;
+	Mon, 16 Oct 2023 12:29:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
- [IPv6:2a00:1450:4864:20::32d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D47D610E1D2
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Oct 2023 12:29:08 +0000 (UTC)
-Received: by mail-wm1-x32d.google.com with SMTP id
- 5b1f17b1804b1-40566f89f6eso51126035e9.3
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Oct 2023 05:29:08 -0700 (PDT)
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
+ [IPv6:2a00:1450:4864:20::336])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E1F0610E1D2
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Oct 2023 12:29:24 +0000 (UTC)
+Received: by mail-wm1-x336.google.com with SMTP id
+ 5b1f17b1804b1-406402933edso45668475e9.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Oct 2023 05:29:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1697459347; x=1698064147; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1697459363; x=1698064163; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=4finqyXhH9LnXtXrWYKjQ3daBsFlTGuZg+2p6VUb1Yw=;
- b=W7Pb2YN6FKvYZYdlyZLkBKdIZCGgDDqmlhQuPgoW/aeVnjmks3NIdPOhkgteKHlRUG
- HMiVzw+WqZ8EidWPNc40PSFYDt9sYFKHLAsUv3LZhQy1aD6v9u/psDeUAe+Z0NVsk8vY
- fw2EfL5eOTXiqIIf8oleX3dCu1B+o224tgSA0Ko1XMXyhxqt9VpP15W11gh4xuwGZ6aQ
- SBsxSjhiTBXe0wyTTqJ1HNLL0D3XeQtDN4LUq0Q/C6lD6RiEnxjQFz/hwBp4QgJQV8zX
- H9J/XQuCSevRVr6AA4xZjzNZVRkkKTw52+0yN7jj4IVwhmp86gPLUvahj7N5xNUKwQhx
- l0ww==
+ bh=eQEWUNoGWDbuHco5h9yH4R7oakA+JBSvYygM9PnVdNo=;
+ b=Vis+NGnBQB3we8kn/tQ0r0EDGpXt8itTrknPZ01L9Lt+YTff8VbroFQAOCRNddXQ13
+ p8EBntZ21VTxJSJXuDN4J+nAyaHmXFgqOZoR0bz+89Q5vGlNIOt8qIIPP9wnKM/VD+Dq
+ 6qW4f8WwqTKBRW6QRwERrxXkysf28RUc2NYhn/7/NBY76/hZU7SKyjwq8M+trysGfGlx
+ jKQxPtf3UGp+sZg8LqJU9ZJEGh+vXgNiIfptO/fkWKyeDJwXOF7uZ4zSNsKPZ59eBaN2
+ Ql9BvW9sNVzS3Lp+kOV6Rr1w7GZkBJn++vgX7aVTO6j6aDMCmQ1cycvXF/TqDvNh7DGA
+ WGBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1697459347; x=1698064147;
+ d=1e100.net; s=20230601; t=1697459363; x=1698064163;
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=4finqyXhH9LnXtXrWYKjQ3daBsFlTGuZg+2p6VUb1Yw=;
- b=u72Jxg3gXd2Ct9H+cG/2CZ72P8KuN5RXL/T+ae55lhj7bmm69Hzfc0As6jbGBnCndd
- gNr7nr1TmZ7h8MZ8a7DfMnV9Wd6UoeTPuQKmVxzVchV1rwl5O0XS5SLPVrrJELsblNqL
- jo6TsuBsfkZWXT8QxQTRXlTpnCvR5mg45tibzPGK/jFkhY2ZFyAo3WM0yZNOgRO+oZ3Q
- L0i6G0xVwUGfStdk7skJ7Qua97V0/Md+rTHig2WszLhSsIKpyl5HqRmZ0Ycxed320Y+h
- 80iwGUtD8vzOelonEyjNxaD11tgvqNSePFLFo80P92SgGc6fIWxtZSoPo8xYxtQhxEEV
- JTIA==
-X-Gm-Message-State: AOJu0YxioyJwnbWv4+/m/eoFMf5kPKSegOW3BUQycw2VByGf1mkZh+4k
- 3okfTKOMhD2xllDxlc+aS1D/OQ==
-X-Google-Smtp-Source: AGHT+IEru9oDUIKXVJPPywLYzN5dyEeh3V8L0Qt4dJ5ayQJCSmQ1etgSR3rBCtb45JrSOdP65S+X7w==
-X-Received: by 2002:a05:600c:3657:b0:401:b0f2:88c1 with SMTP id
- y23-20020a05600c365700b00401b0f288c1mr30246310wmq.29.1697459347168; 
- Mon, 16 Oct 2023 05:29:07 -0700 (PDT)
+ bh=eQEWUNoGWDbuHco5h9yH4R7oakA+JBSvYygM9PnVdNo=;
+ b=dA95cckGlzXEoRavbCaKiDBobXXd8R13T36XaJcaud0Ztc5Xoc/eRwhHSxRiDFVc35
+ UxJ5+Prtohgf4G/6uGyarbjK5cT4JHVycWIoPKKU/lDRN8vV7t7zvLFGEfl0ZGPZWrTf
+ bKKs3QsOXSo/P5lGbmj6BPQKA1/nguHPI4wWwvnlmcxOMZhYAaeRhLWKmrvm9iW4GUFL
+ QnU/MojISZjpQuHwknUuAgKHQNX8kUUNNAxH5w//pyejjcFDe6xeYo8Su6s5uFfiZia7
+ E8I7TvFF2g4xgzzm3Cir/Rwum1MK7ue8jzTgWzHhY9zjqA/pLaEeNiR9pqW998YQEICb
+ GM/Q==
+X-Gm-Message-State: AOJu0YwWAISrCWAp0Qo0KlzO1VO+0a09l1RwF50aP1bjYxPquAhlVenY
+ jiAR9HfuRu4U8jpfwKqziy1Frw==
+X-Google-Smtp-Source: AGHT+IGDx+Hmr3LGfJON0vK+E/AaAGbyKgKesDUtgTXnklca6E7ePtrJn7/gIj3xsUqm6mWNwR16DQ==
+X-Received: by 2002:a7b:ce19:0:b0:405:3e9a:f1e3 with SMTP id
+ m25-20020a7bce19000000b004053e9af1e3mr30549389wmc.11.1697459363219; 
+ Mon, 16 Oct 2023 05:29:23 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.219.154])
  by smtp.gmail.com with ESMTPSA id
- l11-20020a05600c1d0b00b00401e32b25adsm7111236wms.4.2023.10.16.05.29.05
+ l11-20020a05600c1d0b00b00401e32b25adsm7111236wms.4.2023.10.16.05.29.21
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Oct 2023 05:29:06 -0700 (PDT)
-Message-ID: <6fcc0838-9a94-4ff4-b2d7-b86815a8af12@linaro.org>
-Date: Mon, 16 Oct 2023 14:29:05 +0200
+ Mon, 16 Oct 2023 05:29:22 -0700 (PDT)
+Message-ID: <f4cc0195-045a-485f-a93d-66e0261590c4@linaro.org>
+Date: Mon, 16 Oct 2023 14:29:21 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/5] dt-bindings: panel: Add Powkiddy RGB30 panel
- compatible
+Subject: Re: [PATCH 4/5] dt-bindings: arm64: rockchip: add Powkiddy RGB30
 Content-Language: en-US
 To: Chris Morgan <macroalpha82@gmail.com>, linux-rockchip@lists.infradead.org
 References: <20231013183918.225666-1-macroalpha82@gmail.com>
- <20231013183918.225666-3-macroalpha82@gmail.com>
+ <20231013183918.225666-5-macroalpha82@gmail.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -106,7 +105,7 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231013183918.225666-3-macroalpha82@gmail.com>
+In-Reply-To: <20231013183918.225666-5-macroalpha82@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -132,12 +131,9 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On 13/10/2023 20:39, Chris Morgan wrote:
 > From: Chris Morgan <macromorgan@hotmail.com>
 > 
-> The Powkiddy RGB30 panel is a 4 inch 720x720 MIPI-DSI LCD panel. It
-> appears to be based on the ST7703 LCD controller (this is assumed from
-> the init sequence similarity between this and other displays). Powkiddy
-> would not share the part number or name for the display from the bill
-> of materials and there were no obvious external markings, so name the
-> panel for the device (Powkiddy RGB30).
+> The Powkiddy RGB30 is a portable handheld console from Powkiddy which
+> uses the Rockchip RK3566 SoC.
+> 
 
 Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
