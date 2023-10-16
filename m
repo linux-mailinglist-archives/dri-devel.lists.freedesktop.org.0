@@ -1,50 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA3317CB4DA
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Oct 2023 22:43:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 881487CB4F3
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Oct 2023 22:58:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 43D4110E17F;
-	Mon, 16 Oct 2023 20:43:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6AD2C10E1CE;
+	Mon, 16 Oct 2023 20:58:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A94A10E17F
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Oct 2023 20:43:21 +0000 (UTC)
-Received: from [192.168.2.39] (109-252-153-31.dynamic.spd-mgts.ru
- [109.252.153.31])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested)
- (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 9EA84660708F;
- Mon, 16 Oct 2023 21:43:19 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1697489000;
- bh=h1z55IQAW1yGCN+cMgq/Yvh4GJ6Mfo0y1TJyG0h3V24=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=M2enQ38Ak8hos/2nAVCjzcmPjGFlNI2oqbXLNUTXMm1cpAVpJRMOQyDCB7c+A8XwG
- t6kgIUFsxSJaGqvD0GZGpghvcyFPA0k3uZwEMvnHR0ooI2BHwG/IL4TRryt3dfmsOI
- gJUTWa9SIFvi/6iDJZrpggzHi525kjTq8M7phRsxDEhXmPyigSu0Zy9nWMsyhhWt9T
- UvpFTUxTN1mIXKB/A2+V4V/oqfPfClvw1vreWfG9nLvtSNPPMWrAk6crueEFAidoBl
- hhn0QuXOCg+LKkuOmUhswnz8z7QeIOGInlPuKA+foxaLXBzvzZkqDr/KM+CJKYx09a
- u28qUvgQtuRVA==
-Message-ID: <3ace88b1-4d90-70ed-2b49-1412743f0b6c@collabora.com>
-Date: Mon, 16 Oct 2023 23:43:16 +0300
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B20AA10E1CE
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Oct 2023 20:58:29 +0000 (UTC)
+Received: from [194.95.143.137] (helo=phil.dip.tu-dresden.de)
+ by gloria.sntech.de with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <heiko@sntech.de>)
+ id 1qsUfI-0000rE-9d; Mon, 16 Oct 2023 22:58:16 +0200
+From: Heiko Stuebner <heiko@sntech.de>
+To: Chris Morgan <macroalpha82@gmail.com>, linux-rockchip@lists.infradead.org
+Subject: Re: (subset) [PATCH 0/5] Add Support for RK3566 Powkiddy RGB30
+Date: Mon, 16 Oct 2023 22:58:14 +0200
+Message-Id: <169748877589.1000955.1759474739059635121.b4-ty@sntech.de>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20231013183918.225666-1-macroalpha82@gmail.com>
+References: <20231013183918.225666-1-macroalpha82@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH 1/3] drm/virtio: use uint64_t more in
- virtio_gpu_context_init_ioctl
-Content-Language: en-US
-To: Gurchetan Singh <gurchetansingh@chromium.org>,
- dri-devel@lists.freedesktop.org
-References: <20231016184200.639-1-gurchetansingh@chromium.org>
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <20231016184200.639-1-gurchetansingh@chromium.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,38 +40,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kraxel@redhat.com
+Cc: megous@megous.com, devicetree@vger.kernel.org, conor+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, neil.armstrong@linaro.org, sam@ravnborg.org,
+ agx@sigxcpu.org, sebastian.reichel@collabora.com,
+ dri-devel@lists.freedesktop.org, jagan@edgeble.ai, robh+dt@kernel.org,
+ Chris Morgan <macromorgan@hotmail.com>, kernel@puri.sm
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/16/23 21:41, Gurchetan Singh wrote:
-> drm_virtgpu_context_set_param defines both param and
-> value to be u64s.
+On Fri, 13 Oct 2023 13:39:13 -0500, Chris Morgan wrote:
+> From: Chris Morgan <macromorgan@hotmail.com>
 > 
-> Signed-off-by: Gurchetan Singh <gurchetansingh@chromium.org>
-> ---
->  drivers/gpu/drm/virtio/virtgpu_ioctl.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> Add support for the Powkiddy RGB30 handheld gaming console.
 > 
-> diff --git a/drivers/gpu/drm/virtio/virtgpu_ioctl.c b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-> index b24b11f25197..8d13b17c215b 100644
-> --- a/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-> +++ b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-> @@ -565,8 +565,8 @@ static int virtio_gpu_context_init_ioctl(struct drm_device *dev,
->  					 void *data, struct drm_file *file)
->  {
->  	int ret = 0;
-> -	uint32_t num_params, i, param, value;
-> -	uint64_t valid_ring_mask;
-> +	uint32_t num_params, i;
-> +	uint64_t valid_ring_mask, param, value;
->  	size_t len;
->  	struct drm_virtgpu_context_set_param *ctx_set_params = NULL;
->  	struct virtio_gpu_device *vgdev = dev->dev_private;
+> Chris Morgan (5):
+>   dt-bindings: vendor-prefixes: document Powkiddy
+>   dt-bindings: panel: Add Powkiddy RGB30 panel compatible
+>   drm/panel: st7703: Add Powkiddy RGB30 Panel Support
+>   dt-bindings: arm64: rockchip: add Powkiddy RGB30
+>   arm64: dts: rockchip: add support for Powkiddy RGB30
+> 
+> [...]
 
-Reviewed-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Applied, thanks!
 
--- 
+[1/5] dt-bindings: vendor-prefixes: document Powkiddy
+      commit: 00e395c8edf7fb6fa0830125d91c2b4bc381eefd
+[2/5] dt-bindings: panel: Add Powkiddy RGB30 panel compatible
+      commit: daee0320a13724e5a584726b693eee87bbd96172
+[3/5] drm/panel: st7703: Add Powkiddy RGB30 Panel Support
+      commit: 636a989eb4d022e1756009592445aedaaf7424d8
+
 Best regards,
-Dmitry
-
+-- 
+Heiko Stuebner <heiko@sntech.de>
