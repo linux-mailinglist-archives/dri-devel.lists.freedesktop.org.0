@@ -2,62 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A72A7CA9F1
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Oct 2023 15:41:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A65D37CA9FE
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Oct 2023 15:42:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3238810E1DC;
-	Mon, 16 Oct 2023 13:41:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 67D1F10E1E3;
+	Mon, 16 Oct 2023 13:42:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 572B710E1DA
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Oct 2023 13:41:26 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 58A7F60F76
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Oct 2023 13:41:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 08F52C433CB
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Oct 2023 13:41:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1697463685;
- bh=VtAtVcpMGef1MYD3cxYZW4UIwL0pToCoYI/VrCAcVGI=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=qXUu2M6oO+5bSnoMLJO65KNry3mrmMhAZIS6h2/cFQZjju1XJqH2Hr2kTSWcCjYgb
- puUV7dih+oGE/Z1SkP9a1nrlvdbDEIhnatSNdYz4hqciCPMln2fQcVXqWf5Ugyoyo6
- c+7YRFhYsyS13Ja11gT/sD1eoIVZPwrLAhR/Zxc4cLTPET+K9Q2bShfRt7NW6jXQ5P
- qC5ys67C3POTR/tp5Jn8N79wNX5FthbHj3Y5BLQprB6s3bnaAFWYUFrA5Lwve9oBQi
- RDXLAbZGrsgBNOtQiEFXM6+9EFmJ3ZHxAy+cczMKZ/y/fYLSdHJN1yVShUUyQAutIR
- 9Gc7hHUIl4UHg==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id E4E62C53BCD; Mon, 16 Oct 2023 13:41:24 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 218015] amdgpu powerplay: Spontaneous changes to
- power_dpm_force_performance_level
-Date: Mon, 16 Oct 2023 13:41:24 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: high
-X-Bugzilla-Who: alexdeucher@gmail.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: ANSWERED
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-218015-2300-28Ie90tLGf@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-218015-2300@https.bugzilla.kernel.org/>
-References: <bug-218015-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0456610E1E6;
+ Mon, 16 Oct 2023 13:42:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=tjTgz1VkpWE559Ez4CDuqjmTeXO6YdCAzREG3dFcRbc=; b=sPjwPdYG/qYajZWGp/l9e5Vsew
+ oyu6/2EQaQyVkjQ2CjcnZxghcqawjx4Rg/sgyfZVhre/fFbG5r4u6AblXA//srP5DJO3/dYPKRFsl
+ kCefoElgf051VduuQ3I5wUWDS4Mc/4yvfFCO5Eh/TiX8yLI5ctnRJ6NuqX5hX57hUSyfSxcKbJCwa
+ Eenvq4v8RiVqLZycUHL3lla97mmPPBmC7Am9S9ALZsBMmHI4zlHVh77rlGmjTkSQnEJN0346qdn/d
+ jmn5Oj1Fv5Jsy0jXv/hCE/jsHl7Q+IOq7VIPGJrilTV4ZLLgQ3uSmrqFAofB/gFQAtWEWfKHVUcFi
+ 8kpYgIRA==;
+Received: from [192.168.12.174] by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1qsNrN-0014in-7U; Mon, 16 Oct 2023 15:42:17 +0200
+Message-ID: <aa424bf8-5652-4a44-9b93-bdc0a31d835a@igalia.com>
+Date: Mon, 16 Oct 2023 15:42:16 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 6/6] drm/doc: Define KMS atomic state set
+Content-Language: en-US
+To: Pekka Paalanen <ppaalanen@gmail.com>
+References: <20230815185710.159779-1-andrealmeid@igalia.com>
+ <20230815185710.159779-7-andrealmeid@igalia.com>
+ <1b23576d-1649-ff5c-6273-b54729ea46d8@mailbox.org>
+ <b48bd1fc-fcb0-481b-8413-9210d44d709b@igalia.com>
+ <20231016151856.74af9305@eldfell>
+From: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
+In-Reply-To: <20231016151856.74af9305@eldfell>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,18 +56,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: pierre-eric.pelloux-prayer@amd.com, kernel-dev@igalia.com,
+ =?UTF-8?B?J01hcmVrIE9sxaHDoWsn?= <maraeo@gmail.com>,
+ =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
+ dri-devel@lists.freedesktop.org, Randy Dunlap <rdunlap@infradead.org>,
+ xaver.hugl@gmail.com, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, alexander.deucher@amd.com, joshua@froggi.es,
+ wayland-devel@lists.freedesktop.org, hwentlan@amd.com,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D218015
+Hi Pekka,
 
---- Comment #4 from Alex Deucher (alexdeucher@gmail.com) ---
-UMDs (e.g., mesa) can change the power profile as well.  E.g., if they want=
- to
-capture an SQ trace, etc.  It's likely that is the cause.
+On 10/16/23 14:18, Pekka Paalanen wrote:
+> On Mon, 16 Oct 2023 12:52:32 +0200
+> André Almeida <andrealmeid@igalia.com> wrote:
+>
+>> Hi Michel,
+>>
+>> On 8/17/23 12:37, Michel Dänzer wrote:
+>>> On 8/15/23 20:57, André Almeida wrote:
+>>>> From: Pekka Paalanen <pekka.paalanen@collabora.com>
+>>>>
+>>>> Specify how the atomic state is maintained between userspace and
+>>>> kernel, plus the special case for async flips.
+>>>>
+>>>> Signed-off-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+>>>> Signed-off-by: André Almeida <andrealmeid@igalia.com>
+>>> [...]
+>>>   
+>>>> +An atomic commit with the flag DRM_MODE_PAGE_FLIP_ASYNC is allowed to
+>>>> +effectively change only the FB_ID property on any planes. No-operation changes
+>>>> +are ignored as always. [...]
+>>> During the hackfest in Brno, it was mentioned that a commit which re-sets the same FB_ID could actually have an effect with VRR: It could trigger scanout of the next frame before vertical blank has reached its maximum duration. Some kind of mechanism is required for this in order to allow user space to perform low frame rate compensation.
+>>>   
+>> Xaver tested this hypothesis in a flipping the same fb in a VRR monitor
+>> and it worked as expected, so this shouldn't be a concern.
+> Right, so it must have some effect. It cannot be simply ignored like in
+> the proposed doc wording. Do we special-case re-setting the same FB_ID
+> as "not a no-op" or "not ignored" or some other way?
+There's an effect in the refresh rate, the image won't change but it 
+will report that a flip had happened asynchronously so the reported 
+framerate will be increased. Maybe an additional wording could be like:
 
---=20
-You may reply to this email to add a comment.
+Flipping to the same FB_ID will result in a immediate flip as if it was 
+changing to a different one, with no effect on the image but effecting 
+the reported frame rate.
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+
+>
+> Thanks,
+> pq
