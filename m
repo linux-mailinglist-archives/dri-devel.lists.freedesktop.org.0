@@ -2,62 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 982867CA1B4
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Oct 2023 10:34:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F25D7CA1E4
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Oct 2023 10:42:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 630B310E13E;
-	Mon, 16 Oct 2023 08:34:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 06C4410E142;
+	Mon, 16 Oct 2023 08:42:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9537E10E13E
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Oct 2023 08:34:45 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 0E5AE60D2E
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Oct 2023 08:34:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id B071BC433CA
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Oct 2023 08:34:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1697445284;
- bh=E+UI/X8/VQj5zYxK6vmdTWz4go5lscacs9jkoPUWZWk=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=RbWVwql7hqJSsga27SBpTIvqmv1lbusIc3t00geOiV5XQcs2AUkz3doI8tf5f5a0S
- 15e/fJCZfoDU9z4zjeK5cCL+zNdtd7R1UdFyWk7ko/P6Aqnz8I5zhly45b40qq7IfL
- pqKehdxgJocPmjyTQOc6zDQfJ8oPkpGDmzhLqJ2cVfTDVFRG67AAwB+UuWk9K0nxlv
- ca9wy2tGjHrInETCK8BuJe55zPCY7Ju6i9ygagPwSqo2D36R0Lh1Bd+NqmD5h+yg8f
- 8fEDu3fj2ZBRqsDupZfEI9Mfxe2NkRG7cgbbk9ij7DX3EYESRnQ52oZQT7SRIL6BF9
- lfFRbYgAlmc+w==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 9A9FBC53BD3; Mon, 16 Oct 2023 08:34:44 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 218015] amdgpu powerplay: Spontaneous changes to
- power_dpm_force_performance_level
-Date: Mon, 16 Oct 2023 08:34:44 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: high
-X-Bugzilla-Who: aros@gmx.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: ANSWERED
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-218015-2300-Ac4yvyDdxn@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-218015-2300@https.bugzilla.kernel.org/>
-References: <bug-218015-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com
+ [IPv6:2a00:1450:4864:20::52b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2252A10E142
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Oct 2023 08:42:29 +0000 (UTC)
+Received: by mail-ed1-x52b.google.com with SMTP id
+ 4fb4d7f45d1cf-53db3811d8fso8723630a12.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Oct 2023 01:42:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=pqrs.dk; s=google; t=1697445748; x=1698050548; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=1wBxzlRRAgDKIdsw/oD7JceYwzO5gCiOpsX8wotSdyc=;
+ b=W0Ke9AnDnQFeo1blZmq4wcpBThlGak+Sj3mqGIKzXM07WK+VlBivvO8gsoGDdWSxTf
+ S5WB77G1GLSR9aewhXf9j25MBWNCkhOAi7Ft/myKN8/6r5wBJEv0qEu8fizgY6h/tKA9
+ bw2OmwKfSwjsi+qxJ1J0Vsmk2SOr6x8le/YiTn8HrYOaWXZOiUu/imy09ZzQ33xTv56H
+ ZJHeL4KRdFxSvXQLiDNOVMtD7KZIMi0PeJd6eKw9aG9pDDEJHdOpiXp5zmA/jtp0mTGN
+ 4BVOOQ/sdDIN+pvN7e/9H3tqtKNFWZCBNxhr6qcePSk0CTEMT5cZNjyZHEiP53yNyrzL
+ f7ag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1697445748; x=1698050548;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=1wBxzlRRAgDKIdsw/oD7JceYwzO5gCiOpsX8wotSdyc=;
+ b=Jb6/4gUz5NRUR0bd8QdQIpO7jFAGf8UiFoeSO0FzITk1uaBshnq/E+rGZL2YzJVQbN
+ Im09L7iLPz0uNLvLR9oWPeULIKb8JGDsl3/YDAPhOWLt+VPVSiM0WV8ayPjirPvxRM5X
+ DTADUSLRfmVzNhRwSEtpEMrzWUiHBkR53TtZrWP2mmTTxJVB6D9WPNnXovO/FeERzzHm
+ xwWgdc0OesNZKnAtJBpcsvlfTfDktU/o1S0LBrXMpx+zxNz+6oNw/jJrOh1MH5TPxS/j
+ ExU6g0lXjxtOzOqEjpwmp/SzJaXbNk8QrpekpIibiuf+bmKslwVh4dRxCxbNRl8VpIkl
+ bVSg==
+X-Gm-Message-State: AOJu0YynaNRcW4ARaS/xoMbPeqflWnFbcfmPUlOS45gcQaVp8HTlYKqM
+ fkULqkcKsATES06SjuQPVANtjg==
+X-Google-Smtp-Source: AGHT+IHsPIu++Ad85zFmzO6Ctq1olWeev1HosLIP1wm3eBsy+gDdrSPn7qAmKXsDNbTWci4vo+RvWg==
+X-Received: by 2002:a05:6402:268c:b0:53e:e623:6a47 with SMTP id
+ w12-20020a056402268c00b0053ee6236a47mr1056178edd.4.1697445748082; 
+ Mon, 16 Oct 2023 01:42:28 -0700 (PDT)
+Received: from localhost ([193.89.194.60]) by smtp.gmail.com with ESMTPSA id
+ cz12-20020a0564021cac00b0053e43492ef1sm4448841edb.65.2023.10.16.01.42.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 16 Oct 2023 01:42:27 -0700 (PDT)
+Date: Mon, 16 Oct 2023 10:42:27 +0200
+From: Alvin =?utf-8?Q?=C5=A0ipraga?= <alvin@pqrs.dk>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH] drm/bridge: adv7511: fix crash on irq during probe
+Message-ID: <gczlvtbnch2a3yjke5ltzes66ozb4hz77hstjh5irgzql57y7y@aez4d26675lc>
+References: <20231014-adv7511-cec-irq-crash-fix-v1-1-3389486c8373@bang-olufsen.dk>
+ <20231016081444.GD23177@pendragon.ideasonboard.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20231016081444.GD23177@pendragon.ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,29 +74,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Archit Taneja <architt@codeaurora.org>, Robert Foss <rfoss@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Jonas Karlman <jonas@kwiboo.se>,
+ Mads Bligaard Nielsen <bli@bang-olufsen.dk>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Hans Verkuil <hans.verkuil@cisco.com>, Maxime Ripard <mripard@kernel.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Alvin =?utf-8?Q?=C5=A0ipraga?= <alsi@bang-olufsen.dk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D218015
+Hi Laurent,
 
-Artem S. Tashkinov (aros@gmx.com) changed:
+Thanks for the quick review!
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
-         Resolution|---                         |ANSWERED
+On Mon, Oct 16, 2023 at 11:14:44AM +0300, Laurent Pinchart wrote:
+> Hello Alvin,
+> 
+> On Sat, Oct 14, 2023 at 08:46:12PM +0200, Alvin Šipraga wrote:
+> > From: Mads Bligaard Nielsen <bli@bang-olufsen.dk>
+> > 
+> > Moved IRQ registration down to end of adv7511_probe().
+> > 
+> > If an IRQ already is pending during adv7511_probe
+> > (before adv7511_cec_init) then cec_received_msg_ts
+> > could crash using uninitialized data:
+> > 
+> >     Unable to handle kernel read from unreadable memory at virtual address 00000000000003d5
+> >     Internal error: Oops: 96000004 [#1] PREEMPT_RT SMP
+> >     Call trace:
+> >      cec_received_msg_ts+0x48/0x990 [cec]
+> >      adv7511_cec_irq_process+0x1cc/0x308 [adv7511]
+> >      adv7511_irq_process+0xd8/0x120 [adv7511]
+> >      adv7511_irq_handler+0x1c/0x30 [adv7511]
+> >      irq_thread_fn+0x30/0xa0
+> >      irq_thread+0x14c/0x238
+> >      kthread+0x190/0x1a8
+> > 
+> > Fixes: 3b1b975003e4 ("drm: adv7511/33: add HDMI CEC support")
+> 
+> Isn't the issue older than that ?
 
---- Comment #3 from Artem S. Tashkinov (aros@gmx.com) ---
-Please report here instead:
+I don't think so. The stacktrace shows the crash is in CEC handling code, which
+was added in the blamed commit. A static analysis of adv7511_irq_process()
+suggests that the only other place where data could be uninitialized is if the
+hpd_work is scheduled:
 
-https://gitlab.freedesktop.org/drm/amd/-/issues
+	if (process_hpd && irq0 & ADV7511_INT0_HPD && adv7511->bridge.encoder)
+		schedule_work(&adv7511->hpd_work);
 
-6.1.x is really not the best kernel to use with this card.
+... but this has a check on bridge.encoder, which seems to have been introduced
+in a similar fix here:
 
-You should try something fresher, i.e. 6.5.7.
+| commit a1d0503d26ea2ef04f3f013d379e8f4d29c27127
+| Author: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+| Date:   Thu May 14 00:31:07 2015 +0300
+| 
+|     drm: adv7511: Fix crash in IRQ handler when no encoder is associated
+|     
+|     The ADV7511 is probed before its slave encoder init function associates
+|     it with an encoder. This creates a time window during which hot plug
+|     detection interrupts can occur with an encoder, resulting in a crash in
+|     the IRQ handler.
+|     
+|     Fix this by ignoring hot plug detection IRQs when no encoder is
+|     associated yet.
+|     
+|     Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+|     Acked-by: Lars-Peter Clausen <lars@metafoo.de>
+| 
+| diff --git a/drivers/gpu/drm/i2c/adv7511.c b/drivers/gpu/drm/i2c/adv7511.c
+| index b728523e194f..2aaa3c88999e 100644
+| --- a/drivers/gpu/drm/i2c/adv7511.c
+| +++ b/drivers/gpu/drm/i2c/adv7511.c
+| @@ -438,7 +438,7 @@ static int adv7511_irq_process(struct adv7511 *adv7511)
+|         regmap_write(adv7511->regmap, ADV7511_REG_INT(0), irq0);
+|         regmap_write(adv7511->regmap, ADV7511_REG_INT(1), irq1);
+|  
+| -       if (irq0 & ADV7511_INT0_HDP)
+| +       if (irq0 & ADV7511_INT0_HDP && adv7511->encoder)
+|                 drm_helper_hpd_irq_event(adv7511->encoder->dev);
+|  
+|         if (irq0 & ADV7511_INT0_EDID_READY || irq1 & ADV7511_INT1_DDC_ERROR) {
 
---=20
-You may reply to this email to add a comment.
+So assuming that is the case, I am not sure which Fixes: tag I ought to
+otherwise use. What do you think?
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+> 
+> > Signed-off-by: Mads Bligaard Nielsen <bli@bang-olufsen.dk>
+> > Signed-off-by: Alvin Šipraga <alsi@bang-olufsen.dk>
+> 
+> With the Fixes: tag updated,
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+
+Kind regards,
+Alvin
