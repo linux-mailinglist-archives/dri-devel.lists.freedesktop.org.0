@@ -1,123 +1,83 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 551157CAF0C
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Oct 2023 18:21:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CACD7CAF0E
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Oct 2023 18:22:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7FE9310E207;
-	Mon, 16 Oct 2023 16:21:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4941810E222;
+	Mon, 16 Oct 2023 16:22:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
- [IPv6:2a00:1450:4864:20::135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8DAE110E207
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Oct 2023 16:21:45 +0000 (UTC)
-Received: by mail-lf1-x135.google.com with SMTP id
- 2adb3069b0e04-5041d6d8b10so6041447e87.2
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Oct 2023 09:21:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1697473304; x=1698078104; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
- :to:content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=QbEwLv24nD3uUkOKHu8cF5O7V7n6JfgHXxT91pg/exM=;
- b=bZQ0GBGIOyBNdveW6a6iOshuj4MEt3Vk/GIZHlo4Y6ebnQZyuq0XR9EXVjS7TpsvLl
- zgfpyI4p3dbGse0EVwidQuaQ/FRfazPFKpLAVpL/r+qT82bL3TzYXBaT+KiH4lSwDZdt
- YhxxXz/beRRlWvLlGVbszhQaiN7OvC0R785wnJeBQskmLriy3mJM0TEJVojpRSOzwHA7
- g3QbwfbfPEtOHzG4/C9DjAnjxlviikLuZSK+PeSbxIixa2XB+YR5vm43ezPUGf/v9Li/
- d9gbsI+qnRQrOyKus4nSeb8fS/1Q+ZmFsmT5PcwPaHLQj8b7EiV1SoJGDSS3Vf2D8u7Z
- g/RQ==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3967A10E228
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Oct 2023 16:22:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1697473349;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ODCW8D4uHl6BDf18y11+YXXwRT0Qz6rbnXouHSICdFw=;
+ b=HcTJlQikzfKpna3USltJengLd1i2a8bzHTt57UduDm+ktz78TaOD579Q5sPN8yHCE1+EQe
+ ioEVedbAOfWurT68sFHbyYkOH4rhUojN7qW2TnicGGkoQdxjMqLKlldT0ovZPQWWJF9KZ9
+ NY8kXW5WRbn5/VSLOjGvB92jsClya00=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-631-PS2voyq5O-C9n3DYmgw0KA-1; Mon, 16 Oct 2023 12:22:22 -0400
+X-MC-Unique: PS2voyq5O-C9n3DYmgw0KA-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ 5b1f17b1804b1-4055ce1e8c4so25417365e9.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Oct 2023 09:22:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1697473304; x=1698078104;
- h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
- :to:content-language:subject:user-agent:mime-version:date:message-id
+ d=1e100.net; s=20230601; t=1697473341; x=1698078141;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=QbEwLv24nD3uUkOKHu8cF5O7V7n6JfgHXxT91pg/exM=;
- b=dcy7ZIzcrNdotWIDH57GZwCRSGU1xGbGpPEDlk53xrzYUF8SgY56IgiaPivuI0j5Zh
- zbwWdHC6ihpqnrc3gBfAMBMLYcxzvbUT/87php4SlRRhn94/2ioljOaAGkXg6YXUuNWr
- 3m2+l3XibpeSeNoqWU8QCP44YJt3IcYoRB14pnYHxVpF6M+0pn4lc7AKDNqHfKgziNPd
- Xoxb5B8MOQy00gAEKkWyR9ZvE1aAlKUJc/zPkEJbsPhjska2dS/ORgBnEQcgTV9Trty5
- 7vKjs/6+toHhsn5eZ0CP+NJ9K9s9eqfJiiJIMJPceTGpdYcjUAb7fFt9yZHaHAmG/XZ8
- Nx1Q==
-X-Gm-Message-State: AOJu0YwNDlzGlAOoTV5XBEx3E8YEwPBd3SIbWOAzqcFiBWmSFp2wT7dT
- ftPz0lhDqBxJGB+RKSGFfz89vQ==
-X-Google-Smtp-Source: AGHT+IEqZQva0zNXaGCmQpdid2AhqCuoy55evuXJRL6J2L2Dxp9l2OSR6DK5ZN3TGaeMtlxtNu9UyQ==
-X-Received: by 2002:ac2:5238:0:b0:507:a703:886e with SMTP id
- i24-20020ac25238000000b00507a703886emr4048512lfl.53.1697473303647; 
- Mon, 16 Oct 2023 09:21:43 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.219.154])
+ bh=ODCW8D4uHl6BDf18y11+YXXwRT0Qz6rbnXouHSICdFw=;
+ b=OWYuht0LdpFe5b9cWQp/Ifou7KYOJ2kZSjWUBGFgHps9CCC23s4T+CnAO5aKAJjl/q
+ dEBQvPSF6j8vwKcOBk3hn3pMxt/wFRCmO2BQpCp/RG8wb7shteQjP1xOPWoGPvNpNY+I
+ z98sf/kUdVGsWtIZVUXL2B7Ze/IOkFFwYB4CAiJE/10oLlaQvUFzPcZhsKVujq8YtbYI
+ rrMRyp/xT470Ca2ciCppksVIFRG3avbOntgxSa/iuUtk8uhuJ/twmE5MHCnKxiD8zcuQ
+ m/D6r2sFiuIJiQwDsW8BVR9qPpDKpk7zS0n701qa2zOXyQCFjrL6asM/KfDmP71uAEBr
+ qhWg==
+X-Gm-Message-State: AOJu0YzKLRm3Y2CSBngO16VKWYyLEfJxcXHvA26IuwWtX1DU4Bssm3en
+ KSzZXQI8ZsHQlU2klgWjlLcSRYt217fSCXjXek2EKdBQN5plz/uvTetjfSS/Z9Ce0RgmjvV/Aq9
+ 6bp/8ATQ/xevImHZx2MCxUGjSZDAz
+X-Received: by 2002:a05:600c:444f:b0:405:409e:1fcb with SMTP id
+ v15-20020a05600c444f00b00405409e1fcbmr6971853wmn.5.1697473341609; 
+ Mon, 16 Oct 2023 09:22:21 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGc4bWqGEo51uZUUOBwb4Af0O9Q86Wol/swRq4ltMdfA43TKh6rMCHMSdE2io+U5/wVjtg4nw==
+X-Received: by 2002:a05:600c:444f:b0:405:409e:1fcb with SMTP id
+ v15-20020a05600c444f00b00405409e1fcbmr6971829wmn.5.1697473341131; 
+ Mon, 16 Oct 2023 09:22:21 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
+ ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
  by smtp.gmail.com with ESMTPSA id
- g7-20020a056402114700b0053da777f7d1sm107223edw.10.2023.10.16.09.21.41
+ b4-20020a05600c4e0400b004030e8ff964sm7530387wmq.34.2023.10.16.09.22.20
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Oct 2023 09:21:43 -0700 (PDT)
-Message-ID: <a05a7fb0-2de8-4d59-af8b-41b5a19de927@linaro.org>
-Date: Mon, 16 Oct 2023 18:21:40 +0200
+ Mon, 16 Oct 2023 09:22:20 -0700 (PDT)
+Message-ID: <c1fe1116-7817-4c4c-aeb6-f5e37ed396bf@redhat.com>
+Date: Mon, 16 Oct 2023 18:22:18 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 15/16] dt-bindings: display: mediatek: split: add
- compatible for MT8195
+Subject: Re: [PATCH v4 1/4] drm/format-helper: Export line conversion helper
+ for drm_panic
+To: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org, 
+ airlied@redhat.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
+ daniel@ffwll.ch, javierm@redhat.com, bluescreen_avenger@verizon.net
+References: <20231003142508.190246-1-jfalempe@redhat.com>
+ <20231003142508.190246-2-jfalempe@redhat.com>
+ <8e616d64-a5a7-4f4d-a196-a55c59caf0e8@suse.de>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <8e616d64-a5a7-4f4d-a196-a55c59caf0e8@suse.de>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-To: Moudy Ho <moudy.ho@mediatek.com>, Chun-Kuang Hu
- <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>
-References: <20231012084037.19376-1-moudy.ho@mediatek.com>
- <20231012084037.19376-16-moudy.ho@mediatek.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231012084037.19376-16-moudy.ho@mediatek.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,23 +90,371 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Cc: gpiccoli@igalia.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/10/2023 10:40, Moudy Ho wrote:
-> Add compatible string and GCE property for MT8195 SPLIT, of
-> which is operated by MDP3.
+On 16/10/2023 12:47, Thomas Zimmermann wrote:
+> Hi
 > 
-> Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
-> ---
+> Am 03.10.23 um 16:22 schrieb Jocelyn Falempe:
+>> drm_panic will need the low-level drm_fb_xxxx_line functions.
+> 
+> It seems like premature optimization to not use drm_fb_blit(); 
+> especially since drm_panic is not performance critical.
+> 
+>> Also add drm_fb_r1_to_xrgb8888 to render the fonts.
+> 
+> I think we should provide a helper function that returns a pointer to 
+> the correct function for each supported case. Essentially, it would move 
+> that if-else branching from drm_fb_blit() into its own function.  It's 
+> not typical DRM style, but cleaner than retyping the if-elses in drm_panic.
+> 
+> Something like:
+> 
+> typedef int (*drm_format_conv_func)(/* args here */);
+> 
+> drm_format_conv_func  drm_format_conv(u32 dst_fourcc, u32 src_fourcc)
+> {
+>      // do if-else from drm_fb_blit here
+> 
+>      return <correct-format-conv-helper>
+> }
+> EXPORT_SYMBOL(drm_format_conv)
+> 
+> That would be callable from anywhere. You can integrate any helpers for 
+> _R1 here as well.
 
-After feedback from Angelo:
+Regarding the color conversion approach, I think we don't need to 
+convert the whole buffer, like drm_fb_blit() or the xxxx_line() do. Just 
+converting the fg_color and bg_color is enough, and then only the pixel 
+size matters, when converting from R1.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+So instead of having plenty of conversion functions, I will only need
+R1_to_8bit(), R1_to_16bit(), R1_to_24bit() and R1_to_32bit()
 
-Best regards,
-Krzysztof
+I can encapsulate this in a drm_blit_from_r1(), that will also take the 
+fg_color and bg_color as parameter.
+
+If you agree with that, I will do it for the v5.
+
+-- 
+
+Jocelyn
+
+
+> 
+> Best regards
+> Thomas
+> 
+>>
+>> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+>> ---
+>>   drivers/gpu/drm/drm_format_helper.c | 88 ++++++++++++++++++++++++++---
+>>   include/drm/drm_format_helper.h     |  9 +++
+>>   2 files changed, 89 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/drm_format_helper.c 
+>> b/drivers/gpu/drm/drm_format_helper.c
+>> index f93a4efcee90..c238e5d84f1f 100644
+>> --- a/drivers/gpu/drm/drm_format_helper.c
+>> +++ b/drivers/gpu/drm/drm_format_helper.c
+>> @@ -270,7 +270,30 @@ void drm_fb_swab(struct iosys_map *dst, const 
+>> unsigned int *dst_pitch,
+>>       drm_fb_xfrm(dst, dst_pitch, &cpp, src, fb, clip, cached, 
+>> swab_line);
+>>   }
+>> -EXPORT_SYMBOL(drm_fb_swab);
+>> +
+>> +/**
+>> + * drm_fb_r1_to_32bit_line - Convert one line from monochrome to any 
+>> 32bit pixel format
+>> + * @dbuf: Pointer to the destination line (in any 32bit format)
+>> + * @sbuf: Pointer to the source line (in monochrome)
+>> + * @pixels: Number of pixels to convert.
+>> + * @fg_color: Foreground color, applied when R1 is 1
+>> + * @bg_color: Background color, applied when R1 is 0
+>> + *
+>> + * Convert monochrome to any format with 32bit pixel.
+>> + * There is a limitation, as sbuf is a pointer, it can only points to 
+>> a multiple
+>> + * of 8 pixels in the source buffer.
+>> + */
+>> +void drm_fb_r1_to_32bit_line(void *dbuf, const void *sbuf, unsigned 
+>> int pixels,
+>> +                u32 fg_color, u32 bg_color)
+>> +{
+>> +    unsigned int x;
+>> +    const u8 *sbuf8 = sbuf;
+>> +    u32 *dubf32 = dbuf;
+>> +
+>> +    for (x = 0; x < pixels; x++)
+>> +        dubf32[x] = (sbuf8[x / 8] & (0x80 >> (x % 8))) ? fg_color : 
+>> bg_color;
+>> +}
+>> +EXPORT_SYMBOL(drm_fb_r1_to_32bit_line);
+>>   static void drm_fb_xrgb8888_to_rgb332_line(void *dbuf, const void 
+>> *sbuf, unsigned int pixels)
+>>   {
+>> @@ -320,7 +343,13 @@ void drm_fb_xrgb8888_to_rgb332(struct iosys_map 
+>> *dst, const unsigned int *dst_pi
+>>   }
+>>   EXPORT_SYMBOL(drm_fb_xrgb8888_to_rgb332);
+>> -static void drm_fb_xrgb8888_to_rgb565_line(void *dbuf, const void 
+>> *sbuf, unsigned int pixels)
+>> +/**
+>> + * drm_fb_xrgb8888_to_rgb565_line - Convert one line from XRGB8888 to 
+>> RGB565
+>> + * @dbuf: Pointer to the destination line (in RGB565)
+>> + * @sbuf: Pointer to the source line (in XRGB8888)
+>> + * @pixels: Number of pixels to convert.
+>> + */
+>> +void drm_fb_xrgb8888_to_rgb565_line(void *dbuf, const void *sbuf, 
+>> unsigned int pixels)
+>>   {
+>>       __le16 *dbuf16 = dbuf;
+>>       const __le32 *sbuf32 = sbuf;
+>> @@ -336,6 +365,7 @@ static void drm_fb_xrgb8888_to_rgb565_line(void 
+>> *dbuf, const void *sbuf, unsigne
+>>           dbuf16[x] = cpu_to_le16(val16);
+>>       }
+>>   }
+>> +EXPORT_SYMBOL(drm_fb_xrgb8888_to_rgb565_line);
+>>   /* TODO: implement this helper as conversion to RGB565|BIG_ENDIAN */
+>>   static void drm_fb_xrgb8888_to_rgb565_swab_line(void *dbuf, const 
+>> void *sbuf,
+>> @@ -396,7 +426,13 @@ void drm_fb_xrgb8888_to_rgb565(struct iosys_map 
+>> *dst, const unsigned int *dst_pi
+>>   }
+>>   EXPORT_SYMBOL(drm_fb_xrgb8888_to_rgb565);
+>> -static void drm_fb_xrgb8888_to_xrgb1555_line(void *dbuf, const void 
+>> *sbuf, unsigned int pixels)
+>> +/**
+>> + * drm_fb_xrgb8888_to_rgb565_line - Convert one line from XRGB8888 to 
+>> XRGB1555
+>> + * @dbuf: Pointer to the destination line (in XRGB1555)
+>> + * @sbuf: Pointer to the source line (in XRGB8888)
+>> + * @pixels: Number of pixels to convert.
+>> + */
+>> +void drm_fb_xrgb8888_to_xrgb1555_line(void *dbuf, const void *sbuf, 
+>> unsigned int pixels)
+>>   {
+>>       __le16 *dbuf16 = dbuf;
+>>       const __le32 *sbuf32 = sbuf;
+>> @@ -412,6 +448,7 @@ static void drm_fb_xrgb8888_to_xrgb1555_line(void 
+>> *dbuf, const void *sbuf, unsig
+>>           dbuf16[x] = cpu_to_le16(val16);
+>>       }
+>>   }
+>> +EXPORT_SYMBOL(drm_fb_xrgb8888_to_xrgb1555_line);
+>>   /**
+>>    * drm_fb_xrgb8888_to_xrgb1555 - Convert XRGB8888 to XRGB1555 clip 
+>> buffer
+>> @@ -447,7 +484,13 @@ void drm_fb_xrgb8888_to_xrgb1555(struct iosys_map 
+>> *dst, const unsigned int *dst_
+>>   }
+>>   EXPORT_SYMBOL(drm_fb_xrgb8888_to_xrgb1555);
+>> -static void drm_fb_xrgb8888_to_argb1555_line(void *dbuf, const void 
+>> *sbuf, unsigned int pixels)
+>> +/**
+>> + * drm_fb_xrgb8888_to_rgb565_line - Convert one line from XRGB8888 to 
+>> ARGB1555
+>> + * @dbuf: Pointer to the destination line (in ARGB1555)
+>> + * @sbuf: Pointer to the source line (in XRGB8888)
+>> + * @pixels: Number of pixels to convert.
+>> + */
+>> +void drm_fb_xrgb8888_to_argb1555_line(void *dbuf, const void *sbuf, 
+>> unsigned int pixels)
+>>   {
+>>       __le16 *dbuf16 = dbuf;
+>>       const __le32 *sbuf32 = sbuf;
+>> @@ -464,6 +507,7 @@ static void drm_fb_xrgb8888_to_argb1555_line(void 
+>> *dbuf, const void *sbuf, unsig
+>>           dbuf16[x] = cpu_to_le16(val16);
+>>       }
+>>   }
+>> +EXPORT_SYMBOL(drm_fb_xrgb8888_to_argb1555_line);
+>>   /**
+>>    * drm_fb_xrgb8888_to_argb1555 - Convert XRGB8888 to ARGB1555 clip 
+>> buffer
+>> @@ -499,7 +543,13 @@ void drm_fb_xrgb8888_to_argb1555(struct iosys_map 
+>> *dst, const unsigned int *dst_
+>>   }
+>>   EXPORT_SYMBOL(drm_fb_xrgb8888_to_argb1555);
+>> -static void drm_fb_xrgb8888_to_rgba5551_line(void *dbuf, const void 
+>> *sbuf, unsigned int pixels)
+>> +/**
+>> + * drm_fb_xrgb8888_to_rgba5551_line - Convert one line from XRGB8888 
+>> to ARGB5551
+>> + * @dbuf: Pointer to the destination line (in ARGB5551)
+>> + * @sbuf: Pointer to the source line (in XRGB8888)
+>> + * @pixels: Number of pixels to convert.
+>> + */
+>> +void drm_fb_xrgb8888_to_rgba5551_line(void *dbuf, const void *sbuf, 
+>> unsigned int pixels)
+>>   {
+>>       __le16 *dbuf16 = dbuf;
+>>       const __le32 *sbuf32 = sbuf;
+>> @@ -516,6 +566,7 @@ static void drm_fb_xrgb8888_to_rgba5551_line(void 
+>> *dbuf, const void *sbuf, unsig
+>>           dbuf16[x] = cpu_to_le16(val16);
+>>       }
+>>   }
+>> +EXPORT_SYMBOL(drm_fb_xrgb8888_to_rgba5551_line);
+>>   /**
+>>    * drm_fb_xrgb8888_to_rgba5551 - Convert XRGB8888 to RGBA5551 clip 
+>> buffer
+>> @@ -551,7 +602,13 @@ void drm_fb_xrgb8888_to_rgba5551(struct iosys_map 
+>> *dst, const unsigned int *dst_
+>>   }
+>>   EXPORT_SYMBOL(drm_fb_xrgb8888_to_rgba5551);
+>> -static void drm_fb_xrgb8888_to_rgb888_line(void *dbuf, const void 
+>> *sbuf, unsigned int pixels)
+>> +/**
+>> + * drm_fb_xrgb8888_to_rgb888_line - Convert one line from XRGB8888 to 
+>> RGB888
+>> + * @dbuf: Pointer to the destination line (in RGB888)
+>> + * @sbuf: Pointer to the source line (in XRGB8888)
+>> + * @pixels: Number of pixels to convert.
+>> + */
+>> +void drm_fb_xrgb8888_to_rgb888_line(void *dbuf, const void *sbuf, 
+>> unsigned int pixels)
+>>   {
+>>       u8 *dbuf8 = dbuf;
+>>       const __le32 *sbuf32 = sbuf;
+>> @@ -566,6 +623,7 @@ static void drm_fb_xrgb8888_to_rgb888_line(void 
+>> *dbuf, const void *sbuf, unsigne
+>>           *dbuf8++ = (pix & 0x00FF0000) >> 16;
+>>       }
+>>   }
+>> +EXPORT_SYMBOL(drm_fb_xrgb8888_to_rgb888_line);
+>>   /**
+>>    * drm_fb_xrgb8888_to_rgb888 - Convert XRGB8888 to RGB888 clip buffer
+>> @@ -709,7 +767,13 @@ static void drm_fb_xrgb8888_to_xbgr8888(struct 
+>> iosys_map *dst, const unsigned in
+>>               drm_fb_xrgb8888_to_xbgr8888_line);
+>>   }
+>> -static void drm_fb_xrgb8888_to_xrgb2101010_line(void *dbuf, const 
+>> void *sbuf, unsigned int pixels)
+>> +/**
+>> + * drm_fb_xrgb8888_to_rgb888_line - Convert one line from XRGB8888 to 
+>> XRGB2101010
+>> + * @dbuf: Pointer to the destination line (in XRGB2101010)
+>> + * @sbuf: Pointer to the source line (in XRGB8888)
+>> + * @pixels: Number of pixels to convert.
+>> + */
+>> +void drm_fb_xrgb8888_to_xrgb2101010_line(void *dbuf, const void 
+>> *sbuf, unsigned int pixels)
+>>   {
+>>       __le32 *dbuf32 = dbuf;
+>>       const __le32 *sbuf32 = sbuf;
+>> @@ -726,6 +790,7 @@ static void 
+>> drm_fb_xrgb8888_to_xrgb2101010_line(void *dbuf, const void *sbuf, un
+>>           *dbuf32++ = cpu_to_le32(pix);
+>>       }
+>>   }
+>> +EXPORT_SYMBOL(drm_fb_xrgb8888_to_xrgb2101010_line);
+>>   /**
+>>    * drm_fb_xrgb8888_to_xrgb2101010 - Convert XRGB8888 to XRGB2101010 
+>> clip buffer
+>> @@ -761,7 +826,13 @@ void drm_fb_xrgb8888_to_xrgb2101010(struct 
+>> iosys_map *dst, const unsigned int *d
+>>   }
+>>   EXPORT_SYMBOL(drm_fb_xrgb8888_to_xrgb2101010);
+>> -static void drm_fb_xrgb8888_to_argb2101010_line(void *dbuf, const 
+>> void *sbuf, unsigned int pixels)
+>> +/**
+>> + * drm_fb_xrgb8888_to_rgb888_line - Convert one line from XRGB8888 to 
+>> ARGB2101010
+>> + * @dbuf: Pointer to the destination line (in ARGB2101010)
+>> + * @sbuf: Pointer to the source line (in XRGB8888)
+>> + * @pixels: Number of pixels to convert.
+>> + */
+>> +void drm_fb_xrgb8888_to_argb2101010_line(void *dbuf, const void 
+>> *sbuf, unsigned int pixels)
+>>   {
+>>       __le32 *dbuf32 = dbuf;
+>>       const __le32 *sbuf32 = sbuf;
+>> @@ -779,6 +850,7 @@ static void 
+>> drm_fb_xrgb8888_to_argb2101010_line(void *dbuf, const void *sbuf, un
+>>           *dbuf32++ = cpu_to_le32(pix);
+>>       }
+>>   }
+>> +EXPORT_SYMBOL(drm_fb_xrgb8888_to_argb2101010_line);
+>>   /**
+>>    * drm_fb_xrgb8888_to_argb2101010 - Convert XRGB8888 to ARGB2101010 
+>> clip buffer
+>> diff --git a/include/drm/drm_format_helper.h 
+>> b/include/drm/drm_format_helper.h
+>> index 291deb09475b..31ab699128d5 100644
+>> --- a/include/drm/drm_format_helper.h
+>> +++ b/include/drm/drm_format_helper.h
+>> @@ -24,30 +24,39 @@ void drm_fb_memcpy(struct iosys_map *dst, const 
+>> unsigned int *dst_pitch,
+>>   void drm_fb_swab(struct iosys_map *dst, const unsigned int *dst_pitch,
+>>            const struct iosys_map *src, const struct drm_framebuffer *fb,
+>>            const struct drm_rect *clip, bool cached);
+>> +void drm_fb_r1_to_32bit_line(void *dbuf, const void *sbuf, unsigned 
+>> int pixels,
+>> +                 u32 fg_color, u32 bg_color);
+>>   void drm_fb_xrgb8888_to_rgb332(struct iosys_map *dst, const unsigned 
+>> int *dst_pitch,
+>>                      const struct iosys_map *src, const struct 
+>> drm_framebuffer *fb,
+>>                      const struct drm_rect *clip);
+>> +void drm_fb_xrgb8888_to_rgb565_line(void *dbuf, const void *sbuf, 
+>> unsigned int pixels);
+>>   void drm_fb_xrgb8888_to_rgb565(struct iosys_map *dst, const unsigned 
+>> int *dst_pitch,
+>>                      const struct iosys_map *src, const struct 
+>> drm_framebuffer *fb,
+>>                      const struct drm_rect *clip, bool swab);
+>> +void drm_fb_xrgb8888_to_xrgb1555_line(void *dbuf, const void *sbuf, 
+>> unsigned int pixels);
+>>   void drm_fb_xrgb8888_to_xrgb1555(struct iosys_map *dst, const 
+>> unsigned int *dst_pitch,
+>>                    const struct iosys_map *src, const struct 
+>> drm_framebuffer *fb,
+>>                    const struct drm_rect *clip);
+>> +void drm_fb_xrgb8888_to_argb1555_line(void *dbuf, const void *sbuf, 
+>> unsigned int pixels);
+>>   void drm_fb_xrgb8888_to_argb1555(struct iosys_map *dst, const 
+>> unsigned int *dst_pitch,
+>>                    const struct iosys_map *src, const struct 
+>> drm_framebuffer *fb,
+>>                    const struct drm_rect *clip);
+>> +void drm_fb_xrgb8888_to_rgba5551_line(void *dbuf, const void *sbuf, 
+>> unsigned int pixels);
+>>   void drm_fb_xrgb8888_to_rgba5551(struct iosys_map *dst, const 
+>> unsigned int *dst_pitch,
+>>                    const struct iosys_map *src, const struct 
+>> drm_framebuffer *fb,
+>>                    const struct drm_rect *clip);
+>> +void drm_fb_xrgb8888_to_rgb888_line(void *dbuf, const void *sbuf, 
+>> unsigned int pixels);
+>>   void drm_fb_xrgb8888_to_rgb888(struct iosys_map *dst, const unsigned 
+>> int *dst_pitch,
+>>                      const struct iosys_map *src, const struct 
+>> drm_framebuffer *fb,
+>>                      const struct drm_rect *clip);
+>>   void drm_fb_xrgb8888_to_argb8888(struct iosys_map *dst, const 
+>> unsigned int *dst_pitch,
+>>                    const struct iosys_map *src, const struct 
+>> drm_framebuffer *fb,
+>>                    const struct drm_rect *clip);
+>> +void drm_fb_xrgb8888_to_xrgb2101010_line(void *dbuf, const void 
+>> *sbuf, unsigned int pixels);
+>>   void drm_fb_xrgb8888_to_xrgb2101010(struct iosys_map *dst, const 
+>> unsigned int *dst_pitch,
+>>                       const struct iosys_map *src, const struct 
+>> drm_framebuffer *fb,
+>>                       const struct drm_rect *clip);
+>> +void drm_fb_xrgb8888_to_argb2101010_line(void *dbuf, const void 
+>> *sbuf, unsigned int pixels);
+>>   void drm_fb_xrgb8888_to_argb2101010(struct iosys_map *dst, const 
+>> unsigned int *dst_pitch,
+>>                       const struct iosys_map *src, const struct 
+>> drm_framebuffer *fb,
+>>                       const struct drm_rect *clip);
+> 
 
