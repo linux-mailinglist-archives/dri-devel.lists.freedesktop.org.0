@@ -1,69 +1,143 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01B457CAC4C
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Oct 2023 16:52:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 54F5D7CACB3
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Oct 2023 16:59:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC3B910E1F9;
-	Mon, 16 Oct 2023 14:52:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 51C1610E1F6;
+	Mon, 16 Oct 2023 14:58:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
- [IPv6:2a00:1450:4864:20::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9BC6610E1F9;
- Mon, 16 Oct 2023 14:52:40 +0000 (UTC)
-Received: by mail-lf1-x133.google.com with SMTP id
- 2adb3069b0e04-504427aae4fso6766731e87.1; 
- Mon, 16 Oct 2023 07:52:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1697467959; x=1698072759; darn=lists.freedesktop.org;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=mfaMwAxMjRfwOpinKHvcClwhMqvNGEGJeqo+8rgwK64=;
- b=A50qSmrRHXZf70oGUB70W3YZzhksY01eoCokiQXiRZW13yr9LrikDylPdPLiX/L6Ko
- vYKj0X/DPmYEDrkcviHVCLVKZ6we+gRiGiSSsQkoTHBEZcQGP4KHRk1b8xOwt7IeTeaQ
- hmMDrQheMREpvsUcm/2BNVkQkm1k3Kqs1dYlLFsY6MPQAOF1Dh6M5ho852mheQfQYVIU
- MGYqoI8tIjXW1g6/qO721HseONsskRX4cLLy8077IjVBj9l0WcXVFd5KR3Me5wZRUWRB
- Uo9T7dH5IHiqhsboPxKPL8MpGPrDIxGyiDdnp00Mt3wh0egFObs8lHmQz1Jyz+C7u6/5
- /thg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1697467959; x=1698072759;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=mfaMwAxMjRfwOpinKHvcClwhMqvNGEGJeqo+8rgwK64=;
- b=MpkBxrswygvMyx13kR/iZ2SLkwryGOqbqc0bR9Y4y8uOAuB/s3s6MHY4m6LEsFMvyw
- gGxJJfitD4y1TSEWBvJi6oTliwlpK0vYUDLYjHSMzQ+6iChvsWPJy4uGjwpmSzNGK0BR
- T8Rg42b6Hj5k14sQOXzaMZJIQKFG1hHrrhCNQtMjkTTKP6xXbAGkDxlYUpB+YgQANLKV
- FkFawmkMtYCo5u6wnyp7Wm1c3ps1Q8L4FjOukrIk2OQJaZvZi/9yK5xdoOTLcY/6ThOo
- hTfMECSe2S7HsL1Y0IE6pQPIBLFFiW2Oz52zvji1Srjykj+OZbTPtpDIkWZ7V5l6BJG7
- 8aFQ==
-X-Gm-Message-State: AOJu0YzqhQlNylywTFnFrZg6I5cCwc0xtESeIBbMcl243T79oQnuwUwr
- 19OAQs8GNpSPiDwUywvMU+s=
-X-Google-Smtp-Source: AGHT+IHPXRreqpJIfRixdtagW7epVNulxi7pgxOISUFw6x+ARuUNOEchm+6itcoT3ESNmcoYtuyp5Q==
-X-Received: by 2002:a05:6512:3ca0:b0:507:a8f9:d67f with SMTP id
- h32-20020a0565123ca000b00507a8f9d67fmr3388315lfv.24.1697467958208; 
- Mon, 16 Oct 2023 07:52:38 -0700 (PDT)
-Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- i14-20020ac25d2e000000b0050422588213sm4571218lfb.209.2023.10.16.07.52.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Oct 2023 07:52:37 -0700 (PDT)
-Date: Mon, 16 Oct 2023 17:52:22 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: =?UTF-8?B?QW5kcsOp?= Almeida <andrealmeid@igalia.com>
-Subject: Re: [PATCH v6 6/6] drm/doc: Define KMS atomic state set
-Message-ID: <20231016175222.7a89e6ab@eldfell>
-In-Reply-To: <aa424bf8-5652-4a44-9b93-bdc0a31d835a@igalia.com>
-References: <20230815185710.159779-1-andrealmeid@igalia.com>
- <20230815185710.159779-7-andrealmeid@igalia.com>
- <1b23576d-1649-ff5c-6273-b54729ea46d8@mailbox.org>
- <b48bd1fc-fcb0-481b-8413-9210d44d709b@igalia.com>
- <20231016151856.74af9305@eldfell>
- <aa424bf8-5652-4a44-9b93-bdc0a31d835a@igalia.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3AA1A10E1F0;
+ Mon, 16 Oct 2023 14:58:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1697468335; x=1729004335;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=/tGEAdbU2TWxS7Lfc2UO/7gDyMkTkgEFPzSLwh6rc5s=;
+ b=bstWd/1anNaor5GF1HjXTLoFkswqzdmx7JthpgDzWu221/5agRh5GiNG
+ 8iiByWWkuIV5/ypzEKoEWpu7rL7naEDM6VW7/xb3NzmtjBAShJ6GGjziY
+ QqgeMsFDDLa7crcCsmBVm/s1dvDzgqKoYEGfalWqbkH+k6uKEdQXMkK12
+ SpAMV2Cxr/Sbw+NunIwVgGpdbtR6ovhJTf1UL4Jmu5kNmDwqNuoOMbJm4
+ X4TBBnqPeVObVZ3JoHgcLViZ2mmvYWsyYXBO6Zn+5FEMMpePPu358UVBh
+ YkF2GRsGQmj0XTh7EHZrQwGeHFojXFHmS+R+CbjiE4n/danqZRKnRg4pd Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="389406798"
+X-IronPort-AV: E=Sophos;i="6.03,229,1694761200"; d="scan'208";a="389406798"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Oct 2023 07:58:53 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.03,229,1694761200"; 
+   d="scan'208";a="3654067"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+ by fmviesa001.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 16 Oct 2023 07:58:59 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Mon, 16 Oct 2023 07:58:51 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Mon, 16 Oct 2023 07:58:51 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32 via Frontend Transport; Mon, 16 Oct 2023 07:58:51 -0700
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.100)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.32; Mon, 16 Oct 2023 07:58:50 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=eCR3j25FJrk2HDFaANfJFzlxdx87KOIT/fr9aauwYDCDcbtTUYGf4Md2JID3OkGvDwF57nQcWUiVN+hPwF567PdU4kSqYAIm0Tx70OpAwH73Wc8b5Gcn+PevQeQdf3LHep5/DlJNkxH77KG471lnKLxGeYzdliGHv7yTvLotOX4g3sYX23aFkvnik8BD3ZLbjbVY1u1LysFH6UDqXKIQrNCeBP3u0dNWvzvFSiFk4ut26Gzt8nleFb7nk4sXANItcieIaKGcC+B1EikV/bA5vmjwNqCqwWZjHEeoBc4emn45d/w/bnn7c51be2TQhSRc3rctnlUB+zJeafZlM60Fww==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=H/DWzAzeIc+7I9x3DdGteCYow5afVlsj2KMWNz5xAKs=;
+ b=RhLRVTXeK2j4w/7BlnkbqArUrZGVM/YMQWrdj8tjoNrimmjZmEV3E9t/9a9EgOr/O8Nq5ljKWSsYospYZYqklv+UJ4oINxY0BfewMzKCdJPz06BzOtI9erRZVuQZL6Z0Gm9ucvytlPx0Sbda2WbxoYkafNbQ0YVkT2SoR83f+kl22KVEtQCMQb/ojjk5vIA2W65qTBGHeQmriXpEBZuypiB2uzIsxAKab8rPmtYtlcKaEQUMCHN8jFFf8SsgLeEq2L87sB2JobWrtO3edbHQMTezCiN1zcdFoWYz+bbuv7eYvEF70a0uRj4ovdTWSaSuDXVauL2gv4Z8HBBxua4Ofg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
+ by SA1PR11MB8375.namprd11.prod.outlook.com (2603:10b6:806:38b::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6886.36; Mon, 16 Oct
+ 2023 14:58:43 +0000
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::3f66:aa7d:51d5:777]) by PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::3f66:aa7d:51d5:777%6]) with mapi id 15.20.6886.034; Mon, 16 Oct 2023
+ 14:58:43 +0000
+Date: Mon, 16 Oct 2023 14:57:17 +0000
+From: Matthew Brost <matthew.brost@intel.com>
+To: Luben Tuikov <luben.tuikov@amd.com>
+Subject: Re: [PATCH v5 6/7] drm/sched: Add drm_sched_start_timeout_unlocked
+ helper
+Message-ID: <ZS1PTWsvr8DFNnLj@DUT025-TGLU.fm.intel.com>
+References: <20231011235826.585624-1-matthew.brost@intel.com>
+ <20231011235826.585624-7-matthew.brost@intel.com>
+ <89fe70c0-5fc1-4023-ba41-32ad130b72e4@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <89fe70c0-5fc1-4023-ba41-32ad130b72e4@amd.com>
+X-ClientProxiedBy: SJ0PR13CA0084.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c4::29) To PH7PR11MB6522.namprd11.prod.outlook.com
+ (2603:10b6:510:212::12)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/Bz+Yx.C6psyZpVX2eLu8wAL";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|SA1PR11MB8375:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9e5c0910-f945-48e7-d243-08dbce5863d6
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 3dlPh1RHO55FeMx6pMVCwtS/u/5NyPAz8ZW62Aex+f2GedrBZBm6xWk/W1Ollo3srhYL8fIDMy0KB6BPtJ49PeDAnQ8+diEgSLg9V3u/YQ2Zh+rhtsAvByDmBiPczOFlvyUWd2ebwUIUA4RI6UQT+04WG0yyWnAQZxaj+/oGGwUrUbwetbZaLVQQu8+aUruNqjXTom+FrYkgpcGhl4NNG9RULqVgS0QwWBlh6FJIBnOSp3SNf6lODAn15AjXBIwR86MtK5XGJZSODx+vWA+LwwxNrlZ1A0lIGJuDGIZtKOaE/ftyC+adc4jvBeQkiLrkiv8oi0Mp14RBSdcvnD8QORZ5rLBpIEfEmzWMKVvt95Uhq+IVxJZ2bPx9b/mAtsyjY9MDvVU399iZ6sOmPev7o/Qyzi1TmvXWFtrHIzqF9LUF0bQgPpej3+vVkaYEjc/aV9z/cfZyM0WJucvca7tMxpi3dhvOD33jxBffZcsOavbE0JR1pGNpcd46R0LuriDihniyA0YAbqQ/TjnGv6M867QOwqihIRgZLP3w58koyxs=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(396003)(39860400002)(346002)(366004)(376002)(136003)(230922051799003)(186009)(1800799009)(64100799003)(451199024)(316002)(478600001)(6486002)(966005)(66476007)(66556008)(66946007)(6666004)(6916009)(26005)(53546011)(6506007)(6512007)(8936002)(7416002)(4326008)(8676002)(2906002)(4001150100001)(44832011)(5660300002)(41300700001)(86362001)(82960400001)(83380400001)(38100700002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?L+T0ytM2VqF6HarvxWQ5tkUl92yJ1/qMbSSOtYS/YNoWtQzGWa9HiS7Oq+iK?=
+ =?us-ascii?Q?TLIlTnh/g3wtp0k0mmVLjcY5Zoj7Y2S8S6ObFHyNOQmVj8f5HTtlM/IeY5IQ?=
+ =?us-ascii?Q?4ld7n4t/06l9yE1s+YyP5jEv6GbSu+4FivXj5+/I9GzW4oJgU9/FJCK/ogKK?=
+ =?us-ascii?Q?05Yd+7iEg0xipuT3sIihB+jwjNpTNcop6juBvdQ+T6Kuc4G8RwSuGk4TQMH+?=
+ =?us-ascii?Q?Ss64UxrzzHPHOq6+HE+2nGxlQxVukfrFmDexMLM084C3Speq8ZYzlLX2PczJ?=
+ =?us-ascii?Q?6H4YFIM5JiNN/458GsqZeoUA+NEbz26p8Ef+hkIU005aKEl+GChX12NtuUR7?=
+ =?us-ascii?Q?3QKZK/mibMB30/H2eMAIKOK7qa3FF4V++Uxiedq6gVDKxjwlerP3VZrlpZ9T?=
+ =?us-ascii?Q?mNILE6FggA8n/tR6qpXwByfHF327y4/alwi3XnHcl/LdU1SSheb/E4N0NCRc?=
+ =?us-ascii?Q?jrlySE38hCYsl9+9+e+cRAPLmylBhZBq1PRXMAgSDblmYXzaAg3+6EF0hKrY?=
+ =?us-ascii?Q?TCc/w5wPcQd0qLsxUSp5yM4Wr50REbNecnM8iVT4yEYlKmZGhO/kR9B19qwk?=
+ =?us-ascii?Q?ky3mg0QwTDFPVwdKyiLKAnWLHRqnUcAEp14rImeenYMEto32SqC/uJQ8Lq1t?=
+ =?us-ascii?Q?0TIcynInlJxBjEL6YVFCfE1+acZLeIe67sfeKLm7B2wxLYoY4ThCuvyw2YBw?=
+ =?us-ascii?Q?he2Ie5q2HGSGb+5BAym1fKGrOZPBOUml0RDpkDNZ3uaBeeZQr3GLkPHSGg58?=
+ =?us-ascii?Q?gHMAG6QuqACx1jHYxwFaLX505DossM9WlZKmIcD+27IyvkZt/Dy1/cMM20ES?=
+ =?us-ascii?Q?ChgJvYpPmDRaw8S37VdCW1SKN5yw32tsW/ZZEjUO8mvh7kllO2rX7bZPlSNf?=
+ =?us-ascii?Q?Njg4epUFLwiJAtHcMq3VdXq7BQlF5fm/zyg1ONJ+ST4kDqeem+Uy0GeQLSVy?=
+ =?us-ascii?Q?duhHx1WjwDFCLDj16g6BjtX3RcNtuzYQEPIWyGKV5GGIFwPK0ihKkoKzDOCd?=
+ =?us-ascii?Q?56wlC2mdG2j1sdOZwIfeP1DZnep1u7yzItBI3Q/ma4jp7cMlheblYIM67oIv?=
+ =?us-ascii?Q?tXwAb7NhOZwk0xY1o4FmnnD3aBOIsqVyZJS0D76WuRlzMvRlLs21Z4PrQcAj?=
+ =?us-ascii?Q?KhFJYKvoaMUoKo8McF+lWXWz1wJFdg8QPdn9eLFvWi/Hcugp0kpPDsLX7iyA?=
+ =?us-ascii?Q?JSypt8TVkkyD6q/ngiPAr251FRuYQp27D2QVZIo+lcrBxV8CCJSF8Fz0uyHc?=
+ =?us-ascii?Q?b2EnCOmM6yPRPRTdvR18t94ZRGwuy23TOt0Qg2Yb6KuBfV0s2QEvN+66VdJU?=
+ =?us-ascii?Q?bERqdPXKmN4t9qWiFyKGcsh7PrvUHbaEz9nhzewecEPHTKk9Z50v4SwIlpbb?=
+ =?us-ascii?Q?ii/jZpiYKFSirw2ps4YBRkoqt9qde2JV9BKno4PUOhPZwGpTfQDJJ5MEPma2?=
+ =?us-ascii?Q?z0+i5Y8T5bN7Lv0Q5FW4nM/Rg++wEnXrct5ea41e40E9PH/2iZQEr9d/tYo4?=
+ =?us-ascii?Q?O1hMfwLb/06BR65F5TD1GTnuOnyba4i3a0cyEdms43RI+n+oAAGjtI3M5y7O?=
+ =?us-ascii?Q?xBOZpMUnxU+jQTdgjH9V0Yihg/QrhrvbL8dO7GRGPTTGU6RwFBl/Jwz9cL2b?=
+ =?us-ascii?Q?2Q=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9e5c0910-f945-48e7-d243-08dbce5863d6
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Oct 2023 14:58:43.2047 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: KnbD2u0pVdsIWap7QzF0t3t+QI+qe6dN7+VT2UGGEH5Usey3inoq0PEjzHlMyjReUMYijC9P8OYVTa9C3jGw0w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB8375
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,125 +150,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: pierre-eric.pelloux-prayer@amd.com, kernel-dev@igalia.com,
- 'Marek =?UTF-8?B?T2zFocOhayc=?= <maraeo@gmail.com>,
- Michel =?UTF-8?B?RMOkbnplcg==?= <michel.daenzer@mailbox.org>,
- dri-devel@lists.freedesktop.org, Randy Dunlap <rdunlap@infradead.org>,
- xaver.hugl@gmail.com, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, alexander.deucher@amd.com, joshua@froggi.es,
- wayland-devel@lists.freedesktop.org, hwentlan@amd.com,
- christian.koenig@amd.com
+Cc: robdclark@chromium.org, thomas.hellstrom@linux.intel.com,
+ sarah.walker@imgtec.com, ketil.johnsen@arm.com, lina@asahilina.net,
+ mcanal@igalia.com, Liviu.Dudau@arm.com, dri-devel@lists.freedesktop.org,
+ christian.koenig@amd.com, boris.brezillon@collabora.com, dakr@redhat.com,
+ donald.robson@imgtec.com, intel-xe@lists.freedesktop.org,
+ faith.ekstrand@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/Bz+Yx.C6psyZpVX2eLu8wAL
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+On Fri, Oct 13, 2023 at 10:52:22PM -0400, Luben Tuikov wrote:
+> On 2023-10-11 19:58, Matthew Brost wrote:
+> > Also add a lockdep assert to drm_sched_start_timeout.
+> > 
+> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> > Reviewed-by: Luben Tuikov <luben.tuikov@amd.com>
+> 
+> I don't remember sending a Reviewed-by email to this patch.
+> 
 
-On Mon, 16 Oct 2023 15:42:16 +0200
-Andr=C3=A9 Almeida <andrealmeid@igalia.com> wrote:
+I believe you did send a RB:
+https://patchwork.freedesktop.org/patch/558222/?series=121745&rev=6
 
-> Hi Pekka,
->=20
-> On 10/16/23 14:18, Pekka Paalanen wrote:
-> > On Mon, 16 Oct 2023 12:52:32 +0200
-> > Andr=C3=A9 Almeida <andrealmeid@igalia.com> wrote:
-> > =20
-> >> Hi Michel,
-> >>
-> >> On 8/17/23 12:37, Michel D=C3=A4nzer wrote: =20
-> >>> On 8/15/23 20:57, Andr=C3=A9 Almeida wrote: =20
-> >>>> From: Pekka Paalanen <pekka.paalanen@collabora.com>
-> >>>>
-> >>>> Specify how the atomic state is maintained between userspace and
-> >>>> kernel, plus the special case for async flips.
-> >>>>
-> >>>> Signed-off-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-> >>>> Signed-off-by: Andr=C3=A9 Almeida <andrealmeid@igalia.com> =20
-> >>> [...]
-> >>>    =20
-> >>>> +An atomic commit with the flag DRM_MODE_PAGE_FLIP_ASYNC is allowed =
-to
-> >>>> +effectively change only the FB_ID property on any planes. No-operat=
-ion changes
-> >>>> +are ignored as always. [...] =20
-> >>> During the hackfest in Brno, it was mentioned that a commit which re-=
-sets the same FB_ID could actually have an effect with VRR: It could trigge=
-r scanout of the next frame before vertical blank has reached its maximum d=
-uration. Some kind of mechanism is required for this in order to allow user=
- space to perform low frame rate compensation.
-> >>>    =20
-> >> Xaver tested this hypothesis in a flipping the same fb in a VRR monitor
-> >> and it worked as expected, so this shouldn't be a concern. =20
-> > Right, so it must have some effect. It cannot be simply ignored like in
-> > the proposed doc wording. Do we special-case re-setting the same FB_ID
-> > as "not a no-op" or "not ignored" or some other way? =20
-> There's an effect in the refresh rate, the image won't change but it=20
-> will report that a flip had happened asynchronously so the reported=20
-> framerate will be increased. Maybe an additional wording could be like:
->=20
-> Flipping to the same FB_ID will result in a immediate flip as if it was=20
-> changing to a different one, with no effect on the image but effecting=20
-> the reported frame rate.
+> I'll add the R-V to the commit when I apply and push this patch,
+> after replying with a R-V email.
+>
 
-Re-setting FB_ID to its current value is a special case regardless of
-PAGE_FLIP_ASYNC, is it not?
+Is manually adding a RB ok if it is in the correct place like it is in this patch?
 
-So it should be called out somewhere that applies regardless of
-PAGE_FLIP_ASYNC. Maybe to the end of the earlier paragraph:
+Matt
 
-> +The changes recorded in an atomic commit apply on top the current KMS st=
-ate in
-> +the kernel. Hence, the complete new KMS state is the complete old KMS st=
-ate with
-> +the committed property settings done on top. The kernel will try to avoid
-> +no-operation changes, so it is safe for userspace to send redundant prop=
-erty
-> +settings.  However, not every situation allows for no-op changes, due to=
- the
-> +need to acquire locks for some attributes. Userspace needs to be aware t=
-hat some
-> +redundant information might result in oversynchronization issues.  No-op=
-eration
-> +changes do not count towards actually needed changes, e.g.  setting MODE=
-_ID to a
-> +different blob with identical contents as the current KMS state shall no=
-t be a
-> +modeset on its own.
-
-+As a special exception for VRR needs, explicitly setting FB_ID to its
-+current value is not a no-op.
-
-Would that work?
-
-I'd like to try to avoid being more specific about what it does
-exactly, because that's not the topic here. Such things can be
-documented with the property itself. This is a summary of what is or is
-not a no-op or a modeset.
-
-
-Thanks,
-pq
-
---Sig_/Bz+Yx.C6psyZpVX2eLu8wAL
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmUtTiYACgkQI1/ltBGq
-qqcogA/5AUHpaJpLiNY5OmjFAMgtNyE0I2iqQTMRxdD7HxoY+S8MIHB6jq/Ac2cD
-bgbV2k2AHbm+toVzZeTOgDK4PZqQe+2Mfi53Fe+MhJz364YkFvhUJ1+wvk0rzs6f
-SQ+HKfVVsUfXGz5lLjAcG5xSxRHdTBNiS3GtfTBSDZewdvBfrntZwA5B22MxiSua
-/iEdu8aYjO1WAvdz0/SzV2pNfcyfo71gHKCY1aHBD1Hkf6aqJMLHsbgQng8tkKir
-MVmARPURGZCXgJpYsNMJYU/0p4ByN/jXrsbDAXu37IAEECqLxwIWeIQgoahTGIXu
-dVIuxgRyuEOdnxB6rkt8u5iTkLY4jJAx26nx3Zi8MkbimPvWHjQt1cyfrS3Q4ZyG
-7kj028Q2ekwvbsPRqlD+Msqg/1v2WQgYm5HIHicSGP0tKkg4IXZj+z84T8Bcl8Gw
-7xZTHqLgLrFdXq1HTG0Co5r1pRCFD1EgaGJqrMI/AN/RzZ6TjGZ/kVeM3roZw0zK
-tUbhu9Ndh4AfYmrTPx74IVHTNqsYl8OCrjaYvFkCkAHy3gzLrlmjQwMuof9Q/l+1
-FxcDrPC3v0xKnGsrAW2Doyi3idzOdtyquUzJgN4pqlnAn1zV1hXMQZt8LxVUBXuK
-UDk+hGMxCYb0Z2L1t/Sg6HaLlMxFH5br5OtJhUl1K0cYLavNrjE=
-=Lyhk
------END PGP SIGNATURE-----
-
---Sig_/Bz+Yx.C6psyZpVX2eLu8wAL--
+> Regards,
+> Luben
+> 
+> > ---
+> >  drivers/gpu/drm/scheduler/sched_main.c | 23 +++++++++++++----------
+> >  1 file changed, 13 insertions(+), 10 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+> > index cf4c23db7547..c4d5c3d265a8 100644
+> > --- a/drivers/gpu/drm/scheduler/sched_main.c
+> > +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> > @@ -427,11 +427,20 @@ static void drm_sched_job_done_cb(struct dma_fence *f, struct dma_fence_cb *cb)
+> >   */
+> >  static void drm_sched_start_timeout(struct drm_gpu_scheduler *sched)
+> >  {
+> > +	lockdep_assert_held(&sched->job_list_lock);
+> > +
+> >  	if (sched->timeout != MAX_SCHEDULE_TIMEOUT &&
+> >  	    !list_empty(&sched->pending_list))
+> >  		queue_delayed_work(sched->timeout_wq, &sched->work_tdr, sched->timeout);
+> >  }
+> >  
+> > +static void drm_sched_start_timeout_unlocked(struct drm_gpu_scheduler *sched)
+> > +{
+> > +	spin_lock(&sched->job_list_lock);
+> > +	drm_sched_start_timeout(sched);
+> > +	spin_unlock(&sched->job_list_lock);
+> > +}
+> > +
+> >  /**
+> >   * drm_sched_fault - immediately start timeout handler
+> >   *
+> > @@ -544,11 +553,8 @@ static void drm_sched_job_timedout(struct work_struct *work)
+> >  		spin_unlock(&sched->job_list_lock);
+> >  	}
+> >  
+> > -	if (status != DRM_GPU_SCHED_STAT_ENODEV) {
+> > -		spin_lock(&sched->job_list_lock);
+> > -		drm_sched_start_timeout(sched);
+> > -		spin_unlock(&sched->job_list_lock);
+> > -	}
+> > +	if (status != DRM_GPU_SCHED_STAT_ENODEV)
+> > +		drm_sched_start_timeout_unlocked(sched);
+> >  }
+> >  
+> >  /**
+> > @@ -674,11 +680,8 @@ void drm_sched_start(struct drm_gpu_scheduler *sched, bool full_recovery)
+> >  			drm_sched_job_done(s_job, -ECANCELED);
+> >  	}
+> >  
+> > -	if (full_recovery) {
+> > -		spin_lock(&sched->job_list_lock);
+> > -		drm_sched_start_timeout(sched);
+> > -		spin_unlock(&sched->job_list_lock);
+> > -	}
+> > +	if (full_recovery)
+> > +		drm_sched_start_timeout_unlocked(sched);
+> >  
+> >  	drm_sched_wqueue_start(sched);
+> >  }
+> 
