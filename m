@@ -1,38 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E46D7CB512
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Oct 2023 23:09:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C0A237CB524
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Oct 2023 23:15:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BFA1910E1E1;
-	Mon, 16 Oct 2023 21:09:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4277310E1F8;
+	Mon, 16 Oct 2023 21:15:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4264F10E031
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Oct 2023 21:09:36 +0000 (UTC)
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 625D710E1F8
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Oct 2023 21:15:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
- t=1697490548; x=1698095348; i=deller@gmx.de;
- bh=0l5HRln2aLrQCHUgzKay/9XIY0Mr4awYAadqROs/OAs=;
+ t=1697490929; x=1698095729; i=deller@gmx.de;
+ bh=qt5SCacwR+qzi/Vd+l+sCphO9tmMZL/NjDwuWp8B9YM=;
  h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
- b=N5BdS+KWNPUf9/OfdjXUFTlr5rSCv5vppRovuPYZt+pf5CL9NNHFWru4ZeD6x1JuLw694COb1at
- JTLa3T5h84yqBSABtTXdSSToXnYC9UyHik1skJ1ShcQY8Ohr+xzGoqWkERNDJihHxdVFN6dLvyeJI
- khKZoa/VEIfQHBgnOWKob+cKWEeNEuyztdvtSzMU2YwYkMIPRiv88DARhMW+W/mwWHMnN378ngwI/
- /W+zY3rdxp5Y8iuTGaNaWhn/xgxFOk0NAn0vPziID1ercUVQ4CQUllrXmKDblV60pSq/9YoXil4+l
- UbfSVQznT1pNnP0ynF9jbUJpx+VExszunZqA==
+ b=Utk79TX2JS5EkQy03SN5tA37tS5cg5CNpwosz/HhQ9BuHyot7bW/uWyNrVcaoGNicqJ9SERC9uN
+ shXLjR+ocgg2yEQ9g0kaoblm660N17vuoQjCQEesEljRAz8mgH38256Jv8QZ2Ae3hKq3aDz+V+Rh0
+ hGmLMlkBjOMA8E3NXWrpIgWtrx54eDa8XSzgmayKBryZ5NLVWN37S0mBL0WJVEKFloJ7NbCzWf5Jc
+ QSch7l7n3dknCwPdixvzpLZRnQJFzlNZYP/2nRnEHFCqK0iHxZ1tqcDBkxsOFO2ksY/R6CPhW69wv
+ 9mGvSl/ZccVkJMGuguOay/wPkO9i76XJ18mA==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.20.60] ([94.134.153.197]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1N3siA-1raOH61yrY-00zpwm; Mon, 16
- Oct 2023 23:09:08 +0200
-Message-ID: <e1c6a19b-7587-4b99-b8d5-5572d946f185@gmx.de>
-Date: Mon, 16 Oct 2023 23:09:05 +0200
+Received: from [192.168.20.60] ([94.134.153.197]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MUXpK-1r1KbZ0uxs-00QWzk; Mon, 16
+ Oct 2023 23:15:29 +0200
+Message-ID: <34994a3f-e44d-4ef1-95ee-2b2a885b3732@gmx.de>
+Date: Mon, 16 Oct 2023 23:15:28 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fbdev: omapfb: fix some error codes
+Subject: Re: [PATCH] fbdev: fbmon: fix potential divide error in
+ fb_validate_mode
 Content-Language: en-US
-To: Dan Carpenter <dan.carpenter@linaro.org>
-References: <843b063c-ee4a-4e17-add6-75e2cc82c2f4@moroto.mountain>
+To: Zhang Shurong <zhang_shurong@foxmail.com>, daniel@ffwll.ch
+References: <tencent_C816151C508524D86E346A69B706C0D03C09@qq.com>
 From: Helge Deller <deller@gmx.de>
 Autocrypt: addr=deller@gmx.de; keydata=
  xsFNBF3Ia3MBEAD3nmWzMgQByYAWnb9cNqspnkb2GLVKzhoH2QD4eRpyDLA/3smlClbeKkWT
@@ -77,29 +78,29 @@ Autocrypt: addr=deller@gmx.de; keydata=
  FwRDcGV6nxanxZGKEkSHHOm8jHwvQWvPP73pvuPBEPtKGLzbgd7OOcGZWtq2hNC6cRtsRdDx
  4TAGMCz4j238m+2mdbdhRh3iBnWT5yPFfnv/2IjFAk+sdix1Mrr+LIDF++kiekeq0yUpDdc4
  ExBy2xf6dd+tuFFBp3/VDN4U0UfG4QJ2fg19zE5Z8dS4jGIbLg==
-In-Reply-To: <843b063c-ee4a-4e17-add6-75e2cc82c2f4@moroto.mountain>
+In-Reply-To: <tencent_C816151C508524D86E346A69B706C0D03C09@qq.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:FOyYUK4b2kQYxx/cAdXEvw+vAIrXHbwCICGIvD6Kz5Obv8fpWfo
- +yxSC1QHy9oSBBS+anxDLcgMYbDMpuj/kYNgRbd8u4EUTiQZExSABwuTZ6wpNJYTaAvH4w6
- GGzs305XXJBHWE3UgmezXl4gIZMEZ5HLU7AhntwUFtq5K6DpCiLi7tQr0NsAvpjdyEtnn2h
- ANIv4o7mbdykPwdII9uzw==
+X-Provags-ID: V03:K1:CQ+YnTw6KdXAZpnpWmEclIUl/ZNN5/eRCNxAwN1Cz4SIGQdfZIO
+ PoqEIlPhXd5dmKSq2K7HWZ7z5128krfFFhY7vnYetJIRBlciNMtRq2QckMJ1QUqw6WGgdT5
+ CuY1KI6LzUrmot3c9ocBQ4NM0i7yf0UqshHk1CRC5Sh3Le+JSxAe7qn2pbZo8fJbA12gVWv
+ kPIj5hM7VbK8duOCGktxw==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:i3G6yuKsgbo=;HyJOwbkzpDfgVsMPYidrsW2Dbgm
- kXOBK3eWbsiNnbYRo1a9giCySikv94pxQPxGLaIEkO5kHowmkfxNzf2I8CTaY6KEm5tcrYsQ/
- Nsn/31TdVzmDfcENep2oouVDmdEwSy84IFV46FlD/V9p2Dy36l8o+XL2aCasQ8j+/J1eb9cPg
- a8SaCHvv6mn83gYgss9U5O99oWMButQKjkyiWsTPa+IoMuxkpaNQ6XYmGaKjsRnEAqghZpoK5
- zouLeu7r0iFkwrKu043Clb+4xpAbvrR/wzrp4klYxqr5cuBg5UxbpepzkE6jqRAlSn89dsOr+
- elGLbOe7eamMh7xq/AkFb0HGDX4x0GgP+LKORwh3sOErVbuqDW8U+jXTAX6FlvfqhfOVM+xfh
- ifl1xL9c2/DQg5WW3Dptf1VKijyP5yOqMMQwJibDOfr5lL63gOff+U7I7TDLZcgziKlFfDOpp
- 7JmnmWYe1NYF0pFFmLjSlZ1vkhzl3tyoEVNjlwN24Bv9SLlS5MuXYPCFGYf9GZRdmIAQDsMCo
- wsX08Pw97zI45yA5V/w2gGmyALj2aoXDa31R1KotmNeWqOSCnQQuqxwIES3amgYzR8krjlutr
- 64/CsF54D9iNMP6ZW/4n96u0O0Pu99CTl/EHrIW0CKE6o0JkqqIeSs8KfVSYKsiyzW2XqwEjq
- elpWv5O5oV0iQdSDW5+CdiB0ReQFP6GFcivKq+w7BeFaZ5mDsQ2cersNIVPtCe47J0h30AhKs
- XqWq8HbMACJTlJINQjKA5hYP9rXJw1zn8emqne9od2b9QTNJGxU0tL0fKR6J62cJl2M2oB5KF
- 8m9eSV87Gk8LQGC4yRqIyUwLnwGbNVMa/prsO1IwsRFYobRSGHPzGXLTaqAjWVUHuxIoOQvRR
- TsWoyfWa7D4V4syb7xiT9VDV5dV1eb/cvDh3Jx/aeshpNsHTKuQKKSw6zND4rDbjFGvx4Blya
- xr7TDCJo9w8AjoRMvTvObtMroI0=
+UI-OutboundReport: notjunk:1;M01:P0:5MsAZc9NPsg=;xO9SSUhlTYQmwY/NqfOsrLTwjuO
+ uk9eVyi4NRvEhUzwGhld6JovgQk2YbBQoM32OxORX5wpOGX9Jdt4OW+22+7cbvSi3tt2pyAPu
+ Ce4Kp30Dz/wQaekM4S7U4Cd9c3MmGtW0cgaG5TZK+kmcdNrQ9EwC/tdJdI88HVr6mWAPHb7UG
+ dh6V982ZqU/rbTlc086FauS9EQnzKH/3SmLw/1Z/RaqNa7aXfAvWB8cZ0Q7EjFG/Pf9EvBK1c
+ tuP3duMoY8a4KVNXx09Ou6nO1En28CwDK6UWFy8a8/W7xPLYhv0rNYL0r/qeNJ/v+VFiMVeco
+ rKwI+cGLULmA+5ZRcSidzyRtY5eWk6KTpsBWrrdbs8+UdshC0EfsHCIXpJi+G5mBEj5o8PGiF
+ CZp3LOJCDyO2FiQ7Dh8Bu0kBJET/KfhjQPK5pg9+8oGSmNI9GptAN/ls+H7VyTn6blYNX7h/B
+ m5Ikb0Q3i+Z7+OLkQvnmi6zlC0cQjyfuPwZwbogten9sJNZ0NdvmbvIi6t4lmUAaFDpTvpeuP
+ voJNhbAyMkoK//K8k/dv0xbhyCDEB7IngLVsW0w1vflGlmCeMVF8RpJQci9Bqv7yqLOCPL+gt
+ H6GdmF6QeQpmzHy3TrdbsGb/+BJQ+CFLW5XaAEBFIZhR+wrJFUi5eCOlJkwyrMKksEb8PlhVz
+ zMcx4iBAgzxpSaEica9kuzvUbwPePnkEgnblwghi3bSbapFcDe4lJxcOXDJ2N2p8FLUkOq2ID
+ FhELU6s0FD/e8wjfBw7o3AAdueFDXCm9rRzbx9A8x0Wv0lElZzHuYMUJ7c3quHBNgUC3t9bNL
+ yeH2wGG/j/wu5+c/eNoYTrwVj+X8KFjoE4O0pAhxjftOXqBi4zQeBQzN7BP3d3NqtubKaYAOT
+ 2NpMm7ulGDaYw4BSQDevcKjoJ+IPlRC9DmcR38+FyH2pXT15xM/JtWllRWi6/6j0Lqp7tZEHb
+ cOx1Rxm5sW/WthFQn/yVvg55NI4=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -112,51 +113,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Xu Panda <xu.panda@zte.com.cn>,
- Lucy Mielke <mielkesteven@icloud.com>, kernel-janitors@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- linux-omap@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
- Yang Yang <yang.yang29@zte.com>
+Cc: linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/16/23 13:19, Dan Carpenter wrote:
-> Return negative -ENXIO instead of positive ENXIO.
+On 10/14/23 14:14, Zhang Shurong wrote:
+> We can easily use FBIOPUT_VSCREENINFO set fb_var_screeninfo, so
+> it's possible for a divide by zero error to occur.
 >
-> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
-
-applied.
-
-Thanks!
-Helge
-
+> Fix this by making sure the divisor is non-zero before the computation.
+>
+> Signed-off-by: Zhang Shurong <zhang_shurong@foxmail.com>
 > ---
-> No fixes tag because the caller doesn't check for errors.
+>   drivers/video/fbdev/core/fbmon.c | 3 +++
+>   1 file changed, 3 insertions(+)
 >
->   drivers/video/fbdev/omap/omapfb_main.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+> diff --git a/drivers/video/fbdev/core/fbmon.c b/drivers/video/fbdev/core=
+/fbmon.c
+> index 79e5bfbdd34c..bdd15b8e3a71 100644
+> --- a/drivers/video/fbdev/core/fbmon.c
+> +++ b/drivers/video/fbdev/core/fbmon.c
+> @@ -1470,6 +1470,9 @@ int fb_validate_mode(const struct fb_var_screeninf=
+o *var, struct fb_info *info)
+>   	if (var->vmode & FB_VMODE_DOUBLE)
+>   		vtotal *=3D 2;
 >
-> diff --git a/drivers/video/fbdev/omap/omapfb_main.c b/drivers/video/fbde=
-v/omap/omapfb_main.c
-> index f28cb90947a3..42c96f1cfc93 100644
-> --- a/drivers/video/fbdev/omap/omapfb_main.c
-> +++ b/drivers/video/fbdev/omap/omapfb_main.c
-> @@ -1645,13 +1645,13 @@ static int omapfb_do_probe(struct platform_devic=
-e *pdev,
->   	}
->   	fbdev->int_irq =3D platform_get_irq(pdev, 0);
->   	if (fbdev->int_irq < 0) {
-> -		r =3D ENXIO;
-> +		r =3D -ENXIO;
->   		goto cleanup;
->   	}
->
->   	fbdev->ext_irq =3D platform_get_irq(pdev, 1);
->   	if (fbdev->ext_irq < 0) {
-> -		r =3D ENXIO;
-> +		r =3D -ENXIO;
->   		goto cleanup;
->   	}
->
+> +	if (!htotal || !vtotal)
+> +		return -EINVAL;
 
+This is above here:
+         htotal =3D var->xres + var->right_margin + var->hsync_len +
+                 var->left_margin;
+         vtotal =3D var->yres + var->lower_margin + var->vsync_len +
+                 var->upper_margin;
+
+I don't see how htotal and vtotal can become zero...
+
+Helge
