@@ -1,63 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E00DD7CA10D
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Oct 2023 09:55:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9836A7CA10F
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Oct 2023 09:55:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F222F10E124;
-	Mon, 16 Oct 2023 07:55:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CCC4610E129;
+	Mon, 16 Oct 2023 07:55:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2329310E124
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Oct 2023 07:55:04 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 52D38B80C80
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Oct 2023 07:55:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id AC6AEC433CA
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Oct 2023 07:55:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1697442901;
- bh=B/hLK4cb/tuNZYNOMVeIiggeFdM5Lfrhx2/y8eDJfVs=;
- h=From:To:Subject:Date:From;
- b=EOmEpB2AMW+Fq1PZKwx7yT/NB1wd5NgA6Xqf6Ikuu99Ot6Yh4TDImxU8JTtpUNP7N
- MAqVcU9nXCKjqxvSyv5yetwDNlrBegfr5C4KaI2WxsT6exf3hZDkZfLEOG3k/WFAZi
- vLCzlr69WR+L74SFhCh6j/whVU+UrejTu56SnqCN2NRQaZYkMR8Q49LGxsRtXMr6ZV
- PMNkSJgBwFuj3jV3w7sr+TAPLMW2aQbyWnapbAssZXKiwbCLyLgrwTC8dO4t2xHapa
- yZO6IH4taJQ8T0Yiwf5I/QAYGSqM2MpB/lamBmVIkoceqWT4OT/QhjPzzrDiSteIH+
- +ntbf6hO68S/Q==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 960A2C53BD3; Mon, 16 Oct 2023 07:55:01 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 218015] New: amdgpu powerplay: Spontaneous changes to
- power_dpm_force_performance_level
-Date: Mon, 16 Oct 2023 07:55:01 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: high
-X-Bugzilla-Who: roman.zilka@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version
- cf_kernel_version rep_platform op_sys bug_status bug_severity priority
- component assigned_to reporter cc cf_regression
-Message-ID: <bug-218015-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E49FC10E129
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Oct 2023 07:55:08 +0000 (UTC)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 7F7A56607285;
+ Mon, 16 Oct 2023 08:55:06 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1697442907;
+ bh=Hw/1U1YBl+D02Eq2vlklAKGEowzhCs7qY+uoAbH7NQY=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=mGufDXs98MhuhzR+u3zf2PtniyqEwDciCV/Nzd2JHBNs/vsRNZrcECmmpYdiUoEk0
+ ml0xwaR2Y7J9Y5B90BokwGr4JxbJxZvc/cE6vkdcJ5Iuy/OsUvEUN/qzYyPpx4S9RD
+ W3716ERYdtNQ6iucVEyDbS1V62+/m2GAEMtPjMfdDS82aBz9WCrSpMYWXcbVTbMX96
+ PPqdS7Xz3gupbI0Tg8SoIc66Brbe6nmhrJQtDgCc3MBqtqOtPXHd53209EmTf3jJjl
+ VZO3wFrAoxcP+6t7eP1PwRCmulTmLhNp89j940cHO93H56J1+307T8s/JkmsG0NoZu
+ zaJzLdZQxL2QA==
+Message-ID: <5b843706-8ec3-6de6-de24-ddde5349db57@collabora.com>
+Date: Mon, 16 Oct 2023 09:55:03 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.0
+Subject: Re: [PATCH v11 06/16] drm/mediatek: gamma: Use bitfield macros
+Content-Language: en-US
+To: =?UTF-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>,
+ "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>
+References: <20231012095736.100784-1-angelogioacchino.delregno@collabora.com>
+ <20231012095736.100784-7-angelogioacchino.delregno@collabora.com>
+ <3399bf15a6e3d3d4ed5228c858b06c7b28b40aea.camel@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <3399bf15a6e3d3d4ed5228c858b06c7b28b40aea.camel@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,49 +58,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: "nfraprado@collabora.com" <nfraprado@collabora.com>,
+ "amergnat@baylibre.com" <amergnat@baylibre.com>,
+ =?UTF-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "ehristev@collabora.com" <ehristev@collabora.com>,
+ "wenst@chromium.org" <wenst@chromium.org>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+ "kernel@collabora.com" <kernel@collabora.com>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D218015
+Il 13/10/23 06:00, CK Hu (胡俊光) ha scritto:
+> Hi, Angelo:
+> 
+> On Thu, 2023-10-12 at 11:57 +0200, AngeloGioacchino Del Regno wrote:
+>> Make the code more robust and improve readability by using bitfield
+>> macros instead of open coding bit operations.
+>> While at it, also add a definition for LUT_BITS_DEFAULT.
+> 
+> When I apply, I would remove the description of LUT_BITS_DEFAULT.
+> 
+> Reviewed-by: CK Hu <ck.hu@mediatek.com>
 
-            Bug ID: 218015
-           Summary: amdgpu powerplay: Spontaneous changes to
-                    power_dpm_force_performance_level
-           Product: Drivers
-           Version: 2.5
-    Kernel Version: 6.1.57
-          Hardware: All
-                OS: Linux
-            Status: NEW
-          Severity: high
-          Priority: P3
-         Component: Video(DRI - non Intel)
-          Assignee: drivers_video-dri@kernel-bugs.osdl.org
-          Reporter: roman.zilka@gmail.com
-                CC: alexdeucher@gmail.com, christian.koenig@amd.com
-        Regression: No
+Sorry for forgetting about removing that from the commit description after
+removing it from the code.
 
-On an RX 6500 XT card I set
-/sys/class/drm/card*/device/power_dpm_force_performance_level to
-"profile_standard" before I start any game. That is to avoid overheating (9=
-5+
-=C2=B0C) which occurs quickly when the perf level is left at the default of=
- "auto"
-(it's some sort of OC card) and impacts the GPU as well as the nearby mobo
-components (I get a thermal warning in kernel log about the onboard audio
-chip). The perf level setting spontaneously reverts back to "auto" at rando=
-m,
-however, and I'm forced to run a script which polls
-power_dpm_force_performance_level and corrects it when necessary. This happ=
-ens
-0-10 times per hour while playing.
+Thanks for removing it while applying, that simplifies my workflow.
 
-MSI Radeon RX 6500 XT MECH 2X 4G OC. Kernel 6.1.57, x86_64, Gentoo, gcc 13.=
-2.1
-20230826, X11, xf86-video-amdgpu-23.0.0, linux-firmware-20230919.
+Cheers,
+Angelo
 
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
