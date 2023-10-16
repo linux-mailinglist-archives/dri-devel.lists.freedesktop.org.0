@@ -2,47 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5F2F7CA47C
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Oct 2023 11:47:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 350807CA4A5
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Oct 2023 11:59:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D607A10E188;
-	Mon, 16 Oct 2023 09:47:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D15910E177;
+	Mon, 16 Oct 2023 09:59:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 85F8910E177;
- Mon, 16 Oct 2023 09:47:30 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 081EB60DF5;
- Mon, 16 Oct 2023 09:47:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47337C433C7;
- Mon, 16 Oct 2023 09:47:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1697449649;
- bh=G4zxpVoIMd4Dnto6BtVe4r6qfQl1/1fiHD54t0GVFU4=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=hVAkS7u8Fc5baxMKgoXIQdQb5R/sdJcjx1QHfKbjdKFLXlqMoIzgTGaY/nb/i0hcr
- 9R2cDxdFjF3fUcIbuxxv37SWswJwQqo9dyFz5A52VT/wiMZlfZagU3YkvHrZMyTE8z
- kUIceh+GveaonVkHMUh9FzwBVKDxiWw+KPEdtIKHxFF+FVnem2jvOFLjZO4BEycbCV
- LR5l6NKf+NOLS9Wj9rgcxjzy7RXOeqT1X7RdHBAgwmOtUP9BDFpi66ug8PRQTkmlju
- 9xcitjY7+Oxq2qAV20oZ6tGY0Y+Zg62Q7ekpKwao0AV871HVeIxRs7Mno8vigbThZn
- lNk+FxWJ5ILsA==
-From: Robert Foss <rfoss@kernel.org>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
- Vinod Koul <vkoul@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH] drm/bridge: lt9611uxc: fix the race in the error path
-Date: Mon, 16 Oct 2023 11:47:23 +0200
-Message-ID: <169744963234.583969.6401171307334981045.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20231011220002.382422-1-dmitry.baryshkov@linaro.org>
-References: <20231011220002.382422-1-dmitry.baryshkov@linaro.org>
+Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com
+ [209.85.219.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 726AA10E177
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Oct 2023 09:59:14 +0000 (UTC)
+Received: by mail-yb1-f170.google.com with SMTP id
+ 3f1490d57ef6-d857c8a1d50so4283548276.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Oct 2023 02:59:14 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1697450353; x=1698055153;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=i9GLVUGKessKoslJIZpAI7+l//jryIRXWw3bJSWd/JU=;
+ b=RvpslWr1RrkD7XICLM5fkASeb8vka3loewJFpkfFugNMZDt3Dvd47cthwAR9qqmrjy
+ nN9S33/RW4PuYCDdBrog9F14NtpvDpmz5CRwcmZ5O3xHdzUghpoBoyv0Sw2B+Y5Yniwe
+ l/IER2LvMPieWSA9RUJVJ++kpvgBKU0VN229j5LXBGhsmAqO/OAb6WcrIhnMIYXlqYo2
+ 7aR/N86zl/wfiqdIaABuyAKdxMHhJNiMGexyUiSfw2KB/MShvLAyfOSE3xEwY675yjpI
+ mxo2Yr1k64BdbdB8lVks3Ks/hzlqLvs+PVoJ2mOxsdQb0+BGjQt+K1BbiwEfae3n9jqu
+ ZAEg==
+X-Gm-Message-State: AOJu0Yy5d3ZtRt92b5X0JdueA7/L97jkAHVS7UfCDESPhyb/HSlYilJ/
+ 1KZ5qWTlyWMDJUnZnkHd1ty6P9+c9RFd7A==
+X-Google-Smtp-Source: AGHT+IHbVisQLV0Bdri4XSX/r/Kvqlqm/OB7attBLe0bflBYGrTsi9wCYV7KkEudpA6/nRkZ5gEPxg==
+X-Received: by 2002:a25:3c9:0:b0:d9a:d894:7b51 with SMTP id
+ 192-20020a2503c9000000b00d9ad8947b51mr10023795ybd.57.1697450352837; 
+ Mon, 16 Oct 2023 02:59:12 -0700 (PDT)
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com.
+ [209.85.128.171]) by smtp.gmail.com with ESMTPSA id
+ d7-20020a258247000000b00c64533e4e20sm2506086ybn.33.2023.10.16.02.59.12
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 16 Oct 2023 02:59:12 -0700 (PDT)
+Received: by mail-yw1-f171.google.com with SMTP id
+ 00721157ae682-5a7b3d33663so58208767b3.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Oct 2023 02:59:12 -0700 (PDT)
+X-Received: by 2002:a81:b661:0:b0:5a7:b9b1:c0bd with SMTP id
+ h33-20020a81b661000000b005a7b9b1c0bdmr19215902ywk.11.1697450352391; Mon, 16
+ Oct 2023 02:59:12 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+References: <cover.1694767208.git.geert+renesas@glider.be>
+ <CAMuHMdWfBTKdXvZutg4LvWqBjuz-X=ZjzX0LKPqD=JxYuLoPRw@mail.gmail.com>
+In-Reply-To: <CAMuHMdWfBTKdXvZutg4LvWqBjuz-X=ZjzX0LKPqD=JxYuLoPRw@mail.gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 16 Oct 2023 11:59:01 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUF61V5qNyKbrTGxZfEJvCVuLO7q2R5MqZYkzRC_cNr0w@mail.gmail.com>
+Message-ID: <CAMuHMdUF61V5qNyKbrTGxZfEJvCVuLO7q2R5MqZYkzRC_cNr0w@mail.gmail.com>
+Subject: [GIT PULL v2] drm: renesas: shmobile: Atomic conversion + DT support
+ (was: Re: [PATCH v4 00/41] drm: renesas: shmobile: Atomic conversion
+ + DT support)
+To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,60 +71,141 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Robert Foss <rfoss@kernel.org>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Hans Verkuil <hverkuil@xs4all.nl>, Conor Dooley <conor+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Linux-sh list <linux-sh@vger.kernel.org>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 12 Oct 2023 01:00:02 +0300, Dmitry Baryshkov wrote:
-> If DSI host attachment fails, the LT9611UXC driver will remove the
-> bridge without ensuring that there is no outstanding HPD work being
-> done. In rare cases this can result in the warnings regarding the mutex
-> being incorrect. Fix this by forcebly freing IRQ and flushing the work.
-> 
-> DEBUG_LOCKS_WARN_ON(lock->magic != lock)
-> WARNING: CPU: 0 PID: 10 at kernel/locking/mutex.c:582 __mutex_lock+0x468/0x77c
-> Modules linked in:
-> CPU: 0 PID: 10 Comm: kworker/0:1 Tainted: G     U             6.6.0-rc5-next-20231011-gd81f81c2b682-dirty #1206
-> Hardware name: Qualcomm Technologies, Inc. Robotics RB5 (DT)
-> Workqueue: events lt9611uxc_hpd_work
-> pstate: 60400005 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-> pc : __mutex_lock+0x468/0x77c
-> lr : __mutex_lock+0x468/0x77c
-> sp : ffff8000800a3c70
-> x29: ffff8000800a3c70 x28: 0000000000000000 x27: ffffd595fe333000
-> x26: ffff7c2f0002c005 x25: ffffd595ff1b3000 x24: ffffd595fccda5a0
-> x23: 0000000000000000 x22: 0000000000000002 x21: ffff7c2f056d91c8
-> x20: 0000000000000000 x19: ffff7c2f056d91c8 x18: fffffffffffe8db0
-> x17: 000000040044ffff x16: 005000f2b5503510 x15: 0000000000000000
-> x14: 000000000006efb8 x13: 0000000000000000 x12: 0000000000000037
-> x11: 0000000000000001 x10: 0000000000001470 x9 : ffff8000800a3ae0
-> x8 : ffff7c2f0027f8d0 x7 : ffff7c2f0027e400 x6 : ffffd595fc702b54
-> x5 : 0000000000000000 x4 : ffff8000800a0000 x3 : 0000000000000000
-> x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffff7c2f0027e400
-> Call trace:
->  __mutex_lock+0x468/0x77c
->  mutex_lock_nested+0x24/0x30
->  drm_bridge_hpd_notify+0x2c/0x5c
->  lt9611uxc_hpd_work+0x6c/0x80
->  process_one_work+0x1ec/0x51c
->  worker_thread+0x1ec/0x3e4
->  kthread+0x120/0x124
->  ret_from_fork+0x10/0x20
-> irq event stamp: 15799
-> hardirqs last  enabled at (15799): [<ffffd595fc702ba4>] finish_task_switch.isra.0+0xa8/0x278
-> hardirqs last disabled at (15798): [<ffffd595fd5a1580>] __schedule+0x7b8/0xbd8
-> softirqs last  enabled at (15794): [<ffffd595fc690698>] __do_softirq+0x498/0x4e0
-> softirqs last disabled at (15771): [<ffffd595fc69615c>] ____do_softirq+0x10/0x1c
-> 
-> [...]
+        Hi David, Daniel,
 
-Applied, thanks!
+The following changes since commit 389af786f92ecdff35883551d54bf4e507ffcccb:
 
-[1/1] drm/bridge: lt9611uxc: fix the race in the error path
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=15fe53be46ea
+  Merge tag 'drm-intel-next-2023-09-29' of
+git://anongit.freedesktop.org/drm/drm-intel into drm-next (2023-10-04
+13:55:19 +1000)
 
+are available in the Git repository at:
 
+  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git
+tags/shmob-drm-atomic-dt-tag2
 
-Rob
+for you to fetch changes up to 1399ebacbf590dfbac4fbba181dd1595b2fa10ba:
 
+  drm: renesas: shmobile: Add DT support (2023-10-16 11:47:48 +0200)
+
+----------------------------------------------------------------
+drm: renesas: shmobile: Atomic conversion + DT support
+
+Currently, there are two drivers for the LCD controller on Renesas
+SuperH-based and ARM-based SH-Mobile and R-Mobile SoCs:
+  1. sh_mobile_lcdcfb, using the fbdev framework,
+  2. shmob_drm, using the DRM framework.
+However, only the former driver is used, as all platform support
+integrates the former.  None of these drivers support DT-based systems.
+
+Convert the SH-Mobile DRM driver to atomic modesetting, and add DT
+support, complemented by the customary set of fixes and improvements.
+
+Acked-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Link: https://lore.kernel.org/r/cover.1694767208.git.geert+renesas@glider.be/
+
+Changes compared to v1:
+  - Rebase to drm-next,
+  - Add Acked-by.
+
+Thanks for pulling!
+
+----------------------------------------------------------------
+Geert Uytterhoeven (36):
+      MAINTAINER: Create entry for Renesas SH-Mobile DRM drivers
+      dt-bindings: display: Add Renesas SH-Mobile LCDC bindings
+      media: uapi: Add MEDIA_BUS_FMT_RGB666_2X9_BE format
+      drm: renesas: shmobile: Fix overlay plane disable
+      drm: renesas: shmobile: Fix ARGB32 overlay format typo
+      drm: renesas: shmobile: Correct encoder/connector types
+      drm: renesas: shmobile: Add support for Runtime PM
+      drm: renesas: shmobile: Restore indentation of shmob_drm_setup_clocks()
+      drm: renesas: shmobile: Use %p4cc to print fourcc code
+      drm: renesas: shmobile: Add missing YCbCr formats
+      drm: renesas: shmobile: Improve shmob_drm_format_info table
+      drm: renesas: shmobile: Improve error handling
+      drm: renesas: shmobile: Convert to use devm_request_irq()
+      drm: renesas: shmobile: Remove custom plane destroy callback
+      drm: renesas: shmobile: Use drmm_universal_plane_alloc()
+      drm: renesas: shmobile: Embed drm_device in shmob_drm_device
+      drm: renesas: shmobile: Convert container helpers to static
+inline functions
+      drm: renesas: shmobile: Replace .dev_private with container_of()
+      drm: renesas: shmobile: Use media bus formats in platform data
+      drm: renesas: shmobile: Move interface handling to connector setup
+      drm: renesas: shmobile: Unify plane allocation
+      drm: renesas: shmobile: Rename shmob_drm_crtc.crtc
+      drm: renesas: shmobile: Rename shmob_drm_connector.connector
+      drm: renesas: shmobile: Rename shmob_drm_plane.plane
+      drm: renesas: shmobile: Use drm_crtc_handle_vblank()
+      drm: renesas: shmobile: Move shmob_drm_crtc_finish_page_flip()
+      drm: renesas: shmobile: Wait for page flip when turning CRTC off
+      drm: renesas: shmobile: Turn vblank on/off when enabling/disabling CRTC
+      drm: renesas: shmobile: Shutdown the display on remove
+      drm: renesas: shmobile: Cleanup encoder
+      drm: renesas: shmobile: Atomic conversion part 1
+      drm: renesas: shmobile: Atomic conversion part 2
+      drm: renesas: shmobile: Use suspend/resume helpers
+      drm: renesas: shmobile: Remove internal CRTC state tracking
+      drm: renesas: shmobile: Atomic conversion part 3
+      drm: renesas: shmobile: Add DT support
+
+Laurent Pinchart (5):
+      drm: renesas: shmobile: Remove backlight support
+      drm: renesas: shmobile: Don't set display info width and height twice
+      drm: renesas: shmobile: Rename input clocks
+      drm: renesas: shmobile: Remove support for SYS panels
+      drm: renesas: shmobile: Use struct videomode in platform data
+
+ .../bindings/display/renesas,shmobile-lcdc.yaml    | 130 +++++
+ .../userspace-api/media/v4l/subdev-formats.rst     |  72 +++
+ MAINTAINERS                                        |  13 +-
+ drivers/gpu/drm/renesas/shmobile/Kconfig           |   3 +-
+ drivers/gpu/drm/renesas/shmobile/Makefile          |   3 +-
+ .../gpu/drm/renesas/shmobile/shmob_drm_backlight.c |  82 ---
+ .../gpu/drm/renesas/shmobile/shmob_drm_backlight.h |  19 -
+ drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c  | 650 +++++++++------------
+ drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.h  |  27 +-
+ drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c   | 179 +++---
+ drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.h   |  18 +-
+ drivers/gpu/drm/renesas/shmobile/shmob_drm_kms.c   |  77 ++-
+ drivers/gpu/drm/renesas/shmobile/shmob_drm_kms.h   |   9 +-
+ drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c | 326 ++++++-----
+ drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.h |   5 +-
+ include/linux/platform_data/shmob_drm.h            |  57 +-
+ include/uapi/linux/media-bus-format.h              |   3 +-
+ 17 files changed, 860 insertions(+), 813 deletions(-)
+ create mode 100644
+Documentation/devicetree/bindings/display/renesas,shmobile-lcdc.yaml
+ delete mode 100644 drivers/gpu/drm/renesas/shmobile/shmob_drm_backlight.c
+ delete mode 100644 drivers/gpu/drm/renesas/shmobile/shmob_drm_backlight.h
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
