@@ -1,52 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B8D47CB0DF
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Oct 2023 19:01:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB6607CB0E0
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Oct 2023 19:01:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 06FA910E232;
-	Mon, 16 Oct 2023 17:01:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21E7410E235;
+	Mon, 16 Oct 2023 17:01:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E0D4B10E232
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Oct 2023 17:01:38 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2BE1910E236
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Oct 2023 17:01:42 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 39GErdFs014866; Mon, 16 Oct 2023 17:01:35 GMT
+ 39GCvVxK000688; Mon, 16 Oct 2023 17:01:37 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=qcppdkim1;
- bh=4K6F2KAA1sXQF0gvP7lTQjFoZ0+FgxqW9klGZpVensM=;
- b=eFmXRJLuQ9mbtgxlfDaBe+A+bcJHTsdCLUblSyhu0fGwt3lHAaxeSeOvSmxVAAmrYlRg
- h6GrSacD4QgSB0Hkxkx9xnVCely1qxHWdYdx1JwqJCklfdKh3uNGyBGVeBoVYyXNwfdf
- 2Ox0YdG/m+79NAqsXw/ytaXR2mGVQIIyn7+xJ7umtvG3pMi8k2R47jKNGldwx6JDG4sP
- FZ5vZEXwEwLnh8jVXkgzLRrhsv7LBqDb7l54qHEK9PZ1tFkkqH4VtY7tM3V0hQRP5EZe
- smVIrLDpgg5+VFlSblwFpZE+3yApyorblKV9e0NETueVw1djnI1TYB5kBct8tlxT4f3/ Gg== 
+ bh=Ikpmv8XMkxaZhQ029tgFjYHr7NyJv24F3tc5j5v41k4=;
+ b=kdM2KQYtJs7MyEB4QFvZqcZNUNSr0/nTHHG/TDhqKQR1Cx9psO/DnPrfRXHoLKY9FLUt
+ PGxTdYLLeaXkZjAeqlqmVQ+3Ylq+wCV7kJKL7i1syzsGlbRlTEaluD8jSddAZEazCMti
+ M2HsTjRJDNKZpsjMy5P4pzo7xm4mn5zz2Lyp/4jzKJ/bvxkS/ZT3q4g9QrymRT+qDDWv
+ 7OUE+tZtfMfb5RaObziuueiLIAGw9mbOQtG89fV3w9B8JRTFk/7UaGFaku+Y1ipqivLF
+ blNKnFh3azgbDokInzERpr1GoHZ/uq1hjdv73VLmbChZ4Oppm/CiTLdMu1uqrOITvT1X CA== 
 Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3tqgpp51jv-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ts49w8uh2-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 16 Oct 2023 17:01:34 +0000
+ Mon, 16 Oct 2023 17:01:36 +0000
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
  [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 39GH1Yql006504
+ by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 39GH1ZBw006509
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 16 Oct 2023 17:01:34 GMT
+ Mon, 16 Oct 2023 17:01:35 GMT
 Received: from jhugo-lnx.qualcomm.com (10.80.80.8) by
  nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.39; Mon, 16 Oct 2023 10:01:33 -0700
+ 15.2.1118.39; Mon, 16 Oct 2023 10:01:35 -0700
 From: Jeffrey Hugo <quic_jhugo@quicinc.com>
 To: <quic_ajitpals@quicinc.com>, <quic_carlv@quicinc.com>,
  <quic_pkanojiy@quicinc.com>, <stanislaw.gruszka@linux.intel.com>,
  <ogabbay@kernel.org>
-Subject: [PATCH v2 1/2] accel/qaic: Add support for periodic timesync
-Date: Mon, 16 Oct 2023 11:01:13 -0600
-Message-ID: <20231016170114.5446-2-quic_jhugo@quicinc.com>
+Subject: [PATCH v2 2/2] accel/qaic: Support MHI QAIC_TIMESYNC channel
+Date: Mon, 16 Oct 2023 11:01:14 -0600
+Message-ID: <20231016170114.5446-3-quic_jhugo@quicinc.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20231016170114.5446-1-quic_jhugo@quicinc.com>
 References: <20231016170114.5446-1-quic_jhugo@quicinc.com>
@@ -59,17 +59,17 @@ X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-ORIG-GUID: 6MF3WHTfNPiNgM9oeUfUKZS9MuekWH_g
-X-Proofpoint-GUID: 6MF3WHTfNPiNgM9oeUfUKZS9MuekWH_g
+X-Proofpoint-GUID: b-7O3WAJuJgwHSWiLnu5f_sowyqIhRok
+X-Proofpoint-ORIG-GUID: b-7O3WAJuJgwHSWiLnu5f_sowyqIhRok
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2023-10-16_10,2023-10-12_01,2023-05-22_02
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1011 mlxscore=0
- lowpriorityscore=0 malwarescore=0 suspectscore=0 bulkscore=0 phishscore=0
- mlxlogscore=999 adultscore=0 impostorscore=0 priorityscore=1501
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2309180000 definitions=main-2310160148
+ phishscore=0 impostorscore=0
+ clxscore=1015 malwarescore=0 priorityscore=1501 mlxscore=0 spamscore=0
+ lowpriorityscore=0 mlxlogscore=999 bulkscore=0 suspectscore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2309180000
+ definitions=main-2310160148
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,421 +87,283 @@ Cc: linux-arm-msm@vger.kernel.org, Jeffrey Hugo <quic_jhugo@quicinc.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Ajit Pal Singh <quic_ajitpals@quicinc.com>
+From: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
 
-Device and Host have a time synchronization mechanism that happens once
-during boot when device is in SBL mode. After that, in mission-mode there
-is no timesync. In an experiment after continuous operation, device time
-drifted w.r.t. host by approximately 3 seconds per day. This drift leads
-to mismatch in timestamp of device and Host logs. To correct this
-implement periodic timesync in driver. This timesync is carried out via
-QAIC_TIMESYNC_PERIODIC MHI channel.
+Use QAIC_TIMESYNC MHI channel to send UTC time to device in SBL
+environment. Remove support for QAIC_TIMESYNC MHI channel in AMSS
+environment as it is not used in that environment.
 
-Signed-off-by: Ajit Pal Singh <quic_ajitpals@quicinc.com>
 Signed-off-by: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
 Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
 Reviewed-by: Carl Vanderlip <quic_carlv@quicinc.com>
-Reviewed-by: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
 Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
 ---
- Documentation/accel/qaic/aic100.rst |   4 +
- Documentation/accel/qaic/qaic.rst   |   5 +
- drivers/accel/qaic/Makefile         |   3 +-
- drivers/accel/qaic/mhi_controller.c |  32 ++++
- drivers/accel/qaic/qaic_drv.c       |  10 ++
- drivers/accel/qaic/qaic_timesync.c  | 245 ++++++++++++++++++++++++++++
- drivers/accel/qaic/qaic_timesync.h  |  11 ++
- 7 files changed, 309 insertions(+), 1 deletion(-)
- create mode 100644 drivers/accel/qaic/qaic_timesync.c
- create mode 100644 drivers/accel/qaic/qaic_timesync.h
+ Documentation/accel/qaic/aic100.rst |   2 +-
+ drivers/accel/qaic/mhi_controller.c |   4 +-
+ drivers/accel/qaic/qaic.h           |   4 +
+ drivers/accel/qaic/qaic_drv.c       |   7 ++
+ drivers/accel/qaic/qaic_timesync.c  | 154 +++++++++++++++++++++++++++-
+ 5 files changed, 166 insertions(+), 5 deletions(-)
 
 diff --git a/Documentation/accel/qaic/aic100.rst b/Documentation/accel/qaic/aic100.rst
-index c80d0f1307db..78f6a4cbcc42 100644
+index 78f6a4cbcc42..17f7b3551608 100644
 --- a/Documentation/accel/qaic/aic100.rst
 +++ b/Documentation/accel/qaic/aic100.rst
-@@ -224,6 +224,10 @@ of the defined channels, and their uses.
+@@ -220,7 +220,7 @@ of the defined channels, and their uses.
+ +----------------+---------+----------+----------------------------------------+
+ | QAIC_DEBUG     | 18 & 19 | AMSS     | Not used.                              |
+ +----------------+---------+----------+----------------------------------------+
+-| QAIC_TIMESYNC  | 20 & 21 | SBL/AMSS | Used to synchronize timestamps in the  |
++| QAIC_TIMESYNC  | 20 & 21 | SBL      | Used to synchronize timestamps in the  |
  |                |         |          | device side logs with the host time    |
  |                |         |          | source.                                |
  +----------------+---------+----------+----------------------------------------+
-+| QAIC_TIMESYNC  | 22 & 23 | AMSS     | Used to periodically synchronize       |
-+| _PERIODIC      |         |          | timestamps in the device side logs with|
-+|                |         |          | the host time source.                  |
-++----------------+---------+----------+----------------------------------------+
- 
- DMA Bridge
- ==========
-diff --git a/Documentation/accel/qaic/qaic.rst b/Documentation/accel/qaic/qaic.rst
-index c88502383136..b3788dbc3ed2 100644
---- a/Documentation/accel/qaic/qaic.rst
-+++ b/Documentation/accel/qaic/qaic.rst
-@@ -178,3 +178,8 @@ overrides this for that call. Default is 5000 (5 seconds).
- 
- Sets the polling interval in microseconds (us) when datapath polling is active.
- Takes effect at the next polling interval. Default is 100 (100 us).
-+
-+**timesync_delay_ms (unsigned int)**
-+
-+Sets the time interval in milliseconds (ms) between two consecutive timesync
-+operations. Default is 1000 (1000 ms).
-diff --git a/drivers/accel/qaic/Makefile b/drivers/accel/qaic/Makefile
-index 2418418f7a50..3f7f6dfde7f2 100644
---- a/drivers/accel/qaic/Makefile
-+++ b/drivers/accel/qaic/Makefile
-@@ -9,4 +9,5 @@ qaic-y := \
- 	mhi_controller.o \
- 	qaic_control.o \
- 	qaic_data.o \
--	qaic_drv.o
-+	qaic_drv.o \
-+	qaic_timesync.o
 diff --git a/drivers/accel/qaic/mhi_controller.c b/drivers/accel/qaic/mhi_controller.c
-index 5036e58e7235..bea428e6d2e9 100644
+index bea428e6d2e9..2ca52de2b184 100644
 --- a/drivers/accel/qaic/mhi_controller.c
 +++ b/drivers/accel/qaic/mhi_controller.c
-@@ -373,6 +373,38 @@ static struct mhi_channel_config aic100_channels[] = {
- 		.auto_queue = false,
- 		.wake_capable = false,
- 	},
-+	{
-+		.name = "QAIC_TIMESYNC_PERIODIC",
-+		.num = 22,
-+		.num_elements = 32,
-+		.local_elements = 0,
-+		.event_ring = 0,
-+		.dir = DMA_TO_DEVICE,
-+		.ee_mask = MHI_CH_EE_AMSS,
-+		.pollcfg = 0,
-+		.doorbell = MHI_DB_BRST_DISABLE,
-+		.lpm_notify = false,
-+		.offload_channel = false,
-+		.doorbell_mode_switch = false,
-+		.auto_queue = false,
-+		.wake_capable = false,
-+	},
-+	{
-+		.num = 23,
-+		.name = "QAIC_TIMESYNC_PERIODIC",
-+		.num_elements = 32,
-+		.local_elements = 0,
-+		.event_ring = 0,
-+		.dir = DMA_FROM_DEVICE,
-+		.ee_mask = MHI_CH_EE_AMSS,
-+		.pollcfg = 0,
-+		.doorbell = MHI_DB_BRST_DISABLE,
-+		.lpm_notify = false,
-+		.offload_channel = false,
-+		.doorbell_mode_switch = false,
-+		.auto_queue = false,
-+		.wake_capable = false,
-+	},
+@@ -348,7 +348,7 @@ static struct mhi_channel_config aic100_channels[] = {
+ 		.local_elements = 0,
+ 		.event_ring = 0,
+ 		.dir = DMA_TO_DEVICE,
+-		.ee_mask = MHI_CH_EE_SBL | MHI_CH_EE_AMSS,
++		.ee_mask = MHI_CH_EE_SBL,
+ 		.pollcfg = 0,
+ 		.doorbell = MHI_DB_BRST_DISABLE,
+ 		.lpm_notify = false,
+@@ -364,7 +364,7 @@ static struct mhi_channel_config aic100_channels[] = {
+ 		.local_elements = 0,
+ 		.event_ring = 0,
+ 		.dir = DMA_FROM_DEVICE,
+-		.ee_mask = MHI_CH_EE_SBL | MHI_CH_EE_AMSS,
++		.ee_mask = MHI_CH_EE_SBL,
+ 		.pollcfg = 0,
+ 		.doorbell = MHI_DB_BRST_DISABLE,
+ 		.lpm_notify = false,
+diff --git a/drivers/accel/qaic/qaic.h b/drivers/accel/qaic/qaic.h
+index e3f4c30f3ffd..2f42de3ae9be 100644
+--- a/drivers/accel/qaic/qaic.h
++++ b/drivers/accel/qaic/qaic.h
+@@ -137,6 +137,10 @@ struct qaic_device {
+ 	u32 (*gen_crc)(void *msg);
+ 	/* Validate the CRC of a control message */
+ 	bool (*valid_crc)(void *msg);
++	/* MHI "QAIC_TIMESYNC" channel device */
++	struct mhi_device	*qts_ch;
++	/* Work queue for tasks related to MHI "QAIC_TIMESYNC" channel */
++	struct workqueue_struct	*qts_wq;
  };
  
- static struct mhi_event_config aic100_events[] = {
+ struct qaic_drm_device {
 diff --git a/drivers/accel/qaic/qaic_drv.c b/drivers/accel/qaic/qaic_drv.c
-index 6f58095767df..4f449ea7eb2f 100644
+index 4f449ea7eb2f..4d3585a711ca 100644
 --- a/drivers/accel/qaic/qaic_drv.c
 +++ b/drivers/accel/qaic/qaic_drv.c
-@@ -27,6 +27,7 @@
+@@ -325,6 +325,7 @@ static void cleanup_qdev(struct qaic_device *qdev)
+ 	cleanup_srcu_struct(&qdev->dev_lock);
+ 	pci_set_drvdata(qdev->pdev, NULL);
+ 	destroy_workqueue(qdev->cntl_wq);
++	destroy_workqueue(qdev->qts_wq);
+ }
  
- #include "mhi_controller.h"
- #include "qaic.h"
-+#include "qaic_timesync.h"
+ static struct qaic_device *create_qdev(struct pci_dev *pdev, const struct pci_device_id *id)
+@@ -348,6 +349,12 @@ static struct qaic_device *create_qdev(struct pci_dev *pdev, const struct pci_de
+ 	if (!qdev->cntl_wq)
+ 		return NULL;
  
- MODULE_IMPORT_NS(DMA_BUF);
- 
-@@ -586,8 +587,16 @@ static int __init qaic_init(void)
- 		goto free_pci;
- 	}
- 
-+	ret = qaic_timesync_init();
-+	if (ret) {
-+		pr_debug("qaic: qaic_timesync_init failed %d\n", ret);
-+		goto free_mhi;
++	qdev->qts_wq = alloc_workqueue("qaic_ts", WQ_UNBOUND, 0);
++	if (!qdev->qts_wq) {
++		destroy_workqueue(qdev->cntl_wq);
++		return NULL;
 +	}
 +
- 	return 0;
+ 	pci_set_drvdata(pdev, qdev);
+ 	qdev->pdev = pdev;
  
-+free_mhi:
-+	mhi_driver_unregister(&qaic_mhi_driver);
- free_pci:
- 	pci_unregister_driver(&qaic_pci_driver);
- 	return ret;
-@@ -611,6 +620,7 @@ static void __exit qaic_exit(void)
- 	 * reinitializing the link_up state after the cleanup is done.
- 	 */
- 	link_up = true;
-+	qaic_timesync_deinit();
- 	mhi_driver_unregister(&qaic_mhi_driver);
- 	pci_unregister_driver(&qaic_pci_driver);
- }
 diff --git a/drivers/accel/qaic/qaic_timesync.c b/drivers/accel/qaic/qaic_timesync.c
-new file mode 100644
-index 000000000000..769250272c21
---- /dev/null
+index 769250272c21..301f4462d51b 100644
+--- a/drivers/accel/qaic/qaic_timesync.c
 +++ b/drivers/accel/qaic/qaic_timesync.c
-@@ -0,0 +1,245 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/* Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved. */
+@@ -22,7 +22,8 @@ module_param(timesync_delay_ms, uint, 0600);
+ MODULE_PARM_DESC(timesync_delay_ms, "Delay in ms between two consecutive timesync operations");
+ 
+ enum qts_msg_type {
+-	QAIC_TS_SYNC_REQ = 1,
++	QAIC_TS_CMD_TO_HOST,
++	QAIC_TS_SYNC_REQ,
+ 	QAIC_TS_ACK_TO_HOST,
+ 	QAIC_TS_MSG_TYPE_MAX
+ };
+@@ -83,6 +84,16 @@ struct mqts_dev {
+ 	struct qts_host_time_sync_msg_data *sync_msg;
+ };
+ 
++struct qts_resp_msg {
++	struct qts_hdr	hdr;
++} __packed;
 +
-+#include <linux/io.h>
-+#include <linux/kernel.h>
-+#include <linux/math64.h>
-+#include <linux/mhi.h>
-+#include <linux/mod_devicetable.h>
-+#include <linux/module.h>
-+#include <linux/time64.h>
-+#include <linux/timer.h>
-+
-+#include "qaic.h"
-+#include "qaic_timesync.h"
-+
-+#define QTIMER_REG_OFFSET			0xa28
-+#define QAIC_TIMESYNC_SIGNATURE			0x55aa
-+#define QAIC_CONV_QTIMER_TO_US(qtimer)		(mul_u64_u32_div(qtimer, 10, 192))
-+
-+static unsigned int timesync_delay_ms = 1000; /* 1 sec default */
-+module_param(timesync_delay_ms, uint, 0600);
-+MODULE_PARM_DESC(timesync_delay_ms, "Delay in ms between two consecutive timesync operations");
-+
-+enum qts_msg_type {
-+	QAIC_TS_SYNC_REQ = 1,
-+	QAIC_TS_ACK_TO_HOST,
-+	QAIC_TS_MSG_TYPE_MAX
++struct qts_resp {
++	struct qts_resp_msg	data;
++	struct work_struct	work;
++	struct qaic_device	*qdev;
 +};
 +
-+/**
-+ * struct qts_hdr - Timesync message header structure.
-+ * @signature: Unique signature to identify the timesync message.
-+ * @reserved_1: Reserved for future use.
-+ * @reserved_2: Reserved for future use.
-+ * @msg_type: sub-type of the timesync message.
-+ * @reserved_3: Reserved for future use.
-+ */
-+struct qts_hdr {
-+	__le16	signature;
-+	__le16	reserved_1;
-+	u8	reserved_2;
-+	u8	msg_type;
-+	__le16	reserved_3;
-+} __packed;
-+
-+/**
-+ * struct qts_timeval - Structure to carry time information.
-+ * @tv_sec: Seconds part of the time.
-+ * @tv_usec: uS (microseconds) part of the time.
-+ */
-+struct qts_timeval {
-+	__le64	tv_sec;
-+	__le64	tv_usec;
-+} __packed;
-+
-+/**
-+ * struct qts_host_time_sync_msg_data - Structure to denote the timesync message.
-+ * @header: Header of the timesync message.
-+ * @data: Time information.
-+ */
-+struct qts_host_time_sync_msg_data {
-+	struct	qts_hdr header;
-+	struct	qts_timeval data;
-+} __packed;
-+
-+/**
-+ * struct mqts_dev - MHI QAIC Timesync Control device.
-+ * @qdev: Pointer to the root device struct driven by QAIC driver.
-+ * @mhi_dev: Pointer to associated MHI device.
-+ * @timer: Timer handle used for timesync.
-+ * @qtimer_addr: Device QTimer register pointer.
-+ * @buff_in_use: atomic variable to track if the sync_msg buffer is in use.
-+ * @dev: Device pointer to qdev->pdev->dev stored for easy access.
-+ * @sync_msg: Buffer used to send timesync message over MHI.
-+ */
-+struct mqts_dev {
-+	struct qaic_device *qdev;
+ #ifdef readq
+ static u64 read_qtimer(const volatile void __iomem *addr)
+ {
+@@ -234,12 +245,151 @@ static struct mhi_driver qaic_timesync_driver = {
+ 	},
+ };
+ 
++static void qaic_boot_timesync_worker(struct work_struct *work)
++{
++	struct qts_resp *resp = container_of(work, struct qts_resp, work);
++	struct qts_host_time_sync_msg_data *req;
++	struct qts_resp_msg data = resp->data;
++	struct qaic_device *qdev = resp->qdev;
 +	struct mhi_device *mhi_dev;
-+	struct timer_list timer;
-+	void __iomem *qtimer_addr;
-+	atomic_t buff_in_use;
-+	struct device *dev;
-+	struct qts_host_time_sync_msg_data *sync_msg;
-+};
-+
-+#ifdef readq
-+static u64 read_qtimer(const volatile void __iomem *addr)
-+{
-+	return readq(addr);
-+}
-+#else
-+static u64 read_qtimer(const volatile void __iomem *addr)
-+{
-+	u64 low, high;
-+
-+	low = readl(addr);
-+	high = readl(addr + sizeof(u32));
-+	return low | (high << 32);
-+}
-+#endif
-+
-+static void qaic_timesync_ul_xfer_cb(struct mhi_device *mhi_dev, struct mhi_result *mhi_result)
-+{
-+	struct mqts_dev *mqtsdev = dev_get_drvdata(&mhi_dev->dev);
-+
-+	dev_dbg(mqtsdev->dev, "%s status: %d xfer_len: %zu\n", __func__,
-+		mhi_result->transaction_status, mhi_result->bytes_xferd);
-+
-+	atomic_set(&mqtsdev->buff_in_use, 0);
-+}
-+
-+static void qaic_timesync_dl_xfer_cb(struct mhi_device *mhi_dev, struct mhi_result *mhi_result)
-+{
-+	struct mqts_dev *mqtsdev = dev_get_drvdata(&mhi_dev->dev);
-+
-+	dev_err(mqtsdev->dev, "%s no data expected on dl channel\n", __func__);
-+}
-+
-+static void qaic_timesync_timer(struct timer_list *t)
-+{
-+	struct mqts_dev *mqtsdev = from_timer(mqtsdev, t, timer);
-+	struct qts_host_time_sync_msg_data *sync_msg;
-+	u64 device_qtimer_us;
-+	u64 device_qtimer;
-+	u64 host_time_us;
-+	u64 offset_us;
-+	u64 host_sec;
++	struct timespec64 ts;
 +	int ret;
 +
-+	if (atomic_read(&mqtsdev->buff_in_use)) {
-+		dev_dbg(mqtsdev->dev, "%s buffer not free, schedule next cycle\n", __func__);
-+		goto mod_timer;
-+	}
-+	atomic_set(&mqtsdev->buff_in_use, 1);
-+
-+	sync_msg = mqtsdev->sync_msg;
-+	sync_msg->header.signature = cpu_to_le16(QAIC_TIMESYNC_SIGNATURE);
-+	sync_msg->header.msg_type = QAIC_TS_SYNC_REQ;
-+	/* Read host UTC time and convert to uS*/
-+	host_time_us = div_u64(ktime_get_real_ns(), NSEC_PER_USEC);
-+	device_qtimer = read_qtimer(mqtsdev->qtimer_addr);
-+	device_qtimer_us = QAIC_CONV_QTIMER_TO_US(device_qtimer);
-+	/* Offset between host UTC and device time */
-+	offset_us = host_time_us - device_qtimer_us;
-+
-+	host_sec = div_u64(offset_us, USEC_PER_SEC);
-+	sync_msg->data.tv_usec = cpu_to_le64(offset_us - host_sec * USEC_PER_SEC);
-+	sync_msg->data.tv_sec = cpu_to_le64(host_sec);
-+	ret = mhi_queue_buf(mqtsdev->mhi_dev, DMA_TO_DEVICE, sync_msg, sizeof(*sync_msg), MHI_EOT);
-+	if (ret && (ret != -EAGAIN)) {
-+		dev_err(mqtsdev->dev, "%s unable to queue to mhi:%d\n", __func__, ret);
++	mhi_dev = qdev->qts_ch;
++	/* Queue the response message beforehand to avoid race conditions */
++	ret = mhi_queue_buf(mhi_dev, DMA_FROM_DEVICE, &resp->data, sizeof(resp->data), MHI_EOT);
++	if (ret) {
++		kfree(resp);
++		dev_warn(&mhi_dev->dev, "Failed to re-queue response buffer %d\n", ret);
 +		return;
-+	} else if (ret == -EAGAIN) {
-+		atomic_set(&mqtsdev->buff_in_use, 0);
 +	}
 +
-+mod_timer:
-+	ret = mod_timer(t, jiffies + msecs_to_jiffies(timesync_delay_ms));
-+	if (ret)
-+		dev_err(mqtsdev->dev, "%s mod_timer error:%d\n", __func__, ret);
++	switch (data.hdr.msg_type) {
++	case QAIC_TS_CMD_TO_HOST:
++		req = kzalloc(sizeof(*req), GFP_KERNEL);
++		if (!req)
++			break;
++
++		req->header = data.hdr;
++		req->header.msg_type = QAIC_TS_SYNC_REQ;
++		ktime_get_real_ts64(&ts);
++		req->data.tv_sec = cpu_to_le64(ts.tv_sec);
++		req->data.tv_usec = cpu_to_le64(div_u64(ts.tv_nsec, NSEC_PER_USEC));
++
++		ret = mhi_queue_buf(mhi_dev, DMA_TO_DEVICE, req, sizeof(*req), MHI_EOT);
++		if (ret) {
++			kfree(req);
++			dev_dbg(&mhi_dev->dev, "Failed to send request message. Error %d\n", ret);
++		}
++		break;
++	case QAIC_TS_ACK_TO_HOST:
++		dev_dbg(&mhi_dev->dev, "ACK received from device\n");
++		break;
++	default:
++		dev_err(&mhi_dev->dev, "Invalid message type %u.\n", data.hdr.msg_type);
++	}
 +}
 +
-+static int qaic_timesync_probe(struct mhi_device *mhi_dev, const struct mhi_device_id *id)
++static int qaic_boot_timesync_queue_resp(struct mhi_device *mhi_dev, struct qaic_device *qdev)
++{
++	struct qts_resp *resp;
++	int ret;
++
++	resp = kzalloc(sizeof(*resp), GFP_KERNEL);
++	if (!resp)
++		return -ENOMEM;
++
++	resp->qdev = qdev;
++	INIT_WORK(&resp->work, qaic_boot_timesync_worker);
++
++	ret = mhi_queue_buf(mhi_dev, DMA_FROM_DEVICE, &resp->data, sizeof(resp->data), MHI_EOT);
++	if (ret) {
++		kfree(resp);
++		dev_warn(&mhi_dev->dev, "Failed to queue response buffer %d\n", ret);
++		return ret;
++	}
++
++	return 0;
++}
++
++static void qaic_boot_timesync_remove(struct mhi_device *mhi_dev)
++{
++	struct qaic_device *qdev;
++
++	qdev = dev_get_drvdata(&mhi_dev->dev);
++	mhi_unprepare_from_transfer(qdev->qts_ch);
++	qdev->qts_ch = NULL;
++}
++
++static int qaic_boot_timesync_probe(struct mhi_device *mhi_dev, const struct mhi_device_id *id)
 +{
 +	struct qaic_device *qdev = pci_get_drvdata(to_pci_dev(mhi_dev->mhi_cntrl->cntrl_dev));
-+	struct mqts_dev *mqtsdev;
-+	struct timer_list *timer;
 +	int ret;
-+
-+	mqtsdev = kzalloc(sizeof(*mqtsdev), GFP_KERNEL);
-+	if (!mqtsdev) {
-+		ret = -ENOMEM;
-+		goto out;
-+	}
-+
-+	timer = &mqtsdev->timer;
-+	mqtsdev->mhi_dev = mhi_dev;
-+	mqtsdev->qdev = qdev;
-+	mqtsdev->dev = &qdev->pdev->dev;
-+
-+	mqtsdev->sync_msg = kzalloc(sizeof(*mqtsdev->sync_msg), GFP_KERNEL);
-+	if (!mqtsdev->sync_msg) {
-+		ret = -ENOMEM;
-+		goto free_mqts_dev;
-+	}
-+	atomic_set(&mqtsdev->buff_in_use, 0);
 +
 +	ret = mhi_prepare_for_transfer(mhi_dev);
 +	if (ret)
-+		goto free_sync_msg;
++		return ret;
 +
-+	/* Qtimer register pointer */
-+	mqtsdev->qtimer_addr = qdev->bar_0 + QTIMER_REG_OFFSET;
-+	timer_setup(timer, qaic_timesync_timer, 0);
-+	timer->expires = jiffies + msecs_to_jiffies(timesync_delay_ms);
-+	add_timer(timer);
-+	dev_set_drvdata(&mhi_dev->dev, mqtsdev);
++	qdev->qts_ch = mhi_dev;
++	dev_set_drvdata(&mhi_dev->dev, qdev);
 +
-+	return 0;
++	ret = qaic_boot_timesync_queue_resp(mhi_dev, qdev);
++	if (ret) {
++		dev_set_drvdata(&mhi_dev->dev, NULL);
++		qdev->qts_ch = NULL;
++		mhi_unprepare_from_transfer(mhi_dev);
++	}
 +
-+free_sync_msg:
-+	kfree(mqtsdev->sync_msg);
-+free_mqts_dev:
-+	kfree(mqtsdev);
-+out:
 +	return ret;
-+};
-+
-+static void qaic_timesync_remove(struct mhi_device *mhi_dev)
-+{
-+	struct mqts_dev *mqtsdev = dev_get_drvdata(&mhi_dev->dev);
-+
-+	del_timer_sync(&mqtsdev->timer);
-+	mhi_unprepare_from_transfer(mqtsdev->mhi_dev);
-+	kfree(mqtsdev->sync_msg);
-+	kfree(mqtsdev);
 +}
 +
-+static const struct mhi_device_id qaic_timesync_match_table[] = {
-+	{ .chan = "QAIC_TIMESYNC_PERIODIC"},
++static void qaic_boot_timesync_ul_xfer_cb(struct mhi_device *mhi_dev, struct mhi_result *mhi_result)
++{
++	kfree(mhi_result->buf_addr);
++}
++
++static void qaic_boot_timesync_dl_xfer_cb(struct mhi_device *mhi_dev, struct mhi_result *mhi_result)
++{
++	struct qts_resp *resp = container_of(mhi_result->buf_addr, struct qts_resp, data);
++
++	if (mhi_result->transaction_status || mhi_result->bytes_xferd != sizeof(resp->data)) {
++		kfree(resp);
++		return;
++	}
++
++	queue_work(resp->qdev->qts_wq, &resp->work);
++}
++
++static const struct mhi_device_id qaic_boot_timesync_match_table[] = {
++	{ .chan = "QAIC_TIMESYNC"},
 +	{},
 +};
 +
-+MODULE_DEVICE_TABLE(mhi, qaic_timesync_match_table);
-+
-+static struct mhi_driver qaic_timesync_driver = {
-+	.id_table = qaic_timesync_match_table,
-+	.remove = qaic_timesync_remove,
-+	.probe = qaic_timesync_probe,
-+	.ul_xfer_cb = qaic_timesync_ul_xfer_cb,
-+	.dl_xfer_cb = qaic_timesync_dl_xfer_cb,
++static struct mhi_driver qaic_boot_timesync_driver = {
++	.id_table = qaic_boot_timesync_match_table,
++	.remove = qaic_boot_timesync_remove,
++	.probe = qaic_boot_timesync_probe,
++	.ul_xfer_cb = qaic_boot_timesync_ul_xfer_cb,
++	.dl_xfer_cb = qaic_boot_timesync_dl_xfer_cb,
 +	.driver = {
-+		.name = "qaic_timesync_periodic",
++		.name = "qaic_timesync",
 +	},
 +};
 +
-+int qaic_timesync_init(void)
-+{
-+	return mhi_driver_register(&qaic_timesync_driver);
-+}
+ int qaic_timesync_init(void)
+ {
+-	return mhi_driver_register(&qaic_timesync_driver);
++	int ret;
 +
-+void qaic_timesync_deinit(void)
-+{
-+	mhi_driver_unregister(&qaic_timesync_driver);
-+}
-diff --git a/drivers/accel/qaic/qaic_timesync.h b/drivers/accel/qaic/qaic_timesync.h
-new file mode 100644
-index 000000000000..851b7acd43bb
---- /dev/null
-+++ b/drivers/accel/qaic/qaic_timesync.h
-@@ -0,0 +1,11 @@
-+/* SPDX-License-Identifier: GPL-2.0-only
-+ *
-+ * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
-+ */
++	ret = mhi_driver_register(&qaic_timesync_driver);
++	if (ret)
++		return ret;
++	ret = mhi_driver_register(&qaic_boot_timesync_driver);
 +
-+#ifndef __QAIC_TIMESYNC_H__
-+#define __QAIC_TIMESYNC_H__
-+
-+int qaic_timesync_init(void);
-+void qaic_timesync_deinit(void);
-+#endif /* __QAIC_TIMESYNC_H__ */
++	return ret;
+ }
+ 
+ void qaic_timesync_deinit(void)
+ {
++	mhi_driver_unregister(&qaic_boot_timesync_driver);
+ 	mhi_driver_unregister(&qaic_timesync_driver);
+ }
 -- 
 2.40.1
 
