@@ -2,58 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 108477CA61D
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Oct 2023 12:56:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A657B7CA625
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Oct 2023 12:57:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4FABF10E1B6;
-	Mon, 16 Oct 2023 10:56:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E262A88E45;
+	Mon, 16 Oct 2023 10:57:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D338910E1B6;
- Mon, 16 Oct 2023 10:56:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1697453763; x=1728989763;
- h=message-id:date:mime-version:subject:from:to:cc:
- references:in-reply-to:content-transfer-encoding;
- bh=H5EK/1NrFbgiqg2PgWD+4Bqxa9ncCXBthHODgWpYWM8=;
- b=gUm5rCDQaGjsBwZhL41qir0JkBgaaVF+PccKOdOXEpnZWx7OJ5EaCTjJ
- 308sJtcvX+wHEmu+8CrIRmHKS7+lOZnT2Etwuzf4G5W3VCsYH0ZsRiE7p
- A80NLthGd6bLvcftdQqi84iKvRMxVGOIiWffj5TynY0MKwshBxcb9kt7X
- 2XV7II1Yo3zlKjDbyhC/ixGuU133GO7zToEooVR0sy39jj+y+9HttRdGF
- 7jYp04y530uvAGXH+DmwlXpfmpp72M99HXH5wxwDD3FGuAQ2AiC1YErGZ
- mV2/YQwYC+ykpLtCwGJwqU4AHTQo5WTrkBU0+zFr69QnWZKuRftZTpxjM Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="364851992"
-X-IronPort-AV: E=Sophos;i="6.03,229,1694761200"; d="scan'208";a="364851992"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Oct 2023 03:56:03 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.03,229,1694761200"; 
-   d="scan'208";a="3581917"
-Received: from hlykke-mobl.ger.corp.intel.com (HELO [10.249.254.194])
- ([10.249.254.194])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Oct 2023 03:56:06 -0700
-Message-ID: <b325ff2e-011b-98fd-9490-e02e21286c29@linux.intel.com>
-Date: Mon, 16 Oct 2023 12:55:42 +0200
+Received: from mail-yw1-x1129.google.com (mail-yw1-x1129.google.com
+ [IPv6:2607:f8b0:4864:20::1129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 037CB88E45
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Oct 2023 10:57:48 +0000 (UTC)
+Received: by mail-yw1-x1129.google.com with SMTP id
+ 00721157ae682-5a7c93507d5so51724757b3.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Oct 2023 03:57:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1697453868; x=1698058668; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=MLo6lm8DCOrQa7cpbQxRmZ4AW2SzeQU7OJCzMZY1x2g=;
+ b=eqAcI7sd5LgGYZcMC3EeWrRtxCppdo6o9ini/bba6TLK5YtcLXTj2N6fMR7J4c1t2x
+ TI5I5JgqZUQlK7gESi8xO/gVTgdf7cY7ZjAAA+WBmHngjm05onxwhHoBWC2iItUjUDR0
+ kpgONdvFGQyIRO1hlEXY6n9RWtNBjdpwduDkLWoD+daTBFXlmuv09GcEeIJkOG2M6uVS
+ CQlIdqEY4xC2BQWC+g5m6khUFDm1Mron6VvVyRtjHBmQcZ+pc/yjXaE+iE9Mp+269Pzf
+ oED7DclIh5XVl2lxuqgDLL57uFjnm3ctjuc0RQ/iuzhWpa86x8M8JIdzMQxDV02ottWx
+ dakw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1697453868; x=1698058668;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=MLo6lm8DCOrQa7cpbQxRmZ4AW2SzeQU7OJCzMZY1x2g=;
+ b=oHTnb1Ojieb6tiBlbn5k84Yqe4qvNF99E5vsh3CXaVRPfcFwzZk/by5cSxbi12uU9i
+ CXoWLpmJueJLrg+1qv1frxRIwMjuxiAA8rW7yqkKowB9/vnOVJXWox0M/Z+nYbzrZZPi
+ w82eo7R8XzYc9PWtZpMq1bseZL4VaVtgfqO8ivqudUdTtbWjj8EgD4f6aTZeF6jGeS4I
+ F0KaBCuao+MuDuCLMquoRrN5XYXVpSAItd0tDnQb2KLouLCgqt/w4SbjqDOrdLhbygdC
+ U3IEOwVPbLgFp28jl8y65GjLTmgKzmKgIF1Wzv2PxXSdi4wR9RffKcjAQihueFNOYOc7
+ BTPg==
+X-Gm-Message-State: AOJu0YzKF6oHKa4o5mouzrEcCl0b6twlzl0M5DUlZEO1Q+6oipxQZS1Y
+ ZjaM0JJE9weqTc19g2wYgQR0l6pXDB0vmNM9HjruD+XSz5reqg==
+X-Google-Smtp-Source: AGHT+IHc7UWoEBo9CKelVYa69UU9KXXFr9P5dhwxdsEhcMwW8dLuDYlvP5XHBxrpFdYeirrlCzCr7lCvaT/m0X/J7YM=
+X-Received: by 2002:a81:8441:0:b0:5a7:c8fa:c620 with SMTP id
+ u62-20020a818441000000b005a7c8fac620mr18397132ywf.0.1697453868093; Mon, 16
+ Oct 2023 03:57:48 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH drm-misc-next v6 4/6] drm/gpuvm: track/lock/validate
- external/evicted objects
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
-To: Danilo Krummrich <dakr@redhat.com>, airlied@gmail.com, daniel@ffwll.ch,
- matthew.brost@intel.com, sarah.walker@imgtec.com, donald.robson@imgtec.com,
- boris.brezillon@collabora.com, christian.koenig@amd.com, faith@gfxstrand.net
-References: <20231008233212.13815-1-dakr@redhat.com>
- <20231008233212.13815-5-dakr@redhat.com>
- <f5a025853885bd535188516853e87383879f9dc7.camel@linux.intel.com>
-Content-Language: en-US
-In-Reply-To: <f5a025853885bd535188516853e87383879f9dc7.camel@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20231011190017.1230898-1-wse@tuxedocomputers.com>
+ <ZSe1GYLplZo5fsAe@duo.ucw.cz>
+ <0440ed38-c53b-4aa1-8899-969e5193cfef@tuxedocomputers.com>
+ <ZSf9QneKO/8IzWhd@duo.ucw.cz>
+ <a244a00d-6be4-44bc-9d41-6f9df14de8ee@tuxedocomputers.com>
+ <ZSk16iTBmZ2fLHZ0@duo.ucw.cz>
+ <aac81702-df1e-43a2-bfe9-28e9cb8d2282@tuxedocomputers.com>
+ <ZSmg4tqXiYiX18K/@duo.ucw.cz>
+In-Reply-To: <ZSmg4tqXiYiX18K/@duo.ucw.cz>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Mon, 16 Oct 2023 12:57:36 +0200
+Message-ID: <CANiq72mfP+dOLFR352O0UNVF8m8yTi_VmOY1zzQdTBjPWCRowg@mail.gmail.com>
+Subject: Re: Implement per-key keyboard backlight as auxdisplay?
+To: Pavel Machek <pavel@ucw.cz>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,147 +75,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Lee Jones <lee@kernel.org>, linux-kernel@vger.kernel.org,
+ Werner Sembach <wse@tuxedocomputers.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ linux-input@vger.kernel.org, ojeda@kernel.org, linux-leds@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, Oct 13, 2023 at 9:56=E2=80=AFPM Pavel Machek <pavel@ucw.cz> wrote:
+>
+> So... a bit of rationale. The keyboard does not really fit into the
+> LED subsystem; LEDs are expected to be independent ("hdd led") and not
+> a matrix of them.
 
-On 10/13/23 15:37, Thomas Hellström wrote:
-> Hi,
->
-> On Mon, 2023-10-09 at 01:32 +0200, Danilo Krummrich wrote:
->> Currently the DRM GPUVM offers common infrastructure to track GPU VA
->> allocations and mappings, generically connect GPU VA mappings to
->> their
->> backing buffers and perform more complex mapping operations on the
->> GPU VA
->> space.
->>
->> However, there are more design patterns commonly used by drivers,
->> which
->> can potentially be generalized in order to make the DRM GPUVM
->> represent
->> a basis for GPU-VM implementations. In this context, this patch aims
->> at generalizing the following elements.
->>
->> 1) Provide a common dma-resv for GEM objects not being used outside
->> of
->>     this GPU-VM.
->>
->> 2) Provide tracking of external GEM objects (GEM objects which are
->>     shared with other GPU-VMs).
->>
->> 3) Provide functions to efficiently lock all GEM objects dma-resv the
->>     GPU-VM contains mappings of.
->>
->> 4) Provide tracking of evicted GEM objects the GPU-VM contains
->> mappings
->>     of, such that validation of evicted GEM objects is accelerated.
->>
->> 5) Provide some convinience functions for common patterns.
->>
->> Big thanks to Boris Brezillon for his help to figure out locking for
->> drivers updating the GPU VA space within the fence signalling path.
->>
->> Suggested-by: Matthew Brost <matthew.brost@intel.com>
->> Signed-off-by: Danilo Krummrich <dakr@redhat.com>
->> ---
->>   drivers/gpu/drm/drm_gpuvm.c | 646
->> ++++++++++++++++++++++++++++++++++++
->>   include/drm/drm_gpuvm.h     | 246 ++++++++++++++
->>   2 files changed, 892 insertions(+)
->>
-> There's a checkpatch.pl warning and a number of random macro CHECKs if
-> using --strict.
->
-> Also the overall s/Returns:/Return/ (and possibly function line break).
->
->
->> diff --git a/drivers/gpu/drm/drm_gpuvm.c
->> b/drivers/gpu/drm/drm_gpuvm.c
->> index 28282283ddaf..6977bd30eca5 100644
->> --- a/drivers/gpu/drm/drm_gpuvm.c
->> +++ b/drivers/gpu/drm/drm_gpuvm.c
->> @@ -82,6 +82,21 @@
->>    * &drm_gem_object list of &drm_gpuvm_bos for an existing instance
->> of this
->>    * particular combination. If not existent a new instance is created
->> and linked
->>    * to the &drm_gem_object.
->> + *
->> + * &drm_gpuvm_bo structures, since unique for a given &drm_gpuvm,
->> are also used
->> + * as entry for the &drm_gpuvm's lists of external and evicted
->> objects. Those
->> + * list are maintained in order to accelerate locking of dma-resv
->> locks and
-> s/list/lists/
->> + * validation of evicted objects bound in a &drm_gpuvm. For
->> instance, all
->> + * &drm_gem_object's &dma_resv of a given &drm_gpuvm can be locked
->> by calling
->> + * drm_gpuvm_exec_lock(). Once locked drivers can call
->> drm_gpuvm_validate() in
->> + * order to validate all evicted &drm_gem_objects. It is also
->> possible to lock
->> + * additional &drm_gem_objects by providing the corresponding
->> parameters to
->> + * drm_gpuvm_exec_lock() as well as open code the &drm_exec loop
->> while making
->> + * use of helper functions such as drm_gpuvm_prepare_range() or
->> + * drm_gpuvm_prepare_objects().
->> + *
->> + * Every bound &drm_gem_object is treated as external object when
->> its &dma_resv
->> + * structure is different than the &drm_gpuvm's common &dma_resv
->> structure.
->>    */
->>   
->>   /**
->> @@ -429,6 +444,20 @@
->>    * Subsequent calls to drm_gpuvm_bo_obtain() for the same &drm_gpuvm
->> and
->>    * &drm_gem_object must be able to observe previous creations and
->> destructions
->>    * of &drm_gpuvm_bos in order to keep instances unique.
->> + *
->> + * The &drm_gpuvm's lists for keeping track of external and evicted
->> objects are
->> + * protected against concurrent insertion / removal and iteration
->> internally.
->> + *
->> + * However, drivers still need ensure to protect concurrent calls to
->> functions
->> + * iterating those lists, namely drm_gpuvm_prepare_objects() and
->> + * drm_gpuvm_validate().
->
->> + *
->> + * Alternatively, drivers can set the &DRM_GPUVM_RESV_PROTECTED flag
->> to indicate
->> + * that the corresponding &dma_resv locks are held in order to
->> protect the
->> + * lists. If &DRM_GPUVM_RESV_PROTECTED is set, internal locking is
->> disabled and
->> + * the corresponding lockdep checks are enabled. This is an
->> optimization for
->> + * drivers which are capable of taking the corresponding &dma_resv
->> locks and
->> + * hence do not require internal locking.
->>    */
->>   
->>   /**
->> @@ -641,6 +670,195 @@
->>    *     }
->>    */
->>   
->> +/**
->> + * get_next_vm_bo_from_list() - get the next vm_bo element
-> macros use a different kerneldoc syntax:
-> https://return42.github.io/linuxdoc/linuxdoc-howto/kernel-doc-syntax.html#macro
+Makes sense.
 
-The syntax for macros in that page does not appear to be valid from what 
-I can tell. Please ignore that.
+> We do see various strange displays these days -- they commonly have
+> rounded corners and holes in them. I'm not sure how that's currently
+> supported, but I believe it is reasonable to view keyboard as a
+> display with slightly weird placing of pixels.
+>
+> Plus, I'd really like to play tetris on one of those :-).
+>
+> So, would presenting them as auxdisplay be acceptable? Or are there
+> better options?
 
-/Thomas
+It sounds like a fair use case -- auxdisplay are typically simple
+character-based or small graphical displays, e.g. 128x64, that may not
+be a "main" / usual screen as typically understood, but the concept is
+a bit fuzzy and we are a bit of a catch-all.
 
+And "keyboard backlight display with a pixel/color per-key" does not
+sound like a "main" screen, and having some cute effects displayed
+there are the kind of thing that one could do in the usual small
+graphical ones too. :)
+
+But if somebody prefers to create new categories (or subcategories
+within auxdisplay) to hold these, that could be nice too (in the
+latter case, I would perhaps suggest reorganizing all of the existing
+ones while at it).
+
+Cheers,
+Miguel
