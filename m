@@ -2,42 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9B1C7CAC50
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Oct 2023 16:52:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD5557CAB04
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Oct 2023 16:11:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB9F010E201;
-	Mon, 16 Oct 2023 14:52:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6CE8B10E1DF;
+	Mon, 16 Oct 2023 14:11:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org
- [IPv6:2604:1380:40e1:4800::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D3E1710E1F9
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Oct 2023 14:52:40 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 0F83DCE1379;
- Mon, 16 Oct 2023 14:52:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4F94C433C8;
- Mon, 16 Oct 2023 14:52:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1697467957;
- bh=9DVsvyLP9wi7nhAzFg6lg11E2jbhETUGY9q87/GU6m8=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=GcUL1Hdyk1HDzvaYRP9m2+YmYoRdQzzZ4yAUN8xcDU3a5YhTgAvVA/VHUeoXfKnzS
- Y3KBmGWxRwdKIeLFAnqtPkiX8j4lOhvIpuwqkaJnPSrsjMHHgF4SQR9vr56DndIkrX
- vXJA/rWhxAWrMHvTRVUegDs6Lheno5ui6TW080os=
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: stable@vger.kernel.org
-Subject: [PATCH 6.5 123/191] drm/tiny: correctly print `struct resource *` on
- error
-Date: Mon, 16 Oct 2023 10:41:48 +0200
-Message-ID: <20231016084018.250316756@linuxfoundation.org>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231016084015.400031271@linuxfoundation.org>
-References: <20231016084015.400031271@linuxfoundation.org>
-User-Agent: quilt/0.67
-X-stable: review
-X-Patchwork-Hint: ignore
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 154FF10E1DF
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Oct 2023 14:11:40 +0000 (UTC)
+Received: from i53875b5b.versanet.de ([83.135.91.91] helo=phil.lan)
+ by gloria.sntech.de with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <heiko@sntech.de>)
+ id 1qsOJc-00062e-LJ; Mon, 16 Oct 2023 16:11:28 +0200
+From: Heiko Stuebner <heiko@sntech.de>
+To: Andy Yan <andyshrk@163.com>, linux-rockchip@lists.infradead.org,
+ dri-devel@lists.freedesktop.org
+Subject: Re: (subset) [PATCH v2 0/4] Some cleanup of vop2 driver
+Date: Mon, 16 Oct 2023 16:11:25 +0200
+Message-Id: <169746544053.926160.14655120322858248122.b4-ty@sntech.de>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20231013122001.1594009-1-andyshrk@163.com>
+References: <20231013122001.1594009-1-andyshrk@163.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -51,61 +41,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Javier Martinez Canillas <javierm@redhat.com>, Joey Gouly <joey.gouly@arm.com>,
- patches@lists.linux.dev, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Thierry Reding <treding@nvidia.com>
+Cc: s.hauer@pengutronix.de, sjoerd.simons@collabora.com,
+ sebastian.reichel@collabora.com, hjc@rock-chips.com,
+ Andy Yan <andy.yan@rock-chips.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-6.5-stable review patch.  If anyone has any objections, please let me know.
+On Fri, 13 Oct 2023 20:20:01 +0800, Andy Yan wrote:
+> From: Andy Yan <andy.yan@rock-chips.com>
+> 
+> This is a preparation for the upcoming support for rk3588 vop.
+> Patch 1 remove unused struct
+> Patch 2 remove NR_LAYERS macro to support more layers on rk3588
+> Patch 3 are plane format fix
+> Patch 4 is a format rename
+> 
+> [...]
 
-------------------
+Applied, thanks!
 
-From: Joey Gouly <joey.gouly@arm.com>
+[1/4] drm/rockchip: remove unused struct in vop2
+      commit: ac1c11c23fc51c1ba51a3ed586df40ffe6b1de35
+[2/4] drm/rockchip: remove NR_LAYERS macro on vop2
+      commit: dc00748adcf03d754bf43035c668bc5b20fb6597
 
-commit c1165df2be2fffe3adeeaa68f4ee4325108c5e4e upstream.
+So I've picked up the pretty straight-forward patches for now.
 
-The `res` variable is already a `struct resource *`, don't take the address of it.
 
-Fixes incorrect output:
-
-	simple-framebuffer 9e20dc000.framebuffer: [drm] *ERROR* could not acquire memory range [??? 0xffff4be88a387d00-0xfffffefffde0a240 flags 0x0]: -16
-
-To be correct:
-
-	simple-framebuffer 9e20dc000.framebuffer: [drm] *ERROR* could not acquire memory range [mem 0x9e20dc000-0x9e307bfff flags 0x200]: -16
-
-Signed-off-by: Joey Gouly <joey.gouly@arm.com>
-Fixes: 9a10c7e6519b ("drm/simpledrm: Add support for system memory framebuffers")
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Thierry Reding <treding@nvidia.com>
-Cc: Javier Martinez Canillas <javierm@redhat.com>
-Cc: dri-devel@lists.freedesktop.org
-Cc: <stable@vger.kernel.org> # v6.3+
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Link: https://patchwork.freedesktop.org/patch/msgid/20231010174652.2439513-1-joey.gouly@arm.com
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- drivers/gpu/drm/tiny/simpledrm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/tiny/simpledrm.c b/drivers/gpu/drm/tiny/simpledrm.c
-index ff86ba1ae1b8..8ea120eb8674 100644
---- a/drivers/gpu/drm/tiny/simpledrm.c
-+++ b/drivers/gpu/drm/tiny/simpledrm.c
-@@ -745,7 +745,7 @@ static struct simpledrm_device *simpledrm_device_create(struct drm_driver *drv,
- 
- 		ret = devm_aperture_acquire_from_firmware(dev, res->start, resource_size(res));
- 		if (ret) {
--			drm_err(dev, "could not acquire memory range %pr: %d\n", &res, ret);
-+			drm_err(dev, "could not acquire memory range %pr: %d\n", res, ret);
- 			return ERR_PTR(ret);
- 		}
- 
+Best regards,
 -- 
-2.42.0
-
-
-
+Heiko Stuebner <heiko@sntech.de>
