@@ -2,49 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B4E07CA371
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Oct 2023 11:06:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9C477CA37D
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Oct 2023 11:06:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC3DA10E159;
-	Mon, 16 Oct 2023 09:06:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6CE3410E15C;
+	Mon, 16 Oct 2023 09:06:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 41D1510E159
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Oct 2023 09:05:59 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D012110E15C
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Oct 2023 09:06:41 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 68C71B811AE
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Oct 2023 09:05:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6984AC4339A
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Oct 2023 09:05:56 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTP id 1F168B811AF
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Oct 2023 09:06:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78EC0C433C9
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Oct 2023 09:06:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1697447156;
- bh=HIfVWMEfL7CwhiukwKTTslObuCIDKm/Z0vU0+oXjE0E=;
+ s=k20201202; t=1697447199;
+ bh=4dYvQCuf9b3tf3uNXhqNvMXf/odod6VTp5BhZbX80vA=;
  h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=oJ8/e1N4wrA+qcnWs47TR03xfA4o+bXwXeD/89l6CPWQXdm2OAQjQk20uUV9csg/o
- zczHyFawTtdS/JzkKJqFSW1fwoc8thUJOlSJKe2ILhWmO9ciYOEB7IX7js4hpziwm9
- YEnZ/+2JTkEN4jvE0Pa6C39nIBwYZ37dTNVjFkrPHtXD08i1YTlnVhVw7uGuHJpFhO
- e0oBpSyZ5ZyCRJ2EExU9HqHihpAJF40Vq/GrA8G6313txoMdYY4TX4ObOwZ6oRMXd5
- qm3hg2V+r6JoEou9+RIMH7DujjM/Lua+NN9AsxUFxTq1impDKq43YSnbVFHjewqLJo
- YNflcEW2TnFYw==
-Received: by mail-pj1-f49.google.com with SMTP id
- 98e67ed59e1d1-27d45f5658fso2101959a91.3
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Oct 2023 02:05:56 -0700 (PDT)
-X-Gm-Message-State: AOJu0Yx0kr6Q283w40/B7wUHlPvl2mZbpv7hgzHFfYtTSQKevD1RzLlX
- ebGI30gQ5WokXAILbLKVi3SPr3oinjafOcQqjjveWw==
-X-Google-Smtp-Source: AGHT+IHAvlp6PyNRZ0ZB1dBY2USfXb9KvbYa46vygCEVTpzfL+uk7PJPNZlvhXfjTyM2oHqDgSONdVXV8A7pL7XVKpo=
-X-Received: by 2002:a17:90a:d503:b0:27d:af3:f15d with SMTP id
- t3-20020a17090ad50300b0027d0af3f15dmr13466335pju.4.1697447156004; Mon, 16 Oct
- 2023 02:05:56 -0700 (PDT)
+ b=Ovnb0OLZa50TrHujRVZYsEjAMfq5a5InPpNjVIhcTfq/NJzWS6YQUNoReDERjSL3+
+ Kx7aFRWrKkM/BdWPlHkBBTCBd22XlC1zfElXbbSRESMzPJVXYJpjAk3w3USsOJ2VSr
+ 52G9aqUZEdZx5eDHXtLSFfI0NuVMWiX8y4l6i2UoZfWmVNIJg8ppY7Ax70Fs5j9Zn8
+ x5BsRea8wmh7fNgHXSBx7035xRxC/2uRycVr+HJSlKxsMpd/LTuyjYfoqMG4zIjojJ
+ xkCj3t2okNIw+I1JT5zxlOIt9KVvCG7a2/WKGgbg7S4WL3ZRPusHT7Ru33LJgWZuD6
+ pVWm0NLTYyhMQ==
+Received: by mail-pf1-f178.google.com with SMTP id
+ d2e1a72fcca58-6b1d1099a84so2711880b3a.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Oct 2023 02:06:39 -0700 (PDT)
+X-Gm-Message-State: AOJu0Yyjv+z2wfe/Ah9emc7e2dfiFCdqqMdm7ItP9ju7VCcpsaHwyYyd
+ TsoFEVz52/c6NwgxYEKLuamB7Q43FJB/DJbuJWieCg==
+X-Google-Smtp-Source: AGHT+IGuyJExJTh3Hz3QKu7cnVZE8okT82PfRYefqKYWYKmexNxw6mhEovZYJO3sgmjIB8eXV0/CRk3sGOen1Z0QN08=
+X-Received: by 2002:a05:6a21:6d87:b0:16c:b95c:6d35 with SMTP id
+ wl7-20020a056a216d8700b0016cb95c6d35mr33281513pzb.50.1697447199092; Mon, 16
+ Oct 2023 02:06:39 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230830142358.275459-1-biju.das.jz@bp.renesas.com>
- <20230830142358.275459-4-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20230830142358.275459-4-biju.das.jz@bp.renesas.com>
+ <20230830142358.275459-3-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20230830142358.275459-3-biju.das.jz@bp.renesas.com>
 From: Robert Foss <rfoss@kernel.org>
-Date: Mon, 16 Oct 2023 11:05:45 +0200
-X-Gmail-Original-Message-ID: <CAN6tsi6sgMeZKHa4usLeW2jS-_Mmba43LMeCa2DWdjCb+w2zJg@mail.gmail.com>
-Message-ID: <CAN6tsi6sgMeZKHa4usLeW2jS-_Mmba43LMeCa2DWdjCb+w2zJg@mail.gmail.com>
-Subject: Re: [PATCH v2 3/8] drm: adv7511: Add max_lane_freq_khz variable to
+Date: Mon, 16 Oct 2023 11:06:27 +0200
+X-Gmail-Original-Message-ID: <CAN6tsi4QH-S8rymoTP_DD2Q3etb26ZiLSqsP2o7+L5sCkgnXaA@mail.gmail.com>
+Message-ID: <CAN6tsi4QH-S8rymoTP_DD2Q3etb26ZiLSqsP2o7+L5sCkgnXaA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/8] drm: adv7511: Add max_mode_clock_khz variable to
  struct adv7511_chip_info
 To: Biju Das <biju.das.jz@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
@@ -79,87 +79,76 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On Wed, Aug 30, 2023 at 4:24=E2=80=AFPM Biju Das <biju.das.jz@bp.renesas.co=
 m> wrote:
 >
-> The ADV7533 supports a maximum lane clock of 800MHz whereas it is 891MHz
-> for ADV7535. Add max_lane_freq_khz variable to struct adv7511_chip_info t=
-o
+> The ADV7533 supports a maximum pixel clock of 80MHz whereas it is 148.5MH=
+z
+> for ADV7535. Add max_mode_clock_khz variable to struct adv7511_chip_info =
+to
 > handle this difference.
 >
-> While at it, drop the unused local variable max_lane_freq.
->
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Reviewed-by: Adam Ford <aford173@gmail.com>
+> Tested-by: Adam Ford <aford173@gmail.com> #imx8mm-beacon
 > Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 > ---
-> v1->v2:
->  * Added Rb tag from Laurent.
->  * Replaced max_lane_freq->max_lane_freq_khz in struct adv7511_chip_info.
->  * Replaced variable type from unsigned long->unsigned int.
+>  * Added Rb tag from Adam and Laurent
+>  * Added tested by tag from Adam.
+>  * Replaced max_mode_clock->max_mode_clock_khz in struct adv7511_chip_inf=
+o
+>  * Replaced variable type from unsigned int->unsigned long.
 > ---
 >  drivers/gpu/drm/bridge/adv7511/adv7511.h     | 1 +
 >  drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 2 ++
->  drivers/gpu/drm/bridge/adv7511/adv7533.c     | 5 +----
->  3 files changed, 4 insertions(+), 4 deletions(-)
+>  drivers/gpu/drm/bridge/adv7511/adv7533.c     | 2 +-
+>  3 files changed, 4 insertions(+), 1 deletion(-)
 >
 > diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511.h b/drivers/gpu/drm/b=
 ridge/adv7511/adv7511.h
-> index b9c6c1e8a353..f8d61f2fa30e 100644
+> index 59e8ef10d72e..b9c6c1e8a353 100644
 > --- a/drivers/gpu/drm/bridge/adv7511/adv7511.h
 > +++ b/drivers/gpu/drm/bridge/adv7511/adv7511.h
-> @@ -336,6 +336,7 @@ enum adv7511_type {
+> @@ -335,6 +335,7 @@ enum adv7511_type {
+>
 >  struct adv7511_chip_info {
 >         enum adv7511_type type;
->         unsigned int max_mode_clock_khz;
-> +       unsigned int max_lane_freq_khz;
+> +       unsigned int max_mode_clock_khz;
 >  };
 >
 >  struct adv7511 {
 > diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/d=
 rm/bridge/adv7511/adv7511_drv.c
-> index 12ceffd6a9eb..1c76aa5a5d5b 100644
+> index d869dbe41873..12ceffd6a9eb 100644
 > --- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
 > +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> @@ -1370,11 +1370,13 @@ static const struct adv7511_chip_info adv7511_chi=
+> @@ -1369,10 +1369,12 @@ static const struct adv7511_chip_info adv7511_chi=
 p_info =3D {
+>
 >  static const struct adv7511_chip_info adv7533_chip_info =3D {
 >         .type =3D ADV7533,
->         .max_mode_clock_khz =3D 80000,
-> +       .max_lane_freq_khz =3D 800000,
+> +       .max_mode_clock_khz =3D 80000,
 >  };
 >
 >  static const struct adv7511_chip_info adv7535_chip_info =3D {
 >         .type =3D ADV7535,
->         .max_mode_clock_khz =3D 148500,
-> +       .max_lane_freq_khz =3D 891000,
+> +       .max_mode_clock_khz =3D 148500,
 >  };
 >
 >  static const struct i2c_device_id adv7511_i2c_ids[] =3D {
 > diff --git a/drivers/gpu/drm/bridge/adv7511/adv7533.c b/drivers/gpu/drm/b=
 ridge/adv7511/adv7533.c
-> index 1d113489754c..4481489aaf5e 100644
+> index c452c4dc1c3f..1d113489754c 100644
 > --- a/drivers/gpu/drm/bridge/adv7511/adv7533.c
 > +++ b/drivers/gpu/drm/bridge/adv7511/adv7533.c
-> @@ -103,7 +103,6 @@ void adv7533_dsi_power_off(struct adv7511 *adv)
->  enum drm_mode_status adv7533_mode_valid(struct adv7511 *adv,
->                                         const struct drm_display_mode *mo=
-de)
->  {
-> -       unsigned long max_lane_freq;
->         struct mipi_dsi_device *dsi =3D adv->dsi;
+> @@ -108,7 +108,7 @@ enum drm_mode_status adv7533_mode_valid(struct adv751=
+1 *adv,
 >         u8 bpp =3D mipi_dsi_pixel_format_to_bpp(dsi->format);
 >
-> @@ -112,9 +111,7 @@ enum drm_mode_status adv7533_mode_valid(struct adv751=
-1 *adv,
+>         /* Check max clock for either 7533 or 7535 */
+> -       if (mode->clock > (adv->info->type =3D=3D ADV7533 ? 80000 : 14850=
+0))
+> +       if (mode->clock > adv->info->max_mode_clock_khz)
 >                 return MODE_CLOCK_HIGH;
 >
 >         /* Check max clock for each lane */
-> -       max_lane_freq =3D (adv->info->type =3D=3D ADV7533 ? 800000 : 8910=
-00);
-> -
-> -       if (mode->clock * bpp > max_lane_freq * adv->num_dsi_lanes)
-> +       if (mode->clock * bpp > adv->info->max_lane_freq_khz * adv->num_d=
-si_lanes)
->                 return MODE_CLOCK_HIGH;
->
->         return MODE_OK;
 > --
 > 2.25.1
 >
