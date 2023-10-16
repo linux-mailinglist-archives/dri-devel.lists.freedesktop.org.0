@@ -1,139 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43DFF7CAD14
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Oct 2023 17:14:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 57D177CAD12
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Oct 2023 17:13:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B97A10E21E;
-	Mon, 16 Oct 2023 15:14:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 38A4D10E217;
+	Mon, 16 Oct 2023 15:13:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A25510E21E;
- Mon, 16 Oct 2023 15:14:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1697469244; x=1729005244;
- h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=AKKHvMEdIFw2m+4xbpgiaHPd9nAQEfslEyMeE99mSuc=;
- b=msY8pkfy5QNxmeJbQzisI2LX5kmt4sgeQsSydXUVWTE6G5Nz/HDdKtDd
- dDQlmkViNMUt7cdXdWJTEnaAFTe1LYnVJwpWhJt6nDbafS9d6Pf/TafLF
- eS0gVfJdj6GBVt+LomzGQ3ozRKWlS/59OqEfwn1CggjdnNFu1oBH5ZOKu
- jTuZhCKPCHDCnyU+eZ1QrqTW0nETwPIAHpBxOxTKD1R5NjGR7wfZot5jV
- /UFVI29dBeIaxqiQKhJnzCzkgq+sArkoBUEAgUJe9MChJ1X7+mge6iTYA
- k930/sUUuHlB3IEx3HddeoO7nnPnbrZCFWiSm6cXliAZ5jZnJg5v6A7qA A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="384423605"
-X-IronPort-AV: E=Sophos;i="6.03,229,1694761200"; d="scan'208";a="384423605"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Oct 2023 08:13:36 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="899533802"
-X-IronPort-AV: E=Sophos;i="6.03,229,1694761200"; d="scan'208";a="899533802"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
- by fmsmga001.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 16 Oct 2023 08:11:37 -0700
-Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32; Mon, 16 Oct 2023 08:13:36 -0700
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32 via Frontend Transport; Mon, 16 Oct 2023 08:13:36 -0700
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.101)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.32; Mon, 16 Oct 2023 08:13:36 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nLIgs+mxparIf7DhbzkmxdcXSi5zXenz44G7LwfEFJWA278jQTqUyVmjnKIkRp9feeOxTV5Co85dezt9D50BjVlzqFcVEv21oaGNC1nYGTGHBrYy/I6QqzaBDlCYYBvMBZ23a6Mml1rGqj0STJnwqpdqcFTOm1rKnSRgy3tG+d1tTX7AyTAPobeOc4jFV7qNRi++0Gnl50tt7JfhnMzrn51DsdAmrDL3SxZD5mUopuMMRf9D2lJn63ImXKwDOX58k6TpCuyy3EQnrsznS3TS2JubBybcKbEbXsvPCn8OKowWMbLqfR6lbGYUpGCK/zSB4CZnkBqG4Q19jlEzs+9+vQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kP6Of0yC3Vp7JKqd2QAY54fECS0n3NL/uAZxFECMJJ0=;
- b=ij1TIZUQ6pnxVkgLZrvxe7VL4Xn/3eMoFfotZxtmsgbqW9k+rfcSenJgsJ8802zV70rbW1HBtmMOSsBYlGVYLW3KKfJfBXEGGi4IQPVC9rffJLf/c7Pygy1roXTScTciqtzoiAleRv7q7qeCg9AND6rQjN5p/uXfDV3O4flP/kOfg/tjQ8mwIFcatuk1ZPfhyAyhtcXhPSB2hpKhZvIqFVa3uKOqbu7D+pCsZmeSwbwJqjCTMHvFfIW7Y4/0D3lzEjKelTb4btUvHtdcfTNUMatTSxnQELP2lb1JvbC0NNlTZKaAboH+dJnHuVPl8gjwk6wGBQogUhxfDnzI3VAhVg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
- by PH0PR11MB5031.namprd11.prod.outlook.com (2603:10b6:510:33::18)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6863.45; Mon, 16 Oct
- 2023 15:13:34 +0000
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::3f66:aa7d:51d5:777]) by PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::3f66:aa7d:51d5:777%6]) with mapi id 15.20.6886.034; Mon, 16 Oct 2023
- 15:13:34 +0000
-Date: Mon, 16 Oct 2023 15:12:09 +0000
-From: Matthew Brost <matthew.brost@intel.com>
-To: Luben Tuikov <luben.tuikov@amd.com>
-Subject: Re: [PATCH v5 5/7] drm/sched: Split free_job into own work item
-Message-ID: <ZS1SyZUvMLJFEEbB@DUT025-TGLU.fm.intel.com>
-References: <20231011235826.585624-1-matthew.brost@intel.com>
- <20231011235826.585624-6-matthew.brost@intel.com>
- <23cceeb8-5d86-4923-a072-b9e72b74d36b@amd.com>
- <c91d3a47-df4a-4be8-8f27-c850289df281@amd.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <c91d3a47-df4a-4be8-8f27-c850289df281@amd.com>
-X-ClientProxiedBy: SJ0PR03CA0237.namprd03.prod.outlook.com
- (2603:10b6:a03:39f::32) To PH7PR11MB6522.namprd11.prod.outlook.com
- (2603:10b6:510:212::12)
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com
+ [IPv6:2a00:1450:4864:20::52e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 44E6210E21A
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Oct 2023 15:13:30 +0000 (UTC)
+Received: by mail-ed1-x52e.google.com with SMTP id
+ 4fb4d7f45d1cf-53e16f076b3so8458072a12.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Oct 2023 08:13:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=semihalf.com; s=google; t=1697469208; x=1698074008;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=1eR5ud+X4G99kqXhYup2CajHlyncDkkFQVZGmFycYE4=;
+ b=goV4gtpsz1/wfH8exkpkj3OoGxB3FgYPILxmdwSf196QNdXjFMRXeoarWw50EobMpM
+ LMuK/hCsHtmHZ2FLkoYX2DtSBi7Px5RCe5Qj7VbFanYZQphiHX4gttCkl8sXuHzAgFQd
+ 34oVIFb5lKDRu85zKXlJ25/kwc+52lPl1y2uyT6Jb8Q2QJ+wn3Na1LG4pBbkf3YHHGYO
+ lRUttMtYXZaGTc0Doax29d1BucF+EKB0WjWHJtJMx3mL2YjGFbwEAaBd4Z4YVpW/hlke
+ oBpOaH0nxTFzdBNBB1wgsgdXRMrtCRs66omedijl0IQpCr/+0hKeFjTgXeGKjto5Vecp
+ P17w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1697469208; x=1698074008;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=1eR5ud+X4G99kqXhYup2CajHlyncDkkFQVZGmFycYE4=;
+ b=Te7dcG/jtEQld12RMxf2G9lmOUexhhoWCo7/oeA8uhkNp5eMd6d7OVQD1p4nJ7yfnF
+ Y6jMRfIW5vghCcgQKWaUj+UShDo+hv5k1ySccNMp4TD0sYuoz68OyhO7mQSfsoYPpFMp
+ mvj6fim482l+J5YXIH/X1tqcf+/NaWuP82GuY5qyQmTrjmiLsqx0vemY4Rm8MNc2kTCH
+ 1w+K+Kms84xRbZBjkbvaccuhYN5V1PfeCgHPxo02w9x/Jg7l0PxjmlGJZFKO48arM6XC
+ S58FtYCkElE+EMfRJh12d85LBOg6pWetolLm+kRQ9eloXp5ZS/PE+ZViRh0HMfgkuHCg
+ 8ymw==
+X-Gm-Message-State: AOJu0Yy/yLTKwN5iZCZzP0qxyotQf38KYkGUjbCSIayqVDQGUkANPbMm
+ hsQ9hd/jUr1BHO59BPLsQ3YHCzSaah8yJVzZcrlA
+X-Google-Smtp-Source: AGHT+IFg3/KAz6Mip/C3DXnI335HIk46uxk8vrysOfN9E7iyF67oOzOnHex+ShwEAuJmJYfekwilB0L9GS9E/6rpGz0=
+X-Received: by 2002:a05:6402:354c:b0:53d:b59c:8f8d with SMTP id
+ f12-20020a056402354c00b0053db59c8f8dmr7999575edd.8.1697469208569; Mon, 16 Oct
+ 2023 08:13:28 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|PH0PR11MB5031:EE_
-X-MS-Office365-Filtering-Correlation-Id: f5910b4d-44a5-4853-44ea-08dbce5a770b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Osv45wJqB7jYRfFD5Azp5zqNmKP+BqEkmF+sqcZxqSTVQnmjQtMQbczXewS+qFKo7n0MqxsWVK/9C9mSNgcAxNdiBONnP87p9gaMwxIgQX/fLLrzfuFIU2Uj81CvlmW5qArGEGgxsO4VgdiKErZfjHXU1zMPR2QMXtqSJV6pnc7haMylpDA74XJzRc25dR0cheS5NFzcPPMpSFZ6+NPd9AHNtFmzDQz2IDQzGhGcrjL9HxkWakMl35IwRQKe/sWSKF2BhZy9q2GAFeY3HpyocUBJZ7k5cQPof+n7jbWyaTjSuU8oODfu6lbG9j2tY2WDLXbbYKZGR6CmAx2OBwS+W8cmH+mTe2rrPfaNoYTKos7QVW/fmE882KtQg9rk3GdW3R/D6dOsyDJFUmqqoblylDgoK6K1e1iCjkTRgqsUGK5GYSVYQOPDkk6uxAnkLWrt67X3ZrDB3aJ/Sl0gzbBwlvmEn7BO0kmPF4Xgu/DjaooQ5ylSDVQYNPtwbEVPY64FpFbO/vCzFY6F7rvJIF2Y5tf1l6SmBp1/EqDRzKn+6rBKNLNNijujprW2fuPvLXjQ
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(346002)(396003)(366004)(376002)(39860400002)(136003)(230922051799003)(64100799003)(186009)(451199024)(1800799009)(4001150100001)(6916009)(83380400001)(4326008)(26005)(82960400001)(38100700002)(8676002)(8936002)(44832011)(316002)(41300700001)(6486002)(66556008)(66946007)(53546011)(6512007)(478600001)(2906002)(6666004)(7416002)(5660300002)(6506007)(66476007)(86362001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?poWtjMa4zQgiE9deZ8SzZ17xTrtNOC5PJdsYYRlbgWUmuFLMMUv2LzdkO6U1?=
- =?us-ascii?Q?bCnP5LTcJfDq6glIQCvVs3oGdrfje5oCTUCKxc+iO0E1DT0c+36f7s6YWSMv?=
- =?us-ascii?Q?6aUfoI8/JE62r4BmNp1XvSto/hrQtg9qxn9zKoHfiPereZkWp40nZ8XAZA74?=
- =?us-ascii?Q?8oOyGtxy1pOaCt/dPYPSbP3nnkn5GDDjZ92jXW0sUWaCEjn4cRxzKgWLQH1z?=
- =?us-ascii?Q?+tNfFmx9RVubPumIvMQURKvFJ565Aju5TnR1UOYx7MXwh/ruadu6ui6Rk/K1?=
- =?us-ascii?Q?rfxFjpqO8KKnlDTGk4U4quWPo3DdG+Vnrk1MZSxIUYWA9GLzXMHkZ0BzyOpD?=
- =?us-ascii?Q?D5ORZYw4KCRw8lwa8CN4463/9N4cgyZCC9kL1vOQbWV1i/xEs+OlvsIpCPsd?=
- =?us-ascii?Q?cEmMVs/I4tZYDvDfjoAe1UnjPLr9rPzwRu9DX5XxgOaIYg4AKAxywrV6a/SK?=
- =?us-ascii?Q?Sjo5NCeXynd6izwo47yYUrBhJxPcz9GP8/7aAW6Mj6Fmf8BIypO6f2vVyk/Q?=
- =?us-ascii?Q?Nqzs/luBbdI2sCyT6SggtqD64iig2phxx08CgOhmiWPmZNCtQtHHc/hpx4hr?=
- =?us-ascii?Q?Wn1uUF4PyzH4OkE920ED/yhrgYmu6XjJOCgnAeEHC/nDVLhytlNvgLNm8Llk?=
- =?us-ascii?Q?SR00MmCVgWsIKj5khz7OPvD+oDugYOiFEElH2K26AmskgONV3HWWtsWuwtI3?=
- =?us-ascii?Q?mT4a4VPQ287ZijCl2vMal5CpU3gUgZ1+HL5kKWRpyLOwKtgsEejF0FdMPi2/?=
- =?us-ascii?Q?Nm8E9SviZ8Z+2fZPCy9uEOt7pydwAOegL4oXG0Z8jAaAAwpBh6Pi6K57+QKz?=
- =?us-ascii?Q?CeXpiGoqw/wxb+vkHuygdpA6TqtAOuQw/jwlUcAfAfRf+iYwNvqBZf2zhN1b?=
- =?us-ascii?Q?ArFlieoYicT3jU4pQeckz0fnQyAUAZqLzPzEASg9/3gVPCZYPWnHWpnJDXsS?=
- =?us-ascii?Q?1fR8Dk+lETROZUf2Jx4aoi5W9okAkdVVhn396NSGQDkpPStqdGsJaq8SmEyj?=
- =?us-ascii?Q?rXdyP4F8UwZap7ULDU5AQoyF5yROnyG8/hrCMeDfAGC9YQugjN3bKl6hLtHh?=
- =?us-ascii?Q?nfXOLKMWwDqqhPqOCblWEukwUfIFsKD9tNJBAotiszU18h2+NLeTNRBelCLY?=
- =?us-ascii?Q?Th6jvcJhEvX0i+YiXyUx6VLQtREK/kh5WqiliYR3PSFNvwp2ZTyspUnmuLtu?=
- =?us-ascii?Q?LYQM4cPjUs1BZhNivMIKeSsJvgbQebZ0bzqDKWmZA23NX4DzApTAZZaFNzIK?=
- =?us-ascii?Q?nFUOjqjnUqGfBT6o5wxqDSpHFNzKpyarJ6/mlVbf8huFrmvny84mFy4Xgyfb?=
- =?us-ascii?Q?xd8701MOmkq4HK4F+JT1EmYsvZe1yYZKezKlgka56rg0pbOO8PEZom2CclgO?=
- =?us-ascii?Q?M6abzfLjqIgpgqFcpaLNGHDf5ZlynOM8xLGvo9kaH8mZgLTBpoJswLqbCDmH?=
- =?us-ascii?Q?VtXOwHYRzlkGKr9Hqqs2P+edXRq3FPIm4/9paU/LrT4onsDtG9zsmfkmqJ6T?=
- =?us-ascii?Q?A0pznzjsUIT2tTXVyKUuttF0rEYF1hQPbLMwZuIcyujZJ9BxKx+QtlOINLFg?=
- =?us-ascii?Q?gFTC6N1ycUwcgny604cUzCgOMjO0lHNjrXMwhpkIxg1gAOmL5xpdAEvKR6So?=
- =?us-ascii?Q?nQ=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: f5910b4d-44a5-4853-44ea-08dbce5a770b
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Oct 2023 15:13:34.4449 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: iRSM9qS/4Wn9qEY2vuw4M9vATu2HDqcGhYaSajS4sLFE59i71/WtGjCvRX2gQz8BgGXvtx3xVAT+NxNETrz1HA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB5031
-X-OriginatorOrg: intel.com
+References: <CAK8ByeJBrPEQSgUc91LQO9Krzjh2pauhMTjEC82M8ozayE76Yg@mail.gmail.com>
+ <CAJfuBxxmL-GtBgt=033F9UNeLCreFbJh3HrQQN2nYKwR_0uTbg@mail.gmail.com>
+ <20231003155810.6df9de16@gandalf.local.home>
+ <CAJfuBxyJyFbFEhRxrtxJ_RazaTODV6Gg64b1aiNEzt6_iE4=Og@mail.gmail.com>
+ <CAK8ByeLNc9UbTNG4x=40AxYqjjRCsvBNtNFai0PMveM2X4XCow@mail.gmail.com>
+ <CAJfuBxyRF4q_T8LmHwR=-PKKDDpiFg2nO03uLnL8aGpRyBByKw@mail.gmail.com>
+ <CAK8ByeLpkSV6o6gPw8eJVqq5+ynQrSDjemY7mXkO1ZmA0rYKfQ@mail.gmail.com>
+ <CAJfuBxw+ANLwssAGWpkn5PeJb8ZKn4LXQkk2Gfv3aGsSN=S55Q@mail.gmail.com>
+ <CAJfuBxy9qn-4i3SteTL1LBbBxPrFM52KkBd=1UhcKV3S_KdQvw@mail.gmail.com>
+ <20231011114816.19d79f43@eldfell> <ZSZuACLwt5_XAL2n@phenom.ffwll.local>
+ <CAJfuBxytOcUDmPBO7uQ9mMRvpNvzA3tgg_-pSGmdXpjDPe5sNQ@mail.gmail.com>
+In-Reply-To: <CAJfuBxytOcUDmPBO7uQ9mMRvpNvzA3tgg_-pSGmdXpjDPe5sNQ@mail.gmail.com>
+From: =?UTF-8?Q?=C5=81ukasz_Bartosik?= <lb@semihalf.com>
+Date: Mon, 16 Oct 2023 17:13:16 +0200
+Message-ID: <CAK8Bye+v+fYsN-716vQKJCoTmDQWmTw_Z1ZGD2A=HvuuAApwig@mail.gmail.com>
+Subject: Re: [PATCH v1] dynamic_debug: add support for logs destination
+To: jim.cromie@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -146,60 +79,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: robdclark@chromium.org, thomas.hellstrom@linux.intel.com,
- sarah.walker@imgtec.com, ketil.johnsen@arm.com, Liviu.Dudau@arm.com,
- mcanal@igalia.com, dri-devel@lists.freedesktop.org, christian.koenig@amd.com,
- boris.brezillon@collabora.com, dakr@redhat.com, donald.robson@imgtec.com,
- lina@asahilina.net, intel-xe@lists.freedesktop.org,
- faith.ekstrand@collabora.com
+Cc: linux-kernel@vger.kernel.org, dri-devel <dri-devel@lists.freedesktop.org>,
+ "wayland-devel@lists.freedesktop.org"
+ <wayland-devel@lists.freedesktop.org>, Pekka Paalanen <ppaalanen@gmail.com>,
+ Sean Paul <seanpaul@chromium.org>, Steven Rostedt <rostedt@goodmis.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Oct 14, 2023 at 08:09:31PM -0400, Luben Tuikov wrote:
-> On 2023-10-13 22:49, Luben Tuikov wrote:
-> > On 2023-10-11 19:58, Matthew Brost wrote:
-> >> Rather than call free_job and run_job in same work item have a dedicated
-> >> work item for each. This aligns with the design and intended use of work
-> >> queues.
-> >>
-> >> v2:
-> >>    - Test for DMA_FENCE_FLAG_TIMESTAMP_BIT before setting
-> >>      timestamp in free_job() work item (Danilo)
-> >> v3:
-> >>   - Drop forward dec of drm_sched_select_entity (Boris)
-> >>   - Return in drm_sched_run_job_work if entity NULL (Boris)
-> >> v4:
-> >>   - Replace dequeue with peek and invert logic (Luben)
-> >>   - Wrap to 100 lines (Luben)
-> >>   - Update comments for *_queue / *_queue_if_ready functions (Luben)
-> >>
-> >> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> > 
-> > I wasn't able to apply this patch on top of drm-misc-next at a48e2cc92835fa.
-> > 
-> > Create a branch off of a *clean* drm-misc-next and rebase/reapply/cherry-pick all
-> > 7 patches on top of that clean drm-misc-next branch. You should also run
-> > scripts/checkpatch.pl --strict on all your patches, or integrate it into the precommit
-> > hook, see githooks(5), so you don't have to run it manually.
-> > 
-> > Set format.useAutobase to whenAble somewhere in your Git configs (global/local),
-> > or use --base=auto to git-format-patch when you format your patches before
-> > git-send-email-ing them.
-> > 
-> > Repost your patches.
-> > 
-> > The base commit will be added to the bottom of the cover letter. It should
-> > be an ancestor (or tip) of drm-misc-next (git branch --contains <base> --list etc.).
-> > If it is not, your base tree wasn't clean, and you should redo this process.
-> 
-> Poking around I found out that this patch set is based off of drm-misc-fixes.
-> Had the base been included, it would've made this easier.
+czw., 12 pa=C5=BA 2023 o 20:48 <jim.cromie@gmail.com> napisa=C5=82(a):
+>
+> > If you want the kernel to keep separate flight recorders I guess we cou=
+ld
+> > add that, but I don't think it currently exists for the dyndbg stuff at
+> > least. Maybe a flight recorder v2 feature, once the basics are in.
+> >
+>
+> dyndbg has   +p    writes to syslog
+> +T  would separately independently write the same to global trace
+>
+> This would allow  graceful switchover to tracefs,
+> without removing logging from dmesg, where most folks
+> (and any monitor tools) would expect it.
+>
+> Lukas (iiuc) wants to steer each site to just 1 destination.
+> Or maybe (in addition to +p > syslog) one trace destination,
+> either global via events, or a separate tracebuf
+>
+> Im ambivalent, but thinking the smooth rollover from syslog to trace
+> might be worth having to ease migration / weaning off syslog.
+>
+> And we have a 4 byte hole in struct _ddebug we could just use.
 
-I believe I based this off of drm-tip. Will follow the flow mentioned above in next rev.
+I'm glad you brought that up. This means we can leave class_id field
+untouched, have separate +T in flags (for consistency)
+and dst_id can be easily 8 bits wide.
 
-Matt
+Also can you point me to the latest version of writing debug logs to
+trace events (+T option).
+I would like to base trace instances work on that because both are
+closely related.
 
-> -- 
-> Regards,
-> Luben
-> 
+> Unless the align 8 is optional on 32-bits,
+
+I verified with "gcc -g -m32 ..." that the align(8) is honored on 32 bits.
+
+> I think we're never gonna close the hole anywhere.
+>
+
+:)
+
+> is align 8 a generic expression of an architectural simplifying constrain=
+t ?
+> or a need for 1-7 ptr offsets ?
+>
+>
+>
+>
+> > > That's my idea of it. It is interesting to see how far the requiremen=
+ts
+> > > can be reasonably realised.
+> >
+> > I think aside from the "make it available directly to unpriviledged
+> > userspace" everything sounds reasonable and doable.
+> >
+> > More on the process side of things, I think Jim is very much looking fo=
+r
+> > acks and tested-by by people who are interested in better drm logging
+> > infra. That should help that things are moving in a direction that's
+> > actually useful, even when it's not yet entirely complete.
+> >
+>
+> yes, please.  Now posted at
+>
+> https://lore.kernel.org/lkml/20231012172137.3286566-1-jim.cromie@gmail.co=
+m/T/#t
+>
+> Lukas, I managed to miss your email in the send phase.
+> please consider yourself a direct recipient :-)
+>
+> thanks everyone
+>
+> > Cheers, Sima
+> > --
+> > Daniel Vetter
+> > Software Engineer, Intel Corporation
+> > http://blog.ffwll.ch
