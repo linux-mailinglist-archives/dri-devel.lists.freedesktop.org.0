@@ -1,34 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07A7C7CAB05
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Oct 2023 16:11:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 912687CAB63
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Oct 2023 16:25:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A5E0010E1E0;
-	Mon, 16 Oct 2023 14:11:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2FDBF10E1EC;
+	Mon, 16 Oct 2023 14:25:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 68A5910E1E0
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Oct 2023 14:11:48 +0000 (UTC)
-Received: from i53875b5b.versanet.de ([83.135.91.91] helo=phil.lan)
- by gloria.sntech.de with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <heiko@sntech.de>)
- id 1qsOJd-00062e-DJ; Mon, 16 Oct 2023 16:11:29 +0200
-From: Heiko Stuebner <heiko@sntech.de>
-To: Tomasz Figa <tfiga@chromium.org>, Dan Carpenter <dan.carpenter@linaro.org>
-Subject: Re: [PATCH] drm/rockchip: Fix type promotion bug in
- rockchip_gem_iommu_map()
-Date: Mon, 16 Oct 2023 16:11:26 +0200
-Message-Id: <169746544051.926160.339275214162402772.b4-ty@sntech.de>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <2bfa28b5-145d-4b9e-a18a-98819dd686ce@moroto.mountain>
-References: <2bfa28b5-145d-4b9e-a18a-98819dd686ce@moroto.mountain>
+Received: from mail-4317.proton.ch (mail-4317.proton.ch [185.70.43.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A258A10E1EC
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Oct 2023 14:25:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail2; t=1697466324; x=1697725524;
+ bh=xQEO98vuZrYX8N4oBqeb2y9CLMdMmM0MX+5hOWAXEIw=;
+ h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+ Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+ b=c0+Z6BAMdNpfst+M6mfLnMGx/AsDcJ5GLJds5664gcJ++N6muF9u+PNG0xCHbz2KZ
+ kR+8Wm1oTJnrxUiWToMJXzJYcJRkZVUQ4m+SMkMKfcTx9hxCVEBTn3EucJ/tEQraid
+ vpG6aRjCvFsc/2OwcLI0b2OzIRqvVVaoswIwmEHJA2vDjFZtUpp78qxkwxxt0BQtBT
+ UxgFt0wI6Bc0Ou4Tge1nGGL9P/4j8qDxwaY3A0GaX0NuSyEjakOuB2JMdUnKd3k1Y9
+ BWeSvbI0aBCGcwXIhotTneVJUeASUmGO8wzwGWLw5QWFf4pGyXCzt32HFUtAwjJ2Ym
+ kOXcm1zTX3ixA==
+Date: Mon, 16 Oct 2023 14:25:16 +0000
+To: dri-devel@lists.freedesktop.org
+From: Simon Ser <contact@emersion.fr>
+Subject: [PATCH 1/2] drm: extract closefb logic in separate function
+Message-ID: <20231016142510.3109-1-contact@emersion.fr>
+Feedback-ID: 1358184:user:proton
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,29 +44,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, Sandy Huang <hjc@rock-chips.com>,
- Maxime Ripard <mripard@kernel.org>, linux-rockchip@lists.infradead.org,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- rjan Eide <orjan.eide@arm.com>, Mark Yao <markyao0591@gmail.com>,
- linux-arm-kernel@lists.infradead.org, Shunqian Zheng <zhengsq@rock-chips.com>
+Cc: Hans de Goede <hdegoede@redhat.com>, Pekka Paalanen <ppaalanen@gmail.com>,
+ Sean Paul <seanpaul@chromium.org>, Dennis Filder <d.filder@web.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 11 Oct 2023 11:01:48 +0300, Dan Carpenter wrote:
-> The "ret" variable is declared as ssize_t and it can hold negative error
-> codes but the "rk_obj->base.size" variable is type size_t.  This means
-> that when we compare them, they are both type promoted to size_t and the
-> negative error code becomes a high unsigned value and is treated as
-> success.  Add a cast to fix this.
-> 
-> 
-> [...]
+drm_mode_rmfb performs two operations: drop the FB from the
+file_priv->fbs list, and make sure the FB is no longer used on a
+plane.
 
-Applied, thanks!
+In the next commit an IOCTL which only does so former will be
+introduced, so let's split it into a separate function.
 
-[1/1] drm/rockchip: Fix type promotion bug in rockchip_gem_iommu_map()
-      commit: 6471da5ee311d53ef46eebcb7725bc94266cc0cf
+No functional change, only refactoring.
 
-Best regards,
--- 
-Heiko Stuebner <heiko@sntech.de>
+Signed-off-by: Simon Ser <contact@emersion.fr>
+Cc: Hans de Goede <hdegoede@redhat.com>
+Cc: Dennis Filder <d.filder@web.de>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Pekka Paalanen <ppaalanen@gmail.com>
+Cc: Rob Clark <robdclark@gmail.com>
+Cc: Sean Paul <seanpaul@chromium.org>
+---
+ drivers/gpu/drm/drm_framebuffer.c | 51 +++++++++++++++++++------------
+ 1 file changed, 31 insertions(+), 20 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_framebuffer.c b/drivers/gpu/drm/drm_frameb=
+uffer.c
+index d3ba0698b84b..62306196808c 100644
+--- a/drivers/gpu/drm/drm_framebuffer.c
++++ b/drivers/gpu/drm/drm_framebuffer.c
+@@ -394,6 +394,31 @@ static void drm_mode_rmfb_work_fn(struct work_struct *=
+w)
+ =09}
+ }
+=20
++static int drm_mode_closefb(struct drm_framebuffer *fb,
++=09=09=09    struct drm_file *file_priv)
++{
++=09struct drm_framebuffer *fbl =3D NULL;
++=09bool found =3D false;
++
++=09mutex_lock(&file_priv->fbs_lock);
++=09list_for_each_entry(fbl, &file_priv->fbs, filp_head)
++=09=09if (fb =3D=3D fbl)
++=09=09=09found =3D true;
++
++=09if (!found) {
++=09=09mutex_unlock(&file_priv->fbs_lock);
++=09=09return -ENOENT;
++=09}
++
++=09list_del_init(&fb->filp_head);
++=09mutex_unlock(&file_priv->fbs_lock);
++
++=09/* Drop the reference that was stored in the fbs list */
++=09drm_framebuffer_put(fb);
++
++=09return 0;
++}
++
+ /**
+  * drm_mode_rmfb - remove an FB from the configuration
+  * @dev: drm device
+@@ -411,8 +436,7 @@ int drm_mode_rmfb(struct drm_device *dev, u32 fb_id,
+ =09=09  struct drm_file *file_priv)
+ {
+ =09struct drm_framebuffer *fb =3D NULL;
+-=09struct drm_framebuffer *fbl =3D NULL;
+-=09int found =3D 0;
++=09int ret;
+=20
+ =09if (!drm_core_check_feature(dev, DRIVER_MODESET))
+ =09=09return -EOPNOTSUPP;
+@@ -421,23 +445,14 @@ int drm_mode_rmfb(struct drm_device *dev, u32 fb_id,
+ =09if (!fb)
+ =09=09return -ENOENT;
+=20
+-=09mutex_lock(&file_priv->fbs_lock);
+-=09list_for_each_entry(fbl, &file_priv->fbs, filp_head)
+-=09=09if (fb =3D=3D fbl)
+-=09=09=09found =3D 1;
+-=09if (!found) {
+-=09=09mutex_unlock(&file_priv->fbs_lock);
+-=09=09goto fail_unref;
++=09ret =3D drm_mode_closefb(fb, file_priv);
++=09if (ret !=3D 0) {
++=09=09drm_framebuffer_put(fb);
++=09=09return ret;
+ =09}
+=20
+-=09list_del_init(&fb->filp_head);
+-=09mutex_unlock(&file_priv->fbs_lock);
+-
+-=09/* drop the reference we picked up in framebuffer lookup */
+-=09drm_framebuffer_put(fb);
+-
+ =09/*
+-=09 * we now own the reference that was stored in the fbs list
++=09 * We now own the reference we picked up in drm_framebuffer_lookup.
+ =09 *
+ =09 * drm_framebuffer_remove may fail with -EINTR on pending signals,
+ =09 * so run this in a separate stack as there's no way to correctly
+@@ -457,10 +472,6 @@ int drm_mode_rmfb(struct drm_device *dev, u32 fb_id,
+ =09=09drm_framebuffer_put(fb);
+=20
+ =09return 0;
+-
+-fail_unref:
+-=09drm_framebuffer_put(fb);
+-=09return -ENOENT;
+ }
+=20
+ int drm_mode_rmfb_ioctl(struct drm_device *dev,
+--=20
+2.42.0
+
+
