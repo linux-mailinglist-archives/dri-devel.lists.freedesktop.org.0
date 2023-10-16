@@ -1,34 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 658127CA1AD
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Oct 2023 10:33:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 982867CA1B4
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Oct 2023 10:34:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA86F10E143;
-	Mon, 16 Oct 2023 08:33:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 630B310E13E;
+	Mon, 16 Oct 2023 08:34:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from honk.sigxcpu.org (honk.sigxcpu.org [24.134.29.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 757DD10E143
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Oct 2023 08:33:09 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by honk.sigxcpu.org (Postfix) with ESMTP id 87C85FB0F;
- Mon, 16 Oct 2023 10:33:06 +0200 (CEST)
-Received: from honk.sigxcpu.org ([127.0.0.1])
- by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 4a32YQ3nMSmE; Mon, 16 Oct 2023 10:33:03 +0200 (CEST)
-Date: Mon, 16 Oct 2023 10:33:01 +0200
-From: Guido =?iso-8859-1?Q?G=FCnther?= <guido.gunther@puri.sm>
-To: Chris Morgan <macroalpha82@gmail.com>
-Subject: Re: [PATCH 3/5] drm/panel: st7703: Add Powkiddy RGB30 Panel Support
-Message-ID: <ZSz1PeHhFp0AHtMl@qwark.sigxcpu.org>
-References: <20231013183918.225666-1-macroalpha82@gmail.com>
- <20231013183918.225666-4-macroalpha82@gmail.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9537E10E13E
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Oct 2023 08:34:45 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 0E5AE60D2E
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Oct 2023 08:34:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id B071BC433CA
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Oct 2023 08:34:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1697445284;
+ bh=E+UI/X8/VQj5zYxK6vmdTWz4go5lscacs9jkoPUWZWk=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=RbWVwql7hqJSsga27SBpTIvqmv1lbusIc3t00geOiV5XQcs2AUkz3doI8tf5f5a0S
+ 15e/fJCZfoDU9z4zjeK5cCL+zNdtd7R1UdFyWk7ko/P6Aqnz8I5zhly45b40qq7IfL
+ pqKehdxgJocPmjyTQOc6zDQfJ8oPkpGDmzhLqJ2cVfTDVFRG67AAwB+UuWk9K0nxlv
+ ca9wy2tGjHrInETCK8BuJe55zPCY7Ju6i9ygagPwSqo2D36R0Lh1Bd+NqmD5h+yg8f
+ 8fEDu3fj2ZBRqsDupZfEI9Mfxe2NkRG7cgbbk9ij7DX3EYESRnQ52oZQT7SRIL6BF9
+ lfFRbYgAlmc+w==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 9A9FBC53BD3; Mon, 16 Oct 2023 08:34:44 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 218015] amdgpu powerplay: Spontaneous changes to
+ power_dpm_force_performance_level
+Date: Mon, 16 Oct 2023 08:34:44 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: high
+X-Bugzilla-Who: aros@gmx.com
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: ANSWERED
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_status resolution
+Message-ID: <bug-218015-2300-Ac4yvyDdxn@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-218015-2300@https.bugzilla.kernel.org/>
+References: <bug-218015-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231013183918.225666-4-macroalpha82@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,144 +70,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: megous@megous.com, devicetree@vger.kernel.org, conor+dt@kernel.org,
- kernel@puri.sm, krzysztof.kozlowski+dt@linaro.org, neil.armstrong@linaro.org,
- sam@ravnborg.org, Chris Morgan <macromorgan@hotmail.com>,
- dri-devel@lists.freedesktop.org, jagan@edgeble.ai,
- linux-rockchip@lists.infradead.org, robh+dt@kernel.org,
- sebastian.reichel@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Chris,
-On Fri, Oct 13, 2023 at 01:39:16PM -0500, Chris Morgan wrote:
-> From: Chris Morgan <macromorgan@hotmail.com>
-> 
-> The Powkiddy RGB30 4 inch panel is a 4 inch 720x720 DSI panel used in
-> the Powkiddy RGB30 handheld gaming device. Add support for it.
-> 
-> TODO: The panel seems to not resume properly from suspend. I've
-> confirmed on the other ST7703 based devices it works correctly.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D218015
 
-Regarding drm-misc-next has improvements regarding this prompted by the
-PinePhone. Maybe that fixes suspend for you too?
+Artem S. Tashkinov (aros@gmx.com) changed:
 
-Cheers,
- -- Guido
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEW                         |RESOLVED
+         Resolution|---                         |ANSWERED
 
-> 
-> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
-> ---
->  drivers/gpu/drm/panel/panel-sitronix-st7703.c | 89 +++++++++++++++++++
->  1 file changed, 89 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/panel/panel-sitronix-st7703.c b/drivers/gpu/drm/panel/panel-sitronix-st7703.c
-> index 6a3945639535..a9892a4447fb 100644
-> --- a/drivers/gpu/drm/panel/panel-sitronix-st7703.c
-> +++ b/drivers/gpu/drm/panel/panel-sitronix-st7703.c
-> @@ -433,6 +433,94 @@ static const struct st7703_panel_desc rg353v2_desc = {
->  	.init_sequence = rg353v2_init_sequence,
->  };
->  
-> +static int rgb30panel_init_sequence(struct st7703 *ctx)
-> +{
-> +	struct mipi_dsi_device *dsi = to_mipi_dsi_device(ctx->dev);
-> +
-> +	/* Init sequence extracted from Powkiddy RGB30 BSP kernel. */
-> +
-> +	/*
-> +	 * For some reason this specific panel must be taken out of sleep
-> +	 * before the full init sequence, or else it will not display.
-> +	 */
-> +	mipi_dsi_dcs_exit_sleep_mode(dsi);
-> +	msleep(250);
-> +
-> +	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETEXTC, 0xf1, 0x12, 0x83);
-> +	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETMIPI, 0x33, 0x81, 0x05, 0xf9,
-> +			       0x0e, 0x0e, 0x20, 0x00, 0x00, 0x00, 0x00, 0x00,
-> +			       0x00, 0x00, 0x44, 0x25, 0x00, 0x90, 0x0a, 0x00,
-> +			       0x00, 0x01, 0x4f, 0x01, 0x00, 0x00, 0x37);
-> +	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETPOWER_EXT, 0x25, 0x22, 0xf0,
-> +			       0x63);
-> +	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_UNKNOWN_BF, 0x02, 0x11, 0x00);
-> +	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETRGBIF, 0x10, 0x10, 0x28,
-> +			       0x28, 0x03, 0xff, 0x00, 0x00, 0x00, 0x00);
-> +	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETSCR, 0x73, 0x73, 0x50, 0x50,
-> +			       0x00, 0x00, 0x12, 0x70, 0x00);
-> +	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETVDC, 0x46);
-> +	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETPANEL, 0x0b);
-> +	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETCYC, 0x80);
-> +	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETDISP, 0x3c, 0x12, 0x30);
-> +	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETEQ, 0x07, 0x07, 0x0b, 0x0b,
-> +			       0x03, 0x0b, 0x00, 0x00, 0x00, 0x00, 0xff, 0x00,
-> +			       0xc0, 0x10);
-> +	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETPOWER, 0x36, 0x00, 0x32,
-> +			       0x32, 0x77, 0xf1, 0xcc, 0xcc, 0x77, 0x77, 0x33,
-> +			       0x33);
-> +	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETBGP, 0x0a, 0x0a);
-> +	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETVCOM, 0x88, 0x88);
-> +	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETGIP1, 0xc8, 0x10, 0x0a, 0x10,
-> +			       0x0f, 0xa1, 0x80, 0x12, 0x31, 0x23, 0x47, 0x86,
-> +			       0xa1, 0x80, 0x47, 0x08, 0x00, 0x00, 0x0d, 0x00,
-> +			       0x00, 0x00, 0x00, 0x00, 0x0d, 0x00, 0x00, 0x00,
-> +			       0x48, 0x02, 0x8b, 0xaf, 0x46, 0x02, 0x88, 0x88,
-> +			       0x88, 0x88, 0x88, 0x48, 0x13, 0x8b, 0xaf, 0x57,
-> +			       0x13, 0x88, 0x88, 0x88, 0x88, 0x88, 0x00, 0x00,
-> +			       0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-> +			       0x00, 0x00, 0x00);
-> +	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETGIP2, 0x96, 0x12, 0x01, 0x01,
-> +			       0x01, 0x78, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00,
-> +			       0x4f, 0x31, 0x8b, 0xa8, 0x31, 0x75, 0x88, 0x88,
-> +			       0x88, 0x88, 0x88, 0x4f, 0x20, 0x8b, 0xa8, 0x20,
-> +			       0x64, 0x88, 0x88, 0x88, 0x88, 0x88, 0x23, 0x00,
-> +			       0x00, 0x01, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00,
-> +			       0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-> +			       0x00, 0x00, 0x40, 0xa1, 0x80, 0x00, 0x00, 0x00,
-> +			       0x00);
-> +	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETGAMMA, 0x00, 0x0a, 0x0f,
-> +			       0x29, 0x3b, 0x3f, 0x42, 0x39, 0x06, 0x0d, 0x10,
-> +			       0x13, 0x15, 0x14, 0x15, 0x10, 0x17, 0x00, 0x0a,
-> +			       0x0f, 0x29, 0x3b, 0x3f, 0x42, 0x39, 0x06, 0x0d,
-> +			       0x10, 0x13, 0x15, 0x14, 0x15, 0x10, 0x17);
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct drm_display_mode rgb30panel_mode = {
-> +	.hdisplay	= 720,
-> +	.hsync_start	= 720 + 45,
-> +	.hsync_end	= 720 + 45 + 4,
-> +	.htotal		= 720 + 45 + 4 + 45,
-> +	.vdisplay	= 720,
-> +	.vsync_start	= 720 + 15,
-> +	.vsync_end	= 720 + 15 + 3,
-> +	.vtotal		= 720 + 15 + 3 + 11,
-> +	.clock		= 36570,
-> +	.flags		= DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC,
-> +	.width_mm	= 76,
-> +	.height_mm	= 76,
-> +};
-> +
-> +static const struct st7703_panel_desc rgb30panel_desc = {
-> +	.mode = &rgb30panel_mode,
-> +	.lanes = 4,
-> +	.mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
-> +		      MIPI_DSI_MODE_NO_EOT_PACKET | MIPI_DSI_MODE_LPM,
-> +	.format = MIPI_DSI_FMT_RGB888,
-> +	.init_sequence = rgb30panel_init_sequence,
-> +};
-> +
->  static int st7703_enable(struct drm_panel *panel)
->  {
->  	struct st7703 *ctx = panel_to_st7703(panel);
-> @@ -694,6 +782,7 @@ static void st7703_remove(struct mipi_dsi_device *dsi)
->  
->  static const struct of_device_id st7703_of_match[] = {
->  	{ .compatible = "anbernic,rg353v-panel-v2", .data = &rg353v2_desc },
-> +	{ .compatible = "powkiddy,rgb30-panel", .data = &rgb30panel_desc },
->  	{ .compatible = "rocktech,jh057n00900", .data = &jh057n00900_panel_desc },
->  	{ .compatible = "xingbangda,xbd599", .data = &xbd599_desc },
->  	{ /* sentinel */ }
-> -- 
-> 2.34.1
-> 
+--- Comment #3 from Artem S. Tashkinov (aros@gmx.com) ---
+Please report here instead:
+
+https://gitlab.freedesktop.org/drm/amd/-/issues
+
+6.1.x is really not the best kernel to use with this card.
+
+You should try something fresher, i.e. 6.5.7.
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
