@@ -1,40 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C08257CA163
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Oct 2023 10:14:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EA3F7CA16B
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Oct 2023 10:17:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 124BB10E131;
-	Mon, 16 Oct 2023 08:14:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0391F10E139;
+	Mon, 16 Oct 2023 08:17:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C3A4010E131
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Oct 2023 08:14:39 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0BF1110E136
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Oct 2023 08:17:44 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
  [213.243.189.158])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4E38957E;
- Mon, 16 Oct 2023 10:14:32 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0EE1457E;
+ Mon, 16 Oct 2023 10:17:36 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1697444072;
- bh=X0qPY/ZLr+T1pIWB06XY/oU04miPkYzv4QR6qe8hHmE=;
+ s=mail; t=1697444257;
+ bh=EftfoqGpdDus77//EOZMJorsdbgIE/1k/ECKENXGeo0=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=OEPhb+qfjRVqR7D1DjR/E4Qs9EwjfcHt8zBmMXEBgHmGiLl1wKX0oqAr3SYY4QtqV
- qPTLmd/7cqLDNPiSZG5NARIWT+TbU4s+6EyMzvh4mOJFRByYRQsDZG9L5ctpTQRtkM
- GBcs5herAk57EUmN/IcNYyspYVC5+maSi2mZhSsE=
-Date: Mon, 16 Oct 2023 11:14:44 +0300
+ b=Ove4ASLnI1xkDWh3D0UPJYm3A3yzl8x/HTcVunVopBNNknPPycXiL8Whlwsa6CHWy
+ UR2ZzoWnlYhdUpotdsAyru/CJZBMcWgCXFdVtxS175AUp5wYL28IC4A7XEBgbCVpHe
+ A4BYyFOGVKOHKRuX/ewRtt4ixIXMShRqyIPmB9JE=
+Date: Mon, 16 Oct 2023 11:17:49 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Alvin =?utf-8?Q?=C5=A0ipraga?= <alvin@pqrs.dk>
-Subject: Re: [PATCH] drm/bridge: adv7511: fix crash on irq during probe
-Message-ID: <20231016081444.GD23177@pendragon.ideasonboard.com>
-References: <20231014-adv7511-cec-irq-crash-fix-v1-1-3389486c8373@bang-olufsen.dk>
+Subject: Re: [PATCH] drm: bridge: adv7511: get edid in hpd_work to update CEC
+ phys address
+Message-ID: <20231016081749.GE23177@pendragon.ideasonboard.com>
+References: <20231014-adv7511-cec-edid-v1-1-a58ceae0b57e@bang-olufsen.dk>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231014-adv7511-cec-irq-crash-fix-v1-1-3389486c8373@bang-olufsen.dk>
+In-Reply-To: <20231014-adv7511-cec-edid-v1-1-a58ceae0b57e@bang-olufsen.dk>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,94 +48,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Archit Taneja <architt@codeaurora.org>, Robert Foss <rfoss@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Jonas Karlman <jonas@kwiboo.se>,
- Mads Bligaard Nielsen <bli@bang-olufsen.dk>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Hans Verkuil <hans.verkuil@cisco.com>, Maxime Ripard <mripard@kernel.org>,
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Jonas Karlman <jonas@kwiboo.se>, linux-kernel@vger.kernel.org,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, dri-devel@lists.freedesktop.org,
  Andrzej Hajda <andrzej.hajda@intel.com>,
- Alvin =?utf-8?Q?=C5=A0ipraga?= <alsi@bang-olufsen.dk>
+ Alvin =?utf-8?Q?=C5=A0ipraga?= <alsi@bang-olufsen.dk>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Alvin,
+Hi Alvin,
 
-On Sat, Oct 14, 2023 at 08:46:12PM +0200, Alvin Šipraga wrote:
-> From: Mads Bligaard Nielsen <bli@bang-olufsen.dk>
-> 
-> Moved IRQ registration down to end of adv7511_probe().
-> 
-> If an IRQ already is pending during adv7511_probe
-> (before adv7511_cec_init) then cec_received_msg_ts
-> could crash using uninitialized data:
-> 
->     Unable to handle kernel read from unreadable memory at virtual address 00000000000003d5
->     Internal error: Oops: 96000004 [#1] PREEMPT_RT SMP
->     Call trace:
->      cec_received_msg_ts+0x48/0x990 [cec]
->      adv7511_cec_irq_process+0x1cc/0x308 [adv7511]
->      adv7511_irq_process+0xd8/0x120 [adv7511]
->      adv7511_irq_handler+0x1c/0x30 [adv7511]
->      irq_thread_fn+0x30/0xa0
->      irq_thread+0x14c/0x238
->      kthread+0x190/0x1a8
-> 
-> Fixes: 3b1b975003e4 ("drm: adv7511/33: add HDMI CEC support")
+Thank you for the patch.
 
-Isn't the issue older than that ?
+CC'ing Hans Verkuil, to review the CEC side.
 
-> Signed-off-by: Mads Bligaard Nielsen <bli@bang-olufsen.dk>
+On Sat, Oct 14, 2023 at 09:43:01PM +0200, Alvin Šipraga wrote:
+> From: Alvin Šipraga <alsi@bang-olufsen.dk>
+> 
+> The adv7511 driver is solely responsible for setting the physical
+> address of its CEC adapter. To do this, it must read the EDID. However,
+> EDID is only read when either the drm_bridge_funcs :: get_edid or
+> drm_connector_helper_funcs :: get_modes ops are called. Without loss of
+> generality, it cannot be assumed that these ops are called when a sink
+> gets attached. Therefore there exist scenarios in which the CEC physical
+> address will be invalid (f.f.f.f), rendering the CEC adapter inoperable.
+> 
+> Address this problem by always fetching the EDID in the HPD work when we
+> detect a connection. The CEC physical address is set in the process.
+> 
 > Signed-off-by: Alvin Šipraga <alsi@bang-olufsen.dk>
+> ---
+> Pardon the insertion of the ugly adv7511_get_edid() prototype, but I did
+> not want to clobber git history by rearranging a bunch of functions. If
+> this is the preferred approach I will happily re-spin the patch.
 
-With the Fixes: tag updated,
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+There's nothing wrong in rearranging functions, it is actually preferred
+to adding forward declarations. You can submit a set of two patches, one
+to reorder the functions, and then a second one to fix the problem. This
+makes review easier by isolating the refactoring with no functional
+change from the functional changes.
 
 > ---
->  drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 22 +++++++++++-----------
->  1 file changed, 11 insertions(+), 11 deletions(-)
+>  drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
 > 
 > diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> index d518de88b5c3..71022cb8abe4 100644
+> index 2611afd2c1c1..3d32c109963c 100644
 > --- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
 > +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> @@ -1291,17 +1291,6 @@ static int adv7511_probe(struct i2c_client *i2c)
+> @@ -424,6 +424,9 @@ static bool adv7511_hpd(struct adv7511 *adv7511)
+>  	return false;
+>  }
 >  
->  	INIT_WORK(&adv7511->hpd_work, adv7511_hpd_work);
->  
-> -	if (i2c->irq) {
-> -		init_waitqueue_head(&adv7511->wq);
-> -
-> -		ret = devm_request_threaded_irq(dev, i2c->irq, NULL,
-> -						adv7511_irq_handler,
-> -						IRQF_ONESHOT, dev_name(dev),
-> -						adv7511);
-> -		if (ret)
-> -			goto err_unregister_cec;
-> -	}
-> -
->  	adv7511_power_off(adv7511);
->  
->  	i2c_set_clientdata(i2c, adv7511);
-> @@ -1325,6 +1314,17 @@ static int adv7511_probe(struct i2c_client *i2c)
->  
->  	adv7511_audio_init(dev, adv7511);
->  
-> +	if (i2c->irq) {
-> +		init_waitqueue_head(&adv7511->wq);
+> +static struct edid *adv7511_get_edid(struct adv7511 *adv7511,
+> +				     struct drm_connector *connector);
 > +
-> +		ret = devm_request_threaded_irq(dev, i2c->irq, NULL,
-> +						adv7511_irq_handler,
-> +						IRQF_ONESHOT, dev_name(dev),
-> +						adv7511);
-> +		if (ret)
-> +			goto err_unregister_audio;
-> +	}
+>  static void adv7511_hpd_work(struct work_struct *work)
+>  {
+>  	struct adv7511 *adv7511 = container_of(work, struct adv7511, hpd_work);
+> @@ -457,6 +460,9 @@ static void adv7511_hpd_work(struct work_struct *work)
+>  		if (adv7511->connector.dev) {
+>  			if (status == connector_status_disconnected)
+>  				cec_phys_addr_invalidate(adv7511->cec_adap);
+> +			else
+> +				adv7511_get_edid(adv7511, &adv7511->connector);
 > +
->  	if (adv7511->type == ADV7533 || adv7511->type == ADV7535) {
->  		ret = adv7533_attach_dsi(adv7511);
->  		if (ret)
+>  			drm_kms_helper_hotplug_event(adv7511->connector.dev);
+>  		} else {
+>  			drm_bridge_hpd_notify(&adv7511->bridge, status);
 > 
 
 -- 
