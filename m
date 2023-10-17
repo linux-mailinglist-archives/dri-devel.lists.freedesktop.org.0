@@ -2,125 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D78547CBCE1
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Oct 2023 09:55:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34DDF7CBD0D
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Oct 2023 10:06:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BCD2C10E286;
-	Tue, 17 Oct 2023 07:55:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B866910E281;
+	Tue, 17 Oct 2023 08:06:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2041.outbound.protection.outlook.com [40.107.92.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C8A710E283
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Oct 2023 07:55:19 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JOsAK4225282S0l4gO9ggmUlaX1Xgqw8UQqQKq206/N6AcjuL7108tzaA76IU744TuRUXskH4zm/c7x260IBdHvF4ZMXaZVpCyLqKWRWhaQNlnD1P+2dChjeRVkaw7z1gQDm6bAcvyHRnfUQ/eWNdrrH2NYcM/JqSAcgZs1qTglWvtUA29vMOQvBxtkecc48f1rIDUyUbjcLCBNMeAm6ZdAGI467n1v1kBhRWX8dKiEu8qy2pocbF+YPJlAqLXU2VfMfn0kmWNY0B45qHWMiDs+Z7JGRxUv+LgIb3uvWiUoOKuVQd4BAvmntUAHlCAoFcY9hMAZx8IanL35v9nijcQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=llD2ogoCGJQSjqKDF8C9uioEX+pPIhEKNQELQJpTV0Y=;
- b=k+th+aoZ03N8w+pPXa+HFGn6qME1P8dQqzKjbUYWLUpJpM/NU+eoGyjN6S5FAzmBNKNqeu0WFBjU57IJiHWqaTEhgkR0UBmJgQJSiz5N4TK7wZXaF67G6k1z/DTVjcQHg+nrUJmNAF/fiUjwAAjJYdD+3vDdTnq6NI7H16ajjpg1EHvwPX7mcQ8ur2suBlOX8pcdhfaUnCKeLpzApUVSkZMrZRqnJX1sAjQCHzTsRzssvGaJSNrPMdq8+UcAAg5k8rC+oWuensRPmcxP1GCU347V5ApDhMh7MJE6JvHd1riEsZ7s1zyFv9JVxWjLMYgh+zuUnGZgUJgye5lXKG4pTA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=llD2ogoCGJQSjqKDF8C9uioEX+pPIhEKNQELQJpTV0Y=;
- b=neg0znLuYnZVFSs5V03H5oKXVK5s70SY1mZmBdTt8+zgfKw8EQyGF319mxbOYjQSbLSfK/kzkdQpF+bWN/JxeZrEV5SEF3AdXOsbybMQThDqHJ2jfcm780axSX7tmE2hmwEU7fA51vXHxUqjw9YyHF4+HecKamhV2kF4j/1h5xI=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by LV2PR12MB5992.namprd12.prod.outlook.com (2603:10b6:408:14e::17)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6886.34; Tue, 17 Oct
- 2023 07:55:16 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::a7fa:4411:67a3:131d]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::a7fa:4411:67a3:131d%4]) with mapi id 15.20.6886.034; Tue, 17 Oct 2023
- 07:55:16 +0000
-Message-ID: <9cf04f0f-0273-41e5-91a0-1595be21399f@amd.com>
-Date: Tue, 17 Oct 2023 09:55:09 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/atomic: Perform blocking commits on workqueue
-Content-Language: en-US
-To: Daniel Vetter <daniel@ffwll.ch>,
- =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
-References: <CAA_UwzL=2PjeH_qW2GJa_XzJCeWkz9NcokPQX3-qn2f0iPz+Rw@mail.gmail.com>
- <90e7f66f-96bf-4e90-88c8-75019bc506a4@amd.com>
- <CAA_UwzJ7q8aq_iw3wimeQXmvKp8Z253J7oqi3UQqcKdkRmAcAA@mail.gmail.com>
- <9f9b50fa-8bad-4e96-ac60-21c48f473fc6@amd.com> <ZSPv1iAwJMgnsDu3@intel.com>
- <dc0c733e-df75-42f8-a920-cca8eebfa0dc@amd.com>
- <ZSU4aGnYsqUvz1ry@phenom.ffwll.local>
- <CAA_UwzJF3Smi_JSQ4S3B1kG23MEXppVfm0Sc1ftVktaoumymuA@mail.gmail.com>
- <ZSkQxEL4596_pQW1@phenom.ffwll.local>
- <a4a5dc87-001b-2948-e74f-8c51d170b9b2@mailbox.org>
- <ZS44j1dIkurL4ExN@dvetter-linux.ger.corp.intel.com>
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <ZS44j1dIkurL4ExN@dvetter-linux.ger.corp.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR0P281CA0139.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:96::14) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
+ [IPv6:2a00:1450:4864:20::435])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A44D910E280;
+ Tue, 17 Oct 2023 08:06:20 +0000 (UTC)
+Received: by mail-wr1-x435.google.com with SMTP id
+ ffacd0b85a97d-32d81864e3fso4375360f8f.2; 
+ Tue, 17 Oct 2023 01:06:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1697529979; x=1698134779; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=StdO7xGyH3UvCyXhFtXv4psWFKvp1DucCdvwZVAgPBA=;
+ b=ey2+QUOd7vmwnTTlqXS7t2w+/qxfDpJE1WTNYOZyq7Q27+nmDkGVn+xKkBMzEfawA3
+ 3aCLkJPluft0Ew7NNchbKZDylxtF8yvL+ZB2qqEPoC0IjGlQyKorEiwHFK80zfL+2Sdd
+ 57o+QW4+bsXR6A+I41y+W1wUkJgj6Mn8e9XbG+5vbFpZZ6UX5mp+Kx3fusqrMJmso9jp
+ c5kQhLez7SoH+J2Gmi9v4ESuSx0u96oXU/1Zr1spDmcFz3T4Pf3xMJqfmqauPUOIM6Ci
+ dWatm+hWyko2CEJCUcFMvu3darL1Dz0ON14fPytgRviEGhKAAe2YX9S8VHaLgBfBqu2I
+ +foA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1697529979; x=1698134779;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=StdO7xGyH3UvCyXhFtXv4psWFKvp1DucCdvwZVAgPBA=;
+ b=uk9AwwGycNiAvMZRuj8j/omvLakxCKENnGtGJqOvsjadcP5fRrXIIlMxXGrCVWtros
+ d3LrbmqaiiqBV4Gu6GMJeJ9W/v7aU8VyHs8Zr12BMZe62h8zjmYfqFFOCoBD5vTUheeU
+ hJqe76Y6VLZqzcLJn+gUWvIZ7ICeQHPgo2c7w5ZK0XoSkh2A0ctm83eROcvwVQy5Z8WH
+ eI3dYgpuNH6nBSje5Loz50rDkVTzrv5SSduk7D4uBfhvmojLpb/clrErLKIRUoxWgju/
+ 7dMmugnHPNIr6gbbD0ja72Vn/18kY6g8Y3S/jdjxsbpQ1k4OndYD+doKDPPMGoVKvemt
+ PeJw==
+X-Gm-Message-State: AOJu0Yy2LGHVgCnm4hVBQb7gLAW2/fKGqWTODAdga5NCmHXcCYvP0/oq
+ v4rS7JA+h9D2sydhNbn60tahBtVknmDJyw==
+X-Google-Smtp-Source: AGHT+IFR4L3IZmU8EMr8i/pPBeWSbK4wVJmXm3XWNz2lDoOIdQiZh9xearr+dexY2Zc4QIiTdnjeqA==
+X-Received: by 2002:a05:6000:1104:b0:32d:96e0:8048 with SMTP id
+ z4-20020a056000110400b0032d96e08048mr1417525wrw.9.1697529978826; 
+ Tue, 17 Oct 2023 01:06:18 -0700 (PDT)
+Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net.
+ [80.193.200.194]) by smtp.gmail.com with ESMTPSA id
+ i5-20020adffc05000000b0032dab20e773sm1072053wrr.69.2023.10.17.01.06.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 17 Oct 2023 01:06:17 -0700 (PDT)
+From: Colin Ian King <colin.i.king@gmail.com>
+To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Xinhui.Pan@amd.com, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Qingqing Zhuo <Qingqing.Zhuo@amd.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH][next] drm/amd/display: Fix a handful of spelling mistakes in
+ dml_print output
+Date: Tue, 17 Oct 2023 09:06:16 +0100
+Message-Id: <20231017080616.18970-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|LV2PR12MB5992:EE_
-X-MS-Office365-Filtering-Correlation-Id: 454997cf-b97e-4e3c-2249-08dbcee666c1
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: RMYmOvVstpKdk+2hEeU370VzsZBwhhsw/L3LSBmIMunTPzEGLVg3rM6ndQa+nDu0DAKqIwFkhggu3KBUcdYd02m0tSd6e2U5N5jMObpjyozL9jPjAkkn5v2TI0EDmjM/VSNSO+EeUPLzRK06XbYSCLw1L8zA/cu7SR6sQTxkFJFCHFYjgtluTW4JG5hkFs85IB09oitXYIKrMmv7hGPOE5VF3qsQelg3V1NRpyKpQFJAC5Xo1atB1F5NmX75LWIKLJTWKSAtodtabNMC25aNHGbBHN44Y36JXPOsdF1KAyrKrc2TKsu5IcBFJeo6OhXZk3MksmAYfLRYlrJY8wxt5L0iY8SG0QZf+qDwH+DSt9OAWTyGEEgt2CDyUUEI3xJFfNpcYfqZls9qDwCto9NdPyv5c50yK8jOze9sm7y68QH6rf5m658pFJQaDHpupkc4MMXjYuUpvGtlUI5ZpmSbCI62NOmYTMxo0UzV8VOwHneCg1ifr2bD0VatqG08NTLDtuN101xZUZ0SSkXlV+SsrnJWb23Qnjx444QS4r4AicLCwoZyBHyHLHK1pxNrp/m48B49tklVjgjViVqEP+S/SMbmE9h12a80+52dmfw5lbDiSxYWx4paiy+4+QSBciLfLAdfvNOLUR0nZgAPWkrc9g==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(366004)(346002)(39860400002)(396003)(376002)(136003)(230922051799003)(451199024)(1800799009)(64100799003)(186009)(31686004)(110136005)(6486002)(36756003)(38100700002)(83380400001)(66574015)(26005)(6506007)(6666004)(66946007)(2616005)(478600001)(66556008)(66476007)(53546011)(316002)(41300700001)(31696002)(86362001)(8676002)(4326008)(6512007)(2906002)(8936002)(5660300002)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dXZKQys0TnF6bFVxQ1pJYWxzOU15UUE4bkE3UU5sT3hxWEpIeFlMSCtQVnc1?=
- =?utf-8?B?UXU1VWFRdUVzK2RNUmJtQzNUM05XalBDU3pGQWtMSGZheTl1UW4wb0ovNi9X?=
- =?utf-8?B?TUp1UlU2cG9saFZ4TzZid0d1TE9vajZDaWxsNHpXaDhkNWR5NThKbk1yNjZr?=
- =?utf-8?B?U0V4cXVOU1BjbDA3ai91NGhZazhtMG9aWGlRNVNwU2FZT2V1bTV4NlpFVWdD?=
- =?utf-8?B?dkZNSkhZWFlaNU5vQlV2cXIrK2Q2Uk10RGJmbjhMRXJlOVZhWUNHZVAvZ0p1?=
- =?utf-8?B?VkZLNzFLb2lGZFBBTy9EaVFROHQ2QVpPbTBINmQ3TEZlUzVSeElOWDB6S05k?=
- =?utf-8?B?OERBcnA3aU9wVC9TVFZkTXl4c05pL1dCc2ZuVkJTYkwxWXdWQ1A0YW5rcjEr?=
- =?utf-8?B?RTIzcXhZdHNSQzhIR09UQXJvY05JMmZtcEtpN3pRVTU1TmlPZHY3VnVCSitO?=
- =?utf-8?B?QmdIVTY0SDhBQXlIcGlnbjZOZ2RFWG9RQnd6R1B3d05hTzRHN0UvU2dESTIx?=
- =?utf-8?B?S2pBUHRoSXF2SWY4ZjJkZmVTQ2dHRkJEeU05SGNvQ1ZJMlE5NnFyS2ovdkd3?=
- =?utf-8?B?UHFmNWsvT2s1RWtZQno4R3Vkd0JPU2o0SllIWnpSYVAyME92ck1BZSsrdXk3?=
- =?utf-8?B?RGxlMzZPV3ZZV2tub2pSWUo2czNsd1h2ZWRhdWZpejdnN21FbzZMdUFpR3pv?=
- =?utf-8?B?UXpuT0lQZHNXdllXQmZJanVsa1g2RFVXbThnNWtFRmdCOUVvVTFGT1EySjdI?=
- =?utf-8?B?dWJjdUZSaFF0MTd3VWJCcEUxcjRQUUtvd1Z2RENPaWdxMEhmUFJqTE8wVnpT?=
- =?utf-8?B?WFFhU3NjTVk1dmNVbThBT1RUUHdHcUxnelFTVjE1eHBkYWV3MXliNkE1K3Nw?=
- =?utf-8?B?ZExzSTNNM0FXeGppeTF3aWhjRXIvVmNrSEpwTngrcTVZTnRxV3FLREUraWd5?=
- =?utf-8?B?YVppZjdCRmRKM0l4T1BKUjh2aXMrYmc4T3lSd3FUK2hJSGd6MlhSak8zZDN1?=
- =?utf-8?B?N2ZnNzdkZC9LQnFMMFF0T2RVRXFYbTFmWDlhc0tKc0FKVUZqNUNnUVZKbEM3?=
- =?utf-8?B?S3dzczNNY3dSNTNvWjZvYmlUZWI4U3doQmgzQVdBRFBob1hreGFSdzJCdFZZ?=
- =?utf-8?B?QVRiS2pSOWNDMnVVYmJJWEJUTEhxKytUbkMyWmdqSGtwbWNxaEJSUjh1QlY3?=
- =?utf-8?B?N0JITUoza3pMSHZoamsvbDBJcVVScllheFBXdzJtcUlrd0pEcW8wc256T1pm?=
- =?utf-8?B?UmFzNml4MzNwU3JhSVRTVlJJQ3NYck9EM1VvMlB1ejd2Nk9nVTNHQ084Wng1?=
- =?utf-8?B?WC9USWpoZGI2aUk2c3NqR0kwKzNtWFpVMkFsR3dBVzNLaGNQNTdwOHdFajJ2?=
- =?utf-8?B?eHVONnJ3UDI0aUlzWDB4NnhoY3lOcHNkUUVNc2RVZmxXT1cybis2eC9nN3kr?=
- =?utf-8?B?OWd6V29rT1BjajhDdzBNUXB5Rk5NUWZhenVzTHhudUNJdEFtMnRYUE03cCt5?=
- =?utf-8?B?M2xoOWFYdSsyTmxwLzhseHZJMUdoVFpaL3JnNUZVYnN4R1l5RUFxOWkzREhG?=
- =?utf-8?B?M2lIejNCeVc1Qks1K0dSK0VCTEVNYzBlY2NiSk8wSFR1QndHQnBPMGw0SG1X?=
- =?utf-8?B?dVc2UUw1ZThkSEh4VnBuNS9oVXVKSWpwMlB6VFFuWnBYRHJNQ1JodnVSKzZq?=
- =?utf-8?B?NFl4MkJsZzJtTHh4dE5VZWw0Q0lFd2hzS2haSFozTVdnN0N1WVVaR2VXZG1a?=
- =?utf-8?B?WFBEbjROdGwzdUNCYzZPRHlMMDBiSzd1aW8yc2tOamZDS2Era1pYKzNrcTRY?=
- =?utf-8?B?TVFrZEhRbkRlNlAyR2xYZWdxOCtlM0tHSDRZUUtuOW9OY013UEZ2YjJlUEx6?=
- =?utf-8?B?blRRdEdML0J1UTROTWxmWWhUL0NMT2tDc3NYaVN4YWNPM1F4dmpWUEI5V3Bk?=
- =?utf-8?B?RzRWVWRYc0I1d1BmVVdsNFlmWjZ3bG82ZnRETWRZSFBJSzBDb1h0d2lzL2FE?=
- =?utf-8?B?Tm81MzkzUStHRDAzQ3RtMTJ4N01EcFRNeE8xdVI1RHJFeTJ3QnBaMjArMGlp?=
- =?utf-8?B?TmpPd3hma282UHJmUXl2NGFock92YUpWVVJwa3o4ek0xdUJUeGp3WkpoVVFt?=
- =?utf-8?Q?j6oUqMug8EHz81LSwLoakKwK0?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 454997cf-b97e-4e3c-2249-08dbcee666c1
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Oct 2023 07:55:16.6141 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: QAOv0rb6sikVyYqrgOK/y5rk0+pJmjxyl8cXRl1jFLFzyyiJxHUf2QdQJaAReACg
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR12MB5992
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -133,86 +78,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ray Strode <halfline@gmail.com>, daniel.vetter@ffwll.ch, Xinhui.Pan@amd.com,
- dri-devel@lists.freedesktop.org, alexander.deucher@amd.com, airlied@redhat.com
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 17.10.23 um 09:32 schrieb Daniel Vetter:
-> On Fri, Oct 13, 2023 at 12:22:52PM +0200, Michel Dänzer wrote:
->> On 10/13/23 11:41, Daniel Vetter wrote:
->>> On Thu, Oct 12, 2023 at 02:19:41PM -0400, Ray Strode wrote:
->>>> On Mon, Oct 09, 2023 at 02:36:17PM +0200, Christian König wrote:
->>>>>>>> To be clear, my take is, if driver code is running in process context
->>>>>>>> and needs to wait for periods of time on the order of or in excess of
->>>>>>>> a typical process time slice it should be sleeping during the waiting.
->>>>>>>> If the operation is at a point where it can be cancelled without side
->>>>>>>> effects, the sleeping should be INTERRUPTIBLE. If it's past the point
->>>>>>>> of no return, sleeping should be UNINTERRUPTIBLE. At no point, in my
->>>>>>>> opinion, should kernel code busy block a typical process for dozens of
->>>>>>>> milliseconds while keeping the process RUNNING. I don't think this is
->>>>>>>> a controversial take.
->>>>>>> Exactly that's what I completely disagree on.
->>>> Okay if we can't agree that it's not okay for user space (or the
->>>> kernel running in the context of user space) to busy loop a cpu core
->>>> at 100% utilization throughout and beyond the process's entire
->>>> scheduled time slice then we really are at an impasse. I gotta say i'm
->>>> astonished that this seemingly indefensible behavior is somehow a
->>>> point of contention, but I'm not going to keep arguing about it beyond
->>>> this email.
->>>>
->>>> I mean we're not talking about scientific computing, or code
->>>> compilation, or seti@home. We're talking about nearly the equivalent
->>>> of `while (1) __asm__ ("nop");`
->>> I don't think anyone said this shouldn't be fixed or improved.
->>>
->>> What I'm saying is that the atomic ioctl is not going to make guarantees
->>> that it will not take up to much cpu time (for some extremely vague value
->>> of "too much") to the point that userspace can configure it's compositor
->>> in a way that it _will_ get killed if we _ever_ violate this rule.
->>>
->>> We should of course try to do as good as job as possible, but that's not
->>> what you're asking for. You're asking for a hard real-time guarantee with
->>> the implication if we ever break it, it's a regression, and the kernel has
->>> to bend over backwards with tricks like in your patch to make it work.
->> I don't think mutter really needs or wants such a hard real-time
->> guarantee. What it needs is a fighting chance to react before the kernel
->> kills its process.
->>
->> The intended mechanism for this is SIGXCPU, but that can't work if the
->> kernel is stuck in a busy-loop. Ray's patch seems like one way to avoid
->> that.
-> I don't think signals will get us out of this either, or at least still
-> has risk. We are trying to make everything interruptible and bail out
-> asap, but those checks are when we're blocking, not when the cpu is busy.
->
-> So this also wont guarantee that you expire your timeslice when a driver
-> is doing a silly expensive atomic_check computation. Much less likely, but
-> definitely not a zero chance.
->
->> That said, as long as SIGXCPU can work as intended with the non-blocking
->> commits mutter uses for everything except modesets, mutter's workaround
->> of dropping RT priority for the blocking commits seems acceptable for
->> the time being.
-> Is there no rt setup where the kernel just auto-demotes when you've used
-> up your slice? That's the only setup I see that guarantees you're not
-> getting killed here.
->
-> I think dropping rt priority around full modesets is still good since
-> modests really shouldn't ever run as rt, that makes no sense to me.
+There are a few spelling mistakes and an minor grammatical issue in
+some dml_print messages. Fix these.
 
-Completely agree.
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+---
+ drivers/gpu/drm/amd/display/dc/dml2/display_mode_core.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-One more data point not mentioned before: While amdgpu could be improved 
-we do have devices which (for example) have to do I2C by bit banging 
-because they lack the necessary functionality in the hardware.
-
-And IIRC transmitting the 256 bytes EDID takes something like ~5ms (fast 
-mode) or ~20ms (standard mode) in which the CPU usually just busy loops 
-most of the time. Not saying that we should do a full EDID transmit with 
-every modeset, but just to give an example of what might be necessary here.
-
-Christian.
-
-> -Sima
+diff --git a/drivers/gpu/drm/amd/display/dc/dml2/display_mode_core.c b/drivers/gpu/drm/amd/display/dc/dml2/display_mode_core.c
+index 851db026f251..218c355a97a4 100644
+--- a/drivers/gpu/drm/amd/display/dc/dml2/display_mode_core.c
++++ b/drivers/gpu/drm/amd/display/dc/dml2/display_mode_core.c
+@@ -1507,7 +1507,7 @@ static dml_bool_t CalculatePrefetchSchedule(struct display_mode_lib_scratch_st *
+ 		dml_print("DML: Tvm: %fus - time to fetch page tables for meta surface\n", s->TimeForFetchingMetaPTE);
+ 		dml_print("DML: Tr0: %fus - time to fetch first row of data pagetables and first row of meta data (done in parallel)\n", s->TimeForFetchingRowInVBlank);
+ 		dml_print("DML: Tsw: %fus = time to fetch enough pixel data and cursor data to feed the scalers init position and detile\n", (dml_float_t)s->LinesToRequestPrefetchPixelData * s->LineTime);
+-		dml_print("DML: To: %fus - time for propogation from scaler to optc\n", (*p->DSTYAfterScaler + ((dml_float_t) (*p->DSTXAfterScaler) / (dml_float_t)p->myPipe->HTotal)) * s->LineTime);
++		dml_print("DML: To: %fus - time for propagation from scaler to optc\n", (*p->DSTYAfterScaler + ((dml_float_t) (*p->DSTXAfterScaler) / (dml_float_t)p->myPipe->HTotal)) * s->LineTime);
+ 		dml_print("DML: Tvstartup - TSetup - Tcalc - Twait - Tpre - To > 0\n");
+ 		dml_print("DML: Tslack(pre): %fus - time left over in schedule\n", p->VStartup * s->LineTime - s->TimeForFetchingMetaPTE - 2 * s->TimeForFetchingRowInVBlank - (*p->DSTYAfterScaler + ((dml_float_t) (*p->DSTXAfterScaler) / (dml_float_t)p->myPipe->HTotal)) * s->LineTime - p->TWait - p->TCalc - *p->TSetup);
+ 		dml_print("DML: row_bytes = dpte_row_bytes (per_pipe) = PixelPTEBytesPerRow = : %u\n", p->PixelPTEBytesPerRow);
+@@ -9323,7 +9323,7 @@ void dml_core_mode_programming(struct display_mode_lib_st *mode_lib, const struc
+ 				if (mode_lib->ms.policy.ImmediateFlipRequirement[k] != dml_immediate_flip_not_required && locals->ImmediateFlipSupportedForPipe[k] == false) {
+ 					locals->ImmediateFlipSupported = false;
+ #ifdef __DML_VBA_DEBUG__
+-					dml_print("DML::%s: Pipe %0d not supporing iflip\n", __func__, k);
++					dml_print("DML::%s: Pipe %0d not supporting iflip\n", __func__, k);
+ #endif
+ 				}
+ 			}
+@@ -9376,7 +9376,7 @@ void dml_core_mode_programming(struct display_mode_lib_st *mode_lib, const struc
+ 	if (locals->PrefetchAndImmediateFlipSupported) {
+ 		dml_print("DML::%s: Good, Prefetch and flip scheduling solution found at VStartupLines=%u (MaxVStartupAllPlanes=%u)\n", __func__, s->VStartupLines-1, s->MaxVStartupAllPlanes);
+ 	} else {
+-		dml_print("DML::%s: Bad, Prefetch and flip scheduling soluation NOT found solution! (MaxVStartupAllPlanes=%u)\n", __func__, s->MaxVStartupAllPlanes);
++		dml_print("DML::%s: Bad, Prefetch and flip scheduling solution did NOT find solution! (MaxVStartupAllPlanes=%u)\n", __func__, s->MaxVStartupAllPlanes);
+ 	}
+ 
+ 	//Watermarks and NB P-State/DRAM Clock Change Support
+-- 
+2.39.2
 
