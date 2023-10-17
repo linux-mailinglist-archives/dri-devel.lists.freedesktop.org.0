@@ -1,51 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D509B7CCAAE
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Oct 2023 20:33:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E34F7CCA4A
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Oct 2023 20:03:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DCFAE10E327;
-	Tue, 17 Oct 2023 18:33:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C8B510E313;
+	Tue, 17 Oct 2023 18:03:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E41889336;
- Tue, 17 Oct 2023 10:42:49 +0000 (UTC)
-X-UUID: f78b398fc5b0488687c6865f72c1d3f0-20231017
-X-CID-O-RULE: Release_Ham
-X-CID-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.32, REQID:76ffdbd8-1677-4506-b63a-68ddef809464, IP:15,
- URL:0,TC:0,Content:-25,EDM:0,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,AC
- TION:release,TS:-25
-X-CID-INFO: VERSION:1.1.32, REQID:76ffdbd8-1677-4506-b63a-68ddef809464, IP:15,
- UR
- L:0,TC:0,Content:-25,EDM:0,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,ACTI
- ON:release,TS:-25
-X-CID-META: VersionHash:5f78ec9, CLOUDID:b76f08c0-14cc-44ca-b657-2d2783296e72,
- B
- ulkID:231017184101ZBFZ2WG9,BulkQuantity:1,Recheck:0,SF:66|38|24|17|19|44|1
- 02,TC:nil,Content:0,EDM:-3,IP:-2,URL:0,File:nil,Bulk:40,QS:nil,BEC:nil,COL
- :0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_FAS,TF_CID_SPAM_FSD,TF_CID_SPAM_FSI,TF_CID_SPAM_SNR
-X-UUID: f78b398fc5b0488687c6865f72c1d3f0-20231017
-X-User: chentao@kylinos.cn
-Received: from localhost.localdomain [(116.128.244.169)] by mailgw
- (envelope-from <chentao@kylinos.cn>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1169852561; Tue, 17 Oct 2023 18:42:37 +0800
-From: "Kunwu.Chan" <chentao@kylinos.cn>
-To: daniel@ffwll.ch, airlied@gmail.com, Xinhui.Pan@amd.com,
- christian.koenig@amd.com, alexander.deucher@amd.com
-Subject: [PATCH] drm/radeon: Remove the useless variable 'disable_plloff_in_l1'
-Date: Tue, 17 Oct 2023 18:42:01 +0800
-Message-Id: <20231017104201.49386-1-chentao@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
+Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com
+ [IPv6:2607:f8b0:4864:20::531])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8AFF710E30D
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Oct 2023 18:03:46 +0000 (UTC)
+Received: by mail-pg1-x531.google.com with SMTP id
+ 41be03b00d2f7-5aa481d53e5so2795354a12.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Oct 2023 11:03:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1697565826; x=1698170626;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=FZe4Izl0NOH1/nIrnEIDX6DLuh+4li4EhUKl+KwsF4Q=;
+ b=GOv2HhW3qATByIK15LKXA8jcBEYGXHtje058pgARiAf7iyRpSrAXKavrsDyjeg1TOR
+ aGOy90+tj2sEuE1NZD0J9QFe8ObF1C+Kjc2xdB6CVnRudN+jaj5lGJXmdBJOC6NjLK1E
+ PvxpgpT0X+8VfVOS0fZ3p2uM9VMsPNyXfS880=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1697565826; x=1698170626;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=FZe4Izl0NOH1/nIrnEIDX6DLuh+4li4EhUKl+KwsF4Q=;
+ b=n0Lq4QslfyBYkST9p1vyQiZZi7jyBJaWTzLxqrtQzGpC8VoKrwTCuzHuq8hHj8gysF
+ OFD+Hjin/e/gaifftk0mVuRvu/jtnj1c4p7H/ZvsbM3PCyH2yP6i0yDpUz7CGol7g5v4
+ YDgCFAQuDz4f0WcG2ub5rm3XDVUNwzXE6VOUiBa8awiEjHaLVerss59fEGfr0UeWFXBD
+ YB9EiPeJQ87sIcIIcHEko+vlnjBj0GueJQjDjMDISXbLWjUoZ5sORk0ERwrVIQazOq/j
+ 5OC8B2N+HD1YfVR8QGAmLUq8/WC4R7Vj9etaOKCiWqOZpE477tFRsM8FgVoEejdVyHil
+ LOnQ==
+X-Gm-Message-State: AOJu0YxrAxms4dKgb4uq7i9sl9QcyLDkZN9ehtZLxiZdcmjWg/4kKz1a
+ WKTb67RX0UgxZ017OIltQj8UkC6ZTMrDnpbdBaI=
+X-Google-Smtp-Source: AGHT+IGAc29rrHQbeX1Qn4Vt4Mo3SzXJt7OCYsLTl7p8+z8Pzk6oL2HpCWvQ7yd7NptpYo6WTzRrqA==
+X-Received: by 2002:a17:90a:1dd:b0:27d:4282:e3d2 with SMTP id
+ 29-20020a17090a01dd00b0027d4282e3d2mr2754844pjd.30.1697565825722; 
+ Tue, 17 Oct 2023 11:03:45 -0700 (PDT)
+Received: from ballway1.c.googlers.com.com
+ (155.248.125.34.bc.googleusercontent.com. [34.125.248.155])
+ by smtp.gmail.com with ESMTPSA id
+ gz24-20020a17090b0ed800b0027d0af2e9c3sm6675469pjb.40.2023.10.17.11.03.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 17 Oct 2023 11:03:45 -0700 (PDT)
+From: Allen Ballway <ballway@chromium.org>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/i915/quirk: Add quirk for devices with incorrect PWM
+ frequency
+Date: Tue, 17 Oct 2023 18:01:39 +0000
+Message-ID: <20231017175728.1.Ibc6408a8ff1f334974104c5bcc25f2f35a57f36e@changeid>
+X-Mailer: git-send-email 2.42.0.655.g421f12c284-goog
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Tue, 17 Oct 2023 18:32:59 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,186 +70,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Kunwu.Chan" <chentao@kylinos.cn>, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- kunwu.chan@hotmail.com
+Cc: intel-gfx@lists.freedesktop.org, Allen Ballway <ballway@chromium.org>,
+ arun.r.murthy@intel.com, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Because the disable_plloff_in_l1 variable is always false, the if judgment
- on line 9696 is always true. Remove this variable and this if statement.
+Cyernet T10C has a bad default PWM frequency causing the display to
+strobe when the brightness is less than 100%. Create a new quirk to use
+the value from the BIOS rather than the default register value.
 
-Fixes: 7235711a43b6 ("drm/radeon: add support for ASPM on CIK asics")
-Signed-off-by: Kunwu.Chan <chentao@kylinos.cn>
+Signed-off-by: Allen Ballway <ballway@chromium.org>
+
 ---
- drivers/gpu/drm/radeon/cik.c | 134 +++++++++++++++++------------------
- 1 file changed, 66 insertions(+), 68 deletions(-)
 
-diff --git a/drivers/gpu/drm/radeon/cik.c b/drivers/gpu/drm/radeon/cik.c
-index 10be30366c2b..62a9c1126bb3 100644
---- a/drivers/gpu/drm/radeon/cik.c
-+++ b/drivers/gpu/drm/radeon/cik.c
-@@ -9652,7 +9652,7 @@ static void cik_pcie_gen3_enable(struct radeon_device *rdev)
- static void cik_program_aspm(struct radeon_device *rdev)
- {
- 	u32 data, orig;
--	bool disable_l0s = false, disable_l1 = false, disable_plloff_in_l1 = false;
-+	bool disable_l0s = false, disable_l1 = false;
- 	bool disable_clkreq = false;
- 
- 	if (radeon_aspm == 0)
-@@ -9693,86 +9693,84 @@ static void cik_program_aspm(struct radeon_device *rdev)
- 		if (orig != data)
- 			WREG32_PCIE_PORT(PCIE_LC_CNTL, data);
- 
--		if (!disable_plloff_in_l1) {
--			bool clk_req_support;
-+		bool clk_req_support;
- 
--			orig = data = RREG32_PCIE_PORT(PB0_PIF_PWRDOWN_0);
--			data &= ~(PLL_POWER_STATE_IN_OFF_0_MASK | PLL_POWER_STATE_IN_TXS2_0_MASK);
--			data |= PLL_POWER_STATE_IN_OFF_0(7) | PLL_POWER_STATE_IN_TXS2_0(7);
--			if (orig != data)
--				WREG32_PCIE_PORT(PB0_PIF_PWRDOWN_0, data);
-+		orig = data = RREG32_PCIE_PORT(PB0_PIF_PWRDOWN_0);
-+		data &= ~(PLL_POWER_STATE_IN_OFF_0_MASK | PLL_POWER_STATE_IN_TXS2_0_MASK);
-+		data |= PLL_POWER_STATE_IN_OFF_0(7) | PLL_POWER_STATE_IN_TXS2_0(7);
-+		if (orig != data)
-+			WREG32_PCIE_PORT(PB0_PIF_PWRDOWN_0, data);
- 
--			orig = data = RREG32_PCIE_PORT(PB0_PIF_PWRDOWN_1);
--			data &= ~(PLL_POWER_STATE_IN_OFF_1_MASK | PLL_POWER_STATE_IN_TXS2_1_MASK);
--			data |= PLL_POWER_STATE_IN_OFF_1(7) | PLL_POWER_STATE_IN_TXS2_1(7);
--			if (orig != data)
--				WREG32_PCIE_PORT(PB0_PIF_PWRDOWN_1, data);
-+		orig = data = RREG32_PCIE_PORT(PB0_PIF_PWRDOWN_1);
-+		data &= ~(PLL_POWER_STATE_IN_OFF_1_MASK | PLL_POWER_STATE_IN_TXS2_1_MASK);
-+		data |= PLL_POWER_STATE_IN_OFF_1(7) | PLL_POWER_STATE_IN_TXS2_1(7);
-+		if (orig != data)
-+			WREG32_PCIE_PORT(PB0_PIF_PWRDOWN_1, data);
- 
--			orig = data = RREG32_PCIE_PORT(PB1_PIF_PWRDOWN_0);
--			data &= ~(PLL_POWER_STATE_IN_OFF_0_MASK | PLL_POWER_STATE_IN_TXS2_0_MASK);
--			data |= PLL_POWER_STATE_IN_OFF_0(7) | PLL_POWER_STATE_IN_TXS2_0(7);
--			if (orig != data)
--				WREG32_PCIE_PORT(PB1_PIF_PWRDOWN_0, data);
-+		orig = data = RREG32_PCIE_PORT(PB1_PIF_PWRDOWN_0);
-+		data &= ~(PLL_POWER_STATE_IN_OFF_0_MASK | PLL_POWER_STATE_IN_TXS2_0_MASK);
-+		data |= PLL_POWER_STATE_IN_OFF_0(7) | PLL_POWER_STATE_IN_TXS2_0(7);
-+		if (orig != data)
-+			WREG32_PCIE_PORT(PB1_PIF_PWRDOWN_0, data);
- 
--			orig = data = RREG32_PCIE_PORT(PB1_PIF_PWRDOWN_1);
--			data &= ~(PLL_POWER_STATE_IN_OFF_1_MASK | PLL_POWER_STATE_IN_TXS2_1_MASK);
--			data |= PLL_POWER_STATE_IN_OFF_1(7) | PLL_POWER_STATE_IN_TXS2_1(7);
--			if (orig != data)
--				WREG32_PCIE_PORT(PB1_PIF_PWRDOWN_1, data);
-+		orig = data = RREG32_PCIE_PORT(PB1_PIF_PWRDOWN_1);
-+		data &= ~(PLL_POWER_STATE_IN_OFF_1_MASK | PLL_POWER_STATE_IN_TXS2_1_MASK);
-+		data |= PLL_POWER_STATE_IN_OFF_1(7) | PLL_POWER_STATE_IN_TXS2_1(7);
-+		if (orig != data)
-+			WREG32_PCIE_PORT(PB1_PIF_PWRDOWN_1, data);
- 
--			orig = data = RREG32_PCIE_PORT(PCIE_LC_LINK_WIDTH_CNTL);
--			data &= ~LC_DYN_LANES_PWR_STATE_MASK;
--			data |= LC_DYN_LANES_PWR_STATE(3);
--			if (orig != data)
--				WREG32_PCIE_PORT(PCIE_LC_LINK_WIDTH_CNTL, data);
-+		orig = data = RREG32_PCIE_PORT(PCIE_LC_LINK_WIDTH_CNTL);
-+		data &= ~LC_DYN_LANES_PWR_STATE_MASK;
-+		data |= LC_DYN_LANES_PWR_STATE(3);
-+		if (orig != data)
-+			WREG32_PCIE_PORT(PCIE_LC_LINK_WIDTH_CNTL, data);
- 
--			if (!disable_clkreq &&
--			    !pci_is_root_bus(rdev->pdev->bus)) {
--				struct pci_dev *root = rdev->pdev->bus->self;
--				u32 lnkcap;
-+		if (!disable_clkreq &&
-+			!pci_is_root_bus(rdev->pdev->bus)) {
-+			struct pci_dev *root = rdev->pdev->bus->self;
-+			u32 lnkcap;
- 
--				clk_req_support = false;
--				pcie_capability_read_dword(root, PCI_EXP_LNKCAP, &lnkcap);
--				if (lnkcap & PCI_EXP_LNKCAP_CLKPM)
--					clk_req_support = true;
--			} else {
--				clk_req_support = false;
--			}
-+			clk_req_support = false;
-+			pcie_capability_read_dword(root, PCI_EXP_LNKCAP, &lnkcap);
-+			if (lnkcap & PCI_EXP_LNKCAP_CLKPM)
-+				clk_req_support = true;
-+		} else {
-+			clk_req_support = false;
-+		}
- 
--			if (clk_req_support) {
--				orig = data = RREG32_PCIE_PORT(PCIE_LC_CNTL2);
--				data |= LC_ALLOW_PDWN_IN_L1 | LC_ALLOW_PDWN_IN_L23;
--				if (orig != data)
--					WREG32_PCIE_PORT(PCIE_LC_CNTL2, data);
-+		if (clk_req_support) {
-+			orig = data = RREG32_PCIE_PORT(PCIE_LC_CNTL2);
-+			data |= LC_ALLOW_PDWN_IN_L1 | LC_ALLOW_PDWN_IN_L23;
-+			if (orig != data)
-+				WREG32_PCIE_PORT(PCIE_LC_CNTL2, data);
- 
--				orig = data = RREG32_SMC(THM_CLK_CNTL);
--				data &= ~(CMON_CLK_SEL_MASK | TMON_CLK_SEL_MASK);
--				data |= CMON_CLK_SEL(1) | TMON_CLK_SEL(1);
--				if (orig != data)
--					WREG32_SMC(THM_CLK_CNTL, data);
-+			orig = data = RREG32_SMC(THM_CLK_CNTL);
-+			data &= ~(CMON_CLK_SEL_MASK | TMON_CLK_SEL_MASK);
-+			data |= CMON_CLK_SEL(1) | TMON_CLK_SEL(1);
-+			if (orig != data)
-+				WREG32_SMC(THM_CLK_CNTL, data);
- 
--				orig = data = RREG32_SMC(MISC_CLK_CTRL);
--				data &= ~(DEEP_SLEEP_CLK_SEL_MASK | ZCLK_SEL_MASK);
--				data |= DEEP_SLEEP_CLK_SEL(1) | ZCLK_SEL(1);
--				if (orig != data)
--					WREG32_SMC(MISC_CLK_CTRL, data);
-+			orig = data = RREG32_SMC(MISC_CLK_CTRL);
-+			data &= ~(DEEP_SLEEP_CLK_SEL_MASK | ZCLK_SEL_MASK);
-+			data |= DEEP_SLEEP_CLK_SEL(1) | ZCLK_SEL(1);
-+			if (orig != data)
-+				WREG32_SMC(MISC_CLK_CTRL, data);
- 
--				orig = data = RREG32_SMC(CG_CLKPIN_CNTL);
--				data &= ~BCLK_AS_XCLK;
--				if (orig != data)
--					WREG32_SMC(CG_CLKPIN_CNTL, data);
-+			orig = data = RREG32_SMC(CG_CLKPIN_CNTL);
-+			data &= ~BCLK_AS_XCLK;
-+			if (orig != data)
-+				WREG32_SMC(CG_CLKPIN_CNTL, data);
- 
--				orig = data = RREG32_SMC(CG_CLKPIN_CNTL_2);
--				data &= ~FORCE_BIF_REFCLK_EN;
--				if (orig != data)
--					WREG32_SMC(CG_CLKPIN_CNTL_2, data);
-+			orig = data = RREG32_SMC(CG_CLKPIN_CNTL_2);
-+			data &= ~FORCE_BIF_REFCLK_EN;
-+			if (orig != data)
-+				WREG32_SMC(CG_CLKPIN_CNTL_2, data);
- 
--				orig = data = RREG32_SMC(MPLL_BYPASSCLK_SEL);
--				data &= ~MPLL_CLKOUT_SEL_MASK;
--				data |= MPLL_CLKOUT_SEL(4);
--				if (orig != data)
--					WREG32_SMC(MPLL_BYPASSCLK_SEL, data);
--			}
-+			orig = data = RREG32_SMC(MPLL_BYPASSCLK_SEL);
-+			data &= ~MPLL_CLKOUT_SEL_MASK;
-+			data |= MPLL_CLKOUT_SEL(4);
-+			if (orig != data)
-+				WREG32_SMC(MPLL_BYPASSCLK_SEL, data);
- 		}
- 	} else {
- 		if (orig != data)
--- 
-2.25.1
+ .../gpu/drm/i915/display/intel_backlight.c    |  3 ++-
+ drivers/gpu/drm/i915/display/intel_quirks.c   | 26 +++++++++++++++++++
+ drivers/gpu/drm/i915/display/intel_quirks.h   |  1 +
+ 3 files changed, 29 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/i915/display/intel_backlight.c b/drivers/gpu/drm/i915/display/intel_backlight.c
+index 2e8f17c045222..c4dcfece9deca 100644
+--- a/drivers/gpu/drm/i915/display/intel_backlight.c
++++ b/drivers/gpu/drm/i915/display/intel_backlight.c
+@@ -1388,7 +1388,8 @@ static int vlv_setup_backlight(struct intel_connector *connector, enum pipe pipe
+ 	ctl = intel_de_read(i915, VLV_BLC_PWM_CTL(pipe));
+ 	panel->backlight.pwm_level_max = ctl >> 16;
+
+-	if (!panel->backlight.pwm_level_max)
++	if (!panel->backlight.pwm_level_max ||
++	    intel_has_quirk(i915, QUIRK_IGNORE_DEFAULT_PWM_FREQUENCY))
+ 		panel->backlight.pwm_level_max = get_backlight_max_vbt(connector);
+
+ 	if (!panel->backlight.pwm_level_max)
+diff --git a/drivers/gpu/drm/i915/display/intel_quirks.c b/drivers/gpu/drm/i915/display/intel_quirks.c
+index a280448df771a..ff6cb499428ce 100644
+--- a/drivers/gpu/drm/i915/display/intel_quirks.c
++++ b/drivers/gpu/drm/i915/display/intel_quirks.c
+@@ -65,6 +65,12 @@ static void quirk_no_pps_backlight_power_hook(struct drm_i915_private *i915)
+ 	drm_info(&i915->drm, "Applying no pps backlight power quirk\n");
+ }
+
++static void quirk_ignore_default_pwm_frequency(struct drm_i915_private *i915)
++{
++	intel_set_quirk(i915, QUIRK_IGNORE_DEFAULT_PWM_FREQUENCY);
++	drm_info(&i915->drm, "Applying ignore default pwm frequency quirk");
++}
++
+ struct intel_quirk {
+ 	int device;
+ 	int subsystem_vendor;
+@@ -90,6 +96,12 @@ static int intel_dmi_no_pps_backlight(const struct dmi_system_id *id)
+ 	return 1;
+ }
+
++static int intel_dmi_ignore_default_pwm_frequency(const struct dmi_system_id *id)
++{
++	DRM_INFO("Default PWM frequency is incorrect and is overridden on %s\n", id->ident);
++	return 1;
++}
++
+ static const struct intel_dmi_quirk intel_dmi_quirks[] = {
+ 	{
+ 		.dmi_id_list = &(const struct dmi_system_id[]) {
+@@ -136,6 +148,20 @@ static const struct intel_dmi_quirk intel_dmi_quirks[] = {
+ 		},
+ 		.hook = quirk_no_pps_backlight_power_hook,
+ 	},
++	{
++		.dmi_id_list = &(const struct dmi_system_id[]) {
++			{
++				.callback = intel_dmi_ignore_default_pwm_frequency,
++				.ident = "Cybernet T10C Tablet",
++				.matches = {DMI_EXACT_MATCH(DMI_BOARD_VENDOR,
++							    "Cybernet Manufacturing Inc."),
++					    DMI_EXACT_MATCH(DMI_BOARD_NAME, "T10C Tablet"),
++				},
++			},
++			{ }
++		},
++		.hook = quirk_ignore_default_pwm_frequency,
++	},
+ };
+
+ static struct intel_quirk intel_quirks[] = {
+diff --git a/drivers/gpu/drm/i915/display/intel_quirks.h b/drivers/gpu/drm/i915/display/intel_quirks.h
+index 10a4d163149fd..70589505e5a0e 100644
+--- a/drivers/gpu/drm/i915/display/intel_quirks.h
++++ b/drivers/gpu/drm/i915/display/intel_quirks.h
+@@ -17,6 +17,7 @@ enum intel_quirk_id {
+ 	QUIRK_INVERT_BRIGHTNESS,
+ 	QUIRK_LVDS_SSC_DISABLE,
+ 	QUIRK_NO_PPS_BACKLIGHT_POWER_HOOK,
++	QUIRK_IGNORE_DEFAULT_PWM_FREQUENCY
+ };
+
+ void intel_init_quirks(struct drm_i915_private *i915);
+--
+2.42.0.655.g421f12c284-goog
 
