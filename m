@@ -2,56 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 931887CBDC8
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Oct 2023 10:37:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 112947CBDD0
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Oct 2023 10:37:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8DD7210E28B;
-	Tue, 17 Oct 2023 08:37:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D033D10E296;
+	Tue, 17 Oct 2023 08:37:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2BAC510E06E
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FB3B10E280
  for <dri-devel@lists.freedesktop.org>; Tue, 17 Oct 2023 08:36:58 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id B5C6C21D02;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id EC89921D06;
  Tue, 17 Oct 2023 08:36:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1697531816; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SJiyiVgp78HNJDJflvg+Z7LLjPXwHd4E/ADDe6ycI4g=;
- b=ONNKakXoPUgDwFDg658uxJUKKanVNOVNtAd9qdw88hsYHlx+SqfSO2i5Uh6Kbkogn3J07B
- 0hG44eSQzTFATmCXd1yauZLReSJzmGRTh6VrfRMSkhCQAJsxOcQK1KvBmdx8pjqB62J1k7
- 5Oj25vjROvn6waczph1KPj8ieDSmBZg=
+ bh=Xz1wZozJLFsalSM6SZTzRBIAR3/rkq+TgU0Bf+nvxFM=;
+ b=UOGdEQrvX39q0GpCtVTM6KuGi0AmImswf2hV3ZeA6I/i9qqcZKODrQk7slBkbpfh+ljLTC
+ zYe/UZxmRsyH8rJWpgZ5AKJaykxVYukgArB+z7Cu00GPRxMxMYKqXxGaEmhYNsnRSpi5kp
+ Nb5FiaSrXhIl5SSpqhe7IFv3Zb/VFcA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1697531816;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SJiyiVgp78HNJDJflvg+Z7LLjPXwHd4E/ADDe6ycI4g=;
- b=AWedbw8cElnqjRza3mdSF24WN4rdQlqjyVqsAbzaP79wGbAlq/na46xHzygYvh6lp0y7WH
- kD9BkxcQZ5YHqkDg==
+ bh=Xz1wZozJLFsalSM6SZTzRBIAR3/rkq+TgU0Bf+nvxFM=;
+ b=xe+SaN0SWLVHVE0VsYcy34d+FUO8kz9TUR/D/PDCgEaVt0VrZL8xEtq5teu/B5vHWxMtUh
+ N085sUijTSmrjaDg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 842B613584;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B86381391B;
  Tue, 17 Oct 2023 08:36:56 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 0B5RH6hHLmVbUgAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id qErhK6hHLmVbUgAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Tue, 17 Oct 2023 08:36:56 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@redhat.com, jfalempe@redhat.com, maarten.lankhorst@linux.intel.com,
  mripard@kernel.org, airlied@gmail.com, daniel@ffwll.ch
-Subject: [PATCH 10/12] drm/ast: Rename AST_IO_INPUT_STATUS1_READ to
- AST_IO_VGAIR1_R
-Date: Tue, 17 Oct 2023 10:32:06 +0200
-Message-ID: <20231017083653.10063-11-tzimmermann@suse.de>
+Subject: [PATCH 11/12] drm/ast: Rename AST_IO_MISC_PORT_READ to AST_IO_VGAMR_R
+Date: Tue, 17 Oct 2023 10:32:07 +0200
+Message-ID: <20231017083653.10063-12-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231017083653.10063-1-tzimmermann@suse.de>
 References: <20231017083653.10063-1-tzimmermann@suse.de>
@@ -92,59 +91,41 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Rename AST_IO_INPUT_STATUS1_READ to AST_IO_VGAIR1_R to align naming
+Rename AST_IO_MISC_PORT_READ to AST_IO_VGAMR_R to align naming
 in the driver with documentation. No functional changes.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
  drivers/gpu/drm/ast/ast_drv.h  | 2 +-
- drivers/gpu/drm/ast/ast_mode.c | 6 +++---
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/ast/ast_mode.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
-index a8bcb1903294e..03f1edf95e73c 100644
+index 03f1edf95e73c..214bfac0798ab 100644
 --- a/drivers/gpu/drm/ast/ast_drv.h
 +++ b/drivers/gpu/drm/ast/ast_drv.h
-@@ -268,7 +268,7 @@ static inline bool __ast_gen_is_eq(struct ast_device *ast, unsigned long gen)
- #define AST_IO_VGAPDR		        (0x49)
+@@ -269,7 +269,7 @@ static inline bool __ast_gen_is_eq(struct ast_device *ast, unsigned long gen)
  #define AST_IO_VGAGRI			(0x4E)
  #define AST_IO_VGACRI			(0x54)
--#define AST_IO_INPUT_STATUS1_READ	(0x5A)
-+#define AST_IO_VGAIR1_R			(0x5A)
- #define AST_IO_MISC_PORT_READ		(0x4C)
+ #define AST_IO_VGAIR1_R			(0x5A)
+-#define AST_IO_MISC_PORT_READ		(0x4C)
++#define AST_IO_VGAMR_R			(0x4C)
  
  #define AST_IO_MM_OFFSET		(0x380)
+ 
 diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-index c4381342af04b..289e32227f6b9 100644
+index 289e32227f6b9..cb96149842851 100644
 --- a/drivers/gpu/drm/ast/ast_mode.c
 +++ b/drivers/gpu/drm/ast/ast_mode.c
-@@ -318,7 +318,7 @@ static void ast_set_std_reg(struct ast_device *ast,
- 		ast_set_index_reg(ast, AST_IO_VGACRI, i, stdtable->crtc[i]);
+@@ -531,7 +531,7 @@ static void ast_set_sync_reg(struct ast_device *ast,
+ {
+ 	u8 jreg;
  
- 	/* set AR */
--	jreg = ast_io_read8(ast, AST_IO_INPUT_STATUS1_READ);
-+	jreg = ast_io_read8(ast, AST_IO_VGAIR1_R);
- 	for (i = 0; i < 20; i++) {
- 		jreg = stdtable->ar[i];
- 		ast_io_write8(ast, AST_IO_VGAARI_W, (u8)i);
-@@ -327,7 +327,7 @@ static void ast_set_std_reg(struct ast_device *ast,
- 	ast_io_write8(ast, AST_IO_VGAARI_W, 0x14);
- 	ast_io_write8(ast, AST_IO_VGAARI_W, 0x00);
- 
--	jreg = ast_io_read8(ast, AST_IO_INPUT_STATUS1_READ);
-+	jreg = ast_io_read8(ast, AST_IO_VGAIR1_R);
- 	ast_io_write8(ast, AST_IO_VGAARI_W, 0x20);
- 
- 	/* Set GR */
-@@ -558,7 +558,7 @@ static void ast_wait_for_vretrace(struct ast_device *ast)
- 	u8 vgair1;
- 
- 	do {
--		vgair1 = ast_io_read8(ast, AST_IO_INPUT_STATUS1_READ);
-+		vgair1 = ast_io_read8(ast, AST_IO_VGAIR1_R);
- 	} while (!(vgair1 & AST_IO_VGAIR1_VREFRESH) && time_before(jiffies, timeout));
- }
- 
+-	jreg  = ast_io_read8(ast, AST_IO_MISC_PORT_READ);
++	jreg  = ast_io_read8(ast, AST_IO_VGAMR_R);
+ 	jreg &= ~0xC0;
+ 	if (vbios_mode->enh_table->flags & NVSync)
+ 		jreg |= 0x80;
 -- 
 2.42.0
 
