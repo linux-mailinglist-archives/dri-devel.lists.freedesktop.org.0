@@ -2,64 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DE627CBC30
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Oct 2023 09:25:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC1CE7CBC44
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Oct 2023 09:32:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD28D10E278;
-	Tue, 17 Oct 2023 07:25:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B113C10E27A;
+	Tue, 17 Oct 2023 07:32:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x112d.google.com (mail-yw1-x112d.google.com
- [IPv6:2607:f8b0:4864:20::112d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E87B10E278
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Oct 2023 07:25:27 +0000 (UTC)
-Received: by mail-yw1-x112d.google.com with SMTP id
- 00721157ae682-5a82c2eb50cso45668277b3.2
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Oct 2023 00:25:27 -0700 (PDT)
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
+ [IPv6:2a00:1450:4864:20::435])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E149210E27A
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Oct 2023 07:32:36 +0000 (UTC)
+Received: by mail-wr1-x435.google.com with SMTP id
+ ffacd0b85a97d-32d842adc6bso1226829f8f.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Oct 2023 00:32:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1697527526; x=1698132326; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=MlhxWtNcEtPdlgFrUV2Qe5Hlpzoe4VwBmwyo3n0xQ7Y=;
- b=weHx4W7STAFwN21ZPNcXtIfeCrt3zKIBZw3/j3tj6rjHO7UJSbqXn/iMlseloxkxEO
- oSxwKW6Q1Fac8i6AhCG58dltn8hf/uaqRghZeqYKQCJM2JnY+ENb5a6xXtHi+0npaLJ7
- E4QTb7qP/zpaQ/bhORH9T4ND0EFtRkjSG8vEPL+Qv2zZ5q6a+BdVUUOn/XxhWI4BexZX
- cLj+SaNuAGIziqGcAb0mWeMToJOJvp3nYn6rcjkSLSKk6vFWGWe0NLUgZICD3f11knvR
- HgNutw8neaQuYw8FGDKX2sUgClemBjjNNtflqkl9nyxOJig73iFNayv4qbc06fQajqaH
- ADCg==
+ d=ffwll.ch; s=google; t=1697527955; x=1698132755; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=xo1rg/nTmbxtukzPgHEwPdWT+CrhVadKxXCPI4AC4Ug=;
+ b=AaYg7Vtn0zV4CgVhNuhR3j5spXnvNFPT9y5b41qOngJ0fzQcjFqmwVd2AFFb02ddnM
+ qz0ezm8kperc01OxdvO/qq+anwlBN8b3FyPUHyDRjDYycd373qTciDWl8gfP5rzr7/QG
+ zwm8Y6Fq7NYcJDAhCgE98QAPHorj+g6dzXeUE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1697527526; x=1698132326;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=MlhxWtNcEtPdlgFrUV2Qe5Hlpzoe4VwBmwyo3n0xQ7Y=;
- b=VJ5xbkDQnSALMXy/vROeih2QmJvW0mkMrx0H5j2HD76Kw8WjphPN4Dm5MQBsPqe9P6
- fvJ0ybqkNwRy84jZuShymd2mqSHCXUllLH5ZB4DDJOFLmCnPnw7o3RqVE/rYyhldvJzz
- o6FHDZeUuF8n8SqoGHkw+4ZYkaUkNtO9oc/+E/a/BtxmKsyPXl/2ys4nthomWx3AjD6N
- yzNP/OErDbszR+AD/rOZfoHUOW0MP0/BaTEIyFLQh2Td9p2TkEt4SFvHes2AwvI499OH
- K8hOoOq+EvCAfsurftddgpm0Sf2Qx0ShAJSU5iJgbjpkRZ5N0Ef2s9vdUx+P5Mx2yuLf
- p2pA==
-X-Gm-Message-State: AOJu0YzG6/sWgzh9qEzXngShRm7B3YRSm2y1RARf6e992sZA8pg4u6Td
- r5P0Jvkpgug/Gw3YAdpC1GK+1WzANYyXx4XSl2wvtg==
-X-Google-Smtp-Source: AGHT+IENnjJOV5JRk8GZZ8lld1NThYpPL3nSEbH7tZD0rqOcShuOqE0pwsLzTmY5xzyWjOahVXDxQJiH030g1Mf79EA=
-X-Received: by 2002:a81:490b:0:b0:5a8:3f2:b538 with SMTP id
- w11-20020a81490b000000b005a803f2b538mr1472895ywa.37.1697527526514; Tue, 17
- Oct 2023 00:25:26 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1697527955; x=1698132755;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=xo1rg/nTmbxtukzPgHEwPdWT+CrhVadKxXCPI4AC4Ug=;
+ b=TFJOdqxAqEz5liNNg8DNcXY7H1WCPqiJBw1EwrYIptkRLJfH7tJrOoUHHqZhEJDbdX
+ 9143SAlHcFBXLQKTr1XdWaR8TRwyix282o8E1TF/Bqrnx7H+A2QJ+A171jBmhY7J0V18
+ ULBHNQT1GgthAJ44NyA4Kl92k/LlPtBJmpHw12mIRiAPdjRhK+llk1vUXghHQyK6p8w/
+ btXsjCCWSU7UV9Y37IA/JFU01ioyG0ROeJkMUtbgmrnD25EJ7w8dsutrFvyD1b2gSESH
+ Q13gx1Tj5GoJ+VBf3uXba5BPUNh7osH0z3k1DfXFIMsCJfeqzZNXMm78Jmgq7cyjduQb
+ 5Ccw==
+X-Gm-Message-State: AOJu0YyJxpM8CWztHpJUB46ZWN8WNooRAIsX+32NE5UR7KKfh8a4J4xL
+ M5g80VcVZ3/UDydLFcXrsklMmA==
+X-Google-Smtp-Source: AGHT+IFo39CpVtMWSVaqAr0FLI6j6HZwvnfNgzlV1n/l67WzXjq63vOMxNa1m2QEdSb7DPtM7zPIAA==
+X-Received: by 2002:adf:b198:0:b0:32d:1c5d:b477 with SMTP id
+ q24-20020adfb198000000b0032d1c5db477mr1072288wra.4.1697527955225; 
+ Tue, 17 Oct 2023 00:32:35 -0700 (PDT)
+Received: from dvetter-linux.ger.corp.intel.com
+ (198.red-81-39-42.dynamicip.rima-tde.net. [81.39.42.198])
+ by smtp.gmail.com with ESMTPSA id
+ b11-20020a5d4d8b000000b00323330edbc7sm1029302wru.20.2023.10.17.00.32.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 17 Oct 2023 00:32:34 -0700 (PDT)
+Date: Tue, 17 Oct 2023 09:32:31 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Michel =?iso-8859-1?Q?D=E4nzer?= <michel.daenzer@mailbox.org>
+Subject: Re: [PATCH] drm/atomic: Perform blocking commits on workqueue
+Message-ID: <ZS44j1dIkurL4ExN@dvetter-linux.ger.corp.intel.com>
+References: <CAA_UwzL=2PjeH_qW2GJa_XzJCeWkz9NcokPQX3-qn2f0iPz+Rw@mail.gmail.com>
+ <90e7f66f-96bf-4e90-88c8-75019bc506a4@amd.com>
+ <CAA_UwzJ7q8aq_iw3wimeQXmvKp8Z253J7oqi3UQqcKdkRmAcAA@mail.gmail.com>
+ <9f9b50fa-8bad-4e96-ac60-21c48f473fc6@amd.com>
+ <ZSPv1iAwJMgnsDu3@intel.com>
+ <dc0c733e-df75-42f8-a920-cca8eebfa0dc@amd.com>
+ <ZSU4aGnYsqUvz1ry@phenom.ffwll.local>
+ <CAA_UwzJF3Smi_JSQ4S3B1kG23MEXppVfm0Sc1ftVktaoumymuA@mail.gmail.com>
+ <ZSkQxEL4596_pQW1@phenom.ffwll.local>
+ <a4a5dc87-001b-2948-e74f-8c51d170b9b2@mailbox.org>
 MIME-Version: 1.0
-References: <20230828-solid-fill-v6-0-a820efcce852@quicinc.com>
- <20230828-solid-fill-v6-7-a820efcce852@quicinc.com>
- <20230829112230.7106a8bf@eldfell>
- <752176d8-23f4-4689-8bf4-db27f153fd39@quicinc.com>
- <6851b864-447f-453f-8b34-1fbb6e97eefe@linaro.org>
- <26585954-7c86-45fd-9190-f1109cbe9901@quicinc.com>
-In-Reply-To: <26585954-7c86-45fd-9190-f1109cbe9901@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Tue, 17 Oct 2023 10:25:14 +0300
-Message-ID: <CAA8EJpoo4PSAzpjLcfdA0brNFZbTuCnv_HdztQ9Pnc_EnXgEmg@mail.gmail.com>
-Subject: Re: [Freedreno] [PATCH RFC v6 07/10] drm/atomic: Loosen FB atomic
- checks
-To: Jessica Zhang <quic_jesszhan@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <a4a5dc87-001b-2948-e74f-8c51d170b9b2@mailbox.org>
+X-Operating-System: Linux dvetter-linux.ger.corp.intel.com
+ 6.3.8-200.fc38.x86_64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,162 +83,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, sebastian.wick@redhat.com,
- linux-arm-msm@vger.kernel.org, quic_abhinavk@quicinc.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Pekka Paalanen <ppaalanen@gmail.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- wayland-devel@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
- laurent.pinchart@ideasonboard.com
+Cc: Ray Strode <halfline@gmail.com>, daniel.vetter@ffwll.ch, Xinhui.Pan@amd.com,
+ dri-devel@lists.freedesktop.org, alexander.deucher@amd.com, airlied@redhat.com,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jessica,
-
-On Tue, 17 Oct 2023 at 03:41, Jessica Zhang <quic_jesszhan@quicinc.com> wrote:
-> On 9/24/2023 3:23 AM, Dmitry Baryshkov wrote:
-> > On 22/09/2023 20:49, Jessica Zhang wrote:
+On Fri, Oct 13, 2023 at 12:22:52PM +0200, Michel Dänzer wrote:
+> On 10/13/23 11:41, Daniel Vetter wrote:
+> > On Thu, Oct 12, 2023 at 02:19:41PM -0400, Ray Strode wrote:
+> >> On Mon, Oct 09, 2023 at 02:36:17PM +0200, Christian König wrote:
+> >>>>>> To be clear, my take is, if driver code is running in process context
+> >>>>>> and needs to wait for periods of time on the order of or in excess of
+> >>>>>> a typical process time slice it should be sleeping during the waiting.
+> >>>>>> If the operation is at a point where it can be cancelled without side
+> >>>>>> effects, the sleeping should be INTERRUPTIBLE. If it's past the point
+> >>>>>> of no return, sleeping should be UNINTERRUPTIBLE. At no point, in my
+> >>>>>> opinion, should kernel code busy block a typical process for dozens of
+> >>>>>> milliseconds while keeping the process RUNNING. I don't think this is
+> >>>>>> a controversial take.
+> >>>>> Exactly that's what I completely disagree on.
 > >>
+> >> Okay if we can't agree that it's not okay for user space (or the
+> >> kernel running in the context of user space) to busy loop a cpu core
+> >> at 100% utilization throughout and beyond the process's entire
+> >> scheduled time slice then we really are at an impasse. I gotta say i'm
+> >> astonished that this seemingly indefensible behavior is somehow a
+> >> point of contention, but I'm not going to keep arguing about it beyond
+> >> this email.
 > >>
-> >> On 8/29/2023 1:22 AM, Pekka Paalanen wrote:
-> >>> On Mon, 28 Aug 2023 17:05:13 -0700
-> >>> Jessica Zhang <quic_jesszhan@quicinc.com> wrote:
-> >>>
-> >>>> Loosen the requirements for atomic and legacy commit so that, in cases
-> >>>> where pixel_source != FB, the commit can still go through.
-> >>>>
-> >>>> This includes adding framebuffer NULL checks in other areas to
-> >>>> account for
-> >>>> FB being NULL when non-FB pixel sources are enabled.
-> >>>>
-> >>>> To disable a plane, the pixel_source must be NONE or the FB must be
-> >>>> NULL
-> >>>> if pixel_source == FB.
-> >>>>
-> >>>> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
-> >>>> ---
-> >>>>   drivers/gpu/drm/drm_atomic.c        | 20 +++++++++++---------
-> >>>>   drivers/gpu/drm/drm_atomic_helper.c | 36
-> >>>> ++++++++++++++++++++----------------
-> >>>>   include/drm/drm_atomic_helper.h     |  4 ++--
-> >>>>   include/drm/drm_plane.h             | 29
-> >>>> +++++++++++++++++++++++++++++
-> >>>>   4 files changed, 62 insertions(+), 27 deletions(-)
-> >>>
-> >>> ...
-> >>>
-> >>>> diff --git a/include/drm/drm_plane.h b/include/drm/drm_plane.h
-> >>>> index a58f84b6bd5e..4c5b7bcdb25c 100644
-> >>>> --- a/include/drm/drm_plane.h
-> >>>> +++ b/include/drm/drm_plane.h
-> >>>> @@ -992,6 +992,35 @@ static inline struct drm_plane
-> >>>> *drm_plane_find(struct drm_device *dev,
-> >>>>   #define drm_for_each_plane(plane, dev) \
-> >>>>       list_for_each_entry(plane, &(dev)->mode_config.plane_list, head)
-> >>>> +/**
-> >>>> + * drm_plane_solid_fill_enabled - Check if solid fill is enabled on
-> >>>> plane
-> >>>> + * @state: plane state
-> >>>> + *
-> >>>> + * Returns:
-> >>>> + * Whether the plane has been assigned a solid_fill_blob
-> >>>> + */
-> >>>> +static inline bool drm_plane_solid_fill_enabled(struct
-> >>>> drm_plane_state *state)
-> >>>> +{
-> >>>> +    if (!state)
-> >>>> +        return false;
-> >>>> +    return state->pixel_source == DRM_PLANE_PIXEL_SOURCE_SOLID_FILL
-> >>>> && state->solid_fill_blob;
-> >>>> +}
-> >>>> +
-> >>>> +static inline bool drm_plane_has_visible_data(const struct
-> >>>> drm_plane_state *state)
-> >>>> +{
-> >>>> +    switch (state->pixel_source) {
-> >>>> +    case DRM_PLANE_PIXEL_SOURCE_NONE:
-> >>>> +        return false;
-> >>>> +    case DRM_PLANE_PIXEL_SOURCE_SOLID_FILL:
-> >>>> +        return state->solid_fill_blob != NULL;
-> >>>
-> >>> This reminds me, new UAPI docs did not say what the requirements are for
-> >>> choosing solid fill pixel source. Is the atomic commit rejected if
-> >>> pixel source is solid fill, but solid_fill property has no blob?
-> >>
-> >> Hi Pekka,
-> >>
-> >> Yes, if pixel_source is solid_fill and the solid_fill property blob
-> >> isn't set, the atomic commit should throw an error.
-> >>
-> >> Will document this in the UAPI.
-> >
-> > I don't see a corresponding error check in atomic_check() functions.
-> > Could you please check that there is one, as you are updating the uAPI.
->
-> Hi Dmitry,
->
-> Sorry for the late response.
+> >> I mean we're not talking about scientific computing, or code
+> >> compilation, or seti@home. We're talking about nearly the equivalent
+> >> of `while (1) __asm__ ("nop");`
+> > 
+> > I don't think anyone said this shouldn't be fixed or improved.
+> > 
+> > What I'm saying is that the atomic ioctl is not going to make guarantees
+> > that it will not take up to much cpu time (for some extremely vague value
+> > of "too much") to the point that userspace can configure it's compositor
+> > in a way that it _will_ get killed if we _ever_ violate this rule.
+> > 
+> > We should of course try to do as good as job as possible, but that's not
+> > what you're asking for. You're asking for a hard real-time guarantee with
+> > the implication if we ever break it, it's a regression, and the kernel has
+> > to bend over backwards with tricks like in your patch to make it work.
+> 
+> I don't think mutter really needs or wants such a hard real-time
+> guarantee. What it needs is a fighting chance to react before the kernel
+> kills its process.
+> 
+> The intended mechanism for this is SIGXCPU, but that can't work if the
+> kernel is stuck in a busy-loop. Ray's patch seems like one way to avoid
+> that.
 
-No worries.
+I don't think signals will get us out of this either, or at least still
+has risk. We are trying to make everything interruptible and bail out
+asap, but those checks are when we're blocking, not when the cpu is busy.
 
->
-> drm_plane_has_visible_data() is being called from
-> drm_atomic_plane_check() which is called from drm_atomic_commit() (via
-> drm_atomic_check_only()).
->
-> It's also called within the atomic_check() callstack in
-> drm_atomic_helper_check_plane_state(), though that check will set
-> plane.visible to false and return 0.
->
-> Would it be better to have a more explicit `if (source == solid_fill &&
-> !plane->solid_fill_blob) then return -EINVAL` check in atomic_check()?
+So this also wont guarantee that you expire your timeslice when a driver
+is doing a silly expensive atomic_check computation. Much less likely, but
+definitely not a zero chance.
 
-No. Your current code is good already. It was me who missed the
-visible data check.
-If you are going to send the next version for some reason, it might be
-good to add a small comment to drm_atomic_helper_check_plane_state().
-Something like 'check that the selected pixel source (fb, solid fill,
-etc.) is valid'.
+> That said, as long as SIGXCPU can work as intended with the non-blocking
+> commits mutter uses for everything except modesets, mutter's workaround
+> of dropping RT priority for the blocking commits seems acceptable for
+> the time being.
 
->
-> Thanks,
->
-> Jessica Zhang
->
-> >
-> >>
-> >> Thanks,
-> >>
-> >> Jessica Zhang
-> >>
-> >>>
-> >>> This should be doc'd.
-> >>>
-> >>>
-> >>> Thanks,
-> >>> pq
-> >>>
-> >>>> +    case DRM_PLANE_PIXEL_SOURCE_FB:
-> >>>> +    default:
-> >>>> +        WARN_ON(state->pixel_source != DRM_PLANE_PIXEL_SOURCE_FB);
-> >>>> +    }
-> >>>> +
-> >>>> +    return state->fb != NULL;
-> >>>> +}
-> >>>> +
-> >>>>   bool drm_any_plane_has_format(struct drm_device *dev,
-> >>>>                     u32 format, u64 modifier);
-> >>>>
-> >>>
-> >
-> > --
-> > With best wishes
-> > Dmitry
-> >
+Is there no rt setup where the kernel just auto-demotes when you've used
+up your slice? That's the only setup I see that guarantees you're not
+getting killed here.
 
-
-
+I think dropping rt priority around full modesets is still good since
+modests really shouldn't ever run as rt, that makes no sense to me.
+-Sima
 -- 
-With best wishes
-Dmitry
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
