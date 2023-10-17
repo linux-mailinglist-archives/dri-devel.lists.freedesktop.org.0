@@ -2,60 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D15A47CBC4D
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Oct 2023 09:34:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 031C67CBC69
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Oct 2023 09:37:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E705C10E27C;
-	Tue, 17 Oct 2023 07:33:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 161AF88F94;
+	Tue, 17 Oct 2023 07:37:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd32.google.com (mail-io1-xd32.google.com
- [IPv6:2607:f8b0:4864:20::d32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 78DF010E27D
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Oct 2023 07:33:57 +0000 (UTC)
-Received: by mail-io1-xd32.google.com with SMTP id
- ca18e2360f4ac-79fa5d9f3a2so205382039f.3
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Oct 2023 00:33:57 -0700 (PDT)
+Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com
+ [IPv6:2a00:1450:4864:20::236])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D4F5C10E27E
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Oct 2023 07:37:15 +0000 (UTC)
+Received: by mail-lj1-x236.google.com with SMTP id
+ 38308e7fff4ca-2c506d1798eso9242881fa.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Oct 2023 00:37:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1697528036; x=1698132836;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=/ApyDiANstYTWyWFRnukDgHnJl3tUXr1U5Y0xyV6mrc=;
- b=Mb73H4O0CXiNRwbLq+EZyqZiBnzganQcGqDeKhFmCBbQGVwtAz5C2KnmP28deh+re2
- pcsSvi+5ZQC2j56XAzbuaL6KXa7Ot98IVbmQfEhvOhXVtlM351pJPfGMTad9bV6vmczG
- tZh7HRvXieLZ+Ztf4dHs9TsYpUHy0fSgwXgCY=
+ d=ffwll.ch; s=google; t=1697528234; x=1698133034; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=004qh3k4NFILhFdfUztufEWvSL5y8mHzh2lznCTfPd0=;
+ b=KpLHRRlIeyMrw0Hx4oIQTGGYkaZIWB/XKnXN0dOHBv4QaTBVMMUrcNi/UUBG0iG5cO
+ eeuUukFszLqqcto+gv9aLxYx9bxikkwTLiATrMmhK56jWvTY79n8rXMegSITNMVn5Nk9
+ BGeA37wRZH2JpWgeHvBhnVGv6f8XfP21Deros=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1697528036; x=1698132836;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=/ApyDiANstYTWyWFRnukDgHnJl3tUXr1U5Y0xyV6mrc=;
- b=LpX3LaEln7mYWgNphhqcQ7jFaHGYU07S3OLWXiB0nZZPziB+R4Q/WtFo9OpQtquThC
- epO0Uuzdl6/BmUNAcEk1SdwYJD8faiUhf7YSAT3J7cRbSwQLlAqiDDx6ySffzDRUOqxz
- iweprsAOcR5Q1POmw+RABW1BwMgpAWbDjELE/yNHuZ4yp94LTStfA67kywUuJmW3cTEE
- qEFCPI5GZzimlPFQeyWEsHFXfmsWZnrg8OXT+hur0sr+i+WDf2SM212Rj7L5+DSsSMov
- B/2gIELewog9Pui6XIlFpDEJQ6LW6Lp9NjTmKl5zsl0NkIBtSdKzqmLVcGIFdZoygFdg
- q0Aw==
-X-Gm-Message-State: AOJu0YxwWAYF6ZOypLQIbksOuc3uxjw/TbuFW7JYe0ISjR4Of6baVM7S
- 4lJOz5BEmPTJTFe4kqs8nh/erVNfncrfKaYxdgGGmA==
-X-Google-Smtp-Source: AGHT+IEAYKQ8Ud2dDCTFrFxk0sv/MWGDyTH5PUc94osy1+AGiIS89dM943n8PAfXr7KHqvHMo1X6R6r3/dT57OJulPY=
-X-Received: by 2002:a05:6602:1689:b0:790:f733:2f9e with SMTP id
- s9-20020a056602168900b00790f7332f9emr1564343iow.13.1697528036747; Tue, 17 Oct
- 2023 00:33:56 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1697528234; x=1698133034;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=004qh3k4NFILhFdfUztufEWvSL5y8mHzh2lznCTfPd0=;
+ b=UkAEShK898F0u8nCzMCaKlQ45MLbKyNxSIJzphYovd3/GKFokp0WbKOIUs/N0c3GUq
+ NTfJD0152rCV/qVv5+pMwwrvWBDXzmM3zhJ6BCTvXLPOxUUGrLOhCHRpdMFl2vfCkL0Q
+ YMGYAyy9VT2lQaFO+9iWVPB8RL4ktMXLBEjOswxY/l06rNCMGku3OloQf87ENvIJ13Re
+ FV/PzdyxJrRf65rqXUyXwQ8DsUsUtgb5nVeiNCLyvojaNagL0Yd0wYnycNha9/OwOhRo
+ /vlNkvUF4gQP17PO+1BzmDpRQlpuxCBm7BfWjiH6p2o3biEx9Lvscsjw6LdxpXaNpGFy
+ BFhA==
+X-Gm-Message-State: AOJu0Yy5F8JAuEkv/4asPSn+JO7zpiKXFOErpcLATx3OHiVSx2ILcg9k
+ xO7/VPvZOJZawcf22yWAgOBmRQ==
+X-Google-Smtp-Source: AGHT+IG0Oqmm4U/RX9VqqLugpjJIOIET0AUryeLp/jRvG0DPpnM8ZnrXljxrZWu2JkdnMjX9TvK/hw==
+X-Received: by 2002:a05:651c:386:b0:2c5:2d06:cade with SMTP id
+ e6-20020a05651c038600b002c52d06cademr913052ljp.2.1697528233784; 
+ Tue, 17 Oct 2023 00:37:13 -0700 (PDT)
+Received: from dvetter-linux.ger.corp.intel.com
+ (198.red-81-39-42.dynamicip.rima-tde.net. [81.39.42.198])
+ by smtp.gmail.com with ESMTPSA id
+ p23-20020a05600c1d9700b00402ff8d6086sm1109879wms.18.2023.10.17.00.37.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 17 Oct 2023 00:37:13 -0700 (PDT)
+Date: Tue, 17 Oct 2023 09:37:08 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Ray Strode <halfline@gmail.com>
+Subject: Re: [PATCH] drm/atomic: Perform blocking commits on workqueue
+Message-ID: <ZS45pPw8N4h2CE1z@dvetter-linux.ger.corp.intel.com>
+References: <CAA_UwzL=2PjeH_qW2GJa_XzJCeWkz9NcokPQX3-qn2f0iPz+Rw@mail.gmail.com>
+ <90e7f66f-96bf-4e90-88c8-75019bc506a4@amd.com>
+ <CAA_UwzJ7q8aq_iw3wimeQXmvKp8Z253J7oqi3UQqcKdkRmAcAA@mail.gmail.com>
+ <9f9b50fa-8bad-4e96-ac60-21c48f473fc6@amd.com>
+ <ZSPv1iAwJMgnsDu3@intel.com>
+ <dc0c733e-df75-42f8-a920-cca8eebfa0dc@amd.com>
+ <ZSU4aGnYsqUvz1ry@phenom.ffwll.local>
+ <CAA_UwzJF3Smi_JSQ4S3B1kG23MEXppVfm0Sc1ftVktaoumymuA@mail.gmail.com>
+ <ZSkQxEL4596_pQW1@phenom.ffwll.local>
+ <CAA_UwzLo+PHpVf2BtUC486_b+CUkt+Wm0RPJXhGkGmZzUAxDAQ@mail.gmail.com>
 MIME-Version: 1.0
-References: <20230926-topic-a643-v1-0-7af6937ac0a3@linaro.org>
- <20230926-topic-a643-v1-2-7af6937ac0a3@linaro.org>
- <43q6mui3lofa4rqh667o54b2qcbqn5fg34ss5o7y7k7uxbxsro@dxgovofsrvqx>
-In-Reply-To: <43q6mui3lofa4rqh667o54b2qcbqn5fg34ss5o7y7k7uxbxsro@dxgovofsrvqx>
-From: Rob Clark <robdclark@chromium.org>
-Date: Tue, 17 Oct 2023 00:33:45 -0700
-Message-ID: <CAJs_Fx7WkdhY31aP_buZP+b7ihOOmE8zBZFOLZ8z9uqcNmEhVw@mail.gmail.com>
-Subject: Re: [PATCH 2/7] drm/msm/adreno: Add ZAP firmware name to A635
-To: Akhil P Oommen <quic_akhilpo@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAA_UwzLo+PHpVf2BtUC486_b+CUkt+Wm0RPJXhGkGmZzUAxDAQ@mail.gmail.com>
+X-Operating-System: Linux dvetter-linux.ger.corp.intel.com
+ 6.3.8-200.fc38.x86_64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,67 +83,129 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Conor Dooley <conor+dt@kernel.org>,
- cros-qcom-dts-watchers@chromium.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- devicetree@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Herring <robh+dt@kernel.org>,
- Stephen Boyd <swboyd@chromium.org>, Konrad Dybcio <konrad.dybcio@linaro.org>,
- Andy Gross <agross@kernel.org>, dri-devel@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Luca Weiss <luca.weiss@fairphone.com>, Sean Paul <sean@poorly.run>,
- linux-kernel@vger.kernel.org
+Cc: daniel.vetter@ffwll.ch, Xinhui.Pan@amd.com, dri-devel@lists.freedesktop.org,
+ mdaenzer@redhat.com, alexander.deucher@amd.com, airlied@redhat.com,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 16, 2023 at 1:12=E2=80=AFPM Akhil P Oommen <quic_akhilpo@quicin=
-c.com> wrote:
->
-> On Tue, Sep 26, 2023 at 08:24:37PM +0200, Konrad Dybcio wrote:
+On Fri, Oct 13, 2023 at 10:04:02AM -0400, Ray Strode wrote:
+> Hi
+> 
+> On Fri, Oct 13, 2023 at 5:41 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+> > > I mean we're not talking about scientific computing, or code
+> > > compilation, or seti@home. We're talking about nearly the equivalent
+> > > of `while (1) __asm__ ("nop");`
 > >
-> > Some (many?) devices with A635 expect a ZAP shader to be loaded.
+> > I don't think anyone said this shouldn't be fixed or improved.
+> 
+> Yea but we apparently disagree that it would be an improvement to stop
+> discrediting user space for driver problems.
+> You see, to me, there are two problems 1) The behavior itself is not
+> nice and should be fixed 2) The blame/accounting/attribution for a
+> driver problem is getting directed to user space. I think both issues
+> should be fixed. One brought the other issue to light, but both
+> problems, in my mind, are legitimate and should be addressed. You
+> think fixing the second problem is some tactic to paper over the first
+> problem. Christian thinks the second problem isn't a problem at all
+> but the correct design.  So none of us are completely aligned and I
+> don't see anyone changing their mind anytime soon.
+> 
+> > What I'm saying is that the atomic ioctl is not going to make guarantees
+> > that it will not take up to much cpu time (for some extremely vague value
+> > of "too much") to the point that userspace can configure it's compositor
+> > in a way that it _will_ get killed if we _ever_ violate this rule.
+> yea I find that strange, all kernel tasks have a certain implied
+> baseline responsibility to be good citizens to the system.
+> And how user space is configured seems nearly immaterial.
+> 
+> But we're talking in circles.
+> 
+> > Fixing the worst offenders I don't think will see any pushback at all.
+> Yea we all agree fixing this one busy loop is a problem but we don't
+> agree on where the cpu time blame should go.
+> 
+> > > But *this* feels like duct tape: You've already said there's no
+> > > guarantee the problem won't also happen during preliminary computation
+> > > during non-blocking commits or via other drm entry points. So it
+> > > really does seem like a fix that won't age well. I won't be surprised
+> > > if in ~3 years (or whatever) in some RHEL release there's a customer
+> > > bug leading to the real-time thread getting blocklisted for obscure
+> > > server display hardware because it's causing the session to tank on a
+> > > production machine.
 > >
-> > Set the file name to allow for that.
+> > Yes the atomic ioctl makes no guarantees across drivers and hw platforms
+> > of guaranteed "we will never violate, you can kill your compositor if you
+> > do" cpu bound limits. We'll try to not suck too badly, and we'll try to
+> > focus on fixing the suck where it upsets the people the most.
 > >
-> > Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
-> > ---
-> >  drivers/gpu/drm/msm/adreno/adreno_device.c | 1 +
-> >  1 file changed, 1 insertion(+)
-> >
-> > diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/d=
-rm/msm/adreno/adreno_device.c
-> > index fa527935ffd4..16527fe8584d 100644
-> > --- a/drivers/gpu/drm/msm/adreno/adreno_device.c
-> > +++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
-> > @@ -454,6 +454,7 @@ static const struct adreno_info gpulist[] =3D {
-> >               .quirks =3D ADRENO_QUIRK_HAS_CACHED_COHERENT |
-> >                       ADRENO_QUIRK_HAS_HW_APRIV,
-> >               .init =3D a6xx_gpu_init,
-> > +             .zapfw =3D "a660_zap.mbn",
->
-> sc7280 doesn't have a TZ and so no zap shader support. Can we handle
-> this using "firmware-name" property in your top level platform dt? Zap
-> firmwares are signed with different keys for each OEMs. So there is
-> cross-compatibility anyway.
+> > But there is fundamentally no hard real time guarantee in atomic. At least
+> > not with the current uapi.
+> 
+> So in your mind mutter should get out of the real-time thread business entirely?
 
-I think this ends up working out because the version of sc7280 that
-doesn't have TZ also doesn't have the associated mem-region/etc..  but
-maybe we should deprecate the zapfw field as in practice it isn't
-useful (ie. always overriden by firmware-name).
+Yes. At least the hard-real time "the kernel kills your process if you
+fail" business. Because desktop drawing just isn't hard real-time, nothing
+disastrous happens if we miss a deadline.
 
-Fwiw there are windows laptops with sc7180/sc7280 which do use zap fw.
+Of course special setups where everything is very controlled might be
+different.
 
-BR,
--R
+> > The problem isn't about wasting cpu time. It's about you having set up the
+> > system in a way so that mutter gets killed if we ever waste too much cpu
+> > time, ever.
+> 
+> mutter is not set up in a way to kill itself if the driver wastes too
+> much cpu time,
+> ever. mutter is set up in a way to kill itself if it, itself, wastes
+> too much cpu time, ever.
+> The fact that the kernel is killing it when a kernel driver is wasting
+> cpu time is the
+> bug that led to the patch in the first place!
+> 
+> > The latter is flat out not a guarantee the kernel currently makes, and I
+> > see no practical feasible way to make that happen. And pretending we do
+> > make this guarantee will just result in frustrated users filling bugs that
+> > they desktop session died and developers closing them as "too hard to
+> > fix".
+> 
+> I think all three of us agree busy loops are not nice (though maybe we
+> aren't completely aligned on severity). And I'll certainly concede
+> that fixing all the busy loops can be hard. Some of the cpu-bound code
+> paths may even be doing legitimate computation.  I still assert that
+> if the uapi calls into driver code that might potentially be doing
+> something slow where it can't sleep, it should be doing it on a
+> workqueue or thread. That seems orthogonal to fixing all the places
+> where the drivers aren't acting nicely.
 
->
-> -Ahil.
->
-> >               .hwcg =3D a660_hwcg,
-> >               .address_space_size =3D SZ_16G,
-> >               .speedbins =3D ADRENO_SPEEDBINS(
-> >
-> > --
-> > 2.42.0
-> >
+Again no, because underlying this your requirement boils down to hard real
+time.
+
+And we just cannot guarantee that with atomic kms. Best effort,
+absolutely. Guaranteed to never fail, no way.
+
+> > Maybe as a bit more useful outcome of this entire discussion: Could you
+> > sign up to write a documentation patch for the atomic ioctl that adds a
+> > paragraph stating extremely clearly that this ioctl does not make hard
+> > real time guarantees, but only best effort soft realtime, and even then
+> > priority of the effort is focused entirely on the !ALLOW_MODESET case,
+> > because that is the one users care about the most.
+> 
+> I don't think I'm the best positioned to write such documentation. I
+> still think what the kernel is doing is wrong here and I don't even
+> fully grok what you mean by best effort.
+
+It's the difference between hard real time and soft real time. atomic kms
+is a soft real time system, not hard real time.
+
+You've set up mutter in a hard real time way, and that just doesn't work.
+
+I guess I can type up some patch when I'm back from XDC, but if the
+difference between soft and hard real time isn't clear, then yeah you
+don't understand the point I've been trying to make in this thread.
+
+Cheers, Sima
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
