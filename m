@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 094D87CBDC9
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Oct 2023 10:37:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83E697CBDCD
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Oct 2023 10:37:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE4D810E28C;
-	Tue, 17 Oct 2023 08:37:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8099A10E292;
+	Tue, 17 Oct 2023 08:37:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8DCA410E282
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC79F10E06E
  for <dri-devel@lists.freedesktop.org>; Tue, 17 Oct 2023 08:36:56 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 171EF1FF0C;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 517F11FF0D;
  Tue, 17 Oct 2023 08:36:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1697531815; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=beGZQxs/DvHsJ8ztQe+rr2+H2D23UumZwcQmPHvTnLg=;
- b=zdbfGNhrxMbGNh5Tx0Gub0cpkmktkq3Wohyqi4T7FzLmagWeATVGieJM62YmPlIPAe/A5S
- qHbPYi/KCBCZFe4wj9mUkdjKAKGkqwxVfQ92kS++EGRbotef4jxemM+K0IK0cyC0MJlxpm
- f5N7Yy6MkwQgqcFVo23zsnlIy5Iav7Q=
+ bh=2Fqk3E7OxNycmAvJUp8+dEPzNJNt8sNAyCx8Vo8A/ks=;
+ b=L3ne1KCa62xoM2JJPD0aZJFTtU0I8XBjq/px3zGhL7+uNOuvvYPa4iLwzbkSr000zsYkp1
+ e7qS+NuJvCMhet6a8kJ691d6g/1HDiE6QXaDO/hBSGTgid4+Jpiex8eg4KBtQ9RfISZ1fz
+ yRSCYvPioqEm9CUYIzyZJ4cxAaIIwQI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1697531815;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=beGZQxs/DvHsJ8ztQe+rr2+H2D23UumZwcQmPHvTnLg=;
- b=HGm98jK6fkX75qViQPZmxcoNUNws1j8BgYdiiYPhKfZgvrCBAhntb6n1I6UPDW0QHhABvx
- mqkTqdEaLo9NrxDg==
+ bh=2Fqk3E7OxNycmAvJUp8+dEPzNJNt8sNAyCx8Vo8A/ks=;
+ b=fB4H7Ka3tOKdo0bqSo7ztxeM1i7UvcdhRje2hLeXJfeNj5hSB03p81g+BcqE1Cx7vRzuIL
+ O6oVuJEPAcGyicDw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id DC65113584;
- Tue, 17 Oct 2023 08:36:54 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1A1801391B;
+ Tue, 17 Oct 2023 08:36:55 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id SF3pNKZHLmVbUgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 17 Oct 2023 08:36:54 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id kHxwBadHLmVbUgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Tue, 17 Oct 2023 08:36:55 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@redhat.com, jfalempe@redhat.com, maarten.lankhorst@linux.intel.com,
  mripard@kernel.org, airlied@gmail.com, daniel@ffwll.ch
-Subject: [PATCH 02/12] drm/ast: Rename AST_IO_MISC_PORT_WRITE to AST_IO_VGAMR_W
-Date: Tue, 17 Oct 2023 10:31:58 +0200
-Message-ID: <20231017083653.10063-3-tzimmermann@suse.de>
+Subject: [PATCH 03/12] drm/ast: Rename AST_IO_VGA_ENABLE_PORT to AST_IO_VGAER
+Date: Tue, 17 Oct 2023 10:31:59 +0200
+Message-ID: <20231017083653.10063-4-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231017083653.10063-1-tzimmermann@suse.de>
 References: <20231017083653.10063-1-tzimmermann@suse.de>
@@ -90,64 +90,50 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Rename AST_IO_MISC_PORT_WRITE to AST_IO_VGAMR_W to align naming
+Rename AST_IO_VGA_ENABLE_PORT to AST_IO_VGAER to align naming
 in the driver with documentation. No functional changes.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
  drivers/gpu/drm/ast/ast_drv.h  | 2 +-
- drivers/gpu/drm/ast/ast_main.c | 2 +-
- drivers/gpu/drm/ast/ast_mode.c | 4 ++--
- 3 files changed, 4 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/ast/ast_main.c | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
-index 3d64dc356d699..ff86db3604cda 100644
+index ff86db3604cda..e31ba929f18db 100644
 --- a/drivers/gpu/drm/ast/ast_drv.h
 +++ b/drivers/gpu/drm/ast/ast_drv.h
-@@ -260,7 +260,7 @@ static inline bool __ast_gen_is_eq(struct ast_device *ast, unsigned long gen)
- #define IS_AST_GEN7(__ast)	__ast_gen_is_eq(__ast, 7)
+@@ -261,7 +261,7 @@ static inline bool __ast_gen_is_eq(struct ast_device *ast, unsigned long gen)
  
  #define AST_IO_VGAARI_W			(0x40)
--#define AST_IO_MISC_PORT_WRITE		(0x42)
-+#define AST_IO_VGAMR_W			(0x42)
- #define AST_IO_VGA_ENABLE_PORT		(0x43)
+ #define AST_IO_VGAMR_W			(0x42)
+-#define AST_IO_VGA_ENABLE_PORT		(0x43)
++#define AST_IO_VGAER			(0x43)
  #define AST_IO_SEQ_PORT			(0x44)
  #define AST_IO_DAC_INDEX_READ		(0x47)
+ #define AST_IO_DAC_INDEX_WRITE		(0x48)
 diff --git a/drivers/gpu/drm/ast/ast_main.c b/drivers/gpu/drm/ast/ast_main.c
-index dae365ed39696..f8a682c4cbd01 100644
+index f8a682c4cbd01..7db1f50044542 100644
 --- a/drivers/gpu/drm/ast/ast_main.c
 +++ b/drivers/gpu/drm/ast/ast_main.c
-@@ -50,7 +50,7 @@ static void ast_enable_vga(struct drm_device *dev)
+@@ -40,7 +40,7 @@ static bool ast_is_vga_enabled(struct drm_device *dev)
+ 	struct ast_device *ast = to_ast_device(dev);
+ 	u8 ch;
+ 
+-	ch = ast_io_read8(ast, AST_IO_VGA_ENABLE_PORT);
++	ch = ast_io_read8(ast, AST_IO_VGAER);
+ 
+ 	return !!(ch & 0x01);
+ }
+@@ -49,7 +49,7 @@ static void ast_enable_vga(struct drm_device *dev)
+ {
  	struct ast_device *ast = to_ast_device(dev);
  
- 	ast_io_write8(ast, AST_IO_VGA_ENABLE_PORT, 0x01);
--	ast_io_write8(ast, AST_IO_MISC_PORT_WRITE, 0x01);
-+	ast_io_write8(ast, AST_IO_VGAMR_W, 0x01);
+-	ast_io_write8(ast, AST_IO_VGA_ENABLE_PORT, 0x01);
++	ast_io_write8(ast, AST_IO_VGAER, 0x01);
+ 	ast_io_write8(ast, AST_IO_VGAMR_W, 0x01);
  }
  
- /*
-diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-index 1ccbfdf27356e..3f52648c20a09 100644
---- a/drivers/gpu/drm/ast/ast_mode.c
-+++ b/drivers/gpu/drm/ast/ast_mode.c
-@@ -298,7 +298,7 @@ static void ast_set_std_reg(struct ast_device *ast,
- 	stdtable = vbios_mode->std_table;
- 
- 	jreg = stdtable->misc;
--	ast_io_write8(ast, AST_IO_MISC_PORT_WRITE, jreg);
-+	ast_io_write8(ast, AST_IO_VGAMR_W, jreg);
- 
- 	/* Set SEQ; except Screen Disable field */
- 	ast_set_index_reg(ast, AST_IO_SEQ_PORT, 0x00, 0x03);
-@@ -537,7 +537,7 @@ static void ast_set_sync_reg(struct ast_device *ast,
- 		jreg |= 0x80;
- 	if (vbios_mode->enh_table->flags & NHSync)
- 		jreg |= 0x40;
--	ast_io_write8(ast, AST_IO_MISC_PORT_WRITE, jreg);
-+	ast_io_write8(ast, AST_IO_VGAMR_W, jreg);
- }
- 
- static void ast_set_start_address_crt1(struct ast_device *ast,
 -- 
 2.42.0
 
