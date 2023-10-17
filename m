@@ -1,57 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D53DC7CCA50
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Oct 2023 20:04:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 59FE97CCA95
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Oct 2023 20:26:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0ADC510E30D;
-	Tue, 17 Oct 2023 18:04:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D58710E314;
+	Tue, 17 Oct 2023 18:26:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com
- [209.85.210.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4436B10E30D
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Oct 2023 18:04:49 +0000 (UTC)
-Received: by mail-ot1-f42.google.com with SMTP id
- 46e09a7af769-6c63117a659so3633289a34.0
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Oct 2023 11:04:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1697565888; x=1698170688;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=EQMZZNtwxKp6PHrZvBpFDkR2RCeELkDJh7t0tRAV+Uk=;
- b=qLSw8X8JQ1HG3FSl9vHY23X4fbnUk8LXvtHPp8O5d6s9zaOMk5Z6uMD6tc8nVXnP+l
- za9PQVoN/cZAxOVDw/SDhFXQW1P1SvgVhARJtT3alLUWAn+mOJKM1A2BNDvSxOzRUgfy
- O8RCJOweVff5PvBGsDTQqCVqm5KcSrUdDs3ZPgNDLhSkKTIKUErgOTcfnM2cs3A21k+e
- zfmgVUm6jNfel87nZnQ6EAOk3Ug+qOu0AHR6P762yEurqanUqYJCvKVhv987Z2tM3Ouv
- +kSQobB1PLwqo8Dg4UzJC23KW77IcUwxg0RVxChTnhDql2k9cfP+tXJPFFRdZY98b8Lc
- dSHQ==
-X-Gm-Message-State: AOJu0Yz0r5rUFlJ7z0m3+jypdux2VYub7V08mkA5CGQJiQFYlExbqb25
- mie5ib3QqgmRTorzsFRxoh5PSb4U6g==
-X-Google-Smtp-Source: AGHT+IEIu8IPZQgV4rX5TrvEag75rqOcwwjFqP0xMOKHnwKuurJMGdtfsuM15VDdYSV6q3G4M5GkGQ==
-X-Received: by 2002:a9d:65c8:0:b0:6b9:c49f:1af7 with SMTP id
- z8-20020a9d65c8000000b006b9c49f1af7mr3029577oth.20.1697565888470; 
- Tue, 17 Oct 2023 11:04:48 -0700 (PDT)
-Received: from herring.priv (66-90-144-107.dyn.grandenetworks.net.
- [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
- b7-20020a056830104700b006c6311b15f6sm338959otp.38.2023.10.17.11.04.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Oct 2023 11:04:47 -0700 (PDT)
-Received: (nullmailer pid 2258965 invoked by uid 1000);
- Tue, 17 Oct 2023 18:04:46 -0000
-Date: Tue, 17 Oct 2023 13:04:46 -0500
-From: Rob Herring <robh@kernel.org>
-To: Flavio Suligoi <f.suligoi@asem.it>
-Subject: Re: [PATCH v1] dt-bindings: backlight: add brightness-levels related
- common properties
-Message-ID: <169756588486.2258419.14570431419592615885.robh@kernel.org>
-References: <20231016150554.27144-1-f.suligoi@asem.it>
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 55B0B10E312;
+ Tue, 17 Oct 2023 18:26:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1697567164; x=1729103164;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=0V/M5V/4I9hDS/oxp4YfvuNpfuB8GcyxkEgvWG2TSWQ=;
+ b=kfkJ6Dd4MFzCmtc7GM8Hz7spYnvgU3le9256EIOzxz+9ABynfQFvlMUR
+ u8ppAxh1X+PKsO5La4SvfES8LfuGEuD2LUZt1rU3M6/V3l5uAPBLNXvL7
+ ZCsw1hBM4AU9dlSCKJELSyhuEk28kE1MZ/vEkigPgNAd9AdOXqrdZZ+co
+ w5+gBh31ioCoK772t+bQFmxj05BjnJU2d+IoVgR6lJvBCr5dGPcPKC44y
+ mrvhl9XgdOZBK2Y80BGjzyWk99tGzz0BlIQhPUEOnNy3jM98j5UL8md88
+ up6I5Iq0pXEwd9KtLDLdQxIF5CCTqB99u07JOgTCtCQs+s9xBkqHqbpM5 g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="472080002"
+X-IronPort-AV: E=Sophos;i="6.03,232,1694761200"; d="scan'208";a="472080002"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Oct 2023 11:25:56 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="749778847"
+X-IronPort-AV: E=Sophos;i="6.03,232,1694761200"; d="scan'208";a="749778847"
+Received: from nirmoyda-mobl.ger.corp.intel.com (HELO [10.249.38.47])
+ ([10.249.38.47])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Oct 2023 11:25:54 -0700
+Message-ID: <218f539b-fa6a-ef6c-7a0c-9fd82d3eb977@linux.intel.com>
+Date: Tue, 17 Oct 2023 20:25:52 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231016150554.27144-1-f.suligoi@asem.it>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [Intel-gfx] [PATCH] drm/i915/mtl: Don't set PIPE_CONTROL_FLUSH_L3
+Content-Language: en-US
+To: "Belgaumkar, Vinay" <vinay.belgaumkar@intel.com>,
+ John Harrison <john.c.harrison@intel.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+References: <20231016225530.2152896-1-vinay.belgaumkar@intel.com>
+ <ee2be6d4-1bc6-4516-80cb-408ad6731787@intel.com>
+ <2b364a80-3d18-17b8-495b-e9a2a9f3c197@intel.com>
+From: Nirmoy Das <nirmoy.das@linux.intel.com>
+In-Reply-To: <2b364a80-3d18-17b8-495b-e9a2a9f3c197@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,33 +65,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Daniel Thompson <daniel.thompson@linaro.org>,
- Pavel Machek <pavel@ucw.cz>, Jingoo Han <jingoohan1@gmail.com>,
- Helge Deller <deller@gmx.de>, Lee Jones <lee@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-leds@vger.kernel.org
+Cc: Mikka Kuoppala <mika.kuoppala@intel.com>, Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Mon, 16 Oct 2023 17:05:54 +0200, Flavio Suligoi wrote:
-> Both files pwm-backlight.yaml and led-backlight.yaml contain properties
-> in common with each other, regarding the brightness levels:
-> 
-> - brightness-levels
-> - default-brightness-level
-> 
-> These properties can then be moved to backlight/common.yaml.
-> 
-> Signed-off-by: Flavio Suligoi <f.suligoi@asem.it>
-> ---
->  .../bindings/leds/backlight/common.yaml       | 17 ++++++++++++++++
->  .../leds/backlight/led-backlight.yaml         | 19 ++++--------------
->  .../leds/backlight/pwm-backlight.yaml         | 20 ++++---------------
->  3 files changed, 25 insertions(+), 31 deletions(-)
-> 
+On 10/17/2023 2:23 AM, Belgaumkar, Vinay wrote:
+>
+> On 10/16/2023 4:24 PM, John Harrison wrote:
+>> On 10/16/2023 15:55, Vinay Belgaumkar wrote:
+>>> This bit does not cause an explicit L3 flush. We already use
+>> At all? Or only on newer hardware? And as a genuine spec change or as 
+>> a bug / workaround?
+>>
+>> If the hardware has re-purposed the bit then it is probably worth at 
+>> least adding a comment to the bit definition to say that it is only 
+>> valid up to IP version 12.70.
+> At this point, this is a bug on MTL since this bit is not related to 
+> L3 flushes as per spec. Regarding older platforms, still checking the 
+> reason why this was added (i.e if it fixed something and will regress 
+> if removed). If not, we can extend the change for others as well in a 
+> separate patch. On older platforms, this bit seems to cause an 
+> implicit flush at best.
+>>
+>>> PIPE_CONTROL_DC_FLUSH_ENABLE for that purpose.
+>>>
+>>> Cc: Nirmoy Das <nirmoy.das@intel.com>
+>>> Cc: Mikka Kuoppala <mika.kuoppala@intel.com>
+>>> Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+>>> ---
+>>>   drivers/gpu/drm/i915/gt/gen8_engine_cs.c | 8 ++++++--
+>>>   1 file changed, 6 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c 
+>>> b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
+>>> index ba4c2422b340..abbc02f3e66e 100644
+>>> --- a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
+>>> +++ b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
+>>> @@ -247,6 +247,7 @@ static int mtl_dummy_pipe_control(struct 
+>>> i915_request *rq)
+>>>   int gen12_emit_flush_rcs(struct i915_request *rq, u32 mode)
+>>>   {
+>>>       struct intel_engine_cs *engine = rq->engine;
+>>> +    struct intel_gt *gt = rq->engine->gt;
+>>>         /*
+>>>        * On Aux CCS platforms the invalidation of the Aux
+>>> @@ -278,7 +279,8 @@ int gen12_emit_flush_rcs(struct i915_request 
+>>> *rq, u32 mode)
+>>>            * deals with Protected Memory which is not needed for
+>>>            * AUX CCS invalidation and lead to unwanted side effects.
+>>>            */
+>>> -        if (mode & EMIT_FLUSH)
+>>> +        if ((mode & EMIT_FLUSH) &&
+>>> +            !(IS_GFX_GT_IP_RANGE(gt, IP_VER(12, 70), IP_VER(12, 71))))
+>> Why stop at 12.71? Is the meaning only changed for 12.70 and the 
+>> old/correct version will be restored in later hardware?
+>
+> Was trying to keep this limited to MTL for now until the above 
+> statements are verified.
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+If we don't need it for MTL, we are most likely not going to need it 
+after MTL too. It should be fine if you make it >= MTL until
 
+we get more clarity about lower platforms.
+
+
+With that,  this is
+
+Reviewed-by: Nirmoy Das <nirmoy.das@intel.com>
+
+>
+> Thanks,
+>
+> Vinay.
+>
+>>
+>> John.
+>>
+>>
+>>>               bit_group_1 |= PIPE_CONTROL_FLUSH_L3;
+>>>             bit_group_1 |= PIPE_CONTROL_TILE_CACHE_FLUSH;
+>>> @@ -812,12 +814,14 @@ u32 *gen12_emit_fini_breadcrumb_rcs(struct 
+>>> i915_request *rq, u32 *cs)
+>>>       u32 flags = (PIPE_CONTROL_CS_STALL |
+>>>                PIPE_CONTROL_TLB_INVALIDATE |
+>>>                PIPE_CONTROL_TILE_CACHE_FLUSH |
+>>> -             PIPE_CONTROL_FLUSH_L3 |
+>>>                PIPE_CONTROL_RENDER_TARGET_CACHE_FLUSH |
+>>>                PIPE_CONTROL_DEPTH_CACHE_FLUSH |
+>>>                PIPE_CONTROL_DC_FLUSH_ENABLE |
+>>>                PIPE_CONTROL_FLUSH_ENABLE);
+>>>   +    if (!(IS_GFX_GT_IP_RANGE(gt, IP_VER(12, 70), IP_VER(12, 71))))
+>>> +        flags |= PIPE_CONTROL_FLUSH_L3;
+>>> +
+>>>       /* Wa_14016712196 */
+>>>       if (IS_GFX_GT_IP_RANGE(gt, IP_VER(12, 70), IP_VER(12, 71)) || 
+>>> IS_DG2(i915))
+>>>           /* dummy PIPE_CONTROL + depth flush */
+>>
