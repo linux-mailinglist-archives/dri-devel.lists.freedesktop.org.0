@@ -1,48 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2214B7CCCA8
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Oct 2023 21:53:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 161037CCDC5
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Oct 2023 22:19:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A8F4610E325;
-	Tue, 17 Oct 2023 19:53:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F21E10E328;
+	Tue, 17 Oct 2023 20:19:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4FF2310E323;
- Tue, 17 Oct 2023 19:53:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1697572418; x=1729108418;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=T68EjbHwk9Sm7n74sgDZIrugTLPv/8+eIWxTN9iCNEU=;
- b=ZvxO8nubPrVkdaiRx+yV8QQlZKqUJypANZXzp466Yl9K4iMcFnnzHQi4
- I+2NWUC+7lCAInxypUtnZgOzzr9DqkNNlk9gzurmPZD+0Nip7LPxizJRh
- WjZx+bF0p05RP3CFChoKk/JRRTH97bpbnm1p5R88BAbG+jokc8fKH/sIW
- Xx0AvcdY+1BxKlXbSH/DGHTGCKVXjp5oGJJXCsMafSmDZqy4/gNbNhfbK
- cIztWHcahM8LbXFw0yXTIzV/8dZ3n/uSyhOn7+oiy5TdMDjmyb8aJI6IE
- n599lCdaOQBN3gaAbgqcf1hROSmoykEJIEW/jRNh/RoiHx4plfsXIN4y0 g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="388733670"
-X-IronPort-AV: E=Sophos;i="6.03,233,1694761200"; d="scan'208";a="388733670"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Oct 2023 12:53:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="822120642"
-X-IronPort-AV: E=Sophos;i="6.03,233,1694761200"; d="scan'208";a="822120642"
-Received: from vbelgaum-ubuntu.fm.intel.com ([10.1.27.27])
- by fmsmga008.fm.intel.com with ESMTP; 17 Oct 2023 12:53:37 -0700
-From: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH v2] drm/i915/mtl: Don't set PIPE_CONTROL_FLUSH_L3
-Date: Tue, 17 Oct 2023 12:53:09 -0700
-Message-Id: <20231017195309.2476088-1-vinay.belgaumkar@intel.com>
-X-Mailer: git-send-email 2.38.1
+Received: from mail-oo1-f48.google.com (mail-oo1-f48.google.com
+ [209.85.161.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD2F210E328
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Oct 2023 20:19:03 +0000 (UTC)
+Received: by mail-oo1-f48.google.com with SMTP id
+ 006d021491bc7-57b5ef5b947so4009022eaf.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Oct 2023 13:19:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1697573943; x=1698178743;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Q6YKzXb6RpcvAIE2KNseI2JNeCjjBedEHxdHH0ygsVs=;
+ b=E6kmPMWVEI5zs2uNMkFd4jeBNe7c/teFAs8ZAETl13GWJ350ZzsuW94yWhCPWq01Gf
+ elK4q3bao9BU0yzlzw3ek8SglMp+SthWUYile3Vow7nI6oZn9lRDSRVA9nOp+yUjah22
+ DkCdpCLHst+XJiprX/iOfzbuDU9sDslFKCZbEOeCblyhp8ubjUmEI3zDfr7pl0gHWMhM
+ VTZMQzJTBlfu7/Ujkn/IU6SPe//o2mdMTUX1+1N8JSrDJpCHIyH5Qqy60D+Z2dPQa/jF
+ QD5GVwMIak0cTkxsbRQzP2zM1KO3McGahQbIpFBMMZeNMhw0f6L5/wNgt5eOMTWNpM9u
+ V45g==
+X-Gm-Message-State: AOJu0Yz+8Ohl1zcbABNVitRzMOilviGU70CM6WzZKHjle2Ir2/T1aG8Y
+ AkUWzAhckDI8tmyBcfTcVg==
+X-Google-Smtp-Source: AGHT+IGvqa31RZJ8r/SrafiLvgLLHO+b84rMNqNQHLDYchD24kgtHpxnm526SRtBWsxbafS8D89ukQ==
+X-Received: by 2002:a4a:db86:0:b0:57e:1618:e700 with SMTP id
+ s6-20020a4adb86000000b0057e1618e700mr3406874oou.7.1697573943076; 
+ Tue, 17 Oct 2023 13:19:03 -0700 (PDT)
+Received: from herring.priv (66-90-144-107.dyn.grandenetworks.net.
+ [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
+ f7-20020a4aeb07000000b0057bcbc23738sm372285ooj.17.2023.10.17.13.19.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 17 Oct 2023 13:19:02 -0700 (PDT)
+Received: (nullmailer pid 2681966 invoked by uid 1000);
+ Tue, 17 Oct 2023 20:19:01 -0000
+Date: Tue, 17 Oct 2023 15:19:01 -0500
+From: Rob Herring <robh@kernel.org>
+To: Hsiao Chien Sung <shawn.sung@mediatek.com>
+Subject: Re: [PATCH v3 03/11] dt-bindings: display: mediatek: ovl: Modify
+ rules for MT8195/MT8188
+Message-ID: <169757394073.2681910.919376164260775888.robh@kernel.org>
+References: <20231017064717.21616-1-shawn.sung@mediatek.com>
+ <20231017064717.21616-4-shawn.sung@mediatek.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231017064717.21616-4-shawn.sung@mediatek.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,57 +65,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Vinay Belgaumkar <vinay.belgaumkar@intel.com>,
- Mika Kuoppala <mika.kuoppala@linux.intel.com>,
- Mika Kuoppala <mika.kuoppala@intel.com>, Nirmoy Das <nirmoy.das@intel.com>
+Cc: devicetree@vger.kernel.org, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Jason-JH Lin <jason-jh.lin@mediatek.com>,
+ Singo Chang <singo.chang@mediatek.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
+ linux-mediatek@lists.infradead.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Chen-Yu Tsai <wenst@chromium.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ Nancy Lin <nancy.lin@mediatek.com>, Sean Paul <sean@poorly.run>,
+ linux-arm-kernel@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This bit does not cause an explicit L3 flush. We already use
-PIPE_CONTROL_DC_FLUSH_ENABLE for that purpose.
 
-v2: Use FLUSH_L3 only pre-MTL since spec will likely remain
-the same going forward.
+On Tue, 17 Oct 2023 14:47:09 +0800, Hsiao Chien Sung wrote:
+> Modify rules for both MT8195 and MT8188.
+> Hardware capabilities include color formats and AFBC are
+> changed since MT8195, stop using the settings of MT8183.
+> 
+> Signed-off-by: Hsiao Chien Sung <shawn.sung@mediatek.com>
+> ---
+>  .../bindings/display/mediatek/mediatek,ovl.yaml      | 12 +++++-------
+>  1 file changed, 5 insertions(+), 7 deletions(-)
+> 
 
-Cc: Nirmoy Das <nirmoy.das@intel.com>
-Cc: Mika Kuoppala <mika.kuoppala@intel.com>
-Acked-by: Mika Kuoppala <mika.kuoppala@linux.intel.com>
-Reviewed-by: Nirmoy Das <nirmoy.das@intel.com>
-Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
----
- drivers/gpu/drm/i915/gt/gen8_engine_cs.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
-index ba4c2422b340..86a04afff64b 100644
---- a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
-+++ b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
-@@ -278,7 +278,8 @@ int gen12_emit_flush_rcs(struct i915_request *rq, u32 mode)
- 		 * deals with Protected Memory which is not needed for
- 		 * AUX CCS invalidation and lead to unwanted side effects.
- 		 */
--		if (mode & EMIT_FLUSH)
-+		if ((mode & EMIT_FLUSH) &&
-+		    GRAPHICS_VER_FULL(rq->i915) < IP_VER(12, 70))
- 			bit_group_1 |= PIPE_CONTROL_FLUSH_L3;
- 
- 		bit_group_1 |= PIPE_CONTROL_TILE_CACHE_FLUSH;
-@@ -812,12 +813,14 @@ u32 *gen12_emit_fini_breadcrumb_rcs(struct i915_request *rq, u32 *cs)
- 	u32 flags = (PIPE_CONTROL_CS_STALL |
- 		     PIPE_CONTROL_TLB_INVALIDATE |
- 		     PIPE_CONTROL_TILE_CACHE_FLUSH |
--		     PIPE_CONTROL_FLUSH_L3 |
- 		     PIPE_CONTROL_RENDER_TARGET_CACHE_FLUSH |
- 		     PIPE_CONTROL_DEPTH_CACHE_FLUSH |
- 		     PIPE_CONTROL_DC_FLUSH_ENABLE |
- 		     PIPE_CONTROL_FLUSH_ENABLE);
- 
-+	if (GRAPHICS_VER_FULL(rq->i915) < IP_VER(12, 70))
-+		flags |= PIPE_CONTROL_FLUSH_L3;
-+
- 	/* Wa_14016712196 */
- 	if (IS_GFX_GT_IP_RANGE(gt, IP_VER(12, 70), IP_VER(12, 71)) || IS_DG2(i915))
- 		/* dummy PIPE_CONTROL + depth flush */
--- 
-2.38.1
+Acked-by: Rob Herring <robh@kernel.org>
 
