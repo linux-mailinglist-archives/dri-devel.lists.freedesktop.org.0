@@ -1,41 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C821F7CC087
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Oct 2023 12:18:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 808B57CC0EE
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Oct 2023 12:47:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0306210E2C1;
-	Tue, 17 Oct 2023 10:18:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7EB2310E2C0;
+	Tue, 17 Oct 2023 10:46:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-4317.proton.ch (mail-4317.proton.ch [185.70.43.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8465910E2C1;
- Tue, 17 Oct 2023 10:18:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail2; t=1697537925; x=1697797125;
- bh=zRwWsMDd5Kf2yQpedEA3Ka2dLpgNvYvwuOL0uYq4mxY=;
- h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
- Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
- Message-ID:BIMI-Selector;
- b=T7m3ZICSIUkzDLNyH+FlBOiO5Ty02qxegEIwjUlXbpZbrcMr1ygn7jkb7yq8bZ42q
- OjgLN1x/7ZUByhyKVsFi7dZ8eFBVefo1xwGxtFTfjXAVaZLiUxvF7NQhj3POdXOPDf
- Z78sWXYGzvbJchLeDNeRVi6rokXCr8wZIFI99weeBdZ8gFKmXc6a5BAJ3HnSdyMqE5
- jvbUMbx2vJ+jFEiHHm2CWHJbuvrC30Lle6F4lA2I/CuokbcriLL8Tp4ketjvvp8gjK
- Pe2jTz3Gz/uhxHFet3QOq3cz3RyLNoEyu3iP8XGAKZKekJu1Hh1Mb+d3GLWO7MXIHm
- UpUUZFMZURg3g==
-Date: Tue, 17 Oct 2023 10:18:01 +0000
-To: =?utf-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
-From: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH v7 4/6] drm: Refuse to async flip with atomic prop changes
-Message-ID: <CzEtDALWvF3EU4DDLLEmH3ms0B25PbsEHRU9b_IqwfyhzdG4zC-XXAU6fm2PnMcngAYmntH7s4iuew0vocN6cO8zUit8kgi-Sb1hBQXNYiw=@emersion.fr>
-In-Reply-To: <20231017092837.32428-5-andrealmeid@igalia.com>
-References: <20231017092837.32428-1-andrealmeid@igalia.com>
- <20231017092837.32428-5-andrealmeid@igalia.com>
-Feedback-ID: 1358184:user:proton
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8594110E2C0
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Oct 2023 10:46:54 +0000 (UTC)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 1E1FF66072ED;
+ Tue, 17 Oct 2023 11:46:52 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1697539613;
+ bh=43RqoOrp7C9YDJYiZ/6Y2gmR3yeEBUCIjOC3q2aGqy0=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=VYYkhGiy37nSyJaxRJT4IxzWUww80wgKI0eXZKU7PLdK461OI7knxjxDYuTQwl729
+ XLk3IFqwJ9wQcoFcoYAxLtACTj3RVfrSZhHMt64oiL0YmaNdxFQfbTpBR7zciqGlyn
+ HUOyD1N/5OF3b/S3D+O4uOCcTOLvPQe1WWDsIRLp1HZ4s13cgfl66xA9fdLuerIOgS
+ 00bDFsopHT2dR35lDFx6ivP3NDg6Zn2pSNm4Jjbd4ljBZzPZrWyodJNLq0x//MVnRc
+ IYmE1lLsbnw1TNHNzmEMMlvGxAVr9r+xNjP26ZUyNyipPxd6ZKxaBwo9jQ+3HFWg7h
+ DkUuqsYgYzWWA==
+Message-ID: <f9c9f496-3da4-4780-b4e3-742f24e18765@collabora.com>
+Date: Tue, 17 Oct 2023 12:46:49 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 15/16] dt-bindings: display: mediatek: split: add
+ compatible for MT8195
+Content-Language: en-US
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Moudy Ho <moudy.ho@mediatek.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>
+References: <20231012084037.19376-1-moudy.ho@mediatek.com>
+ <20231012084037.19376-16-moudy.ho@mediatek.com>
+ <a05a7fb0-2de8-4d59-af8b-41b5a19de927@linaro.org>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <a05a7fb0-2de8-4d59-af8b-41b5a19de927@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,15 +64,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: pierre-eric.pelloux-prayer@amd.com,
- =?utf-8?Q?=27Marek_Ol=C5=A1=C3=A1k=27?= <maraeo@gmail.com>,
- =?utf-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
- Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, Pekka Paalanen <ppaalanen@gmail.com>,
- dri-devel@lists.freedesktop.org, kernel-dev@igalia.com,
- alexander.deucher@amd.com, hwentlan@amd.com, christian.koenig@amd.com,
- joshua@froggi.es
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reviewed-by: Simon Ser <contact@emersion.fr>
+Il 16/10/23 18:21, Krzysztof Kozlowski ha scritto:
+> On 12/10/2023 10:40, Moudy Ho wrote:
+>> Add compatible string and GCE property for MT8195 SPLIT, of
+>> which is operated by MDP3.
+>>
+>> Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
+>> ---
+> 
+> After feedback from Angelo:
+> 
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> 
+
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+
