@@ -1,43 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D55D7CCF02
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Oct 2023 23:15:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D3B147CCF06
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Oct 2023 23:15:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB42910E33B;
-	Tue, 17 Oct 2023 21:14:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8556010E345;
+	Tue, 17 Oct 2023 21:14:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2056.outbound.protection.outlook.com [40.107.93.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C8BE10E33F;
- Tue, 17 Oct 2023 21:14:32 +0000 (UTC)
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2076.outbound.protection.outlook.com [40.107.237.76])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF11E10E345;
+ Tue, 17 Oct 2023 21:14:31 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Hiqw2mt89bKBp8tz7qBgT19dm0DGMrZdy8eUMnQK6zvmLrfNyPMxXUW9A4XUDbGM+0QkiTzbuME1PU6pLOpHukMQGVwmCNdaRmS6N7KH0q035pqb4Eaqzxlhwbdc4t/7F8ImEOyzZerTIGAO1NgHJfITO6EpNrPTNnTAbn6UBpBgLxnDggjp8gPMIq1vfFxaPbHUoqvGaCbNOKced/FnqzOTpr/nasV0sw77DDsleIU/ukPzoIKYRhqUpRGMlsU3iITOPuvapQL5yMNAcEGHfMctFKCDUtWf0vCEmWf0DkEgn/o4mezlsi9au9DvqPNdyAR1TArQkEWXuJ91/RVhGA==
+ b=npSQy2tpNGcp86kwlW3PhitNcl2wVrROHyv0jahdtkc4rWkx/Ypp+kecXUlyeIQuEbimSIJYzAIPPCW2+pruKXWhebNMd1T7jsWikymMUw2P81bIcWiAdCFHWuZQFbIkej9pg2U/KiDxF+av0ROdDChdnJz9kk1jRuWwXtY6kmlMlsNHsfN+4adrRFdmfyE8zT6E5whnDELiEIBaTDqJJi0N6eL47SReyVBafW5fX1ZsIogN2cYqINDttUKw17/9hcOUem1R4pikUEH8QVUKxv89+iMtSug71GrF4loUzb3oe/eJ4p716fe9ElB/pTgRI3xe7RzTeJIPFZA6zEIhmw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=y+2oznMHIhZfSt00MUMFTkxyobaIGeG/XJ9ZqRMEJPA=;
- b=lxjFkGLhmLJHBhK/klHV22LKoItlvDmcN5yKjT2ncBQqPo4c6Xn/PWqp2HYtAE60hgK3fnl9UVpLY2xgiYpFfHV105WRKh9J1WDoBLW7dqbYMoViuBmNrwR2Z5aEJ3e8Wfg4XUsJpuTxjSak1txCQgVIL4XsOWGjBscen93ciCUblzv9Dx8tmP/qi/P7OUvIkPBOAaY0vlTkGR0J5MKSXqj2MSU37frSzxi4uWKpHHLBmL0wRCB2urApMBDCtgsRKjIc2XxYaUOitsm3kSj2yyS8rRQMLXxcaBDx/+hCusLkThCZXjh04/kj3WuoY4sjIMPpFE76rxnvl2kOV3DZJg==
+ bh=Aq1H8WCJuAL37SctBUPuPK3Kqv6ruPc+2YmbD5MHcdI=;
+ b=UfK3A17K5nh6FrL3Fm0S5mWMgwMtgVgF52uMEDv2PHy1qYFF8+zsokQC6Yvw1Ys1NjQseNyD2eTcrgb2vHmTTr3S+LJBYs1sUOESWMZJZr8h10e5iZ/S58SFfSYUgNwk/AD/DhRzRAYn7BFtQyQnwFe7HTiGuRa5VhrACfNW7tEv3ynVTxMuvzGWQJXXOt03wwTHVfOaBFnFA7ub8gJyt4tIUuF23I+phB0v9jeUiRM0dlgIj8IlA+EP9lFvoP2svdmoIpqLxZAGwDLvqKPQ/j/vMn2CghiUEjX1S2uI1BL8SD6G86i0VeSjKViHwZe7IWMZIE89tx1GXREF/EzWzg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=y+2oznMHIhZfSt00MUMFTkxyobaIGeG/XJ9ZqRMEJPA=;
- b=fF+Uno89JTI38RUth0hfmhwjVkOp5MSmSblUdkHGYGT7q7qbb252a4lCt7Z9qDjYIOm0H64357oOSpqBH1iaA8LPgmLWLIA6dzi1VJrs1PkSG8+NFSDTGXPmOva6GhIK3z1od6dq0nnODkuAZJmSWEhXGdrP2K98X2O9Qytd1Zo=
-Received: from BL0PR02CA0002.namprd02.prod.outlook.com (2603:10b6:207:3c::15)
- by SA1PR12MB6798.namprd12.prod.outlook.com (2603:10b6:806:25a::22)
+ bh=Aq1H8WCJuAL37SctBUPuPK3Kqv6ruPc+2YmbD5MHcdI=;
+ b=GLdmFlOXlGkB53/P5feuDffiSzLX5yrBCtSRggWW7w+0bPhpMuMLPvgdgkhGmtYNpK/n4UXmRSiQySiAJ3ymws4EeiUE+C451CSnlqG0y4H1XA09W+DSO7r2JAVTDB7PTylgsUkVF5zp8TKQG1ngjOwo0/HySOz+7TOxlrzqqME=
+Received: from BL0PR02CA0030.namprd02.prod.outlook.com (2603:10b6:207:3c::43)
+ by BY5PR12MB4869.namprd12.prod.outlook.com (2603:10b6:a03:1d9::23)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6886.35; Tue, 17 Oct
- 2023 21:14:28 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6886.36; Tue, 17 Oct
+ 2023 21:14:29 +0000
 Received: from MN1PEPF0000ECD9.namprd02.prod.outlook.com
- (2603:10b6:207:3c:cafe::ad) by BL0PR02CA0002.outlook.office365.com
- (2603:10b6:207:3c::15) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6886.36 via Frontend
- Transport; Tue, 17 Oct 2023 21:14:27 +0000
+ (2603:10b6:207:3c:cafe::4a) by BL0PR02CA0030.outlook.office365.com
+ (2603:10b6:207:3c::43) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6886.35 via Frontend
+ Transport; Tue, 17 Oct 2023 21:14:28 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -47,16 +47,16 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
  MN1PEPF0000ECD9.mail.protection.outlook.com (10.167.242.138) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6838.22 via Frontend Transport; Tue, 17 Oct 2023 21:14:27 +0000
+ 15.20.6838.22 via Frontend Transport; Tue, 17 Oct 2023 21:14:28 +0000
 Received: from Harpoon.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Tue, 17 Oct
- 2023 16:14:25 -0500
+ 2023 16:14:26 -0500
 From: Felix Kuehling <Felix.Kuehling@amd.com>
 To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>
-Subject: [PATCH 10/11] drm/amdkfd: Import DMABufs for interop through DRM
-Date: Tue, 17 Oct 2023 17:13:36 -0400
-Message-ID: <20231017211337.1593869-11-Felix.Kuehling@amd.com>
+Subject: [PATCH 11/11] drm/amdkfd: Bump KFD ioctl version
+Date: Tue, 17 Oct 2023 17:13:37 -0400
+Message-ID: <20231017211337.1593869-12-Felix.Kuehling@amd.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20231017211337.1593869-1-Felix.Kuehling@amd.com>
 References: <20231017211337.1593869-1-Felix.Kuehling@amd.com>
@@ -68,26 +68,26 @@ X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN1PEPF0000ECD9:EE_|SA1PR12MB6798:EE_
-X-MS-Office365-Filtering-Correlation-Id: 691ea4a5-b107-4617-c1b3-08dbcf560bf7
+X-MS-TrafficTypeDiagnostic: MN1PEPF0000ECD9:EE_|BY5PR12MB4869:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7785e31e-a189-40a4-e4ae-08dbcf560c5b
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: QIiDDYGGBCIPQe/cE0y7Pl+vHpPQbdL5+QS78dpmScLvvMR94401vTQnFoY2xlalrS9qcRWB8Vd1lr0rND2UfSOG1Z2i2fshwQ6b/NlfcytLXyZTbp9HIKUz4vDXIkXHK7HsKR7gvevzZGzRrH4AvS6yMo7J2gG4Bb2IbzNaTozX1ETJvjlQjW6QaDI15sTuU5fTbhmYDTsTPPueMXSVQErnHE/JuNNLOkSdSnw32c/KPQ3yjUDpYS06ROQLsYd4/7IBODXSFOenwMsVLjO8fio2MMS+uzsMuyRjJYXhJbMtzuN0xd7NCwCWa/uaXbHIlAb5kCXhNGWeSmSbmWaHe/M2jUHlhKtmAgnU3a+OXDnXA7ttQMGtdvzKCjPvB/r0OfvPHenB5LHISDXDknksVJ7wPUlkkq0olCPVAlIwFFSvDqOj1EUITEey/NR5fBkIZ0Nfqr0QLXQIDYBJ92zWtk6PH247wcbZDw4Tgfmk6JM6MRo3IgIq/V3HEewYJZngtCznDahg+6fNjXt5GHcd4AVZTAM7IywT8QPkYXYtl8vTixzZvn9qzpXctpZDDpIhg93DNtGOb3X4CxUUHpJ+9+u7JDwe+3lSsQyYcmk3Nt7EfcikFNHLwT5k4LQeyRnDkr0+cK/BuhoydgNp4NhiB/3bf2gDViHEBTqJCt3DS+Mt4Wyx/z/4saGhXV0ifd84kuQ/juPoy0a0viSRWt+aYRJkZ97H9OejRooAX8EmR85JxemNpULtEMD9tn+hyzlO
+X-Microsoft-Antispam-Message-Info: e6q2sVTLuiqac5uFrPR2NdYAQZRKNbAKOQHFoW+ClSwJllEt4m93WTjJbFX1tekVJ5NoPwp0ltn0uZy69hJBpWHxOvSIf2vGYkPkTHDVhBs26uIffSbFGqavTscMV8k7guGuG2T1cvUP9rVp+wX1+slCNtqA4173Rmegl9MSXUj/smNT183I24sOqyZyPOg2dMZeeC6hH4LhC2h2Rfxvyinr8HosFiYHqiMTjx6fkOVrakSPzNW3WkoYJ4mljVJUKHn/bbm7EtarQB0xIor4P7cezEsGDp4IF3ZGlehmtai4Mz1jXmNmpFJwgkMz1wNv2+D4iw8Y9XnVfe2q5vtxYEH+yHW4eftmNk9bfAAwKcXrcX2xw/T+5Eih8+Hujf63AlTuo1TONq0Gr6T01BoYGC45E4y/tMcKs7cSezp6ySkn7r9eX4BDvCRmyO3oE4GLh+V1tMUA+BX45CR6KFLyjjXQDRdEuI33o6ywDc5EIkTZ0nfm3o/GtXroCmifQsxwu23c0AFSFzORTxnj07Bh/S32jbvxHY6OXoz48O3DeSfvBLc6hK5/5WQ5rPDGo4OMNi/vjAzU8RPgd2wINQZ1+Obf0jvboHLmUCesfQMeMI1Fjg5zlzKbYxIbFnvAYUFA2mMfJR1d644YM92SnWsx9F3nzRHenuPpbVAeVXdcJ1bGv0aAr+kGyJnXTNpId1puDNSvJ2xmaKWgp+N4X3TuqdcBL+QuUjAPp+7OpZIsP5BG7pwzsunZPxd9yAZfWa55x68mJiwPVRg6JV1+FGT9jw==
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230031)(4636009)(230922051799003)(1800799009)(186009)(82310400011)(451199024)(46966006)(40470700004)(36840700001)(54906003)(110136005)(47076005)(70586007)(70206006)(508600001)(6666004)(26005)(16526019)(1076003)(336012)(316002)(426003)(7696005)(8936002)(4326008)(2906002)(8676002)(450100002)(5660300002)(36756003)(81166007)(86362001)(83380400001)(36860700001)(356005)(2616005)(40460700003)(36900700001);
+ SFS:(13230031)(4636009)(39860400002)(396003)(346002)(136003)(376002)(230922051799003)(451199024)(1800799009)(64100799003)(82310400011)(186009)(46966006)(36840700001)(40470700004)(86362001)(5660300002)(36860700001)(41300700001)(7696005)(8676002)(4326008)(83380400001)(8936002)(450100002)(4744005)(36756003)(2906002)(47076005)(110136005)(54906003)(70586007)(70206006)(426003)(316002)(336012)(356005)(1076003)(81166007)(40460700003)(2616005)(40480700001)(82740400003)(26005)(16526019)(478600001)(6666004)(36900700001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Oct 2023 21:14:27.7511 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 691ea4a5-b107-4617-c1b3-08dbcf560bf7
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Oct 2023 21:14:28.4074 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7785e31e-a189-40a4-e4ae-08dbcf560c5b
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource: MN1PEPF0000ECD9.namprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB6798
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4869
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,190 +104,32 @@ Cc: Xiaogang.Chen@amd.com, Ramesh.Errabolu@amd.com, Christian.Koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use drm_gem_prime_fd_to_handle to import DMABufs for interop. This
-ensures that a GEM handle is created on import and that obj->dma_buf
-will be set and remain set as long as the object is imported into KFD.
+This is not strictly a change in the IOCTL API. This version bump is meant
+to indicate to user mode the presence of a number of changes and fixes
+that enable the management of VA mappings in compute VMs using the GEM_VA
+ioctl for DMABufs exported from KFD.
 
 Signed-off-by: Felix Kuehling <Felix.Kuehling@amd.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h    |  9 ++-
- .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c  | 64 +++++++++++++------
- drivers/gpu/drm/amd/amdkfd/kfd_chardev.c      | 15 ++---
- 3 files changed, 52 insertions(+), 36 deletions(-)
+ include/uapi/linux/kfd_ioctl.h | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h
-index 4caf8cece028..88a0e0734270 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h
-@@ -318,11 +318,10 @@ int amdgpu_amdkfd_gpuvm_restore_process_bos(void *process_info,
- 					    struct dma_fence **ef);
- int amdgpu_amdkfd_gpuvm_get_vm_fault_info(struct amdgpu_device *adev,
- 					      struct kfd_vm_fault_info *info);
--int amdgpu_amdkfd_gpuvm_import_dmabuf(struct amdgpu_device *adev,
--				      struct dma_buf *dmabuf,
--				      uint64_t va, void *drm_priv,
--				      struct kgd_mem **mem, uint64_t *size,
--				      uint64_t *mmap_offset);
-+int amdgpu_amdkfd_gpuvm_import_dmabuf_fd(struct amdgpu_device *adev, int fd,
-+					 uint64_t va, void *drm_priv,
-+					 struct kgd_mem **mem, uint64_t *size,
-+					 uint64_t *mmap_offset);
- int amdgpu_amdkfd_gpuvm_export_dmabuf(struct kgd_mem *mem,
- 				      struct dma_buf **dmabuf);
- void amdgpu_amdkfd_debug_mem_fence(struct amdgpu_device *adev);
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-index 4bb8b5fd7598..1077de8bced2 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-@@ -2006,8 +2006,7 @@ int amdgpu_amdkfd_gpuvm_free_memory_of_gpu(
+diff --git a/include/uapi/linux/kfd_ioctl.h b/include/uapi/linux/kfd_ioctl.h
+index f0ed68974c54..9ce46edc62a5 100644
+--- a/include/uapi/linux/kfd_ioctl.h
++++ b/include/uapi/linux/kfd_ioctl.h
+@@ -40,9 +40,10 @@
+  * - 1.12 - Add DMA buf export ioctl
+  * - 1.13 - Add debugger API
+  * - 1.14 - Update kfd_event_data
++ * - 1.15 - Enable managing mappings in compute VMs with GEM_VA ioctl
+  */
+ #define KFD_IOCTL_MAJOR_VERSION 1
+-#define KFD_IOCTL_MINOR_VERSION 14
++#define KFD_IOCTL_MINOR_VERSION 15
  
- 	/* Free the BO*/
- 	drm_vma_node_revoke(&mem->bo->tbo.base.vma_node, drm_priv);
--	if (!mem->is_imported)
--		drm_gem_handle_delete(adev->kfd.client.file, mem->gem_handle);
-+	drm_gem_handle_delete(adev->kfd.client.file, mem->gem_handle);
- 	if (mem->dmabuf) {
- 		dma_buf_put(mem->dmabuf);
- 		mem->dmabuf = NULL;
-@@ -2363,34 +2362,26 @@ int amdgpu_amdkfd_gpuvm_get_vm_fault_info(struct amdgpu_device *adev,
- 	return 0;
- }
- 
--int amdgpu_amdkfd_gpuvm_import_dmabuf(struct amdgpu_device *adev,
--				      struct dma_buf *dma_buf,
--				      uint64_t va, void *drm_priv,
--				      struct kgd_mem **mem, uint64_t *size,
--				      uint64_t *mmap_offset)
-+static int import_obj_create(struct amdgpu_device *adev,
-+			     struct dma_buf *dma_buf,
-+			     struct drm_gem_object *obj,
-+			     uint64_t va, void *drm_priv,
-+			     struct kgd_mem **mem, uint64_t *size,
-+			     uint64_t *mmap_offset)
- {
- 	struct amdgpu_vm *avm = drm_priv_to_vm(drm_priv);
--	struct drm_gem_object *obj;
- 	struct amdgpu_bo *bo;
- 	int ret;
- 
--	obj = amdgpu_gem_prime_import(adev_to_drm(adev), dma_buf);
--	if (IS_ERR(obj))
--		return PTR_ERR(obj);
--
- 	bo = gem_to_amdgpu_bo(obj);
- 	if (!(bo->preferred_domains & (AMDGPU_GEM_DOMAIN_VRAM |
--				    AMDGPU_GEM_DOMAIN_GTT))) {
-+				    AMDGPU_GEM_DOMAIN_GTT)))
- 		/* Only VRAM and GTT BOs are supported */
--		ret = -EINVAL;
--		goto err_put_obj;
--	}
-+		return -EINVAL;
- 
- 	*mem = kzalloc(sizeof(struct kgd_mem), GFP_KERNEL);
--	if (!*mem) {
--		ret = -ENOMEM;
--		goto err_put_obj;
--	}
-+	if (!*mem)
-+		return -ENOMEM;
- 
- 	ret = drm_vma_node_allow(&obj->vma_node, drm_priv);
- 	if (ret)
-@@ -2440,8 +2431,41 @@ int amdgpu_amdkfd_gpuvm_import_dmabuf(struct amdgpu_device *adev,
- 	drm_vma_node_revoke(&obj->vma_node, drm_priv);
- err_free_mem:
- 	kfree(*mem);
-+	return ret;
-+}
-+
-+int amdgpu_amdkfd_gpuvm_import_dmabuf_fd(struct amdgpu_device *adev, int fd,
-+					 uint64_t va, void *drm_priv,
-+					 struct kgd_mem **mem, uint64_t *size,
-+					 uint64_t *mmap_offset)
-+{
-+	struct drm_gem_object *obj;
-+	uint32_t handle;
-+	int ret;
-+
-+	ret = drm_gem_prime_fd_to_handle(&adev->ddev, adev->kfd.client.file, fd,
-+					 &handle);
-+	if (ret)
-+		return ret;
-+	obj = drm_gem_object_lookup(adev->kfd.client.file, handle);
-+	if (!obj) {
-+		ret = -EINVAL;
-+		goto err_release_handle;
-+	}
-+
-+	ret = import_obj_create(adev, obj->dma_buf, obj, va, drm_priv, mem, size,
-+				mmap_offset);
-+	if (ret)
-+		goto err_put_obj;
-+
-+	(*mem)->gem_handle = handle;
-+
-+	return 0;
-+
- err_put_obj:
- 	drm_gem_object_put(obj);
-+err_release_handle:
-+	drm_gem_handle_delete(adev->kfd.client.file, handle);
- 	return ret;
- }
- 
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
-index 4417a9863cd0..1a2e9f564b7f 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
-@@ -1564,16 +1564,11 @@ static int kfd_ioctl_import_dmabuf(struct file *filep,
- {
- 	struct kfd_ioctl_import_dmabuf_args *args = data;
- 	struct kfd_process_device *pdd;
--	struct dma_buf *dmabuf;
- 	int idr_handle;
- 	uint64_t size;
- 	void *mem;
- 	int r;
- 
--	dmabuf = dma_buf_get(args->dmabuf_fd);
--	if (IS_ERR(dmabuf))
--		return PTR_ERR(dmabuf);
--
- 	mutex_lock(&p->mutex);
- 	pdd = kfd_process_device_data_by_id(p, args->gpu_id);
- 	if (!pdd) {
-@@ -1587,10 +1582,10 @@ static int kfd_ioctl_import_dmabuf(struct file *filep,
- 		goto err_unlock;
- 	}
- 
--	r = amdgpu_amdkfd_gpuvm_import_dmabuf(pdd->dev->adev, dmabuf,
--					      args->va_addr, pdd->drm_priv,
--					      (struct kgd_mem **)&mem, &size,
--					      NULL);
-+	r = amdgpu_amdkfd_gpuvm_import_dmabuf_fd(pdd->dev->adev, args->dmabuf_fd,
-+						 args->va_addr, pdd->drm_priv,
-+						 (struct kgd_mem **)&mem, &size,
-+						 NULL);
- 	if (r)
- 		goto err_unlock;
- 
-@@ -1601,7 +1596,6 @@ static int kfd_ioctl_import_dmabuf(struct file *filep,
- 	}
- 
- 	mutex_unlock(&p->mutex);
--	dma_buf_put(dmabuf);
- 
- 	args->handle = MAKE_HANDLE(args->gpu_id, idr_handle);
- 
-@@ -1612,7 +1606,6 @@ static int kfd_ioctl_import_dmabuf(struct file *filep,
- 					       pdd->drm_priv, NULL);
- err_unlock:
- 	mutex_unlock(&p->mutex);
--	dma_buf_put(dmabuf);
- 	return r;
- }
- 
+ struct kfd_ioctl_get_version_args {
+ 	__u32 major_version;	/* from KFD */
 -- 
 2.34.1
 
