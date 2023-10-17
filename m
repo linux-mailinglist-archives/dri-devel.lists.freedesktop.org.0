@@ -2,57 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 686AB7CCAE7
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Oct 2023 20:42:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A43027CCAF2
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Oct 2023 20:44:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 209EB10E174;
-	Tue, 17 Oct 2023 18:42:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E84B610E317;
+	Tue, 17 Oct 2023 18:44:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F3BB10E174;
- Tue, 17 Oct 2023 18:42:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1697568145; x=1729104145;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=gIIaUbMREGUxFxFnrr+FF212gksrSjNtJ4BqljL32oo=;
- b=XOFHH9AvHU/Lb1SfHcW8KrNGm4Q79ij2554uF8NGClw54RXHeo3UenLZ
- NbVOjb50GzCfVmDdqVjvEdoDLwD026+aP1/Apo2nf14Das3dOAJfDw7i2
- BfDVYyo9v3IPnVEAa5VvyY+gIVwt96Cuf+7Ut90lgBZQh9Wka9ZIYfdbz
- xdP2mvJwPJUSayqjtQCuCTuy1YTWmNjUumkfMpAL3JZ8AT0uLD66X2MTz
- ckUwD+aCxnSRb2gVj8PlvZL2exEps4K9phoGEOiMUC+gsN9mbxmRmnRGF
- 899soOeEh+Ojs1Pwbl0mTk9bkn8AAGuyMlg930PT3S63sgM9ckuofzFYI g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="370922938"
-X-IronPort-AV: E=Sophos;i="6.03,232,1694761200"; d="scan'208";a="370922938"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Oct 2023 11:42:24 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="826561261"
-X-IronPort-AV: E=Sophos;i="6.03,232,1694761200"; d="scan'208";a="826561261"
-Received: from nirmoyda-mobl.ger.corp.intel.com (HELO [10.249.38.47])
- ([10.249.38.47])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Oct 2023 11:42:22 -0700
-Message-ID: <1b9e1768-a5b9-7cc1-41fc-01b5b002d136@linux.intel.com>
-Date: Tue, 17 Oct 2023 20:42:19 +0200
+Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com
+ [209.85.167.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 29CDF10E317
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Oct 2023 18:44:46 +0000 (UTC)
+Received: by mail-oi1-f172.google.com with SMTP id
+ 5614622812f47-3af609c5736so3241136b6e.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Oct 2023 11:44:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1697568285; x=1698173085;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=s9AXL+kNMUTK5DLziPFLVPYslxiHAWx2Uz99cy32iBQ=;
+ b=VEQPfzl4TcPMoGA/lTWLKQPH3s54MHBXRZTkZbc8RHzjmACSzsrB6tvl+L/b3n72Ga
+ eCbGzyE4RPGCqJ+VGR8joLaGQ45CqCOU3nKaXMAxbC6RckCr5r3tv2rkg3bSG/8G6pGe
+ vFCvbVbG1G1w9UcKVw6jkHvau7vpt+C5C14SqbQyLpG6LUcYBJ2zhxg3KrwSoxE032p3
+ 0Vg30zsH9N0UH7RF7NY78milVfksN8DyEMw++tbzusgIXuD3POO4FdgEgYHiYpwylcSz
+ PUhcOAiaDoEaK9L+Cazpe/BiefiwNvm0sCeXc7X2qNsxWe0/fnIEKpfkzr8gbAOC0gmm
+ ZnSQ==
+X-Gm-Message-State: AOJu0YzQf/aDngW/mLy65n/ABx8ehy/F76M7nytaTY0ekgJ6tcNpUGoc
+ P41Lv2NLQ4mfkX0Z9zlFig==
+X-Google-Smtp-Source: AGHT+IFa5Fe5Sjl0kxSSWVeXZ8dmWI5hFb75CSBsBtIJrHTnP6bgppm7OeH4LnEkwMtixdRuyh4UyA==
+X-Received: by 2002:a05:6808:97:b0:3af:795d:b74b with SMTP id
+ s23-20020a056808009700b003af795db74bmr3192631oic.50.1697568285302; 
+ Tue, 17 Oct 2023 11:44:45 -0700 (PDT)
+Received: from herring.priv (66-90-144-107.dyn.grandenetworks.net.
+ [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
+ z26-20020a54459a000000b003af60f06629sm347141oib.6.2023.10.17.11.44.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 17 Oct 2023 11:44:44 -0700 (PDT)
+Received: (nullmailer pid 2496099 invoked by uid 1000);
+ Tue, 17 Oct 2023 18:44:43 -0000
+Date: Tue, 17 Oct 2023 13:44:43 -0500
+From: Rob Herring <robh@kernel.org>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Subject: Re: [PATCH] dt-bindings: display: remove backlight node from panel
+ examples
+Message-ID: <169756828188.2496027.18329599357112403195.robh@kernel.org>
+References: <20231011-dt-panel-example-no-backlight-v1-1-b81618d32752@bootlin.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [Intel-gfx] [PATCH] drm/i915/mtl: Don't set PIPE_CONTROL_FLUSH_L3
-Content-Language: en-US
-To: Andi Shyti <andi.shyti@linux.intel.com>,
- "Belgaumkar, Vinay" <vinay.belgaumkar@intel.com>
-References: <20231016225530.2152896-1-vinay.belgaumkar@intel.com>
- <ee2be6d4-1bc6-4516-80cb-408ad6731787@intel.com>
- <2b364a80-3d18-17b8-495b-e9a2a9f3c197@intel.com>
- <ZS6dVvH9yoFu+Uvy@ashyti-mobl2.lan>
-From: Nirmoy Das <nirmoy.das@linux.intel.com>
-In-Reply-To: <ZS6dVvH9yoFu+Uvy@ashyti-mobl2.lan>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231011-dt-panel-example-no-backlight-v1-1-b81618d32752@bootlin.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,78 +64,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, Nirmoy Das <nirmoy.das@intel.com>,
- dri-devel@lists.freedesktop.org, Mikka Kuoppala <mika.kuoppala@intel.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, David Lechner <david@lechnology.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ devicetree@vger.kernel.org, Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ Sam Ravnborg <sam@ravnborg.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
+ Kamlesh Gurudasani <kamlesh.gurudasani@gmail.com>,
+ Daniel Mack <daniel@zonque.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 10/17/2023 4:42 PM, Andi Shyti wrote:
-> Hi Vinay,
->
->>>> This bit does not cause an explicit L3 flush. We already use
->>> At all? Or only on newer hardware? And as a genuine spec change or as a
->>> bug / workaround?
->>>
->>> If the hardware has re-purposed the bit then it is probably worth at
->>> least adding a comment to the bit definition to say that it is only
->>> valid up to IP version 12.70.
->> At this point, this is a bug on MTL since this bit is not related to L3
->> flushes as per spec. Regarding older platforms, still checking the reason
->> why this was added (i.e if it fixed something and will regress if removed).
->> If not, we can extend the change for others as well in a separate patch. On
->> older platforms, this bit seems to cause an implicit flush at best.
->>>> PIPE_CONTROL_DC_FLUSH_ENABLE for that purpose.
->>>>
->>>> Cc: Nirmoy Das <nirmoy.das@intel.com>
->>>> Cc: Mikka Kuoppala <mika.kuoppala@intel.com>
->>>> Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
->>>> ---
->>>>    drivers/gpu/drm/i915/gt/gen8_engine_cs.c | 8 ++++++--
->>>>    1 file changed, 6 insertions(+), 2 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
->>>> b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
->>>> index ba4c2422b340..abbc02f3e66e 100644
->>>> --- a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
->>>> +++ b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
->>>> @@ -247,6 +247,7 @@ static int mtl_dummy_pipe_control(struct
->>>> i915_request *rq)
->>>>    int gen12_emit_flush_rcs(struct i915_request *rq, u32 mode)
->>>>    {
->>>>        struct intel_engine_cs *engine = rq->engine;
->>>> +    struct intel_gt *gt = rq->engine->gt;
->>>>          /*
->>>>         * On Aux CCS platforms the invalidation of the Aux
->>>> @@ -278,7 +279,8 @@ int gen12_emit_flush_rcs(struct i915_request
->>>> *rq, u32 mode)
->>>>             * deals with Protected Memory which is not needed for
->>>>             * AUX CCS invalidation and lead to unwanted side effects.
->>>>             */
->>>> -        if (mode & EMIT_FLUSH)
->>>> +        if ((mode & EMIT_FLUSH) &&
->>>> +            !(IS_GFX_GT_IP_RANGE(gt, IP_VER(12, 70), IP_VER(12, 71))))
->>> Why stop at 12.71? Is the meaning only changed for 12.70 and the
->>> old/correct version will be restored in later hardware?
->> Was trying to keep this limited to MTL for now until the above statements
->> are verified.
-> I'm not fully conviced here... this is not what the hardware spec
-> says. Am I reading the specs wrong?
+On Wed, 11 Oct 2023 12:47:38 +0200, Luca Ceresoli wrote:
+> The examples for these panel drivers have a backlight node in addition to
+> the actual panel node. However the exact backlight is outside the scope of
+> this binding and should be dropped from the example.
+> 
+> Link: https://lore.kernel.org/linux-devicetree/20230724143152.GA3430423-robh@kernel.org/
+> Suggested-by: Rob Herring <robh@kernel.org>
+> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> ---
+>  Documentation/devicetree/bindings/display/ilitek,ili9486.yaml       | 4 ----
+>  Documentation/devicetree/bindings/display/panel/ilitek,ili9163.yaml | 4 ----
+>  Documentation/devicetree/bindings/display/sitronix,st7735r.yaml     | 5 -----
+>  3 files changed, 13 deletions(-)
+> 
 
-The main issue is we are using side-effects of that bit as to flush L3 
-but that is not it's primary task.
+Applied, thanks!
 
-Unless there is a WA specially mentioned for MTL to use that bit to 
-flush L3, I see no reason to use on MTL or further.
-
-
-Regards,
-
-Nirmoy
-
-
-
->
-> Is there any ongoing discussion with the hardware developers?
->
-> Andi
