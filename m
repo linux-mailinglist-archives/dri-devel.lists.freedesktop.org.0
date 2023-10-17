@@ -2,33 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7DD77CBC8A
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Oct 2023 09:44:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C9857CBCE3
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Oct 2023 09:55:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B6A3E10E27F;
-	Tue, 17 Oct 2023 07:44:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6CF3810E158;
+	Tue, 17 Oct 2023 07:55:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA4DD10E27F
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Oct 2023 07:44:08 +0000 (UTC)
-Received: from i53875b5b.versanet.de ([83.135.91.91] helo=diego.localnet)
- by gloria.sntech.de with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <heiko@sntech.de>)
- id 1qsekB-0005qD-9e; Tue, 17 Oct 2023 09:43:59 +0200
-From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
-To: Chris Morgan <macromorgan@hotmail.com>
-Subject: Re: [PATCH 3/5] drm/panel: st7703: Add Powkiddy RGB30 Panel Support
-Date: Tue, 17 Oct 2023 09:43:57 +0200
-Message-ID: <3022818.687JKscXgg@diego>
-In-Reply-To: <SN6PR06MB53428A7534F1AB449688AA67A5D7A@SN6PR06MB5342.namprd06.prod.outlook.com>
-References: <20231013183918.225666-1-macroalpha82@gmail.com>
- <2140189.3Lj2Plt8kZ@diego>
- <SN6PR06MB53428A7534F1AB449688AA67A5D7A@SN6PR06MB5342.namprd06.prod.outlook.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5365A10E158
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Oct 2023 07:55:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1697529345;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=x9Tx6gsKNLBlsQavHNGdhteUF9QO0P3cguwO27i3pv8=;
+ b=N+GPQg3AQhKj6iTy8ftuCK3Cl62nN1AJTqRm6WFA1VQeo9IB+RJYfYKHAAHna4mrw5RjBT
+ YnLFP1cY9wpo/p1EjotvBnZcSepczvGvd0gFBnw3SAsapc5Hvcx9W24jtV1ZkBq3j07V7S
+ PnYtJp1eFegs0tbMCct8mLt6jIpbtnk=
+Received: from mail-lf1-f71.google.com (mail-lf1-f71.google.com
+ [209.85.167.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-2-scxthwMsNNKBgvkKNb_BpQ-1; Tue, 17 Oct 2023 03:54:40 -0400
+X-MC-Unique: scxthwMsNNKBgvkKNb_BpQ-1
+Received: by mail-lf1-f71.google.com with SMTP id
+ 2adb3069b0e04-50483ed1172so5255924e87.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Oct 2023 00:54:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1697529278; x=1698134078;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=x9Tx6gsKNLBlsQavHNGdhteUF9QO0P3cguwO27i3pv8=;
+ b=t6fHmTqKkXhW7/OoOeaYrx2mgn1UrZzz27sVdg9uDOyqrfnYXhJtudJBbdRyVQ0n+V
+ bF83P16xxnCUimTdeYSg1uHfWD4s7tNebjlhjhrbdUMTiThpO4VjfSWx8BR0cKXuTsFx
+ dSv5HpwUNSyB1MHTuBgTQcgTK+3D2E0ZzRhZvOStNpWRxGDfh6fHDmkdACbqiavdHOV4
+ zhTbfLRMNgzt7z9y1mw/5rfcbBYe43M9pLzxWXZKDZA7jYs+vj2pZRnCkQ/8kfzRIinB
+ UOg7pUjLr+PAlpGeFda8OYoU1uW7zwuOnUhZDQ676+0lYtTnyh6x9hoJTd3811eSP2Ev
+ n9Lw==
+X-Gm-Message-State: AOJu0YzRnJBLU1HxvX1E0xUJ9JxmrOIY5D7qv1RPbSon3nBBIzvFVJH2
+ ZjLL+qMvjdR5z3qu4RtXXebhKrEl/g6qvctySANVzSNI1petsSVGNlvvYIEFPVPx1dBGPxVaD9a
+ 7L7Bf1p5fMFbYFepfFZX8oi3OGqOWAy1072j8xGg=
+X-Received: by 2002:ac2:528a:0:b0:500:75e5:a2f0 with SMTP id
+ q10-20020ac2528a000000b0050075e5a2f0mr1170038lfm.51.1697529278762; 
+ Tue, 17 Oct 2023 00:54:38 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEnj+02Gz6CBN/FvIxOvYBZmLKxkQG31upVGnOZzsxW/NOKskPJB/h4jHjz/vk7FZYVE3xDeQ==
+X-Received: by 2002:ac2:528a:0:b0:500:75e5:a2f0 with SMTP id
+ q10-20020ac2528a000000b0050075e5a2f0mr1169938lfm.51.1697529275395; 
+ Tue, 17 Oct 2023 00:54:35 -0700 (PDT)
+Received: from polis (198.red-81-39-42.dynamicip.rima-tde.net. [81.39.42.198])
+ by smtp.gmail.com with ESMTPSA id
+ o22-20020a5d58d6000000b0031980783d78sm1064892wrf.54.2023.10.17.00.54.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 17 Oct 2023 00:54:34 -0700 (PDT)
+Date: Tue, 17 Oct 2023 09:54:32 +0200
+From: Danilo Krummrich <dakr@redhat.com>
+To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+Subject: Re: [PATCH] drm/gpuvm: Dual-licence the drm_gpuvm code GPL-2.0 OR MIT
+Message-ID: <ZS49uJq9kqJ2ueOv@polis>
+References: <20231010142725.8920-1-thomas.hellstrom@linux.intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20231010142725.8920-1-thomas.hellstrom@linux.intel.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,80 +83,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: megous@megous.com, devicetree@vger.kernel.org, conor+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, kernel@puri.sm, sam@ravnborg.org,
- neil.armstrong@linaro.org, sebastian.reichel@collabora.com,
- dri-devel@lists.freedesktop.org, Chris Morgan <macroalpha82@gmail.com>,
- linux-rockchip@lists.infradead.org, robh+dt@kernel.org,
- Ondrej Jirman <megi@xff.cz>,
- Guido =?ISO-8859-1?Q?G=FCnther?= <guido.gunther@puri.sm>, jagan@edgeble.ai,
- Dragan Simic <dsimic@manjaro.org>
+Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Chris,
+On Tue, Oct 10, 2023 at 04:27:24PM +0200, Thomas Hellström wrote:
+> Dual-licence in order to make it possible for other non-GPL os'es
+> to re-implement the code. The use of EXPORT_SYMBOL_GPL() is intentionally
+> left untouched to prevent use of drm_gpuvm as a proxy for non-GPL drivers
+> to access GPL-only kernel symbols.
+> 
+> Much of the ideas and algorithms used in the drm_gpuvm code is already
+> present in one way or another in MIT-licensed code.
+> 
+> Cc: Danilo Krummrich <dakr@redhat.com>
+> Cc: airlied@gmail.com
+> Cc: daniel@ffwll.ch
+> Cc: linux-kernel@vger.kernel.org
+> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 
-Am Montag, 16. Oktober 2023, 20:26:58 CEST schrieb Chris Morgan:
-> On Mon, Oct 16, 2023 at 08:18:25PM +0200, Heiko St=C3=BCbner wrote:
-> > Hi,
-> >=20
-> > Am Montag, 16. Oktober 2023, 18:07:52 CEST schrieb Dragan Simic:
-> > > On 2023-10-16 17:52, Chris Morgan wrote:
-> > > > Confirmed that those pending patches DO fix the panel suspend issue=
-s.=20
-> > > > Thank you.
-> > >=20
-> > > Awesome, that's great to hear!  Perhaps a "Tested-by" in the original=
-=20
-> > > LKML thread [1] could help with having the patch pulled sooner.
-> > >=20
-> > > Links:
-> > > [1]=20
-> > > https://lore.kernel.org/lkml/33b72957-1062-1b66-85eb-c37dc5ca259b@red=
-hat.com/T/
-> > >=20
-> > >=20
-> > > > On Mon, Oct 16, 2023 at 3:41=E2=80=AFAM Guido G=C3=BCnther <guido.g=
-unther@puri.sm>=20
-> > > > wrote:
-> > > >>=20
-> > > >> Hi Chris,
-> > > >> On Fri, Oct 13, 2023 at 01:39:16PM -0500, Chris Morgan wrote:
-> > > >> > From: Chris Morgan <macromorgan@hotmail.com>
-> > > >> >
-> > > >> > The Powkiddy RGB30 4 inch panel is a 4 inch 720x720 DSI panel us=
-ed in
-> > > >> > the Powkiddy RGB30 handheld gaming device. Add support for it.
-> > > >> >
-> > > >> > TODO: The panel seems to not resume properly from suspend. I've
-> > > >> > confirmed on the other ST7703 based devices it works correctly.
-> >=20
-> > so this TODO item could go away, right?
-> > I can remove it when applying the patch, just want to make sure
-> > all review comments are addressed - only the suspend thing it seems.
->=20
-> That is correct, but let me send a v2 of this instead. I'll remove this
-> verbiage among other fixes. End users wanted me to see if I could get
-> this panel to run at precisely 60hz, which I believe I am able to do
-> with the addition of a new PLL clock in clk_rk3568. I believe I have
-> taken every constraint detailed in the datasheet to heart for the new
-> frequency I'll be requesting. By using the frequency of 292500000 for
-> the VPLL I can get the panel running at 59.969hz which in my view is
-> close enough to the ideal 59.98hz.
->=20
-> I also accidentally left the UART2 active even though this device has
-> no exposed UART port, so I need to fix that too by disabling it.
->=20
-> Lastly I'll add my tested by to the dri-devel patches as well.
+Acked-by: Danilo Krummrich <dakr@redhat.com>
 
-too late ;-)
-
-Looks like your mail and me applying the series happened at a similar
-time and I just saw your mail.
-
-So if you want to change the dts now, please do a followup patch.
-
-Thanks
-Heiko
-
+> ---
+>  drivers/gpu/drm/drm_gpuvm.c | 2 +-
+>  include/drm/drm_gpuvm.h     | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_gpuvm.c b/drivers/gpu/drm/drm_gpuvm.c
+> index 02ce6baacdad..08c088319652 100644
+> --- a/drivers/gpu/drm/drm_gpuvm.c
+> +++ b/drivers/gpu/drm/drm_gpuvm.c
+> @@ -1,4 +1,4 @@
+> -// SPDX-License-Identifier: GPL-2.0-only
+> +// SPDX-License-Identifier: GPL-2.0 OR MIT
+>  /*
+>   * Copyright (c) 2022 Red Hat.
+>   *
+> diff --git a/include/drm/drm_gpuvm.h b/include/drm/drm_gpuvm.h
+> index 361fea5cb849..21bbf11415b3 100644
+> --- a/include/drm/drm_gpuvm.h
+> +++ b/include/drm/drm_gpuvm.h
+> @@ -1,4 +1,4 @@
+> -/* SPDX-License-Identifier: GPL-2.0-only */
+> +/* SPDX-License-Identifier: GPL-2.0 OR MIT */
+>  
+>  #ifndef __DRM_GPUVM_H__
+>  #define __DRM_GPUVM_H__
+> -- 
+> 2.41.0
+> 
 
