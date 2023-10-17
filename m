@@ -1,93 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3B147CCF06
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Oct 2023 23:15:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B7A67CCF0B
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Oct 2023 23:17:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8556010E345;
-	Tue, 17 Oct 2023 21:14:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6BF5910E32F;
+	Tue, 17 Oct 2023 21:17:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2076.outbound.protection.outlook.com [40.107.237.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF11E10E345;
- Tue, 17 Oct 2023 21:14:31 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=npSQy2tpNGcp86kwlW3PhitNcl2wVrROHyv0jahdtkc4rWkx/Ypp+kecXUlyeIQuEbimSIJYzAIPPCW2+pruKXWhebNMd1T7jsWikymMUw2P81bIcWiAdCFHWuZQFbIkej9pg2U/KiDxF+av0ROdDChdnJz9kk1jRuWwXtY6kmlMlsNHsfN+4adrRFdmfyE8zT6E5whnDELiEIBaTDqJJi0N6eL47SReyVBafW5fX1ZsIogN2cYqINDttUKw17/9hcOUem1R4pikUEH8QVUKxv89+iMtSug71GrF4loUzb3oe/eJ4p716fe9ElB/pTgRI3xe7RzTeJIPFZA6zEIhmw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Aq1H8WCJuAL37SctBUPuPK3Kqv6ruPc+2YmbD5MHcdI=;
- b=UfK3A17K5nh6FrL3Fm0S5mWMgwMtgVgF52uMEDv2PHy1qYFF8+zsokQC6Yvw1Ys1NjQseNyD2eTcrgb2vHmTTr3S+LJBYs1sUOESWMZJZr8h10e5iZ/S58SFfSYUgNwk/AD/DhRzRAYn7BFtQyQnwFe7HTiGuRa5VhrACfNW7tEv3ynVTxMuvzGWQJXXOt03wwTHVfOaBFnFA7ub8gJyt4tIUuF23I+phB0v9jeUiRM0dlgIj8IlA+EP9lFvoP2svdmoIpqLxZAGwDLvqKPQ/j/vMn2CghiUEjX1S2uI1BL8SD6G86i0VeSjKViHwZe7IWMZIE89tx1GXREF/EzWzg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Aq1H8WCJuAL37SctBUPuPK3Kqv6ruPc+2YmbD5MHcdI=;
- b=GLdmFlOXlGkB53/P5feuDffiSzLX5yrBCtSRggWW7w+0bPhpMuMLPvgdgkhGmtYNpK/n4UXmRSiQySiAJ3ymws4EeiUE+C451CSnlqG0y4H1XA09W+DSO7r2JAVTDB7PTylgsUkVF5zp8TKQG1ngjOwo0/HySOz+7TOxlrzqqME=
-Received: from BL0PR02CA0030.namprd02.prod.outlook.com (2603:10b6:207:3c::43)
- by BY5PR12MB4869.namprd12.prod.outlook.com (2603:10b6:a03:1d9::23)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6886.36; Tue, 17 Oct
- 2023 21:14:29 +0000
-Received: from MN1PEPF0000ECD9.namprd02.prod.outlook.com
- (2603:10b6:207:3c:cafe::4a) by BL0PR02CA0030.outlook.office365.com
- (2603:10b6:207:3c::43) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6886.35 via Frontend
- Transport; Tue, 17 Oct 2023 21:14:28 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- MN1PEPF0000ECD9.mail.protection.outlook.com (10.167.242.138) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6838.22 via Frontend Transport; Tue, 17 Oct 2023 21:14:28 +0000
-Received: from Harpoon.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Tue, 17 Oct
- 2023 16:14:26 -0500
-From: Felix Kuehling <Felix.Kuehling@amd.com>
-To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>
-Subject: [PATCH 11/11] drm/amdkfd: Bump KFD ioctl version
-Date: Tue, 17 Oct 2023 17:13:37 -0400
-Message-ID: <20231017211337.1593869-12-Felix.Kuehling@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20231017211337.1593869-1-Felix.Kuehling@amd.com>
-References: <20231017211337.1593869-1-Felix.Kuehling@amd.com>
+Received: from mail-oa1-x32.google.com (mail-oa1-x32.google.com
+ [IPv6:2001:4860:4864:20::32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC6AD10E32C;
+ Tue, 17 Oct 2023 21:16:57 +0000 (UTC)
+Received: by mail-oa1-x32.google.com with SMTP id
+ 586e51a60fabf-1e12f41e496so3800325fac.3; 
+ Tue, 17 Oct 2023 14:16:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1697577417; x=1698182217; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=DQG8MtBQiSnRV8n69T7HmV5t8yhCaq2M9pMbaLDDzpc=;
+ b=bUXETrsE76QhWjOIC16GbnaLLSOOiSpMr3PJ3jiNCVgesuLruDaQG/F2Jum4MCEF78
+ xpcTgx6uUOPxjZcAE8fPxbqPDFvlD7T1oIKRC2KGrUSvZs1/2KtNKoQEMaho8/d7RwEZ
+ nKqO6/R0AzO32DbNeCZ0lAShdlY8cefUNgZkXxw052G/iXX2TiOQrXMKVmy6Zwj9Oy1g
+ ihdwB8Qo/H8MYqGz1jYMCczoW9be8sPPXjvS/w+reCHkoY0aWlVUrPoDRiE65p4S7HrT
+ 5TcUjjFtyamDkBNxrwaiq//uZn5ZMejOc5AqeoXlEvlOXkdQnVTUnRj7Uuu/7Rscn0PL
+ 6iIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1697577417; x=1698182217;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=DQG8MtBQiSnRV8n69T7HmV5t8yhCaq2M9pMbaLDDzpc=;
+ b=ahUCvusxopXKekqdnD5APZEMXPee3Jp1HNxxyszRd3wp6z979NZBxY5cEPmeqWgaZW
+ 1sOzzOo9DPtrAjMN2dk9I16tEXEaYhEqTpWbbzxkMRkAccwO7/qeDqLKmAqGkQQJ/rYy
+ taqXLkeebAA3vL42X1e8Dvazt4Zq6d5C0MwhRuYP8bnrDxITe/GATR8xuwGtULikD3ys
+ TQVDVr2WdGjVNEmoihwouXQlY4XxPkDRIE1HnsClStYwIsiLA3d8zpkXoBnZUION/Riv
+ FqbKT6xktWncLSK3XU+TCquSuMBO7SMxNEa1EIZlyXwVF2WjGcflG6g4SVQhKOqXiPcD
+ GlSQ==
+X-Gm-Message-State: AOJu0YyPNXSvaUDOip7y8g66Ba9fN4qcc1HylVcrl9p1aUFHZnndtHI3
+ I2vhH1n/v7pEW0meYHwpTzDsxvQy1JZK76dysB8=
+X-Google-Smtp-Source: AGHT+IFIdnup1Pui0Ph3Sx3b6dyIUwP7KU7y+C7Voyy0lzypj5Ks7q5EsuqaHmjprmGcgrekVDP+pKHvrpPbrGFNJuA=
+X-Received: by 2002:a05:6870:1314:b0:1e9:9f9b:eb80 with SMTP id
+ 20-20020a056870131400b001e99f9beb80mr3731834oab.46.1697577417041; Tue, 17 Oct
+ 2023 14:16:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN1PEPF0000ECD9:EE_|BY5PR12MB4869:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7785e31e-a189-40a4-e4ae-08dbcf560c5b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: e6q2sVTLuiqac5uFrPR2NdYAQZRKNbAKOQHFoW+ClSwJllEt4m93WTjJbFX1tekVJ5NoPwp0ltn0uZy69hJBpWHxOvSIf2vGYkPkTHDVhBs26uIffSbFGqavTscMV8k7guGuG2T1cvUP9rVp+wX1+slCNtqA4173Rmegl9MSXUj/smNT183I24sOqyZyPOg2dMZeeC6hH4LhC2h2Rfxvyinr8HosFiYHqiMTjx6fkOVrakSPzNW3WkoYJ4mljVJUKHn/bbm7EtarQB0xIor4P7cezEsGDp4IF3ZGlehmtai4Mz1jXmNmpFJwgkMz1wNv2+D4iw8Y9XnVfe2q5vtxYEH+yHW4eftmNk9bfAAwKcXrcX2xw/T+5Eih8+Hujf63AlTuo1TONq0Gr6T01BoYGC45E4y/tMcKs7cSezp6ySkn7r9eX4BDvCRmyO3oE4GLh+V1tMUA+BX45CR6KFLyjjXQDRdEuI33o6ywDc5EIkTZ0nfm3o/GtXroCmifQsxwu23c0AFSFzORTxnj07Bh/S32jbvxHY6OXoz48O3DeSfvBLc6hK5/5WQ5rPDGo4OMNi/vjAzU8RPgd2wINQZ1+Obf0jvboHLmUCesfQMeMI1Fjg5zlzKbYxIbFnvAYUFA2mMfJR1d644YM92SnWsx9F3nzRHenuPpbVAeVXdcJ1bGv0aAr+kGyJnXTNpId1puDNSvJ2xmaKWgp+N4X3TuqdcBL+QuUjAPp+7OpZIsP5BG7pwzsunZPxd9yAZfWa55x68mJiwPVRg6JV1+FGT9jw==
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230031)(4636009)(39860400002)(396003)(346002)(136003)(376002)(230922051799003)(451199024)(1800799009)(64100799003)(82310400011)(186009)(46966006)(36840700001)(40470700004)(86362001)(5660300002)(36860700001)(41300700001)(7696005)(8676002)(4326008)(83380400001)(8936002)(450100002)(4744005)(36756003)(2906002)(47076005)(110136005)(54906003)(70586007)(70206006)(426003)(316002)(336012)(356005)(1076003)(81166007)(40460700003)(2616005)(40480700001)(82740400003)(26005)(16526019)(478600001)(6666004)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Oct 2023 21:14:28.4074 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7785e31e-a189-40a4-e4ae-08dbcf560c5b
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: MN1PEPF0000ECD9.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4869
+References: <20231017080616.18970-1-colin.i.king@gmail.com>
+In-Reply-To: <20231017080616.18970-1-colin.i.king@gmail.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 17 Oct 2023 17:16:46 -0400
+Message-ID: <CADnq5_PemQtG4CeeDm4QvNMWF_O69AXD5k66R2C3OhWe8L6sdA@mail.gmail.com>
+Subject: Re: [PATCH][next] drm/amd/display: Fix a handful of spelling mistakes
+ in dml_print output
+To: Colin Ian King <colin.i.king@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,36 +69,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Xiaogang.Chen@amd.com, Ramesh.Errabolu@amd.com, Christian.Koenig@amd.com
+Cc: kernel-janitors@vger.kernel.org, Leo Li <sunpeng.li@amd.com>,
+ Qingqing Zhuo <Qingqing.Zhuo@amd.com>, Xinhui.Pan@amd.com,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is not strictly a change in the IOCTL API. This version bump is meant
-to indicate to user mode the presence of a number of changes and fixes
-that enable the management of VA mappings in compute VMs using the GEM_VA
-ioctl for DMABufs exported from KFD.
+Applied.  Thanks!
 
-Signed-off-by: Felix Kuehling <Felix.Kuehling@amd.com>
----
- include/uapi/linux/kfd_ioctl.h | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/include/uapi/linux/kfd_ioctl.h b/include/uapi/linux/kfd_ioctl.h
-index f0ed68974c54..9ce46edc62a5 100644
---- a/include/uapi/linux/kfd_ioctl.h
-+++ b/include/uapi/linux/kfd_ioctl.h
-@@ -40,9 +40,10 @@
-  * - 1.12 - Add DMA buf export ioctl
-  * - 1.13 - Add debugger API
-  * - 1.14 - Update kfd_event_data
-+ * - 1.15 - Enable managing mappings in compute VMs with GEM_VA ioctl
-  */
- #define KFD_IOCTL_MAJOR_VERSION 1
--#define KFD_IOCTL_MINOR_VERSION 14
-+#define KFD_IOCTL_MINOR_VERSION 15
- 
- struct kfd_ioctl_get_version_args {
- 	__u32 major_version;	/* from KFD */
--- 
-2.34.1
-
+On Tue, Oct 17, 2023 at 4:22=E2=80=AFAM Colin Ian King <colin.i.king@gmail.=
+com> wrote:
+>
+> There are a few spelling mistakes and an minor grammatical issue in
+> some dml_print messages. Fix these.
+>
+> Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+> ---
+>  drivers/gpu/drm/amd/display/dc/dml2/display_mode_core.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/display/dc/dml2/display_mode_core.c b/dr=
+ivers/gpu/drm/amd/display/dc/dml2/display_mode_core.c
+> index 851db026f251..218c355a97a4 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dml2/display_mode_core.c
+> +++ b/drivers/gpu/drm/amd/display/dc/dml2/display_mode_core.c
+> @@ -1507,7 +1507,7 @@ static dml_bool_t CalculatePrefetchSchedule(struct =
+display_mode_lib_scratch_st *
+>                 dml_print("DML: Tvm: %fus - time to fetch page tables for=
+ meta surface\n", s->TimeForFetchingMetaPTE);
+>                 dml_print("DML: Tr0: %fus - time to fetch first row of da=
+ta pagetables and first row of meta data (done in parallel)\n", s->TimeForF=
+etchingRowInVBlank);
+>                 dml_print("DML: Tsw: %fus =3D time to fetch enough pixel =
+data and cursor data to feed the scalers init position and detile\n", (dml_=
+float_t)s->LinesToRequestPrefetchPixelData * s->LineTime);
+> -               dml_print("DML: To: %fus - time for propogation from scal=
+er to optc\n", (*p->DSTYAfterScaler + ((dml_float_t) (*p->DSTXAfterScaler) =
+/ (dml_float_t)p->myPipe->HTotal)) * s->LineTime);
+> +               dml_print("DML: To: %fus - time for propagation from scal=
+er to optc\n", (*p->DSTYAfterScaler + ((dml_float_t) (*p->DSTXAfterScaler) =
+/ (dml_float_t)p->myPipe->HTotal)) * s->LineTime);
+>                 dml_print("DML: Tvstartup - TSetup - Tcalc - Twait - Tpre=
+ - To > 0\n");
+>                 dml_print("DML: Tslack(pre): %fus - time left over in sch=
+edule\n", p->VStartup * s->LineTime - s->TimeForFetchingMetaPTE - 2 * s->Ti=
+meForFetchingRowInVBlank - (*p->DSTYAfterScaler + ((dml_float_t) (*p->DSTXA=
+fterScaler) / (dml_float_t)p->myPipe->HTotal)) * s->LineTime - p->TWait - p=
+->TCalc - *p->TSetup);
+>                 dml_print("DML: row_bytes =3D dpte_row_bytes (per_pipe) =
+=3D PixelPTEBytesPerRow =3D : %u\n", p->PixelPTEBytesPerRow);
+> @@ -9323,7 +9323,7 @@ void dml_core_mode_programming(struct display_mode_=
+lib_st *mode_lib, const struc
+>                                 if (mode_lib->ms.policy.ImmediateFlipRequ=
+irement[k] !=3D dml_immediate_flip_not_required && locals->ImmediateFlipSup=
+portedForPipe[k] =3D=3D false) {
+>                                         locals->ImmediateFlipSupported =
+=3D false;
+>  #ifdef __DML_VBA_DEBUG__
+> -                                       dml_print("DML::%s: Pipe %0d not =
+supporing iflip\n", __func__, k);
+> +                                       dml_print("DML::%s: Pipe %0d not =
+supporting iflip\n", __func__, k);
+>  #endif
+>                                 }
+>                         }
+> @@ -9376,7 +9376,7 @@ void dml_core_mode_programming(struct display_mode_=
+lib_st *mode_lib, const struc
+>         if (locals->PrefetchAndImmediateFlipSupported) {
+>                 dml_print("DML::%s: Good, Prefetch and flip scheduling so=
+lution found at VStartupLines=3D%u (MaxVStartupAllPlanes=3D%u)\n", __func__=
+, s->VStartupLines-1, s->MaxVStartupAllPlanes);
+>         } else {
+> -               dml_print("DML::%s: Bad, Prefetch and flip scheduling sol=
+uation NOT found solution! (MaxVStartupAllPlanes=3D%u)\n", __func__, s->Max=
+VStartupAllPlanes);
+> +               dml_print("DML::%s: Bad, Prefetch and flip scheduling sol=
+ution did NOT find solution! (MaxVStartupAllPlanes=3D%u)\n", __func__, s->M=
+axVStartupAllPlanes);
+>         }
+>
+>         //Watermarks and NB P-State/DRAM Clock Change Support
+> --
+> 2.39.2
+>
