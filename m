@@ -1,47 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72E027CBF4D
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Oct 2023 11:29:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C59C7CBF71
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Oct 2023 11:31:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B70310E2A5;
-	Tue, 17 Oct 2023 09:29:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B5B810E2A8;
+	Tue, 17 Oct 2023 09:31:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 344FB10E29A;
- Tue, 17 Oct 2023 09:28:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
- In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=Zoyx6acph8T/D4cDNkRj+Bxu58arAqE6Znc8aS28M0U=; b=pG1JKIecF2BtvDA1vVl9uxnEb0
- tsGe52hITAfAs+Sn4Hm7ycaFLwRLFA9I805pa/f2ozAqSfs1xZDYk8zW6uRcZbeR3XXCyHXizeeU5
- u9Vo6KxtT9B1UORnieFMmwT/XL4M3Ss5L9Iht5UdQcYHYE2um1anYmPrGpXEC8Ag9WPcIPSpFNDc/
- 4WxivlCutLspGIGkN9/S9GLzSZoXz4mNIPYN06AZLIVWB420p6pznXNck3+rRuj7K2eqo5lHpGXAB
- nWkJpZQUAXH5wYCTDuDICorsD3kHQ1TyoMCJUl/94FCf7nKUhAd2Msm51pRpYvjIzDAumK0gtpQTI
- SAlOAGxQ==;
-Received: from 167.red-81-39-185.dynamicip.rima-tde.net ([81.39.185.167]
- helo=localhost.localdomain) by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1qsgNf-001ODF-7B; Tue, 17 Oct 2023 11:28:51 +0200
-From: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
-To: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH v7 6/6] amd/display: indicate support for atomic async
- page-flips on DC
-Date: Tue, 17 Oct 2023 11:28:37 +0200
-Message-ID: <20231017092837.32428-7-andrealmeid@igalia.com>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231017092837.32428-1-andrealmeid@igalia.com>
-References: <20231017092837.32428-1-andrealmeid@igalia.com>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B12DE10E2A8
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Oct 2023 09:31:11 +0000 (UTC)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 443AF660708F;
+ Tue, 17 Oct 2023 10:31:09 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1697535070;
+ bh=yclhv5bNfaPgDABNL7/yKJhsmK65OQZKd8eMmUCP7vU=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=lxB2NUS92oqNdrf5koDvdwu2AxCcuyyVTvYP+0hkbH4c/78+vfniPgdubc1yHR9M1
+ nsihBQXez0ItJ+zCfBc19YQyecoWu68x8m0ZFDlxI6g14llG79/elFjJrKjXb0OFwV
+ 3Yowjhmr3a59UsiyOcfr7ht1ea+3xeHhRAcT+kA0s484pAatdI/u9IqmQxc127w6VI
+ qAVJGCivxeqPiNh0qoPaznrBaeeejJSp4nzN1y4drcJyLOr2yEVphepxgG75ffKtCH
+ rXNHdwA8R/Nf2x+nZ66XBLMK1kn6kNsiyxQlWlhe+6CBRMdtAGswmE1RDR4Mx3FOG5
+ aMl9frjlLvjLQ==
+Message-ID: <4ca36dba-25a1-4494-a666-e5e57fbbbebd@collabora.com>
+Date: Tue, 17 Oct 2023 11:31:06 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 04/23] dt-bindings: display: mediatek: padding: Add
+ MT8188
+Content-Language: en-US
+To: Hsiao Chien Sung <shawn.sung@mediatek.com>, CK Hu <ck.hu@mediatek.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Rob Herring <robh+dt@kernel.org>
+References: <20231016104010.3270-1-shawn.sung@mediatek.com>
+ <20231016104010.3270-5-shawn.sung@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20231016104010.3270-5-shawn.sung@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,43 +58,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: pierre-eric.pelloux-prayer@amd.com,
- =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
- =?UTF-8?q?=27Marek=20Ol=C5=A1=C3=A1k=27?= <maraeo@gmail.com>,
- =?UTF-8?q?Michel=20D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
- Randy Dunlap <rdunlap@infradead.org>, Pekka Paalanen <ppaalanen@gmail.com>,
- kernel-dev@igalia.com, alexander.deucher@amd.com, hwentlan@amd.com,
- christian.koenig@amd.com, joshua@froggi.es
+Cc: Nathan Lu <nathan.lu@mediatek.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Moudy Ho <moudy.ho@mediatek.com>, Fei Shao <fshao@chromium.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Yongqiang Niu <yongqiang.niu@mediatek.com>,
+ Johnson Wang <johnson.wang@mediatek.corp-partner.google.com>,
+ "Nancy . Lin" <nancy.lin@mediatek.com>, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org,
+ "Jason-JH . Lin" <jason-jh.lin@mediatek.com>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Sean Paul <sean@poorly.run>,
+ devicetree@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Simon Ser <contact@emersion.fr>
+Il 16/10/23 12:39, Hsiao Chien Sung ha scritto:
+> Padding is a new hardware module on MediaTek MT8188,
+> add dt-bindings for it.
+> 
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Reviewed-by: CK Hu <ck.hu@mediatek.com>
+> Signed-off-by: Hsiao Chien Sung <shawn.sung@mediatek.com>
 
-amdgpu_dm_commit_planes() already sets the flip_immediate flag for
-async page-flips. This flag is used to set the UNP_FLIP_CONTROL
-register. Thus, no additional change is required to handle async
-page-flips with the atomic uAPI.
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-Signed-off-by: Simon Ser <contact@emersion.fr>
-Reviewed-by: André Almeida <andrealmeid@igalia.com>
-Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
-Signed-off-by: André Almeida <andrealmeid@igalia.com>
----
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 9d5742923aed..c6fd34bab358 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -3997,7 +3997,6 @@ static int amdgpu_dm_mode_config_init(struct amdgpu_device *adev)
- 		adev_to_drm(adev)->mode_config.prefer_shadow = 1;
- 	/* indicates support for immediate flip */
- 	adev_to_drm(adev)->mode_config.async_page_flip = true;
--	adev_to_drm(adev)->mode_config.atomic_async_page_flip_not_supported = true;
- 
- 	state = kzalloc(sizeof(*state), GFP_KERNEL);
- 	if (!state)
--- 
-2.42.0
 
