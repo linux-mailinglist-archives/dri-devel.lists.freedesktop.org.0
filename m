@@ -2,56 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A43027CCAF2
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Oct 2023 20:44:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFEBD7CCC04
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Oct 2023 21:16:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E84B610E317;
-	Tue, 17 Oct 2023 18:44:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5396410E31A;
+	Tue, 17 Oct 2023 19:16:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com
- [209.85.167.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 29CDF10E317
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Oct 2023 18:44:46 +0000 (UTC)
-Received: by mail-oi1-f172.google.com with SMTP id
- 5614622812f47-3af609c5736so3241136b6e.3
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Oct 2023 11:44:46 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1697568285; x=1698173085;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com
+ [IPv6:2607:f8b0:4864:20::231])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B01F310E32A;
+ Tue, 17 Oct 2023 19:16:45 +0000 (UTC)
+Received: by mail-oi1-x231.google.com with SMTP id
+ 5614622812f47-3b2b1af964dso3310328b6e.1; 
+ Tue, 17 Oct 2023 12:16:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1697570205; x=1698175005; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=s9AXL+kNMUTK5DLziPFLVPYslxiHAWx2Uz99cy32iBQ=;
- b=VEQPfzl4TcPMoGA/lTWLKQPH3s54MHBXRZTkZbc8RHzjmACSzsrB6tvl+L/b3n72Ga
- eCbGzyE4RPGCqJ+VGR8joLaGQ45CqCOU3nKaXMAxbC6RckCr5r3tv2rkg3bSG/8G6pGe
- vFCvbVbG1G1w9UcKVw6jkHvau7vpt+C5C14SqbQyLpG6LUcYBJ2zhxg3KrwSoxE032p3
- 0Vg30zsH9N0UH7RF7NY78milVfksN8DyEMw++tbzusgIXuD3POO4FdgEgYHiYpwylcSz
- PUhcOAiaDoEaK9L+Cazpe/BiefiwNvm0sCeXc7X2qNsxWe0/fnIEKpfkzr8gbAOC0gmm
- ZnSQ==
-X-Gm-Message-State: AOJu0YzQf/aDngW/mLy65n/ABx8ehy/F76M7nytaTY0ekgJ6tcNpUGoc
- P41Lv2NLQ4mfkX0Z9zlFig==
-X-Google-Smtp-Source: AGHT+IFa5Fe5Sjl0kxSSWVeXZ8dmWI5hFb75CSBsBtIJrHTnP6bgppm7OeH4LnEkwMtixdRuyh4UyA==
-X-Received: by 2002:a05:6808:97:b0:3af:795d:b74b with SMTP id
- s23-20020a056808009700b003af795db74bmr3192631oic.50.1697568285302; 
- Tue, 17 Oct 2023 11:44:45 -0700 (PDT)
-Received: from herring.priv (66-90-144-107.dyn.grandenetworks.net.
- [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
- z26-20020a54459a000000b003af60f06629sm347141oib.6.2023.10.17.11.44.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Oct 2023 11:44:44 -0700 (PDT)
-Received: (nullmailer pid 2496099 invoked by uid 1000);
- Tue, 17 Oct 2023 18:44:43 -0000
-Date: Tue, 17 Oct 2023 13:44:43 -0500
-From: Rob Herring <robh@kernel.org>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Subject: Re: [PATCH] dt-bindings: display: remove backlight node from panel
- examples
-Message-ID: <169756828188.2496027.18329599357112403195.robh@kernel.org>
-References: <20231011-dt-panel-example-no-backlight-v1-1-b81618d32752@bootlin.com>
+ bh=7TGZYojggqQbM5RJB0rXps/zzaRkQmOODgh9YifgaQs=;
+ b=eDOPmTDGh6SXC9a+xDCcwqwHgqYm601xsUqBWX1mDZWWVIS0nmUVQWFzx5zxPSLf4B
+ Ae1Ml3nIl/yy7L7xQrVkCrRlw70kbdvv5qgNkyup/Wy1JNep25Y9Z4I+JG70CFKcmgFX
+ 3i01RGJQWT/gfSyuDEOR34FrQc0AdIKQE6908nj1h3SEFxz7oojK2w3gxqcClEo62Zj+
+ 3artwTKVLl5metJzM2DZ5O4k646G2cNuz/HPt4pMASZ6DPMYJVJyLRFsrThVyByW0VHF
+ VxCyv1C24iWSyl3n94/fcaZN4WSubGU7LWsxwCYKIvY7v2BvZbHnK9zUxJ2qxo8pkxzV
+ bGfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1697570205; x=1698175005;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=7TGZYojggqQbM5RJB0rXps/zzaRkQmOODgh9YifgaQs=;
+ b=gP7VS6fTO/YI8J5sSDlHc9zzAIHHNAyPED8F95SQoABRMyHmIaDM7HpZxskOpftUmw
+ fL1howRHHnTH+/Xgv8i8N3I9Gv7kwQimyrDTMqun7bjnCZeMy3neu2H5hGw4WKTQXxzG
+ VgsgSUNC66kAa5UKcVviSM9BQFB3N/tYCob0nbekaTYJJ+7vKszQ9t4qXcvSdbQQjU1R
+ +klIIMVNVC4ZaeUcFxbctTUYcXqLn7oaV5x6rcLPPu3KB02JaVVFa+wDPL8CnTjmHrDd
+ FfGYowjaqfxnwsDenJ5+2aUgxzD9OqqD5oHmL42X3CBIjWxmvHPkODoWucC+CbiqOBVV
+ Ge5Q==
+X-Gm-Message-State: AOJu0YwRmlSzZO6J44xhRFrkSt7STDq/wfdbkPZ4aDyKHexWWKF9sGrC
+ tWPin81UJE5OUjib1f7QrNZcqGWQ/KdExrwPxRw=
+X-Google-Smtp-Source: AGHT+IHWCM0hKlRAuUvh2ShFSvPcKBlBYG7cFfYTqu/tnNPuiW8geHRJA4n0eKhfLHX3vy5utLHuXz0fRi3c4v0IIRE=
+X-Received: by 2002:a54:450a:0:b0:3ae:2362:7137 with SMTP id
+ l10-20020a54450a000000b003ae23627137mr3025481oil.59.1697570204850; Tue, 17
+ Oct 2023 12:16:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231011-dt-panel-example-no-backlight-v1-1-b81618d32752@bootlin.com>
+References: <20231017035656.8211-1-luben.tuikov@amd.com>
+ <CADnq5_NyhWLmSbtmeaHv7RRXhEc+C4XTPZ-U57zrpw3N3nObCg@mail.gmail.com>
+ <b66ea9a2-0a46-434a-8d56-06f7388d837a@amd.com>
+In-Reply-To: <b66ea9a2-0a46-434a-8d56-06f7388d837a@amd.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 17 Oct 2023 15:16:33 -0400
+Message-ID: <CADnq5_N1qy4nk8hR6=iKXQAhKvdXsZw5NGaFyUbL5hzTks5hVw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] drm/amdgpu: Unset context priority is now invalid
+To: Luben Tuikov <luben.tuikov@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,32 +70,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, David Lechner <david@lechnology.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- devicetree@vger.kernel.org, Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Sam Ravnborg <sam@ravnborg.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
- Kamlesh Gurudasani <kamlesh.gurudasani@gmail.com>,
- Daniel Mack <daniel@zonque.org>
+Cc: Alex Deucher <Alexander.Deucher@amd.com>,
+ Direct Rendering Infrastructure - Development
+ <dri-devel@lists.freedesktop.org>,
+ AMD Graphics <amd-gfx@lists.freedesktop.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, Oct 17, 2023 at 10:27=E2=80=AFAM Luben Tuikov <luben.tuikov@amd.com=
+> wrote:
+>
+> On 2023-10-17 09:22, Alex Deucher wrote:
+> > On Tue, Oct 17, 2023 at 12:52=E2=80=AFAM Luben Tuikov <luben.tuikov@amd=
+.com> wrote:
+> >>
+> >> A context priority value of AMD_CTX_PRIORITY_UNSET is now invalid--ins=
+tead of
+> >> carrying it around and passing it to the Direct Rendering Manager--and=
+ it
+> >> becomes AMD_CTX_PRIORITY_NORMAL in amdgpu_ctx_ioctl(), the gateway to =
+context
+> >> creation.
+> >>
+> >> Cc: Alex Deucher <Alexander.Deucher@amd.com>
+> >> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
+> >> Signed-off-by: Luben Tuikov <luben.tuikov@amd.com>
+> >> ---
+> >>  drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c | 2 +-
+> >>  1 file changed, 1 insertion(+), 1 deletion(-)
+> >>
+> >> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c b/drivers/gpu/drm=
+/amd/amdgpu/amdgpu_ctx.c
+> >> index 0dc9c655c4fbdb..092962b93064fc 100644
+> >> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c
+> >> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c
+> >> @@ -47,7 +47,6 @@ const unsigned int amdgpu_ctx_num_entities[AMDGPU_HW=
+_IP_NUM] =3D {
+> >>  bool amdgpu_ctx_priority_is_valid(int32_t ctx_prio)
+> >>  {
+> >>         switch (ctx_prio) {
+> >> -       case AMDGPU_CTX_PRIORITY_UNSET:
+> >>         case AMDGPU_CTX_PRIORITY_VERY_LOW:
+> >>         case AMDGPU_CTX_PRIORITY_LOW:
+> >>         case AMDGPU_CTX_PRIORITY_NORMAL:
+> >> @@ -55,6 +54,7 @@ bool amdgpu_ctx_priority_is_valid(int32_t ctx_prio)
+> >>         case AMDGPU_CTX_PRIORITY_VERY_HIGH:
+> >>                 return true;
+> >>         default:
+> >> +       case AMDGPU_CTX_PRIORITY_UNSET:
+> >>                 return false;
+> >
+> > I  don't recall if any userspace uses this, but this would break
+> > userspace if it does.
+>
+> This is shielded from user space in the following manner,
+> 1) amdgpu_ctx_priority_is_valid() is called from amdgpu_ctx_ioctl() and
+>    if amdgpu_ctx_priority_is_valid() returns false, we set the priority t=
+o NORMAL.
+>    See the 2nd patch.
 
-On Wed, 11 Oct 2023 12:47:38 +0200, Luca Ceresoli wrote:
-> The examples for these panel drivers have a backlight node in addition to
-> the actual panel node. However the exact backlight is outside the scope of
-> this binding and should be dropped from the example.
-> 
-> Link: https://lore.kernel.org/linux-devicetree/20230724143152.GA3430423-robh@kernel.org/
-> Suggested-by: Rob Herring <robh@kernel.org>
-> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> ---
->  Documentation/devicetree/bindings/display/ilitek,ili9486.yaml       | 4 ----
->  Documentation/devicetree/bindings/display/panel/ilitek,ili9163.yaml | 4 ----
->  Documentation/devicetree/bindings/display/sitronix,st7735r.yaml     | 5 -----
->  3 files changed, 13 deletions(-)
-> 
+Ah, I see.  Thanks.  Series is:
+Acked-by: Alex Deucher <alexander.deucher@amd.com>
 
-Applied, thanks!
 
+> 2) It is also called from amdgpu_ctx_priority_permit(), which is called
+>    from amdgpu_ctx_init() which is called from amdgpu_ctx_alloc() which
+>    is called from amdgpu_ctx_ioctl(), _after_ the call described above,
+>    and thus priority is now NORMAL.
+>
+> Plus I'm typing this on a running system with 6.6.0 + those two patches.
+>
+> User space can send us down UNSET, but we set it to NORMAL.
+>
+> Can I get an R-B?
+>
+> >
+> > Alex
+> >
+> >>         }
+> >>  }
+> >>
+> >> base-commit: dc9b2e683bcba017588b9aaad80f442ad004a48f
+> >> --
+> >> 2.42.0
+> >>
+>
+> --
+> Regards,
+> Luben
+>
