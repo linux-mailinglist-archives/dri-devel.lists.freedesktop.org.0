@@ -1,58 +1,160 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C1CF7CC3C2
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Oct 2023 14:56:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BA4017CC408
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Oct 2023 15:10:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E87210E13C;
-	Tue, 17 Oct 2023 12:56:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 92F5210E2ED;
+	Tue, 17 Oct 2023 13:10:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA6FA10E11C
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Oct 2023 12:56:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1697547374; x=1729083374;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=lLcqEjandV7TrWsUfx/5TzzhZmbGiZMsw4Ouv3pAs1s=;
- b=JMkR3cvpKyc6MR3imKCoognOwcMwYfxLoXHJZNMgfyLXgaP5ZA6kbUUu
- +kJLXCQWPm9a09hHUg5pRVf8Kp2Vx5kgCFraNobt7kWKkYMXcZi3oXIda
- VSNBX+i0bLtC4cOU5NljnFRO89odV4UWhrpMH4A+N08vi7E/ShRIxtOSX
- OorPDeTXN9OdVHx8P6SkLI+pN2yjiEYUs6ZhFMgFcANOz5R12UE2RLeAh
- bgNqD7WeCzFWx0zzZF550g0QPt+DR4WIJqD1NdSXFio0/7FrESrZCXYhP
- MD1cPmRlGcI0vguFw8BlSeHIbhqOYXu6HI/tJD7hRXbqTqjRQvoZYbJl+ g==;
-X-IronPort-AV: E=Sophos;i="6.03,232,1694728800"; d="scan'208";a="33507302"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
- by mx1.tq-group.com with ESMTP; 17 Oct 2023 14:56:11 +0200
-Received: from steina-w.localnet (steina-w.tq-net.de [10.123.53.18])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 53A1F280082;
- Tue, 17 Oct 2023 14:56:11 +0200 (CEST)
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: dmitry.baryshkov@linaro.org, andrzej.hajda@intel.com,
- neil.armstrong@linaro.org, Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, airlied@gmail.com, daniel@ffwll.ch,
- robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, shawnguo@kernel.org,
- s.hauer@pengutronix.de, festevam@gmail.com, vkoul@kernel.org,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-phy@lists.infradead.org, Sandor Yu <Sandor.yu@nxp.com>
-Subject: Re: [PATCH v11 6/7] phy: freescale: Add DisplayPort PHY driver for
- i.MX8MQ
-Date: Tue, 17 Oct 2023 14:56:12 +0200
-Message-ID: <2101977.bB369e8A3T@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <fbb6245959647b260ffaa7b1dc02e83d28090cf6.1697524277.git.Sandor.yu@nxp.com>
-References: <cover.1697524277.git.Sandor.yu@nxp.com>
- <fbb6245959647b260ffaa7b1dc02e83d28090cf6.1697524277.git.Sandor.yu@nxp.com>
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F2BFA10E2ED
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Oct 2023 13:10:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1697548214; x=1729084214;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=mdzibe0Lx9Ri9LfGInyiHu6zhHKB34lgf8ha48G24cU=;
+ b=hf7zAbHhzTonZe0lfYxc+QjDVbCPoH/aW/cH1a5TkflQXcKPDBhDQp2y
+ aZ6K2lRKMvNMTWPDpQnXlcmHLnltzNL48vst8xpKPy+wHUuQbEC2FknP9
+ Xnk/oEwmL5UXrKSaDIQox8O8JFjy/1No9cFyCt9rLHBeEsK+3VZrCk/tz
+ 47RzPmy6ZcxYNS+MxVVgy2BEoWLKrpBdispHLe6/mu3DbBzxXoyq29w+X
+ jf565afi3OC5DmUpoax96F6APEF/5D4BVGvqQZP63c1NKJhFD23PWmMte
+ 1hlCsl7pp3OkpM2aBmMShEUvjENwdt3Svrr3D1GXCX3VPlktuTtrc7StV Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="388635171"
+X-IronPort-AV: E=Sophos;i="6.03,232,1694761200"; d="scan'208";a="388635171"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Oct 2023 06:10:04 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="732722371"
+X-IronPort-AV: E=Sophos;i="6.03,232,1694761200"; d="scan'208";a="732722371"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+ by orsmga006.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 17 Oct 2023 06:10:03 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Tue, 17 Oct 2023 06:10:03 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Tue, 17 Oct 2023 06:10:03 -0700
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32 via Frontend Transport; Tue, 17 Oct 2023 06:10:03 -0700
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com (104.47.73.41) by
+ edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.32; Tue, 17 Oct 2023 06:10:02 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=h8s1lklVrJaMURFXRIzFxXRvk7lsR9cewZCiYj3zau1yxbIpGdcINAd6Hi6RlZ25yUag0m3Rr2WLKB031nyvf6w2hRsNSdFjuuUmE5cqQ5ZPGgRzcBX7Kb6XXbGv5Zq+T119FuLHRFBv3ZbZVenZV/yIZUhRlOlvLH6oyOfuqyMTce4SmF/Dc7Hho2m9PAmGe0BKc4UjRLTKIZVp80gwh/3C5MCF3Bb/j5j/OBpbfiHRewqv7QZCrYADeIqpljp3/9ZXVqyPjfA3q+/C9uqGevywH4jBkSXq6Kpq3cs+MZBJ5eWTkZFNU9J224GQ3ukE5KiyU8u5uUEIMcwua7qk4A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=XajThtj7Eg+aHEx1S58ZGyMojc3KZdtPVijOBryPDaA=;
+ b=k882vu9l197gSlbB6LKIeuAboMGg2pJhYc88yuTK7hI6TkmAyrXXrtuQ9i4fmbFcETxX0hiNVzqUcYEH5A0mCoL3/TNhLL9QXx0/sDkDni4gbJfhDU3Xlg2sTuZ6cwtmk4dcv6y+bfFyYr5XsOxjvc0lABw+2N114uOKU1kck1czkZGjGMIUqYozaDrP/5QiIQzyhSwzk67UX6cVwkX0nRthkfUWEHKS7Sd8ijHW5oHBlDtNYewb9x3aIhv1KrxXwMFB++4h8/6YZnJasaZ+2J7GNwhG/+3QrObAOs3VrcfddkCzH0cA/c5pxu0uIUoIpTuU5IgFPc5zDX1Uz+0Rgg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from BY5PR11MB4243.namprd11.prod.outlook.com (2603:10b6:a03:1c8::16)
+ by PH8PR11MB6705.namprd11.prod.outlook.com (2603:10b6:510:1c4::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6886.35; Tue, 17 Oct
+ 2023 13:10:00 +0000
+Received: from BY5PR11MB4243.namprd11.prod.outlook.com
+ ([fe80::59cb:e244:fe8b:184d]) by BY5PR11MB4243.namprd11.prod.outlook.com
+ ([fe80::59cb:e244:fe8b:184d%5]) with mapi id 15.20.6907.021; Tue, 17 Oct 2023
+ 13:10:00 +0000
+Message-ID: <7b34872c-a903-0909-79ab-4b23797c1704@intel.com>
+Date: Tue, 17 Oct 2023 15:10:06 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v5 0/4] Improve test coverage of TTM
+Content-Language: en-US
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+References: <cover.1697445193.git.karolina.stolarek@intel.com>
+ <9854008f-6755-4c09-9f23-90fa62911222@amd.com>
+ <c9d088c2-341a-b315-a15b-8b8c0d487548@intel.com>
+ <eb349ffd-eda1-0f15-3803-2cfe5c01f2a0@amd.com>
+ <c2fd2bb8-7c98-4012-bc63-2e143abf4f65@amd.com>
+ <09724727-b5a8-2e67-0ce6-cc301d95e4dc@intel.com>
+ <179d176b-47c0-4cb6-b14c-17528024cfc5@amd.com>
+From: Karolina Stolarek <karolina.stolarek@intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <179d176b-47c0-4cb6-b14c-17528024cfc5@amd.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR4P281CA0050.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:cc::11) To BY5PR11MB4243.namprd11.prod.outlook.com
+ (2603:10b6:a03:1c8::16)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BY5PR11MB4243:EE_|PH8PR11MB6705:EE_
+X-MS-Office365-Filtering-Correlation-Id: fc6b74ed-4977-4e08-22ef-08dbcf125e8a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: DaIj5jBlCsIEXO+FH3eyAirBGC9AyQ59cBGUOjVWD6Mkh0OIi9adMEhxGq/lgJyAOAKltSkNPNR8KJgyb8DJzTz7NWbODoO0Wlngrgcdr48ndt8WO37yfQIMH7WTgKR6raFDCHn1otWJzcmHc1dr03SpCsmTUbWs1D2ABsMS7KPSJz/x7EUwQu08h7VLyGtyMJ4kxNLy9IggP9uajOLs7X1jheHKYTEkLf5nVIwMshfTyFiYjWar4inTq6y6T1V4LOtFJyhg8RRZvYJoWoKbyXdL/fUmbADgSu9DzClEPdvEqAeYQoXb+e9+y/TE/QM9lf7mOnO19iua9ppV8enMgaK/8HxvmLJctBua2EeJkQFDq/wGS0Sd9n91O/2PDwDUFLu2mAT9PsHsFeoWSCJPTZHAKnJoPDR0dmrFsise5LIyaaKcsm/t9s375gc1ZHUM7jtEhEL08cNJAeMR7i3XfCEhGi9xDjNZt3dSKsEX1LbHgt7QQAb6ySDA36wXUUcRVdRKoNCQaP6k0e+PP0LuD+ZpcJW9o/OUbLIk9h1rnM1ENsBoeyiEWXILHlnFcG94X240QIz4O3EPiqaDrujGTQDUOm+v66hi3/bHHt0B6QTY3HW5Y1YqpeT4/hyS3acJfbls/+HQ8flae/aJyE5f3A==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BY5PR11MB4243.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(136003)(376002)(39860400002)(366004)(396003)(346002)(230922051799003)(64100799003)(186009)(1800799009)(451199024)(6486002)(478600001)(2616005)(6916009)(66476007)(54906003)(316002)(66946007)(31696002)(66556008)(66574015)(6512007)(26005)(36916002)(6506007)(2906002)(8936002)(8676002)(4326008)(5660300002)(44832011)(41300700001)(86362001)(36756003)(82960400001)(38100700002)(83380400001)(53546011)(31686004)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QlBzOG9mN1dTVTlYMEF6WmozRk9MWWliUUJHZmlUOGtjc0tZbHBWUHJvT09t?=
+ =?utf-8?B?aE44ZG5LanRLQ2ptUEEvQy90UmRpd1ZYZ0dnY2lqeDF1RnZjU3RRcHd6Z29X?=
+ =?utf-8?B?dVhrL2o0cEkvTzRVMTlsUit5RHFnRlAra2Z5VGZLNmt3cUJLQnFJUFVEUWxI?=
+ =?utf-8?B?NnRIVlphUE1JaXNvNEJOZnU1Y2REUlVKWEpHWmpyQ1ZaTkNudVRLOWtmNUp0?=
+ =?utf-8?B?anZLcVlRU01ZTWtadEd4aHR4VjFqc0NSQURvWDJETWJDdVdRN0xrdDNRb1hs?=
+ =?utf-8?B?bU9mYVNkYzJNTE9nYXdLdHkveDQxbW5ZK1pTdzE5VTVqbVNxUElSUVJrSURi?=
+ =?utf-8?B?OGo2MDFGUlJxTE8wa1ZHSlhnc0YrT3lNZTlQMUZ2VVVENU1JTTZUckphRTAw?=
+ =?utf-8?B?NXNDLytUVWNWdGt4aThJb3V3TjdLR1Y3ZXRNZVlOSmVSOXBWYjdDSXFwUlBU?=
+ =?utf-8?B?aXFLTXZoZmEyYmdCTGdvUGh0K3NDcEk5YkpraUM4QmJrUURpZlc5aVk4dGhK?=
+ =?utf-8?B?OEFCWXlnTzB2QXVnVDlqR1cwYVdPd2ZYYlBSN3BBRzNJcGYvVVQ2bU1pRHB2?=
+ =?utf-8?B?L2d3K0QvUytEZXByd2VjdDhqa1FMYWxDTE1tcXh5YTlvcEdLREZpR0gzRnkz?=
+ =?utf-8?B?RnNkV3M4L09GMEsxRkROWXo4YSt2aGtONVVTSVpDTTJCZWhMT2VBanpRYTU4?=
+ =?utf-8?B?b1QwTEtMYmZ4L3FEblNQT2w5MHhMV256TzhOWjduUnJ1SGFpVEM1QlhyNHJk?=
+ =?utf-8?B?YmtXSnBjZEthaElUQ2FyL0ZMVlY2SGdZeU1iR2JvNUU2SHNPUGpFWHVDOHpE?=
+ =?utf-8?B?cUFSbFlGSU55blhPYTBxanBNRjgzZURtK0NPWU9FMjJBUDhhb2xON1dlNjAz?=
+ =?utf-8?B?S0EwU1ZNZDNqeFlnVkVQMzliQ2N1dEsvdENjNmwvUTUxRk9KdG9DSTI5SGlD?=
+ =?utf-8?B?cXZ1eFRkK0Y4ck1Obklrb2VlRWhPSGN0Snd1bktWVjRGam1EUHVCSXBRdjNk?=
+ =?utf-8?B?YnVidWU0Yy9oU3dSWGNJNjN3MHBLaEhnVk5lbm5hWjdKOUk3cTZLY0tUaVhK?=
+ =?utf-8?B?OEczMUxmd2FtTzQ1VGZzWXJjQ05DMWd6OWFVcVp0b1NpSWNheEYwdGxHbU02?=
+ =?utf-8?B?K0U0aERSdXFyUnJMQ3QxdlNEOG5idkN2VUM3TGlSVXh1TnVEbFFjbmJEaENy?=
+ =?utf-8?B?cUxyKytocXhpQWJ3TEw4Q3lGTU9GSk1GaWpqblRySTNFUW5scFZCaW5UM3pB?=
+ =?utf-8?B?Z05ReGVNZ0JEeFZnajBGMTFyMXNuMnpDVE83S3d5RmJRczZRMDZ5MnJUazQv?=
+ =?utf-8?B?TXcrZTBnL0Zmc2Z4b1IrbXdVRXljT2EyN2MvNnhQaWxDTnF5U3k2aXppVi92?=
+ =?utf-8?B?OVlDMFh5YlE1cFR5aTgrbDF3OHFjWUw3Q003QlJRMjlaZlFiNnczNFdtc2J1?=
+ =?utf-8?B?Z0ZhYXRrV0VuZFUrR28zV2h2c3FwY3dUVjNTT0hlZ2hCeFRwUklsTk1YYXV4?=
+ =?utf-8?B?ekhiZi92YnBlMTNnMjU0VWZQZ0pSdEFKT1JZL3NXYXZDUS9IRmhkNW1ZbTli?=
+ =?utf-8?B?WmthK0pmbTlXdEdyeGtacXY5Qmppb0FINytYSFV3WXJaT3BxVUVPcFhFR2Nz?=
+ =?utf-8?B?bzZDSDgreWNBTVNzODNmMFJFaDZMVk4yKzNHUm9Ya2c0UFFJQzlSTWJUQ1lj?=
+ =?utf-8?B?VGVTRUZUS1dHMmwwbHl5RUUrWHF0SWpwTzYvVGFhZWMxd3dJTStoRllJcnNO?=
+ =?utf-8?B?R2MvU3draXZBcDdmTWVuMzVubzZ0SzlBU3VteCtabUk4UEs3dHRLYVN3Qytt?=
+ =?utf-8?B?ZzhUSGdWeERhdFB0Z3FTalhSZnlhR3FUOGQrZkxrdUdxNnAwdVRTYnlCZ1FV?=
+ =?utf-8?B?a0pwYkNlWC9DNmhvZlBqSnVoMU9nSEozZWtGMUpEZjVnWStPcWdFRWZJTTBV?=
+ =?utf-8?B?NnNCUUlWcHZuQ1htT3V2VWdSaVlnQ3JhUVRkblhWczl5RnlZOFo1bWZweG9n?=
+ =?utf-8?B?SDBDSHVXK3dJZEVkWWZaV2hza1c0ejA0Skx5b0g2MGxJeVVGcnpmNGJmbGNa?=
+ =?utf-8?B?TGIzbjl5R1p1L0VDbWh0dzF2Z091WlBLQko2MGJnZCtpNzZsdC9RMEh6QkRL?=
+ =?utf-8?B?Ulp2elhjYllyanhpRXpsZERwQm5xU2dHNzZac3diUGFRb3hhN0xwMnIwMlZY?=
+ =?utf-8?B?N3c9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: fc6b74ed-4977-4e08-22ef-08dbcf125e8a
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4243.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Oct 2023 13:10:00.8153 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: iji2xdV30f840B+ScE4pGHHjpmR+KhORc2QAzIkBBHpMIi0i6+DISBx3qYX0GpIgsrDqv/qh347f0J4jUDai1wTJSyi5y7J191Fc/9MuF4Y=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR11MB6705
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,871 +167,156 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: oliver.brown@nxp.com, Sandor.yu@nxp.com, sam@ravnborg.org,
- linux-imx@nxp.com, kernel@pengutronix.de
+Cc: Amaranath Somalapuram <Amaranath.Somalapuram@amd.com>,
+ dri-devel@lists.freedesktop.org, "Somalapuram, Amaranath" <asomalap@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sandor,
+On 17.10.2023 14:10, Christian König wrote:
+> Am 17.10.23 um 14:06 schrieb Karolina Stolarek:
+>> On 17.10.2023 13:57, Christian König wrote:
+>>>
+>>>
+>>> Am 17.10.23 um 13:22 schrieb Somalapuram, Amaranath:
+>>>>
+>>>> On 10/17/2023 4:35 PM, Karolina Stolarek wrote:
+>>>>> Hi Amaranath,
+>>>>>
+>>>>> On 16.10.2023 15:08, Somalapuram, Amaranath wrote:
+>>>>>>
+>>>>>> On 10/16/2023 2:22 PM, Karolina Stolarek wrote:
+>>>>>>> Add tests for building blocks of the TTM subsystem, such as 
+>>>>>>> ttm_resource,
+>>>>>>> ttm_resource_manager, ttm_tt and ttm_buffer_object. This series 
+>>>>>>> covers
+>>>>>>> basic functions such as initialization, allocation and clean-up 
+>>>>>>> of each
+>>>>>>> struct. Testing of ttm_buffer_object also includes locking and 
+>>>>>>> unlocking
+>>>>>>> the object for validation, with special scenarios such as an 
+>>>>>>> interrupted
+>>>>>>> wait or deadlock.
+>>>>>>>
+>>>>>>> Some of the test cases check the bulk move mechanism and how it 
+>>>>>>> interacts
+>>>>>>> with pinned buffers. This is to be seen if we want to add 
+>>>>>>> dedicated testing
+>>>>>>> for bulk move or not. The resource allocation subtests use 
+>>>>>>> ttm_sys_manager
+>>>>>>> for now. Resources that don't use system memory will be 
+>>>>>>> indirectly tested
+>>>>>>> via tests for ttm_bo_validate()/ttm_bo_init_validate(), using a mock
+>>>>>>> resource manager.
+>>>>>>>
+>>>>>>> Use kunit_tool script to manually run all the tests:
+>>>>>>>
+>>>>>>> $ ./tools/testing/kunit/kunit.py run 
+>>>>>>> --kunitconfig=drivers/gpu/drm/ttm/tests
+>>>>>>>
+>>>>>>> To build a kernel with TTM KUnit tests, first enable 
+>>>>>>> CONFIG_KUNIT, and
+>>>>>>> then CONFIG_DRM_TTM_KUNIT_TEST.
+>>>>>> Tested [PATCH v4 0/4] Improve test coverage of TTM patches on AMD 
+>>>>>> platform, looks good.
+>>>>>
+>>>>> Many thanks for taking a look.
+>>>>>
+>>>>> Do I understand correctly that your Tested-by would apply to all 
+>>>>> the patches here?
+>>>>>
+>>>> Yes, I have tested all the 4 patches together.
+>>>
+>>> No time for an in deep review, but I'm going to pick this up and push 
+>>> it to drm-misc-next.
+>>
+>> Oh! Could you at least take a look at ttm_bo_reserve_deadlock and/or 
+>> interrupted subtests? I'm not 100% sure if my solution is right.
+> 
+> Than this will have to wait till next week when I have some more time.
 
-thanks for the patch.
+That's fine, I think. I still have to tie up loose ends in my 
+ttm_bo_validate testing (with no eviction cases), so this will keep me 
+busy for a couple more days.
 
-Am Dienstag, 17. Oktober 2023, 09:04:02 CEST schrieb Sandor Yu:
-> Add Cadence HDP-TX DisplayPort PHY driver for i.MX8MQ
->=20
-> Cadence HDP-TX PHY could be put in either DP mode or
-> HDMI mode base on the configuration chosen.
-> DisplayPort PHY mode is configurated in the driver.
->=20
-> Signed-off-by: Sandor Yu <Sandor.yu@nxp.com>
-> ---
-> v9->v11:
->  *No change.
->=20
->  drivers/phy/freescale/Kconfig             |  10 +
->  drivers/phy/freescale/Makefile            |   1 +
->  drivers/phy/freescale/phy-fsl-imx8mq-dp.c | 720 ++++++++++++++++++++++
->  3 files changed, 731 insertions(+)
->  create mode 100644 drivers/phy/freescale/phy-fsl-imx8mq-dp.c
->=20
-> diff --git a/drivers/phy/freescale/Kconfig b/drivers/phy/freescale/Kconfig
-> index 853958fb2c063..c39709fd700ac 100644
-> --- a/drivers/phy/freescale/Kconfig
-> +++ b/drivers/phy/freescale/Kconfig
-> @@ -35,6 +35,16 @@ config PHY_FSL_IMX8M_PCIE
->  	  Enable this to add support for the PCIE PHY as found on
->  	  i.MX8M family of SOCs.
->=20
-> +config PHY_FSL_IMX8MQ_DP
-> +	tristate "Freescale i.MX8MQ DP PHY support"
-> +	depends on OF && HAS_IOMEM
-> +	depends on COMMON_CLK
-> +	select GENERIC_PHY
-> +	select CDNS_MHDP_HELPER
-> +	help
-> +	  Enable this to support the Cadence HDPTX DP PHY driver
-> +	  on i.MX8MQ SOC.
-> +
->  endif
->=20
->  config PHY_FSL_LYNX_28G
-> diff --git a/drivers/phy/freescale/Makefile b/drivers/phy/freescale/Makef=
-ile
-> index cedb328bc4d28..47e5285209fa8 100644
-> --- a/drivers/phy/freescale/Makefile
-> +++ b/drivers/phy/freescale/Makefile
-> @@ -1,4 +1,5 @@
->  # SPDX-License-Identifier: GPL-2.0-only
-> +obj-$(CONFIG_PHY_FSL_IMX8MQ_DP)		+=3D phy-fsl-imx8mq-dp.o
->  obj-$(CONFIG_PHY_FSL_IMX8MQ_USB)	+=3D phy-fsl-imx8mq-usb.o
->  obj-$(CONFIG_PHY_MIXEL_LVDS_PHY)	+=3D phy-fsl-imx8qm-lvds-phy.o
->  obj-$(CONFIG_PHY_MIXEL_MIPI_DPHY)	+=3D phy-fsl-imx8-mipi-dphy.o
-> diff --git a/drivers/phy/freescale/phy-fsl-imx8mq-dp.c
-> b/drivers/phy/freescale/phy-fsl-imx8mq-dp.c new file mode 100644
-> index 0000000000000..5f0d7da16b422
-> --- /dev/null
-> +++ b/drivers/phy/freescale/phy-fsl-imx8mq-dp.c
-> @@ -0,0 +1,720 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Cadence HDP-TX Display Port Interface (DP) PHY driver
-> + *
-> + * Copyright (C) 2022, 2023 NXP Semiconductor, Inc.
-> + */
-> +#include <asm/unaligned.h>
-> +#include <drm/bridge/cdns-mhdp-helper.h>
-> +#include <linux/clk.h>
-> +#include <linux/kernel.h>
-> +#include <linux/phy/phy.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/io.h>
-> +#include <linux/iopoll.h>
-> +
-> +#define ADDR_PHY_AFE	0x80000
-> +
-> +/* PHY registers */
-> +#define CMN_SSM_BIAS_TMR			0x0022
-> +#define CMN_PLLSM0_PLLEN_TMR			0x0029
-> +#define CMN_PLLSM0_PLLPRE_TMR			0x002a
-> +#define CMN_PLLSM0_PLLVREF_TMR			0x002b
-> +#define CMN_PLLSM0_PLLLOCK_TMR			0x002c
-> +#define CMN_PLLSM0_USER_DEF_CTRL		0x002f
-> +#define CMN_PSM_CLK_CTRL			0x0061
-> +#define CMN_PLL0_VCOCAL_START			0x0081
-> +#define CMN_PLL0_VCOCAL_INIT_TMR		0x0084
-> +#define CMN_PLL0_VCOCAL_ITER_TMR		0x0085
-> +#define CMN_PLL0_INTDIV				0x0094
-> +#define CMN_PLL0_FRACDIV			0x0095
-> +#define CMN_PLL0_HIGH_THR			0x0096
-> +#define CMN_PLL0_DSM_DIAG			0x0097
-> +#define CMN_PLL0_SS_CTRL2			0x0099
-> +#define CMN_ICAL_INIT_TMR			0x00c4
-> +#define CMN_ICAL_ITER_TMR			0x00c5
-> +#define CMN_RXCAL_INIT_TMR			0x00d4
-> +#define CMN_RXCAL_ITER_TMR			0x00d5
-> +#define CMN_TXPUCAL_INIT_TMR			0x00e4
-> +#define CMN_TXPUCAL_ITER_TMR			0x00e5
-> +#define CMN_TXPDCAL_INIT_TMR			0x00f4
-> +#define CMN_TXPDCAL_ITER_TMR			0x00f5
-> +#define CMN_ICAL_ADJ_INIT_TMR			0x0102
-> +#define CMN_ICAL_ADJ_ITER_TMR			0x0103
-> +#define CMN_RX_ADJ_INIT_TMR			0x0106
-> +#define CMN_RX_ADJ_ITER_TMR			0x0107
-> +#define CMN_TXPU_ADJ_INIT_TMR			0x010a
-> +#define CMN_TXPU_ADJ_ITER_TMR			0x010b
-> +#define CMN_TXPD_ADJ_INIT_TMR			0x010e
-> +#define CMN_TXPD_ADJ_ITER_TMR			0x010f
-> +#define CMN_DIAG_PLL0_FBH_OVRD			0x01c0
-> +#define CMN_DIAG_PLL0_FBL_OVRD			0x01c1
-> +#define CMN_DIAG_PLL0_OVRD			0x01c2
-> +#define CMN_DIAG_PLL0_TEST_MODE			0x01c4
-> +#define CMN_DIAG_PLL0_V2I_TUNE			0x01c5
-> +#define CMN_DIAG_PLL0_CP_TUNE			0x01c6
-> +#define CMN_DIAG_PLL0_LF_PROG			0x01c7
-> +#define CMN_DIAG_PLL0_PTATIS_TUNE1		0x01c8
-> +#define CMN_DIAG_PLL0_PTATIS_TUNE2		0x01c9
-> +#define CMN_DIAG_HSCLK_SEL			0x01e0
-> +#define CMN_DIAG_PER_CAL_ADJ			0x01ec
-> +#define CMN_DIAG_CAL_CTRL			0x01ed
-> +#define CMN_DIAG_ACYA				0x01ff
-> +#define XCVR_PSM_RCTRL				0x4001
-> +#define XCVR_PSM_CAL_TMR			0x4002
-> +#define XCVR_PSM_A0IN_TMR			0x4003
-> +#define TX_TXCC_CAL_SCLR_MULT_0			0x4047
-> +#define TX_TXCC_CPOST_MULT_00_0			0x404c
-> +#define XCVR_DIAG_PLLDRC_CTRL			0x40e0
-> +#define XCVR_DIAG_PLLDRC_CTRL			0x40e0
-> +#define XCVR_DIAG_HSCLK_SEL			0x40e1
-> +#define XCVR_DIAG_LANE_FCM_EN_MGN_TMR		0x40f2
-> +#define TX_PSC_A0				0x4100
-> +#define TX_PSC_A1				0x4101
-> +#define TX_PSC_A2				0x4102
-> +#define TX_PSC_A3				0x4103
-> +#define TX_RCVDET_EN_TMR			0x4122
-> +#define TX_RCVDET_ST_TMR			0x4123
-> +#define TX_DIAG_BGREF_PREDRV_DELAY		0x41e7
-> +#define TX_DIAG_BGREF_PREDRV_DELAY		0x41e7
-> +#define TX_DIAG_ACYA_0				0x41ff
-> +#define TX_DIAG_ACYA_1				0x43ff
-> +#define TX_DIAG_ACYA_2				0x45ff
-> +#define TX_DIAG_ACYA_3				0x47ff
-> +#define TX_ANA_CTRL_REG_1			0x5020
-> +#define TX_ANA_CTRL_REG_2			0x5021
-> +#define TX_DIG_CTRL_REG_1			0x5023
-> +#define TX_DIG_CTRL_REG_2			0x5024
-> +#define TXDA_CYA_AUXDA_CYA			0x5025
-> +#define TX_ANA_CTRL_REG_3			0x5026
-> +#define TX_ANA_CTRL_REG_4			0x5027
-> +#define TX_ANA_CTRL_REG_5			0x5029
-> +#define RX_PSC_A0				0x8000
-> +#define RX_PSC_CAL				0x8006
-> +#define PHY_HDP_MODE_CTRL			0xc008
-> +#define PHY_HDP_CLK_CTL				0xc009
-> +#define PHY_PMA_CMN_CTRL1			0xc800
-> +
-> +/* PHY_PMA_CMN_CTRL1 */
-> +#define CMA_REF_CLK_SEL_MASK			GENMASK(6, 4)
-> +#define CMA_REF_CLK_RCV_EN_MASK			BIT(3)
-> +#define CMA_REF_CLK_RCV_EN			1
-> +
-> +/* PHY_HDP_CLK_CTL */
-> +#define PLL_DATA_RATE_CLK_DIV_MASK		GENMASK(15, 8)
-> +#define PLL_DATA_RATE_CLK_DIV_HBR		0x24
-> +#define PLL_DATA_RATE_CLK_DIV_HBR2		0x12
-> +#define PLL_CLK_EN_ACK				BIT(3)
-> +#define PLL_CLK_EN				BIT(2)
-> +#define PLL_READY				BIT(1)
-> +#define PLL_EN					BIT(0)
-> +
-> +/* CMN_DIAG_HSCLK_SEL */
-> +#define HSCLK1_SEL_MASK				GENMASK(5, 4)
-> +#define HSCLK0_SEL_MASK				GENMASK(1, 0)
-> +#define HSCLK_PLL0_DIV2				1
-> +
-> +/* XCVR_DIAG_HSCLK_SEL */
-> +#define HSCLK_SEL_MODE3_MASK			GENMASK(13, 12)
-> +#define HSCLK_SEL_MODE3_HSCLK1			1
-> +
-> +/* XCVR_DIAG_PLLDRC_CTRL */
-> +#define DPLL_CLK_SEL_MODE3			BIT(14)
-> +#define DPLL_DATA_RATE_DIV_MODE3_MASK		GENMASK(13, 12)
-> +
-> +/* PHY_HDP_MODE_CTRL */
-> +#define POWER_STATE_A3_ACK			BIT(7)
-> +#define POWER_STATE_A2_ACK			BIT(6)
-> +#define POWER_STATE_A1_ACK			BIT(5)
-> +#define POWER_STATE_A0_ACK			BIT(4)
-> +#define POWER_STATE_A3				BIT(3)
-> +#define POWER_STATE_A2				BIT(2)
-> +#define POWER_STATE_A1				BIT(1)
-> +#define POWER_STATE_A0				BIT(0)
-> +
-> +#define REF_CLK_27MHZ		27000000
-> +
-> +enum dp_link_rate {
-> +	RATE_1_6 =3D 162000,
-> +	RATE_2_1 =3D 216000,
-> +	RATE_2_4 =3D 243000,
-> +	RATE_2_7 =3D 270000,
-> +	RATE_3_2 =3D 324000,
-> +	RATE_4_3 =3D 432000,
-> +	RATE_5_4 =3D 540000,
-> +	RATE_8_1 =3D 810000,
+All the best,
+Karolina
 
-RATE_8_1 is unused.
-
-> +};
-> +
-> +#define MAX_LINK_RATE RATE_5_4
-> +
-> +struct phy_pll_reg {
-> +	u16 val[7];
-> +	u32 addr;
-> +};
-> +
-> +static const struct phy_pll_reg phy_pll_27m_cfg[] =3D {
-> +	/*  1.62    2.16    2.43    2.7     3.24    4.32    5.4     =20
-register
-> address */ +	{{ 0x010e, 0x010e, 0x010e, 0x010e, 0x010e, 0x010e, 0x010e=20
-},
-> CMN_PLL0_VCOCAL_INIT_TMR }, +	{{ 0x001b, 0x001b, 0x001b, 0x001b,=20
-0x001b,
-> 0x001b, 0x001b }, CMN_PLL0_VCOCAL_ITER_TMR }, +	{{ 0x30b9, 0x3087, 0x3096,
-> 0x30b4, 0x30b9, 0x3087, 0x30b4 }, CMN_PLL0_VCOCAL_START }, +	{{=20
-0x0077,
-> 0x009f, 0x00b3, 0x00c7, 0x0077, 0x009f, 0x00c7 }, CMN_PLL0_INTDIV }, +=09
-{{
-> 0xf9da, 0xf7cd, 0xf6c7, 0xf5c1, 0xf9da, 0xf7cd, 0xf5c1 }, CMN_PLL0_FRACDIV
-> }, +	{{ 0x001e, 0x0028, 0x002d, 0x0032, 0x001e, 0x0028, 0x0032 },
-> CMN_PLL0_HIGH_THR }, +	{{ 0x0020, 0x0020, 0x0020, 0x0020, 0x0020,=20
-0x0020,
-> 0x0020 }, CMN_PLL0_DSM_DIAG }, +	{{ 0x0000, 0x1000, 0x1000, 0x1000,=20
-0x0000,
-> 0x1000, 0x1000 }, CMN_PLLSM0_USER_DEF_CTRL }, +	{{ 0x0000, 0x0000, 0x0000,
-> 0x0000, 0x0000, 0x0000, 0x0000 }, CMN_DIAG_PLL0_OVRD }, +	{{ 0x0000,
-> 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000 }, CMN_DIAG_PLL0_FBH_OVRD =
-},
-> +	{{ 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000 },
-> CMN_DIAG_PLL0_FBL_OVRD }, +	{{ 0x0006, 0x0007, 0x0007, 0x0007, 0x0006,
-> 0x0007, 0x0007 }, CMN_DIAG_PLL0_V2I_TUNE }, +	{{ 0x0043, 0x0043, 0x0043,
-> 0x0042, 0x0043, 0x0043, 0x0042 }, CMN_DIAG_PLL0_CP_TUNE }, +	{{=20
-0x0008,
-> 0x0008, 0x0008, 0x0008, 0x0008, 0x0008, 0x0008 }, CMN_DIAG_PLL0_LF_PROG },
-> +	{{ 0x0100, 0x0001, 0x0001, 0x0001, 0x0100, 0x0001, 0x0001 },
-> CMN_DIAG_PLL0_PTATIS_TUNE1 }, +	{{ 0x0007, 0x0001, 0x0001, 0x0001,=20
-0x0007,
-> 0x0001, 0x0001 }, CMN_DIAG_PLL0_PTATIS_TUNE2 }, +	{{ 0x0020, 0x0020,
-> 0x0020, 0x0020, 0x0020, 0x0020, 0x0020 }, CMN_DIAG_PLL0_TEST_MODE}, +	{{
-> 0x0016, 0x0016, 0x0016, 0x0016, 0x0016, 0x0016, 0x0016 }, CMN_PSM_CLK_CTRL
-> } +};
-> +
-> +struct cdns_hdptx_dp_phy {
-> +	struct cdns_mhdp_base base;
-> +
-> +	void __iomem *regs;	/* DPTX registers base */
-> +	struct device *dev;
-> +	struct phy *phy;
-> +	struct mutex mbox_mutex;	/* mutex to protect mailbox */
-> +	struct clk *ref_clk, *apb_clk;
-> +	u32 ref_clk_rate;
-> +	u32 num_lanes;
-> +	u32 link_rate;
-> +	bool power_up;
-> +};
-> +
-> +static int cdns_phy_reg_write(struct cdns_hdptx_dp_phy *cdns_phy, u32 ad=
-dr,
-> u32 val) +{
-> +	return cdns_mhdp_reg_write(&cdns_phy->base, ADDR_PHY_AFE + (addr <<=20
-2),
-> val); +}
-> +
-> +static u32 cdns_phy_reg_read(struct cdns_hdptx_dp_phy *cdns_phy, u32 add=
-r)
-> +{
-> +	u32 reg32;
-> +
-> +	cdns_mhdp_reg_read(&cdns_phy->base, ADDR_PHY_AFE + (addr << 2),=20
-&reg32);
-> +	return reg32;
-> +}
-> +
-> +static int link_rate_index(u32 rate)
-> +{
-> +	switch (rate) {
-> +	case RATE_1_6:
-> +		return 0;
-> +	case RATE_2_1:
-> +		return 1;
-> +	case RATE_2_4:
-> +		return 2;
-> +	case RATE_2_7:
-> +		return 3;
-> +	case RATE_3_2:
-> +		return 4;
-> +	case RATE_4_3:
-> +		return 5;
-> +	case RATE_5_4:
-> +		return 6;
-> +	default:
-> +		return -1;
-> +	}
-> +}
-> +
-> +static int hdptx_dp_clk_enable(struct cdns_hdptx_dp_phy *cdns_phy)
-> +{
-> +	struct device *dev =3D cdns_phy->dev;
-> +	u32 ref_clk_rate;
-> +	int ret;
-> +
-> +	cdns_phy->ref_clk =3D devm_clk_get(dev, "ref");
-> +	if (IS_ERR(cdns_phy->ref_clk)) {
-> +		dev_err(dev, "phy ref clock not found\n");
-> +		return PTR_ERR(cdns_phy->ref_clk);
-> +	}
-> +
-> +	cdns_phy->apb_clk =3D devm_clk_get(dev, "apb");
-> +	if (IS_ERR(cdns_phy->apb_clk)) {
-> +		dev_err(dev, "phy apb clock not found\n");
-> +		return PTR_ERR(cdns_phy->apb_clk);
-> +	}
-> +
-> +	ret =3D clk_prepare_enable(cdns_phy->ref_clk);
-> +	if (ret) {
-> +		dev_err(cdns_phy->dev, "Failed to prepare ref clock\n");
-> +		return ret;
-> +	}
-> +
-> +	ref_clk_rate =3D clk_get_rate(cdns_phy->ref_clk);
-> +	if (!ref_clk_rate) {
-> +		dev_err(cdns_phy->dev, "Failed to get ref clock rate\n");
-> +		goto err_ref_clk;
-> +	}
-> +
-> +	if (ref_clk_rate =3D=3D REF_CLK_27MHZ) {
-> +		cdns_phy->ref_clk_rate =3D ref_clk_rate;
-> +	} else {
-> +		dev_err(cdns_phy->dev, "Not support Ref Clock Rate(%dHz)
-\n",
-> ref_clk_rate); +		goto err_ref_clk;
-> +	}
-> +
-> +	ret =3D clk_prepare_enable(cdns_phy->apb_clk);
-> +	if (ret) {
-> +		dev_err(cdns_phy->dev, "Failed to prepare apb clock\n");
-> +		goto err_ref_clk;
-> +	}
-> +
-> +	return 0;
-> +
-> +err_ref_clk:
-> +	clk_disable_unprepare(cdns_phy->ref_clk);
-> +	return -EINVAL;
-> +}
-> +
-> +static void hdptx_dp_clk_disable(struct cdns_hdptx_dp_phy *cdns_phy)
-> +{
-> +	clk_disable_unprepare(cdns_phy->ref_clk);
-> +	clk_disable_unprepare(cdns_phy->apb_clk);
-> +}
-> +
-> +static void hdptx_dp_aux_cfg(struct cdns_hdptx_dp_phy *cdns_phy)
-> +{
-> +	/* Power up Aux */
-> +	cdns_phy_reg_write(cdns_phy, TXDA_CYA_AUXDA_CYA, 1);
-> +
-> +	cdns_phy_reg_write(cdns_phy, TX_DIG_CTRL_REG_1, 0x3);
-> +	ndelay(150);
-> +	cdns_phy_reg_write(cdns_phy, TX_DIG_CTRL_REG_2, 36);
-> +	ndelay(150);
-> +	cdns_phy_reg_write(cdns_phy, TX_ANA_CTRL_REG_2, 0x0100);
-> +	ndelay(150);
-> +	cdns_phy_reg_write(cdns_phy, TX_ANA_CTRL_REG_2, 0x0300);
-> +	ndelay(150);
-> +	cdns_phy_reg_write(cdns_phy, TX_ANA_CTRL_REG_3, 0x0000);
-> +	ndelay(150);
-> +	cdns_phy_reg_write(cdns_phy, TX_ANA_CTRL_REG_1, 0x2008);
-> +	ndelay(150);
-> +	cdns_phy_reg_write(cdns_phy, TX_ANA_CTRL_REG_1, 0x2018);
-> +	ndelay(150);
-> +	cdns_phy_reg_write(cdns_phy, TX_ANA_CTRL_REG_1, 0xa018);
-> +	ndelay(150);
-> +	cdns_phy_reg_write(cdns_phy, TX_ANA_CTRL_REG_2, 0x030c);
-> +	ndelay(150);
-> +	cdns_phy_reg_write(cdns_phy, TX_ANA_CTRL_REG_5, 0x0000);
-> +	ndelay(150);
-> +	cdns_phy_reg_write(cdns_phy, TX_ANA_CTRL_REG_4, 0x1001);
-> +	ndelay(150);
-> +	cdns_phy_reg_write(cdns_phy, TX_ANA_CTRL_REG_1, 0xa098);
-> +	ndelay(150);
-> +	cdns_phy_reg_write(cdns_phy, TX_ANA_CTRL_REG_1, 0xa198);
-> +	ndelay(150);
-> +	cdns_phy_reg_write(cdns_phy, TX_ANA_CTRL_REG_2, 0x030d);
-> +	ndelay(150);
-> +	cdns_phy_reg_write(cdns_phy, TX_ANA_CTRL_REG_2, 0x030f);
-> +}
-> +
-> +/* PMA common configuration for 27MHz */
-> +static void hdptx_dp_phy_pma_cmn_cfg_27mhz(struct cdns_hdptx_dp_phy
-> *cdns_phy) +{
-> +	u32 num_lanes =3D cdns_phy->num_lanes;
-> +	u16 val;
-> +	int k;
-> +
-> +	/* Enable PMA input ref clk(CMN_REF_CLK_RCV_EN) */
-> +	val =3D cdns_phy_reg_read(cdns_phy, PHY_PMA_CMN_CTRL1);
-> +	val &=3D ~CMA_REF_CLK_RCV_EN_MASK;
-> +	val |=3D FIELD_PREP(CMA_REF_CLK_RCV_EN_MASK, CMA_REF_CLK_RCV_EN);
-> +	cdns_phy_reg_write(cdns_phy, PHY_PMA_CMN_CTRL1, val);
-> +
-> +	/* Startup state machine registers */
-> +	cdns_phy_reg_write(cdns_phy, CMN_SSM_BIAS_TMR, 0x0087);
-> +	cdns_phy_reg_write(cdns_phy, CMN_PLLSM0_PLLEN_TMR, 0x001b);
-> +	cdns_phy_reg_write(cdns_phy, CMN_PLLSM0_PLLPRE_TMR, 0x0036);
-> +	cdns_phy_reg_write(cdns_phy, CMN_PLLSM0_PLLVREF_TMR, 0x001b);
-> +	cdns_phy_reg_write(cdns_phy, CMN_PLLSM0_PLLLOCK_TMR, 0x006c);
-> +
-> +	/* Current calibration registers */
-> +	cdns_phy_reg_write(cdns_phy, CMN_ICAL_INIT_TMR, 0x0044);
-> +	cdns_phy_reg_write(cdns_phy, CMN_ICAL_ITER_TMR, 0x0006);
-> +	cdns_phy_reg_write(cdns_phy, CMN_ICAL_ADJ_INIT_TMR, 0x0022);
-> +	cdns_phy_reg_write(cdns_phy, CMN_ICAL_ADJ_ITER_TMR, 0x0006);
-> +
-> +	/* Resistor calibration registers */
-> +	cdns_phy_reg_write(cdns_phy, CMN_TXPUCAL_INIT_TMR, 0x0022);
-> +	cdns_phy_reg_write(cdns_phy, CMN_TXPUCAL_ITER_TMR, 0x0006);
-> +	cdns_phy_reg_write(cdns_phy, CMN_TXPU_ADJ_INIT_TMR, 0x0022);
-> +	cdns_phy_reg_write(cdns_phy, CMN_TXPU_ADJ_ITER_TMR, 0x0006);
-> +	cdns_phy_reg_write(cdns_phy, CMN_TXPDCAL_INIT_TMR, 0x0022);
-> +	cdns_phy_reg_write(cdns_phy, CMN_TXPDCAL_ITER_TMR, 0x0006);
-> +	cdns_phy_reg_write(cdns_phy, CMN_TXPD_ADJ_INIT_TMR, 0x0022);
-> +	cdns_phy_reg_write(cdns_phy, CMN_TXPD_ADJ_ITER_TMR, 0x0006);
-> +	cdns_phy_reg_write(cdns_phy, CMN_RXCAL_INIT_TMR, 0x0022);
-> +	cdns_phy_reg_write(cdns_phy, CMN_RXCAL_ITER_TMR, 0x0006);
-> +	cdns_phy_reg_write(cdns_phy, CMN_RX_ADJ_INIT_TMR, 0x0022);
-> +	cdns_phy_reg_write(cdns_phy, CMN_RX_ADJ_ITER_TMR, 0x0006);
-> +
-> +	for (k =3D 0; k < num_lanes; k =3D k + 1) {
-> +		/* Power state machine registers */
-> +		cdns_phy_reg_write(cdns_phy, XCVR_PSM_CAL_TMR  | (k << 9),=20
-0x016d);
-> +		cdns_phy_reg_write(cdns_phy, XCVR_PSM_A0IN_TMR | (k << 9),=20
-0x016d);
-> +		/* Transceiver control and diagnostic registers */
-> +		cdns_phy_reg_write(cdns_phy, XCVR_DIAG_LANE_FCM_EN_MGN_TMR=20
-| (k << 9),
-> 0x00a2); +		cdns_phy_reg_write(cdns_phy,=20
-TX_DIAG_BGREF_PREDRV_DELAY | (k <<
-> 9), 0x0097); +		/* Transmitter receiver detect registers */
-> +		cdns_phy_reg_write(cdns_phy, TX_RCVDET_EN_TMR | (k << 9),=20
-0x0a8c);
-> +		cdns_phy_reg_write(cdns_phy, TX_RCVDET_ST_TMR | (k << 9),=20
-0x0036);
-> +	}
-> +
-> +	cdns_phy_reg_write(cdns_phy, TX_DIAG_ACYA_0, 1);
-> +	cdns_phy_reg_write(cdns_phy, TX_DIAG_ACYA_1, 1);
-> +	cdns_phy_reg_write(cdns_phy, TX_DIAG_ACYA_2, 1);
-> +	cdns_phy_reg_write(cdns_phy, TX_DIAG_ACYA_3, 1);
-> +}
-> +
-> +static void hdptx_dp_phy_pma_cmn_pll0_27mhz(struct cdns_hdptx_dp_phy
-> *cdns_phy) +{
-> +	u32 num_lanes =3D cdns_phy->num_lanes;
-> +	u32 link_rate =3D cdns_phy->link_rate;
-> +	u16 val;
-> +	int index, i, k;
-> +
-> +	/* DP PLL data rate 0/1 clock divider value */
-> +	val =3D cdns_phy_reg_read(cdns_phy, PHY_HDP_CLK_CTL);
-> +	val &=3D ~PLL_DATA_RATE_CLK_DIV_MASK;
-> +	if (link_rate <=3D RATE_2_7)
-> +		val |=3D FIELD_PREP(PLL_DATA_RATE_CLK_DIV_MASK,
-> +				  PLL_DATA_RATE_CLK_DIV_HBR);
-> +	else
-> +		val |=3D FIELD_PREP(PLL_DATA_RATE_CLK_DIV_MASK,
-> +				  PLL_DATA_RATE_CLK_DIV_HBR2);
-> +	cdns_phy_reg_write(cdns_phy, PHY_HDP_CLK_CTL, val);
-> +
-> +	/* High speed clock 0/1 div */
-> +	val =3D cdns_phy_reg_read(cdns_phy, CMN_DIAG_HSCLK_SEL);
-> +	val &=3D ~(HSCLK1_SEL_MASK | HSCLK0_SEL_MASK);
-> +	if (link_rate <=3D RATE_2_7) {
-> +		val |=3D FIELD_PREP(HSCLK1_SEL_MASK, HSCLK_PLL0_DIV2);
-> +		val |=3D FIELD_PREP(HSCLK0_SEL_MASK, HSCLK_PLL0_DIV2);
-> +	}
-> +	cdns_phy_reg_write(cdns_phy, CMN_DIAG_HSCLK_SEL, val);
-> +
-> +	for (k =3D 0; k < num_lanes; k++) {
-> +		val =3D cdns_phy_reg_read(cdns_phy, (XCVR_DIAG_HSCLK_SEL |=20
-(k << 9)));
-> +		val &=3D ~HSCLK_SEL_MODE3_MASK;
-> +		if (link_rate <=3D RATE_2_7)
-> +			val |=3D FIELD_PREP(HSCLK_SEL_MODE3_MASK,=20
-HSCLK_SEL_MODE3_HSCLK1);
-> +		cdns_phy_reg_write(cdns_phy, (XCVR_DIAG_HSCLK_SEL | (k <<=20
-9)), val);
-> +	}
-> +
-> +	/* DP PHY PLL 27MHz configuration */
-> +	index =3D link_rate_index(link_rate);
-> +	for (i =3D 0; i < ARRAY_SIZE(phy_pll_27m_cfg); i++)
-> +		cdns_phy_reg_write(cdns_phy, phy_pll_27m_cfg[i].addr,
-> +				   phy_pll_27m_cfg[i].val[index]);
-> +
-> +	/* Transceiver control and diagnostic registers */
-> +	for (k =3D 0; k < num_lanes; k++) {
-> +		val =3D cdns_phy_reg_read(cdns_phy, (XCVR_DIAG_PLLDRC_CTRL |=20
-(k << 9)));
-> +		val &=3D ~(DPLL_DATA_RATE_DIV_MODE3_MASK |=20
-DPLL_CLK_SEL_MODE3);
-> +		if (link_rate <=3D RATE_2_7)
-> +			val |=3D FIELD_PREP(DPLL_DATA_RATE_DIV_MODE3_MASK,=20
-2);
-> +		else
-> +			val |=3D FIELD_PREP(DPLL_DATA_RATE_DIV_MODE3_MASK,=20
-1);
-> +		cdns_phy_reg_write(cdns_phy, (XCVR_DIAG_PLLDRC_CTRL | (k=20
-<< 9)), val);
-> +	}
-> +
-> +	for (k =3D 0; k < num_lanes; k =3D k + 1) {
-> +		/* Power state machine registers */
-> +		cdns_phy_reg_write(cdns_phy, (XCVR_PSM_RCTRL | (k << 9)),=20
-0xbefc);
-> +		cdns_phy_reg_write(cdns_phy, (TX_PSC_A0 | (k << 9)),=20
-0x6799);
-> +		cdns_phy_reg_write(cdns_phy, (TX_PSC_A1 | (k << 9)),=20
-0x6798);
-> +		cdns_phy_reg_write(cdns_phy, (TX_PSC_A2 | (k << 9)),=20
-0x0098);
-> +		cdns_phy_reg_write(cdns_phy, (TX_PSC_A3 | (k << 9)),=20
-0x0098);
-> +		/* Receiver calibration power state definition register */
-> +		val =3D cdns_phy_reg_read(cdns_phy, RX_PSC_CAL | (k << 9));
-> +		val &=3D 0xffbb;
-> +		cdns_phy_reg_write(cdns_phy, (RX_PSC_CAL | (k << 9)),=20
-val);
-> +		val =3D cdns_phy_reg_read(cdns_phy, RX_PSC_A0 | (k << 9));
-> +		val &=3D 0xffbb;
-> +		cdns_phy_reg_write(cdns_phy, (RX_PSC_A0 | (k << 9)), val);
-> +	}
-> +}
-> +
-> +static void hdptx_dp_phy_ref_clock_type(struct cdns_hdptx_dp_phy *cdns_p=
-hy)
-> +{
-> +	u32 val;
-> +
-> +	val =3D cdns_phy_reg_read(cdns_phy, PHY_PMA_CMN_CTRL1);
-> +	val &=3D ~CMA_REF_CLK_SEL_MASK;
-> +	/*
-> +	 * single ended reference clock (val |=3D 0x0030);
-> +	 * differential clock  (val |=3D 0x0000);
-> +	 *
-> +	 * for differential clock on the refclk_p and
-> +	 * refclk_m off chip pins: CMN_DIAG_ACYA[8]=3D1'b1
-> +	 * cdns_phy_reg_write(cdns_phy, CMN_DIAG_ACYA, 0x0100);
-> +	 */
-> +	val |=3D FIELD_PREP(CMA_REF_CLK_SEL_MASK, 3);
-> +	cdns_phy_reg_write(cdns_phy, PHY_PMA_CMN_CTRL1, val);
-> +}
-> +
-> +static int wait_for_ack(struct cdns_hdptx_dp_phy *cdns_phy, u32 reg, u32
-> mask, +			const char *err_msg)
-> +{
-> +	u32 val, i;
-> +
-> +	for (i =3D 0; i < 10; i++) {
-> +		val =3D cdns_phy_reg_read(cdns_phy, reg);
-> +		if (val & mask)
-> +			return 0;
-> +		msleep(20);
-> +	}
-> +
-> +	dev_err(cdns_phy->dev, "%s\n", err_msg);
-> +	return -1;
-
-return -ETIMEDOUT?
-
-> +}
-> +
-> +static int wait_for_ack_clear(struct cdns_hdptx_dp_phy *cdns_phy, u32 re=
-g,
-> u32 mask, +			      const char *err_msg)
-> +{
-> +	u32 val, i;
-> +
-> +	for (i =3D 0; i < 10; i++) {
-> +		val =3D cdns_phy_reg_read(cdns_phy, reg);
-> +		if (!(val & mask))
-> +			return 0;
-> +		msleep(20);
-> +	}
-> +
-> +	dev_err(cdns_phy->dev, "%s\n", err_msg);
-> +	return -1;
-
-return -ETIMEDOUT?
-
-> +}
-> +
-> +static int hdptx_dp_phy_power_up(struct cdns_hdptx_dp_phy *cdns_phy)
-> +{
-> +	u32 val;
-> +
-> +	/* Enable HDP PLL=E2=80=99s for high speed clocks */
-> +	val =3D cdns_phy_reg_read(cdns_phy, PHY_HDP_CLK_CTL);
-> +	val |=3D PLL_EN;
-> +	cdns_phy_reg_write(cdns_phy, PHY_HDP_CLK_CTL, val);
-> +	if (wait_for_ack(cdns_phy, PHY_HDP_CLK_CTL, PLL_READY,
-> +			 "Wait PLL Ack failed"))
-> +		return -1;
-> +
-> +	/* Enable HDP PLL=E2=80=99s data rate and full rate clocks out of PMA. =
-*/
-> +	val =3D cdns_phy_reg_read(cdns_phy, PHY_HDP_CLK_CTL);
-> +	val |=3D PLL_CLK_EN;
-> +	cdns_phy_reg_write(cdns_phy, PHY_HDP_CLK_CTL, val);
-> +	if (wait_for_ack(cdns_phy, PHY_HDP_CLK_CTL, PLL_CLK_EN_ACK,
-> +			 "Wait PLL clock enable ACK failed"))
-> +		return -1;
-> +
-> +	/* Configure PHY in A2 Mode */
-> +	cdns_phy_reg_write(cdns_phy, PHY_HDP_MODE_CTRL, POWER_STATE_A2);
-> +	if (wait_for_ack(cdns_phy, PHY_HDP_MODE_CTRL, POWER_STATE_A2_ACK,
-> +			 "Wait A2 Ack failed"))
-> +		return -1;
-> +
-> +	/* Configure PHY in A0 mode (PHY must be in the A0 power
-> +	 * state in order to transmit data)
-> +	 */
-> +	cdns_phy_reg_write(cdns_phy, PHY_HDP_MODE_CTRL, POWER_STATE_A0);
-> +	if (wait_for_ack(cdns_phy, PHY_HDP_MODE_CTRL, POWER_STATE_A0_ACK,
-> +			 "Wait A0 Ack failed"))
-> +		return -1;
-
-Maybe you should just return the return value of wait_for_ack() in each err=
-or=20
-case.
-
-> +	cdns_phy->power_up =3D true;
-> +
-> +	return 0;
-> +}
-> +
-> +static void hdptx_dp_phy_power_down(struct cdns_hdptx_dp_phy *cdns_phy)
-> +{
-> +	u16 val;
-> +
-> +	if (!cdns_phy->power_up)
-> +		return;
-> +
-> +	/* Place the PHY lanes in the A3 power state. */
-> +	cdns_phy_reg_write(cdns_phy, PHY_HDP_MODE_CTRL, POWER_STATE_A3);
-> +	if (wait_for_ack(cdns_phy, PHY_HDP_MODE_CTRL, POWER_STATE_A3_ACK,
-> +			 "Wait A3 Ack failed"))
-> +		return;
-> +
-> +	/* Disable HDP PLL=E2=80=99s data rate and full rate clocks out of PMA.=
- */
-> +	val =3D cdns_phy_reg_read(cdns_phy, PHY_HDP_CLK_CTL);
-> +	val &=3D ~PLL_CLK_EN;
-> +	cdns_phy_reg_write(cdns_phy, PHY_HDP_CLK_CTL, val);
-> +	if (wait_for_ack_clear(cdns_phy, PHY_HDP_CLK_CTL, PLL_CLK_EN_ACK,
-> +			       "Wait PLL clock Ack clear failed"))
-> +		return;
-> +
-> +	/* Disable HDP PLL=E2=80=99s for high speed clocks */
-> +	val =3D cdns_phy_reg_read(cdns_phy, PHY_HDP_CLK_CTL);
-> +	val &=3D ~PLL_EN;
-> +	cdns_phy_reg_write(cdns_phy, PHY_HDP_CLK_CTL, val);
-> +	if (wait_for_ack_clear(cdns_phy, PHY_HDP_CLK_CTL, PLL_READY,
-> +			       "Wait PLL Ack clear failed"))
-> +		return;
-
-I would have expected cdns_phy->power_up =3D false somewhere in this functi=
-on.
-
-> +}
-> +
-> +static int cdns_hdptx_dp_phy_on(struct phy *phy)
-> +{
-> +	struct cdns_hdptx_dp_phy *cdns_phy =3D phy_get_drvdata(phy);
-> +
-> +	return hdptx_dp_phy_power_up(cdns_phy);
-> +}
-> +
-> +static int cdns_hdptx_dp_phy_off(struct phy *phy)
-> +{
-> +	struct cdns_hdptx_dp_phy *cdns_phy =3D phy_get_drvdata(phy);
-> +
-> +	hdptx_dp_phy_power_down(cdns_phy);
-> +
-> +	return 0;
-> +}
-> +
-> +static int cdns_hdptx_dp_phy_init(struct phy *phy)
-> +{
-> +	struct cdns_hdptx_dp_phy *cdns_phy =3D phy_get_drvdata(phy);
-> +	int ret;
-> +
-> +	hdptx_dp_phy_ref_clock_type(cdns_phy);
-> +
-> +	/* PHY power up */
-> +	ret =3D hdptx_dp_phy_power_up(cdns_phy);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	hdptx_dp_aux_cfg(cdns_phy);
-> +
-> +	return ret;
-> +}
-> +
-> +static int cdns_hdptx_dp_configure(struct phy *phy,
-> +				   union phy_configure_opts *opts)
-> +{
-> +	struct cdns_hdptx_dp_phy *cdns_phy =3D phy_get_drvdata(phy);
-> +	int ret;
-> +
-> +	cdns_phy->link_rate =3D opts->dp.link_rate;
-> +	cdns_phy->num_lanes =3D opts->dp.lanes;
-> +
-> +	if (cdns_phy->link_rate > MAX_LINK_RATE) {
-> +		dev_err(cdns_phy->dev, "Link Rate(%d) Not supported\n",
-> cdns_phy->link_rate); +		return false;
-> +	}
-> +
-> +	/* Disable phy clock if PHY in power up state */
-> +	hdptx_dp_phy_power_down(cdns_phy);
-> +
-> +	if (cdns_phy->ref_clk_rate =3D=3D REF_CLK_27MHZ) {
-> +		hdptx_dp_phy_pma_cmn_cfg_27mhz(cdns_phy);
-> +		hdptx_dp_phy_pma_cmn_pll0_27mhz(cdns_phy);
-> +	} else {
-> +		dev_err(cdns_phy->dev, "Not support ref clock rate\n");
-> +	}
-> +
-> +	/* PHY power up */
-> +	ret =3D hdptx_dp_phy_power_up(cdns_phy);
-> +
-> +	return ret;
-> +}
-> +
-> +static const struct phy_ops cdns_hdptx_dp_phy_ops =3D {
-> +	.init =3D cdns_hdptx_dp_phy_init,
-> +	.configure =3D cdns_hdptx_dp_configure,
-> +	.power_on =3D cdns_hdptx_dp_phy_on,
-> +	.power_off =3D cdns_hdptx_dp_phy_off,
-> +	.owner =3D THIS_MODULE,
-> +};
-> +
-> +static int cdns_hdptx_dp_phy_probe(struct platform_device *pdev)
-> +{
-> +	struct cdns_hdptx_dp_phy *cdns_phy;
-> +	struct device *dev =3D &pdev->dev;
-> +	struct device_node *node =3D dev->of_node;
-> +	struct phy_provider *phy_provider;
-> +	struct resource *res;
-> +	struct phy *phy;
-> +	int ret;
-> +
-> +	cdns_phy =3D devm_kzalloc(dev, sizeof(*cdns_phy), GFP_KERNEL);
-> +	if (!cdns_phy)
-> +		return -ENOMEM;
-> +
-> +	dev_set_drvdata(dev, cdns_phy);
-> +	cdns_phy->dev =3D dev;
-> +	mutex_init(&cdns_phy->mbox_mutex);
-> +
-> +	res =3D platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> +	if (!res)
-> +		return -ENODEV;
-> +	cdns_phy->regs =3D devm_ioremap(dev, res->start, resource_size(res));
-> +	if (IS_ERR(cdns_phy->regs))
-> +		return PTR_ERR(cdns_phy->regs);
-> +
-> +	phy =3D devm_phy_create(dev, node, &cdns_hdptx_dp_phy_ops);
-> +	if (IS_ERR(phy))
-> +		return PTR_ERR(phy);
-> +
-> +	phy->attrs.mode =3D PHY_MODE_DP;
-> +	cdns_phy->phy =3D phy;
-> +	phy_set_drvdata(phy, cdns_phy);
-> +
-> +	/* init base struct for access mhdp mailbox */
-> +	cdns_phy->base.dev =3D cdns_phy->dev;
-> +	cdns_phy->base.regs =3D cdns_phy->regs;
-> +	cdns_phy->base.mbox_mutex =3D &cdns_phy->mbox_mutex;
-
-How is this mutex supposed to work? From the name cdns_phy->base.mbox_mutex=
- is=20
-supposed to protect the mailbox access in the cdns-mhdp base, right?
-But this mutex is different, initialized separately and thus is independent=
-=20
-from mhdp->mbox_mutex in cdns-mhdp8501-core.c.
-
-Best regards,
-Alexander
-
-> +
-> +	ret =3D hdptx_dp_clk_enable(cdns_phy);
-> +	if (ret) {
-> +		dev_err(dev, "Init clk fail\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	phy_provider =3D devm_of_phy_provider_register(dev,=20
-of_phy_simple_xlate);
-> +	if (IS_ERR(phy_provider)) {
-> +		ret =3D PTR_ERR(phy_provider);
-> +		goto clk_disable;
-> +	}
-> +
-> +	return 0;
-> +
-> +clk_disable:
-> +	hdptx_dp_clk_disable(cdns_phy);
-> +
-> +	return -EINVAL;
-> +}
-> +
-> +static int cdns_hdptx_dp_phy_remove(struct platform_device *pdev)
-> +{
-> +	struct cdns_hdptx_dp_phy *cdns_phy =3D platform_get_drvdata(pdev);
-> +
-> +	hdptx_dp_clk_disable(cdns_phy);
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct of_device_id cdns_hdptx_dp_phy_of_match[] =3D {
-> +	{.compatible =3D "fsl,imx8mq-dp-phy" },
-> +	{ /* sentinel */ }
-> +};
-> +MODULE_DEVICE_TABLE(of, cdns_hdptx_dp_phy_of_match);
-> +
-> +static struct platform_driver cdns_hdptx_dp_phy_driver =3D {
-> +	.probe =3D cdns_hdptx_dp_phy_probe,
-> +	.remove =3D cdns_hdptx_dp_phy_remove,
-> +	.driver =3D {
-> +		.name	=3D "cdns-hdptx-dp-phy",
-> +		.of_match_table	=3D cdns_hdptx_dp_phy_of_match,
-> +	}
-> +};
-> +module_platform_driver(cdns_hdptx_dp_phy_driver);
-> +
-> +MODULE_AUTHOR("Sandor Yu <sandor.yu@nxp.com>");
-> +MODULE_DESCRIPTION("Cadence HDP-TX DisplayPort PHY driver");
-> +MODULE_LICENSE("GPL");
-
-
-=2D-=20
-TQ-Systems GmbH | M=C3=BChlstra=C3=9Fe 2, Gut Delling | 82229 Seefeld, Germ=
-any
-Amtsgericht M=C3=BCnchen, HRB 105018
-Gesch=C3=A4ftsf=C3=BChrer: Detlef Schneider, R=C3=BCdiger Stahl, Stefan Sch=
-neider
-http://www.tq-group.com/
-
-
+> 
+> Christian.
+> 
+>>
+>> Many thanks,
+>> Karolina
+>>
+>>>
+>>> Thanks,
+>>> Christian.
+>>>
+>>>>
+>>>> Regards,
+>>>> S.Amarnath
+>>>>> All the best,
+>>>>> Karolina
+>>>>>
+>>>>>>
+>>>>>> Regards,
+>>>>>> S.Amarnath
+>>>>>>> Many thanks,
+>>>>>>> Karolina
+>>>>>>>
+>>>>>>> v5:
+>>>>>>>    - Actually use the page_flags parameter in ttm_tt_simple_create()
+>>>>>>>
+>>>>>>> v4:
+>>>>>>>    - First unreserve the object before calling ww_acquire_fini() in
+>>>>>>>      ttm_bo_reserve_double_resv subtest
+>>>>>>>    - Silence lockdep in ttm_bo_reserve_deadlock subtest (open to 
+>>>>>>> suggestions
+>>>>>>>      how to fix it in a different way)
+>>>>>>>    - Use a genuine GEM object in ttm_buffer_object instead of an 
+>>>>>>> empty one
+>>>>>>>
+>>>>>>> v3:
+>>>>>>>    - Instead of modifying the main TTM Makefile, use
+>>>>>>>      EXPORT_SYMBOL_FOR_TESTS_ONLY() macro for symbols that are 
+>>>>>>> tested but
+>>>>>>>      not widely exported. Thanks to this change, TTM tests can be 
+>>>>>>> built
+>>>>>>>      as modules, even when non-exported functions are used
+>>>>>>>    - Change the description of a patch that fixes 
+>>>>>>> ttm_pool_pre_populated()
+>>>>>>>
+>>>>>>> v2:
+>>>>>>>    - Remove Makefile for KUnit tests and move the definitions to the
+>>>>>>>      TTM's one
+>>>>>>>    - Switch on CONFIG_DRM_TTM_KUNIT_TEST=m so the tests and TTM 
+>>>>>>> module
+>>>>>>>      are built as one. This allows building the tests as a 
+>>>>>>> module, even
+>>>>>>>      if it uses functions that are not exported
+>>>>>>>    - Fix ttm_pool_pre_populated(); a wrong flag was passed to
+>>>>>>>      ttm_tt_kunit_init() function
+>>>>>>>
+>>>>>>> Karolina Stolarek (4):
+>>>>>>>    drm/ttm/tests: Add tests for ttm_resource and ttm_sys_man
+>>>>>>>    drm/ttm/tests: Add tests for ttm_tt
+>>>>>>>    drm/ttm/tests: Add tests for ttm_bo functions
+>>>>>>>    drm/ttm/tests: Fix argument in ttm_tt_kunit_init()
+>>>>>>>
+>>>>>>>   drivers/gpu/drm/ttm/tests/Makefile            |   3 +
+>>>>>>>   drivers/gpu/drm/ttm/tests/ttm_bo_test.c       | 619 
+>>>>>>> ++++++++++++++++++
+>>>>>>>   drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c |  51 +-
+>>>>>>>   drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.h |   4 +
+>>>>>>>   drivers/gpu/drm/ttm/tests/ttm_pool_test.c     |   3 +-
+>>>>>>>   drivers/gpu/drm/ttm/tests/ttm_resource_test.c | 335 ++++++++++
+>>>>>>>   drivers/gpu/drm/ttm/tests/ttm_tt_test.c       | 295 +++++++++
+>>>>>>>   drivers/gpu/drm/ttm/ttm_resource.c            |   3 +
+>>>>>>>   drivers/gpu/drm/ttm/ttm_tt.c                  |   3 +
+>>>>>>>   9 files changed, 1313 insertions(+), 3 deletions(-)
+>>>>>>>   create mode 100644 drivers/gpu/drm/ttm/tests/ttm_bo_test.c
+>>>>>>>   create mode 100644 drivers/gpu/drm/ttm/tests/ttm_resource_test.c
+>>>>>>>   create mode 100644 drivers/gpu/drm/ttm/tests/ttm_tt_test.c
+>>>>>>>
+>>>
+> 
