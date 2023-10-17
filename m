@@ -1,61 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEE747CC4B2
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Oct 2023 15:22:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 268417CC515
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Oct 2023 15:47:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 51F3610E2FA;
-	Tue, 17 Oct 2023 13:22:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A66610E2FC;
+	Tue, 17 Oct 2023 13:47:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc2a.google.com (mail-oo1-xc2a.google.com
- [IPv6:2607:f8b0:4864:20::c2a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EBDF710E2FA;
- Tue, 17 Oct 2023 13:22:16 +0000 (UTC)
-Received: by mail-oo1-xc2a.google.com with SMTP id
- 006d021491bc7-57ddde51033so3434166eaf.1; 
- Tue, 17 Oct 2023 06:22:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1697548936; x=1698153736; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Iu05MGWPD0utxhshrOX9Vp8nu3FivASq6+WhFfzoo4Y=;
- b=jjPN/ODNjssG/ue/uFWEODBbjnDnoe+Z/LS2W4fbjPpO6dTEQ/PTYc4qsrhY5CgoWd
- ZNl023w2+wvBs7pBaaw/ARHKRG7iCt2APTGhjU3wOjNbKFcgSHmerp37p0elcNeTdkWv
- q5gwSU8wLPYnJrhm8rdJ6TrqkJB8SWPQ7oh55eKduIRvUc9XixaF/m5oDm8x4V2YHBkb
- SQ9GnOI6hNstM7dRbDGtrTZZb+UWfBexfuU5OMhuo12FbuRkyrXUfZKbQkioTfw+BXHI
- lpUeG4oPwQJDvJIL+y1oae7vk/Fdt9boOAJMXpjg4i92fOzh8RMrgasNrCzo/Y1iL+/1
- xmbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1697548936; x=1698153736;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Iu05MGWPD0utxhshrOX9Vp8nu3FivASq6+WhFfzoo4Y=;
- b=L4CAziqDcQWfInnGN3zTAfzAA5eLokpov46GtSsbh8iVbFnTHpXdwEbrX84yXARyVx
- yPB/J/sTeA2sYeF+Ussms+MTWM38m4/ttVg+iJmqnLBVM5iSO6Q841tHU/juq+nTKVcG
- o5KIsW91jNv88qA1N8Gn3+aMbVSAsClKoOlOC1Mhh2hrNKodFJbpJ4E5CGQQaeu+2rSN
- oAb+CoQWZsZFMyM6jTy8hY3W3z6SPswE9MrFeFxzWvLAus8O9HWl1UuCkyuE5AHGjyF4
- afLjSqxacWGqa27S1lSge0iYDgTYPYzvNgE6Z+8Z13kZ5Hn1nan0CmyylWn5ZzVooBmh
- M+XQ==
-X-Gm-Message-State: AOJu0Yxje8tjMxbZJSHIIwfBdgJ/Xr1CUuYyKW+zzOSQEv8kbfz4pBT9
- mAronxVm6GDuE291uztRyiqzMQCqQRjawsn/yzybPS2u
-X-Google-Smtp-Source: AGHT+IGWvDBEWgZr9kN5nYsb8FZqXEv/8H6URPEYn+xbBf62G50QbAAVdtKT75sp1ilhtVSO4hzMVOZoW6R6QTn2OEI=
-X-Received: by 2002:a05:6870:b487:b0:1e9:7912:3bd9 with SMTP id
- y7-20020a056870b48700b001e979123bd9mr1074656oap.9.1697548936093; Tue, 17 Oct
- 2023 06:22:16 -0700 (PDT)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2FD8310E120;
+ Tue, 17 Oct 2023 13:47:20 +0000 (UTC)
+Received: from [192.168.68.129] (unknown [177.157.225.233])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: koike)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 0158C6600B9D;
+ Tue, 17 Oct 2023 14:47:13 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1697550438;
+ bh=jCVW1RR4PJJtpiEVfWsrTAQK/lcdPg1UkhJKpgu/4+A=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=UxN9OL7/sS9vJgrxc2JLoiBY8cEN0o1m5R78XcQeZRj0WbRn6Jviw2jolN4i1LGX+
+ xt5Oj1jW6bskn6i+EjjkhTHzDp0QP7sAY7HF4jilyl5gb8qsufpRo8yb4xmDdLMlwc
+ m9sOh+/ynseJg01TKZWZkcJAspW9NrwbIK2PNvX/I1ouP3qJB6xmcUO9ygVEvMhlp5
+ Y0ZhZfb2LnbUNDJ/EJQ6BbOLJPyMRImkdDrAUy09y+iz32Ty9oisrK3TTFFIgcczpK
+ NjNWQb9TlKBOHodGZCpmnEjY3vTzwpBnQvjj4ylE0Jc3ToWv6u6vqTRYKHyVEpAW7p
+ rJnOllZ4+LE+w==
+Message-ID: <d724ea14-bd35-4f02-88c2-f691691b0376@collabora.com>
+Date: Tue, 17 Oct 2023 10:47:08 -0300
 MIME-Version: 1.0
-References: <20231017035656.8211-1-luben.tuikov@amd.com>
-In-Reply-To: <20231017035656.8211-1-luben.tuikov@amd.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 17 Oct 2023 09:22:05 -0400
-Message-ID: <CADnq5_NyhWLmSbtmeaHv7RRXhEc+C4XTPZ-U57zrpw3N3nObCg@mail.gmail.com>
-Subject: Re: [PATCH 1/2] drm/amdgpu: Unset context priority is now invalid
-To: Luben Tuikov <luben.tuikov@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 0/6] drm: Add support for atomic async page-flip
+To: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20231017092837.32428-1-andrealmeid@igalia.com>
+Content-Language: en-US
+From: Helen Koike <helen.koike@collabora.com>
+In-Reply-To: <20231017092837.32428-1-andrealmeid@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,61 +54,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <Alexander.Deucher@amd.com>,
- Direct Rendering Infrastructure - Development
- <dri-devel@lists.freedesktop.org>,
- AMD Graphics <amd-gfx@lists.freedesktop.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: pierre-eric.pelloux-prayer@amd.com,
+ =?UTF-8?B?J01hcmVrIE9sxaHDoWsn?= <maraeo@gmail.com>,
+ =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
+ Randy Dunlap <rdunlap@infradead.org>, Pekka Paalanen <ppaalanen@gmail.com>,
+ kernel-dev@igalia.com, alexander.deucher@amd.com, hwentlan@amd.com,
+ christian.koenig@amd.com, joshua@froggi.es
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 17, 2023 at 12:52=E2=80=AFAM Luben Tuikov <luben.tuikov@amd.com=
-> wrote:
->
-> A context priority value of AMD_CTX_PRIORITY_UNSET is now invalid--instea=
-d of
-> carrying it around and passing it to the Direct Rendering Manager--and it
-> becomes AMD_CTX_PRIORITY_NORMAL in amdgpu_ctx_ioctl(), the gateway to con=
-text
-> creation.
->
-> Cc: Alex Deucher <Alexander.Deucher@amd.com>
-> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
-> Signed-off-by: Luben Tuikov <luben.tuikov@amd.com>
-> ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c b/drivers/gpu/drm/am=
-d/amdgpu/amdgpu_ctx.c
-> index 0dc9c655c4fbdb..092962b93064fc 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c
-> @@ -47,7 +47,6 @@ const unsigned int amdgpu_ctx_num_entities[AMDGPU_HW_IP=
-_NUM] =3D {
->  bool amdgpu_ctx_priority_is_valid(int32_t ctx_prio)
->  {
->         switch (ctx_prio) {
-> -       case AMDGPU_CTX_PRIORITY_UNSET:
->         case AMDGPU_CTX_PRIORITY_VERY_LOW:
->         case AMDGPU_CTX_PRIORITY_LOW:
->         case AMDGPU_CTX_PRIORITY_NORMAL:
-> @@ -55,6 +54,7 @@ bool amdgpu_ctx_priority_is_valid(int32_t ctx_prio)
->         case AMDGPU_CTX_PRIORITY_VERY_HIGH:
->                 return true;
->         default:
-> +       case AMDGPU_CTX_PRIORITY_UNSET:
->                 return false;
 
-I  don't recall if any userspace uses this, but this would break
-userspace if it does.
 
-Alex
+On 17/10/2023 06:28, André Almeida wrote:
+> Hi,
+> 
+> This work from me and Simon adds support for DRM_MODE_PAGE_FLIP_ASYNC through
+> the atomic API. This feature is already available via the legacy API. The use
+> case is to be able to present a new frame immediately (or as soon as
+> possible), even if after missing a vblank. This might result in tearing, but
+> it's useful when a high framerate is desired, such as for gaming.
+> 
+> Differently from earlier versions, this one refuses to flip if any prop changes
+> for async flips. The idea is that the fast path of immediate page flips doesn't
+> play well with modeset changes, so only the fb_id can be changed.
+> Thanks,
+> 	André
+> 
+> - User-space patch: https://github.com/Plagman/gamescope/pull/595
+> - IGT tests: https://gitlab.freedesktop.org/andrealmeid/igt-gpu-tools/-/tree/atomic_async_page_flip
+> 
+> Changes from v6:
+> - Dropped the exception to allow MODE_ID changes (Simon)
+> - Clarify what happens when flipping with the same FB_ID (Pekka)
+> 
+> v6: https://lore.kernel.org/dri-devel/20230815185710.159779-1-andrealmeid@igalia.com/
+> 
+> Changes from v5:
+> - Add note in the docs that not every redundant attribute will result in no-op,
+>    some might cause oversynchronization issues.
+> 
+> v5: https://lore.kernel.org/dri-devel/20230707224059.305474-1-andrealmeid@igalia.com/
+> 
+> Changes from v4:
+>   - Documentation rewrote by Pekka Paalanen
+> 
+> v4: https://lore.kernel.org/dri-devel/20230701020917.143394-1-andrealmeid@igalia.com/
+> 
+> Changes from v3:
+>   - Add new patch to reject prop changes
+>   - Add a documentation clarifying the KMS atomic state set
+> 
+> v3: https://lore.kernel.org/dri-devel/20220929184307.258331-1-contact@emersion.fr/
+> 
+> André Almeida (1):
+>    drm: Refuse to async flip with atomic prop changes
+> 
+> Pekka Paalanen (1):
+>    drm/doc: Define KMS atomic state set
+> 
+> Simon Ser (4):
+>    drm: allow DRM_MODE_PAGE_FLIP_ASYNC for atomic commits
+>    drm: introduce DRM_CAP_ATOMIC_ASYNC_PAGE_FLIP
+>    drm: introduce drm_mode_config.atomic_async_page_flip_not_supported
+>    amd/display: indicate support for atomic async page-flips on DC
+> 
+>   Documentation/gpu/drm-uapi.rst                | 47 ++++++++++++
+>   drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c  |  1 +
+>   drivers/gpu/drm/drm_atomic_uapi.c             | 75 +++++++++++++++++--
+>   drivers/gpu/drm/drm_crtc_internal.h           |  2 +-
+>   drivers/gpu/drm/drm_ioctl.c                   |  5 ++
+>   drivers/gpu/drm/drm_mode_object.c             |  2 +-
+>   .../drm/i915/display/intel_display_driver.c   |  1 +
+>   drivers/gpu/drm/nouveau/nouveau_display.c     |  1 +
+>   include/drm/drm_mode_config.h                 | 11 +++
+>   include/uapi/drm/drm.h                        | 10 ++-
+>   include/uapi/drm/drm_mode.h                   |  9 +++
+>   11 files changed, 155 insertions(+), 9 deletions(-)
+> 
 
->         }
->  }
->
-> base-commit: dc9b2e683bcba017588b9aaad80f442ad004a48f
-> --
-> 2.42.0
->
+Hello o/
+
+Maybe it is not related (since there are a few years I don't work on 
+this) but this reminds me of 
+https://yhbt.net/lore/all/20190412125827.5877-1-helen.koike@collabora.com/T/
+
+(just sharing for the sake of communication flow)
+
+Regards,
+Helen
