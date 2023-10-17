@@ -1,80 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B0707CBDC7
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Oct 2023 10:37:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C11C7CBDFA
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Oct 2023 10:43:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 188A410E28F;
-	Tue, 17 Oct 2023 08:37:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2665610E02C;
+	Tue, 17 Oct 2023 08:43:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 99E2910E28E
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Oct 2023 08:36:58 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 3430521D0D;
- Tue, 17 Oct 2023 08:36:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1697531817; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ZwvSsXLvh4N7/ENeq2SVasuh4X1mnxS4dtGIfpvt/Mg=;
- b=oYga/ALWWx7mzO+DqiX0lPUtvnUBOWqMVW4jF7V2Ka7fW75KqMjCCfAQgykVg0fVgKo3gk
- yMfAsoCPi1i6F32IhfvbNOkt7SYl8iqzyEKbl8pNkNiBKR6gbnoW6ducGKKxQKNQme10Yd
- lwtHwLimb5XKGHP4dGHXeeaH6eXWjN0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1697531817;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ZwvSsXLvh4N7/ENeq2SVasuh4X1mnxS4dtGIfpvt/Mg=;
- b=wpVEe1uychMy2o3ozKg9QRG5jjKxWF1+K94JHAQxSZfPUYWEA7zos1Ld9M/rbWosdrsFKe
- jJYuJR4N4QrJdcDA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id F128113584;
- Tue, 17 Oct 2023 08:36:56 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id qMJ5OahHLmVbUgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 17 Oct 2023 08:36:56 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: airlied@redhat.com, jfalempe@redhat.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, airlied@gmail.com, daniel@ffwll.ch
-Subject: [PATCH 12/12] drm/ast: Move register constants to ast_reg.h
-Date: Tue, 17 Oct 2023 10:32:08 +0200
-Message-ID: <20231017083653.10063-13-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231017083653.10063-1-tzimmermann@suse.de>
-References: <20231017083653.10063-1-tzimmermann@suse.de>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A8D410E02C
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Oct 2023 08:43:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1697532191; x=1729068191;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=wOkdAOYEucFot2QYmXiXt3m0NKnBzI7UoJqkisZhHMQ=;
+ b=C5gZm7pmDSuAQ6HSLw0NW5NidTzDz1iskrMbPKUXHK0lPncJTA3E480x
+ eTFRhvYmzApTj/GTlDqo8FB1tDjc8htb/UywihoAxB5L4t4/OI8QA7pBo
+ NaLvTGMMxzBGR8vnZLd3MNvvxPP5YYwKiXRuk00xT5IDQrZ45RVruX14E
+ Jnr+UijjHOOPI37ZpRlzloVVjKXwE+0SjtbiPbfybCGY+QMoFnRJaxLU8
+ iC8fJw+IroKxJy1SoaFcX9u3fIJ+mYw+v3ESxk8qwF+jzbC0t7gJBihq0
+ xdV4VBgC+QghFCAlTq8FqIbp34+gnSk3nQcMe9Z9Xs4HIgRK3GM1tdnes g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10865"; a="4335548"
+X-IronPort-AV: E=Sophos;i="6.03,231,1694761200"; 
+   d="scan'208";a="4335548"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Oct 2023 01:43:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10865"; a="872470749"
+X-IronPort-AV: E=Sophos;i="6.03,231,1694761200"; d="scan'208";a="872470749"
+Received: from joe-255.igk.intel.com (HELO localhost) ([10.91.220.57])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Oct 2023 01:43:09 -0700
+Date: Tue, 17 Oct 2023 10:43:07 +0200
+From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+To: Jeffrey Hugo <quic_jhugo@quicinc.com>
+Subject: Re: [PATCH] accel/ivpu: Don't enter d0i3 during FLR
+Message-ID: <20231017084307.GA525429@linux.intel.com>
+References: <20231003064213.1527327-1-stanislaw.gruszka@linux.intel.com>
+ <32e14a51-6c0a-efae-1601-07aa6e9537a2@quicinc.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Authentication-Results: smtp-out1.suse.de;
-	none
-X-Spam-Level: 
-X-Spam-Score: -6.10
-X-Spamd-Result: default: False [-6.10 / 50.00]; ARC_NA(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[]; FROM_HAS_DN(0.00)[];
- TO_DN_SOME(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- R_MISSING_CHARSET(2.50)[]; MIME_GOOD(-0.10)[text/plain];
- FREEMAIL_ENVRCPT(0.00)[gmail.com]; REPLY(-4.00)[];
- BROKEN_CONTENT_TYPE(1.50)[]; NEURAL_HAM_LONG(-3.00)[-1.000];
- R_RATELIMIT(0.00)[to_ip_from(RL5hwym8k7wjfpcebf457xyjzi)];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-1.00)[-1.000]; RCPT_COUNT_SEVEN(0.00)[8];
- MID_CONTAINS_FROM(1.00)[];
- FREEMAIL_TO(0.00)[redhat.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
- FROM_EQ_ENVFROM(0.00)[]; MIME_TRACE(0.00)[0:+];
- RCVD_COUNT_TWO(0.00)[2]; RCVD_TLS_ALL(0.00)[];
- BAYES_HAM(-3.00)[100.00%]
-X-Spam-Flag: NO
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <32e14a51-6c0a-efae-1601-07aa6e9537a2@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,236 +59,146 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Cc: Oded Gabbay <ogabbay@kernel.org>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Improve readability by putting all register constants into a separate
-header file. No functional changes.
+On Fri, Oct 06, 2023 at 09:25:29AM -0600, Jeffrey Hugo wrote:
+> On 10/3/2023 12:42 AM, Stanislaw Gruszka wrote:
+> > From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+> > 
+> > Fix a bug on some platforms where FLR causes complete system
+> > hang when CPU is low power states (C8 or above).
+> 
+> Why does FLR cause a complete system hang?
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/gpu/drm/ast/ast_drv.h | 83 +----------------------------
- drivers/gpu/drm/ast/ast_reg.h | 99 +++++++++++++++++++++++++++++++++++
- 2 files changed, 101 insertions(+), 81 deletions(-)
- create mode 100644 drivers/gpu/drm/ast/ast_reg.h
+This HW bug is still under debug and it is not yet root caused.
 
-diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
-index 214bfac0798ab..2aee32344f4a2 100644
---- a/drivers/gpu/drm/ast/ast_drv.h
-+++ b/drivers/gpu/drm/ast/ast_drv.h
-@@ -39,6 +39,8 @@
- #include <drm/drm_mode.h>
- #include <drm/drm_framebuffer.h>
- 
-+#include "ast_reg.h"
-+
- #define DRIVER_AUTHOR		"Dave Airlie"
- 
- #define DRIVER_NAME		"ast"
-@@ -259,25 +261,6 @@ static inline bool __ast_gen_is_eq(struct ast_device *ast, unsigned long gen)
- #define IS_AST_GEN6(__ast)	__ast_gen_is_eq(__ast, 6)
- #define IS_AST_GEN7(__ast)	__ast_gen_is_eq(__ast, 7)
- 
--#define AST_IO_VGAARI_W			(0x40)
--#define AST_IO_VGAMR_W			(0x42)
--#define AST_IO_VGAER			(0x43)
--#define AST_IO_VGASRI			(0x44)
--#define AST_IO_VGADRR			(0x47)
--#define AST_IO_VGADWR			(0x48)
--#define AST_IO_VGAPDR		        (0x49)
--#define AST_IO_VGAGRI			(0x4E)
--#define AST_IO_VGACRI			(0x54)
--#define AST_IO_VGAIR1_R			(0x5A)
--#define AST_IO_VGAMR_R			(0x4C)
--
--#define AST_IO_MM_OFFSET		(0x380)
--
--#define AST_IO_VGAIR1_VREFRESH		BIT(3)
--
--#define AST_IO_VGACRCB_HWC_ENABLED     BIT(1)
--#define AST_IO_VGACRCB_HWC_16BPP       BIT(0) /* set: ARGB4444, cleared: 2bpp palette */
--
- static inline u32 ast_read32(struct ast_device *ast, u32 reg)
- {
- 	return ioread32(ast->regs + reg);
-@@ -399,71 +382,9 @@ int ast_mode_config_init(struct ast_device *ast);
- #define AST_DP501_LINKRATE	0xf014
- #define AST_DP501_EDID_DATA	0xf020
- 
--/*
-- * Display Transmitter Type:
-- */
--#define TX_TYPE_MASK				GENMASK(3, 1)
--#define NO_TX						(0 << 1)
--#define ITE66121_VBIOS_TX			(1 << 1)
--#define SI164_VBIOS_TX				(2 << 1)
--#define CH7003_VBIOS_TX			(3 << 1)
--#define DP501_VBIOS_TX				(4 << 1)
--#define ANX9807_VBIOS_TX			(5 << 1)
--#define TX_FW_EMBEDDED_FW_TX		(6 << 1)
--#define ASTDP_DPMCU_TX				(7 << 1)
--
--#define AST_VRAM_INIT_STATUS_MASK	GENMASK(7, 6)
--//#define AST_VRAM_INIT_BY_BMC		BIT(7)
--//#define AST_VRAM_INIT_READY		BIT(6)
--
--/* Define for Soc scratched reg used on ASTDP */
--#define AST_DP_PHY_SLEEP			BIT(4)
--#define AST_DP_VIDEO_ENABLE		BIT(0)
--
- #define AST_DP_POWER_ON			true
- #define AST_DP_POWER_OFF			false
- 
--/*
-- * CRD1[b5]: DP MCU FW is executing
-- * CRDC[b0]: DP link success
-- * CRDF[b0]: DP HPD
-- * CRE5[b0]: Host reading EDID process is done
-- */
--#define ASTDP_MCU_FW_EXECUTING			BIT(5)
--#define ASTDP_LINK_SUCCESS				BIT(0)
--#define ASTDP_HPD						BIT(0)
--#define ASTDP_HOST_EDID_READ_DONE		BIT(0)
--#define ASTDP_HOST_EDID_READ_DONE_MASK	GENMASK(0, 0)
--
--/*
-- * CRB8[b1]: Enable VSYNC off
-- * CRB8[b0]: Enable HSYNC off
-- */
--#define AST_DPMS_VSYNC_OFF				BIT(1)
--#define AST_DPMS_HSYNC_OFF				BIT(0)
--
--/*
-- * CRDF[b4]: Mirror of AST_DP_VIDEO_ENABLE
-- * Precondition:	A. ~AST_DP_PHY_SLEEP  &&
-- *			B. DP_HPD &&
-- *			C. DP_LINK_SUCCESS
-- */
--#define ASTDP_MIRROR_VIDEO_ENABLE		BIT(4)
--
--#define ASTDP_EDID_READ_POINTER_MASK	GENMASK(7, 0)
--#define ASTDP_EDID_VALID_FLAG_MASK		GENMASK(0, 0)
--#define ASTDP_EDID_READ_DATA_MASK		GENMASK(7, 0)
--
--/*
-- * ASTDP setmode registers:
-- * CRE0[7:0]: MISC0 ((0x00: 18-bpp) or (0x20: 24-bpp)
-- * CRE1[7:0]: MISC1 (default: 0x00)
-- * CRE2[7:0]: video format index (0x00 ~ 0x20 or 0x40 ~ 0x50)
-- */
--#define ASTDP_MISC0_24bpp			BIT(5)
--#define ASTDP_MISC1				0
--#define ASTDP_AND_CLEAR_MASK		0x00
--
- /*
-  * ASTDP resoultion table:
-  * EX:	ASTDP_A_B_C:
-diff --git a/drivers/gpu/drm/ast/ast_reg.h b/drivers/gpu/drm/ast/ast_reg.h
-new file mode 100644
-index 0000000000000..555286ecf5209
---- /dev/null
-+++ b/drivers/gpu/drm/ast/ast_reg.h
-@@ -0,0 +1,99 @@
-+/* SPDX-License-Identifier: MIT */
-+
-+#ifndef __AST_REG_H__
-+#define __AST_REG_H__
-+
-+#include <linux/bits.h>
-+
-+/*
-+ * Modesetting
-+ */
-+
-+#define AST_IO_MM_OFFSET		(0x380)
-+
-+#define AST_IO_VGAARI_W			(0x40)
-+#define AST_IO_VGAMR_W			(0x42)
-+#define AST_IO_VGAER			(0x43)
-+#define AST_IO_VGASRI			(0x44)
-+#define AST_IO_VGADRR			(0x47)
-+#define AST_IO_VGADWR			(0x48)
-+#define AST_IO_VGAPDR		        (0x49)
-+#define AST_IO_VGAGRI			(0x4E)
-+
-+#define AST_IO_VGACRI			(0x54)
-+#define AST_IO_VGACRCB_HWC_16BPP	BIT(0) /* set: ARGB4444, cleared: 2bpp palette */
-+#define AST_IO_VGACRCB_HWC_ENABLED	BIT(1)
-+
-+#define AST_IO_VGAIR1_R			(0x5A)
-+#define AST_IO_VGAIR1_VREFRESH		BIT(3)
-+
-+#define AST_IO_VGAMR_R			(0x4C)
-+
-+/*
-+ * Display Transmitter Type
-+ */
-+
-+#define TX_TYPE_MASK			GENMASK(3, 1)
-+#define NO_TX				(0 << 1)
-+#define ITE66121_VBIOS_TX		(1 << 1)
-+#define SI164_VBIOS_TX			(2 << 1)
-+#define CH7003_VBIOS_TX			(3 << 1)
-+#define DP501_VBIOS_TX			(4 << 1)
-+#define ANX9807_VBIOS_TX		(5 << 1)
-+#define TX_FW_EMBEDDED_FW_TX		(6 << 1)
-+#define ASTDP_DPMCU_TX			(7 << 1)
-+
-+#define AST_VRAM_INIT_STATUS_MASK	GENMASK(7, 6)
-+//#define AST_VRAM_INIT_BY_BMC		BIT(7)
-+//#define AST_VRAM_INIT_READY		BIT(6)
-+
-+/*
-+ * AST DisplayPort
-+ */
-+
-+/* Define for Soc scratched reg used on ASTDP */
-+#define AST_DP_PHY_SLEEP		BIT(4)
-+#define AST_DP_VIDEO_ENABLE		BIT(0)
-+
-+/*
-+ * CRD1[b5]: DP MCU FW is executing
-+ * CRDC[b0]: DP link success
-+ * CRDF[b0]: DP HPD
-+ * CRE5[b0]: Host reading EDID process is done
-+ */
-+#define ASTDP_MCU_FW_EXECUTING		BIT(5)
-+#define ASTDP_LINK_SUCCESS		BIT(0)
-+#define ASTDP_HPD			BIT(0)
-+#define ASTDP_HOST_EDID_READ_DONE	BIT(0)
-+#define ASTDP_HOST_EDID_READ_DONE_MASK	GENMASK(0, 0)
-+
-+/*
-+ * CRB8[b1]: Enable VSYNC off
-+ * CRB8[b0]: Enable HSYNC off
-+ */
-+#define AST_DPMS_VSYNC_OFF		BIT(1)
-+#define AST_DPMS_HSYNC_OFF		BIT(0)
-+
-+/*
-+ * CRDF[b4]: Mirror of AST_DP_VIDEO_ENABLE
-+ * Precondition:	A. ~AST_DP_PHY_SLEEP  &&
-+ *			B. DP_HPD &&
-+ *			C. DP_LINK_SUCCESS
-+ */
-+#define ASTDP_MIRROR_VIDEO_ENABLE	BIT(4)
-+
-+#define ASTDP_EDID_READ_POINTER_MASK	GENMASK(7, 0)
-+#define ASTDP_EDID_VALID_FLAG_MASK	GENMASK(0, 0)
-+#define ASTDP_EDID_READ_DATA_MASK	GENMASK(7, 0)
-+
-+/*
-+ * ASTDP setmode registers:
-+ * CRE0[7:0]: MISC0 ((0x00: 18-bpp) or (0x20: 24-bpp)
-+ * CRE1[7:0]: MISC1 (default: 0x00)
-+ * CRE2[7:0]: video format index (0x00 ~ 0x20 or 0x40 ~ 0x50)
-+ */
-+#define ASTDP_MISC0_24bpp		BIT(5)
-+#define ASTDP_MISC1			0
-+#define ASTDP_AND_CLEAR_MASK		0x00
-+
-+#endif
--- 
-2.42.0
+> Why does avoiding d0i3 fix the
+> issue?  Feels like there could be a lot more detail here.
 
+We only know that we should avoid entering D0i3.
+
+I will change the log this way:
+
+Avoid HW bug on some platforms where we enter D0i3 state
+and CPU is in low power states (C8 or above).
+
+Regards
+Stanislaw
+
+> > Fixes: 852be13f3bd3 ("accel/ivpu: Add PM support")
+> > Cc: stable@vger.kernel.org
+> > Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+> > Reviewed-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+> > Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+> > ---
+> >   drivers/accel/ivpu/ivpu_drv.c     | 11 ++++++++---
+> >   drivers/accel/ivpu/ivpu_drv.h     |  1 +
+> >   drivers/accel/ivpu/ivpu_hw.h      |  8 ++++++++
+> >   drivers/accel/ivpu/ivpu_hw_37xx.c |  1 +
+> >   drivers/accel/ivpu/ivpu_hw_40xx.c |  1 +
+> >   drivers/accel/ivpu/ivpu_pm.c      |  3 ++-
+> >   6 files changed, 21 insertions(+), 4 deletions(-)
+> > 
+> > diff --git a/drivers/accel/ivpu/ivpu_drv.c b/drivers/accel/ivpu/ivpu_drv.c
+> > index 3f4efa07ce7c..1eb232e903e8 100644
+> > --- a/drivers/accel/ivpu/ivpu_drv.c
+> > +++ b/drivers/accel/ivpu/ivpu_drv.c
+> > @@ -367,14 +367,19 @@ int ivpu_boot(struct ivpu_device *vdev)
+> >   	return 0;
+> >   }
+> > -int ivpu_shutdown(struct ivpu_device *vdev)
+> > +void ivpu_prepare_for_reset(struct ivpu_device *vdev)
+> >   {
+> > -	int ret;
+> > -
+> >   	ivpu_hw_irq_disable(vdev);
+> >   	disable_irq(vdev->irq);
+> >   	ivpu_ipc_disable(vdev);
+> >   	ivpu_mmu_disable(vdev);
+> > +}
+> > +
+> > +int ivpu_shutdown(struct ivpu_device *vdev)
+> > +{
+> > +	int ret;
+> > +
+> > +	ivpu_prepare_for_reset(vdev);
+> >   	ret = ivpu_hw_power_down(vdev);
+> >   	if (ret)
+> > diff --git a/drivers/accel/ivpu/ivpu_drv.h b/drivers/accel/ivpu/ivpu_drv.h
+> > index 98380c1db9fa..a3b45032e6cf 100644
+> > --- a/drivers/accel/ivpu/ivpu_drv.h
+> > +++ b/drivers/accel/ivpu/ivpu_drv.h
+> > @@ -158,6 +158,7 @@ void ivpu_file_priv_put(struct ivpu_file_priv **link);
+> >   int ivpu_boot(struct ivpu_device *vdev);
+> >   int ivpu_shutdown(struct ivpu_device *vdev);
+> > +void ivpu_prepare_for_reset(struct ivpu_device *vdev);
+> >   static inline u8 ivpu_revision(struct ivpu_device *vdev)
+> >   {
+> > diff --git a/drivers/accel/ivpu/ivpu_hw.h b/drivers/accel/ivpu/ivpu_hw.h
+> > index ab341237bcf9..1079e06255ba 100644
+> > --- a/drivers/accel/ivpu/ivpu_hw.h
+> > +++ b/drivers/accel/ivpu/ivpu_hw.h
+> > @@ -13,6 +13,7 @@ struct ivpu_hw_ops {
+> >   	int (*power_up)(struct ivpu_device *vdev);
+> >   	int (*boot_fw)(struct ivpu_device *vdev);
+> >   	int (*power_down)(struct ivpu_device *vdev);
+> > +	int (*reset)(struct ivpu_device *vdev);
+> >   	bool (*is_idle)(struct ivpu_device *vdev);
+> >   	void (*wdt_disable)(struct ivpu_device *vdev);
+> >   	void (*diagnose_failure)(struct ivpu_device *vdev);
+> > @@ -91,6 +92,13 @@ static inline int ivpu_hw_power_down(struct ivpu_device *vdev)
+> >   	return vdev->hw->ops->power_down(vdev);
+> >   };
+> > +static inline int ivpu_hw_reset(struct ivpu_device *vdev)
+> > +{
+> > +	ivpu_dbg(vdev, PM, "HW reset\n");
+> > +
+> > +	return vdev->hw->ops->reset(vdev);
+> > +};
+> > +
+> >   static inline void ivpu_hw_wdt_disable(struct ivpu_device *vdev)
+> >   {
+> >   	vdev->hw->ops->wdt_disable(vdev);
+> > diff --git a/drivers/accel/ivpu/ivpu_hw_37xx.c b/drivers/accel/ivpu/ivpu_hw_37xx.c
+> > index edd4d860f135..1e842739e937 100644
+> > --- a/drivers/accel/ivpu/ivpu_hw_37xx.c
+> > +++ b/drivers/accel/ivpu/ivpu_hw_37xx.c
+> > @@ -1036,6 +1036,7 @@ const struct ivpu_hw_ops ivpu_hw_37xx_ops = {
+> >   	.power_up = ivpu_hw_37xx_power_up,
+> >   	.is_idle = ivpu_hw_37xx_is_idle,
+> >   	.power_down = ivpu_hw_37xx_power_down,
+> > +	.reset = ivpu_hw_37xx_reset,
+> >   	.boot_fw = ivpu_hw_37xx_boot_fw,
+> >   	.wdt_disable = ivpu_hw_37xx_wdt_disable,
+> >   	.diagnose_failure = ivpu_hw_37xx_diagnose_failure,
+> > diff --git a/drivers/accel/ivpu/ivpu_hw_40xx.c b/drivers/accel/ivpu/ivpu_hw_40xx.c
+> > index a48cd36f9931..d7b8ec0410af 100644
+> > --- a/drivers/accel/ivpu/ivpu_hw_40xx.c
+> > +++ b/drivers/accel/ivpu/ivpu_hw_40xx.c
+> > @@ -1186,6 +1186,7 @@ const struct ivpu_hw_ops ivpu_hw_40xx_ops = {
+> >   	.power_up = ivpu_hw_40xx_power_up,
+> >   	.is_idle = ivpu_hw_40xx_is_idle,
+> >   	.power_down = ivpu_hw_40xx_power_down,
+> > +	.reset = ivpu_hw_40xx_reset,
+> >   	.boot_fw = ivpu_hw_40xx_boot_fw,
+> >   	.wdt_disable = ivpu_hw_40xx_wdt_disable,
+> >   	.diagnose_failure = ivpu_hw_40xx_diagnose_failure,
+> > diff --git a/drivers/accel/ivpu/ivpu_pm.c b/drivers/accel/ivpu/ivpu_pm.c
+> > index 28a0d1111e12..da46f95b008a 100644
+> > --- a/drivers/accel/ivpu/ivpu_pm.c
+> > +++ b/drivers/accel/ivpu/ivpu_pm.c
+> > @@ -261,7 +261,8 @@ void ivpu_pm_reset_prepare_cb(struct pci_dev *pdev)
+> >   	ivpu_dbg(vdev, PM, "Pre-reset..\n");
+> >   	atomic_inc(&vdev->pm->reset_counter);
+> >   	atomic_set(&vdev->pm->in_reset, 1);
+> > -	ivpu_shutdown(vdev);
+> > +	ivpu_prepare_for_reset(vdev);
+> > +	ivpu_hw_reset(vdev);
+> >   	ivpu_pm_prepare_cold_boot(vdev);
+> >   	ivpu_jobs_abort_all(vdev);
+> >   	ivpu_dbg(vdev, PM, "Pre-reset done.\n");
+> 
