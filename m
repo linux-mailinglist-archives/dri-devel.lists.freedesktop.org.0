@@ -2,120 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 710877CC2AB
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Oct 2023 14:11:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF7697CC2B0
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Oct 2023 14:13:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B866810E2D2;
-	Tue, 17 Oct 2023 12:11:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 77E9E10E03C;
+	Tue, 17 Oct 2023 12:13:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam04on2048.outbound.protection.outlook.com [40.107.102.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3FEE310E2D2
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Oct 2023 12:11:04 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BsQfGnYcKFXNrsn3jEn/GEukfikOlACd+mjygvscYs2/CC8P4H1KRW0iqC5Ci+QYYq3/ilDBXRWsx95vmszXtVtpCe3TOSIHaUuGrB9UUPVFXwo9Od03+Xq8rHZXpcdmf3LLKpj3PvffIyQnMFvssMMrGuvtdOWqiIQ7AltneTuNNmvdUmHVVOX1MDGJ++dbHsXUW+3o/8A8Uxw2+IpvNFMM/zGcF9wTRbH1OFew7InOTBkJ2AQyF6Cbehr//92vfwGkO3idaYkvtnbtuu3H4zIYYsJZ3X97/pbKznCjJ7VmxSmJlzokXIl8MoHN3KQyJG+76OM/ReEiQpZYKr8T/g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=p+KG3OIK6u70rYo2sauknf7EAVzelPr4Gy3+R+yx32A=;
- b=DR78L7YVr7611qzv3O/mgaY8mpZtZSgJsZ15nQqKj4KCnBOk1KIW9e1AEl0xwxSqvYk2EQ+sGEtNS3MbQQlmP4pCf+acsudyK38zFpMNjQybkCZOR1Rfz76+/pTjArKxtelH8hbZNG1Q2Pbqo3kg7hxcW4HLRawNaXm+QHADKTebOLRlTeufeqqL/ChcyF7f/dFv72rNO3qNKNT4nV3ZLjZBB1IRilXsuz2vb4T6EhN2cDY916Q76KoHV48LewdJ08XMelQnWGctwi9vIxydr7a094ZbinY63cC8gV9HdEQGEs8hhzlcK5oJTk87NTDlnIx2uB84j+pYbmbbsro7Cw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=p+KG3OIK6u70rYo2sauknf7EAVzelPr4Gy3+R+yx32A=;
- b=Ta082WAtaFiGdx121GXFNcyu9RsBcd8qmbR9yRsckHbDpnFEeSQAhAQa1Eh0HMbpORKq2NRNPEemRmO04IkVp1acsGp0ei7hN4DoDA/Bfi799NnjjNbdwt4SSeG4vnIheGqxSYMzg6NrTD2bzon/zZ0RfPVyWxjKCbTBX9uhCxE=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by CY8PR12MB8068.namprd12.prod.outlook.com (2603:10b6:930:75::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6886.35; Tue, 17 Oct
- 2023 12:11:02 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::a7fa:4411:67a3:131d]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::a7fa:4411:67a3:131d%4]) with mapi id 15.20.6907.021; Tue, 17 Oct 2023
- 12:11:02 +0000
-Message-ID: <179d176b-47c0-4cb6-b14c-17528024cfc5@amd.com>
-Date: Tue, 17 Oct 2023 14:10:56 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 0/4] Improve test coverage of TTM
-Content-Language: en-US
-To: Karolina Stolarek <karolina.stolarek@intel.com>
-References: <cover.1697445193.git.karolina.stolarek@intel.com>
- <9854008f-6755-4c09-9f23-90fa62911222@amd.com>
- <c9d088c2-341a-b315-a15b-8b8c0d487548@intel.com>
- <eb349ffd-eda1-0f15-3803-2cfe5c01f2a0@amd.com>
- <c2fd2bb8-7c98-4012-bc63-2e143abf4f65@amd.com>
- <09724727-b5a8-2e67-0ce6-cc301d95e4dc@intel.com>
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <09724727-b5a8-2e67-0ce6-cc301d95e4dc@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR2P281CA0138.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:9e::7) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3785410E03C
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Oct 2023 12:13:27 +0000 (UTC)
+Received: from i53875b5b.versanet.de ([83.135.91.91] helo=diego.localnet)
+ by gloria.sntech.de with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <heiko@sntech.de>)
+ id 1qsiwt-000833-4y; Tue, 17 Oct 2023 14:13:23 +0200
+From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+To: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>, Ying Liu <victor.liu@nxp.com>
+Subject: Re: [PATCH 5/9] drm/bridge: synopsys: dw-mipi-dsi: Use pixel clock
+ rate to calculate lbcc
+Date: Tue, 17 Oct 2023 14:13:21 +0200
+Message-ID: <5979575.UjTJXf6HLC@diego>
+In-Reply-To: <AM7PR04MB7046C954891C3ABEC568DC1F98D6A@AM7PR04MB7046.eurprd04.prod.outlook.com>
+References: <20230717061831.1826878-1-victor.liu@nxp.com>
+ <1971539.CrzyxZ31qj@diego>
+ <AM7PR04MB7046C954891C3ABEC568DC1F98D6A@AM7PR04MB7046.eurprd04.prod.outlook.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|CY8PR12MB8068:EE_
-X-MS-Office365-Filtering-Correlation-Id: befb35d4-9640-4e4c-453a-08dbcf0a2163
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: EkgYqRSvyHnU4800tl7schd0rHgxEU8Tx612BRbknoj6UmbxDPrYFeEVfL1Gg/ZucmUa4Ht54MMaT9VSou9YsENMRHEh/bTQBKPfsyYqDFDRSOJ9PzyA4yUMzFAeIYTfQG+LkYpx3SeXV8g3rlCMvrgK9dSGTAVyF4BUoLTIhRmQ9NhZNF9qWcBBA17Qjx2tpD8j4iwF+KbqWN93g/6J82aA2L9onuqWTu7WVwEk51NU67m20iPm3YqCGLeeqSewc8B+DSfV96VgX0uJaYT3gS+hzyWdAcOuinzIsT4RsgeL2iuYozn54E/AfXD88Ev0ft0qQyZTrqjRm4X5Vsmc/b0Cos43OjvJWeqqehFCnTSmq6vRftUZaTc2IoN/YPcRiN83wRgv+VPWVMtNGpaue0FTMmI35ELGqGovNslV0X4I7kpAVSpqoULNP/6j3NfEP3NZ1y370TB2qSM+mTWWIVAlFFffNl5COYLf+3wTTv7mCaqGwzf1kNw+kkZg+r6xidmkGkrIOohVXDYRdqHbL4BIZ5ZTwiVani9D12SmxACVo0ah9ii8Uk7EIn/v9ZH8/aNrpxXMpA6zanqdrCgC4Wj9yZ7JGg3e5se9rLpI5c0o4qYdt2I2YCMb8FJWUtNcqwrcqssHRXKyVQrjHlec6Q==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(39860400002)(396003)(376002)(136003)(366004)(346002)(230922051799003)(64100799003)(451199024)(1800799009)(186009)(6666004)(6486002)(66946007)(8936002)(38100700002)(6916009)(54906003)(66556008)(316002)(66476007)(2616005)(6506007)(53546011)(26005)(478600001)(8676002)(66574015)(6512007)(4326008)(2906002)(83380400001)(5660300002)(36756003)(86362001)(31696002)(41300700001)(31686004)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eE9rRHBaS0hDcU9XUmpEcTNyRGhNWmlaOVRDQTVRRTRnOEJiQWJzdDJvWmJm?=
- =?utf-8?B?OG1qKzkrMGI0VFFNa1M0SWNoTXlkY0NXUDN3Zmp0UWlTbjlDSjVKbVk0c2Ux?=
- =?utf-8?B?SGNRcjV1NlpHQmZEWnRwOTIxTEtlSEtZNWxMTXkwQUhEdXprbk03a3hwQXUw?=
- =?utf-8?B?Z3U0T1BtWWZFVVZPRyt1Y2NqelpNajJQQnRvZTFQYVBLbG1JMXZIbTZ3dFNO?=
- =?utf-8?B?WXBYSEZkTXRzS0s4bU96NTltTW9EUURWMzhZcFE4QzBzbitLY0lxUVRybklS?=
- =?utf-8?B?cG01ZlNiUXkwU3ExTnFLSW9sK3Q5QXI4Y1VoWHhxNFUxQU0yV2FweE5Dem9o?=
- =?utf-8?B?U3YwNlBSZzFoaTZrSkxhemlGZ0E4VXJ4MHk1SW02QW5MVnNJOGQrdjNzK05Q?=
- =?utf-8?B?Q25oakJ1TXhmMmVSNXNpSnVDM3BZTDQ5Y1NpeGF2VjIvR1l5Vzd6ck50L1Qw?=
- =?utf-8?B?c2ZSUXJacExoSFdodURYYWV4RXVBRklmcDd3c1lxNUU2MzVmWGNSUzJlZG5N?=
- =?utf-8?B?ZjlRdUFuNmlYYStRdU9UdHFMRlZvMkl2aVVaSFFVUVFnalBTZnlWU1lyOVgy?=
- =?utf-8?B?Y09FbGpNd2lRK3g3bHBXaXNXb3ozazhiUDRWZXYrZnIwaDV4U3VtQmUrMVUr?=
- =?utf-8?B?cEJHQUhORDY1ZHdSTHRYZWFRb3dyTDB3YVpRaGF3TXpqTENrTkVEMVhqNVNP?=
- =?utf-8?B?eWVVaHoweDRLMjJON2krUXZoMDdONThCdUdUZnRkMk1LVit1ZnMvYVB4N2t3?=
- =?utf-8?B?QmtIZHRuZll6WTJGdzFKQi9wL1NvQU4rcUVHN0pzNmFJbWF5UEpNS3RQV0Js?=
- =?utf-8?B?VTJiZFRKTWlXL0dOa2lwc00yN0M1ZHA3TklIVmlwZVpoVUZ0ZkhnTnJiNndF?=
- =?utf-8?B?bTNXTUVSRmhuY0RqV01CczRrWGRMZlJBbWNlTHZYeGI4bHFWS0IwV0Exa2Nt?=
- =?utf-8?B?WDA1VitwczFzQU96Q20ySGNMWEc3Mk5YbnJLZXNRTHBBb1l1dk5jZ3FjMGFs?=
- =?utf-8?B?VTgwTUhpM2dzRkdzOHNyYkNJdmhhUjMwc0hHb0tHSmZjUUt4N05KZHg4MW10?=
- =?utf-8?B?YXpmTFlvVExuQ0QySHJ6cHJicTRvVzEycFl5NFE5eU52RWt4c1ZVTjNZMTRr?=
- =?utf-8?B?Z05TU2ZvRGUyTFN6N2NTNE1sbHNEVU5lZTlqYmJTU2t4QUZuR09RMEtUZVR3?=
- =?utf-8?B?aHFCMEtaUzZFSVlwZVhwTXNWK0dnVFVwVXdEaVVja0hnWmJqMmFFVXZQbmpB?=
- =?utf-8?B?ZTNnVGdzTDFOU1BUVllCcDJZUm5HU1FGZFlET0NWK1VJNkMvc1VhbXN6a0R4?=
- =?utf-8?B?WlVXWHg0NEN2Q1M0K0lYUkRhS3crNnFwcEhXbU05RXN1V1cxQ0NHL0R5S1Qw?=
- =?utf-8?B?V1gybmduRTBQMmQ5UkFqeWNWTXRGT0Mzc3BoaFllVURMYXZEMGVud3pVT1hy?=
- =?utf-8?B?UkhuU2w4UGF5S0QzdXorbHNydzdyQTJjUW1ZOVA3M0Q4Y1RBU1FkQkZkNXEw?=
- =?utf-8?B?S3JXZzJ1Wkgxc2NvQXZVZU4yVnR3Q2ZCQXRCb0owOGw2Vlg4Zm1CVUpicS9W?=
- =?utf-8?B?VUl5dDlsbW9WMmhNb1F1RXdST1ZLeEsvUllzbldscXlHZml3Qkh6M0VPbW1Z?=
- =?utf-8?B?ajBHVGQ0K2dOREdZUWdTeHlKRUU1MXNCZlR3OVdrdWRJb3F5YjNvRFZaUzRm?=
- =?utf-8?B?NjRHRmxkYThIcnFUeHovdTdrTWY2Q1NDeWR2Nk5PeWpxVzkxU0o2WkVmZ3Er?=
- =?utf-8?B?Rzl3R0RtdlpwUmFSdUZtZGU3VnhWNGFiL1FWK014ajFqWUkvZHRuN01NWWVE?=
- =?utf-8?B?TWIrM29QMXlQMm1ReEk4eC9jNjJ0VWpWMFlXWElsRU5MZk1ZUERzL1VKNnZJ?=
- =?utf-8?B?VUtXRGdsZzc2OEptZTcyWE9xbkJwU0NaaCs4THZPYjdoZVdOdVB2NkJsSUkw?=
- =?utf-8?B?aXBKLzlzZ2Zza1l4MUc3ak5TMDhOaCsveEJ6QUZvdDl1Q0ZsSEI0YlloTnhk?=
- =?utf-8?B?eTM0K1BhQURSbE5ZQVBVRjJnOU5DWTl4SDRpY2VIbHM3Q2REOFVOb2o4KzNz?=
- =?utf-8?B?cHJvcjNCaFFBUHF5bnhrcXY4aVpMS0YrQ3Q1dkhRbk5XWEp6YTFMNTdZSUda?=
- =?utf-8?Q?sG6symjfwexbiT6oFO2pqa+P5?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: befb35d4-9640-4e4c-453a-08dbcf0a2163
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Oct 2023 12:11:02.1210 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: lL0ZDKCOFUgyI8zsy7bEXq9zEFSdaG6mevycpOH3zX+Rl5xZVsAP8QHbR05n+mqn
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB8068
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -128,147 +45,228 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Amaranath Somalapuram <Amaranath.Somalapuram@amd.com>,
- dri-devel@lists.freedesktop.org, "Somalapuram, Amaranath" <asomalap@amd.com>
+Cc: "neil.armstrong@linaro.org" <neil.armstrong@linaro.org>,
+ "conor+dt@kernel.org" <conor+dt@kernel.org>,
+ "rfoss@kernel.org" <rfoss@kernel.org>,
+ "andrzej.hajda@intel.com" <andrzej.hajda@intel.com>,
+ "jonas@kwiboo.se" <jonas@kwiboo.se>,
+ "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>,
+ "jernej.skrabec@gmail.com" <jernej.skrabec@gmail.com>,
+ "robh+dt@kernel.org" <robh+dt@kernel.org>,
+ "Laurent.pinchart@ideasonboard.com" <Laurent.pinchart@ideasonboard.com>,
+ "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
+ "shawnguo@kernel.org" <shawnguo@kernel.org>,
+ "kernel@pengutronix.de" <kernel@pengutronix.de>,
+ dl-linux-imx <linux-imx@nxp.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 17.10.23 um 14:06 schrieb Karolina Stolarek:
-> On 17.10.2023 13:57, Christian König wrote:
->>
->>
->> Am 17.10.23 um 13:22 schrieb Somalapuram, Amaranath:
->>>
->>> On 10/17/2023 4:35 PM, Karolina Stolarek wrote:
->>>> Hi Amaranath,
->>>>
->>>> On 16.10.2023 15:08, Somalapuram, Amaranath wrote:
->>>>>
->>>>> On 10/16/2023 2:22 PM, Karolina Stolarek wrote:
->>>>>> Add tests for building blocks of the TTM subsystem, such as 
->>>>>> ttm_resource,
->>>>>> ttm_resource_manager, ttm_tt and ttm_buffer_object. This series 
->>>>>> covers
->>>>>> basic functions such as initialization, allocation and clean-up 
->>>>>> of each
->>>>>> struct. Testing of ttm_buffer_object also includes locking and 
->>>>>> unlocking
->>>>>> the object for validation, with special scenarios such as an 
->>>>>> interrupted
->>>>>> wait or deadlock.
->>>>>>
->>>>>> Some of the test cases check the bulk move mechanism and how it 
->>>>>> interacts
->>>>>> with pinned buffers. This is to be seen if we want to add 
->>>>>> dedicated testing
->>>>>> for bulk move or not. The resource allocation subtests use 
->>>>>> ttm_sys_manager
->>>>>> for now. Resources that don't use system memory will be 
->>>>>> indirectly tested
->>>>>> via tests for ttm_bo_validate()/ttm_bo_init_validate(), using a mock
->>>>>> resource manager.
->>>>>>
->>>>>> Use kunit_tool script to manually run all the tests:
->>>>>>
->>>>>> $ ./tools/testing/kunit/kunit.py run 
->>>>>> --kunitconfig=drivers/gpu/drm/ttm/tests
->>>>>>
->>>>>> To build a kernel with TTM KUnit tests, first enable 
->>>>>> CONFIG_KUNIT, and
->>>>>> then CONFIG_DRM_TTM_KUNIT_TEST.
->>>>> Tested [PATCH v4 0/4] Improve test coverage of TTM patches on AMD 
->>>>> platform, looks good.
->>>>
->>>> Many thanks for taking a look.
->>>>
->>>> Do I understand correctly that your Tested-by would apply to all 
->>>> the patches here?
->>>>
->>> Yes, I have tested all the 4 patches together.
->>
->> No time for an in deep review, but I'm going to pick this up and push 
->> it to drm-misc-next.
->
-> Oh! Could you at least take a look at ttm_bo_reserve_deadlock and/or 
-> interrupted subtests? I'm not 100% sure if my solution is right.
+Hi,
 
-Than this will have to wait till next week when I have some more time.
+Am Dienstag, 17. Oktober 2023, 12:15:11 CEST schrieb Ying Liu:
+> On Tuesday, October 17, 2023 2:15 AM, Heiko St=FCbner <heiko@sntech.de> w=
+rote:
+> > Am Montag, 17. Juli 2023, 08:18:27 CEST schrieb Liu Ying:
+> > > To get better accuration, use pixel clock rate to calculate lbcc inst=
+ead of
+> > > lane_mbps since the pixel clock rate is in KHz while lane_mbps is in =
+MHz.
+> > > Without this, distorted image can be seen on a HDMI monitor connected
+> > with
+> > > i.MX93 11x11 EVK through ADV7535 DSI to HDMI bridge in 1920x1080p@60
+> > video
+> > > mode.
+> > >
+> > > Signed-off-by: Liu Ying <victor.liu@nxp.com>
+> >
+> > looks like I'm late to the party, but this change breaks the display ou=
+tput
+> > my px30 minievb with the xinpeng xpp055c272 dsi display [0].
+>=20
+> Hmm, I asked for a test, but anyway sorry for the breakage.
 
-Christian.
+I'm often way behind with looking at drm-related changes, sorry about that.
 
->
-> Many thanks,
-> Karolina
->
->>
->> Thanks,
->> Christian.
->>
->>>
->>> Regards,
->>> S.Amarnath
->>>> All the best,
->>>> Karolina
->>>>
->>>>>
->>>>> Regards,
->>>>> S.Amarnath
->>>>>> Many thanks,
->>>>>> Karolina
->>>>>>
->>>>>> v5:
->>>>>>    - Actually use the page_flags parameter in ttm_tt_simple_create()
->>>>>>
->>>>>> v4:
->>>>>>    - First unreserve the object before calling ww_acquire_fini() in
->>>>>>      ttm_bo_reserve_double_resv subtest
->>>>>>    - Silence lockdep in ttm_bo_reserve_deadlock subtest (open to 
->>>>>> suggestions
->>>>>>      how to fix it in a different way)
->>>>>>    - Use a genuine GEM object in ttm_buffer_object instead of an 
->>>>>> empty one
->>>>>>
->>>>>> v3:
->>>>>>    - Instead of modifying the main TTM Makefile, use
->>>>>>      EXPORT_SYMBOL_FOR_TESTS_ONLY() macro for symbols that are 
->>>>>> tested but
->>>>>>      not widely exported. Thanks to this change, TTM tests can be 
->>>>>> built
->>>>>>      as modules, even when non-exported functions are used
->>>>>>    - Change the description of a patch that fixes 
->>>>>> ttm_pool_pre_populated()
->>>>>>
->>>>>> v2:
->>>>>>    - Remove Makefile for KUnit tests and move the definitions to the
->>>>>>      TTM's one
->>>>>>    - Switch on CONFIG_DRM_TTM_KUNIT_TEST=m so the tests and TTM 
->>>>>> module
->>>>>>      are built as one. This allows building the tests as a 
->>>>>> module, even
->>>>>>      if it uses functions that are not exported
->>>>>>    - Fix ttm_pool_pre_populated(); a wrong flag was passed to
->>>>>>      ttm_tt_kunit_init() function
->>>>>>
->>>>>> Karolina Stolarek (4):
->>>>>>    drm/ttm/tests: Add tests for ttm_resource and ttm_sys_man
->>>>>>    drm/ttm/tests: Add tests for ttm_tt
->>>>>>    drm/ttm/tests: Add tests for ttm_bo functions
->>>>>>    drm/ttm/tests: Fix argument in ttm_tt_kunit_init()
->>>>>>
->>>>>>   drivers/gpu/drm/ttm/tests/Makefile            |   3 +
->>>>>>   drivers/gpu/drm/ttm/tests/ttm_bo_test.c       | 619 
->>>>>> ++++++++++++++++++
->>>>>>   drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c |  51 +-
->>>>>>   drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.h |   4 +
->>>>>>   drivers/gpu/drm/ttm/tests/ttm_pool_test.c     |   3 +-
->>>>>>   drivers/gpu/drm/ttm/tests/ttm_resource_test.c | 335 ++++++++++
->>>>>>   drivers/gpu/drm/ttm/tests/ttm_tt_test.c       | 295 +++++++++
->>>>>>   drivers/gpu/drm/ttm/ttm_resource.c            |   3 +
->>>>>>   drivers/gpu/drm/ttm/ttm_tt.c                  |   3 +
->>>>>>   9 files changed, 1313 insertions(+), 3 deletions(-)
->>>>>>   create mode 100644 drivers/gpu/drm/ttm/tests/ttm_bo_test.c
->>>>>>   create mode 100644 drivers/gpu/drm/ttm/tests/ttm_resource_test.c
->>>>>>   create mode 100644 drivers/gpu/drm/ttm/tests/ttm_tt_test.c
->>>>>>
->>
+So thanks a lot for taking the time to look into the problem.
+
+
+> The panel driver sets MIPI_DSI_MODE_VIDEO_BURST.
+> And, it seems that rockchip dsi driver [1] only supports the burst mode,
+> because it takes 1/0.8 =3D 1.25 faster lane_mbps than "bandwidth of RGB".
+>=20
+> [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tr=
+ee/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c#n568
+>=20
+> >
+> > Found this commit via git bisection and added a bit of debug output to
+> > compare the value differences for the old and new calculation:
+> >
+> > [   34.810722] dw_mipi_dsi_get_hcomponent_lbcc: old lbcc: 810 * 480 * 1=
+000
+> > / 8
+> > [   34.810749] dw_mipi_dsi_get_hcomponent_lbcc: new lbcc: 810 * 64000 *
+> > 24 / (4 * 8)
+> > [   34.810756] dw_mipi_dsi_get_hcomponent_lbcc: old lbcc: 48600000, new
+> > lbcc: 38880000
+> > [   34.810762] dw_mipi_dsi_get_hcomponent_lbcc: old lbcc: 10 * 480 * 10=
+00 /
+> > 8
+> > [   34.810767] dw_mipi_dsi_get_hcomponent_lbcc: new lbcc: 10 * 64000 * =
+24
+> > / (4 * 8)
+> > [   34.810773] dw_mipi_dsi_get_hcomponent_lbcc: old lbcc: 600000, new l=
+bcc:
+> > 480000
+> > [   34.810778] dw_mipi_dsi_get_hcomponent_lbcc: old lbcc: 40 * 480 * 10=
+00 /
+> > 8
+> > [   34.810783] dw_mipi_dsi_get_hcomponent_lbcc: new lbcc: 40 * 64000 * =
+24
+> > / (4 * 8)
+> > [   34.810789] dw_mipi_dsi_get_hcomponent_lbcc: old lbcc: 2400000, new
+> > lbcc: 1920000
+>=20
+> Old lbcc / new lbcc is always 1.25.
+>=20
+> The new lbcc is for non-burst modes(sync pulse/sync event), IIUC.
+> At least, it works for i.MX93 with the RM67191 panel and ADV7535 in
+> sync pulse mode.
+>=20
+> >
+> > With the new lbcc I get a blank dsi panel and just going back to the old
+> > calculation of lbcc restores the image.
+> >
+> > I don't have that much in-depth knowledge about dsi stuff and the origi=
+nal
+> > panel times also "just" came from the vendor tree, but I really would l=
+ike
+> > to keep that display working ;-) .
+> >
+> > Do you have any idea which way to go to fix this?
+>=20
+> Can you please test the below patch for your case?
+
+The patch below does fix the display on the device. After applying it
+I do get a working display again.
+
+
+> --------------------------------------------------------8<---------------=
+=2D-----------------------------------------------------
+> --- a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
+> +++ b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
+> @@ -774,13 +774,19 @@ static u32 dw_mipi_dsi_get_hcomponent_lbcc(struct d=
+w_mipi_dsi *dsi,
+>         u32 frac, lbcc, minimum_lbcc;
+>         int bpp;
+>=20
+> -       bpp =3D mipi_dsi_pixel_format_to_bpp(dsi->format);
+> -       if (bpp < 0) {
+> -               dev_err(dsi->dev, "failed to get bpp\n");
+> -               return 0;
+> -       }
+> +       if (dsi->mode_flags & MIPI_DSI_MODE_VIDEO_BURST) {
+> +               /* lbcc based on lane_mbps */
+> +               lbcc =3D hcomponent * dsi->lane_mbps * MSEC_PER_SEC / 8;
+> +       } else {
+> +               /* lbcc based on pixel clock */
+> +               bpp =3D mipi_dsi_pixel_format_to_bpp(dsi->format);
+> +               if (bpp < 0) {
+> +                       dev_err(dsi->dev, "failed to get bpp\n");
+> +                       return 0;
+> +               }
+>=20
+> -       lbcc =3D div_u64((u64)hcomponent * mode->clock * bpp, dsi->lanes =
+* 8);
+> +               lbcc =3D div_u64((u64)hcomponent * mode->clock * bpp, dsi=
+=2D>lanes * 8);
+> +       }
+>=20
+>         frac =3D lbcc % mode->clock;
+>         lbcc =3D lbcc / mode->clock;
+> --------------------------------------------------------8<---------------=
+=2D-----------------------------------------------------
+>=20
+> It kind of keeps the old lbcc for burst mode, except for the minimum lbcc=
+ check
+> I introduced.
+>=20
+> It seems that meson supports non-burst modes only and stm supports both
+> non-burst modes and burst mode.  With the patch, I still worry about non-=
+burst
+> modes for stm, assuming the minimum lbcc check is ok and everything works
+> for meson since I guess Neil has already tested the patch set on meson.
+>=20
+> Should we go with the above patch?  If yes, I may send it out.
+
+In my mind, definitly :-) .
+
+But maybe Neil as the other reviewer also wants to chime in.
+
+
+So again thanks for looking into the issue.
+Heiko
+
+
+> >
+> > [0]
+> > https://git.ker/
+> > nel.org%2Fpub%2Fscm%2Flinux%2Fkernel%2Fgit%2Ftorvalds%2Flinux.git%2F
+> > tree%2Farch%2Farm64%2Fboot%2Fdts%2Frockchip%2Fpx30-
+> > evb.dts%23n138&data=3D05%7C01%7Cvictor.liu%40nxp.com%7C8f712ad41720
+> > 4ba7411808dbce73ce63%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0
+> > %7C638330769044424464%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLj
+> > AwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%
+> > 7C%7C&sdata=3DeffPCbPOk3GGuO8mR%2FSlcjFJfDUEZmq082simvjkux0%3D&r
+> > eserved=3D0
+> > https://git.ker/
+> > nel.org%2Fpub%2Fscm%2Flinux%2Fkernel%2Fgit%2Ftorvalds%2Flinux.git%2F
+> > tree%2Fdrivers%2Fgpu%2Fdrm%2Fpanel%2Fpanel-xinpeng-
+> > xpp055c272.c&data=3D05%7C01%7Cvictor.liu%40nxp.com%7C8f712ad417204b
+> > a7411808dbce73ce63%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7
+> > C638330769044424464%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAw
+> > MDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C
+> > %7C&sdata=3DbAgcLnJpIEQaYZZUI1CnUsgP7rMiNV6wKKg%2Bl8%2FlN40%3D&r
+> > eserved=3D0
+> >
+> > > ---
+> > >  drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c | 10 +++++++++-
+> > >  1 file changed, 9 insertions(+), 1 deletion(-)
+> > >
+> > > diff --git a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
+> > b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
+> > > index c754d55f71d1..332388fd86da 100644
+> > > --- a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
+> > > +++ b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
+> > > @@ -12,6 +12,7 @@
+> > >  #include <linux/component.h>
+> > >  #include <linux/debugfs.h>
+> > >  #include <linux/iopoll.h>
+> > > +#include <linux/math64.h>
+> > >  #include <linux/media-bus-format.h>
+> > >  #include <linux/module.h>
+> > >  #include <linux/of_device.h>
+> > > @@ -762,8 +763,15 @@ static u32
+> > dw_mipi_dsi_get_hcomponent_lbcc(struct dw_mipi_dsi *dsi,
+> > >                                        u32 hcomponent)
+> > >  {
+> > >     u32 frac, lbcc;
+> > > +   int bpp;
+> > >
+> > > -   lbcc =3D hcomponent * dsi->lane_mbps * MSEC_PER_SEC / 8;
+> > > +   bpp =3D mipi_dsi_pixel_format_to_bpp(dsi->format);
+> > > +   if (bpp < 0) {
+> > > +           dev_err(dsi->dev, "failed to get bpp\n");
+> > > +           return 0;
+> > > +   }
+> > > +
+> > > +   lbcc =3D div_u64((u64)hcomponent * mode->clock * bpp, dsi->lanes *
+> > 8);
+> >
+> >
+> >
+>=20
+>=20
+
+
+
 
