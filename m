@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A1307CBDC2
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Oct 2023 10:37:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CADEC7CBDCF
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Oct 2023 10:37:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 336FD10E06E;
-	Tue, 17 Oct 2023 08:37:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 99B4110E295;
+	Tue, 17 Oct 2023 08:37:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E65EB10E280
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Oct 2023 08:36:57 +0000 (UTC)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B82910E28C
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Oct 2023 08:36:58 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 408051F894;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 8C318219C8;
  Tue, 17 Oct 2023 08:36:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1697531816; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bVdg/ea0hnoZdOb6zhVnyOyC6Y+12MkNXkYI0moTsoc=;
- b=mq05sFSWxIExC0Laht/DWqw/1IeUPQ+P2oE4D2rVchTeUiroP6j/fWMAsjVsulZEG6SDaR
- 2akiHY9JZZ5BELggujn08PKVADTZKojTWDGfnilhWyHQFbTEeMpaF0XcV9djgWx2VJLE3X
- kkouLWQBQrefJmox5eZeNt5I6aq+PhQ=
+ bh=aPIY85bqo0mNOyh5dY5dYJ2zB1SLRoaum53PqiJuMb8=;
+ b=O3eYp94mLCHLJkiV/94oDBcoUvVPL7qOoKkyUDTWbsucXuo2zPWWWydFvo30xgGxBHJUxB
+ G/onsCv9semBtnAkS7hzIreHGtP5R1qNwRacPblVmEZ78MKxJZG8C7fyMcA37bsfaL3434
+ sOqTGEvQnLlBBZpoKrQ+IFNJlSi682E=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1697531816;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bVdg/ea0hnoZdOb6zhVnyOyC6Y+12MkNXkYI0moTsoc=;
- b=HVPGhy0oxaxzTS51B/SjhDjTSkcZ0g2eQXlwjDGesrexGln27AdTrTecGvIGXVf8K5H5GB
- BLAit2l7QOvRecDQ==
+ bh=aPIY85bqo0mNOyh5dY5dYJ2zB1SLRoaum53PqiJuMb8=;
+ b=InVUXBZc+35jbnNPzOA3waCafxCFqfkzT0WYwST8OJAhEGwuga2NIJY+T63YLtVWD/gVcl
+ +noADAfNtAsEGIDw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 13D8E13584;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 462F31391B;
  Tue, 17 Oct 2023 08:36:56 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id QHLvA6hHLmVbUgAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id uCvuD6hHLmVbUgAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Tue, 17 Oct 2023 08:36:56 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@redhat.com, jfalempe@redhat.com, maarten.lankhorst@linux.intel.com,
  mripard@kernel.org, airlied@gmail.com, daniel@ffwll.ch
-Subject: [PATCH 08/12] drm/ast: Rename AST_IO_GR_PORT to AST_IO_VGAGRI
-Date: Tue, 17 Oct 2023 10:32:04 +0200
-Message-ID: <20231017083653.10063-9-tzimmermann@suse.de>
+Subject: [PATCH 09/12] drm/ast: Rename AST_IO_CRTC_PORT to AST_IO_VGACRI
+Date: Tue, 17 Oct 2023 10:32:05 +0200
+Message-ID: <20231017083653.10063-10-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231017083653.10063-1-tzimmermann@suse.de>
 References: <20231017083653.10063-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Authentication-Results: smtp-out2.suse.de;
+Authentication-Results: smtp-out1.suse.de;
 	none
 X-Spam-Level: 
 X-Spam-Score: -6.10
@@ -66,6 +66,7 @@ X-Spamd-Result: default: False [-6.10 / 50.00]; ARC_NA(0.00)[];
  R_MISSING_CHARSET(2.50)[]; MIME_GOOD(-0.10)[text/plain];
  FREEMAIL_ENVRCPT(0.00)[gmail.com]; REPLY(-4.00)[];
  BROKEN_CONTENT_TYPE(1.50)[]; NEURAL_HAM_LONG(-3.00)[-1.000];
+ R_RATELIMIT(0.00)[to_ip_from(RL5hwym8k7wjfpcebf457xyjzi)];
  DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
  NEURAL_HAM_SHORT(-1.00)[-1.000]; RCPT_COUNT_SEVEN(0.00)[8];
  MID_CONTAINS_FROM(1.00)[];
@@ -90,41 +91,987 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Rename AST_IO_GR_PORT to AST_IO_VGAGRI to align naming
+Rename AST_IO_CRTC_PORT to AST_IO_VGACRI to align naming
 in the driver with documentation. No functional changes.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/ast/ast_drv.h  | 2 +-
- drivers/gpu/drm/ast/ast_mode.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/ast/ast_dp.c    |  70 +++++++--------
+ drivers/gpu/drm/ast/ast_dp501.c |  38 ++++-----
+ drivers/gpu/drm/ast/ast_drv.h   |   2 +-
+ drivers/gpu/drm/ast/ast_i2c.c   |  20 ++---
+ drivers/gpu/drm/ast/ast_main.c  |  18 ++--
+ drivers/gpu/drm/ast/ast_mm.c    |   4 +-
+ drivers/gpu/drm/ast/ast_mode.c  | 146 ++++++++++++++++----------------
+ drivers/gpu/drm/ast/ast_post.c  |  26 +++---
+ 8 files changed, 162 insertions(+), 162 deletions(-)
 
-diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
-index 43d1861d62624..86860ab547113 100644
---- a/drivers/gpu/drm/ast/ast_drv.h
-+++ b/drivers/gpu/drm/ast/ast_drv.h
-@@ -266,7 +266,7 @@ static inline bool __ast_gen_is_eq(struct ast_device *ast, unsigned long gen)
- #define AST_IO_VGADRR			(0x47)
- #define AST_IO_VGADWR			(0x48)
- #define AST_IO_VGAPDR		        (0x49)
--#define AST_IO_GR_PORT			(0x4E)
-+#define AST_IO_VGAGRI			(0x4E)
- #define AST_IO_CRTC_PORT		(0x54)
- #define AST_IO_INPUT_STATUS1_READ	(0x5A)
- #define AST_IO_MISC_PORT_READ		(0x4C)
-diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-index fa21cdfd6c4f5..19dc050d6e815 100644
---- a/drivers/gpu/drm/ast/ast_mode.c
-+++ b/drivers/gpu/drm/ast/ast_mode.c
-@@ -332,7 +332,7 @@ static void ast_set_std_reg(struct ast_device *ast,
+diff --git a/drivers/gpu/drm/ast/ast_dp.c b/drivers/gpu/drm/ast/ast_dp.c
+index fdd9a493aa9c0..ebb6d8ebd44eb 100644
+--- a/drivers/gpu/drm/ast/ast_dp.c
++++ b/drivers/gpu/drm/ast/ast_dp.c
+@@ -9,11 +9,11 @@
  
- 	/* Set GR */
- 	for (i = 0; i < 9; i++)
--		ast_set_index_reg(ast, AST_IO_GR_PORT, i, stdtable->gr[i]);
-+		ast_set_index_reg(ast, AST_IO_VGAGRI, i, stdtable->gr[i]);
+ bool ast_astdp_is_connected(struct ast_device *ast)
+ {
+-	if (!ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xD1, ASTDP_MCU_FW_EXECUTING))
++	if (!ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xD1, ASTDP_MCU_FW_EXECUTING))
+ 		return false;
+-	if (!ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xDF, ASTDP_HPD))
++	if (!ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xDF, ASTDP_HPD))
+ 		return false;
+-	if (!ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xDC, ASTDP_LINK_SUCCESS))
++	if (!ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xDC, ASTDP_LINK_SUCCESS))
+ 		return false;
+ 	return true;
+ }
+@@ -29,22 +29,22 @@ int ast_astdp_read_edid(struct drm_device *dev, u8 *ediddata)
+ 	 * CRDF[b0]: DP HPD
+ 	 * CRE5[b0]: Host reading EDID process is done
+ 	 */
+-	if (!(ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xD1, ASTDP_MCU_FW_EXECUTING) &&
+-		ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xDC, ASTDP_LINK_SUCCESS) &&
+-		ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xDF, ASTDP_HPD) &&
+-		ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xE5,
++	if (!(ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xD1, ASTDP_MCU_FW_EXECUTING) &&
++		ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xDC, ASTDP_LINK_SUCCESS) &&
++		ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xDF, ASTDP_HPD) &&
++		ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xE5,
+ 								ASTDP_HOST_EDID_READ_DONE_MASK))) {
+ 		goto err_astdp_edid_not_ready;
+ 	}
+ 
+-	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xE5, (u8) ~ASTDP_HOST_EDID_READ_DONE_MASK,
++	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xE5, (u8) ~ASTDP_HOST_EDID_READ_DONE_MASK,
+ 							0x00);
+ 
+ 	for (i = 0; i < 32; i++) {
+ 		/*
+ 		 * CRE4[7:0]: Read-Pointer for EDID (Unit: 4bytes); valid range: 0~64
+ 		 */
+-		ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xE4,
++		ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xE4,
+ 				       ASTDP_AND_CLEAR_MASK, (u8)i);
+ 		j = 0;
+ 
+@@ -52,9 +52,9 @@ int ast_astdp_read_edid(struct drm_device *dev, u8 *ediddata)
+ 		 * CRD7[b0]: valid flag for EDID
+ 		 * CRD6[b0]: mirror read pointer for EDID
+ 		 */
+-		while ((ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xD7,
++		while ((ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xD7,
+ 				ASTDP_EDID_VALID_FLAG_MASK) != 0x01) ||
+-			(ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xD6,
++			(ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xD6,
+ 						ASTDP_EDID_READ_POINTER_MASK) != i)) {
+ 			/*
+ 			 * Delay are getting longer with each retry.
+@@ -64,11 +64,11 @@ int ast_astdp_read_edid(struct drm_device *dev, u8 *ediddata)
+ 			 */
+ 			mdelay(j+1);
+ 
+-			if (!(ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xD1,
++			if (!(ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xD1,
+ 							ASTDP_MCU_FW_EXECUTING) &&
+-				ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xDC,
++				ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xDC,
+ 							ASTDP_LINK_SUCCESS) &&
+-				ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xDF, ASTDP_HPD))) {
++				ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xDF, ASTDP_HPD))) {
+ 				goto err_astdp_jump_out_loop_of_edid;
+ 			}
+ 
+@@ -77,13 +77,13 @@ int ast_astdp_read_edid(struct drm_device *dev, u8 *ediddata)
+ 				goto err_astdp_jump_out_loop_of_edid;
+ 		}
+ 
+-		*(ediddata) = ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT,
++		*(ediddata) = ast_get_index_reg_mask(ast, AST_IO_VGACRI,
+ 							0xD8, ASTDP_EDID_READ_DATA_MASK);
+-		*(ediddata + 1) = ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xD9,
++		*(ediddata + 1) = ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xD9,
+ 								ASTDP_EDID_READ_DATA_MASK);
+-		*(ediddata + 2) = ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xDA,
++		*(ediddata + 2) = ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xDA,
+ 								ASTDP_EDID_READ_DATA_MASK);
+-		*(ediddata + 3) = ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xDB,
++		*(ediddata + 3) = ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xDB,
+ 								ASTDP_EDID_READ_DATA_MASK);
+ 
+ 		if (i == 31) {
+@@ -103,25 +103,25 @@ int ast_astdp_read_edid(struct drm_device *dev, u8 *ediddata)
+ 		ediddata += 4;
+ 	}
+ 
+-	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xE5, (u8) ~ASTDP_HOST_EDID_READ_DONE_MASK,
++	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xE5, (u8) ~ASTDP_HOST_EDID_READ_DONE_MASK,
+ 							ASTDP_HOST_EDID_READ_DONE);
+ 
+ 	return 0;
+ 
+ err_astdp_jump_out_loop_of_edid:
+-	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xE5,
++	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xE5,
+ 							(u8) ~ASTDP_HOST_EDID_READ_DONE_MASK,
+ 							ASTDP_HOST_EDID_READ_DONE);
+ 	return (~(j+256) + 1);
+ 
+ err_astdp_edid_not_ready:
+-	if (!(ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xD1, ASTDP_MCU_FW_EXECUTING)))
++	if (!(ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xD1, ASTDP_MCU_FW_EXECUTING)))
+ 		return (~0xD1 + 1);
+-	if (!(ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xDC, ASTDP_LINK_SUCCESS)))
++	if (!(ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xDC, ASTDP_LINK_SUCCESS)))
+ 		return (~0xDC + 1);
+-	if (!(ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xDF, ASTDP_HPD)))
++	if (!(ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xDF, ASTDP_HPD)))
+ 		return (~0xDF + 1);
+-	if (!(ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xE5, ASTDP_HOST_EDID_READ_DONE_MASK)))
++	if (!(ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xE5, ASTDP_HOST_EDID_READ_DONE_MASK)))
+ 		return (~0xE5 + 1);
+ 
+ 	return	0;
+@@ -137,7 +137,7 @@ void ast_dp_launch(struct drm_device *dev)
+ 	struct ast_device *ast = to_ast_device(dev);
+ 
+ 	// Wait one second then timeout.
+-	while (ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xD1, ASTDP_MCU_FW_EXECUTING) !=
++	while (ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xD1, ASTDP_MCU_FW_EXECUTING) !=
+ 		ASTDP_MCU_FW_EXECUTING) {
+ 		i++;
+ 		// wait 100 ms
+@@ -153,7 +153,7 @@ void ast_dp_launch(struct drm_device *dev)
+ 	if (!bDPExecute)
+ 		drm_err(dev, "Wait DPMCU executing timeout\n");
+ 
+-	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xE5,
++	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xE5,
+ 			       (u8) ~ASTDP_HOST_EDID_READ_DONE_MASK,
+ 			       ASTDP_HOST_EDID_READ_DONE);
+ }
+@@ -164,14 +164,14 @@ void ast_dp_power_on_off(struct drm_device *dev, bool on)
+ {
+ 	struct ast_device *ast = to_ast_device(dev);
+ 	// Read and Turn off DP PHY sleep
+-	u8 bE3 = ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xE3, AST_DP_VIDEO_ENABLE);
++	u8 bE3 = ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xE3, AST_DP_VIDEO_ENABLE);
+ 
+ 	// Turn on DP PHY sleep
+ 	if (!on)
+ 		bE3 |= AST_DP_PHY_SLEEP;
+ 
+ 	// DP Power on/off
+-	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xE3, (u8) ~AST_DP_PHY_SLEEP, bE3);
++	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xE3, (u8) ~AST_DP_PHY_SLEEP, bE3);
  }
  
- static void ast_set_crtc_reg(struct ast_device *ast,
+ 
+@@ -182,13 +182,13 @@ void ast_dp_set_on_off(struct drm_device *dev, bool on)
+ 	u8 video_on_off = on;
+ 
+ 	// Video On/Off
+-	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xE3, (u8) ~AST_DP_VIDEO_ENABLE, on);
++	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xE3, (u8) ~AST_DP_VIDEO_ENABLE, on);
+ 
+ 	// If DP plug in and link successful then check video on / off status
+-	if (ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xDC, ASTDP_LINK_SUCCESS) &&
+-		ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xDF, ASTDP_HPD)) {
++	if (ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xDC, ASTDP_LINK_SUCCESS) &&
++		ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xDF, ASTDP_HPD)) {
+ 		video_on_off <<= 4;
+-		while (ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xDF,
++		while (ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xDF,
+ 						ASTDP_MIRROR_VIDEO_ENABLE) != video_on_off) {
+ 			// wait 1 ms
+ 			mdelay(1);
+@@ -264,8 +264,8 @@ void ast_dp_set_mode(struct drm_crtc *crtc, struct ast_vbios_mode_info *vbios_mo
+ 	 * CRE1[7:0]: MISC1 (default: 0x00)
+ 	 * CRE2[7:0]: video format index (0x00 ~ 0x20 or 0x40 ~ 0x50)
+ 	 */
+-	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xE0, ASTDP_AND_CLEAR_MASK,
++	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xE0, ASTDP_AND_CLEAR_MASK,
+ 			       ASTDP_MISC0_24bpp);
+-	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xE1, ASTDP_AND_CLEAR_MASK, ASTDP_MISC1);
+-	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xE2, ASTDP_AND_CLEAR_MASK, ModeIdx);
++	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xE1, ASTDP_AND_CLEAR_MASK, ASTDP_MISC1);
++	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xE2, ASTDP_AND_CLEAR_MASK, ModeIdx);
+ }
+diff --git a/drivers/gpu/drm/ast/ast_dp501.c b/drivers/gpu/drm/ast/ast_dp501.c
+index f10d53b0c94f0..9a4c3a0963f99 100644
+--- a/drivers/gpu/drm/ast/ast_dp501.c
++++ b/drivers/gpu/drm/ast/ast_dp501.c
+@@ -31,17 +31,17 @@ static int ast_load_dp501_microcode(struct drm_device *dev)
+ static void send_ack(struct ast_device *ast)
+ {
+ 	u8 sendack;
+-	sendack = ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0x9b, 0xff);
++	sendack = ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0x9b, 0xff);
+ 	sendack |= 0x80;
+-	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0x9b, 0x00, sendack);
++	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0x9b, 0x00, sendack);
+ }
+ 
+ static void send_nack(struct ast_device *ast)
+ {
+ 	u8 sendack;
+-	sendack = ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0x9b, 0xff);
++	sendack = ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0x9b, 0xff);
+ 	sendack &= ~0x80;
+-	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0x9b, 0x00, sendack);
++	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0x9b, 0x00, sendack);
+ }
+ 
+ static bool wait_ack(struct ast_device *ast)
+@@ -49,7 +49,7 @@ static bool wait_ack(struct ast_device *ast)
+ 	u8 waitack;
+ 	u32 retry = 0;
+ 	do {
+-		waitack = ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xd2, 0xff);
++		waitack = ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xd2, 0xff);
+ 		waitack &= 0x80;
+ 		udelay(100);
+ 	} while ((!waitack) && (retry++ < 1000));
+@@ -65,7 +65,7 @@ static bool wait_nack(struct ast_device *ast)
+ 	u8 waitack;
+ 	u32 retry = 0;
+ 	do {
+-		waitack = ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xd2, 0xff);
++		waitack = ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xd2, 0xff);
+ 		waitack &= 0x80;
+ 		udelay(100);
+ 	} while ((waitack) && (retry++ < 1000));
+@@ -78,12 +78,12 @@ static bool wait_nack(struct ast_device *ast)
+ 
+ static void set_cmd_trigger(struct ast_device *ast)
+ {
+-	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0x9b, ~0x40, 0x40);
++	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0x9b, ~0x40, 0x40);
+ }
+ 
+ static void clear_cmd_trigger(struct ast_device *ast)
+ {
+-	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0x9b, ~0x40, 0x00);
++	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0x9b, ~0x40, 0x00);
+ }
+ 
+ #if 0
+@@ -92,7 +92,7 @@ static bool wait_fw_ready(struct ast_device *ast)
+ 	u8 waitready;
+ 	u32 retry = 0;
+ 	do {
+-		waitready = ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xd2, 0xff);
++		waitready = ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xd2, 0xff);
+ 		waitready &= 0x40;
+ 		udelay(100);
+ 	} while ((!waitready) && (retry++ < 1000));
+@@ -110,7 +110,7 @@ static bool ast_write_cmd(struct drm_device *dev, u8 data)
+ 	int retry = 0;
+ 	if (wait_nack(ast)) {
+ 		send_nack(ast);
+-		ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0x9a, 0x00, data);
++		ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0x9a, 0x00, data);
+ 		send_ack(ast);
+ 		set_cmd_trigger(ast);
+ 		do {
+@@ -132,7 +132,7 @@ static bool ast_write_data(struct drm_device *dev, u8 data)
+ 
+ 	if (wait_nack(ast)) {
+ 		send_nack(ast);
+-		ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0x9a, 0x00, data);
++		ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0x9a, 0x00, data);
+ 		send_ack(ast);
+ 		if (wait_ack(ast)) {
+ 			send_nack(ast);
+@@ -153,7 +153,7 @@ static bool ast_read_data(struct drm_device *dev, u8 *data)
+ 
+ 	if (wait_ack(ast) == false)
+ 		return false;
+-	tmp = ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xd3, 0xff);
++	tmp = ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xd3, 0xff);
+ 	*data = tmp;
+ 	if (wait_nack(ast) == false) {
+ 		send_nack(ast);
+@@ -166,7 +166,7 @@ static bool ast_read_data(struct drm_device *dev, u8 *data)
+ static void clear_cmd(struct ast_device *ast)
+ {
+ 	send_nack(ast);
+-	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0x9a, 0x00, 0x00);
++	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0x9a, 0x00, 0x00);
+ }
+ #endif
+ 
+@@ -265,9 +265,9 @@ static bool ast_launch_m68k(struct drm_device *dev)
+ 		data |= 0x800;
+ 		ast_moutdwm(ast, 0x1e6e2040, data);
+ 
+-		jreg = ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0x99, 0xfc); /* D[1:0]: Reserved Video Buffer */
++		jreg = ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0x99, 0xfc); /* D[1:0]: Reserved Video Buffer */
+ 		jreg |= 0x02;
+-		ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0x99, jreg);
++		ast_set_index_reg(ast, AST_IO_VGACRI, 0x99, jreg);
+ 	}
+ 	return true;
+ }
+@@ -354,7 +354,7 @@ static bool ast_init_dvo(struct drm_device *dev)
+ 	ast_write32(ast, 0xf000, 0x1);
+ 	ast_write32(ast, 0x12000, 0x1688a8a8);
+ 
+-	jreg = ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xd0, 0xff);
++	jreg = ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xd0, 0xff);
+ 	if (!(jreg & 0x80)) {
+ 		/* Init SCU DVO Settings */
+ 		data = ast_read32(ast, 0x12008);
+@@ -413,7 +413,7 @@ static bool ast_init_dvo(struct drm_device *dev)
+ 	ast_write32(ast, 0x1202c, data);
+ 
+ 	/* Init VGA DVO Settings */
+-	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xa3, 0xcf, 0x80);
++	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xa3, 0xcf, 0x80);
+ 	return true;
+ }
+ 
+@@ -442,7 +442,7 @@ static void ast_init_analog(struct drm_device *dev)
+ 	ast_write32(ast, 0, data);
+ 
+ 	/* Disable DVO */
+-	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xa3, 0xcf, 0x00);
++	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xa3, 0xcf, 0x00);
+ }
+ 
+ void ast_init_3rdtx(struct drm_device *dev)
+@@ -451,7 +451,7 @@ void ast_init_3rdtx(struct drm_device *dev)
+ 	u8 jreg;
+ 
+ 	if (IS_AST_GEN4(ast) || IS_AST_GEN5(ast)) {
+-		jreg = ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xd1, 0xff);
++		jreg = ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xd1, 0xff);
+ 		switch (jreg & 0x0e) {
+ 		case 0x04:
+ 			ast_init_dvo(dev);
+diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
+index 86860ab547113..a8bcb1903294e 100644
+--- a/drivers/gpu/drm/ast/ast_drv.h
++++ b/drivers/gpu/drm/ast/ast_drv.h
+@@ -267,7 +267,7 @@ static inline bool __ast_gen_is_eq(struct ast_device *ast, unsigned long gen)
+ #define AST_IO_VGADWR			(0x48)
+ #define AST_IO_VGAPDR		        (0x49)
+ #define AST_IO_VGAGRI			(0x4E)
+-#define AST_IO_CRTC_PORT		(0x54)
++#define AST_IO_VGACRI			(0x54)
+ #define AST_IO_INPUT_STATUS1_READ	(0x5A)
+ #define AST_IO_MISC_PORT_READ		(0x4C)
+ 
+diff --git a/drivers/gpu/drm/ast/ast_i2c.c b/drivers/gpu/drm/ast/ast_i2c.c
+index d64045c0b8495..0e845e7acd9b5 100644
+--- a/drivers/gpu/drm/ast/ast_i2c.c
++++ b/drivers/gpu/drm/ast/ast_i2c.c
+@@ -35,8 +35,8 @@ static void ast_i2c_setsda(void *i2c_priv, int data)
+ 
+ 	for (i = 0; i < 0x10000; i++) {
+ 		ujcrb7 = ((data & 0x01) ? 0 : 1) << 2;
+-		ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xb7, 0xf1, ujcrb7);
+-		jtemp = ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xb7, 0x04);
++		ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xb7, 0xf1, ujcrb7);
++		jtemp = ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xb7, 0x04);
+ 		if (ujcrb7 == jtemp)
+ 			break;
+ 	}
+@@ -51,8 +51,8 @@ static void ast_i2c_setscl(void *i2c_priv, int clock)
+ 
+ 	for (i = 0; i < 0x10000; i++) {
+ 		ujcrb7 = ((clock & 0x01) ? 0 : 1);
+-		ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xb7, 0xf4, ujcrb7);
+-		jtemp = ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xb7, 0x01);
++		ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xb7, 0xf4, ujcrb7);
++		jtemp = ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xb7, 0x01);
+ 		if (ujcrb7 == jtemp)
+ 			break;
+ 	}
+@@ -66,14 +66,14 @@ static int ast_i2c_getsda(void *i2c_priv)
+ 
+ 	count = 0;
+ 	pass = 0;
+-	val = (ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xb7, 0x20) >> 5) & 0x01;
++	val = (ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xb7, 0x20) >> 5) & 0x01;
+ 	do {
+-		val2 = (ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xb7, 0x20) >> 5) & 0x01;
++		val2 = (ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xb7, 0x20) >> 5) & 0x01;
+ 		if (val == val2) {
+ 			pass++;
+ 		} else {
+ 			pass = 0;
+-			val = (ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xb7, 0x20) >> 5) & 0x01;
++			val = (ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xb7, 0x20) >> 5) & 0x01;
+ 		}
+ 	} while ((pass < 5) && (count++ < 0x10000));
+ 
+@@ -88,14 +88,14 @@ static int ast_i2c_getscl(void *i2c_priv)
+ 
+ 	count = 0;
+ 	pass = 0;
+-	val = (ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xb7, 0x10) >> 4) & 0x01;
++	val = (ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xb7, 0x10) >> 4) & 0x01;
+ 	do {
+-		val2 = (ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xb7, 0x10) >> 4) & 0x01;
++		val2 = (ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xb7, 0x10) >> 4) & 0x01;
+ 		if (val == val2) {
+ 			pass++;
+ 		} else {
+ 			pass = 0;
+-			val = (ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xb7, 0x10) >> 4) & 0x01;
++			val = (ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xb7, 0x10) >> 4) & 0x01;
+ 		}
+ 	} while ((pass < 5) && (count++ < 0x10000));
+ 
+diff --git a/drivers/gpu/drm/ast/ast_main.c b/drivers/gpu/drm/ast/ast_main.c
+index 7db1f50044542..f4ab40e22ceac 100644
+--- a/drivers/gpu/drm/ast/ast_main.c
++++ b/drivers/gpu/drm/ast/ast_main.c
+@@ -62,21 +62,21 @@ static void ast_enable_mmio_release(void *data)
+ 	struct ast_device *ast = data;
+ 
+ 	/* enable standard VGA decode */
+-	ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xa1, 0x04);
++	ast_set_index_reg(ast, AST_IO_VGACRI, 0xa1, 0x04);
+ }
+ 
+ static int ast_enable_mmio(struct ast_device *ast)
+ {
+ 	struct drm_device *dev = &ast->base;
+ 
+-	ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xa1, 0x06);
++	ast_set_index_reg(ast, AST_IO_VGACRI, 0xa1, 0x06);
+ 
+ 	return devm_add_action_or_reset(dev->dev, ast_enable_mmio_release, ast);
+ }
+ 
+ static void ast_open_key(struct ast_device *ast)
+ {
+-	ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0x80, 0xA8);
++	ast_set_index_reg(ast, AST_IO_VGACRI, 0x80, 0xA8);
+ }
+ 
+ static int ast_device_config_init(struct ast_device *ast)
+@@ -105,8 +105,8 @@ static int ast_device_config_init(struct ast_device *ast)
+ 		 * is disabled. We force using P2A if VGA only mode bit
+ 		 * is set D[7]
+ 		 */
+-		jregd0 = ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xd0, 0xff);
+-		jregd1 = ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xd1, 0xff);
++		jregd0 = ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xd0, 0xff);
++		jregd1 = ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xd1, 0xff);
+ 		if (!(jregd0 & 0x80) || !(jregd1 & 0x10)) {
+ 
+ 			/*
+@@ -219,7 +219,7 @@ static void ast_detect_widescreen(struct ast_device *ast)
+ 		ast->support_wide_screen = false;
+ 		break;
+ 	default:
+-		jreg = ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xd0, 0xff);
++		jreg = ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xd0, 0xff);
+ 		if (!(jreg & 0x80))
+ 			ast->support_wide_screen = true;
+ 		else if (jreg & 0x01)
+@@ -256,7 +256,7 @@ static void ast_detect_tx_chip(struct ast_device *ast, bool need_post)
+ 	 * SIL164 when there is none.
+ 	 */
+ 	if (!need_post) {
+-		jreg = ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xa3, 0xff);
++		jreg = ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xa3, 0xff);
+ 		if (jreg & 0x80)
+ 			ast->tx_chip_types = AST_TX_SIL164_BIT;
+ 	}
+@@ -267,7 +267,7 @@ static void ast_detect_tx_chip(struct ast_device *ast, bool need_post)
+ 		 * the SOC scratch register #1 bits 11:8 (interestingly marked
+ 		 * as "reserved" in the spec)
+ 		 */
+-		jreg = ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xd1, 0xff);
++		jreg = ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xd1, 0xff);
+ 		switch (jreg) {
+ 		case 0x04:
+ 			ast->tx_chip_types = AST_TX_SIL164_BIT;
+@@ -286,7 +286,7 @@ static void ast_detect_tx_chip(struct ast_device *ast, bool need_post)
+ 			ast->tx_chip_types = AST_TX_DP501_BIT;
+ 		}
+ 	} else if (IS_AST_GEN7(ast)) {
+-		if (ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xD1, TX_TYPE_MASK) ==
++		if (ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xD1, TX_TYPE_MASK) ==
+ 		    ASTDP_DPMCU_TX) {
+ 			ast->tx_chip_types = AST_TX_ASTDP_BIT;
+ 			ast_dp_launch(&ast->base);
+diff --git a/drivers/gpu/drm/ast/ast_mm.c b/drivers/gpu/drm/ast/ast_mm.c
+index bc174bd933b97..6dfe6d9777d46 100644
+--- a/drivers/gpu/drm/ast/ast_mm.c
++++ b/drivers/gpu/drm/ast/ast_mm.c
+@@ -39,7 +39,7 @@ static u32 ast_get_vram_size(struct ast_device *ast)
+ 	u32 vram_size;
+ 
+ 	vram_size = AST_VIDMEM_DEFAULT_SIZE;
+-	jreg = ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xaa, 0xff);
++	jreg = ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xaa, 0xff);
+ 	switch (jreg & 3) {
+ 	case 0:
+ 		vram_size = AST_VIDMEM_SIZE_8M;
+@@ -55,7 +55,7 @@ static u32 ast_get_vram_size(struct ast_device *ast)
+ 		break;
+ 	}
+ 
+-	jreg = ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0x99, 0xff);
++	jreg = ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0x99, 0xff);
+ 	switch (jreg & 0x03) {
+ 	case 1:
+ 		vram_size -= 0x100000;
+diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
+index 19dc050d6e815..c4381342af04b 100644
+--- a/drivers/gpu/drm/ast/ast_mode.c
++++ b/drivers/gpu/drm/ast/ast_mode.c
+@@ -253,13 +253,13 @@ static void ast_set_vbios_color_reg(struct ast_device *ast,
+ 		return;
+ 	}
+ 
+-	ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0x8c, (u8)((color_index & 0x0f) << 4));
++	ast_set_index_reg(ast, AST_IO_VGACRI, 0x8c, (u8)((color_index & 0x0f) << 4));
+ 
+-	ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0x91, 0x00);
++	ast_set_index_reg(ast, AST_IO_VGACRI, 0x91, 0x00);
+ 
+ 	if (vbios_mode->enh_table->flags & NewModeInfo) {
+-		ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0x91, 0xa8);
+-		ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0x92, format->cpp[0] * 8);
++		ast_set_index_reg(ast, AST_IO_VGACRI, 0x91, 0xa8);
++		ast_set_index_reg(ast, AST_IO_VGACRI, 0x92, format->cpp[0] * 8);
+ 	}
+ }
+ 
+@@ -272,18 +272,18 @@ static void ast_set_vbios_mode_reg(struct ast_device *ast,
+ 	refresh_rate_index = vbios_mode->enh_table->refresh_rate_index;
+ 	mode_id = vbios_mode->enh_table->mode_id;
+ 
+-	ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0x8d, refresh_rate_index & 0xff);
+-	ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0x8e, mode_id & 0xff);
++	ast_set_index_reg(ast, AST_IO_VGACRI, 0x8d, refresh_rate_index & 0xff);
++	ast_set_index_reg(ast, AST_IO_VGACRI, 0x8e, mode_id & 0xff);
+ 
+-	ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0x91, 0x00);
++	ast_set_index_reg(ast, AST_IO_VGACRI, 0x91, 0x00);
+ 
+ 	if (vbios_mode->enh_table->flags & NewModeInfo) {
+-		ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0x91, 0xa8);
+-		ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0x93, adjusted_mode->clock / 1000);
+-		ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0x94, adjusted_mode->crtc_hdisplay);
+-		ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0x95, adjusted_mode->crtc_hdisplay >> 8);
+-		ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0x96, adjusted_mode->crtc_vdisplay);
+-		ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0x97, adjusted_mode->crtc_vdisplay >> 8);
++		ast_set_index_reg(ast, AST_IO_VGACRI, 0x91, 0xa8);
++		ast_set_index_reg(ast, AST_IO_VGACRI, 0x93, adjusted_mode->clock / 1000);
++		ast_set_index_reg(ast, AST_IO_VGACRI, 0x94, adjusted_mode->crtc_hdisplay);
++		ast_set_index_reg(ast, AST_IO_VGACRI, 0x95, adjusted_mode->crtc_hdisplay >> 8);
++		ast_set_index_reg(ast, AST_IO_VGACRI, 0x96, adjusted_mode->crtc_vdisplay);
++		ast_set_index_reg(ast, AST_IO_VGACRI, 0x97, adjusted_mode->crtc_vdisplay >> 8);
+ 	}
+ }
+ 
+@@ -309,13 +309,13 @@ static void ast_set_std_reg(struct ast_device *ast,
+ 	}
+ 
+ 	/* Set CRTC; except base address and offset */
+-	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0x11, 0x7f, 0x00);
++	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0x11, 0x7f, 0x00);
+ 	for (i = 0; i < 12; i++)
+-		ast_set_index_reg(ast, AST_IO_CRTC_PORT, i, stdtable->crtc[i]);
++		ast_set_index_reg(ast, AST_IO_VGACRI, i, stdtable->crtc[i]);
+ 	for (i = 14; i < 19; i++)
+-		ast_set_index_reg(ast, AST_IO_CRTC_PORT, i, stdtable->crtc[i]);
++		ast_set_index_reg(ast, AST_IO_VGACRI, i, stdtable->crtc[i]);
+ 	for (i = 20; i < 25; i++)
+-		ast_set_index_reg(ast, AST_IO_CRTC_PORT, i, stdtable->crtc[i]);
++		ast_set_index_reg(ast, AST_IO_VGACRI, i, stdtable->crtc[i]);
+ 
+ 	/* set AR */
+ 	jreg = ast_io_read8(ast, AST_IO_INPUT_STATUS1_READ);
+@@ -346,48 +346,48 @@ static void ast_set_crtc_reg(struct ast_device *ast,
+ 	    (vbios_mode->enh_table->flags & AST2500PreCatchCRT))
+ 		precache = 40;
+ 
+-	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0x11, 0x7f, 0x00);
++	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0x11, 0x7f, 0x00);
+ 
+ 	temp = (mode->crtc_htotal >> 3) - 5;
+ 	if (temp & 0x100)
+ 		jregAC |= 0x01; /* HT D[8] */
+-	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0x00, 0x00, temp);
++	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0x00, 0x00, temp);
+ 
+ 	temp = (mode->crtc_hdisplay >> 3) - 1;
+ 	if (temp & 0x100)
+ 		jregAC |= 0x04; /* HDE D[8] */
+-	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0x01, 0x00, temp);
++	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0x01, 0x00, temp);
+ 
+ 	temp = (mode->crtc_hblank_start >> 3) - 1;
+ 	if (temp & 0x100)
+ 		jregAC |= 0x10; /* HBS D[8] */
+-	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0x02, 0x00, temp);
++	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0x02, 0x00, temp);
+ 
+ 	temp = ((mode->crtc_hblank_end >> 3) - 1) & 0x7f;
+ 	if (temp & 0x20)
+ 		jreg05 |= 0x80;  /* HBE D[5] */
+ 	if (temp & 0x40)
+ 		jregAD |= 0x01;  /* HBE D[5] */
+-	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0x03, 0xE0, (temp & 0x1f));
++	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0x03, 0xE0, (temp & 0x1f));
+ 
+ 	temp = ((mode->crtc_hsync_start-precache) >> 3) - 1;
+ 	if (temp & 0x100)
+ 		jregAC |= 0x40; /* HRS D[5] */
+-	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0x04, 0x00, temp);
++	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0x04, 0x00, temp);
+ 
+ 	temp = (((mode->crtc_hsync_end-precache) >> 3) - 1) & 0x3f;
+ 	if (temp & 0x20)
+ 		jregAD |= 0x04; /* HRE D[5] */
+-	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0x05, 0x60, (u8)((temp & 0x1f) | jreg05));
++	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0x05, 0x60, (u8)((temp & 0x1f) | jreg05));
+ 
+-	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xAC, 0x00, jregAC);
+-	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xAD, 0x00, jregAD);
++	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xAC, 0x00, jregAC);
++	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xAD, 0x00, jregAD);
+ 
+ 	// Workaround for HSync Time non octave pixels (1920x1080@60Hz HSync 44 pixels);
+ 	if (IS_AST_GEN7(ast) && (mode->crtc_vdisplay == 1080))
+-		ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xFC, 0xFD, 0x02);
++		ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xFC, 0xFD, 0x02);
+ 	else
+-		ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xFC, 0xFD, 0x00);
++		ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xFC, 0xFD, 0x00);
+ 
+ 	/* vert timings */
+ 	temp = (mode->crtc_vtotal) - 2;
+@@ -397,7 +397,7 @@ static void ast_set_crtc_reg(struct ast_device *ast,
+ 		jreg07 |= 0x20;
+ 	if (temp & 0x400)
+ 		jregAE |= 0x01;
+-	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0x06, 0x00, temp);
++	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0x06, 0x00, temp);
+ 
+ 	temp = (mode->crtc_vsync_start) - 1;
+ 	if (temp & 0x100)
+@@ -406,14 +406,14 @@ static void ast_set_crtc_reg(struct ast_device *ast,
+ 		jreg07 |= 0x80;
+ 	if (temp & 0x400)
+ 		jregAE |= 0x08;
+-	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0x10, 0x00, temp);
++	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0x10, 0x00, temp);
+ 
+ 	temp = (mode->crtc_vsync_end - 1) & 0x3f;
+ 	if (temp & 0x10)
+ 		jregAE |= 0x20;
+ 	if (temp & 0x20)
+ 		jregAE |= 0x40;
+-	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0x11, 0x70, temp & 0xf);
++	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0x11, 0x70, temp & 0xf);
+ 
+ 	temp = mode->crtc_vdisplay - 1;
+ 	if (temp & 0x100)
+@@ -422,7 +422,7 @@ static void ast_set_crtc_reg(struct ast_device *ast,
+ 		jreg07 |= 0x40;
+ 	if (temp & 0x400)
+ 		jregAE |= 0x02;
+-	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0x12, 0x00, temp);
++	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0x12, 0x00, temp);
+ 
+ 	temp = mode->crtc_vblank_start - 1;
+ 	if (temp & 0x100)
+@@ -431,23 +431,23 @@ static void ast_set_crtc_reg(struct ast_device *ast,
+ 		jreg09 |= 0x20;
+ 	if (temp & 0x400)
+ 		jregAE |= 0x04;
+-	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0x15, 0x00, temp);
++	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0x15, 0x00, temp);
+ 
+ 	temp = mode->crtc_vblank_end - 1;
+ 	if (temp & 0x100)
+ 		jregAE |= 0x10;
+-	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0x16, 0x00, temp);
++	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0x16, 0x00, temp);
+ 
+-	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0x07, 0x00, jreg07);
+-	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0x09, 0xdf, jreg09);
+-	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xAE, 0x00, (jregAE | 0x80));
++	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0x07, 0x00, jreg07);
++	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0x09, 0xdf, jreg09);
++	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xAE, 0x00, (jregAE | 0x80));
+ 
+ 	if (precache)
+-		ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xb6, 0x3f, 0x80);
++		ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xb6, 0x3f, 0x80);
+ 	else
+-		ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xb6, 0x3f, 0x00);
++		ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xb6, 0x3f, 0x00);
+ 
+-	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0x11, 0x7f, 0x80);
++	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0x11, 0x7f, 0x80);
+ }
+ 
+ static void ast_set_offset_reg(struct ast_device *ast,
+@@ -456,8 +456,8 @@ static void ast_set_offset_reg(struct ast_device *ast,
+ 	u16 offset;
+ 
+ 	offset = fb->pitches[0] >> 3;
+-	ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0x13, (offset & 0xff));
+-	ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xb0, (offset >> 8) & 0x3f);
++	ast_set_index_reg(ast, AST_IO_VGACRI, 0x13, (offset & 0xff));
++	ast_set_index_reg(ast, AST_IO_VGACRI, 0xb0, (offset >> 8) & 0x3f);
+ }
+ 
+ static void ast_set_dclk_reg(struct ast_device *ast,
+@@ -471,9 +471,9 @@ static void ast_set_dclk_reg(struct ast_device *ast,
+ 	else
+ 		clk_info = &dclk_table[vbios_mode->enh_table->dclk_index];
+ 
+-	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xc0, 0x00, clk_info->param1);
+-	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xc1, 0x00, clk_info->param2);
+-	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xbb, 0x0f,
++	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xc0, 0x00, clk_info->param1);
++	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xc1, 0x00, clk_info->param2);
++	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xbb, 0x0f,
+ 			       (clk_info->param3 & 0xc0) |
+ 			       ((clk_info->param3 & 0x3) << 4));
+ }
+@@ -502,26 +502,26 @@ static void ast_set_color_reg(struct ast_device *ast,
+ 		break;
+ 	}
+ 
+-	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xa0, 0x8f, jregA0);
+-	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xa3, 0xf0, jregA3);
+-	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xa8, 0xfd, jregA8);
++	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xa0, 0x8f, jregA0);
++	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xa3, 0xf0, jregA3);
++	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xa8, 0xfd, jregA8);
+ }
+ 
+ static void ast_set_crtthd_reg(struct ast_device *ast)
+ {
+ 	/* Set Threshold */
+ 	if (IS_AST_GEN7(ast)) {
+-		ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xa7, 0xe0);
+-		ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xa6, 0xa0);
++		ast_set_index_reg(ast, AST_IO_VGACRI, 0xa7, 0xe0);
++		ast_set_index_reg(ast, AST_IO_VGACRI, 0xa6, 0xa0);
+ 	} else if (IS_AST_GEN6(ast) || IS_AST_GEN5(ast) || IS_AST_GEN4(ast)) {
+-		ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xa7, 0x78);
+-		ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xa6, 0x60);
++		ast_set_index_reg(ast, AST_IO_VGACRI, 0xa7, 0x78);
++		ast_set_index_reg(ast, AST_IO_VGACRI, 0xa6, 0x60);
+ 	} else if (IS_AST_GEN3(ast) || IS_AST_GEN2(ast)) {
+-		ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xa7, 0x3f);
+-		ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xa6, 0x2f);
++		ast_set_index_reg(ast, AST_IO_VGACRI, 0xa7, 0x3f);
++		ast_set_index_reg(ast, AST_IO_VGACRI, 0xa6, 0x2f);
+ 	} else {
+-		ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xa7, 0x2f);
+-		ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xa6, 0x1f);
++		ast_set_index_reg(ast, AST_IO_VGACRI, 0xa7, 0x2f);
++		ast_set_index_reg(ast, AST_IO_VGACRI, 0xa6, 0x1f);
+ 	}
+ }
+ 
+@@ -546,9 +546,9 @@ static void ast_set_start_address_crt1(struct ast_device *ast,
+ 	u32 addr;
+ 
+ 	addr = offset >> 2;
+-	ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0x0d, (u8)(addr & 0xff));
+-	ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0x0c, (u8)((addr >> 8) & 0xff));
+-	ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xaf, (u8)((addr >> 16) & 0xff));
++	ast_set_index_reg(ast, AST_IO_VGACRI, 0x0d, (u8)(addr & 0xff));
++	ast_set_index_reg(ast, AST_IO_VGACRI, 0x0c, (u8)((addr >> 8) & 0xff));
++	ast_set_index_reg(ast, AST_IO_VGACRI, 0xaf, (u8)((addr >> 16) & 0xff));
+ 
+ }
+ 
+@@ -814,9 +814,9 @@ static void ast_set_cursor_base(struct ast_device *ast, u64 address)
+ 	u8 addr1 = (address >> 11) & 0xff;
+ 	u8 addr2 = (address >> 19) & 0xff;
+ 
+-	ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xc8, addr0);
+-	ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xc9, addr1);
+-	ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xca, addr2);
++	ast_set_index_reg(ast, AST_IO_VGACRI, 0xc8, addr0);
++	ast_set_index_reg(ast, AST_IO_VGACRI, 0xc9, addr1);
++	ast_set_index_reg(ast, AST_IO_VGACRI, 0xca, addr2);
+ }
+ 
+ static void ast_set_cursor_location(struct ast_device *ast, u16 x, u16 y,
+@@ -827,12 +827,12 @@ static void ast_set_cursor_location(struct ast_device *ast, u16 x, u16 y,
+ 	u8 y0 = (y & 0x00ff);
+ 	u8 y1 = (y & 0x0700) >> 8;
+ 
+-	ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xc2, x_offset);
+-	ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xc3, y_offset);
+-	ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xc4, x0);
+-	ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xc5, x1);
+-	ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xc6, y0);
+-	ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xc7, y1);
++	ast_set_index_reg(ast, AST_IO_VGACRI, 0xc2, x_offset);
++	ast_set_index_reg(ast, AST_IO_VGACRI, 0xc3, y_offset);
++	ast_set_index_reg(ast, AST_IO_VGACRI, 0xc4, x0);
++	ast_set_index_reg(ast, AST_IO_VGACRI, 0xc5, x1);
++	ast_set_index_reg(ast, AST_IO_VGACRI, 0xc6, y0);
++	ast_set_index_reg(ast, AST_IO_VGACRI, 0xc7, y1);
+ }
+ 
+ static void ast_set_cursor_enabled(struct ast_device *ast, bool enabled)
+@@ -845,7 +845,7 @@ static void ast_set_cursor_enabled(struct ast_device *ast, bool enabled)
+ 	if (enabled)
+ 		vgacrcb |= AST_IO_VGACRCB_HWC_ENABLED;
+ 
+-	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xcb, mask, vgacrcb);
++	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xcb, mask, vgacrcb);
+ }
+ 
+ static const uint32_t ast_cursor_plane_formats[] = {
+@@ -1015,7 +1015,7 @@ static void ast_crtc_dpms(struct drm_crtc *crtc, int mode)
+ 	switch (mode) {
+ 	case DRM_MODE_DPMS_ON:
+ 		ast_set_index_reg_mask(ast, AST_IO_VGASRI,  0x01, 0xdf, 0);
+-		ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xb6, 0xfc, 0);
++		ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xb6, 0xfc, 0);
+ 		if (ast->tx_chip_types & AST_TX_DP501_BIT)
+ 			ast_set_dp501_video_output(crtc->dev, 1);
+ 
+@@ -1052,7 +1052,7 @@ static void ast_crtc_dpms(struct drm_crtc *crtc, int mode)
+ 		}
+ 
+ 		ast_set_index_reg_mask(ast, AST_IO_VGASRI,  0x01, 0xdf, 0x20);
+-		ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xb6, 0xfc, ch);
++		ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xb6, 0xfc, ch);
+ 		break;
+ 	}
+ }
+@@ -1086,7 +1086,7 @@ ast_crtc_helper_mode_valid(struct drm_crtc *crtc, const struct drm_display_mode
+ 				return MODE_OK;
+ 
+ 			if ((mode->hdisplay == 1920) && (mode->vdisplay == 1200)) {
+-				jtemp = ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xd1, 0xff);
++				jtemp = ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xd1, 0xff);
+ 				if (jtemp & 0x01)
+ 					return MODE_NOMODE;
+ 				else
+@@ -1219,7 +1219,7 @@ static void ast_crtc_helper_atomic_enable(struct drm_crtc *crtc, struct drm_atom
+ 	struct drm_display_mode *adjusted_mode = &crtc_state->adjusted_mode;
+ 
+ 	ast_set_vbios_mode_reg(ast, adjusted_mode, vbios_mode_info);
+-	ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xa1, 0x06);
++	ast_set_index_reg(ast, AST_IO_VGACRI, 0xa1, 0x06);
+ 	ast_set_std_reg(ast, adjusted_mode, vbios_mode_info);
+ 	ast_set_crtc_reg(ast, adjusted_mode, vbios_mode_info);
+ 	ast_set_dclk_reg(ast, adjusted_mode, vbios_mode_info);
+diff --git a/drivers/gpu/drm/ast/ast_post.c b/drivers/gpu/drm/ast/ast_post.c
+index 13e15173f2c5b..7a993a3843147 100644
+--- a/drivers/gpu/drm/ast/ast_post.c
++++ b/drivers/gpu/drm/ast/ast_post.c
+@@ -49,7 +49,7 @@ ast_set_def_ext_reg(struct drm_device *dev)
+ 
+ 	/* reset scratch */
+ 	for (i = 0x81; i <= 0x9f; i++)
+-		ast_set_index_reg(ast, AST_IO_CRTC_PORT, i, 0x00);
++		ast_set_index_reg(ast, AST_IO_VGACRI, i, 0x00);
+ 
+ 	if (IS_AST_GEN4(ast) || IS_AST_GEN5(ast) || IS_AST_GEN6(ast))
+ 		ext_reg_info = extreginfo_ast2300;
+@@ -58,23 +58,23 @@ ast_set_def_ext_reg(struct drm_device *dev)
+ 
+ 	index = 0xa0;
+ 	while (*ext_reg_info != 0xff) {
+-		ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, index, 0x00, *ext_reg_info);
++		ast_set_index_reg_mask(ast, AST_IO_VGACRI, index, 0x00, *ext_reg_info);
+ 		index++;
+ 		ext_reg_info++;
+ 	}
+ 
+ 	/* disable standard IO/MEM decode if secondary */
+-	/* ast_set_index_reg-mask(ast, AST_IO_CRTC_PORT, 0xa1, 0xff, 0x3); */
++	/* ast_set_index_reg-mask(ast, AST_IO_VGACRI, 0xa1, 0xff, 0x3); */
+ 
+ 	/* Set Ext. Default */
+-	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0x8c, 0x00, 0x01);
+-	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xb7, 0x00, 0x00);
++	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0x8c, 0x00, 0x01);
++	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xb7, 0x00, 0x00);
+ 
+ 	/* Enable RAMDAC for A1 */
+ 	reg = 0x04;
+ 	if (IS_AST_GEN4(ast) || IS_AST_GEN5(ast) || IS_AST_GEN6(ast))
+ 		reg |= 0x20;
+-	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xb6, 0xff, reg);
++	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xb6, 0xff, reg);
+ }
+ 
+ u32 ast_mindwm(struct ast_device *ast, u32 r)
+@@ -245,7 +245,7 @@ static void ast_init_dram_reg(struct drm_device *dev)
+ 	u32 data, temp, i;
+ 	const struct ast_dramstruct *dram_reg_info;
+ 
+-	j = ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xd0, 0xff);
++	j = ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xd0, 0xff);
+ 
+ 	if ((j & 0x80) == 0) { /* VGA only */
+ 		if (IS_AST_GEN1(ast)) {
+@@ -325,7 +325,7 @@ static void ast_init_dram_reg(struct drm_device *dev)
+ 
+ 	/* wait ready */
+ 	do {
+-		j = ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xd0, 0xff);
++		j = ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xd0, 0xff);
+ 	} while ((j & 0x40) == 0);
+ }
+ 
+@@ -349,7 +349,7 @@ void ast_post_gpu(struct drm_device *dev)
+ 		ast_init_3rdtx(dev);
+ 	} else {
+ 		if (ast->tx_chip_types & AST_TX_SIL164_BIT)
+-			ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xa3, 0xcf, 0x80);	/* Enable DVO */
++			ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xa3, 0xcf, 0x80);	/* Enable DVO */
+ 	}
+ }
+ 
+@@ -1562,7 +1562,7 @@ static void ast_post_chip_2300(struct drm_device *dev)
+ 	u32 temp;
+ 	u8 reg;
+ 
+-	reg = ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xd0, 0xff);
++	reg = ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xd0, 0xff);
+ 	if ((reg & 0x80) == 0) {/* vga only */
+ 		ast_write32(ast, 0xf004, 0x1e6e0000);
+ 		ast_write32(ast, 0xf000, 0x1);
+@@ -1634,7 +1634,7 @@ static void ast_post_chip_2300(struct drm_device *dev)
+ 
+ 	/* wait ready */
+ 	do {
+-		reg = ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xd0, 0xff);
++		reg = ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xd0, 0xff);
+ 	} while ((reg & 0x40) == 0);
+ }
+ 
+@@ -2027,7 +2027,7 @@ void ast_post_chip_2500(struct drm_device *dev)
+ 	u32 temp;
+ 	u8 reg;
+ 
+-	reg = ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xd0, 0xff);
++	reg = ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xd0, 0xff);
+ 	if ((reg & AST_VRAM_INIT_STATUS_MASK) == 0) {/* vga only */
+ 		/* Clear bus lock condition */
+ 		ast_patch_ahb_2500(ast);
+@@ -2075,6 +2075,6 @@ void ast_post_chip_2500(struct drm_device *dev)
+ 
+ 	/* wait ready */
+ 	do {
+-		reg = ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xd0, 0xff);
++		reg = ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xd0, 0xff);
+ 	} while ((reg & 0x40) == 0);
+ }
 -- 
 2.42.0
 
