@@ -1,56 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 112947CBDD0
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Oct 2023 10:37:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B0707CBDC7
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Oct 2023 10:37:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D033D10E296;
-	Tue, 17 Oct 2023 08:37:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 188A410E28F;
+	Tue, 17 Oct 2023 08:37:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7FB3B10E280
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 99E2910E28E
  for <dri-devel@lists.freedesktop.org>; Tue, 17 Oct 2023 08:36:58 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id EC89921D06;
- Tue, 17 Oct 2023 08:36:56 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 3430521D0D;
+ Tue, 17 Oct 2023 08:36:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1697531816; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1697531817; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Xz1wZozJLFsalSM6SZTzRBIAR3/rkq+TgU0Bf+nvxFM=;
- b=UOGdEQrvX39q0GpCtVTM6KuGi0AmImswf2hV3ZeA6I/i9qqcZKODrQk7slBkbpfh+ljLTC
- zYe/UZxmRsyH8rJWpgZ5AKJaykxVYukgArB+z7Cu00GPRxMxMYKqXxGaEmhYNsnRSpi5kp
- Nb5FiaSrXhIl5SSpqhe7IFv3Zb/VFcA=
+ bh=ZwvSsXLvh4N7/ENeq2SVasuh4X1mnxS4dtGIfpvt/Mg=;
+ b=oYga/ALWWx7mzO+DqiX0lPUtvnUBOWqMVW4jF7V2Ka7fW75KqMjCCfAQgykVg0fVgKo3gk
+ yMfAsoCPi1i6F32IhfvbNOkt7SYl8iqzyEKbl8pNkNiBKR6gbnoW6ducGKKxQKNQme10Yd
+ lwtHwLimb5XKGHP4dGHXeeaH6eXWjN0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1697531816;
+ s=susede2_ed25519; t=1697531817;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Xz1wZozJLFsalSM6SZTzRBIAR3/rkq+TgU0Bf+nvxFM=;
- b=xe+SaN0SWLVHVE0VsYcy34d+FUO8kz9TUR/D/PDCgEaVt0VrZL8xEtq5teu/B5vHWxMtUh
- N085sUijTSmrjaDg==
+ bh=ZwvSsXLvh4N7/ENeq2SVasuh4X1mnxS4dtGIfpvt/Mg=;
+ b=wpVEe1uychMy2o3ozKg9QRG5jjKxWF1+K94JHAQxSZfPUYWEA7zos1Ld9M/rbWosdrsFKe
+ jJYuJR4N4QrJdcDA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B86381391B;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id F128113584;
  Tue, 17 Oct 2023 08:36:56 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id qErhK6hHLmVbUgAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id qMJ5OahHLmVbUgAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Tue, 17 Oct 2023 08:36:56 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@redhat.com, jfalempe@redhat.com, maarten.lankhorst@linux.intel.com,
  mripard@kernel.org, airlied@gmail.com, daniel@ffwll.ch
-Subject: [PATCH 11/12] drm/ast: Rename AST_IO_MISC_PORT_READ to AST_IO_VGAMR_R
-Date: Tue, 17 Oct 2023 10:32:07 +0200
-Message-ID: <20231017083653.10063-12-tzimmermann@suse.de>
+Subject: [PATCH 12/12] drm/ast: Move register constants to ast_reg.h
+Date: Tue, 17 Oct 2023 10:32:08 +0200
+Message-ID: <20231017083653.10063-13-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231017083653.10063-1-tzimmermann@suse.de>
 References: <20231017083653.10063-1-tzimmermann@suse.de>
@@ -91,41 +91,232 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Rename AST_IO_MISC_PORT_READ to AST_IO_VGAMR_R to align naming
-in the driver with documentation. No functional changes.
+Improve readability by putting all register constants into a separate
+header file. No functional changes.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/ast/ast_drv.h  | 2 +-
- drivers/gpu/drm/ast/ast_mode.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/ast/ast_drv.h | 83 +----------------------------
+ drivers/gpu/drm/ast/ast_reg.h | 99 +++++++++++++++++++++++++++++++++++
+ 2 files changed, 101 insertions(+), 81 deletions(-)
+ create mode 100644 drivers/gpu/drm/ast/ast_reg.h
 
 diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
-index 03f1edf95e73c..214bfac0798ab 100644
+index 214bfac0798ab..2aee32344f4a2 100644
 --- a/drivers/gpu/drm/ast/ast_drv.h
 +++ b/drivers/gpu/drm/ast/ast_drv.h
-@@ -269,7 +269,7 @@ static inline bool __ast_gen_is_eq(struct ast_device *ast, unsigned long gen)
- #define AST_IO_VGAGRI			(0x4E)
- #define AST_IO_VGACRI			(0x54)
- #define AST_IO_VGAIR1_R			(0x5A)
--#define AST_IO_MISC_PORT_READ		(0x4C)
-+#define AST_IO_VGAMR_R			(0x4C)
+@@ -39,6 +39,8 @@
+ #include <drm/drm_mode.h>
+ #include <drm/drm_framebuffer.h>
  
- #define AST_IO_MM_OFFSET		(0x380)
++#include "ast_reg.h"
++
+ #define DRIVER_AUTHOR		"Dave Airlie"
  
-diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-index 289e32227f6b9..cb96149842851 100644
---- a/drivers/gpu/drm/ast/ast_mode.c
-+++ b/drivers/gpu/drm/ast/ast_mode.c
-@@ -531,7 +531,7 @@ static void ast_set_sync_reg(struct ast_device *ast,
+ #define DRIVER_NAME		"ast"
+@@ -259,25 +261,6 @@ static inline bool __ast_gen_is_eq(struct ast_device *ast, unsigned long gen)
+ #define IS_AST_GEN6(__ast)	__ast_gen_is_eq(__ast, 6)
+ #define IS_AST_GEN7(__ast)	__ast_gen_is_eq(__ast, 7)
+ 
+-#define AST_IO_VGAARI_W			(0x40)
+-#define AST_IO_VGAMR_W			(0x42)
+-#define AST_IO_VGAER			(0x43)
+-#define AST_IO_VGASRI			(0x44)
+-#define AST_IO_VGADRR			(0x47)
+-#define AST_IO_VGADWR			(0x48)
+-#define AST_IO_VGAPDR		        (0x49)
+-#define AST_IO_VGAGRI			(0x4E)
+-#define AST_IO_VGACRI			(0x54)
+-#define AST_IO_VGAIR1_R			(0x5A)
+-#define AST_IO_VGAMR_R			(0x4C)
+-
+-#define AST_IO_MM_OFFSET		(0x380)
+-
+-#define AST_IO_VGAIR1_VREFRESH		BIT(3)
+-
+-#define AST_IO_VGACRCB_HWC_ENABLED     BIT(1)
+-#define AST_IO_VGACRCB_HWC_16BPP       BIT(0) /* set: ARGB4444, cleared: 2bpp palette */
+-
+ static inline u32 ast_read32(struct ast_device *ast, u32 reg)
  {
- 	u8 jreg;
+ 	return ioread32(ast->regs + reg);
+@@ -399,71 +382,9 @@ int ast_mode_config_init(struct ast_device *ast);
+ #define AST_DP501_LINKRATE	0xf014
+ #define AST_DP501_EDID_DATA	0xf020
  
--	jreg  = ast_io_read8(ast, AST_IO_MISC_PORT_READ);
-+	jreg  = ast_io_read8(ast, AST_IO_VGAMR_R);
- 	jreg &= ~0xC0;
- 	if (vbios_mode->enh_table->flags & NVSync)
- 		jreg |= 0x80;
+-/*
+- * Display Transmitter Type:
+- */
+-#define TX_TYPE_MASK				GENMASK(3, 1)
+-#define NO_TX						(0 << 1)
+-#define ITE66121_VBIOS_TX			(1 << 1)
+-#define SI164_VBIOS_TX				(2 << 1)
+-#define CH7003_VBIOS_TX			(3 << 1)
+-#define DP501_VBIOS_TX				(4 << 1)
+-#define ANX9807_VBIOS_TX			(5 << 1)
+-#define TX_FW_EMBEDDED_FW_TX		(6 << 1)
+-#define ASTDP_DPMCU_TX				(7 << 1)
+-
+-#define AST_VRAM_INIT_STATUS_MASK	GENMASK(7, 6)
+-//#define AST_VRAM_INIT_BY_BMC		BIT(7)
+-//#define AST_VRAM_INIT_READY		BIT(6)
+-
+-/* Define for Soc scratched reg used on ASTDP */
+-#define AST_DP_PHY_SLEEP			BIT(4)
+-#define AST_DP_VIDEO_ENABLE		BIT(0)
+-
+ #define AST_DP_POWER_ON			true
+ #define AST_DP_POWER_OFF			false
+ 
+-/*
+- * CRD1[b5]: DP MCU FW is executing
+- * CRDC[b0]: DP link success
+- * CRDF[b0]: DP HPD
+- * CRE5[b0]: Host reading EDID process is done
+- */
+-#define ASTDP_MCU_FW_EXECUTING			BIT(5)
+-#define ASTDP_LINK_SUCCESS				BIT(0)
+-#define ASTDP_HPD						BIT(0)
+-#define ASTDP_HOST_EDID_READ_DONE		BIT(0)
+-#define ASTDP_HOST_EDID_READ_DONE_MASK	GENMASK(0, 0)
+-
+-/*
+- * CRB8[b1]: Enable VSYNC off
+- * CRB8[b0]: Enable HSYNC off
+- */
+-#define AST_DPMS_VSYNC_OFF				BIT(1)
+-#define AST_DPMS_HSYNC_OFF				BIT(0)
+-
+-/*
+- * CRDF[b4]: Mirror of AST_DP_VIDEO_ENABLE
+- * Precondition:	A. ~AST_DP_PHY_SLEEP  &&
+- *			B. DP_HPD &&
+- *			C. DP_LINK_SUCCESS
+- */
+-#define ASTDP_MIRROR_VIDEO_ENABLE		BIT(4)
+-
+-#define ASTDP_EDID_READ_POINTER_MASK	GENMASK(7, 0)
+-#define ASTDP_EDID_VALID_FLAG_MASK		GENMASK(0, 0)
+-#define ASTDP_EDID_READ_DATA_MASK		GENMASK(7, 0)
+-
+-/*
+- * ASTDP setmode registers:
+- * CRE0[7:0]: MISC0 ((0x00: 18-bpp) or (0x20: 24-bpp)
+- * CRE1[7:0]: MISC1 (default: 0x00)
+- * CRE2[7:0]: video format index (0x00 ~ 0x20 or 0x40 ~ 0x50)
+- */
+-#define ASTDP_MISC0_24bpp			BIT(5)
+-#define ASTDP_MISC1				0
+-#define ASTDP_AND_CLEAR_MASK		0x00
+-
+ /*
+  * ASTDP resoultion table:
+  * EX:	ASTDP_A_B_C:
+diff --git a/drivers/gpu/drm/ast/ast_reg.h b/drivers/gpu/drm/ast/ast_reg.h
+new file mode 100644
+index 0000000000000..555286ecf5209
+--- /dev/null
++++ b/drivers/gpu/drm/ast/ast_reg.h
+@@ -0,0 +1,99 @@
++/* SPDX-License-Identifier: MIT */
++
++#ifndef __AST_REG_H__
++#define __AST_REG_H__
++
++#include <linux/bits.h>
++
++/*
++ * Modesetting
++ */
++
++#define AST_IO_MM_OFFSET		(0x380)
++
++#define AST_IO_VGAARI_W			(0x40)
++#define AST_IO_VGAMR_W			(0x42)
++#define AST_IO_VGAER			(0x43)
++#define AST_IO_VGASRI			(0x44)
++#define AST_IO_VGADRR			(0x47)
++#define AST_IO_VGADWR			(0x48)
++#define AST_IO_VGAPDR		        (0x49)
++#define AST_IO_VGAGRI			(0x4E)
++
++#define AST_IO_VGACRI			(0x54)
++#define AST_IO_VGACRCB_HWC_16BPP	BIT(0) /* set: ARGB4444, cleared: 2bpp palette */
++#define AST_IO_VGACRCB_HWC_ENABLED	BIT(1)
++
++#define AST_IO_VGAIR1_R			(0x5A)
++#define AST_IO_VGAIR1_VREFRESH		BIT(3)
++
++#define AST_IO_VGAMR_R			(0x4C)
++
++/*
++ * Display Transmitter Type
++ */
++
++#define TX_TYPE_MASK			GENMASK(3, 1)
++#define NO_TX				(0 << 1)
++#define ITE66121_VBIOS_TX		(1 << 1)
++#define SI164_VBIOS_TX			(2 << 1)
++#define CH7003_VBIOS_TX			(3 << 1)
++#define DP501_VBIOS_TX			(4 << 1)
++#define ANX9807_VBIOS_TX		(5 << 1)
++#define TX_FW_EMBEDDED_FW_TX		(6 << 1)
++#define ASTDP_DPMCU_TX			(7 << 1)
++
++#define AST_VRAM_INIT_STATUS_MASK	GENMASK(7, 6)
++//#define AST_VRAM_INIT_BY_BMC		BIT(7)
++//#define AST_VRAM_INIT_READY		BIT(6)
++
++/*
++ * AST DisplayPort
++ */
++
++/* Define for Soc scratched reg used on ASTDP */
++#define AST_DP_PHY_SLEEP		BIT(4)
++#define AST_DP_VIDEO_ENABLE		BIT(0)
++
++/*
++ * CRD1[b5]: DP MCU FW is executing
++ * CRDC[b0]: DP link success
++ * CRDF[b0]: DP HPD
++ * CRE5[b0]: Host reading EDID process is done
++ */
++#define ASTDP_MCU_FW_EXECUTING		BIT(5)
++#define ASTDP_LINK_SUCCESS		BIT(0)
++#define ASTDP_HPD			BIT(0)
++#define ASTDP_HOST_EDID_READ_DONE	BIT(0)
++#define ASTDP_HOST_EDID_READ_DONE_MASK	GENMASK(0, 0)
++
++/*
++ * CRB8[b1]: Enable VSYNC off
++ * CRB8[b0]: Enable HSYNC off
++ */
++#define AST_DPMS_VSYNC_OFF		BIT(1)
++#define AST_DPMS_HSYNC_OFF		BIT(0)
++
++/*
++ * CRDF[b4]: Mirror of AST_DP_VIDEO_ENABLE
++ * Precondition:	A. ~AST_DP_PHY_SLEEP  &&
++ *			B. DP_HPD &&
++ *			C. DP_LINK_SUCCESS
++ */
++#define ASTDP_MIRROR_VIDEO_ENABLE	BIT(4)
++
++#define ASTDP_EDID_READ_POINTER_MASK	GENMASK(7, 0)
++#define ASTDP_EDID_VALID_FLAG_MASK	GENMASK(0, 0)
++#define ASTDP_EDID_READ_DATA_MASK	GENMASK(7, 0)
++
++/*
++ * ASTDP setmode registers:
++ * CRE0[7:0]: MISC0 ((0x00: 18-bpp) or (0x20: 24-bpp)
++ * CRE1[7:0]: MISC1 (default: 0x00)
++ * CRE2[7:0]: video format index (0x00 ~ 0x20 or 0x40 ~ 0x50)
++ */
++#define ASTDP_MISC0_24bpp		BIT(5)
++#define ASTDP_MISC1			0
++#define ASTDP_AND_CLEAR_MASK		0x00
++
++#endif
 -- 
 2.42.0
 
