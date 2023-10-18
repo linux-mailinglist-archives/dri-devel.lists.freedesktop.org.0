@@ -2,49 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F58B7CD611
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Oct 2023 10:06:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C8C97CD626
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Oct 2023 10:15:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7898510E023;
-	Wed, 18 Oct 2023 08:06:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5124210E387;
+	Wed, 18 Oct 2023 08:15:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B0CA10E023
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Oct 2023 08:06:46 +0000 (UTC)
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 49E9B66072ED;
- Wed, 18 Oct 2023 09:06:44 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1697616405;
- bh=SKaYS5DAqe/a4E7/c1VcAilMd6UWMjFFf0Epels2xL8=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=MdDYz9WoTVlY4oHxVt/oTkSzcqWPK4ev+LKCoza0HMj4mlY/URh65GQQnpkGFSbKm
- d70v6ajl9K5xhqr31MT4u0bOUHhNp+n9lsVauYGHkUwIf94Aww1rLE6s6Oii18jTzk
- S5CT8aHpkM+eJHZx/uMWa0zHaO6/zd96sHtdTnVYQARLFR14TPUyCnus1lBuRznKlN
- Nd4EDwW2Nw1L7eKwPZOC/SyxJT7Wpu3Zv9mLxDoK+pPhpjgAGcBqG9YCU4yY8c5AF7
- ovsMKvKyFGqczaHX4eFSW0GW/kBc4PICK6/qVmEiISwQe67T5d7DTFSV1hHGugCHl8
- YDC4GBzuJPfkQ==
-Message-ID: <4e402da6-f6ba-4200-9cbb-47d2b117aa91@collabora.com>
-Date: Wed, 18 Oct 2023 10:06:44 +0200
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5500110E387;
+ Wed, 18 Oct 2023 08:15:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1697616913; x=1729152913;
+ h=date:from:to:cc:subject:in-reply-to:message-id:
+ references:mime-version;
+ bh=17exRRvNmKwTGh65tU4pd3aVP5pBtBAM+VqgKZy4Ty0=;
+ b=Z+VSXvgd3HknzY1OwiWlUg0DVFjV3CsWJDOeSuqbbnGWgE0dZTPGkdIc
+ fr42T6nMKexGzwB/M5X8YZbTCcgDOd+jemWytxk8IVhkZyqxI3bsDrVp1
+ +r9r48SlE8BzwZbAdLDSvMoHMQyMo3ap8Rvt61btqBDyBvZnIPfFuAWV6
+ 86YwDrwLTXgw21MI/z81I81q8TkQXdP67EoSNSRgyCHaPoFbYpXI7rk7b
+ Reu1+ZYhNbUvi0Wz9PuBd9lkR9hZ9PzAAqoufATPCjcXqEffcwTPGQT3t
+ tXCAWWC+A30LjSJ4Y/9tJ7vT6+wQP0anVo8/3LwQuydSgMFmWOUKGP7jx w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="371028490"
+X-IronPort-AV: E=Sophos;i="6.03,234,1694761200"; d="scan'208";a="371028490"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Oct 2023 01:15:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="760133296"
+X-IronPort-AV: E=Sophos;i="6.03,234,1694761200"; d="scan'208";a="760133296"
+Received: from gruberda-mobl1.ger.corp.intel.com ([10.252.62.52])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Oct 2023 01:15:07 -0700
+Date: Wed, 18 Oct 2023 11:15:05 +0300 (EEST)
+From: =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
+To: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+Subject: Re: [PATCH v4 15/17] HID: amd_sfh: rename float_to_int() to
+ amd_sfh_float_to_int()
+In-Reply-To: <20231018070241.2041529-16-Shyam-sundar.S-k@amd.com>
+Message-ID: <e0d9adc1-83c6-1f5a-6f1d-a52391d36ed2@linux.intel.com>
+References: <20231018070241.2041529-1-Shyam-sundar.S-k@amd.com>
+ <20231018070241.2041529-16-Shyam-sundar.S-k@amd.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 22/23] drm/mediatek: Power on devices in OVL adaptor
- when atomic enable
-Content-Language: en-US
-To: Hsiao Chien Sung <shawn.sung@mediatek.com>, CK Hu <ck.hu@mediatek.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, Rob Herring <robh+dt@kernel.org>
-References: <20231018043650.22532-1-shawn.sung@mediatek.com>
- <20231018043650.22532-23-shawn.sung@mediatek.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20231018043650.22532-23-shawn.sung@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="8323329-983461305-1697616911=:2178"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,29 +58,118 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nathan Lu <nathan.lu@mediatek.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Moudy Ho <moudy.ho@mediatek.com>, Fei Shao <fshao@chromium.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Johnson Wang <johnson.wang@mediatek.corp-partner.google.com>,
- "Nancy . Lin" <nancy.lin@mediatek.com>, linux-mediatek@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org,
- "Jason-JH . Lin" <jason-jh.lin@mediatek.com>, Sean Paul <sean@poorly.run>,
- devicetree@vger.kernel.org
+Cc: Xinhui.Pan@amd.com, Patil.Reddy@amd.com,
+ Basavaraj Natikar <basavaraj.natikar@amd.com>, dri-devel@lists.freedesktop.org,
+ jikos@kernel.org, amd-gfx@lists.freedesktop.org,
+ platform-driver-x86@vger.kernel.org, markgross@kernel.org,
+ Hans de Goede <hdegoede@redhat.com>, benjamin.tissoires@redhat.com,
+ mario.limonciello@amd.com, linux-input@vger.kernel.org,
+ alexander.deucher@amd.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 18/10/23 06:36, Hsiao Chien Sung ha scritto:
-> Different from OVL, OVL adaptor is a pseudo device so we didn't
-> define it in the device tree, consequently, pm_runtime_resume_and_get()
-> called by .atomic_enable() powers on no device in OVL adaptor and
-> leads to power outage in the corresponding IOMMU.
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
+
+--8323329-983461305-1697616911=:2178
+Content-Type: text/plain; charset=ISO-8859-15
+Content-Transfer-Encoding: 8BIT
+
+On Wed, 18 Oct 2023, Shyam Sundar S K wrote:
+
+> From: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
 > 
-> To resolve the issue, we implement a function to power on the RDMAs
-> in OVL adaptor, and the system will make sure the IOMMU is powered on
-> as well because of the device link (iommus) in the RDMA nodes in DTS.
+> Current amd_sfh driver has float_to_int() to convert units from
+> float to int. This is fine until this function gets called outside of
+> the current scope of file.
 > 
-> Signed-off-by: Hsiao Chien Sung <shawn.sung@mediatek.com>
+> Add a prefix "amd_sfh" to float_to_int() so that function represents
+> the driver name. This function will be called by multiple callers in the
+> next patch.
+> 
+> Co-developed-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+> Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+> Signed-off-by: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+> ---
+>  drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_desc.c | 22 +++++++++----------
+>  .../amd-sfh-hid/sfh1_1/amd_sfh_interface.h    |  1 +
+>  2 files changed, 12 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_desc.c b/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_desc.c
+> index 06bdcf072d10..dbc8c6943ca1 100644
+> --- a/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_desc.c
+> +++ b/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_desc.c
+> @@ -132,7 +132,7 @@ static void get_common_inputs(struct common_input_property *common, int report_i
+>  	common->event_type = HID_USAGE_SENSOR_EVENT_DATA_UPDATED_ENUM;
+>  }
+>  
+> -static int float_to_int(u32 flt32_val)
+> +int amd_sfh_float_to_int(u32 flt32_val)
+>  {
+>  	int fraction, shift, mantissa, sign, exp, zeropre;
+>  
+> @@ -200,9 +200,9 @@ static u8 get_input_rep(u8 current_index, int sensor_idx, int report_id,
+>  			     OFFSET_SENSOR_DATA_DEFAULT;
+>  		memcpy_fromio(&accel_data, sensoraddr, sizeof(struct sfh_accel_data));
+>  		get_common_inputs(&acc_input.common_property, report_id);
+> -		acc_input.in_accel_x_value = float_to_int(accel_data.acceldata.x) / 100;
+> -		acc_input.in_accel_y_value = float_to_int(accel_data.acceldata.y) / 100;
+> -		acc_input.in_accel_z_value = float_to_int(accel_data.acceldata.z) / 100;
+> +		acc_input.in_accel_x_value = amd_sfh_float_to_int(accel_data.acceldata.x) / 100;
+> +		acc_input.in_accel_y_value = amd_sfh_float_to_int(accel_data.acceldata.y) / 100;
+> +		acc_input.in_accel_z_value = amd_sfh_float_to_int(accel_data.acceldata.z) / 100;
+>  		memcpy(input_report, &acc_input, sizeof(acc_input));
+>  		report_size = sizeof(acc_input);
+>  		break;
+> @@ -211,9 +211,9 @@ static u8 get_input_rep(u8 current_index, int sensor_idx, int report_id,
+>  			     OFFSET_SENSOR_DATA_DEFAULT;
+>  		memcpy_fromio(&gyro_data, sensoraddr, sizeof(struct sfh_gyro_data));
+>  		get_common_inputs(&gyro_input.common_property, report_id);
+> -		gyro_input.in_angel_x_value = float_to_int(gyro_data.gyrodata.x) / 1000;
+> -		gyro_input.in_angel_y_value = float_to_int(gyro_data.gyrodata.y) / 1000;
+> -		gyro_input.in_angel_z_value = float_to_int(gyro_data.gyrodata.z) / 1000;
+> +		gyro_input.in_angel_x_value = amd_sfh_float_to_int(gyro_data.gyrodata.x) / 1000;
+> +		gyro_input.in_angel_y_value = amd_sfh_float_to_int(gyro_data.gyrodata.y) / 1000;
+> +		gyro_input.in_angel_z_value = amd_sfh_float_to_int(gyro_data.gyrodata.z) / 1000;
+>  		memcpy(input_report, &gyro_input, sizeof(gyro_input));
+>  		report_size = sizeof(gyro_input);
+>  		break;
+> @@ -222,9 +222,9 @@ static u8 get_input_rep(u8 current_index, int sensor_idx, int report_id,
+>  			     OFFSET_SENSOR_DATA_DEFAULT;
+>  		memcpy_fromio(&mag_data, sensoraddr, sizeof(struct sfh_mag_data));
+>  		get_common_inputs(&magno_input.common_property, report_id);
+> -		magno_input.in_magno_x = float_to_int(mag_data.magdata.x) / 100;
+> -		magno_input.in_magno_y = float_to_int(mag_data.magdata.y) / 100;
+> -		magno_input.in_magno_z = float_to_int(mag_data.magdata.z) / 100;
+> +		magno_input.in_magno_x = amd_sfh_float_to_int(mag_data.magdata.x) / 100;
+> +		magno_input.in_magno_y = amd_sfh_float_to_int(mag_data.magdata.y) / 100;
+> +		magno_input.in_magno_z = amd_sfh_float_to_int(mag_data.magdata.z) / 100;
+>  		magno_input.in_magno_accuracy = mag_data.accuracy / 100;
+>  		memcpy(input_report, &magno_input, sizeof(magno_input));
+>  		report_size = sizeof(magno_input);
+> @@ -234,7 +234,7 @@ static u8 get_input_rep(u8 current_index, int sensor_idx, int report_id,
+>  			     OFFSET_SENSOR_DATA_DEFAULT;
+>  		memcpy_fromio(&als_data, sensoraddr, sizeof(struct sfh_als_data));
+>  		get_common_inputs(&als_input.common_property, report_id);
+> -		als_input.illuminance_value = float_to_int(als_data.lux);
+> +		als_input.illuminance_value = amd_sfh_float_to_int(als_data.lux);
+>  		report_size = sizeof(als_input);
+>  		memcpy(input_report, &als_input, sizeof(als_input));
+>  		break;
+> diff --git a/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_interface.h b/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_interface.h
+> index 9d31d5b510eb..78e22850417a 100644
+> --- a/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_interface.h
+> +++ b/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_interface.h
+> @@ -151,4 +151,5 @@ struct hpd_status {
+>  
+>  void sfh_interface_init(struct amd_mp2_dev *mp2);
+>  void amd_sfh1_1_set_desc_ops(struct amd_mp2_ops *mp2_ops);
+> +int amd_sfh_float_to_int(u32 flt32_val);
+>  #endif
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Reviewed-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
 
+-- 
+ i.
 
+--8323329-983461305-1697616911=:2178--
