@@ -1,42 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 923A27CDE19
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Oct 2023 15:58:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C1A4F7CDE21
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Oct 2023 15:59:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9CBB710E3F6;
-	Wed, 18 Oct 2023 13:58:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0638210E3FA;
+	Wed, 18 Oct 2023 13:59:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3562110E3F8
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Oct 2023 13:58:52 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 9BFA4617E0;
- Wed, 18 Oct 2023 13:58:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 719B1C433C7;
- Wed, 18 Oct 2023 13:58:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1697637531;
- bh=wxEBr6zR30oEb1KN/pZ/GCIcJk3kW74EFYDBwxqr4AA=;
- h=From:To:Cc:Subject:Date:From;
- b=Sngmf5n6aoZxOH3ubzZrHjpUGjD1RloVY5MtNb+6SqqM+Se8rw8QPdk4SpwBTcWjs
- SHYTWnTC8/yY7fEqQO2E1rXMqD3g5JsxwV5mutmdBUsU3jbLJPvojAqxFVBHVqC+tY
- 1/pzKeV/TePNeN+p00j5VbhLvpjTyjHaB+XRe2/yI+WVdLnVmyNEj3PG7vdIggXKBc
- Zj+hdc/ez4dLzjWMfdHkF7F6BjQiLah9mc0G0+BaflPq2mxtGg/6V08rZISBdRlfc7
- F3rhNcGhh238m09IZYdzOqeYWtGamS8wvdu4BOnb/ZX0MdxGNI7Wapj4kldkVxJZ1G
- pDf0fSz0zeC5A==
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org
-Subject: [GIT PULL] mediatek drm next for 6.7
-Date: Wed, 18 Oct 2023 13:58:46 +0000
-Message-Id: <20231018135846.5811-1-chunkuang.hu@kernel.org>
-X-Mailer: git-send-email 2.34.1
+Received: from mail-oa1-x31.google.com (mail-oa1-x31.google.com
+ [IPv6:2001:4860:4864:20::31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D08ED10E3F8;
+ Wed, 18 Oct 2023 13:59:30 +0000 (UTC)
+Received: by mail-oa1-x31.google.com with SMTP id
+ 586e51a60fabf-1e58a522e41so4059125fac.2; 
+ Wed, 18 Oct 2023 06:59:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1697637570; x=1698242370; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=UJsFVEu0nZS2XQuTUeDLT7XtWcBNpvC9dTMB0YQtl08=;
+ b=JAUqtocLqLE/HMdZeXC88mLO6ZJiDtpwkDq6ZYwFzEtfXfTc65daYU7l+ydFHZ+3E4
+ p1C4aTTM5majyHIsI+kZdz1k6kzoIVA10ir12WjxBM/FY9syOC03hkefuixY2DFr7EXs
+ CHBl26v3tlIJBSoS02TIxIIHMx7oriOaMLKXuQQHclAJvkVo3aJy6pbF2nrl2QzaS+Ra
+ s0UoXIFyBUhVNOaSTPexLk+kbnDA1Bc4+wWLaaYborDMG2f6pzlfKiRa5CCg/+CDmpG/
+ Bcbdz4ZbheFIQpE+cXgYKGAnHaxUkbL4ILBZKyVUINYxAowfmFhey0D+DBzxugK6bqyX
+ 5eIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1697637570; x=1698242370;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=UJsFVEu0nZS2XQuTUeDLT7XtWcBNpvC9dTMB0YQtl08=;
+ b=gkLrJw1UokCkrfx8eOb1DH+hF6iwFurYNcjQfK68LA4iX40DfolRT6jYdEohVR71lD
+ +W/1x8dYDgyZ/3CYEcHHDP0klOzBJa8zs+kGOl7p16ekYxg0yHeCX9X/srmBC26cCq72
+ c3g7BAC3Mlplux9XCzr2m/gA2UVEGnrPdHjb0+wvul9lw3twNbxfbuoc7KHrxpeeNjc7
+ qtVGLZbFvD5Q4BtZOBstg4npfEfHJbpahYuE+4lSSk35LtLol52RmpLc/JZObUWXfU2N
+ jaEyEY7uZUqunsLnO6iPbp0Yrt1BPsHNQIKnBaovqa8yN7ggtcc+N9BWLmfV4kPOs3Fr
+ D2MA==
+X-Gm-Message-State: AOJu0Yy5lRRZSq4Z4L9jiRidj1Vmt0V4iQ6wvnPHKKPqqHYv27sli/X8
+ HpLSNjwIv0kary4U0VwntX7Ys/I/NE2BoQCYhpjqNqWA
+X-Google-Smtp-Source: AGHT+IHcSaXI8TATTgE0uFsyojz0oilu79AqJoPzqbYkazhnwilzrsOpJuwICO2yzMpVi+I/x9RR8bf6OhrrUddnT3U=
+X-Received: by 2002:a05:6870:be98:b0:1ea:118d:3e8e with SMTP id
+ nx24-20020a056870be9800b001ea118d3e8emr5548202oab.56.1697637570046; Wed, 18
+ Oct 2023 06:59:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20231018011614.10883-1-yang.lee@linux.alibaba.com>
+In-Reply-To: <20231018011614.10883-1-yang.lee@linux.alibaba.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Wed, 18 Oct 2023 09:59:19 -0400
+Message-ID: <CADnq5_M=tRaFQVivkUQqRO1t_RWOgd5=FnRtuo4scAu5eTg+cg@mail.gmail.com>
+Subject: Re: [PATCH -next] drm/amd/display: Remove unneeded semicolon
+To: Yang Li <yang.lee@linux.alibaba.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,114 +68,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jani Nikula <jani.nikula@intel.com>, Shuijing Li <shuijing.li@mediatek.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- "Jason-JH . Lin" <jason-jh.lin@mediatek.com>
+Cc: Abaci Robot <abaci@linux.alibaba.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ alexander.deucher@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Dave & Daniel:
+Applied.  Thanks!
 
-This includes:
-
-1. Add support MT8188 dsi function
-2. Fix coverity issue with unintentional integer overflow
-3. Add support MT8188 dp/edp function
-4. Fix memory leak on ->get_edid callback audio detection
-   and error path.
-5. Add connector dynamic selection capability
-6. MediaTek DDP GAMMA - 12-bit LUT support
-7. mtk_dsi: Fix NO_EOT_PACKET settings/handling
-
-Regards,
-Chun-Kuang.
-
-The following changes since commit 0bb80ecc33a8fb5a682236443c1e740d5c917d1d:
-
-  Linux 6.6-rc1 (2023-09-10 16:28:41 -0700)
-
-are available in the Git repository at:
-
-  https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git tags/mediatek-drm-next-6.7
-
-for you to fetch changes up to 5855d422a6f250f3518f43b49092c8e87a5e42be:
-
-  drm: mediatek: mtk_dsi: Fix NO_EOT_PACKET settings/handling (2023-10-18 13:18:22 +0000)
-
-----------------------------------------------------------------
-Mediatek DRM Next for Linux 6.7
-
-1. Add support MT8188 dsi function
-2. Fix coverity issue with unintentional integer overflow
-3. Add support MT8188 dp/edp function
-4. Fix memory leak on ->get_edid callback audio detection
-   and error path.
-5. Add connector dynamic selection capability
-6. MediaTek DDP GAMMA - 12-bit LUT support
-7. mtk_dsi: Fix NO_EOT_PACKET settings/handling
-
-----------------------------------------------------------------
-AngeloGioacchino Del Regno (16):
-      drm/mediatek: gamma: Reduce indentation in mtk_gamma_set_common()
-      drm/mediatek: gamma: Support SoC specific LUT size
-      drm/mediatek: gamma: Improve and simplify HW LUT calculation
-      drm/mediatek: gamma: Enable the Gamma LUT table only after programming
-      drm/mediatek: gamma: Use bitfield macros
-      drm/mediatek: aal: Use bitfield macros
-      drm/mediatek: De-commonize disp_aal/disp_gamma gamma_set functions
-      drm/mediatek: gamma: Support multi-bank gamma LUT
-      drm/mediatek: gamma: Add support for 12-bit LUT
-      drm/mediatek: gamma: Add support for MT8195
-      drm/mediatek: gamma: Make sure relay mode is disabled
-      drm/mediatek: gamma: Program gamma LUT type for descending or rising
-      drm/mediatek: aal: Add kerneldoc for struct mtk_disp_aal
-      drm/mediatek: gamma: Add kerneldoc for struct mtk_disp_gamma
-      drm/mediatek: aal: Compress of_device_id entries and add sentinel
-      drm: mediatek: mtk_dsi: Fix NO_EOT_PACKET settings/handling
-
-Jani Nikula (2):
-      drm/mediatek/dp: fix memory leak on ->get_edid callback audio detection
-      drm/mediatek/dp: fix memory leak on ->get_edid callback error path
-
-Jason-JH.Lin (12):
-      drm/mediatek: Fix coverity issue with unintentional integer overflow
-      drm/mediatek: Add mmsys_dev_num to mt8188 vdosys0 driver data
-      drm/mediatek: Add crtc path enum for all_drm_priv array
-      drm/mediatek: Fix using wrong drm private data to bind mediatek-drm
-      drm/mediatek: Add encoder_index interface for mtk_ddp_comp_funcs
-      drm/mediatek: Add connector dynamic selection capability
-      drm/mediatek: dpi: Support dynamic connector selection
-      drm/mediatek: dsi: Support dynamic connector selection
-      drm/mediatek: Support dynamic selection of MT8188 VDOSYS0
-      drm/mediatek: Fix iommu fault by swapping FBs after updating plane state
-      drm/mediatek: Fix iommu fault during crtc enabling
-      drm/mediatek: gamma: Adjust mtk_drm_gamma_set_common parameters
-
-Shuijing Li (8):
-      dt-bindings: display: mediatek: dsi: Add compatible for MediaTek MT8188
-      drm/mediatek: dsi: Add dsi cmdq_ctl to send panel initial code
-      drm/mediatek: Add mt8188 dsi compatible to mtk_dsi.c
-      dt-bindings: display: mediatek: dp: Add compatible for MediaTek MT8188
-      drm/mediatek: dp: Add the audio packet flag to mtk_dp_data struct
-      drm/mediatek: dp: Add the audio divider to mtk_dp_data struct
-      drm/mediatek: dp: Add support MT8188 dp/edp function
-      drm/mediatek: dsi: Add mode_valid callback to DSI bridge
-
- .../bindings/display/mediatek/mediatek,dp.yaml     |   2 +
- .../bindings/display/mediatek/mediatek,dsi.yaml    |   1 +
- drivers/gpu/drm/mediatek/mtk_disp_aal.c            |  86 ++++++++-
- drivers/gpu/drm/mediatek/mtk_disp_drv.h            |   5 +-
- drivers/gpu/drm/mediatek/mtk_disp_gamma.c          | 203 +++++++++++++++++----
- drivers/gpu/drm/mediatek/mtk_dp.c                  |  42 ++++-
- drivers/gpu/drm/mediatek/mtk_dp_reg.h              |  23 ++-
- drivers/gpu/drm/mediatek/mtk_dpi.c                 |   9 +
- drivers/gpu/drm/mediatek/mtk_drm_crtc.c            |  83 ++++++++-
- drivers/gpu/drm/mediatek/mtk_drm_crtc.h            |   6 +-
- drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c        |  34 +++-
- drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h        |  17 ++
- drivers/gpu/drm/mediatek/mtk_drm_drv.c             |  47 ++++-
- drivers/gpu/drm/mediatek/mtk_drm_drv.h             |  15 +-
- drivers/gpu/drm/mediatek/mtk_drm_gem.c             |   9 +-
- drivers/gpu/drm/mediatek/mtk_drm_plane.c           |  41 ++++-
- drivers/gpu/drm/mediatek/mtk_dsi.c                 |  48 ++++-
- 17 files changed, 583 insertions(+), 88 deletions(-)
+On Tue, Oct 17, 2023 at 9:16=E2=80=AFPM Yang Li <yang.lee@linux.alibaba.com=
+> wrote:
+>
+> ./drivers/gpu/drm/amd/display/dc/dml2/dml2_dc_resource_mgmt.c:464:3-4: Un=
+needed semicolon
+>
+> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+> Closes: https://bugzilla.openanolis.cn/show_bug.cgi?id=3D6900
+> Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
+> ---
+>  drivers/gpu/drm/amd/display/dc/dml2/dml2_dc_resource_mgmt.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/amd/display/dc/dml2/dml2_dc_resource_mgmt.c =
+b/drivers/gpu/drm/amd/display/dc/dml2/dml2_dc_resource_mgmt.c
+> index 36baf35bb170..f45fbe820445 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dml2/dml2_dc_resource_mgmt.c
+> +++ b/drivers/gpu/drm/amd/display/dc/dml2/dml2_dc_resource_mgmt.c
+> @@ -461,7 +461,7 @@ static void sort_pipes_for_splitting(struct dc_plane_=
+pipe_pool *pipes)
+>                                 swapped =3D false;
+>                         }
+>
+> -               };
+> +               }
+>         }
+>  }
+>
+> --
+> 2.20.1.7.g153144c
+>
