@@ -1,176 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F25277CD280
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Oct 2023 05:07:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 040307CD286
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Oct 2023 05:09:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2353110E35D;
-	Wed, 18 Oct 2023 03:07:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5224710E35E;
+	Wed, 18 Oct 2023 03:09:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 24EED10E35D
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Oct 2023 03:07:03 +0000 (UTC)
-X-UUID: 6734ee466d6311eea33bb35ae8d461a2-20231018
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=MIME-Version:Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From;
- bh=Pcl7oEYuEl4KfOfZDXcACXyYbHAp76nlqtQmPOeDQoU=; 
- b=F82oar9kwAMvM3yrSNNpfKc8PjM310sObiAOSuqWfIbjdw6OU3jk6m6dVzgv3WxPcWrG1gqf1CPMYVgR09QWa0zxGVzBG+QuL0xTk+aik14anzFFjcoctRpvA8PMPEXwv0gHg2fd8e+21DGsxJLDIqj0IPeiVz01HsoEFopcrxU=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.32, REQID:11fc88ef-5d3f-4907-a016-1d076f452e20, IP:0,
- U
- RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
- release,TS:0
-X-CID-META: VersionHash:5f78ec9, CLOUDID:62f10ec0-14cc-44ca-b657-2d2783296e72,
- B
- ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,
- DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: 6734ee466d6311eea33bb35ae8d461a2-20231018
-Received: from mtkmbs14n1.mediatek.inc [(172.21.101.75)] by
- mailgw01.mediatek.com (envelope-from <moudy.ho@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1701527424; Wed, 18 Oct 2023 11:06:59 +0800
-Received: from mtkmbs10n2.mediatek.inc (172.21.101.183) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Wed, 18 Oct 2023 11:06:58 +0800
-Received: from APC01-SG2-obe.outbound.protection.outlook.com (172.21.101.237)
- by mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP
- Server id
- 15.2.1118.26 via Frontend Transport; Wed, 18 Oct 2023 11:06:57 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZKpuDKCKYPBd0WZGrUB/lFj6D3FFNYFM2i36up8lUV3nTDBjNjSlfb5IyQtmOCHAph4aH5s4ItYhnocsMjUlvwsCCId+qAhYOPUhE/DdjL+u6bKSQH1ULhO2sM3faqwLeOa2AXcS4BlvYHlr4HQ8uB7lh2RImAt2VFeqtvTNO+PgcTPAo/amh5FDaQUJxeyWjZvCu6aq3wu+uLLVIdoKGHauosndQYUM4NA8Yf2kxIfQCNn4SYwqmdNcxw8MuB2MXz61BjmG2wNBu2v3MK1Liv9V9J/xFMPA19DnRFOdFZXZ2hC4szuXY8pltPgCYww+Ry6vl/9JslhAwRjk2v5SpQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Pcl7oEYuEl4KfOfZDXcACXyYbHAp76nlqtQmPOeDQoU=;
- b=jXucJTRJO128s4+gfMoXeyRGt83iwipp788ptjpwYdB36+pQ1GI/E/Wqg3Dq3jiP4YLwgZZab6U8PiRMTUdcq6GtDZHFuJ7XdERhHjnS/qSgCJgWSHDSNQyxcMNmZ+QmypuSB0jp1vtmfdIu84MtkRrntGbh+Gpd0wx2xVc/37rIB+1zA2jWhwSR8pNbU0X6T68ZUIP6ubPiERydfd6g1fjuEyBe6F7I2DjJkjvOq7Fkit3vgu8zB/9oZp8l+GpXHIzAf+z/emZTN8yPRrsq3mYuGjO/lxtYbfoB272VNcjRsmWsP9XNUzt++bmzp2O1OeSMP6ov/27pGteRKBAN5A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
- dkim=pass header.d=mediatek.com; arc=none
+Received: from mail-vs1-xe2f.google.com (mail-vs1-xe2f.google.com
+ [IPv6:2607:f8b0:4864:20::e2f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 75CE410E35E;
+ Wed, 18 Oct 2023 03:08:58 +0000 (UTC)
+Received: by mail-vs1-xe2f.google.com with SMTP id
+ ada2fe7eead31-457bac7c3f5so2546868137.2; 
+ Tue, 17 Oct 2023 20:08:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Pcl7oEYuEl4KfOfZDXcACXyYbHAp76nlqtQmPOeDQoU=;
- b=A0rMolI+5OmvK0zMNBtDuv06//S4I+oyV74s7MEGaccRSPycZtThoyzFugwqert322lkV6//5Na3US/zRoIv7xGQPFjh/GxyeZOfJ80HPHVcF8mI9JT3PEKdU8ntf8z0q4URlDPFZKcgXRG4KdAEtGjKHXCgkTG8NgTIcP0uKFI=
-Received: from SG2PR03MB6343.apcprd03.prod.outlook.com (2603:1096:4:17a::6) by
- TYSPR03MB7306.apcprd03.prod.outlook.com (2603:1096:400:414::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6886.36; Wed, 18 Oct
- 2023 03:06:55 +0000
-Received: from SG2PR03MB6343.apcprd03.prod.outlook.com
- ([fe80::a001:6b8f:9f59:31d7]) by SG2PR03MB6343.apcprd03.prod.outlook.com
- ([fe80::a001:6b8f:9f59:31d7%4]) with mapi id 15.20.6907.021; Wed, 18 Oct 2023
- 03:06:55 +0000
-From: =?utf-8?B?TW91ZHkgSG8gKOS9leWul+WOnyk=?= <Moudy.Ho@mediatek.com>
-To: "robh+dt@kernel.org" <robh+dt@kernel.org>, "chunkuang.hu@kernel.org"
- <chunkuang.hu@kernel.org>, "mchehab@kernel.org" <mchehab@kernel.org>,
- "krzysztof.kozlowski@linaro.org" <krzysztof.kozlowski@linaro.org>,
- "daniel@ffwll.ch" <daniel@ffwll.ch>, "p.zabel@pengutronix.de"
- <p.zabel@pengutronix.de>, "conor+dt@kernel.org" <conor+dt@kernel.org>,
- "hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>, "airlied@gmail.com"
- <airlied@gmail.com>, "krzysztof.kozlowski+dt@linaro.org"
- <krzysztof.kozlowski+dt@linaro.org>, "matthias.bgg@gmail.com"
- <matthias.bgg@gmail.com>, "angelogioacchino.delregno@collabora.com"
- <angelogioacchino.delregno@collabora.com>
-Subject: Re: [PATCH v7 02/16] dt-bindings: media: mediatek: mdp3: merge the
- indentical RDMA under display
-Thread-Topic: [PATCH v7 02/16] dt-bindings: media: mediatek: mdp3: merge the
- indentical RDMA under display
-Thread-Index: AQHZ/OfdryCp2vSJfUeOrv6EqonmHbBHSBKAgAeeaQA=
-Date: Wed, 18 Oct 2023 03:06:55 +0000
-Message-ID: <324f170c69387c5587688ae7bee5ddf95bc94576.camel@mediatek.com>
-References: <20231012084037.19376-1-moudy.ho@mediatek.com>
- <20231012084037.19376-3-moudy.ho@mediatek.com>
- <0e972a0a-af27-4837-a80c-cbab0002d368@linaro.org>
-In-Reply-To: <0e972a0a-af27-4837-a80c-cbab0002d368@linaro.org>
-Accept-Language: zh-TW, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=mediatek.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SG2PR03MB6343:EE_|TYSPR03MB7306:EE_
-x-ms-office365-filtering-correlation-id: b2848955-fa26-4a87-ef97-08dbcf8748e5
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 7yk2KehSLgNFD5zcQyG2n/48SdG9W1A54CF97kWx29CJilXmNtM5d16VObh6z14Nb3Ae+R0Rg4s/Lj4okCd15FUL9agyeeGRFzot1y4rrkY43/hnh3/ee8GpvUKbwpRrq6rLATF3ntVTQfvTXOT0cGnErE/FzMQshgITyBb4NW0Zl/ILvRtQNy9AKDzn+hG+P4WPZwyQA1NfCIBtAHWOrWxq1S5mepaduwb2wBCcP3M5myrLDWhoLz4ruw89cSEKgiJqgMvqhwfDItmNwRt2muPoKKz4aabjsd+l1oEaRH5Gsud3K2Q0mGmK9xr0lpye44maiUYOjjdPreDhPBHQvvuCDAUShDDD/zBvdvGd1nZm3BFQ8+mKE9PBjci42v1jXLYWRcFO8J7osfbpc70et+QLvbG+Z08HIlrsDTV4AELPDy8YVc6icyxoYsN7Xur9d+npL9f7kRrvOY4zIx6QIfBnUT/BxNLsa8V08vejRpOijYrqxsQjJuJRYUQzFdTBi/4lWixAPaumSqecAkw1VQilrt0kNzjro+0SXdpHUbeH6+qTYHSJuR1BWzYJmSNJHeyS9xP0xi2H49/2w+Axjc09t1SSFxLoTuEHxU3pHWadN7CgIQvgQoV9sDU+qVb4iEKlaYtigP489wGDXE7uhNVfni9RxbqsmGLk6IHmKDRCFFK1UCJkoa3JXbAMyohMX4tLM/V1C88K+fAZDz+Zfw==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SG2PR03MB6343.apcprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(136003)(39860400002)(396003)(366004)(346002)(376002)(230922051799003)(1800799009)(186009)(451199024)(64100799003)(316002)(6486002)(91956017)(76116006)(66446008)(66476007)(66946007)(64756008)(54906003)(110136005)(66556008)(508600001)(122000001)(38100700002)(85182001)(921005)(38070700005)(2616005)(26005)(86362001)(71200400001)(83380400001)(36756003)(53546011)(6506007)(2906002)(6512007)(7416002)(4001150100001)(41300700001)(5660300002)(4326008)(8936002)(8676002)(99106002);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?S2pVRXFobmRvRkNWSXRVMGU0cnAvbm0xRWI3RkQrV0cvZkZZbHBocXV4WlIy?=
- =?utf-8?B?QVpOdldlaVV6Mms3RlZBZXN5VXZsMXB0NXM5Z05DSGg1YnlDcWc2UVBFWFB3?=
- =?utf-8?B?b1FUcnNGVzczcWtNZGJMRTE4Mnc5SVdqcE05bkU2NzVqVDd6b0ZjODZRRm5L?=
- =?utf-8?B?VytibnlCQ21tOXZkSy94Sm1mVW81V0VTVmUveGl3UyswdDlNYjNxdDRET1U3?=
- =?utf-8?B?WHltTzA1UDlFVFJSSXZwelhMbHB1bE1tc3B2QTJ4UVJ4N1RtaUlTTzJHVlVO?=
- =?utf-8?B?UDdrTGlucm9FczYwNjRSMkFQNmdyQmR1ZTFXejBCN3lCc3hqTFZxQkI5STUr?=
- =?utf-8?B?dHlRVStUZy9YTGJlY0dmQUJPa3d0YTlmSnRWYkNSZlBhVGdrNzVOQlp2a1VB?=
- =?utf-8?B?SXRoVU95Y0pGNklKcjBEV1VsSXdMalVGblhLUE9jWlI4SGJzdzZoYnlING9O?=
- =?utf-8?B?ekZKUEhPaFNmejhtQ2IzMEF3d3hQcUQ3Z2REOW1sWXFXK0NVbFFpNzdRMkh5?=
- =?utf-8?B?LzBwZWRRYlV3Y2F4NGlnL3J5ZnVzUGxNamNXVlBvM1QrK1FzV0swUDN6Q3hq?=
- =?utf-8?B?amxESHpnTlhHZEttQVorR0hGVnFhSWR6VnRLaklTUDV3S0dnU05PVmw0VWlW?=
- =?utf-8?B?eklsQTM2TEhwNlNoTjd2RWxCZGh4L0tKY2ZGNTAva1RIUDJMaDlxT2dsMEtS?=
- =?utf-8?B?dVV2Ty9oWkRaQy9KZDEzVmEyVmE4YUpCSVFsMC9NT2MweTBpU2xqdFE2bGk3?=
- =?utf-8?B?T0p3S3diRUlvL0pXZjF3M1dPSk5GNWRHSldnOE5KR2k1MkFQaWVjcjUxWGho?=
- =?utf-8?B?YXN6N1VoN2RCYmRCMTI1c3Uyd2VCeEVGbHVING8rdGNKZmJWOGFsUW5rL0My?=
- =?utf-8?B?Z25MdHByN2lJcjZ6L1RldEo0djdHUE9Fb3FnRDVFOXAvR0R4dTlMSFlldzRn?=
- =?utf-8?B?TytSVW1zcmtCWUJFQTRZTzRDYTBGY0loajNXZjFVNDQ0T0dPMjBFaHlJNlRQ?=
- =?utf-8?B?Zld1bmFtV2ZGR3V0U1VyUlBkSlM2SjY0S21tcWJIa3IvWDRhUkdZMzVHMnpv?=
- =?utf-8?B?M0JBZTNJTXRSQ1ZwdVdZbmZWcHU3bzRYSGJyVFZVd2tnMHZscE5NRFpsZ2dx?=
- =?utf-8?B?RUhHZWlmZjA3bXRtUlEwVi9SSjUyOFlxTkM1bWRMYyt2eUNoSm5USUJ4c0dR?=
- =?utf-8?B?VGY5UGE5Q0NwZzZ3Y2ZSTzhtN0g3RDMxMW9rb0V1MTZzMVI3RC9kWmtXSFow?=
- =?utf-8?B?R01DdFF1cldTM0htZ2RSZnp5SU4rem92cGpjTk9pMEdNd2lVSzZYZi9acml1?=
- =?utf-8?B?N0o2WnVoc3pNdEptUUgyaGlUWWZKcFc0TVRaT2FUdmhvbm5YMFdWeTlnOGVF?=
- =?utf-8?B?eS9mMnhxVmgwcmZ6ZlZoWVNVcEUzVnVHbzBVYUkyc2ttYTBIVTBJRVJRZmxF?=
- =?utf-8?B?MWcybWJyeGtBRDF3VkQxbzROOTZLOE5mT2VmczlvVTQ0dTRmREwrckNRdnc4?=
- =?utf-8?B?akc0NVRDSEJ3enZjd1VJTVRYbVQyVkMrc1N2d3RBbEV4dlllL2daVHlTc29w?=
- =?utf-8?B?NDdxMjh1TGFONzFVcWhsWlllK0ZpV3ErSXpSdWtCanloclA0d0lQQ041cmdr?=
- =?utf-8?B?ZnA3ZzZLYkxVdStDSGJVV0pXZFBSbTRqYVIxOEhRWURvZDNKQlEzZ2l3Ujhy?=
- =?utf-8?B?VUg5VTgrbHR6VnN4Nmhmd2V0SGFydEl5K3JJMlhhdGtmbmlEdGQ2TnpDMXEw?=
- =?utf-8?B?eW5yMUxBMC9XTFBld1IxZ0ZRbnZJTEJMemp2NHhoN0lKTWozdGdwSmNGUEIw?=
- =?utf-8?B?SU1CUUxpdDA0TkRmS1F2eUYzL1RKZkxZYk1YOXdrWkpNaEEvM0dZbzJ0bkFq?=
- =?utf-8?B?SEoraXozMVo3UG1tMUxKUGxpRUhmYzI1eFI1TnVkU2M4ZGtOWVFIdlB3cngy?=
- =?utf-8?B?ekxsUjNZWVdaVjhreWljQ3dXdERHVUJZRk92UTZaTFlrVVMwVm45QWZnQzFE?=
- =?utf-8?B?cmNBRnluY2o4TnVxQm5oYWJjT3UwZldqNVlzeGVTNTdVSjhtRUFoVDNWL29a?=
- =?utf-8?B?eFgwUnNaN3cvRHpxaG1GS0ZQZUhRRFFTUGxLVTVDRFFBcjlVM1RHNWc5VHFy?=
- =?utf-8?Q?beo4JYrHdDyK2eyXyJ2gChreg?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <51D2561126D6AC47B86D5E8B5DCC7702@apcprd03.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ d=gmail.com; s=20230601; t=1697598537; x=1698203337; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=KxDvcwRJ+oCD8R03zg9Fvuf+jD2pBmCLjGOEJlTmezU=;
+ b=k6Yk1q/rWzkBJVjoqz3jdHAOZAgSKBW0dz92G/lKbPEAakmZGGquyqLdgOTQQsMSsf
+ jYdvtiWepBtCYdONotW8vtoZabh6LY7fodBIK3lhqDg6dNX339XfBqDO89zAbYh7tiLG
+ zrWlXBJ42/nS9kdfj6Sty81QU/RBtxd0N8o0NGoJdvSTFy4bGGOXJWEjEBpPMGsfH9Zl
+ SYDdob8MAa3u6cF6yfX02OqNhZgul4wDX7gjdX+ZI5zVMVkqI9SuS0aVFpnk4ksGlTSY
+ jEX2k8pEXBhx8Fqy+JDQk153ExHCvb5A2FBVu0BgqEJgSFLxuGRL20xhAGRzCqHn2iKU
+ wDLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1697598537; x=1698203337;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=KxDvcwRJ+oCD8R03zg9Fvuf+jD2pBmCLjGOEJlTmezU=;
+ b=xGBcNnixL7q5QW+Z+rgB2l5mW1q3p/NYp5RfcHcxXe01WAg21ZrTbxuIxVCsa/jwXl
+ JUCCyZAubkG+4Cl1ECCWrNTlIpZNwrCDHBr28YwM+HVkqVsH8+uXOE5GGhXu46Y8kooC
+ aNTT7gcHbDHD6Yg5dTyUGhoLaBUrcMpzJ6fQ8PF4yWOM9+XY/0DdyqVnoVbJctgEuWpV
+ hVZB2uZWy73d36zG0N1k2kde6wFgJdlkJSsf97n/F2awg9VH8B6YOuFnNLPNxnMAFPhw
+ pxkYGD2OF274ww8NTkVbdq5SEIybS1psi+2zpZIe0QLsZOfYfZxa2uAFZ70HEMJpgS2r
+ H9yg==
+X-Gm-Message-State: AOJu0Ywreq5R6rc3QN4zHOLGuze/j35rps4RU4Z+kY96xUtH/a7zWBpo
+ tf/yX4Xsa5oEquf7UeyUVIlTvHzJG5IIHvszgBk=
+X-Google-Smtp-Source: AGHT+IEKNOjlxWt8SfJrIBvofZE/jIC4SCQlsRD35P+p5+itxuHQ8gG94CLLo6KtcbWbg8SInn3eKv5GohR2eytrvKA=
+X-Received: by 2002:a05:6102:303:b0:457:d682:913e with SMTP id
+ 3-20020a056102030300b00457d682913emr4236287vsa.32.1697598537431; Tue, 17 Oct
+ 2023 20:08:57 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SG2PR03MB6343.apcprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b2848955-fa26-4a87-ef97-08dbcf8748e5
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Oct 2023 03:06:55.3326 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: K1OY8poR6vZQl8dWbUvPU6cPJ9eZf1km1te8J5wbG5NXNV1A2micwwnASQWYeT5ECsX+FRCG5xVnHu5oa0Y0Jg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYSPR03MB7306
-X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-AS-Result: No-10--22.949700-8.000000
-X-TMASE-MatchedRID: Y6GLOewO+JjUL3YCMmnG4ia1MaKuob8PC/ExpXrHizwzFWOYrWw6A2U3
- 2iueu2qCfdd9BtGlLLzx1uczIHKx54/qvvWxLCnegOqr/r0d+Cx+Mk6ACsw4JtzOQo7mTgA+kWx
- lYwMcCHs0I6tvv/X3qnZZam/y4zv5OXJUfyM1K01swYo64ufkVZWr6iSXWtgPmJxnCO+EnWd576
- my5IxjutMXiMahVA63Kt5gnPe/N6l/G9eO50lO1p4CIKY/Hg3AwWulRtvvYxTUHQeTVDUrItRnE
- QCUU+jzjoczmuoPCq2UTGVAhB5EbQ==
-X-TM-AS-User-Approved-Sender: No
-X-TM-AS-User-Blocked-Sender: No
-X-TMASE-Result: 10--22.949700-8.000000
-X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-SNTS-SMTP: 2036ED7646EC7D99BEB57D6F3B2B1123BA167A3E6E0BCEFD7FF5C9F73D399B9C2000:8
-X-MTK: N
+References: <CAK8ByeJBrPEQSgUc91LQO9Krzjh2pauhMTjEC82M8ozayE76Yg@mail.gmail.com>
+ <CAJfuBxxmL-GtBgt=033F9UNeLCreFbJh3HrQQN2nYKwR_0uTbg@mail.gmail.com>
+ <20231003155810.6df9de16@gandalf.local.home>
+ <CAJfuBxyJyFbFEhRxrtxJ_RazaTODV6Gg64b1aiNEzt6_iE4=Og@mail.gmail.com>
+ <CAK8ByeLNc9UbTNG4x=40AxYqjjRCsvBNtNFai0PMveM2X4XCow@mail.gmail.com>
+ <CAJfuBxyRF4q_T8LmHwR=-PKKDDpiFg2nO03uLnL8aGpRyBByKw@mail.gmail.com>
+ <CAK8ByeLpkSV6o6gPw8eJVqq5+ynQrSDjemY7mXkO1ZmA0rYKfQ@mail.gmail.com>
+ <CAJfuBxw+ANLwssAGWpkn5PeJb8ZKn4LXQkk2Gfv3aGsSN=S55Q@mail.gmail.com>
+ <CAJfuBxy9qn-4i3SteTL1LBbBxPrFM52KkBd=1UhcKV3S_KdQvw@mail.gmail.com>
+ <20231011114816.19d79f43@eldfell> <ZSZuACLwt5_XAL2n@phenom.ffwll.local>
+ <CAJfuBxytOcUDmPBO7uQ9mMRvpNvzA3tgg_-pSGmdXpjDPe5sNQ@mail.gmail.com>
+ <CAK8Bye+v+fYsN-716vQKJCoTmDQWmTw_Z1ZGD2A=HvuuAApwig@mail.gmail.com>
+In-Reply-To: <CAK8Bye+v+fYsN-716vQKJCoTmDQWmTw_Z1ZGD2A=HvuuAApwig@mail.gmail.com>
+From: jim.cromie@gmail.com
+Date: Tue, 17 Oct 2023 21:08:30 -0600
+Message-ID: <CAJfuBxyFe4rDW2gUozPig9=dSS9b0oiADnTTGjOtCSJ=khA=wQ@mail.gmail.com>
+Subject: Re: [PATCH v1] dynamic_debug: add support for logs destination
+To: =?UTF-8?Q?=C5=81ukasz_Bartosik?= <lb@semihalf.com>, 
+ Jason Baron <jbaron@akamai.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -183,51 +80,134 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Cc: linux-kernel@vger.kernel.org, dri-devel <dri-devel@lists.freedesktop.org>,
+ "wayland-devel@lists.freedesktop.org"
+ <wayland-devel@lists.freedesktop.org>, Pekka Paalanen <ppaalanen@gmail.com>,
+ Sean Paul <seanpaul@chromium.org>, Steven Rostedt <rostedt@goodmis.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCAyMDIzLTEwLTEzIGF0IDA4OjQ2ICswMjAwLCBLcnp5c3p0b2YgS296bG93c2tpIHdy
-b3RlOg0KPiAgCSANCg0KSGkgS3J6eXN6dG9mLA0KDQpUaGFuayB5b3UgZm9yIGFzc2lzdGluZyB3
-aXRoIHRoZSByZXZpZXcuDQoNCj4gRXh0ZXJuYWwgZW1haWwgOiBQbGVhc2UgZG8gbm90IGNsaWNr
-IGxpbmtzIG9yIG9wZW4gYXR0YWNobWVudHMgdW50aWwNCj4geW91IGhhdmUgdmVyaWZpZWQgdGhl
-IHNlbmRlciBvciB0aGUgY29udGVudC4NCj4gIE9uIDEyLzEwLzIwMjMgMTA6NDAsIE1vdWR5IEhv
-IHdyb3RlOg0KPiANCj4gPiAgDQo+ID4gK2FsbE9mOg0KPiA+ICsgIC0gaWY6DQo+ID4gKyAgICAg
-IHByb3BlcnRpZXM6DQo+ID4gKyAgICAgICAgY29tcGF0aWJsZToNCj4gPiArICAgICAgICAgIGNv
-bnRhaW5zOg0KPiA+ICsgICAgICAgICAgICBjb25zdDogbWVkaWF0ZWssbXQ4MTgzLW1kcDMtcmRt
-YQ0KPiA+ICsNCj4gPiArICAgIHRoZW46DQo+ID4gKyAgICAgIHByb3BlcnRpZXM6DQo+ID4gKyAg
-ICAgICAgY2xvY2tzOg0KPiA+ICsgICAgICAgICAgaXRlbXM6DQo+ID4gKyAgICAgICAgICAgIC0g
-ZGVzY3JpcHRpb246IFJETUEgY2xvY2sNCj4gPiArICAgICAgICAgICAgLSBkZXNjcmlwdGlvbjog
-UlNaIGNsb2NrIChzaGFyZWQgU1JBTSB3aXRoIFJETUEpDQo+ID4gKw0KPiA+ICsgICAgICAgIG1i
-b3hlczoNCj4gPiArICAgICAgICAgIGl0ZW1zOg0KPiA+ICsgICAgICAgICAgICAtIGRlc2NyaXB0
-aW9uOiB1c2VkIGZvciAxc3QgZGF0YSBwaXBlIGZyb20gUkRNQQ0KPiA+ICsgICAgICAgICAgICAt
-IGRlc2NyaXB0aW9uOiB1c2VkIGZvciAybmQgZGF0YSBwaXBlIGZyb20gUkRNQQ0KPiANCj4gaW50
-ZXJydXB0czoNCj4gICBmYWxzZQ0KPiANCg0KQXMgQW5nZWxvIHByb3ZpZGVkIGFkZGl0aW9uYWwg
-Y2xhcmlmaWNhdGlvbiBpbiBbMTUvMTZdLCBleHBsYWluaW5nIHRoYXQNCmNlcnRhaW4gY29uZGl0
-aW9ucyBpbiBbMi8xNl0gYW5kIFszLzE2XSB3ZXJlIGludGVudGlvbmFsbHkgb21pdHRlZCBkdWUN
-CnRvIHRoZSBuZWVkIHRvIGludGVncmF0ZSB0aGUgc2FtZSBJUCB3aXRoIGRpZmZlcmVudCBvcGVy
-YXRpb25zLg0KQXBvbG9naWVzIGZvciBhbnkgaW5jb252ZW5pZW5jZSB0aGlzIGhhcyBjYXVzZWQg
-eW91Lg0KDQo+ID4gKw0KPiA+ICsgICAgICByZXF1aXJlZDoNCj4gPiArICAgICAgICAtIG1ib3hl
-cw0KPiA+ICsgICAgICAgIC0gbWVkaWF0ZWssZ2NlLWV2ZW50cw0KPiA+ICsNCj4gPiArICAtIGlm
-Og0KPiA+ICsgICAgICBwcm9wZXJ0aWVzOg0KPiA+ICsgICAgICAgIGNvbXBhdGlibGU6DQo+ID4g
-KyAgICAgICAgICBjb250YWluczoNCj4gPiArICAgICAgICAgICAgY29uc3Q6IG1lZGlhdGVrLG10
-ODE5NS12ZG8xLXJkbWENCj4gPiArDQo+ID4gKyAgICB0aGVuOg0KPiA+ICsgICAgICBwcm9wZXJ0
-aWVzOg0KPiA+ICsgICAgICAgIGNsb2NrczoNCj4gPiArICAgICAgICAgIGl0ZW1zOg0KPiA+ICsg
-ICAgICAgICAgICAtIGRlc2NyaXB0aW9uOiBSRE1BIGNsb2NrDQo+IA0KPiBtYm94ZXM6IGZhbHNl
-DQo+IG1lZGlhdGVrLGdjZS1ldmVudHM6IGZhbHNlDQo+IA0KPiBJIGFtIG5vdCBzbyBzdXJlIGl0
-IGlzIGFjdHVhbGx5ICJzaW1wbGVyIiB0byBtZXJnZSB0aGVzZS4gVGhleSBhcmUNCj4gcXVpdGUN
-Cj4gZGlmZmVyZW50LiBZb3Ugd2lsbCBlbmQgdXAgd2l0aCB1bm1hbmFnZWFibGUgYWxsT2YgIHdp
-dGggYSBsb3Qgb2YNCj4gYnJhbmNoZXMgKHdoaWNoIHN1cHBvc2VkbHkgeW91IHdhbnQgdG8gcmVt
-b3ZlKS4NCj4gDQo+IA0KDQpVcG9uIGV4YW1pbmluZyB0aGUgbWlub3IgaGFyZHdhcmUgY2hhbmdl
-cyBpbiBNRFAgZm9yIE1UODE4MyBhbmQgTVQ4MTk1DQpSRE1BIChbMy8xNl0pLCBpdCBhcHBlYXJz
-IHRoYXQgYnJhbmNoaW5nIGNhbm5vdCBiZSBhdm9pZGVkLiBIb3dldmVyLA0KY29uc29saWRhdGlu
-ZyB0aGVzZSBjaGFuZ2VzIGhhcyB0aGUgYWRkaXRpb25hbCBhZHZhbnRhZ2Ugb2YgYWRkcmVzc2lu
-Zw0KUm9iJ3MgY29uY2VybnMgZnJvbSB2NC4gUGVyaGFwcyB3ZSBjYW4gY29uc2lkZXIgdGhlIGN1
-cnJlbnQgY2hhbmdlcyBhcw0KYSBmb3JtIG9mIHByb2dyZXNzLg0KDQpTaW5jZXJlbHksDQpNb3Vk
-eQ0KDQo+ID4gKw0KPiA+ICBhZGRpdGlvbmFsUHJvcGVydGllczogZmFsc2UNCj4gPiAgDQo+ID4g
-IGV4YW1wbGVzOg0KPiANCj4gQmVzdCByZWdhcmRzLA0KPiBLcnp5c3p0b2YNCj4gDQo=
+adding in Jason, not sure how he got missed.
+
+On Mon, Oct 16, 2023 at 9:13=E2=80=AFAM =C5=81ukasz Bartosik <lb@semihalf.c=
+om> wrote:
+>
+> czw., 12 pa=C5=BA 2023 o 20:48 <jim.cromie@gmail.com> napisa=C5=82(a):
+> >
+> > > If you want the kernel to keep separate flight recorders I guess we c=
+ould
+> > > add that, but I don't think it currently exists for the dyndbg stuff =
+at
+> > > least. Maybe a flight recorder v2 feature, once the basics are in.
+> > >
+> >
+> > dyndbg has   +p    writes to syslog
+> > +T  would separately independently write the same to global trace
+> >
+> > This would allow  graceful switchover to tracefs,
+> > without removing logging from dmesg, where most folks
+> > (and any monitor tools) would expect it.
+> >
+> > Lukas (iiuc) wants to steer each site to just 1 destination.
+> > Or maybe (in addition to +p > syslog) one trace destination,
+> > either global via events, or a separate tracebuf
+> >
+> > Im ambivalent, but thinking the smooth rollover from syslog to trace
+> > might be worth having to ease migration / weaning off syslog.
+> >
+> > And we have a 4 byte hole in struct _ddebug we could just use.
+>
+> I'm glad you brought that up. This means we can leave class_id field
+> untouched, have separate +T in flags (for consistency)
+> and dst_id can be easily 8 bits wide.
+>
+> Also can you point me to the latest version of writing debug logs to
+> trace events (+T option).
+> I would like to base trace instances work on that because both are
+> closely related.
+>
+
+Ive got 3 branches, all stacked up on rc6
+(last I checked, they were clean on drm-tip)
+
+https://github.com/jimc/linux/tree/dd-fix-7c
+the regression fix, reposting this version next.
+it also grabs another flag bit: _DPRINTK_FLAGS_INCL_LOOKUP
+
+
+https://github.com/jimc/linux/tree/dd-shrink-3b
+split modname,filename,function to new __dyndbg_sites section
+loads the 3 column values and their intervals into 3 maple trees
+and implements 3 accessor functions to retrieve the vals
+from the descriptor addresses.
+it "works" but doesnt erase intervals properly on rmmod
+it also claims another flag - _DPRINTK_FLAGS_PREFIX_CACHED
+and uses it to mark cached prefix fragment that get created for enabled cal=
+ls.
+
+https://github.com/jimc/linux/tree/dd-kitchen-sink
+this adds the +T flag stuff.
+its still a little fuzzy, esp around the descriptor arg -
+using it to render the prefix str at buffer-render time
+got UNSAFE warnings - likely due to loadable module
+descriptors which could or did go away between
+capture and render (after rmmod)
+
+
+
+
+> > Unless the align 8 is optional on 32-bits,
+>
+> I verified with "gcc -g -m32 ..." that the align(8) is honored on 32 bits=
+.
+>
+
+this is sorta the opposite of what I was probing, but I think result
+is the same.
+istm  align(8) is only for JUMP_LABEL, nothing else in the struct
+appears to need it
+so moving it to the top trades the hole for padding.
+
+
+
+> > I think we're never gonna close the hole anywhere.
+> >
+>
+> :)
+>
+> > is align 8 a generic expression of an architectural simplifying constra=
+int ?
+> > or a need for 1-7 ptr offsets ?
+> >
+> >
+> >
+> >
+> > > > That's my idea of it. It is interesting to see how far the requirem=
+ents
+> > > > can be reasonably realised.
+> > >
+> > > I think aside from the "make it available directly to unpriviledged
+> > > userspace" everything sounds reasonable and doable.
+> > >
+> > > More on the process side of things, I think Jim is very much looking =
+for
+> > > acks and tested-by by people who are interested in better drm logging
+> > > infra. That should help that things are moving in a direction that's
+> > > actually useful, even when it's not yet entirely complete.
+> > >
+> >
+> > yes, please.  Now posted at
+> >
+> > https://lore.kernel.org/lkml/20231012172137.3286566-1-jim.cromie@gmail.=
+com/T/#t
+> >
+> > Lukas, I managed to miss your email in the send phase.
+> > please consider yourself a direct recipient :-)
+> >
+> > thanks everyone
+> >
+> > > Cheers, Sima
+> > > --
+> > > Daniel Vetter
+> > > Software Engineer, Intel Corporation
+> > > http://blog.ffwll.ch
