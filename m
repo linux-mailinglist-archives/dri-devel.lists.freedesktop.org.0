@@ -1,53 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90A4B7CDC84
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Oct 2023 15:00:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E0207CDD24
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Oct 2023 15:25:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3828A10E0DF;
-	Wed, 18 Oct 2023 13:00:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7295C10E3D9;
+	Wed, 18 Oct 2023 13:25:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC29710E0DF;
- Wed, 18 Oct 2023 13:00:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1697634041; x=1729170041;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=lPc2zuJMiNVfsti6czd8IBCBiARsc41XEWOSVk+Sau0=;
- b=ZWyhDv3mBhAmnQ4ssI4jcrsyOxVuBnfJ4WlR1DebDVl1M377AOJHWvIG
- 14OiLaPA5YaZO0xbgwIwfTIRJSLfwoE/sPUpAxnneKPXd5YlZcQ+z22Ue
- hhy+8E6ZHLmVu01khhM4rwGCkRpEy1rYzOg6qp5Dms++yDeyG3yZvlSpy
- +gdFUcEpuxUeY1X0EuEoHqVWKO922cvnIa2Rq8F9MrP/9PV36FlyWNhlo
- qPw5RW4hgqo7tUd/0yVTdQp4+eMJnXEf4TFm0nBRx5S/39jGOVfdwIMKp
- 5LSfvsh68I3vEnn8iJ2xfPJJOeyeyE/UqCSDE42HQ9gu2stOvjIY4vlze g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="472232542"
-X-IronPort-AV: E=Sophos;i="6.03,235,1694761200"; d="scan'208";a="472232542"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Oct 2023 06:00:40 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.03,235,1694761200"; 
-   d="scan'208";a="4369992"
-Received: from nurfahan-mobl3.gar.corp.intel.com (HELO intel.com)
- ([10.213.159.217])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Oct 2023 05:59:26 -0700
-Date: Wed, 18 Oct 2023 15:00:26 +0200
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Nirmoy Das <nirmoy.das@linux.intel.com>
-Subject: Re: [PATCH v3] drm/i915: Flush WC GGTT only on required platforms
-Message-ID: <ZS/W6obrW/g8WuS4@ashyti-mobl2.lan>
-References: <20231018093815.1349-1-nirmoy.das@intel.com>
- <ZS/GZ0U7rOuuD0Kw@ashyti-mobl2.lan>
- <36c0e644-4013-f2f8-a0a7-9b9c3d8423c9@linux.intel.com>
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BFE1710E3D9
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Oct 2023 13:25:00 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id DDD8CCE2528
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Oct 2023 13:24:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21664C433C9
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Oct 2023 13:24:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1697635498;
+ bh=y7R3Xc7b/dDNyN2IeFpAjUBAw7DegSFH5XvMPARiVk4=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=HqRRQnvPK9Llpsr83E0oTzhy/MdvDrNQkXWi1wfdt0swbneeg0G4qXpRNX0H2YOU8
+ 2s/GzaMVN5v/JizxnGYjamOybkFMBWCSqMvH1s0EJKOBdkW0BIVnuibasbKNkxp2r1
+ Iwxr32Ep7jAMWk7Ii3r6oIFRubLOCdh50Mf2Bosg/+LM93+ZMNIQipIqrP4OpQuQVB
+ YQyqyXkE6wzhg/dconNrBQ1Mq6EzoUgRspIbWiMlvHn+DTtkk3XDou8f58qRH3rApf
+ FyJxSaDGH60zhVh5e+mCRFTEy1EmvbeeNGHgX7nXeq0waUYlQmVvdYKcmnHdCOhX0X
+ mdU01qZUKbTJw==
+Received: by mail-lj1-f174.google.com with SMTP id
+ 38308e7fff4ca-2c54c8934abso3002361fa.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Oct 2023 06:24:58 -0700 (PDT)
+X-Gm-Message-State: AOJu0YyqOiGwUVtHVZKiSZq3iEXQjOZj3h1wuw+A+hf8nMeC9yb8LSgz
+ DiLfGswjo3X/F9BGIAEIaQjcUQbwzIZ0qmNJ2A==
+X-Google-Smtp-Source: AGHT+IE2erweQk78p2WZGcYNeJzi7UyNstiTigaugME3+3bf0yEm/om0FbaNsQp91jAtR+tU1eTO2SwDaQRNiTjDk+0=
+X-Received: by 2002:a2e:9457:0:b0:2b9:4b2e:5420 with SMTP id
+ o23-20020a2e9457000000b002b94b2e5420mr3825894ljh.52.1697635496365; Wed, 18
+ Oct 2023 06:24:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <36c0e644-4013-f2f8-a0a7-9b9c3d8423c9@linux.intel.com>
+References: <20230523104234.7849-1-angelogioacchino.delregno@collabora.com>
+ <20230915101124.283232-1-mwalle@kernel.org>
+ <54a04d22-7ec1-473b-ab57-f6339b2cc782@collabora.com>
+In-Reply-To: <54a04d22-7ec1-473b-ab57-f6339b2cc782@collabora.com>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Wed, 18 Oct 2023 21:24:40 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_85g9bvVDUqK3ePd+7cWvqmVU4zRb=f4QxU_=A9eZaEpw@mail.gmail.com>
+Message-ID: <CAAOTY_85g9bvVDUqK3ePd+7cWvqmVU4zRb=f4QxU_=A9eZaEpw@mail.gmail.com>
+Subject: Re: [PATCH] drm: mediatek: mtk_dsi: Fix NO_EOT_PACKET
+ settings/handling
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,44 +62,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, Jonathan Cavitt <jonathan.cavitt@intel.com>,
- dri-devel@lists.freedesktop.org, stable@vger.kernel.org,
- Andi Shyti <andi.shyti@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Matt Roper <matthew.d.roper@intel.com>,
- John Harrison <john.c.harrison@intel.com>, Nirmoy Das <nirmoy.das@intel.com>
+Cc: chunkuang.hu@kernel.org, Michael Walle <mwalle@kernel.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ matthias.bgg@gmail.com, linux-mediatek@lists.infradead.org,
+ jitao.shi@mediatek.com, shaoming.chen@mediatek.com,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Nirmoy,
+Hi, Angelo:
 
-> > > gen8_ggtt_invalidate() is only needed for limited set of platforms
-> > > where GGTT is mapped as WC. This was added as way to fix WC based GGTT in
-> > > commit 0f9b91c754b7 ("drm/i915: flush system agent TLBs on SNB") and
-> > > there are no reference in HW docs that forces us to use this on non-WC
-> > > backed GGTT.
-> > > 
-> > > This can also cause unwanted side-effects on XE_HP platforms where
-> > > GFX_FLSH_CNTL_GEN6 is not valid anymore.
-> > > 
-> > > v2: Add a func to detect wc ggtt detection (Ville)
-> > > v3: Improve commit log and add reference commit (Daniel)
-> > > 
-> > > Fixes: d2eae8e98d59 ("drm/i915/dg2: Drop force_probe requirement")
-> > I'm wondering if this is the right Fixes, though. Should this
-> > rather be:
-> > 
-> > Fixes: 6266992cf105 ("drm/i915/gt: remove GRAPHICS_VER == 10")
-> 
-> Hard to find a real Fixes for this. I just want to backport this to dg2
-> where we can have unwanted side-effects.
+AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com> =E6=96=
+=BC
+2023=E5=B9=B410=E6=9C=8818=E6=97=A5 =E9=80=B1=E4=B8=89 =E4=B8=8B=E5=8D=886:=
+21=E5=AF=AB=E9=81=93=EF=BC=9A
+>
+> Il 15/09/23 12:11, Michael Walle ha scritto:
+> >> Due to the initial confusion about MIPI_DSI_MODE_EOT_PACKET, properly
+> >> renamed to MIPI_DSI_MODE_NO_EOT_PACKET, reflecting its actual meaning,
+> >> both the DSI_TXRX_CON register setting for bit (HSTX_)DIS_EOT and the
+> >> later calculation for horizontal sync-active (HSA), back (HBP) and
+> >> front (HFP) porches got incorrect due to the logic being inverted.
+> >>
+> >> This means that a number of settings were wrong because....:
+> >>   - DSI_TXRX_CON register setting: bit (HSTX_)DIS_EOT should be
+> >>     set in order to disable the End of Transmission packet;
+> >>   - Horizontal Sync and Back/Front porches: The delta used to
+> >>     calculate all of HSA, HBP and HFP should account for the
+> >>     additional EOT packet.
+> >>
+> >> Before this change...
+> >>   - Bit (HSTX_)DIS_EOT was being set when EOT packet was enabled;
+> >>   - For HSA/HBP/HFP delta... all three were wrong, as words were
+> >>     added when EOT disabled, instead of when EOT packet enabled!
+> >>
+> >> Invert the logic around flag MIPI_DSI_MODE_NO_EOT_PACKET in the
+> >> MediaTek DSI driver to fix the aforementioned issues.
+> >>
+> >> Fixes: 8b2b99fd7931 ("drm/mediatek: dsi: Fine tune the line time cause=
+d by EOTp")
+> >> Fixes: 2d52bfba09d1 ("drm/mediatek: add non-continuous clock mode and =
+EOT packet control")
+> >> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@c=
+ollabora.com>
+> >
+>
+> Hello CK,
+>
+> can you please pick this fix?
 
-yes, this piece of code has moved around enough so to make it
-diffuclt to track its origin.
+Applied with the changing
 
-I think the one I found should be the correct one, but the dg2
-force probe removeal can also become a placeholder for DG2 fixes.
+Fixes: 2d52bfba09d1 ("drm/mediatek: add non-continuous clock mode and
+EOT packet control")
 
-I won't complain.
+to
 
-Andi
+Fixes: c87d1c4b5b9a ("drm/mediatek: dsi: Use symbolized register definition=
+")
+
+Regards,
+Chun-Kuang.
+
+>
+> Thanks,
+> Angelo
+>
