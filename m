@@ -1,50 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27DE77CD8E3
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Oct 2023 12:10:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 411B07CD90C
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Oct 2023 12:21:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27E0E10E09D;
-	Wed, 18 Oct 2023 10:10:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9FAD810E0BC;
+	Wed, 18 Oct 2023 10:21:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A9AB710E09D;
- Wed, 18 Oct 2023 10:10:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1697623801; x=1729159801;
- h=date:from:to:cc:subject:in-reply-to:message-id:
- references:mime-version;
- bh=MIk391YTICwKskRb9aQYU/qCcXnfbhpP9VefB1ycOx0=;
- b=QKV4PezqqaBhJW8IfWaH3RjimELT5HdWGSz+ayep5N6XHnCF0jPoT3y8
- rj1ftwtQJLQwr1BUKBn8oXcZwDu+rC0fl+/pLig2n7IyDnQ0tZVbeyvDZ
- Q3IrL6HPIF7tyIqHqchWbkuOSTsZGlll5dH4a6jH2w9UvlZv0KGKPLTXS
- Jd75foCOE1TAX8UMf3DFIFlVkIOxLXgNS5k55CFO/6kVHvilwHhQrb7Lb
- LzDDmQb/Z1pj8cBTNXtHzh3qclV0ZNFhtyR0nupz/VYYsHX88/+swfzDj
- 09opeSoAfPcs2ZKxexUHJjKZFZdKKeU5DxUkry+XFKtroyajBlHbJs/IQ g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="384863653"
-X-IronPort-AV: E=Sophos;i="6.03,234,1694761200"; d="scan'208";a="384863653"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Oct 2023 03:09:59 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="756533694"
-X-IronPort-AV: E=Sophos;i="6.03,234,1694761200"; d="scan'208";a="756533694"
-Received: from gruberda-mobl1.ger.corp.intel.com ([10.252.62.52])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Oct 2023 03:09:54 -0700
-Date: Wed, 18 Oct 2023 13:09:52 +0300 (EEST)
-From: =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
-Subject: Re: [PATCH v4 12/17] platform/x86/amd/pmf: dump policy binary data
-In-Reply-To: <20231018070241.2041529-13-Shyam-sundar.S-k@amd.com>
-Message-ID: <babc47ee-338a-8b4a-83f2-15a093753ac8@linux.intel.com>
-References: <20231018070241.2041529-1-Shyam-sundar.S-k@amd.com>
- <20231018070241.2041529-13-Shyam-sundar.S-k@amd.com>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 080AE10E09B
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Oct 2023 10:21:16 +0000 (UTC)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id D95E366072F7;
+ Wed, 18 Oct 2023 11:21:13 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1697624474;
+ bh=kH1jXtunBlMIflxPq7hLuLyoVuwUNlJfO0y0ePDVEoY=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=jhZdfnzBeekyyVBkDSPRwP3lhZX9sgWCjRuT9AeuqEMyzTIun7LOmijs9oz07+gzl
+ 4Oj/4DMmMbEHy5CVUx8gn0tEqghbRMbZH61iqT2aS1h4EvUkadcSe9N63zBDZm1jMz
+ Y4k9ifoHnRJxlxqDz/fU1MuNtOcMJdNiIo1605gcolbcX1dPRjn7Z7UzgwK9ZzM3Ic
+ e0cHpgS6ENEf/KJphA4HFeL5+zPD3ghEFe9mhPoYZ0LjcabnB6C6KAyN3aFp9nQG+N
+ 75kARIavOnmZPfjstH9PvR+2uHBAU5TyKuOEbwKAozmUftEjsGnVZ05PnRr1mq5HTP
+ ++oKz7SDHQUAg==
+Message-ID: <54a04d22-7ec1-473b-ab57-f6339b2cc782@collabora.com>
+Date: Wed, 18 Oct 2023 12:21:11 +0200
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323329-1969835922-1697623799=:2178"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm: mediatek: mtk_dsi: Fix NO_EOT_PACKET
+ settings/handling
+Content-Language: en-US
+To: Michael Walle <mwalle@kernel.org>
+References: <20230523104234.7849-1-angelogioacchino.delregno@collabora.com>
+ <20230915101124.283232-1-mwalle@kernel.org>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20230915101124.283232-1-mwalle@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,81 +55,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Xinhui.Pan@amd.com, Patil.Reddy@amd.com, basavaraj.natikar@amd.com,
- dri-devel@lists.freedesktop.org, jikos@kernel.org,
- amd-gfx@lists.freedesktop.org, platform-driver-x86@vger.kernel.org,
- markgross@kernel.org, Hans de Goede <hdegoede@redhat.com>,
- benjamin.tissoires@redhat.com, mario.limonciello@amd.com,
- linux-input@vger.kernel.org, alexander.deucher@amd.com,
- christian.koenig@amd.com
+Cc: chunkuang.hu@kernel.org, jitao.shi@mediatek.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ matthias.bgg@gmail.com, linux-mediatek@lists.infradead.org,
+ shaoming.chen@mediatek.com, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
-
---8323329-1969835922-1697623799=:2178
-Content-Type: text/plain; charset=ISO-8859-15
-Content-Transfer-Encoding: 8BIT
-
-On Wed, 18 Oct 2023, Shyam Sundar S K wrote:
-
-> Sometimes policy binary retrieved from the BIOS maybe incorrect that can
-> end up in failing to enable the Smart PC solution feature.
+Il 15/09/23 12:11, Michael Walle ha scritto:
+>> Due to the initial confusion about MIPI_DSI_MODE_EOT_PACKET, properly
+>> renamed to MIPI_DSI_MODE_NO_EOT_PACKET, reflecting its actual meaning,
+>> both the DSI_TXRX_CON register setting for bit (HSTX_)DIS_EOT and the
+>> later calculation for horizontal sync-active (HSA), back (HBP) and
+>> front (HFP) porches got incorrect due to the logic being inverted.
+>>
+>> This means that a number of settings were wrong because....:
+>>   - DSI_TXRX_CON register setting: bit (HSTX_)DIS_EOT should be
+>>     set in order to disable the End of Transmission packet;
+>>   - Horizontal Sync and Back/Front porches: The delta used to
+>>     calculate all of HSA, HBP and HFP should account for the
+>>     additional EOT packet.
+>>
+>> Before this change...
+>>   - Bit (HSTX_)DIS_EOT was being set when EOT packet was enabled;
+>>   - For HSA/HBP/HFP delta... all three were wrong, as words were
+>>     added when EOT disabled, instead of when EOT packet enabled!
+>>
+>> Invert the logic around flag MIPI_DSI_MODE_NO_EOT_PACKET in the
+>> MediaTek DSI driver to fix the aforementioned issues.
+>>
+>> Fixes: 8b2b99fd7931 ("drm/mediatek: dsi: Fine tune the line time caused by EOTp")
+>> Fixes: 2d52bfba09d1 ("drm/mediatek: add non-continuous clock mode and EOT packet control")
+>> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 > 
-> Use print_hex_dump_debug() to dump the policy binary in hex, so that we
-> debug the issues related to the binary even before sending that to TA.
-> 
-> Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
-> Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
-> ---
->  drivers/platform/x86/amd/pmf/tee-if.c | 9 +++++++++
->  1 file changed, 9 insertions(+)
-> 
-> diff --git a/drivers/platform/x86/amd/pmf/tee-if.c b/drivers/platform/x86/amd/pmf/tee-if.c
-> index 6c4ce22ba518..2f5fb8623c20 100644
-> --- a/drivers/platform/x86/amd/pmf/tee-if.c
-> +++ b/drivers/platform/x86/amd/pmf/tee-if.c
-> @@ -276,6 +276,12 @@ static int amd_pmf_start_policy_engine(struct amd_pmf_dev *dev)
->  }
->  
->  #ifdef CONFIG_AMD_PMF_DEBUG
-> +static void amd_pmf_hex_dump_pb(struct amd_pmf_dev *dev)
-> +{
-> +	print_hex_dump_debug("(pb):  ", DUMP_PREFIX_OFFSET, 16, 1, dev->policy_buf,
-> +			     dev->policy_sz, false);
-> +}
-> +
->  static ssize_t amd_pmf_get_pb_data(struct file *filp, const char __user *buf,
->  				   size_t length, loff_t *pos)
->  {
-> @@ -290,6 +296,7 @@ static ssize_t amd_pmf_get_pb_data(struct file *filp, const char __user *buf,
->  	if (copy_from_user(dev->policy_buf, buf, dev->policy_sz))
->  		return -EFAULT;
->  
-> +	amd_pmf_hex_dump_pb(dev);
->  	ret = amd_pmf_start_policy_engine(dev);
->  	if (ret)
->  		return -EINVAL;
-> @@ -328,6 +335,7 @@ static int amd_pmf_open_pb(struct amd_pmf_dev *dev, struct dentry *debugfs_root)
->  }
->  
->  static void amd_pmf_remove_pb(struct amd_pmf_dev *dev) {}
-> +static void amd_pmf_hex_dump_pb(struct amd_pmf_dev *dev) {}
->  #endif
->  
->  static int amd_pmf_get_bios_buffer(struct amd_pmf_dev *dev)
-> @@ -342,6 +350,7 @@ static int amd_pmf_get_bios_buffer(struct amd_pmf_dev *dev)
->  
->  	memcpy(dev->policy_buf, dev->policy_base, dev->policy_sz);
->  
-> +	amd_pmf_hex_dump_pb(dev);
->  	if (pb_side_load)
->  		amd_pmf_open_pb(dev, dev->dbgfs_dir);
 
-Reviewed-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
+Hello CK,
 
--- 
- i.
+can you please pick this fix?
 
---8323329-1969835922-1697623799=:2178--
+Thanks,
+Angelo
+
