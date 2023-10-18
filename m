@@ -2,64 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 618C87CD5A1
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Oct 2023 09:46:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44C0D7CD5A8
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Oct 2023 09:48:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 72A7E10E3B7;
-	Wed, 18 Oct 2023 07:46:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 018AD10E3B8;
+	Wed, 18 Oct 2023 07:48:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com
- [IPv6:2a00:1450:4864:20::235])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 74F3910E3B3
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Oct 2023 07:46:31 +0000 (UTC)
-Received: by mail-lj1-x235.google.com with SMTP id
- 38308e7fff4ca-2c501bd6ff1so76096091fa.3
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Oct 2023 00:46:31 -0700 (PDT)
+Received: from mail-yw1-x1131.google.com (mail-yw1-x1131.google.com
+ [IPv6:2607:f8b0:4864:20::1131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6EC9A10E389
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Oct 2023 07:48:09 +0000 (UTC)
+Received: by mail-yw1-x1131.google.com with SMTP id
+ 00721157ae682-5a7c95b8d14so83229657b3.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Oct 2023 00:48:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1697615189; x=1698219989; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=mK3SefmpOCRjKq+TTt3SLLU2DTb3sKYmEQQtAXZNfAc=;
- b=DtT2ptu1lHGYbQaYdW2LfmHRrCMh+Br3MEs8FmXUgVRq/uy3UVAw7yH/4z78cWNJI+
- 3a80qIXL7T3oaXpYcKroahAWHvA4kUf92qJTHLkiqzkdNA+vTapwHEp/xRDYEvnP+Tqj
- YQZYdPdyBWKNGhCImQUBzZJdpA/yXOhrNORwH758V+K6mqM63YoM3vZ3IMALbD2QT/8d
- NBvSIX0bCE3T1URUebxt1aI/dp0mBe2oExHVy4XUJ1Xkf+Sc83vQ9KvgNWFMQvtZ6pun
- rETPF5FlogDqXSCZBj6pG0JvDw+1a9wPhixX+ncQ1CuH/R6q8tQpX7itP7UpSHobcODh
- 1WiQ==
+ d=linaro.org; s=google; t=1697615288; x=1698220088; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=f747C4U8IoZwyu+El4waA+++U856sYb0R6YT3hMoxgc=;
+ b=xnGtqkyrj492XOZfcK38YykO9f31ty9tTA6PWaNJ6nORerkZxLwAoot1DZ/2TPMroD
+ MnJPTdwikL3XPTsoa7ifz+jIgl+It4OLv31FDmGUxaRrPjNDbuNIzfhP1bhlaFKflI8J
+ NGWmXEhpK2a6ynXUoLE7PjRICWIqp1m1uBDYqQUSHcsFXIf3j69qjoPzp0+BtHJOJV1T
+ Mv5T/p6XwYI1xYZPI8bmjrj/TQNvhGAqf+zLDFwDxZ5wOvsu8CEvaXrqJOStJPTEXW6G
+ 9UGSE/ZQ6omCEyuwDnpR7ixyPivrwYJMR2uoCYgHQT9V/6jUhA34g6HCBNn7X6M8g4IQ
+ 2V4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1697615189; x=1698219989;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ d=1e100.net; s=20230601; t=1697615288; x=1698220088;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=mK3SefmpOCRjKq+TTt3SLLU2DTb3sKYmEQQtAXZNfAc=;
- b=RR7VL+n5yxa9Em2q8T0cAQWWtMTunK2qkr6RIsWaV/i+MBLyFe7zsEKzIVTjg59Ggz
- 6jWsP44JgqL0jqQNR/W0eeJX8p/0JXqVMi8HulQdy1PCKeJHKlbOitjANkb4aoIcM5Hr
- h5yNQ4yTb6al+38j5+L1wD2+47eU63gGsp+sY3qotN/VpUGjYNktqVRHBijmGfUAW4Ed
- QJQtgusLdyyalAZe6dZjS2PC9fAuPWQn8pbPUjmVUmOfh2DwaX7gedk0fpYb47LJC4V2
- ZOEgv95dtWPidkkYdJ1YX+VL3I3pHL1BKi0kdaxM+fjMPxVRZjZ8zz8xkl0c+SxPgFJE
- U+/w==
-X-Gm-Message-State: AOJu0YzUBrBnmKf4tDIbbyX5taV9+na/5As4hGtY7647rJLd7Y6VdjIA
- EKmWXW+eb4Wq947PpIikCGuYQg==
-X-Google-Smtp-Source: AGHT+IFi2RBYSKm7xKyj2+wrqQkWPgen3dgh6wPWuWzx4GmvuK0+6VPXmH/jpPjWwWbLrTIPuN/vSw==
-X-Received: by 2002:a05:651c:2117:b0:2c5:32a:cfe8 with SMTP id
- a23-20020a05651c211700b002c5032acfe8mr3842098ljq.44.1697615189597; 
- Wed, 18 Oct 2023 00:46:29 -0700 (PDT)
-Received: from eriador.lumag.spb.ru (210.red-80-36-22.staticip.rima-tde.net.
- [80.36.22.210]) by smtp.gmail.com with ESMTPSA id
- j6-20020a05600c074600b00405442edc69sm923015wmn.14.2023.10.18.00.46.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Oct 2023 00:46:29 -0700 (PDT)
+ bh=f747C4U8IoZwyu+El4waA+++U856sYb0R6YT3hMoxgc=;
+ b=AM5bey8TybAHZb6MIc9kKBBKbJuQRJApat7Fn1wnqBk2AZim50eOgiZJJafzK9frRZ
+ XoFY8Mz0U5YbbsVOYRqDhrq7vF5yL+ysvA2+C24Osyd+EhkT9zpD+j0NPRmSncsg0oxI
+ +Pq+A9Uy29O7mMjTVBRH4WdByxYV/gMPpJgtDDLg5ulivEJKHuK8iV2vc804TXtoIcmA
+ ukctUZorYvxm9IcX+U6doIhvuFBxZ586MEGqm/spt/KN1oPh2auJaJcg+ZGKhCV9Whwm
+ Vo+4lYtqpDWHOPnU4+pbfH+nkV8phfBTKmBPUwFclIvPM7VO1uzg8MMeLCpwui3O+DyY
+ 9Sig==
+X-Gm-Message-State: AOJu0YyxawgieOLEd1XzJq7wMuSxXVyph/oYqrqJyaK73nb/0FINoQA3
+ iHj3tOoZuI5xrn8sz8mr9+rCnX6Mp+Qf1R7Rh1q3mwIajmPb80SSxF5Pgg==
+X-Google-Smtp-Source: AGHT+IH8nl7SgUpvgBkgQixVGgpK0NMaVDkGMP6hZfYjxi25iLCtiD6oyBiVsBxjJWdcHsNr7ZkLItkk3bbAVEPUkas=
+X-Received: by 2002:a0d:cccf:0:b0:5a7:fae6:1cc6 with SMTP id
+ o198-20020a0dcccf000000b005a7fae61cc6mr5006410ywd.24.1697615288545; Wed, 18
+ Oct 2023 00:48:08 -0700 (PDT)
+MIME-Version: 1.0
+References: <20231018074627.55637-1-dmitry.baryshkov@linaro.org>
+In-Reply-To: <20231018074627.55637-1-dmitry.baryshkov@linaro.org>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+Date: Wed, 18 Oct 2023 10:47:57 +0300
+Message-ID: <CAA8EJprdiac17UfMLg-1Kg2urd4PZOs=5DT_1YGrN7u1W0=Bbw@mail.gmail.com>
+Subject: Re: [PATCH] drm/msm/dp: attach the DP subconnector property
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Marijn Suijten <marijn.suijten@somainline.org>
-Subject: [PATCH] drm/msm/dp: attach the DP subconnector property
-Date: Wed, 18 Oct 2023 10:46:27 +0300
-Message-ID: <20231018074627.55637-1-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.42.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,44 +74,30 @@ Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-While developing and testing the commit bfcc3d8f94f4 ("drm/msm/dp:
-support setting the DP subconnector type") I had the patch [1] in my
-tree. I haven't noticed that it was a dependency for the commit in
-question. Mea culpa.
+On Wed, 18 Oct 2023 at 10:46, Dmitry Baryshkov
+<dmitry.baryshkov@linaro.org> wrote:
+>
+> While developing and testing the commit bfcc3d8f94f4 ("drm/msm/dp:
+> support setting the DP subconnector type") I had the patch [1] in my
+> tree. I haven't noticed that it was a dependency for the commit in
+> question. Mea culpa.
 
-Since the patch has not landed yet (and even was not reviewed)
-and since one of the bridges erroneously uses USB connector type instead
-of DP, attach the property directly from the MSM DP driver.
+[1] https://patchwork.freedesktop.org/patch/555530/
 
-This fixes the following oops on DP HPD event:
+> Since the patch has not landed yet (and even was not reviewed)
+> and since one of the bridges erroneously uses USB connector type instead
+> of DP, attach the property directly from the MSM DP driver.
+>
+> This fixes the following oops on DP HPD event:
+>
+>  drm_object_property_set_value (drivers/gpu/drm/drm_mode_object.c:288)
+>  dp_display_process_hpd_high (drivers/gpu/drm/msm/dp/dp_display.c:402)
+>  dp_hpd_plug_handle.isra.0 (drivers/gpu/drm/msm/dp/dp_display.c:604)
+>  hpd_event_thread (drivers/gpu/drm/msm/dp/dp_display.c:1110)
+>  kthread (kernel/kthread.c:388)
+>  ret_from_fork (arch/arm64/kernel/entry.S:858)
 
- drm_object_property_set_value (drivers/gpu/drm/drm_mode_object.c:288)
- dp_display_process_hpd_high (drivers/gpu/drm/msm/dp/dp_display.c:402)
- dp_hpd_plug_handle.isra.0 (drivers/gpu/drm/msm/dp/dp_display.c:604)
- hpd_event_thread (drivers/gpu/drm/msm/dp/dp_display.c:1110)
- kthread (kernel/kthread.c:388)
- ret_from_fork (arch/arm64/kernel/entry.S:858)
 
-Fixes: bfcc3d8f94f4 ("drm/msm/dp: support setting the DP subconnector type")
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/msm/dp/dp_drm.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/drivers/gpu/drm/msm/dp/dp_drm.c b/drivers/gpu/drm/msm/dp/dp_drm.c
-index 40e7344180e3..e3bdd7dd4cdc 100644
---- a/drivers/gpu/drm/msm/dp/dp_drm.c
-+++ b/drivers/gpu/drm/msm/dp/dp_drm.c
-@@ -345,6 +345,9 @@ struct drm_connector *dp_drm_connector_init(struct msm_dp *dp_display, struct dr
- 	if (IS_ERR(connector))
- 		return connector;
- 
-+	if (!dp_display->is_edp)
-+		drm_connector_attach_dp_subconnector_property(connector);
-+
- 	drm_connector_attach_encoder(connector, encoder);
- 
- 	return connector;
 -- 
-2.42.0
-
+With best wishes
+Dmitry
