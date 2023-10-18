@@ -1,64 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B16E7CE35C
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Oct 2023 19:06:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6868B7CE36E
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Oct 2023 19:06:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 89AC210E3F8;
-	Wed, 18 Oct 2023 17:06:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A736810E407;
+	Wed, 18 Oct 2023 17:06:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd2e.google.com (mail-io1-xd2e.google.com
- [IPv6:2607:f8b0:4864:20::d2e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 35EC310E3D8;
- Wed, 18 Oct 2023 17:06:10 +0000 (UTC)
-Received: by mail-io1-xd2e.google.com with SMTP id
- ca18e2360f4ac-79fd60f40ebso175701639f.1; 
- Wed, 18 Oct 2023 10:06:10 -0700 (PDT)
+Received: from mail-io1-xd33.google.com (mail-io1-xd33.google.com
+ [IPv6:2607:f8b0:4864:20::d33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A965910E3FC;
+ Wed, 18 Oct 2023 17:06:11 +0000 (UTC)
+Received: by mail-io1-xd33.google.com with SMTP id
+ ca18e2360f4ac-7a6774da682so28097939f.3; 
+ Wed, 18 Oct 2023 10:06:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1697648769; x=1698253569; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=iDIMi3YYxbivuzog7Wd3D25OWadKQ7tl2Cz/eAegiFA=;
- b=WzxzZPSYMqQXXG2Pq5EEFfzd1Y84K35hy3lU+Mu2m80Rqr5hj4t2viMflp+/EH1T34
- Dha5J+H3LJ3lfHxxCzfV2MUKons30VYRRvL6Z3sJWf/iHH8bM8AFdMKKo0ygLO6nnltq
- b5YTyk9Qd3DDYO2kmVZO1AcTSPavj9dSBpwsilLwHgugOeQ+eWbselxIe9y63UXSekvk
- 84wjRytafMwKbZ6zZQMy452U8spQxFx9OuydbMLqNHS3PMsyZ/KHxCd/YRGdADZdM0q6
- OLAMy84VYHkblB7s4VO4nyJIvC8FXk75etNOkwiVkXg955oh+R0gK7+5FWSE2fcOdmcD
- okwg==
+ d=gmail.com; s=20230601; t=1697648771; x=1698253571; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=e6NIZdlLmgRQPJbwwmBZ102ypc9HsrQnlZpRMUUA7Yk=;
+ b=kypebqYe90W99nJFdhwn7AqBVG9gMmmh+Uccc80eLRKeMko1mdDx8K6F7JKi2Haj8a
+ I+i+2YHcqtx4O9qQsnxd5iVyU1QeMNBkIFUMfeT+wEkQFi99yiIrZ9YJCNi+rYjwyVhQ
+ Te/F3gKALH50zg3I7pcIuSa+7SG4bZ8DEjJX/pfiRr3mRcbu2FkJQ+DEilL2X2/7zlsV
+ SdRTuwT5yCoW7yWHdg6/n/LXv+Jx50OqxT3XXJOWt03x4BqudSNIcxvF19AV1fKZfrFu
+ YJXZOqDGOOkblnV4Qa8M90PB+d3jbm+ezecqeJGr0imB9/qvXF7SclU5sXNcINIokQ8X
+ TgXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1697648769; x=1698253569;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=iDIMi3YYxbivuzog7Wd3D25OWadKQ7tl2Cz/eAegiFA=;
- b=eed+sGyGiMb9K+NGID+YbaFRzda53+QiVVT1BP53Vwa+NbiOWmf170mNY09YXSBvW9
- 1C/QASa0pjv0egVGsxVOdcoW9UwysulqQPHEkIXpsPpthsDqxDHY6UPJSELo+Owvf1QT
- QYfaunQC2vsBYuiHnbvncn1RjekjFQCZnb8St8I3wfuW63uUfrFWei9FRQt5wq5Xnb8G
- jLQGxNFYBIqVPuJkWVWyg8l8FbjxRUi6xAEdE1VNLxKOy7c8hNLB71mKa0LJkMjxorQS
- 0ng5FNqg8QEyAro403uQlLdi+dnzNNFt7s2HoYpp0ktacWL+o94pcbVtyYyw3kYhLPJx
- VP7w==
-X-Gm-Message-State: AOJu0Yy0GmMaML6LlRCPdIsAay85UI6lpnfG3bDNAwF0vaUCpOzvZNHN
- L2whKvGythkTDdj23F3hh/g=
-X-Google-Smtp-Source: AGHT+IHY3fLMgmqD0vaBDzNlt6Ab/WZIlFd+GwQzZq5a5ZGq5Q1cMEKfoCxtDKcSakkNW79Pxr+XDw==
-X-Received: by 2002:a05:6602:158d:b0:785:d5d4:9f26 with SMTP id
- e13-20020a056602158d00b00785d5d49f26mr5816215iow.9.1697648769301; 
- Wed, 18 Oct 2023 10:06:09 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1697648771; x=1698253571;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=e6NIZdlLmgRQPJbwwmBZ102ypc9HsrQnlZpRMUUA7Yk=;
+ b=NwCFR5uKnsvr/ArtaH9c3VjoikMZY6CoExXOr9xnBSJ27PseIwZUfhTc/ZzSVPOAWV
+ rBPD0jsVFNloiinwyRBjZacUsJH4ksjCn+LMZ9J0vQlmR570j/jcomG1lNS8yzNdFLzG
+ 2IjJ6Ln8+W+8IILSdyW/cXdEvsGbkV4ICGfxlX4cw3Po0TQ8ELWWSvearCWJHGYB3Z89
+ qtyNw8i+UGz5xrNe5inKCfTs5Qfo2VEOWmAsjbOHLKFJN0D6iQbqxgniwQXITyJpbioG
+ 3A4oVj32IuSBkF0MoBjLqTodh8qQLdG3/I2CLN5dRViUQ+ScivKCaoV/ZB3pvpPWzpya
+ KK3w==
+X-Gm-Message-State: AOJu0YxXtOry2pcGqdAUe4Uzk2SUw7dkOCczIePWD+mMZei+beh/Z/ao
+ Rp5qzAS2eADEU/URiWrCQ34=
+X-Google-Smtp-Source: AGHT+IHum1ge/GWwDaST0JuAEYZc87D2/tvKkvoNp/zjqblabzEj0CgssZzAbnfUTN58qsmnlybaJw==
+X-Received: by 2002:a5d:9d8d:0:b0:795:fa0:c13 with SMTP id
+ ay13-20020a5d9d8d000000b007950fa00c13mr8500029iob.12.1697648770918; 
+ Wed, 18 Oct 2023 10:06:10 -0700 (PDT)
 Received: from frodo.. (c-73-78-62-130.hsd1.co.comcast.net. [73.78.62.130])
  by smtp.googlemail.com with ESMTPSA id
- n4-20020a5d8244000000b0079fa1a7cd36sm1228944ioo.30.2023.10.18.10.06.08
+ n4-20020a5d8244000000b0079fa1a7cd36sm1228944ioo.30.2023.10.18.10.06.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Oct 2023 10:06:08 -0700 (PDT)
+ Wed, 18 Oct 2023 10:06:10 -0700 (PDT)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: linux-kernel@vger.kernel.org, jbaron@akamai.com,
  gregkh@linuxfoundation.org, dri-devel@lists.freedesktop.org,
  amd-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org,
  intel-gfx@lists.freedesktop.org
-Subject: [PATCH v7c 00/24] fix DRM_USE_DYNAMIC_DEBUG=y regression
-Date: Wed, 18 Oct 2023 11:05:40 -0600
-Message-ID: <20231018170604.569042-1-jim.cromie@gmail.com>
+Subject: [PATCH v7c 01/24] test-dyndbg: fixup CLASSMAP usage error
+Date: Wed, 18 Oct 2023 11:05:41 -0600
+Message-ID: <20231018170604.569042-2-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20231018170604.569042-1-jim.cromie@gmail.com>
+References: <20231018170604.569042-1-jim.cromie@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -80,131 +83,59 @@ Cc: lb@semihalf.com, groeck@google.com, linux-doc@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+more careful reading of test output reveals:
 
-hi Jason, DRM-folk
+lib/test_dynamic_debug.c:103 [test_dynamic_debug]do_cats =pmf "doing categories\n"
+lib/test_dynamic_debug.c:105 [test_dynamic_debug]do_cats =p "LOW msg\n" class:MID
+lib/test_dynamic_debug.c:106 [test_dynamic_debug]do_cats =p "MID msg\n" class:HI
+lib/test_dynamic_debug.c:107 [test_dynamic_debug]do_cats =_ "HI msg\n" class unknown, _id:13
 
-(v7c now with all checkpatch fixes)
+That last line is wrong, the HI class is declared.
 
-This patchest fixes the chicken-egg initialization problem in the 1st
-version of ddebug-class-maps, that DRM-CI uncovered.
+But the enum's 1st val (explicitly initialized) was wrong; it must be
+_base, not _base+1 (a DECLARE_DYNDBG_CLASSMAP[1] param).  So the last
+enumeration exceeded the range of mapped class-id's, which triggered
+the "class unknown" report.  I intentionally coded in an error, but
+forgot to verify its detection and remove it.
 
-The root-problem was DECLARE_DYNDBG_CLASSMAP, which broke the K&R rule:
-"define once, refer many".  In patch 14 it is replaced by:
+RFC:
 
- DYNDBG_CLASSMAP_DEFINE - define and export a struct ddebug_class_map
- DYNDBG_CLASSMAP_USE - ref the exported struct
+This patch fixes a bad usage of DECLARE_DYNDBG_CLASSMAP(), showing
+that it is too error-prone.  As noted in test-mod comments:
 
-test-dynamic-debug is also extended with a -submod.ko, in order to
-recapitulate the drm & drivers initialization scenario.
+ * Using the CLASSMAP api:
+ * - classmaps must have corresponding enum
+ * - enum symbols must match/correlate with class-name strings in the map.
+ * - base must equal enum's 1st value
+ * - multiple maps must set their base to share the 0-62 class_id space !!
+ *   (build-bug-on tips welcome)
 
-They're on v6.6-rc6 now, and recently applied cleanly to drm-tip/drm-tip.
+Those shortcomings could largely be fixed with a __stringify_list
+(which doesn't exist,) used in DECLARE_DYNDBG_CLASSMAP to stringify
+__VA_ARGS__.  Then, API would accept DRM_UT_* values literally; all
+the categories, in order, and not their stringifications, which
+created all the usage complications above.
 
-Ive been running recent revs on rc3+, on my desktop and laptop.
+[1] name changes later to DYNDBG_CLASSMAP_DEFINE
 
-The final blocker was a missing __align(8) on the ddebug_class_user
-record inserted by DYNDBG_CLASSMAP_USE.  This caused DRM=y (builtin
-only) to have a corrupt record for drm_kms_helper (a builtin dependent).
-Curiously, a clang build did not exhibit this problem.
+Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
+---
+ lib/test_dynamic_debug.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Heres a part of dmesg, for a DRM=y kernel, booted with
-     dynamic_debug.verbose=3 drm.debug=0x10
-
-[    0.466747] dyndbg: add-module: drm 406 sites
-[    0.467569] dyndbg: classes[0]: module:drm base:0 len:10 type:DISJOINT_BITS
-[    0.467743] dyndbg: module:drm attached 1 classes
-[    0.468557] dyndbg: builtin class: module:drm base:0 len:10 type:DISJOINT_BITS
-[    0.468742] dyndbg:  found kp:drm.debug =0x10
-[    0.468743] dyndbg:   mapped to: module:drm base:0 len:10 type:DISJOINT_BITS
-[    0.469742] dyndbg:   drm.debug: classbits: 0x10
-[    0.470573] dyndbg: apply bitmap: 0x10 to: 0x0 for drm
-[    0.470743] dyndbg: query 0: "class DRM_UT_ATOMIC +p" mod:drm
-[    0.471743] dyndbg: split into words: "class" "DRM_UT_ATOMIC" "+p"
-[    0.472743] dyndbg: op='+' flags=0x1 maskp=0xffffffff
-[    0.473679] dyndbg: parsed: func="" file="" module="drm" format="" lineno=0-0 class=DRM_UT_ATOMIC
-[    0.473749] dyndbg: processed 1 queries, with 0 matches, 0 errs
-[    0.474742] dyndbg: bit_4: 0 matches on class: DRM_UT_ATOMIC -> 0x10
-[    0.475742] dyndbg: applied bitmap: 0x10 to: 0x0 for drm
-[    0.476686] dyndbg: 406 debug prints in module drm
-[    0.476743] dyndbg: add-module: drm_kms_helper 93 sites
-[    0.477727] dyndbg: class_ref[0] drm_kms_helper -> drm module:drm base:0 len:10 type:DISJOINT_BITS
-[    0.477743] dyndbg: builtin class: module:drm base:0 len:10 type:DISJOINT_BITS
-[    0.478742] dyndbg:  found kp:drm.debug =0x10
-[    0.478743] dyndbg:   mapped to: module:drm base:0 len:10 type:DISJOINT_BITS
-[    0.479743] dyndbg:   drm.debug: classbits: 0x10
-[    0.480592] dyndbg: apply bitmap: 0x10 to: 0x0 for drm_kms_helper
-[    0.480743] dyndbg: query 0: "class DRM_UT_ATOMIC +p" mod:drm_kms_helper
-[    0.481743] dyndbg: split into words: "class" "DRM_UT_ATOMIC" "+p"
-[    0.482743] dyndbg: op='+' flags=0x1 maskp=0xffffffff
-[    0.483743] dyndbg: parsed: func="" file="" module="drm_kms_helper" format="" lineno=0-0 class=DRM_UT_ATOMIC
-[    0.484750] dyndbg: class-ref: drm_kms_helper.DRM_UT_ATOMIC  module:drm_kms_helper nd:93 nc:0 nu:1
-[    0.485809] dyndbg: processed 1 queries, with 44 matches, 0 errs
-[    0.486742] dyndbg: bit_4: 44 matches on class: DRM_UT_ATOMIC -> 0x10
-[    0.487742] dyndbg: applied bitmap: 0x10 to: 0x0 for drm_kms_helper
-[    0.488743] dyndbg: attach-client-module:  module:drm_kms_helper nd:93 nc:0 nu:1
-[    0.489742] dyndbg:  93 debug prints in module drm_kms_helper
-
-Widespread testing is appreciated.
-I have scripts if anyone wants them.
-lkp-robot reported success on dd-fix-7b, no report yet on 7c
-
-Patches are also at https://github.com/jimc/linux/tree/dd-fix-7c
-
-Jim Cromie (24):
-  test-dyndbg: fixup CLASSMAP usage error
-  dyndbg: reword "class unknown," to "class:_UNKNOWN_"
-  dyndbg: make ddebug_class_param union members same size
-  dyndbg: replace classmap list with a vector
-  dyndbg: ddebug_apply_class_bitmap - add module arg, select on it
-  dyndbg: split param_set_dyndbg_classes to module/wrapper fns
-  dyndbg: drop NUM_TYPE_ARRAY
-  dyndbg: reduce verbose/debug clutter
-  dyndbg: silence debugs with no-change updates
-  dyndbg: tighten ddebug_class_name() 1st arg type
-  dyndbg: tighten fn-sig of ddebug_apply_class_bitmap
-  dyndbg: reduce verbose=3 messages in ddebug_add_module
-  dyndbg-API: remove DD_CLASS_TYPE_(DISJOINT|LEVEL)_NAMES and code
-  dyndbg-API: fix CONFIG_DRM_USE_DYNAMIC_DEBUG regression
-  dyndbg: refactor ddebug_classparam_clamp_input
-  dyndbg-API: promote DYNDBG_CLASSMAP_PARAM to API
-  dyndbg-doc: add classmap info to howto
-  dyndbg: reserve flag bit _DPRINTK_FLAGS_PREFIX_CACHED
-  dyndbg: add _DPRINTK_FLAGS_INCL_LOOKUP
-  dyndbg: refactor *dynamic_emit_prefix
-  dyndbg: change WARN_ON to WARN_ON_ONCE
-  drm: use correct ccflags-y spelling
-  drm-drivers: DRM_CLASSMAP_USE in 2nd batch of drivers, helpers
-  drm: restore CONFIG_DRM_USE_DYNAMIC_DEBUG un-BROKEN
-
- .../admin-guide/dynamic-debug-howto.rst       |  60 ++-
- MAINTAINERS                                   |   2 +-
- drivers/gpu/drm/Kconfig                       |   3 +-
- drivers/gpu/drm/Makefile                      |   3 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c       |  12 +-
- drivers/gpu/drm/display/drm_dp_helper.c       |  12 +-
- drivers/gpu/drm/drm_crtc_helper.c             |  12 +-
- drivers/gpu/drm/drm_gem_shmem_helper.c        |   2 +
- drivers/gpu/drm/drm_print.c                   |  35 +-
- drivers/gpu/drm/gud/gud_drv.c                 |   2 +
- drivers/gpu/drm/i915/i915_params.c            |  12 +-
- drivers/gpu/drm/mgag200/mgag200_drv.c         |   2 +
- drivers/gpu/drm/nouveau/nouveau_drm.c         |  12 +-
- drivers/gpu/drm/qxl/qxl_drv.c                 |   2 +
- drivers/gpu/drm/radeon/radeon_drv.c           |   2 +
- drivers/gpu/drm/udl/udl_main.c                |   2 +
- drivers/gpu/drm/vkms/vkms_drv.c               |   2 +
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.c           |   2 +
- include/asm-generic/vmlinux.lds.h             |   1 +
- include/drm/drm_print.h                       |  12 +-
- include/linux/dynamic_debug.h                 | 121 +++--
- kernel/module/main.c                          |   3 +
- lib/Kconfig.debug                             |  24 +-
- lib/Makefile                                  |   3 +
- lib/dynamic_debug.c                           | 458 +++++++++++-------
- lib/test_dynamic_debug.c                      | 131 ++---
- lib/test_dynamic_debug_submod.c               |  17 +
- 27 files changed, 584 insertions(+), 365 deletions(-)
- create mode 100644 lib/test_dynamic_debug_submod.c
-
+diff --git a/lib/test_dynamic_debug.c b/lib/test_dynamic_debug.c
+index 8dd250ad022b..a01f0193a419 100644
+--- a/lib/test_dynamic_debug.c
++++ b/lib/test_dynamic_debug.c
+@@ -75,7 +75,7 @@ DD_SYS_WRAP(disjoint_bits, p);
+ DD_SYS_WRAP(disjoint_bits, T);
+ 
+ /* symbolic input, independent bits */
+-enum cat_disjoint_names { LOW = 11, MID, HI };
++enum cat_disjoint_names { LOW = 10, MID, HI };
+ DECLARE_DYNDBG_CLASSMAP(map_disjoint_names, DD_CLASS_TYPE_DISJOINT_NAMES, 10,
+ 			"LOW", "MID", "HI");
+ DD_SYS_WRAP(disjoint_names, p);
 -- 
 2.41.0
 
