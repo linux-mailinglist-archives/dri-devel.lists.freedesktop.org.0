@@ -1,61 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44C0D7CD5A8
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Oct 2023 09:48:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F3B617CD5AB
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Oct 2023 09:51:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 018AD10E3B8;
-	Wed, 18 Oct 2023 07:48:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CFF7110E3BA;
+	Wed, 18 Oct 2023 07:50:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x1131.google.com (mail-yw1-x1131.google.com
- [IPv6:2607:f8b0:4864:20::1131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6EC9A10E389
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Oct 2023 07:48:09 +0000 (UTC)
-Received: by mail-yw1-x1131.google.com with SMTP id
- 00721157ae682-5a7c95b8d14so83229657b3.3
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Oct 2023 00:48:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1697615288; x=1698220088; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=f747C4U8IoZwyu+El4waA+++U856sYb0R6YT3hMoxgc=;
- b=xnGtqkyrj492XOZfcK38YykO9f31ty9tTA6PWaNJ6nORerkZxLwAoot1DZ/2TPMroD
- MnJPTdwikL3XPTsoa7ifz+jIgl+It4OLv31FDmGUxaRrPjNDbuNIzfhP1bhlaFKflI8J
- NGWmXEhpK2a6ynXUoLE7PjRICWIqp1m1uBDYqQUSHcsFXIf3j69qjoPzp0+BtHJOJV1T
- Mv5T/p6XwYI1xYZPI8bmjrj/TQNvhGAqf+zLDFwDxZ5wOvsu8CEvaXrqJOStJPTEXW6G
- 9UGSE/ZQ6omCEyuwDnpR7ixyPivrwYJMR2uoCYgHQT9V/6jUhA34g6HCBNn7X6M8g4IQ
- 2V4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1697615288; x=1698220088;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=f747C4U8IoZwyu+El4waA+++U856sYb0R6YT3hMoxgc=;
- b=AM5bey8TybAHZb6MIc9kKBBKbJuQRJApat7Fn1wnqBk2AZim50eOgiZJJafzK9frRZ
- XoFY8Mz0U5YbbsVOYRqDhrq7vF5yL+ysvA2+C24Osyd+EhkT9zpD+j0NPRmSncsg0oxI
- +Pq+A9Uy29O7mMjTVBRH4WdByxYV/gMPpJgtDDLg5ulivEJKHuK8iV2vc804TXtoIcmA
- ukctUZorYvxm9IcX+U6doIhvuFBxZ586MEGqm/spt/KN1oPh2auJaJcg+ZGKhCV9Whwm
- Vo+4lYtqpDWHOPnU4+pbfH+nkV8phfBTKmBPUwFclIvPM7VO1uzg8MMeLCpwui3O+DyY
- 9Sig==
-X-Gm-Message-State: AOJu0YyxawgieOLEd1XzJq7wMuSxXVyph/oYqrqJyaK73nb/0FINoQA3
- iHj3tOoZuI5xrn8sz8mr9+rCnX6Mp+Qf1R7Rh1q3mwIajmPb80SSxF5Pgg==
-X-Google-Smtp-Source: AGHT+IH8nl7SgUpvgBkgQixVGgpK0NMaVDkGMP6hZfYjxi25iLCtiD6oyBiVsBxjJWdcHsNr7ZkLItkk3bbAVEPUkas=
-X-Received: by 2002:a0d:cccf:0:b0:5a7:fae6:1cc6 with SMTP id
- o198-20020a0dcccf000000b005a7fae61cc6mr5006410ywd.24.1697615288545; Wed, 18
- Oct 2023 00:48:08 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5216B10E3C2
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Oct 2023 07:50:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1697615457; x=1729151457;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=2e6ywZDG7rC0YaI4mpzW/6wyogmKCONIADxJWPjr35g=;
+ b=Ris7k8cvI8G3zzK1+0qkYLVfaaNPC/9aqvZSECaUCxpqHS8ovvvUsWFF
+ 3daVKnVVA6JHBmPpZmJzG3CtpYY3zrxQ+j3VUuUC+O52XVGWoO4Lp/iHM
+ o6IOzP2yUyBH6t/d0DUHc/TPSKm4WQrGLQb7VBjPw2Ewd2lGxU9FJazwp
+ Hdyd2X+tegLj5grfGDBPcyNpRp6B58XAy6JUzelYXzbfL0PiUo1zwXkws
+ j0BY2ZHn1Lqh56PQYVYNiAQR3pI8NwG6aaylThPSfLdTJa6tWeQc8SyTD
+ e3o21H7vnQ3tfjDnpJdh4VeY4tfCxXmnPdA2CeQgJGRXQhZPeplBiOj0W w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="365312993"
+X-IronPort-AV: E=Sophos;i="6.03,234,1694761200"; d="scan'208";a="365312993"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Oct 2023 00:50:56 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="760124176"
+X-IronPort-AV: E=Sophos;i="6.03,234,1694761200"; d="scan'208";a="760124176"
+Received: from joe-255.igk.intel.com (HELO localhost) ([10.91.220.57])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Oct 2023 00:50:54 -0700
+Date: Wed, 18 Oct 2023 09:50:53 +0200
+From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+To: Deepak R Varma <drv@mailo.com>
+Subject: Re: ivpu TODO list items
+Message-ID: <20231018075053.GB525429@linux.intel.com>
+References: <ZSjwuyCOL9Vb9+yb@runicha.com>
+ <ZS68dysac34rA32D@runicha.com>
 MIME-Version: 1.0
-References: <20231018074627.55637-1-dmitry.baryshkov@linaro.org>
-In-Reply-To: <20231018074627.55637-1-dmitry.baryshkov@linaro.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Wed, 18 Oct 2023 10:47:57 +0300
-Message-ID: <CAA8EJprdiac17UfMLg-1Kg2urd4PZOs=5DT_1YGrN7u1W0=Bbw@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm/dp: attach the DP subconnector property
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Marijn Suijten <marijn.suijten@somainline.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZS68dysac34rA32D@runicha.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,36 +58,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>
+Cc: Oded Gabbay <ogabbay@kernel.org>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 18 Oct 2023 at 10:46, Dmitry Baryshkov
-<dmitry.baryshkov@linaro.org> wrote:
->
-> While developing and testing the commit bfcc3d8f94f4 ("drm/msm/dp:
-> support setting the DP subconnector type") I had the patch [1] in my
-> tree. I haven't noticed that it was a dependency for the commit in
-> question. Mea culpa.
+Hi
 
-[1] https://patchwork.freedesktop.org/patch/555530/
+On Tue, Oct 17, 2023 at 10:25:19PM +0530, Deepak R Varma wrote:
+> On Fri, Oct 13, 2023 at 12:54:43PM +0530, Deepak R Varma wrote:
+> > Hello,
+> > I am shortlisted as a mentee for the LF Mentorship program. I looked at the TODO
+> > file for the ivpu driver for my project tasks. Could you please answer the
+> > following questions:
+> >
+> > 1. Is the TODO list up to date? If not, can we have it updated? Let me know if I
+> > can help.
+It's not. Some of those was already implemented (but yet not submitted).
+Some ideas there was dropped. 
 
-> Since the patch has not landed yet (and even was not reviewed)
-> and since one of the bridges erroneously uses USB connector type instead
-> of DP, attach the property directly from the MSM DP driver.
->
-> This fixes the following oops on DP HPD event:
->
->  drm_object_property_set_value (drivers/gpu/drm/drm_mode_object.c:288)
->  dp_display_process_hpd_high (drivers/gpu/drm/msm/dp/dp_display.c:402)
->  dp_hpd_plug_handle.isra.0 (drivers/gpu/drm/msm/dp/dp_display.c:604)
->  hpd_event_thread (drivers/gpu/drm/msm/dp/dp_display.c:1110)
->  kthread (kernel/kthread.c:388)
->  ret_from_fork (arch/arm64/kernel/entry.S:858)
+I think this file can be whole removed. Feel free to post patch for
+that.
 
+> > 2. Is it absolutely necessary for me to have a specialized hardware to test my
+> > patches? Is it limited to the 14thGen or above CPU or do I need more than that?
+Yes, I don't think someone can work on ivpu without hardware.
 
--- 
-With best wishes
-Dmitry
+> > 3. Is it okay for me to work on the TODO list items. Let me know if you have a
+> > preference [Please note I just started a few months ago and still learning].
+I recommend you to work on items from:
+https://www.kernel.org/doc/html/latest/gpu/todo.html
+
+> Hello,
+> May I request the maintainer to review my questions and comment please?
+
+Sorry, I haven't seen this email before.
+
+Regards
+Stanislaw
