@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A4F67CDDF3
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Oct 2023 15:54:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA1427CDE0C
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Oct 2023 15:57:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B715310E0AA;
-	Wed, 18 Oct 2023 13:54:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C887910E0CB;
+	Wed, 18 Oct 2023 13:57:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x30.google.com (mail-oa1-x30.google.com
- [IPv6:2001:4860:4864:20::30])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5230D10E0AA;
- Wed, 18 Oct 2023 13:54:53 +0000 (UTC)
-Received: by mail-oa1-x30.google.com with SMTP id
- 586e51a60fabf-1e19cb7829bso4221072fac.1; 
- Wed, 18 Oct 2023 06:54:53 -0700 (PDT)
+Received: from mail-oa1-x2d.google.com (mail-oa1-x2d.google.com
+ [IPv6:2001:4860:4864:20::2d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6ED4D10E0CB;
+ Wed, 18 Oct 2023 13:57:31 +0000 (UTC)
+Received: by mail-oa1-x2d.google.com with SMTP id
+ 586e51a60fabf-1e19cb7829bso4222537fac.1; 
+ Wed, 18 Oct 2023 06:57:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1697637292; x=1698242092; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1697637450; x=1698242250; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=RQtk85yAlUtWvDHsaGA/g7mDe6/47cka+lCUyYH/oYo=;
- b=ORDBNnFhYEUca1qNtUe0nG820gXh+skLRa1waP4f/G29msWkMoHCyM0J2sdMAUZd6X
- 0EDt58oSAsKaeMR/BtDbIjdAj5guqrpZN4+iirq4WXobvMpDvp9V1kthzUeYSoG7BFjp
- oFpbBnRvu9EVx9I6ua6TIqhrFf0CbqL6gUN+zF4V4xF3Qui41vv3f+AnGElPiDN6u6Pw
- sCvYI9KV+jBcKxw8FpDz+7hobTfB+4OTEn9Kigt1KBHTkY60QHepiwcxZWUmVvjxQe+9
- M0T5GmMUmuxytTvKY+1Jy685UK4NTkweAnW51Ggu8aD1mFAri/Xkw7DFjlK0C1rSMLqq
- NmTg==
+ bh=RBuadUMoZdX2+d4FKX3AvurIxVLVlW/YP0Lt3ncRpOc=;
+ b=mclg+N4CHyBYmMxReNh9FMtsQayB9iT+I8t1pIOGEGk5vbt5kU9TCpUDpsTc8tehgo
+ Pzp6h3Gz2Y8/mQmbp22OFf3+nvV+NRcAI+8SDjL91B3Jq28aT9OxdK7KD/w9rnOvmNhS
+ w26/1aUvisPwDxdMPK50RVhgQNhL00ri0IFjj465silZU6Xxeq543V7cokivA5eSKiim
+ 1YxeAOZq9TTiVH8pFbadZTwLjjCA5eTUTW8tpnmKziFjF1QCRP8ZUXy5Ufudq8NG1Pg5
+ F4jtXQ0+N6AyRA39FP7hkoqxYqRTZD45D/W5vH4RT2lt/msiRmgI20k+y5R1jGJYIyOX
+ jNig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1697637292; x=1698242092;
+ d=1e100.net; s=20230601; t=1697637450; x=1698242250;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=RQtk85yAlUtWvDHsaGA/g7mDe6/47cka+lCUyYH/oYo=;
- b=CC9YC/5Kgl5oqRrtt7Kc1HJGBS8F19LaaHjzNbRD21x24H9GEgEzovKElB6evYEPl6
- ZYUCds/nG7UpEmGJNwZuQ+od66CxFMiz+1fIwAkYXeuqZNU2tRSoOj3TzeG58ISCR+Lh
- fwzLL+MkutiMbOnDEP6mYu0vLnhtJIkUUyJA3R1YCEWyWhceeOHvgsCeybEoNfXKA3u5
- c0X9bH0T2agNbre9QvPdReUCJEkj6I4zprbqIO9Y1Lj6N/uNw1XeejVr0f38AhaEJVrP
- jzn+iFyeOgLooJwAOJdCGoFaIFYn0jxId/0B9vnEz1ESdBhMz8ieX6uZUtcmdKSa7ME5
- fUOg==
-X-Gm-Message-State: AOJu0YxYgHGseEKJOliGRlkYpHZV/lKS8n/WnJpWfLKUWpy8+OQg8uPJ
- 51AzqMy6d+jg62mtFqAD19uCzwDiPnv3Y/yOcpc=
-X-Google-Smtp-Source: AGHT+IFlaoizvKWMcFlZPTzHVe9b4XIs0EXekcyzuBDq5Az+Rq7X9x4hmvFDljDEuaGPMfkJvfYECf4RXcy3tA5IzIo=
-X-Received: by 2002:a05:6870:d60e:b0:1d6:567b:7a93 with SMTP id
- a14-20020a056870d60e00b001d6567b7a93mr5985350oaq.11.1697637292212; Wed, 18
- Oct 2023 06:54:52 -0700 (PDT)
+ bh=RBuadUMoZdX2+d4FKX3AvurIxVLVlW/YP0Lt3ncRpOc=;
+ b=JaE8FT0snlnw8rDrzaFiBa0ysBKJ/D7Jl8PU27ACBQBV9aiPFk1cfQfJdNIAGV4DQL
+ 2i0TcqDMHn4UdZ3JgMnIMTUFfsLOSFIa+XRRVrj5SwmwnHLkauuovLzBCkP5EpFLvng6
+ WxNnG9iJpegdR8Jtv1MNTxW8EkaQ/w6f+tmbLd/70PRLkGZ77xblEs7Ii27+8B4k3mcE
+ TulWCny9qfLooBQbaJU5Mh0zTXkLJIpGbDTbDPtwrVUNNtHilDn7T/DpJGKyQ0LnNcUT
+ 4/UtCuUOfrBk0c2otEyZMCmbulIoAo5gPA7CWBrWVtsMeDYJnoisk32bz6O83ZmAjB4C
+ jJSA==
+X-Gm-Message-State: AOJu0YyesGJfp3i7RHHnBUCG73Moo8v6IyLTHq8CdUixW95b0O9+f30R
+ uLwsMo9LXgGD+7n3jztsS1Rk51BBhrlsHaTb0c0=
+X-Google-Smtp-Source: AGHT+IFF0o2PmNbSZo3TsClLBR+UztvtVKhytK8oRPSPGDQcKHK/7AQ70VgMMQwUEbUC1ToXvVKOIMh/JtBrqizqtvY=
+X-Received: by 2002:a05:6870:3926:b0:1ea:746d:1703 with SMTP id
+ b38-20020a056870392600b001ea746d1703mr6501624oap.7.1697637450690; Wed, 18 Oct
+ 2023 06:57:30 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230928011351.110093-1-yang.lee@linux.alibaba.com>
-In-Reply-To: <20230928011351.110093-1-yang.lee@linux.alibaba.com>
+References: <20231018010203.110189-1-yang.lee@linux.alibaba.com>
+In-Reply-To: <20231018010203.110189-1-yang.lee@linux.alibaba.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 18 Oct 2023 09:54:41 -0400
-Message-ID: <CADnq5_Ps0gfiu9iadfKzYiG=N06QznOq=p8aJYibxLmuxJDmDQ@mail.gmail.com>
-Subject: Re: [PATCH -next] drm/amd/display: clean up some inconsistent
- indentings
+Date: Wed, 18 Oct 2023 09:57:19 -0400
+Message-ID: <CADnq5_OW4ZPV3Sm-8EC0QuVjA35tGtjN1SV4pLBnv1inU9umxQ@mail.gmail.com>
+Subject: Re: [PATCH -next] drm/amd/display: Remove duplicated include in
+ dce110_hwseq.c
 To: Yang Li <yang.lee@linux.alibaba.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -69,223 +69,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, alexander.deucher@amd.com
+Cc: Abaci Robot <abaci@linux.alibaba.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ alexander.deucher@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Applied.  Thanks!
 
-On Wed, Sep 27, 2023 at 9:14=E2=80=AFPM Yang Li <yang.lee@linux.alibaba.com=
+On Tue, Oct 17, 2023 at 9:02=E2=80=AFPM Yang Li <yang.lee@linux.alibaba.com=
 > wrote:
 >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn35/dcn35_fpu.c:261 dcn35_=
-update_bw_bounding_box_fpu() warn: inconsistent indenting
+> ./drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c: dce110_hwseq=
+.h is included more than once.
 >
+> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+> Closes: https://bugzilla.openanolis.cn/show_bug.cgi?id=3D6897
 > Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
 > ---
->  .../drm/amd/display/dc/dml/dcn35/dcn35_fpu.c  | 144 +++++++++---------
->  1 file changed, 72 insertions(+), 72 deletions(-)
+>  drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c | 2 --
+>  1 file changed, 2 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn35/dcn35_fpu.c b/drive=
-rs/gpu/drm/amd/display/dc/dml/dcn35/dcn35_fpu.c
-> index 4d5ee2aad9e4..4f284c31de5d 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dml/dcn35/dcn35_fpu.c
-> +++ b/drivers/gpu/drm/amd/display/dc/dml/dcn35/dcn35_fpu.c
-> @@ -258,85 +258,85 @@ void dcn35_update_bw_bounding_box_fpu(struct dc *dc=
-,
+> diff --git a/drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c b/=
+drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c
+> index 74602a5fd6dd..51e42cbb3cdb 100644
+> --- a/drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c
+> +++ b/drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c
+> @@ -65,8 +65,6 @@
 >
->         dc_assert_fp_enabled();
+>  #include "dcn10/dcn10_hwseq.h"
 >
-> -               dcn3_5_ip.max_num_otg =3D
-> -                       dc->res_pool->res_cap->num_timing_generator;
-> -               dcn3_5_ip.max_num_dpp =3D dc->res_pool->pipe_count;
-> -               dcn3_5_soc.num_chans =3D bw_params->num_channels;
+> -#include "dce110_hwseq.h"
 > -
-> -               ASSERT(clk_table->num_entries);
-> -
-> -               /* Prepass to find max clocks independent of voltage leve=
-l. */
-> -               for (i =3D 0; i < clk_table->num_entries; ++i) {
-> -                       if (clk_table->entries[i].dispclk_mhz > max_dispc=
-lk_mhz)
-> -                               max_dispclk_mhz =3D clk_table->entries[i]=
-.dispclk_mhz;
-> -                       if (clk_table->entries[i].dppclk_mhz > max_dppclk=
-_mhz)
-> -                               max_dppclk_mhz =3D clk_table->entries[i].=
-dppclk_mhz;
-> -               }
-> +       dcn3_5_ip.max_num_otg =3D
-> +               dc->res_pool->res_cap->num_timing_generator;
-> +       dcn3_5_ip.max_num_dpp =3D dc->res_pool->pipe_count;
-> +       dcn3_5_soc.num_chans =3D bw_params->num_channels;
-> +
-> +       ASSERT(clk_table->num_entries);
-> +
-> +       /* Prepass to find max clocks independent of voltage level. */
-> +       for (i =3D 0; i < clk_table->num_entries; ++i) {
-> +               if (clk_table->entries[i].dispclk_mhz > max_dispclk_mhz)
-> +                       max_dispclk_mhz =3D clk_table->entries[i].dispclk=
-_mhz;
-> +               if (clk_table->entries[i].dppclk_mhz > max_dppclk_mhz)
-> +                       max_dppclk_mhz =3D clk_table->entries[i].dppclk_m=
-hz;
-> +       }
+>  #define GAMMA_HW_POINTS_NUM 256
 >
-> -               for (i =3D 0; i < clk_table->num_entries; i++) {
-> -                       /* loop backwards*/
-> -                       for (closest_clk_lvl =3D 0, j =3D dcn3_5_soc.num_=
-states - 1;
-> -                            j >=3D 0; j--) {
-> -                               if (dcn3_5_soc.clock_limits[j].dcfclk_mhz=
- <=3D
-> -                                   clk_table->entries[i].dcfclk_mhz) {
-> -                                       closest_clk_lvl =3D j;
-> -                                       break;
-> -                               }
-> -                       }
-> -                       if (clk_table->num_entries =3D=3D 1) {
-> -                               /*smu gives one DPM level, let's take the=
- highest one*/
-> -                               closest_clk_lvl =3D dcn3_5_soc.num_states=
- - 1;
-> +       for (i =3D 0; i < clk_table->num_entries; i++) {
-> +               /* loop backwards*/
-> +               for (closest_clk_lvl =3D 0, j =3D dcn3_5_soc.num_states -=
- 1;
-> +                       j >=3D 0; j--) {
-> +                       if (dcn3_5_soc.clock_limits[j].dcfclk_mhz <=3D
-> +                               clk_table->entries[i].dcfclk_mhz) {
-> +                               closest_clk_lvl =3D j;
-> +                               break;
->                         }
-> +               }
-> +               if (clk_table->num_entries =3D=3D 1) {
-> +                       /*smu gives one DPM level, let's take the highest=
- one*/
-> +                       closest_clk_lvl =3D dcn3_5_soc.num_states - 1;
-> +               }
->
-> -                       clock_limits[i].state =3D i;
-> -
-> -                       /* Clocks dependent on voltage level. */
-> -                       clock_limits[i].dcfclk_mhz =3D clk_table->entries=
-[i].dcfclk_mhz;
-> -                       if (clk_table->num_entries =3D=3D 1 &&
-> -                           clock_limits[i].dcfclk_mhz <
-> -                           dcn3_5_soc.clock_limits[closest_clk_lvl].dcfc=
-lk_mhz) {
-> -                               /*SMU fix not released yet*/
-> -                               clock_limits[i].dcfclk_mhz =3D
-> -                                       dcn3_5_soc.clock_limits[closest_c=
-lk_lvl].dcfclk_mhz;
-> -                       }
-> +               clock_limits[i].state =3D i;
->
-> -                       clock_limits[i].fabricclk_mhz =3D
-> -                               clk_table->entries[i].fclk_mhz;
-> -                       clock_limits[i].socclk_mhz =3D
-> -                               clk_table->entries[i].socclk_mhz;
-> -
-> -                       if (clk_table->entries[i].memclk_mhz &&
-> -                           clk_table->entries[i].wck_ratio)
-> -                               clock_limits[i].dram_speed_mts =3D
-> -                                       clk_table->entries[i].memclk_mhz =
-* 2 *
-> -                                       clk_table->entries[i].wck_ratio;
-> -
-> -                       /* Clocks independent of voltage level. */
-> -                       clock_limits[i].dispclk_mhz =3D max_dispclk_mhz ?
-> -                               max_dispclk_mhz :
-> -                               dcn3_5_soc.clock_limits[closest_clk_lvl].=
-dispclk_mhz;
-> -
-> -                       clock_limits[i].dppclk_mhz =3D max_dppclk_mhz ?
-> -                               max_dppclk_mhz :
-> -                               dcn3_5_soc.clock_limits[closest_clk_lvl].=
-dppclk_mhz;
-> -
-> -                       clock_limits[i].dram_bw_per_chan_gbps =3D
-> -                               dcn3_5_soc.clock_limits[closest_clk_lvl].=
-dram_bw_per_chan_gbps;
-> -                       clock_limits[i].dscclk_mhz =3D
-> -                               dcn3_5_soc.clock_limits[closest_clk_lvl].=
-dscclk_mhz;
-> -                       clock_limits[i].dtbclk_mhz =3D
-> -                               dcn3_5_soc.clock_limits[closest_clk_lvl].=
-dtbclk_mhz;
-> -                       clock_limits[i].phyclk_d18_mhz =3D
-> -                               dcn3_5_soc.clock_limits[closest_clk_lvl].=
-phyclk_d18_mhz;
-> -                       clock_limits[i].phyclk_mhz =3D
-> -                               dcn3_5_soc.clock_limits[closest_clk_lvl].=
-phyclk_mhz;
-> +               /* Clocks dependent on voltage level. */
-> +               clock_limits[i].dcfclk_mhz =3D clk_table->entries[i].dcfc=
-lk_mhz;
-> +               if (clk_table->num_entries =3D=3D 1 &&
-> +                       clock_limits[i].dcfclk_mhz <
-> +                       dcn3_5_soc.clock_limits[closest_clk_lvl].dcfclk_m=
-hz) {
-> +                       /*SMU fix not released yet*/
-> +                       clock_limits[i].dcfclk_mhz =3D
-> +                               dcn3_5_soc.clock_limits[closest_clk_lvl].=
-dcfclk_mhz;
->                 }
->
-> -               memcpy(dcn3_5_soc.clock_limits, clock_limits,
-> -                      sizeof(dcn3_5_soc.clock_limits));
-> +               clock_limits[i].fabricclk_mhz =3D
-> +                       clk_table->entries[i].fclk_mhz;
-> +               clock_limits[i].socclk_mhz =3D
-> +                       clk_table->entries[i].socclk_mhz;
-> +
-> +               if (clk_table->entries[i].memclk_mhz &&
-> +                       clk_table->entries[i].wck_ratio)
-> +                       clock_limits[i].dram_speed_mts =3D
-> +                               clk_table->entries[i].memclk_mhz * 2 *
-> +                               clk_table->entries[i].wck_ratio;
-> +
-> +               /* Clocks independent of voltage level. */
-> +               clock_limits[i].dispclk_mhz =3D max_dispclk_mhz ?
-> +                       max_dispclk_mhz :
-> +                       dcn3_5_soc.clock_limits[closest_clk_lvl].dispclk_=
-mhz;
-> +
-> +               clock_limits[i].dppclk_mhz =3D max_dppclk_mhz ?
-> +                       max_dppclk_mhz :
-> +                       dcn3_5_soc.clock_limits[closest_clk_lvl].dppclk_m=
-hz;
-> +
-> +               clock_limits[i].dram_bw_per_chan_gbps =3D
-> +                       dcn3_5_soc.clock_limits[closest_clk_lvl].dram_bw_=
-per_chan_gbps;
-> +               clock_limits[i].dscclk_mhz =3D
-> +                       dcn3_5_soc.clock_limits[closest_clk_lvl].dscclk_m=
-hz;
-> +               clock_limits[i].dtbclk_mhz =3D
-> +                       dcn3_5_soc.clock_limits[closest_clk_lvl].dtbclk_m=
-hz;
-> +               clock_limits[i].phyclk_d18_mhz =3D
-> +                       dcn3_5_soc.clock_limits[closest_clk_lvl].phyclk_d=
-18_mhz;
-> +               clock_limits[i].phyclk_mhz =3D
-> +                       dcn3_5_soc.clock_limits[closest_clk_lvl].phyclk_m=
-hz;
-> +       }
-> +
-> +       memcpy(dcn3_5_soc.clock_limits, clock_limits,
-> +               sizeof(dcn3_5_soc.clock_limits));
->
-> -               if (clk_table->num_entries)
-> -                       dcn3_5_soc.num_states =3D clk_table->num_entries;
-> +       if (clk_table->num_entries)
-> +               dcn3_5_soc.num_states =3D clk_table->num_entries;
->
->         if (max_dispclk_mhz) {
->                 dcn3_5_soc.dispclk_dppclk_vco_speed_mhz =3D max_dispclk_m=
-hz * 2;
+>  /*
 > --
 > 2.20.1.7.g153144c
 >
