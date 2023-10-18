@@ -2,64 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C2177CD62B
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Oct 2023 10:16:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4AF87CD63B
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Oct 2023 10:20:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B365C10E3BB;
-	Wed, 18 Oct 2023 08:16:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 12B7B10E3C8;
+	Wed, 18 Oct 2023 08:20:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
- [IPv6:2a00:1450:4864:20::331])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D6D310E3BB
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Oct 2023 08:16:35 +0000 (UTC)
-Received: by mail-wm1-x331.google.com with SMTP id
- 5b1f17b1804b1-406aaccb41dso20312925e9.0
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Oct 2023 01:16:35 -0700 (PDT)
+Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com
+ [IPv6:2607:f8b0:4864:20::b36])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C526510E3CC
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Oct 2023 08:20:19 +0000 (UTC)
+Received: by mail-yb1-xb36.google.com with SMTP id
+ 3f1490d57ef6-d9ad90e1038so7074356276.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Oct 2023 01:20:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1697616994; x=1698221794; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=A3GyM+aE3SYv7cz/slJ+bSq+Pg5b4YGz7Fxntovg2vc=;
- b=ibJEOPvaygDcFbjLImoemZBrx6wVnyypxVryMX+F774K9mjDfsS+M1jtKhKyPEHHAN
- eu16OdVPJBUIpV0hrjZPiQdxfl/b2lXjtikOZtwhE9JHp22hCoq8YXrVChg3T08CdycB
- k6XTF3Ztg6pteH2QQ5wv2SMl1/RA/NMN78iCE=
+ d=linaro.org; s=google; t=1697617218; x=1698222018; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=x3vk9WdgsgALGZ8oIqyx1M2Q98eDsGMriT18jqbbO68=;
+ b=uYhXXoWLfZHfDsBxmjHqpnYmfnmp/Ef6/Iw7W6oPL9jvG8sf1gnYX288NGY3z4f/Ya
+ dxtV4BBhlfS+rksSauNfjDTwBdhbbgg7aM9iUWxMGQkGSG14RhNyJ4kdoqe0v7oTllAi
+ jjRjbIw/p9UY3urUShPpw8fvzOUk8dwWFLqXtnw1HSeHN5TOarBZ2CRZXSM4iMR9/j9p
+ gPSWbAxSPHe/B8tG9bb5LPTbtrMQk3v/FquVL7NSHJRKCWkJd0cwIDcNk2rGjJS+BLSU
+ 4Rixse4Jh9pH2vzhq5h80oxh8K633FzKe1L98XRvuN2vVNqVsi9NFsW7nsJOSWEPevQJ
+ PucA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1697616994; x=1698221794;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=A3GyM+aE3SYv7cz/slJ+bSq+Pg5b4YGz7Fxntovg2vc=;
- b=syFVL8aIhEkd2Rj+CvH8hcAkdKLicuPm/xDDv85XF6Na+EHUJXBH6/HTR+ogPkcsMu
- m1SjSmZS3jx+PFfLLXX49W+2hYdlRhBSm7M+igkiF7tn9FUIMMgIeqLkM6l3mItFD0uh
- M3xab8F5fpyQp6pkVNP0sdgqbTuJ8m8uDDdcFMmtEof5OX2lEpeIE8fVhbrx+t7+Iz8R
- mXkjHOTCUdv9XXCuMLx07NdIszYRpu66bL9sjFEpxw1Hpf50L4BZYOItZTlKTftjXvzu
- wvdFim+ClIoeTez3y2BPV91QH4mrEa+jeQASFCBFHzqy8RTYjyqLPB0lVlPElWLhEQgt
- YBLA==
-X-Gm-Message-State: AOJu0YzYKzFCj0Awa6N1AQNmRgcKXBzOTa+7gujTLdxlMsi7u5ElJMjg
- gejoiqtlU6aC6EGRtlVYM1myEQ==
-X-Google-Smtp-Source: AGHT+IH7ti0a2iWrHG5hQc4oTY5DuqMfFMnrjFJxXyJE8JF+2xSGG1Y/o+81CsG5FnA8AvY3dAAiBA==
-X-Received: by 2002:a05:600c:4f88:b0:405:3cc1:e115 with SMTP id
- n8-20020a05600c4f8800b004053cc1e115mr3313684wmq.3.1697616993697; 
- Wed, 18 Oct 2023 01:16:33 -0700 (PDT)
-Received: from dvetter-linux.ger.corp.intel.com
- (210.red-80-36-22.staticip.rima-tde.net. [80.36.22.210])
- by smtp.gmail.com with ESMTPSA id
- d13-20020a5d538d000000b003232d122dbfsm1523014wrv.66.2023.10.18.01.16.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Oct 2023 01:16:33 -0700 (PDT)
-Date: Wed, 18 Oct 2023 10:16:30 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH] drm: Remove struct drm_flip_task from DRM interfaces
-Message-ID: <ZS+UXovD+Hxfg3u5@dvetter-linux.ger.corp.intel.com>
-References: <20231017122114.17247-1-tzimmermann@suse.de>
+ d=1e100.net; s=20230601; t=1697617218; x=1698222018;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=x3vk9WdgsgALGZ8oIqyx1M2Q98eDsGMriT18jqbbO68=;
+ b=AWZpz/kOZ4IGs4k3EFO4Edp8iq0yXZIDf58rHn5RKx6sJNJTPbLnoGtX2LLh2gRhrZ
+ t3TUWYY8z4uqJx9jZR/hbBmgdgHGP050R0gONbcTOH/RmGBQcZiYBFFxLxXKJZ+tuYNI
+ snvwiJUDyOHEkoALcZMLmxg5FtCUwj+01+c1VbANEXfQXgqvU+Rg67OghaTuVIVUxcn9
+ d+rSZMx/g5pOpAFC2sLNeyV+JVczoH1YVEduRNNLzrEj4zMDBGyQVUtrzsI9P6GWZtlS
+ kw0to2GjHZoHHX9/jnDtdsKmiLxRVpmzNrhQjHmgoABQLZcwyRO6kPhnE0bFdLeCfiJf
+ ORGg==
+X-Gm-Message-State: AOJu0Yz0b9Ui315BGMXsf11IMBQnTEl59uFUaGdK+M+Xkl1RHWIZfPjD
+ 0n9H1rmpGXZy2qp1FVrj0z5NG5TFc96ANw8ly8Ge0A==
+X-Google-Smtp-Source: AGHT+IHggL2ml69cTNJWS6QIps9q5qyFOKcfc/dxJ4/BM2XmWD+4v6A6o1A5nTOANs51qAxT9nbcCCKDJ7tLeD7rao8=
+X-Received: by 2002:a25:aab3:0:b0:d9a:e397:3b4 with SMTP id
+ t48-20020a25aab3000000b00d9ae39703b4mr4208649ybi.46.1697617218711; Wed, 18
+ Oct 2023 01:20:18 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231017122114.17247-1-tzimmermann@suse.de>
-X-Operating-System: Linux dvetter-linux.ger.corp.intel.com
- 6.3.8-200.fc38.x86_64 
+References: <20231017021805.1083350-9-mailingradian@gmail.com>
+ <20231017021805.1083350-14-mailingradian@gmail.com>
+In-Reply-To: <20231017021805.1083350-14-mailingradian@gmail.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Wed, 18 Oct 2023 11:20:07 +0300
+Message-ID: <CAA8EJppTrH0DG_i+hUeagsXodt88TG6vD3W-y9gKmxevWZbJig@mail.gmail.com>
+Subject: Re: [PATCH v4 5/6] drm/msm/dpu: Add hw revision 4.1 (SDM670)
+To: Richard Acayan <mailingradian@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,130 +67,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: bbrezillon@kernel.org, dri-devel@lists.freedesktop.org, mripard@kernel.org
+Cc: Ryan McCann <quic_rmccann@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Liu Shixin <liushixin2@huawei.com>,
+ Krishna Manikandan <quic_mkrishn@quicinc.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Vinod Polimera <quic_vpolimer@quicinc.com>, Robert Foss <rfoss@kernel.org>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, Andy Gross <agross@kernel.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, devicetree@vger.kernel.org,
+ Conor Dooley <conor+dt@kernel.org>, linux-arm-msm@vger.kernel.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Herring <robh+dt@kernel.org>,
+ Sean Paul <sean@poorly.run>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 17, 2023 at 02:20:53PM +0200, Thomas Zimmermann wrote:
-> Contain struct drm_flip_task and its helper functions
-> drm_flip_work_allocate_task() and drm_flip_work_queue_task() within
-> drm_flip_work.c There are no callers outside of the flip-work code.
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+On Tue, 17 Oct 2023 at 05:18, Richard Acayan <mailingradian@gmail.com> wrote:
+>
+> The Snapdragon 670 uses similar clocks (with one frequency added) to the
+> Snapdragon 845 but reports DPU revision 4.1. Add support for this DPU
+> with configuration from the Pixel 3a downstream kernel.
+>
+> Since revision 4.0 is SDM845, reuse some configuration from its catalog
+> entry.
+>
+> Link: https://android.googlesource.com/kernel/msm/+/368478b0ae76566927a2769a2bf24dfe7f38bb78/arch/arm64/boot/dts/qcom/sdm670-sde.dtsi
+> Signed-off-by: Richard Acayan <mailingradian@gmail.com>
+
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
 > ---
->  drivers/gpu/drm/drm_flip_work.c | 27 +++++++--------------------
->  include/drm/drm_flip_work.h     | 18 ++----------------
->  2 files changed, 9 insertions(+), 36 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_flip_work.c b/drivers/gpu/drm/drm_flip_work.c
-> index 060b753881a27..8c6090a90d564 100644
-> --- a/drivers/gpu/drm/drm_flip_work.c
-> +++ b/drivers/gpu/drm/drm_flip_work.c
-> @@ -27,14 +27,12 @@
->  #include <drm/drm_print.h>
->  #include <drm/drm_util.h>
->  
-> -/**
-> - * drm_flip_work_allocate_task - allocate a flip-work task
-> - * @data: data associated to the task
-> - * @flags: allocator flags
-> - *
-> - * Allocate a drm_flip_task object and attach private data to it.
-> - */
-> -struct drm_flip_task *drm_flip_work_allocate_task(void *data, gfp_t flags)
-> +struct drm_flip_task {
-> +	struct list_head node;
-> +	void *data;
-> +};
-> +
-> +static struct drm_flip_task *drm_flip_work_allocate_task(void *data, gfp_t flags)
->  {
->  	struct drm_flip_task *task;
->  
-> @@ -44,18 +42,8 @@ struct drm_flip_task *drm_flip_work_allocate_task(void *data, gfp_t flags)
->  
->  	return task;
->  }
-> -EXPORT_SYMBOL(drm_flip_work_allocate_task);
->  
-> -/**
-> - * drm_flip_work_queue_task - queue a specific task
-> - * @work: the flip-work
-> - * @task: the task to handle
-> - *
-> - * Queues task, that will later be run (passed back to drm_flip_func_t
-> - * func) on a work queue after drm_flip_work_commit() is called.
-> - */
-> -void drm_flip_work_queue_task(struct drm_flip_work *work,
-> -			      struct drm_flip_task *task)
-> +static void drm_flip_work_queue_task(struct drm_flip_work *work, struct drm_flip_task *task)
->  {
->  	unsigned long flags;
->  
-> @@ -63,7 +51,6 @@ void drm_flip_work_queue_task(struct drm_flip_work *work,
->  	list_add_tail(&task->node, &work->queued);
->  	spin_unlock_irqrestore(&work->lock, flags);
->  }
-> -EXPORT_SYMBOL(drm_flip_work_queue_task);
->  
->  /**
->   * drm_flip_work_queue - queue work
-> diff --git a/include/drm/drm_flip_work.h b/include/drm/drm_flip_work.h
-> index 21c3d512d25c4..6be4ba6f35143 100644
-> --- a/include/drm/drm_flip_work.h
-> +++ b/include/drm/drm_flip_work.h
-> @@ -33,9 +33,8 @@
->   *
->   * Util to queue up work to run from work-queue context after flip/vblank.
->   * Typically this can be used to defer unref of framebuffer's, cursor
-> - * bo's, etc until after vblank.  The APIs are all thread-safe.
-> - * Moreover, drm_flip_work_queue_task and drm_flip_work_queue can be called
-> - * in atomic context.
-> + * bo's, etc until after vblank.  The APIs are all thread-safe. Moreover,
-> + * drm_flip_work_queue can be called in atomic context.
-
-Since you edit this anyway, add () so it becomes a hyperlink? Also looking
-at the code it's actually drm_flip_work_commit() that's atomic safe,
-_queue is not super irq safe (because it allocates and that could fail).
-With that fixed.
-
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
->   */
->  
->  struct drm_flip_work;
-> @@ -51,16 +50,6 @@ struct drm_flip_work;
->   */
->  typedef void (*drm_flip_func_t)(struct drm_flip_work *work, void *val);
->  
-> -/**
-> - * struct drm_flip_task - flip work task
-> - * @node: list entry element
-> - * @data: data to pass to &drm_flip_work.func
-> - */
-> -struct drm_flip_task {
-> -	struct list_head node;
-> -	void *data;
-> -};
-> -
->  /**
->   * struct drm_flip_work - flip work queue
->   * @name: debug name
-> @@ -79,9 +68,6 @@ struct drm_flip_work {
->  	spinlock_t lock;
->  };
->  
-> -struct drm_flip_task *drm_flip_work_allocate_task(void *data, gfp_t flags);
-> -void drm_flip_work_queue_task(struct drm_flip_work *work,
-> -			      struct drm_flip_task *task);
->  void drm_flip_work_queue(struct drm_flip_work *work, void *val);
->  void drm_flip_work_commit(struct drm_flip_work *work,
->  		struct workqueue_struct *wq);
-> -- 
-> 2.42.0
-> 
+>  .../msm/disp/dpu1/catalog/dpu_4_1_sdm670.h    | 104 ++++++++++++++++++
+>  .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    |   1 +
+>  .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |   1 +
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |   1 +
+>  4 files changed, 107 insertions(+)
+>  create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_1_sdm670.h
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+With best wishes
+Dmitry
