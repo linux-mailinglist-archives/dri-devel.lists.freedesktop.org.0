@@ -1,124 +1,146 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C20F27CE232
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Oct 2023 18:07:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B5D77CE281
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Oct 2023 18:16:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 254F910E145;
-	Wed, 18 Oct 2023 16:07:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E41A10E179;
+	Wed, 18 Oct 2023 16:15:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2047.outbound.protection.outlook.com [40.107.220.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B27AE10E145;
- Wed, 18 Oct 2023 16:07:50 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC67310E16B;
+ Wed, 18 Oct 2023 16:15:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1697645750; x=1729181750;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=h7WhN1OkoQDfDV0FCLh9zlagg4UTmqA8kiR8FZscIm8=;
+ b=d0SJkm2UsvBMqzBaRG0/TXqaAHuDt1lGwbUlSD7Ax9bqZhalYoLRRetq
+ bBxrVSUdswl6RvOpLo/c2tt56EtvLcg2Ytj2a6YNb0ScYjvv26KmyPkLe
+ dLb4ep/Xs/8VnfaH5NU3AcZjopGata/t3F/nYMtj52PGx62ybhMilkzH4
+ t3DJrEp6KZUZMLBKFbJRPKaJKyZNxxqg1g1rCHAu9bA9HblR/EG8gmSfv
+ I5yiz9HZlX26XhwxKLqbdifS5gNzyPTOFu/hnv+EUPYKpKUftaeMCBqHd
+ 6Rb2U+9MExuM1LCGVQgiWXgDpSFfO0z/TnTE1fR8CfftDGc0AT1PSbBvl Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="366304446"
+X-IronPort-AV: E=Sophos;i="6.03,235,1694761200"; d="scan'208";a="366304446"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Oct 2023 09:15:50 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="756641050"
+X-IronPort-AV: E=Sophos;i="6.03,235,1694761200"; d="scan'208";a="756641050"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+ by orsmga002.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 18 Oct 2023 09:15:49 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Wed, 18 Oct 2023 09:15:49 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Wed, 18 Oct 2023 09:15:48 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32 via Frontend Transport; Wed, 18 Oct 2023 09:15:48 -0700
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.168)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.32; Wed, 18 Oct 2023 09:15:48 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Cr3jGLt+YwxFCUaRJfVMGvMu99ZrYD7nl+GraiJDsIbo+Lz3mj/6dYYvkP4A5n5dKNNG3OxddrLmHxzj8TVReXfTF15IKDSdYIIJrtGge+tFkNRpeip38QlDSVUijb2j5jEv5jRTOYkVSsECfiRpViAfLlU3zgGBdp8r70sf6MzsyeYV1e2acINlv5vdVyiByMlicYuKPFOXOAXIvebRLeaIkMHzYeoxvNW5iBU5Ltnvj4OF3hMJOxNGBmAlQXdxjeZ6xMr7EurygZpJyhINzkYmffTr9/H35dHQyy+qJucOa8hMe1R7Aa7RTI6mYf4qfGnSTqWxudIwTlG0srcfVg==
+ b=YsPILJF8Y/or3CwTWp38AWIeAN6jVzV0DuS9lf4qPVDroWjeicWntb/jGKcm939KtfoAhz4PkT+KgSHQ14EYzNauRsp2N+f/Q8gkbyk4Mn3FVx1LGOjuZuB13cvEVnMDgoJJ2ZIeBtwN9MgoNqXk5JkZ5gGSKvFWvIU2n8NDgSWXYrrHALFGKebP0G/Giq5i/fKIofaQ8v/n6d7CSHwRIFcXQRxuxo/jtz1iGH9rG+TucKedRXi8IoMW0VgBLG8T8k7BlHguebKfaR1MsNppWIu++vZzW6dH8C02ZOow47e9Nbu7gKbfKKvOPiTxmMfvLVVvGk9QOVxswWdPZ9Vh1w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=X7/12FZim+LHm182L0HJqyBt+A/WdnhOpoEqBB516/A=;
- b=YD91wCdk988cpAg6qQgeMYmfOmDFcwN0ednimJtRnd92rLmmVKHs6ksR9glPrKB+dZlQ/QPWtkzzti75Pm7b7+z5vfmP3s1/ezTDm3KFtbGCupLqQYB91EN0ALuYZPYx886FO3+khSh9OQxJyzBKmr8oZabrSy5o+UdKX6eHh2HAxGkD0anAMUx5MRf4Jy2DSRf5rpG/12q4pk9r8aHuNe4Tt0BDZFXVQp5ih0CtD0bm7b/gNdZ/JX3Ykn8zWJY1rRS7iTjoLZ91xUsPmScmj37fNB1KDwHfD+e+Ue+E0UruxTnJaRL32n6FNfmOsWguhdVr8xysBLjUr2j9f9z2Pg==
+ bh=qiXwenx3q2GJZW22VlmY8iIVm6awo9Sodz0pT40syhk=;
+ b=OLZuXoEawsujUGk68spCbuaJivES0h5t0EhyLNXxrballnnI3zix0lwYEyDXeplvnmIrNfdLAYtb34824rj7as2fcpAQ2/Jy4qIpYMcJufcBbhuMxM/AOHK4weK3vf8zrxQIAx013unzkBkII9B2W5t0pfW3wYttALP4a6HOaprUbBTbFCaSO1SZEhEqQU7qG0zxlczNyt8hBM6F0UnbmYF3IFR9LXkbJMNWd5gE2POl+Sp2IDZIurulc5hDB5SlrezmfuAk9BqxiBobpWCo0OPma7Mqlpc8dXDM9sh2XaOw7h7Iwr62yp+8UY5DD5m4eWArJVdU/w7vC7+oC9LS6w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=X7/12FZim+LHm182L0HJqyBt+A/WdnhOpoEqBB516/A=;
- b=w7PlGRglJvDeNYER6B/BZ8k/shtoHnLO9dqHPsYuMxbJO5DvMSuYpImq9H013EK+oIxqMyl18405vJ1Se/k5UtjJBbH19PjjT8IpbvigQ3FzBX16MHd37994mCmz3muS4tZ655x2Y/8Pgdf8ThV47JbgAoKhWeUI3DQ+mhnVJlw=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by DS7PR12MB6189.namprd12.prod.outlook.com (2603:10b6:8:9a::17) with
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from CY5PR11MB6211.namprd11.prod.outlook.com (2603:10b6:930:25::6)
+ by IA0PR11MB7356.namprd11.prod.outlook.com (2603:10b6:208:432::6) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6886.36; Wed, 18 Oct
- 2023 16:07:48 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::a7fa:4411:67a3:131d]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::a7fa:4411:67a3:131d%4]) with mapi id 15.20.6907.021; Wed, 18 Oct 2023
- 16:07:47 +0000
-Message-ID: <c8ed2e1e-77b9-459e-b81a-e95db4d22a9b@amd.com>
-Date: Wed, 18 Oct 2023 18:07:40 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 13/17] platform/x86/amd/pmf: Add PMF-AMDGPU get
- interface
+ 2023 16:15:46 +0000
+Received: from CY5PR11MB6211.namprd11.prod.outlook.com
+ ([fe80::413:a622:bff4:bdd6]) by CY5PR11MB6211.namprd11.prod.outlook.com
+ ([fe80::413:a622:bff4:bdd6%4]) with mapi id 15.20.6863.043; Wed, 18 Oct 2023
+ 16:15:46 +0000
+From: "Gupta, Anshuman" <anshuman.gupta@intel.com>
+To: "Teres Alexis, Alan Previn" <alan.previn.teres.alexis@intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
+Subject: RE: [PATCH v5 2/3] drm/i915/guc: Close deregister-context race
+ against CT-loss
+Thread-Topic: [PATCH v5 2/3] drm/i915/guc: Close deregister-context race
+ against CT-loss
+Thread-Index: AQHZ/jpdxFVLHhLq90eAeDgTzjj9/bBPv/2A
+Date: Wed, 18 Oct 2023 16:15:46 +0000
+Message-ID: <CY5PR11MB6211EF265A589553D02C42A595D5A@CY5PR11MB6211.namprd11.prod.outlook.com>
+References: <20231014010413.256468-1-alan.previn.teres.alexis@intel.com>
+ <20231014010413.256468-3-alan.previn.teres.alexis@intel.com>
+In-Reply-To: <20231014010413.256468-3-alan.previn.teres.alexis@intel.com>
+Accept-Language: en-US
 Content-Language: en-US
-To: Mario Limonciello <mario.limonciello@amd.com>,
- Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-References: <20231018070241.2041529-1-Shyam-sundar.S-k@amd.com>
- <20231018070241.2041529-14-Shyam-sundar.S-k@amd.com>
- <9e6c4a42-fbce-c5ea-15ce-5eb22fc3767a@linux.intel.com>
- <84af64f2-42bd-4e09-a1c9-bde2a935c8f2@amd.com>
- <92bba3b3-a3f9-4fab-86c7-4d0ef4c23fcb@amd.com>
- <238f915f-b95f-4d85-ad67-66781f53e75d@amd.com>
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <238f915f-b95f-4d85-ad67-66781f53e75d@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR3P281CA0015.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:1d::13) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: CY5PR11MB6211:EE_|IA0PR11MB7356:EE_
+x-ms-office365-filtering-correlation-id: 3a777000-4100-4f55-1ba2-08dbcff57c3a
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: lf2vDwjsQB/n32sc/WULmqEM6JFXAeYRnRITJzpfgE5Rc0LthDD8lm9PaLUYoo837ewHHIJRHZHsKga/fX4GHm4zvTZfGSN5TfJquFU7udcFd0BIfeUgTGRfvUZ5/2hn6MOCzNE1lGVijVIGep9fVu2wY/igvthPZYOa/jdMjjp1Fina3MQHXLInCUW3qLHemO3jycpwIwckBiK5AnbDwJ++aeoIxYvAkqdvJZtXB8yAaol6BfL0EbpaRADfCkaedAhxGPSfe1zFSdAUUWSEO/MRUrKozK+d0qPRJJboWOLytEazajhyC8dpR0mJbY54/D98OjqyXuk0eT5d8ec7A7e4G5iHrYjKi7u+XPQtPDIUUorc/g0pWLZaZhVYjFyqYgn6n6AiQULtcAQp+fF637KhfkVjTJWrURrCuHxnjJvcfNBgwyOPJWgCSVm8V4vjREWAhPGKp8KKJQpm0JoVdusTBWxPiB7KyjhGA4arUDEG5bUCqbvYvXEQxWik7qO2sd5BnMk2aaOwgaDfkWLB/fgyeOxsRQ4d1iE4ZGLgNu3nt82JBcWSjkyeIYYgaJTUQHgRWzH1ygQdpXDnybTrDdYPXH7WpfTKogj0AStGZG3jPYlpBI+uhWH9xErY6cPe
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CY5PR11MB6211.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(39860400002)(396003)(136003)(346002)(376002)(366004)(230922051799003)(186009)(64100799003)(1800799009)(451199024)(9686003)(33656002)(55016003)(450100002)(316002)(64756008)(66556008)(54906003)(38100700002)(110136005)(66476007)(8936002)(86362001)(122000001)(82960400001)(38070700005)(66946007)(66446008)(53546011)(83380400001)(76116006)(26005)(107886003)(71200400001)(7696005)(6506007)(2906002)(478600001)(52536014)(41300700001)(4326008)(8676002)(5660300002);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?q0i91voUqdv8NqMRCbsADfYyAtDcc0Z7Mqxg+nsS1UWi91XLKHaYw1mOCGHG?=
+ =?us-ascii?Q?lsicmd8pKT1qWs/ixJHv1jTxX3/JlBhQs2Xult45zMMLPnKPX84zEzGK94kY?=
+ =?us-ascii?Q?6BnmlDW9z73KydRJCEo4DR4BiRVdr7l3W8iTKWLzZnl9GFwCXJDNW60kmoC0?=
+ =?us-ascii?Q?zitv3VndYUJtyytm9ZPrqmmzYYJT8puYMDKArRr11Ftl7i7+wNllpI6popPe?=
+ =?us-ascii?Q?1mLdV/ilHUTed+kFVA2d3aCVz49UJ4jmI4YCWeLyJqqesbN/o7ECDjZ3xREo?=
+ =?us-ascii?Q?yOba4L0FTTwswRSfobP6X7iUEoq6WvzXiAz/r/Dh3tTvR/1tnytsyDJYId1i?=
+ =?us-ascii?Q?z/x/hJtrb4N6+DI4eM0wkwB7PhwGmhA7L9SXpC4eStBr059fJErIr+W53FAS?=
+ =?us-ascii?Q?3BgZzfNNf1CAjX2dlMv+ZXf6Q7BeWFZjv+uYMA9RTStqfjJnijKHyTLDVcqc?=
+ =?us-ascii?Q?MLPIC94CjT/fAbzNNLRNgTHbeUh0Ts0UHPuXudJEE9ka3BJRbK9i0/Be5iGK?=
+ =?us-ascii?Q?FeUnKk4hWGPiLqA8taWevcfuDNvMruC6vprWyqwDuQBTlsDesCKkS7vG5IJW?=
+ =?us-ascii?Q?3L/vQjMO3fQ3bZ+ejVBuEfoMryzEVS0cOcdJ9jUJK9pHgX5GFgR/DrrlVMTK?=
+ =?us-ascii?Q?I8gpUl6d+zB2dyF045tIA+5UkaEOb0U5Bhl6t2N2WODnxIZuuAy11k+rYEXZ?=
+ =?us-ascii?Q?nviMEc0C4/5fGSbu+C3hMlRxzErOPwre+qDTLgn5BOIbmCEGgAVumEzg0MXU?=
+ =?us-ascii?Q?THI976iN56D3cCtj+yFgGWlZaT7rNr/7R3Nvx+rzSN2nzYCCrOvm7kFn6s1C?=
+ =?us-ascii?Q?WGEQ+EFTfBmEWAwdDntmzUKECeWn5w+2Ap689LEiuLFEec3lxBTp12AuIgse?=
+ =?us-ascii?Q?xZ6MM64wIuoJh3PIEqrJ5i0qZYJszGqL6j7cIg7N1JBeNxulzv4RdU9/Kjvs?=
+ =?us-ascii?Q?58jUTwJmyjHTuSFswXoTA1njuwuzwZE8xMBtwbZxVIK1/urIXnRzvnrmwFpV?=
+ =?us-ascii?Q?LImgz2Ze4tQU2EzsnP7lZv6jztryQHnec1v9NYCLV1wLSjUeOM3lZhf94S5D?=
+ =?us-ascii?Q?6zpWVxdrLMPuEMjdLb4HtmD63Mii+XquHl9hVaPF+bycSHMtKSHcMQ5QXcR8?=
+ =?us-ascii?Q?Ux/nYWMBiEC9k/9Y3DbVR4JFSPX+G1Edc9w0GRF1DOmXAvLxlZ6ABPqDBhrr?=
+ =?us-ascii?Q?6vLGrFL05TqsT+Z7smiW0r4E3F65JXXMWtLT2sTOK8/VtVD1/IZs7bxW8Wrg?=
+ =?us-ascii?Q?1odjz0K7XjKD6f0KD8qYroYuvpCzZwOA5BIVbn4R4kWYSB/giAEVyMQLcDC+?=
+ =?us-ascii?Q?O9ueg/i34xNh3P+QTPh7eBHIDtpp9rQ9sWOTNiSTT6UZvQF0syyHi00SVTXh?=
+ =?us-ascii?Q?BnI/EeBH31R1Az4iCXrfgcC/PCgqB4oEnvKBq+vvdZscyT+3SNrDDm0mrNWI?=
+ =?us-ascii?Q?i3kIPJQ5QZwi0o+9Q0o2mg8lvcvx28IDfFKYAuZUBgXXFZJ/h+0uOaHzZSJi?=
+ =?us-ascii?Q?bImcTiAOaEkbzfPC02mo2CHWVEw7nf80KH8S+XiUU3JKQuqGaVWMLYCrzTYp?=
+ =?us-ascii?Q?MtKSUnB3pITRfQ8wcMhT/99oIpHEASH9gCNKx8wV?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|DS7PR12MB6189:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3cb1f9a5-6bbf-41db-2cbe-08dbcff45ee1
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: p2jM+iX9vsdtE1ESF+/GihYfuaqsY48E2aG4S+7w2popAWor03lrlXZn22en5ezMelWVsHJZ1IcubGIiY5N8VISrzzSCXHd6JEUmY3HPvvMYHQ1NM+NzHO2cxs9j57iGYZeHsPKSJc5BM0eVNijDKZtvT02ZaAxJ8+Za6bjDevzxpoMqSPdvGlEXGqyCxhrU9N2wdDuxVuUqHFO4XTys5IAPEot1s8DLeNl9YPmvscnsrdwAaLbXIz1IaEtlPl3EnFqSGyQLAjA/xlsoamHO136OZhligEXduP67eFiP/nsWjroIGMeoNKedbVaKQVRpQ6znXN1U0CH511qmACfXiHNutus7GL5sUsxWvRMiZKH4bTiP7xNTLFK8NU3hq8HQuUfzASvub1d9eIyFCbOcEsEe628lp81UIjv3XulCP8J1h+9kFhK6QcjAXdtahtNSQenqC/9D7RGaHTFI97/rO7zLMcTaEi+VZwccRbRZZbrFF1pO8Guyy86FfOR4rkJCnmgqOpS7g0ydbACfRAaAHcS0g4OWZFcHkmajMFJLdUMgFqspu8j7hVlWMsNuq0lmwYX7X++SZtZplcurkXDRO4S346CF+yFUKjrcM3l8V/UXZm/f0idAtWhdjuVQvdSI0v4OOFAvL4KFJU4d9ifxAQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(366004)(346002)(396003)(376002)(39860400002)(136003)(230922051799003)(64100799003)(451199024)(186009)(1800799009)(66574015)(83380400001)(6666004)(6506007)(38100700002)(45080400002)(53546011)(6512007)(2616005)(26005)(6486002)(478600001)(31686004)(316002)(66476007)(66946007)(110136005)(4326008)(8676002)(41300700001)(8936002)(30864003)(2906002)(86362001)(66899024)(31696002)(7416002)(66556008)(5660300002)(36756003)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZUNRNEFrclJSd0Z3bUhQWXhPcmtaNi9iQzdyUG5SWFFhNU15a1ZoamhQQ0Ja?=
- =?utf-8?B?ZW9yTndzelRhMmQySUpmV1FtNzh1dnAwbVVoMmpMZmF2QU9hYVVXb0s4S1Ax?=
- =?utf-8?B?UkxSRXRUVFFIOGtEL1ZvbWRLc1B5V2ZzVExFZkRzNEQ3elEwa1U3MjFVVWJz?=
- =?utf-8?B?NFVCRFIrSVJRakh4WklreHIxZmp1cjBpWXlWU0R6MjBjbDJuQm96T01tdlBK?=
- =?utf-8?B?T29TWGFvMEVHVC92L29UZ0F6c3BhQ3luVlBJRnQxNDM1eU9zenFBTmlLemU1?=
- =?utf-8?B?SFBKSmlyS1MxTDlyWWtMSG9oZXVsZzRzV1JBL0c2Q2o5a05FR1o5MWpDazRl?=
- =?utf-8?B?K1VYd1QrYVpDL0lSSVByeFZkbVc4THhEWDBNamdKN3diNTR3clZMcS9wYzgx?=
- =?utf-8?B?YmJzc3dIRFNZdTBISWdySkVKRFFQbUlVdG9QbUJ1dlI2ZWJ5Y2w4K29JVHk2?=
- =?utf-8?B?bkc3NVY4SXcwdmRCTnA1aDNFQktZSGVNQTVHMzlHRGNHYkZJOFRuTm9rNE5i?=
- =?utf-8?B?WkFabHZld29NSkMvYWRPU2tCWDV1cDlvSERPTWorM3RUbTZTZ1dLK2pSS0Fs?=
- =?utf-8?B?K1JWMkNqOGVJQ09JWGU1dXN5UjRBV3NDamM2djlzWkpWYTBqeUpkMUt0d3Z3?=
- =?utf-8?B?UHV6bmQxYjg0UzZGSFg3ajdyYk1GNE9PZmZhUjIyM2ZKeWZIaDZqRS9XNkhv?=
- =?utf-8?B?eVFTSStHWEN1SElQYXlFTWhDNnRVUkl2bWczUy9yNkcvZnpscUhBN2xUU05M?=
- =?utf-8?B?Ny9DQnI0Y0ZyRkZYZ0tpZHdjc1ZSemVCbGJULzFLbXVKR3UrRURtTVlnSU5Z?=
- =?utf-8?B?K1J6YUd2M1hwbjRnd2NoMmxLMGIzZExma3RHdHNZS2gwQ2kxcUdOZUU5eEJy?=
- =?utf-8?B?RHd5TWE0ejg4VFZWYU1WS2dxeUt5UUpIRU9pZVZLa1o3Q0Y5ZzhIMFNpZExu?=
- =?utf-8?B?N2Zmd205cStKMTBDOTNaRWl2aUVob0FRcW5Xazk5TzNpZmVoZ2dhcG92R2Nj?=
- =?utf-8?B?cE9IZ3p5aGlvSWRJRTZKWXR6bHEwK3Z2SWZvSzZZZXM4Q2dIYlA4dnBOenli?=
- =?utf-8?B?NEtDNXoraXB0eWtXQVFZOURYVEtkVTVZWGpxcHAvRW1tSUo3eHZBYkRZbDkr?=
- =?utf-8?B?aW90cU9lQlNYMmhYYkRRWkdZYmwxNDZIVmwxamEySEtQOEkvbGIvTlA2ODhn?=
- =?utf-8?B?QXpHU1pPS3dEY3Bkc2ZudU1RemEvdyt3Zko4VjhhVURSMGxFTXBoazhpUnFB?=
- =?utf-8?B?OGJWWGJhemNqa2RseHBKM2EyRGdnSm9Oc3JyMW0yYUNZY04zMkM3STNDQzdC?=
- =?utf-8?B?RTVwUWFlZUdzY2lsR0hpVEpKWjhCdWFzdnc3VVVBRjdHM0plM0hwQVNyM2Mx?=
- =?utf-8?B?bndNTjFaWHZzN3V0cDQwVGxJbDV0SUtCcjVoYzNVbDd5VDJCdE1hV0ZvdFYy?=
- =?utf-8?B?R1R3U25sNmlyQ2t1RjVxcldsNDVMMnlxU3lML3lxd1Bra3NaRWV4QXBUN0Nl?=
- =?utf-8?B?NEF1aDhzZzl1TlFuNmE1M0wwbXR6OUJMTEVTZi9kMG9iUlYwTWdxeXhvbHFq?=
- =?utf-8?B?Vy8vNXV5U0xra0RwRWVxOXE1TFRyU0RYa09GOVJZVzg3a0lPdmUwOHBvYW9L?=
- =?utf-8?B?OXNLa0pjd3dkMXpZWCs4WjBXTTUxUTE5M1F2c2hlOTNEdXhhalpweHZTUkNx?=
- =?utf-8?B?UzJ0T1Rsd1FtdGxLYnJiaVp1L001NWFYeVAvNVF1bzFvNlJTQnBpZitibElS?=
- =?utf-8?B?bHRMOS9pUmwzVzYrZVVDMlB1R2lTcDVDM0RiZzVZNDBFY0xJNkNnbHhlNVps?=
- =?utf-8?B?NkZqMXFJYW9QU3hwakJHd0hrdTBHb0xEVVBnU2R1eU1VY3l2dVcvanpicndR?=
- =?utf-8?B?N2dyY05ZRHRjNkJUSk9uN0kyelpIUEtxWGlyYmsvRi9wZlV6bHhRNytiTkRI?=
- =?utf-8?B?S2g1OEF1TXRwRHJ0Wi9tTTB4Z1NBVHZCQ1BTekhlanNILy9rcTQ1OW16NjNn?=
- =?utf-8?B?ZU1qejVWNU1SNVZuSDJxVHU1dDZxSHJRcVJJNkwwZmNKYk5zY0ZpbDZBM002?=
- =?utf-8?B?d0pEMUU3MkRnRE8zSlI2aDFxZmp2OW80MkNvRWJmZnRFeFp5RmVlK0RDZ3dw?=
- =?utf-8?Q?TVSZc6hTdAbHyPAzSeDnRGqTY?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3cb1f9a5-6bbf-41db-2cbe-08dbcff45ee1
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Oct 2023 16:07:47.5969 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: J6yx1Ncd9pGsWPDN1BbJ1KMJHLPrhChG6hlkfLpnXHGKrtQkmapuKyBFcdXIyAUg
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB6189
+X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6211.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3a777000-4100-4f55-1ba2-08dbcff57c3a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Oct 2023 16:15:46.0966 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: txwsb4bqi+Wl4lR7HOvMwRt3umzpUgc3mlpk3cJ6Sgbej99+UzAdoCt5CizV5F64kX4VnoM/tCXkFJtdHTzfxR9jezo6N/HT3mpxu0i1Efk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR11MB7356
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -131,491 +153,282 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Xinhui.Pan@amd.com, Patil.Reddy@amd.com, basavaraj.natikar@amd.com,
- jikos@kernel.org, amd-gfx@lists.freedesktop.org,
- platform-driver-x86@vger.kernel.org, markgross@kernel.org,
- Hans de Goede <hdegoede@redhat.com>, benjamin.tissoires@redhat.com,
- dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
- alexander.deucher@amd.com
+Cc: "Ursulin, Tvrtko" <tvrtko.ursulin@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "Ceraolo Spurio, Daniele" <daniele.ceraolospurio@intel.com>, "Vivi,
+ Rodrigo" <rodrigo.vivi@intel.com>, "Jana, Mousumi" <mousumi.jana@intel.com>,
+ "Harrison, John C" <john.c.harrison@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 18.10.23 um 17:47 schrieb Mario Limonciello:
-> On 10/18/2023 08:40, Christian König wrote:
->>
->>
->> Am 18.10.23 um 11:28 schrieb Shyam Sundar S K:
->>>
->>> On 10/18/2023 2:50 PM, Ilpo Järvinen wrote:
->>>> On Wed, 18 Oct 2023, Shyam Sundar S K wrote:
->>>>
->>>>> In order to provide GPU inputs to TA for the Smart PC solution to 
->>>>> work, we
->>>>> need to have interface between the PMF driver and the AMDGPU driver.
->>>>>
->>>>> Add the initial code path for get interface from AMDGPU.
->>>>>
->>>>> Co-developed-by: Mario Limonciello <mario.limonciello@amd.com>
->>>>> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
->>>>> Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
->>>>> ---
->>>>>   drivers/gpu/drm/amd/amdgpu/Makefile     |   2 +
->>>>>   drivers/gpu/drm/amd/amdgpu/amdgpu.h     |   1 +
->>>>>   drivers/gpu/drm/amd/amdgpu/amdgpu_pmf.c | 138 
->>>>> ++++++++++++++++++++++++
->>>>>   drivers/platform/x86/amd/pmf/Kconfig    |   1 +
->>>>>   drivers/platform/x86/amd/pmf/core.c     |   1 +
->>>>>   drivers/platform/x86/amd/pmf/pmf.h      |   3 +
->>>>>   drivers/platform/x86/amd/pmf/spc.c      |  13 +++
->>>>>   drivers/platform/x86/amd/pmf/tee-if.c   |  26 +++++
->>>>>   include/linux/amd-pmf-io.h              |  35 ++++++
->>>>>   9 files changed, 220 insertions(+)
->>>>>   create mode 100644 drivers/gpu/drm/amd/amdgpu/amdgpu_pmf.c
->>>>>   create mode 100644 include/linux/amd-pmf-io.h
->>>>>
->>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/Makefile 
->>>>> b/drivers/gpu/drm/amd/amdgpu/Makefile
->>>>> index 384b798a9bad..7fafccefbd7a 100644
->>>>> --- a/drivers/gpu/drm/amd/amdgpu/Makefile
->>>>> +++ b/drivers/gpu/drm/amd/amdgpu/Makefile
->>>>> @@ -86,6 +86,8 @@ amdgpu-$(CONFIG_PROC_FS) += amdgpu_fdinfo.o
->>>>>   amdgpu-$(CONFIG_PERF_EVENTS) += amdgpu_pmu.o
->>>>> +amdgpu-$(CONFIG_AMD_PMF) += amdgpu_pmf.o
->>>>> +
->>>>>   # add asic specific block
->>>>>   amdgpu-$(CONFIG_DRM_AMDGPU_CIK)+= cik.o cik_ih.o \
->>>>>       dce_v8_0.o gfx_v7_0.o cik_sdma.o uvd_v4_2.o vce_v2_0.o
->>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h 
->>>>> b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
->>>>> index a79d53bdbe13..26ffa1b4fe57 100644
->>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
->>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
->>>>> @@ -50,6 +50,7 @@
->>>>>   #include <linux/hashtable.h>
->>>>>   #include <linux/dma-fence.h>
->>>>>   #include <linux/pci.h>
->>>>> +#include <linux/amd-pmf-io.h>
->>>>>   #include <drm/ttm/ttm_bo.h>
->>>>>   #include <drm/ttm/ttm_placement.h>
->>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_pmf.c 
->>>>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_pmf.c
->>>>> new file mode 100644
->>>>> index 000000000000..ac981848df50
->>>>> --- /dev/null
->>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_pmf.c
->>>>> @@ -0,0 +1,138 @@
->>>>> +/*
->>>>> + * Copyright 2023 Advanced Micro Devices, Inc.
->>>>> + *
->>>>> + * Permission is hereby granted, free of charge, to any person 
->>>>> obtaining a
->>>>> + * copy of this software and associated documentation files (the 
->>>>> "Software"),
->>>>> + * to deal in the Software without restriction, including without 
->>>>> limitation
->>>>> + * the rights to use, copy, modify, merge, publish, distribute, 
->>>>> sublicense,
->>>>> + * and/or sell copies of the Software, and to permit persons to 
->>>>> whom the
->>>>> + * Software is furnished to do so, subject to the following 
->>>>> conditions:
->>>>> + *
->>>>> + * The above copyright notice and this permission notice shall be 
->>>>> included in
->>>>> + * all copies or substantial portions of the Software.
->>>>> + *
->>>>> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY 
->>>>> KIND, EXPRESS OR
->>>>> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF 
->>>>> MERCHANTABILITY,
->>>>> + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO 
->>>>> EVENT SHALL
->>>>> + * THE COPYRIGHT HOLDER(S) OR AUTHOR(S) BE LIABLE FOR ANY CLAIM, 
->>>>> DAMAGES OR
->>>>> + * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
->>>>> OTHERWISE,
->>>>> + * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE 
->>>>> USE OR
->>>>> + * OTHER DEALINGS IN THE SOFTWARE.
->>>> This is MIT, right? Add the required SPDX-License-Identifier line 
->>>> for it
->>>> at the top of the file, thank you.
->>>>
->>> all the files in drivers/gpu/drm/amd/amdgpu/* carry the same license
->>> text. So, have retained it to maintain uniformity.
->>
->> Please add the SPDX License Identifier for any file you add.
->>
->> Apart from that the whole approach of attaching this directly to 
->> amdgpu looks extremely questionable to me.
->>
->
-> What's the long term outlook for things that are needed directly from 
-> amdgpu?  Is there going to be more besides the backlight and the 
-> display count/type?
 
-Yeah, that goes into the same direction as my concern.
 
->
-> At least for the display count I suppose one way that it could be 
-> "decoupled" from amdgpu is to use drm_for_each_connector_iter to 
-> iterate all the connectors and then count the connected ones.
-
-And what if the number of connected displays change? How is amdgpu 
-supposed to signal events like that?
-
-This whole solution doesn't looks well thought through.
-
-Regards,
-Christian.
-
->
->> Regards,
->> Christian.
->>
->>>
->>>>> + *
->>>>> + * Author: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
->>>>> + *
->>>>> + */
->>>> Remove the extra empty line at the end of the comment.
->>>>
->>> I just took the standard template for all the gpu files. Is that OK to
->>> retain the blank line?
->>>
->>> If not, I can remove it in the next version.
->>>
->>> Rest all remarks I will address.
->>>
->>> Thanks,
->>> Shyam
->>>
->>>>> +
->>>>> +#include <linux/backlight.h>
->>>>> +#include "amdgpu.h"
->>>>> +
->>>>> +int amd_pmf_get_gfx_data(struct amd_gpu_pmf_data *pmf)
->>>>> +{
->>>>> +    struct drm_device *drm_dev = pci_get_drvdata(pmf->gpu_dev);
->>>>> +    struct drm_mode_config *mode_config = &drm_dev->mode_config;
->>>>> +    struct amdgpu_device *adev = drm_to_adev(drm_dev);
->>>>> +    struct drm_connector_list_iter iter;
->>>>> +    struct drm_connector *connector;
->>>>> +    int i = 0;
->>>>> +
->>>>> +    /* Reset the count to zero */
->>>>> +    pmf->display_count = 0;
->>>>> +    if (!(adev->flags & AMD_IS_APU)) {
->>>>> +        DRM_ERROR("PMF-AMDGPU interface not supported\n");
->>>>> +        return -ENODEV;
->>>>> +    }
->>>>> +
->>>>> +    mutex_lock(&mode_config->mutex);
->>>>> +    drm_connector_list_iter_begin(drm_dev, &iter);
->>>>> +    drm_for_each_connector_iter(connector, &iter) {
->>>>> +        if (connector->status == connector_status_connected)
->>>>> +            pmf->display_count++;
->>>>> +        if (connector->status != pmf->con_status[i])
->>>>> +            pmf->con_status[i] = connector->status;
->>>>> +        if (connector->connector_type != pmf->connector_type[i])
->>>>> +            pmf->connector_type[i] = connector->connector_type;
->>>>> +
->>>>> +        i++;
->>>>> +        if (i >= MAX_SUPPORTED)
->>>>> +            break;
->>>>> +    }
->>>>> +    drm_connector_list_iter_end(&iter);
->>>>> +    mutex_unlock(&mode_config->mutex);
->>>>> +
->>>>> +    return 0;
->>>>> +}
->>>>> +EXPORT_SYMBOL_GPL(amd_pmf_get_gfx_data);
->>>>> +
->>>>> +static int amd_pmf_gpu_get_cur_state(struct 
->>>>> thermal_cooling_device *cooling_dev,
->>>>> +                     unsigned long *state)
->>>>> +{
->>>>> +    struct backlight_device *bd;
->>>>> +
->>>>> +    if (!acpi_video_backlight_use_native())
->>>>> +        return -ENODEV;
->>>>> +
->>>>> +    bd = backlight_device_get_by_type(BACKLIGHT_RAW);
->>>>> +    if (!bd)
->>>>> +        return -ENODEV;
->>>>> +
->>>>> +    *state = backlight_get_brightness(bd);
->>>>> +
->>>>> +    return 0;
->>>>> +}
->>>>> +
->>>>> +static int amd_pmf_gpu_get_max_state(struct 
->>>>> thermal_cooling_device *cooling_dev,
->>>>> +                     unsigned long *state)
->>>>> +{
->>>>> +    struct backlight_device *bd;
->>>>> +
->>>>> +    if (!acpi_video_backlight_use_native())
->>>>> +        return -ENODEV;
->>>>> +
->>>>> +    bd = backlight_device_get_by_type(BACKLIGHT_RAW);
->>>>> +    if (!bd)
->>>>> +        return -ENODEV;
->>>>> +
->>>>> +    if (backlight_is_blank(bd))
->>>>> +        *state = 0;
->>>>> +    else
->>>>> +        *state = bd->props.max_brightness;
->>>>> +
->>>>> +    return 0;
->>>>> +}
->>>>> +
->>>>> +static const struct thermal_cooling_device_ops bd_cooling_ops = {
->>>>> +    .get_max_state = amd_pmf_gpu_get_max_state,
->>>>> +    .get_cur_state = amd_pmf_gpu_get_cur_state,
->>>>> +};
->>>>> +
->>>>> +int amd_pmf_gpu_init(struct amd_gpu_pmf_data *pmf)
->>>>> +{
->>>>> +    struct drm_device *drm_dev = pci_get_drvdata(pmf->gpu_dev);
->>>>> +    struct amdgpu_device *adev = drm_to_adev(drm_dev);
->>>>> +
->>>>> +    if (!(adev->flags & AMD_IS_APU)) {
->>>>> +        DRM_ERROR("PMF-AMDGPU interface not supported\n");
->>>>> +        return -ENODEV;
->>>>> +    }
->>>>> +
->>>>> +    if (!acpi_video_backlight_use_native())
->>>>> +        return -ENODEV;
->>>>> +
->>>>> +    pmf->raw_bd = backlight_device_get_by_type(BACKLIGHT_RAW);
->>>>> +    if (!pmf->raw_bd)
->>>>> +        return -ENODEV;
->>>>> +
->>>>> +    pmf->cooling_dev = thermal_cooling_device_register("pmf_gpu_bd",
->>>>> +                               pmf, &bd_cooling_ops);
->>>>> +    if (IS_ERR(pmf->cooling_dev))
->>>>> +        return -ENODEV;
->>>>> +
->>>>> +    return 0;
->>>>> +}
->>>>> +EXPORT_SYMBOL_GPL(amd_pmf_gpu_init);
->>>>> +
->>>>> +void amd_pmf_gpu_deinit(struct amd_gpu_pmf_data *pmf)
->>>>> +{
->>>>> + thermal_cooling_device_unregister(pmf->cooling_dev);
->>>>> +}
->>>>> +EXPORT_SYMBOL_GPL(amd_pmf_gpu_deinit);
->>>>> diff --git a/drivers/platform/x86/amd/pmf/Kconfig 
->>>>> b/drivers/platform/x86/amd/pmf/Kconfig
->>>>> index f246252bddd8..7f430de7af44 100644
->>>>> --- a/drivers/platform/x86/amd/pmf/Kconfig
->>>>> +++ b/drivers/platform/x86/amd/pmf/Kconfig
->>>>> @@ -10,6 +10,7 @@ config AMD_PMF
->>>>>       depends on AMD_NB
->>>>>       select ACPI_PLATFORM_PROFILE
->>>>>       depends on TEE && AMDTEE
->>>>> +    depends on DRM_AMDGPU
->>>>>       help
->>>>>         This driver provides support for the AMD Platform 
->>>>> Management Framework.
->>>>>         The goal is to enhance end user experience by making AMD 
->>>>> PCs smarter,
->>>>> diff --git a/drivers/platform/x86/amd/pmf/core.c 
->>>>> b/drivers/platform/x86/amd/pmf/core.c
->>>>> index 4b8156033fa6..c59ba527ff49 100644
->>>>> --- a/drivers/platform/x86/amd/pmf/core.c
->>>>> +++ b/drivers/platform/x86/amd/pmf/core.c
->>>>> @@ -411,6 +411,7 @@ static int amd_pmf_probe(struct 
->>>>> platform_device *pdev)
->>>>>       }
->>>>>       dev->cpu_id = rdev->device;
->>>>> +    dev->root = rdev;
->>>>>       err = amd_smn_read(0, AMD_PMF_BASE_ADDR_LO, &val);
->>>>>       if (err) {
->>>>> diff --git a/drivers/platform/x86/amd/pmf/pmf.h 
->>>>> b/drivers/platform/x86/amd/pmf/pmf.h
->>>>> index 8712299ad52b..615cd3a31986 100644
->>>>> --- a/drivers/platform/x86/amd/pmf/pmf.h
->>>>> +++ b/drivers/platform/x86/amd/pmf/pmf.h
->>>>> @@ -13,6 +13,7 @@
->>>>>   #include <linux/acpi.h>
->>>>>   #include <linux/platform_profile.h>
->>>>> +#include <linux/amd-pmf-io.h>
->>>>>   #define POLICY_BUF_MAX_SZ        0x4b000
->>>>>   #define POLICY_SIGN_COOKIE        0x31535024
->>>>> @@ -228,9 +229,11 @@ struct amd_pmf_dev {
->>>>>       void *shbuf;
->>>>>       struct delayed_work pb_work;
->>>>>       struct pmf_action_table *prev_data;
->>>>> +    struct amd_gpu_pmf_data gfx_data;
->>>>>       u64 policy_addr;
->>>>>       void *policy_base;
->>>>>       bool smart_pc_enabled;
->>>>> +    struct pci_dev *root;
->>>>>   };
->>>>>   struct apmf_sps_prop_granular {
->>>>> diff --git a/drivers/platform/x86/amd/pmf/spc.c 
->>>>> b/drivers/platform/x86/amd/pmf/spc.c
->>>>> index 512e0c66efdc..cf4962ef97c2 100644
->>>>> --- a/drivers/platform/x86/amd/pmf/spc.c
->>>>> +++ b/drivers/platform/x86/amd/pmf/spc.c
->>>>> @@ -44,6 +44,10 @@ void amd_pmf_dump_ta_inputs(struct amd_pmf_dev 
->>>>> *dev, struct ta_pmf_enact_table *
->>>>>       dev_dbg(dev->dev, "Max C0 Residency : %u\n", 
->>>>> in->ev_info.max_c0residency);
->>>>>       dev_dbg(dev->dev, "GFX Busy : %u\n", in->ev_info.gfx_busy);
->>>>>       dev_dbg(dev->dev, "Connected Display Count : %u\n", 
->>>>> in->ev_info.monitor_count);
->>>>> +    dev_dbg(dev->dev, "Primary Display Type : %s\n",
->>>>> + drm_get_connector_type_name(in->ev_info.display_type));
->>>>> +    dev_dbg(dev->dev, "Primary Display State : %s\n", 
->>>>> in->ev_info.display_state ?
->>>>> +            "Connected" : "disconnected/unknown");
->>>>>       dev_dbg(dev->dev, "LID State : %s\n", in->ev_info.lid_state 
->>>>> ? "Close" : "Open");
->>>>>       dev_dbg(dev->dev, "==== TA inputs END ====\n");
->>>>>   }
->>>>> @@ -146,6 +150,14 @@ static int amd_pmf_get_slider_info(struct 
->>>>> amd_pmf_dev *dev, struct ta_pmf_enact_
->>>>>       return 0;
->>>>>   }
->>>>> +static void amd_pmf_get_gpu_info(struct amd_pmf_dev *dev, struct 
->>>>> ta_pmf_enact_table *in)
->>>>> +{
->>>>> +    amd_pmf_get_gfx_data(&dev->gfx_data);
->>>>> +    in->ev_info.monitor_count = dev->gfx_data.display_count;
->>>>> +    in->ev_info.display_type = dev->gfx_data.connector_type[0];
->>>>> +    in->ev_info.display_state = dev->gfx_data.con_status[0];
->>>>> +}
->>>>> +
->>>>>   void amd_pmf_populate_ta_inputs(struct amd_pmf_dev *dev, struct 
->>>>> ta_pmf_enact_table *in)
->>>>>   {
->>>>>       /* TA side lid open is 1 and close is 0, hence the ! here */
->>>>> @@ -154,4 +166,5 @@ void amd_pmf_populate_ta_inputs(struct 
->>>>> amd_pmf_dev *dev, struct ta_pmf_enact_tab
->>>>>       amd_pmf_get_smu_info(dev, in);
->>>>>       amd_pmf_get_battery_info(dev, in);
->>>>>       amd_pmf_get_slider_info(dev, in);
->>>>> +    amd_pmf_get_gpu_info(dev, in);
->>>>>   }
->>>>> diff --git a/drivers/platform/x86/amd/pmf/tee-if.c 
->>>>> b/drivers/platform/x86/amd/pmf/tee-if.c
->>>>> index 2f5fb8623c20..956e66b78605 100644
->>>>> --- a/drivers/platform/x86/amd/pmf/tee-if.c
->>>>> +++ b/drivers/platform/x86/amd/pmf/tee-if.c
->>>>> @@ -9,6 +9,7 @@
->>>>>    */
->>>>>   #include <linux/debugfs.h>
->>>>> +#include <linux/pci.h>
->>>>>   #include <linux/tee_drv.h>
->>>>>   #include <linux/uuid.h>
->>>>>   #include "pmf.h"
->>>>> @@ -357,6 +358,19 @@ static int amd_pmf_get_bios_buffer(struct 
->>>>> amd_pmf_dev *dev)
->>>>>       return amd_pmf_start_policy_engine(dev);
->>>>>   }
->>>>> +static int amd_pmf_get_gpu_handle(struct pci_dev *pdev, void *data)
->>>>> +{
->>>>> +    struct amd_pmf_dev *dev = data;
->>>>> +
->>>>> +    if (pdev->vendor == PCI_VENDOR_ID_ATI && pdev->devfn == 0) {
->>>>> +        /* Found the amdgpu handle from the pci root after 
->>>>> walking through the pci bus */
->>>> If you insist on having this comment, make it a function comment 
->>>> instead
->>>> (with appropriate modifications into the content of it) but I 
->>>> personally
->>>> don't find it that useful so it could be just dropped as well, IMO.
->>>>
->>>>> +        dev->gfx_data.gpu_dev = pdev;
->>>>> +        return 1; /* Stop walking */
->>>>> +    }
->>>>> +
->>>>> +    return 0; /* Continue walking */
->>>>> +}
->>>>> +
->>>>>   static int amd_pmf_amdtee_ta_match(struct tee_ioctl_version_data 
->>>>> *ver, const void *data)
->>>>>   {
->>>>>       return ver->impl_id == TEE_IMPL_ID_AMDTEE;
->>>>> @@ -446,6 +460,15 @@ int amd_pmf_init_smart_pc(struct amd_pmf_dev 
->>>>> *dev)
->>>>>       INIT_DELAYED_WORK(&dev->pb_work, amd_pmf_invoke_cmd);
->>>>>       amd_pmf_set_dram_addr(dev);
->>>>>       amd_pmf_get_bios_buffer(dev);
->>>>> +
->>>>> +    /* Get amdgpu handle */
->>>> Useless comment.
->>>>
->>>>> + pci_walk_bus(dev->root->bus, amd_pmf_get_gpu_handle, dev);
->>>>> +    if (!dev->gfx_data.gpu_dev)
->>>>> +        dev_err(dev->dev, "GPU handle not found!\n");
->>>>> +
->>>>> +    if (!amd_pmf_gpu_init(&dev->gfx_data))
->>>>> +        dev->gfx_data.gpu_dev_en = true;
->>>>> +
->>>>>       dev->prev_data = kzalloc(sizeof(*dev->prev_data), GFP_KERNEL);
->>>>>       if (!dev->prev_data)
->>>>>           return -ENOMEM;
->>>>> @@ -461,5 +484,8 @@ void amd_pmf_deinit_smart_pc(struct 
->>>>> amd_pmf_dev *dev)
->>>>>       kfree(dev->prev_data);
->>>>>       kfree(dev->policy_buf);
->>>>>       cancel_delayed_work_sync(&dev->pb_work);
->>>>> +    if (dev->gfx_data.gpu_dev_en)
->>>>> +        amd_pmf_gpu_deinit(&dev->gfx_data);
->>>>> +    pci_dev_put(dev->gfx_data.gpu_dev);
->>>>>       amd_pmf_tee_deinit(dev);
->>>>>   }
->>>>> diff --git a/include/linux/amd-pmf-io.h b/include/linux/amd-pmf-io.h
->>>>> new file mode 100644
->>>>> index 000000000000..5f79e66a41b3
->>>>> --- /dev/null
->>>>> +++ b/include/linux/amd-pmf-io.h
->>>>> @@ -0,0 +1,35 @@
->>>>> +/* SPDX-License-Identifier: GPL-2.0 */
->>>>> +/*
->>>>> + * AMD Platform Management Framework Interface
->>>>> + *
->>>>> + * Copyright (c) 2023, Advanced Micro Devices, Inc.
->>>>> + * All Rights Reserved.
->>>>> + *
->>>>> + * Author: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
->>>>> + */
->>>>> +
->>>>> +#ifndef AMD_PMF_IO_H
->>>>> +#define AMD_PMF_IO_H
->>>>> +
->>>>> +#include <acpi/video.h>
->>>>> +#include <drm/drm_connector.h>
->>>>> +#include <linux/backlight.h>
->>>>> +#include <linux/thermal.h>
->>>>> +
->>>>> +#define MAX_SUPPORTED 4
->>>>> +
->>>>> +/* amdgpu */
->>>> Document the structure properly with kerneldoc instead of an unhelpful
->>>> comment like above :-). Please also check if you add any other structs
->>>> into kernel-wide headers that you didn't document yet. Or fields into
->>>> existing structs.
->>>>
->>>>> +struct amd_gpu_pmf_data {
->>>>> +    struct pci_dev *gpu_dev;
->>>>> +    struct backlight_device *raw_bd;
->>>>> +    struct thermal_cooling_device *cooling_dev;
->>>>> +    enum drm_connector_status con_status[MAX_SUPPORTED];
->>>>> +    int display_count;
->>>>> +    int connector_type[MAX_SUPPORTED];
->>>>> +    bool gpu_dev_en;
->>>>> +};
->>>>> +
->>>>> +int amd_pmf_get_gfx_data(struct amd_gpu_pmf_data *pmf);
->>>>> +int amd_pmf_gpu_init(struct amd_gpu_pmf_data *pmf);
->>>>> +void amd_pmf_gpu_deinit(struct amd_gpu_pmf_data *pmf);
->>>>> +#endif
->>>>>
->>
->
+> -----Original Message-----
+> From: Teres Alexis, Alan Previn <alan.previn.teres.alexis@intel.com>
+> Sent: Saturday, October 14, 2023 6:34 AM
+> To: intel-gfx@lists.freedesktop.org
+> Cc: Teres Alexis, Alan Previn <alan.previn.teres.alexis@intel.com>; dri-
+> devel@lists.freedesktop.org; Vivi, Rodrigo <rodrigo.vivi@intel.com>; Cera=
+olo
+> Spurio, Daniele <daniele.ceraolospurio@intel.com>; Harrison, John C
+> <john.c.harrison@intel.com>; Gupta, Anshuman
+> <anshuman.gupta@intel.com>; Ursulin, Tvrtko <tvrtko.ursulin@intel.com>;
+> Jana, Mousumi <mousumi.jana@intel.com>
+> Subject: [PATCH v5 2/3] drm/i915/guc: Close deregister-context race again=
+st
+> CT-loss
+>=20
+> If we are at the end of suspend or very early in resume its possible an a=
+sync
+> fence signal (via rcu_call) is triggered to free_engines which could lead=
+ us to
+> the execution of the context destruction worker (after a prior worker flu=
+sh).
+>=20
+> Thus, when suspending, insert rcu_barriers at the start of i915_gem_suspe=
+nd
+> (part of driver's suspend prepare) and again in i915_gem_suspend_late so
+> that all such cases have completed and context destruction list isn't mis=
+sing
+> anything.
+Acked-by: Anshuman Gupta <anshuman.gupta@intel.com>
+For rcu barrier usage.
+>=20
+> In destroyed_worker_func, close the race against CT-loss by checking that=
+ CT is
+> enabled before calling into deregister_destroyed_contexts.
+>=20
+> Based on testing, guc_lrc_desc_unpin may still race and fail as we traver=
+se the
+> GuC's context-destroy list because the CT could be disabled right before =
+calling
+> GuC's CT send function.
+>=20
+> We've witnessed this race condition once every ~6000-8000 suspend-resume
+> cycles while ensuring workloads that render something onscreen is
+> continuously started just before we suspend (and the workload is small
+> enough to complete and trigger the queued engine/context free-up either
+> very late in suspend or very early in resume).
+>=20
+> In such a case, we need to unroll the entire process because guc-lrc-unpi=
+n
+> takes a gt wakeref which only gets released in the G2H IRQ reply that nev=
+er
+> comes through in this corner case. Without the unroll, the taken wakeref =
+is
+> leaked and will cascade into a kernel hang later at the tail end of suspe=
+nd in this
+> function:
+>=20
+>    intel_wakeref_wait_for_idle(&gt->wakeref)
+>    (called by) - intel_gt_pm_wait_for_idle
+>    (called by) - wait_for_suspend
+>=20
+> Thus, do an unroll in guc_lrc_desc_unpin and deregister_destroyed_- conte=
+xts
+> if guc_lrc_desc_unpin fails due to CT send falure.
+> When unrolling, keep the context in the GuC's destroy-list so it can get =
+picked
+> up on the next destroy worker invocation (if suspend aborted) or get full=
+y
+> purged as part of a GuC sanitization (end of suspend) or a reset flow.
+>=20
+> Signed-off-by: Alan Previn <alan.previn.teres.alexis@intel.com>
+> Signed-off-by: Anshuman Gupta <anshuman.gupta@intel.com>
+> Tested-by: Mousumi Jana <mousumi.jana@intel.com>
+> ---
+>  drivers/gpu/drm/i915/gem/i915_gem_pm.c        | 10 +++
+>  .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 81 ++++++++++++++++---
+>  2 files changed, 80 insertions(+), 11 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_pm.c
+> b/drivers/gpu/drm/i915/gem/i915_gem_pm.c
+> index 0d812f4d787d..3b27218aabe2 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_pm.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_pm.c
+> @@ -28,6 +28,13 @@ void i915_gem_suspend(struct drm_i915_private
+> *i915)
+>  	GEM_TRACE("%s\n", dev_name(i915->drm.dev));
+>=20
+>  	intel_wakeref_auto(&i915->runtime_pm.userfault_wakeref, 0);
+> +	/*
+> +	 * On rare occasions, we've observed the fence completion triggers
+> +	 * free_engines asynchronously via rcu_call. Ensure those are done.
+> +	 * This path is only called on suspend, so it's an acceptable cost.
+> +	 */
+> +	rcu_barrier();
+> +
+>  	flush_workqueue(i915->wq);
+>=20
+>  	/*
+> @@ -160,6 +167,9 @@ void i915_gem_suspend_late(struct
+> drm_i915_private *i915)
+>  	 * machine in an unusable condition.
+>  	 */
+>=20
+> +	/* Like i915_gem_suspend, flush tasks staged from fence triggers */
+> +	rcu_barrier();
+> +
+>  	for_each_gt(gt, i915, i)
+>  		intel_gt_suspend_late(gt);
+>=20
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> index a5b68f77e494..9806b33c8561 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> @@ -235,6 +235,13 @@ set_context_destroyed(struct intel_context *ce)
+>  	ce->guc_state.sched_state |=3D SCHED_STATE_DESTROYED;  }
+>=20
+> +static inline void
+> +clr_context_destroyed(struct intel_context *ce) {
+> +	lockdep_assert_held(&ce->guc_state.lock);
+> +	ce->guc_state.sched_state &=3D ~SCHED_STATE_DESTROYED; }
+> +
+>  static inline bool context_pending_disable(struct intel_context *ce)  {
+>  	return ce->guc_state.sched_state &
+> SCHED_STATE_PENDING_DISABLE; @@ -612,6 +619,8 @@ static int
+> guc_submission_send_busy_loop(struct intel_guc *guc,
+>  					 u32 g2h_len_dw,
+>  					 bool loop)
+>  {
+> +	int ret;
+> +
+>  	/*
+>  	 * We always loop when a send requires a reply (i.e. g2h_len_dw > 0),
+>  	 * so we don't handle the case where we don't get a reply because we
+> @@ -622,7 +631,11 @@ static int guc_submission_send_busy_loop(struct
+> intel_guc *guc,
+>  	if (g2h_len_dw)
+>  		atomic_inc(&guc->outstanding_submission_g2h);
+>=20
+> -	return intel_guc_send_busy_loop(guc, action, len, g2h_len_dw, loop);
+> +	ret =3D intel_guc_send_busy_loop(guc, action, len, g2h_len_dw, loop);
+> +	if (ret)
+> +		atomic_dec(&guc->outstanding_submission_g2h);
+> +
+> +	return ret;
+>  }
+>=20
+>  int intel_guc_wait_for_pending_msg(struct intel_guc *guc, @@ -3205,12
+> +3218,13 @@ static void guc_context_close(struct intel_context *ce)
+>  	spin_unlock_irqrestore(&ce->guc_state.lock, flags);  }
+>=20
+> -static inline void guc_lrc_desc_unpin(struct intel_context *ce)
+> +static inline int guc_lrc_desc_unpin(struct intel_context *ce)
+>  {
+>  	struct intel_guc *guc =3D ce_to_guc(ce);
+>  	struct intel_gt *gt =3D guc_to_gt(guc);
+>  	unsigned long flags;
+>  	bool disabled;
+> +	int ret;
+>=20
+>  	GEM_BUG_ON(!intel_gt_pm_is_awake(gt));
+>  	GEM_BUG_ON(!ctx_id_mapped(guc, ce->guc_id.id)); @@ -3220,19
+> +3234,38 @@ static inline void guc_lrc_desc_unpin(struct intel_context *c=
+e)
+>  	/* Seal race with Reset */
+>  	spin_lock_irqsave(&ce->guc_state.lock, flags);
+>  	disabled =3D submission_disabled(guc);
+> -	if (likely(!disabled)) {
+> -		__intel_gt_pm_get(gt);
+> -		set_context_destroyed(ce);
+> -		clr_context_registered(ce);
+> -	}
+> -	spin_unlock_irqrestore(&ce->guc_state.lock, flags);
+>  	if (unlikely(disabled)) {
+> +		spin_unlock_irqrestore(&ce->guc_state.lock, flags);
+>  		release_guc_id(guc, ce);
+>  		__guc_context_destroy(ce);
+> -		return;
+> +		return 0;
+>  	}
+>=20
+> -	deregister_context(ce, ce->guc_id.id);
+> +	/* GuC is active, lets destroy this context,
+> +	 * but at this point we can still be racing with
+> +	 * suspend, so we undo everything if the H2G fails
+> +	 */
+> +
+> +	/* Change context state to destroyed and get gt-pm */
+> +	__intel_gt_pm_get(gt);
+> +	set_context_destroyed(ce);
+> +	clr_context_registered(ce);
+> +
+> +	ret =3D deregister_context(ce, ce->guc_id.id);
+> +	if (ret) {
+> +		/* Undo the state change and put gt-pm if that failed */
+> +		set_context_registered(ce);
+> +		clr_context_destroyed(ce);
+> +		/*
+> +		 * Dont use might_sleep / ASYNC verion of put because
+> +		 * CT loss in deregister_context could mean an ongoing
+> +		 * reset or suspend flow. Immediately put before the unlock
+> +		 */
+> +		__intel_wakeref_put(&gt->wakeref, 0);
+> +	}
+> +	spin_unlock_irqrestore(&ce->guc_state.lock, flags);
+> +
+> +	return ret;
+>  }
+>=20
+>  static void __guc_context_destroy(struct intel_context *ce) @@ -3300,7
+> +3333,22 @@ static void deregister_destroyed_contexts(struct intel_guc
+> *guc)
+>  		if (!ce)
+>  			break;
+>=20
+> -		guc_lrc_desc_unpin(ce);
+> +		if (guc_lrc_desc_unpin(ce)) {
+> +			/*
+> +			 * This means GuC's CT link severed mid-way which
+> could happen
+> +			 * in suspend-resume corner cases. In this case, put
+> the
+> +			 * context back into the destroyed_contexts list which
+> will
+> +			 * get picked up on the next context deregistration
+> event or
+> +			 * purged in a GuC sanitization event
+> (reset/unload/wedged/...).
+> +			 */
+> +			spin_lock_irqsave(&guc->submission_state.lock,
+> flags);
+> +			list_add_tail(&ce->destroyed_link,
+> +				      &guc-
+> >submission_state.destroyed_contexts);
+> +			spin_unlock_irqrestore(&guc->submission_state.lock,
+> flags);
+> +			/* Bail now since the list might never be emptied if
+> h2gs fail */
+> +			break;
+> +		}
+> +
+>  	}
+>  }
+>=20
+> @@ -3311,6 +3359,17 @@ static void destroyed_worker_func(struct
+> work_struct *w)
+>  	struct intel_gt *gt =3D guc_to_gt(guc);
+>  	int tmp;
+>=20
+> +	/*
+> +	 * In rare cases we can get here via async context-free fence-signals
+> that
+> +	 * come very late in suspend flow or very early in resume flows. In
+> these
+> +	 * cases, GuC won't be ready but just skipping it here is fine as these
+> +	 * pending-destroy-contexts get destroyed totally at GuC reset time at
+> the
+> +	 * end of suspend.. OR.. this worker can be picked up later on the next
+> +	 * context destruction trigger after resume-completes
+> +	 */
+> +	if (!intel_guc_is_ready(guc))
+> +		return;
+> +
+>  	with_intel_gt_pm(gt, tmp)
+>  		deregister_destroyed_contexts(guc);
+>  }
+> --
+> 2.39.0
 
