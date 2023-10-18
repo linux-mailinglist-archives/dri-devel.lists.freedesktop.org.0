@@ -1,50 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A418F7CEB88
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Oct 2023 00:59:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D19F7CEC01
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Oct 2023 01:25:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 92F6B10E460;
-	Wed, 18 Oct 2023 22:59:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB78A10E025;
+	Wed, 18 Oct 2023 23:25:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DFEDC10E460
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Oct 2023 22:59:35 +0000 (UTC)
-Received: from [192.168.2.39] (109-252-153-31.dynamic.spd-mgts.ru
- [109.252.153.31])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 09A6266028F5;
- Wed, 18 Oct 2023 23:59:33 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1697669974;
- bh=lBw0h8oiuOHIze8vfWS4Wcsm8DJIL2xNX93UcCVAElY=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=mrIMcLS+ol3uU1sy6vTpdo9P5PGDWEVllgNFFUFfz0wT3g5wkP+yUdbCf6qrYLPVg
- P80rS1E/Rynw56WTnW0UKMqh6xmZVq3f1CwARLxDcNzCjKy9Qd7Qnkj41yevJrZAjL
- kBAwTJOXwo6fyOWZFLnVSFkNwTTeJae6IWKZA4a+lTfLMckZIeuSAE2jY/5niMFo3h
- OR9wOhH4IdqvT5d8/IggDbSTX+e9rgKSqt7ffzmiJl7Yf5xS0/D1F9K7osaRj602Q6
- hZyhMtx+3xqlsMCsAt7JdlEvxK1wOaLXBe9QLJ1lnkAER6tXGgEULCsVHsECpCZq6M
- onjaaE/Y2umGA==
-Message-ID: <c265ba42-f4fb-5239-4cf0-32e1abc503b8@collabora.com>
-Date: Thu, 19 Oct 2023 01:59:31 +0300
+Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com
+ [IPv6:2a00:1450:4864:20::22d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C98B410E025
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Oct 2023 23:25:30 +0000 (UTC)
+Received: by mail-lj1-x22d.google.com with SMTP id
+ 38308e7fff4ca-2c16757987fso98580181fa.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Oct 2023 16:25:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1697671528; x=1698276328;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=9Q2SL9D0t5i70Rk9KsizMgca9slcDcaDWQWMlQS8ivQ=;
+ b=aap6UlXAWQ4tbhPRup8AJHeCuoTzFs/wZuGkS62UmJ9YRC6346i50BmJRl9JJRpbAz
+ iesERmPOQLaCgM0skykHT7lnStzX2AjFUD2KC4PY2QbT3sN1SAS2WwMDimFh7OP5EliF
+ d7IYM5DnWxoRFclatcOnPPdmDz9iDYB8bl+sQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1697671528; x=1698276328;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=9Q2SL9D0t5i70Rk9KsizMgca9slcDcaDWQWMlQS8ivQ=;
+ b=ea19mQCLDISvTXSUsBF0wxEYdzsH0OQeG7rwIgUbfbHfY3FWIKN/9fpFtf1wu0ehJr
+ FFyjNySU+sTbhsFlPIaxum9IW8CgjVrpjN50rDsGYGVx5+OBoB647h4jdb917LrIefcn
+ Nk77U+r3MaCh+s0DnR7ZlsXLDM5u5bMjzHlrlOCYagtuWD1Dli/0az687qvNMvhUEyWV
+ 0BY6U0ka5zBxcZ6WHaP20J+TC8ObBBB6NRYVH9icn7ha353qvkClwZy/jQ44tDBI8/3p
+ oozzBlkB/HEQcUr7UiHElUPTrgQ8zsyCheS4VQReqzLy8awXDgTI7uJUG+H6oCobmkCI
+ vseg==
+X-Gm-Message-State: AOJu0YywX1FFR+/lH9Y7JJylrumDVlRpX0BuWp0YkBOwPXFA0omv9MOp
+ R/TW82d7JoMKk/Xy6DgApSm81kQm7WhIJwNrNw1wkA==
+X-Google-Smtp-Source: AGHT+IEj3GzZcf6qOIiJVLzuHkvBl8CIKWyuN7WQMkmjQgqJ/c6vnXiwZn4/KfkgsaJqosGsrxnZ8A==
+X-Received: by 2002:a2e:a99b:0:b0:2c5:80d:53b1 with SMTP id
+ x27-20020a2ea99b000000b002c5080d53b1mr239784ljq.43.1697671528419; 
+ Wed, 18 Oct 2023 16:25:28 -0700 (PDT)
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com.
+ [209.85.208.46]) by smtp.gmail.com with ESMTPSA id
+ f18-20020a170906739200b009a1b857e3a5sm2454051ejl.54.2023.10.18.16.25.27
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 18 Oct 2023 16:25:27 -0700 (PDT)
+Received: by mail-ed1-f46.google.com with SMTP id
+ 4fb4d7f45d1cf-53eeb28e8e5so2737a12.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Oct 2023 16:25:27 -0700 (PDT)
+X-Received: by 2002:aa7:c452:0:b0:53f:91cc:1d04 with SMTP id
+ n18-20020aa7c452000000b0053f91cc1d04mr25683edr.4.1697671527546; Wed, 18 Oct
+ 2023 16:25:27 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v3 2/2] drm/uapi: add explicit virtgpu context debug name
-Content-Language: en-US
-To: Gurchetan Singh <gurchetansingh@chromium.org>,
- dri-devel@lists.freedesktop.org
-References: <20231018181727.772-1-gurchetansingh@chromium.org>
- <20231018181727.772-2-gurchetansingh@chromium.org>
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <20231018181727.772-2-gurchetansingh@chromium.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20231010135722.1142265-1-ray.huang@amd.com>
+ <2f8bcce1-6551-6c2d-481c-67502c82bc68@collabora.com>
+ <2c162058-288c-9e9e-48d5-3b2ddb0cc1fa@collabora.com>
+ <ZSYnQbHUecuUlwvr@amd.com>
+In-Reply-To: <ZSYnQbHUecuUlwvr@amd.com>
+From: Gurchetan Singh <gurchetansingh@chromium.org>
+Date: Wed, 18 Oct 2023 16:25:15 -0700
+X-Gmail-Original-Message-ID: <CAAfnVB=Mki1zEyjByJ_7tRrib74E4KSbjezqQcb_Uia8EQEXHw@mail.gmail.com>
+Message-ID: <CAAfnVB=Mki1zEyjByJ_7tRrib74E4KSbjezqQcb_Uia8EQEXHw@mail.gmail.com>
+Subject: Re: [PATCH v3] drm/virtio: add new virtio gpu capset definitions
+To: Huang Rui <ray.huang@amd.com>
+Content-Type: multipart/alternative; boundary="00000000000058df6c060805f461"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,175 +80,237 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: josh.simonot@gmail.com, kraxel@redhat.com
+Cc: "Huang, Honglei1" <Honglei1.Huang@amd.com>,
+ Akihiko Odaki <akihiko.odaki@daynix.com>, "Stabellini,
+ Stefano" <stefano.stabellini@amd.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ "Ragiadakou, Xenia" <Xenia.Ragiadakou@amd.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "virtualization@lists.linux-foundation.org"
+ <virtualization@lists.linux-foundation.org>, "Chen,
+ Jiqian" <Jiqian.Chen@amd.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>, "Deucher,
+ Alexander" <Alexander.Deucher@amd.com>, David Airlie <airlied@redhat.com>,
+ "Zhang, Julia" <Julia.Zhang@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/18/23 21:17, Gurchetan Singh wrote:
-> There are two problems with the current method of determining the
-> virtio-gpu debug name.
-> 
-> 1) TASK_COMM_LEN is defined to be 16 bytes only, and this is a
->    Linux kernel idiom (see PR_SET_NAME + PR_GET_NAME). Though,
->    Android/FreeBSD get around this via setprogname(..)/getprogname(..)
->    in libc.
-> 
->    On Android, names longer than 16 bytes are common.  For example,
->    one often encounters a program like "com.android.systemui".
-> 
->    The virtio-gpu spec allows the debug name to be up to 64 bytes, so
->    ideally userspace should be able to set debug names up to 64 bytes.
-> 
-> 2) The current implementation determines the debug name using whatever
->    task initiated virtgpu.  This is could be a "RenderThread" of a
->    larger program, when we actually want to propagate the debug name
->    of the program.
-> 
-> To fix these issues, add a new CONTEXT_INIT param that allows userspace
-> to set the debug name when creating a context.
-> 
-> It takes a null-terminated C-string as the param value. The length of the
-> string (excluding the terminator) **should** be <= 64 bytes.  Otherwise,
-> the debug_name will be truncated to 64 bytes.
-> 
-> Link to open-source userspace:
-> https://android-review.googlesource.com/c/platform/hardware/google/gfxstream/+/2787176
-> 
-> Signed-off-by: Gurchetan Singh <gurchetansingh@chromium.org>
-> Reviewed-by: Josh Simonot <josh.simonot@gmail.com>
-> ---
-> Fixes suggested by Dmitry Osipenko
-> v2:
->     - Squash implementation and UAPI change into one commit
->     - Avoid unnecessary casts
->     - Use bool when necessary
-> v3:
->     - Use DEBUG_NAME_MAX_LEN - 1 when copying string
-> 
->  drivers/gpu/drm/virtio/virtgpu_drv.h   |  5 ++++
->  drivers/gpu/drm/virtio/virtgpu_ioctl.c | 39 ++++++++++++++++++++++----
->  include/uapi/drm/virtgpu_drm.h         |  2 ++
->  3 files changed, 40 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
-> index 96365a772f77..bb7d86a0c6a1 100644
-> --- a/drivers/gpu/drm/virtio/virtgpu_drv.h
-> +++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
-> @@ -58,6 +58,9 @@
->  #define MAX_CAPSET_ID 63
->  #define MAX_RINGS 64
->  
-> +/* See virtio_gpu_ctx_create. One additional character for NULL terminator. */
-> +#define DEBUG_NAME_MAX_LEN 65
-> +
->  struct virtio_gpu_object_params {
->  	unsigned long size;
->  	bool dumb;
-> @@ -274,6 +277,8 @@ struct virtio_gpu_fpriv {
->  	uint64_t base_fence_ctx;
->  	uint64_t ring_idx_mask;
->  	struct mutex context_lock;
-> +	char debug_name[DEBUG_NAME_MAX_LEN];
-> +	bool explicit_debug_name;
->  };
->  
->  /* virtgpu_ioctl.c */
-> diff --git a/drivers/gpu/drm/virtio/virtgpu_ioctl.c b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-> index 8d13b17c215b..65811e818925 100644
-> --- a/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-> +++ b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-> @@ -42,12 +42,19 @@
->  static void virtio_gpu_create_context_locked(struct virtio_gpu_device *vgdev,
->  					     struct virtio_gpu_fpriv *vfpriv)
->  {
-> -	char dbgname[TASK_COMM_LEN];
-> +	if (vfpriv->explicit_debug_name) {
-> +		virtio_gpu_cmd_context_create(vgdev, vfpriv->ctx_id,
-> +					      vfpriv->context_init,
-> +					      strlen(vfpriv->debug_name),
-> +					      vfpriv->debug_name);
-> +	} else {
-> +		char dbgname[TASK_COMM_LEN];
->  
-> -	get_task_comm(dbgname, current);
-> -	virtio_gpu_cmd_context_create(vgdev, vfpriv->ctx_id,
-> -				      vfpriv->context_init, strlen(dbgname),
-> -				      dbgname);
-> +		get_task_comm(dbgname, current);
-> +		virtio_gpu_cmd_context_create(vgdev, vfpriv->ctx_id,
-> +					      vfpriv->context_init, strlen(dbgname),
-> +					      dbgname);
-> +	}
->  
->  	vfpriv->context_created = true;
->  }
-> @@ -107,6 +114,9 @@ static int virtio_gpu_getparam_ioctl(struct drm_device *dev, void *data,
->  	case VIRTGPU_PARAM_SUPPORTED_CAPSET_IDs:
->  		value = vgdev->capset_id_mask;
->  		break;
-> +	case VIRTGPU_PARAM_EXPLICIT_DEBUG_NAME:
-> +		value = vgdev->has_context_init ? 1 : 0;
-> +		break;
->  	default:
->  		return -EINVAL;
->  	}
-> @@ -580,7 +590,7 @@ static int virtio_gpu_context_init_ioctl(struct drm_device *dev,
->  		return -EINVAL;
->  
->  	/* Number of unique parameters supported at this time. */
-> -	if (num_params > 3)
-> +	if (num_params > 4)
->  		return -EINVAL;
->  
->  	ctx_set_params = memdup_user(u64_to_user_ptr(args->ctx_set_params),
-> @@ -642,6 +652,23 @@ static int virtio_gpu_context_init_ioctl(struct drm_device *dev,
->  
->  			vfpriv->ring_idx_mask = value;
->  			break;
-> +		case VIRTGPU_CONTEXT_PARAM_DEBUG_NAME:
-> +			if (vfpriv->explicit_debug_name) {
-> +				ret = -EINVAL;
-> +				goto out_unlock;
-> +			}
-> +
-> +			ret = strncpy_from_user(vfpriv->debug_name,
-> +						u64_to_user_ptr(value),
-> +						DEBUG_NAME_MAX_LEN - 1);
-> +
-> +			if (ret < 0) {
-> +				ret = -EFAULT;
-> +				goto out_unlock;
-> +			}
-> +
-> +			vfpriv->explicit_debug_name = true;
-> +			break;
->  		default:
->  			ret = -EINVAL;
->  			goto out_unlock;
-> diff --git a/include/uapi/drm/virtgpu_drm.h b/include/uapi/drm/virtgpu_drm.h
-> index b1d0e56565bc..c2ce71987e9b 100644
-> --- a/include/uapi/drm/virtgpu_drm.h
-> +++ b/include/uapi/drm/virtgpu_drm.h
-> @@ -97,6 +97,7 @@ struct drm_virtgpu_execbuffer {
->  #define VIRTGPU_PARAM_CROSS_DEVICE 5 /* Cross virtio-device resource sharing  */
->  #define VIRTGPU_PARAM_CONTEXT_INIT 6 /* DRM_VIRTGPU_CONTEXT_INIT */
->  #define VIRTGPU_PARAM_SUPPORTED_CAPSET_IDs 7 /* Bitmask of supported capability set ids */
-> +#define VIRTGPU_PARAM_EXPLICIT_DEBUG_NAME 8 /* Ability to set debug name from userspace */
->  
->  struct drm_virtgpu_getparam {
->  	__u64 param;
-> @@ -198,6 +199,7 @@ struct drm_virtgpu_resource_create_blob {
->  #define VIRTGPU_CONTEXT_PARAM_CAPSET_ID       0x0001
->  #define VIRTGPU_CONTEXT_PARAM_NUM_RINGS       0x0002
->  #define VIRTGPU_CONTEXT_PARAM_POLL_RINGS_MASK 0x0003
-> +#define VIRTGPU_CONTEXT_PARAM_DEBUG_NAME      0x0004
->  struct drm_virtgpu_context_set_param {
->  	__u64 param;
->  	__u64 value;
+--00000000000058df6c060805f461
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+On Tue, Oct 10, 2023 at 9:41=E2=80=AFPM Huang Rui <ray.huang@amd.com> wrote=
+:
 
--- 
-Best regards,
-Dmitry
+> On Tue, Oct 10, 2023 at 11:52:14PM +0800, Dmitry Osipenko wrote:
+> > On 10/10/23 18:40, Dmitry Osipenko wrote:
+> > > On 10/10/23 16:57, Huang Rui wrote:
+> > >> These definitions are used fro qemu, and qemu imports this marco in
+> the
+> > >> headers to enable gfxstream, venus, cross domain, and drm (native
+> > >> context) for virtio gpu. So it should add them even kernel doesn't u=
+se
+> > >> this.
+> > >>
+> > >> Signed-off-by: Huang Rui <ray.huang@amd.com>
+> > >> Reviewed-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+> > >> ---
+> > >>
+> > >> Changes V1 -> V2:
+> > >> - Add all capsets including gfxstream and venus in kernel header
+> (Dmitry Osipenko)
+> > >>
+> > >> Changes V2 -> V3:
+> > >> - Add missed capsets including cross domain and drm (native context)
+> > >>   (Dmitry Osipenko)
+> > >>
+> > >> v1:
+> https://lore.kernel.org/lkml/20230915105918.3763061-1-ray.huang@amd.com/
+> > >> v2:
+> https://lore.kernel.org/lkml/20231010032553.1138036-1-ray.huang@amd.com/
+> > >>
+> > >>  include/uapi/linux/virtio_gpu.h | 4 ++++
+> > >>  1 file changed, 4 insertions(+)
+> > >>
+> > >> diff --git a/include/uapi/linux/virtio_gpu.h
+> b/include/uapi/linux/virtio_gpu.h
+> > >> index f556fde07b76..240911c8da31 100644
+> > >> --- a/include/uapi/linux/virtio_gpu.h
+> > >> +++ b/include/uapi/linux/virtio_gpu.h
+> > >> @@ -309,6 +309,10 @@ struct virtio_gpu_cmd_submit {
+> > >>
+> > >>  #define VIRTIO_GPU_CAPSET_VIRGL 1
+> > >>  #define VIRTIO_GPU_CAPSET_VIRGL2 2
+> > >> +#define VIRTIO_GPU_CAPSET_GFXSTREAM 3
+> > >
+> > > The GFXSTREAM capset isn't correct, it should be GFXSTREAM_VULKAN in
+> > > accordance to [1] and [2]. There are more capsets for GFXSTREAM.
+> > >
+> > > [1]
+> > >
+> https://github.com/google/crosvm/blob/main/rutabaga_gfx/src/rutabaga_util=
+s.rs#L172
+> > >
+> > > [2]
+> > >
+> https://patchwork.kernel.org/project/qemu-devel/patch/20231006010835.444-=
+7-gurchetansingh@chromium.org/
+> >
+> > Though, maybe those are "rutabaga" capsets that not related to
+> > virtio-gpu because crosvm has another defs for virtio-gpu capsets [3].
+> > The DRM capset is oddly missing in [3] and code uses "rutabaga" capset
+> > for DRM and virtio-gpu.
+> >
+> > [3]
+> >
+> https://github.com/google/crosvm/blob/main/devices/src/virtio/gpu/protoco=
+l.rs#L416
+>
+> Yes, [3] is the file that I referred to add these capsets definitions. An=
+d
+> it's defined as gfxstream not gfxstream_vulkan.
+>
+> >
+> > Gurchetan, could you please clarify which capsets definitions are
+> > related to virtio-gpu and gfxstream. The
+> > GFXSTREAM_VULKAN/GLES/MAGMA/COMPOSER or just the single GFXSTREAM?
 
+
+It should be GFXSTREAM_VULKAN.  The rest are more experimental and easy to
+modify in terms of the enum value, should the need arise.
+
+I imagine the virtio-spec update to reflect the GFXSTREAM to
+GFXSTREAM_VULKAN change will happen eventually.
+
+
+> >
+>
+> Gurchetan, may we have your insight?
+>
+> Thanks,
+> Ray
+>
+> > --
+> > Best regards,
+> > Dmitry
+> >
+>
+
+--00000000000058df6c060805f461
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Oct 10, 2023 at 9:41=E2=80=AF=
+PM Huang Rui &lt;<a href=3D"mailto:ray.huang@amd.com">ray.huang@amd.com</a>=
+&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
+0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On T=
+ue, Oct 10, 2023 at 11:52:14PM +0800, Dmitry Osipenko wrote:<br>
+&gt; On 10/10/23 18:40, Dmitry Osipenko wrote:<br>
+&gt; &gt; On 10/10/23 16:57, Huang Rui wrote:<br>
+&gt; &gt;&gt; These definitions are used fro qemu, and qemu imports this ma=
+rco in the<br>
+&gt; &gt;&gt; headers to enable gfxstream, venus, cross domain, and drm (na=
+tive<br>
+&gt; &gt;&gt; context) for virtio gpu. So it should add them even kernel do=
+esn&#39;t use<br>
+&gt; &gt;&gt; this.<br>
+&gt; &gt;&gt;<br>
+&gt; &gt;&gt; Signed-off-by: Huang Rui &lt;<a href=3D"mailto:ray.huang@amd.=
+com" target=3D"_blank">ray.huang@amd.com</a>&gt;<br>
+&gt; &gt;&gt; Reviewed-by: Akihiko Odaki &lt;<a href=3D"mailto:akihiko.odak=
+i@daynix.com" target=3D"_blank">akihiko.odaki@daynix.com</a>&gt;<br>
+&gt; &gt;&gt; ---<br>
+&gt; &gt;&gt;<br>
+&gt; &gt;&gt; Changes V1 -&gt; V2:<br>
+&gt; &gt;&gt; - Add all capsets including gfxstream and venus in kernel hea=
+der (Dmitry Osipenko)<br>
+&gt; &gt;&gt;<br>
+&gt; &gt;&gt; Changes V2 -&gt; V3:<br>
+&gt; &gt;&gt; - Add missed capsets including cross domain and drm (native c=
+ontext)<br>
+&gt; &gt;&gt;=C2=A0 =C2=A0(Dmitry Osipenko)<br>
+&gt; &gt;&gt;<br>
+&gt; &gt;&gt; v1: <a href=3D"https://lore.kernel.org/lkml/20230915105918.37=
+63061-1-ray.huang@amd.com/" rel=3D"noreferrer" target=3D"_blank">https://lo=
+re.kernel.org/lkml/20230915105918.3763061-1-ray.huang@amd.com/</a><br>
+&gt; &gt;&gt; v2: <a href=3D"https://lore.kernel.org/lkml/20231010032553.11=
+38036-1-ray.huang@amd.com/" rel=3D"noreferrer" target=3D"_blank">https://lo=
+re.kernel.org/lkml/20231010032553.1138036-1-ray.huang@amd.com/</a><br>
+&gt; &gt;&gt;<br>
+&gt; &gt;&gt;=C2=A0 include/uapi/linux/virtio_gpu.h | 4 ++++<br>
+&gt; &gt;&gt;=C2=A0 1 file changed, 4 insertions(+)<br>
+&gt; &gt;&gt;<br>
+&gt; &gt;&gt; diff --git a/include/uapi/linux/virtio_gpu.h b/include/uapi/l=
+inux/virtio_gpu.h<br>
+&gt; &gt;&gt; index f556fde07b76..240911c8da31 100644<br>
+&gt; &gt;&gt; --- a/include/uapi/linux/virtio_gpu.h<br>
+&gt; &gt;&gt; +++ b/include/uapi/linux/virtio_gpu.h<br>
+&gt; &gt;&gt; @@ -309,6 +309,10 @@ struct virtio_gpu_cmd_submit {<br>
+&gt; &gt;&gt;=C2=A0 <br>
+&gt; &gt;&gt;=C2=A0 #define VIRTIO_GPU_CAPSET_VIRGL 1<br>
+&gt; &gt;&gt;=C2=A0 #define VIRTIO_GPU_CAPSET_VIRGL2 2<br>
+&gt; &gt;&gt; +#define VIRTIO_GPU_CAPSET_GFXSTREAM 3<br>
+&gt; &gt; <br>
+&gt; &gt; The GFXSTREAM capset isn&#39;t correct, it should be GFXSTREAM_VU=
+LKAN in<br>
+&gt; &gt; accordance to [1] and [2]. There are more capsets for GFXSTREAM.<=
+br>
+&gt; &gt; <br>
+&gt; &gt; [1]<br>
+&gt; &gt; <a href=3D"https://github.com/google/crosvm/blob/main/rutabaga_gf=
+x/src/rutabaga_utils.rs#L172" rel=3D"noreferrer" target=3D"_blank">https://=
+github.com/google/crosvm/blob/main/rutabaga_gfx/src/rutabaga_utils.rs#L172<=
+/a><br>
+&gt; &gt; <br>
+&gt; &gt; [2]<br>
+&gt; &gt; <a href=3D"https://patchwork.kernel.org/project/qemu-devel/patch/=
+20231006010835.444-7-gurchetansingh@chromium.org/" rel=3D"noreferrer" targe=
+t=3D"_blank">https://patchwork.kernel.org/project/qemu-devel/patch/20231006=
+010835.444-7-gurchetansingh@chromium.org/</a><br>
+&gt; <br>
+&gt; Though, maybe those are &quot;rutabaga&quot; capsets that not related =
+to<br>
+&gt; virtio-gpu because crosvm has another defs for virtio-gpu capsets [3].=
+<br>
+&gt; The DRM capset is oddly missing in [3] and code uses &quot;rutabaga&qu=
+ot; capset<br>
+&gt; for DRM and virtio-gpu.<br>
+&gt; <br>
+&gt; [3]<br>
+&gt; <a href=3D"https://github.com/google/crosvm/blob/main/devices/src/virt=
+io/gpu/protocol.rs#L416" rel=3D"noreferrer" target=3D"_blank">https://githu=
+b.com/google/crosvm/blob/main/devices/src/virtio/gpu/protocol.rs#L416</a><b=
+r>
+<br>
+Yes, [3] is the file that I referred to add these capsets definitions. And<=
+br>
+it&#39;s defined as gfxstream not gfxstream_vulkan.<br>
+<br>
+&gt; <br>
+&gt; Gurchetan, could you please clarify which capsets definitions are<br>
+&gt; related to virtio-gpu and gfxstream. The<br>
+&gt; GFXSTREAM_VULKAN/GLES/MAGMA/COMPOSER or just the single GFXSTREAM?</bl=
+ockquote><div><br></div><div>It should be GFXSTREAM_VULKAN.=C2=A0 The rest =
+are more experimental and easy to modify in terms of the enum value, should=
+ the need arise.</div><div><br></div><div>I imagine the virtio-spec update =
+to reflect the GFXSTREAM to GFXSTREAM_VULKAN change will happen eventually.=
+</div><div>=C2=A0<br></div><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
+">
+&gt; <br>
+<br>
+Gurchetan, may we have your insight?<br>
+<br>
+Thanks,<br>
+Ray<br>
+<br>
+&gt; -- <br>
+&gt; Best regards,<br>
+&gt; Dmitry<br>
+&gt; <br>
+</blockquote></div></div>
+
+--00000000000058df6c060805f461--
