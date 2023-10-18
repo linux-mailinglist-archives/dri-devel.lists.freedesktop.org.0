@@ -2,49 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B1787CE436
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Oct 2023 19:17:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24A157CE44B
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Oct 2023 19:19:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9CF2310E406;
-	Wed, 18 Oct 2023 17:17:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D5BFE10E410;
+	Wed, 18 Oct 2023 17:19:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B689810E406
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Oct 2023 17:17:29 +0000 (UTC)
-Received: from [192.168.2.39] (109-252-153-31.dynamic.spd-mgts.ru
- [109.252.153.31])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id B5ACB6606F85;
- Wed, 18 Oct 2023 18:17:27 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1697649448;
- bh=WY+pP9OlyuP26BNqelRDLjbXmJfbzAuEd5bSDqflsdk=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=DENCtEsM9YjjdWpYINoMtR/NkP2I0g0I7UUYOv5mLWrx3d6Vv/1LlCtWa0uuoz8tq
- NtO/3ORwLldzKUw4ensm3iEjAA12uufitJCJviRmbuHL0r9IDM0Kw5qIRrTuNKMDBg
- VfjLsg8WPPwGCUIyUK0dcRPmnUbVNgn0xCEDnER+Tmzw4jT7zJJ80mFYlnXKG2pQcx
- uef8h2z4jsZke3YeHffdmRzmy77LLXtTBDvfVIsKVhg6oH0MhdYRtfVyEE2KNcZJ/R
- XBTcP6moNUkyQxSXeNQEgjXFdXsAFkhGumo5csK5vUbgQKVTyPNs99s2Mrs2CqyEY/
- 1TBK2nTUMFskg==
-Message-ID: <e6438c8b-bf13-baa2-f1d5-3a6c2a6aa106@collabora.com>
-Date: Wed, 18 Oct 2023 20:17:24 +0300
+X-Greylist: delayed 87833 seconds by postgrey-1.36 at gabe;
+ Wed, 18 Oct 2023 17:19:37 UTC
+Received: from mailo.com (msg-1.mailo.com [213.182.54.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C84810E410
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Oct 2023 17:19:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
+ t=1697649563; bh=B1cgb8snhfBGvxDZW4alCwgPKMEjrzTDUDC8NKrs268=;
+ h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
+ MIME-Version:Content-Type:In-Reply-To;
+ b=KS9AlqLepVVPF2OOVUXU6YS7adFmgG4t+2mhhmqUFM+QeRiPL25/yV1drwMhJ1X2P
+ k2ahpoc9U3kS3YPwUbzStU5ZRYgsiFe31gVMatZf/pu6ztlp3bvs3hx/dxezgFaBEW
+ ptFuth4VKlYqBulJ2D0i5IbfIRqdO3h9xd+F/WME=
+Received: by b221-3.in.mailobj.net [192.168.90.23] with ESMTP
+ via ip-20.mailobj.net [213.182.54.20]
+ Wed, 18 Oct 2023 19:19:22 +0200 (CEST)
+X-EA-Auth: UMZRru0/Ise3CE3gDNk9iOU0F6Lrl70MGQwwBM6Trk3KrsGK6bCkt9N8u71Dc2HxfQkZcvG1ZxMrRjPdBoP5jLiRVTZUegRE
+Date: Wed, 18 Oct 2023 22:49:15 +0530
+From: Deepak R Varma <drv@mailo.com>
+To: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+Subject: Re: ivpu TODO list items
+Message-ID: <ZTATkznuHyX4rUit@runicha.com>
+References: <ZSjwuyCOL9Vb9+yb@runicha.com> <ZS68dysac34rA32D@runicha.com>
+ <20231018075053.GB525429@linux.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v2 2/2] drm/uapi: add explicit virtgpu context debug name
-Content-Language: en-US
-To: Gurchetan Singh <gurchetansingh@chromium.org>,
- dri-devel@lists.freedesktop.org
-References: <20231018170425.564-1-gurchetansingh@chromium.org>
- <20231018170425.564-2-gurchetansingh@chromium.org>
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <20231018170425.564-2-gurchetansingh@chromium.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231018075053.GB525429@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,36 +48,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: josh.simonot@gmail.com, kraxel@redhat.com
+Cc: Deepak R Varma <drv@mailo.com>, Oded Gabbay <ogabbay@kernel.org>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/18/23 20:04, Gurchetan Singh wrote:
-> +
-> +			ret = strncpy_from_user(vfpriv->debug_name,
-> +						u64_to_user_ptr(value),
-> +						DEBUG_NAME_MAX_LEN);
-> +
-> +			if (ret < 0) {
-> +				ret = -EFAULT;
-> +				goto out_unlock;
-> +			}
-> +
-> +			/*
-> +			 * strncpy_from_user doesn't copy the NULL terminator when
-> +			 * DEBUG_NAME_MAX_LEN bytes is copied. Fix that here.
-> +			 */
-> +			if (ret == DEBUG_NAME_MAX_LEN)
-> +				vfpriv->debug_name[DEBUG_NAME_MAX_LEN - 1] = '\0';
+On Wed, Oct 18, 2023 at 09:50:53AM +0200, Stanislaw Gruszka wrote:
+> Hi
+>
+> On Tue, Oct 17, 2023 at 10:25:19PM +0530, Deepak R Varma wrote:
+> > On Fri, Oct 13, 2023 at 12:54:43PM +0530, Deepak R Varma wrote:
+> > > Hello,
+> > > I am shortlisted as a mentee for the LF Mentorship program. I looked at the TODO
+> > > file for the ivpu driver for my project tasks. Could you please answer the
+> > > following questions:
+> > >
+> > > 1. Is the TODO list up to date? If not, can we have it updated? Let me know if I
+> > > can help.
+> It's not. Some of those was already implemented (but yet not submitted).
+> Some ideas there was dropped.
+>
+> I think this file can be whole removed. Feel free to post patch for
+> that.
 
-If you'll copy DEBUG_NAME_MAX_LEN-1 bytes, then string will be always
-NULL-terminated. It is a standard practice for strncpy usage to do it
-like this:
+Hello,
+Thank you for the response. I sincerely appreciate your time.
+I will send in a patch to remove the TODO file.
 
-	ret = strncpy_from_user(vfpriv->debug_name,
-				u64_to_user_ptr(value),
-				DEBUG_NAME_MAX_LEN - 1);
--- 
-Best regards,
-Dmitry
+>
+> > > 2. Is it absolutely necessary for me to have a specialized hardware to test my
+> > > patches? Is it limited to the 14thGen or above CPU or do I need more than that?
+> Yes, I don't think someone can work on ivpu without hardware.
+
+Okay. Could you suggest what would be the minimum hardware required to explore
+this driver?
+
+>
+> > > 3. Is it okay for me to work on the TODO list items. Let me know if you have a
+> > > preference [Please note I just started a few months ago and still learning].
+> I recommend you to work on items from:
+> https://www.kernel.org/doc/html/latest/gpu/todo.html
+
+This is helpful. I will review the list tiems.
+Thank you again.
+
+Deepak.
+
+>
+> > Hello,
+> > May I request the maintainer to review my questions and comment please?
+>
+> Sorry, I haven't seen this email before.
+>
+> Regards
+> Stanislaw
+
 
