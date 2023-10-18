@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5ADB17CE3DC
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Oct 2023 19:07:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2028B7CE3CF
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Oct 2023 19:07:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 838F410E445;
-	Wed, 18 Oct 2023 17:06:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9675C10E433;
+	Wed, 18 Oct 2023 17:06:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd30.google.com (mail-io1-xd30.google.com
- [IPv6:2607:f8b0:4864:20::d30])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F68B10E435;
- Wed, 18 Oct 2023 17:06:34 +0000 (UTC)
-Received: by mail-io1-xd30.google.com with SMTP id
- ca18e2360f4ac-7a67c3d62a3so20013839f.1; 
- Wed, 18 Oct 2023 10:06:34 -0700 (PDT)
+Received: from mail-io1-xd2f.google.com (mail-io1-xd2f.google.com
+ [IPv6:2607:f8b0:4864:20::d2f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 90B9210E43E;
+ Wed, 18 Oct 2023 17:06:35 +0000 (UTC)
+Received: by mail-io1-xd2f.google.com with SMTP id
+ ca18e2360f4ac-7a669a4ec51so44276739f.3; 
+ Wed, 18 Oct 2023 10:06:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1697648794; x=1698253594; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1697648795; x=1698253595; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=m1uXLDmoVzvN2oJUe3cXywX9ZoHLJ5owNDwFWfeTZCY=;
- b=lJpanxktvi8M3dHgA/lx4DmMz/Cdjg0RmZyE2jZcQAd4qajQRbi6ReW2TF5dywAzis
- dVEGB3AQ3ijDB+bELOPWGMNinHJsVMhikh1xWMtGiz3drzNqRdIHS9QoVBC4bBGDhaFD
- SVAMGAo/BgKasNeyxmnfdOL0zi5q/vOgd9wpetVzNDRF40LCKn88MEJo3ZHLPSQKKsGc
- tZLV/6qvb2/R69o2iH4DFooUTaEmnMYOXnd2hyBlMsuf/NTuJeX9odJHkFs+b8JQgAuF
- QeRjpPwySfIZX6xFmpacky4RFKy6KGSzk+nV9XoJiCIBarEFmuJj49RIrRJr+aWHp2lS
- YJ+A==
+ bh=UnWyGzBg+EfQ/17pthf1gkMUPd8BVnFczw04j1DAB6Y=;
+ b=BLQpEzUxrtqrtVM+Gs4JbCZ+54H3eoS1EYrg68JB3iicE9n2796EnR+AdULqKeBwfW
+ 9frP2d4Se9/RZTRDst6WYL9qgtmOWInra6zCQ3txjkLTbNaCGaavBHPLRoKUh/889Gwe
+ xMfb6QMUtmum7ZNzjvWOiDLAWtThO7LgTxyhNYvWiOY7XlQn3XLBhcZjdwWePgZkZYh6
+ owS5URr4yXhtTHk3Hcm5x+6G1EvqrnXsaJjdyav+7nVzyelG9CE9rPyLyl65TUR2BX12
+ fTMhD714/C88olT+hHBUiIEpc+oKIw26/eLEHu6YQ2idFqSfipvvrZe+fzlmbpLTNea/
+ HbZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1697648794; x=1698253594;
+ d=1e100.net; s=20230601; t=1697648795; x=1698253595;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=m1uXLDmoVzvN2oJUe3cXywX9ZoHLJ5owNDwFWfeTZCY=;
- b=k+uwYl9Q2oAHAFLt91G90oDyn4WDYQkENvbyqMUOeTalJr00W6bxqTonXAdt4ezvRV
- 6Zfd3aqTnm7P9CUzAkwAUzm6geUq1Sg0eI/VEN9DsPQnVJb6OnczQG4W8OS9mDYcSY/t
- ooepNfaENyPcT4L+EntLi+TMSi+n24o0+V1YUNjh/a0i7KgjaLKACm9piE3vCht1Wj3g
- g2nv6Yy7erbXk5i7LvRGJJpOCfaTV70KDUbwjymx3FNCeDZ6URnQEMyMRGF7w0b0FzJ0
- M4kE/fiQYd/Eddh2Lc+/FDdB7LDgTB24MGuDca1BLh7pED5Pe5aeruWWQLu4Ejh5Puof
- kY9w==
-X-Gm-Message-State: AOJu0YxCEDK/Xd9UeYvODkpbZzpCT3MwVxVNRSykJ79OzBAFLomkpLMM
- a4dRsVJDvcJsCD6ZHievD6k=
-X-Google-Smtp-Source: AGHT+IHDhIJWKLlsUjUBf2pstUmVVUXI2KBM3lV1WAlou8KYnpqF5nM32qgWdz8lmvtKHbmk8V74eQ==
-X-Received: by 2002:a05:6602:48e:b0:79f:9eb4:3ea1 with SMTP id
- y14-20020a056602048e00b0079f9eb43ea1mr8307541iov.3.1697648793755; 
- Wed, 18 Oct 2023 10:06:33 -0700 (PDT)
+ bh=UnWyGzBg+EfQ/17pthf1gkMUPd8BVnFczw04j1DAB6Y=;
+ b=f+XuVZICMXe/Akgi5Qu8XOKwMLlbRNGXGJL/nWtqxWdFkWa8Qgr1PEBTJ2fz6V4vfH
+ GcQV0vYgb7MVxzsFxTGxDHH02xfDP8Adj0HvwI9DtECIpG2TLOEyOGU45GuIFlHfdril
+ AAT/nN0E1YPxXYiS3FW7+LrDU5QzPy3qaiW2Qvxo7v85VQlJuDPs01GZb0Anf3zlz+lP
+ P5uZj/+nxQqFoaRfr0yHXApaM9w+ZT/RaQKb23W71JlG+6/4+Bp9xF7YOa07t87SPpbY
+ ZPmWnbgED8NCfNutnBQqdVOhw8lOOKjyHXFz79UO2uo+GE4ZsCOvmclYLbCiqoiF8Qm5
+ svfQ==
+X-Gm-Message-State: AOJu0YzewaRvXOipcjF/uFJH/Nyt/z7DvhXlBD45ozeG5yYwcuRA/jhZ
+ z0WJgkU52KskCQJdl89u7Qs=
+X-Google-Smtp-Source: AGHT+IFeheNXZBGnOFX29lWvMdz9W+sw0/6ZtrOHpH1g7X3NeT601F54bgeT0BHNqWdWEMi59Mg+zw==
+X-Received: by 2002:a05:6602:1584:b0:790:f735:4d30 with SMTP id
+ e4-20020a056602158400b00790f7354d30mr6712709iow.13.1697648794854; 
+ Wed, 18 Oct 2023 10:06:34 -0700 (PDT)
 Received: from frodo.. (c-73-78-62-130.hsd1.co.comcast.net. [73.78.62.130])
  by smtp.googlemail.com with ESMTPSA id
- n4-20020a5d8244000000b0079fa1a7cd36sm1228944ioo.30.2023.10.18.10.06.32
+ n4-20020a5d8244000000b0079fa1a7cd36sm1228944ioo.30.2023.10.18.10.06.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Oct 2023 10:06:33 -0700 (PDT)
+ Wed, 18 Oct 2023 10:06:34 -0700 (PDT)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: linux-kernel@vger.kernel.org, jbaron@akamai.com,
  gregkh@linuxfoundation.org, dri-devel@lists.freedesktop.org,
  amd-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org,
  intel-gfx@lists.freedesktop.org
-Subject: [PATCH v7c 20/24] dyndbg: refactor *dynamic_emit_prefix
-Date: Wed, 18 Oct 2023 11:06:00 -0600
-Message-ID: <20231018170604.569042-21-jim.cromie@gmail.com>
+Subject: [PATCH v7c 21/24] dyndbg: change WARN_ON to WARN_ON_ONCE
+Date: Wed, 18 Oct 2023 11:06:01 -0600
+Message-ID: <20231018170604.569042-22-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20231018170604.569042-1-jim.cromie@gmail.com>
 References: <20231018170604.569042-1-jim.cromie@gmail.com>
@@ -83,108 +83,35 @@ Cc: lb@semihalf.com, groeck@google.com, linux-doc@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Refactor the split of duties between outer & inner fns.
+This shouldn't ever happen, and 1st 2 conditions never have.
 
-The outer fn was previously just an inline unlikely forward to inner,
-which did all the work.
+The 3rd condition did happen, due to corrupt linkage due to a missing
+align(8) in DYNDBG_CLASSMAP_USE, on the static struct allocation into
+the __dyndbg_class_users section.
 
-Now, outer handles +t and +l flags itself, and calls inner only when
-_DPRINTK_FLAGS_INCL_LOOKUP is needed.
-
-No functional change.
-
-But it does make the results of the inner-fn more cache-friendly
-(fewer entries, reused more often):
-
-1- no spurious [TID] or <intr> noise
-2- no LINE-number to bloat the cache (avg 9 pr_debugs/fn)
-3- only LOOKUP stuff
-
-Currently LOOKUPs are descriptor-field refs but could be replaced by
-accessor functions.  This would allow the __dyndbg_sites section to be
-de-duplicated and reclaimed; currently module, filename fields are
-~90% repeated.  As the accessors get more expensive, the value of
-caching part of the prefix goes up.
-
-Also change inner-fn to return count of extra chars written to the
-buffer, and drop "inline" from outer, let the compiler decide.  Maybe
-also change name accordingly.
+Not sure whether changing to _ONCE is appropriate - this is a
+module-load activity, so it won't continuously spam syslog.
 
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
-fixup whitespace
+undo BUG_ON addition
 ---
- lib/dynamic_debug.c | 39 ++++++++++++++++++++++-----------------
- 1 file changed, 22 insertions(+), 17 deletions(-)
+ lib/dynamic_debug.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
-index a6ee142668bf..9db797a0cf82 100644
+index 9db797a0cf82..213110ec1e9c 100644
 --- a/lib/dynamic_debug.c
 +++ b/lib/dynamic_debug.c
-@@ -774,11 +774,28 @@ static int remaining(int wrote)
- 	return 0;
- }
+@@ -1281,7 +1281,7 @@ static void ddebug_attach_user_module_classes(struct ddebug_table *dt,
+ 	 */
+ 	for (i = 0, cli = di->class_users; i < di->num_class_users; i++, cli++) {
  
--static char *__dynamic_emit_prefix(const struct _ddebug *desc, char *buf)
-+static int __dynamic_emit_prefix(const struct _ddebug *desc, char *buf, int pos)
-+{
-+	if (desc->flags & _DPRINTK_FLAGS_INCL_MODNAME)
-+		pos += snprintf(buf + pos, remaining(pos), "%s:",
-+				desc->modname);
-+	if (desc->flags & _DPRINTK_FLAGS_INCL_FUNCNAME)
-+		pos += snprintf(buf + pos, remaining(pos), "%s:",
-+				desc->function);
-+	if (desc->flags & _DPRINTK_FLAGS_INCL_SOURCENAME)
-+		pos += snprintf(buf + pos, remaining(pos), "%s:",
-+				trim_prefix(desc->filename));
-+	return pos;
-+}
-+
-+static char *dynamic_emit_prefix(struct _ddebug *desc, char *buf)
- {
- 	int pos_after_tid;
- 	int pos = 0;
+-		if (WARN_ON(!cli || !cli->map || !cli->user_mod_name))
++		if (WARN_ON_ONCE(!cli || !cli->map || !cli->user_mod_name))
+ 			continue;
  
-+	if (likely(!(desc->flags & _DPRINTK_FLAGS_INCL_ANY)))
-+		return buf;
-+
- 	if (desc->flags & _DPRINTK_FLAGS_INCL_TID) {
- 		if (in_interrupt())
- 			pos += snprintf(buf + pos, remaining(pos), "<intr> ");
-@@ -787,15 +804,10 @@ static char *__dynamic_emit_prefix(const struct _ddebug *desc, char *buf)
- 					task_pid_vnr(current));
- 	}
- 	pos_after_tid = pos;
--	if (desc->flags & _DPRINTK_FLAGS_INCL_MODNAME)
--		pos += snprintf(buf + pos, remaining(pos), "%s:",
--				desc->modname);
--	if (desc->flags & _DPRINTK_FLAGS_INCL_FUNCNAME)
--		pos += snprintf(buf + pos, remaining(pos), "%s:",
--				desc->function);
--	if (desc->flags & _DPRINTK_FLAGS_INCL_SOURCENAME)
--		pos += snprintf(buf + pos, remaining(pos), "%s:",
--				trim_prefix(desc->filename));
-+
-+	if (unlikely(desc->flags & _DPRINTK_FLAGS_INCL_LOOKUP))
-+		pos += __dynamic_emit_prefix(desc, buf, pos);
-+
- 	if (desc->flags & _DPRINTK_FLAGS_INCL_LINENO)
- 		pos += snprintf(buf + pos, remaining(pos), "%d:",
- 				desc->lineno);
-@@ -807,13 +819,6 @@ static char *__dynamic_emit_prefix(const struct _ddebug *desc, char *buf)
- 	return buf;
- }
- 
--static inline char *dynamic_emit_prefix(struct _ddebug *desc, char *buf)
--{
--	if (unlikely(desc->flags & _DPRINTK_FLAGS_INCL_ANY))
--		return __dynamic_emit_prefix(desc, buf);
--	return buf;
--}
--
- void __dynamic_pr_debug(struct _ddebug *descriptor, const char *fmt, ...)
- {
- 	va_list args;
+ 		if (!strcmp(cli->user_mod_name, dt->mod_name)) {
 -- 
 2.41.0
 
