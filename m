@@ -2,52 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C48C7CEC26
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Oct 2023 01:35:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF5E07CEC5D
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Oct 2023 01:51:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D55A10E077;
-	Wed, 18 Oct 2023 23:35:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A86D610E07D;
+	Wed, 18 Oct 2023 23:51:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 307E610E077
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Oct 2023 23:35:12 +0000 (UTC)
-Received: from [192.168.2.39] (109-252-153-31.dynamic.spd-mgts.ru
- [109.252.153.31])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested)
- (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 8A4816606F85;
- Thu, 19 Oct 2023 00:35:09 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1697672110;
- bh=tzFoOcfO2LLY/7rp0S3zN3AaI/clLpAKH1kAfPrC9K8=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=hkjJDe0XXwbDR7epaJvYTuRQNY+iUKetwStS3N48Zd9XLyjAmP4tnIzReALet53C7
- cnn+esbO+5myarT9pBT1LElGWKK6kG/pQQgfZWj7JzH88zeThFVPqNRvI/4rb6LU8U
- bYtpHREY5tmH3mYl9XU8CUE+HsmQzvODeaxojE7nyl6qQBUvVX8Ech9UHiosf1QYgU
- q9VDo6If4FTzIDamXo68GQvZbsUJg7/AkhP5jZDQc+EoWEvKUZwW14EdldgIZQlo3R
- UjY/M/aZqPLkgFkOzpCqUiWEQo7M7ZKQWH77AuekDioTLHSVJJiyjxhOubJwhguukZ
- GJAKKZaVzlA4w==
-Message-ID: <ca115816-ed99-df55-828b-a333f377ac0e@collabora.com>
-Date: Thu, 19 Oct 2023 02:35:07 +0300
+Received: from mail-oi1-x22d.google.com (mail-oi1-x22d.google.com
+ [IPv6:2607:f8b0:4864:20::22d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA2EA10E07D
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Oct 2023 23:51:30 +0000 (UTC)
+Received: by mail-oi1-x22d.google.com with SMTP id
+ 5614622812f47-3b2ea7cca04so726383b6e.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Oct 2023 16:51:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1697673090; x=1698277890;
+ darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=6ChR10G5D7sRcff6jQpaXKs4y1Q9gyq3SS0kPO+/cx8=;
+ b=jgIBe1ahD2w5UAKA5/zCbvv58XaKCthqtDRNLvntBKi/cXNiL3nVUk/Dwyqglydihd
+ ywjavv/iHRjoKY+geEOGcvJg4Kr/l7gq+Cs5CaS93rEusmMMAHCN+CHfd6dAEE6JCq1+
+ xyl1ngn/ionEItXQDQXhX9xNEiC13yEx17Rhc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1697673090; x=1698277890;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=6ChR10G5D7sRcff6jQpaXKs4y1Q9gyq3SS0kPO+/cx8=;
+ b=VB1TbrWT1z2k6uo9eMSdW5QjMqWZOCtC/3HNqs5g0JBVmUI6DDda7RfLFGNScNaoFa
+ WmRV8SeRbaxUeYiVCmDk1d6XstwroFvNF8ggiodMhtWM6NHIt8+qmBwpgLx2dpA2Myh3
+ DFkG5yjpXQSXuKlrlBJh2iKNyFjwBeWIMSaWrox7eSdvFh6D3UQj86ZadqkTnvrNrApR
+ GADdFhEsBRn6LequKRChwuxWOJWvPHjaPXyIPuuPQiKYQqgX5Bk7nmfznHQlPuO8C333
+ Wkj3AdN2uOOVvs1CA9I7s+osAMbirwGj3JFLeweuXsYSlP7O+X0LP92uIri+XI+jZCce
+ rqaA==
+X-Gm-Message-State: AOJu0YzioEg0M+rFvqZE2OSG3zBfBnkMsKdEoXmiCUjIXb+/FPqXo5I4
+ X2At53CprhenHrXnOOhyG6wwVQ==
+X-Google-Smtp-Source: AGHT+IGPt8JkcC74UVt2KOT9gRXdeFP98JOMifoReerDh5QGwGHTdBGZE/K4Tk43G0k5VNDzq/VTPQ==
+X-Received: by 2002:a05:6808:7c3:b0:3ae:2024:837b with SMTP id
+ f3-20020a05680807c300b003ae2024837bmr695909oij.34.1697673089839; 
+ Wed, 18 Oct 2023 16:51:29 -0700 (PDT)
+Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net.
+ [198.0.35.241]) by smtp.gmail.com with ESMTPSA id
+ z27-20020aa7991b000000b006b3dc56c944sm3855850pff.133.2023.10.18.16.51.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 18 Oct 2023 16:51:29 -0700 (PDT)
+Date: Wed, 18 Oct 2023 16:51:28 -0700
+From: Kees Cook <keescook@chromium.org>
+To: Justin Stitt <justinstitt@google.com>
+Subject: Re: [PATCH v2] drm/modes: replace deprecated strncpy with strscpy_pad
+Message-ID: <202310181651.E47F9E32@keescook>
+References: <20231016-strncpy-drivers-gpu-drm-drm_modes-c-v2-1-d0b60686e1c6@google.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v3] drm/virtio: add new virtio gpu capset definitions
-Content-Language: en-US
-To: Gurchetan Singh <gurchetansingh@chromium.org>,
- Huang Rui <ray.huang@amd.com>
-References: <20231010135722.1142265-1-ray.huang@amd.com>
- <2f8bcce1-6551-6c2d-481c-67502c82bc68@collabora.com>
- <2c162058-288c-9e9e-48d5-3b2ddb0cc1fa@collabora.com>
- <ZSYnQbHUecuUlwvr@amd.com>
- <CAAfnVB=Mki1zEyjByJ_7tRrib74E4KSbjezqQcb_Uia8EQEXHw@mail.gmail.com>
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <CAAfnVB=Mki1zEyjByJ_7tRrib74E4KSbjezqQcb_Uia8EQEXHw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231016-strncpy-drivers-gpu-drm-drm_modes-c-v2-1-d0b60686e1c6@google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,104 +70,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Huang, Honglei1" <Honglei1.Huang@amd.com>,
- Akihiko Odaki <akihiko.odaki@daynix.com>, "Stabellini,
- Stefano" <stefano.stabellini@amd.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- "Ragiadakou, Xenia" <Xenia.Ragiadakou@amd.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "virtualization@lists.linux-foundation.org"
- <virtualization@lists.linux-foundation.org>, "Chen,
- Jiqian" <Jiqian.Chen@amd.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>, "Deucher,
- Alexander" <Alexander.Deucher@amd.com>, David Airlie <airlied@redhat.com>,
- "Zhang, Julia" <Julia.Zhang@amd.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, Xu Panda <xu.panda@zte.com.cn>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Maxime Ripard <mripard@kernel.org>, linux-hardening@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/19/23 02:25, Gurchetan Singh wrote:
-> On Tue, Oct 10, 2023 at 9:41 PM Huang Rui <ray.huang@amd.com> wrote:
+On Mon, Oct 16, 2023 at 10:38:20PM +0000, Justin Stitt wrote:
+> `strncpy` is deprecated for use on NUL-terminated destination strings
+> [1] and as such we should prefer more robust and less ambiguous string
+> interfaces.
 > 
->> On Tue, Oct 10, 2023 at 11:52:14PM +0800, Dmitry Osipenko wrote:
->>> On 10/10/23 18:40, Dmitry Osipenko wrote:
->>>> On 10/10/23 16:57, Huang Rui wrote:
->>>>> These definitions are used fro qemu, and qemu imports this marco in
->> the
->>>>> headers to enable gfxstream, venus, cross domain, and drm (native
->>>>> context) for virtio gpu. So it should add them even kernel doesn't use
->>>>> this.
->>>>>
->>>>> Signed-off-by: Huang Rui <ray.huang@amd.com>
->>>>> Reviewed-by: Akihiko Odaki <akihiko.odaki@daynix.com>
->>>>> ---
->>>>>
->>>>> Changes V1 -> V2:
->>>>> - Add all capsets including gfxstream and venus in kernel header
->> (Dmitry Osipenko)
->>>>>
->>>>> Changes V2 -> V3:
->>>>> - Add missed capsets including cross domain and drm (native context)
->>>>>   (Dmitry Osipenko)
->>>>>
->>>>> v1:
->> https://lore.kernel.org/lkml/20230915105918.3763061-1-ray.huang@amd.com/
->>>>> v2:
->> https://lore.kernel.org/lkml/20231010032553.1138036-1-ray.huang@amd.com/
->>>>>
->>>>>  include/uapi/linux/virtio_gpu.h | 4 ++++
->>>>>  1 file changed, 4 insertions(+)
->>>>>
->>>>> diff --git a/include/uapi/linux/virtio_gpu.h
->> b/include/uapi/linux/virtio_gpu.h
->>>>> index f556fde07b76..240911c8da31 100644
->>>>> --- a/include/uapi/linux/virtio_gpu.h
->>>>> +++ b/include/uapi/linux/virtio_gpu.h
->>>>> @@ -309,6 +309,10 @@ struct virtio_gpu_cmd_submit {
->>>>>
->>>>>  #define VIRTIO_GPU_CAPSET_VIRGL 1
->>>>>  #define VIRTIO_GPU_CAPSET_VIRGL2 2
->>>>> +#define VIRTIO_GPU_CAPSET_GFXSTREAM 3
->>>>
->>>> The GFXSTREAM capset isn't correct, it should be GFXSTREAM_VULKAN in
->>>> accordance to [1] and [2]. There are more capsets for GFXSTREAM.
->>>>
->>>> [1]
->>>>
->> https://github.com/google/crosvm/blob/main/rutabaga_gfx/src/rutabaga_utils.rs#L172
->>>>
->>>> [2]
->>>>
->> https://patchwork.kernel.org/project/qemu-devel/patch/20231006010835.444-7-gurchetansingh@chromium.org/
->>>
->>> Though, maybe those are "rutabaga" capsets that not related to
->>> virtio-gpu because crosvm has another defs for virtio-gpu capsets [3].
->>> The DRM capset is oddly missing in [3] and code uses "rutabaga" capset
->>> for DRM and virtio-gpu.
->>>
->>> [3]
->>>
->> https://github.com/google/crosvm/blob/main/devices/src/virtio/gpu/protocol.rs#L416
->>
->> Yes, [3] is the file that I referred to add these capsets definitions. And
->> it's defined as gfxstream not gfxstream_vulkan.
->>
->>>
->>> Gurchetan, could you please clarify which capsets definitions are
->>> related to virtio-gpu and gfxstream. The
->>> GFXSTREAM_VULKAN/GLES/MAGMA/COMPOSER or just the single GFXSTREAM?
+> We should NUL-pad as there are full struct copies happening in places:
+> |       struct drm_mode_modeinfo umode;
+> |
+> |       ...
+> |               struct drm_property_blob *blob;
+> |
+> |               drm_mode_convert_to_umode(&umode, mode);
+> |               blob = drm_property_create_blob(crtc->dev,
+> |                                               sizeof(umode), &umode);
 > 
+> A suitable replacement is `strscpy_pad` due to the fact that it
+> guarantees both NUL-termination and NUL-padding on the destination
+> buffer.
 > 
-> It should be GFXSTREAM_VULKAN.  The rest are more experimental and easy to
-> modify in terms of the enum value, should the need arise.
+> Additionally, replace size macro `DRM_DISPLAY_MODE_LEN` with sizeof() to
+> more directly tie the maximum buffer size to the destination buffer:
+> |       struct drm_display_mode {
+> |               ...
+> |       	char name[DRM_DISPLAY_MODE_LEN];
 > 
-> I imagine the virtio-spec update to reflect the GFXSTREAM to
-> GFXSTREAM_VULKAN change will happen eventually.
+> Link: https://www.kernel.org/doc/html/latest/process/deprecated.html#strncpy-on-nul-terminated-strings [1]
+> Link: https://github.com/KSPP/linux/issues/90
+> Cc: linux-hardening@vger.kernel.org
+> Cc: Xu Panda <xu.panda@zte.com.cn>
+> Signed-off-by: Justin Stitt <justinstitt@google.com>
 
-Thanks for the clarification. Good point about the spec updating, we
-should document DRM context too,
+Thanks for the respin; this looks good to me.
+
+Reviewed-by: Kees Cook <keescook@chromium.org>
 
 -- 
-Best regards,
-Dmitry
-
+Kees Cook
