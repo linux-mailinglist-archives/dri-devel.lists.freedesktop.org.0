@@ -1,62 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 752C47CDF32
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Oct 2023 16:17:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7442E7CE01A
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Oct 2023 16:36:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 679DD10E090;
-	Wed, 18 Oct 2023 14:17:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BEA3C10E05D;
+	Wed, 18 Oct 2023 14:36:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
- [IPv6:2a00:1450:4864:20::433])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7545010E090
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Oct 2023 14:17:48 +0000 (UTC)
-Received: by mail-wr1-x433.google.com with SMTP id
- ffacd0b85a97d-32003aae100so5076598f8f.0
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Oct 2023 07:17:48 -0700 (PDT)
+Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com
+ [IPv6:2607:f8b0:4864:20::52e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DAA1310E04E;
+ Wed, 18 Oct 2023 14:36:45 +0000 (UTC)
+Received: by mail-pg1-x52e.google.com with SMTP id
+ 41be03b00d2f7-578b407045bso5159591a12.0; 
+ Wed, 18 Oct 2023 07:36:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1697638667; x=1698243467; darn=lists.freedesktop.org;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ d=gmail.com; s=20230601; t=1697639805; x=1698244605; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=qJCjKDRaOx5XAC2x2yATrx2IuXM6NcvlHMKhJ0WmDlo=;
- b=jTgKnJdZ/YbBk6CPL2xsMU/ogkdW6yTqDkFkSI4r+a+VfSLQ2uZGbIBwsAnCGBSQEO
- +GhBlnbo9bN3SEpKNnCmXfOopj9b8barpMRhmvM2vbj1SjewbEm/6D9qmRBX5hZO9P0p
- HEFVfCT9dCS8VU1xBOMgIQp7wLXfma6afSsrUWwcElG95TqJyJ9u/ompoEiNWxwynYQg
- VG8szZdkTR1/idP0FD/9rgp40yX80Q0bFssxd3i+ec7ihCzl86lr8x9AunQ/IEMFoq26
- UkjwSKmTliQQNg7nYHcdcgbE5U0Eb06p7rHxXNQUEy2dsL93GJoMbMJr7uD8/RISFjDk
- WYRA==
+ bh=2MBHQrqw55UjZKvbwXO22BYYyiwvKly9qhomQTJhZaA=;
+ b=VXPc3EqkNw7XyuP/gq5udwbNddGHLAov2i9geV+OCoMBPX4ODqux+w1H+yg8CO6LXI
+ 2wrRzmJWu7szSuNKjlDy9LmMEBfo+IX9Nw4Eu5clZBSnOiudWez8cs4PFJLyEtK9KKdJ
+ GZ4vNlBLmBPYeMIcc1AH83pCcx1Sa+VI5C5TtOEs+hOim08RyppKbLp/TmWZ1obPS1o0
+ lDz4oX7x6X2zhhCF4FNE1bVdwOa21xmaemG4qxc0hOS7tJAZ8Y888rSeu3d/KeHXRHpM
+ EFvf1TmAHJT23CkHgr+gf3DEahW1uLoexLarxRTktmjr/J+RqEjBajSs/kcpaXwLnpx5
+ 2SBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1697638667; x=1698243467;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ d=1e100.net; s=20230601; t=1697639805; x=1698244605;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=qJCjKDRaOx5XAC2x2yATrx2IuXM6NcvlHMKhJ0WmDlo=;
- b=glkcmodjZman6J0q65YbmqMi15qKe7xnZhLaxOEPduly47UO5uNC3Au4FTiQ9Uz3pu
- 1ZNA2cWiyB/cG6sc02kbID/oQEEjFBPeLkKjoenlA1lyv7/wPeoPJ3OmjKMVXjxpMCnM
- V8AWsLtxFkvyF5ao9kikXE4oPGn72xforiCRblfDk2p2o9Bhb53lPR9kaGYSqHLWYKYt
- mq/+HuY6abjNSBEBGR74P5qtAvw78J14c8sKuJBbyY8zaD5U6kZZsTc7cypsXBSlthtX
- Uns3oRRXMOkWFX848g5IQXmsf8vLy1nDKUjMnUIB91tYvYlXZxTyGrUAErITKRY0dfrG
- NKNQ==
-X-Gm-Message-State: AOJu0YzLv4Sj6T44xGJ2CPAkfnz14cnQL8f6xjctwSdQiLl6uXUgo5Sw
- a0maydjvKm5Ti1dgTmqxclP5iw==
-X-Google-Smtp-Source: AGHT+IFr59Tvq3ufc4ENsmwMZ5b2E4kBpZFkx6eFWK7w++DMB7Q644jSxoa/TyJQoJ2Opsnm2iogoA==
-X-Received: by 2002:adf:f092:0:b0:32d:980e:ae7 with SMTP id
- n18-20020adff092000000b0032d980e0ae7mr4768010wro.2.1697638666789; 
- Wed, 18 Oct 2023 07:17:46 -0700 (PDT)
-Received: from localhost ([102.36.222.112]) by smtp.gmail.com with ESMTPSA id
- a17-20020a5d5091000000b0032d893d8dc8sm2250422wrt.2.2023.10.18.07.17.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Oct 2023 07:17:46 -0700 (PDT)
-Date: Wed, 18 Oct 2023 17:17:42 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: ville.syrjala@linux.intel.com
-Subject: [bug report] drm: Warn about negative sizes when calculating scale
- factor
-Message-ID: <c7f0fd2f-a48d-4120-9291-a0cc58faadce@moroto.mountain>
+ bh=2MBHQrqw55UjZKvbwXO22BYYyiwvKly9qhomQTJhZaA=;
+ b=w/+zkrmdPZDvwIxIr2NNmAPXP/HL5EFMdU8+Gjl191wFZnVPVxdZjFfj38GpYuA0dI
+ ryoO7IqLppfuuxcWx1UvEgh9a2XPxetZJUw0SLfPdGSJ2ifAOK32mZXFn6lsZcxqigMe
+ XkR0EGBQHJcRCHKmbOSLC7aEuD1yrugjh0sp7vblYic/UDBxnmhFpIsIwh8S8wBMKPBq
+ edZ4UA3q+47e6UrkebuWymxOwZuUjqiMWpNODxVq692hxTMC5bfNCbcdcJl72HRouFCP
+ PZDBO9sHyKHmJ1EFTXNAFSQwk7jkKhQQhdynN80I6I0jJc57vTQJnQ7z1lKOyk3ojSHW
+ UvAg==
+X-Gm-Message-State: AOJu0Yw4yY9kM9OVyjpwGnycIq58noX2bgCAGz802fx1NEuvJHthzTSW
+ KkNwLTa2mJAd0SbZfS5JpuE=
+X-Google-Smtp-Source: AGHT+IEtWQEDU+xX49TW325o5ZdEYEM1SAd4UwkCDNJeh/9ChcecZD1WGA/QyoBI/Ln4jFvW9HeGow==
+X-Received: by 2002:a05:6a20:9155:b0:15f:faab:1be1 with SMTP id
+ x21-20020a056a20915500b0015ffaab1be1mr5760804pzc.20.1697639805239; 
+ Wed, 18 Oct 2023 07:36:45 -0700 (PDT)
+Received: from [192.168.1.13] ([27.4.124.129])
+ by smtp.gmail.com with ESMTPSA id
+ r13-20020a6560cd000000b005aa800c149bsm1604838pgv.39.2023.10.18.07.36.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 18 Oct 2023 07:36:44 -0700 (PDT)
+Message-ID: <db7e32f5-440d-4e42-8a10-eab0f9d488c8@gmail.com>
+Date: Wed, 18 Oct 2023 20:06:40 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/nouveau: Fixing indentation and adding License
+ Identifier tag
+Content-Language: en-US
+To: kherbst@redhat.com, lyude@redhat.com, dakr@redhat.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, daniel@ffwll.ch
+References: <20231008172751.21953-1-bragathemanick0908@gmail.com>
+From: Bragatheswaran Manickavel <bragathemanick0908@gmail.com>
+In-Reply-To: <20231008172751.21953-1-bragathemanick0908@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,63 +78,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel =?iso-8859-1?Q?D=EDaz?= <daniel.diaz@linaro.org>,
- kv-team <kv-team@linaro.org>, Naresh Kamboju <naresh.kamboju@linaro.org>,
- dri-devel@lists.freedesktop.org, Arthur Grillo <arthurgrillo@riseup.net>,
- kunit-dev@googlegroups.com
+Cc: nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drivers/gpu/drm/drm_rect.c
-   134  static int drm_calc_scale(int src, int dst)
-   135  {
-   136          int scale = 0;
-   137  
-   138          if (WARN_ON(src < 0 || dst < 0))
-                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-These days, with automated fuzz testing, this WARN_ON() is problematic.
-WARN() is considered a kernel bug, and pr_warn() is the hip new way to
-alert the user about issues.
 
-It should probably pr_warn_once() because this is easy to trigger.
-There is a kunit test which triggers it:
-drivers/gpu/drm/tests/drm_rect_test.c
+On 08/10/23 22:57, Bragatheswaran Manickavel wrote:
+> On running checkpatch.pl to nouveau_drm.h identified
+> few warnings. Fixing them in this patch
+>
+> WARNING: Missing or malformed SPDX-License-Identifier tag in line 1
+> +/*
+>
+> WARNING: space prohibited between function name and open parenthesis '('
+> +#define DRM_IOCTL_NOUVEAU_CHANNEL_FREE       DRM_IOW (DRM_COMMAND_BASE +
+> DRM_NOUVEAU_CHANNEL_FREE, struct drm_nouveau_channel_free)
+>
+> Signed-off-by: Bragatheswaran Manickavel <bragathemanick0908@gmail.com>
+> ---
+>   include/uapi/drm/nouveau_drm.h | 7 ++++---
+>   1 file changed, 4 insertions(+), 3 deletions(-)
+>
+> diff --git a/include/uapi/drm/nouveau_drm.h b/include/uapi/drm/nouveau_drm.h
+> index 8d7402c13e56..900ca4f1ebe5 100644
+> --- a/include/uapi/drm/nouveau_drm.h
+> +++ b/include/uapi/drm/nouveau_drm.h
+> @@ -1,3 +1,4 @@
+> +/* SPDX-License-Identifier: MIT */
+>   /*
+>    * Copyright 2005 Stephane Marchesin.
+>    * All Rights Reserved.
+> @@ -448,15 +449,15 @@ struct drm_nouveau_svm_bind {
+>   
+>   #define DRM_IOCTL_NOUVEAU_GETPARAM           DRM_IOWR(DRM_COMMAND_BASE + DRM_NOUVEAU_GETPARAM, struct drm_nouveau_getparam)
+>   #define DRM_IOCTL_NOUVEAU_CHANNEL_ALLOC      DRM_IOWR(DRM_COMMAND_BASE + DRM_NOUVEAU_CHANNEL_ALLOC, struct drm_nouveau_channel_alloc)
+> -#define DRM_IOCTL_NOUVEAU_CHANNEL_FREE       DRM_IOW (DRM_COMMAND_BASE + DRM_NOUVEAU_CHANNEL_FREE, struct drm_nouveau_channel_free)
+> +#define DRM_IOCTL_NOUVEAU_CHANNEL_FREE       DRM_IOW(DRM_COMMAND_BASE + DRM_NOUVEAU_CHANNEL_FREE, struct drm_nouveau_channel_free)
+>   
+>   #define DRM_IOCTL_NOUVEAU_SVM_INIT           DRM_IOWR(DRM_COMMAND_BASE + DRM_NOUVEAU_SVM_INIT, struct drm_nouveau_svm_init)
+>   #define DRM_IOCTL_NOUVEAU_SVM_BIND           DRM_IOWR(DRM_COMMAND_BASE + DRM_NOUVEAU_SVM_BIND, struct drm_nouveau_svm_bind)
+>   
+>   #define DRM_IOCTL_NOUVEAU_GEM_NEW            DRM_IOWR(DRM_COMMAND_BASE + DRM_NOUVEAU_GEM_NEW, struct drm_nouveau_gem_new)
+>   #define DRM_IOCTL_NOUVEAU_GEM_PUSHBUF        DRM_IOWR(DRM_COMMAND_BASE + DRM_NOUVEAU_GEM_PUSHBUF, struct drm_nouveau_gem_pushbuf)
+> -#define DRM_IOCTL_NOUVEAU_GEM_CPU_PREP       DRM_IOW (DRM_COMMAND_BASE + DRM_NOUVEAU_GEM_CPU_PREP, struct drm_nouveau_gem_cpu_prep)
+> -#define DRM_IOCTL_NOUVEAU_GEM_CPU_FINI       DRM_IOW (DRM_COMMAND_BASE + DRM_NOUVEAU_GEM_CPU_FINI, struct drm_nouveau_gem_cpu_fini)
+> +#define DRM_IOCTL_NOUVEAU_GEM_CPU_PREP       DRM_IOW(DRM_COMMAND_BASE + DRM_NOUVEAU_GEM_CPU_PREP, struct drm_nouveau_gem_cpu_prep)
+> +#define DRM_IOCTL_NOUVEAU_GEM_CPU_FINI       DRM_IOW(DRM_COMMAND_BASE + DRM_NOUVEAU_GEM_CPU_FINI, struct drm_nouveau_gem_cpu_fini)
+>   #define DRM_IOCTL_NOUVEAU_GEM_INFO           DRM_IOWR(DRM_COMMAND_BASE + DRM_NOUVEAU_GEM_INFO, struct drm_nouveau_gem_info)
+>   
+>   #define DRM_IOCTL_NOUVEAU_VM_INIT            DRM_IOWR(DRM_COMMAND_BASE + DRM_NOUVEAU_VM_INIT, struct drm_nouveau_vm_init)
 
-Reported-by: Linux Kernel Functional Testing <lkft@linaro.org>
+A Gentle remainder. Can someone please help in reviewing these changes ?
 
-   139                  return -EINVAL;
-   140  
-   141          if (dst == 0)
-   142                  return 0;
-   143  
-   144          if (src > (dst << 16))
-   145                  return DIV_ROUND_UP(src, dst);
-   146          else
-   147                  scale = src / dst;
-   148  
-   149          return scale;
-   150  }
+Thanks,
+Bragathe
 
-The stack trace is:
-
-[ 1297.757480] WARNING: CPU: 0 PID: 1555 at drivers/gpu/drm/drm_rect.c:138 drm_rect_calc_hscale+0xcc/0xd8
-[ 1297.758551] Modules linked in:
-[ 1297.759247] CPU: 0 PID: 1555 Comm: kunit_try_catch Tainted: G    B            N 6.5.1-rc1 #1
-[ 1297.760085] Hardware name: Generic DT based system
-[ 1297.760619]  unwind_backtrace from show_stack+0x18/0x1c
-[ 1297.761257]  show_stack from dump_stack_lvl+0x58/0x70
-[ 1297.761936]  dump_stack_lvl from __warn+0xa8/0x180
-[ 1297.762536]  __warn from warn_slowpath_fmt+0x110/0x1dc
-[ 1297.762901]  warn_slowpath_fmt from drm_rect_calc_hscale+0xcc/0xd8
-[ 1297.763241]  drm_rect_calc_hscale from drm_test_rect_calc_hscale+0xb0/0x150
-[ 1297.763608]  drm_test_rect_calc_hscale from kunit_generic_run_threadfn_adapter+0x2c/0x48
-[ 1297.764020]  kunit_generic_run_threadfn_adapter from kthread+0x184/0x1a8
-[ 1297.764384]  kthread from ret_from_fork+0x14/0x2c
-[ 1297.764812] Exception stack(0xfa41bfb0 to 0xfa41bff8)
-[ 1297.765470] bfa0:                                     00000000 00000000 00000000 00000000
-[ 1297.767825] bfc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
-[ 1297.768452] bfe0: 00000000 00000000 00000000 00000000 00000013 00000000
-[ 1297.769652] ---[ end trace 0000000000000000 ]---
-
-regards,
-dan carpenter
