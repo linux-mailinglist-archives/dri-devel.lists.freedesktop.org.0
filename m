@@ -2,50 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C8C97CD626
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Oct 2023 10:15:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E68A37CD62A
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Oct 2023 10:16:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5124210E387;
-	Wed, 18 Oct 2023 08:15:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1484D10E3B3;
+	Wed, 18 Oct 2023 08:16:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5500110E387;
- Wed, 18 Oct 2023 08:15:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1697616913; x=1729152913;
- h=date:from:to:cc:subject:in-reply-to:message-id:
- references:mime-version;
- bh=17exRRvNmKwTGh65tU4pd3aVP5pBtBAM+VqgKZy4Ty0=;
- b=Z+VSXvgd3HknzY1OwiWlUg0DVFjV3CsWJDOeSuqbbnGWgE0dZTPGkdIc
- fr42T6nMKexGzwB/M5X8YZbTCcgDOd+jemWytxk8IVhkZyqxI3bsDrVp1
- +r9r48SlE8BzwZbAdLDSvMoHMQyMo3ap8Rvt61btqBDyBvZnIPfFuAWV6
- 86YwDrwLTXgw21MI/z81I81q8TkQXdP67EoSNSRgyCHaPoFbYpXI7rk7b
- Reu1+ZYhNbUvi0Wz9PuBd9lkR9hZ9PzAAqoufATPCjcXqEffcwTPGQT3t
- tXCAWWC+A30LjSJ4Y/9tJ7vT6+wQP0anVo8/3LwQuydSgMFmWOUKGP7jx w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="371028490"
-X-IronPort-AV: E=Sophos;i="6.03,234,1694761200"; d="scan'208";a="371028490"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Oct 2023 01:15:12 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="760133296"
-X-IronPort-AV: E=Sophos;i="6.03,234,1694761200"; d="scan'208";a="760133296"
-Received: from gruberda-mobl1.ger.corp.intel.com ([10.252.62.52])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Oct 2023 01:15:07 -0700
-Date: Wed, 18 Oct 2023 11:15:05 +0300 (EEST)
-From: =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
-Subject: Re: [PATCH v4 15/17] HID: amd_sfh: rename float_to_int() to
- amd_sfh_float_to_int()
-In-Reply-To: <20231018070241.2041529-16-Shyam-sundar.S-k@amd.com>
-Message-ID: <e0d9adc1-83c6-1f5a-6f1d-a52391d36ed2@linux.intel.com>
-References: <20231018070241.2041529-1-Shyam-sundar.S-k@amd.com>
- <20231018070241.2041529-16-Shyam-sundar.S-k@amd.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F35910E3B3
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Oct 2023 08:16:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1697616967;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=jmZc6Q4WePRTx40QodA4tT/WlA97DXcd06bFoFktVdU=;
+ b=OABB7TV/AMr8RnI7w5pl4uTp+uj24A2yPPM/2No7qNV0cq6iOKTrlNZ9Lnjaq0K8QYCSm3
+ T0JjMRijatbaxfz6mh7yTCXSpEtl7rbEZWUkIJ3ihKcY1duAPRP4DLtCEcp55ianQNMYdt
+ PRXmsuuOUE+x/VimA7VR8Qcfb7KhtOc=
+Received: from mail-lf1-f71.google.com (mail-lf1-f71.google.com
+ [209.85.167.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-647-42qgIu4lMEaKw_tsS-V0CQ-1; Wed, 18 Oct 2023 04:16:05 -0400
+X-MC-Unique: 42qgIu4lMEaKw_tsS-V0CQ-1
+Received: by mail-lf1-f71.google.com with SMTP id
+ 2adb3069b0e04-507bd5f4b2dso1598641e87.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Oct 2023 01:16:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1697616964; x=1698221764;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=jmZc6Q4WePRTx40QodA4tT/WlA97DXcd06bFoFktVdU=;
+ b=RRz69Rx/aAnmtCVcD72SgvY5dk5aEZCSsdj33jpM8ci+yFq6u5PwvTK8KYRRZp952z
+ RtjOlJPk05GnCwtuYsN92AI7GyR9MvquTvzUlkzvPtKbdmUOiD7nAFL34zT9h1sDYmwo
+ ILJU38n45MZwBSA9zrGK0LgnGzyN+yJ326ckSSthr7klLISar/PiKavjzHOSAufVtyTx
+ pbV3cRMvylpJpKFt/PBQL5Ak8qsvHJRZqSSVo2I8a8hPANCsz6t5TR2yHPUZcezw0DsU
+ ibqrFBDCgASDyFDnybFLSMdOgh4qFxaK2BkEdwd/vCjyjJC760wzCenBUmLeefF2RwKg
+ YP5Q==
+X-Gm-Message-State: AOJu0YwVbHDuNX91MA9ncyqi4js8uFxj6Q4rwVUcfYeit1XQ9VABbA5I
+ VtLGXu886L3qV4ZXTUeQgWtu8OOn6WnjOmBsUXptg3aYQBmt+dlmdP9+h5XS9vpK482b/Regvga
+ DPV2jqnNh+CikCcBYee8Y5VJ21BWuOd+U0jJN
+X-Received: by 2002:a05:6512:1589:b0:503:28cb:c087 with SMTP id
+ bp9-20020a056512158900b0050328cbc087mr4387856lfb.29.1697616964195; 
+ Wed, 18 Oct 2023 01:16:04 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEYatw1+GQZsrovTtK4AIM0GHdCZTQtrZMNluODtTEfilpBoqjDMDouescfpJJZYj44ekzDvA==
+X-Received: by 2002:a05:6512:1589:b0:503:28cb:c087 with SMTP id
+ bp9-20020a056512158900b0050328cbc087mr4387842lfb.29.1697616963899; 
+ Wed, 18 Oct 2023 01:16:03 -0700 (PDT)
+Received: from localhost (210.red-80-36-22.staticip.rima-tde.net.
+ [80.36.22.210]) by smtp.gmail.com with ESMTPSA id
+ g14-20020a05600c310e00b0040813e14b49sm988670wmo.30.2023.10.18.01.16.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 18 Oct 2023 01:16:03 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, deller@gmx.de,
+ sam@ravnborg.org, arnd@arndb.de, daniel@ffwll.ch
+Subject: Re: [PATCH 01/46] fbdev: Provide I/O-memory helpers as module
+In-Reply-To: <20230927074722.6197-2-tzimmermann@suse.de>
+References: <20230927074722.6197-1-tzimmermann@suse.de>
+ <20230927074722.6197-2-tzimmermann@suse.de>
+Date: Wed, 18 Oct 2023 10:16:02 +0200
+Message-ID: <87a5sgqrb1.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323329-983461305-1697616911=:2178"
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,118 +81,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Xinhui.Pan@amd.com, Patil.Reddy@amd.com,
- Basavaraj Natikar <basavaraj.natikar@amd.com>, dri-devel@lists.freedesktop.org,
- jikos@kernel.org, amd-gfx@lists.freedesktop.org,
- platform-driver-x86@vger.kernel.org, markgross@kernel.org,
- Hans de Goede <hdegoede@redhat.com>, benjamin.tissoires@redhat.com,
- mario.limonciello@amd.com, linux-input@vger.kernel.org,
- alexander.deucher@amd.com, christian.koenig@amd.com
+Cc: linux-fbdev@vger.kernel.org, linux-parisc@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-nvidia@lists.surfsouth.com, linux-omap@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
 
---8323329-983461305-1697616911=:2178
-Content-Type: text/plain; charset=ISO-8859-15
-Content-Transfer-Encoding: 8BIT
+Hello Thomas,
 
-On Wed, 18 Oct 2023, Shyam Sundar S K wrote:
+Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-> From: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
-> 
-> Current amd_sfh driver has float_to_int() to convert units from
-> float to int. This is fine until this function gets called outside of
-> the current scope of file.
-> 
-> Add a prefix "amd_sfh" to float_to_int() so that function represents
-> the driver name. This function will be called by multiple callers in the
-> next patch.
-> 
-> Co-developed-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
-> Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
-> Signed-off-by: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+> Provide helpers for accessing I/O memory in a helper module. The fbdev
+> core uses these helpers, so select the module unconditionally for fbdev.
+> Drivers will later be able to select the module individually and the
+> helpers will become optional.
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
->  drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_desc.c | 22 +++++++++----------
->  .../amd-sfh-hid/sfh1_1/amd_sfh_interface.h    |  1 +
->  2 files changed, 12 insertions(+), 11 deletions(-)
-> 
-> diff --git a/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_desc.c b/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_desc.c
-> index 06bdcf072d10..dbc8c6943ca1 100644
-> --- a/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_desc.c
-> +++ b/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_desc.c
-> @@ -132,7 +132,7 @@ static void get_common_inputs(struct common_input_property *common, int report_i
->  	common->event_type = HID_USAGE_SENSOR_EVENT_DATA_UPDATED_ENUM;
->  }
->  
-> -static int float_to_int(u32 flt32_val)
-> +int amd_sfh_float_to_int(u32 flt32_val)
->  {
->  	int fraction, shift, mantissa, sign, exp, zeropre;
->  
-> @@ -200,9 +200,9 @@ static u8 get_input_rep(u8 current_index, int sensor_idx, int report_id,
->  			     OFFSET_SENSOR_DATA_DEFAULT;
->  		memcpy_fromio(&accel_data, sensoraddr, sizeof(struct sfh_accel_data));
->  		get_common_inputs(&acc_input.common_property, report_id);
-> -		acc_input.in_accel_x_value = float_to_int(accel_data.acceldata.x) / 100;
-> -		acc_input.in_accel_y_value = float_to_int(accel_data.acceldata.y) / 100;
-> -		acc_input.in_accel_z_value = float_to_int(accel_data.acceldata.z) / 100;
-> +		acc_input.in_accel_x_value = amd_sfh_float_to_int(accel_data.acceldata.x) / 100;
-> +		acc_input.in_accel_y_value = amd_sfh_float_to_int(accel_data.acceldata.y) / 100;
-> +		acc_input.in_accel_z_value = amd_sfh_float_to_int(accel_data.acceldata.z) / 100;
->  		memcpy(input_report, &acc_input, sizeof(acc_input));
->  		report_size = sizeof(acc_input);
->  		break;
-> @@ -211,9 +211,9 @@ static u8 get_input_rep(u8 current_index, int sensor_idx, int report_id,
->  			     OFFSET_SENSOR_DATA_DEFAULT;
->  		memcpy_fromio(&gyro_data, sensoraddr, sizeof(struct sfh_gyro_data));
->  		get_common_inputs(&gyro_input.common_property, report_id);
-> -		gyro_input.in_angel_x_value = float_to_int(gyro_data.gyrodata.x) / 1000;
-> -		gyro_input.in_angel_y_value = float_to_int(gyro_data.gyrodata.y) / 1000;
-> -		gyro_input.in_angel_z_value = float_to_int(gyro_data.gyrodata.z) / 1000;
-> +		gyro_input.in_angel_x_value = amd_sfh_float_to_int(gyro_data.gyrodata.x) / 1000;
-> +		gyro_input.in_angel_y_value = amd_sfh_float_to_int(gyro_data.gyrodata.y) / 1000;
-> +		gyro_input.in_angel_z_value = amd_sfh_float_to_int(gyro_data.gyrodata.z) / 1000;
->  		memcpy(input_report, &gyro_input, sizeof(gyro_input));
->  		report_size = sizeof(gyro_input);
->  		break;
-> @@ -222,9 +222,9 @@ static u8 get_input_rep(u8 current_index, int sensor_idx, int report_id,
->  			     OFFSET_SENSOR_DATA_DEFAULT;
->  		memcpy_fromio(&mag_data, sensoraddr, sizeof(struct sfh_mag_data));
->  		get_common_inputs(&magno_input.common_property, report_id);
-> -		magno_input.in_magno_x = float_to_int(mag_data.magdata.x) / 100;
-> -		magno_input.in_magno_y = float_to_int(mag_data.magdata.y) / 100;
-> -		magno_input.in_magno_z = float_to_int(mag_data.magdata.z) / 100;
-> +		magno_input.in_magno_x = amd_sfh_float_to_int(mag_data.magdata.x) / 100;
-> +		magno_input.in_magno_y = amd_sfh_float_to_int(mag_data.magdata.y) / 100;
-> +		magno_input.in_magno_z = amd_sfh_float_to_int(mag_data.magdata.z) / 100;
->  		magno_input.in_magno_accuracy = mag_data.accuracy / 100;
->  		memcpy(input_report, &magno_input, sizeof(magno_input));
->  		report_size = sizeof(magno_input);
-> @@ -234,7 +234,7 @@ static u8 get_input_rep(u8 current_index, int sensor_idx, int report_id,
->  			     OFFSET_SENSOR_DATA_DEFAULT;
->  		memcpy_fromio(&als_data, sensoraddr, sizeof(struct sfh_als_data));
->  		get_common_inputs(&als_input.common_property, report_id);
-> -		als_input.illuminance_value = float_to_int(als_data.lux);
-> +		als_input.illuminance_value = amd_sfh_float_to_int(als_data.lux);
->  		report_size = sizeof(als_input);
->  		memcpy(input_report, &als_input, sizeof(als_input));
->  		break;
-> diff --git a/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_interface.h b/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_interface.h
-> index 9d31d5b510eb..78e22850417a 100644
-> --- a/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_interface.h
-> +++ b/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_interface.h
-> @@ -151,4 +151,5 @@ struct hpd_status {
->  
->  void sfh_interface_init(struct amd_mp2_dev *mp2);
->  void amd_sfh1_1_set_desc_ops(struct amd_mp2_ops *mp2_ops);
-> +int amd_sfh_float_to_int(u32 flt32_val);
->  #endif
 
-Reviewed-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
+The patch looks good to me.
+
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
 -- 
- i.
+Best regards,
 
---8323329-983461305-1697616911=:2178--
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
