@@ -2,52 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EB3B7CD85B
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Oct 2023 11:38:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 385BC7CD866
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Oct 2023 11:41:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F17D910E3C9;
-	Wed, 18 Oct 2023 09:38:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0967010E12A;
+	Wed, 18 Oct 2023 09:41:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F10F10E3C7;
- Wed, 18 Oct 2023 09:38:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1697621909; x=1729157909;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=2ccUgyhgZlFPwuyb6c7YjouKROVLbPEz6EELbdrZDz8=;
- b=bHAu6q69lqiAKj1CfwnEuqaEJVbV74AkB/biv3AGxAro1YZfgMAR6iEj
- PNRvlfNd3EpUP/YqSEIPkpSLzirDbqH/mG2t1z6ni4VBM4s95FLL+uZAu
- Q4tkHPIQ2qTxXS6IzZDg81h1WkcyV12ZfoiezyjJTXuSiroi8Tmn6WRMI
- 1f0idxmZrzXv+By5bAil7k07PQEMmA0HA5AsopP5BV/FAX3Fthqgngdhk
- hWANa61VagVwcYhNp7hQESXMnRvujY8039uZ92CtmbOxGvggpz1CmygIM
- PKAX/k4g6uEo0kszEL9lp/p+F7HnZoLoSVVHWfmacJNeOqzHgwflnOJVm A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="7529265"
-X-IronPort-AV: E=Sophos;i="6.03,234,1694761200"; 
-   d="scan'208";a="7529265"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Oct 2023 02:38:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="872958098"
-X-IronPort-AV: E=Sophos;i="6.03,234,1694761200"; d="scan'208";a="872958098"
-Received: from nirmoyda-desk.igk.intel.com ([10.102.138.190])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Oct 2023 02:38:25 -0700
-From: Nirmoy Das <nirmoy.das@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v3] drm/i915: Flush WC GGTT only on required platforms
-Date: Wed, 18 Oct 2023 11:38:15 +0200
-Message-ID: <20231018093815.1349-1-nirmoy.das@intel.com>
-X-Mailer: git-send-email 2.41.0
+Received: from m15.mail.163.com (m15.mail.163.com [45.254.50.219])
+ by gabe.freedesktop.org (Postfix) with ESMTP id BEFB310E12A
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Oct 2023 09:41:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=KyufP
+ Gb3cqH8zioLS7lrQHPVVPvHYmUqJ25IUFAAyko=; b=OkbIb3hEDFvSzSIqDV5fZ
+ G5yd/OUwv/5sBIQUQPcOeLvph4rfgSWCaMjutz3ASfL7HO/VCaqZ/1LkPNx+n69M
+ ilR9+1/rv+UaT/dij61h/0xmLTIj0cMTIDmsQf/lQwG6hSoG1LufKIqVzio3tRQa
+ V1sHZ77oMWdEMl+yIYTY7Q=
+Received: from ProDesk.. (unknown [58.22.7.114])
+ by zwqz-smtp-mta-g2-4 (Coremail) with SMTP id _____wD3P3tEqC9lQkp+Aw--.37510S2;
+ Wed, 18 Oct 2023 17:41:28 +0800 (CST)
+From: Andy Yan <andyshrk@163.com>
+To: linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ heiko@sntech.de, jonas@kwiboo.se
+Subject: [PATCH v3 0/4] Add more format for vop2 driver
+Date: Wed, 18 Oct 2023 17:41:22 +0800
+Message-Id: <20231018094122.2475668-1-andyshrk@163.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Organization: Intel Deutschland GmbH, Registered Address: Am Campeon 10,
- 85579 Neubiberg, Germany,
- Commercial Register: Amtsgericht Muenchen HRB 186928 
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: _____wD3P3tEqC9lQkp+Aw--.37510S2
+X-Coremail-Antispam: 1Uf129KBjvdXoW7Gry5urW7tr4DZry7Cr1kAFb_yoWDXrcEk3
+ yxJ345uFy8AF98Gas2qws7GrZ7tay29Fn0gFyvyF48Jas3Zr1kJ3ykCrZFqa4FvFW3Arn7
+ Ja4UXrWIkF9rujkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IU0KiiDUUUUU==
+X-Originating-IP: [58.22.7.114]
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/1tbiTAoNXmI0bm1VQQAAsU
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,107 +49,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Jonathan Cavitt <jonathan.cavitt@intel.com>, dri-devel@lists.freedesktop.org,
- Andi Shyti <andi.shyti@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- stable@vger.kernel.org, Matt Roper <matthew.d.roper@intel.com>,
- John Harrison <john.c.harrison@intel.com>, Nirmoy Das <nirmoy.das@intel.com>
+Cc: Andy Yan <andy.yan@rock-chips.com>, s.hauer@pengutronix.de,
+ sjoerd.simons@collabora.com, hjc@rock-chips.com,
+ sebastian.reichel@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-gen8_ggtt_invalidate() is only needed for limited set of platforms
-where GGTT is mapped as WC. This was added as way to fix WC based GGTT in
-commit 0f9b91c754b7 ("drm/i915: flush system agent TLBs on SNB") and
-there are no reference in HW docs that forces us to use this on non-WC
-backed GGTT.
+From: Andy Yan <andy.yan@rock-chips.com>
 
-This can also cause unwanted side-effects on XE_HP platforms where
-GFX_FLSH_CNTL_GEN6 is not valid anymore.
 
-v2: Add a func to detect wc ggtt detection (Ville)
-v3: Improve commit log and add reference commit (Daniel)
+This is a preparation for the upcoming support for rk3588 vop.
 
-Fixes: d2eae8e98d59 ("drm/i915/dg2: Drop force_probe requirement")
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Jonathan Cavitt <jonathan.cavitt@intel.com>
-Cc: John Harrison <john.c.harrison@intel.com>
-Cc: Andi Shyti <andi.shyti@linux.intel.com>
-Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: <stable@vger.kernel.org> # v6.2+
-Suggested-by: Matt Roper <matthew.d.roper@intel.com>
-Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
-Reviewed-by: Matt Roper <matthew.d.roper@intel.com>
-Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
----
- drivers/gpu/drm/i915/gt/intel_ggtt.c | 35 +++++++++++++++++++---------
- 1 file changed, 24 insertions(+), 11 deletions(-)
+Patch 1 make the bpp calculation covery more format
+Patch 2 remove formats that are unsupported by cluster windows
+Patch 3 add more formats
+Patch 4 is a format table rename
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt.c b/drivers/gpu/drm/i915/gt/intel_ggtt.c
-index 1c93e84278a0..15fc8e4703f4 100644
---- a/drivers/gpu/drm/i915/gt/intel_ggtt.c
-+++ b/drivers/gpu/drm/i915/gt/intel_ggtt.c
-@@ -195,6 +195,21 @@ void gen6_ggtt_invalidate(struct i915_ggtt *ggtt)
- 	spin_unlock_irq(&uncore->lock);
- }
- 
-+static bool needs_wc_ggtt_mapping(struct drm_i915_private *i915)
-+{
-+	/*
-+	 * On BXT+/ICL+ writes larger than 64 bit to the GTT pagetable range
-+	 * will be dropped. For WC mappings in general we have 64 byte burst
-+	 * writes when the WC buffer is flushed, so we can't use it, but have to
-+	 * resort to an uncached mapping. The WC issue is easily caught by the
-+	 * readback check when writing GTT PTE entries.
-+	 */
-+	if (!IS_GEN9_LP(i915) && GRAPHICS_VER(i915) < 11)
-+		return true;
-+
-+	return false;
-+}
-+
- static void gen8_ggtt_invalidate(struct i915_ggtt *ggtt)
- {
- 	struct intel_uncore *uncore = ggtt->vm.gt->uncore;
-@@ -202,8 +217,12 @@ static void gen8_ggtt_invalidate(struct i915_ggtt *ggtt)
- 	/*
- 	 * Note that as an uncached mmio write, this will flush the
- 	 * WCB of the writes into the GGTT before it triggers the invalidate.
-+	 *
-+	 * Only perform this when GGTT is mapped as WC, see ggtt_probe_common().
- 	 */
--	intel_uncore_write_fw(uncore, GFX_FLSH_CNTL_GEN6, GFX_FLSH_CNTL_EN);
-+	if (needs_wc_ggtt_mapping(ggtt->vm.i915))
-+		intel_uncore_write_fw(uncore, GFX_FLSH_CNTL_GEN6,
-+				      GFX_FLSH_CNTL_EN);
- }
- 
- static void guc_ggtt_ct_invalidate(struct intel_gt *gt)
-@@ -1140,17 +1159,11 @@ static int ggtt_probe_common(struct i915_ggtt *ggtt, u64 size)
- 	GEM_WARN_ON(pci_resource_len(pdev, GEN4_GTTMMADR_BAR) != gen6_gttmmadr_size(i915));
- 	phys_addr = pci_resource_start(pdev, GEN4_GTTMMADR_BAR) + gen6_gttadr_offset(i915);
- 
--	/*
--	 * On BXT+/ICL+ writes larger than 64 bit to the GTT pagetable range
--	 * will be dropped. For WC mappings in general we have 64 byte burst
--	 * writes when the WC buffer is flushed, so we can't use it, but have to
--	 * resort to an uncached mapping. The WC issue is easily caught by the
--	 * readback check when writing GTT PTE entries.
--	 */
--	if (IS_GEN9_LP(i915) || GRAPHICS_VER(i915) >= 11)
--		ggtt->gsm = ioremap(phys_addr, size);
--	else
-+	if (needs_wc_ggtt_mapping(i915))
- 		ggtt->gsm = ioremap_wc(phys_addr, size);
-+	else
-+		ggtt->gsm = ioremap(phys_addr, size);
-+
- 	if (!ggtt->gsm) {
- 		drm_err(&i915->drm, "Failed to map the ggtt page table\n");
- 		return -ENOMEM;
+And I drop two patches that have applied by Heiko[0]
+[0]https://patchwork.kernel.org/project/linux-rockchip/cover/20231013122001.1594009-1-andyshrk@163.com/
+
+Changes in v3:
+- add a bpp calculation function
+- split patch 
+- add format check and convert
+
+Andy Yan (4):
+  drm/rockchip: fix vop format bpp calculation
+  drm/rockchip: remove the unsupported format of vop2 cluster window
+  drm/rockchip: Add more format supported by vop2
+  drm/rockchip: rename windows format for vop2
+
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 71 +++++++++++++++-----
+ drivers/gpu/drm/rockchip/rockchip_vop2_reg.c | 55 ++++++++-------
+ 2 files changed, 85 insertions(+), 41 deletions(-)
+
 -- 
-2.41.0
+2.34.1
 
