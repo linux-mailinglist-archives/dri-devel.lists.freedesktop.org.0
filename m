@@ -2,64 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE8957CD652
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Oct 2023 10:24:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 837557CD656
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Oct 2023 10:25:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E94910E3BD;
-	Wed, 18 Oct 2023 08:24:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 86B9510E3BF;
+	Wed, 18 Oct 2023 08:25:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D353D10E3BF
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Oct 2023 08:24:32 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id
- 5b1f17b1804b1-4053e6e8ca7so20342275e9.1
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Oct 2023 01:24:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1697617471; x=1698222271; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=YI2n2/kdV9gZtnXpvHYirQtkHxP4ZQY6jpEljQ4a4q4=;
- b=ksP7hT1RQeR+QA4oTo0YdysHp3xfezUdrqEfdcXo2KWwtA5go2z0uhBDqPN2mcBCGN
- SdkLx3cqA8KLNQ7ilO71s5LmFUeRN1Kw8XnI56j7vu2iTIr2s5C0I8hErGEwruxKvxhe
- 3IYMJyq3rl7czvt4QfDHT8WOn+bbFUJO0OI54=
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B3D7E10E3C2
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Oct 2023 08:25:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1697617549;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=LjzSocfdAfDkrBURoH/UDEiTk7o5qnArVSGlXdT8TDY=;
+ b=bQuvNXI6+3KknQTlh68CBJP/J53FerbWJHv63ghxCHov5h+MHcmgkCATXYIR3FRPwOOTfA
+ GXRDQBr1EEVgAmSqIO0nBkeQo359ivjhlyR+Q843wM93/mBHb30mq6WSaFy5XN8b5y9lf1
+ CwvaBN4Pdmdt6Ke5ynVSvX327F6qNj0=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-627-yw48DBBrMKuNdqRKJ--n6g-1; Wed, 18 Oct 2023 04:25:45 -0400
+X-MC-Unique: yw48DBBrMKuNdqRKJ--n6g-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ ffacd0b85a97d-32cbe54ee03so3934777f8f.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Oct 2023 01:25:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1697617471; x=1698222271;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=YI2n2/kdV9gZtnXpvHYirQtkHxP4ZQY6jpEljQ4a4q4=;
- b=PwRw5KPdk4BeUTH50LL0P48cg3K5teXz0FPsh14Ej7Un0Slm1WoM3Ptv9+RLtZZ/AE
- lF6J0Hu2fEB258IVoPWOj47ajv7OhJ5/+UIpz5SuekBBsLaShfjH2VkaUW2BslraR2yi
- kOmmdk6+Eg//3kjPkbFKq00ATS0jOAOwQjjPiDEsHqsQzl6GS0i7SFScueLzvtYp+w4k
- 2y7W0LAAppyM2oy1Vofz5c6PCB8QAHRMBaCi80by3R/SdgHR45H21GkSvP8/SQcGXVyC
- uFf7TIbpEGWMFAOJSFcFNNLcvleMhm3eKLvQb5oreTEIfFxTaobairwqCNjeis+MGqON
- si2g==
-X-Gm-Message-State: AOJu0YwXOZYbywVJe3QRAh3TZx8KsnTDUjjxKnacOZP44c9tiNAdRsUF
- uIAqJcLkavlo0nxZhQ5omvJWGg==
-X-Google-Smtp-Source: AGHT+IHTXvx3gn++LC22QzXLjrbpxz35c0lViOcFQz/ItbvQke/glv9xI+MZ239tskIcePKCWsV7vw==
-X-Received: by 2002:a05:6000:1284:b0:32d:c312:49af with SMTP id
- f4-20020a056000128400b0032dc31249afmr3464276wrx.6.1697617471183; 
- Wed, 18 Oct 2023 01:24:31 -0700 (PDT)
-Received: from dvetter-linux.ger.corp.intel.com
- (210.red-80-36-22.staticip.rima-tde.net. [80.36.22.210])
- by smtp.gmail.com with ESMTPSA id
- y18-20020a5d4712000000b0031984b370f2sm1544779wrq.47.2023.10.18.01.24.29
+ d=1e100.net; s=20230601; t=1697617544; x=1698222344;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=LjzSocfdAfDkrBURoH/UDEiTk7o5qnArVSGlXdT8TDY=;
+ b=mmNgQOEbJkQR2LHWk7PuG52tG1e4+rZk8v76+8SLZNXEbxSmlks0VsLe4uMkzGdCbe
+ JOgZZe8DUrxibDU2WaMQrQ6UYIta+BPlEoyn3x5Qcc4nrOpOblAxOmrjFeZ1h+gHDHbW
+ wUSvTE1r/HMM4AdWk1UUE7p9/CL6nKQPIEwxmsS6o8jwSVexwVuoR3+OOuMYK3u6/pf/
+ F+IuWMGnxd8Dmj86tDr9WO0YowfWfwPDqNuFXhhlpJ4TYuaFQ6bRd00KzHxB4i4j/0LO
+ e8mjYwaicjyR6JyelzQHX4t2PNZN/poYxwzvA/fs+O/njgzwFAQ3H7W7goRSt2FgHTH+
+ QYQQ==
+X-Gm-Message-State: AOJu0YzCFKx8ILxSlZuzV8GkbaD1e5llkuRdwUL46SEKyi/qYjsGaT8L
+ UhaXRmDy4LAtatT1eGFLAGTG8UzL5/ownsFD3KRu9MrNMhhMPMJcD2BM+dz2rS/Kyb/oUNYHJGZ
+ hylIRPy7LSk+2SpsKwC8vDVrmCvsu
+X-Received: by 2002:a5d:4c89:0:b0:32d:8094:f4c8 with SMTP id
+ z9-20020a5d4c89000000b0032d8094f4c8mr3650285wrs.19.1697617544652; 
+ Wed, 18 Oct 2023 01:25:44 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHa4Q8xItiTztaLFOsH4D6hLMKERtw9q396FzIJnVUMQIU6RTlte1VKHlDSYg+C3e5HZRfxSQ==
+X-Received: by 2002:a5d:4c89:0:b0:32d:8094:f4c8 with SMTP id
+ z9-20020a5d4c89000000b0032d8094f4c8mr3650275wrs.19.1697617544348; 
+ Wed, 18 Oct 2023 01:25:44 -0700 (PDT)
+Received: from localhost (210.red-80-36-22.staticip.rima-tde.net.
+ [80.36.22.210]) by smtp.gmail.com with ESMTPSA id
+ j14-20020adfea4e000000b0032d81837433sm1584752wrn.30.2023.10.18.01.25.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Oct 2023 01:24:30 -0700 (PDT)
-Date: Wed, 18 Oct 2023 10:24:28 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Matthew Brost <matthew.brost@intel.com>
-Subject: Re: [PATCH v6 0/7] DRM scheduler changes for Xe
-Message-ID: <ZS+WPAxgPlwj/Hug@dvetter-linux.ger.corp.intel.com>
-References: <20231017150958.838613-1-matthew.brost@intel.com>
+ Wed, 18 Oct 2023 01:25:44 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, deller@gmx.de,
+ sam@ravnborg.org, arnd@arndb.de, daniel@ffwll.ch
+Subject: Re: [PATCH 00/46] fbdev: Init fb_ops with helpers for I/O memory
+In-Reply-To: <20230927074722.6197-1-tzimmermann@suse.de>
+References: <20230927074722.6197-1-tzimmermann@suse.de>
+Date: Wed, 18 Oct 2023 10:25:43 +0200
+Message-ID: <877cnkqquw.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231017150958.838613-1-matthew.brost@intel.com>
-X-Operating-System: Linux dvetter-linux.ger.corp.intel.com
- 6.3.8-200.fc38.x86_64 
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,112 +80,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: robdclark@chromium.org, thomas.hellstrom@linux.intel.com,
- lina@asahilina.net, sarah.walker@imgtec.com, ketil.johnsen@arm.com,
- Liviu.Dudau@arm.com, mcanal@igalia.com, dri-devel@lists.freedesktop.org,
- christian.koenig@amd.com, luben.tuikov@amd.com, dakr@redhat.com,
- donald.robson@imgtec.com, boris.brezillon@collabora.com,
- intel-xe@lists.freedesktop.org, faith.ekstrand@collabora.com
+Cc: linux-fbdev@vger.kernel.org, linux-parisc@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-nvidia@lists.surfsouth.com, linux-omap@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 17, 2023 at 08:09:51AM -0700, Matthew Brost wrote:
-> As a prerequisite to merging the new Intel Xe DRM driver [1] [2], we
-> have been asked to merge our common DRM scheduler patches first.
-> 
-> This a continuation of a RFC [3] with all comments addressed, ready for
-> a full review, and hopefully in state which can merged in the near
-> future. More details of this series can found in the cover letter of the
-> RFC [3].
-> 
-> These changes have been tested with the Xe driver. Based on drm-tip branch.
-> 
-> A follow up series will be posted to address some of dakr requets for
-> kernel doc changes.
+Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-I think it'd be really good to include the doc improved in this series.
-drm/sched is one of the least documented parts of drm, and has some of the
-trickiest sharp corners. We really should be documenting these as
-consensus around how things work and as features get added.
+> Initialize struct fb_ops for drivers for hardware with framebuffers
+> in I/O-memory ranges with the respective helper macros. Also select
+> the appropriate Kconfig dependencies.
+>
+> The patchset is part of a larger effort to modularize the fbdev core
+> and make it more adaptable. Most of these drivers do not initialize
+> the fb_read, fb_write and fb_mmap callbacks in fb_ops. By leaving the
+> callback pointers to NULL, they rely on the fbdev core to invoke the
+> I/O-memory helpers by default. This default makes it impossible to
+> remove the I/O-memory helpers on systems that don't need them. Setting
+> the pointers explicitly will allow for the removal of the default. If
+> a callback in fb_ops is unset, the operation will then be unsupported.
+>
+> Initializing struct fb_ops via helpers macros will also allow for a
+> fine-grained setup, depending on Kconfig options. For example, it
+> will be possible to leave out file I/O if FB_DEVICE has not been
+> set.
+>
+> This patchset contains the majority of fbdev driver work. The updated
+> drivers now initialize fb_ops with __FB_DEFAULT_IOMEM_OPS_RDWR,
+> __FB_DEFAULT_IOMEM_OPS_DRAW and/or __FB_DEFAULT_IOMEM_OPS_MMAP if
+> possible. Some drivers now use FB_DEFAULT_IOMEM_OPS, which sets all
+> fields correctly. In Kconfig, each driver selects FB_IOMEM_FOPS to
+> get the helpers for I/O memory. Drivers that use _RDWR, _DRAW and
+> _MMAP unconditionally select FB_IOMEM_HELPERS, which selects the
+> correct modules automatically.
+>
 
-I think it would also be really awesome if someone goes through all the
-interfaces and adds docs for what we already have. That's probably for
-later, but I think really needed to make sure the docs are somewhat
-consistent (things like the api includ scaffolding, or having the code
-related pieces all pushed to the .c files as DOC: comments and all these
-things otherwise tend to end up a bit more chaotic than needed).
+I looked to all the driver changes as well and couldn't spot any issues.
+For all the driver patches:
 
-Cheers, Sima
+Acked-by: Javier Martinez Canillas <javierm@redhat.com>
 
-> 
-> v2:
->  - Break run job, free job, and process message in own work items
->  - This might break other drivers as run job and free job now can run in
->    parallel, can fix up if needed
-> 
-> v3:
->  - Include missing patch 'drm/sched: Add drm_sched_submit_* helpers'
->  - Fix issue with setting timestamp to early
->  - Don't dequeue jobs for single entity after calling entity fini
->  - Flush pending jobs on entity fini
->  - Add documentation for entity teardown
->  - Add Matthew Brost to maintainers of DRM scheduler
-> 
-> v4:
->  - Drop message interface
->  - Drop 'Flush pending jobs on entity fini'
->  - Drop 'Add documentation for entity teardown'
->  - Address all feedback
-> 
-> v5:
->  - Address Luben's feedback
->  - Drop starting TDR after calling run_job()
->  - Drop adding Matthew Brost to maintainers of DRM scheduler
-> 
-> v6:
->  - Address Luben's feedback
->  - Include base commit
-> 
-> Matt
-> 
-> [1] https://gitlab.freedesktop.org/drm/xe/kernel
-> [2] https://patchwork.freedesktop.org/series/112188/
-> [3] https://patchwork.freedesktop.org/series/116055/
-> 
-> 
-> Matthew Brost (7):
->   drm/sched: Add drm_sched_wqueue_* helpers
->   drm/sched: Convert drm scheduler to use a work queue rather than
->     kthread
->   drm/sched: Move schedule policy to scheduler
->   drm/sched: Add DRM_SCHED_POLICY_SINGLE_ENTITY scheduling policy
->   drm/sched: Split free_job into own work item
->   drm/sched: Add drm_sched_start_timeout_unlocked helper
->   drm/sched: Add a helper to queue TDR immediately
-> 
->  .../drm/amd/amdgpu/amdgpu_amdkfd_arcturus.c   |   2 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c   |  15 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_device.c    |  15 +-
->  drivers/gpu/drm/etnaviv/etnaviv_sched.c       |   5 +-
->  drivers/gpu/drm/lima/lima_sched.c             |   5 +-
->  drivers/gpu/drm/msm/adreno/adreno_device.c    |   6 +-
->  drivers/gpu/drm/msm/msm_ringbuffer.c          |   7 +-
->  drivers/gpu/drm/nouveau/nouveau_sched.c       |   5 +-
->  drivers/gpu/drm/panfrost/panfrost_job.c       |   5 +-
->  drivers/gpu/drm/scheduler/sched_entity.c      |  85 ++-
->  drivers/gpu/drm/scheduler/sched_fence.c       |   2 +-
->  drivers/gpu/drm/scheduler/sched_main.c        | 507 ++++++++++++------
->  drivers/gpu/drm/v3d/v3d_sched.c               |  25 +-
->  include/drm/gpu_scheduler.h                   |  48 +-
->  14 files changed, 498 insertions(+), 234 deletions(-)
-> 
-> 
-> base-commit: 201c8a7bd1f3f415920a2df4b8a8817e973f42fe
-> -- 
-> 2.34.1
-> 
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
