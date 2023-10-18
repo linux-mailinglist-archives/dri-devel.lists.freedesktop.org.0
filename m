@@ -2,43 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41BC87CD874
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Oct 2023 11:43:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF5237CD872
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Oct 2023 11:43:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5160410E3CA;
-	Wed, 18 Oct 2023 09:43:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0354410E3CB;
+	Wed, 18 Oct 2023 09:43:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m15.mail.163.com (m15.mail.163.com [45.254.50.220])
- by gabe.freedesktop.org (Postfix) with ESMTP id 54B5810E3CC
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Oct 2023 09:43:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=uiQQD
- tfygYo4EUNy6SV7Ypp0InUq5o+D7+iBms9x5o0=; b=VZQ3cTban/OTlTAhIBn3h
- ku4ATVFcsSqwmot3V/iYcUoTSsguj5Zemh905yhy5T2LJwQ5GM64jsaCqicfuPqT
- 0mHM7kuHIZadSKG67MjT+SMLvVu44HrYmFbgExWc67cW4EycrwvZYEfeiAyTlH62
- y5nDkhqYL7yY7wx4xV27to=
-Received: from ProDesk.. (unknown [58.22.7.114])
- by zwqz-smtp-mta-g1-1 (Coremail) with SMTP id _____wDXj2O3qC9lom9_Aw--.48679S2;
- Wed, 18 Oct 2023 17:43:22 +0800 (CST)
-From: Andy Yan <andyshrk@163.com>
-To: linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org,
- heiko@sntech.de, jonas@kwiboo.se
-Subject: [PATCH v3 3/4] drm/rockchip: Add more format supported by vop2
-Date: Wed, 18 Oct 2023 17:43:18 +0800
-Message-Id: <20231018094318.2476081-1-andyshrk@163.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20231018094122.2475668-1-andyshrk@163.com>
-References: <20231018094122.2475668-1-andyshrk@163.com>
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C6DEF10E3CA;
+ Wed, 18 Oct 2023 09:43:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1697622214; x=1729158214;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=lUn6JpAPKKSIZ1ASBuCSirxJ4jfSQf5dEj038QniKAs=;
+ b=UQji0hUwtoFO3XYfaHWxjo2Y8wqWr5l3/Pl6X1+lRWPwzJXA9Gz9xqeo
+ xkePDN+ApDVabaSYH+IHWrj9kB2iWldO1RoftrGTYXG9VqEGc10nfvP5h
+ DtwpAAwZuTRU640BXTk4llyWVeqLAAUQMrbffCK/kymroa/68y8+CRrwI
+ PGrlWU1gf/YRh2tpMMylfFWFz2kusgJ+UpLS6eyh4WGBTsbXwBlCDHEBS
+ +T3FvijBMjDr6B2PDP+1hDP7PK+f09TtLgz8xGmrYowJhucQ64iEaxcgG
+ pbCOAQf5/osRhJj7ZOvdc8ytOXoB06d7iLSUJfpMMp1uvYlGyKfvt2gYd Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="371041687"
+X-IronPort-AV: E=Sophos;i="6.03,234,1694761200"; d="scan'208";a="371041687"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Oct 2023 02:43:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="791560139"
+X-IronPort-AV: E=Sophos;i="6.03,234,1694761200"; d="scan'208";a="791560139"
+Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
+ by orsmga001.jf.intel.com with ESMTP; 18 Oct 2023 02:43:30 -0700
+Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1qt35M-0000CS-0X;
+ Wed, 18 Oct 2023 09:43:28 +0000
+Date: Wed, 18 Oct 2023 17:43:24 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>, robdclark@gmail.com
+Subject: Re: [PATCH] drm/msm/a6xx: Remove some unused functions
+Message-ID: <202310181742.3qvtq78e-lkp@intel.com>
+References: <20231012024421.102832-1-jiapeng.chong@linux.alibaba.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: _____wDXj2O3qC9lom9_Aw--.48679S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxKw13tFWxGFWUKrWDWFy5twb_yoW7Zr1rpr
- WUAFZrXa10vFy8KFsrJr95Ar4rZ3ZrGa1Iq3yqvan2gFyUGFyvqr9xJFy5ZrnFgFyxCw1I
- kr45Jr4rZr48J3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jSzuAUUUUU=
-X-Originating-IP: [58.22.7.114]
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/1tbiEB0NXl8YL0Q+bQAAsh
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231012024421.102832-1-jiapeng.chong@linux.alibaba.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,177 +59,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andy Yan <andy.yan@rock-chips.com>, s.hauer@pengutronix.de,
- sjoerd.simons@collabora.com, hjc@rock-chips.com,
- sebastian.reichel@collabora.com
+Cc: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
+ freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Abaci Robot <abaci@linux.alibaba.com>, quic_abhinavk@quicinc.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ oe-kbuild-all@lists.linux.dev, dmitry.baryshkov@linaro.org,
+ marijn.suijten@somainline.org, sean@poorly.run
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Andy Yan <andy.yan@rock-chips.com>
+Hi Jiapeng,
 
-Add 10 bit RGB and AFBC based YUV format supported
-by vop2.
+kernel test robot noticed the following build warnings:
 
-Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
+[auto build test WARNING on next-20231016]
+[cannot apply to drm-misc/drm-misc-next v6.6-rc6 v6.6-rc5 v6.6-rc4 linus/master v6.6-rc6]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
----
+url:    https://github.com/intel-lab-lkp/linux/commits/Jiapeng-Chong/drm-msm-a6xx-Remove-some-unused-functions/20231017-102229
+base:   next-20231016
+patch link:    https://lore.kernel.org/r/20231012024421.102832-1-jiapeng.chong%40linux.alibaba.com
+patch subject: [PATCH] drm/msm/a6xx: Remove some unused functions
+config: loongarch-randconfig-001-20231018 (https://download.01.org/0day-ci/archive/20231018/202310181742.3qvtq78e-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231018/202310181742.3qvtq78e-lkp@intel.com/reproduce)
 
-Changes in v3:
-- add format check and convert
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310181742.3qvtq78e-lkp@intel.com/
 
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 45 +++++++++++++++++++-
- drivers/gpu/drm/rockchip/rockchip_vop2_reg.c | 22 +++++++---
- 2 files changed, 61 insertions(+), 6 deletions(-)
+All warnings (new ones prefixed by >>):
 
-diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-index 8289ddc95bee..0f3df8d3eec2 100644
---- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-+++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-@@ -299,6 +299,11 @@ static u32 vop2_get_bpp(const struct drm_format_info *format)
- static enum vop2_data_format vop2_convert_format(u32 format)
- {
- 	switch (format) {
-+	case DRM_FORMAT_XRGB2101010:
-+	case DRM_FORMAT_ARGB2101010:
-+	case DRM_FORMAT_XBGR2101010:
-+	case DRM_FORMAT_ABGR2101010:
-+		return VOP2_FMT_XRGB101010;
- 	case DRM_FORMAT_XRGB8888:
- 	case DRM_FORMAT_ARGB8888:
- 	case DRM_FORMAT_XBGR8888:
-@@ -311,10 +316,19 @@ static enum vop2_data_format vop2_convert_format(u32 format)
- 	case DRM_FORMAT_BGR565:
- 		return VOP2_FMT_RGB565;
- 	case DRM_FORMAT_NV12:
-+	case DRM_FORMAT_NV21:
-+	case DRM_FORMAT_YUV420_8BIT:
- 		return VOP2_FMT_YUV420SP;
-+	case DRM_FORMAT_NV15:
-+	case DRM_FORMAT_YUV420_10BIT:
-+		return VOP2_FMT_YUV420SP_10;
- 	case DRM_FORMAT_NV16:
-+	case DRM_FORMAT_NV61:
- 		return VOP2_FMT_YUV422SP;
-+	case DRM_FORMAT_Y210:
-+		return VOP2_FMT_YUV422SP_10;
- 	case DRM_FORMAT_NV24:
-+	case DRM_FORMAT_NV42:
- 		return VOP2_FMT_YUV444SP;
- 	case DRM_FORMAT_YUYV:
- 	case DRM_FORMAT_YVYU:
-@@ -331,6 +345,11 @@ static enum vop2_data_format vop2_convert_format(u32 format)
- static enum vop2_afbc_format vop2_convert_afbc_format(u32 format)
- {
- 	switch (format) {
-+	case DRM_FORMAT_XRGB2101010:
-+	case DRM_FORMAT_ARGB2101010:
-+	case DRM_FORMAT_XBGR2101010:
-+	case DRM_FORMAT_ABGR2101010:
-+		return VOP2_AFBC_FMT_ARGB2101010;
- 	case DRM_FORMAT_XRGB8888:
- 	case DRM_FORMAT_ARGB8888:
- 	case DRM_FORMAT_XBGR8888:
-@@ -342,6 +361,17 @@ static enum vop2_afbc_format vop2_convert_afbc_format(u32 format)
- 	case DRM_FORMAT_RGB565:
- 	case DRM_FORMAT_BGR565:
- 		return VOP2_AFBC_FMT_RGB565;
-+	case DRM_FORMAT_YUV420_8BIT:
-+		return VOP2_AFBC_FMT_YUV420;
-+	case DRM_FORMAT_YUV420_10BIT:
-+		return VOP2_AFBC_FMT_YUV420_10BIT;
-+	case DRM_FORMAT_YVYU:
-+	case DRM_FORMAT_YUYV:
-+	case DRM_FORMAT_VYUY:
-+	case DRM_FORMAT_UYVY:
-+		return VOP2_AFBC_FMT_YUV422;
-+	case DRM_FORMAT_Y210:
-+		return VOP2_AFBC_FMT_YUV422_10BIT;
- 	default:
- 		return VOP2_AFBC_FMT_INVALID;
- 	}
-@@ -352,6 +382,8 @@ static enum vop2_afbc_format vop2_convert_afbc_format(u32 format)
- static bool vop2_win_rb_swap(u32 format)
- {
- 	switch (format) {
-+	case DRM_FORMAT_XBGR2101010:
-+	case DRM_FORMAT_ABGR2101010:
- 	case DRM_FORMAT_XBGR8888:
- 	case DRM_FORMAT_ABGR8888:
- 	case DRM_FORMAT_BGR888:
-@@ -364,7 +396,15 @@ static bool vop2_win_rb_swap(u32 format)
- 
- static bool vop2_afbc_uv_swap(u32 format)
- {
--	return false;
-+	switch (format) {
-+	case DRM_FORMAT_YUYV:
-+	case DRM_FORMAT_Y210:
-+	case DRM_FORMAT_YUV420_8BIT:
-+	case DRM_FORMAT_YUV420_10BIT:
-+		return true;
-+	default:
-+		return false;
-+	}
- }
- 
- static bool vop2_win_uv_swap(u32 format)
-@@ -373,6 +413,9 @@ static bool vop2_win_uv_swap(u32 format)
- 	case DRM_FORMAT_NV12:
- 	case DRM_FORMAT_NV16:
- 	case DRM_FORMAT_NV24:
-+	case DRM_FORMAT_NV15:
-+	case DRM_FORMAT_YUYV:
-+	case DRM_FORMAT_UYVY:
- 		return true;
- 	default:
- 		return false;
-diff --git a/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c b/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
-index b5e59dd34325..bcc224624a26 100644
---- a/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
-+++ b/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
-@@ -16,6 +16,10 @@
- #include "rockchip_drm_vop2.h"
- 
- static const uint32_t formats_win_full_10bit[] = {
-+	DRM_FORMAT_XRGB2101010,
-+	DRM_FORMAT_ARGB2101010,
-+	DRM_FORMAT_XBGR2101010,
-+	DRM_FORMAT_ABGR2101010,
- 	DRM_FORMAT_XRGB8888,
- 	DRM_FORMAT_ARGB8888,
- 	DRM_FORMAT_XBGR8888,
-@@ -24,6 +28,10 @@ static const uint32_t formats_win_full_10bit[] = {
- 	DRM_FORMAT_BGR888,
- 	DRM_FORMAT_RGB565,
- 	DRM_FORMAT_BGR565,
-+	DRM_FORMAT_YUV420_8BIT, /* yuv420_8bit non-Linear mode only */
-+	DRM_FORMAT_YUV420_10BIT, /* yuv420_10bit non-Linear mode only */
-+	DRM_FORMAT_YUYV, /* yuv422_8bit non-Linear mode only*/
-+	DRM_FORMAT_Y210, /* yuv422_10bit non-Linear mode only */
- };
- 
- static const uint32_t formats_win_full_10bit_yuyv[] = {
-@@ -35,11 +43,15 @@ static const uint32_t formats_win_full_10bit_yuyv[] = {
- 	DRM_FORMAT_BGR888,
- 	DRM_FORMAT_RGB565,
- 	DRM_FORMAT_BGR565,
--	DRM_FORMAT_NV12,
--	DRM_FORMAT_NV16,
--	DRM_FORMAT_NV24,
--	DRM_FORMAT_YVYU,
--	DRM_FORMAT_VYUY,
-+	DRM_FORMAT_NV12, /* yuv420_8bit linear mode, 2 plane */
-+	DRM_FORMAT_NV21, /* yuv420_8bit linear mode, 2 plane */
-+	DRM_FORMAT_NV15, /* yuv420_10bit linear mode, 2 plane, no padding */
-+	DRM_FORMAT_NV16, /* yuv422_8bit linear mode, 2 plane */
-+	DRM_FORMAT_NV61, /* yuv422_8bit linear mode, 2 plane */
-+	DRM_FORMAT_NV24, /* yuv444_8bit linear mode, 2 plane */
-+	DRM_FORMAT_NV42, /* yuv444_8bit linear mode, 2 plane */
-+	DRM_FORMAT_YVYU, /* yuv422_8bit[YVYU] linear mode */
-+	DRM_FORMAT_VYUY, /* yuv422_8bit[VYUY] linear mode */
- };
- 
- static const uint32_t formats_win_lite[] = {
+   In file included from drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c:8:
+>> drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h:348:18: warning: 'a7xx_gbif_registers' defined but not used [-Wunused-const-variable=]
+     348 | static const u32 a7xx_gbif_registers[] = {
+         |                  ^~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h:341:18: warning: 'a7xx_ahb_registers' defined but not used [-Wunused-const-variable=]
+     341 | static const u32 a7xx_ahb_registers[] = {
+         |                  ^~~~~~~~~~~~~~~~~~
+
+
+vim +/a7xx_gbif_registers +348 drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h
+
+1707add815519d Jordan Crouse  2018-11-02  334  
+a5ab31767c7782 Sharat Masetty 2019-12-03  335  static const struct a6xx_registers a6xx_vbif_reglist =
+a5ab31767c7782 Sharat Masetty 2019-12-03  336  			REGS(a6xx_vbif_registers, 0, 0);
+a5ab31767c7782 Sharat Masetty 2019-12-03  337  
+a5ab31767c7782 Sharat Masetty 2019-12-03  338  static const struct a6xx_registers a6xx_gbif_reglist =
+a5ab31767c7782 Sharat Masetty 2019-12-03  339  			REGS(a6xx_gbif_registers, 0, 0);
+a5ab31767c7782 Sharat Masetty 2019-12-03  340  
+e997ae5f45caf7 Konrad Dybcio  2023-09-25 @341  static const u32 a7xx_ahb_registers[] = {
+e997ae5f45caf7 Konrad Dybcio  2023-09-25  342  	/* RBBM_STATUS */
+e997ae5f45caf7 Konrad Dybcio  2023-09-25  343  	0x210, 0x210,
+e997ae5f45caf7 Konrad Dybcio  2023-09-25  344  	/* RBBM_STATUS2-3 */
+e997ae5f45caf7 Konrad Dybcio  2023-09-25  345  	0x212, 0x213,
+e997ae5f45caf7 Konrad Dybcio  2023-09-25  346  };
+e997ae5f45caf7 Konrad Dybcio  2023-09-25  347  
+e997ae5f45caf7 Konrad Dybcio  2023-09-25 @348  static const u32 a7xx_gbif_registers[] = {
+e997ae5f45caf7 Konrad Dybcio  2023-09-25  349  	0x3c00, 0x3c0b,
+e997ae5f45caf7 Konrad Dybcio  2023-09-25  350  	0x3c40, 0x3c42,
+e997ae5f45caf7 Konrad Dybcio  2023-09-25  351  	0x3c45, 0x3c47,
+e997ae5f45caf7 Konrad Dybcio  2023-09-25  352  	0x3c49, 0x3c4a,
+e997ae5f45caf7 Konrad Dybcio  2023-09-25  353  	0x3cc0, 0x3cd1,
+e997ae5f45caf7 Konrad Dybcio  2023-09-25  354  };
+e997ae5f45caf7 Konrad Dybcio  2023-09-25  355  
+
 -- 
-2.34.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
