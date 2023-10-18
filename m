@@ -2,50 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DBF47CD152
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Oct 2023 02:31:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 300CA7CD192
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Oct 2023 03:02:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5073510E187;
-	Wed, 18 Oct 2023 00:31:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF21610E351;
+	Wed, 18 Oct 2023 01:02:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1437210E187
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Oct 2023 00:31:32 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id E596161591;
- Wed, 18 Oct 2023 00:31:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 1B594C433C7;
- Wed, 18 Oct 2023 00:31:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1697589089;
- bh=4FoHz9Z8aWCHUm7je8sI/1euzWMFjdMPTTsb8ApHUC0=;
- h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
- b=cEsAVliye6CP6RpXi1pLqCfZFEHxeaN/7q35bbntzuU3FRRkzAjd9YoMAzHZymQVy
- 2z/rw5qa2CY5zHbnCfhrvV57vIrz9fZv1qhQECQ0f9/Yw66hw94HU1MeMWHXcOgmh1
- vYDIagzjEDT9GLvxxcBZfMq8SXY+j9tkBVpA9HlmUyYcKe5mzB5tc6tZ62VCQEdsP/
- lH+nd7+b8gFQ4RAecgPzn48FGbI9hLZnH4xtgKVmhD7X1bBkiecMPcTLaIw27gZNHX
- hHiJ8/XpEDVjupUdcbxaJAyNuj5HbCNt4057Udi/saXKo/EmNOX7m6/bHBgquSUoQq
- d/QuwpW/qohmA==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org
- (localhost.localdomain [127.0.0.1])
- by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id
- 07BE3E4E9BC; Wed, 18 Oct 2023 00:31:29 +0000 (UTC)
-Subject: Re: [GIT PULL] fbdev fixes and updates for v6.6-rc7
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <ZS7i38pKFD0/Msus@ls3530>
-References: <ZS7i38pKFD0/Msus@ls3530>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <ZS7i38pKFD0/Msus@ls3530>
-X-PR-Tracked-Remote: http://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git
- tags/fbdev-for-6.6-rc7
-X-PR-Tracked-Commit-Id: e8e4a470b677511f9d1ad4f3cef32adc1d9a60ca
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 06dc10eae55b5ceabfef287a7e5f16ceea204aa0
-Message-Id: <169758908902.4553.16741062330186147068.pr-tracker-bot@kernel.org>
-Date: Wed, 18 Oct 2023 00:31:29 +0000
-To: Helge Deller <deller@gmx.de>
+Received: from out30-98.freemail.mail.aliyun.com
+ (out30-98.freemail.mail.aliyun.com [115.124.30.98])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9416010E350;
+ Wed, 18 Oct 2023 01:02:09 +0000 (UTC)
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R161e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046056;
+ MF=yang.lee@linux.alibaba.com; NM=1; PH=DS; RN=9; SR=0;
+ TI=SMTPD_---0VuOwdgd_1697590924; 
+Received: from localhost(mailfrom:yang.lee@linux.alibaba.com
+ fp:SMTPD_---0VuOwdgd_1697590924) by smtp.aliyun-inc.com;
+ Wed, 18 Oct 2023 09:02:05 +0800
+From: Yang Li <yang.lee@linux.alibaba.com>
+To: alexander.deucher@amd.com, harry.wentland@amd.com, airlied@gmail.com,
+ daniel@ffwll.ch
+Subject: [PATCH -next] drm/amd/display: Remove duplicated include in
+ dce110_hwseq.c
+Date: Wed, 18 Oct 2023 09:02:03 +0800
+Message-Id: <20231018010203.110189-1-yang.lee@linux.alibaba.com>
+X-Mailer: git-send-email 2.20.1.7.g153144c
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,20 +42,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Linus Torvalds <torvalds@linux-foundation.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Abaci Robot <abaci@linux.alibaba.com>, Yang Li <yang.lee@linux.alibaba.com>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The pull request you sent on Tue, 17 Oct 2023 21:39:11 +0200:
+./drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c: dce110_hwseq.h is included more than once.
 
-> http://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git tags/fbdev-for-6.6-rc7
+Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+Closes: https://bugzilla.openanolis.cn/show_bug.cgi?id=6897
+Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
+---
+ drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/06dc10eae55b5ceabfef287a7e5f16ceea204aa0
-
-Thank you!
-
+diff --git a/drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c b/drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c
+index 74602a5fd6dd..51e42cbb3cdb 100644
+--- a/drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c
++++ b/drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c
+@@ -65,8 +65,6 @@
+ 
+ #include "dcn10/dcn10_hwseq.h"
+ 
+-#include "dce110_hwseq.h"
+-
+ #define GAMMA_HW_POINTS_NUM 256
+ 
+ /*
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+2.20.1.7.g153144c
+
