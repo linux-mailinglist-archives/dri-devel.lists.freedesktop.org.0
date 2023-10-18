@@ -1,55 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2CD27CDB1A
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Oct 2023 13:58:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D620C7CDB6F
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Oct 2023 14:18:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D40810E0BD;
-	Wed, 18 Oct 2023 11:58:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C99210E0D5;
+	Wed, 18 Oct 2023 12:18:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 83E4610E067;
- Wed, 18 Oct 2023 11:58:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1697630298; x=1729166298;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=EXS+cAUV3j0Z4MHXUwmccjUAF194E0f0gwrqg/vbUXQ=;
- b=YMbnJnxtZ+pv8rsviXRYc3L6ydbh9DSaipfgZ5U36ib1Dm14mWlnX6VB
- tNDACIKFw0qyowY0N7an6AdHq1VSBL96MiRTLeqMIA9NxeduWbStjsPiR
- wUJm+Wh2b+8SbADtdnyCFZrIZ4AEQ/tq9Dl1TtvzT/MIKKSVxpuuhS32o
- HheoGwVLsyRo57qPp2oaNxYWGypUZtgq9p7Q62fldt3iGD81IYVgtCk34
- BSAcRrFHKSCeX1Zbe3zHvBtXXqC27SBF6NPnyzFnuYYh1uHrlGpHij0ko
- b+ycgiQ2NZiyzL7QFzYPJhBmdOYtXWopDEaUVqjsoIckRgmyZkdjyL//c g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="388860107"
-X-IronPort-AV: E=Sophos;i="6.03,235,1694761200"; d="scan'208";a="388860107"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Oct 2023 04:58:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.03,235,1694761200"; 
-   d="scan'208";a="4355928"
-Received: from nirmoyda-mobl.ger.corp.intel.com (HELO [10.249.39.1])
- ([10.249.39.1])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Oct 2023 04:57:08 -0700
-Message-ID: <36c0e644-4013-f2f8-a0a7-9b9c3d8423c9@linux.intel.com>
-Date: Wed, 18 Oct 2023 13:58:13 +0200
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A54A710E0D5
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Oct 2023 12:18:31 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id EFEE8617B9
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Oct 2023 12:18:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1BB8C433CB
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Oct 2023 12:18:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1697631510;
+ bh=XddDWpCWO5tLyj8aghLxovtfGpdl0eQkOQ4gQxKAP6U=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=M1TRXv0ylRsC/yszG2YZKRpcFRUhd/MZ7587TvZXTGC3G+v6vmiTfg6fCtJLKxORs
+ HOifawjdmgLcbjL66C6Ag2NPY1NMrqkpZF1AvBcALssxSCrQ8UqW7XioO+Z/ukGmXZ
+ tgxnHeW0ptBmydZ8V/0APXP/n4KS1YEoFQq/t07EaBCM3kXrDZLfy2zq35tRJRp3w9
+ uEqnraFe+LjgT2tTWvp7F+U4zdXZtwh4Zxs6kZP80nMwuxYXwUDwER4EPPKkNLW3qf
+ 2FY97I4xewrgRm5877Pe8JHLy7Y3ra/91XE8L51vzUZehMv/wQg39LMeYvAZ5d8qCn
+ Kt6MRmykVJcvg==
+Received: by mail-pj1-f43.google.com with SMTP id
+ 98e67ed59e1d1-27d087c4276so4453933a91.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Oct 2023 05:18:30 -0700 (PDT)
+X-Gm-Message-State: AOJu0YwDHXMubRMYlGZdFec7Y3zmbYVjqHd3wmkSNhAH7mAnxy4LgXIv
+ XKtO+jR1TITjCb78d/hCGlpIvDdA2ccViUrxLCdJUQ==
+X-Google-Smtp-Source: AGHT+IGpzxfQ/eiGH5UAONVkzqwgA4ZNJ7XY3qL4FF7dmxIGHkuJPzxUPUUXxOtJ8pTEo6pp9k2UHUwrjXe1nAx5a98=
+X-Received: by 2002:a17:90b:3749:b0:27d:882f:e6c5 with SMTP id
+ ne9-20020a17090b374900b0027d882fe6c5mr4675714pjb.9.1697631510202; Wed, 18 Oct
+ 2023 05:18:30 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v3] drm/i915: Flush WC GGTT only on required platforms
-Content-Language: en-US
-To: Andi Shyti <andi.shyti@linux.intel.com>, Nirmoy Das <nirmoy.das@intel.com>
-References: <20231018093815.1349-1-nirmoy.das@intel.com>
- <ZS/GZ0U7rOuuD0Kw@ashyti-mobl2.lan>
-From: Nirmoy Das <nirmoy.das@linux.intel.com>
-In-Reply-To: <ZS/GZ0U7rOuuD0Kw@ashyti-mobl2.lan>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20231011143809.1108034-1-thierry.reding@gmail.com>
+ <20231011143809.1108034-3-thierry.reding@gmail.com>
+ <CAN6tsi462nsJ1x_Z-Mcy+MuyaWhwvyFSuG0Ey=Uvqy_Vd1L0xA@mail.gmail.com>
+In-Reply-To: <CAN6tsi462nsJ1x_Z-Mcy+MuyaWhwvyFSuG0Ey=Uvqy_Vd1L0xA@mail.gmail.com>
+From: Robert Foss <rfoss@kernel.org>
+Date: Wed, 18 Oct 2023 14:18:19 +0200
+X-Gmail-Original-Message-ID: <CAN6tsi7YTucSzsCgw53pde4cDbhU35XMmnjv_u5X+Meod2n-Mw@mail.gmail.com>
+Message-ID: <CAN6tsi7YTucSzsCgw53pde4cDbhU35XMmnjv_u5X+Meod2n-Mw@mail.gmail.com>
+Subject: Re: [PATCH 2/2] fbdev/simplefb: Add support for generic power-domains
+To: Thierry Reding <thierry.reding@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,47 +62,198 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, Jonathan Cavitt <jonathan.cavitt@intel.com>,
- stable@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Matt Roper <matthew.d.roper@intel.com>,
- John Harrison <john.c.harrison@intel.com>
+Cc: Hans de Goede <hdegoede@redhat.com>, Helge Deller <deller@gmx.de>,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Jon Hunter <jonathanh@nvidia.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Andi,
-
-On 10/18/2023 1:49 PM, Andi Shyti wrote:
-> Hi Nirmoy,
+On Wed, Oct 18, 2023 at 12:35=E2=80=AFPM Robert Foss <rfoss@kernel.org> wro=
+te:
 >
-> On Wed, Oct 18, 2023 at 11:38:15AM +0200, Nirmoy Das wrote:
->> gen8_ggtt_invalidate() is only needed for limited set of platforms
->> where GGTT is mapped as WC. This was added as way to fix WC based GGTT in
->> commit 0f9b91c754b7 ("drm/i915: flush system agent TLBs on SNB") and
->> there are no reference in HW docs that forces us to use this on non-WC
->> backed GGTT.
->>
->> This can also cause unwanted side-effects on XE_HP platforms where
->> GFX_FLSH_CNTL_GEN6 is not valid anymore.
->>
->> v2: Add a func to detect wc ggtt detection (Ville)
->> v3: Improve commit log and add reference commit (Daniel)
->>
->> Fixes: d2eae8e98d59 ("drm/i915/dg2: Drop force_probe requirement")
-> I'm wondering if this is the right Fixes, though. Should this
-> rather be:
+> On Wed, Oct 11, 2023 at 4:38=E2=80=AFPM Thierry Reding <thierry.reding@gm=
+ail.com> wrote:
+> >
+> > From: Thierry Reding <treding@nvidia.com>
+> >
+> > The simple-framebuffer device tree bindings document the power-domains
+> > property, so make sure that simplefb supports it. This ensures that the
+> > power domains remain enabled as long as simplefb is active.
+> >
+> > Signed-off-by: Thierry Reding <treding@nvidia.com>
+> > ---
+> >  drivers/video/fbdev/simplefb.c | 93 +++++++++++++++++++++++++++++++++-
+> >  1 file changed, 91 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/video/fbdev/simplefb.c b/drivers/video/fbdev/simpl=
+efb.c
+> > index 18025f34fde7..e69fb0ad2d54 100644
+> > --- a/drivers/video/fbdev/simplefb.c
+> > +++ b/drivers/video/fbdev/simplefb.c
+> > @@ -25,6 +25,7 @@
+> >  #include <linux/of_clk.h>
+> >  #include <linux/of_platform.h>
+> >  #include <linux/parser.h>
+> > +#include <linux/pm_domain.h>
+> >  #include <linux/regulator/consumer.h>
+> >
+> >  static const struct fb_fix_screeninfo simplefb_fix =3D {
+> > @@ -78,6 +79,11 @@ struct simplefb_par {
+> >         unsigned int clk_count;
+> >         struct clk **clks;
+> >  #endif
+> > +#if defined CONFIG_OF && defined CONFIG_PM_GENERIC_DOMAINS
+> > +       unsigned int num_genpds;
+> > +       struct device **genpds;
+> > +       struct device_link **genpd_links;
+> > +#endif
+> >  #if defined CONFIG_OF && defined CONFIG_REGULATOR
+> >         bool regulators_enabled;
+> >         u32 regulator_count;
+> > @@ -432,6 +438,83 @@ static void simplefb_regulators_enable(struct simp=
+lefb_par *par,
+> >  static void simplefb_regulators_destroy(struct simplefb_par *par) { }
+> >  #endif
+> >
+> > +#if defined CONFIG_OF && defined CONFIG_PM_GENERIC_DOMAINS
+> > +static void simplefb_detach_genpds(void *res)
+> > +{
+> > +       struct simplefb_par *par =3D res;
+> > +       unsigned int i =3D par->num_genpds;
+> > +
+> > +       if (par->num_genpds <=3D 1)
+> > +               return;
+> > +
+> > +       while (i--) {
+> > +               if (par->genpd_links[i])
+> > +                       device_link_del(par->genpd_links[i]);
+> > +
+> > +               if (!IS_ERR_OR_NULL(par->genpds[i]))
+> > +                       dev_pm_domain_detach(par->genpds[i], true);
+> > +       }
+> > +}
+> > +
+> > +static int simplefb_attach_genpd(struct simplefb_par *par,
+> > +                                struct platform_device *pdev)
+> > +{
+> > +       struct device *dev =3D &pdev->dev;
+> > +       unsigned int i;
+> > +       int err;
+> > +
+> > +       par->num_genpds =3D of_count_phandle_with_args(dev->of_node,
+> > +                                                    "power-domains",
+> > +                                                    "#power-domain-cel=
+ls");
+> > +       /*
+> > +        * Single power-domain devices are handled by the driver core, =
+so
+> > +        * nothing to do here.
+> > +        */
+> > +       if (par->num_genpds <=3D 1)
+> > +               return 0;
+> > +
+> > +       par->genpds =3D devm_kcalloc(dev, par->num_genpds, sizeof(*par-=
+>genpds),
+> > +                                  GFP_KERNEL);
+> > +       if (!par->genpds)
+> > +               return -ENOMEM;
+> > +
+> > +       par->genpd_links =3D devm_kcalloc(dev, par->num_genpds,
+> > +                                       sizeof(*par->genpd_links),
+> > +                                       GFP_KERNEL);
+> > +       if (!par->genpd_links)
+> > +               return -ENOMEM;
+> > +
+> > +       for (i =3D 0; i < par->num_genpds; i++) {
+> > +               par->genpds[i] =3D dev_pm_domain_attach_by_id(dev, i);
+> > +               if (IS_ERR(par->genpds[i])) {
+> > +                       err =3D PTR_ERR(par->genpds[i]);
+> > +                       if (err =3D=3D -EPROBE_DEFER) {
+> > +                               simplefb_detach_genpds(par);
+> > +                               return err;
+> > +                       }
+> > +
+> > +                       dev_warn(dev, "failed to attach domain %u: %d\n=
+", i, err);
+> > +                       continue;
+> > +               }
+> > +
+> > +               par->genpd_links[i] =3D device_link_add(dev, par->genpd=
+s[i],
+> > +                                                     DL_FLAG_STATELESS=
+ |
+> > +                                                     DL_FLAG_PM_RUNTIM=
+E |
+> > +                                                     DL_FLAG_RPM_ACTIV=
+E);
+> > +               if (!par->genpd_links[i])
+> > +                       dev_warn(dev, "failed to link power-domain %u\n=
+", i);
+> > +       }
+> > +
+> > +       return devm_add_action_or_reset(dev, simplefb_detach_genpds, pa=
+r);
+> > +}
+> > +#else
+> > +static int simplefb_attach_genpd(struct simplefb_par *par,
+> > +                                struct platform_device *pdev)
+> > +{
+> > +       return 0;
+> > +}
+> > +#endif
+> > +
+> >  static int simplefb_probe(struct platform_device *pdev)
+> >  {
+> >         int ret;
+> > @@ -518,6 +601,10 @@ static int simplefb_probe(struct platform_device *=
+pdev)
+> >         if (ret < 0)
+> >                 goto error_clocks;
+> >
+> > +       ret =3D simplefb_attach_genpd(par, pdev);
+> > +       if (ret < 0)
+> > +               goto error_regulators;
+> > +
+> >         simplefb_clocks_enable(par, pdev);
+> >         simplefb_regulators_enable(par, pdev);
+> >
+> > @@ -534,18 +621,20 @@ static int simplefb_probe(struct platform_device =
+*pdev)
+> >         ret =3D devm_aperture_acquire_for_platform_device(pdev, par->ba=
+se, par->size);
+> >         if (ret) {
+> >                 dev_err(&pdev->dev, "Unable to acquire aperture: %d\n",=
+ ret);
+> > -               goto error_regulators;
+> > +               goto error_genpds;
+> >         }
+> >         ret =3D register_framebuffer(info);
+> >         if (ret < 0) {
+> >                 dev_err(&pdev->dev, "Unable to register simplefb: %d\n"=
+, ret);
+> > -               goto error_regulators;
+> > +               goto error_genpds;
+> >         }
+> >
+> >         dev_info(&pdev->dev, "fb%d: simplefb registered!\n", info->node=
+);
+> >
+> >         return 0;
+> >
+> > +error_genpds:
+> > +       simplefb_detach_genpds(par);
+> >  error_regulators:
+> >         simplefb_regulators_destroy(par);
 >
-> Fixes: 6266992cf105 ("drm/i915/gt: remove GRAPHICS_VER == 10")
-
-Hard to find a real Fixes for this. I just want to backport this to dg2 
-where we can have unwanted side-effects.
-
-
-Regards,
-
-Nirmoy
-
+> I saw an error on a rhel9.3 kernel build, it may or may not be hit on
+> an upstream build.
 >
-> ?
+> drivers/video/fbdev/simplefb.c: In function 'simplefb_probe':
+> drivers/video/fbdev/simplefb.c:650:1: warning: label
+> 'error_regulators' defined but not used [-Wunused-label]
+>   650 | error_regulators:
+>       | ^~~~~~~~~~~~~~~~
 >
-> Andi
+>
+
+Scratch that. After applying on an upstream build, it builds cleanly.
