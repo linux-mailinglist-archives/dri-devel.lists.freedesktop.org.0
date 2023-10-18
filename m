@@ -2,60 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31E4A7CDE2B
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Oct 2023 16:00:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D5207CDE3D
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Oct 2023 16:04:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0FBE110E3FB;
-	Wed, 18 Oct 2023 14:00:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8787B10E0ED;
+	Wed, 18 Oct 2023 14:04:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x32.google.com (mail-oa1-x32.google.com
- [IPv6:2001:4860:4864:20::32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB4F610E3F9;
- Wed, 18 Oct 2023 14:00:51 +0000 (UTC)
-Received: by mail-oa1-x32.google.com with SMTP id
- 586e51a60fabf-1dd71c0a41fso4215458fac.2; 
- Wed, 18 Oct 2023 07:00:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1697637651; x=1698242451; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=WSpW0doOcXn+5lTEk2bF0qorpVq0IOpiC8aimltnNyc=;
- b=IJoP2dw/gmfJ/34qyDnZHqepppZ3vMlda/9oSjLGtUjMYs4N3IAXASJvUBvSmvWfs9
- 8Te6CTrDqY+cwGftkl7WGLwPcOOUU3BXM7zwdpNQJaKuzVz08NSkHtFtWzG5kreOY71p
- MVcCW2FHcXDpPRKyahVRLCdfgrO1F2XiG44Zm/KXxWx79YE1B4Kn6mCoimU2U7txsddC
- Nml1Q9YiWZ9N05PjXr/qoDBWnhBL8rSKNJYu9wHlHvgiqyKC9xr9bdKsJCXN9Z/k6ilH
- SKxMUH3hgI7qZhQCDGL9hSmbLUWYmVJCaaj2C/z/4LpuL2DGRGe4rfJsD2sGKsbr459G
- r/Vg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1697637651; x=1698242451;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=WSpW0doOcXn+5lTEk2bF0qorpVq0IOpiC8aimltnNyc=;
- b=ad20bXeohEAessUImfhmfMAEkt3gK5VdCxTaU8CDFP2EJ8+y2IfOQBsLxM8iO53/FC
- nPDO/5uj6OKsDmm5pCqnDkW639azQGi59oJtuOLe5M/OvFcykstuG5ynsWH8MAHfU+Fg
- njxnuyisneTPsjvXadf1TNMbYhOPfHiqQNx8XKV+Bme0ic6c8XUqUMB5NNwoOHQSL5hx
- GkynsHlmIqz8OCnElhH3t2yHQPSJ9P4pU/2uD2iT1UgCiXwEHZXd+gBK3riy0+kKgEqJ
- v10m3TCOubVd2nTgAb44F+8cKElOogYC2SBf/6eLyi3Dw27M9gSVu81WfswkUAuCQ1WY
- rX1Q==
-X-Gm-Message-State: AOJu0Yyz/cP/FnYwA+oz7b3S6hhcHVfXqmgK2Y2A6jXVOa61wzmvcdoI
- A5M/3nO/FzoAy174HwHd+uJJIxA7vrYvZtKLMUIaMBn7
-X-Google-Smtp-Source: AGHT+IEQ4VEtbC0I6wuqk0m6CgF4CBRg3eATOWskFebNDExHAfRNTUc8nf7f+4X0neKTlP5ZmmLRREbS7bZuwo/7gww=
-X-Received: by 2002:a05:6871:8784:b0:1e9:bd5c:ae40 with SMTP id
- td4-20020a056871878400b001e9bd5cae40mr5801664oab.38.1697637650989; Wed, 18
- Oct 2023 07:00:50 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 96D7510E090;
+ Wed, 18 Oct 2023 14:04:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1697637845; x=1729173845;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=f4Zq33cofTRUoDj4rxlYFHVD2+ecpwiue6b3v8VzX9o=;
+ b=MctV8Ha63bLcqQ0d9O5BsIKk3HToL9vjzNrvdRQ30OiaAwzqRIjOikbf
+ khmBueXDmr2CiX+q7cFLdEr8Ba/hN9UKzXGNPl9+tlSt4u6ipEvSXQ/UG
+ tTtc6TYfB5BBLmtZKGeJ+QlYxOi/bWOM+dAK/Mhi7nRp5fxvpS1bygOH2
+ 0EVlgdJChK/aJ8T3MrwKSrQamL2dZ6J48UBaOmHvF2UqirFjmzyZWkkvr
+ WHAqUEKRhfQavhSDIRYZOwstL0JrXj5Gg3dxognwRLqi4cPGUKEu/eXrz
+ jY8fndrPQa7GVJT6vBRLIFEL57eghFS+wav3ESQiKlKrPfTDjcUd++LmP w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="384898156"
+X-IronPort-AV: E=Sophos;i="6.03,235,1694761200"; d="scan'208";a="384898156"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Oct 2023 07:04:04 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="847278877"
+X-IronPort-AV: E=Sophos;i="6.03,235,1694761200"; d="scan'208";a="847278877"
+Received: from nirmoyda-mobl.ger.corp.intel.com (HELO [10.249.39.1])
+ ([10.249.39.1])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Oct 2023 07:04:02 -0700
+Message-ID: <3887c6f2-687e-01d0-71c9-b2354a0df9c7@linux.intel.com>
+Date: Wed, 18 Oct 2023 16:04:00 +0200
 MIME-Version: 1.0
-References: <20231018012232.23995-1-yang.lee@linux.alibaba.com>
-In-Reply-To: <20231018012232.23995-1-yang.lee@linux.alibaba.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 18 Oct 2023 10:00:39 -0400
-Message-ID: <CADnq5_ONGOu-1SWzD99vr5CBtQzRXxOOUMMzto9UeN4q92Ri_Q@mail.gmail.com>
-Subject: Re: [PATCH -next] drm/amd/display: Simplify bool conversion
-To: Yang Li <yang.lee@linux.alibaba.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v3] drm/i915: Flush WC GGTT only on required platforms
+Content-Language: en-US
+To: Andi Shyti <andi.shyti@linux.intel.com>
+References: <20231018093815.1349-1-nirmoy.das@intel.com>
+ <ZS/GZ0U7rOuuD0Kw@ashyti-mobl2.lan>
+ <36c0e644-4013-f2f8-a0a7-9b9c3d8423c9@linux.intel.com>
+ <ZS/W6obrW/g8WuS4@ashyti-mobl2.lan>
+From: Nirmoy Das <nirmoy.das@linux.intel.com>
+In-Reply-To: <ZS/W6obrW/g8WuS4@ashyti-mobl2.lan>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,45 +64,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Abaci Robot <abaci@linux.alibaba.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- alexander.deucher@amd.com
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, Jonathan Cavitt <jonathan.cavitt@intel.com>,
+ stable@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Matt Roper <matthew.d.roper@intel.com>,
+ John Harrison <john.c.harrison@intel.com>, Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
 
-On Tue, Oct 17, 2023 at 9:22=E2=80=AFPM Yang Li <yang.lee@linux.alibaba.com=
-> wrote:
+On 10/18/2023 3:00 PM, Andi Shyti wrote:
+> Hi Nirmoy,
 >
-> ./drivers/gpu/drm/amd/display/dc/dml2/display_mode_core.c:4802:84-89: WAR=
-NING: conversion to bool not needed here
+>>>> gen8_ggtt_invalidate() is only needed for limited set of platforms
+>>>> where GGTT is mapped as WC. This was added as way to fix WC based GGTT in
+>>>> commit 0f9b91c754b7 ("drm/i915: flush system agent TLBs on SNB") and
+>>>> there are no reference in HW docs that forces us to use this on non-WC
+>>>> backed GGTT.
+>>>>
+>>>> This can also cause unwanted side-effects on XE_HP platforms where
+>>>> GFX_FLSH_CNTL_GEN6 is not valid anymore.
+>>>>
+>>>> v2: Add a func to detect wc ggtt detection (Ville)
+>>>> v3: Improve commit log and add reference commit (Daniel)
+>>>>
+>>>> Fixes: d2eae8e98d59 ("drm/i915/dg2: Drop force_probe requirement")
+>>> I'm wondering if this is the right Fixes, though. Should this
+>>> rather be:
+>>>
+>>> Fixes: 6266992cf105 ("drm/i915/gt: remove GRAPHICS_VER == 10")
+>> Hard to find a real Fixes for this. I just want to backport this to dg2
+>> where we can have unwanted side-effects.
+> yes, this piece of code has moved around enough so to make it
+> diffuclt to track its origin.
 >
-> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-> Closes: https://bugzilla.openanolis.cn/show_bug.cgi?id=3D6901
-> Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
-> ---
->  drivers/gpu/drm/amd/display/dc/dml2/display_mode_core.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> I think the one I found should be the correct one,
+
+That just removes a graphics ver, not related to WC GGTT map or XE_HP.
+
+>   but the dg2
+> force probe removeal can also become a placeholder for DG2 fixes.
+
+Yes, I have no better ideas too.
+
+
+Regards,
+
+Nirmoy
+
 >
-> diff --git a/drivers/gpu/drm/amd/display/dc/dml2/display_mode_core.c b/dr=
-ivers/gpu/drm/amd/display/dc/dml2/display_mode_core.c
-> index 851db026f251..3296c078ff3e 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dml2/display_mode_core.c
-> +++ b/drivers/gpu/drm/amd/display/dc/dml2/display_mode_core.c
-> @@ -4799,7 +4799,7 @@ static void CalculateSurfaceSizeInMall(
->                 if (UseMALLForStaticScreen[k] =3D=3D dml_use_mall_static_=
-screen_enable)
->                         TotalSurfaceSizeInMALL =3D TotalSurfaceSizeInMALL=
- + SurfaceSizeInMALL[k];
->         }
-> -       *ExceededMALLSize =3D (TotalSurfaceSizeInMALL <=3D MALLAllocatedF=
-orDCN * 1024 * 1024 ? false : true);
-> +       *ExceededMALLSize =3D (TotalSurfaceSizeInMALL > MALLAllocatedForD=
-CN * 1024 * 1024);
->  } // CalculateSurfaceSizeInMall
+> I won't complain.
 >
->  static void CalculateDETBufferSize(
-> --
-> 2.20.1.7.g153144c
->
+> Andi
