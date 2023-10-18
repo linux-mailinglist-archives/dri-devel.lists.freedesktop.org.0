@@ -1,55 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B91E7CDAAF
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Oct 2023 13:38:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E8B3C7CDAFA
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Oct 2023 13:50:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D84E10E102;
-	Wed, 18 Oct 2023 11:38:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F7FE10E0DE;
+	Wed, 18 Oct 2023 11:50:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 964B510E102;
- Wed, 18 Oct 2023 11:38:52 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2BBAE10E0DE;
+ Wed, 18 Oct 2023 11:50:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1697629132; x=1729165132;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=92Frp5CdplGsPc4y8TeuGfpCzj1dJMcEcjPZAhwviug=;
- b=OlRUvtKpLWlJqv7vOjlurAyLiq5quDYOPI1XRkc1oO9QT+VCLIElWE61
- EhTOAZ/rI7B8QWPfDuKkHlMv9+yQj7+f/FuHvuHtGXbxysq596hx8tZQe
- yIAV2WP9Fav1Mw/U5n3IvsxgbV5UqOhNFED6sAoGncPw6uZDAfBFyq616
- QOpWi2t25iHf3BANJcdlgZBenbMiucPpGzBrsNIFYuEYA+StRrjhLkU4D
- bf99CS1LW3e4jrktOrOsKeap3g/FHYyCWGflaKeJRNr1FLVJ4k5R388PC
- 4QJ5GQ/X9/H/wfLNIN8qs6sj1baTn8ZyMZJDLEZd0Fxp0gTzkqOFdCllb A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="388858005"
-X-IronPort-AV: E=Sophos;i="6.03,234,1694761200"; d="scan'208";a="388858005"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Oct 2023 04:38:52 -0700
+ t=1697629840; x=1729165840;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=c0T0784LHoIAqHXgdsl2Rw+iriwcWCmFOJzkyPyWkAM=;
+ b=WsdRusr4ZbABCeztYXaKTU34BrmiCWQxYPar8Uzee0j/gUqHQS0BS6c+
+ N5TYxPCwTTX0a4f0LpH1u+bjAiIC83xmEVEPQmgn8jf8J1Iz7CGW8XP0p
+ 049TcQPfTY4zk3uqCcvWIe5gIilXyjnHdWVO0hvVHiTxntq3e5lMHB3gG
+ AkWtRFYUQuFQja7ZIJ7Ciph11jvNg9M5mstKYFQZqDlvkXTn/Fg/nd4xP
+ mgAqHeoTcK6Fk85l+mPHQOj6RnWO1hsJht5NzMaAVH7IDUNEIhDkKxxr+
+ tWSzNC7hohw7YHyJgxJPcdFGe09tXofCZ1ojS3ni/MHRBlGrfI15trCiy g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="417111311"
+X-IronPort-AV: E=Sophos;i="6.03,234,1694761200"; d="scan'208";a="417111311"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Oct 2023 04:50:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="822416132"
-X-IronPort-AV: E=Sophos;i="6.03,234,1694761200"; d="scan'208";a="822416132"
-Received: from nirmoyda-mobl.ger.corp.intel.com (HELO [10.249.39.1])
- ([10.249.39.1])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Oct 2023 04:38:50 -0700
-Message-ID: <84558dd8-3bfa-100d-3bfc-e779ac4e54c8@linux.intel.com>
-Date: Wed, 18 Oct 2023 13:38:48 +0200
+X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="756566650"
+X-IronPort-AV: E=Sophos;i="6.03,235,1694761200"; d="scan'208";a="756566650"
+Received: from nurfahan-mobl3.gar.corp.intel.com (HELO intel.com)
+ ([10.213.159.217])
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Oct 2023 04:50:08 -0700
+Date: Wed, 18 Oct 2023 13:49:59 +0200
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Nirmoy Das <nirmoy.das@intel.com>
+Subject: Re: [PATCH v3] drm/i915: Flush WC GGTT only on required platforms
+Message-ID: <ZS/GZ0U7rOuuD0Kw@ashyti-mobl2.lan>
+References: <20231018093815.1349-1-nirmoy.das@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v2] drm/i915: Prevent potential null-ptr-deref in
- engine_init_common
-Content-Language: en-US
-To: Nirmoy Das <nirmoy.das@intel.com>, intel-gfx@lists.freedesktop.org
-References: <20231011122547.7085-1-nirmoy.das@intel.com>
-From: Nirmoy Das <nirmoy.das@linux.intel.com>
-In-Reply-To: <20231011122547.7085-1-nirmoy.das@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231018093815.1349-1-nirmoy.das@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,39 +58,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, Jonathan Cavitt <jonathan.cavitt@intel.com>,
+ dri-devel@lists.freedesktop.org, Andi Shyti <andi.shyti@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, stable@vger.kernel.org,
+ Matt Roper <matthew.d.roper@intel.com>,
+ John Harrison <john.c.harrison@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This now merged. CI errors are unrelated.
+Hi Nirmoy,
 
-On 10/11/2023 2:25 PM, Nirmoy Das wrote:
-> If measure_breadcrumb_dw() returns an error and bce isn't created,
-> this commit ensures that intel_engine_destroy_pinned_context()
-> is not called with a NULL bce.
->
-> v2: Fix the subject s/UAF/null-ptr-deref(Jani)
->
-> Fixes: b35274993680 ("drm/i915: Create a kernel context for GGTT updates")
-> Cc: Oak Zeng <oak.zeng@intel.com>
-> Cc: Andi Shyti <andi.shyti@linux.intel.com>
-> Cc: Jani Nikula <jani.nikula@linux.intel.com>
-> Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
-> ---
->   drivers/gpu/drm/i915/gt/intel_engine_cs.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-> index 179d9546865b..4a11219e560e 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-> @@ -1491,7 +1491,8 @@ static int engine_init_common(struct intel_engine_cs *engine)
->   	return 0;
->   
->   err_bce_context:
-> -	intel_engine_destroy_pinned_context(bce);
-> +	if (bce)
-> +		intel_engine_destroy_pinned_context(bce);
->   err_ce_context:
->   	intel_engine_destroy_pinned_context(ce);
->   	return ret;
+On Wed, Oct 18, 2023 at 11:38:15AM +0200, Nirmoy Das wrote:
+> gen8_ggtt_invalidate() is only needed for limited set of platforms
+> where GGTT is mapped as WC. This was added as way to fix WC based GGTT in
+> commit 0f9b91c754b7 ("drm/i915: flush system agent TLBs on SNB") and
+> there are no reference in HW docs that forces us to use this on non-WC
+> backed GGTT.
+> 
+> This can also cause unwanted side-effects on XE_HP platforms where
+> GFX_FLSH_CNTL_GEN6 is not valid anymore.
+> 
+> v2: Add a func to detect wc ggtt detection (Ville)
+> v3: Improve commit log and add reference commit (Daniel)
+> 
+> Fixes: d2eae8e98d59 ("drm/i915/dg2: Drop force_probe requirement")
+
+I'm wondering if this is the right Fixes, though. Should this
+rather be:
+
+Fixes: 6266992cf105 ("drm/i915/gt: remove GRAPHICS_VER == 10")
+
+?
+
+Andi
