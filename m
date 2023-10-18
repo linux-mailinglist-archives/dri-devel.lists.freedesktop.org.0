@@ -1,53 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94A117CD851
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Oct 2023 11:37:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EB3B7CD85B
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Oct 2023 11:38:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 201E910E094;
-	Wed, 18 Oct 2023 09:37:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F17D910E3C9;
+	Wed, 18 Oct 2023 09:38:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 87B7410E094;
- Wed, 18 Oct 2023 09:37:50 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F10F10E3C7;
+ Wed, 18 Oct 2023 09:38:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1697621870; x=1729157870;
- h=date:from:to:cc:subject:in-reply-to:message-id:
- references:mime-version;
- bh=jCXWBlD84BTyNglloktAZAcTQMc203q6u0L9+NHbmMM=;
- b=W/3pAlp8dWmSWxr36/icevySCTEQUZvwTSj+luQMulmgQGymXS43OD6Z
- Tb3Xqxhda6yL2oQNWc2U178BXY9g1GUnny5R5eJYRRfz0+eD/0FOwbxu9
- YUpGwjwBiRTISF0/KzQPu8H+V/hFPnjJXMi3UADdWyD913id7re/itTv7
- e/21dG64KmWv7q0MKF2YPGclHIVErQT+aqWuxM8ctH3AZykALiBWdcngG
- lKxslbwUpY2fJAQ1HUd7F/9rN6zBqslyd5GmZ2b0CVqBz8iFVQs1ml7sW
- 01WOaLGAbSWKUewFfZ0dvKjZj6/Eogt8SD7rDUJ6Y0CqpEuNcSbADRwVA g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="389852822"
-X-IronPort-AV: E=Sophos;i="6.03,234,1694761200"; d="scan'208";a="389852822"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Oct 2023 02:37:22 -0700
+ t=1697621909; x=1729157909;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=2ccUgyhgZlFPwuyb6c7YjouKROVLbPEz6EELbdrZDz8=;
+ b=bHAu6q69lqiAKj1CfwnEuqaEJVbV74AkB/biv3AGxAro1YZfgMAR6iEj
+ PNRvlfNd3EpUP/YqSEIPkpSLzirDbqH/mG2t1z6ni4VBM4s95FLL+uZAu
+ Q4tkHPIQ2qTxXS6IzZDg81h1WkcyV12ZfoiezyjJTXuSiroi8Tmn6WRMI
+ 1f0idxmZrzXv+By5bAil7k07PQEMmA0HA5AsopP5BV/FAX3Fthqgngdhk
+ hWANa61VagVwcYhNp7hQESXMnRvujY8039uZ92CtmbOxGvggpz1CmygIM
+ PKAX/k4g6uEo0kszEL9lp/p+F7HnZoLoSVVHWfmacJNeOqzHgwflnOJVm A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="7529265"
+X-IronPort-AV: E=Sophos;i="6.03,234,1694761200"; 
+   d="scan'208";a="7529265"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Oct 2023 02:38:29 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="900273405"
-X-IronPort-AV: E=Sophos;i="6.03,234,1694761200"; d="scan'208";a="900273405"
-Received: from gruberda-mobl1.ger.corp.intel.com ([10.252.62.52])
- by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Oct 2023 02:35:13 -0700
-Date: Wed, 18 Oct 2023 12:37:15 +0300 (EEST)
-From: =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
-Subject: Re: [PATCH v4 13/17] platform/x86/amd/pmf: Add PMF-AMDGPU get
- interface
-In-Reply-To: <84af64f2-42bd-4e09-a1c9-bde2a935c8f2@amd.com>
-Message-ID: <8cc0248e-2dd-1169-6333-10496b373bf@linux.intel.com>
-References: <20231018070241.2041529-1-Shyam-sundar.S-k@amd.com>
- <20231018070241.2041529-14-Shyam-sundar.S-k@amd.com>
- <9e6c4a42-fbce-c5ea-15ce-5eb22fc3767a@linux.intel.com>
- <84af64f2-42bd-4e09-a1c9-bde2a935c8f2@amd.com>
+X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="872958098"
+X-IronPort-AV: E=Sophos;i="6.03,234,1694761200"; d="scan'208";a="872958098"
+Received: from nirmoyda-desk.igk.intel.com ([10.102.138.190])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Oct 2023 02:38:25 -0700
+From: Nirmoy Das <nirmoy.das@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v3] drm/i915: Flush WC GGTT only on required platforms
+Date: Wed, 18 Oct 2023 11:38:15 +0200
+Message-ID: <20231018093815.1349-1-nirmoy.das@intel.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323329-365477675-1697621841=:2178"
+Content-Type: text/plain; charset=UTF-8
+Organization: Intel Deutschland GmbH, Registered Address: Am Campeon 10,
+ 85579 Neubiberg, Germany,
+ Commercial Register: Amtsgericht Muenchen HRB 186928 
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,128 +60,107 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Xinhui.Pan@amd.com, Patil.Reddy@amd.com, basavaraj.natikar@amd.com,
- dri-devel@lists.freedesktop.org, jikos@kernel.org,
- amd-gfx@lists.freedesktop.org, platform-driver-x86@vger.kernel.org,
- markgross@kernel.org, Hans de Goede <hdegoede@redhat.com>,
- benjamin.tissoires@redhat.com, mario.limonciello@amd.com,
- linux-input@vger.kernel.org, alexander.deucher@amd.com,
- christian.koenig@amd.com
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Jonathan Cavitt <jonathan.cavitt@intel.com>, dri-devel@lists.freedesktop.org,
+ Andi Shyti <andi.shyti@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ stable@vger.kernel.org, Matt Roper <matthew.d.roper@intel.com>,
+ John Harrison <john.c.harrison@intel.com>, Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+gen8_ggtt_invalidate() is only needed for limited set of platforms
+where GGTT is mapped as WC. This was added as way to fix WC based GGTT in
+commit 0f9b91c754b7 ("drm/i915: flush system agent TLBs on SNB") and
+there are no reference in HW docs that forces us to use this on non-WC
+backed GGTT.
 
---8323329-365477675-1697621841=:2178
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+This can also cause unwanted side-effects on XE_HP platforms where
+GFX_FLSH_CNTL_GEN6 is not valid anymore.
 
-On Wed, 18 Oct 2023, Shyam Sundar S K wrote:
-> On 10/18/2023 2:50 PM, Ilpo Järvinen wrote:
-> > On Wed, 18 Oct 2023, Shyam Sundar S K wrote:
-> > 
-> >> In order to provide GPU inputs to TA for the Smart PC solution to work, we
-> >> need to have interface between the PMF driver and the AMDGPU driver.
-> >>
-> >> Add the initial code path for get interface from AMDGPU.
-> >>
-> >> Co-developed-by: Mario Limonciello <mario.limonciello@amd.com>
-> >> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
-> >> Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
-> >> ---
-> >>  drivers/gpu/drm/amd/amdgpu/Makefile     |   2 +
-> >>  drivers/gpu/drm/amd/amdgpu/amdgpu.h     |   1 +
-> >>  drivers/gpu/drm/amd/amdgpu/amdgpu_pmf.c | 138 ++++++++++++++++++++++++
-> >>  drivers/platform/x86/amd/pmf/Kconfig    |   1 +
-> >>  drivers/platform/x86/amd/pmf/core.c     |   1 +
-> >>  drivers/platform/x86/amd/pmf/pmf.h      |   3 +
-> >>  drivers/platform/x86/amd/pmf/spc.c      |  13 +++
-> >>  drivers/platform/x86/amd/pmf/tee-if.c   |  26 +++++
-> >>  include/linux/amd-pmf-io.h              |  35 ++++++
-> >>  9 files changed, 220 insertions(+)
-> >>  create mode 100644 drivers/gpu/drm/amd/amdgpu/amdgpu_pmf.c
-> >>  create mode 100644 include/linux/amd-pmf-io.h
-> >>
-> >> diff --git a/drivers/gpu/drm/amd/amdgpu/Makefile b/drivers/gpu/drm/amd/amdgpu/Makefile
-> >> index 384b798a9bad..7fafccefbd7a 100644
-> >> --- a/drivers/gpu/drm/amd/amdgpu/Makefile
-> >> +++ b/drivers/gpu/drm/amd/amdgpu/Makefile
-> >> @@ -86,6 +86,8 @@ amdgpu-$(CONFIG_PROC_FS) += amdgpu_fdinfo.o
-> >>  
-> >>  amdgpu-$(CONFIG_PERF_EVENTS) += amdgpu_pmu.o
-> >>  
-> >> +amdgpu-$(CONFIG_AMD_PMF) += amdgpu_pmf.o
-> >> +
-> >>  # add asic specific block
-> >>  amdgpu-$(CONFIG_DRM_AMDGPU_CIK)+= cik.o cik_ih.o \
-> >>  	dce_v8_0.o gfx_v7_0.o cik_sdma.o uvd_v4_2.o vce_v2_0.o
-> >> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-> >> index a79d53bdbe13..26ffa1b4fe57 100644
-> >> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-> >> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-> >> @@ -50,6 +50,7 @@
-> >>  #include <linux/hashtable.h>
-> >>  #include <linux/dma-fence.h>
-> >>  #include <linux/pci.h>
-> >> +#include <linux/amd-pmf-io.h>
-> >>  
-> >>  #include <drm/ttm/ttm_bo.h>
-> >>  #include <drm/ttm/ttm_placement.h>
-> >> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_pmf.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_pmf.c
-> >> new file mode 100644
-> >> index 000000000000..ac981848df50
-> >> --- /dev/null
-> >> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_pmf.c
-> >> @@ -0,0 +1,138 @@
-> >> +/*
-> >> + * Copyright 2023 Advanced Micro Devices, Inc.
-> >> + *
-> >> + * Permission is hereby granted, free of charge, to any person obtaining a
-> >> + * copy of this software and associated documentation files (the "Software"),
-> >> + * to deal in the Software without restriction, including without limitation
-> >> + * the rights to use, copy, modify, merge, publish, distribute, sublicense,
-> >> + * and/or sell copies of the Software, and to permit persons to whom the
-> >> + * Software is furnished to do so, subject to the following conditions:
-> >> + *
-> >> + * The above copyright notice and this permission notice shall be included in
-> >> + * all copies or substantial portions of the Software.
-> >> + *
-> >> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-> >> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-> >> + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
-> >> + * THE COPYRIGHT HOLDER(S) OR AUTHOR(S) BE LIABLE FOR ANY CLAIM, DAMAGES OR
-> >> + * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
-> >> + * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-> >> + * OTHER DEALINGS IN THE SOFTWARE.
-> > 
-> > This is MIT, right? Add the required SPDX-License-Identifier line for it
-> > at the top of the file, thank you.
-> > 
-> 
-> all the files in drivers/gpu/drm/amd/amdgpu/* carry the same license
-> text. So, have retained it to maintain uniformity.
+v2: Add a func to detect wc ggtt detection (Ville)
+v3: Improve commit log and add reference commit (Daniel)
 
-What does adding SPDX identifier line at the top of the file take away 
-from that? I'd be fine if you want to add the identifier line to all of 
-them too to keep them identical.
+Fixes: d2eae8e98d59 ("drm/i915/dg2: Drop force_probe requirement")
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Jonathan Cavitt <jonathan.cavitt@intel.com>
+Cc: John Harrison <john.c.harrison@intel.com>
+Cc: Andi Shyti <andi.shyti@linux.intel.com>
+Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: <stable@vger.kernel.org> # v6.2+
+Suggested-by: Matt Roper <matthew.d.roper@intel.com>
+Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
+Reviewed-by: Matt Roper <matthew.d.roper@intel.com>
+Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
+---
+ drivers/gpu/drm/i915/gt/intel_ggtt.c | 35 +++++++++++++++++++---------
+ 1 file changed, 24 insertions(+), 11 deletions(-)
 
-> >> + *
-> >> + * Author: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
-> >> + *
-> >> + */
-> > 
-> > Remove the extra empty line at the end of the comment.
-> > 
-> 
-> I just took the standard template for all the gpu files. Is that OK to
-> retain the blank line?
-> 
-> If not, I can remove it in the next version.
-
-I don't want to fight over a blank line when you insist on keeping it :-).
-
+diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt.c b/drivers/gpu/drm/i915/gt/intel_ggtt.c
+index 1c93e84278a0..15fc8e4703f4 100644
+--- a/drivers/gpu/drm/i915/gt/intel_ggtt.c
++++ b/drivers/gpu/drm/i915/gt/intel_ggtt.c
+@@ -195,6 +195,21 @@ void gen6_ggtt_invalidate(struct i915_ggtt *ggtt)
+ 	spin_unlock_irq(&uncore->lock);
+ }
+ 
++static bool needs_wc_ggtt_mapping(struct drm_i915_private *i915)
++{
++	/*
++	 * On BXT+/ICL+ writes larger than 64 bit to the GTT pagetable range
++	 * will be dropped. For WC mappings in general we have 64 byte burst
++	 * writes when the WC buffer is flushed, so we can't use it, but have to
++	 * resort to an uncached mapping. The WC issue is easily caught by the
++	 * readback check when writing GTT PTE entries.
++	 */
++	if (!IS_GEN9_LP(i915) && GRAPHICS_VER(i915) < 11)
++		return true;
++
++	return false;
++}
++
+ static void gen8_ggtt_invalidate(struct i915_ggtt *ggtt)
+ {
+ 	struct intel_uncore *uncore = ggtt->vm.gt->uncore;
+@@ -202,8 +217,12 @@ static void gen8_ggtt_invalidate(struct i915_ggtt *ggtt)
+ 	/*
+ 	 * Note that as an uncached mmio write, this will flush the
+ 	 * WCB of the writes into the GGTT before it triggers the invalidate.
++	 *
++	 * Only perform this when GGTT is mapped as WC, see ggtt_probe_common().
+ 	 */
+-	intel_uncore_write_fw(uncore, GFX_FLSH_CNTL_GEN6, GFX_FLSH_CNTL_EN);
++	if (needs_wc_ggtt_mapping(ggtt->vm.i915))
++		intel_uncore_write_fw(uncore, GFX_FLSH_CNTL_GEN6,
++				      GFX_FLSH_CNTL_EN);
+ }
+ 
+ static void guc_ggtt_ct_invalidate(struct intel_gt *gt)
+@@ -1140,17 +1159,11 @@ static int ggtt_probe_common(struct i915_ggtt *ggtt, u64 size)
+ 	GEM_WARN_ON(pci_resource_len(pdev, GEN4_GTTMMADR_BAR) != gen6_gttmmadr_size(i915));
+ 	phys_addr = pci_resource_start(pdev, GEN4_GTTMMADR_BAR) + gen6_gttadr_offset(i915);
+ 
+-	/*
+-	 * On BXT+/ICL+ writes larger than 64 bit to the GTT pagetable range
+-	 * will be dropped. For WC mappings in general we have 64 byte burst
+-	 * writes when the WC buffer is flushed, so we can't use it, but have to
+-	 * resort to an uncached mapping. The WC issue is easily caught by the
+-	 * readback check when writing GTT PTE entries.
+-	 */
+-	if (IS_GEN9_LP(i915) || GRAPHICS_VER(i915) >= 11)
+-		ggtt->gsm = ioremap(phys_addr, size);
+-	else
++	if (needs_wc_ggtt_mapping(i915))
+ 		ggtt->gsm = ioremap_wc(phys_addr, size);
++	else
++		ggtt->gsm = ioremap(phys_addr, size);
++
+ 	if (!ggtt->gsm) {
+ 		drm_err(&i915->drm, "Failed to map the ggtt page table\n");
+ 		return -ENOMEM;
 -- 
- i.
+2.41.0
 
---8323329-365477675-1697621841=:2178--
