@@ -1,61 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A28AE7CE291
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Oct 2023 18:19:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E10107CE295
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Oct 2023 18:19:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 013E810E193;
-	Wed, 18 Oct 2023 16:19:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E53CC10E192;
+	Wed, 18 Oct 2023 16:19:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com
- [IPv6:2607:f8b0:4864:20::231])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1342C10E184
+Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com
+ [IPv6:2607:f8b0:4864:20::229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A883A10E184
  for <dri-devel@lists.freedesktop.org>; Wed, 18 Oct 2023 16:18:57 +0000 (UTC)
-Received: by mail-oi1-x231.google.com with SMTP id
- 5614622812f47-3ae5a014d78so4131996b6e.1
+Received: by mail-oi1-x229.google.com with SMTP id
+ 5614622812f47-3b2d9ac9926so1127551b6e.2
  for <dri-devel@lists.freedesktop.org>; Wed, 18 Oct 2023 09:18:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1697645936; x=1698250736; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1697645937; x=1698250737; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=T5RlhUqBqM3g+4MPGnE7ouhmH0KrUx/6TtzKaaWSu60=;
- b=dRE5VLNtGYrZRtkT4PGwoS6Drw+BRbdYRq0wHSw/I0mXKJfcQXkNH2BQxvUtAvb8iu
- geIKDL2ak2ZLSPJYcs66PGNeFAMpY+abATFadBmGD6cmHlFJQQbh26DHBFDbCPWuSbh0
- akQZtZ/FpMx9/cYpSeTFc9ZojNIARZmraXOg1dTaM3kw92p09639OQwH3Jo0tpkuxSXm
- lqxiJwoO4W+C4VbgNkZl9hDtpDx6ee6gxA4vGSR7ST5ajC7di0yMsYWsyrhpebtHNWK1
- om0N5CRyhWZZR7r3NNThjt5YLVIWq0h58+YLt8boJXnGFFXcF1aCCMy2LqHJnGcBcese
- V19g==
+ bh=VJC+C4OtuULaekIgETfG9hZQeFdTuWayXpQ5YRaiN4w=;
+ b=BFzAk8WtW/PgIdq2RXKmbjyx7Jxgh3iEz7EvdK8NykXYLtZ0VFZ37y0+yXV20ex/UN
+ YOrJ0XyPdbxOQ0tPzr4jCnN05t/fjchEYieiHG5j++9MMGSmMfB9ymtRhlC0dQpBCXR9
+ xxoPmn/ZX0oKTWth5PBXS77xvuHH5Xra6lbJNS/e6lzblmu5u0aGvwKuXKe80uEf/y3c
+ EojDa7hfuVrlLqPd5hJgq1DHZYU+uVNQECT+3ho6i4wdL8cqH2v3KfEvejeUqkbvkGXi
+ vjSGpbx42DNTzQ4KArbBWF7RP56xSEYvT1MQEYAthNXWHQ6tIoNP/Itso933hsMHdTOQ
+ 3xUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1697645936; x=1698250736;
+ d=1e100.net; s=20230601; t=1697645937; x=1698250737;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=T5RlhUqBqM3g+4MPGnE7ouhmH0KrUx/6TtzKaaWSu60=;
- b=Qi9Kj+/ZcZdUSZ/ClMI4hODPyGXrndA+y7zgKXoWL6LOTFAWzgnZRJBFdOCa5DZ91s
- BDdgE4puDv7tAUf2hzWnNJzzX+mHJc9hsRaec4FEdQUWr7cCg03JTdmqg50MTgW/tLK/
- P5vnSf+7eNtnMTpQfr8KeI8W5GXVDK6DVSdLgU0eJziTXgxwGkDrKSLwhALlqIEDxAGc
- 7EWn5oaHRUu59RGDZZPn5JXzpHTPo+VMwDHO3PG6Vr4P00bQ7NFroZ9nAOMnzPnM6eFF
- 28iD43FLNd1qkEUrMyPg/h9jTFq6Z7C3KThMxZDKbxcc6rnu4gXSOtlxuy0nlzFus8nh
- jf2w==
-X-Gm-Message-State: AOJu0YzDTavERuxbjjLOjL9L+pTLQjR1d3znWBKQt89fzKhptBZwkIw2
- NxbUQ+ABxfNh7oJcGj0IO6A=
-X-Google-Smtp-Source: AGHT+IEYc+5ohz4jYnwR7FiV33p5sIPOaesEd2oV9q3jHLHsmLR4rbrebzo3oxbolWRtBOaueSf98A==
-X-Received: by 2002:a05:6808:2020:b0:3b2:e4b7:2af2 with SMTP id
- q32-20020a056808202000b003b2e4b72af2mr1658264oiw.6.1697645936268; 
+ bh=VJC+C4OtuULaekIgETfG9hZQeFdTuWayXpQ5YRaiN4w=;
+ b=mY/+48gF1aVV6YkyPlg040g6lesPwdVX6hA+67lzoUb61l6m8ybL0P4ZZULY4zkbXR
+ +j6Mhn/NtRHRX0nV/yWvQlWf6e2BlVdiNEf1rBpo0DR/lkUfMXAUoSFqh4+8OeXBdHZ3
+ EwKW0sJ0+7LU24bhpFLtdx0rOF+FYDrPbjETwA1SONQrzu9pgxRLsSAceRuXdLYfdWYs
+ 7ugXQX7aE2P4S8RQoD7zfVveZtDJvzB8tM98kXMNuI4/33Lda0Kf8ZOXTrs4hiATCOJN
+ 86B+7kAkRpChIXEQ86/Xzz2waqKy9q2PAyO7PGd3XAlBrTcIe25cpaN7lALlA8mAgbyR
+ yKFw==
+X-Gm-Message-State: AOJu0YznU8PpagijrhVuuAIoL2MK4gJMVlJlno6fejUTytKnEmY90kVV
+ v8iF16gXos3PE0D2Ys9fWKYNr4YRiIs=
+X-Google-Smtp-Source: AGHT+IEyC/5eqkKVkMLwJ6n6DXED2z+hXcF3NA1uSNWAQv0tYW9JWBm7ZuVXNvSMVxSCboUAsi626g==
+X-Received: by 2002:a05:6808:211e:b0:3ae:1298:257a with SMTP id
+ r30-20020a056808211e00b003ae1298257amr7454580oiw.1.1697645936910; 
  Wed, 18 Oct 2023 09:18:56 -0700 (PDT)
 Received: from localhost.localdomain ([75.28.21.198])
  by smtp.gmail.com with ESMTPSA id
- db14-20020a056808408e00b003afe584ed4fsm697390oib.42.2023.10.18.09.18.55
+ db14-20020a056808408e00b003afe584ed4fsm697390oib.42.2023.10.18.09.18.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Oct 2023 09:18:55 -0700 (PDT)
+ Wed, 18 Oct 2023 09:18:56 -0700 (PDT)
 From: Chris Morgan <macroalpha82@gmail.com>
 To: linux-rockchip@lists.infradead.org
-Subject: [PATCH 2/5] drm/panel: nv3051d: Add Powkiddy RK2023 Panel Support
-Date: Wed, 18 Oct 2023 11:18:45 -0500
-Message-Id: <20231018161848.346947-3-macroalpha82@gmail.com>
+Subject: [PATCH 3/5] clk: rockchip: rk3568: Add PLL rate for 115.2MHz
+Date: Wed, 18 Oct 2023 11:18:46 -0500
+Message-Id: <20231018161848.346947-4-macroalpha82@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20231018161848.346947-1-macroalpha82@gmail.com>
 References: <20231018161848.346947-1-macroalpha82@gmail.com>
@@ -83,109 +83,30 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Chris Morgan <macromorgan@hotmail.com>
 
-Refactor the driver to add support for the powkiddy,rk2023-panel
-panel. This panel is extremely similar to the rg353p-panel but
-requires a smaller vertical back porch and isn't as tolerant of
-higher speeds.
+Add support for a PLL rate of 115.2MHz so that the Powkiddy RK2023 panel
+can run at a requested 60hz (59.99, close enough).
 
-Tested on my RG351V, RG353P, RG353V, and RK2023.
+I have confirmed this rate fits with all the constraints
+listed in the TRM for the VPLL (as an integer PLL) in Part 1 "Chapter
+2 Clock & Reset Unit (CRU)."
 
 Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
 ---
- .../gpu/drm/panel/panel-newvision-nv3051d.c   | 56 +++++++++++++++----
- 1 file changed, 45 insertions(+), 11 deletions(-)
+ drivers/clk/rockchip/clk-rk3568.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/panel/panel-newvision-nv3051d.c b/drivers/gpu/drm/panel/panel-newvision-nv3051d.c
-index 79de6c886292..d24c51503d68 100644
---- a/drivers/gpu/drm/panel/panel-newvision-nv3051d.c
-+++ b/drivers/gpu/drm/panel/panel-newvision-nv3051d.c
-@@ -28,6 +28,7 @@ struct nv3051d_panel_info {
- 	unsigned int num_modes;
- 	u16 width_mm, height_mm;
- 	u32 bus_flags;
-+	u32 mode_flags;
- };
- 
- struct panel_nv3051d {
-@@ -385,15 +386,7 @@ static int panel_nv3051d_probe(struct mipi_dsi_device *dsi)
- 
- 	dsi->lanes = 4;
- 	dsi->format = MIPI_DSI_FMT_RGB888;
--	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
--			  MIPI_DSI_MODE_LPM | MIPI_DSI_MODE_NO_EOT_PACKET;
--
--	/*
--	 * The panel in the RG351V is identical to the 353P, except it
--	 * requires MIPI_DSI_CLOCK_NON_CONTINUOUS to operate correctly.
--	 */
--	if (of_device_is_compatible(dev->of_node, "anbernic,rg351v-panel"))
--		dsi->mode_flags |= MIPI_DSI_CLOCK_NON_CONTINUOUS;
-+	dsi->mode_flags = ctx->panel_info->mode_flags;
- 
- 	drm_panel_init(&ctx->panel, &dsi->dev, &panel_nv3051d_funcs,
- 		       DRM_MODE_CONNECTOR_DSI);
-@@ -481,18 +474,59 @@ static const struct drm_display_mode nv3051d_rgxx3_modes[] = {
- 	},
- };
- 
--static const struct nv3051d_panel_info nv3051d_rgxx3_info = {
-+static const struct drm_display_mode nv3051d_rk2023_modes[] = {
-+	{
-+		.hdisplay       = 640,
-+		.hsync_start    = 640 + 40,
-+		.hsync_end      = 640 + 40 + 2,
-+		.htotal         = 640 + 40 + 2 + 80,
-+		.vdisplay       = 480,
-+		.vsync_start    = 480 + 18,
-+		.vsync_end      = 480 + 18 + 2,
-+		.vtotal         = 480 + 18 + 2 + 4,
-+		.clock          = 24150,
-+		.flags          = DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC,
-+	},
-+};
-+
-+static const struct nv3051d_panel_info nv3051d_rg351v_info = {
- 	.display_modes = nv3051d_rgxx3_modes,
- 	.num_modes = ARRAY_SIZE(nv3051d_rgxx3_modes),
- 	.width_mm = 70,
- 	.height_mm = 57,
- 	.bus_flags = DRM_BUS_FLAG_DE_LOW | DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE,
-+	.mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
-+		      MIPI_DSI_MODE_LPM | MIPI_DSI_MODE_NO_EOT_PACKET |
-+		      MIPI_DSI_CLOCK_NON_CONTINUOUS,
-+};
-+
-+static const struct nv3051d_panel_info nv3051d_rg353p_info = {
-+	.display_modes = nv3051d_rgxx3_modes,
-+	.num_modes = ARRAY_SIZE(nv3051d_rgxx3_modes),
-+	.width_mm = 70,
-+	.height_mm = 57,
-+	.bus_flags = DRM_BUS_FLAG_DE_LOW | DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE,
-+	.mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
-+		      MIPI_DSI_MODE_LPM | MIPI_DSI_MODE_NO_EOT_PACKET,
-+};
-+
-+static const struct nv3051d_panel_info nv3051d_rk2023_info = {
-+	.display_modes = nv3051d_rk2023_modes,
-+	.num_modes = ARRAY_SIZE(nv3051d_rk2023_modes),
-+	.width_mm = 70,
-+	.height_mm = 57,
-+	.bus_flags = DRM_BUS_FLAG_DE_LOW | DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE,
-+	.mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
-+		      MIPI_DSI_MODE_LPM | MIPI_DSI_MODE_NO_EOT_PACKET,
- };
- 
- static const struct of_device_id newvision_nv3051d_of_match[] = {
--	{ .compatible = "newvision,nv3051d", .data = &nv3051d_rgxx3_info },
-+	{ .compatible = "anbernic,rg351v-panel", .data = &nv3051d_rg351v_info },
-+	{ .compatible = "anbernic,rg353p-panel", .data = &nv3051d_rg353p_info },
-+	{ .compatible = "powkiddy,rk2023-panel", .data = &nv3051d_rk2023_info },
- 	{ /* sentinel */ }
- };
-+
- MODULE_DEVICE_TABLE(of, newvision_nv3051d_of_match);
- 
- static struct mipi_dsi_driver newvision_nv3051d_driver = {
+diff --git a/drivers/clk/rockchip/clk-rk3568.c b/drivers/clk/rockchip/clk-rk3568.c
+index db713e1526cd..bfbcbb744327 100644
+--- a/drivers/clk/rockchip/clk-rk3568.c
++++ b/drivers/clk/rockchip/clk-rk3568.c
+@@ -79,6 +79,7 @@ static struct rockchip_pll_rate_table rk3568_pll_rates[] = {
+ 	RK3036_PLL_RATE(148500000, 1, 99, 4, 4, 1, 0),
+ 	RK3036_PLL_RATE(135000000, 2, 45, 4, 1, 1, 0),
+ 	RK3036_PLL_RATE(119000000, 3, 119, 4, 2, 1, 0),
++	RK3036_PLL_RATE(115200000, 1, 24, 5, 1, 1, 0),
+ 	RK3036_PLL_RATE(108000000, 2, 45, 5, 1, 1, 0),
+ 	RK3036_PLL_RATE(101000000, 1, 101, 6, 4, 1, 0),
+ 	RK3036_PLL_RATE(100000000, 1, 150, 6, 6, 1, 0),
 -- 
 2.34.1
 
