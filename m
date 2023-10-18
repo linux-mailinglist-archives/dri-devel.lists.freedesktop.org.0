@@ -2,117 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67DCC7CD4A8
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Oct 2023 08:51:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5D437CD4E3
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Oct 2023 09:04:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2538D10E087;
-	Wed, 18 Oct 2023 06:51:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 416CD10E38D;
+	Wed, 18 Oct 2023 07:04:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam04on2055.outbound.protection.outlook.com [40.107.100.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD08B10E38A;
- Wed, 18 Oct 2023 06:50:57 +0000 (UTC)
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2060.outbound.protection.outlook.com [40.107.220.60])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D0B3310E38B;
+ Wed, 18 Oct 2023 07:04:02 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=oeuOV+jZEC7p+aCBX/fPToFnulOl6c6TRtLafOUG58o/zOcDibFO/ns3D+mNg0vJobZhrVSwy3CHbgm/fk0VUU/T7DDwavG31QF32CzHn32zl9DLzb6vZTJOrMTx2OMcv5QXXu/nzX2ZhPgp7NUH+75xZDFG4fOG85UoU1w9rFY/US+PCrDaoQxSSn98mMiH8BZH8bNtSnS3ni78TSMS01ipseKcQF7Jgegsd7KGs3AU8E5KIxD4Z1YQNT5g9DglS7mU6NS27qLUluYQcGR5SwtUYA7mlGFV46zb4rHnZNcHJ6lmTMqutx38Zv2IP7nGIYVw3WBAT4MHgTFomnhIhA==
+ b=c0vTvX9dWNKm5YYKbfqadLfFpPBeI/+Q2npPVlEBlEM2x1apCGVdUAcBhelXCWrBpapjLltffNfSr/d1TS4Txo2opaytS4W8c1vlocUT8ZduzZIFR/Xf5lm2yQbg6nXbbBXo9lXj0XPZNr5g5ANhO4lpMWEcsdonFMljn9yrGK0LYpydn3z80/U5roVelfi1C1xPnQQ4SgzjIWniWN54fm4tWLgqgxik0kPscvLbkGVhrw3+61AjJIlww09Zkq6GwFtbRj1riXAjtVmx7YlAv9gTeXwohvXXA2S86iayqkr8HyWoKGCJCs4k0SkOi7LW6y5qUdFGqpaHXzZEen/ylg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dh1NFiy9Yg3iOtYfSKAQBwx7hL4Zem9Zap6TOsAbjdE=;
- b=m5zcXCX0JMcEEbSR1TkW/yr4GhCSKKyKJVerF6N53iFUuGY3v7wWduZIh+TnFei8MA4ZHPL9lXfBjRNkolnmF1He3w3hFoECqtfD6Ri8A9j5Osn5rOwnTbLIMGmi2yfrTNGL+nYqEKdPidu6xyefJEPSGbLk0xZisi2+u7mwkXuprP4ufYGwHgWM1jKQOc2ZCRGXZRwAtPve2+ObdqTptL7MkKTmm2TON+TvTAr7Wtw/+g+rnXC44Lv/ZSQCI2bjRrs+Z8kECRq61HXOzVWnlQZyWC3zpSC1NTYDSGTr4KjXEeR9IyOGGGtUxf90xlklQ6g2Um8aKtUHUNvEzKVP5w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
+ bh=STcZrRhdXwtv0iL5z7IUNvXVV6BoUAwkRHZnBFbmtVw=;
+ b=OSAVgVJNX5gcAyb+3DFntihfsH8DVg/7uWWqICPIEaGyj8bd+hoY7pRXll95XroyN/IRhBNoBk20mAamESBw4FqK/sfNSOIhdEKXHBl++hVetVEK7h9aS1Qk6XQZlF/JDeV6PPGbzaS8um8ZLr29qQtqZKesv5ZtsUZvY0G5C/hEaKyj0XVZiC2NQz4gr4XA5sfj4BvDZFaHAA8ts3hXQqu1G1wlU6zob62z/AJeUn+IUyWhr4pUhzeXbuzJTS//2QMo4++HrXIFO/h7iqdeHxUJ+UdfHbKOgkG1TtYfQT83DhKOqw2KwC0A3P218rNAAUZdTJO/380OMrUeUXiqtA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=redhat.com smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dh1NFiy9Yg3iOtYfSKAQBwx7hL4Zem9Zap6TOsAbjdE=;
- b=y3uw56cSL/2At+RJmJUJ9sJDcMDwl+S6YaUyV0tVEOTc0P7iE+pAAC5eHLZ3/jKOGynHjgQ0/J5YGSmScZmXpbRCMbsVhLPMJeyr78cjbKRtB4go7lVZEIiWApAqyj3Em+f3fueNbX5LJJPrOH+usht8W0RroBEqjXzDJKJmNJo=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by DS0PR12MB8502.namprd12.prod.outlook.com (2603:10b6:8:15b::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6886.34; Wed, 18 Oct
- 2023 06:50:53 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::a7fa:4411:67a3:131d]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::a7fa:4411:67a3:131d%4]) with mapi id 15.20.6907.021; Wed, 18 Oct 2023
- 06:50:52 +0000
-Message-ID: <d44169f6-3571-4892-9223-40dd300f2062@amd.com>
-Date: Wed, 18 Oct 2023 08:50:47 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 01/11] drm/amdgpu: Fix possible null pointer dereference
-To: Felix Kuehling <Felix.Kuehling@amd.com>, dri-devel@lists.freedesktop.org, 
- amd-gfx@lists.freedesktop.org
-References: <20231017211337.1593869-1-Felix.Kuehling@amd.com>
- <20231017211337.1593869-2-Felix.Kuehling@amd.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20231017211337.1593869-2-Felix.Kuehling@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR5P281CA0004.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:f2::13) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+ bh=STcZrRhdXwtv0iL5z7IUNvXVV6BoUAwkRHZnBFbmtVw=;
+ b=VG8CpAD5Lx3so3e8mCsqzrjMo4BypCiexzpz3YTcIBHbulMr+1PpE8NQuoFU616vvIA90fm9+UZ2fTJW/GFWg3c2AvgSonLgOyWHkQBhp+B5pfGFwooynuDIjXvGU2jm7o4Kj6tRavDEPGEtSuknl+xuAu1qiYobkC42haNY8K4=
+Received: from BYAPR05CA0048.namprd05.prod.outlook.com (2603:10b6:a03:74::25)
+ by CH2PR12MB4134.namprd12.prod.outlook.com (2603:10b6:610:a7::15)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6863.38; Wed, 18 Oct
+ 2023 07:03:59 +0000
+Received: from DS3PEPF000099D5.namprd04.prod.outlook.com
+ (2603:10b6:a03:74:cafe::f0) by BYAPR05CA0048.outlook.office365.com
+ (2603:10b6:a03:74::25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6907.21 via Frontend
+ Transport; Wed, 18 Oct 2023 07:03:58 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ DS3PEPF000099D5.mail.protection.outlook.com (10.167.17.6) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6907.20 via Frontend Transport; Wed, 18 Oct 2023 07:03:58 +0000
+Received: from jatayu.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Wed, 18 Oct
+ 2023 02:03:43 -0500
+From: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+To: <hdegoede@redhat.com>, <markgross@kernel.org>,
+ <ilpo.jarvinen@linux.intel.com>, <basavaraj.natikar@amd.com>,
+ <jikos@kernel.org>, <benjamin.tissoires@redhat.com>,
+ <alexander.deucher@amd.com>, <christian.koenig@amd.com>,
+ <Xinhui.Pan@amd.com>, <airlied@gmail.com>, <daniel@ffwll.ch>
+Subject: [PATCH v4 00/17] Introduce PMF Smart PC Solution Builder Feature
+Date: Wed, 18 Oct 2023 12:32:24 +0530
+Message-ID: <20231018070241.2041529-1-Shyam-sundar.S-k@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|DS0PR12MB8502:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1facfacd-ae7e-4d9e-d111-08dbcfa6920c
+X-MS-TrafficTypeDiagnostic: DS3PEPF000099D5:EE_|CH2PR12MB4134:EE_
+X-MS-Office365-Filtering-Correlation-Id: 57061321-f537-4e03-f2b1-08dbcfa8669a
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: AIumRsl5CCB8kMaGgaJgZHRkCetr6yiHA/bCCIgenzpWMRF5kPkSOB3WR9jd9+6AMNxWNnFm9660AtkqlF9dbuEBpdmN1ari0mlFZcfuJBSJrtz6/zxmybQn7iD8EyD0AKaQuVA9pFPthC+Z/ENajKkKb+ipIbZ6JrPEhxW/NwMdiqZsWo9RKwQFQXYALwo8apu4lOeteEpszjdFHzENeBfyOhYMq3LpLDrGi/LzYmJFuKsR3n9g3K5i2BzNSXK7t+OO3TlClRg31cN+k/3+X1swZJXqfU76mp4j0HSZOBDSg4v1lJJhCtFVI0j775SSGjaiwk09G/lb3KQ1BiZkrPNRpSja0R4LYc+wz8ljR4HiP/08NcmkxM+ec5m4mEBHVLySiSo4KC1FxFP2SAxNrIFmH2q5sNnZrBk4tBXemeRStJqz8XC963C82s5pg3mbLsNMalQF7kP2SAFmSOPoyUn/++wStP3GAFb9oruw447ekYC/uQp/6Kq1DLvfEWSnmIYiEtFcNR/jOf+mcUzSHnmh/lhO5vl6VMuTEKzvqmlhT2Tvuu1ZupOd94XjL5UINH8HJqAp2Q1cTVbi7zSEQwMiRk+pyBu/NmlozxmErGmMU4vUtyh6oyIzWTFeaFhiGlKNOUgjd2CPTEw2Aqgi3w==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(396003)(346002)(376002)(366004)(136003)(39860400002)(230922051799003)(186009)(1800799009)(451199024)(64100799003)(6506007)(26005)(2616005)(38100700002)(66476007)(31686004)(316002)(66946007)(66556008)(6486002)(478600001)(6512007)(83380400001)(66574015)(6666004)(4326008)(8676002)(450100002)(8936002)(5660300002)(41300700001)(31696002)(2906002)(36756003)(86362001)(45980500001)(43740500002);
+X-Microsoft-Antispam-Message-Info: JCvep6duwTF5pH5akdwTKB4nejHVyovYcswG8NtpScXDKEGooI+2ABuqxr17fJ02sKEpSAGY87iJRQLUGu/jU7wE3VktcN1GAhMQ8cinIVM/0vLC7uT+BX4H+HUT4lwWT9HUAG4cyXz843MrqWZP8HI+/APMGtWvAxPo3eH9gLgcPOuzGhKzg6o0j6NQ0Go8QnemI2GupltEuu+NQg2xI6oIUB1IcWTLrh9XXYl13oRBwLXpWjaoptobRRLPnFlYOd1J0tNQUL+hgX5mhWhNvXhB0w9b2DUnACDD27DQnd9aL7HYawB3U0D0svjxGMbrn4xFqVf9nHw83hblaZHuuAmuC//pqNUCB5VoHFud9wIelW3yRotQXT2VGZ1w0VqQbKPhfO3rEK38agL8XW3chrRk5cKKYzLTyI+6weVNE4jJuTyTw0tBbafAvnBnHQMkwPrEdixYwlEBMbRbjwQr6eIMBxgEs4Y0OzbsP0BFRbPX6RYrJNsKlCg8y+zTKRqRf3akG0SvsIZap97CnITGi9QQuctpDscUSVBgv9QA4fiB5jBGrhrNzgM0xPSpDARz9MbLs9F+nAKp6kqDKBg9qsZTZMfmiEXCu3IYQiKA8nY4WGhOnBwIX03cy2GmqrFEKhviYnBRMKcxFBM3Mb/DUFkLdaSmR8fSm6JaHJkRxgkB4r2F2eJ2ZIndm4wRwtEufacXCvh0/dYii6+n1so/gPJJDFAdHhHJr9yOm7xTvhBCi4wcopEtanjv0mF9NOiLgFCfvUCqiVQ+MUoxrs7a6nwqBC94jxSRonYzcd0yM8U=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230031)(4636009)(376002)(136003)(346002)(39860400002)(396003)(230922051799003)(186009)(82310400011)(1800799009)(64100799003)(451199024)(40470700004)(36840700001)(46966006)(40460700003)(336012)(426003)(26005)(1076003)(81166007)(2616005)(16526019)(54906003)(36860700001)(6666004)(47076005)(316002)(41300700001)(7416002)(921005)(70206006)(110136005)(356005)(5660300002)(4326008)(86362001)(8676002)(70586007)(36756003)(40480700001)(82740400003)(478600001)(83380400001)(8936002)(7696005)(2906002)(36900700001);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TzVuQXFPNlpGT05HNlF4V1g2cjBtTUZjNFNsNHlEQTlQR2VFVlBNL21JMkE4?=
- =?utf-8?B?RTVyLzM4YkwrZnNnb3k4cUpwMHFMMjlKRytlOGtoRGVqODlvcVAwT3ZrOUxV?=
- =?utf-8?B?bWd6ak9Xcjk4ZWZVRFp0UmY0NUNFYndHbmtDb0d4a2luVnBGWXQvbG0zNVgx?=
- =?utf-8?B?UFVMV0JaKzh2aE8xbzVHVVpKMjBZSEplbk1MR3RvSno1dHY4SVdQMTNSTjV1?=
- =?utf-8?B?K3Z5aDV1ZzUrRVF6NksyU3dFNW5weEo3Ky9LeVQ5anVoUlNFZzczK0krUW9E?=
- =?utf-8?B?V1ZBdVNZTld6bEVDckFkRkxET1lzWnFWZEhqOVlxZHR1bUx6cnNlVmU1WnBX?=
- =?utf-8?B?dWExekJrSllNY0lzVWlUa1o1NXFRSDNzcG9wR285YzFBSFNhWFlwa1daclF1?=
- =?utf-8?B?Q2JPVWhTNVNDbGRock1oenYyVVJrcTJTVlpFNnRPekdjZWM0M3d6alNEem1V?=
- =?utf-8?B?OHJTN2xENi9TVWcwTzExQ3V6bzZGeTV3cStTd3JqUktndC9IaXdvN3Rja0FZ?=
- =?utf-8?B?cmVjdEVaTnhCem5pWEhmazhzcUtPVlV3dW9KMmtBUUFXUlJReVpQanM3RWVp?=
- =?utf-8?B?MEZJNUwyd1NkbklSWEgwSC9HN3B2MzdXa1ZlbFloRVd1UDhOTU5zV3AxMUth?=
- =?utf-8?B?UXV6MktMaHJBRlNlVmZXZnB5WHlCVENnSS9xNFRuenoyMUtKY2QzZDN1Q0RP?=
- =?utf-8?B?V0dYOXordEQvNjZPVm15V2UvMUpUcFY5L0psZE0rWjNaVVZYSlhSL0oweFVn?=
- =?utf-8?B?WllhM3ZNdWlkMGNZWndLTzg0RjZ6Y1BuQXA4U3pxTWpXSDZLREFERE9xMDNv?=
- =?utf-8?B?Wkc2SWkyanlDbGFkOWJUbG1Yczh6aDBEakJpSEgyTUI5L3NRQ2RMeWVOdUxk?=
- =?utf-8?B?cyt2Q21OTlRRbEdrYjhFdG9CenJTc0lSUENNNE03TlVxMzdmazkrOUJUSkxx?=
- =?utf-8?B?VE0waTJ3ODQrLytEVms4K3E4cjh2L0gxcnpCS0pPZmVXVmsvbmNFOE8yeXFL?=
- =?utf-8?B?ODF0TXdyUk5uWGNZQjlQTWZhVmovTnorMkUvSXJ0VHh6YnI2bzFOR0VLV1hV?=
- =?utf-8?B?d2FKUGVERlR6bjJqRFcraUUycWV2bHRuTkwzYnF6OUk3amF0QW9XclJCNUxD?=
- =?utf-8?B?U3FMaDNTWHZPalR2dFJ4OExGYUdyTzZidThFVFY2eXBzdEpTWGRJT1BEM2VI?=
- =?utf-8?B?cGFxQTFwT1c5UGcxSWtZWGdFSjl0ZlRCc2N3V0VMSk9abDcxS2wzSkFHcXZv?=
- =?utf-8?B?ZTl2SHJGZmZpMW50emdWVVdNQ3JHbFZuRkowZDlsWXdWaGorN3ZNY2plemN2?=
- =?utf-8?B?NnkrY3kzSXBBK1RncHdYSXZZT3JPY2szYXlRWGZwM0RLVCtwYmhLY0tGU1hs?=
- =?utf-8?B?aHNjRjBhY2hMalNSS1R1WmpkVWFaQVBnRnZsRE41TUlTZnA0WWRGU3NSMjNE?=
- =?utf-8?B?T282RitnSVV5c0llLzBFOXBhSDhZN2I5dHQxSUk5UWZQdE42V1JxU3NXMVdw?=
- =?utf-8?B?bXVhVjNVdysvRW5UU3RQM2wyTlFmYTBheUdWdExZRmMzeE9FZkdlYWhZc1Fu?=
- =?utf-8?B?a0w3aGVxQkNpb0V6QTUxamh4YUJORjQ3ODJMc2hWYVBaYm9xVy9kS2EzdlFv?=
- =?utf-8?B?QzJTWVpRRlVuOFJYVTNla3JWU3NnNkFrWm9pcnhNWFlxb3lUUW1IbkpCRjJq?=
- =?utf-8?B?QmIyWVg2S0NFbXFqbGpRMUpVUGF3bnd5YmNkdFl5TlpVOXVOSW12NFdSTUpU?=
- =?utf-8?B?bktWRjkzckhtZDViK25vR1JZQlEzTExRWnU3OTJJZEZGekh4dVpqRHlkNVdH?=
- =?utf-8?B?eEI0dDhjRkhhb3pQZ1NZZlVMMzlRK25QUlZSWmYxSHlUMEVuR1k2M3lobExr?=
- =?utf-8?B?NjV5R3lUKy8xRDJYZm44VGlhTkg5MmFXZE9nMC9HQm93aVlZSzhGbWlCY2xQ?=
- =?utf-8?B?MmQ5NkgvOVI5YXBIYlZBUi9mVm5BVDh5VzA0U3RrUSs3ZlBheTNORUlsUlpk?=
- =?utf-8?B?U3dUSWNMRnRWK2VuNXNhd1kxQ1Z3Q21IR2FjQXYrWjV5RHBTNkEvSm13Q0w5?=
- =?utf-8?B?SmNQMFJ2NjdCVTZPeDBwV1VyMVJSSWU5UWVXZTRTU2RON2ZHN0ZOWWhYbXdn?=
- =?utf-8?Q?kTtAsabmXePToW6YlI3V1Ujbd?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1facfacd-ae7e-4d9e-d111-08dbcfa6920c
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Oct 2023 06:50:52.6839 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Oct 2023 07:03:58.5161 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 57061321-f537-4e03-f2b1-08dbcfa8669a
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: zpj2V7y5ZlYrxYB03rQd9PoLmnNihHCgyzIrlluFnZ5tmhWkBZSP451AW1x7JWsa
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB8502
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: DS3PEPF000099D5.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4134
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,34 +102,126 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Xiaogang.Chen@amd.com, Ramesh.Errabolu@amd.com
+Cc: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, amd-gfx@lists.freedesktop.org,
+ platform-driver-x86@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Patil.Reddy@amd.com, linux-input@vger.kernel.org, mario.limonciello@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 17.10.23 um 23:13 schrieb Felix Kuehling:
-> abo->tbo.resource may be NULL in amdgpu_vm_bo_update.
->
-> Fixes: 180253782038 ("drm/ttm: stop allocating dummy resources during BO creation")
-> Signed-off-by: Felix Kuehling <Felix.Kuehling@amd.com>
+Smart PC Solutions Builder allows for OEM to define a large number of
+custom system states to dynamically switch to. The system states are
+referred to as policies, and multiple policies can be loaded onto the
+system at any given time, however only one policy can be active at a
+given time.
 
-Reviewed-by: Christian König <christian.koenig@amd.com>
+Policy is a combination of PMF input and output capabilities. The inputs
+are the incoming information from the other kernel subsystems like LID
+state, Sensor info, GPU info etc and the actions are the updating the 
+power limits of SMU etc.
 
-> ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> index 46d27c8ffff7..d72daf15662f 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> @@ -1007,7 +1007,8 @@ int amdgpu_vm_bo_update(struct amdgpu_device *adev, struct amdgpu_bo_va *bo_va,
->   			struct drm_gem_object *gobj = dma_buf->priv;
->   			struct amdgpu_bo *abo = gem_to_amdgpu_bo(gobj);
->   
-> -			if (abo->tbo.resource->mem_type == TTM_PL_VRAM)
-> +			if (abo->tbo.resource &&
-> +			    abo->tbo.resource->mem_type == TTM_PL_VRAM)
->   				bo = gem_to_amdgpu_bo(gobj);
->   		}
->   		mem = bo->tbo.resource;
+The policy binary is signed and encrypted by a special key from AMD. This
+policy binary shall have the inputs and outputs which the OEMs can build
+for the platform customization that can enhance the user experience and
+system behavior.
+
+This series adds the initial support for Smart PC solution to PMF driver.
+
+Note that, on platforms where CnQF and Smart PC is advertised, Smart PC
+shall have higher precedence and same applies for Auto Mode.
+
+v3->v4:
+---------
+- Split v3 9/16 into 2 patches, that addresses using generic fn names
+- Add softdep [Ilpo] instead of request_module()
+- return proper ACPI status [Mario]
+- Update comments in code [Mario]
+- Remove missed double _ remarks
+- handle battery status branches [Ilpo]
+- Address KASAN problems 
+
+v2->v3:
+---------
+- Remove pci_get_device() for getting gpu handle
+- add .suspend handler for pmf driver
+- remove unwanted type caste
+- Align comments, spaces etc.
+- add wrapper for print_hex_dump_debug()
+- Remove lkp tags in commit-msg
+- Add macros for magic numbers
+- use right format specifiers for printing
+- propagate error codes back to the caller
+- remove unwanted comments
+
+
+v1->v2:
+---------
+- Remove __func__ macros
+- Remove manual function names inside prints
+- Handle tee_shm_get_va() failure
+- Remove double _
+- Add meaningful prints
+- pass amd_pmf_set_dram_addr() failure errors
+- Add more information to commit messages
+- use right format specifiers
+- use devm_ioremap() instead of ioremap()
+- address unsigned long vs u32 problems
+- Fix lkp reported issues
+- Add amd_pmf_remove_pb() to remove the debugfs files created(if any).
+- Make amd_pmf_open_pb() as static.
+- Add cooling device APIs for controlling amdgpu backlight
+- handle amd_pmf_apply_policies() failures
+- Split v1 14/15 into 2 patches further
+- use linux/units.h for better handling
+- add "depends on" AMD_SFH_HID for interaction with SFH
+- other cosmetic remarks
+
+Basavaraj Natikar (3):
+  HID: amd_sfh: rename float_to_int() to amd_sfh_float_to_int()
+  platform/x86/amd/pmf: Add PMF-AMDSFH interface for HPD
+  platform/x86/amd/pmf: Add PMF-AMDSFH interface for ALS
+
+Shyam Sundar S K (14):
+  platform/x86/amd/pmf: Add PMF TEE interface
+  platform/x86/amd/pmf: Add support for PMF-TA interaction
+  platform/x86/amd/pmf: Change return type of amd_pmf_set_dram_addr()
+  platform/x86/amd/pmf: Add support for PMF Policy Binary
+  platform/x86/amd/pmf: change amd_pmf_init_features() call sequence
+  platform/x86/amd/pmf: Add support to get inputs from other subsystems
+  platform/x86/amd/pmf: Add support update p3t limit
+  platform/x86/amd/pmf: Add support to update system state
+  platform/x86/amd/pmf: Make source_as_str() as non-static
+  platform/x86/amd/pmf: Add facility to dump TA inputs
+  platform/x86/amd/pmf: Add capability to sideload of policy binary
+  platform/x86/amd/pmf: dump policy binary data
+  platform/x86/amd/pmf: Add PMF-AMDGPU get interface
+  platform/x86/amd/pmf: Add PMF-AMDGPU set interface
+
+ Documentation/admin-guide/index.rst           |   1 +
+ Documentation/admin-guide/pmf.rst             |  24 +
+ drivers/gpu/drm/amd/amdgpu/Makefile           |   2 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu.h           |   1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_pmf.c       | 156 ++++++
+ drivers/hid/amd-sfh-hid/amd_sfh_common.h      |   6 +
+ drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_desc.c |  22 +-
+ drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c |  17 +
+ .../amd-sfh-hid/sfh1_1/amd_sfh_interface.c    |  48 ++
+ .../amd-sfh-hid/sfh1_1/amd_sfh_interface.h    |   1 +
+ drivers/platform/x86/amd/pmf/Kconfig          |   3 +
+ drivers/platform/x86/amd/pmf/Makefile         |   3 +-
+ drivers/platform/x86/amd/pmf/acpi.c           |  37 ++
+ drivers/platform/x86/amd/pmf/core.c           |  64 ++-
+ drivers/platform/x86/amd/pmf/pmf.h            | 208 +++++++
+ drivers/platform/x86/amd/pmf/spc.c            | 198 +++++++
+ drivers/platform/x86/amd/pmf/sps.c            |   5 +-
+ drivers/platform/x86/amd/pmf/tee-if.c         | 508 ++++++++++++++++++
+ include/linux/amd-pmf-io.h                    |  55 ++
+ 19 files changed, 1331 insertions(+), 28 deletions(-)
+ create mode 100644 Documentation/admin-guide/pmf.rst
+ create mode 100644 drivers/gpu/drm/amd/amdgpu/amdgpu_pmf.c
+ create mode 100644 drivers/platform/x86/amd/pmf/spc.c
+ create mode 100644 drivers/platform/x86/amd/pmf/tee-if.c
+ create mode 100644 include/linux/amd-pmf-io.h
+
+-- 
+2.25.1
 
