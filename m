@@ -2,56 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D5207CDE3D
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Oct 2023 16:04:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 752C47CDF32
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Oct 2023 16:17:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8787B10E0ED;
-	Wed, 18 Oct 2023 14:04:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 679DD10E090;
+	Wed, 18 Oct 2023 14:17:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 96D7510E090;
- Wed, 18 Oct 2023 14:04:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1697637845; x=1729173845;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=f4Zq33cofTRUoDj4rxlYFHVD2+ecpwiue6b3v8VzX9o=;
- b=MctV8Ha63bLcqQ0d9O5BsIKk3HToL9vjzNrvdRQ30OiaAwzqRIjOikbf
- khmBueXDmr2CiX+q7cFLdEr8Ba/hN9UKzXGNPl9+tlSt4u6ipEvSXQ/UG
- tTtc6TYfB5BBLmtZKGeJ+QlYxOi/bWOM+dAK/Mhi7nRp5fxvpS1bygOH2
- 0EVlgdJChK/aJ8T3MrwKSrQamL2dZ6J48UBaOmHvF2UqirFjmzyZWkkvr
- WHAqUEKRhfQavhSDIRYZOwstL0JrXj5Gg3dxognwRLqi4cPGUKEu/eXrz
- jY8fndrPQa7GVJT6vBRLIFEL57eghFS+wav3ESQiKlKrPfTDjcUd++LmP w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="384898156"
-X-IronPort-AV: E=Sophos;i="6.03,235,1694761200"; d="scan'208";a="384898156"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Oct 2023 07:04:04 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="847278877"
-X-IronPort-AV: E=Sophos;i="6.03,235,1694761200"; d="scan'208";a="847278877"
-Received: from nirmoyda-mobl.ger.corp.intel.com (HELO [10.249.39.1])
- ([10.249.39.1])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Oct 2023 07:04:02 -0700
-Message-ID: <3887c6f2-687e-01d0-71c9-b2354a0df9c7@linux.intel.com>
-Date: Wed, 18 Oct 2023 16:04:00 +0200
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
+ [IPv6:2a00:1450:4864:20::433])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7545010E090
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Oct 2023 14:17:48 +0000 (UTC)
+Received: by mail-wr1-x433.google.com with SMTP id
+ ffacd0b85a97d-32003aae100so5076598f8f.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Oct 2023 07:17:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1697638667; x=1698243467; darn=lists.freedesktop.org;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=qJCjKDRaOx5XAC2x2yATrx2IuXM6NcvlHMKhJ0WmDlo=;
+ b=jTgKnJdZ/YbBk6CPL2xsMU/ogkdW6yTqDkFkSI4r+a+VfSLQ2uZGbIBwsAnCGBSQEO
+ +GhBlnbo9bN3SEpKNnCmXfOopj9b8barpMRhmvM2vbj1SjewbEm/6D9qmRBX5hZO9P0p
+ HEFVfCT9dCS8VU1xBOMgIQp7wLXfma6afSsrUWwcElG95TqJyJ9u/ompoEiNWxwynYQg
+ VG8szZdkTR1/idP0FD/9rgp40yX80Q0bFssxd3i+ec7ihCzl86lr8x9AunQ/IEMFoq26
+ UkjwSKmTliQQNg7nYHcdcgbE5U0Eb06p7rHxXNQUEy2dsL93GJoMbMJr7uD8/RISFjDk
+ WYRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1697638667; x=1698243467;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=qJCjKDRaOx5XAC2x2yATrx2IuXM6NcvlHMKhJ0WmDlo=;
+ b=glkcmodjZman6J0q65YbmqMi15qKe7xnZhLaxOEPduly47UO5uNC3Au4FTiQ9Uz3pu
+ 1ZNA2cWiyB/cG6sc02kbID/oQEEjFBPeLkKjoenlA1lyv7/wPeoPJ3OmjKMVXjxpMCnM
+ V8AWsLtxFkvyF5ao9kikXE4oPGn72xforiCRblfDk2p2o9Bhb53lPR9kaGYSqHLWYKYt
+ mq/+HuY6abjNSBEBGR74P5qtAvw78J14c8sKuJBbyY8zaD5U6kZZsTc7cypsXBSlthtX
+ Uns3oRRXMOkWFX848g5IQXmsf8vLy1nDKUjMnUIB91tYvYlXZxTyGrUAErITKRY0dfrG
+ NKNQ==
+X-Gm-Message-State: AOJu0YzLv4Sj6T44xGJ2CPAkfnz14cnQL8f6xjctwSdQiLl6uXUgo5Sw
+ a0maydjvKm5Ti1dgTmqxclP5iw==
+X-Google-Smtp-Source: AGHT+IFr59Tvq3ufc4ENsmwMZ5b2E4kBpZFkx6eFWK7w++DMB7Q644jSxoa/TyJQoJ2Opsnm2iogoA==
+X-Received: by 2002:adf:f092:0:b0:32d:980e:ae7 with SMTP id
+ n18-20020adff092000000b0032d980e0ae7mr4768010wro.2.1697638666789; 
+ Wed, 18 Oct 2023 07:17:46 -0700 (PDT)
+Received: from localhost ([102.36.222.112]) by smtp.gmail.com with ESMTPSA id
+ a17-20020a5d5091000000b0032d893d8dc8sm2250422wrt.2.2023.10.18.07.17.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 18 Oct 2023 07:17:46 -0700 (PDT)
+Date: Wed, 18 Oct 2023 17:17:42 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: ville.syrjala@linux.intel.com
+Subject: [bug report] drm: Warn about negative sizes when calculating scale
+ factor
+Message-ID: <c7f0fd2f-a48d-4120-9291-a0cc58faadce@moroto.mountain>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v3] drm/i915: Flush WC GGTT only on required platforms
-Content-Language: en-US
-To: Andi Shyti <andi.shyti@linux.intel.com>
-References: <20231018093815.1349-1-nirmoy.das@intel.com>
- <ZS/GZ0U7rOuuD0Kw@ashyti-mobl2.lan>
- <36c0e644-4013-f2f8-a0a7-9b9c3d8423c9@linux.intel.com>
- <ZS/W6obrW/g8WuS4@ashyti-mobl2.lan>
-From: Nirmoy Das <nirmoy.das@linux.intel.com>
-In-Reply-To: <ZS/W6obrW/g8WuS4@ashyti-mobl2.lan>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,55 +69,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, Jonathan Cavitt <jonathan.cavitt@intel.com>,
- stable@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Matt Roper <matthew.d.roper@intel.com>,
- John Harrison <john.c.harrison@intel.com>, Nirmoy Das <nirmoy.das@intel.com>
+Cc: Daniel =?iso-8859-1?Q?D=EDaz?= <daniel.diaz@linaro.org>,
+ kv-team <kv-team@linaro.org>, Naresh Kamboju <naresh.kamboju@linaro.org>,
+ dri-devel@lists.freedesktop.org, Arthur Grillo <arthurgrillo@riseup.net>,
+ kunit-dev@googlegroups.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+drivers/gpu/drm/drm_rect.c
+   134  static int drm_calc_scale(int src, int dst)
+   135  {
+   136          int scale = 0;
+   137  
+   138          if (WARN_ON(src < 0 || dst < 0))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+These days, with automated fuzz testing, this WARN_ON() is problematic.
+WARN() is considered a kernel bug, and pr_warn() is the hip new way to
+alert the user about issues.
 
-On 10/18/2023 3:00 PM, Andi Shyti wrote:
-> Hi Nirmoy,
->
->>>> gen8_ggtt_invalidate() is only needed for limited set of platforms
->>>> where GGTT is mapped as WC. This was added as way to fix WC based GGTT in
->>>> commit 0f9b91c754b7 ("drm/i915: flush system agent TLBs on SNB") and
->>>> there are no reference in HW docs that forces us to use this on non-WC
->>>> backed GGTT.
->>>>
->>>> This can also cause unwanted side-effects on XE_HP platforms where
->>>> GFX_FLSH_CNTL_GEN6 is not valid anymore.
->>>>
->>>> v2: Add a func to detect wc ggtt detection (Ville)
->>>> v3: Improve commit log and add reference commit (Daniel)
->>>>
->>>> Fixes: d2eae8e98d59 ("drm/i915/dg2: Drop force_probe requirement")
->>> I'm wondering if this is the right Fixes, though. Should this
->>> rather be:
->>>
->>> Fixes: 6266992cf105 ("drm/i915/gt: remove GRAPHICS_VER == 10")
->> Hard to find a real Fixes for this. I just want to backport this to dg2
->> where we can have unwanted side-effects.
-> yes, this piece of code has moved around enough so to make it
-> diffuclt to track its origin.
->
-> I think the one I found should be the correct one,
+It should probably pr_warn_once() because this is easy to trigger.
+There is a kunit test which triggers it:
+drivers/gpu/drm/tests/drm_rect_test.c
 
-That just removes a graphics ver, not related to WC GGTT map or XE_HP.
+Reported-by: Linux Kernel Functional Testing <lkft@linaro.org>
 
->   but the dg2
-> force probe removeal can also become a placeholder for DG2 fixes.
+   139                  return -EINVAL;
+   140  
+   141          if (dst == 0)
+   142                  return 0;
+   143  
+   144          if (src > (dst << 16))
+   145                  return DIV_ROUND_UP(src, dst);
+   146          else
+   147                  scale = src / dst;
+   148  
+   149          return scale;
+   150  }
 
-Yes, I have no better ideas too.
+The stack trace is:
 
+[ 1297.757480] WARNING: CPU: 0 PID: 1555 at drivers/gpu/drm/drm_rect.c:138 drm_rect_calc_hscale+0xcc/0xd8
+[ 1297.758551] Modules linked in:
+[ 1297.759247] CPU: 0 PID: 1555 Comm: kunit_try_catch Tainted: G    B            N 6.5.1-rc1 #1
+[ 1297.760085] Hardware name: Generic DT based system
+[ 1297.760619]  unwind_backtrace from show_stack+0x18/0x1c
+[ 1297.761257]  show_stack from dump_stack_lvl+0x58/0x70
+[ 1297.761936]  dump_stack_lvl from __warn+0xa8/0x180
+[ 1297.762536]  __warn from warn_slowpath_fmt+0x110/0x1dc
+[ 1297.762901]  warn_slowpath_fmt from drm_rect_calc_hscale+0xcc/0xd8
+[ 1297.763241]  drm_rect_calc_hscale from drm_test_rect_calc_hscale+0xb0/0x150
+[ 1297.763608]  drm_test_rect_calc_hscale from kunit_generic_run_threadfn_adapter+0x2c/0x48
+[ 1297.764020]  kunit_generic_run_threadfn_adapter from kthread+0x184/0x1a8
+[ 1297.764384]  kthread from ret_from_fork+0x14/0x2c
+[ 1297.764812] Exception stack(0xfa41bfb0 to 0xfa41bff8)
+[ 1297.765470] bfa0:                                     00000000 00000000 00000000 00000000
+[ 1297.767825] bfc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+[ 1297.768452] bfe0: 00000000 00000000 00000000 00000000 00000013 00000000
+[ 1297.769652] ---[ end trace 0000000000000000 ]---
 
-Regards,
-
-Nirmoy
-
->
-> I won't complain.
->
-> Andi
+regards,
+dan carpenter
