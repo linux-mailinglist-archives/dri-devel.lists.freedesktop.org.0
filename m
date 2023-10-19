@@ -1,52 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C5457CF737
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Oct 2023 13:42:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 724307CF74F
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Oct 2023 13:46:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F25AE10E4C3;
-	Thu, 19 Oct 2023 11:42:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D0B5C10E4C7;
+	Thu, 19 Oct 2023 11:46:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1EF9B10E4C3
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Oct 2023 11:42:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1697715748; x=1729251748;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=dGVV1XZ3kTX7Tv24pGahJ1gi4uw7pJN6njyEQsHMwIA=;
- b=kcWq2VBJgij19qfb9OZuRvNUJgk/GztKJgxi+gCHZY4v1HOhsNHdLM0S
- pbEB/ra030cEIBOMI6v2KH2XktCL7sGaIVnl/+TO4VuSXMRdsWq47yC0A
- sPXxpdfQ9k+fcAwL57ahWPlh4JdOvxUGHUkKDpWvoySm1tISNHrfNmNfL
- GvleN9SQJbAJI97kVM3JDqqmM0CZ9NaKbkg8anFXhFoYjt6Kw3rH7CMEu
- dMRgjHQqjXmWkYNv+x/u1ImYPJUy5svz/P8xI7tlT7MqFIpnCWfDlQXjO
- x9ZI05cwsU5FeQiDhPXiuCPLMKRgw/tfkaL8geu0Pj8aVZ4nJdiJsYBxX g==;
-X-IronPort-AV: E=Sophos;i="6.03,237,1694728800"; d="scan'208";a="33551544"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
- by mx1.tq-group.com with ESMTP; 19 Oct 2023 13:42:25 +0200
-Received: from steina-w.localnet (steina-w.tq-net.de [10.123.53.18])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 81B9C10E4C5;
+ Thu, 19 Oct 2023 11:46:09 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 8F44D280082;
- Thu, 19 Oct 2023 13:42:25 +0200 (CEST)
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org
-Subject: Re: [RFC PATCH 03/10] drm/mipi-dsi: add API for manual control over
- the DSI link power state
-Date: Thu, 19 Oct 2023 13:42:27 +0200
-Message-ID: <1907377.IobQ9Gjlxr@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <CAA8EJpp48AdJmx_U=bEJZUWZgOiT1Ctz6Lpe9QwjLXkMQvsw5w@mail.gmail.com>
-References: <20231016165355.1327217-1-dmitry.baryshkov@linaro.org>
- <7e4ak4e77fp5dat2aopyq3g4wnqu3tt7di7ytdr3dvgjviyhrd@vqiqx6iso6vg>
- <CAA8EJpp48AdJmx_U=bEJZUWZgOiT1Ctz6Lpe9QwjLXkMQvsw5w@mail.gmail.com>
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 7F9271F88B;
+ Thu, 19 Oct 2023 11:46:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1697715967; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type;
+ bh=PLDnM/toaIRsi/qxgoUHzTNOVJaQqnYg7Vx9UUzRpZ8=;
+ b=wEssl7BC+7bQ+ifparmKrP/sOWQkl2H4a1l7ULRBlkx4SbC2RP7vWEh/JbOnRYMXxPJb2w
+ jnaTztf5FtX6aBk6te6YSd3kSxprbqX8f3uno3k881FQ6on8jnOYpausBDXXriFcQytVUz
+ 6/+5fsAG3HmZsZ9f+22Q+HG1K9Xs5sg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1697715967;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type;
+ bh=PLDnM/toaIRsi/qxgoUHzTNOVJaQqnYg7Vx9UUzRpZ8=;
+ b=0s5Ndoa3SbhmPdkYqzkH9cNTYwqfy+FvRxgxGTeT1a7cJjcMPwEQLEw41NKZGWq3lgrQt5
+ jkIX75At2Y/h8FDQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4CAC9139C2;
+ Thu, 19 Oct 2023 11:46:07 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id NiCqEf8WMWWJJwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 19 Oct 2023 11:46:07 +0000
+Date: Thu, 19 Oct 2023 13:46:05 +0200
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PULL] drm-misc-fixes
+Message-ID: <20231019114605.GA22540@linux-uq9g>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Authentication-Results: smtp-out2.suse.de;
+	none
+X-Spam-Level: 
+X-Spam-Score: -6.60
+X-Spamd-Result: default: False [-6.60 / 50.00]; ARC_NA(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_DN_SOME(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ MIME_GOOD(-0.10)[text/plain]; NEURAL_HAM_LONG(-3.00)[-1.000];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-1.00)[-1.000]; RCPT_COUNT_TWELVE(0.00)[12];
+ FREEMAIL_TO(0.00)[gmail.com,ffwll.ch]; FROM_EQ_ENVFROM(0.00)[];
+ MIME_TRACE(0.00)[0:+]; MID_RHS_NOT_FQDN(0.50)[];
+ RCVD_COUNT_TWO(0.00)[2]; RCVD_TLS_ALL(0.00)[];
+ BAYES_HAM(-3.00)[100.00%]
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,177 +77,143 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Neil Armstrong <neil.armstrong@linaro.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Robert Foss <rfoss@kernel.org>,
- Douglas Anderson <dianders@chromium.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-arm-msm@vger.kernel.org,
- Jonas Karlman <jonas@kwiboo.se>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Dave and Daniel,
 
-Am Donnerstag, 19. Oktober 2023, 13:19:51 CEST schrieb Dmitry Baryshkov:
-> On Thu, 19 Oct 2023 at 12:26, Maxime Ripard <mripard@kernel.org> wrote:
-> > On Mon, Oct 16, 2023 at 07:53:48PM +0300, Dmitry Baryshkov wrote:
-> > > The MIPI DSI links do not fully fall into the DRM callbacks model.
-> >=20
-> > Explaining why would help
->=20
-> A kind of explanation comes afterwards, but probably I should change
-> the order of the phrases and expand it:
->=20
-> The atomic_pre_enable / atomic_enable and correspondingly
-> atomic_disable / atomic_post_disable expect that the bridge links
-> follow a simple paradigm: either it is off, or it is on and streaming
-> video. Thus, it is fine to just enable the link at the enable time,
-> doing some preparations during the pre_enable.
->=20
-> But then it causes several issues with DSI. First, some of the DSI
-> bridges and most of the DSI panels would like to send commands over
-> the DSI link to setup the device. Next, some of the DSI hosts have
-> limitations on sending the commands. The proverbial sunxi DSI host can
-> not send DSI commands after the video stream has started. Thus most of
-> the panels have opted to send all DSI commands from pre_enable (or
-> prepare) callback (before the video stream has started).
->=20
-> However this leaves no good place for the DSI host to power up the DSI
-> link. By default the host's pre_enable callback is called after the
-> DSI bridge's pre_enable. For quite some time we were powering up the
-> DSI link from mode_set. This doesn't look fully correct. And also we
-> got into the issue with ps8640 bridge, which requires for the DSI link
-> to be quiet / unpowered at the bridge's reset time.
+this is the PR for drm-misc-fixes.
 
-There are also bridges (e.g. tc358767) which require DSI-LP11 upon bridge=20
-reset. And additionally this DSI-(e)DP bridge requires LP11 while accessing=
-=20
-DP-AUX channel, e.g. reading EDID. So bridges need at least some control ov=
-er=20
-DSI line state.
+Best regards
+Thomas
 
-> Dave has come with the idea of pre_enable_prev_first /
-> prepare_prev_first flags, which attempt to solve the issue by
-> reversing the order of pre_enable callbacks. This mostly solves the
-> issue. However during this cycle it became obvious that this approach
-> is not ideal too. There is no way for the DSI host to know whether the
-> DSI panel / bridge has been updated to use this flag or not, see the
-> discussion at [1].
->=20
-> Thus comes this proposal. It allows for the panels to explicitly bring
-> the link up and down at the correct time, it supports automatic use
-> case, where no special handling is required. And last, but not least,
-> it allows the DSI host to note that the bridge / panel were not
-> updated to follow new protocol and thus the link should be powered on
-> at the mode_set time. This leaves us with the possibility of dropping
-> support for this workaround once all in-kernel drivers are updated.
+drm-misc-fixes-2023-10-19:
+Short summary of fixes pull:
 
-I want to use this series to support tc358767 properly, because=20
-pre_enable_prev_first is not enough, see AUX channel above. I hope I'll fin=
-d=20
-any time soon.
+amdgpu:
+- Disable AMD_CTX_PRIORITY_UNSET
 
-Best regards,
-Alexander
+bridge:
+- ti-sn65dsi86: Fix device lifetime
 
->=20
-> > > The drm_bridge_funcs abstraction.
-> >=20
-> > Is there a typo or missing words?
->=20
-> missing comma in front of The
->=20
-> > > Instead of having just two states (off and on) the DSI hosts have
-> > > separate LP-11 state. In this state the host is on, but the video
-> > > stream is not yet enabled.
-> > >=20
-> > > Introduce API that allows DSI bridges / panels to control the DSI host
-> > > power up state.
->=20
-> [1]
-> https://lore.kernel.org/dri-devel/6c0dd9fd-5d8e-537c-804f-7a03d5899a07@li=
-na
-> ro.org/
-> > > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > > ---
-> > >=20
-> > >  drivers/gpu/drm/drm_mipi_dsi.c | 31 +++++++++++++++++++++++++++++++
-> > >  include/drm/drm_mipi_dsi.h     | 29 +++++++++++++++++++++++++----
-> > >  2 files changed, 56 insertions(+), 4 deletions(-)
-> > >=20
-> > > diff --git a/drivers/gpu/drm/drm_mipi_dsi.c
-> > > b/drivers/gpu/drm/drm_mipi_dsi.c index 14201f73aab1..c467162cb7d8
-> > > 100644
-> > > --- a/drivers/gpu/drm/drm_mipi_dsi.c
-> > > +++ b/drivers/gpu/drm/drm_mipi_dsi.c
-> > > @@ -428,6 +428,37 @@ int devm_mipi_dsi_attach(struct device *dev,
-> > >=20
-> > >  }
-> > >  EXPORT_SYMBOL_GPL(devm_mipi_dsi_attach);
-> > >=20
-> > > +bool mipi_dsi_host_power_control_available(struct mipi_dsi_host *hos=
-t)
-> > > +{
-> > > +     const struct mipi_dsi_host_ops *ops =3D host->ops;
-> > > +
-> > > +     return ops && ops->power_up;
-> > > +}
-> > > +EXPORT_SYMBOL_GPL(mipi_dsi_host_power_control_available);
-> > > +
-> > > +int mipi_dsi_host_power_up(struct mipi_dsi_host *host)
-> > > +{
-> > > +     const struct mipi_dsi_host_ops *ops =3D host->ops;
-> > > +
-> > > +     if (!mipi_dsi_host_power_control_available(host))
-> > > +             return -EOPNOTSUPP;
-> > > +
-> > > +     return ops->power_up ? ops->power_up(host) : 0;
-> > > +}
-> > > +EXPORT_SYMBOL_GPL(mipi_dsi_host_power_up);
-> > > +
-> > > +void mipi_dsi_host_power_down(struct mipi_dsi_host *host)
-> > > +{
-> > > +     const struct mipi_dsi_host_ops *ops =3D host->ops;
-> > > +
-> > > +     if (!mipi_dsi_host_power_control_available(host))
-> > > +             return;
-> > > +
-> > > +     if (ops->power_down)
-> > > +             ops->power_down(host);
-> > > +}
-> > > +EXPORT_SYMBOL_GPL(mipi_dsi_host_power_down);
-> > > +
-> >=20
-> > If this API is supposed to be used by DSI devices, it should probably
-> > take a mipi_dsi_device pointer as a parameter?
->=20
-> Ack.
->=20
-> > We should probably make sure it hasn't been powered on already too?
->=20
-> Ack, I can add an atomic count there and a WARN_ON. However I don't
-> think that it is a real problem.
->=20
-> > Maxime
->=20
-> --
-> With best wishes
->=20
-> Dmitry
+edid:
+- Add quirk for BenQ GW2765
 
+ivpu:
+- Extend address range for MMU mmap
 
-=2D-=20
-TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
-Amtsgericht M=FCnchen, HRB 105018
-Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
-http://www.tq-group.com/
+nouveau:
+- DP-connector fixes
+- Documentation fixes
 
+panel:
+- Move AUX B116XW03 into panel-simple
 
+scheduler:
+- Eliminate DRM_SCHED_PRIORITY_UNSET
+
+ttm:
+- Fix possible NULL-ptr deref in cleanup
+The following changes since commit c1165df2be2fffe3adeeaa68f4ee4325108c5e4e:
+
+  drm/tiny: correctly print `struct resource *` on error (2023-10-12 10:57:07 +0200)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-fixes-2023-10-19
+
+for you to fetch changes up to 8f5ad367e8b884772945c6c9fb622ac94b7d3e32:
+
+  accel/ivpu: Extend address range for MMU mmap (2023-10-19 08:01:20 +0200)
+
+----------------------------------------------------------------
+Short summary of fixes pull:
+
+amdgpu:
+- Disable AMD_CTX_PRIORITY_UNSET
+
+bridge:
+- ti-sn65dsi86: Fix device lifetime
+
+edid:
+- Add quirk for BenQ GW2765
+
+ivpu:
+- Extend address range for MMU mmap
+
+nouveau:
+- DP-connector fixes
+- Documentation fixes
+
+panel:
+- Move AUX B116XW03 into panel-simple
+
+scheduler:
+- Eliminate DRM_SCHED_PRIORITY_UNSET
+
+ttm:
+- Fix possible NULL-ptr deref in cleanup
+
+----------------------------------------------------------------
+Douglas Anderson (1):
+      drm/panel: Move AUX B116XW03 out of panel-edp back to panel-simple
+
+Hamza Mahfooz (1):
+      drm/edid: add 8 bpc quirk to the BenQ GW2765
+
+Jacek Lawrynowicz (1):
+      accel/ivpu: Don't enter d0i3 during FLR
+
+Karol Herbst (1):
+      drm/nouveau/disp: fix DP capable DSM connectors
+
+Karolina Stolarek (1):
+      drm/ttm: Reorder sys manager cleanup step
+
+Luben Tuikov (2):
+      drm/amdgpu: Unset context priority is now invalid
+      gpu/drm: Eliminate DRM_SCHED_PRIORITY_UNSET
+
+Randy Dunlap (1):
+      drm/nouveau: exec: fix ioctl kernel-doc warning
+
+Stanislaw Gruszka (1):
+      Revert "accel/ivpu: Use cached buffers for FW loading"
+
+Stephen Boyd (1):
+      drm/bridge: ti-sn65dsi86: Associate DSI device lifetime with auxiliary device
+
+Wludzik, Jozef (1):
+      accel/ivpu: Extend address range for MMU mmap
+
+ drivers/accel/ivpu/ivpu_drv.c                    | 11 ++++++--
+ drivers/accel/ivpu/ivpu_drv.h                    |  1 +
+ drivers/accel/ivpu/ivpu_fw.c                     |  9 +++---
+ drivers/accel/ivpu/ivpu_gem.h                    |  5 ----
+ drivers/accel/ivpu/ivpu_hw.h                     |  8 ++++++
+ drivers/accel/ivpu/ivpu_hw_37xx.c                |  1 +
+ drivers/accel/ivpu/ivpu_hw_40xx.c                |  1 +
+ drivers/accel/ivpu/ivpu_mmu_context.c            |  9 ++----
+ drivers/accel/ivpu/ivpu_pm.c                     |  3 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c          |  5 ++--
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c            | 14 +++++-----
+ drivers/gpu/drm/drm_edid.c                       |  3 ++
+ drivers/gpu/drm/nouveau/nvkm/engine/disp/uconn.c | 14 +++++++++-
+ drivers/gpu/drm/panel/panel-edp.c                | 29 --------------------
+ drivers/gpu/drm/panel/panel-simple.c             | 35 ++++++++++++++++++++++++
+ drivers/gpu/drm/ttm/ttm_device.c                 |  8 +++---
+ include/drm/gpu_scheduler.h                      |  3 +-
+ include/uapi/drm/nouveau_drm.h                   |  4 +--
+ 18 files changed, 96 insertions(+), 67 deletions(-)
+
+-- 
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
