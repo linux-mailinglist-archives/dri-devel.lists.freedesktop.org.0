@@ -2,38 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C30117CF47C
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Oct 2023 11:56:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6986D7CF4EA
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Oct 2023 12:17:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E176810E4B4;
-	Thu, 19 Oct 2023 09:55:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A694F8825B;
+	Thu, 19 Oct 2023 10:17:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 63E2110E4B8
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Oct 2023 09:55:55 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A1E010E4B2
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Oct 2023 10:17:17 +0000 (UTC)
 Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
  [2.237.20.237])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 0D69B6607322;
- Thu, 19 Oct 2023 10:55:53 +0100 (BST)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id B35136607322;
+ Thu, 19 Oct 2023 11:17:14 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1697709354;
- bh=yuKemI62+zc0hC6m7ajh4gUvLspeNsvwTUgJd0PrQ3o=;
+ s=mail; t=1697710635;
+ bh=0P71wcdmZeNDRgq2k3g+efA5oDtGoggSn0l1TpQZ17k=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=E+k7IAIeoa8vocqyyDDT6Qgjn08rqbP1ptYlde1udC3I9r3cjr+YmIzxYfs2e6I8d
- v2xXGzIDV2iJAhtGZuvIs+vT1EWsK8VLcqw9t9CljyD47vIeES+qVZ+iWhyWgjhE0Q
- eyYgJmxNqJVwzv3dHP/dy39xoJhtz7aLAM8B6FDBtuC25Q6Jk27X0MiFVljt9RE+IS
- KwuoiIpl/g2z7ES3crb5rRImtMi+zYQLtEMjge2AqTCXNJBMmz2ORq4jLETdDGxx9w
- FarTWHblGKqm0Q4bYpU/GJyzutFlVEQ/uLNNMp2zh/mYzE7LIdEmdoa+Z1zC1uKfGx
- QQDaY5h5eq5kw==
-Message-ID: <fdeea37a-6683-44dd-b946-ee708a0b9000@collabora.com>
-Date: Thu, 19 Oct 2023 11:55:50 +0200
+ b=Ttpn6UU4pcVlAK9qmpH2/G52og116jTuzlfzkXrQlp+kr/iFMn+jZ7pj3wdRYK4Uk
+ DGRUSWSidFaLwUL7IObs7lYi43ktQUdnUwE8/L63vPmpT6TYRg7Z9dlf5AbyGus2fs
+ abwR9bFieb8jZpsER4FUP1W3sck4RS53F0T2jrobMfN5BY+JAyS/s2kFWN9d5J5t3u
+ z6KAbfY6K8NNxU11N7LqnGC0T03FhbnfaE0lYNeN2dWW672oOPcpFtgzCqFDdFGmQK
+ 5FDEeeXbRAsIuHfLUOAjhLUbLscwsaa24tySuE1e2ajXuZcBSI5tYd/9QE9TCpqskn
+ Zqtu4MHWRPdFw==
+Message-ID: <0fd83158-5f7c-4f0b-95ff-5857668ab9e8@collabora.com>
+Date: Thu, 19 Oct 2023 12:17:12 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 20/24] drm/mediatek: Add Padding to OVL adaptor
+Subject: Re: [PATCH v10 15/24] drm/mediatek: Remove ineffectual power
+ management codes
 Content-Language: en-US
 To: =?UTF-8?B?U2hhd24gU3VuZyAo5a6L5a2d6KyZKQ==?= <Shawn.Sung@mediatek.com>,
  =?UTF-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>,
@@ -41,11 +42,11 @@ To: =?UTF-8?B?U2hhd24gU3VuZyAo5a6L5a2d6KyZKQ==?= <Shawn.Sung@mediatek.com>,
  "robh+dt@kernel.org" <robh+dt@kernel.org>,
  "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>
 References: <20231019055619.19358-1-shawn.sung@mediatek.com>
- <20231019055619.19358-21-shawn.sung@mediatek.com>
- <0a3b0755-73e3-4698-9a3a-be38578ceb3f@collabora.com>
- <9939f8f5fbc2fcc469db212cf53fd3be0231384f.camel@mediatek.com>
+ <20231019055619.19358-16-shawn.sung@mediatek.com>
+ <5a059ca0-fcb7-4730-a0d8-29103fb71d54@collabora.com>
+ <2313a4b08f57ab24b48a13a31845eed7e0ab042d.camel@mediatek.com>
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <9939f8f5fbc2fcc469db212cf53fd3be0231384f.camel@mediatek.com>
+In-Reply-To: <2313a4b08f57ab24b48a13a31845eed7e0ab042d.camel@mediatek.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -77,59 +78,102 @@ Cc: =?UTF-8?B?TmF0aGFuIEx1ICjlkYLmnbHpnJYp?= <Nathan.Lu@mediatek.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 19/10/23 11:20, Shawn Sung (宋孝謙) ha scritto:
+Il 19/10/23 11:52, Shawn Sung (宋孝謙) ha scritto:
 > Hi Angelo,
 > 
-> On Thu, 2023-10-19 at 11:10 +0200, AngeloGioacchino Del Regno wrote:
->>>    static const struct of_device_id mtk_ovl_adaptor_comp_dt_ids[] =
->>> {
->>> +	{ .compatible = "mediatek,mt8188-padding", .data = (void
->>> *)OVL_ADAPTOR_TYPE_PADDING },
+> On Thu, 2023-10-19 at 11:07 +0200, AngeloGioacchino Del Regno wrote:
+>> Il 19/10/23 07:56, Hsiao Chien Sung ha scritto:
+>>> Display modules will be powered on when .atomic_enable(),
+>>> there is no need to do it again in mtk_crtc_ddp_hw_init().
+>>> Besides, the DRM devices are created manually when mtk-mmsys
+>>> is probed and there is no power domain linked to it.
+>>>
+>>> Fixes: 119f5173628a ("drm/mediatek: Add DRM Driver for Mediatek SoC
+>>> MT8173.")
+>>>
+>>> Signed-off-by: Hsiao Chien Sung <shawn.sung@mediatek.com>
+>>> ---
+>>>    drivers/gpu/drm/mediatek/mtk_drm_crtc.c | 18 +++---------------
+>>>    1 file changed, 3 insertions(+), 15 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+>>> b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+>>> index bc4cc75cca18..c7edd80be428 100644
+>>> --- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+>>> +++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+>>> @@ -6,7 +6,6 @@
+>>>    #include <linux/clk.h>
+>>>    #include <linux/dma-mapping.h>
+>>>    #include <linux/mailbox_controller.h>
+>>> -#include <linux/pm_runtime.h>
+>>>    #include <linux/soc/mediatek/mtk-cmdq.h>
+>>>    #include <linux/soc/mediatek/mtk-mmsys.h>
+>>>    #include <linux/soc/mediatek/mtk-mutex.h>
+>>> @@ -362,22 +361,16 @@ static int mtk_crtc_ddp_hw_init(struct
+>>> mtk_drm_crtc *mtk_crtc, struct drm_atomic
+>>>    		drm_connector_list_iter_end(&conn_iter);
+>>>    	}
+>>>    
+>>> -	ret = pm_runtime_resume_and_get(crtc->dev->dev);
+>>> -	if (ret < 0) {
+>>> -		DRM_ERROR("Failed to enable power domain: %d\n", ret);
+>>> -		return ret;
+>>> -	}
+>>> -
 >>
->> Uhm, for consistency I'd call this "mediatek,mt8188-disp-padding"
->> (you don't have
->> to drop Reviewed-by tags for such a change, not here and not in the
->> yaml commit),
->> but it's fine if you have reasons against that.
+>> Are you really sure that writes to DISP_REG_OVL_xxx and others in
+>> other modules,
+>> called by the .layer_config() callback, can be successfully done on
+>> an unpowered
+>> and/or unclocked module, on all MediaTek SoCs?
+>> This looks a bit odd.
+> 
+> Not sure if I get your point correctly. We removed this PM API because:
+> 
+> 1. mtk_crtc_ddp_hw_init() is called by mtk_drm_crtc_atomic_enable(),
+> and the new inline function mtk_ddp_comp_power_on() is called before hw
+> init, we can make sure the power is on before configuring the hardware.
+> 
+> 2. The device "crtc->dev->dev" here is assigned by the probe function
+> of mtk-mmsys, which will be look like "mediatek-drm.auto.13", and this
+> device is not linked to any power domain.
+> 
+
+Thanks for the clarification. In this case:
+
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+
 >>
->> So, regardless of this being changed or not
+>>>    	ret = mtk_mutex_prepare(mtk_crtc->mutex);
+>>>    	if (ret < 0) {
+>>>    		DRM_ERROR("Failed to enable mutex clock: %d\n", ret);
+>>> -		goto err_pm_runtime_put;
+>>> +		goto error;
+>>>    	}
+>>>    
+>>>    	ret = mtk_crtc_ddp_clk_enable(mtk_crtc);
+>>>    	if (ret < 0) {
+>>>    		DRM_ERROR("Failed to enable component clocks: %d\n",
+>>> ret);
+>>> -		goto err_mutex_unprepare;
+>>> +		goto error;
+>>>    	}
+>>>    
+>>>    	for (i = 0; i < mtk_crtc->ddp_comp_nr - 1; i++) {
+>>> @@ -426,16 +419,13 @@ static int mtk_crtc_ddp_hw_init(struct
+>>> mtk_drm_crtc *mtk_crtc, struct drm_atomic
+>>>    
 >>
->> Reviewed-by: AngeloGioacchino Del Regno <
->> angelogioacchino.delregno@collabora.com>
+>> ...because you could otherwise just call pm_runtime_put() here,
+>> instead of removing
+>> the pm_runtime_resume_and_get() call, which is something I would
+>> advise to do.
 >>
->>>    	{ .compatible = "mediatek,mt8195-disp-ethdr", .data = (void
->>> *)OVL_ADAPTOR_TYPE_ETHDR },
->>>    	{ .compatible = "mediatek,mt8195-disp-merge", .data = (void
->>> *)OVL_ADAPTOR_TYPE_MERGE },
->>>    	{ .compatible = "mediatek,mt8195-vdo1-rdma", .data = (void
->>> *)OVL_ADAPTOR_TYPE_MDP_RDMA },
+>> Regards,
+>> Angelo
 >>
 > 
-> Thanks for pointing this out. Had changed Padding driver's name to
-> "mtk-disp-padding", but I just notice that Padding will also be used by
-> MDP and they will share the same driver with display. Should we change
-> the name again or is it just fine to use "mtk-disp-padding"?
-> 
-
-That's like many other components in MediaTek, so we can keep the mtk-disp-padding
-name.... in devicetree, we will anyway use "mediatek,mt8195-mdp3-padding" as one of
-the compatible string(s).
-
-This is the only way that we have to actually distinguish between components used
-for MDP3 and components used for the display subsystem, if we keep them "generic"
-we won't understand what's going on in case of issues.
-
-The driver name should contain "disp" for consistency with all of the component
-drivers in mediatek-drm; if this wasn't in this folder, we could've dropped the
-"disp" in the name, but that's not the case.
-
-Consistency is #1.
-
-Cheers,
-Angelo
-
 > Thanks,
 > Shawn
-
 
 
