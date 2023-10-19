@@ -2,52 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9420A7CFBCD
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Oct 2023 15:57:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E8317CFC5D
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Oct 2023 16:22:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 36D1110E4D8;
-	Thu, 19 Oct 2023 13:57:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C22FE10E4F4;
+	Thu, 19 Oct 2023 14:22:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7521710E4D8
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Oct 2023 13:57:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1697723821;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=e5p++WBNM2L4lle+sU8T38vITF/7qRmeEbfPkETi0Q8=;
- b=SbIXsW3629lFG3aqV0JTR/KiYvQJS5lxoLoqWUVvv4yK5tGPP/6lNoITTR1dzAVvtkMyQH
- ZWDTT+tJ910EVpdbtIEREAZS3GFM29qErG6Xt3Ttzxr211Fpu/aaA/fvFKyUTX21ue/izf
- 5mPclnC+2jpax8rYmjZZcSGhGuTT5kA=
-Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
- by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-668--RF-dAV-MmmOfHtHinYSPw-1; Thu, 19 Oct 2023 09:57:00 -0400
-X-MC-Unique: -RF-dAV-MmmOfHtHinYSPw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C2FA13C025C6;
- Thu, 19 Oct 2023 13:56:59 +0000 (UTC)
-Received: from hydra.redhat.com (unknown [10.39.192.91])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C90471121314;
- Thu, 19 Oct 2023 13:56:58 +0000 (UTC)
-From: Jocelyn Falempe <jfalempe@redhat.com>
-To: dri-devel@lists.freedesktop.org, tzimmermann@suse.de, airlied@redhat.com,
- daniel@ffwll.ch
-Subject: [PATCH] drm/mgag200: Flush the cache to improve latency
-Date: Thu, 19 Oct 2023 15:55:46 +0200
-Message-ID: <20231019135655.313759-1-jfalempe@redhat.com>
+Received: from mail-4018.proton.ch (mail-4018.proton.ch [185.70.40.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF7DD10E4F4
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Oct 2023 14:22:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail2; t=1697725360; x=1697984560;
+ bh=BZ8m8hzLlbVZD5/QhXKn58C893KnGUrMpTj8JXVT2AQ=;
+ h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+ Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+ Message-ID:BIMI-Selector;
+ b=H1+Oki2gdHeuc6uivf186YbX2aVRFqzk58KCtapUjdpyeKLfc5ViwjbyW2II5GrTa
+ /yR0xnHBhij7EQ2JA5fZaDKvuYEFJVMkre4vMlYsGIO2ell5EmA1iwOLN40tEQJqni
+ G1KRtiMj0y6IpDTlq4w/S7tenbCaccDBpYGAlRTRSWQE2Jzi/fxyXRvYlbLKbviMRr
+ 3aHhp8IQIN+bfXRDhznoO98LLye2JlbEM1qFz/FP5TkS2exNtNPbrvtS79rFCR0V2n
+ YYxjTVAJeUoNV2w4FC7qpiQDdab95M1YE59+q9wIMhAzU6lgGJU7LvO2s7+HRfhs1B
+ tEmNUaSoNn/Fg==
+Date: Thu, 19 Oct 2023 14:22:28 +0000
+To: Jessica Zhang <quic_jesszhan@quicinc.com>
+From: Simon Ser <contact@emersion.fr>
+Subject: Re: [PATCH RFC v6 01/10] drm: Introduce pixel_source DRM plane
+ property
+Message-ID: <DrmsyZK_ptUMO9pdU0ESXgVdv4Mjhp_A5A0x6U4N3HoKNQZKfU4E4xNPN-PXa4gpxqk-Urv8-9mWWTK8GUcadIX61FttgzCJOL-Nszh0n9w=@emersion.fr>
+In-Reply-To: <20230828-solid-fill-v6-1-a820efcce852@quicinc.com>
+References: <20230828-solid-fill-v6-0-a820efcce852@quicinc.com>
+ <20230828-solid-fill-v6-1-a820efcce852@quicinc.com>
+Feedback-ID: 1358184:user:proton
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.3
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,63 +49,17 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jocelyn Falempe <jfalempe@redhat.com>
+Cc: freedreno@lists.freedesktop.org, sebastian.wick@redhat.com,
+ ppaalanen@gmail.com, Thomas Zimmermann <tzimmermann@suse.de>,
+ Sean Paul <sean@poorly.run>, dri-devel@lists.freedesktop.org,
+ quic_abhinavk@quicinc.com, Maxime Ripard <mripard@kernel.org>,
+ linux-kernel@vger.kernel.org, laurent.pinchart@ideasonboard.com,
+ linux-arm-msm@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ wayland-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We found a regression in v5.10 on real-time server, using the
-rt-kernel and the mgag200 driver. It's some really specialized
-workload, with <10us latency expectation on isolated core.
-After the v5.10, the real time tasks missed their <10us latency
-when something prints on the screen (fbcon or printk)
+For the uAPI:
 
-The regression has been bisected to 2 commits:
-0b34d58b6c32 ("drm/mgag200: Enable caching for SHMEM pages")
-4862ffaec523 ("drm/mgag200: Move vmap out of commit tail")
-
-The first one changed the system memory framebuffer from Write-Combine
-to the default caching.
-Before the second commit, the mgag200 driver used to unmap the
-framebuffer after each frame, which implicitly does a cache flush.
-Both regressions are fixed by the following patch, which forces a
-cache flush after each frame, reverting to almost v5.9 behavior.
-This is necessary only if you have strong realtime constraints, so I
-put the cache flush under the CONFIG_PREEMPT_RT config flag.
-Also clflush is only availabe on x86, (and this issue has only been
-reproduced on x86_64) so it's also under the CONFIG_X86 config flag.
-
-Fixes: 0b34d58b6c32 ("drm/mgag200: Enable caching for SHMEM pages")
-Fixes: 4862ffaec523 ("drm/mgag200: Move vmap out of commit tail")
-Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
----
- drivers/gpu/drm/mgag200/mgag200_mode.c | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/drm/mgag200/mgag200_mode.c
-index af3ce5a6a636..11660cd29cea 100644
---- a/drivers/gpu/drm/mgag200/mgag200_mode.c
-+++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
-@@ -13,6 +13,7 @@
- 
- #include <drm/drm_atomic.h>
- #include <drm/drm_atomic_helper.h>
-+#include <drm/drm_cache.h>
- #include <drm/drm_damage_helper.h>
- #include <drm/drm_format_helper.h>
- #include <drm/drm_fourcc.h>
-@@ -436,6 +437,10 @@ static void mgag200_handle_damage(struct mga_device *mdev, const struct iosys_ma
- 
- 	iosys_map_incr(&dst, drm_fb_clip_offset(fb->pitches[0], fb->format, clip));
- 	drm_fb_memcpy(&dst, fb->pitches, vmap, fb, clip);
-+	/* On RT systems, flushing the cache reduces the latency for other RT tasks */
-+#if defined(CONFIG_X86) && defined(CONFIG_PREEMPT_RT)
-+	drm_clflush_virt_range(vmap, fb->height * fb->pitches[0]);
-+#endif
- }
- 
- /*
-
-base-commit: 2dde18cd1d8fac735875f2e4987f11817cc0bc2c
--- 
-2.41.0
-
+Acked-by: Simon Ser <contact@emersion.fr>
