@@ -1,65 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED1467CF596
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Oct 2023 12:46:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BFBD97CF5D8
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Oct 2023 12:52:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E50010E4BB;
-	Thu, 19 Oct 2023 10:46:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8BFA110E4C2;
+	Thu, 19 Oct 2023 10:52:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C64210E4BB
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Oct 2023 10:46:07 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id
- 5b1f17b1804b1-40837396b1eso4269505e9.1
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Oct 2023 03:46:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1697712366; x=1698317166; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=bBFPC1W9JfYkOPUTHB+LS5qEIq4e4n3tK1Kfz+QseaQ=;
- b=dvTusXc3q9woobbz+1u/Kt/qldsvPFIE5Dk/TKyn9MkWPO6EH4YRcRXWMxROxm+iz2
- x2d1urwYbi2vGFuIQcrz1AuT5y1xUuqBi5g9iix/CpsSlKVT/yCZbA2Nq9CN4rXotQdw
- QkVn0ft/j5CNOcKtYKy8Hn6OZBQMRu+ucmeso=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1697712366; x=1698317166;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=bBFPC1W9JfYkOPUTHB+LS5qEIq4e4n3tK1Kfz+QseaQ=;
- b=ABsBkKI0Ic43qUyT6hDcVnsKEprq3J8sVS6bosFB4Ii+4O9/XMB7x1a1L+MpbwP3na
- 3VZKHgKvIUSlmzVf66LITfP04Bmq5F5T+X5R/PLGGEMS82mPiLAr3EKs/Q441yAEvcIy
- v7MAoYEh1QEN+wBlgpBBMVXjxmoh+IYI9cE5CC0hvle8JY1LIeLnfAdJC+a1wDo2vidl
- SDn1QAMVpeBmOypK9RNUKdGpy2vBvWyITCPrJJHnfyEIFL0Lxjdyd7oNtuWTp2bHgdB0
- w058lR7jlXONzEGzJBFF9wmdktZw1oI16S+i1WSHTIFW7AUaQXuwAvYLQmhtALT6onJi
- LDhQ==
-X-Gm-Message-State: AOJu0YytUR42WEAnwcIczZwxEXvY+nvBrYvqoeEnTqVkj91hTXIUE5h3
- HZxoaBzNHXZ4ZNDRFX28FBsmCA==
-X-Google-Smtp-Source: AGHT+IHIag6yx93aD79WIMVRKGT+miwBolzwjxU1ay/0wwOSTWLjJvKRZQX5PUfQf7c/e70mqJq7eA==
-X-Received: by 2002:a05:600c:2256:b0:404:7606:a871 with SMTP id
- a22-20020a05600c225600b004047606a871mr1444242wmm.2.1697712365569; 
- Thu, 19 Oct 2023 03:46:05 -0700 (PDT)
-Received: from dvetter-linux.ger.corp.intel.com
- (44.red-81-39-191.dynamicip.rima-tde.net. [81.39.191.44])
- by smtp.gmail.com with ESMTPSA id
- n18-20020a05600c4f9200b004060f0a0fd5sm4105381wmq.13.2023.10.19.03.46.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Oct 2023 03:46:05 -0700 (PDT)
-Date: Thu, 19 Oct 2023 12:46:02 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Maxime Ripard <mripard@kernel.org>
-Subject: Re: [PATCH] drm/doc: ci: Require more context for flaky tests
-Message-ID: <ZTEI6rcW9M8Q1Tqv@dvetter-linux.ger.corp.intel.com>
-References: <20231019094609.251787-1-mripard@kernel.org>
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B66910E4BD
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Oct 2023 10:52:09 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1qtQcb-0002Wd-GE; Thu, 19 Oct 2023 12:51:21 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1qtQcZ-002lnZ-81; Thu, 19 Oct 2023 12:51:19 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1qtQcY-001W9b-T9; Thu, 19 Oct 2023 12:51:18 +0200
+Date: Thu, 19 Oct 2023 12:51:18 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Hans de Goede <hdegoede@redhat.com>
+Subject: Re: [PATCH v3 1/3] pwm: make it possible to apply pwm changes in
+ atomic context
+Message-ID: <20231019105118.64gdzzixwqrztjir@pengutronix.de>
+References: <cover.1697534024.git.sean@mess.org>
+ <a7fcd19938d5422abc59c968ff7b3d5c275577ed.1697534024.git.sean@mess.org>
+ <90728c06-4c6c-b3d2-4723-c24711be2fa5@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="yn2iyczv5acooknv"
 Content-Disposition: inline
-In-Reply-To: <20231019094609.251787-1-mripard@kernel.org>
-X-Operating-System: Linux dvetter-linux.ger.corp.intel.com
- 6.3.8-200.fc38.x86_64 
+In-Reply-To: <90728c06-4c6c-b3d2-4723-c24711be2fa5@redhat.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,62 +57,117 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@intel.com>,
- Helen Koike <helen.koike@collabora.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org, Sean Young <sean@mess.org>,
+ linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>,
+ Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org,
+ Daniel Thompson <daniel.thompson@linaro.org>,
+ Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>, Helge Deller <deller@gmx.de>,
+ Lee Jones <lee@kernel.org>, Javier Martinez Canillas <javierm@redhat.com>,
+ linux-input@vger.kernel.org,
+ Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>,
+ Guenter Roeck <linux@roeck-us.net>, linux-media@vger.kernel.org,
+ platform-driver-x86@vger.kernel.org, linux-pwm@vger.kernel.org,
+ Jean Delvare <jdelvare@suse.com>, intel-gfx@lists.freedesktop.org,
+ Mark Gross <markgross@kernel.org>, Mark Brown <broonie@kernel.org>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ linux-arm-kernel@lists.infradead.org, linux-hwmon@vger.kernel.org,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Support Opensource <support.opensource@diasemi.com>,
+ Jingoo Han <jingoohan1@gmail.com>, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Liam Girdwood <lgirdwood@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 19, 2023 at 11:46:09AM +0200, Maxime Ripard wrote:
-> Flaky tests can be very difficult to reproduce after the facts, which
-> will make it even harder to ever fix.
-> 
-> Let's document the metadata we agreed on to provide more context to
-> anyone trying to address these fixes.
-> 
-> Link: https://lore.kernel.org/dri-devel/CAPj87rPbJ1V1-R7WMTHkDat2A4nwSd61Df9mdGH2PR=ZzxaU=Q@mail.gmail.com/
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
 
-Not that my opinion matters much since I'm really not involved in the
-details, and no opinion on the specific format and all that, but this
-sounds like a very good idea too me.
+--yn2iyczv5acooknv
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+On Wed, Oct 18, 2023 at 03:57:48PM +0200, Hans de Goede wrote:
+> Hi Sean,
+>=20
+> On 10/17/23 11:17, Sean Young wrote:
+> > Some drivers require sleeping, for example if the pwm device is connect=
+ed
+> > over i2c. The pwm-ir-tx requires precise timing, and sleeping causes ha=
+voc
+> > with the generated IR signal when sleeping occurs.
+> >=20
+> > This patch makes it possible to use pwm when the driver does not sleep,
+> > by introducing the pwm_can_sleep() function.
+> >=20
+> > Signed-off-by: Sean Young <sean@mess.org>
+>=20
+> I have no objection to this patch by itself, but it seems a bit
+> of unnecessary churn to change all current callers of pwm_apply_state()
+> to a new API.
 
-Cheers, Sima
-> ---
->  Documentation/gpu/automated_testing.rst | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
-> 
-> diff --git a/Documentation/gpu/automated_testing.rst b/Documentation/gpu/automated_testing.rst
-> index 469b6fb65c30..2dd0e221c2c3 100644
-> --- a/Documentation/gpu/automated_testing.rst
-> +++ b/Documentation/gpu/automated_testing.rst
-> @@ -67,6 +67,19 @@ Lists the tests that for a given driver on a specific hardware revision are
->  known to behave unreliably. These tests won't cause a job to fail regardless of
->  the result. They will still be run.
->  
-> +Each new flake entry must be associated with a link to a bug report to
-> +the author of the affected driver, the board name or Device Tree name of
-> +the board, the first kernel version affected, and an approximation of
-> +the failure rate.
-> +
-> +They should be provided under the following format::
-> +
-> +  # Bug Report: $LORE_OR_PATCHWORK_URL
-> +  # Board Name: broken-board.dtb
-> +  # Version: 6.6-rc1
-> +  # Failure Rate: 100
-> +  flaky-test
-> +
->  drivers/gpu/drm/ci/${DRIVER_NAME}-${HW_REVISION}-skips.txt
->  -----------------------------------------------------------
->  
-> -- 
-> 2.41.0
-> 
+The idea is to improve the semantic of the function name, see
+https://lore.kernel.org/linux-pwm/20231013180449.mcdmklbsz2rlymzz@pengutron=
+ix.de
+for more context. I think it's very subjective if you consider this
+churn or not. While it's nice to have every caller converted in a single
+step, I'd go for
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+	#define pwm_apply_state(pwm, state) pwm_apply_cansleep(pwm, state)
+
+, keep that macro for a while and convert all users step by step. This
+way we don't needlessly break oot code and the changes to convert to the
+new API can go via their usual trees without time pressure.
+
+> Why not just keep pwm_apply_state() as is and introduce a new
+> pwm_apply_state_atomic() for callers which want to apply state
+> in a case where sleeping is not allowed ?
+
+There is a big spontaneous growth of function name patterns. I didn't
+claim having done a complete research, but not using a suffix for the
+fast variant and _cansleep for the sleeping one at least aligns to how
+the gpio subsystem names things.
+
+Grepping a bit more:
+
+ - regmap has: regmap_might_sleep() and struct regmap::can_sleep
+   The actual API doesn't have different functions to differentiate
+   sleeping and non-sleeping calls. (Though there is
+   regmap_read_poll_timeout_atomic().)
+
+ - kmap() + kmap_atomic()
+ - set_pte() + set_pte_atomic()
+
+ - There is scmi_is_transport_atomic() and scmi_handle::is_transport_atomic=
+()
+   (Is this also about sleeping?)
+
+ - There are quite a lot more symbols ending in _atomic and in
+   _cansleep, but several of them don't exists to differentiate a slow
+   and a fast procedure.  (e.g. drm_mode_atomic)
+
+Not entirely sure what to read out of that.
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--yn2iyczv5acooknv
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmUxCiUACgkQj4D7WH0S
+/k4jlwgAgQS/Vm8QPoZFBjT4W6JQXxJRPwUsXBOa7whQZfAYqlzZZ35+WjXKug70
+1nq/INcUz96H0aYtK2aHLUeOEQH+cDau32nAM9dYk0S4qWXOEgC1gFbPwGTrF1SE
+gEPMEkOMezwBlon9ik8cPddAGP5rDSXD8YKeiGy5O6gbXi/iKChFxnamOn5K7B+j
+mgPy/pP0tTP79r0tsVIKta7hnJ1uGfv8cWRQqvPTyT9YuEiBfKRzgi7rxXq9gH2X
+DS+SMO7jtBXFEl5kzKsw1oKpR5VqInvebeBJHSnsH3T/sXAuyJj379046bjbKq7c
+rp0jBis0JVqrfUguEpnfRBuxuTilXQ==
+=OvnQ
+-----END PGP SIGNATURE-----
+
+--yn2iyczv5acooknv--
