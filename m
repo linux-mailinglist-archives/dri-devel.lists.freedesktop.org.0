@@ -2,81 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 837F47CF280
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Oct 2023 10:26:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19DE97CF2C8
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Oct 2023 10:38:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 741C110E49A;
-	Thu, 19 Oct 2023 08:26:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F0CAD10E4A1;
+	Thu, 19 Oct 2023 08:38:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7CB5010E49A
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Oct 2023 08:26:45 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 03BA9B826B7;
- Thu, 19 Oct 2023 08:26:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C761C433C9;
- Thu, 19 Oct 2023 08:26:42 +0000 (UTC)
-Message-ID: <12669999-295f-40c5-8c58-ba3ed26efb16@xs4all.nl>
-Date: Thu, 19 Oct 2023 10:26:40 +0200
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B294F10E4A1
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Oct 2023 08:38:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1697704715;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=G05XiwhgpIQ/i5NumbylEP8cbj9xoesDNIfV6BzBItM=;
+ b=bluqSGekxMNhEssAInPAdfOtOYINJRMGVf67NEdSrJbeHmMl3/4Eax5EU4UUF6qBOUtMJo
+ psjEnZ1yY2CqWL8BAa1veKJUWGi1Szm+tJ8WfHN5cEoz4oKGPCOw4QhVrGzO5AjIcPx3ad
+ fu7KaCAjgTbdVqwZ+X6eiahv4CSe8lI=
+Received: from mail-lj1-f198.google.com (mail-lj1-f198.google.com
+ [209.85.208.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-618-2jecldiiOYG1MiAyW6UiTQ-1; Thu, 19 Oct 2023 04:38:34 -0400
+X-MC-Unique: 2jecldiiOYG1MiAyW6UiTQ-1
+Received: by mail-lj1-f198.google.com with SMTP id
+ 38308e7fff4ca-2c50234741eso61010291fa.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Oct 2023 01:38:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1697704712; x=1698309512;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=G05XiwhgpIQ/i5NumbylEP8cbj9xoesDNIfV6BzBItM=;
+ b=AYogxBuOIksCAGyH1heP9sF/thj9MdAUpXmCaugYfLC7pMT2gJ9dqg+1P8GOuXZSnF
+ caK/4cSR2MF7tCkL2/uGnnMLw4ZG9TWer5JSsyOi5OdqJ4/M+NgWoUBYMovrWvzTYtvh
+ K0ma2pg2zOc4uzlBwSz2niFgBbc79UHu0FLSmS2BVhFwlNOu9MSw1WJimI/Rc2t9WCFX
+ ROnvfZtYpMCQ0zv+bpDH4pkAa+6Dnsc2HfOPO8659O2vgTYzcAiHlDatBO8AqrwUOKdz
+ 4O9fImZFTqSl5POgJ7xIcqRHzUJ5jLckdxZF3fZ478o2RQTP7ql6MnwhLmHq1WXUc+py
+ ZCmg==
+X-Gm-Message-State: AOJu0Yzz1SeBHaNXWAYKSWuRjbDxTfKQYbxpitRfl36pa8tUtc0clXGI
+ eCjJRhCUQ9DVK8plxdK60x+XoLXrER40EFEmcuZPDUEH4Kl6ZxI29a42HwuroF4bEDUuUZI63KG
+ Lw2TgnmVxwyq1yjdWQibzBn6UhtUQ
+X-Received: by 2002:a2e:9a84:0:b0:2c5:2fcd:2598 with SMTP id
+ p4-20020a2e9a84000000b002c52fcd2598mr923273lji.8.1697704712597; 
+ Thu, 19 Oct 2023 01:38:32 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHjvOL0qOv+so0xlvnzYm8bWreGusjbjlbJqUyAnRDs+juUfrfGLMyMt9rUO1/HoGxqOlZ6dQ==
+X-Received: by 2002:a2e:9a84:0:b0:2c5:2fcd:2598 with SMTP id
+ p4-20020a2e9a84000000b002c52fcd2598mr923253lji.8.1697704712268; 
+ Thu, 19 Oct 2023 01:38:32 -0700 (PDT)
+Received: from localhost (44.red-81-39-191.dynamicip.rima-tde.net.
+ [81.39.191.44]) by smtp.gmail.com with ESMTPSA id
+ p12-20020a05600c418c00b0040773c69fc0sm3738983wmh.11.2023.10.19.01.38.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 19 Oct 2023 01:38:31 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Maxime Ripard <mripard@kernel.org>, Thierry Reding
+ <thierry.reding@gmail.com>
+Subject: Re: [PATCH 0/2] fbdev/simplefb: Add missing simple-framebuffer
+ features
+In-Reply-To: <hrfj43uaoozwbm6wqvpbnqp2axqubuuu4rlantbmmrbddtitq5@6u6y7jibmpfg>
+References: <20231011143809.1108034-1-thierry.reding@gmail.com>
+ <hrfj43uaoozwbm6wqvpbnqp2axqubuuu4rlantbmmrbddtitq5@6u6y7jibmpfg>
+Date: Thu, 19 Oct 2023 10:38:31 +0200
+Message-ID: <87wmvjovlk.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 3/9] drm/vc4: hdmi: Add Broadcast RGB property to allow
- override of RGB range
-Content-Language: en-US, nl
-To: Maxime Ripard <maxime@cerno.tech>, Daniel Vetter <daniel@ffwll.ch>
-References: <20221207-rpi-hdmi-improvements-v3-0-bdd54f66884e@cerno.tech>
- <20221207-rpi-hdmi-improvements-v3-3-bdd54f66884e@cerno.tech>
- <CAKMK7uFQ8yJLKgTrQdmhwmq9uL-hbUsfUeU6cxWdB2AW3i4vOg@mail.gmail.com>
- <fwcn3vlgxq5uygi32pyjuktj62wa7zvdgu7xxlpqr7an3kjn7i@25axhlrrkk6z>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <fwcn3vlgxq5uygi32pyjuktj62wa7zvdgu7xxlpqr7an3kjn7i@25axhlrrkk6z>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,85 +82,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
- dri-devel@lists.freedesktop.org, Emma Anholt <emma@anholt.net>,
- linux-kernel@vger.kernel.org
+Cc: linux-fbdev@vger.kernel.org, Robert Foss <rfoss@kernel.org>,
+ David Airlie <airlied@linux.ie>, Helge Deller <deller@gmx.de>,
+ dri-devel@lists.freedesktop.org, Jon Hunter <jonathanh@nvidia.com>,
+ Hans de Goede <hdegoede@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
+Maxime Ripard <mripard@kernel.org> writes:
 
-On 19/10/2023 10:02, Maxime Ripard wrote:
+Hello Maxime,
+
 > Hi,
-> 
-> On Wed, Oct 11, 2023 at 03:23:18PM +0200, Daniel Vetter wrote:
->> On Mon, 6 Mar 2023 at 11:49, Maxime Ripard <maxime@cerno.tech> wrote:
->>>
->>> From: Dave Stevenson <dave.stevenson@raspberrypi.com>
->>>
->>> Copy Intel's "Broadcast RGB" property semantics to add manual override
->>> of the HDMI pixel range for monitors that don't abide by the content
->>> of the AVI Infoframe.
->>>
->>> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
->>> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
->>
->> Stumbled over this grepping around, but would have been nice to lift
->> this into drm code and document the property. It's one of the legacy
->> ones from the table of horrors after all ...
->>
->> Shouldn't be an uapi problem because it's copypasted to much, just not great.
-> 
-> We already discussed it on IRC, but just for the record I have a current
-> series that should address exactly that:
-> 
-> https://lore.kernel.org/dri-devel/20230920-kms-hdmi-connector-state-v2-3-17932daddd7d@kernel.org/
-> 
+>
+> On Wed, Oct 11, 2023 at 04:38:07PM +0200, Thierry Reding wrote:
+>> From: Thierry Reding <treding@nvidia.com>
+>> This contains two patches that bring simplefb up to feature parity with
+>> simpledrm. The patches add support for the "memory-region" property that
+>> provides an alternative to the "reg" property to describe the memory
+>> used for the framebuffer and allow attaching the simple-framebuffer
+>> device to one or more generic power domains to make sure they aren't
+>> turned off during the boot process and take down the display
+>> configuration.
+>
+> I just talked with Sima about it in the hallway at XDC. I'm fine with
+> those patches in principle, but it looks to me that simpledrm doesn't
+> have support for power domains and we'll want that :)
+>
+
+It has support since commit 61df9ca23107 ("drm/simpledrm: Add support for
+multiple "power-domains") AFAIK.
+
+> Thanks!
 > Maxime
+>
 
-I've pasted a snippet from that patch below for a quick review:
+-- 
+Best regards,
 
->  /**
->   * DOC: HDMI connector properties
->   *
-> + * Broadcast RGB (HDMI Specific):
-
-Full vs Limited is actually not HDMI specific, DisplayPort can signal this as
-well for whatever it is worth.
-
-> + *      Indicates the RGB Range (Full vs Limited) used.
-
-RGB Range -> RGB Quantization Range
-
-> + *
-> + *      The value of this property can be one of the following:
-> + *
-> + *      Automatic:
-> + *              RGB Range is selected automatically based on the mode
-> + *              according to the HDMI specifications.
-> + *
-> + *      Full:
-> + *              Full RGB Range is forced.
-> + *
-> + *      Limited 16:235:
-
-It is very unfortunate that this is called "Limited 16:235" instead of just "Limited"
-since for color component bit depths > 8 these values are different.
-
-I have no idea if it is possible to add an alias "Limited" that you can use instead.
-In any case, this should document that it works just as well for higher bit depths,
-but with different limits.
-
-Regards,
-
-	Hans
-
-> + *              Limited RGB Range is forced.
-> + *
-> + *      Drivers can set up this property by calling
-> + *      drm_connector_attach_broadcast_rgb_property().
-> + *
->   * content type (HDMI specific):
->   *	Indicates content type setting to be used in HDMI infoframes to indicate
->   *	content type for the external device, so that it adjusts its display
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
