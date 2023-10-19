@@ -2,54 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 689DE7CFD64
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Oct 2023 16:56:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A8C67CFD66
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Oct 2023 16:56:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B1A4610E0D1;
-	Thu, 19 Oct 2023 14:56:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5DA6D10E506;
+	Thu, 19 Oct 2023 14:56:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2055.outbound.protection.outlook.com [40.107.220.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EDFCA10E0B9;
- Thu, 19 Oct 2023 14:56:36 +0000 (UTC)
+ (mail-co1nam11on2042.outbound.protection.outlook.com [40.107.220.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A9A4210E0D9;
+ Thu, 19 Oct 2023 14:56:44 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kG7uwp9Ol1GmsRp5093ZCZUF+TRB1IPI29h4vQBETlabqeD85/9YlrBXuKOddL5kFzVn1n5Xm1N7r7uiq84GZISXazbGx1Sf9e8fVwFU5irilJzgUidYe/O/6pnYAS0Fvl/MASuOLWHpyOQS63IRtl62+/FlPKYTlK2JUBDVyXDD/Z4ombEZ8If2IaLYLhjPU0jNTRRyC5d5+OKhDryUVkguzOMCMO4soN9h8oLaD+byc256MMj614ujhHKkQBaMhUrKJcBwDy0O/L4GNQ3TGZMcNpj1kQiSdwR/JxAdwHPw1x0F6mm3TcxxPIovd3ANetWFHMnayg1OkbQ0Q6lI6A==
+ b=dE0ZOGucNlroVIjIgv9ztHjJ9UlqZrCyjX2+3lIE3CDkCXnVvA4y7Oqr95BM+ErctRyv8SuCs9O5wpGy6rRjrQv1ZxbdFKvMigv4N62F3Sv74/F/U2BomWZcRv8ceQOzAY+qofJkwN3L75lbxSKc/VwHQ5OU6khrtvSaLkV8447giAaRq0svaZJ2/TEEjYZMX2+PZElT/KaSI6LnmtIZtXCGijuVHX0LNoduw/i5wq2IF85KmHKTZUCkRZFfaWc3fXyCVC3RijhYFq+TWnr4r2bknRIKsAkAdFr+e3U20rNARPLwoOTvn9t2joTYiyd4F2cul+0nOlH+fdt/CAPl6w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tynosloGJdS7pkStW9xXO24tTBbjLUFqGguX7RfeJcU=;
- b=T9BbzFaN+ZnVW9pfOC0Kdk2jbVsy8GfDdbVG3o0s1yrC/ZAgTLRgKP2H3GEKfApdnG+nYc+UkJWvOSVjEXuSkZgTBPV8TJtlIBdV8EezRpVrfTbcThyONb0JOux8wQvUw+XaM7xxyl9IUzHJMXteb7tR5dpv4h/tE+Tp0ICEB5HnvI17zQ88vHmFzt6lI0xXlXRGgZ5yX8v3tPYxQcyLKGIIlfcZgoqGCNKHmAdcqtpDgzPxmWXgO+vEFouOUwiAdEKHw7hwIiP5Lk7TMxImEMsZKWZkZIffqScZV4F2iCG8Tjv/HsRcLEzcBHXSRtZfRkDFXDbRZIFIrmiJ0lvuKA==
+ bh=k8Ue1cZBSuQnsL1D51iCfkJYnSsja2imgtFAWSTzKmY=;
+ b=PfEHeDbD0Cl8j0net1QkShsAArXH6IVtZ8c94ZvNm/Ez94V23Ki8FWXFJWsd66LB1drIg5ul5CvA/6h2KiwSjPSpE30nObE5n5kliEIKvt1wdge1jFB2GHS2hHGOTch0XdY1pvAKwwQTTdO7PNFGflqW4IN15rbs7UKgNuXS4q8W49ZTR4rffcT+PMypJE3qSz9bl0MyG1tzHRiWOv8uMVg4x/xOtn8mu07CehgwsDRmoyZCqAJABhsvWEzslscUk3KN26MN6JR9LGug+7zMh0FDuzUPer+ErAONiUbZKywHvtTYnnVFPKkpWRNYBzNNbGf6FUKJxkAr2VDhNeWQ+g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tynosloGJdS7pkStW9xXO24tTBbjLUFqGguX7RfeJcU=;
- b=IkekBqfJKfihA0ROfr4hXBJauQc8xoDx1pbiedjP7h1BLO95BOeA6HI3X949+XUAv/vZ4inbN34yN09v9TUyswWkDcmEu5w6vDr1FTJo7z5oAu10XO28GtsRKg1gVIH3rLj9AuqfJAgeSrVErZg5jlrAo07mY9OHR5dGjn5Zpm0=
+ bh=k8Ue1cZBSuQnsL1D51iCfkJYnSsja2imgtFAWSTzKmY=;
+ b=43Xw6/TRbqw8s5q46r8tCaqP8KulO2LQkSH79xF5thx/Ef8q69VcZ7fe1lLJUMmN9tn+lK5secw3962oRltbGsLx2L1WSr82kLGOAg+ihO6YOi+KbRSN4F4XAQn8msZ6SZErBsoHO0G3fL2wl3WJr+G9UjYDzExM1IiooMkrl7M=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from CO6PR12MB5427.namprd12.prod.outlook.com (2603:10b6:5:358::13)
  by SJ2PR12MB7991.namprd12.prod.outlook.com (2603:10b6:a03:4d1::12) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6907.24; Thu, 19 Oct
- 2023 14:56:33 +0000
+ 2023 14:56:42 +0000
 Received: from CO6PR12MB5427.namprd12.prod.outlook.com
  ([fe80::121e:5e68:c78a:1f2f]) by CO6PR12MB5427.namprd12.prod.outlook.com
  ([fe80::121e:5e68:c78a:1f2f%3]) with mapi id 15.20.6907.022; Thu, 19 Oct 2023
- 14:56:33 +0000
-Message-ID: <04754060-8f1c-4bf1-91bb-2e0305339b1c@amd.com>
-Date: Thu, 19 Oct 2023 10:56:29 -0400
+ 14:56:42 +0000
+Message-ID: <c80abc42-3197-4476-b33d-88c795b2e55c@amd.com>
+Date: Thu, 19 Oct 2023 10:56:40 -0400
 User-Agent: Mozilla Thunderbird
 Subject: Re: [RFC PATCH 01/10] drm/doc/rfc: Describe why prescriptive color
  pipeline is needed
-To: Pekka Paalanen <ppaalanen@gmail.com>
+Content-Language: en-US
+To: Melissa Wen <mwen@igalia.com>
 References: <20230908150235.75918-1-harry.wentland@amd.com>
  <20230908150235.75918-2-harry.wentland@amd.com>
- <20230913142902.31a51b46@eldfell>
-Content-Language: en-US
+ <20231010161322.topz6zfealkxtwjj@mail.igalia.com>
 From: Harry Wentland <harry.wentland@amd.com>
-In-Reply-To: <20230913142902.31a51b46@eldfell>
+In-Reply-To: <20231010161322.topz6zfealkxtwjj@mail.igalia.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-ClientProxiedBy: YT3PR01CA0124.CANPRD01.PROD.OUTLOOK.COM
@@ -58,61 +58,61 @@ X-ClientProxiedBy: YT3PR01CA0124.CANPRD01.PROD.OUTLOOK.COM
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: CO6PR12MB5427:EE_|SJ2PR12MB7991:EE_
-X-MS-Office365-Filtering-Correlation-Id: dd8962ee-dc4d-4cfa-1337-08dbd0b395b6
+X-MS-Office365-Filtering-Correlation-Id: cde2dd91-ec04-4e4c-cef9-08dbd0b39ad7
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: rUYfje4DmNgqNmoWQmQGVPj2ho0bgHBiFzMSPD9L0wsxWPDzWa0CKIaosUM1ujY80AExOcHXddhCIMOawDyQTmgNaRxbLqofbGs1GfCVGMihwXrfJNrh2TAJE/ej0DTRSFMieMDdSokI7NyJFu3Ao70P11jh04XZKg/ImYVY6+Pip8lmtpLxEvGaZx455zRuzp+rGAWJXpVVpEpxjTOs/vaA+JL3elzZKwgqXLrPlJK1S+01tHGWK4EUjsvVxZfGJYb/xoL7B0fXfSJp7qcDcv8HfiWkz2eGvM8g45phL9hgIAx0dpNNp7D+zZFSpmjQE/PC5YKiAhiz904QefnyMtix35k3QH6ZtyNVYsdCVexPZ/4QRiMfCBJOuSmiEh3w6Y17fuDnD5EX/fNxfuTwOgZEk8uGuC0wevn+AS4CLxwSPg+KGSew6AGTYDqguk6Mm3gSpBY96yfCLeshSrakmXGn+W+pVHALLX0g1gdQcJ2xDBYhI8OYlBZ1Iny/IsCbdEGArCvxwGe9Qxm3cBdDD5h2WdV+iRpusTGKjkPUHSXVqsxcgtJocvVjbPHJ65qPA0twWUq8MWhw8FNl4oaPUme/xHJP24dTQuafD6FGVReotuKPF5WUKnlUKI8jJEg6RJSbonDR33hFxtOZ0LHT2g==
+X-Microsoft-Antispam-Message-Info: b/CtoN6IDCUi2Bk1hg56CnAEk+vQdQjt1NvLKO78cQe5EN9AEjkihhg+rSBS/fG2wZ+DhWS6XQfuVYfo0Zkg2qs1gTGCkVWvRlvmgEyxSqzgFIwwxaVVX2CAYyBlOPzxskW90skdDHwdbOQmmFH+UOFxDUlRiUWJrWjIJ8QiMAHuzWGB9sQFT/Xc6RSHFZ+xuuLEQYR8gsZfTUkqUgZwKLh1FgxnZlPbV6DXLN8KSOEYYbUo3hHkfywfdinfez9GgiFBptc6OwZioQd37YnVf+n4A1REQkXCYV8yLmpqpF8lvN8+XwQYbt0v1yI9PLpXZKb9Dnh7B/k3Rbjy529wi4U2QARrUEbFXbYhwV/H4hCWyqLWUWUDfDG5uclM7/i0qJ0oR+REQ0k873CqzN6b18cws3ASG/PgRvPtn7iNS0NOvvZxbsyHj0R1K7yB3LvoU+d3Qo1fGD49fpX06XV6VQENzeb3Vbfjxc7fLXuwdsoxqwZw3SLN5zFGeEecHHComk3Oe1r+3tgPI/XWAfRjUAgPsFnIXWkM5YYP5B6cYJMC9lU8yQB+fItJAUK/VEpo1MC7xG8sH9QY7ckaRAdgGp83TaHOk/snD6OlrWfeFWMECKwa4SNqu7uf9TwUzEDAdvgW94EKPZCXQvoY27hIQg==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:CO6PR12MB5427.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(39860400002)(366004)(376002)(396003)(136003)(346002)(230922051799003)(451199024)(186009)(1800799009)(64100799003)(83380400001)(54906003)(38100700002)(31696002)(2616005)(41300700001)(6512007)(36756003)(316002)(2906002)(86362001)(6916009)(66556008)(44832011)(66476007)(7416002)(66946007)(5660300002)(8936002)(4326008)(8676002)(6666004)(478600001)(6506007)(6486002)(966005)(53546011)(66574015)(26005)(31686004)(45980500001)(43740500002);
+ SFS:(13230031)(39860400002)(366004)(376002)(396003)(136003)(346002)(230922051799003)(451199024)(186009)(1800799009)(64100799003)(83380400001)(54906003)(38100700002)(30864003)(66899024)(31696002)(2616005)(41300700001)(6512007)(36756003)(316002)(2906002)(86362001)(4001150100001)(6916009)(66556008)(44832011)(66476007)(7416002)(66946007)(5660300002)(8936002)(4326008)(8676002)(478600001)(6506007)(6486002)(966005)(53546011)(66574015)(26005)(31686004)(45980500001)(43740500002);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZUY0Q1hBV1IrUGhZMVp3Mi9wZGFrVXhtM3B4cTNoMWRmT3AvalNiSk4wVlhp?=
- =?utf-8?B?cWJkRjYyMFF2bHNkc1hYMUlmcnhFTjh6MEY0RlJsVjlVSWlVUVZEbnJSRG1a?=
- =?utf-8?B?R2RHWVlOdkhlOHhxbEY3ZzFxdklXck0zeGFNaS9EMEtBWjFCcWFFMjhSRHRn?=
- =?utf-8?B?UFNWenNmOW1PQ25CcWhoMGlpNEl1bmJiV1hINDVIazJxNUNGV3JqOGc3NElC?=
- =?utf-8?B?bGZEejBrdHZyWk1iSmFMM2xkYTRzNCsrYjVWbVRHZ0xnVjVDQXZacHE0dk5n?=
- =?utf-8?B?aEppZ25BMjE5V3VqdjVZRHBGRUV6cVZuaVV4Y0lGMlpGb2NpTVBhR2xqcUQ2?=
- =?utf-8?B?dVRuNWR4SWRaaGFnRHY0OXBiQmpJa0ZWOXQzUkcrM1FLOWF4UzE0c0NKRkdO?=
- =?utf-8?B?eUNENUlMbEppTXRIWUdYbVcwY25OcHB4NGxhb3dCRmlYMjBCMWk4cXJYdEZC?=
- =?utf-8?B?NitVOVlLUG94cTU3dUxjT3BwNTZmM3Z4YS92TWZKRzVGdjZjQkNuN2FQNmZR?=
- =?utf-8?B?dW1nNmk5MWFIOEl4OXIzaUdiTXlmVksxRWQvbjdQYUJkaHZ3ZGFuOTFyeGx1?=
- =?utf-8?B?dngxcTBsVzRYWmJQVHlYalNsVzM5V0lES29JdEZwai9KcEs0RXhWWkFxcjcw?=
- =?utf-8?B?SHdqc1NMaS9ta0p0a3FLc05mMHRTOUNncHRPY3dMcGNnZTBoK0FnUzU0VmlB?=
- =?utf-8?B?cTVVK2wvdXA0VW5wM0xKV2tiRWhnaFZwaGIrMzNwbDBEQ1FQUzBZQUlKb0s2?=
- =?utf-8?B?eGc2cG41QWtOVXdxbURjNmF5N2VvanY3VU5vRnB6Z0cxSVV0Z3BMbmxIUjRK?=
- =?utf-8?B?em1QVVVHRkZyYVJvMWVPdHp2S2Qzdzh0Vk11NnloNXVvMklKTFdjcjR3MTNz?=
- =?utf-8?B?L3ZGdDZuLzQyTzNmRk1aTVJEMVp5NHZoaWY1NCtUc1h0NlBUeHo0ZytxbHdW?=
- =?utf-8?B?SXl5ZnltVmc5YWZTb1dJMjE4T0VMbmxLSW9QQ3Bqbk1qbGllTVB2UnUrKzhs?=
- =?utf-8?B?bnFTWWNZUFNHYnlpUFhsMjJtNkZLRkZEeEtUNU05bWljc0s0U25LMWRjV2dp?=
- =?utf-8?B?R2ZKaElDZWc4c3p6MXgxZWFNellaMjgxTWwxVTZoTkZwanJYS0xvNlM3aUdH?=
- =?utf-8?B?MFc2WUJlL0x4VWxUbE50MUVib1lLZFpqTWErSE1FRnVML2c4dkZ0TzU2eFJD?=
- =?utf-8?B?cUhRc0x0Tld1THl3TjIweUpRL1hIUmxmejczY01VZ3ExZlNFaC9QRVBKZ20y?=
- =?utf-8?B?MWNLMjFyVDExeTdhd3RaQU1jcFd0ZmFYUnlTVjJrdnpCMEpLQmhpejFSY2Vw?=
- =?utf-8?B?aEhYNFRwRVp3TjRrRVRqTks1OXR3Q0dKd0wvamYrMlhWSjIxNlVOUS9PWHNY?=
- =?utf-8?B?SnhRZTV2ZTRKVHMyR2lheHlWQlVZS3poQlJMbDhXTVNGa25YY1MxdmZnZVJL?=
- =?utf-8?B?bVVOVWNqUlBJL0NiSHREOE5zR0VhbTVBekdad3VYdlFQVFF5NWYzejBNVzFm?=
- =?utf-8?B?ZkJRejB2bzZqVHdNOXhDMEsxUG5PUmd6L2F3dFdIemt1bXFTK0NiNHZFWWxP?=
- =?utf-8?B?UjRKM1F0QmpKVXJDQVRLQTIzSFRmNjZlR0ZHL3o1M2hUNG5kRlVTczJhZm1R?=
- =?utf-8?B?SmFOcUJSUlozU2ZqZ1FoVGI3MHFUdDZiVDhPd0F4aEFDRXBHbUkwa1N5SWwy?=
- =?utf-8?B?WFczaElhN0JkbUNCVnNMSG15YkJjVy9VNzBGQTVjaUxtbVNZVVprWTdrdUNW?=
- =?utf-8?B?MHl6aWlLdUVIMjFyQUlyN25URWRqQmFQaTVNQVBvWTI2djBSekUvYUJOOHNh?=
- =?utf-8?B?dlFINXFzdHJrRmlncE5yS1NCSThGV3R6SG81aVowVVpjbHY5NTJRWFFEV3JD?=
- =?utf-8?B?QTNxdzhkZFlYTE03QlVOQTc4RkdtdVY2SThEbWlSVDlKb2xwVEd6ODBIWmpJ?=
- =?utf-8?B?QlJjUzhPMUF0Ui8xUGcvYlNiUldVV1RLNVVGSXBXVG9oSC9yRDAvYVYwVWNV?=
- =?utf-8?B?MnhMY1pVZUh4Y0xBOGVDbmhvaC9WUytxR1VvMDhrK3JaY0xvWWpJSGpzS0Zi?=
- =?utf-8?B?WTZXKzUxck4zdXFhMG1HQjhvblVNQ0JWK0MrU0lLTC80SGQ3N0duNk9BYitM?=
- =?utf-8?Q?A9H+nuIR+/5v8wcUmorjgo1zV?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NmpNMkw3ajY3Yy9Qak1TL2FEMTVteFpxeGoxZnBEbDloem5OTXFxMDBma3Jx?=
+ =?utf-8?B?ME52YW9sMEd4NVU2V2NvUTZRMlRnZVlXRUV1OW5MVXBPdGdWUTVVUXh0bzVJ?=
+ =?utf-8?B?VXpjelYwNGwvNk0waFkybDZUMUgvRlJsWVVrNEh5KzdSQ0tPRUtJc2d0bFdQ?=
+ =?utf-8?B?S1lYNk9jVllKQkgzRU9UZWwwaVFCUWtBbUxXZTRCSWc0Z2EyVUErTit4WWlu?=
+ =?utf-8?B?WXhEdXBzM1poa055cExIUFhpRy9wYTFGZmRwb1dON2F0dkM2dTNGd3ErWnhF?=
+ =?utf-8?B?SjFoNlBFU1BUcDZkYWpCdnFXeFhXZkRnMG5GSy94VUdCZmZzSE1MR0pDTUM4?=
+ =?utf-8?B?WFRLNnBvMGN2SUJqVzVzUXc3SXg4U0VpcGdITmxFcmFmcm1BMFIyWFRTcGFl?=
+ =?utf-8?B?eFBJcEZOWDJZaklzNllPbmZpMWtLK2dVNWRrTDhGOFZMS0pNUGNoTTBQbzdi?=
+ =?utf-8?B?Y29YOU9wRnJoL2hkMWNMNkNianVZWXVkcE9mbm1Rb0txNnpaSkE3MEVObzRN?=
+ =?utf-8?B?RjNkK0NSYkxDZVNlT3E0MmN4MHVKN2JXRWRwSGt3SE5XUnlYMjJOTURUeW1q?=
+ =?utf-8?B?QXZwRTZ5VUQ1UGdIdVRadlk5M2xrLzRscWRncUpCSldBV1UyV0NRZHJEOXRX?=
+ =?utf-8?B?ZVBtRW1qM3c5V01OT253S2NlRldJSFExcVhuV2hHWUNpbFl3S2U0SzhURzBL?=
+ =?utf-8?B?bXFaNEJMeGg5OXo3SldVUHRBeGFsQm10SzRzR2ZRRXhZNDlONTIzcTRzUmQ4?=
+ =?utf-8?B?RCsrbS9pdjRrUXVvZ3JxUENheWRpVXNYZDZqZFM2aUZlampSbDVpaGVaWUc0?=
+ =?utf-8?B?Y0hFNVd2TnJFVHRhVmt6RERVSTNsNlB2L0ptMGFwaXJ0S2FCandxTkhFcjM1?=
+ =?utf-8?B?RHU0MkxNN0VMUW9sdk9zazc1bTBSVmtWNXVkTndaOW8rNjVMYXo4b28vS1ZZ?=
+ =?utf-8?B?NTBmd2tJNE1TYTdUWXpTbmNwTG1jdzZhaHpiV2FhQVVUWS9nR1d5T0pOTkNW?=
+ =?utf-8?B?bW1vMDZCUW9zZmgrdkVoS01wbjBaNHI3MFJBRVNLckdWcFUrU3p6ZnF1VHpS?=
+ =?utf-8?B?M0tKcGVHL1dNbHRxZXdyZHdhdW9SRHovRkg1bWUrYjVsTis2V0tuemNCY01Z?=
+ =?utf-8?B?RVZBcC9BTzRFa1RLM3dqNDNxZ1hVWnZwRlF4aTNLbTVaUUJmZUZIaDBMQmdX?=
+ =?utf-8?B?cndWTk96czlHMmFDZDhhaFFCQW5RQVlxTDBWK0VNZVoweWFzZTVVOWFtMk1B?=
+ =?utf-8?B?dENzSlB0ZXlIRWk1MSsrR3lvUVFZNE5DWlM0ajFLSnpnQm4yalpNSERPeGp3?=
+ =?utf-8?B?eTQ1dGRVeTdXbDNJRTlKQWc1S1dkL01zOTIvTnVJcFp3MzlUUzA1TGtiRmpq?=
+ =?utf-8?B?eUxkOWVidDFvOEFKRDk1U0FuVHFvNmlsNjZ5ZWRKYzM3eDMwRTFEMXVuUU5Y?=
+ =?utf-8?B?a3FRRklZemVQdFNOTDRVeWg1ZWo1c1V1RmxJUWxRV3ByNWxNSXloMzQyQ0Q5?=
+ =?utf-8?B?NkhlZjJPeFZVRnJDM25Dd3g3QmFOdktINGxTZ3RxdjgwVUdtaWNIZFFPWHky?=
+ =?utf-8?B?aTJ4bTVHUEY3Y2JTMHRSRHllL2FramJMdFQxeGx3dDlVc0ZJYlpIS3hHNHRW?=
+ =?utf-8?B?RzM5Qm9jbm4yUXBsSGs5NDFMaVJHKzFGUjFvNlNlV0piaDBXS29jQ0FlbFRV?=
+ =?utf-8?B?SVFZbjRuT0tKYldNYjlFZDRRWmdHbUg4UWFvNzMvR2twVHE0c3d1TXllYVBh?=
+ =?utf-8?B?TzlESVQwL0xsaEx0amFqNE9UUU5vcytzdGtXYWlaUE5SNWNjTERib2c2dm9Y?=
+ =?utf-8?B?WFJ1N2VWVWN2ZWtPMEQ5bFFiRFNWRkpEZ3Z0cWhhZkN0S3NrclVEc1J0Zkdv?=
+ =?utf-8?B?WHJuRVoycjErdEdENlNYcmsvd002ekh0WHpyWnRxdlV4S3ZBZXNCOG5vVzRq?=
+ =?utf-8?B?WmRGdkwwTkZJYTZRRElReTNDNmxOQ1lwWkJGdE1jY0FmdTc1RnFBNUpiQ1M4?=
+ =?utf-8?B?YXVnNFNKMUlHQnIra1F1dWhxLzQxejhmbzhPZjJnbjJoRDBsbE5TN3NKVGJV?=
+ =?utf-8?B?cmlnZ1E4M2hRWlZZM2dqLzhpUDN4b2R6NDFBN0l6M0xZU21EYzdzZ0oxRSsx?=
+ =?utf-8?Q?y/rNLC1gZxytzv1+lWmPzLrs7?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: dd8962ee-dc4d-4cfa-1337-08dbd0b395b6
+X-MS-Exchange-CrossTenant-Network-Message-Id: cde2dd91-ec04-4e4c-cef9-08dbd0b39ad7
 X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5427.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Oct 2023 14:56:33.4352 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Oct 2023 14:56:42.0368 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: o4wq4dy8zsJgytvTrdiXRYdtrboo8+k5ukORDcDOKPApKoa5GQouklrDrcfuc7q3AVZPCbn9XHTYOLvJhPX/RQ==
+X-MS-Exchange-CrossTenant-UserPrincipalName: 08Uke7o/649rKAEi1LkZaEbsnGVGSlN8ZI0zUicphslNygSaCfA0itZxNKcVK+qEateguY4kSq2AOsxJuqf0IQ==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB7991
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -126,25 +126,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Pekka Paalanen <pekka.paalanen@collabora.com>,
- Shashank Sharma <shashank.sharma@amd.com>,
- Sebastian Wick <sebastian.wick@redhat.com>, dri-devel@lists.freedesktop.org,
- Xaver Hugl <xaver.hugl@gmail.com>, Melissa Wen <mwen@igalia.com>,
- =?UTF-8?Q?Michel_D=C3=A4nzer?= <mdaenzer@redhat.com>,
+Cc: Sebastian Wick <sebastian.wick@redhat.com>,
+ Pekka Paalanen <pekka.paalanen@collabora.com>,
+ Shashank Sharma <shashank.sharma@amd.com>, dri-devel@lists.freedesktop.org,
+ wayland-devel@lists.freedesktop.org, Xaver Hugl <xaver.hugl@gmail.com>,
  =?UTF-8?Q?Jonas_=C3=85dahl?= <jadahl@redhat.com>,
- Victoria Brekenfeld <victoria@system76.com>, Aleix Pol <aleixpol@kde.org>,
- Naseer Ahmed <quic_naseer@quicinc.com>, wayland-devel@lists.freedesktop.org,
- Christopher Braga <quic_cbraga@quicinc.com>,
- Uma Shankar <uma.shankar@intel.com>, Joshua Ashton <joshua@froggi.es>
+ Uma Shankar <uma.shankar@intel.com>,
+ Victoria Brekenfeld <victoria@system76.com>, Joshua Ashton <joshua@froggi.es>,
+ =?UTF-8?Q?Michel_D=C3=A4nzer?= <mdaenzer@redhat.com>,
+ Aleix Pol <aleixpol@kde.org>, Naseer Ahmed <quic_naseer@quicinc.com>,
+ Christopher Braga <quic_cbraga@quicinc.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 2023-09-13 07:29, Pekka Paalanen wrote:
-> On Fri, 8 Sep 2023 11:02:26 -0400
-> Harry Wentland <harry.wentland@amd.com> wrote:
-> 
+On 2023-10-10 12:13, Melissa Wen wrote:
+> O 09/08, Harry Wentland wrote:
 >> Signed-off-by: Harry Wentland <harry.wentland@amd.com>
 >> Cc: Ville Syrjala <ville.syrjala@linux.intel.com>
 >> Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
@@ -168,25 +166,174 @@ On 2023-09-13 07:29, Pekka Paalanen wrote:
 >>  Documentation/gpu/rfc/color_pipeline.rst | 278 +++++++++++++++++++++++
 >>  1 file changed, 278 insertions(+)
 >>  create mode 100644 Documentation/gpu/rfc/color_pipeline.rst
-> 
-> Hi Harry,
-> 
-> it's really nice to see this!
-> 
-
-Thanks for the feedback. I'm just putting a v2 together with comments
-(partially) addressed.
-
-> Sebastian started on the backward/forward compatibility, so I'll
-> comment on everything else here, and leave the compatibility for that
-> thread.
-> 
+>>
 >> diff --git a/Documentation/gpu/rfc/color_pipeline.rst b/Documentation/gpu/rfc/color_pipeline.rst
 >> new file mode 100644
 >> index 000000000000..bfa4a8f12087
 >> --- /dev/null
 >> +++ b/Documentation/gpu/rfc/color_pipeline.rst
-...
+>> @@ -0,0 +1,278 @@
+>> +========================
+>> +Linux Color Pipeline API
+>> +========================
+>> +
+>> +What problem are we solving?
+>> +============================
+>> +
+>> +We would like to support pre-, and post-blending complex color transformations
+>> +in order to allow for HW-supported HDR use-cases, as well as to provide support
+>> +to color-managed applications, such as video or image editors.
+>> +
+>> +While it is possible to support an HDR output on HW supporting the Colorspace
+>> +and HDR Metadata drm_connector properties that requires the compositor or
+>> +application to render and compose the content into one final buffer intended for
+>> +display. Doing so is costly.
+>> +
+>> +Most modern display HW offers various 1D LUTs, 3D LUTs, matrices, and other
+>> +operations to support color transformations. These operations are often
+>> +implemented in fixed-function HW and therefore much more power efficient than
+>> +performing similar operations via shaders or CPU.
+>> +
+>> +We would like to make use of this HW functionality to support complex color
+>> +transformations with no, or minimal CPU or shader load.
+>> +
+>> +
+>> +How are other OSes solving this problem?
+>> +========================================
+>> +
+>> +The most widely supported use-cases regard HDR content, whether video or
+>> +gaming.
+>> +
+>> +Most OSes will specify the source content format (color gamut, encoding transfer
+>> +function, and other metadata, such as max and average light levels) to a driver.
+>> +Drivers will then program their fixed-function HW accordingly to map from a
+>> +source content buffer's space to a display's space.
+>> +
+>> +When fixed-function HW is not available the compositor will assemble a shader to
+>> +ask the GPU to perform the transformation from the source content format to the
+>> +display's format.
+>> +
+>> +A compositor's mapping function and a driver's mapping function are usually
+>> +entirely separate concepts. On OSes where a HW vendor has no insight into
+>> +closed-source compositor code such a vendor will tune their color management
+>> +code to visually match the compositor's. On other OSes, where both mapping
+>> +functions are open to an implementer they will ensure both mappings match.
+>> +
+>> +
+>> +Why is Linux different?
+>> +=======================
+>> +
+>> +Unlike other OSes, where there is one compositor for one or more drivers, on
+>> +Linux we have a many-to-many relationship. Many compositors; many drivers.
+>> +In addition each compositor vendor or community has their own view of how
+>> +color management should be done. This is what makes Linux so beautiful.
+>> +
+>> +This means that a HW vendor can now no longer tune their driver to one
+>> +compositor, as tuning it to one will almost inevitably make it look very
+>> +different from another compositor's color mapping.
+>> +
+>> +We need a better solution.
+>> +
+>> +
+>> +Descriptive API
+>> +===============
+>> +
+>> +An API that describes the source and destination colorspaces is a descriptive
+>> +API. It describes the input and output color spaces but does not describe
+>> +how precisely they should be mapped. Such a mapping includes many minute
+>> +design decision that can greatly affect the look of the final result.
+>> +
+>> +It is not feasible to describe such mapping with enough detail to ensure the
+>> +same result from each implementation. In fact, these mappings are a very active
+>> +research area.
+>> +
+>> +
+>> +Prescriptive API
+>> +================
+>> +
+>> +A prescriptive API describes not the source and destination colorspaces. It
+>> +instead prescribes a recipe for how to manipulate pixel values to arrive at the
+>> +desired outcome.
+>> +
+>> +This recipe is generally an order straight-forward operations, with clear
+>> +mathematical definitions, such as 1D LUTs, 3D LUTs, matrices, or other
+>> +operations that can be described in a precise manner.
+>> +
+>> +
+>> +The Color Pipeline API
+>> +======================
+>> +
+>> +HW color management pipelines can significantly differ between HW
+>> +vendors in terms of availability, ordering, and capabilities of HW
+>> +blocks. This makes a common definition of color management blocks and
+>> +their ordering nigh impossible. Instead we are defining an API that
+>> +allows user space to discover the HW capabilities.
+>> +
+>> +
+>> +drm_colorop Object & IOCTLs
+>> +===========================
+>> +
+>> +To support the definition of color pipelines we introduce a new DRM core
+>> +object, a drm_colorop. Individual drm_colorop objects will be chained
+>> +via the NEXT property of a drm_colorop to constitute a color pipeline.
+>> +Each drm_colorop object is unique, i.e., even if multiple color
+>> +pipelines have the same operation they won't share the same drm_colorop
+>> +object to describe that operation.
+>> +
+>> +Just like other DRM objects the drm_colorop objects are discovered via
+>> +IOCTLs:
+>> +
+>> +DRM_IOCTL_MODE_GETCOLOROPRESOURCES: This IOCTL is used to retrieve the
+>> +number of all drm_colorop objects.
+>> +
+>> +DRM_IOCTL_MODE_GETCOLOROP: This IOCTL is used to read one drm_colorop.
+>> +It includes the ID for the colorop object, as well as the plane_id of
+>> +the associated plane. All other values should be registered as
+>> +properties.
+>> +
+>> +Each drm_colorop has three core properties:
+>> +
+>> +TYPE: The type of transformation, such as
+>> +* enumerated curve
+>> +* custom (uniform) 1D LUT
+>> +* 3x3 matrix
+>> +* 3x4 matrix
+>> +* 3D LUT
+>> +* etc.
+>> +
+>> +Depending on the type of transformation other properties will describe
+>> +more details.
+>> +
+>> +BYPASS: A boolean property that can be used to easily put a block into
+>> +bypass mode. While setting other properties might fail atomic check,
+>> +setting the BYPASS property to true should never fail. This allows DRM
+>> +clients to fallback to other methods of color management if an atomic
+>> +check for KMS color operations fails.
+>> +
+>> +NEXT: The ID of the next drm_colorop in a color pipeline, or 0 if this
+>> +drm_colorop is the last in the chain.
+>> +
+>> +An example of a drm_colorop object might look like one of these::
+>> +
+>> +    Color operation 42
+>> +    ├─ "type": enum {Bypass, 1D curve} = 1D curve
+>> +    ├─ "1d_curve_type": enum {LUT, sRGB, PQ, BT.709, HLG, …} = LUT
+>> +    ├─ "lut_size": immutable range = 4096
+>> +    ├─ "lut_data": blob
+>> +    └─ "next": immutable color operation ID = 43
+>> +
+>> +    Color operation 42
+>> +    ├─ "type": enum {Bypass, 3D LUT} = 3D LUT
+>> +    ├─ "lut_size": immutable range = 33
+>> +    ├─ "lut_data": blob
+>> +    └─ "next": immutable color operation ID = 43
+>> +
+>> +    Color operation 42
+>> +    ├─ "type": enum {Bypass, Matrix} = Matrix
+>> +    ├─ "matrix_data": blob
+>> +    └─ "next": immutable color operation ID = 43
+>> +
+>> +
 >> +COLOR_PIPELINE Plane Property
 >> +=============================
 >> +
@@ -194,9 +341,6 @@ Thanks for the feedback. I'm just putting a v2 together with comments
 >> +portion of display pipelines (i.e. on drm_planes) we are introducing
 >> +color pipelines here first. Eventually we'll want to use the same
 >> +concept for the post-blending portion, i.e. drm_crtcs.
-> 
-> This paragraph might fit better in a cover letter.
-> 
 >> +
 >> +Color Pipelines are created by a driver and advertised via a new
 >> +COLOR_PIPELINE enum property on each plane. Values of the property
@@ -209,10 +353,6 @@ Thanks for the feedback. I'm just putting a v2 together with comments
 >> +In the case where drivers have custom support for pre-blending color
 >> +processing those drivers shall reject atomic commits that are trying to
 >> +set both the custom color properties, as well as the COLOR_PIPELINE
-> 
-> s/set/use/ because one of them could be carried-over state from
-> previous commits while not literally set in this one.
-> 
 >> +property.
 >> +
 >> +An example of a COLOR_PIPELINE property on a plane might look like this::
@@ -221,29 +361,6 @@ Thanks for the feedback. I'm just putting a v2 together with comments
 >> +    ├─ "type": immutable enum {Overlay, Primary, Cursor} = Primary
 >> +    ├─ …
 >> +    └─ "color_pipeline": enum {0, 42, 52} = 0
-> 
-> Enum values are string names. I presume the intention here is that the
-> strings will never need to be parsed, and the uint64_t is always equal
-> to the string representation, right?
-> 
-> That needs a statement here. It differs from all previous uses of
-> enums, and e.g. requires a little bit of new API in libweston's
-> DRM-backend to handle since it has its own enums referring to the
-> string names that get mapped to the uint64_t per owning KMS object.
-> 
-
-I'm currently putting the DRM object ID in the "value" and use the
-"name" as a descriptive name.
-
-> struct drm_mode_property_enum {
-> 	__u64 value;
-> 	char name[DRM_PROP_NAME_LEN];
-> };
-
-This works well in IGT and gives us a nice descriptive name for
-debugging, but I could consider changing this if it'd simplify
-people's lives.
-
 >> +
 >> +
 >> +Color Pipeline Discovery
@@ -252,17 +369,6 @@ people's lives.
 >> +A DRM client wanting color management on a drm_plane will:
 >> +
 >> +1. Read all drm_colorop objects
-> 
-> What does this do?
-
-We probably don't need this, and with it we probably don't need
-the new IOCTLs. I added this to align with IGT's current init
-procedure where it reads all DRM core objects, like planes, etc.,
-before using them. But realistically we can just look at the
-colorop ID from the COLOR_PIPELINE property and then retrieve
-the other colorops through the NEXT pointer.
-
-> 
 >> +2. Get the COLOR_PIPELINE property of the plane
 >> +3. iterate all COLOR_PIPELINE enum values
 >> +4. for each enum value walk the color pipeline (via the NEXT pointers)
@@ -271,27 +377,56 @@ the other colorops through the NEXT pointer.
 >> +
 >> +An example of chained properties to define an AMD pre-blending color
 >> +pipeline might look like this::
+> 
+> Hi Harry,
+> 
+> Thanks for sharing this proposal. Overall I think it's very aligned with
+> Simon's description of the generic KMS color API. I think it's a good
+> start point and we can refine over iterations. My general questions have
+> already been pointed out by Sebastian and Pekka (mainly regarding the
+> BYPASS property).
+> 
+> I still have some doubts on how to fit these set of colorops with some
+> AMD corners cases as below:
+> 
+
+These aren't the final ones. This is intentionally presented as how
+an AMD pre-blending color pipeline "might look like". An actual one
+will look different and problem align a bit more to your AMD driver-
+specific properties.
+
 >> +
 >> +    Plane 10
 >> +    ├─ "type": immutable enum {Overlay, Primary, Cursor} = Primary
 >> +    └─ "color_pipeline": enum {0, 42} = 0
 >> +    Color operation 42 (input CSC)
-> 
-> I presume the string "(input CSC)" does not come from KMS, and is
-> actually just a comment added here by hand?
-> 
-
-Exactly. It only exists as a comment here. I'll remove it.
-
-Harry
-
-> 
-> Thanks,
-> pq
-> 
 >> +    ├─ "type": enum {Bypass, Matrix} = Matrix
 >> +    ├─ "matrix_data": blob
 >> +    └─ "next": immutable color operation ID = 43
+> 
+> IIUC, for input CSC, there are currently two possiblities, or we use
+> `drm_plane_color_encoding` and `drm_plane_color range` to get
+> pre-defined coefficients or we set a custom matrix here, right? If so, I
+> think we need some kind of pre-defined matrix option?
+> 
+
+Agreed.
+
+> Also, with this new plane API in place, I understand that we will
+> already need think on how to deal with the mixing between old drm color
+> properties (color encoding and color range) and these new way of setting
+> plane color properties. IIUC, Pekka asked a related question about it
+> when talking about CRTC automatic RGB->YUV (?) 
+> 
+
+We'll still need to confirm whether we'll want to deprecate these
+existing properties. If we do that we'd want a client prop. Things
+should still work without deprecating them, if drivers just pick up
+after the initial encoding and range CSC.
+
+But realistically it might be better to deprecate them and turn them
+into explicit colorops.
+
 >> +    Color operation 43
 >> +    ├─ "type": enum {Scaling} = Scaling
 >> +    └─ "next": immutable color operation ID = 44
@@ -309,6 +444,18 @@ Harry
 >> +    ├─ "lut_size": immutable range = 4096
 >> +    ├─ "lut_data": blob
 >> +    └─ "next": immutable color operation ID = 47
+> 
+> For shaper and blend LUT RAM, that the driver supports pre-defined
+> curves and custom LUT at the same time but the resulted LUT is a
+> combination of those, how to make this behavior clear? Could this
+> behavior be described by two colorop in a row: for example, one for
+> shaper TF and,just after, another for shaper LUT or would it not be the
+> right representation?
+> 
+
+Yes. Again, this is only a (simplified) example in order to show how
+things could look like on real HW.
+
 >> +    Color operation 47 (3D LUT RAM)
 >> +    ├─ "type": enum {Bypass, 3D LUT} = 3D LUT
 >> +    ├─ "lut_size": immutable range = 17
@@ -352,6 +499,18 @@ Harry
 >> +    └─ "lut_data" = Gamut mapping + tone mapping + night mode
 >> +    Color operation 48 (blend gamma)
 >> +    └─ "1d_curve_type" = PQ inverse EOTF
+> 
+> Isn't it a PQ EOTF for blend gamma?
+> 
+
+Of course.
+
+Harry
+
+> Best Regards,
+> 
+> Melissa
+> 
 >> +
 >> +
 >> +References
@@ -359,5 +518,7 @@ Harry
 >> +
 >> +1. https://lore.kernel.org/dri-devel/QMers3awXvNCQlyhWdTtsPwkp5ie9bze_hD5nAccFW7a_RXlWjYB7MoUW_8CKLT2bSQwIXVi5H6VULYIxCdgvryZoAoJnC5lZgyK1QWn488=@emersion.fr/
 >> \ No newline at end of file
-> 
+>> -- 
+>> 2.42.0
+>>
 
