@@ -2,43 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7BC17CED25
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Oct 2023 03:06:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9CD97CED52
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Oct 2023 03:14:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E9FDD10E462;
-	Thu, 19 Oct 2023 01:06:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB27110E467;
+	Thu, 19 Oct 2023 01:14:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gandalf.ozlabs.org (mail.ozlabs.org
- [IPv6:2404:9400:2221:ea00::3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C380310E462
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Oct 2023 01:06:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1697677581;
- bh=qI3z6q1s/kcUv15ANbLLzybgRpzqS1ETuO7M0rX3Iio=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=Fdt7OpZBljd3Ar+Ua73JJ1Y4YjomRhBDuWkHlkCY93T/79skv0r+CTckcHeY+HB4m
- bvBX/B104RcWfA9d6he+rng9Su4W2wQxyC1vr83WEBczIHP0rWd2elQfMjDmhl0iuH
- nO4bV99CwSqaK8zwlV7VBdWh21xQgK5tIkFed+AnyS3KDWVGaw8mF1KqHKq2WxJ2H9
- vRt7Jz37Gy6f87V366It9uiYp51UUC87qkJg5zfl5ZYKS7/ydRFyBc6KDVNTVn2hhV
- qs9VLc5LgEtL3G12cvs3xz4g8QyyNTseRqQCwTdnbvqIhMJFPY+mNAbW02t5L+t3wl
- +we+qHB8f/a0g==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4S9qKl6p9Gz4wcN;
- Thu, 19 Oct 2023 12:06:19 +1100 (AEDT)
-Date: Thu, 19 Oct 2023 12:06:18 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Alex Deucher <alexdeucher@gmail.com>, Dave Airlie <airlied@redhat.com>
-Subject: Re: linux-next: build failure after merge of the amdgpu tree
-Message-ID: <20231019120618.71424848@canb.auug.org.au>
-In-Reply-To: <20231010124357.5251e100@canb.auug.org.au>
-References: <20231010124357.5251e100@canb.auug.org.au>
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D58D810E467
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Oct 2023 01:14:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1697678082; x=1729214082;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=aCj+lXWncQM8Ey7orSx9XDRnSYAxxN4+SGACzDG2n98=;
+ b=J8fkXoQnqrTUJiaGyh2l1qfmyhQMmTieAwPPKeDtQLt19HWicmDfqUJK
+ LvjLZrgvluIMikRTyEsmJoRdSmmUzelfxg13KmpsUxaAWq/UNF0jXg9Ci
+ 1b/8T0i9/fRm7ZUzBCRiWJ3UCJzYuMqFAvl+Jh5AZ8knw/xdi4/nPYEOB
+ IlCWpIEtsI3/0qGBqBwaMOOyJDYnUR2HMrsxVg60w9YBvi7EgCPNKvjxd
+ 51HfDeeR4l0BH0MK9iyecMMpalGjrzQMY06913EZDVUPVMsl5qqGbPxgo
+ VUMqimEHkZNdiJd+Vnac2ujfG2NtTJoJg+ckPZWWDDVX/JZJxJfJk/I8v A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="383368411"
+X-IronPort-AV: E=Sophos;i="6.03,236,1694761200"; d="scan'208";a="383368411"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Oct 2023 18:14:41 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="760449866"
+X-IronPort-AV: E=Sophos;i="6.03,236,1694761200"; d="scan'208";a="760449866"
+Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
+ by fmsmga007.fm.intel.com with ESMTP; 18 Oct 2023 18:14:38 -0700
+Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1qtHcR-0001Mu-2n;
+ Thu, 19 Oct 2023 01:14:35 +0000
+Date: Thu, 19 Oct 2023 09:14:21 +0800
+From: kernel test robot <lkp@intel.com>
+To: Duje =?utf-8?Q?Mihanovi=C4=87?= <duje.mihanovic@skole.hr>,
+ Lee Jones <lee@kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
+ Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>
+Subject: Re: [PATCH 2/2] backlight: Add Kinetic KTD2801 driver
+Message-ID: <202310190928.NGF81Cxq-lkp@intel.com>
+References: <20231005-ktd2801-v1-2-43cd85b0629a@skole.hr>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/EvzrEbQXDf=esYQTxghpS2q";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231005-ktd2801-v1-2-43cd85b0629a@skole.hr>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,67 +63,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Qingqing Zhuo <Qingqing.Zhuo@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, Roman Li <roman.li@amd.com>,
- DRI <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Alex Deucher <alexander.deucher@amd.com>
+Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ llvm@lists.linux.dev, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, ~postmarketos/upstreaming@lists.sr.ht,
+ oe-kbuild-all@lists.linux.dev,
+ Duje =?utf-8?Q?Mihanovi=C4=87?= <duje.mihanovic@skole.hr>,
+ Karel Balej <balejk@matfyz.cz>, linux-leds@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/EvzrEbQXDf=esYQTxghpS2q
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Hi Duje,
 
-Hi all,
+kernel test robot noticed the following build warnings:
 
-On Tue, 10 Oct 2023 12:43:57 +1100 Stephen Rothwell <sfr@canb.auug.org.au> =
-wrote:
->
-> After merging the amdgpu tree, today's linux-next build (x86_64
-> allmodconfig) failed like this:
->=20
-> drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/display_mode_core.c: In fun=
-ction 'dml_core_mode_support':
-> drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/display_mode_core.c:8229:1:=
- error: the frame size of 2736 bytes is larger than 2048 bytes [-Werror=3Df=
-rame-larger-than=3D]
->  8229 | } // dml_core_mode_support
->       | ^
-> cc1: all warnings being treated as errors
->=20
-> Caused by commit
->=20
->   7966f319c66d ("drm/amd/display: Introduce DML2")
->=20
-> (or maybe something later that changed storage size).
->=20
-> I have used the amdgpu tree from next-20231009 for today.
+[auto build test WARNING on 8a749fd1a8720d4619c91c8b6e7528c0a355c0aa]
 
-This build failure now (presumably) exists in the drm tree.  I am still
-applying the 2 patches from Rodrigo to my tree as a work around.
+url:    https://github.com/intel-lab-lkp/linux/commits/Duje-Mihanovi/dt-bindings-backlight-add-Kinetic-KTD2801-binding/20231006-025106
+base:   8a749fd1a8720d4619c91c8b6e7528c0a355c0aa
+patch link:    https://lore.kernel.org/r/20231005-ktd2801-v1-2-43cd85b0629a%40skole.hr
+patch subject: [PATCH 2/2] backlight: Add Kinetic KTD2801 driver
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20231019/202310190928.NGF81Cxq-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231019/202310190928.NGF81Cxq-lkp@intel.com/reproduce)
 
-I would have expected that this was fixed in the amdgpu tree before
-Dave was asked to merge it ...
---=20
-Cheers,
-Stephen Rothwell
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310190928.NGF81Cxq-lkp@intel.com/
 
---Sig_/EvzrEbQXDf=esYQTxghpS2q
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+All warnings (new ones prefixed by >>):
 
------BEGIN PGP SIGNATURE-----
+>> drivers/video/backlight/ktd2801-backlight.c:15:9: warning: 'DS' macro redefined [-Wmacro-redefined]
+   #define DS              5
+           ^
+   arch/x86/include/uapi/asm/ptrace-abi.h:14:9: note: previous definition is here
+   #define DS 7
+           ^
+   1 warning generated.
 
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmUwgQoACgkQAVBC80lX
-0GwQXAgAkVWIBBZuVsrW2Ci7iYuETWMRJU6ZRAJdcR+EICRaoPi2FOpYQ3hbmZAr
-zk0GnevzSy0db8RSKyXIQOqB4THKKtDepqNSsxUN9PenwCvjtNg/DeYeZoB6pQ4D
-0/0qQgYImc5OKZfOJtqPBmBxl8pIStcs2RjmUXttz+F/Q5RYnXWtLm0McfrlqbI3
-HRxHBu+KYyiH7QZ/AN06HjQXGlIBs1Ynp+9kJ1dLpz76LB2KZx+QxEcMf9lYpVgA
-bT7oSS54vbHDW41VtZOeZ4fjx8zGCfFubwb/u5pC2D83ilNWEiHoXQ5meqdfK0IT
-pAwgc2ZI1zm+/M1j0L7pfzUuUcTdAw==
-=x90u
------END PGP SIGNATURE-----
 
---Sig_/EvzrEbQXDf=esYQTxghpS2q--
+vim +/DS +15 drivers/video/backlight/ktd2801-backlight.c
+
+     8	
+     9	#define EW_DELAY	150
+    10	#define EW_DET		270
+    11	#define LOW_BIT_HIGH	5
+    12	#define LOW_BIT_LOW	(4 * HIGH_BIT_LOW)
+    13	#define HIGH_BIT_LOW	5
+    14	#define HIGH_BIT_HIGH	(4 * HIGH_BIT_LOW)
+  > 15	#define DS		5
+    16	#define EOD_L		10
+    17	#define EOD_H		350
+    18	#define PWR_DOWN_DELAY	2600
+    19	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
