@@ -2,79 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F3487CF1E4
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Oct 2023 10:02:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74A647CF2B1
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Oct 2023 10:35:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 73C3A10E04D;
-	Thu, 19 Oct 2023 08:02:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 77DEF10E0AC;
+	Thu, 19 Oct 2023 08:35:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com
- [64.147.123.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F70610E04D
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Oct 2023 08:02:50 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.west.internal (Postfix) with ESMTP id CCDD83200954;
- Thu, 19 Oct 2023 04:02:48 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute1.internal (MEProxy); Thu, 19 Oct 2023 04:02:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm3; t=1697702568; x=1697788968; bh=vu
- TOH3/2tVCQoO3Sfg+hgiwzaz7pDb0adFP2TsvaC70=; b=CLXSSgpTcFwh8r2WJp
- ZMQ1nst84XiEak6ivZ9pYq/yI8O6KpEQVonvvALdv79oL3I6SYcyGCZUiu8PE1xQ
- 4ZWaNuVuqn+KZKo32V9DJspOskq/VVcEnA0uK2e+P8oG+BQtX4qn+fHzP53szvym
- S+Z+/r40n4kmQfAVmSzpHcxIcYfewB1vO+qQ4sLQ49v9rCawrCul8qro1gYVuw/g
- xBEec48RK+h7g3AF8fW8aBvZ+hfzfbOYU5fjCGAuQqdsVBU0x6zjDsH68ld5q/0K
- T0N3wQvhotjRmO2tpyAo/U+uMNgbh+/VV506URAHvSDXw9+hcosxfAZXJ58u40UD
- kc+g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:content-type:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm3; t=1697702568; x=1697788968; bh=vuTOH3/2tVCQo
- O3Sfg+hgiwzaz7pDb0adFP2TsvaC70=; b=cFOhTPKoRern7eegMHEO7VZDMLR+i
- dQm6iR+gNzjT/ld2bWOHCDSQRF+P9R1Zu4z16llVM7kJiTZaaE9rEM0qP+K2MDID
- wLD2votzBqrzrOgQklU6xjzaNKShsxozLTQmfrhcIFbwOYeYklSlXZES1oJ0yLqo
- g5rxmIr/f9TYV0+0LDXG8U2Iu+ilukpj9l6H+1mTU/SJJes+xrcjnylDMAvTVDi5
- AFox1qa+89aTtJ6SvAIebaJMKh8ubAVzXTwfIjqMORRAKl1ipl7S8meh0P830PIU
- MgHQPjT0/QNidnfLDUaRnWzKvOOkZu8bTpZR6TzC2Jrvp/Z7yxO0uObUA==
-X-ME-Sender: <xms:p-IwZYrFnjnVAMeqzEXoXFPHevH9tnHHhJpnB2j5GE7ox4qBebvVZw>
- <xme:p-IwZeozQj0TGmPIIna_elqcIDlDLuCRFMKC-qIgJo68rtylHcWvZJAU67Mg520Kc
- Ua1lJ2PcThoYyYyZiQ>
-X-ME-Received: <xmr:p-IwZdOu7E5lnod1eWVgWIPEXRiORVmm8BSxhVS-QY-AEM1WGU6LVpgUarGh>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrjeehgdduvdehucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggujgesghdtsfertddtvdenucfhrhhomhepofgrgihi
- mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpedtgfdukeeigeeuhfelheeftdfhgfegfefgudeuiefhueeuleekveetvdei
- tddvieenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivg
- eptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggt
- hh
-X-ME-Proxy: <xmx:qOIwZf5tP6nv0CgLnRsRsTg2voxjbJPUd-NdhTDjvjGBJg2zOibdQw>
- <xmx:qOIwZX7NP_OBkic8ttkEHbcTOfbPaiNf6-OIbiLkb6KoCBnXUePbxw>
- <xmx:qOIwZfhO2BkqDQ_l177Hv_4ahcpBgHFNFg5cWKFhrd8cRoPxewzLeA>
- <xmx:qOIwZdTeqYfffNgotzaYnxW-LdG1wWtLsYUGxdoBLy08Zhq9Bpa_2Q>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 19 Oct 2023 04:02:47 -0400 (EDT)
-Date: Thu, 19 Oct 2023 10:02:46 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH v3 3/9] drm/vc4: hdmi: Add Broadcast RGB property to
- allow override of RGB range
-Message-ID: <fwcn3vlgxq5uygi32pyjuktj62wa7zvdgu7xxlpqr7an3kjn7i@25axhlrrkk6z>
-References: <20221207-rpi-hdmi-improvements-v3-0-bdd54f66884e@cerno.tech>
- <20221207-rpi-hdmi-improvements-v3-3-bdd54f66884e@cerno.tech>
- <CAKMK7uFQ8yJLKgTrQdmhwmq9uL-hbUsfUeU6cxWdB2AW3i4vOg@mail.gmail.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C572010E0AE
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Oct 2023 04:44:56 +0000 (UTC)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 39J4N061015623; Thu, 19 Oct 2023 04:44:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=+ugDTtE0N5pIP+bbxhOpFwqhGnBHp8dix51AVdVNmjI=;
+ b=nXh8jcJMjbwNDlgTbyO4nJVcjRiJc/JawzpuRc0IrUlnQUYa743bURCiUPGUdZXKghUe
+ sFv6JARIsxdhvzuTvfCmwILcxHvnCTWRQwwFkbFwKAsm1WeFGhhIuvvZaAsIjfexmxT/
+ XLKvOloHIsj0h596xV05Yb7j5gqMxfkU3iKnUab5ssaUXl9e1Dz59e8YEesPodfso2ic
+ 7J48ll5bv1UaRcXGenNxuOi+ChpoLkL/pkloCxTOc34pgT2T6ohwHHo4+YyAjrPI4k7P
+ PTRUwjG/lTGhkBhQBaf57GTmtfRWBX6NzqxWONInX9Rtr3xAson5hsNvxDg7X8yaj0nr xw== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3tth2f1pm9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 19 Oct 2023 04:44:42 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 39J4ifLU003377
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 19 Oct 2023 04:44:41 GMT
+Received: from [10.216.19.246] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Wed, 18 Oct
+ 2023 21:44:33 -0700
+Message-ID: <423c28cc-e6b0-4e82-8f38-3f4fe22076c2@quicinc.com>
+Date: Thu, 19 Oct 2023 10:14:13 +0530
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="s5qnpkq7s22eut2i"
-Content-Disposition: inline
-In-Reply-To: <CAKMK7uFQ8yJLKgTrQdmhwmq9uL-hbUsfUeU6cxWdB2AW3i4vOg@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/9] dma-buf: heaps: Add MediaTek secure heap
+Content-Language: en-US
+To: Yong Wu <yong.wu@mediatek.com>, Rob Herring <robh+dt@kernel.org>, Sumit
+ Semwal <sumit.semwal@linaro.org>, <christian.koenig@amd.com>, Matthias
+ Brugger <matthias.bgg@gmail.com>
+References: <20230911023038.30649-1-yong.wu@mediatek.com>
+From: Vijayanand Jitta <quic_vjitta@quicinc.com>
+In-Reply-To: <20230911023038.30649-1-yong.wu@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: Lc4B_SAVgouSoZ-DK34n-SzwIOaz_pQs
+X-Proofpoint-GUID: Lc4B_SAVgouSoZ-DK34n-SzwIOaz_pQs
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-10-19_02,2023-10-18_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 mlxscore=0
+ mlxlogscore=943 spamscore=0 malwarescore=0 suspectscore=0
+ lowpriorityscore=0 impostorscore=0 priorityscore=1501 clxscore=1011
+ adultscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2309180000 definitions=main-2310190039
+X-Mailman-Approved-At: Thu, 19 Oct 2023 08:35:42 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,56 +84,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emma Anholt <emma@anholt.net>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Hans Verkuil <hverkuil@xs4all.nl>
+Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>, kuohong.wang@mediatek.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ tjmercier@google.com, linaro-mm-sig@lists.linaro.org,
+ John Stultz <jstultz@google.com>, jianjiao.zeng@mediatek.com,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---s5qnpkq7s22eut2i
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-Hi,
+On 9/11/2023 8:00 AM, Yong Wu wrote:
+> This patchset consists of two parts, the first is from John and TJ.
+> It adds some heap interfaces, then our kernel users could allocate buffer
+> from special heap. The second part is adding MTK secure heap for SVP
+> (Secure Video Path). A total of two heaps are added, one is mtk_svp and
+> the other is mtk_svp_cma. The mtk_svp buffer is reserved for the secure
+> world after bootup and it is used for ES/working buffer, while the
+> mtk_svp_cma buffer is dynamically reserved for the secure world and will
+> be get ready when we start playing secure videos, this heap is used for the
+> frame buffer. Once the security video playing is complete, the CMA will be
+> released.
+> 
+> For easier viewing, I've split the new heap file into several patches.
+> 
+> The consumers of new heap and new interfaces are our codec and drm which
+> will send upstream soon, probably this week.
+> 
+> Base on v6.6-rc1.
+> 
+> John Stultz (2):
+>   dma-heap: Add proper kref handling on dma-buf heaps
+>   dma-heap: Provide accessors so that in-kernel drivers can allocate
+>     dmabufs from specific heaps
+> 
+> T.J. Mercier (1):
+>   dma-buf: heaps: Deduplicate docs and adopt common format
+> 
+> Yong Wu (6):
+>   dma-buf: heaps: Initialise MediaTek secure heap
+>   dma-buf: heaps: mtk_sec_heap: Initialise tee session
+>   dma-buf: heaps: mtk_sec_heap: Add tee service call for buffer
+>     allocating/freeing
+>   dma-buf: heaps: mtk_sec_heap: Add dma_ops
+>   dt-bindings: reserved-memory: MediaTek: Add reserved memory for SVP
+>   dma_buf: heaps: mtk_sec_heap: Add a new CMA heap
+> 
+>  .../mediatek,secure_cma_chunkmem.yaml         |  42 ++
+>  drivers/dma-buf/dma-heap.c                    | 127 +++--
+>  drivers/dma-buf/heaps/Kconfig                 |   8 +
+>  drivers/dma-buf/heaps/Makefile                |   1 +
+>  drivers/dma-buf/heaps/mtk_secure_heap.c       | 458 ++++++++++++++++++
+>  include/linux/dma-heap.h                      |  42 +-
+>  6 files changed, 630 insertions(+), 48 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/reserved-memory/mediatek,secure_cma_chunkmem.yaml
+>  create mode 100644 drivers/dma-buf/heaps/mtk_secure_heap.c
+> 
 
-On Wed, Oct 11, 2023 at 03:23:18PM +0200, Daniel Vetter wrote:
-> On Mon, 6 Mar 2023 at 11:49, Maxime Ripard <maxime@cerno.tech> wrote:
-> >
-> > From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> >
-> > Copy Intel's "Broadcast RGB" property semantics to add manual override
-> > of the HDMI pixel range for monitors that don't abide by the content
-> > of the AVI Infoframe.
-> >
-> > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
->=20
-> Stumbled over this grepping around, but would have been nice to lift
-> this into drm code and document the property. It's one of the legacy
-> ones from the table of horrors after all ...
->=20
-> Shouldn't be an uapi problem because it's copypasted to much, just not gr=
-eat.
+Thanks for this patch series.
 
-We already discussed it on IRC, but just for the record I have a current
-series that should address exactly that:
+In Qualcomm as well we have similar usecases which need secure heap. We are working on
+posting them upstream, would share more details on usecases soon.
 
-https://lore.kernel.org/dri-devel/20230920-kms-hdmi-connector-state-v2-3-17=
-932daddd7d@kernel.org/
+Have few comments on the current implementation.
 
-Maxime
+1) I see most the implementation here is mtk specific, even file names ,heap names etc.
+   But secure heap is a common requirement, can we keep naming as well generic may be secure_heap ?
 
---s5qnpkq7s22eut2i
-Content-Type: application/pgp-signature; name="signature.asc"
+2) secure heap has two parts, one is allocation and other one is securing the memory.
+   Have few comments on making these interfaces generic, would post those on corresponding 
+   patches.
 
------BEGIN PGP SIGNATURE-----
+Thanks,
+Vijay
+   
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZTDipQAKCRDj7w1vZxhR
-xbgJAQCEmGjEjf/SjLGRdP42kDS6wjSd6PyQOgd8BvwoA5Q5EgD/Yp30L10FCkoz
-aRUIw6WPwHmlWfnWJDOhXxy2A7edHAw=
-=7gJs
------END PGP SIGNATURE-----
-
---s5qnpkq7s22eut2i--
