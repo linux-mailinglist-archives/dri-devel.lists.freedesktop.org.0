@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2DF07D070B
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Oct 2023 05:42:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F296D7D070C
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Oct 2023 05:42:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D1F7F10E57E;
-	Fri, 20 Oct 2023 03:42:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1543410E577;
+	Fri, 20 Oct 2023 03:42:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madras.collabora.co.uk (madras.collabora.co.uk
  [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C5FD10E580
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Oct 2023 03:42:32 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 573AC10E57F
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Oct 2023 03:42:38 +0000 (UTC)
 Received: from localhost.localdomain (unknown
  [IPv6:2804:14d:e646:872b:8302:9b9b:d59b:1681])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: koike)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 5747F660734A;
- Fri, 20 Oct 2023 04:42:26 +0100 (BST)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 48082660734D;
+ Fri, 20 Oct 2023 04:42:32 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1697773351;
- bh=E5EDxWAh3XQ/ET5vWSK2FRTv96LndBlnZC7fPLSj9qk=;
+ s=mail; t=1697773357;
+ bh=V6K2VUBWjxN+LHfNphCVJYj4rZzevGT8L0HKOHvoHPY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=fJIZWIPzqchU5fiCXCckmWYBR4Qwrcc9+ZHrXf6wJKaQuBBIMtSTDgzgoO7LImaiE
- sNz41Ro/9dWVnRudg10ByjchkrSf2xf/JYsx4UphzDN/p/oWu8cUYantr5BZy3AXSR
- Y9lppIqL2aPSpx3vN/YytriMrK5i8eONivwLYQJfBRDq69x9AAcN3i2nwbMb2t47GO
- iEdHitHcIW9DIShZn+iOfdiDfVs2iTHX56RT59fF1GJifSV40P5eAH3OGMQoDZfk/5
- aM+UuiOFJrxBdZET1BOD4GJJ5Njje4Gt9uBk7rGPE5esPVYsxA7mhCnKqcPpGjBQvF
- Equ7xzAOj0TBg==
+ b=ASHX5+/qCm5G4u6XsXnRtFmUmYl2z9ifG4QKoWdcAcFdE43NHpZJuohWRdlKTLx7w
+ 2d24IxFG0Mt8lZddJrW0oPko2CHHvpWy7LzAtbZH4Fax7pfYL/xvCMCUSVRva0BUpS
+ WOPzdSMvGik6MosSYFETPkX8R54EwtvTGx1WpuznXm8bz7X501IjUh+YoQU3Y/X+Wc
+ skjsmTw+cp7Qb5npSFtml+yTFVI1xAy9enRszBTnwLymj11+nkzLOTPVp4fTAtiFIn
+ NuLwZ7695IPSph8vwbdjjMFYYMO4qcsrdLW0EpvrWPb0ncSpXy39OWWL6g1479yplc
+ BzRGz3a94Dthg==
 From: Helen Koike <helen.koike@collabora.com>
 To: dri-devel@lists.freedesktop.org, Helen Koike <helen.koike@collabora.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v2 6/9] drm/ci: add subset-1-gfx to LAVA_TAGS and adjust shards
-Date: Fri, 20 Oct 2023 00:41:21 -0300
-Message-Id: <20231020034124.136295-7-helen.koike@collabora.com>
+Subject: [PATCH v2 7/9] drm/ci: export kernel config
+Date: Fri, 20 Oct 2023 00:41:22 -0300
+Message-Id: <20231020034124.136295-8-helen.koike@collabora.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231020034124.136295-1-helen.koike@collabora.com>
 References: <20231020034124.136295-1-helen.koike@collabora.com>
@@ -64,166 +64,48 @@ Cc: robdclark@chromium.org, vignesh.raman@collabora.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Collabora Lava farm added a tag called `subset-1-gfx` to half of
-devices the graphics community use.
+Export the resultant kernel config, making it easier to verify if the
+resultant config was correctly generated.
 
-Lets use this tag so we don't occupy all the resources.
-
-This is particular important because Mesa3D shares the resources with
-DRM-CI and use them to do pre-merge tests, so it can block developers
-from getting their patches merged.
-
+Suggested-by: Rob Clark <robdclark@chromium.org>
 Signed-off-by: Helen Koike <helen.koike@collabora.com>
+Acked-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Reviewed-by: David Heidelberg <david.heidelberg@collabora.com>
 
 ---
 
 v2:
-- add subset-1-gfx tag to LAVA_TAGS
-- update commit message
+- no changes
 ---
- drivers/gpu/drm/ci/gitlab-ci.yml |  2 +-
- drivers/gpu/drm/ci/test.yml      | 23 ++++++++++++++---------
- 2 files changed, 15 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/ci/build.sh       | 1 +
+ drivers/gpu/drm/ci/image-tags.yml | 2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/ci/gitlab-ci.yml b/drivers/gpu/drm/ci/gitlab-ci.yml
-index ade6c65a1945..b99015afd6a0 100644
---- a/drivers/gpu/drm/ci/gitlab-ci.yml
-+++ b/drivers/gpu/drm/ci/gitlab-ci.yml
-@@ -26,7 +26,7 @@ variables:
-   JOB_ARTIFACTS_BASE: ${PIPELINE_ARTIFACTS_BASE}/${CI_JOB_ID}
-   # default kernel for rootfs before injecting the current kernel tree
-   KERNEL_IMAGE_BASE: https://${S3_HOST}/mesa-lava/gfx-ci/linux/v6.4.12-for-mesa-ci-f6b4ad45f48d
--
-+  LAVA_TAGS: subset-1-gfx
-   LAVA_JOB_PRIORITY: 30
+diff --git a/drivers/gpu/drm/ci/build.sh b/drivers/gpu/drm/ci/build.sh
+index e3908f4d71cb..e5c5dcedd108 100644
+--- a/drivers/gpu/drm/ci/build.sh
++++ b/drivers/gpu/drm/ci/build.sh
+@@ -153,6 +153,7 @@ mkdir -p artifacts/install/lib
+ mv install/* artifacts/install/.
+ rm -rf artifacts/install/modules
+ ln -s common artifacts/install/ci-common
++cp .config artifacts/${CI_JOB_NAME}_config
  
- default:
-diff --git a/drivers/gpu/drm/ci/test.yml b/drivers/gpu/drm/ci/test.yml
-index 3479d2a0108d..19dc0862e710 100644
---- a/drivers/gpu/drm/ci/test.yml
-+++ b/drivers/gpu/drm/ci/test.yml
-@@ -86,7 +86,7 @@ msm:sc7180:
-   extends:
-     - .lava-igt:arm64
-   stage: msm
--  parallel: 2
-+  parallel: 4
-   variables:
-     DRIVER_NAME: msm
-     DEVICE_TYPE: sc7180-trogdor-lazor-limozeen
-@@ -155,7 +155,7 @@ rockchip:rk3399:
-   extends:
-     - .lava-igt:arm64
-   stage: rockchip
--  parallel: 3
-+  parallel: 2
-   variables:
-     DRIVER_NAME: rockchip
-     DEVICE_TYPE: rk3399-gru-kevin
-@@ -178,7 +178,7 @@ rockchip:rk3399:
- i915:apl:
-   extends:
-     - .i915
--  parallel: 12
-+  parallel: 3
-   variables:
-     DEVICE_TYPE: asus-C523NA-A20057-coral
-     GPU_VERSION: apl
-@@ -187,7 +187,7 @@ i915:apl:
- i915:glk:
-   extends:
-     - .i915
--  parallel: 5
-+  parallel: 2
-   variables:
-     DEVICE_TYPE: hp-x360-12b-ca0010nr-n4020-octopus
-     GPU_VERSION: glk
-@@ -196,7 +196,7 @@ i915:glk:
- i915:amly:
-   extends:
-     - .i915
--  parallel: 8
-+  parallel: 2
-   variables:
-     DEVICE_TYPE: asus-C433TA-AJ0005-rammus
-     GPU_VERSION: amly
-@@ -205,7 +205,7 @@ i915:amly:
- i915:kbl:
-   extends:
-     - .i915
--  parallel: 5
-+  parallel: 3
-   variables:
-     DEVICE_TYPE: hp-x360-14-G1-sona
-     GPU_VERSION: kbl
-@@ -214,7 +214,7 @@ i915:kbl:
- i915:whl:
-   extends:
-     - .i915
--  parallel: 8
-+  parallel: 2
-   variables:
-     DEVICE_TYPE: dell-latitude-5400-8665U-sarien
-     GPU_VERSION: whl
-@@ -223,7 +223,7 @@ i915:whl:
- i915:cml:
-   extends:
-     - .i915
--  parallel: 6
-+  parallel: 2
-   variables:
-     DEVICE_TYPE: asus-C436FA-Flip-hatch
-     GPU_VERSION: cml
-@@ -232,7 +232,7 @@ i915:cml:
- i915:tgl:
-   extends:
-     - .i915
--  parallel: 6
-+  parallel: 8
-   variables:
-     DEVICE_TYPE: asus-cx9400-volteer
-     GPU_VERSION: tgl
-@@ -251,6 +251,7 @@ i915:tgl:
- amdgpu:stoney:
-   extends:
-     - .amdgpu
-+  parallel: 2
-   variables:
-     DEVICE_TYPE: hp-11A-G6-EE-grunt
-     GPU_VERSION: stoney
-@@ -269,6 +270,7 @@ amdgpu:stoney:
- mediatek:mt8173:
-   extends:
-     - .mediatek
-+  parallel: 4
-   variables:
-     DEVICE_TYPE: mt8173-elm-hana
-     GPU_VERSION: mt8173
-@@ -280,6 +282,7 @@ mediatek:mt8173:
- mediatek:mt8183:
-   extends:
-     - .mediatek
-+  parallel: 3
-   variables:
-     DEVICE_TYPE: mt8183-kukui-jacuzzi-juniper-sku16
-     GPU_VERSION: mt8183
-@@ -289,6 +292,7 @@ mediatek:mt8183:
- .mediatek:mt8192:
-   extends:
-     - .mediatek
-+  parallel: 3
-   variables:
-     DEVICE_TYPE: mt8192-asurada-spherion-r0
-     GPU_VERSION: mt8192
-@@ -307,6 +311,7 @@ mediatek:mt8183:
- meson:g12b:
-   extends:
-     - .meson
-+  parallel: 3
-   variables:
-     DEVICE_TYPE: meson-g12b-a311d-khadas-vim3
-     GPU_VERSION: g12b
+ for image in ${KERNEL_IMAGE_NAME}; do
+     cp /lava-files/$image artifacts/install/.
+diff --git a/drivers/gpu/drm/ci/image-tags.yml b/drivers/gpu/drm/ci/image-tags.yml
+index 7dd3f995f8a2..7ab4f2514da8 100644
+--- a/drivers/gpu/drm/ci/image-tags.yml
++++ b/drivers/gpu/drm/ci/image-tags.yml
+@@ -4,7 +4,7 @@ variables:
+    DEBIAN_BASE_TAG: "${CONTAINER_TAG}"
+ 
+    DEBIAN_X86_64_BUILD_IMAGE_PATH: "debian/x86_64_build"
+-   DEBIAN_BUILD_TAG: "2023-10-08-igt"
++   DEBIAN_BUILD_TAG: "2023-10-08-config"
+ 
+    KERNEL_ROOTFS_TAG: "2023-10-06-amd"
+ 
 -- 
 2.39.2
 
