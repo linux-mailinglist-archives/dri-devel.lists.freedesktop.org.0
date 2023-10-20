@@ -1,33 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B0CF7D0DB4
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Oct 2023 12:44:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF3DF7D0DCA
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Oct 2023 12:45:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D5B810E5A0;
-	Fri, 20 Oct 2023 10:44:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4160210E5A3;
+	Fri, 20 Oct 2023 10:45:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id C283910E5A6
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Oct 2023 10:44:35 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A8D792F4;
- Fri, 20 Oct 2023 03:45:15 -0700 (PDT)
-Received: from e122027.cambridge.arm.com (e122027.cambridge.arm.com
- [10.1.34.21])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 390923F5A1;
- Fri, 20 Oct 2023 03:44:33 -0700 (PDT)
-From: Steven Price <steven.price@arm.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Rob Herring <robh@kernel.org>
-Subject: [PATCH] drm/panfrost: Remove incorrect IS_ERR() check
-Date: Fri, 20 Oct 2023 11:44:05 +0100
-Message-Id: <20231020104405.53992-1-steven.price@arm.com>
-X-Mailer: git-send-email 2.34.1
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 76E3710E5A3
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Oct 2023 10:45:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1697798705; x=1729334705;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=rdWXhanTUCsiJOSLLFch1G9TeWX1KM4ERXZ9Nzc2Gsw=;
+ b=kizJJkDdcR26KFi7Zc+g0FtDyjShwXBf3zY4SpSe0Bg3a860MkMUAZ7a
+ zDOrk8jhNSHbJt8seJ5LqRNyMlH16KV4ipFVY9OPePnLgBy5H1fuxND4i
+ p9NMSz8UyiQyQoVcfVvCSaAuu8oWz/bjWri75CME8ds2sEnZVVrbPmgdW
+ mFGpqhxqlCCpVoz7xp3DpnhZN3ZdRdLsT2DooVSYUOPVHarORqof1RnEc
+ akwS3ll551DDTvcTiNyrcRlcPN0GlRD9D/ux0ZNTPfNyEJOzNGfiSYECV
+ 3gI880TfdBCo+Y+g4UZzD/OHWBYhqE0IglHJEVkyXIFKxfZOpaSFz9T+u Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10868"; a="386287475"
+X-IronPort-AV: E=Sophos;i="6.03,238,1694761200"; d="scan'208";a="386287475"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Oct 2023 03:45:04 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10868"; a="1004572479"
+X-IronPort-AV: E=Sophos;i="6.03,238,1694761200"; d="scan'208";a="1004572479"
+Received: from joe-255.igk.intel.com (HELO localhost) ([10.91.220.57])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Oct 2023 03:45:03 -0700
+From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH 0/6] accel/ivpu: Update to -next 2023-10-20 
+Date: Fri, 20 Oct 2023 12:44:55 +0200
+Message-Id: <20231020104501.697763-1-stanislaw.gruszka@linux.intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -41,48 +55,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>,
- =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Steven Price <steven.price@arm.com>
+Cc: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>, Jeffrey Hugo <quic_jhugo@quicinc.com>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-sg_page_iter_page() doesn't return an error code, so the IS_ERR() check
-is wrong and the error path will never be executed. This also allows
-simplifying the code to remove the local variable 'page'.
+Random changes across the driver.
 
-CC: Adrián Larumbe <adrian.larumbe@collabora.com>
-Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-Closes: https://lore.kernel.org/r/376713ff-9a4f-4ea3-b097-fb5efb685d95@moroto.mountain
-Signed-off-by: Steven Price <steven.price@arm.com>
----
- drivers/gpu/drm/panfrost/panfrost_dump.c | 12 ++----------
- 1 file changed, 2 insertions(+), 10 deletions(-)
+Karol Wachowski (1):
+  accel/ivpu: Read clock rate only if device is up
 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_dump.c b/drivers/gpu/drm/panfrost/panfrost_dump.c
-index e7942ac449c6..47751302f1bc 100644
---- a/drivers/gpu/drm/panfrost/panfrost_dump.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_dump.c
-@@ -220,16 +220,8 @@ void panfrost_core_dump(struct panfrost_job *job)
- 
- 		iter.hdr->bomap.data[0] = bomap - bomap_start;
- 
--		for_each_sgtable_page(bo->base.sgt, &page_iter, 0) {
--			struct page *page = sg_page_iter_page(&page_iter);
--
--			if (!IS_ERR(page)) {
--				*bomap++ = page_to_phys(page);
--			} else {
--				dev_err(pfdev->dev, "Panfrost Dump: wrong page\n");
--				*bomap++ = 0;
--			}
--		}
-+		for_each_sgtable_page(bo->base.sgt, &page_iter, 0)
-+			*bomap++ = page_to_phys(sg_page_iter_page(&page_iter));
- 
- 		iter.hdr->bomap.iova = mapping->mmnode.start << PAGE_SHIFT;
- 
+Krystian Pradzynski (3):
+  accel/ivpu: Use ratelimited warn and err in IPC/JSM
+  accel/ivpu: Fix verbose version of REG_POLL macros
+  accel/ivpu: Print IPC type string instead of number
+
+Stanislaw Gruszka (2):
+  accel/ivpu: Do no initialize parameters on power up
+  accel/ivpu/37xx: Remove support for FPGA and simics
+
+ drivers/accel/ivpu/ivpu_drv.c       | 18 ++++++-
+ drivers/accel/ivpu/ivpu_hw_37xx.c   | 63 ++++------------------
+ drivers/accel/ivpu/ivpu_hw_40xx.c   |  8 +--
+ drivers/accel/ivpu/ivpu_hw_reg_io.h | 32 ++++++-----
+ drivers/accel/ivpu/ivpu_ipc.c       | 34 ++++++------
+ drivers/accel/ivpu/ivpu_jsm_msg.c   | 82 ++++++++++++++++++++++++++---
+ drivers/accel/ivpu/ivpu_jsm_msg.h   |  2 +
+ drivers/accel/ivpu/ivpu_mmu.c       | 47 ++++++++++-------
+ drivers/accel/ivpu/ivpu_pm.c        | 13 +++++
+ drivers/accel/ivpu/ivpu_pm.h        |  1 +
+ 10 files changed, 189 insertions(+), 111 deletions(-)
+
 -- 
-2.34.1
+2.25.1
 
