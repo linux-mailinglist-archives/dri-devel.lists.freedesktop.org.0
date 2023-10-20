@@ -2,67 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44E287D0CFB
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Oct 2023 12:18:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0DB07D0D01
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Oct 2023 12:20:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C6BBD10E597;
-	Fri, 20 Oct 2023 10:18:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0DD5010E59C;
+	Fri, 20 Oct 2023 10:20:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com
- [IPv6:2a00:1450:4864:20::22a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B10E710E593;
- Fri, 20 Oct 2023 10:18:05 +0000 (UTC)
-Received: by mail-lj1-x22a.google.com with SMTP id
- 38308e7fff4ca-2c50cd16f3bso8863601fa.2; 
- Fri, 20 Oct 2023 03:18:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1697797084; x=1698401884; darn=lists.freedesktop.org;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=AmJvmP3Ju2/BOfbHARIYHBe7d8HhmZ5yDYF0oaZNQic=;
- b=a+Rhh/sQTUjrZfF1hHCYPX5kX9QSBC3Rnz6Qk3o2OI0mHZRRO+szwpSuRiMj3WTe/7
- 4DKjZCciduha7fJq3a6MCxhNYs8DALtIGeMncQ34bb9PD6JRaQB+tUHGyXBlPvmeAQrr
- cd9NvXq1Dc6LTrxLX9ZQCEelGzlCw8VRBhSzORuJ/f79n9sJ6HLYDMCYaMuk/ToJG8T9
- yKamkjmIg+VPFu61dDMGDDBDCO3yN6np4tfCiL8BVJ7X2VxVYHHl04iDUvI4p+ui0DFs
- /Dv1pLvuExoUN2rNo09kP/qZ/Bc5MpXw94408xnHX/CC6p7YVKN0eA4lAXrKhi2t7SB8
- F7QA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1697797084; x=1698401884;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=AmJvmP3Ju2/BOfbHARIYHBe7d8HhmZ5yDYF0oaZNQic=;
- b=dHFwxhDXMElXty3z6i3j1hmd4z/CfpPRYIO+NebYdFBp9HXoMcmtMTLN4h3Xm5uPKn
- YEs7lim6IFKjst06VJmnHamV2ujwpLZkIA2rz/BJkuQRcBfte0IKoPG8j6hKZR/0NyhH
- Tpiwbl7ogtJDMOxI1MH5xFPAMl8cMUZiKtVMu9Fu0bdGdL5LnQ5+Bs+aYZiKtq5MhVkL
- vkz8FSnI39otLT0ICL9VkCjYiqPIB45DsCAL/u9hAaaGvz0MINfiS6WyxeNtp41eJ7oA
- iCV3R3MuXiZgvOyk4MpImV3O9+c92bHbV55oIhR9iAYic2klUVbV8E7ic678VOzjOUVO
- XhYA==
-X-Gm-Message-State: AOJu0Yz4t8B/ui+UiJpuvgnRR+Ch9iaohlQrDZrdSNeqxY1mdGZW/chh
- TGs/dFKLdsUQMtss+JhdzcU=
-X-Google-Smtp-Source: AGHT+IF1I3tHyZPn2bU8qNlZuzOoOD7t/HDM9kPfx1Sq+4bRQ0A8R62nkbJqDNcaNH1MmUfMz9TsJw==
-X-Received: by 2002:a2e:b6ce:0:b0:2c0:2b93:884c with SMTP id
- m14-20020a2eb6ce000000b002c02b93884cmr1146654ljo.29.1697797083059; 
- Fri, 20 Oct 2023 03:18:03 -0700 (PDT)
-Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- p13-20020a2ea4cd000000b002c01ff8442fsm305566ljm.130.2023.10.20.03.18.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 Oct 2023 03:18:02 -0700 (PDT)
-Date: Fri, 20 Oct 2023 13:17:52 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Harry Wentland <harry.wentland@amd.com>
-Subject: Re: [RFC PATCH 01/10] drm/doc/rfc: Describe why prescriptive color
- pipeline is needed
-Message-ID: <20231020131752.488932a0@eldfell>
-In-Reply-To: <04754060-8f1c-4bf1-91bb-2e0305339b1c@amd.com>
-References: <20230908150235.75918-1-harry.wentland@amd.com>
- <20230908150235.75918-2-harry.wentland@amd.com>
- <20230913142902.31a51b46@eldfell>
- <04754060-8f1c-4bf1-91bb-2e0305339b1c@amd.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+Received: from mail-4018.proton.ch (mail-4018.proton.ch [185.70.40.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8717F10E599
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Oct 2023 10:20:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail2; t=1697797203; x=1698056403;
+ bh=07rMiRJgi30gk3lUdpCH7G4OVGyCibe+IRGU2+HQHZo=;
+ h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+ Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+ b=B2m0aXBwUNf20+KCAGKRcV+EM0HijNx3A4pP+9m00uAho2fjVuTjNBbpxpAWwR3rc
+ oOTY7FLR/5NLEtReNzqlJRC3fc4vNUY+IQ7XgNBW+kOW7vgew+vTogOBUSJ2SWI8tp
+ aSo/WTSwrW1nSAjF9OAPkUMQwD1EbaYL6jMDxDDt/yLx5GdorLltGO1PpDSXBDmpVZ
+ dta29KH5/jxYpZraOJ6ZAQPzexQzDi3Gx0DFA34HD6PgL0/1EGcL4V7ZBgIBqJyXEr
+ pn90op5r0ShpeNqugNicwk0UzARPvBa3DTaXgVTNWKkgwgFjQzd4QhZj81qNGy693q
+ uFOxdHaCnohCA==
+Date: Fri, 20 Oct 2023 10:19:38 +0000
+To: dri-devel@lists.freedesktop.org
+From: Simon Ser <contact@emersion.fr>
+Subject: [PATCH v2 1/2] drm: extract closefb logic in separate function
+Message-ID: <20231020101926.145327-1-contact@emersion.fr>
+Feedback-ID: 1358184:user:proton
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/pA/t=1X01+zfjZzVPlsYZpu";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,149 +44,124 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Shashank Sharma <shashank.sharma@amd.com>,
- Sebastian Wick <sebastian.wick@redhat.com>, dri-devel@lists.freedesktop.org,
- Xaver Hugl <xaver.hugl@gmail.com>, Melissa Wen <mwen@igalia.com>,
- Michel =?UTF-8?B?RMOkbnplcg==?= <mdaenzer@redhat.com>,
- Jonas =?UTF-8?B?w4VkYWhs?= <jadahl@redhat.com>,
- Victoria Brekenfeld <victoria@system76.com>, Aleix Pol <aleixpol@kde.org>,
- Naseer Ahmed <quic_naseer@quicinc.com>, wayland-devel@lists.freedesktop.org,
- Christopher Braga <quic_cbraga@quicinc.com>,
- Uma Shankar <uma.shankar@intel.com>, Joshua Ashton <joshua@froggi.es>
+Cc: Daniel Stone <daniels@collabora.com>, Hans de Goede <hdegoede@redhat.com>,
+ Pekka Paalanen <ppaalanen@gmail.com>, Sean Paul <seanpaul@chromium.org>,
+ Dennis Filder <d.filder@web.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/pA/t=1X01+zfjZzVPlsYZpu
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+drm_mode_rmfb performs two operations: drop the FB from the
+file_priv->fbs list, and make sure the FB is no longer used on a
+plane.
 
-On Thu, 19 Oct 2023 10:56:29 -0400
-Harry Wentland <harry.wentland@amd.com> wrote:
+In the next commit an IOCTL which only does so former will be
+introduced, so let's split it into a separate function.
 
-> On 2023-09-13 07:29, Pekka Paalanen wrote:
-> > On Fri, 8 Sep 2023 11:02:26 -0400
-> > Harry Wentland <harry.wentland@amd.com> wrote:
-> >  =20
-> >> Signed-off-by: Harry Wentland <harry.wentland@amd.com>
+No functional change, only refactoring.
 
-...
+v2: no change
 
-> >> +COLOR_PIPELINE Plane Property
-> >> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D
-> >> +
-> >> +Because we don't have existing KMS color properties in the pre-blendi=
-ng
-> >> +portion of display pipelines (i.e. on drm_planes) we are introducing
-> >> +color pipelines here first. Eventually we'll want to use the same
-> >> +concept for the post-blending portion, i.e. drm_crtcs. =20
-> >=20
-> > This paragraph might fit better in a cover letter.
-> >  =20
-> >> +
-> >> +Color Pipelines are created by a driver and advertised via a new
-> >> +COLOR_PIPELINE enum property on each plane. Values of the property
-> >> +always include '0', which is the default and means all color processi=
-ng
-> >> +is disabled. Additional values will be the object IDs of the first
-> >> +drm_colorop in a pipeline. A driver can create and advertise none, on=
-e,
-> >> +or more possible color pipelines. A DRM client will select a color
-> >> +pipeline by setting the COLOR PIPELINE to the respective value.
-> >> +
-> >> +In the case where drivers have custom support for pre-blending color
-> >> +processing those drivers shall reject atomic commits that are trying =
-to
-> >> +set both the custom color properties, as well as the COLOR_PIPELINE =
+Signed-off-by: Simon Ser <contact@emersion.fr>
+Cc: Hans de Goede <hdegoede@redhat.com>
+Cc: Dennis Filder <d.filder@web.de>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Pekka Paalanen <ppaalanen@gmail.com>
+Cc: Rob Clark <robdclark@gmail.com>
+Cc: Sean Paul <seanpaul@chromium.org>
+Cc: Daniel Stone <daniels@collabora.com>
+---
+ drivers/gpu/drm/drm_framebuffer.c | 51 +++++++++++++++++++------------
+ 1 file changed, 31 insertions(+), 20 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_framebuffer.c b/drivers/gpu/drm/drm_frameb=
+uffer.c
+index d3ba0698b84b..62306196808c 100644
+--- a/drivers/gpu/drm/drm_framebuffer.c
++++ b/drivers/gpu/drm/drm_framebuffer.c
+@@ -394,6 +394,31 @@ static void drm_mode_rmfb_work_fn(struct work_struct *=
+w)
+ =09}
+ }
 =20
-> >=20
-> > s/set/use/ because one of them could be carried-over state from
-> > previous commits while not literally set in this one.
-> >  =20
-> >> +property.
-> >> +
-> >> +An example of a COLOR_PIPELINE property on a plane might look like th=
-is::
-> >> +
-> >> +    Plane 10
-> >> +    =E2=94=9C=E2=94=80 "type": immutable enum {Overlay, Primary, Curs=
-or} =3D Primary
-> >> +    =E2=94=9C=E2=94=80 =E2=80=A6
-> >> +    =E2=94=94=E2=94=80 "color_pipeline": enum {0, 42, 52} =3D 0 =20
-> >=20
-> > Enum values are string names. I presume the intention here is that the
-> > strings will never need to be parsed, and the uint64_t is always equal
-> > to the string representation, right?
-> >=20
-> > That needs a statement here. It differs from all previous uses of
-> > enums, and e.g. requires a little bit of new API in libweston's
-> > DRM-backend to handle since it has its own enums referring to the
-> > string names that get mapped to the uint64_t per owning KMS object.
-> >  =20
->=20
-> I'm currently putting the DRM object ID in the "value" and use the
-> "name" as a descriptive name.
++static int drm_mode_closefb(struct drm_framebuffer *fb,
++=09=09=09    struct drm_file *file_priv)
++{
++=09struct drm_framebuffer *fbl =3D NULL;
++=09bool found =3D false;
++
++=09mutex_lock(&file_priv->fbs_lock);
++=09list_for_each_entry(fbl, &file_priv->fbs, filp_head)
++=09=09if (fb =3D=3D fbl)
++=09=09=09found =3D true;
++
++=09if (!found) {
++=09=09mutex_unlock(&file_priv->fbs_lock);
++=09=09return -ENOENT;
++=09}
++
++=09list_del_init(&fb->filp_head);
++=09mutex_unlock(&file_priv->fbs_lock);
++
++=09/* Drop the reference that was stored in the fbs list */
++=09drm_framebuffer_put(fb);
++
++=09return 0;
++}
++
+ /**
+  * drm_mode_rmfb - remove an FB from the configuration
+  * @dev: drm device
+@@ -411,8 +436,7 @@ int drm_mode_rmfb(struct drm_device *dev, u32 fb_id,
+ =09=09  struct drm_file *file_priv)
+ {
+ =09struct drm_framebuffer *fb =3D NULL;
+-=09struct drm_framebuffer *fbl =3D NULL;
+-=09int found =3D 0;
++=09int ret;
+=20
+ =09if (!drm_core_check_feature(dev, DRIVER_MODESET))
+ =09=09return -EOPNOTSUPP;
+@@ -421,23 +445,14 @@ int drm_mode_rmfb(struct drm_device *dev, u32 fb_id,
+ =09if (!fb)
+ =09=09return -ENOENT;
+=20
+-=09mutex_lock(&file_priv->fbs_lock);
+-=09list_for_each_entry(fbl, &file_priv->fbs, filp_head)
+-=09=09if (fb =3D=3D fbl)
+-=09=09=09found =3D 1;
+-=09if (!found) {
+-=09=09mutex_unlock(&file_priv->fbs_lock);
+-=09=09goto fail_unref;
++=09ret =3D drm_mode_closefb(fb, file_priv);
++=09if (ret !=3D 0) {
++=09=09drm_framebuffer_put(fb);
++=09=09return ret;
+ =09}
+=20
+-=09list_del_init(&fb->filp_head);
+-=09mutex_unlock(&file_priv->fbs_lock);
+-
+-=09/* drop the reference we picked up in framebuffer lookup */
+-=09drm_framebuffer_put(fb);
+-
+ =09/*
+-=09 * we now own the reference that was stored in the fbs list
++=09 * We now own the reference we picked up in drm_framebuffer_lookup.
+ =09 *
+ =09 * drm_framebuffer_remove may fail with -EINTR on pending signals,
+ =09 * so run this in a separate stack as there's no way to correctly
+@@ -457,10 +472,6 @@ int drm_mode_rmfb(struct drm_device *dev, u32 fb_id,
+ =09=09drm_framebuffer_put(fb);
+=20
+ =09return 0;
+-
+-fail_unref:
+-=09drm_framebuffer_put(fb);
+-=09return -ENOENT;
+ }
+=20
+ int drm_mode_rmfb_ioctl(struct drm_device *dev,
+--=20
+2.42.0
 
-Would that string name be UAPI? I mean, if userspace hardcodes and
-looks for that name, will that keep working? If it's descriptive then I
-would assume not, but for every enum existing so far the string name is
-UAPI.
 
-> > struct drm_mode_property_enum {
-> > 	__u64 value;
-> > 	char name[DRM_PROP_NAME_LEN];
-> > }; =20
->=20
-> This works well in IGT and gives us a nice descriptive name for
-> debugging, but I could consider changing this if it'd simplify
-> people's lives.
-
-It's nice if we can have a description string for each pipeline, but
-according to KMS UAPI conventions so far, userspace would look for the
-string name. I'm worried that could backfire to the kernel.
-
-Or, maybe we do want to make the string UAPI and accept that some
-userspace might look for it rather than an arrangement of colorops?
-
-Matching colorop sequences is "hard". A developer looking at pipelines,
-picking one, and hardcoding its name as a preferred choice would be too
-easy. "Works for my cards." IOW, if there is a useful looking string
-name, we can be sure that someone will depend on it.
-
-
-Thanks,
-pq
-
-> >> +References
-> >> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >> +
-> >> +1. https://lore.kernel.org/dri-devel/QMers3awXvNCQlyhWdTtsPwkp5ie9bze=
-_hD5nAccFW7a_RXlWjYB7MoUW_8CKLT2bSQwIXVi5H6VULYIxCdgvryZoAoJnC5lZgyK1QWn488=
-=3D@emersion.fr/
-> >> \ No newline at end of file =20
-> >  =20
->=20
-
-
---Sig_/pA/t=1X01+zfjZzVPlsYZpu
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmUyU9AACgkQI1/ltBGq
-qqeIaRAAregoXo1oYMQaa4whPhvswmrqR8sGpedi1so9jjeOlhpA6oS5WaRdETqt
-6nGBBcnUbIb2jwcNwKv3S6vtd8/R3gbneTKeosSWFH7qAbEHWtrWeXmaI1yVwjVx
-9t+ZEa616zz2Zh3sIzLB+7uadDWEgSVquO/EmUFN28r4+yYtFDUsE11eZLqH0f0S
-t7NcMJQdMnLPwtzZAaUPVGyVPhgv/rsHC60vB/juFgWa4TlDjWDww8lTZ7EbZVJv
-sZ2Dhg9I6JDKTOh0u6hdpo4Ona7O7MGmnLRir30uOuCxWh79pyOLuBfJ2lQGzc1g
-48FeGQG5wzDjwnF/ZavLvlb1Dde0z+fAMIfjuTZx1zhhHbyCuqvbm+TJL4yPJYrg
-tnQydFEPzut8tvu28rvOop34BYZCNiaRdsG68Hc8TMUMXUBytsyU+rKNQoAC5iO3
-PlBMeGV3D/X7rzL97H+mqL+GMf6kiFkq06gLW6FeEcUo9DIKRxGJCDZtUEuj2e2n
-/xRitU3YfD5YwQM/fw/uldTWwyR+nIo2Qk2+rGsHgXNdulVC6/cAahw+q7ZyoTxq
-s8nhAEC6WpxwqPLoXz89daQ0epN75pKIX5xfmkIullNbmVF8aLKMwkCkWIrKLcwp
-6YaBzAscpH9rO0FjW9QAQ2Pun5DeykEM1Dl0Yo0yo0Ll2CqxEaE=
-=QJUs
------END PGP SIGNATURE-----
-
---Sig_/pA/t=1X01+zfjZzVPlsYZpu--
