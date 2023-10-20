@@ -1,67 +1,97 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A56A17D11F2
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Oct 2023 16:57:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD7307D1218
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Oct 2023 17:02:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A731F10E5BB;
-	Fri, 20 Oct 2023 14:57:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A5C1710E5BE;
+	Fri, 20 Oct 2023 15:02:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
- [IPv6:2a00:1450:4864:20::12c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC5B810E0F3;
- Fri, 20 Oct 2023 14:57:18 +0000 (UTC)
-Received: by mail-lf1-x12c.google.com with SMTP id
- 2adb3069b0e04-507975d34e8so1309724e87.1; 
- Fri, 20 Oct 2023 07:57:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1697813837; x=1698418637; darn=lists.freedesktop.org;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=aQCdU2HRUSXRlLXk2M1v3tfh3DgY+A6XhhMAKECk5Qw=;
- b=Wfpz1Ay55kecFiBQZNkiWHDp03aIZgYNOXIThc1cBgJ7zJKksMuG4D6LKA3DCGlyMU
- WVVsBZRyGyNaSkrFIdkEeSoI2ZejqAg9S2J15llsfgZ+76VzHL0tKxuv7yAcF1a/GccM
- b79Lp/k0wPEZooLZzbAM19WJqmNWcKhxjyS2/OasH1//zUxzjuZVP0ETpR0wXWAkV26u
- 9j05gD9jHX8TXOj4bmGMRepZZAg/3b6VXwng9qA3BPnxFNPyXqjsu0OVlCXbpMVrU34I
- 4x0XCZWtlJW43Unux/GltAtbsbUytXLbGl9+xWbo3/t+oXIj/5HvBptHqAvpSx1n3jPP
- AHaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1697813837; x=1698418637;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=aQCdU2HRUSXRlLXk2M1v3tfh3DgY+A6XhhMAKECk5Qw=;
- b=JQ/rp1pPeZniw9FJQnJZPywTxR7IOByaaPbC4JXBK/xA/6luYRt+QPaXEdBsOfbo+u
- KmWDGTlYBPDy8BkNC3AIV9vQzi+GTs7YjDgx1MEbIlUer9F7wdCMbIqu0u+D2Hv2VIeR
- oHUsO3IhpGuVjBH/iBWZsWmsN4hAqxachnlg1XwmKC8tmjgfc1D6vLGhn1dfg1SgdHBs
- SgYPI8K4M7Tw2+v3cImCfwAxZNpP//G8sDDT3OkZrXGOtwIokdU+RYdvC/4/nCwIWv3+
- /hSwxDphywAI2iMQaedfeEm1HtbgLNOcOflcZUyxrD/kc2OYH9GgRRSSFLFZSKDxAu8q
- 7xuw==
-X-Gm-Message-State: AOJu0YwGWkWnfWePeQwuqKFzWYCCKL7GauCwQNVThK0XgwwIIZR6CK3H
- dBFkXdokqr7WtoZ2/dsykps=
-X-Google-Smtp-Source: AGHT+IEVU8yw3ovt9FlbXR/V2TZUJ56KERftRNoZo8N64rXVl0bP+OUnNRpSWR5PY4oYNWuU+fp9Bg==
-X-Received: by 2002:ac2:4ec6:0:b0:507:9787:6773 with SMTP id
- p6-20020ac24ec6000000b0050797876773mr1395217lfr.36.1697813836496; 
- Fri, 20 Oct 2023 07:57:16 -0700 (PDT)
-Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- p26-20020ac246da000000b0050799f7cd6esm395902lfo.208.2023.10.20.07.57.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 Oct 2023 07:57:15 -0700 (PDT)
-Date: Fri, 20 Oct 2023 17:57:03 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Sebastian Wick <sebastian.wick@redhat.com>
-Subject: Re: [RFC PATCH v2 06/17] drm/doc/rfc: Describe why prescriptive
- color pipeline is needed
-Message-ID: <20231020175703.09cd2578@eldfell>
-In-Reply-To: <20231020142256.GA859375@toolbox>
-References: <20231019212133.245155-1-harry.wentland@amd.com>
- <20231019212133.245155-7-harry.wentland@amd.com>
- <20231020142256.GA859375@toolbox>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12olkn20828.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:fe5b::828])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E9F610E5BE
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Oct 2023 15:02:11 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=miDmwuOpdkh1Z49VBEnjlKe1OzkVolNK/xKlU1mpTttl0hLQBK+LXMw+oQqQOnTfT29oLkJBfJRBL+rFYx4aHl7cSwaGjTk7dHE4cXXHWzxUa+VRsbVtM0Px7azKR/sEYzottmgCzjH/lhxoUxZRR67s1RhHbVZ1xt14k4z18rvonkWHKf9evuhS4UlMLoem+fUmokNREm+XvFQfJbnxjoaAUAS3Rh42WGERh8kRUagVR5Q9uQPt55XtjORwyQiK7VoptabeYIULHqgOYUYwrq52pxXPzPgos/pMehSWIlGxfd/92uRx906OVFL3JrVHpmCGoaNyDU+ZBvTE2crhDg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=u22+lWt58j6XOonK7pX+yttwnFl5PevcfeYAcpOPZlg=;
+ b=nRwXccobL/QiPu11AZCgioQmAzcWnRckKpPpN9xTcDlElzffnbmxYY/hEa55JqXt/5kZoNgMquAwfwbbKZguUMeTmur2xqvR+PcFG4EswVBZBDumdxcRsnq2JBg1iTT4ZC0UL/4pp5bJ9gSAvKf/RGqb4iZIrhxcno9Wenr4XN5cTEeU82NQeXueDy+mqlo6OJwPB1EeWL9YmUoBYSodbn1MDCsI4FSTie4i239YGHkbiP1WevQm+PxW6CTUdNygC5HtaZaDj/EKbs7f3DKLg+tMSnng6DU56uuRUr2fyv4KT98IPiXGSSIau1fzG0jg7eXtLTeEHapKDsdLGiR5hw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=u22+lWt58j6XOonK7pX+yttwnFl5PevcfeYAcpOPZlg=;
+ b=gshecpcX/74ruuUckEdXTrG93/P2j7ASBhXHc6yS1f2WssqeHQ2m9VzDinkYTKR7nfP16YOaqtOTk0S7GrvDDJJR8nBhZFATpIGQ5zKaJx9VYRFGQ9XiU34wQizhHyPmaw/NIAOrgn+Pq6iizjLUAlYBXbyxRiDImpKEfZ8zFBDG9rlb0Sv+GGKE9hnz20e+Sy8sNHRKJ5S1hRsFI5ka2cFTwB9r4wvdRRBawRGTAMEcFThv+T9JnBp+qnjIyLvU1fyGrCUPteGaDUPeOlvCudP7PxoaI2xRTuAVHewk0/nHUZr6YmAhSgZyxRFet+Pm7EzTisyoruSDaNbjrPUOvg==
+Received: from SN6PR06MB5342.namprd06.prod.outlook.com (2603:10b6:805:f9::31)
+ by SA1PR06MB8241.namprd06.prod.outlook.com (2603:10b6:806:1c4::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6907.24; Fri, 20 Oct
+ 2023 15:02:08 +0000
+Received: from SN6PR06MB5342.namprd06.prod.outlook.com
+ ([fe80::c40c:bbc8:b103:459c]) by SN6PR06MB5342.namprd06.prod.outlook.com
+ ([fe80::c40c:bbc8:b103:459c%2]) with mapi id 15.20.6863.032; Fri, 20 Oct 2023
+ 15:02:08 +0000
+Date: Fri, 20 Oct 2023 10:02:06 -0500
+From: Chris Morgan <macromorgan@hotmail.com>
+To: Jessica Zhang <quic_jesszhan@quicinc.com>
+Subject: Re: [PATCH 2/5] drm/panel: nv3051d: Add Powkiddy RK2023 Panel Support
+Message-ID: <SN6PR06MB53427936B51EABD4484DF0C3A5DBA@SN6PR06MB5342.namprd06.prod.outlook.com>
+References: <20231018161848.346947-1-macroalpha82@gmail.com>
+ <20231018161848.346947-3-macroalpha82@gmail.com>
+ <c5e2929c-ef05-4e74-947e-579706f2b4aa@quicinc.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c5e2929c-ef05-4e74-947e-579706f2b4aa@quicinc.com>
+X-TMN: [c6hAfIfdj1KylH7ib0gHz387R2RVY3OD]
+X-ClientProxiedBy: SA0PR11CA0094.namprd11.prod.outlook.com
+ (2603:10b6:806:d1::9) To SN6PR06MB5342.namprd06.prod.outlook.com
+ (2603:10b6:805:f9::31)
+X-Microsoft-Original-Message-ID: <ZTKWbrxWpX0MzEvy@wintermute.localhost.fail>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/ST9RKiWkNfwKq5eElzq76VW";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN6PR06MB5342:EE_|SA1PR06MB8241:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9ed23567-d269-405d-73b1-08dbd17d87c2
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 5Mim3eiWkOJTW1N77Gi1wp0N3sz3txoWY5mWejy2EjWQl/0QxC0Nn1mgX1iWd0iL/q08RF1dCk0xRp21K/MrKR7MwpF/IpPj8KOJtnL68DDNTR7GPKEUZ857ACZO0741EVgToBI5EhRhNST3EnH7zn0QT5bsHI4mwHT3m56QnT+uVCk8mCMRXlyoAF+KragI0nrkfxHK4/5HmRGjDqQ5TvUydb9evOdWo6+DkOBvkBj29DOUUuIPZpQ6bpI0bB23DCGxo/4FWeWGnj/Va018vY012Pm7ZavvpyBfnx9NXerXkwaRclvyQT6c7fKyLPgXP+bLtebwez2PcYS6ElMhYW3r7Zxh+pBBFuavkSlAuS/LVucuuvVtCyO12ToTdvAD3a6n3EwSSeRybBKX/uZviyJN0w2Tv9+zWiNjEmbNtJnLcY9m0S9SwOITT+pxTY//Qbu3wsea38vjKvmxwF8DvfD2S8yZVzC0OFGKUi042dLK/W41Uw1WFiK5+bgrEKpclPv6LFg53oydcWF1/CwaKzrBXpf/v+2lAq12CyhNOVvqSugO6+KdTVvyC0kPcZZW
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?3g22Hda9ety0YLI8h26fJsx/KKGev92kmcFy4YYXC4i6APD5EOq5Y6feRKwi?=
+ =?us-ascii?Q?bNV4iUhnpxE6lWn15+UswfVaRoafv6XWCVolXvFYZusv5ViFXjm+P1PaPqWs?=
+ =?us-ascii?Q?isjEOL7urwm75NUILyvk3Z0MvDxqd2Aj7fQyUudFwzMkvPyAlQelYndEkyik?=
+ =?us-ascii?Q?tcmAnC+1zLUeZPMR42+gZP8R85jHaWX3I934ghNPRhfzpTAl/TCp8TQ8JrSt?=
+ =?us-ascii?Q?imWH2PxC+3g8jAqZZAmTmCHp01gjtRr+LSMg9IXWAo7a0Brb6xN8KYc1HZDL?=
+ =?us-ascii?Q?vc23c0Q4Jpog9TNc/cHUU084LVlTma9meT7q7+zPuAzPZ9aDQYfjipoMkjke?=
+ =?us-ascii?Q?9OvigxrBROMEApie1r5gcQNI42LScMVR1ImuSl6lz/LYSrEtTgN5R1ni4ASw?=
+ =?us-ascii?Q?AJ3wnP7f53MycUtFwTrzLu/gnDi7tJpkzkGNO8W4zQOZqTJsAciPhmaIWlKN?=
+ =?us-ascii?Q?IjfFlRzTyldIBbc6p93fM18/nJGQMX5R/Jf2DP7ixTmhtKGktblwR3AVZnXC?=
+ =?us-ascii?Q?IfEN4nd19SnVSCplW1BgmhnwHQYe3RlFnBuQnjMx8ojZ+WCHmbBqsWFpzJAX?=
+ =?us-ascii?Q?X/OUHIHUOqZa7uUi/T95HIaHVcZL2slXlG6q6HqPjHDxVxGip0L5L76QHS1W?=
+ =?us-ascii?Q?PZ/G//y+0nj/PiKY2gbqJSA4m8DTdst0wCB3pR8KOOMOjALCSmIWch42RxUM?=
+ =?us-ascii?Q?TnBnk7LRuYkPdgDVqDMVvxkB3V2wsMNW6fgA1D0hEq4lcMWE7/b93jQ7QnNY?=
+ =?us-ascii?Q?VhhJEhQZ2OdO8RsatWBXt51UoEJGgsciHzRWKodrkVSnBSSN2B/JeXdeG8qI?=
+ =?us-ascii?Q?dx8FyOPQlSDWTfMN2X2K/ByfPRynP6frTgLQ9hDWFwZl3u6kactItHJTz/xW?=
+ =?us-ascii?Q?r/EmVa+hBMulDwtuNbvrafRAnE+R088DMqS060AVuC/gZ2x2e/LiQd3a41ag?=
+ =?us-ascii?Q?jRkfSiWTAF4uUaUhBhwZqwR3gYZx+WaKz9uM6q4CRFFOzK3Kr7zysVVgFCuu?=
+ =?us-ascii?Q?a2R47U4X9HA+o5RDg9sPgusLVMQiS3O7bcBW3XIyTvoFD9fQbDR7uYx6CUMg?=
+ =?us-ascii?Q?GlpDqMxT4Xpk6rxpjQlDXiDdfYhc5ySkEa6Yp8wr0F8NVtl9TBIseWW93DjX?=
+ =?us-ascii?Q?lwXmDsN7snKrRZwE/ch9l6WybRahTNCzv8tN1ktvFyeg0SnrjWytBnU9CGpK?=
+ =?us-ascii?Q?TBqEnA8spC2goYIOgb5VpiShER2oYc0TCPENt5ohF33yg/IIX0p3l4zubqY?=
+ =?us-ascii?Q?=3D?=
+X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-89723.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9ed23567-d269-405d-73b1-08dbd17d87c2
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR06MB5342.namprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Oct 2023 15:02:08.8179 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR06MB8241
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,112 +104,141 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha McIntosh <sashamcintosh@google.com>,
- Liviu Dudau <Liviu.Dudau@arm.com>, Victoria Brekenfeld <victoria@system76.com>,
- dri-devel@lists.freedesktop.org,
- Michel =?UTF-8?B?RMOkbnplcg==?= <mdaenzer@redhat.com>,
- Arthur Grillo <arthurgrillo@riseup.net>,
- Christopher Braga <quic_cbraga@quicinc.com>, Aleix Pol <aleixpol@kde.org>,
- Shashank Sharma <shashank.sharma@amd.com>, wayland-devel@lists.freedesktop.org,
- Jonas =?UTF-8?B?w4VkYWhs?= <jadahl@redhat.com>,
- Uma Shankar <uma.shankar@intel.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Naseer Ahmed <quic_naseer@quicinc.com>, Melissa Wen <mwen@igalia.com>,
- Hector Martin <marcan@marcan.st>, Xaver Hugl <xaver.hugl@gmail.com>,
- Joshua Ashton <joshua@froggi.es>
+Cc: devicetree@vger.kernel.org, conor+dt@kernel.org, neil.armstrong@linaro.org,
+ sboyd@kernel.org, mturquette@baylibre.com, sebastian.reichel@collabora.com,
+ dri-devel@lists.freedesktop.org, Chris Morgan <macroalpha82@gmail.com>,
+ linux-rockchip@lists.infradead.org, robh+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, sam@ravnborg.org, linux-clk@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/ST9RKiWkNfwKq5eElzq76VW
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-
-On Fri, 20 Oct 2023 16:22:56 +0200
-Sebastian Wick <sebastian.wick@redhat.com> wrote:
-
-> Thanks for continuing to work on this!
->=20
-> On Thu, Oct 19, 2023 at 05:21:22PM -0400, Harry Wentland wrote:
-> > v2:
-> >  - Update colorop visualizations to match reality (Sebastian, Alex Hung)
-> >  - Updated wording (Pekka)
-> >  - Change BYPASS wording to make it non-mandatory (Sebastian)
-> >  - Drop cover-letter-like paragraph from COLOR_PIPELINE Plane Property
-> >    section (Pekka)
-> >  - Use PQ EOTF instead of its inverse in Pipeline Programming example (=
-Melissa)
-> >  - Add "Driver Implementer's Guide" section (Pekka)
-> >  - Add "Driver Forward/Backward Compatibility" section (Sebastian, Pekk=
-a)
-> >=20
-
-...
-
-> > +Driver Forward/Backward Compatibility
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+On Thu, Oct 19, 2023 at 10:22:24AM -0700, Jessica Zhang wrote:
+> 
+> 
+> On 10/18/2023 9:18 AM, Chris Morgan wrote:
+> > From: Chris Morgan <macromorgan@hotmail.com>
+> > 
+> > Refactor the driver to add support for the powkiddy,rk2023-panel
+> > panel. This panel is extremely similar to the rg353p-panel but
+> > requires a smaller vertical back porch and isn't as tolerant of
+> > higher speeds.
+> > 
+> > Tested on my RG351V, RG353P, RG353V, and RK2023.
+> > 
+> > Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+> 
+> Hi Chris,
+> 
+> Thanks for the patch. Just have a minor question below.
+> 
+> > ---
+> >   .../gpu/drm/panel/panel-newvision-nv3051d.c   | 56 +++++++++++++++----
+> >   1 file changed, 45 insertions(+), 11 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/panel/panel-newvision-nv3051d.c b/drivers/gpu/drm/panel/panel-newvision-nv3051d.c
+> > index 79de6c886292..d24c51503d68 100644
+> > --- a/drivers/gpu/drm/panel/panel-newvision-nv3051d.c
+> > +++ b/drivers/gpu/drm/panel/panel-newvision-nv3051d.c
+> > @@ -28,6 +28,7 @@ struct nv3051d_panel_info {
+> >   	unsigned int num_modes;
+> >   	u16 width_mm, height_mm;
+> >   	u32 bus_flags;
+> > +	u32 mode_flags;
+> >   };
+> >   struct panel_nv3051d {
+> > @@ -385,15 +386,7 @@ static int panel_nv3051d_probe(struct mipi_dsi_device *dsi)
+> >   	dsi->lanes = 4;
+> >   	dsi->format = MIPI_DSI_FMT_RGB888;
+> > -	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
+> > -			  MIPI_DSI_MODE_LPM | MIPI_DSI_MODE_NO_EOT_PACKET;
+> > -
+> > -	/*
+> > -	 * The panel in the RG351V is identical to the 353P, except it
+> > -	 * requires MIPI_DSI_CLOCK_NON_CONTINUOUS to operate correctly.
+> > -	 */
+> > -	if (of_device_is_compatible(dev->of_node, "anbernic,rg351v-panel"))
+> > -		dsi->mode_flags |= MIPI_DSI_CLOCK_NON_CONTINUOUS;
+> > +	dsi->mode_flags = ctx->panel_info->mode_flags;
+> >   	drm_panel_init(&ctx->panel, &dsi->dev, &panel_nv3051d_funcs,
+> >   		       DRM_MODE_CONNECTOR_DSI);
+> > @@ -481,18 +474,59 @@ static const struct drm_display_mode nv3051d_rgxx3_modes[] = {
+> >   	},
+> >   };
+> > -static const struct nv3051d_panel_info nv3051d_rgxx3_info = {
+> > +static const struct drm_display_mode nv3051d_rk2023_modes[] = {
+> > +	{
+> > +		.hdisplay       = 640,
+> > +		.hsync_start    = 640 + 40,
+> > +		.hsync_end      = 640 + 40 + 2,
+> > +		.htotal         = 640 + 40 + 2 + 80,
+> > +		.vdisplay       = 480,
+> > +		.vsync_start    = 480 + 18,
+> > +		.vsync_end      = 480 + 18 + 2,
+> > +		.vtotal         = 480 + 18 + 2 + 4,
+> > +		.clock          = 24150,
+> > +		.flags          = DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC,
+> > +	},
+> > +};
 > > +
-> > +As this is uAPI drivers can't regress color pipelines that have been
-> > +introduced for a given HW generation. New HW generations are free to
-> > +abandon color pipelines advertised for previous generations.
-> > +Nevertheless, it can be beneficial to carry support for existing color
-> > +pipelines forward as those will likely already have support in DRM
-> > +clients.
+> > +static const struct nv3051d_panel_info nv3051d_rg351v_info = {
+> >   	.display_modes = nv3051d_rgxx3_modes,
+> >   	.num_modes = ARRAY_SIZE(nv3051d_rgxx3_modes),
+> >   	.width_mm = 70,
+> >   	.height_mm = 57,
+> >   	.bus_flags = DRM_BUS_FLAG_DE_LOW | DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE,
+> > +	.mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
+> > +		      MIPI_DSI_MODE_LPM | MIPI_DSI_MODE_NO_EOT_PACKET |
+> > +		      MIPI_DSI_CLOCK_NON_CONTINUOUS,
+> > +};
 > > +
-> > +Introducing new colorops to a pipeline is fine, as long as they can be
-> > +disabled or are purely informational. DRM clients implementing support
-> > +for the pipeline can always skip unknown properties as long as they can
-> > +be confident that doing so will not cause unexpected results.
+> > +static const struct nv3051d_panel_info nv3051d_rg353p_info = {
+> > +	.display_modes = nv3051d_rgxx3_modes,
+> > +	.num_modes = ARRAY_SIZE(nv3051d_rgxx3_modes),
+> > +	.width_mm = 70,
+> > +	.height_mm = 57,
+> 
+> Will all the panels for this driver be 70x57? If so, would it be better to
+> set display_info.[width_mm|height_mm] directly?
+
+They are all so far the same size, but I can't guarantee that going forward.
+To my knowledge this is the last of the nv3051d devices I'll be working on
+in the foreseeable future though, and so far they're all identical in size.
+
+> 
+> > +	.bus_flags = DRM_BUS_FLAG_DE_LOW | DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE,
+> > +	.mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
+> > +		      MIPI_DSI_MODE_LPM | MIPI_DSI_MODE_NO_EOT_PACKET,
+> > +};
 > > +
-> > +If a new colorop doesn't fall into one of the above categories
-> > +(bypassable or informational) the modified pipeline would be unusable
-> > +for user space. In this case a new pipeline should be defined. =20
->=20
-> How can user space detect an informational element? Should we just add a
-> BYPASS property to informational elements, make it read only and set to
-> true maybe? Or something more descriptive?
+> > +static const struct nv3051d_panel_info nv3051d_rk2023_info = {
+> > +	.display_modes = nv3051d_rk2023_modes,
+> > +	.num_modes = ARRAY_SIZE(nv3051d_rk2023_modes),
+> > +	.width_mm = 70,
+> > +	.height_mm = 57,
+> > +	.bus_flags = DRM_BUS_FLAG_DE_LOW | DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE,
+> > +	.mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
+> > +		      MIPI_DSI_MODE_LPM | MIPI_DSI_MODE_NO_EOT_PACKET,
+> >   };
+> >   static const struct of_device_id newvision_nv3051d_of_match[] = {
+> > -	{ .compatible = "newvision,nv3051d", .data = &nv3051d_rgxx3_info },
+> > +	{ .compatible = "anbernic,rg351v-panel", .data = &nv3051d_rg351v_info },
+> > +	{ .compatible = "anbernic,rg353p-panel", .data = &nv3051d_rg353p_info },
+> > +	{ .compatible = "powkiddy,rk2023-panel", .data = &nv3051d_rk2023_info },
+> >   	{ /* sentinel */ }
+> >   };
+> > +
 
-Read-only BYPASS set to true would be fine by me, I guess.
+Sorry, will fix that in a V2. Thank you.
 
-I think we also need a definition of "informational".
-
-Counter-example 1: a colorop that represents a non-configurable
-YUV<->RGB conversion. Maybe it determines its operation from FB pixel
-format. It cannot be set to bypass, it cannot be configured, and it
-will alter color values.
-
-Counter-example 2: image size scaling colorop. It might not be
-configurable, it is controlled by the plane CRTC_* and SRC_*
-properties. You still need to understand what it does, so you can
-arrange the scaling to work correctly. (Do not want to scale an image
-with PQ-encoded values as Josh demonstrated in XDC.)
-
-Counter-example 3: image sampling colorop. Averages FB originated color
-values to produce a color sample. Again do not want to do this with
-PQ-encoded values.
-
-
-Thanks,
-pq
-
---Sig_/ST9RKiWkNfwKq5eElzq76VW
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmUylT8ACgkQI1/ltBGq
-qqcEbw//Yqi8R4yPjbVcqMiKMpIEbK/XXuXEHHtD6yf4aLRZ9liS/JQ5zsms2VH7
-OAGl92JyyF+zQ8btylZ5jCJkdqa9hHrqeDixByvtcR/9mppBnqAYvpuFgeqB8CIX
-7k9zUWdhr32NnfUIHyDAhoCcKENsokuGR0SgjXaVFAAUhi0QvZ+B5iOB96K+bfzx
-X1V86qgwD8xb9YXHrDpkKm31O9lMBLvuTE13EWlfvP+f8TBdAuBq+msk7Vz3WqsI
-RZtNOBDxbZiKJaP20B+jeI1CFjrg3Iifh78Cv61GWWayKopUJ+M47KVIju6ErUcm
-8azl0CaK0FbfFdHK3elnLkNVm+nyTNXk1SgKKhMh5h9NWBD25JQdgbmMX+t4EcU9
-1+Ou/8s7jJ2R15yfzj8y4M/4qwydfeY1xdFlkWQB2UAbVQF2i/6b3e0qEFcVJht9
-d/872fGLiNqrkp3IyoqRAvqDjmSdtGA2cxKzltfDc1IK7RJSULIc74I7YYCle/p/
-ii8Lc2EZiuGTR4Bxm4hJ66hXsiAXH6+d69AtI/1/2WwFBhflf+kbfCI4vn7iq/wt
-AU0FByapOHJ2loVI2ttzNYw8umdlj2NF1TdQwXoToTNtvuDWTbirdQRnH+ZmVRNV
-dq294BE/RFjNKUm3AOaXH757WsYUoUjdJAknOBli4iCeH38Yago=
-=sD3k
------END PGP SIGNATURE-----
-
---Sig_/ST9RKiWkNfwKq5eElzq76VW--
+> 
+> I think you can drop this stray newline.
+> 
+> Thanks,
+> 
+> Jessica Zhang
+> 
+> >   MODULE_DEVICE_TABLE(of, newvision_nv3051d_of_match);
+> >   static struct mipi_dsi_driver newvision_nv3051d_driver = {
+> > -- 
+> > 2.34.1
+> > 
