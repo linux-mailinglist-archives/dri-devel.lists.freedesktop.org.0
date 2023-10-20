@@ -1,44 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EE3A7D065E
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Oct 2023 04:01:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D48F87D06FE
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Oct 2023 05:41:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DBBF810E56D;
-	Fri, 20 Oct 2023 02:01:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E10810E573;
+	Fri, 20 Oct 2023 03:41:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 37C0A10E56D;
- Fri, 20 Oct 2023 02:01:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1697767259;
- bh=/TsfK7RL74sk75OV2jmi56NKjcO1swhvmxD4w4D8y+I=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=G+8KXIPpPsjw8JxMM+E8n1khnzrz3YsbQVAtoKfayMDwyc/dXl0de9IJNx4K6I4vm
- LhYzFsvhx5ga2RxHmhxmL/K80Gp93JCtIqYXHLSCiI8hp5o+4i5gK6xOA6CzbQNJKk
- SbHSji62lNKYgeDjWg/Vgu3lH8RTxb9cK/ppQ08Coe+S5gq90KfNFCWvlsK3KM61ls
- UmsaM+TdG0Rb+wTDC6Fn2YiEGdFHYUs1+32sjqDCW7OtfXOgio7XajNAoPwLKzY8x0
- 4V7E4NGvZ4yMPabqXVZW/xs5NlxTj8y+RhcbSlOjEnElwk7SFBCHZ7yHHRfyB+xA5h
- jBDg5ku7BJ8vA==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1682A10E573
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Oct 2023 03:41:44 +0000 (UTC)
+Received: from localhost.localdomain (unknown
+ [IPv6:2804:14d:e646:872b:8302:9b9b:d59b:1681])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4SBSVL0dFtz4xNs;
- Fri, 20 Oct 2023 13:00:57 +1100 (AEDT)
-Date: Fri, 20 Oct 2023 13:00:54 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Dave Airlie <airlied@redhat.com>
-Subject: Re: linux-next: build failure after merge of the drm-misc tree
-Message-ID: <20231020130054.7bf18733@canb.auug.org.au>
-In-Reply-To: <20231012122749.45d37e52@canb.auug.org.au>
-References: <20231012122209.6f2768df@canb.auug.org.au>
- <20231012122749.45d37e52@canb.auug.org.au>
+ (No client certificate requested) (Authenticated sender: koike)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id ADCBC6607342;
+ Fri, 20 Oct 2023 04:41:37 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1697773302;
+ bh=LqNnOwhO2oD4GIFi1GI6amAb66a1N0jZ86FI/8uI3Mo=;
+ h=From:To:Cc:Subject:Date:From;
+ b=hZ3AYw547TQQvklNaO7ts3+IcUtiEnuKfl3mNAhcV3hTLM1is0p9VdAt9TpvuOjhe
+ RomeL3EwyWP6wwtW7WJPTAPhNKJJRiDSRcY2vOwO706D610HxuuZqZZaHnp8ee4tOn
+ xEpIXiE/w7qUjgz6i+Fr0XKlMZAcdiSRh51sZVosZ5X8fTL5DYPZ6AvZ3hjVY0t6m+
+ cJ7Ka4logH9enE2TMT2haW1GuP9wXcNAtegW+TBGPZrTqLxzalPhLibcFROG+RmMqd
+ B5OTOXUkPg2YD2LU19LNNJ/OUTy5AlonK0fraFCa5B0sMopol8U7avd5M4llrfw4Or
+ 1StOpK7m8j60w==
+From: Helen Koike <helen.koike@collabora.com>
+To: dri-devel@lists.freedesktop.org, Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Subject: [PATCH v2 0/9] drm/ci: fixes and improvements
+Date: Fri, 20 Oct 2023 00:41:15 -0300
+Message-Id: <20231020034124.136295-1-helen.koike@collabora.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/bRfMJxeDf2dcjzBUlx0s4+b";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,116 +51,115 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI <dri-devel@lists.freedesktop.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- RD Babiera <rdbabiera@google.com>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Bjorn Andersson <andersson@kernel.org>
+Cc: robdclark@chromium.org, vignesh.raman@collabora.com,
+ guilherme.gallo@collabora.com, sergi.blanch.torne@collabora.com,
+ quic_abhinavk@quicinc.com, mripard@kernel.org, linux-kernel@vger.kernel.org,
+ david.heidelberg@collabora.com, Helen Koike <helen.koike@collabora.com>,
+ linux-mediatek@lists.infradead.org, dmitry.baryshkov@linaro.org,
+ quic_jesszhan@quicinc.com, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/bRfMJxeDf2dcjzBUlx0s4+b
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+This series contains the several fixes, making drm/ci much
+more reliable and useful.
 
-Hi all,
+Highlights:
 
-On Thu, 12 Oct 2023 12:27:49 +1100 Stephen Rothwell <sfr@canb.auug.org.au> =
-wrote:
->
-> On Thu, 12 Oct 2023 12:22:09 +1100 Stephen Rothwell <sfr@canb.auug.org.au=
-> wrote:
-> >
-> > After merging the drm-misc tree, today's linux-next build (x86_64
-> > allmodconfig) failed like this:
-> >=20
-> > drivers/usb/typec/altmodes/displayport.c: In function 'dp_altmode_vdm':
-> > drivers/usb/typec/altmodes/displayport.c:309:33: error: too few argumen=
-ts to function 'drm_connector_oob_hotplug_event'
-> >   309 |                                 drm_connector_oob_hotplug_event=
-(dp->connector_fwnode);
-> >       |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > In file included from drivers/usb/typec/altmodes/displayport.c:17:
-> > include/drm/drm_connector.h:1984:6: note: declared here
-> >  1984 | void drm_connector_oob_hotplug_event(struct fwnode_handle *conn=
-ector_fwnode,
-> >       |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> >=20
-> > Caused by commit
-> >=20
-> >   fc93835bb0d7 ("drm: Add HPD state to drm_connector_oob_hotplug_event(=
-)")
-> >=20
-> > interacting with commit
-> >=20
-> >   89434b069e46 ("usb: typec: altmodes/displayport: Signal hpd low when =
-exiting mode")
-> >=20
-> > from the usb.current tree.
-> >=20
-> > I have applied the following merge fix patch.
-> >=20
-> > From: Stephen Rothwell <sfr@canb.auug.org.au>
-> > Date: Thu, 12 Oct 2023 12:17:31 +1100
-> > Subject: [PATCH] fix up for "drm: Add HPD state to
-> >  drm_connector_oob_hotplug_event()"
-> >=20
-> > interacting with commit
-> >=20
-> >   89434b069e46 ("usb: typec: altmodes/displayport: Signal hpd low when =
-exiting mode")
-> >=20
-> > Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> > ---
-> >  drivers/usb/typec/altmodes/displayport.c | 3 ++-
-> >  1 file changed, 2 insertions(+), 1 deletion(-)
-> >=20
-> > diff --git a/drivers/usb/typec/altmodes/displayport.c b/drivers/usb/typ=
-ec/altmodes/displayport.c
-> > index ddfb5b6ace4f..eb0bf08fc97a 100644
-> > --- a/drivers/usb/typec/altmodes/displayport.c
-> > +++ b/drivers/usb/typec/altmodes/displayport.c
-> > @@ -306,7 +306,8 @@ static int dp_altmode_vdm(struct typec_altmode *alt,
-> >  			dp->data.status =3D 0;
-> >  			dp->data.conf =3D 0;
-> >  			if (dp->hpd) {
-> > -				drm_connector_oob_hotplug_event(dp->connector_fwnode);
-> > +				drm_connector_oob_hotplug_event(dp->connector_fwnode =20
->=20
-> Pretend that there is a comma at the end of the above line :-)
->=20
-> > +								connector_status_disconnected);
-> >  				dp->hpd =3D false;
-> >  				sysfs_notify(&dp->alt->dev.kobj, "displayport", "hpd");
-> >  			}
-> > --=20
-> > 2.40.1 =20
+* Current DRM/CI in drm-misc is broken, this series fixes it with mesa
+  uprev (commit 1/9).
 
-This is now a conflict between the drm tree and Linus' tree.
+* The fails.txt and flakes.txt lists were generated by a bogus script,
+  this series restart that initial list from scratch (commit 5/9),
+  which reduced considerably the number of flakes.
 
---=20
-Cheers,
-Stephen Rothwell
+* Jobs are run in a subset of available DUTs in the Lava farm
+  (commit 6/9) to not block merge requests for Mesa3D.
 
---Sig_/bRfMJxeDf2dcjzBUlx0s4+b
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+* Add python script update-xfails.py to update the xfails lists
+  (commit 3/9).
 
------BEGIN PGP SIGNATURE-----
+Tested on https://gitlab.freedesktop.org/helen.fornazier/linux/-/pipelines/1014358
 
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmUx31YACgkQAVBC80lX
-0GxSOggAg+4c30k8rAnR/50mOECdA81/fTegm0fV4grZhCiNXhWNfpQkc0ekA0S/
-4FgPGCElIiWU5Kx45UefkHEnc+gPehIVstcj5jW3Bbb4kHJe3x75KHaYI08Gztq6
-0bv/DrwvKz7jZotrOStwG+sVaHkNfL7xt2cNv2Kk3V01g+lQrUSdGNNlAJvLlHRH
-ape0t+80oHbLiW0d5zq0uDfzhVKjzBqSYftu1dxqL38aX6X1ysH6A5zgqX41H6su
-QcFyxXLvOup6RuCRxMnA/OXhbMn3I/iBhjiWMvI2r0SIhHCLsFPUk3etJUQ9v0m/
-PZU7+IfwYmUnZfpHrz/rHFEKK0GlCA==
-=I9HV
------END PGP SIGNATURE-----
+To work properly, the following patches are also required:
 
---Sig_/bRfMJxeDf2dcjzBUlx0s4+b--
+[PATCH 2/2] drm/ci: force-enable CONFIG_MSM_MMCC_8996 as built-in
+https://patchwork.kernel.org/project/linux-arm-msm/patch/20231008132320.762542-2-dmitry.baryshkov@linaro.org/
+
+[PATCH] drm/ci: Enable CONFIG_BACKLIGHT_CLASS_DEVICE
+https://patchwork.kernel.org/project/dri-devel/patch/20231002164715.157298-1-robdclark@gmail.com/
+
+Helen Koike (9):
+  drm/ci: uprev mesa version: fix container build & crosvm
+  drm/ci: fix DEBIAN_ARCH and get amdgpu probing
+  drm/ci: add helper script update-xfails.py
+  drm/ci: uprev IGT and make sure core_getversion is run
+  drm/ci: clean up xfails (specially flakes list)
+  drm/ci: add subset-1-gfx to LAVA_TAGS and adjust shards
+  drm/ci: export kernel config
+  drm/ci: do not automatically retry on error
+  drm/ci: docs: add step about how to request privileges
+
+ Documentation/gpu/automated_testing.rst       |   7 +-
+ drivers/gpu/drm/ci/build.sh                   |   3 +-
+ drivers/gpu/drm/ci/build.yml                  |   1 +
+ drivers/gpu/drm/ci/gitlab-ci.yml              |  38 ++--
+ drivers/gpu/drm/ci/igt_runner.sh              |  31 ++-
+ drivers/gpu/drm/ci/image-tags.yml             |   6 +-
+ drivers/gpu/drm/ci/lava-submit.sh             |   6 +-
+ drivers/gpu/drm/ci/test.yml                   |  29 +--
+ .../gpu/drm/ci/xfails/amdgpu-stoney-fails.txt |  13 +-
+ .../drm/ci/xfails/amdgpu-stoney-flakes.txt    |  20 --
+ drivers/gpu/drm/ci/xfails/i915-amly-fails.txt |   9 +
+ .../gpu/drm/ci/xfails/i915-amly-flakes.txt    |  32 ---
+ drivers/gpu/drm/ci/xfails/i915-apl-fails.txt  |  11 -
+ drivers/gpu/drm/ci/xfails/i915-apl-flakes.txt |   1 -
+ drivers/gpu/drm/ci/xfails/i915-cml-fails.txt  |  15 +-
+ drivers/gpu/drm/ci/xfails/i915-cml-flakes.txt |  38 ----
+ drivers/gpu/drm/ci/xfails/i915-glk-fails.txt  |  17 ++
+ drivers/gpu/drm/ci/xfails/i915-glk-flakes.txt |  41 ----
+ drivers/gpu/drm/ci/xfails/i915-kbl-fails.txt  |   7 +
+ drivers/gpu/drm/ci/xfails/i915-kbl-flakes.txt |  26 ---
+ drivers/gpu/drm/ci/xfails/i915-tgl-fails.txt  |   1 -
+ drivers/gpu/drm/ci/xfails/i915-tgl-flakes.txt |   5 -
+ drivers/gpu/drm/ci/xfails/i915-whl-flakes.txt |   1 -
+ .../drm/ci/xfails/mediatek-mt8173-flakes.txt  |   0
+ .../drm/ci/xfails/mediatek-mt8183-fails.txt   |   5 +-
+ .../drm/ci/xfails/mediatek-mt8183-flakes.txt  |  14 --
+ .../gpu/drm/ci/xfails/meson-g12b-fails.txt    |  14 +-
+ .../gpu/drm/ci/xfails/meson-g12b-flakes.txt   |   4 -
+ .../gpu/drm/ci/xfails/msm-apq8016-flakes.txt  |   4 -
+ .../gpu/drm/ci/xfails/msm-apq8096-fails.txt   |   2 +
+ .../gpu/drm/ci/xfails/msm-apq8096-flakes.txt  |   4 -
+ .../gpu/drm/ci/xfails/msm-sc7180-fails.txt    |  15 +-
+ .../gpu/drm/ci/xfails/msm-sc7180-flakes.txt   |  24 ++-
+ .../gpu/drm/ci/xfails/msm-sc7180-skips.txt    |  18 +-
+ .../gpu/drm/ci/xfails/msm-sdm845-fails.txt    |   9 +-
+ .../gpu/drm/ci/xfails/msm-sdm845-flakes.txt   |  19 +-
+ drivers/gpu/drm/ci/xfails/requirements.txt    |  17 ++
+ .../drm/ci/xfails/rockchip-rk3288-fails.txt   |   6 +
+ .../drm/ci/xfails/rockchip-rk3288-flakes.txt  |   9 -
+ .../drm/ci/xfails/rockchip-rk3399-fails.txt   |  40 +++-
+ .../drm/ci/xfails/rockchip-rk3399-flakes.txt  |  28 +--
+ drivers/gpu/drm/ci/xfails/update-xfails.py    | 204 ++++++++++++++++++
+ .../drm/ci/xfails/virtio_gpu-none-flakes.txt  |   0
+ 43 files changed, 460 insertions(+), 334 deletions(-)
+ delete mode 100644 drivers/gpu/drm/ci/xfails/i915-amly-flakes.txt
+ delete mode 100644 drivers/gpu/drm/ci/xfails/i915-apl-flakes.txt
+ delete mode 100644 drivers/gpu/drm/ci/xfails/i915-cml-flakes.txt
+ delete mode 100644 drivers/gpu/drm/ci/xfails/i915-glk-flakes.txt
+ delete mode 100644 drivers/gpu/drm/ci/xfails/i915-kbl-flakes.txt
+ delete mode 100644 drivers/gpu/drm/ci/xfails/i915-tgl-flakes.txt
+ delete mode 100644 drivers/gpu/drm/ci/xfails/i915-whl-flakes.txt
+ delete mode 100644 drivers/gpu/drm/ci/xfails/mediatek-mt8173-flakes.txt
+ delete mode 100644 drivers/gpu/drm/ci/xfails/mediatek-mt8183-flakes.txt
+ delete mode 100644 drivers/gpu/drm/ci/xfails/meson-g12b-flakes.txt
+ delete mode 100644 drivers/gpu/drm/ci/xfails/msm-apq8016-flakes.txt
+ delete mode 100644 drivers/gpu/drm/ci/xfails/msm-apq8096-flakes.txt
+ create mode 100644 drivers/gpu/drm/ci/xfails/requirements.txt
+ delete mode 100644 drivers/gpu/drm/ci/xfails/rockchip-rk3288-flakes.txt
+ create mode 100755 drivers/gpu/drm/ci/xfails/update-xfails.py
+ delete mode 100644 drivers/gpu/drm/ci/xfails/virtio_gpu-none-flakes.txt
+
+-- 
+2.39.2
+
