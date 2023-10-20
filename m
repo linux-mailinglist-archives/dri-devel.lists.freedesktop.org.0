@@ -2,54 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DA287D1345
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Oct 2023 17:56:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A7987D1361
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Oct 2023 17:59:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 25A0E10E5D6;
-	Fri, 20 Oct 2023 15:56:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 42C4A10E0F9;
+	Fri, 20 Oct 2023 15:59:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8887F10E5DA;
- Fri, 20 Oct 2023 15:56:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1697817379; x=1729353379;
- h=from:to:subject:date:message-id:in-reply-to:references:
- mime-version:content-transfer-encoding;
- bh=CHmOEA7LHes6zRhZJc6PG3j+zI4CzTMkHzHxbBQXHvY=;
- b=ZDdaJpd1bXFCjGOdO+dxjH48qeIE+vnh7Qcg69d0ut8dFclDrqlVXSKL
- vLm9MfZ/nq67yInqOCkZroJJSCqg8hqYKbi3vs/YaLxx1fPBAGFTqZBzg
- ZBMzUcYEptbToLPuxOUng3Ag5HmrcZO2QVHf72kvHnKnOlotdxw1pss/j
- K3qZvYfpFWLP+LiO5291NvAGE9a1OpV85tMjcOjMY3/AwhNi1BcXsO00L
- IONl08lN+/qte7AB84kf3Jx2sTE4gDyavwu+JibG6QXB8ecoYAgqCjjSQ
- ToHypSEWIXP0SlwfbRlvzefcI7vNmWQzAtKSbGyGRNjeWtdZteksy4B+I A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10869"; a="453000047"
-X-IronPort-AV: E=Sophos;i="6.03,239,1694761200"; d="scan'208";a="453000047"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Oct 2023 08:56:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10869"; a="1088778671"
-X-IronPort-AV: E=Sophos;i="6.03,239,1694761200"; d="scan'208";a="1088778671"
-Received: from aravind-dev.iind.intel.com ([10.145.162.146])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Oct 2023 08:56:15 -0700
-From: Aravind Iddamsetty <aravind.iddamsetty@linux.intel.com>
-To: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- alexander.deucher@amd.com, airlied@gmail.com, daniel@ffwll.ch,
- joonas.lahtinen@linux.intel.com, ogabbay@kernel.org, ttayar@habana.ai,
- Hawking.Zhang@amd.com, Harish.Kasiviswanathan@amd.com,
- Felix.Kuehling@amd.com, Luben.Tuikov@amd.com, michael.j.ruhl@intel.com
-Subject: [RFC v2 5/5] drm/xe/RAS: send multicast event on occurrence of an
- error
-Date: Fri, 20 Oct 2023 21:28:35 +0530
-Message-Id: <20231020155835.1295524-6-aravind.iddamsetty@linux.intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20231020155835.1295524-1-aravind.iddamsetty@linux.intel.com>
-References: <20231020155835.1295524-1-aravind.iddamsetty@linux.intel.com>
+Received: from sin.source.kernel.org (sin.source.kernel.org
+ [IPv6:2604:1380:40e1:4800::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F406810E0F9
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Oct 2023 15:59:31 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 183B4CE39C8;
+ Fri, 20 Oct 2023 15:59:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7B7BC433C8;
+ Fri, 20 Oct 2023 15:59:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1697817568;
+ bh=97TU/jnZR5ds5vVT0qQ3AnubifvbhIl0MYkUouOlAjw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=QCIvmeICsJHB/mYYfl5qWvYmPIzGXKDYJ/6Ac38yi8yHQSdluiJXZom2LH+4tSrdZ
+ xDHLWg6HTkERNpXtwaGb3IyJzXcWLQ9/gGNm4jTapf36NhR2KWbyA+DVI7Blf80WgH
+ U/v8BECmFbk1y3W/MZTkGhAIEeKRMNKqcZO5qgx5fNmqec2Ccf9G9wQX+iUh7syCEO
+ ekfnRHZdVxo2mfaWcXomrnNRIp6Ng4mon9PerTUUls4oQzxYuDsQj/5YSuWSOOCXF0
+ 12FtW5YXtvdQTaXC4MtMrpZIt27Rlhtk3nW7vGfWIQJfguzfu8Sm+nWdNyQt5TIrdu
+ kBiMioX0FuJsw==
+Date: Fri, 20 Oct 2023 16:59:23 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Flavio Suligoi <f.suligoi@asem.it>
+Subject: Re: [PATCH 1/1] dt-bindings: backlight: mp3309c: remove two required
+ properties
+Message-ID: <20231020-moonrise-senate-86d0edb2d404@spud>
+References: <20231020135434.2598578-1-f.suligoi@asem.it>
+ <20231020135434.2598578-2-f.suligoi@asem.it>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="MS8zv6ItXa/c4PSq"
+Content-Disposition: inline
+In-Reply-To: <20231020135434.2598578-2-f.suligoi@asem.it>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,70 +53,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: devicetree@vger.kernel.org, Daniel Thompson <daniel.thompson@linaro.org>,
+ linux-kernel@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
+ Lee Jones <lee@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+ linux-leds@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Whenever a correctable or an uncorrectable error happens an event is sent
-to the corresponding listeners of these groups.
 
-v2: Rebase
+--MS8zv6ItXa/c4PSq
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Aravind Iddamsetty <aravind.iddamsetty@linux.intel.com>
----
- drivers/gpu/drm/xe/xe_hw_error.c | 33 ++++++++++++++++++++++++++++++++
- 1 file changed, 33 insertions(+)
+Yo,
 
-diff --git a/drivers/gpu/drm/xe/xe_hw_error.c b/drivers/gpu/drm/xe/xe_hw_error.c
-index bab6d4cf0b69..b0befb5e01cb 100644
---- a/drivers/gpu/drm/xe/xe_hw_error.c
-+++ b/drivers/gpu/drm/xe/xe_hw_error.c
-@@ -786,6 +786,37 @@ xe_soc_hw_error_handler(struct xe_tile *tile, const enum hardware_error hw_err)
- 				(HARDWARE_ERROR_MAX << 1) + 1);
- }
- 
-+static void
-+generate_netlink_event(struct xe_device *xe, const enum hardware_error hw_err)
-+{
-+	struct sk_buff *msg;
-+	void *hdr;
-+
-+	if (!xe->drm.drm_genl_family.module)
-+		return;
-+
-+	msg = nlmsg_new(NLMSG_DEFAULT_SIZE, GFP_ATOMIC);
-+	if (!msg) {
-+		drm_dbg_driver(&xe->drm, "couldn't allocate memory for error multicast event\n");
-+		return;
-+	}
-+
-+	hdr = genlmsg_put(msg, 0, 0, &xe->drm.drm_genl_family, 0, DRM_RAS_CMD_ERROR_EVENT);
-+	if (!hdr) {
-+		drm_dbg_driver(&xe->drm, "mutlicast msg buffer is small\n");
-+		nlmsg_free(msg);
-+		return;
-+	}
-+
-+	genlmsg_end(msg, hdr);
-+
-+	genlmsg_multicast(&xe->drm.drm_genl_family, msg, 0,
-+			  hw_err ?
-+			  DRM_GENL_MCAST_UNCORR_ERR
-+			  : DRM_GENL_MCAST_CORR_ERR,
-+			  GFP_ATOMIC);
-+}
-+
- static void
- xe_hw_error_source_handler(struct xe_tile *tile, const enum hardware_error hw_err)
- {
-@@ -849,6 +880,8 @@ xe_hw_error_source_handler(struct xe_tile *tile, const enum hardware_error hw_er
- 	}
- 
- 	xe_mmio_write32(gt, DEV_ERR_STAT_REG(hw_err), errsrc);
-+
-+	generate_netlink_event(tile_to_xe(tile), hw_err);
- unlock:
- 	spin_unlock_irqrestore(&tile_to_xe(tile)->irq.lock, flags);
- }
--- 
-2.25.1
+On Fri, Oct 20, 2023 at 03:54:33PM +0200, Flavio Suligoi wrote:
+> The two properties:
+>=20
+> - max-brightness
+> - default brightness
+>=20
+> are not really required, so they can be removed from the "required"
+> section.
 
+Why are they not required? You need to provide an explanation.
+
+> Other changes:
+>=20
+> - improve the backlight working mode description, in the "description"
+>   section
+
+> - update the example, removing the "max-brightness" and introducing the
+>   "brightess-levels" property
+
+Why is this more useful?
+
+Cheers,
+Conor.
+
+>=20
+> Signed-off-by: Flavio Suligoi <f.suligoi@asem.it>
+> ---
+>  .../bindings/leds/backlight/mps,mp3309c.yaml           | 10 ++++------
+>  1 file changed, 4 insertions(+), 6 deletions(-)
+>=20
+> diff --git a/Documentation/devicetree/bindings/leds/backlight/mps,mp3309c=
+=2Eyaml b/Documentation/devicetree/bindings/leds/backlight/mps,mp3309c.yaml
+> index 4191e33626f5..527a37368ed7 100644
+> --- a/Documentation/devicetree/bindings/leds/backlight/mps,mp3309c.yaml
+> +++ b/Documentation/devicetree/bindings/leds/backlight/mps,mp3309c.yaml
+> @@ -14,8 +14,8 @@ description: |
+>    programmable switching frequency to optimize efficiency.
+>    It supports two different dimming modes:
+> =20
+> -  - analog mode, via I2C commands (default)
+> -  - PWM controlled mode.
+> +  - analog mode, via I2C commands, as default mode (32 dimming levels)
+> +  - PWM controlled mode (optional)
+> =20
+>    The datasheet is available at:
+>    https://www.monolithicpower.com/en/mp3309c.html
+> @@ -50,8 +50,6 @@ properties:
+>  required:
+>    - compatible
+>    - reg
+> -  - max-brightness
+> -  - default-brightness
+> =20
+>  unevaluatedProperties: false
+> =20
+> @@ -66,8 +64,8 @@ examples:
+>              compatible =3D "mps,mp3309c";
+>              reg =3D <0x17>;
+>              pwms =3D <&pwm1 0 3333333 0>; /* 300 Hz --> (1/f) * 1*10^9 */
+> -            max-brightness =3D <100>;
+> -            default-brightness =3D <80>;
+> +            brightness-levels =3D <0 4 8 16 32 64 128 255>;
+> +            default-brightness =3D <6>;
+>              mps,overvoltage-protection-microvolt =3D <24000000>;
+>          };
+>      };
+> --=20
+> 2.34.1
+>=20
+
+--MS8zv6ItXa/c4PSq
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZTKj2wAKCRB4tDGHoIJi
+0h3oAQDiYRQgj//gRS3WJkhCjXAo1MV7AiztEk/V8hUK9kBEWQEAi0UKA0/tVacJ
+Rnh8+uI+acOi2u2QOnHfJRUBVK5PiQk=
+=7rd9
+-----END PGP SIGNATURE-----
+
+--MS8zv6ItXa/c4PSq--
