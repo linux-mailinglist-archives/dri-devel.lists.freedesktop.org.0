@@ -1,77 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26D967D1298
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Oct 2023 17:26:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F7EB7D12E7
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Oct 2023 17:35:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F51B10E5CF;
-	Fri, 20 Oct 2023 15:26:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F066110E5D0;
+	Fri, 20 Oct 2023 15:34:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C254410E5CF
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Oct 2023 15:26:27 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 39KFP5ic009802; Fri, 20 Oct 2023 15:26:23 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=Kj0SoUR+yRtHBSAfnXxC+nlmiKpeAvRFoccyPsoQ/oY=;
- b=LXbpoP1IiBC4XvG8kYLpiQjb0CtN/tt9V4RSO/1WLj1/wFgDh8Ilzb9M7uIDLuHdligw
- uliJMbMGQKg3KGHHIOt5agUcjWMQhbs8T3EKChEQUOQvYJAbaPQSGfQVdlHFXm12x6dH
- BMpvvXJKIDfqH1iGRm7cOew2SnZgZ8AkTVTiwcCzRtmxr+n3Dn+meRCxsjOfbeBovHBE
- Xg7a58c/ArGGBWxhe4eBx7Zp7U8xsWJXPHwCjo9Al2BO8rwHV9+ttYrT0VWSfkSb6oX3
- cexY4f47+Th/B0KfQrRycTHwwmCA+KeTuAL58bIFEkTwyjGK2ReKQpb06nGoiZdkYNuQ nA== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3tubxgj9dp-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 20 Oct 2023 15:26:22 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 39KFPveh030968
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 20 Oct 2023 15:25:57 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Fri, 20 Oct
- 2023 08:25:56 -0700
-Message-ID: <05791ef3-0aee-f7c0-a930-7b2d51726b78@quicinc.com>
-Date: Fri, 20 Oct 2023 09:25:55 -0600
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 69D3E10E5D0
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Oct 2023 15:34:55 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id AE51F62212
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Oct 2023 15:34:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C864C433CC
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Oct 2023 15:34:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1697816094;
+ bh=xiAEjRmww6/BxtbQQYblks4hL/CkDuN33VM/Ugwom6U=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=Ws3Rm6Z21vFfjHwVeYMktTvrddWZL8CnIl7a2K/YVwu8zW2lzEL8QCdKBjdbCE0+b
+ TxmKa+U8XzgOD8WqIPHOEpGeDZKCBnVExzIiFFHDgvC2ivXbS1eZvGcq7Q41raK+Et
+ zjLjVZcM7cVw/VqiB4mxwtO04sSDuKE3ay5ogThzJdXwIdcR9p8NhmYvMFMEgCjlT+
+ Awlhq5VgxA/grtAULpKTIeNvUJzF/nWXkWhV3Ew1zO3hU9Okwq3tbLGBg0uMnyZ2TZ
+ pt2Al8U+kPJ411UjOEQSEW40kJeNU1AZ/NQ+O9OKzU7asStno22V/YtLkS0DBebxTM
+ Por5CcyRFQxuA==
+Received: by mail-lf1-f50.google.com with SMTP id
+ 2adb3069b0e04-5046bf37ec1so1237739e87.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Oct 2023 08:34:54 -0700 (PDT)
+X-Gm-Message-State: AOJu0YwehB/TX1rz69SXJ2i4B/XphKQYXCakinZ6L559ZHDMTQ1x70+0
+ cY2Ep4dTu9SITjqAm/z12PT7yTMLGS7SzqAIsg==
+X-Google-Smtp-Source: AGHT+IGGfrI6448U2jdzaZAybL6ixVBj5cEamLBYPee1zT/Mmiauuaf6vjmiJ6zlQdze3HklPl/J37MqqQwOuB95J5k=
+X-Received: by 2002:a19:ee14:0:b0:507:9a64:adf0 with SMTP id
+ g20-20020a19ee14000000b005079a64adf0mr1693725lfb.10.1697816092553; Fri, 20
+ Oct 2023 08:34:52 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH 6/6] accel/ivpu/37xx: Remove support for FPGA and simics
-Content-Language: en-US
-To: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
- <dri-devel@lists.freedesktop.org>
-References: <20231020104501.697763-1-stanislaw.gruszka@linux.intel.com>
- <20231020104501.697763-7-stanislaw.gruszka@linux.intel.com>
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <20231020104501.697763-7-stanislaw.gruszka@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: JvLkLDWop6w_z5KZY0R5RNbA4GGvEGbV
-X-Proofpoint-ORIG-GUID: JvLkLDWop6w_z5KZY0R5RNbA4GGvEGbV
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-10-20_10,2023-10-19_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 suspectscore=0
- bulkscore=0 lowpriorityscore=0 phishscore=0 spamscore=0 priorityscore=1501
- mlxscore=0 impostorscore=0 mlxlogscore=688 adultscore=0 clxscore=1015
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2310170001
- definitions=main-2310200128
+References: <20231014071520.1342189-1-javierm@redhat.com>
+ <20231014071520.1342189-7-javierm@redhat.com>
+In-Reply-To: <20231014071520.1342189-7-javierm@redhat.com>
+From: Rob Herring <robh@kernel.org>
+Date: Fri, 20 Oct 2023 10:34:40 -0500
+X-Gmail-Original-Message-ID: <CAL_Jsq+h8DcnpKqhokQOODCc8+Qi3M0PrxRFKz_Y4v37yMJvvA@mail.gmail.com>
+Message-ID: <CAL_Jsq+h8DcnpKqhokQOODCc8+Qi3M0PrxRFKz_Y4v37yMJvvA@mail.gmail.com>
+Subject: Re: [PATCH v4 6/6] dt-bindings: display: Add SSD132x OLED controllers
+To: Javier Martinez Canillas <javierm@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,15 +61,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Oded Gabbay <ogabbay@kernel.org>,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Maxime Ripard <mripard@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>,
+ Conor Dooley <conor@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Peter Robinson <pbrobinson@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/20/2023 4:45 AM, Stanislaw Gruszka wrote:
-> We do not run 37xx VPU on non-silicon platforms any longer.
-> Remove deprecated code to make it cleaner.
-> 
-> Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+On Sat, Oct 14, 2023 at 2:15=E2=80=AFAM Javier Martinez Canillas
+<javierm@redhat.com> wrote:
+>
+> Add a Device Tree binding schema for the OLED panels based on the Solomon
+> SSD132x family of controllers.
+>
+> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>
+> (no changes since v3)
+>
+> Changes in v3:
+> - Add Rob Herring's Reviewed-by tag to patch #6.
+>
+> Changes in v2:
+> - Remove unnecessary 'oneOf' in the SSD132x DT binding schema (Conor Dool=
+ey).
+> - Remove unused DT nodes labels in the binding schema examples (Conor Doo=
+ley).
+> - Split out common Solomon properties into a separate schema (Rob Herring=
+).
+>
+>  .../bindings/display/solomon,ssd132x.yaml     | 89 +++++++++++++++++++
+>  MAINTAINERS                                   |  2 +-
+>  2 files changed, 90 insertions(+), 1 deletion(-)
+>  create mode 100644 Documentation/devicetree/bindings/display/solomon,ssd=
+132x.yaml
+>
+> diff --git a/Documentation/devicetree/bindings/display/solomon,ssd132x.ya=
+ml b/Documentation/devicetree/bindings/display/solomon,ssd132x.yaml
+> new file mode 100644
+> index 000000000000..0aa41bd9ddca
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/solomon,ssd132x.yaml
+> @@ -0,0 +1,89 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/solomon,ssd132x.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Solomon SSD132x OLED Display Controllers
+> +
+> +maintainers:
+> +  - Javier Martinez Canillas <javierm@redhat.com>
+> +
+> +properties:
+> +  compatible:
+> +    - enum:
 
-Jeffrey Hugo <quic_jhugo@quicinc.com>
+Now this is a warning in linux-next. The '-' should not be there.
+Please send a fix.
+
+Not sure why there wasn't a report, but most likely it didn't apply to v6.6=
+-rc1.
+
+Rob
+
+> +        - solomon,ssd1322
+> +        - solomon,ssd1325
+> +        - solomon,ssd1327
