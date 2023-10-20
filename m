@@ -1,33 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0DB07D0D01
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Oct 2023 12:20:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B8787D0CFD
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Oct 2023 12:19:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0DD5010E59C;
-	Fri, 20 Oct 2023 10:20:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 811AD10E0F8;
+	Fri, 20 Oct 2023 10:19:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-4018.proton.ch (mail-4018.proton.ch [185.70.40.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8717F10E599
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Oct 2023 10:20:05 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 73C9410E0F8
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Oct 2023 10:19:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail2; t=1697797203; x=1698056403;
- bh=07rMiRJgi30gk3lUdpCH7G4OVGyCibe+IRGU2+HQHZo=;
- h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
- Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
- b=B2m0aXBwUNf20+KCAGKRcV+EM0HijNx3A4pP+9m00uAho2fjVuTjNBbpxpAWwR3rc
- oOTY7FLR/5NLEtReNzqlJRC3fc4vNUY+IQ7XgNBW+kOW7vgew+vTogOBUSJ2SWI8tp
- aSo/WTSwrW1nSAjF9OAPkUMQwD1EbaYL6jMDxDDt/yLx5GdorLltGO1PpDSXBDmpVZ
- dta29KH5/jxYpZraOJ6ZAQPzexQzDi3Gx0DFA34HD6PgL0/1EGcL4V7ZBgIBqJyXEr
- pn90op5r0ShpeNqugNicwk0UzARPvBa3DTaXgVTNWKkgwgFjQzd4QhZj81qNGy693q
- uFOxdHaCnohCA==
-Date: Fri, 20 Oct 2023 10:19:38 +0000
+ s=protonmail2; t=1697797189; x=1698056389;
+ bh=H/114vozHdgaGxmhwIjjkaKahZrnJRNprOX2kKbdNhs=;
+ h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+ Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+ Message-ID:BIMI-Selector;
+ b=Z1YKd9Tc728Qaou60j8UJwabxF3gcehu5r2uyjnqv2hy1eb8Q51kls95GEEkt1tPh
+ FY2Fs8atvYhToRWiSeUOnKQ1Qlu/PLwprsjPYoHvu6elvJsUOtL4k8XL3kmQR3Fhyl
+ uzatN4Vd3rDXiAffd0rSndtltrOIIdDRBZhJ0pVAs4JqesZn0U83WmUxDfVgqbOHg5
+ sOUxog3LqftB4d8jxREwv1hnEHcF0u57+wVCVbXSDRRUmRRZVLC7DMh29itDMEagtk
+ 0hCuvNc8C4RAn6nttDJctgYZJJ/J3cWwgHPbKQWbg8Kth2OZ5n77pyF8YapW/64m5C
+ h6IOUcIyJJPmw==
+Date: Fri, 20 Oct 2023 10:19:45 +0000
 To: dri-devel@lists.freedesktop.org
 From: Simon Ser <contact@emersion.fr>
-Subject: [PATCH v2 1/2] drm: extract closefb logic in separate function
-Message-ID: <20231020101926.145327-1-contact@emersion.fr>
+Subject: [PATCH v2 2/2] drm: introduce CLOSEFB IOCTL
+Message-ID: <20231020101926.145327-2-contact@emersion.fr>
+In-Reply-To: <20231020101926.145327-1-contact@emersion.fr>
+References: <20231020101926.145327-1-contact@emersion.fr>
 Feedback-ID: 1358184:user:proton
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -44,123 +47,168 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Stone <daniels@collabora.com>, Hans de Goede <hdegoede@redhat.com>,
- Pekka Paalanen <ppaalanen@gmail.com>, Sean Paul <seanpaul@chromium.org>,
- Dennis Filder <d.filder@web.de>
+Cc: Pekka Paalanen <pekka.paalanen@collabora.com>,
+ Daniel Stone <daniels@collabora.com>, Hans de Goede <hdegoede@redhat.com>,
+ Sean Paul <seanpaul@chromium.org>, Dennis Filder <d.filder@web.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm_mode_rmfb performs two operations: drop the FB from the
-file_priv->fbs list, and make sure the FB is no longer used on a
-plane.
+This new IOCTL allows callers to close a framebuffer without
+disabling planes or CRTCs. This takes inspiration from Rob Clark's
+unref_fb IOCTL [1] and DRM_MODE_FB_PERSIST [2].
 
-In the next commit an IOCTL which only does so former will be
-introduced, so let's split it into a separate function.
+User-space patch for wlroots available at [3]. IGT test available
+at [4].
 
-No functional change, only refactoring.
+v2: add an extra pad field just in case we want to extend this IOCTL
+in the future (Pekka, Sima).
 
-v2: no change
+[1]: https://lore.kernel.org/dri-devel/20170509153654.23464-1-robdclark@gma=
+il.com/
+[2]: https://lore.kernel.org/dri-devel/20211006151921.312714-1-contact@emer=
+sion.fr/
+[3]: https://gitlab.freedesktop.org/wlroots/wlroots/-/merge_requests/4394
+[4]: https://lists.freedesktop.org/archives/igt-dev/2023-October/063294.htm=
+l
 
 Signed-off-by: Simon Ser <contact@emersion.fr>
+Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
 Cc: Hans de Goede <hdegoede@redhat.com>
 Cc: Dennis Filder <d.filder@web.de>
 Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Pekka Paalanen <ppaalanen@gmail.com>
 Cc: Rob Clark <robdclark@gmail.com>
 Cc: Sean Paul <seanpaul@chromium.org>
 Cc: Daniel Stone <daniels@collabora.com>
 ---
- drivers/gpu/drm/drm_framebuffer.c | 51 +++++++++++++++++++------------
- 1 file changed, 31 insertions(+), 20 deletions(-)
+ drivers/gpu/drm/drm_crtc_internal.h |  2 ++
+ drivers/gpu/drm/drm_framebuffer.c   | 22 ++++++++++++++++++++++
+ drivers/gpu/drm/drm_ioctl.c         |  1 +
+ include/uapi/drm/drm.h              | 20 ++++++++++++++++++++
+ include/uapi/drm/drm_mode.h         | 10 ++++++++++
+ 5 files changed, 55 insertions(+)
 
+diff --git a/drivers/gpu/drm/drm_crtc_internal.h b/drivers/gpu/drm/drm_crtc=
+_internal.h
+index 8556c3b3ff88..6b646e0783be 100644
+--- a/drivers/gpu/drm/drm_crtc_internal.h
++++ b/drivers/gpu/drm/drm_crtc_internal.h
+@@ -222,6 +222,8 @@ int drm_mode_addfb2_ioctl(struct drm_device *dev,
+ =09=09=09  void *data, struct drm_file *file_priv);
+ int drm_mode_rmfb_ioctl(struct drm_device *dev,
+ =09=09=09void *data, struct drm_file *file_priv);
++int drm_mode_closefb_ioctl(struct drm_device *dev,
++=09=09=09   void *data, struct drm_file *file_priv);
+ int drm_mode_getfb(struct drm_device *dev,
+ =09=09   void *data, struct drm_file *file_priv);
+ int drm_mode_getfb2_ioctl(struct drm_device *dev,
 diff --git a/drivers/gpu/drm/drm_framebuffer.c b/drivers/gpu/drm/drm_frameb=
 uffer.c
-index d3ba0698b84b..62306196808c 100644
+index 62306196808c..3fb3e29d4087 100644
 --- a/drivers/gpu/drm/drm_framebuffer.c
 +++ b/drivers/gpu/drm/drm_framebuffer.c
-@@ -394,6 +394,31 @@ static void drm_mode_rmfb_work_fn(struct work_struct *=
-w)
- =09}
+@@ -482,6 +482,28 @@ int drm_mode_rmfb_ioctl(struct drm_device *dev,
+ =09return drm_mode_rmfb(dev, *fb_id, file_priv);
  }
 =20
-+static int drm_mode_closefb(struct drm_framebuffer *fb,
-+=09=09=09    struct drm_file *file_priv)
++int drm_mode_closefb_ioctl(struct drm_device *dev,
++=09=09=09   void *data, struct drm_file *file_priv)
 +{
-+=09struct drm_framebuffer *fbl =3D NULL;
-+=09bool found =3D false;
++=09struct drm_mode_closefb *r =3D data;
++=09struct drm_framebuffer *fb;
++=09int ret;
 +
-+=09mutex_lock(&file_priv->fbs_lock);
-+=09list_for_each_entry(fbl, &file_priv->fbs, filp_head)
-+=09=09if (fb =3D=3D fbl)
-+=09=09=09found =3D true;
++=09if (!drm_core_check_feature(dev, DRIVER_MODESET))
++=09=09return -EOPNOTSUPP;
 +
-+=09if (!found) {
-+=09=09mutex_unlock(&file_priv->fbs_lock);
++=09if (r->pad)
++=09=09return -EINVAL;
++
++=09fb =3D drm_framebuffer_lookup(dev, file_priv, r->fb_id);
++=09if (!fb)
 +=09=09return -ENOENT;
-+=09}
 +
-+=09list_del_init(&fb->filp_head);
-+=09mutex_unlock(&file_priv->fbs_lock);
-+
-+=09/* Drop the reference that was stored in the fbs list */
++=09ret =3D drm_mode_closefb(fb, file_priv);
 +=09drm_framebuffer_put(fb);
-+
-+=09return 0;
++=09return ret;
 +}
 +
  /**
-  * drm_mode_rmfb - remove an FB from the configuration
-  * @dev: drm device
-@@ -411,8 +436,7 @@ int drm_mode_rmfb(struct drm_device *dev, u32 fb_id,
- =09=09  struct drm_file *file_priv)
- {
- =09struct drm_framebuffer *fb =3D NULL;
--=09struct drm_framebuffer *fbl =3D NULL;
--=09int found =3D 0;
-+=09int ret;
+  * drm_mode_getfb - get FB info
+  * @dev: drm device for the ioctl
+diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
+index 77590b0f38fa..44fda68c28ae 100644
+--- a/drivers/gpu/drm/drm_ioctl.c
++++ b/drivers/gpu/drm/drm_ioctl.c
+@@ -675,6 +675,7 @@ static const struct drm_ioctl_desc drm_ioctls[] =3D {
+ =09DRM_IOCTL_DEF(DRM_IOCTL_MODE_ADDFB, drm_mode_addfb_ioctl, 0),
+ =09DRM_IOCTL_DEF(DRM_IOCTL_MODE_ADDFB2, drm_mode_addfb2_ioctl, 0),
+ =09DRM_IOCTL_DEF(DRM_IOCTL_MODE_RMFB, drm_mode_rmfb_ioctl, 0),
++=09DRM_IOCTL_DEF(DRM_IOCTL_MODE_CLOSEFB, drm_mode_closefb_ioctl, 0),
+ =09DRM_IOCTL_DEF(DRM_IOCTL_MODE_PAGE_FLIP, drm_mode_page_flip_ioctl, DRM_M=
+ASTER),
+ =09DRM_IOCTL_DEF(DRM_IOCTL_MODE_DIRTYFB, drm_mode_dirtyfb_ioctl, DRM_MASTE=
+R),
+ =09DRM_IOCTL_DEF(DRM_IOCTL_MODE_CREATE_DUMB, drm_mode_create_dumb_ioctl, 0=
+),
+diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
+index 794c1d857677..731c8f598882 100644
+--- a/include/uapi/drm/drm.h
++++ b/include/uapi/drm/drm.h
+@@ -1198,6 +1198,26 @@ extern "C" {
 =20
- =09if (!drm_core_check_feature(dev, DRIVER_MODESET))
- =09=09return -EOPNOTSUPP;
-@@ -421,23 +445,14 @@ int drm_mode_rmfb(struct drm_device *dev, u32 fb_id,
- =09if (!fb)
- =09=09return -ENOENT;
+ #define DRM_IOCTL_SYNCOBJ_EVENTFD=09DRM_IOWR(0xCF, struct drm_syncobj_even=
+tfd)
 =20
--=09mutex_lock(&file_priv->fbs_lock);
--=09list_for_each_entry(fbl, &file_priv->fbs, filp_head)
--=09=09if (fb =3D=3D fbl)
--=09=09=09found =3D 1;
--=09if (!found) {
--=09=09mutex_unlock(&file_priv->fbs_lock);
--=09=09goto fail_unref;
-+=09ret =3D drm_mode_closefb(fb, file_priv);
-+=09if (ret !=3D 0) {
-+=09=09drm_framebuffer_put(fb);
-+=09=09return ret;
- =09}
++/**
++ * DRM_IOCTL_MODE_CLOSEFB - Close a framebuffer.
++ *
++ * This closes a framebuffer previously added via ADDFB/ADDFB2. The IOCTL
++ * argument is a framebuffer object ID.
++ *
++ * This IOCTL is similar to &DRM_IOCTL_MODE_RMFB, except it doesn't disabl=
+e
++ * planes and CRTCs. As long as the framebuffer is used by a plane, it's k=
+ept
++ * alive. When the plane no longer uses the framebuffer (because the
++ * framebuffer is replaced with another one, or the plane is disabled), th=
+e
++ * framebuffer is cleaned up.
++ *
++ * This is useful to implement flicker-free transitions between two proces=
+ses.
++ *
++ * Depending on the threat model, user-space may want to ensure that the
++ * framebuffer doesn't expose any sensitive user information: closed
++ * framebuffers attached to a plane can be read back by the next DRM maste=
+r.
++ */
++#define DRM_IOCTL_MODE_CLOSEFB=09=09DRM_IOWR(0xD0, struct drm_mode_closefb=
+)
++
+ /*
+  * Device specific ioctls should only be in their respective headers
+  * The device specific ioctl range is from 0x40 to 0x9f.
+diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
+index ea1b639bcb28..f23397877a80 100644
+--- a/include/uapi/drm/drm_mode.h
++++ b/include/uapi/drm/drm_mode.h
+@@ -1311,6 +1311,16 @@ struct drm_mode_rect {
+ =09__s32 y2;
+ };
 =20
--=09list_del_init(&fb->filp_head);
--=09mutex_unlock(&file_priv->fbs_lock);
--
--=09/* drop the reference we picked up in framebuffer lookup */
--=09drm_framebuffer_put(fb);
--
- =09/*
--=09 * we now own the reference that was stored in the fbs list
-+=09 * We now own the reference we picked up in drm_framebuffer_lookup.
- =09 *
- =09 * drm_framebuffer_remove may fail with -EINTR on pending signals,
- =09 * so run this in a separate stack as there's no way to correctly
-@@ -457,10 +472,6 @@ int drm_mode_rmfb(struct drm_device *dev, u32 fb_id,
- =09=09drm_framebuffer_put(fb);
-=20
- =09return 0;
--
--fail_unref:
--=09drm_framebuffer_put(fb);
--=09return -ENOENT;
++/**
++ * struct drm_mode_closefb
++ * @fb_id: Framebuffer ID.
++ * @pad: Must be zero.
++ */
++struct drm_mode_closefb {
++=09__u32 fb_id;
++=09__u32 pad;
++};
++
+ #if defined(__cplusplus)
  }
-=20
- int drm_mode_rmfb_ioctl(struct drm_device *dev,
+ #endif
 --=20
 2.42.0
 
