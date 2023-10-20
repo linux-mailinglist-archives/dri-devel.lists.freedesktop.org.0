@@ -1,48 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C45067D075C
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Oct 2023 06:34:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED8B67D0775
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Oct 2023 07:01:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B9F2A10E57A;
-	Fri, 20 Oct 2023 04:34:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2837210E57C;
+	Fri, 20 Oct 2023 05:01:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8501E10E57A
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Oct 2023 04:34:08 +0000 (UTC)
-Received: from [192.168.0.206] (unknown [179.221.49.105])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: koike)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 39D6F660734B;
- Fri, 20 Oct 2023 05:34:05 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1697776447;
- bh=OYnayEQ/CpPDQMyWzfpsgBnmAYMagP8fIKyb5zhLMaQ=;
- h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
- b=FlqS7vYY1aZfYs/3v09rMwr88WjirR/kuT8viuIbz58mcyI2/GKAaFD1meVDjKAfY
- FQ2I5215PZbKcLFMm6AWnNsPFkXM8JcaWmUUkLQW5sAk3sT9D3FLETfNb/u4HasJnW
- iRqL4WT+98wXmow2tNrMa6vFeIY30YWOHrHsQDFd4ACF3m9erUW/jJwOJTzMRm/oQz
- v6+gbfrtItHCvXiCBPBa09DRGX2HZ2SXyMFRJdXmOL9Z5SYUUZW4q8oBZg7FwDQR/Q
- TlXjaWktEl9rdfPXqYYgFbA/EikjRQnYnGk2Dluob6oTcvzD+qevUchN6Z2dKQJfcZ
- pR/wfnuI3KYug==
-Message-ID: <b8b5def4-a178-4bfc-a7e8-1a2ebc80d7aa@collabora.com>
-Date: Fri, 20 Oct 2023 01:33:59 -0300
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com
+ [IPv6:2a00:1450:4864:20::529])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 11AB310E07B
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Oct 2023 05:01:38 +0000 (UTC)
+Received: by mail-ed1-x529.google.com with SMTP id
+ 4fb4d7f45d1cf-53e08e439c7so524048a12.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Oct 2023 22:01:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1697778096; x=1698382896; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=AWWQg2SqnfcJGluCbwJ/5a91X1rDHsY7zr/O6hdj2A8=;
+ b=Hwd6Cna2Yg7X8BFVc/v+TF0/vmc2IcpiI3KqxO9xCWI9T5YDrpiVfjLX6G1qbIiZsH
+ Y/SQP5hfF65SxBSCD9UPIyRaxPN5j3v/v6poKp6jJwEw3WQqrxIUe0bHqkrRsDNVAuI8
+ mvAt5D/ztND4dE4ZEUolDKyP5NAaoaz6UahhA11i6n33sSRh55NLFOJ6YKMTvJTiVQF8
+ UVW+vsbGZoR1z2D+eo6P7kbYmYUQgkrNdTsaHnmlkCuQMTE6Wq1e3rWRVpiL3v0sZAOe
+ 46zyrWZunTQa3ordH7t3RIwdDQsJ2260pHXINV9cYwZN91HAS1dgRbG76q0gL5mI3Hvy
+ AWng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1697778096; x=1698382896;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=AWWQg2SqnfcJGluCbwJ/5a91X1rDHsY7zr/O6hdj2A8=;
+ b=O3cjWCLyp6AwN+APhiwykfkKEmmLmXMLbMx4JCgSTvCrN3dTnNoIu+AU3hEszLEspb
+ SpDNY3aSqtfUryDbFYTKYtG0ulWNwGFM0YBmmMS2WoTPae4P2lYzmJkm7O+oc5kpqwVB
+ nAGOE4odq29jHbiI+ynRL7ED3YAM+NSjLQnT1jkaYQ13IQeMowy9PJrKkHIccu2TvWUJ
+ xZVkcHOxig8ZVcLYUrPIZMNKdtvQBt/DZExAOCU6wl9vefvaGgqQwMMMK1XwnRRcCZ+v
+ wy0NYeJZwAU9AlF+kTd66GPC/5LFIVYSZ9IJKnWSTcTJt8wRW1Rfq9UuGMMcEq9byMAU
+ ebmw==
+X-Gm-Message-State: AOJu0Yy/o5PfoPjVTvWRWcofEdT6W06DLLOjUSj7nvwSrU1GSIoYUe8F
+ 1Mgouravx30b0ydvLNzL5i9y++1Fdq11wo20/vc=
+X-Google-Smtp-Source: AGHT+IF0Q4OhtJlzRIozVY+WrK9DtGCgqdBcwfPvIfJ4wxDEUSC4J3TVA+tHVmIDHf5aeDB5Sl0/3CP6zyTAQ/PQpxk=
+X-Received: by 2002:a17:907:80e:b0:9bf:b8f7:1fd3 with SMTP id
+ wv14-20020a170907080e00b009bfb8f71fd3mr452341ejb.45.1697778096207; Thu, 19
+ Oct 2023 22:01:36 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/doc: ci: Require more context for flaky tests
-Content-Language: en-US
-From: Helen Koike <helen.koike@collabora.com>
-To: Maxime Ripard <mripard@kernel.org>,
- Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>
-References: <20231019094609.251787-1-mripard@kernel.org>
- <ba2cd566-328d-4a47-9ab8-05817c14f0bd@collabora.com>
-In-Reply-To: <ba2cd566-328d-4a47-9ab8-05817c14f0bd@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+From: Dave Airlie <airlied@gmail.com>
+Date: Fri, 20 Oct 2023 15:01:24 +1000
+Message-ID: <CAPM=9twE+5tjNxbr1FkiXBqeEzv9k4LZMo4ETmchaNioNT6quQ@mail.gmail.com>
+Subject: [git pull] drm fixes for 6.6-rc7
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,95 +66,186 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Vignesh Raman <vignesh.raman@collabora.com>,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hey Linus,
 
+Regular fixes for the week, amdgpu, i915, nouveau, with some other
+scattered around, nothing major.
 
-On 19/10/2023 13:51, Helen Koike wrote:
-> 
-> 
-> On 19/10/2023 06:46, Maxime Ripard wrote:
->> Flaky tests can be very difficult to reproduce after the facts, which
->> will make it even harder to ever fix.
->>
->> Let's document the metadata we agreed on to provide more context to
->> anyone trying to address these fixes.
->>
->> Link: 
->> https://lore.kernel.org/dri-devel/CAPj87rPbJ1V1-R7WMTHkDat2A4nwSd61Df9mdGH2PR=ZzxaU=Q@mail.gmail.com/
->> Signed-off-by: Maxime Ripard <mripard@kernel.org>
->> ---
->>   Documentation/gpu/automated_testing.rst | 13 +++++++++++++
->>   1 file changed, 13 insertions(+)
->>
->> diff --git a/Documentation/gpu/automated_testing.rst 
->> b/Documentation/gpu/automated_testing.rst
->> index 469b6fb65c30..2dd0e221c2c3 100644
->> --- a/Documentation/gpu/automated_testing.rst
->> +++ b/Documentation/gpu/automated_testing.rst
->> @@ -67,6 +67,19 @@ Lists the tests that for a given driver on a 
->> specific hardware revision are
->>   known to behave unreliably. These tests won't cause a job to fail 
->> regardless of
->>   the result. They will still be run.
->> +Each new flake entry must be associated with a link to a bug report to
-> 
-> What do you mean by but report? Just a link to an email to the mailing 
-> list is enough?
-> 
-> Also, I had made a mistake to the first flakes lists, which I corrected 
-> with https://www.spinics.net/lists/kernel/msg4959629.html (there was a 
-> bug in my script which ended up erroneous adding a bunch of tests in the 
-> flake list, so I cleaned them up), I would like to kind request to let 
-> me add those documentation in a future patch to not block that patch 
-> series.
-> 
-> Thanks
-> Helen
-> 
-> 
->> +the author of the affected driver, the board name or Device Tree name of
->> +the board, the first kernel version affected, and an approximation of
->> +the failure rate.
->> +
->> +They should be provided under the following format::
->> +
->> +  # Bug Report: $LORE_OR_PATCHWORK_URL
+Dave.
 
-I wonder if the commit adding the test into the flakes.txt file with and 
-Acked-by from the device maintainer shouldn't be already considered the 
-Bug Report.
+drm-fixes-2023-10-20:
+drm fixes for 6.6-rc7
 
->> +  # Board Name: broken-board.dtb
+amdgpu:
+- Fix possible NULL pointer dereference
+- Avoid possible BUG_ON in GPUVM updates
+- Disable AMD_CTX_PRIORITY_UNSET
 
-Maybe Board Name isn't required, since it is already in the name of the 
-file.
+i915:
+- Fix display issue that was blocking S0ix
+- Retry gtt fault when out of fence registers
 
->> +  # Version: 6.6-rc1
->> +  # Failure Rate: 100
+bridge:
+- ti-sn65dsi86: Fix device lifetime
 
-Maybe also:
+edid:
+- Add quirk for BenQ GW2765
 
-   # Pipeline url: 
-https://gitlab.freedesktop.org/helen.fornazier/linux/-/pipelines/1014435
+ivpu:
+- Extend address range for MMU mmap
 
-All this info will complicated a bit the update-xfails.py script, but 
-well, we can handle...
-(see 
-https://patchwork.kernel.org/project/dri-devel/patch/20231020034124.136295-4-helen.koike@collabora.com/ 
-)
-We need to update that script to make life easier.
-Vignesh sent a patch adding at least the pipeline url to the file
-https://patchwork.kernel.org/project/linux-arm-msm/patch/20231019070650.61159-9-vignesh.raman@collabora.com/
-but to meet this doc that needs to be updated too.
+nouveau:
+- DP-connector fixes
+- Documentation fixes
 
-Regards,
-Helen
+panel:
+- Move AUX B116XW03 into panel-simple
 
->> +  flaky-test
->> +
->>   drivers/gpu/drm/ci/${DRIVER_NAME}-${HW_REVISION}-skips.txt
->>   -----------------------------------------------------------
+scheduler:
+- Eliminate DRM_SCHED_PRIORITY_UNSET
+
+ttm:
+- Fix possible NULL-ptr deref in cleanup
+
+mediatek:
+- Correctly free sg_table in gem prime vmap
+The following changes since commit 58720809f52779dc0f08e53e54b014209d13eebb=
+:
+
+  Linux 6.6-rc6 (2023-10-15 13:34:39 -0700)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2023-10-20
+
+for you to fetch changes up to 8b35ce3f7a9699e7580527fe4510d77f2a35f02d:
+
+  Merge tag 'mediatek-drm-fixes-20231017' of
+https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux
+into drm-fixes (2023-10-20 14:24:35 +1000)
+
+----------------------------------------------------------------
+drm fixes for 6.6-rc7
+
+amdgpu:
+- Fix possible NULL pointer dereference
+- Avoid possible BUG_ON in GPUVM updates
+- Disable AMD_CTX_PRIORITY_UNSET
+
+i915:
+- Fix display issue that was blocking S0ix
+- Retry gtt fault when out of fence registers
+
+bridge:
+- ti-sn65dsi86: Fix device lifetime
+
+edid:
+- Add quirk for BenQ GW2765
+
+ivpu:
+- Extend address range for MMU mmap
+
+nouveau:
+- DP-connector fixes
+- Documentation fixes
+
+panel:
+- Move AUX B116XW03 into panel-simple
+
+scheduler:
+- Eliminate DRM_SCHED_PRIORITY_UNSET
+
+ttm:
+- Fix possible NULL-ptr deref in cleanup
+
+mediatek:
+- Correctly free sg_table in gem prime vmap
+
+----------------------------------------------------------------
+Chen-Yu Tsai (1):
+      drm/mediatek: Correctly free sg_table in gem prime vmap
+
+Dave Airlie (4):
+      Merge tag 'amd-drm-fixes-6.6-2023-10-19' of
+https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
+      Merge tag 'drm-misc-fixes-2023-10-19' of
+git://anongit.freedesktop.org/drm/drm-misc into drm-fixes
+      Merge tag 'drm-intel-fixes-2023-10-19' of
+git://anongit.freedesktop.org/drm/drm-intel into drm-fixes
+      Merge tag 'mediatek-drm-fixes-20231017' of
+https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux
+into drm-fixes
+
+Douglas Anderson (1):
+      drm/panel: Move AUX B116XW03 out of panel-edp back to panel-simple
+
+Felix Kuehling (2):
+      drm/amdgpu: Fix possible null pointer dereference
+      drm/amdgpu: Reserve fences for VM update
+
+Hamza Mahfooz (1):
+      drm/edid: add 8 bpc quirk to the BenQ GW2765
+
+Jacek Lawrynowicz (1):
+      accel/ivpu: Don't enter d0i3 during FLR
+
+Karol Herbst (1):
+      drm/nouveau/disp: fix DP capable DSM connectors
+
+Karolina Stolarek (1):
+      drm/ttm: Reorder sys manager cleanup step
+
+Khaled Almahallawy (1):
+      drm/i915/cx0: Only clear/set the Pipe Reset bit of the PHY Lanes Owne=
+d
+
+Luben Tuikov (2):
+      drm/amdgpu: Unset context priority is now invalid
+      gpu/drm: Eliminate DRM_SCHED_PRIORITY_UNSET
+
+Randy Dunlap (1):
+      drm/nouveau: exec: fix ioctl kernel-doc warning
+
+Stanislaw Gruszka (1):
+      Revert "accel/ivpu: Use cached buffers for FW loading"
+
+Stephen Boyd (1):
+      drm/bridge: ti-sn65dsi86: Associate DSI device lifetime with
+auxiliary device
+
+Ville Syrj=C3=A4l=C3=A4 (1):
+      drm/i915: Retry gtt fault when out of fence registers
+
+Wludzik, Jozef (1):
+      accel/ivpu: Extend address range for MMU mmap
+
+ drivers/accel/ivpu/ivpu_drv.c                    | 11 ++++++--
+ drivers/accel/ivpu/ivpu_drv.h                    |  1 +
+ drivers/accel/ivpu/ivpu_fw.c                     |  9 +++---
+ drivers/accel/ivpu/ivpu_gem.h                    |  5 ----
+ drivers/accel/ivpu/ivpu_hw.h                     |  8 ++++++
+ drivers/accel/ivpu/ivpu_hw_37xx.c                |  1 +
+ drivers/accel/ivpu/ivpu_hw_40xx.c                |  1 +
+ drivers/accel/ivpu/ivpu_mmu_context.c            |  9 ++----
+ drivers/accel/ivpu/ivpu_pm.c                     |  3 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c          |  5 ++--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c      |  5 +++-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c           |  3 +-
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c            | 14 +++++-----
+ drivers/gpu/drm/drm_edid.c                       |  3 ++
+ drivers/gpu/drm/i915/display/intel_cx0_phy.c     |  3 +-
+ drivers/gpu/drm/i915/gem/i915_gem_mman.c         |  1 +
+ drivers/gpu/drm/mediatek/mtk_drm_gem.c           |  6 +++-
+ drivers/gpu/drm/nouveau/nvkm/engine/disp/uconn.c | 14 +++++++++-
+ drivers/gpu/drm/panel/panel-edp.c                | 29 --------------------
+ drivers/gpu/drm/panel/panel-simple.c             | 35 ++++++++++++++++++++=
+++++
+ drivers/gpu/drm/ttm/ttm_device.c                 |  8 +++---
+ include/drm/gpu_scheduler.h                      |  3 +-
+ include/uapi/drm/nouveau_drm.h                   |  4 +--
+ 23 files changed, 109 insertions(+), 72 deletions(-)
