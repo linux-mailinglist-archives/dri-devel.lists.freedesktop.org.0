@@ -2,72 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BF0B7D1948
-	for <lists+dri-devel@lfdr.de>; Sat, 21 Oct 2023 00:42:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D03F97D1956
+	for <lists+dri-devel@lfdr.de>; Sat, 21 Oct 2023 00:54:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A09B510E607;
-	Fri, 20 Oct 2023 22:42:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7816310E609;
+	Fri, 20 Oct 2023 22:54:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8443710E607
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Oct 2023 22:42:29 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D371010E609
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Oct 2023 22:54:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1697841748;
+ s=mimecast20190719; t=1697842442;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=jnxbpqPQ8Qwv3Gl+kg+6M9wo7fO1MRiFh8TZBKBFXUY=;
- b=QzkyW00CI1ZynjsW4tdku4VMrUC2ETXMSilP+KsZuiYz2XMXe575hWJRg6v4OYDVMN12Gr
- wWH89WWk9hp91nM+Dz8vdbzVKmVWwVjVyKSD2BuUfRvhzKEKl7Rs+lZ37/fmUq67jDTKTO
- lX/ulo/KW4TcW+4nxYz4I9vyKhL6IIk=
-Received: from mail-lj1-f198.google.com (mail-lj1-f198.google.com
- [209.85.208.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding;
+ bh=qFRLhmS2CQCqNG3Gndm1rIdWDDyvH+OTofhMbIHOAf0=;
+ b=H2KHvoOv4dz2kSS5dd5hOPGIifuDDrXZAHEUzbYLdJkFxEABPCNriFGNKx4UdCO34WeevQ
+ Am2o1jb8nqGgFBIsKWt/SpIaRp10cbmKEK/vulK4bxwH1lo4CYjCR9BZIJFRYgjOaIW9O9
+ fYStawIl/E46VkLxelc5aKREq7Ro3+A=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-596-s1-a_Gk8NBOFqRk6T7EzkA-1; Fri, 20 Oct 2023 18:42:27 -0400
-X-MC-Unique: s1-a_Gk8NBOFqRk6T7EzkA-1
-Received: by mail-lj1-f198.google.com with SMTP id
- 38308e7fff4ca-2c53ea92642so11708051fa.2
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Oct 2023 15:42:26 -0700 (PDT)
+ us-mta-249-fAEBrhqNOKmNPmNnbcLMvA-1; Fri, 20 Oct 2023 18:54:01 -0400
+X-MC-Unique: fAEBrhqNOKmNPmNnbcLMvA-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ ffacd0b85a97d-32db43129c6so647494f8f.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Oct 2023 15:54:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1697841745; x=1698446545;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=jnxbpqPQ8Qwv3Gl+kg+6M9wo7fO1MRiFh8TZBKBFXUY=;
- b=DlM8xv7wXrCi6PRkZ3SyD/c5yBsOifiIrNGUN0zapsrSK2FuaKOOROcy67VRv2lHis
- W044vrUX7aY0qO/8RCNyqdY7+uVXhMh+kF0MQwnrXOdJn3Cb3BcsM8L0m2v0jQ4oWVw8
- AyHt7sLVIDZoIEtIslUvfFWDou006qmhGyD2nDUVqwDh6k+xlJbeC2N/gg4hL8M5/l4S
- d5f194EJYbXnVjb4NNyPqIF1wTWChizxt6HvJsbtecnu4g3esyUTHRb+50QBX/hZ92GR
- PthOdkFSJ98X/neAS/NSMZW4EwCmRPRDG2+xSVlqC6jr/gqxce0BaLkW/YtOfmbRobEA
- zp5w==
-X-Gm-Message-State: AOJu0YzSMWIvvuprq1VS2Oy+j4b+6MJ/tbmXyfWlseLG7cPlyJRHVv1B
- Xb5TpnuL55L19FougAnko2s7cCGrFiayTunT1KxTvBvdhIqBulEDb5KE0XcGf2v5AsJUKRQoM1k
- PLhDhmn11UiAuM4o+y3f0z1h2nsDW
-X-Received: by 2002:a05:651c:1991:b0:2c5:2475:f848 with SMTP id
- bx17-20020a05651c199100b002c52475f848mr2604683ljb.15.1697841745591; 
- Fri, 20 Oct 2023 15:42:25 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IH7ma8y0t0l/MOVqHhCSbw1qwXFPQdaWRYbp5TcVVN5pieyiq7yax7CvYKQNfpGvzWrDaBArg==
-X-Received: by 2002:a05:651c:1991:b0:2c5:2475:f848 with SMTP id
- bx17-20020a05651c199100b002c52475f848mr2604679ljb.15.1697841745200; 
- Fri, 20 Oct 2023 15:42:25 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1697842440; x=1698447240;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=qFRLhmS2CQCqNG3Gndm1rIdWDDyvH+OTofhMbIHOAf0=;
+ b=Xvg80UsV5RKF6EcpOSVAiyeBoankE6h4CarDfQXLCh7sn3gwytGx9wrepvnP44WSZl
+ AoSTYuAr6gdFpjk8h2QDV/ZUS2qcr0Dtye7e/SO8t0aZj52vyinmVvNiRdMAVQljO4cc
+ 8f0GmJkgjwJDWtysyQoOWBb5tGZ0DS0lBvPaNFoo37ea+QOXlpZnyax2SrL2hiEp7WF0
+ S9NyOpUTpP6k21BDFC3gl3a0WcfBo40CZePPDUBgDLD9i7r/OdUFWeEv+wj9Ds3gWAzn
+ FkCx38PVxuNWabhVM7fJviLaj4cqlIzQ1ZXSMW+/2rJDRhU0r237kgFvHRI4sPoOfbu7
+ 1vwA==
+X-Gm-Message-State: AOJu0YyfoGQetC4qMpEBKm35DMAZsPETVJ6LXiaheP+pj9WEMYxpW8oH
+ yy8VymQY6tSvihwqzcQBLP6Iy2r7m/ctjp3W/8f+BlzuvNKt7XlU1pou0pcwS60WPfVvHnguPnh
+ DvW/7bzStGvzsuEL9KEZdgYcWZHbl
+X-Received: by 2002:a5d:58ea:0:b0:32d:819d:ec75 with SMTP id
+ f10-20020a5d58ea000000b0032d819dec75mr2386181wrd.60.1697842440519; 
+ Fri, 20 Oct 2023 15:54:00 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEokgbV7EOSbvHnFRW97a9AjS0odPg33+dhDQZB4Y/IUzZKrmGCj6yiNFw5I1rWq8uRWtpElQ==
+X-Received: by 2002:a5d:58ea:0:b0:32d:819d:ec75 with SMTP id
+ f10-20020a5d58ea000000b0032d819dec75mr2386176wrd.60.1697842440162; 
+ Fri, 20 Oct 2023 15:54:00 -0700 (PDT)
 Received: from localhost (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- b11-20020a05600010cb00b00324853fc8adsm2521365wrx.104.2023.10.20.15.42.23
+ b16-20020a5d5510000000b0032d2489a399sm2530010wrv.49.2023.10.20.15.53.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 Oct 2023 15:42:24 -0700 (PDT)
+ Fri, 20 Oct 2023 15:53:59 -0700 (PDT)
 From: Javier Martinez Canillas <javierm@redhat.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Subject: Re: [bug report] drm/ssd130x: Add support for the SSD132x OLED
- controller family
-In-Reply-To: <7dd6ca45-8263-44fe-a318-2fd9d761425d@moroto.mountain>
-References: <7dd6ca45-8263-44fe-a318-2fd9d761425d@moroto.mountain>
-Date: Sat, 21 Oct 2023 00:42:22 +0200
-Message-ID: <878r7wkjap.fsf@minerva.mail-host-address-is-not-set>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/ssd130x: Fix possible uninitialized usage of crtc_state
+ variable
+Date: Sat, 21 Oct 2023 00:52:57 +0200
+Message-ID: <20231020225338.1686974-1-javierm@redhat.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,51 +81,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Thomas Zimmermann <tzimmermann@suse.de>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
+ Dan Carpenter <dan.carpenter@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Dan Carpenter <dan.carpenter@linaro.org> writes:
+Avoid a possible uninitialized use of the crtc_state variable in function
+ssd132x_primary_plane_atomic_check() and avoid the following Smatch warn:
 
-Hello Dan,
+    drivers/gpu/drm/solomon/ssd130x.c:921 ssd132x_primary_plane_atomic_check()
+    error: uninitialized symbol 'crtc_state'.
 
-> Hello Javier Martinez Canillas,
->
-> The patch fdd591e00a9c: "drm/ssd130x: Add support for the SSD132x
-> OLED controller family" from Oct 14, 2023 (linux-next), leads to the
-> following Smatch static checker warning:
->
-> 	drivers/gpu/drm/solomon/ssd130x.c:921 ssd132x_primary_plane_atomic_check()
-> 	error: uninitialized symbol 'crtc_state'.
->
-> drivers/gpu/drm/solomon/ssd130x.c
->     905 static int ssd132x_primary_plane_atomic_check(struct drm_plane *plane,
->     906                                               struct drm_atomic_state *state)
->     907 {
->     908         struct drm_device *drm = plane->dev;
->     909         struct ssd130x_device *ssd130x = drm_to_ssd130x(drm);
->     910         struct drm_plane_state *plane_state = drm_atomic_get_new_plane_state(state, plane);
->     911         struct ssd130x_plane_state *ssd130x_state = to_ssd130x_plane_state(plane_state);
->     912         struct drm_crtc *crtc = plane_state->crtc;
->     913         struct drm_crtc_state *crtc_state;
->     914         const struct drm_format_info *fi;
->     915         unsigned int pitch;
->     916         int ret;
->     917 
->     918         if (crtc)
->     919                 crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
->
-> crtc_state is not initialized
->
+Fixes: fdd591e00a9c ("drm/ssd130x: Add support for the SSD132x OLED controller family")
+Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+Closes: https://lore.kernel.org/dri-devel/7dd6ca45-8263-44fe-a318-2fd9d761425d@moroto.mountain/
+Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+---
 
-Indeed. Thanks a lot for reporting this.
+ drivers/gpu/drm/solomon/ssd130x.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I'll post a fix.
-
+diff --git a/drivers/gpu/drm/solomon/ssd130x.c b/drivers/gpu/drm/solomon/ssd130x.c
+index 32f0857aec9f..e0174f82e353 100644
+--- a/drivers/gpu/drm/solomon/ssd130x.c
++++ b/drivers/gpu/drm/solomon/ssd130x.c
+@@ -910,7 +910,7 @@ static int ssd132x_primary_plane_atomic_check(struct drm_plane *plane,
+ 	struct drm_plane_state *plane_state = drm_atomic_get_new_plane_state(state, plane);
+ 	struct ssd130x_plane_state *ssd130x_state = to_ssd130x_plane_state(plane_state);
+ 	struct drm_crtc *crtc = plane_state->crtc;
+-	struct drm_crtc_state *crtc_state;
++	struct drm_crtc_state *crtc_state = NULL;
+ 	const struct drm_format_info *fi;
+ 	unsigned int pitch;
+ 	int ret;
 -- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+2.41.0
 
