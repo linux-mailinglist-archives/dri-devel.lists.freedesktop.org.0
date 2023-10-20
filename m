@@ -2,51 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA2F67D0B1B
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Oct 2023 11:08:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC5CF7D0C00
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Oct 2023 11:36:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C73B510E595;
-	Fri, 20 Oct 2023 09:08:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EDE0C899C7;
+	Fri, 20 Oct 2023 09:36:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AEDF610E58D
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Oct 2023 09:07:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1697792878; x=1729328878;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=6Fo7P9SabarNMDvAtym6whJdq1TKNFcIppH/+OETBG8=;
- b=mNh3omRKG8iodY7d2FAd+YOGYR2ohw25M8/Jfr0UlaViKj8Yl1HUupbm
- Bn/9b/o+796QKRKRuxXjJx8qPDLHnA4v8I4X4NUyTnIc41On0ruBTAZH+
- 60OCNIvwuDPzlzcjXHkc2ihxev/YdZq2WAyMOEWfEMOOb5b5WHPXba8J3
- 2Q7LgDV7vek5CZtzAL2H+GuucqTSLgGaJvZfrfzZMffdlfNpnaESq0uWQ
- ScKfg1q1MWJuT1cjMaQaLVh2EAIU+fI09Av0M44lFFvazC5yY8oYiW1qz
- qmEtEA6L/VBGBf4uVKfHr1AQkldBNFFmjo42dt8rgnq+MH1OQ+FcvTzOZ w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10868"; a="450688010"
-X-IronPort-AV: E=Sophos;i="6.03,238,1694761200"; d="scan'208";a="450688010"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Oct 2023 02:07:57 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10868"; a="873839479"
-X-IronPort-AV: E=Sophos;i="6.03,238,1694761200"; d="scan'208";a="873839479"
-Received: from joe-255.igk.intel.com (HELO localhost) ([10.91.220.57])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Oct 2023 02:07:56 -0700
-Date: Fri, 20 Oct 2023 11:07:54 +0200
-From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-To: Deepak R Varma <drv@mailo.com>
-Subject: Re: ivpu TODO list items
-Message-ID: <20231020090754.GA563066@linux.intel.com>
-References: <ZSjwuyCOL9Vb9+yb@runicha.com> <ZS68dysac34rA32D@runicha.com>
- <20231018075053.GB525429@linux.intel.com>
- <ZTATkznuHyX4rUit@runicha.com>
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de
+ [80.237.130.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C6136899C7
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Oct 2023 09:35:47 +0000 (UTC)
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+ by wp530.webpack.hosteurope.de running ExIM with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ id 1qtlut-0003Mz-MB; Fri, 20 Oct 2023 11:35:39 +0200
+Message-ID: <c9b79a69-bdc1-4457-900d-709a15d99568@leemhuis.info>
+Date: Fri, 20 Oct 2023 11:35:38 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZTATkznuHyX4rUit@runicha.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: Blank screen on boot of Linux 6.5 and later on Lenovo ThinkPad
+ L570
+Content-Language: en-US, de-DE
+To: Huacai Chen <chenhuacai@kernel.org>
+References: <7c50e051-eba2-09fc-da9f-023d592de457@ristioja.ee>
+ <31bdf7b1-0ed9-4217-b459-1d857e53120b@leemhuis.info>
+ <CAAhV-H7fRpykesVUEyaTpVnFiGwpP+fPbtdrp6JwfgD=bDp06Q@mail.gmail.com>
+ <CAAhV-H7XCmbgS=N4-SE8FnASAws8hnDRZsQJgXE+dwyARaqzNw@mail.gmail.com>
+ <ZSO9uArAtsPMPeTP@debian.me>
+ <CAAhV-H5GbidUx8YanUc7S9oGqBkDd53xeT=2O4aCuX7KpM-+8A@mail.gmail.com>
+From: "Linux regression tracking (Thorsten Leemhuis)"
+ <regressions@leemhuis.info>
+In-Reply-To: <CAAhV-H5GbidUx8YanUc7S9oGqBkDd53xeT=2O4aCuX7KpM-+8A@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de; regressions@leemhuis.info; 1697794555;
+ edf067ed; 
+X-HE-SMSGID: 1qtlut-0003Mz-MB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,22 +51,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Oded Gabbay <ogabbay@kernel.org>,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
+Cc: Linux Regressions <regressions@lists.linux.dev>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Linux DRI Development <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Jaak Ristioja <jaak@ristioja.ee>, Bagas Sanjaya <bagasdotme@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Oct 18, 2023 at 10:49:15PM +0530, Deepak R Varma wrote:
-> > > > 2. Is it absolutely necessary for me to have a specialized hardware to test my
-> > > > patches? Is it limited to the 14thGen or above CPU or do I need more than that?
-> > Yes, I don't think someone can work on ivpu without hardware.
+On 09.10.23 10:54, Huacai Chen wrote:
+> On Mon, Oct 9, 2023 at 4:45 PM Bagas Sanjaya <bagasdotme@gmail.com> wrote:
+>> On Mon, Oct 09, 2023 at 09:27:02AM +0800, Huacai Chen wrote:
+>>> On Tue, Sep 26, 2023 at 10:31 PM Huacai Chen <chenhuacai@kernel.org> wrote:
+>>>> On Tue, Sep 26, 2023 at 7:15 PM Linux regression tracking (Thorsten
+>>>> Leemhuis) <regressions@leemhuis.info> wrote:
+>>>>> On 13.09.23 14:02, Jaak Ristioja wrote:
+>>>>>>
+>>>>>> Upgrading to Linux 6.5 on a Lenovo ThinkPad L570 (Integrated Intel HD
+>>>>>> Graphics 620 (rev 02), Intel(R) Core(TM) i7-7500U) results in a blank
+>>>>>> screen after boot until the display manager starts... if it does start
+>>>>>> at all. Using the nomodeset kernel parameter seems to be a workaround.
+>>>>>>
+>>>>>> I've bisected this to commit 60aebc9559492cea6a9625f514a8041717e3a2e4
+>>>>>> ("drivers/firmware: Move sysfb_init() from device_initcall to
+>>>>>> subsys_initcall_sync").
+>>>>>
+>>>>> Hmmm, no reaction since it was posted a while ago, unless I'm missing
+>>>>> something.
+>>>>>
+>>>>> Huacai Chen, did you maybe miss this report? The problem is apparently
+>>>>> caused by a commit of yours (that Javier applied), you hence should look
+>>>>> into this.
+>>>> I'm sorry but it looks very strange, could you please share your config file?
+>>> As confirmed by Jaak, disabling DRM_SIMPLEDRM makes things work fine
+>>> again. So I guess the reason:
+>>
+>> Did Jaak reply privately? It should have been disclosed in public
+>> ML here instead.
+> Yes, he replied privately, and disabling DRM_SIMPLEDRM was suggested by me.
+
+Well, this to me still looks a lot (please correct me if I'm wrong) like
+regression that should be fixed, as DRM_SIMPLEDRM was enabled beforehand
+if I understood things correctly. Or is there a proper fix for this
+already in the works and I just missed this? Or is there some good
+reason why this won't/can't be fixed?
+
+Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+--
+Everything you wanna know about Linux kernel regression tracking:
+https://linux-regtracking.leemhuis.info/about/#tldr
+If I did something stupid, please tell me, as explained on that page.
+
+#regzbot poke
+
+>>> When SIMPLEDRM takes over the framebuffer, the screen is blank (don't
+>>> know why). And before 60aebc9559492cea6a9625f ("drivers/firmware: Move
+>>> sysfb_init() from device_initcall to subsys_initcall_sync") there is
+>>> no platform device created for SIMPLEDRM at early stage, so it seems
+>>> also "no problem".
+>>
+>> I don't understand above. You mean that after that commit the platform
+>> device is also none, right?
+> No. The SIMPLEDRM driver needs a platform device to work, and that
+> commit makes the platform device created earlier. So, before that
+> commit, SIMPLEDRM doesn't work, but the screen isn't blank; after that
+> commit, SIMPLEDRM works, but the screen is blank.
 > 
-> Okay. Could you suggest what would be the minimum hardware required to explore
-> this driver?
-
-As you wrote, you need to have 14th gen Intel CPU i.e. Meteor Lake.
-Only this ... or as much as this.
-
-Regards
-Stanislaw
+> Huacai
+>>
+>> Confused...
+>>
+>> --
+>> An old man doll... just what I always wanted! - Clara
+> 
+> 
