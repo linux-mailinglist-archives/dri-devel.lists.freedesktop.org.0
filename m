@@ -2,45 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A7987D1361
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Oct 2023 17:59:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4E187D13F5
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Oct 2023 18:26:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 42C4A10E0F9;
-	Fri, 20 Oct 2023 15:59:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1CF4210E5D8;
+	Fri, 20 Oct 2023 16:26:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org
- [IPv6:2604:1380:40e1:4800::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F406810E0F9
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Oct 2023 15:59:31 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 183B4CE39C8;
- Fri, 20 Oct 2023 15:59:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7B7BC433C8;
- Fri, 20 Oct 2023 15:59:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1697817568;
- bh=97TU/jnZR5ds5vVT0qQ3AnubifvbhIl0MYkUouOlAjw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=QCIvmeICsJHB/mYYfl5qWvYmPIzGXKDYJ/6Ac38yi8yHQSdluiJXZom2LH+4tSrdZ
- xDHLWg6HTkERNpXtwaGb3IyJzXcWLQ9/gGNm4jTapf36NhR2KWbyA+DVI7Blf80WgH
- U/v8BECmFbk1y3W/MZTkGhAIEeKRMNKqcZO5qgx5fNmqec2Ccf9G9wQX+iUh7syCEO
- ekfnRHZdVxo2mfaWcXomrnNRIp6Ng4mon9PerTUUls4oQzxYuDsQj/5YSuWSOOCXF0
- 12FtW5YXtvdQTaXC4MtMrpZIt27Rlhtk3nW7vGfWIQJfguzfu8Sm+nWdNyQt5TIrdu
- kBiMioX0FuJsw==
-Date: Fri, 20 Oct 2023 16:59:23 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Flavio Suligoi <f.suligoi@asem.it>
-Subject: Re: [PATCH 1/1] dt-bindings: backlight: mp3309c: remove two required
- properties
-Message-ID: <20231020-moonrise-senate-86d0edb2d404@spud>
-References: <20231020135434.2598578-1-f.suligoi@asem.it>
- <20231020135434.2598578-2-f.suligoi@asem.it>
+Received: from mail-yw1-x1131.google.com (mail-yw1-x1131.google.com
+ [IPv6:2607:f8b0:4864:20::1131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F1D6410E5D3
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Oct 2023 16:26:43 +0000 (UTC)
+Received: by mail-yw1-x1131.google.com with SMTP id
+ 00721157ae682-5a7b3d33663so11556717b3.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Oct 2023 09:26:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1697819203; x=1698424003; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=laCUhecyJPMse9WCZXFmWhJICCZVXR+jQqS99SOAngQ=;
+ b=AM9MxFqpo7CNYcWNwKy1UpTdNGhK7n4eFFshSP5qLMkTbNTTJYGg+Z50BClInBWyM+
+ +YJ/i+mVpliWgjV9ZnJRAkGIQmAHoadm7lmg4UPSD0OISl+yi8KOEibLtrPGyoPPuDPR
+ Co3gYt+SUhRv6DqLTXKGTSz2ohb7WD+ieH7nCowX8EzbpC5ZuL+7RUNNkQ+8hNxT0iEI
+ s1epvWigCZ7xdgAiacVV7PiFf8/1iSdsxPWJKf/csbQ1uUhWhGCHqruU4SHvOu819zzu
+ j43AawcKPqd8TRti2XC+Bl1hMRYhWAdyvF5gqpzJqa4pU2GSm9YNuYUCBi9cPqZPHDJh
+ qckw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1697819203; x=1698424003;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=laCUhecyJPMse9WCZXFmWhJICCZVXR+jQqS99SOAngQ=;
+ b=NrrN18qWktzeYFwtdaLI0gxSqSWTCF6IeVriFaJqzFWqoWz/r5gd49gbfZ/8Urg5jf
+ 8Ro7LARABAX4ee02Xwy/DWE4SA2iFp0/q4yqCqGOrGlBrqkMjap9sD5JV2TBip6Gb1NQ
+ XRS7E7aI/PTgZczbugkO545Swct57NHbRcpk3+p7Tyq/WQQoSVWoQ6SZZuf237bPW/bG
+ 0R1m5h1MuOK/VzlSCjsYVRT0BLEOTkjKCnbq/i8EB3VxtMDORhOcxSyuFvPTUyVTDlUf
+ GAl+iWXFWd5eRHbfLj0lCClNwFSXyYkNY9oCBNPvth+MGhOFl27tGZ6uyW1PHyT0aycY
+ N6cA==
+X-Gm-Message-State: AOJu0Yz3WiRPVd+uiGFEIhSZU7gKYfiTIlkOrTbjX7/Whm4kKSlX8MoE
+ Z9jD2YHWhtgUDDCf+HPoDrHcs6bUrVtR+MfLU2doMQ==
+X-Google-Smtp-Source: AGHT+IHlS5lOS1dRyKb32JPUatddf/uU7kGSi+POVALsr0E3HwVcVMoX7GP36MY5ZrltEXBQage+2OuLDlCcdM7+K8s=
+X-Received: by 2002:a81:e20a:0:b0:5a8:1844:124d with SMTP id
+ p10-20020a81e20a000000b005a81844124dmr2284502ywl.9.1697819203005; Fri, 20 Oct
+ 2023 09:26:43 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="MS8zv6ItXa/c4PSq"
-Content-Disposition: inline
-In-Reply-To: <20231020135434.2598578-2-f.suligoi@asem.it>
+References: <20231018074627.55637-1-dmitry.baryshkov@linaro.org>
+ <883e40de-7d1d-03fb-014f-74db5b6ab406@quicinc.com>
+In-Reply-To: <883e40de-7d1d-03fb-014f-74db5b6ab406@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Fri, 20 Oct 2023 19:26:31 +0300
+Message-ID: <CAA8EJpr8MdtSYyF5Q==TRo60VD2nx9p6vhjb5CJMoGA2NhmEZw@mail.gmail.com>
+Subject: Re: [PATCH] drm/msm/dp: attach the DP subconnector property
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,104 +67,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Daniel Thompson <daniel.thompson@linaro.org>,
- linux-kernel@vger.kernel.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
- Lee Jones <lee@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, Pavel Machek <pavel@ucw.cz>,
- linux-leds@vger.kernel.org
+Cc: freedreno@lists.freedesktop.org, Bjorn Andersson <andersson@kernel.org>,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ linux-arm-msm@vger.kernel.org, Marijn Suijten <marijn.suijten@somainline.org>,
+ Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, 18 Oct 2023 at 12:24, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+>
+>
+>
+> On 10/18/2023 12:46 AM, Dmitry Baryshkov wrote:
+> > While developing and testing the commit bfcc3d8f94f4 ("drm/msm/dp:
+> > support setting the DP subconnector type") I had the patch [1] in my
+> > tree. I haven't noticed that it was a dependency for the commit in
+> > question. Mea culpa.
+> >
+>
+> I agree with you that, we should be setting this in the framework is better.
+>
+> Will review that one on the other patch.
+>
+> But yes, we need to fix this regression first.
+>
+> > Since the patch has not landed yet (and even was not reviewed)
+> > and since one of the bridges erroneously uses USB connector type instead
+> > of DP, attach the property directly from the MSM DP driver.
+> >
+> > This fixes the following oops on DP HPD event:
+> >
+> >   drm_object_property_set_value (drivers/gpu/drm/drm_mode_object.c:288)
+> >   dp_display_process_hpd_high (drivers/gpu/drm/msm/dp/dp_display.c:402)
+> >   dp_hpd_plug_handle.isra.0 (drivers/gpu/drm/msm/dp/dp_display.c:604)
+> >   hpd_event_thread (drivers/gpu/drm/msm/dp/dp_display.c:1110)
+> >   kthread (kernel/kthread.c:388)
+> >   ret_from_fork (arch/arm64/kernel/entry.S:858)
+> >
+> > Fixes: bfcc3d8f94f4 ("drm/msm/dp: support setting the DP subconnector type")
+> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > ---
+>
+> Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 
---MS8zv6ItXa/c4PSq
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Just to note, I'm going to send v2 in the next few days, fixing this
+code to also work in eDP.
 
-Yo,
+>
+> One question, while reviewing the code, I see you have two calls to
+> drm_dp_set_subconnector_property() for the connect and disconnect case.
+>
+> Why cant we have just one call in dp_display_send_hpd_notification() for
+> both cases?
 
-On Fri, Oct 20, 2023 at 03:54:33PM +0200, Flavio Suligoi wrote:
-> The two properties:
->=20
-> - max-brightness
-> - default brightness
->=20
-> are not really required, so they can be removed from the "required"
-> section.
+Hmm, I'll have to check.
 
-Why are they not required? You need to provide an explanation.
+>
+>
+> >   drivers/gpu/drm/msm/dp/dp_drm.c | 3 +++
+> >   1 file changed, 3 insertions(+)
+> >
+> > diff --git a/drivers/gpu/drm/msm/dp/dp_drm.c b/drivers/gpu/drm/msm/dp/dp_drm.c
+> > index 40e7344180e3..e3bdd7dd4cdc 100644
+> > --- a/drivers/gpu/drm/msm/dp/dp_drm.c
+> > +++ b/drivers/gpu/drm/msm/dp/dp_drm.c
+> > @@ -345,6 +345,9 @@ struct drm_connector *dp_drm_connector_init(struct msm_dp *dp_display, struct dr
+> >       if (IS_ERR(connector))
+> >               return connector;
+> >
+> > +     if (!dp_display->is_edp)
+> > +             drm_connector_attach_dp_subconnector_property(connector);
+> > +
+> >       drm_connector_attach_encoder(connector, encoder);
+> >
+> >       return connector;
 
-> Other changes:
->=20
-> - improve the backlight working mode description, in the "description"
->   section
 
-> - update the example, removing the "max-brightness" and introducing the
->   "brightess-levels" property
 
-Why is this more useful?
-
-Cheers,
-Conor.
-
->=20
-> Signed-off-by: Flavio Suligoi <f.suligoi@asem.it>
-> ---
->  .../bindings/leds/backlight/mps,mp3309c.yaml           | 10 ++++------
->  1 file changed, 4 insertions(+), 6 deletions(-)
->=20
-> diff --git a/Documentation/devicetree/bindings/leds/backlight/mps,mp3309c=
-=2Eyaml b/Documentation/devicetree/bindings/leds/backlight/mps,mp3309c.yaml
-> index 4191e33626f5..527a37368ed7 100644
-> --- a/Documentation/devicetree/bindings/leds/backlight/mps,mp3309c.yaml
-> +++ b/Documentation/devicetree/bindings/leds/backlight/mps,mp3309c.yaml
-> @@ -14,8 +14,8 @@ description: |
->    programmable switching frequency to optimize efficiency.
->    It supports two different dimming modes:
-> =20
-> -  - analog mode, via I2C commands (default)
-> -  - PWM controlled mode.
-> +  - analog mode, via I2C commands, as default mode (32 dimming levels)
-> +  - PWM controlled mode (optional)
-> =20
->    The datasheet is available at:
->    https://www.monolithicpower.com/en/mp3309c.html
-> @@ -50,8 +50,6 @@ properties:
->  required:
->    - compatible
->    - reg
-> -  - max-brightness
-> -  - default-brightness
-> =20
->  unevaluatedProperties: false
-> =20
-> @@ -66,8 +64,8 @@ examples:
->              compatible =3D "mps,mp3309c";
->              reg =3D <0x17>;
->              pwms =3D <&pwm1 0 3333333 0>; /* 300 Hz --> (1/f) * 1*10^9 */
-> -            max-brightness =3D <100>;
-> -            default-brightness =3D <80>;
-> +            brightness-levels =3D <0 4 8 16 32 64 128 255>;
-> +            default-brightness =3D <6>;
->              mps,overvoltage-protection-microvolt =3D <24000000>;
->          };
->      };
-> --=20
-> 2.34.1
->=20
-
---MS8zv6ItXa/c4PSq
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZTKj2wAKCRB4tDGHoIJi
-0h3oAQDiYRQgj//gRS3WJkhCjXAo1MV7AiztEk/V8hUK9kBEWQEAi0UKA0/tVacJ
-Rnh8+uI+acOi2u2QOnHfJRUBVK5PiQk=
-=7rd9
------END PGP SIGNATURE-----
-
---MS8zv6ItXa/c4PSq--
+-- 
+With best wishes
+Dmitry
