@@ -2,83 +2,106 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DEBA7D1BED
-	for <lists+dri-devel@lfdr.de>; Sat, 21 Oct 2023 11:08:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 116EF7D1C8B
+	for <lists+dri-devel@lfdr.de>; Sat, 21 Oct 2023 12:26:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7454D10E113;
-	Sat, 21 Oct 2023 09:08:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A59710E116;
+	Sat, 21 Oct 2023 10:26:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B4CEC10E113
- for <dri-devel@lists.freedesktop.org>; Sat, 21 Oct 2023 09:08:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1697879307;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Duv/vRzaqiVheQFpKN6BpeiI42/H7vnpG0VOqBtei/A=;
- b=IkQ68IauB3aI2rTrH0F3TqDpwaBuX3Tr//V8G087haTLkWxe1F/lBYNzhNrclH2vst8GQu
- ROCFxxVA4NG8DMPIBNEmmLPmqovnuAheJql9tL0EcFG/fzRYokMNmOM3XPC1nTR9d5qQfn
- /LCQLLAKDkFA2ibJylVad0oCBfBklEs=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-563-hRZNSlnaP4WMrOLmBJaCSA-1; Sat, 21 Oct 2023 05:08:26 -0400
-X-MC-Unique: hRZNSlnaP4WMrOLmBJaCSA-1
-Received: by mail-ej1-f72.google.com with SMTP id
- a640c23a62f3a-9ba247e03aeso102347366b.1
- for <dri-devel@lists.freedesktop.org>; Sat, 21 Oct 2023 02:08:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1697879305; x=1698484105;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Duv/vRzaqiVheQFpKN6BpeiI42/H7vnpG0VOqBtei/A=;
- b=kwVfaI6Nt38/Ob0pm163TrAK3t6j8w9A51vFrAAISGT8EMb3oaHfNjcJTEULuwBXxO
- gfNjh+Z7zeSIZqMyCxKSlFq3UB5yD4J2qaauxUsZafwgFuI6gzRLLpJL9pRamRImnsul
- vQcTCem0QEwzjl+wmJswdIkrSUsIfirOU2+7zsYihUqmaMrX+3/Y/UPyI5xJgYMJ4vsH
- 0v9pT9gSGo5bPUDmCK57U6paX75a077vRl9BBO4dqmDqfiGZiAFkUDDpggJ+o+fvp31P
- Ai40Ro+X8K5Y41EAk7VeAOuZDWOC4WxrphFO1pfXJa+7zk6PqRq+SrErBBEZZzlWD29B
- mjjw==
-X-Gm-Message-State: AOJu0Yzvw0lNLM1OCwnM0UbvluQuMS4KC2a5Mdoo2RsPrJ01txfp7guz
- af4CPkg0vWICz6VHHfSPLFzSqZiijRZT0fh9BCP6qIDT6682NuiXaximsX6HRu17U4++55Wm4+D
- pI2SJVygY1lM1WcadOr4YgJ3FRtrz
-X-Received: by 2002:a17:907:2cc4:b0:9c3:d356:ad0c with SMTP id
- hg4-20020a1709072cc400b009c3d356ad0cmr3284628ejc.24.1697879305117; 
- Sat, 21 Oct 2023 02:08:25 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFNqtW+MndTr+TWmmj2VbzRQsCnDbztAGvz9JDMu9I4Oq15U8bQsUZjmiRgthR6bMx8lB0Nzg==
-X-Received: by 2002:a17:907:2cc4:b0:9c3:d356:ad0c with SMTP id
- hg4-20020a1709072cc400b009c3d356ad0cmr3284603ejc.24.1697879304753; 
- Sat, 21 Oct 2023 02:08:24 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec?
- (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl.
- [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
- by smtp.gmail.com with ESMTPSA id
- k9-20020a1709061c0900b0099ce025f8ccsm3201413ejg.186.2023.10.21.02.08.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 21 Oct 2023 02:08:23 -0700 (PDT)
-Message-ID: <01a505ac-320f-3819-a58d-2b82c1bf2a86@redhat.com>
-Date: Sat, 21 Oct 2023 11:08:22 +0200
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D409410E116
+ for <dri-devel@lists.freedesktop.org>; Sat, 21 Oct 2023 10:25:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
+ t=1697883958; x=1698488758; i=deller@gmx.de;
+ bh=dhDbWXH7BPN56bfie9iMzrJjndwh/b13GtRjH27O56o=;
+ h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
+ In-Reply-To;
+ b=UMvcnhpb3nkvQlWjHexCsNfi/6Ak4Wk0rH6QpF9Fujj0kN8t0cDlJulI+KMOaQoX
+ 23zqN/JTV3vGmLAcjNJ9fghJ2j5KY5A2jsp1bap/2nVA7yKI6pIqGjkuFFuKvpOq7
+ UbwDJfQxoCuaoiYUv1gonaF4+kxCH7wjC8IBzAGNb8kzWyAVZ8hq10LMcmuRIypwv
+ ddtH94HC1qUWOcMTmoR4wxwG77iskLDVBi0AXNvU8NQ4hzCms0Ez5r2k9XcOAGHLZ
+ freHF27L2LqvAN9KFtQYLARvbgLjNiMgQKebYdSYBnUVIkVzJ6pcTBqcHPRulqsI9
+ /VTcT8dUxNI4EWU4xg==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.20.60] ([94.134.159.149]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MDhlf-1qlaF21o1f-00Apoa; Sat, 21
+ Oct 2023 12:20:43 +0200
+Message-ID: <46792c4f-5c72-4675-992d-e62ef5d1cc1f@gmx.de>
+Date: Sat, 21 Oct 2023 12:20:42 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v3 1/3] pwm: make it possible to apply pwm changes in
- atomic context
-To: =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>
-References: <cover.1697534024.git.sean@mess.org>
- <a7fcd19938d5422abc59c968ff7b3d5c275577ed.1697534024.git.sean@mess.org>
- <90728c06-4c6c-b3d2-4723-c24711be2fa5@redhat.com>
- <20231019105118.64gdzzixwqrztjir@pengutronix.de>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20231019105118.64gdzzixwqrztjir@pengutronix.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, nl
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] fbdev/offb: Simplify offb_init_fb()
+Content-Language: en-US
+To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+References: <1c94c99117617c1a844f6551b7bca27f23c5f0c8.1697871190.git.christophe.jaillet@wanadoo.fr>
+From: Helge Deller <deller@gmx.de>
+Autocrypt: addr=deller@gmx.de; keydata=
+ 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
+In-Reply-To: <1c94c99117617c1a844f6551b7bca27f23c5f0c8.1697871190.git.christophe.jaillet@wanadoo.fr>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:Z0RvpZoLIi5f72gOTfbcWj7KFnUCjNmRp1IzPMFdI5aQFRxKDDS
+ Q8RL44q/pTzRNHx66vzmtyADeX/P0Onzi+2YOWFNzvpymgV1L1aZX5neDbGfDUL/ErP4QTh
+ /eLDKJq//xCDULSBQoqpgYa481tJPmfVVrdbPeJDD32zluTZoq021xH9dJVe4OT2/LLzT2j
+ S7dbZxiRaceWXYxiNysEQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:uRccpltW1zk=;3Dnd/nIhYtlZkLTNqpAwQWMGEWg
+ 2jxwHYLBJ/JOwdUPxJRLDjPLU0kXS2tFhmqiR6MjZlls9DyvXDQV791jzRc+Mq/TAl50IjPln
+ tMjThLrM2MhXucFvSkiDaL+3Un+mcIL9++1Wc6HhyK9PNgFPL+CfrvO5DTkmu4VGJbzrGXS5Y
+ bB8hE2D7On5eaBExQA+yyw1L6XsEsX9L/Ua5t0PQgOLN3XggdNxZtfsjoROozn5E9Vp4T/1jA
+ +zZSd04te0wAtb0iqE5rxz4gqUPraN8YZNKzA/i37XCdQ0Ts3/vytEVwMm0vE9Gw+Kv7P+PbH
+ 5lPUaqRtXePWjeGceLSArVhwVCTYY5OrSLxL2fNR1h9/iQixQeStKiWoHD0AAHln0pELPFOy9
+ 7AbaQ4DKfEUev8/Tol5VspxAjoUWZ1FLL4LvQZBO9ynbI/X3cNSK0pCkYgmT7UEzExnSD0BLY
+ KsqoBKMkklM7T8beJMIbIiFH2gsa6Y25RKTmm6mhQb2pCCqcqRHCjsGRtyOkHRr4DBKJTIXxC
+ VVorntWEgn5nff5QMkB5SwkortDESw5VyMjo8G7q72SYtm5ubPeqQ3S0GvkYJai8A9yt6smZC
+ aevJTLhoqVYZ81vnV4E8KpM+OKz5VbbA0tUbIxdm1ZrZgJI/H4tJ7S46GjNbNWHVnHtOQ+MuG
+ goO7Xvs2UdJ89ZoNJHtW/qR7yUSyX7FrhAcrJJHs6xpeN3O971t8SPJgAYeIKyyM7dYJ/Wyne
+ 9MLeS0Epx0cCNB26LqiAq3i6rY3SbSt7KaEkeDkRq9rRHZztYB3LbkxrfLPH9+61Aa0vP5DUV
+ 3RGay8gjHZaEKLXPJpRW6Vpvjba4c47dqQqypzuaMsljeF6Ygqqlbm4eFlUYS9iYlI3vkol59
+ +7wv7tPvlN3bP4+FHLfTN6fUHOxIwPEhCe7WTAh7hTHZlkbyq83EomgO5apcIcGWtXBVrRFFU
+ tFzFmOxhYhu18+WndfnRATTMbwg=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,102 +114,17 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Sean Young <sean@mess.org>,
- linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>,
- Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org,
- Daniel Thompson <daniel.thompson@linaro.org>,
- Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>, Helge Deller <deller@gmx.de>,
- Lee Jones <lee@kernel.org>, Javier Martinez Canillas <javierm@redhat.com>,
- linux-input@vger.kernel.org,
- =?UTF-8?Q?Ilpo_J=c3=a4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- Guenter Roeck <linux@roeck-us.net>, linux-media@vger.kernel.org,
- platform-driver-x86@vger.kernel.org, linux-pwm@vger.kernel.org,
- Jean Delvare <jdelvare@suse.com>, intel-gfx@lists.freedesktop.org,
- Mark Gross <markgross@kernel.org>, Mark Brown <broonie@kernel.org>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- linux-arm-kernel@lists.infradead.org, linux-hwmon@vger.kernel.org,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Support Opensource <support.opensource@diasemi.com>,
- Jingoo Han <jingoohan1@gmail.com>, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Liam Girdwood <lgirdwood@gmail.com>
+Cc: linux-fbdev@vger.kernel.org, kernel-janitors@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Uwe,
+On 10/21/23 08:53, Christophe JAILLET wrote:
+> Turn a strcpy()+strncat()+'\0' into an equivalent snprintf().
+>
+> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 
-On 10/19/23 12:51, Uwe Kleine-König wrote:
-> On Wed, Oct 18, 2023 at 03:57:48PM +0200, Hans de Goede wrote:
->> Hi Sean,
->>
->> On 10/17/23 11:17, Sean Young wrote:
->>> Some drivers require sleeping, for example if the pwm device is connected
->>> over i2c. The pwm-ir-tx requires precise timing, and sleeping causes havoc
->>> with the generated IR signal when sleeping occurs.
->>>
->>> This patch makes it possible to use pwm when the driver does not sleep,
->>> by introducing the pwm_can_sleep() function.
->>>
->>> Signed-off-by: Sean Young <sean@mess.org>
->>
->> I have no objection to this patch by itself, but it seems a bit
->> of unnecessary churn to change all current callers of pwm_apply_state()
->> to a new API.
-> 
-> The idea is to improve the semantic of the function name, see
-> https://lore.kernel.org/linux-pwm/20231013180449.mcdmklbsz2rlymzz@pengutronix.de
-> for more context.
-
-Hmm, so the argument here is that the GPIO API has this, but GPIOs
-generally speaking can be set atomically, so there not being able
-to set it atomically is special.
-
-OTOH we have many many many other kernel functions which may sleep
-and we don't all postfix them with _can_sleep.
-
-And for PWM controllers pwm_apply_state is IMHO sorta expected to
-sleep. Many of these are attached over I2C so things will sleep,
-others have a handshake to wait for the current dutycycle to
-end before you can apply a second change on top of an earlier
-change during the current dutycycle which often also involves
-sleeping.
-
-So the natural/expeected thing for pwm_apply_state() is to sleep
-and thus it does not need a postfix for this IMHO.
-
-> I think it's very subjective if you consider this
-> churn or not.
-
-I consider it churn because I don't think adding a postfix
-for what is the default/expected behavior is a good idea
-(with GPIOs not sleeping is the expected behavior).
-
-I agree that this is very subjective and very much goes
-into the territory of bikeshedding. So please consider
-the above my 2 cents on this and lets leave it at that.
-
-> While it's nice to have every caller converted in a single
-> step, I'd go for
-> 
-> 	#define pwm_apply_state(pwm, state) pwm_apply_cansleep(pwm, state)
-> 
-> , keep that macro for a while and convert all users step by step. This
-> way we don't needlessly break oot code and the changes to convert to the
-> new API can go via their usual trees without time pressure.
-
-I don't think there are enough users of pwm_apply_state() to warrant
-such an exercise.
-
-So if people want to move ahead with the _can_sleep postfix addition
-(still not a fan) here is my acked-by for the drivers/platform/x86
-changes, for merging this through the PWM tree in a single commit:
-
-Acked-by: Hans de Goede <hdegoede@redhat.com>
-
-Regards,
-
-Hans
-
+applied.
+Thanks!
+Helge
 
