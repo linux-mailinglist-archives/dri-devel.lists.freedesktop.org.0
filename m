@@ -1,74 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D03F97D1956
-	for <lists+dri-devel@lfdr.de>; Sat, 21 Oct 2023 00:54:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B32FD7D1A39
+	for <lists+dri-devel@lfdr.de>; Sat, 21 Oct 2023 03:07:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7816310E609;
-	Fri, 20 Oct 2023 22:54:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A6EB510E10C;
+	Sat, 21 Oct 2023 01:07:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D371010E609
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Oct 2023 22:54:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1697842442;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=qFRLhmS2CQCqNG3Gndm1rIdWDDyvH+OTofhMbIHOAf0=;
- b=H2KHvoOv4dz2kSS5dd5hOPGIifuDDrXZAHEUzbYLdJkFxEABPCNriFGNKx4UdCO34WeevQ
- Am2o1jb8nqGgFBIsKWt/SpIaRp10cbmKEK/vulK4bxwH1lo4CYjCR9BZIJFRYgjOaIW9O9
- fYStawIl/E46VkLxelc5aKREq7Ro3+A=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-249-fAEBrhqNOKmNPmNnbcLMvA-1; Fri, 20 Oct 2023 18:54:01 -0400
-X-MC-Unique: fAEBrhqNOKmNPmNnbcLMvA-1
-Received: by mail-wr1-f71.google.com with SMTP id
- ffacd0b85a97d-32db43129c6so647494f8f.1
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Oct 2023 15:54:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1697842440; x=1698447240;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=qFRLhmS2CQCqNG3Gndm1rIdWDDyvH+OTofhMbIHOAf0=;
- b=Xvg80UsV5RKF6EcpOSVAiyeBoankE6h4CarDfQXLCh7sn3gwytGx9wrepvnP44WSZl
- AoSTYuAr6gdFpjk8h2QDV/ZUS2qcr0Dtye7e/SO8t0aZj52vyinmVvNiRdMAVQljO4cc
- 8f0GmJkgjwJDWtysyQoOWBb5tGZ0DS0lBvPaNFoo37ea+QOXlpZnyax2SrL2hiEp7WF0
- S9NyOpUTpP6k21BDFC3gl3a0WcfBo40CZePPDUBgDLD9i7r/OdUFWeEv+wj9Ds3gWAzn
- FkCx38PVxuNWabhVM7fJviLaj4cqlIzQ1ZXSMW+/2rJDRhU0r237kgFvHRI4sPoOfbu7
- 1vwA==
-X-Gm-Message-State: AOJu0YyfoGQetC4qMpEBKm35DMAZsPETVJ6LXiaheP+pj9WEMYxpW8oH
- yy8VymQY6tSvihwqzcQBLP6Iy2r7m/ctjp3W/8f+BlzuvNKt7XlU1pou0pcwS60WPfVvHnguPnh
- DvW/7bzStGvzsuEL9KEZdgYcWZHbl
-X-Received: by 2002:a5d:58ea:0:b0:32d:819d:ec75 with SMTP id
- f10-20020a5d58ea000000b0032d819dec75mr2386181wrd.60.1697842440519; 
- Fri, 20 Oct 2023 15:54:00 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEokgbV7EOSbvHnFRW97a9AjS0odPg33+dhDQZB4Y/IUzZKrmGCj6yiNFw5I1rWq8uRWtpElQ==
-X-Received: by 2002:a5d:58ea:0:b0:32d:819d:ec75 with SMTP id
- f10-20020a5d58ea000000b0032d819dec75mr2386176wrd.60.1697842440162; 
- Fri, 20 Oct 2023 15:54:00 -0700 (PDT)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- b16-20020a5d5510000000b0032d2489a399sm2530010wrv.49.2023.10.20.15.53.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 Oct 2023 15:53:59 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/ssd130x: Fix possible uninitialized usage of crtc_state
- variable
-Date: Sat, 21 Oct 2023 00:52:57 +0200
-Message-ID: <20231020225338.1686974-1-javierm@redhat.com>
-X-Mailer: git-send-email 2.41.0
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C91D310E10B;
+ Sat, 21 Oct 2023 01:07:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1697850469; x=1729386469;
+ h=message-id:date:mime-version:subject:to:references:from:
+ in-reply-to:content-transfer-encoding;
+ bh=UICMo+gydCFgwkMim6gIolpOrux/71Uw/WIwwursSlE=;
+ b=hAcLiM9fIdcR2Rt2ml9K2nV1CLI5HT8+78ppaABd7G/mCPzhjDhJLpuJ
+ v8QsRw4hqT9dbqutrdRgark7h/7CAu2ojElHYAtqU1LtbeVuWO5wyiBYL
+ 7j+Rq23AqErfWeD08NC7UtONFm+0KiRORn3JAXl6sTLAFwn+l4WzJvu4g
+ 30UvwLZB5zLmhOLVjzhxP+DdQDsjkRQg4UHhafe1LtmamB6VmOblJuIaD
+ /j+d7kuT7HjqWOia/HkYSRpADoA97rxNy7eiwuwDntvnVlkpoCdPT6l2R
+ WfDn05dTODpTZPZpxkhK1bqIrWIdbK2MR/7l/ENpm00/HmjRe2J7uzf7R A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10869"; a="453078058"
+X-IronPort-AV: E=Sophos;i="6.03,239,1694761200"; d="scan'208";a="453078058"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Oct 2023 18:07:48 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10869"; a="734124604"
+X-IronPort-AV: E=Sophos;i="6.03,239,1694761200"; d="scan'208";a="734124604"
+Received: from aravind-dev.iind.intel.com (HELO [10.145.162.146])
+ ([10.145.162.146])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Oct 2023 18:07:44 -0700
+Message-ID: <098beb0c-7aab-d663-9eaf-1d980b3ba9f8@linux.intel.com>
+Date: Sat, 21 Oct 2023 06:40:36 +0530
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [RFC v4 1/5] drm/netlink: Add netlink infrastructure
+Content-Language: en-US
+To: "Ruhl, Michael J" <michael.j.ruhl@intel.com>,
+ "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "alexander.deucher@amd.com" <alexander.deucher@amd.com>,
+ "airlied@gmail.com" <airlied@gmail.com>, "daniel@ffwll.ch"
+ <daniel@ffwll.ch>,
+ "joonas.lahtinen@linux.intel.com" <joonas.lahtinen@linux.intel.com>,
+ "ogabbay@kernel.org" <ogabbay@kernel.org>,
+ "Tayar, Tomer (Habana)" <ttayar@habana.ai>,
+ "Hawking.Zhang@amd.com" <Hawking.Zhang@amd.com>,
+ "Harish.Kasiviswanathan@amd.com" <Harish.Kasiviswanathan@amd.com>,
+ "Felix.Kuehling@amd.com" <Felix.Kuehling@amd.com>,
+ "Luben.Tuikov@amd.com" <Luben.Tuikov@amd.com>
+References: <20231020155835.1295524-1-aravind.iddamsetty@linux.intel.com>
+ <20231020155835.1295524-2-aravind.iddamsetty@linux.intel.com>
+ <IA1PR11MB64182A7EF12381F4DD25BF94C1DBA@IA1PR11MB6418.namprd11.prod.outlook.com>
+From: Aravind Iddamsetty <aravind.iddamsetty@linux.intel.com>
+In-Reply-To: <IA1PR11MB64182A7EF12381F4DD25BF94C1DBA@IA1PR11MB6418.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,41 +75,484 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
- Dan Carpenter <dan.carpenter@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Avoid a possible uninitialized use of the crtc_state variable in function
-ssd132x_primary_plane_atomic_check() and avoid the following Smatch warn:
 
-    drivers/gpu/drm/solomon/ssd130x.c:921 ssd132x_primary_plane_atomic_check()
-    error: uninitialized symbol 'crtc_state'.
+On 21/10/23 02:06, Ruhl, Michael J wrote:
+>> -----Original Message-----
+>> From: Aravind Iddamsetty <aravind.iddamsetty@linux.intel.com>
+>> Sent: Friday, October 20, 2023 11:59 AM
+>> To: intel-xe@lists.freedesktop.org; dri-devel@lists.freedesktop.org;
+>> alexander.deucher@amd.com; airlied@gmail.com; daniel@ffwll.ch;
+>> joonas.lahtinen@linux.intel.com; ogabbay@kernel.org; Tayar, Tomer (Habana)
+>> <ttayar@habana.ai>; Hawking.Zhang@amd.com;
+>> Harish.Kasiviswanathan@amd.com; Felix.Kuehling@amd.com;
+>> Luben.Tuikov@amd.com; Ruhl, Michael J <michael.j.ruhl@intel.com>
+>> Subject: [RFC v4 1/5] drm/netlink: Add netlink infrastructure
+>>
+>> Define the netlink registration interface and commands, attributes that
+>> can be commonly used across by drm drivers. This patch intends to use
+>> the generic netlink family to expose various stats of device. At present
+>> it defines some commands that shall be used to expose RAS error counters.
+>>
+>> v2:
+>> define common interfaces to genl netlink subsystem that all drm drivers
+>> can leverage.(Tomer Tayar)
+>>
+>> v3: drop DRIVER_NETLINK flag and use the driver_genl_ops structure to
+>> register to netlink subsystem (Daniel Vetter)
+>>
+>> v4:(Michael J. Ruhl)
+>> 1. rename drm_genl_send to drm_genl_reply
+>> 2. catch error from xa_store and handle appropriately
+> Hi Aravind,
+>
+> This looks reasonable to me.
+>
+> Reviewed-by: Michael J. Ruhl <michael.j.ruhl@intel.com>
 
-Fixes: fdd591e00a9c ("drm/ssd130x: Add support for the SSD132x OLED controller family")
-Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-Closes: https://lore.kernel.org/dri-devel/7dd6ca45-8263-44fe-a318-2fd9d761425d@moroto.mountain/
-Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
----
+Hi Mike,
 
- drivers/gpu/drm/solomon/ssd130x.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thanks a lot for your reviews and r-b.
 
-diff --git a/drivers/gpu/drm/solomon/ssd130x.c b/drivers/gpu/drm/solomon/ssd130x.c
-index 32f0857aec9f..e0174f82e353 100644
---- a/drivers/gpu/drm/solomon/ssd130x.c
-+++ b/drivers/gpu/drm/solomon/ssd130x.c
-@@ -910,7 +910,7 @@ static int ssd132x_primary_plane_atomic_check(struct drm_plane *plane,
- 	struct drm_plane_state *plane_state = drm_atomic_get_new_plane_state(state, plane);
- 	struct ssd130x_plane_state *ssd130x_state = to_ssd130x_plane_state(plane_state);
- 	struct drm_crtc *crtc = plane_state->crtc;
--	struct drm_crtc_state *crtc_state;
-+	struct drm_crtc_state *crtc_state = NULL;
- 	const struct drm_format_info *fi;
- 	unsigned int pitch;
- 	int ret;
--- 
-2.41.0
-
+Regards,
+Aravind.
+>
+> M
+>
+>> Cc: Tomer Tayar <ttayar@habana.ai>
+>> Cc: Daniel Vetter <daniel@ffwll.ch>
+>> Cc: Michael J. Ruhl <michael.j.ruhl@intel.com>
+>>
+>> Signed-off-by: Aravind Iddamsetty <aravind.iddamsetty@linux.intel.com>
+>> ---
+>> drivers/gpu/drm/Makefile       |   1 +
+>> drivers/gpu/drm/drm_drv.c      |   7 ++
+>> drivers/gpu/drm/drm_netlink.c  | 188
+>> +++++++++++++++++++++++++++++++++
+>> include/drm/drm_device.h       |   8 ++
+>> include/drm/drm_drv.h          |   7 ++
+>> include/drm/drm_netlink.h      |  30 ++++++
+>> include/uapi/drm/drm_netlink.h |  83 +++++++++++++++
+>> 7 files changed, 324 insertions(+)
+>> create mode 100644 drivers/gpu/drm/drm_netlink.c
+>> create mode 100644 include/drm/drm_netlink.h
+>> create mode 100644 include/uapi/drm/drm_netlink.h
+>>
+>> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+>> index ee64c51274ad..60864369adaa 100644
+>> --- a/drivers/gpu/drm/Makefile
+>> +++ b/drivers/gpu/drm/Makefile
+>> @@ -35,6 +35,7 @@ drm-y := \
+>> 	drm_mode_object.o \
+>> 	drm_modes.o \
+>> 	drm_modeset_lock.o \
+>> +	drm_netlink.o \
+>> 	drm_plane.o \
+>> 	drm_prime.o \
+>> 	drm_print.o \
+>> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+>> index 535f16e7882e..31f55c1c7524 100644
+>> --- a/drivers/gpu/drm/drm_drv.c
+>> +++ b/drivers/gpu/drm/drm_drv.c
+>> @@ -937,6 +937,12 @@ int drm_dev_register(struct drm_device *dev,
+>> unsigned long flags)
+>> 	if (ret)
+>> 		goto err_minors;
+>>
+>> +	if (driver->genl_ops) {
+>> +		ret = drm_genl_register(dev);
+>> +		if (ret)
+>> +			goto err_minors;
+>> +	}
+>> +
+>> 	ret = create_compat_control_link(dev);
+>> 	if (ret)
+>> 		goto err_minors;
+>> @@ -1074,6 +1080,7 @@ static void drm_core_exit(void)
+>> {
+>> 	drm_privacy_screen_lookup_exit();
+>> 	accel_core_exit();
+>> +	drm_genl_exit();
+>> 	unregister_chrdev(DRM_MAJOR, "drm");
+>> 	debugfs_remove(drm_debugfs_root);
+>> 	drm_sysfs_destroy();
+>> diff --git a/drivers/gpu/drm/drm_netlink.c b/drivers/gpu/drm/drm_netlink.c
+>> new file mode 100644
+>> index 000000000000..8add249c1da3
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/drm_netlink.c
+>> @@ -0,0 +1,188 @@
+>> +// SPDX-License-Identifier: MIT
+>> +/*
+>> + * Copyright © 2023 Intel Corporation
+>> + */
+>> +
+>> +#include <drm/drm_device.h>
+>> +#include <drm/drm_drv.h>
+>> +#include <drm/drm_file.h>
+>> +#include <drm/drm_managed.h>
+>> +#include <drm/drm_netlink.h>
+>> +#include <drm/drm_print.h>
+>> +
+>> +DEFINE_XARRAY(drm_dev_xarray);
+>> +
+>> +/**
+>> + * drm_genl_reply - response to a request
+>> + * @msg: socket buffer
+>> + * @info: receiver information
+>> + * @usrhdr: pointer to user specific header in the message buffer
+>> + *
+>> + * RETURNS:
+>> + * 0 on success and negative error code on failure
+>> + */
+>> +int drm_genl_reply(struct sk_buff *msg, struct genl_info *info, void *usrhdr)
+>> +{
+>> +	int ret;
+>> +
+>> +	genlmsg_end(msg, usrhdr);
+>> +
+>> +	ret = genlmsg_reply(msg, info);
+>> +	if (ret)
+>> +		nlmsg_free(msg);
+>> +
+>> +	return ret;
+>> +}
+>> +EXPORT_SYMBOL(drm_genl_reply);
+>> +
+>> +/**
+>> + * drm_genl_alloc_msg - allocate genl message buffer
+>> + * @dev: drm_device for which the message is being allocated
+>> + * @info: receiver information
+>> + * @usrhdr: pointer to user specific header in the message buffer
+>> + *
+>> + * RETURNS:
+>> + * pointer to new allocated buffer on success, NULL on failure
+>> + */
+>> +struct sk_buff *
+>> +drm_genl_alloc_msg(struct drm_device *dev,
+>> +		   struct genl_info *info,
+>> +		   size_t msg_size, void **usrhdr)
+>> +{
+>> +	struct sk_buff *new_msg;
+>> +	new_msg = genlmsg_new(msg_size, GFP_KERNEL);
+>> +	if (!new_msg)
+>> +		return new_msg;
+>> +
+>> +	*usrhdr = genlmsg_put_reply(new_msg, info, &dev->drm_genl_family, 0, info->genlhdr->cmd);
+>> +	if (!*usrhdr) {
+>> +		nlmsg_free(new_msg);
+>> +		new_msg = NULL;
+>> +	}
+>> +
+>> +	return new_msg;
+>> +}
+>> +EXPORT_SYMBOL(drm_genl_alloc_msg);
+>> +
+>> +static struct drm_device *genl_to_dev(struct genl_info *info)
+>> +{
+>> +	return xa_load(&drm_dev_xarray, info->nlhdr->nlmsg_type);
+>> +}
+>> +
+>> +static int drm_genl_list_errors(struct sk_buff *msg, struct genl_info *info)
+>> +{
+>> +	struct drm_device *dev = genl_to_dev(info);
+>> +
+>> +	if (GENL_REQ_ATTR_CHECK(info, DRM_RAS_ATTR_REQUEST))
+>> +		return -EINVAL;
+>> +
+>> +	if (WARN_ON(!dev->driver->genl_ops[info->genlhdr->cmd].doit))
+>> +		return -EOPNOTSUPP;
+>> +
+>> +	return dev->driver->genl_ops[info->genlhdr->cmd].doit(dev, msg,
+>> info);
+>> +}
+>> +
+>> +static int drm_genl_read_error(struct sk_buff *msg, struct genl_info *info)
+>> +{
+>> +	struct drm_device *dev = genl_to_dev(info);
+>> +
+>> +	if (GENL_REQ_ATTR_CHECK(info, DRM_RAS_ATTR_ERROR_ID))
+>> +		return -EINVAL;
+>> +
+>> +	if (WARN_ON(!dev->driver->genl_ops[info->genlhdr->cmd].doit))
+>> +		return -EOPNOTSUPP;
+>> +
+>> +	return dev->driver->genl_ops[info->genlhdr->cmd].doit(dev, msg,
+>> info);
+>> +}
+>> +
+>> +/* attribute policies */
+>> +static const struct nla_policy drm_attr_policy_query[DRM_ATTR_MAX + 1] = {
+>> +	[DRM_RAS_ATTR_REQUEST] = { .type = NLA_U8 },
+>> +};
+>> +
+>> +static const struct nla_policy drm_attr_policy_read_one[DRM_ATTR_MAX + 1]
+>> = {
+>> +	[DRM_RAS_ATTR_ERROR_ID] = { .type = NLA_U64 },
+>> +};
+>> +
+>> +/* drm genl operations definition */
+>> +const struct genl_ops drm_genl_ops[] = {
+>> +	{
+>> +		.cmd = DRM_RAS_CMD_QUERY,
+>> +		.doit = drm_genl_list_errors,
+>> +		.policy = drm_attr_policy_query,
+>> +	},
+>> +	{
+>> +		.cmd = DRM_RAS_CMD_READ_ONE,
+>> +		.doit = drm_genl_read_error,
+>> +		.policy = drm_attr_policy_read_one,
+>> +	},
+>> +	{
+>> +		.cmd = DRM_RAS_CMD_READ_ALL,
+>> +		.doit = drm_genl_list_errors,
+>> +		.policy = drm_attr_policy_query,
+>> +	},
+>> +};
+>> +
+>> +static void drm_genl_family_init(struct drm_device *dev)
+>> +{
+>> +	/* Use drm primary node name eg: card0 to name the genl family */
+>> +	snprintf(dev->drm_genl_family.name, sizeof(dev->drm_genl_family.name), "%s", dev->primary->kdev->kobj.name);
+>> +	dev->drm_genl_family.version = DRM_GENL_VERSION;
+>> +	dev->drm_genl_family.parallel_ops = true;
+>> +	dev->drm_genl_family.ops = drm_genl_ops;
+>> +	dev->drm_genl_family.n_ops = ARRAY_SIZE(drm_genl_ops);
+>> +	dev->drm_genl_family.maxattr = DRM_ATTR_MAX;
+>> +	dev->drm_genl_family.module = dev->dev->driver->owner;
+>> +}
+>> +
+>> +static void drm_genl_deregister(struct drm_device *dev,  void *arg)
+>> +{
+>> +	drm_dbg_driver(dev, "unregistering genl family %s\n", dev->drm_genl_family.name);
+>> +
+>> +	xa_erase(&drm_dev_xarray, dev->drm_genl_family.id);
+>> +
+>> +	genl_unregister_family(&dev->drm_genl_family);
+>> +}
+>> +
+>> +/**
+>> + * drm_genl_register - Register genl family
+>> + * @dev: drm_device for which genl family needs to be registered
+>> + *
+>> + * RETURNS:
+>> + * 0 on success and negative error code on failure
+>> + */
+>> +int drm_genl_register(struct drm_device *dev)
+>> +{
+>> +	int ret;
+>> +
+>> +	drm_genl_family_init(dev);
+>> +
+>> +	ret = genl_register_family(&dev->drm_genl_family);
+>> +	if (ret < 0) {
+>> +		drm_warn(dev, "genl family registration failed\n");
+>> +		return ret;
+>> +	}
+>> +
+>> +	drm_dbg_driver(dev, "genl family id %d and name %s\n", dev->drm_genl_family.id, dev->drm_genl_family.name);
+>> +
+>> +	ret = xa_err(xa_store(&drm_dev_xarray, dev->drm_genl_family.id, dev, GFP_KERNEL));
+>> +	if (ret)
+>> +		goto genl_unregister;
+>> +
+>> +	ret = drmm_add_action_or_reset(dev, drm_genl_deregister, NULL);
+>> +
+>> +	return ret;
+>> +
+>> +genl_unregister:
+>> +	genl_unregister_family(&dev->drm_genl_family);
+>> +	return ret;
+>> +}
+>> +
+>> +/**
+>> + * drm_genl_exit: destroy drm_dev_xarray
+>> + */
+>> +void drm_genl_exit(void)
+>> +{
+>> +	xa_destroy(&drm_dev_xarray);
+>> +}
+>> diff --git a/include/drm/drm_device.h b/include/drm/drm_device.h
+>> index c490977ee250..d3ae91b7714d 100644
+>> --- a/include/drm/drm_device.h
+>> +++ b/include/drm/drm_device.h
+>> @@ -8,6 +8,7 @@
+>>
+>> #include <drm/drm_legacy.h>
+>> #include <drm/drm_mode_config.h>
+>> +#include <drm/drm_netlink.h>
+>>
+>> struct drm_driver;
+>> struct drm_minor;
+>> @@ -318,6 +319,13 @@ struct drm_device {
+>> 	 */
+>> 	struct dentry *debugfs_root;
+>>
+>> +	/**
+>> +	 * @drm_genl_family:
+>> +	 *
+>> +	 * Generic netlink family registration structure.
+>> +	 */
+>> +	struct genl_family drm_genl_family;
+>> +
+>> 	/* Everything below here is for legacy driver, never use! */
+>> 	/* private: */
+>> #if IS_ENABLED(CONFIG_DRM_LEGACY)
+>> diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
+>> index e2640dc64e08..ebdb7850d235 100644
+>> --- a/include/drm/drm_drv.h
+>> +++ b/include/drm/drm_drv.h
+>> @@ -434,6 +434,13 @@ struct drm_driver {
+>> 	 */
+>> 	const struct file_operations *fops;
+>>
+>> +	/**
+>> +	 * @genl_ops:
+>> +	 *
+>> +	 * Drivers private callback to genl commands
+>> +	 */
+>> +	const struct driver_genl_ops *genl_ops;
+>> +
+>> #ifdef CONFIG_DRM_LEGACY
+>> 	/* Everything below here is for legacy driver, never use! */
+>> 	/* private: */
+>> diff --git a/include/drm/drm_netlink.h b/include/drm/drm_netlink.h
+>> new file mode 100644
+>> index 000000000000..54527dae7847
+>> --- /dev/null
+>> +++ b/include/drm/drm_netlink.h
+>> @@ -0,0 +1,30 @@
+>> +/* SPDX-License-Identifier: MIT */
+>> +/*
+>> + * Copyright © 2023 Intel Corporation
+>> + */
+>> +
+>> +#ifndef __DRM_NETLINK_H__
+>> +#define __DRM_NETLINK_H__
+>> +
+>> +#include <linux/netdevice.h>
+>> +#include <net/genetlink.h>
+>> +#include <net/sock.h>
+>> +#include <uapi/drm/drm_netlink.h>
+>> +
+>> +struct drm_device;
+>> +
+>> +struct driver_genl_ops {
+>> +	int		       (*doit)(struct drm_device *dev,
+>> +				       struct sk_buff *skb,
+>> +				       struct genl_info *info);
+>> +};
+>> +
+>> +int drm_genl_register(struct drm_device *dev);
+>> +void drm_genl_exit(void);
+>> +int drm_genl_reply(struct sk_buff *msg, struct genl_info *info, void *usrhdr);
+>> +struct sk_buff *
+>> +drm_genl_alloc_msg(struct drm_device *dev,
+>> +		   struct genl_info *info,
+>> +		   size_t msg_size, void **usrhdr);
+>> +#endif
+>> +
+>> diff --git a/include/uapi/drm/drm_netlink.h b/include/uapi/drm/drm_netlink.h
+>> new file mode 100644
+>> index 000000000000..aab42147a20e
+>> --- /dev/null
+>> +++ b/include/uapi/drm/drm_netlink.h
+>> @@ -0,0 +1,83 @@
+>> +/* SPDX-License-Identifier: MIT */
+>> +/*
+>> + * Copyright 2023 Intel Corporation
+>> + *
+>> + * Permission is hereby granted, free of charge, to any person obtaining a
+>> + * copy of this software and associated documentation files (the "Software"),
+>> + * to deal in the Software without restriction, including without limitation
+>> + * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+>> + * and/or sell copies of the Software, and to permit persons to whom the
+>> + * Software is furnished to do so, subject to the following conditions:
+>> + *
+>> + * The above copyright notice and this permission notice (including the next
+>> + * paragraph) shall be included in all copies or substantial portions of the
+>> + * Software.
+>> + *
+>> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+>> EXPRESS OR
+>> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+>> MERCHANTABILITY,
+>> + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO
+>> EVENT SHALL
+>> + * VA LINUX SYSTEMS AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM,
+>> DAMAGES OR
+>> + * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+>> OTHERWISE,
+>> + * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+>> USE OR
+>> + * OTHER DEALINGS IN THE SOFTWARE.
+>> + */
+>> +
+>> +#ifndef _DRM_NETLINK_H_
+>> +#define _DRM_NETLINK_H_
+>> +
+>> +#define DRM_GENL_VERSION 1
+>> +
+>> +#if defined(__cplusplus)
+>> +extern "C" {
+>> +#endif
+>> +
+>> +/**
+>> + * enum drm_genl_error_cmds - Supported error commands
+>> + *
+>> + */
+>> +enum drm_genl_error_cmds {
+>> +	DRM_CMD_UNSPEC,
+>> +	/** @DRM_RAS_CMD_QUERY: Command to list all errors names with
+>> config-id */
+>> +	DRM_RAS_CMD_QUERY,
+>> +	/** @DRM_RAS_CMD_READ_ONE: Command to get a counter for a
+>> specific error */
+>> +	DRM_RAS_CMD_READ_ONE,
+>> +	/** @DRM_RAS_CMD_READ_ALL: Command to get counters of all
+>> errors */
+>> +	DRM_RAS_CMD_READ_ALL,
+>> +
+>> +	__DRM_CMD_MAX,
+>> +	DRM_CMD_MAX = __DRM_CMD_MAX - 1,
+>> +};
+>> +
+>> +/**
+>> + * enum drm_error_attr - Attributes to use with drm_genl_error_cmds
+>> + *
+>> + */
+>> +enum drm_error_attr {
+>> +	DRM_ATTR_UNSPEC,
+>> +	DRM_ATTR_PAD = DRM_ATTR_UNSPEC,
+>> +	/**
+>> +	 * @DRM_RAS_ATTR_REQUEST: Should be used with
+>> DRM_RAS_CMD_QUERY,
+>> +	 * DRM_RAS_CMD_READ_ALL
+>> +	 */
+>> +	DRM_RAS_ATTR_REQUEST, /* NLA_U8 */
+>> +	/**
+>> +	 * @DRM_RAS_ATTR_QUERY_REPLY: First Nested attributed sent as a
+>> +	 * response to DRM_RAS_CMD_QUERY, DRM_RAS_CMD_READ_ALL
+>> commands.
+>> +	 */
+>> +	DRM_RAS_ATTR_QUERY_REPLY, /*NLA_NESTED*/
+>> +	/** @DRM_RAS_ATTR_ERROR_NAME: Used to pass error name */
+>> +	DRM_RAS_ATTR_ERROR_NAME, /* NLA_NUL_STRING */
+>> +	/** @DRM_RAS_ATTR_ERROR_ID: Used to pass error id */
+>> +	DRM_RAS_ATTR_ERROR_ID, /* NLA_U64 */
+>> +	/** @DRM_RAS_ATTR_ERROR_VALUE: Used to pass error value */
+>> +	DRM_RAS_ATTR_ERROR_VALUE, /* NLA_U64 */
+>> +
+>> +	__DRM_ATTR_MAX,
+>> +	DRM_ATTR_MAX = __DRM_ATTR_MAX - 1,
+>> +};
+>> +
+>> +#if defined(__cplusplus)
+>> +}
+>> +#endif
+>> +
+>> +#endif
+>> --
+>> 2.25.1
