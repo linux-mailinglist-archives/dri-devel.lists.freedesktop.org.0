@@ -2,61 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CCEF7D21A6
-	for <lists+dri-devel@lfdr.de>; Sun, 22 Oct 2023 09:42:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1582C7D226E
+	for <lists+dri-devel@lfdr.de>; Sun, 22 Oct 2023 11:54:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 11C5510E053;
-	Sun, 22 Oct 2023 07:42:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D1B5210E06B;
+	Sun, 22 Oct 2023 09:54:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 40B9510E053
- for <dri-devel@lists.freedesktop.org>; Sun, 22 Oct 2023 07:42:08 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4472D10E06E
+ for <dri-devel@lists.freedesktop.org>; Sun, 22 Oct 2023 09:54:10 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 578FFCE1A5C
- for <dri-devel@lists.freedesktop.org>; Sun, 22 Oct 2023 07:42:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 929C8C433CA
- for <dri-devel@lists.freedesktop.org>; Sun, 22 Oct 2023 07:42:04 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 17A0F608CC;
+ Sun, 22 Oct 2023 09:54:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE2B6C433C7;
+ Sun, 22 Oct 2023 09:54:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1697960524;
- bh=V0SywhnUiv4jjR3G5uQrfT87vu5Dsm7zJOwk8uswd00=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=CcwnyjjXkf+LmP/fQaLnWw2MRgsyvp/3t+ag/jDCTaH+Icz2LMmHU7GEsrHz0FvsU
- Nwapomq7KsQH4N8uSuSeZ0Bp/2zk+FbZ0w8uC54mIM6NqUjqYRPhFlyE6gHcWZjfjB
- VugZud4GPWiaTu1MBBqDrsMekoB1864QmEsfvC0xDHYbX7RxalIQYkUyO+TbU/ovVM
- G3NtR3tJs5cpASDoaY3Rr0+MNDY1kKyd6RYPrl3WWCKH6qzZ/lw5gwYVGeXIbhAiLP
- rywol5eRUSneikwy1b9tBlHo+w4Ivj+BAKDjtU5yyNh4q+MZNf3beeKszFJ6vKQMqs
- r1fttXyKAITPg==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 83812C53BD3; Sun, 22 Oct 2023 07:42:04 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 218015] amdgpu powerplay: Spontaneous changes to
- power_dpm_force_performance_level
-Date: Sun, 22 Oct 2023 07:42:04 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: high
-X-Bugzilla-Who: roman.zilka@gmail.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: ANSWERED
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_file_loc
-Message-ID: <bug-218015-2300-KjzWnnEoS7@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-218015-2300@https.bugzilla.kernel.org/>
-References: <bug-218015-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+ s=k20201202; t=1697968448;
+ bh=624DD86ruJdAKpRg5DvcZ6DGc3A5gO4DA0XsTE9YA0A=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Eg4EW7zJrsPBLSVaMUUnDDNajHiROoE+x3HBZGuDv6Tr9dMd4wz4iI3QVbM/tPniz
+ 1TfwJNEPsBnUxThdnNrY/rZoTl9pJdxhJkMxT497V0bTNpRgL6FR+FF2uhL51BNp20
+ mWUMBTt7MYZwM/aPak79Fro/jb/mqhv2smWYyz+hY1SK/5w8AViUICDGlZiCopPtBu
+ sjL9T6AfHrQJL0W/MQOtgEXzmamuchjR89WTBSCvTcboRboFzDRBkFpjb5IRQLooLV
+ q94UDvDjDc6jIM/0t/y2IzemQvfNgWHIMfVpU8ugMWB+5e8ZSD2QoZrGuqaeBcbtKM
+ /MGmbIpQ/+pfA==
+Date: Sun, 22 Oct 2023 10:54:03 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Javier Martinez Canillas <javierm@redhat.com>
+Subject: Re: [PATCH] dt-bindings: display: ssd132x: Remove '-' before
+ compatible enum
+Message-ID: <20231022-sandbox-reverend-7651a2e00a7d@spud>
+References: <20231020223029.1667190-1-javierm@redhat.com>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="AzbL4NimfEVzMx25"
+Content-Disposition: inline
+In-Reply-To: <20231020223029.1667190-1-javierm@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,20 +52,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
+ Maxime Ripard <mripard@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ dri-devel@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D218015
 
-Roman =C5=BDilka (roman.zilka@gmail.com) changed:
+--AzbL4NimfEVzMx25
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                URL|                            |https://gitlab.freedesktop.
-                   |                            |org/drm/amd/-/issues/2931
+On Sat, Oct 21, 2023 at 12:30:17AM +0200, Javier Martinez Canillas wrote:
+> This is a leftover from when the binding schema had the compatible string
+> property enum as a 'oneOf' child and the '-' was not removed when 'oneOf'
+> got dropped during the binding review process.
+>=20
+> Reported-by: Rob Herring <robh@kernel.org>
+> Closes: https://lore.kernel.org/dri-devel/CAL_Jsq+h8DcnpKqhokQOODCc8+Qi3M=
+0PrxRFKz_Y4v37yMJvvA@mail.gmail.com/
+> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
 
---=20
-You may reply to this email to add a comment.
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+Thanks,
+Conor.
+
+> ---
+>=20
+>  .../devicetree/bindings/display/solomon,ssd132x.yaml      | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/Documentation/devicetree/bindings/display/solomon,ssd132x.ya=
+ml b/Documentation/devicetree/bindings/display/solomon,ssd132x.yaml
+> index 0aa41bd9ddca..37975ee61c5a 100644
+> --- a/Documentation/devicetree/bindings/display/solomon,ssd132x.yaml
+> +++ b/Documentation/devicetree/bindings/display/solomon,ssd132x.yaml
+> @@ -11,10 +11,10 @@ maintainers:
+> =20
+>  properties:
+>    compatible:
+> -    - enum:
+> -        - solomon,ssd1322
+> -        - solomon,ssd1325
+> -        - solomon,ssd1327
+> +    enum:
+> +      - solomon,ssd1322
+> +      - solomon,ssd1325
+> +      - solomon,ssd1327
+> =20
+>  required:
+>    - compatible
+> --=20
+> 2.41.0
+>=20
+
+--AzbL4NimfEVzMx25
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZTTxOwAKCRB4tDGHoIJi
+0oktAQDIz4f+vI7vkhhIDLAgUw9zdMfHk5TeYQwpzVwoeucoCAEAmzoJ7v2hDg0C
+eX6hl7pSU/Oi61+XBX2HNiVYH3ykpgI=
+=UhsP
+-----END PGP SIGNATURE-----
+
+--AzbL4NimfEVzMx25--
