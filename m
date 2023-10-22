@@ -2,44 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1582C7D226E
-	for <lists+dri-devel@lfdr.de>; Sun, 22 Oct 2023 11:54:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8801D7D227E
+	for <lists+dri-devel@lfdr.de>; Sun, 22 Oct 2023 12:12:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D1B5210E06B;
-	Sun, 22 Oct 2023 09:54:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BEBFD10E06E;
+	Sun, 22 Oct 2023 10:12:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4472D10E06E
- for <dri-devel@lists.freedesktop.org>; Sun, 22 Oct 2023 09:54:10 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 17A0F608CC;
- Sun, 22 Oct 2023 09:54:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE2B6C433C7;
- Sun, 22 Oct 2023 09:54:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1697968448;
- bh=624DD86ruJdAKpRg5DvcZ6DGc3A5gO4DA0XsTE9YA0A=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Eg4EW7zJrsPBLSVaMUUnDDNajHiROoE+x3HBZGuDv6Tr9dMd4wz4iI3QVbM/tPniz
- 1TfwJNEPsBnUxThdnNrY/rZoTl9pJdxhJkMxT497V0bTNpRgL6FR+FF2uhL51BNp20
- mWUMBTt7MYZwM/aPak79Fro/jb/mqhv2smWYyz+hY1SK/5w8AViUICDGlZiCopPtBu
- sjL9T6AfHrQJL0W/MQOtgEXzmamuchjR89WTBSCvTcboRboFzDRBkFpjb5IRQLooLV
- q94UDvDjDc6jIM/0t/y2IzemQvfNgWHIMfVpU8ugMWB+5e8ZSD2QoZrGuqaeBcbtKM
- /MGmbIpQ/+pfA==
-Date: Sun, 22 Oct 2023 10:54:03 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Javier Martinez Canillas <javierm@redhat.com>
-Subject: Re: [PATCH] dt-bindings: display: ssd132x: Remove '-' before
- compatible enum
-Message-ID: <20231022-sandbox-reverend-7651a2e00a7d@spud>
-References: <20231020223029.1667190-1-javierm@redhat.com>
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B477410E061;
+ Sun, 22 Oct 2023 10:12:35 +0000 (UTC)
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4SCvJc010vz9sc8;
+ Sun, 22 Oct 2023 12:12:32 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1697969552;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=H9pCW3esi4cGD7GNRQGPwStAuhs4FyHDpTPRuNYfiwQ=;
+ b=tc1k850Y28GbB7Cl2wR0AvUpKD7mgre+G/S1JH6+HThHgWTgY20W2td3ZGVPYKwOc+IrQ6
+ lcw8W7BufgVozjqFwWWiZ3/GhtyYfTRVMpeCHjkxJZjv91Oq5O46of3h5BDn4dP8YyDi+R
+ jbpTF2IpQDJNrblKoqa84AF3l8JLAhTvP7IgYBcn3wohHQH7TXGDQJcw94IKV6BCZyK5yU
+ IjNh59RgtTX76msWZHMOWmQP6QGjU9HzpAH5AnQbmEk0gps/8VIaFVm13B44gRzICp3Usi
+ 6Ysr+5BWGHX110W0NQlU6xPhPkapbfUGQDRkdXjSZtoAJJ7uVeE2zOdGN2mokg==
+Message-ID: <8c1641e4-a7e2-ecb2-ab7a-c6e2bb3e951b@mailbox.org>
+Date: Sun, 22 Oct 2023 12:12:28 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="AzbL4NimfEVzMx25"
-Content-Disposition: inline
-In-Reply-To: <20231020223029.1667190-1-javierm@redhat.com>
+Subject: Re: [PATCH v7 4/6] drm: Refuse to async flip with atomic prop changes
+To: Simon Ser <contact@emersion.fr>, =?UTF-8?Q?Andr=c3=a9_Almeida?=
+ <andrealmeid@igalia.com>
+References: <20231017092837.32428-1-andrealmeid@igalia.com>
+ <20231017092837.32428-5-andrealmeid@igalia.com>
+ <CzEtDALWvF3EU4DDLLEmH3ms0B25PbsEHRU9b_IqwfyhzdG4zC-XXAU6fm2PnMcngAYmntH7s4iuew0vocN6cO8zUit8kgi-Sb1hBQXNYiw=@emersion.fr>
+ <3r5-_03WC5dK3LaRt1Is78zD_bmT2aaGc5h9jpUGzo2o5GCtGP1zpQNzUxglsieewFklY7xwTrOS9jtI18YlNnnzHNx2Ccw9yM2NuJpDQZU=@emersion.fr>
+Content-Language: de-CH-frami, en-CA
+From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel.daenzer@mailbox.org>
+In-Reply-To: <3r5-_03WC5dK3LaRt1Is78zD_bmT2aaGc5h9jpUGzo2o5GCtGP1zpQNzUxglsieewFklY7xwTrOS9jtI18YlNnnzHNx2Ccw9yM2NuJpDQZU=@emersion.fr>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: s8qcypr51f1tfyaumquugzjaho4tpc7c
+X-MBO-RS-ID: 1dd85632f82723d365f
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,73 +59,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
- Maxime Ripard <mripard@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- dri-devel@lists.freedesktop.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc: pierre-eric.pelloux-prayer@amd.com,
+ =?UTF-8?B?J01hcmVrIE9sxaHDoWsn?= <maraeo@gmail.com>,
+ Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, Pekka Paalanen <ppaalanen@gmail.com>,
+ dri-devel@lists.freedesktop.org, kernel-dev@igalia.com,
+ alexander.deucher@amd.com, hwentlan@amd.com, christian.koenig@amd.com,
+ joshua@froggi.es
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 10/17/23 14:16, Simon Ser wrote:
+> After discussing with André it seems like we missed a plane type check
+> here. We need to make sure FB_ID changes are only allowed on primary
+> planes.
 
---AzbL4NimfEVzMx25
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Can you elaborate why that's needed?
 
-On Sat, Oct 21, 2023 at 12:30:17AM +0200, Javier Martinez Canillas wrote:
-> This is a leftover from when the binding schema had the compatible string
-> property enum as a 'oneOf' child and the '-' was not removed when 'oneOf'
-> got dropped during the binding review process.
->=20
-> Reported-by: Rob Herring <robh@kernel.org>
-> Closes: https://lore.kernel.org/dri-devel/CAL_Jsq+h8DcnpKqhokQOODCc8+Qi3M=
-0PrxRFKz_Y4v37yMJvvA@mail.gmail.com/
-> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
+-- 
+Earthling Michel Dänzer            |                  https://redhat.com
+Libre software enthusiast          |         Mesa and Xwayland developer
 
-Thanks,
-Conor.
-
-> ---
->=20
->  .../devicetree/bindings/display/solomon,ssd132x.yaml      | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
->=20
-> diff --git a/Documentation/devicetree/bindings/display/solomon,ssd132x.ya=
-ml b/Documentation/devicetree/bindings/display/solomon,ssd132x.yaml
-> index 0aa41bd9ddca..37975ee61c5a 100644
-> --- a/Documentation/devicetree/bindings/display/solomon,ssd132x.yaml
-> +++ b/Documentation/devicetree/bindings/display/solomon,ssd132x.yaml
-> @@ -11,10 +11,10 @@ maintainers:
-> =20
->  properties:
->    compatible:
-> -    - enum:
-> -        - solomon,ssd1322
-> -        - solomon,ssd1325
-> -        - solomon,ssd1327
-> +    enum:
-> +      - solomon,ssd1322
-> +      - solomon,ssd1325
-> +      - solomon,ssd1327
-> =20
->  required:
->    - compatible
-> --=20
-> 2.41.0
->=20
-
---AzbL4NimfEVzMx25
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZTTxOwAKCRB4tDGHoIJi
-0oktAQDIz4f+vI7vkhhIDLAgUw9zdMfHk5TeYQwpzVwoeucoCAEAmzoJ7v2hDg0C
-eX6hl7pSU/Oi61+XBX2HNiVYH3ykpgI=
-=UhsP
------END PGP SIGNATURE-----
-
---AzbL4NimfEVzMx25--
