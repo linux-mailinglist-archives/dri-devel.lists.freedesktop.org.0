@@ -2,56 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 047DF7D34D6
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Oct 2023 13:43:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62AA77D3510
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Oct 2023 13:45:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A39E010E137;
-	Mon, 23 Oct 2023 11:43:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A448C10E1AF;
+	Mon, 23 Oct 2023 11:45:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6FC6D10E137
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Oct 2023 11:43:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1698061385; x=1729597385;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=naMve0NtYrZVuHqK6fpiTmU0a5b61Mp5wefHU8KFuO8=;
- b=k+RSkgrgQwc9C3zWXUmddjUjHjd4Cqrdzy5SZK69FoX8ajXwBI6lRbY1
- UF+/QHEC6JARcIs2EV7M+K4lMT/PzDYKPvCnzMdrgBEUqN/lOj28uZ6QD
- nb98zu6qvz8mgbxPNG82X2weggGJYJrzGQlHWBiOATcxUtTCqCLhqxNZN
- qFww62Nl6pFQbP1pILrcpsj8C65XDgQ+MOeTFyX2OyVuYsqIO9JpF+384
- 0c5H2TxAUkacmMq5REVYHLHM8CW7DnN9uas+UKmRH2IKiOuRDNFho7EnZ
- ZDxjlNj9xOfThYOXMi4LubfuL4oa5N06D7ZlU4/sxisgZ765y8AI3TbVw A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10871"; a="390708451"
-X-IronPort-AV: E=Sophos;i="6.03,244,1694761200"; d="scan'208";a="390708451"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Oct 2023 04:43:03 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10871"; a="1089468449"
-X-IronPort-AV: E=Sophos;i="6.03,244,1694761200"; d="scan'208";a="1089468449"
-Received: from evlad-mobl.ger.corp.intel.com (HELO localhost) ([10.252.47.180])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Oct 2023 04:42:59 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Alvin =?utf-8?Q?=C5=A0ipraga?= <alvin@pqrs.dk>, Andrzej Hajda
- <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss
- <rfoss@kernel.org>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, Daniel
- Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH] drm: bridge: adv7511: get edid in hpd_work to update
- CEC phys address
-In-Reply-To: <20231014-adv7511-cec-edid-v1-1-a58ceae0b57e@bang-olufsen.dk>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20231014-adv7511-cec-edid-v1-1-a58ceae0b57e@bang-olufsen.dk>
-Date: Mon, 23 Oct 2023 14:42:56 +0300
-Message-ID: <87pm15bm4f.fsf@intel.com>
+Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com
+ [IPv6:2607:f8b0:4864:20::b2f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4FBFD10E1AF
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Oct 2023 11:44:59 +0000 (UTC)
+Received: by mail-yb1-xb2f.google.com with SMTP id
+ 3f1490d57ef6-d849df4f1ffso3040837276.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Oct 2023 04:44:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1698061498; x=1698666298; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Y7b2hdSdEiM4o4XM7ucCEd7vEq2WMd68fJSI4N1cSH8=;
+ b=flmOYTS/uYzqAnkDvH3+C9y4mGr1yEZWBzMHg+oNFEacnEaEhYGtwF2SQTGGsz8h1d
+ TSwcgEM+4KnR5TfOHwwKnpaznseiwda2aBXw/PnB0zlGU/wQZTznbZ3ZqQi3LogIjQ7M
+ Wm5KxhIMLbRSsWQ3577iJpuxwv8bZrqgYYYzNuuPTq1lkpyjf8LRrJfMDoox1EfAusbv
+ J67yljB2emsfGOS/dOZ4qnm2BLb5+GtRhoVNfyS5jI7gbstb+PUdlua9VJsa+NwT3wEH
+ nZIOjeuy4tm4HPnd8lZ1tOl3djND/sw0TP9BoIbtkwUE2SaRRzFnrIbU+wTbnB1JAc4+
+ hD8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1698061498; x=1698666298;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Y7b2hdSdEiM4o4XM7ucCEd7vEq2WMd68fJSI4N1cSH8=;
+ b=dfZwbXk4nXw4vAiV2I8huqOQnjU+6aFDLP588HbU7uTZ3IvgJ37sywkOK6Mms2B4hv
+ NB9fv9lysBgnLGZdVceMYTpR5m8O3H3T0sYYl9DtVEth8NzrEmEkvfwBVFaENQYThaez
+ OZy4NFWh5Gdcq2iJbST7In9wLRuO2OCTF2FbTTSC63RoTFzw2c52Gn577H/d1B2RjlMS
+ qb1CN5WqENN1kLOX6q+BuhdkVHo7CgviZfE7btRWPVJ/LKBQngSfgWtxx6fwEPOnLGwR
+ I2Dc9roKFH8YnKhx3+jqAiqOIkcvr56CX/VtJXsVuHTsmmPH98f5k1HsXWcUbBXf2TDv
+ dl4Q==
+X-Gm-Message-State: AOJu0YyoFb5qrFjXjY4oe1we7Zp/DhxxWAhC5H8E2Uc3sNy3JsEVS6hf
+ RJ7lGhmFEFM9ZycX6U+ukZ4mhdFanXp02fyccaA=
+X-Google-Smtp-Source: AGHT+IEl1Dvvreu0PH8ctorZ6vOxpcr1R02nRfhTfWYX9itZ1OXyNVSNZR6ZVjHTnprtQGvXOyRPq6Kuilsh3emHPDI=
+X-Received: by 2002:a25:428e:0:b0:d90:c424:53ee with SMTP id
+ p136-20020a25428e000000b00d90c42453eemr9341179yba.9.1698061498418; Mon, 23
+ Oct 2023 04:44:58 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20231011190017.1230898-1-wse@tuxedocomputers.com>
+ <ZSe1GYLplZo5fsAe@duo.ucw.cz>
+ <0440ed38-c53b-4aa1-8899-969e5193cfef@tuxedocomputers.com>
+ <ZSf9QneKO/8IzWhd@duo.ucw.cz>
+ <a244a00d-6be4-44bc-9d41-6f9df14de8ee@tuxedocomputers.com>
+ <ZSk16iTBmZ2fLHZ0@duo.ucw.cz>
+ <aac81702-df1e-43a2-bfe9-28e9cb8d2282@tuxedocomputers.com>
+ <ZSmg4tqXiYiX18K/@duo.ucw.cz>
+ <CANiq72mfP+dOLFR352O0UNVF8m8yTi_VmOY1zzQdTBjPWCRowg@mail.gmail.com>
+ <87sf61bm8t.fsf@intel.com>
+In-Reply-To: <87sf61bm8t.fsf@intel.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Mon, 23 Oct 2023 13:44:46 +0200
+Message-ID: <CANiq72kvZcNp2ocXoqBae9q2UW+RPQy3dXUr+QS-izKpM1yyoA@mail.gmail.com>
+Subject: Re: Implement per-key keyboard backlight as auxdisplay?
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,71 +77,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Alvin =?utf-8?Q?=C5=A0ipraga?= <alsi@bang-olufsen.dk>
+Cc: Lee Jones <lee@kernel.org>, linux-kernel@vger.kernel.org,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Werner Sembach <wse@tuxedocomputers.com>, Pavel Machek <pavel@ucw.cz>,
+ linux-input@vger.kernel.org, ojeda@kernel.org, linux-leds@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 14 Oct 2023, Alvin =C5=A0ipraga <alvin@pqrs.dk> wrote:
-> From: Alvin =C5=A0ipraga <alsi@bang-olufsen.dk>
+On Mon, Oct 23, 2023 at 1:40=E2=80=AFPM Jani Nikula <jani.nikula@linux.inte=
+l.com> wrote:
 >
-> The adv7511 driver is solely responsible for setting the physical
-> address of its CEC adapter. To do this, it must read the EDID. However,
-> EDID is only read when either the drm_bridge_funcs :: get_edid or
-> drm_connector_helper_funcs :: get_modes ops are called. Without loss of
-> generality, it cannot be assumed that these ops are called when a sink
-> gets attached. Therefore there exist scenarios in which the CEC physical
-> address will be invalid (f.f.f.f), rendering the CEC adapter inoperable.
+> One could also reasonably make the argument that controlling the
+> individual keyboard key backlights should be part of the input
+> subsystem. It's not a display per se. (Unless you actually have small
+> displays on the keycaps, and I think that's a thing too.)
 >
-> Address this problem by always fetching the EDID in the HPD work when we
-> detect a connection. The CEC physical address is set in the process.
+> There's force feedback, there could be light feedback? There's also
+> drivers/input/input-leds.c for the keycaps that have leds, like caps
+> lock, num lock, etc.
 >
-> Signed-off-by: Alvin =C5=A0ipraga <alsi@bang-olufsen.dk>
-> ---
-> Pardon the insertion of the ugly adv7511_get_edid() prototype, but I did
-> not want to clobber git history by rearranging a bunch of functions. If
-> this is the preferred approach I will happily re-spin the patch.
-> ---
->  drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 6 ++++++
->  1 file changed, 6 insertions(+)
->
-> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/d=
-rm/bridge/adv7511/adv7511_drv.c
-> index 2611afd2c1c1..3d32c109963c 100644
-> --- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> @@ -424,6 +424,9 @@ static bool adv7511_hpd(struct adv7511 *adv7511)
->  	return false;
->  }
->=20=20
-> +static struct edid *adv7511_get_edid(struct adv7511 *adv7511,
-> +				     struct drm_connector *connector);
-> +
->  static void adv7511_hpd_work(struct work_struct *work)
->  {
->  	struct adv7511 *adv7511 =3D container_of(work, struct adv7511, hpd_work=
-);
-> @@ -457,6 +460,9 @@ static void adv7511_hpd_work(struct work_struct *work)
->  		if (adv7511->connector.dev) {
->  			if (status =3D=3D connector_status_disconnected)
->  				cec_phys_addr_invalidate(adv7511->cec_adap);
-> +			else
-> +				adv7511_get_edid(adv7511, &adv7511->connector);
+> Anyway, just throwing ideas around, no strong opinions, really.
 
-This leaks the returned EDID.
+Yeah, sounds quite reasonable too, in fact it may make more sense
+there given the LEDs are associated per-key rather than being an
+uniform matrix in a rectangle if I understand correctly. If the input
+subsystem wants to take it, that would be great.
 
-BR,
-Jani.
-
-> +
->  			drm_kms_helper_hotplug_event(adv7511->connector.dev);
->  		} else {
->  			drm_bridge_hpd_notify(&adv7511->bridge, status);
->
-> ---
-> base-commit: 4366faf43308bd91c59a20c43a9f853a9c3bb6e4
-> change-id: 20231014-adv7511-cec-edid-ff75bd3ac929
->
-
---=20
-Jani Nikula, Intel
+Cheers,
+Miguel
