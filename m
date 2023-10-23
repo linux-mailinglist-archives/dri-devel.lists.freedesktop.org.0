@@ -2,67 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F6517D2C46
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Oct 2023 10:12:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FFA57D2C68
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Oct 2023 10:14:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E349710E170;
-	Mon, 23 Oct 2023 08:12:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8784510E171;
+	Mon, 23 Oct 2023 08:14:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
- [IPv6:2a00:1450:4864:20::132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7578810E16F;
- Mon, 23 Oct 2023 08:12:32 +0000 (UTC)
-Received: by mail-lf1-x132.google.com with SMTP id
- 2adb3069b0e04-507a98517f3so4076906e87.0; 
- Mon, 23 Oct 2023 01:12:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1698048750; x=1698653550; darn=lists.freedesktop.org;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=P4emxNeW9kdked7j0IM7OPKoJHrt2GCIyosEaRbO7gI=;
- b=l4p+Itocj6DtJsg9yzYlcvNFos8KjbHFOu1Igl+dikq0hOOEUKhEVeD2SdsT+B3JoG
- p7VIrNFdzitENi/t04M/TPadhkq78KmCeOtiDns2QjaFnJPFG//YzSajLKj7rqNqNFC6
- FcMLWue+YZr9KrPeqGe1GStRsJ6MscMEE/Z+BlKHmBvIGFoH/uKgNIWwXWrCw9iiX6fI
- ZIp78OArO7X4pCCr7IFNO4UOJ6GbsG5lPQDC3kXgd4yWlsRQCS+/93U0Y0+VuZLJAeHX
- veYSd3XsjeuPvk0U7Z3/Q5BK57sLzhzLekaSQIzjH6tV1GUcfXcV/66RYKImHZSq2XvP
- BAOQ==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C1FCF10E177
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Oct 2023 08:14:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1698048860;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=es4QPngsXpmAIASK05cERYr43X740lPT3pKLdJZoVvI=;
+ b=aci3tbciGp2j6p+8RyrUUX5oRJpWjTSdmHqB0THnZI4rtzLOoqcI8jFrgPvukJpVitRoz0
+ D1xIp7WEp+OTmsnbWCNLW5bX6vXf72mmv6a9JULuWboz48DJhmjvKW2MOcdBaQJ+e6Ucas
+ 868pN5sTBuZpCv6V+KsUxFt4GonvfVc=
+Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com
+ [209.85.215.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-650-JBW98-NpNYaQ3Cai5Lq-Lw-1; Mon, 23 Oct 2023 04:14:19 -0400
+X-MC-Unique: JBW98-NpNYaQ3Cai5Lq-Lw-1
+Received: by mail-pg1-f197.google.com with SMTP id
+ 41be03b00d2f7-5a4d04a8a5cso1671837a12.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Oct 2023 01:14:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1698048750; x=1698653550;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=P4emxNeW9kdked7j0IM7OPKoJHrt2GCIyosEaRbO7gI=;
- b=SzrJGobNVzlx57eosArDtQ+qEycrI8p1SO1DLrxWoup+ZSjI16QF+71exeFsDPvbtY
- hp3ZM1t/i0EwEwt/BKHcJAtlFLFi4PLAxMOotj3eBE/ZiLxzJqpO7v5QORoAzCUzSH/R
- ZSG7NzOM+8LW5vKscL0zLoi2I0jJLhmzAs9qNBLnwJDaH0hrpdD0Gcp1Q60CwgrhEVXa
- +HcqnxxyL0KHQqeN6I0GpbDmkkhLlXPrC46W8QWN2rzxITYphRi3xn/Jwj6tqE7dlpVw
- ELlEtIigvY9HXqqKD02tzR7Zvc5qPbAjjs3apls5NaXK+RC54LVtvzyJV865dlQymIpj
- oxdw==
-X-Gm-Message-State: AOJu0Yxt8CqOofX8S6bSxiKyhoz/SYMqAFsHpCxek8oG56pF2fNi5tHL
- FZNEzEJfOgzxt8gpSjovGKw=
-X-Google-Smtp-Source: AGHT+IEeiowvibKUMHfuZ925eat58DP+Fv2n6n2O9zf7fa1GGETmh47m00t28Di6g35SxO43GX4L7Q==
-X-Received: by 2002:ac2:5311:0:b0:507:a1e0:22f4 with SMTP id
- c17-20020ac25311000000b00507a1e022f4mr5181140lfh.29.1698048750202; 
- Mon, 23 Oct 2023 01:12:30 -0700 (PDT)
-Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- e9-20020a05651236c900b004ff973cb14esm1587065lfs.108.2023.10.23.01.12.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Oct 2023 01:12:29 -0700 (PDT)
-Date: Mon, 23 Oct 2023 11:12:19 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Harry Wentland <harry.wentland@amd.com>
-Subject: Re: [RFC PATCH v2 06/17] drm/doc/rfc: Describe why prescriptive
- color pipeline is needed
-Message-ID: <20231023111219.6e287958@eldfell>
-In-Reply-To: <20f33898-4c40-4854-a1e8-afaef52f6524@amd.com>
-References: <20231019212133.245155-1-harry.wentland@amd.com>
- <20231019212133.245155-7-harry.wentland@amd.com>
- <20231020142256.GA859375@toolbox> <20231020175703.09cd2578@eldfell>
- <20f33898-4c40-4854-a1e8-afaef52f6524@amd.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+ d=1e100.net; s=20230601; t=1698048858; x=1698653658;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=uoARVbaVzE8Klcf/2UJiBvPdsoBHjWiewZkEcG70H2w=;
+ b=SESALkv7fxJa6/tpu7NjuFf5pr4mB7c2qkUd7D6iPlvf0Nt2mz/S6b9FAldeN4UaPB
+ xA/nWKqgKCBPhfp1VL+RcyMcUyz5TBbn7Oa6EP0FYrZOSNCP2/t5d4rhMoZ1nABi+JoS
+ XXJlSrlB/nMtZEQqmRrpQgsCm+HEnxinSMFRCiWyVA3Pq9YWZBuP3P8pUwE9ZEGxAuaf
+ VbFyqw7F4uUSJvwl6WMeI0IK3XfgNQ3nfDZEqsoqgnOgIgFmmn0BiRLvZUGkpC4SJOJH
+ sB5N+NPuTTbDxkVOO7YNTacrJ6YjV5srWc/ndyO6GSLwhGiDmPi5ewz2Zh1OIkpJ3i9Q
+ m91A==
+X-Gm-Message-State: AOJu0YywV8B/3bzCOTEioARTbgzVxqDrcRgbWizyx2Qle051IsNAnC06
+ ZQbWwnpFcXn+hy+S+wNCUdVpOS+sGw1Qgome9p+tp4Z7mvyVyXfsf/9sSxh4jRlrNaulACJ29eG
+ SIdOvu105OQoygv6S8EoZV93npk0sIZ9uYmeiVZIdbqX5
+X-Received: by 2002:a05:6a20:54a0:b0:13d:17cc:5bca with SMTP id
+ i32-20020a056a2054a000b0013d17cc5bcamr7164701pzk.18.1698048857513; 
+ Mon, 23 Oct 2023 01:14:17 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEzq70ts5bDupwKjfq3lxncqOWwvXbGNczquvLBuYAQ7b8ip74Jouf9GwofikaNrblGdeCbW4K+TH/mBEYJsmM=
+X-Received: by 2002:a05:6a20:54a0:b0:13d:17cc:5bca with SMTP id
+ i32-20020a056a2054a000b0013d17cc5bcamr7164645pzk.18.1698048856339; Mon, 23
+ Oct 2023 01:14:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/qqd_W1sAF/Y7YaGl/gFKxlf";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+References: <20231023074613.41327-1-aesteve@redhat.com>
+ <-ngmaSLF2S5emYjTBWcLRNzvJRoe_eZ-Nv9HQhE6ZLuK8nIE2ZbfVh2G2O2Z41GoIFIRpts0ukEtFXUx8pNAptmrZBhlXxaQGykx_qCZ_9k=@emersion.fr>
+In-Reply-To: <-ngmaSLF2S5emYjTBWcLRNzvJRoe_eZ-Nv9HQhE6ZLuK8nIE2ZbfVh2G2O2Z41GoIFIRpts0ukEtFXUx8pNAptmrZBhlXxaQGykx_qCZ_9k=@emersion.fr>
+From: Albert Esteve <aesteve@redhat.com>
+Date: Mon, 23 Oct 2023 10:14:05 +0200
+Message-ID: <CADSE00KW4+hpbAbZAusBngq5FYSa067wYJCGeetqngWRJaD9Kg@mail.gmail.com>
+Subject: Re: [PATCH v6 0/9] Fix cursor planes with virtualized drivers
+To: Simon Ser <contact@emersion.fr>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/alternative; boundary="000000000000e4cdbd06085dce80"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,149 +76,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha McIntosh <sashamcintosh@google.com>,
- Liviu Dudau <Liviu.Dudau@arm.com>, Victoria Brekenfeld <victoria@system76.com>,
- dri-devel@lists.freedesktop.org,
- Michel =?UTF-8?B?RMOkbnplcg==?= <mdaenzer@redhat.com>,
- Arthur Grillo <arthurgrillo@riseup.net>,
- Christopher Braga <quic_cbraga@quicinc.com>,
- Sebastian Wick <sebastian.wick@redhat.com>,
- Shashank Sharma <shashank.sharma@amd.com>, wayland-devel@lists.freedesktop.org,
- Jonas =?UTF-8?B?w4VkYWhs?= <jadahl@redhat.com>,
- Uma Shankar <uma.shankar@intel.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Naseer Ahmed <quic_naseer@quicinc.com>, Melissa Wen <mwen@igalia.com>,
- Aleix Pol <aleixpol@kde.org>, Hector Martin <marcan@marcan.st>,
- Xaver Hugl <xaver.hugl@gmail.com>, Joshua Ashton <joshua@froggi.es>
+Cc: linux-doc@vger.kernel.org, qemu-devel@nongnu.org, banackm@vmware.com,
+ virtualization@lists.linux-foundation.org, Gerd Hoffmann <kraxel@redhat.com>,
+ mombasawalam@vmware.com, iforbes@vmware.com, Jonathan Corbet <corbet@lwn.net>,
+ javierm@redhat.com,
+ VMware Graphics Reviewers <linux-graphics-maintainer@vmware.com>,
+ David Airlie <airlied@redhat.com>, Maxime Ripard <mripard@kernel.org>,
+ Hans de Goede <hdegoede@redhat.com>, ppaalanen@gmail.com,
+ dri-devel@lists.freedesktop.org, spice-devel@lists.freedesktop.org,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Matt Roper <matthew.d.roper@intel.com>, linux-kernel@vger.kernel.org,
+ krastevm@vmware.com, Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/qqd_W1sAF/Y7YaGl/gFKxlf
-Content-Type: text/plain; charset=US-ASCII
+--000000000000e4cdbd06085dce80
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, 20 Oct 2023 11:23:28 -0400
-Harry Wentland <harry.wentland@amd.com> wrote:
+On Mon, Oct 23, 2023 at 9:55=E2=80=AFAM Simon Ser <contact@emersion.fr> wro=
+te:
 
-> On 2023-10-20 10:57, Pekka Paalanen wrote:
-> > On Fri, 20 Oct 2023 16:22:56 +0200
-> > Sebastian Wick <sebastian.wick@redhat.com> wrote:
-> >  =20
-> >> Thanks for continuing to work on this!
-> >>
-> >> On Thu, Oct 19, 2023 at 05:21:22PM -0400, Harry Wentland wrote: =20
-> >>> v2:
-> >>>  - Update colorop visualizations to match reality (Sebastian, Alex Hu=
-ng)
-> >>>  - Updated wording (Pekka)
-> >>>  - Change BYPASS wording to make it non-mandatory (Sebastian)
-> >>>  - Drop cover-letter-like paragraph from COLOR_PIPELINE Plane Property
-> >>>    section (Pekka)
-> >>>  - Use PQ EOTF instead of its inverse in Pipeline Programming example=
- (Melissa)
-> >>>  - Add "Driver Implementer's Guide" section (Pekka)
-> >>>  - Add "Driver Forward/Backward Compatibility" section (Sebastian, Pe=
-kka)
-> >>> =20
-> >=20
-> > ...
-> >  =20
-> >>> +Driver Forward/Backward Compatibility
-> >>> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >>> +
-> >>> +As this is uAPI drivers can't regress color pipelines that have been
-> >>> +introduced for a given HW generation. New HW generations are free to
-> >>> +abandon color pipelines advertised for previous generations.
-> >>> +Nevertheless, it can be beneficial to carry support for existing col=
-or
-> >>> +pipelines forward as those will likely already have support in DRM
-> >>> +clients.
-> >>> +
-> >>> +Introducing new colorops to a pipeline is fine, as long as they can =
-be
-> >>> +disabled or are purely informational. DRM clients implementing suppo=
-rt
-> >>> +for the pipeline can always skip unknown properties as long as they =
-can
-> >>> +be confident that doing so will not cause unexpected results.
-> >>> +
-> >>> +If a new colorop doesn't fall into one of the above categories
-> >>> +(bypassable or informational) the modified pipeline would be unusable
-> >>> +for user space. In this case a new pipeline should be defined.   =20
-> >>
-> >> How can user space detect an informational element? Should we just add=
- a
-> >> BYPASS property to informational elements, make it read only and set to
-> >> true maybe? Or something more descriptive? =20
-> >=20
-> > Read-only BYPASS set to true would be fine by me, I guess.
-> >  =20
->=20
-> Don't you mean set to false? An informational element will always do
-> something, so it can't be bypassed.
+> On Monday, October 23rd, 2023 at 09:46, Albert Esteve <aesteve@redhat.com=
+>
+> wrote:
+>
+> > Link to the IGT test covering this patch (already merged):
+> > https://lists.freedesktop.org/archives/igt-dev/2023-July/058427.html
+>
+> Hmm. IGT should not be merged before the kernel, because as long as the
+> kernel is not merged there might be some uAPI changes.
+>
 
-Yeah, this is why we need a definition. I understand "informational" to
-not change pixel values in any way. Previously I had some weird idea
-that scaling doesn't alter color, but of course it may.
+Right, but uAPI header was not updated on the IGT side. As per suggestion
+of the
+maintainers, I added a static variable that matches the definition on this
+patch:
+https://lists.freedesktop.org/archives/igt-dev/2023-August/058803.html
+
++/**
++ * Clients which do set cursor hotspot and treat the cursor plane
++ * like a mouse cursor should set this property.
++ */
++#define LOCAL_DRM_CLIENT_CAP_CURSOR_PLANE_HOTSPOT=096
 
 
-> > I think we also need a definition of "informational".
-> >=20
-> > Counter-example 1: a colorop that represents a non-configurable =20
->=20
-> Not sure what's "counter" for these examples?
->=20
-> > YUV<->RGB conversion. Maybe it determines its operation from FB pixel
-> > format. It cannot be set to bypass, it cannot be configured, and it
-> > will alter color values.
-> >=20
-> > Counter-example 2: image size scaling colorop. It might not be
-> > configurable, it is controlled by the plane CRTC_* and SRC_*
-> > properties. You still need to understand what it does, so you can
-> > arrange the scaling to work correctly. (Do not want to scale an image
-> > with PQ-encoded values as Josh demonstrated in XDC.)
-> >  =20
->=20
-> IMO the position of the scaling operation is the thing that's important
-> here as the color pipeline won't define scaling properties.
->=20
-> > Counter-example 3: image sampling colorop. Averages FB originated color
-> > values to produce a color sample. Again do not want to do this with
-> > PQ-encoded values.
-> >  =20
->=20
-> Wouldn't this only happen during a scaling op?
-
-There is certainly some overlap between examples 2 and 3. IIRC SRC_X/Y
-coordinates can be fractional, which makes nearest vs. bilinear
-sampling have a difference even if there is no scaling.
-
-There is also the question of chroma siting with sub-sampled YUV. I
-don't know how that actually works, or how it theoretically should work.
+Once this patch gets upstreamed, the localized definition will be removed,
+replaced by the real one.
 
 
-Thanks,
-pq
+> > Mutter patch:
+> > https://lists.freedesktop.org/archives/igt-dev/2023-July/058427.html
+>
+> Seems like this link is same as IGT? Copy-pasta fail maybe?
+>
+>
+Ah yes, my bad, this is the correct link:
+https://gitlab.gnome.org/GNOME/mutter/-/merge_requests/3337
 
---Sig_/qqd_W1sAF/Y7YaGl/gFKxlf
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+--000000000000e4cdbd06085dce80
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
------BEGIN PGP SIGNATURE-----
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Mon, Oct 23, 2023 at 9:55=E2=80=AF=
+AM Simon Ser &lt;<a href=3D"mailto:contact@emersion.fr">contact@emersion.fr=
+</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:=
+0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">=
+On Monday, October 23rd, 2023 at 09:46, Albert Esteve &lt;<a href=3D"mailto=
+:aesteve@redhat.com" target=3D"_blank">aesteve@redhat.com</a>&gt; wrote:<br=
+>
+<br>
+&gt; Link to the IGT test covering this patch (already merged):<br>
+&gt; <a href=3D"https://lists.freedesktop.org/archives/igt-dev/2023-July/05=
+8427.html" rel=3D"noreferrer" target=3D"_blank">https://lists.freedesktop.o=
+rg/archives/igt-dev/2023-July/058427.html</a><br>
+<br>
+Hmm. IGT should not be merged before the kernel, because as long as the<br>
+kernel is not merged there might be some uAPI changes.<br></blockquote><div=
+><br></div><div>Right, but uAPI header was not updated on the IGT side. As =
+per suggestion of the</div><div>maintainers, I added a static variable that=
+ matches the definition=C2=A0on this patch:</div><div><a href=3D"https://li=
+sts.freedesktop.org/archives/igt-dev/2023-August/058803.html">https://lists=
+.freedesktop.org/archives/igt-dev/2023-August/058803.html</a></div><div><pr=
+e style=3D"color:rgb(0,0,0)">+/**
++ * Clients which do set cursor hotspot and treat the cursor plane
++ * like a mouse cursor should set this property.
++ */
++#define LOCAL_DRM_CLIENT_CAP_CURSOR_PLANE_HOTSPOT=096</pre></div><div>=C2=
+=A0</div><div>Once this patch gets upstreamed, the localized definition wil=
+l be removed,</div><div>replaced by the real one.</div><div><br></div><bloc=
+kquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:=
+1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+&gt; Mutter patch:<br>
+&gt; <a href=3D"https://lists.freedesktop.org/archives/igt-dev/2023-July/05=
+8427.html" rel=3D"noreferrer" target=3D"_blank">https://lists.freedesktop.o=
+rg/archives/igt-dev/2023-July/058427.html</a><br>
+<br>
+Seems like this link is same as IGT? Copy-pasta fail maybe?<br>
+<br></blockquote><div><br></div><div>Ah yes, my bad, this is the correct li=
+nk:</div><div><a href=3D"https://gitlab.gnome.org/GNOME/mutter/-/merge_requ=
+ests/3337">https://gitlab.gnome.org/GNOME/mutter/-/merge_requests/3337</a>=
+=C2=A0</div></div></div>
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmU2KuMACgkQI1/ltBGq
-qqe9sg//e+2tZwcGWLQ9z0wf1mod3a8u8/p+A5K26jyirflbuCs2PWiZzyrfMUAX
-KU3DOs5Fn8GBjU8Kif4tG4pqwQhJdU/ymYq8yWHP2fcYdg3RVw/LHJaPi2W6wfHn
-HH1001rUVcpEQrDsL+cVseezQwE3yDCik+cYFyBU8PvJvB6R5+TM95FEXfLBaDqE
-QQg+HRxLkoViiXTfkfLeT0Afl9Q6JtaFgGGStLudIWlVF1QfKr6HdDm5ttylYVHF
-44plzuWdWps6FXQtUG3plU0B6Y+5aDvvl8k3NjChbCFmEfLDEHN7rt6/9JUcG31q
-eCLaflJAZkTCLbpDtRa3cHxxmJ50+EXlbAdOCa/Tx1Py8w4OFTdt4dvisgdhvZgk
-FldYi9hqwYIx3b0RJ+ii/pilsK8glCTHrum4pWMK8WNDQIRSZaG8u1R5SfSBXdH3
-+ZdEe7dGQh2nnp1tH04OX0O5VrpSvq18MHsMH8o9qRsw+gQOLjFvJYtggtrYT/1W
-UvqE3BdZ2xCVFDEWZKgJp+nd/diXfuZGKcQNYn8iU/rhI4kj31RU9dAOK42UdIfe
-SNC5akhkrqL9MhLasPuLatIf4v6yocKtTN7StqGT7QbvJTgoEpoKZKxattE2R+O3
-i3xXgDq9ZxetVWEN/tgegko2tHyQqMQsmSFKOYqEd1RzK4UVbws=
-=UB3z
------END PGP SIGNATURE-----
+--000000000000e4cdbd06085dce80--
 
---Sig_/qqd_W1sAF/Y7YaGl/gFKxlf--
