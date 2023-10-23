@@ -1,68 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 575B27D2E81
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Oct 2023 11:35:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 800AB7D305D
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Oct 2023 12:48:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A310510E1A8;
-	Mon, 23 Oct 2023 09:35:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 29CF710E12A;
+	Mon, 23 Oct 2023 10:48:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com
- [IPv6:2607:f8b0:4864:20::632])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2CFF510E1A8
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Oct 2023 09:35:38 +0000 (UTC)
-Received: by mail-pl1-x632.google.com with SMTP id
- d9443c01a7336-1ca82f015e4so17646865ad.1
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Oct 2023 02:35:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1698053738; x=1698658538; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=yABT5FFnh4X/Y/LyB66g3fqLvBOZpaIzrRY5ABFGnkQ=;
- b=KF3i+PlNhruNXfOECLCzH8ekNx9mGnImNbDnofv9EV1TVxZsRhCeHGkPf3uIOR9T1G
- 5tA1F8kKr8yKkAV9DfayBvt6OKjgQ2g95EbtUx0lZ4Aww+bGDk0/NQhipeziOhqbTYwz
- 3V9p+soNbb7DrNTdyJDHxWd6trNvDMW1W84uNVynPDJdkDHf1aN0vhg1FW0qCE585zxK
- c6/vvp4wU2+xQJUuuejbNWEHwrCuZ4PsMPhWzqAywOlA+uGTdrD6/RX7EXr0Z61rpodV
- 72Bd2VKp6dx8+ZF4rF7wev9k9S5Z9NhbU0T/5IT/O9o6W/MbPt8XZ3PnxUOwvwpPd/Yv
- zj9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1698053738; x=1698658538;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=yABT5FFnh4X/Y/LyB66g3fqLvBOZpaIzrRY5ABFGnkQ=;
- b=uDEBscax8GZ7latY4hvccTP90vvw2B2kAPvcgWCE2Gkv8GeXH2tPEGmv75UOtjdVsF
- nhVc7lzGfZAfo62CqpaDh5Wvg+xBRJ+BqGr8r2ktsyW9O9yo+ONLgHYiK7vkSqE2jKfh
- 4iiXr88DmGiW31OwPFxxhK+DHIg9bceNYCKUzB5G7gYgE/mK+XGN55IPi/POP6ivbx6/
- mU3C1lWmNTAtgePA9Ey3BewPGP3e8tlDKMloSmPvFszMA+sWkwfWBWsRjtqlMA3S/Oie
- t4WVP8eeCbSlbMYW1/gsxDCXJugUVcW77qtVBgsLW+jtRKJkEfHf58wkXYLB+g6Hz38S
- OwAQ==
-X-Gm-Message-State: AOJu0YznKwszH/qjTzopBv7EQ99spKb9D8YvWJgsbog/0kLA2MkJgDl4
- W+DHu5uF3eTZ1frLV8LUqXY=
-X-Google-Smtp-Source: AGHT+IFvSiOA6htTOo8olw+VPfJ4yMRiqsMDCFp7e9OCUIXpHMLjxUv5QtpdSinJRP1SkxsAjJkSFQ==
-X-Received: by 2002:a17:903:110d:b0:1c9:ea6e:5a63 with SMTP id
- n13-20020a170903110d00b001c9ea6e5a63mr7679602plh.32.1698053737624; 
- Mon, 23 Oct 2023 02:35:37 -0700 (PDT)
-Received: from debian.me ([103.131.18.64]) by smtp.gmail.com with ESMTPSA id
- jc1-20020a17090325c100b001c5fe217fb9sm5568258plb.267.2023.10.23.02.35.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Oct 2023 02:35:37 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
- id 2F7CF812660D; Mon, 23 Oct 2023 16:35:34 +0700 (WIB)
-Date: Mon, 23 Oct 2023 16:35:34 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Dario Binacchi <dario.binacchi@amarulasolutions.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] drm/vc4: fix typo
-Message-ID: <ZTY-ZqWxW5V-T680@debian.me>
-References: <20231023085929.1445594-1-dario.binacchi@amarulasolutions.com>
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 942D010E0C1;
+ Mon, 23 Oct 2023 10:48:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1698058094; x=1729594094;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=j6gkewFE2ehbSRRm8yxR5V6tYph8e2bExlA+57BfIvw=;
+ b=lmoNGG2lTcMyOByyGvYHxbKmxR9sbdx4d3rO/y7N9DkC4nXaT51gyiq9
+ CWmBA/JO/HOL1qklXMIcf4UwdYmPuNghfaUWYifWGahdKj2zeV6EuTO5J
+ 8X2eQoiXd+MIi38ScT8zVvyKsoUMHXoVn8pQZE+gTZJniXe8o1POHw8n4
+ OFrxReqV/MSYOiKdT2DWCcekLmXp5nvW5x5px2HWXH8cBZd9fj5kJUes6
+ oBjOFSuHqMmvht2AFOVGLPQQGqavF9X6nvaB8OjO+0lJzgJpN+WxxPx/2
+ YY/MQcA+v0Al2Tj00JWr3C3Ks6PSoAzj3+QfF2mTauTJZCJnoxjiiwMFJ g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10871"; a="371880228"
+X-IronPort-AV: E=Sophos;i="6.03,244,1694761200"; d="scan'208";a="371880228"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Oct 2023 03:47:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10871"; a="823925172"
+X-IronPort-AV: E=Sophos;i="6.03,244,1694761200"; d="scan'208";a="823925172"
+Received: from evlad-mobl.ger.corp.intel.com (HELO localhost) ([10.252.47.180])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Oct 2023 03:47:47 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Sean Young <sean@mess.org>, linux-media@vger.kernel.org,
+ linux-pwm@vger.kernel.org, Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
+ Thierry Reding <thierry.reding@gmail.com>, Uwe =?utf-8?Q?Kleine-K=C3=B6ni?=
+ =?utf-8?Q?g?=
+ <u.kleine-koenig@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, Joonas
+ Lahtinen <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi
+ <rodrigo.vivi@intel.com>, Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Javier
+ Martinez Canillas <javierm@redhat.com>, Jean Delvare <jdelvare@suse.com>,
+ Guenter Roeck <linux@roeck-us.net>, Support Opensource
+ <support.opensource@diasemi.com>, Dmitry Torokhov
+ <dmitry.torokhov@gmail.com>, Pavel Machek <pavel@ucw.cz>, Lee Jones
+ <lee@kernel.org>, Sean Young <sean@mess.org>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Hans de Goede <hdegoede@redhat.com>, Ilpo
+ =?utf-8?Q?J=C3=A4rvinen?=
+ <ilpo.jarvinen@linux.intel.com>, Mark Gross <markgross@kernel.org>, Liam
+ Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Daniel
+ Thompson <daniel.thompson@linaro.org>, Jingoo Han <jingoohan1@gmail.com>,
+ Helge Deller <deller@gmx.de>
+Subject: Re: [PATCH v3 1/3] pwm: make it possible to apply pwm changes in
+ atomic context
+In-Reply-To: <a7fcd19938d5422abc59c968ff7b3d5c275577ed.1697534024.git.sean@mess.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <cover.1697534024.git.sean@mess.org>
+ <a7fcd19938d5422abc59c968ff7b3d5c275577ed.1697534024.git.sean@mess.org>
+Date: Mon, 23 Oct 2023 13:47:44 +0300
+Message-ID: <87y1ftboof.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="HhZAxpuppBM8l8d1"
-Content-Disposition: inline
-In-Reply-To: <20231023085929.1445594-1-dario.binacchi@amarulasolutions.com>
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,59 +77,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emma Anholt <emma@anholt.net>, Maxime Ripard <mripard@kernel.org>,
- Eric Anholt <eric@anholt.net>,
- Linux DRI Development <dri-devel@lists.freedesktop.org>
+Cc: linux-hwmon@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ platform-driver-x86@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-input@vger.kernel.org, linux-leds@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, 17 Oct 2023, Sean Young <sean@mess.org> wrote:
+> diff --git a/drivers/gpu/drm/i915/display/intel_backlight.c b/drivers/gpu/drm/i915/display/intel_backlight.c
+> index 2e8f17c045222..cf516190cde8f 100644
+> --- a/drivers/gpu/drm/i915/display/intel_backlight.c
+> +++ b/drivers/gpu/drm/i915/display/intel_backlight.c
+> @@ -274,7 +274,7 @@ static void ext_pwm_set_backlight(const struct drm_connector_state *conn_state,
+>  	struct intel_panel *panel = &to_intel_connector(conn_state->connector)->panel;
+>  
+>  	pwm_set_relative_duty_cycle(&panel->backlight.pwm_state, level, 100);
+> -	pwm_apply_state(panel->backlight.pwm, &panel->backlight.pwm_state);
+> +	pwm_apply_cansleep(panel->backlight.pwm, &panel->backlight.pwm_state);
+>  }
+>  
+>  static void
+> @@ -427,7 +427,7 @@ static void ext_pwm_disable_backlight(const struct drm_connector_state *old_conn
+>  	intel_backlight_set_pwm_level(old_conn_state, level);
+>  
+>  	panel->backlight.pwm_state.enabled = false;
+> -	pwm_apply_state(panel->backlight.pwm, &panel->backlight.pwm_state);
+> +	pwm_apply_cansleep(panel->backlight.pwm, &panel->backlight.pwm_state);
+>  }
+>  
+>  void intel_backlight_disable(const struct drm_connector_state *old_conn_state)
+> @@ -749,7 +749,7 @@ static void ext_pwm_enable_backlight(const struct intel_crtc_state *crtc_state,
+>  
+>  	pwm_set_relative_duty_cycle(&panel->backlight.pwm_state, level, 100);
+>  	panel->backlight.pwm_state.enabled = true;
+> -	pwm_apply_state(panel->backlight.pwm, &panel->backlight.pwm_state);
+> +	pwm_apply_cansleep(panel->backlight.pwm, &panel->backlight.pwm_state);
+>  }
+>  
+>  static void __intel_backlight_enable(const struct intel_crtc_state *crtc_state,
 
---HhZAxpuppBM8l8d1
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The i915 parts are
 
-On Mon, Oct 23, 2023 at 10:59:20AM +0200, Dario Binacchi wrote:
-> Replace 'pack' with 'back'.
->=20
-> Fixes: c8b75bca92cb ("drm/vc4: Add KMS support for Raspberry Pi.")
-> Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
-> ---
->=20
->  drivers/gpu/drm/vc4/vc4_regs.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/vc4/vc4_regs.h b/drivers/gpu/drm/vc4/vc4_reg=
-s.h
-> index f3763bd600f6..8ac9515554f8 100644
-> --- a/drivers/gpu/drm/vc4/vc4_regs.h
-> +++ b/drivers/gpu/drm/vc4/vc4_regs.h
-> @@ -588,7 +588,7 @@ enum {
->  # define VC4_HDMI_HORZA_HAP_MASK		VC4_MASK(12, 0)
->  # define VC4_HDMI_HORZA_HAP_SHIFT		0
-> =20
-> -/* Horizontal pack porch (htotal - hsync_end). */
-> +/* Horizontal back porch (htotal - hsync_end). */
->  # define VC4_HDMI_HORZB_HBP_MASK		VC4_MASK(29, 20)
->  # define VC4_HDMI_HORZB_HBP_SHIFT		20
->  /* Horizontal sync pulse (hsync_end - hsync_start). */
+Acked-by: Jani Nikula <jani.nikula@intel.com>
 
-The patch LGTM, thanks!
+for merging via whichever tree you find most convenient, and with
+whatever naming you end up with.
 
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---HhZAxpuppBM8l8d1
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZTY+YgAKCRD2uYlJVVFO
-o4uJAPsF/0tqkXJtyKWS9NFtEic6P8EFkZFBwN7whe0nGCG1TgD9ESkhI7yTyWaC
-8KW7Y7+ovXXLIouw0NbhOqNjfpsr0w4=
-=5e8G
------END PGP SIGNATURE-----
-
---HhZAxpuppBM8l8d1--
+-- 
+Jani Nikula, Intel
