@@ -1,65 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 381CA7D3804
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Oct 2023 15:28:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EE5097D382A
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Oct 2023 15:34:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A87510E029;
-	Mon, 23 Oct 2023 13:28:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F90910E0D4;
+	Mon, 23 Oct 2023 13:34:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
- [IPv6:2a00:1450:4864:20::131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 33A0910E029
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Oct 2023 13:28:02 +0000 (UTC)
-Received: by mail-lf1-x131.google.com with SMTP id
- 2adb3069b0e04-50797cf5b69so4527110e87.2
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Oct 2023 06:28:02 -0700 (PDT)
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
+ [IPv6:2a00:1450:4864:20::32d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A85D710E0D4
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Oct 2023 13:34:21 +0000 (UTC)
+Received: by mail-wm1-x32d.google.com with SMTP id
+ 5b1f17b1804b1-40837ebba42so24381525e9.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Oct 2023 06:34:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1698067680; x=1698672480; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=2urRTeG3ufYgcsCQiPb5uV+eiXVppkz+Tw64mxpZfeY=;
- b=c+vy0ejmOahyFXtL4yhMBmCa2rC+7VhQ3YXSBWI3JC1u7WmFVShXPdW56lP2QrcuCE
- TRApZMkgkizUtyaSdmRGj7fWSGpwDBe2WJOig5QME4uMwkLIWId/h6YtZ+1Hc8LLeZpp
- paPyM7QomlrEqqILkiWyqQ2fPpet/nVNd67eEZZOIJm9DppngqkSDstH+SHDcq0Iwuyi
- RP7iaBj05ODmPMwPFD7iToQ1xJcmc6D0cxp1/bcEeaZ6jtd7ShIOJh5Eb+M1QHf5dyCb
- P0B3if6WHWVZqSbAPXApFzpmzGZ/89OpRxwgda/Vagu6oOcXRiSxh19yxQiAKXvwZUg3
- 0IRg==
+ d=linaro.org; s=google; t=1698068060; x=1698672860; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=ufOU/q/Ep1kAY17X99uhm7aprCNDlkkpHRrj3TivtTs=;
+ b=H7WvVF75IM5WPe+q3Tb5+oThUtgadDKn6Bk3uy7WYZvpyTRccbT9J9J77UrvGvL+dy
+ gvT8O420safmOda7ILkDkWzAo7c7loO5ZV8Jyrn0AFsnDdGQJ+hkjpb4p8zj+UvRuvXo
+ X4QRYICeWK8GGi6luiuE0cMJf5mu/XEF8+5CD2KGfQfWAkO3t4/ywL0noIPuri+F0yfN
+ FV1aXeUnTB1iXXcStB+bK4OtW7hqHAIpitUMTL5vwWDoNJ+6MiBgEdV1guwZHE31q8p3
+ LAgViSIplfnCHqMBk/vz5mwzb9mbkl7Yb9BV56YDP554bThDJBRS4FaM/dqCe6QaZxy/
+ hXQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1698067680; x=1698672480;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=2urRTeG3ufYgcsCQiPb5uV+eiXVppkz+Tw64mxpZfeY=;
- b=eRm7jGzHmQfEn/fm/aa6oqxVApiZIZppCOrzIyZTqLUu7qUJyUiHW4iLuf8WOdicGg
- AxlhUK88UiuRzMw1AV2q1i4esWhgERjrUnB7KVzNf563b9QkOnLCGDoy62qmW5C8FBs1
- RN0dQY6z+O38THoy3YAZM/MX+xxL2NfRWHaf0Xur3oRhUzzM34fck6qzC4Aa95NLCXox
- Ju/Oz5xOL0fXupmICdy+Vf6OYQ3JUehZ2nYFZrHK5DdXaEAJan4yGNYWQLDJeZVKECom
- e5ELM7COZ36/MiAhPJ7v3FUJB14Ygx0qhraT0neaK2OrSFSfnpmf98bnAo2M1Eo8CdZ/
- KMAA==
-X-Gm-Message-State: AOJu0YzpODaZTrKWfvxQUQGmYp/e0nPQWyyNU1Lh4EURuAqoeUNuwLQh
- iWFLRKXQPJ+hDoPZZyqMXuU=
-X-Google-Smtp-Source: AGHT+IHoOqLfenpIDVx8JfQwy19YnxYvRmL3hM1j1nZMRcsvojnGLGLzBNAhcIvEp+gdH4N+YYLicg==
-X-Received: by 2002:a19:5e1c:0:b0:503:1aae:eca0 with SMTP id
- s28-20020a195e1c000000b005031aaeeca0mr6397211lfb.44.1698067680102; 
- Mon, 23 Oct 2023 06:28:00 -0700 (PDT)
-Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net.
- [80.193.200.194]) by smtp.gmail.com with ESMTPSA id
- o3-20020a5d6843000000b003143c9beeaesm7785417wrw.44.2023.10.23.06.27.59
+ d=1e100.net; s=20230601; t=1698068060; x=1698672860;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ufOU/q/Ep1kAY17X99uhm7aprCNDlkkpHRrj3TivtTs=;
+ b=LIiY4SytQsTNv3CPMKs2xbWXlq6Ln5TsWROFT3zh+HE9ZaTdJW24GtFT3Eo8u0yaZU
+ guzb+7iebLVTQI0MUqJFBthEvxlwjGDIC2ZiZUJm5ZWr7qUN1LXMs4pmDWlBwtu/TmTA
+ LI97E9y/tp43lrRWFlzBcceHxWHLrCwGb1PEBgLEurz7juETJ/giPtKgCm6f4PB+WoOZ
+ vWLRkSkPseWu7dq70OA/5KyiZO0dlR0G3KGf0Njj4qSg/U6wLb9A/YaPNRYHsqKSUn5T
+ Vo6oz8T2m9omvxjx3Aw/wr7tDD6wg7AXrr0Qg4Z+e9Oo5iu4p7KEFZwpMMxcT7OrBBlT
+ +PDA==
+X-Gm-Message-State: AOJu0YyEmBHK03wh6KX4v1Rquk+74x29G3DwFywmN4F94C0RNuNH1Esg
+ D6xtJusYX5S8VyMBqGkkooFTVg==
+X-Google-Smtp-Source: AGHT+IHwl+E4YFajmY7IWxRpWgtSmDl22RT8PM7nnOAmIYDUhgS2AbK4FuptOkLbmHVvg59kegsf/Q==
+X-Received: by 2002:a05:600c:35c5:b0:405:4002:825a with SMTP id
+ r5-20020a05600c35c500b004054002825amr7494266wmq.13.1698068059941; 
+ Mon, 23 Oct 2023 06:34:19 -0700 (PDT)
+Received: from aspen.lan
+ (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
+ by smtp.gmail.com with ESMTPSA id
+ 1-20020a05600c028100b004077219aed5sm14125564wmk.6.2023.10.23.06.34.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Oct 2023 06:27:59 -0700 (PDT)
-From: Colin Ian King <colin.i.king@gmail.com>
-To: David Airlie <airlied@redhat.com>,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH][next] agp/amd64: remove redundant assignment to variable i
-Date: Mon, 23 Oct 2023 14:27:59 +0100
-Message-Id: <20231023132759.666224-1-colin.i.king@gmail.com>
-X-Mailer: git-send-email 2.39.2
+ Mon, 23 Oct 2023 06:34:19 -0700 (PDT)
+Date: Mon, 23 Oct 2023 14:34:17 +0100
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Sean Young <sean@mess.org>
+Subject: Re: [PATCH v3 1/3] pwm: make it possible to apply pwm changes in
+ atomic context
+Message-ID: <20231023133417.GE49511@aspen.lan>
+References: <cover.1697534024.git.sean@mess.org>
+ <a7fcd19938d5422abc59c968ff7b3d5c275577ed.1697534024.git.sean@mess.org>
+ <90728c06-4c6c-b3d2-4723-c24711be2fa5@redhat.com>
+ <20231019105118.64gdzzixwqrztjir@pengutronix.de>
+ <01a505ac-320f-3819-a58d-2b82c1bf2a86@redhat.com>
+ <ZTT9fvEF+lqfzGJ/@gofer.mess.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <ZTT9fvEF+lqfzGJ/@gofer.mess.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,31 +81,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: linux-fbdev@vger.kernel.org, linux-doc@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Thierry Reding <thierry.reding@gmail.com>, Pavel Machek <pavel@ucw.cz>,
+ linux-leds@vger.kernel.org, Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>, Helge Deller <deller@gmx.de>,
+ Lee Jones <lee@kernel.org>, Javier Martinez Canillas <javierm@redhat.com>,
+ Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+ Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ Guenter Roeck <linux@roeck-us.net>, linux-media@vger.kernel.org,
+ platform-driver-x86@vger.kernel.org, linux-pwm@vger.kernel.org,
+ Jean Delvare <jdelvare@suse.com>, intel-gfx@lists.freedesktop.org,
+ linux-input@vger.kernel.org, Mark Gross <markgross@kernel.org>,
+ Hans de Goede <hdegoede@redhat.com>, Mark Brown <broonie@kernel.org>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ linux-arm-kernel@lists.infradead.org, linux-hwmon@vger.kernel.org,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Support Opensource <support.opensource@diasemi.com>,
+ Jingoo Han <jingoohan1@gmail.com>, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Liam Girdwood <lgirdwood@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The variable i is being initialized to 0 and then again in the
-following for-loop. The initialization outside the for-loop is
-redundant and can be removed.
+On Sun, Oct 22, 2023 at 11:46:22AM +0100, Sean Young wrote:
+> Hi Hans,
+>
+> On Sat, Oct 21, 2023 at 11:08:22AM +0200, Hans de Goede wrote:
+> > On 10/19/23 12:51, Uwe Kleine-König wrote:
+> > > On Wed, Oct 18, 2023 at 03:57:48PM +0200, Hans de Goede wrote:
+> > >> On 10/17/23 11:17, Sean Young wrote:
+> > > I think it's very subjective if you consider this
+> > > churn or not.
+> >
+> > I consider it churn because I don't think adding a postfix
+> > for what is the default/expected behavior is a good idea
+> > (with GPIOs not sleeping is the expected behavior).
+> >
+> > I agree that this is very subjective and very much goes
+> > into the territory of bikeshedding. So please consider
+> > the above my 2 cents on this and lets leave it at that.
+>
+> You have a valid point. Let's focus on having descriptive function names.
 
-Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
----
- drivers/char/agp/amd64-agp.c | 1 -
- 1 file changed, 1 deletion(-)
+For a couple of days I've been trying to resist the bikeshedding (esp.
+given the changes to backlight are tiny) so I'll try to keep it as
+brief as I can:
 
-diff --git a/drivers/char/agp/amd64-agp.c b/drivers/char/agp/amd64-agp.c
-index ce8651436609..47bd3b8a54b4 100644
---- a/drivers/char/agp/amd64-agp.c
-+++ b/drivers/char/agp/amd64-agp.c
-@@ -333,7 +333,6 @@ static int cache_nbs(struct pci_dev *pdev, u32 cap_ptr)
- 	if (!amd_nb_has_feature(AMD_NB_GART))
- 		return -ENODEV;
- 
--	i = 0;
- 	for (i = 0; i < amd_nb_num(); i++) {
- 		struct pci_dev *dev = node_to_amd_nb(i)->misc;
- 		if (fix_northbridge(dev, pdev, cap_ptr) < 0) {
--- 
-2.39.2
+1. I dislike the do_it() and do_it_cansleep() pairing. It is
+   difficult to detect when a client driver calls do_it() by mistake.
+   In fact a latent bug of this nature can only be detected by runtime
+   testing with the small number of PWMs that do not support
+   configuration from an atomic context.
 
+   In contrast do_it() and do_it_atomic()[*] means that although
+   incorrectly calling do_it() from an atomic context can be pretty
+   catastrophic it is also trivially detected (with any PWM driver)
+   simply by running with CONFIG_DEBUG_ATOMIC_SLEEP.
+
+   No objections (beyond churn) to fully spelt out pairings such as
+   do_it_cansleep() and do_it_atomic()[*]!
+
+
+2. If there is an API rename can we make sure the patch contains no
+   other changes (e.g. don't introduce any new API in the same patch).
+   Seperating renames makes the patches easier to review!
+   It makes each one smaller and easier to review!
+
+
+Daniel.
+
+
+[*] or do_it_nosleep()... etc.
