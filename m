@@ -1,68 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE4C97D3760
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Oct 2023 15:02:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 01F007D3763
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Oct 2023 15:02:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F23F10E039;
-	Mon, 23 Oct 2023 13:02:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 14BB110E073;
+	Mon, 23 Oct 2023 13:02:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com
- [IPv6:2a00:1450:4864:20::234])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 67B0810E039
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Oct 2023 13:02:28 +0000 (UTC)
-Received: by mail-lj1-x234.google.com with SMTP id
- 38308e7fff4ca-2c514cbbe7eso44931701fa.1
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Oct 2023 06:02:28 -0700 (PDT)
+Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com
+ [IPv6:2a00:1450:4864:20::22b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD0DB10E0C3
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Oct 2023 13:02:43 +0000 (UTC)
+Received: by mail-lj1-x22b.google.com with SMTP id
+ 38308e7fff4ca-2c50305c5c4so49543641fa.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Oct 2023 06:02:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1698066146; x=1698670946; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1698066162; x=1698670962; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :references:cc:to:content-language:subject:reply-to:from:user-agent
  :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=fmrEJMDm9NV/OX4RuxTpHBh/JZKg9mwQsrXOAEEcbYc=;
- b=RRbPS5kiWsYmbvnvZxrXofk4D8pnV8NTvpbO+Lah80PXjhO3hK7CnfOJdQxGRuOoAN
- Mv0uI63x7XJX+L5W0DF0MZUE70BagVLwcdVpKPkHZyS2M9ny4XloLDsnV+zXR/96Yo3H
- DihV5mrHgZ2MqlFIFC76j/Qt/hMmtSGvxDgHlv36miMipRAOYsliZKfsAXhr/w9dydt7
- h+N52mPeEafvIPE/ZE43XSW3pWLntyGsAX8dTSr8c6SMsmhw7JcyVNfhNYnpBNaQ1PIg
- o8gxFMG7MiHbsBOYJ0L9n6NoWLQigFufCzrh2VeMHj+UJ4tdrJ/MMVcqApkZRPjFdVs1
- GWmw==
+ :reply-to; bh=MgFNr6FcmOWS/usiiC66U6I1zftVuSnpAU5KTvaY1sA=;
+ b=ov9k9yvztVReDGQ4CuHUgyuznsDVvKRN1nieWfGugOMqmckam/Fz+O/LcLK8LiM2H4
+ L8ogLk5vNke1fmD5rxGLiOKLaBi6qU8ahLRHU249HLS3H8QZo9ZgqyNodAWIrq/0ffmh
+ DE30bnhrcGZfamD9GS1jZxIEFBMpENyrzqBe5zZ8kNO19hWp5chcefM++re1eh/XHjkg
+ 73lGnXflPHTA5llCjF0TIUePT21VA6XyjhQMaxu6SdvAkixQSbIKXG8KbgCXP+r5qaDH
+ oll/G3WKFTc9ZIU48yiHtBuZKLbbIYmMiC5iUkPIqTEr/UGd3p9J9ta/llFHopGk1L+L
+ 7Xdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1698066146; x=1698670946;
+ d=1e100.net; s=20230601; t=1698066162; x=1698670962;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :references:cc:to:content-language:subject:reply-to:from:user-agent
  :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
  :date:message-id:reply-to;
- bh=fmrEJMDm9NV/OX4RuxTpHBh/JZKg9mwQsrXOAEEcbYc=;
- b=vtZV+qOt7nCKrDdiF5WuGWpIfOcgBq9YAYttqsMEx1d+9NMrC7PoTxqgfh515sbxbL
- iZISCHgIaDV1HDlbEIGD8zapMEttNh5rXo4bsSYjHwI7rXd0Fxg2Q9qDDkn9Ry4Z4y22
- 1TyWDbaFuY7aYvID8bO4FPy9olXrOkYG3LPmOHRBmzjFw1sj2Mw67P4KZjDxcKyb7hns
- 2iPVSLevKUIz2pz6nWiFNt4XneaaLC82nw9Ynnjk52OBS6X+v9duiCxvVTDlm0PnJ/W5
- Xct+hayPind7xnhihSB3KGfbmYRa0/zXkyFNaZQCyEj8RovEEdQoIc/hfBmL2CD6nXio
- MKKQ==
-X-Gm-Message-State: AOJu0Yx5l3oDUeoFFyEuGFvXK/o8uZ351OO5+rwO5NGBPX4Eu/JSUSkJ
- tS68cSnrrEKTxFVgaHU0EyXU/Q==
-X-Google-Smtp-Source: AGHT+IHchV/cYmKpch+lkDxCiAwIOK0lDpGSdnb9Zr4gjJtjnKmGLfRonfeVWlpYTI6YHAaWbW3CVA==
-X-Received: by 2002:a05:651c:4d2:b0:2c0:52e:eafa with SMTP id
- e18-20020a05651c04d200b002c0052eeafamr8896753lji.29.1698066146570; 
- Mon, 23 Oct 2023 06:02:26 -0700 (PDT)
+ bh=MgFNr6FcmOWS/usiiC66U6I1zftVuSnpAU5KTvaY1sA=;
+ b=VDf/GCkwrpCzxF3IJXZwDAqoNsTtEu6Ektvns8C662ASWatmvfAO5X2dn3667XBgEj
+ XQ7TCYdK5NxwrEVBzAr3KzL75dZhPYY2wfRDnDKS/Cj/m3JWkyI7qeI+i4dVvLOOaWms
+ m/BS2vf8es7iIxFuqiOkogrjJ4y4NlM4Jxxfg+12mYJ3ajTj7zQc/7iPhaqSBDd3p1tT
+ sdjQ4ox2HXZ0TlCowDvVIUzL+fKtFPdLPqoUFu3jaAf4KF/w6CU/DuwEeUhG7wqTAfPr
+ ATjDXoBw77AWvfUCGWQioEKPHtXn4XLN9jjLqBNzYX6E+66+79z2P+aPwOZUayUBKqOR
+ ECSQ==
+X-Gm-Message-State: AOJu0YyA5FNlXibDuwBK/smfLXrq0OBB+O5ZNp3V3fvHI3oLBJL077vJ
+ 4oAZIvKmD76gJuC6mXfmcdGEqw==
+X-Google-Smtp-Source: AGHT+IGKZuGQih5vp85wvoVQ9ypj1+US7Ei7+DEFYLhglKM+NPnU5wuPa0mH7bPmmnCXFpSrmR6bJQ==
+X-Received: by 2002:a2e:81cc:0:b0:2c0:2ef8:9716 with SMTP id
+ s12-20020a2e81cc000000b002c02ef89716mr6748346ljg.1.1698066161794; 
+ Mon, 23 Oct 2023 06:02:41 -0700 (PDT)
 Received: from ?IPV6:2a01:e0a:982:cbb0:a36e:a5d9:26ae:74b1?
  ([2a01:e0a:982:cbb0:a36e:a5d9:26ae:74b1])
  by smtp.gmail.com with ESMTPSA id
- j14-20020a05600c130e00b0040772934b12sm13983176wmf.7.2023.10.23.06.02.25
+ j14-20020a05600c130e00b0040772934b12sm13983176wmf.7.2023.10.23.06.02.40
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 23 Oct 2023 06:02:25 -0700 (PDT)
-Message-ID: <6c415fb2-97f1-477c-b6ef-2e4c64e46dec@linaro.org>
-Date: Mon, 23 Oct 2023 15:02:24 +0200
+ Mon, 23 Oct 2023 06:02:41 -0700 (PDT)
+Message-ID: <f66478ac-4252-4406-8c04-d9d93b5fcf64@linaro.org>
+Date: Mon, 23 Oct 2023 15:02:40 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH] drm/panel: nt35510: fix typo
+Subject: Re: [PATCH] drm/panel/raydium-rm692e5: select
+ CONFIG_DRM_DISPLAY_DP_HELPER
 Content-Language: en-US, fr
-To: Dario Binacchi <dario.binacchi@amarulasolutions.com>,
- linux-kernel@vger.kernel.org
-References: <20231023090613.1694133-1-dario.binacchi@amarulasolutions.com>
+To: Arnd Bergmann <arnd@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Luca Weiss <luca.weiss@fairphone.com>
+References: <20231023115619.3551348-1-arnd@kernel.org>
 Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
  GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
@@ -88,7 +93,7 @@ Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
  QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
 Organization: Linaro Developer Services
-In-Reply-To: <20231023090613.1694133-1-dario.binacchi@amarulasolutions.com>
+In-Reply-To: <20231023115619.3551348-1-arnd@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -104,32 +109,41 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Reply-To: neil.armstrong@linaro.org
-Cc: Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org
+Cc: Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 23/10/2023 11:05, Dario Binacchi wrote:
-> Replace 'HFP' with 'HBP'.
+On 23/10/2023 13:55, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
 > 
-> Fixes: 899f24ed8d3a ("drm/panel: Add driver for Novatek NT35510-based panels")
-> Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
+> As with several other panel drivers, this fails to link without the DP
+> helper library:
+> 
+> ld: drivers/gpu/drm/panel/panel-raydium-rm692e5.o: in function `rm692e5_prepare':
+> panel-raydium-rm692e5.c:(.text+0x11f4): undefined reference to `drm_dsc_pps_payload_pack'
+> 
+> Select the same symbols that the others already use.
+> 
+> Fixes: 988d0ff29ecf7 ("drm/panel: Add driver for BOE RM692E5 AMOLED panel")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 > ---
+>   drivers/gpu/drm/panel/Kconfig | 2 ++
+>   1 file changed, 2 insertions(+)
 > 
->   drivers/gpu/drm/panel/panel-novatek-nt35510.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/panel/panel-novatek-nt35510.c b/drivers/gpu/drm/panel/panel-novatek-nt35510.c
-> index d6dceb858008..83a9cf53d269 100644
-> --- a/drivers/gpu/drm/panel/panel-novatek-nt35510.c
-> +++ b/drivers/gpu/drm/panel/panel-novatek-nt35510.c
-> @@ -1023,7 +1023,7 @@ static const struct nt35510_config nt35510_hydis_hva40wv1 = {
->   		.hdisplay = 480,
->   		.hsync_start = 480 + 2, /* HFP = 2 */
->   		.hsync_end = 480 + 2 + 0, /* HSync = 0 */
-> -		.htotal = 480 + 2 + 0 + 5, /* HFP = 5 */
-> +		.htotal = 480 + 2 + 0 + 5, /* HBP = 5 */
->   		.vdisplay = 800,
->   		.vsync_start = 800 + 2, /* VFP = 2 */
->   		.vsync_end = 800 + 2 + 0, /* VSync = 0 */
+> diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
+> index 99e14dc212ecb..a4ac4b47777fe 100644
+> --- a/drivers/gpu/drm/panel/Kconfig
+> +++ b/drivers/gpu/drm/panel/Kconfig
+> @@ -530,6 +530,8 @@ config DRM_PANEL_RAYDIUM_RM692E5
+>   	depends on OF
+>   	depends on DRM_MIPI_DSI
+>   	depends on BACKLIGHT_CLASS_DEVICE
+> +	select DRM_DISPLAY_DP_HELPER
+> +	select DRM_DISPLAY_HELPER
+>   	help
+>   	  Say Y here if you want to enable support for Raydium RM692E5-based
+>   	  display panels, such as the one found in the Fairphone 5 smartphone.
 
 Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
