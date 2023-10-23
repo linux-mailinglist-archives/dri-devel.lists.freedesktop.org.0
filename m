@@ -1,80 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B7057D2CC0
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Oct 2023 10:31:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C68E57D2CF6
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Oct 2023 10:41:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A3FA010E180;
-	Mon, 23 Oct 2023 08:31:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A2E710E185;
+	Mon, 23 Oct 2023 08:40:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B34B10E180
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Oct 2023 08:31:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1698049863;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HOnHu/HXv+/MexAzD91ndTElaP4qcEAtusLsQWzhRN8=;
- b=DNQUBabz36CAvYMTBzJAUI9AoGWrV13MsJUfsgo5Pv9MznbA9wvVwSuYaEeDUeqasdLHkB
- su4c4yIMQ0moO0vYFKIydGEshtBXoFxLIEWvNmRoJOzUyYRCja8DtRuU5zhXSDGFrcTJmR
- oPGPC/TMQU1Xn+/eSofJhSEKQm8N+qk=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-170-KRU7DTXTMzuBrkf1oC2T0Q-1; Mon, 23 Oct 2023 04:31:01 -0400
-X-MC-Unique: KRU7DTXTMzuBrkf1oC2T0Q-1
-Received: by mail-wm1-f72.google.com with SMTP id
- 5b1f17b1804b1-4084e263ec4so18203005e9.2
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Oct 2023 01:31:01 -0700 (PDT)
+Received: from mail-yw1-x1133.google.com (mail-yw1-x1133.google.com
+ [IPv6:2607:f8b0:4864:20::1133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 400DF10E186
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Oct 2023 08:40:54 +0000 (UTC)
+Received: by mail-yw1-x1133.google.com with SMTP id
+ 00721157ae682-5a7a80a96dbso32687227b3.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Oct 2023 01:40:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1698050453; x=1698655253; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=jaL68/qeer0rqmvgi8CDg0bYTQpez2jRXyNtczwGTGY=;
+ b=AkLTHZ9GOVqjz7oLS7xiP1BHGRaSVSiKfdmH3voeJxwhnfDroMUTHVwFp43FsZ/+QC
+ tWscABXz5DyJwYqCbxXKECY3p5dBMB54m6FPCPqMKzbCvZq2uESxLSck0A30Z4GUkPjs
+ M+xrfW40bdD527r75m+Ltm/ccW8XxYWN2150M5WAVW72mzTtuBGE9BmmW4UwfC1JPm+w
+ bpEfG/1vAg1maqpi1JmHH3taDZgHLyGUTjteA5C4T7mIvxx9r5dhd+GbJhTr8hBKUzrA
+ sYVImFpFUiNkGCaMu9oEgfUarUK2PCyHoa8sX/atn8/12rlONyRGy2WVKcmO1UPoZm7+
+ 9NqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1698049860; x=1698654660;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=HOnHu/HXv+/MexAzD91ndTElaP4qcEAtusLsQWzhRN8=;
- b=ZOOXLrqcnvssVPCWvVT1ctHN7t5i9C+UYU8DGNhhWJDkYKrUS+G9nAm9rh1IKV2kpt
- yAPmk4CyTj9YSMM1bCJEBbSrVSqvBZqi0X6GO5omkGr+w7R2msYRVkABTpCF8p93bqnF
- /xTa+nNv/pGi88V0NBV673H/ZiwSpfa6K8Y5Pc+IfqFC3RiOpO7WADSuzR9aUkiR+m8F
- Jjj0+MCRf7ORklMMncct1o9Urwqm/zBI1er6vo2DRHkF1NXLg5nooU7pqexPJukn4gzj
- +FoGRKjYZ30ClZcy9a5RRDxYxZdj1+vLAJhIy8E22xl4mkAavJuCprQL8Rx39e/a4vnH
- 5g1g==
-X-Gm-Message-State: AOJu0YzMyHb+V6D5tkv6j0wsqalAFQf03ynvwH/tFkmZ5zVD34VvwhMw
- quMUQql1C7gxbPsq/ByiIJavJOjkByIyvGUw2EZumup+wninIZCR34auZaYFQpfJpD3pqh1pWcv
- edII7pttgc+G01zzxBiC8wPxa/ym5
-X-Received: by 2002:adf:ecc8:0:b0:31f:fa61:961d with SMTP id
- s8-20020adfecc8000000b0031ffa61961dmr5420242wro.63.1698049860252; 
- Mon, 23 Oct 2023 01:31:00 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEsM0QtK3+WXTL5mHWBFb49plfkG+D7naag8X+Y3CsdzRTvOrT+44se+2kfRdM5vRG4iQ0u0g==
-X-Received: by 2002:adf:ecc8:0:b0:31f:fa61:961d with SMTP id
- s8-20020adfecc8000000b0031ffa61961dmr5420223wro.63.1698049859823; 
- Mon, 23 Oct 2023 01:30:59 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:d5:a000:680e:9bf4:b6a9:959b?
- ([2a01:e0a:d5:a000:680e:9bf4:b6a9:959b])
- by smtp.gmail.com with ESMTPSA id
- f7-20020adff587000000b0031fb91f23e9sm7233075wro.43.2023.10.23.01.30.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 23 Oct 2023 01:30:59 -0700 (PDT)
-Message-ID: <74b367bd-ac80-478b-8f82-e98cb6e40475@redhat.com>
-Date: Mon, 23 Oct 2023 10:30:58 +0200
+ d=1e100.net; s=20230601; t=1698050453; x=1698655253;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=jaL68/qeer0rqmvgi8CDg0bYTQpez2jRXyNtczwGTGY=;
+ b=ObpUuOHbnkejetSmCgfR66malH35QrHemEzSeMnvuxEGDtCle6IJfeYjh/oymoujxQ
+ xk41X0JWZQlAtL9feR4ZMXh0QpAhpml3tKmff2XSkCJV40kCRZq4DjT0YIww2snVHCtu
+ VkW41DUZY9sFLV5KuegYZaOdp2BhueAxXheFghliWG5GXD4dB74gI1ZFp2QtUz8Y+gh6
+ 6faEpVSUGR96mX5fkyBUz8A1XJe2Q6dzuz7PfXnz9+Hv+a7tb5yYg/B4sXK7n15aVBvT
+ 8nQrGcugZvD0gfWuu5PvF0RaNpDKv3RrQJGV79LsHMA9/6ZtIt20/NOaGaWEjv/i1y+A
+ mLEg==
+X-Gm-Message-State: AOJu0YykZDYvz5Em1EIYBtbHedLYTJD8xHsVZLcvSKVPjp0ZxOQ46RYO
+ EVMXgvaBAYgfSS+Sp6I8ifQumfj5j5mUE34ZO6xd+1diHWqyFUdpPHU=
+X-Google-Smtp-Source: AGHT+IGAkh/c3GbWNcWRXLTZ32eNfXArR9TC3Fd+iqsnvwbLzueIKhgdFmlb34ugIHWdJbPKSIqmrLsbZYsECiGgkW4=
+X-Received: by 2002:a0d:d6c2:0:b0:5a7:fcad:e865 with SMTP id
+ y185-20020a0dd6c2000000b005a7fcade865mr11281424ywd.2.1698050453310; Mon, 23
+ Oct 2023 01:40:53 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/mgag200: Flush the cache to improve latency
-To: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org, 
- airlied@redhat.com, daniel@ffwll.ch
-References: <20231019135655.313759-1-jfalempe@redhat.com>
- <660c0260-0e22-4e9c-ab13-157adaa0b14d@suse.de>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <660c0260-0e22-4e9c-ab13-157adaa0b14d@suse.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20231016165355.1327217-1-dmitry.baryshkov@linaro.org>
+ <1871104.tdWV9SEqCh@steina-w>
+ <CAA8EJpofiawC5z3jw1-TsxS+ZWz4QobCby3kScDDdk9Z-74mgQ@mail.gmail.com>
+ <3266380.44csPzL39Z@steina-w>
+In-Reply-To: <3266380.44csPzL39Z@steina-w>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Mon, 23 Oct 2023 11:40:42 +0300
+Message-ID: <CAA8EJpoF+r6a9cAnW0uT_YgBi=oC1dw9JYShau8ji-sR71iUxw@mail.gmail.com>
+Subject: Re: [RFC PATCH 03/10] drm/mipi-dsi: add API for manual control over
+ the DSI link power state
+To: Alexander Stein <alexander.stein@ew.tq-group.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,132 +72,175 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Maxime Ripard <mripard@kernel.org>, Marek Vasut <marex@denx.de>,
+ Douglas Anderson <dianders@chromium.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Robert Foss <rfoss@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-arm-msm@vger.kernel.org,
+ Jonas Karlman <jonas@kwiboo.se>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 20/10/2023 14:06, Thomas Zimmermann wrote:
-> (cc'ing lkml for feedback)
-> 
-> Hi Jocelyn
-> 
-> Am 19.10.23 um 15:55 schrieb Jocelyn Falempe:
->> We found a regression in v5.10 on real-time server, using the
->> rt-kernel and the mgag200 driver. It's some really specialized
->> workload, with <10us latency expectation on isolated core.
->> After the v5.10, the real time tasks missed their <10us latency
->> when something prints on the screen (fbcon or printk)
-> 
-> I'd like to hear the opinion of the RT-devs on this patch. Because AFAIK 
-> we never did such a workaround in other drivers. And AFAIK printk is a 
-> PITA anyway.
+On Mon, 23 Oct 2023 at 11:14, Alexander Stein
+<alexander.stein@ew.tq-group.com> wrote:
+>
+> Am Montag, 23. Oktober 2023, 09:34:42 CEST schrieb Dmitry Baryshkov:
+> > On Mon, 23 Oct 2023 at 09:52, Alexander Stein
+> >
+> > <alexander.stein@ew.tq-group.com> wrote:
+> > > Hi Dmitry,
+> > >
+> > > Am Sonntag, 22. Oktober 2023, 12:49:41 CEST schrieb Dmitry Baryshkov:
+> > > > On Thu, 19 Oct 2023 at 14:42, Alexander Stein
+> > > >
+> > > > <alexander.stein@ew.tq-group.com> wrote:
+> > > > > Hi,
+> > > > >
+> > > > > Am Donnerstag, 19. Oktober 2023, 13:19:51 CEST schrieb Dmitry
+> Baryshkov:
+> > > > > > On Thu, 19 Oct 2023 at 12:26, Maxime Ripard <mripard@kernel.org=
+>
+> wrote:
+> > > > > > > On Mon, Oct 16, 2023 at 07:53:48PM +0300, Dmitry Baryshkov wr=
+ote:
+> > > > > > > > The MIPI DSI links do not fully fall into the DRM callbacks
+> > > > > > > > model.
+> > > > > > >
+> > > > > > > Explaining why would help
+> > > > > >
+> > > > > > A kind of explanation comes afterwards, but probably I should c=
+hange
+> > > > > > the order of the phrases and expand it:
+> > > > > >
+> > > > > > The atomic_pre_enable / atomic_enable and correspondingly
+> > > > > > atomic_disable / atomic_post_disable expect that the bridge lin=
+ks
+> > > > > > follow a simple paradigm: either it is off, or it is on and
+> > > > > > streaming
+> > > > > > video. Thus, it is fine to just enable the link at the enable t=
+ime,
+> > > > > > doing some preparations during the pre_enable.
+> > > > > >
+> > > > > > But then it causes several issues with DSI. First, some of the =
+DSI
+> > > > > > bridges and most of the DSI panels would like to send commands =
+over
+> > > > > > the DSI link to setup the device. Next, some of the DSI hosts h=
+ave
+> > > > > > limitations on sending the commands. The proverbial sunxi DSI h=
+ost
+> > > > > > can
+> > > > > > not send DSI commands after the video stream has started. Thus =
+most
+> > > > > > of
+> > > > > > the panels have opted to send all DSI commands from pre_enable =
+(or
+> > > > > > prepare) callback (before the video stream has started).
+> > > > > >
+> > > > > > However this leaves no good place for the DSI host to power up =
+the
+> > > > > > DSI
+> > > > > > link. By default the host's pre_enable callback is called after=
+ the
+> > > > > > DSI bridge's pre_enable. For quite some time we were powering u=
+p the
+> > > > > > DSI link from mode_set. This doesn't look fully correct. And al=
+so we
+> > > > > > got into the issue with ps8640 bridge, which requires for the D=
+SI
+> > > > > > link
+> > > > > > to be quiet / unpowered at the bridge's reset time.
+> > > > >
+> > > > > There are also bridges (e.g. tc358767) which require DSI-LP11 upo=
+n
+> > > > > bridge
+> > > > > reset. And additionally this DSI-(e)DP bridge requires LP11 while
+> > > > > accessing
+> > > > > DP-AUX channel, e.g. reading EDID. So bridges need at least some
+> > > > > control
+> > > > > over DSI line state.
+> > > >
+> > > > For sending commands in LP11 it is typical to toggle the
+> > > > MIPI_DSI_MODE_LPM flag, for example see panel-=3Djdi-lt070me05000.c=
+ or
+> > > > some other drives. It might be a good idea to make that more explic=
+it.
+> > > > All suggestions here would be appreciated.
+> > >
+> > > The biggest difference between that display and the tc358767 bridge i=
+s
+> > > that
+> > > the display uses DSI commands, while the bridge is using i2c transfer=
+ to
+> > > issue DP-AUX commands. There is no host_transfer [1] which would enab=
+le
+> > > LP-11. It seems this DSI-DP bridge requires LP-11/HS on DSI lanes all
+> > > times. This contradicts current Linux behaviour.
+> >
+> > I see. I took a quick glance at the driver. Does the device mark AUX
+> > as busy when there is a HS transfer?
+> > Because otherwise it might be pretty hard to synchronise DP-AUX
+> > transfers with the DSI link state. We might need to add an API for
+> > this, if the DSI hosts actually can signal the blanking / DSI LP.
+>
+> I don't see that a synchronization would be required. AUX should be
+> independent from DSI transfers. ASFAICS the bridge internals just require=
+s DSI
+> lines to be LP-00 or HS for AUX channel to be functioning.
 
-Most other drivers uses DMA, which means this workaround can't apply to 
-them.
+Ah, LP or HS. Then it should be fine. I probably misread your original
+email. I thought that AUX transfers work only in the LP mode.
 
-> 
-> IMHO if that RT system cannot handle differences in framebuffer caching, 
-> it's under-powered. It's just a matter of time until something else 
-> changes and the problem returns. And (honest question) as it's an 
-> x86-64, how do they handle System Management Mode?
+>
+> >
+> > Side note: the driver needs some care. It doesn't support the aux-bus
+> > bindings for eDP panels, it doesn't support other bridges on top of DP
+> > connectors (but there can be e..g. dp-connector device).
+>
+> I don't think that this is necessary as you add an optional endpoint to p=
+ort2
+> which will then add an eDP display panel bridge. This should then handle =
+aux-
+> bus bindings.
 
-I think it's not a big news, that the Matrox G200 from 1999 is 
-under-powered.
-I was also a bit surprised that flushing the cache would have such 
-effect on latency. The tests we are doing can run 24h with the 
-workaround, without any interrupt taking more than 10us. Without the 
-workaround, every ~30s the interrupt failed its 10us target.
+Not quite, see Documentation/devicetree/bindings/display/dp-aux-bus.yaml
+and devm_of_dp_aux_populate_bus().
 
-> 
->>
->> The regression has been bisected to 2 commits:
->> 0b34d58b6c32 ("drm/mgag200: Enable caching for SHMEM pages")
->> 4862ffaec523 ("drm/mgag200: Move vmap out of commit tail")
->>
->> The first one changed the system memory framebuffer from Write-Combine
->> to the default caching.
->> Before the second commit, the mgag200 driver used to unmap the
->> framebuffer after each frame, which implicitly does a cache flush.
->> Both regressions are fixed by the following patch, which forces a
->> cache flush after each frame, reverting to almost v5.9 behavior.
-> 
-> With that second commit, we essentially never unmap an active 
-> framebuffer console. But with commit
-> 
-> 359c6649cd9a ("drm/gem: Implement shadow-plane {begin, end}_fb_access 
-> with vmap")
-> 
-> we now again unmap the console framebuffer after the pageflip happened.
-> 
-> So how does the latest kernel behave wrt to the problem?
+It is expected that eDP panels are to be placed under the edp_bridge /
+aux-bus device node. But this is a separate topic, I just wanted to
+point out other missing pieces.
 
-The regression was found when upgrading the server from v5.4 to v5.14, 
-so we didn't test with later kernels.
-We will test with v6.3 (which should have 359c6649cd9a ) and see what it 
-gives.
-> 
->> This is necessary only if you have strong realtime constraints, so I
->> put the cache flush under the CONFIG_PREEMPT_RT config flag.
->> Also clflush is only availabe on x86, (and this issue has only been
->> reproduced on x86_64) so it's also under the CONFIG_X86 config flag.
->>
->> Fixes: 0b34d58b6c32 ("drm/mgag200: Enable caching for SHMEM pages")
->> Fixes: 4862ffaec523 ("drm/mgag200: Move vmap out of commit tail")
->> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
->> ---
->>   drivers/gpu/drm/mgag200/mgag200_mode.c | 5 +++++
->>   1 file changed, 5 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c 
->> b/drivers/gpu/drm/mgag200/mgag200_mode.c
->> index af3ce5a6a636..11660cd29cea 100644
->> --- a/drivers/gpu/drm/mgag200/mgag200_mode.c
->> +++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
->> @@ -13,6 +13,7 @@
->>   #include <drm/drm_atomic.h>
->>   #include <drm/drm_atomic_helper.h>
->> +#include <drm/drm_cache.h>
->>   #include <drm/drm_damage_helper.h>
->>   #include <drm/drm_format_helper.h>
->>   #include <drm/drm_fourcc.h>
->> @@ -436,6 +437,10 @@ static void mgag200_handle_damage(struct 
->> mga_device *mdev, const struct iosys_ma
->>       iosys_map_incr(&dst, drm_fb_clip_offset(fb->pitches[0], 
->> fb->format, clip));
->>       drm_fb_memcpy(&dst, fb->pitches, vmap, fb, clip);
->> +    /* On RT systems, flushing the cache reduces the latency for 
->> other RT tasks */
->> +#if defined(CONFIG_X86) && defined(CONFIG_PREEMPT_RT)
->> +    drm_clflush_virt_range(vmap, fb->height * fb->pitches[0]);
->> +#endif
-> 
-> Your second commit is part of a larger patchset that updates several 
-> drivers. They might all be affected. So if anything, the patch should go 
-> here before the unmap call:
-> 
-> https://elixir.bootlin.com/linux/v6.5/source/drivers/gpu/drm/drm_gem_atomic_helper.c#L377
-> 
-The regression was found only with G200 currently, so I don't want to 
-apply it blindly on other drivers.
+>
+> Best regards,
+> Alexander
+>
+> > > Best regards,
+> > > Alexander
+> > >
+> > > [1]
+> > > https://www.kernel.org/doc/html/latest/gpu/drm-kms-helpers.html#mipi-=
+dsi-> > bridge-operation
+>
+>
+> --
+> TQ-Systems GmbH | M=C3=BChlstra=C3=9Fe 2, Gut Delling | 82229 Seefeld, Ge=
+rmany
+> Amtsgericht M=C3=BCnchen, HRB 105018
+> Gesch=C3=A4ftsf=C3=BChrer: Detlef Schneider, R=C3=BCdiger Stahl, Stefan S=
+chneider
+> http://www.tq-group.com/
+>
+>
 
-Thanks for your help,
 
-Best regards,
-
--- 
-
-Jocelyn
-
-> with a much expanded comment.
-> 
-> But I'd really like to hear other peoples' opinions on the matter.
-> 
-> Best regards
-> Thomas
-> 
->>   }
->>   /*
->>
->> base-commit: 2dde18cd1d8fac735875f2e4987f11817cc0bc2c
-> 
-
+--=20
+With best wishes
+Dmitry
