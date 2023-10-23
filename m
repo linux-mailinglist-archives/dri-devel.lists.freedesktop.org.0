@@ -2,44 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA4607D3DE0
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Oct 2023 19:35:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1DB17D3E45
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Oct 2023 19:47:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 31EF210E21D;
-	Mon, 23 Oct 2023 17:35:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E24A10E225;
+	Mon, 23 Oct 2023 17:47:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org
- [IPv6:2604:1380:40e1:4800::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C933B10E21D
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Oct 2023 17:35:28 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id A4EDDCE2720;
- Mon, 23 Oct 2023 17:35:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 968CBC433C8;
- Mon, 23 Oct 2023 17:35:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1698082525;
- bh=BPsE2TYkM2613e3ORqfh9B9Y3/8Ij1mb26ewDxwWDzI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=TdQC8FTfR0s1jwG1/q5nVOQFCWzWe9Atplf8qpSMQZxZVWLeV1XzpLOsKzwbxb1Gl
- ZKSiSTpcUdU1cUOBeWKa7HEuE0osGLTKai3sxwHpQCIn9Jkrj72mpZCmGibX/1buPX
- ftxAOwWqbOb7WCnICbONephB/gX1F9xxrd9DfN/VUKeWYFcfex1utcHsZRpXINPr/q
- aWmFOTD+4w/ae2LmYNOof7fLzppHYjFIvr3g3/4iRri7GBvkVOkSFWfnTlhPjyLKlw
- lEME9aGhAeCxFVyyIjixvS6z2Ya1dlzYt1epCdts9EM30NiS2Y7T53zosjjQQsuTvj
- 5a37zQa5EzrJw==
-Date: Mon, 23 Oct 2023 18:35:19 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Alexandre Mergnat <amergnat@baylibre.com>
-Subject: Re: [PATCH 12/18] dt-bindings: pwm: add binding for mt8365 SoC
-Message-ID: <20231023-punch-gurgle-80608ba40e7d@spud>
-References: <20231023-display-support-v1-0-5c860ed5c33b@baylibre.com>
- <20231023-display-support-v1-12-5c860ed5c33b@baylibre.com>
+X-Greylist: delayed 611 seconds by postgrey-1.36 at gabe;
+ Mon, 23 Oct 2023 17:47:37 UTC
+Received: from smtp.forwardemail.net (smtp.forwardemail.net [149.28.215.223])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA02C10E121
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Oct 2023 17:47:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
+ h=Content-Transfer-Encoding: MIME-Version: Message-ID: Date: Subject: Cc:
+ To: From; q=dns/txt; s=fe-e1b5cab7be; t=1698083255;
+ bh=bw+oJl8a4emYyVVF8XnSKkK9A1IjjDgr8zM8RdIaZMg=;
+ b=oyAeEohwVkOLyrto8jhiIqWlLlxSkEv1Hsfr8zSkJJYPlECWCGB6TgMlv2t2n+kjTf8dkLSZL
+ ecPduqloiJO5VqLR6Dm+E4Oiy9MD9AkZ7xX8nMCet5DPVE9M/kZLLGmsKFs9qrtmCUasEOdldWU
+ glKcS4u2zPNDnJTo5OCQVMK70FeU/WPB8oiXzSmMxnMTwcKMi1H4MEjDHC8t2dqzUm8ngTIfKQI
+ lC4qwLyu3kDrFiLyrqL0gtlhUkDQo/s7FXaZpYKUkJ+KQcB2fwgfA7mN0r2SV8Fhf/oaA+veV9H
+ 2R6d7X3sXd9QGftBjeFahLwOTGZ9VSBUaTJ9L+5zS7sg==
+From: Jonas Karlman <jonas@kwiboo.se>
+To: Heiko Stuebner <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David
+ Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH v5 0/2] drm/rockchip: vop: Add NV15, NV20 and NV30 support
+Date: Mon, 23 Oct 2023 17:37:13 +0000
+Message-ID: <20231023173718.188102-1-jonas@kwiboo.se>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="9wFKPiotZ+nS4D8K"
-Content-Disposition: inline
-In-Reply-To: <20231023-display-support-v1-12-5c860ed5c33b@baylibre.com>
+Content-Transfer-Encoding: 8bit
+X-Report-Abuse-To: abuse@forwardemail.net
+X-Report-Abuse: abuse@forwardemail.net
+X-Complaints-To: abuse@forwardemail.net
+X-ForwardEmail-Version: 0.4.40
+X-ForwardEmail-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
+ 149.28.215.223
+X-ForwardEmail-ID: 6536af54288c5302e78a77d6
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,71 +53,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Catalin Marinas <catalin.marinas@arm.com>,
- dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Will Deacon <will@kernel.org>, linux-pwm@vger.kernel.org,
- Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Jitao Shi <jitao.shi@mediatek.com>, Xinlei Lee <xinlei.lee@mediatek.com>,
- Rob Herring <robh+dt@kernel.org>, linux-mediatek@lists.infradead.org,
- Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- linux-kernel@vger.kernel.org
+Cc: Jonas Karlman <jonas@kwiboo.se>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+ Christopher Obbard <chris.obbard@collabora.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This series add support for displaying 10-bit 4:2:0 and 4:2:2 formats produced
+by the Rockchip Video Decoder on RK322X, RK3288, RK3328, RK3368 and RK3399.
+Also include 10-bit 4:4:4 support since VOP can support that also.
 
---9wFKPiotZ+nS4D8K
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+First patch adds new fourcc 10-bit YUV formats with 4:2:2/4:4:4 sub-sampling.
+Second patch adds support for displaying the new fourcc formats.
 
-On Mon, Oct 23, 2023 at 04:40:12PM +0200, Alexandre Mergnat wrote:
-> Display PWM for MT8365 is compatible with MT8183. Then, add MT8365 binding
-> along with MT8183 SoC.
+These patches have been in use by LibreELEC and other distros for the
+past 3+ years, hoping they can be merged this time around.
 
+A rough libdrm/modetest patch [2] have been used to validate use of
+NV15, NV20 and NV30 formats on RK3288, RK3328 and RK3399 boards.
 
-Additionally here, for the subject,
-"dt-bindings: pwm: mediatek,pwm-disp: add compatible for mt8365 SoC"
+  modetest -s <connector_id>@<crtc_id>:<mode>-<vrefresh>@<format>
 
-Cheers
-Conor.
+Tinker Board R2.0 (rk3288w):
+  modetest -s 50:1920x1080-60@NV15
 
->=20
-> Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
-> ---
->  Documentation/devicetree/bindings/pwm/mediatek,pwm-disp.yaml | 1 +
->  1 file changed, 1 insertion(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/pwm/mediatek,pwm-disp.yaml=
- b/Documentation/devicetree/bindings/pwm/mediatek,pwm-disp.yaml
-> index efe0cacf55b7..e4069bcbf8d5 100644
-> --- a/Documentation/devicetree/bindings/pwm/mediatek,pwm-disp.yaml
-> +++ b/Documentation/devicetree/bindings/pwm/mediatek,pwm-disp.yaml
-> @@ -32,6 +32,7 @@ properties:
->                - mediatek,mt8188-disp-pwm
->                - mediatek,mt8192-disp-pwm
->                - mediatek,mt8195-disp-pwm
-> +              - mediatek,mt8365-disp-pwm
->            - const: mediatek,mt8183-disp-pwm
-> =20
->    reg:
->=20
-> --=20
-> 2.25.1
->=20
+Rock Pi 4 (rk3399):
+  modetest -s 52@44:1920x1080-60@NV15
 
---9wFKPiotZ+nS4D8K
-Content-Type: application/pgp-signature; name="signature.asc"
+Rock64 (rk3328):
+  modetest -s 42:1920x1080-60@NV15
 
------BEGIN PGP SIGNATURE-----
+Changes in v5:
+- Use drm_format_info_min_pitch() for correct bpp
+- Add missing NV21, NV61 and NV42 formats
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZTau1wAKCRB4tDGHoIJi
-0n6KAP401YOndtWBYtrAA9j00NQ1rbaxsQ12/nOOlOHoIE47sgD/dyHbi8nYdivw
-3A9/hktb+hRamMtGYKFeqUMDkK7ByAY=
-=vkEz
------END PGP SIGNATURE-----
+Changes in v4:
+- Rework RK3328/RK3399 win0/1 data to not affect RK3368
 
---9wFKPiotZ+nS4D8K--
+Changes in v3:
+- No changes, rebased on next-20230616
+- R-B tags was collected
+
+Changes in v2:
+- Add NV30 format
+- R-B tags was not collected due to NV30 changes
+
+This series is also available at [1] and libdrm/modetest patch at [2].
+
+[1] https://github.com/Kwiboo/linux-rockchip/commits/v6.6-rc7-vop-nv15
+[2] https://github.com/Kwiboo/libdrm/commits/nv15
+
+Jonas Karlman (2):
+  drm/fourcc: Add NV20 and NV30 YUV formats
+  drm/rockchip: vop: Add NV15, NV20 and NV30 support
+
+ drivers/gpu/drm/drm_fourcc.c                |  8 +++
+ drivers/gpu/drm/rockchip/rockchip_drm_vop.c | 36 ++++++++---
+ drivers/gpu/drm/rockchip/rockchip_drm_vop.h |  1 +
+ drivers/gpu/drm/rockchip/rockchip_vop_reg.c | 66 +++++++++++++++++----
+ include/uapi/drm/drm_fourcc.h               |  2 +
+ 5 files changed, 96 insertions(+), 17 deletions(-)
+
+-- 
+2.42.0
+
