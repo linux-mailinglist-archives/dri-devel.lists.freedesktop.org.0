@@ -1,59 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BE7A7D42AC
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Oct 2023 00:30:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 546F37D42B3
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Oct 2023 00:34:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 51C3310E287;
-	Mon, 23 Oct 2023 22:30:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 60AA210E285;
+	Mon, 23 Oct 2023 22:34:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb2c.google.com (mail-yb1-xb2c.google.com
- [IPv6:2607:f8b0:4864:20::b2c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0DFEE10E287
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Oct 2023 22:30:21 +0000 (UTC)
-Received: by mail-yb1-xb2c.google.com with SMTP id
- 3f1490d57ef6-d8a000f6a51so3555350276.3
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Oct 2023 15:30:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1698100220; x=1698705020; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=x9S2aROCP4k9L8N902HSEyin6tTcXlI1+jG9pBbmJb8=;
- b=Ibm/VEk/cL9ZMb7NWzKEVtWDUDwRLwqCPEdQMJfenaUqXDGsb3pyyWSTEdMXpoiY3I
- Xg7jkQn9JXGB+no7mgJ1eBDWqePMy5mxpRO728i0zevQ/z8daJJlAcK86VsywcaM0Oyx
- 7rKgNCmErMBM9pa27g/XjvXAEjiSRO8QpPHMQBnuJ1rg9Gf1PIBnb3x3jyTIf4XzxolX
- 8FFUWtHBoA6OfKqXH73crXMvrzqh1//5bEpHdUhFBSvqXxg+CpUFMwRJ/PGvDWnbAClR
- sj2aIimx2hS08pcJ1R+sMaDqicp6n2oZfo6mDeWzC9s+zZUTTJrNZ/l/UJqRxbmKpz80
- ogNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1698100220; x=1698705020;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=x9S2aROCP4k9L8N902HSEyin6tTcXlI1+jG9pBbmJb8=;
- b=uV9UpIj/qBjOAHA6OmflhyIOIEzSYlCCmyKRTNMMhI5zGzZJ+/qGctWwuxT2Qun4E1
- 1n5oBQHXgWQONKFySefGJ4XO/7ShOP0rnrV+lgo1MemV2GzGR3RGBmjGUSqN3MaYLD8E
- ZfD19+yglWQBabUgqkE+IqpxZuXaNyX6UUuWKZzrxOXlUdQvILX8OAdm4HMZuWwoerm/
- Cq8VNxLwX5gGV7hXlP+MsG923/HoQLg2EInws8rBxLDlll7Yxukvitq6pPMykadssh9w
- I8FzCzDFWaYpgMNevMZ+CryH9mektUd2u+EFGGfO9YORmiz2ICMhG1VpIIoBWYIm1uF5
- qsXg==
-X-Gm-Message-State: AOJu0Yzr+TCnHzZ21vuj2rNjarSjRssws5Au6cVFeuiRpO/YSzcA142e
- 6vv17wOGFVknZsPuURfGnCq4BCWuOAUWLoGXmXghSQ==
-X-Google-Smtp-Source: AGHT+IFIO5QT3FB4wyeX/SyBEWgUIqrjgf/skE9jm/AH5eWpBBjI/EDxcDbxidwyKA2XyAPnJdfZHyI6PvZ8SiRueQ8=
-X-Received: by 2002:a25:784:0:b0:da0:2d16:fcf4 with SMTP id
- 126-20020a250784000000b00da02d16fcf4mr1412467ybh.11.1698100219876; Mon, 23
- Oct 2023 15:30:19 -0700 (PDT)
+Received: from mx0.riseup.net (mx0.riseup.net [198.252.153.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 31EF810E285
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Oct 2023 22:34:13 +0000 (UTC)
+Received: from fews01-sea.riseup.net (fews01-sea-pn.riseup.net [10.0.1.109])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx0.riseup.net (Postfix) with ESMTPS id 4SDqjw0KL4z9tJ3;
+ Mon, 23 Oct 2023 22:34:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+ t=1698100452; bh=zsOREkCGPMs3qbyM1ZCtmE9Z8L+kJCNshEU0rtK16tE=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=OA53ii60/oPxIX5YuWbZ37rhw2ashhL0RTBq6ywCfQGDFe1TaicJg8kbfr9y/8SXa
+ YlV4HC6pAIw3MWS04a6f7M4lkmLC06+hZWP3symRky1E5v89olMSeF1xvQ1sbzb5VP
+ U0nvGIknMZTtot+JCyLold9xLaPc5WmkrRvTSNzA=
+X-Riseup-User-ID: 3034D2AC8290BB57A4B8D1F2E8BE2FD9B6D9EE02BAC00938BE698A983DD39CBC
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ by fews01-sea.riseup.net (Postfix) with ESMTPSA id 4SDqjn1tgFzJmj7;
+ Mon, 23 Oct 2023 22:34:05 +0000 (UTC)
+Message-ID: <981c4876-a054-4af5-b104-d12bf3724a28@riseup.net>
+Date: Mon, 23 Oct 2023 19:34:01 -0300
 MIME-Version: 1.0
-References: <20231023221250.116500-1-robdclark@gmail.com>
-In-Reply-To: <20231023221250.116500-1-robdclark@gmail.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Tue, 24 Oct 2023 01:30:08 +0300
-Message-ID: <CAA8EJpqVL5U7yaZsG5F=q7EFP1bsApySdjycywox6cZUd8JqdA@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm/dpu: Fix encoder CRC to account for CTM enablement
-To: Rob Clark <robdclark@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [RFC PATCH v2 04/17] drm/vkms: Add kunit tests for VKMS LUT
+ handling
+Content-Language: en-US
+To: Harry Wentland <harry.wentland@amd.com>, dri-devel@lists.freedesktop.org
+References: <20231019212133.245155-1-harry.wentland@amd.com>
+ <20231019212133.245155-5-harry.wentland@amd.com>
+From: Arthur Grillo <arthurgrillo@riseup.net>
+In-Reply-To: <20231019212133.245155-5-harry.wentland@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,185 +53,230 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Kalyan Thota <quic_kalyant@quicinc.com>,
- Jeykumar Sankaran <quic_jeykumar@quicinc.com>, linux-arm-msm@vger.kernel.org,
- Jiasheng Jiang <jiasheng@iscas.ac.cn>,
- open list <linux-kernel@vger.kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Vinod Polimera <quic_vpolimer@quicinc.com>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, freedreno@lists.freedesktop.org,
- Arnaud Vrac <rawoul@gmail.com>
+Cc: Sasha McIntosh <sashamcintosh@google.com>,
+ Liviu Dudau <Liviu.Dudau@arm.com>, Victoria Brekenfeld <victoria@system76.com>,
+ =?UTF-8?Q?Michel_D=C3=A4nzer?= <mdaenzer@redhat.com>,
+ Christopher Braga <quic_cbraga@quicinc.com>,
+ Sebastian Wick <sebastian.wick@redhat.com>,
+ Shashank Sharma <shashank.sharma@amd.com>, wayland-devel@lists.freedesktop.org,
+ =?UTF-8?Q?Jonas_=C3=85dahl?= <jadahl@redhat.com>,
+ Uma Shankar <uma.shankar@intel.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Naseer Ahmed <quic_naseer@quicinc.com>, Melissa Wen <mwen@igalia.com>,
+ Aleix Pol <aleixpol@kde.org>, Pekka Paalanen <pekka.paalanen@collabora.com>,
+ Hector Martin <marcan@marcan.st>, Xaver Hugl <xaver.hugl@gmail.com>,
+ Joshua Ashton <joshua@froggi.es>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 24 Oct 2023 at 01:12, Rob Clark <robdclark@gmail.com> wrote:
->
-> From: Rob Clark <robdclark@chromium.org>
->
-> Seems like we need to pick INPUT_SEL=1 when CTM is enabled.  But not
-> otherwise.
->
-> Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
+
+
+On 19/10/23 18:21, Harry Wentland wrote:
+> Debugging LUT math is much easier when we can unit test
+> it. Add kunit functionality to VKMS and add tests for
+>  - get_lut_index
+>  - lerp_u16
+> 
+> Signed-off-by: Harry Wentland <harry.wentland@amd.com>
+> Cc: Ville Syrjala <ville.syrjala@linux.intel.com>
+> Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
+> Cc: Simon Ser <contact@emersion.fr>
+> Cc: Harry Wentland <harry.wentland@amd.com>
+> Cc: Melissa Wen <mwen@igalia.com>
+> Cc: Jonas Ådahl <jadahl@redhat.com>
+> Cc: Sebastian Wick <sebastian.wick@redhat.com>
+> Cc: Shashank Sharma <shashank.sharma@amd.com>
+> Cc: Alexander Goins <agoins@nvidia.com>
+> Cc: Joshua Ashton <joshua@froggi.es>
+> Cc: Michel Dänzer <mdaenzer@redhat.com>
+> Cc: Aleix Pol <aleixpol@kde.org>
+> Cc: Xaver Hugl <xaver.hugl@gmail.com>
+> Cc: Victoria Brekenfeld <victoria@system76.com>
+> Cc: Sima <daniel@ffwll.ch>
+> Cc: Uma Shankar <uma.shankar@intel.com>
+> Cc: Naseer Ahmed <quic_naseer@quicinc.com>
+> Cc: Christopher Braga <quic_cbraga@quicinc.com>
+> Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> Cc: Arthur Grillo <arthurgrillo@riseup.net>
+> Cc: Hector Martin <marcan@marcan.st>
+> Cc: Liviu Dudau <Liviu.Dudau@arm.com>
+> Cc: Sasha McIntosh <sashamcintosh@google.com>
 > ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c    | 2 +-
->  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 4 ++--
->  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h | 3 ++-
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c | 4 ++--
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h | 2 +-
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c   | 2 +-
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c | 5 ++++-
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h | 3 ++-
->  8 files changed, 15 insertions(+), 10 deletions(-)
->
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> index 2b83a13b3aa9..d93a92ffd5df 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> @@ -134,7 +134,7 @@ static void dpu_crtc_setup_encoder_misr(struct drm_crtc *crtc)
->         struct drm_encoder *drm_enc;
->
->         drm_for_each_encoder_mask(drm_enc, crtc->dev, crtc->state->encoder_mask)
-> -               dpu_encoder_setup_misr(drm_enc);
-> +               dpu_encoder_setup_misr(drm_enc, !!crtc->state->ctm);
+>  drivers/gpu/drm/vkms/Kconfig                  |  5 ++
+>  drivers/gpu/drm/vkms/Makefile                 |  2 +
+>  drivers/gpu/drm/vkms/tests/.kunitconfig       |  4 ++
+>  drivers/gpu/drm/vkms/tests/Makefile           |  4 ++
+>  drivers/gpu/drm/vkms/tests/vkms_color_tests.c | 64 +++++++++++++++++++
+>  drivers/gpu/drm/vkms/vkms_composer.c          |  4 +-
+>  drivers/gpu/drm/vkms/vkms_composer.h          | 11 ++++
+>  7 files changed, 92 insertions(+), 2 deletions(-)
+>  create mode 100644 drivers/gpu/drm/vkms/tests/.kunitconfig
+>  create mode 100644 drivers/gpu/drm/vkms/tests/Makefile
+>  create mode 100644 drivers/gpu/drm/vkms/tests/vkms_color_tests.c
+>  create mode 100644 drivers/gpu/drm/vkms/vkms_composer.h
+> 
+> diff --git a/drivers/gpu/drm/vkms/Kconfig b/drivers/gpu/drm/vkms/Kconfig
+> index 1816562381a2..372cc5fa92f1 100644
+> --- a/drivers/gpu/drm/vkms/Kconfig
+> +++ b/drivers/gpu/drm/vkms/Kconfig
+> @@ -13,3 +13,8 @@ config DRM_VKMS
+>  	  a VKMS.
+>  
+>  	  If M is selected the module will be called vkms.
+> +
+> +config DRM_VKMS_KUNIT_TESTS
+> +	tristate "Tests for VKMS" if !KUNIT_ALL_TESTS
+> +	depends on DRM_VKMS && KUNIT
+> +	default KUNIT_ALL_TESTS
+> diff --git a/drivers/gpu/drm/vkms/Makefile b/drivers/gpu/drm/vkms/Makefile
+> index 1b28a6a32948..d3440f228f46 100644
+> --- a/drivers/gpu/drm/vkms/Makefile
+> +++ b/drivers/gpu/drm/vkms/Makefile
+> @@ -9,3 +9,5 @@ vkms-y := \
+>  	vkms_writeback.o
+>  
+>  obj-$(CONFIG_DRM_VKMS) += vkms.o
+> +
+> +obj-y += tests/
+> \ No newline at end of file
+> diff --git a/drivers/gpu/drm/vkms/tests/.kunitconfig b/drivers/gpu/drm/vkms/tests/.kunitconfig
+> new file mode 100644
+> index 000000000000..70e378228cbd
+> --- /dev/null
+> +++ b/drivers/gpu/drm/vkms/tests/.kunitconfig
+> @@ -0,0 +1,4 @@
+> +CONFIG_KUNIT=y
+> +CONFIG_DRM=y
+> +CONFIG_DRM_VKMS=y
+> +CONFIG_DRM_VKMS_KUNIT_TESTS=y
+> diff --git a/drivers/gpu/drm/vkms/tests/Makefile b/drivers/gpu/drm/vkms/tests/Makefile
+> new file mode 100644
+> index 000000000000..761465332ff2
+> --- /dev/null
+> +++ b/drivers/gpu/drm/vkms/tests/Makefile
+> @@ -0,0 +1,4 @@
+> +# SPDX-License-Identifier: GPL-2.0+
+> +
+> +obj-$(CONFIG_DRM_VKMS_KUNIT_TESTS) += \
+> +	vkms_color_tests.o
+> \ No newline at end of file
+> diff --git a/drivers/gpu/drm/vkms/tests/vkms_color_tests.c b/drivers/gpu/drm/vkms/tests/vkms_color_tests.c
+> new file mode 100644
+> index 000000000000..843b2e1d607e
+> --- /dev/null
+> +++ b/drivers/gpu/drm/vkms/tests/vkms_color_tests.c
+> @@ -0,0 +1,64 @@
+> +/* SPDX-License-Identifier: GPL-2.0+ */
+> +
+> +#include <kunit/test.h>
+> +
+> +#include <drm/drm_fixed.h>
+> +
+> +#include "../vkms_composer.h"
+> +
+> +#define TEST_LUT_SIZE 16
+> +
+> +static struct drm_color_lut test_linear_array[TEST_LUT_SIZE] = {
+> +	{ 0x0, 0x0, 0x0, 0 },
+> +	{ 0x1111, 0x1111, 0x1111, 0 },
+> +	{ 0x2222, 0x2222, 0x2222, 0 },
+> +	{ 0x3333, 0x3333, 0x3333, 0 },
+> +	{ 0x4444, 0x4444, 0x4444, 0 },
+> +	{ 0x5555, 0x5555, 0x5555, 0 },
+> +	{ 0x6666, 0x6666, 0x6666, 0 },
+> +	{ 0x7777, 0x7777, 0x7777, 0 },
+> +	{ 0x8888, 0x8888, 0x8888, 0 },
+> +	{ 0x9999, 0x9999, 0x9999, 0 },
+> +	{ 0xaaaa, 0xaaaa, 0xaaaa, 0 },
+> +	{ 0xbbbb, 0xbbbb, 0xbbbb, 0 },
+> +	{ 0xcccc, 0xcccc, 0xcccc, 0 },
+> +	{ 0xdddd, 0xdddd, 0xdddd, 0 },
+> +	{ 0xeeee, 0xeeee, 0xeeee, 0 },
+> +	{ 0xffff, 0xffff, 0xffff, 0 },
+> +};
+> +
+> +const struct vkms_color_lut test_linear_lut = {
+> +	.base = test_linear_array,
+> +	.lut_length = TEST_LUT_SIZE,
+> +	.channel_value2index_ratio = 0xf000fll
+> +};
+> +
+> +
+> +static void vkms_color_test_get_lut_index(struct kunit *test)
+> +{
+> +	int i;
+> +
+> +	KUNIT_EXPECT_EQ(test, drm_fixp2int(get_lut_index(&test_linear_lut, test_linear_array[0].red)), 0);
+> +
+> +	for (i = 0; i < TEST_LUT_SIZE; i++)
+> +		KUNIT_EXPECT_EQ(test, drm_fixp2int_ceil(get_lut_index(&test_linear_lut, test_linear_array[i].red)), i);
+> +}
+> +
+> +static void vkms_color_test_lerp(struct kunit *test)
+> +{
+> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x0, 0x10, 0x80000000), 0x8);
+> +}
+> +
+> +static struct kunit_case vkms_color_test_cases[] = {
+> +	KUNIT_CASE(vkms_color_test_get_lut_index),
+> +	KUNIT_CASE(vkms_color_test_lerp),
+> +	{}
+> +};
+> +
+> +static struct kunit_suite vkms_color_test_suite = {
+> +	.name = "vkms-color",
+> +	.test_cases = vkms_color_test_cases,
+> +};
+> +kunit_test_suite(vkms_color_test_suite);
+> +
+> +MODULE_LICENSE("GPL");
+> \ No newline at end of file
+> diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
+> index 3c99fb8b54e2..a0a3a6fd2926 100644
+> --- a/drivers/gpu/drm/vkms/vkms_composer.c
+> +++ b/drivers/gpu/drm/vkms/vkms_composer.c
+> @@ -91,7 +91,7 @@ static void fill_background(const struct pixel_argb_u16 *background_color,
 >  }
->
->  static int dpu_crtc_set_crc_source(struct drm_crtc *crtc, const char *src_name)
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> index b0a7908418ed..12ee7acb5ea6 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> @@ -241,7 +241,7 @@ int dpu_encoder_get_crc_values_cnt(const struct drm_encoder *drm_enc)
->         return num_intf;
->  }
->
-> -void dpu_encoder_setup_misr(const struct drm_encoder *drm_enc)
-> +void dpu_encoder_setup_misr(const struct drm_encoder *drm_enc, bool has_ctm)
+>  
+>  // lerp(a, b, t) = a + (b - a) * t
+> -static u16 lerp_u16(u16 a, u16 b, s64 t)
+> +u16 lerp_u16(u16 a, u16 b, s64 t)
 >  {
->         struct dpu_encoder_virt *dpu_enc;
->
-> @@ -255,7 +255,7 @@ void dpu_encoder_setup_misr(const struct drm_encoder *drm_enc)
->                 if (!phys->hw_intf || !phys->hw_intf->ops.setup_misr)
->                         continue;
->
-> -               phys->hw_intf->ops.setup_misr(phys->hw_intf, true, 1);
-> +               phys->hw_intf->ops.setup_misr(phys->hw_intf, true, 1, has_ctm);
->         }
+>  	s64 a_fp = drm_int2fixp(a);
+>  	s64 b_fp = drm_int2fixp(b);
+> @@ -101,7 +101,7 @@ static u16 lerp_u16(u16 a, u16 b, s64 t)
+>  	return drm_fixp2int(a_fp + delta);
 >  }
->
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-> index 4c05fd5e9ed1..510783b2fb24 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-> @@ -169,8 +169,9 @@ int dpu_encoder_get_crc_values_cnt(const struct drm_encoder *drm_enc);
->  /**
->   * dpu_encoder_setup_misr - enable misr calculations
->   * @drm_enc:    Pointer to previously created drm encoder structure
-> + * @has_ctm:    Is CTM enabled
->   */
-> -void dpu_encoder_setup_misr(const struct drm_encoder *drm_encoder);
-> +void dpu_encoder_setup_misr(const struct drm_encoder *drm_encoder, bool has_ctm);
->
->  /**
->   * dpu_encoder_get_crc - get the crc value from interface blocks
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
-> index e8b8908d3e12..cb06f80cc671 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
-> @@ -318,9 +318,9 @@ static u32 dpu_hw_intf_get_line_count(struct dpu_hw_intf *intf)
->         return DPU_REG_READ(c, INTF_LINE_COUNT);
->  }
->
-> -static void dpu_hw_intf_setup_misr(struct dpu_hw_intf *intf, bool enable, u32 frame_count)
-> +static void dpu_hw_intf_setup_misr(struct dpu_hw_intf *intf, bool enable, u32 frame_count, bool has_ctm)
+>  
+> -static s64 get_lut_index(const struct vkms_color_lut *lut, u16 channel_value)
+> +s64 get_lut_index(const struct vkms_color_lut *lut, u16 channel_value)
 >  {
-> -       dpu_hw_setup_misr(&intf->hw, INTF_MISR_CTRL, enable, frame_count);
-> +       dpu_hw_setup_misr(&intf->hw, INTF_MISR_CTRL, enable, frame_count, has_ctm);
+>  	s64 color_channel_fp = drm_int2fixp(channel_value);
+>  
+> diff --git a/drivers/gpu/drm/vkms/vkms_composer.h b/drivers/gpu/drm/vkms/vkms_composer.h
+> new file mode 100644
+> index 000000000000..11c5de9cc961
+> --- /dev/null
+> +++ b/drivers/gpu/drm/vkms/vkms_composer.h
+> @@ -0,0 +1,11 @@
+> +/* SPDX-License-Identifier: GPL-2.0+ */
+> +
+> +#ifndef _VKMS_COMPOSER_H_
+> +#define _VKMS_COMPOSER_H_
+> +
+> +#include "vkms_drv.h"
+> +
+> +s64 get_lut_index(const struct vkms_color_lut *lut, u16 channel_value);
+> +u16 lerp_u16(u16 a, u16 b, s64 t);
 
-I'm not sure about the dpu_encoder and dpu_hw_intf interfaces. But
-dpu_hw_setup_misr definitely needs the `u8 input_sel` parameter
-instead of `bool has_ctm`.
-Most likely, I'd use u8 for dpu_hw_intf operation too.
+Not that exposing these functions is inherently wrong, but it might be
+better to follow the documentation's suggestion for testing static
+functions[0].
 
-Could you please adjust?
+[0]: https://www.kernel.org/doc/html/latest/dev-tools/kunit/usage.html#testing-static-functions
 
->  }
->
->  static int dpu_hw_intf_collect_misr(struct dpu_hw_intf *intf, u32 *misr_value)
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
-> index c539025c418b..95aafc4cf58e 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
-> @@ -95,7 +95,7 @@ struct dpu_hw_intf_ops {
->
->         void (*bind_pingpong_blk)(struct dpu_hw_intf *intf,
->                         const enum dpu_pingpong pp);
-> -       void (*setup_misr)(struct dpu_hw_intf *intf, bool enable, u32 frame_count);
-> +       void (*setup_misr)(struct dpu_hw_intf *intf, bool enable, u32 frame_count, bool has_ctm);
->         int (*collect_misr)(struct dpu_hw_intf *intf, u32 *misr_value);
->
->         // Tearcheck on INTF since DPU 5.0.0
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c
-> index d1c3bd8379ea..2efe29396c6a 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c
-> @@ -83,7 +83,7 @@ static void dpu_hw_lm_setup_border_color(struct dpu_hw_mixer *ctx,
->
->  static void dpu_hw_lm_setup_misr(struct dpu_hw_mixer *ctx, bool enable, u32 frame_count)
->  {
-> -       dpu_hw_setup_misr(&ctx->hw, LM_MISR_CTRL, enable, frame_count);
-> +       dpu_hw_setup_misr(&ctx->hw, LM_MISR_CTRL, enable, frame_count, false);
->  }
->
->  static int dpu_hw_lm_collect_misr(struct dpu_hw_mixer *ctx, u32 *misr_value)
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c
-> index 9d2273fd2fed..528b8439209f 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c
-> @@ -483,7 +483,7 @@ void _dpu_hw_setup_qos_lut(struct dpu_hw_blk_reg_map *c, u32 offset,
->
->  void dpu_hw_setup_misr(struct dpu_hw_blk_reg_map *c,
->                 u32 misr_ctrl_offset,
-> -               bool enable, u32 frame_count)
-> +               bool enable, u32 frame_count, bool has_ctm)
->  {
->         u32 config = 0;
->
-> @@ -496,6 +496,9 @@ void dpu_hw_setup_misr(struct dpu_hw_blk_reg_map *c,
->                 config = (frame_count & MISR_FRAME_COUNT_MASK) |
->                         MISR_CTRL_ENABLE | MISR_CTRL_FREE_RUN_MASK;
->
-> +               if (!has_ctm)
-> +                       config |= 1 << 24;
-
-Please define MISR_CTRL_INPUT_SEL instead.
+Best Regards,
+~Arthur Grillo
 
 > +
->                 DPU_REG_WRITE(c, misr_ctrl_offset, config);
->         } else {
->                 DPU_REG_WRITE(c, misr_ctrl_offset, 0);
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h
-> index 1f6079f47071..e42d9d00e40e 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h
-> @@ -360,7 +360,8 @@ void _dpu_hw_setup_qos_lut(struct dpu_hw_blk_reg_map *c, u32 offset,
->  void dpu_hw_setup_misr(struct dpu_hw_blk_reg_map *c,
->                 u32 misr_ctrl_offset,
->                 bool enable,
-> -               u32 frame_count);
-> +               u32 frame_count,
-> +               bool has_ctm);
->
->  int dpu_hw_collect_misr(struct dpu_hw_blk_reg_map *c,
->                 u32 misr_ctrl_offset,
-> --
-> 2.41.0
->
-
-
--- 
-With best wishes
-Dmitry
+> +#endif /* _VKMS_COMPOSER_H_ */
+> \ No newline at end of file
