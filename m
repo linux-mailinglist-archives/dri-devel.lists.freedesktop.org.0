@@ -1,19 +1,17 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6186E7D4181
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Oct 2023 23:12:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 12D7A7D417F
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Oct 2023 23:12:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 690CE10E26B;
-	Mon, 23 Oct 2023 21:12:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BBFEF10E265;
+	Mon, 23 Oct 2023 21:12:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 12875 seconds by postgrey-1.36 at gabe;
- Mon, 23 Oct 2023 21:12:17 UTC
-Received: from smtp.forwardemail.net (smtp.forwardemail.net [167.172.40.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 17B2D10E26B
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Oct 2023 21:12:16 +0000 (UTC)
+Received: from smtp.forwardemail.net (smtp.forwardemail.net [149.28.215.223])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F8B510E265
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Oct 2023 21:12:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
  h=Content-Transfer-Encoding: MIME-Version: Message-ID: Date: Subject: Cc:
  To: From; q=dns/txt; s=fe-e1b5cab7be; t=1698095525;
@@ -38,7 +36,7 @@ X-Report-Abuse: abuse@forwardemail.net
 X-Complaints-To: abuse@forwardemail.net
 X-ForwardEmail-Version: 0.4.40
 X-ForwardEmail-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
- 167.172.40.54
+ 149.28.215.223
 X-ForwardEmail-ID: 6536e1a4b7c1916c16a25195
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
