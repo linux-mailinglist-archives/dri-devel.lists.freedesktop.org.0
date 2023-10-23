@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 678177D3FE3
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Oct 2023 21:11:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AAA07D3FE5
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Oct 2023 21:11:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0503410E22C;
-	Mon, 23 Oct 2023 19:11:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58E2010E230;
+	Mon, 23 Oct 2023 19:11:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
- [IPv6:2a00:1450:4864:20::12e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 45E4910E22C
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Oct 2023 19:11:20 +0000 (UTC)
-Received: by mail-lf1-x12e.google.com with SMTP id
- 2adb3069b0e04-507f1c29f25so2809370e87.1
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Oct 2023 12:11:20 -0700 (PDT)
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
+ [IPv6:2a00:1450:4864:20::131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 627B910E230
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Oct 2023 19:11:23 +0000 (UTC)
+Received: by mail-lf1-x131.google.com with SMTP id
+ 2adb3069b0e04-5079f6efd64so5089059e87.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Oct 2023 12:11:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1698088278; x=1698693078; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1698088281; x=1698693081; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=GO9pyv976h/9S8gorIMhEgb5zOHhcco+YLW7BrIty0s=;
- b=OVvXtUSCrzbkXa8fBMxUPZb69v2Mb+inVux0Z9D6HGnB8Q9hNjEqkneT0o9IOa3BGf
- 9YjSve4lLCPPQeUQDyDxt04Ah8ITQ4ogKV2NyHT1eLfrqVBTVXdxLqAw0motR1/Mth6O
- DAdRtVn5XG/bY1rNue6QGIBhoCyVofNP9xO9BkgnGmLbz0VwplaGtkAhRI4cQ5IIrIQ9
- 5Xoar+6IL//5cAZTWWwMqZ26W4hl/HNxP7I7t6I62d+v85rHUQonqLsAYTr9EAD2iwo8
- mIewHryuJ7rHPYuIhMiTWTdj6mNiYKbkV6MaOvWff391M8VV1IYL4/zcSu+ZnruDiv04
- wptA==
+ bh=IdB/BGfiU50tq91OXEW4jEb/ithHfUpM77EyD2syuso=;
+ b=JU9eWeCnMW+jxLE5CGl1hDXnwRx2jFgeSgIpFWYn9eBIEBrTf+8v/XteW37lUr/9+P
+ lJEquxNTrtPGYZrgi/q4HKijLPO9X5F6Yw2dvFEwK1cHjc/gHjeEga507aP0DMLjqicN
+ MmCD8vybO7pkp0B51vbubqnKz0bcuwAPqMcblpddEE6FhIOGqc7apLZXteEZKmqZ/G2l
+ 94jYh2UMzDIKOlHOWLnATLIM7gu7YfcDYsj8Aed18Rab/x5exQbv2vd3x67huWKKvEp9
+ L7bsmAAT96Yy4aOG5q0OOZDrqac6+Ep1W/V2wjZ1VclxGbxHZfNkBXBBcT+Zup0Z9Rsa
+ G5dw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1698088278; x=1698693078;
+ d=1e100.net; s=20230601; t=1698088281; x=1698693081;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=GO9pyv976h/9S8gorIMhEgb5zOHhcco+YLW7BrIty0s=;
- b=qAi51XLR3rtKTpFPDWVVYeJm/Vjqym6pCGqxDibn8tAdEYsuKZzmdP2VdppTp1t2Mk
- /FrdhgZedf7qLOsEMMBD1Mg+ZNvSp/KznAFqCmuHAR9D81ykVBuguO9m9d2k9l4tlT4n
- q2zPR/DJduzCDoexv6bGOZFmrYAQAKahrNl4ao0pI8gD9XpAflV0iqKdtqgiXgUBbzVp
- h+44/k6gcND3TLqEdLcXbTiKyBnDhWip/3FsZ9ubxwTx8eMwYEUXKh3hjhHhVufafNkI
- NSK2joeRVBi01/rtQPgoIfJpVgQJpcJby8GE2KhRBEZFkFgUuqn2wJOsyz516X/KYYFd
- ifHQ==
-X-Gm-Message-State: AOJu0YwM4dUFxtmbgd/gwf+7ELNmrX3Ja/j1tU09jb5jhp8qQ2IfJpay
- pzDFm2WUkjZ+ADTxph+H+7M=
-X-Google-Smtp-Source: AGHT+IFoG73WsHG9mQHz3C0QTTAsRZPJgjLfM1mDXnB4R4zv6xRHasqvRkUQLuIrH7X3daCy21jPWA==
-X-Received: by 2002:a05:6512:2255:b0:506:8d2a:e31f with SMTP id
- i21-20020a056512225500b005068d2ae31fmr9336989lfu.46.1698088278334; 
- Mon, 23 Oct 2023 12:11:18 -0700 (PDT)
+ bh=IdB/BGfiU50tq91OXEW4jEb/ithHfUpM77EyD2syuso=;
+ b=WISR44vIZE8zag+YCIWTI8tEXL3FBXRnCjT+aTpnAh1OKJmOiWcG7aHlhxntKNF8Tp
+ NbpU7ZrYIi/Ed9EezxnKzpv3rcaz0p3bB7St9AcDZCs9aNP53f6E6ovgJWSfM9sju1Q3
+ sXAhQsPgniwOoeZNOdcuWKnAGBHkWKjC7VuG3B7iC866kJ6gx+PihP18SDe9TA3OGHY3
+ HUv4P1Y7Jirx1jG+ynOEAFlZmK46HjtDUX40+K27dcTavEPVoueV4j5y1+6B/WsO+1ni
+ vNksTrsA1Xo2WE9m5qtnxzNdJvGkTMuXtFrLwXaPufFnqzgCk1uKOM9dpZ3YGdZ7uOYu
+ gUyg==
+X-Gm-Message-State: AOJu0YzWpOVfgf9bn8mumYB5sI7a2oueu0so46MO6v4NXQsP1ST5Fb0P
+ MIKMoB1+JdP6Spjbr4VKRfs=
+X-Google-Smtp-Source: AGHT+IH56wKrPVXYBFmpJ2Rc5ew0HtICHX6pQamTxBjFaB06LNEkOjvvgCoHVyCC782dakNLnMYRtQ==
+X-Received: by 2002:a19:f807:0:b0:507:96c7:eb1a with SMTP id
+ a7-20020a19f807000000b0050796c7eb1amr6357924lff.54.1698088281341; 
+ Mon, 23 Oct 2023 12:11:21 -0700 (PDT)
 Received: from Slimbook.. (181-251-201-31.ftth.glasoperator.nl.
  [31.201.251.181]) by smtp.gmail.com with ESMTPSA id
- vg18-20020a170907d31200b009adc77fe164sm7062459ejc.66.2023.10.23.12.11.17
+ vg18-20020a170907d31200b009adc77fe164sm7062459ejc.66.2023.10.23.12.11.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Oct 2023 12:11:17 -0700 (PDT)
+ Mon, 23 Oct 2023 12:11:21 -0700 (PDT)
 From: Bouke Sybren Haarsma <boukehaarsma23@gmail.com>
 To: maarten.lankhorst@linux.intel.com
-Subject: [PATCH RESEND 1/2] drm: panel-orientation-quirks: Add quirk for Ayn
- Loki Zero
-Date: Mon, 23 Oct 2023 21:10:58 +0200
-Message-ID: <20231023191059.19915-2-boukehaarsma23@gmail.com>
+Subject: [PATCH RESEND 2/2] drm: panel-orientation-quirks: Add quirk for Ayn
+ Loki Max
+Date: Mon, 23 Oct 2023 21:10:59 +0200
+Message-ID: <20231023191059.19915-3-boukehaarsma23@gmail.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20231023191059.19915-1-boukehaarsma23@gmail.com>
 References: <20231023191059.19915-1-boukehaarsma23@gmail.com>
@@ -79,9 +79,11 @@ Cc: tzimmermann@suse.de, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add quirk orientation for the Ayn Loki Zero.
+Add quirk orientation for Ayn Loki Max model.
 
-This also has been tested/used by the JELOS team.
+This has been tested by JELOS team that uses their
+own patched kernel for a while now and confirmed by
+users in the ChimeraOS discord servers.
 
 Signed-off-by: Bouke Sybren Haarsma <boukehaarsma23@gmail.com>
 ---
@@ -89,22 +91,22 @@ Signed-off-by: Bouke Sybren Haarsma <boukehaarsma23@gmail.com>
  1 file changed, 6 insertions(+)
 
 diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-index d5c15292ae93..7466354c7e5b 100644
+index 7466354c7e5b..5adf9ff07c3e 100644
 --- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
 +++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
 @@ -196,6 +196,12 @@ static const struct dmi_system_id orientation_data[] = {
  		  DMI_MATCH(DMI_BOARD_NAME, "NEXT"),
  		},
  		.driver_data = (void *)&lcd800x1280_rightside_up,
-+	}, {	/* AYN Loki Zero */
++	}, {    /* AYN Loki Max */
 +		.matches = {
 +			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ayn"),
-+			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "Loki Zero"),
++			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "Loki Max"),
 +		},
 +		.driver_data = (void *)&lcd1080x1920_leftside_up,
- 	}, {	/* Chuwi HiBook (CWI514) */
+ 	}, {	/* AYN Loki Zero */
  		.matches = {
- 			DMI_MATCH(DMI_BOARD_VENDOR, "Hampoo"),
+ 			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ayn"),
 -- 
 2.41.0
 
