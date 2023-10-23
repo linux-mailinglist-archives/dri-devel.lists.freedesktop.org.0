@@ -1,77 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 351457D3CCC
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Oct 2023 18:46:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C3DE17D3D06
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Oct 2023 19:04:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB8A210E160;
-	Mon, 23 Oct 2023 16:45:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E38E010E15B;
+	Mon, 23 Oct 2023 17:04:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A18F810E15B
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Oct 2023 16:45:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1698079556;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=bDdV6vKEwynTtIWNDDANhowwMTEJWz/8nr/BNp+GhQo=;
- b=TLQ8CwsW6p5vBF0XJxuS34edprysUGZbP/AU97UY4hnnl+q8ysArtH5zz6GSeQrkTeFfMQ
- PpXD+BBmxxkpHG5CFTwFHAtHRq7K0cCRJ6JW19zM0oxqKYmotn154dyzUIBkpgDHrV8SP/
- 8GzUjgUJuFi1jZaZ6ceuvv+CgPMez3g=
-Received: from mail-vs1-f70.google.com (mail-vs1-f70.google.com
- [209.85.217.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-45-rWA2TpZTNZa3vQtcbnpaRg-1; Mon, 23 Oct 2023 12:45:55 -0400
-X-MC-Unique: rWA2TpZTNZa3vQtcbnpaRg-1
-Received: by mail-vs1-f70.google.com with SMTP id
- ada2fe7eead31-457d9c334f2so1731814137.2
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Oct 2023 09:45:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1698079555; x=1698684355;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=bDdV6vKEwynTtIWNDDANhowwMTEJWz/8nr/BNp+GhQo=;
- b=e+bFKE7S0ZwmZRWMr9b8kox+TGoiQgZ7rM85RgFvmvrPtdKXUMIuni4t02eFv1ZF1r
- I0dN5wcZklyuhEYt4pMZzYCVAoglSmhMY6juymAstcUYEjczSORmv4bzp/I2jlxSPXEh
- NDG5Pk35GHMjTunwJDn1KVDj/gqoGygaFsJrbxqNRqy496fU+B6TcBCiknRxVSedbkVV
- f4LLCVwOVrt8HstQhfiO6W52VMkvl6wPWLNCvT96RT0M/KSDyKt9g3l7WPVMfbEoWjN2
- dXUfcqU+wajdZeyruCxmH2cd2cjGbFbGSLJRCXCavVJcDNPblYjzq3Z+im4CNVTW1HsH
- udYA==
-X-Gm-Message-State: AOJu0Yx2VG4FFOdpJvchBIEMGEZVoni1ErmMZIyO3Y9zdaR3kFJK2Yrx
- cVgXRTS+CryFpx3CnXL/ec5AzRIeQ5oPJHnHZUWkYfOv1NoXuZ3m7Jy2wHuhjVRvP0vKbx+7uMP
- C+NalMzOD1ZkEaib0TaGU6drXUBU=
-X-Received: by 2002:a67:e114:0:b0:457:6cf4:6fa2 with SMTP id
- d20-20020a67e114000000b004576cf46fa2mr8099883vsl.4.1698079554647; 
- Mon, 23 Oct 2023 09:45:54 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFLwoQjwceKkUAwDMJn4avaZIKfK6c04KakeBVIIXjNnuuHhT8ZNUyX6L0ek48c5MBmVurGyw==
-X-Received: by 2002:a67:e114:0:b0:457:6cf4:6fa2 with SMTP id
- d20-20020a67e114000000b004576cf46fa2mr8099865vsl.4.1698079554286; 
- Mon, 23 Oct 2023 09:45:54 -0700 (PDT)
-Received: from klayman.redhat.com (net-2-34-31-107.cust.vodafonedsl.it.
- [2.34.31.107]) by smtp.gmail.com with ESMTPSA id
- g21-20020a05620a109500b0077580becd52sm2812885qkk.103.2023.10.23.09.45.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Oct 2023 09:45:54 -0700 (PDT)
-From: Marco Pagani <marpagan@redhat.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
- Christian Koenig <christian.koenig@amd.com>
-Subject: [RFC PATCH] drm/test: add a test suite for GEM objects backed by shmem
-Date: Mon, 23 Oct 2023 18:45:40 +0200
-Message-ID: <20231023164541.92913-1-marpagan@redhat.com>
-X-Mailer: git-send-email 2.41.0
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 64EB610E15B
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Oct 2023 17:04:06 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by ams.source.kernel.org (Postfix) with ESMTP id 8B053B81A71;
+ Mon, 23 Oct 2023 17:04:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92865C433C7;
+ Mon, 23 Oct 2023 17:03:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1698080643;
+ bh=Z9iY3lsaZZ0k2Yw6281j4HRYsuuLhnj+PAotK0K3VDc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=PDyPGJr3cK+jKb5Cq6EVOd3FAvj4jLd1F5V5I2zaSliCU4SDbKApT9Rn3rgvbcB/e
+ h96zO1DsiEGno/PSW6UhjDGACMyFRcts7xpOnFhKLV24YqpawYWsdPdFRBT571oEMZ
+ IrPmsb6HRdJTq6n+Uo836v53fH/5gKP0iIFMPA07msGpOWiK8AWIQCoUZlyWW3uKZU
+ a4I1A3mdePhDk5Lb5DHLzXBL4tTlGwxyfeeKf4eIfCyNzdv/xppPOA4Ij+9U3pc+Dt
+ +ISwR95IHhxVQJQntGzb62eA2io51O2nTyxGhxyj6gJbmUC38uTS0jCnBdxWs2kRa0
+ TizIz5NDcMF+w==
+Date: Mon, 23 Oct 2023 18:03:57 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Alexandre Mergnat <amergnat@baylibre.com>
+Subject: Re: [PATCH 01/18] dt-bindings: display: mediatek: aal: add binding
+ for MT8365 SoC
+Message-ID: <20231023-sharpness-uplifting-634566c6b4ff@spud>
+References: <20231023-display-support-v1-0-5c860ed5c33b@baylibre.com>
+ <20231023-display-support-v1-1-5c860ed5c33b@baylibre.com>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="PbLYAkV5QGg0voCF"
+Content-Disposition: inline
+In-Reply-To: <20231023-display-support-v1-1-5c860ed5c33b@baylibre.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,359 +52,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org,
- Marco Pagani <marpagan@redhat.com>, dri-devel@lists.freedesktop.org,
+Cc: devicetree@vger.kernel.org, Catalin Marinas <catalin.marinas@arm.com>,
+ dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Will Deacon <will@kernel.org>, linux-pwm@vger.kernel.org,
+ Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Jitao Shi <jitao.shi@mediatek.com>, Xinlei Lee <xinlei.lee@mediatek.com>,
+ Rob Herring <robh+dt@kernel.org>, linux-mediatek@lists.infradead.org,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-arm-kernel@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
  linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch introduces an initial KUnit test suite for GEM objects
-backed by shmem buffers.
 
-Signed-off-by: Marco Pagani <marpagan@redhat.com>
----
- drivers/gpu/drm/Kconfig                    |   1 +
- drivers/gpu/drm/tests/Makefile             |   3 +-
- drivers/gpu/drm/tests/drm_gem_shmem_test.c | 303 +++++++++++++++++++++
- 3 files changed, 306 insertions(+), 1 deletion(-)
- create mode 100644 drivers/gpu/drm/tests/drm_gem_shmem_test.c
+--PbLYAkV5QGg0voCF
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index 3eee8636f847..f0a77e3e04d7 100644
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -84,6 +84,7 @@ config DRM_KUNIT_TEST
- 	select DRM_EXPORT_FOR_TESTS if m
- 	select DRM_KUNIT_TEST_HELPERS
- 	select DRM_EXEC
-+	select DRM_GEM_SHMEM_HELPER
- 	default KUNIT_ALL_TESTS
- 	help
- 	  This builds unit tests for DRM. This option is not useful for
-diff --git a/drivers/gpu/drm/tests/Makefile b/drivers/gpu/drm/tests/Makefile
-index ba7baa622675..b8227aab369e 100644
---- a/drivers/gpu/drm/tests/Makefile
-+++ b/drivers/gpu/drm/tests/Makefile
-@@ -18,6 +18,7 @@ obj-$(CONFIG_DRM_KUNIT_TEST) += \
- 	drm_plane_helper_test.o \
- 	drm_probe_helper_test.o \
- 	drm_rect_test.o	\
--	drm_exec_test.o
-+	drm_exec_test.o \
-+	drm_gem_shmem_test.o
- 
- CFLAGS_drm_mm_test.o := $(DISABLE_STRUCTLEAK_PLUGIN)
-diff --git a/drivers/gpu/drm/tests/drm_gem_shmem_test.c b/drivers/gpu/drm/tests/drm_gem_shmem_test.c
-new file mode 100644
-index 000000000000..0bf6727f08d2
---- /dev/null
-+++ b/drivers/gpu/drm/tests/drm_gem_shmem_test.c
-@@ -0,0 +1,303 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * KUnit test suite for GEM objects backed by shmem buffers
-+ *
-+ * Copyright (C) 2023 Red Hat, Inc.
-+ *
-+ * Author: Marco Pagani <marpagan@redhat.com>
-+ */
-+
-+#include <linux/dma-buf.h>
-+#include <linux/iosys-map.h>
-+#include <linux/sizes.h>
-+
-+#include <kunit/test.h>
-+
-+#include <drm/drm_device.h>
-+#include <drm/drm_drv.h>
-+#include <drm/drm_gem.h>
-+#include <drm/drm_gem_shmem_helper.h>
-+#include <drm/drm_kunit_helpers.h>
-+
-+#define TEST_SIZE		SZ_1M
-+#define TEST_BYTE		0xae
-+
-+struct fake_dev {
-+	struct drm_device drm_dev;
-+	struct device *dev;
-+};
-+
-+/* Test creating a shmem GEM object */
-+static void drm_gem_shmem_test_obj_create(struct kunit *test)
-+{
-+	struct fake_dev *fdev = test->priv;
-+	struct drm_gem_shmem_object *shmem;
-+
-+	shmem = drm_gem_shmem_create(&fdev->drm_dev, TEST_SIZE);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, shmem);
-+	KUNIT_ASSERT_EQ(test, shmem->base.size, TEST_SIZE);
-+	KUNIT_ASSERT_NOT_NULL(test, shmem->base.filp);
-+	KUNIT_ASSERT_NOT_NULL(test, shmem->base.funcs);
-+
-+	drm_gem_shmem_free(shmem);
-+}
-+
-+/* Test creating a private shmem GEM object from a scatter/gather table */
-+static void drm_gem_shmem_test_obj_create_private(struct kunit *test)
-+{
-+	struct fake_dev *fdev = test->priv;
-+	struct drm_gem_shmem_object *shmem;
-+	struct drm_gem_object *gem_obj;
-+	struct dma_buf buf_mock;
-+	struct dma_buf_attachment attach_mock;
-+	struct sg_table *sgt;
-+	char *buf;
-+	int ret;
-+
-+	/* Create a mock scatter/gather table */
-+	buf = kunit_kzalloc(test, TEST_SIZE, GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, buf);
-+
-+	sgt = kzalloc(sizeof(*sgt), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, sgt);
-+
-+	ret = sg_alloc_table(sgt, 1, GFP_KERNEL);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+	sg_init_one(sgt->sgl, buf, TEST_SIZE);
-+
-+	/* Init a mock DMA-BUF */
-+	buf_mock.size = TEST_SIZE;
-+	attach_mock.dmabuf = &buf_mock;
-+
-+	gem_obj = drm_gem_shmem_prime_import_sg_table(&fdev->drm_dev, &attach_mock, sgt);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, gem_obj);
-+	KUNIT_ASSERT_EQ(test, gem_obj->size, TEST_SIZE);
-+	KUNIT_ASSERT_NULL(test, gem_obj->filp);
-+	KUNIT_ASSERT_NOT_NULL(test, gem_obj->funcs);
-+
-+	shmem = to_drm_gem_shmem_obj(gem_obj);
-+	KUNIT_ASSERT_PTR_EQ(test, shmem->sgt, sgt);
-+
-+	/* The scatter/gather table is freed by drm_gem_shmem_free */
-+	drm_gem_shmem_free(shmem);
-+}
-+
-+/* Test pinning backing pages */
-+static void drm_gem_shmem_test_pin_pages(struct kunit *test)
-+{
-+	struct fake_dev *fdev = test->priv;
-+	struct drm_gem_shmem_object *shmem;
-+	int i, ret;
-+
-+	shmem = drm_gem_shmem_create(&fdev->drm_dev, TEST_SIZE);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, shmem);
-+	KUNIT_ASSERT_NULL(test, shmem->pages);
-+	KUNIT_ASSERT_EQ(test, shmem->pages_use_count, 0);
-+
-+	ret = drm_gem_shmem_pin(shmem);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+	KUNIT_ASSERT_NOT_NULL(test, shmem->pages);
-+	KUNIT_ASSERT_EQ(test, shmem->pages_use_count, 1);
-+
-+	for (i = 0; i < (shmem->base.size >> PAGE_SHIFT); i++)
-+		KUNIT_ASSERT_NOT_NULL(test, shmem->pages[i]);
-+
-+	drm_gem_shmem_unpin(shmem);
-+	KUNIT_ASSERT_NULL(test, shmem->pages);
-+	KUNIT_ASSERT_EQ(test, shmem->pages_use_count, 0);
-+
-+	drm_gem_shmem_free(shmem);
-+}
-+
-+/* Test creating a virtual mapping */
-+static void drm_gem_shmem_test_vmap(struct kunit *test)
-+{
-+	struct fake_dev *fdev = test->priv;
-+	struct drm_gem_shmem_object *shmem;
-+	struct iosys_map map;
-+	int ret, i;
-+
-+	shmem = drm_gem_shmem_create(&fdev->drm_dev, TEST_SIZE);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, shmem);
-+	KUNIT_ASSERT_NULL(test, shmem->vaddr);
-+	KUNIT_ASSERT_EQ(test, shmem->vmap_use_count, 0);
-+
-+	ret = drm_gem_shmem_vmap(shmem, &map);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+	KUNIT_ASSERT_NOT_NULL(test, shmem->vaddr);
-+	KUNIT_ASSERT_EQ(test, shmem->vmap_use_count, 1);
-+	KUNIT_ASSERT_FALSE(test, iosys_map_is_null(&map));
-+
-+	iosys_map_memset(&map, 0, TEST_BYTE, TEST_SIZE);
-+	for (i = 0; i < TEST_SIZE; i++)
-+		KUNIT_ASSERT_EQ(test, iosys_map_rd(&map, i, u8), TEST_BYTE);
-+
-+	drm_gem_shmem_vunmap(shmem, &map);
-+	KUNIT_ASSERT_NULL(test, shmem->vaddr);
-+	KUNIT_ASSERT_EQ(test, shmem->vmap_use_count, 0);
-+
-+	drm_gem_shmem_free(shmem);
-+}
-+
-+/* Test exporting a scatter/gather table */
-+static void drm_gem_shmem_test_get_pages_sgt(struct kunit *test)
-+{
-+	struct fake_dev *fdev = test->priv;
-+	struct drm_gem_shmem_object *shmem;
-+	struct sg_table *sgt;
-+	struct scatterlist *sg;
-+	unsigned int si, len = 0;
-+	int ret;
-+
-+	shmem = drm_gem_shmem_create(&fdev->drm_dev, TEST_SIZE);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, shmem);
-+
-+	ret = drm_gem_shmem_pin(shmem);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+
-+	sgt = drm_gem_shmem_get_sg_table(shmem);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, sgt);
-+	KUNIT_ASSERT_NULL(test, shmem->sgt);
-+
-+	for_each_sgtable_sg(sgt, sg, si) {
-+		KUNIT_ASSERT_NOT_NULL(test, sg);
-+		len += sg->length;
-+	}
-+	KUNIT_ASSERT_GE(test, len, TEST_SIZE);
-+
-+	kfree(sgt);
-+	drm_gem_shmem_free(shmem);
-+}
-+
-+/* Test exporting a scatter/gather pinned table for PRIME */
-+static void drm_gem_shmem_test_get_sg_table(struct kunit *test)
-+{
-+	struct fake_dev *fdev = test->priv;
-+	struct drm_gem_shmem_object *shmem;
-+	struct sg_table *sgt;
-+	struct scatterlist *sg;
-+	unsigned int si, len = 0;
-+
-+	shmem = drm_gem_shmem_create(&fdev->drm_dev, TEST_SIZE);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, shmem);
-+
-+	sgt = drm_gem_shmem_get_pages_sgt(shmem);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, sgt);
-+	KUNIT_ASSERT_PTR_EQ(test, sgt, shmem->sgt);
-+
-+	for_each_sgtable_sg(sgt, sg, si) {
-+		KUNIT_ASSERT_NOT_NULL(test, sg);
-+		len += sg->length;
-+	}
-+	KUNIT_ASSERT_GE(test, len, TEST_SIZE);
-+
-+	/* The scatter/gather table is freed by drm_gem_shmem_free */
-+	drm_gem_shmem_free(shmem);
-+}
-+
-+/* Test updating madvise status */
-+static void drm_gem_shmem_test_madvise(struct kunit *test)
-+{
-+	struct fake_dev *fdev = test->priv;
-+	struct drm_gem_shmem_object *shmem;
-+	int ret;
-+
-+	shmem = drm_gem_shmem_create(&fdev->drm_dev, TEST_SIZE);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, shmem);
-+	KUNIT_ASSERT_EQ(test, shmem->madv, 0);
-+
-+	ret = drm_gem_shmem_madvise(shmem, 1);
-+	KUNIT_ASSERT_TRUE(test, ret);
-+	KUNIT_ASSERT_EQ(test, shmem->madv, 1);
-+
-+	ret = drm_gem_shmem_madvise(shmem, -1);
-+	KUNIT_ASSERT_FALSE(test, ret);
-+	KUNIT_ASSERT_EQ(test, shmem->madv, -1);
-+
-+	ret = drm_gem_shmem_madvise(shmem, 0);
-+	KUNIT_ASSERT_FALSE(test, ret);
-+	KUNIT_ASSERT_EQ(test, shmem->madv, -1);
-+
-+	drm_gem_shmem_free(shmem);
-+}
-+
-+/* Test purging */
-+static void drm_gem_shmem_test_purge(struct kunit *test)
-+{
-+	struct fake_dev *fdev = test->priv;
-+	struct drm_gem_shmem_object *shmem;
-+	struct sg_table *sgt;
-+	int ret;
-+
-+	shmem = drm_gem_shmem_create(&fdev->drm_dev, TEST_SIZE);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, shmem);
-+
-+	ret = drm_gem_shmem_is_purgeable(shmem);
-+	KUNIT_ASSERT_FALSE(test, ret);
-+
-+	ret = drm_gem_shmem_madvise(shmem, 1);
-+	KUNIT_ASSERT_TRUE(test, ret);
-+
-+	sgt = drm_gem_shmem_get_pages_sgt(shmem);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, sgt);
-+
-+	ret = drm_gem_shmem_is_purgeable(shmem);
-+	KUNIT_ASSERT_TRUE(test, ret);
-+
-+	drm_gem_shmem_purge(shmem);
-+	KUNIT_ASSERT_TRUE(test, ret);
-+
-+	drm_gem_shmem_free(shmem);
-+}
-+
-+static int drm_gem_shmem_test_init(struct kunit *test)
-+{
-+	struct fake_dev *fdev;
-+	struct device *dev;
-+
-+	/* Allocate a parent device */
-+	dev = drm_kunit_helper_alloc_device(test);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, dev);
-+
-+	/*
-+	 * The DRM core will automatically initialize the GEM core and create
-+	 * a DRM Memory Manager object which provides an address space pool
-+	 * for GEM objects allocation.
-+	 */
-+	fdev = drm_kunit_helper_alloc_drm_device(test, dev, struct fake_dev,
-+						 drm_dev, DRIVER_GEM);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, fdev);
-+
-+	fdev->dev = dev;
-+	test->priv = fdev;
-+
-+	return 0;
-+}
-+
-+static void drm_gem_shmem_test_exit(struct kunit *test)
-+{
-+	struct fake_dev *fdev = test->priv;
-+
-+	drm_kunit_helper_free_device(test, fdev->dev);
-+}
-+
-+static struct kunit_case drm_gem_shmem_test_cases[] = {
-+	KUNIT_CASE(drm_gem_shmem_test_obj_create),
-+	KUNIT_CASE(drm_gem_shmem_test_obj_create_private),
-+	KUNIT_CASE(drm_gem_shmem_test_pin_pages),
-+	KUNIT_CASE(drm_gem_shmem_test_vmap),
-+	KUNIT_CASE(drm_gem_shmem_test_get_pages_sgt),
-+	KUNIT_CASE(drm_gem_shmem_test_get_sg_table),
-+	KUNIT_CASE(drm_gem_shmem_test_madvise),
-+	KUNIT_CASE(drm_gem_shmem_test_purge),
-+	{}
-+};
-+
-+static struct kunit_suite drm_gem_shmem_suite = {
-+	.name = "drm_gem_shmem",
-+	.init = drm_gem_shmem_test_init,
-+	.exit = drm_gem_shmem_test_exit,
-+	.test_cases = drm_gem_shmem_test_cases
-+};
-+
-+kunit_test_suite(drm_gem_shmem_suite);
+On Mon, Oct 23, 2023 at 04:40:01PM +0200, Alexandre Mergnat wrote:
+> Display Adaptive Ambient Light for MT8365 is compatible with another SoC.
 
-base-commit: 3f5ba636d6987ddffeaa056dea1c524da63912f3
--- 
-2.41.0
+> Then, add MT8365 binding along with MT8183 SoC.
 
+s/binding/compatible/, here and in the subject.
+
+Cheers,
+Conor.
+
+>=20
+> Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
+> ---
+>  Documentation/devicetree/bindings/display/mediatek/mediatek,aal.yaml | 1=
+ +
+>  1 file changed, 1 insertion(+)
+>=20
+> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,=
+aal.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,aal.=
+yaml
+> index 7fd42c8fdc32..840b48a878ca 100644
+> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,aal.yaml
+> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,aal.yaml
+> @@ -35,6 +35,7 @@ properties:
+>                - mediatek,mt8188-disp-aal
+>                - mediatek,mt8192-disp-aal
+>                - mediatek,mt8195-disp-aal
+> +              - mediatek,mt8365-disp-aal
+>            - const: mediatek,mt8183-disp-aal
+> =20
+>    reg:
+>=20
+> --=20
+> 2.25.1
+>=20
+
+--PbLYAkV5QGg0voCF
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZTanfQAKCRB4tDGHoIJi
+0tPUAP9cTTvfIBq9I7y7WjmhtsRZbhjBWhdUzs8mmYekmW17xAEAnCJCpDVwVruG
+ZkQOxyU76MLSecahlFO14YNh1wBwEAk=
+=wX+W
+-----END PGP SIGNATURE-----
+
+--PbLYAkV5QGg0voCF--
