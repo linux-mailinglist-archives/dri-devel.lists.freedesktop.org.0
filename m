@@ -1,44 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C3FF7D3092
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Oct 2023 13:00:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 378357D3094
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Oct 2023 13:00:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A37D610E1AA;
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC3DB10E1AE;
 	Mon, 23 Oct 2023 11:00:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E81510E1AD
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D4EE10E1AC
  for <dri-devel@lists.freedesktop.org>; Mon, 23 Oct 2023 11:00:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
- Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
+ In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=UM4hz8FlQFD9fzAMIHsfTKLURP0ILRuo7/0sQnIbBrk=; b=Zv1itfwiCYhA5vRaT3iWIraE6/
- YsOqeqiVfwtrr//2gKDTBkyfeHdGb/ZZkxSVRK4I/gx95FrLnAJolypCKsND+pUgJCMaz+uh8iB3k
- FKJNEkeS9LRvjRSCcMZeNVEXaS/TqvfXglfoyJzWOaI07WEjE1g3o8GuL0u4ASnqttDCXE3FUEjr3
- BXPTeAemJcwbuLNbJvqkhlMY91MocO/jM1Vku4ylq+4Mzn+xsGKj8/pxi0Xyd6f7VK5lM9WjJXcQ6
- 8Tuv4mWcSTFSns/tOLQX9JpbTynNglHDBcWPFoFtfs3Zci5daDy4RmK5T8Y4OSD/VD2mINDEMaBpC
- KgH2P4kg==;
+ bh=kjlw/hFajWEkad4BTTJuNeTTMo5oMTr0YLm0Dd5Fys0=; b=RKHx6fOF1tgfzsIJTHbGTI9ajN
+ gyqdwkhTv+cgaTnCbeLB/Zqft9PKJGnszMH0R+FYD2XY8XEsezqVkY4tZC4Fi75GDUsAfHeqDc/Ha
+ woKmOahBx7HNF7RN6lsjPj1Sx3GHK68xXSNdvptDYdTwBjGmuJvEMqfbhwZ3oE+5mbqKqLzveVOVl
+ nnW2U3m3qLTHJCKquR6/z74PREBEFXTtRVUJ2GpaUWZL5k+WCrD2tZHvT0Eh7eyODSKeUG5i2NMeU
+ 9iUVD0wLCNGCKLsZmNVALrswmOK4eo0tdznh3xf3MycFWKLXKMiEzb4g3K85tMTvWjd8bm6RwM2D5
+ XSBXiXgg==;
 Received: from [177.34.168.16] (helo=morissey..)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1qusey-005YGM-KA; Mon, 23 Oct 2023 12:59:49 +0200
+ id 1qusf2-005YGM-Jx; Mon, 23 Oct 2023 12:59:53 +0200
 From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
 To: Emma Anholt <emma@anholt.net>, Melissa Wen <mwen@igalia.com>,
  Iago Toral <itoral@igalia.com>, David Airlie <airlied@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 1/2] drm/v3d: wait for all jobs to finish before unregistering
-Date: Mon, 23 Oct 2023 07:58:33 -0300
-Message-ID: <20231023105927.101502-1-mcanal@igalia.com>
+Subject: [PATCH 2/2] drm/v3d: assure that the job is NULL after being freed
+Date: Mon, 23 Oct 2023 07:58:34 -0300
+Message-ID: <20231023105927.101502-2-mcanal@igalia.com>
 X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20231023105927.101502-1-mcanal@igalia.com>
+References: <20231023105927.101502-1-mcanal@igalia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -59,29 +61,28 @@ Cc: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently, we are only warning the user if the BIN or RENDER jobs don't
-finish before we unregister V3D. We must wait for all jobs to finish
-before unregistering. Therefore, warn the user if TFU or CSD jobs
-are not done by the time the driver is unregistered.
+After the job is finished and freed, we need to make sure that the job is
+NULL. Otherwise, we would get a warning when unloading the driver, as it
+would look like the job still exists. Therefore, after freeing the job,
+let's assign it to NULL in order to indicate that the job has finished.
 
 Signed-off-by: Maíra Canal <mcanal@igalia.com>
 ---
- drivers/gpu/drm/v3d/v3d_gem.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/gpu/drm/v3d/v3d_gem.c | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/drivers/gpu/drm/v3d/v3d_gem.c b/drivers/gpu/drm/v3d/v3d_gem.c
-index 2e94ce788c71..afa7d170d1ff 100644
+index afa7d170d1ff..61a7f36fc8e2 100644
 --- a/drivers/gpu/drm/v3d/v3d_gem.c
 +++ b/drivers/gpu/drm/v3d/v3d_gem.c
-@@ -1072,6 +1072,8 @@ v3d_gem_destroy(struct drm_device *dev)
- 	 */
- 	WARN_ON(v3d->bin_job);
- 	WARN_ON(v3d->render_job);
-+	WARN_ON(v3d->tfu_job);
-+	WARN_ON(v3d->csd_job);
- 
- 	drm_mm_takedown(&v3d->mm);
- 
--- 
+@@ -333,6 +333,7 @@ v3d_job_free(struct kref *ref)
+ 		v3d_perfmon_put(job->perfmon);
+
+ 	kfree(job);
++	job = NULL;
+ }
+
+ static void
+--
 2.41.0
 
