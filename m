@@ -2,94 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 485097D3A24
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Oct 2023 16:58:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88AE67D3A29
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Oct 2023 16:58:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A58DA10E0CF;
-	Mon, 23 Oct 2023 14:58:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 81F0410E20B;
+	Mon, 23 Oct 2023 14:58:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
- [IPv6:2a00:1450:4864:20::32e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5695610E0CF
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Oct 2023 14:57:57 +0000 (UTC)
-Received: by mail-wm1-x32e.google.com with SMTP id
- 5b1f17b1804b1-40806e40fccso25032945e9.2
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Oct 2023 07:57:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1698073076; x=1698677876; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :references:cc:to:content-language:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=X4sb9XVGW0QNKpavfuN9oxWsbx8M351MiA2dCW1xgcc=;
- b=H6lNS+rR4+QfZGmzsaWg5CROayMtGy4MoG419ySlDboX2MHEBWkCv1ngb8hYMLXFZ8
- gNsxL8mLQRFOIpvxfRRy/6T/GPQqXDxWH9iiYGyzYgSqKPoabB243hei0ZZ+dc2PjvxH
- RfZuJwG+Monrc535kJVckBVsuOVSeSb9q1mZsMmi5Q433Rw5xA9DIoYjne0WuE9/STas
- HIXUH5k+9iUbQ7YvA0C0fa3w1D32zEk/iCG6OS2Dl6O7qjlqv3RZsacRJbd0zh3Xopwo
- AuGuk0ziKpi3RIUF2XT8xC5agq0wBfkzlWfpfjZnPiSjZSfu7+Rfr9ATVRyYqV17SGHP
- OPrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1698073076; x=1698677876;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :references:cc:to:content-language:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=X4sb9XVGW0QNKpavfuN9oxWsbx8M351MiA2dCW1xgcc=;
- b=XJoY/WJbnvSAaaMQOLC1ruagr+C+/qwSjsUcRiHWeZZtgcTARbwpYVIsLYAtD9m/qG
- xQzQik+H2i7CSkrlJKKwVQBC9f1p9h8qXQiPurV9cI+A/6VbWfOQBb1YLCIICcTWyf9v
- /WOjTMAAwnYOMpMbA3obRPDvsRjQKhGrxH8g1i540CscjsBe2aaCPBVMkCk1MsQtfEMc
- Buwi3yRBaTBcUe+wxjubInb//Q1zOu+Ylq5USoGQfuYGmCjoMFaTeqKtdIHHBOR6XsN9
- EVG5wLhnccmKY54eLJgHJ9jIC+ed6in3bzMnMqEtDUc4q+obsoC3HVoAyIaWukOn/kvN
- TeVw==
-X-Gm-Message-State: AOJu0YycN0hlsMM/pmAxgjC/y92YKUtwTyIYMRrKt4BaYWEjTyLIVaJZ
- F5qWfTDaE9or+Vst8TeVwgorwQ==
-X-Google-Smtp-Source: AGHT+IHui4rUsP9khjsKc/fS6TOgZjAVE9q7nFPizFWwt54lJdTljB6STJsMyrfiujNUFdNh9niqyA==
-X-Received: by 2002:a05:600c:3c8d:b0:408:434c:dae7 with SMTP id
- bg13-20020a05600c3c8d00b00408434cdae7mr8254117wmb.2.1698073075657; 
- Mon, 23 Oct 2023 07:57:55 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:982:cbb0:a36e:a5d9:26ae:74b1?
- ([2a01:e0a:982:cbb0:a36e:a5d9:26ae:74b1])
- by smtp.gmail.com with ESMTPSA id
- x9-20020a05600c420900b004065e235417sm14163567wmh.21.2023.10.23.07.57.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 23 Oct 2023 07:57:55 -0700 (PDT)
-Message-ID: <53982fa5-3396-4c1f-8360-18957fd687e8@linaro.org>
-Date: Mon, 23 Oct 2023 16:57:54 +0200
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
+ [66.111.4.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B8CB10E20E
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Oct 2023 14:58:17 +0000 (UTC)
+Received: from compute7.internal (compute7.nyi.internal [10.202.2.48])
+ by mailout.nyi.internal (Postfix) with ESMTP id 625325C036B;
+ Mon, 23 Oct 2023 10:58:15 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute7.internal (MEProxy); Mon, 23 Oct 2023 10:58:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm3; t=1698073095; x=1698159495; bh=W/
+ 0WC7RItMawrgL8SpGn0ORkdhr0XPCHb2iIFurmGk8=; b=r4GRNYVss2a6WBCuRW
+ MDQ3LUTC9wccr5VVmBkD0SwP7Ab6QtXQLcXeF72aNQ0Lzhk1mnghKXlCrMz11O1C
+ gzE+CGBBg1xt4aFSWhgG5Yax7rtaMGYEcpzRwyk7V/2j1udnuk5svn8qLSv+0v4p
+ /enz2jzJ7wmmDGjeMVQLoMUTpMuXtj1BGQWG5LD4AdvA5CjKpHPm1ziYd83bewtf
+ 4/2oTaA4Ks4aF/qTqjf1c9+MpASo1STtqhStbQT0hiBgLy906ia1tJ6uj0Haz1Xt
+ kNdXO603RDgDzBGoOy8Vkoh07C45+YBQY2uZOLfXJfbOTmhsXk4M2xQZ0Z45Cf7d
+ k4BA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:content-type:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm3; t=1698073095; x=1698159495; bh=W/0WC7RItMawr
+ gL8SpGn0ORkdhr0XPCHb2iIFurmGk8=; b=V9zBYozFVd47ADENJks7U1WkD/VH4
+ BvOdmo5VJWyDWLowJRe5n2/Opr45y8zxzwvBdfU0VRruiP54rZyU0ACilL4fxvqT
+ Qk59KTtyc6EpZGgwY1xCR54vtztDe9KfU5bSIrfrpUV1bYDbldVJ6S7t2Y6JZCJP
+ MZwICe9Loigh6J7dOC61/ie1MZyZ8fLYD48HG6XCsyHlzgf2ws0ntkCPVF4XW5oU
+ MlSEcR2dSOFvlIRa1MaLsvCYxcDZzP4+wF6qA7N+vHJML3beH5qMl8jlPujQo6WD
+ jguv3vXv5sxKYvxigZVCRxpy0FetH0ymjp0zyK5D3iedez1lAqjZkTT/g==
+X-ME-Sender: <xms:Boo2Zc2O5MjwxvcKUTzUAGBYFtNZVuTXr1or8uFJ6SRdA_-U4BpX9w>
+ <xme:Boo2ZXEXj5TQBbKocTNT-7jYp3yEozz5H-TgInjj2UZUPLP-MVMD99v_ho2ZR6hg2
+ R7UYUQuRXbQaiwX4fc>
+X-ME-Received: <xmr:Boo2ZU7ZiGFHq9yCE5E1YiOiZtCSIhSMO9QzmM883EbsOvUH9g8c_nb-SGbS2N1salQ6QBeSVy_H-f5y-81dpQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrkeeigdekvdcutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvvefukfhfgggtuggjsehgtdfsredttddvnecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+ htvghrnheptdfgudekieeguefhleehfedthffggeefgfduueeihfeuueelkeevtedviedt
+ vdeinecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpe
+ dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:Boo2ZV0GTLdO2YUbhLV4smAfFoWLPxBB94iMNb2AHC0mAxG3qNAhUQ>
+ <xmx:Boo2ZfEHFhnfTl5ifqcPS5squGswNMpTERoJj0GQh_a3AIkx3KIlMA>
+ <xmx:Boo2Ze-DlkqRGIFJC_JbpchdMddVy6vZp44_6gxX_2qM3m26n4mPXw>
+ <xmx:B4o2ZQM5qJD-nUDPprIYYWQYPEELnYMnBQThMCgzEsyrKdBzVbppNQ>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 23 Oct 2023 10:58:14 -0400 (EDT)
+Date: Mon, 23 Oct 2023 16:58:12 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Subject: Re: [PATCH v3 3/9] drm/vc4: hdmi: Add Broadcast RGB property to
+ allow override of RGB range
+Message-ID: <tnkfcgkoobxyyhnsmoyayohip73wl6axnd7liefsvof6qwgovd@ropob4set3nl>
+References: <20221207-rpi-hdmi-improvements-v3-0-bdd54f66884e@cerno.tech>
+ <20221207-rpi-hdmi-improvements-v3-3-bdd54f66884e@cerno.tech>
+ <CAKMK7uFQ8yJLKgTrQdmhwmq9uL-hbUsfUeU6cxWdB2AW3i4vOg@mail.gmail.com>
+ <fwcn3vlgxq5uygi32pyjuktj62wa7zvdgu7xxlpqr7an3kjn7i@25axhlrrkk6z>
+ <12669999-295f-40c5-8c58-ba3ed26efb16@xs4all.nl>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: neil.armstrong@linaro.org
-Subject: Re: [RFC] Clean up check for already prepared panel
-Content-Language: en-US, fr
-To: Yuran Pereira <yuran.pereira@hotmail.com>
-References: <DB3PR10MB68352B33759F5DB6CC041C84E8D8A@DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM>
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro Developer Services
-In-Reply-To: <DB3PR10MB68352B33759F5DB6CC041C84E8D8A@DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="kg5ejgqcqfwxthnd"
+Content-Disposition: inline
+In-Reply-To: <12669999-295f-40c5-8c58-ba3ed26efb16@xs4all.nl>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,52 +88,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
-Cc: sam@ravnborg.org, dianders@chromium.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: Emma Anholt <emma@anholt.net>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-On 23/10/2023 16:51, Yuran Pereira wrote:
-> Since the core function drm_panel_prepare already checks if the
-> panel is prepared, we can remove this duplicate check from tm5p5_nt35596_prepare
-> which acts as a no-op. As suggested in the GPU TODO [1]
-> 
-> [1] https://docs.kernel.org/gpu/todo.html#clean-up-checks-for-already-prepared-enabled-in-panels
-> 
-> Suggested-by: Douglas Anderson <dianders@chromium.org>
-> Signed-off-by: Yuran Pereira <yuran.pereira@hotmail.com>
-> ---
->   drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.c | 4 ----
->   1 file changed, 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.c b/drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.c
-> index 075a7af81eff..af83451b3374 100644
-> --- a/drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.c
-> +++ b/drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.c
-> @@ -112,9 +112,6 @@ static int tm5p5_nt35596_prepare(struct drm_panel *panel)
->   	struct device *dev = &ctx->dsi->dev;
->   	int ret;
->   
-> -	if (ctx->prepared)
-> -		return 0;
-> -
->   	ret = regulator_bulk_enable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
->   	if (ret < 0) {
->   		dev_err(dev, "Failed to enable regulators: %d\n", ret);
-> @@ -132,7 +129,6 @@ static int tm5p5_nt35596_prepare(struct drm_panel *panel)
->   		return ret;
->   	}
->   
-> -	ctx->prepared = true;
->   	return 0;
->   }
->   
+--kg5ejgqcqfwxthnd
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-This has already been done and merged in:
-https://patchwork.freedesktop.org/patch/msgid/20230804140605.RFC.1.Ia54954fd2f7645c1b86597494902973f57feeb71@changeid
+Hi Hans,
 
-Thanks,
-Neil
+On Thu, Oct 19, 2023 at 10:26:40AM +0200, Hans Verkuil wrote:
+> Hi Maxime,
+>=20
+> On 19/10/2023 10:02, Maxime Ripard wrote:
+> > Hi,
+> >=20
+> > On Wed, Oct 11, 2023 at 03:23:18PM +0200, Daniel Vetter wrote:
+> >> On Mon, 6 Mar 2023 at 11:49, Maxime Ripard <maxime@cerno.tech> wrote:
+> >>>
+> >>> From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> >>>
+> >>> Copy Intel's "Broadcast RGB" property semantics to add manual override
+> >>> of the HDMI pixel range for monitors that don't abide by the content
+> >>> of the AVI Infoframe.
+> >>>
+> >>> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> >>> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> >>
+> >> Stumbled over this grepping around, but would have been nice to lift
+> >> this into drm code and document the property. It's one of the legacy
+> >> ones from the table of horrors after all ...
+> >>
+> >> Shouldn't be an uapi problem because it's copypasted to much, just not=
+ great.
+> >=20
+> > We already discussed it on IRC, but just for the record I have a current
+> > series that should address exactly that:
+> >=20
+> > https://lore.kernel.org/dri-devel/20230920-kms-hdmi-connector-state-v2-=
+3-17932daddd7d@kernel.org/
+> >=20
+> > Maxime
+>=20
+> I've pasted a snippet from that patch below for a quick review:
+>=20
+> >  /**
+> >   * DOC: HDMI connector properties
+> >   *
+> > + * Broadcast RGB (HDMI Specific):
+>=20
+> Full vs Limited is actually not HDMI specific, DisplayPort can signal thi=
+s as
+> well for whatever it is worth.
+
+Sure, what I (and the original patch I guess) meant is that it's only
+ever used on HDMI connectors these days. If that ever changes, then we
+can update the doc.
+
+> > + *      Indicates the RGB Range (Full vs Limited) used.
+>=20
+> RGB Range -> RGB Quantization Range
+>=20
+> > + *
+> > + *      The value of this property can be one of the following:
+> > + *
+> > + *      Automatic:
+> > + *              RGB Range is selected automatically based on the mode
+> > + *              according to the HDMI specifications.
+> > + *
+> > + *      Full:
+> > + *              Full RGB Range is forced.
+> > + *
+> > + *      Limited 16:235:
+>=20
+> It is very unfortunate that this is called "Limited 16:235" instead of ju=
+st "Limited"
+> since for color component bit depths > 8 these values are different.
+>=20
+> I have no idea if it is possible to add an alias "Limited" that you can u=
+se instead.
+> In any case, this should document that it works just as well for higher b=
+it depths,
+> but with different limits.
+
+I had a look and it doesn't look like the property infrastructure can
+deal with aliases. I'll add something in the doc
+
+Thanks!
+Maxime
+
+--kg5ejgqcqfwxthnd
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZTaKBAAKCRDj7w1vZxhR
+xWptAP42g9P7kv2iPbu4YrraFGmwXRYdv9Jwnqj1JWzCfk7IegEA6Id6EjqfGIDt
+0180BH6z4cwus4NL2P4Cz/1Ox5aj7Q8=
+=OIoh
+-----END PGP SIGNATURE-----
+
+--kg5ejgqcqfwxthnd--
