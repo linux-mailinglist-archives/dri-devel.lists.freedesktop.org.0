@@ -1,95 +1,95 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0CAA7D3A38
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Oct 2023 17:01:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 485097D3A24
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Oct 2023 16:58:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A1AC10E20D;
-	Mon, 23 Oct 2023 15:00:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A58DA10E0CF;
+	Mon, 23 Oct 2023 14:58:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR03-DBA-obe.outbound.protection.outlook.com
- (mail-dbaeur03olkn20810.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:fe1a::810])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E2BAE10E208
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Oct 2023 14:51:39 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UJY/ZXDVDjvL69aFDQu398xptRevL6Fo3SKLmwVYnLvmRXnvfyNFsO6NVuQp33aA5SGSqukju2/0PbRGZy3xMJLlCHjEvCu2gTWvFXfR9+liOBAzF4Ft3Pic5o3wNU3Rwg9z5UQcSXekb1q/hBOEHxVjughGCeTs0QQ9BxsiZzXspOpp5QTlE14/oi/2cL+NyDRx4Nh0IBbKg0KhHeaH7tNlRaM/mIlHG6co7hjrR8VoMGm74od3aRxFzT4VxEKHOSIciEIMFpBrAKiT/iI61phHXfONKqWaxUYNBe787WGPCVPJve6B76iuBqfrS3hpEZ0tyrspyspZSykkEV8k2A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=A2Opo2h+vKi2Wvz37ryT6uuEdVmLmJMtUn2eEgH4vX8=;
- b=S5gdDRJFPXvPiNTGHBMdOoh7TpFUeWTcfRlSCYdmzvCtcyKmL823Sd0xQwum6+jw5Q6OatUzj4pRd/GYbWqxGL55Ki6sbcHh8CuQakEbboPQ6PROtbPJvKWXnNb/Z4mcG12g4c++kxFREm+ro2h5Upbgbs+1isUv6c/UBQMZb7doBfo3W8tiksD0smo9kYgZi7QM5BQA2ksmB4jdnyD3kCUXsap0PvdlGkT4CQ0ScF4688Zk9hlj8t6jRiJ4pKK0aIoRU8g4iqREwgymquWEMR1WLMopyeTc9BU7t/7fIFB3XUfznlq9vqBnWCZ+I3IEbN5ST58pyLew36yP0hko1w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=A2Opo2h+vKi2Wvz37ryT6uuEdVmLmJMtUn2eEgH4vX8=;
- b=GAvxAgSQ1NEs/FGHlgICV6Y9DmK4ACVnQnl4i9QqxwqMmDdjIQhCoR2Pep7ygm4WqnEVdzfdZ1Zjc89YyumM+fJphGWnsWj+WsgHptcgKFf5cfbzMM/iEw2XezI7j96c0jb7YCjRN7RiYY+HRxdz9M3qX8T76cFXilBwsgKerrs+/urCJauywaKP9Oe5jqLnB5maJeE/Gl+pVZCdthfQa9ldIQXznXlpm7dViBl46i+xaXlh2F8fgr7/vrWXQZcbMZN04l2DqGZiCQBhbuiLTmtCzXtOg9FVwp9eZn0OuPK8D8/HF+sYIoc0lAb1PxQ/LpcDP78aqTKDY7gwHNSMww==
-Received: from DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:42a::7)
- by DB8PR10MB3257.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:113::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6907.33; Mon, 23 Oct
- 2023 14:51:37 +0000
-Received: from DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::e2b0:8d7e:e293:bd97]) by DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::e2b0:8d7e:e293:bd97%6]) with mapi id 15.20.6907.032; Mon, 23 Oct 2023
- 14:51:37 +0000
-From: Yuran Pereira <yuran.pereira@hotmail.com>
-To: neil.armstrong@linaro.org
-Subject: [RFC] Clean up check for already prepared panel
-Date: Mon, 23 Oct 2023 20:21:16 +0530
-Message-ID: <DB3PR10MB68352B33759F5DB6CC041C84E8D8A@DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM>
-X-Mailer: git-send-email 2.25.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-TMN: [MhoxeqolqqPKQt99HjHdK4qA1ODMLGFg]
-X-ClientProxiedBy: JNXP275CA0030.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:18::18)
- To DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:10:42a::7)
-X-Microsoft-Original-Message-ID: <20231023145116.977508-1-yuran.pereira@hotmail.com>
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
+ [IPv6:2a00:1450:4864:20::32e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5695610E0CF
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Oct 2023 14:57:57 +0000 (UTC)
+Received: by mail-wm1-x32e.google.com with SMTP id
+ 5b1f17b1804b1-40806e40fccso25032945e9.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Oct 2023 07:57:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1698073076; x=1698677876; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :references:cc:to:content-language:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:from:to:cc:subject:date:message-id
+ :reply-to; bh=X4sb9XVGW0QNKpavfuN9oxWsbx8M351MiA2dCW1xgcc=;
+ b=H6lNS+rR4+QfZGmzsaWg5CROayMtGy4MoG419ySlDboX2MHEBWkCv1ngb8hYMLXFZ8
+ gNsxL8mLQRFOIpvxfRRy/6T/GPQqXDxWH9iiYGyzYgSqKPoabB243hei0ZZ+dc2PjvxH
+ RfZuJwG+Monrc535kJVckBVsuOVSeSb9q1mZsMmi5Q433Rw5xA9DIoYjne0WuE9/STas
+ HIXUH5k+9iUbQ7YvA0C0fa3w1D32zEk/iCG6OS2Dl6O7qjlqv3RZsacRJbd0zh3Xopwo
+ AuGuk0ziKpi3RIUF2XT8xC5agq0wBfkzlWfpfjZnPiSjZSfu7+Rfr9ATVRyYqV17SGHP
+ OPrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1698073076; x=1698677876;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :references:cc:to:content-language:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=X4sb9XVGW0QNKpavfuN9oxWsbx8M351MiA2dCW1xgcc=;
+ b=XJoY/WJbnvSAaaMQOLC1ruagr+C+/qwSjsUcRiHWeZZtgcTARbwpYVIsLYAtD9m/qG
+ xQzQik+H2i7CSkrlJKKwVQBC9f1p9h8qXQiPurV9cI+A/6VbWfOQBb1YLCIICcTWyf9v
+ /WOjTMAAwnYOMpMbA3obRPDvsRjQKhGrxH8g1i540CscjsBe2aaCPBVMkCk1MsQtfEMc
+ Buwi3yRBaTBcUe+wxjubInb//Q1zOu+Ylq5USoGQfuYGmCjoMFaTeqKtdIHHBOR6XsN9
+ EVG5wLhnccmKY54eLJgHJ9jIC+ed6in3bzMnMqEtDUc4q+obsoC3HVoAyIaWukOn/kvN
+ TeVw==
+X-Gm-Message-State: AOJu0YycN0hlsMM/pmAxgjC/y92YKUtwTyIYMRrKt4BaYWEjTyLIVaJZ
+ F5qWfTDaE9or+Vst8TeVwgorwQ==
+X-Google-Smtp-Source: AGHT+IHui4rUsP9khjsKc/fS6TOgZjAVE9q7nFPizFWwt54lJdTljB6STJsMyrfiujNUFdNh9niqyA==
+X-Received: by 2002:a05:600c:3c8d:b0:408:434c:dae7 with SMTP id
+ bg13-20020a05600c3c8d00b00408434cdae7mr8254117wmb.2.1698073075657; 
+ Mon, 23 Oct 2023 07:57:55 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:982:cbb0:a36e:a5d9:26ae:74b1?
+ ([2a01:e0a:982:cbb0:a36e:a5d9:26ae:74b1])
+ by smtp.gmail.com with ESMTPSA id
+ x9-20020a05600c420900b004065e235417sm14163567wmh.21.2023.10.23.07.57.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 23 Oct 2023 07:57:55 -0700 (PDT)
+Message-ID: <53982fa5-3396-4c1f-8360-18957fd687e8@linaro.org>
+Date: Mon, 23 Oct 2023 16:57:54 +0200
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB3PR10MB6835:EE_|DB8PR10MB3257:EE_
-X-MS-Office365-Filtering-Correlation-Id: f8dc866d-ad50-4e90-2f28-08dbd3d78eba
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: F2T6j0/XhHSXlvvHLZoniRMEb25HmzAxpYG766zd5y35g1ENgs5HVxtZ2epsdXFqZfAVUEktCbPo2g2b/bru0Uyk6b5yJIimbbpy08Uus//cfXD0UAf4aZoB2ZAOh3g+eBwpsFx/DIyBwODz+yD3fU0GyWz1a680C+EhGpSU9y98CB0Er//93ntWC/OFv9ABwHN0uxcIWpRbJsxFIGsTXSINes6vLpOD9bhLOsXGL2Xc9ZR60E8/vdEUS64qOKQGClesLOeg3v0fKvWnxOtHqQsWONsNnt9cbaz2NlNUtociwcADamy3aa+O7hojqLpeY4AhhX3n8f4VkcyHlfpnh0M9dnJD3yZ6XE7VBWNgEbbuayG/1+BkhPv/JU4u02LP20fr2kLE1joT86u0usWtHDDyYXYbv9fd1n8WMsvoeJfoqd77q8OjC8gaTZ5p39MHRxfFY4SS3xYf98K1GWum+kyIp5UWhT6sAeVKd8IQ34WqKArrpdGQBZm51JMvYQOAadUSkJ0vpX5uJe+DKpWFiIwx1YPjwWpSPlqILUY76zpbDz+MPUkiED23HYRglAEqcj8sfSOl99+wwEXsOkesnwN3AKlCf4F6kAKstI5vl/27CBKTUuLjgnbsJhcdkixa
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Nv45ZunlEQDzT7m+lGOoMGeF6lP1GVmgt64RkbzH4s91f76FcG1Ky7tMkZAx?=
- =?us-ascii?Q?Mk7wjSnMmVRAGihnj8gLPyO95Q18Vo0k+zgORSk8HJ9HfiQrm2wd05KJt1gs?=
- =?us-ascii?Q?83QIf8dMTNt7qav655uGGHOAhuKyG3s2/9rz86spYgNgiKtn+oDPfxOF4hG3?=
- =?us-ascii?Q?3lIpUYXvfjQoZoozaHqPz3fU3K2t96++KRdWoajLFOKCrqlokJ6rX36Q6Xq2?=
- =?us-ascii?Q?U0gcmr+mCinHWEIzKLzJ4yysX9Mzq0vxcgpZaCkvmv5U4URsjkD65PARrGMI?=
- =?us-ascii?Q?1FwIY97WyBa2Cn6FVPR+9Gu5t9bM1VGwikHnXIQKorIgSb8PhgIZU37uVvSa?=
- =?us-ascii?Q?dh2Q9wPigqe2F4NJElcoYsvfQxYkv2iTr+11N93BreZeMdWnd3pnA+uk482X?=
- =?us-ascii?Q?LQbcNbv5wBFl0zDSwKsPrevmfSomP2C8XOHCBVePcwjXI7kG4n0BNiQQLFEq?=
- =?us-ascii?Q?bEdi3yo7ATqdPxY1oYbGOVYNMiHpFBLoWpZC1LTrOdXkj4HlJiGcnkgEtqyt?=
- =?us-ascii?Q?qsUM/1eUrI85qir93eFXj6l6X8ymBJ0BkHy7iYzIPNk0TsHn51Ykhm5zgUc5?=
- =?us-ascii?Q?nWzXVDEOt87vKJrX0zKUUeD6gzannmpebirO0hm/deSntEB96yzGg243M4Yf?=
- =?us-ascii?Q?EV9xL/7SiUXlZc/h0d+sJupR1WhJiUkpVvAOKMZlvExOUaMTpXrkDRrL2pWH?=
- =?us-ascii?Q?8O/WpPUjAzm8IeSafrLl7RGtgaw3vw3SyXmO/IA1N6m1V6c1iNiFbJssMDj0?=
- =?us-ascii?Q?nBx6WeYt82DKGoz0QDEe5mKIFfTaXsVsk7FQH7VE/0C2qRmSQPKx76yE2DTk?=
- =?us-ascii?Q?quTzZnsFCIBB9bY52PHh0xjKJrB+QIppbi/tTiK3q45sjuUryZRuLEvbUju2?=
- =?us-ascii?Q?I6biMmbn68/2/mAyEANvFp9hbfB2IO//7qdTvrH3bJ+UORTSW55Pj9a8APx/?=
- =?us-ascii?Q?YBOrydh2pPoo5DSQvScEJxoA/U7wwHDxLJkc1kH0xWKqTFDr6rY0IOARxONS?=
- =?us-ascii?Q?KpaYe4K/ydtcY1vCC5r4DPsA1XYvslQpdU2u8SzL43pKQhsTaFAeFGHQFD/e?=
- =?us-ascii?Q?O387pfI7ef8C2ho7VkChuGVVkZxc+Ic1kgPvWa+2+iJIFuGpWf4MhUSFVZI3?=
- =?us-ascii?Q?KJfQuM5OhxAsZK6M3XQnmWvZmOPBpgIgXeO4ivQve4zYrWBNpzNOyovDDzbr?=
- =?us-ascii?Q?qTWdSbPb4i+1ze6/Jri5iiey2hHIYNn9s+dGosbAGiBC/vJ/Zp5TQedu9Zw?=
- =?us-ascii?Q?=3D?=
-X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-6b909.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: f8dc866d-ad50-4e90-2f28-08dbd3d78eba
-X-MS-Exchange-CrossTenant-AuthSource: DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Oct 2023 14:51:37.5072 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR10MB3257
-X-Mailman-Approved-At: Mon, 23 Oct 2023 15:00:21 +0000
+User-Agent: Mozilla Thunderbird
+From: neil.armstrong@linaro.org
+Subject: Re: [RFC] Clean up check for already prepared panel
+Content-Language: en-US, fr
+To: Yuran Pereira <yuran.pereira@hotmail.com>
+References: <DB3PR10MB68352B33759F5DB6CC041C84E8D8A@DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM>
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro Developer Services
+In-Reply-To: <DB3PR10MB68352B33759F5DB6CC041C84E8D8A@DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,46 +102,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sam@ravnborg.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, dianders@chromium.org,
- Yuran Pereira <yuran.pereira@hotmail.com>
+Reply-To: neil.armstrong@linaro.org
+Cc: sam@ravnborg.org, dianders@chromium.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since the core function drm_panel_prepare already checks if the
-panel is prepared, we can remove this duplicate check from tm5p5_nt35596_prepare
-which acts as a no-op. As suggested in the GPU TODO [1]
+Hi,
 
-[1] https://docs.kernel.org/gpu/todo.html#clean-up-checks-for-already-prepared-enabled-in-panels
+On 23/10/2023 16:51, Yuran Pereira wrote:
+> Since the core function drm_panel_prepare already checks if the
+> panel is prepared, we can remove this duplicate check from tm5p5_nt35596_prepare
+> which acts as a no-op. As suggested in the GPU TODO [1]
+> 
+> [1] https://docs.kernel.org/gpu/todo.html#clean-up-checks-for-already-prepared-enabled-in-panels
+> 
+> Suggested-by: Douglas Anderson <dianders@chromium.org>
+> Signed-off-by: Yuran Pereira <yuran.pereira@hotmail.com>
+> ---
+>   drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.c | 4 ----
+>   1 file changed, 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.c b/drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.c
+> index 075a7af81eff..af83451b3374 100644
+> --- a/drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.c
+> +++ b/drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.c
+> @@ -112,9 +112,6 @@ static int tm5p5_nt35596_prepare(struct drm_panel *panel)
+>   	struct device *dev = &ctx->dsi->dev;
+>   	int ret;
+>   
+> -	if (ctx->prepared)
+> -		return 0;
+> -
+>   	ret = regulator_bulk_enable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
+>   	if (ret < 0) {
+>   		dev_err(dev, "Failed to enable regulators: %d\n", ret);
+> @@ -132,7 +129,6 @@ static int tm5p5_nt35596_prepare(struct drm_panel *panel)
+>   		return ret;
+>   	}
+>   
+> -	ctx->prepared = true;
+>   	return 0;
+>   }
+>   
 
-Suggested-by: Douglas Anderson <dianders@chromium.org>
-Signed-off-by: Yuran Pereira <yuran.pereira@hotmail.com>
----
- drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.c | 4 ----
- 1 file changed, 4 deletions(-)
+This has already been done and merged in:
+https://patchwork.freedesktop.org/patch/msgid/20230804140605.RFC.1.Ia54954fd2f7645c1b86597494902973f57feeb71@changeid
 
-diff --git a/drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.c b/drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.c
-index 075a7af81eff..af83451b3374 100644
---- a/drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.c
-+++ b/drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.c
-@@ -112,9 +112,6 @@ static int tm5p5_nt35596_prepare(struct drm_panel *panel)
- 	struct device *dev = &ctx->dsi->dev;
- 	int ret;
- 
--	if (ctx->prepared)
--		return 0;
--
- 	ret = regulator_bulk_enable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
- 	if (ret < 0) {
- 		dev_err(dev, "Failed to enable regulators: %d\n", ret);
-@@ -132,7 +129,6 @@ static int tm5p5_nt35596_prepare(struct drm_panel *panel)
- 		return ret;
- 	}
- 
--	ctx->prepared = true;
- 	return 0;
- }
- 
--- 
-2.25.1
-
+Thanks,
+Neil
