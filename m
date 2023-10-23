@@ -2,71 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A43A7D372A
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Oct 2023 14:49:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 378EF7D372F
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Oct 2023 14:49:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 48EC210E1D2;
-	Mon, 23 Oct 2023 12:49:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 63A0510E1D5;
+	Mon, 23 Oct 2023 12:49:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com
- [IPv6:2a00:1450:4864:20::232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 67DDD10E1D2
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Oct 2023 12:49:13 +0000 (UTC)
-Received: by mail-lj1-x232.google.com with SMTP id
- 38308e7fff4ca-2c50d1b9f22so42996331fa.0
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Oct 2023 05:49:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1698065351; x=1698670151; darn=lists.freedesktop.org;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=5F2/b6x1LCbJBCL/hGp4wgBjwVGE9CeqqG2gwc9QLwU=;
- b=mUF8Ig1FLECCw8LjBI0iB1uNWZLHRfIUj3SN8gHqkHkyIU69rQdlYn9ZToIJdpltvh
- u2oevTQUo7xSwPdC4ImO49VdGcjomoIsA04A2rTeCsl683Xt8deu7XxH0REAen2cyMoU
- 0AAmKbofIiHWF7mpRlzKfQM417wg0jNC+KbXLP5KsbQVV6/WzmTZMfyceiwtOyy2NCUN
- iM68DNHJvvf/9vU1POV0kQV+Zz68K8mLN7sCTelhbjV8knGQ5tjwaZZmmkP9mvaB2Ytl
- Yn/l/FYOWD0GBJtG12glsCZmJWbopNQJlPatJ9/cO/jPpBi0Djn5oQCcrHA+7L+i58fP
- HFbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1698065351; x=1698670151;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=5F2/b6x1LCbJBCL/hGp4wgBjwVGE9CeqqG2gwc9QLwU=;
- b=qdGjiSWr6ZP7c+SKxnz8mJRQwIm+DAFBFKabA5mae9jqn3e5BHNCKRu5d1o8mmzDKH
- tAholMbYqAwVSASUiYv6DAtYoR6Ys9GXaFeUNgvruJ+Bcbi+i6AIsLqmOi4R6fVIz9lF
- 87qUVWcEobA8UQFBT2cU267DR2ncMtUE42vFDDSr9dKOa9CIHddq0hmbsYjD1SOmceYH
- 2qiWa7kiR36ObOk5+ZY2LjTBaiJuNNeaMFtqpydfYQuwfTKAZPIz15szp3QowYSkWWzT
- HDkTXYb9djYErt1jSHLSgMrLpUdJpgIIfb+OaG2FKMf2wEAUf3JDpDUjbUcVHZpjgFu5
- R6dQ==
-X-Gm-Message-State: AOJu0YyIab0xhXBei5SGB1FkzpBdLmbKsU5Vle0N9WJ3/2c5qfEGjZz9
- zd9092Xe1zUu6+Vfw2ccgL3uvA==
-X-Google-Smtp-Source: AGHT+IGaTg0NdwZ2awpa8SRAqNobR151fbJLl50rAUDEuxtz05JE5xRAXwVriQOeZMaE926br6ZqKw==
-X-Received: by 2002:a2e:7c15:0:b0:2c5:5926:de52 with SMTP id
- x21-20020a2e7c15000000b002c55926de52mr6031556ljc.53.1698065351491; 
- Mon, 23 Oct 2023 05:49:11 -0700 (PDT)
-Received: from aspen.lan
- (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
- by smtp.gmail.com with ESMTPSA id
- j6-20020a05600c488600b004080f0376a0sm9320997wmp.42.2023.10.23.05.49.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Oct 2023 05:49:11 -0700 (PDT)
-Date: Mon, 23 Oct 2023 13:49:09 +0100
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-Subject: Re: [PATCH] backlight: pwm_bl: Avoid backlight flicker applying
- initial PWM state
-Message-ID: <20231023124909.GC49511@aspen.lan>
-References: <20230608-backlight-pwm-avoid-flicker-v1-1-afd380d50174@pengutronix.de>
- <20231018210741.6t3yfj6qgmpwhhlo@pengutronix.de>
- <20231020112727.GF23755@aspen.lan>
- <20231020121148.3g6t3v5uuyubifpb@pengutronix.de>
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E6F2B10E0E7;
+ Mon, 23 Oct 2023 12:49:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1698065389; x=1729601389;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=/06vn1FESH5ehRnRfIJp0ycCvwF0E4N5zV1BYkmcMd4=;
+ b=CJJVLVyjaTpj4HilA1vY97URbnmZ4YaCpmzNmvqBHGPtzwFbJ1DQGa9v
+ jX9bBWiZmUhsM90fNB+SgcutaUeNU59GNtR/0OMDSCTPP1MlY/+8xxB8W
+ 9/1O3tgjK7lnr+peywHmLoAn5Kcw+QyJekhc4qMKwNrusHcwlGCzdB3t7
+ D6rvcTlqI/TN2aRNtUs8GgVvA5ZWrfMIZuxpv0eEo761LlahrGNVfJyc+
+ N14GwjeXOzXsWsgiZcPRDhvwz/D+OT6r4SCMb5wIy7QSAGHBX0BJhJQMa
+ byeCrrqFohpVz42TEy/x/xfPwj4bTKuesIkyZBjHa0OyVCU3dEfkqhqrR w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10872"; a="385715731"
+X-IronPort-AV: E=Sophos;i="6.03,244,1694761200"; d="scan'208";a="385715731"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Oct 2023 05:49:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10872"; a="761731237"
+X-IronPort-AV: E=Sophos;i="6.03,244,1694761200"; d="scan'208";a="761731237"
+Received: from evlad-mobl.ger.corp.intel.com (HELO localhost) ([10.252.47.180])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Oct 2023 05:49:44 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Arnd Bergmann <arnd@kernel.org>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, David Airlie
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Badal Nilawar
+ <badal.nilawar@intel.com>, Ashutosh Dixit <ashutosh.dixit@intel.com>
+Subject: Re: [PATCH] drm/i915/mtl: avoid stringop-overflow warning
+In-Reply-To: <20231016201012.1022812-1-arnd@kernel.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20231016201012.1022812-1-arnd@kernel.org>
+Date: Mon, 23 Oct 2023 15:49:41 +0300
+Message-ID: <87edhlbj16.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231020121148.3g6t3v5uuyubifpb@pengutronix.de>
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,59 +61,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-pwm@vger.kernel.org, linux-fbdev@vger.kernel.org,
- kernel@pengutronix.de, Jingoo Han <jingoohan1@gmail.com>,
- Helge Deller <deller@gmx.de>, Lee Jones <lee@kernel.org>,
+Cc: Arnd Bergmann <arnd@arndb.de>, intel-gfx@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Thierry Reding <thierry.reding@gmail.com>
+ Vinay Belgaumkar <vinay.belgaumkar@intel.com>,
+ Matt Roper <matthew.d.roper@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 20, 2023 at 02:11:48PM +0200, Uwe Kleine-König wrote:
-> Hello Daniel,
+On Mon, 16 Oct 2023, Arnd Bergmann <arnd@kernel.org> wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
 >
-> On Fri, Oct 20, 2023 at 12:27:27PM +0100, Daniel Thompson wrote:
-> > On Wed, Oct 18, 2023 at 11:07:41PM +0200, Uwe Kleine-König wrote:
-> > > Hello Philipp,
-> > >
-> > > On Thu, Jun 08, 2023 at 04:11:14PM +0200, Philipp Zabel wrote:
-> > > > The initial PWM state returned by pwm_init_state() has a duty cycle
-> > > > of 0 ns.
-> > >
-> > > This is only true for drivers without a .get_state() callback, isn't it?
-> >
-> > pwm_init_state() explicitly zeros the duty-cycle in order to avoid
-> > problems when the default args have a different period to the currently
-> > applied config:
-> > https://elixir.bootlin.com/linux/latest/source/include/linux/pwm.h#L174
+> The newly added memset() causes a warning for some reason I could not figure out:
 >
-> Ah right, pwm_init_state() is strange in a different way than I
-> remembered :-) pwm_get_state() is only called to get .enabled set
-> appropriately.
+> In file included from arch/x86/include/asm/string.h:3,
+>                  from drivers/gpu/drm/i915/gt/intel_rc6.c:6:
+> In function 'rc6_res_reg_init',
+>     inlined from 'intel_rc6_init' at drivers/gpu/drm/i915/gt/intel_rc6.c:610:2:
+> arch/x86/include/asm/string_32.h:195:29: error: '__builtin_memset' writing 16 bytes into a region of size 0 overflows the destination [-Werror=stringop-overflow=]
+>   195 | #define memset(s, c, count) __builtin_memset(s, c, count)
+>       |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> drivers/gpu/drm/i915/gt/intel_rc6.c:584:9: note: in expansion of macro 'memset'
+>   584 |         memset(rc6->res_reg, INVALID_MMIO_REG.reg, sizeof(rc6->res_reg));
+>       |         ^~~~~~
+> In function 'intel_rc6_init':
 >
-> Looking at the callers:
+> Change it to an normal initializer and an added memcpy() that does not have
+> this problem.
 >
->  <snip>
-
->  - drivers/video/backlight/lm3630a_bl.c
->    explictily sets .enabled before calling pwm_apply_state()
+> Fixes: 4bb9ca7ee0745 ("drm/i915/mtl: C6 residency and C state type for MTL SAMedia")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+>  drivers/gpu/drm/i915/gt/intel_rc6.c | 16 ++++++++++------
+>  1 file changed, 10 insertions(+), 6 deletions(-)
 >
->  - drivers/video/backlight/lp855x_bl.c
->    explictily sets .enabled before calling pwm_apply_state()
->
->  - drivers/video/backlight/pwm_bl.c
->    This is the one we currently discuss. I think even with the patch
->    applied it uses the .enabled value returned by pwm_init_state() but
->    it shouldn't.
+> diff --git a/drivers/gpu/drm/i915/gt/intel_rc6.c b/drivers/gpu/drm/i915/gt/intel_rc6.c
+> index 8b67abd720be8..7090e4be29cb6 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_rc6.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_rc6.c
+> @@ -581,19 +581,23 @@ static void __intel_rc6_disable(struct intel_rc6 *rc6)
+>  
+>  static void rc6_res_reg_init(struct intel_rc6 *rc6)
+>  {
+> -	memset(rc6->res_reg, INVALID_MMIO_REG.reg, sizeof(rc6->res_reg));
 
-Agreed.
+That's just bollocks. memset() is byte granularity, while
+INVALID_MMIO_REG.reg is u32. If the value was anything other than 0,
+this would break.
 
-> So all consumers using pwm_init_state() either don't use the .enabled
-> value returned by pwm_init_state() or at least shouldn't do that.
+And you're not supposed to look at the guts of i915_reg_t to begin with,
+that's why it's a typedef. Basically any code that accesses the members
+of i915_reg_t outside of its implementation are doing it wrong.
 
-Looking a little deeper in the PWM code, it looks to me like pwm_bl.c
-could just use pwm_adjust_config() during probe to transition between
-bootloader settings and kernel settings!
+Reviewed-by: Jani Nikula <jani.nikula@intel.com>
 
 
-Daniel.
+> +	i915_reg_t res_reg[INTEL_RC6_RES_MAX] = {
+> +		[0 ... INTEL_RC6_RES_MAX - 1] = INVALID_MMIO_REG,
+> +	};
+>  
+>  	switch (rc6_to_gt(rc6)->type) {
+>  	case GT_MEDIA:
+> -		rc6->res_reg[INTEL_RC6_RES_RC6] = MTL_MEDIA_MC6;
+> +		res_reg[INTEL_RC6_RES_RC6] = MTL_MEDIA_MC6;
+>  		break;
+>  	default:
+> -		rc6->res_reg[INTEL_RC6_RES_RC6_LOCKED] = GEN6_GT_GFX_RC6_LOCKED;
+> -		rc6->res_reg[INTEL_RC6_RES_RC6] = GEN6_GT_GFX_RC6;
+> -		rc6->res_reg[INTEL_RC6_RES_RC6p] = GEN6_GT_GFX_RC6p;
+> -		rc6->res_reg[INTEL_RC6_RES_RC6pp] = GEN6_GT_GFX_RC6pp;
+> +		res_reg[INTEL_RC6_RES_RC6_LOCKED] = GEN6_GT_GFX_RC6_LOCKED;
+> +		res_reg[INTEL_RC6_RES_RC6] = GEN6_GT_GFX_RC6;
+> +		res_reg[INTEL_RC6_RES_RC6p] = GEN6_GT_GFX_RC6p;
+> +		res_reg[INTEL_RC6_RES_RC6pp] = GEN6_GT_GFX_RC6pp;
+>  		break;
+>  	}
+> +
+> +	memcpy(rc6->res_reg, res_reg, sizeof(res_reg));
+>  }
+>  
+>  void intel_rc6_init(struct intel_rc6 *rc6)
+
+-- 
+Jani Nikula, Intel
