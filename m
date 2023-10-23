@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1B367D39BD
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Oct 2023 16:41:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6EDA7D39A7
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Oct 2023 16:41:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E69E610E1F0;
-	Mon, 23 Oct 2023 14:41:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E151810E090;
+	Mon, 23 Oct 2023 14:41:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-x929.google.com (mail-ua1-x929.google.com
- [IPv6:2607:f8b0:4864:20::929])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 33F1010E1F7
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Oct 2023 14:40:51 +0000 (UTC)
-Received: by mail-ua1-x929.google.com with SMTP id
- a1e0cc1a2514c-7b6043d0bbeso861077241.1
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Oct 2023 07:40:51 -0700 (PDT)
+Received: from mail-qk1-x731.google.com (mail-qk1-x731.google.com
+ [IPv6:2607:f8b0:4864:20::731])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 11D1B10E1ED
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Oct 2023 14:40:54 +0000 (UTC)
+Received: by mail-qk1-x731.google.com with SMTP id
+ af79cd13be357-778711ee748so267587085a.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Oct 2023 07:40:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1698072050; x=1698676850;
+ d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1698072053; x=1698676853;
  darn=lists.freedesktop.org; 
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=btxrc1J+7nlpNBhaaQIbXhy+BRoKrBh7Tei2ReYceTw=;
- b=x0r89RTWA0SZNDQ1qk2LynZVIk/ZnknhWzVZtED93i/AdqpWA1wnYTotigih13Ri04
- YcJSbfDhICoRTLbzmZvBqmBcAXnQIY2dGvVlNeQb2JYdxX7MU2ferJ0LxNFaVZwpR0yl
- lOUmEBm7TzL0P4Yoc4CDo5XHZGXT68LGH82zkrNdo7ShfWMJygepm58dBPapVk3NVfzF
- m/wfU6Trru76qIqYg2UVgM8tReDNZL9TvWjY2UyIJbvL0WmFyVqIXty88GvL+8nSLBTX
- ZWmGkQP1dorEeuXGLNeDVglSKznRQgwW+QjjaUfPE31quqs6LzVYGzqgSpSO8cSu1jQO
- 5dHA==
+ :reply-to; bh=CS7+tyIUs9rfVOlSsQt+PukwNB/K7NB7wUW73q4tlEs=;
+ b=LBgiQnIUZBxGtD0F5qLeawnCjNDdQ5I0ad5Aarn5vQnpNrCeBimGsAUpCH19Q8H6xe
+ O+8m3gLAlhN9QMS2ICK3eNMpyrCJXyRZUEan5QeFpXyYhib5XPnaPjtqQ7mR7tCmgMVQ
+ OIRdp4/fHPPsTnIhhw8RwbEaq5gTZoPrpwVbx3+hIComk9rYi9uOixRFnznk0wbAYicZ
+ 4Fbvvqj796S5SQPb2xRbDut7XqhcyFnTk5sivwOnvLnLknDCW9vU16NZvqw8zLJrGNeQ
+ HSDcI76bjgw4b5vLU4eQL1p5sxbKPpLm30nvwbmoFtz0fTrj0IxaqSEAUYnqBS05oOj2
+ bPYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1698072050; x=1698676850;
+ d=1e100.net; s=20230601; t=1698072053; x=1698676853;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=btxrc1J+7nlpNBhaaQIbXhy+BRoKrBh7Tei2ReYceTw=;
- b=UF5N4luYTr+pKCz7Ss0CQaIr+NXvPc/Lk92MdXVYmJkqob4w7ToGh6T/viBdw6OCXj
- NqxIu8j33tLI1NjHzrH+IMIzV5rsgCidWpj793/opV6JSA5Pq5kvZn2bE9zIn611dwU6
- 61bJ/cHjCcDgwwY6o/9zw1z7IYmgSAok8xISzJB8DSM0661xzqt2u5sBwMmgZpEl6fSz
- O1xmxavCIh2yk/lxf2FSOCXvSMhd/LZbGeQoEqSE+BKUywbRAA7XjZbzKAStRHbdc2GX
- 9YB5YMboM7Spmu+LWytiLPWNNncOteumCoUgSl/LgvzFk+pHTtmF/8l3l87zdY2u8Rkf
- 3Y1g==
-X-Gm-Message-State: AOJu0Yxwj887m7HI2K5JWyQKWi9gYyHfEgMILpJADcJ182pel4jr7gAc
- dsYGIsDxorgOAeoUay07I9SJNIvJQ4bkZf4iZd53Ig==
-X-Google-Smtp-Source: AGHT+IEHtN0BO7u7QDArNCPWdW4jkZH4U2Tgzur52L0BG1r41rfx44EWTcGQl9iPYctJnK5hBurJEQ==
-X-Received: by 2002:a05:6102:4741:b0:457:c025:4c7b with SMTP id
- ej1-20020a056102474100b00457c0254c7bmr5878640vsb.19.1698072050079; 
- Mon, 23 Oct 2023 07:40:50 -0700 (PDT)
+ bh=CS7+tyIUs9rfVOlSsQt+PukwNB/K7NB7wUW73q4tlEs=;
+ b=ZeWEvgS/dQ78+4iv88olPbjM+z7tST5Tric/2MOd/07LU/I/hPF2whVMxPWvK/NtFe
+ C5AjeiXNt37V+vIk7Z417cxwbV5WMcCUDrUV3PnlLWuh0f72ZYkznmK+dZW2NelqLDTX
+ Yw9+w57JjunBgkYKfrf335PndUMihM92CDztcvI8Ww0Iu6y2HSd9SPb2Lh6+7GDP9PkP
+ blQNnxlYm9xkJ0GViQ8mYwEFQ2KfLAahcbes5bIKIkRWdnF4r4P02s8fC0QoN49dtb2V
+ Ewshr2at0X+foN/hegUwupnbkWd4KG1tmB9ysG/8g6UCNvU6T1oFbdWzlPjwcUDzphY0
+ DbYA==
+X-Gm-Message-State: AOJu0Yw74j7eWLwZvQi1TbjTGLCgiH0xAwwsxVtp7bxkKVRWDntMKpUQ
+ f3LpkLe1jSk0RwKgvGQS+4IM9rzxIRz1JU/iM7V0DA==
+X-Google-Smtp-Source: AGHT+IEvoOYM4IjzQAb2DwZjFpHa6AfgFG/jeaxPD3Y8glmdNz/IF1lkLRc91XrRLdKpqXSeUPXi+w==
+X-Received: by 2002:a05:620a:c4f:b0:775:687f:4c2b with SMTP id
+ u15-20020a05620a0c4f00b00775687f4c2bmr10463449qki.44.1698072053532; 
+ Mon, 23 Oct 2023 07:40:53 -0700 (PDT)
 Received: from [127.0.1.1] ([93.5.22.158])
  by smtp.googlemail.com with ESMTPSA id
- f1-20020a05620a408100b007789a3499casm2725020qko.115.2023.10.23.07.40.46
+ f1-20020a05620a408100b007789a3499casm2725020qko.115.2023.10.23.07.40.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Oct 2023 07:40:49 -0700 (PDT)
+ Mon, 23 Oct 2023 07:40:53 -0700 (PDT)
 From: Alexandre Mergnat <amergnat@baylibre.com>
-Date: Mon, 23 Oct 2023 16:40:09 +0200
-Subject: [PATCH 09/18] dt-bindings: display: mediatek: ovl: add binding for
- MT8365 SoC
+Date: Mon, 23 Oct 2023 16:40:10 +0200
+Subject: [PATCH 10/18] dt-bindings: display: mediatek: rdma: add binding
+ for MT8365 SoC
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20231023-display-support-v1-9-5c860ed5c33b@baylibre.com>
+Message-Id: <20231023-display-support-v1-10-5c860ed5c33b@baylibre.com>
 References: <20231023-display-support-v1-0-5c860ed5c33b@baylibre.com>
 In-Reply-To: <20231023-display-support-v1-0-5c860ed5c33b@baylibre.com>
 To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
@@ -73,20 +73,20 @@ To: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
  =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
  Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>
 X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=860; i=amergnat@baylibre.com; 
+X-Developer-Signature: v=1; a=openpgp-sha256; l=906; i=amergnat@baylibre.com; 
  h=from:subject:message-id;
- bh=M4WYL+KrM0LAMGbIVVc2NhXvV7PADZ7FKnKax4OIhj4=; 
- b=owEBbQKS/ZANAwAKAStGSZ1+MdRFAcsmYgBlNoXP+76mL8HcY0aJG5HTEVTd79bVZFTl7La+u6T2
- JtLgOyaJAjMEAAEKAB0WIQQjG17X8+qqcA5g/osrRkmdfjHURQUCZTaFzwAKCRArRkmdfjHURW52EA
- CWVgb591a/Qg88wnSQZ4uFhh17HaC4VEqoWqnc5n29xLfeW4uwo4iuJ1oVMC+IgR5Sa4OZv57VWYUz
- 1jpU9G55weccJHI8BBTZEpR52MScVpl88+GfNRQhBDdRXI2GiN1yBFQlSJM9b0L8s4xlrZKDvDX4Z7
- gP5EZEa20WZkJN/ZIwRqeU6NaN50M0VhcX/skUqfrivEaeM7hkBhqBD/O9Vs/0Iw6+VolwYEFlr1wy
- Khn/iFY3FUx5JS5iMwAlV0CDUo9gDfbFhVV31rxhCRnK4KbTSnl9Dz+kEoJD0dUfIjNGJHxGm6Cn4U
- 0bz6kYLJId4zAYyUeKK8PoJTCEeV7kgjI27B9yxPGCzK6KITdroOYCTMt6QP9DqY7KMexqo6SAyR6B
- knw3j9zrIxxYNWVptIoES4cPRcD5nYKrwvJ8DcCRx9TOKqpXnzkWifEGFWAQqnOGNTKk2o+MurGpkk
- KXaBkkZXiMWmHPYO9GpgdrI2M7VZwq/IQVIKc7aEe8pZjpPX868/ZSdgszL1nRULbhHUrzJaLLKMsS
- WNe7bfxjPFr+NqgEf0vr8ZypN2tC1fqKSXgB4MWxMb0n6Uwy2+Tx/6bfn9UwPfbwLkfoaUOlULrghE
- wJoHb2K2NMlrEE8w5A0+VvaMQcUD64/D5uzOy3Z5Ilnx4VcaTFuadcOxuUjw==
+ bh=JdRv1/SmSo/E5fP2RWWWzxwGKldluGDuZKeVPiQK0pQ=; 
+ b=owEBbQKS/ZANAwAKAStGSZ1+MdRFAcsmYgBlNoXPSxJ3NhBHAKqvJAyKpooI3Iy3NY5MCOPzNpgw
+ m7QS6s+JAjMEAAEKAB0WIQQjG17X8+qqcA5g/osrRkmdfjHURQUCZTaFzwAKCRArRkmdfjHURSPAEA
+ CBHQlY624f0VJRltvATnFGmjv22cWRywnPXucDp/TEpmb0jC0gsoFqnxgzsOLXejQsq4OSA91OHScS
+ 29zmAuA00ddrwvCJYH9yBOfo4yiCAaBzucnvMXmOx/etDsUZ9OCAmtzQBsMokpK9LJtKb2UpIqbx2K
+ nhlPBCa20wL06o1wbNRiK0EKbiAn7bougYHXdXXoiq8lzADg02mQKneQU+FyZ+vXCSedF3N6ciaA2L
+ mlCiGR34sx0+LYduMKroR0FzoFe20wiZiphLziI7qjIyP6mFssUXfcouZnEyUO7pivdOAZRjA4ns+C
+ W0L2ZERj7YswDoENOrxebw3heXOVEZWoCU27S+PyIrO/v87mRjLF/QlKQX6EKkbOHAZeL619gS7CST
+ VTccb+HoMWt+EU2hQfWm1NmZxzCU27HJVGlDmk0Vp8z8wX2maCXxNmRQ1wdFidRbsgxGiweTVOE5D3
+ eyKBxQ2ZKykMWFafl8th3J0U2IaVT0aNNa2xp2/avLOvC+0aVVlgCmFHpZierzyrO2j5KIfo6PM8AW
+ johWF/+kOjLPdM6SXScvILReKIrun7Y3xka+Msd4ckpalB/sJUTOym3TeXoVDT+8OGnh37ys8R/oVC
+ KcJyWNeiJqeotDGEL0WE0eFDygyQCZYg6+6DFW0ZouePIP3e5d7Z1QK9+KqA==
 X-Developer-Key: i=amergnat@baylibre.com; a=openpgp;
  fpr=231B5ED7F3EAAA700E60FE8B2B46499D7E31D445
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -108,24 +108,24 @@ Cc: devicetree@vger.kernel.org, linux-pwm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Display Overlay for MT8365 is compatible with another SoC.
-Then, add MT8365 binding along with MT8192 SoC.
+Display Data Path Read DMA for MT8365 is compatible with another SoC.
+Then, add MT8365 binding along with MT8183 SoC.
 
 Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
 ---
- Documentation/devicetree/bindings/display/mediatek/mediatek,ovl.yaml | 1 +
+ Documentation/devicetree/bindings/display/mediatek/mediatek,rdma.yaml | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl.yaml
-index 3e1069b00b56..2873bbdf3979 100644
---- a/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl.yaml
-+++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl.yaml
-@@ -43,6 +43,7 @@ properties:
-       - items:
+diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,rdma.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,rdma.yaml
+index 39dbb5c8bcf8..4cadb245d028 100644
+--- a/Documentation/devicetree/bindings/display/mediatek/mediatek,rdma.yaml
++++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,rdma.yaml
+@@ -45,6 +45,7 @@ properties:
            - enum:
-               - mediatek,mt8186-disp-ovl
-+              - mediatek,mt8365-disp-ovl
-           - const: mediatek,mt8192-disp-ovl
+               - mediatek,mt8186-disp-rdma
+               - mediatek,mt8192-disp-rdma
++              - mediatek,mt8365-disp-rdma
+           - const: mediatek,mt8183-disp-rdma
  
    reg:
 
