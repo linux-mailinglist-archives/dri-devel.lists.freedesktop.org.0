@@ -2,49 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA2797D3938
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Oct 2023 16:22:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0ACF7D394F
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Oct 2023 16:29:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 469D889B78;
-	Mon, 23 Oct 2023 14:22:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B50F210E1E2;
+	Mon, 23 Oct 2023 14:29:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1DA0389B78;
- Mon, 23 Oct 2023 14:22:20 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 0F4FC6606F51;
- Mon, 23 Oct 2023 15:22:19 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1698070939;
- bh=UwfXtPSbAc1uNYhlzs5WI+PdsHRZTDnY2ZglgBhyeH8=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=GwZqQbjKY3dL/0BxlYZlAarmAQ8clbNHWgsOZ9IXyftFDy1dVbYB63xUF61ZnZA2s
- kLyRIEdYBXhRBXCsp+rZUN8pqs8WdI3BZrfonx9RYJajFgRGe31FWMFXrIUL7t2XJl
- LAS2ll833RsxPvCWDF4Iv8gMMQhvfTjw8J0rYSplXEBnWKDj5TMSwSs5BAM8sUE12X
- n/ULuSWqdDcioFcgCCzC72Z5r9TwMj7/OWVvmKq1SPYO0tJfgDulPKKIXSnsWwnycJ
- LASUIHQPjGrptjqltDYQ+swGZHJRTaqCin8jyY3Yz7Re3M3ncTO/pApzz6YqIIsL69
- a0kGMTV9Nw9mw==
-Date: Mon, 23 Oct 2023 16:22:16 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Matthew Brost <matthew.brost@intel.com>
-Subject: Re: [PATCH v6 5/7] drm/sched: Split free_job into own work item
-Message-ID: <20231023162216.132adc58@collabora.com>
-In-Reply-To: <ZTZ7BR5/QDbgnNwi@DUT025-TGLU.fm.intel.com>
-References: <20231017150958.838613-1-matthew.brost@intel.com>
- <20231017150958.838613-6-matthew.brost@intel.com>
- <20231023141606.3dd53c39@collabora.com>
- <20231023143937.66f31eee@collabora.com>
- <ZTZ7BR5/QDbgnNwi@DUT025-TGLU.fm.intel.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
+Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com
+ [IPv6:2a00:1450:4864:20::233])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 83F8710E1ED
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Oct 2023 14:29:40 +0000 (UTC)
+Received: by mail-lj1-x233.google.com with SMTP id
+ 38308e7fff4ca-2c523ac38fbso49223641fa.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Oct 2023 07:29:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1698071379; x=1698676179; darn=lists.freedesktop.org;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=59STP8IG3xhkl1R+OwWbm4nT/u7IRLl4iyf5Y7WczEY=;
+ b=IxmWmB5ca50rUvQvdgQ1PD7658U5lFscnNjfgRv5LKlGJHB9u2SYH/WQzVYSS7dUBr
+ h1/ccD5xx+tDLu1y2Euz9Ruf+bRNlXW49EcvP4rOwjDMY+UWH/BFNY2PmPWnTjfHfese
+ 2Drz5jJkPqPj4p2jJsI+R833Pj6P3z8CJdOMo/qRlcv0u1JU2NH/CiLM3u5TeVlRF8Jp
+ EYeAH30nUqaOhzlwVmdPdcJr2G4tSyYrNpCTC8nsxanxbPdpdQFiquqSfR7C4k6WV2Em
+ WG5zGqEp68oELiDyGVNA/e9o3liVxMpd46auIGYvoKXFxi4jqMUUb4jXQI7YZse26MC7
+ HENA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1698071379; x=1698676179;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=59STP8IG3xhkl1R+OwWbm4nT/u7IRLl4iyf5Y7WczEY=;
+ b=m9qkAdkRHhhciBYlXsh4AqZIYh0P11gdhIbv3l27e2SzBrsd6RYkuVf+mzHC1vhXV8
+ uMNH6W4p3GJR2Lio6P/MkIeNqxmM2MqHeBrl8fFpdYbnP8zABMlSH7m8SivKtPsQngEY
+ 6fMm31FVRhqGcHKYKg2PaNqm1RLypacIJi7fr4kpSEZ9Q4o4t2m/aE4o6GmlJp+QD0Cq
+ E6g0GRGcQupjAS9qkK2qkk31ZFgfOCuzH//DDdFfyDmma3lFRbxejltMdM6ght6CHtvg
+ tlwSUuUwRx0y6nqWsiDFv1IV3D7ufABozbBfg0tpj0E5yh0Ym8brQ3EDMp40js8yfbMx
+ varQ==
+X-Gm-Message-State: AOJu0Ywk2xBVYy3yiJ74gRrc7hroNT3wzUzLiUz5rLmT5C6Qz8SfMMqd
+ ZpAZXrlJNezUHipAkLaAgPo6nA==
+X-Google-Smtp-Source: AGHT+IH5WFoFfyNzJgl4CLmejLA/ZgHuJygZLcv0FelZqLu9BJ1k+mLHsMaN3Mm0ni7tH5Yu0rnSiQ==
+X-Received: by 2002:a2e:a7c7:0:b0:2c1:5645:a2c0 with SMTP id
+ x7-20020a2ea7c7000000b002c15645a2c0mr5768343ljp.35.1698071378607; 
+ Mon, 23 Oct 2023 07:29:38 -0700 (PDT)
+Received: from [10.167.154.1]
+ (178235177080.dynamic-4-waw-k-1-1-0.vectranet.pl. [178.235.177.80])
+ by smtp.gmail.com with ESMTPSA id
+ t13-20020a2e8e6d000000b002c4faf47378sm1616655ljk.28.2023.10.23.07.29.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 23 Oct 2023 07:29:38 -0700 (PDT)
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+Date: Mon, 23 Oct 2023 16:29:31 +0200
+Subject: [PATCH] drm/msm/adreno: Drop WARN_ON from patchid lookup for new GPUs
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20231023-topic-adreno_warn-v1-1-bb1ee9391aa2@linaro.org>
+X-B4-Tracking: v=1; b=H4sIAEqDNmUC/x2NywrCQAxFf6VkbaAdB0F/RUSSaWoDJVMyvqD03
+ w0u7uJcOJwNmrhKg0u3gctbm1YLGA4dlJnsIahjMKQ+HYcYPuuqBWl0sXr/kBvmRP2ZOfN0yhA
+ eUxNkJytzmPZaljhXl0m//9D1tu8/hqsr1XgAAAA=
+To: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+X-Mailer: b4 0.12.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1698071376; l=1189;
+ i=konrad.dybcio@linaro.org; s=20230215; h=from:subject:message-id;
+ bh=CI9uW4HFCd+sT4l3B8ani/4HRFmQfbbgjJhTrM3t/ig=;
+ b=SCcIvz1UzYt8XexR/pBOz+V+i46dV2cDA1630eMo2ve5CMi9C6GzQ58HdfRNOoV17ffhl+axh
+ GqYKdlDyyY/DwK9zWKbyUnlzLfk2p9kjX0+mVT5IVcj8WRb7GEdWRi7
+X-Developer-Key: i=konrad.dybcio@linaro.org; a=ed25519;
+ pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,136 +85,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: robdclark@chromium.org, thomas.hellstrom@linux.intel.com,
- sarah.walker@imgtec.com, ketil.johnsen@arm.com, lina@asahilina.net,
- mcanal@igalia.com, Liviu.Dudau@arm.com, dri-devel@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, luben.tuikov@amd.com, dakr@redhat.com,
- donald.robson@imgtec.com, christian.koenig@amd.com,
- faith.ekstrand@collabora.com
+Cc: Rob Clark <robdclark@chromium.org>, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Abel Vesa <abel.vesa@linaro.org>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 23 Oct 2023 13:54:13 +0000
-Matthew Brost <matthew.brost@intel.com> wrote:
+New GPUs still use the lower 2 bytes of the chip id (in whatever form
+it comes) to signify silicon revision. Drop the warning that makes it
+sound as if that was unintended.
 
-> On Mon, Oct 23, 2023 at 02:39:37PM +0200, Boris Brezillon wrote:
-> > On Mon, 23 Oct 2023 14:16:06 +0200
-> > Boris Brezillon <boris.brezillon@collabora.com> wrote:
-> >   
-> > > Hi,
-> > > 
-> > > On Tue, 17 Oct 2023 08:09:56 -0700
-> > > Matthew Brost <matthew.brost@intel.com> wrote:
-> > >   
-> > > > +static void drm_sched_run_job_work(struct work_struct *w)
-> > > > +{
-> > > > +	struct drm_gpu_scheduler *sched =
-> > > > +		container_of(w, struct drm_gpu_scheduler, work_run_job);
-> > > > +	struct drm_sched_entity *entity;
-> > > > +	struct dma_fence *fence;
-> > > > +	struct drm_sched_fence *s_fence;
-> > > > +	struct drm_sched_job *sched_job;
-> > > > +	int r;
-> > > >  
-> > > > -		atomic_inc(&sched->hw_rq_count);
-> > > > -		drm_sched_job_begin(sched_job);
-> > > > +	if (READ_ONCE(sched->pause_submit))
-> > > > +		return;
-> > > > +
-> > > > +	entity = drm_sched_select_entity(sched, true);
-> > > > +	if (!entity)
-> > > > +		return;
-> > > >  
-> > > > -		trace_drm_run_job(sched_job, entity);
-> > > > -		fence = sched->ops->run_job(sched_job);
-> > > > +	sched_job = drm_sched_entity_pop_job(entity);
-> > > > +	if (!sched_job) {
-> > > >  		complete_all(&entity->entity_idle);
-> > > > -		drm_sched_fence_scheduled(s_fence, fence);
-> > > > +		return;	/* No more work */
-> > > > +	}
-> > > >  
-> > > > -		if (!IS_ERR_OR_NULL(fence)) {
-> > > > -			/* Drop for original kref_init of the fence */
-> > > > -			dma_fence_put(fence);
-> > > > +	s_fence = sched_job->s_fence;
-> > > >  
-> > > > -			r = dma_fence_add_callback(fence, &sched_job->cb,
-> > > > -						   drm_sched_job_done_cb);
-> > > > -			if (r == -ENOENT)
-> > > > -				drm_sched_job_done(sched_job, fence->error);
-> > > > -			else if (r)
-> > > > -				DRM_DEV_ERROR(sched->dev, "fence add callback failed (%d)\n",
-> > > > -					  r);
-> > > > -		} else {
-> > > > -			drm_sched_job_done(sched_job, IS_ERR(fence) ?
-> > > > -					   PTR_ERR(fence) : 0);
-> > > > -		}
-> > > > +	atomic_inc(&sched->hw_rq_count);
-> > > > +	drm_sched_job_begin(sched_job);
-> > > >  
-> > > > -		wake_up(&sched->job_scheduled);
-> > > > +	trace_drm_run_job(sched_job, entity);
-> > > > +	fence = sched->ops->run_job(sched_job);
-> > > > +	complete_all(&entity->entity_idle);
-> > > > +	drm_sched_fence_scheduled(s_fence, fence);
-> > > > +
-> > > > +	if (!IS_ERR_OR_NULL(fence)) {
-> > > > +		/* Drop for original kref_init of the fence */
-> > > > +		dma_fence_put(fence);
-> > > > +
-> > > > +		r = dma_fence_add_callback(fence, &sched_job->cb,
-> > > > +					   drm_sched_job_done_cb);
-> > > > +		if (r == -ENOENT)
-> > > > +			drm_sched_job_done(sched_job, fence->error);
-> > > > +		else if (r)
-> > > > +			DRM_DEV_ERROR(sched->dev, "fence add callback failed (%d)\n", r);
-> > > > +	} else {
-> > > > +		drm_sched_job_done(sched_job, IS_ERR(fence) ?
-> > > > +				   PTR_ERR(fence) : 0);
-> > > >  	}    
-> > > 
-> > > Just ran into a race condition when using a non-ordered workqueue
-> > > for drm_sched:
-> > > 
-> > > thread A							thread B
-> > > 
-> > > drm_sched_run_job_work()			
-> > >   drm_sched_job_begin()
-> > >     // inserts jobA in pending_list
-> > > 
-> > > 								drm_sched_free_job_work()
-> > > 								  drm_sched_get_cleanup_job()
-> > > 								    // check first job in pending list
-> > > 								    // if s_fence->parent == NULL, consider
-> > > 								    // for cleanup  
-> > > 								  ->free_job(jobA)    
-> > > 								    drm_sched_job_cleanup()
-> > > 								      // set sched_job->s_fence = NULL
-> > >   
-> > >     ->run_job()    
-> > >     drm_sched_fence_scheduled()  
-> > 
-> > Correction: the NULL pointer deref happens in drm_sched_job_done()
-> > (when the driver returns an error directly) not in
-> > drm_sched_fence_scheduled(), but the problem remains the same.
-> > 
-> >   
-> 
-> Trying to understand this. I don't see how drm_sched_get_cleanup_job can
-> return a job until dma_fence_is_signaled(&job->s_fence->finished) is
-> true. That fence is no signaled until drm_sched_fence_finished(s_fence,
-> result); called in drm_sched_job_done().
-> 
-> What am I missing here?
+Fixes: 90b593ce1c9e ("drm/msm/adreno: Switch to chip-id for identifying GPU")
+Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+---
+ drivers/gpu/drm/msm/adreno/adreno_gpu.h | 5 -----
+ 1 file changed, 5 deletions(-)
 
-Uh, my bad. I was trying to backport panthor (and all its deps) to a 6.1
-kernel, and the condition in drm_sched_get_cleanup_job() is different
-there:
+diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+index 80b3f6312116..9a1ec42155fd 100644
+--- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
++++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+@@ -203,11 +203,6 @@ struct adreno_platform_config {
+ 
+ static inline uint8_t adreno_patchid(const struct adreno_gpu *gpu)
+ {
+-	/* It is probably ok to assume legacy "adreno_rev" format
+-	 * for all a6xx devices, but probably best to limit this
+-	 * to older things.
+-	 */
+-	WARN_ON_ONCE(gpu->info->family >= ADRENO_6XX_GEN1);
+ 	return gpu->chip_id & 0xff;
+ }
+ 
 
-        if (job && (!job->s_fence->parent ||
-                    dma_fence_is_signaled(job->s_fence->parent))) {
-		// pick this job for cleanup
-	}
+---
+base-commit: e8361b005d7c92997d12f2b85a9e4a525738bd9d
+change-id: 20231023-topic-adreno_warn-42a09bb4bf64
 
-Sorry for the noise.
+Best regards,
+-- 
+Konrad Dybcio <konrad.dybcio@linaro.org>
+
