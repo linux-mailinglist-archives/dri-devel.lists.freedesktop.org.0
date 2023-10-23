@@ -2,77 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0ACF7D394F
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Oct 2023 16:29:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6E107D39A3
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Oct 2023 16:40:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B50F210E1E2;
-	Mon, 23 Oct 2023 14:29:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D905B10E046;
+	Mon, 23 Oct 2023 14:40:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com
- [IPv6:2a00:1450:4864:20::233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 83F8710E1ED
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Oct 2023 14:29:40 +0000 (UTC)
-Received: by mail-lj1-x233.google.com with SMTP id
- 38308e7fff4ca-2c523ac38fbso49223641fa.0
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Oct 2023 07:29:40 -0700 (PDT)
+Received: from mail-ua1-x92e.google.com (mail-ua1-x92e.google.com
+ [IPv6:2607:f8b0:4864:20::92e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FE6E10E046
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Oct 2023 14:40:20 +0000 (UTC)
+Received: by mail-ua1-x92e.google.com with SMTP id
+ a1e0cc1a2514c-7afc13d58c6so1255579241.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Oct 2023 07:40:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1698071379; x=1698676179; darn=lists.freedesktop.org;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:from:to:cc:subject:date:message-id:reply-to;
- bh=59STP8IG3xhkl1R+OwWbm4nT/u7IRLl4iyf5Y7WczEY=;
- b=IxmWmB5ca50rUvQvdgQ1PD7658U5lFscnNjfgRv5LKlGJHB9u2SYH/WQzVYSS7dUBr
- h1/ccD5xx+tDLu1y2Euz9Ruf+bRNlXW49EcvP4rOwjDMY+UWH/BFNY2PmPWnTjfHfese
- 2Drz5jJkPqPj4p2jJsI+R833Pj6P3z8CJdOMo/qRlcv0u1JU2NH/CiLM3u5TeVlRF8Jp
- EYeAH30nUqaOhzlwVmdPdcJr2G4tSyYrNpCTC8nsxanxbPdpdQFiquqSfR7C4k6WV2Em
- WG5zGqEp68oELiDyGVNA/e9o3liVxMpd46auIGYvoKXFxi4jqMUUb4jXQI7YZse26MC7
- HENA==
+ d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1698072019; x=1698676819;
+ darn=lists.freedesktop.org; 
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=s9ub93Cdf9wtgxlTJaFYfR1eZIPMZ0+ANxwjapwdSNg=;
+ b=y0XQmSt3O2UoBMtugixLcbaY2vPRWR+X68MWxmK3gGCmwZf3x090ME1qmKHqg5aadP
+ NP/NxV8fKKAzTgfEN4bGn+KFbbz3CQ6EsjqjfsIgncRC+P+8YCJBpemXZGpMC+1SIs1D
+ w6/sagqjWV+mwcMSAxUSbNsM0GaVTg5feddeHAdPelUtFFV0mYEEQs3u5PdXd6dDSPE/
+ dbkXZlnTC886ehNkSPgnEd0J/TZl+BXyyoj//MFTInnzyeggo1EuN++zZrHVe95fnelp
+ +Qf+U69kHN92l/aM8BY+rjIPk+r3aF9K6ff+L4YKPzoGPYLRgDxWo7sazbZetzdVamEW
+ A7Zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1698071379; x=1698676179;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ d=1e100.net; s=20230601; t=1698072019; x=1698676819;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=59STP8IG3xhkl1R+OwWbm4nT/u7IRLl4iyf5Y7WczEY=;
- b=m9qkAdkRHhhciBYlXsh4AqZIYh0P11gdhIbv3l27e2SzBrsd6RYkuVf+mzHC1vhXV8
- uMNH6W4p3GJR2Lio6P/MkIeNqxmM2MqHeBrl8fFpdYbnP8zABMlSH7m8SivKtPsQngEY
- 6fMm31FVRhqGcHKYKg2PaNqm1RLypacIJi7fr4kpSEZ9Q4o4t2m/aE4o6GmlJp+QD0Cq
- E6g0GRGcQupjAS9qkK2qkk31ZFgfOCuzH//DDdFfyDmma3lFRbxejltMdM6ght6CHtvg
- tlwSUuUwRx0y6nqWsiDFv1IV3D7ufABozbBfg0tpj0E5yh0Ym8brQ3EDMp40js8yfbMx
- varQ==
-X-Gm-Message-State: AOJu0Ywk2xBVYy3yiJ74gRrc7hroNT3wzUzLiUz5rLmT5C6Qz8SfMMqd
- ZpAZXrlJNezUHipAkLaAgPo6nA==
-X-Google-Smtp-Source: AGHT+IH5WFoFfyNzJgl4CLmejLA/ZgHuJygZLcv0FelZqLu9BJ1k+mLHsMaN3Mm0ni7tH5Yu0rnSiQ==
-X-Received: by 2002:a2e:a7c7:0:b0:2c1:5645:a2c0 with SMTP id
- x7-20020a2ea7c7000000b002c15645a2c0mr5768343ljp.35.1698071378607; 
- Mon, 23 Oct 2023 07:29:38 -0700 (PDT)
-Received: from [10.167.154.1]
- (178235177080.dynamic-4-waw-k-1-1-0.vectranet.pl. [178.235.177.80])
- by smtp.gmail.com with ESMTPSA id
- t13-20020a2e8e6d000000b002c4faf47378sm1616655ljk.28.2023.10.23.07.29.36
+ bh=s9ub93Cdf9wtgxlTJaFYfR1eZIPMZ0+ANxwjapwdSNg=;
+ b=c5p/FUHKebCqKHv0VPHlJky0+w48XJdRRZ965JPdA9IvDhr+yHtGjqOD2hP2YDqOHC
+ s2XJPkMFyVnSU7FxSJvfThoZ62aF18dhNLcmPxG0u472fg1dQ7GKjGR70ltwv81V/FKE
+ Ixdw78CP1SpPA9+QCWXfVQsbAON/m2q3ZDNNZTTG0k5Y7EKVrjiwSvegbEnx2shEag1H
+ d5gOkospiP70OP2jrW1qC+oF/yO/dp/jbARdePrYVAtqGmWkjQt8gnTZMPdK/EflAepS
+ D6uxX5j55ovQKOjvzNODiyUMUmby13AeZDEIy4ZkumKM4gSC15Gp21cdM1UVfTmaVpSX
+ H/6w==
+X-Gm-Message-State: AOJu0YxOYOkZ48G8ViyMLIzL6vFHDiGXG9oAks9DaLIZJUyPONZqaEMf
+ hazZE/CA8QPn5NfnwTWUdr3uIw==
+X-Google-Smtp-Source: AGHT+IHJKtPN+s3qbQB04ksDdQlqDmncwY1jaiRVU91xSoTR4TpQokxGMohekSd71DOrL0y+Cj2D8Q==
+X-Received: by 2002:a67:b742:0:b0:452:72ed:7020 with SMTP id
+ l2-20020a67b742000000b0045272ed7020mr9517700vsh.32.1698072018696; 
+ Mon, 23 Oct 2023 07:40:18 -0700 (PDT)
+Received: from [127.0.1.1] ([93.5.22.158])
+ by smtp.googlemail.com with ESMTPSA id
+ f1-20020a05620a408100b007789a3499casm2725020qko.115.2023.10.23.07.40.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Oct 2023 07:29:38 -0700 (PDT)
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-Date: Mon, 23 Oct 2023 16:29:31 +0200
-Subject: [PATCH] drm/msm/adreno: Drop WARN_ON from patchid lookup for new GPUs
+ Mon, 23 Oct 2023 07:40:18 -0700 (PDT)
+From: Alexandre Mergnat <amergnat@baylibre.com>
+Subject: [PATCH 00/18] Add display support for the MT8365-EVK board
+Date: Mon, 23 Oct 2023 16:40:00 +0200
+Message-Id: <20231023-display-support-v1-0-5c860ed5c33b@baylibre.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20231023-topic-adreno_warn-v1-1-bb1ee9391aa2@linaro.org>
-X-B4-Tracking: v=1; b=H4sIAEqDNmUC/x2NywrCQAxFf6VkbaAdB0F/RUSSaWoDJVMyvqD03
- w0u7uJcOJwNmrhKg0u3gctbm1YLGA4dlJnsIahjMKQ+HYcYPuuqBWl0sXr/kBvmRP2ZOfN0yhA
- eUxNkJytzmPZaljhXl0m//9D1tu8/hqsr1XgAAAA=
-To: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+X-B4-Tracking: v=1; b=H4sIAMCFNmUC/x2NQQqDQAxFryJZGzAqYnuV4mJmjBoo45BMS4t49
+ 45d/MX78HgHGKuwwb06QPktJnssQHUFYXNxZZS5MLRN21EZzmLp6b5or5R2zRiGnkbfNdzTDYr
+ lnTF6dTFsl5fZMl1/Ul7k8y89pvP8ATvkV+V5AAAA
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Jitao Shi <jitao.shi@mediatek.com>, Xinlei Lee <xinlei.lee@mediatek.com>, 
+ CK Hu <ck.hu@mediatek.com>, Thierry Reding <thierry.reding@gmail.com>, 
+ =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>
 X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1698071376; l=1189;
- i=konrad.dybcio@linaro.org; s=20230215; h=from:subject:message-id;
- bh=CI9uW4HFCd+sT4l3B8ani/4HRFmQfbbgjJhTrM3t/ig=;
- b=SCcIvz1UzYt8XexR/pBOz+V+i46dV2cDA1630eMo2ve5CMi9C6GzQ58HdfRNOoV17ffhl+axh
- GqYKdlDyyY/DwK9zWKbyUnlzLfk2p9kjX0+mVT5IVcj8WRb7GEdWRi7
-X-Developer-Key: i=konrad.dybcio@linaro.org; a=ed25519;
- pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3206; i=amergnat@baylibre.com; 
+ h=from:subject:message-id;
+ bh=DdZ6/V836kfp880KhEXam0/pg2tqhWjEoh+kbca/7ro=; 
+ b=owEBbQKS/ZANAwAKAStGSZ1+MdRFAcsmYgBlNoXOTmxXiiwg+V6sYJXd2VtFuu8rpxi/5OZ3Bsqm
+ CqwoEM+JAjMEAAEKAB0WIQQjG17X8+qqcA5g/osrRkmdfjHURQUCZTaFzgAKCRArRkmdfjHURakDD/
+ 0Y/V7nSPbcGNYbM6NM+UqrWkjU+MFWZUZLEATcbdpLuCUIcgdBNyWF4+ocFPmgoy79rcrLY4jR4w+2
+ tRDQaQR5qvgcN608HPRe16pHW9WavVDQUggWNMuGm4ePifBnu9bImn5/FIm89fp+CF8fhkh0QEVY9S
+ T6sSplH35tU250AEM4lXGhIwJNhegUQbWfBeixu01aOlVxzOCXOLfLr2aMBkZktYy93zp5B6o4FiEH
+ oHexmjDRB2kNmAS08GEQI4mMXQX98ZBb7sgjdh3IbXsHYKTinFUFH5sbr/qDoBrb7FgbPd/nsxQvEo
+ 1GfhIRNRPvhPsns+1Vf3IbW5bXMrUVDV/2vYTHL6B75ZTKhCDh86E0ykHoqHope+9AajwNwXZnJs7C
+ v2ibGrOHI+6896fihV9LKC5YGrooRFqHLNChFrrOEGikLsYYZOc92gZZfNnI6fSCmTTBnQV7pQNGVM
+ rcQd5AO0BuXPBAad+mSgYXGa5uZTbKynnMzV8zQXsgGmurakj9aqYDcakn1lyxre0w7+bwIPau4vj5
+ z7FerJFtDahPtdvRDp1+D0G2AdgAzfvP/WyG0DMUDQbNaaN9xk+mPtuJkoSeJNz6YCzbhAWHSqeNAa
+ h8YHMoFUk/M/2q2U1lJZaCuHBh7UT53hhnVr/H/suz0GKZrdMSGRNieqzBWg==
+X-Developer-Key: i=amergnat@baylibre.com; a=openpgp;
+ fpr=231B5ED7F3EAAA700E60FE8B2B46499D7E31D445
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,46 +101,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Abel Vesa <abel.vesa@linaro.org>, freedreno@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, linux-pwm@vger.kernel.org,
+ Alexandre Mergnat <amergnat@baylibre.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Fabien Parent <fparent@baylibre.com>,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-New GPUs still use the lower 2 bytes of the chip id (in whatever form
-it comes) to signify silicon revision. Drop the warning that makes it
-sound as if that was unintended.
+The purpose of this series is to add the display support for the mt8365-evk.
 
-Fixes: 90b593ce1c9e ("drm/msm/adreno: Switch to chip-id for identifying GPU")
-Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+This is the list of HWs / IPs support added:
+- Connectors (HW):
+  - HDMI
+  - MIPI DSI (Mobile Industry Processor Interface Display Serial Interface)
+- HDMI bridge (it66121)
+- DSI pannel (startek,kd070fhfid015)
+- SoC display blocks (IP):
+  - OVL0 (Overlay)
+  - RDMA0 (Data Path Read DMA)
+  - Color0
+  - CCorr0 (Color Correction)
+  - AAL0 (Adaptive Ambient Light)
+  - GAMMA0
+  - Dither0
+  - DSI0 (Display Serial Interface)
+  - RDMA1 (Data Path Read DMA)
+  - DPI0 (Display Parallel Interface)
+
+The Mediatek DSI, DPI and DRM drivers are also improved.
+
+Regards,
+Alex
+
+Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
 ---
- drivers/gpu/drm/msm/adreno/adreno_gpu.h | 5 -----
- 1 file changed, 5 deletions(-)
+Alexandre Mergnat (14):
+      dt-bindings: display: mediatek: aal: add binding for MT8365 SoC
+      dt-bindings: display: mediatek: ccorr: add binding for MT8365 SoC
+      dt-bindings: display: mediatek: color: add binding for MT8365 SoC
+      dt-bindings: display: mediatek: dither: add binding for MT8365 SoC
+      dt-bindings: display: mediatek: dsi: add binding for MT8365 SoC
+      dt-bindings: display: mediatek: gamma: add binding for MT8365 SoC
+      dt-bindings: display: mediatek: ovl: add binding for MT8365 SoC
+      dt-bindings: display: mediatek: rdma: add binding for MT8365 SoC
+      dt-bindings: pwm: add power-domains property
+      dt-bindings: pwm: add binding for mt8365 SoC
+      drm/mediatek: dsi: Improves the DSI lane setup robustness
+      arm64: defconfig: enable display connector support
+      arm64: dts: mediatek: add display blocks support for the MT8365 SoC
+      arm64: dts: mediatek: add display support for mt8365-evk
 
-diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-index 80b3f6312116..9a1ec42155fd 100644
---- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-+++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-@@ -203,11 +203,6 @@ struct adreno_platform_config {
- 
- static inline uint8_t adreno_patchid(const struct adreno_gpu *gpu)
- {
--	/* It is probably ok to assume legacy "adreno_rev" format
--	 * for all a6xx devices, but probably best to limit this
--	 * to older things.
--	 */
--	WARN_ON_ONCE(gpu->info->family >= ADRENO_6XX_GEN1);
- 	return gpu->chip_id & 0xff;
- }
- 
+Fabien Parent (4):
+      dt-bindings: display: mediatek: dpi: add power-domains property
+      dt-bindings: display: mediatek: dpi: add binding for MT8365
+      drm/mediatek: dpi: add support for dpi clock
+      drm/mediatek: add MT8365 SoC support
 
+ .../bindings/display/mediatek/mediatek,aal.yaml    |   1 +
+ .../bindings/display/mediatek/mediatek,ccorr.yaml  |   3 +
+ .../bindings/display/mediatek/mediatek,color.yaml  |   1 +
+ .../bindings/display/mediatek/mediatek,dither.yaml |   1 +
+ .../bindings/display/mediatek/mediatek,dpi.yaml    |  24 +++
+ .../bindings/display/mediatek/mediatek,dsi.yaml    |   2 +
+ .../bindings/display/mediatek/mediatek,gamma.yaml  |   1 +
+ .../bindings/display/mediatek/mediatek,ovl.yaml    |   1 +
+ .../bindings/display/mediatek/mediatek,rdma.yaml   |   1 +
+ .../devicetree/bindings/pwm/mediatek,pwm-disp.yaml |   9 +
+ arch/arm64/boot/dts/mediatek/mt8365-evk.dts        | 183 +++++++++++++++++++++
+ arch/arm64/boot/dts/mediatek/mt8365.dtsi           | 146 ++++++++++++++++
+ arch/arm64/configs/defconfig                       |   1 +
+ drivers/gpu/drm/mediatek/mtk_dpi.c                 |  50 +++++-
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c             |  30 ++++
+ drivers/gpu/drm/mediatek/mtk_dsi.c                 |   2 +
+ 16 files changed, 455 insertions(+), 1 deletion(-)
 ---
-base-commit: e8361b005d7c92997d12f2b85a9e4a525738bd9d
-change-id: 20231023-topic-adreno_warn-42a09bb4bf64
+base-commit: d27bed55ce32b0732ef65561851fec3dc8d01852
+change-id: 20231023-display-support-c6418b30e419
 
 Best regards,
 -- 
-Konrad Dybcio <konrad.dybcio@linaro.org>
+Alexandre Mergnat <amergnat@baylibre.com>
 
