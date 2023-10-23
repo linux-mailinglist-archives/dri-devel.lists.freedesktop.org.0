@@ -1,69 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FFA57D2C68
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Oct 2023 10:14:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 50A9D7D2C5F
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Oct 2023 10:14:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8784510E171;
-	Mon, 23 Oct 2023 08:14:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3624A10E173;
+	Mon, 23 Oct 2023 08:14:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C1FCF10E177
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Oct 2023 08:14:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1698048860;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=es4QPngsXpmAIASK05cERYr43X740lPT3pKLdJZoVvI=;
- b=aci3tbciGp2j6p+8RyrUUX5oRJpWjTSdmHqB0THnZI4rtzLOoqcI8jFrgPvukJpVitRoz0
- D1xIp7WEp+OTmsnbWCNLW5bX6vXf72mmv6a9JULuWboz48DJhmjvKW2MOcdBaQJ+e6Ucas
- 868pN5sTBuZpCv6V+KsUxFt4GonvfVc=
-Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com
- [209.85.215.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-650-JBW98-NpNYaQ3Cai5Lq-Lw-1; Mon, 23 Oct 2023 04:14:19 -0400
-X-MC-Unique: JBW98-NpNYaQ3Cai5Lq-Lw-1
-Received: by mail-pg1-f197.google.com with SMTP id
- 41be03b00d2f7-5a4d04a8a5cso1671837a12.0
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Oct 2023 01:14:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1698048858; x=1698653658;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=uoARVbaVzE8Klcf/2UJiBvPdsoBHjWiewZkEcG70H2w=;
- b=SESALkv7fxJa6/tpu7NjuFf5pr4mB7c2qkUd7D6iPlvf0Nt2mz/S6b9FAldeN4UaPB
- xA/nWKqgKCBPhfp1VL+RcyMcUyz5TBbn7Oa6EP0FYrZOSNCP2/t5d4rhMoZ1nABi+JoS
- XXJlSrlB/nMtZEQqmRrpQgsCm+HEnxinSMFRCiWyVA3Pq9YWZBuP3P8pUwE9ZEGxAuaf
- VbFyqw7F4uUSJvwl6WMeI0IK3XfgNQ3nfDZEqsoqgnOgIgFmmn0BiRLvZUGkpC4SJOJH
- sB5N+NPuTTbDxkVOO7YNTacrJ6YjV5srWc/ndyO6GSLwhGiDmPi5ewz2Zh1OIkpJ3i9Q
- m91A==
-X-Gm-Message-State: AOJu0YywV8B/3bzCOTEioARTbgzVxqDrcRgbWizyx2Qle051IsNAnC06
- ZQbWwnpFcXn+hy+S+wNCUdVpOS+sGw1Qgome9p+tp4Z7mvyVyXfsf/9sSxh4jRlrNaulACJ29eG
- SIdOvu105OQoygv6S8EoZV93npk0sIZ9uYmeiVZIdbqX5
-X-Received: by 2002:a05:6a20:54a0:b0:13d:17cc:5bca with SMTP id
- i32-20020a056a2054a000b0013d17cc5bcamr7164701pzk.18.1698048857513; 
- Mon, 23 Oct 2023 01:14:17 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEzq70ts5bDupwKjfq3lxncqOWwvXbGNczquvLBuYAQ7b8ip74Jouf9GwofikaNrblGdeCbW4K+TH/mBEYJsmM=
-X-Received: by 2002:a05:6a20:54a0:b0:13d:17cc:5bca with SMTP id
- i32-20020a056a2054a000b0013d17cc5bcamr7164645pzk.18.1698048856339; Mon, 23
- Oct 2023 01:14:16 -0700 (PDT)
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA4E810E171;
+ Mon, 23 Oct 2023 08:14:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1698048858; x=1729584858;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=DJIoa1RTdkD1fSp9jZLaNJ/hvLsWUoMLsm3c5R90P60=;
+ b=eGSpmkGzO9PFVeozpRj/50Xr3ZwB9ZALnkK3/qJfAQd2exqwWR4n75uy
+ cFvEUgdPMXjFmyH2MAMp4bhdSs951/UMy94Z2fhEKlCQCPvZrxq8PFsfa
+ ut54NwJuv2jJ+13T7JBCqWk/iCvUZi6SUQSczrVljuScHiWKEHZtCmiQ/
+ PvD7DI99ICHcXB3rP2uSpkhF+a08dHgDVUvC7rjea99D3nToc8tIjcIvf
+ H6Tyw76DYFLlesqRdkdIvwj0diGzqgHC4QDwR/Mxy7lH5L2yHfd6+fmF9
+ 0ncG/k46/El8NbKxEeMcVbXcB7BLg+Wvl+6axgaeju6ggsU9fb4xp6caK g==;
+X-IronPort-AV: E=Sophos;i="6.03,244,1694728800"; d="scan'208";a="33594481"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+ by mx1.tq-group.com with ESMTP; 23 Oct 2023 10:14:16 +0200
+Received: from steina-w.localnet (steina-w.tq-net.de [10.123.53.18])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 9B66028007F;
+ Mon, 23 Oct 2023 10:14:15 +0200 (CEST)
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [RFC PATCH 03/10] drm/mipi-dsi: add API for manual control over
+ the DSI link power state
+Date: Mon, 23 Oct 2023 10:14:18 +0200
+Message-ID: <3266380.44csPzL39Z@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <CAA8EJpofiawC5z3jw1-TsxS+ZWz4QobCby3kScDDdk9Z-74mgQ@mail.gmail.com>
+References: <20231016165355.1327217-1-dmitry.baryshkov@linaro.org>
+ <1871104.tdWV9SEqCh@steina-w>
+ <CAA8EJpofiawC5z3jw1-TsxS+ZWz4QobCby3kScDDdk9Z-74mgQ@mail.gmail.com>
 MIME-Version: 1.0
-References: <20231023074613.41327-1-aesteve@redhat.com>
- <-ngmaSLF2S5emYjTBWcLRNzvJRoe_eZ-Nv9HQhE6ZLuK8nIE2ZbfVh2G2O2Z41GoIFIRpts0ukEtFXUx8pNAptmrZBhlXxaQGykx_qCZ_9k=@emersion.fr>
-In-Reply-To: <-ngmaSLF2S5emYjTBWcLRNzvJRoe_eZ-Nv9HQhE6ZLuK8nIE2ZbfVh2G2O2Z41GoIFIRpts0ukEtFXUx8pNAptmrZBhlXxaQGykx_qCZ_9k=@emersion.fr>
-From: Albert Esteve <aesteve@redhat.com>
-Date: Mon, 23 Oct 2023 10:14:05 +0200
-Message-ID: <CADSE00KW4+hpbAbZAusBngq5FYSa067wYJCGeetqngWRJaD9Kg@mail.gmail.com>
-Subject: Re: [PATCH v6 0/9] Fix cursor planes with virtualized drivers
-To: Simon Ser <contact@emersion.fr>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000e4cdbd06085dce80"
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,109 +59,140 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-doc@vger.kernel.org, qemu-devel@nongnu.org, banackm@vmware.com,
- virtualization@lists.linux-foundation.org, Gerd Hoffmann <kraxel@redhat.com>,
- mombasawalam@vmware.com, iforbes@vmware.com, Jonathan Corbet <corbet@lwn.net>,
- javierm@redhat.com,
- VMware Graphics Reviewers <linux-graphics-maintainer@vmware.com>,
- David Airlie <airlied@redhat.com>, Maxime Ripard <mripard@kernel.org>,
- Hans de Goede <hdegoede@redhat.com>, ppaalanen@gmail.com,
- dri-devel@lists.freedesktop.org, spice-devel@lists.freedesktop.org,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Matt Roper <matthew.d.roper@intel.com>, linux-kernel@vger.kernel.org,
- krastevm@vmware.com, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Maxime Ripard <mripard@kernel.org>, Marek Vasut <marex@denx.de>,
+ Douglas Anderson <dianders@chromium.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Robert Foss <rfoss@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-arm-msm@vger.kernel.org,
+ Jonas Karlman <jonas@kwiboo.se>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---000000000000e4cdbd06085dce80
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Am Montag, 23. Oktober 2023, 09:34:42 CEST schrieb Dmitry Baryshkov:
+> On Mon, 23 Oct 2023 at 09:52, Alexander Stein
+>=20
+> <alexander.stein@ew.tq-group.com> wrote:
+> > Hi Dmitry,
+> >=20
+> > Am Sonntag, 22. Oktober 2023, 12:49:41 CEST schrieb Dmitry Baryshkov:
+> > > On Thu, 19 Oct 2023 at 14:42, Alexander Stein
+> > >=20
+> > > <alexander.stein@ew.tq-group.com> wrote:
+> > > > Hi,
+> > > >=20
+> > > > Am Donnerstag, 19. Oktober 2023, 13:19:51 CEST schrieb Dmitry=20
+Baryshkov:
+> > > > > On Thu, 19 Oct 2023 at 12:26, Maxime Ripard <mripard@kernel.org>=
+=20
+wrote:
+> > > > > > On Mon, Oct 16, 2023 at 07:53:48PM +0300, Dmitry Baryshkov wrot=
+e:
+> > > > > > > The MIPI DSI links do not fully fall into the DRM callbacks
+> > > > > > > model.
+> > > > > >=20
+> > > > > > Explaining why would help
+> > > > >=20
+> > > > > A kind of explanation comes afterwards, but probably I should cha=
+nge
+> > > > > the order of the phrases and expand it:
+> > > > >=20
+> > > > > The atomic_pre_enable / atomic_enable and correspondingly
+> > > > > atomic_disable / atomic_post_disable expect that the bridge links
+> > > > > follow a simple paradigm: either it is off, or it is on and
+> > > > > streaming
+> > > > > video. Thus, it is fine to just enable the link at the enable tim=
+e,
+> > > > > doing some preparations during the pre_enable.
+> > > > >=20
+> > > > > But then it causes several issues with DSI. First, some of the DSI
+> > > > > bridges and most of the DSI panels would like to send commands ov=
+er
+> > > > > the DSI link to setup the device. Next, some of the DSI hosts have
+> > > > > limitations on sending the commands. The proverbial sunxi DSI host
+> > > > > can
+> > > > > not send DSI commands after the video stream has started. Thus mo=
+st
+> > > > > of
+> > > > > the panels have opted to send all DSI commands from pre_enable (or
+> > > > > prepare) callback (before the video stream has started).
+> > > > >=20
+> > > > > However this leaves no good place for the DSI host to power up the
+> > > > > DSI
+> > > > > link. By default the host's pre_enable callback is called after t=
+he
+> > > > > DSI bridge's pre_enable. For quite some time we were powering up =
+the
+> > > > > DSI link from mode_set. This doesn't look fully correct. And also=
+ we
+> > > > > got into the issue with ps8640 bridge, which requires for the DSI
+> > > > > link
+> > > > > to be quiet / unpowered at the bridge's reset time.
+> > > >=20
+> > > > There are also bridges (e.g. tc358767) which require DSI-LP11 upon
+> > > > bridge
+> > > > reset. And additionally this DSI-(e)DP bridge requires LP11 while
+> > > > accessing
+> > > > DP-AUX channel, e.g. reading EDID. So bridges need at least some
+> > > > control
+> > > > over DSI line state.
+> > >=20
+> > > For sending commands in LP11 it is typical to toggle the
+> > > MIPI_DSI_MODE_LPM flag, for example see panel-=3Djdi-lt070me05000.c or
+> > > some other drives. It might be a good idea to make that more explicit.
+> > > All suggestions here would be appreciated.
+> >=20
+> > The biggest difference between that display and the tc358767 bridge is
+> > that
+> > the display uses DSI commands, while the bridge is using i2c transfer to
+> > issue DP-AUX commands. There is no host_transfer [1] which would enable
+> > LP-11. It seems this DSI-DP bridge requires LP-11/HS on DSI lanes all
+> > times. This contradicts current Linux behaviour.
+>=20
+> I see. I took a quick glance at the driver. Does the device mark AUX
+> as busy when there is a HS transfer?
+> Because otherwise it might be pretty hard to synchronise DP-AUX
+> transfers with the DSI link state. We might need to add an API for
+> this, if the DSI hosts actually can signal the blanking / DSI LP.
 
-On Mon, Oct 23, 2023 at 9:55=E2=80=AFAM Simon Ser <contact@emersion.fr> wro=
-te:
+I don't see that a synchronization would be required. AUX should be=20
+independent from DSI transfers. ASFAICS the bridge internals just requires =
+DSI=20
+lines to be LP-00 or HS for AUX channel to be functioning.
 
-> On Monday, October 23rd, 2023 at 09:46, Albert Esteve <aesteve@redhat.com=
->
-> wrote:
->
-> > Link to the IGT test covering this patch (already merged):
-> > https://lists.freedesktop.org/archives/igt-dev/2023-July/058427.html
->
-> Hmm. IGT should not be merged before the kernel, because as long as the
-> kernel is not merged there might be some uAPI changes.
->
+>=20
+> Side note: the driver needs some care. It doesn't support the aux-bus
+> bindings for eDP panels, it doesn't support other bridges on top of DP
+> connectors (but there can be e..g. dp-connector device).
 
-Right, but uAPI header was not updated on the IGT side. As per suggestion
-of the
-maintainers, I added a static variable that matches the definition on this
-patch:
-https://lists.freedesktop.org/archives/igt-dev/2023-August/058803.html
+I don't think that this is necessary as you add an optional endpoint to por=
+t2=20
+which will then add an eDP display panel bridge. This should then handle au=
+x-
+bus bindings.
 
-+/**
-+ * Clients which do set cursor hotspot and treat the cursor plane
-+ * like a mouse cursor should set this property.
-+ */
-+#define LOCAL_DRM_CLIENT_CAP_CURSOR_PLANE_HOTSPOT=096
+Best regards,
+Alexander
 
-
-Once this patch gets upstreamed, the localized definition will be removed,
-replaced by the real one.
+> > Best regards,
+> > Alexander
+> >=20
+> > [1]
+> > https://www.kernel.org/doc/html/latest/gpu/drm-kms-helpers.html#mipi-ds=
+i-> > bridge-operation
 
 
-> > Mutter patch:
-> > https://lists.freedesktop.org/archives/igt-dev/2023-July/058427.html
->
-> Seems like this link is same as IGT? Copy-pasta fail maybe?
->
->
-Ah yes, my bad, this is the correct link:
-https://gitlab.gnome.org/GNOME/mutter/-/merge_requests/3337
+=2D-=20
+TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht M=FCnchen, HRB 105018
+Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
+http://www.tq-group.com/
 
---000000000000e4cdbd06085dce80
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Mon, Oct 23, 2023 at 9:55=E2=80=AF=
-AM Simon Ser &lt;<a href=3D"mailto:contact@emersion.fr">contact@emersion.fr=
-</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:=
-0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">=
-On Monday, October 23rd, 2023 at 09:46, Albert Esteve &lt;<a href=3D"mailto=
-:aesteve@redhat.com" target=3D"_blank">aesteve@redhat.com</a>&gt; wrote:<br=
->
-<br>
-&gt; Link to the IGT test covering this patch (already merged):<br>
-&gt; <a href=3D"https://lists.freedesktop.org/archives/igt-dev/2023-July/05=
-8427.html" rel=3D"noreferrer" target=3D"_blank">https://lists.freedesktop.o=
-rg/archives/igt-dev/2023-July/058427.html</a><br>
-<br>
-Hmm. IGT should not be merged before the kernel, because as long as the<br>
-kernel is not merged there might be some uAPI changes.<br></blockquote><div=
-><br></div><div>Right, but uAPI header was not updated on the IGT side. As =
-per suggestion of the</div><div>maintainers, I added a static variable that=
- matches the definition=C2=A0on this patch:</div><div><a href=3D"https://li=
-sts.freedesktop.org/archives/igt-dev/2023-August/058803.html">https://lists=
-.freedesktop.org/archives/igt-dev/2023-August/058803.html</a></div><div><pr=
-e style=3D"color:rgb(0,0,0)">+/**
-+ * Clients which do set cursor hotspot and treat the cursor plane
-+ * like a mouse cursor should set this property.
-+ */
-+#define LOCAL_DRM_CLIENT_CAP_CURSOR_PLANE_HOTSPOT=096</pre></div><div>=C2=
-=A0</div><div>Once this patch gets upstreamed, the localized definition wil=
-l be removed,</div><div>replaced by the real one.</div><div><br></div><bloc=
-kquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:=
-1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-&gt; Mutter patch:<br>
-&gt; <a href=3D"https://lists.freedesktop.org/archives/igt-dev/2023-July/05=
-8427.html" rel=3D"noreferrer" target=3D"_blank">https://lists.freedesktop.o=
-rg/archives/igt-dev/2023-July/058427.html</a><br>
-<br>
-Seems like this link is same as IGT? Copy-pasta fail maybe?<br>
-<br></blockquote><div><br></div><div>Ah yes, my bad, this is the correct li=
-nk:</div><div><a href=3D"https://gitlab.gnome.org/GNOME/mutter/-/merge_requ=
-ests/3337">https://gitlab.gnome.org/GNOME/mutter/-/merge_requests/3337</a>=
-=C2=A0</div></div></div>
-
---000000000000e4cdbd06085dce80--
 
