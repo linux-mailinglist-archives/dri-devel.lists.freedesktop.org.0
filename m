@@ -1,46 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23BD07D3E54
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Oct 2023 19:52:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B45437D3E5B
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Oct 2023 19:53:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 26AE910E224;
-	Mon, 23 Oct 2023 17:52:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C666410E226;
+	Mon, 23 Oct 2023 17:53:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B595710E224
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Oct 2023 17:52:42 +0000 (UTC)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A091510E226
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Oct 2023 17:53:51 +0000 (UTC)
 Received: from [IPv6:2a00:23c8:b70a:ae01:e088:d5b:55b6:2378] (unknown
  [IPv6:2a00:23c8:b70a:ae01:e088:d5b:55b6:2378])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- (Authenticated sender: obbardc)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 1EC896606F65;
- Mon, 23 Oct 2023 18:52:41 +0100 (BST)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits))
+ (No client certificate requested) (Authenticated sender: obbardc)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 45D9B6606F65;
+ Mon, 23 Oct 2023 18:53:50 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1698083561;
- bh=7S1ZXUE2FrN5cin1LeMtr31fGeX5/zyTj4hXYDk6dEc=;
+ s=mail; t=1698083630;
+ bh=mAdE0i3lSX6JHY+m7zAvbJfzqqYqVMR9RAyMV2T3DPc=;
  h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
- b=lp7pQvrZuCVaydEUTPe9fQmuQEiu0uMOq2IxVWgSkwqqbqI0d3K9Kokox9dL9oWuD
- 76fTBufx3LAglsPuteWffaZ9o7TkB9DcTIRz6LYFzCw6VF5S0AfiWg5m33EHGGcthX
- WywV2cW5GVd1ljLA+4+aHQjIn0xkLbejzWVZxZdgN/R5j28Lb4CpQn09jwoWwTLZNU
- +LcoV0kLlWCit/wIvOcqFJ8I888EzQ2sZb3gWfEfGrhnJHScKtUssxG+FRvZk6TFTv
- bEVx6yJjJmJNG4qdIvp1N8q0w6QUJUCplTvgyg7XVLgnRZj+G0qMJCzIV30/gHH3IG
- vp6Xl4XSWSEew==
-Message-ID: <f28f34b1c58a41856eed020b5d02dc3abf1a8e94.camel@collabora.com>
-Subject: Re: [PATCH v5 0/2] drm/rockchip: vop: Add NV15, NV20 and NV30 support
+ b=F5FfXq3YMM1aOnKt7dKLVy5owBZ2wZl5zNAMHWfvFU7NpMr3+hBTEh/w4ezCGuHek
+ wIW+MsF7jUQb+ngB0U0mOGO8dG9LE+6x1MfybMOC89cTdF4GWyDY/MrocbXVvVDZx7
+ 39kdfA9r06AgcgUiIcbSFaTQSHFwQg8L6rVfc6+eKLLH7Nr+dxCurgWu24KxsCpDW4
+ A7sTOJffam+1CadFYJwW1txbL0Tadc6Y09i02ALxOk7ChtHAfBxaR4ktc3SrnNYeVs
+ Zzv9Jrmk1bJ/VJiOSmaFlJJG10knXIxTdKLln73IDF5syUPA/N3bfM+Q6rQRqh4XNg
+ WLinUSRhggcRQ==
+Message-ID: <0fab9851ef3e19b2f5b01139b308ba0613cbb95b.camel@collabora.com>
+Subject: Re: [PATCH v5 1/2] drm/fourcc: Add NV20 and NV30 YUV formats
 From: Christopher Obbard <chris.obbard@collabora.com>
 To: Jonas Karlman <jonas@kwiboo.se>, Heiko Stuebner <heiko@sntech.de>, Sandy
  Huang <hjc@rock-chips.com>, Maarten Lankhorst
  <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>
-Date: Mon, 23 Oct 2023 18:52:38 +0100
-In-Reply-To: <20231023173718.188102-1-jonas@kwiboo.se>
+Date: Mon, 23 Oct 2023 18:53:47 +0100
+In-Reply-To: <20231023173718.188102-2-jonas@kwiboo.se>
 References: <20231023173718.188102-1-jonas@kwiboo.se>
+ <20231023173718.188102-2-jonas@kwiboo.se>
 Autocrypt: addr=chris.obbard@collabora.com; prefer-encrypt=mutual;
  keydata=mQINBF7k5dIBEACmD3CqXJiJOtLEjilK2ghCO47y9Fl8+jc8yQPNsp4rMZuzlryL3vLseG0DpR3XE0bK0ojRLhUAqw13epLR5/nWp5ehm8kcy8WyDMBco9DaEyoElKCfelMvTtwmYkJXj8Z831nzzyh1CocFoFStL8HyLHc2/iU1wjczkL0t5hC9KvukV3koQTc9w03sNHeZyZedZIwR/r83k1myJXJsOPXZbmI2KGKq5QV4kTqgQJw3OkSVIQ9Mz2zVZNLKedWr2syrHFgojb7WX5iXbMUgJ8/Ikdttou0B/2xfgKNyKFe0DsbgkcEsJTIsx+C/Ju0+ycEk/7dW69oQLJo0j1oBP+8QfAeAT+M5C0uHC87KAmmy83Sh0xMGAVpcH2lLrE+5SjV3rnB+x/R4B/x7+1uYB5n7MU4/W2lYuAe1hfLtqDbEOyqLzC0FvFiZoDKxexQzcGpSW/LliBEvjjA/LXWADaM+mZezzLSjDwsGVohQrP0ZWOZ1NtC0e1sEt870fa4f+YkZeVHJRDInTcecw6c2QpNH4TzcTMD7bW9YZVqNiT5t9z+BzjJk3LtdrYPQ1SSpov7TB3LVKLIZDxgSlrur0dIklFFYPIx1KStCzqbvOEvlz03iZX4+tqZauNTkVhCoDLG+Z4w3OQdmR/uNqXqsbI04+kM3tOcVnXsosSW6E0TAJQARAQABtCZDaHJpc3RvcGhlciBPYmJhcmQgPG9iYmFyZGNAZ21haWwuY29tPokCUQQTAQgAOwIbAwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgAIZARYhBPGL3ItsJfkKoj1RdGNNxPBocEb4BQJe+22mAAoJEGNNxPBocEb4iUIP+wWXh7bqqLWWo1uYYzMZN9WSnhC1qiD8RyK18DvN8UEOINmvuX2beZjVftZYLyp55bT09VZXY0s4hFVr3PbqIYnkDmXGGnG/fHtmHm4QLNozNRJNXlf+gRvA+
  D2Zc41viquXrwrJEqrfz+g2rlO17jETQCJe5HWcvj3R1nps5MvymQ29KzmfYvMBmDYcYOVSSrqkItIFb9wppHHy8f1+sLM4pjb26OS1MUv02lRaptsV0wB3uVCNpZ8dS1aJdEYlLzKujKdVUG64ktwxboBbLSxa98J3oroHPBJbLPD+OjB9YUa3rkBIqf5JyrPPeQVzmU7rPb43o1vwWEGK1fj0N1riOWTb+v+xD00R+WBNSLYEouB+rd4d1+adBQY7DERemqQG9WlY2HHHbgcpK5SRYffwof3GL2Dgqd+K3KS+3uqenQByPGf5sXjuvo/uoI2TPoW5vYhApozM8voUycL7HA9f8MTZ7YCbPDHBfmioYiJN4y0EuO2JJ34jMZhySjft2JQ839yZP/iIwY3o6Y/ep97VDQqH8WrqfnnAKzw6WcJJ+5O088CANfI9xFsC5P8oPyBx2Ne3/zN/Bmv+3bLpcTPYyqfxZb3MIKAZXzxFU6Gn2MpNcQfMdwpJvd3NpMI7OAvhzgtW0aRe1Mj3m0gugbbOLiBw0SGPTgNwM4T7A2dltC9DaHJpc3RvcGhlciBPYmJhcmQgPGNocmlzLm9iYmFyZEBjb2xsYWJvcmEuY29tPokCTgQTAQgAOAIbAwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBPGL3ItsJfkKoj1RdGNNxPBocEb4BQJe+22uAAoJEGNNxPBocEb4JYwP+gMIrabuXS5llUz8yvICgusThLej0VSEWWF6BkiJdsaid1IbkbStYITE/jb834VdhjEHOT0A1SNVB6Yx38l9VNryyJkPZ38fELSUTI9FVLIfO3CP2qgJisoGh2LozSu9d+50hFIF0E9xQZCqcR7kS6j2xp14BiCoD94HCW9Z5r6gA57vFBupGwlcGxA5Z4MfFulpFaDry0R6ICksHe07vY49opWSXhSdhtv+apzaMC7r+5zJKBf1G4kNrKkauUiehgUB9f
@@ -72,77 +73,77 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Hi Jonas,
 
 On Mon, 2023-10-23 at 17:37 +0000, Jonas Karlman wrote:
-> This series add support for displaying 10-bit 4:2:0 and 4:2:2 formats
-> produced
-> by the Rockchip Video Decoder on RK322X, RK3288, RK3328, RK3368 and RK339=
-9.
-> Also include 10-bit 4:4:4 support since VOP can support that also.
+> DRM_FORMAT_NV20 and DRM_FORMAT_NV30 formats is the 2x1 and non-subsampled
+> variant of NV15, a 10-bit 2-plane YUV format that has no padding between
+> components. Instead, luminance and chrominance samples are grouped into 4=
+s
+> so that each group is packed into an integer number of bytes:
 >=20
-> First patch adds new fourcc 10-bit YUV formats with 4:2:2/4:4:4 sub-
-> sampling.
-> Second patch adds support for displaying the new fourcc formats.
+> YYYY =3D UVUV =3D 4 * 10 bits =3D 40 bits =3D 5 bytes
 >=20
-> These patches have been in use by LibreELEC and other distros for the
-> past 3+ years, hoping they can be merged this time around.
+> The '20' and '30' suffix refers to the optimum effective bits per pixel
+> which is achieved when the total number of luminance samples is a multipl=
+e
+> of 4.
 >=20
-> A rough libdrm/modetest patch [2] have been used to validate use of
-> NV15, NV20 and NV30 formats on RK3288, RK3328 and RK3399 boards.
+> V2: Added NV30 format
 >=20
-> =C2=A0 modetest -s <connector_id>@<crtc_id>:<mode>-<vrefresh>@<format>
->=20
-> Tinker Board R2.0 (rk3288w):
-> =C2=A0 modetest -s 50:1920x1080-60@NV15
->=20
-> Rock Pi 4 (rk3399):
-> =C2=A0 modetest -s 52@44:1920x1080-60@NV15
->=20
-> Rock64 (rk3328):
-> =C2=A0 modetest -s 42:1920x1080-60@NV15
->=20
-> Changes in v5:
-> - Use drm_format_info_min_pitch() for correct bpp
-> - Add missing NV21, NV61 and NV42 formats
->=20
-> Changes in v4:
-> - Rework RK3328/RK3399 win0/1 data to not affect RK3368
->=20
-> Changes in v3:
-> - No changes, rebased on next-20230616
-> - R-B tags was collected
->=20
-> Changes in v2:
-> - Add NV30 format
-> - R-B tags was not collected due to NV30 changes
->=20
-> This series is also available at [1] and libdrm/modetest patch at [2].
->=20
-> [1] https://github.com/Kwiboo/linux-rockchip/commits/v6.6-rc7-vop-nv15
-> [2] https://github.com/Kwiboo/libdrm/commits/nv15
+> Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+> Reviewed-by: Sandy Huang <hjc@rock-chips.com>
 
-Could you open a draft merge request for libdrm upstream at
-https://gitlab.freedesktop.org/mesa/drm pointing to this series? If there a=
-re
-subsequent revisions of this series, it'd be great to link that merge reque=
-st
-in the cover letter.
+Reviewed-by: Christopher Obbard <chris.obbard@collabora.com>
+Tested-by: Christopher Obbard <chris.obbard@collabora.com>
 
 
 Cheers!
 
 Chris
 
+> ---
+> =C2=A0drivers/gpu/drm/drm_fourcc.c=C2=A0 | 8 ++++++++
+> =C2=A0include/uapi/drm/drm_fourcc.h | 2 ++
+> =C2=A02 files changed, 10 insertions(+)
 >=20
-> Jonas Karlman (2):
-> =C2=A0 drm/fourcc: Add NV20 and NV30 YUV formats
-> =C2=A0 drm/rockchip: vop: Add NV15, NV20 and NV30 support
->=20
-> =C2=A0drivers/gpu/drm/drm_fourcc.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 8 +++
-> =C2=A0drivers/gpu/drm/rockchip/rockchip_drm_vop.c | 36 ++++++++---
-> =C2=A0drivers/gpu/drm/rockchip/rockchip_drm_vop.h |=C2=A0 1 +
-> =C2=A0drivers/gpu/drm/rockchip/rockchip_vop_reg.c | 66 +++++++++++++++++-=
----
-> =C2=A0include/uapi/drm/drm_fourcc.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 2 +
-> =C2=A05 files changed, 96 insertions(+), 17 deletions(-)
->=20
+> diff --git a/drivers/gpu/drm/drm_fourcc.c b/drivers/gpu/drm/drm_fourcc.c
+> index 0f17dfa8702b..193cf8ed7912 100644
+> --- a/drivers/gpu/drm/drm_fourcc.c
+> +++ b/drivers/gpu/drm/drm_fourcc.c
+> @@ -299,6 +299,14 @@ const struct drm_format_info *__drm_format_info(u32
+> format)
+> =C2=A0		=C2=A0 .num_planes =3D 2, .char_per_block =3D { 5, 5, 0 },
+> =C2=A0		=C2=A0 .block_w =3D { 4, 2, 0 }, .block_h =3D { 1, 1, 0 }, .hsub =
+=3D
+> 2,
+> =C2=A0		=C2=A0 .vsub =3D 2, .is_yuv =3D true },
+> +		{ .format =3D DRM_FORMAT_NV20,		.depth =3D 0,
+> +		=C2=A0 .num_planes =3D 2, .char_per_block =3D { 5, 5, 0 },
+> +		=C2=A0 .block_w =3D { 4, 2, 0 }, .block_h =3D { 1, 1, 0 }, .hsub =3D
+> 2,
+> +		=C2=A0 .vsub =3D 1, .is_yuv =3D true },
+> +		{ .format =3D DRM_FORMAT_NV30,		.depth =3D 0,
+> +		=C2=A0 .num_planes =3D 2, .char_per_block =3D { 5, 5, 0 },
+> +		=C2=A0 .block_w =3D { 4, 2, 0 }, .block_h =3D { 1, 1, 0 }, .hsub =3D
+> 1,
+> +		=C2=A0 .vsub =3D 1, .is_yuv =3D true },
+> =C2=A0		{ .format =3D DRM_FORMAT_Q410,		.depth =3D 0,
+> =C2=A0		=C2=A0 .num_planes =3D 3, .char_per_block =3D { 2, 2, 2 },
+> =C2=A0		=C2=A0 .block_w =3D { 1, 1, 1 }, .block_h =3D { 1, 1, 1 }, .hsub =
+=3D
+> 1,
+> diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.=
+h
+> index 8db7fd3f743e..3151f1fc7ebb 100644
+> --- a/include/uapi/drm/drm_fourcc.h
+> +++ b/include/uapi/drm/drm_fourcc.h
+> @@ -323,6 +323,8 @@ extern "C" {
+> =C2=A0 * index 1 =3D Cr:Cb plane, [39:0] Cr1:Cb1:Cr0:Cb0 little endian
+> =C2=A0 */
+> =C2=A0#define DRM_FORMAT_NV15		fourcc_code('N', 'V', '1', '5') /*
+> 2x2 subsampled Cr:Cb plane */
+> +#define DRM_FORMAT_NV20		fourcc_code('N', 'V', '2', '0') /*
+> 2x1 subsampled Cr:Cb plane */
+> +#define DRM_FORMAT_NV30		fourcc_code('N', 'V', '3', '0') /*
+> non-subsampled Cr:Cb plane */
+> =C2=A0
+> =C2=A0/*
+> =C2=A0 * 2 plane YCbCr MSB aligned
