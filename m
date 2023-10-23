@@ -2,44 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3DE17D3D06
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Oct 2023 19:04:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88BFC7D3D65
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Oct 2023 19:22:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E38E010E15B;
-	Mon, 23 Oct 2023 17:04:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0876B10E192;
+	Mon, 23 Oct 2023 17:22:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 64EB610E15B
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Oct 2023 17:04:06 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8290F10E17D
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Oct 2023 17:22:08 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 8B053B81A71;
- Mon, 23 Oct 2023 17:04:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92865C433C7;
- Mon, 23 Oct 2023 17:03:59 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id A3BB36263B
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Oct 2023 17:22:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 698C9C433B6
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Oct 2023 17:22:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1698080643;
- bh=Z9iY3lsaZZ0k2Yw6281j4HRYsuuLhnj+PAotK0K3VDc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=PDyPGJr3cK+jKb5Cq6EVOd3FAvj4jLd1F5V5I2zaSliCU4SDbKApT9Rn3rgvbcB/e
- h96zO1DsiEGno/PSW6UhjDGACMyFRcts7xpOnFhKLV24YqpawYWsdPdFRBT571oEMZ
- IrPmsb6HRdJTq6n+Uo836v53fH/5gKP0iIFMPA07msGpOWiK8AWIQCoUZlyWW3uKZU
- a4I1A3mdePhDk5Lb5DHLzXBL4tTlGwxyfeeKf4eIfCyNzdv/xppPOA4Ij+9U3pc+Dt
- +ISwR95IHhxVQJQntGzb62eA2io51O2nTyxGhxyj6gJbmUC38uTS0jCnBdxWs2kRa0
- TizIz5NDcMF+w==
-Date: Mon, 23 Oct 2023 18:03:57 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Alexandre Mergnat <amergnat@baylibre.com>
-Subject: Re: [PATCH 01/18] dt-bindings: display: mediatek: aal: add binding
- for MT8365 SoC
-Message-ID: <20231023-sharpness-uplifting-634566c6b4ff@spud>
-References: <20231023-display-support-v1-0-5c860ed5c33b@baylibre.com>
- <20231023-display-support-v1-1-5c860ed5c33b@baylibre.com>
+ s=k20201202; t=1698081727;
+ bh=0viYSLvBpfVO5MJpLFKSPTRstra+LsViJYZCq0lbhmA=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=K4ENEGGCSf78eQWB0YG3b/BT94wF8wWX1UicDR05BHVKGsOYoJxVcZ1dlvXXchYcV
+ lQRanWL5vjxOcUY91HM5HozJflurq+wGrUdnGYkrHLHRbq14SymWDEnRLdLWAK+n07
+ iKts4ikRS535EuLAt+lM4hKHgsC1e/uNzWCpVvd4Zr4H2N2/tKbZtvIEtTHk4wf1UA
+ LDvSu8PrjM9/Le6F9nH813tAkm9VUgflpfa6Jeo24a/hbRPnN5wxjsxGfDSbePddji
+ eDnoPQtMVXVMpF8U+XeSRRuDJS7PXYCPyAu9Dofib98NPYL5usZKepNJI8KBHu4noC
+ DG6duf+SxeQbg==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 5A25EC53BCD; Mon, 23 Oct 2023 17:22:07 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 201957] amdgpu: ring gfx timeout
+Date: Mon, 23 Oct 2023 17:22:04 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: blocking
+X-Bugzilla-Who: mario.limonciello@amd.com
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: ANSWERED
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-201957-2300-lsvRVEOWpX@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-201957-2300@https.bugzilla.kernel.org/>
+References: <bug-201957-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="PbLYAkV5QGg0voCF"
-Content-Disposition: inline
-In-Reply-To: <20231023-display-support-v1-1-5c860ed5c33b@baylibre.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,72 +68,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Catalin Marinas <catalin.marinas@arm.com>,
- dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Will Deacon <will@kernel.org>, linux-pwm@vger.kernel.org,
- Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Jitao Shi <jitao.shi@mediatek.com>, Xinlei Lee <xinlei.lee@mediatek.com>,
- Rob Herring <robh+dt@kernel.org>, linux-mediatek@lists.infradead.org,
- Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+https://bugzilla.kernel.org/show_bug.cgi?id=3D201957
 
---PbLYAkV5QGg0voCF
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Mario Limonciello (AMD) (mario.limonciello@amd.com) changed:
 
-On Mon, Oct 23, 2023 at 04:40:01PM +0200, Alexandre Mergnat wrote:
-> Display Adaptive Ambient Light for MT8365 is compatible with another SoC.
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |mario.limonciello@amd.com
 
-> Then, add MT8365 binding along with MT8183 SoC.
+--- Comment #99 from Mario Limonciello (AMD) (mario.limonciello@amd.com) ---
+#98
 
-s/binding/compatible/, here and in the subject.
+The amdgpu.mcbp=3D0  will only help GFX9 products.  For GFX10 this is a dif=
+ferent
+problem, please open at AMD Gitlab.
 
-Cheers,
-Conor.
+--=20
+You may reply to this email to add a comment.
 
->=20
-> Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
-> ---
->  Documentation/devicetree/bindings/display/mediatek/mediatek,aal.yaml | 1=
- +
->  1 file changed, 1 insertion(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,=
-aal.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,aal.=
-yaml
-> index 7fd42c8fdc32..840b48a878ca 100644
-> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,aal.yaml
-> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,aal.yaml
-> @@ -35,6 +35,7 @@ properties:
->                - mediatek,mt8188-disp-aal
->                - mediatek,mt8192-disp-aal
->                - mediatek,mt8195-disp-aal
-> +              - mediatek,mt8365-disp-aal
->            - const: mediatek,mt8183-disp-aal
-> =20
->    reg:
->=20
-> --=20
-> 2.25.1
->=20
-
---PbLYAkV5QGg0voCF
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZTanfQAKCRB4tDGHoIJi
-0tPUAP9cTTvfIBq9I7y7WjmhtsRZbhjBWhdUzs8mmYekmW17xAEAnCJCpDVwVruG
-ZkQOxyU76MLSecahlFO14YNh1wBwEAk=
-=wX+W
------END PGP SIGNATURE-----
-
---PbLYAkV5QGg0voCF--
+You are receiving this mail because:
+You are watching the assignee of the bug.=
