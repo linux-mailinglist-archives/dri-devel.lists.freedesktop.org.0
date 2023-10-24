@@ -1,47 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB6597D578A
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Oct 2023 18:12:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 859197D5792
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Oct 2023 18:12:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C9E0710E411;
-	Tue, 24 Oct 2023 16:12:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D6FEA10E41C;
+	Tue, 24 Oct 2023 16:12:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C4FF210E40B;
- Tue, 24 Oct 2023 16:11:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7348210E40D;
+ Tue, 24 Oct 2023 16:12:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1698163918; x=1729699918;
+ t=1698163920; x=1729699920;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=0KdJE6jnsS4OpVM+7U2Xy+CfCREI9E0lPGtdoa6KUi4=;
- b=gg2dptsc5IToFSo2cOCr4nBUfE+jetB22UQCk+yE7FhK/C80fBYlWzjo
- G53NRpSg1udpMJjD2gYNluRNyLWM+zTGpHypqSWIxQwDPwNBf5DGJMPQ8
- sFTcUpQsCFiDKSn9XO6VDmaN4FNZVwDxB6cmvcOULHiQOa4iY0jL/P1no
- IVjqtBNhMQIxQYCYN875BJNCmX2chHgx8wXYsc5Vr6kmWI7RvKBB2/j/E
- KDlz5iYIkIP1oxfoq/JS1tkl4tWx4iRBwMP4XHaZHfMd5T4JXo47NwaXA
- 5cIqqvWrt739munFmZyJ5LNh0gEZUodm5mhWHwDtkBzr/KTOfeRimNUTv w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="451328117"
-X-IronPort-AV: E=Sophos;i="6.03,248,1694761200"; d="scan'208";a="451328117"
+ bh=grMzeSHRyi5Hbnx2+6Q3kkMweOiaep23+j//w7Ao1+s=;
+ b=g6zBbTMiaV27U4S6kWIC5HC+6VIreX6P4E/OM3KE9RSJ6wbGa3BnqzgJ
+ 2VA4X+QvTlHTzkMvx7f8SUi7pBR7SZKGXxLYu0TzC3cXGMb4m0s90cR1Q
+ oEoCvlffOFReQFQyvr/I5CF4QrpJzQVFFyD431O0SS3c7l2LvVhnHzBkc
+ eBMbosRJ37IWq8ufAFJmVDT8AllXIYDuG8LQtaP53HNcxetvPacOtoX6J
+ hgx+SBxF0uxKBby5Dbufl4qgkVQWACnC9FpPMK7FULXmxyMbaeNHGYFdk
+ JseAICbvw2kQj63CFAj3FdUjXkTQ6Se7/vaCny1wgYK4nZdrpFgHMzWwM g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="451328139"
+X-IronPort-AV: E=Sophos;i="6.03,248,1694761200"; d="scan'208";a="451328139"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Oct 2023 09:07:44 -0700
+ 24 Oct 2023 09:07:47 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="902237183"
-X-IronPort-AV: E=Sophos;i="6.03,248,1694761200"; d="scan'208";a="902237183"
+X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="902237205"
+X-IronPort-AV: E=Sophos;i="6.03,248,1694761200"; d="scan'208";a="902237205"
 Received: from aidenbar-mobl.ger.corp.intel.com (HELO localhost.localdomain)
  ([10.213.219.125])
  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Oct 2023 09:05:20 -0700
+ 24 Oct 2023 09:05:23 -0700
 From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
 To: Intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [RFC 2/8] drm/cgroup: Track DRM clients per cgroup
-Date: Tue, 24 Oct 2023 17:07:21 +0100
-Message-Id: <20231024160727.282960-3-tvrtko.ursulin@linux.intel.com>
+Subject: [RFC 3/8] drm/cgroup: Add ability to query drm cgroup GPU time
+Date: Tue, 24 Oct 2023 17:07:22 +0100
+Message-Id: <20231024160727.282960-4-tvrtko.ursulin@linux.intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231024160727.282960-1-tvrtko.ursulin@linux.intel.com>
 References: <20231024160727.282960-1-tvrtko.ursulin@linux.intel.com>
@@ -73,204 +73,99 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
-To enable propagation of settings from the cgroup DRM controller to DRM
-and vice-versa, we need to start tracking to which cgroups DRM clients
-belong.
+Add a driver callback and core helper which allow querying the time spent
+on GPUs for processes belonging to a group.
 
 Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 ---
- drivers/gpu/drm/drm_file.c |  6 ++++
- include/drm/drm_file.h     |  6 ++++
- include/linux/cgroup_drm.h | 20 ++++++++++++
- kernel/cgroup/drm.c        | 62 +++++++++++++++++++++++++++++++++++++-
- 4 files changed, 93 insertions(+), 1 deletion(-)
+ include/drm/drm_drv.h | 28 ++++++++++++++++++++++++++++
+ kernel/cgroup/drm.c   | 20 ++++++++++++++++++++
+ 2 files changed, 48 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
-index 446458aca8e9..200abf7e79ce 100644
---- a/drivers/gpu/drm/drm_file.c
-+++ b/drivers/gpu/drm/drm_file.c
-@@ -32,6 +32,7 @@
-  */
- 
- #include <linux/anon_inodes.h>
-+#include <linux/cgroup_drm.h>
- #include <linux/dma-fence.h>
- #include <linux/file.h>
- #include <linux/module.h>
-@@ -304,6 +305,8 @@ static void drm_close_helper(struct file *filp)
- 	list_del(&file_priv->lhead);
- 	mutex_unlock(&dev->filelist_mutex);
- 
-+	drmcgroup_client_close(file_priv);
-+
- 	drm_file_free(file_priv);
- }
- 
-@@ -367,6 +370,8 @@ int drm_open_helper(struct file *filp, struct drm_minor *minor)
- 	list_add(&priv->lhead, &dev->filelist);
- 	mutex_unlock(&dev->filelist_mutex);
- 
-+	drmcgroup_client_open(priv);
-+
- #ifdef CONFIG_DRM_LEGACY
- #ifdef __alpha__
- 	/*
-@@ -533,6 +538,7 @@ void drm_file_update_pid(struct drm_file *filp)
- 	mutex_unlock(&dev->filelist_mutex);
- 
- 	if (pid != old) {
-+		drmcgroup_client_migrate(filp);
- 		get_pid(pid);
- 		synchronize_rcu();
- 		put_pid(old);
-diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
-index e1b5b4282f75..ddf6f5450e1f 100644
---- a/include/drm/drm_file.h
-+++ b/include/drm/drm_file.h
-@@ -30,6 +30,7 @@
- #ifndef _DRM_FILE_H_
- #define _DRM_FILE_H_
- 
-+#include <linux/cgroup.h>
- #include <linux/types.h>
- #include <linux/completion.h>
- #include <linux/idr.h>
-@@ -281,6 +282,11 @@ struct drm_file {
- 	/** @minor: &struct drm_minor for this file. */
- 	struct drm_minor *minor;
- 
-+#if IS_ENABLED(CONFIG_CGROUP_DRM)
-+	struct cgroup_subsys_state *__css;
-+	struct list_head clink;
-+#endif
-+
- 	/**
- 	 * @object_idr:
- 	 *
-diff --git a/include/linux/cgroup_drm.h b/include/linux/cgroup_drm.h
-index 8ef66a47619f..176431842d8e 100644
---- a/include/linux/cgroup_drm.h
-+++ b/include/linux/cgroup_drm.h
-@@ -6,4 +6,24 @@
- #ifndef _CGROUP_DRM_H
- #define _CGROUP_DRM_H
- 
-+#include <drm/drm_file.h>
-+
-+#if IS_ENABLED(CONFIG_CGROUP_DRM)
-+void drmcgroup_client_open(struct drm_file *file_priv);
-+void drmcgroup_client_close(struct drm_file *file_priv);
-+void drmcgroup_client_migrate(struct drm_file *file_priv);
-+#else
-+static inline void drmcgroup_client_open(struct drm_file *file_priv)
-+{
-+}
-+
-+static inline void drmcgroup_client_close(struct drm_file *file_priv)
-+{
-+}
-+
-+static void drmcgroup_client_migrate(struct drm_file *file_priv)
-+{
-+}
-+#endif
-+
- #endif	/* _CGROUP_DRM_H */
-diff --git a/kernel/cgroup/drm.c b/kernel/cgroup/drm.c
-index 02c8eaa633d3..d702be1b441f 100644
---- a/kernel/cgroup/drm.c
-+++ b/kernel/cgroup/drm.c
-@@ -5,17 +5,25 @@
- 
- #include <linux/cgroup.h>
- #include <linux/cgroup_drm.h>
-+#include <linux/list.h>
-+#include <linux/mutex.h>
- #include <linux/slab.h>
- 
- struct drm_cgroup_state {
- 	struct cgroup_subsys_state css;
-+
-+	struct list_head clients;
+diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
+index e2640dc64e08..d1cee5899cde 100644
+--- a/include/drm/drm_drv.h
++++ b/include/drm/drm_drv.h
+@@ -157,6 +157,24 @@ enum drm_driver_feature {
+ 	DRIVER_HAVE_IRQ			= BIT(30),
  };
  
- struct drm_root_cgroup_state {
- 	struct drm_cgroup_state drmcs;
- };
- 
--static struct drm_root_cgroup_state root_drmcs;
-+static struct drm_root_cgroup_state root_drmcs = {
-+	.drmcs.clients = LIST_HEAD_INIT(root_drmcs.drmcs.clients),
++/**
++ * struct drm_cgroup_ops
++ *
++ * This structure contains a number of callbacks that drivers can provide if
++ * they are able to support one or more of the functionalities implemented by
++ * the DRM cgroup controller.
++ */
++struct drm_cgroup_ops {
++	/**
++	 * @active_time_us:
++	 *
++	 * Optional callback for reporting the GPU time consumed by this client.
++	 *
++	 * Used by the DRM core when queried by the DRM cgroup controller.
++	 */
++	u64 (*active_time_us) (struct drm_file *);
 +};
 +
-+static DEFINE_MUTEX(drmcg_mutex);
+ /**
+  * struct drm_driver - DRM driver structure
+  *
+@@ -434,6 +452,16 @@ struct drm_driver {
+ 	 */
+ 	const struct file_operations *fops;
  
- static inline struct drm_cgroup_state *
- css_to_drmcs(struct cgroup_subsys_state *css)
-@@ -42,11 +50,63 @@ drmcs_alloc(struct cgroup_subsys_state *parent_css)
- 		drmcs = kzalloc(sizeof(*drmcs), GFP_KERNEL);
- 		if (!drmcs)
- 			return ERR_PTR(-ENOMEM);
++#ifdef CONFIG_CGROUP_DRM
++	/**
++	 * @cg_ops:
++	 *
++	 * Optional pointer to driver callbacks facilitating integration with
++	 * the DRM cgroup controller.
++	 */
++	const struct drm_cgroup_ops *cg_ops;
++#endif
 +
-+		INIT_LIST_HEAD(&drmcs->clients);
- 	}
+ #ifdef CONFIG_DRM_LEGACY
+ 	/* Everything below here is for legacy driver, never use! */
+ 	/* private: */
+diff --git a/kernel/cgroup/drm.c b/kernel/cgroup/drm.c
+index d702be1b441f..acdb76635b60 100644
+--- a/kernel/cgroup/drm.c
++++ b/kernel/cgroup/drm.c
+@@ -9,6 +9,8 @@
+ #include <linux/mutex.h>
+ #include <linux/slab.h>
  
- 	return &drmcs->css;
++#include <drm/drm_drv.h>
++
+ struct drm_cgroup_state {
+ 	struct cgroup_subsys_state css;
+ 
+@@ -31,6 +33,24 @@ css_to_drmcs(struct cgroup_subsys_state *css)
+ 	return container_of(css, struct drm_cgroup_state, css);
  }
  
-+void drmcgroup_client_open(struct drm_file *file_priv)
++static u64 drmcs_get_active_time_us(struct drm_cgroup_state *drmcs)
 +{
-+	struct drm_cgroup_state *drmcs;
++	struct drm_file *fpriv;
++	u64 total = 0;
 +
-+	drmcs = css_to_drmcs(task_get_css(current, drm_cgrp_id));
++	lockdep_assert_held(&drmcg_mutex);
 +
-+	mutex_lock(&drmcg_mutex);
-+	file_priv->__css = &drmcs->css; /* Keeps the reference. */
-+	list_add_tail(&file_priv->clink, &drmcs->clients);
-+	mutex_unlock(&drmcg_mutex);
-+}
-+EXPORT_SYMBOL_GPL(drmcgroup_client_open);
++	list_for_each_entry(fpriv, &drmcs->clients, clink) {
++		const struct drm_cgroup_ops *cg_ops =
++			fpriv->minor->dev->driver->cg_ops;
 +
-+void drmcgroup_client_close(struct drm_file *file_priv)
-+{
-+	struct drm_cgroup_state *drmcs;
-+
-+	drmcs = css_to_drmcs(file_priv->__css);
-+
-+	mutex_lock(&drmcg_mutex);
-+	list_del(&file_priv->clink);
-+	file_priv->__css = NULL;
-+	mutex_unlock(&drmcg_mutex);
-+
-+	css_put(&drmcs->css);
-+}
-+EXPORT_SYMBOL_GPL(drmcgroup_client_close);
-+
-+void drmcgroup_client_migrate(struct drm_file *file_priv)
-+{
-+	struct drm_cgroup_state *src, *dst;
-+	struct cgroup_subsys_state *old;
-+
-+	mutex_lock(&drmcg_mutex);
-+
-+	old = file_priv->__css;
-+	src = css_to_drmcs(old);
-+	dst = css_to_drmcs(task_get_css(current, drm_cgrp_id));
-+
-+	if (src != dst) {
-+		file_priv->__css = &dst->css; /* Keeps the reference. */
-+		list_move_tail(&file_priv->clink, &dst->clients);
++		if (cg_ops && cg_ops->active_time_us)
++			total += cg_ops->active_time_us(fpriv);
 +	}
 +
-+	mutex_unlock(&drmcg_mutex);
-+
-+	css_put(old);
++	return total;
 +}
-+EXPORT_SYMBOL_GPL(drmcgroup_client_migrate);
 +
- struct cftype files[] = {
- 	{ } /* Zero entry terminates. */
- };
+ static void drmcs_free(struct cgroup_subsys_state *css)
+ {
+ 	struct drm_cgroup_state *drmcs = css_to_drmcs(css);
 -- 
 2.39.2
 
