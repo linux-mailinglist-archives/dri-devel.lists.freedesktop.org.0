@@ -2,66 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E54D77D5122
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Oct 2023 15:12:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEDD37D51F4
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Oct 2023 15:37:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4958310E3B6;
-	Tue, 24 Oct 2023 13:12:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D683610E3BF;
+	Tue, 24 Oct 2023 13:37:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com
- [IPv6:2a00:1450:4864:20::142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3FCDE10E3B6;
- Tue, 24 Oct 2023 13:12:43 +0000 (UTC)
-Received: by mail-lf1-x142.google.com with SMTP id
- 2adb3069b0e04-507b9408c61so6111493e87.0; 
- Tue, 24 Oct 2023 06:12:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1698153161; x=1698757961; darn=lists.freedesktop.org;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=TENfBjhU132BqHx7e5lh2Xj82u8/6PsMbhLSeVzUVmE=;
- b=V/tvOW9RK6WM+DD+xwDfDYNXEy6xP07EJ7NGzxWGQsrl3mg7K5fQrSzBg+dq7zUVzE
- flrmtVh5xCvAUlleZdzlhlclZyK/zMN32NRVQo9xw5BiVsYAvYK4B05YmGESTUzRp9M4
- beLWeEQREbAyJB3Y5T3xJRdJgpW0Z0yKHW25CjpFmmzwmHnVWv4jcJWKcS2usW2Dj7fk
- efhylfiB9e9grtV/hVqENZY3eHi/e5GS5ixSX4aetwh4sCxkAounrqm+c5Y4OLr6KVrL
- ZpVM+rgbfJQ5JQAJ6QHpxwU1+mB9NOmV6XF8whlA4m5NtZXwNUNb0BV4IkJfJ+Y5d2iJ
- rYRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1698153161; x=1698757961;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=TENfBjhU132BqHx7e5lh2Xj82u8/6PsMbhLSeVzUVmE=;
- b=fWg/t6ZJ2Lyjjg0gb6iBR6UNZNgbS+k4QCodykByKTShgwC/tVu5mhxRDaZi/M/9xc
- wX+HhaUDX6RVVMuLmg+yezT/C1kbRdZOjk3Zqy+r1ocu9uERDk3aU0QYFTKtvT7ogYj5
- PxcHtSCMXfAcH01PZnat0j89WQh8DZeZPCIjXccnT9lXamNk1d/DuQoi0TcdjbmJFD/B
- ACBIYBu7radypQ9QENhjKZfWPg99D+xyZg/y/y+y0Sgy0fEsRKcIvwRUrbBJpeZoZexh
- nUHQcPgsxN5EfijP0EYom5gM/nLt+bPeNOyF8/y7LS4Onu+j1Tz8uxyBjhHGZ1P99rmf
- AAvg==
-X-Gm-Message-State: AOJu0YxQAomgjRn2CD9bHNPjLPvfyKY7Gei36u8XQksgBJeNG4VvDzjc
- vCBX/sWEtIMUvYAZjF2hNPw=
-X-Google-Smtp-Source: AGHT+IF7eNZyraXuO05hd8ytRheYwAzq+Ufexzu1jhBvvkvtptakGZkXMw0wjg28+ew3AtHwCHepOQ==
-X-Received: by 2002:ac2:5594:0:b0:505:6eef:cf2d with SMTP id
- v20-20020ac25594000000b005056eefcf2dmr8118591lfg.17.1698153160957; 
- Tue, 24 Oct 2023 06:12:40 -0700 (PDT)
-Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- g3-20020a056512118300b005079dac9620sm2128423lfr.43.2023.10.24.06.12.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 Oct 2023 06:12:40 -0700 (PDT)
-Date: Tue, 24 Oct 2023 16:12:34 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Ville =?UTF-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E75B410E010;
+ Tue, 24 Oct 2023 13:37:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1698154669; x=1729690669;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=VJ94bv8/Jxv1ScWtIceUR8PmAGQcPkcmZNbpbHKZbBk=;
+ b=BmQXkxYUS8erTQkvbdvinn+zhRKgg0kmHQEqVD3cJwWISl68Gw7ebvZS
+ kgux9AgkwmACsOkPtyOujdOXmhPoN58J9p7BLAeDoPnrdyFZE+HKUXQQQ
+ VzKd92XxBJ1mJBiUtwNYrGyoBYC6kKhPQgvCLDUqeKWzA6MC7YbjIvuHz
+ VksbzHXSFHBt+w+CYuRwcMc9tDFvNzVp6wJR1hba9wWzZCNzF46HGvMs2
+ B2TRYZdINB4yG06jrz7HLm060QTS3WbIq0daqFm6qT88qRCyH+TspgH/k
+ WyVWAvTZJpKSFXghe8EE7yHWpIFSkjj6Sg9ccDImv9FNxM4Zwl9EjIc8L A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="385949789"
+X-IronPort-AV: E=Sophos;i="6.03,247,1694761200"; d="scan'208";a="385949789"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Oct 2023 06:37:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="875070414"
+X-IronPort-AV: E=Sophos;i="6.03,247,1694761200"; d="scan'208";a="875070414"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
+ by fmsmga002.fm.intel.com with SMTP; 24 Oct 2023 06:37:46 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Tue, 24 Oct 2023 16:37:45 +0300
+Date: Tue, 24 Oct 2023 16:37:45 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Pekka Paalanen <ppaalanen@gmail.com>
 Subject: Re: [PATCH] drm/doc: describe PATH format for DP MST
-Message-ID: <20231024161234.4b35230b@eldfell>
-In-Reply-To: <ZTfAn2al6lspfQCI@intel.com>
+Message-ID: <ZTfIqVPOtnSRleK_@intel.com>
 References: <20231023203629.198109-1-contact@emersion.fr>
  <20231024103604.6dd7f6d5@eldfell>
  <TJceGIK3ZUXu0BwrhZUQIJhVtnuTayrPRLcg_KGuxE91o9OPfqxduzZljtreq-z48_1FGMy1z6qppi9UleSqx_hIMJ4GK_CCGBPiyRKkCwM=@emersion.fr>
- <ZTfAn2al6lspfQCI@intel.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+ <ZTfAn2al6lspfQCI@intel.com> <20231024161234.4b35230b@eldfell>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/hUEM7WlJTsPO0tmER0QbpSP";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20231024161234.4b35230b@eldfell>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,69 +69,53 @@ Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/hUEM7WlJTsPO0tmER0QbpSP
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+On Tue, Oct 24, 2023 at 04:12:34PM +0300, Pekka Paalanen wrote:
+> On Tue, 24 Oct 2023 16:03:27 +0300
+> Ville Syrjälä <ville.syrjala@linux.intel.com> wrote:
+> 
+> > On Tue, Oct 24, 2023 at 09:03:22AM +0000, Simon Ser wrote:
+> > > On Tuesday, October 24th, 2023 at 09:36, Pekka Paalanen <ppaalanen@gmail.com> wrote:
+> > >   
+> > > > Are DP MST port numbers guaranteed to be tied to the physical hardware
+> > > > configuration (e.g. how cables are connected) and therefore stable
+> > > > across reboots? What about stable across kernel upgrades?
+> > > > 
+> > > > If I knew that, I could perhaps manufacture a stable identifier in
+> > > > userspace by replacing the parent connector ID with a stable connector
+> > > > designator.  
+> > > 
+> > > Hm, my assumption is that these are stable, but maybe that's also wrong?
+> > > Ville, Dmitry, do you know whether the DP MST port numbers are
+> > > guaranteed stable across reboots when retaining the exact same hardware
+> > > configuration (not the software, maybe the user upgraded the kernel)?  
+> > 
+> > I suspect in practice those should remain the same as long as the
+> > topology didn't change, but I don't think there's anything in the
+> > DP spec that actually guarantees that (eg. some branch device
+> > could in theory reshuffle its port numbers on a whim).
+> > 
+> > But there is no stable identifier for the corresponding SST
+> > connector anyway so I don't know what you would even do with
+> > stable port numbers.
+> 
+> You mean the index in the array of connectors exposed to userspace is
+> not stable either for the root DP connector?
 
-On Tue, 24 Oct 2023 16:03:27 +0300
-Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com> wrote:
+It just depends on the order the driver probes the outputs, which
+could change when the code changes (or perhaps even across reboots
+with the same kernel due to randomness in deferred probe?).
 
-> On Tue, Oct 24, 2023 at 09:03:22AM +0000, Simon Ser wrote:
-> > On Tuesday, October 24th, 2023 at 09:36, Pekka Paalanen <ppaalanen@gmai=
-l.com> wrote:
-> >  =20
-> > > Are DP MST port numbers guaranteed to be tied to the physical hardware
-> > > configuration (e.g. how cables are connected) and therefore stable
-> > > across reboots? What about stable across kernel upgrades?
-> > >=20
-> > > If I knew that, I could perhaps manufacture a stable identifier in
-> > > userspace by replacing the parent connector ID with a stable connector
-> > > designator. =20
-> >=20
-> > Hm, my assumption is that these are stable, but maybe that's also wrong?
-> > Ville, Dmitry, do you know whether the DP MST port numbers are
-> > guaranteed stable across reboots when retaining the exact same hardware
-> > configuration (not the software, maybe the user upgraded the kernel)? =
-=20
->=20
-> I suspect in practice those should remain the same as long as the
-> topology didn't change, but I don't think there's anything in the
-> DP spec that actually guarantees that (eg. some branch device
-> could in theory reshuffle its port numbers on a whim).
->=20
-> But there is no stable identifier for the corresponding SST
-> connector anyway so I don't know what you would even do with
-> stable port numbers.
+> 
+> KMS device bus path + connector array index for hardwired connectors is
+> what I've been imagining as stable enough for all end users.
 
-You mean the index in the array of connectors exposed to userspace is
-not stable either for the root DP connector?
+I once posted a patch to add a path property to all connector
+which could give you a more stable identifier. But IIRC the
+discussion didn't really end in any kind of useful conclusion.
 
-KMS device bus path + connector array index for hardwired connectors is
-what I've been imagining as stable enough for all end users.
+Seems to be this one:
+https://lore.kernel.org/all/20190613184335.7970-1-ville.syrjala@linux.intel.com/
 
-
-Thanks,
-pq
-
---Sig_/hUEM7WlJTsPO0tmER0QbpSP
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmU3wsMACgkQI1/ltBGq
-qqeItw//X0o2L3AkG30OLXGZQIL5RF6CsCzA8seny7CqXu2nMQtfWTbEtbbavz3l
-BpNmnSKOMjk8kn0T1EMFhdHuA2Sophrnj2/fU5Ysn1aTlIminBWhIj6YkkvoBklE
-4yvRj/yOsFft//zxGK7tnp7K8N4AnYu/RjwESReJ3MPx5r+21pL5RHcHiMp2BHII
-IwzncueXXqxTVXxD+GUTB72BPm9m2zc/Tk9+DxV2hr2EWiTZRuP9aEgE1TwBTxjM
-v9BLUsQld1Luc6w3xomeKCpkHdXHEcfg0XpG3D6TJAci7wtzkDtel3TMeKetG0yb
-na5RQFMDopzhtNnZy/XdpMLWuPWuoP6TH8OKfLYCIXX2pL7NE6Cq8hBo3WPUtUzp
-eq9v3EB/gzN5W0W5qWsCITWlnKuCjleeic3O42+J+zMceZYRy6qrYliVDKIEw9av
-RUV4oLHDdo1HusGKrckxiNUfcviAK3BS5p4lShWK8TZuWMe8Jx6LODEHDNxLKVo+
-VHZD/xecZIbjPgCKmVrMrHMWrQ0eFc92C9NJG0pxHyuA6NcnqFNLnmUzoMwIXuWf
-AC2MbCZRHDlzCvvu//gaflQwIocfapUiXWa+AJZ1PuHbxgzaFeB4GXVJhSas0Gds
-CvxLGo14KUnUOjWn5uyMixx6aNqV/7SNtLlVb9tR1G5BO+uMWMo=
-=MVDN
------END PGP SIGNATURE-----
-
---Sig_/hUEM7WlJTsPO0tmER0QbpSP--
+-- 
+Ville Syrjälä
+Intel
