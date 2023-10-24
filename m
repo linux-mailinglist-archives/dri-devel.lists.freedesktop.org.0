@@ -1,128 +1,170 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CA5C7D4606
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Oct 2023 05:34:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7430F7D4607
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Oct 2023 05:36:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 609C310E2D3;
-	Tue, 24 Oct 2023 03:34:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9588A10E2D1;
+	Tue, 24 Oct 2023 03:36:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com
- (mail-bn1nam02on2084.outbound.protection.outlook.com [40.107.212.84])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A8BF210E2D1;
- Tue, 24 Oct 2023 03:34:50 +0000 (UTC)
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 60FCD10E2D1
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Oct 2023 03:36:07 +0000 (UTC)
+X-UUID: 7362f2a2721e11ee8051498923ad61e6-20231024
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:MIME-Version:Content-Transfer-Encoding:Content-ID:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From;
+ bh=u3ADMStbTrqlt3Ud36J6BnFpUrAqCsWdN75jSOCRvBc=; 
+ b=aoE51NSjEN4pi78wFHZAqR5/UfWcAqdNl1iOinxsUPq4KqjxAqzQAh4gycxXbrxKec5Elt79VJYaXa0I61u/QQWjwdPa+G4ThXQszULUDgQF5mL+L9v3/p+Daavug6S0CcCnPWmfSm0cBt+pqtSNesY4AErfN5lmyoFZ/3A5IlM=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.32, REQID:cb280d2e-fcb2-4d4d-96bf-cca04048d62e, IP:0,
+ U
+ RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+ release,TS:0
+X-CID-META: VersionHash:5f78ec9, CLOUDID:55e83cd7-04a0-4e50-8742-3543eab8cb8e,
+ B
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,
+ DKR:0,DKP:0,BRR:0,BRE:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: 7362f2a2721e11ee8051498923ad61e6-20231024
+Received: from mtkmbs14n1.mediatek.inc [(172.21.101.75)] by
+ mailgw02.mediatek.com (envelope-from <ck.hu@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 91759415; Tue, 24 Oct 2023 11:36:00 +0800
+Received: from mtkmbs10n1.mediatek.inc (172.21.101.34) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Tue, 24 Oct 2023 11:35:58 +0800
+Received: from APC01-TYZ-obe.outbound.protection.outlook.com (172.21.101.237)
+ by mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP
+ Server id
+ 15.2.1118.26 via Frontend Transport; Tue, 24 Oct 2023 11:35:58 +0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JNTmJ3FCvPRTELntyauMK5WCqG3WRpvGztsJKlY8Kq78wW/42i7c3WSonx6j9oCA4sL3AFTf0m7dUxXNyT+2FiD99nbSWmAyPo/xRbBWX6VTe9LHyr4VTZy8Mne3sMFSblnM1l2ry6OHcBuuB3Bqu1bWFiwQdCDMpGjL8VGTNdZYrRsYoHCmYgNefmE2vxBgqv8LXq3Pw8R6Gi14fRHE7OJaMj0QEB+T2Q+5At6PZQPCME9+7dGLgQxlOGMllRx2ynBdg9L7fiofnHO2NW5p8/nFYzDQCng6/7c7FERf6IwwbbLxCIzS3pCKxmm/+lFil/2vxY6bonaJ8I1qepOX/g==
+ b=FyzlGSh6jyinG43/ivmmgGQgShBq9NwqynrvM5eBgZrbVBVXGtmNfOD7DvFZ2a1H65amFA5fxJ0GmGnxI+2bIyAdRrBJuiV3hgw6ajxSF8IJNajWCzA49XumgltQQsaoHp/183gRUd4RCeP6ZRutq3VfmV50OCq+o8oHrs0arQODcu2G/9rtLODqSQ1W7v4kJU/PngPWknTlWIHXqwe0UZfXVBOzEE/dOQfgXj/keIwCadufr4qNyxXl+dBys7yCAAUlKGk8oTwbkRSiAOBuHfqJBYppP5s2W7tkM263Xt/6dKvilCJVn2+GAdICXgkVAuzRNpe7zWyBsGmPz5u5Hg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=sp3+AmSxBDsfbMrsFeP7nuMIReqWVMMudQuzuhTTtIY=;
- b=MChnzX0mASxoiBWkqXBqFAXPinnfRrj5LvmaBDo+grfZS4pfRdSxdS7H9ShSna8BNUy4zhMApe4ut2pOwPWAO/geN/ZtpjgZxsnybFLHXfsdMetHbOQks+XZ7Xr6xQ8eG6h8OreDz06YKYTe4us9JieIQGVlfTaJBUxV9M3CBrtKV8Is9ZctJGquEisWHGe/7LE+gz89IL2CPMaqstWMKCEGprESikGIvC+IwL/1/DPwzoNC7MQIBIy1QAZR9oOCCAuvUfoXO5NmUlYu9agBuSoGCMgMquW9TNKZ1m9ffJiNB40RcTcTDyhcWwmN3fnkq8I20p8o+IItbP1nuewiqA==
+ bh=EnW+EhUE3UrHqSoDe6uyuxJ/3/ZMLvFw0wxh+6XL554=;
+ b=FJVrhPYiS+47XkJ4U+AtKUdALErW2f30SwvZblF6bKfiHLQpNMYe60vTmsBgPkekHMW7GCSD4691/a6Z+apEosXFfhUunFnr8TNzjqCGed7RQuuatZ7EPZWokjda3G6fLtRDfHEvxFLC5vN1jjpT0DSk0YNxzrsb2LXhp3HIatAO8b0NaVIw6IOmI6ZqaMbU5aLxEymgJ4vrmfjNkeHEST8R61JwEDf87rYKVRiDAz4ui0/B/CHdOfRglSvpxlj0Dj7VcKzqcGz/BlTefldsk3LhycEYIzNIodHpEpdJFmX14kGtANArSqA5k9/170JvXFwVQIdn6jlh/+wUqYyM1A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
+ dkim=pass header.d=mediatek.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sp3+AmSxBDsfbMrsFeP7nuMIReqWVMMudQuzuhTTtIY=;
- b=GLystzLJwDt3vPAK/Ch5SFeHLSuQGJUWUYKIBGUkjPJUYbK6+cEAgWIdoQxZrp6+WKGSLCgyZ0uBCoH51a0Y+EGiO707wRzl0F5srUsSKO22bskH+LQr2J9wAKUQVriGmbkojyTYow35xHlxSEkIUNp+c3g7stOkk/tAsb1am/M=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM6PR12MB3370.namprd12.prod.outlook.com (2603:10b6:5:38::25) by
- CH0PR12MB5385.namprd12.prod.outlook.com (2603:10b6:610:d4::14) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6907.33; Tue, 24 Oct 2023 03:34:47 +0000
-Received: from DM6PR12MB3370.namprd12.prod.outlook.com
- ([fe80::b80b:7138:6ceb:9aef]) by DM6PR12MB3370.namprd12.prod.outlook.com
- ([fe80::b80b:7138:6ceb:9aef%6]) with mapi id 15.20.6907.025; Tue, 24 Oct 2023
- 03:34:47 +0000
-Message-ID: <077e97e8-2d37-46c6-a770-c42912e13270@amd.com>
-Date: Mon, 23 Oct 2023 23:34:43 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:115.0) Gecko/20100101
- Thunderbird/115.3.3
-Subject: Re: [PATCH v6 3/7] drm/sched: Move schedule policy to scheduler
-Content-Language: en-CA, en-US
-To: Matthew Brost <matthew.brost@intel.com>, dri-devel@lists.freedesktop.org, 
- intel-xe@lists.freedesktop.org
-References: <20231017150958.838613-1-matthew.brost@intel.com>
- <20231017150958.838613-4-matthew.brost@intel.com>
-From: Luben Tuikov <luben.tuikov@amd.com>
-Autocrypt: addr=luben.tuikov@amd.com; keydata=
- xjMEY1i6jxYJKwYBBAHaRw8BAQdAhfD+Cc+P5t/fiF08Vw25EMLiwUuxULYRiDQAP6H50MTN
- I0x1YmVuIFR1aWtvdiA8bHViZW4udHVpa292QGFtZC5jb20+wpkEExYKAEEWIQQyyR05VSHw
- x45E/SoppxulNG8HhgUCY1i6jwIbAwUJCWYBgAULCQgHAgIiAgYVCgkICwIEFgIDAQIeBwIX
- gAAKCRAppxulNG8Hhk53AP4k4UY5xfcje0c5OF1k22pNv8tErxtVpgKKZgvfetA4xwD+OoAh
- vesLIYumBDxP0BoLiLN84udxdT15HwPFUGiDmwDOOARjWLqPEgorBgEEAZdVAQUBAQdAzSxY
- a2EtvvIwd09NckBLSTarSLNDkUthmqPnwolwiDYDAQgHwn4EGBYKACYWIQQyyR05VSHwx45E
- /SoppxulNG8HhgUCY1i6jwIbDAUJCWYBgAAKCRAppxulNG8HhnBLAP4yjSGpK6PE1mapKhrq
- 8bSl9reo+F6EqdhE8X2TTHPycAEAt8EkTEstSiaOpM66gneU7r+xxzOYULo1b1XjXayGvwM=
-In-Reply-To: <20231017150958.838613-4-matthew.brost@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YQBPR0101CA0299.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c01:6d::19) To DM6PR12MB3370.namprd12.prod.outlook.com
- (2603:10b6:5:38::25)
+ bh=EnW+EhUE3UrHqSoDe6uyuxJ/3/ZMLvFw0wxh+6XL554=;
+ b=LSlMH5Iq9+vWYakXGdWmlJmbiAtY1epWwSU4N6tMGHcEmZ9CdLkIMMtUo4a3HDt+/7nwgF5Iej3tnZvQkrV1WQlR+Z8oO33Ahz7hhPQ+KD7JrIwC84t7DpqJebuAHDQc2zyymTAWr2G21b4hvZoeBKPuvXfa2ZEzAJizap3wZ6o=
+Received: from TYZPR03MB6624.apcprd03.prod.outlook.com (2603:1096:400:1f4::13)
+ by TYZPR03MB6896.apcprd03.prod.outlook.com (2603:1096:400:289::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6907.33; Tue, 24 Oct
+ 2023 03:35:56 +0000
+Received: from TYZPR03MB6624.apcprd03.prod.outlook.com
+ ([fe80::fe5a:c0e7:4b72:64f3]) by TYZPR03MB6624.apcprd03.prod.outlook.com
+ ([fe80::fe5a:c0e7:4b72:64f3%4]) with mapi id 15.20.6907.025; Tue, 24 Oct 2023
+ 03:35:56 +0000
+From: =?utf-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>
+To: "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+ =?utf-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>,
+ "angelogioacchino.delregno@collabora.com"
+ <angelogioacchino.delregno@collabora.com>, "robh+dt@kernel.org"
+ <robh+dt@kernel.org>, "krzysztof.kozlowski+dt@linaro.org"
+ <krzysztof.kozlowski+dt@linaro.org>, "chunkuang.hu@kernel.org"
+ <chunkuang.hu@kernel.org>
+Subject: Re: [PATCH v2 04/11] drm/mediatek: Add secure identify flag and
+ funcution to mtk_drm_plane
+Thread-Topic: [PATCH v2 04/11] drm/mediatek: Add secure identify flag and
+ funcution to mtk_drm_plane
+Thread-Index: AQHaBWv/MmZJMlN5SkaqVnsiHA8dYrBYS4uA
+Date: Tue, 24 Oct 2023 03:35:56 +0000
+Message-ID: <b639b18e073e0eb38c439410c753f61486762a10.camel@mediatek.com>
+References: <20231023044549.21412-1-jason-jh.lin@mediatek.com>
+ <20231023044549.21412-5-jason-jh.lin@mediatek.com>
+In-Reply-To: <20231023044549.21412-5-jason-jh.lin@mediatek.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=mediatek.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYZPR03MB6624:EE_|TYZPR03MB6896:EE_
+x-ms-office365-filtering-correlation-id: c3b09231-f6a2-40a4-d2c6-08dbd4425527
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: S/5QIuUgVgK2cB2Ygk3yaUQRXj05Qdh4FqB9I7jz4WrpMou6qzU4z8Z/++Kmaw7FqkR/9Nw/UkTTdFzOMtsAA8u0w/CBuq3rVNnRDX4DUFWfqtunH/S3uuMn64nbn9TRsQ1mN7IbPBw9pV3lpG6iZ5HXAsacTfK7joDnS2dc7/MbYztaECuDrj06jxJQ751tfQ6NNVH6y+e8dSeimSlovv9ZdOb3f4Xdxc7Jm67ZlIU6ro4IkMPHvJ84jJhrq3QPJxKp2uhif8vPxGcBbMh/CyVmrSiVgyybOA3v1VZdLv+ZhxgiKAStMqCdkMjkE4jaY7ASXOUraagB0XqHXD3RI1/qy1uUTC5EXzdm/MzPIocT4rQUcKk5Ydh52whQiDrSnl4mFr15z/lRZCzW7nYu+xqcpVEiICZlR1qedkQc4Zj0gICxfQad1K13ODfteM/7cM9qIPUiWmCOV0OkDsCBnJvJCqUSqt+cdX8PsXEhKZCkrqE2d1ciRcUGSaCe01XjbTEEXHEMBsWa4qYgs1oT3KSxR7LgoMJAFuLHf4GSpBnQaEZ1B9bW6jZ/qJu6uo1BXllD3QQd2JufPbglyx5IMFlhZzK7MlnFtFqv71CU3xPx+vI2+Hhts7Ix0gmg1+kRuJFPjQALbjevFCc1ekFCD4Y8XztGq7yukcxfzExYQfU=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:TYZPR03MB6624.apcprd03.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(39860400002)(366004)(376002)(346002)(396003)(136003)(230922051799003)(64100799003)(451199024)(186009)(1800799009)(86362001)(2906002)(38100700002)(54906003)(122000001)(66476007)(76116006)(316002)(66946007)(66556008)(66446008)(71200400001)(110136005)(478600001)(2616005)(6506007)(6512007)(6486002)(64756008)(4326008)(41300700001)(36756003)(5660300002)(7416002)(8676002)(85182001)(8936002)(26005)(38070700009)(4001150100001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?SlRSaW9LVU5qQ1l0K09aakhFUHNvSkdKaE16OTBIdU5IN0NPMjF0WGdFZ21w?=
+ =?utf-8?B?NmV1dkpoeEJGS3c5cGF3N1picmk0azZwUk03bUo0OGQ3WGVjdHBXcmVMTmk0?=
+ =?utf-8?B?UmY1VmV3SmNqS2pWdXFqM1hsbGJ3Mnp2NEdlUjNrdlBxekZSV3BFUS8wTWlH?=
+ =?utf-8?B?YVI3QUFwTVBNdS9kU29nckx4aWpzTkk0YXZGblg2RXN5Q1hBL0x3TTJLMUlE?=
+ =?utf-8?B?NENlY3cyTXBDck16M2piL3RDa2JjVStFdmxuWTg3dk9TVSthdUxrL1V6NFB5?=
+ =?utf-8?B?TUw5blBjMHdyRnBCc29JVzFBMHIzNXFTL3UrMWlFVGtNR2NyZmwyVUJyenpI?=
+ =?utf-8?B?WEZvbnJPY3Rub0tXRGk0K1ZyUnBhTkpHZndLcjVUSXFTTHR6cENzT0IyODhV?=
+ =?utf-8?B?cUlUZEY3YURFL3VXOVRoaThabFFLU0JINFRmZjVGdWtSTU91RUdUSDBpNUM3?=
+ =?utf-8?B?S04vTkpvalpnUkVPWkQrS1czOVFSMjY5TUNoanRtK2NiNWxyTU1WSmgzNEpJ?=
+ =?utf-8?B?dTNKQXdwenlFN3BHQXdsekdqcnhRemN3ZjNZSm1JT2N5Z0ZyQ1dUMVVnbXUx?=
+ =?utf-8?B?K1pjZW9SNFU2S0M2aUhuVk5YZXArVk9ZMFZucGFhZVhpVnFhcGRVVkgwdktQ?=
+ =?utf-8?B?dnVoUnU0YjZlYTFtV0VscFN5dzhDU016ZHJCY1Jwb1ZvNkFCS3FFTGZORDhq?=
+ =?utf-8?B?bndFMWJsZlNCWmwranhRQmRSdFhnUExzOUFud05MbVJxMlZ4RUJvaXBxb0VQ?=
+ =?utf-8?B?Znc4T2hIdkhTZVpyU0tnbE5pSy9tZ0pJbEV0dW9QWGg0WnpoUW9QQ2RJQUU4?=
+ =?utf-8?B?YlY2cmh5bGo0c29QVFlRbU1HNGF0QW1wU3ZGS1VIcHUrTXh0eTM2aDNsbDAv?=
+ =?utf-8?B?c3hadG8ycnNRa2hsNExJNHoxWUxoOXc3b3VuR2hhM0RlZk9EUmMrb3NEbEpU?=
+ =?utf-8?B?RlNOY0tHQ1psUzhqUlhFR0crMWY2eXBSVnNpcis4NkRPSWFraUgxRUd0OVI1?=
+ =?utf-8?B?RVJTZGovQnRVSlNFd09kcUhaS1crRTB5OVhOcW1SRlJkS0lwTnovajRVb3lm?=
+ =?utf-8?B?SVZtaDRhK0tHejBpc1VadzBoNTdvaENqWDNvNS94MkJxc3pVK2xhVzZGYlNV?=
+ =?utf-8?B?WTNzb3VFdUt1MGlpQnFXNEtDOXhCTkVlcUh3cENqbW5TclBiQm1BdFVheFlr?=
+ =?utf-8?B?c1NXWTdFeEd0QkNzYVNJeGxVQldSdm9IWnduOURRRnVBVmVWK3VBc1hLZDdS?=
+ =?utf-8?B?MTdUdG0wNnpTQUpLMzREQ2J3T2RLK3hER3M4ZFE5UDJkS0lqU0RKd3hhSXBR?=
+ =?utf-8?B?STI4cTNMMTJXOVdyMnBPL2VPdnBSM0VPYjFtSW02VUhlT04wRHhrTjA0RVpm?=
+ =?utf-8?B?ZnQ3eWVwNjlzN0RiYkxmMVVvdUZnSzFTQXh6YUVrQ3N5Y1Q4TWtVNUhDUTA0?=
+ =?utf-8?B?dkJhc0hHaG1CbkJtcFkrSmNPY3UybHMydFVxSEdSUGhMRURIU3VMMUJYM1pC?=
+ =?utf-8?B?elh1eFZCbDVHWW1JS3RrdW1EWGRBWTk3aUp6VWJHMGpsN1Nibmc1RHZwTXpU?=
+ =?utf-8?B?dUlXWE1lRUJqT1cyYWhsTVRkYUhxeDlDTGo1V0RBbDRzZ3ZHd0UrRnFSNWxl?=
+ =?utf-8?B?VGNselBXQjlWYUxaMXVBOWFWRDVlZFdValNrQ0JmOWFUZDJvVzVxaTlqYitK?=
+ =?utf-8?B?dnJZcVFMQk1LS1FDTWsvaFBKZ0xacy9BOGZaZitCM2JxRExFeFlqR3pZRGx2?=
+ =?utf-8?B?c0NJWjNGMkNVbnpOMVhCdVZCZ2ZkbVBUVjE1RU9DWUxHd3VRbVdVbFIyalM4?=
+ =?utf-8?B?b2xncFUwMUwzSUYrT1FOUWZ3Rzh0Q1BUMXdMd2VTcU5vSTZMNlZ1WCsvU0lE?=
+ =?utf-8?B?MHJVeENZeU84WjlXeTlnNm5NY3BCMUNoc0tobjBFd0xHZkpKT0V2dXovS05L?=
+ =?utf-8?B?R0hBSG9zTnN5WEpGQUk5NVF4RHgzb2VhQVdtNHcvejhHTTZPSzdNSWZBY3Vy?=
+ =?utf-8?B?V0dBWG9wVFJFYUk5Qm1DR2JsTnAxL09lMXhyQVBpQnB3M0xQMnV3K2w3Yjl2?=
+ =?utf-8?B?NytmTnlrZVNxY2tWR0J0ZGxnV3MxaEhKUkQyUWJta2cxaURDU0FNdVY4Zmx0?=
+ =?utf-8?Q?dYzIWZH6aX1PM/0M+i0MFSSWz?=
+Content-ID: <244C8EC97953CF4E997C50816057FCA8@apcprd03.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR12MB3370:EE_|CH0PR12MB5385:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2c323148-16e0-41eb-f1e7-08dbd4422b95
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: XU9z5SAFUCSZM3tsCpcPuQExQYij6jM99dWfSznXpdMWHNTtKTJEKyUI/53RMpaPHPmudx2HmxuO7vcExzFc1y9HBdzeONf4YzuesBgu8w4uTSp9yk8kJDoiO1nVDrybI/4luj7PhlDby/rvPYX4p57PhqVjekoW64x+RJTkUwHLElGSCLNl7Oby9a1gLOEpTab6eMPcx03ARbOWB+BW2EBsUNt1ewtzGcnQSppkd3Q+pzQ7b4u2cyIWIEfI6hX6AaYwGpjeMRcCoA4dxaQ8FOl6TMO+EnZ3COIjsz9TgURtiRYWBU+9zxwqV/5mAl8a037wm0HAS5+04bY+h2rgR8OagYqMtL2sKDhpNPZiDeTX5Suzeu+r1OA+K3M2euHgY98cDR9g8FJyls6o+c/FQxhU4tuT6/BARLhX4oI9qCOrXN2RoQuCV66Zk4BpgNEvYrDQ+qe6B5IgdqK+jNpSHitj8SmEeiq9OQh8MtYb4k8ee8VcCfUn2Wd3m9cOrFtjMwI3pCpeOE9jW0JMYCn22OxXTsG8y5BosCTV+A0NvGekOdM1uFR2711Tth0q7FD8loRssHJr8+nmV/0yHS0CVGj6xRIqiWG2wyzm0dB1+2NNW2d5TnlFieFpavnZ2iWTf23Y65SP5owppYyNlE/OHWZJ+mpoOX011XkcR8eTv7iZoitIF6YVMP5MFOh7FNHP
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR12MB3370.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(376002)(346002)(396003)(366004)(39860400002)(136003)(230922051799003)(1800799009)(186009)(64100799003)(451199024)(5660300002)(4001150100001)(66946007)(7416002)(41300700001)(44832011)(30864003)(2906002)(316002)(4326008)(8676002)(66476007)(66556008)(53546011)(6486002)(478600001)(8936002)(31686004)(6506007)(6666004)(2616005)(26005)(6512007)(83380400001)(38100700002)(31696002)(86362001)(36756003)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eEZWcTdCV1VZd3dFU0l3OHdDNzREeWRLOXZkUGdRNk8xV3c3RitISFBQK1Nh?=
- =?utf-8?B?NDVucGY3dHN0N3pJaUZKcW5hMGZwdnd5Y01zUzdsOFFCU3B6ZFpDRllUWXdK?=
- =?utf-8?B?V3NER2dNcG8zcUJRckVEM1dqS1pLKytyMEVZeFhTU2ZVMStJTEZuQUIwYVZU?=
- =?utf-8?B?N0pOTktmLzNZeFdRRnF0VXE3d2dabG5xS1dRT2hha0VubFhMWWNwK29XYUxS?=
- =?utf-8?B?UUluaXNqcmVyMU5YT2hhOG12OEczSFRQOTJHcUlZeW8yNmxjZG5VNWFjUzZk?=
- =?utf-8?B?eCtxY1czak9FTjh2d0xiMkhGWEJKNDNpVnRvNWFFa05uOFQyb3BCa1dvWGJ2?=
- =?utf-8?B?cXZMeVJlQXkzcnc4L0VrWFJhbkZQQlhGa3UycVlCWk9UU3REMjg0NFpVeEtW?=
- =?utf-8?B?djVjUVJldDFsT3hNY1owRjczQ0FMNmhkY0Q4STkrSEpFejFEV2g4WG5KKzM5?=
- =?utf-8?B?eVgyTVI2NnhYUmk0L1pyRGRubnpPS0xsN0FYQ3RZaWJRWExROTVDdVVmM0JW?=
- =?utf-8?B?U0NPdzlLelFaTEZpYjhuRlZxOG1ISmV6OHpJMW1hZ29ubHZ3aGNlTTNmc3BB?=
- =?utf-8?B?NERDNGpKeDVvS3kxTDVTVVZhSmVMWDdUM3RTd1BNdUNyMlRSOGdicy9SQUc3?=
- =?utf-8?B?bkg2ZVpHU3hNRkV0YkhJQVVIaVd3ek1CcU8wdis1clpoeHVZaGMrZEZINzAv?=
- =?utf-8?B?UGJNZDRzY09uQzJPYXBBdDJNYkxFWGJPc2EvelgwdFNuZnZGTm91d3ZjZnM5?=
- =?utf-8?B?QkRwVURhSys4SjEyTGQ1UjBXcm5jVllYdmNJK08xdzFXejVycTFmc21aUlRw?=
- =?utf-8?B?bURraVZaSm04Z0ZEdFN3MCtJbzVscWJBYkYwRGtXV1IweDBoc0NJMEVBRVZI?=
- =?utf-8?B?ODE0a0R3T3pWQ041Zm1ZRk12MDlIUWw3OWZtZUFkMHRDZ3F5c0FFQ1FNTFpr?=
- =?utf-8?B?ZXJGNGtxNFBkcllqQTArUW9uaHA4VGM3UGE1ZkVPVldGK2VOaE44WjZPcW5J?=
- =?utf-8?B?bitLeUswWTd1SVNtbjBYc1JXbWc3Y1F0WEN1ZnVzS05TQ29KZWhJZmVRYzNH?=
- =?utf-8?B?NjVicVRybXJnWnBnaVRqak4va1p2MEsybFB0cU1STGRpVHJ0cUx3ZjZvKzRl?=
- =?utf-8?B?OGR6alk3SjlBdWhGdW5LMFV6eVZPTVpzeVRBRjhuRHRSMjNkck5QVEh0WXRC?=
- =?utf-8?B?ZTlQaUR6cGFsc0kxSUhQamFYUUwrcXVZeDFlK3dpOWh6dEFXRHFqRW1HSFVD?=
- =?utf-8?B?a0VWcmpnYUU2VjZHank1aTQ4UmhrV2Y0SEdFRnBjSTcvUXdXTmhUMGwrUytU?=
- =?utf-8?B?OVlWUnBEbUttQ1lQVkFQTnZVRzdRL1pRa216TmhzZVE4UmNhOHhLd3ZsTkFI?=
- =?utf-8?B?cWUyQjAvWVhwOEhNMDdJRGg1cy9CQ2xVUUtZUXd1eUtMekg3MytheGxWcXF0?=
- =?utf-8?B?SmRmNEtrOS9HcWVQajRrclpiMzBoaEo4T3h6dHRRNDNTRklDSUJxMlVzdlFD?=
- =?utf-8?B?NDh2VnBMdElCSkdJOU9ISHEzTHRsQlhZcmpRekxNZ2ROVUUxT3ZHRXU0bEJY?=
- =?utf-8?B?cVJVd2gxODFEQUNYSEFFV0RUN3Y3cHFSajJOMDl2dFZPb0QrRHYvYXB1SnhJ?=
- =?utf-8?B?V2VkZXo0OHA5WVVEUnFqZVNOemMxVXg1aUhkcnJrMlpXamhLb1BhYVJhK1JP?=
- =?utf-8?B?SzUrWktUdVlEZFNVM0MrYTZXemJwT1B4MG1VSEtkcWUwZk0rTVhpWWtsY3dr?=
- =?utf-8?B?QkFsalJiZUdTV1dDckZRa3o1UWs5YUF6bUQxNTRubGlwQml5b2ZUT1QyMlgy?=
- =?utf-8?B?RkJsNWR2Kzh3dFBmYXl4OUpoWWJqdFF5ZXI4dUpmRW1xbDRsM1Z3QzZMRVM2?=
- =?utf-8?B?R0YrVTA3VElBNDBpcVljUFBiYjdwU3ZzSzA2eHJWWW0reFNEWWY4amVuZzBF?=
- =?utf-8?B?Z2EyQXplTmRmQkZITU83cEFGdG43aVlsOTVqeTBhWUc2NG5aQk56SEhRaEFX?=
- =?utf-8?B?dUdwWSt6YzBzQkJLbWQzL250VXhOQkVsZXM0OVhENEtHWUs4bmRjK1NqNjB1?=
- =?utf-8?B?V3dBbkVNNzhvVEppZzJjc3cwSDREODM0V1Q0OE52QmlIdzVNaWJqL1dWSDlm?=
- =?utf-8?Q?6Uxger9w/EYIilvLGjg8JcIs3?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2c323148-16e0-41eb-f1e7-08dbd4422b95
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3370.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Oct 2023 03:34:46.8488 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 9wUiMSwcIJ1TTmASyUTrW/jkxFzv0xjGfsQTTegi939rMWTPijquWQgyZRSXixDA
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR12MB5385
+X-MS-Exchange-CrossTenant-AuthSource: TYZPR03MB6624.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c3b09231-f6a2-40a4-d2c6-08dbd4425527
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Oct 2023 03:35:56.4421 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 6jzG80+wWICepeBWnzCc0N++xnxkyMB1TLFkR9yflVfxkk5m44AiGwg9NNVspfGfzSUUeQIDgjqqLV2W5fzd6w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR03MB6896
+X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-AS-Result: No-10--12.922200-8.000000
+X-TMASE-MatchedRID: fgYTp5Xatxb4OiVTWoD8RCa1MaKuob8PC/ExpXrHizxcKZwALwMGs5ik
+ b8Hpudw4ubvf6ktW7XASqo3ZUfrHhxBAYzpZxAP8FYJUGv4DL3wcZR50t08gUZsoi2XrUn/J+ZL
+ 5o+vRV7yhMIDkR/KfwI2j49Ftap9EOwBXM346/+x50TuV+4cmQhK25QqUByXWA5vPgv0wct1h+e
+ RSpyJ6ykrW+ws5e7ll
+X-TM-AS-User-Approved-Sender: No
+X-TM-AS-User-Blocked-Sender: No
+X-TMASE-Result: 10--12.922200-8.000000
+X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-SNTS-SMTP: 53C5848A073CAC2E612D95BDEF1555E03909EE6814ADEF9AF82A37DB9E58EDDC2000:8
+Content-Type: multipart/alternative;
+ boundary="__=_Part_Boundary_008_1533837866.92688804"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -135,427 +177,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: robdclark@chromium.org, thomas.hellstrom@linux.intel.com,
- sarah.walker@imgtec.com, ketil.johnsen@arm.com, Liviu.Dudau@arm.com,
- mcanal@igalia.com, boris.brezillon@collabora.com, dakr@redhat.com,
- donald.robson@imgtec.com, lina@asahilina.net, christian.koenig@amd.com,
- faith.ekstrand@collabora.com
+Cc: "jkardatzke@google.com" <jkardatzke@google.com>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "conor+dt@kernel.org" <conor+dt@kernel.org>,
+ Project_Global_Chrome_Upstream_Group
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+ =?utf-8?B?U2luZ28gQ2hhbmcgKOW8teiIiOWciyk=?= <Singo.Chang@mediatek.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+ =?utf-8?B?SmFzb24tY2ggQ2hlbiAo6Zmz5bu66LGqKQ==?= <Jason-ch.Chen@mediatek.com>,
+ =?utf-8?B?TmFuY3kgTGluICjmnpfmrKPonqIp?= <Nancy.Lin@mediatek.com>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ =?utf-8?B?U2hhd24gU3VuZyAo5a6L5a2d6KyZKQ==?= <Shawn.Sung@mediatek.com>,
+ =?utf-8?B?Sm9obnNvbiBXYW5nICjnjovogZbpkasp?= <Johnson.Wang@mediatek.com>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2023-10-17 11:09, Matthew Brost wrote:
-> Rather than a global modparam for scheduling policy, move the scheduling
-> policy to scheduler so user can control each scheduler policy.
-> 
-> v2:
->   - s/DRM_SCHED_POLICY_MAX/DRM_SCHED_POLICY_COUNT (Luben)
->   - Only include policy in scheduler (Luben)
-> v3:
->   - use a ternary operator as opposed to an if-control (Luben)
->   - s/DRM_SCHED_POLICY_DEFAULT/DRM_SCHED_POLICY_UNSET/ (Luben)
->   - s/default_drm_sched_policy/drm_sched_policy_default/ (Luben)
->   - Update commit message (Boris)
->   - Fix v3d build (CI)
->   - s/bad_policies/drm_sched_policy_mismatch/ (Luben)
->   - Don't update modparam doc (Luben)
-> v4:
->   - Fix alignment in msm_ringbuffer_new (Luben / checkpatch)
-> 
-> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> Reviewed-by: Luben Tuikov <luben.tuikov@amd.com>
-> ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_device.c |  1 +
->  drivers/gpu/drm/etnaviv/etnaviv_sched.c    |  3 ++-
->  drivers/gpu/drm/lima/lima_sched.c          |  3 ++-
->  drivers/gpu/drm/msm/msm_ringbuffer.c       |  2 +-
->  drivers/gpu/drm/nouveau/nouveau_sched.c    |  3 ++-
->  drivers/gpu/drm/panfrost/panfrost_job.c    |  3 ++-
->  drivers/gpu/drm/scheduler/sched_entity.c   | 24 ++++++++++++++++++----
->  drivers/gpu/drm/scheduler/sched_main.c     | 19 ++++++++++++-----
->  drivers/gpu/drm/v3d/v3d_sched.c            | 15 +++++++++-----
->  include/drm/gpu_scheduler.h                | 20 ++++++++++++------
->  10 files changed, 68 insertions(+), 25 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> index b54c4d771104..e4e6f91450a4 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> @@ -2283,6 +2283,7 @@ static int amdgpu_device_init_schedulers(struct amdgpu_device *adev)
->  				   ring->num_hw_submission, 0,
->  				   timeout, adev->reset_domain->wq,
->  				   ring->sched_score, ring->name,
-> +				   DRM_SCHED_POLICY_UNSET,
->  				   adev->dev);
+--__=_Part_Boundary_008_1533837866.92688804
+Content-Type: text/html;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
 
-I think we should drop this patch.
+PHByZT4NCkhpLCYjMzI7SmFzb246DQoNCk9uJiMzMjtNb24sJiMzMjsyMDIzLTEwLTIzJiMzMjth
+dCYjMzI7MTI6NDUmIzMyOyswODAwLCYjMzI7SmFzb24tSkguTGluJiMzMjt3cm90ZToNCiZndDsm
+IzMyO0FkZCYjMzI7aXNfc2VjJiMzMjtmbGFnJiMzMjt0byYjMzI7aWRlbnRpZnkmIzMyO2N1cnJl
+bnQmIzMyO210a19kcm1fcGxhbmUmIzMyO2lzJiMzMjtzZWN1cmUuDQomZ3Q7JiMzMjtBZGQmIzMy
+O210a19wbGFuZV9pc19zZWNfZmIoKSYjMzI7dG8mIzMyO2NoZWNrJiMzMjtjdXJyZW50JiMzMjtk
+cm1fZnJhbWVidWZmZXImIzMyO2lzJiMzMjtzZWN1cmUuDQomZ3Q7JiMzMjsNCiZndDsmIzMyO1Np
+Z25lZC1vZmYtYnk6JiMzMjtKYXNvbi1KSC5MaW4mIzMyOyZsdDtqYXNvbi1qaC5saW5AbWVkaWF0
+ZWsuY29tJmd0Ow0KJmd0OyYjMzI7LS0tDQomZ3Q7JiMzMjsmIzMyO2RyaXZlcnMvZ3B1L2RybS9t
+ZWRpYXRlay9tdGtfZHJtX3BsYW5lLmgmIzMyO3wmIzMyOzImIzMyOysrDQomZ3Q7JiMzMjsmIzMy
+OzEmIzMyO2ZpbGUmIzMyO2NoYW5nZWQsJiMzMjsyJiMzMjtpbnNlcnRpb25zKCspDQomZ3Q7JiMz
+MjsNCiZndDsmIzMyO2RpZmYmIzMyOy0tZ2l0JiMzMjthL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRl
+ay9tdGtfZHJtX3BsYW5lLmgNCiZndDsmIzMyO2IvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210
+a19kcm1fcGxhbmUuaA0KJmd0OyYjMzI7aW5kZXgmIzMyOzk5YWZmN2RhMDgzMS4uZmU2MGUyMGE2
+ZTFjJiMzMjsxMDA2NDQNCiZndDsmIzMyOy0tLSYjMzI7YS9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0
+ZWsvbXRrX2RybV9wbGFuZS5oDQomZ3Q7JiMzMjsrKysmIzMyO2IvZHJpdmVycy9ncHUvZHJtL21l
+ZGlhdGVrL210a19kcm1fcGxhbmUuaA0KJmd0OyYjMzI7QEAmIzMyOy0zMyw2JiMzMjsrMzMsNyYj
+MzI7QEAmIzMyO3N0cnVjdCYjMzI7bXRrX3BsYW5lX3BlbmRpbmdfc3RhdGUmIzMyO3sNCiZndDsm
+IzMyOyYjMzI7Ym9vbGFzeW5jX2RpcnR5Ow0KJmd0OyYjMzI7JiMzMjtib29sYXN5bmNfY29uZmln
+Ow0KJmd0OyYjMzI7JiMzMjtlbnVtJiMzMjtkcm1fY29sb3JfZW5jb2Rpbmdjb2xvcl9lbmNvZGlu
+ZzsNCiZndDsmIzMyOytib29saXNfc2VjOw0KDQpXaGVyZSYjMzI7ZG8mIzMyO3lvdSYjMzI7c2V0
+JiMzMjt0aGlzJiMzMjtmbGFnJiM2MzsNCg0KUmVnYXJkcywNCkNLDQoNCiZndDsmIzMyOyYjMzI7
+fTsNCiZndDsmIzMyOyYjMzI7DQomZ3Q7JiMzMjsmIzMyO3N0cnVjdCYjMzI7bXRrX3BsYW5lX3N0
+YXRlJiMzMjt7DQomZ3Q7JiMzMjtAQCYjMzI7LTQ2LDYmIzMyOys0Nyw3JiMzMjtAQCYjMzI7dG9f
+bXRrX3BsYW5lX3N0YXRlKHN0cnVjdCYjMzI7ZHJtX3BsYW5lX3N0YXRlJiMzMjsqc3RhdGUpDQom
+Z3Q7JiMzMjsmIzMyO3JldHVybiYjMzI7Y29udGFpbmVyX29mKHN0YXRlLCYjMzI7c3RydWN0JiMz
+MjttdGtfcGxhbmVfc3RhdGUsJiMzMjtiYXNlKTsNCiZndDsmIzMyOyYjMzI7fQ0KJmd0OyYjMzI7
+JiMzMjsNCiZndDsmIzMyOytib29sJiMzMjttdGtfcGxhbmVfZmJfaXNfc2VjdXJlKHN0cnVjdCYj
+MzI7ZHJtX2ZyYW1lYnVmZmVyJiMzMjsqZmIpOw0KJmd0OyYjMzI7JiMzMjtpbnQmIzMyO210a19w
+bGFuZV9pbml0KHN0cnVjdCYjMzI7ZHJtX2RldmljZSYjMzI7KmRldiwmIzMyO3N0cnVjdCYjMzI7
+ZHJtX3BsYW5lJiMzMjsqcGxhbmUsDQomZ3Q7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyO3Vuc2ln
+bmVkJiMzMjtsb25nJiMzMjtwb3NzaWJsZV9jcnRjcywmIzMyO2VudW0mIzMyO2RybV9wbGFuZV90
+eXBlDQomZ3Q7JiMzMjt0eXBlLA0KJmd0OyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjt1bnNpZ25l
+ZCYjMzI7aW50JiMzMjtzdXBwb3J0ZWRfcm90YXRpb25zLCYjMzI7Y29uc3QmIzMyO3UzMg0KJmd0
+OyYjMzI7KmZvcm1hdHMsDQoNCjwvcHJlPjwhLS10eXBlOnRleHQtLT48IS0tey0tPjxwcmU+Kioq
+KioqKioqKioqKiBNRURJQVRFSyBDb25maWRlbnRpYWxpdHkgTm90aWNlICoqKioqKioqKioqKioq
+KioqKioqDQpUaGUgaW5mb3JtYXRpb24gY29udGFpbmVkIGluIHRoaXMgZS1tYWlsIG1lc3NhZ2Ug
+KGluY2x1ZGluZyBhbnkgDQphdHRhY2htZW50cykgbWF5IGJlIGNvbmZpZGVudGlhbCwgcHJvcHJp
+ZXRhcnksIHByaXZpbGVnZWQsIG9yIG90aGVyd2lzZQ0KZXhlbXB0IGZyb20gZGlzY2xvc3VyZSB1
+bmRlciBhcHBsaWNhYmxlIGxhd3MuIEl0IGlzIGludGVuZGVkIHRvIGJlIA0KY29udmV5ZWQgb25s
+eSB0byB0aGUgZGVzaWduYXRlZCByZWNpcGllbnQocykuIEFueSB1c2UsIGRpc3NlbWluYXRpb24s
+IA0KZGlzdHJpYnV0aW9uLCBwcmludGluZywgcmV0YWluaW5nIG9yIGNvcHlpbmcgb2YgdGhpcyBl
+LW1haWwgKGluY2x1ZGluZyBpdHMgDQphdHRhY2htZW50cykgYnkgdW5pbnRlbmRlZCByZWNpcGll
+bnQocykgaXMgc3RyaWN0bHkgcHJvaGliaXRlZCBhbmQgbWF5IA0KYmUgdW5sYXdmdWwuIElmIHlv
+dSBhcmUgbm90IGFuIGludGVuZGVkIHJlY2lwaWVudCBvZiB0aGlzIGUtbWFpbCwgb3IgYmVsaWV2
+ZSANCnRoYXQgeW91IGhhdmUgcmVjZWl2ZWQgdGhpcyBlLW1haWwgaW4gZXJyb3IsIHBsZWFzZSBu
+b3RpZnkgdGhlIHNlbmRlciANCmltbWVkaWF0ZWx5IChieSByZXBseWluZyB0byB0aGlzIGUtbWFp
+bCksIGRlbGV0ZSBhbnkgYW5kIGFsbCBjb3BpZXMgb2YgDQp0aGlzIGUtbWFpbCAoaW5jbHVkaW5n
+IGFueSBhdHRhY2htZW50cykgZnJvbSB5b3VyIHN5c3RlbSwgYW5kIGRvIG5vdA0KZGlzY2xvc2Ug
+dGhlIGNvbnRlbnQgb2YgdGhpcyBlLW1haWwgdG8gYW55IG90aGVyIHBlcnNvbi4gVGhhbmsgeW91
+IQ0KPC9wcmU+PCEtLX0tLT4=
 
-Drivers shouldn't be able to select their own policy, when there's a kernel parameter,
-which says what the scheduling policy should be. Imagine you're a user setting
-the policy at kernel command line, only to learn that some driver has decided
-to ignore (programmed, mind you) your choice and set whatever it decides. Plus,
-this opens the Pandora box for other drivers to do this, and it's not a good
-software engineering direction.
+--__=_Part_Boundary_008_1533837866.92688804
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
 
-For the 1-1-1 case in S-R-E (sched-rq-entity) which Xe is using, DRM scheduling policy is
-irrelevant. We can show this by showing that,
-  a) In the case of RR, we always sample the only entity there, namely the single
-     entity in the single run-queue.
-  b) In the case of FIFO, we always pick the only node in the RB tree, namely the single
-     entity in the single run-queue.
+SGksIEphc29uOg0KDQpPbiBNb24sIDIwMjMtMTAtMjMgYXQgMTI6NDUgKzA4MDAsIEphc29uLUpI
+LkxpbiB3cm90ZToNCj4gQWRkIGlzX3NlYyBmbGFnIHRvIGlkZW50aWZ5IGN1cnJlbnQgbXRrX2Ry
+bV9wbGFuZSBpcyBzZWN1cmUuDQo+IEFkZCBtdGtfcGxhbmVfaXNfc2VjX2ZiKCkgdG8gY2hlY2sg
+Y3VycmVudCBkcm1fZnJhbWVidWZmZXIgaXMgc2VjdXJlLg0KPiANCj4gU2lnbmVkLW9mZi1ieTog
+SmFzb24tSkguTGluIDxqYXNvbi1qaC5saW5AbWVkaWF0ZWsuY29tPg0KPiAtLS0NCj4gIGRyaXZl
+cnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX3BsYW5lLmggfCAyICsrDQo+ICAxIGZpbGUgY2hh
+bmdlZCwgMiBpbnNlcnRpb25zKCspDQo+IA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJt
+L21lZGlhdGVrL210a19kcm1fcGxhbmUuaA0KPiBiL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9t
+dGtfZHJtX3BsYW5lLmgNCj4gaW5kZXggOTlhZmY3ZGEwODMxLi5mZTYwZTIwYTZlMWMgMTAwNjQ0
+DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX3BsYW5lLmgNCj4gKysr
+IGIvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fcGxhbmUuaA0KPiBAQCAtMzMsNiAr
+MzMsNyBAQCBzdHJ1Y3QgbXRrX3BsYW5lX3BlbmRpbmdfc3RhdGUgew0KPiAgCWJvb2wJCQkJYXN5
+bmNfZGlydHk7DQo+ICAJYm9vbAkJCQlhc3luY19jb25maWc7DQo+ICAJZW51bSBkcm1fY29sb3Jf
+ZW5jb2RpbmcJCWNvbG9yX2VuY29kaW5nOw0KPiArCWJvb2wJCQkJaXNfc2VjOw0KDQpXaGVyZSBk
+byB5b3Ugc2V0IHRoaXMgZmxhZz8NCg0KUmVnYXJkcywNCkNLDQoNCj4gIH07DQo+ICANCj4gIHN0
+cnVjdCBtdGtfcGxhbmVfc3RhdGUgew0KPiBAQCAtNDYsNiArNDcsNyBAQCB0b19tdGtfcGxhbmVf
+c3RhdGUoc3RydWN0IGRybV9wbGFuZV9zdGF0ZSAqc3RhdGUpDQo+ICAJcmV0dXJuIGNvbnRhaW5l
+cl9vZihzdGF0ZSwgc3RydWN0IG10a19wbGFuZV9zdGF0ZSwgYmFzZSk7DQo+ICB9DQo+ICANCj4g
+K2Jvb2wgbXRrX3BsYW5lX2ZiX2lzX3NlY3VyZShzdHJ1Y3QgZHJtX2ZyYW1lYnVmZmVyICpmYik7
+DQo+ICBpbnQgbXRrX3BsYW5lX2luaXQoc3RydWN0IGRybV9kZXZpY2UgKmRldiwgc3RydWN0IGRy
+bV9wbGFuZSAqcGxhbmUsDQo+ICAJCSAgIHVuc2lnbmVkIGxvbmcgcG9zc2libGVfY3J0Y3MsIGVu
+dW0gZHJtX3BsYW5lX3R5cGUNCj4gdHlwZSwNCj4gIAkJICAgdW5zaWduZWQgaW50IHN1cHBvcnRl
+ZF9yb3RhdGlvbnMsIGNvbnN0IHUzMg0KPiAqZm9ybWF0cywNCg==
 
-So whether it is RR or FIFO, for the 1-1-1 case, it always works as expected, and
-the actual selection policy (scheduling policy) is irrelevant. This is a good design.
-
-However, what prevents the Xe driver from doing this cleanly, is this ghastly
-array of "priorities" in the scheduler struct,
-
-struct drm_gpu_scheduler {
-	...
-        struct drm_sched_rq             sched_rq[DRM_SCHED_PRIORITY_COUNT];
-	...
-
-which is very speculative and ambitious... Why should the scheduler have
-a set, constant, number of "priorities" and no more or less? Who said that
-those are _the_only_ options, and why? It makes for a very rigid design
-which doesn't yield well to novel and varied implementations, and that's
-not a sign of a good design.
-
-With the "[PATCH] drm/sched: Convert the GPU scheduler to variable number
-of run-queues" (https://lore.kernel.org/r/20231023032251.164775-1-luben.tuikov@amd.com)
-drivers can specify the number of run-queues in the S-R-E relationship.
-
-Note, that in the S-R-E relationship, the driver already controls
-the number of E's. With the patch above, drivers will also control the number of R's,
-and I think that will have much more flexible implications for drivers to play with
-rather than keeping the R constant.
-
-The idea is that the Xe driver would specify that they're using a scheduler
-with a single R, at drm_sched_init() and then attach a single E to that,
-leaving much of the rest of the code alone. This generalizes (leaves alone) the rest of
-the code, which is a good design.
-
-There's a bug in the amdgpu code which when using dynamic rq, it oopses, because
-it was using the scheduler without ever calling drm_sched_init()--the only reason
-amdgpu was getting away with it was because the array was statically defined. I've posted
-a patch for that. (https://lore.kernel.org/r/20231023032344.164925-1-luben.tuikov@amd.com)
-
-(There was also another bug where amdgpu did sched_rq[-2], and the fix is already in,
-fa8391ad68c167.)
-
-Regards,
-Luben
-
->  		if (r) {
->  			DRM_ERROR("Failed to create scheduler on ring %s.\n",
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.c b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-> index 618a804ddc34..15b0e2f1abe5 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-> @@ -137,7 +137,8 @@ int etnaviv_sched_init(struct etnaviv_gpu *gpu)
->  	ret = drm_sched_init(&gpu->sched, &etnaviv_sched_ops, NULL,
->  			     etnaviv_hw_jobs_limit, etnaviv_job_hang_limit,
->  			     msecs_to_jiffies(500), NULL, NULL,
-> -			     dev_name(gpu->dev), gpu->dev);
-> +			     dev_name(gpu->dev), DRM_SCHED_POLICY_UNSET,
-> +			     gpu->dev);
->  	if (ret)
->  		return ret;
->  
-> diff --git a/drivers/gpu/drm/lima/lima_sched.c b/drivers/gpu/drm/lima/lima_sched.c
-> index 8d858aed0e56..50c2075228aa 100644
-> --- a/drivers/gpu/drm/lima/lima_sched.c
-> +++ b/drivers/gpu/drm/lima/lima_sched.c
-> @@ -491,7 +491,8 @@ int lima_sched_pipe_init(struct lima_sched_pipe *pipe, const char *name)
->  	return drm_sched_init(&pipe->base, &lima_sched_ops, NULL, 1,
->  			      lima_job_hang_limit,
->  			      msecs_to_jiffies(timeout), NULL,
-> -			      NULL, name, pipe->ldev->dev);
-> +			      NULL, name, DRM_SCHED_POLICY_UNSET,
-> +			      pipe->ldev->dev);
->  }
->  
->  void lima_sched_pipe_fini(struct lima_sched_pipe *pipe)
-> diff --git a/drivers/gpu/drm/msm/msm_ringbuffer.c b/drivers/gpu/drm/msm/msm_ringbuffer.c
-> index 1097f8e93d6b..173ad2f17c50 100644
-> --- a/drivers/gpu/drm/msm/msm_ringbuffer.c
-> +++ b/drivers/gpu/drm/msm/msm_ringbuffer.c
-> @@ -97,7 +97,7 @@ struct msm_ringbuffer *msm_ringbuffer_new(struct msm_gpu *gpu, int id,
->  	ret = drm_sched_init(&ring->sched, &msm_sched_ops, NULL,
->  			     num_hw_submissions, 0, sched_timeout,
->  			     NULL, NULL, to_msm_bo(ring->bo)->name,
-> -			     gpu->dev->dev);
-> +			     DRM_SCHED_POLICY_UNSET, gpu->dev->dev);
->  	if (ret) {
->  		goto fail;
->  	}
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_sched.c b/drivers/gpu/drm/nouveau/nouveau_sched.c
-> index 4c959dec42b3..c4e09d2e77f9 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_sched.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_sched.c
-> @@ -437,7 +437,8 @@ int nouveau_sched_init(struct nouveau_drm *drm)
->  
->  	return drm_sched_init(sched, &nouveau_sched_ops, NULL,
->  			      NOUVEAU_SCHED_HW_SUBMISSIONS, 0, job_hang_limit,
-> -			      NULL, NULL, "nouveau_sched", drm->dev->dev);
-> +			      NULL, NULL, "nouveau_sched",
-> +			      DRM_SCHED_POLICY_UNSET, drm->dev->dev);
->  }
->  
->  void nouveau_sched_fini(struct nouveau_drm *drm)
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
-> index 934b7b930c76..95330ff402ba 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
-> @@ -856,7 +856,8 @@ int panfrost_job_init(struct panfrost_device *pfdev)
->  				     nentries, 0,
->  				     msecs_to_jiffies(JOB_TIMEOUT_MS),
->  				     pfdev->reset.wq,
-> -				     NULL, "pan_js", pfdev->dev);
-> +				     NULL, "pan_js", DRM_SCHED_POLICY_UNSET,
-> +				     pfdev->dev);
->  		if (ret) {
->  			dev_err(pfdev->dev, "Failed to create scheduler: %d.", ret);
->  			goto err_sched;
-> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
-> index a42763e1429d..cf42e2265d64 100644
-> --- a/drivers/gpu/drm/scheduler/sched_entity.c
-> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
-> @@ -33,6 +33,20 @@
->  #define to_drm_sched_job(sched_job)		\
->  		container_of((sched_job), struct drm_sched_job, queue_node)
->  
-> +static bool drm_sched_policy_mismatch(struct drm_gpu_scheduler **sched_list,
-> +				      unsigned int num_sched_list)
-> +{
-> +	enum drm_sched_policy sched_policy = sched_list[0]->sched_policy;
-> +	unsigned int i;
-> +
-> +	/* All schedule policies must match */
-> +	for (i = 1; i < num_sched_list; ++i)
-> +		if (sched_policy != sched_list[i]->sched_policy)
-> +			return true;
-> +
-> +	return false;
-> +}
-> +
->  /**
->   * drm_sched_entity_init - Init a context entity used by scheduler when
->   * submit to HW ring.
-> @@ -62,7 +76,8 @@ int drm_sched_entity_init(struct drm_sched_entity *entity,
->  			  unsigned int num_sched_list,
->  			  atomic_t *guilty)
->  {
-> -	if (!(entity && sched_list && (num_sched_list == 0 || sched_list[0])))
-> +	if (!(entity && sched_list && (num_sched_list == 0 || sched_list[0])) ||
-> +	    drm_sched_policy_mismatch(sched_list, num_sched_list))
->  		return -EINVAL;
->  
->  	memset(entity, 0, sizeof(struct drm_sched_entity));
-> @@ -486,7 +501,7 @@ struct drm_sched_job *drm_sched_entity_pop_job(struct drm_sched_entity *entity)
->  	 * Update the entity's location in the min heap according to
->  	 * the timestamp of the next job, if any.
->  	 */
-> -	if (drm_sched_policy == DRM_SCHED_POLICY_FIFO) {
-> +	if (entity->rq->sched->sched_policy == DRM_SCHED_POLICY_FIFO) {
->  		struct drm_sched_job *next;
->  
->  		next = to_drm_sched_job(spsc_queue_peek(&entity->job_queue));
-> @@ -558,7 +573,8 @@ void drm_sched_entity_select_rq(struct drm_sched_entity *entity)
->  void drm_sched_entity_push_job(struct drm_sched_job *sched_job)
->  {
->  	struct drm_sched_entity *entity = sched_job->entity;
-> -	bool first;
-> +	bool first, fifo = entity->rq->sched->sched_policy ==
-> +		DRM_SCHED_POLICY_FIFO;
->  	ktime_t submit_ts;
->  
->  	trace_drm_sched_job(sched_job, entity);
-> @@ -587,7 +603,7 @@ void drm_sched_entity_push_job(struct drm_sched_job *sched_job)
->  		drm_sched_rq_add_entity(entity->rq, entity);
->  		spin_unlock(&entity->rq_lock);
->  
-> -		if (drm_sched_policy == DRM_SCHED_POLICY_FIFO)
-> +		if (fifo)
->  			drm_sched_rq_update_fifo(entity, submit_ts);
->  
->  		drm_sched_wakeup_if_can_queue(entity->rq->sched);
-> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-> index 8b1d52cff1e9..150e5330f0fa 100644
-> --- a/drivers/gpu/drm/scheduler/sched_main.c
-> +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> @@ -66,14 +66,14 @@
->  #define to_drm_sched_job(sched_job)		\
->  		container_of((sched_job), struct drm_sched_job, queue_node)
->  
-> -int drm_sched_policy = DRM_SCHED_POLICY_FIFO;
-> +int drm_sched_policy_default = DRM_SCHED_POLICY_FIFO;
->  
->  /**
->   * DOC: sched_policy (int)
->   * Used to override default entities scheduling policy in a run queue.
->   */
->  MODULE_PARM_DESC(sched_policy, "Specify the scheduling policy for entities on a run-queue, " __stringify(DRM_SCHED_POLICY_RR) " = Round Robin, " __stringify(DRM_SCHED_POLICY_FIFO) " = FIFO (default).");
-> -module_param_named(sched_policy, drm_sched_policy, int, 0444);
-> +module_param_named(sched_policy, drm_sched_policy_default, int, 0444);
->  
->  static __always_inline bool drm_sched_entity_compare_before(struct rb_node *a,
->  							    const struct rb_node *b)
-> @@ -177,7 +177,7 @@ void drm_sched_rq_remove_entity(struct drm_sched_rq *rq,
->  	if (rq->current_entity == entity)
->  		rq->current_entity = NULL;
->  
-> -	if (drm_sched_policy == DRM_SCHED_POLICY_FIFO)
-> +	if (rq->sched->sched_policy == DRM_SCHED_POLICY_FIFO)
->  		drm_sched_rq_remove_fifo_locked(entity);
->  
->  	spin_unlock(&rq->lock);
-> @@ -898,7 +898,7 @@ drm_sched_select_entity(struct drm_gpu_scheduler *sched)
->  
->  	/* Kernel run queue has higher priority than normal run queue*/
->  	for (i = DRM_SCHED_PRIORITY_COUNT - 1; i >= DRM_SCHED_PRIORITY_MIN; i--) {
-> -		entity = drm_sched_policy == DRM_SCHED_POLICY_FIFO ?
-> +		entity = sched->sched_policy == DRM_SCHED_POLICY_FIFO ?
->  			drm_sched_rq_select_entity_fifo(&sched->sched_rq[i]) :
->  			drm_sched_rq_select_entity_rr(&sched->sched_rq[i]);
->  		if (entity)
-> @@ -1072,6 +1072,7 @@ static void drm_sched_main(struct work_struct *w)
->   *		used
->   * @score: optional score atomic shared with other schedulers
->   * @name: name used for debugging
-> + * @sched_policy: schedule policy
->   * @dev: target &struct device
->   *
->   * Return 0 on success, otherwise error code.
-> @@ -1081,9 +1082,15 @@ int drm_sched_init(struct drm_gpu_scheduler *sched,
->  		   struct workqueue_struct *submit_wq,
->  		   unsigned hw_submission, unsigned hang_limit,
->  		   long timeout, struct workqueue_struct *timeout_wq,
-> -		   atomic_t *score, const char *name, struct device *dev)
-> +		   atomic_t *score, const char *name,
-> +		   enum drm_sched_policy sched_policy,
-> +		   struct device *dev)
->  {
->  	int i;
-> +
-> +	if (sched_policy >= DRM_SCHED_POLICY_COUNT)
-> +		return -EINVAL;
-> +
->  	sched->ops = ops;
->  	sched->hw_submission_limit = hw_submission;
->  	sched->name = name;
-> @@ -1102,6 +1109,8 @@ int drm_sched_init(struct drm_gpu_scheduler *sched,
->  	sched->hang_limit = hang_limit;
->  	sched->score = score ? score : &sched->_score;
->  	sched->dev = dev;
-> +	sched->sched_policy = sched_policy == DRM_SCHED_POLICY_UNSET ?
-> +		drm_sched_policy_default : sched_policy;
->  	for (i = DRM_SCHED_PRIORITY_MIN; i < DRM_SCHED_PRIORITY_COUNT; i++)
->  		drm_sched_rq_init(sched, &sched->sched_rq[i]);
->  
-> diff --git a/drivers/gpu/drm/v3d/v3d_sched.c b/drivers/gpu/drm/v3d/v3d_sched.c
-> index 38e092ea41e6..dec89c5b8cb1 100644
-> --- a/drivers/gpu/drm/v3d/v3d_sched.c
-> +++ b/drivers/gpu/drm/v3d/v3d_sched.c
-> @@ -391,7 +391,8 @@ v3d_sched_init(struct v3d_dev *v3d)
->  			     &v3d_bin_sched_ops, NULL,
->  			     hw_jobs_limit, job_hang_limit,
->  			     msecs_to_jiffies(hang_limit_ms), NULL,
-> -			     NULL, "v3d_bin", v3d->drm.dev);
-> +			     NULL, "v3d_bin", DRM_SCHED_POLICY_UNSET,
-> +			     v3d->drm.dev);
->  	if (ret)
->  		return ret;
->  
-> @@ -399,7 +400,8 @@ v3d_sched_init(struct v3d_dev *v3d)
->  			     &v3d_render_sched_ops, NULL,
->  			     hw_jobs_limit, job_hang_limit,
->  			     msecs_to_jiffies(hang_limit_ms), NULL,
-> -			     NULL, "v3d_render", v3d->drm.dev);
-> +			     NULL, "v3d_render", DRM_SCHED_POLICY_UNSET,
-> +			     v3d->drm.dev);
->  	if (ret)
->  		goto fail;
->  
-> @@ -407,7 +409,8 @@ v3d_sched_init(struct v3d_dev *v3d)
->  			     &v3d_tfu_sched_ops, NULL,
->  			     hw_jobs_limit, job_hang_limit,
->  			     msecs_to_jiffies(hang_limit_ms), NULL,
-> -			     NULL, "v3d_tfu", v3d->drm.dev);
-> +			     NULL, "v3d_tfu", DRM_SCHED_POLICY_UNSET,
-> +			     v3d->drm.dev);
->  	if (ret)
->  		goto fail;
->  
-> @@ -416,7 +419,8 @@ v3d_sched_init(struct v3d_dev *v3d)
->  				     &v3d_csd_sched_ops, NULL,
->  				     hw_jobs_limit, job_hang_limit,
->  				     msecs_to_jiffies(hang_limit_ms), NULL,
-> -				     NULL, "v3d_csd", v3d->drm.dev);
-> +				     NULL, "v3d_csd", DRM_SCHED_POLICY_UNSET,
-> +				     v3d->drm.dev);
->  		if (ret)
->  			goto fail;
->  
-> @@ -424,7 +428,8 @@ v3d_sched_init(struct v3d_dev *v3d)
->  				     &v3d_cache_clean_sched_ops, NULL,
->  				     hw_jobs_limit, job_hang_limit,
->  				     msecs_to_jiffies(hang_limit_ms), NULL,
-> -				     NULL, "v3d_cache_clean", v3d->drm.dev);
-> +				     NULL, "v3d_cache_clean",
-> +				     DRM_SCHED_POLICY_UNSET, v3d->drm.dev);
->  		if (ret)
->  			goto fail;
->  	}
-> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-> index 211bd3cdabdc..320f0a720486 100644
-> --- a/include/drm/gpu_scheduler.h
-> +++ b/include/drm/gpu_scheduler.h
-> @@ -72,11 +72,15 @@ enum drm_sched_priority {
->  	DRM_SCHED_PRIORITY_UNSET = -2
->  };
->  
-> -/* Used to chose between FIFO and RR jobs scheduling */
-> -extern int drm_sched_policy;
-> -
-> -#define DRM_SCHED_POLICY_RR    0
-> -#define DRM_SCHED_POLICY_FIFO  1
-> +/* Used to chose default scheduling policy*/
-> +extern int default_drm_sched_policy;
-> +
-> +enum drm_sched_policy {
-> +	DRM_SCHED_POLICY_UNSET,
-> +	DRM_SCHED_POLICY_RR,
-> +	DRM_SCHED_POLICY_FIFO,
-> +	DRM_SCHED_POLICY_COUNT,
-> +};
->  
->  /**
->   * struct drm_sched_entity - A wrapper around a job queue (typically
-> @@ -489,6 +493,7 @@ struct drm_sched_backend_ops {
->   *              guilty and it will no longer be considered for scheduling.
->   * @score: score to help loadbalancer pick a idle sched
->   * @_score: score used when the driver doesn't provide one
-> + * @sched_policy: Schedule policy for scheduler
->   * @ready: marks if the underlying HW is ready to work
->   * @free_guilty: A hit to time out handler to free the guilty job.
->   * @pause_submit: pause queuing of @work_submit on @submit_wq
-> @@ -515,6 +520,7 @@ struct drm_gpu_scheduler {
->  	int				hang_limit;
->  	atomic_t                        *score;
->  	atomic_t                        _score;
-> +	enum drm_sched_policy		sched_policy;
->  	bool				ready;
->  	bool				free_guilty;
->  	bool				pause_submit;
-> @@ -527,7 +533,9 @@ int drm_sched_init(struct drm_gpu_scheduler *sched,
->  		   struct workqueue_struct *submit_wq,
->  		   uint32_t hw_submission, unsigned hang_limit,
->  		   long timeout, struct workqueue_struct *timeout_wq,
-> -		   atomic_t *score, const char *name, struct device *dev);
-> +		   atomic_t *score, const char *name,
-> +		   enum drm_sched_policy sched_policy,
-> +		   struct device *dev);
->  
->  void drm_sched_fini(struct drm_gpu_scheduler *sched);
->  int drm_sched_job_init(struct drm_sched_job *job,
+--__=_Part_Boundary_008_1533837866.92688804--
 
