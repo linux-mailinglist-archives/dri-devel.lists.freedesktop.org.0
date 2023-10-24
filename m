@@ -1,39 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E8CC7D5B27
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Oct 2023 21:10:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id ACDE27D5B2B
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Oct 2023 21:10:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2CAD410E47B;
-	Tue, 24 Oct 2023 19:10:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0551E10E47C;
+	Tue, 24 Oct 2023 19:10:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B551510E482
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Oct 2023 19:10:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F02010E47C
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Oct 2023 19:10:25 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by disroot.org (Postfix) with ESMTP id 5B32E408F8;
- Tue, 24 Oct 2023 21:10:18 +0200 (CEST)
+ by disroot.org (Postfix) with ESMTP id 5F879408F8;
+ Tue, 24 Oct 2023 21:10:24 +0200 (CEST)
 X-Virus-Scanned: SPAM Filter at disroot.org
 Received: from layka.disroot.org ([127.0.0.1])
  by localhost (disroot.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 4frr9Gg0Sn6U; Tue, 24 Oct 2023 21:10:17 +0200 (CEST)
+ with ESMTP id cdazFlb28SyP; Tue, 24 Oct 2023 21:10:23 +0200 (CEST)
 From: Carlos Eduardo Gallo Filho <gcarlos@disroot.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
- t=1698174617; bh=DiKl2koVnBGX21+lmWWRQuD/jkk8B2lf0cH1gy4HOp4=;
+ t=1698174623; bh=qNJH4yQCHq9jqsFNiYXxGgJSx73+TQ4kyjBByujZh2I=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References;
- b=BcYmTDSHRwuT7i0oke0GdbnHuyaHsPD6fuHJ2iq6zvYjItePZwDv3v+bgbS8R9Rcs
- 2fzgHzAbYcA3OjsOblNVhtX3REThDlNth+vMOeywMTqOKQIQGpJEEa5PhGrWFTgrk3
- jFHblFDrkGNqVR894IAvsVHzorZW8uJ6p+3kMcHTRPcMNIxUcisFO9I57cVllpc5M4
- p1PRJqmUMy33y3cvOBcBPf1bisU1nVdYUosvIL5PNbMzP2eYlNF1zq0rfVd0bZ2//o
- HP3uNKnK3Dm79CQ+BIKPs3dVSvU3GxcFXqn5UWTHZ1hD+oEuEphX2oyhfBHySuAw9/
- 9rb/SrsQe8sMA==
+ b=a0UfHn+602CTuno6osT2Rw40I4K3k2jRjqQOvpYutuPfDpty8EAtIFAZN5oO7lLzS
+ NbUXyFwS2V3MnpgU7H8YenFEPrUTgnN8YOuIowpiBr+1xBsnXYEOiYRsZKaqK8d9oY
+ 3y8Vwv+QihEMbuo5od48a7MZmgEjslmDNTuELi+bu+gr30BUF9622xx6q2g8JQgkBg
+ s70ElTnUWnL3+cnDpl9YemSYgmalkKE2vloF9vhHuRn3tCL02i5t8VaJknEI5Tjxr+
+ v+qyTtxQ5ZfheWNonA16ViC/wtzmSLfUwjODhQTA5kbfUqsF89mb53hgIR6qx+wsPw
+ jiGT/LN5Wu3Gw==
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 01/11] drm/tests: Stop using deprecated dev_private member
- on drm_framebuffer tests
-Date: Tue, 24 Oct 2023 16:09:52 -0300
-Message-ID: <20231024191002.1620-2-gcarlos@disroot.org>
+Subject: [PATCH v2 02/11] drm/tests: Add parameters to the
+ drm_test_framebuffer_create test
+Date: Tue, 24 Oct 2023 16:09:53 -0300
+Message-ID: <20231024191002.1620-3-gcarlos@disroot.org>
 In-Reply-To: <20231024191002.1620-1-gcarlos@disroot.org>
 References: <20231024191002.1620-1-gcarlos@disroot.org>
 MIME-Version: 1.0
@@ -60,106 +60,69 @@ Cc: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The dev_private member of drm_device is deprecated and its use should
-be avoided. Stop using it by embedding the drm_device onto a mock struct
-with a void pointer like dev_private, using it instead.
+Extend the existing test case to cover:
+1. Invalid flag atribute in the struct drm_mode_fb_cmd2.
+2. Pixel format which requires non-linear modifier with
+DRM_FORMAT_MOD_LINEAR set.
+3. Non-zero buffer offset for an unused plane
 
-Also start using drm_kunit_helper_alloc_drm_device() for allocating
-the drm_device mock.
+Also replace strcpy to strscpy on test_to_desc for improved security
+and reliability.
 
 Signed-off-by: Carlos Eduardo Gallo Filho <gcarlos@disroot.org>
 ---
 v2:
-  - Start using drm_kunit_helper_alloc_drm_device() for drm_device mock.
-  - Rename struct drm_mock to drm_framebuffer_test_priv
+  - Remove strcpy to strscpy change.
 ---
- drivers/gpu/drm/tests/drm_framebuffer_test.c | 42 ++++++++++++++------
- 1 file changed, 29 insertions(+), 13 deletions(-)
+ drivers/gpu/drm/tests/drm_framebuffer_test.c | 21 ++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
 
 diff --git a/drivers/gpu/drm/tests/drm_framebuffer_test.c b/drivers/gpu/drm/tests/drm_framebuffer_test.c
-index f759d9f3b76e..9c6170edd5f7 100644
+index 9c6170edd5f7..659cbd5a3be3 100644
 --- a/drivers/gpu/drm/tests/drm_framebuffer_test.c
 +++ b/drivers/gpu/drm/tests/drm_framebuffer_test.c
-@@ -8,8 +8,10 @@
- #include <kunit/test.h>
+@@ -21,6 +21,8 @@
+ #define MIN_HEIGHT 4
+ #define MAX_HEIGHT 4096
  
- #include <drm/drm_device.h>
-+#include <drm/drm_drv.h>
- #include <drm/drm_mode.h>
- #include <drm/drm_fourcc.h>
-+#include <drm/drm_kunit_helpers.h>
- #include <drm/drm_print.h>
- 
- #include "../drm_crtc_internal.h"
-@@ -317,11 +319,17 @@ static const struct drm_framebuffer_test drm_framebuffer_create_cases[] = {
++#define DRM_MODE_FB_INVALID BIT(2)
++
+ struct drm_framebuffer_test {
+ 	int buffer_created;
+ 	struct drm_mode_fb_cmd2 cmd;
+@@ -85,6 +87,18 @@ static const struct drm_framebuffer_test drm_framebuffer_create_cases[] = {
+ 		 .pitches = { 4 * MAX_WIDTH, 0, 0 },
+ 	}
  },
- };
- 
-+struct drm_framebuffer_test_priv {
-+	struct drm_device dev;
-+	void *private;
-+};
-+
- static struct drm_framebuffer *fb_create_mock(struct drm_device *dev,
- 					      struct drm_file *file_priv,
- 					      const struct drm_mode_fb_cmd2 *mode_cmd)
- {
--	int *buffer_created = dev->dev_private;
-+	struct drm_framebuffer_test_priv *priv = container_of(dev, typeof(*priv), dev);
-+	int *buffer_created = priv->private;
- 	*buffer_created = 1;
- 	return ERR_PTR(-EINVAL);
- }
-@@ -332,29 +340,37 @@ static struct drm_mode_config_funcs mock_config_funcs = {
- 
- static int drm_framebuffer_test_init(struct kunit *test)
- {
--	struct drm_device *mock;
-+	struct device *parent;
-+	struct drm_framebuffer_test_priv *priv;
-+	struct drm_device *dev;
-+
-+	parent = drm_kunit_helper_alloc_device(test);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, parent);
- 
--	mock = kunit_kzalloc(test, sizeof(*mock), GFP_KERNEL);
--	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, mock);
-+	priv = drm_kunit_helper_alloc_drm_device(test, parent, typeof(*priv),
-+						 dev, 0);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, priv);
-+	dev = &priv->dev;
- 
--	mock->mode_config.min_width = MIN_WIDTH;
--	mock->mode_config.max_width = MAX_WIDTH;
--	mock->mode_config.min_height = MIN_HEIGHT;
--	mock->mode_config.max_height = MAX_HEIGHT;
--	mock->mode_config.funcs = &mock_config_funcs;
-+	dev->mode_config.min_width = MIN_WIDTH;
-+	dev->mode_config.max_width = MAX_WIDTH;
-+	dev->mode_config.min_height = MIN_HEIGHT;
-+	dev->mode_config.max_height = MAX_HEIGHT;
-+	dev->mode_config.funcs = &mock_config_funcs;
- 
--	test->priv = mock;
-+	test->priv = priv;
- 	return 0;
- }
- 
- static void drm_test_framebuffer_create(struct kunit *test)
- {
- 	const struct drm_framebuffer_test *params = test->param_value;
--	struct drm_device *mock = test->priv;
-+	struct drm_framebuffer_test_priv *priv = test->priv;
-+	struct drm_device *dev = &priv->dev;
- 	int buffer_created = 0;
- 
--	mock->dev_private = &buffer_created;
--	drm_internal_framebuffer_create(mock, &params->cmd, NULL);
-+	priv->private = &buffer_created;
-+	drm_internal_framebuffer_create(dev, &params->cmd, NULL);
- 	KUNIT_EXPECT_EQ(test, params->buffer_created, buffer_created);
- }
- 
++{ .buffer_created = 0, .name = "ABGR8888 Non-zero buffer offset for unused plane",
++	.cmd = { .width = MAX_WIDTH, .height = MAX_HEIGHT, .pixel_format = DRM_FORMAT_ABGR8888,
++		 .handles = { 1, 0, 0 }, .offsets = { UINT_MAX / 2, UINT_MAX / 2, 0 },
++		 .pitches = { 4 * MAX_WIDTH, 0, 0 }, .flags = DRM_MODE_FB_MODIFIERS,
++	}
++},
++{ .buffer_created = 0, .name = "ABGR8888 Invalid flag",
++	.cmd = { .width = MAX_WIDTH, .height = MAX_HEIGHT, .pixel_format = DRM_FORMAT_ABGR8888,
++		 .handles = { 1, 0, 0 }, .offsets = { UINT_MAX / 2, 0, 0 },
++		 .pitches = { 4 * MAX_WIDTH, 0, 0 }, .flags = DRM_MODE_FB_INVALID,
++	}
++},
+ { .buffer_created = 1, .name = "ABGR8888 Set DRM_MODE_FB_MODIFIERS without modifiers",
+ 	.cmd = { .width = MAX_WIDTH, .height = MAX_HEIGHT, .pixel_format = DRM_FORMAT_ABGR8888,
+ 		 .handles = { 1, 0, 0 }, .offsets = { UINT_MAX / 2, 0, 0 },
+@@ -264,6 +278,13 @@ static const struct drm_framebuffer_test drm_framebuffer_create_cases[] = {
+ 		 .pitches = { MAX_WIDTH, DIV_ROUND_UP(MAX_WIDTH, 2), DIV_ROUND_UP(MAX_WIDTH, 2) },
+ 	}
+ },
++{ .buffer_created = 0, .name = "YUV420_10BIT Invalid modifier(DRM_FORMAT_MOD_LINEAR)",
++	.cmd = { .width = MAX_WIDTH, .height = MAX_HEIGHT, .pixel_format = DRM_FORMAT_YUV420_10BIT,
++		 .handles = { 1, 0, 0 }, .flags = DRM_MODE_FB_MODIFIERS,
++		 .modifier = { DRM_FORMAT_MOD_LINEAR, 0, 0 },
++		 .pitches = { MAX_WIDTH, 0, 0 },
++	}
++},
+ { .buffer_created = 1, .name = "X0L2 Normal sizes",
+ 	.cmd = { .width = 600, .height = 600, .pixel_format = DRM_FORMAT_X0L2,
+ 		 .handles = { 1, 0, 0 }, .pitches = { 1200, 0, 0 }
 -- 
 2.41.0
 
