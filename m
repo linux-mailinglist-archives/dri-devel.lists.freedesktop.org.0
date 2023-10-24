@@ -1,47 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 640607D57A4
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Oct 2023 18:12:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 378387D57A9
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Oct 2023 18:12:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4648C10E41B;
-	Tue, 24 Oct 2023 16:12:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E3E3910E41D;
+	Tue, 24 Oct 2023 16:12:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 65AEB10E40A;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 10C8E10E422;
  Tue, 24 Oct 2023 16:12:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1698163923; x=1729699923;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=tgFcvi2Tct9E2KJkfB8D7R9vGcjYXRM0ioLSPTlwTCY=;
- b=K5Lg23xt4B3cLw+XCzbEq3CUBUdGdB144zOU/+Q7Kzj2TjTwM5N9Hook
- nPoKLwdhHQks5MX5CoshWBZ+PyRTJPdOhRwjyKzDCofJeLMV/G7z58viQ
- fRwQ4MR9oTatJ5CTFtGNzhfPIsbxuGWB3rRobmLuBkMpyMMpWmu/0UsjV
- h1bUewr1CH3dg51o1oyAdWZYxYj5Ko+4nqNFynsncaUaivDkMoSuRiiJe
- JE30Bt51bQjQCwIFUMKahOZ3gqzvr9LxAacXv9GTPrWvfnxLFK0PWm0hO
- H+zbVKK8/ZK6Ju/CPzNAg861y5nqYoCcudx9Vpbz+SlFQ7nLMP8PZDQa3 Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="451328180"
-X-IronPort-AV: E=Sophos;i="6.03,248,1694761200"; d="scan'208";a="451328180"
+ bh=iL/Kggt96aZN7qZXaFHGGnuXzbL3GYSs3ahmgxkULj8=;
+ b=E4pBBbhq6WDSi9aGdQYqqobaWm+S/x4/Pr9pJz24Xu3QA/lR3V+GXp6g
+ oma7HTbc/NKz8AjKwsCagtjZnmy+Z8WDjW+7M3o7sHb8qJV/NGOv68/d+
+ tfZ1Sc8tpoyg7GwWPge4Pfiyje1FvUWV3YHH5swe/R/U8kJ6dn22Ua5Gb
+ 5BwX+zAXJ5g1ANVgpC3EeoY9XpkSkmX6YVl0aPPChBNyqKQQSvmiwwDVG
+ 5EfwtZrOb5X1KOM9caDJICeaq+htLXTQkCtOKPP0JhHhOaNktxeBxKd2j
+ QNqCqKEwLksy9DncupUhW4hy/IbhG2Q0Z/vqUGY8bcPVbHuL+elETgxaa g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="451328194"
+X-IronPort-AV: E=Sophos;i="6.03,248,1694761200"; d="scan'208";a="451328194"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Oct 2023 09:07:58 -0700
+ 24 Oct 2023 09:08:02 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="902237294"
-X-IronPort-AV: E=Sophos;i="6.03,248,1694761200"; d="scan'208";a="902237294"
+X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="902237322"
+X-IronPort-AV: E=Sophos;i="6.03,248,1694761200"; d="scan'208";a="902237322"
 Received: from aidenbar-mobl.ger.corp.intel.com (HELO localhost.localdomain)
  ([10.213.219.125])
  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Oct 2023 09:05:34 -0700
+ 24 Oct 2023 09:05:38 -0700
 From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
 To: Intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [RFC 6/8] cgroup/drm: Introduce weight based drm cgroup control
-Date: Tue, 24 Oct 2023 17:07:25 +0100
-Message-Id: <20231024160727.282960-7-tvrtko.ursulin@linux.intel.com>
+Subject: [RFC 7/8] drm/i915: Implement cgroup controller over budget throttling
+Date: Tue, 24 Oct 2023 17:07:26 +0100
+Message-Id: <20231024160727.282960-8-tvrtko.ursulin@linux.intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231024160727.282960-1-tvrtko.ursulin@linux.intel.com>
 References: <20231024160727.282960-1-tvrtko.ursulin@linux.intel.com>
@@ -66,7 +66,6 @@ Cc: Rob Clark <robdclark@chromium.org>, Brian Welty <brian.welty@intel.com>,
  linux-kernel@vger.kernel.org,
  =?UTF-8?q?St=C3=A9phane=20Marchesin?= <marcheu@chromium.org>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- =?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
  Zefan Li <lizefan.x@bytedance.com>, Dave Airlie <airlied@redhat.com>,
  Tejun Heo <tj@kernel.org>, cgroups@vger.kernel.org,
  "T . J . Mercier" <tjmercier@google.com>
@@ -75,582 +74,376 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
-Similar to CPU scheduling, implement a concept of weight in the drm cgroup
-controller.
+When notified by the drm core we are over our allotted time budget, i915
+instance will check if any of the GPU engines it is reponsible for is
+fully saturated. If it is, and the client in question is using that
+engine, it will throttle it.
 
-Uses the same range and default as the CPU controller - CGROUP_WEIGHT_MIN,
-CGROUP_WEIGHT_DFL and CGROUP_WEIGHT_MAX.
-
-Later each cgroup is assigned a time budget proportionaly based on the
-relative weights of it's siblings. This time budget is in turn split by
-the group's children and so on.
-
-This will be used to implement a soft, or best effort signal from drm
-cgroup to drm core notifying about groups which are over their allotted
-budget.
-
-No guarantees that the limit can be enforced are provided or implied.
-
-Checking of GPU usage is done periodically by the controller which can be
-configured via drmcg_period_ms kernel boot parameter and which defaults
-to 2s.
+For now throttling is done simplistically by lowering the scheduling
+priority while clients are throttled.
 
 Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Cc: Michal Koutný <mkoutny@suse.com>
-Cc: Tejun Heo <tj@kernel.org>
 ---
- Documentation/admin-guide/cgroup-v2.rst |  31 ++
- kernel/cgroup/drm.c                     | 422 +++++++++++++++++++++++-
- 2 files changed, 450 insertions(+), 3 deletions(-)
+ .../gpu/drm/i915/gem/i915_gem_execbuffer.c    |  38 +++-
+ drivers/gpu/drm/i915/i915_driver.c            |  11 +
+ drivers/gpu/drm/i915/i915_drm_client.c        | 203 +++++++++++++++++-
+ drivers/gpu/drm/i915/i915_drm_client.h        |  11 +
+ 4 files changed, 253 insertions(+), 10 deletions(-)
 
-diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-index b26b5274eaaf..841533527b7b 100644
---- a/Documentation/admin-guide/cgroup-v2.rst
-+++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -2418,6 +2418,37 @@ HugeTLB Interface Files
-         hugetlb pages of <hugepagesize> in this cgroup.  Only active in
-         use hugetlb pages are included.  The per-node values are in bytes.
- 
-+DRM
-+---
-+
-+The DRM controller allows configuring weight based time control.
-+
-+DRM weight based time control
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+The controller configures the GPU time allowed per group and periodically scans
-+the belonging tasks to detect the over budget condition, at which point it
-+invokes a callback notifying the DRM core of the condition.
-+
-+Because of the heterogenous hardware and driver DRM capabilities, time control
-+is implemented as a loose co-operative (bi-directional) interface between the
-+controller and DRM core.
-+
-+DRM core provides an API to query per process GPU utilization and 2nd API to
-+receive notification from the cgroup controller when the group enters or exits
-+the over budget condition.
-+
-+Individual DRM drivers which implement the interface are expected to act on this
-+in a best-effort manner. There are no guarantees that the time budget will be
-+respected.
-+
-+DRM weight based time control interface files
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+  drm.weight
-+	Standard cgroup weight based control [1, 10000] used to configure the
-+	relative distributing of GPU time between the sibling groups.
-+
- Misc
- ----
- 
-diff --git a/kernel/cgroup/drm.c b/kernel/cgroup/drm.c
-index 60e1f3861576..1d1570bf3e90 100644
---- a/kernel/cgroup/drm.c
-+++ b/kernel/cgroup/drm.c
-@@ -6,7 +6,9 @@
- #include <linux/cgroup.h>
- #include <linux/cgroup_drm.h>
- #include <linux/list.h>
-+#include <linux/moduleparam.h>
- #include <linux/mutex.h>
-+#include <linux/signal.h>
- #include <linux/slab.h>
- 
- #include <drm/drm_drv.h>
-@@ -15,10 +17,28 @@ struct drm_cgroup_state {
- 	struct cgroup_subsys_state css;
- 
- 	struct list_head clients;
-+
-+	unsigned int weight;
-+
-+	unsigned int sum_children_weights;
-+
-+	bool over;
-+	bool over_budget;
-+
-+	u64 per_s_budget_us;
-+	u64 prev_active_us;
-+	u64 active_us;
- };
- 
- struct drm_root_cgroup_state {
- 	struct drm_cgroup_state drmcs;
-+
-+	unsigned int period_us;
-+
-+	unsigned int last_scan_duration_us;
-+	ktime_t prev_timestamp;
-+
-+	struct delayed_work scan_work;
- };
- 
- static struct drm_root_cgroup_state root_drmcs = {
-@@ -27,6 +47,9 @@ static struct drm_root_cgroup_state root_drmcs = {
- 
- static DEFINE_MUTEX(drmcg_mutex);
- 
-+static int drmcg_period_ms = 2000;
-+module_param(drmcg_period_ms, int, 0644);
-+
- static inline struct drm_cgroup_state *
- css_to_drmcs(struct cgroup_subsys_state *css)
- {
-@@ -67,12 +90,272 @@ drmcs_signal_budget(struct drm_cgroup_state *drmcs, u64 usage, u64 budget)
- 	}
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+index 683fd8d3151c..f87935a030a1 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+@@ -3086,6 +3086,42 @@ static void retire_requests(struct intel_timeline *tl, struct i915_request *end)
+ 			break;
  }
  
-+static u64
-+drmcs_read_weight(struct cgroup_subsys_state *css, struct cftype *cft)
++#ifdef CONFIG_CGROUP_DRM
++static unsigned int
++__get_class(struct drm_i915_file_private *fpriv, const struct i915_request *rq)
 +{
-+	struct drm_cgroup_state *drmcs = css_to_drmcs(css);
++	unsigned int class;
 +
-+	return drmcs->weight;
++	class = rq->context->engine->uabi_class;
++
++	if (WARN_ON_ONCE(class >= ARRAY_SIZE(fpriv->client->throttle)))
++		class = 0;
++
++	return class;
 +}
 +
-+static int
-+drmcs_write_weight(struct cgroup_subsys_state *css, struct cftype *cftype,
-+		   u64 weight)
++static void copy_priority(struct i915_sched_attr *attr,
++			  const struct i915_execbuffer *eb,
++			  const struct i915_request *rq)
 +{
-+	struct drm_cgroup_state *drmcs = css_to_drmcs(css);
-+	int ret;
++	struct drm_i915_file_private *file_priv = eb->file->driver_priv;
++	int prio;
 +
-+	if (weight < CGROUP_WEIGHT_MIN || weight > CGROUP_WEIGHT_MAX)
-+		return -ERANGE;
++	*attr = eb->gem_context->sched;
 +
-+	ret = mutex_lock_interruptible(&drmcg_mutex);
-+	if (ret)
-+		return ret;
-+	drmcs->weight = weight;
-+	mutex_unlock(&drmcg_mutex);
-+
-+	return 0;
++	prio = file_priv->client->throttle[__get_class(file_priv, rq)];
++	if (prio)
++		attr->priority = prio;
 +}
-+
-+static bool __start_scanning(unsigned int period_us)
++#else
++static void copy_priority(struct i915_sched_attr *attr,
++			  const struct i915_execbuffer *eb,
++			  const struct i915_request *rq)
 +{
-+	struct drm_cgroup_state *root = &root_drmcs.drmcs;
-+	struct cgroup_subsys_state *node;
-+	ktime_t start, now;
-+	bool ok = false;
++	*attr = eb->gem_context->sched;
++}
++#endif
 +
-+	lockdep_assert_held(&drmcg_mutex);
+ static int eb_request_add(struct i915_execbuffer *eb, struct i915_request *rq,
+ 			  int err, bool last_parallel)
+ {
+@@ -3102,7 +3138,7 @@ static int eb_request_add(struct i915_execbuffer *eb, struct i915_request *rq,
+ 
+ 	/* Check that the context wasn't destroyed before submission */
+ 	if (likely(!intel_context_is_closed(eb->context))) {
+-		attr = eb->gem_context->sched;
++		copy_priority(&attr, eb, rq);
+ 	} else {
+ 		/* Serialise with context_close via the add_to_timeline */
+ 		i915_request_set_error_once(rq, -ENOENT);
+diff --git a/drivers/gpu/drm/i915/i915_driver.c b/drivers/gpu/drm/i915/i915_driver.c
+index 8a0e2c745e1f..450bbcfc16af 100644
+--- a/drivers/gpu/drm/i915/i915_driver.c
++++ b/drivers/gpu/drm/i915/i915_driver.c
+@@ -1794,6 +1794,13 @@ static const struct drm_ioctl_desc i915_ioctls[] = {
+ 	DRM_IOCTL_DEF_DRV(I915_GEM_VM_DESTROY, i915_gem_vm_destroy_ioctl, DRM_RENDER_ALLOW),
+ };
+ 
++#ifdef CONFIG_CGROUP_DRM
++static const struct drm_cgroup_ops i915_drm_cgroup_ops = {
++	.active_time_us = i915_drm_cgroup_get_active_time_us,
++	.signal_budget = i915_drm_cgroup_signal_budget,
++};
++#endif
 +
-+	start = ktime_get();
-+	if (period_us > root_drmcs.last_scan_duration_us)
-+		period_us -= root_drmcs.last_scan_duration_us;
+ /*
+  * Interface history:
+  *
+@@ -1823,6 +1830,10 @@ static const struct drm_driver i915_drm_driver = {
+ 	.postclose = i915_driver_postclose,
+ 	.show_fdinfo = PTR_IF(IS_ENABLED(CONFIG_PROC_FS), i915_drm_client_fdinfo),
+ 
++#ifdef CONFIG_CGROUP_DRM
++	.cg_ops = &i915_drm_cgroup_ops,
++#endif
++
+ 	.gem_prime_import = i915_gem_prime_import,
+ 
+ 	.dumb_create = i915_gem_dumb_create,
+diff --git a/drivers/gpu/drm/i915/i915_drm_client.c b/drivers/gpu/drm/i915/i915_drm_client.c
+index 2a44b3876cb5..403baf8c86ad 100644
+--- a/drivers/gpu/drm/i915/i915_drm_client.c
++++ b/drivers/gpu/drm/i915/i915_drm_client.c
+@@ -4,6 +4,7 @@
+  */
+ 
+ #include <linux/kernel.h>
++#include <linux/ktime.h>
+ #include <linux/slab.h>
+ #include <linux/types.h>
+ 
+@@ -40,7 +41,7 @@ void __i915_drm_client_free(struct kref *kref)
+ 	kfree(client);
+ }
+ 
+-#ifdef CONFIG_PROC_FS
++#if defined(CONFIG_PROC_FS) || defined(CONFIG_CGROUP_DRM)
+ static const char * const uabi_class_names[] = {
+ 	[I915_ENGINE_CLASS_RENDER] = "render",
+ 	[I915_ENGINE_CLASS_COPY] = "copy",
+@@ -65,20 +66,204 @@ static u64 busy_add(struct i915_gem_context *ctx, unsigned int class)
+ 	return total;
+ }
+ 
++static u64 get_class_active_ns(struct i915_drm_client *client,
++			       struct drm_i915_private *i915,
++			       unsigned int class,
++			       unsigned int *capacity)
++{
++	struct i915_gem_context *ctx;
++	u64 total;
++
++	*capacity = i915->engine_uabi_class_count[class];
++	if (!*capacity)
++		return 0;
++
++	total = atomic64_read(&client->past_runtime[class]);
 +
 +	rcu_read_lock();
++	list_for_each_entry_rcu(ctx, &client->ctx_list, client_link)
++		total += busy_add(ctx, class);
++	rcu_read_unlock();
 +
-+	css_for_each_descendant_post(node, &root->css) {
-+		struct drm_cgroup_state *drmcs = css_to_drmcs(node);
++	return total;
++}
 +
-+		if (!css_tryget_online(node))
-+			goto out;
++static bool supports_stats(struct drm_i915_private *i915)
++{
++	return GRAPHICS_VER(i915) >= 8;
++}
++#endif
 +
-+		drmcs->active_us = 0;
-+		drmcs->sum_children_weights = 0;
++#if defined(CONFIG_CGROUP_DRM)
++u64 i915_drm_cgroup_get_active_time_us(struct drm_file *file)
++{
++	struct drm_i915_file_private *fpriv = file->driver_priv;
++	struct i915_drm_client *client = fpriv->client;
++	struct drm_i915_private *i915 = fpriv->i915;
++	unsigned int i;
++	u64 busy = 0;
 +
-+		if (period_us && node == &root->css)
-+			drmcs->per_s_budget_us =
-+				DIV_ROUND_UP_ULL((u64)period_us * USEC_PER_SEC,
-+						 USEC_PER_SEC);
-+		else
-+			drmcs->per_s_budget_us = 0;
++	if (!supports_stats(i915))
++		return 0;
 +
-+		css_put(node);
++	for (i = 0; i < ARRAY_SIZE(uabi_class_names); i++) {
++		unsigned int capacity;
++		u64 b;
++
++		b = get_class_active_ns(client, i915, i, &capacity);
++		if (capacity) {
++			b = DIV_ROUND_UP_ULL(b, capacity * 1000);
++			busy += b;
++		}
 +	}
 +
-+	css_for_each_descendant_post(node, &root->css) {
-+		struct drm_cgroup_state *drmcs = css_to_drmcs(node);
-+		struct drm_cgroup_state *parent;
-+		u64 active;
++	return busy;
++}
 +
-+		if (!css_tryget_online(node))
-+			goto out;
-+		if (!node->parent) {
-+			css_put(node);
++int i915_drm_cgroup_signal_budget(struct drm_file *file, u64 usage, u64 budget)
++{
++	struct drm_i915_file_private *fpriv = file->driver_priv;
++	u64 class_usage[I915_LAST_UABI_ENGINE_CLASS + 1];
++	u64 class_last[I915_LAST_UABI_ENGINE_CLASS + 1];
++	struct i915_drm_client *client = fpriv->client;
++	struct drm_i915_private *i915 = fpriv->i915;
++	struct intel_engine_cs *engine;
++	bool over = usage > budget;
++	struct task_struct *task;
++	struct pid *pid;
++	unsigned int i;
++	ktime_t unused;
++	int ret = 0;
++	u64 t;
++
++	if (!supports_stats(i915))
++		return -EINVAL;
++
++	if (usage == 0 && budget == 0)
++		return 0;
++
++	rcu_read_lock();
++	pid = rcu_dereference(file->pid);
++	task = pid_task(pid, PIDTYPE_TGID);
++	if (over) {
++		client->over_budget++;
++		if (!client->over_budget)
++			client->over_budget = 2;
++
++		drm_dbg(&i915->drm, "%s[%u] over budget (%llu/%llu)\n",
++			task ? task->comm : "<unknown>", pid_vnr(pid),
++			usage, budget);
++	} else {
++		client->over_budget = 0;
++		memset(client->class_last, 0, sizeof(client->class_last));
++		memset(client->throttle, 0, sizeof(client->throttle));
++
++		drm_dbg(&i915->drm, "%s[%u] un-throttled; under budget\n",
++			task ? task->comm : "<unknown>", pid_vnr(pid));
++
++		rcu_read_unlock();
++		return 0;
++	}
++	rcu_read_unlock();
++
++	memset(class_usage, 0, sizeof(class_usage));
++	for_each_uabi_engine(engine, i915)
++		class_usage[engine->uabi_class] +=
++			ktime_to_ns(intel_engine_get_busy_time(engine, &unused));
++
++	memcpy(class_last, client->class_last, sizeof(class_last));
++	memcpy(client->class_last, class_usage, sizeof(class_last));
++
++	for (i = 0; i < ARRAY_SIZE(uabi_class_names); i++)
++		class_usage[i] -= class_last[i];
++
++	t = client->last;
++	client->last = ktime_get_raw_ns();
++	t = client->last - t;
++
++	if (client->over_budget == 1)
++		return 0;
++
++	for (i = 0; i < ARRAY_SIZE(uabi_class_names); i++) {
++		u64 client_class_usage[I915_LAST_UABI_ENGINE_CLASS + 1];
++		unsigned int capacity, rel_usage;
++
++		if (!i915->engine_uabi_class_count[i])
++			continue;
++
++		t = DIV_ROUND_UP_ULL(t, 1000);
++		class_usage[i] = DIV_ROUND_CLOSEST_ULL(class_usage[i], 1000);
++		rel_usage = DIV_ROUND_CLOSEST_ULL(class_usage[i] * 100ULL,
++						  t *
++						  i915->engine_uabi_class_count[i]);
++		if (rel_usage < 95) {
++			/* Physical class not oversubsribed. */
++			if (client->throttle[i]) {
++				client->throttle[i] = 0;
++
++				rcu_read_lock();
++				pid = rcu_dereference(file->pid);
++				task = pid_task(pid, PIDTYPE_TGID);
++				drm_dbg(&i915->drm,
++					"%s[%u] un-throttled; physical class %s utilisation %u%%\n",
++					task ? task->comm : "<unknown>",
++					pid_vnr(pid),
++					uabi_class_names[i],
++					rel_usage);
++				rcu_read_unlock();
++			}
 +			continue;
 +		}
-+		if (!css_tryget_online(node->parent)) {
-+			css_put(node);
-+			goto out;
++
++		client_class_usage[i] =
++			get_class_active_ns(client, i915, i, &capacity);
++		if (client_class_usage[i]) {
++			int permille;
++
++			ret |= 1;
++
++			permille = DIV_ROUND_CLOSEST_ULL((usage - budget) *
++							 1000,
++							 budget);
++			client->throttle[i] =
++			    DIV_ROUND_CLOSEST(permille *
++					      I915_CONTEXT_MIN_USER_PRIORITY,
++					      1000);
++			if (client->throttle[i] <
++			    I915_CONTEXT_MIN_USER_PRIORITY)
++				client->throttle[i] =
++					I915_CONTEXT_MIN_USER_PRIORITY;
++
++			rcu_read_lock();
++			pid = rcu_dereference(file->pid);
++			task = pid_task(pid, PIDTYPE_TGID);
++			drm_dbg(&i915->drm,
++				"%s[%u] %d‰ over budget, throttled to priority %d; physical class %s utilisation %u%%\n",
++				task ? task->comm : "<unknown>",
++				pid_vnr(pid),
++				permille,
++				client->throttle[i],
++				uabi_class_names[i],
++				rel_usage);
++			rcu_read_unlock();
 +		}
-+		parent = css_to_drmcs(node->parent);
-+
-+		active = drmcs_get_active_time_us(drmcs);
-+		if (period_us && active > drmcs->prev_active_us)
-+			drmcs->active_us += active - drmcs->prev_active_us;
-+		drmcs->prev_active_us = active;
-+
-+		parent->active_us += drmcs->active_us;
-+		parent->sum_children_weights += drmcs->weight;
-+
-+		css_put(node);
-+		css_put(&parent->css);
 +	}
 +
-+	ok = true;
-+	now = ktime_get();
-+	root_drmcs.last_scan_duration_us = ktime_to_us(ktime_sub(now, start));
-+	root_drmcs.prev_timestamp = now;
-+
-+out:
-+	rcu_read_unlock();
-+
-+	return ok;
++	return ret;
 +}
++#endif
 +
-+static void scan_worker(struct work_struct *work)
-+{
-+	struct drm_cgroup_state *root = &root_drmcs.drmcs;
-+	struct cgroup_subsys_state *node;
-+	unsigned int period_us;
-+
-+	mutex_lock(&drmcg_mutex);
-+
-+	rcu_read_lock();
-+
-+	if (WARN_ON_ONCE(!css_tryget_online(&root->css))) {
-+		rcu_read_unlock();
-+		mutex_unlock(&drmcg_mutex);
-+		return;
-+	}
-+
-+	period_us = ktime_to_us(ktime_sub(ktime_get(),
-+					  root_drmcs.prev_timestamp));
-+
-+	/*
-+	 * 1st pass - reset working values and update hierarchical weights and
-+	 * GPU utilisation.
-+	 */
-+	if (!__start_scanning(period_us))
-+		goto out_retry; /*
-+				 * Always come back later if scanner races with
-+				 * core cgroup management. (Repeated pattern.)
-+				 */
-+
-+	css_for_each_descendant_pre(node, &root->css) {
-+		struct drm_cgroup_state *drmcs = css_to_drmcs(node);
-+		struct cgroup_subsys_state *css;
-+		u64 reused_us = 0, unused_us = 0;
-+		unsigned int over_weights = 0;
-+
-+		if (!css_tryget_online(node))
-+			goto out_retry;
-+
-+		/*
-+		 * 2nd pass - calculate initial budgets, mark over budget
-+		 * siblings and add up unused budget for the group.
-+		 */
-+		css_for_each_child(css, &drmcs->css) {
-+			struct drm_cgroup_state *sibling = css_to_drmcs(css);
-+
-+			if (!css_tryget_online(css)) {
-+				css_put(node);
-+				goto out_retry;
-+			}
-+
-+			sibling->per_s_budget_us  =
-+				DIV_ROUND_UP_ULL(drmcs->per_s_budget_us *
-+						 sibling->weight,
-+						 drmcs->sum_children_weights);
-+
-+			sibling->over = sibling->active_us >
-+					sibling->per_s_budget_us;
-+			if (sibling->over)
-+				over_weights += sibling->weight;
-+			else
-+				unused_us += sibling->per_s_budget_us -
-+					     sibling->active_us;
-+
-+			css_put(css);
-+		}
-+
-+		/*
-+		 * 3rd pass - spread unused budget according to relative weights
-+		 * of over budget siblings.
-+		 */
-+		while (over_weights && reused_us < unused_us) {
-+			unsigned int under = 0;
-+
-+			unused_us -= reused_us;
-+			reused_us = 0;
-+
-+			css_for_each_child(css, &drmcs->css) {
-+				struct drm_cgroup_state *sibling;
-+				u64 extra_us, max_us, need_us;
-+
-+				if (!css_tryget_online(css)) {
-+					css_put(node);
-+					goto out_retry;
-+				}
-+
-+				sibling = css_to_drmcs(css);
-+				if (!sibling->over) {
-+					css_put(css);
-+					continue;
-+				}
-+
-+				extra_us = DIV_ROUND_UP_ULL(unused_us *
-+							    sibling->weight,
-+							    over_weights);
-+				max_us = sibling->per_s_budget_us + extra_us;
-+				if (max_us > sibling->active_us)
-+					need_us = sibling->active_us -
-+						  sibling->per_s_budget_us;
-+				else
-+					need_us = extra_us;
-+				reused_us += need_us;
-+				sibling->per_s_budget_us += need_us;
-+				sibling->over = sibling->active_us  >
-+						sibling->per_s_budget_us;
-+				if (!sibling->over)
-+					under += sibling->weight;
-+
-+				css_put(css);
-+			}
-+
-+			over_weights -= under;
-+		}
-+
-+		css_put(node);
-+	}
-+
-+	/*
-+	 * 4th pass - send out over/under budget notifications.
-+	 */
-+	css_for_each_descendant_post(node, &root->css) {
-+		struct drm_cgroup_state *drmcs = css_to_drmcs(node);
-+
-+		if (!css_tryget_online(node))
-+			goto out_retry;
-+
-+		if (drmcs->over || drmcs->over_budget)
-+			drmcs_signal_budget(drmcs,
-+					    drmcs->active_us,
-+					    drmcs->per_s_budget_us);
-+		drmcs->over_budget = drmcs->over;
-+
-+		css_put(node);
-+	}
-+
-+out_retry:
-+	rcu_read_unlock();
-+	mutex_unlock(&drmcg_mutex);
-+
-+	period_us = READ_ONCE(root_drmcs.period_us);
-+	if (period_us)
-+		schedule_delayed_work(&root_drmcs.scan_work,
-+				      usecs_to_jiffies(period_us));
-+
-+	css_put(&root->css);
-+}
-+
- static void drmcs_free(struct cgroup_subsys_state *css)
++#ifdef CONFIG_PROC_FS
+ static void
+ show_client_class(struct drm_printer *p,
+ 		  struct drm_i915_private *i915,
+ 		  struct i915_drm_client *client,
+ 		  unsigned int class)
  {
--	struct drm_cgroup_state *drmcs = css_to_drmcs(css);
-+	if (css != &root_drmcs.drmcs.css)
-+		kfree(css_to_drmcs(css));
-+}
+-	const unsigned int capacity = i915->engine_uabi_class_count[class];
+-	u64 total = atomic64_read(&client->past_runtime[class]);
+-	struct i915_gem_context *ctx;
++	unsigned int capacity;
++	u64 total;
  
--	if (drmcs != &root_drmcs.drmcs)
--		kfree(drmcs);
-+static void record_baseline_utilisation(void)
-+{
-+	/*
-+	 * Re-capture baseline group GPU times to avoid downward jumps.
-+	 *
-+	 * __start_scanning can fail if hierarchy members transition their
-+	 * online status while it is traversing the tree, so retry with a little
-+	 * bit of back-off to be nice, although it is not really needed but
-+	 * callers are also not latency sensitive, especially since retrying is
-+	 * very unlikely during stable system operation.
-+	 */
-+	while (!__start_scanning(0))
-+		synchronize_rcu();
- }
+-	rcu_read_lock();
+-	list_for_each_entry_rcu(ctx, &client->ctx_list, client_link)
+-		total += busy_add(ctx, class);
+-	rcu_read_unlock();
++	total = get_class_active_ns(client, i915, class, &capacity);
  
- static struct cgroup_subsys_state *
-@@ -82,6 +365,7 @@ drmcs_alloc(struct cgroup_subsys_state *parent_css)
+ 	if (capacity)
+ 		drm_printf(p, "drm-engine-%s:\t%llu ns\n",
+@@ -102,7 +287,7 @@ void i915_drm_client_fdinfo(struct drm_printer *p, struct drm_file *file)
+ 	 * ******************************************************************
+ 	 */
  
- 	if (!parent_css) {
- 		drmcs = &root_drmcs.drmcs;
-+		INIT_DELAYED_WORK(&root_drmcs.scan_work, scan_worker);
- 	} else {
- 		drmcs = kzalloc(sizeof(*drmcs), GFP_KERNEL);
- 		if (!drmcs)
-@@ -90,9 +374,128 @@ drmcs_alloc(struct cgroup_subsys_state *parent_css)
- 		INIT_LIST_HEAD(&drmcs->clients);
- 	}
+-	if (GRAPHICS_VER(i915) < 8)
++	if (!supports_stats(i915))
+ 		return;
  
-+	drmcs->weight = CGROUP_WEIGHT_DFL;
+ 	for (i = 0; i < ARRAY_SIZE(uabi_class_names); i++)
+diff --git a/drivers/gpu/drm/i915/i915_drm_client.h b/drivers/gpu/drm/i915/i915_drm_client.h
+index 67816c912bca..396dbb0780cc 100644
+--- a/drivers/gpu/drm/i915/i915_drm_client.h
++++ b/drivers/gpu/drm/i915/i915_drm_client.h
+@@ -29,6 +29,13 @@ struct i915_drm_client {
+ 	 * @past_runtime: Accumulation of pphwsp runtimes from closed contexts.
+ 	 */
+ 	atomic64_t past_runtime[I915_LAST_UABI_ENGINE_CLASS + 1];
 +
- 	return &drmcs->css;
- }
- 
-+static int drmcs_online(struct cgroup_subsys_state *css)
-+{
-+	if (css == &root_drmcs.drmcs.css && drmcg_period_ms) {
-+		const int min_period_ms = 500;
-+		int period_ms;
-+
-+		mutex_lock(&drmcg_mutex);
-+		record_baseline_utilisation();
-+		if (drmcg_period_ms < min_period_ms) {
-+			period_ms = min_period_ms;
-+			pr_notice("Capping DRM control group scanning to %ums\n",
-+				  period_ms);
-+		} else {
-+			period_ms = drmcg_period_ms;
-+		}
-+		root_drmcs.period_us = period_ms * 1000;
-+		mod_delayed_work(system_wq,
-+				 &root_drmcs.scan_work,
-+				 usecs_to_jiffies(root_drmcs.period_us));
-+		mutex_unlock(&drmcg_mutex);
-+	}
-+
-+	return 0;
-+}
-+
-+static void drmcs_offline(struct cgroup_subsys_state *css)
-+{
-+	bool flush = false;
-+
-+	if (css != &root_drmcs.drmcs.css)
-+		return;
-+
-+	mutex_lock(&drmcg_mutex);
-+	if (root_drmcs.period_us) {
-+		root_drmcs.period_us = 0;
-+		cancel_delayed_work(&root_drmcs.scan_work);
-+		flush = true;
-+	}
-+	mutex_unlock(&drmcg_mutex);
-+
-+	if (flush)
-+		flush_delayed_work(&root_drmcs.scan_work);
-+}
-+
-+static struct drm_cgroup_state *old_drmcs;
-+
-+static int drmcs_can_attach(struct cgroup_taskset *tset)
-+{
-+	struct cgroup_subsys_state *css;
-+	struct task_struct *task;
-+
-+	task = cgroup_taskset_first(tset, &css);
-+	old_drmcs = css_to_drmcs(task_css(task, drm_cgrp_id));
-+
-+	return 0;
-+}
-+
-+static void drmcs_attach(struct cgroup_taskset *tset)
-+{
-+	struct drm_cgroup_state *old = old_drmcs;
-+	struct cgroup_subsys_state *css;
-+	struct drm_file *fpriv, *next;
-+	struct drm_cgroup_state *new;
-+	struct task_struct *task;
-+	bool migrated = false;
-+
-+	if (!old)
-+		return;
-+
-+	task = cgroup_taskset_first(tset, &css);
-+	new = css_to_drmcs(task_css(task, drm_cgrp_id));
-+	if (new == old)
-+		return;
-+
-+	mutex_lock(&drmcg_mutex);
-+
-+	list_for_each_entry_safe(fpriv, next, &old->clients, clink) {
-+		cgroup_taskset_for_each(task, css, tset) {
-+			struct cgroup_subsys_state *old_css;
-+
-+			if (task->flags & PF_KTHREAD)
-+				continue;
-+			if (!thread_group_leader(task))
-+				continue;
-+
-+			new = css_to_drmcs(task_css(task, drm_cgrp_id));
-+			if (WARN_ON_ONCE(new == old))
-+				continue;
-+
-+			if (rcu_access_pointer(fpriv->pid) != task_tgid(task))
-+				continue;
-+
-+			if (WARN_ON_ONCE(fpriv->__css != &old->css))
-+				continue;
-+
-+			old_css = fpriv->__css;
-+			fpriv->__css = &new->css;
-+			css_get(fpriv->__css);
-+			list_move_tail(&fpriv->clink, &new->clients);
-+			css_put(old_css);
-+			migrated = true;
-+		}
-+	}
-+
-+	if (migrated)
-+		record_baseline_utilisation();
-+
-+	mutex_unlock(&drmcg_mutex);
-+
-+	old_drmcs = NULL;
-+}
-+
-+static void drmcs_cancel_attach(struct cgroup_taskset *tset)
-+{
-+	old_drmcs = NULL;
-+}
-+
- void drmcgroup_client_open(struct drm_file *file_priv)
- {
- 	struct drm_cgroup_state *drmcs;
-@@ -121,6 +524,7 @@ void drmcgroup_client_close(struct drm_file *file_priv)
- 	mutex_lock(&drmcg_mutex);
- 	list_del(&file_priv->clink);
- 	file_priv->__css = NULL;
-+	record_baseline_utilisation();
- 	mutex_unlock(&drmcg_mutex);
- 
- 	css_put(&drmcs->css);
-@@ -144,6 +548,7 @@ void drmcgroup_client_migrate(struct drm_file *file_priv)
- 	if (src != dst) {
- 		file_priv->__css = &dst->css; /* Keeps the reference. */
- 		list_move_tail(&file_priv->clink, &dst->clients);
-+		record_baseline_utilisation();
- 	}
- 
- 	mutex_unlock(&drmcg_mutex);
-@@ -153,12 +558,23 @@ void drmcgroup_client_migrate(struct drm_file *file_priv)
- EXPORT_SYMBOL_GPL(drmcgroup_client_migrate);
- 
- struct cftype files[] = {
-+	{
-+		.name = "weight",
-+		.flags = CFTYPE_NOT_ON_ROOT,
-+		.read_u64 = drmcs_read_weight,
-+		.write_u64 = drmcs_write_weight,
-+	},
- 	{ } /* Zero entry terminates. */
++#ifdef CONFIG_CGROUP_DRM
++	int throttle[I915_LAST_UABI_ENGINE_CLASS + 1];
++	unsigned int over_budget;
++	u64 last;
++	u64 class_last[I915_LAST_UABI_ENGINE_CLASS + 1];
++#endif
  };
  
- struct cgroup_subsys drm_cgrp_subsys = {
- 	.css_alloc	= drmcs_alloc,
- 	.css_free	= drmcs_free,
-+	.css_online	= drmcs_online,
-+	.css_offline	= drmcs_offline,
-+	.can_attach     = drmcs_can_attach,
-+	.attach		= drmcs_attach,
-+	.cancel_attach  = drmcs_cancel_attach,
- 	.early_init	= false,
- 	.legacy_cftypes	= files,
- 	.dfl_cftypes	= files,
+ static inline struct i915_drm_client *
+@@ -49,4 +56,8 @@ struct i915_drm_client *i915_drm_client_alloc(void);
+ 
+ void i915_drm_client_fdinfo(struct drm_printer *p, struct drm_file *file);
+ 
++u64 i915_drm_cgroup_get_active_time_us(struct drm_file *file);
++int i915_drm_cgroup_signal_budget(struct drm_file *file,
++				  u64 usage, u64 budget);
++
+ #endif /* !__I915_DRM_CLIENT_H__ */
 -- 
 2.39.2
 
