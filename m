@@ -1,66 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A85ED7D4D4E
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Oct 2023 12:08:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C82DD7D4D56
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Oct 2023 12:09:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5274B10E318;
-	Tue, 24 Oct 2023 10:08:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6324510E31A;
+	Tue, 24 Oct 2023 10:09:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com
- [209.85.210.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED7AD10E318
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Oct 2023 10:08:29 +0000 (UTC)
-Received: by mail-ot1-f49.google.com with SMTP id
- 46e09a7af769-6ce532451c7so1073828a34.2
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Oct 2023 03:08:29 -0700 (PDT)
+Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com
+ [IPv6:2607:f8b0:4864:20::62d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC4CC10E31C
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Oct 2023 10:09:27 +0000 (UTC)
+Received: by mail-pl1-x62d.google.com with SMTP id
+ d9443c01a7336-1ca79b731f1so8128845ad.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Oct 2023 03:09:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1698142167; x=1698746967; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=alTxVp4rWur3TMjDIHhUa1P8RmGtR3szGAa9KSaD0v8=;
+ b=abhJebgXHVzggfM0amxzlV1FwEsHmmGjpp+u5HOSxtCFx+zv5iQJQigAGUiBl3njMv
+ Q7e0w7Y6oLOXOU1hJZHyFT4ta1lk7p3ICo3QNmvls3UK5bgLN+mNxmCdb/Uz6SGjiFF6
+ kHrXelGBvzglcj9a4XN9VMa1C+2NXuDyCsmw6lxJeIFy1OM44AyTYz1V+/1kCustWPgb
+ G27xUw6gCUG46NQQN9UUrJvD8XPJ6B3VGtcm4Y+fdryoB3o6wpABGxBFQHBliiaPFPnT
+ JLhM5nQJIvx7oMmgQPV6C1PfmCD4hlzsD9X7DzTJP773udbhW4zyCmdNHQISNbTbMMYn
+ Hm1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1698142109; x=1698746909;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=fgLdb8aZYAs0Y0vcAtZXYMnjVSNSuVBAYZU46oMnylE=;
- b=ac8VtlX9spa8tKRmbDLC6pvgdN/vsLhwgPwFJ47kRnrM5hCvpKpAg02tOa4G6GFnJS
- L4N9e01iRRgQhR+0Le78FqX000DyIIXtYXb2hoK+PjpmiPmfZp5/pnpVoTDHvdsLlg71
- esdLCUFz1gXgxZ66FV/kqv8Y2QEqdmnMgy6NueKQrM8Y5s9yBvThwU41lvu3MnxZvvYq
- 5Zr4UWdae3xXDV8KxL0HpqhKuZXwmeOwkBM+I+DwXmm0DWVSW5QrRg2Wb/NHVXBFEdFG
- sLDnflCNreWzYGjbErinSHy21scEELeVb1DQfXQayH7K3LVp9zygIyV/oGXKxQ9Qnlgf
- ivFw==
-X-Gm-Message-State: AOJu0YygqhvByhoc63/liUw9t+KwjpIBEQAILN4eWlU/kCavhlowKweB
- EDJ9dc3exHk0uHe5UPdDo6/kPC+zZzpICg==
-X-Google-Smtp-Source: AGHT+IFuPHVICgq4hMIQ8MyhIGGsQlTrWescxofgMVrdoSX+fV1j3Nt4oOaW9PolMiti2frTCZLtHg==
-X-Received: by 2002:a05:6830:4387:b0:6bc:de62:86b with SMTP id
- s7-20020a056830438700b006bcde62086bmr13155674otv.7.1698142108980; 
- Tue, 24 Oct 2023 03:08:28 -0700 (PDT)
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com.
- [209.85.219.174]) by smtp.gmail.com with ESMTPSA id
- da11-20020a05690c0d8b00b005a7b785f66bsm1175393ywb.39.2023.10.24.03.08.28
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 24 Oct 2023 03:08:28 -0700 (PDT)
-Received: by mail-yb1-f174.google.com with SMTP id
- 3f1490d57ef6-d8a000f6a51so3949374276.3
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Oct 2023 03:08:28 -0700 (PDT)
-X-Received: by 2002:a25:b9cf:0:b0:d9a:5908:a29 with SMTP id
- y15-20020a25b9cf000000b00d9a59080a29mr10249227ybj.64.1698142108080; Tue, 24
- Oct 2023 03:08:28 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1698142167; x=1698746967;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=alTxVp4rWur3TMjDIHhUa1P8RmGtR3szGAa9KSaD0v8=;
+ b=KsmI+w1eEO9f7a4CeNyNl7GlkGCK+nALebv+c3m1LAbVtUsHESrF1dZahdtbtMgFr4
+ /uSHnt/kVwuGyi/FEdjFWJ5Y79ePryg4nrc0cbd/KJoyfp2zlw6EjeJ7rMTrKIrj27Za
+ GbZApH0oHD9e12F3Sv0NI11J+6bfoA2Ywbx9YC4jrFMo/4tHuwQUakPium5OmQNI62wY
+ 2XPPQsFig5BuXHY0GUdrjZzD5y0t0O6ABU9FwlWO7NWKVfSnBCnP4Q9Pay3N1bXXoGpX
+ /zc+zf0yW8vF019Lx8jxSJ9h6VI1nH4xGJLR+8X6tgknKIoqun7slJwgOfGIOU8EWxXJ
+ 5VJQ==
+X-Gm-Message-State: AOJu0YxcpaQUybr4MbNViU8fpC8YpjTwWvgwAtwALUuokA1BQIFNMiRn
+ DT/scxFV2FRsk4pQP9U5P+4=
+X-Google-Smtp-Source: AGHT+IFqDgaQq47lVGiLEtfpxjnRnMp5SMyiv2eQAJj4A5h0TNaNhyb8wYSffoA4BP7xIgs0+olCew==
+X-Received: by 2002:a17:902:f945:b0:1c3:a4f2:7c99 with SMTP id
+ kx5-20020a170902f94500b001c3a4f27c99mr10762269plb.4.1698142167066; 
+ Tue, 24 Oct 2023 03:09:27 -0700 (PDT)
+Received: from fedora.. ([2400:2200:74c:7eed:5855:5fc6:625a:57c3])
+ by smtp.gmail.com with ESMTPSA id
+ h21-20020a170902eed500b001bfd92ec592sm7184523plb.292.2023.10.24.03.09.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 24 Oct 2023 03:09:26 -0700 (PDT)
+From: Kenjiro Nakayama <nakayamakenjiro@gmail.com>
+To: airlied@gmail.com,
+	daniel@ffwll.ch
+Subject: [PATCH] drm/ttm: Remove comment about kfree for bo->destroy
+Date: Tue, 24 Oct 2023 19:08:53 +0900
+Message-Id: <20231024100853.785853-1-nakayamakenjiro@gmail.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-References: <cover.1694767208.git.geert+renesas@glider.be>
- <CAMuHMdWfBTKdXvZutg4LvWqBjuz-X=ZjzX0LKPqD=JxYuLoPRw@mail.gmail.com>
- <CAMuHMdUF61V5qNyKbrTGxZfEJvCVuLO7q2R5MqZYkzRC_cNr0w@mail.gmail.com>
-In-Reply-To: <CAMuHMdUF61V5qNyKbrTGxZfEJvCVuLO7q2R5MqZYkzRC_cNr0w@mail.gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 24 Oct 2023 12:08:15 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXTpMYqdFzro3kX-3wXYC8N6z2abiMTiXXpV9xn1ohj0Q@mail.gmail.com>
-Message-ID: <CAMuHMdXTpMYqdFzro3kX-3wXYC8N6z2abiMTiXXpV9xn1ohj0Q@mail.gmail.com>
-Subject: Re: [GIT PULL v2] drm: renesas: shmobile: Atomic conversion + DT
- support (was: Re: [PATCH v4 00/41] drm: renesas: shmobile: Atomic conversion
- + DT support)
-To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,82 +71,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Hans Verkuil <hverkuil@xs4all.nl>, Conor Dooley <conor+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Linux-sh list <linux-sh@vger.kernel.org>,
- Magnus Damm <magnus.damm@gmail.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc: Kenjiro Nakayama <nakayamakenjiro@gmail.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 16, 2023 at 11:59=E2=80=AFAM Geert Uytterhoeven
-<geert@linux-m68k.org> wrote:
->
->         Hi David, Daniel,
->
-> The following changes since commit 389af786f92ecdff35883551d54bf4e507ffcc=
-cb:
->
->   Merge tag 'drm-intel-next-2023-09-29' of
-> git://anongit.freedesktop.org/drm/drm-intel into drm-next (2023-10-04
-> 13:55:19 +1000)
->
-> are available in the Git repository at:
->
->   git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git
-> tags/shmob-drm-atomic-dt-tag2
->
-> for you to fetch changes up to 1399ebacbf590dfbac4fbba181dd1595b2fa10ba:
->
->   drm: renesas: shmobile: Add DT support (2023-10-16 11:47:48 +0200)
->
-> ----------------------------------------------------------------
-> drm: renesas: shmobile: Atomic conversion + DT support
->
-> Currently, there are two drivers for the LCD controller on Renesas
-> SuperH-based and ARM-based SH-Mobile and R-Mobile SoCs:
->   1. sh_mobile_lcdcfb, using the fbdev framework,
->   2. shmob_drm, using the DRM framework.
-> However, only the former driver is used, as all platform support
-> integrates the former.  None of these drivers support DT-based systems.
->
-> Convert the SH-Mobile DRM driver to atomic modesetting, and add DT
-> support, complemented by the customary set of fixes and improvements.
->
-> Acked-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Link: https://lore.kernel.org/r/cover.1694767208.git.geert+renesas@glider=
-.be/
->
-> Changes compared to v1:
->   - Rebase to drm-next,
->   - Add Acked-by.
->
-> Thanks for pulling!
+Since the kfree handling was removed[1], this patch removes the
+instruction comment.
 
-Ping?
-Thanks!
+[1] 3507932390bb drm/ttm: move default BO destructor into VMWGFX v2
 
-Gr{oetje,eeting}s,
+Signed-off-by: Kenjiro Nakayama <nakayamakenjiro@gmail.com>
+---
+ drivers/gpu/drm/ttm/ttm_bo.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-                        Geert
+diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+index e58b7e249816..e0068f17fc0a 100644
+--- a/drivers/gpu/drm/ttm/ttm_bo.c
++++ b/drivers/gpu/drm/ttm/ttm_bo.c
+@@ -936,7 +936,7 @@ EXPORT_SYMBOL(ttm_bo_validate);
+  * @ctx: TTM operation context for memory allocation.
+  * @sg: Scatter-gather table.
+  * @resv: Pointer to a dma_resv, or NULL to let ttm allocate one.
+- * @destroy: Destroy function. Use NULL for kfree().
++ * @destroy: Destroy function.
+  *
+  * This function initializes a pre-allocated struct ttm_buffer_object.
+  * As this object may be part of a larger structure, this function,
+@@ -1031,7 +1031,7 @@ EXPORT_SYMBOL(ttm_bo_init_reserved);
+  * GEM user interface.
+  * @sg: Scatter-gather table.
+  * @resv: Pointer to a dma_resv, or NULL to let ttm allocate one.
+- * @destroy: Destroy function. Use NULL for kfree().
++ * @destroy: Destroy function.
+  *
+  * This function initializes a pre-allocated struct ttm_buffer_object.
+  * As this object may be part of a larger structure, this function,
+-- 
+2.41.0
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
