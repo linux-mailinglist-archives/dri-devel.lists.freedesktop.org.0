@@ -2,50 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 777007D4CDC
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Oct 2023 11:48:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA8727D4D47
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Oct 2023 12:06:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB0F210E314;
-	Tue, 24 Oct 2023 09:48:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB9DB10E30B;
+	Tue, 24 Oct 2023 10:06:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 95D1610E314
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Oct 2023 09:48:50 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.whiteo.stw.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <sha@pengutronix.de>)
- id 1qvE1m-0004r2-97; Tue, 24 Oct 2023 11:48:46 +0200
-Received: from [2a0a:edc0:2:b01:1d::c0] (helo=ptx.whiteo.stw.pengutronix.de)
- by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <sha@pengutronix.de>)
- id 1qvE1i-003ulF-5o; Tue, 24 Oct 2023 11:48:42 +0200
-Received: from sha by ptx.whiteo.stw.pengutronix.de with local (Exim 4.92)
- (envelope-from <sha@pengutronix.de>)
- id 1qvE1i-00G6Og-39; Tue, 24 Oct 2023 11:48:42 +0200
-Date: Tue, 24 Oct 2023 11:48:42 +0200
-From: Sascha Hauer <s.hauer@pengutronix.de>
-To: Andy Yan <andyshrk@163.com>
-Subject: Re: [PATCH v3 0/4] Add more format for vop2 driver
-Message-ID: <20231024094842.GW3359458@pengutronix.de>
-References: <20231018094122.2475668-1-andyshrk@163.com>
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D1ACE10E30B
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Oct 2023 10:06:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:Subject:From
+ :References:Cc:To:MIME-Version:Date:Message-ID:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=fdpfmIwB1TpaxZ4EpOiQT/J1g7s4nHIX3I+9ohwLQWg=; b=H2sflMzpDu44fwA08f3hj1c1Xs
+ 2G5RfgQlQ7pipcpxLSo5DRwD9Au5pbIkeNTaceqgeWxqfhPMQmDgjQf4iBBan5Cl6/btQ4bD8BSO3
+ omOr1VG1SwZZ15PQSsmHpMTqmpuFcN7PU3byYyhy8JncCFAGusaOhmSVRd5Mhsk6LktTcZO9jZ3kt
+ CYGDxpFoUjitrVmczihCN9e1NFa/lxduuK/DKmUaMxJ5NIcFhfKGpuDB48jSgd+hxz9Y5fxNki81G
+ 2CmFQPvV8W5cQaTarW/tSQGH/rh8cDPjmlnls9IlQ42k/9tS21HRs3ww/kBgK3J+3isUWPomHbXhx
+ KUJoJmrA==;
+Received: from [177.34.168.16] (helo=[192.168.0.8])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1qvEIN-006NAk-BH; Tue, 24 Oct 2023 12:05:55 +0200
+Message-ID: <abb70285-d7ae-7b8a-8af0-1282de9314bf@igalia.com>
+Date: Tue, 24 Oct 2023 07:05:50 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231018094122.2475668-1-andyshrk@163.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: sha@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+To: Iago Toral <itoral@igalia.com>, Emma Anholt <emma@anholt.net>,
+ Melissa Wen <mwen@igalia.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+References: <20231023105927.101502-1-mcanal@igalia.com>
+ <807b6fd6f6100c7cd824f4aa1a80ec1421d7222c.camel@igalia.com>
+Content-Language: en-US
+From: Maira Canal <mcanal@igalia.com>
+Subject: Re: [PATCH 1/2] drm/v3d: wait for all jobs to finish before
+ unregistering
+In-Reply-To: <807b6fd6f6100c7cd824f4aa1a80ec1421d7222c.camel@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,43 +60,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jonas@kwiboo.se, sjoerd.simons@collabora.com, hjc@rock-chips.com,
- dri-devel@lists.freedesktop.org, sebastian.reichel@collabora.com,
- linux-rockchip@lists.infradead.org, Andy Yan <andy.yan@rock-chips.com>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Oct 18, 2023 at 05:41:22PM +0800, Andy Yan wrote:
-> From: Andy Yan <andy.yan@rock-chips.com>
-> 
-> 
-> This is a preparation for the upcoming support for rk3588 vop.
-> 
-> Patch 1 make the bpp calculation covery more format
-> Patch 2 remove formats that are unsupported by cluster windows
-> Patch 3 add more formats
-> Patch 4 is a format table rename
-> 
-> And I drop two patches that have applied by Heiko[0]
-> [0]https://patchwork.kernel.org/project/linux-rockchip/cover/20231013122001.1594009-1-andyshrk@163.com/
-> 
-> Changes in v3:
-> - add a bpp calculation function
-> - split patch 
-> - add format check and convert
-> 
-> Andy Yan (4):
->   drm/rockchip: fix vop format bpp calculation
->   drm/rockchip: remove the unsupported format of vop2 cluster window
->   drm/rockchip: Add more format supported by vop2
->   drm/rockchip: rename windows format for vop2
+Hi Iago,
 
-Acked-by: Sascha Hauer <s.hauer@pengutronix.de>
+On 10/24/23 02:57, Iago Toral wrote:
+> El lun, 23-10-2023 a las 07:58 -0300, Maíra Canal escribió:
+>> Currently, we are only warning the user if the BIN or RENDER jobs
+>> don't
+>> finish before we unregister V3D. We must wait for all jobs to finish
+>> before unregistering. Therefore, warn the user if TFU or CSD jobs
+>> are not done by the time the driver is unregistered.
+>>
+>> Signed-off-by: Maíra Canal <mcanal@igalia.com>
+>> ---
+>>   drivers/gpu/drm/v3d/v3d_gem.c | 2 ++
+>>   1 file changed, 2 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/v3d/v3d_gem.c
+>> b/drivers/gpu/drm/v3d/v3d_gem.c
+>> index 2e94ce788c71..afa7d170d1ff 100644
+>> --- a/drivers/gpu/drm/v3d/v3d_gem.c
+>> +++ b/drivers/gpu/drm/v3d/v3d_gem.c
+>> @@ -1072,6 +1072,8 @@ v3d_gem_destroy(struct drm_device *dev)
+>>           */
+>>          WARN_ON(v3d->bin_job);
+>>          WARN_ON(v3d->render_job);
+>> +       WARN_ON(v3d->tfu_job);
+>> +       WARN_ON(v3d->csd_job);
+> 
+> I guess we should do this for cache clean jobs too, right?
 
-Sascha
+As the cache clean jobs are synchronous, we don't keep track of the
+current cache clean job. When I say that the cache clean jobs are
+synchronous, it means that the end of the job is not determined by
+an interruption. Therefore, there is no need to make sure that the
+cache clean jobs are still running.
 
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+Best Regards,
+- Maíra
+
+> 
+> Iago
+> 
+>>   
+>>          drm_mm_takedown(&v3d->mm);
+>>   
+> 
