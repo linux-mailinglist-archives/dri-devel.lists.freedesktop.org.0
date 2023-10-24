@@ -2,47 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6AB47D4435
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Oct 2023 02:46:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 643FE7D4436
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Oct 2023 02:46:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 035D210E26F;
-	Tue, 24 Oct 2023 00:46:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8079610E27A;
+	Tue, 24 Oct 2023 00:46:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5269C10E26F
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Oct 2023 00:46:50 +0000 (UTC)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6DAE910E27A
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Oct 2023 00:46:55 +0000 (UTC)
 Received: from localhost.localdomain (unknown
  [IPv6:2804:14d:e646:872b:1c98:7e30:3cb0:3153])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: koike)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id C6CB266071D4;
- Tue, 24 Oct 2023 01:46:44 +0100 (BST)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id E4B7566072A7;
+ Tue, 24 Oct 2023 01:46:49 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1698108409;
- bh=ZHpdflXv9TB7uf4xbAF+b9G//xsAj+ykHLNYUOsAUcg=;
+ s=mail; t=1698108414;
+ bh=oDu2b92asyQScoXwVX/AR6Q3MwzRzsA7i8kOKu/ClnQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=G0PV9CK1IvRNcVh+vK2egq6cRgRjUHGRH2dpcxUAIN1fEV/zIYdOHi145o7hk6n//
- 5Yu7wnM+kSstxJddqf84wt7OjWcJcTtA9Z9hEmktzl+fxLD11/3hKe2ovhlE4CVB+b
- S9/VignLNdPtnCJc6j+WSPUAn0GarqRYk0uQirKPlHNJrgyVqcX24gMmxkAt1zfyzb
- sveG0B0XjugfXM1PT+TKDpZDvaZ4kzZbsGZfifIMbboRQogzaCLYgRcPpsfxy9sJAj
- rCt9QPWaqh5gLAtY8EzIkqB3uXTKXrNyR1Co4YIceNaDkAysMoG7tAo2SpucMr4wvJ
- x0DGbm7MVKUCQ==
+ b=Dc1QzgQb+5Fhbv34veXa1B676uaE7n1jDFN0wOVrdN6njKYFhfpT9kO+yGt/0KKAG
+ au0mj2HOa1atu1lev2fF7efePhMb3x5wSulmbV5H601fdp5z/SMbFpHUi/mJGmWZlg
+ 4J64w0byHrCZsKHYn8Ea0HOEPYv1dSvHIv6eMEURZcJs3C3TU3UE3tj/tg1/spBCP8
+ ZeEH3Y8aWgemskXSiYAcdlqrlAW/8tZcJU77dih/V0Iz3OUtodRuPam/KWwyKaH8bu
+ shb3Gj2pdrmtl6DPzWDhpi3JCIRSRadOWRWY5dcPX5V9ld8gEScpRxUZBRqqNSUbYr
+ uu0orsliH2Wiw==
 From: Helen Koike <helen.koike@collabora.com>
 To: dri-devel@lists.freedesktop.org, Helen Koike <helen.koike@collabora.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v3 06/10] drm/ci: add subset-1-gfx to LAVA_TAGS and adjust
- shards
-Date: Mon, 23 Oct 2023 21:45:21 -0300
-Message-Id: <20231024004525.169002-7-helen.koike@collabora.com>
+Subject: [PATCH v3 07/10] drm/ci: increase i915 job timeout to 1h30m
+Date: Mon, 23 Oct 2023 21:45:22 -0300
+Message-Id: <20231024004525.169002-8-helen.koike@collabora.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231024004525.169002-1-helen.koike@collabora.com>
 References: <20231024004525.169002-1-helen.koike@collabora.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,167 +65,92 @@ Cc: robdclark@chromium.org, daniels@collabora.com, vignesh.raman@collabora.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Collabora Lava farm added a tag called `subset-1-gfx` to half of
-devices the graphics community use.
+With the new sharding, the default job timeout is not enough for i915
+and their jobs are failing before completing.
 
-Lets use this tag so we don't occupy all the resources.
+See below the current execution time:
 
-This is particular important because Mesa3D shares the resources with
-DRM-CI and use them to do pre-merge tests, so it can block developers
-from getting their patches merged.
+🞋 job i915:tgl 8/8 has new status: success (37m3s)
+🞋 job i915:tgl 7/8 has new status: success (19m43s)
+🞋 job i915:tgl 6/8 has new status: success (21m47s)
+🞋 job i915:tgl 5/8 has new status: success (18m16s)
+🞋 job i915:tgl 4/8 has new status: success (21m43s)
+🞋 job i915:tgl 3/8 has new status: success (17m59s)
+🞋 job i915:tgl 2/8 has new status: success (22m15s)
+🞋 job i915:tgl 1/8 has new status: success (18m52s)
+🞋 job i915:cml 2/2 has new status: success (1h19m58s)
+🞋 job i915:cml 1/2 has new status: success (55m45s)
+🞋 job i915:whl 2/2 has new status: success (1h8m56s)
+🞋 job i915:whl 1/2 has new status: success (54m3s)
+🞋 job i915:kbl 3/3 has new status: success (37m43s)
+🞋 job i915:kbl 2/3 has new status: success (36m37s)
+🞋 job i915:kbl 1/3 has new status: success (34m52s)
+🞋 job i915:amly 2/2 has new status: success (1h7m60s)
+🞋 job i915:amly 1/2 has new status: success (59m18s)
+🞋 job i915:glk 2/2 has new status: success (58m26s)
+🞋 job i915:glk 1/2 has new status: success (50m23s)
+🞋 job i915:apl 3/3 has new status: success (1h6m39s)
+🞋 job i915:apl 2/3 has new status: success (1h4m45s)
+🞋 job i915:apl 1/3 has new status: success (1h7m38s)
+
+(generated with ci_run_n_monitor.py script)
+
+The longest job is 1h19m58s, so adjust the timeout.
 
 Signed-off-by: Helen Koike <helen.koike@collabora.com>
-Reviewed-by: David Heidelberg <david.heidelberg@collabora.com>
 
 ---
 
-v2:
-- add subset-1-gfx tag to LAVA_TAGS
-- update commit message
-v3: no changes
+v3:
+- new patch
 ---
- drivers/gpu/drm/ci/gitlab-ci.yml |  2 +-
- drivers/gpu/drm/ci/test.yml      | 23 ++++++++++++++---------
- 2 files changed, 15 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/ci/test.yml | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/drivers/gpu/drm/ci/gitlab-ci.yml b/drivers/gpu/drm/ci/gitlab-ci.yml
-index c08ea6097b1d..cb41fa1b068b 100644
---- a/drivers/gpu/drm/ci/gitlab-ci.yml
-+++ b/drivers/gpu/drm/ci/gitlab-ci.yml
-@@ -26,7 +26,7 @@ variables:
-   JOB_ARTIFACTS_BASE: ${PIPELINE_ARTIFACTS_BASE}/${CI_JOB_ID}
-   # default kernel for rootfs before injecting the current kernel tree
-   KERNEL_IMAGE_BASE: https://${S3_HOST}/mesa-lava/gfx-ci/linux/v6.4.12-for-mesa-ci-f6b4ad45f48d
--
-+  LAVA_TAGS: subset-1-gfx
-   LAVA_JOB_PRIORITY: 30
- 
- default:
 diff --git a/drivers/gpu/drm/ci/test.yml b/drivers/gpu/drm/ci/test.yml
-index 3479d2a0108d..19dc0862e710 100644
+index 19dc0862e710..f285ed67eb3d 100644
 --- a/drivers/gpu/drm/ci/test.yml
 +++ b/drivers/gpu/drm/ci/test.yml
-@@ -86,7 +86,7 @@ msm:sc7180:
-   extends:
-     - .lava-igt:arm64
-   stage: msm
--  parallel: 2
-+  parallel: 4
-   variables:
-     DRIVER_NAME: msm
-     DEVICE_TYPE: sc7180-trogdor-lazor-limozeen
-@@ -155,7 +155,7 @@ rockchip:rk3399:
-   extends:
-     - .lava-igt:arm64
-   stage: rockchip
--  parallel: 3
-+  parallel: 2
-   variables:
-     DRIVER_NAME: rockchip
-     DEVICE_TYPE: rk3399-gru-kevin
-@@ -178,7 +178,7 @@ rockchip:rk3399:
- i915:apl:
+@@ -179,6 +179,7 @@ i915:apl:
    extends:
      - .i915
--  parallel: 12
-+  parallel: 3
+   parallel: 3
++  timeout: "1h30m"
    variables:
      DEVICE_TYPE: asus-C523NA-A20057-coral
      GPU_VERSION: apl
-@@ -187,7 +187,7 @@ i915:apl:
- i915:glk:
+@@ -188,6 +189,7 @@ i915:glk:
    extends:
      - .i915
--  parallel: 5
-+  parallel: 2
+   parallel: 2
++  timeout: "1h30m"
    variables:
      DEVICE_TYPE: hp-x360-12b-ca0010nr-n4020-octopus
      GPU_VERSION: glk
-@@ -196,7 +196,7 @@ i915:glk:
- i915:amly:
+@@ -197,6 +199,7 @@ i915:amly:
    extends:
      - .i915
--  parallel: 8
-+  parallel: 2
+   parallel: 2
++  timeout: "1h30m"
    variables:
      DEVICE_TYPE: asus-C433TA-AJ0005-rammus
      GPU_VERSION: amly
-@@ -205,7 +205,7 @@ i915:amly:
- i915:kbl:
+@@ -215,6 +218,7 @@ i915:whl:
    extends:
      - .i915
--  parallel: 5
-+  parallel: 3
-   variables:
-     DEVICE_TYPE: hp-x360-14-G1-sona
-     GPU_VERSION: kbl
-@@ -214,7 +214,7 @@ i915:kbl:
- i915:whl:
-   extends:
-     - .i915
--  parallel: 8
-+  parallel: 2
+   parallel: 2
++  timeout: "1h30m"
    variables:
      DEVICE_TYPE: dell-latitude-5400-8665U-sarien
      GPU_VERSION: whl
-@@ -223,7 +223,7 @@ i915:whl:
- i915:cml:
+@@ -224,6 +228,7 @@ i915:cml:
    extends:
      - .i915
--  parallel: 6
-+  parallel: 2
+   parallel: 2
++  timeout: "1h30m"
    variables:
      DEVICE_TYPE: asus-C436FA-Flip-hatch
      GPU_VERSION: cml
-@@ -232,7 +232,7 @@ i915:cml:
- i915:tgl:
-   extends:
-     - .i915
--  parallel: 6
-+  parallel: 8
-   variables:
-     DEVICE_TYPE: asus-cx9400-volteer
-     GPU_VERSION: tgl
-@@ -251,6 +251,7 @@ i915:tgl:
- amdgpu:stoney:
-   extends:
-     - .amdgpu
-+  parallel: 2
-   variables:
-     DEVICE_TYPE: hp-11A-G6-EE-grunt
-     GPU_VERSION: stoney
-@@ -269,6 +270,7 @@ amdgpu:stoney:
- mediatek:mt8173:
-   extends:
-     - .mediatek
-+  parallel: 4
-   variables:
-     DEVICE_TYPE: mt8173-elm-hana
-     GPU_VERSION: mt8173
-@@ -280,6 +282,7 @@ mediatek:mt8173:
- mediatek:mt8183:
-   extends:
-     - .mediatek
-+  parallel: 3
-   variables:
-     DEVICE_TYPE: mt8183-kukui-jacuzzi-juniper-sku16
-     GPU_VERSION: mt8183
-@@ -289,6 +292,7 @@ mediatek:mt8183:
- .mediatek:mt8192:
-   extends:
-     - .mediatek
-+  parallel: 3
-   variables:
-     DEVICE_TYPE: mt8192-asurada-spherion-r0
-     GPU_VERSION: mt8192
-@@ -307,6 +311,7 @@ mediatek:mt8183:
- meson:g12b:
-   extends:
-     - .meson
-+  parallel: 3
-   variables:
-     DEVICE_TYPE: meson-g12b-a311d-khadas-vim3
-     GPU_VERSION: g12b
 -- 
 2.39.2
 
