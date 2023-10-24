@@ -1,63 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EE7B7D4303
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Oct 2023 01:04:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F69F7D4427
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Oct 2023 02:46:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5274A10E2A2;
-	Mon, 23 Oct 2023 23:04:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9410D10E0B7;
+	Tue, 24 Oct 2023 00:46:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x1129.google.com (mail-yw1-x1129.google.com
- [IPv6:2607:f8b0:4864:20::1129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 042CC10E2A2
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Oct 2023 23:03:59 +0000 (UTC)
-Received: by mail-yw1-x1129.google.com with SMTP id
- 00721157ae682-59b5484fbe6so40439777b3.1
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Oct 2023 16:03:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1698102238; x=1698707038; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=JAaXoPtJ4koBdLXncjHZYTV49BcKkksbszUkEN4kHbQ=;
- b=XFgREr5UUhVLhyjPDwv1qfcn8AaTGcCdNsPQAUcjsl2sr+Vzi/fTDB2SRcE3S8tZ3P
- fLILCadkGQt2igJ5sm4KXtw9XiPTRcoQjVa+0qZZ2K82hM5MecUyfnMT2zgAcsJRtxiA
- npk71kFPSP7EwtutyMIqExmLLT7oI8X6ugL9f+XNY7SOoBIjCzF2zapSBm2v+i1qKAxi
- EwOs5fLXXifJ/d610VkqiGNwbV0hX4CwCJ+XxWYlBCywe+Waj6o39cHLhP5Sm8+PX6Gc
- q2+7sjo9lks9RA66NJpyTpoYXpknWC9eMIe+2BJdE/8i2CBVX24nqawk5BXaUeGFqXDd
- H3GQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1698102238; x=1698707038;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=JAaXoPtJ4koBdLXncjHZYTV49BcKkksbszUkEN4kHbQ=;
- b=eSq97VOzb4xm5fXOTnj2QEo/VeHDTMyowsy9qyraY03TXnHvZbnnDZpQGuKxafEDY4
- IVtCz8chx7NVr7m4fC61tx2/u52K8PqldT28pwCDtM5o/tmd+xHLof2WRqgKor2eZ/3j
- VjD/dsLta5lF72+/T/Cym4JxDsHp2G3UVxeLOvSIQtRGue41Ep0Xo6jxz6ysJVqPYmer
- K6pJsdXGQoxoLgR8WRqExaSa/0RfmXc9uyoWLKf/tMaIkOjRPjPrHUAUHd/uOP5aiX4x
- 2fGCLOVi8wh1U0ArBA3EWcic6d26QbI3mdMrmaSgWBRy5BgEJ6SChdnskqnrgA7y4i+3
- nQkg==
-X-Gm-Message-State: AOJu0Ywtmo8SMSxGp+JMmi2ZfACwCZq0madsz7yE1d0aNOMNbQtPd8qK
- qiaUNDrlySY/xKKtGvv6mbvSQO1WuKN8tqKgSepz5A==
-X-Google-Smtp-Source: AGHT+IEP646AM3ryx9YmDoGDDQCz+cw/UC8nU5EVjMc/W8HA7RZVt3IEW+LtdSbkS4zF2Ov1nWoETcP25TJwFcpLHv8=
-X-Received: by 2002:a81:8902:0:b0:57a:cf8:5b4 with SMTP id
- z2-20020a818902000000b0057a0cf805b4mr10187601ywf.51.1698102238068; 
- Mon, 23 Oct 2023 16:03:58 -0700 (PDT)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B98210E0B7
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Oct 2023 00:46:05 +0000 (UTC)
+Received: from localhost.localdomain (unknown
+ [IPv6:2804:14d:e646:872b:1c98:7e30:3cb0:3153])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: koike)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 41A42660576C;
+ Tue, 24 Oct 2023 01:45:58 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1698108363;
+ bh=SaswpbkVdrBVcEGwp2lysUkf3YilP1553pBismvxcjA=;
+ h=From:To:Cc:Subject:Date:From;
+ b=FFExJTwgJfJ1YZGhj9AzbLdAUhcCUl7vNL/Awb7A0/xQjNofjw5SyM10sNLwdbmFT
+ uYzDioj9bfSZDBneky+GDZ9c+JywnWD21SNM0dOFAWr8hLi8S/iRxcw6ZlGQF66qmq
+ VogL9/FhDcS9Okopg8JBJ3uEmLvIUEynTrFEtA/BPdv6vwYU4ccNHmL9knpPwhliga
+ 3zwsAFuiGb+NdrFZgqK4oPA4jFFfxdmw5oQPf8LHg4v850fM+YL6TRrjyCgtp905HH
+ 4M324hoKmU+GX6KM75r8Z/My9p1hDsA7j+hvc2Va3EpLEJasXXOkaY8+K7kneIQJmc
+ qHpEQGEmhXMQg==
+From: Helen Koike <helen.koike@collabora.com>
+To: dri-devel@lists.freedesktop.org, Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Subject: [PATCH v3 00/10] drm/ci: fixes and improvements
+Date: Mon, 23 Oct 2023 21:45:15 -0300
+Message-Id: <20231024004525.169002-1-helen.koike@collabora.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-References: <20231023221250.116500-1-robdclark@gmail.com>
- <CAA8EJpqVL5U7yaZsG5F=q7EFP1bsApySdjycywox6cZUd8JqdA@mail.gmail.com>
- <CAF6AEGvbKjHYU6qv4v3017DguEye23yMoYvTbEo=JZ+QW3=Atg@mail.gmail.com>
-In-Reply-To: <CAF6AEGvbKjHYU6qv4v3017DguEye23yMoYvTbEo=JZ+QW3=Atg@mail.gmail.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Tue, 24 Oct 2023 02:03:46 +0300
-Message-ID: <CAA8EJprRdezFBP=+aBinA-=tbTGWPcj-izOthA=cbehes0UYng@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm/dpu: Fix encoder CRC to account for CTM enablement
-To: Rob Clark <robdclark@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,249 +52,122 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Kalyan Thota <quic_kalyant@quicinc.com>,
- Jeykumar Sankaran <quic_jeykumar@quicinc.com>, linux-arm-msm@vger.kernel.org,
- Jiasheng Jiang <jiasheng@iscas.ac.cn>,
- open list <linux-kernel@vger.kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Vinod Polimera <quic_vpolimer@quicinc.com>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, freedreno@lists.freedesktop.org,
- Arnaud Vrac <rawoul@gmail.com>
+Cc: robdclark@chromium.org, daniels@collabora.com, vignesh.raman@collabora.com,
+ guilherme.gallo@collabora.com, sergi.blanch.torne@collabora.com,
+ quic_abhinavk@quicinc.com, mripard@kernel.org, linux-kernel@vger.kernel.org,
+ david.heidelberg@collabora.com, Helen Koike <helen.koike@collabora.com>,
+ linux-mediatek@lists.infradead.org, dmitry.baryshkov@linaro.org,
+ quic_jesszhan@quicinc.com, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 24 Oct 2023 at 01:36, Rob Clark <robdclark@gmail.com> wrote:
->
-> On Mon, Oct 23, 2023 at 3:30=E2=80=AFPM Dmitry Baryshkov
-> <dmitry.baryshkov@linaro.org> wrote:
-> >
-> > On Tue, 24 Oct 2023 at 01:12, Rob Clark <robdclark@gmail.com> wrote:
-> > >
-> > > From: Rob Clark <robdclark@chromium.org>
-> > >
-> > > Seems like we need to pick INPUT_SEL=3D1 when CTM is enabled.  But no=
-t
-> > > otherwise.
-> > >
-> > > Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > > Signed-off-by: Rob Clark <robdclark@chromium.org>
-> > > ---
-> > >  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c    | 2 +-
-> > >  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 4 ++--
-> > >  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h | 3 ++-
-> > >  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c | 4 ++--
-> > >  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h | 2 +-
-> > >  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c   | 2 +-
-> > >  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c | 5 ++++-
-> > >  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h | 3 ++-
-> > >  8 files changed, 15 insertions(+), 10 deletions(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/d=
-rm/msm/disp/dpu1/dpu_crtc.c
-> > > index 2b83a13b3aa9..d93a92ffd5df 100644
-> > > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> > > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> > > @@ -134,7 +134,7 @@ static void dpu_crtc_setup_encoder_misr(struct dr=
-m_crtc *crtc)
-> > >         struct drm_encoder *drm_enc;
-> > >
-> > >         drm_for_each_encoder_mask(drm_enc, crtc->dev, crtc->state->en=
-coder_mask)
-> > > -               dpu_encoder_setup_misr(drm_enc);
-> > > +               dpu_encoder_setup_misr(drm_enc, !!crtc->state->ctm);
-> > >  }
-> > >
-> > >  static int dpu_crtc_set_crc_source(struct drm_crtc *crtc, const char=
- *src_name)
-> > > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gp=
-u/drm/msm/disp/dpu1/dpu_encoder.c
-> > > index b0a7908418ed..12ee7acb5ea6 100644
-> > > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> > > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> > > @@ -241,7 +241,7 @@ int dpu_encoder_get_crc_values_cnt(const struct d=
-rm_encoder *drm_enc)
-> > >         return num_intf;
-> > >  }
-> > >
-> > > -void dpu_encoder_setup_misr(const struct drm_encoder *drm_enc)
-> > > +void dpu_encoder_setup_misr(const struct drm_encoder *drm_enc, bool =
-has_ctm)
-> > >  {
-> > >         struct dpu_encoder_virt *dpu_enc;
-> > >
-> > > @@ -255,7 +255,7 @@ void dpu_encoder_setup_misr(const struct drm_enco=
-der *drm_enc)
-> > >                 if (!phys->hw_intf || !phys->hw_intf->ops.setup_misr)
-> > >                         continue;
-> > >
-> > > -               phys->hw_intf->ops.setup_misr(phys->hw_intf, true, 1)=
-;
-> > > +               phys->hw_intf->ops.setup_misr(phys->hw_intf, true, 1,=
- has_ctm);
-> > >         }
-> > >  }
-> > >
-> > > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h b/drivers/gp=
-u/drm/msm/disp/dpu1/dpu_encoder.h
-> > > index 4c05fd5e9ed1..510783b2fb24 100644
-> > > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-> > > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-> > > @@ -169,8 +169,9 @@ int dpu_encoder_get_crc_values_cnt(const struct d=
-rm_encoder *drm_enc);
-> > >  /**
-> > >   * dpu_encoder_setup_misr - enable misr calculations
-> > >   * @drm_enc:    Pointer to previously created drm encoder structure
-> > > + * @has_ctm:    Is CTM enabled
-> > >   */
-> > > -void dpu_encoder_setup_misr(const struct drm_encoder *drm_encoder);
-> > > +void dpu_encoder_setup_misr(const struct drm_encoder *drm_encoder, b=
-ool has_ctm);
-> > >
-> > >  /**
-> > >   * dpu_encoder_get_crc - get the crc value from interface blocks
-> > > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c b/drivers/gp=
-u/drm/msm/disp/dpu1/dpu_hw_intf.c
-> > > index e8b8908d3e12..cb06f80cc671 100644
-> > > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
-> > > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
-> > > @@ -318,9 +318,9 @@ static u32 dpu_hw_intf_get_line_count(struct dpu_=
-hw_intf *intf)
-> > >         return DPU_REG_READ(c, INTF_LINE_COUNT);
-> > >  }
-> > >
-> > > -static void dpu_hw_intf_setup_misr(struct dpu_hw_intf *intf, bool en=
-able, u32 frame_count)
-> > > +static void dpu_hw_intf_setup_misr(struct dpu_hw_intf *intf, bool en=
-able, u32 frame_count, bool has_ctm)
-> > >  {
-> > > -       dpu_hw_setup_misr(&intf->hw, INTF_MISR_CTRL, enable, frame_co=
-unt);
-> > > +       dpu_hw_setup_misr(&intf->hw, INTF_MISR_CTRL, enable, frame_co=
-unt, has_ctm);
-> >
-> > I'm not sure about the dpu_encoder and dpu_hw_intf interfaces. But
-> > dpu_hw_setup_misr definitely needs the `u8 input_sel` parameter
-> > instead of `bool has_ctm`.
->
-> That seems a bit premature without knowing what the other values are.
-> (And I also question a bit the whole abstraction layer thing if it is
-> taking directly register bitfield enum's..)
+This series contains the several fixes, making drm/ci much
+more reliable and useful.
 
-dpu_hw_intf and especially dpu_hw_util are not real abstractions. I
-always viewed them as useful low-level helpers.
+Highlights:
 
-I think that has_ctm is valid at the dpu_encoder level, which selects
-which input to use. on the lower levels has_ctm doesn't make sense.
-IOW dpu_hw_setup_misr can be used to setup MISR for other blocks,
-where CTM doesn't exist.
+* Current DRM/CI in drm-misc is broken, this series fixes it with mesa
+  uprev (commit 1/9).
 
->
-> BR,
-> -R
->
-> > Most likely, I'd use u8 for dpu_hw_intf operation too.
-> >
-> > Could you please adjust?
-> >
-> > >  }
-> > >
-> > >  static int dpu_hw_intf_collect_misr(struct dpu_hw_intf *intf, u32 *m=
-isr_value)
-> > > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h b/drivers/gp=
-u/drm/msm/disp/dpu1/dpu_hw_intf.h
-> > > index c539025c418b..95aafc4cf58e 100644
-> > > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
-> > > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
-> > > @@ -95,7 +95,7 @@ struct dpu_hw_intf_ops {
-> > >
-> > >         void (*bind_pingpong_blk)(struct dpu_hw_intf *intf,
-> > >                         const enum dpu_pingpong pp);
-> > > -       void (*setup_misr)(struct dpu_hw_intf *intf, bool enable, u32=
- frame_count);
-> > > +       void (*setup_misr)(struct dpu_hw_intf *intf, bool enable, u32=
- frame_count, bool has_ctm);
-> > >         int (*collect_misr)(struct dpu_hw_intf *intf, u32 *misr_value=
-);
-> > >
-> > >         // Tearcheck on INTF since DPU 5.0.0
-> > > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c b/drivers/gpu/=
-drm/msm/disp/dpu1/dpu_hw_lm.c
-> > > index d1c3bd8379ea..2efe29396c6a 100644
-> > > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c
-> > > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c
-> > > @@ -83,7 +83,7 @@ static void dpu_hw_lm_setup_border_color(struct dpu=
-_hw_mixer *ctx,
-> > >
-> > >  static void dpu_hw_lm_setup_misr(struct dpu_hw_mixer *ctx, bool enab=
-le, u32 frame_count)
-> > >  {
-> > > -       dpu_hw_setup_misr(&ctx->hw, LM_MISR_CTRL, enable, frame_count=
-);
-> > > +       dpu_hw_setup_misr(&ctx->hw, LM_MISR_CTRL, enable, frame_count=
-, false);
-> > >  }
-> > >
-> > >  static int dpu_hw_lm_collect_misr(struct dpu_hw_mixer *ctx, u32 *mis=
-r_value)
-> > > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c b/drivers/gp=
-u/drm/msm/disp/dpu1/dpu_hw_util.c
-> > > index 9d2273fd2fed..528b8439209f 100644
-> > > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c
-> > > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c
-> > > @@ -483,7 +483,7 @@ void _dpu_hw_setup_qos_lut(struct dpu_hw_blk_reg_=
-map *c, u32 offset,
-> > >
-> > >  void dpu_hw_setup_misr(struct dpu_hw_blk_reg_map *c,
-> > >                 u32 misr_ctrl_offset,
-> > > -               bool enable, u32 frame_count)
-> > > +               bool enable, u32 frame_count, bool has_ctm)
-> > >  {
-> > >         u32 config =3D 0;
-> > >
-> > > @@ -496,6 +496,9 @@ void dpu_hw_setup_misr(struct dpu_hw_blk_reg_map =
-*c,
-> > >                 config =3D (frame_count & MISR_FRAME_COUNT_MASK) |
-> > >                         MISR_CTRL_ENABLE | MISR_CTRL_FREE_RUN_MASK;
-> > >
-> > > +               if (!has_ctm)
-> > > +                       config |=3D 1 << 24;
-> >
-> > Please define MISR_CTRL_INPUT_SEL instead.
-> >
-> > > +
-> > >                 DPU_REG_WRITE(c, misr_ctrl_offset, config);
-> > >         } else {
-> > >                 DPU_REG_WRITE(c, misr_ctrl_offset, 0);
-> > > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h b/drivers/gp=
-u/drm/msm/disp/dpu1/dpu_hw_util.h
-> > > index 1f6079f47071..e42d9d00e40e 100644
-> > > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h
-> > > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h
-> > > @@ -360,7 +360,8 @@ void _dpu_hw_setup_qos_lut(struct dpu_hw_blk_reg_=
-map *c, u32 offset,
-> > >  void dpu_hw_setup_misr(struct dpu_hw_blk_reg_map *c,
-> > >                 u32 misr_ctrl_offset,
-> > >                 bool enable,
-> > > -               u32 frame_count);
-> > > +               u32 frame_count,
-> > > +               bool has_ctm);
-> > >
-> > >  int dpu_hw_collect_misr(struct dpu_hw_blk_reg_map *c,
-> > >                 u32 misr_ctrl_offset,
-> > > --
-> > > 2.41.0
-> > >
-> >
-> >
-> > --
-> > With best wishes
-> > Dmitry
+* The fails.txt and flakes.txt lists were generated by a bogus script,
+  this series restart that initial list from scratch (commit 5/9),
+  which reduced considerably the number of flakes.
 
+* Jobs are run in a subset of available DUTs in the Lava farm
+  (commit 6/9) to not block merge requests for Mesa3D.
 
+* Add python script update-xfails.py to update the xfails lists
+  (commit 3/9).
 
---=20
-With best wishes
-Dmitry
+Tested on https://gitlab.freedesktop.org/helen.fornazier/linux/-/pipelines/1014358
+
+To work properly, the following patches are also required:
+
+[PATCH 2/2] drm/ci: force-enable CONFIG_MSM_MMCC_8996 as built-in
+https://patchwork.kernel.org/project/linux-arm-msm/patch/20231008132320.762542-2-dmitry.baryshkov@linaro.org/
+
+[PATCH] drm/ci: Enable CONFIG_BACKLIGHT_CLASS_DEVICE
+https://patchwork.kernel.org/project/dri-devel/patch/20231002164715.157298-1-robdclark@gmail.com/
+
+v3 changes:
+- adjust timeout of i915 so jobs can pass
+- small adjustments in the flakes list
+- point requirements.txt to new ci-collate to fix flakes
+- update to latest version of mesa to get the patch that disables bare-metal retries
+- fix typos
+
+Helen Koike (10):
+  drm/ci: uprev mesa version: fix container build & crosvm
+  drm/ci: fix DEBIAN_ARCH and get amdgpu probing
+  drm/ci: add helper script update-xfails.py
+  drm/ci: uprev IGT and make sure core_getversion is run
+  drm/ci: clean up xfails (specially flakes list)
+  drm/ci: add subset-1-gfx to LAVA_TAGS and adjust shards
+  drm/ci: increase i915 job timeout to 1h30m
+  drm/ci: export kernel config
+  drm/ci: do not automatically retry on error
+  drm/ci: docs: add step about how to request privileges
+
+ Documentation/gpu/automated_testing.rst       |   7 +-
+ drivers/gpu/drm/ci/build.sh                   |   3 +-
+ drivers/gpu/drm/ci/build.yml                  |   1 +
+ drivers/gpu/drm/ci/gitlab-ci.yml              |  38 ++--
+ drivers/gpu/drm/ci/igt_runner.sh              |  31 ++-
+ drivers/gpu/drm/ci/image-tags.yml             |   6 +-
+ drivers/gpu/drm/ci/lava-submit.sh             |   6 +-
+ drivers/gpu/drm/ci/test.yml                   |  34 +--
+ .../gpu/drm/ci/xfails/amdgpu-stoney-fails.txt |  12 +-
+ .../drm/ci/xfails/amdgpu-stoney-flakes.txt    |  20 --
+ drivers/gpu/drm/ci/xfails/i915-amly-fails.txt |   9 +
+ .../gpu/drm/ci/xfails/i915-amly-flakes.txt    |  32 ---
+ drivers/gpu/drm/ci/xfails/i915-apl-fails.txt  |  11 -
+ drivers/gpu/drm/ci/xfails/i915-apl-flakes.txt |   1 -
+ drivers/gpu/drm/ci/xfails/i915-cml-fails.txt  |  14 +-
+ drivers/gpu/drm/ci/xfails/i915-cml-flakes.txt |  38 ----
+ drivers/gpu/drm/ci/xfails/i915-glk-fails.txt  |  17 ++
+ drivers/gpu/drm/ci/xfails/i915-glk-flakes.txt |  41 ----
+ drivers/gpu/drm/ci/xfails/i915-kbl-fails.txt  |   7 +
+ drivers/gpu/drm/ci/xfails/i915-kbl-flakes.txt |  25 ---
+ drivers/gpu/drm/ci/xfails/i915-tgl-fails.txt  |   1 -
+ drivers/gpu/drm/ci/xfails/i915-tgl-flakes.txt |   5 -
+ drivers/gpu/drm/ci/xfails/i915-whl-flakes.txt |   1 -
+ .../drm/ci/xfails/mediatek-mt8173-flakes.txt  |   0
+ .../drm/ci/xfails/mediatek-mt8183-fails.txt   |   5 +-
+ .../drm/ci/xfails/mediatek-mt8183-flakes.txt  |  14 --
+ .../gpu/drm/ci/xfails/meson-g12b-fails.txt    |  14 +-
+ .../gpu/drm/ci/xfails/meson-g12b-flakes.txt   |   4 -
+ .../gpu/drm/ci/xfails/msm-apq8016-flakes.txt  |   4 -
+ .../gpu/drm/ci/xfails/msm-apq8096-fails.txt   |   2 +
+ .../gpu/drm/ci/xfails/msm-apq8096-flakes.txt  |   4 -
+ .../gpu/drm/ci/xfails/msm-sc7180-fails.txt    |  15 +-
+ .../gpu/drm/ci/xfails/msm-sc7180-flakes.txt   |  24 ++-
+ .../gpu/drm/ci/xfails/msm-sc7180-skips.txt    |  18 +-
+ .../gpu/drm/ci/xfails/msm-sdm845-fails.txt    |   9 +-
+ .../gpu/drm/ci/xfails/msm-sdm845-flakes.txt   |  19 +-
+ drivers/gpu/drm/ci/xfails/requirements.txt    |  17 ++
+ .../drm/ci/xfails/rockchip-rk3288-fails.txt   |   6 +
+ .../drm/ci/xfails/rockchip-rk3288-flakes.txt  |   9 -
+ .../drm/ci/xfails/rockchip-rk3399-fails.txt   |  40 +++-
+ .../drm/ci/xfails/rockchip-rk3399-flakes.txt  |  28 +--
+ drivers/gpu/drm/ci/xfails/update-xfails.py    | 204 ++++++++++++++++++
+ .../drm/ci/xfails/virtio_gpu-none-flakes.txt  |   0
+ 43 files changed, 464 insertions(+), 332 deletions(-)
+ delete mode 100644 drivers/gpu/drm/ci/xfails/i915-amly-flakes.txt
+ delete mode 100644 drivers/gpu/drm/ci/xfails/i915-apl-flakes.txt
+ delete mode 100644 drivers/gpu/drm/ci/xfails/i915-cml-flakes.txt
+ delete mode 100644 drivers/gpu/drm/ci/xfails/i915-glk-flakes.txt
+ delete mode 100644 drivers/gpu/drm/ci/xfails/i915-tgl-flakes.txt
+ delete mode 100644 drivers/gpu/drm/ci/xfails/i915-whl-flakes.txt
+ delete mode 100644 drivers/gpu/drm/ci/xfails/mediatek-mt8173-flakes.txt
+ delete mode 100644 drivers/gpu/drm/ci/xfails/mediatek-mt8183-flakes.txt
+ delete mode 100644 drivers/gpu/drm/ci/xfails/meson-g12b-flakes.txt
+ delete mode 100644 drivers/gpu/drm/ci/xfails/msm-apq8016-flakes.txt
+ delete mode 100644 drivers/gpu/drm/ci/xfails/msm-apq8096-flakes.txt
+ create mode 100644 drivers/gpu/drm/ci/xfails/requirements.txt
+ delete mode 100644 drivers/gpu/drm/ci/xfails/rockchip-rk3288-flakes.txt
+ create mode 100755 drivers/gpu/drm/ci/xfails/update-xfails.py
+ delete mode 100644 drivers/gpu/drm/ci/xfails/virtio_gpu-none-flakes.txt
+
+-- 
+2.39.2
+
