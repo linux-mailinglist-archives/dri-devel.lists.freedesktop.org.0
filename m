@@ -1,52 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C2E97D57A6
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Oct 2023 18:12:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3542E7D57E9
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Oct 2023 18:20:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A57010E412;
-	Tue, 24 Oct 2023 16:12:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F56310E426;
+	Tue, 24 Oct 2023 16:20:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 145AB10E420;
- Tue, 24 Oct 2023 16:12:03 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D1C7110E426;
+ Tue, 24 Oct 2023 16:20:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1698163924; x=1729699924;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=cx4m6Re1t0koStp5FqrNlsfdb8zARqyFqR2+8EFxmrM=;
- b=Bpn7LqE5OAMG0zJnhs/VDCRxkCuXgcC/bvCush47c4Q3l+bU+Bqb9bo7
- Czeo24Mema3Z1DzZk+C3AS7bU0gMaELXP0a7EqLfwjRSCmKFXyiilqa7c
- knycnn0mkSMcKjIW0t5k72Q+utu5weYqIXJ2CYnogPEwAqqY7Q3GlNUbi
- VjfMjt7z5vRkgPuGU6I5CuTG/MUELtcueWiiyvhHRQnCRxt0Sf1S09dCO
- DErioRU03k2PoUZLEzZbymQ4XAwPG2xydeYHWWvOeC5uVPj58Ds6yN5o6
- z/cFXCvbUdmdWSBf3wsUTE46eP1JVd/mPqQHPHJD4kw5CW7+kapz745xe Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="451328211"
-X-IronPort-AV: E=Sophos;i="6.03,248,1694761200"; d="scan'208";a="451328211"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Oct 2023 09:08:06 -0700
+ t=1698164452; x=1729700452;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=stAV+c+m6ur0U0ftL1kJBRBWT7RqDc7NNlJHBqfAKF0=;
+ b=YK0oXkQl8WBRqt0t/slZ68JEj2N9oqXls3Luok4XsWUuR39RgjTlezq4
+ Fm7gPQEpAPhP647OEaZ1pmqiNcINEFME7gOaodpuUSnzR4n6ueoxWXPwv
+ Ss2zt4SFF1Bz891rfUAoD4MN3slEYlHnBHd/fR7pm2pag+BhmebdLsZbF
+ vmel7gy9StMqKCC/gptX5P7R3zMAuVMTpMdR14ZFeT/hVT4cWTTrBdyjm
+ YtUyIeAtgZlPH050taSX92UGNZ2oarW5N2Bi6k2g192aEZvxql65qJkNw
+ 5Y/2DFeMtJl7+ZAEMW5hxzOe/5VL+RW+KOQSyzL1ArKKWMQfgHEOW67qX A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="473333360"
+X-IronPort-AV: E=Sophos;i="6.03,248,1694761200"; d="scan'208";a="473333360"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Oct 2023 09:11:37 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="902237358"
-X-IronPort-AV: E=Sophos;i="6.03,248,1694761200"; d="scan'208";a="902237358"
-Received: from aidenbar-mobl.ger.corp.intel.com (HELO localhost.localdomain)
- ([10.213.219.125])
- by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Oct 2023 09:05:41 -0700
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-To: Intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [RFC 8/8] cgroup/drm: Expose GPU utilisation
-Date: Tue, 24 Oct 2023 17:07:27 +0100
-Message-Id: <20231024160727.282960-9-tvrtko.ursulin@linux.intel.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20231024160727.282960-1-tvrtko.ursulin@linux.intel.com>
-References: <20231024160727.282960-1-tvrtko.ursulin@linux.intel.com>
+X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="828906405"
+X-IronPort-AV: E=Sophos;i="6.03,248,1694761200"; d="scan'208";a="828906405"
+Received: from smile.fi.intel.com ([10.237.72.54])
+ by fmsmga004.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Oct 2023 09:11:34 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.97-RC3)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1qvK0B-00000008KRg-2l0V; Tue, 24 Oct 2023 19:11:31 +0300
+Date: Tue, 24 Oct 2023 19:11:31 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Jani Nikula <jani.nikula@intel.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 6/7] drm/i915/dsi: Replace poking of CHV GPIOs behind
+ the driver's back
+Message-ID: <ZTfssxRsrDxhzSQ6@smile.fi.intel.com>
+References: <20231024155739.3861342-1-andriy.shevchenko@linux.intel.com>
+ <20231024155739.3861342-7-andriy.shevchenko@linux.intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231024155739.3861342-7-andriy.shevchenko@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,120 +64,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Brian Welty <brian.welty@intel.com>,
- Kenny.Ho@amd.com, Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Eero Tamminen <eero.t.tamminen@intel.com>,
- Johannes Weiner <hannes@cmpxchg.org>, linux-kernel@vger.kernel.org,
- =?UTF-8?q?St=C3=A9phane=20Marchesin?= <marcheu@chromium.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Zefan Li <lizefan.x@bytedance.com>, Dave Airlie <airlied@redhat.com>,
- Tejun Heo <tj@kernel.org>, cgroups@vger.kernel.org,
- "T . J . Mercier" <tjmercier@google.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Hans de Goede <hdegoede@redhat.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+On Tue, Oct 24, 2023 at 06:57:38PM +0300, Andy Shevchenko wrote:
+> It's a dirty hack in the driver that pokes GPIO registers behind
+> the driver's back. Moreoever it might be problematic as simultaneous
+> I/O may hang the system, see the commit 0bd50d719b00 ("pinctrl:
+> cherryview: prevent concurrent access to GPIO controllers") for
+> the details. Taking all this into consideration replace the hack
+> with proper GPIO APIs being used.
 
-To support container use cases where external orchestrators want to make
-deployment and migration decisions based on GPU load and capacity, we can
-expose the GPU load as seen by the controller in a new drm.active_us
-field. This field contains a monotonic cumulative time cgroup has spent
-executing GPU loads, as reported by the DRM drivers being used by group
-members.
+Ah, just realised that this won't work if it happens to request to GPIOs with
+the same index but different communities. I will fix that in v3, but will wait
+for Hans to test VLV and it might even work in most of the cases on CHV as it
+seems quite unlikely that the above mentioned assertion is going to happen in
+real life.
 
-Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Cc: Tejun Heo <tj@kernel.org>
-Cc: Eero Tamminen <eero.t.tamminen@intel.com>
----
- Documentation/admin-guide/cgroup-v2.rst |  8 +++++++
- kernel/cgroup/drm.c                     | 29 ++++++++++++++++++++++++-
- 2 files changed, 36 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-index 841533527b7b..9ac8ab65161c 100644
---- a/Documentation/admin-guide/cgroup-v2.rst
-+++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -2445,6 +2445,14 @@ respected.
- DRM weight based time control interface files
- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- 
-+  drm.stat
-+	A read-only flat-keyed file.
-+
-+	Contains these fields:
-+
-+	- usage_usec - GPU time used by the group, recursively including all
-+		       child groups.
-+
-   drm.weight
- 	Standard cgroup weight based control [1, 10000] used to configure the
- 	relative distributing of GPU time between the sibling groups.
-diff --git a/kernel/cgroup/drm.c b/kernel/cgroup/drm.c
-index 1d1570bf3e90..127730990301 100644
---- a/kernel/cgroup/drm.c
-+++ b/kernel/cgroup/drm.c
-@@ -25,6 +25,8 @@ struct drm_cgroup_state {
- 	bool over;
- 	bool over_budget;
- 
-+	u64 total_us;
-+
- 	u64 per_s_budget_us;
- 	u64 prev_active_us;
- 	u64 active_us;
-@@ -117,6 +119,24 @@ drmcs_write_weight(struct cgroup_subsys_state *css, struct cftype *cftype,
- 	return 0;
- }
- 
-+static int drmcs_show_stat(struct seq_file *sf, void *v)
-+{
-+	struct drm_cgroup_state *drmcs = css_to_drmcs(seq_css(sf));
-+	u64 val;
-+
-+#ifndef CONFIG_64BIT
-+	mutex_lock(&drmcg_mutex);
-+#endif
-+	val = drmcs->total_us;
-+#ifndef CONFIG_64BIT
-+	mutex_unlock(&drmcg_mutex);
-+#endif
-+
-+	seq_printf(sf, "usage_usec %llu\n", val);
-+
-+	return 0;
-+}
-+
- static bool __start_scanning(unsigned int period_us)
- {
- 	struct drm_cgroup_state *root = &root_drmcs.drmcs;
-@@ -169,11 +189,14 @@ static bool __start_scanning(unsigned int period_us)
- 		parent = css_to_drmcs(node->parent);
- 
- 		active = drmcs_get_active_time_us(drmcs);
--		if (period_us && active > drmcs->prev_active_us)
-+		if (period_us && active > drmcs->prev_active_us) {
- 			drmcs->active_us += active - drmcs->prev_active_us;
-+			drmcs->total_us += drmcs->active_us;
-+		}
- 		drmcs->prev_active_us = active;
- 
- 		parent->active_us += drmcs->active_us;
-+		parent->total_us += drmcs->active_us;
- 		parent->sum_children_weights += drmcs->weight;
- 
- 		css_put(node);
-@@ -564,6 +587,10 @@ struct cftype files[] = {
- 		.read_u64 = drmcs_read_weight,
- 		.write_u64 = drmcs_write_weight,
- 	},
-+	{
-+		.name = "stat",
-+		.seq_show = drmcs_show_stat,
-+	},
- 	{ } /* Zero entry terminates. */
- };
- 
 -- 
-2.39.2
+With Best Regards,
+Andy Shevchenko
+
 
