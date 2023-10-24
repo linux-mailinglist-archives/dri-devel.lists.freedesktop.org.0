@@ -1,50 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6CF57D4725
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Oct 2023 07:58:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B43A27D48E9
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Oct 2023 09:48:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B9F6810E2DA;
-	Tue, 24 Oct 2023 05:58:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DBC2C10E2EB;
+	Tue, 24 Oct 2023 07:48:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 556C510E008
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Oct 2023 05:58:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=MIME-Version:Content-Transfer-Encoding:Content-Type:References:
- In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=d54Mkgz9knVti1howqKS4E4piPBKh7+2uE4t5QBhWCo=; b=gX/Cyknlha9iNOiLemIQkieGN6
- fCA0cJZk4WDmZh3yrqBin8C9ruaKKPLE1eIT1rsqnW33iEqpSXFnUxnhw6K8UQRyLLqclkHubaM0g
- I8K1p6I2rSd2FETcvu+ByvhO/2TQUHGYkD6IOFSssI6l775MneMIgutQzBE+FAZ7qlyyoQi0xaYn+
- o3zcpgtM9fzyigP9c1usAjb5alER/be91RQ5Ltyf+04ECErsrNsNDximRhrmVWS2y9znJPzl+I76u
- deyzgLQPKiCskNxrneCR9uiHR1qGhB09EWqI7CgDKJnaLo4p+s5MgJNvDrlqPKnySyGLkbQgutkV5
- IXHKtwVQ==;
-Received: from 242.48.60.213.dynamic.reverse-mundo-r.com ([213.60.48.242]
- helo=[192.168.0.100]) by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1qvAQK-006EoT-9K; Tue, 24 Oct 2023 07:57:52 +0200
-Message-ID: <807b6fd6f6100c7cd824f4aa1a80ec1421d7222c.camel@igalia.com>
-Subject: Re: [PATCH 1/2] drm/v3d: wait for all jobs to finish before
- unregistering
-From: Iago Toral <itoral@igalia.com>
-To: =?ISO-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>, Emma Anholt
- <emma@anholt.net>, Melissa Wen <mwen@igalia.com>, David Airlie
- <airlied@gmail.com>,  Daniel Vetter <daniel@ffwll.ch>, Maarten Lankhorst
+X-Greylist: delayed 574 seconds by postgrey-1.36 at gabe;
+ Tue, 24 Oct 2023 00:23:42 UTC
+Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 52ED210E26F
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Oct 2023 00:23:42 +0000 (UTC)
+Received: from [192.168.68.112]
+ (ppp118-210-136-142.adl-adc-lon-bras33.tpg.internode.on.net
+ [118.210.136.142])
+ by mail.codeconstruct.com.au (Postfix) with ESMTPSA id B500F20034;
+ Tue, 24 Oct 2023 08:13:55 +0800 (AWST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=codeconstruct.com.au; s=2022a; t=1698106442;
+ bh=xf45kMR6lFEzv3Mn9oNtZZ7uAthFMPRd7r9ZXIrWv7I=;
+ h=Subject:From:To:Cc:Date:In-Reply-To:References;
+ b=GUx5geqNxZPF0MtIxzsvsFTVESMyuDuDjKHiWQqcyqRia/okbxSE6uKQbWe5g5re7
+ isGkc4IGs2cHg8pQT52IimK+B9wasH2ws3jzSxcyJ2gEG3WnW1ey5CCyqVtaHHPwHa
+ uckM7NPQt/eBPF/181w1K6w9tX3stP3Hjc6j7N9fSlPeIyjF/ZgUoAwl+QzFiaKKUT
+ 9bhPHskstheOQUIYsyupO760PTI21905eYXRhNDgDGmxKi0fqdHZqHLv3SPuwrm/5w
+ k+0crspYly9IZA0eq5iC9rzeTsO2uoNRITV5ohc6W8L0kgJB9+/Y0v+tsAuT06YqpS
+ j7oxYADgJPEIQ==
+Message-ID: <d4f77e13d3c5de613877450fd25bf5f77f1331a2.camel@codeconstruct.com.au>
+Subject: Re: [PATCH] drm: Use device_get_match_data()
+From: Andrew Jeffery <andrew@codeconstruct.com.au>
+To: Rob Herring <robh@kernel.org>, Russell King <linux@armlinux.org.uk>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Joel
+ Stanley <joel@jms.id.au>, Maarten Lankhorst
  <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
-Date: Tue, 24 Oct 2023 07:57:51 +0200
-In-Reply-To: <20231023105927.101502-1-mcanal@igalia.com>
-References: <20231023105927.101502-1-mcanal@igalia.com>
+ Thomas Zimmermann <tzimmermann@suse.de>, Inki Dae <inki.dae@samsung.com>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>, Kyungmin Park
+ <kyungmin.park@samsung.com>,  Krzysztof Kozlowski
+ <krzysztof.kozlowski@linaro.org>, Alim Akhtar <alim.akhtar@samsung.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team
+ <kernel@pengutronix.de>,  Fabio Estevam <festevam@gmail.com>, NXP Linux
+ Team <linux-imx@nxp.com>, Marek Vasut <marex@denx.de>, Stefan Agner
+ <stefan@agner.ch>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Date: Tue, 24 Oct 2023 10:43:55 +1030
+In-Reply-To: <20231020125214.2930329-1-robh@kernel.org>
+References: <20231020125214.2930329-1-robh@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1-0ubuntu1 
+User-Agent: Evolution 3.46.4-2 
 MIME-Version: 1.0
+X-Mailman-Approved-At: Tue, 24 Oct 2023 07:48:38 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,40 +65,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+ linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-El lun, 23-10-2023 a las 07:58 -0300, Ma=C3=ADra Canal escribi=C3=B3:
-> Currently, we are only warning the user if the BIN or RENDER jobs
-> don't
-> finish before we unregister V3D. We must wait for all jobs to finish
-> before unregistering. Therefore, warn the user if TFU or CSD jobs
-> are not done by the time the driver is unregistered.
+On Fri, 2023-10-20 at 07:52 -0500, Rob Herring wrote:
+> Use preferred device_get_match_data() instead of of_match_device() to
+> get the driver match data in a single step. With this, adjust the
+> includes to explicitly include the correct headers. That also serves as
+> preparation to remove implicit includes within the DT headers
+> (of_device.h in particular).
 >=20
-> Signed-off-by: Ma=C3=ADra Canal <mcanal@igalia.com>
+> Signed-off-by: Rob Herring <robh@kernel.org>
 > ---
-> =C2=A0drivers/gpu/drm/v3d/v3d_gem.c | 2 ++
-> =C2=A01 file changed, 2 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/v3d/v3d_gem.c
-> b/drivers/gpu/drm/v3d/v3d_gem.c
-> index 2e94ce788c71..afa7d170d1ff 100644
-> --- a/drivers/gpu/drm/v3d/v3d_gem.c
-> +++ b/drivers/gpu/drm/v3d/v3d_gem.c
-> @@ -1072,6 +1072,8 @@ v3d_gem_destroy(struct drm_device *dev)
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0WARN_ON(v3d->bin_job);
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0WARN_ON(v3d->render_job);
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0WARN_ON(v3d->tfu_job);
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0WARN_ON(v3d->csd_job);
+>  drivers/gpu/drm/armada/armada_crtc.c    | 24 +++++++-----------------
+>  drivers/gpu/drm/aspeed/aspeed_gfx_drv.c | 10 ++++------
 
-I guess we should do this for cache clean jobs too, right?
+For Aspeed:
 
-Iago
+Reviewed-by: Andrew Jeffery <andrew@codeconstruct.com.au>
 
-> =C2=A0
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0drm_mm_takedown(&v3d->mm)=
-;
-> =C2=A0
-
+Thanks!
