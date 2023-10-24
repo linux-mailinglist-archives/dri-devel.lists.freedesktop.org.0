@@ -1,44 +1,158 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D752B7D4CC7
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Oct 2023 11:43:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B5BF7D4C05
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Oct 2023 11:25:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 10C6410E313;
-	Tue, 24 Oct 2023 09:43:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C494710E0C7;
+	Tue, 24 Oct 2023 09:25:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 19A9610E314
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Oct 2023 09:42:51 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 88FABB82479;
- Tue, 24 Oct 2023 09:42:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D283AC433C7;
- Tue, 24 Oct 2023 09:42:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1698140569;
- bh=DFU09WW0O+MtYz9p3d26Rzb6brsgn66oo9v1uvK0fH0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=DcmICqZsThEMf0zt35VEjzkAUhcHCb4OOhpUVRZtG6Q3QiOyO64ChSSWa7tsSIjvu
- dM19FaD2UBHfywYmAP92cznf4/aUd/EPBrNKopEGjXSz+pLmJjCYmPajyoWw6bh3Eg
- 6jjtQc+NKhZwJGnuzI8qaQquPrGTJZ9KtvOrZJHTic3n/mcwM9l9+25YJ1Uwha4913
- DR13Gam8EDbO7vMjqUHpODWUzaFQndG6LClgV1NoBI0NzBMADnj/S9fFBJBlG1KbJV
- q/moxhhwwy9F3F8Gn/r7Xi5BszyBlA8In9bFDjMShpRgf3moIrWu5dBBl4V/y2032B
- cZQsMBRx+YS0g==
-Date: Tue, 24 Oct 2023 11:23:42 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Marco Pagani <marpagan@redhat.com>
-Subject: Re: [RFC PATCH] drm/test: add a test suite for GEM objects backed by
- shmem
-Message-ID: <zakappnhljtx3axi2ovvis3evhju4cwqrena7j6gqn5kjdjtsb@mgrhkn5oboid>
-References: <20231023164541.92913-1-marpagan@redhat.com>
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 77F1210E0C7
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Oct 2023 09:25:40 +0000 (UTC)
+X-UUID: 4870cf2a724f11ee8051498923ad61e6-20231024
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:MIME-Version:Content-Transfer-Encoding:Content-ID:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From;
+ bh=u433w46yRFgBfVj79kvjBTo9PU1WmBo502Ip1egfBv4=; 
+ b=rA6llwdQeRc+JI/7CRyjKaL0rWE8EF0obOMFREqtj3ZYmCAcRWlixlLrR9iXop82OmoCSNQK75F0LkzDZOoXPxjodrje7ovVPor6CqiAOqCOwlFoWzdloSTbos9vIafOmMutMoWsUzAJn5Ne3Tm4+QVhaal+07EHkalY5AhjfM8=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.32, REQID:0d654daa-7ddb-4c6a-82cc-46461b07597c, IP:0,
+ U
+ RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+ release,TS:0
+X-CID-META: VersionHash:5f78ec9, CLOUDID:501241d7-04a0-4e50-8742-3543eab8cb8e,
+ B
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:11|1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:
+ NO,DKR:0,DKP:0,BRR:0,BRE:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULN
+X-UUID: 4870cf2a724f11ee8051498923ad61e6-20231024
+Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by
+ mailgw02.mediatek.com (envelope-from <ck.hu@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1447953106; Tue, 24 Oct 2023 17:25:33 +0800
+Received: from mtkmbs10n1.mediatek.inc (172.21.101.34) by
+ mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Tue, 24 Oct 2023 17:25:32 +0800
+Received: from APC01-TYZ-obe.outbound.protection.outlook.com (172.21.101.237)
+ by mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP
+ Server id
+ 15.2.1118.26 via Frontend Transport; Tue, 24 Oct 2023 17:25:32 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jDD/sj0LsNqXGeg2IfyLmFdNNdJWFavBltssBv6MLVgGrT8bxsNoKQTLVLQt7QHtfpHcQZBTZv1T1O8tvFyk72xTStWqxR/k1M936hC/XNmvqM4CjyNuWTWdrCKpYunReGoe4Nij5ZqA2HNXUPy5EAAv0ydjOSqtC1Du3xmum+sp9qxQUVzOJstI8GvlKUvMGh1bY0pb2QECirOOzRRYISRMDlvihYq9oVFbyo4MuKw4kaptPMA37dxaTSsOGG3lqy0M9R+IFtiEVHdVHg/e/Z+ngYehsfajpQ9EU5VW08yQ5NL66rCjDxqX/+8SXApvH5n8UTnc82rIJdPI47J+9w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=radsxxGhvz0N/hazyKGoLm3wbBwpAfXckGdNSc60hG0=;
+ b=j5qE3MZ3xcT7CEbWsPc3NTU+yNir2MIYgfr8OLdROt35t6AVUjNbtjkDjcW5bsXiMyc+V5N0P/ur+qv7Bzjo1gY9sWk3CQL3cIYnTaGF9nP/E1XAqSX04g++n+h9jCyEfyL4T8mHlS2wGNMG6qXpp05hIBhcFXU0kDNnvPZoa8VTu3EmR4PdXy4ccJ0qk9L5danqqOH/KqsCIkiTkxd+BWr5uzGJ9X6wwoC02ASNmHZhYL+Uo+P/ydtD7Ub+aUgef+iZEiLzcoKDyw83/i3Dxq+uDoUPOkh4FgvIgdA//nmN4FY1srIi1aTZHQ4RalV4Gk1zTED9WmeNE7sX+fqIFw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
+ dkim=pass header.d=mediatek.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=radsxxGhvz0N/hazyKGoLm3wbBwpAfXckGdNSc60hG0=;
+ b=jBjTUIOz8DCGpvOL4/ZnsUpOmsLLxhsfivyCbHJeY/qq3bsXWmpqe+K/h5d4EnLCBJihbiWtWibLTjUGRzw3MR7w8Nv7JQ0of6gWD5YUaNogjjc4MxVYGfVPInv3rdkEGBnpEJUgjP9E3HwzZMRmkSKRaGkUaoXkbV1B4qvHaqg=
+Received: from TYZPR03MB6624.apcprd03.prod.outlook.com (2603:1096:400:1f4::13)
+ by SEZPR03MB7840.apcprd03.prod.outlook.com (2603:1096:101:18a::6)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6907.29; Tue, 24 Oct
+ 2023 09:25:30 +0000
+Received: from TYZPR03MB6624.apcprd03.prod.outlook.com
+ ([fe80::fe5a:c0e7:4b72:64f3]) by TYZPR03MB6624.apcprd03.prod.outlook.com
+ ([fe80::fe5a:c0e7:4b72:64f3%4]) with mapi id 15.20.6907.025; Tue, 24 Oct 2023
+ 09:25:29 +0000
+From: =?utf-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>
+To: =?utf-8?B?U2hhd24gU3VuZyAo5a6L5a2d6KyZKQ==?= <Shawn.Sung@mediatek.com>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+ "angelogioacchino.delregno@collabora.com"
+ <angelogioacchino.delregno@collabora.com>, "robh+dt@kernel.org"
+ <robh+dt@kernel.org>, "krzysztof.kozlowski+dt@linaro.org"
+ <krzysztof.kozlowski+dt@linaro.org>
+Subject: Re: [PATCH v10 15/24] drm/mediatek: Remove ineffectual power
+ management codes
+Thread-Topic: [PATCH v10 15/24] drm/mediatek: Remove ineffectual power
+ management codes
+Thread-Index: AQHaAlEm0dkQ5m+JsEiSR2VqoxkRGbBYs2yA
+Date: Tue, 24 Oct 2023 09:25:29 +0000
+Message-ID: <1f85f397425fa3332bd594e4b953593a1665287f.camel@mediatek.com>
+References: <20231019055619.19358-1-shawn.sung@mediatek.com>
+ <20231019055619.19358-16-shawn.sung@mediatek.com>
+In-Reply-To: <20231019055619.19358-16-shawn.sung@mediatek.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=mediatek.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYZPR03MB6624:EE_|SEZPR03MB7840:EE_
+x-ms-office365-filtering-correlation-id: 7528dbe7-2fb3-4f36-5770-08dbd4732a46
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: ZmImt8BbsNjiFsk6c8EFFFQAo3+ajO4oaL1ECen3/OjOV2fA7OCtLAjW5gErGsOMedSGHJbQQWDbWw6+ToZVj8HvcL4rRwPjNuAXY05utIRR+lwZCi1u86uC1Ea+XvXHganKzg8rwbNXQU7HrtyjzWHwYc9kc5aEP2kT5rqtwYGZeQIqzH5BI/T+tcpKCJfN1Ak/yzJ3ltxZJAfZNANRaBffnxWkkhLhN+qGi4JCZbvWXYTkly2UCpKnt17DKK3W4WWlz19cTjmXYEsrd645ZntFYgN7w54kViNAKVCzLcfJGiHsdPFdp8P9rhmz4GuHdd4UFIv93W0+PFUn38DncHpUxPa3HZY6uxzvGTwrhOkFkncbV/9t69PP4hLaE6XRMq/j7i31FTAhwJnhCYR6dXRYy3lvZx2RweX6DE1P62qgY7UmpAFXhEW2VXxbsUeteViyZ7Yoe2WUF6j6N31rI1EWZd/+aUez84Ct8A2myZP3JVdTmfsF5/niIWYcajTr4pmd940g4dJmnb+E3FgAMvbvV0jmss6+d200y6of9Zayxf74KbZkk7DCqzQexy7E1ch8cAyKh+F0byj+cH73fcyoADpRTaNj0NxgEKhmH9fQ+VdXvcOuwLLRGt93hct8HGzk5O9x6gtCDm4qTM9Smi44QruQAvgxwHXDzpv1BUk=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:TYZPR03MB6624.apcprd03.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(376002)(39860400002)(366004)(346002)(396003)(136003)(230922051799003)(1800799009)(186009)(64100799003)(451199024)(2906002)(2616005)(316002)(54906003)(26005)(6512007)(86362001)(110136005)(76116006)(66946007)(6486002)(478600001)(6506007)(71200400001)(83380400001)(122000001)(38100700002)(64756008)(7416002)(85182001)(5660300002)(66556008)(41300700001)(66446008)(66476007)(8936002)(8676002)(4326008)(36756003)(38070700009)(4001150100001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?YlcvbGE5RzRHajJjT1dqUEh5aDFZdkhDc2hMZGRMQWFJMUkyQnUrWmJtZWFs?=
+ =?utf-8?B?cHFLcUhDZG9EMCtrT1EzeXZSSm9hMmVJRTNOU0Z0OGV3NzMzMURwR1lLdk9n?=
+ =?utf-8?B?Rm9WSUpoRU4zeEg2ZHUzdDZoWGRlNExPRUdVQzNaRGRCeFVSL0c4dG1yU2VF?=
+ =?utf-8?B?OWp6MDBxL0ZsK1oxUE13cjJKMUJNWlJWR3RLS0c3R0hoVXl2RVFIRmw1czNI?=
+ =?utf-8?B?bTRwdU1mallld1lJV1N6blBFK3BUR1dYWmNqKzZZY0sxa1BTMFhLMnVlRXBV?=
+ =?utf-8?B?cTFtODNVdHZEdHZZTy83NllJN0VvU0xBWEFiVk9GOU5SQ2VGYW1yZEg1Y1Bv?=
+ =?utf-8?B?bGE3SUpvelFjbndFa2hZMHhRRHlNUlpqbmJvbXNHbVIyK1hrVWVxNUdnUUhJ?=
+ =?utf-8?B?T2dKNGpRMzlaWXVCcUI0UlpHZVJ6dlNybFJXeU83aDFmQVRDOUZVUmRaMzFi?=
+ =?utf-8?B?ZjdZZmtzN3Z0aEJ1Z3daNnVzTGZoNWcweVNWTmdyNzhHVDlZU1UvdVFWdlV5?=
+ =?utf-8?B?UlU5Uy9PdTlvYzdFcE03MHVJMzhWRXArbjVzaGFqbDRmRTUxWlVUaHBrVDUx?=
+ =?utf-8?B?ZnlURzNkZStXMVhqZnQzeWIrc0laMDJRTy9QcDFuemxaTnZ4a2FUS3RiU2dP?=
+ =?utf-8?B?RWFxbUZ6WCtTb3Q1YjZmS3I3SkduOFliYTUxemxxd0lTVnM2aGx2UEM0czVh?=
+ =?utf-8?B?QllmNkxWNDl4Y3hxT2ZZQmMzTTZsMmwvZXdPL0Q3U2NlWG1PUVF1dVdpOUNJ?=
+ =?utf-8?B?MFh6KzYxY2dvTVdrUnJrQXRJWjRXWlFIVnRBRTROMk1tTWdDWXMzc2Nnd0U4?=
+ =?utf-8?B?KzA0a2VmNWZSSHMzdG16T0VWbTZ5WEZEUlB3V05xQTJkQkRJbG5pS0ZUdVVW?=
+ =?utf-8?B?OXJJa0htdnkxTEc1ZWhCb0V2YThVRDhmN1pZOFFSVzJZYmxNcXBoYUdlSFV3?=
+ =?utf-8?B?ZVl0V3J3VlI0R3RvRk1rdUIzZzgyRjZLc3hrV01lWXd0aVZzTlc5LzhaZnhZ?=
+ =?utf-8?B?YjRVQjBJWThEWFNMY1M2R3JiWjg1UUVsTzhqMHJxY1l2MDltUTlyWnR5Y3dL?=
+ =?utf-8?B?STdLdktPeTB5SG9MUm1HWUR3a1pKbzZYQllBcVUzYnptSGFxNnFOZEZRYkZE?=
+ =?utf-8?B?THV1SU1yaFNzeG1HbXJ0U0VOdDZsU1liTm0vOWhka014WEdLZGFjNklQdGVK?=
+ =?utf-8?B?YWNYOGdnQlhqRFMrTE5scXhiMGpZc3J1NlBaU055aVY3dy9iWGtqT2hjd3pq?=
+ =?utf-8?B?cGxSYzVuLzhFMkJpa2xpRWt5R2cvR0VibXFrY3RxVFQ5cTE2Y1BnRHpWNHpZ?=
+ =?utf-8?B?a0NKaCtXbm52SHpxMTRaYTE5c091TkpsOUFNTzdtVVJqeGl6TEIrQWdiNWJH?=
+ =?utf-8?B?QkNENnJyZ21Kak1pUlBid2dJNGlaTno4MmlKSlVRT3NSZUovL2JNNStENzdH?=
+ =?utf-8?B?b2QwTHBIQ1V1eUQzZFZveWF1TWJpV0JTd0dRVVBSMDJnNGNEMDBEM3FPei9j?=
+ =?utf-8?B?aUtkQUpTR0ZmSCtNamZIQXFLVEJyaFBWRW05MnhKQWEyV2ROVEpFQjhwLzdD?=
+ =?utf-8?B?SjE2d2JpWXdxOXVicjVmOWJYcWI0MTFkVGFza1RYeENzOWp3NzJaallPL3k3?=
+ =?utf-8?B?bDBYVy9uK2sxZk5HekpPd2dmUk1xR3RFZEhKcEdBemJJcnJLc0NmYU45eGlU?=
+ =?utf-8?B?R1ZFVXBOWE9rUnNnbGpUc1FkaUs1M2JKR3lVdkJLOWNhMWFENmRJa0k1dWpD?=
+ =?utf-8?B?UlU1akRsNkoyYWxyVHJhTVB0WnNVYXVqVitETFJkTm9Bb3dHVWpmKzkvRVpP?=
+ =?utf-8?B?eUNuRGhoVkltNVBQcVVZaXM3MkplZDMxVTNkVHFkUW9oYTNwTnllUVkzdVZx?=
+ =?utf-8?B?cEx6eC85Y2VjZzhlQ2J2MjRpa3lsYXZVRjNOYkxhTlZtdFdpWDAxdDZHTVY3?=
+ =?utf-8?B?RzJOVE1jSzVlbjJ2elZhS1dpNmF6RlJhNFpLZHVBeGpVRnJ3Z2VocnNYVE90?=
+ =?utf-8?B?WG9vb0Q4dTZhTkswTDBHNm1rQUhzTHJiT3EwZHlYb2Z4b21nVGpna2ExR2RW?=
+ =?utf-8?B?aXNNNExpV0RNUXdFL2dDU0V0ajhoRWFSSGFwaUszUEMxMEtvM2szS3V4NnEy?=
+ =?utf-8?Q?0DgkHBjtrsEkEqQPImmGKnc4+?=
+Content-ID: <E03E56B4896855459E25B506180EA809@apcprd03.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="zwjf7egz7fyx5jnl"
-Content-Disposition: inline
-In-Reply-To: <20231023164541.92913-1-marpagan@redhat.com>
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYZPR03MB6624.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7528dbe7-2fb3-4f36-5770-08dbd4732a46
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Oct 2023 09:25:29.8385 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: RdDMvX3Yr6wukUk/2xiEClo8GCB4yk/HD1LXB6dkPYifnEv+0cr2czyHmSzI906XhG9rHCigOX91dfqmmLelQw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEZPR03MB7840
+Content-Type: multipart/alternative;
+ boundary="__=_Part_Boundary_001_1974107053.941335175"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,391 +165,182 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Sumit Semwal <sumit.semwal@linaro.org>,
- linaro-mm-sig@lists.linaro.org, Christian Koenig <christian.koenig@amd.com>,
- linux-media@vger.kernel.org
+Cc: =?utf-8?B?TmF0aGFuIEx1ICjlkYLmnbHpnJYp?= <Nathan.Lu@mediatek.com>,
+ "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ =?utf-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "sean@poorly.run" <sean@poorly.run>,
+ "johnson.wang@mediatek.corp-partner.google.com"
+ <johnson.wang@mediatek.corp-partner.google.com>,
+ =?utf-8?B?TW91ZHkgSG8gKOS9leWul+WOnyk=?= <Moudy.Ho@mediatek.com>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ =?utf-8?B?TmFuY3kgTGluICjmnpfmrKPonqIp?= <Nancy.Lin@mediatek.com>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+--__=_Part_Boundary_001_1974107053.941335175
+Content-Type: text/html;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
 
---zwjf7egz7fyx5jnl
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+PHByZT4NCkhpLCYjMzI7SHNpYW8tY2hpZW46DQoNCk9uJiMzMjtUaHUsJiMzMjsyMDIzLTEwLTE5
+JiMzMjthdCYjMzI7MTM6NTYmIzMyOyswODAwLCYjMzI7SHNpYW8mIzMyO0NoaWVuJiMzMjtTdW5n
+JiMzMjt3cm90ZToNCiZndDsmIzMyO0Rpc3BsYXkmIzMyO21vZHVsZXMmIzMyO3dpbGwmIzMyO2Jl
+JiMzMjtwb3dlcmVkJiMzMjtvbiYjMzI7d2hlbiYjMzI7LmF0b21pY19lbmFibGUoKSwNCiZndDsm
+IzMyO3RoZXJlJiMzMjtpcyYjMzI7bm8mIzMyO25lZWQmIzMyO3RvJiMzMjtkbyYjMzI7aXQmIzMy
+O2FnYWluJiMzMjtpbiYjMzI7bXRrX2NydGNfZGRwX2h3X2luaXQoKS4NCiZndDsmIzMyO0Jlc2lk
+ZXMsJiMzMjt0aGUmIzMyO0RSTSYjMzI7ZGV2aWNlcyYjMzI7YXJlJiMzMjtjcmVhdGVkJiMzMjtt
+YW51YWxseSYjMzI7d2hlbiYjMzI7bXRrLW1tc3lzDQomZ3Q7JiMzMjtpcyYjMzI7cHJvYmVkJiMz
+MjthbmQmIzMyO3RoZXJlJiMzMjtpcyYjMzI7bm8mIzMyO3Bvd2VyJiMzMjtkb21haW4mIzMyO2xp
+bmtlZCYjMzI7dG8mIzMyO2l0Lg0KJmd0OyYjMzI7DQomZ3Q7JiMzMjtGaXhlczomIzMyOzExOWY1
+MTczNjI4YSYjMzI7KCZxdW90O2RybS9tZWRpYXRlazomIzMyO0FkZCYjMzI7RFJNJiMzMjtEcml2
+ZXImIzMyO2ZvciYjMzI7TWVkaWF0ZWsmIzMyO1NvQw0KJmd0OyYjMzI7TVQ4MTczLiZxdW90OykN
+CiZndDsmIzMyOw0KJmd0OyYjMzI7U2lnbmVkLW9mZi1ieTomIzMyO0hzaWFvJiMzMjtDaGllbiYj
+MzI7U3VuZyYjMzI7Jmx0O3NoYXduLnN1bmdAbWVkaWF0ZWsuY29tJmd0Ow0KJmd0OyYjMzI7LS0t
+DQomZ3Q7JiMzMjsmIzMyO2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2NydGMuYyYj
+MzI7fCYjMzI7MTgmIzMyOysrKy0tLS0tLS0tLS0tLS0tLQ0KJmd0OyYjMzI7JiMzMjsxJiMzMjtm
+aWxlJiMzMjtjaGFuZ2VkLCYjMzI7MyYjMzI7aW5zZXJ0aW9ucygrKSwmIzMyOzE1JiMzMjtkZWxl
+dGlvbnMoLSkNCiZndDsmIzMyOw0KJmd0OyYjMzI7ZGlmZiYjMzI7LS1naXQmIzMyO2EvZHJpdmVy
+cy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fY3J0Yy5jDQomZ3Q7JiMzMjtiL2RyaXZlcnMvZ3B1
+L2RybS9tZWRpYXRlay9tdGtfZHJtX2NydGMuYw0KJmd0OyYjMzI7aW5kZXgmIzMyO2JjNGNjNzVj
+Y2ExOC4uYzdlZGQ4MGJlNDI4JiMzMjsxMDA2NDQNCiZndDsmIzMyOy0tLSYjMzI7YS9kcml2ZXJz
+L2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9jcnRjLmMNCiZndDsmIzMyOysrKyYjMzI7Yi9kcml2
+ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9jcnRjLmMNCiZndDsmIzMyO0BAJiMzMjstNiw3
+JiMzMjsrNiw2JiMzMjtAQA0KJmd0OyYjMzI7JiMzMjsjaW5jbHVkZSYjMzI7Jmx0O2xpbnV4L2Ns
+ay5oJmd0Ow0KJmd0OyYjMzI7JiMzMjsjaW5jbHVkZSYjMzI7Jmx0O2xpbnV4L2RtYS1tYXBwaW5n
+LmgmZ3Q7DQomZ3Q7JiMzMjsmIzMyOyNpbmNsdWRlJiMzMjsmbHQ7bGludXgvbWFpbGJveF9jb250
+cm9sbGVyLmgmZ3Q7DQomZ3Q7JiMzMjstI2luY2x1ZGUmIzMyOyZsdDtsaW51eC9wbV9ydW50aW1l
+LmgmZ3Q7DQomZ3Q7JiMzMjsmIzMyOyNpbmNsdWRlJiMzMjsmbHQ7bGludXgvc29jL21lZGlhdGVr
+L210ay1jbWRxLmgmZ3Q7DQomZ3Q7JiMzMjsmIzMyOyNpbmNsdWRlJiMzMjsmbHQ7bGludXgvc29j
+L21lZGlhdGVrL210ay1tbXN5cy5oJmd0Ow0KJmd0OyYjMzI7JiMzMjsjaW5jbHVkZSYjMzI7Jmx0
+O2xpbnV4L3NvYy9tZWRpYXRlay9tdGstbXV0ZXguaCZndDsNCiZndDsmIzMyO0BAJiMzMjstMzYy
+LDIyJiMzMjsrMzYxLDE2JiMzMjtAQCYjMzI7c3RhdGljJiMzMjtpbnQmIzMyO210a19jcnRjX2Rk
+cF9od19pbml0KHN0cnVjdA0KJmd0OyYjMzI7bXRrX2RybV9jcnRjJiMzMjsqbXRrX2NydGMsJiMz
+MjtzdHJ1Y3QmIzMyO2RybV9hdG9taWMNCiZndDsmIzMyOyYjMzI7ZHJtX2Nvbm5lY3Rvcl9saXN0
+X2l0ZXJfZW5kKCZhbXA7Y29ubl9pdGVyKTsNCiZndDsmIzMyOyYjMzI7fQ0KJmd0OyYjMzI7JiMz
+MjsNCiZndDsmIzMyOy1yZXQmIzMyOz0mIzMyO3BtX3J1bnRpbWVfcmVzdW1lX2FuZF9nZXQoY3J0
+Yy0mZ3Q7ZGV2LSZndDtkZXYpOw0KDQpjcnRjLSZndDtkZXYtJmd0O2RldiYjMzI7aXMmIzMyO21t
+c3lzJiMzMjtkZXZpY2UuJiMzMjtJbiYjMzI7bXQ4MTczLmR0c2ksJiMzMjt5b3UmIzMyO2NvdWxk
+JiMzMjtmaW5kJiMzMjt0aGF0DQptbXN5cyYjMzI7aGFzJiMzMjtpdHMmIzMyO293biYjMzI7cG93
+ZXIuJiMzMjtTbyYjMzI7SSYjMzI7dGhpbmsmIzMyO3dlJiMzMjtzaG91bGQmIzMyO2tlZXAmIzMy
+O3RoaXMuDQoNClJlZ2FyZHMsDQpDSw0KDQomZ3Q7JiMzMjstaWYmIzMyOyhyZXQmIzMyOyZsdDsm
+IzMyOzApJiMzMjt7DQomZ3Q7JiMzMjstRFJNX0VSUk9SKCZxdW90O0ZhaWxlZCYjMzI7dG8mIzMy
+O2VuYWJsZSYjMzI7cG93ZXImIzMyO2RvbWFpbjomIzMyOyVkJiM5MjtuJnF1b3Q7LCYjMzI7cmV0
+KTsNCiZndDsmIzMyOy1yZXR1cm4mIzMyO3JldDsNCiZndDsmIzMyOy19DQomZ3Q7JiMzMjstDQom
+Z3Q7JiMzMjsmIzMyO3JldCYjMzI7PSYjMzI7bXRrX211dGV4X3ByZXBhcmUobXRrX2NydGMtJmd0
+O211dGV4KTsNCiZndDsmIzMyOyYjMzI7aWYmIzMyOyhyZXQmIzMyOyZsdDsmIzMyOzApJiMzMjt7
+DQomZ3Q7JiMzMjsmIzMyO0RSTV9FUlJPUigmcXVvdDtGYWlsZWQmIzMyO3RvJiMzMjtlbmFibGUm
+IzMyO211dGV4JiMzMjtjbG9jazomIzMyOyVkJiM5MjtuJnF1b3Q7LCYjMzI7cmV0KTsNCiZndDsm
+IzMyOy1nb3RvJiMzMjtlcnJfcG1fcnVudGltZV9wdXQ7DQomZ3Q7JiMzMjsrZ290byYjMzI7ZXJy
+b3I7DQomZ3Q7JiMzMjsmIzMyO30NCiZndDsmIzMyOyYjMzI7DQomZ3Q7JiMzMjsmIzMyO3JldCYj
+MzI7PSYjMzI7bXRrX2NydGNfZGRwX2Nsa19lbmFibGUobXRrX2NydGMpOw0KJmd0OyYjMzI7JiMz
+MjtpZiYjMzI7KHJldCYjMzI7Jmx0OyYjMzI7MCkmIzMyO3sNCiZndDsmIzMyOyYjMzI7RFJNX0VS
+Uk9SKCZxdW90O0ZhaWxlZCYjMzI7dG8mIzMyO2VuYWJsZSYjMzI7Y29tcG9uZW50JiMzMjtjbG9j
+a3M6JiMzMjslZCYjOTI7biZxdW90OywNCiZndDsmIzMyO3JldCk7DQomZ3Q7JiMzMjstZ290byYj
+MzI7ZXJyX211dGV4X3VucHJlcGFyZTsNCiZndDsmIzMyOytnb3RvJiMzMjtlcnJvcjsNCiZndDsm
+IzMyOyYjMzI7fQ0KJmd0OyYjMzI7JiMzMjsNCiZndDsmIzMyOyYjMzI7Zm9yJiMzMjsoaSYjMzI7
+PSYjMzI7MDsmIzMyO2kmIzMyOyZsdDsmIzMyO210a19jcnRjLSZndDtkZHBfY29tcF9uciYjMzI7
+LSYjMzI7MTsmIzMyO2krKykmIzMyO3sNCiZndDsmIzMyO0BAJiMzMjstNDI2LDE2JiMzMjsrNDE5
+LDEzJiMzMjtAQCYjMzI7c3RhdGljJiMzMjtpbnQmIzMyO210a19jcnRjX2RkcF9od19pbml0KHN0
+cnVjdA0KJmd0OyYjMzI7bXRrX2RybV9jcnRjJiMzMjsqbXRrX2NydGMsJiMzMjtzdHJ1Y3QmIzMy
+O2RybV9hdG9taWMNCiZndDsmIzMyOyYjMzI7DQomZ3Q7JiMzMjsmIzMyO3JldHVybiYjMzI7MDsN
+CiZndDsmIzMyOyYjMzI7DQomZ3Q7JiMzMjstZXJyX211dGV4X3VucHJlcGFyZToNCiZndDsmIzMy
+OytlcnJvcjoNCiZndDsmIzMyOyYjMzI7bXRrX211dGV4X3VucHJlcGFyZShtdGtfY3J0Yy0mZ3Q7
+bXV0ZXgpOw0KJmd0OyYjMzI7LWVycl9wbV9ydW50aW1lX3B1dDoNCiZndDsmIzMyOy1wbV9ydW50
+aW1lX3B1dChjcnRjLSZndDtkZXYtJmd0O2Rldik7DQomZ3Q7JiMzMjsmIzMyO3JldHVybiYjMzI7
+cmV0Ow0KJmd0OyYjMzI7JiMzMjt9DQomZ3Q7JiMzMjsmIzMyOw0KJmd0OyYjMzI7JiMzMjtzdGF0
+aWMmIzMyO3ZvaWQmIzMyO210a19jcnRjX2RkcF9od19maW5pKHN0cnVjdCYjMzI7bXRrX2RybV9j
+cnRjJiMzMjsqbXRrX2NydGMpDQomZ3Q7JiMzMjsmIzMyO3sNCiZndDsmIzMyOy1zdHJ1Y3QmIzMy
+O2RybV9kZXZpY2UmIzMyOypkcm0mIzMyOz0mIzMyO210a19jcnRjLSZndDtiYXNlLmRldjsNCiZn
+dDsmIzMyOyYjMzI7c3RydWN0JiMzMjtkcm1fY3J0YyYjMzI7KmNydGMmIzMyOz0mIzMyOyZhbXA7
+bXRrX2NydGMtJmd0O2Jhc2U7DQomZ3Q7JiMzMjsmIzMyO2ludCYjMzI7aTsNCiZndDsmIzMyOyYj
+MzI7DQomZ3Q7JiMzMjtAQCYjMzI7LTQ2NSw4JiMzMjsrNDU1LDYmIzMyO0BAJiMzMjtzdGF0aWMm
+IzMyO3ZvaWQmIzMyO210a19jcnRjX2RkcF9od19maW5pKHN0cnVjdA0KJmd0OyYjMzI7bXRrX2Ry
+bV9jcnRjJiMzMjsqbXRrX2NydGMpDQomZ3Q7JiMzMjsmIzMyO210a19jcnRjX2RkcF9jbGtfZGlz
+YWJsZShtdGtfY3J0Yyk7DQomZ3Q7JiMzMjsmIzMyO210a19tdXRleF91bnByZXBhcmUobXRrX2Ny
+dGMtJmd0O211dGV4KTsNCiZndDsmIzMyOyYjMzI7DQomZ3Q7JiMzMjstcG1fcnVudGltZV9wdXQo
+ZHJtLSZndDtkZXYpOw0KJmd0OyYjMzI7LQ0KJmd0OyYjMzI7JiMzMjtpZiYjMzI7KGNydGMtJmd0
+O3N0YXRlLSZndDtldmVudCYjMzI7JmFtcDsmYW1wOyYjMzI7IWNydGMtJmd0O3N0YXRlLSZndDth
+Y3RpdmUpJiMzMjt7DQomZ3Q7JiMzMjsmIzMyO3NwaW5fbG9ja19pcnEoJmFtcDtjcnRjLSZndDtk
+ZXYtJmd0O2V2ZW50X2xvY2spOw0KJmd0OyYjMzI7JiMzMjtkcm1fY3J0Y19zZW5kX3ZibGFua19l
+dmVudChjcnRjLCYjMzI7Y3J0Yy0mZ3Q7c3RhdGUtJmd0O2V2ZW50KTsNCg0KPC9wcmU+PCEtLXR5
+cGU6dGV4dC0tPjwhLS17LS0+PHByZT4qKioqKioqKioqKioqIE1FRElBVEVLIENvbmZpZGVudGlh
+bGl0eSBOb3RpY2UNCiAqKioqKioqKioqKioqKioqKioqKg0KVGhlIGluZm9ybWF0aW9uIGNvbnRh
+aW5lZCBpbiB0aGlzIGUtbWFpbCBtZXNzYWdlIChpbmNsdWRpbmcgYW55IA0KYXR0YWNobWVudHMp
+IG1heSBiZSBjb25maWRlbnRpYWwsIHByb3ByaWV0YXJ5LCBwcml2aWxlZ2VkLCBvciBvdGhlcndp
+c2UNCmV4ZW1wdCBmcm9tIGRpc2Nsb3N1cmUgdW5kZXIgYXBwbGljYWJsZSBsYXdzLiBJdCBpcyBp
+bnRlbmRlZCB0byBiZSANCmNvbnZleWVkIG9ubHkgdG8gdGhlIGRlc2lnbmF0ZWQgcmVjaXBpZW50
+KHMpLiBBbnkgdXNlLCBkaXNzZW1pbmF0aW9uLCANCmRpc3RyaWJ1dGlvbiwgcHJpbnRpbmcsIHJl
+dGFpbmluZyBvciBjb3B5aW5nIG9mIHRoaXMgZS1tYWlsIChpbmNsdWRpbmcgaXRzIA0KYXR0YWNo
+bWVudHMpIGJ5IHVuaW50ZW5kZWQgcmVjaXBpZW50KHMpIGlzIHN0cmljdGx5IHByb2hpYml0ZWQg
+YW5kIG1heSANCmJlIHVubGF3ZnVsLiBJZiB5b3UgYXJlIG5vdCBhbiBpbnRlbmRlZCByZWNpcGll
+bnQgb2YgdGhpcyBlLW1haWwsIG9yIGJlbGlldmUNCiANCnRoYXQgeW91IGhhdmUgcmVjZWl2ZWQg
+dGhpcyBlLW1haWwgaW4gZXJyb3IsIHBsZWFzZSBub3RpZnkgdGhlIHNlbmRlciANCmltbWVkaWF0
+ZWx5IChieSByZXBseWluZyB0byB0aGlzIGUtbWFpbCksIGRlbGV0ZSBhbnkgYW5kIGFsbCBjb3Bp
+ZXMgb2YgDQp0aGlzIGUtbWFpbCAoaW5jbHVkaW5nIGFueSBhdHRhY2htZW50cykgZnJvbSB5b3Vy
+IHN5c3RlbSwgYW5kIGRvIG5vdA0KZGlzY2xvc2UgdGhlIGNvbnRlbnQgb2YgdGhpcyBlLW1haWwg
+dG8gYW55IG90aGVyIHBlcnNvbi4gVGhhbmsgeW91IQ0KPC9wcmU+PCEtLX0tLT4=
 
-Hi Marco,
+--__=_Part_Boundary_001_1974107053.941335175
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On Mon, Oct 23, 2023 at 06:45:40PM +0200, Marco Pagani wrote:
-> This patch introduces an initial KUnit test suite for GEM objects
-> backed by shmem buffers.
->=20
-> Signed-off-by: Marco Pagani <marpagan@redhat.com>
-> ---
->  drivers/gpu/drm/Kconfig                    |   1 +
->  drivers/gpu/drm/tests/Makefile             |   3 +-
->  drivers/gpu/drm/tests/drm_gem_shmem_test.c | 303 +++++++++++++++++++++
->  3 files changed, 306 insertions(+), 1 deletion(-)
->  create mode 100644 drivers/gpu/drm/tests/drm_gem_shmem_test.c
->=20
-> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-> index 3eee8636f847..f0a77e3e04d7 100644
-> --- a/drivers/gpu/drm/Kconfig
-> +++ b/drivers/gpu/drm/Kconfig
-> @@ -84,6 +84,7 @@ config DRM_KUNIT_TEST
->  	select DRM_EXPORT_FOR_TESTS if m
->  	select DRM_KUNIT_TEST_HELPERS
->  	select DRM_EXEC
-> +	select DRM_GEM_SHMEM_HELPER
+SGksIEhzaWFvLWNoaWVuOg0KDQpPbiBUaHUsIDIwMjMtMTAtMTkgYXQgMTM6NTYgKzA4MDAsIEhz
+aWFvIENoaWVuIFN1bmcgd3JvdGU6DQo+IERpc3BsYXkgbW9kdWxlcyB3aWxsIGJlIHBvd2VyZWQg
+b24gd2hlbiAuYXRvbWljX2VuYWJsZSgpLA0KPiB0aGVyZSBpcyBubyBuZWVkIHRvIGRvIGl0IGFn
+YWluIGluIG10a19jcnRjX2RkcF9od19pbml0KCkuDQo+IEJlc2lkZXMsIHRoZSBEUk0gZGV2aWNl
+cyBhcmUgY3JlYXRlZCBtYW51YWxseSB3aGVuIG10ay1tbXN5cw0KPiBpcyBwcm9iZWQgYW5kIHRo
+ZXJlIGlzIG5vIHBvd2VyIGRvbWFpbiBsaW5rZWQgdG8gaXQuDQo+IA0KPiBGaXhlczogMTE5ZjUx
+NzM2MjhhICgiZHJtL21lZGlhdGVrOiBBZGQgRFJNIERyaXZlciBmb3IgTWVkaWF0ZWsgU29DDQo+
+IE1UODE3My4iKQ0KPiANCj4gU2lnbmVkLW9mZi1ieTogSHNpYW8gQ2hpZW4gU3VuZyA8c2hhd24u
+c3VuZ0BtZWRpYXRlay5jb20+DQo+IC0tLQ0KPiAgZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210
+a19kcm1fY3J0Yy5jIHwgMTggKysrLS0tLS0tLS0tLS0tLS0tDQo+ICAxIGZpbGUgY2hhbmdlZCwg
+MyBpbnNlcnRpb25zKCspLCAxNSBkZWxldGlvbnMoLSkNCj4gDQo+IGRpZmYgLS1naXQgYS9kcml2
+ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9jcnRjLmMNCj4gYi9kcml2ZXJzL2dwdS9kcm0v
+bWVkaWF0ZWsvbXRrX2RybV9jcnRjLmMNCj4gaW5kZXggYmM0Y2M3NWNjYTE4Li5jN2VkZDgwYmU0
+MjggMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2NydGMu
+Yw0KPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9jcnRjLmMNCj4gQEAg
+LTYsNyArNiw2IEBADQo+ICAjaW5jbHVkZSA8bGludXgvY2xrLmg+DQo+ICAjaW5jbHVkZSA8bGlu
+dXgvZG1hLW1hcHBpbmcuaD4NCj4gICNpbmNsdWRlIDxsaW51eC9tYWlsYm94X2NvbnRyb2xsZXIu
+aD4NCj4gLSNpbmNsdWRlIDxsaW51eC9wbV9ydW50aW1lLmg+DQo+ICAjaW5jbHVkZSA8bGludXgv
+c29jL21lZGlhdGVrL210ay1jbWRxLmg+DQo+ICAjaW5jbHVkZSA8bGludXgvc29jL21lZGlhdGVr
+L210ay1tbXN5cy5oPg0KPiAgI2luY2x1ZGUgPGxpbnV4L3NvYy9tZWRpYXRlay9tdGstbXV0ZXgu
+aD4NCj4gQEAgLTM2MiwyMiArMzYxLDE2IEBAIHN0YXRpYyBpbnQgbXRrX2NydGNfZGRwX2h3X2lu
+aXQoc3RydWN0DQo+IG10a19kcm1fY3J0YyAqbXRrX2NydGMsIHN0cnVjdCBkcm1fYXRvbWljDQo+
+ICAJCWRybV9jb25uZWN0b3JfbGlzdF9pdGVyX2VuZCgmY29ubl9pdGVyKTsNCj4gIAl9DQo+ICAN
+Cj4gLQlyZXQgPSBwbV9ydW50aW1lX3Jlc3VtZV9hbmRfZ2V0KGNydGMtPmRldi0+ZGV2KTsNCg0K
+Y3J0Yy0+ZGV2LT5kZXYgaXMgbW1zeXMgZGV2aWNlLiBJbiBtdDgxNzMuZHRzaSwgeW91IGNvdWxk
+IGZpbmQgdGhhdA0KbW1zeXMgaGFzIGl0cyBvd24gcG93ZXIuIFNvIEkgdGhpbmsgd2Ugc2hvdWxk
+IGtlZXAgdGhpcy4NCg0KUmVnYXJkcywNCkNLDQoNCj4gLQlpZiAocmV0IDwgMCkgew0KPiAtCQlE
+Uk1fRVJST1IoIkZhaWxlZCB0byBlbmFibGUgcG93ZXIgZG9tYWluOiAlZFxuIiwgcmV0KTsNCj4g
+LQkJcmV0dXJuIHJldDsNCj4gLQl9DQo+IC0NCj4gIAlyZXQgPSBtdGtfbXV0ZXhfcHJlcGFyZSht
+dGtfY3J0Yy0+bXV0ZXgpOw0KPiAgCWlmIChyZXQgPCAwKSB7DQo+ICAJCURSTV9FUlJPUigiRmFp
+bGVkIHRvIGVuYWJsZSBtdXRleCBjbG9jazogJWRcbiIsIHJldCk7DQo+IC0JCWdvdG8gZXJyX3Bt
+X3J1bnRpbWVfcHV0Ow0KPiArCQlnb3RvIGVycm9yOw0KPiAgCX0NCj4gIA0KPiAgCXJldCA9IG10
+a19jcnRjX2RkcF9jbGtfZW5hYmxlKG10a19jcnRjKTsNCj4gIAlpZiAocmV0IDwgMCkgew0KPiAg
+CQlEUk1fRVJST1IoIkZhaWxlZCB0byBlbmFibGUgY29tcG9uZW50IGNsb2NrczogJWRcbiIsDQo+
+IHJldCk7DQo+IC0JCWdvdG8gZXJyX211dGV4X3VucHJlcGFyZTsNCj4gKwkJZ290byBlcnJvcjsN
+Cj4gIAl9DQo+ICANCj4gIAlmb3IgKGkgPSAwOyBpIDwgbXRrX2NydGMtPmRkcF9jb21wX25yIC0g
+MTsgaSsrKSB7DQo+IEBAIC00MjYsMTYgKzQxOSwxMyBAQCBzdGF0aWMgaW50IG10a19jcnRjX2Rk
+cF9od19pbml0KHN0cnVjdA0KPiBtdGtfZHJtX2NydGMgKm10a19jcnRjLCBzdHJ1Y3QgZHJtX2F0
+b21pYw0KPiAgDQo+ICAJcmV0dXJuIDA7DQo+ICANCj4gLWVycl9tdXRleF91bnByZXBhcmU6DQo+
+ICtlcnJvcjoNCj4gIAltdGtfbXV0ZXhfdW5wcmVwYXJlKG10a19jcnRjLT5tdXRleCk7DQo+IC1l
+cnJfcG1fcnVudGltZV9wdXQ6DQo+IC0JcG1fcnVudGltZV9wdXQoY3J0Yy0+ZGV2LT5kZXYpOw0K
+PiAgCXJldHVybiByZXQ7DQo+ICB9DQo+ICANCj4gIHN0YXRpYyB2b2lkIG10a19jcnRjX2RkcF9o
+d19maW5pKHN0cnVjdCBtdGtfZHJtX2NydGMgKm10a19jcnRjKQ0KPiAgew0KPiAtCXN0cnVjdCBk
+cm1fZGV2aWNlICpkcm0gPSBtdGtfY3J0Yy0+YmFzZS5kZXY7DQo+ICAJc3RydWN0IGRybV9jcnRj
+ICpjcnRjID0gJm10a19jcnRjLT5iYXNlOw0KPiAgCWludCBpOw0KPiAgDQo+IEBAIC00NjUsOCAr
+NDU1LDYgQEAgc3RhdGljIHZvaWQgbXRrX2NydGNfZGRwX2h3X2Zpbmkoc3RydWN0DQo+IG10a19k
+cm1fY3J0YyAqbXRrX2NydGMpDQo+ICAJbXRrX2NydGNfZGRwX2Nsa19kaXNhYmxlKG10a19jcnRj
+KTsNCj4gIAltdGtfbXV0ZXhfdW5wcmVwYXJlKG10a19jcnRjLT5tdXRleCk7DQo+ICANCj4gLQlw
+bV9ydW50aW1lX3B1dChkcm0tPmRldik7DQo+IC0NCj4gIAlpZiAoY3J0Yy0+c3RhdGUtPmV2ZW50
+ICYmICFjcnRjLT5zdGF0ZS0+YWN0aXZlKSB7DQo+ICAJCXNwaW5fbG9ja19pcnEoJmNydGMtPmRl
+di0+ZXZlbnRfbG9jayk7DQo+ICAJCWRybV9jcnRjX3NlbmRfdmJsYW5rX2V2ZW50KGNydGMsIGNy
+dGMtPnN0YXRlLT5ldmVudCk7DQo=
 
-I know that DRM_EXEC already stands out, but these should be ordered
-alphabetically, so it should be before DRM_KUNIT_TEST_HELPERS.
+--__=_Part_Boundary_001_1974107053.941335175--
 
->  	default KUNIT_ALL_TESTS
->  	help
->  	  This builds unit tests for DRM. This option is not useful for
-> diff --git a/drivers/gpu/drm/tests/Makefile b/drivers/gpu/drm/tests/Makef=
-ile
-> index ba7baa622675..b8227aab369e 100644
-> --- a/drivers/gpu/drm/tests/Makefile
-> +++ b/drivers/gpu/drm/tests/Makefile
-> @@ -18,6 +18,7 @@ obj-$(CONFIG_DRM_KUNIT_TEST) +=3D \
->  	drm_plane_helper_test.o \
->  	drm_probe_helper_test.o \
->  	drm_rect_test.o	\
-> -	drm_exec_test.o
-> +	drm_exec_test.o \
-> +	drm_gem_shmem_test.o
-
-Ditto.
-
->  CFLAGS_drm_mm_test.o :=3D $(DISABLE_STRUCTLEAK_PLUGIN)
-> diff --git a/drivers/gpu/drm/tests/drm_gem_shmem_test.c b/drivers/gpu/drm=
-/tests/drm_gem_shmem_test.c
-> new file mode 100644
-> index 000000000000..0bf6727f08d2
-> --- /dev/null
-> +++ b/drivers/gpu/drm/tests/drm_gem_shmem_test.c
-> @@ -0,0 +1,303 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * KUnit test suite for GEM objects backed by shmem buffers
-> + *
-> + * Copyright (C) 2023 Red Hat, Inc.
-> + *
-> + * Author: Marco Pagani <marpagan@redhat.com>
-> + */
-> +
-> +#include <linux/dma-buf.h>
-> +#include <linux/iosys-map.h>
-> +#include <linux/sizes.h>
-> +
-> +#include <kunit/test.h>
-> +
-> +#include <drm/drm_device.h>
-> +#include <drm/drm_drv.h>
-> +#include <drm/drm_gem.h>
-> +#include <drm/drm_gem_shmem_helper.h>
-> +#include <drm/drm_kunit_helpers.h>
-> +
-> +#define TEST_SIZE		SZ_1M
-> +#define TEST_BYTE		0xae
-> +
-> +struct fake_dev {
-> +	struct drm_device drm_dev;
-> +	struct device *dev;
-> +};
-> +
-> +/* Test creating a shmem GEM object */
-> +static void drm_gem_shmem_test_obj_create(struct kunit *test)
-> +{
-> +	struct fake_dev *fdev =3D test->priv;
-> +	struct drm_gem_shmem_object *shmem;
-> +
-> +	shmem =3D drm_gem_shmem_create(&fdev->drm_dev, TEST_SIZE);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, shmem);
-> +	KUNIT_ASSERT_EQ(test, shmem->base.size, TEST_SIZE);
-> +	KUNIT_ASSERT_NOT_NULL(test, shmem->base.filp);
-> +	KUNIT_ASSERT_NOT_NULL(test, shmem->base.funcs);
-> +
-> +	drm_gem_shmem_free(shmem);
-> +}
-> +
-> +/* Test creating a private shmem GEM object from a scatter/gather table =
-*/
-
-Thanks for documenting those tests. I believe we should also document
-what we expect from the test: should the test succeed? fail? if it
-fails, what is the cause of failure?
-
-Based on the following test, I think something like the following would
-be good:
-
-Test that creating a private shmem GEM object from a previously
-allocated sg_table succeeds and is properly initialized
-
-Feel free to change it to something else if you find something missing.
-
-> +static void drm_gem_shmem_test_obj_create_private(struct kunit *test)
-> +{
-> +	struct fake_dev *fdev =3D test->priv;
-> +	struct drm_gem_shmem_object *shmem;
-> +	struct drm_gem_object *gem_obj;
-> +	struct dma_buf buf_mock;
-> +	struct dma_buf_attachment attach_mock;
-> +	struct sg_table *sgt;
-> +	char *buf;
-> +	int ret;
-> +
-> +	/* Create a mock scatter/gather table */
-> +	buf =3D kunit_kzalloc(test, TEST_SIZE, GFP_KERNEL);
-> +	KUNIT_ASSERT_NOT_NULL(test, buf);
-> +
-> +	sgt =3D kzalloc(sizeof(*sgt), GFP_KERNEL);
-> +	KUNIT_ASSERT_NOT_NULL(test, sgt);
-> +
-> +	ret =3D sg_alloc_table(sgt, 1, GFP_KERNEL);
-> +	KUNIT_ASSERT_EQ(test, ret, 0);
-> +	sg_init_one(sgt->sgl, buf, TEST_SIZE);
-> +
-> +	/* Init a mock DMA-BUF */
-> +	buf_mock.size =3D TEST_SIZE;
-> +	attach_mock.dmabuf =3D &buf_mock;
-> +
-> +	gem_obj =3D drm_gem_shmem_prime_import_sg_table(&fdev->drm_dev, &attach=
-_mock, sgt);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, gem_obj);
-> +	KUNIT_ASSERT_EQ(test, gem_obj->size, TEST_SIZE);
-> +	KUNIT_ASSERT_NULL(test, gem_obj->filp);
-> +	KUNIT_ASSERT_NOT_NULL(test, gem_obj->funcs);
-> +
-> +	shmem =3D to_drm_gem_shmem_obj(gem_obj);
-> +	KUNIT_ASSERT_PTR_EQ(test, shmem->sgt, sgt);
-> +
-> +	/* The scatter/gather table is freed by drm_gem_shmem_free */
-> +	drm_gem_shmem_free(shmem);
-> +}
-
-KUNIT_ASSERT_* will stop the execution of the test on failure, you
-should probably use a bit more of KUNIT_EXPECT_* calls otherwise you'll
-leak resources.
-
-You also probably want to use a kunit_action to clean up and avoid that
-whole discussion
-
-> +
-> +/* Test pinning backing pages */
-> +static void drm_gem_shmem_test_pin_pages(struct kunit *test)
-> +{
-> +	struct fake_dev *fdev =3D test->priv;
-> +	struct drm_gem_shmem_object *shmem;
-> +	int i, ret;
-> +
-> +	shmem =3D drm_gem_shmem_create(&fdev->drm_dev, TEST_SIZE);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, shmem);
-> +	KUNIT_ASSERT_NULL(test, shmem->pages);
-> +	KUNIT_ASSERT_EQ(test, shmem->pages_use_count, 0);
-> +
-> +	ret =3D drm_gem_shmem_pin(shmem);
-> +	KUNIT_ASSERT_EQ(test, ret, 0);
-> +	KUNIT_ASSERT_NOT_NULL(test, shmem->pages);
-> +	KUNIT_ASSERT_EQ(test, shmem->pages_use_count, 1);
-> +
-> +	for (i =3D 0; i < (shmem->base.size >> PAGE_SHIFT); i++)
-> +		KUNIT_ASSERT_NOT_NULL(test, shmem->pages[i]);
-> +
-> +	drm_gem_shmem_unpin(shmem);
-> +	KUNIT_ASSERT_NULL(test, shmem->pages);
-> +	KUNIT_ASSERT_EQ(test, shmem->pages_use_count, 0);
-> +
-> +	drm_gem_shmem_free(shmem);
-> +}
-> +
-> +/* Test creating a virtual mapping */
-> +static void drm_gem_shmem_test_vmap(struct kunit *test)
-> +{
-> +	struct fake_dev *fdev =3D test->priv;
-> +	struct drm_gem_shmem_object *shmem;
-> +	struct iosys_map map;
-> +	int ret, i;
-> +
-> +	shmem =3D drm_gem_shmem_create(&fdev->drm_dev, TEST_SIZE);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, shmem);
-> +	KUNIT_ASSERT_NULL(test, shmem->vaddr);
-> +	KUNIT_ASSERT_EQ(test, shmem->vmap_use_count, 0);
-> +
-> +	ret =3D drm_gem_shmem_vmap(shmem, &map);
-> +	KUNIT_ASSERT_EQ(test, ret, 0);
-> +	KUNIT_ASSERT_NOT_NULL(test, shmem->vaddr);
-> +	KUNIT_ASSERT_EQ(test, shmem->vmap_use_count, 1);
-> +	KUNIT_ASSERT_FALSE(test, iosys_map_is_null(&map));
-> +
-> +	iosys_map_memset(&map, 0, TEST_BYTE, TEST_SIZE);
-> +	for (i =3D 0; i < TEST_SIZE; i++)
-> +		KUNIT_ASSERT_EQ(test, iosys_map_rd(&map, i, u8), TEST_BYTE);
-> +
-> +	drm_gem_shmem_vunmap(shmem, &map);
-> +	KUNIT_ASSERT_NULL(test, shmem->vaddr);
-> +	KUNIT_ASSERT_EQ(test, shmem->vmap_use_count, 0);
-> +
-> +	drm_gem_shmem_free(shmem);
-> +}
-> +
-> +/* Test exporting a scatter/gather table */
-> +static void drm_gem_shmem_test_get_pages_sgt(struct kunit *test)
-> +{
-> +	struct fake_dev *fdev =3D test->priv;
-> +	struct drm_gem_shmem_object *shmem;
-> +	struct sg_table *sgt;
-> +	struct scatterlist *sg;
-> +	unsigned int si, len =3D 0;
-> +	int ret;
-> +
-> +	shmem =3D drm_gem_shmem_create(&fdev->drm_dev, TEST_SIZE);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, shmem);
-> +
-> +	ret =3D drm_gem_shmem_pin(shmem);
-> +	KUNIT_ASSERT_EQ(test, ret, 0);
-> +
-> +	sgt =3D drm_gem_shmem_get_sg_table(shmem);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, sgt);
-> +	KUNIT_ASSERT_NULL(test, shmem->sgt);
-> +
-> +	for_each_sgtable_sg(sgt, sg, si) {
-> +		KUNIT_ASSERT_NOT_NULL(test, sg);
-> +		len +=3D sg->length;
-> +	}
-> +	KUNIT_ASSERT_GE(test, len, TEST_SIZE);
-> +
-> +	kfree(sgt);
-> +	drm_gem_shmem_free(shmem);
-> +}
-> +
-> +/* Test exporting a scatter/gather pinned table for PRIME */
-> +static void drm_gem_shmem_test_get_sg_table(struct kunit *test)
-> +{
-> +	struct fake_dev *fdev =3D test->priv;
-> +	struct drm_gem_shmem_object *shmem;
-> +	struct sg_table *sgt;
-> +	struct scatterlist *sg;
-> +	unsigned int si, len =3D 0;
-> +
-> +	shmem =3D drm_gem_shmem_create(&fdev->drm_dev, TEST_SIZE);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, shmem);
-> +
-> +	sgt =3D drm_gem_shmem_get_pages_sgt(shmem);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, sgt);
-> +	KUNIT_ASSERT_PTR_EQ(test, sgt, shmem->sgt);
-> +
-> +	for_each_sgtable_sg(sgt, sg, si) {
-> +		KUNIT_ASSERT_NOT_NULL(test, sg);
-> +		len +=3D sg->length;
-> +	}
-> +	KUNIT_ASSERT_GE(test, len, TEST_SIZE);
-> +
-> +	/* The scatter/gather table is freed by drm_gem_shmem_free */
-> +	drm_gem_shmem_free(shmem);
-> +}
-> +
-> +/* Test updating madvise status */
-> +static void drm_gem_shmem_test_madvise(struct kunit *test)
-> +{
-> +	struct fake_dev *fdev =3D test->priv;
-> +	struct drm_gem_shmem_object *shmem;
-> +	int ret;
-> +
-> +	shmem =3D drm_gem_shmem_create(&fdev->drm_dev, TEST_SIZE);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, shmem);
-> +	KUNIT_ASSERT_EQ(test, shmem->madv, 0);
-> +
-> +	ret =3D drm_gem_shmem_madvise(shmem, 1);
-> +	KUNIT_ASSERT_TRUE(test, ret);
-> +	KUNIT_ASSERT_EQ(test, shmem->madv, 1);
-> +
-> +	ret =3D drm_gem_shmem_madvise(shmem, -1);
-> +	KUNIT_ASSERT_FALSE(test, ret);
-> +	KUNIT_ASSERT_EQ(test, shmem->madv, -1);
-> +
-> +	ret =3D drm_gem_shmem_madvise(shmem, 0);
-> +	KUNIT_ASSERT_FALSE(test, ret);
-> +	KUNIT_ASSERT_EQ(test, shmem->madv, -1);
-> +
-> +	drm_gem_shmem_free(shmem);
-> +}
-> +
-> +/* Test purging */
-> +static void drm_gem_shmem_test_purge(struct kunit *test)
-> +{
-> +	struct fake_dev *fdev =3D test->priv;
-> +	struct drm_gem_shmem_object *shmem;
-> +	struct sg_table *sgt;
-> +	int ret;
-> +
-> +	shmem =3D drm_gem_shmem_create(&fdev->drm_dev, TEST_SIZE);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, shmem);
-> +
-> +	ret =3D drm_gem_shmem_is_purgeable(shmem);
-> +	KUNIT_ASSERT_FALSE(test, ret);
-> +
-> +	ret =3D drm_gem_shmem_madvise(shmem, 1);
-> +	KUNIT_ASSERT_TRUE(test, ret);
-> +
-> +	sgt =3D drm_gem_shmem_get_pages_sgt(shmem);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, sgt);
-> +
-> +	ret =3D drm_gem_shmem_is_purgeable(shmem);
-> +	KUNIT_ASSERT_TRUE(test, ret);
-> +
-> +	drm_gem_shmem_purge(shmem);
-> +	KUNIT_ASSERT_TRUE(test, ret);
-> +
-> +	drm_gem_shmem_free(shmem);
-> +}
-> +
-> +static int drm_gem_shmem_test_init(struct kunit *test)
-> +{
-> +	struct fake_dev *fdev;
-> +	struct device *dev;
-> +
-> +	/* Allocate a parent device */
-> +	dev =3D drm_kunit_helper_alloc_device(test);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, dev);
-> +
-> +	/*
-> +	 * The DRM core will automatically initialize the GEM core and create
-> +	 * a DRM Memory Manager object which provides an address space pool
-> +	 * for GEM objects allocation.
-> +	 */
-> +	fdev =3D drm_kunit_helper_alloc_drm_device(test, dev, struct fake_dev,
-> +						 drm_dev, DRIVER_GEM);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, fdev);
-> +
-> +	fdev->dev =3D dev;
-> +	test->priv =3D fdev;
-> +
-> +	return 0;
-> +}
-> +
-> +static void drm_gem_shmem_test_exit(struct kunit *test)
-> +{
-> +	struct fake_dev *fdev =3D test->priv;
-> +
-> +	drm_kunit_helper_free_device(test, fdev->dev);
-> +}
-
-You don't need to call drm_kunit_helper_free_device() anymore
-
-Maxime
-
---zwjf7egz7fyx5jnl
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZTeNHgAKCRDj7w1vZxhR
-xR+TAP9fGvnUSmgc17mDQSUA00Sty25BMPIWkcJCvBHpWSbJ0wD/SpZr2g3IdxkL
-d2XMp9/PXzFV1RrNOhVyhCQ1Qc4ABQQ=
-=wPem
------END PGP SIGNATURE-----
-
---zwjf7egz7fyx5jnl--
