@@ -1,51 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 081B07D448A
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Oct 2023 03:09:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 25B5B7D4494
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Oct 2023 03:09:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4298D10E2B1;
-	Tue, 24 Oct 2023 01:09:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB0DF10E2BF;
+	Tue, 24 Oct 2023 01:09:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3EF1010E2A1;
- Tue, 24 Oct 2023 01:09:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1698109745; x=1729645745;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=VsqM1xF/AplsEwiGjrP6+aBGayu1M/I9KPvAI2Cpm6U=;
- b=lJkfAYjzv8zkoTN2yYR7rjNE1MAbVhn3MXeDEJcqz9+1XGPl4YojtbSx
- m2ZOcUQwDv81djooSPQ1kEDNDyEk6Q7qmKokQ2OZGRpD0tRNXP6saLU0H
- dh5zCM9u+/+n94D1d5B74IUj9dYG7NVMDFez3ZTI0dsPh0wyLpuGlclUl
- cRWGtQvRHxLDXc8MakHt6Gf4HNwwHDb6GO36CKKIcAJ9enPTazgKNs2Ie
- jk5SK3ioo8IFboGUwF18l/hUXixsM8VaysZB52uXffWdK14I4UyLIVRDs
- oPwGkvaIjlagVhlVfRRiTjl2uQywwxkDcVknaCudFwIf3SrFqiwrXapRF Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10872"; a="366304338"
-X-IronPort-AV: E=Sophos;i="6.03,246,1694761200"; d="scan'208";a="366304338"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Oct 2023 18:09:04 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10872"; a="931870012"
-X-IronPort-AV: E=Sophos;i="6.03,246,1694761200"; d="scan'208";a="931870012"
-Received: from ideak-desk.fi.intel.com ([10.237.72.78])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Oct 2023 18:09:03 -0700
-From: Imre Deak <imre.deak@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 04/29] drm/dp_mst: Swap the order of checking root vs.
- non-root port BW limitations
-Date: Tue, 24 Oct 2023 04:09:00 +0300
-Message-Id: <20231024010925.3949910-5-imre.deak@intel.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20231024010925.3949910-1-imre.deak@intel.com>
-References: <20231024010925.3949910-1-imre.deak@intel.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 52A6A10E2B2
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Oct 2023 01:09:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1698109751;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=88pzjXNex4w1dUTCk7MVd9W/37DpDLDlkT0Dueu4gwo=;
+ b=PW04/OrV5OVIIg2CTw8yG053pSt5d5eTeOu8RG/2igUHqxaYJgiICUrS5QlYb4k25Orsik
+ CbdwgsuzgulJcLpViEKnC37C7zVOjlIrVxETbDkxfkpltgRs/vRm8nPs+Uzy+zWduXubVC
+ 4KFZNIzT+AePiysnMbqcUrwqH3cWlOE=
+Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
+ by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-554-TQyUpinlNrGE3IKIPLqcIw-1; Mon,
+ 23 Oct 2023 21:09:09 -0400
+X-MC-Unique: TQyUpinlNrGE3IKIPLqcIw-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A792F280A9B6
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Oct 2023 01:09:09 +0000 (UTC)
+Received: from dreadlord.redhat.com (unknown [10.64.136.133])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A51C9492BFC;
+ Tue, 24 Oct 2023 01:09:08 +0000 (UTC)
+From: Dave Airlie <airlied@redhat.com>
+To: dri-devel@lists.freedesktop.org
+Subject: pull for vmemdup-user-array into drm-next
+Date: Tue, 24 Oct 2023 11:09:05 +1000
+Message-ID: <20231024010905.646830-1-airlied@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.10
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,72 +60,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Dave Airlie <airlied@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm_dp_mst_atomic_check_mgr() should check for BW limitation starting
-from sink ports continuing towards the root port, so that drivers can
-use the @failing_port returned to resolve a BW overallocation in an
-ideal way. For instance from streams A,B,C in a topology A,B going
-through @failing_port and C not going through it, a BW overallocation of
-A,B due to a limit of the port must be resolved first before considering
-the limits of other ports closer to the root port. This way can avoid
-reducing the BW of stream C unnecessarily due to a BW limit closer to the
-root port.
+topic/vmemdup-user-array-2023-10-24-1:
+vmemdup-user-array API and changes with it.
 
-Based on the above swap the order of the BW check for the root port and
-the check for all the ports downstream of it (the latter going through
-the topology already in the sink->root port direction).
+This is just a process PR to merge the topic branch into drm-next, this contains some core kernel and drm changes.
 
-Cc: Lyude Paul <lyude@redhat.com>
-Cc: dri-devel@lists.freedesktop.org
-Reviewed-by: Lyude Paul <lyude@redhat.com>
-Signed-off-by: Imre Deak <imre.deak@intel.com>
----
- drivers/gpu/drm/display/drm_dp_mst_topology.c | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
+Signed-off-by: Dave Airlie <airlied@redhat.com>
+The following changes since commit 94f6f0550c625fab1f373bb86a6669b45e9748b3:
 
-diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-index a86a67d3516ff..5972c93615f18 100644
---- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
-+++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-@@ -5469,9 +5469,13 @@ EXPORT_SYMBOL(drm_dp_mst_atomic_enable_dsc);
-  *   - %-ENOSPC, if the new state is invalid, because of BW limitation
-  *         @failing_port is set to:
-  *         - The non-root port where a BW limit check failed
-+ *           with all the ports downstream of @failing_port passing
-+ *           the BW limit check.
-  *           The returned port pointer is valid until at least
-  *           one payload downstream of it exists.
-  *         - %NULL if the BW limit check failed at the root port
-+ *           with all the ports downstream of the root port passing
-+ *           the BW limit check.
-  *   - %-EINVAL, if the new state is invalid, because the root port has
-  *     too many payloads.
-  */
-@@ -5487,17 +5491,16 @@ int drm_dp_mst_atomic_check_mgr(struct drm_atomic_state *state,
- 	if (!mgr->mst_state)
- 		return 0;
- 
--	ret = drm_dp_mst_atomic_check_payload_alloc_limits(mgr, mst_state);
--	if (ret)
--		return ret;
--
- 	mutex_lock(&mgr->lock);
- 	ret = drm_dp_mst_atomic_check_mstb_bw_limit(mgr->mst_primary,
- 						    mst_state,
- 						    failing_port);
- 	mutex_unlock(&mgr->lock);
- 
--	return ret < 0 ? ret : 0;
-+	if (ret < 0)
-+		return ret;
-+
-+	return drm_dp_mst_atomic_check_payload_alloc_limits(mgr, mst_state);
- }
- EXPORT_SYMBOL(drm_dp_mst_atomic_check_mgr);
- 
--- 
-2.39.2
+  Linux 6.6-rc5 (2023-10-08 13:49:43 -0700)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm tags/topic/vmemdup-user-array-2023-10-24-1
+
+for you to fetch changes up to 06ab64a0d836ac430c5f94669710a78aa43942cb:
+
+  drm: vmwgfx_surface.c: copy user-array safely (2023-10-09 17:00:05 +1000)
+
+----------------------------------------------------------------
+vmemdup-user-array API and changes with it.
+
+This is just a process PR to merge the topic branch into drm-next, this contains some core kernel and drm changes.
+
+Signed-off-by: Dave Airlie <airlied@redhat.com>
+
+----------------------------------------------------------------
+Philipp Stanner (5):
+      string.h: add array-wrappers for (v)memdup_user()
+      kernel: kexec: copy user-array safely
+      kernel: watch_queue: copy user-array safely
+      drm_lease.c: copy user-array safely
+      drm: vmwgfx_surface.c: copy user-array safely
+
+ drivers/gpu/drm/drm_lease.c             |  4 ++--
+ drivers/gpu/drm/vmwgfx/vmwgfx_surface.c |  4 ++--
+ include/linux/string.h                  | 40 +++++++++++++++++++++++++++++++++
+ kernel/kexec.c                          |  2 +-
+ kernel/watch_queue.c                    |  2 +-
+ 5 files changed, 46 insertions(+), 6 deletions(-)
 
