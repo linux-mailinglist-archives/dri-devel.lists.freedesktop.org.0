@@ -2,169 +2,128 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7430F7D4607
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Oct 2023 05:36:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EA6D7D461C
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Oct 2023 05:50:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9588A10E2D1;
-	Tue, 24 Oct 2023 03:36:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D373510E2D7;
+	Tue, 24 Oct 2023 03:50:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 60FCD10E2D1
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Oct 2023 03:36:07 +0000 (UTC)
-X-UUID: 7362f2a2721e11ee8051498923ad61e6-20231024
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:MIME-Version:Content-Transfer-Encoding:Content-ID:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From;
- bh=u3ADMStbTrqlt3Ud36J6BnFpUrAqCsWdN75jSOCRvBc=; 
- b=aoE51NSjEN4pi78wFHZAqR5/UfWcAqdNl1iOinxsUPq4KqjxAqzQAh4gycxXbrxKec5Elt79VJYaXa0I61u/QQWjwdPa+G4ThXQszULUDgQF5mL+L9v3/p+Daavug6S0CcCnPWmfSm0cBt+pqtSNesY4AErfN5lmyoFZ/3A5IlM=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.32, REQID:cb280d2e-fcb2-4d4d-96bf-cca04048d62e, IP:0,
- U
- RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
- release,TS:0
-X-CID-META: VersionHash:5f78ec9, CLOUDID:55e83cd7-04a0-4e50-8742-3543eab8cb8e,
- B
- ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,
- DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: 7362f2a2721e11ee8051498923ad61e6-20231024
-Received: from mtkmbs14n1.mediatek.inc [(172.21.101.75)] by
- mailgw02.mediatek.com (envelope-from <ck.hu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 91759415; Tue, 24 Oct 2023 11:36:00 +0800
-Received: from mtkmbs10n1.mediatek.inc (172.21.101.34) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Tue, 24 Oct 2023 11:35:58 +0800
-Received: from APC01-TYZ-obe.outbound.protection.outlook.com (172.21.101.237)
- by mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP
- Server id
- 15.2.1118.26 via Frontend Transport; Tue, 24 Oct 2023 11:35:58 +0800
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2059.outbound.protection.outlook.com [40.107.223.59])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 98A4010E2D6;
+ Tue, 24 Oct 2023 03:50:33 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FyzlGSh6jyinG43/ivmmgGQgShBq9NwqynrvM5eBgZrbVBVXGtmNfOD7DvFZ2a1H65amFA5fxJ0GmGnxI+2bIyAdRrBJuiV3hgw6ajxSF8IJNajWCzA49XumgltQQsaoHp/183gRUd4RCeP6ZRutq3VfmV50OCq+o8oHrs0arQODcu2G/9rtLODqSQ1W7v4kJU/PngPWknTlWIHXqwe0UZfXVBOzEE/dOQfgXj/keIwCadufr4qNyxXl+dBys7yCAAUlKGk8oTwbkRSiAOBuHfqJBYppP5s2W7tkM263Xt/6dKvilCJVn2+GAdICXgkVAuzRNpe7zWyBsGmPz5u5Hg==
+ b=m85dFVwCSwsuvDbi1GIIxe6lV1bfRhaT2PIIef6q2Yw04tSJnEiFYO3b5dDF6oLE1pFQHrXtm1LoShMTJ4zJHV6An+OmzuxY+/+a7ONNnWkKjU7u5m8/wt8t4xctEdUQhK/LlzVDpEfWraJd20p+seW19XMUu0tu+mo3J9X0/2/e1GLHn0jWe6DqT22IIwfuh+hxv/t5xJ7nFDfLGoPmlG72VH2FQHWudLktqmnwvNHZgHiAP+k84s02oTi43xaiiyC29SKq3SZXIUYQSj+Pgv7MYp4nTz2IYWD+wkBagsERto01uwJEmtdUT196zwM9lZnYjN864vsCojWF5IaXNg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EnW+EhUE3UrHqSoDe6uyuxJ/3/ZMLvFw0wxh+6XL554=;
- b=FJVrhPYiS+47XkJ4U+AtKUdALErW2f30SwvZblF6bKfiHLQpNMYe60vTmsBgPkekHMW7GCSD4691/a6Z+apEosXFfhUunFnr8TNzjqCGed7RQuuatZ7EPZWokjda3G6fLtRDfHEvxFLC5vN1jjpT0DSk0YNxzrsb2LXhp3HIatAO8b0NaVIw6IOmI6ZqaMbU5aLxEymgJ4vrmfjNkeHEST8R61JwEDf87rYKVRiDAz4ui0/B/CHdOfRglSvpxlj0Dj7VcKzqcGz/BlTefldsk3LhycEYIzNIodHpEpdJFmX14kGtANArSqA5k9/170JvXFwVQIdn6jlh/+wUqYyM1A==
+ bh=jXeM4PpsmAUXEUDXWLb8KqvKFRmnFZhFWenkgA4LL78=;
+ b=UkBeKdE9KqccFWobLkWiT0f7mcVrDE9qCnj4bu0x8+EluzSedu0/Xj7Zg1vrM+8r8XarnLXqPpjgccUjXA3dahmc5eeXF8X8vSVYMFH2RYtR3e05dh/zhELgVCKTp81Nw2pHEJn/aR34E+rPzigKAAL8r09jqLW7ki4sk/MbrDvuRQxpgLQ+0edJc/0sREjZgU6hisVJ0MeA/3+q36A2jVBfqSYur/B9NZAkSJ72dFV9BgfPr1pvgAqzdXG0NNXTNCD3RjdXmtKRzuAdfN6iiJScfYiP9HVFWyi5lA4c1zRsJbOtwnellZnRhhWIkMB0S7GVSE3qOBXNhvghM2LXhg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
- dkim=pass header.d=mediatek.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EnW+EhUE3UrHqSoDe6uyuxJ/3/ZMLvFw0wxh+6XL554=;
- b=LSlMH5Iq9+vWYakXGdWmlJmbiAtY1epWwSU4N6tMGHcEmZ9CdLkIMMtUo4a3HDt+/7nwgF5Iej3tnZvQkrV1WQlR+Z8oO33Ahz7hhPQ+KD7JrIwC84t7DpqJebuAHDQc2zyymTAWr2G21b4hvZoeBKPuvXfa2ZEzAJizap3wZ6o=
-Received: from TYZPR03MB6624.apcprd03.prod.outlook.com (2603:1096:400:1f4::13)
- by TYZPR03MB6896.apcprd03.prod.outlook.com (2603:1096:400:289::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6907.33; Tue, 24 Oct
- 2023 03:35:56 +0000
-Received: from TYZPR03MB6624.apcprd03.prod.outlook.com
- ([fe80::fe5a:c0e7:4b72:64f3]) by TYZPR03MB6624.apcprd03.prod.outlook.com
- ([fe80::fe5a:c0e7:4b72:64f3%4]) with mapi id 15.20.6907.025; Tue, 24 Oct 2023
- 03:35:56 +0000
-From: =?utf-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>
-To: "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
- =?utf-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>,
- "angelogioacchino.delregno@collabora.com"
- <angelogioacchino.delregno@collabora.com>, "robh+dt@kernel.org"
- <robh+dt@kernel.org>, "krzysztof.kozlowski+dt@linaro.org"
- <krzysztof.kozlowski+dt@linaro.org>, "chunkuang.hu@kernel.org"
- <chunkuang.hu@kernel.org>
-Subject: Re: [PATCH v2 04/11] drm/mediatek: Add secure identify flag and
- funcution to mtk_drm_plane
-Thread-Topic: [PATCH v2 04/11] drm/mediatek: Add secure identify flag and
- funcution to mtk_drm_plane
-Thread-Index: AQHaBWv/MmZJMlN5SkaqVnsiHA8dYrBYS4uA
-Date: Tue, 24 Oct 2023 03:35:56 +0000
-Message-ID: <b639b18e073e0eb38c439410c753f61486762a10.camel@mediatek.com>
-References: <20231023044549.21412-1-jason-jh.lin@mediatek.com>
- <20231023044549.21412-5-jason-jh.lin@mediatek.com>
-In-Reply-To: <20231023044549.21412-5-jason-jh.lin@mediatek.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=mediatek.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYZPR03MB6624:EE_|TYZPR03MB6896:EE_
-x-ms-office365-filtering-correlation-id: c3b09231-f6a2-40a4-d2c6-08dbd4425527
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: S/5QIuUgVgK2cB2Ygk3yaUQRXj05Qdh4FqB9I7jz4WrpMou6qzU4z8Z/++Kmaw7FqkR/9Nw/UkTTdFzOMtsAA8u0w/CBuq3rVNnRDX4DUFWfqtunH/S3uuMn64nbn9TRsQ1mN7IbPBw9pV3lpG6iZ5HXAsacTfK7joDnS2dc7/MbYztaECuDrj06jxJQ751tfQ6NNVH6y+e8dSeimSlovv9ZdOb3f4Xdxc7Jm67ZlIU6ro4IkMPHvJ84jJhrq3QPJxKp2uhif8vPxGcBbMh/CyVmrSiVgyybOA3v1VZdLv+ZhxgiKAStMqCdkMjkE4jaY7ASXOUraagB0XqHXD3RI1/qy1uUTC5EXzdm/MzPIocT4rQUcKk5Ydh52whQiDrSnl4mFr15z/lRZCzW7nYu+xqcpVEiICZlR1qedkQc4Zj0gICxfQad1K13ODfteM/7cM9qIPUiWmCOV0OkDsCBnJvJCqUSqt+cdX8PsXEhKZCkrqE2d1ciRcUGSaCe01XjbTEEXHEMBsWa4qYgs1oT3KSxR7LgoMJAFuLHf4GSpBnQaEZ1B9bW6jZ/qJu6uo1BXllD3QQd2JufPbglyx5IMFlhZzK7MlnFtFqv71CU3xPx+vI2+Hhts7Ix0gmg1+kRuJFPjQALbjevFCc1ekFCD4Y8XztGq7yukcxfzExYQfU=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:TYZPR03MB6624.apcprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(39860400002)(366004)(376002)(346002)(396003)(136003)(230922051799003)(64100799003)(451199024)(186009)(1800799009)(86362001)(2906002)(38100700002)(54906003)(122000001)(66476007)(76116006)(316002)(66946007)(66556008)(66446008)(71200400001)(110136005)(478600001)(2616005)(6506007)(6512007)(6486002)(64756008)(4326008)(41300700001)(36756003)(5660300002)(7416002)(8676002)(85182001)(8936002)(26005)(38070700009)(4001150100001);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?SlRSaW9LVU5qQ1l0K09aakhFUHNvSkdKaE16OTBIdU5IN0NPMjF0WGdFZ21w?=
- =?utf-8?B?NmV1dkpoeEJGS3c5cGF3N1picmk0azZwUk03bUo0OGQ3WGVjdHBXcmVMTmk0?=
- =?utf-8?B?UmY1VmV3SmNqS2pWdXFqM1hsbGJ3Mnp2NEdlUjNrdlBxekZSV3BFUS8wTWlH?=
- =?utf-8?B?YVI3QUFwTVBNdS9kU29nckx4aWpzTkk0YXZGblg2RXN5Q1hBL0x3TTJLMUlE?=
- =?utf-8?B?NENlY3cyTXBDck16M2piL3RDa2JjVStFdmxuWTg3dk9TVSthdUxrL1V6NFB5?=
- =?utf-8?B?TUw5blBjMHdyRnBCc29JVzFBMHIzNXFTL3UrMWlFVGtNR2NyZmwyVUJyenpI?=
- =?utf-8?B?WEZvbnJPY3Rub0tXRGk0K1ZyUnBhTkpHZndLcjVUSXFTTHR6cENzT0IyODhV?=
- =?utf-8?B?cUlUZEY3YURFL3VXOVRoaThabFFLU0JINFRmZjVGdWtSTU91RUdUSDBpNUM3?=
- =?utf-8?B?S04vTkpvalpnUkVPWkQrS1czOVFSMjY5TUNoanRtK2NiNWxyTU1WSmgzNEpJ?=
- =?utf-8?B?dTNKQXdwenlFN3BHQXdsekdqcnhRemN3ZjNZSm1JT2N5Z0ZyQ1dUMVVnbXUx?=
- =?utf-8?B?K1pjZW9SNFU2S0M2aUhuVk5YZXArVk9ZMFZucGFhZVhpVnFhcGRVVkgwdktQ?=
- =?utf-8?B?dnVoUnU0YjZlYTFtV0VscFN5dzhDU016ZHJCY1Jwb1ZvNkFCS3FFTGZORDhq?=
- =?utf-8?B?bndFMWJsZlNCWmwranhRQmRSdFhnUExzOUFud05MbVJxMlZ4RUJvaXBxb0VQ?=
- =?utf-8?B?Znc4T2hIdkhTZVpyU0tnbE5pSy9tZ0pJbEV0dW9QWGg0WnpoUW9QQ2RJQUU4?=
- =?utf-8?B?YlY2cmh5bGo0c29QVFlRbU1HNGF0QW1wU3ZGS1VIcHUrTXh0eTM2aDNsbDAv?=
- =?utf-8?B?c3hadG8ycnNRa2hsNExJNHoxWUxoOXc3b3VuR2hhM0RlZk9EUmMrb3NEbEpU?=
- =?utf-8?B?RlNOY0tHQ1psUzhqUlhFR0crMWY2eXBSVnNpcis4NkRPSWFraUgxRUd0OVI1?=
- =?utf-8?B?RVJTZGovQnRVSlNFd09kcUhaS1crRTB5OVhOcW1SRlJkS0lwTnovajRVb3lm?=
- =?utf-8?B?SVZtaDRhK0tHejBpc1VadzBoNTdvaENqWDNvNS94MkJxc3pVK2xhVzZGYlNV?=
- =?utf-8?B?WTNzb3VFdUt1MGlpQnFXNEtDOXhCTkVlcUh3cENqbW5TclBiQm1BdFVheFlr?=
- =?utf-8?B?c1NXWTdFeEd0QkNzYVNJeGxVQldSdm9IWnduOURRRnVBVmVWK3VBc1hLZDdS?=
- =?utf-8?B?MTdUdG0wNnpTQUpLMzREQ2J3T2RLK3hER3M4ZFE5UDJkS0lqU0RKd3hhSXBR?=
- =?utf-8?B?STI4cTNMMTJXOVdyMnBPL2VPdnBSM0VPYjFtSW02VUhlT04wRHhrTjA0RVpm?=
- =?utf-8?B?ZnQ3eWVwNjlzN0RiYkxmMVVvdUZnSzFTQXh6YUVrQ3N5Y1Q4TWtVNUhDUTA0?=
- =?utf-8?B?dkJhc0hHaG1CbkJtcFkrSmNPY3UybHMydFVxSEdSUGhMRURIU3VMMUJYM1pC?=
- =?utf-8?B?elh1eFZCbDVHWW1JS3RrdW1EWGRBWTk3aUp6VWJHMGpsN1Nibmc1RHZwTXpU?=
- =?utf-8?B?dUlXWE1lRUJqT1cyYWhsTVRkYUhxeDlDTGo1V0RBbDRzZ3ZHd0UrRnFSNWxl?=
- =?utf-8?B?VGNselBXQjlWYUxaMXVBOWFWRDVlZFdValNrQ0JmOWFUZDJvVzVxaTlqYitK?=
- =?utf-8?B?dnJZcVFMQk1LS1FDTWsvaFBKZ0xacy9BOGZaZitCM2JxRExFeFlqR3pZRGx2?=
- =?utf-8?B?c0NJWjNGMkNVbnpOMVhCdVZCZ2ZkbVBUVjE1RU9DWUxHd3VRbVdVbFIyalM4?=
- =?utf-8?B?b2xncFUwMUwzSUYrT1FOUWZ3Rzh0Q1BUMXdMd2VTcU5vSTZMNlZ1WCsvU0lE?=
- =?utf-8?B?MHJVeENZeU84WjlXeTlnNm5NY3BCMUNoc0tobjBFd0xHZkpKT0V2dXovS05L?=
- =?utf-8?B?R0hBSG9zTnN5WEpGQUk5NVF4RHgzb2VhQVdtNHcvejhHTTZPSzdNSWZBY3Vy?=
- =?utf-8?B?V0dBWG9wVFJFYUk5Qm1DR2JsTnAxL09lMXhyQVBpQnB3M0xQMnV3K2w3Yjl2?=
- =?utf-8?B?NytmTnlrZVNxY2tWR0J0ZGxnV3MxaEhKUkQyUWJta2cxaURDU0FNdVY4Zmx0?=
- =?utf-8?Q?dYzIWZH6aX1PM/0M+i0MFSSWz?=
-Content-ID: <244C8EC97953CF4E997C50816057FCA8@apcprd03.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ bh=jXeM4PpsmAUXEUDXWLb8KqvKFRmnFZhFWenkgA4LL78=;
+ b=bnY7i7sJ4KstxfSSjKJouF/5Ht8+1QH0DT0bDXsQLLOVq5HHgJcEQxwL11kwOe3iHCs8NjiNaLKg2NLmtJW0UX2bJJRfwS05GpPQNXOFjZyTFwXCNvWgXdMqotn76yHCsASB8CPbltu5sEn10OqiiWGh+EE5cwyXl7gJTX9e1pE=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM6PR12MB3370.namprd12.prod.outlook.com (2603:10b6:5:38::25) by
+ DS0PR12MB8069.namprd12.prod.outlook.com (2603:10b6:8:f0::7) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6907.26; Tue, 24 Oct 2023 03:50:31 +0000
+Received: from DM6PR12MB3370.namprd12.prod.outlook.com
+ ([fe80::b80b:7138:6ceb:9aef]) by DM6PR12MB3370.namprd12.prod.outlook.com
+ ([fe80::b80b:7138:6ceb:9aef%6]) with mapi id 15.20.6907.025; Tue, 24 Oct 2023
+ 03:50:30 +0000
+Message-ID: <b0dff3c9-933a-42c9-97ae-7b82cf842799@amd.com>
+Date: Mon, 23 Oct 2023 23:50:26 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:115.0) Gecko/20100101
+ Thunderbird/115.3.3
+Subject: Re: [PATCH v6 4/7] drm/sched: Add DRM_SCHED_POLICY_SINGLE_ENTITY
+ scheduling policy
+Content-Language: en-CA, en-US
+To: Matthew Brost <matthew.brost@intel.com>, dri-devel@lists.freedesktop.org, 
+ intel-xe@lists.freedesktop.org
+References: <20231017150958.838613-1-matthew.brost@intel.com>
+ <20231017150958.838613-5-matthew.brost@intel.com>
+From: Luben Tuikov <luben.tuikov@amd.com>
+Autocrypt: addr=luben.tuikov@amd.com; keydata=
+ xjMEY1i6jxYJKwYBBAHaRw8BAQdAhfD+Cc+P5t/fiF08Vw25EMLiwUuxULYRiDQAP6H50MTN
+ I0x1YmVuIFR1aWtvdiA8bHViZW4udHVpa292QGFtZC5jb20+wpkEExYKAEEWIQQyyR05VSHw
+ x45E/SoppxulNG8HhgUCY1i6jwIbAwUJCWYBgAULCQgHAgIiAgYVCgkICwIEFgIDAQIeBwIX
+ gAAKCRAppxulNG8Hhk53AP4k4UY5xfcje0c5OF1k22pNv8tErxtVpgKKZgvfetA4xwD+OoAh
+ vesLIYumBDxP0BoLiLN84udxdT15HwPFUGiDmwDOOARjWLqPEgorBgEEAZdVAQUBAQdAzSxY
+ a2EtvvIwd09NckBLSTarSLNDkUthmqPnwolwiDYDAQgHwn4EGBYKACYWIQQyyR05VSHwx45E
+ /SoppxulNG8HhgUCY1i6jwIbDAUJCWYBgAAKCRAppxulNG8HhnBLAP4yjSGpK6PE1mapKhrq
+ 8bSl9reo+F6EqdhE8X2TTHPycAEAt8EkTEstSiaOpM66gneU7r+xxzOYULo1b1XjXayGvwM=
+In-Reply-To: <20231017150958.838613-5-matthew.brost@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: YQZPR01CA0085.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:84::13) To DM6PR12MB3370.namprd12.prod.outlook.com
+ (2603:10b6:5:38::25)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR12MB3370:EE_|DS0PR12MB8069:EE_
+X-MS-Office365-Filtering-Correlation-Id: 382319a8-07d6-492a-b5ba-08dbd4445de7
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: X8Xaslj7Qsw3kCE4ixoDW45PHd0RqoQ4DwFE4Q9+Wb54J+iJCLCRF8ExsokyUUK9HN2khaGkq11aibe0gOIGbEPVh6jh/p8r6/9ac/Yow3H67B3Yzqi+QNxD5dL0iXE0FHPw1c8ozt9G0eFC5kqjOoZP5dNIwLGNrK/CbClwOa5uOy6Dpwf6mLJEzCOuLJEV2JU2ygNSGAw7NSBEPE+sUzitoQc57PRv6VDZq9x1+OSOS1SHXNmHgxvWr167IIrkNqvuTmaIWezhWx6h6zQ1Rv3N5BtTWiryVCtYACBEqgefhLzSbAFuhOrrHQE6HY3qQ8mPo0qZQLsYYjENk+dnARDNzOT3lMIJJfuml5Hj0YQMEmfsM6LXgzw12B6s7COJgNW+qYBRoaeYhxqyQrQGiHa6S2pl/9YpJSTpraMMzsfeU/y0NFHs5hBKfmWr6asWDm8Duh5aEK5/SNKCaouvsdgQTMmmAM8oGlpgT8XJZpeTf0ddSAyOOORfiSwvHInokhpX+BzbCKDUp6BbZLRYnRuXPduDReDiEfo8DcLXpc9/Yau76qsuc47xgqJ85jytZFb8kjflUgkNy5ZbDBG6Aq9g2TkEq1BX9AzFDBETl1YG63aAoEz1Yk6egnCt56qqv9YMHfpkyi/qdFlX2rcSlKX75sYmwA4c4kns4S05coA=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR12MB3370.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(39860400002)(136003)(396003)(346002)(376002)(366004)(230922051799003)(1800799009)(451199024)(64100799003)(186009)(86362001)(31696002)(4326008)(66556008)(66476007)(316002)(8676002)(6666004)(8936002)(66946007)(478600001)(36756003)(7416002)(41300700001)(2906002)(2616005)(44832011)(6506007)(4001150100001)(38100700002)(6512007)(53546011)(26005)(5660300002)(83380400001)(6486002)(30864003)(31686004)(45980500001)(43740500002)(309714004);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MjIzaC9wK21BQ1NaQVdJblZvYnlpTUxUREtmVWV5WTF3UDhkb2puQTh0MVJ2?=
+ =?utf-8?B?cFZoei9HbG05MUw5dGN0TTMvbEh1TWZOTERNbmdKZXpQdDJtNjVic0JXMElG?=
+ =?utf-8?B?djc5eENaanRITVFndGg3YlVMZkVtdDRNQ0lzUDkyVkxlY05jbjJvcC9vcjh1?=
+ =?utf-8?B?K3NvWDBJYXVleDcyVzllZVptekFQcEtOQWY2SnJ0TTB4T2Q3TnVjTHF3ZHZ1?=
+ =?utf-8?B?d2RxZDBkQlA0bm1uSUdmYkk5akIzVHlaMDNhY0g3NFZTeWlTWnRoQUlJSzhF?=
+ =?utf-8?B?bktZNFJta0ViU3EwYkNCTkpkdnc2NGZwR09jeXIrczVvVEEweE9kaEJMSEN2?=
+ =?utf-8?B?SEJsM1Jaa1hiK3ozQkRHcFVXVXpRSTY4L2xJVFBWdTBhWC9yUGhMbXlyOGZP?=
+ =?utf-8?B?bko4WTRpcEIvaGQwNjFRRWFBSi90Q3pNeHdzMDdJL3VLV21EemxsWEEzbUlj?=
+ =?utf-8?B?TmVya0lqaU92QnRLV2ZWWHlyTW9OaUhIZWF5UEUyaFZuUHBqQlg3U1JBQ2sz?=
+ =?utf-8?B?MWk2dnhwaFFscnVQNFBBUE94enlDVW9BWEM1MHNoMTJqeGFRT0I3UU5NQnZJ?=
+ =?utf-8?B?bE04cThZM2tYcWd4K3JCa3dPdEc3VWRBZzJOaURBQk00TVlINk9aT2JRK3pN?=
+ =?utf-8?B?YlNSbHJEczEza2l0d212cmx5cEtjanMzVjdPMjFlRFFqOXlRV0ZvN3ZwR0ls?=
+ =?utf-8?B?N1BvL3E0NE4xR1l6ZTBRYzhDY3BTR0VkSzhlbHJaZURDOFQrL1Z0Tk9MZEtE?=
+ =?utf-8?B?M2tQclBiMHpXcXFPMEhHVDNEMy8vOWtWOG1uOGVGcVFtallMVkMxOHRTWHZy?=
+ =?utf-8?B?VWU3cU5HeU90d2dWYW5kbW8xc1NqYWJES0pkTFZ1YmtpVEhCLzVVR3dCRlo3?=
+ =?utf-8?B?VnRNcml6S0R3ejVYU0xVWmJSdnJnSk82WUdmV1U5ek0vaFZ0d0F2aytGSng5?=
+ =?utf-8?B?cXVtcno0K1FuZklFM3Jmb2s2UU1VL1JGOVhPQUk4VGdRMU9rNmFQYnZya0xE?=
+ =?utf-8?B?eVRFM0s4bVZ0d2FGZ0FyQjJlWFIzTHIwV1JTdzJkU1p6QWh0NUNGK0JYL1lK?=
+ =?utf-8?B?SkN4M0wrbFYyZlEwdHJ6dHRiZEt0WnlrNktjS1crNmtjK2poMFRaWk9VNFJy?=
+ =?utf-8?B?Z0dWTGdLNXpJZUZpeHpkdms0SzhTTTZ3N3ZBWUJUZ1FydVJqRy9JbDd4YzFy?=
+ =?utf-8?B?bXhTK0xySDlGaU5FL2Z3T09WRTdEN0l0NjNFWGJZWnBGaVFrM2RKdU5DSEVD?=
+ =?utf-8?B?UVZ3MDUxYmVseDd5V1FhVVl5ZzRsdEZucThwZkFmRnMyR0lrUVVrRkVZM01l?=
+ =?utf-8?B?ZUFWOTJjd1B0VURNTldrNkI2bVBpc2ZjbmhjamlvcEI5SFhZV283MTFFVzVN?=
+ =?utf-8?B?TnJqSjk1NjNMMFpKYnZVekxNTXVxK3F5VHRJejMxcE56dWpIVjZYTytMMGJJ?=
+ =?utf-8?B?L21UYzNDaVlRM1R2N3VWT2dFd0E4a0s3NjFYOWZiVVRYUEZEb0MwQkQ4bmJQ?=
+ =?utf-8?B?SzlxVU50cUFGazRKQXhNSTZEUHNFZlk1MmVLL1dzdVlEQmxTNnVvcnVsVjVQ?=
+ =?utf-8?B?TkFPL0JaNzVSZlV4c1pQL2t0UjgzTk1mSVk5eTJDMllQVCtmYWkxSFRaZCtE?=
+ =?utf-8?B?dGxMbWFGblM2VFJKQVphNGhLblhEQmdZTmhvWnJUUFRLN1pjbUMrNHVIZ250?=
+ =?utf-8?B?dkFmSEdKOVF6dHd1K3RDT0tEZ3VIbG5aa3IxdThWWkhJT3hETDZIVkNCMW44?=
+ =?utf-8?B?NTE5UmM0Zlh2VDF5ejNPeUU3MklKSEFvTi9Jdnk5RTQ0Q2tpOXZySndsUER2?=
+ =?utf-8?B?WDJRRlpvYllyek9yU0pWcmttaUJLZVpkb1IvZFdBUjR2VWhMY1YrR0tOUkNQ?=
+ =?utf-8?B?SjFmSXJlR1JNdE5ra215VDZjbnAxa1luaDFmdWRnejVxeE9EVmZTejY5Q1U5?=
+ =?utf-8?B?ZHhYM3lzakhyRUFjQnU3ekxFZ3M1NDB0NzFxTENmWHZwZldnMzUvYllJYTF3?=
+ =?utf-8?B?VHI0RzY4WjNvMnQwVzBhOUpFRXRWZWNjUE5LMDF4TFpiMlN0Sm1FcjhPNHF2?=
+ =?utf-8?B?eUROa1FtMTJ2bXhQZmtKTllZdUZzbFRyNmM3N0RwS0dqL01sR3k5ZUpQTllp?=
+ =?utf-8?Q?OV9vq9WO0gQgYxkGr3R3n6Fbu?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 382319a8-07d6-492a-b5ba-08dbd4445de7
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3370.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYZPR03MB6624.apcprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c3b09231-f6a2-40a4-d2c6-08dbd4425527
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Oct 2023 03:35:56.4421 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 6jzG80+wWICepeBWnzCc0N++xnxkyMB1TLFkR9yflVfxkk5m44AiGwg9NNVspfGfzSUUeQIDgjqqLV2W5fzd6w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR03MB6896
-X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-AS-Result: No-10--12.922200-8.000000
-X-TMASE-MatchedRID: fgYTp5Xatxb4OiVTWoD8RCa1MaKuob8PC/ExpXrHizxcKZwALwMGs5ik
- b8Hpudw4ubvf6ktW7XASqo3ZUfrHhxBAYzpZxAP8FYJUGv4DL3wcZR50t08gUZsoi2XrUn/J+ZL
- 5o+vRV7yhMIDkR/KfwI2j49Ftap9EOwBXM346/+x50TuV+4cmQhK25QqUByXWA5vPgv0wct1h+e
- RSpyJ6ykrW+ws5e7ll
-X-TM-AS-User-Approved-Sender: No
-X-TM-AS-User-Blocked-Sender: No
-X-TMASE-Result: 10--12.922200-8.000000
-X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-SNTS-SMTP: 53C5848A073CAC2E612D95BDEF1555E03909EE6814ADEF9AF82A37DB9E58EDDC2000:8
-Content-Type: multipart/alternative;
- boundary="__=_Part_Boundary_008_1533837866.92688804"
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Oct 2023 03:50:30.4532 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: NszJdzlvS1NPSXy4nddL7l7N/6LE7NRh9wNb2QlssFMjVwY8cvzmywlUXKydLSsk
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB8069
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -177,109 +136,518 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "jkardatzke@google.com" <jkardatzke@google.com>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "conor+dt@kernel.org" <conor+dt@kernel.org>,
- Project_Global_Chrome_Upstream_Group
- <Project_Global_Chrome_Upstream_Group@mediatek.com>,
- =?utf-8?B?U2luZ28gQ2hhbmcgKOW8teiIiOWciyk=?= <Singo.Chang@mediatek.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
- =?utf-8?B?SmFzb24tY2ggQ2hlbiAo6Zmz5bu66LGqKQ==?= <Jason-ch.Chen@mediatek.com>,
- =?utf-8?B?TmFuY3kgTGluICjmnpfmrKPonqIp?= <Nancy.Lin@mediatek.com>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- =?utf-8?B?U2hhd24gU3VuZyAo5a6L5a2d6KyZKQ==?= <Shawn.Sung@mediatek.com>,
- =?utf-8?B?Sm9obnNvbiBXYW5nICjnjovogZbpkasp?= <Johnson.Wang@mediatek.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Cc: robdclark@chromium.org, thomas.hellstrom@linux.intel.com,
+ sarah.walker@imgtec.com, ketil.johnsen@arm.com, Liviu.Dudau@arm.com,
+ mcanal@igalia.com, boris.brezillon@collabora.com, dakr@redhat.com,
+ donald.robson@imgtec.com, lina@asahilina.net, christian.koenig@amd.com,
+ faith.ekstrand@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---__=_Part_Boundary_008_1533837866.92688804
-Content-Type: text/html;
-	charset="utf-8"
-Content-Transfer-Encoding: base64
+Hi,
 
-PHByZT4NCkhpLCYjMzI7SmFzb246DQoNCk9uJiMzMjtNb24sJiMzMjsyMDIzLTEwLTIzJiMzMjth
-dCYjMzI7MTI6NDUmIzMyOyswODAwLCYjMzI7SmFzb24tSkguTGluJiMzMjt3cm90ZToNCiZndDsm
-IzMyO0FkZCYjMzI7aXNfc2VjJiMzMjtmbGFnJiMzMjt0byYjMzI7aWRlbnRpZnkmIzMyO2N1cnJl
-bnQmIzMyO210a19kcm1fcGxhbmUmIzMyO2lzJiMzMjtzZWN1cmUuDQomZ3Q7JiMzMjtBZGQmIzMy
-O210a19wbGFuZV9pc19zZWNfZmIoKSYjMzI7dG8mIzMyO2NoZWNrJiMzMjtjdXJyZW50JiMzMjtk
-cm1fZnJhbWVidWZmZXImIzMyO2lzJiMzMjtzZWN1cmUuDQomZ3Q7JiMzMjsNCiZndDsmIzMyO1Np
-Z25lZC1vZmYtYnk6JiMzMjtKYXNvbi1KSC5MaW4mIzMyOyZsdDtqYXNvbi1qaC5saW5AbWVkaWF0
-ZWsuY29tJmd0Ow0KJmd0OyYjMzI7LS0tDQomZ3Q7JiMzMjsmIzMyO2RyaXZlcnMvZ3B1L2RybS9t
-ZWRpYXRlay9tdGtfZHJtX3BsYW5lLmgmIzMyO3wmIzMyOzImIzMyOysrDQomZ3Q7JiMzMjsmIzMy
-OzEmIzMyO2ZpbGUmIzMyO2NoYW5nZWQsJiMzMjsyJiMzMjtpbnNlcnRpb25zKCspDQomZ3Q7JiMz
-MjsNCiZndDsmIzMyO2RpZmYmIzMyOy0tZ2l0JiMzMjthL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRl
-ay9tdGtfZHJtX3BsYW5lLmgNCiZndDsmIzMyO2IvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210
-a19kcm1fcGxhbmUuaA0KJmd0OyYjMzI7aW5kZXgmIzMyOzk5YWZmN2RhMDgzMS4uZmU2MGUyMGE2
-ZTFjJiMzMjsxMDA2NDQNCiZndDsmIzMyOy0tLSYjMzI7YS9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0
-ZWsvbXRrX2RybV9wbGFuZS5oDQomZ3Q7JiMzMjsrKysmIzMyO2IvZHJpdmVycy9ncHUvZHJtL21l
-ZGlhdGVrL210a19kcm1fcGxhbmUuaA0KJmd0OyYjMzI7QEAmIzMyOy0zMyw2JiMzMjsrMzMsNyYj
-MzI7QEAmIzMyO3N0cnVjdCYjMzI7bXRrX3BsYW5lX3BlbmRpbmdfc3RhdGUmIzMyO3sNCiZndDsm
-IzMyOyYjMzI7Ym9vbGFzeW5jX2RpcnR5Ow0KJmd0OyYjMzI7JiMzMjtib29sYXN5bmNfY29uZmln
-Ow0KJmd0OyYjMzI7JiMzMjtlbnVtJiMzMjtkcm1fY29sb3JfZW5jb2Rpbmdjb2xvcl9lbmNvZGlu
-ZzsNCiZndDsmIzMyOytib29saXNfc2VjOw0KDQpXaGVyZSYjMzI7ZG8mIzMyO3lvdSYjMzI7c2V0
-JiMzMjt0aGlzJiMzMjtmbGFnJiM2MzsNCg0KUmVnYXJkcywNCkNLDQoNCiZndDsmIzMyOyYjMzI7
-fTsNCiZndDsmIzMyOyYjMzI7DQomZ3Q7JiMzMjsmIzMyO3N0cnVjdCYjMzI7bXRrX3BsYW5lX3N0
-YXRlJiMzMjt7DQomZ3Q7JiMzMjtAQCYjMzI7LTQ2LDYmIzMyOys0Nyw3JiMzMjtAQCYjMzI7dG9f
-bXRrX3BsYW5lX3N0YXRlKHN0cnVjdCYjMzI7ZHJtX3BsYW5lX3N0YXRlJiMzMjsqc3RhdGUpDQom
-Z3Q7JiMzMjsmIzMyO3JldHVybiYjMzI7Y29udGFpbmVyX29mKHN0YXRlLCYjMzI7c3RydWN0JiMz
-MjttdGtfcGxhbmVfc3RhdGUsJiMzMjtiYXNlKTsNCiZndDsmIzMyOyYjMzI7fQ0KJmd0OyYjMzI7
-JiMzMjsNCiZndDsmIzMyOytib29sJiMzMjttdGtfcGxhbmVfZmJfaXNfc2VjdXJlKHN0cnVjdCYj
-MzI7ZHJtX2ZyYW1lYnVmZmVyJiMzMjsqZmIpOw0KJmd0OyYjMzI7JiMzMjtpbnQmIzMyO210a19w
-bGFuZV9pbml0KHN0cnVjdCYjMzI7ZHJtX2RldmljZSYjMzI7KmRldiwmIzMyO3N0cnVjdCYjMzI7
-ZHJtX3BsYW5lJiMzMjsqcGxhbmUsDQomZ3Q7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyO3Vuc2ln
-bmVkJiMzMjtsb25nJiMzMjtwb3NzaWJsZV9jcnRjcywmIzMyO2VudW0mIzMyO2RybV9wbGFuZV90
-eXBlDQomZ3Q7JiMzMjt0eXBlLA0KJmd0OyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjt1bnNpZ25l
-ZCYjMzI7aW50JiMzMjtzdXBwb3J0ZWRfcm90YXRpb25zLCYjMzI7Y29uc3QmIzMyO3UzMg0KJmd0
-OyYjMzI7KmZvcm1hdHMsDQoNCjwvcHJlPjwhLS10eXBlOnRleHQtLT48IS0tey0tPjxwcmU+Kioq
-KioqKioqKioqKiBNRURJQVRFSyBDb25maWRlbnRpYWxpdHkgTm90aWNlICoqKioqKioqKioqKioq
-KioqKioqDQpUaGUgaW5mb3JtYXRpb24gY29udGFpbmVkIGluIHRoaXMgZS1tYWlsIG1lc3NhZ2Ug
-KGluY2x1ZGluZyBhbnkgDQphdHRhY2htZW50cykgbWF5IGJlIGNvbmZpZGVudGlhbCwgcHJvcHJp
-ZXRhcnksIHByaXZpbGVnZWQsIG9yIG90aGVyd2lzZQ0KZXhlbXB0IGZyb20gZGlzY2xvc3VyZSB1
-bmRlciBhcHBsaWNhYmxlIGxhd3MuIEl0IGlzIGludGVuZGVkIHRvIGJlIA0KY29udmV5ZWQgb25s
-eSB0byB0aGUgZGVzaWduYXRlZCByZWNpcGllbnQocykuIEFueSB1c2UsIGRpc3NlbWluYXRpb24s
-IA0KZGlzdHJpYnV0aW9uLCBwcmludGluZywgcmV0YWluaW5nIG9yIGNvcHlpbmcgb2YgdGhpcyBl
-LW1haWwgKGluY2x1ZGluZyBpdHMgDQphdHRhY2htZW50cykgYnkgdW5pbnRlbmRlZCByZWNpcGll
-bnQocykgaXMgc3RyaWN0bHkgcHJvaGliaXRlZCBhbmQgbWF5IA0KYmUgdW5sYXdmdWwuIElmIHlv
-dSBhcmUgbm90IGFuIGludGVuZGVkIHJlY2lwaWVudCBvZiB0aGlzIGUtbWFpbCwgb3IgYmVsaWV2
-ZSANCnRoYXQgeW91IGhhdmUgcmVjZWl2ZWQgdGhpcyBlLW1haWwgaW4gZXJyb3IsIHBsZWFzZSBu
-b3RpZnkgdGhlIHNlbmRlciANCmltbWVkaWF0ZWx5IChieSByZXBseWluZyB0byB0aGlzIGUtbWFp
-bCksIGRlbGV0ZSBhbnkgYW5kIGFsbCBjb3BpZXMgb2YgDQp0aGlzIGUtbWFpbCAoaW5jbHVkaW5n
-IGFueSBhdHRhY2htZW50cykgZnJvbSB5b3VyIHN5c3RlbSwgYW5kIGRvIG5vdA0KZGlzY2xvc2Ug
-dGhlIGNvbnRlbnQgb2YgdGhpcyBlLW1haWwgdG8gYW55IG90aGVyIHBlcnNvbi4gVGhhbmsgeW91
-IQ0KPC9wcmU+PCEtLX0tLT4=
+On 2023-10-17 11:09, Matthew Brost wrote:
+> DRM_SCHED_POLICY_SINGLE_ENTITY creates a 1 to 1 relationship between
+> scheduler and entity. No priorities or run queue used in this mode.
+> Intended for devices with firmware schedulers.
+> 
+> v2:
+>   - Drop sched / rq union (Luben)
+> v3:
+>   - Don't pick entity if stopped in drm_sched_select_entity (Danilo)
+> v4:
+>   - Rework if statement in drm_sched_entity_init (Luben)
+>   - Update comment for drm_sched_entity_to_scheduler (Luben)
+>   - Reword a few things in DOC comment (Luben)
+>   - Do not check sched policy in for statement (Luben)
+> v5:
+>   - Fix extra blank lines (Luben / Checkpatch)
+> 
+> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> ---
+>  drivers/gpu/drm/scheduler/sched_entity.c | 69 +++++++++++++++----
+>  drivers/gpu/drm/scheduler/sched_fence.c  |  2 +-
+>  drivers/gpu/drm/scheduler/sched_main.c   | 87 ++++++++++++++++++------
+>  include/drm/gpu_scheduler.h              |  8 +++
+>  4 files changed, 130 insertions(+), 36 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
+> index cf42e2265d64..940f63dd6965 100644
+> --- a/drivers/gpu/drm/scheduler/sched_entity.c
+> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+> @@ -83,6 +83,7 @@ int drm_sched_entity_init(struct drm_sched_entity *entity,
+>  	memset(entity, 0, sizeof(struct drm_sched_entity));
+>  	INIT_LIST_HEAD(&entity->list);
+>  	entity->rq = NULL;
+> +	entity->single_sched = NULL;
+>  	entity->guilty = guilty;
+>  	entity->num_sched_list = num_sched_list;
+>  	entity->priority = priority;
+> @@ -90,8 +91,17 @@ int drm_sched_entity_init(struct drm_sched_entity *entity,
+>  	RCU_INIT_POINTER(entity->last_scheduled, NULL);
+>  	RB_CLEAR_NODE(&entity->rb_tree_node);
+>  
+> -	if(num_sched_list)
+> -		entity->rq = &sched_list[0]->sched_rq[entity->priority];
+> +	if (num_sched_list) {
+> +		if (sched_list[0]->sched_policy !=
+> +		    DRM_SCHED_POLICY_SINGLE_ENTITY) {
+> +			entity->rq = &sched_list[0]->sched_rq[entity->priority];
+> +		} else if (num_sched_list == 1 && !sched_list[0]->single_entity) {
+> +			sched_list[0]->single_entity = entity;
+> +			entity->single_sched = sched_list[0];
 
---__=_Part_Boundary_008_1533837866.92688804
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: base64
+To simplify the rest of the GPU scheduler design and generalize the logic,
+we can do
+	entity->rq = sched_list[0]->sched_rq[entity->priority];
+where the "priority" is 0, thus having a single rq.
 
-SGksIEphc29uOg0KDQpPbiBNb24sIDIwMjMtMTAtMjMgYXQgMTI6NDUgKzA4MDAsIEphc29uLUpI
-LkxpbiB3cm90ZToNCj4gQWRkIGlzX3NlYyBmbGFnIHRvIGlkZW50aWZ5IGN1cnJlbnQgbXRrX2Ry
-bV9wbGFuZSBpcyBzZWN1cmUuDQo+IEFkZCBtdGtfcGxhbmVfaXNfc2VjX2ZiKCkgdG8gY2hlY2sg
-Y3VycmVudCBkcm1fZnJhbWVidWZmZXIgaXMgc2VjdXJlLg0KPiANCj4gU2lnbmVkLW9mZi1ieTog
-SmFzb24tSkguTGluIDxqYXNvbi1qaC5saW5AbWVkaWF0ZWsuY29tPg0KPiAtLS0NCj4gIGRyaXZl
-cnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX3BsYW5lLmggfCAyICsrDQo+ICAxIGZpbGUgY2hh
-bmdlZCwgMiBpbnNlcnRpb25zKCspDQo+IA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJt
-L21lZGlhdGVrL210a19kcm1fcGxhbmUuaA0KPiBiL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9t
-dGtfZHJtX3BsYW5lLmgNCj4gaW5kZXggOTlhZmY3ZGEwODMxLi5mZTYwZTIwYTZlMWMgMTAwNjQ0
-DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX3BsYW5lLmgNCj4gKysr
-IGIvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fcGxhbmUuaA0KPiBAQCAtMzMsNiAr
-MzMsNyBAQCBzdHJ1Y3QgbXRrX3BsYW5lX3BlbmRpbmdfc3RhdGUgew0KPiAgCWJvb2wJCQkJYXN5
-bmNfZGlydHk7DQo+ICAJYm9vbAkJCQlhc3luY19jb25maWc7DQo+ICAJZW51bSBkcm1fY29sb3Jf
-ZW5jb2RpbmcJCWNvbG9yX2VuY29kaW5nOw0KPiArCWJvb2wJCQkJaXNfc2VjOw0KDQpXaGVyZSBk
-byB5b3Ugc2V0IHRoaXMgZmxhZz8NCg0KUmVnYXJkcywNCkNLDQoNCj4gIH07DQo+ICANCj4gIHN0
-cnVjdCBtdGtfcGxhbmVfc3RhdGUgew0KPiBAQCAtNDYsNiArNDcsNyBAQCB0b19tdGtfcGxhbmVf
-c3RhdGUoc3RydWN0IGRybV9wbGFuZV9zdGF0ZSAqc3RhdGUpDQo+ICAJcmV0dXJuIGNvbnRhaW5l
-cl9vZihzdGF0ZSwgc3RydWN0IG10a19wbGFuZV9zdGF0ZSwgYmFzZSk7DQo+ICB9DQo+ICANCj4g
-K2Jvb2wgbXRrX3BsYW5lX2ZiX2lzX3NlY3VyZShzdHJ1Y3QgZHJtX2ZyYW1lYnVmZmVyICpmYik7
-DQo+ICBpbnQgbXRrX3BsYW5lX2luaXQoc3RydWN0IGRybV9kZXZpY2UgKmRldiwgc3RydWN0IGRy
-bV9wbGFuZSAqcGxhbmUsDQo+ICAJCSAgIHVuc2lnbmVkIGxvbmcgcG9zc2libGVfY3J0Y3MsIGVu
-dW0gZHJtX3BsYW5lX3R5cGUNCj4gdHlwZSwNCj4gIAkJICAgdW5zaWduZWQgaW50IHN1cHBvcnRl
-ZF9yb3RhdGlvbnMsIGNvbnN0IHUzMg0KPiAqZm9ybWF0cywNCg==
+We shouldn't splice scheduler and entity, but rather make it so that
+we can set the number of rqs to 1, thus resulting in a single rq.
 
---__=_Part_Boundary_008_1533837866.92688804--
+(https://lore.kernel.org/r/20231023032251.164775-1-luben.tuikov@amd.com)
+
+> +		} else {
+> +			return -EINVAL;
+> +		}
+> +	}
+>  
+>  	init_completion(&entity->entity_idle);
+>  
+> @@ -124,7 +134,8 @@ void drm_sched_entity_modify_sched(struct drm_sched_entity *entity,
+>  				    struct drm_gpu_scheduler **sched_list,
+>  				    unsigned int num_sched_list)
+>  {
+> -	WARN_ON(!num_sched_list || !sched_list);
+> +	WARN_ON(!num_sched_list || !sched_list ||
+> +		!!entity->single_sched);
+
+We wouldn't need this check.
+
+>  
+>  	entity->sched_list = sched_list;
+>  	entity->num_sched_list = num_sched_list;
+> @@ -231,13 +242,15 @@ static void drm_sched_entity_kill(struct drm_sched_entity *entity)
+>  {
+>  	struct drm_sched_job *job;
+>  	struct dma_fence *prev;
+> +	bool single_entity = !!entity->single_sched;
+>  
+> -	if (!entity->rq)
+> +	if (!entity->rq && !single_entity)
+>  		return;
+>  
+>  	spin_lock(&entity->rq_lock);
+>  	entity->stopped = true;
+> -	drm_sched_rq_remove_entity(entity->rq, entity);
+> +	if (!single_entity)
+> +		drm_sched_rq_remove_entity(entity->rq, entity);
+>  	spin_unlock(&entity->rq_lock);
+
+We should be able to carry on the existing infrastructure when
+having num_rqs = 1, with dynamic rqs. So we shouldn't warrant
+any changes here.
+
+>  
+>  	/* Make sure this entity is not used by the scheduler at the moment */
+> @@ -259,6 +272,20 @@ static void drm_sched_entity_kill(struct drm_sched_entity *entity)
+>  	dma_fence_put(prev);
+>  }
+>  
+> +/**
+> + * drm_sched_entity_to_scheduler - Schedule entity to GPU scheduler
+> + * @entity: scheduler entity
+> + *
+> + * Returns GPU scheduler for the entity
+> + */
+> +struct drm_gpu_scheduler *
+> +drm_sched_entity_to_scheduler(struct drm_sched_entity *entity)
+> +{
+> +	bool single_entity = !!entity->single_sched;
+> +
+> +	return single_entity ? entity->single_sched : entity->rq->sched;
+
+It would be "entity->rq->sched" for any and all cases which simplifies things.
+
+> +}
+> +
+>  /**
+>   * drm_sched_entity_flush - Flush a context entity
+>   *
+> @@ -276,11 +303,12 @@ long drm_sched_entity_flush(struct drm_sched_entity *entity, long timeout)
+>  	struct drm_gpu_scheduler *sched;
+>  	struct task_struct *last_user;
+>  	long ret = timeout;
+> +	bool single_entity = !!entity->single_sched;
+>  
+> -	if (!entity->rq)
+> +	if (!entity->rq && !single_entity)
+>  		return 0;
+>  
+> -	sched = entity->rq->sched;
+> +	sched = drm_sched_entity_to_scheduler(entity);
+>  	/**
+>  	 * The client will not queue more IBs during this fini, consume existing
+>  	 * queued IBs or discard them on SIGKILL
+> @@ -373,7 +401,7 @@ static void drm_sched_entity_wakeup(struct dma_fence *f,
+>  		container_of(cb, struct drm_sched_entity, cb);
+>  
+>  	drm_sched_entity_clear_dep(f, cb);
+> -	drm_sched_wakeup_if_can_queue(entity->rq->sched);
+> +	drm_sched_wakeup_if_can_queue(drm_sched_entity_to_scheduler(entity));
+>  }
+
+We can carry on that too, without changes. The good part of that is that
+we'll inherit all the fence work and checking for free.
+
+>  
+>  /**
+> @@ -387,6 +415,8 @@ static void drm_sched_entity_wakeup(struct dma_fence *f,
+>  void drm_sched_entity_set_priority(struct drm_sched_entity *entity,
+>  				   enum drm_sched_priority priority)
+>  {
+> +	WARN_ON(!!entity->single_sched);
+> +
+>  	spin_lock(&entity->rq_lock);
+>  	entity->priority = priority;
+>  	spin_unlock(&entity->rq_lock);
+> @@ -399,7 +429,7 @@ EXPORT_SYMBOL(drm_sched_entity_set_priority);
+>   */
+>  static bool drm_sched_entity_add_dependency_cb(struct drm_sched_entity *entity)
+>  {
+> -	struct drm_gpu_scheduler *sched = entity->rq->sched;
+> +	struct drm_gpu_scheduler *sched = drm_sched_entity_to_scheduler(entity);
+>  	struct dma_fence *fence = entity->dependency;
+>  	struct drm_sched_fence *s_fence;
+>  
+> @@ -501,7 +531,8 @@ struct drm_sched_job *drm_sched_entity_pop_job(struct drm_sched_entity *entity)
+>  	 * Update the entity's location in the min heap according to
+>  	 * the timestamp of the next job, if any.
+>  	 */
+> -	if (entity->rq->sched->sched_policy == DRM_SCHED_POLICY_FIFO) {
+> +	if (drm_sched_entity_to_scheduler(entity)->sched_policy ==
+> +	    DRM_SCHED_POLICY_FIFO) {
+>  		struct drm_sched_job *next;
+>  
+>  		next = to_drm_sched_job(spsc_queue_peek(&entity->job_queue));
+> @@ -524,6 +555,8 @@ void drm_sched_entity_select_rq(struct drm_sched_entity *entity)
+>  	struct drm_gpu_scheduler *sched;
+>  	struct drm_sched_rq *rq;
+>  
+> +	WARN_ON(!!entity->single_sched);
+> +
+>  	/* single possible engine and already selected */
+>  	if (!entity->sched_list)
+>  		return;
+> @@ -573,12 +606,13 @@ void drm_sched_entity_select_rq(struct drm_sched_entity *entity)
+>  void drm_sched_entity_push_job(struct drm_sched_job *sched_job)
+>  {
+>  	struct drm_sched_entity *entity = sched_job->entity;
+> -	bool first, fifo = entity->rq->sched->sched_policy ==
+> -		DRM_SCHED_POLICY_FIFO;
+> +	bool single_entity = !!entity->single_sched;
+> +	bool first;
+>  	ktime_t submit_ts;
+>  
+>  	trace_drm_sched_job(sched_job, entity);
+> -	atomic_inc(entity->rq->sched->score);
+> +	if (!single_entity)
+> +		atomic_inc(entity->rq->sched->score);
+>  	WRITE_ONCE(entity->last_user, current->group_leader);
+>  
+>  	/*
+> @@ -591,6 +625,10 @@ void drm_sched_entity_push_job(struct drm_sched_job *sched_job)
+>  
+>  	/* first job wakes up scheduler */
+>  	if (first) {
+> +		struct drm_gpu_scheduler *sched =
+> +			drm_sched_entity_to_scheduler(entity);
+> +		bool fifo = sched->sched_policy == DRM_SCHED_POLICY_FIFO;
+> +
+>  		/* Add the entity to the run queue */
+>  		spin_lock(&entity->rq_lock);
+>  		if (entity->stopped) {
+> @@ -600,13 +638,14 @@ void drm_sched_entity_push_job(struct drm_sched_job *sched_job)
+>  			return;
+>  		}
+>  
+> -		drm_sched_rq_add_entity(entity->rq, entity);
+> +		if (!single_entity)
+> +			drm_sched_rq_add_entity(entity->rq, entity);
+>  		spin_unlock(&entity->rq_lock);
+>  
+>  		if (fifo)
+>  			drm_sched_rq_update_fifo(entity, submit_ts);
+>  
+> -		drm_sched_wakeup_if_can_queue(entity->rq->sched);
+> +		drm_sched_wakeup_if_can_queue(sched);
+>  	}
+>  }
+>  EXPORT_SYMBOL(drm_sched_entity_push_job);
+> diff --git a/drivers/gpu/drm/scheduler/sched_fence.c b/drivers/gpu/drm/scheduler/sched_fence.c
+> index 06cedfe4b486..f6b926f5e188 100644
+> --- a/drivers/gpu/drm/scheduler/sched_fence.c
+> +++ b/drivers/gpu/drm/scheduler/sched_fence.c
+> @@ -225,7 +225,7 @@ void drm_sched_fence_init(struct drm_sched_fence *fence,
+>  {
+>  	unsigned seq;
+>  
+> -	fence->sched = entity->rq->sched;
+> +	fence->sched = drm_sched_entity_to_scheduler(entity);
+>  	seq = atomic_inc_return(&entity->fence_seq);
+>  	dma_fence_init(&fence->scheduled, &drm_sched_fence_ops_scheduled,
+>  		       &fence->lock, entity->fence_context, seq);
+> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+> index 150e5330f0fa..273e0fbc4eab 100644
+> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> @@ -32,7 +32,8 @@
+>   * backend operations to the scheduler like submitting a job to hardware run queue,
+>   * returning the dependencies of a job etc.
+>   *
+> - * The organisation of the scheduler is the following:
+> + * For scheduling policies DRM_SCHED_POLICY_RR and DRM_SCHED_POLICY_FIFO, the
+> + * scheduler organization is:
+>   *
+>   * 1. Each hw run queue has one scheduler
+>   * 2. Each scheduler has multiple run queues with different priorities
+> @@ -43,7 +44,24 @@
+>   *
+>   * The jobs in a entity are always scheduled in the order that they were pushed.
+>   *
+> - * Note that once a job was taken from the entities queue and pushed to the
+> + * For DRM_SCHED_POLICY_SINGLE_ENTITY, the organization of the scheduler is:
+> + *
+> + * 1. One to one relationship between scheduler and entity
+> + * 2. No priorities implemented per scheduler (single job queue)
+> + * 3. No run queues in scheduler rather jobs are directly dequeued from entity
+> + * 4. The entity maintains a queue of jobs that will be scheduled to the
+> + * hardware
+> + *
+> + * The jobs in a entity are always scheduled in the order that they were pushed
+> + * regardless of scheduling policy. Single-entity scheduling is essentially a
+> + * FIFO for jobs.
+> + *
+> + * A policy of DRM_SCHED_POLICY_RR or DRM_SCHED_POLICY_FIFO is expected to be
+> + * used when the kernel-mode driver is scheduling directly to the hardware while
+> + * a scheduling policy of DRM_SCHED_POLICY_SINGLE_ENTITY is expected to be used
+> + * when there is a firmware scheduler.
+> + *
+> + * Note that once a job is taken from the entities queue and pushed to the
+>   * hardware, i.e. the pending queue, the entity must not be referenced anymore
+>   * through the jobs entity pointer.
+>   */
+> @@ -96,6 +114,8 @@ static inline void drm_sched_rq_remove_fifo_locked(struct drm_sched_entity *enti
+>  
+>  void drm_sched_rq_update_fifo(struct drm_sched_entity *entity, ktime_t ts)
+>  {
+> +	WARN_ON(!!entity->single_sched);
+> +
+>  	/*
+>  	 * Both locks need to be grabbed, one to protect from entity->rq change
+>  	 * for entity from within concurrent drm_sched_entity_select_rq and the
+> @@ -126,6 +146,8 @@ void drm_sched_rq_update_fifo(struct drm_sched_entity *entity, ktime_t ts)
+>  static void drm_sched_rq_init(struct drm_gpu_scheduler *sched,
+>  			      struct drm_sched_rq *rq)
+>  {
+> +	WARN_ON(sched->sched_policy == DRM_SCHED_POLICY_SINGLE_ENTITY);
+> +
+>  	spin_lock_init(&rq->lock);
+>  	INIT_LIST_HEAD(&rq->entities);
+>  	rq->rb_tree_root = RB_ROOT_CACHED;
+> @@ -144,6 +166,8 @@ static void drm_sched_rq_init(struct drm_gpu_scheduler *sched,
+>  void drm_sched_rq_add_entity(struct drm_sched_rq *rq,
+>  			     struct drm_sched_entity *entity)
+>  {
+> +	WARN_ON(!!entity->single_sched);
+> +
+>  	if (!list_empty(&entity->list))
+>  		return;
+>  
+> @@ -166,6 +190,8 @@ void drm_sched_rq_add_entity(struct drm_sched_rq *rq,
+>  void drm_sched_rq_remove_entity(struct drm_sched_rq *rq,
+>  				struct drm_sched_entity *entity)
+>  {
+> +	WARN_ON(!!entity->single_sched);
+> +
+>  	if (list_empty(&entity->list))
+>  		return;
+>  
+> @@ -641,7 +667,7 @@ int drm_sched_job_init(struct drm_sched_job *job,
+>  		       struct drm_sched_entity *entity,
+>  		       void *owner)
+>  {
+> -	if (!entity->rq)
+> +	if (!entity->rq && !entity->single_sched)
+>  		return -ENOENT;
+>  
+>  	job->entity = entity;
+> @@ -674,13 +700,16 @@ void drm_sched_job_arm(struct drm_sched_job *job)
+>  {
+>  	struct drm_gpu_scheduler *sched;
+>  	struct drm_sched_entity *entity = job->entity;
+> +	bool single_entity = !!entity->single_sched;
+>  
+>  	BUG_ON(!entity);
+> -	drm_sched_entity_select_rq(entity);
+> -	sched = entity->rq->sched;
+> +	if (!single_entity)
+> +		drm_sched_entity_select_rq(entity);
+> +	sched = drm_sched_entity_to_scheduler(entity);
+>  
+>  	job->sched = sched;
+> -	job->s_priority = entity->rq - sched->sched_rq;
+> +	if (!single_entity)
+> +		job->s_priority = entity->rq - sched->sched_rq;
+>  	job->id = atomic64_inc_return(&sched->job_id_count);
+>  
+>  	drm_sched_fence_init(job->s_fence, job->entity);
+> @@ -896,6 +925,14 @@ drm_sched_select_entity(struct drm_gpu_scheduler *sched)
+>  	if (!drm_sched_can_queue(sched))
+>  		return NULL;
+>  
+> +	if (sched->single_entity) {
+> +		if (!READ_ONCE(sched->single_entity->stopped) &&
+> +		    drm_sched_entity_is_ready(sched->single_entity))
+> +			return sched->single_entity;
+> +
+> +		return NULL;
+> +	}
+> +
+>  	/* Kernel run queue has higher priority than normal run queue*/
+>  	for (i = DRM_SCHED_PRIORITY_COUNT - 1; i >= DRM_SCHED_PRIORITY_MIN; i--) {
+>  		entity = sched->sched_policy == DRM_SCHED_POLICY_FIFO ?
+> @@ -1092,6 +1129,7 @@ int drm_sched_init(struct drm_gpu_scheduler *sched,
+>  		return -EINVAL;
+>  
+>  	sched->ops = ops;
+> +	sched->single_entity = NULL;
+>  	sched->hw_submission_limit = hw_submission;
+>  	sched->name = name;
+>  	if (submit_wq) {
+> @@ -1111,8 +1149,10 @@ int drm_sched_init(struct drm_gpu_scheduler *sched,
+>  	sched->dev = dev;
+>  	sched->sched_policy = sched_policy == DRM_SCHED_POLICY_UNSET ?
+>  		drm_sched_policy_default : sched_policy;
+> -	for (i = DRM_SCHED_PRIORITY_MIN; i < DRM_SCHED_PRIORITY_COUNT; i++)
+> -		drm_sched_rq_init(sched, &sched->sched_rq[i]);
+> +	if (sched_policy != DRM_SCHED_POLICY_SINGLE_ENTITY) {
+> +		for (i = DRM_SCHED_PRIORITY_MIN; i < DRM_SCHED_PRIORITY_COUNT; i++)
+> +			drm_sched_rq_init(sched, &sched->sched_rq[i]);
+> +	}
+
+With dynamic rq, no changes would be necessary here--we just go over the single rq.
+
+>  
+>  	init_waitqueue_head(&sched->job_scheduled);
+>  	INIT_LIST_HEAD(&sched->pending_list);
+> @@ -1143,19 +1183,24 @@ void drm_sched_fini(struct drm_gpu_scheduler *sched)
+>  
+>  	drm_sched_wqueue_stop(sched);
+>  
+> -	for (i = DRM_SCHED_PRIORITY_COUNT - 1; i >= DRM_SCHED_PRIORITY_MIN; i--) {
+> -		struct drm_sched_rq *rq = &sched->sched_rq[i];
+> -
+> -		spin_lock(&rq->lock);
+> -		list_for_each_entry(s_entity, &rq->entities, list)
+> -			/*
+> -			 * Prevents reinsertion and marks job_queue as idle,
+> -			 * it will removed from rq in drm_sched_entity_fini
+> -			 * eventually
+> -			 */
+> -			s_entity->stopped = true;
+> -		spin_unlock(&rq->lock);
+> +	if (sched->single_entity) {
+> +		spin_lock(&sched->single_entity->rq_lock);
+> +		sched->single_entity->stopped = true;
+> +		spin_unlock(&sched->single_entity->rq_lock);
+> +	} else if (sched->sched_policy != DRM_SCHED_POLICY_SINGLE_ENTITY) {
+> +		for (i = DRM_SCHED_PRIORITY_COUNT - 1; i >= DRM_SCHED_PRIORITY_MIN; i--) {
+> +			struct drm_sched_rq *rq = &sched->sched_rq[i];
+>  
+> +			spin_lock(&rq->lock);
+> +			list_for_each_entry(s_entity, &rq->entities, list)
+> +				/*
+> +				 * Prevents reinsertion and marks job_queue as idle,
+> +				 * it will removed from rq in drm_sched_entity_fini
+> +				 * eventually
+> +				 */
+> +				s_entity->stopped = true;
+> +			spin_unlock(&rq->lock);
+> +		}
+>  	}
+
+Same here--we can keep the loop intact, we have a single rq and we just process it.
+
+>  
+>  	/* Wakeup everyone stuck in drm_sched_entity_flush for this scheduler */
+> @@ -1186,6 +1231,8 @@ void drm_sched_increase_karma(struct drm_sched_job *bad)
+>  	struct drm_sched_entity *entity;
+>  	struct drm_gpu_scheduler *sched = bad->sched;
+>  
+> +	WARN_ON(sched->sched_policy == DRM_SCHED_POLICY_SINGLE_ENTITY);
+> +
+>  	/* don't change @bad's karma if it's from KERNEL RQ,
+>  	 * because sometimes GPU hang would cause kernel jobs (like VM updating jobs)
+>  	 * corrupt but keep in mind that kernel jobs always considered good.
+> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+> index 320f0a720486..e67b53c3546b 100644
+> --- a/include/drm/gpu_scheduler.h
+> +++ b/include/drm/gpu_scheduler.h
+> @@ -79,6 +79,7 @@ enum drm_sched_policy {
+>  	DRM_SCHED_POLICY_UNSET,
+>  	DRM_SCHED_POLICY_RR,
+>  	DRM_SCHED_POLICY_FIFO,
+> +	DRM_SCHED_POLICY_SINGLE_ENTITY,
+>  	DRM_SCHED_POLICY_COUNT,
+>  };
+>  
+> @@ -112,6 +113,9 @@ struct drm_sched_entity {
+>  	 */
+>  	struct drm_sched_rq		*rq;
+>  
+> +	/** @single_sched: Single scheduler */
+> +	struct drm_gpu_scheduler	*single_sched;
+> +
+>  	/**
+>  	 * @sched_list:
+>  	 *
+> @@ -473,6 +477,7 @@ struct drm_sched_backend_ops {
+>   * struct drm_gpu_scheduler - scheduler instance-specific data
+>   *
+>   * @ops: backend operations provided by the driver.
+> + * @single_entity: Single entity for the scheduler
+>   * @hw_submission_limit: the max size of the hardware queue.
+>   * @timeout: the time after which a job is removed from the scheduler.
+>   * @name: name of the ring for which this scheduler is being used.
+> @@ -504,6 +509,7 @@ struct drm_sched_backend_ops {
+>   */
+>  struct drm_gpu_scheduler {
+>  	const struct drm_sched_backend_ops	*ops;
+> +	struct drm_sched_entity		*single_entity;
+
+Right, as I mentioned above, we shouldn't splice up between a scheduler
+and an entity sometimes, and other times scheduler to rq to entity--it just
+creates too much thrashing about in the code, with too many ifs, conditions,
+etc. Simpler is better--parameterization of the number of rqs.
+
+Instead, let's get the dynamic rqs in, and this way we can keep much
+of the code the same, inheriting fence work and checks, and so on,
+without much changes.
+
+Regards,
+Luben
+
+>  	uint32_t			hw_submission_limit;
+>  	long				timeout;
+>  	const char			*name;
+> @@ -587,6 +593,8 @@ int drm_sched_entity_init(struct drm_sched_entity *entity,
+>  			  struct drm_gpu_scheduler **sched_list,
+>  			  unsigned int num_sched_list,
+>  			  atomic_t *guilty);
+> +struct drm_gpu_scheduler *
+> +drm_sched_entity_to_scheduler(struct drm_sched_entity *entity);
+>  long drm_sched_entity_flush(struct drm_sched_entity *entity, long timeout);
+>  void drm_sched_entity_fini(struct drm_sched_entity *entity);
+>  void drm_sched_entity_destroy(struct drm_sched_entity *entity);
 
