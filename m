@@ -2,49 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6A527D53A3
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Oct 2023 16:07:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAAA27D53E2
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Oct 2023 16:25:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E73510E0B1;
-	Tue, 24 Oct 2023 14:07:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E096910E29C;
+	Tue, 24 Oct 2023 14:24:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD8D910E0B1
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Oct 2023 14:07:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
- Message-ID:Content-Type:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=L1iTz6bfM1AQiG4Syo2PQTivr72mp0i/nRWFqT+0Y2k=; b=qA+R5vdmxrfVvRAHBmSpc6QoqG
- y4/83ft83MAoXB6rATilSmbgyH4cEq4Vq3zdbCr9KXoMjIUbygy3hp3+kWRshT2w4cVEvyQANBvi2
- rZJzp0EAqKzPFB5YKN1csApSz9LTGQ2fPPeNCGrPEZDH4T82fhC3hgecQ6haDA27/WeZH24mW1CB0
- Ouco2Wt8okKKMbFL7CW1L4Fz775Xr7fPj4f8lyihw95P7n+msz1AjxowQOmcWMOS2NKB6coga4lLh
- 0dpXkQu40zlhwtI9DC1Hsak1PHgLn6Qh5VKRbCtNK5UUbN83q75Fwq/Ss8KPzk+k9buE48KqC/NNO
- kOg/fDlg==;
-Received: from 7.33.165.83.dynamic.reverse-mundo-r.com ([83.165.33.7]
- helo=[192.168.50.15]) by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1qvI3x-006VLO-88; Tue, 24 Oct 2023 16:07:17 +0200
-Content-Type: multipart/alternative;
- boundary="------------CKpSsn4e0gMPeWLMP5pEJDmM"
-Message-ID: <805445f7-0f4d-46c4-ac81-85eb4e7cab00@igalia.com>
-Date: Tue, 24 Oct 2023 16:07:16 +0200
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EEC8C10E3CA
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Oct 2023 14:24:53 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by ams.source.kernel.org (Postfix) with ESMTP id 560ADB80760;
+ Tue, 24 Oct 2023 14:24:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 570D0C433C7;
+ Tue, 24 Oct 2023 14:24:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1698157491;
+ bh=JiAgJPKemF9Wi2E3Nn7vBcVAiqFYF94P9jyQ6bRIssY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=GVjYHRiP6+XxzVH7PcvA+cqVtDnX8XjFr68MPXEr15HWpNxUubJZCvRUsGdSYooIB
+ 96TTfcHjGLsQqmO1T/idyHpCLQAReQYVEHrT07OtneqwvON7jrBfaQgWr95vLuPB0Z
+ de2nNZifq44lq9aPDX3UXBBMf3N5vSxPvGY9mYyRvjNTz0pmvwQ+5qa2o8abfRAIUh
+ 1ZGa4qjYnbCThn/DunhPbmAAcvqtUV1zGKMad0cd+AcGL9EtLouUkTgForBJ5hE4sx
+ 09h28lmevoSWX3HbXOqTM+1X8xATWi7uw6BirOy+44AR+mwIVoNeSidc26ZQ+lAnYm
+ YNikKsPR4ggpA==
+Date: Tue, 24 Oct 2023 16:24:49 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Doug Anderson <dianders@chromium.org>
+Subject: Re: [PATCH] drm: docs: Remove item from TODO list
+Message-ID: <c6kwqxz2xgl64qb6dzetjjh6j2a6hj7mvbkeg57f5ulfs2hrib@ocjjsoxw3ns6>
+References: <DB3PR10MB683528B8252ED2A802A0E154E8D8A@DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM>
+ <CAD=FV=W0G6C-=99viHMQaW2REGRQr2xgaejnJmadOdZkoE7AjA@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/2] drm/v3d: Expose GPU usage stats
-Content-Language: en-US
-To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- Emma Anholt <emma@anholt.net>, Melissa Wen <mwen@igalia.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Rob Clark <robdclark@gmail.com>
-References: <20230905213416.1290219-1-mcanal@igalia.com>
-From: Chema Casanova <jmcasanova@igalia.com>
-In-Reply-To: <20230905213416.1290219-1-mcanal@igalia.com>
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="hybcvdpiqm52svmj"
+Content-Disposition: inline
+In-Reply-To: <CAD=FV=W0G6C-=99viHMQaW2REGRQr2xgaejnJmadOdZkoE7AjA@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,212 +52,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
+Cc: neil.armstrong@linaro.org, tzimmermann@suse.de, corbet@lwn.net,
+ sam@ravnborg.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, christian.koenig@amd.com,
+ linaro-mm-sig@lists.linaro.org, linux-kernel-mentees@lists.linuxfoundation.org,
+ Yuran Pereira <yuran.pereira@hotmail.com>, sumit.semwal@linaro.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is a multi-part message in MIME format.
---------------CKpSsn4e0gMPeWLMP5pEJDmM
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
 
-I've just tested this series, and it is working perfectly. For the two 
-patches of the series:
+--hybcvdpiqm52svmj
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Acked-by: Jose Maria Casanova Crespo <jmcasanova@igalia.com>
+Hi,
 
-Thanks Maíra for taking care of upstreaming this feature.
+On Mon, Oct 23, 2023 at 10:25:50AM -0700, Doug Anderson wrote:
+> On Mon, Oct 23, 2023 at 9:31=E2=80=AFAM Yuran Pereira <yuran.pereira@hotm=
+ail.com> wrote:
+> >
+> > Since "Clean up checks for already prepared/enabled in panels" has
+> > already been done and merged [1], I think there is no longer a need
+> > for this item to be in the gpu TODO.
+> >
+> > [1] https://patchwork.freedesktop.org/patch/551421/
+> >
+> > Signed-off-by: Yuran Pereira <yuran.pereira@hotmail.com>
+> > ---
+> >  Documentation/gpu/todo.rst | 25 -------------------------
+> >  1 file changed, 25 deletions(-)
+>=20
+> It's not actually all done. It's in a bit of a limbo state right now,
+> unfortunately. I landed all of the "simple" cases where panels were
+> needlessly tracking prepare/enable, but the less simple cases are
+> still outstanding.
+>=20
+> Specifically the issue is that many panels have code to properly power
+> cycle themselves off at shutdown time and in order to do that they
+> need to keep track of the prepare/enable state. After a big, long
+> discussion [1] it was decided that we could get rid of all the panel
+> code handling shutdown if only all relevant DRM KMS drivers would
+> properly call drm_atomic_helper_shutdown().
+>=20
+> I made an attempt to get DRM KMS drivers to call
+> drm_atomic_helper_shutdown() [2] [3] [4]. I was able to land the
+> patches that went through drm-misc, but currently many of the
+> non-drm-misc ones are blocked waiting for attention.
+>=20
+> ...so things that could be done to help out:
+>=20
+> a) Could review patches that haven't landed in [4]. Maybe adding a
+> Reviewed-by tag would help wake up maintainers?
+>=20
+> b) Could see if you can identify panels that are exclusively used w/
+> DRM drivers that have already been converted and then we could post
+> patches for just those panels. I have no idea how easy this task would
+> be. Is it enough to look at upstream dts files by "compatible" string?
 
-Chema
+I think it is, yes.
 
-El 5/9/23 a las 23:06, Maíra Canal escribió:
-> This patchset exposes GPU usages stats both globally and per-file
-> descriptor.
->
-> The first patch exposes the accumulated amount of active time per client
-> through the fdinfo infrastructure. The amount of active time is exposed
-> for each V3D queue. Moreover, it exposes the number of jobs submitted to
-> each queue.
->
-> The second patch exposes the accumulated amount of active time for each
-> V3D queue, independent of the client. This data is exposed through the
-> sysfs interface.
->
-> With these patches, it is possible to calculate the GPU usage percentage
-> per queue globally and per-file descriptor.
->
-> * Example fdinfo output:
->
-> $ cat /proc/1140/fdinfo/4
-> pos:    0
-> flags:  02400002
-> mnt_id: 24
-> ino:    209
-> drm-driver:     v3d
-> drm-client-id:  44
-> drm-engine-bin:         1661076898 ns
-> v3d-jobs-bin:   19576 jobs
-> drm-engine-render:      31469427170 ns
-> v3d-jobs-render:        19575 jobs
-> drm-engine-tfu:         5002964 ns
-> v3d-jobs-tfu:   13 jobs
-> drm-engine-csd:         188038329691 ns
-> v3d-jobs-csd:   250393 jobs
-> drm-engine-cache_clean:         27736024038 ns
-> v3d-jobs-cache_clean:   250392 job
->
-> * Example gputop output:
->
-> DRM minor 128
->   PID         bin               render               tfu                csd            cache_clean     NAME
-> 1140 |▎                ||██▋               ||                 ||█████████████▍   ||█▋               | computecloth
-> 1158 |▍                ||████████▉         ||                 ||                 ||                 | gears
-> 1002 |▏                ||█▎                ||                 ||                 ||                 | chromium-browse
->
-> Best Regards,
-> - Maíra
->
-> ---
->
-> v1 -> v2:https://lore.kernel.org/dri-devel/20230727142929.1275149-1-mcanal@igalia.com/T/
->
-> * Use sysfs to expose global GPU stats (Tvrtko Ursulin)
->
-> v2 -> v3:https://lore.kernel.org/dri-devel/20230807211849.49867-1-mcanal@igalia.com/T/
->
-> * Document the expected behavior in case of a GPU reset (Melissa Wen)
-> * Add a brief description about the sysfs outputs (Melissa Wen)
-> * Instead of having multiple sysfs files, use only one sysfs file,
->    called gpu_stats, with all the information (Chema Casanova)
-> * Add the number of jobs submitted in the global GPU stats (Chema Casanova)
-> * Now, the number of jobs submitted is only incremented if the job was
->    completed
->
-> Maíra Canal (2):
->    drm/v3d: Implement show_fdinfo() callback for GPU usage stats
->    drm/v3d: Expose the total GPU usage stats on sysfs
->
->   drivers/gpu/drm/v3d/Makefile    |  3 +-
->   drivers/gpu/drm/v3d/v3d_drv.c   | 45 ++++++++++++++++++++-
->   drivers/gpu/drm/v3d/v3d_drv.h   | 31 +++++++++++++++
->   drivers/gpu/drm/v3d/v3d_gem.c   |  7 +++-
->   drivers/gpu/drm/v3d/v3d_irq.c   | 49 +++++++++++++++++++++++
->   drivers/gpu/drm/v3d/v3d_sched.c | 33 ++++++++++++++++
->   drivers/gpu/drm/v3d/v3d_sysfs.c | 69 +++++++++++++++++++++++++++++++++
->   7 files changed, 234 insertions(+), 3 deletions(-)
->   create mode 100644 drivers/gpu/drm/v3d/v3d_sysfs.c
->
-> --
-> 2.41.0
->
->
---------------CKpSsn4e0gMPeWLMP5pEJDmM
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Maxime
 
-<!DOCTYPE html>
-<html data-lt-installed="true">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body style="padding-bottom: 1px;">
-    <p>I've just tested this series, and it is working perfectly. For
-      the two patches of the series:<br>
-    </p>
-    <p>Acked-by: Jose Maria Casanova Crespo
-      <a class="moz-txt-link-rfc2396E" href="mailto:jmcasanova@igalia.com">&lt;jmcasanova@igalia.com&gt;</a></p>
-    <p>Thanks Maíra for taking care of upstreaming this feature.</p>
-    <p>Chema<br>
-    </p>
-    <div class="moz-cite-prefix">El 5/9/23 a las 23:06, Maíra Canal
-      escribió:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:20230905213416.1290219-1-mcanal@igalia.com">
-      <pre class="moz-quote-pre" wrap="">This patchset exposes GPU usages stats both globally and per-file
-descriptor.
+--hybcvdpiqm52svmj
+Content-Type: application/pgp-signature; name="signature.asc"
 
-The first patch exposes the accumulated amount of active time per client
-through the fdinfo infrastructure. The amount of active time is exposed
-for each V3D queue. Moreover, it exposes the number of jobs submitted to
-each queue.
+-----BEGIN PGP SIGNATURE-----
 
-The second patch exposes the accumulated amount of active time for each
-V3D queue, independent of the client. This data is exposed through the
-sysfs interface.
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZTfTsAAKCRDj7w1vZxhR
+xcQLAQDLOftRXQ2lHJ/6tZ1C2DlWodIPleYTRFzDQVKVJDBTtQEAvg5gQvFvDTgw
+ic2BwYSSUUEriwl/ml0eDvtollJE0gM=
+=HH4h
+-----END PGP SIGNATURE-----
 
-With these patches, it is possible to calculate the GPU usage percentage
-per queue globally and per-file descriptor.
-
-* Example fdinfo output:
-
-$ cat /proc/1140/fdinfo/4
-pos:    0
-flags:  02400002
-mnt_id: 24
-ino:    209
-drm-driver:     v3d
-drm-client-id:  44
-drm-engine-bin:         1661076898 ns
-v3d-jobs-bin:   19576 jobs
-drm-engine-render:      31469427170 ns
-v3d-jobs-render:        19575 jobs
-drm-engine-tfu:         5002964 ns
-v3d-jobs-tfu:   13 jobs
-drm-engine-csd:         188038329691 ns
-v3d-jobs-csd:   250393 jobs
-drm-engine-cache_clean:         27736024038 ns
-v3d-jobs-cache_clean:   250392 job
-
-* Example gputop output:
-
-DRM minor 128
- PID         bin               render               tfu                csd            cache_clean     NAME
-1140 |▎                ||██▋               ||                 ||█████████████▍   ||█▋               | computecloth
-1158 |▍                ||████████▉         ||                 ||                 ||                 | gears
-1002 |▏                ||█▎                ||                 ||                 ||                 | chromium-browse
-
-Best Regards,
-- Maíra
-
----
-
-v1 -&gt; v2: <a class="moz-txt-link-freetext" href="https://lore.kernel.org/dri-devel/20230727142929.1275149-1-mcanal@igalia.com/T/">https://lore.kernel.org/dri-devel/20230727142929.1275149-1-mcanal@igalia.com/T/</a>
-
-* Use sysfs to expose global GPU stats (Tvrtko Ursulin)
-
-v2 -&gt; v3: <a class="moz-txt-link-freetext" href="https://lore.kernel.org/dri-devel/20230807211849.49867-1-mcanal@igalia.com/T/">https://lore.kernel.org/dri-devel/20230807211849.49867-1-mcanal@igalia.com/T/</a>
-
-* Document the expected behavior in case of a GPU reset (Melissa Wen)
-* Add a brief description about the sysfs outputs (Melissa Wen)
-* Instead of having multiple sysfs files, use only one sysfs file,
-  called gpu_stats, with all the information (Chema Casanova)
-* Add the number of jobs submitted in the global GPU stats (Chema Casanova)
-* Now, the number of jobs submitted is only incremented if the job was
-  completed
-
-Maíra Canal (2):
-  drm/v3d: Implement show_fdinfo() callback for GPU usage stats
-  drm/v3d: Expose the total GPU usage stats on sysfs
-
- drivers/gpu/drm/v3d/Makefile    |  3 +-
- drivers/gpu/drm/v3d/v3d_drv.c   | 45 ++++++++++++++++++++-
- drivers/gpu/drm/v3d/v3d_drv.h   | 31 +++++++++++++++
- drivers/gpu/drm/v3d/v3d_gem.c   |  7 +++-
- drivers/gpu/drm/v3d/v3d_irq.c   | 49 +++++++++++++++++++++++
- drivers/gpu/drm/v3d/v3d_sched.c | 33 ++++++++++++++++
- drivers/gpu/drm/v3d/v3d_sysfs.c | 69 +++++++++++++++++++++++++++++++++
- 7 files changed, 234 insertions(+), 3 deletions(-)
- create mode 100644 drivers/gpu/drm/v3d/v3d_sysfs.c
-
---
-2.41.0
-
-
-</pre>
-    </blockquote>
-  </body>
-  <lt-container></lt-container>
-</html>
-
---------------CKpSsn4e0gMPeWLMP5pEJDmM--
+--hybcvdpiqm52svmj--
