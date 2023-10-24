@@ -1,54 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 087B87D4506
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Oct 2023 03:31:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 45A847D4515
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Oct 2023 03:43:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3445710E2BE;
-	Tue, 24 Oct 2023 01:31:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA1D910E2CE;
+	Tue, 24 Oct 2023 01:43:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2059.outbound.protection.outlook.com [40.107.237.59])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 77D2010E2BE
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Oct 2023 01:31:05 +0000 (UTC)
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2072.outbound.protection.outlook.com [40.107.93.72])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F06910E2CA
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Oct 2023 01:43:10 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Fe/EyAGDgm5BWeM5l/H3p0VF29s51It5WqtKUG3zrJroU6bOF69De9GfT1FFF52RQxLT7Un7LTaaEO3BXNxI9mDzfmzGrwaxVD7GLUw6LzPzUztQqsOTzTXPbwFT4LF0XPxhvstnObywJctEXbMCw1SsRKZ9tbPuKO8wJa5ZyuEYIB8EQ4GAgu+CawVl6OcxkpL0hVgaQOHWXo35V+DYqWd+vJD4I4f0x1sbQ/id4AlSgS2H2lXngHSEGXF8cyNO1XbSAVnygewcOIUfyV+y29Sv1T6VLfwuSAoe3piN5f2kC/W7f0veSW5thh55apW6FgMeaYaavlpUcRPV1+QFfw==
+ b=TTAHYrfYnNzN6MaoGjkEkGVkAz4TBelONiYtKPVvjt3ljUfmc3WTpbrgPS6iR0wsUqYSPqmmc8BSgDicxHBNSMTq6ertgk7XkKcFWBEMKWfLCshqM7eaBzsT6xbJnIPSvPHCXqvjOKaj4Z66Wbt/Dc10k8D3paHwHyvlbxAAnJcPIIRkuR5+db5ZyFf2m2imu/WZH9B54fzU1QS7OuLT5MFbtSLSRR+QjOxuJztfOG41vJyXNdQWv9iJfYSPg1q83jBdk+xFEtQlo4ixX5quBNO1rwLh8zlMqM5MP7dV8AsLAxQEYyrXtcrs1S3c7MYA2OyrLjVXjZBzW3R5c7kxhw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6PkPHVn71lPzKFJBlGFgI/rhy2nqOGBIioLT3GkRhw4=;
- b=lavxncX217WPqx9ZJDbHmOfC1Gq4jtV8XO53zGb5tLAodxqbsUqWaY99zCAznk21M9tZtMu22TeZrlJV7PPcwTKECX/4xtqXubPhWjnid0+0LgqZQSg1pWMrr75AhD0LTECIaxz4RSv12c0hxPD7vhHf0aDzsr80c4azEJLzNlfU7iVPq7qw0MS6/BleNQi0/ibJNbvK56p6O6eR3IhYhy8yZnKfRh9vobGYBh04tcYx1XI6Sql5oPmP55CB8V8kxiYhORarMRQ8xVGLp0MPhisOy2sJHRrYJYGETcyjvUvHn5itPrse8oOoighyy46hPvrNMnJRswjlhPRe8trxAw==
+ bh=SJ0549CrKC97o/ssxhoG3Rb/kcC8D+tMWqjtMp6stT4=;
+ b=ONNPNQhuVNKtZzuw7zAjaxb12DEkz6zn4hxbW8Nz4eAQLr95lmms5zfi4HgNKSylBJtaLZrj9uy1qY8zMoJuD8k78/6K3dWFSNeYeMYe9NCjRzP2F54p6b04J1PRZTaj7ubnzkd3oP/ZYsuyafV2rcOMJ1hrIcK6yHvwY6MZodXrMRoUcN1Nk7PW0BUj4LkjWr7xA+9x6roRHeAZCBX/iCaZjI1H8U0umbbS3qjMbMb4gVjbA/+jiMWMIRVukp1iaONHufXhu5k3Bkr7vj3XK2pWQTAbihpWSPzXXmh6+LEBWDyQOvPjG4A/F1xMFBcS6dL6RrjYharAt0SJZLU4vA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6PkPHVn71lPzKFJBlGFgI/rhy2nqOGBIioLT3GkRhw4=;
- b=Ez4/fySiihF7RDUW/NsYlWpen8pxTYmH+OGCTId5MhUQcQB6pTF+SReXAAjWESSRE9nbr8WkVFGjtZ7ItlZQlbG49bNo1phTkLczKJjjWAB0eM2myxOPgexZLHW4KOdV/byASuXKwUGon0lLW5SWDMUnEidFQ4YnRMg9eVAotac=
+ bh=SJ0549CrKC97o/ssxhoG3Rb/kcC8D+tMWqjtMp6stT4=;
+ b=rW2dBuJSS2Ec1+77DaPJkOU2bG4Z8p/KWJU7zcTbCVsDw2gU0E7EPMmuY5NSgffzFdzcWktzeR5eU4q+WYA9QP+WkkzZ6M3dVT4NR7cQPqSi9XXERUK9yr8+upz+wncWkYwYh3ZoFc452/07c9S4OuWAAeCbRDidAqfqFTnG6Co=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from DM6PR12MB3370.namprd12.prod.outlook.com (2603:10b6:5:38::25) by
- DS7PR12MB8324.namprd12.prod.outlook.com (2603:10b6:8:ec::9) with
+ CH0PR12MB5313.namprd12.prod.outlook.com (2603:10b6:610:d4::18) with
  Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6907.26; Tue, 24 Oct 2023 01:31:01 +0000
+ 15.20.6907.33; Tue, 24 Oct 2023 01:43:07 +0000
 Received: from DM6PR12MB3370.namprd12.prod.outlook.com
  ([fe80::b80b:7138:6ceb:9aef]) by DM6PR12MB3370.namprd12.prod.outlook.com
  ([fe80::b80b:7138:6ceb:9aef%6]) with mapi id 15.20.6907.025; Tue, 24 Oct 2023
- 01:31:01 +0000
-Message-ID: <c93600cb-8df1-44c6-a33c-edc771c6dbf8@amd.com>
-Date: Mon, 23 Oct 2023 21:30:58 -0400
+ 01:43:07 +0000
+Message-ID: <41b6f897-d058-4177-ad80-fccb88e99883@amd.com>
+Date: Mon, 23 Oct 2023 21:43:04 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:115.0) Gecko/20100101
  Thunderbird/115.3.3
 Subject: Re: [PATCH drm-misc-next v2] drm/sched: implement dynamic job-flow
  control
 Content-Language: en-CA, en-US
-To: Danilo Krummrich <dakr@redhat.com>,
- Boris Brezillon <boris.brezillon@collabora.com>
+To: Danilo Krummrich <dakr@redhat.com>
 References: <20231009223554.11846-1-dakr@redhat.com>
- <20231010094151.4c116058@collabora.com> <ZTb6azSfTV+LRGYu@pollux>
+ <b52c58e4-8ae6-4272-a67e-d811c6359127@amd.com> <ZTb1LagGfX7vm3+0@pollux>
 From: Luben Tuikov <luben.tuikov@amd.com>
 Autocrypt: addr=luben.tuikov@amd.com; keydata=
  xjMEY1i6jxYJKwYBBAHaRw8BAQdAhfD+Cc+P5t/fiF08Vw25EMLiwUuxULYRiDQAP6H50MTN
@@ -59,71 +58,71 @@ Autocrypt: addr=luben.tuikov@amd.com; keydata=
  a2EtvvIwd09NckBLSTarSLNDkUthmqPnwolwiDYDAQgHwn4EGBYKACYWIQQyyR05VSHwx45E
  /SoppxulNG8HhgUCY1i6jwIbDAUJCWYBgAAKCRAppxulNG8HhnBLAP4yjSGpK6PE1mapKhrq
  8bSl9reo+F6EqdhE8X2TTHPycAEAt8EkTEstSiaOpM66gneU7r+xxzOYULo1b1XjXayGvwM=
-In-Reply-To: <ZTb6azSfTV+LRGYu@pollux>
+In-Reply-To: <ZTb1LagGfX7vm3+0@pollux>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YQXP288CA0020.CANP288.PROD.OUTLOOK.COM
- (2603:10b6:c00:41::49) To DM6PR12MB3370.namprd12.prod.outlook.com
+X-ClientProxiedBy: YQBPR0101CA0324.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:6c::28) To DM6PR12MB3370.namprd12.prod.outlook.com
  (2603:10b6:5:38::25)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR12MB3370:EE_|DS7PR12MB8324:EE_
-X-MS-Office365-Filtering-Correlation-Id: b8eb2123-52c0-40f7-e28d-08dbd430e119
+X-MS-TrafficTypeDiagnostic: DM6PR12MB3370:EE_|CH0PR12MB5313:EE_
+X-MS-Office365-Filtering-Correlation-Id: ccaa98fa-0036-4bb2-4abd-08dbd432923c
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: bkkgl/CTOxg2h4P4q6GURBZCw1YwYjDQQpRBFh14v757drhrrY4X32ImB5BLkJRT9Jh2+VDG4FVQl9IzL7mcaMR0QhDlrwkMZP2693lgjKZMkbdgSLC4bsDq2TwOb9E88X0Yqp1RSfJeVWhwRh5EFmbetvUSP4iePJF30bMN0WLeh3BeLH/PlvAU5FKxzwSXrZovx6Be+pAD7pSOWahIvvoE6GUUCwgCrzHOjg3wlrGziKYt6rny7KYUjh44vhuJ53FKdrDiw+BQV5o5rMff895ciwQrpPrwLeVMi9V4LmYoKDg4NYVs1SB8SCh4Tn3uKfKmV/12HiKpjhCVjLhM6z9jMbKvkPUXkh0w6UWzRZoD7SqublyX1wTq7hJ8PY1byRD0oMMI1gr174dOyoAFJ436SwZvR0FQSQZ4jtDXCWBOwwM7jcR/ZrBU9fFGPVGNdgLTsCQ+SbKpsUG36GHSmGImgtaLeCbleph2EJqxRNmlMJCt6xC5tADER+u8ihAlKAmxok5P+zcHGJArO8pORjiJjeRS47Lr4PtlzrqP8krm4bbTxyYg6K3G/XqTZ26c1wDih4UZ+jLwWey6CmX+r6sihHQ2hDFNTD9WgQAH4bkvGnSAozA2uMhBbOmRbijJQLdTWyER40uejBVSU2dwTDL26+YD1cVZkw8J62Y4AmY=
+X-Microsoft-Antispam-Message-Info: YhARe1YEk8JWByiqdTCjouiAJLWC24s1P10yuUjIZs+8zvDQ6v1igRComzk1Nz/5VZySEZwEI+XKDFXu2fvgtelCW9YS1eKvPpU/eqVXWdLi0w+i54jjH0jqy+t5au/Rox2bdTpOqI9mLgsVKSKxnJsgMDL3D2RWYe1xOgF4rHLuXSvzoHlfj3hACoarb0MCqbVzATUKn7DMA7UEGjzkwfEGK10nb35Y8RA1MlvgNDts+WpNUekqlJ4CuOQb7lLujiJmf+2w/zjvmd0ptzjyd/cGIKM3I3I9e2gz8f1MHRzthBW5FsK9qTkoXdgGmRELlLzvFxH3NU1Q9rQVSa/0H4v8cTFakwqlI+gRWbBFcDYTOv8Aj43bPmYOdyEAr2i5lrr4F3FGRZpvt3fExyvFHi6Ow+B46Vx2cpo7ohvc3XEnRGWxhJJuJuJIhb+xKC2ozQyEALbTOl0K8/FxLR8WvQJjecJpeiX7+vMvpE82Gg8tMLGuw4F6lsOR+A/Q/Y4tsw4lq0YKaqR+gU8KTVApTIyUaUVJsqfOYh7fuCFkeuJoPME70zC132sYVJKjQnUIukm2zWF6PSdbXo/YyZbSq1x03uyEaL36P/AY9TOlz9LTv4ZGYpZp2cAOAcNQcS5Erduo0uqPWiYbaP7F3h44CQ==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DM6PR12MB3370.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(396003)(376002)(346002)(366004)(39860400002)(136003)(230922051799003)(451199024)(1800799009)(64100799003)(186009)(83380400001)(26005)(41300700001)(66899024)(36756003)(4001150100001)(2906002)(4326008)(8936002)(31696002)(86362001)(8676002)(38100700002)(2616005)(6666004)(53546011)(44832011)(6506007)(6512007)(316002)(5660300002)(30864003)(6486002)(110136005)(478600001)(66946007)(66556008)(66476007)(31686004)(21314003)(45980500001)(43740500002);
+ SFS:(13230031)(376002)(346002)(136003)(396003)(39860400002)(366004)(230922051799003)(1800799009)(186009)(64100799003)(451199024)(26005)(38100700002)(83380400001)(2616005)(6666004)(478600001)(6512007)(53546011)(6506007)(31686004)(66946007)(66476007)(66556008)(6486002)(8676002)(8936002)(4326008)(5660300002)(31696002)(30864003)(41300700001)(316002)(44832011)(6916009)(2906002)(4001150100001)(86362001)(66899024)(36756003)(45980500001)(43740500002);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SVZIQ0lSNXRsNWxhdXlLZTNFZzJVcUQyaGJiWFZrbVlzaTEzaUkybDNKYzBQ?=
- =?utf-8?B?RXNHdHgvOU1USE1WMkZ0QTFjVGpuakVnUThqM2F0a0szWGl2Z2JCUXh1aDB2?=
- =?utf-8?B?Y2I4Tm9ndGE2VmdmT05MbFEzTzF5Szd5U2pEVFNsK1BKbW8vWncxa0hGQ1ln?=
- =?utf-8?B?dDcwVUErUHN3Q3daZTN3L043dmY5NVdreGppNTFzdndhdmpYVWJOSDBueVJY?=
- =?utf-8?B?WVRZN1VCcHUrVUNhRFVjR0M3a0xLdStwVFE3b2p4R0ROK1FnSjc3MjF0RmNx?=
- =?utf-8?B?WlQ2enZlaXdlQzZZeElGZ1MxMVNDK3V5Wjl0YjlzSDgrRlZvMml6QXhTWGg1?=
- =?utf-8?B?Y1Q3VUw2WHpmNkhxN0R6WGg4VWwvOUgxbEM5WkxXQ3BhU0ZnRkREMGhpK0pt?=
- =?utf-8?B?bDZlejBvUlhBdkU1aWFLaHQ1QWxmLzd3MDZvTDYwZndDaGNNdzRlLzV6VGdZ?=
- =?utf-8?B?c2YwcnJZUk9vQXZGcXBuTnVoNGNHMkloR1ZXMTRFclQ5eFY1Z0Vrc1ZBWGdG?=
- =?utf-8?B?TnNPRi92dVJnTlI2WDdrd0tHL3RndUk4V0JWL1N2MTVKd1NoL085TUFkWk8z?=
- =?utf-8?B?QmNWZlFyRm9CSkhzZjZQanhIbXh5N2VwYlFuKzBnN1ZTUzFtOXZBM0pkdzU5?=
- =?utf-8?B?K2NnWGdKZ2I2czB6d3NkMG5maGV0d1Q3ckV2bHJmS005SjJKQndnczJqbGpQ?=
- =?utf-8?B?UHJDdTYxVGpBeU9VQVc0cCtPU091and3VXBqSlJoSmZJc0RhVndMbk14cFhk?=
- =?utf-8?B?YXVwUDM5Q1k1VGxzL1BmOGhCNXgxTVQ0cHh5RjRuMUphUUJoMDBPZXNLeHpH?=
- =?utf-8?B?eTVCL2hQNnpuM05GVjFGMDZoelpVbmxMbHlOZ3NtbVJmbGtINmNiRVlVMDZ0?=
- =?utf-8?B?cERkSU56OEdhQTlCeU1CSTgyMlJFN0t4REFvNVdOVzBkd3o0bmtFRVdYUXY0?=
- =?utf-8?B?NS9zMzQzaGRtRkVlNkZNbWFwZ29pVFROUUpybEtYTFJBSlVFUGJQeVYxWGdZ?=
- =?utf-8?B?MHhqSW95MlBRSDZsV05DQmFaQUJoK1ZDZzdGamE1VXd1TW9yaTJsMjBOUnpQ?=
- =?utf-8?B?d3RlTjdFYlhsK203cFhiTXNJaG15WmVoUWpWdVdGei9lSTVzZ01qamFpT1FZ?=
- =?utf-8?B?Uk1vb1RkMlpVVTM2ZlZlcFkrUTNsWmEvQWh1aG1zVFZ4bk1WSTNia1FZZ1dk?=
- =?utf-8?B?T1Zqd2VWbjdEdkhnWXVxVmdmcWRNRUtIUjYweDFNVEZqR3dyaXlsRmxuamM1?=
- =?utf-8?B?Rk0vcUEvRkIzb2JrcVRBb1lYSzdFN09mVHAyK3BEaGJQQUVPV3Q1RGVMdDdw?=
- =?utf-8?B?eSttMXZqa2tISVJOSDEyN09Cb29sZnZLbjNOVCtyVDc4YUZRMVVZMitHdFYx?=
- =?utf-8?B?OFo0WmlYNEZiYzkvMmd3eXFiMGJXbm9WVTVKWFZtMU9KRzd2L1VlcEtua3Nj?=
- =?utf-8?B?YUF3UDY3NCt2T3VuM0kzY1BxZmVaM3h0YXlZek9VQXF3ZG9VMDdVSFFMZkV3?=
- =?utf-8?B?YVZmZDFvSG9WUVNUNzNJRzUxMElnMTFROWdFeVkvYWR2WkJERWxIQjRqS2hF?=
- =?utf-8?B?VUlRWHFhNVNjNVM0bjN3VjVWdElERmlxMjZxZHhmcld1eXRvelgwZ1I3M09Q?=
- =?utf-8?B?b084VEIxd0JVMVV1QTZpUytwY29GcTl2SUk5KzhuQ2cyb3lhK2NxdUNxbHRq?=
- =?utf-8?B?eWtMc3hTLzFpeTBaUFdFd3BrK2ttQ3dTamUzK0tOWSs5ZmlpRlJQQ1ZJSjg0?=
- =?utf-8?B?S3pRTlpiZ3FCZ1BULzhweG9OYUpJRjdZaXNKYndlMHZGWDN3aEduMktOZ2xq?=
- =?utf-8?B?MUhlM1N4dEs0VzFMa3VYVWxERUpqTTlteVFwVklWMVQ2RFNZcXZ6NEd0U2JH?=
- =?utf-8?B?eE5QaTAvM2VVT3ZUc094Vi9JRkcyejdrSUpUU1ppZmFzeGpsT0xSZDRLVkVi?=
- =?utf-8?B?b1FNeTFkc1pTZXJlK1lFUEpDdmM4RzViSUNHZ3I4REJHMEpvUmhxSEd3aVpo?=
- =?utf-8?B?Nm05R2NMaEhsQ0VTOXh1TlZsVnQrMG16TzJub2xFYmJqSXlNL2RrMFFQRkc3?=
- =?utf-8?B?MFByVTRUR2g3UlZkdUovL3NKbHJrL1JBUjNsdll3a2lLNVZWcXhyL2tETGtP?=
- =?utf-8?Q?KiQ4V4Ea/AAss/JbNN62SM0jT?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dzlLa3MraGgxcFhKZXlkYVBFbkVmRnY4ZVIwZk90L2loWEFUT3RmN2p1Uk12?=
+ =?utf-8?B?c3lMajExM2FteWh4c3E1cFhUOURlVGpUOWNUSUJhcUZlWXYrZUI2T0orai9h?=
+ =?utf-8?B?bXhnbHJHUHUwU3R5M05WaXJ3c0YxYnlYMXIrclBPakhUYitYOEx4UzZXaVZv?=
+ =?utf-8?B?V1JzT2dqWG10T1VxaE1nUXdTVXYxN2ZKWUMrdmpDQzAyYXdDTVBNbG1LQWRF?=
+ =?utf-8?B?YmpldDBxNCtaaCttQk8zVlVvMnljdHNnTGR1bjVVMUVQZ1JOUmtkRVNaM1JQ?=
+ =?utf-8?B?L2llVllnSnlXcTk3YkpHYWdqVXloR3BNM2VyRjJTd3gzeUlKSCtWN3NSNHVy?=
+ =?utf-8?B?OGxwcEJvVzFDTEFZa2JETlhyc0loNWtGVXREaGNkNnl0UTF2STNldkpySWhi?=
+ =?utf-8?B?WWdvWXgycC9pYlhWc3FITlllYlFJcGt6dW1YVGdMWUREZER4N3J5L2hmMjNj?=
+ =?utf-8?B?Z2g5T2hmSE0xdW5pRDBqeGxlVkh3SW41emNCNEJUOVNqTlBnei9hb1dwcFNt?=
+ =?utf-8?B?NnYwVnJ5Qm0rKy84OHhreUMwRHFSQ3cvdFN1NW9KcEVoQlRFL0lVbVFFK0Qr?=
+ =?utf-8?B?bkdxQS9MVHNURmRjS2tIMDFmOGZqNUJtektRdDRHN2NmNmxOeDFhZER0RmFl?=
+ =?utf-8?B?S0hSemFSY0NkOTBLeUVvakdrSTJiZkRkOGhqTGdnZmt0QjZQWDc2ek5tUE9u?=
+ =?utf-8?B?U3ZBZkNFeHFEMjNPenU2UTBibmMwa3ljbzdxM0lkcFFzcGlBZ1pZR3dxKzgx?=
+ =?utf-8?B?b2JDMk0xbzJnVU56L2RtWTFnbmVic0JTUVV5bGdGWVlhdVpTL0lYRFMyM2tJ?=
+ =?utf-8?B?aWZXWUlXdjBtdEdmOFJkRTNBRitXa29uSlZkamZrV2R4bkZNTG5OeE83RkFk?=
+ =?utf-8?B?a2JjWVZPOGZCSGdMZFFlOUtDSUlRNUV0VnpJOGowdEVmOG9IZWwraVovT25s?=
+ =?utf-8?B?R3ZXci9lSWhqZlhZVWRFS25rSTlmY3diTU9zd3BBNUhlTE9aUUd5R29uRkVP?=
+ =?utf-8?B?aDVWSkRqTHpsWXd1TE5wUmxlek5QV1N0N2hzeGlxV1hRcHFFR2dSS2t4R2tM?=
+ =?utf-8?B?dzl4U2RJaS9ybjkxbHhsZXNnbjdSeW93Y1R5aTRZVHozQm9FNnA5Y3FrM0xX?=
+ =?utf-8?B?enMxSkZpZVZoS1piL3dSZ3M3cFN1TDRJUncvUlBkUU9UNVN2d2prc2NUejZx?=
+ =?utf-8?B?TGNnMjA3LzB0OFk3WWtOWE9LU09OeEtPdkc5Zm1ReFBoRWl1L2k2TTdtYThq?=
+ =?utf-8?B?UmpxbEM2MGNsaVQrTzl3WG9Wa3hsWWFOQkxOcnlTZG5wWDZFaVVUZ3JIYmgy?=
+ =?utf-8?B?Vm44Z0tobHJyRnU4ejFacGZuMzNMVjZpM2NCZGZzb3ZSazVPMzcwK1h1QmE2?=
+ =?utf-8?B?UEdqRVFCb1ArYWFDeHY3MmpkME5SRlFUQU9Fb016OXZiRXJGVUZzMUlIOEpi?=
+ =?utf-8?B?azN4QzdHcUZJODRSc1Q5ejhtZ3BBak51VElkekw1S2hibWordkoyZWpKdnc3?=
+ =?utf-8?B?MUt2SXZjekNiRHgyTXdtNGxMRzZVT21JbEM3aFFFdjRTeXgzQ2l4WW56aDFp?=
+ =?utf-8?B?QVEvSEJVUDhabU5ES3J2YS9RSUpadDF4Z3QrZlltcGhaYXhUU3Jmck5ycW0x?=
+ =?utf-8?B?blJ4cXcydHpJWVBYd3AxNHFxbzRYeUtDdXpsb29Bc3lYcmpMU1VoQlVqSnZo?=
+ =?utf-8?B?VnpqbGV5OE80Q1VCMElSMStyd0xjK0Fqbml4bHhLL1c2VUkxRXcwMjYyM2Fv?=
+ =?utf-8?B?RnlRemVqOVd2azlXUTJvTlU4a0gyRVFoa1gwUnUzcXMrUGhiTjhDYVIzZldj?=
+ =?utf-8?B?ZW1BNGdIaGFyZlRTSS95R3htNzhIV3VuSkhXWFArM3NYVnRVdjJubGlheWdv?=
+ =?utf-8?B?dEFkVGZNUEZRdTMrQVJWVE1VOE5YTG9qRjNJV004NTA0b2lra0VXZDFidUlB?=
+ =?utf-8?B?MUs1YzlRQVhvVEJmNEdvMVpPUUpQVjZ3ZGxteFNNN3lpWldNaTBhSVAyK0FX?=
+ =?utf-8?B?N0NjSk5IM3NNZW5OdHMyR2VSTXdER2xOUjNJeEVKcHFCQ00ycmltd3hoOFFz?=
+ =?utf-8?B?bzE1QVZGRHdxa3RHemZpMzdxSUwvM1lhY2htQlFySlBmYVVwTG1hdVZtTUow?=
+ =?utf-8?Q?rVWaqlMGUnYWTY+XDfIURNBxD?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b8eb2123-52c0-40f7-e28d-08dbd430e119
+X-MS-Exchange-CrossTenant-Network-Message-Id: ccaa98fa-0036-4bb2-4abd-08dbd432923c
 X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3370.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Oct 2023 01:31:00.5758 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Oct 2023 01:43:07.3153 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: GKat6Rn7DSyClHpNppcuHMIx1pKeNQ6cbDI+91Q7g2ZQsZl1HUrc+GhT3m8kmGFa
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB8324
+X-MS-Exchange-CrossTenant-UserPrincipalName: 3+yK5qJgaTOyk4xuFm+9jyu0n/41IONgX58ujikO769t5I79wOkYOU8F80zmxsPj
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR12MB5313
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -137,16 +136,18 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: matthew.brost@intel.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, christian.koenig@amd.com,
- faith.ekstrand@collabora.com
+ dri-devel@lists.freedesktop.org, boris.brezillon@collabora.com,
+ christian.koenig@amd.com, faith.ekstrand@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2023-10-23 18:57, Danilo Krummrich wrote:
-> On Tue, Oct 10, 2023 at 09:41:51AM +0200, Boris Brezillon wrote:
->> On Tue, 10 Oct 2023 00:35:53 +0200
->> Danilo Krummrich <dakr@redhat.com> wrote:
+On 2023-10-23 18:35, Danilo Krummrich wrote:
+> On Wed, Oct 11, 2023 at 09:52:36PM -0400, Luben Tuikov wrote:
+>> Hi,
 >>
+>> Thanks for fixing the title and submitting a v2 of this patch. Comments inlined below.
+>>
+>> On 2023-10-09 18:35, Danilo Krummrich wrote:
 >>> Currently, job flow control is implemented simply by limiting the number
 >>> of jobs in flight. Therefore, a scheduler is initialized with a
 >>> submission limit that corresponds to the number of jobs which can be
@@ -316,14 +317,6 @@ On 2023-10-23 18:57, Danilo Krummrich wrote:
 >>>  
 >>> +static bool drm_sched_can_queue(struct drm_gpu_scheduler *sched,
 >>> +				struct drm_sched_entity *entity);
->>
->> Nit: can we move the function instead of adding this forward
->> declaration? I know it tends to screw up the diff, so maybe do it in 2
->> steps.
-> 
-> Sure, gonna move it up.
-> 
->>
 >>> +
 >>>  static __always_inline bool drm_sched_entity_compare_before(struct rb_node *a,
 >>>  							    const struct rb_node *b)
@@ -412,6 +405,20 @@ On 2023-10-23 18:57, Danilo Krummrich wrote:
 >>> +				return NULL;
 >>> +			}
 >>> +
+>>
+>> I wonder if here it would've been cleaner to just do,
+>>
+>> 			if (!drm_sched_can_queue(sched, entity)) {
+>> 				rb = NULL;
+>> 				break;
+>> 			}
+>>
+>> in order to follow the natural flow of the R-B tree search?
+>> In other words, the loop invariant becomes false, we exit the loop,
+>> unlock and return NULL.
+>>
+>> Yeah, let's do that.
+>>
 >>>  			if (dequeue) {
 >>>  				rq->current_entity = entity;
 >>>  				reinit_completion(&entity->entity_idle);
@@ -448,20 +455,6 @@ On 2023-10-23 18:57, Danilo Krummrich wrote:
 >>> +
 >>> +	return (sched->submission_limit -
 >>> +		atomic_read(&sched->submission_count)) >=
->>
->> Nit: might be clearer with a dummy drm_sched_available_credits()
->> helper:
-> 
-> Sure, why not.
-> 
->>
->> static u32
->> drm_sched_available_credits(struct drm_gpu_scheduler *sched)
->> {
->> 	return sched->submission_limit -
->> 	       atomic_read(&sched->submission_count);
->> }
->>
 >>> +		s_job->submission_credits;
 >>>  }
 >>>  
@@ -479,6 +472,58 @@ On 2023-10-23 18:57, Danilo Krummrich wrote:
 >>> +		    drm_sched_entity_is_ready(sched->single_entity) &&
 >>> +		    drm_sched_can_queue(sched, sched->single_entity))
 >>>  			return sched->single_entity;
+>>
+>> This mixing of the Xe patches and this patch is very, very annoying.
+>> Here and in RR picking the entity mix-up with "dequeue" which is
+>> now "peek"...
+>>
+>> I'd like to have applied this patch to drm-misc-next and inspect it further,
+>> but cannot chase around which version of the Xe patches this patch applies
+>> to, cleanly, so I'd really rather have had this patch on a clean drm-misc-next
+>> tree.
+> 
+> I really would prefer to continue basing it on Matt's scheduler patches. Reason
+> for that is that all drivers that require this patch need Matt's patches as
+> well. The only thing we'd achieve is that people (including me) need to either
+> rebase Matt's patches onto this one or the other way around themselfs. This
+> would simply be wasted effort and in case this patch lands before Matt's series,
+> he'd also need to wrap his head around this patch as well. Hence, let's keep it
+> simple. If you agree, for the next version I will simply also push a branch with
+> this patch at its HEAD such that it becomes easy checking the patch out.
+> 
+> Otherwise, the other comments look good, gonna address them in the next version.
+
+Yes, whatever is easier for you, and I completely understand the logic here
+of the patch going with Xe changes, but it's a small and important patch, and
+ideally it should stand on its own (as it does), so having it on a clean drm-*
+branch would be good too. :-)
+
+But sometimes I run the patches on a live kernel, and I like to see them against
+the current drm-*. If I really want to make sure a patch works, I apply it on top
+of Linus' latest and run my system with that to really make sure all is good.
+
+My plan is to have Matt's patches in before the holidays, but they'll change somewhat
+as I'm trying to simplify, i.e. less code changes exhibit wider behaviour range,
+and some patches will be dropped, as the dynamic sched_rq will simplify things.
+
+What is blocking the dynamic sched_rq is a bug/abuse in amdgpu which I submitted
+a patch for (so that the drm dynamic sched_rq can go in without breaking amdgpu),
+but that patch went into the "look at the history maybe we were doing it correct
+back then", instead of just fixing it in amdgpu to let the DRM patch in, and then
+we can fix that up locally in amdgpu later.
+
+Sure, you can have the patch be a HEAD commit, and I'd still try to apply it
+to a drm-misc-next or drm-misc-fixes or even 6.6.0-rc7. :-)
+
+Thanks!
+
+Regards,
+Luben
+
+> 
+> - Danilo
+> 
+>>
 >>>  
 >>>  		return NULL;
 >>> @@ -339,9 +383,11 @@ drm_sched_select_entity(struct drm_gpu_scheduler *sched, bool dequeue)
@@ -529,6 +574,11 @@ On 2023-10-23 18:57, Danilo Krummrich wrote:
 >>>   * @entity: scheduler entity to use
 >>> + * @submission_credits: the number of credits this job contributes to the
 >>> + * schdulers submission limit
+>>
+>> Spelling: "schedulers"!
+>>
+>> Please run your patch through scripts/checkpatch.pl --strict and inspect what it says.
+>>
 >>>   * @owner: job owner for debugging
 >>>   *
 >>>   * Refer to drm_sched_entity_push_job() documentation
@@ -580,6 +630,12 @@ On 2023-10-23 18:57, Danilo Krummrich wrote:
 >>>   *	       allocated and used
 >>> - * @hw_submission: number of hw submissions that can be in flight
 >>> + * @max_submission_credits: number of submission credits that can be in flight
+>>
+>> Let's not use "in flight". Perhaps it is better to say,
+>>
+>>  * @max_submission_credits: number of submission credits this scheduler can hold
+>>  *                          from all jobs,
+>>
 >>>   * @hang_limit: number of times to allow a job to hang before dropping it
 >>>   * @timeout: timeout value in jiffies for the scheduler
 >>>   * @timeout_wq: workqueue to use for timeout work. If NULL, the system_wq is
@@ -660,32 +716,14 @@ On 2023-10-23 18:57, Danilo Krummrich wrote:
 >>> +	 *
 >>> +	 * The callback must either return the new number of submission credits
 >>> +	 * for the given job, or zero if no update is required.
->>
->> Any reason for having this special zero-means-no-update case? I mean,
->> drivers could just return sched_job->submission_credits if nothing
->> changed, and that would simplify the semantics IMHO. Another option, if
-> 
-> I think I just did this because I thought it's a clever way to get rid of the
-> need to deal with zero-sized jobs, which do not make much sense. In
-> drm_sched_job_init() passing a zero job size defaults to one, which I think is
-> reasonable. Doing the same thing here is more likely to hide a bug. However, the
-> same is probably true for 'zero means no update' though. Maybe we should just
-> WARN() in such a case.
-> 
->> we want to avoid the sched_job->submission_credits assignment when
->> nothing changes would be to make it a void function and let it update
->> the sched_job->submission_credits directly.
-> 
-> Sure, that's an option as well. However, I'd probably prefer the new job size to
-> be the return value. Having to sanity check job->submission_credits afterwards
-> isn't that nice either.
-> 
->>
 >>> +	 *
 >>> +	 * This callback is optional.
 >>> +	 */
 >>> +	u32 (*update_job_credits)(struct drm_sched_job *sched_job);
 >>>  };
+>>
+>> That's good.
+>>
 >>>  
 >>>  /**
 >>> @@ -478,14 +497,14 @@ struct drm_sched_backend_ops {
@@ -696,34 +734,21 @@ On 2023-10-23 18:57, Danilo Krummrich wrote:
 >>> + * @submission_limit: the maximim number of submission credits
 >>> + * @submission_count: the number of submission credits in flight
 >>
->> Now that we use the term credit at the job level, I'd recommend using
->> it here as well, for consistency. Maybe
->> s/submission_count/assigned_credits/ and
->> s/submission_limit/max_credits/?
-> 
-> IIRC, Luben is proposing something similar. Gonna change that.
-
-
-From my email in this thread:
-
-Is this clear enough?
-
-I mean, what really is a "submission_limit"? What is it limiting really?
-Number of what? "Submissions"? No. It's credits.
-
-("Submission" seems to have become very popular, see
- Message-ID: <a39eb381-4f2b-439b-b223-c5148167b225@amd.com>, maybe through Lore.)
-
-So if "submission_credit_limit" and "submission_credit_count"
-seem too wordy, (and they kind of are), then perhaps use,
-
-	@credit_limit: the credit limit of this scheduler
-	@credit_count: the current credit count of this scheduler
-
-Also note the slight comment update for those two quantities.
-
-
-> 
+>> Is this clear enough?
+>>
+>> I mean, what really is a "submission_limit"? What is it limiting really?
+>> Number of what? "Submissions"? No. It's credits.
+>>
+>> ("Submission" seems to have become very popular, see
+>>  Message-ID: <a39eb381-4f2b-439b-b223-c5148167b225@amd.com>, maybe through Lore.)
+>>
+>> So if "submission_credit_limit" and "submission_credit_count"
+>> seem too wordy, (and they kind of are), then perhaps use,
+>>
+>> 	@credit_limit: the credit limit of this scheduler
+>> 	@credit_count: the current credit count of this scheduler
+>>
+>> Also note the slight comment update for those two quantities.
 >>
 >>>   * @timeout: the time after which a job is removed from the scheduler.
 >>>   * @name: name of the ring for which this scheduler is being used.
@@ -742,6 +767,9 @@ Also note the slight comment update for those two quantities.
 >>> -	uint32_t			hw_submission_limit;
 >>> +	u32				submission_limit;
 >>> +	atomic_t			submission_count;
+>>
+>> See above. Perhaps "credit_limit" and "credit_count".
+>>
 >>>  	long				timeout;
 >>>  	const char			*name;
 >>>  	struct drm_sched_rq		sched_rq[DRM_SCHED_PRIORITY_COUNT];
@@ -765,35 +793,6 @@ Also note the slight comment update for those two quantities.
 >>>  		       struct drm_sched_entity *entity,
 >>> +		       u32 submission_credits,
 >>>  		       void *owner);
->>
->> Nit: we keep adding parameters to functions like drm_sched_init() and
->> drm_sched_job_init() and every time this implies patching all call
->> sites to pass the new default value. In a sense, that's a good thing,
->> because it forces driver maintainers to check that the patch does the
->> right thing. But overall, it makes the driver code harder to read, in
->> that it forces the reader to go check the function prototype to figure
->> out what these magic 1 or NULL values mean. So, I wonder if we
->> shouldn't move to a model where we pass struct drm_sched[_job]_params
->> objects around:
->>
->> 	const struct drm_sched_job_params params = {
->> 		.entity = xxx,
->> 		.submission_credits = xxx,
->> 		.owner = THIS_MODULE,
->> 	};
->>
->> 	...
->>
->> 	ret = drm_sched_job_init(job, &params);
->>
->> It would also let us add new fields and pick the right default when
->> this field is zero, thus preventing cross-driver updates when such a
->> field is added.
-> 
-> Yes, the same is true for drm_sched_init() - that's something for a separate
-> patch though.
-> 
->>
 >>>  void drm_sched_job_arm(struct drm_sched_job *job);
 >>>  int drm_sched_job_add_dependency(struct drm_sched_job *job,
 >>> @@ -570,7 +590,8 @@ void drm_sched_entity_modify_sched(struct drm_sched_entity *entity,
@@ -807,9 +806,9 @@ Also note the slight comment update for those two quantities.
 >>>  void drm_sched_submit_stop(struct drm_gpu_scheduler *sched);
 >>>  void drm_sched_submit_start(struct drm_gpu_scheduler *sched);
 >>
+>> -- 
+>> Regards,
+>> Luben
+>>
 > 
-
--- 
-Regards,
-Luben
 
