@@ -1,41 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 758137D4454
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Oct 2023 02:52:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5606E7D4462
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Oct 2023 02:59:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 152FC10E07D;
-	Tue, 24 Oct 2023 00:52:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A59DB10E25A;
+	Tue, 24 Oct 2023 00:59:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gandalf.ozlabs.org (mail.ozlabs.org
- [IPv6:2404:9400:2221:ea00::3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA81310E07D
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Oct 2023 00:52:13 +0000 (UTC)
+Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EEB3310E25A
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Oct 2023 00:59:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1698108729;
- bh=pRZQGTQLgHsC5cvz7MkAgtW1cWzxBXH0WEqq3b3tmtA=;
- h=Date:From:To:Cc:Subject:From;
- b=fCY2f+5xM6nW/2gZ5/mvBnNmICJ3SSKMTtujVhzaxnd1571LiCyVvzkeMH9IakXQn
- mrFdndvt7LeqzoRICPNLz45j5djwu60/9w3cU/hcTtdIO6nLc9Kj7rj8dYHC/Yuuwv
- aCHNkiEPAenxk+kCM09ym1QLAJwES85Ig0HH8IQyTSrzVaNfiCDs2dalEVFsgPGRni
- TbqPt0VxDLUWnx5uZUrggnMSjzzLKIri76hVzXFWzZuzkOWpI6SKUTgWna9AHY7oZY
- dRjiwUvsEstZtndR8OHTLCLtt7fk4bA/GzIGOt8a38jONyHu1Rjjc0O12lN/KJ0mei
- zjUkhpq9b5zfQ==
+ s=201702; t=1698109145;
+ bh=SrJb4FRbLHOUMnei7Nu8AGGqkqzQ05jh1OZ/FXAVENs=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=PqNH62PtOXuWAHsEhJdkbZEUmkBbp0Q35218A1RAwytZsZZALzec9WFlPq6ovY/oK
+ UGyE1B3BihV/x82NgTDgFG7zXyf4/psXH97Hr5z2F6ajtoBV/Y6lT3DuKP1CyZoUQi
+ n3TmjTdFgZDSmQnyRF2O3N9KpjTEUjuGuIdZ3YSS5JP7pjc/4VSbruR0+bNYSdtXng
+ Hh522X98YH8W/SvRbrertwvljy6TZCml1qACpK5tYYLWNWayCV1DklEg3wAi/dDDZm
+ pI9VOMOL+9YfK+z7MYmdaz5/sUnkWYWmdqMJDM/AlSsPA7WEkWhAr61xczfzmuaLC1
+ KQyOS45nBY3zA==
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4SDtn42cbGz4wnv;
- Tue, 24 Oct 2023 11:52:08 +1100 (AEDT)
-Date: Tue, 24 Oct 2023 11:52:06 +1100
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4SDtx40Qpcz4wx6;
+ Tue, 24 Oct 2023 11:59:04 +1100 (AEDT)
+Date: Tue, 24 Oct 2023 11:59:03 +1100
 From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Dave Airlie <airlied@redhat.com>, Andrew Morton <akpm@linux-foundation.org>
-Subject: linux-next: manual merge of the drm tree with the mm-stable tree
-Message-ID: <20231024115206.4ce24d96@canb.auug.org.au>
+To: Alex Deucher <alexdeucher@gmail.com>, Dave Airlie <airlied@redhat.com>
+Subject: Re: linux-next: build failure after merge of the amdgpu tree
+Message-ID: <20231024115903.2d73440c@canb.auug.org.au>
+In-Reply-To: <20231019120618.71424848@canb.auug.org.au>
+References: <20231010124357.5251e100@canb.auug.org.au>
+ <20231019120618.71424848@canb.auug.org.au>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/E6gZg8B3hDt_KoJXk83GE/s";
+Content-Type: multipart/signed; boundary="Sig_/79AEwpQI285WYzkSMPrKcN3";
  protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -49,92 +51,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Qi Zheng <zhengqi.arch@bytedance.com>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
+Cc: Qingqing Zhuo <Qingqing.Zhuo@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, Roman Li <roman.li@amd.com>,
  DRI <dri-devel@lists.freedesktop.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Alex Deucher <alexander.deucher@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/E6gZg8B3hDt_KoJXk83GE/s
+--Sig_/79AEwpQI285WYzkSMPrKcN3
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
 Hi all,
 
-Today's linux-next merge of the drm tree got a conflict in:
+On Thu, 19 Oct 2023 12:06:18 +1100 Stephen Rothwell <sfr@canb.auug.org.au> =
+wrote:
+>
+> On Tue, 10 Oct 2023 12:43:57 +1100 Stephen Rothwell <sfr@canb.auug.org.au=
+> wrote:
+> >
+> > After merging the amdgpu tree, today's linux-next build (x86_64
+> > allmodconfig) failed like this:
+> >=20
+> > drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/display_mode_core.c: In f=
+unction 'dml_core_mode_support':
+> > drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/display_mode_core.c:8229:=
+1: error: the frame size of 2736 bytes is larger than 2048 bytes [-Werror=
+=3Dframe-larger-than=3D]
+> >  8229 | } // dml_core_mode_support
+> >       | ^
+> > cc1: all warnings being treated as errors
+> >=20
+> > Caused by commit
+> >=20
+> >   7966f319c66d ("drm/amd/display: Introduce DML2")
+> >=20
+> > (or maybe something later that changed storage size).
+> >=20
+> > I have used the amdgpu tree from next-20231009 for today. =20
+>=20
+> This build failure now (presumably) exists in the drm tree.  I am still
+> applying the 2 patches from Rodrigo to my tree as a work around.
+>=20
+> I would have expected that this was fixed in the amdgpu tree before
+> Dave was asked to merge it ...
 
-  drivers/gpu/drm/msm/msm_drv.c
-
-between commit:
-
-  cd61a76c210a ("drm/msm: dynamically allocate the drm-msm_gem shrinker")
-
-from the mm-stable tree and commit:
-
-  506efcba3129 ("drm/msm: carve out KMS code from msm_drv.c")
-
-from the drm tree.
-
-I fixed it up (see below) and can carry the fix as necessary. This
-is now fixed as far as linux-next is concerned, but any non trivial
-conflicts should be mentioned to your upstream maintainer when your tree
-is submitted for merging.  You may also want to consider cooperating
-with the maintainer of the conflicting tree to minimise any particularly
-complex conflicts.
+Any progress here?  I am still applying the 2 patches.
 
 --=20
 Cheers,
 Stephen Rothwell
 
-diff --cc drivers/gpu/drm/msm/msm_drv.c
-index 7f20249d6071,443bbc3ed750..000000000000
---- a/drivers/gpu/drm/msm/msm_drv.c
-+++ b/drivers/gpu/drm/msm/msm_drv.c
-@@@ -457,23 -265,12 +265,14 @@@ static int msm_drm_init(struct device *
-  	if (ret)
-  		goto err_deinit_vram;
- =20
-- 	/* the fw fb could be anywhere in memory */
-- 	ret =3D drm_aperture_remove_framebuffers(drv);
-- 	if (ret)
-- 		goto err_msm_uninit;
--=20
- -	msm_gem_shrinker_init(ddev);
- +	ret =3D msm_gem_shrinker_init(ddev);
- +	if (ret)
- +		goto err_msm_uninit;
- =20
-  	if (priv->kms_init) {
-- 		ret =3D priv->kms_init(ddev);
-- 		if (ret) {
-- 			DRM_DEV_ERROR(dev, "failed to load kms\n");
-- 			priv->kms =3D NULL;
-+ 		ret =3D msm_drm_kms_init(dev, drv);
-+ 		if (ret)
-  			goto err_msm_uninit;
-- 		}
-- 		kms =3D priv->kms;
-  	} else {
-  		/* valid only for the dummy headless case, where of_node=3DNULL */
-  		WARN_ON(dev->of_node);
-
---Sig_/E6gZg8B3hDt_KoJXk83GE/s
+--Sig_/79AEwpQI285WYzkSMPrKcN3
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmU3FTYACgkQAVBC80lX
-0Gwj/Qf+Nnq6P1WtH2q7Cgnqn4r9QcG4VJV0wqdU8SslgQlNtGCpqdLXSn/BN6sC
-T8I2K3A8+dT1EPULcqZwWOQrnHjgaoQw0nCtACbGFJ2EYssxUHp7rxMPJwV7iVdM
-KRaPMvSySfoYxvoBDPUPzfshIwjJUpgi7xUo7cjU9+sllJuP/dwk15fBdiK9zwTr
-qQKYZr2HxxoAVu4BKX/ZeXvcdVxKqg0Iwl6CxamfEpuyAUM83jrDv6PCn0HQJSRF
-I/YeHP2HIcBRZKptGWolRML2xjhEsNb4wGDsZvc4G5Jk3al4u/OyE7EW7fhEhnS+
-qCHvJIcKuWiGMVzsafQ5iVq2aYDlJw==
-=wpW6
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmU3FtcACgkQAVBC80lX
+0GyMvwf9HYGEZDNMSkCZ7E2MOqDEx3Rpt+Mjf/oeNayiftKsDhTXKptwhxVT+gFp
+InSe1w3hcETCVtcCE7FLmGblQ9HCOPQmqw78w7X7JvxdOrvuMmpo3S4QykUra6OI
+kSXQf+dreUVkBLFp0gdshV78vzTlmDSEczSglxLRJlUqe/+UoyeHv8pPsvXSuS8G
+doCDtPqou6MzW7thKx5cfDiaWXHSWS6bo3u4j6Wwdb4cumctnAfrewjM2sp4gH/p
+cqeKcpU46v7M3pTV62jDuK4tr8cjsZ1gqJa6JiLC8INgx3W1NUmmF8wzT05E7ouA
+Ix+dIp8D7O/jghWcBFriXKWGo3DJPQ==
+=REfC
 -----END PGP SIGNATURE-----
 
---Sig_/E6gZg8B3hDt_KoJXk83GE/s--
+--Sig_/79AEwpQI285WYzkSMPrKcN3--
