@@ -1,33 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 358BE7D625A
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Oct 2023 09:24:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 93A617D625F
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Oct 2023 09:24:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E111410E559;
-	Wed, 25 Oct 2023 07:24:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9050410E561;
+	Wed, 25 Oct 2023 07:24:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from albert.telenet-ops.be (albert.telenet-ops.be
- [IPv6:2a02:1800:110:4::f00:1a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7AEBD10E561
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be
+ [IPv6:2a02:1800:120:4::f00:13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4477110E559
  for <dri-devel@lists.freedesktop.org>; Wed, 25 Oct 2023 07:24:05 +0000 (UTC)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:7faa:e55:54a:cff])
- by albert.telenet-ops.be with bizsmtp
- id 27Q32B00a5Uc89d067Q3Ej; Wed, 25 Oct 2023 09:24:03 +0200
+ by baptiste.telenet-ops.be with bizsmtp
+ id 27Q32B0025Uc89d017Q3ff; Wed, 25 Oct 2023 09:24:03 +0200
 Received: from rox.of.borg ([192.168.97.57])
  by ramsan.of.borg with esmtp (Exim 4.95)
- (envelope-from <geert@linux-m68k.org>) id 1qvYFA-007ScN-97;
+ (envelope-from <geert@linux-m68k.org>) id 1qvYFA-007ScP-9m;
  Wed, 25 Oct 2023 09:24:03 +0200
 Received: from geert by rox.of.borg with local (Exim 4.95)
- (envelope-from <geert@linux-m68k.org>) id 1qvYFH-00Bs6b-4E;
+ (envelope-from <geert@linux-m68k.org>) id 1qvYFH-00Bs6g-4z;
  Wed, 25 Oct 2023 09:24:03 +0200
 From: Geert Uytterhoeven <geert@linux-m68k.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH libdrm v3 8/9] util: add pwetty support for big-endian RGB565
-Date: Wed, 25 Oct 2023 09:23:48 +0200
-Message-Id: <4718b9c148c6caca24ccc0cfc9f8f76beee50a05.1698217235.git.geert@linux-m68k.org>
+Subject: [PATCH libdrm v3 9/9] modetest: add support for big-endian
+ XRGB1555/RGB565
+Date: Wed, 25 Oct 2023 09:23:49 +0200
+Message-Id: <8cc3ce9321151c6fffa2af82c381ccf4b7e62abe.1698217235.git.geert@linux-m68k.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1698217235.git.geert@linux-m68k.org>
 References: <cover.1698217235.git.geert@linux-m68k.org>
@@ -49,8 +50,10 @@ Cc: Geert Uytterhoeven <geert@linux-m68k.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for rendering the crosshairs in a buffer using the
-big-endian RGB565 format.
+Add support for creating buffers using big-endian formats.
+
+For now this is limited to XRGB1555 and RGB565, which are the most
+common big-endian formats.
 
 Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
 ---
@@ -60,21 +63,45 @@ v3:
 v2:
   - New.
 ---
- tests/util/pattern.c | 1 +
- 1 file changed, 1 insertion(+)
+ tests/modetest/buffers.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/tests/util/pattern.c b/tests/util/pattern.c
-index aeac84a9b0dfed09..4d6e9e32ab0f4e93 100644
---- a/tests/util/pattern.c
-+++ b/tests/util/pattern.c
-@@ -1188,6 +1188,7 @@ static void make_pwetty(void *data, unsigned int width, unsigned int height,
- 		cairo_format = CAIRO_FORMAT_ARGB32;
- 		break;
+diff --git a/tests/modetest/buffers.c b/tests/modetest/buffers.c
+index 65f1cfb32ab9eeae..c8aafadd5145b64a 100644
+--- a/tests/modetest/buffers.c
++++ b/tests/modetest/buffers.c
+@@ -158,6 +158,7 @@ bo_create(int fd, unsigned int format,
+ 	case DRM_FORMAT_BGRX4444:
+ 	case DRM_FORMAT_ARGB1555:
+ 	case DRM_FORMAT_XRGB1555:
++	case DRM_FORMAT_XRGB1555 | DRM_FORMAT_BIG_ENDIAN:
+ 	case DRM_FORMAT_ABGR1555:
+ 	case DRM_FORMAT_XBGR1555:
+ 	case DRM_FORMAT_RGBA5551:
+@@ -165,6 +166,7 @@ bo_create(int fd, unsigned int format,
+ 	case DRM_FORMAT_BGRA5551:
+ 	case DRM_FORMAT_BGRX5551:
  	case DRM_FORMAT_RGB565:
 +	case DRM_FORMAT_RGB565 | DRM_FORMAT_BIG_ENDIAN:
  	case DRM_FORMAT_BGR565:
- 		cairo_format = CAIRO_FORMAT_RGB16_565;
- 		swap16 = fb_foreign_endian(format);
+ 	case DRM_FORMAT_UYVY:
+ 	case DRM_FORMAT_VYUY:
+@@ -318,6 +320,7 @@ bo_create(int fd, unsigned int format,
+ 	case DRM_FORMAT_BGRX4444:
+ 	case DRM_FORMAT_ARGB1555:
+ 	case DRM_FORMAT_XRGB1555:
++	case DRM_FORMAT_XRGB1555 | DRM_FORMAT_BIG_ENDIAN:
+ 	case DRM_FORMAT_ABGR1555:
+ 	case DRM_FORMAT_XBGR1555:
+ 	case DRM_FORMAT_RGBA5551:
+@@ -325,6 +328,7 @@ bo_create(int fd, unsigned int format,
+ 	case DRM_FORMAT_BGRA5551:
+ 	case DRM_FORMAT_BGRX5551:
+ 	case DRM_FORMAT_RGB565:
++	case DRM_FORMAT_RGB565 | DRM_FORMAT_BIG_ENDIAN:
+ 	case DRM_FORMAT_BGR565:
+ 	case DRM_FORMAT_BGR888:
+ 	case DRM_FORMAT_RGB888:
 -- 
 2.34.1
 
