@@ -1,42 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF1917D6979
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Oct 2023 12:49:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 328347D69A2
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Oct 2023 12:59:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04AA610E59E;
-	Wed, 25 Oct 2023 10:49:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8665E10E63D;
+	Wed, 25 Oct 2023 10:59:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 807D610E63A
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Oct 2023 10:49:46 +0000 (UTC)
-Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
+Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B04B910E63D
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Oct 2023 10:59:10 +0000 (UTC)
+Received: from mx0.riseup.net (mx0-pn.riseup.net [10.0.1.42])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id ADE27660731F;
- Wed, 25 Oct 2023 11:49:44 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1698230985;
- bh=9Tz11dV1gF0knOECb4CmRHRhrmCR7btgyLRsf9oipxs=;
- h=From:To:Cc:Subject:Date:From;
- b=XMHQ/lu2klLU+B4oEWjXysMybAukvNjzrEsnN9hr53/HTq1YluCERrAL2wjoeNi74
- l+FI7+M9qp+Fk3wBaZYqgI0JdLG0ZKj5hDYGBSYITpDGD6z2ILDTH/ERfv8lh++DUd
- evnPHO/MQhGpG2xJUOz/SKqre0ZipRzs5IXbbhPdx72nKGsfv5B9xDka9LjM7ZLEcm
- WgB/7Hw44JxYkEhHvaulUumQl3tCmQqduHEbWjy8hgqSf84Flsj5warXCP31p63nq5
- M7zPPqiCAgwQshKuzoJ0I8RbMWEtUsKFUrTBXSJamJnGftGE2U9eccewFQYKfmkOAH
- 14SkEm/DXGrAg==
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-To: chunkuang.hu@kernel.org
-Subject: [PATCH] drm: mediatek: mtk_disp_gamma: Fix breakage due to merge issue
-Date: Wed, 25 Oct 2023 12:49:40 +0200
-Message-ID: <20231025104940.140605-1-angelogioacchino.delregno@collabora.com>
-X-Mailer: git-send-email 2.42.0
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx1.riseup.net (Postfix) with ESMTPS id 4SFmC23z05zDqPy
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Oct 2023 10:59:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+ t=1698231550; bh=/uQaTSf5iFQSdgacifgG//5A7NmzatDRi/xRYXtn7VM=;
+ h=Date:Subject:To:References:From:In-Reply-To:From;
+ b=qKEzQyuD1b8BaZjGLf8u5F+IUL5gljHFKCqmfP3/vJim7dg6kZXaOS1cN65PGok88
+ F8Rpyx8za+SoaB8djQ2u2byhZzKZJquYbJ4CBcguyNuVRWSXay+t57bk4s/fDmFRzl
+ QH5xNxelmqjw3CkTe2C7scm1Hj50YA/pNlr2VIII=
+Received: from fews01-sea.riseup.net (fews01-sea-pn.riseup.net [10.0.1.109])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx0.riseup.net (Postfix) with ESMTPS id 4SFmC172v5z9smD;
+ Wed, 25 Oct 2023 10:59:09 +0000 (UTC)
+X-Riseup-User-ID: 9876F922C3A7E7C16F539530EBDF6376FAAD467A33B95680D9475CCC2B758CDD
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ by fews01-sea.riseup.net (Postfix) with ESMTPSA id 4SFmBn46vkzJnF7;
+ Wed, 25 Oct 2023 10:58:57 +0000 (UTC)
+Message-ID: <e6da73bf-6e4d-4398-2651-034eb27d5b62@riseup.net>
+Date: Wed, 25 Oct 2023 07:56:55 -0300
 MIME-Version: 1.0
+Subject: Re: Evoc proposal
+Content-Language: en-US
+To: DAVID WALTERS <dpwalters@students.everettcc.edu>,
+ dri-devel@lists.freedesktop.org, =?UTF-8?Q?Andr=c3=a9_Almeida?=
+ <andrealmeid@riseup.net>, Tales Aparecida <tales.aparecida@gmail.com>
+References: <CAFDyzQrcO-ra8z6_jijE5uvSUcH-OM2KhENZH7tu4t1msAnZKA@mail.gmail.com>
+From: Maira Canal <mairacanal@riseup.net>
+In-Reply-To: <CAFDyzQrcO-ra8z6_jijE5uvSUcH-OM2KhENZH7tu4t1msAnZKA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -50,38 +59,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nfraprado@collabora.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- matthias.bgg@gmail.com, kernel@collabora.com,
- linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-While the commit that was sent to the mailing lists was fine, something
-happened during merge and the mtk_gamma_set() function got broken as
-a writel() was turned into a readl().
+Hi David,
 
-Fix that by changing that back to the expected writel().
+EVoC is on hold at the current moment due to some bureaucracy issues.
+I'm CCing other possible mentors, but at the moment, I'm not sure if a
+EVoC project is possible.
 
-Fixes: a6b39cd248f3 ("drm/mediatek: De-commonize disp_aal/disp_gamma gamma_set functions")
-Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
----
- drivers/gpu/drm/mediatek/mtk_disp_gamma.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Best Regards,
+- Maíra
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_gamma.c b/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
-index 2fada9d6c95f..52c752bc5f41 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
-@@ -203,7 +203,7 @@ void mtk_gamma_set(struct device *dev, struct drm_crtc_state *state)
- 	/* Disable RELAY mode to pass the processed image */
- 	cfg_val &= ~GAMMA_RELAY_MODE;
- 
--	cfg_val = readl(gamma->regs + DISP_GAMMA_CFG);
-+	writel(cfg_val, gamma->regs + DISP_GAMMA_CFG);
- }
- 
- void mtk_gamma_config(struct device *dev, unsigned int w,
--- 
-2.42.0
-
+On 10/24/23 22:57, DAVID WALTERS wrote:
+> Hello,
+>    I have a draft of a proposal that I would like feedback on from Maíra
+> Canal (or another mentor). If you could please let me know their email
+> address (or I could send you the draft and you could forward it to them).
+> It's for the KUnit and DRM project.
+> 
+> Thanks,
+>    David Walters.
+> 
