@@ -1,39 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3D617D6CC5
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Oct 2023 15:10:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DAF67D6CC6
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Oct 2023 15:11:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1411D10E5AE;
-	Wed, 25 Oct 2023 13:10:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B5BD10E655;
+	Wed, 25 Oct 2023 13:10:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
+X-Greylist: delayed 10730 seconds by postgrey-1.36 at gabe;
+ Wed, 25 Oct 2023 13:10:50 UTC
 Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
  [217.70.183.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5CB1D10E655
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5BEDF10E5AE
  for <dri-devel@lists.freedesktop.org>; Wed, 25 Oct 2023 13:10:50 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id EBCA11C000D;
- Wed, 25 Oct 2023 13:10:47 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 7C53E1C0008;
+ Wed, 25 Oct 2023 13:10:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
  t=1698239448;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=sq/7jbI//tPSUdJ8eoGURH5pS4j1r+AIB4XYpbcVvmU=;
- b=cZvK9ybagNGJ5x27CZPb5DKTSJsJ1Gfn/y1eO8ofA5QCvz7vY5PfiPr9dcxyvQuaBq3QZf
- BuGiailwe4f+lxc7K2yfuXEZlfLhLZyLLKR1yljcxxF7PFp3gfK4ixinp7xELv4luvrkpp
- hlijvM3HcgbzhprIoT+Jcpgx6MfnN5KBcdPqHfWxDBreDiAXFq0Oct8/oW2MYcDIGaK75x
- B77omtU7lf9bRzW8ortwSy+fH9mE64XREkFokLyY5zp3YuH43hGfX2Bk+rMilinSSMVIyP
- Jx1vpB/WzGQrf5EtE8TOjDG/4osdygMNIYGEsn/CfSt7THXeaB3kLmqRA4Jpog==
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=UvYmcIcCGRiRBdovjjijg/K4s2UhXR/ugjcSPeRqWQE=;
+ b=fqr6A0QBx9OdbMBlweZ9mllXJ7PsOsV/vG9zCJ7AAInKEDTkgJ99KTerKJfFitSfZGBXzS
+ nXuZL5vf8rPYgtMa6tRnOeK72TRI0l5+LSZyc2+iFzlZHq48PhLopt35AaYpre5fV/yaLc
+ ORA/A+OmQ/PaNW41tigZrrB7VvwA4vtoYR9mMKISfATlYnq5yZlX7qf9CcPOxxxOAvFuDd
+ Mq/URw2B1q12lXcQbUfJKwb1R1phtOGcyk82F02xaGzt7udpVzxYw3tv/HC3b4jHO8nrAE
+ nCYSjfVKTrGBxdrhhTv7jGeCs42RvUicO9X66Sh5OfyOefN65MP0NpPrJzQc4Q==
 From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 To: dri-devel@lists.freedesktop.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 1/2] drm/logicvc: Avoid possible overflow in layer buffer
- setup variables
-Date: Wed, 25 Oct 2023 15:09:45 +0200
-Message-ID: <20231025130946.119957-1-paul.kocialkowski@bootlin.com>
+Subject: [PATCH 2/2] drm/logicvc: Define max dimensions from USHRT_MAX
+Date: Wed, 25 Oct 2023 15:09:46 +0200
+Message-ID: <20231025130946.119957-2-paul.kocialkowski@bootlin.com>
 X-Mailer: git-send-email 2.42.0
+In-Reply-To: <20231025130946.119957-1-paul.kocialkowski@bootlin.com>
+References: <20231025130946.119957-1-paul.kocialkowski@bootlin.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-GND-Sasl: paul.kocialkowski@bootlin.com
@@ -54,53 +58,26 @@ Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The buffer_sel, voffset and hoffset values are calculated from u32
-values and might overflow under certain conditions.
-
-Move them to u32 definitions instead of u8/u16 to avoid the issue.
+Use the existing macro instead of redefining it.
 
 Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-Fixes: efeeaefe9be5 ("drm: Add support for the LogiCVC display controller")
 ---
- drivers/gpu/drm/logicvc/logicvc_layer.c | 6 +++---
- drivers/gpu/drm/logicvc/logicvc_layer.h | 6 +++---
- 2 files changed, 6 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/logicvc/logicvc_regs.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/logicvc/logicvc_layer.c b/drivers/gpu/drm/logicvc/logicvc_layer.c
-index 464000aea765..eea22379d042 100644
---- a/drivers/gpu/drm/logicvc/logicvc_layer.c
-+++ b/drivers/gpu/drm/logicvc/logicvc_layer.c
-@@ -268,9 +268,9 @@ int logicvc_layer_buffer_find_setup(struct logicvc_drm *logicvc,
- 	u32 layer_stride = layer_bytespp * logicvc->config.row_stride;
- 	u32 base_offset = layer->config.base_offset * layer_stride;
- 	u32 buffer_offset = layer->config.buffer_offset * layer_stride;
--	u8 buffer_sel = 0;
--	u16 voffset = 0;
--	u16 hoffset = 0;
-+	u32 buffer_sel = 0;
-+	u32 voffset = 0;
-+	u32 hoffset = 0;
- 	phys_addr_t fb_addr;
- 	u32 fb_offset;
- 	u32 gap;
-diff --git a/drivers/gpu/drm/logicvc/logicvc_layer.h b/drivers/gpu/drm/logicvc/logicvc_layer.h
-index 4a4b02e9b819..a06feeda3abf 100644
---- a/drivers/gpu/drm/logicvc/logicvc_layer.h
-+++ b/drivers/gpu/drm/logicvc/logicvc_layer.h
-@@ -18,9 +18,9 @@
- #define LOGICVC_LAYER_ALPHA_PIXEL		1
+diff --git a/drivers/gpu/drm/logicvc/logicvc_regs.h b/drivers/gpu/drm/logicvc/logicvc_regs.h
+index 4aae27e9ba2b..0fc413fef6dd 100644
+--- a/drivers/gpu/drm/logicvc/logicvc_regs.h
++++ b/drivers/gpu/drm/logicvc/logicvc_regs.h
+@@ -10,7 +10,7 @@
+ #ifndef _LOGICVC_REGS_H_
+ #define _LOGICVC_REGS_H_
  
- struct logicvc_layer_buffer_setup {
--	u8 buffer_sel;
--	u16 voffset;
--	u16 hoffset;
-+	u32 buffer_sel;
-+	u32 voffset;
-+	u32 hoffset;
- };
+-#define LOGICVC_DIMENSIONS_MAX		(BIT(16) - 1)
++#define LOGICVC_DIMENSIONS_MAX		USHRT_MAX
  
- struct logicvc_layer_config {
+ #define LOGICVC_HSYNC_FRONT_PORCH_REG	0x00
+ #define LOGICVC_HSYNC_REG		0x08
 -- 
 2.42.0
 
