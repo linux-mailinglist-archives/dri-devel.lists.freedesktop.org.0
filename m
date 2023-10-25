@@ -2,54 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95D1B7D6FCF
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Oct 2023 16:54:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09CCA7D7043
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Oct 2023 17:01:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 462F410E68E;
-	Wed, 25 Oct 2023 14:54:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB8F010E692;
+	Wed, 25 Oct 2023 15:01:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6351410E5C4;
- Wed, 25 Oct 2023 14:53:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1698245639; x=1729781639;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=iSRy6ZL3+KZJXUWU/0mDQYEKBgxxXobmWWaSzwQqEG4=;
- b=lzD7a8xbdYgiVGzOggALLcil8HV+ijgGz6YZxzxId1XkpOIEwD/wS7yb
- kjzhhXStjL8cYdYVPzRuc73X8HKRRI4avtvKmFJo3Oz5DxK+IeODyeVYV
- /Vp8r3zMB2C1blXwTaD8lMC5w+hk55RXlfqR6fNv7gqPU7AUftAhG9EWA
- PncwM5x6IZGpZjOnnO2jYUYPe0JJVjGCy5Ud83hzN3xXRvUjCNwL2s4ST
- q9mX6iEix6Kx4Vmj1lNXy8sjLP1t4fFlCEaff0Jax9Jibwk62//rtoMz5
- 7Df4WEO4X6DhSji9RJpP7WvV4tkqPGAY++lEDEPjV7zhZufNRJ0A9m2jx w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10874"; a="8878293"
-X-IronPort-AV: E=Sophos;i="6.03,250,1694761200"; 
-   d="scan'208";a="8878293"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Oct 2023 07:53:58 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10874"; a="829245315"
-X-IronPort-AV: E=Sophos;i="6.03,250,1694761200"; d="scan'208";a="829245315"
-Received: from marlonpr-mobl1.ger.corp.intel.com (HELO intel.com)
- ([10.252.33.160])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Oct 2023 07:53:55 -0700
-Date: Wed, 25 Oct 2023 16:53:52 +0200
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Nirmoy Das <nirmoy.das@linux.intel.com>
-Subject: Re: [Intel-gfx] [PATCH v2 1/5] drm/i915/guc: Create the
- guc_to_i915() wrapper
-Message-ID: <ZTksAJBWT191vAEX@ashyti-mobl2.lan>
-References: <20231025143515.254468-1-andi.shyti@linux.intel.com>
- <20231025143515.254468-2-andi.shyti@linux.intel.com>
- <35cd748f-1944-cc0f-bbd2-b1cd04ca44f0@linux.intel.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E2B0510E693
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Oct 2023 15:01:18 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 59F5B61E63;
+ Wed, 25 Oct 2023 15:01:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5A8BC433C8;
+ Wed, 25 Oct 2023 15:01:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1698246078;
+ bh=2iUIq0wuVIWry95uCN7Elk2KHxDhWdBL7pLv299oZ44=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=uwWV2TD8tT17qmt2w5iP3D5Txgbgw5m5Ux/hU+IQPZT/XensGfcfEBOQqvv1MhHIx
+ ZkkY20AUxu1oGA6doxos7+cP31prp8Q4eZ3PrkdoaHQCLlHJKzBi8kRaAocwmTk5Xk
+ DxFH9EL1S+olP21dZTkf7oZS1hKknJo6LFhgXjaeZ15RetWKBD58AJ1sF4Z4QcEbeP
+ kC46qIFozEQGwdF5xpksVYR8Ao1h7FZFHJpgBhZqcjP49RxKAPV5pxUl3rPLDXjbw5
+ 6dHcM+XqMV7EQKGDQ9uiGu9dVy70V+x5IqKmbu1d/hw2vwhD7pwGHEBhk4l4uNR5EL
+ hB3e46rxySq1A==
+Date: Wed, 25 Oct 2023 17:01:15 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Carlos Eduardo Gallo Filho <gcarlos@disroot.org>
+Subject: Re: [PATCH v2 08/11] drm/tests: Add test for drm_framebuffer_init()
+Message-ID: <gc2axttxhyl5odx7bovlqqukwhac5cbo5hjes3dg3aaql3xujj@a47psbjg3epd>
+References: <20231024191002.1620-1-gcarlos@disroot.org>
+ <20231024191002.1620-9-gcarlos@disroot.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="b3uue7na4ztvzedf"
 Content-Disposition: inline
-In-Reply-To: <35cd748f-1944-cc0f-bbd2-b1cd04ca44f0@linux.intel.com>
+In-Reply-To: <20231024191002.1620-9-gcarlos@disroot.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,35 +52,115 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- John Harrison <John.C.Harrison@intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>
+Cc: =?utf-8?B?QW5kcsOp?= Almeida <andrealmeid@igalia.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Tales Lelo da Aparecida <tales.aparecida@gmail.com>,
+ dri-devel@lists.freedesktop.org,
+ =?utf-8?B?TWHDrXJh?= Canal <mairacanal@riseup.net>,
+ Arthur Grillo <arthurgrillo@riseup.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Nirmoy,
 
-> > +static inline struct drm_i915_private *guc_to_i915(struct intel_guc *guc)
-> > +{
-> > +	return guc_to_gt(guc)->i915;
-> > +}
-> > +
-> 
-> We don't want inline functions in headers files[1]. Otherwise the series
-> looks fine to me:
+--b3uue7na4ztvzedf
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-the reason for that patch is that we were including the
-i915_drv.h just for that inline function and we were doing it
-inside the gt/.
+On Tue, Oct 24, 2023 at 04:09:59PM -0300, Carlos Eduardo Gallo Filho wrote:
+> Add a single KUnit test case for the drm_framebuffer_init function.
+>=20
+> Signed-off-by: Carlos Eduardo Gallo Filho <gcarlos@disroot.org>
+> ---
+> v2:
+>   - Reorder kunit cases alphabetically.
+>   - Let fb1.dev unset instead of set it to wrong_drm to test mismatched
+>     drm_device passed as drm_framebuffer_init() argument.
+>   - Clean the framebuffer object.
+> ---
+>  drivers/gpu/drm/tests/drm_framebuffer_test.c | 52 ++++++++++++++++++++
+>  1 file changed, 52 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/tests/drm_framebuffer_test.c b/drivers/gpu/d=
+rm/tests/drm_framebuffer_test.c
+> index fb9589dd8aed..eedd5e920279 100644
+> --- a/drivers/gpu/drm/tests/drm_framebuffer_test.c
+> +++ b/drivers/gpu/drm/tests/drm_framebuffer_test.c
+> @@ -551,10 +551,62 @@ static void drm_test_framebuffer_lookup(struct kuni=
+t *test)
+>  	drm_framebuffer_cleanup(&fb1);
+>  }
+> =20
+> +static void drm_test_framebuffer_init(struct kunit *test)
 
-In this patch I am not changing any header dependency.
+Documentation
 
-I guess the original idea from Matt was to have a generic network
-of intel_gt_needs_wa_xxx(), but it didn't develop further.
+> +{
+> +	struct drm_framebuffer_test_priv *priv =3D test->priv;
+> +	struct drm_device *dev =3D &priv->dev;
+> +	struct drm_format_info format =3D { };
+> +	struct drm_framebuffer fb1 =3D { .format =3D &format };
+> +	struct drm_framebuffer *fb2;
+> +	struct drm_framebuffer_funcs funcs =3D { };
+> +	int ret;
+> +
+> +	/* Fails if fb->dev doesn't point to the drm_device passed on first arg=
+ */
+> +	ret =3D drm_framebuffer_init(dev, &fb1, &funcs);
+> +	KUNIT_ASSERT_EQ(test, ret, -EINVAL);
+> +	fb1.dev =3D dev;
+> +
+> +	/* Fails if fb.format isn't set */
+> +	fb1.format =3D NULL;
+> +	ret =3D drm_framebuffer_init(dev, &fb1, &funcs);
+> +	KUNIT_ASSERT_EQ(test, ret, -EINVAL);
+> +	fb1.format =3D &format;
+> +
+> +	ret =3D drm_framebuffer_init(dev, &fb1, &funcs);
+> +	KUNIT_ASSERT_EQ(test, ret, 0);
+> +
+> +	/*
+> +	 * Check if fb->funcs is actually set to the drm_framebuffer_funcs
+> +	 * passed to it
+> +	 */
+> +	KUNIT_EXPECT_PTR_EQ(test, fb1.funcs, &funcs);
+> +
+> +	/* The fb->comm must be set to the current running process */
+> +	KUNIT_EXPECT_STREQ(test, fb1.comm, current->comm);
+> +
+> +	/* The fb->base must be successfully initialized */
+> +	KUNIT_EXPECT_NE(test, fb1.base.id, 0);
+> +	KUNIT_EXPECT_EQ(test, fb1.base.type, DRM_MODE_OBJECT_FB);
+> +	KUNIT_EXPECT_EQ(test, kref_read(&fb1.base.refcount), 1);
+> +	KUNIT_EXPECT_PTR_EQ(test, fb1.base.free_cb, &drm_framebuffer_free);
+> +
+> +	/* Checks if the fb is really published and findable */
+> +	fb2 =3D drm_framebuffer_lookup(dev, NULL, fb1.base.id);
+> +	KUNIT_EXPECT_PTR_EQ(test, fb2, &fb1);
+> +
+> +	/* There must be just that one fb initialized */
+> +	KUNIT_EXPECT_EQ(test, dev->mode_config.num_fb, 1);
+> +	KUNIT_EXPECT_PTR_EQ(test, dev->mode_config.fb_list.prev, &fb1.head);
+> +	KUNIT_EXPECT_PTR_EQ(test, dev->mode_config.fb_list.next, &fb1.head);
+> +
+> +	drm_framebuffer_cleanup(&fb1);
+> +}
 
-> Reviewed-by: Nirmoy Das <nirmoy.das@intel.com>
+You're testing different failure cases, so these should all be their own
+tests. Otherwise, you'll just get a single test failure that doesn't
+really provide any feedback on what went wrong.
 
-Thanks,
-Andi
+Maxime
+
+--b3uue7na4ztvzedf
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZTktuwAKCRDj7w1vZxhR
+xWS0AP46ILyMalGP5XZH5VVKOLxHxOm/NjUrVM4ClDJUasDQggEA6w7KXO3QiGAL
+qsF5VhPTPNdjMZD3CR5Slm7aCcul1As=
+=hyv2
+-----END PGP SIGNATURE-----
+
+--b3uue7na4ztvzedf--
