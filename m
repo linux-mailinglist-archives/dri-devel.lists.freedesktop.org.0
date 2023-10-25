@@ -2,43 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96F2D7D6DC7
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Oct 2023 15:57:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EF0C7D6E5D
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Oct 2023 16:05:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5EEB810E65E;
-	Wed, 25 Oct 2023 13:57:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A0C9210E661;
+	Wed, 25 Oct 2023 14:05:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D22510E0E8
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Oct 2023 13:57:34 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id D7503B82F6E;
- Wed, 25 Oct 2023 13:57:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F05FC433C7;
- Wed, 25 Oct 2023 13:57:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1698242251;
- bh=mL9aaBJh7T4dWkfq57W9E21rwjuh1Dt0dXBpKyIZtA4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ahC34Et4TkfTRirGAN2NqFk+LWAL4dV6tJrge28TGVmvlgK8OHAtr4S/mvlbi810K
- q3H2Ib4H9hw5mPctEaDZOj2zcNEouX+SApw328WgQ+LlQ1QhU+bZzbmWfNdR/vn9fq
- J8YpFTwF7mv48aWDbMUjn8mJ29e6Ay5xoGBIL482uPSk/fBsLbbPEc518JsnZZNDBi
- VW7AOVyLiIFvZjfA2kEIgIxcuiI3Yx0/AA5CjI+Vkpkqi44Pyl4fRCHrxE3OELYQSB
- WKvItQ/mYZQdJel2dZWuc4dc90EmJUhS7Es8iQl1O/XuIFNTM/CiwcuszdcoCqIuc0
- NoIhoLFwHK7QA==
-Date: Wed, 25 Oct 2023 15:57:28 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Keith Zhao <keith.zhao@starfivetech.com>
-Subject: Re: [PATCH v2 5/6] drm/vs: Add KMS crtc&plane
-Message-ID: <pfjfxkpg4cheozhnjgql67ntfiapssba36ukusqrlo6za4owv3@mwzucmdqboy5>
-References: <20231025103957.3776-1-keith.zhao@starfivetech.com>
- <20231025103957.3776-6-keith.zhao@starfivetech.com>
+Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com
+ [IPv6:2607:f8b0:4864:20::42f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1691D10E661;
+ Wed, 25 Oct 2023 14:05:09 +0000 (UTC)
+Received: by mail-pf1-x42f.google.com with SMTP id
+ d2e1a72fcca58-6b9af7d41d2so4971156b3a.0; 
+ Wed, 25 Oct 2023 07:05:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1698242708; x=1698847508; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:from:to:cc:subject:date:message-id:reply-to;
+ bh=QodZ+zOhRS9ysFD14TPJp+ufF/L2P9im5K7i5cATYBY=;
+ b=KDGWnrlwEKkWGiUrZn/cEij6dqyLVuuFJXeOkZwmnAw7ApegytL/FYJScH3a2tOwPP
+ /uWdmVfM5Z8Ypg2qwpbidXUrjseD/Msp24/fW9FQ1Z/nho48Txstv7egS0a4xzNF/7Lc
+ prBQcvPmHWPre0RKnVx4X3oflrxwjFnw8gobIJzQjSICbD1Bw2S949znI/LEo+JEyYx5
+ i5PVKL1AOZPxz7KajDrGwXQjL85pfJiYVIxf9z/rUDDqchsJMq2N35r1u5FOgk9VpXWy
+ Khb8ylnhu6/mFjXucGj3H5sl9UaZRGqa54ErImG+9ZaplryNHxhe53xIj9MqPEPM7T2E
+ yHsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1698242708; x=1698847508;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=QodZ+zOhRS9ysFD14TPJp+ufF/L2P9im5K7i5cATYBY=;
+ b=rJBeuHbtjsSmnaZWKSrImFLvAjvAYzPIW9WheZ12y7RRGtwy3wqnYkZ0CcloFkMiRU
+ TGqNNFbzARsx2WfmBisasu1plBZH3Bp8MeqfxhWBFKkECebdg/ZbauoazzwtWhR98wOA
+ PcYmp+C8VPwQASYdNQjfMGLuCM4+A0U2lZGopwhXJg2T09UR499i1+4ATfje/FiIOuZz
+ Y3VXEG6z4th5bSTzzTiuTAgplwfF/PGh4SST8L8mSsI96q9bgkC1P6KhrN93Xm9orxxZ
+ XuS5UGEDg/PqlGBtAErpNyIZtpRgajuzLAWEvVHoMjyk9nWdhxG+O5zF/Z4+X1PBbjDU
+ FKxA==
+X-Gm-Message-State: AOJu0YyCMkPVMMmdBKsjIHB849+z9AfyvKemww73263cEZ/CBDuqIqda
+ Rn2gu70GzkufxL0FcUh3w6vlF79heCnaP/tm
+X-Google-Smtp-Source: AGHT+IHGIX91kg9M698jtU9/okbgfeX+hEAvgOPmIzyzhvaiddrf/3vGC6KhyzP5/E1RDET9W87TAQ==
+X-Received: by 2002:a05:6a00:14ce:b0:691:2d4:23a2 with SMTP id
+ w14-20020a056a0014ce00b0069102d423a2mr15058971pfu.31.1698242708473; 
+ Wed, 25 Oct 2023 07:05:08 -0700 (PDT)
+Received: from sagar-virtual-machine.localdomain ([103.70.144.216])
+ by smtp.gmail.com with ESMTPSA id
+ v124-20020a626182000000b0064fd4a6b306sm9838330pfb.76.2023.10.25.07.05.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 25 Oct 2023 07:05:08 -0700 (PDT)
+From: Sagar Vashnav <sagarvashnav72427@gmail.com>
+To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Sagar Vashnav <sagarvashnav72427@gmail.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/amd/display: add kernel docs for
+ dc_stream_forward_crc_window
+Date: Wed, 25 Oct 2023 10:04:16 -0400
+Message-Id: <20231025140419.21180-1-sagarvashnav72427@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="gne3qq4wbplxfl5j"
-Content-Disposition: inline
-In-Reply-To: <20231025103957.3776-6-keith.zhao@starfivetech.com>
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,222 +77,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emil Renner Berthing <kernel@esmil.dk>, dri-devel@lists.freedesktop.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-riscv@lists.infradead.org, Sumit Semwal <sumit.semwal@linaro.org>,
- Shengyang Chen <shengyang.chen@starfivetech.com>, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- Albert Ou <aou@eecs.berkeley.edu>, Jagan Teki <jagan@edgeble.ai>,
- linaro-mm-sig@lists.linaro.org, Rob Herring <robh+dt@kernel.org>,
- Chris Morgan <macromorgan@hotmail.com>,
- Paul Walmsley <paul.walmsley@sifive.com>,
- Bjorn Andersson <andersson@kernel.org>, linux-kernel@vger.kernel.org,
- Changhuang Liang <changhuang.liang@starfivetech.com>,
- Jack Zhu <jack.zhu@starfivetech.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Shawn Guo <shawnguo@kernel.org>,
- christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Add kernel documentation for the dc_stream_forward_crc_window
 
---gne3qq4wbplxfl5j
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Signed-off-by: Sagar Vashnav <sagarvashnav72427@gmail.com>
+---
+ drivers/gpu/drm/amd/display/dc/core/dc.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-On Wed, Oct 25, 2023 at 06:39:56PM +0800, Keith Zhao wrote:
-> +static struct drm_crtc_state *
-> +vs_crtc_atomic_duplicate_state(struct drm_crtc *crtc)
-> +{
-> +	struct vs_crtc_state *ori_state;
-> +	struct vs_crtc_state *state;
-> +
-> +	if (!crtc->state)
-> +		return NULL;
-> +
-> +	ori_state = to_vs_crtc_state(crtc->state);
-> +	state = kzalloc(sizeof(*state), GFP_KERNEL);
-> +	if (!state)
-> +		return NULL;
-> +
-> +	__drm_atomic_helper_crtc_duplicate_state(crtc, &state->base);
-> +
-> +	state->output_fmt = ori_state->output_fmt;
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc.c b/drivers/gpu/drm/amd/display/dc/core/dc.c
+index 1729fb727..5ab35e482 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc.c
+@@ -528,6 +528,19 @@ dc_stream_forward_dmcu_crc_window(struct dmcu *dmcu,
+ 		dmcu->funcs->forward_crc_window(dmcu, rect, mux_mapping);
+ }
+ 
++/**
++ * dc_stream_forward_crc_window() - Forward CRC window configuration to DMUB or DMCU.
++ * @stream: The stream state to forward CRC window configuration for.
++ * @rect: Pointer to the rectangle defining the CRC window coordinates.
++ * @is_stop: Flag indicating whether the CRC capture should be stopped.
++
++ * This function is responsible for forwarding the CRC window configuration
++ * for a given stream to either the DMUB or DMCU, depending on their availability.
++
++ * Return:
++ * %true if the CRC window configuration was successfully forwarded;
++ * %false if the stream was not found or CRC forwarding is not supported.
++ */
+ bool
+ dc_stream_forward_crc_window(struct dc_stream_state *stream,
+ 		struct rect *rect, bool is_stop)
+-- 
+2.34.1
 
-That field is never set in your patch.
-
-> +	state->encoder_type = ori_state->encoder_type;
-
-That isn't either, and it's not clear why you would need the
-encoder_type stored in the CRTC?
-
-> +	state->bpp = ori_state->bpp;
-
-You seem to derive that from output_fmt, it doesn't need to be in the
-CRTC state.
-
-> +	state->underflow = ori_state->underflow;
-
-Assuming you're setting this from the interrupt handler, it's unsafe,
-you shouldn't do that. What are you using it for?
-
-> +static const struct drm_prop_enum_list vs_sync_mode_enum_list[] = {
-> +	{ VS_SINGLE_DC,				"single dc mode" },
-> +	{ VS_MULTI_DC_PRIMARY,		"primary dc for multi dc mode" },
-> +	{ VS_MULTI_DC_SECONDARY,	"secondary dc for multi dc mode" },
-> +};
-
-Custom driver properties are a no-go:
-https://docs.kernel.org/gpu/drm-kms.html#requirements
-
-And
-
-https://docs.kernel.org/gpu/drm-uapi.html#open-source-userspace-requirements
-
-> +void vs_dc_enable(struct vs_dc *dc, struct drm_crtc *crtc)
-> +{
-> +	struct vs_crtc_state *crtc_state = to_vs_crtc_state(crtc->state);
-> +	struct drm_display_mode *mode = &crtc->state->adjusted_mode;
-> +	struct dc_hw_display display;
-
-Why are you rolling your own structure here, if it's exactly equivalent
-to what drm_display_mode and the crtc_state provide?
-
-> +void vs_dc_commit(struct vs_dc *dc)
-> +{
-> +	dc_hw_enable_shadow_register(&dc->hw, false);
-> +
-> +	dc_hw_commit(&dc->hw);
-> +
-> +	if (dc->first_frame)
-> +		dc->first_frame = false;
-> +
-> +	dc_hw_enable_shadow_register(&dc->hw, true);
-> +}
-
-It's not clear to me what you're trying to do here, does the hardware
-have latched registers that are only updated during vblank?
-
-> +static int dc_bind(struct device *dev, struct device *master, void *data)
-> +{
-> +	struct drm_device *drm_dev = data;
-> +	struct vs_dc *dc = dev_get_drvdata(dev);
-> +	struct device_node *port;
-> +	struct vs_crtc *crtc;
-> +	struct vs_dc_info *dc_info;
-> +	struct vs_plane *plane;
-> +	struct vs_plane_info *plane_info;
-> +	int i, ret;
-> +	u32 ctrc_mask = 0;
-> +
-> +	if (!drm_dev || !dc) {
-> +		dev_err(dev, "devices are not created.\n");
-> +		return -ENODEV;
-> +	}
-> +
-> +	ret = dc_init(dev);
-> +	if (ret < 0) {
-> +		drm_err(drm_dev, "Failed to initialize DC hardware.\n");
-> +		return ret;
-> +	}
-> +
-> +	port = of_get_child_by_name(dev->of_node, "port");
-> +	if (!port) {
-> +		drm_err(drm_dev, "no port node found\n");
-> +		return -ENODEV;
-> +	}
-> +	of_node_put(port);
-> +
-> +	dc_info = dc->hw.info;
-> +
-> +	for (i = 0; i < dc_info->panel_num; i++) {
-> +		crtc = vs_crtc_create(drm_dev, dc_info);
-> +		if (!crtc) {
-> +			drm_err(drm_dev, "Failed to create CRTC.\n");
-> +			ret = -ENOMEM;
-> +			return ret;
-> +		}
-> +
-> +		crtc->base.port = port;
-> +		crtc->dev = dev;
-> +		dc->crtc[i] = crtc;
-> +		ctrc_mask |= drm_crtc_mask(&crtc->base);
-> +	}
-> +
-> +	for (i = 0; i < dc_info->plane_num; i++) {
-> +		plane_info = (struct vs_plane_info *)&dc_info->planes[i];
-> +
-> +		if (!strcmp(plane_info->name, "Primary") || !strcmp(plane_info->name, "Cursor")) {
-> +			plane = vs_plane_create(drm_dev, plane_info, dc_info->layer_num,
-> +						drm_crtc_mask(&dc->crtc[0]->base));
-> +		} else if (!strcmp(plane_info->name, "Primary_1") ||
-> +				   !strcmp(plane_info->name, "Cursor_1")) {
-
-Please use an enum and an id there.
-
-> +static int vs_plane_atomic_set_property(struct drm_plane *plane,
-> +					struct drm_plane_state *state,
-> +					struct drm_property *property,
-> +					uint64_t val)
-> +{
-> +	struct drm_device *dev = plane->dev;
-> +	struct vs_plane *vs_plane = to_vs_plane(plane);
-> +	struct vs_plane_state *vs_plane_state = to_vs_plane_state(state);
-> +	int ret = 0;
-> +
-> +	if (property == vs_plane->degamma_mode) {
-> +		if (vs_plane_state->degamma != val) {
-> +			vs_plane_state->degamma = val;
-> +			vs_plane_state->degamma_changed = true;
-> +		} else {
-> +			vs_plane_state->degamma_changed = false;
-> +		}
-> +	} else if (property == vs_plane->watermark_prop) {
-> +		ret = _vs_plane_set_property_blob_from_id(dev,
-> +							  &vs_plane_state->watermark,
-> +							  val,
-> +							  sizeof(struct drm_vs_watermark));
-> +		return ret;
-> +	} else if (property == vs_plane->color_mgmt_prop) {
-> +		ret = _vs_plane_set_property_blob_from_id(dev,
-> +							  &vs_plane_state->color_mgmt,
-> +							  val,
-> +							  sizeof(struct drm_vs_color_mgmt));
-> +		return ret;
-> +	} else if (property == vs_plane->roi_prop) {
-> +		ret = _vs_plane_set_property_blob_from_id(dev,
-> +							  &vs_plane_state->roi,
-> +							  val,
-> +							  sizeof(struct drm_vs_roi));
-> +		return ret;
-> +	} else {
-> +		return -EINVAL;
-> +	}
-> +
-> +	return 0;
-> +}
-
-Same story than above for properties
-
-
-Honestly, that driver is pretty massive, and you should be simplifying
-it a lot of you want the initial contribution to be as smooth as
-possible.
-
-Things like all the tiling formats, the underflowing handling, all those
-properties, etc can (and should) be added in a second step once the
-foundations are in.
-
-Maxime
-
---gne3qq4wbplxfl5j
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZTkexwAKCRDj7w1vZxhR
-xVc2AQDt1GUu/XJrbLjzUqX2QBMsMrPFuT0gkDUTQBP87bT4TQD/fxbMJ+PO/Guy
-dWrnZFx2MNMwz2yBjRVOwStrbI0sWQo=
-=dDhB
------END PGP SIGNATURE-----
-
---gne3qq4wbplxfl5j--
