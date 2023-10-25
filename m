@@ -2,47 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58A327D6EDB
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Oct 2023 16:38:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 638277D6EE0
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Oct 2023 16:39:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA76510E671;
-	Wed, 25 Oct 2023 14:38:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70EF310E675;
+	Wed, 25 Oct 2023 14:39:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 08AF610E671
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Oct 2023 14:38:42 +0000 (UTC)
-Received: from [IPV6:2804:14d:e646:872b:6128:58fa:3012:5965] (unknown
- [IPv6:2804:14d:e646:872b:6128:58fa:3012:5965])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: koike)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 1C2966607181;
- Wed, 25 Oct 2023 15:38:38 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1698244720;
- bh=jQQFSsN5lD/ihNEJqbaIwC1Rz8KB2OSVZlcfxadgHMU=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=eiwAfWLwROwpT4JXwpXS6qJEqz0JsuXVvpkqheDmiX+Z16m5tR2XufNJuX/NO1qEH
- VPGOIEZ9ttj/pFtB1YaokWrrqH/pUHjYD+nECodg4+fTxhZlvQo3tQjFvr1Yqc8npf
- lacjrpWRZOZcbITyzNUL6mzeTbRD0gWxQ5I9X4rAiy0tUMXUAGc4/MOMrfLgzVShpS
- rPm1muysobK+OB3/FsdvZI7GW2BvsXWQbX27ZyuhEc8Kjs73NfN6OT3iVGg9E7eL3B
- 9PTmbxGmVgTVnuJja1M1Hc9zHbslEHrCOK0fpf0fuYyIwnoOhzthEkU4yucMkdQfVu
- BfMz11yV0UFfQ==
-Message-ID: <8ca1eca5-7884-4b0f-b028-8466a726456d@collabora.com>
-Date: Wed, 25 Oct 2023 11:38:33 -0300
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BFAB810E675
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Oct 2023 14:39:37 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by ams.source.kernel.org (Postfix) with ESMTP id 3FF5BB829AC;
+ Wed, 25 Oct 2023 14:39:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3450EC433C7;
+ Wed, 25 Oct 2023 14:39:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1698244775;
+ bh=Lno6fcjDCAroFTjIH/YqSCE4U8f0wX4P/7x7ZybgJZw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=DdRzEKIlE4/rJeGPDyMeLsN2dS8zK1rflBIow68HRCLd4ZcAXj6q26Ok0kVaQjoIe
+ QHXSfPu+xUcyFwWc4qXOso/r9Smy3y0v8xGsZIwdDw9NcmlRdQ1U1ZcmCHvRQGqQZN
+ VmxEDDiBrChtWZn9kLP9tF+/+6nCIeLFzCnv0YBgKaspRZZrP0VXLspveejY6MrEVW
+ 6E3AMP5qmpsN957NaG59Y0qNFEmm0byyMqA/EffIwF2DSWqmyAAA4sxFIsvlbD/9Ka
+ xuVrM8J2QFTmECOfhUHlDUopOioVT1bFRoEuXEhLlf9DTAnp9GwaxgpTceAP8iW38Q
+ WIMppIugO0+Rw==
+Date: Wed, 25 Oct 2023 16:39:32 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Carlos Eduardo Gallo Filho <gcarlos@disroot.org>
+Subject: Re: [PATCH v2 04/11] drm/tests: Add test case for
+ drm_internal_framebuffer_create()
+Message-ID: <r62zohjnnsuebfwum7jvafttdxxvep6cbf3dskntzn5qvcieuv@e3brcfg6yx75>
+References: <20231024191002.1620-1-gcarlos@disroot.org>
+ <20231024191002.1620-5-gcarlos@disroot.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm/doc: ci: Require more context for flaky tests
-To: Maxime Ripard <mripard@kernel.org>,
- Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>
-References: <20231025142441.745947-1-mripard@kernel.org>
-Content-Language: en-US
-From: Helen Koike <helen.koike@collabora.com>
-In-Reply-To: <20231025142441.745947-1-mripard@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="2ahs5n2bbkbkzngc"
+Content-Disposition: inline
+In-Reply-To: <20231024191002.1620-5-gcarlos@disroot.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,57 +52,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org
+Cc: =?utf-8?B?QW5kcsOp?= Almeida <andrealmeid@igalia.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Tales Lelo da Aparecida <tales.aparecida@gmail.com>,
+ dri-devel@lists.freedesktop.org,
+ =?utf-8?B?TWHDrXJh?= Canal <mairacanal@riseup.net>,
+ Arthur Grillo <arthurgrillo@riseup.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
+--2ahs5n2bbkbkzngc
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 25/10/2023 11:24, Maxime Ripard wrote:
-> Flaky tests can be very difficult to reproduce after the facts, which
-> will make it even harder to ever fix.
-> 
-> Let's document the metadata we agreed on to provide more context to
-> anyone trying to address these fixes.
-> 
-> Link: https://lore.kernel.org/dri-devel/CAPj87rPbJ1V1-R7WMTHkDat2A4nwSd61Df9mdGH2PR=ZzxaU=Q@mail.gmail.com/
-> Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+Hi,
 
-Acked-by: Helen Koike <helen.koike@collabora.com>
-
-> 
+On Tue, Oct 24, 2023 at 04:09:55PM -0300, Carlos Eduardo Gallo Filho wrote:
+> Introduce a test to cover the creation of framebuffer with
+> modifier on a device that doesn't support it.
+>=20
+> Signed-off-by: Carlos Eduardo Gallo Filho <gcarlos@disroot.org>
 > ---
-> Cc: Helen Koike <helen.koike@collabora.com>
-> 
-> Changes from v1:
-> - Rephrase the sentence a bit to make it clearer we expect a bug report
->    by mail
+> v2:
+>   - Reorder kunit cases alphabetically.
 > ---
->   Documentation/gpu/automated_testing.rst | 13 +++++++++++++
->   1 file changed, 13 insertions(+)
-> 
-> diff --git a/Documentation/gpu/automated_testing.rst b/Documentation/gpu/automated_testing.rst
-> index 469b6fb65c30..792428a2bfdc 100644
-> --- a/Documentation/gpu/automated_testing.rst
-> +++ b/Documentation/gpu/automated_testing.rst
-> @@ -67,6 +67,19 @@ Lists the tests that for a given driver on a specific hardware revision are
->   known to behave unreliably. These tests won't cause a job to fail regardless of
->   the result. They will still be run.
->   
-> +Each new flake entry must be associated with a link to the email reporting the
-> +bug to the author of the affected driver, the board name or Device Tree name of
-> +the board, the first kernel version affected, and an approximation of the
-> +failure rate.
+>  drivers/gpu/drm/tests/drm_framebuffer_test.c | 28 ++++++++++++++++++++
+>  1 file changed, 28 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/tests/drm_framebuffer_test.c b/drivers/gpu/d=
+rm/tests/drm_framebuffer_test.c
+> index eb76a71644e9..8a9b6d08d639 100644
+> --- a/drivers/gpu/drm/tests/drm_framebuffer_test.c
+> +++ b/drivers/gpu/drm/tests/drm_framebuffer_test.c
+> @@ -403,8 +403,36 @@ static void drm_framebuffer_test_to_desc(const struc=
+t drm_framebuffer_test *t, c
+>  KUNIT_ARRAY_PARAM(drm_framebuffer_create, drm_framebuffer_create_cases,
+>  		  drm_framebuffer_test_to_desc);
+> =20
+> +/*
+> + * This test is very similar to drm_test_framebuffer_create, except that=
+ it
+
+We shouldn't rely on the another test for the documentation. If
+drm_test_framebuffer_create is ever removed or renamed, then the reader
+won't have any clue what it was supposed to test.
+
+We should provide a documentation that doesn't require any additional
+context.
+
+> + * set dev->mode_config.fb_modifiers_not_supported member to 1, covering
+> + * the case of trying to create a framebuffer with modifiers without the
+> + * device really supporting it.
+> + */
+
+So I guess something like:
+
+Test that, if a device doesn't support modifiers, a framebuffer
+allocation using them will fail.
+
+> +static void drm_test_framebuffer_modifiers_not_supported(struct kunit *t=
+est)
+> +{
+> +	struct drm_framebuffer_test_priv *priv =3D test->priv;
+> +	struct drm_device *dev =3D &priv->dev;
+> +	int buffer_created =3D 0;
 > +
-> +They should be provided under the following format::
+> +	/* A valid cmd with modifier */
+> +	struct drm_mode_fb_cmd2 cmd =3D {
+> +		.width =3D MAX_WIDTH, .height =3D MAX_HEIGHT,
+> +		.pixel_format =3D DRM_FORMAT_ABGR8888, .handles =3D { 1, 0, 0 },
+> +		.offsets =3D { UINT_MAX / 2, 0, 0 }, .pitches =3D { 4 * MAX_WIDTH, 0, =
+0 },
+> +		.flags =3D DRM_MODE_FB_MODIFIERS,
+> +	};
 > +
-> +  # Bug Report: $LORE_OR_PATCHWORK_URL
-> +  # Board Name: broken-board.dtb
-> +  # Version: 6.6-rc1
-> +  # Failure Rate: 100
-> +  flaky-test
+> +	priv->private =3D &buffer_created;
+> +	dev->mode_config.fb_modifiers_not_supported =3D 1;
 > +
->   drivers/gpu/drm/ci/${DRIVER_NAME}-${HW_REVISION}-skips.txt
->   -----------------------------------------------------------
->   
+> +	drm_internal_framebuffer_create(dev, &cmd, NULL);
+> +	KUNIT_EXPECT_EQ(test, 0, buffer_created);
+
+We should test the returned value of drm_internal_framebuffer_create here.
+
+Maxime
+
+--2ahs5n2bbkbkzngc
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHQEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZTkopAAKCRDj7w1vZxhR
+xa48AP9NzimuL20mg3/azBQl/VGRtXV3hMBC8+8A7YtFBHDIfQD4/rtcak0QCV+d
+IivIDxk33mYYZCqbbQhRnes1L3l3Ag==
+=kPAR
+-----END PGP SIGNATURE-----
+
+--2ahs5n2bbkbkzngc--
