@@ -1,46 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D7EE7D657A
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Oct 2023 10:43:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 945D37D65F6
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Oct 2023 10:59:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D5DC10E60A;
-	Wed, 25 Oct 2023 08:43:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E06A810E5DE;
+	Wed, 25 Oct 2023 08:59:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D6C9B10E590
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Oct 2023 08:43:21 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id D5BB7B80DE5;
- Wed, 25 Oct 2023 08:43:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0E48C433C7;
- Wed, 25 Oct 2023 08:43:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1698223399;
- bh=0zZhtkrYhPXwaPPhoU0Ao0T3LN1o1SJTsWAiRLH+OtY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=bGX6ec8k8faIE72JDouiLWwMaguSXqR0yLi1tItQC4S4F4CekXA1hPt7C79hE9a6F
- PGbTOEGvkD3efKyOw4DroIi4UMl/D9PEFyWGgtPJTTOJt9Ujb4qL+pge+uAWvmmPCf
- 4PCNB3Vsc3OHFCdRiLc9t0gQna0xczLbN1LNdnJfoSQr/ALqiL7ClNmCn2ykSZWH8H
- t3XVEym8yUOz7lmr6NLHYX7BbG3OEoojzIWBUpek3DyCFamqBDn1cGJaD1g7G+YEMU
- zi5ETf/Na9fv6+UWt25ZuKxKwUJEHrmnAC9+rhXe2er4nGF6SFErv1TVlLYvN1pay5
- sCbXdZYdLp7Bw==
-Date: Wed, 25 Oct 2023 10:43:16 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Marco Pagani <marpagan@redhat.com>
-Subject: Re: [RFC PATCH] drm/test: add a test suite for GEM objects backed by
- shmem
-Message-ID: <bychwi46hiqd34ch2f2ikvcijnq3hxvqudycsja5mawng46gyx@cq7wwxozv4si>
-References: <20231023164541.92913-1-marpagan@redhat.com>
- <zakappnhljtx3axi2ovvis3evhju4cwqrena7j6gqn5kjdjtsb@mgrhkn5oboid>
- <789aaf2b-4d68-4128-b8ff-c1ba4849e141@redhat.com>
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9485010E5DE
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Oct 2023 08:59:01 +0000 (UTC)
+X-UUID: cfc91cf648804cd0a5769e53c694496e-20231025
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.32, REQID:2fa55461-6189-4a51-950b-3fbfd28f5c8c, IP:15,
+ URL:0,TC:0,Content:0,EDM:0,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,ACTI
+ ON:release,TS:0
+X-CID-INFO: VERSION:1.1.32, REQID:2fa55461-6189-4a51-950b-3fbfd28f5c8c, IP:15,
+ UR
+ L:0,TC:0,Content:0,EDM:0,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+ :release,TS:0
+X-CID-META: VersionHash:5f78ec9, CLOUDID:17d2e428-cb22-4fa7-8134-287af20ad1fc,
+ B
+ ulkID:231025165717V3CMEEAR,BulkQuantity:1,Recheck:0,SF:44|66|38|24|17|19|1
+ 02,TC:nil,Content:0,EDM:-3,IP:-2,URL:0,File:nil,Bulk:40,QS:nil,BEC:nil,COL
+ :0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-CID-FACTOR: TF_CID_SPAM_FSD,TF_CID_SPAM_FSI,TF_CID_SPAM_SNR,TF_CID_SPAM_FAS
+X-UUID: cfc91cf648804cd0a5769e53c694496e-20231025
+X-User: chentao@kylinos.cn
+Received: from vt.. [(116.128.244.169)] by mailgw
+ (envelope-from <chentao@kylinos.cn>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1174103866; Wed, 25 Oct 2023 16:58:50 +0800
+From: Kunwu Chan <chentao@kylinos.cn>
+To: laurentiu.palcu@oss.nxp.com, l.stach@pengutronix.de,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, daniel@ffwll.ch, shawnguo@kernel.org,
+ s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
+ linux-imx@nxp.com
+Subject: [PATCH] drm/imx: Spelling fix in comment
+Date: Wed, 25 Oct 2023 16:58:37 +0800
+Message-Id: <20231025085837.35330-1-chentao@kylinos.cn>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="tcuh3gisjtvmugdz"
-Content-Disposition: inline
-In-Reply-To: <789aaf2b-4d68-4128-b8ff-c1ba4849e141@redhat.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,185 +59,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Sumit Semwal <sumit.semwal@linaro.org>,
- linaro-mm-sig@lists.linaro.org, Christian Koenig <christian.koenig@amd.com>,
- linux-media@vger.kernel.org
+Cc: Kunwu Chan <chentao@kylinos.cn>, kunwu.chan@hotmail.com,
+ linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+fix a misspelling of "concurrent".
 
---tcuh3gisjtvmugdz
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Kunwu Chan <chentao@kylinos.cn>
+---
+ drivers/gpu/drm/imx/dcss/dcss-ctxld.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Hi,
+diff --git a/drivers/gpu/drm/imx/dcss/dcss-ctxld.c b/drivers/gpu/drm/imx/dcss/dcss-ctxld.c
+index 3a84cb3209c4..28727a8cb7e3 100644
+--- a/drivers/gpu/drm/imx/dcss/dcss-ctxld.c
++++ b/drivers/gpu/drm/imx/dcss/dcss-ctxld.c
+@@ -82,7 +82,7 @@ struct dcss_ctxld {
+ 	bool in_use;
+ 	bool armed;
+ 
+-	spinlock_t lock; /* protects concurent access to private data */
++	spinlock_t lock; /* protects concurrent access to private data */
+ };
+ 
+ static irqreturn_t dcss_ctxld_irq_handler(int irq, void *data)
+-- 
+2.34.1
 
-On Tue, Oct 24, 2023 at 07:14:25PM +0200, Marco Pagani wrote:
-> >> +static void drm_gem_shmem_test_obj_create_private(struct kunit *test)
-> >> +{
-> >> +	struct fake_dev *fdev =3D test->priv;
-> >> +	struct drm_gem_shmem_object *shmem;
-> >> +	struct drm_gem_object *gem_obj;
-> >> +	struct dma_buf buf_mock;
-> >> +	struct dma_buf_attachment attach_mock;
-> >> +	struct sg_table *sgt;
-> >> +	char *buf;
-> >> +	int ret;
-> >> +
-> >> +	/* Create a mock scatter/gather table */
-> >> +	buf =3D kunit_kzalloc(test, TEST_SIZE, GFP_KERNEL);
-> >> +	KUNIT_ASSERT_NOT_NULL(test, buf);
-> >> +
-> >> +	sgt =3D kzalloc(sizeof(*sgt), GFP_KERNEL);
-> >> +	KUNIT_ASSERT_NOT_NULL(test, sgt);
-> >> +
-> >> +	ret =3D sg_alloc_table(sgt, 1, GFP_KERNEL);
-> >> +	KUNIT_ASSERT_EQ(test, ret, 0);
-> >> +	sg_init_one(sgt->sgl, buf, TEST_SIZE);
-> >> +
-> >> +	/* Init a mock DMA-BUF */
-> >> +	buf_mock.size =3D TEST_SIZE;
-> >> +	attach_mock.dmabuf =3D &buf_mock;
-> >> +
-> >> +	gem_obj =3D drm_gem_shmem_prime_import_sg_table(&fdev->drm_dev, &att=
-ach_mock, sgt);
-> >> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, gem_obj);
-> >> +	KUNIT_ASSERT_EQ(test, gem_obj->size, TEST_SIZE);
-> >> +	KUNIT_ASSERT_NULL(test, gem_obj->filp);
-> >> +	KUNIT_ASSERT_NOT_NULL(test, gem_obj->funcs);
-> >> +
-> >> +	shmem =3D to_drm_gem_shmem_obj(gem_obj);
-> >> +	KUNIT_ASSERT_PTR_EQ(test, shmem->sgt, sgt);
-> >> +
-> >> +	/* The scatter/gather table is freed by drm_gem_shmem_free */
-> >> +	drm_gem_shmem_free(shmem);
-> >> +}
-> >=20
-> > KUNIT_ASSERT_* will stop the execution of the test on failure, you
-> > should probably use a bit more of KUNIT_EXPECT_* calls otherwise you'll
-> > leak resources.
-> >=20
-> > You also probably want to use a kunit_action to clean up and avoid that
-> > whole discussion
-> >
->=20
-> You are right. I slightly prefer using KUnit expectations (unless actions
-> are strictly necessary) since I feel using actions makes test cases a bit
-> less straightforward to understand. Is this okay for you?
-
-I disagree. Actions make it easier to reason about, even when comparing
-assertion vs expectation
-
-Like, for the call to sg_alloc_table and
-drm_gem_shmem_prime_import_sg_table(), the reasonable use of assert vs
-expect would be something like:
-
-sgt =3D kzalloc(sizeof(*sgt), GFP_KERNEL);
-KUNIT_ASSERT_NOT_NULL(test, sgt);
-
-ret =3D sg_alloc_table(sgt, 1, GFP_KERNEL);
-KUNIT_ASSERT_EQ(test, ret, 0);
-
-/*
- * Here, it's already not super clear whether you want to expect vs
- * assert. expect will make you handle the failure case later, assert will
- * force you to call kfree on sgt. Both kind of suck in their own ways.
- */
-
-sg_init_one(sgt->sgl, buf, TEST_SIZE);
-
-gem_obj =3D drm_gem_shmem_prime_import_sg_table(&fdev->drm_dev, &attach_moc=
-k, sgt);
-KUNIT_ASSERT_NOT_ERR_OR_NULL(test, gem_obj);
-
-/*
- * If the assert fails, we forgot to call sg_free_table(sgt) and kfree(sgt).
- */
-
-KUNIT_EXPECT_EQ(test, gem_obj->size, TEST_SIZE);
-KUNIT_EXPECT_NULL(test, gem_obj->filp);
-KUNIT_EXPECT_NOT_NULL(test, gem_obj->funcs);
-
-/*
- * And here we have to handle the case where the expectation was wrong,
- * but the test still continued.
- */
-
-But if you're not using an action, you still have to call kfree(sgt),
-which means that you might still
-
-shmem =3D to_drm_gem_shmem_obj(gem_obj);
-KUNIT_ASSERT_PTR_EQ(test, shmem->sgt, sgt);
-
-/*
- * If the assertion fails, we now have to call drm_gem_shmem_free(shmem)
- */
-
-/* The scatter/gather table is freed by drm_gem_shmem_free */
-drm_gem_shmem_free(shmem);
-
-/* everything's fine now */
-
-The semantics around drm_gem_shmem_free make it a bit convoluted, but
-doing it using goto/labels, plus handling the assertions and error
-reporting would be difficult.
-
-Using actions, we have:
-
-sgt =3D kzalloc(sizeof(*sgt), GFP_KERNEL);
-KUNIT_ASSERT_NOT_NULL(test, sgt);
-
-ret =3D kunit_add_action_or_reset(test, kfree_wrapper, sgt);
-KUNIT_ASSERT_EQ(test, ret, 0);
-
-ret =3D sg_alloc_table(sgt, 1, GFP_KERNEL);
-KUNIT_ASSERT_EQ(test, ret, 0);
-
-ret =3D kunit_add_action_or_reset(test, sg_free_table_wrapper, sgt);
-KUNIT_ASSERT_EQ(test, ret, 0);
-
-sg_init_one(sgt->sgl, buf, TEST_SIZE);
-
-gem_obj =3D drm_gem_shmem_prime_import_sg_table(&fdev->drm_dev, &attach_moc=
-k, sgt);
-KUNIT_ASSERT_NOT_ERR_OR_NULL(test, gem_obj);
-KUNIT_EXPECT_EQ(test, gem_obj->size, TEST_SIZE);
-KUNIT_EXPECT_NULL(test, gem_obj->filp);
-KUNIT_EXPECT_NOT_NULL(test, gem_obj->funcs);
-
-/* drm_gem_shmem_free will free the struct sg_table itself */
-kunit_remove_action(test, sg_free_table_wrapper, sgt);
-kunit_remove_action(test, kfree_wrapper, sgt);
-
-shmem =3D to_drm_gem_shmem_obj(gem_obj);
-KUNIT_ASSERT_PTR_EQ(test, shmem->sgt, sgt);
-
-ret =3D kunit_add_action_or_reset(test, drm_gem_shmem_free_wrapper, shmem);
-KUNIT_ASSERT_EQ(test, ret, 0);
-
-The last one is arguable, but for the previous ones it makes error
-handling much more convenient and easy to reason about.
-
-The wrappers are also a bit inconvenient to use, but it's mostly there
-to avoid a compiler warning at the moment.
-
-This patch will help hopefully:
-https://lore.kernel.org/linux-kselftest/20230915050125.3609689-1-davidgow@g=
-oogle.com/
-
-Maxime
-
---tcuh3gisjtvmugdz
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZTjVJAAKCRDj7w1vZxhR
-xYdGAQDkxKhWaor5tcnx6YjSfUKy3qxOyvKwHBkTrnr3ZiZJhgD/ciezUk1mtw77
-8KroW1oLeeULoY/vcRzY1uB96jxR5Ac=
-=fbyv
------END PGP SIGNATURE-----
-
---tcuh3gisjtvmugdz--
