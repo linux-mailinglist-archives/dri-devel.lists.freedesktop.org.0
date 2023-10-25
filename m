@@ -2,33 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDB4D7D6262
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Oct 2023 09:24:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5E2A7D625B
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Oct 2023 09:24:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C5E7C10E564;
-	Wed, 25 Oct 2023 07:24:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2276A10E55B;
+	Wed, 25 Oct 2023 07:24:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from michel.telenet-ops.be (michel.telenet-ops.be
- [IPv6:2a02:1800:110:4::f00:18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B7C1A10E565
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be
+ [IPv6:2a02:1800:120:4::f00:13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 44DEB10E55B
  for <dri-devel@lists.freedesktop.org>; Wed, 25 Oct 2023 07:24:05 +0000 (UTC)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:7faa:e55:54a:cff])
- by michel.telenet-ops.be with bizsmtp
- id 27Q32B00P5Uc89d067Q391; Wed, 25 Oct 2023 09:24:03 +0200
+ by baptiste.telenet-ops.be with bizsmtp
+ id 27Q32B0015Uc89d017Q3fe; Wed, 25 Oct 2023 09:24:03 +0200
 Received: from rox.of.borg ([192.168.97.57])
  by ramsan.of.borg with esmtp (Exim 4.95)
- (envelope-from <geert@linux-m68k.org>) id 1qvYFA-007ScA-6p;
+ (envelope-from <geert@linux-m68k.org>) id 1qvYFA-007ScD-7e;
  Wed, 25 Oct 2023 09:24:03 +0200
 Received: from geert by rox.of.borg with local (Exim 4.95)
- (envelope-from <geert@linux-m68k.org>) id 1qvYFH-00Bs6L-1u;
+ (envelope-from <geert@linux-m68k.org>) id 1qvYFH-00Bs6Q-2j;
  Wed, 25 Oct 2023 09:24:03 +0200
 From: Geert Uytterhoeven <geert@linux-m68k.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH libdrm v3 5/9] modetest: add support for parsing big-endian
- formats
-Date: Wed, 25 Oct 2023 09:23:45 +0200
-Message-Id: <8549657b8830013a317aeedcabd69ab77571ed9a.1698217235.git.geert@linux-m68k.org>
+Subject: [PATCH libdrm v3 6/9] util: add test pattern support for big-endian
+ XRGB1555/RGB565
+Date: Wed, 25 Oct 2023 09:23:46 +0200
+Message-Id: <886c8b6cf12f6c9a66d2dbc811f8dd1a58b019dc.1698217235.git.geert@linux-m68k.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1698217235.git.geert@linux-m68k.org>
 References: <cover.1698217235.git.geert@linux-m68k.org>
@@ -50,81 +50,156 @@ Cc: Geert Uytterhoeven <geert@linux-m68k.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When specifying a frame buffer format like "RG16_BE" (big-endian RG16),
-modetest still uses the little-endian variant, as the format string is
-truncated to four characters.
+Add support for drawing the SMPTE and tiles test patterns in buffers
+using big-endian formats.
 
-Fix this by increasing the format string size to 8 bytes (7 characters +
-NUL terminator).
+For now this is limited to XRGB1555 and RGB565, which are the most
+common big-endian formats.
 
 Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
 ---
 v3:
-  - Update for suffix change from "be" to "_BE", cfr. commit
-    ffb9375a505700ad ("xf86drm: handle DRM_FORMAT_BIG_ENDIAN in
-    drmGetFormatName()"),
-  - Replace hardcoded numbers in code by sizeof(),
+  - Increase indentation after definition of cpu_to_be16(),
 
 v2:
   - New.
 ---
- tests/modetest/modetest.c | 15 +++++++++------
- 1 file changed, 9 insertions(+), 6 deletions(-)
+ tests/util/pattern.c | 31 +++++++++++++++++++++----------
+ 1 file changed, 21 insertions(+), 10 deletions(-)
 
-diff --git a/tests/modetest/modetest.c b/tests/modetest/modetest.c
-index 9b1aa537be8716cf..cc96015f4a555dd3 100644
---- a/tests/modetest/modetest.c
-+++ b/tests/modetest/modetest.c
-@@ -817,7 +817,7 @@ struct pipe_arg {
- 	unsigned int num_cons;
- 	uint32_t crtc_id;
- 	char mode_str[64];
--	char format_str[5];
-+	char format_str[8]; /* need to leave room for "_BE" and terminating \0 */
- 	float vrefresh;
- 	unsigned int fourcc;
- 	drmModeModeInfo *mode;
-@@ -841,7 +841,7 @@ struct plane_arg {
- 	unsigned int old_fb_id;
- 	struct bo *bo;
- 	struct bo *old_bo;
--	char format_str[5]; /* need to leave room for terminating \0 */
-+	char format_str[8]; /* need to leave room for "_BE" and terminating \0 */
- 	unsigned int fourcc;
- };
+diff --git a/tests/util/pattern.c b/tests/util/pattern.c
+index 89e79277c53fe1fe..1eee384f4c611d24 100644
+--- a/tests/util/pattern.c
++++ b/tests/util/pattern.c
+@@ -23,6 +23,7 @@
+  * IN THE SOFTWARE.
+  */
  
-@@ -2032,8 +2032,9 @@ static int parse_connector(struct pipe_arg *pipe, const char *arg)
- 	}
++#include <stdbool.h>
+ #include <stdint.h>
+ #include <stdio.h>
+ #include <stdlib.h>
+@@ -75,13 +76,17 @@ static inline uint32_t swap32(uint32_t x)
+ }
  
- 	if (*p == '@') {
--		strncpy(pipe->format_str, p + 1, 4);
--		pipe->format_str[4] = '\0';
-+		len = sizeof(pipe->format_str) - 1;
-+		strncpy(pipe->format_str, p + 1, len);
-+		pipe->format_str[len] = '\0';
- 	}
+ #if defined(__BIG_ENDIAN__) || defined(__ARM_BIG_ENDIAN) || defined(__mc68000__) || defined(__MIPSEB__) || defined(__s390__) || defined(__sparc__)
++#define cpu_to_be16(x)			(x)
+ #define cpu_to_le16(x)			swap16(x)
+ #define cpu_to_le32(x)			swap32(x)
+ #else
++#define cpu_to_be16(x)			swap16(x)
+ #define cpu_to_le16(x)			(x)
+ #define cpu_to_le32(x)			(x)
+ #endif
  
- 	pipe->fourcc = util_format_fourcc(pipe->format_str);
-@@ -2047,6 +2048,7 @@ static int parse_connector(struct pipe_arg *pipe, const char *arg)
++#define cpu_to_fb16(x)	(fb_be ? cpu_to_be16(x) : cpu_to_le16(x))
++
+ /* This function takes 8-bit color values */
+ static inline uint32_t shiftcolor8(const struct util_color_component *comp,
+ 				  uint32_t value)
+@@ -382,7 +387,7 @@ static void fill_smpte_yuv_packed(const struct util_yuv_info *yuv, void *mem,
  
- static int parse_plane(struct plane_arg *plane, const char *p)
+ static void fill_smpte_rgb16(const struct util_rgb_info *rgb, void *mem,
+ 			     unsigned int width, unsigned int height,
+-			     unsigned int stride)
++			     unsigned int stride, bool fb_be)
  {
-+	unsigned int len;
- 	char *end;
+ 	const uint16_t colors_top[] = {
+ 		MAKE_RGBA(rgb, 192, 192, 192, 255),	/* grey */
+@@ -417,26 +422,26 @@ static void fill_smpte_rgb16(const struct util_rgb_info *rgb, void *mem,
  
- 	plane->plane_id = strtoul(p, &end, 10);
-@@ -2085,8 +2087,9 @@ static int parse_plane(struct plane_arg *plane, const char *p)
+ 	for (y = 0; y < height * 6 / 9; ++y) {
+ 		for (x = 0; x < width; ++x)
+-			((uint16_t *)mem)[x] = cpu_to_le16(colors_top[x * 7 / width]);
++			((uint16_t *)mem)[x] = cpu_to_fb16(colors_top[x * 7 / width]);
+ 		mem += stride;
  	}
  
- 	if (*end == '@') {
--		strncpy(plane->format_str, end + 1, 4);
--		plane->format_str[4] = '\0';
-+		len = sizeof(plane->format_str) - 1;
-+		strncpy(plane->format_str, end + 1, len);
-+		plane->format_str[len] = '\0';
- 	} else {
- 		strcpy(plane->format_str, "XR24");
+ 	for (; y < height * 7 / 9; ++y) {
+ 		for (x = 0; x < width; ++x)
+-			((uint16_t *)mem)[x] = cpu_to_le16(colors_middle[x * 7 / width]);
++			((uint16_t *)mem)[x] = cpu_to_fb16(colors_middle[x * 7 / width]);
+ 		mem += stride;
  	}
+ 
+ 	for (; y < height; ++y) {
+ 		for (x = 0; x < width * 5 / 7; ++x)
+ 			((uint16_t *)mem)[x] =
+-				cpu_to_le16(colors_bottom[x * 4 / (width * 5 / 7)]);
++				cpu_to_fb16(colors_bottom[x * 4 / (width * 5 / 7)]);
+ 		for (; x < width * 6 / 7; ++x)
+ 			((uint16_t *)mem)[x] =
+-				cpu_to_le16(colors_bottom[(x - width * 5 / 7) * 3
++				cpu_to_fb16(colors_bottom[(x - width * 5 / 7) * 3
+ 							  / (width / 7) + 4]);
+ 		for (; x < width; ++x)
+-			((uint16_t *)mem)[x] = cpu_to_le16(colors_bottom[7]);
++			((uint16_t *)mem)[x] = cpu_to_fb16(colors_bottom[7]);
+ 		mem += stride;
+ 	}
+ }
+@@ -1089,9 +1094,11 @@ static void fill_smpte(const struct util_format_info *info, void *planes[3],
+ 	case DRM_FORMAT_BGRA4444:
+ 	case DRM_FORMAT_BGRX4444:
+ 	case DRM_FORMAT_RGB565:
++	case DRM_FORMAT_RGB565 | DRM_FORMAT_BIG_ENDIAN:
+ 	case DRM_FORMAT_BGR565:
+ 	case DRM_FORMAT_ARGB1555:
+ 	case DRM_FORMAT_XRGB1555:
++	case DRM_FORMAT_XRGB1555 | DRM_FORMAT_BIG_ENDIAN:
+ 	case DRM_FORMAT_ABGR1555:
+ 	case DRM_FORMAT_XBGR1555:
+ 	case DRM_FORMAT_RGBA5551:
+@@ -1099,7 +1106,8 @@ static void fill_smpte(const struct util_format_info *info, void *planes[3],
+ 	case DRM_FORMAT_BGRA5551:
+ 	case DRM_FORMAT_BGRX5551:
+ 		return fill_smpte_rgb16(&info->rgb, planes[0],
+-					width, height, stride);
++					width, height, stride,
++					info->format & DRM_FORMAT_BIG_ENDIAN);
+ 
+ 	case DRM_FORMAT_BGR888:
+ 	case DRM_FORMAT_RGB888:
+@@ -1271,7 +1279,7 @@ static void fill_tiles_yuv_packed(const struct util_format_info *info,
+ 
+ static void fill_tiles_rgb16(const struct util_format_info *info, void *mem,
+ 			     unsigned int width, unsigned int height,
+-			     unsigned int stride)
++			     unsigned int stride, bool fb_be)
+ {
+ 	const struct util_rgb_info *rgb = &info->rgb;
+ 	void *mem_base = mem;
+@@ -1287,7 +1295,7 @@ static void fill_tiles_rgb16(const struct util_format_info *info, void *mem,
+ 					  (rgb32 >> 8) & 0xff, rgb32 & 0xff,
+ 					  255);
+ 
+-			((uint16_t *)mem)[x] = cpu_to_le16(color);
++			((uint16_t *)mem)[x] = cpu_to_fb16(color);
+ 		}
+ 		mem += stride;
+ 	}
+@@ -1411,9 +1419,11 @@ static void fill_tiles(const struct util_format_info *info, void *planes[3],
+ 	case DRM_FORMAT_BGRA4444:
+ 	case DRM_FORMAT_BGRX4444:
+ 	case DRM_FORMAT_RGB565:
++	case DRM_FORMAT_RGB565 | DRM_FORMAT_BIG_ENDIAN:
+ 	case DRM_FORMAT_BGR565:
+ 	case DRM_FORMAT_ARGB1555:
+ 	case DRM_FORMAT_XRGB1555:
++	case DRM_FORMAT_XRGB1555 | DRM_FORMAT_BIG_ENDIAN:
+ 	case DRM_FORMAT_ABGR1555:
+ 	case DRM_FORMAT_XBGR1555:
+ 	case DRM_FORMAT_RGBA5551:
+@@ -1421,7 +1431,8 @@ static void fill_tiles(const struct util_format_info *info, void *planes[3],
+ 	case DRM_FORMAT_BGRA5551:
+ 	case DRM_FORMAT_BGRX5551:
+ 		return fill_tiles_rgb16(info, planes[0],
+-					width, height, stride);
++					width, height, stride,
++					info->format & DRM_FORMAT_BIG_ENDIAN);
+ 
+ 	case DRM_FORMAT_BGR888:
+ 	case DRM_FORMAT_RGB888:
 -- 
 2.34.1
 
