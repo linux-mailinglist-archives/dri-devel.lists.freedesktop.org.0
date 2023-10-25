@@ -2,91 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FB207D6352
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Oct 2023 09:35:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3980A7D6355
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Oct 2023 09:35:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4B1E10E57C;
-	Wed, 25 Oct 2023 07:35:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4640110E56D;
+	Wed, 25 Oct 2023 07:35:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
- [IPv6:2a00:1450:4864:20::42f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 00E3910E57C
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Oct 2023 07:35:18 +0000 (UTC)
-Received: by mail-wr1-x42f.google.com with SMTP id
- ffacd0b85a97d-32dd70c5401so3565486f8f.0
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Oct 2023 00:35:18 -0700 (PDT)
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
+ [IPv6:2a00:1450:4864:20::12a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4BDC810E56D
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Oct 2023 07:35:47 +0000 (UTC)
+Received: by mail-lf1-x12a.google.com with SMTP id
+ 2adb3069b0e04-507bd19eac8so7864781e87.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Oct 2023 00:35:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1698219317; x=1698824117; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=5z/V4Jmy9kuxnbn3ouk6FBjzE9CgTURmmBJt5Ad2jiY=;
- b=x3aobW40KHeKSOPypNb2fObTY3FDyL9ETEKfyXH27cuwn/uNJwhmYnvOGc/3cIKL8H
- eaFACKpLyNzEbzFn+MfIpN/5ker8alM151HbrDVaaTzN42/U8v1xx4M4FfqEycjXKO0S
- 8HzcE3KEkyHzBINArTHeJBrIIAxio2scpzUWy+GF2EFi2kPDvgFFG7rqOgG1Qm83U7ny
- dxA9XL1dotGuvaKzRi3TpuHl0KBUue45c57JDLAOcmX8vnLvZ1KX6viw9gn7VhQwh3h1
- i/omhZxlp3Bbb1Thim/2gXRZivMB9TnAfjzyO9Ygn6tYF4ibSgPWbstxH7OoUDja0N0L
- T59g==
+ d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1698219345; x=1698824145;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=aBbMMGXhgW9dj85vLrlAsi/scxI5pUmqL1hVksSIORg=;
+ b=j58jT9mRszrc4veZ+Bu9s0/U8RIMHzfsB+rFs9hv+Dbyoqz8HBLxaTejYlpWWIP/fj
+ gyHjZ8rKxUEfD9XIyANxA8Mh5Xd4eK5SeAxuoOZg91T2lDlHFfZiesMIiChiQ+hHZzf3
+ r37APAuuOdeeKZJVNgKMFj4obus9g0yRi2QNdOHJEIUAyCdIua0oenIhBzzhMQwbgXzp
+ N0egWF9CIUPTdMpE4YFSBTcuwlO9GzDf+ooINAQUDv+F9XD+D4eK0tIw2AH0NUVhrhub
+ LlOLgpvpfo9YjDPzY88gFw93j1RXk2KqFQqBZrUEDguMPzQzf9oDxEOtmoayMTQd/1QD
+ NJ+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1698219317; x=1698824117;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=5z/V4Jmy9kuxnbn3ouk6FBjzE9CgTURmmBJt5Ad2jiY=;
- b=wKI5U4CUvPvYqRvH6XkaLQDw+nFtzI1jY8EtT0PCiwZaRhGhIkSpEEAkNVs7xruQ+j
- MuqQnhZuKabyGTdlF+WG3OAXjAo46sBzzDo/7gizFC9N5lLU1KYxOCR/HxPMV0bShjhq
- VudyiwKtuIttpjhCas2SfTx1H6ly2qbJj8TB0SRFF3OBrjFK9uS0tubwBsxbiFJSk4Ec
- 6gicMLTTMmU8DIUZabNzL4hMn+lcsrUn0lw3P5JB4GZSCy4+TGqZmFqkwT8DMyVMmKRT
- km4dnWALjxUiYctGssMhgy6nBzB2vvlfpaUT49TAwDwwq/AkL17YiMzEEOeusKOROKyf
- pJWA==
-X-Gm-Message-State: AOJu0YwORGMbLiHLHrqftTlWj5Iu8Lx7LZBF/nPCbZue0vDuHD9KSXxn
- T98yjrn905L/tnSj0v6SDtj//w==
-X-Google-Smtp-Source: AGHT+IE5zyDvAyehklMpJ1ZEUwAbRzg6PLLJ4r41F8kakjZ1hGGNicIg9kP4MsQSpO+6DvjHlvWxgQ==
-X-Received: by 2002:a5d:67c5:0:b0:32d:b9c5:82fb with SMTP id
- n5-20020a5d67c5000000b0032db9c582fbmr10037908wrw.30.1698219317422; 
- Wed, 25 Oct 2023 00:35:17 -0700 (PDT)
-Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
+ d=1e100.net; s=20230601; t=1698219345; x=1698824145;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=aBbMMGXhgW9dj85vLrlAsi/scxI5pUmqL1hVksSIORg=;
+ b=s3FQT/7nKd1at0Mpkme57mWh3U3gx/ViTxbX1eaE/zPg8vM19kFFdHOBVUEQt4LfhO
+ 0Iil8DYJmw5dvG5JQrhsGwDkoRRkA9X0Ds2iAD26/ohBdSTGO9P4gc0ouxhw0rS9SK7q
+ DJa8z10k6gtDiAujdYrW3NrmmJIS3yR9+5BUbmpVFa4XjdDOEftSr1X1MtUd+L91Nu9y
+ 8g8Lcs5NR92ZbM6dMFei8WnEBMWM/ZdyES7/R05t3Ed+F1UejEuz6h6/DkaXTJL5Ze4Y
+ gFJwF6if3yCu81kh//4B4dsuVnJGiHV1IblkLAohezjHRh6KoyRxawScNBnY3COuLpMB
+ 6lZQ==
+X-Gm-Message-State: AOJu0Yz3HP1y7ADn6v14Fkfezw00Vpf5nL82lb0T7fDSAdXJNiy4FJuN
+ fCLyAT6kxy8CQKjflbZpbRV9jw==
+X-Google-Smtp-Source: AGHT+IGfDcK6b789W6RGHEquV5YMHBAiCzfv/Rctz+XtFqNQN0vhdNvDDXE2hLiVtblka3kNhM2IfQ==
+X-Received: by 2002:ac2:5147:0:b0:507:9777:a34a with SMTP id
+ q7-20020ac25147000000b005079777a34amr10168194lfd.39.1698219345170; 
+ Wed, 25 Oct 2023 00:35:45 -0700 (PDT)
+Received: from [192.168.1.172] ([93.5.22.158])
  by smtp.gmail.com with ESMTPSA id
- x18-20020a5d60d2000000b003248a490e3asm11449058wrt.39.2023.10.25.00.35.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Oct 2023 00:35:16 -0700 (PDT)
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Date: Wed, 25 Oct 2023 09:35:06 +0200
-Subject: [PATCH 8/8] drm/msm: dsi: add support for DSI 2.8.0
+ h15-20020a05600c350f00b003fe1fe56202sm13962243wmq.33.2023.10.25.00.35.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 25 Oct 2023 00:35:44 -0700 (PDT)
+Message-ID: <d7d40b45-ca7c-4f84-bdb3-02555094126b@baylibre.com>
+Date: Wed, 25 Oct 2023 09:35:43 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 05/18] dt-bindings: display: mediatek: dsi: add binding
+ for MT8365 SoC
+Content-Language: en-US
+To: Rob Herring <robh@kernel.org>
+References: <20231023-display-support-v1-0-5c860ed5c33b@baylibre.com>
+ <20231023-display-support-v1-5-5c860ed5c33b@baylibre.com>
+ <20231024203010.GA518520-robh@kernel.org>
+From: Alexandre Mergnat <amergnat@baylibre.com>
+In-Reply-To: <20231024203010.GA518520-robh@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20231025-topic-sm8650-upstream-mdss-v1-8-bb219b8c7a51@linaro.org>
-References: <20231025-topic-sm8650-upstream-mdss-v1-0-bb219b8c7a51@linaro.org>
-In-Reply-To: <20231025-topic-sm8650-upstream-mdss-v1-0-bb219b8c7a51@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, Jonathan Marek <jonathan@marek.ca>, 
- Krishna Manikandan <quic_mkrishn@quicinc.com>
-X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2106;
- i=neil.armstrong@linaro.org; h=from:subject:message-id;
- bh=0yTTxYhVn2OwUhlFrykG9TyQLX4KleetjzQPvdPaNCE=;
- b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBlOMUoKLkNIC0plpTG8eAgW09BRrCnILlvA5niTNpw
- 8X6TYmKJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCZTjFKAAKCRB33NvayMhJ0QDhD/
- 9PTVjrCJUYTDE+PBfqY1lyYKPJqK/UFS51fCg5PPHBX2ZHtBLT/xO+uCr9k902qMhFZYm07vODeIEN
- CbxMb6NmFMoHqfMV4Xn5r9lKSQsQzmfhwhTbZlNf+2G6s0dwmZnKde01l+jJurrq4HFPl+P15J7vp5
- UmLWGA+3AG5iRHIm+FxKhTZ1P8RGwuKm03LB8QXSdiuvVNtpofdCT7H4EdU86xDyZp/8TU9fouYC/v
- pniJ4sgVi5ESVKu5xOjEWhzK5a1P/uFenfM8Ab0q/MofAlv5lZndIKZjo84LsFcbvZof7/THY2pm2T
- V1vB3YxIeNzhkM+hhELyzcSzimR71fzY4zfinl8cljz61aggfrRRe2We8x8jofoVQXmpSLpK5X6Jum
- KJKqQ608tJ1HLyedpJ+UIzzOYZoLYTC1+ml9hg8oTddd8PIvm/mxOc3wLRsnQWRRgYApfZq6hsEJUO
- AxjhwryeBeeaBvptdtNlTZKEfjQ8DG/aWA6pFa6FUEj8fA+ubM8FrY7AnAlaC+lxtaFaYMRpGXD9M4
- gM4nQbFz7uzmtM/Cng2l8iroXuwSIWURZKNnKWU3mBTA/Nh5CCRgX+BD4LW3UwmE4rDrX3RYfQnz31
- 0E8BlRbvtcpo1WZXwJDBJnT7M+rnxQA5QQl/W6KIkp3cfiQpLaLY372wlWlQ==
-X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
- fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,68 +79,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, devicetree@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Jitao Shi <jitao.shi@mediatek.com>, Xinlei Lee <xinlei.lee@mediatek.com>,
+ devicetree@vger.kernel.org, Catalin Marinas <catalin.marinas@arm.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-pwm@vger.kernel.org, Will Deacon <will@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>, linux-mediatek@lists.infradead.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-arm-kernel@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add DSI Controller version 2.8.0 support for the SM8650 platform.
 
-Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
----
- drivers/gpu/drm/msm/dsi/dsi_cfg.c | 17 +++++++++++++++++
- drivers/gpu/drm/msm/dsi/dsi_cfg.h |  1 +
- 2 files changed, 18 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/dsi/dsi_cfg.c b/drivers/gpu/drm/msm/dsi/dsi_cfg.c
-index 1f98ff74ceb0..10ba7d153d1c 100644
---- a/drivers/gpu/drm/msm/dsi/dsi_cfg.c
-+++ b/drivers/gpu/drm/msm/dsi/dsi_cfg.c
-@@ -190,6 +190,21 @@ static const struct msm_dsi_config sm8550_dsi_cfg = {
- 	},
- };
- 
-+static const struct regulator_bulk_data sm8650_dsi_regulators[] = {
-+	{ .supply = "vdda", .init_load_uA = 16600 },	/* 1.2 V */
-+};
-+
-+static const struct msm_dsi_config sm8650_dsi_cfg = {
-+	.io_offset = DSI_6G_REG_SHIFT,
-+	.regulator_data = sm8650_dsi_regulators,
-+	.num_regulators = ARRAY_SIZE(sm8650_dsi_regulators),
-+	.bus_clk_names = dsi_v2_4_clk_names,
-+	.num_bus_clks = ARRAY_SIZE(dsi_v2_4_clk_names),
-+	.io_start = {
-+		{ 0xae94000, 0xae96000 },
-+	},
-+};
-+
- static const struct regulator_bulk_data sc7280_dsi_regulators[] = {
- 	{ .supply = "vdda", .init_load_uA = 8350 },	/* 1.2 V */
- 	{ .supply = "refgen" },
-@@ -281,6 +296,8 @@ static const struct msm_dsi_cfg_handler dsi_cfg_handlers[] = {
- 		&sdm845_dsi_cfg, &msm_dsi_6g_v2_host_ops},
- 	{MSM_DSI_VER_MAJOR_6G, MSM_DSI_6G_VER_MINOR_V2_7_0,
- 		&sm8550_dsi_cfg, &msm_dsi_6g_v2_host_ops},
-+	{MSM_DSI_VER_MAJOR_6G, MSM_DSI_6G_VER_MINOR_V2_8_0,
-+		&sm8650_dsi_cfg, &msm_dsi_6g_v2_host_ops},
- };
- 
- const struct msm_dsi_cfg_handler *msm_dsi_cfg_get(u32 major, u32 minor)
-diff --git a/drivers/gpu/drm/msm/dsi/dsi_cfg.h b/drivers/gpu/drm/msm/dsi/dsi_cfg.h
-index 43f0dd74edb6..4c9b4b37681b 100644
---- a/drivers/gpu/drm/msm/dsi/dsi_cfg.h
-+++ b/drivers/gpu/drm/msm/dsi/dsi_cfg.h
-@@ -28,6 +28,7 @@
- #define MSM_DSI_6G_VER_MINOR_V2_5_0	0x20050000
- #define MSM_DSI_6G_VER_MINOR_V2_6_0	0x20060000
- #define MSM_DSI_6G_VER_MINOR_V2_7_0	0x20070000
-+#define MSM_DSI_6G_VER_MINOR_V2_8_0	0x20080000
- 
- #define MSM_DSI_V2_VER_MINOR_8064	0x0
- 
+On 24/10/2023 22:30, Rob Herring wrote:
+> On Mon, Oct 23, 2023 at 04:40:05PM +0200, Alexandre Mergnat wrote:
+>> Display Serial Interface for MT8365 is compatible with another SoC.
+>> Then, add MT8365 binding along with MT8183 SoC.
+>>
+>> Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
+>> ---
+>>   Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.yaml | 2 ++
+>>   1 file changed, 2 insertions(+)
+>>
+>> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.yaml
+>> index 12441b937684..2479b9e4abd2 100644
+>> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.yaml
+>> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.yaml
+>> @@ -34,6 +34,8 @@ properties:
+>>             - enum:
+>>                 - mediatek,mt6795-dsi
+>>             - const: mediatek,mt8173-dsi
+>> +              - mediatek,mt8365-dsi
+> 
+> Not valid YAML nor json-schema. Please test your series before sending.
+
+The serie has been successfully tested with the 2 following command 
+before being sent:
+
+make DT_CHECKER_FLAGS=-m dt_binding_check DT_SCHEMA_FILES=mediatek,dsi.yaml
+
+dt-validate -s Documentation/devicetree/bindings 
+arch/arm64/boot/dts/mediatek/mt8365-evk.dtb
+
+
+I made a rebase error, that will be fixed for the next revision thanks.
+
+> 
+>> +          - const: mediatek,mt8183-dsi
+>>   
+>>     reg:
+>>       maxItems: 1
+>>
+>> -- 
+>> 2.25.1
+>>
 
 -- 
-2.34.1
-
+Regards,
+Alexandre
