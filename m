@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 856E47D6722
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Oct 2023 11:44:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E3687D6726
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Oct 2023 11:44:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D52810E621;
-	Wed, 25 Oct 2023 09:44:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5FB5910E625;
+	Wed, 25 Oct 2023 09:44:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B768F10E61F
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Oct 2023 09:43:53 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A2C3A10E621
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Oct 2023 09:43:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1698227033; x=1729763033;
+ t=1698227037; x=1729763037;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=tevUJ2UIdPVMdGjtXQzE+hWWXQdt7+ThcKeIQZsHJBY=;
- b=X03fmf7rbqydW9SYg27xqkDoWRhOYj2M0DucJfETs9PwgrqdmOJsKQtE
- x+zuHGF0W2mEo6yaVvl18ObeFODAnkwHHl//7jMXcsg1Va7hGiERFcERJ
- I0pbPoz1klcnD3xX3U2b8Thb8dSvLXiAJMTYCQkrFYEZOTte2FusNO839
- HdfaKPyPnCd6EQQIdehRhoLp/4s/EEZdHMX0wai/wgIVfTeB0PxWFQkqE
- 11wN+KuTkU/l27GhbEQ74am23UFTu509EPdd3chfhBcFtaduTmL1xv9As
- ZwBpCRs0YD1dmcg/PuqgZwfYMNJ5C/fqOJkEEJTq1xrqD+G+1o3cEEXof Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="451498822"
-X-IronPort-AV: E=Sophos;i="6.03,250,1694761200"; d="scan'208";a="451498822"
+ bh=hZXnSdWR8LXRWq3/k6LxsCNXGFbJJmhxFvpS3g7ii30=;
+ b=K/c4D1cHJ1sYfU0vXIW8pU20S3w4nM6MYk6iZeXawJyzc/cw8w3UPI2W
+ whFw3na4JEcF6yYN0psrY+SP4iy5QL8o3U2SUR++gHJlgnSvo1YJMO6eO
+ cZHAOwQems+CfoElpLwLUiSRaKsqmOL1UrNKlEC49BCqyrPMFkZlFVTPe
+ ZOddBOuUFhOnw9EqrY4zSs8tZmhdhhxFABuWWXxFaDLCoLg59iW/5S3pY
+ Gs0lI78x+oX3qK4l5hHydQUtnEZx7RH6pYHaEgEhI4ECaZBRc81F757u+
+ YDOVkrIbzq06PpFUS6DpbcWu5Z0rRagw/t6s2KKBIjWb0D+LhPps7BCq4 w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="451498831"
+X-IronPort-AV: E=Sophos;i="6.03,250,1694761200"; d="scan'208";a="451498831"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Oct 2023 02:43:53 -0700
+ 25 Oct 2023 02:43:57 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="882401156"
-X-IronPort-AV: E=Sophos;i="6.03,250,1694761200"; d="scan'208";a="882401156"
+X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="882401168"
+X-IronPort-AV: E=Sophos;i="6.03,250,1694761200"; d="scan'208";a="882401168"
 Received: from joe-255.igk.intel.com (HELO localhost) ([10.91.220.57])
  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Oct 2023 02:43:51 -0700
+ 25 Oct 2023 02:43:55 -0700
 From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 06/11] accel/ivpu: Change test_mode module param to bitmask
-Date: Wed, 25 Oct 2023 11:43:18 +0200
-Message-Id: <20231025094323.989987-7-stanislaw.gruszka@linux.intel.com>
+Subject: [PATCH 07/11] accel/ivpu: Introduce ivpu_ipc_send_receive_active()
+Date: Wed, 25 Oct 2023 11:43:19 +0200
+Message-Id: <20231025094323.989987-8-stanislaw.gruszka@linux.intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20231025094323.989987-1-stanislaw.gruszka@linux.intel.com>
 References: <20231025094323.989987-1-stanislaw.gruszka@linux.intel.com>
@@ -66,81 +66,96 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Karol Wachowski <karol.wachowski@linux.intel.com>
 
-Change meaning of test_mode module parameter from integer value
-to bitmask allowing setting different test features with corresponding
-bits.
+Split ivpu_ipc_send_receive() implementation to have a version
+that does not call pm_runtime_resume_and_get(). That implementation
+can be invoked when device is up and runtime resume is prohibited
+(for example at the end of boot sequence).
 
 Signed-off-by: Karol Wachowski <karol.wachowski@linux.intel.com>
 Reviewed-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 ---
- drivers/accel/ivpu/ivpu_drv.c | 4 ++--
- drivers/accel/ivpu/ivpu_drv.h | 7 +++----
- drivers/accel/ivpu/ivpu_job.c | 4 ++--
- 3 files changed, 7 insertions(+), 8 deletions(-)
+ drivers/accel/ivpu/ivpu_ipc.c | 33 ++++++++++++++++++++++-----------
+ drivers/accel/ivpu/ivpu_ipc.h |  8 +++++---
+ 2 files changed, 27 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/accel/ivpu/ivpu_drv.c b/drivers/accel/ivpu/ivpu_drv.c
-index 2a58fb1e2fcc..4dbfd05680ce 100644
---- a/drivers/accel/ivpu/ivpu_drv.c
-+++ b/drivers/accel/ivpu/ivpu_drv.c
-@@ -39,7 +39,7 @@ MODULE_PARM_DESC(dbg_mask, "Driver debug mask. See IVPU_DBG_* macros.");
+diff --git a/drivers/accel/ivpu/ivpu_ipc.c b/drivers/accel/ivpu/ivpu_ipc.c
+index a4ca40b184d4..962b3bcca460 100644
+--- a/drivers/accel/ivpu/ivpu_ipc.c
++++ b/drivers/accel/ivpu/ivpu_ipc.c
+@@ -285,23 +285,20 @@ ivpu_ipc_send_receive_internal(struct ivpu_device *vdev, struct vpu_jsm_msg *req
+ 	return ret;
+ }
  
- int ivpu_test_mode;
- module_param_named_unsafe(test_mode, ivpu_test_mode, int, 0644);
--MODULE_PARM_DESC(test_mode, "Test mode: 0 - disabled , 1 - fw unit test, 2 - null hw, 3 - null submission");
-+MODULE_PARM_DESC(test_mode, "Test mode mask. See IVPU_TEST_MODE_* macros.");
+-int ivpu_ipc_send_receive(struct ivpu_device *vdev, struct vpu_jsm_msg *req,
+-			  enum vpu_ipc_msg_type expected_resp_type,
+-			  struct vpu_jsm_msg *resp, u32 channel,
+-			  unsigned long timeout_ms)
++int ivpu_ipc_send_receive_active(struct ivpu_device *vdev, struct vpu_jsm_msg *req,
++				 enum vpu_ipc_msg_type expected_resp, struct vpu_jsm_msg *resp,
++				 u32 channel, unsigned long timeout_ms)
+ {
+ 	struct vpu_jsm_msg hb_req = { .type = VPU_JSM_MSG_QUERY_ENGINE_HB };
+ 	struct vpu_jsm_msg hb_resp;
+ 	int ret, hb_ret;
  
- u8 ivpu_pll_min_ratio;
- module_param_named(pll_min_ratio, ivpu_pll_min_ratio, byte, 0644);
-@@ -315,7 +315,7 @@ static int ivpu_wait_for_ready(struct ivpu_device *vdev)
- 	unsigned long timeout;
- 	int ret;
+-	ret = ivpu_rpm_get(vdev);
+-	if (ret < 0)
+-		return ret;
++	drm_WARN_ON(&vdev->drm,
++		    vdev->drm.dev->power.runtime_status == RPM_SUSPENDED);
  
--	if (ivpu_test_mode == IVPU_TEST_MODE_FW_TEST)
-+	if (ivpu_test_mode & IVPU_TEST_MODE_FW_TEST)
- 		return 0;
+-	ret = ivpu_ipc_send_receive_internal(vdev, req, expected_resp_type, resp,
+-					     channel, timeout_ms);
++	ret = ivpu_ipc_send_receive_internal(vdev, req, expected_resp, resp, channel, timeout_ms);
+ 	if (ret != -ETIMEDOUT)
+-		goto rpm_put;
++		return ret;
  
- 	ivpu_ipc_consumer_add(vdev, &cons, IVPU_IPC_CHAN_BOOT_MSG);
-diff --git a/drivers/accel/ivpu/ivpu_drv.h b/drivers/accel/ivpu/ivpu_drv.h
-index 267e03a5edf4..5432b5ee90df 100644
---- a/drivers/accel/ivpu/ivpu_drv.h
-+++ b/drivers/accel/ivpu/ivpu_drv.h
-@@ -148,10 +148,9 @@ extern u8 ivpu_pll_min_ratio;
- extern u8 ivpu_pll_max_ratio;
- extern bool ivpu_disable_mmu_cont_pages;
+ 	hb_ret = ivpu_ipc_send_receive_internal(vdev, &hb_req, VPU_JSM_MSG_QUERY_ENGINE_HB_DONE,
+ 						&hb_resp, VPU_IPC_CHAN_ASYNC_CMD,
+@@ -311,7 +308,21 @@ int ivpu_ipc_send_receive(struct ivpu_device *vdev, struct vpu_jsm_msg *req,
+ 		ivpu_pm_schedule_recovery(vdev);
+ 	}
  
--#define IVPU_TEST_MODE_DISABLED        0
--#define IVPU_TEST_MODE_FW_TEST         1
--#define IVPU_TEST_MODE_NULL_HW         2
--#define IVPU_TEST_MODE_NULL_SUBMISSION 3
-+#define IVPU_TEST_MODE_FW_TEST         BIT(0)
-+#define IVPU_TEST_MODE_NULL_HW         BIT(1)
-+#define IVPU_TEST_MODE_NULL_SUBMISSION BIT(2)
- extern int ivpu_test_mode;
+-rpm_put:
++	return ret;
++}
++
++int ivpu_ipc_send_receive(struct ivpu_device *vdev, struct vpu_jsm_msg *req,
++			  enum vpu_ipc_msg_type expected_resp, struct vpu_jsm_msg *resp,
++			  u32 channel, unsigned long timeout_ms)
++{
++	int ret;
++
++	ret = ivpu_rpm_get(vdev);
++	if (ret < 0)
++		return ret;
++
++	ret = ivpu_ipc_send_receive_active(vdev, req, expected_resp, resp, channel, timeout_ms);
++
+ 	ivpu_rpm_put(vdev);
+ 	return ret;
+ }
+diff --git a/drivers/accel/ivpu/ivpu_ipc.h b/drivers/accel/ivpu/ivpu_ipc.h
+index 68f5b6668e00..6918db23daa4 100644
+--- a/drivers/accel/ivpu/ivpu_ipc.h
++++ b/drivers/accel/ivpu/ivpu_ipc.h
+@@ -85,9 +85,11 @@ int ivpu_ipc_receive(struct ivpu_device *vdev, struct ivpu_ipc_consumer *cons,
+ 		     struct ivpu_ipc_hdr *ipc_buf, struct vpu_jsm_msg *ipc_payload,
+ 		     unsigned long timeout_ms);
  
- struct ivpu_file_priv *ivpu_file_priv_get(struct ivpu_file_priv *file_priv);
-diff --git a/drivers/accel/ivpu/ivpu_job.c b/drivers/accel/ivpu/ivpu_job.c
-index 646b8f812901..6e96c921547d 100644
---- a/drivers/accel/ivpu/ivpu_job.c
-+++ b/drivers/accel/ivpu/ivpu_job.c
-@@ -196,7 +196,7 @@ static int ivpu_cmdq_push_job(struct ivpu_cmdq *cmdq, struct ivpu_job *job)
- 	entry->batch_buf_addr = job->cmd_buf_vpu_addr;
- 	entry->job_id = job->job_id;
- 	entry->flags = 0;
--	if (unlikely(ivpu_test_mode == IVPU_TEST_MODE_NULL_SUBMISSION))
-+	if (unlikely(ivpu_test_mode & IVPU_TEST_MODE_NULL_SUBMISSION))
- 		entry->flags = VPU_JOB_FLAGS_NULL_SUBMISSION_MASK;
- 	wmb(); /* Ensure that tail is updated after filling entry */
- 	header->tail = next_entry;
-@@ -404,7 +404,7 @@ static int ivpu_direct_job_submission(struct ivpu_job *job)
- 		 job->job_id, job->cmd_buf_vpu_addr, file_priv->ctx.id,
- 		 job->engine_idx, cmdq->jobq->header.tail);
++int ivpu_ipc_send_receive_active(struct ivpu_device *vdev, struct vpu_jsm_msg *req,
++				 enum vpu_ipc_msg_type expected_resp, struct vpu_jsm_msg *resp,
++				 u32 channel, unsigned long timeout_ms);
+ int ivpu_ipc_send_receive(struct ivpu_device *vdev, struct vpu_jsm_msg *req,
+-			  enum vpu_ipc_msg_type expected_resp_type,
+-			  struct vpu_jsm_msg *resp, u32 channel,
+-			  unsigned long timeout_ms);
++			  enum vpu_ipc_msg_type expected_resp, struct vpu_jsm_msg *resp,
++			  u32 channel, unsigned long timeout_ms);
  
--	if (ivpu_test_mode == IVPU_TEST_MODE_NULL_HW) {
-+	if (ivpu_test_mode & IVPU_TEST_MODE_NULL_HW) {
- 		ivpu_job_done(vdev, job->job_id, VPU_JSM_STATUS_SUCCESS);
- 		cmdq->jobq->header.head = cmdq->jobq->header.tail;
- 		wmb(); /* Flush WC buffer for jobq header */
+ #endif /* __IVPU_IPC_H__ */
 -- 
 2.25.1
 
