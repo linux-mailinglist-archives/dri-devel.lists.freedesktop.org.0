@@ -2,36 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 235637D6993
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Oct 2023 12:54:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D1A07D6989
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Oct 2023 12:53:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B33410E63F;
-	Wed, 25 Oct 2023 10:54:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC79510E63A;
+	Wed, 25 Oct 2023 10:53:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fd01.gateway.ufhost.com (fd01.gateway.ufhost.com
  [61.152.239.71])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8F8E910E63F
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Oct 2023 10:54:12 +0000 (UTC)
-Received: from EXMBX165.cuchost.com (unknown [175.102.18.54])
+ by gabe.freedesktop.org (Postfix) with ESMTP id AC93110E63A
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Oct 2023 10:53:12 +0000 (UTC)
+Received: from EXMBX166.cuchost.com (unknown [175.102.18.54])
  (using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
- (Client CN "EXMBX165", Issuer "EXMBX165" (not verified))
- by fd01.gateway.ufhost.com (Postfix) with ESMTP id 386FC828C;
+ (Client CN "EXMBX166", Issuer "EXMBX166" (not verified))
+ by fd01.gateway.ufhost.com (Postfix) with ESMTP id 9330F83D4;
  Wed, 25 Oct 2023 18:39:59 +0800 (CST)
-Received: from EXMBX061.cuchost.com (172.16.6.61) by EXMBX165.cuchost.com
- (172.16.6.75) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Wed, 25 Oct
+Received: from EXMBX061.cuchost.com (172.16.6.61) by EXMBX166.cuchost.com
+ (172.16.6.76) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Wed, 25 Oct
  2023 18:39:59 +0800
 Received: from xiaofei.localdomain (180.164.60.184) by EXMBX061.cuchost.com
  (172.16.6.61) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Wed, 25 Oct
- 2023 18:39:58 +0800
+ 2023 18:39:59 +0800
 From: Keith Zhao <keith.zhao@starfivetech.com>
 To: <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
  <linux-kernel@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
  <linux-media@vger.kernel.org>, <linaro-mm-sig@lists.linaro.org>
-Subject: [PATCH v2 2/6] riscv: dts: starfive: jh7110: add dc controller and
- hdmi node
-Date: Wed, 25 Oct 2023 18:39:53 +0800
-Message-ID: <20231025103957.3776-3-keith.zhao@starfivetech.com>
+Subject: [PATCH v2 3/6] drm/fourcc: Add drm/vs tiled modifiers
+Date: Wed, 25 Oct 2023 18:39:54 +0800
+Message-ID: <20231025103957.3776-4-keith.zhao@starfivetech.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20231025103957.3776-1-keith.zhao@starfivetech.com>
 References: <20231025103957.3776-1-keith.zhao@starfivetech.com>
@@ -70,187 +69,90 @@ Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add the dc controller and hdmi node for the Starfive JH7110 SoC.
+For each modifier, add the corresponding description
 
 Signed-off-by: Keith Zhao <keith.zhao@starfivetech.com>
 ---
- .../jh7110-starfive-visionfive-2.dtsi         | 91 +++++++++++++++++++
- arch/riscv/boot/dts/starfive/jh7110.dtsi      | 41 +++++++++
- 2 files changed, 132 insertions(+)
+ include/uapi/drm/drm_fourcc.h | 57 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 57 insertions(+)
 
-diff --git a/arch/riscv/boot/dts/starfive/jh7110-starfive-visionfive-2.dt=
-si b/arch/riscv/boot/dts/starfive/jh7110-starfive-visionfive-2.dtsi
-index de0f40a8b..97909b6d2 100644
---- a/arch/riscv/boot/dts/starfive/jh7110-starfive-visionfive-2.dtsi
-+++ b/arch/riscv/boot/dts/starfive/jh7110-starfive-visionfive-2.dtsi
-@@ -31,6 +31,25 @@ memory@40000000 {
- 		reg =3D <0x0 0x40000000 0x1 0x0>;
- 	};
+diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.=
+h
+index 8db7fd3f7..a580a848c 100644
+--- a/include/uapi/drm/drm_fourcc.h
++++ b/include/uapi/drm/drm_fourcc.h
+@@ -419,6 +419,7 @@ extern "C" {
+ #define DRM_FORMAT_MOD_VENDOR_ARM     0x08
+ #define DRM_FORMAT_MOD_VENDOR_ALLWINNER 0x09
+ #define DRM_FORMAT_MOD_VENDOR_AMLOGIC 0x0a
++#define DRM_FORMAT_MOD_VENDOR_VERISILICON 0x0b
 =20
-+	reserved-memory {
-+		#address-cells =3D <2>;
-+		#size-cells =3D <2>;
-+		ranges;
-+
-+		/* vout applies for space from this CMA
-+		 * Without this CMA reservation,
-+		 * vout may not work properly.
-+		 */
-+		linux,cma {
-+			compatible =3D "shared-dma-pool";
-+			reusable;
-+			size =3D <0x0 0x20000000>;
-+			alignment =3D <0x0 0x1000>;
-+			alloc-ranges =3D <0x0 0x70000000 0x0 0x20000000>;
-+			linux,cma-default;
-+		};
-+	};
-+
- 	gpio-restart {
- 		compatible =3D "gpio-restart";
- 		gpios =3D <&sysgpio 35 GPIO_ACTIVE_HIGH>;
-@@ -231,6 +250,41 @@ GPOEN_DISABLE,
- 			slew-rate =3D <0>;
- 		};
- 	};
-+
-+	hdmi_pins: hdmi-0 {
-+		hdmi-scl-pins {
-+			pinmux =3D <GPIOMUX(0, GPOUT_SYS_HDMI_DDC_SCL,
-+					     GPOEN_SYS_HDMI_DDC_SCL,
-+					     GPI_SYS_HDMI_DDC_SCL)>;
-+			input-enable;
-+			bias-pull-up;
-+		};
-+
-+		hdmi-sda-pins {
-+			pinmux =3D <GPIOMUX(1, GPOUT_SYS_HDMI_DDC_SDA,
-+					     GPOEN_SYS_HDMI_DDC_SDA,
-+					     GPI_SYS_HDMI_DDC_SDA)>;
-+			input-enable;
-+			bias-pull-up;
-+		};
-+
-+		hdmi-cec-pins {
-+			pinmux =3D <GPIOMUX(14, GPOUT_SYS_HDMI_CEC_SDA,
-+					     GPOEN_SYS_HDMI_CEC_SDA,
-+					     GPI_SYS_HDMI_CEC_SDA)>;
-+			input-enable;
-+			bias-pull-up;
-+		};
-+
-+		hdmi-hpd-pins {
-+			pinmux =3D <GPIOMUX(15, GPOUT_HIGH,
-+					     GPOEN_ENABLE,
-+					     GPI_SYS_HDMI_HPD)>;
-+			input-enable;
-+			bias-disable; /* external pull-up */
-+		};
-+	};
-+
- };
+ /* add more to the end as needed */
 =20
- &uart0 {
-@@ -254,3 +308,40 @@ &U74_3 {
- &U74_4 {
- 	cpu-supply =3D <&vdd_cpu>;
- };
-+
-+&voutcrg {
-+	status =3D "okay";
-+};
-+
-+&display {
-+	status =3D "okay";
-+};
-+
-+&hdmi {
-+	status =3D "okay";
-+	pinctrl-names =3D "default";
-+	pinctrl-0 =3D <&hdmi_pins>;
-+
-+	hdmi_in: port {
-+		#address-cells =3D <1>;
-+		#size-cells =3D <0>;
-+		hdmi_in_dc: endpoint@0 {
-+			reg =3D <0>;
-+			remote-endpoint =3D <&dc_out_hdmi>;
-+		};
-+	};
-+};
-+
-+&dc8200 {
-+	status =3D "okay";
-+
-+	dc_out: port {
-+		#address-cells =3D <1>;
-+		#size-cells =3D <0>;
-+		dc_out_hdmi: endpoint@0 {
-+			reg =3D <0>;
-+			remote-endpoint =3D <&hdmi_in_dc>;
-+		};
-+
-+	};
-+};
-diff --git a/arch/riscv/boot/dts/starfive/jh7110.dtsi b/arch/riscv/boot/d=
-ts/starfive/jh7110.dtsi
-index 0005fa163..1670452fb 100644
---- a/arch/riscv/boot/dts/starfive/jh7110.dtsi
-+++ b/arch/riscv/boot/dts/starfive/jh7110.dtsi
-@@ -282,6 +282,11 @@ tdm_ext: tdm-ext-clock {
- 		#clock-cells =3D <0>;
- 	};
+@@ -1562,6 +1563,62 @@ drm_fourcc_canonicalize_nvidia_format_mod(__u64 mo=
+difier)
+ #define AMD_FMT_MOD_CLEAR(field) \
+ 	(~((__u64)AMD_FMT_MOD_##field##_MASK << AMD_FMT_MOD_##field##_SHIFT))
 =20
-+	display: display-subsystem {
-+		compatible =3D "starfive,display-subsystem";
-+		ports =3D <&dc_out>;
-+	};
++#define DRM_FORMAT_MOD_VERISILICON_TYPE_NORMAL					0x00
++#define DRM_FORMAT_MOD_VERISILICON_TYPE_MASK					((__u64)0x3 << 54)
 +
- 	soc {
- 		compatible =3D "simple-bus";
- 		interrupt-parent =3D <&plic>;
-@@ -613,5 +618,41 @@ voutcrg: clock-controller@295c0000 {
- 			#reset-cells =3D <1>;
- 			power-domains =3D <&pwrc JH7110_PD_VOUT>;
- 		};
++#define fourcc_mod_vs_code(type, val) \
++	fourcc_mod_code(VERISILICON, ((((__u64)type) << 54) | (val)))
 +
-+		dc8200: lcd-controller@29400000 {
-+			compatible =3D "starfive,jh7110-dc8200";
-+			reg =3D <0x0 0x29400000 0x0 0x100>,
-+			      <0x0 0x29400800 0x0 0x2000>;
-+			interrupts =3D <95>;
-+			clocks =3D <&syscrg JH7110_SYSCLK_NOC_BUS_DISP_AXI>,
-+				<&voutcrg JH7110_VOUTCLK_DC8200_PIX0>,
-+				<&voutcrg JH7110_VOUTCLK_DC8200_PIX1>,
-+				<&voutcrg JH7110_VOUTCLK_DC8200_CORE>,
-+				<&voutcrg JH7110_VOUTCLK_DC8200_AXI>,
-+				<&voutcrg JH7110_VOUTCLK_DC8200_AHB>,
-+				<&hdmitx0_pixelclk>,
-+				<&voutcrg JH7110_VOUTCLK_DC8200_PIX>;
-+			clock-names =3D "noc_bus", "channel0", "channel1",
-+				      "dc_core", "axi_core", "ahb",
-+				      "hdmi_tx", "dc_parent";
-+			resets =3D <&voutcrg JH7110_VOUTRST_DC8200_AXI>,
-+				 <&voutcrg JH7110_VOUTRST_DC8200_AHB>,
-+				 <&voutcrg JH7110_VOUTRST_DC8200_CORE>;
-+			reset-names =3D "axi","ahb", "core";
-+		};
++#define DRM_FORMAT_MOD_VERISILICON_NORM_MODE_MASK				0x1F
 +
-+		hdmi: hdmi@29590000 {
-+			compatible =3D "starfive,jh7110-inno-hdmi";
-+			reg =3D <0x0 0x29590000 0x0 0x4000>;
-+			interrupts =3D <99>;
++/*
++ * An x-major 8x8 super tile consists of 64 8x8 sub-tiles in total.
++ * Each 8x8 sub-tile consists of four standard tiles .
++ * standard tiles (see Vivante 4x4 tiling layout)
++ */
++#define DRM_FORMAT_MOD_VERISILICON_SUPER_TILED_XMAJOR_8X8		0x02
 +
-+			clocks =3D <&voutcrg JH7110_VOUTCLK_HDMI_TX_SYS>,
-+				 <&voutcrg JH7110_VOUTCLK_HDMI_TX_MCLK>,
-+				 <&voutcrg JH7110_VOUTCLK_HDMI_TX_BCLK>,
-+				 <&hdmitx0_pixelclk>;
-+			clock-names =3D "sysclk", "mclk", "bclk", "pclk";
-+			resets =3D <&voutcrg JH7110_VOUTRST_HDMI_TX_HDMI>;
-+			#sound-dai-cells =3D <0>;
-+		};
- 	};
- };
++/*
++ * A y-major 8x8 super tile consists of 64 8x8 sub-tiles in total.
++ * Each 8x8 sub-tile consists of four standard tiles .
++ * standard tiles (see Vivante 4x4 tiling layout)
++ */
++#define DRM_FORMAT_MOD_VERISILICON_SUPER_TILED_YMAJOR_8X8		0x03
++
++/*
++ * An 8x8 tile consists of four standard tiles
++ * that are organized in Z-order.
++ * standard tiles (see Vivante 4x4 tiling layout)
++ */
++#define DRM_FORMAT_MOD_VERISILICON_TILE_8X8						0x04
++
++/*
++ * An 8x4 tile consists of two standard tiles
++ * that are organized in Z-order.
++ * standard tiles (see Vivante 4x4 tiling layout)
++ */
++#define DRM_FORMAT_MOD_VERISILICON_TILE_8X4						0x07
++
++/*
++ * An x-major 8x4 super tile consists of 128 8x4 sub-tiles in total.
++ * Each 8x4 sub-tile consists of two standard tiles.
++ * two standard tiles also same with DRM_FORMAT_MOD_VS_TILE_8X4
++ * standard tiles (see Vivante 4x4 tiling layout)
++ */
++#define DRM_FORMAT_MOD_VERISILICON_SUPER_TILED_XMAJOR_8X4		0x0B
++
++/*
++ * A y-major 4x8 super tile consists of 128 4x8 sub-tiles in total.
++ * Each 4x8 sub-tile consists of two standard tiles.
++ * two standard tiles also same with DRM_FORMAT_MOD_VS_TILE_8X4
++ * standard tiles (see Vivante 4x4 tiling layout)
++ */
++#define DRM_FORMAT_MOD_VERISILICON_SUPER_TILED_YMAJOR_4X8    0x0C
++
++#define fourcc_mod_vs_norm_code(tile) \
++	fourcc_mod_vs_code(DRM_FORMAT_MOD_VERISILICON_TYPE_NORMAL, \
++				(tile))
++
+ #if defined(__cplusplus)
+ }
+ #endif
 --=20
 2.34.1
 
