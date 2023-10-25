@@ -2,45 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB9E57D67E9
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Oct 2023 12:09:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05B8A7D6837
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Oct 2023 12:21:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D345210E04F;
-	Wed, 25 Oct 2023 10:09:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 08F3A10E634;
+	Wed, 25 Oct 2023 10:20:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de
- [80.237.130.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6CE4E10E04F
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Oct 2023 10:09:00 +0000 (UTC)
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
- by wp530.webpack.hosteurope.de running ExIM with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- id 1qvaom-0000sD-Kd; Wed, 25 Oct 2023 12:08:52 +0200
-Message-ID: <82f1b533-3bd8-4418-843a-718d9a6b5786@leemhuis.info>
-Date: Wed, 25 Oct 2023 12:08:51 +0200
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A80710E634
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Oct 2023 10:20:57 +0000 (UTC)
+Received: from relay7-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::227])
+ by mslow1.mail.gandi.net (Postfix) with ESMTP id CA00FCA477
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Oct 2023 10:12:00 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 2A37F20008;
+ Wed, 25 Oct 2023 10:11:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1698228716;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=jMgzyZYNsSoPrwlsfPulfu89a5fDVLfcw7ByX5WjeTo=;
+ b=ddT6BDRR9O7epnBawoXXQ8dPgmHv24ToL0cgK8xuNm0EhnMN8LW8Evwdc9RCyNyIFyGZYL
+ X/w7FYx5V3wCLGtxZSB0jtPtCapnSpYFVAEybX7yJrA39Mt0pcjoXOoRCy/nvCaAibSVYN
+ /30pYO0xrmP1Ox5TwOawuSlun9zJm+0kZmJUHWM0jsmPGBkOdSuBppCyubzAAWiPt79I2V
+ RTyw2eIGYeAq1xJcBdtdRt0LE/z9K7ZT/R4jwQH9f43QJp3bjRQIJolyY5rzLiPKIc1Vfj
+ gR5UhTv3bQJdfS91Br+he1NDv4BT8lKm6yAz64QERZcqNhTWo8f4scGALGl5rw==
+Date: Wed, 25 Oct 2023 12:11:55 +0200
+From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To: Sui Jingfeng <suijingfeng@loongson.cn>
+Subject: Re: [PATCH v2] drm/logicvc: Kconfig: select REGMAP and REGMAP_MMIO
+Message-ID: <ZTjp65yjul76zKWm@aptenodytes>
+References: <20230608024207.581401-1-suijingfeng@loongson.cn>
+ <ZIGAEZTJvq1GqFVD@aptenodytes>
+ <50fbc003-fd3c-c7c4-9c6b-76d14a0babfc@loongson.cn>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Blank screen on boot of Linux 6.5 and later on Lenovo ThinkPad
- L570
-Content-Language: en-US, de-DE
-To: Evan Preston <x.arch@epreston.net>, Huacai Chen <chenhuacai@kernel.org>
-References: <7c50e051-eba2-09fc-da9f-023d592de457@ristioja.ee>
- <31bdf7b1-0ed9-4217-b459-1d857e53120b@leemhuis.info>
- <CAAhV-H7fRpykesVUEyaTpVnFiGwpP+fPbtdrp6JwfgD=bDp06Q@mail.gmail.com>
- <CAAhV-H7XCmbgS=N4-SE8FnASAws8hnDRZsQJgXE+dwyARaqzNw@mail.gmail.com>
- <ZSO9uArAtsPMPeTP@debian.me>
- <CAAhV-H5GbidUx8YanUc7S9oGqBkDd53xeT=2O4aCuX7KpM-+8A@mail.gmail.com>
- <c9b79a69-bdc1-4457-900d-709a15d99568@leemhuis.info>
- <CAAhV-H4qQW_fOdkTxmT1xbvo4LOapzw_tOw7Kma47xmh0PvpPA@mail.gmail.com>
- <ZTWoDSPxGO-ApR4r@P70.localdomain>
-From: Thorsten Leemhuis <regressions@leemhuis.info>
-In-Reply-To: <ZTWoDSPxGO-ApR4r@P70.localdomain>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de; regressions@leemhuis.info; 1698228540;
- a4702136; 
-X-HE-SMSGID: 1qvaom-0000sD-Kd
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="XXhJRH2iPVVMBxvn"
+Content-Disposition: inline
+In-Reply-To: <50fbc003-fd3c-c7c4-9c6b-76d14a0babfc@loongson.cn>
+X-GND-Sasl: paul.kocialkowski@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,95 +54,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux regressions mailing list <regressions@lists.linux.dev>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Linux DRI Development <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Jaak Ristioja <jaak@ristioja.ee>, Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Javier, Dave, Sima,
 
-On 23.10.23 00:54, Evan Preston wrote:
-> On 2023-10-20 Fri 05:48pm, Huacai Chen wrote:
->> On Fri, Oct 20, 2023 at 5:35 PM Linux regression tracking (Thorsten
->> Leemhuis) <regressions@leemhuis.info> wrote:
->>> On 09.10.23 10:54, Huacai Chen wrote:
->>>> On Mon, Oct 9, 2023 at 4:45 PM Bagas Sanjaya <bagasdotme@gmail.com> wrote:
->>>>> On Mon, Oct 09, 2023 at 09:27:02AM +0800, Huacai Chen wrote:
->>>>>> On Tue, Sep 26, 2023 at 10:31 PM Huacai Chen <chenhuacai@kernel.org> wrote:
->>>>>>> On Tue, Sep 26, 2023 at 7:15 PM Linux regression tracking (Thorsten
->>>>>>> Leemhuis) <regressions@leemhuis.info> wrote:
->>>>>>>> On 13.09.23 14:02, Jaak Ristioja wrote:
->>>>>>>>>
->>>>>>>>> Upgrading to Linux 6.5 on a Lenovo ThinkPad L570 (Integrated Intel HD
->>>>>>>>> Graphics 620 (rev 02), Intel(R) Core(TM) i7-7500U) results in a blank
->>>>>>>>> screen after boot until the display manager starts... if it does start
->>>>>>>>> at all. Using the nomodeset kernel parameter seems to be a workaround.
->>>>>>>>>
->>>>>>>>> I've bisected this to commit 60aebc9559492cea6a9625f514a8041717e3a2e4
->>>>>>>>> ("drivers/firmware: Move sysfb_init() from device_initcall to
->>>>>>>>> subsys_initcall_sync").
->>>>>>>>
->>>>>> As confirmed by Jaak, disabling DRM_SIMPLEDRM makes things work fine
->>>>>> again. So I guess the reason:
->>>
->>> Well, this to me still looks a lot (please correct me if I'm wrong) like
->>> regression that should be fixed, as DRM_SIMPLEDRM was enabled beforehand
->>> if I understood things correctly. Or is there a proper fix for this
->>> already in the works and I just missed this? Or is there some good
->>> reason why this won't/can't be fixed?
->>
->> DRM_SIMPLEDRM was enabled but it didn't work at all because there was
->> no corresponding platform device. Now DRM_SIMPLEDRM works but it has a
->> blank screen. Of course it is valuable to investigate further about
->> DRM_SIMPLEDRM on Jaak's machine, but that needs Jaak's effort because
->> I don't have a same machine.
+--XXhJRH2iPVVMBxvn
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Side note: Huacai, have you tried working with Jaak to get down to the
-real problem? Evan, might you be able to help out here?
+Hi,
 
-But I write this mail for a different reason:
+On Tue 20 Jun 23, 11:56, Sui Jingfeng wrote:
+> Hi,
+>=20
+> On 2023/6/8 15:15, Paul Kocialkowski wrote:
+> > Hi,
+> >=20
+> > On Thu 08 Jun 23, 10:42, Sui Jingfeng wrote:
+> > > drm/logicvc driver is depend on REGMAP and REGMAP_MMIO, should select=
+ this
+> > > two kconfig option, otherwise the driver failed to compile on platform
+> > > without REGMAP_MMIO selected:
+> > >=20
+> > > ERROR: modpost: "__devm_regmap_init_mmio_clk" [drivers/gpu/drm/logicv=
+c/logicvc-drm.ko] undefined!
+> > > make[1]: *** [scripts/Makefile.modpost:136: Module.symvers] Error 1
+> > > make: *** [Makefile:1978: modpost] Error 2
+> > >=20
+> > > Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
+> > Thanks for the fix, looks good to me!
+> >=20
+> > Acked-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+>=20
+> Thanks a lot,
+>=20
+> Please don't forget to push this to drm-misc or drm-tip if you has the ti=
+me,
+> as (even though trivial) it's precious for me.
 
-> I am having the same issue on a Lenovo Thinkpad P70 (Intel 
-> Corporation HD Graphics 530 (rev 06), Intel(R) Core(TM) i7-6700HQ).
-> Upgrading from Linux 6.4.12 to 6.5 and later results in only a blank
-> screen after boot and a rapidly flashing device-access-status
-> indicator.
+So I totally forgot about this and only pushed it to drm-misc-fixes now.
+Sincere apologies for this.
 
-This additional report makes me wonder if we should revert the culprit
-(60aebc9559492c ("drivers/firmware: Move sysfb_init() from
-device_initcall to subsys_initcall_sync") [v6.5-rc1]). But I guess that
-might lead to regressions for some users? But the patch description says
-that this is not a common configuration, so can we maybe get away with that?
+Thanks again for spotting this issue and submitting the fix.
 
-Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
---
-Everything you wanna know about Linux kernel regression tracking:
-https://linux-regtracking.leemhuis.info/about/#tldr
-If I did something stupid, please tell me, as explained on that page.
+Paul
 
->>>>>> When SIMPLEDRM takes over the framebuffer, the screen is blank (don't
->>>>>> know why). And before 60aebc9559492cea6a9625f ("drivers/firmware: Move
->>>>>> sysfb_init() from device_initcall to subsys_initcall_sync") there is
->>>>>> no platform device created for SIMPLEDRM at early stage, so it seems
->>>>>> also "no problem".
->>>>> I don't understand above. You mean that after that commit the platform
->>>>> device is also none, right?
->>>> No. The SIMPLEDRM driver needs a platform device to work, and that
->>>> commit makes the platform device created earlier. So, before that
->>>> commit, SIMPLEDRM doesn't work, but the screen isn't blank; after that
->>>> commit, SIMPLEDRM works, but the screen is blank.
->>>>
->>>> Huacai
->>>>>
->>>>> Confused...
->>>>>
->>>>> --
->>>>> An old man doll... just what I always wanted! - Clara
->>>>
->>>>
-> 
-> 
+>=20
+>=20
+> > Cheers,
+> >=20
+> > Paul
+> >=20
+> > > ---
+> > >   drivers/gpu/drm/logicvc/Kconfig | 2 ++
+> > >   1 file changed, 2 insertions(+)
+> > >=20
+> > > diff --git a/drivers/gpu/drm/logicvc/Kconfig b/drivers/gpu/drm/logicv=
+c/Kconfig
+> > > index fa7a88368809..1df22a852a23 100644
+> > > --- a/drivers/gpu/drm/logicvc/Kconfig
+> > > +++ b/drivers/gpu/drm/logicvc/Kconfig
+> > > @@ -5,5 +5,7 @@ config DRM_LOGICVC
+> > >   	select DRM_KMS_HELPER
+> > >   	select DRM_KMS_DMA_HELPER
+> > >   	select DRM_GEM_DMA_HELPER
+> > > +	select REGMAP
+> > > +	select REGMAP_MMIO
+> > >   	help
+> > >   	  DRM display driver for the logiCVC programmable logic block from=
+ Xylon
+> > > --=20
+> > > 2.25.1
+> > >=20
+> --=20
+> Jingfeng
+>=20
+
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+--XXhJRH2iPVVMBxvn
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmU46esACgkQ3cLmz3+f
+v9EH4gf/VK82kGc+gRu4ZBrSXUXxeldKDvts/KckGQ3xfUFQ76tKkHrR56m40o27
+TxykXP+jx3dTssP2hl89LmWVGdpTml8xE7raVAsat3HoVoXz56hEffNIUVxwRjzJ
+V9NuRUjaYK9VIuxC55XNAFVPTnKkYNFAdIc7I8YfjJIRQkNdbFW6IuA2rcmyp+ir
+zgZJ7Kfw3tG2TGIKGCoVAIwlU7mfMSTSzNjAsl/sH82QRaVAGaIDo9FTpfv3z15/
+c9DH6C97RPl6jh3cMulCbSuc6Q63kudr5SnDsQXyDpGw++QzaAl+r4OjwQCl7F5M
+n6iaNFoVMEH085TZ4SPwba0I2ZqkDA==
+=GJ09
+-----END PGP SIGNATURE-----
+
+--XXhJRH2iPVVMBxvn--
