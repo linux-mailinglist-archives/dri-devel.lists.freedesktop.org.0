@@ -1,34 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E14917D625C
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Oct 2023 09:24:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CDB4D7D6262
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Oct 2023 09:24:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 64EAF10E55E;
-	Wed, 25 Oct 2023 07:24:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C5E7C10E564;
+	Wed, 25 Oct 2023 07:24:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from albert.telenet-ops.be (albert.telenet-ops.be
- [IPv6:2a02:1800:110:4::f00:1a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 79CC510E560
+Received: from michel.telenet-ops.be (michel.telenet-ops.be
+ [IPv6:2a02:1800:110:4::f00:18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B7C1A10E565
  for <dri-devel@lists.freedesktop.org>; Wed, 25 Oct 2023 07:24:05 +0000 (UTC)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:7faa:e55:54a:cff])
- by albert.telenet-ops.be with bizsmtp
- id 27Q32B00P5Uc89d067Q3Ef; Wed, 25 Oct 2023 09:24:03 +0200
+ by michel.telenet-ops.be with bizsmtp
+ id 27Q32B00P5Uc89d067Q391; Wed, 25 Oct 2023 09:24:03 +0200
 Received: from rox.of.borg ([192.168.97.57])
  by ramsan.of.borg with esmtp (Exim 4.95)
- (envelope-from <geert@linux-m68k.org>) id 1qvYFA-007Sc6-65;
+ (envelope-from <geert@linux-m68k.org>) id 1qvYFA-007ScA-6p;
  Wed, 25 Oct 2023 09:24:03 +0200
 Received: from geert by rox.of.borg with local (Exim 4.95)
- (envelope-from <geert@linux-m68k.org>) id 1qvYFH-00Bs6H-1E;
+ (envelope-from <geert@linux-m68k.org>) id 1qvYFH-00Bs6L-1u;
  Wed, 25 Oct 2023 09:24:03 +0200
 From: Geert Uytterhoeven <geert@linux-m68k.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH libdrm v3 4/9] util: add missing big-endian RGB16 frame buffer
+Subject: [PATCH libdrm v3 5/9] modetest: add support for parsing big-endian
  formats
-Date: Wed, 25 Oct 2023 09:23:44 +0200
-Message-Id: <5a955fc570177e417c49763df0249969065f9331.1698217235.git.geert@linux-m68k.org>
+Date: Wed, 25 Oct 2023 09:23:45 +0200
+Message-Id: <8549657b8830013a317aeedcabd69ab77571ed9a.1698217235.git.geert@linux-m68k.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1698217235.git.geert@linux-m68k.org>
 References: <cover.1698217235.git.geert@linux-m68k.org>
@@ -50,33 +50,81 @@ Cc: Geert Uytterhoeven <geert@linux-m68k.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+When specifying a frame buffer format like "RG16_BE" (big-endian RG16),
+modetest still uses the little-endian variant, as the format string is
+truncated to four characters.
+
+Fix this by increasing the format string size to 8 bytes (7 characters +
+NUL terminator).
+
 Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
 ---
 v3:
   - Update for suffix change from "be" to "_BE", cfr. commit
     ffb9375a505700ad ("xf86drm: handle DRM_FORMAT_BIG_ENDIAN in
     drmGetFormatName()"),
+  - Replace hardcoded numbers in code by sizeof(),
 
 v2:
   - New.
 ---
- tests/util/format.c | 3 +++
- 1 file changed, 3 insertions(+)
+ tests/modetest/modetest.c | 15 +++++++++------
+ 1 file changed, 9 insertions(+), 6 deletions(-)
 
-diff --git a/tests/util/format.c b/tests/util/format.c
-index b99cc9c3599d9237..376a32fe4b485238 100644
---- a/tests/util/format.c
-+++ b/tests/util/format.c
-@@ -78,6 +78,9 @@ static const struct util_format_info format_info[] = {
- 	{ DRM_FORMAT_BGRX5551, "BX15", MAKE_RGB_INFO(5, 1, 5, 6, 5, 11, 0, 0) },
- 	{ DRM_FORMAT_RGB565, "RG16", MAKE_RGB_INFO(5, 11, 6, 5, 5, 0, 0, 0) },
- 	{ DRM_FORMAT_BGR565, "BG16", MAKE_RGB_INFO(5, 0, 6, 5, 5, 11, 0, 0) },
-+	/* Big-endian RGB16 */
-+	{ DRM_FORMAT_XRGB1555 | DRM_FORMAT_BIG_ENDIAN, "XR15_BE", MAKE_RGB_INFO(5, 10, 5, 5, 5, 0, 0, 0) },
-+	{ DRM_FORMAT_RGB565 | DRM_FORMAT_BIG_ENDIAN, "RG16_BE", MAKE_RGB_INFO(5, 11, 6, 5, 5, 0, 0, 0) },
- 	/* RGB24 */
- 	{ DRM_FORMAT_BGR888, "BG24", MAKE_RGB_INFO(8, 0, 8, 8, 8, 16, 0, 0) },
- 	{ DRM_FORMAT_RGB888, "RG24", MAKE_RGB_INFO(8, 16, 8, 8, 8, 0, 0, 0) },
+diff --git a/tests/modetest/modetest.c b/tests/modetest/modetest.c
+index 9b1aa537be8716cf..cc96015f4a555dd3 100644
+--- a/tests/modetest/modetest.c
++++ b/tests/modetest/modetest.c
+@@ -817,7 +817,7 @@ struct pipe_arg {
+ 	unsigned int num_cons;
+ 	uint32_t crtc_id;
+ 	char mode_str[64];
+-	char format_str[5];
++	char format_str[8]; /* need to leave room for "_BE" and terminating \0 */
+ 	float vrefresh;
+ 	unsigned int fourcc;
+ 	drmModeModeInfo *mode;
+@@ -841,7 +841,7 @@ struct plane_arg {
+ 	unsigned int old_fb_id;
+ 	struct bo *bo;
+ 	struct bo *old_bo;
+-	char format_str[5]; /* need to leave room for terminating \0 */
++	char format_str[8]; /* need to leave room for "_BE" and terminating \0 */
+ 	unsigned int fourcc;
+ };
+ 
+@@ -2032,8 +2032,9 @@ static int parse_connector(struct pipe_arg *pipe, const char *arg)
+ 	}
+ 
+ 	if (*p == '@') {
+-		strncpy(pipe->format_str, p + 1, 4);
+-		pipe->format_str[4] = '\0';
++		len = sizeof(pipe->format_str) - 1;
++		strncpy(pipe->format_str, p + 1, len);
++		pipe->format_str[len] = '\0';
+ 	}
+ 
+ 	pipe->fourcc = util_format_fourcc(pipe->format_str);
+@@ -2047,6 +2048,7 @@ static int parse_connector(struct pipe_arg *pipe, const char *arg)
+ 
+ static int parse_plane(struct plane_arg *plane, const char *p)
+ {
++	unsigned int len;
+ 	char *end;
+ 
+ 	plane->plane_id = strtoul(p, &end, 10);
+@@ -2085,8 +2087,9 @@ static int parse_plane(struct plane_arg *plane, const char *p)
+ 	}
+ 
+ 	if (*end == '@') {
+-		strncpy(plane->format_str, end + 1, 4);
+-		plane->format_str[4] = '\0';
++		len = sizeof(plane->format_str) - 1;
++		strncpy(plane->format_str, end + 1, len);
++		plane->format_str[len] = '\0';
+ 	} else {
+ 		strcpy(plane->format_str, "XR24");
+ 	}
 -- 
 2.34.1
 
