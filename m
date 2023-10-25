@@ -1,60 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F08E7D6484
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Oct 2023 10:06:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AC9D7D64FD
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Oct 2023 10:27:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 244BB10E56E;
-	Wed, 25 Oct 2023 08:06:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 08EBD10E58E;
+	Wed, 25 Oct 2023 08:27:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x1132.google.com (mail-yw1-x1132.google.com
- [IPv6:2607:f8b0:4864:20::1132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0305C10E588
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Oct 2023 08:06:24 +0000 (UTC)
-Received: by mail-yw1-x1132.google.com with SMTP id
- 00721157ae682-5a7ac4c3666so52488477b3.3
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Oct 2023 01:06:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1698221184; x=1698825984; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=9N86T/fG3CiL6tT7DD8PpjcJ48kzS/vl5vzR+4WaF7s=;
- b=rccL5Gay4pSFhJaA9FT9SQSndBcFI7cI6Tb7L4yEUuemnbx0lyrG6F4YneWAhs50Vp
- 2GLlJgfj2+Uj3YOZqxMR5bhtxkgnGob4HNQ5FY/p+e/1CxebNNl8qUaqvz4mIluspQrU
- oy9v6FoOG7ERJUXiheNZz7AKRV6qI8PQKZGDtlj7qM/3n1NubfwVRcSO+kWshjXWz3Ys
- hZsqDP2KtljzcTQFdGgAHNfeCzXlgQVh9zKfZYRVU2+gcAZk9pGHJL7nk9sNPcEz1+Jp
- uBtSyvP/XRpZ9z7drhZlckuTuQbs9YxTvtgEI83/D3ApooAyRrf2037/us23su2tD84A
- WNnQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1698221184; x=1698825984;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=9N86T/fG3CiL6tT7DD8PpjcJ48kzS/vl5vzR+4WaF7s=;
- b=GJX3FxyktCl+sugpz9VPy2I81zsYn/F7kuJYVSxBncDFbNAHBd9DPLuZxey1RhSb9t
- O2/+88fPvdDSrP+KTFrg6tVdukAtW/LXEWcykuPyfsGEdjJXXJpP33fz/V/4Ohr64St4
- WxxV/iSMQYA5X3gL7LL6hkzxqrO25XMgqxFYro/ig75HY0D5PMkiKNqc+7sm/WwVZWpI
- FPKdbrr+m+V13siq0J61gS5AfcFXnBeDrAb+8c0LzWhInSYGuUaQlAcw+ZlnyWsd47M1
- kVSRDYyj4nD5CoMlBDxu6r4gChb+oykq48D6A5YqLhAO8XRXD8ifXkS8bcHL+gRV7dqy
- +dvA==
-X-Gm-Message-State: AOJu0YwPwvMJuv/X2HmJDHyMAPuBhNM8EYktcDb/1UpMXEKsWPH1AF2M
- iDdL82SmGrR6CrCqCxZ4tH2YXDfTutOHOkbGvdrIbA==
-X-Google-Smtp-Source: AGHT+IFOv7ktMHogTahZY8772P50C84Y6Y6IVMSF12aYBnzD0gZtk/sfInd6pg/uGamC/Q/rKxezX3XuQVgFyeYbTQ4=
-X-Received: by 2002:a0d:cb10:0:b0:5a7:c4a7:21c3 with SMTP id
- n16-20020a0dcb10000000b005a7c4a721c3mr16860297ywd.38.1698221184039; Wed, 25
- Oct 2023 01:06:24 -0700 (PDT)
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A0FA110E606
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Oct 2023 08:26:58 +0000 (UTC)
+X-UUID: 8caf84ca45df4e37a74b474e336fae37-20231025
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.32, REQID:7f8d438c-e792-4676-ad98-4a669ac0b97b, IP:5,
+ U
+ RL:0,TC:0,Content:0,EDM:0,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+ N:release,TS:-10
+X-CID-INFO: VERSION:1.1.32, REQID:7f8d438c-e792-4676-ad98-4a669ac0b97b, IP:5,
+ URL
+ :0,TC:0,Content:0,EDM:0,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+ release,TS:-10
+X-CID-META: VersionHash:5f78ec9, CLOUDID:376ae428-cb22-4fa7-8134-287af20ad1fc,
+ B
+ ulkID:231025161822M8LQ68ZN,BulkQuantity:1,Recheck:0,SF:66|38|24|17|19|44|1
+ 02,TC:nil,Content:0,EDM:-3,IP:-2,URL:0,File:nil,Bulk:40,QS:nil,BEC:nil,COL
+ :0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_FAS,TF_CID_SPAM_FSD,TF_CID_SPAM_FSI
+X-UUID: 8caf84ca45df4e37a74b474e336fae37-20231025
+X-User: chentao@kylinos.cn
+Received: from vt.. [(116.128.244.169)] by mailgw
+ (envelope-from <chentao@kylinos.cn>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1621551364; Wed, 25 Oct 2023 16:26:46 +0800
+From: Kunwu Chan <chentao@kylinos.cn>
+To: daniel@ffwll.ch, airlied@gmail.com, tzimmermann@suse.de,
+ mripard@kernel.org, maarten.lankhorst@linux.intel.com
+Subject: [PATCH] drm/atomic: Spelling fix in comments
+Date: Wed, 25 Oct 2023 16:26:34 +0800
+Message-Id: <20231025082634.34038-1-chentao@kylinos.cn>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20231025-topic-sm8650-upstream-mdss-v1-0-bb219b8c7a51@linaro.org>
- <20231025-topic-sm8650-upstream-mdss-v1-8-bb219b8c7a51@linaro.org>
-In-Reply-To: <20231025-topic-sm8650-upstream-mdss-v1-8-bb219b8c7a51@linaro.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Wed, 25 Oct 2023 11:06:13 +0300
-Message-ID: <CAA8EJpowPrNyXfyXC5wHz4OugzNFfp0E7qPo=5WS4k18U1LSqA@mail.gmail.com>
-Subject: Re: [PATCH 8/8] drm/msm: dsi: add support for DSI 2.8.0
-To: Neil Armstrong <neil.armstrong@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,86 +57,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Conor Dooley <conor+dt@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- devicetree@vger.kernel.org, Jonathan Marek <jonathan@marek.ca>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Maxime Ripard <mripard@kernel.org>,
- linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- Krishna Manikandan <quic_mkrishn@quicinc.com>, dri-devel@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, Marijn Suijten <marijn.suijten@somainline.org>,
- Sean Paul <sean@poorly.run>
+Cc: Kunwu Chan <chentao@kylinos.cn>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, kunwu.chan@hotmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 25 Oct 2023 at 10:35, Neil Armstrong <neil.armstrong@linaro.org> wrote:
->
-> Add DSI Controller version 2.8.0 support for the SM8650 platform.
->
-> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
-> ---
->  drivers/gpu/drm/msm/dsi/dsi_cfg.c | 17 +++++++++++++++++
->  drivers/gpu/drm/msm/dsi/dsi_cfg.h |  1 +
->  2 files changed, 18 insertions(+)
->
-> diff --git a/drivers/gpu/drm/msm/dsi/dsi_cfg.c b/drivers/gpu/drm/msm/dsi/dsi_cfg.c
-> index 1f98ff74ceb0..10ba7d153d1c 100644
-> --- a/drivers/gpu/drm/msm/dsi/dsi_cfg.c
-> +++ b/drivers/gpu/drm/msm/dsi/dsi_cfg.c
-> @@ -190,6 +190,21 @@ static const struct msm_dsi_config sm8550_dsi_cfg = {
->         },
->  };
->
-> +static const struct regulator_bulk_data sm8650_dsi_regulators[] = {
-> +       { .supply = "vdda", .init_load_uA = 16600 },    /* 1.2 V */
+fix a typo in a comments.
 
-Same comment regarding uA and sm8550 cfg.
+Signed-off-by: Kunwu Chan <chentao@kylinos.cn>
+---
+ drivers/gpu/drm/drm_atomic_helper.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-
-> +};
-> +
-> +static const struct msm_dsi_config sm8650_dsi_cfg = {
-> +       .io_offset = DSI_6G_REG_SHIFT,
-> +       .regulator_data = sm8650_dsi_regulators,
-> +       .num_regulators = ARRAY_SIZE(sm8650_dsi_regulators),
-> +       .bus_clk_names = dsi_v2_4_clk_names,
-> +       .num_bus_clks = ARRAY_SIZE(dsi_v2_4_clk_names),
-> +       .io_start = {
-> +               { 0xae94000, 0xae96000 },
-> +       },
-> +};
-> +
->  static const struct regulator_bulk_data sc7280_dsi_regulators[] = {
->         { .supply = "vdda", .init_load_uA = 8350 },     /* 1.2 V */
->         { .supply = "refgen" },
-> @@ -281,6 +296,8 @@ static const struct msm_dsi_cfg_handler dsi_cfg_handlers[] = {
->                 &sdm845_dsi_cfg, &msm_dsi_6g_v2_host_ops},
->         {MSM_DSI_VER_MAJOR_6G, MSM_DSI_6G_VER_MINOR_V2_7_0,
->                 &sm8550_dsi_cfg, &msm_dsi_6g_v2_host_ops},
-> +       {MSM_DSI_VER_MAJOR_6G, MSM_DSI_6G_VER_MINOR_V2_8_0,
-> +               &sm8650_dsi_cfg, &msm_dsi_6g_v2_host_ops},
->  };
->
->  const struct msm_dsi_cfg_handler *msm_dsi_cfg_get(u32 major, u32 minor)
-> diff --git a/drivers/gpu/drm/msm/dsi/dsi_cfg.h b/drivers/gpu/drm/msm/dsi/dsi_cfg.h
-> index 43f0dd74edb6..4c9b4b37681b 100644
-> --- a/drivers/gpu/drm/msm/dsi/dsi_cfg.h
-> +++ b/drivers/gpu/drm/msm/dsi/dsi_cfg.h
-> @@ -28,6 +28,7 @@
->  #define MSM_DSI_6G_VER_MINOR_V2_5_0    0x20050000
->  #define MSM_DSI_6G_VER_MINOR_V2_6_0    0x20060000
->  #define MSM_DSI_6G_VER_MINOR_V2_7_0    0x20070000
-> +#define MSM_DSI_6G_VER_MINOR_V2_8_0    0x20080000
->
->  #define MSM_DSI_V2_VER_MINOR_8064      0x0
->
->
-> --
-> 2.34.1
->
-
-
+diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+index 2444fc33dd7c..c3f677130def 100644
+--- a/drivers/gpu/drm/drm_atomic_helper.c
++++ b/drivers/gpu/drm/drm_atomic_helper.c
+@@ -2382,10 +2382,10 @@ int drm_atomic_helper_setup_commit(struct drm_atomic_state *state,
+ EXPORT_SYMBOL(drm_atomic_helper_setup_commit);
+ 
+ /**
+- * drm_atomic_helper_wait_for_dependencies - wait for required preceeding commits
++ * drm_atomic_helper_wait_for_dependencies - wait for required preceding commits
+  * @old_state: atomic state object with old state structures
+  *
+- * This function waits for all preceeding commits that touch the same CRTC as
++ * This function waits for all preceding commits that touch the same CRTC as
+  * @old_state to both be committed to the hardware (as signalled by
+  * drm_atomic_helper_commit_hw_done()) and executed by the hardware (as signalled
+  * by calling drm_crtc_send_vblank_event() on the &drm_crtc_state.event).
 -- 
-With best wishes
-Dmitry
+2.34.1
+
