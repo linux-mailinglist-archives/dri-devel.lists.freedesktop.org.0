@@ -2,157 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8C2F7D7E83
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Oct 2023 10:29:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A93BC7D7EB3
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Oct 2023 10:41:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B222E10E11E;
-	Thu, 26 Oct 2023 08:29:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1FACD10E77A;
+	Thu, 26 Oct 2023 08:41:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 23A7410E11E
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Oct 2023 08:29:46 +0000 (UTC)
-X-UUID: ce87483873d911ee8051498923ad61e6-20231026
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:MIME-Version:Content-Transfer-Encoding:Content-ID:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From;
- bh=/95kiXrHmfsdQbHXzvzVrIOz4pPWlFK/izONLE5MU9s=; 
- b=SAf9dXsYVkMQKO03E/cRuiPurBZJBUpMp2aOjFsQLPXCrV7h0Y3QY++l9++Kd/+LIFDhpT58fAR7gl/R/+IEOrYOXReUNlCXBI3BXzMQ+WTo77npWhERny3/vUh5M1DVtnohjdLZ5XOLfbBJ6r0LyO4S/woDq8ifmKPlBtUe6DQ=;
-X-CID-CACHE: Type:Local,Time:202310261627+08,HitQuantity:1
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.32, REQID:b43a05a2-ede1-411d-852d-3b1d9af467bc, IP:0,
- U
- RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
- release,TS:0
-X-CID-META: VersionHash:5f78ec9, CLOUDID:342aa994-10ce-4e4b-85c2-c9b5229ff92b,
- B
- ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,
- DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: ce87483873d911ee8051498923ad61e6-20231026
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
- mailgw02.mediatek.com (envelope-from <ck.hu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 703203001; Thu, 26 Oct 2023 16:29:40 +0800
-Received: from mtkmbs10n2.mediatek.inc (172.21.101.183) by
- mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Thu, 26 Oct 2023 16:29:39 +0800
-Received: from APC01-TYZ-obe.outbound.protection.outlook.com (172.21.101.237)
- by mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP
- Server id
- 15.2.1118.26 via Frontend Transport; Thu, 26 Oct 2023 16:29:39 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=L9rgvQ55ZEk/mWo3H4L7AV9I78WHr6B2pHO5XzZYm4sdy9oMpWKO6gclARtcXRVkQQ55f7szbahmWiBwyFfogAoIIipgEtIE+uwqD12/JDoHTmC5yDTpiMrYmATv1h7xr2sejbarT/ycjEqYgnkpSoBMhUAubx62/xgA666GbEhHIoLPeRX6mkF1d0zjZHl7oXc8k4TGRN+uXNbmNoxPi1uPflz0r1r9OoiigLYsNKgMOzPovcYXyY0V0te1NFlat8WDsdyXVMjAa16Ld36Ih5j73U8acG8XYudqbBwID10aRqTh5kKWlwx2Dc7PT+1pcxlrAkQAEvlgKxRlQfdDTA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hR2ekvs0wZXbRyXnINxKPHyzhV4r7S/LabUKDiXRMTs=;
- b=eZ8ET1dHpU2QGHG+UALmnPUUFYCSMQJrVLVl4wsYANzYFn58POOngha1lTpdgqcrJER9JvIZpd0PvmS9pbcdQwceY0cz1suZinq3DLtvMdGVMYBS1fHZAu/m32eY/zrsjRqWSmt4dxMtahDRCisbi02cQcsBuo/CBgIQBpUCzoJUd5A9AqbGYdfZJzU7i9OZlnWFHjvLfuhHMxkd2+OpVR+HFh2IlHOl3l03lufsDcbmzIEV8O9V/hXkyspoN9ePfJySw7Wvkn0MOfHow462ROL0FL9MtE6bbvG9if+798tLE82Bb/M2G1kCT5jqK3dTsv1cPeQoBsUVIid+7YgA5Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
- dkim=pass header.d=mediatek.com; arc=none
+Received: from mail-yw1-x112b.google.com (mail-yw1-x112b.google.com
+ [IPv6:2607:f8b0:4864:20::112b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 039A010E77A
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Oct 2023 08:41:46 +0000 (UTC)
+Received: by mail-yw1-x112b.google.com with SMTP id
+ 00721157ae682-5a7ac4c3666so4553237b3.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Oct 2023 01:41:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hR2ekvs0wZXbRyXnINxKPHyzhV4r7S/LabUKDiXRMTs=;
- b=OzKmaie9REucvKubvYKzNPfZdE2127hd3XGHLA5NST8HRAIpvovJUuLNXgzQc2TUh2wgtGU7ny/Eq0EFJvKtNpmYX4dRhi1lSCr0Kw6ZBSBt1yYV8GKzal+1MoBYS5hWvA+OV5weoWb3qR0B1JgDK71KnHZTmUUXxQTaus3ptAI=
-Received: from TYZPR03MB6624.apcprd03.prod.outlook.com (2603:1096:400:1f4::13)
- by TYZPR03MB7028.apcprd03.prod.outlook.com (2603:1096:400:334::9)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6907.26; Thu, 26 Oct
- 2023 08:29:37 +0000
-Received: from TYZPR03MB6624.apcprd03.prod.outlook.com
- ([fe80::fe5a:c0e7:4b72:64f3]) by TYZPR03MB6624.apcprd03.prod.outlook.com
- ([fe80::fe5a:c0e7:4b72:64f3%4]) with mapi id 15.20.6907.025; Thu, 26 Oct 2023
- 08:29:37 +0000
-From: =?utf-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>
-To: =?utf-8?B?U2hhd24gU3VuZyAo5a6L5a2d6KyZKQ==?= <Shawn.Sung@mediatek.com>,
- "angelogioacchino.delregno@collabora.com"
- <angelogioacchino.delregno@collabora.com>
-Subject: Re: [PATCH 1/1] drm/mediatek: Fix errors when reporting rotation
- capability
-Thread-Topic: [PATCH 1/1] drm/mediatek: Fix errors when reporting rotation
- capability
-Thread-Index: AQHZ6f8vHkJnpu39rkK9AaMAy7b/rLBbin0AgABuEACAAACPAA==
-Date: Thu, 26 Oct 2023 08:29:37 +0000
-Message-ID: <7c3a6f368c963a53f52ecd9e549a39ec47ebd7df.camel@mediatek.com>
-References: <20230918071011.18481-1-shawn.sung@mediatek.com>
- <20230918071011.18481-2-shawn.sung@mediatek.com>
- <10fda9ad9ffc4a16418ccd8b113f8cece461747d.camel@mediatek.com>
- <72db0a70e99374509140dada1363edb33b33b1e5.camel@mediatek.com>
-In-Reply-To: <72db0a70e99374509140dada1363edb33b33b1e5.camel@mediatek.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=mediatek.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYZPR03MB6624:EE_|TYZPR03MB7028:EE_
-x-ms-office365-filtering-correlation-id: b1220b04-0dda-44ca-a775-08dbd5fdb0e9
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: zkWlEFdE2RtQ7yfAASTr6dlOqm6VNttwZy466m+YaREA2vSWYRZjn9jYt3Mfu+do6Ifs9zlMcs+6d1je1SoPZXSpQHZV03P0lpnyB06qILHzDFVloDOscbtNm2A5ZWBOsstmcY4E4kCMobh/OA/sqntwKRu7sRjeOpfcQ+t37qDloJ9V9g46bMOKTk+Q7qKVBXnzLQhtc+U9c+HgbZrzsjP9BgQL+tWWwoKJZAW/wjtMV2nYv7kIqo1RLjWk4G2aoPKNdHMVYT+DICEC0PJ7MhtMfy/J5HtpMMb5lsmjsUUX/eioUa6G9zuuerWGQUa8J1ZRUG2JwVsHg0M+5NYtsr0dVB7/YYDo8BV/plxTEkwXr9C6Gu6VheAdBwJynkQCDIUYFmvgaM6iKopK73c5gpUl2BqwV84+wvJM+AkoDdM13+Ji6JWYSqdSKZap95dSyWHI4heqshwHGq8BjTdrremeVcD+Jg0jNQytwDyUrZS+4i6G+xFASyEbxTx3on6OGGqDpbw2+AI9cDgQvIDOmnSKU62Dz1VxoS8bnwgBI72e0F1696/E4Raor4AtHDi8PxhE8RBj6NhA8hODRP414bcaS8eFSzfA0tZUaZk0TmEMFieStsAC/0VZpt9TBHEE25aBHwO1KyeTtO171p/wLzUVXFlpaAVH52j+DarwrgM=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:TYZPR03MB6624.apcprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(346002)(39860400002)(376002)(396003)(136003)(366004)(230922051799003)(451199024)(1800799009)(64100799003)(186009)(83380400001)(54906003)(86362001)(5660300002)(4326008)(76116006)(66946007)(6486002)(66476007)(66446008)(41300700001)(64756008)(478600001)(110136005)(6506007)(6512007)(316002)(66556008)(8676002)(122000001)(8936002)(4001150100001)(85182001)(36756003)(2906002)(26005)(2616005)(7416002)(38100700002)(71200400001)(38070700009);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?SjFMTDczbCs5cXhRQ25uL081TEZoaGQrZ0ZISVJGT3lES2gvK24zR3JrL1hQ?=
- =?utf-8?B?NTVFNU9wQXVTK3pFdTNFNXovUFBYNEtpV3YyOCtoOFd1clo5QjQ4MmUxOHd1?=
- =?utf-8?B?L0daZG9NSXV3dUR4d21nRTdZWHN5ZHlRZXkvSHRYZDZ2T0hTVnB5dWNxZ3Nz?=
- =?utf-8?B?UU1lVU9xQ2ZGNDNSL1ZTeCt3d3lMbXFTL2JJSGF0NjRDZzdLMEowRlNPZVp1?=
- =?utf-8?B?NjdrVjVxQVUxMzdZVDhPejVEV1hPVWNIMkZEMVdzNTBjaTZqNlJ0S2hGblRJ?=
- =?utf-8?B?WjBsM1hsZGVLMHdCU2NPRjN6eDdiYnZ5NG5HL1VnSURJa0FGVUs4SFZMc2lz?=
- =?utf-8?B?ZmtxSDlZcjBrSUFwMlRraWdZUFdlbk5LN0U4MzRwelJNSkd3ZEoyVGRydUdS?=
- =?utf-8?B?QlhRdjVLSWRNR1BtVUdpTmw5VTA0ZWZnZ3NlSDRBSWJxSnlQREpxeFdnM3hM?=
- =?utf-8?B?OTVXeUVkaE9aYUlvZ1VndjQyZTJUMDlEeFBBNDZEa0ljd0puSUI2NG1ybjBE?=
- =?utf-8?B?c0NOb3l6WXNWamFRWTVaRU14Z2U4MkVvSzdzZklpRmZiYlVpQVp2c2FMQ2R6?=
- =?utf-8?B?L3A1SnorRlhLTkhrR1phajhuTDBzS0Mrazl2aDNVWVVCSk82TVBGNUd5VGVW?=
- =?utf-8?B?UHNHeXhvR2phTVcyZXU4T1FsYXhzUzhhazBiQ0NDaVdtbnU5bkZteVlrZ1pa?=
- =?utf-8?B?VlNCRkUwNUNYWm0yUUQ5SkdWeFpVVGFrMUUzd3hkRk9JUnlock9vNE9iRWRh?=
- =?utf-8?B?c2lxTUZOU0x5emJkai9rN1J2YzRLV2k4TklGQURkdmIzeFRlbHplM2ptTjB1?=
- =?utf-8?B?NnA3aERHOE8vZzl0ZnMrUjNtZmxTdUFOODRUL0Rnak9iSmFoSk5UQnl4TnNk?=
- =?utf-8?B?encyRUxZL2NvTVZTdldjT1pqRkNGWStaOU93MngzeTAxanljdnhMTkQ4Y0Rh?=
- =?utf-8?B?OGxGOVZFeUZRRXNpRlZVMGJ2RUhNMkdwdkJXR1lzWEVNMjlMdHBhQXp3MER0?=
- =?utf-8?B?SDY1WncyT2RwcGMxSUU4ZTBwSEplWk1Md3B5S1hXb0ZoeTVSM2hPMTRYU1Rt?=
- =?utf-8?B?RTVhYnFtWlJrVERlWVRxMVh2amQyZVpSYUd4SXh6azI3YkRLM0lEZjZya0gy?=
- =?utf-8?B?TmhZTytlSXlSZlhyVENISDJ3dTNCVWN1YVlrUHpSL1NPTW9ZenZFRlM2KzNE?=
- =?utf-8?B?QUR1MnFGY01GVnFnY0k3Z2R2WXlyS2VXbElBdHFEOHBQV0FJTzgwcG9VVkVG?=
- =?utf-8?B?cThwV0haZVVmWHR0SmNFdWkrYm9ieUo3QWIvazF1MlhwMmpFQm93T1ovaWJW?=
- =?utf-8?B?RTJlbk9qcEgxRE5nYzYyWXlWT1drbFY4QmY4ZHcrRVJkS0p6R1l1WXB3MzBW?=
- =?utf-8?B?Q3g0bzd4K2VsSkZEMlBsb1BQV1UzU08vYU9xeXZ1Tit1ZFR2YXAzNFNzbmNQ?=
- =?utf-8?B?WUN4SlB5KzZBT0hvWUgyNjZ6VWN2K1AyOC8wdDl5OXFSYUNzTmpVemRrRUhx?=
- =?utf-8?B?RndQcEVwV0NZWUdDZ3U0aE5GZEVDcUZTR1BZK1ZnL2lKWkhmZTlrYkRYbUVC?=
- =?utf-8?B?blFnalVaMHJYSmVlci9hWHU5bTVwSStBSEVadTdlSFNWNEJhcjc4bVRIQ2VI?=
- =?utf-8?B?RVJubDArMWxsd1JvalNlNmM0d2R5UXlkck5yR0tBeDE3cWZnTEhrMlB4TUdJ?=
- =?utf-8?B?ZEwvVWMrcUlZNW9sMWtZWmhFVXZJRVlmWnZRYlNPNVRsYWdzcFBqeWxsQjZG?=
- =?utf-8?B?dzJOT3R2Zi9VeWlTWGZQWDlCR3pCc1QxSE0xK3hNTFVIV01NdE9ETTZhc0c2?=
- =?utf-8?B?UGZsN05PSnpvYktqcUVOQTV1ektNK2IwYzJheFE2TldHcTd3Q01MYjIxUGFn?=
- =?utf-8?B?M1JtUjJhaVMwWEo3QUdlT0d2WGJyQ2Nocm44eFlGMkdVWkdQVGdKL1I1eDky?=
- =?utf-8?B?MTBscDJCbnk5RkFRRE8rckZLd3FzRERIcWxyK3RUeG1TanM4dytTME1wQUsv?=
- =?utf-8?B?a2RuNUN2Q3NWUUNZVVh1Mi9kcVpQLzhOSU4rcmpsTkJnU3d6anR6aGwxVi81?=
- =?utf-8?B?VEJhaElPbVFzcWVZZURuTzNvR0o0TXQyL1ZkekVpMnlaUFVHUVRnRzdYUFI1?=
- =?utf-8?Q?AUu9JuvwKJf6//CnsGzbhNatX?=
-Content-ID: <F2D9262B3B8A164B8A7E302543D103DA@apcprd03.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ d=linaro.org; s=google; t=1698309706; x=1698914506; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=/VZIAdjrhXZ5QafqMeZ1Ozgnq7kYuBpDdNEjKCunMHk=;
+ b=WM0glMqjgJnq0TjkmzDYey/4cy5gFbBXUkN1vuE4kxI/r6ZxDUNAjXqdq7qddtNXqm
+ datY42Uwe9G8Edy907T4LUcOKqgzpMnddDoXKLn+JpolmMeyl9PJhnEOi448IZui4jmL
+ e3F/kagNyP44qNGu9MwbBA/M5DqudjQ2KL92+ndmqhN/1/RH29Ai5NF07VuGrjaGNeDH
+ xAZQDFAKaLIydyXQXDapRHwKl6zcf0R55A5YKSTqybYbTPEHQYpT3PP4IbT6OZaeUmA5
+ nqKjC+yDXwKuMTnJnYVjhlWwQxFKz6Arb9gElFSYoHJeoihIj2si6QMl9tGOxRSO4mBE
+ GT6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1698309706; x=1698914506;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=/VZIAdjrhXZ5QafqMeZ1Ozgnq7kYuBpDdNEjKCunMHk=;
+ b=OBSJtVkMX0FBMCdJ2zTePEa7SUMdvUj0V+szIf/XL+aK8+KZr6QADHa2m3A+7Dkj+6
+ Z+7RegIJKegwvNnh7eM98YWquxLTShKC9vWyBXyW3CkOh84fvdXsKvsXm/qZTe8xGM6T
+ bbUGYZQStfURhq17mhhbRqxDKEM3RWxu79QKNzdbLmpXW/JbHfDQzdxMUSwGLhHPoFFM
+ dK/dm5tdjBKmI40uWVIl5FRDl+WZCHezpBIm836tWFixpouY+z0Pe9JBX1LtaGlv56NT
+ m1gZudIp6PG2rJeKGbHthxvjHj104Pk/F2jB1TPaReDBpmSVim4GGjfsn7onVx8kYmpk
+ nVVA==
+X-Gm-Message-State: AOJu0YzxLy5/yrbwG1q1Kb8AO7VjioYNGd3EY+m6mBBn2DzV9hHljqZh
+ GVXag5FdOK0p+ghVB6VRVLdL5+nmjyoevHWXP++OsA==
+X-Google-Smtp-Source: AGHT+IGjlEPz9ZfZy5VliCCpb5XIJ3AzbfqvfdyV/KHCNAk/IrIlOqwWdTwDb1N8pJ7KnvWoH8J0L1+1Wqv7cupjzfI=
+X-Received: by 2002:a81:8441:0:b0:5a7:ba09:e58b with SMTP id
+ u62-20020a818441000000b005a7ba09e58bmr20064553ywf.14.1698309705935; Thu, 26
+ Oct 2023 01:41:45 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYZPR03MB6624.apcprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b1220b04-0dda-44ca-a775-08dbd5fdb0e9
-X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Oct 2023 08:29:37.4265 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: vjngk8fd+3dhcpR36hOQVRgVvpr6/hwpc4rkceKRzJ95Lt7ye2nWxYWw2GCRYXM8RnyM+iAGROPj6ZLOmevVDw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR03MB7028
-Content-Type: multipart/alternative;
- boundary="__=_Part_Boundary_006_244971988.1765672741"
+References: <20231016165355.1327217-1-dmitry.baryshkov@linaro.org>
+ <20231016165355.1327217-4-dmitry.baryshkov@linaro.org>
+ <7e4ak4e77fp5dat2aopyq3g4wnqu3tt7di7ytdr3dvgjviyhrd@vqiqx6iso6vg>
+ <CAA8EJpp48AdJmx_U=bEJZUWZgOiT1Ctz6Lpe9QwjLXkMQvsw5w@mail.gmail.com>
+ <uj6rtlionmacnwlqxy6ejt5iaczgbbe5z54ipte5ffbixcx3p4@pps7fcr3uqhf>
+ <1696f131-83fb-4d0c-b4d7-0bdb61e4ae65@linaro.org>
+ <mxtb6vymowutj7whbrygwlcupbdnfqxjralc3nwwapsbvrcmbm@sewxtdslfoen>
+In-Reply-To: <mxtb6vymowutj7whbrygwlcupbdnfqxjralc3nwwapsbvrcmbm@sewxtdslfoen>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Thu, 26 Oct 2023 11:41:34 +0300
+Message-ID: <CAA8EJpozZkEswnioKjRCqBg4fcjVHFwGivoFNTNHVwyocKprQw@mail.gmail.com>
+Subject: Re: [RFC PATCH 03/10] drm/mipi-dsi: add API for manual control over
+ the DSI link power state
+To: Maxime Ripard <mripard@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -165,185 +73,212 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "seanpaul@chromium.org" <seanpaul@chromium.org>,
- "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>, Marek Vasut <marex@denx.de>,
+ Robert Foss <rfoss@kernel.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Jonas Karlman <jonas@kwiboo.se>,
+ linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Sean Paul <sean@poorly.run>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Douglas Anderson <dianders@chromium.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---__=_Part_Boundary_006_244971988.1765672741
-Content-Type: text/html;
-	charset="utf-8"
-Content-Transfer-Encoding: base64
+On Thu, 26 Oct 2023 at 11:04, Maxime Ripard <mripard@kernel.org> wrote:
+>
+> On Wed, Oct 25, 2023 at 06:16:14PM +0300, Dmitry Baryshkov wrote:
+> > On 25/10/2023 15:44, Maxime Ripard wrote:
+> > > On Thu, Oct 19, 2023 at 02:19:51PM +0300, Dmitry Baryshkov wrote:
+> > > > On Thu, 19 Oct 2023 at 12:26, Maxime Ripard <mripard@kernel.org> wrote:
+> > > > >
+> > > > > On Mon, Oct 16, 2023 at 07:53:48PM +0300, Dmitry Baryshkov wrote:
+> > > > > > The MIPI DSI links do not fully fall into the DRM callbacks model.
+> > > > >
+> > > > > Explaining why would help
+> > > >
+> > > > A kind of explanation comes afterwards, but probably I should change
+> > > > the order of the phrases and expand it:
+> > > >
+> > > > The atomic_pre_enable / atomic_enable and correspondingly
+> > > > atomic_disable / atomic_post_disable expect that the bridge links
+> > > > follow a simple paradigm: either it is off, or it is on and streaming
+> > > > video. Thus, it is fine to just enable the link at the enable time,
+> > > > doing some preparations during the pre_enable.
+> > > >
+> > > > But then it causes several issues with DSI. First, some of the DSI
+> > > > bridges and most of the DSI panels would like to send commands over
+> > > > the DSI link to setup the device.
+> > >
+> > > What prevent them from doing it in enable when the link is enabled?
+> > >
+> > > > Next, some of the DSI hosts have limitations on sending the commands.
+> > > > The proverbial sunxi DSI host can not send DSI commands after the
+> > > > video stream has started. Thus most of the panels have opted to send
+> > > > all DSI commands from pre_enable (or prepare) callback (before the
+> > > > video stream has started).
+> > >
+> > > I'm not sure we should account for a single driver when designing a
+> > > framework. We should focus on designing something sound, and then making
+> > > that driver work with whatever we designed, but not the other way
+> > > around. And if we can't, we should get rid of that driver because it's
+> > > de-facto unmaintainable. And I'm saying that as the author of that
+> > > driver.
+> >
+> > That's not the only driver with strange peculiarities. For example, see
+> > commit 8a4b2fc9c91a ("drm/bridge: tc358762: Split register programming from
+> > pre-enable to enable"), which was one of the issues that actually prompted
+> > me to send this this patchset (after my previous version of this patch being
+> > rejected because of sunxi).
+>
+> The datasheet for that bridge is available so at least we can try to fix
+> it (and bridges are much simpler than controllers anyway). It's not
+> something we can do with the sunxi driver.
+>
+> > > > However this leaves no good place for the DSI host to power up the DSI
+> > > > link. By default the host's pre_enable callback is called after the
+> > > > DSI bridge's pre_enable. For quite some time we were powering up the
+> > > > DSI link from mode_set. This doesn't look fully correct.
+> > >
+> > > Yeah, it's not.
+> > >
+> > > > And also we got into the issue with ps8640 bridge, which requires for
+> > > > the DSI link to be quiet / unpowered at the bridge's reset time.
+> > > >
+> > > > Dave has come with the idea of pre_enable_prev_first /
+> > > > prepare_prev_first flags, which attempt to solve the issue by
+> > > > reversing the order of pre_enable callbacks. This mostly solves the
+> > > > issue. However during this cycle it became obvious that this approach
+> > > > is not ideal too. There is no way for the DSI host to know whether the
+> > > > DSI panel / bridge has been updated to use this flag or not, see the
+> > > > discussion at [1].
+> > >
+> > > Yeah. Well, that happens. I kind of disagree with Neil here though when
+> > > he says that "A panel driver should not depend on features of a DSI
+> > > controller". Panels definitely rely on particular features, like the
+> > > number of lanes, the modes supported, etc.
+> >
+> > In the mentioned discussion it was more about 'DSI host should not assume
+> > panel driver features', like the panel sending commands in pre_enable or
+> > not, or having pre_enable_prev_first.
+> >
+> > So the pre_enable_prev_first clearly lacks feature negotiation.
+> >
+> > > Panels shouldn't depend on a particular driver *behaviour*. But the
+> > > features are fine.
+> > >
+> > > For our particular discussion, I think that that kind of discussion is a
+> > > dead-end, and we just shouldn't worry about it. Yes, some panels have
+> > > not yet been updated to take the new flags into account. However, the
+> > > proper thing to do is to update them if we see a problem with that (and
+> > > thus move forward to the ideal solution), not revert the beginning of
+> > > that feature enablement (thus moving away from where we want to end up
+> > > in).
+> > >
+> > > > Thus comes this proposal. It allows for the panels to explicitly bring
+> > > > the link up and down at the correct time, it supports automatic use
+> > > > case, where no special handling is required. And last, but not least,
+> > > > it allows the DSI host to note that the bridge / panel were not
+> > > > updated to follow new protocol and thus the link should be powered on
+> > > > at the mode_set time. This leaves us with the possibility of dropping
+> > > > support for this workaround once all in-kernel drivers are updated.
+> > >
+> > > I'm kind of skeptical for these kind of claims that everything will be
+> > > automatic and will be handled fine. What if we have conflicting
+> > > requirements, for example two bridges drivers that would request the
+> > > power up at different times?
+> >
+> > Well, we do not support DSI sublinks, do we?
+>
+> No, but we start to consider adding support for muxes for example. A DSI
+> mux + a DSI bridge behind it might trigger that behaviour, even if we
+> don't support sublinks.
 
-PHByZT4NCkhpLCYjMzI7SHNpYW8tY2hpZW46DQoNCk9uJiMzMjtUaHUsJiMzMjsyMDIzLTEwLTI2
-JiMzMjthdCYjMzI7MDg6MjcmIzMyOyswMDAwLCYjMzI7U2hhd24mIzMyO1N1bmcmIzMyOygmIzIz
-NDM1OyYjMjMzODk7JiMzNTYwOTspJiMzMjt3cm90ZToNCiZndDsmIzMyO0hpJiMzMjtDSywNCiZn
-dDsmIzMyOw0KJmd0OyYjMzI7T24mIzMyO1RodSwmIzMyOzIwMjMtMTAtMjYmIzMyO2F0JiMzMjsw
-MTo1MyYjMzI7KzAwMDAsJiMzMjtDSyYjMzI7SHUmIzMyOygmIzMyOTkzOyYjMjA0MjY7JiMyMDgw
-OTspJiMzMjt3cm90ZToNCiZndDsmIzMyOyZndDsmIzMyO0hpLCYjMzI7SHNpYW8tY2hpZW46DQom
-Z3Q7JiMzMjsmZ3Q7JiMzMjsNCiZndDsmIzMyOyZndDsmIzMyO09uJiMzMjtNb24sJiMzMjsyMDIz
-LTA5LTE4JiMzMjthdCYjMzI7MTU6MTAmIzMyOyswODAwLCYjMzI7SHNpYW8mIzMyO0NoaWVuJiMz
-MjtTdW5nJiMzMjt3cm90ZToNCiZndDsmIzMyOyZndDsmIzMyOyZndDsmIzMyO0ZvciYjMzI7Q1JU
-Q3MmIzMyO3RoYXQmIzMyO2RvZXNuJiMzOTt0JiMzMjtzdXBwb3J0JiMzMjtyb3RhdGlvbiYjMzI7
-c2hvdWxkJiMzMjtzdGlsbCYjMzI7cmV0dXJuDQomZ3Q7JiMzMjsmZ3Q7JiMzMjsmZ3Q7JiMzMjtE
-Uk1fTU9ERV9ST1RBVEVfMC4mIzMyO1NpbmNlJiMzMjtib3RoJiMzMjtPVkwmIzMyO2FuZCYjMzI7
-T1ZMJiMzMjthZGFwdG9yJiMzMjtvbiYjMzI7TVRLJiMzMjtjaGlwDQomZ3Q7JiMzMjsmZ3Q7JiMz
-MjsmZ3Q7JiMzMjtkb2VzbiYjMzk7dCYjMzI7c3VwcG9ydCYjMzI7cm90YXRpb24sJiMzMjtyZXR1
-cm4mIzMyO3RoZSYjMzI7Y2FwYWJpbGl0eSYjMzI7b2YmIzMyO3RoZQ0KJmd0OyYjMzI7Jmd0OyYj
-MzI7Jmd0OyYjMzI7aGFyZHdhcmUmIzMyO2FjY29yZGluZ2x5Lg0KJmd0OyYjMzI7Jmd0OyYjMzI7
-Jmd0OyYjMzI7DQomZ3Q7JiMzMjsmZ3Q7JiMzMjsmZ3Q7JiMzMjtGaXhlczomIzMyO2RmNDQ0NDU3
-NzExOCYjMzI7KCZxdW90O2RybS9tZWRpYXRlazomIzMyO1N1cHBvcnQmIzMyOzE4MCYjMzI7ZGVn
-cmVlJiMzMjtyb3RhdGlvbiZxdW90OykNCiZndDsmIzMyOyZndDsmIzMyOyZndDsmIzMyO0ZpeGVz
-OiYjMzI7ODRkODA1NzUzOTgzJiMzMjsoJnF1b3Q7ZHJtL21lZGlhdGVrOiYjMzI7U3VwcG9ydCYj
-MzI7cmVmbGVjdC15JiMzMjtwbGFuZQ0KJmd0OyYjMzI7Jmd0OyYjMzI7Jmd0OyYjMzI7cm90YXRp
-b24mcXVvdDspDQomZ3Q7JiMzMjsmZ3Q7JiMzMjsmZ3Q7JiMzMjsNCiZndDsmIzMyOyZndDsmIzMy
-OyZndDsmIzMyO1NpZ25lZC1vZmYtYnk6JiMzMjtIc2lhbyYjMzI7Q2hpZW4mIzMyO1N1bmcmIzMy
-OyZsdDtzaGF3bi5zdW5nQG1lZGlhdGVrLmNvbSZndDsNCiZndDsmIzMyOyZndDsmIzMyOyZndDsm
-IzMyOy0tLQ0KJmd0OyYjMzI7Jmd0OyYjMzI7Jmd0OyYjMzI7JiMzMjtkcml2ZXJzL2dwdS9kcm0v
-bWVkaWF0ZWsvbXRrX2Rpc3BfZHJ2LmgmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMy
-OyYjMzI7JiMzMjt8JiMzMjsxJiMzMjsrDQomZ3Q7JiMzMjsmZ3Q7JiMzMjsmZ3Q7JiMzMjsmIzMy
-O2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZGlzcF9vdmwuYyYjMzI7JiMzMjsmIzMyOyYj
-MzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyO3wmIzMyOzgmIzMyOystLS0tLS0tDQomZ3Q7JiMz
-MjsmZ3Q7JiMzMjsmZ3Q7JiMzMjsmIzMyO2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZGlz
-cF9vdmxfYWRhcHRvci5jJiMzMjt8JiMzMjs1JiMzMjsrKysrKw0KJmd0OyYjMzI7Jmd0OyYjMzI7
-Jmd0OyYjMzI7JiMzMjtkcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9kZHBfY29tcC5j
-JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyO3wmIzMyOzEmIzMyOysNCiZndDsmIzMyOyZndDsmIzMy
-OyZndDsmIzMyOyYjMzI7ZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fcGxhbmUuYyYj
-MzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjt8JiMzMjsyJiMzMjsrLQ0KJmd0
-OyYjMzI7Jmd0OyYjMzI7Jmd0OyYjMzI7JiMzMjs1JiMzMjtmaWxlcyYjMzI7Y2hhbmdlZCwmIzMy
-OzkmIzMyO2luc2VydGlvbnMoKyksJiMzMjs4JiMzMjtkZWxldGlvbnMoLSkNCiZndDsmIzMyOyZn
-dDsmIzMyOyZndDsmIzMyOw0KJmd0OyYjMzI7Jmd0OyYjMzI7Jmd0OyYjMzI7ZGlmZiYjMzI7LS1n
-aXQmIzMyO2EvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kaXNwX2Rydi5oDQomZ3Q7JiMz
-MjsmZ3Q7JiMzMjsmZ3Q7JiMzMjtiL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZGlzcF9k
-cnYuaA0KJmd0OyYjMzI7Jmd0OyYjMzI7Jmd0OyYjMzI7aW5kZXgmIzMyOzIyNTQwMzg1MTllMS4u
-ZjRjN2RiYThmNzNkJiMzMjsxMDA2NDQNCiZndDsmIzMyOyZndDsmIzMyOyZndDsmIzMyOy0tLSYj
-MzI7YS9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2Rpc3BfZHJ2LmgNCiZndDsmIzMyOyZn
-dDsmIzMyOyZndDsmIzMyOysrKyYjMzI7Yi9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2Rp
-c3BfZHJ2LmgNCiZndDsmIzMyOyZndDsmIzMyOyZndDsmIzMyO0BAJiMzMjstMTIwLDYmIzMyOysx
-MjAsNyYjMzI7QEAmIzMyO3ZvaWQNCiZndDsmIzMyOyZndDsmIzMyOyZndDsmIzMyO210a19vdmxf
-YWRhcHRvcl9yZWdpc3Rlcl92YmxhbmtfY2Ioc3RydWN0DQomZ3Q7JiMzMjsmZ3Q7JiMzMjsmZ3Q7
-JiMzMjtkZXZpY2UmIzMyOypkZXYsJiMzMjt2b2lkJiMzMjsoKnZibGFua19jYikodm8NCiZndDsm
-IzMyOyZndDsmIzMyOyZndDsmIzMyOyYjMzI7dm9pZCYjMzI7bXRrX292bF9hZGFwdG9yX3VucmVn
-aXN0ZXJfdmJsYW5rX2NiKHN0cnVjdCYjMzI7ZGV2aWNlJiMzMjsqZGV2KTsNCiZndDsmIzMyOyZn
-dDsmIzMyOyZndDsmIzMyOyYjMzI7dm9pZCYjMzI7bXRrX292bF9hZGFwdG9yX2VuYWJsZV92Ymxh
-bmsoc3RydWN0JiMzMjtkZXZpY2UmIzMyOypkZXYpOw0KJmd0OyYjMzI7Jmd0OyYjMzI7Jmd0OyYj
-MzI7JiMzMjt2b2lkJiMzMjttdGtfb3ZsX2FkYXB0b3JfZGlzYWJsZV92Ymxhbmsoc3RydWN0JiMz
-MjtkZXZpY2UmIzMyOypkZXYpOw0KJmd0OyYjMzI7Jmd0OyYjMzI7Jmd0OyYjMzI7K3Vuc2lnbmVk
-JiMzMjtpbnQmIzMyO210a19vdmxfYWRhcHRvcl9zdXBwb3J0ZWRfcm90YXRpb25zKHN0cnVjdCYj
-MzI7ZGV2aWNlDQomZ3Q7JiMzMjsmZ3Q7JiMzMjsmZ3Q7JiMzMjsqZGV2KTsNCiZndDsmIzMyOyZn
-dDsmIzMyOyZndDsmIzMyOyYjMzI7dm9pZCYjMzI7bXRrX292bF9hZGFwdG9yX3N0YXJ0KHN0cnVj
-dCYjMzI7ZGV2aWNlJiMzMjsqZGV2KTsNCiZndDsmIzMyOyZndDsmIzMyOyZndDsmIzMyOyYjMzI7
-dm9pZCYjMzI7bXRrX292bF9hZGFwdG9yX3N0b3Aoc3RydWN0JiMzMjtkZXZpY2UmIzMyOypkZXYp
-Ow0KJmd0OyYjMzI7Jmd0OyYjMzI7Jmd0OyYjMzI7JiMzMjt1bnNpZ25lZCYjMzI7aW50JiMzMjtt
-dGtfb3ZsX2FkYXB0b3JfbGF5ZXJfbnIoc3RydWN0JiMzMjtkZXZpY2UmIzMyOypkZXYpOw0KJmd0
-OyYjMzI7Jmd0OyYjMzI7Jmd0OyYjMzI7ZGlmZiYjMzI7LS1naXQmIzMyO2EvZHJpdmVycy9ncHUv
-ZHJtL21lZGlhdGVrL210a19kaXNwX292bC5jDQomZ3Q7JiMzMjsmZ3Q7JiMzMjsmZ3Q7JiMzMjti
-L2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZGlzcF9vdmwuYw0KJmd0OyYjMzI7Jmd0OyYj
-MzI7Jmd0OyYjMzI7aW5kZXgmIzMyOzJiZmZlNDI0NTQ2Ni4uNWZkMWY2YWU0MWYzJiMzMjsxMDA2
-NDQNCiZndDsmIzMyOyZndDsmIzMyOyZndDsmIzMyOy0tLSYjMzI7YS9kcml2ZXJzL2dwdS9kcm0v
-bWVkaWF0ZWsvbXRrX2Rpc3Bfb3ZsLmMNCiZndDsmIzMyOyZndDsmIzMyOyZndDsmIzMyOysrKyYj
-MzI7Yi9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2Rpc3Bfb3ZsLmMNCiZndDsmIzMyOyZn
-dDsmIzMyOyZndDsmIzMyO0BAJiMzMjstMjg4LDgmIzMyOysyODgsNyYjMzI7QEAmIzMyO3Vuc2ln
-bmVkJiMzMjtpbnQmIzMyO210a19vdmxfbGF5ZXJfbnIoc3RydWN0JiMzMjtkZXZpY2UNCiZndDsm
-IzMyOyZndDsmIzMyOyZndDsmIzMyOypkZXYpDQomZ3Q7JiMzMjsmZ3Q7JiMzMjsmZ3Q7JiMzMjsN
-CiZndDsmIzMyOyZndDsmIzMyOyZndDsmIzMyOyYjMzI7dW5zaWduZWQmIzMyO2ludCYjMzI7bXRr
-X292bF9zdXBwb3J0ZWRfcm90YXRpb25zKHN0cnVjdCYjMzI7ZGV2aWNlJiMzMjsqZGV2KQ0KJmd0
-OyYjMzI7Jmd0OyYjMzI7Jmd0OyYjMzI7JiMzMjt7DQomZ3Q7JiMzMjsmZ3Q7JiMzMjsmZ3Q7JiMz
-MjstcmV0dXJuJiMzMjtEUk1fTU9ERV9ST1RBVEVfMCYjMzI7fCYjMzI7RFJNX01PREVfUk9UQVRF
-XzE4MCYjMzI7fA0KJmd0OyYjMzI7Jmd0OyYjMzI7Jmd0OyYjMzI7LSYjMzI7JiMzMjsmIzMyOyYj
-MzI7JiMzMjsmIzMyOyYjMzI7RFJNX01PREVfUkVGTEVDVF9YJiMzMjt8JiMzMjtEUk1fTU9ERV9S
-RUZMRUNUX1k7DQomZ3Q7JiMzMjsmZ3Q7JiMzMjsmZ3Q7JiMzMjsrcmV0dXJuJiMzMjtEUk1fTU9E
-RV9ST1RBVEVfMCYjMzI7fCYjMzI7RFJNX01PREVfUkVGTEVDVF9YJiMzMjt8DQomZ3Q7JiMzMjsm
-Z3Q7JiMzMjsmZ3Q7JiMzMjtEUk1fTU9ERV9SRUZMRUNUX1k7DQomZ3Q7JiMzMjsmZ3Q7JiMzMjsN
-CiZndDsmIzMyOyZndDsmIzMyO0lmJiMzMjtvdmwmIzMyO2VuYWJsZSYjMzI7cmVmbGVjdF94JiMz
-MjthbmQmIzMyO3JlZmxlY3RfeSYjMzI7YXQmIzMyO3RoZSYjMzI7c2FtZSYjMzI7dGltZSwmIzMy
-O2l0JiMzMjtpcw0KJmd0OyYjMzI7Jmd0OyYjMzI7cm90YXRlDQomZ3Q7JiMzMjsmZ3Q7JiMzMjsx
-ODAsJiMzMjtyaWdodCYjNjM7DQomZ3Q7JiMzMjsmZ3Q7JiMzMjsNCiZndDsmIzMyOyZndDsmIzMy
-O1JlZ2FyZHMsDQomZ3Q7JiMzMjsmZ3Q7JiMzMjtDSw0KJmd0OyYjMzI7DQomZ3Q7JiMzMjtZZXMs
-JiMzMjtpZiYjMzI7dGhlJiMzMjt1c2VyJiMzMjtkbyYjMzI7c3VjaCYjMzI7YW4mIzMyO29wZXJh
-dGlvbiwmIzMyO3RoZSYjMzI7cmVzdWx0JiMzMjtpcyYjMzI7ZXF1YWwmIzMyO3RvJiMzMjsxODAN
-CiZndDsmIzMyO2RlZ3JlZXMmIzMyO3JvdGF0aW9uLg0KDQpTbyYjMzI7b3ZsJiMzMjtzdXBwb3J0
-JiMzMjtyb3RhdGUmIzMyOzE4MCwmIzMyO3doeSYjMzI7ZG8mIzMyO3lvdSYjMzI7cmVtb3ZlJiMz
-Mjt0aGlzJiMzMjtjYXBhYmlsaXR5JiM2MzsNCg0KJmd0OyYjMzI7DQomZ3Q7JiMzMjtSZWdhcmRz
-LA0KJmd0OyYjMzI7U2hhd24mIzMyOw0KDQo8L3ByZT48IS0tdHlwZTp0ZXh0LS0+PCEtLXstLT48
-cHJlPioqKioqKioqKioqKiogTUVESUFURUsgQ29uZmlkZW50aWFsaXR5IE5vdGljZQ0KICoqKioq
-KioqKioqKioqKioqKioqDQpUaGUgaW5mb3JtYXRpb24gY29udGFpbmVkIGluIHRoaXMgZS1tYWls
-IG1lc3NhZ2UgKGluY2x1ZGluZyBhbnkgDQphdHRhY2htZW50cykgbWF5IGJlIGNvbmZpZGVudGlh
-bCwgcHJvcHJpZXRhcnksIHByaXZpbGVnZWQsIG9yIG90aGVyd2lzZQ0KZXhlbXB0IGZyb20gZGlz
-Y2xvc3VyZSB1bmRlciBhcHBsaWNhYmxlIGxhd3MuIEl0IGlzIGludGVuZGVkIHRvIGJlIA0KY29u
-dmV5ZWQgb25seSB0byB0aGUgZGVzaWduYXRlZCByZWNpcGllbnQocykuIEFueSB1c2UsIGRpc3Nl
-bWluYXRpb24sIA0KZGlzdHJpYnV0aW9uLCBwcmludGluZywgcmV0YWluaW5nIG9yIGNvcHlpbmcg
-b2YgdGhpcyBlLW1haWwgKGluY2x1ZGluZyBpdHMgDQphdHRhY2htZW50cykgYnkgdW5pbnRlbmRl
-ZCByZWNpcGllbnQocykgaXMgc3RyaWN0bHkgcHJvaGliaXRlZCBhbmQgbWF5IA0KYmUgdW5sYXdm
-dWwuIElmIHlvdSBhcmUgbm90IGFuIGludGVuZGVkIHJlY2lwaWVudCBvZiB0aGlzIGUtbWFpbCwg
-b3IgYmVsaWV2ZQ0KIA0KdGhhdCB5b3UgaGF2ZSByZWNlaXZlZCB0aGlzIGUtbWFpbCBpbiBlcnJv
-ciwgcGxlYXNlIG5vdGlmeSB0aGUgc2VuZGVyIA0KaW1tZWRpYXRlbHkgKGJ5IHJlcGx5aW5nIHRv
-IHRoaXMgZS1tYWlsKSwgZGVsZXRlIGFueSBhbmQgYWxsIGNvcGllcyBvZiANCnRoaXMgZS1tYWls
-IChpbmNsdWRpbmcgYW55IGF0dGFjaG1lbnRzKSBmcm9tIHlvdXIgc3lzdGVtLCBhbmQgZG8gbm90
-DQpkaXNjbG9zZSB0aGUgY29udGVudCBvZiB0aGlzIGUtbWFpbCB0byBhbnkgb3RoZXIgcGVyc29u
-LiBUaGFuayB5b3UhDQo8L3ByZT48IS0tfS0tPg==
+Ack.
 
---__=_Part_Boundary_006_244971988.1765672741
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: base64
+>
+> > > Also, we would still need to update every single panel driver, which is
+> > > going to create a lot of boilerplate that people might get wrong.
+> >
+> > Yes, quite unfortunately. Another approach that I have in mind is to add two
+> > callbacks to mipi_dsi_device. This way the DSI host will call into the
+> > device to initialise it once the link has been powered up and just before
+> > tearing it down. We solve a lot of problems this way, no boilerplate and the
+> > panel / bridge are in control of the initialisation procedure. WDYT?
+> >
+> > > I have the feeling that we should lay out the problem without talking
+> > > about any existing code base first. So, what does the MIPI-DSI spec
+> > > requires and what does panels and bridges expect?
+> >
+> > There is not that much in the DSI spec (or maybe I do not understand the
+> > question). The spec is more about the power states and the commands. Our
+> > problem is that this doesn't fully match kernel expectations.
+>
+> You're explicitly asking for comments on that series. How can we provide
+> any comment if you're dead-set on a particular implementation and not
+> explain what the problem you are trying to solve is?
 
-SGksIEhzaWFvLWNoaWVuOg0KDQpPbiBUaHUsIDIwMjMtMTAtMjYgYXQgMDg6MjcgKzAwMDAsIFNo
-YXduIFN1bmcgKOWui+WtneismSkgd3JvdGU6DQo+IEhpIENLLA0KPiANCj4gT24gVGh1LCAyMDIz
-LTEwLTI2IGF0IDAxOjUzICswMDAwLCBDSyBIdSAo6IOh5L+K5YWJKSB3cm90ZToNCj4gPiBIaSwg
-SHNpYW8tY2hpZW46DQo+ID4gDQo+ID4gT24gTW9uLCAyMDIzLTA5LTE4IGF0IDE1OjEwICswODAw
-LCBIc2lhbyBDaGllbiBTdW5nIHdyb3RlOg0KPiA+ID4gRm9yIENSVENzIHRoYXQgZG9lc24ndCBz
-dXBwb3J0IHJvdGF0aW9uIHNob3VsZCBzdGlsbCByZXR1cm4NCj4gPiA+IERSTV9NT0RFX1JPVEFU
-RV8wLiBTaW5jZSBib3RoIE9WTCBhbmQgT1ZMIGFkYXB0b3Igb24gTVRLIGNoaXANCj4gPiA+IGRv
-ZXNuJ3Qgc3VwcG9ydCByb3RhdGlvbiwgcmV0dXJuIHRoZSBjYXBhYmlsaXR5IG9mIHRoZQ0KPiA+
-ID4gaGFyZHdhcmUgYWNjb3JkaW5nbHkuDQo+ID4gPiANCj4gPiA+IEZpeGVzOiBkZjQ0NDQ1Nzcx
-MTggKCJkcm0vbWVkaWF0ZWs6IFN1cHBvcnQgMTgwIGRlZ3JlZSByb3RhdGlvbiIpDQo+ID4gPiBG
-aXhlczogODRkODA1NzUzOTgzICgiZHJtL21lZGlhdGVrOiBTdXBwb3J0IHJlZmxlY3QteSBwbGFu
-ZQ0KPiA+ID4gcm90YXRpb24iKQ0KPiA+ID4gDQo+ID4gPiBTaWduZWQtb2ZmLWJ5OiBIc2lhbyBD
-aGllbiBTdW5nIDxzaGF3bi5zdW5nQG1lZGlhdGVrLmNvbT4NCj4gPiA+IC0tLQ0KPiA+ID4gIGRy
-aXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZGlzcF9kcnYuaCAgICAgICAgIHwgMSArDQo+ID4g
-PiAgZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kaXNwX292bC5jICAgICAgICAgfCA4ICst
-LS0tLS0tDQo+ID4gPiAgZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kaXNwX292bF9hZGFw
-dG9yLmMgfCA1ICsrKysrDQo+ID4gPiAgZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1f
-ZGRwX2NvbXAuYyAgICAgfCAxICsNCj4gPiA+ICBkcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRr
-X2RybV9wbGFuZS5jICAgICAgICB8IDIgKy0NCj4gPiA+ICA1IGZpbGVzIGNoYW5nZWQsIDkgaW5z
-ZXJ0aW9ucygrKSwgOCBkZWxldGlvbnMoLSkNCj4gPiA+IA0KPiA+ID4gZGlmZiAtLWdpdCBhL2Ry
-aXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZGlzcF9kcnYuaA0KPiA+ID4gYi9kcml2ZXJzL2dw
-dS9kcm0vbWVkaWF0ZWsvbXRrX2Rpc3BfZHJ2LmgNCj4gPiA+IGluZGV4IDIyNTQwMzg1MTllMS4u
-ZjRjN2RiYThmNzNkIDEwMDY0NA0KPiA+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVr
-L210a19kaXNwX2Rydi5oDQo+ID4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRr
-X2Rpc3BfZHJ2LmgNCj4gPiA+IEBAIC0xMjAsNiArMTIwLDcgQEAgdm9pZA0KPiA+ID4gbXRrX292
-bF9hZGFwdG9yX3JlZ2lzdGVyX3ZibGFua19jYihzdHJ1Y3QNCj4gPiA+IGRldmljZSAqZGV2LCB2
-b2lkICgqdmJsYW5rX2NiKSh2bw0KPiA+ID4gIHZvaWQgbXRrX292bF9hZGFwdG9yX3VucmVnaXN0
-ZXJfdmJsYW5rX2NiKHN0cnVjdCBkZXZpY2UgKmRldik7DQo+ID4gPiAgdm9pZCBtdGtfb3ZsX2Fk
-YXB0b3JfZW5hYmxlX3ZibGFuayhzdHJ1Y3QgZGV2aWNlICpkZXYpOw0KPiA+ID4gIHZvaWQgbXRr
-X292bF9hZGFwdG9yX2Rpc2FibGVfdmJsYW5rKHN0cnVjdCBkZXZpY2UgKmRldik7DQo+ID4gPiAr
-dW5zaWduZWQgaW50IG10a19vdmxfYWRhcHRvcl9zdXBwb3J0ZWRfcm90YXRpb25zKHN0cnVjdCBk
-ZXZpY2UNCj4gPiA+ICpkZXYpOw0KPiA+ID4gIHZvaWQgbXRrX292bF9hZGFwdG9yX3N0YXJ0KHN0
-cnVjdCBkZXZpY2UgKmRldik7DQo+ID4gPiAgdm9pZCBtdGtfb3ZsX2FkYXB0b3Jfc3RvcChzdHJ1
-Y3QgZGV2aWNlICpkZXYpOw0KPiA+ID4gIHVuc2lnbmVkIGludCBtdGtfb3ZsX2FkYXB0b3JfbGF5
-ZXJfbnIoc3RydWN0IGRldmljZSAqZGV2KTsNCj4gPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dw
-dS9kcm0vbWVkaWF0ZWsvbXRrX2Rpc3Bfb3ZsLmMNCj4gPiA+IGIvZHJpdmVycy9ncHUvZHJtL21l
-ZGlhdGVrL210a19kaXNwX292bC5jDQo+ID4gPiBpbmRleCAyYmZmZTQyNDU0NjYuLjVmZDFmNmFl
-NDFmMyAxMDA2NDQNCj4gPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZGlz
-cF9vdmwuYw0KPiA+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kaXNwX292
-bC5jDQo+ID4gPiBAQCAtMjg4LDggKzI4OCw3IEBAIHVuc2lnbmVkIGludCBtdGtfb3ZsX2xheWVy
-X25yKHN0cnVjdCBkZXZpY2UNCj4gPiA+ICpkZXYpDQo+ID4gPiANCj4gPiA+ICB1bnNpZ25lZCBp
-bnQgbXRrX292bF9zdXBwb3J0ZWRfcm90YXRpb25zKHN0cnVjdCBkZXZpY2UgKmRldikNCj4gPiA+
-ICB7DQo+ID4gPiAtCXJldHVybiBEUk1fTU9ERV9ST1RBVEVfMCB8IERSTV9NT0RFX1JPVEFURV8x
-ODAgfA0KPiA+ID4gLQkgICAgICAgRFJNX01PREVfUkVGTEVDVF9YIHwgRFJNX01PREVfUkVGTEVD
-VF9ZOw0KPiA+ID4gKwlyZXR1cm4gRFJNX01PREVfUk9UQVRFXzAgfCBEUk1fTU9ERV9SRUZMRUNU
-X1ggfA0KPiA+ID4gRFJNX01PREVfUkVGTEVDVF9ZOw0KPiA+IA0KPiA+IElmIG92bCBlbmFibGUg
-cmVmbGVjdF94IGFuZCByZWZsZWN0X3kgYXQgdGhlIHNhbWUgdGltZSwgaXQgaXMNCj4gPiByb3Rh
-dGUNCj4gPiAxODAsIHJpZ2h0Pw0KPiA+IA0KPiA+IFJlZ2FyZHMsDQo+ID4gQ0sNCj4gDQo+IFll
-cywgaWYgdGhlIHVzZXIgZG8gc3VjaCBhbiBvcGVyYXRpb24sIHRoZSByZXN1bHQgaXMgZXF1YWwg
-dG8gMTgwDQo+IGRlZ3JlZXMgcm90YXRpb24uDQoNClNvIG92bCBzdXBwb3J0IHJvdGF0ZSAxODAs
-IHdoeSBkbyB5b3UgcmVtb3ZlIHRoaXMgY2FwYWJpbGl0eT8NCg0KPiANCj4gUmVnYXJkcywNCj4g
-U2hhd24gDQo=
+Ah, excuse me. I thought that I explained that in the cover letter.
 
---__=_Part_Boundary_006_244971988.1765672741--
+DSI device lifetime has three different stages:
+1. before the DSI link being powered up and clocking,
+2. when the DSI link is in LP state (for the purpose of this question,
+this is the time between the DSI link being powered up and the video
+stream start)
+3. when the DSI link is in HS state (while streaming the video).
 
+Different DSI bridges have different requirements with respect to the
+code being executed at stages 1 and 2. For example several DSI-to-eDP
+bridges (ps8640, tc358767 require for the link to be quiet during
+reset time.
+The DSI-controlled bridges and DSI panels need to send some commands
+in stage 2, before starting up video
+
+In the DRM subsystem stage 3 naturally maps to the
+drm_bridge_funcs::enable, stage 1 also naturally maps to the
+drm_bridge_funcs::pre_enable. Stage 2 doesn't have its own place in
+the DRM call chain.
+Earlier we attempted to solve that using the pre_enable_prev_first,
+which remapped pre-enable callback execution order. However it has led
+us to the two issues. First, at the DSI host driver we do not know
+whether the panel / bridge were updated to use pre_enable_prev_first
+or not. Second, if the bridge has to perform steps during both stages
+1 and 2, it can not do that.
+
+I'm trying to find a way to express the difference between stages 1
+and 2 in the generic code, so that we do not to worry about particular
+DSI host and DSI bridge / panel peculiarities when implementing the
+DSI host and/or DSI panel driver.
+
+Last, but not least, we currently document that it is fine to call DSI
+transfer functions at any point during the driver's life time (at
+least that was the interpretation that we have agreed in the
+DSI-related threads). It has its own drawbacks for the DSI host
+drivers. The hosts have to deal with the DSI commands being sent at
+the different times, when the host is fully powered down, when it is
+running in the LP mode and when it is fully running and streaming
+video. By defining DSI lifetime more precisely, we can limit the
+period when the DSI commands can be legitimately sent, simplifying DSI
+host drives.
+
+> Thinking more about it, I'm even more skeptical about the general
+> approach that this should be implemented at the bridge level (or in
+> KMS).
+>
+> It looks to me that this is very much a bus problem. USB device drivers
+> also require the bus to be powered and generally available to send data
+> to their device, and you don't fix that up in the HID or storage
+> drivers, you make the bus behave that way.
+>
+> What prevents us from fixing it at the bus level?
+
+Yes, this can also be possible. Do you mean adding code / callbacks to
+struct mipi_dsi_device ?
+
+-- 
+With best wishes
+Dmitry
