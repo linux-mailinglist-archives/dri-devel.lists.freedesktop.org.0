@@ -1,57 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5ECC67D816C
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Oct 2023 13:01:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B90E7D8171
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Oct 2023 13:02:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A90BA10E7B3;
-	Thu, 26 Oct 2023 11:01:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D25F10E116;
+	Thu, 26 Oct 2023 11:02:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 86F3010E7B6;
- Thu, 26 Oct 2023 11:01:35 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 210BC1FE3A;
- Thu, 26 Oct 2023 11:01:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1698318094; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=nWEVzbIxrOySVqHFCy1etrL/aopLoqZpztJaT29lCPc=;
- b=IMFNVHkIzDDINVMZxaBXLwHUEjbrNcc5V3duXF0nkoB/dLoSp38ecYx4t1k/m9vx9fBSSb
- Vvz29WlkvA68XccWrrzoB23BA/19HxUJmMXAM8VB0YJHypOQXjTqC04Kx1K+NJaCVrGvUe
- 2GqNMcYsw6TZOpPFDXlk7OnusNZXw6k=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1698318094;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=nWEVzbIxrOySVqHFCy1etrL/aopLoqZpztJaT29lCPc=;
- b=ZlL/lqloFWgdk+ylK4/k83yrtt1FjzFS5/mUqHTfxJ8jUqjqszSC8qV1g8BQ/CmAvdzYT+
- pWwMxEAARH1YI3CA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D8A1D133F5;
- Thu, 26 Oct 2023 11:01:33 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id I0oENA1HOmUKZAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 26 Oct 2023 11:01:33 +0000
-Date: Thu, 26 Oct 2023 13:01:32 +0200
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-misc-fixes
-Message-ID: <20231026110132.GA10591@linux-uq9g.fritz.box>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B455610E116
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Oct 2023 11:02:30 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 0B200632E8;
+ Thu, 26 Oct 2023 11:02:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5723AC433C7;
+ Thu, 26 Oct 2023 11:02:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1698318149;
+ bh=zLbYQc4RPWTm6cj1FIA+4zPQH0fAAIZl4M3R1dFrBsM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=sjxLsn1VIYcAWpQScXeSXszBbvB9MgNCOaWTZox5XNfP3pxlItyNcyraUmdGFxeCr
+ RxceoUO7SGLIubmfjcJcHoWkXsBV04SDdrzmanKOmR1/2C4NORDof7TfoEbdhvRBaA
+ WNjfZW3RGCkucscZ/05I192kJ9iY8+k4TF1rOFaEe87qXy/dNbPn+Sdl77YS6Uaw8R
+ HE0v6VUkrGI0rW3wiiyX2kNvPXvanQS5c4CdVeRe7jwIXFY0FEjez1AlBmhCCclwa5
+ 9EVPC1P7QoBKghdTYUlz9cKFglPbc94J/EPhwab8QsxWBzXbh0mfwxEFwfp8RI2BG0
+ YOL3Rfd8TwXag==
+Date: Thu, 26 Oct 2023 13:02:27 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>
+Subject: Re: [PATCH] drm/doc: ci: Require more context for flaky tests
+Message-ID: <2cn4lsfadj7qjp3fapeu7z36xvzmuzecqic5vjascb4ybzelqa@izqhugbrzmv2>
+References: <20231019094609.251787-1-mripard@kernel.org>
+ <169831792811.896759.18431283797442582804.b4-ty@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="wktlz4p62tnsz5c2"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <169831792811.896759.18431283797442582804.b4-ty@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,98 +51,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gfx@lists.freedesktop.org
+Cc: Helen Koike <helen.koike@collabora.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-this is the week's PR for drm-misc-fixes.
+--wktlz4p62tnsz5c2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Best regards
-Thomas
+On Thu, Oct 26, 2023 at 12:58:48PM +0200, Maxime Ripard wrote:
+> On Thu, 19 Oct 2023 11:46:09 +0200, Maxime Ripard wrote:
+> > Flaky tests can be very difficult to reproduce after the facts, which
+> > will make it even harder to ever fix.
+> >=20
+> > Let's document the metadata we agreed on to provide more context to
+> > anyone trying to address these fixes.
+> >=20
+> >=20
+> > [...]
+>=20
+> Applied to drm/drm-misc (drm-misc-next).
 
-drm-misc-fixes-2023-10-26:
-Short summary of fixes pull:
+b4 might have been confused, but I only applied the v2.
 
-amdgpu:
-- ignore duplicated BOs in CS parser
-- remove redundant call to amdgpu_ctx_priority_is_valid()
+Maxime
 
-amdkfd:
-- reserve fence slot while locking BO
+--wktlz4p62tnsz5c2
+Content-Type: application/pgp-signature; name="signature.asc"
 
-dp_mst:
-- Fix NULL deref in get_mst_branch_device_by_guid_helper()
+-----BEGIN PGP SIGNATURE-----
 
-logicvc:
-- Kconfig: Select REGMAP and REGMAP_MMIO
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZTpHQwAKCRDj7w1vZxhR
+xb9sAP95IDXAYq0n7cA+22GJJ2CuI3KWP+o3Mgo7Jx3KPA4hcwD9EwufmBuN0QfO
+vvNsT+9Nvma+i8aKvxLDGe2KfdKQ7wo=
+=IvG/
+-----END PGP SIGNATURE-----
 
-ivpu:
-- Fix missing VPUIP interrupts
-The following changes since commit 8f5ad367e8b884772945c6c9fb622ac94b7d3e32:
-
-  accel/ivpu: Extend address range for MMU mmap (2023-10-19 08:01:20 +0200)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-fixes-2023-10-26
-
-for you to fetch changes up to b132ac51d7a50c37683be56c96ff64f8c887930f:
-
-  accel/ivpu/37xx: Fix missing VPUIP interrupts (2023-10-26 07:43:28 +0200)
-
-----------------------------------------------------------------
-Short summary of fixes pull:
-
-amdgpu:
-- ignore duplicated BOs in CS parser
-- remove redundant call to amdgpu_ctx_priority_is_valid()
-
-amdkfd:
-- reserve fence slot while locking BO
-
-dp_mst:
-- Fix NULL deref in get_mst_branch_device_by_guid_helper()
-
-logicvc:
-- Kconfig: Select REGMAP and REGMAP_MMIO
-
-ivpu:
-- Fix missing VPUIP interrupts
-
-----------------------------------------------------------------
-Christian König (2):
-      drm/amdgpu: ignore duplicate BOs again
-      drm/amdkfd: reserve a fence slot while locking the BO
-
-Karol Wachowski (1):
-      accel/ivpu/37xx: Fix missing VPUIP interrupts
-
-Luben Tuikov (1):
-      drm/amdgpu: Remove redundant call to priority_is_valid()
-
-Lukasz Majczak (1):
-      drm/dp_mst: Fix NULL deref in get_mst_branch_device_by_guid_helper()
-
-Sui Jingfeng (1):
-      drm/logicvc: Kconfig: select REGMAP and REGMAP_MMIO
-
- drivers/accel/ivpu/ivpu_hw_37xx.c                | 11 +++++------
- drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c |  2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c           |  3 ++-
- drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c          | 15 ++++++++-------
- drivers/gpu/drm/display/drm_dp_mst_topology.c    |  6 +++---
- drivers/gpu/drm/logicvc/Kconfig                  |  2 ++
- 6 files changed, 21 insertions(+), 18 deletions(-)
-
--- 
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+--wktlz4p62tnsz5c2--
