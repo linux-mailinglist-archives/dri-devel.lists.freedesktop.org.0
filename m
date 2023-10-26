@@ -2,61 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36A637D89CC
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Oct 2023 22:46:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC76B7D89EC
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Oct 2023 22:59:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE23210E8A8;
-	Thu, 26 Oct 2023 20:46:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AEE7810E8AE;
+	Thu, 26 Oct 2023 20:59:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32c.google.com (mail-ot1-x32c.google.com
- [IPv6:2607:f8b0:4864:20::32c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A22610E8A9
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Oct 2023 20:46:46 +0000 (UTC)
-Received: by mail-ot1-x32c.google.com with SMTP id
- 46e09a7af769-6ce2fc858feso875516a34.3
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Oct 2023 13:46:46 -0700 (PDT)
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
+ [IPv6:2a00:1450:4864:20::42c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2385510E8AE
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Oct 2023 20:59:18 +0000 (UTC)
+Received: by mail-wr1-x42c.google.com with SMTP id
+ ffacd0b85a97d-32ddfb38c02so938284f8f.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Oct 2023 13:59:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1698353205; x=1698958005; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=I/G02VsxhYJWjx+P8kMFTWWV+s1yYYgHb9RgEPb8krc=;
- b=eYutkuaXl3BBzWj6IjKxL2y4ExNpWeuZ+5EzAi8acrekI+MQrpqP9U6k19rFDpwGRe
- WC6NwhDgp9YcLYOZQyDQsLrU7ErnDKKeAa/Iad1/tosyB2wRGtVRZaJhA5dAeJA9Cf6r
- ZEdUBtbgfbZlgzpZEwoF9X7TY/Es0NLc2ahgGBqv2xcuKpJhha1ZqO3VMYowDNIUvc66
- KgSIuQ8cvKRnxMymhnnd+/rA8nnK9v4xLCaDogpi4FY3SQZ0flaFpWWKzq8QRi8oojkW
- Lncfu2l7+PhcnbZ2sSIguQGjv72772HP0nzoCeD2LRtVbb+3cS5kVUdKbivonAj/0erP
- GTrw==
+ d=linaro.org; s=google; t=1698353956; x=1698958756; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=eJ45MedtW52f9J0KjPN0wsG1dfwZ1/8Loy/GooxEfbE=;
+ b=FzMF9LRGTw6NYUF/CKX4/baMfzJ5sNitzTwcULLzEyDfhbfYA4qrZonx9HAV67iyJe
+ fqW/l1EHV/hQC9dXHe50gJ8Ydif4A062q+IuvxgHMMjga8eczwPYKCtp/w5ZQ+Bk5ZjE
+ uvU0OSenwIEY4wKC1jYenuWnXqlPdpZ6+g67r4oh1FaYgNE6/VQcoeB0GPjCzLR+SgUP
+ 9Z2T4nYBXlZ97yDFf/eKSDXrcWAV8+AfRdX0QQgzJWyAtxiReY7xrPf3V4aBhAAPA41M
+ L9Ty1ZXovne5Hb+E1yAYLSrJewOFEmGq/R7oZHcLLyXm3ASyA+/mxUsmBzTuLw7vgw4R
+ CHXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1698353205; x=1698958005;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=I/G02VsxhYJWjx+P8kMFTWWV+s1yYYgHb9RgEPb8krc=;
- b=Q1TYVXEYjzl8+spiNU1r6wHdQlKTgzB+mTCQ00hMW804eN/x6Lat3yaP4VBDpFJj/e
- Sv+jExK1N/cmYZaSM+2iWEgagpvSIRQjDU7fdGAJLew8FgZV3aVtZQLNf2C/RCWyPgCf
- 4ZsYOHMECFOXZ3qBZifiucmaKa8Dg91e/x8FjoRcEwv194n6OyRwrmBQWrgp0bO+GL7U
- 6wtxoxzvVL92nLuPzEgPmFzF3Tm1C/dOibZKN5TQGPc+XVCJDVqRBTcA7NXUu41iB/U7
- Yx/RQfzAAjiMbMOUSzzekDJeHAPRUDRR/pg9c8K1TXV2zuAuk9V6yHKkNR7logm+DG9V
- LnCA==
-X-Gm-Message-State: AOJu0Yx07GXL403i1KS9ss7Hk4MnDIf22dGMdIr4FKcf9aXHOXuGNwKo
- 1IcXK87vMf049lUE9FcMivE8UsIy9e6N+Ei4E/8DGg==
-X-Google-Smtp-Source: AGHT+IFVa6fJL5TjjQrb46JjIVUSocFW+PYDsLYQl5v/O4exSYbtWF5+eYNBjXmSZw79pzDpYDJn2OV8FuRMoqSfUoo=
-X-Received: by 2002:a9d:66ce:0:b0:6c5:233:fc28 with SMTP id
- t14-20020a9d66ce000000b006c50233fc28mr664232otm.33.1698353205417; Thu, 26 Oct
- 2023 13:46:45 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1698353956; x=1698958756;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=eJ45MedtW52f9J0KjPN0wsG1dfwZ1/8Loy/GooxEfbE=;
+ b=M58WvoObGvxOpbLD2T23Q5a3ak5ZhkL2bzCDqOAi6gnrNDiSo88YkVXiK4sh0thP0b
+ 01bogDuYLdsDfdxF7tdsmVhFlQvNO86kB7g4RXMUrrd4gQIdUqGDXdL7DqfXJ1/1ckwB
+ IAITIUyUfwlVbYsGhgI54+iMrv3Xy35EiXqvRgd/OlLAf4p+Avk8N+gRnvwbXmNKYwle
+ 2brK8e9Nj/MVftM8lyGWEX/SJckegbWsDlazF7ZaqyplQPqqYZsAcRsfQS+TWYP1kuQY
+ oSFF8tSqdsd/jOde8MfzmTQLDvf7FRYnOZX4Ys4byWktS4jWcg6+YMQ2b3/umsUeUdmO
+ elYw==
+X-Gm-Message-State: AOJu0YwmzrYcmQZKyg4sJ7iC3o1Ndv0ow0Bu6q3FRApgAMpwaFcUYWOs
+ U0grFCx609f2IvmZmRQf8pOJkQ==
+X-Google-Smtp-Source: AGHT+IG1m2LzUjFEXtZczRmxlxINkHg+Jq1D1mGg5ZDH5g7+z7SoUtG5Oaey8r/7wyn/lWQrriixAQ==
+X-Received: by 2002:a5d:62cd:0:b0:32c:c35c:2eea with SMTP id
+ o13-20020a5d62cd000000b0032cc35c2eeamr519578wrv.6.1698353956213; 
+ Thu, 26 Oct 2023 13:59:16 -0700 (PDT)
+Received: from [172.30.205.55] (UNUSED.212-182-62-129.lubman.net.pl.
+ [212.182.62.129]) by smtp.gmail.com with ESMTPSA id
+ l12-20020adfe9cc000000b0032dba85ea1bsm235247wrn.75.2023.10.26.13.59.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 26 Oct 2023 13:59:15 -0700 (PDT)
+Message-ID: <753148f5-d68c-49fc-b1ef-0f65eefe6e4c@linaro.org>
+Date: Thu, 26 Oct 2023 22:59:14 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 14/15] drm/msm/hdmi: switch to generic PHY subsystem
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>, Vinod Koul
+ <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>
 References: <20230928111630.1217419-1-dmitry.baryshkov@linaro.org>
- <20230928111630.1217419-14-dmitry.baryshkov@linaro.org>
- <36d6379b-66e6-4781-b08d-ef90f6e47828@linaro.org>
-In-Reply-To: <36d6379b-66e6-4781-b08d-ef90f6e47828@linaro.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Thu, 26 Oct 2023 23:46:34 +0300
-Message-ID: <CAA8EJppa8-M8Uah+=GBhG4bHvdGUwqgh0aj8o9rLfEdZq=JUKA@mail.gmail.com>
-Subject: Re: [PATCH v3 13/15] drm/msm/hdmi: pair msm_hdmi_phy_powerup with
- msm_hdmi_phy_powerdown
-To: Konrad Dybcio <konrad.dybcio@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+ <20230928111630.1217419-15-dmitry.baryshkov@linaro.org>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+In-Reply-To: <20230928111630.1217419-15-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,35 +80,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kishon Vijay Abraham I <kishon@kernel.org>, Vinod Koul <vkoul@kernel.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org,
- linux-phy@lists.infradead.org, Marijn Suijten <marijn.suijten@somainline.org>,
- freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, linux-phy@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 26 Oct 2023 at 22:54, Konrad Dybcio <konrad.dybcio@linaro.org> wrote:
->
->
->
-> On 9/28/23 13:16, Dmitry Baryshkov wrote:
-> > In preparation to converting MSM HDMI driver to use PHY framework, which
-> > requires phy_power_on() calls to be paired with phy_power_off(), add a
-> > conditional call to msm_hdmi_phy_powerdown() before the call to
-> > msm_hdmi_phy_powerup().
-> >
-> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > ---
-> Is this a conversion artifact that will be undone, or does the
-> framework actually expect that refcounting may not be enough and
-> phy resetting will have to take place?
 
-I don't remember why I did it this way. Let me check, most likely this
-patch can be completely dropped as the enable / disable operations are
-paired by the DRM core.
 
--- 
-With best wishes
-Dmitry
+On 9/28/23 13:16, Dmitry Baryshkov wrote:
+> Change the MSM HDMI driver to use generic PHY subsystem. Moving PHY
+> drivers allows better code sharing with the rest of the PHY system.
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+Looks like this will require some atomicity with the phy changes
+
+Acked-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+
+Konrad
