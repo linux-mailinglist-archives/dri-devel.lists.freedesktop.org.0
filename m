@@ -2,91 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8A077D7B5A
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Oct 2023 05:55:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0823D7D7B5E
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Oct 2023 06:12:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C659710E749;
-	Thu, 26 Oct 2023 03:55:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0FA5110E74C;
+	Thu, 26 Oct 2023 04:12:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2045.outbound.protection.outlook.com [40.107.243.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED84B10E749;
- Thu, 26 Oct 2023 03:55:10 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OT+pQiaqih/MRyQDlbCk+FVwWJW9qVVbRIk/dEcokQsnlsUy15t2axP64iQF5k3JRXn6/gZ+G6VFPWrzgNKGoeYs8h3iZNlSbg23aVvqUW5EQ1mzMslmZ5iGwe4FLloOP51TdHMACfl96572nlgtPeOls4y+yEqOInfM6WQRnr4YVQDjAFSUBRWmU1QepJLD9bsuU+Fxm6opMfp42v1O9bYj9ahr0VAMyg0Zu3i7h/dJZkJSiab6VQt9d3OBhOBWnyHB7bZsah8mKFjdS/gGuWoWbv2nUVKtNcMWOhLJairPaM2T6eXRTCtqTRQr5QThAo3kBHWNosXEB+WGJsoAsA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Wlr+m+8IXKhVQD4zLG6tdh95UyKDhgSjGdsYL6556ig=;
- b=S5MKCv9Rga13VhLC6EyOUICvXMKLdwPZYya315ShmT2ZmIrmPUEsuESzbdWqMQZZ7pFakwz/LdGaPuTnIwqWNZqZIjK11VNWn6NOzRbm9mIeswuO0tMv6NOzMEiLZIEyc7HN36cE8cqWpmoUqkCVAZyqIJueYoogLWsP5iDGeGFMoUWyzCqf4rdC9yt8tqBnjG9FN7m28bqa6nhxHFoHpdGwVlucPAPDwnxUyh7qQLvHBcOLWaQJMBP7UxnG9okXHw2LDBm19pNDvKQOAReXMrFVwVULCEdbFxM6X3YBpffLQmzp6dduV48i2Zk3ZXIHokBNF8vpXA+/HktaV1aEwg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Wlr+m+8IXKhVQD4zLG6tdh95UyKDhgSjGdsYL6556ig=;
- b=eCdW7gfh8TegVdHZLthrTRNCeaQvk3JSBhgbwRIUcROWCR8TpwJorefDpAfsKVV1pNu0mnye8PPnPYgCv3oa+2GHEqKFXrd9hcYcSOld1NrvRROOnD+sGkkdDthndSSYBi47dMTjsgOOJD3To7weXA4Tzktu9ePH2vd62iWIeBI=
-Received: from CY5PR14CA0017.namprd14.prod.outlook.com (2603:10b6:930:2::16)
- by SA1PR12MB8965.namprd12.prod.outlook.com (2603:10b6:806:38d::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6907.33; Thu, 26 Oct
- 2023 03:55:08 +0000
-Received: from CY4PEPF0000EDD7.namprd03.prod.outlook.com
- (2603:10b6:930:2:cafe::79) by CY5PR14CA0017.outlook.office365.com
- (2603:10b6:930:2::16) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6933.19 via Frontend
- Transport; Thu, 26 Oct 2023 03:55:08 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CY4PEPF0000EDD7.mail.protection.outlook.com (10.167.241.211) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6933.15 via Frontend Transport; Thu, 26 Oct 2023 03:55:08 +0000
-Received: from tr4.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.32; Wed, 25 Oct
- 2023 22:55:06 -0500
-From: Alex Deucher <alexander.deucher@amd.com>
-To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <airlied@gmail.com>, <daniel.vetter@ffwll.ch>
-Subject: [pull] amdgpu drm-fixes-6.6
-Date: Wed, 25 Oct 2023 23:54:52 -0400
-Message-ID: <20231026035452.14921-1-alexander.deucher@amd.com>
-X-Mailer: git-send-email 2.41.0
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C92810E74C;
+ Thu, 26 Oct 2023 04:12:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1698293529; x=1729829529;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=WT50UlYgFqILPLXA3UdpBaBOjFYNfaRQWbX3QSgAWao=;
+ b=J7TjNn1GfTSj/Im6+eKHQoVKqgFRh+M926S0ZAPTZqm+Gp5nd3kvSAuU
+ gHz4lQt5Mz8unDD0MrRujCHWr6HnwR3IgQwUwow9lT9Flzorce3WQ6yrY
+ aAdPpOlfHfnEElu3KN8zCI0pwvxut9+GVbLRloGzocJFmBK1mPrrPxHGW
+ 9u8PkGjenkPP329qLZgE4jqzfUSqHsNpURcOqRQ33w0uU7HSVESQlze25
+ v//zNbFZMQMDvtLnjdY+QbBy1XrqbP0klx3FeZE1DR4TLpiIIJRjygbUK
+ hBuBRKBGwRPnaiFcbnQBOz9sJ/4nNaFAQwh5LP33MAjip31XxJvf0a8UW w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10874"; a="377822989"
+X-IronPort-AV: E=Sophos;i="6.03,252,1694761200"; d="scan'208";a="377822989"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Oct 2023 21:12:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10874"; a="762685118"
+X-IronPort-AV: E=Sophos;i="6.03,252,1694761200"; d="scan'208";a="762685118"
+Received: from lstrano-desk.jf.intel.com ([10.54.39.91])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Oct 2023 21:12:07 -0700
+From: Matthew Brost <matthew.brost@intel.com>
+To: dri-devel@lists.freedesktop.org,
+	intel-xe@lists.freedesktop.org
+Subject: [PATCH v7 0/6] DRM scheduler changes for Xe
+Date: Wed, 25 Oct 2023 21:12:30 -0700
+Message-Id: <20231026041236.1273694-1-matthew.brost@intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000EDD7:EE_|SA1PR12MB8965:EE_
-X-MS-Office365-Filtering-Correlation-Id: 685362bd-1b39-45fa-8dd9-08dbd5d75870
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: gVjjcZ+aUHU6/V6kCwtczDJMnOiq88gcPU4A/Pss/Gay+4gfaz2LoCRbfPAnbfaMwBwQtGTsWZMLslTK3Mye3JbPyinauxbGWEmsonH41o7lHGTY0+W7MpI4UrbVdSLqClA4u0vF8B/aJv6lNeVOISYFQA6U5jO0ZV/RL8nIAkoOsOrm9Ppb9e4DxtFEjCaCP0GlnmVsybyPdSnV1GZsmc+dd7HVGp7KlvXlMPhMXLAVMYx3TCYTykQ4Gb1y6ZSFqfYIQzKplJhKc0m/Plu0vVGtf8CTMOZTHyFQzkfsoDLQoIUq+ELe+E9wTnyGmtafzw4wAkWv4mHy/1rZIuK2QD0Md34mLz9Lgr6NvSb86gglduBMTwV4oplxaOcRqlMjmITrXg48UxZiTideXf19kz+z85jli2oBVJZavFDEr2rKLRbMFK/9Eh2BKXXHaCbvVeVWRIlsgBV44jyBaGlCfmmUaEGDqT7I3YaonANxms+dpT+NlLB2Ox2hZm9BGxw7RbvpfYHDPNirbq5v34KHwb/FzhBYXQIOYn1yZd6saQ5p0UiEx7RJZLIM+tkwEb1KmTKFAV/vW5QqiB5LeE3sEMoFv45Bn5Xcm5cbytSGs2PXGAzFjbszd6RDQwpjLnvOInNPiq5wsoivrGLXPm7qjl0iL2bRIUgl5xzWMq8Xk8JfVwSM1UgHwChN31mC4OwGk7M86lGGS06ss+JsSc2nV2GUd9MF4HrfJzadOzhlZPIDHv0fcdsqu34z6ve5Sy96
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230031)(4636009)(346002)(396003)(39860400002)(136003)(376002)(230922051799003)(82310400011)(1800799009)(451199024)(64100799003)(186009)(46966006)(36840700001)(40470700004)(8936002)(82740400003)(41300700001)(70586007)(40480700001)(5660300002)(4326008)(40460700003)(8676002)(86362001)(70206006)(110136005)(478600001)(966005)(316002)(4744005)(36756003)(2906002)(16526019)(4001150100001)(26005)(336012)(356005)(1076003)(47076005)(2616005)(426003)(83380400001)(7696005)(81166007)(6666004)(36860700001)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Oct 2023 03:55:08.0575 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 685362bd-1b39-45fa-8dd9-08dbd5d75870
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CY4PEPF0000EDD7.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB8965
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,35 +57,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: robdclark@chromium.org, thomas.hellstrom@linux.intel.com,
+ Matthew Brost <matthew.brost@intel.com>, lina@asahilina.net,
+ sarah.walker@imgtec.com, ketil.johnsen@arm.com, Liviu.Dudau@arm.com,
+ mcanal@igalia.com, luben.tuikov@amd.com, dakr@redhat.com,
+ donald.robson@imgtec.com, boris.brezillon@collabora.com,
+ christian.koenig@amd.com, faith.ekstrand@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Sima,
+As a prerequisite to merging the new Intel Xe DRM driver [1] [2], we
+have been asked to merge our common DRM scheduler patches first.
 
-One last fix for 6.6.
+This a continuation of a RFC [3] with all comments addressed, ready for
+a full review, and hopefully in state which can merged in the near
+future. More details of this series can found in the cover letter of the
+RFC [3].
 
-The following changes since commit 05d3ef8bba77c1b5f98d941d8b2d4aeab8118ef1:
+These changes have been tested with the Xe driver. Based on drm-tip branch.
 
-  Linux 6.6-rc7 (2023-10-22 12:11:21 -1000)
+A follow up series will be posted to address some of dakr requets for
+kernel doc changes.
 
-are available in the Git repository at:
+v2:
+ - Break run job, free job, and process message in own work items
+ - This might break other drivers as run job and free job now can run in
+   parallel, can fix up if needed
 
-  https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-fixes-6.6-2023-10-25
+v3:
+ - Include missing patch 'drm/sched: Add drm_sched_submit_* helpers'
+ - Fix issue with setting timestamp to early
+ - Don't dequeue jobs for single entity after calling entity fini
+ - Flush pending jobs on entity fini
+ - Add documentation for entity teardown
+ - Add Matthew Brost to maintainers of DRM scheduler
 
-for you to fetch changes up to 64ffd2f1d00c6235dabe9704bbb0d9ce3e28147f:
+v4:
+ - Drop message interface
+ - Drop 'Flush pending jobs on entity fini'
+ - Drop 'Add documentation for entity teardown'
+ - Address all feedback
 
-  drm/amd: Disable ASPM for VI w/ all Intel systems (2023-10-25 09:53:17 -0400)
+v5:
+ - Address Luben's feedback
+ - Drop starting TDR after calling run_job()
+ - Drop adding Matthew Brost to maintainers of DRM scheduler
 
-----------------------------------------------------------------
-amd-drm-fixes-6.6-2023-10-25:
+v6:
+ - Address Luben's feedback
+ - Include base commit
 
-amdgpu:
-- Extend VI APSM quirks to more platforms
+v7:
+ - Drop SINGLE_ENTITY mode rather pull in Luben's patch for dynamic run queues
+ - Address Luben's feedback for free_job work item patch
 
-----------------------------------------------------------------
-Mario Limonciello (1):
-      drm/amd: Disable ASPM for VI w/ all Intel systems
+Matt
 
- drivers/gpu/drm/amd/amdgpu/vi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+[1] https://gitlab.freedesktop.org/drm/xe/kernel
+[2] https://patchwork.freedesktop.org/series/112188/
+[3] https://patchwork.freedesktop.org/series/116055/
+
+Luben Tuikov (1):
+  drm/sched: Convert the GPU scheduler to variable number of run-queues
+
+Matthew Brost (5):
+  drm/sched: Add drm_sched_wqueue_* helpers
+  drm/sched: Convert drm scheduler to use a work queue rather than
+    kthread
+  drm/sched: Split free_job into own work item
+  drm/sched: Add drm_sched_start_timeout_unlocked helper
+  drm/sched: Add a helper to queue TDR immediately
+
+ .../drm/amd/amdgpu/amdgpu_amdkfd_arcturus.c   |   2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c   |  15 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c    |  15 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_job.c       |   4 +-
+ drivers/gpu/drm/etnaviv/etnaviv_sched.c       |   1 +
+ drivers/gpu/drm/lima/lima_sched.c             |   3 +-
+ drivers/gpu/drm/msm/adreno/adreno_device.c    |   6 +-
+ drivers/gpu/drm/msm/msm_ringbuffer.c          |   6 +-
+ drivers/gpu/drm/nouveau/nouveau_sched.c       |   3 +-
+ drivers/gpu/drm/panfrost/panfrost_job.c       |   1 +
+ drivers/gpu/drm/scheduler/sched_entity.c      |  18 +-
+ drivers/gpu/drm/scheduler/sched_main.c        | 444 ++++++++++++------
+ drivers/gpu/drm/v3d/v3d_sched.c               |  10 +-
+ include/drm/gpu_scheduler.h                   |  29 +-
+ 14 files changed, 373 insertions(+), 184 deletions(-)
+
+
+base-commit: 201c8a7bd1f3f415920a2df4b8a8817e973f42fe
+-- 
+2.34.1
+
