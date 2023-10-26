@@ -2,82 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AB647D8786
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Oct 2023 19:25:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AA027D8790
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Oct 2023 19:30:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF35510E835;
-	Thu, 26 Oct 2023 17:25:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6524A10E84C;
+	Thu, 26 Oct 2023 17:30:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x831.google.com (mail-qt1-x831.google.com
- [IPv6:2607:f8b0:4864:20::831])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 124FB10E835;
- Thu, 26 Oct 2023 17:25:20 +0000 (UTC)
-Received: by mail-qt1-x831.google.com with SMTP id
- d75a77b69052e-4197fa36b6aso8543451cf.3; 
- Thu, 26 Oct 2023 10:25:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1698341119; x=1698945919; darn=lists.freedesktop.org;
- h=in-reply-to:autocrypt:from:references:cc:to:content-language
- :subject:user-agent:mime-version:date:message-id:from:to:cc:subject
- :date:message-id:reply-to;
- bh=EU5xFwVc6jgIe3EzY0IHSa84KhXBI4zWk3tZOedh3HU=;
- b=BS+NK4QxSVz3S2CI5MTDj5Madyy16glaNUAG3/H4f1dFq0Tv3AutwI/TADEUr1lcrh
- nZlOSEL5Zvog6QynIEWBOv3LS15oXeVLzmAQXHVk18U56yRrL98VU6J3nmX3bHQ981dP
- 0ugimSSebW7MFjWNQP6aU1WSeRjUFu/9uiRVvGt61IaZOJ/UFS9n69fecp4JSJEKrgGl
- fkWAGVHK4ZnU9veSLFmfK04ngR0ebvx9IMqRpCese/QWWYgcGouxK9UzkbbHr3nfG7rT
- +1TSlimq+/Q+LL+xO56ARopCCHZf5ffPut+iTb9BYQ+Ry1U6Yum2Mh2809j/ywsTbLJe
- iHCA==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D906D10E841
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Oct 2023 17:30:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1698341411;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=EYyjKImKeFdVC8GMzJEQyxEmS8bEsg1j4TcLU0oPCe4=;
+ b=FYBqKt/mirHKJ/n0q4POq5FsINSnADAGFrg4i4b15q7xU+H9KMEDEV5L0cZC4R+xMyDB1F
+ B2ja2rFpkYyr1ICl6JrXSBBeZl5LNXHAuAZTnzYnzRknc7b6IW0kPhVB4IIHh3GwnFB3tI
+ 8FP5lClvPV/7AE/Gc2uUztGXDLngfiM=
+Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
+ [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-453-gGmGxecPP0y6yewtyE-WEQ-1; Thu, 26 Oct 2023 13:30:08 -0400
+X-MC-Unique: gGmGxecPP0y6yewtyE-WEQ-1
+Received: by mail-lf1-f69.google.com with SMTP id
+ 2adb3069b0e04-507b8ac8007so1342978e87.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Oct 2023 10:30:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1698341119; x=1698945919;
- h=in-reply-to:autocrypt:from:references:cc:to:content-language
- :subject:user-agent:mime-version:date:message-id:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=EU5xFwVc6jgIe3EzY0IHSa84KhXBI4zWk3tZOedh3HU=;
- b=Ja4MNjxH545hx/Z5urNIVeA8M7UVvwoUewHDdlMA7fhlvPU8C5L1e3gnTJ/sY25XIc
- QqLT1mHStaRyaVYnoEskdog4Q81tMxe/mmMUWu1BGhrmhr2kB9Gj9wPdPZhbz4LE1b9m
- HZLP0anR74aAlzPZEhkDd76LXAX1wIo+X0B+Uu4izB3et09ETHy6K+37/rLUNYQwIALH
- DRmHgIbupH7wcOIm+Fdl7ARBOT0LqyB8PIoTKa5MhJd6UxXk/S6zmNd1hINBjMLgpI5S
- aHTs3ehmfW6mv8l1gAyUNSxdELRHG/I8yCvN0MWhSaZPth5lxFwnMP3cjWS52dev7+F7
- 6rcg==
-X-Gm-Message-State: AOJu0Yy5qqHnRr4g0fe+sADPloDSR4XJsU1HskFI19Z9wfNlKoxV9K/a
- spZ1G5XzbVShfZtwDAfcDlM=
-X-Google-Smtp-Source: AGHT+IGdM2fJ3AKPSfEs/hR/K40wKj4suDvzL73g3Bysm+uhaWGRtN5Xh+3NbXOG3nquFYOVdgGN+A==
-X-Received: by 2002:a0c:aa1a:0:b0:66f:b0ca:f145 with SMTP id
- d26-20020a0caa1a000000b0066fb0caf145mr243856qvb.10.1698341118840; 
- Thu, 26 Oct 2023 10:25:18 -0700 (PDT)
-Received: from [192.168.2.14] ([64.231.246.137])
+ d=1e100.net; s=20230601; t=1698341406; x=1698946206;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=EYyjKImKeFdVC8GMzJEQyxEmS8bEsg1j4TcLU0oPCe4=;
+ b=bUM6bmem+tuKb+3BuGH+WCyv1h1g6ezFCVdkbF6XZr709w/gF6+nQ6KTxCuYQLq5IL
+ qOI6plSQ0PhZDEQSBtTFaTCJCj+/aMO1SH9rduTd5gGBTiqBL3lOTkVGtjljMWf3DC6G
+ a7zpT9wbUIflHEtCHEIm0zvpw4p2giX5UEFBadWBYDw93VSNL9dbSYlgzcAgYo3qYL08
+ 4nmDaoavVB+hzItbehkvLbtt22ELnnwyJN2tRvS2/trVLn+3JgudLBoSXUqn9GJTx5Kb
+ Eyc3xB5l8jElI6WQ0o25mgNnAH+QC4FTr3g9lCG6g4r9B6xDdhnj1+NG87tbQRoxDBVp
+ 9shQ==
+X-Gm-Message-State: AOJu0Yw/68IKoNHmQT4Dz2YQttg+UiRg3WN3fqyuYtHVrIL4T6wD/C6o
+ SqAFD80yOlqkdY2qBtm+QDFwBI/k7M2KZQP6ymXFvH4WO2YLm0oGgCkFugvhZ7bQCXss8rw44mX
+ ZaVV6jgEILmocwQbfgyW2Zxja6p+9
+X-Received: by 2002:ac2:5b4c:0:b0:507:a62c:5d0c with SMTP id
+ i12-20020ac25b4c000000b00507a62c5d0cmr46500lfp.19.1698341406469; 
+ Thu, 26 Oct 2023 10:30:06 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGiYnJT7ncYTbMdCavGtUhzeKi2A12k4p5DETmpDx2B4Z4RvEb/eg1l6zfMQj0pXjHyK/EHbA==
+X-Received: by 2002:ac2:5b4c:0:b0:507:a62c:5d0c with SMTP id
+ i12-20020ac25b4c000000b00507a62c5d0cmr46452lfp.19.1698341405763; 
+ Thu, 26 Oct 2023 10:30:05 -0700 (PDT)
+Received: from toolbox ([2001:9e8:8982:c100:da01:6266:fbb4:ac1f])
  by smtp.gmail.com with ESMTPSA id
- df17-20020a056214081100b0064723b94a23sm5285513qvb.27.2023.10.26.10.25.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 26 Oct 2023 10:25:18 -0700 (PDT)
-Message-ID: <6f3e9b93-2be5-46b2-bbd9-d61d2603c14a@gmail.com>
-Date: Thu, 26 Oct 2023 13:25:08 -0400
+ m28-20020a05600c3b1c00b003feae747ff2sm3150722wms.35.2023.10.26.10.30.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 26 Oct 2023 10:30:05 -0700 (PDT)
+Date: Thu, 26 Oct 2023 19:30:03 +0200
+From: Sebastian Wick <sebastian.wick@redhat.com>
+To: Pekka Paalanen <ppaalanen@gmail.com>
+Subject: Re: [RFC PATCH v2 06/17] drm/doc/rfc: Describe why prescriptive
+ color pipeline is needed
+Message-ID: <20231026173003.GA319477@toolbox>
+References: <20231019212133.245155-1-harry.wentland@amd.com>
+ <20231019212133.245155-7-harry.wentland@amd.com>
+ <20231020142256.GA859375@toolbox> <20231020175703.09cd2578@eldfell>
+ <20f33898-4c40-4854-a1e8-afaef52f6524@amd.com>
+ <20231023111219.6e287958@eldfell>
+ <bf69b740-dce7-94f1-293d-a4b274b52f55@nvidia.com>
+ <20231026115747.44cbddad@eldfell>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:115.0) Gecko/20100101
- Thunderbird/115.4.1
-Subject: Re: [PATCH] drm/sched: Convert the GPU scheduler to variable number
- of run-queues
-Content-Language: en-CA, en-US
-To: Danilo Krummrich <dakr@redhat.com>, Luben Tuikov <luben.tuikov@amd.com>,
- Direct Rendering Infrastructure - Development
- <dri-devel@lists.freedesktop.org>
-References: <20231023032251.164775-1-luben.tuikov@amd.com>
- <8f53f7ef-7621-4f0b-bdef-d8d20bc497ff@redhat.com>
-From: Luben Tuikov <ltuikov89@gmail.com>
-Autocrypt: addr=ltuikov89@gmail.com; keydata=
- xjMEZTohOhYJKwYBBAHaRw8BAQdAWSq76k+GsENjDTMVCy9Vr4fAO9Rb57/bPT1APnbnnRHN
- Ikx1YmVuIFR1aWtvdiA8bHR1aWtvdjg5QGdtYWlsLmNvbT7CmQQTFgoAQRYhBJkj7+VmFO9b
- eaAl10wVR5QxozSvBQJlOiE6AhsDBQkJZgGABQsJCAcCAiICBhUKCQgLAgQWAgMBAh4HAheA
- AAoJEEwVR5QxozSvSm4BAOwCpX53DTQhE20FBGlTMqKCOQyJqlMcIQ9SO1qPWX1iAQCv3vfy
- JwktF7REl1yt7IU2Sye1qmQMfJxdt9JMbMNNBs44BGU6IToSCisGAQQBl1UBBQEBB0BT9wSP
- cCE8uGe7FWo8C+nTSyWPXKTx9F0gpEnlqReRBwMBCAfCfgQYFgoAJhYhBJkj7+VmFO9beaAl
- 10wVR5QxozSvBQJlOiE6AhsMBQkJZgGAAAoJEEwVR5QxozSvSsYA/2LIFjbxQ2ikbU5S0pKo
- aMDzO9eGz69uNhNWJcvIKJK6AQC9228Mqc1JeZMIyjYWr2HKYHi8S2q2/zHrSZwAWYYwDA==
-In-Reply-To: <8f53f7ef-7621-4f0b-bdef-d8d20bc497ff@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------qpo00lTdqRNzQQlFP0xxWGMF"
+In-Reply-To: <20231026115747.44cbddad@eldfell>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,650 +90,428 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthew Brost <matthew.brost@intel.com>, lima@lists.freedesktop.org,
- Emma Anholt <emma@anholt.net>, nouveau@lists.freedesktop.org,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, etnaviv@lists.freedesktop.org,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Boris Brezillon <boris.brezillon@collabora.com>, Qiang Yu <yuq825@gmail.com>,
- linux-arm-msm@vger.kernel.org, Alex Deucher <alexander.deucher@amd.com>,
- freedreno@lists.freedesktop.org,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Sasha McIntosh <sashamcintosh@google.com>,
+ Liviu Dudau <Liviu.Dudau@arm.com>, Victoria Brekenfeld <victoria@system76.com>,
+ dri-devel@lists.freedesktop.org,
+ Michel =?iso-8859-1?Q?D=E4nzer?= <mdaenzer@redhat.com>,
+ Arthur Grillo <arthurgrillo@riseup.net>,
+ Christopher Braga <quic_cbraga@quicinc.com>, Aleix Pol <aleixpol@kde.org>,
+ Shashank Sharma <shashank.sharma@amd.com>, wayland-devel@lists.freedesktop.org,
+ Jonas =?iso-8859-1?Q?=C5dahl?= <jadahl@redhat.com>,
+ Uma Shankar <uma.shankar@intel.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Naseer Ahmed <quic_naseer@quicinc.com>, Melissa Wen <mwen@igalia.com>,
+ Hector Martin <marcan@marcan.st>, Xaver Hugl <xaver.hugl@gmail.com>,
+ Joshua Ashton <joshua@froggi.es>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------qpo00lTdqRNzQQlFP0xxWGMF
-Content-Type: multipart/mixed; boundary="------------oweN29030ns5OSjFnt5KAz5X";
- protected-headers="v1"
-From: Luben Tuikov <ltuikov89@gmail.com>
-To: Danilo Krummrich <dakr@redhat.com>, Luben Tuikov <luben.tuikov@amd.com>,
- Direct Rendering Infrastructure - Development
- <dri-devel@lists.freedesktop.org>
-Cc: Matthew Brost <matthew.brost@intel.com>, lima@lists.freedesktop.org,
- Emma Anholt <emma@anholt.net>, nouveau@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- etnaviv@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- Boris Brezillon <boris.brezillon@collabora.com>, Qiang Yu
- <yuq825@gmail.com>, Russell King <linux+etnaviv@armlinux.org.uk>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno@lists.freedesktop.org, =?UTF-8?Q?Christian_K=C3=B6nig?=
- <christian.koenig@amd.com>
-Message-ID: <6f3e9b93-2be5-46b2-bbd9-d61d2603c14a@gmail.com>
-Subject: Re: [PATCH] drm/sched: Convert the GPU scheduler to variable number
- of run-queues
-References: <20231023032251.164775-1-luben.tuikov@amd.com>
- <8f53f7ef-7621-4f0b-bdef-d8d20bc497ff@redhat.com>
-In-Reply-To: <8f53f7ef-7621-4f0b-bdef-d8d20bc497ff@redhat.com>
+On Thu, Oct 26, 2023 at 11:57:47AM +0300, Pekka Paalanen wrote:
+> On Wed, 25 Oct 2023 15:16:08 -0500 (CDT)
+> Alex Goins <agoins@nvidia.com> wrote:
+> 
+> > Thank you Harry and all other contributors for your work on this. Responses
+> > inline -
+> > 
+> > On Mon, 23 Oct 2023, Pekka Paalanen wrote:
+> > 
+> > > On Fri, 20 Oct 2023 11:23:28 -0400
+> > > Harry Wentland <harry.wentland@amd.com> wrote:
+> > >   
+> > > > On 2023-10-20 10:57, Pekka Paalanen wrote:  
+> > > > > On Fri, 20 Oct 2023 16:22:56 +0200
+> > > > > Sebastian Wick <sebastian.wick@redhat.com> wrote:
+> > > > >     
+> > > > >> Thanks for continuing to work on this!
+> > > > >>
+> > > > >> On Thu, Oct 19, 2023 at 05:21:22PM -0400, Harry Wentland wrote:    
+> > > > >>> v2:
+> > > > >>>  - Update colorop visualizations to match reality (Sebastian, Alex Hung)
+> > > > >>>  - Updated wording (Pekka)
+> > > > >>>  - Change BYPASS wording to make it non-mandatory (Sebastian)
+> > > > >>>  - Drop cover-letter-like paragraph from COLOR_PIPELINE Plane Property
+> > > > >>>    section (Pekka)
+> > > > >>>  - Use PQ EOTF instead of its inverse in Pipeline Programming example (Melissa)
+> > > > >>>  - Add "Driver Implementer's Guide" section (Pekka)
+> > > > >>>  - Add "Driver Forward/Backward Compatibility" section (Sebastian, Pekka)  
+> > > > >
+> > > > > ...
+> > > > >  
+> > > > >>> +An example of a drm_colorop object might look like one of these::
+> > > > >>> +
+> > > > >>> +    /* 1D enumerated curve */
+> > > > >>> +    Color operation 42
+> > > > >>> +    ├─ "TYPE": immutable enum {1D enumerated curve, 1D LUT, 3x3 matrix, 3x4 matrix, 3D LUT, etc.} = 1D enumerated curve
+> > > > >>> +    ├─ "BYPASS": bool {true, false}
+> > > > >>> +    ├─ "CURVE_1D_TYPE": enum {sRGB EOTF, sRGB inverse EOTF, PQ EOTF, PQ inverse EOTF, …}
+> > > > >>> +    └─ "NEXT": immutable color operation ID = 43  
+> > 
+> > I know these are just examples, but I would also like to suggest the possibility
+> > of an "identity" CURVE_1D_TYPE. BYPASS = true might get different results
+> > compared to setting an identity in some cases depending on the hardware. See
+> > below for more on this, RE: implicit format conversions.
+> > 
+> > Although NVIDIA hardware doesn't use a ROM for enumerated curves, it came up in
+> > offline discussions that it would nonetheless be helpful to expose enumerated
+> > curves in order to hide the vendor-specific complexities of programming
+> > segmented LUTs from clients. In that case, we would simply refer to the
+> > enumerated curve when calculating/choosing segmented LUT entries.
+> 
+> That's a good idea.
+> 
+> > Another thing that came up in offline discussions is that we could use multiple
+> > color operations to program a single operation in hardware. As I understand it,
+> > AMD has a ROM-defined LUT, followed by a custom 4K entry LUT, followed by an
+> > "HDR Multiplier". On NVIDIA we don't have these as separate hardware stages, but
+> > we could combine them into a singular LUT in software, such that you can combine
+> > e.g. segmented PQ EOTF with night light. One caveat is that you will lose
+> > precision from the custom LUT where it overlaps with the linear section of the
+> > enumerated curve, but that is unavoidable and shouldn't be an issue in most
+> > use-cases.
+> 
+> Indeed.
+> 
+> > Actually, the current examples in the proposal don't include a multiplier color
+> > op, which might be useful. For AMD as above, but also for NVIDIA as the
+> > following issue arises:
+> > 
+> > As discussed further below, the NVIDIA "degamma" LUT performs an implicit fixed
+> > point to FP16 conversion. In that conversion, what fixed point 0xFFFFFFFF maps
+> > to in floating point varies depending on the source content. If it's SDR
+> > content, we want the max value in FP16 to be 1.0 (80 nits), subject to a
+> > potential boost multiplier if we want SDR content to be brighter. If it's HDR PQ
+> > content, we want the max value in FP16 to be 125.0 (10,000 nits). My assumption
+> > is that this is also what AMD's "HDR Multiplier" stage is used for, is that
+> > correct?
+> 
+> It would be against the UAPI design principles to tag content as HDR or
+> SDR. What you can do instead is to expose a colorop with a multiplier of
+> 1.0 or 125.0 to match your hardware behaviour, then tell your hardware
+> that the input is SDR or HDR to get the expected multiplier. You will
+> never know what the content actually is, anyway.
+> 
+> Of course, if we want to have a arbitrary multiplier colorop that is
+> somewhat standard, as in, exposed by many drivers to ease userspace
+> development, you can certainly use any combination of your hardware
+> features you need to realize the UAPI prescribed mathematical operation.
+> 
+> Since we are talking about floating-point in hardware, a multiplier
+> does not significantly affect precision.
+> 
+> In order to mathematically define all colorops, I believe it is
+> necessary to define all colorops in terms of floating-point values (as
+> in math), even if they operate on fixed-point or integer. By this I
+> mean that if the input is 8 bpc unsigned integer pixel format for
+> instance, 0 raw pixel channel value is mapped to 0.0 and 255 is mapped
+> to 1.0, and the color pipeline starts with [0.0, 1.0], not [0, 255]
+> domain. We have to agree on this mapping for all channels on all pixel
+> formats. However, there is a "but" further below.
+> 
+> I also propose that quantization range is NOT considered in the raw
+> value mapping, so that we can handle quantization range in colorops
+> explicitly, allowing us to e.g. handle sub-blacks and super-whites when
+> necessary. (These are currently impossible to represent in the legacy
+> color properties, because everything is converted to full range and
+> clipped before any color operations.)
+> 
+> > From the given enumerated curves, it's not clear how they would map to the
+> > above. Should sRGB EOTF have a max FP16 value of 1.0, and the PQ EOTF a max FP16
+> > value of 125.0? That may work, but it tends towards the "descriptive" notion of
+> > assuming the source content, which may not be accurate in all cases. This is
+> > also an issue for the custom 1D LUT, as the blob will need to be converted to
+> > FP16 in order to populate our "degamma" LUT. What should the resulting max FP16
+> > value be, given that we no longer have any hint as to the source content?
+> 
+> In my opinion, all finite non-negative transfer functions should
+> operate with [0.0, 1.0] domain and [0.0, 1.0] range, and that includes
+> all sRGB, power 2.2, and PQ curves.
+> 
+> If we look at BT.2100, there is no such encoding even mentioned where
+> 125.0 would correspond to 10k cd/m². That 125.0 convention already has
+> a built-in assumption what the color spaces are and what the conversion
+> is aiming to do. IOW, I would say that choice is opinionated from the
+> start. The multiplier in BT.2100 is always 10000.
+> 
+> Given that elements like various kinds of look-up tables inherently
+> assume that the domain is [0.0, 1.0] (because the it is a table that
+> has a beginning and an end, and the usual convention is that the
+> beginning is zero and the end is one), I think it is best to stick to
+> the [0.0, 1.0] range where possible. If we go out of that range, then
+> we have to define how a LUT would apply in a sensible way.
+> 
+> Many TFs are intended to be defined only on [0.0, 1.0] -> [0.0, 1.0].
+> Some curves, like power 2.2, have a mathematical form that naturally
+> extends outside of that range. Power 2.2 generalizes to >1.0 input
+> values as is, but not for negative input values. If needed for negative
+> input values, it is common to use y = -TF(-x) for x < 0 mirroring.
+> 
+> scRGB is the prime example that intentionally uses negative channel
+> values. We can also have negative channel values with limited
+> quantization range, sometimes even intentionally (xvYCC chroma, or
+> PLUGE test sub-blacks). Out-of-unit-range values can also appear as a
+> side-effect of signal processing, and they should not get clipped
+> prematurely. This is a challenge for colorops that fundamentally cannot
+> handle out-of-unit-range values.
+> 
+> There are various workarounds. scRGB colorimetry can be converted into
+> BT.2020 primaries for example, to avoid saturation induced negative
+> values. Limited quantization range signal could be processed as-is,
+> meaning that the limited range is mapped to [16.0/255, 235.0/255]
+> instead of [0.0, 1.0] or so. But then, we have a complication with
+> transfer functions.
+> 
+> > I think a multiplier color op solves all of these issues. Named curves and
+> > custom 1D LUTs would by default assume a max FP16 value of 1.0, which would then
+> > be adjusted by the multiplier.
+> 
+> Pretty much.
+> 
+> > For 80 nit SDR content, set it to 1, for 400
+> > nit SDR content, set it to 5, for HDR PQ content, set it to 125, etc. 
+> 
+> That I think is a another story.
+> 
+> > > > >>> +
+> > > > >>> +    /* custom 4k entry 1D LUT */
+> > > > >>> +    Color operation 52
+> > > > >>> +    ├─ "TYPE": immutable enum {1D enumerated curve, 1D LUT, 3x3 matrix, 3x4 matrix, 3D LUT, etc.} = 1D LUT
+> > > > >>> +    ├─ "BYPASS": bool {true, false}
+> > > > >>> +    ├─ "LUT_1D_SIZE": immutable range = 4096
+> > > > >>> +    ├─ "LUT_1D": blob
+> > > > >>> +    └─ "NEXT": immutable color operation ID = 0  
+> > > > > 
+> > > > > ...
+> > > > >     
+> > > > >>> +Driver Forward/Backward Compatibility
+> > > > >>> +=====================================
+> > > > >>> +
+> > > > >>> +As this is uAPI drivers can't regress color pipelines that have been
+> > > > >>> +introduced for a given HW generation. New HW generations are free to
+> > > > >>> +abandon color pipelines advertised for previous generations.
+> > > > >>> +Nevertheless, it can be beneficial to carry support for existing color
+> > > > >>> +pipelines forward as those will likely already have support in DRM
+> > > > >>> +clients.
+> > > > >>> +
+> > > > >>> +Introducing new colorops to a pipeline is fine, as long as they can be
+> > > > >>> +disabled or are purely informational. DRM clients implementing support
+> > > > >>> +for the pipeline can always skip unknown properties as long as they can
+> > > > >>> +be confident that doing so will not cause unexpected results.
+> > > > >>> +
+> > > > >>> +If a new colorop doesn't fall into one of the above categories
+> > > > >>> +(bypassable or informational) the modified pipeline would be unusable
+> > > > >>> +for user space. In this case a new pipeline should be defined.      
+> > > > >>
+> > > > >> How can user space detect an informational element? Should we just add a
+> > > > >> BYPASS property to informational elements, make it read only and set to
+> > > > >> true maybe? Or something more descriptive?    
+> > > > > 
+> > > > > Read-only BYPASS set to true would be fine by me, I guess.
+> > > > >     
+> > > > 
+> > > > Don't you mean set to false? An informational element will always do
+> > > > something, so it can't be bypassed.  
+> > > 
+> > > Yeah, this is why we need a definition. I understand "informational" to
+> > > not change pixel values in any way. Previously I had some weird idea
+> > > that scaling doesn't alter color, but of course it may.  
+> > 
+> > On recent hardware, the NVIDIA pre-blending pipeline includes LUTs that do
+> > implicit fixed-point to FP16 conversions, and vice versa.
+> 
+> Above, I claimed that the UAPI should be defined in nominal
+> floating-point values, but I wonder, would that work? Would we need to
+> have explicit colorops for converting from raw pixel data values into
+> nominal floating-point in the UAPI?
+> 
+> > For example, the "degamma" LUT towards the beginning of the pipeline implicitly
+> > converts from fixed point to FP16, and some of the following operations expect
+> > to operate in FP16. As such, if you have a fixed point input and don't bypass
+> > those following operations, you *must not* bypass the LUT, even if you are
+> > otherwise just programming it with the identity. Conversely, if you have a
+> > floating point input, you *must* bypass the LUT.
+> 
+> Interesting. Since the color pipeline is not(?) meant to replace pixel
+> format definitions which already make the difference between fixed and
+> floating point, wouldn't this little detail need to be taken care of by
+> the driver under the hood?
+> 
+> What if I want to use degamma colorop with a floating-point
+> framebuffer? Simply not possible on this hardware?
+> 
+> > Could informational elements and allowing the exclusion of the BYPASS property
+> > be used to convey this information to the client?  For example, we could expose
+> > one pipeline with the LUT exposed with read-only BYPASS set to false, and
+> > sandwich it with informational "Fixed Point" and "FP16" elements to accommodate
+> > fixed point input. Then, expose another pipeline with the LUT missing, and an
+> > informational "FP16" element in its place to accommodate floating point input.
+> > 
+> > That's just an example; we also have other operations in the pipeline that do
+> > similar implicit conversions. In these cases we don't want the operations to be
+> > bypassed individually, so instead we would expose them as mandatory in some
+> > pipelines and missing in others, with informational elements to help inform the
+> > client of which to choose. Is that acceptable under the current proposal?
+> > 
+> > Note that in this case, the information just has to do with what format the
+> > pixels should be in, it doesn't correspond to any specific operation. So, I'm
+> > not sure that BYPASS has any meaning for informational elements in this context.
+> 
+> Very good questions. Do we have to expose those conversions in the UAPI
+> to make things work for this hardware? Meaning that we cannot assume all
+> colorops work in nominal floating-point from userspace perspective
+> (perhaps with varying degrees of precision).
 
---------------oweN29030ns5OSjFnt5KAz5X
-Content-Type: multipart/mixed; boundary="------------6je06xlWYplPpel0QqkFvRA8"
+I had this in my original proposal I think (maybe I only thought about
+it, not sure).
 
---------------6je06xlWYplPpel0QqkFvRA8
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+We really should figure this one out. Can we get away with normalized
+[0,1] fp as a user space abstraction or not?
 
-On 2023-10-26 12:39, Danilo Krummrich wrote:
-> On 10/23/23 05:22, Luben Tuikov wrote:
->> The GPU scheduler has now a variable number of run-queues, which are s=
-et up at
->> drm_sched_init() time. This way, each driver announces how many run-qu=
-eues it
->> requires (supports) per each GPU scheduler it creates. Note, that run-=
-queues
->> correspond to scheduler "priorities", thus if the number of run-queues=
- is set
->> to 1 at drm_sched_init(), then that scheduler supports a single run-qu=
-eue,
->> i.e. single "priority". If a driver further sets a single entity per
->> run-queue, then this creates a 1-to-1 correspondence between a schedul=
-er and
->> a scheduled entity.
->=20
-> Generally, I'm fine with this patch and how it replaces / generalizes t=
-he single
-> entity approach.
+> 
+> > > > > I think we also need a definition of "informational".
+> > > > > 
+> > > > > Counter-example 1: a colorop that represents a non-configurable    
+> > > > 
+> > > > Not sure what's "counter" for these examples?
+> > > >   
+> > > > > YUV<->RGB conversion. Maybe it determines its operation from FB pixel
+> > > > > format. It cannot be set to bypass, it cannot be configured, and it
+> > > > > will alter color values.  
+> > 
+> > Would it be reasonable to expose this is a 3x4 matrix with a read-only blob and
+> > no BYPASS property? I already brought up a similar idea at the XDC HDR Workshop
+> > based on the principle that read-only blobs could be used to express some static
+> > pipeline elements without the need to define a new type, but got mixed opinions.
+> > I think this demonstrates the principle further, as clients could detect this
+> > programmatically instead of having to special-case the informational element.
+> 
 
-Great!
+I'm all for exposing fixed color ops but I suspect that most of those
+follow some standard and in those cases instead of exposing the matrix
+values one should prefer to expose a named matrix (e.g. BT.601, BT.709,
+BT.2020).
 
-> However, I'm not quite sure how to properly use this. What is a driver =
-supposed to
-> do, which previously took advantage of DRM_SCHED_POLICY_SINGLE_ENTITY?
->=20
-> Is it supposed to call drm_sched_init() with num_rqs=3D1? If so, what's=
- the correct way
+As a general rule: always expose the highest level description. Going
+from a name to exact values is trivial, going from values to a name is
+much harder.
 
-Yes, you call drm_sched_init() with num_rqs set to 1.
+> If the blob depends on the pixel format (i.e. the driver automatically
+> chooses a different blob per pixel format), then I think we would need
+> to expose all the blobs and how they correspond to pixel formats.
+> Otherwise ok, I guess.
+> 
+> However, do we want or need to make a color pipeline or colorop
+> conditional on pixel formats? For example, if you use a YUV 4:2:0 type
+> of pixel format, then you must use this pipeline and not any other. Or
+> floating-point type of pixel format. I did not anticipate this before,
+> I assumed that all color pipelines and colorops are independent of the
+> framebuffer pixel format. A specific colorop might have a property that
+> needs to agree with the framebuffer pixel format, but I didn't expect
+> further limitations.
 
-> to initialize the drm_sched_entity then? Calling drm_sched_entity_init(=
-) with priority=3D0?
+We could simply fail commits when the pipeline and pixel format don't
+work together. We'll probably need some kind of ingress no-op node
+anyway and maybe could list pixel formats there if required to make it
+easier to find a working configuration.
 
-Yes, with priority set to 0.
+> "Without the need to define a new type" is something I think we need to
+> consider case by case. I have a hard time giving a general opinion.
+> 
+> > > > > 
+> > > > > Counter-example 2: image size scaling colorop. It might not be
+> > > > > configurable, it is controlled by the plane CRTC_* and SRC_*
+> > > > > properties. You still need to understand what it does, so you can
+> > > > > arrange the scaling to work correctly. (Do not want to scale an image
+> > > > > with PQ-encoded values as Josh demonstrated in XDC.)
+> > > > >     
+> > > > 
+> > > > IMO the position of the scaling operation is the thing that's important
+> > > > here as the color pipeline won't define scaling properties.  
+> > 
+> > I agree that blending should ideally be done in linear space, and I remember
+> > that from Josh's presentation at XDC, but I don't recall the same being said for
+> > scaling. In fact, the NVIDIA pre-blending scaler exists in a stage of the
+> > pipeline that is meant to be in PQ space (more on this below), and that was
+> > found to achieve better results at HDR/SDR boundaries. Of course, this only
+> > bolsters the argument that it would be helpful to have an informational "scaler"
+> > element to understand at which stage scaling takes place.
+> 
+> Both blending and scaling are fundamentally the same operation: you
+> have two or more source colors (pixels), and you want to compute a
+> weighted average of them following what happens in nature, that is,
+> physics, as that is what humans are used to.
+> 
+> Both blending and scaling will suffer from the same problems if the
+> operation is performed on not light-linear values. The result of the
+> weighted average does not correspond to physics.
+> 
+> The problem may be hard to observe with natural imagery, but Josh's
+> example shows it very clearly. Maybe that effect is sometimes useful
+> for some imagery in some use cases, but it is still an accidental
+> side-effect. You might get even better results if you don't rely on
+> accidental side-effects but design a separate operation for the exact
+> goal you have.
+> 
+> Mind, by scaling we mean changing image size. Not scaling color values.
+> 
+> > > > > Counter-example 3: image sampling colorop. Averages FB originated color
+> > > > > values to produce a color sample. Again do not want to do this with
+> > > > > PQ-encoded values.
+> > > > >     
+> > > > 
+> > > > Wouldn't this only happen during a scaling op?  
+> > > 
+> > > There is certainly some overlap between examples 2 and 3. IIRC SRC_X/Y
+> > > coordinates can be fractional, which makes nearest vs. bilinear
+> > > sampling have a difference even if there is no scaling.
+> > > 
+> > > There is also the question of chroma siting with sub-sampled YUV. I
+> > > don't know how that actually works, or how it theoretically should work.  
+> > 
+> > We have some operations in our pipeline that are intended to be static, i.e. a
+> > static matrix that converts from RGB to LMS, and later another that converts
+> > from LMS to ICtCp. There are even LUTs that are intended to be static,
+> > converting from linear to PQ and vice versa. All of this is because the
+> > pre-blending scaler and tone mapping operator are intended to operate in ICtCp
+> > PQ space. Although the stated LUTs and matrices are intended to be static, they
+> > are actually programmable. In offline discussions, it was indicated that it
+> > would be helpful to actually expose the programmability, as opposed to exposing
+> > them as non-bypassable blocks, as some compositors may have novel uses for them.
+> 
+> Correct. Doing tone-mapping in ICtCp etc. are already policy that
+> userspace might or might not agree with.
+> 
+> Exposing static colorops will help usages that adhere to current
+> prevalent standards around very specific use cases. There may be
+> millions of devices needing exactly that processing in their usage, but
+> it is also quite limiting in what one can do with the hardware.
+> 
+> > Despite being programmable, the LUTs are updated in a manner that is less
+> > efficient as compared to e.g. the non-static "degamma" LUT. Would it be helpful
+> > if there was some way to tag operations according to their performance,
+> > for example so that clients can prefer a high performance one when they
+> > intend to do an animated transition? I recall from the XDC HDR workshop
+> > that this is also an issue with AMD's 3DLUT, where updates can be too
+> > slow to animate.
+> 
+> I can certainly see such information being useful, but then we need to
+> somehow quantize the performance.
+> 
+> What I was left puzzled about after the XDC workshop is that is it
+> possible to pre-load configurations in the background (slow), and then
+> quickly switch between them? Hardware-wise I mean.
 
-One unfortunate fact I noticed when doing this patch is that the numerica=
-l values
-assigned to enum drm_sched_priority is that the names to values are upsid=
-e down.
-Instead of min being 0, normal:1, high:2, kernel:3, it should've been ker=
-nel:0 (highest),
-high:1, normal:2, low:4, and so on.
+We could define that pipelines with a lower ID are to be preferred over
+higher IDs.
 
-The reason for this is absolutely clear: if you had a single priority, it=
- would be
-0, the kernel, one, highest one. This is similar to how lanes in a highwa=
-y are counted:
-you always have lane 1. Similarly to nice(1) and kernel priorities...
+The issue is that if programming a pipeline becomes too slow to be
+useful it probably should just not be made available to user space.
 
-> Any other priority consequently faults in drm_sched_job_arm().
+The prepare-commit idea for blob properties would help to make the
+pipelines usable again, but until then it's probably a good idea to just
+not expose those pipelines.
 
-drm_sched_job_arm() faults on !ENTITY, but the "priority" is just
-assigned to s_priority:
-	job->s_priority =3D entity->priority;
+> 
+> 
+> Thanks,
+> pq
 
 
-> While I might sound like a broken record (sorry for that), I really thi=
-nk everything
-> related to Matt's series needs documentation, as in:
-
-Yes, I agree.
-=20
-> - What is the typical application of the single entity / variable run q=
-ueue design?
->    How do drivers make use of it?
-
-I believe most drivers in the future, would want to have a single sched_r=
-q (i.e. single
-"priority", and then would tack a single entity to this, and then do prio=
-ritization
-internally in their firmware/hardware.
-
-> - How to tear down a scheduler instance properly?
-> - Motivation and implications of the workqueue topology (default workqu=
-eue, external
->    driver workqueue, free job work, run job work, etc.).
->=20
-> But also the existing scheduler infrastructure requires more documentat=
-ion.
->=20
-> The scheduler barely has some documentation to describe its basic topol=
-ogy of
-> struct drm_gpu_scheduler, struct drm_sched_entity and struct drm_sched_=
-job.
-> Plus a few hints regarding run queue priorities, which, with this patch=
-, seem to be
-> (partially) out-dated or at least incomplete.
->=20
-> I think Sima also mentioned that we really need to put some efforts her=
-e. [1]
-
-Yes, that's true.
-
-Regards,
-Luben
-
->=20
-> - Danilo
->=20
-> [1] https://lore.kernel.org/all/20231017150958.838613-1-matthew.brost@i=
-ntel.com/T/#m330335b44bdb7ae93ac6ebdedd65706df5a0f03d
->=20
->>
->> Cc: Lucas Stach <l.stach@pengutronix.de>
->> Cc: Russell King <linux+etnaviv@armlinux.org.uk>
->> Cc: Qiang Yu <yuq825@gmail.com>
->> Cc: Rob Clark <robdclark@gmail.com>
->> Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
->> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->> Cc: Danilo Krummrich <dakr@redhat.com>
->> Cc: Matthew Brost <matthew.brost@intel.com>
->> Cc: Boris Brezillon <boris.brezillon@collabora.com>
->> Cc: Alex Deucher <alexander.deucher@amd.com>
->> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
->> Cc: Emma Anholt <emma@anholt.net>
->> Cc: etnaviv@lists.freedesktop.org
->> Cc: lima@lists.freedesktop.org
->> Cc: linux-arm-msm@vger.kernel.org
->> Cc: freedreno@lists.freedesktop.org
->> Cc: nouveau@lists.freedesktop.org
->> Cc: dri-devel@lists.freedesktop.org
->> Signed-off-by: Luben Tuikov <luben.tuikov@amd.com>
->> ---
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c |  1 +
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_job.c    |  4 +-
->>   drivers/gpu/drm/etnaviv/etnaviv_sched.c    |  1 +
->>   drivers/gpu/drm/lima/lima_sched.c          |  4 +-
->>   drivers/gpu/drm/msm/msm_ringbuffer.c       |  5 +-
->>   drivers/gpu/drm/nouveau/nouveau_sched.c    |  1 +
->>   drivers/gpu/drm/panfrost/panfrost_job.c    |  1 +
->>   drivers/gpu/drm/scheduler/sched_entity.c   | 18 +++++-
->>   drivers/gpu/drm/scheduler/sched_main.c     | 74 ++++++++++++++++++--=
---
->>   drivers/gpu/drm/v3d/v3d_sched.c            |  5 ++
->>   include/drm/gpu_scheduler.h                |  9 ++-
->>   11 files changed, 98 insertions(+), 25 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/=
-drm/amd/amdgpu/amdgpu_device.c
->> index 2b8356699f235d..251995a90bbe69 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
->> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
->> @@ -2280,6 +2280,7 @@ static int amdgpu_device_init_schedulers(struct =
-amdgpu_device *adev)
->>   		}
->>  =20
->>   		r =3D drm_sched_init(&ring->sched, &amdgpu_sched_ops,
->> +				   DRM_SCHED_PRIORITY_COUNT,
->>   				   ring->num_hw_submission, 0,
->>   				   timeout, adev->reset_domain->wq,
->>   				   ring->sched_score, ring->name,
->> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c b/drivers/gpu/drm=
-/amd/amdgpu/amdgpu_job.c
->> index 78476bc75b4e1d..1f357198533f3e 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
->> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
->> @@ -325,8 +325,8 @@ void amdgpu_job_stop_all_jobs_on_sched(struct drm_=
-gpu_scheduler *sched)
->>   	int i;
->>  =20
->>   	/* Signal all jobs not yet scheduled */
->> -	for (i =3D DRM_SCHED_PRIORITY_COUNT - 1; i >=3D DRM_SCHED_PRIORITY_M=
-IN; i--) {
->> -		struct drm_sched_rq *rq =3D &sched->sched_rq[i];
->> +	for (i =3D sched->num_rqs - 1; i >=3D DRM_SCHED_PRIORITY_MIN; i--) {=
-
->> +		struct drm_sched_rq *rq =3D sched->sched_rq[i];
->>   		spin_lock(&rq->lock);
->>   		list_for_each_entry(s_entity, &rq->entities, list) {
->>   			while ((s_job =3D to_drm_sched_job(spsc_queue_pop(&s_entity->job_=
-queue)))) {
->> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.c b/drivers/gpu/drm=
-/etnaviv/etnaviv_sched.c
->> index 345fec6cb1a4c1..9b79f218e21afc 100644
->> --- a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
->> +++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
->> @@ -135,6 +135,7 @@ int etnaviv_sched_init(struct etnaviv_gpu *gpu)
->>   	int ret;
->>  =20
->>   	ret =3D drm_sched_init(&gpu->sched, &etnaviv_sched_ops,
->> +			     DRM_SCHED_PRIORITY_COUNT,
->>   			     etnaviv_hw_jobs_limit, etnaviv_job_hang_limit,
->>   			     msecs_to_jiffies(500), NULL, NULL,
->>   			     dev_name(gpu->dev), gpu->dev);
->> diff --git a/drivers/gpu/drm/lima/lima_sched.c b/drivers/gpu/drm/lima/=
-lima_sched.c
->> index ffd91a5ee29901..295f0353a02e58 100644
->> --- a/drivers/gpu/drm/lima/lima_sched.c
->> +++ b/drivers/gpu/drm/lima/lima_sched.c
->> @@ -488,7 +488,9 @@ int lima_sched_pipe_init(struct lima_sched_pipe *p=
-ipe, const char *name)
->>  =20
->>   	INIT_WORK(&pipe->recover_work, lima_sched_recover_work);
->>  =20
->> -	return drm_sched_init(&pipe->base, &lima_sched_ops, 1,
->> +	return drm_sched_init(&pipe->base, &lima_sched_ops,
->> +			      DRM_SCHED_PRIORITY_COUNT,
->> +			      1,
->>   			      lima_job_hang_limit,
->>   			      msecs_to_jiffies(timeout), NULL,
->>   			      NULL, name, pipe->ldev->dev);
->> diff --git a/drivers/gpu/drm/msm/msm_ringbuffer.c b/drivers/gpu/drm/ms=
-m/msm_ringbuffer.c
->> index 40c0bc35a44cee..95257ab0185dc4 100644
->> --- a/drivers/gpu/drm/msm/msm_ringbuffer.c
->> +++ b/drivers/gpu/drm/msm/msm_ringbuffer.c
->> @@ -95,8 +95,9 @@ struct msm_ringbuffer *msm_ringbuffer_new(struct msm=
-_gpu *gpu, int id,
->>   	sched_timeout =3D MAX_SCHEDULE_TIMEOUT;
->>  =20
->>   	ret =3D drm_sched_init(&ring->sched, &msm_sched_ops,
->> -			num_hw_submissions, 0, sched_timeout,
->> -			NULL, NULL, to_msm_bo(ring->bo)->name, gpu->dev->dev);
->> +			     DRM_SCHED_PRIORITY_COUNT,
->> +			     num_hw_submissions, 0, sched_timeout,
->> +			     NULL, NULL, to_msm_bo(ring->bo)->name, gpu->dev->dev);
->>   	if (ret) {
->>   		goto fail;
->>   	}
->> diff --git a/drivers/gpu/drm/nouveau/nouveau_sched.c b/drivers/gpu/drm=
-/nouveau/nouveau_sched.c
->> index 3b7ea522122605..7c376c4ccdcf9b 100644
->> --- a/drivers/gpu/drm/nouveau/nouveau_sched.c
->> +++ b/drivers/gpu/drm/nouveau/nouveau_sched.c
->> @@ -436,6 +436,7 @@ int nouveau_sched_init(struct nouveau_drm *drm)
->>   		return -ENOMEM;
->>  =20
->>   	return drm_sched_init(sched, &nouveau_sched_ops,
->> +			      DRM_SCHED_PRIORITY_COUNT,
->>   			      NOUVEAU_SCHED_HW_SUBMISSIONS, 0, job_hang_limit,
->>   			      NULL, NULL, "nouveau_sched", drm->dev->dev);
->>   }
->> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm=
-/panfrost/panfrost_job.c
->> index a8b4827dc42586..95510d481fab3a 100644
->> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
->> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
->> @@ -832,6 +832,7 @@ int panfrost_job_init(struct panfrost_device *pfde=
-v)
->>  =20
->>   		ret =3D drm_sched_init(&js->queue[j].sched,
->>   				     &panfrost_sched_ops,
->> +				     DRM_SCHED_PRIORITY_COUNT,
->>   				     nentries, 0,
->>   				     msecs_to_jiffies(JOB_TIMEOUT_MS),
->>   				     pfdev->reset.wq,
->> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/dr=
-m/scheduler/sched_entity.c
->> index a42763e1429dc1..409e4256f6e7d6 100644
->> --- a/drivers/gpu/drm/scheduler/sched_entity.c
->> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
->> @@ -75,8 +75,20 @@ int drm_sched_entity_init(struct drm_sched_entity *=
-entity,
->>   	RCU_INIT_POINTER(entity->last_scheduled, NULL);
->>   	RB_CLEAR_NODE(&entity->rb_tree_node);
->>  =20
->> -	if(num_sched_list)
->> -		entity->rq =3D &sched_list[0]->sched_rq[entity->priority];
->> +	if (!sched_list[0]->sched_rq) {
->> +		/* Warn drivers not to do this and to fix their DRM
->> +		 * calling order.
->> +		 */
->> +		pr_warn("%s: called with uninitialized scheduler\n", __func__);
->> +	} else if (num_sched_list) {
->> +		/* The "priority" of an entity cannot exceed the number
->> +		 * of run-queues of a scheduler.
->> +		 */
->> +		if (entity->priority >=3D sched_list[0]->num_rqs)
->> +			entity->priority =3D max_t(u32, sched_list[0]->num_rqs,
->> +						 DRM_SCHED_PRIORITY_MIN);
->> +		entity->rq =3D sched_list[0]->sched_rq[entity->priority];
->> +	}
->>  =20
->>   	init_completion(&entity->entity_idle);
->>  =20
->> @@ -533,7 +545,7 @@ void drm_sched_entity_select_rq(struct drm_sched_e=
-ntity *entity)
->>  =20
->>   	spin_lock(&entity->rq_lock);
->>   	sched =3D drm_sched_pick_best(entity->sched_list, entity->num_sched=
-_list);
->> -	rq =3D sched ? &sched->sched_rq[entity->priority] : NULL;
->> +	rq =3D sched ? sched->sched_rq[entity->priority] : NULL;
->>   	if (rq !=3D entity->rq) {
->>   		drm_sched_rq_remove_entity(entity->rq, entity);
->>   		entity->rq =3D rq;
->> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/=
-scheduler/sched_main.c
->> index 5a3a622fc672f3..99797a8c836ac7 100644
->> --- a/drivers/gpu/drm/scheduler/sched_main.c
->> +++ b/drivers/gpu/drm/scheduler/sched_main.c
->> @@ -632,8 +632,14 @@ int drm_sched_job_init(struct drm_sched_job *job,=
-
->>   		       struct drm_sched_entity *entity,
->>   		       void *owner)
->>   {
->> -	if (!entity->rq)
->> +	if (!entity->rq) {
->> +		/* This will most likely be followed by missing frames
->> +		 * or worse--a blank screen--leave a trail in the
->> +		 * logs, so this can be debugged easier.
->> +		 */
->> +		drm_err(job->sched, "%s: entity has no rq!\n", __func__);
->>   		return -ENOENT;
->> +	}
->>  =20
->>   	job->entity =3D entity;
->>   	job->s_fence =3D drm_sched_fence_alloc(entity, owner);
->> @@ -671,7 +677,7 @@ void drm_sched_job_arm(struct drm_sched_job *job)
->>   	sched =3D entity->rq->sched;
->>  =20
->>   	job->sched =3D sched;
->> -	job->s_priority =3D entity->rq - sched->sched_rq;
->> +	job->s_priority =3D entity->priority;
->>   	job->id =3D atomic64_inc_return(&sched->job_id_count);
->>  =20
->>   	drm_sched_fence_init(job->s_fence, job->entity);
->> @@ -888,10 +894,10 @@ drm_sched_select_entity(struct drm_gpu_scheduler=
- *sched)
->>   		return NULL;
->>  =20
->>   	/* Kernel run queue has higher priority than normal run queue*/
->> -	for (i =3D DRM_SCHED_PRIORITY_COUNT - 1; i >=3D DRM_SCHED_PRIORITY_M=
-IN; i--) {
->> +	for (i =3D sched->num_rqs - 1; i >=3D DRM_SCHED_PRIORITY_MIN; i--) {=
-
->>   		entity =3D drm_sched_policy =3D=3D DRM_SCHED_POLICY_FIFO ?
->> -			drm_sched_rq_select_entity_fifo(&sched->sched_rq[i]) :
->> -			drm_sched_rq_select_entity_rr(&sched->sched_rq[i]);
->> +			drm_sched_rq_select_entity_fifo(sched->sched_rq[i]) :
->> +			drm_sched_rq_select_entity_rr(sched->sched_rq[i]);
->>   		if (entity)
->>   			break;
->>   	}
->> @@ -1071,6 +1077,7 @@ static int drm_sched_main(void *param)
->>    *
->>    * @sched: scheduler instance
->>    * @ops: backend operations for this scheduler
->> + * @num_rqs: number of runqueues, one for each priority, up to DRM_SC=
-HED_PRIORITY_COUNT
->>    * @hw_submission: number of hw submissions that can be in flight
->>    * @hang_limit: number of times to allow a job to hang before droppi=
-ng it
->>    * @timeout: timeout value in jiffies for the scheduler
->> @@ -1084,11 +1091,12 @@ static int drm_sched_main(void *param)
->>    */
->>   int drm_sched_init(struct drm_gpu_scheduler *sched,
->>   		   const struct drm_sched_backend_ops *ops,
->> -		   unsigned hw_submission, unsigned hang_limit,
->> +		   u32 num_rqs, uint32_t hw_submission, unsigned int hang_limit,
->>   		   long timeout, struct workqueue_struct *timeout_wq,
->>   		   atomic_t *score, const char *name, struct device *dev)
->>   {
->>   	int i, ret;
->> +
->>   	sched->ops =3D ops;
->>   	sched->hw_submission_limit =3D hw_submission;
->>   	sched->name =3D name;
->> @@ -1097,8 +1105,36 @@ int drm_sched_init(struct drm_gpu_scheduler *sc=
-hed,
->>   	sched->hang_limit =3D hang_limit;
->>   	sched->score =3D score ? score : &sched->_score;
->>   	sched->dev =3D dev;
->> -	for (i =3D DRM_SCHED_PRIORITY_MIN; i < DRM_SCHED_PRIORITY_COUNT; i++=
-)
->> -		drm_sched_rq_init(sched, &sched->sched_rq[i]);
->> +
->> +	if (num_rqs > DRM_SCHED_PRIORITY_COUNT) {
->> +		/* This is a gross violation--tell drivers what the  problem is.
->> +		 */
->> +		drm_err(sched, "%s: num_rqs cannot be greater than DRM_SCHED_PRIORI=
-TY_COUNT\n",
->> +			__func__);
->> +		return -EINVAL;
->> +	} else if (sched->sched_rq) {
->> +		/* Not an error, but warn anyway so drivers can
->> +		 * fine-tune their DRM calling order, and return all
->> +		 * is good.
->> +		 */
->> +		drm_warn(sched, "%s: scheduler already initialized!\n", __func__);
->> +		return 0;
->> +	}
->> +
->> +	sched->sched_rq =3D kmalloc_array(num_rqs, sizeof(*sched->sched_rq),=
-
->> +					GFP_KERNEL | __GFP_ZERO);
->> +	if (!sched->sched_rq) {
->> +		drm_err(sched, "%s: out of memory for sched_rq\n", __func__);
->> +		return -ENOMEM;
->> +	}
->> +	sched->num_rqs =3D num_rqs;
->> +	ret =3D -ENOMEM;
->> +	for (i =3D DRM_SCHED_PRIORITY_MIN; i < sched->num_rqs; i++) {
->> +		sched->sched_rq[i] =3D kzalloc(sizeof(*sched->sched_rq[i]), GFP_KER=
-NEL);
->> +		if (!sched->sched_rq[i])
->> +			goto Out_unroll;
->> +		drm_sched_rq_init(sched, sched->sched_rq[i]);
->> +	}
->>  =20
->>   	init_waitqueue_head(&sched->wake_up_worker);
->>   	init_waitqueue_head(&sched->job_scheduled);
->> @@ -1115,11 +1151,18 @@ int drm_sched_init(struct drm_gpu_scheduler *s=
-ched,
->>   		ret =3D PTR_ERR(sched->thread);
->>   		sched->thread =3D NULL;
->>   		DRM_DEV_ERROR(sched->dev, "Failed to create scheduler for %s.\n", =
-name);
->> -		return ret;
->> +		goto Out_unroll;
->>   	}
->>  =20
->>   	sched->ready =3D true;
->>   	return 0;
->> +Out_unroll:
->> +	for (--i ; i >=3D DRM_SCHED_PRIORITY_MIN; i--)
->> +		kfree(sched->sched_rq[i]);
->> +	kfree(sched->sched_rq);
->> +	sched->sched_rq =3D NULL;
->> +	drm_err(sched, "%s: Failed to setup GPU scheduler--out of memory\n",=
- __func__);
->> +	return ret;
->>   }
->>   EXPORT_SYMBOL(drm_sched_init);
->>  =20
->> @@ -1138,8 +1181,8 @@ void drm_sched_fini(struct drm_gpu_scheduler *sc=
-hed)
->>   	if (sched->thread)
->>   		kthread_stop(sched->thread);
->>  =20
->> -	for (i =3D DRM_SCHED_PRIORITY_COUNT - 1; i >=3D DRM_SCHED_PRIORITY_M=
-IN; i--) {
->> -		struct drm_sched_rq *rq =3D &sched->sched_rq[i];
->> +	for (i =3D sched->num_rqs - 1; i >=3D DRM_SCHED_PRIORITY_MIN; i--) {=
-
->> +		struct drm_sched_rq *rq =3D sched->sched_rq[i];
->>  =20
->>   		spin_lock(&rq->lock);
->>   		list_for_each_entry(s_entity, &rq->entities, list)
->> @@ -1150,7 +1193,7 @@ void drm_sched_fini(struct drm_gpu_scheduler *sc=
-hed)
->>   			 */
->>   			s_entity->stopped =3D true;
->>   		spin_unlock(&rq->lock);
->> -
->> +		kfree(sched->sched_rq[i]);
->>   	}
->>  =20
->>   	/* Wakeup everyone stuck in drm_sched_entity_flush for this schedul=
-er */
->> @@ -1160,6 +1203,8 @@ void drm_sched_fini(struct drm_gpu_scheduler *sc=
-hed)
->>   	cancel_delayed_work_sync(&sched->work_tdr);
->>  =20
->>   	sched->ready =3D false;
->> +	kfree(sched->sched_rq);
->> +	sched->sched_rq =3D NULL;
->>   }
->>   EXPORT_SYMBOL(drm_sched_fini);
->>  =20
->> @@ -1186,9 +1231,10 @@ void drm_sched_increase_karma(struct drm_sched_=
-job *bad)
->>   	if (bad->s_priority !=3D DRM_SCHED_PRIORITY_KERNEL) {
->>   		atomic_inc(&bad->karma);
->>  =20
->> -		for (i =3D DRM_SCHED_PRIORITY_MIN; i < DRM_SCHED_PRIORITY_KERNEL;
->> +		for (i =3D DRM_SCHED_PRIORITY_MIN;
->> +		     i < min_t(typeof(sched->num_rqs), sched->num_rqs, DRM_SCHED_PR=
-IORITY_KERNEL);
->>   		     i++) {
->> -			struct drm_sched_rq *rq =3D &sched->sched_rq[i];
->> +			struct drm_sched_rq *rq =3D sched->sched_rq[i];
->>  =20
->>   			spin_lock(&rq->lock);
->>   			list_for_each_entry_safe(entity, tmp, &rq->entities, list) {
->> diff --git a/drivers/gpu/drm/v3d/v3d_sched.c b/drivers/gpu/drm/v3d/v3d=
-_sched.c
->> index 06238e6d7f5cda..038e1ae589c718 100644
->> --- a/drivers/gpu/drm/v3d/v3d_sched.c
->> +++ b/drivers/gpu/drm/v3d/v3d_sched.c
->> @@ -389,6 +389,7 @@ v3d_sched_init(struct v3d_dev *v3d)
->>  =20
->>   	ret =3D drm_sched_init(&v3d->queue[V3D_BIN].sched,
->>   			     &v3d_bin_sched_ops,
->> +			     DRM_SCHED_PRIORITY_COUNT,
->>   			     hw_jobs_limit, job_hang_limit,
->>   			     msecs_to_jiffies(hang_limit_ms), NULL,
->>   			     NULL, "v3d_bin", v3d->drm.dev);
->> @@ -397,6 +398,7 @@ v3d_sched_init(struct v3d_dev *v3d)
->>  =20
->>   	ret =3D drm_sched_init(&v3d->queue[V3D_RENDER].sched,
->>   			     &v3d_render_sched_ops,
->> +			     DRM_SCHED_PRIORITY_COUNT,
->>   			     hw_jobs_limit, job_hang_limit,
->>   			     msecs_to_jiffies(hang_limit_ms), NULL,
->>   			     NULL, "v3d_render", v3d->drm.dev);
->> @@ -405,6 +407,7 @@ v3d_sched_init(struct v3d_dev *v3d)
->>  =20
->>   	ret =3D drm_sched_init(&v3d->queue[V3D_TFU].sched,
->>   			     &v3d_tfu_sched_ops,
->> +			     DRM_SCHED_PRIORITY_COUNT,
->>   			     hw_jobs_limit, job_hang_limit,
->>   			     msecs_to_jiffies(hang_limit_ms), NULL,
->>   			     NULL, "v3d_tfu", v3d->drm.dev);
->> @@ -414,6 +417,7 @@ v3d_sched_init(struct v3d_dev *v3d)
->>   	if (v3d_has_csd(v3d)) {
->>   		ret =3D drm_sched_init(&v3d->queue[V3D_CSD].sched,
->>   				     &v3d_csd_sched_ops,
->> +				     DRM_SCHED_PRIORITY_COUNT,
->>   				     hw_jobs_limit, job_hang_limit,
->>   				     msecs_to_jiffies(hang_limit_ms), NULL,
->>   				     NULL, "v3d_csd", v3d->drm.dev);
->> @@ -422,6 +426,7 @@ v3d_sched_init(struct v3d_dev *v3d)
->>  =20
->>   		ret =3D drm_sched_init(&v3d->queue[V3D_CACHE_CLEAN].sched,
->>   				     &v3d_cache_clean_sched_ops,
->> +				     DRM_SCHED_PRIORITY_COUNT,
->>   				     hw_jobs_limit, job_hang_limit,
->>   				     msecs_to_jiffies(hang_limit_ms), NULL,
->>   				     NULL, "v3d_cache_clean", v3d->drm.dev);
->> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h=
-
->> index ac65f0626cfc91..d2fb81e34174dc 100644
->> --- a/include/drm/gpu_scheduler.h
->> +++ b/include/drm/gpu_scheduler.h
->> @@ -471,7 +471,9 @@ struct drm_sched_backend_ops {
->>    * @hw_submission_limit: the max size of the hardware queue.
->>    * @timeout: the time after which a job is removed from the schedule=
-r.
->>    * @name: name of the ring for which this scheduler is being used.
->> - * @sched_rq: priority wise array of run queues.
->> + * @num_rqs: Number of run-queues. This is at most DRM_SCHED_PRIORITY=
-_COUNT,
->> + *           as there's usually one run-queue per priority, but could=
- be less.
->> + * @sched_rq: An allocated array of run-queues of size @num_rqs;
->>    * @wake_up_worker: the wait queue on which the scheduler sleeps unt=
-il a job
->>    *                  is ready to be scheduled.
->>    * @job_scheduled: once @drm_sched_entity_do_release is called the s=
-cheduler
->> @@ -500,7 +502,8 @@ struct drm_gpu_scheduler {
->>   	uint32_t			hw_submission_limit;
->>   	long				timeout;
->>   	const char			*name;
->> -	struct drm_sched_rq		sched_rq[DRM_SCHED_PRIORITY_COUNT];
->> +	u32                             num_rqs;
->> +	struct drm_sched_rq             **sched_rq;
->>   	wait_queue_head_t		wake_up_worker;
->>   	wait_queue_head_t		job_scheduled;
->>   	atomic_t			hw_rq_count;
->> @@ -520,7 +523,7 @@ struct drm_gpu_scheduler {
->>  =20
->>   int drm_sched_init(struct drm_gpu_scheduler *sched,
->>   		   const struct drm_sched_backend_ops *ops,
->> -		   uint32_t hw_submission, unsigned hang_limit,
->> +		   u32 num_rqs, uint32_t hw_submission, unsigned int hang_limit,
->>   		   long timeout, struct workqueue_struct *timeout_wq,
->>   		   atomic_t *score, const char *name, struct device *dev);
->>  =20
->>
->> base-commit: 05d3ef8bba77c1b5f98d941d8b2d4aeab8118ef1
->=20
-
---------------6je06xlWYplPpel0QqkFvRA8
-Content-Type: application/pgp-keys; name="OpenPGP_0x4C15479431A334AF.asc"
-Content-Disposition: attachment; filename="OpenPGP_0x4C15479431A334AF.asc"
-Content-Description: OpenPGP public key
-Content-Transfer-Encoding: quoted-printable
-
------BEGIN PGP PUBLIC KEY BLOCK-----
-
-xjMEZTohOhYJKwYBBAHaRw8BAQdAWSq76k+GsENjDTMVCy9Vr4fAO9Rb57/bPT1A
-PnbnnRHNIkx1YmVuIFR1aWtvdiA8bHR1aWtvdjg5QGdtYWlsLmNvbT7CmQQTFgoA
-QRYhBJkj7+VmFO9beaAl10wVR5QxozSvBQJlOiE6AhsDBQkJZgGABQsJCAcCAiIC
-BhUKCQgLAgQWAgMBAh4HAheAAAoJEEwVR5QxozSvSm4BAOwCpX53DTQhE20FBGlT
-MqKCOQyJqlMcIQ9SO1qPWX1iAQCv3vfyJwktF7REl1yt7IU2Sye1qmQMfJxdt9JM
-bMNNBs44BGU6IToSCisGAQQBl1UBBQEBB0BT9wSPcCE8uGe7FWo8C+nTSyWPXKTx
-9F0gpEnlqReRBwMBCAfCfgQYFgoAJhYhBJkj7+VmFO9beaAl10wVR5QxozSvBQJl
-OiE6AhsMBQkJZgGAAAoJEEwVR5QxozSvSsYA/2LIFjbxQ2ikbU5S0pKoaMDzO9eG
-z69uNhNWJcvIKJK6AQC9228Mqc1JeZMIyjYWr2HKYHi8S2q2/zHrSZwAWYYwDA=3D=3D
-=3DqCaZ
------END PGP PUBLIC KEY BLOCK-----
-
---------------6je06xlWYplPpel0QqkFvRA8--
-
---------------oweN29030ns5OSjFnt5KAz5X--
-
---------------qpo00lTdqRNzQQlFP0xxWGMF
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-wnsEABYIACMWIQSZI+/lZhTvW3mgJddMFUeUMaM0rwUCZTqg9QUDAAAAAAAKCRBMFUeUMaM0ryy0
-AQCso8cbMUqTiq7aotrBM+oQBKEvM7DvFP1HPcwfUYEoYwD+NIdyP9maNmAQfTU2+PsaPAPR6nj+
-vBdjPw0NVQI2FQE=
-=vd8k
------END PGP SIGNATURE-----
-
---------------qpo00lTdqRNzQQlFP0xxWGMF--
