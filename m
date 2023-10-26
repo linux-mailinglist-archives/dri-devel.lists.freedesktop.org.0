@@ -2,61 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BFF27D81CE
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Oct 2023 13:31:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17EFA7D820E
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Oct 2023 13:54:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3DCF810E0A5;
-	Thu, 26 Oct 2023 11:31:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1776A10E7BB;
+	Thu, 26 Oct 2023 11:53:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CCFC310E0A5;
- Thu, 26 Oct 2023 11:31:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1698319882; x=1729855882;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=hocvURNRVGMko0eLbel4gjvaPDXA/uayLf4WPzDZtNY=;
- b=SwK9DJ52OkOx13JAHpuZfC+w7CgNVluYezEL/EMR8qzmL+/aQrk0gQuz
- 192bA7FIMJkz72hZs1GbMG7pOSZIgkXOMON/MPKH8zIsOh9tNBDWjXueI
- lBbxpjW9l/jCHIKKi8mJx85V4R39RRMzkpE02IHIyvY6SbzDWyBNZlOpi
- xubMWey7CnE6Zs0gB3go47pq2qcdLZhn1KAhD8UERqE9oT9yBDpZNNuta
- FpA0jnr5ci7q1E2L0amv3yA+podjZbeZ/J5S8Aph0xMKZcPKjKapM5djB
- XISCI9ITG6v4gI45LkDISbn341rk1qCFs0QJPdwlJfbfhdW6397vgnbCk w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10874"; a="367741128"
-X-IronPort-AV: E=Sophos;i="6.03,253,1694761200"; d="scan'208";a="367741128"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Oct 2023 04:31:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10874"; a="849890467"
-X-IronPort-AV: E=Sophos;i="6.03,253,1694761200"; d="scan'208";a="849890467"
-Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
- by FMSMGA003.fm.intel.com with ESMTP; 26 Oct 2023 04:31:17 -0700
-Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1qvya3-0009jr-13;
- Thu, 26 Oct 2023 11:31:15 +0000
-Date: Thu, 26 Oct 2023 19:31:09 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH v5 4/6] drm/bridge: implement generic DP HPD bridge
-Message-ID: <202310261906.C62L4fc2-lkp@intel.com>
-References: <20231025223027.943563-5-dmitry.baryshkov@linaro.org>
+Received: from sin.source.kernel.org (sin.source.kernel.org
+ [IPv6:2604:1380:40e1:4800::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B62A10E7BF
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Oct 2023 11:53:56 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 9E629CE3ED4;
+ Thu, 26 Oct 2023 11:53:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50C18C433C7;
+ Thu, 26 Oct 2023 11:53:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1698321232;
+ bh=je+DADXCoX+kCTmWmZq0ysK4G7kIaCSpTWt8Az7jl+8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=WthaQ/2T2IwZQyvxbjc8i6TLCZH6R0bxGgKm3P19AQmdfpQ6FpjwwvQFGWuJlmFZh
+ tm7fXvL65CzQ5c33upmgr/CpnC+NcEfl7NPZYHB61Dli32HyEHjHTAEm7TVcOCAW6u
+ WX/pzPDujgTi+qekKeBkEKa/w3xdlsSoHtKQqepic+zDucRuItVq9HOI76c1zy0Fnj
+ tcQZxaUmgfx/DxBjhYrjFnhrEajLGZHbOZ1pNFf23+sav93OnPXQUIreqClHVVFSWC
+ 4P6xH7xxp6pLnMn6QqN5PTG1/GsT6u4FVHAjey/Jdqt/t8/DPsiwi5Y8eT5xbu0gKF
+ PO2YZ9C1j9ydw==
+Date: Thu, 26 Oct 2023 13:53:48 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH v2 6/6] drm/vs: Add hdmi driver
+Message-ID: <344veqjvvwlo7vls2kdlgjggf77of2ijxwc2hmk7tarm75ugcs@bmozk23uqxqr>
+References: <20231025103957.3776-1-keith.zhao@starfivetech.com>
+ <20231025103957.3776-7-keith.zhao@starfivetech.com>
+ <70805ff2-56a8-45e1-a31c-ffb0e84749e5@linaro.org>
+ <3twc4zoohon7uujypgjtlnryfmebx4osvpykagnwr5nemmqz2w@w4vw55uswebh>
+ <CAA8EJppxQ7J8DEDFsWzPL8bDpNW-KY0nhUA++zDBRpMCpP-bkA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="6ydghz6j3eeoumtu"
 Content-Disposition: inline
-In-Reply-To: <20231025223027.943563-5-dmitry.baryshkov@linaro.org>
+In-Reply-To: <CAA8EJppxQ7J8DEDFsWzPL8bDpNW-KY0nhUA++zDBRpMCpP-bkA@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,62 +55,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
- dri-devel@lists.freedesktop.org, oe-kbuild-all@lists.linux.dev,
- linux-phy@lists.infradead.org, freedreno@lists.freedesktop.org
+Cc: Emil Renner Berthing <kernel@esmil.dk>, dri-devel@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ linux-riscv@lists.infradead.org, Sumit Semwal <sumit.semwal@linaro.org>,
+ Shengyang Chen <shengyang.chen@starfivetech.com>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ Albert Ou <aou@eecs.berkeley.edu>, Jagan Teki <jagan@edgeble.ai>,
+ linaro-mm-sig@lists.linaro.org, Rob Herring <robh+dt@kernel.org>,
+ Chris Morgan <macromorgan@hotmail.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>,
+ Keith Zhao <keith.zhao@starfivetech.com>,
+ Bjorn Andersson <andersson@kernel.org>, linux-kernel@vger.kernel.org,
+ christian.koenig@amd.com, Jack Zhu <jack.zhu@starfivetech.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Shawn Guo <shawnguo@kernel.org>,
+ Changhuang Liang <changhuang.liang@starfivetech.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dmitry,
 
-kernel test robot noticed the following build errors:
+--6ydghz6j3eeoumtu
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-[auto build test ERROR on next-20231025]
-[also build test ERROR on v6.6-rc7]
-[cannot apply to drm-misc/drm-misc-next usb/usb-testing usb/usb-next usb/usb-linus drm/drm-next linus/master v6.6-rc7 v6.6-rc6 v6.6-rc5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+On Thu, Oct 26, 2023 at 11:57:22AM +0300, Dmitry Baryshkov wrote:
+> On Thu, 26 Oct 2023 at 11:07, Maxime Ripard <mripard@kernel.org> wrote:
+> >
+> > On Thu, Oct 26, 2023 at 01:23:53AM +0300, Dmitry Baryshkov wrote:
+> > > > +static int starfive_hdmi_register(struct drm_device *drm, struct s=
+tarfive_hdmi *hdmi)
+> > > > +{
+> > > > +   struct drm_encoder *encoder =3D &hdmi->encoder;
+> > > > +   struct device *dev =3D hdmi->dev;
+> > > > +
+> > > > +   encoder->possible_crtcs =3D drm_of_find_possible_crtcs(drm, dev=
+->of_node);
+> > > > +
+> > > > +   /*
+> > > > +    * If we failed to find the CRTC(s) which this encoder is
+> > > > +    * supposed to be connected to, it's because the CRTC has
+> > > > +    * not been registered yet.  Defer probing, and hope that
+> > > > +    * the required CRTC is added later.
+> > > > +    */
+> > > > +   if (encoder->possible_crtcs =3D=3D 0)
+> > > > +           return -EPROBE_DEFER;
+> > > > +
+> > > > +   drm_encoder_helper_add(encoder, &starfive_hdmi_encoder_helper_f=
+uncs);
+> > > > +
+> > > > +   hdmi->connector.polled =3D DRM_CONNECTOR_POLL_HPD;
+> > > > +
+> > > > +   drm_connector_helper_add(&hdmi->connector,
+> > > > +                            &starfive_hdmi_connector_helper_funcs);
+> > > > +   drmm_connector_init(drm, &hdmi->connector,
+> > > > +                       &starfive_hdmi_connector_funcs,
+> > > > +                       DRM_MODE_CONNECTOR_HDMIA,
+> > >
+> > > On an embedded device one can not be so sure. There can be MHL or HDMI
+> > > Alternative Mode. Usually we use drm_bridge here and drm_bridge_conne=
+ctor.
+> >
+> > On an HDMI driver, it's far from being a requirement, especially given
+> > the limitations bridges have.
+>=20
+> It's a blessing that things like MHL / HDMI-in-USB-C / HDMI-to-MyDP
+> are not widely used in the wild and are mostly non-existing except
+> several phones that preate wide DP usage.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Baryshkov/drm-bridge-add-transparent-bridge-helper/20231026-063135
-base:   next-20231025
-patch link:    https://lore.kernel.org/r/20231025223027.943563-5-dmitry.baryshkov%40linaro.org
-patch subject: [PATCH v5 4/6] drm/bridge: implement generic DP HPD bridge
-config: csky-randconfig-002-20231026 (https://download.01.org/0day-ci/archive/20231026/202310261906.C62L4fc2-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231026/202310261906.C62L4fc2-lkp@intel.com/reproduce)
+And those can be supported without relying on bridges.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310261906.C62L4fc2-lkp@intel.com/
+> Using drm_connector directly prevents one from handling possible
+> modifications on the board level. For example, with the DRM connector
+> in place, handling a separate HPD GPIO will result in code duplication
+> from the hdmi-connector driver. Handling any other variations in the
+> board design (which are pretty common in the embedded world) will also
+> require changing the driver itself. drm_bridge / drm_bridge_connector
+> save us from those issues.
 
-All error/warnings (new ones prefixed by >>):
+And we have other solutions there too. Like, EDIDs are pretty much in
+the same spot with a lot of device variations, but it also works without
+a common driver. I'd really wish we were having less bridges and more
+helpers, but here we are.
 
-   In file included from drivers/phy/qualcomm/phy-qcom-qmp-combo.c:24:
->> include/drm/bridge/aux-bridge.h:28:1: error: expected identifier or '(' before '{' token
-      28 | {
-         | ^
->> include/drm/bridge/aux-bridge.h:26:30: warning: 'drm_dp_hpd_bridge_register' declared 'static' but never defined [-Wunused-function]
-      26 | static inline struct device *drm_dp_hpd_bridge_register(struct device *parent,
-         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~
+> BTW: what are the limitations of the drm_bridge wrt. HDMI output? I'm
+> asking because we heavily depend on the bridge infrastructure for HDMI
+> output. Maybe we are missing something there, which went unnoticed to
+> me and my colleagues.
 
+A bridge cannot extend the connector state or use properties, for
+example. It works for basic stuff but falls apart as soon as you're
+trying to do something slightly advanced.
 
-vim +28 include/drm/bridge/aux-bridge.h
+Maxime
 
-    20	
-    21	#if IS_ENABLED(CONFIG_DRM_AUX_HPD_BRIDGE)
-    22	struct device *drm_dp_hpd_bridge_register(struct device *parent,
-    23						  struct device_node *np);
-    24	void drm_aux_hpd_bridge_notify(struct device *dev, enum drm_connector_status status);
-    25	#else
-  > 26	static inline struct device *drm_dp_hpd_bridge_register(struct device *parent,
-    27								struct device_node *np);
-  > 28	{
-    29		return 0;
-    30	}
-    31	
+--6ydghz6j3eeoumtu
+Content-Type: application/pgp-signature; name="signature.asc"
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZTpTTAAKCRDj7w1vZxhR
+xbLFAP4unIAE0v+sEMAKIEHtzqjUKfaDRvFMhet0vamy7Zof+QD/dgmnLOex7TJ1
+wA5XuQ2uivS+Cv7xrc3HS7yTI5xVjAE=
+=5wik
+-----END PGP SIGNATURE-----
+
+--6ydghz6j3eeoumtu--
