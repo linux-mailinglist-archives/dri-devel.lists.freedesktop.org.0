@@ -1,117 +1,119 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF90D7D87DB
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Oct 2023 19:55:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 10B657D8813
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Oct 2023 20:12:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA65810E837;
-	Thu, 26 Oct 2023 17:55:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6557110E84F;
+	Thu, 26 Oct 2023 18:12:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2089.outbound.protection.outlook.com [40.107.243.89])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7627110E837
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Oct 2023 17:55:44 +0000 (UTC)
+Received: from EUR01-HE1-obe.outbound.protection.outlook.com
+ (mail-he1eur01on2129.outbound.protection.outlook.com [40.107.13.129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2905810E84E
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Oct 2023 18:12:40 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=da9buI6qSEbaw6lepSZeBc7yUNbvPIGL3B0IKMJobdsqCFsAORg5S7uEhSqj4uLNcNP4hrI7/lj5hDWnl+U7L5gtgj0Urm+BbgoRSLG9EglcwYDaw2IwaS+1Vgj00+TgdkqhrLjdSKn3eLZMYYBCaVhpqSMB5r1tJvgTishO5Hnsk6Reyu+xH4FRd9LQaoXDwGSH7f+2/ha1GCXTJKdNPFPug2coAArejNCtDo4GwPGm4pSUhTDUkqths6plFf3ZbsGnCHyidYI9jpXtGHnKgkCv5KoZlexwuW2LoyNwhBeh0Nd0/GqnqrvcGYrVeYFYmo9d+TGtonlJBuYfgc3odw==
+ b=R6ExTheGVrPIQXPHHxAGz5a7PDHHckfi0R/WJvgQw2P5W+UI/ljc8qUHsJ3YxUX6rocOWf6XrzJXMBMzSzjxAAXbD7jgPjX8f8xDak3T2dz/4hYZwbTqLvc8HfpOJfdJN0GaSYaeo1WMJtlZh4xA0Yx72YzjWnr2lI/ypUoK+ZHhF6102mU2dI8GAQfpFNS7qte1qqbglt2+YE2IkvyCrGJuqVqqUF+oXhBQLRKX2cN+LGxCOuN1IQL6U8vhqQpfEHwda4VYxjLCbMnIa+JYDi/ktoC4+lvKejlWSeN9XYQJcRwLPFQ2vzI64EQ01eVeXEVdg3y6apQBRqvcynfEbA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=REWCmfCeXYK9WarwqhCO3d8MMjeGGCoNrLn3N9mrhZg=;
- b=ZV0HmQfSM4QXsGkPH7DuzAaIxeBibrBkL/Dsm4aVHTCtDrusuYeQW4FP/4cRTJh5A1ZLq819AIAP+MPLMH8dP0PJCQzvDK4yehc4o7WGCPtX0L2PXABklzQrpaMD3nhLGjH0yTC+xNXMl30ozgkrdP5JdrrBA0swADxx89juKkdRmuajw+BlxvQxe3avtxWRpiaVmpPoCpgvQeFWacGKdyXLm1iHvaK1Y4j9PN9KEwZBBtmJw8O1qMrNuKRTDhzo5bclFbIi+7P/NppqsVagzdocPhLtsr3bVZ4CkVrrteIdN2BpiDPWEJlayX0cuVeu5wjmvUfWAjVOiCQl43331Q==
+ bh=AbykPy2fQm+Rv8lnS6s+o6e55EdYqNVpYsS4llfPv9A=;
+ b=SvUmD6vxsrsXBR8YMDz4EwKJlmpk0pY9gip/D/k4BkM6uzpsTDDXHUg60cl7hIw0jmidP5+DLczJrqVoFtvtBpYqjLqEEgMrJElyr6uwYCw+9ZMdyiSJH0mF+Sw6ltAoDgdGe0Oh/PLeZu0K2nhOyjW5Be2OBBDRDYgNIdwlwp4ieRG18eKRgKQoMISn+R+iGhSclZ9mKuch+cn+7rMaPZ6/Ul9vR2n/kcHVJESdn5uFzzmo+Il4WhDQp0639e/aiZm1G1nrovDZjGKGPQMUYiHWY+fUcimmxw6jLxY6YXWLD+JEtq/anTPHQ26CEObpVbwmeqOjbo36jkSWV2Zvtw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
+ smtp.mailfrom=kontron.de; dmarc=pass action=none header.from=kontron.de;
+ dkim=pass header.d=kontron.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mysnt.onmicrosoft.com; 
+ s=selector2-mysnt-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=REWCmfCeXYK9WarwqhCO3d8MMjeGGCoNrLn3N9mrhZg=;
- b=B0XKBdm0TviiAhb5BqlGAUtC1wL/h6FUHn/r7oVgEa63iJq7cCgJlxkIF+P98yWSPKvEC6AqVvYaZ6aoPSqfwiM8DLAvfHlEXgc/rbXvkGbwYUHXON2N5hc06k5H3HQB/kmalLlxH45m8UpKC/Z4Wq3+vXMB/6w7qTNEjRQbUaFMXDcyCi826u3l6rD5kcoEur1FXgs9H9ZlILMCa/71684mt9/uxAg8Bw03g+rq9nJn3R8/KYGwETjhSL2e4vBTaF8n/XwfhZb4HhBvmmI3HXIuyATY9p9YIt1T0bGUa+vxz+3XTuWxuYbdZNpDz4PA+rTxgqIls45vuR9YgwyUsQ==
+ bh=AbykPy2fQm+Rv8lnS6s+o6e55EdYqNVpYsS4llfPv9A=;
+ b=Fyc27jIi2kVL2P5cpHI+kboT8wrr1f24KNzDSCMI5V4it2YsYfxFZp42xEG26/8rXNTPpjQnkPIlBZTJShwXDUYO8xN025CoCZjL+0ynLEIzyXdM6F+VR/z/RkSwRjeYk+BpvlC69unz65x89LxXBWwp5Er9B9QoGB9Pkf5esm0=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH0PR12MB5122.namprd12.prod.outlook.com (2603:10b6:610:bd::12)
- by SN7PR12MB7201.namprd12.prod.outlook.com (2603:10b6:806:2a8::22)
+ header.d=none;dmarc=none action=none header.from=kontron.de;
+Received: from PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:263::10)
+ by AS2PR10MB7762.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:64b::22)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6933.22; Thu, 26 Oct
- 2023 17:55:42 +0000
-Received: from CH0PR12MB5122.namprd12.prod.outlook.com
- ([fe80::521a:c84:2eee:dd87]) by CH0PR12MB5122.namprd12.prod.outlook.com
- ([fe80::521a:c84:2eee:dd87%6]) with mapi id 15.20.6907.032; Thu, 26 Oct 2023
- 17:55:42 +0000
-Message-ID: <a42f1e8d-2c9a-4511-ba10-64f494ba6920@nvidia.com>
-Date: Thu, 26 Oct 2023 10:55:39 -0700
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6907.33; Thu, 26 Oct
+ 2023 18:12:36 +0000
+Received: from PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::27ba:9922:8d12:7b3d]) by PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::27ba:9922:8d12:7b3d%5]) with mapi id 15.20.6933.022; Thu, 26 Oct 2023
+ 18:12:36 +0000
+Message-ID: <7e16351f-4d70-4451-b3c7-1dadfa41f20b@kontron.de>
+Date: Thu, 26 Oct 2023 20:12:33 +0200
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm/syncobj: fix DRM_SYNCOBJ_WAIT_FLAGS_WAIT_AVAILABLE
-Content-Language: en-US
-To: dri-devel@lists.freedesktop.org
-References: <1fac96f1-2f3f-f9f9-4eb0-340f27a8f6c0@nvidia.com>
-From: Erik Kurzinger <ekurzinger@nvidia.com>
-In-Reply-To: <1fac96f1-2f3f-f9f9-4eb0-340f27a8f6c0@nvidia.com>
+Subject: Re: [RFC] drm: bridge: samsung-dsim: Recalculate timings when
+ rounding HFP up
+Content-Language: en-US, de-DE
+To: Adam Ford <aford173@gmail.com>, dri-devel@lists.freedesktop.org
+References: <20231013031040.152282-1-aford173@gmail.com>
+From: Frieder Schrempf <frieder.schrempf@kontron.de>
+In-Reply-To: <20231013031040.152282-1-aford173@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SJ0PR03CA0118.namprd03.prod.outlook.com
- (2603:10b6:a03:333::33) To CH0PR12MB5122.namprd12.prod.outlook.com
- (2603:10b6:610:bd::12)
+X-ClientProxiedBy: AS4P250CA0024.EURP250.PROD.OUTLOOK.COM
+ (2603:10a6:20b:5e3::17) To PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:102:263::10)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH0PR12MB5122:EE_|SN7PR12MB7201:EE_
-X-MS-Office365-Filtering-Correlation-Id: 122790d0-edc2-4130-b11b-08dbd64cc4fc
+X-MS-TrafficTypeDiagnostic: PA4PR10MB5681:EE_|AS2PR10MB7762:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1d5a5b84-9e05-4a84-d436-08dbd64f21ac
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: U6+/zH4ZqXUIkFNyrZk8/4xNA7kN0ipWKsrLsIoy2CRYPjMaBVwOKVVE7vefobUkS2g/+ONtRXPbxCXXfuJHrRqjOl//TSOTzmlR5vxAT6J2HJV/Kh9TDQ5/fNLJ2q9gca4nRgDeOalZXytU+ComWy3Ik9DBWaKmh0rH5fMr7FFTWJc+ct48PRLk09yCOuS8echDOREn0nP4rbTR8+57hjjjJQ58sA06QY7eeWzq6n82j42e6DJ3RyLGEs6tDYTwnzHmLwCVsC8/7eiluj2OJd83HfeN48CT6AnHEeK4MjPpVYPDGiIGZeea3Ek/BVhi2mzHCEiP/gxRCGWWj6Z4ftybNDBjmDI6BjVykGeae7tZpsWrwAFiDEL1OIEvoPJykiQg4rriq0JGJXnpldjgpwL08xV/5v/VfeVBq6339QSdAI0wZfbpn7mxokcMAzjZEdBn1kl0OqEAlCh1aQ3roe1gc+dSYZddmmyI3n+3kG9Q7UUEEEDGGe/Jhi6o6mwCdS28i7w+aKl/6T+I2BPjrYh50grgaL5uCUApp5wrPTQWO5zpjwmSu/k/gF4f4AHxc8rAS7V3OFBqwOpy6IiOBKbZ0nTXuMViMtkMJRFBu7rkXt2pmtAD4pPrs/vrBE7NBguZHBozZsdTGunkePaBPOkdN835csuGdsyDs+8kIMD5XmTTkX3tYm/c7cOquPGX
+X-Microsoft-Antispam-Message-Info: 3on4p/0qE6LVKNOpuoPNmuocX/rGBZB8FwuzRa89BaxfwzMkemmNqs0uGwNlPWBiK3aiVD9UyDkQZnD3lGtTKA19HFenVwQUDc9PUtvoGWfzKDqn0VvrCaVNEfD/ITAKiWpJwozGFvdObgME+fQ31Fj2JtDd5sEFsZ/mPTES9aP6lOUpql/ydrBiqQGYx+cphTGgWVyFpL3JpgsbA3bpVcFscVAU5YfVR8uLfuOlvOkEhDkzCXGFI6VjKOh0dhZQcGYyNoZWy6D36UFyVlV2TRGrwnbBN7hv9rwgf/h50S6qU9J0gXVJaE+egXS+XgdrT/j13TQncBlHjutwTZJ7Iwg7zqP/KEedVJ+QL4mKm6QSI1+oz/4cssCUJ9XVX7lKpaaTzwSbNN28Iv1jHf9mVnpXpkik9XGkPkAJ6J9Pwj2k6duTbYLu95DNRv0XLwjySoI3JztsroLE7Y3QNJAuxph7TWPMXH/XeoOg6k7Y3ongz9TELNnRdk71TfBvNs8op7bvkt1dk9NGrZHH67cYfzmHJNAqau3pWGCPJ6tQD2ZbTBz8K6exeLXRX2foGTYWvzfUgwOyK2JP3wDeiOYPG16P0YMzGLivoLe8vHR93JTkPDuFHlxa3hdvg3CBwWtFp69h+YZqn1YTeFHvYbIFQw==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CH0PR12MB5122.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(346002)(376002)(136003)(39860400002)(396003)(366004)(230922051799003)(451199024)(64100799003)(186009)(1800799009)(36756003)(31696002)(86362001)(26005)(2616005)(6512007)(53546011)(6506007)(6666004)(38100700002)(83380400001)(316002)(2906002)(478600001)(966005)(6486002)(8936002)(8676002)(41300700001)(6916009)(66476007)(66946007)(66556008)(5660300002)(31686004)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
+ SFS:(13230031)(39860400002)(396003)(136003)(376002)(366004)(346002)(230922051799003)(451199024)(186009)(64100799003)(1800799009)(36756003)(31686004)(6512007)(316002)(66476007)(66946007)(38100700002)(66556008)(86362001)(31696002)(2906002)(53546011)(2616005)(6506007)(6666004)(54906003)(26005)(7416002)(41300700001)(6486002)(478600001)(8936002)(8676002)(44832011)(4326008)(5660300002)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?S2VhR3VvbEdDclRiUHNSL1laR1hlZU5NVmNmNktaMnRzVmdGMkl2K002am1W?=
- =?utf-8?B?YUdiN3VUYXFUSmZsR3Zpeml3ZitzdDJDNnFKNDErbERPMFMvMzBlNndpSkJ6?=
- =?utf-8?B?VnBWZkJhNjA3d3VDNGptaFZGUUJmbERHNHA2MnhPMHgvVjZZdkNPZk9yNTRx?=
- =?utf-8?B?THNNZ2tCT0hzTWF5STI5VmhLTTVqQjlpRFpCaXN3akxRcDBObWtiM0FTSjls?=
- =?utf-8?B?REh2UWViRDRTb3FBalBLZlRzUlBDZUlUSmdkdTdVNVNqNTYrU3ZjTjdmVllP?=
- =?utf-8?B?NWI5RGxYSzlFNnczcXJXTS9qZmRJcGVhVFBDQ3lZSVUyOE1MWHpOVWUvd1pa?=
- =?utf-8?B?Nmpjbmg2UjJ5YXEvUkpxaDAyZWZSdHVyUkpLNUtFNy8vSU9VWUZaa3B5SDc2?=
- =?utf-8?B?ZU5hejJ6bEplTFZTRHhPRFVKY0cyTTNXUld0OEVXOGNNdWRmVXNqNGFLcjds?=
- =?utf-8?B?OXg5UWJOMVVwVkN1QjZtYmlkZmp1OGYvNTkwSEJseUlscUpmb3dZSGFpSGsw?=
- =?utf-8?B?Z2NmYmc2WUpQLzB0Q0tNNWdsOEFSVFA2blNWdDlPNTRzYnNPM3ErK1BrTndj?=
- =?utf-8?B?Q1FpcmVZTGFRUmN1ZkhhSUw4Z1NMWUFSWGNPYnorRm1WcUJHNzVzMnlXQS9j?=
- =?utf-8?B?VDBWdjhJSDR6dlJxVENORW1zRlgrWE9zZWZ5cHFlNGFSSHd0UnhOWFc3UjM2?=
- =?utf-8?B?ZHQrSDFCaHFHRnFiMDIwS1RQMStUaVZGTk1ZRWZJd000YTdqaUxFZFNyMGs0?=
- =?utf-8?B?LzJGemxZa3NpQXNmR1gzVDNnM2VhSDBXRjJiaEYzM2lnOFpKOG9JRXJONldG?=
- =?utf-8?B?dGtPZHMrMFkyREVDZ3BvL1JIbUNTTFVqYUkwTW1ka3FGd3lSbWJqSmFVRi9P?=
- =?utf-8?B?T1Qrd2NadjdPR3NMWlFnOFJwRlRyQzZxYWJFcURSR3FMTmw5NG11aFNVWW5j?=
- =?utf-8?B?ci9OR3h4aEhTV2l0UkZhS3RaNG1yc3NEc0J0RUZXV05CTDVmQUtnZzR3cVNU?=
- =?utf-8?B?UEU0bktUdmxFL1c1Qk5WUDVpVmJ1YUprVFZoRUJWVE8wWXduYjVmK2RNQmls?=
- =?utf-8?B?YWZDaVNuQmE4aGRZUWRJSllmeEMwbXlvNmdrcmdmUHYxd0ZNcWV4VDkzNTd0?=
- =?utf-8?B?MStzckVNYUM1ek5LZGQzS0ROMXkwemRSaThSbmxlT3N6MkhqbWRPc2g5VFlz?=
- =?utf-8?B?MGs0L0h1MEs3QktXbFFwM280QU9sQjJuakRNQjhmL0hpWlVyNVNOSDdmNGdL?=
- =?utf-8?B?Y1hnMVdaOHlOQnBESEhtUVNuckFvRkFIaXdYQytVL0RuZEpHZlJWbSs1aVBz?=
- =?utf-8?B?MFo0d1VvMlo4V093U0I4OEp2VXR2c2JWSjBBVElMNnVLeTNValRIbDhrT25P?=
- =?utf-8?B?djJJOHBMSDRHV0NydTN6cmFHcjRYODhOVk1Vb3FlUW9JY3Z0NmdpRDRFWHRS?=
- =?utf-8?B?YUdmdnFJVTAwUXVXYTl3YjZ1eGJKQW5kWGdFbm9qcHBRaDcvUHJvUlFNUUVD?=
- =?utf-8?B?V3Y3b1ZEdWllK1ZXZVI2RHZOOFphZTF5eWI2TDFRREc5TDFpeXBXZEtLM0RW?=
- =?utf-8?B?S0o4SW1pSXlab0dHeTN6Um05UW1pYzZhNWVNUGdteUhOaVdkeDZYVjRLY0pC?=
- =?utf-8?B?WTZsQURiaDNmQXZnV2paMGFJcXpnRGZoRm9mK3Zialg0SlF6bEYyQy8renh2?=
- =?utf-8?B?U0x0Z2tkU2JqbCtFamNPY0VlUWU5SkJUeWZzUnZ3NjIxNnY1RXhyakcxSkFH?=
- =?utf-8?B?TlZIUk5iM09MR3k4ZDJhN0JCZXl3Zis3N3pacWJPa2xCdmtKOWd0MDgrTEox?=
- =?utf-8?B?SHF5OXE2SGI1ek9qK21DUC9uWlRBU1NRbWtSRzJ3V3BMOERQVWU1RzJWajAv?=
- =?utf-8?B?Ujh0UlcrZ3ErNjNjZjVhbXNMK0tpNzFSaVBHZFF1NlNPYmU0NzNDaEpEbDRp?=
- =?utf-8?B?Ni9iaVJlamNNUlNjZUkydnIrdFBlUzdSeGEyejNjV2F1YytJek9yY0Z6cGE5?=
- =?utf-8?B?M3VRRWtuSjlVZU5BZk9OK0pqSXEyRkRxMW1FMUI5WFhVaTVUb2V0UU5TeVQ2?=
- =?utf-8?B?N29TcU9VSnRDakFjRzdvbUc1UzJRRDB5WVZpeHlwS0dzRVVyZEExRklpR0Ju?=
- =?utf-8?Q?dHuAG0mzzOrfRuf+WKCYucLy9?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 122790d0-edc2-4130-b11b-08dbd64cc4fc
-X-MS-Exchange-CrossTenant-AuthSource: CH0PR12MB5122.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UERrOG5TZlZwam11ZDhrT0MyM1daaDFKLzhaVGJSUzFFQVdOQlY3UFRQbDRS?=
+ =?utf-8?B?WThpVFgxLzVnUmp1UFZUQ29sMjFzeW8xK1FjTkJjWk83cHdINjRFSXdqa3Vw?=
+ =?utf-8?B?ZlZNNkJlZEwyUVhEdndaK0tmRDh0ajAxMG1rTXBKNi9tQjU3WjBkeFVSeWkz?=
+ =?utf-8?B?dXBXSW8wSnBEQkI3N01sYiszK0M3Nnl5L29FY3lQZENFdEtTS0FCTUp5cWty?=
+ =?utf-8?B?UkFUZlpwREg0cEFIS2U4bm9udXBGdVgzV0wvT1FEbThzY0xNOWs1VWRXang0?=
+ =?utf-8?B?a2h2YkRRVldPaDFDSjFmS1F4TFhyeG1rTXVodVgyZTNoVGN0Z0tJK2xIZ2tj?=
+ =?utf-8?B?Y0liaUFuSzNqRVRHdWEvQTBvOTNqd0tjSUI0OElBZEZOTER2NitLZlY5ZG0x?=
+ =?utf-8?B?L1VMNmJKWUdlWkdlck1ZN0w4cWgveXJpS21VNDNCKzFWSGhXSGdKOWZ0dlJJ?=
+ =?utf-8?B?dUJQZzJUK0UveUZsTDIwc3N2YXVPNzR2Z1dSVUJZQWxyQWJrbXlsK1FwSy8v?=
+ =?utf-8?B?cVZFSG9lekE1ZUdFQkp6d2FFZ2JCWEJlelAvMHdaeWhiVThBckkrdXJZQndk?=
+ =?utf-8?B?NGhrTXNjRm5URTZTZDE0SUxOTG0rd3NkZ3J1aVhPY2tHeDVHa0pLb0ZCaUNP?=
+ =?utf-8?B?aythRmtsY2JNT0sweFRPVUdpcUozQ3BDRUNtbVV0Z3RQYWFKWXRsMmpHa3Q0?=
+ =?utf-8?B?ak1SKzVNcS80OWtZaVpPMUpZaHZkZkZwUmNhaG1yazRYeUhYMmF2ejRMQ2Fz?=
+ =?utf-8?B?R2swTkp2TVkya056T2lScm1iait2bjhac3ZWZDcrUmJEZ0tPamxlRDhWK1Vv?=
+ =?utf-8?B?VHpJZXhxNGIvMUFqOEFEWm5pZnZqRng0anUyWFhScDlDUFllZUxEaWdobmJU?=
+ =?utf-8?B?NHl0bkdvTzNsUzBiNU1SUy9KekpKczltZ29ZeThlTHd6SVUvTHJyQ0E0bHRo?=
+ =?utf-8?B?YzhkRlBBT1E4ait1Z0hSL1BZYk15MjR5b05nbUpRUGlXMGhmaXNlMHBsRGgz?=
+ =?utf-8?B?QWQrbzlBZWkzWHJUK3F6ZWRyb1BnZnlWdHo5RDRQSzU1QkdkbFc1VTRjQ1Rz?=
+ =?utf-8?B?OTVsby83K01mejd3aGpmOUd2MUJzeVpBRjZ0enMydmFFQkhuODlTRnN6UlBY?=
+ =?utf-8?B?bS80aEZtU0wyYjVOQURuaWpGMjNxS3ZnMVkyaVRTSUV5ZFgvZS9pbS9vZEhY?=
+ =?utf-8?B?ZTlyazRLbTQ4dmp4Uit4dXJHanpVTnMwd1J1em5nSXVocmd0SU5KMkVRaXpC?=
+ =?utf-8?B?b3pSWWdDNVdXRmdoUmhqRHcrOG81VXlBNkk0WG54Sm5FV2MzVms4NnZaN0wz?=
+ =?utf-8?B?ZytVeURCNGNNMzJhMjFKQnlVZjNjUnZOelFqMHdoaUJPYUdnOGxvUVY5QjA1?=
+ =?utf-8?B?YXVOUm0wa2hVWVQ4eTBDTUNTOTQ2M2ZJcXhSdzE3OVVtT0ZPSG93NGlicktv?=
+ =?utf-8?B?QWVxeEZjZlpLZWYyQU5ZZFJTbjZRNjQzT0dscEk3SG16VUFDSHJpNXFSS0hZ?=
+ =?utf-8?B?SlhFSmZLbkpML29vczJMNTAvWjlZWmdwL0RZT2JvZGh6WC8wYTQyQmdxU21T?=
+ =?utf-8?B?WWlvZ21DRWdKQU9FY3lzNlVtMTRYSmVtMFdUTEVyekdIT3pKbENOMUwyN2lE?=
+ =?utf-8?B?a1hWdHR5b2NyNnZIVEtmb3JDVi9JKzl3S3FCeDVSRlY1bksvTW90czBYalEr?=
+ =?utf-8?B?YVpodjdWUDNmaDlCS0JQU010MHdwV3c3U0JGL1hyejBvS09zQVY2NTErc2do?=
+ =?utf-8?B?czhSY3JjRHc2dG0zQkJNWW9hTWZLQXgzaEVZOGZJWjRRZ1kwL1RWVFZOTEJ3?=
+ =?utf-8?B?UGxrdUx3SzlzVnljNngyOUJMckVUZFl1NHBGbkI3Ry9NL1h4bHlpODZkLzBI?=
+ =?utf-8?B?MzhJM2FzbXIzcVNzZ1RqWDVBMU1LQU1XeHIxL1IreVZ6bTkzWlVVaUcwbzh2?=
+ =?utf-8?B?VWdvZC9UQ29iaC9EYW5yZlRIOWk2TGJxWjRFUnBkNlJSY2xNK1JwV01LRFd6?=
+ =?utf-8?B?SW43aDQvMHRFM1NKOWRObHZhMTEwbUFMdm01dERUYWMyRkk4MHd5V3k0VGxN?=
+ =?utf-8?B?K2VzS29rMnJUVnVDQno1eFk3NUN4VVV3K1dQSHRUTHFvUm9FR2dlU1FTdm9F?=
+ =?utf-8?B?Tm1qVTVRRjhDL1dvdGhHeFVjalhTSzJEMlNvUDUrQkpQTlYvYll2NVZrSEZY?=
+ =?utf-8?B?MVE9PQ==?=
+X-OriginatorOrg: kontron.de
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1d5a5b84-9e05-4a84-d436-08dbd64f21ac
+X-MS-Exchange-CrossTenant-AuthSource: PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Oct 2023 17:55:41.9918 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Oct 2023 18:12:35.9965 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-Id: 8c9d3c97-3fd9-41c8-a2b1-646f3942daf1
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: nT/MbXLAoddnBura+G1ZumzHYmTP1O0buZpwG+CjBmA3AHEmbDBripjT6/1CFhXZGKL+5VOWgZ9A6THKMoz9Qw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB7201
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8ExiqESiKpCi4ZLOjwazI2tF6FShHWoNzyINlCbubj+z3+RNx/qy7WdQ5gYPCG7w6fr09OMk/Z0oRR1NEjLV2089O3y8XyjnDsljI5Gv+x0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2PR10MB7762
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,61 +126,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: marex@denx.de, Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Jonas Karlman <jonas@kwiboo.se>, linux-kernel@vger.kernel.org,
+ aford@beaconembedded.com, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Jagan Teki <jagan@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Is there anything else needed for this fix to be merged? I have shared an accompanying patch for the IGT test suite here https://lists.freedesktop.org/archives/igt-dev/2023-August/060154.html
+Hi Adam,
 
-On 8/16/23 09:26, Erik Kurzinger wrote:
-> If DRM_IOCTL_SYNCOBJ_TIMELINE_WAIT is invoked with the
-> DRM_SYNCOBJ_WAIT_FLAGS_WAIT_AVAILABLE flag set but no fence has yet been
-> submitted for the given timeline point the call will fail immediately
-> with EINVAL. This does not match the intended behavior where the call
-> should wait until the fence has been submitted (or the timeout expires).
+On 13.10.23 05:10, Adam Ford wrote:
+> When using video sync pulses, the HFP, HBP, and HSA are divided between
+> the available lanes if there is more than one lane.  For certain
+> timings and lane configurations, the HFP may not be evenly divisible
+> and it gets rounded down which can cause certain resolutions and
+> refresh rates to not sync.
 > 
-> The following small example program illustrates the issue. It should
-> wait for 5 seconds and then print ETIME, but instead it terminates right
-> away after printing EINVAL.
+> ie. 720p60 on some monitors show hss of 1390 and hdisplay of 1280.  This
+> yields an HFP of 110. When taking the HFP of 110 divides along 4 lanes,
+> the result is 27.5 which rounds down to 27 and causes some monitors not
+> to sync.
 > 
->   #include <stdio.h>
->   #include <fcntl.h>
->   #include <time.h>
->   #include <errno.h>
->   #include <xf86drm.h>
->   int main(void)
->   {
->       int fd = open("/dev/dri/card0", O_RDWR);
->       uint32_t syncobj;
->       drmSyncobjCreate(fd, 0, &syncobj);
->       struct timespec ts;
->       clock_gettime(CLOCK_MONOTONIC, &ts);
->       uint64_t point = 1;
->       if (drmSyncobjTimelineWait(fd, &syncobj, &point, 1,
->                                  ts.tv_sec * 1000000000 + ts.tv_nsec + 5000000000, // 5s
->                                  DRM_SYNCOBJ_WAIT_FLAGS_WAIT_AVAILABLE, NULL)) {
->           printf("drmSyncobjTimelineWait failed %d\n", errno);
->       }
->   }
+> The solultion is to round HFP up by finding the remainder of HFP /
+> the number of lanes and increasing the hsync_start, hsync_end, and
+> htotal to compensate when there is a remainder.
 > 
-> Fixes: 01d6c3578379 ("drm/syncobj: add support for timeline point wait v8")
-> Signed-off-by: Erik Kurzinger <ekurzinger@nvidia.com>
-> Reviewed by: Simon Ser <contact@emersion.fd>
+> Signed-off-by: Adam Ford <aford173@gmail.com>
 > ---
->  drivers/gpu/drm/drm_syncobj.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+> This adds support for 720p60 in the i.MX8M Plus.
 > 
-> diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/drm_syncobj.c
-> index add45001e939..a8e6b61a188c 100644
-> --- a/drivers/gpu/drm/drm_syncobj.c
-> +++ b/drivers/gpu/drm/drm_syncobj.c
-> @@ -1087,7 +1087,8 @@ static signed long drm_syncobj_array_wait_timeout(struct drm_syncobj **syncobjs,
->  		fence = drm_syncobj_fence_get(syncobjs[i]);
->  		if (!fence || dma_fence_chain_find_seqno(&fence, points[i])) {
->  			dma_fence_put(fence);
-> -			if (flags & DRM_SYNCOBJ_WAIT_FLAGS_WAIT_FOR_SUBMIT) {
-> +			if (flags & (DRM_SYNCOBJ_WAIT_FLAGS_WAIT_FOR_SUBMIT |
-> +				     DRM_SYNCOBJ_WAIT_FLAGS_WAIT_AVAILABLE)) {
->  				continue;
->  			} else {
->  				timeout = -EINVAL;
+> NXP uses a look-up table in their downstream code to accomplish this.
+> Using this calculation, the driver can adjust without the need for a
+> complicated table and should be flexible for different timings and
+> resolutions depending on the monitor.
+> 
+> I don't have a DSI analyzer, and this appears to only work on
+> i.MX8M Plus but not Mini and Nano for some reason, despite their
+> having a similar DSI bridge.
 
+I just want to report that I have tested this patch (on top of current
+linux-next) on our Kontron BL i.MX8MM board with the ADV7535 bridge and
+I don't see any change when trying the 30 different modes the monitor
+reports as supported. 18 of those work and 12 don't work.
+
+So at least there is no negative impact in this case.
+
+Tested-by: Frieder Schrempf <frieder.schrempf@kontron.de> # Kontron BL
+i.MX8MM with HDMI monitor
+
+Thanks
+Frieder
