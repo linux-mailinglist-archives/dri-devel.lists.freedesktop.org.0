@@ -1,51 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B2E67D89B7
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Oct 2023 22:33:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 36A637D89CC
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Oct 2023 22:46:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF18610E8A2;
-	Thu, 26 Oct 2023 20:33:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE23210E8A8;
+	Thu, 26 Oct 2023 20:46:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.forwardemail.net (smtp.forwardemail.net [149.28.215.223])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5006B10E8A1
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Oct 2023 20:33:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
- h=Content-Transfer-Encoding: Content-Type: In-Reply-To: From: References:
- Cc: To: Subject: MIME-Version: Date: Message-ID; q=dns/txt;
- s=fe-e1b5cab7be; t=1698352404;
- bh=j3tk+oe4LZw1thVxrSHhxg7YiJq4jgOvzV867gqOGjc=;
- b=CqAJyFeIsT6eSLAibN2Oypjza3vA6nY0sMI24lhSgB1RTkaIzK+Tc0rVANje6uUD4fF+UgpmZ
- xMRQb9xbJHO1aePuqQ0GDNQ9wtV6tOuUpcBv3rW/Gvp8fkrBGBMAGhAUhddM7sZe8+zX7LPSymk
- EkAez8fREIeZ0IXRM/oqVQ/02iFJ1fm+2nYbNBTQvj81VaQu3yDP3INoxF4Fsne1UL9GJEcTyEI
- nY/PXyaWZjBB2v9MC2Ji/rJEMI36+P1vs0rH0rYHg8YAe9GeYNYYWCkiZA/D2TqoTJJ5nom8rms
- 7Mllq9nGkKJslxE0EPCXUqKvoBheG95kJBpu88ZrKlDQ==
-Message-ID: <2307c147-fe6f-4e80-874c-0f306bc6ea81@kwiboo.se>
-Date: Thu, 26 Oct 2023 22:33:19 +0200
+Received: from mail-ot1-x32c.google.com (mail-ot1-x32c.google.com
+ [IPv6:2607:f8b0:4864:20::32c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A22610E8A9
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Oct 2023 20:46:46 +0000 (UTC)
+Received: by mail-ot1-x32c.google.com with SMTP id
+ 46e09a7af769-6ce2fc858feso875516a34.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Oct 2023 13:46:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1698353205; x=1698958005; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=I/G02VsxhYJWjx+P8kMFTWWV+s1yYYgHb9RgEPb8krc=;
+ b=eYutkuaXl3BBzWj6IjKxL2y4ExNpWeuZ+5EzAi8acrekI+MQrpqP9U6k19rFDpwGRe
+ WC6NwhDgp9YcLYOZQyDQsLrU7ErnDKKeAa/Iad1/tosyB2wRGtVRZaJhA5dAeJA9Cf6r
+ ZEdUBtbgfbZlgzpZEwoF9X7TY/Es0NLc2ahgGBqv2xcuKpJhha1ZqO3VMYowDNIUvc66
+ KgSIuQ8cvKRnxMymhnnd+/rA8nnK9v4xLCaDogpi4FY3SQZ0flaFpWWKzq8QRi8oojkW
+ Lncfu2l7+PhcnbZ2sSIguQGjv72772HP0nzoCeD2LRtVbb+3cS5kVUdKbivonAj/0erP
+ GTrw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1698353205; x=1698958005;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=I/G02VsxhYJWjx+P8kMFTWWV+s1yYYgHb9RgEPb8krc=;
+ b=Q1TYVXEYjzl8+spiNU1r6wHdQlKTgzB+mTCQ00hMW804eN/x6Lat3yaP4VBDpFJj/e
+ Sv+jExK1N/cmYZaSM+2iWEgagpvSIRQjDU7fdGAJLew8FgZV3aVtZQLNf2C/RCWyPgCf
+ 4ZsYOHMECFOXZ3qBZifiucmaKa8Dg91e/x8FjoRcEwv194n6OyRwrmBQWrgp0bO+GL7U
+ 6wtxoxzvVL92nLuPzEgPmFzF3Tm1C/dOibZKN5TQGPc+XVCJDVqRBTcA7NXUu41iB/U7
+ Yx/RQfzAAjiMbMOUSzzekDJeHAPRUDRR/pg9c8K1TXV2zuAuk9V6yHKkNR7logm+DG9V
+ LnCA==
+X-Gm-Message-State: AOJu0Yx07GXL403i1KS9ss7Hk4MnDIf22dGMdIr4FKcf9aXHOXuGNwKo
+ 1IcXK87vMf049lUE9FcMivE8UsIy9e6N+Ei4E/8DGg==
+X-Google-Smtp-Source: AGHT+IFVa6fJL5TjjQrb46JjIVUSocFW+PYDsLYQl5v/O4exSYbtWF5+eYNBjXmSZw79pzDpYDJn2OV8FuRMoqSfUoo=
+X-Received: by 2002:a9d:66ce:0:b0:6c5:233:fc28 with SMTP id
+ t14-20020a9d66ce000000b006c50233fc28mr664232otm.33.1698353205417; Thu, 26 Oct
+ 2023 13:46:45 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm/rockchip: vop: Fix color for RGB888/BGR888 format
- on VOP full
-Content-Language: en-US
-To: Christopher Obbard <chris.obbard@collabora.com>, Heiko Stuebner
- <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Tomasz Figa
- <tfiga@chromium.org>
-References: <20231026191500.2994225-1-jonas@kwiboo.se>
- <ea5a78a59e983e08d02c89718c5c7315e923f170.camel@collabora.com>
-From: Jonas Karlman <jonas@kwiboo.se>
-In-Reply-To: <ea5a78a59e983e08d02c89718c5c7315e923f170.camel@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Report-Abuse-To: abuse@forwardemail.net
-X-Report-Abuse: abuse@forwardemail.net
-X-Complaints-To: abuse@forwardemail.net
-X-ForwardEmail-Version: 0.4.40
-X-ForwardEmail-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
- 149.28.215.223
-X-ForwardEmail-ID: 653acd145956f7edd77b4fc4
+References: <20230928111630.1217419-1-dmitry.baryshkov@linaro.org>
+ <20230928111630.1217419-14-dmitry.baryshkov@linaro.org>
+ <36d6379b-66e6-4781-b08d-ef90f6e47828@linaro.org>
+In-Reply-To: <36d6379b-66e6-4781-b08d-ef90f6e47828@linaro.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Thu, 26 Oct 2023 23:46:34 +0300
+Message-ID: <CAA8EJppa8-M8Uah+=GBhG4bHvdGUwqgh0aj8o9rLfEdZq=JUKA@mail.gmail.com>
+Subject: Re: [PATCH v3 13/15] drm/msm/hdmi: pair msm_hdmi_phy_powerup with
+ msm_hdmi_phy_powerdown
+To: Konrad Dybcio <konrad.dybcio@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,42 +69,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andy Yan <andy.yan@rock-chips.com>, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
- linux-rockchip@lists.infradead.org
+Cc: Kishon Vijay Abraham I <kishon@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org,
+ linux-phy@lists.infradead.org, Marijn Suijten <marijn.suijten@somainline.org>,
+ freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Chris,
+On Thu, 26 Oct 2023 at 22:54, Konrad Dybcio <konrad.dybcio@linaro.org> wrote:
+>
+>
+>
+> On 9/28/23 13:16, Dmitry Baryshkov wrote:
+> > In preparation to converting MSM HDMI driver to use PHY framework, which
+> > requires phy_power_on() calls to be paired with phy_power_off(), add a
+> > conditional call to msm_hdmi_phy_powerdown() before the call to
+> > msm_hdmi_phy_powerup().
+> >
+> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > ---
+> Is this a conversion artifact that will be undone, or does the
+> framework actually expect that refcounting may not be enough and
+> phy resetting will have to take place?
 
-On 2023-10-26 22:02, Christopher Obbard wrote:
-> Hi Jonas,
-> 
-> On Thu, 2023-10-26 at 19:14 +0000, Jonas Karlman wrote:
->> Use of DRM_FORMAT_RGB888 and DRM_FORMAT_BGR888 on e.g. RK3288, RK3328
->> and RK3399 result in wrong colors being displayed.
->>
->> The issue can be observed using modetest:
->>
->>   modetest -s <connector_id>@<crtc_id>:1920x1080-60@RG24
->>   modetest -s <connector_id>@<crtc_id>:1920x1080-60@BG24
->>
->> Vendor 4.4 kernel apply an inverted rb swap for these formats on VOP
->> full framework (IP version 3.x) compared to VOP little framework (2.x).
->>
->> Fix colors by applying different rb swap for VOP full framework (3.x)
->> and VOP little framework (2.x) similar to vendor 4.4 kernel.
->>
->> Fixes: 85a359f25388 ("drm/rockchip: Add BGR formats to VOP")
->> Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
-> 
-> Reviewed-by: Christopher Obbard <chris.obbard@collabora.com>
-> Tested-by: Christopher Obbard <chris.obbard@collabora.com>
-> 
-> Since you missed adding my *-by tags in v2.
-> 
+I don't remember why I did it this way. Let me check, most likely this
+patch can be completely dropped as the enable / disable operations are
+paired by the DRM core.
 
-Thanks, and sorry about that ;-)
-
-Regards,
-Jonas
+-- 
+With best wishes
+Dmitry
