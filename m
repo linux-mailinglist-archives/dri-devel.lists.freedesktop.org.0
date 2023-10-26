@@ -1,46 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B09C7D837D
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Oct 2023 15:26:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4524B7D837F
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Oct 2023 15:26:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3622210E7D5;
-	Thu, 26 Oct 2023 13:26:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C0C310E7D9;
+	Thu, 26 Oct 2023 13:26:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF3DB10E7D5;
- Thu, 26 Oct 2023 13:26:24 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org
+ [IPv6:2604:1380:40e1:4800::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 682E910E7DA
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Oct 2023 13:26:29 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id CCD386347E;
- Thu, 26 Oct 2023 13:26:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C5DFC433C7;
- Thu, 26 Oct 2023 13:26:23 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 352DECE3F62;
+ Thu, 26 Oct 2023 13:26:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07FCEC433C7;
+ Thu, 26 Oct 2023 13:26:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1698326783;
- bh=iRn7vDIBkvqTVmnZQoeJoZ6KdPtszrHGt6CVY4MQMDc=;
+ s=k20201202; t=1698326786;
+ bh=41Xg+Doxc4aBDvl2iYiwfP8OIdQnKvWUYMtMk4RePuQ=;
  h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
- b=R31R0WO0LMF1N+jXnuaW7wPNJHkEYjQI51xow57y4Ms4dtrziSUH8mU/kUU7YRWbe
- BGPE8mcSwd1EfqPZITWQeq+2gSrI3TlKK6qEmJPHCqVe2+nkLWDS9AMLNbLj98Onha
- 4djo4sNWqKU9QU/jM11WEst61l3ivN/ampO2jswTyQ/R75dqeZDycP3UF8Bhke6ql9
- JM4VX6l3qDGnS7J9U9pz5rmIRIy0NukMe0N2haIX5bcpYyEJI1x07mca7GAEdoXx3p
- eEKlU94CfYbzvD8W8xV93gwnef2QPLS6jy+4GyU++sskRmHFh2FxY62WJC+CLgMTAj
- h1xj3U3JhJywg==
+ b=YyTcABChaU6MYFY2UYYfXz8rPw658AKaFaGnP9VQyN+R04Et5KHx8w8GZ9/Rlz/JQ
+ bEixMV4D3I7Zn5hcQnjuWs7XZSDGl+r531/f2zF819MLd3udsnMwiBpKU1r+KQiUT2
+ XVPabxKNULHZtBF87OPVEaV7o+Qr3PeoMCJljGoq4Al2RQ8IyatksKj3UtktfeDjL1
+ mfJmiPLxLB4vf8RSClf2mhnQuiGb/ve+R6Fh+4Z8j+DHtq9s69l2bDDW/j5uLj2R4L
+ vs3TDYxEwCwT6zPeDsNKtr2+Ezl/bovnII3SJbN2JgubIwMcxIUQnj55aUPnIEd9sx
+ DxJUtM3CBoC9A==
 From: Maxime Ripard <mripard@kernel.org>
-To: Thierry Reding <thierry.reding@gmail.com>, 
- Sam Ravnborg <sam@ravnborg.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20231008132320.762542-1-dmitry.baryshkov@linaro.org>
-References: <20231008132320.762542-1-dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH 1/2] drm/ci: pick up -external-fixes from the merge
- target repo
-Message-Id: <169832677721.958223.13412416633186382267.b4-ty@kernel.org>
-Date: Thu, 26 Oct 2023 15:26:17 +0200
+To: dri-devel@lists.freedesktop.org, Rob Clark <robdclark@gmail.com>
+In-Reply-To: <20231002164715.157298-1-robdclark@gmail.com>
+References: <20231002164715.157298-1-robdclark@gmail.com>
+Subject: Re: [PATCH] drm/ci: Enable CONFIG_BACKLIGHT_CLASS_DEVICE
+Message-Id: <169832678386.958223.2789362196867076790.b4-ty@kernel.org>
+Date: Thu, 26 Oct 2023 15:26:23 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
@@ -57,20 +51,16 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org
+Cc: Rob Clark <robdclark@chromium.org>, Emma Anholt <emma@anholt.net>,
+ linux-kernel@vger.kernel.org, Helen Koike <helen.koike@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, 08 Oct 2023 16:23:19 +0300, Dmitry Baryshkov wrote:
-> In case of the merge requests it might be useful to push repo-specific
-> fixes which have not yet propagated to the -external-fixes branch in the
-> main UPSTREAM_REPO. For example, in case of drm/msm development, we are
-> staging fixes locally for testing, before pushing them to the drm/drm
-> repo. Thus, if the CI run was triggered by merge request, also pick up
-> the -external fixes basing on the the CI_MERGE target repo / and branch.
+On Mon, 02 Oct 2023 09:47:14 -0700, Rob Clark wrote:
+> Dependency for CONFIG_DRM_PANEL_EDP.  Missing this was causing the drm
+> driver to not probe on devices that use panel-edp.
 > 
-> [...]
+> 
 
 Applied to drm/drm-misc (drm-misc-next).
 
