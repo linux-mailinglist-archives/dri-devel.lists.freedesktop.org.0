@@ -2,81 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28B717D7D57
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Oct 2023 09:08:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE39F7D7CE8
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Oct 2023 08:34:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E617910E767;
-	Thu, 26 Oct 2023 07:08:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B3F2C10E766;
+	Thu, 26 Oct 2023 06:34:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E133010E75B
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Oct 2023 04:49:16 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 39Q3QZAE025980; Thu, 26 Oct 2023 04:48:58 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=hn7mI5XFOG6K7jwuqiR0Ffa6KjespaUDl8gFI+U8m5A=;
- b=les9P+WuPjyeIKUADLKxK3l/09OfKF3PEzo2QZxA0L2uAF9BQU4LeCIG6sYGbeJ06baJ
- 71rJQytzxd+JqConSvP66cXNEspbXBYxPpcLmPxbKFwVTmA5GgYY1sU1Q/0TgezZTzay
- pQcpoMhXd2qN/KilxGLNwjqxRBPv/Se6/tKqxPFLW/nONAlfx+XhcA8uzjVjSTBi0m+y
- RmDwdaESTf0A2w5Eqok6w55Rq2bt3UWy7bTIuH3z99aWMVfDZlbgdcY3NusFLtTYLSr+
- +XLfRfDdK83n7765TGPT4EDXo66Iu2PLumiFJvBiFxyzhPvdA4z9hwb7QlYUh97+LjYI tw== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3tyfm9g636-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 26 Oct 2023 04:48:57 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 39Q4muAc014492
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 26 Oct 2023 04:48:56 GMT
-Received: from [10.216.34.174] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Wed, 25 Oct
- 2023 21:48:49 -0700
-Message-ID: <ac44de13-f4e0-4bae-b06b-af90fadaa96c@quicinc.com>
-Date: Thu, 26 Oct 2023 10:18:27 +0530
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F8DC10E603;
+ Thu, 26 Oct 2023 06:34:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1698302054; x=1729838054;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=WnfySFta4QeyblMHJF2qrIR4NYcvPeowwA+r9sQNFkE=;
+ b=GW+PZKmCEJ1cNvAS4wh5IVpVAYBYjtXE7dN2oglOuiLfBWgQeCDcrrKS
+ jjg1UoIDUpTdIA9APCMp7WIMDwyqk2nYAO2NoQ5q/8eLP7CEj7Jrr/h4M
+ rM7OLphActxeu4vZxdLfJ6ZsbDwK11iB4b0r4NDDcZ5p7wGs7i0hXPg82
+ PLnzODuYY4BZYw7jzIOtJco5Ci3KvYUwEJShO1Dc4P++b79RiTjJTtBCK
+ I2jt4OsGm6xZJCXC2n2vok+pmljK9ONyzWU7S7juou02qijpAYJ3MX8en
+ FhQszZzHhShPulwyGudlCQdE47k7B/lciTg0Nhkpt9uBXTCuTn4QeHN4I A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10874"; a="387297548"
+X-IronPort-AV: E=Sophos;i="6.03,253,1694761200"; d="scan'208";a="387297548"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Oct 2023 23:34:13 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.03,253,1694761200"; 
+   d="scan'208";a="6818850"
+Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
+ by orviesa001.jf.intel.com with ESMTP; 25 Oct 2023 23:32:45 -0700
+Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1qvtwQ-0009Z4-2S;
+ Thu, 26 Oct 2023 06:34:02 +0000
+Date: Thu, 26 Oct 2023 14:33:20 +0800
+From: kernel test robot <lkp@intel.com>
+To: Matthew Brost <matthew.brost@intel.com>,
+ dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org
+Subject: Re: [PATCH v7 3/6] drm/sched: Convert the GPU scheduler to variable
+ number of run-queues
+Message-ID: <202310261439.3rbAtEoB-lkp@intel.com>
+References: <20231026041236.1273694-4-matthew.brost@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/9] dma-buf: heaps: Initialise MediaTek secure heap
-To: =?UTF-8?B?WW9uZyBXdSAo5ZC05YuHKQ==?= <Yong.Wu@mediatek.com>,
- "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
- "christian.koenig@amd.com" <christian.koenig@amd.com>,
- "robh+dt@kernel.org" <robh+dt@kernel.org>,
- "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>
-References: <20230911023038.30649-1-yong.wu@mediatek.com>
- <20230911023038.30649-5-yong.wu@mediatek.com>
- <5d806772-a2b4-4304-be45-7c2ed2930fcc@quicinc.com>
- <c8bf01a083182fdc83742de8daad8c5ce8d56d5b.camel@mediatek.com>
-Content-Language: en-US
-From: Vijayanand Jitta <quic_vjitta@quicinc.com>
-In-Reply-To: <c8bf01a083182fdc83742de8daad8c5ce8d56d5b.camel@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: pGxxlDuuSPDcqHECPGkRKbpmHIVzrNfa
-X-Proofpoint-GUID: pGxxlDuuSPDcqHECPGkRKbpmHIVzrNfa
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-10-26_01,2023-10-25_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- malwarescore=0 bulkscore=0 priorityscore=1501 clxscore=1015 phishscore=0
- mlxlogscore=999 adultscore=0 suspectscore=0 mlxscore=0 spamscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2310170001 definitions=main-2310260038
-X-Mailman-Approved-At: Thu, 26 Oct 2023 07:08:03 +0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231026041236.1273694-4-matthew.brost@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,165 +61,237 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "conor+dt@kernel.org" <conor+dt@kernel.org>,
- "benjamin.gaignard@collabora.com" <benjamin.gaignard@collabora.com>,
- =?UTF-8?B?S3VvaG9uZyBXYW5nICjnjovlnIvptLsp?= <kuohong.wang@mediatek.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "tjmercier@google.com" <tjmercier@google.com>,
- "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
- "jstultz@google.com" <jstultz@google.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "angelogioacchino.delregno@collabora.com"
- <angelogioacchino.delregno@collabora.com>,
- =?UTF-8?B?SmlhbmppYW8gWmVuZyAo5pu+5YGl5aejKQ==?= <Jianjiao.Zeng@mediatek.com>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Cc: Emma Anholt <emma@anholt.net>, thomas.hellstrom@linux.intel.com,
+ lina@asahilina.net, Liviu.Dudau@arm.com,
+ Matthew Brost <matthew.brost@intel.com>, lima@lists.freedesktop.org,
+ mcanal@igalia.com, luben.tuikov@amd.com, dakr@redhat.com,
+ donald.robson@imgtec.com, nouveau@lists.freedesktop.org,
+ robdclark@chromium.org, sarah.walker@imgtec.com, ketil.johnsen@arm.com,
+ linux-arm-msm@vger.kernel.org, Russell King <linux+etnaviv@armlinux.org.uk>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, etnaviv@lists.freedesktop.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, oe-kbuild-all@lists.linux.dev,
+ faith.ekstrand@collabora.com, boris.brezillon@collabora.com,
+ Qiang Yu <yuq825@gmail.com>, Alex Deucher <alexander.deucher@amd.com>,
+ freedreno@lists.freedesktop.org, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Matthew,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 201c8a7bd1f3f415920a2df4b8a8817e973f42fe]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Matthew-Brost/drm-sched-Add-drm_sched_wqueue_-helpers/20231026-121313
+base:   201c8a7bd1f3f415920a2df4b8a8817e973f42fe
+patch link:    https://lore.kernel.org/r/20231026041236.1273694-4-matthew.brost%40intel.com
+patch subject: [PATCH v7 3/6] drm/sched: Convert the GPU scheduler to variable number of run-queues
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20231026/202310261439.3rbAtEoB-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231026/202310261439.3rbAtEoB-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310261439.3rbAtEoB-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/gpu/drm/etnaviv/etnaviv_sched.c: In function 'etnaviv_sched_init':
+>> drivers/gpu/drm/etnaviv/etnaviv_sched.c:138:30: warning: passing argument 3 of 'drm_sched_init' makes pointer from integer without a cast [-Wint-conversion]
+     138 |                              DRM_SCHED_PRIORITY_COUNT, NULL,
+         |                              ^~~~~~~~~~~~~~~~~~~~~~~~
+         |                              |
+         |                              int
+   In file included from drivers/gpu/drm/etnaviv/etnaviv_drv.h:20,
+                    from drivers/gpu/drm/etnaviv/etnaviv_sched.c:8:
+   include/drm/gpu_scheduler.h:530:45: note: expected 'struct workqueue_struct *' but argument is of type 'int'
+     530 |                    struct workqueue_struct *submit_wq,
+         |                    ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~
+   In file included from include/uapi/linux/posix_types.h:5,
+                    from include/uapi/linux/types.h:14,
+                    from include/linux/types.h:6,
+                    from include/linux/kasan-checks.h:5,
+                    from include/asm-generic/rwonce.h:26,
+                    from ./arch/m68k/include/generated/asm/rwonce.h:1,
+                    from include/linux/compiler.h:246,
+                    from include/linux/build_bug.h:5,
+                    from include/linux/init.h:5,
+                    from include/linux/moduleparam.h:5,
+                    from drivers/gpu/drm/etnaviv/etnaviv_sched.c:6:
+>> include/linux/stddef.h:8:14: warning: passing argument 4 of 'drm_sched_init' makes integer from pointer without a cast [-Wint-conversion]
+       8 | #define NULL ((void *)0)
+         |              ^~~~~~~~~~~
+         |              |
+         |              void *
+   drivers/gpu/drm/etnaviv/etnaviv_sched.c:138:56: note: in expansion of macro 'NULL'
+     138 |                              DRM_SCHED_PRIORITY_COUNT, NULL,
+         |                                                        ^~~~
+   include/drm/gpu_scheduler.h:531:24: note: expected 'u32' {aka 'unsigned int'} but argument is of type 'void *'
+     531 |                    u32 num_rqs, uint32_t hw_submission, unsigned hang_limit,
+         |                    ~~~~^~~~~~~
+--
+   drivers/gpu/drm/lima/lima_sched.c: In function 'lima_sched_pipe_init':
+>> drivers/gpu/drm/lima/lima_sched.c:492:31: warning: passing argument 3 of 'drm_sched_init' makes pointer from integer without a cast [-Wint-conversion]
+     492 |                               DRM_SCHED_PRIORITY_COUNT, NULL, 1,
+         |                               ^~~~~~~~~~~~~~~~~~~~~~~~
+         |                               |
+         |                               int
+   In file included from drivers/gpu/drm/lima/lima_sched.h:7,
+                    from drivers/gpu/drm/lima/lima_device.h:12,
+                    from drivers/gpu/drm/lima/lima_ctx.h:10,
+                    from drivers/gpu/drm/lima/lima_drv.h:9,
+                    from drivers/gpu/drm/lima/lima_sched.c:11:
+   include/drm/gpu_scheduler.h:530:45: note: expected 'struct workqueue_struct *' but argument is of type 'int'
+     530 |                    struct workqueue_struct *submit_wq,
+         |                    ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~
+   In file included from include/uapi/linux/posix_types.h:5,
+                    from include/uapi/linux/types.h:14,
+                    from include/linux/types.h:6,
+                    from include/linux/io.h:9,
+                    from include/linux/iosys-map.h:10,
+                    from drivers/gpu/drm/lima/lima_sched.c:4:
+>> include/linux/stddef.h:8:14: warning: passing argument 4 of 'drm_sched_init' makes integer from pointer without a cast [-Wint-conversion]
+       8 | #define NULL ((void *)0)
+         |              ^~~~~~~~~~~
+         |              |
+         |              void *
+   drivers/gpu/drm/lima/lima_sched.c:492:57: note: in expansion of macro 'NULL'
+     492 |                               DRM_SCHED_PRIORITY_COUNT, NULL, 1,
+         |                                                         ^~~~
+   include/drm/gpu_scheduler.h:531:24: note: expected 'u32' {aka 'unsigned int'} but argument is of type 'void *'
+     531 |                    u32 num_rqs, uint32_t hw_submission, unsigned hang_limit,
+         |                    ~~~~^~~~~~~
+--
+   drivers/gpu/drm/v3d/v3d_sched.c: In function 'v3d_sched_init':
+>> drivers/gpu/drm/v3d/v3d_sched.c:391:50: warning: passing argument 3 of 'drm_sched_init' makes pointer from integer without a cast [-Wint-conversion]
+     391 |                              &v3d_bin_sched_ops, DRM_SCHED_PRIORITY_COUNT, NULL,
+         |                                                  ^~~~~~~~~~~~~~~~~~~~~~~~
+         |                                                  |
+         |                                                  int
+   In file included from drivers/gpu/drm/v3d/v3d_drv.h:12,
+                    from drivers/gpu/drm/v3d/v3d_sched.c:23:
+   include/drm/gpu_scheduler.h:530:45: note: expected 'struct workqueue_struct *' but argument is of type 'int'
+     530 |                    struct workqueue_struct *submit_wq,
+         |                    ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~
+   In file included from include/uapi/linux/posix_types.h:5,
+                    from include/uapi/linux/types.h:14,
+                    from include/linux/types.h:6,
+                    from include/linux/kasan-checks.h:5,
+                    from include/asm-generic/rwonce.h:26,
+                    from ./arch/m68k/include/generated/asm/rwonce.h:1,
+                    from include/linux/compiler.h:246,
+                    from include/linux/err.h:5,
+                    from include/linux/kthread.h:5,
+                    from drivers/gpu/drm/v3d/v3d_sched.c:21:
+>> include/linux/stddef.h:8:14: warning: passing argument 4 of 'drm_sched_init' makes integer from pointer without a cast [-Wint-conversion]
+       8 | #define NULL ((void *)0)
+         |              ^~~~~~~~~~~
+         |              |
+         |              void *
+   drivers/gpu/drm/v3d/v3d_sched.c:391:76: note: in expansion of macro 'NULL'
+     391 |                              &v3d_bin_sched_ops, DRM_SCHED_PRIORITY_COUNT, NULL,
+         |                                                                            ^~~~
+   include/drm/gpu_scheduler.h:531:24: note: expected 'u32' {aka 'unsigned int'} but argument is of type 'void *'
+     531 |                    u32 num_rqs, uint32_t hw_submission, unsigned hang_limit,
+         |                    ~~~~^~~~~~~
+   drivers/gpu/drm/v3d/v3d_sched.c:399:53: warning: passing argument 3 of 'drm_sched_init' makes pointer from integer without a cast [-Wint-conversion]
+     399 |                              &v3d_render_sched_ops, DRM_SCHED_PRIORITY_COUNT,
+         |                                                     ^~~~~~~~~~~~~~~~~~~~~~~~
+         |                                                     |
+         |                                                     int
+   include/drm/gpu_scheduler.h:530:45: note: expected 'struct workqueue_struct *' but argument is of type 'int'
+     530 |                    struct workqueue_struct *submit_wq,
+         |                    ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~
+>> include/linux/stddef.h:8:14: warning: passing argument 4 of 'drm_sched_init' makes integer from pointer without a cast [-Wint-conversion]
+       8 | #define NULL ((void *)0)
+         |              ^~~~~~~~~~~
+         |              |
+         |              void *
+   drivers/gpu/drm/v3d/v3d_sched.c:400:30: note: in expansion of macro 'NULL'
+     400 |                              NULL, hw_jobs_limit, job_hang_limit,
+         |                              ^~~~
+   include/drm/gpu_scheduler.h:531:24: note: expected 'u32' {aka 'unsigned int'} but argument is of type 'void *'
+     531 |                    u32 num_rqs, uint32_t hw_submission, unsigned hang_limit,
+         |                    ~~~~^~~~~~~
+   drivers/gpu/drm/v3d/v3d_sched.c:407:50: warning: passing argument 3 of 'drm_sched_init' makes pointer from integer without a cast [-Wint-conversion]
+     407 |                              &v3d_tfu_sched_ops, DRM_SCHED_PRIORITY_COUNT, NULL,
+         |                                                  ^~~~~~~~~~~~~~~~~~~~~~~~
+         |                                                  |
+         |                                                  int
+   include/drm/gpu_scheduler.h:530:45: note: expected 'struct workqueue_struct *' but argument is of type 'int'
+     530 |                    struct workqueue_struct *submit_wq,
+         |                    ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~
+>> include/linux/stddef.h:8:14: warning: passing argument 4 of 'drm_sched_init' makes integer from pointer without a cast [-Wint-conversion]
+       8 | #define NULL ((void *)0)
+         |              ^~~~~~~~~~~
+         |              |
+         |              void *
+   drivers/gpu/drm/v3d/v3d_sched.c:407:76: note: in expansion of macro 'NULL'
+     407 |                              &v3d_tfu_sched_ops, DRM_SCHED_PRIORITY_COUNT, NULL,
+         |                                                                            ^~~~
+   include/drm/gpu_scheduler.h:531:24: note: expected 'u32' {aka 'unsigned int'} but argument is of type 'void *'
+     531 |                    u32 num_rqs, uint32_t hw_submission, unsigned hang_limit,
+         |                    ~~~~^~~~~~~
+   drivers/gpu/drm/v3d/v3d_sched.c:417:38: warning: passing argument 3 of 'drm_sched_init' makes pointer from integer without a cast [-Wint-conversion]
+     417 |                                      DRM_SCHED_PRIORITY_COUNT, NULL,
+         |                                      ^~~~~~~~~~~~~~~~~~~~~~~~
+         |                                      |
+         |                                      int
+   include/drm/gpu_scheduler.h:530:45: note: expected 'struct workqueue_struct *' but argument is of type 'int'
+     530 |                    struct workqueue_struct *submit_wq,
+         |                    ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~
+>> include/linux/stddef.h:8:14: warning: passing argument 4 of 'drm_sched_init' makes integer from pointer without a cast [-Wint-conversion]
+       8 | #define NULL ((void *)0)
+         |              ^~~~~~~~~~~
+         |              |
+         |              void *
+   drivers/gpu/drm/v3d/v3d_sched.c:417:64: note: in expansion of macro 'NULL'
+     417 |                                      DRM_SCHED_PRIORITY_COUNT, NULL,
+         |                                                                ^~~~
+   include/drm/gpu_scheduler.h:531:24: note: expected 'u32' {aka 'unsigned int'} but argument is of type 'void *'
+     531 |                    u32 num_rqs, uint32_t hw_submission, unsigned hang_limit,
+         |                    ~~~~^~~~~~~
+   drivers/gpu/drm/v3d/v3d_sched.c:426:38: warning: passing argument 3 of 'drm_sched_init' makes pointer from integer without a cast [-Wint-conversion]
+     426 |                                      DRM_SCHED_PRIORITY_COUNT, NULL,
+         |                                      ^~~~~~~~~~~~~~~~~~~~~~~~
+         |                                      |
+         |                                      int
+   include/drm/gpu_scheduler.h:530:45: note: expected 'struct workqueue_struct *' but argument is of type 'int'
+     530 |                    struct workqueue_struct *submit_wq,
+         |                    ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~
+>> include/linux/stddef.h:8:14: warning: passing argument 4 of 'drm_sched_init' makes integer from pointer without a cast [-Wint-conversion]
+       8 | #define NULL ((void *)0)
+         |              ^~~~~~~~~~~
+         |              |
+         |              void *
+   drivers/gpu/drm/v3d/v3d_sched.c:426:64: note: in expansion of macro 'NULL'
+     426 |                                      DRM_SCHED_PRIORITY_COUNT, NULL,
+         |                                                                ^~~~
+   include/drm/gpu_scheduler.h:531:24: note: expected 'u32' {aka 'unsigned int'} but argument is of type 'void *'
+     531 |                    u32 num_rqs, uint32_t hw_submission, unsigned hang_limit,
+         |                    ~~~~^~~~~~~
 
 
-On 10/20/2023 3:29 PM, Yong Wu (吴勇) wrote:
-> On Thu, 2023-10-19 at 10:15 +0530, Vijayanand Jitta wrote:
->>  	 
->> External email : Please do not click links or open attachments until
->> you have verified the sender or the content.
->>  
->>
->> On 9/11/2023 8:00 AM, Yong Wu wrote:
->>> Initialise a mtk_svp heap. Currently just add a null heap, Prepare
->> for
->>> the later patches.
->>>
->>> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
->>> ---
->>>  drivers/dma-buf/heaps/Kconfig           |  8 ++
->>>  drivers/dma-buf/heaps/Makefile          |  1 +
->>>  drivers/dma-buf/heaps/mtk_secure_heap.c | 99
->> +++++++++++++++++++++++++
->>>  3 files changed, 108 insertions(+)
->>>  create mode 100644 drivers/dma-buf/heaps/mtk_secure_heap.c
->>>
->>> diff --git a/drivers/dma-buf/heaps/Kconfig b/drivers/dma-
->> buf/heaps/Kconfig
->>> index a5eef06c4226..729c0cf3eb7c 100644
->>> --- a/drivers/dma-buf/heaps/Kconfig
->>> +++ b/drivers/dma-buf/heaps/Kconfig
->>> @@ -12,3 +12,11 @@ config DMABUF_HEAPS_CMA
->>>    Choose this option to enable dma-buf CMA heap. This heap is
->> backed
->>>    by the Contiguous Memory Allocator (CMA). If your system has
->> these
->>>    regions, you should say Y here.
->>> +
->>> +config DMABUF_HEAPS_MTK_SECURE
->>> +bool "DMA-BUF MediaTek Secure Heap"
->>> +depends on DMABUF_HEAPS && TEE
->>> +help
->>> +  Choose this option to enable dma-buf MediaTek secure heap for
->> Secure
->>> +  Video Path. This heap is backed by TEE client interfaces. If in
->>> +  doubt, say N.
->>> diff --git a/drivers/dma-buf/heaps/Makefile b/drivers/dma-
->> buf/heaps/Makefile
->>> index 974467791032..df559dbe33fe 100644
->>> --- a/drivers/dma-buf/heaps/Makefile
->>> +++ b/drivers/dma-buf/heaps/Makefile
->>> @@ -1,3 +1,4 @@
->>>  # SPDX-License-Identifier: GPL-2.0
->>>  obj-$(CONFIG_DMABUF_HEAPS_SYSTEM)+= system_heap.o
->>>  obj-$(CONFIG_DMABUF_HEAPS_CMA)+= cma_heap.o
->>> +obj-$(CONFIG_DMABUF_HEAPS_MTK_SECURE)+= mtk_secure_heap.o
->>> diff --git a/drivers/dma-buf/heaps/mtk_secure_heap.c b/drivers/dma-
->> buf/heaps/mtk_secure_heap.c
->>> new file mode 100644
->>> index 000000000000..bbf1c8dce23e
->>> --- /dev/null
->>> +++ b/drivers/dma-buf/heaps/mtk_secure_heap.c
->>> @@ -0,0 +1,99 @@
->>> +// SPDX-License-Identifier: GPL-2.0
->>> +/*
->>> + * DMABUF mtk_secure_heap exporter
->>> + *
->>> + * Copyright (C) 2023 MediaTek Inc.
->>> + */
->>> +
->>> +#include <linux/dma-buf.h>
->>> +#include <linux/dma-heap.h>
->>> +#include <linux/err.h>
->>> +#include <linux/module.h>
->>> +#include <linux/slab.h>
->>> +
->>> +/*
->>> + * MediaTek secure (chunk) memory type
->>> + *
->>> + * @KREE_MEM_SEC_CM_TZ: static chunk memory carved out for
->> trustzone.
->>> + */
->>> +enum kree_mem_type {
->>> +KREE_MEM_SEC_CM_TZ = 1,
->>> +};
->>> +
->>> +struct mtk_secure_heap_buffer {
->>> +struct dma_heap*heap;
->>> +size_tsize;
->>> +};
->>> +
->>> +struct mtk_secure_heap {
->>> +const char*name;
->>> +const enum kree_mem_type mem_type;
->>> +};
->>> +
->>> +static struct dma_buf *
->>> +mtk_sec_heap_allocate(struct dma_heap *heap, size_t size,
->>> +      unsigned long fd_flags, unsigned long heap_flags)
->>> +{
->>> +struct mtk_secure_heap_buffer *sec_buf;
->>> +DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
->>> +struct dma_buf *dmabuf;
->>> +int ret;
->>> +
->>> +sec_buf = kzalloc(sizeof(*sec_buf), GFP_KERNEL);
->>
->> As we know, kzalloc can only allocate 4MB at max. So, secure heap has
->> this limitation.
->> can we have a way to allocate more memory in secure heap ? maybe
->> similar to how system heap does?
-> 
-> This is just the size of a internal structure. I guess you mean the
-> secure memory size here. Regarding secure memory allocating flow, our
-> flow may be different with yours.
-> 
-> Let me explain our flow, we have two secure buffer types(heaps).
-> a) mtk_svp
-> b) mtk_svp_cma which requires the cma binding.
-> 
-> The memory management of both is inside the TEE. We only need to tell
-> the TEE which type and size of buffer we want, and then the TEE will
-> perform and return the memory handle to the kernel. The
-> kzalloc/alloc_pages is for the normal buffers.
-> 
-> Regarding the CMA buffer, we only call cma_alloc once, and its
-> management is also within the TEE.
-> 
+vim +/drm_sched_init +138 drivers/gpu/drm/etnaviv/etnaviv_sched.c
 
-Thanks for the details.
+   132	
+   133	int etnaviv_sched_init(struct etnaviv_gpu *gpu)
+   134	{
+   135		int ret;
+   136	
+   137		ret = drm_sched_init(&gpu->sched, &etnaviv_sched_ops,
+ > 138				     DRM_SCHED_PRIORITY_COUNT, NULL,
+   139				     etnaviv_hw_jobs_limit, etnaviv_job_hang_limit,
+   140				     msecs_to_jiffies(500), NULL, NULL,
+   141				     dev_name(gpu->dev), gpu->dev);
+   142		if (ret)
+   143			return ret;
+   144	
+   145		return 0;
+   146	}
+   147	
 
-I see for mvp_svp, allocation is also specific to TEE, as TEE takes
-care of allocation as well. 
-
-I was thinking if allocation path can also be made generic ? without having
-dependency on TEE.
-For eg : A case where we want to allocate from kernel and secure that memory,
-the current secure heap design can't be used. 
-
-Also i suppose TEE allocates contiguous memory for mtk_svp ? or does it support
-scattered memory ?
-
->>
->> Thanks,
->> Vijay
->>
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
