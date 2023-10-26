@@ -1,43 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46C4E7D837A
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Oct 2023 15:26:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B09C7D837D
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Oct 2023 15:26:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C77B710E136;
-	Thu, 26 Oct 2023 13:26:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3622210E7D5;
+	Thu, 26 Oct 2023 13:26:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org
- [IPv6:2604:1380:40e1:4800::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D8FCB10E136
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Oct 2023 13:26:19 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF3DB10E7D5;
+ Thu, 26 Oct 2023 13:26:24 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 96575CE3F62;
- Thu, 26 Oct 2023 13:26:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C8E9C433C8;
- Thu, 26 Oct 2023 13:26:16 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id CCD386347E;
+ Thu, 26 Oct 2023 13:26:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C5DFC433C7;
+ Thu, 26 Oct 2023 13:26:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1698326776;
- bh=EkEQs9N23jDDNdbmrMAfm/n0wa1XEFhc3nFLxMLQBfk=;
+ s=k20201202; t=1698326783;
+ bh=iRn7vDIBkvqTVmnZQoeJoZ6KdPtszrHGt6CVY4MQMDc=;
  h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
- b=phCC8uNydBc6FI51+5GxUnplh0W6pHKM/k1kCBdgKGdSLVRB25tPZzMSM5b9CSEi6
- NnDL+8L6rdKgTWVvBT/NBBIj0EfltwYqA99WgClIVDgnKFQTa5pKv5sHghnpJ6iH2L
- a1Dz1GENta9hCJTNryRzvDwV+Ex5MzGGjK22BdAgwJwpcbcrXqx+zZ2otAAu/7NPZe
- y1m71EsEfiDdLlwmTX0xT8jkN/b+wKmE7vvRFfWoJIgWZ2xPFy7gBBBGAqFAEw8MkG
- rKx97y13DM1ZB7pbH/QFsTr7zFLVbyFrDGPF9dKYp0U4R2ckI7QXWHf+yEJ8U2aqn9
- uWfObGYv/9nUg==
+ b=R31R0WO0LMF1N+jXnuaW7wPNJHkEYjQI51xow57y4Ms4dtrziSUH8mU/kUU7YRWbe
+ BGPE8mcSwd1EfqPZITWQeq+2gSrI3TlKK6qEmJPHCqVe2+nkLWDS9AMLNbLj98Onha
+ 4djo4sNWqKU9QU/jM11WEst61l3ivN/ampO2jswTyQ/R75dqeZDycP3UF8Bhke6ql9
+ JM4VX6l3qDGnS7J9U9pz5rmIRIy0NukMe0N2haIX5bcpYyEJI1x07mca7GAEdoXx3p
+ eEKlU94CfYbzvD8W8xV93gwnef2QPLS6jy+4GyU++sskRmHFh2FxY62WJC+CLgMTAj
+ h1xj3U3JhJywg==
 From: Maxime Ripard <mripard@kernel.org>
-To: dri-devel@lists.freedesktop.org, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Helen Koike <helen.koike@collabora.com>
-In-Reply-To: <20231024004525.169002-1-helen.koike@collabora.com>
-References: <20231024004525.169002-1-helen.koike@collabora.com>
-Subject: Re: [PATCH v3 00/10] drm/ci: fixes and improvements
-Message-Id: <169832677439.958223.17998130799046222765.b4-ty@kernel.org>
-Date: Thu, 26 Oct 2023 15:26:14 +0200
+To: Thierry Reding <thierry.reding@gmail.com>, 
+ Sam Ravnborg <sam@ravnborg.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <20231008132320.762542-1-dmitry.baryshkov@linaro.org>
+References: <20231008132320.762542-1-dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH 1/2] drm/ci: pick up -external-fixes from the merge
+ target repo
+Message-Id: <169832677721.958223.13412416633186382267.b4-ty@kernel.org>
+Date: Thu, 26 Oct 2023 15:26:17 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
@@ -54,23 +57,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: robdclark@chromium.org, daniels@collabora.com, vignesh.raman@collabora.com,
- guilherme.gallo@collabora.com, sergi.blanch.torne@collabora.com,
- quic_abhinavk@quicinc.com, linux-kernel@vger.kernel.org,
- david.heidelberg@collabora.com, linux-mediatek@lists.infradead.org,
- dmitry.baryshkov@linaro.org, quic_jesszhan@quicinc.com,
- linux-arm-kernel@lists.infradead.org
+Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 23 Oct 2023 21:45:15 -0300, Helen Koike wrote:
-> This series contains the several fixes, making drm/ci much
-> more reliable and useful.
-> 
-> Highlights:
-> 
-> * Current DRM/CI in drm-misc is broken, this series fixes it with mesa
->   uprev (commit 1/9).
+On Sun, 08 Oct 2023 16:23:19 +0300, Dmitry Baryshkov wrote:
+> In case of the merge requests it might be useful to push repo-specific
+> fixes which have not yet propagated to the -external-fixes branch in the
+> main UPSTREAM_REPO. For example, in case of drm/msm development, we are
+> staging fixes locally for testing, before pushing them to the drm/drm
+> repo. Thus, if the CI run was triggered by merge request, also pick up
+> the -external fixes basing on the the CI_MERGE target repo / and branch.
 > 
 > [...]
 
