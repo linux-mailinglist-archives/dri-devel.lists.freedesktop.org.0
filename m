@@ -1,55 +1,132 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84F8E7D7FBD
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Oct 2023 11:40:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AA387D7FB8
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Oct 2023 11:40:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B8C3110E797;
-	Thu, 26 Oct 2023 09:40:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B0EE10E794;
+	Thu, 26 Oct 2023 09:40:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3448010E797
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Oct 2023 09:40:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1698313211; x=1729849211;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=k/tkjm+aLdTKIDC9RP0qnvhblK7zhXlFXaH23ri+Ekw=;
- b=ETDzl7mfxO16V7xAi6ONjVcQ4nYtBtxBR5PTq1JD+HgnXtH2Jr2PkCNk
- NvSjIKDvoxYgW1qKA1qVtZE03Py5VDc8j5f9IdDO0q7q+h8nxuHOM7ohk
- U/Ix2ZYyGDRU/RZVPMcFTcTzvdQyTjCPfguliE6xo1+gbRn4NQq9u1Rbj
- NL650+UH5cw/bq7WAJ8rfzRP7GCeb4Tm3hwWayoT0UtOH/6iZgDov4N7e
- ygiitlG1hNH0ChspqSaZ0akCrbcUGbR2SkEHmlCk0U578Qd2K8MRU+pX1
- oE0ohpfVF0DTr3MN/E4MEhdLa8nVkvuKHdXbGg8FGHf9+25dHxH9uyPJl A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10874"; a="384708299"
-X-IronPort-AV: E=Sophos;i="6.03,253,1694761200"; d="scan'208";a="384708299"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Oct 2023 02:40:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.03,253,1694761200"; 
-   d="scan'208";a="7203823"
-Received: from tzirr-desk2.ger.corp.intel.com (HELO localhost) ([10.252.49.68])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Oct 2023 02:39:57 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH 1/2] drm/bridge: add ->edid_read hook and
- drm_bridge_edid_read()
-Date: Thu, 26 Oct 2023 12:39:55 +0300
-Message-Id: <daa4703cc30ee05836fb477a1a8da4b89a391afd.1698312534.git.jani.nikula@intel.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <cover.1698312534.git.jani.nikula@intel.com>
-References: <cover.1698312534.git.jani.nikula@intel.com>
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com
+ (mail-dm3nam02on2062a.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:7e83::62a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3640810E793;
+ Thu, 26 Oct 2023 09:40:02 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=SCpH2v1LifCsnO3L3YD/e3MgYTXWmPg+bCIr19vxvEPYiiddGhLK8e5Xh72kmYklifTWPb4Lrr7uNhglA1JmUwOTs06n0gxQgsCW56mQi4znqLGqXUKPIGeGHlFgMIMfBud4sQw6H9GxwF8yqygsvvm2yrPCMIC/6FXSgTsJJu50dss+1c70udS/hQ/HJteKO5kKFUy2E5YkU9/IqS2FgBqBKgl8+Damwr+MUUrh26pQQvIzx10X92m69RUfgGaM5nxzIi7+gqhKfvrMIn+auf1hL9u2zrIDu1TGfmoyW9je+mVOk9OVC2eZTzznf6v7OiE1lv94Bw4njCNx+znGHQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+ffDRTMYYsctuAZbHQ5WdRjlH9ElinYmdyogmDgo0HQ=;
+ b=dDZmaqpRP6L58pSfZ3WcxLJVezCDYwMy8TBuo9CPg5hQfbgNPj2H90RDMiS1j3jAmH/2+Nxp5zZaiJsTgSBgnkjf8QC1YI+/6tXqbrwthdgFAsYLfEQxe8nS8H5oyKBzq8ctOA1i+T76zorIZf2pPV1GBEj24UNldiw5IhjuBKSTkdz+s/MVxf7CHYbpaM+vE9ianPkHaf4OV4wxZ2NpFB0srWexpA8MHX8E+OzxdHNZSO2sXKrzlYqYktZwYU0yEcdcmXfVKM0QcItdl8sqM21Y6wRzVPKttk1pQcUjGB1W3KFqsSPJT9n1D1yqsv/c/oW7+mOtHYlJbDe0dtSmOQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+ffDRTMYYsctuAZbHQ5WdRjlH9ElinYmdyogmDgo0HQ=;
+ b=OZeO8Mxtlh3ItTbYrbPFK/ahZZ0rTEKmykLf3a2gG4hJxSoOMGu+TzZGxG8wkntaEybkNJIOZtmLjsZ+nfIwqdL8Nannq2rKXkFkya9SjIXcxmus1Ipaen2KApGnSYA8dZEtPcnmFZJtokL7zI/O/iodtaoZV1Vj3j0TQUVpMCA=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM6PR12MB3370.namprd12.prod.outlook.com (2603:10b6:5:38::25) by
+ MW4PR12MB7312.namprd12.prod.outlook.com (2603:10b6:303:21a::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6907.31; Thu, 26 Oct
+ 2023 09:39:59 +0000
+Received: from DM6PR12MB3370.namprd12.prod.outlook.com
+ ([fe80::b80b:7138:6ceb:9aef]) by DM6PR12MB3370.namprd12.prod.outlook.com
+ ([fe80::b80b:7138:6ceb:9aef%6]) with mapi id 15.20.6907.025; Thu, 26 Oct 2023
+ 09:39:59 +0000
+Message-ID: <f97c9e75-0a9f-4960-90d7-7f5c2bc6d92e@amd.com>
+Date: Thu, 26 Oct 2023 05:39:56 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:115.0) Gecko/20100101
+ Thunderbird/115.3.3
+Subject: Re: [PATCH v7 3/6] drm/sched: Convert the GPU scheduler to variable
+ number of run-queues
+Content-Language: en-CA, en-US
+From: Luben Tuikov <luben.tuikov@amd.com>
+To: kernel test robot <lkp@intel.com>, Matthew Brost
+ <matthew.brost@intel.com>, dri-devel@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, ltuikov@yahoo.com
+References: <20231026041236.1273694-4-matthew.brost@intel.com>
+ <202310261439.3rbAtEoB-lkp@intel.com>
+ <56160837-12df-4a02-8180-dbee6d6d5a0f@amd.com>
+Autocrypt: addr=luben.tuikov@amd.com; keydata=
+ xjMEY1i6jxYJKwYBBAHaRw8BAQdAhfD+Cc+P5t/fiF08Vw25EMLiwUuxULYRiDQAP6H50MTN
+ I0x1YmVuIFR1aWtvdiA8bHViZW4udHVpa292QGFtZC5jb20+wpkEExYKAEEWIQQyyR05VSHw
+ x45E/SoppxulNG8HhgUCY1i6jwIbAwUJCWYBgAULCQgHAgIiAgYVCgkICwIEFgIDAQIeBwIX
+ gAAKCRAppxulNG8Hhk53AP4k4UY5xfcje0c5OF1k22pNv8tErxtVpgKKZgvfetA4xwD+OoAh
+ vesLIYumBDxP0BoLiLN84udxdT15HwPFUGiDmwDOOARjWLqPEgorBgEEAZdVAQUBAQdAzSxY
+ a2EtvvIwd09NckBLSTarSLNDkUthmqPnwolwiDYDAQgHwn4EGBYKACYWIQQyyR05VSHwx45E
+ /SoppxulNG8HhgUCY1i6jwIbDAUJCWYBgAAKCRAppxulNG8HhnBLAP4yjSGpK6PE1mapKhrq
+ 8bSl9reo+F6EqdhE8X2TTHPycAEAt8EkTEstSiaOpM66gneU7r+xxzOYULo1b1XjXayGvwM=
+In-Reply-To: <56160837-12df-4a02-8180-dbee6d6d5a0f@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: YQZPR01CA0084.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:84::21) To DM6PR12MB3370.namprd12.prod.outlook.com
+ (2603:10b6:5:38::25)
 MIME-Version: 1.0
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR12MB3370:EE_|MW4PR12MB7312:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2bac1a19-bf2b-4a1e-e42c-08dbd6078532
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: QYmL43HWRN1cnfW+Q1m5hy+iBb2yYJ4g02SwqAC7WC4ZRDC0xibR4tyCMDLij0sKOmdNC10NhsMQcpBx8m51SSK4mPQiB/1K4+SKaM7ihNnd0Kpwz3038I+ySMsE4C9a7NdxMK+frot9VErwt/aipKGkKQqhi0TOXUss4BhDsUGb1z57uG0SIylHB1FDtU8NFw7GyBkTF8qW8CKN6A1cUngF2RQ+XYl8PVAwe7c8u97R/UK1yyQYedlWva2TCSPifUl4Lz+cgFczeYOfKUu7yAob8aCzD2NOP9hg9EG1Rd8NzNNR8t9+1RfnHVs0O8E8UZwi92HOHeKQgTpzBph+B7ISNGNP9GRkk0317ldICR97WfwWnTnaiWxgPN+85C1qU99kffornj42ac7dFw+NUefTnAxnBokcm9ocMHDSZrpnvHKXEYE2qObtts1z02JQoO53MAASyCKqx5VmPK3hAIjtnFI+LUSlgSunDsQEHP2K3N+Z4dx2rk4jBuapYiiIdlxgvEC9NCQzTNK3bXmQtxDXLBzLLKRzOBx0j2dzubzrhMAn/Iufyc5CahVZI5Qhg101tCat4UZBsV+zAeq1tOSGv/qySkn6DTYyjIkVtEn+cu/2iNKB3DZrsahczSvS0lrlLfa2bzxj8QLnrbLwd68Uzxf/9AjN+vCIoSzO04k=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR12MB3370.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(366004)(39860400002)(396003)(346002)(376002)(136003)(230922051799003)(1800799009)(186009)(64100799003)(451199024)(30864003)(54906003)(2906002)(41300700001)(38100700002)(478600001)(66556008)(66946007)(6506007)(2616005)(316002)(110136005)(53546011)(6486002)(966005)(6512007)(66476007)(83380400001)(86362001)(4326008)(31696002)(7416002)(5660300002)(36756003)(6666004)(8676002)(44832011)(8936002)(26005)(31686004)(4001150100001)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ODZ2bTdIaE1sS0Q1Z3pTWkxxMFJzdnlCc0s5NUxKUGx5ZmNROUlBVktzTU5T?=
+ =?utf-8?B?aFdiUHE4NVEyZFdySkQrOWZvOXRmbnAzclQ1NG5yd0ZOb3ovd25oRWdJNXpj?=
+ =?utf-8?B?aCsrY2xYUENFRDBQUVJqbi84UmxrNEFscjdtays2ZUJqYzUvdVg2dXZGeFhF?=
+ =?utf-8?B?WHFPdGpyQWc3a1JxUWhxUzZncVpGdmlOY1d2cWVML2NXUTRBU2FscmRzL3Z1?=
+ =?utf-8?B?bHRoTjkwL1Z1V0pSWWMvUVBYZTlpNm9RbWRVc0o5a2dFTEJ4cGhIRk1WNmEy?=
+ =?utf-8?B?UW1qSENUNENyM2trREl1bnJpQ1R2dGNVQnhxeXFralNaUjFHa1ZTWGxHZnBa?=
+ =?utf-8?B?WFJIZkgwZlFmRlpxa2kzRldLckdYRVZGblJDZ3YwRHFOV0gybGdiSXRhU1Jt?=
+ =?utf-8?B?QUovckQ5ZHhUaGd5ZUdsSHV5N1NSTjNCL1MvU29JT1l6ZVRPTkFWUkNVNUZX?=
+ =?utf-8?B?NUc1S01YbWFmajd5ZGFIVVVUVENQRFFpb3dWRlVRYi9wcVE4R3VvSE5oYlRB?=
+ =?utf-8?B?cGYrczM3Q2txUG9qREY3L0hqU1pyRENXUGp1UXlOcll5eGRuVC9yakdEZWJp?=
+ =?utf-8?B?OEhCQWE5NloyZjdYY2NoeEtyVnFCdHo4SXNRbmpRR3d3ZjhoaXV0Y0NPbUND?=
+ =?utf-8?B?cHIrQ0RpVmFkNUkyQjhodDhxZzdIbnVheDVIblJQWFk0RFZBTklxeFhna2JB?=
+ =?utf-8?B?YlhQc1VsOHBNTVVWN29jbk9qemNFaFlCYjd4UFUrM1lNbDJWWU40d2Ixc05V?=
+ =?utf-8?B?Um40VGlFUzRkcUhBVjU5d0ZuekFKbTBzSEdxUzRMamU3VjcwbysrREpta0ZV?=
+ =?utf-8?B?THliQUZzVElpYjJhcVEyUWNXMWk1a3FMMVY5dVpDa2xvSytJYUpyMDFxVnB3?=
+ =?utf-8?B?aDBweEVqVHRNNW5OcDBCYWo5MXpEbXIzd2JRZnJMaysxbGx6aUVXMFZIWTNI?=
+ =?utf-8?B?bUcxdjBkWXUyVExwRHJXdXptQmIvTkw1UjllQnU5dE1Oa2dnUlY2VkkzUUQr?=
+ =?utf-8?B?Njl2WjEvRXNmaHdsbTFCTUVOMmVVWG1odE1nUU0wUVovQi80R2FYN2l3Uk9R?=
+ =?utf-8?B?ZFRJaDFBRjlPYytDbWRMRDF2TjJhVVAzYzM4c09yeWkxelp2ZENzUkxaM2Ux?=
+ =?utf-8?B?U1NRZUp2V1J3T3VWQk1FUHovMm5Wd1VlN05HRmJqNXNVQ2NqV25yZ0cveW5X?=
+ =?utf-8?B?WVNweVhORVROeWlXaURDREVsaXRVTndsTURsTFNpdFZJYllLOGs3ZVI1SDJx?=
+ =?utf-8?B?OGlBSjJvMEVnYTRMWkx6WnVRYjh4c2RmTmVySmF3QXlvdmFTUzBCRXJYMnJZ?=
+ =?utf-8?B?VTBjV1dPMVZ6cWFFYXhlZ3ZHTkdzc2t3Q1RTT013QTdXa2lJdmtFUXAzV1RX?=
+ =?utf-8?B?MjBVVlhFSG56TzJjTGI1RUx3Ukw5SVFwaWFBYVpNV1JSMFFTTE9SWXNaUWgy?=
+ =?utf-8?B?Vytvb1luT3d3bjU3SDdoWjZKQnNjeElQSGZCVkJySHM0OWF6TEV5bUhDZGIv?=
+ =?utf-8?B?czlLb0VaL3hCajFpUzNNVEpGREFCQTJaRmo0MTdFRmNITTd4eU9ib0hkRllG?=
+ =?utf-8?B?MXBzRDV0bHgxS0E3TnpOWDRrVDZEemhvaStBMHJVVDN2WkJSb3NnekNUQnJL?=
+ =?utf-8?B?NjBpNmNYclZqVFoyQlEyYkljSEFXTVhUQ1F2Vm5SdW5Yb2ZyMUhlYlV1WmZn?=
+ =?utf-8?B?bWRSR2JtSXI2Z2NrcGFMWUZNSG1Tc1NZY1hoblliZmdFczR3S1FWZ01Pd080?=
+ =?utf-8?B?KytBcVFtM3dMZmo0TDVQVWQ2MXZpSWR4ZmtEZDdnNUdTeCs0VUdpa1Q3U2Qz?=
+ =?utf-8?B?anR2T203cjlQSUhyUlVRbGxqRW1TbVlWNE5pOW1CeW8rbm0rQW9LcHhzRXNm?=
+ =?utf-8?B?ZmVNamR0QW54VTVpLzk5VmJaRlhwZVM5VnJJRFh1RlNScVJjSTUzYm5tUU1M?=
+ =?utf-8?B?UDQ3elQxK25KZHVzTGwxNmtSdnRualJOZFlpYytNbmdTTU0yVktGSkI4N0dB?=
+ =?utf-8?B?aWVXNkE0Y1h0VmllMmRDV2VHcUw4S1p6aytGRXBjSDBkRUgzWCtwL2JmZHNJ?=
+ =?utf-8?B?RHZsK25RZW1LbElERGh0SkpNVU9aVDdvcmdwbmxJVlpwSkxNL1J3SXQySHpp?=
+ =?utf-8?Q?qBuhDMUapRKNpevXBrx7UGmZB?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2bac1a19-bf2b-4a1e-e42c-08dbd6078532
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3370.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Oct 2023 09:39:59.2277 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Exnd0zZM17YdjuTfexOOiiUG8sH+iTXgP2F4MZF8nzuyPzQOJAzHGyV/iMQGIhZA
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB7312
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,142 +139,308 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jani Nikula <jani.nikula@intel.com>
+Cc: Emma Anholt <emma@anholt.net>, nouveau@lists.freedesktop.org,
+ Liviu.Dudau@arm.com, robdclark@chromium.org, lima@lists.freedesktop.org,
+ mcanal@igalia.com, dakr@redhat.com, donald.robson@imgtec.com,
+ lina@asahilina.net, thomas.hellstrom@linux.intel.com, sarah.walker@imgtec.com,
+ ketil.johnsen@arm.com, linux-arm-msm@vger.kernel.org,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, etnaviv@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>, oe-kbuild-all@lists.linux.dev,
+ faith.ekstrand@collabora.com, boris.brezillon@collabora.com,
+ Qiang Yu <yuq825@gmail.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno@lists.freedesktop.org, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add new struct drm_edid based ->edid_read hook and
-drm_bridge_edid_read() function to call the hook.
+Also note that there were no complaints from "kernel test robot <lkp@intel.com>"
+when I posted my patch (this patch), but there is now, which further shows
+that there's unwarranted changes. Just follow the steps I outlined below,
+and we should all be good.
 
-Signed-off-by: Jani Nikula <jani.nikula@intel.com>
----
- drivers/gpu/drm/drm_bridge.c | 46 +++++++++++++++++++++++++++++++++++-
- include/drm/drm_bridge.h     | 33 ++++++++++++++++++++++++++
- 2 files changed, 78 insertions(+), 1 deletion(-)
+Thanks!
 
-diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-index 30d66bee0ec6..e1cfba2ff583 100644
---- a/drivers/gpu/drm/drm_bridge.c
-+++ b/drivers/gpu/drm/drm_bridge.c
-@@ -27,8 +27,9 @@
- #include <linux/mutex.h>
- 
- #include <drm/drm_atomic_state_helper.h>
--#include <drm/drm_debugfs.h>
- #include <drm/drm_bridge.h>
-+#include <drm/drm_debugfs.h>
-+#include <drm/drm_edid.h>
- #include <drm/drm_encoder.h>
- #include <drm/drm_file.h>
- #include <drm/drm_of.h>
-@@ -1206,6 +1207,47 @@ int drm_bridge_get_modes(struct drm_bridge *bridge,
- }
- EXPORT_SYMBOL_GPL(drm_bridge_get_modes);
- 
-+/**
-+ * drm_bridge_edid_read - read the EDID data of the connected display
-+ * @bridge: bridge control structure
-+ * @connector: the connector to read EDID for
-+ *
-+ * If the bridge supports output EDID retrieval, as reported by the
-+ * DRM_BRIDGE_OP_EDID bridge ops flag, call &drm_bridge_funcs.edid_read to get
-+ * the EDID and return it. Otherwise return NULL.
-+ *
-+ * If &drm_bridge_funcs.edid_read is not set, fall back to using
-+ * drm_bridge_get_edid() and wrapping it in struct drm_edid.
-+ *
-+ * RETURNS:
-+ * The retrieved EDID on success, or NULL otherwise.
-+ */
-+const struct drm_edid *drm_bridge_edid_read(struct drm_bridge *bridge,
-+					    struct drm_connector *connector)
-+{
-+	if (!(bridge->ops & DRM_BRIDGE_OP_EDID))
-+		return NULL;
-+
-+	/* Transitional: Fall back to ->get_edid. */
-+	if (!bridge->funcs->edid_read) {
-+		const struct drm_edid *drm_edid;
-+		struct edid *edid;
-+
-+		edid = drm_bridge_get_edid(bridge, connector);
-+		if (!edid)
-+			return NULL;
-+
-+		drm_edid = drm_edid_alloc(edid, (edid->extensions + 1) * EDID_LENGTH);
-+
-+		kfree(edid);
-+
-+		return drm_edid;
-+	}
-+
-+	return bridge->funcs->edid_read(bridge, connector);
-+}
-+EXPORT_SYMBOL_GPL(drm_bridge_edid_read);
-+
- /**
-  * drm_bridge_get_edid - get the EDID data of the connected display
-  * @bridge: bridge control structure
-@@ -1215,6 +1257,8 @@ EXPORT_SYMBOL_GPL(drm_bridge_get_modes);
-  * DRM_BRIDGE_OP_EDID bridge ops flag, call &drm_bridge_funcs.get_edid to
-  * get the EDID and return it. Otherwise return NULL.
-  *
-+ * Deprecated. Prefer using drm_bridge_edid_read().
-+ *
-  * RETURNS:
-  * The retrieved EDID on success, or NULL otherwise.
-  */
-diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
-index cfb7dcdb66c4..1a8ba92c889c 100644
---- a/include/drm/drm_bridge.h
-+++ b/include/drm/drm_bridge.h
-@@ -557,6 +557,37 @@ struct drm_bridge_funcs {
- 	int (*get_modes)(struct drm_bridge *bridge,
- 			 struct drm_connector *connector);
- 
-+	/**
-+	 * @edid_read:
-+	 *
-+	 * Read the EDID data of the connected display.
-+	 *
-+	 * The @edid_read callback is the preferred way of reporting mode
-+	 * information for a display connected to the bridge output. Bridges
-+	 * that support reading EDID shall implement this callback and leave
-+	 * the @get_modes callback unimplemented.
-+	 *
-+	 * The caller of this operation shall first verify the output
-+	 * connection status and refrain from reading EDID from a disconnected
-+	 * output.
-+	 *
-+	 * This callback is optional. Bridges that implement it shall set the
-+	 * DRM_BRIDGE_OP_EDID flag in their &drm_bridge->ops.
-+	 *
-+	 * The connector parameter shall be used for the sole purpose of EDID
-+	 * retrieval, and shall not be stored internally by bridge drivers for
-+	 * future usage.
-+	 *
-+	 * RETURNS:
-+	 *
-+	 * An edid structure newly allocated with drm_edid_alloc() or returned
-+	 * from drm_edid_read() family of functions on success, or NULL
-+	 * otherwise. The caller is responsible for freeing the returned edid
-+	 * structure with drm_edid_free().
-+	 */
-+	const struct drm_edid *(*edid_read)(struct drm_bridge *bridge,
-+					    struct drm_connector *connector);
-+
- 	/**
- 	 * @get_edid:
- 	 *
-@@ -888,6 +919,8 @@ drm_atomic_helper_bridge_propagate_bus_fmt(struct drm_bridge *bridge,
- enum drm_connector_status drm_bridge_detect(struct drm_bridge *bridge);
- int drm_bridge_get_modes(struct drm_bridge *bridge,
- 			 struct drm_connector *connector);
-+const struct drm_edid *drm_bridge_edid_read(struct drm_bridge *bridge,
-+					    struct drm_connector *connector);
- struct edid *drm_bridge_get_edid(struct drm_bridge *bridge,
- 				 struct drm_connector *connector);
- void drm_bridge_hpd_enable(struct drm_bridge *bridge,
+Regards,
+Luben
+
+On 2023-10-26 05:36, Luben Tuikov wrote:
+> Hi,
+> 
+> On 2023-10-26 02:33, kernel test robot wrote:
+>> Hi Matthew,
+>>
+>> kernel test robot noticed the following build warnings:
+>>
+>> [auto build test WARNING on 201c8a7bd1f3f415920a2df4b8a8817e973f42fe]
+>>
+>> url:    https://github.com/intel-lab-lkp/linux/commits/Matthew-Brost/drm-sched-Add-drm_sched_wqueue_-helpers/20231026-121313
+>> base:   201c8a7bd1f3f415920a2df4b8a8817e973f42fe
+>> patch link:    https://lore.kernel.org/r/20231026041236.1273694-4-matthew.brost%40intel.com
+>> patch subject: [PATCH v7 3/6] drm/sched: Convert the GPU scheduler to variable number of run-queues
+>> config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20231026/202310261439.3rbAtEoB-lkp@intel.com/config)
+>> compiler: m68k-linux-gcc (GCC) 13.2.0
+>> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231026/202310261439.3rbAtEoB-lkp@intel.com/reproduce)
+>>
+>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>> the same patch/commit), kindly add following tags
+>> | Reported-by: kernel test robot <lkp@intel.com>
+>> | Closes: https://lore.kernel.org/oe-kbuild-all/202310261439.3rbAtEoB-lkp@intel.com/
+>>
+>> All warnings (new ones prefixed by >>):
+>>
+>>    drivers/gpu/drm/etnaviv/etnaviv_sched.c: In function 'etnaviv_sched_init':
+>>>> drivers/gpu/drm/etnaviv/etnaviv_sched.c:138:30: warning: passing argument 3 of 'drm_sched_init' makes pointer from integer without a cast [-Wint-conversion]
+>>      138 |                              DRM_SCHED_PRIORITY_COUNT, NULL,
+>>          |                              ^~~~~~~~~~~~~~~~~~~~~~~~
+>>          |                              |
+>>          |                              int
+>>    In file included from drivers/gpu/drm/etnaviv/etnaviv_drv.h:20,
+>>                     from drivers/gpu/drm/etnaviv/etnaviv_sched.c:8:
+>>    include/drm/gpu_scheduler.h:530:45: note: expected 'struct workqueue_struct *' but argument is of type 'int'
+>>      530 |                    struct workqueue_struct *submit_wq,
+>>          |                    ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~
+>>    In file included from include/uapi/linux/posix_types.h:5,
+>>                     from include/uapi/linux/types.h:14,
+>>                     from include/linux/types.h:6,
+>>                     from include/linux/kasan-checks.h:5,
+>>                     from include/asm-generic/rwonce.h:26,
+>>                     from ./arch/m68k/include/generated/asm/rwonce.h:1,
+>>                     from include/linux/compiler.h:246,
+>>                     from include/linux/build_bug.h:5,
+>>                     from include/linux/init.h:5,
+>>                     from include/linux/moduleparam.h:5,
+>>                     from drivers/gpu/drm/etnaviv/etnaviv_sched.c:6:
+> 
+> The reason for this compilation failure is that this patch is completely mangled and nothing like the patch I posted.
+> 
+> My patch is: https://lore.kernel.org/all/20231023032251.164775-1-luben.tuikov@amd.com/
+> 
+> Save it raw to your disk from this link: https://lore.kernel.org/all/20231023032251.164775-1-luben.tuikov@amd.com/raw
+> 
+> And apply it with "git am <file-name>" on top of your clean tree, e.g. drm-misc-next. THEN, after that,
+> apply your patches.
+> 
+> It should then compile without any problems.
+> 
+> Just looking at the first hunk in my patch:
+> 
+>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+>> index 2b8356699f235d..251995a90bbe69 100644
+>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+>> @@ -2280,6 +2280,7 @@ static int amdgpu_device_init_schedulers(struct amdgpu_device *adev)
+>>                 }
+>>  
+>>                 r = drm_sched_init(&ring->sched, &amdgpu_sched_ops,
+>> +                                  DRM_SCHED_PRIORITY_COUNT,
+>>                                    ring->num_hw_submission, 0,
+>>                                    timeout, adev->reset_domain->wq,
+>>                                    ring->sched_score, ring->name,
+> 
+> While this looks like this in the version you posted of my patch:
+> 
+>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+>> index b54c4d771104..94d073bfbd13 100644
+>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+>> @@ -2280,6 +2280,7 @@ static int amdgpu_device_init_schedulers(struct amdgpu_device *adev)
+>>  		}
+>>  
+>>  		r = drm_sched_init(&ring->sched, &amdgpu_sched_ops, NULL,
+>> +				   DRM_SCHED_PRIORITY_COUNT,
+>>  				   ring->num_hw_submission, 0,
+>>  				   timeout, adev->reset_domain->wq,
+>>  				   ring->sched_score, ring->name,
+> 
+> What's that "NULL" doing as the 3rd argument???
+> 
+> And the rest is similarly mangled as well.
+> 
+> Please apply my patch AS IS, no local changes, and then apply your patches on top. That should ensure compilation is correct for all,
+> and a more precise review can be had.
+> 
+> FWIW, we should've had dynamic sched_rq from the outset as opposed to having to have my patch that now. So imagine that you already
+> have a branch which has dynamic sched_rq, and then you apply your patches--should be a more straightforward and clean application.
+> 
+> Regards,
+> Luben
+> 
+>>>> include/linux/stddef.h:8:14: warning: passing argument 4 of 'drm_sched_init' makes integer from pointer without a cast [-Wint-conversion]
+>>        8 | #define NULL ((void *)0)
+>>          |              ^~~~~~~~~~~
+>>          |              |
+>>          |              void *
+>>    drivers/gpu/drm/etnaviv/etnaviv_sched.c:138:56: note: in expansion of macro 'NULL'
+>>      138 |                              DRM_SCHED_PRIORITY_COUNT, NULL,
+>>          |                                                        ^~~~
+>>    include/drm/gpu_scheduler.h:531:24: note: expected 'u32' {aka 'unsigned int'} but argument is of type 'void *'
+>>      531 |                    u32 num_rqs, uint32_t hw_submission, unsigned hang_limit,
+>>          |                    ~~~~^~~~~~~
+>> --
+>>    drivers/gpu/drm/lima/lima_sched.c: In function 'lima_sched_pipe_init':
+>>>> drivers/gpu/drm/lima/lima_sched.c:492:31: warning: passing argument 3 of 'drm_sched_init' makes pointer from integer without a cast [-Wint-conversion]
+>>      492 |                               DRM_SCHED_PRIORITY_COUNT, NULL, 1,
+>>          |                               ^~~~~~~~~~~~~~~~~~~~~~~~
+>>          |                               |
+>>          |                               int
+>>    In file included from drivers/gpu/drm/lima/lima_sched.h:7,
+>>                     from drivers/gpu/drm/lima/lima_device.h:12,
+>>                     from drivers/gpu/drm/lima/lima_ctx.h:10,
+>>                     from drivers/gpu/drm/lima/lima_drv.h:9,
+>>                     from drivers/gpu/drm/lima/lima_sched.c:11:
+>>    include/drm/gpu_scheduler.h:530:45: note: expected 'struct workqueue_struct *' but argument is of type 'int'
+>>      530 |                    struct workqueue_struct *submit_wq,
+>>          |                    ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~
+>>    In file included from include/uapi/linux/posix_types.h:5,
+>>                     from include/uapi/linux/types.h:14,
+>>                     from include/linux/types.h:6,
+>>                     from include/linux/io.h:9,
+>>                     from include/linux/iosys-map.h:10,
+>>                     from drivers/gpu/drm/lima/lima_sched.c:4:
+>>>> include/linux/stddef.h:8:14: warning: passing argument 4 of 'drm_sched_init' makes integer from pointer without a cast [-Wint-conversion]
+>>        8 | #define NULL ((void *)0)
+>>          |              ^~~~~~~~~~~
+>>          |              |
+>>          |              void *
+>>    drivers/gpu/drm/lima/lima_sched.c:492:57: note: in expansion of macro 'NULL'
+>>      492 |                               DRM_SCHED_PRIORITY_COUNT, NULL, 1,
+>>          |                                                         ^~~~
+>>    include/drm/gpu_scheduler.h:531:24: note: expected 'u32' {aka 'unsigned int'} but argument is of type 'void *'
+>>      531 |                    u32 num_rqs, uint32_t hw_submission, unsigned hang_limit,
+>>          |                    ~~~~^~~~~~~
+>> --
+>>    drivers/gpu/drm/v3d/v3d_sched.c: In function 'v3d_sched_init':
+>>>> drivers/gpu/drm/v3d/v3d_sched.c:391:50: warning: passing argument 3 of 'drm_sched_init' makes pointer from integer without a cast [-Wint-conversion]
+>>      391 |                              &v3d_bin_sched_ops, DRM_SCHED_PRIORITY_COUNT, NULL,
+>>          |                                                  ^~~~~~~~~~~~~~~~~~~~~~~~
+>>          |                                                  |
+>>          |                                                  int
+>>    In file included from drivers/gpu/drm/v3d/v3d_drv.h:12,
+>>                     from drivers/gpu/drm/v3d/v3d_sched.c:23:
+>>    include/drm/gpu_scheduler.h:530:45: note: expected 'struct workqueue_struct *' but argument is of type 'int'
+>>      530 |                    struct workqueue_struct *submit_wq,
+>>          |                    ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~
+>>    In file included from include/uapi/linux/posix_types.h:5,
+>>                     from include/uapi/linux/types.h:14,
+>>                     from include/linux/types.h:6,
+>>                     from include/linux/kasan-checks.h:5,
+>>                     from include/asm-generic/rwonce.h:26,
+>>                     from ./arch/m68k/include/generated/asm/rwonce.h:1,
+>>                     from include/linux/compiler.h:246,
+>>                     from include/linux/err.h:5,
+>>                     from include/linux/kthread.h:5,
+>>                     from drivers/gpu/drm/v3d/v3d_sched.c:21:
+>>>> include/linux/stddef.h:8:14: warning: passing argument 4 of 'drm_sched_init' makes integer from pointer without a cast [-Wint-conversion]
+>>        8 | #define NULL ((void *)0)
+>>          |              ^~~~~~~~~~~
+>>          |              |
+>>          |              void *
+>>    drivers/gpu/drm/v3d/v3d_sched.c:391:76: note: in expansion of macro 'NULL'
+>>      391 |                              &v3d_bin_sched_ops, DRM_SCHED_PRIORITY_COUNT, NULL,
+>>          |                                                                            ^~~~
+>>    include/drm/gpu_scheduler.h:531:24: note: expected 'u32' {aka 'unsigned int'} but argument is of type 'void *'
+>>      531 |                    u32 num_rqs, uint32_t hw_submission, unsigned hang_limit,
+>>          |                    ~~~~^~~~~~~
+>>    drivers/gpu/drm/v3d/v3d_sched.c:399:53: warning: passing argument 3 of 'drm_sched_init' makes pointer from integer without a cast [-Wint-conversion]
+>>      399 |                              &v3d_render_sched_ops, DRM_SCHED_PRIORITY_COUNT,
+>>          |                                                     ^~~~~~~~~~~~~~~~~~~~~~~~
+>>          |                                                     |
+>>          |                                                     int
+>>    include/drm/gpu_scheduler.h:530:45: note: expected 'struct workqueue_struct *' but argument is of type 'int'
+>>      530 |                    struct workqueue_struct *submit_wq,
+>>          |                    ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~
+>>>> include/linux/stddef.h:8:14: warning: passing argument 4 of 'drm_sched_init' makes integer from pointer without a cast [-Wint-conversion]
+>>        8 | #define NULL ((void *)0)
+>>          |              ^~~~~~~~~~~
+>>          |              |
+>>          |              void *
+>>    drivers/gpu/drm/v3d/v3d_sched.c:400:30: note: in expansion of macro 'NULL'
+>>      400 |                              NULL, hw_jobs_limit, job_hang_limit,
+>>          |                              ^~~~
+>>    include/drm/gpu_scheduler.h:531:24: note: expected 'u32' {aka 'unsigned int'} but argument is of type 'void *'
+>>      531 |                    u32 num_rqs, uint32_t hw_submission, unsigned hang_limit,
+>>          |                    ~~~~^~~~~~~
+>>    drivers/gpu/drm/v3d/v3d_sched.c:407:50: warning: passing argument 3 of 'drm_sched_init' makes pointer from integer without a cast [-Wint-conversion]
+>>      407 |                              &v3d_tfu_sched_ops, DRM_SCHED_PRIORITY_COUNT, NULL,
+>>          |                                                  ^~~~~~~~~~~~~~~~~~~~~~~~
+>>          |                                                  |
+>>          |                                                  int
+>>    include/drm/gpu_scheduler.h:530:45: note: expected 'struct workqueue_struct *' but argument is of type 'int'
+>>      530 |                    struct workqueue_struct *submit_wq,
+>>          |                    ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~
+>>>> include/linux/stddef.h:8:14: warning: passing argument 4 of 'drm_sched_init' makes integer from pointer without a cast [-Wint-conversion]
+>>        8 | #define NULL ((void *)0)
+>>          |              ^~~~~~~~~~~
+>>          |              |
+>>          |              void *
+>>    drivers/gpu/drm/v3d/v3d_sched.c:407:76: note: in expansion of macro 'NULL'
+>>      407 |                              &v3d_tfu_sched_ops, DRM_SCHED_PRIORITY_COUNT, NULL,
+>>          |                                                                            ^~~~
+>>    include/drm/gpu_scheduler.h:531:24: note: expected 'u32' {aka 'unsigned int'} but argument is of type 'void *'
+>>      531 |                    u32 num_rqs, uint32_t hw_submission, unsigned hang_limit,
+>>          |                    ~~~~^~~~~~~
+>>    drivers/gpu/drm/v3d/v3d_sched.c:417:38: warning: passing argument 3 of 'drm_sched_init' makes pointer from integer without a cast [-Wint-conversion]
+>>      417 |                                      DRM_SCHED_PRIORITY_COUNT, NULL,
+>>          |                                      ^~~~~~~~~~~~~~~~~~~~~~~~
+>>          |                                      |
+>>          |                                      int
+>>    include/drm/gpu_scheduler.h:530:45: note: expected 'struct workqueue_struct *' but argument is of type 'int'
+>>      530 |                    struct workqueue_struct *submit_wq,
+>>          |                    ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~
+>>>> include/linux/stddef.h:8:14: warning: passing argument 4 of 'drm_sched_init' makes integer from pointer without a cast [-Wint-conversion]
+>>        8 | #define NULL ((void *)0)
+>>          |              ^~~~~~~~~~~
+>>          |              |
+>>          |              void *
+>>    drivers/gpu/drm/v3d/v3d_sched.c:417:64: note: in expansion of macro 'NULL'
+>>      417 |                                      DRM_SCHED_PRIORITY_COUNT, NULL,
+>>          |                                                                ^~~~
+>>    include/drm/gpu_scheduler.h:531:24: note: expected 'u32' {aka 'unsigned int'} but argument is of type 'void *'
+>>      531 |                    u32 num_rqs, uint32_t hw_submission, unsigned hang_limit,
+>>          |                    ~~~~^~~~~~~
+>>    drivers/gpu/drm/v3d/v3d_sched.c:426:38: warning: passing argument 3 of 'drm_sched_init' makes pointer from integer without a cast [-Wint-conversion]
+>>      426 |                                      DRM_SCHED_PRIORITY_COUNT, NULL,
+>>          |                                      ^~~~~~~~~~~~~~~~~~~~~~~~
+>>          |                                      |
+>>          |                                      int
+>>    include/drm/gpu_scheduler.h:530:45: note: expected 'struct workqueue_struct *' but argument is of type 'int'
+>>      530 |                    struct workqueue_struct *submit_wq,
+>>          |                    ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~
+>>>> include/linux/stddef.h:8:14: warning: passing argument 4 of 'drm_sched_init' makes integer from pointer without a cast [-Wint-conversion]
+>>        8 | #define NULL ((void *)0)
+>>          |              ^~~~~~~~~~~
+>>          |              |
+>>          |              void *
+>>    drivers/gpu/drm/v3d/v3d_sched.c:426:64: note: in expansion of macro 'NULL'
+>>      426 |                                      DRM_SCHED_PRIORITY_COUNT, NULL,
+>>          |                                                                ^~~~
+>>    include/drm/gpu_scheduler.h:531:24: note: expected 'u32' {aka 'unsigned int'} but argument is of type 'void *'
+>>      531 |                    u32 num_rqs, uint32_t hw_submission, unsigned hang_limit,
+>>          |                    ~~~~^~~~~~~
+>>
+>>
+>> vim +/drm_sched_init +138 drivers/gpu/drm/etnaviv/etnaviv_sched.c
+>>
+>>    132	
+>>    133	int etnaviv_sched_init(struct etnaviv_gpu *gpu)
+>>    134	{
+>>    135		int ret;
+>>    136	
+>>    137		ret = drm_sched_init(&gpu->sched, &etnaviv_sched_ops,
+>>  > 138				     DRM_SCHED_PRIORITY_COUNT, NULL,
+>>    139				     etnaviv_hw_jobs_limit, etnaviv_job_hang_limit,
+>>    140				     msecs_to_jiffies(500), NULL, NULL,
+>>    141				     dev_name(gpu->dev), gpu->dev);
+>>    142		if (ret)
+>>    143			return ret;
+>>    144	
+>>    145		return 0;
+>>    146	}
+>>    147	
+>>
+> 
+
 -- 
-2.39.2
+Regards,
+Luben
 
