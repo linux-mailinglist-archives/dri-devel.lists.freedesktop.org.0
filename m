@@ -2,60 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93B377D88F7
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Oct 2023 21:33:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 893727D88FA
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Oct 2023 21:34:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5215E10E874;
-	Thu, 26 Oct 2023 19:33:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7572010E878;
+	Thu, 26 Oct 2023 19:34:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc34.google.com (mail-oo1-xc34.google.com
- [IPv6:2607:f8b0:4864:20::c34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6739010E873;
- Thu, 26 Oct 2023 19:33:10 +0000 (UTC)
-Received: by mail-oo1-xc34.google.com with SMTP id
- 006d021491bc7-5820299b99cso1203488eaf.1; 
- Thu, 26 Oct 2023 12:33:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1698348789; x=1698953589; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=m3tYu0y534lfJF23o8/PAcUCnweM8LqmZm342mV7KoA=;
- b=hcoToa5bzG6OAi/VVHYRffWig4fcxhUmhKx6cykrZyuscvHkNjwOzVc4pN6bCWu9MZ
- ff8QqgRvgudumEV308bnCcfU+xrDY46bOEGH7KMurGrMJVO7w+Q9FukRpGTWCc0mfzvo
- kjt6s6k9nCbVRaC7V/9CfjQ8bFh7wYjPZr98C8d8pWcL+tfqFfuZUfIA7f7nFeWZTL/P
- zAh+69TcNdkkUiHcB1WCYmRL7N7ic6LzVK3U+s00Z4hy2ilJcKutEXh6tuc+JnYrXkIb
- 6E9nYvGtMuSLXmwEqNpw3ZoKho4Qu2nAGH4o3PAdaxhnqIholP3Er80HP74wq+FN9FYk
- olKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1698348789; x=1698953589;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=m3tYu0y534lfJF23o8/PAcUCnweM8LqmZm342mV7KoA=;
- b=vPYg6kWoC5t77OSNvps5LwNpvlbTr9rtwj4ILrpcAsDST6nGcnD4/fx8WjFKOodq4D
- MNgQ0/OKHkAlHP5l+wGcKBhdKIaU1rg5JZw0Xq8Ax8qLuVK0B3K7iX5br5wkNARiPDDH
- r4iZ3Paswcu4sH3FMV1HNrEmxXy3Gbcsv3EEcUGk8U2ek0dDUixKJ1IlQoizcJ7TsE2P
- u0sW8iPPWZBoxuOF7AdCnFK7XpO9JDuMfaUjRcIAs4aKlYLp0IXFBJ5oetFRrJ3U3mGR
- HjBeUTpYOBdp01H4MKFWwTd0IXMg8PfK/r7ZN17QtEE8qEO5huo0J8u/k7OF/MTQU3Ql
- Bp/Q==
-X-Gm-Message-State: AOJu0Yz5HtbpHRCWyzcQ1iz9UdpcQUAaXxew20I8em59Mf0KqaoSRsRh
- ARi4Qd/XTP+WOiCrJj58Gmqg+5n2iuSxvPTEApSpDVAI
-X-Google-Smtp-Source: AGHT+IEHOLbV3ASDKHe3Bi9UFYL0AiJ0MvOgQYPre2QjyLwlXMUjx/7wEp8JdHcDPd7Q7XHhXKUYbtY4Kycnp0e60pU=
-X-Received: by 2002:a05:6870:d8ce:b0:1e9:b4c3:546d with SMTP id
- of14-20020a056870d8ce00b001e9b4c3546dmr585227oac.10.1698348789592; Thu, 26
- Oct 2023 12:33:09 -0700 (PDT)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D76D10E878
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Oct 2023 19:34:24 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 9FF30CE3FEE;
+ Thu, 26 Oct 2023 19:34:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8767EC433C8;
+ Thu, 26 Oct 2023 19:34:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1698348860;
+ bh=SkTgfCoXNMdmeWinOnZ1SsXQ907DdbHEAf3ryNnM4Gw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=edzyiGozU1QE4eJCU0hy6+P2s5Xzb3qnTcsxM6q0AO7lVEIrXHqiZtzp8KKzKDq/d
+ wbP/BP8VPOfKD3XokJN0ZD19C3dXGAATI42uRGBFzF85IJ/oGvNeO6NZlWmsgko9AO
+ ytD5daGgIbP/41rbMPPwF7rsKyAgKUU76ZadN8hspfGJb+U3g8Qc+8OhapD2HCPMIa
+ 4ztvcolWWkWiqdK9mWx2HZIe0KDLmIIDD+dojc1Qsb38nlqL1U6TSVbeZpblRCS8ie
+ 6WGN5vhJhmqFzvX827nxcHdHJI8StG6bnZKTeGQzhQBgEsZcyfH8BHtBYR5ne9FaUg
+ moGHd4onPQ/wQ==
+Date: Thu, 26 Oct 2023 21:34:18 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Maira Canal <mcanal@igalia.com>
+Subject: Re: [PATCH v2 2/2] drm/todo: Add entry to clean up former seltests
+ suites
+Message-ID: <epdvcfm7imbcy53nb4z7pcbp3glebv6uhjzm3pc4mkl2say334@xc5rqghzfqpa>
+References: <20231025132428.723672-1-mripard@kernel.org>
+ <20231025132428.723672-2-mripard@kernel.org>
+ <8b3a8ffc-dd40-88ac-6989-bc727d0045f4@igalia.com>
 MIME-Version: 1.0
-References: <20231026174438.18427-2-ltuikov89@gmail.com>
-In-Reply-To: <20231026174438.18427-2-ltuikov89@gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 26 Oct 2023 15:32:58 -0400
-Message-ID: <CADnq5_MzjJCwKDaxqHR+7pGJQpPGn=Vzj8qRLMPmrJrgHPyVjQ@mail.gmail.com>
-Subject: Re: [PATCH] MAINTAINERS: Update the GPU Scheduler email
-To: Luben Tuikov <ltuikov89@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="kbyic2idpm33jz5g"
+Content-Disposition: inline
+In-Reply-To: <8b3a8ffc-dd40-88ac-6989-bc727d0045f4@igalia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,50 +53,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- AMD Graphics <amd-gfx@lists.freedesktop.org>,
- Direct Rendering Infrastructure - Development
- <dri-devel@lists.freedesktop.org>, Alex Deucher <Alexander.Deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@intel.com>,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 26, 2023 at 1:45=E2=80=AFPM Luben Tuikov <ltuikov89@gmail.com> =
-wrote:
->
-> Update the GPU Scheduler maintainer email.
->
-> Cc: Alex Deucher <Alexander.Deucher@amd.com>
-> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Dave Airlie <airlied@gmail.com>
-> Cc: AMD Graphics <amd-gfx@lists.freedesktop.org>
-> Cc: Direct Rendering Infrastructure - Development <dri-devel@lists.freede=
-sktop.org>
-> Signed-off-by: Luben Tuikov <ltuikov89@gmail.com>
 
-Acked-by: Alex Deucher <alexander.deucher@amd.com>
+--kbyic2idpm33jz5g
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> ---
->  MAINTAINERS | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 4452508bc1b040..f13e476ed8038b 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -7153,7 +7153,7 @@ F:        Documentation/devicetree/bindings/display=
-/xlnx/
->  F:     drivers/gpu/drm/xlnx/
->
->  DRM GPU SCHEDULER
-> -M:     Luben Tuikov <luben.tuikov@amd.com>
-> +M:     Luben Tuikov <ltuikov89@gmail.com>
->  L:     dri-devel@lists.freedesktop.org
->  S:     Maintained
->  T:     git git://anongit.freedesktop.org/drm/drm-misc
->
-> base-commit: 56e449603f0ac580700621a356d35d5716a62ce5
-> --
-> 2.42.0
->
+Hi Maira,
+
+On Wed, Oct 25, 2023 at 02:26:44PM -0300, Maira Canal wrote:
+> Hi Maxime,
+>=20
+> Wouldn't be nice to add to the TODO list an item regarding the deleted
+> drm_mm tests? Something just to remember us to develop new tests for it
+> in the future.
+
+I guess we could, but it's really not clear to me what these were
+testing in the first place.
+
+So the scope of the work would effectively be "increase our test
+coverage" which I believe is already covered by the todo task just
+above.
+
+Maxime
+
+> On 10/25/23 10:24, Maxime Ripard wrote:
+> > Most of those suites are undocumented and aren't really clear about what
+> > they are testing. Let's add a TODO entry as a future task to get started
+> > into KUnit and DRM.
+> >=20
+> > Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> > ---
+> >   Documentation/gpu/todo.rst | 17 +++++++++++++++++
+> >   1 file changed, 17 insertions(+)
+> >=20
+> > diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
+> > index 03fe5d1247be..b62c7fa0c2bc 100644
+> > --- a/Documentation/gpu/todo.rst
+> > +++ b/Documentation/gpu/todo.rst
+> > @@ -621,6 +621,23 @@ Contact: Javier Martinez Canillas <javierm@redhat.=
+com>
+> >   Level: Intermediate
+> > +Clean up and document former selftests suites
+> > +---------------------------------------------
+> > +
+> > +Some KUnit test suites (drm_buddy, drm_cmdline_parser, drm_damage_help=
+er,
+> > +drm_format, drm_framebuffer, drm_dp_mst_helper, drm_mm, drm_plane_help=
+er and
+> > +drm_rect) are former selftests suites that have been converted over wh=
+en KUnit
+> > +was first introduced.
+> > +
+> > +These suites were fairly undocumented, and with different goals than w=
+hat unit
+> > +tests can be. Trying to identify what each test in these suites actual=
+ly test
+> > +for, whether that makes sense for a unit test, and either remove it if=
+ it
+> > +doesn't or document it if it does would be of great help.
+> > +
+> > +Contact: Maxime Ripard <mripard@kernel.org>
+> > +
+> > +Level: Intermediate
+> > +
+> >   Enable trinity for DRM
+> >   ----------------------
+>=20
+
+--kbyic2idpm33jz5g
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZTq/OgAKCRDj7w1vZxhR
+xRm+AQDndOsj87J+UaFUDNUPsLYShmXOa+Ve1u1acgf4bBo/LwEApZh4ZUi1mv9Y
+cNjaQ/I0PHG3MPM6jLUDN45A/c29fAU=
+=+91u
+-----END PGP SIGNATURE-----
+
+--kbyic2idpm33jz5g--
