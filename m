@@ -2,150 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22A397D7E01
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Oct 2023 10:03:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0AE37D7E0D
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Oct 2023 10:04:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C0E2710E770;
-	Thu, 26 Oct 2023 08:03:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 40CEB10E772;
+	Thu, 26 Oct 2023 08:04:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 559B010E770;
- Thu, 26 Oct 2023 08:03:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1698307419; x=1729843419;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=qMt5ZPojg75JkAqXGf7jIl0RxhOEj13z6uep9k/4hfc=;
- b=iaW++oTfsqLRfMESsn7D6jUK1l4PrDOtjRwvgJzx/9c3se6NK/UtVVM/
- iMHPXJunWn5GfYu0wNORpVBomxcQXYStgHmnz+WyNiEn7I73bZAKlnf5T
- BFacJKBy8mS+yTO6y7HCuWOfXbjdJp46OxcHyNNyPOkH8OjjIM8yGTpuj
- v4ecJ0h6UgiK+PgaoD/YtFq5YXb7x60XIr3ars8GoDqNqM/LrEJ3hjX13
- a23Swg8Tlic04nNvyvKqPtq8mliCaaHJ18vu7DGox1yo3ZlFzL9+bVfKk
- plFqt83wMRfwulihPk7ij7cB1ZQyJvoahk/IwW2Js+oWc3cAcMTdaKBC+ A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10874"; a="279182"
-X-IronPort-AV: E=Sophos;i="6.03,253,1694761200"; 
-   d="scan'208";a="279182"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Oct 2023 01:03:38 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10874"; a="849839867"
-X-IronPort-AV: E=Sophos;i="6.03,253,1694761200"; d="scan'208";a="849839867"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
- by FMSMGA003.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 26 Oct 2023 01:03:37 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34; Thu, 26 Oct 2023 01:03:37 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34 via Frontend Transport; Thu, 26 Oct 2023 01:03:37 -0700
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.168)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.34; Thu, 26 Oct 2023 01:03:36 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fk/XDtOzqGX9PEEnqmPuhIXpoFKf2rLBMA+bTXSnOOYKJsNgqsy8SLkFJGew5A7miyRgPuFt7shGPRocAHNYRC9rhzbOVtHArtZXWCJtLxoOdoRS1GcPDOrW/BX7SzbpTEO1uJ4qLDwD77DatSBRijoKuUyr2iRjn+nh1vfVUyDXygGs2SjDHgTSwXR7XfYnDfdL8lnqOUsQ5l/CK3Qe0IUmGGedpQWboOkDMnGyhoZp9laNE4eDzaDKy7FFhEZu4H8sqY0oVAYjSPdUbagwJEmTEMiaqOSkTU/s8y+BFHFQ/I7FtckTnWxVlNOrYhPDfbGEw9LWfQtOhLt6q+hZ+A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1P/fS0Vlqi5Nt8eecP4n+1FwAAEYHC2se5GcWCjn0r4=;
- b=K5/FpDik3hH7fy7L92+Io3ggqBmzYWs/B0597rPEKy+uuGTFCEnWjvhvrbTFRtglcIcNzZcSfwAr+gwvHeXqL1fEN+rURYolW9RICKCLNFgqTUZEf2Nm1YsfE9UL9qFQ/shJ+30AqWKo7kvNkFHu9ebu3epLrhoM5qlDepebaNUwf+SnLctoLm0XGk/fRHoPpcjlVc02xe6A2VuW3MdCRZ0ifAL6jMv4chPLEu2m8QPR1hmj81QWnwvVzr3iQ6GhT7J5CDmDjp/o2p4y+0T78bb+tWFjXeI+yBgdmrii39H7K9Aj6NdDrtjaFYyK1zqyNlWyYpw29jYzGS66mheUaw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from BY5PR11MB4243.namprd11.prod.outlook.com (2603:10b6:a03:1c8::16)
- by IA0PR11MB8334.namprd11.prod.outlook.com (2603:10b6:208:483::16)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6863.44; Thu, 26 Oct
- 2023 08:03:34 +0000
-Received: from BY5PR11MB4243.namprd11.prod.outlook.com
- ([fe80::bbfc:d1f2:512c:2f97]) by BY5PR11MB4243.namprd11.prod.outlook.com
- ([fe80::bbfc:d1f2:512c:2f97%4]) with mapi id 15.20.6933.019; Thu, 26 Oct 2023
- 08:03:34 +0000
-Message-ID: <adbd431d-39b7-8026-bc38-4741bc037ef4@intel.com>
-Date: Thu, 26 Oct 2023 10:03:27 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH] drm/i915/gt: Remove {} from if-else
-Content-Language: en-US
-To: Soumya Negi <soumya.negi97@gmail.com>
-References: <20231026044309.17213-1-soumya.negi97@gmail.com>
-From: Karolina Stolarek <karolina.stolarek@intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <20231026044309.17213-1-soumya.negi97@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: DUZPR01CA0349.eurprd01.prod.exchangelabs.com
- (2603:10a6:10:4b8::14) To BY5PR11MB4243.namprd11.prod.outlook.com
- (2603:10b6:a03:1c8::16)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B6A6210E106;
+ Thu, 26 Oct 2023 08:04:54 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by ams.source.kernel.org (Postfix) with ESMTP id BDD71B80935;
+ Thu, 26 Oct 2023 08:04:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D14AC433C8;
+ Thu, 26 Oct 2023 08:04:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1698307492;
+ bh=EAQ7g0hX/FrxSMaglusDeCTnn471+1/pfyILaNojVhU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=fgekZGHe9w5dxxPKuk6zn5H1uJjUgh68Hyyq0hVSmesw81fAlMk4TVQuV+fG/Ifi1
+ bi/OMcbGSszHDTuVCfHrQcOiYv3LTv20fvoU1SpywODggvG/p4HrkVYhfgA8G/qA1K
+ hq13Qi/F68Tl8sEwYkUI/j7oUhxsyaodVcl4/HP7yzK7y4t2wRZwYwoTFSM79ueRYJ
+ t1gpgTbHagm39EF4326A8/n1Bjl28LzBwLUXBy4K6CFtS7RkxG0Hs4hxI6M4heugEC
+ rmhGrFUtI9Er0T2HPvwVxaNJz1ohb/CzatsuXO6zXUA8YxRIjNRkVZhOVjkzn/xjKi
+ l94O/mMwJ6K+Q==
+Date: Thu, 26 Oct 2023 10:04:48 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [RFC PATCH 03/10] drm/mipi-dsi: add API for manual control over
+ the DSI link power state
+Message-ID: <mxtb6vymowutj7whbrygwlcupbdnfqxjralc3nwwapsbvrcmbm@sewxtdslfoen>
+References: <20231016165355.1327217-1-dmitry.baryshkov@linaro.org>
+ <20231016165355.1327217-4-dmitry.baryshkov@linaro.org>
+ <7e4ak4e77fp5dat2aopyq3g4wnqu3tt7di7ytdr3dvgjviyhrd@vqiqx6iso6vg>
+ <CAA8EJpp48AdJmx_U=bEJZUWZgOiT1Ctz6Lpe9QwjLXkMQvsw5w@mail.gmail.com>
+ <uj6rtlionmacnwlqxy6ejt5iaczgbbe5z54ipte5ffbixcx3p4@pps7fcr3uqhf>
+ <1696f131-83fb-4d0c-b4d7-0bdb61e4ae65@linaro.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BY5PR11MB4243:EE_|IA0PR11MB8334:EE_
-X-MS-Office365-Filtering-Correlation-Id: fb1ac768-8773-43ac-227e-08dbd5fa0c96
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: uevMFAYI7CYQ5njHqkaFYu5LU6kbfGSewm02GGLJGS5ySHstZ7kHsv9o1PFu3+wMCS0xGJD1ya0NS3DjH36HMS2QcqMKTcYsUm3JN/BcIuafNYHvul/TKva7XikkDkDsHKB8DR8Dfb2F20ff1Z2QQo//boH1m4bdOdWfXT+Ewh5B3UJI21pMRCtBxhO96rfYpKKiWTppy96Lqvqy4m0/A4bvuCyAYVzcHGV6vAy8HVC1P1PEOQ0alm5G+Zg60MswNAasuy+15a9aaK2YMEXlinINcnl+ORL+mmF0UdH1U3W1ZqsVh+pb0XtkEFG3CygGjkkcLIcltYHcT4HYtFP4IUXQMzhjL8JpEQVhxiWOvAEN6Dne6xc4HT1YegX5Z+NE8OwIZ8LxBGCsoIsqU8tBwO7axKB/3qumVfsFUsmEyJMi9xLoXOXs355IUOY5V6YOu9P1haXYymvF7F59D07xinoL0KermIeR5cWEVrLJl7iddDZvhA/cw6WQyptZwkCd5OoA0KLuzqJZLFRstWxHaQFUlxKmMEx1dddUkr/b+WV2Uk46veO94aX4Dn8bl/kZLyZfPgLMl6QaCo2ucRhonuRpmMVNNzSSVJ6K7kYAHsEAGj3UMkTN0mKFrY6stXP1AgB3yodzK3k6j5cSNlc3HOrAcQM+cz5CSOQlu11BLMlkK2DKJgR9UQD9C9IlthfL
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BY5PR11MB4243.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(396003)(376002)(346002)(136003)(366004)(39860400002)(230922051799003)(451199024)(64100799003)(1800799009)(186009)(31686004)(83380400001)(316002)(31696002)(36756003)(41300700001)(82960400001)(86362001)(2906002)(5660300002)(44832011)(478600001)(6666004)(54906003)(6486002)(66556008)(66476007)(66946007)(4326008)(8676002)(8936002)(38100700002)(6512007)(53546011)(6506007)(36916002)(6916009)(2616005)(26005)(125773002)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aVRydjBEMjRRM2Fmdm9vQkx1YWNWZGZYdXJyQWZUMzcxN0hBWHR5UUs1a1Ja?=
- =?utf-8?B?eENiWEhwR0JlTElKZVRIRUwwWEFLb2lva0tJZXJtNE9WOUhveS9hUkNkQkZM?=
- =?utf-8?B?eVMxZzUrcExxOUkweWFHZ3ZNY2RkR2JVcS9aZTFRd2ZnSTdWN0tHc01lQ09m?=
- =?utf-8?B?NGE0b3pmQnJKclk5Qk9iSlJkeWtlSFplR0cwYlJuQ1Rvb2JrM0R1Y3hyV3lN?=
- =?utf-8?B?WXd0N2NEb0dTak5VcVZTVVI3SG5lZmRHckVURmRmdktBNnBLOE5DeGNWVmF5?=
- =?utf-8?B?SzIrcFRQcnRBQVFSTTJ1VFlLU002dTBEaHh5YmxKTU1GUmlQSnQrUXlQeUpH?=
- =?utf-8?B?SHowZkorT2pzUXJLNFZjTE8xdE9Fa3JZcHREdUdaZkJ1T2ZvUkZiaU5RZmJw?=
- =?utf-8?B?ekFEeGttdnFJZ2JKdURSQUYremh3QVVBTWRMV2xGWk8yN2FOMk9RellZT3FQ?=
- =?utf-8?B?VWo2K3M3K0VnK29FTkViZ0JOeGhwakxMb0hWajlYdEwxUFo4YkxBalZxTnVu?=
- =?utf-8?B?WEtJWXFtUEtXakNCOUtNL01NVXdNc1IzZkp0VTlkY3A4c3RzRmtMcVFoTXZv?=
- =?utf-8?B?ejh6MXVxUThVZzd4R0lLVDN5ZlBrLy9UZlcxeTdQamhlU2NrWS9NYWwvYjZV?=
- =?utf-8?B?elZCbkZleFhFSmFveU14cm5BK3lTc3ZTaHZibXE1WUxHMmR6b3YzOWVuaXI4?=
- =?utf-8?B?VlUza1hUcERHZ0k3K0Y3OVBVR1h4YmFPU2NqS1BBVjExcmRVN1MzaEJ3aVV1?=
- =?utf-8?B?azRwRmJnejVxSWovUEZVVWVaSnZNMFhoT1AzdTlzUVhPSFpVKzVsejJtbnVP?=
- =?utf-8?B?RjE4enFMZE1NUytsWW92MC9LdWt3SDFtb1pPcVpyY20vQ3pwNXZodkg2TVZG?=
- =?utf-8?B?c013L3V3U1F6ZWNYcjFMM01HWndXWjl5T0NiSHdxbitiRittZHg0dWZIZjhH?=
- =?utf-8?B?WjRlQlNxSWFIQlFmcDRNb2YrUHFFNTg2WmRvTUgrd2JrZkp3T0FzeUgvSGZF?=
- =?utf-8?B?SnBWeXlGZUlzWjFESXhnTmRLVmd5Rmtyc2xLeFdCZWJlcGJ6S2UrZXpDNjlP?=
- =?utf-8?B?WC9SNUR4ZXVaTUhNSFhadDhJNUR5eWkwZ0t4NTBQaU04alFyeC9KZ2ZRbk94?=
- =?utf-8?B?S05OamVvK0hMU1djaGhUK3U5bFRjM3lnK2xYb3BPNUtPSmtmVExmM2Y3eDBz?=
- =?utf-8?B?UWFHaEMzZE9aMFNOeUlMb3V2K3FraElJMThKTDlSTHVLQU13NEp1b1VFMWpC?=
- =?utf-8?B?UTdldkZldEc4UERuMVRjYlpJYnhoRjFOdW1wNDVCdVgweVB6SytzREI4OWdT?=
- =?utf-8?B?MVB0R2JKRU5YcU1weVVNNFJBVFJNRldEL3VqOWYrdXc4RjFscW52aFp0cXlv?=
- =?utf-8?B?dHFyNXF5VnNFWGJaRGx5alRTb1dITGdZYXFvdmVCdFMxajBlSWZlMEkzQkpa?=
- =?utf-8?B?bWJxTkVOcWcxTyt2aFEzNXpTQ2pkZFMyUHdIUHp4T1BRZ1A0M3Q0RXQ3TVQz?=
- =?utf-8?B?L01maFkrN1psdW5vL0szQ1pPdjBMSll1YmRmUENoaHltL2U2VFhueEtlTFJr?=
- =?utf-8?B?R0dFWVFrREN3MFdxMXh6VTRQV0NnQ1dNNmlBbzVpVmwyY1dreUxMb3hwamR6?=
- =?utf-8?B?M1dWMjdqRFlCQU1WV3NSNSs0M2MyOE1oNldadzZwUGNrODUvOTdHdCt1ZUVo?=
- =?utf-8?B?ZTdoSjMwcFJsdkZUMzZQaEd3VzJoYUp5eHFOTFgzR2FOSlgwcmdiYm5VaFpV?=
- =?utf-8?B?OTRqUjJhbTY0aFgxNStqTWlwZW5mNkxsVkUvd3p6ZVk0WnpVYkgzK3l1bU1s?=
- =?utf-8?B?NFhabGdLSGMrZkRvZWNPcGhhVWxtWTRBNkdBcXgrMVZ1c0p5Sm9pQ3BVYXE0?=
- =?utf-8?B?bXNCL3VkUUQvOVVaSzVCYmNLcGhGdWpaUk9qVW9jM3hhYW8xYlhHQ1k3ZXVE?=
- =?utf-8?B?a1A3bHJMd05pOEltdnpWWmlDaFlVeDd4Z1dNeEFKRk9GaE9SQy81eWp4SE9v?=
- =?utf-8?B?M3BoRy9Qa1B0NTMvTHpPcE9qVjhyMWVZMEdOc1Q0VHplZkVHbUtLTGs0QmV3?=
- =?utf-8?B?bmhmaTh1eXk4UlF5TTI5NnppdEV2MjRTRDdoRFZGcWU2emljWVZiazlQbHhU?=
- =?utf-8?B?SWlrQW9IYU4wS0xWZ24zdUxMRWV0Qy9sZVR6TXFYekJTWHFMS1Mwbnh2T0xt?=
- =?utf-8?B?MVE9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: fb1ac768-8773-43ac-227e-08dbd5fa0c96
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4243.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Oct 2023 08:03:33.6463 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xVGV1AtrlX1N1gU2y/LowmA+U0Qo8SlNGCiDSru+d0Z5NPha1/lPNMO4c0mYYyhbSaXI9kfmDa0X0tUytqoBmO/mnomD0lWw+MUgCbm3Fsc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR11MB8334
-X-OriginatorOrg: intel.com
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="t5jjjcy33i2jy7lt"
+Content-Disposition: inline
+In-Reply-To: <1696f131-83fb-4d0c-b4d7-0bdb61e4ae65@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -158,78 +56,183 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andi Shyti <andi.shyti@intel.com>, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Aravind Iddamsetty <aravind.iddamsetty@intel.com>,
- Prathap Kumar Valsan <prathap.kumar.valsan@intel.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>, Marek Vasut <marex@denx.de>,
+ Robert Foss <rfoss@kernel.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Jonas Karlman <jonas@kwiboo.se>,
+ linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Sean Paul <sean@poorly.run>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Douglas Anderson <dianders@chromium.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 26.10.2023 06:43, Soumya Negi wrote:
-> In accordance to Linux coding style(Documentation/process/4.Coding.rst),
-> remove unneeded braces from if-else block as all arms of this block
-> contain single statements.
+--t5jjjcy33i2jy7lt
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I'd just keep the description simple, and say that braces are not needed
-for single line statements.
+On Wed, Oct 25, 2023 at 06:16:14PM +0300, Dmitry Baryshkov wrote:
+> On 25/10/2023 15:44, Maxime Ripard wrote:
+> > On Thu, Oct 19, 2023 at 02:19:51PM +0300, Dmitry Baryshkov wrote:
+> > > On Thu, 19 Oct 2023 at 12:26, Maxime Ripard <mripard@kernel.org> wrot=
+e:
+> > > >=20
+> > > > On Mon, Oct 16, 2023 at 07:53:48PM +0300, Dmitry Baryshkov wrote:
+> > > > > The MIPI DSI links do not fully fall into the DRM callbacks model.
+> > > >=20
+> > > > Explaining why would help
+> > >=20
+> > > A kind of explanation comes afterwards, but probably I should change
+> > > the order of the phrases and expand it:
+> > >=20
+> > > The atomic_pre_enable / atomic_enable and correspondingly
+> > > atomic_disable / atomic_post_disable expect that the bridge links
+> > > follow a simple paradigm: either it is off, or it is on and streaming
+> > > video. Thus, it is fine to just enable the link at the enable time,
+> > > doing some preparations during the pre_enable.
+> > >=20
+> > > But then it causes several issues with DSI. First, some of the DSI
+> > > bridges and most of the DSI panels would like to send commands over
+> > > the DSI link to setup the device.
+> >=20
+> > What prevent them from doing it in enable when the link is enabled?
+> >=20
+> > > Next, some of the DSI hosts have limitations on sending the commands.
+> > > The proverbial sunxi DSI host can not send DSI commands after the
+> > > video stream has started. Thus most of the panels have opted to send
+> > > all DSI commands from pre_enable (or prepare) callback (before the
+> > > video stream has started).
+> >=20
+> > I'm not sure we should account for a single driver when designing a
+> > framework. We should focus on designing something sound, and then making
+> > that driver work with whatever we designed, but not the other way
+> > around. And if we can't, we should get rid of that driver because it's
+> > de-facto unmaintainable. And I'm saying that as the author of that
+> > driver.
+>=20
+> That's not the only driver with strange peculiarities. For example, see
+> commit 8a4b2fc9c91a ("drm/bridge: tc358762: Split register programming fr=
+om
+> pre-enable to enable"), which was one of the issues that actually prompted
+> me to send this this patchset (after my previous version of this patch be=
+ing
+> rejected because of sunxi).
 
-The patch looks fine to me. Andi, if you decide to merge it, feel free
-to add my ack.
+The datasheet for that bridge is available so at least we can try to fix
+it (and bridges are much simpler than controllers anyway). It's not
+something we can do with the sunxi driver.
 
-While we're here, I wanted briefly discuss how to construct To and CC
-when working on i915 code. These are not hard rules (and some developers
-might disagree with me), but suggestions on how to get the right people
-look at your code and reduce the noise (decided to drop maintainers;
-they'll be able to join the conversation from their subscription to ML)
+> > > However this leaves no good place for the DSI host to power up the DSI
+> > > link. By default the host's pre_enable callback is called after the
+> > > DSI bridge's pre_enable. For quite some time we were powering up the
+> > > DSI link from mode_set. This doesn't look fully correct.
+> >=20
+> > Yeah, it's not.
+> >=20
+> > > And also we got into the issue with ps8640 bridge, which requires for
+> > > the DSI link to be quiet / unpowered at the bridge's reset time.
+> > >=20
+> > > Dave has come with the idea of pre_enable_prev_first /
+> > > prepare_prev_first flags, which attempt to solve the issue by
+> > > reversing the order of pre_enable callbacks. This mostly solves the
+> > > issue. However during this cycle it became obvious that this approach
+> > > is not ideal too. There is no way for the DSI host to know whether the
+> > > DSI panel / bridge has been updated to use this flag or not, see the
+> > > discussion at [1].
+> >=20
+> > Yeah. Well, that happens. I kind of disagree with Neil here though when
+> > he says that "A panel driver should not depend on features of a DSI
+> > controller". Panels definitely rely on particular features, like the
+> > number of lanes, the modes supported, etc.
+>=20
+> In the mentioned discussion it was more about 'DSI host should not assume
+> panel driver features', like the panel sending commands in pre_enable or
+> not, or having pre_enable_prev_first.
+>=20
+> So the pre_enable_prev_first clearly lacks feature negotiation.
+>=20
+> > Panels shouldn't depend on a particular driver *behaviour*. But the
+> > features are fine.
+> >=20
+> > For our particular discussion, I think that that kind of discussion is a
+> > dead-end, and we just shouldn't worry about it. Yes, some panels have
+> > not yet been updated to take the new flags into account. However, the
+> > proper thing to do is to update them if we see a problem with that (and
+> > thus move forward to the ideal solution), not revert the beginning of
+> > that feature enablement (thus moving away from where we want to end up
+> > in).
+> >=20
+> > > Thus comes this proposal. It allows for the panels to explicitly bring
+> > > the link up and down at the correct time, it supports automatic use
+> > > case, where no special handling is required. And last, but not least,
+> > > it allows the DSI host to note that the bridge / panel were not
+> > > updated to follow new protocol and thus the link should be powered on
+> > > at the mode_set time. This leaves us with the possibility of dropping
+> > > support for this workaround once all in-kernel drivers are updated.
+> >=20
+> > I'm kind of skeptical for these kind of claims that everything will be
+> > automatic and will be handled fine. What if we have conflicting
+> > requirements, for example two bridges drivers that would request the
+> > power up at different times?
+>=20
+> Well, we do not support DSI sublinks, do we?
 
-First of all, if you work on something in i915 that only touches this
-driver, you should submit it to intel-gfx, and there's no need to
-include dri-devel. You can, but that mailing list is mostly used for
-changes that are either for DRM or impact other drivers.
+No, but we start to consider adding support for muxes for example. A DSI
+mux + a DSI bridge behind it might trigger that behaviour, even if we
+don't support sublinks.
 
-Secondly, try to include only people who are directly involved and
-potential reviewers. You can CC maintainers for bigger changes that
-require their involvement, but here, it's enough to include Andi, myself
-and someone who added this piece of code.
+> > Also, we would still need to update every single panel driver, which is
+> > going to create a lot of boilerplate that people might get wrong.
+>=20
+> Yes, quite unfortunately. Another approach that I have in mind is to add =
+two
+> callbacks to mipi_dsi_device. This way the DSI host will call into the
+> device to initialise it once the link has been powered up and just before
+> tearing it down. We solve a lot of problems this way, no boilerplate and =
+the
+> panel / bridge are in control of the initialisation procedure. WDYT?
+>=20
+> > I have the feeling that we should lay out the problem without talking
+> > about any existing code base first. So, what does the MIPI-DSI spec
+> > requires and what does panels and bridges expect?
+>=20
+> There is not that much in the DSI spec (or maybe I do not understand the
+> question). The spec is more about the power states and the commands. Our
+> problem is that this doesn't fully match kernel expectations.
 
-So, if it was my patch, I'd have intel-gfx in To: and Andi, Prathap and
-myself in Cc:. get_maintainer.pl script might've added a lot more people
-there, so I'd move away from using it, and only include developers that
-are involved or interested in your work. You can always reach out to
-Andi and me before sending your patches, if you have any doubts.
+You're explicitly asking for comments on that series. How can we provide
+any comment if you're dead-set on a particular implementation and not
+explain what the problem you are trying to solve is?
 
-All the best,
-Karolina
+Thinking more about it, I'm even more skeptical about the general
+approach that this should be implemented at the bridge level (or in
+KMS).
 
-> 
-> Suggested-by: Andi Shyti <andi.shyti@intel.com>
-> Signed-off-by: Soumya Negi <soumya.negi97@gmail.com>
-> ---
->   drivers/gpu/drm/i915/gt/intel_ggtt.c | 7 +++----
->   1 file changed, 3 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt.c b/drivers/gpu/drm/i915/gt/intel_ggtt.c
-> index 1c93e84278a0..9f6f9e138532 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_ggtt.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_ggtt.c
-> @@ -226,16 +226,15 @@ static void guc_ggtt_invalidate(struct i915_ggtt *ggtt)
->   	gen8_ggtt_invalidate(ggtt);
->   
->   	list_for_each_entry(gt, &ggtt->gt_list, ggtt_link) {
-> -		if (intel_guc_tlb_invalidation_is_available(&gt->uc.guc)) {
-> +		if (intel_guc_tlb_invalidation_is_available(&gt->uc.guc))
->   			guc_ggtt_ct_invalidate(gt);
-> -		} else if (GRAPHICS_VER(i915) >= 12) {
-> +		else if (GRAPHICS_VER(i915) >= 12)
->   			intel_uncore_write_fw(gt->uncore,
->   					      GEN12_GUC_TLB_INV_CR,
->   					      GEN12_GUC_TLB_INV_CR_INVALIDATE);
-> -		} else {
-> +		else
->   			intel_uncore_write_fw(gt->uncore,
->   					      GEN8_GTCR, GEN8_GTCR_INVALIDATE);
-> -		}
->   	}
->   }
->   
+It looks to me that this is very much a bus problem. USB device drivers
+also require the bus to be powered and generally available to send data
+to their device, and you don't fix that up in the HID or storage
+drivers, you make the bus behave that way.
+
+What prevents us from fixing it at the bus level?
+
+Maxime
+
+--t5jjjcy33i2jy7lt
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZTodoAAKCRDj7w1vZxhR
+xXxfAP9VCXaQR2cQ7p55Qlz1ohFIbsH/qdui1vb3BqtSku+upgEAjT4JPOz2oULJ
+J5eoQVTdscVpioLNgkJXMKMNMAd0+A0=
+=lsQF
+-----END PGP SIGNATURE-----
+
+--t5jjjcy33i2jy7lt--
