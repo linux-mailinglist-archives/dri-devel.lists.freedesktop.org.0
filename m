@@ -1,44 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B90E7D8171
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Oct 2023 13:02:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AA677D817D
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Oct 2023 13:05:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D25F10E116;
-	Thu, 26 Oct 2023 11:02:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BEFA010E7A9;
+	Thu, 26 Oct 2023 11:05:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B455610E116
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Oct 2023 11:02:30 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B3D4810E7B5
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Oct 2023 11:05:05 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 0B200632E8;
- Thu, 26 Oct 2023 11:02:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5723AC433C7;
- Thu, 26 Oct 2023 11:02:29 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id C121E633A4;
+ Thu, 26 Oct 2023 11:05:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18376C433C8;
+ Thu, 26 Oct 2023 11:05:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1698318149;
- bh=zLbYQc4RPWTm6cj1FIA+4zPQH0fAAIZl4M3R1dFrBsM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=sjxLsn1VIYcAWpQScXeSXszBbvB9MgNCOaWTZox5XNfP3pxlItyNcyraUmdGFxeCr
- RxceoUO7SGLIubmfjcJcHoWkXsBV04SDdrzmanKOmR1/2C4NORDof7TfoEbdhvRBaA
- WNjfZW3RGCkucscZ/05I192kJ9iY8+k4TF1rOFaEe87qXy/dNbPn+Sdl77YS6Uaw8R
- HE0v6VUkrGI0rW3wiiyX2kNvPXvanQS5c4CdVeRe7jwIXFY0FEjez1AlBmhCCclwa5
- 9EVPC1P7QoBKghdTYUlz9cKFglPbc94J/EPhwab8QsxWBzXbh0mfwxEFwfp8RI2BG0
- YOL3Rfd8TwXag==
-Date: Thu, 26 Oct 2023 13:02:27 +0200
+ s=k20201202; t=1698318304;
+ bh=1AD9agjYpd8OvUohYh/6X8SL6ZZpBCz9uB6xuzCjIds=;
+ h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+ b=jodjXgF43KLgPXQmvc1mDGUFqL1zJErlwmbTyalJEZ9UzHfTQ7iL+LdwVp9KShRMH
+ M4rzM0xNMvW02MoFG4Dr2uqmMKbITrOR20xKtOjN0vFksr4j69l4ZBXtaYMA3IM9fi
+ gcxBCoTXCDvc3cYSk21cmBLGuvrJ4bxeqtCF/Ph6Kt89VXaY1R6olaLyxU5g0p5OyZ
+ D/0iVzecBdVX1dZNRSAlilLGHFr+RMQJxPxsD0B9NW5XJqnvcDwbXtVd4g8BIKUkfU
+ 9dKtWsjHnVz2G9Ak7eoXPRjOJolVxsP/cAa4VjNTXEOT1FlNr9Zki3PbxySb2bp/em
+ TgdaRMvrSl1mQ==
 From: Maxime Ripard <mripard@kernel.org>
-To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>
-Subject: Re: [PATCH] drm/doc: ci: Require more context for flaky tests
-Message-ID: <2cn4lsfadj7qjp3fapeu7z36xvzmuzecqic5vjascb4ybzelqa@izqhugbrzmv2>
-References: <20231019094609.251787-1-mripard@kernel.org>
- <169831792811.896759.18431283797442582804.b4-ty@kernel.org>
+To: Daniel Vetter <daniel.vetter@intel.com>, 
+ David Airlie <airlied@linux.ie>, Maxime Ripard <mripard@kernel.org>
+In-Reply-To: <20231024105640.352752-1-mripard@kernel.org>
+References: <20231024105640.352752-1-mripard@kernel.org>
+Subject: Re: (subset) [PATCH] drm/vc4: tests: Fix UAF in the mock helpers
+Message-Id: <169831830190.916675.6817840646975316165.b4-ty@kernel.org>
+Date: Thu, 26 Oct 2023 13:05:01 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="wktlz4p62tnsz5c2"
-Content-Disposition: inline
-In-Reply-To: <169831792811.896759.18431283797442582804.b4-ty@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.12.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,43 +51,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Helen Koike <helen.koike@collabora.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Cc: Naresh Kamboju <naresh.kamboju@linaro.org>,
+ Linux Kernel Functional Testing <lkft@linaro.org>,
+ dri-devel@lists.freedesktop.org, Dan Carpenter <dan.carpenter@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, 24 Oct 2023 12:56:40 +0200, Maxime Ripard wrote:
+> The VC4 mock helpers allocate the CRTC, encoders and connectors using a
+> call to kunit_kzalloc(), but the DRM device they are attache to survives
+> for longer than the test itself which leads to use-after-frees reported
+> by KASAN.
+> 
+> Switch to drmm_kzalloc to tie the lifetime of these objects to the main
+> DRM device.
+> 
+> [...]
 
---wktlz4p62tnsz5c2
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Applied to drm/drm-misc (drm-misc-fixes).
 
-On Thu, Oct 26, 2023 at 12:58:48PM +0200, Maxime Ripard wrote:
-> On Thu, 19 Oct 2023 11:46:09 +0200, Maxime Ripard wrote:
-> > Flaky tests can be very difficult to reproduce after the facts, which
-> > will make it even harder to ever fix.
-> >=20
-> > Let's document the metadata we agreed on to provide more context to
-> > anyone trying to address these fixes.
-> >=20
-> >=20
-> > [...]
->=20
-> Applied to drm/drm-misc (drm-misc-next).
-
-b4 might have been confused, but I only applied the v2.
-
+Thanks!
 Maxime
 
---wktlz4p62tnsz5c2
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZTpHQwAKCRDj7w1vZxhR
-xb9sAP95IDXAYq0n7cA+22GJJ2CuI3KWP+o3Mgo7Jx3KPA4hcwD9EwufmBuN0QfO
-vvNsT+9Nvma+i8aKvxLDGe2KfdKQ7wo=
-=IvG/
------END PGP SIGNATURE-----
-
---wktlz4p62tnsz5c2--
