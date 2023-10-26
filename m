@@ -1,61 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A87657D892A
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Oct 2023 21:48:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BBB87D892D
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Oct 2023 21:49:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 76C6610E888;
-	Thu, 26 Oct 2023 19:48:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6488B10E883;
+	Thu, 26 Oct 2023 19:49:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com
- [IPv6:2a00:1450:4864:20::233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F1D9410E881
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Oct 2023 19:48:51 +0000 (UTC)
-Received: by mail-lj1-x233.google.com with SMTP id
- 38308e7fff4ca-2c5629fdbf8so18352761fa.0
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Oct 2023 12:48:51 -0700 (PDT)
+Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com
+ [IPv6:2a00:1450:4864:20::22e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C037510E880
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Oct 2023 19:49:09 +0000 (UTC)
+Received: by mail-lj1-x22e.google.com with SMTP id
+ 38308e7fff4ca-2c5039d4e88so19142891fa.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Oct 2023 12:49:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1698349730; x=1698954530; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1698349748; x=1698954548; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=2r/etm+lGb/c7igmaEGkdQXKHCNWHHVJlTP4t8HTdMk=;
- b=i/IRlBsuZDbufpQBeDulo6rtXUyzE7/osZ7Oifcl/EFSxQqb4PWBm6BrKjalZ0gWAG
- eadp9WN4MFNXFHKBcBDaPvGYP6tF1xPcx3yIoH4MyI2wc/rk135rjJU4K/uCX6uSQa3R
- kvg2vCbDr10GIYAGTEwuWMk7wKRcaBAfwgwYLmXbaCxaoUklUWWQNN5087nAL+O7qNaY
- ccYs9YpxOnRHYJSvRVkf9a7ayUUOEgUlFxlzC9m3g7lHY433ELtvrpV2Sa+aKYbqBzRt
- AIWwYajWO6RxjGhNMcfZRQETvEloZECP9e8z4e6mcqkszXLwR+5ho3t2hYc6+Q/4tbiX
- le6w==
+ bh=yQo5Ygp/VQo91WmeIUySmja/g+dCMkIYU04Du3vd0v8=;
+ b=KZpSPL3dwY7g1l00lKjYfxqCtd42hsRWidmihcejxaHAar7+GGpY+9bN49Rl//u50z
+ Ne1FsaVYKRVczDxx2pz4mIsYP08fr17CxtlUZjJ/2JLarmeNBfmGgzzoA58nGWWGFAKn
+ ywM5/SibcctJov1GGJiIvO9gL7MjgnDITBobWxwwr/UKkFRD+zL9Zg6//9JsIbK1rpfa
+ mbh11kXj9qSo99we7EzJzE2kYAJiYdosI0JFTQGGuqzVX9o7U70ecpf4L93+gf6xBM6r
+ loHx7E1WU/dD9Jzan8tpH7kubLHISpwfVPaU/Ikw60TC3786hQtDVZ+ir6+irTproDdf
+ im+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1698349730; x=1698954530;
+ d=1e100.net; s=20230601; t=1698349748; x=1698954548;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=2r/etm+lGb/c7igmaEGkdQXKHCNWHHVJlTP4t8HTdMk=;
- b=ioLumRxYKd1rtLU8rrxTijL9SqeYiUkuLhFgF+qW/Yzt0HyK9jtWXS193g4TLKL1O8
- crmc2RnKyri5rMZTfO5VbFuq4hq0azGFZQCFRr7I1UJVMrEa9Ty2hl+284I1yvL56+xW
- AjyIHLaw/4WqxHcICYzInaiuiUXmj2nL9+XxVixSnZjbN7QllUMSvFqPYP49qaYvxMEc
- sjTXSL/gd4ZrC9jlyVpctwyjyStgeaSo3JYd3wEiqVQkdsalexDu/hXc+mzDXxdHl3vK
- 72njnHdyq/bWNwIRP8YvaYVtqppj8hHCYphbx4IGNqC/j2BgJ9sH0TP90cDvgAWI/8yu
- vZvw==
-X-Gm-Message-State: AOJu0Ywkc9hxFpnT2UkLQ4oiKUL0gfd4P1oogmypjrrmZ4AtSkwFtTi7
- M4pMd2UQHDp7itSfS6orkOcw2Q==
-X-Google-Smtp-Source: AGHT+IFtutowcYecVvg+FvFfwTHyeYjPCWID/Y90bjxIQgePYnYiIzszx0treswzBdc4bCEGpm8KBA==
-X-Received: by 2002:a05:651c:333:b0:2bd:d34:e1ef with SMTP id
- b19-20020a05651c033300b002bd0d34e1efmr446256ljp.3.1698349730076; 
- Thu, 26 Oct 2023 12:48:50 -0700 (PDT)
+ bh=yQo5Ygp/VQo91WmeIUySmja/g+dCMkIYU04Du3vd0v8=;
+ b=kvfETfX2p1d75ic3ULywaYMv64Pf/fyw/GCDv5xNaa64MfpkgpOoxh3yVM3z1r6/7I
+ oBrvoEK3YnTWmAIzHk/fuJnva186f9vIdRonuXm9XZzyLAHvb4HTS3rFDi31WwhMrwJT
+ gQ34E1wWqOPvm2HWscvKCuOqYjL3ga/3njGqwfO1S0CDs7V2Ot9Yw/8Uy2a+coqCA4jp
+ UjDKCtAUw40DBMnTA7USvImpCDdQn/GMMm7ICVlmUaWDYYVV7flElj/EoTCOwqPftfIl
+ WrX0weEB0Oz5yA0wHRHI0XvCaKhsjuTr6AyjmLrvn3uGspjMc6MYHQW04D5qAQ75cf4i
+ TC2A==
+X-Gm-Message-State: AOJu0YyLdJ5zuC+bY/N9EwcjkyCHh9MhwX056IZb7xYVJY71PeAicZ0a
+ ZwgEun1iMxG10WsKTHu9oxub5Q==
+X-Google-Smtp-Source: AGHT+IGgTfzLPhO1//xaSTpCa7fs+zQz0fBWXc3bke1iz6X06ZDQRa5OfdLN69OUvgixhEZ8/69lYA==
+X-Received: by 2002:a2e:a228:0:b0:2c5:462:3048 with SMTP id
+ i8-20020a2ea228000000b002c504623048mr498548ljm.1.1698349747935; 
+ Thu, 26 Oct 2023 12:49:07 -0700 (PDT)
 Received: from [172.30.204.123] (UNUSED.212-182-62-129.lubman.net.pl.
  [212.182.62.129]) by smtp.gmail.com with ESMTPSA id
- g17-20020a2ea4b1000000b002bcdbfe36a1sm3014040ljm.84.2023.10.26.12.48.48
+ g17-20020a2ea4b1000000b002bcdbfe36a1sm3014040ljm.84.2023.10.26.12.49.06
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 26 Oct 2023 12:48:49 -0700 (PDT)
-Message-ID: <2eef6684-d0fd-4302-8444-cc5e5e4fa75c@linaro.org>
-Date: Thu, 26 Oct 2023 21:48:48 +0200
+ Thu, 26 Oct 2023 12:49:07 -0700 (PDT)
+Message-ID: <858f06a4-fe18-477d-8366-6100bfb24702@linaro.org>
+Date: Thu, 26 Oct 2023 21:49:06 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 09/15] drm/msm/hdmi: simplify extp clock handling
+Subject: Re: [PATCH v3 10/15] drm/msm/hdmi: correct indentation of HDMI bridge
+ functions
 Content-Language: en-US
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
@@ -63,9 +64,9 @@ To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Marijn Suijten <marijn.suijten@somainline.org>, Vinod Koul
  <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>
 References: <20230928111630.1217419-1-dmitry.baryshkov@linaro.org>
- <20230928111630.1217419-10-dmitry.baryshkov@linaro.org>
+ <20230928111630.1217419-11-dmitry.baryshkov@linaro.org>
 From: Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <20230928111630.1217419-10-dmitry.baryshkov@linaro.org>
+In-Reply-To: <20230928111630.1217419-11-dmitry.baryshkov@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -89,10 +90,8 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 On 9/28/23 13:16, Dmitry Baryshkov wrote:
-> With the extp being the only "power" clock left, remove the surrounding
-> loops and handle the extp clock directly.
-> 
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+> ---
+Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 
 Konrad
