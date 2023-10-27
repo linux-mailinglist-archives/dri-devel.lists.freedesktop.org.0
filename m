@@ -1,64 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C5037D9ADE
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Oct 2023 16:11:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 776797D9AEC
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Oct 2023 16:13:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B85A410E9B0;
-	Fri, 27 Oct 2023 14:11:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4699B10E9AB;
+	Fri, 27 Oct 2023 14:13:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D37910E9B0;
- Fri, 27 Oct 2023 14:11:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1698415898; x=1729951898;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=F1oYnUoZzwVSCUOBDhckDQC+q1Fm0eZRJN/xfvsc2I8=;
- b=GDIBeb1ZovcXmAj8shZEtPK/5Q7jdvvaJYFPrhbM7rQjS29Qc+R+G9q6
- trg0z69HCooIGlwWbWm/tkFBvictVCL3SLOl9HTIp7FvtolFeGn91rVQR
- zUn25R2kkH1q2yTGBMXHtHXVQRAHqOYr97kEczWLHDGZLIheyDCN+w+8w
- kOqv6EYSbAkQJDB421KDKwes9eMEQT1Ky6cfyUPREOG8ozXH/mUWy+5/h
- 2AxB68UXUcLBxuFBQL4Bj8RI5Uzm57ESH/pRrx6ObSFkdLmuNZU4JJjo3
- 9tomjRRXig/y0N51oL0u2Dj/jxbB09nlJDDfcGFhekOh5TspUB5htWeLO g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10876"; a="391652796"
-X-IronPort-AV: E=Sophos;i="6.03,256,1694761200"; d="scan'208";a="391652796"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Oct 2023 07:11:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10876"; a="753135193"
-X-IronPort-AV: E=Sophos;i="6.03,256,1694761200"; d="scan'208";a="753135193"
-Received: from ahajda-mobl.ger.corp.intel.com (HELO [10.213.18.37])
- ([10.213.18.37])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Oct 2023 07:11:33 -0700
-Message-ID: <1e844f00-fc16-4788-8d90-ebe115eb9313@intel.com>
-Date: Fri, 27 Oct 2023 16:11:31 +0200
+Received: from mail-40136.proton.ch (mail-40136.proton.ch [185.70.40.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C005910E9AB
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Oct 2023 14:13:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail2; t=1698416030; x=1698675230;
+ bh=zRwWsMDd5Kf2yQpedEA3Ka2dLpgNvYvwuOL0uYq4mxY=;
+ h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+ Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+ Message-ID:BIMI-Selector;
+ b=NXEy0uoVBwNoGtL6UxmqRIS3zuKsCsuYUdN8/4nAaz5cJ5g5cfH088743Ziv45NjK
+ j7BIspAejDge3ru+l1sTe1m57XRkiEHCW88eCyDrRyKS/56CnN8ngviwaiqaiRe/vE
+ 6/o4Y45WBbwA9RbaP5Amj+SheRKS9S/NRke48ubuUnefqIhjimMyWLoRrLOz2d7wl7
+ mr0vxBqW4rHFEseKdqHmke1NZ8P/YsLf6/nxSXP1OxgkdNO7uZXbCOAYdHn+33BjIk
+ QEponBD1O6ahWnQlim77BKBSRKXATAzDuCuLd4fvb2EweratK8Amglb0gnw2Os4lbr
+ vwnHq5oAlEtbg==
+Date: Fri, 27 Oct 2023 14:13:43 +0000
+To: Harry Wentland <harry.wentland@amd.com>
+From: Simon Ser <contact@emersion.fr>
+Subject: Re: [RFC PATCH v2 02/17] drm: Don't treat 0 as -1 in drm_fixp2int_ceil
+Message-ID: <qMAL7zP7fC1SNXrjqxY4_wRong2pztZJzyaj-thwIbjNmjPsDqSDneP9QzEU9illV8GMOUrnMhCX9uet7sbx0Qx4yYQT7tjaYRPMoSK-ZTQ=@emersion.fr>
+In-Reply-To: <20231019212133.245155-3-harry.wentland@amd.com>
+References: <20231019212133.245155-1-harry.wentland@amd.com>
+ <20231019212133.245155-3-harry.wentland@amd.com>
+Feedback-ID: 1358184:user:proton
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] i915/perf: Fix NULL deref bugs with drm_dbg() calls
-Content-Language: en-US
-To: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>,
- Lionel Landwerlin <lionel.g.landwerlin@intel.com>,
- Matt Roper <matthew.d.roper@intel.com>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20231027140729.2505993-1-harshit.m.mogalapalli@oracle.com>
-From: Andrzej Hajda <andrzej.hajda@intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <20231027140729.2505993-1-harshit.m.mogalapalli@oracle.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,67 +48,21 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, error27@gmail.com,
- dan.carpenter@linaro.org
+Cc: Sasha McIntosh <sashamcintosh@google.com>,
+ Liviu Dudau <Liviu.Dudau@arm.com>, Victoria Brekenfeld <victoria@system76.com>,
+ dri-devel@lists.freedesktop.org,
+ =?utf-8?Q?Michel_D=C3=A4nzer?= <mdaenzer@redhat.com>,
+ Arthur Grillo <arthurgrillo@riseup.net>,
+ Sebastian Wick <sebastian.wick@redhat.com>,
+ Shashank Sharma <shashank.sharma@amd.com>, wayland-devel@lists.freedesktop.org,
+ =?utf-8?Q?Jonas_=C3=85dahl?= <jadahl@redhat.com>,
+ Uma Shankar <uma.shankar@intel.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Naseer Ahmed <quic_naseer@quicinc.com>, Melissa Wen <mwen@igalia.com>,
+ Aleix Pol <aleixpol@kde.org>, Christopher Braga <quic_cbraga@quicinc.com>,
+ Pekka Paalanen <pekka.paalanen@collabora.com>,
+ Hector Martin <marcan@marcan.st>, Xaver Hugl <xaver.hugl@gmail.com>,
+ Joshua Ashton <joshua@froggi.es>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 27.10.2023 16:07, Harshit Mogalapalli wrote:
-> When i915 perf interface is not available dereferencing it will lead to
-> NULL dereferences.
->
-> Fix this by using DRM_DEBUG() which the scenario before the commit in
-> the Fixes tag.
->
-> Fixes: 2fec539112e8 ("i915/perf: Replace DRM_DEBUG with driver specific drm_dbg call")
-> Signed-off-by: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
-
-
-Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
-
-Regards
-Andrzej
-
-> ---
-> This is found using smatch(static analysis tool), only compile tested.
-> ---
->   drivers/gpu/drm/i915/i915_perf.c | 9 +++------
->   1 file changed, 3 insertions(+), 6 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/i915_perf.c b/drivers/gpu/drm/i915/i915_perf.c
-> index 2f3ecd7d4804..bb48c96b7950 100644
-> --- a/drivers/gpu/drm/i915/i915_perf.c
-> +++ b/drivers/gpu/drm/i915/i915_perf.c
-> @@ -4228,8 +4228,7 @@ int i915_perf_open_ioctl(struct drm_device *dev, void *data,
->   	int ret;
->   
->   	if (!perf->i915) {
-> -		drm_dbg(&perf->i915->drm,
-> -			"i915 perf interface not available for this system\n");
-> +		DRM_DEBUG("i915 perf interface not available for this system\n");
->   		return -ENOTSUPP;
->   	}
->   
-> @@ -4608,8 +4607,7 @@ int i915_perf_add_config_ioctl(struct drm_device *dev, void *data,
->   	int err, id;
->   
->   	if (!perf->i915) {
-> -		drm_dbg(&perf->i915->drm,
-> -			"i915 perf interface not available for this system\n");
-> +		DRM_DEBUG("i915 perf interface not available for this system\n");
->   		return -ENOTSUPP;
->   	}
->   
-> @@ -4774,8 +4772,7 @@ int i915_perf_remove_config_ioctl(struct drm_device *dev, void *data,
->   	int ret;
->   
->   	if (!perf->i915) {
-> -		drm_dbg(&perf->i915->drm,
-> -			"i915 perf interface not available for this system\n");
-> +		DRM_DEBUG("i915 perf interface not available for this system\n");
->   		return -ENOTSUPP;
->   	}
->   
-
+Reviewed-by: Simon Ser <contact@emersion.fr>
