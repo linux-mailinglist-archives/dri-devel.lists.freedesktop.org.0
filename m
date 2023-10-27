@@ -1,44 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 514AF7D9B07
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Oct 2023 16:19:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B1F5E7D9B37
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Oct 2023 16:21:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0066710E03C;
-	Fri, 27 Oct 2023 14:19:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6417110E9B9;
+	Fri, 27 Oct 2023 14:21:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 345 seconds by postgrey-1.36 at gabe;
- Fri, 27 Oct 2023 14:19:38 UTC
-Received: from mail-4018.proton.ch (mail-4018.proton.ch [185.70.40.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EDD8B10E03C;
- Fri, 27 Oct 2023 14:19:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail2; t=1698416377; x=1698675577;
- bh=clYYIFz/CcY8mTw95VOFnf9GIUJHbDvjIe6G5SgzFsc=;
- h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
- Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
- Message-ID:BIMI-Selector;
- b=CHV2U0uFF4BNo+f1NeWZh3JIY3G2k2fNhAPJkuuqe27LN93vOFi3oIkUk/RzZDcIb
- REekAEU5FbZwpb4JWjlCtcmLag/tFReuv+Vi6EA+DxhdhsxtkcPIzBbeF+25TCiBhN
- SCg1vDzD+jOsaiqY3MMInfZUNsN9kJDGNXWMLKI5ojQMz7qaqjwfH6IX0leUdabHOW
- khPdXIbhUxt1WNDUioTLMBdw3IJ2oRoVtrP0qlKnUSdBr8Zm8ozqmKCLAbsFf2WWmb
- SBWK81OGPIlTnfukGdZuT/1hNWUdu3sLcxcRTJX5+YipZmoLtK5TCUSjyaiPNjUOZY
- HVFWeBo8tk6LA==
-Date: Fri, 27 Oct 2023 14:19:26 +0000
-To: Harry Wentland <harry.wentland@amd.com>
-From: Simon Ser <contact@emersion.fr>
-Subject: Re: [RFC PATCH v2 03/17] drm/vkms: Create separate Kconfig file for
- VKMS
-Message-ID: <tm2fb-ku7lG8o3d8fNANAa6P9x8oQ0spekx4XjJ2v6qJbL7TexYPds_bxFZgENhz32yOHRZmF5_r8kf_9OxZ2UJEtuDRx75iKKmmGUBsudk=@emersion.fr>
-In-Reply-To: <20231019212133.245155-4-harry.wentland@amd.com>
-References: <20231019212133.245155-1-harry.wentland@amd.com>
- <20231019212133.245155-4-harry.wentland@amd.com>
-Feedback-ID: 1358184:user:proton
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 131F910E9B9
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Oct 2023 14:21:47 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 39RCCRwL016820; Fri, 27 Oct 2023 14:21:17 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=in8xlBeujhKUdICpgDGSxaF5wBE6o0ZRlv6z9AS6ugI=;
+ b=ZGeKvXIkDOZRFSIZXRYIS212F1X0d67h3YbodnDI2dDlVTo5XksDjFVJcYfecV41YWRB
+ byQS0+E4dgZPSdOKuqhmXaWqqJGUWpYEI08ydKIeVZOhbNrJenKyr3BY+IhT48wRwm28
+ eL87bg/o6oTuS5QdBj5++1jnrDRossotqn1IQ8subhtu8qVjPMr6bl304kjHo/t9ofho
+ Emtr5Vr9yjmPXuBH9dgcu1DAsoBSrfUGFOOFUc8eR3m+l+mlAvTigQOzccZ5dncSTNTK
+ gCht4yAgsoLwYRiYcCW4+1MHzUH31hC4ZopuPjc9RglWE8oj9uAMBes0xAKMsp6NbqBy Qg== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3tyx4wt6f5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 27 Oct 2023 14:21:16 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 39RELGup008579
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 27 Oct 2023 14:21:16 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Fri, 27 Oct
+ 2023 07:21:15 -0700
+Message-ID: <465e3652-dd10-b329-8af4-8dbea3e1f2f4@quicinc.com>
+Date: Fri, 27 Oct 2023 08:21:15 -0600
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH v2] accel/ivpu: Disable PLL after VPU IP reset during FLR
+Content-Language: en-US
+To: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+ <dri-devel@lists.freedesktop.org>
+References: <20231024165353.761507-1-stanislaw.gruszka@linux.intel.com>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <20231024165353.761507-1-stanislaw.gruszka@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: OUU6S3ynz_Oca2kpdXl4EROrotH7CQFX
+X-Proofpoint-GUID: OUU6S3ynz_Oca2kpdXl4EROrotH7CQFX
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-10-27_12,2023-10-27_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ impostorscore=0 spamscore=0 bulkscore=0 malwarescore=0 mlxscore=0
+ suspectscore=0 mlxlogscore=722 clxscore=1015 priorityscore=1501
+ adultscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2310240000 definitions=main-2310270124
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,32 +83,21 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha McIntosh <sashamcintosh@google.com>,
- Liviu Dudau <Liviu.Dudau@arm.com>, Victoria Brekenfeld <victoria@system76.com>,
- dri-devel@lists.freedesktop.org,
- =?utf-8?Q?Michel_D=C3=A4nzer?= <mdaenzer@redhat.com>,
- Arthur Grillo <arthurgrillo@riseup.net>,
- Sebastian Wick <sebastian.wick@redhat.com>,
- Shashank Sharma <shashank.sharma@amd.com>, wayland-devel@lists.freedesktop.org,
- =?utf-8?Q?Jonas_=C3=85dahl?= <jadahl@redhat.com>,
- Uma Shankar <uma.shankar@intel.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Naseer Ahmed <quic_naseer@quicinc.com>, Melissa Wen <mwen@igalia.com>,
- Aleix Pol <aleixpol@kde.org>, Christopher Braga <quic_cbraga@quicinc.com>,
- Pekka Paalanen <pekka.paalanen@collabora.com>,
- Hector Martin <marcan@marcan.st>, Xaver Hugl <xaver.hugl@gmail.com>,
- Joshua Ashton <joshua@froggi.es>
+Cc: Oded Gabbay <ogabbay@kernel.org>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thursday, October 19th, 2023 at 23:21, Harry Wentland <harry.wentland@am=
-d.com> wrote:
+On 10/24/2023 10:53 AM, Stanislaw Gruszka wrote:
+> From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+> 
+> IP reset has to followed by ivpu_pll_disable() to properly enter
+> reset state.
+> 
+> Fixes: 828d63042aec ("accel/ivpu: Don't enter d0i3 during FLR")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+> Reviewed-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+> Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 
-> +++ b/drivers/gpu/drm/vkms/Kconfig
-> @@ -0,0 +1,15 @@
-> +# SPDX-License-Identifier: GPL-2.0+
-
-It seems like the original Kconfig uses GPL-2.0-only. I think it'd be
-safer to just re-use the exact same license here?
-
-With that fixed:
-Reviewed-by: Simon Ser <contact@emersion.fr>
+Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
