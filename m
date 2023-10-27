@@ -1,44 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C36F7DA24E
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Oct 2023 23:18:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 82BB37DA24C
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Oct 2023 23:18:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 454E210EA55;
-	Fri, 27 Oct 2023 21:18:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9010A10EA51;
+	Fri, 27 Oct 2023 21:18:09 +0000 (UTC)
 X-Original-To: DRI-Devel@lists.freedesktop.org
 Delivered-To: DRI-Devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8375510EA4F;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A70CB10EA4E;
  Fri, 27 Oct 2023 21:18:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1698441487; x=1729977487;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=WfzWSd4V7SZ9hXXlnrWgfIVIDvsKVOPKHcV3VTbxCX4=;
- b=EIN9kM/lxUljNsmZSrKKXLx8WwT5Bycaq7bvzu5fib4288Fc5q+09fES
- zxcWg3W4prRlhieyJyEuGF5fGht3P45I81MQE5toXGE6TAqizyzDwLqHb
- fXXxPZTomZFu+4MJCk86dl65Ggt73T1taKRwCRxVuOuL3b4KrmXC/486o
- zMuns0zsR8XhciaJZIJUEI4lK3B0AsZCRXtmGv9A3tGTzDZSst2kQT98U
- E11K4cUEA8FnQgB0ki2Aapkuc5AOtj1kFJmvZ6m8zX2UMQB9BTrgsGBP9
- 1qhjRxudgUQZiNLdjT8kQQuSsksfC8hLRUZ6x9rMMCaDeafMPFvP59qZI g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10876"; a="378219020"
-X-IronPort-AV: E=Sophos;i="6.03,257,1694761200"; d="scan'208";a="378219020"
+ bh=dSJ/Qub+nFdCCi35LCFG77mm034w0vOsjf7M6p+GXRE=;
+ b=n9Ye4+2pkdd2mjBhCsb/c2b5YxBr9cjBf46t83WQiHiPmjiPxaD0VPwK
+ nXQPu/C6za8i2joCSVtmb9ZJR3Gr/utzroF/JOFnKFoM/7fACQhSn654t
+ pOt8AE43VoWMB/HBVRmd5BJoyBYL7gZ9Iplpv5YOaWFj3mHAele6Mk9PU
+ nXDh+zEszfGtxPunLKemj25M3rMOVooTp2z3KjHWpI/yoi0dG3VoCttae
+ wy0O3M6V6G03Syo4Go9WFGn+1RPLmPLuO6K8il4KYKFOe9ix7gkwDoQWu
+ 4Xpxm5VcFTlV4w2yyJvO76L/x7nqG/cbqhtPEqPbzwiNB6dbc5sO7382W g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10876"; a="378219021"
+X-IronPort-AV: E=Sophos;i="6.03,257,1694761200"; d="scan'208";a="378219021"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  27 Oct 2023 14:18:06 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.03,257,1694761200"; 
-   d="scan'208";a="7336231"
+   d="scan'208";a="7336234"
 Received: from relo-linux-5.jf.intel.com ([10.165.21.152])
  by orviesa001.jf.intel.com with ESMTP; 27 Oct 2023 14:16:43 -0700
 From: John.C.Harrison@Intel.com
 To: Intel-GFX@Lists.FreeDesktop.Org
-Subject: [PATCH v2 1/4] drm/i915: Enable Wa_16019325821
-Date: Fri, 27 Oct 2023 14:18:11 -0700
-Message-ID: <20231027211814.2696398-2-John.C.Harrison@Intel.com>
+Subject: [PATCH v2 2/4] drm/i915/guc: Add support for w/a KLVs
+Date: Fri, 27 Oct 2023 14:18:12 -0700
+Message-ID: <20231027211814.2696398-3-John.C.Harrison@Intel.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20231027211814.2696398-1-John.C.Harrison@Intel.com>
 References: <20231027211814.2696398-1-John.C.Harrison@Intel.com>
@@ -64,148 +64,209 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: John Harrison <John.C.Harrison@Intel.com>
 
-Some platforms require holding RCS context switches until CCS is idle
-(the reverse w/a of Wa_14014475959). Some platforms require both
-versions.
+To prevent running out of bits, new w/a enable flags are being added
+via a KLV system instead of a 32 bit flags word.
 
 Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
 ---
- drivers/gpu/drm/i915/gt/gen8_engine_cs.c      | 19 +++++++++++--------
- drivers/gpu/drm/i915/gt/intel_engine_types.h  |  7 ++++---
- drivers/gpu/drm/i915/gt/uc/intel_guc.c        |  4 ++++
- drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h   |  3 ++-
- .../gpu/drm/i915/gt/uc/intel_guc_submission.c |  7 ++++++-
- 5 files changed, 27 insertions(+), 13 deletions(-)
+ .../gpu/drm/i915/gt/uc/abi/guc_errors_abi.h   |  1 +
+ drivers/gpu/drm/i915/gt/uc/intel_guc.h        |  2 +
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c    | 73 ++++++++++++++++++-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c     |  6 ++
+ drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h   |  5 +-
+ 5 files changed, 85 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
-index 86a04afff64b3..9cccd60a5c41d 100644
---- a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
-+++ b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
-@@ -743,21 +743,23 @@ static u32 *gen12_emit_preempt_busywait(struct i915_request *rq, u32 *cs)
+diff --git a/drivers/gpu/drm/i915/gt/uc/abi/guc_errors_abi.h b/drivers/gpu/drm/i915/gt/uc/abi/guc_errors_abi.h
+index dabeaf4f245f3..00d6402333f8e 100644
+--- a/drivers/gpu/drm/i915/gt/uc/abi/guc_errors_abi.h
++++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_errors_abi.h
+@@ -36,6 +36,7 @@ enum intel_guc_load_status {
+ 	INTEL_GUC_LOAD_STATUS_INVALID_INIT_DATA_RANGE_START,
+ 	INTEL_GUC_LOAD_STATUS_MPU_DATA_INVALID                 = 0x73,
+ 	INTEL_GUC_LOAD_STATUS_INIT_MMIO_SAVE_RESTORE_INVALID   = 0x74,
++	INTEL_GUC_LOAD_STATUS_KLV_WORKAROUND_INIT_ERROR        = 0x75,
+ 	INTEL_GUC_LOAD_STATUS_INVALID_INIT_DATA_RANGE_END,
+ 
+ 	INTEL_GUC_LOAD_STATUS_READY                            = 0xF0,
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+index 2b6dfe62c8f2a..4113776ff3e19 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc.h
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+@@ -198,6 +198,8 @@ struct intel_guc {
+ 	struct guc_mmio_reg *ads_regset;
+ 	/** @ads_golden_ctxt_size: size of the golden contexts in the ADS */
+ 	u32 ads_golden_ctxt_size;
++	/** @ads_waklv_size: size of workaround KLVs */
++	u32 ads_waklv_size;
+ 	/** @ads_capture_size: size of register lists in the ADS used for error capture */
+ 	u32 ads_capture_size;
+ 	/** @ads_engine_usage_size: size of engine usage in the ADS */
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
+index 63724e17829a7..251e7a7a05cb8 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
+@@ -46,6 +46,10 @@
+  *      +---------------------------------------+
+  *      | padding                               |
+  *      +---------------------------------------+ <== 4K aligned
++ *      | w/a KLVs                              |
++ *      +---------------------------------------+
++ *      | padding                               |
++ *      +---------------------------------------+ <== 4K aligned
+  *      | capture lists                         |
+  *      +---------------------------------------+
+  *      | padding                               |
+@@ -88,6 +92,11 @@ static u32 guc_ads_golden_ctxt_size(struct intel_guc *guc)
+ 	return PAGE_ALIGN(guc->ads_golden_ctxt_size);
  }
  
- /* Wa_14014475959:dg2 */
--#define CCS_SEMAPHORE_PPHWSP_OFFSET	0x540
--static u32 ccs_semaphore_offset(struct i915_request *rq)
-+/* Wa_16019325821 */
-+#define HOLD_SWITCHOUT_SEMAPHORE_PPHWSP_OFFSET	0x540
-+static u32 hold_switchout_semaphore_offset(struct i915_request *rq)
- {
- 	return i915_ggtt_offset(rq->context->state) +
--		(LRC_PPHWSP_PN * PAGE_SIZE) + CCS_SEMAPHORE_PPHWSP_OFFSET;
-+		(LRC_PPHWSP_PN * PAGE_SIZE) + HOLD_SWITCHOUT_SEMAPHORE_PPHWSP_OFFSET;
- }
- 
- /* Wa_14014475959:dg2 */
--static u32 *ccs_emit_wa_busywait(struct i915_request *rq, u32 *cs)
-+/* Wa_16019325821 */
-+static u32 *hold_switchout_emit_wa_busywait(struct i915_request *rq, u32 *cs)
- {
- 	int i;
- 
- 	*cs++ = MI_ATOMIC_INLINE | MI_ATOMIC_GLOBAL_GTT | MI_ATOMIC_CS_STALL |
- 		MI_ATOMIC_MOVE;
--	*cs++ = ccs_semaphore_offset(rq);
-+	*cs++ = hold_switchout_semaphore_offset(rq);
- 	*cs++ = 0;
- 	*cs++ = 1;
- 
-@@ -773,7 +775,7 @@ static u32 *ccs_emit_wa_busywait(struct i915_request *rq, u32 *cs)
- 		MI_SEMAPHORE_POLL |
- 		MI_SEMAPHORE_SAD_EQ_SDD;
- 	*cs++ = 0;
--	*cs++ = ccs_semaphore_offset(rq);
-+	*cs++ = hold_switchout_semaphore_offset(rq);
- 	*cs++ = 0;
- 
- 	return cs;
-@@ -790,8 +792,9 @@ gen12_emit_fini_breadcrumb_tail(struct i915_request *rq, u32 *cs)
- 		cs = gen12_emit_preempt_busywait(rq, cs);
- 
- 	/* Wa_14014475959:dg2 */
--	if (intel_engine_uses_wa_hold_ccs_switchout(rq->engine))
--		cs = ccs_emit_wa_busywait(rq, cs);
-+	/* Wa_16019325821 */
-+	if (intel_engine_uses_wa_hold_switchout(rq->engine))
-+		cs = hold_switchout_emit_wa_busywait(rq, cs);
- 
- 	rq->tail = intel_ring_offset(rq, cs);
- 	assert_ring_tail_valid(rq->ring, rq->tail);
-diff --git a/drivers/gpu/drm/i915/gt/intel_engine_types.h b/drivers/gpu/drm/i915/gt/intel_engine_types.h
-index 8769760257fd9..f08739d020332 100644
---- a/drivers/gpu/drm/i915/gt/intel_engine_types.h
-+++ b/drivers/gpu/drm/i915/gt/intel_engine_types.h
-@@ -584,7 +584,7 @@ struct intel_engine_cs {
- #define I915_ENGINE_HAS_RCS_REG_STATE  BIT(9)
- #define I915_ENGINE_HAS_EU_PRIORITY    BIT(10)
- #define I915_ENGINE_FIRST_RENDER_COMPUTE BIT(11)
--#define I915_ENGINE_USES_WA_HOLD_CCS_SWITCHOUT BIT(12)
-+#define I915_ENGINE_USES_WA_HOLD_SWITCHOUT BIT(12)
- 	unsigned int flags;
- 
- 	/*
-@@ -694,10 +694,11 @@ intel_engine_has_relative_mmio(const struct intel_engine_cs * const engine)
- }
- 
- /* Wa_14014475959:dg2 */
-+/* Wa_16019325821 */
- static inline bool
--intel_engine_uses_wa_hold_ccs_switchout(struct intel_engine_cs *engine)
-+intel_engine_uses_wa_hold_switchout(struct intel_engine_cs *engine)
- {
--	return engine->flags & I915_ENGINE_USES_WA_HOLD_CCS_SWITCHOUT;
-+	return engine->flags & I915_ENGINE_USES_WA_HOLD_SWITCHOUT;
- }
- 
- #endif /* __INTEL_ENGINE_TYPES_H__ */
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-index 3f3df1166b860..0e6c160de3315 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-@@ -294,6 +294,10 @@ static u32 guc_ctl_wa_flags(struct intel_guc *guc)
- 	    IS_DG2(gt->i915))
- 		flags |= GUC_WA_HOLD_CCS_SWITCHOUT;
- 
-+	/* Wa_16019325821 */
-+	if (IS_GFX_GT_IP_RANGE(gt, IP_VER(12, 70), IP_VER(12, 71)))
-+		flags |= GUC_WA_RCS_CCS_SWITCHOUT;
++static u32 guc_ads_waklv_size(struct intel_guc *guc)
++{
++	return PAGE_ALIGN(guc->ads_waklv_size);
++}
 +
- 	/*
- 	 * Wa_14012197797
- 	 * Wa_22011391025
+ static u32 guc_ads_capture_size(struct intel_guc *guc)
+ {
+ 	return PAGE_ALIGN(guc->ads_capture_size);
+@@ -113,7 +122,7 @@ static u32 guc_ads_golden_ctxt_offset(struct intel_guc *guc)
+ 	return PAGE_ALIGN(offset);
+ }
+ 
+-static u32 guc_ads_capture_offset(struct intel_guc *guc)
++static u32 guc_ads_waklv_offset(struct intel_guc *guc)
+ {
+ 	u32 offset;
+ 
+@@ -123,6 +132,16 @@ static u32 guc_ads_capture_offset(struct intel_guc *guc)
+ 	return PAGE_ALIGN(offset);
+ }
+ 
++static u32 guc_ads_capture_offset(struct intel_guc *guc)
++{
++	u32 offset;
++
++	offset = guc_ads_waklv_offset(guc) +
++		 guc_ads_waklv_size(guc);
++
++	return PAGE_ALIGN(offset);
++}
++
+ static u32 guc_ads_private_data_offset(struct intel_guc *guc)
+ {
+ 	u32 offset;
+@@ -791,6 +810,49 @@ guc_capture_prep_lists(struct intel_guc *guc)
+ 	return PAGE_ALIGN(total_size);
+ }
+ 
++static void guc_waklv_init(struct intel_guc *guc)
++{
++	struct intel_gt *gt = guc_to_gt(guc);
++	u32 offset, addr_ggtt, remain, size;
++
++	if (!intel_uc_uses_guc_submission(&gt->uc))
++		return;
++
++	if (GUC_FIRMWARE_VER(guc) < MAKE_GUC_VER(70, 10, 0))
++		return;
++
++	GEM_BUG_ON(iosys_map_is_null(&guc->ads_map));
++	offset = guc_ads_waklv_offset(guc);
++	remain = guc_ads_waklv_size(guc);
++
++	/*
++	 * Add workarounds here:
++	 *
++	 * if (want_wa_<name>) {
++	 *	size = guc_waklv_<name>(guc, offset, remain);
++	 *	offset += size;
++	 *	remain -= size;
++	 * }
++	 */
++
++	size = guc_ads_waklv_size(guc) - remain;
++	if (!size)
++		return;
++
++	offset = guc_ads_waklv_offset(guc);
++	addr_ggtt = intel_guc_ggtt_offset(guc, guc->ads_vma) + offset;
++
++	ads_blob_write(guc, ads.wa_klv_addr_lo, addr_ggtt);
++	ads_blob_write(guc, ads.wa_klv_addr_hi, 0);
++	ads_blob_write(guc, ads.wa_klv_size, size);
++}
++
++static int guc_prep_waklv(struct intel_guc *guc)
++{
++	/* Fudge something chunky for now: */
++	return PAGE_SIZE;
++}
++
+ static void __guc_ads_init(struct intel_guc *guc)
+ {
+ 	struct intel_gt *gt = guc_to_gt(guc);
+@@ -838,6 +900,9 @@ static void __guc_ads_init(struct intel_guc *guc)
+ 	/* MMIO save/restore list */
+ 	guc_mmio_reg_state_init(guc);
+ 
++	/* Workaround KLV list */
++	guc_waklv_init(guc);
++
+ 	/* Private Data */
+ 	ads_blob_write(guc, ads.private_data, base +
+ 		       guc_ads_private_data_offset(guc));
+@@ -881,6 +946,12 @@ int intel_guc_ads_create(struct intel_guc *guc)
+ 		return ret;
+ 	guc->ads_capture_size = ret;
+ 
++	/* And don't forget the workaround KLVs: */
++	ret = guc_prep_waklv(guc);
++	if (ret < 0)
++		return ret;
++	guc->ads_waklv_size = ret;
++
+ 	/* Now the total size can be determined: */
+ 	size = guc_ads_blob_size(guc);
+ 
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c
+index 0f79cb6585182..a54d58b9243b0 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c
+@@ -115,6 +115,7 @@ static inline bool guc_load_done(struct intel_uncore *uncore, u32 *status, bool
+ 	case INTEL_GUC_LOAD_STATUS_INIT_DATA_INVALID:
+ 	case INTEL_GUC_LOAD_STATUS_MPU_DATA_INVALID:
+ 	case INTEL_GUC_LOAD_STATUS_INIT_MMIO_SAVE_RESTORE_INVALID:
++	case INTEL_GUC_LOAD_STATUS_KLV_WORKAROUND_INIT_ERROR:
+ 		*success = false;
+ 		return true;
+ 	}
+@@ -241,6 +242,11 @@ static int guc_wait_ucode(struct intel_guc *guc)
+ 			ret = -EPERM;
+ 			break;
+ 
++		case INTEL_GUC_LOAD_STATUS_KLV_WORKAROUND_INIT_ERROR:
++			guc_info(guc, "invalid w/a KLV entry\n");
++			ret = -EINVAL;
++			break;
++
+ 		case INTEL_GUC_LOAD_STATUS_HWCONFIG_START:
+ 			guc_info(guc, "still extracting hwconfig table.\n");
+ 			ret = -ETIMEDOUT;
 diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
-index 8ae1846431da7..48863188a130e 100644
+index 48863188a130e..14797e80bc92c 100644
 --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
 +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
-@@ -96,8 +96,9 @@
- #define   GUC_WA_GAM_CREDITS		BIT(10)
- #define   GUC_WA_DUAL_QUEUE		BIT(11)
- #define   GUC_WA_RCS_RESET_BEFORE_RC6	BIT(13)
--#define   GUC_WA_CONTEXT_ISOLATION	BIT(15)
- #define   GUC_WA_PRE_PARSER		BIT(14)
-+#define   GUC_WA_CONTEXT_ISOLATION	BIT(15)
-+#define   GUC_WA_RCS_CCS_SWITCHOUT	BIT(16)
- #define   GUC_WA_HOLD_CCS_SWITCHOUT	BIT(17)
- #define   GUC_WA_POLLCS			BIT(18)
- #define   GUC_WA_RCS_REGS_IN_CCS_REGS_LIST	BIT(21)
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-index d37698bd6b91a..bdb321d8e265d 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-@@ -4380,7 +4380,12 @@ static void guc_default_vfuncs(struct intel_engine_cs *engine)
- 	if (engine->class == COMPUTE_CLASS)
- 		if (IS_GFX_GT_IP_STEP(engine->gt, IP_VER(12, 70), STEP_A0, STEP_B0) ||
- 		    IS_DG2(engine->i915))
--			engine->flags |= I915_ENGINE_USES_WA_HOLD_CCS_SWITCHOUT;
-+			engine->flags |= I915_ENGINE_USES_WA_HOLD_SWITCHOUT;
-+
-+	/* Wa_16019325821 */
-+	if ((engine->class == COMPUTE_CLASS || engine->class == RENDER_CLASS) &&
-+	    IS_GFX_GT_IP_RANGE(engine->gt, IP_VER(12, 70), IP_VER(12, 71)))
-+		engine->flags |= I915_ENGINE_USES_WA_HOLD_SWITCHOUT;
+@@ -431,7 +431,10 @@ struct guc_ads {
+ 	u32 capture_instance[GUC_CAPTURE_LIST_INDEX_MAX][GUC_MAX_ENGINE_CLASSES];
+ 	u32 capture_class[GUC_CAPTURE_LIST_INDEX_MAX][GUC_MAX_ENGINE_CLASSES];
+ 	u32 capture_global[GUC_CAPTURE_LIST_INDEX_MAX];
+-	u32 reserved[14];
++	u32 wa_klv_addr_lo;
++	u32 wa_klv_addr_hi;
++	u32 wa_klv_size;
++	u32 reserved[11];
+ } __packed;
  
- 	/*
- 	 * TODO: GuC supports timeslicing and semaphores as well, but they're
+ /* Engine usage stats */
 -- 
 2.41.0
 
