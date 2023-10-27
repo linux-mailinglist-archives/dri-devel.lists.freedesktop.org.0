@@ -1,61 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7B0D7D9E53
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Oct 2023 18:59:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 27EEC7D9E57
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Oct 2023 18:59:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C690F10E141;
-	Fri, 27 Oct 2023 16:59:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1CD6F10EA1D;
+	Fri, 27 Oct 2023 16:59:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com
- [IPv6:2607:f8b0:4864:20::536])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A0DB10EA1B;
- Fri, 27 Oct 2023 16:59:21 +0000 (UTC)
-Received: by mail-pg1-x536.google.com with SMTP id
- 41be03b00d2f7-564af0ac494so1928608a12.0; 
- Fri, 27 Oct 2023 09:59:21 -0700 (PDT)
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com
+ [IPv6:2607:f8b0:4864:20::635])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C8B3910E141;
+ Fri, 27 Oct 2023 16:59:23 +0000 (UTC)
+Received: by mail-pl1-x635.google.com with SMTP id
+ d9443c01a7336-1c5cd27b1acso20718035ad.2; 
+ Fri, 27 Oct 2023 09:59:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1698425960; x=1699030760; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1698425963; x=1699030763; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=hu1FhjWQAAQQu/erPFOwuagpkPUc4fNsZ+YMm7C14LI=;
- b=CNfLHjt+9Pl7BslZVNBa0gQJJWlfc/Qzq0hzEvl+MOzWyp+Mg7QJMEzXb1L+eleKNx
- oa3a4W4jcmjIYLukDRPaLXeop8cFIGYtSRff6ciP+bBBFKyZhenjU5vxAl5jjp/kxAbp
- m/36c8weGzXOv2WsXqupK3S656wrjUj4Uxw6E5pRC7STY/qnz8gq75hIUYHCrQUOy/5e
- ssnutglzSFDQM/irSyjXeaOeJ8BYf5qU/zOYfJRRBsSqjL56VKLnmwoNphF6Cx9s0XZH
- w28p01yFL1nHcY9v8chmkHzYnGcVqtZe/XPgyqLF8xsXxYuCDh9oFPEEqNA/EXdjPlUy
- 2hTA==
+ bh=XjlFqD57WfpyH15rLpP1GN1DPt5ddZpCcGr9BQH7/rg=;
+ b=TPCKdjLf/qPr+kPCDQ3U6MPhzNMm+HKahvkhNXpzfy8sV8SktPugA8bOz85TFwIqlA
+ IpcOXM0jUXADaCim9kjauJs7nxO6ww4b7oR2V8Llo+mFizDSqD5jXA9tzO7vyxMiBe2x
+ 88MudDcXLnXyCQzkSYFf9oUxFdEyMnKPhBMX1cdmb8rBhLjCW8fTsJfMYfTKN9Hf00uu
+ /nQic+vkjCVvSIs7tfSKQZ5ZGILUFnMfR53fehy4YCZeyvZmEaKapor1CkqtZHx4oBMf
+ bk61oY4yxULqTDR3hzsZwyGMgguXYENlDb9IRG5HhH2vPiIriWDg/6+/8Pf2M6wZmyPv
+ uY8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1698425960; x=1699030760;
+ d=1e100.net; s=20230601; t=1698425963; x=1699030763;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=hu1FhjWQAAQQu/erPFOwuagpkPUc4fNsZ+YMm7C14LI=;
- b=q2fQXj8HoJrX57bb5u01/We1FzP36ev8zIB/CyK3E7xyO0rDYKhKdgD+pcwryJcOak
- wJXrMYDXO/CGkjO2udlC/KrfATp7jnhp0ZCj0Jfhfgil9kX5Hl9PWGhzFbzAwuFycJ6l
- CW5GpxkKINYCj+jiXzooUBa7+MHbo7XV2qc1EdicSuumwzxGbZioei0xl39/vjaDKo1A
- YtTRkk4rrzdH0BKKk8QjRO9aIoV1uW69k50OeMm3C7MA3uTdBW/QJ0XP2YWYI3vTTkWK
- wfKwloHjLKEvMjknuNh/kGpoV+2ZoXHQ11wTBnBA10dHPYQxalD1UwAMXg2tM3X3jYR+
- afjw==
-X-Gm-Message-State: AOJu0YyT5EUTlGhRbTKrqI0KxNXmjK//jU2ZnzhctOyeMF7ZQXeBwqYr
- BbnRKTpFHglGAUR37GTMaXmG2TQy4Pg=
-X-Google-Smtp-Source: AGHT+IGq/OT51OWFTDYcHIvbMyrTngDK3vmX2a/+eGD+RvH40j5mBW0SCq03abTpvLoM4Y/jLrb/8A==
-X-Received: by 2002:a17:90a:77c2:b0:27d:5cca:9b69 with SMTP id
- e2-20020a17090a77c200b0027d5cca9b69mr3056136pjs.45.1698425960498; 
- Fri, 27 Oct 2023 09:59:20 -0700 (PDT)
+ bh=XjlFqD57WfpyH15rLpP1GN1DPt5ddZpCcGr9BQH7/rg=;
+ b=pzvnZKPRHE3F+jlXYtk+294rTdyX0q8JzZuBzaAC+sUO2HLoFPLaA0teAPSzFNqULZ
+ hwKBEdh0ippwsNtmYPE3VMOcVs/yuHxYlVBO/pBvV8XUbOC/454s+IuUZCIuMU5HVbvm
+ HYeMfQb2aIB6ab74RbNJxvaitz6QHnOej7OVnIlLtsnq0QbSg4S38WkGIqDDDIbEk7UE
+ U0E1WI69WCsCKputHhABOQN88EBMjDtTjNRq1HYdUjVx6ssTdF1F885bKi9x1sMpoIAt
+ DsTvMsI9q2vl0+28tTRqR1FiFJIIXW9JESb9nlgE4tX13n24Cel+IiCBqCWMkqIYb+Mv
+ GzcA==
+X-Gm-Message-State: AOJu0YwZzqyLAXAsjFTQOcph8bAgMYF4dIzKLnUul/+cd41PpPxZ5Jjk
+ JAmWIY2KfDrLMrcV5kauw6tNZcbgi30=
+X-Google-Smtp-Source: AGHT+IGPy24qVA2bmVsf4hNeMCi1FeUtZRRCpcB1pe5z5inrUzOFQz1HOi4HLF/CMbxMpJNP96x7oA==
+X-Received: by 2002:a17:902:f54c:b0:1c9:cc88:5029 with SMTP id
+ h12-20020a170902f54c00b001c9cc885029mr3772962plf.32.1698425962797; 
+ Fri, 27 Oct 2023 09:59:22 -0700 (PDT)
 Received: from localhost ([2a00:79e1:abd:4a00:6c80:7c10:75a0:44f4])
  by smtp.gmail.com with ESMTPSA id
- x5-20020a17090abc8500b002800eeafd79sm1301858pjr.52.2023.10.27.09.59.19
+ m18-20020a170902db1200b001bde6fa0a39sm1800366plx.167.2023.10.27.09.59.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 Oct 2023 09:59:19 -0700 (PDT)
+ Fri, 27 Oct 2023 09:59:22 -0700 (PDT)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 3/7] drm/msm/gem: Don't queue job to sched in error cases
-Date: Fri, 27 Oct 2023 09:58:37 -0700
-Message-ID: <20231027165859.395638-4-robdclark@gmail.com>
+Subject: [PATCH 4/7] drm/msm/gem: Split out submit_unpin_objects() helper
+Date: Fri, 27 Oct 2023 09:58:38 -0700
+Message-ID: <20231027165859.395638-5-robdclark@gmail.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20231027165859.395638-1-robdclark@gmail.com>
 References: <20231027165859.395638-1-robdclark@gmail.com>
@@ -84,31 +84,113 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Rob Clark <robdclark@chromium.org>
 
-We shouldn't be running the job in error cases.  This also avoids having
-to think too hard about where the objs get unpinned (and if necessary,
-the resv takes over tracking that the obj is busy).. ie. error cases it
-always happens synchronously, and normal cases it happens from scheduler
-job_run() callback.
+Untangle unpinning from unlock/unref loop.  The unpin only happens in
+error paths so it is easier to decouple from the normal unlock path.
+
+Since we never have an intermediate state where a subset of buffers
+are pinned (ie. we never bail out of the pin or unpin loops) we can
+replace the bo state flag bit with a global flag in the submit.
 
 Signed-off-by: Rob Clark <robdclark@chromium.org>
 ---
- drivers/gpu/drm/msm/msm_gem_submit.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/gpu/drm/msm/msm_gem.h        |  6 +++---
+ drivers/gpu/drm/msm/msm_gem_submit.c | 22 +++++++++++++++++-----
+ drivers/gpu/drm/msm/msm_ringbuffer.c |  3 ++-
+ 3 files changed, 22 insertions(+), 9 deletions(-)
 
+diff --git a/drivers/gpu/drm/msm/msm_gem.h b/drivers/gpu/drm/msm/msm_gem.h
+index c36c1c1fa222..af884ced7a0d 100644
+--- a/drivers/gpu/drm/msm/msm_gem.h
++++ b/drivers/gpu/drm/msm/msm_gem.h
+@@ -270,8 +270,9 @@ struct msm_gem_submit {
+ 	int fence_id;       /* key into queue->fence_idr */
+ 	struct msm_gpu_submitqueue *queue;
+ 	struct pid *pid;    /* submitting process */
+-	bool fault_dumped;  /* Limit devcoredump dumping to one per submit */
+-	bool in_rb;         /* "sudo" mode, copy cmds into RB */
++	bool bos_pinned : 1;
++	bool fault_dumped:1;/* Limit devcoredump dumping to one per submit */
++	bool in_rb : 1;     /* "sudo" mode, copy cmds into RB */
+ 	struct msm_ringbuffer *ring;
+ 	unsigned int nr_cmds;
+ 	unsigned int nr_bos;
+@@ -288,7 +289,6 @@ struct msm_gem_submit {
+ 	struct {
+ /* make sure these don't conflict w/ MSM_SUBMIT_BO_x */
+ #define BO_LOCKED	0x4000	/* obj lock is held */
+-#define BO_PINNED	0x2000	/* obj (pages) is pinned and on active list */
+ 		uint32_t flags;
+ 		union {
+ 			struct drm_gem_object *obj;
 diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
-index 2d5527dc3e1a..786b48a55309 100644
+index 786b48a55309..d001bf286606 100644
 --- a/drivers/gpu/drm/msm/msm_gem_submit.c
 +++ b/drivers/gpu/drm/msm/msm_gem_submit.c
-@@ -946,6 +946,9 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
- 		}
+@@ -265,9 +265,6 @@ static void submit_cleanup_bo(struct msm_gem_submit *submit, int i,
+ 	 */
+ 	submit->bos[i].flags &= ~cleanup_flags;
+ 
+-	if (flags & BO_PINNED)
+-		msm_gem_unpin_locked(obj);
+-
+ 	if (flags & BO_LOCKED)
+ 		dma_resv_unlock(obj->resv);
+ }
+@@ -407,13 +404,28 @@ static int submit_pin_objects(struct msm_gem_submit *submit)
+ 	mutex_lock(&priv->lru.lock);
+ 	for (i = 0; i < submit->nr_bos; i++) {
+ 		msm_gem_pin_obj_locked(submit->bos[i].obj);
+-		submit->bos[i].flags |= BO_PINNED;
+ 	}
+ 	mutex_unlock(&priv->lru.lock);
+ 
++	submit->bos_pinned = true;
++
+ 	return ret;
+ }
+ 
++static void submit_unpin_objects(struct msm_gem_submit *submit)
++{
++	if (!submit->bos_pinned)
++		return;
++
++	for (int i = 0; i < submit->nr_bos; i++) {
++		struct drm_gem_object *obj = submit->bos[i].obj;
++
++		msm_gem_unpin_locked(obj);
++	}
++
++	submit->bos_pinned = false;
++}
++
+ static void submit_attach_object_fences(struct msm_gem_submit *submit)
+ {
+ 	int i;
+@@ -525,7 +537,7 @@ static void submit_cleanup(struct msm_gem_submit *submit, bool error)
+ 	unsigned i;
+ 
+ 	if (error)
+-		cleanup_flags |= BO_PINNED;
++		submit_unpin_objects(submit);
+ 
+ 	for (i = 0; i < submit->nr_bos; i++) {
+ 		struct drm_gem_object *obj = submit->bos[i].obj;
+diff --git a/drivers/gpu/drm/msm/msm_ringbuffer.c b/drivers/gpu/drm/msm/msm_ringbuffer.c
+index 9d6e2e10d25a..7ea5eca118eb 100644
+--- a/drivers/gpu/drm/msm/msm_ringbuffer.c
++++ b/drivers/gpu/drm/msm/msm_ringbuffer.c
+@@ -29,9 +29,10 @@ static struct dma_fence *msm_job_run(struct drm_sched_job *job)
+ 		struct drm_gem_object *obj = submit->bos[i].obj;
+ 
+ 		msm_gem_unpin_active(obj);
+-		submit->bos[i].flags &= ~BO_PINNED;
  	}
  
-+	if (ret)
-+		goto out;
++	submit->bos_pinned = false;
 +
- 	submit_attach_object_fences(submit);
+ 	mutex_unlock(&priv->lru.lock);
  
- 	/* The scheduler owns a ref now: */
+ 	msm_gpu_submit(gpu, submit);
 -- 
 2.41.0
 
