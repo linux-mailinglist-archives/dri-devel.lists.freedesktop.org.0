@@ -1,52 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73A437D9144
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Oct 2023 10:22:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D6B3D7D915C
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Oct 2023 10:25:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2EA7710E13F;
-	Fri, 27 Oct 2023 08:22:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9472210E140;
+	Fri, 27 Oct 2023 08:25:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F401F10E0D3
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Oct 2023 08:22:41 +0000 (UTC)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B239E10E140
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Oct 2023 08:25:22 +0000 (UTC)
 Received: from localhost (cola.collaboradmins.com [195.201.22.229])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 31DB666072FC;
- Fri, 27 Oct 2023 09:22:40 +0100 (BST)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 83E6166072FC;
+ Fri, 27 Oct 2023 09:25:20 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1698394960;
- bh=CXETlEvRgv2L/Tp9RviTmDGHkICt3aBol0oF6zd6BP8=;
+ s=mail; t=1698395121;
+ bh=pwSE8EySk274RE11EYBjl8fVybeDlHkijimBPoX3cjA=;
  h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=DbIm5g5z5kdA/lxGLKSTtYN8atKFb3s6GvXKvWp31LXIGGMxVkwafkeOzVCBVV2XZ
- 9oZ9XHtzzb5BP5N9KcGnQBKbS0fnJJjtirdkZKwzuJxaxNCZll3l9NKmV+WJ8eRULr
- Mwshdi3fJfxoihUmqPOXefJWMmuQSnM+2TzuoYXFfEhBc/OqbxuwmKzmRgQfp5qfgD
- oPocHKWLgZEKfTj9N9l56y+/J+VhkJJGLkcoA0phToE5mXJOPFCEFnW4TEWVnMXbnX
- 9ICnUbxxX6bou82iTnR2AWbb2iCQJMWnNEpcDn+4YIiGRglrxTb32RomCRX3zdatXP
- /aFE+Q1mIB7qQ==
-Date: Fri, 27 Oct 2023 10:22:37 +0200
+ b=IWAlPYFeBQ7DoPJeMmsiL1pjhb2Lgk7i5Q/XZ13JyZhfayXGrnrvNveK4Pr6Ab3gT
+ aSGTs6JoGHIEn6cC31nST/oVcKdK+q09LeY+3blChLsUn7QBtPlVA63z8ud7M8cm3N
+ uLuIxuD9L71GCnXhXrX8k8HIVpbujOzTCqV5/Y9G5KjcC/5MCh1w4no1ipgYDak4Sz
+ U6ImevqRFMao63ITp4MP8Zy5a4Kth8xWzMerfOmug9SXBUbzpUuKKaA62nwwZO6fg9
+ f8+Q/av2Kf+/BuKnV3LqAMH6L8zDpaLE+bEcy9GzkT5uyuO7auNMY+upOxidOCKunE
+ 40yemLwyFNK5A==
+Date: Fri, 27 Oct 2023 10:25:16 +0200
 From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
+To: Danilo Krummrich <dakr@redhat.com>
 Subject: Re: [PATCH drm-misc-next v3] drm/sched: implement dynamic job-flow
  control
-Message-ID: <20231027102237.0cdb85af@collabora.com>
-In-Reply-To: <98988459-25a8-4ee0-89d4-cb816cbc5bef@amd.com>
+Message-ID: <20231027102516.0e4b00ef@collabora.com>
+In-Reply-To: <20231026161431.5934-1-dakr@redhat.com>
 References: <20231026161431.5934-1-dakr@redhat.com>
- <0bc79ae3-04fe-4e85-9fd0-e8b281148390@amd.com>
- <20231027093238.2ff8172e@collabora.com>
- <ff389793-1226-49fd-b599-07dbda0b97be@amd.com>
- <20231027093943.3f0ae992@collabora.com>
- <98988459-25a8-4ee0-89d4-cb816cbc5bef@amd.com>
 Organization: Collabora
 X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,79 +55,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: matthew.brost@intel.com, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, faith@gfxstrand.net, luben.tuikov@amd.com,
- Danilo Krummrich <dakr@redhat.com>
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 27 Oct 2023 09:44:13 +0200
-Christian K=C3=B6nig <christian.koenig@amd.com> wrote:
+Hi Danilo,
 
-> Am 27.10.23 um 09:39 schrieb Boris Brezillon:
-> > On Fri, 27 Oct 2023 09:35:01 +0200
-> > Christian K=C3=B6nig<christian.koenig@amd.com>  wrote:
-> > =20
-> >> Am 27.10.23 um 09:32 schrieb Boris Brezillon: =20
-> >>> On Fri, 27 Oct 2023 09:22:12 +0200
-> >>> Christian K=C3=B6nig<christian.koenig@amd.com>  wrote:
-> >>>    =20
-> >>>>> +
-> >>>>> +	/**
-> >>>>> +	 * @update_job_credits: Called once the scheduler is considering =
-this
-> >>>>> +	 * job for execution.
-> >>>>> +	 *
-> >>>>> +	 * Drivers may use this to update the job's submission credits, w=
-hich is
-> >>>>> +	 * useful to e.g. deduct the number of native fences which have b=
-een
-> >>>>> +	 * signaled meanwhile.
-> >>>>> +	 *
-> >>>>> +	 * The callback must either return the new number of submission c=
-redits
-> >>>>> +	 * for the given job, or zero if no update is required.
-> >>>>> +	 *
-> >>>>> +	 * This callback is optional.
-> >>>>> +	 */
-> >>>>> +	u32 (*update_job_credits)(struct drm_sched_job *sched_job); =20
-> >>>> Why do we need an extra callback for this?
-> >>>>
-> >>>> Just document that prepare_job() is allowed to reduce the number of
-> >>>> credits the job might need.
-> >>> ->prepare_job() is called only once if the returned fence is NULL, bu=
-t =20
-> >>> we need this credit-update to happen every time a job is considered f=
-or
-> >>> execution by the scheduler. =20
-> >> But the job is only considered for execution once. How do you see that
-> >> this is called multiple times? =20
-> > Nope, it's not. If drm_sched_can_queue() returns false, the scheduler
-> > will go look for another entity that has a job ready for execution, and
-> > get back to this entity later, and test drm_sched_can_queue() again.
-> > Basically, any time drm_sched_can_queue() is called, the job credits
-> > update should happen, so we have an accurate view of how many credits
-> > this job needs. =20
->=20
-> Well, that is the handling which I already rejected because it creates=20
-> unfairness between processes. When you consider the credits needed=20
-> *before* scheduling jobs with a lower credit count are always preferred=20
-> over jobs with a higher credit count.
+On Thu, 26 Oct 2023 18:13:00 +0200
+Danilo Krummrich <dakr@redhat.com> wrote:
 
-My bad, it doesn't pick another entity when an entity with a
-ready job that doesn't fit the queue is found, it just bails out from
-drm_sched_rq_select_entity_rr() and returns NULL (AKA: no ready entity
-found). But we still want to update the job credits before checking if
-the job fits or not (next time this entity is tested).
+> Currently, job flow control is implemented simply by limiting the number
+> of jobs in flight. Therefore, a scheduler is initialized with a credit
+> limit that corresponds to the number of jobs which can be sent to the
+> hardware.
+> 
+> This implies that for each job, drivers need to account for the maximum
+> job size possible in order to not overflow the ring buffer.
+> 
+> However, there are drivers, such as Nouveau, where the job size has a
+> rather large range. For such drivers it can easily happen that job
+> submissions not even filling the ring by 1% can block subsequent
+> submissions, which, in the worst case, can lead to the ring run dry.
+> 
+> In order to overcome this issue, allow for tracking the actual job size
+> instead of the number of jobs. Therefore, add a field to track a job's
+> credit count, which represents the number of credits a job contributes
+> to the scheduler's credit limit.
+> 
+> Signed-off-by: Danilo Krummrich <dakr@redhat.com>
+> ---
+> Changes in V2:
+> ==============
+>   - fixed up influence on scheduling fairness due to consideration of a job's
+>     size
+>     - If we reach a ready entity in drm_sched_select_entity() but can't actually
+>       queue a job from it due to size limitations, just give up and go to sleep
+>       until woken up due to a pending job finishing, rather than continue to try
+>       other entities.
+>   - added a callback to dynamically update a job's credits (Boris)
 
-> What you can do is to look at the credits of a job *after* it was picked=
-=20
-> up for scheduling so that you can scheduler more jobs.
+This callback seems controversial. I'd suggest dropping it, so the
+patch can be merged.
 
-Sure, but then you might further delay your job if something made it
-smaller (ie. native fences got signaled) between ->prepare_job() and
-drm_sched_can_queue(). And any new drm_sched_can_queue() test would
-just see the old credits value.
+Regards,
 
-Out of curiosity, what are you worried about with this optional
-->update_job_credits() call in the drm_sched_can_queue() path? Is the
-if (sched->update_job_credits) overhead considered too high for drivers
-that don't need it?
+Boris
+
+>   - renamed 'units' to 'credits'
+>   - fixed commit message and comments as requested by Luben
+> 
+> Changes in V3:
+> ==============
+>   - rebased onto V7 of the "DRM scheduler changes for Xe" series by Matt
+>   - move up drm_sched_can_queue() instead of adding a forward declaration
+>     (Boris)
+>   - add a drm_sched_available_credits() helper (Boris)
+>   - adjust control flow in drm_sched_rq_select_entity_fifo() to Luben's proposal
+>   - re-phrase a few comments and fix a typo (Luben)
+>   - change naming of all structures credit fields and function parameters to the
+>     following scheme
+>     - drm_sched_job::credits
+>     - drm_gpu_scheduler::credit_limit
+>     - drm_gpu_scheduler::credit_count
+>     - drm_sched_init(..., u32 credit_limit, ...)
+>     - drm_sched_job_init(..., u32 credits, ...)
+>   - add proper documentation for the scheduler's job-flow control mechanism
