@@ -2,118 +2,117 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AF367D9D6E
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Oct 2023 17:51:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D63257D9D7A
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Oct 2023 17:53:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B0C0510E9FD;
-	Fri, 27 Oct 2023 15:51:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 74AB310E9FE;
+	Fri, 27 Oct 2023 15:53:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on20600.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:7eae::600])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE69D10E9FC;
- Fri, 27 Oct 2023 15:51:10 +0000 (UTC)
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on20626.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:fe5a::626])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB04310E9FE;
+ Fri, 27 Oct 2023 15:53:12 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Y1tPjSB+2SKlVgTIJIwbFz4jJjY8pB3N4xH2c22nE9l9Ch7KLoYjroAhnKqwx/ZERfuzi/zKIBQroAzWQl0Vmhjc53ZiwcoZ8OyvaDaU5XfMjUA03u6C+OQG3+pQQIttrFkTGiJrtmRGPN8wWLd91QUWL0M9qx4PIB+bd3fkZNE5STpdI3QAqacwWlYGGevUO5oW8undVyTaVcpa0CUUiKPVQV5BfBhNbw1nm6UBYp+8iMU1inniH2M7D/tglkPQ84ZYS7sU0QjhsVZAm4vPSn96w5Q/JeWsxBxL2SU7+IO6V2HciUsfhe87jlqfLJQ/jW2HRW2/cFXN5XLMpuYLVA==
+ b=d36HbnY+sPuLrLpVv76XTTmiZi2JjQw5POrUY5areB6KLAdvlv2UVA9jYkqpsuAfaonIZn2Y+SMw5HEX8dYB94HfFdrMxeGnqlHsfCCwGTowFxwvB7CRGmvE6O2dwCQpX6uApqhBFSYjxeg6XDFoi1bMoqN4m/x3fq6orj88WoItHJyeAI8K0QJtH0czrFDTkOTU+yAG2sTTJ9QjiRrwX1PrRFWOWVSpaFegjAD8mUvToNgHKbdeFND8YtaVhBEMctXQF1GNRlLsp+C6Xd3GwpkTS/tjkMpGMx4pbj7sJVYesWyccynIqYci/P9e4CU7bMbuLALR2lXo7Ptl+pUmWA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Nlv3P7J99KUKieViOL0VBR7J3msHF2UUa17ihjP92Uk=;
- b=Gl0wHwN9qIOAi4gzb5zwCxmkG0o90h/5fuyXIqy89zKGCXshkkKeGUqlQmrDP6aBPmXkxyYVJon+Lxr4ALg+ZjsePl+eXQx9kPPWdP5X/2uC3Elvka8uMGXfzk5GlLnn+77TMhH7b6/GDLzSliPH8k8QRb9jJAKKT/17nuLlWnkBNwlvXfdoXbg2mKeB0KyX+i0zZLBtu0HJPtLi6epe5odd1tZig6lckaGvVtR9Prfj1beh36WZVrFzOaFT8mVg4ennL4I+J6xpbopisMbQEUd8BXPYoD5vpIyhPFaTzx43CLxXDWxZrmAMS6qnH7V1whM8O5TuQqlzhU9jVz5N1A==
+ bh=xe9y36EMchrLIO7EjAnnYx9jChVoNl2rx54CyN+QAW0=;
+ b=WI4fN6/WU5QiIV6txJliA5CNRU1H8wsXgkc0FcVxceTJEsKVpGUxqbw7G7a/KEaOQc+eARluHW9xSO2meyOuBbGA5e+YVsET9nPir8fwTzT97yoMCwZT32z6YeAkhYTjGYZ8ZUaoEji2trdpY6IDMXNsrYqJK9yGcNY8cd1ik2a9Ho4oSxKyitOCFtyNY2qNXXPQ/oT/b9SHNpkbQPU7F09jZ63hpA9ewBZCUl2Xa65sKrKOm4rtr08LtxrUpSteiIi/Ki13YmdRd5FGx3ddIIN6B1+gEs+QF412yUjUN7YpZo/AIw3J+MIhqjHU0LNDJMzN6YTFn7JCZcOSFYC8Iw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Nlv3P7J99KUKieViOL0VBR7J3msHF2UUa17ihjP92Uk=;
- b=D1632fpdCYyFyKSFf0LasY1NvdBzXc311kiKG4BTzM7jNVXumhgf+iHC61vAJE5ltFlGnWLDdClu27D+uSJbd27gk7QYeVHmWTpgldONBU3u0WU2vxrMTETtfBb6sRkZgSfWKnTh37cxWP7YK57/Y+fJiYghjiVKbYJj2qxkCUw=
-Received: from PH8PR12MB7279.namprd12.prod.outlook.com (2603:10b6:510:221::10)
- by DM8PR12MB5397.namprd12.prod.outlook.com (2603:10b6:8:38::6) with
+ bh=xe9y36EMchrLIO7EjAnnYx9jChVoNl2rx54CyN+QAW0=;
+ b=xJZlYcmTd5OAZwphXVHUb2lIjUzPD9sXxe9DynAQibYtmLbmZ1I76C2IFF/DdzvRogXMidl4s8DnQqaRfqIqaEcmsLeC/Cejg/5NALEwFkgfKIwFcJhqnIlWYgegqDN0j5t/P0IeC/gRg2YkpTKQEzbLdf9UqFgQXmfAd0/f4Ao=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM4PR12MB6280.namprd12.prod.outlook.com (2603:10b6:8:a2::11) by
+ DM4PR12MB5040.namprd12.prod.outlook.com (2603:10b6:5:38b::19) with
  Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6933.22; Fri, 27 Oct 2023 15:51:08 +0000
-Received: from PH8PR12MB7279.namprd12.prod.outlook.com
- ([fe80::4c4d:fe66:2403:1b86]) by PH8PR12MB7279.namprd12.prod.outlook.com
- ([fe80::4c4d:fe66:2403:1b86%4]) with mapi id 15.20.6907.032; Fri, 27 Oct 2023
- 15:51:07 +0000
-From: "Lakha, Bhawanpreet" <Bhawanpreet.Lakha@amd.com>
-To: Yuran Pereira <yuran.pereira@hotmail.com>, "airlied@gmail.com"
- <airlied@gmail.com>
+ 15.20.6933.22; Fri, 27 Oct 2023 15:53:10 +0000
+Received: from DM4PR12MB6280.namprd12.prod.outlook.com
+ ([fe80::5588:7117:d54e:9466]) by DM4PR12MB6280.namprd12.prod.outlook.com
+ ([fe80::5588:7117:d54e:9466%7]) with mapi id 15.20.6933.024; Fri, 27 Oct 2023
+ 15:53:10 +0000
+Message-ID: <dc2242cd-6522-4073-b376-edc2a9abc3d9@amd.com>
+Date: Fri, 27 Oct 2023 11:53:06 -0400
+User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH] drm/amdgpu: Fixes uninitialized variable usage in
  amdgpu_dm_setup_replay
-Thread-Topic: [PATCH] drm/amdgpu: Fixes uninitialized variable usage in
- amdgpu_dm_setup_replay
-Thread-Index: AQHaCFMIiCH2+6zK2kijRBI/zx7TwrBdyV4t
-Date: Fri, 27 Oct 2023 15:51:07 +0000
-Message-ID: <PH8PR12MB727973C99E57A5B03D058D87F9DCA@PH8PR12MB7279.namprd12.prod.outlook.com>
+Content-Language: en-US
+To: Yuran Pereira <yuran.pereira@hotmail.com>, airlied@gmail.com
 References: <DB3PR10MB683590457246A6625BAA6102E8DDA@DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM>
+From: Hamza Mahfooz <hamza.mahfooz@amd.com>
 In-Reply-To: <DB3PR10MB683590457246A6625BAA6102E8DDA@DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM>
-Accept-Language: en-CA, en-US
-Content-Language: en-CA
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_Enabled=True;
- MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
- MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_SetDate=2023-10-27T15:51:06.501Z;
- MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_Name=General;
- MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_ContentBits=0;
- MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_Method=Standard; 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PH8PR12MB7279:EE_|DM8PR12MB5397:EE_
-x-ms-office365-filtering-correlation-id: d3cd5566-8b98-4d91-d304-08dbd70488bf
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: blyCe+Hmv9rfVxrw6wIkJtlmGQeQudQ9tkZWDBWD8DlBJqkN8SOF2yER7EBJw6Jz3R5r3mh9+/0V5rIvTe/GGXqV75yc4fYbyW3t4r0ptsI5JpFBzaHdMQoSXIHSjDwxL3UsCn7k4wVH/2rgtDk59tlWo81hHMe2Vt6hUuw7moY/luOgVB1xXSQGOVoPjSPwxhTEm2mYtFqBd0s/jJ8wToZXN+RFHAfh0TRGZ44B3EoSt9WvUdlOf4gEnsH84z7GautiYbU8TrV6JlLO7UfakFIBKNj6Llk7Ts3PnNFTc/axPr20lJCyKvx2aPxVnfjxC0EYLcvIRymqrX/dwQ5VXeFl/V6Mue75zT5iNU/dlGHcvKlXqO3bv1ZzDQKGaqr+0rLoUY4DixydpHrfs6pSO6Jzxv+dt9m5jCFuCsYTNjiBNLHQfI4yKKu+QiuI52tr5qyY8Jx4bhm7yW+mXObN4Adzw0ApHjC0Z2yZQ9adxANo/bojCCj6NMOD9O+Pv/wmbTaSzKQ+M80yKb7LhvSyNRrFgpV43cvXFitOnjx+yld7pbA6xOf00U5hySWUnKSVcc9bVFYq8burzgZ2G8LRQIy2NcNLt1bikqPBP2IS78iGr2V3RrqXRn7+oeys8NZL
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH8PR12MB7279.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(376002)(396003)(366004)(136003)(346002)(39860400002)(230922051799003)(186009)(64100799003)(451199024)(1800799009)(38070700009)(91956017)(53546011)(9686003)(19627405001)(76116006)(66476007)(66946007)(66556008)(54906003)(316002)(110136005)(64756008)(71200400001)(478600001)(66446008)(6506007)(7696005)(45080400002)(55016003)(26005)(8936002)(8676002)(4326008)(52536014)(2906002)(86362001)(41300700001)(122000001)(38100700002)(5660300002)(33656002);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?zsrCtbiba2vRp4z0uK4y3ifYMOi7lE8sTpj7WunxGJRT2lDBvEdIeyCReH?=
- =?iso-8859-1?Q?hctLFDDaUL1r/k/D+R5q3jVBkVRXTl/KrEkgIGNZpRq8rlcResUIMlPQvT?=
- =?iso-8859-1?Q?184DBPuXGn9KNHQpf+ZKQuZGPHqXqG1b2CBvQJk+xtQ6lcvVs1Lg1O37Zk?=
- =?iso-8859-1?Q?l/4wH7sI+bsB3WYDZXUhhac5v6khMmJ1oUIV8CZ7mPUDzPeSVdfzYVrzUd?=
- =?iso-8859-1?Q?2ofo4I7Bb8qZ2h12erlEYztqDINZqAHyFSgXsi72WaFbuMHROQJsOr4/TF?=
- =?iso-8859-1?Q?gK0Pe7d/i9b5pkcq6B368qkLtzRhs/ht2/jxGIWE3klj7IAevWUwMxWv0X?=
- =?iso-8859-1?Q?Qg+UInHl814b0o2TRTMMFvnuqInCrNLB19Rzc1UKAONI8JahlSKqkaY2BS?=
- =?iso-8859-1?Q?kUSihnzS3MVQmkyYD8MnwMrcP3tqzkeS3PgO3mEbLUqvB3lJdztw2QiGf8?=
- =?iso-8859-1?Q?Nod9NyaNhs+bcPWu91hIFioHeKchMUfQhB5umZfW0p4KUYWMhMf/6YEQty?=
- =?iso-8859-1?Q?GD6oO7ZwWvrAJOS/ye+hkS2MfZH6JI5Aj+VqsCXPeihDCO2WTJq0Pe3FqM?=
- =?iso-8859-1?Q?JWDePEvFIcyDVlngB1ROf1s2oTF52S7BmNptjWJG6oHfxyi0rfxOYiOjgb?=
- =?iso-8859-1?Q?/6V69aejNqv9OOL4jw1sTt14pPZWhXJ3iDqda6k9Da3TgUJ3hkQTeNXlqH?=
- =?iso-8859-1?Q?3h6/8odYnh09k7gWjEWR9IzjxZnXs7lSNII83SccgP5aDmdHMj2UmbmocC?=
- =?iso-8859-1?Q?rR01NDDty8ql9AMEqCNo0hHovGp90uylX5gPiLQVzOFTMNXMtmaa5StLsK?=
- =?iso-8859-1?Q?9MiCjCU1TIIeVGkJsXBuuAfnS22B2QU2hRoo+ucEaMuKjb4E6z1s2ypRW+?=
- =?iso-8859-1?Q?TspdNrvEvo4AkdhrJTk3tZrRJfnM5d4CBQKwCWerVkSYdv2q8iLrgAZgIv?=
- =?iso-8859-1?Q?TuIvMwnteHo7AcvkafNOAPyMBFrB50V63/PD2Xh0vhWj9TnYB9EYnC36Tm?=
- =?iso-8859-1?Q?u6kzuNocqJIzextpZeCGuSTjQ4NOh7b8sb+ynx047F4IXoRnXLXIKruB4J?=
- =?iso-8859-1?Q?Q8Kf0Hj6OmFBTj4RUvMOWrm8SlMyQ6rfslth9Olhn3GlN/6jMy8v0aoEUV?=
- =?iso-8859-1?Q?8X5i017sfeyYRDHphKgTiGfFglaUl6maNkWnGp0mpbEnas8SHY6A+T4zFx?=
- =?iso-8859-1?Q?4dMVE526pUMl90YejkedbP0Oqgt0DwACTVTZ88WURSikuam7vHJ84B8cWO?=
- =?iso-8859-1?Q?lK1iac1psi+LRuqMtYrzbrgw73X/BwWKqJfpARxTn1CTzLTi0WL+ZxEh7d?=
- =?iso-8859-1?Q?GthspMT6fJpjXGR2vm31KTQUQvJScw0jDydgUXZJHTvsAVcgLunn3vxTsl?=
- =?iso-8859-1?Q?A8UTCOuIc4YCDKCrYSJTHY9X8otpXvDKHNx98wX6FvrtdqILMfHCzrohjK?=
- =?iso-8859-1?Q?Fq7xugz57cVJRakseDGv+8L5ksp0msw8LB+ykQg30l/G+WwLV38aCJL6v8?=
- =?iso-8859-1?Q?FWgz8GVJ/QywPGVzRZk5Piu+ct421sKMios2ZJpi4HpyqdiDa9HZIQDQFN?=
- =?iso-8859-1?Q?oz25eEHqiijNjGB9GRDKo0yDQ0+ZCDyBSdmAK6doQAyaTKTRw5Wt8gf7F9?=
- =?iso-8859-1?Q?RP5hPSfLRrXa8=3D?=
-Content-Type: multipart/alternative;
- boundary="_000_PH8PR12MB727973C99E57A5B03D058D87F9DCAPH8PR12MB7279namp_"
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: YQBPR0101CA0284.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:6d::23) To DM4PR12MB6280.namprd12.prod.outlook.com
+ (2603:10b6:8:a2::11)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR12MB6280:EE_|DM4PR12MB5040:EE_
+X-MS-Office365-Filtering-Correlation-Id: 07cd3b2c-68d2-4a22-a274-08dbd704d1f1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 0u4vtD6QYLlM5btVjMeie0hD9gIlu8T5YLCYJ6J6t2e1qeFNAq7EjjtB42oC7kyM3GhTGz2ppNQnIuBFT3zhxyzInD/0K6xNEjgUJELQE2tuuJnivREsZTfnNEHKWXOP3QPV7+Su9OUGBPUr0C3SWNLsEShjrXL0yg4s+9MaJkoQuzNjiyHVzhpvM7/TmI2NjgvsBHWILBHif4itFkhBdS/v0Gw9o374dUyOD8H4aGOpYTMSHmfAOSgDGV53TenYhaksbGiaryoCuItdog7i01shsBhL7+4XxRAFnGAdamA8dXf5demCPgsEigFMI9BMB3Fi228ScGe0JwKb63SjhPKw499H7pQT7urZ6JI9k0q/cEvNAbX88kwuALtzY6HEwCv7EubJkVvOzzMii25lehnuOd8y/PemHojqEHwSSnxYRE5OFbYRKYrdiVjhOwU8tVfGVh/KxL423os+pI5rvKmFA5hRQgZZDtcG85ROF1tHvcqCli82JynemagrF+5RzU0Xm2qz0M1oMrfYXsOxOYH2yNZq5J8FZCnDnF3O4j2d52h0mI4SwhqLQHkLNWftABf6uazFvEyQXyjcu/CP6cRZicLUNF6bf0ZvwDop1NNJqBIfUqPSbmflhIibDGeIt83rMjvFHO/G4DPzGYKdYA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR12MB6280.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(366004)(346002)(136003)(396003)(39860400002)(376002)(230922051799003)(451199024)(64100799003)(186009)(1800799009)(36756003)(44832011)(41300700001)(4326008)(5660300002)(86362001)(2906002)(8676002)(31696002)(38100700002)(478600001)(6486002)(31686004)(6512007)(2616005)(316002)(6666004)(45080400002)(53546011)(66476007)(26005)(8936002)(66556008)(6506007)(66946007)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RlkxN24wQkg1b1NBYmpBdG13VDMzVTlsc0RNUldKY0lPUWd1YkFLbFdDWjZx?=
+ =?utf-8?B?c3R1ZE1Vci8ySjlwRmtJUk5sb2s1OWdUS3lRUkNvaDc3b01LWGlwM3BWZWxz?=
+ =?utf-8?B?dEpBQTdUOU5lRnBUL0IzOFcxQlhqMmNMUDBKTFZqeTFtUE55aitRd1JXQnlE?=
+ =?utf-8?B?OHhlTXV0S0EyNGJ4dHFmYXVHU0N6a21LK3pNUFgrTkJ1VlBkT292VDhWUXhC?=
+ =?utf-8?B?WnZpdWpId0pVOENuODdxSlorKy93QzhWdGthREVnbkxkVEVNTjRaY0JxMTFG?=
+ =?utf-8?B?ckxvaTNTUXBDeTAyWlM0U0ZtK3NIa1RDa2tCdTRBdkhzcklaTHRENTdIaWJE?=
+ =?utf-8?B?RmlsamdDd21YSXR1K3Y2ZVdiajZVWkdjK1RzRHlReUNaWkhSRnViUUF6aGdi?=
+ =?utf-8?B?VEYyV1JBT3FkZzhKSnNZSzd5QzFkSDVOcEg1RythR3FLeDVlYndoNFNUNURz?=
+ =?utf-8?B?RFBtYyt3ZmY0Q3ZIMHJFdERlUnBhcGxlZjRFRitVdzc4RVg3MWErWkNiV2dN?=
+ =?utf-8?B?aU1zaWMzKzU4YTUrT3ZIRDQrczBkQ0tYRVczZUJTbGpIOGFlR2RXMWVSYVF6?=
+ =?utf-8?B?YXRVWXVGUEREWDdRS2laQTZPMWo3eGpRV0owdkdwRVFPYU9kQ2QxdVBablNG?=
+ =?utf-8?B?QVVYd3NjSTBXUTJnSVJSYjM4ZndnNm9xZEN2NmtYVnRQT2piTkpJMmYybEI3?=
+ =?utf-8?B?dVBya2RQRjZuMkEzd0ZuY3pJWktxWDArR01uaGtNWnFVV2JZOGtwSi9pTUYr?=
+ =?utf-8?B?c0doMFN1b2FINkt0MnJwRVhmUE44SEdNZEFOM1prNnVDUGxkNXI0TGlOYzJP?=
+ =?utf-8?B?d3RaWHhCYTN0UDhnVW1aUUQwU1ZlTjFoUWd1Q244bWpnUWhMcHBab3dNYWRy?=
+ =?utf-8?B?aitVUXh3RCsxOHJPcmVPMUc2TGRoMnVuTnJFRlJUcE04MzJTcVdRd3VDVURT?=
+ =?utf-8?B?MlhsZEVRa04zZHM5UGczRjNFQW85UjNxZ1NrZFY0MFB0UHozU0JBVlgwT2I1?=
+ =?utf-8?B?dlpsVG1KZ2dSS2UzZU9MYVY5dkFnbCtlTTVGSUZiM1UxOWhWWmNnSGFTQWV6?=
+ =?utf-8?B?bHdYSmEzNVBmc3JWcjkyOXRjcEx1azVYSHhwNHVPMElRbWw5L0JUdjcydTYz?=
+ =?utf-8?B?ZzNNOW5oOG5yOHA1TVp5MTlZOFc4M3lKdHpuVThrZ1hiWVZnZXl0MnlmWldy?=
+ =?utf-8?B?dmtGbWx4clVSVlpBRDVjY0xPeUdOS3JvYSs0MEZGMHVjSG5wQXBnZHBKUllI?=
+ =?utf-8?B?cWdTQ2pvbnJ0QkZuZC9mRmRjbHU3Q0grRjU2ZU1DYTdFZjc5WmExQmZkQUNV?=
+ =?utf-8?B?bWhaOGU2R3ZMajZzZk5GVXNDVkdXN2VJeUxlYzFsajNNVnlMcGUzcWRWUW83?=
+ =?utf-8?B?c1FHRjVJcnB2TkNvd3lwd3IzUTYzbTBkd1NCYStWVFZjVXFNWUJicDBNZmd0?=
+ =?utf-8?B?dGU3OEp3ZTZhbllGZEJvb2NRb1VMbDBRaCtKVFhvdEdicnk0ZytlZmtaY3pq?=
+ =?utf-8?B?WTRoS1cwZDhQZkdnMjN5bytMZzJMb2JLS3ZUdjBteWR1NGdHTnA2QXRwdUNU?=
+ =?utf-8?B?NDA3OXl2V25BT0pQeTNTQ2lWNFlIeGpmU1BIZHVJNmNJOHdHZHpmOFpCY0hU?=
+ =?utf-8?B?MDZnZ3hhOFg0VFFEdTZtREthY3FjeTR3eWQvSG8wbEtZSVpteFZYaU1qNHNw?=
+ =?utf-8?B?cDNDT3BFSVNpSmVtaVEwR2QydHAxMnpWZU9aYzljMlE5NmJnQkw5ZUg0eE9Z?=
+ =?utf-8?B?QXBpbDM0Z1R6YW9YcEM5VDl0MkZPaTJ0UGNST1lQcjJVL2lHaWsxcDQ1RkJ1?=
+ =?utf-8?B?Skxrbis5Zno4VWNpVmlLZGlPcHZvbm1kZkFlVVZqNHhGZ1FiYTh1a25jY0NV?=
+ =?utf-8?B?Tkw1OG43azFTdVl5Z24zYU9kM3A2MDJjc1Npa2MreGhxakFCRDluVlZKUnJG?=
+ =?utf-8?B?WXN5YXloK0JMd3JlMkpGVVZXbzhYTENjVEZKYS9uVDRoUFl1STNaRVJ6SHMz?=
+ =?utf-8?B?QmhNMEJPMllpWk5MQnRyK2g0SDh6THlKSDBJREhIeXBHb1hZS1JvelpCakg0?=
+ =?utf-8?B?dG1TbXJEZlhGcllDVzh5UjJ3NTMyR281ZlR3SndpZnJBUHdOb1pYeUJJM0Z6?=
+ =?utf-8?Q?mlwORh1f5ExlIlH5Ozmm8/4c5?=
 X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 07cd3b2c-68d2-4a22-a274-08dbd704d1f1
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB6280.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PH8PR12MB7279.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d3cd5566-8b98-4d91-d304-08dbd70488bf
-X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Oct 2023 15:51:07.6865 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: /D9kQFNJlo19li3/HCzmvb92PopLkSfZrTYhE/qie7e1EWMAxUXRg+lUeJ9eK1zf
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM8PR12MB5397
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Oct 2023 15:53:10.6879 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: EINl7dFwgDZgGX+O9NlyKObMjv6klMHP+Am758dw9lcWbNS7UtiGN29DZCXauwmv4yF2SnzOBN7HXm6+gDzH0g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5040
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,227 +125,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Li, Sun peng \(Leo\)" <Sunpeng.Li@amd.com>,
- "linux-kernel-mentees@lists.linuxfoundation.org"
- <linux-kernel-mentees@lists.linuxfoundation.org>, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, "Siqueira, Rodrigo" <Rodrigo.Siqueira@amd.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Deucher,
- Alexander" <Alexander.Deucher@amd.com>, "Koenig,
- Christian" <Christian.Koenig@amd.com>
+Cc: sunpeng.li@amd.com, linux-kernel-mentees@lists.linuxfoundation.org,
+ Xinhui.Pan@amd.com, Rodrigo.Siqueira@amd.com, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ alexander.deucher@amd.com, Bhawanpreet.Lakha@amd.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---_000_PH8PR12MB727973C99E57A5B03D058D87F9DCAPH8PR12MB7279namp_
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+On 10/26/23 17:25, Yuran Pereira wrote:
+> Since `pr_config` is not initialized after its declaration, the
+> following operations with `replay_enable_option` may be performed
+> when `replay_enable_option` is holding junk values which could
+> possibly lead to undefined behaviour
+> 
+> ```
+>      ...
+>      pr_config.replay_enable_option |= pr_enable_option_static_screen;
+>      ...
+> 
+>      if (!pr_config.replay_timing_sync_supported)
+>          pr_config.replay_enable_option &= ~pr_enable_option_general_ui;
+>      ...
+> ```
+> 
+> This patch initializes `pr_config` after its declaration to ensure that
+> it doesn't contain junk data, and prevent any undefined behaviour
+> 
+> Addresses-Coverity-ID: 1544428 ("Uninitialized scalar variable")
+> Fixes: dede1fea4460 ("drm/amd/display: Add Freesync Panel DM code")
+> Signed-off-by: Yuran Pereira <yuran.pereira@hotmail.com>
+> ---
+>   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_replay.c | 3 +++
+>   1 file changed, 3 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_replay.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_replay.c
+> index 32d3086c4cb7..40526507f50b 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_replay.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_replay.c
+> @@ -23,6 +23,7 @@
+>    *
+>    */
+>   
+> +#include <linux/string.h>
+>   #include "amdgpu_dm_replay.h"
+>   #include "dc.h"
+>   #include "dm_helpers.h"
+> @@ -74,6 +75,8 @@ bool amdgpu_dm_setup_replay(struct dc_link *link, struct amdgpu_dm_connector *ac
+>   	struct replay_config pr_config;
 
-[AMD Official Use Only - General]
+I would prefer setting pr_config = {0};
 
-Thanks,
+>   	union replay_debug_flags *debug_flags = NULL;
+>   
+> +	memset(&pr_config, 0, sizeof(pr_config));
+> +
+>   	// For eDP, if Replay is supported, return true to skip checks
+>   	if (link->replay_settings.config.replay_supported)
+>   		return true;
+-- 
+Hamza
 
-Reviewed-by: Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>
-
-________________________________
-From: Yuran Pereira <yuran.pereira@hotmail.com>
-Sent: October 26, 2023 5:25 PM
-To: airlied@gmail.com <airlied@gmail.com>
-Cc: Yuran Pereira <yuran.pereira@hotmail.com>; Wentland, Harry <Harry.Wentl=
-and@amd.com>; Li, Sun peng (Leo) <Sunpeng.Li@amd.com>; Siqueira, Rodrigo <R=
-odrigo.Siqueira@amd.com>; Deucher, Alexander <Alexander.Deucher@amd.com>; K=
-oenig, Christian <Christian.Koenig@amd.com>; Pan, Xinhui <Xinhui.Pan@amd.co=
-m>; daniel@ffwll.ch <daniel@ffwll.ch>; Lakha, Bhawanpreet <Bhawanpreet.Lakh=
-a@amd.com>; amd-gfx@lists.freedesktop.org <amd-gfx@lists.freedesktop.org>; =
-dri-devel@lists.freedesktop.org <dri-devel@lists.freedesktop.org>; linux-ke=
-rnel@vger.kernel.org <linux-kernel@vger.kernel.org>; linux-kernel-mentees@l=
-ists.linuxfoundation.org <linux-kernel-mentees@lists.linuxfoundation.org>
-Subject: [PATCH] drm/amdgpu: Fixes uninitialized variable usage in amdgpu_d=
-m_setup_replay
-
-Since `pr_config` is not initialized after its declaration, the
-following operations with `replay_enable_option` may be performed
-when `replay_enable_option` is holding junk values which could
-possibly lead to undefined behaviour
-
-```
-    ...
-    pr_config.replay_enable_option |=3D pr_enable_option_static_screen;
-    ...
-
-    if (!pr_config.replay_timing_sync_supported)
-        pr_config.replay_enable_option &=3D ~pr_enable_option_general_ui;
-    ...
-```
-
-This patch initializes `pr_config` after its declaration to ensure that
-it doesn't contain junk data, and prevent any undefined behaviour
-
-Addresses-Coverity-ID: 1544428 ("Uninitialized scalar variable")
-Fixes: dede1fea4460 ("drm/amd/display: Add Freesync Panel DM code")
-Signed-off-by: Yuran Pereira <yuran.pereira@hotmail.com>
----
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_replay.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_replay.c b/dri=
-vers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_replay.c
-index 32d3086c4cb7..40526507f50b 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_replay.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_replay.c
-@@ -23,6 +23,7 @@
-  *
-  */
-
-+#include <linux/string.h>
- #include "amdgpu_dm_replay.h"
- #include "dc.h"
- #include "dm_helpers.h"
-@@ -74,6 +75,8 @@ bool amdgpu_dm_setup_replay(struct dc_link *link, struct =
-amdgpu_dm_connector *ac
-         struct replay_config pr_config;
-         union replay_debug_flags *debug_flags =3D NULL;
-
-+       memset(&pr_config, 0, sizeof(pr_config));
-+
-         // For eDP, if Replay is supported, return true to skip checks
-         if (link->replay_settings.config.replay_supported)
-                 return true;
---
-2.25.1
-
-
---_000_PH8PR12MB727973C99E57A5B03D058D87F9DCAPH8PR12MB7279namp_
-Content-Type: text/html; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
-1">
-<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
-ttom:0;} </style>
-</head>
-<body dir=3D"ltr">
-<p style=3D"font-family:Arial;font-size:10pt;color:#0000FF;margin:5pt;font-=
-style:normal;font-weight:normal;text-decoration:none;" align=3D"Left">
-[AMD Official Use Only - General]<br>
-</p>
-<br>
-<div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);" clas=
-s=3D"elementToProof">
-<span style=3D"font-family: &quot;Segoe UI&quot;, &quot;Segoe UI Web (West =
-European)&quot;, &quot;Helvetica Neue&quot;, sans-serif; font-size: 11pt;">=
-Thanks,</span></div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);" clas=
-s=3D"elementToProof">
-<br>
-</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);" clas=
-s=3D"elementToProof ContentPasted1 ContentPasted3">
-<span style=3D"font-family: &quot;Segoe UI&quot;, &quot;Segoe UI Web (West =
-European)&quot;, &quot;Helvetica Neue&quot;, sans-serif; font-size: 11pt;">=
-Reviewed-by: Bhawanpreet Lakha &lt;Bhawanpreet.Lakha@amd.com&gt;</span><br>
-</div>
-<div id=3D"appendonsend"></div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);">
-<br>
-</div>
-<hr tabindex=3D"-1" style=3D"display:inline-block; width:98%">
-<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
-yle=3D"font-size: 11pt; color: rgb(0, 0, 0);"><b>From:</b> Yuran Pereira &l=
-t;yuran.pereira@hotmail.com&gt;<br>
-<b>Sent:</b> October 26, 2023 5:25 PM<br>
-<b>To:</b> airlied@gmail.com &lt;airlied@gmail.com&gt;<br>
-<b>Cc:</b> Yuran Pereira &lt;yuran.pereira@hotmail.com&gt;; Wentland, Harry=
- &lt;Harry.Wentland@amd.com&gt;; Li, Sun peng (Leo) &lt;Sunpeng.Li@amd.com&=
-gt;; Siqueira, Rodrigo &lt;Rodrigo.Siqueira@amd.com&gt;; Deucher, Alexander=
- &lt;Alexander.Deucher@amd.com&gt;; Koenig, Christian &lt;Christian.Koenig@=
-amd.com&gt;;
- Pan, Xinhui &lt;Xinhui.Pan@amd.com&gt;; daniel@ffwll.ch &lt;daniel@ffwll.c=
-h&gt;; Lakha, Bhawanpreet &lt;Bhawanpreet.Lakha@amd.com&gt;; amd-gfx@lists.=
-freedesktop.org &lt;amd-gfx@lists.freedesktop.org&gt;; dri-devel@lists.free=
-desktop.org &lt;dri-devel@lists.freedesktop.org&gt;; linux-kernel@vger.kern=
-el.org
- &lt;linux-kernel@vger.kernel.org&gt;; linux-kernel-mentees@lists.linuxfoun=
-dation.org &lt;linux-kernel-mentees@lists.linuxfoundation.org&gt;<br>
-<b>Subject:</b> [PATCH] drm/amdgpu: Fixes uninitialized variable usage in a=
-mdgpu_dm_setup_replay</font>
-<div>&nbsp;</div>
-</div>
-<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt"=
->
-<div class=3D"PlainText">Since `pr_config` is not initialized after its dec=
-laration, the<br>
-following operations with `replay_enable_option` may be performed<br>
-when `replay_enable_option` is holding junk values which could<br>
-possibly lead to undefined behaviour<br>
-<br>
-```<br>
-&nbsp;&nbsp;&nbsp; ...<br>
-&nbsp;&nbsp;&nbsp; pr_config.replay_enable_option |=3D pr_enable_option_sta=
-tic_screen;<br>
-&nbsp;&nbsp;&nbsp; ...<br>
-<br>
-&nbsp;&nbsp;&nbsp; if (!pr_config.replay_timing_sync_supported)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pr_config.replay_enable_option &=
-amp;=3D ~pr_enable_option_general_ui;<br>
-&nbsp;&nbsp;&nbsp; ...<br>
-```<br>
-<br>
-This patch initializes `pr_config` after its declaration to ensure that<br>
-it doesn't contain junk data, and prevent any undefined behaviour<br>
-<br>
-Addresses-Coverity-ID: 1544428 (&quot;Uninitialized scalar variable&quot;)<=
-br>
-Fixes: dede1fea4460 (&quot;drm/amd/display: Add Freesync Panel DM code&quot=
-;)<br>
-Signed-off-by: Yuran Pereira &lt;yuran.pereira@hotmail.com&gt;<br>
----<br>
-&nbsp;drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_replay.c | 3 +++<br>
-&nbsp;1 file changed, 3 insertions(+)<br>
-<br>
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_replay.c b/dri=
-vers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_replay.c<br>
-index 32d3086c4cb7..40526507f50b 100644<br>
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_replay.c<br>
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_replay.c<br>
-@@ -23,6 +23,7 @@<br>
-&nbsp; *<br>
-&nbsp; */<br>
-&nbsp;<br>
-+#include &lt;linux/string.h&gt;<br>
-&nbsp;#include &quot;amdgpu_dm_replay.h&quot;<br>
-&nbsp;#include &quot;dc.h&quot;<br>
-&nbsp;#include &quot;dm_helpers.h&quot;<br>
-@@ -74,6 +75,8 @@ bool amdgpu_dm_setup_replay(struct dc_link *link, struct =
-amdgpu_dm_connector *ac<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; struct replay_config pr_co=
-nfig;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; union replay_debug_flags *=
-debug_flags =3D NULL;<br>
-&nbsp;<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; memset(&amp;pr_config, 0, sizeof(pr_c=
-onfig));<br>
-+<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // For eDP, if Replay is s=
-upported, return true to skip checks<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (link-&gt;replay_settin=
-gs.config.replay_supported)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp; return true;<br>
--- <br>
-2.25.1<br>
-<br>
-</div>
-</span></font></div>
-</div>
-</body>
-</html>
-
---_000_PH8PR12MB727973C99E57A5B03D058D87F9DCAPH8PR12MB7279namp_--
