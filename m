@@ -1,62 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9F5A7D98B5
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Oct 2023 14:43:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CE787D98BD
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Oct 2023 14:44:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 929BF10E0D6;
-	Fri, 27 Oct 2023 12:43:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 09FD010E9A1;
+	Fri, 27 Oct 2023 12:44:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com
- [IPv6:2a00:1450:4864:20::233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D2E5410E9A1
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Oct 2023 12:43:53 +0000 (UTC)
-Received: by mail-lj1-x233.google.com with SMTP id
- 38308e7fff4ca-2c594196344so30181341fa.3
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Oct 2023 05:43:53 -0700 (PDT)
+Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com
+ [IPv6:2a00:1450:4864:20::236])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9582610E9A2
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Oct 2023 12:44:27 +0000 (UTC)
+Received: by mail-lj1-x236.google.com with SMTP id
+ 38308e7fff4ca-2c504a5e1deso32705941fa.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Oct 2023 05:44:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1698410632; x=1699015432; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1698410666; x=1699015466; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=Y/2WBVQskAZL/ZnL07uvUlUtqe/GgmrTi4LkbbyTYsM=;
- b=jF5aWlKxrzgf3Msg5IdhqECf4OczV51xhfmccfdlhPbhKLDErDfQTaQMMFhJi3ceem
- pQKzf8zFcnd1btUT8vJR56T4iGUiurf55WmIlDck9wQaYDbM113YzuZ5Q1hk77Y3361d
- +miQTbaZBbMTQJTj9wNFBLn2g2RYtxTLN2HD/LP7gA2UmYf3JT3L5tOcR0fZDvXKgWoo
- tdJ6PTKEpvCyRNF4I7uAWFrTHHWUUw0bB2qIzaBBVjhgYsFG8nFFgnPrt6jnqLYIlSx/
- uZx8SbUUnlqTIOcJOj3SSBEIDeGrqZjXv3NQf8axKZ88szQ1ngK/Qnzs8TaYo3g/HsHg
- 24tQ==
+ bh=lsT9S2hpmqi+HKwmlZPo+n/GTFRXcyFxJ1tXHlA5H1M=;
+ b=pyqsqIQ4iSBYVn12SfrffloW2CWBTTWbkZiVLaBgYMjSsDKi7qtpyGpr1PC1n3dcie
+ S0XwkSa/e6si7JdvQWLtbTO5n9lumBO9VWqqTuQa/NdpjzmKVnN9iXZ3GUVhp95bz50f
+ 1qKHddREotfLfkT2HWDAtJML6vWFGF9AXLWRi6tL7puW+j+IbuhWqjqTrOzxcSI7DZcG
+ lpFE+ImFjN7OdPkhZ2/a/CQGRWvwA59SS7j0lxYMoAwnZBb5mvmkTNaRhmJhBror2xef
+ 2xv5B5BUdHTVUHdiWbgFLhHss4+m9kEJR2L8CkvotbcufBuS6Z1Mm8SDKgaPvC1SmnDO
+ EvCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1698410632; x=1699015432;
+ d=1e100.net; s=20230601; t=1698410666; x=1699015466;
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Y/2WBVQskAZL/ZnL07uvUlUtqe/GgmrTi4LkbbyTYsM=;
- b=s2IClLGP8EXz6cJFLH0fAMvVnMaN4GuJoIuR+0iC0kmIWC7fyraIXlT4ozmtWa+/dA
- 1R+o9Ap08G9VfKeBF7St3XsyWvmrU0FV4omU+7U66pcrx7W/3aSUeIAemz40K88Yq4ti
- ADqOxAMVvMjMCITMCSYme84BF8P4ApwTQNANz/ZiUfKRoX9HySCjXAalhfFTNgMjnKUH
- dGpqxg1RB/BwH4F4HZbZ+gCvFatyr0tIx5VROJ7sHUroPrbGh9M52jjeg04ATui2Idcz
- nPlawkAZAniT4ZI1oxm6+Bd2XBYIAE9lMtuGfuqoWLtC8/0bkXULpYofyTAcUow+N4BZ
- 6jlg==
-X-Gm-Message-State: AOJu0Yx+f47+vWdu00vuamRt837uDqAW1bEIiHP4O5FmOwob+5OlUjYh
- CSrpJBFhICVkrWJJoxI5jXeDfg==
-X-Google-Smtp-Source: AGHT+IFs8Q9M62RKXrVIBm8TUTlmpaVhnflx6w0J7Lt8qioi9eVdOPFJLBrLU/CIv0ZJjX1BKVkRuA==
-X-Received: by 2002:a2e:7e0e:0:b0:2c0:34ed:b5ea with SMTP id
- z14-20020a2e7e0e000000b002c034edb5eamr1975338ljc.45.1698410632203; 
- Fri, 27 Oct 2023 05:43:52 -0700 (PDT)
+ bh=lsT9S2hpmqi+HKwmlZPo+n/GTFRXcyFxJ1tXHlA5H1M=;
+ b=C9XfbJuHy2eXSMIMnsc8uzMRoPjsc7bKHRT/G4HgUzJbfx4O+xUERYXZ8jkBJwzvfZ
+ 7Bd5KmE0eBbQFsauiIAJQFGizAUw8uBq6sgrKlgX/d4Tua7tBZvFPI4bcn2Ygl3dNbfs
+ RYQQKU73r1LU2H0D1tZasVWUHP7i7e5gOAr5Lchdiedect8HHfAI/6DXwI9g2fAIBqZv
+ pTgmj/hRsmu/ndc0B/4KkO4EuqcgH2m/lD3R7MIeEJ3ZVGRJwvZtLEU7mpCtoOzigkMY
+ RyQ8UvY3yCL7f1fYyjcY3I2EyoI0EF0AwEwsYUJAP7D6nmgxgkI9GvqXu7Iv9iyZQESM
+ fHqw==
+X-Gm-Message-State: AOJu0YwUJFERrRjQPT24maLyr2QgQxIO9ks06CI0K1nEzGwoEbuscS66
+ VFDjK1iY1IdhVWNySjj2cL5QLg==
+X-Google-Smtp-Source: AGHT+IGaglDc6HUSSy0KpkIAV2aUhT/i9Wqb1XRjOOYiZi4nh8rq5WfM9ki4vtY0Yn5RzOiWDDN8gQ==
+X-Received: by 2002:a2e:bb86:0:b0:2b6:ea3b:f082 with SMTP id
+ y6-20020a2ebb86000000b002b6ea3bf082mr1699611lje.38.1698410665786; 
+ Fri, 27 Oct 2023 05:44:25 -0700 (PDT)
 Received: from [192.168.0.22] ([78.10.206.168])
  by smtp.gmail.com with ESMTPSA id
- z24-20020a2e3518000000b002bc3fbe9fd5sm267914ljz.55.2023.10.27.05.43.50
+ z24-20020a2e3518000000b002bc3fbe9fd5sm267914ljz.55.2023.10.27.05.44.24
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 27 Oct 2023 05:43:51 -0700 (PDT)
-Message-ID: <5c616851-4090-4ae1-97a8-bd27ca9005b4@linaro.org>
-Date: Fri, 27 Oct 2023 14:43:49 +0200
+ Fri, 27 Oct 2023 05:44:25 -0700 (PDT)
+Message-ID: <244a23af-1025-4b1e-b776-185b3dde5ae5@linaro.org>
+Date: Fri, 27 Oct 2023 14:44:24 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/8] dt-bindings: display: msm-dsi-phy-7nm: document the
- SM8650 DSI PHY
+Subject: Re: [PATCH 2/8] dt-bindings: display: msm-dsi-controller-main:
+ document the SM8650 DSI Controller
 Content-Language: en-US
 To: Neil Armstrong <neil.armstrong@linaro.org>,
  Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
@@ -70,7 +70,7 @@ To: Neil Armstrong <neil.armstrong@linaro.org>,
  Conor Dooley <conor+dt@kernel.org>, Jonathan Marek <jonathan@marek.ca>,
  Krishna Manikandan <quic_mkrishn@quicinc.com>
 References: <20231025-topic-sm8650-upstream-mdss-v1-0-bb219b8c7a51@linaro.org>
- <20231025-topic-sm8650-upstream-mdss-v1-1-bb219b8c7a51@linaro.org>
+ <20231025-topic-sm8650-upstream-mdss-v1-2-bb219b8c7a51@linaro.org>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -116,7 +116,7 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231025-topic-sm8650-upstream-mdss-v1-1-bb219b8c7a51@linaro.org>
+In-Reply-To: <20231025-topic-sm8650-upstream-mdss-v1-2-bb219b8c7a51@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -137,10 +137,11 @@ Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 25/10/2023 09:34, Neil Armstrong wrote:
-> Document the DSI PHY on the SM8650 Platform.
+On 25/10/2023 09:35, Neil Armstrong wrote:
+> Document the DSI Controller on the SM8650 Platform.
 > 
 > Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+
 
 Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
