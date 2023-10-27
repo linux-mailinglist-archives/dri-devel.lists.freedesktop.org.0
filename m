@@ -1,60 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01DFB7D971F
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Oct 2023 14:01:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 537847D985D
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Oct 2023 14:34:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F37AC10E981;
-	Fri, 27 Oct 2023 12:01:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA07F10E99D;
+	Fri, 27 Oct 2023 12:34:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com
- [IPv6:2a00:1450:4864:20::233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F45010E980;
- Fri, 27 Oct 2023 12:01:18 +0000 (UTC)
-Received: by mail-lj1-x233.google.com with SMTP id
- 38308e7fff4ca-2c5720a321aso26387221fa.1; 
- Fri, 27 Oct 2023 05:01:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1698408077; x=1699012877; darn=lists.freedesktop.org;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=Z7vMndX83Gr3k0OCwC8Ax9DA5eeWz4Cl6qUwV1M5lwA=;
- b=hQ94dbV0odRkXk3YZgYRaw1hxlrNZKJ6IFdboJePqmXT2TbhynBYZQu8tWbB2eZ+7g
- Vfhqv1/qwJIDplNgZN6iOXrYf7c9fE+Us9q22q/cLiQKblXsQmSekCciEGpOgPJL1pl7
- 37N2VHz7AF6yuwcDgXJunWTSdZbTlgkDzPLXlzHLQiyO8JnQC3d++CJFPslcwaKSNmBN
- l+GvZzqK9vDLACljU70NGJvjg/RG1pXoE7vcninG8+zAVXWA+2G25mBAJ7UG2tRZfey8
- yB4rRit4WIBLkZRy+tvDEnbSMq6PhbK/3LVNmbe9mVzQSTJUiKkH0N2e/pmSNpw3HZB/
- olVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1698408077; x=1699012877;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Z7vMndX83Gr3k0OCwC8Ax9DA5eeWz4Cl6qUwV1M5lwA=;
- b=bwTvTjBIfLaUCW0CyRIonN/SyCEYD7FTTmKtYw+pK8JOPJgGfewRn+dTTsSkTzWSnL
- 9OlThMjjym+a8Hs7c4FsvsefETum2Y5yqqg48eBo7KCnIiRDnMDevOCGf6phzNbvEJ7T
- jXkhfR6zbI056kAWXCVdIITqZLnGzMXZIYwqmZv0or/1e4O5t6t/Qkw7FzkJ2kPCQjWs
- 1NIPv0VRARxAH9RTicxBxYEgfqdfIxTquEriim70ZvFHoFIEryDNvMxo9OL1a5xzVnSj
- yJAHFGzqkm5PcTyP8O6o72hOp61eXEB6nfNftdSj7RM+AgzPJ/ZxBSV3tTM4WC+hSt7N
- Qepw==
-X-Gm-Message-State: AOJu0YxHa5BUuhPoSCopG7x9VOdyBqsDKEjthL18yEdBN8ePaePiI++U
- yNpxmwnSfxmUqdRDQrG+0Ug=
-X-Google-Smtp-Source: AGHT+IHPgVdEymNq+w/M8IQuudzxyCdig3EtTHV5MDlIf3YJaJiDZl0DO2ppjEGvepWSJ44YtUvwLg==
-X-Received: by 2002:a2e:9d55:0:b0:2c5:1674:8d79 with SMTP id
- y21-20020a2e9d55000000b002c516748d79mr1979063ljj.21.1698408076301; 
- Fri, 27 Oct 2023 05:01:16 -0700 (PDT)
-Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- r3-20020a2e8e23000000b002b6daa3fa2csm256000ljk.69.2023.10.27.05.01.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 Oct 2023 05:01:15 -0700 (PDT)
-Date: Fri, 27 Oct 2023 15:01:03 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Sebastian Wick <sebastian.wick@redhat.com>
-Subject: Re: [RFC PATCH v2 06/17] drm/doc/rfc: Describe why prescriptive
- color pipeline is needed
-Message-ID: <20231027150103.48bf5bdc@eldfell>
-In-Reply-To: <20231027100132.GA435169@toolbox>
+Received: from letterbox.kde.org (letterbox.kde.org [46.43.1.242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC52410E987;
+ Fri, 27 Oct 2023 11:40:34 +0000 (UTC)
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com
+ [209.85.218.42]) (Authenticated sender: zamundaaa)
+ by letterbox.kde.org (Postfix) with ESMTPSA id 1F9E732F300;
+ Fri, 27 Oct 2023 12:40:33 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kde.org; s=users;
+ t=1698406833; bh=wG+Or0IrVbr9QrapOKiZLVSdoSVMWbJyfdSVuhCFQbY=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=HrM0zTQsmTLRjhE27lWTwQPmH3azNrOoSXfVGScQ2okeNUw6lZ6unTDvPHmlPhx2E
+ hqqVjXjC3JnUaev3hyTA7eY8fAQPaTFsqnYtFWgj8xnZQq8D7e8z2+x0BwDiv4usvv
+ Yf/bhqKzUWHanJeSQj1yjTL9GMaXM9JlvB76j2W+u+t3zQzQimw62gUd6ye5A5lng3
+ +RqZke01A5WSwpDsYi32nM/rn7RW/rcCtZzOQfuJ7PNN2NtsbrZM1Yoq48Q6pcW2ao
+ D/zN/6r+jH6ms23Xg5jlQY9oh65JNJW/YZXXNRvrWzKy3L8pvDgAQG+V0HQcq42sKu
+ j9EHbz/HnqVSg==
+Received: by mail-ej1-f42.google.com with SMTP id
+ a640c23a62f3a-9bdf5829000so318608366b.0; 
+ Fri, 27 Oct 2023 04:40:33 -0700 (PDT)
+X-Gm-Message-State: AOJu0YyqX2sp8HpqWbew10Dszzh3Mho1wWznsI+9DUSXioDX29d8aA+c
+ lafqfvpNJSy3QaU0VvQCXOUBkU8RTR69IKTlEok=
+X-Google-Smtp-Source: AGHT+IFz3s5hJKaoSoreogrWUDJ7A2QUmcjcm75nkMZa6hhDxgeZrXA8GcAtZjqLgWDybU9Qfy32FwhyZMZsSicqiL4=
+X-Received: by 2002:a17:907:3da9:b0:9ae:5be8:ff90 with SMTP id
+ he41-20020a1709073da900b009ae5be8ff90mr2121007ejc.68.1698406832304; Fri, 27
+ Oct 2023 04:40:32 -0700 (PDT)
+MIME-Version: 1.0
 References: <20231019212133.245155-7-harry.wentland@amd.com>
  <20231020142256.GA859375@toolbox> <20231020175703.09cd2578@eldfell>
  <20f33898-4c40-4854-a1e8-afaef52f6524@amd.com>
@@ -64,10 +44,16 @@ References: <20231019212133.245155-7-harry.wentland@amd.com>
  <1255ad3-e22b-063-ffb8-18ea852f054@nvidia.com>
  <34be9d0b-18d7-7568-cf30-b3b1b9f77045@mailbox.org>
  <20231027100132.GA435169@toolbox>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/qzJf.QSdSkd9ESB+pK6tMsk";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+In-Reply-To: <20231027100132.GA435169@toolbox>
+From: Xaver Hugl <xaver.hugl@kde.org>
+Date: Fri, 27 Oct 2023 13:40:20 +0200
+X-Gmail-Original-Message-ID: <CAFZQkGwdrqYNR5vE3L_TLN+Eq96sB+HJCDdX-_z-pDzTYwOu2A@mail.gmail.com>
+Message-ID: <CAFZQkGwdrqYNR5vE3L_TLN+Eq96sB+HJCDdX-_z-pDzTYwOu2A@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 06/17] drm/doc/rfc: Describe why prescriptive color
+ pipeline is needed
+To: Sebastian Wick <sebastian.wick@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000ec78330608b127f3"
+X-Mailman-Approved-At: Fri, 27 Oct 2023 12:34:30 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,12 +67,13 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Sasha McIntosh <sashamcintosh@google.com>,
+ Pekka Paalanen <ppaalanen@gmail.com>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Michel =?UTF-8?B?RMOkbnplcg==?= <michel.daenzer@mailbox.org>,
- Xaver Hugl <xaver.hugl@gmail.com>, Shashank Sharma <shashank.sharma@amd.com>,
- Liviu Dudau <Liviu.Dudau@arm.com>, Victoria Brekenfeld <victoria@system76.com>,
- dri-devel@lists.freedesktop.org, Christopher Braga <quic_cbraga@quicinc.com>,
- Melissa Wen <mwen@igalia.com>, Jonas =?UTF-8?B?w4VkYWhs?= <jadahl@redhat.com>,
+ =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
+ Shashank Sharma <shashank.sharma@amd.com>, Liviu Dudau <Liviu.Dudau@arm.com>,
+ Victoria Brekenfeld <victoria@system76.com>, dri-devel@lists.freedesktop.org,
+ Christopher Braga <quic_cbraga@quicinc.com>, Melissa Wen <mwen@igalia.com>,
+ =?UTF-8?B?Sm9uYXMgw4VkYWhs?= <jadahl@redhat.com>,
  Uma Shankar <uma.shankar@intel.com>, Joshua Ashton <joshua@froggi.es>,
  Aleix Pol <aleixpol@kde.org>, Hector Martin <marcan@marcan.st>,
  wayland-devel@lists.freedesktop.org, Arthur Grillo <arthurgrillo@riseup.net>,
@@ -94,177 +81,337 @@ Cc: Sasha McIntosh <sashamcintosh@google.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/qzJf.QSdSkd9ESB+pK6tMsk
-Content-Type: text/plain; charset=UTF-8
+--000000000000ec78330608b127f3
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, 27 Oct 2023 12:01:32 +0200
-Sebastian Wick <sebastian.wick@redhat.com> wrote:
+Am Fr., 27. Okt. 2023 um 12:01 Uhr schrieb Sebastian Wick <
+sebastian.wick@redhat.com>:
 
 > On Fri, Oct 27, 2023 at 10:59:25AM +0200, Michel D=C3=A4nzer wrote:
-> > On 10/26/23 21:25, Alex Goins wrote: =20
-> > > On Thu, 26 Oct 2023, Sebastian Wick wrote: =20
-> > >> On Thu, Oct 26, 2023 at 11:57:47AM +0300, Pekka Paalanen wrote: =20
+> > On 10/26/23 21:25, Alex Goins wrote:
+> > > On Thu, 26 Oct 2023, Sebastian Wick wrote:
+> > >> On Thu, Oct 26, 2023 at 11:57:47AM +0300, Pekka Paalanen wrote:
 > > >>> On Wed, 25 Oct 2023 15:16:08 -0500 (CDT)
 > > >>> Alex Goins <agoins@nvidia.com> wrote:
-> > >>> =20
-> > >>>> Despite being programmable, the LUTs are updated in a manner that =
-is less
-> > >>>> efficient as compared to e.g. the non-static "degamma" LUT. Would =
-it be helpful
-> > >>>> if there was some way to tag operations according to their perform=
-ance,
-> > >>>> for example so that clients can prefer a high performance one when=
- they
-> > >>>> intend to do an animated transition? I recall from the XDC HDR wor=
-kshop
-> > >>>> that this is also an issue with AMD's 3DLUT, where updates can be =
-too
-> > >>>> slow to animate. =20
 > > >>>
-> > >>> I can certainly see such information being useful, but then we need=
- to
-> > >>> somehow quantize the performance. =20
-> > >=20
-> > > Right, which wouldn't even necessarily be universal, could depend on =
-the given
+> > >>>> Despite being programmable, the LUTs are updated in a manner that
+> is less
+> > >>>> efficient as compared to e.g. the non-static "degamma" LUT. Would
+> it be helpful
+> > >>>> if there was some way to tag operations according to their
+> performance,
+> > >>>> for example so that clients can prefer a high performance one when
+> they
+> > >>>> intend to do an animated transition? I recall from the XDC HDR
+> workshop
+> > >>>> that this is also an issue with AMD's 3DLUT, where updates can be
+> too
+> > >>>> slow to animate.
+> > >>>
+> > >>> I can certainly see such information being useful, but then we need
+> to
+> > >>> somehow quantize the performance.
+> > >
+> > > Right, which wouldn't even necessarily be universal, could depend on
+> the given
 > > > host, GPU, etc. It could just be a relative performance indication, t=
-o give an
-> > > order of preference. That wouldn't tell you if it can or can't be ani=
-mated, but
+o
+> give an
+> > > order of preference. That wouldn't tell you if it can or can't be
+> animated, but
 > > > when choosing between two LUTs to animate you could prefer the higher
 > > > performance one.
-> > >  =20
+> > >
 > > >>>
 > > >>> What I was left puzzled about after the XDC workshop is that is it
-> > >>> possible to pre-load configurations in the background (slow), and t=
-hen
-> > >>> quickly switch between them? Hardware-wise I mean. =20
-> > >=20
-> > > This works fine for our "fast" LUTs, you just point them to a surface=
- in video
-> > > memory and they flip to it. You could keep multiple surfaces around a=
-nd flip
-> > > between them without having to reprogram them in software. We can eas=
-ily do that
-> > > with enumerated curves, populating them when the driver initializes i=
-nstead of
-> > > waiting for the client to request them. You can even point multiple h=
-ardware
+> > >>> possible to pre-load configurations in the background (slow), and
+> then
+> > >>> quickly switch between them? Hardware-wise I mean.
+> > >
+> > > This works fine for our "fast" LUTs, you just point them to a surface
+> in video
+> > > memory and they flip to it. You could keep multiple surfaces around
+> and flip
+> > > between them without having to reprogram them in software. We can
+> easily do that
+> > > with enumerated curves, populating them when the driver initializes
+> instead of
+> > > waiting for the client to request them. You can even point multiple
+> hardware
 > > > LUTs to the same video memory surface, if they need the same curve.
-> > >  =20
+> > >
 > > >>
-> > >> We could define that pipelines with a lower ID are to be preferred o=
-ver
-> > >> higher IDs. =20
-> > >=20
-> > > Sure, but this isn't just an issue with a pipeline as a whole, but the
+> > >> We could define that pipelines with a lower ID are to be preferred
+> over
+> > >> higher IDs.
+> > >
+> > > Sure, but this isn't just an issue with a pipeline as a whole, but th=
+e
 > > > individual elements within it and how to use them in a given context.
-> > >  =20
+> > >
 > > >>
 > > >> The issue is that if programming a pipeline becomes too slow to be
-> > >> useful it probably should just not be made available to user space. =
-=20
-> > >=20
-> > > It's not that programming the pipeline is overall too slow. The LUTs =
-we have
-> > > that are relatively slow to program are meant to be set infrequently,=
- or even
+> > >> useful it probably should just not be made available to user space.
+> > >
+> > > It's not that programming the pipeline is overall too slow. The LUTs
+> we have
+> > > that are relatively slow to program are meant to be set infrequently,
+> or even
 > > > just once, to allow the scaler and tone mapping operator to operate i=
-n fixed
-> > > point PQ space. You might still want the tone mapper, so you would ch=
-oose a
-> > > pipeline that includes them, but when it comes to e.g. animating a ni=
-ght light,
+n
+> fixed
+> > > point PQ space. You might still want the tone mapper, so you would
+> choose a
+> > > pipeline that includes them, but when it comes to e.g. animating a
+> night light,
 > > > you would want to choose a different LUT for that purpose.
-> > >  =20
+> > >
 > > >>
 > > >> The prepare-commit idea for blob properties would help to make the
-> > >> pipelines usable again, but until then it's probably a good idea to =
-just
-> > >> not expose those pipelines. =20
-> > >=20
+> > >> pipelines usable again, but until then it's probably a good idea to
+> just
+> > >> not expose those pipelines.
+> > >
 > > > The prepare-commit idea actually wouldn't work for these LUTs, becaus=
-e they are
-> > > programmed using methods instead of pointing them to a surface. I'm a=
-ctually not
-> > > sure how slow it actually is, would need to benchmark it. I think not=
- exposing
-> > > them at all would be overkill, since it would mean you can't use the =
-preblending
+e
+> they are
+> > > programmed using methods instead of pointing them to a surface. I'm
+> actually not
+> > > sure how slow it actually is, would need to benchmark it. I think not
+> exposing
+> > > them at all would be overkill, since it would mean you can't use the
+> preblending
 > > > scaler or tonemapper, and animation isn't necessary for that.
-> > >=20
-> > > The AMD 3DLUT is another example of a LUT that is slow to update, and=
- it would
-> > > obviously be a major loss if that wasn't exposed. There just needs to=
- be some
-> > > way for clients to know if they are going to kill performance by tryi=
-ng to
-> > > change it every frame. =20
-> >=20
-> > Might a first step be to require the ALLOW_MODESET flag to be set when =
-changing the values for a colorop which is too slow to be updated per refre=
-sh cycle?
-> >=20
-> > This would tell the compositor: You can use this colorop, but you can't=
- change its values on the fly. =20
->=20
+> > >
+> > > The AMD 3DLUT is another example of a LUT that is slow to update, and
+> it would
+> > > obviously be a major loss if that wasn't exposed. There just needs to
+> be some
+> > > way for clients to know if they are going to kill performance by
+> trying to
+> > > change it every frame.
+> >
+> > Might a first step be to require the ALLOW_MODESET flag to be set when
+> changing the values for a colorop which is too slow to be updated per
+> refresh cycle?
+> >
+> > This would tell the compositor: You can use this colorop, but you can't
+> change its values on the fly.
+>
 > I argued before that changing any color op to passthrough should never
 > require ALLOW_MODESET and while this is really hard to guarantee from a
 > driver perspective I still believe that it's better to not expose any
 > feature requiring ALLOW_MODESET or taking too long to program to be
 > useful for per-frame changes.
->=20
+>
 > When user space has ways to figure out if going back to a specific state
 > (in this case setting everything to bypass) without ALLOW_MODESET we can
 > revisit this decision, but until then, let's keep things simple and only
 > expose things that work reliably without ALLOW_MODESET and fast enough
 > to work for per-frame changes.
->=20
+>
+
+Knowing an operation is fast enough for "per-frame" changes is by far not
+enough. If programming a 3D lut takes 4 milliseconds for example, that
+requires very different scheduling for atomic commits to hit the vblank
+deadline from when programming a 1D lut takes 100 microseconds. It's also
+dependent on the refresh rate - that 4ms example would be per-frame on a
+60Hz display, but not on a 300Hz display.
+
+The only thing that would be useful for me is to get an upper bound on how
+long programming a color pipeline and/or the individual elements takes
+(exposed in the API, or at the very least documented). Without something
+like that I would only ever program the pipelines on modesets because
+there's no strict timing requirements there.
+
+
+>
 > Harry, Pekka: Should we document this? It obviously restricts what can
 > be exposed but exposing things that can't be used by user space isn't
 > useful.
+>
+> >
+> > --
+> > Earthling Michel D=C3=A4nzer            |                  https://redh=
+at.com
+> > Libre software enthusiast          |         Mesa and Xwayland develope=
+r
+> >
+>
+>
 
-In an ideal world... but in real world, I don't know.
+--000000000000ec78330608b127f3
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Would it help if there was a list collected, with all the things in
-various hardware that is known to be too heavy to reprogram every
-refresh? Maybe that would allow a more educated decision?
+<div dir=3D"ltr"><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"g=
+mail_attr">Am Fr., 27. Okt. 2023 um 12:01=C2=A0Uhr schrieb Sebastian Wick &=
+lt;<a href=3D"mailto:sebastian.wick@redhat.com">sebastian.wick@redhat.com</=
+a>&gt;:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
+0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Fri, =
+Oct 27, 2023 at 10:59:25AM +0200, Michel D=C3=A4nzer wrote:<br>
+&gt; On 10/26/23 21:25, Alex Goins wrote:<br>
+&gt; &gt; On Thu, 26 Oct 2023, Sebastian Wick wrote:<br>
+&gt; &gt;&gt; On Thu, Oct 26, 2023 at 11:57:47AM +0300, Pekka Paalanen wrot=
+e:<br>
+&gt; &gt;&gt;&gt; On Wed, 25 Oct 2023 15:16:08 -0500 (CDT)<br>
+&gt; &gt;&gt;&gt; Alex Goins &lt;<a href=3D"mailto:agoins@nvidia.com" targe=
+t=3D"_blank">agoins@nvidia.com</a>&gt; wrote:<br>
+&gt; &gt;&gt;&gt;<br>
+&gt; &gt;&gt;&gt;&gt; Despite being programmable, the LUTs are updated in a=
+ manner that is less<br>
+&gt; &gt;&gt;&gt;&gt; efficient as compared to e.g. the non-static &quot;de=
+gamma&quot; LUT. Would it be helpful<br>
+&gt; &gt;&gt;&gt;&gt; if there was some way to tag operations according to =
+their performance,<br>
+&gt; &gt;&gt;&gt;&gt; for example so that clients can prefer a high perform=
+ance one when they<br>
+&gt; &gt;&gt;&gt;&gt; intend to do an animated transition? I recall from th=
+e XDC HDR workshop<br>
+&gt; &gt;&gt;&gt;&gt; that this is also an issue with AMD&#39;s 3DLUT, wher=
+e updates can be too<br>
+&gt; &gt;&gt;&gt;&gt; slow to animate.<br>
+&gt; &gt;&gt;&gt;<br>
+&gt; &gt;&gt;&gt; I can certainly see such information being useful, but th=
+en we need to<br>
+&gt; &gt;&gt;&gt; somehow quantize the performance.<br>
+&gt; &gt; <br>
+&gt; &gt; Right, which wouldn&#39;t even necessarily be universal, could de=
+pend on the given<br>
+&gt; &gt; host, GPU, etc. It could just be a relative performance indicatio=
+n, to give an<br>
+&gt; &gt; order of preference. That wouldn&#39;t tell you if it can or can&=
+#39;t be animated, but<br>
+&gt; &gt; when choosing between two LUTs to animate you could prefer the hi=
+gher<br>
+&gt; &gt; performance one.<br>
+&gt; &gt; <br>
+&gt; &gt;&gt;&gt;<br>
+&gt; &gt;&gt;&gt; What I was left puzzled about after the XDC workshop is t=
+hat is it<br>
+&gt; &gt;&gt;&gt; possible to pre-load configurations in the background (sl=
+ow), and then<br>
+&gt; &gt;&gt;&gt; quickly switch between them? Hardware-wise I mean.<br>
+&gt; &gt; <br>
+&gt; &gt; This works fine for our &quot;fast&quot; LUTs, you just point the=
+m to a surface in video<br>
+&gt; &gt; memory and they flip to it. You could keep multiple surfaces arou=
+nd and flip<br>
+&gt; &gt; between them without having to reprogram them in software. We can=
+ easily do that<br>
+&gt; &gt; with enumerated curves, populating them when the driver initializ=
+es instead of<br>
+&gt; &gt; waiting for the client to request them. You can even point multip=
+le hardware<br>
+&gt; &gt; LUTs to the same video memory surface, if they need the same curv=
+e.<br>
+&gt; &gt; <br>
+&gt; &gt;&gt;<br>
+&gt; &gt;&gt; We could define that pipelines with a lower ID are to be pref=
+erred over<br>
+&gt; &gt;&gt; higher IDs.<br>
+&gt; &gt; <br>
+&gt; &gt; Sure, but this isn&#39;t just an issue with a pipeline as a whole=
+, but the<br>
+&gt; &gt; individual elements within it and how to use them in a given cont=
+ext.<br>
+&gt; &gt; <br>
+&gt; &gt;&gt;<br>
+&gt; &gt;&gt; The issue is that if programming a pipeline becomes too slow =
+to be<br>
+&gt; &gt;&gt; useful it probably should just not be made available to user =
+space.<br>
+&gt; &gt; <br>
+&gt; &gt; It&#39;s not that programming the pipeline is overall too slow. T=
+he LUTs we have<br>
+&gt; &gt; that are relatively slow to program are meant to be set infrequen=
+tly, or even<br>
+&gt; &gt; just once, to allow the scaler and tone mapping operator to opera=
+te in fixed<br>
+&gt; &gt; point PQ space. You might still want the tone mapper, so you woul=
+d choose a<br>
+&gt; &gt; pipeline that includes them, but when it comes to e.g. animating =
+a night light,<br>
+&gt; &gt; you would want to choose a different LUT for that purpose.<br>
+&gt; &gt; <br>
+&gt; &gt;&gt;<br>
+&gt; &gt;&gt; The prepare-commit idea for blob properties would help to mak=
+e the<br>
+&gt; &gt;&gt; pipelines usable again, but until then it&#39;s probably a go=
+od idea to just<br>
+&gt; &gt;&gt; not expose those pipelines.<br>
+&gt; &gt; <br>
+&gt; &gt; The prepare-commit idea actually wouldn&#39;t work for these LUTs=
+, because they are<br>
+&gt; &gt; programmed using methods instead of pointing them to a surface. I=
+&#39;m actually not<br>
+&gt; &gt; sure how slow it actually is, would need to benchmark it. I think=
+ not exposing<br>
+&gt; &gt; them at all would be overkill, since it would mean you can&#39;t =
+use the preblending<br>
+&gt; &gt; scaler or tonemapper, and animation isn&#39;t necessary for that.=
+<br>
+&gt; &gt; <br>
+&gt; &gt; The AMD 3DLUT is another example of a LUT that is slow to update,=
+ and it would<br>
+&gt; &gt; obviously be a major loss if that wasn&#39;t exposed. There just =
+needs to be some<br>
+&gt; &gt; way for clients to know if they are going to kill performance by =
+trying to<br>
+&gt; &gt; change it every frame.<br>
+&gt; <br>
+&gt; Might a first step be to require the ALLOW_MODESET flag to be set when=
+ changing the values for a colorop which is too slow to be updated per refr=
+esh cycle?<br>
+&gt; <br>
+&gt; This would tell the compositor: You can use this colorop, but you can&=
+#39;t change its values on the fly.<br>
+<br>
+I argued before that changing any color op to passthrough should never<br>
+require ALLOW_MODESET and while this is really hard to guarantee from a<br>
+driver perspective I still believe that it&#39;s better to not expose any<b=
+r>
+feature requiring ALLOW_MODESET or taking too long to program to be<br>
+useful for per-frame changes.<br>
+<br>
+When user space has ways to figure out if going back to a specific state<br=
+>
+(in this case setting everything to bypass) without ALLOW_MODESET we can<br=
+>
+revisit this decision, but until then, let&#39;s keep things simple and onl=
+y<br>
+expose things that work reliably without ALLOW_MODESET and fast enough<br>
+to work for per-frame changes.<br></blockquote><div><br></div><div>Knowing =
+an operation is fast enough for &quot;per-frame&quot; changes is by far not=
+ enough. If programming a 3D lut takes 4 milliseconds for example, that req=
+uires very different scheduling for atomic commits to hit the vblank deadli=
+ne from when programming a 1D lut takes 100 microseconds. It&#39;s also dep=
+endent on the refresh rate - that 4ms example would be per-frame on a 60Hz =
+display, but not on a 300Hz display.</div><div><br></div><div>The only thin=
+g that would be useful for me is to get an upper bound on how long programm=
+ing a color pipeline and/or the individual elements takes (exposed in the A=
+PI, or at the very least documented). Without something like that I would o=
+nly ever program the pipelines on modesets because there&#39;s no strict ti=
+ming requirements there.<br></div><div>=C2=A0</div><blockquote class=3D"gma=
+il_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,2=
+04,204);padding-left:1ex">
+<br>
+Harry, Pekka: Should we document this? It obviously restricts what can<br>
+be exposed but exposing things that can&#39;t be used by user space isn&#39=
+;t<br>
+useful.<br>
+<br>
+&gt; <br>
+&gt; -- <br>
+&gt; Earthling Michel D=C3=A4nzer=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"=
+https://redhat.com" rel=3D"noreferrer" target=3D"_blank">https://redhat.com=
+</a><br>
+&gt; Libre software enthusiast=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0Mesa and Xwayland developer<br>
+&gt; <br>
+<br>
+</blockquote></div></div>
 
-I bet that depends also on the refresh rate.
-
-I would probably be fine with some sort of update cost classification
-on colorops, and the kernel keeping track of blobs: if userspace sets
-the same blob on the same colorop that is already there (by blob ID, no
-need to compare contents), then it's a no-op change.
-
-
-Anyway, I really like reading Alex Goins' reply, it seems we are very
-much on the same page here. :-)
-
-
-Thanks,
-pq
-
---Sig_/qzJf.QSdSkd9ESB+pK6tMsk
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmU7pn8ACgkQI1/ltBGq
-qqeXIhAAiHaMN9pDkSrfBcXkPlbzHCXbbjBrBMvYrVyB+OnY6X90Rwag5DjXKXYD
-vY7ES0Kwke2jHlE15z41V2DrQ0dFopQLMpdSdPc+YAPmKR4jaYFdkl+pr8v96E5L
-qSpLQztbmoUjn32+cISuFSxQ+2ecawrHOSywAcY7ZeWdBWzrY0bvpGyvVDVyzrd+
-ynbRa3KPHonA2MPXEdlNBxbdnTJ5Cd2Lfgxjxa5yXC29H6xu8fYCnekMlnwloetj
-ojoUYvC7B+4Mr/f47eNeJgeSX6w8+/73zRYOciY5xeYo6erVZmhf9i5L6mGHhODu
-n3QarYTEvki3tranIMkEuqNL588h1zp99SQcvRM9+LLNtnmAmiFYxPEaT29jQkDj
-PHO9Z625tXBALdP8mw1EBAgLO786d45fHarHCxSB+fZuY8ENZ238Ndeiln6Qgqaj
-XQse5PlZ1iRnXagF+cnMe5U0JICaHVfsvmk99EriwLav7IrM6cOEpwmWoJdlVts0
-eMH3J96fCMJoQEY52oBDyDsUw/u4rpoA4yvsfXt45hSJjs+7vCxaYOFyf/cS1Tgk
-WpRQDuOgyUDqIGlQKkWSzkZ1ty5e0A/WT8iiIM9h9LbSFcQR/1//aFWuv0U70AM1
-c2SI+bLx7YBDSKtT56yexiCPhzZNFG2rpOOEOIIDmgz+LeiDJYI=
-=zC2z
------END PGP SIGNATURE-----
-
---Sig_/qzJf.QSdSkd9ESB+pK6tMsk--
+--000000000000ec78330608b127f3--
