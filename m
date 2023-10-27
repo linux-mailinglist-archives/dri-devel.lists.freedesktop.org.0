@@ -1,134 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3358D7D8E2C
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Oct 2023 07:30:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F5B17D8FAD
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Oct 2023 09:23:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA47A10E91E;
-	Fri, 27 Oct 2023 05:30:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B59D10E946;
+	Fri, 27 Oct 2023 07:23:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E12D10E91D;
- Fri, 27 Oct 2023 05:30:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1698384646; x=1729920646;
- h=date:from:to:cc:subject:message-id:in-reply-to: mime-version;
- bh=1+YVtNY1e9jSIc5DBC54zZ0Sqxoy0rzMOBZo64TZJRY=;
- b=Lpxm9R99iKCQpImB37uvueTHfPsqTP0dZ5ZYK2n42HiAHkSbu7gAX3KC
- I9Z+ECyua/Vzt8IUo5Twx7zFl7Jihvqf5R+YVPmuIwttPYpF9OaFThRX6
- beWAxK2NdfU04ahjgyB4PR7ExVMT3R/7nqZHJTDLBSBvIMby+zHXRFpEM
- O6Z9jkK1mbdmnuScPF+zo0lLGZWuks0sTHAtR+VDSeKPU9gxsr6XS4VYt
- kZTjZ+D6VP61ejBmKJS+NfnzH6lkDJnjjEki2XOdU+4m+ZwEBmV7SO1mb
- RTVK54iGyzqkhgD9s1jUV9uaaveKEQdlpBxuQHepISCipSR4VDFWtJShR w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10875"; a="451951543"
-X-IronPort-AV: E=Sophos;i="6.03,255,1694761200"; d="scan'208";a="451951543"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Oct 2023 22:30:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.03,255,1694761200"; 
-   d="scan'208";a="720885"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
- by fmviesa002.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 26 Oct 2023 22:30:33 -0700
-Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34; Thu, 26 Oct 2023 22:30:44 -0700
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34 via Frontend Transport; Thu, 26 Oct 2023 22:30:44 -0700
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.100)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.34; Thu, 26 Oct 2023 22:30:44 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GEC8hndnfULa+6ZMK7dK1KyMjuFF5GHYrfJNHucGtC9QOdWcN4xZsQKOUsOYwZ3IAmRK5MFLSX5z9tO5ImnKo89dcBbSnBUx6X6s7WJ3JkgbKpuYLaiFeClKCet2gVBWPrFhwhqgr9wDhGJ2n69LGhGYXQDSNm4tKh8rSPDvgAFUyVZXLJW+X+/QJKqiZ5Cy6Dgm7xGGkx9jg2cnaWEgG75WOhT5aSBqi9ffCmq2njLa4GyN7bXF7zHpw6SFOawJsJNrbXlzo3H7eANZQqYwZE4eIgGCIemkCvyFOnjoOna30lsfDttJGOd6eBPlM/jDJ3z4VoIxTRUkueVJIb1Zlg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=73LiNekPRupDIBqTCkywTfgs74DE0gEBB5HGC49cmrA=;
- b=byJDMtz0ZCE45sDjQgWs+2ck6GE5aBjEzxEd6GBNyJ0eCJcJF+uyGS5llxAdHZgM0VObmhAvXjGTg9uG7x2q4t3F7N2BXVyL7O/yUU+SG79nRlneQNLJ7sv+4cMy6+ls0RhXi7WVswYsb7DDCkVDJ1w7TaTOVue3Mil9dDFBb6V3YOhatmC9p7me5BJpJeLNiG3tBH5JZXDiIWUhDYxCmUzcN4ZbPrGfOC6Os7RTPeFtJAoY8RNI/u6QfLKVJExdRaf+XecCDiQ79VqvOq+LyJi8qwHL2fWep2P06/zYa2BgPyafBXrt+ml82uH/0pTZkTmFu7divJjzqvzSBox9xg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH8PR11MB6779.namprd11.prod.outlook.com (2603:10b6:510:1ca::17)
- by IA0PR11MB7815.namprd11.prod.outlook.com (2603:10b6:208:404::16)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6933.24; Fri, 27 Oct
- 2023 05:30:42 +0000
-Received: from PH8PR11MB6779.namprd11.prod.outlook.com
- ([fe80::29f0:3f0f:2591:d1f6]) by PH8PR11MB6779.namprd11.prod.outlook.com
- ([fe80::29f0:3f0f:2591:d1f6%3]) with mapi id 15.20.6907.032; Fri, 27 Oct 2023
- 05:30:42 +0000
-Date: Fri, 27 Oct 2023 13:30:35 +0800
-From: kernel test robot <oliver.sang@intel.com>
-To: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
-Subject: Re: [PATCH] drm/i915/gem: Allow users to disable waitboost
-Message-ID: <202310271326.abb748d0-oliver.sang@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20230920215624.3482244-1-vinay.belgaumkar@intel.com>
-X-ClientProxiedBy: SI2PR02CA0013.apcprd02.prod.outlook.com
- (2603:1096:4:194::21) To PH8PR11MB6779.namprd11.prod.outlook.com
- (2603:10b6:510:1ca::17)
+Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com
+ [IPv6:2607:f8b0:4864:20::631])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 80EC410E90A
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Oct 2023 03:05:07 +0000 (UTC)
+Received: by mail-pl1-x631.google.com with SMTP id
+ d9443c01a7336-1cac20789e8so3056275ad.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Oct 2023 20:05:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quanta-corp-partner-google-com.20230601.gappssmtp.com; s=20230601;
+ t=1698375907; x=1698980707; darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=W03Y8lFBgksp4nZkRCf2tWXHM6a0g6coXGTRRAurfQs=;
+ b=3TcstiI9WOORrNaiCSISit3Wxj1a7mKoaUCiEITCfNQ2s6xM+V4GQgfstLurYl3COP
+ tg3/PBBG6GdByLMZCSAwAOPoT+4UDUbW/ySePXUOeSpNPr+Yh/F/uT780SydosqlOcvr
+ 3jvVVUBHp+Bcxdw8gb7AP5hqdqwp4koyTtlekucu213aEmVVjd4n5vZ+1ZpkuERJBJPV
+ 5NJ6IkaTvRqLITPrFl6HfCmBHyJwh2I4PgQSwKk7uGQFvAO44cFygI7SesxJS8kJCbps
+ mYnREUQlLGA+fbcdQz1FYs0iUHliMjQq/5TLEkynm2Hubr927fT4RfzHWebzzuavHzma
+ ySYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1698375907; x=1698980707;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=W03Y8lFBgksp4nZkRCf2tWXHM6a0g6coXGTRRAurfQs=;
+ b=wNUxIllJUZ8y3BOKlCGVrqz1mM2KzhAiFG25HU/5WI8Z2T1M0xu+Y1RnpcrmZEa5CU
+ lXgvLuhUjxtmmfEPlITXLz54jaTgtojL2/cBQ1DrVijb9pi+2CPJrMB5heKmQRnkI61u
+ 1GaWK+I/v+Zvm4XGJ8r7NFRmVNZAjzh8lat5nTV0TV+/HAZQPhGwchwgswEjPSM1cJ9B
+ 9NVRV5opQBiy5r9w/XpaSwQYwqYQzoAGO9vna+ujUtEyTjREsv9IqeO9rvqhzH0ZO5Vk
+ eBCuQvQqUUQA1IExQGz+S9vUjEkvDBrGOxfFa1LcHwRRhnl6FHCkfpuZn1zVnEsiWnkR
+ qM/g==
+X-Gm-Message-State: AOJu0YzaRiZXHBcqszzGaFbqU9pJR2jtdWPAH0SknjQvBhtXLnOVrYS7
+ TyDVlg0NQwTcU9ppY/UQtK29MA==
+X-Google-Smtp-Source: AGHT+IGcvKHk/AFqkD/tlUI6koT0Yo2gHCM03/iP03ms+DONAkcKud1bMM9d3ud2JrcOKbws/jrOoA==
+X-Received: by 2002:a05:6a20:4281:b0:163:d382:ba99 with SMTP id
+ o1-20020a056a20428100b00163d382ba99mr1931238pzj.5.1698375906700; 
+ Thu, 26 Oct 2023 20:05:06 -0700 (PDT)
+Received: from liang-Predator-PH517-52.. (60-250-232-247.hinet-ip.hinet.net.
+ [60.250.232.247]) by smtp.gmail.com with ESMTPSA id
+ b21-20020a170902ed1500b001c74876f032sm396865pld.162.2023.10.26.20.05.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 26 Oct 2023 20:05:06 -0700 (PDT)
+From: Sheng-Liang Pan <sheng-liang.pan@quanta.corp-partner.google.com>
+To: LKML <linux-kernel@vger.kernel.org>
+Subject: [PATCH] drm/panel-edp: Add panel entry for AUO B116XTN02 and BOE
+ NT116WHM-N21, 836X2 and NV116WHM-N49 V8.0
+Date: Fri, 27 Oct 2023 11:04:56 +0800
+Message-Id: <20231027110435.1.Ia01fe9ec1c0953e0050a232eaa782fef2c037516@changeid>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH8PR11MB6779:EE_|IA0PR11MB7815:EE_
-X-MS-Office365-Filtering-Correlation-Id: 56a11ae4-85d1-4f17-abdf-08dbd6addc38
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: YswyVmjN0yb/GIZBYu+e/al0YndwEv/pPjay8vXUhkVA4O2gSYK6G75FrcRwld4mAoaUnfTg7t+ZByUFLa7SULhplK4pOYxpH405qxGy11bEJlimOEqWmEFLIbVW570JJ3Z5M8Y8pWuBykNmj5m/o1FUGplg5mK/JS5acjwz6rWtbO4Z7ZL0zrsLi/XIUVMHerWg0SZ8fPcRTdK6oaI/uPFPN9YCjH/KtVrOMwzL4A/XlfFm8QrGcx91WB1GkCVxH9ekrBwAfhvh8R4hFqOLd0RD351h6jAPfAwe3kL1uoF+iioiUbGn73jRubN4TuNgH/LnyuDfyccDYbCTfOnKU+/avHMdjRgsbyAZvSpOnklDWULciExV0t+10nBe8xx00/O1WOJntkAxOj+16T6lXU7pSADymviVwQkkvNDBqUp805ZzI2Ucq0/8sdJ90o/DhdpJ9i0KF37xOfMZ5KEuzQZH1GtvFwajrGw48cNEmf1DcBOII68NyM8v1ywftbxQmlvIK4thPruMpa9INrbtWMGy2o6kCL5bmx7rcpbz3AUl+C6+gigmhkrydsuC+wIglpXjayOoe4GI+H7Sj5aF6g==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH8PR11MB6779.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(39860400002)(346002)(136003)(396003)(366004)(376002)(230922051799003)(186009)(1800799009)(64100799003)(451199024)(6666004)(6506007)(6512007)(478600001)(966005)(6486002)(83380400001)(2616005)(107886003)(1076003)(26005)(41300700001)(2906002)(5660300002)(37006003)(66476007)(66556008)(54906003)(6636002)(316002)(66946007)(4326008)(6862004)(8676002)(8936002)(36756003)(86362001)(82960400001)(38100700002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?fCSPi4RRY7rr42/LnXD46doacDUpJDRAEX0TlNyQ6fkC04dniWDeweQFZfkN?=
- =?us-ascii?Q?e6MJIz7ihWiUldtmCYOni2ggU96jhIy6/2K9FIiYGEzu91xmMzUPDU5CiapP?=
- =?us-ascii?Q?d6WNEAJKk7DEwqu5dTn4RuQcu8Zkv6PMrAXhtf7ELrD1sE5QK6tSBv/nP6Rt?=
- =?us-ascii?Q?Hnn76KnVW3FzGKOoIYF+I6GpsWlrN6PKGyGmc52mvQRVD73oB43tytpLVWv6?=
- =?us-ascii?Q?wwJpNhPrq1Dx8ygFEjCF6WMD1dXgX9kPa8kUQct3qA+euT1j65if3EQvJEps?=
- =?us-ascii?Q?FlbLCyX4ONBXwp0TqId3/wiV7MVALz35G290dUMUM2aXmozzugScK/RywZQn?=
- =?us-ascii?Q?tR8pa1lS809pHKDBTZDwctNW/6cD9+F5aSpLemwi0bPhIRqBNHjGhxRe7/4R?=
- =?us-ascii?Q?U6nWG/5Hp9RSrmaUUfWrTJ9AwOjU31x3MjMaWuMCkonbOMG+P14F3Bg0Any2?=
- =?us-ascii?Q?RhKRk5bYWXNde7WUlzKkDPPt+xyRCbZzNHNJ3imNhrIZGoRa5JTK1s2ZVc79?=
- =?us-ascii?Q?5kHwwaD8hnyrywaqCD0YlzWu1tVBhgEPTyDokqX7/TCmzFg8C5wwZXbad5gQ?=
- =?us-ascii?Q?NG6dq6hlg0RoHMite5z+okDlTSSUYYarS8gDdb4g4KgAXNwvo+lnXG10o4/E?=
- =?us-ascii?Q?YR9D/GeKLxfx/EU3H45DwW6jb+W5twOqkLVUzLLNij2LWbY9jExvP1Kt2XX/?=
- =?us-ascii?Q?LIrLLXs7BtlzK9fppCP177HeOZHKujG3yFHnFzZxXlvDss+VSuhYsqegaxGd?=
- =?us-ascii?Q?65VAVf1d4aMKNGl8cyDs6zbPmBm0ys4ML5oij45FhZ2MvqdzA18C23DJ0yZE?=
- =?us-ascii?Q?nUes31o9qQE9/X5Qo1fMGUx+dkrgp8d7a9AUa2d+V9effLud521b3Nb+sawG?=
- =?us-ascii?Q?24AbdyF1E450q4sQKQ5f4CQUEhZZ/fqmbnIK/rHg1gGCAGkHzu8eTNN+EyJE?=
- =?us-ascii?Q?k7nPkeTCTZuK0hI1EzkxUAFhpDaDB5yVvMQFfi7GvVenIUgeSE3U5QOt9W61?=
- =?us-ascii?Q?RpNbP0MtZB8f/mRCljhptFBh3CjxA5gNQ8EnKzLiAQ/2H9B/k4yc+SdeJkTZ?=
- =?us-ascii?Q?XunJQYdVI3Dqq7I1Flx/6kENNNmirAW7KHnAqN+7rfKk4kbbO3SMkQobewnz?=
- =?us-ascii?Q?orIcekGp8xawNcxiLT9MuKyhz62zbdWkhISbeYqg/rJFpa9kgkFHeyky/a7T?=
- =?us-ascii?Q?9zgePOKc/B/MRLDU04yeJJZWk2YS6BA6Z9R8OjpcP1UZ/m55AbGHjAhLD1KC?=
- =?us-ascii?Q?Vddaz9fyp7Wg2s2uthuSo07umakN4TFYUmdmZAkm8RnNRd167c/Q6PMFoQR3?=
- =?us-ascii?Q?79ApIWxcYbZhHUl3st7vpK/S4smk6Q65BKS7Ub7htNAQz+/vbdfBpQYE3Kry?=
- =?us-ascii?Q?xmamPl9FPpF1cSUx/I5WVUBD3xJS+50E0lox+9YtN3+7sUFYIJsRrKNaYYWE?=
- =?us-ascii?Q?2veu8cVu0ZCaYG/Ax08h5a0bBgaRDf804gSQwxLM83so74ZUaTpi48YVc5PB?=
- =?us-ascii?Q?ds+L6DkpXs9SjkoyuMnPdwq1dgEeTYiPQfFsL/1AyrFmfaijWeeVYUFM5s8e?=
- =?us-ascii?Q?+7E9cEPMmd1SGKi/Pv5Mk3Kh9dn1xIM5+b1qMiDg3oe/ZWiJewnIVAljadfc?=
- =?us-ascii?Q?rQ=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 56a11ae4-85d1-4f17-abdf-08dbd6addc38
-X-MS-Exchange-CrossTenant-AuthSource: PH8PR11MB6779.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Oct 2023 05:30:41.9250 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 4MLNfD9gSymuV8KNsch9fH7JZFDY+dbb7FTQ8jq/Ujw5MxFcdhwX1Cn6mJxDeOjhmcMffqFaI6yyaHpCBMrztw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR11MB7815
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Fri, 27 Oct 2023 07:23:47 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -141,65 +73,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: lkp@intel.com, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, oliver.sang@intel.com,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, oe-lkp@lists.linux.dev,
- Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, dianders@chromium.org,
+ dri-devel@lists.freedesktop.org,
+ Sheng-Liang Pan <sheng-liang.pan@quanta.corp-partner.google.com>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Add panel identification entry for
+- AUO B116XTN02 family (product ID:0x235c)
+- BOE NT116WHM-N21,836X2 (product ID:0x09c3)
+- BOE NV116WHM-N49 V8.0 (product ID:0x0979)
 
+Signed-off-by: Sheng-Liang Pan <sheng-liang.pan@quanta.corp-partner.google.com>
+---
 
-Hello,
+ drivers/gpu/drm/panel/panel-edp.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-kernel test robot noticed "assertion_failure" on:
-
-commit: 54fef7ea35dadd66193b98805b0bc42ef2b279db ("[PATCH] drm/i915/gem: Allow users to disable waitboost")
-url: https://github.com/intel-lab-lkp/linux/commits/Vinay-Belgaumkar/drm-i915-gem-Allow-users-to-disable-waitboost/20230921-060357
-base: git://anongit.freedesktop.org/drm-intel for-linux-next
-patch link: https://lore.kernel.org/all/20230920215624.3482244-1-vinay.belgaumkar@intel.com/
-patch subject: [PATCH] drm/i915/gem: Allow users to disable waitboost
-
-in testcase: igt
-version: igt-x86_64-0f075441-1_20230520
-with following parameters:
-
-	group: group-23
-
-
-
-compiler: gcc-12
-test machine: 20 threads 1 sockets (Commet Lake) with 16G memory
-
-(please refer to attached dmesg/kmsg for entire log/backtrace)
-
-
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <oliver.sang@intel.com>
-| Closes: https://lore.kernel.org/oe-lkp/202310271326.abb748d0-oliver.sang@intel.com
-
-
-
-user  :notice: [   42.847071] Starting subtest: engines-cleanup
-
-user  :notice: [   42.854776] Starting dynamic subtest: rcs0
-
-user  :notice: [   42.863938] (gem_ctx_persistence:833) CRITICAL: Test assertion failure function test_nonpersistent_cleanup, file ../tests/i915/gem_ctx_persistence.c:283:
-
-user  :notice: [   42.882029] (gem_ctx_persistence:833) CRITICAL: Failed assertion: gem_wait(i915, spin->handle, &timeout) == 0
-
-user  :notice: [   42.895541] (gem_ctx_persistence:833) CRITICAL: error: -22 != 0
-
-
-
-The kernel config and materials to reproduce are available at:
-https://download.01.org/0day-ci/archive/20231027/202310271326.abb748d0-oliver.sang@intel.com
-
-
-
+diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
+index 95c8472d878a..5bf28c8443ef 100644
+--- a/drivers/gpu/drm/panel/panel-edp.c
++++ b/drivers/gpu/drm/panel/panel-edp.c
+@@ -1840,6 +1840,7 @@ static const struct edp_panel_entry edp_panels[] = {
+ 	EDP_PANEL_ENTRY('A', 'U', 'O', 0x145c, &delay_200_500_e50, "B116XAB01.4"),
+ 	EDP_PANEL_ENTRY('A', 'U', 'O', 0x1e9b, &delay_200_500_e50, "B133UAN02.1"),
+ 	EDP_PANEL_ENTRY('A', 'U', 'O', 0x1ea5, &delay_200_500_e50, "B116XAK01.6"),
++	EDP_PANEL_ENTRY('A', 'U', 'O', 0x235c, &delay_200_500_e50, "B116XTN02"),
+ 	EDP_PANEL_ENTRY('A', 'U', 'O', 0x405c, &auo_b116xak01.delay, "B116XAK01"),
+ 	EDP_PANEL_ENTRY('A', 'U', 'O', 0x582d, &delay_200_500_e50, "B133UAN01.0"),
+ 	EDP_PANEL_ENTRY('A', 'U', 'O', 0x615c, &delay_200_500_e50, "B116XAN06.1"),
+@@ -1848,8 +1849,10 @@ static const struct edp_panel_entry edp_panels[] = {
+ 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0786, &delay_200_500_p2e80, "NV116WHM-T01"),
+ 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x07d1, &boe_nv133fhm_n61.delay, "NV133FHM-N61"),
+ 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x082d, &boe_nv133fhm_n61.delay, "NV133FHM-N62"),
++	EDP_PANEL_ENTRY('B', 'O', 'E', 0x09c3, &delay_200_500_e50, "NT116WHM-N21,836X2"),
+ 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x094b, &delay_200_500_e50, "NT116WHM-N21"),
+ 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x095f, &delay_200_500_e50, "NE135FBM-N41 v8.1"),
++	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0979, &delay_200_500_e50, "NV116WHM-N49 V8.0"),
+ 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x098d, &boe_nv110wtm_n61.delay, "NV110WTM-N61"),
+ 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x09dd, &delay_200_500_e50, "NT116WHM-N21"),
+ 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0a5d, &delay_200_500_e50, "NV116WHM-N45"),
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.34.1
 
