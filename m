@@ -2,81 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B01B7D9B78
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Oct 2023 16:33:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6F197D9B86
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Oct 2023 16:34:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5969510E9BD;
-	Fri, 27 Oct 2023 14:33:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A6D710E9BE;
+	Fri, 27 Oct 2023 14:34:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc34.google.com (mail-oo1-xc34.google.com
- [IPv6:2607:f8b0:4864:20::c34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C67B810E9BD
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Oct 2023 14:33:02 +0000 (UTC)
-Received: by mail-oo1-xc34.google.com with SMTP id
- 006d021491bc7-584042e7f73so1153226eaf.2
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Oct 2023 07:33:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1698417182; x=1699021982; darn=lists.freedesktop.org;
- h=in-reply-to:autocrypt:from:references:cc:to:content-language
- :subject:user-agent:mime-version:date:message-id:from:to:cc:subject
- :date:message-id:reply-to;
- bh=CpdGlrhIkHOtBTG4xIg7MKLAautQ7JbXFpIzulYae/o=;
- b=IWJCIcg/Gc1OLbpAiW+xtY14DJE6jzPaCif6PtHEzV66jvFWNJriR5zrx+LAz0LT9+
- hpgAaLxIfbZxemrXHU/xg/tY64PCNwBi8e80eGS9PZu3yRs+D0coMtE90cDuNPOdwVWW
- vtiGVFzOViKpZsBJGINrp8ojSrFVACCtOf8VAXRIVOnVXnxXCPHwoLawKKkaIDx3gepT
- oqbHZ3/xHyF3saFMkP1Qbbz3KuIuZxM1SU+7uVnbJlv5D7pkmvlyOIxkj36shQjc0TAq
- Oyzq8nTeqbvj0Kiazut7EyN0qASwduRy4AANMGDS3NwSKRpdOM5ZY6vpQSiqbdGMvtFr
- w03Q==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 645A410E9BE
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Oct 2023 14:34:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1698417270;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=K5sokQZCAq452GDyZ2Dqlvt2GWiPurBujB1LiUqRJs0=;
+ b=LzwmUa3pu5YRWDa5gGoJlUGpPw219tCNKXfsRlxWeiuZOxl9Qt1j0yXTYAzgvyLcHMiAGq
+ XVy1ZUX4A/Unkt4JHbDUrENvIbYEc9Hwlb/hTU7Qktr/vHajhtuSwIRhFoycj6bl+RgeKy
+ GUtCS6l7jeA3C3yRlewt1XXjlkHg3KU=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-117-F_5kn27bPXKPx69fiqUZLQ-1; Fri, 27 Oct 2023 10:34:29 -0400
+X-MC-Unique: F_5kn27bPXKPx69fiqUZLQ-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ ffacd0b85a97d-32cef5f8af5so2208410f8f.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Oct 2023 07:34:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1698417182; x=1699021982;
- h=in-reply-to:autocrypt:from:references:cc:to:content-language
- :subject:user-agent:mime-version:date:message-id:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=CpdGlrhIkHOtBTG4xIg7MKLAautQ7JbXFpIzulYae/o=;
- b=aGpWOr73tl0+2PAMjrAOcTnlmlliR1Z74NDU/bQFgkQRNeWF7JPtltESJdWxH3K0qu
- yJVqtQSZEpZ1w9Z4ouLL1xySi54LHUsIu0jeUXlyl4rKTGygSwWvn7x/zhfBs8fb1Qa8
- QPgp0RwKOAjyiaBld2sl0BXmuRj+4AritNB7ngmEg4re1d0lYucdqpoUGgcH6mdCt669
- WnzckyNbF6Dedd9ss3nMwCpV+1SGkmikZSH0o3X8nMJkEs0tInN/NDjU0e9whM9Mb2oO
- /aA8/fO8mYTjo5A2Mm9PugbhX2pK7jvu+sK3PRnF78IZ/JP0Ama9d3YhjjTl1oeOlAnB
- e19Q==
-X-Gm-Message-State: AOJu0YwCM30iIHR0dLVSrAqkf4+dIHu9Xr4DJagMDNylax8fCLfqrcvQ
- bEPSVh52tajvyHVt4DyuaIo=
-X-Google-Smtp-Source: AGHT+IF/03cFrqTJn8+O4ys2b4VjFDTKEBXHF7ZPV37R13mCKzXZTO5FNCeultSc3iwIboLOAI59jQ==
-X-Received: by 2002:a05:6358:186:b0:168:dea8:8897 with SMTP id
- d6-20020a056358018600b00168dea88897mr4449782rwa.22.1698417181757; 
- Fri, 27 Oct 2023 07:33:01 -0700 (PDT)
-Received: from [192.168.2.14] ([64.231.246.137])
+ d=1e100.net; s=20230601; t=1698417268; x=1699022068;
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=K5sokQZCAq452GDyZ2Dqlvt2GWiPurBujB1LiUqRJs0=;
+ b=NxFdsr5cizZEaJgN+ryXlx5sDTjctMq7buIMOL/0HofeA8cJEQWHFLGplni3Q8ho+8
+ Cg2K8IPl0ygGMOuV0IHXO05kXdo8t7myvo48UspdKRLMpoZmDjkzAkAFz6HZz8bEIZyN
+ Gs7qOgEv21cn7tqiZWBHYIYdb4HD2+PWFLj7AkqmqxtDv+xWToFFbARqYL+UB8HeKgdo
+ v3HxotsUfkayt11jq+O6JDwUkEMqa33IiYLWf2vUNujldGGBxHFeSq9fTzy8Fr0d91E0
+ qFzBiUCYxJp8stZc8gw3xz3kdXRQSWSqlryka707SrzV4UwK4F8b0HgdmaTRSGgRppqY
+ R/SA==
+X-Gm-Message-State: AOJu0YynqDphVKlgLJuWps4K90OIA8rBo0eUeBHjVZd9j68I+jgN3UZa
+ chdewl8QNBOkd29rRJCSsPm0sLpBMmuTN8PqBLihShq3tU0m0p2uMbMEAitMfQnzyZ3dcpRQwxX
+ qN58aeYx6c0VVTP3fCnkP0aYOwe+PiARP6n5t
+X-Received: by 2002:a5d:588f:0:b0:32f:7159:c5a with SMTP id
+ n15-20020a5d588f000000b0032f71590c5amr2390256wrf.3.1698417267852; 
+ Fri, 27 Oct 2023 07:34:27 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGJL8QPnW6lUOAA5iB5kBnMmw4h1OwKHuUzPfK0GLI3XMENVubhIB2jpyXUy23cBmNfrvDAUg==
+X-Received: by 2002:a5d:588f:0:b0:32f:7159:c5a with SMTP id
+ n15-20020a5d588f000000b0032f71590c5amr2390205wrf.3.1698417267417; 
+ Fri, 27 Oct 2023 07:34:27 -0700 (PDT)
+Received: from ?IPV6:2a02:810d:4b3f:de9c:abf:b8ff:feee:998b?
+ ([2a02:810d:4b3f:de9c:abf:b8ff:feee:998b])
  by smtp.gmail.com with ESMTPSA id
- r7-20020a0cf807000000b00655d6d31470sm658768qvn.43.2023.10.27.07.33.00
+ i21-20020a05600c355500b00405959469afsm1799979wmq.3.2023.10.27.07.34.26
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 27 Oct 2023 07:33:01 -0700 (PDT)
-Message-ID: <a9215c37-61cd-4fbc-9f80-217daacd96bd@gmail.com>
-Date: Fri, 27 Oct 2023 10:32:52 -0400
+ Fri, 27 Oct 2023 07:34:27 -0700 (PDT)
+Message-ID: <794f9b45-db0d-4261-aefe-7da2ad0ed3b7@redhat.com>
+Date: Fri, 27 Oct 2023 16:34:26 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:115.0) Gecko/20100101
- Thunderbird/115.4.1
+User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH drm-misc-next v3] drm/sched: implement dynamic job-flow
  control
-Content-Language: en-CA, en-US
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Danilo Krummrich <dakr@redhat.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>
 References: <20231026161431.5934-1-dakr@redhat.com>
- <20231027102516.0e4b00ef@collabora.com>
-From: Luben Tuikov <ltuikov89@gmail.com>
-Autocrypt: addr=ltuikov89@gmail.com; keydata=
- xjMEZTohOhYJKwYBBAHaRw8BAQdAWSq76k+GsENjDTMVCy9Vr4fAO9Rb57/bPT1APnbnnRHN
- Ikx1YmVuIFR1aWtvdiA8bHR1aWtvdjg5QGdtYWlsLmNvbT7CmQQTFgoAQRYhBJkj7+VmFO9b
- eaAl10wVR5QxozSvBQJlOiE6AhsDBQkJZgGABQsJCAcCAiICBhUKCQgLAgQWAgMBAh4HAheA
- AAoJEEwVR5QxozSvSm4BAOwCpX53DTQhE20FBGlTMqKCOQyJqlMcIQ9SO1qPWX1iAQCv3vfy
- JwktF7REl1yt7IU2Sye1qmQMfJxdt9JMbMNNBs44BGU6IToSCisGAQQBl1UBBQEBB0BT9wSP
- cCE8uGe7FWo8C+nTSyWPXKTx9F0gpEnlqReRBwMBCAfCfgQYFgoAJhYhBJkj7+VmFO9beaAl
- 10wVR5QxozSvBQJlOiE6AhsMBQkJZgGAAAoJEEwVR5QxozSvSsYA/2LIFjbxQ2ikbU5S0pKo
- aMDzO9eGz69uNhNWJcvIKJK6AQC9228Mqc1JeZMIyjYWr2HKYHi8S2q2/zHrSZwAWYYwDA==
-In-Reply-To: <20231027102516.0e4b00ef@collabora.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------zBbQHo0nGdz20abYaC4EXeG0"
+ <20231027091755.3635be36@collabora.com>
+From: Danilo Krummrich <dakr@redhat.com>
+Organization: RedHat
+In-Reply-To: <20231027091755.3635be36@collabora.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,129 +95,63 @@ Cc: matthew.brost@intel.com, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------zBbQHo0nGdz20abYaC4EXeG0
-Content-Type: multipart/mixed; boundary="------------M3s91CY0sQdA9iUwyyOVqLNg";
- protected-headers="v1"
-From: Luben Tuikov <ltuikov89@gmail.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Danilo Krummrich <dakr@redhat.com>
-Cc: matthew.brost@intel.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, faith@gfxstrand.net, luben.tuikov@amd.com,
- christian.koenig@amd.com
-Message-ID: <a9215c37-61cd-4fbc-9f80-217daacd96bd@gmail.com>
-Subject: Re: [PATCH drm-misc-next v3] drm/sched: implement dynamic job-flow
- control
-References: <20231026161431.5934-1-dakr@redhat.com>
- <20231027102516.0e4b00ef@collabora.com>
-In-Reply-To: <20231027102516.0e4b00ef@collabora.com>
-
---------------M3s91CY0sQdA9iUwyyOVqLNg
-Content-Type: multipart/mixed; boundary="------------vrFRQuCgLc5Nc6W7iMwOFl6n"
-
---------------vrFRQuCgLc5Nc6W7iMwOFl6n
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-On 2023-10-27 04:25, Boris Brezillon wrote:
+On 10/27/23 09:17, Boris Brezillon wrote:
 > Hi Danilo,
->=20
+> 
 > On Thu, 26 Oct 2023 18:13:00 +0200
 > Danilo Krummrich <dakr@redhat.com> wrote:
->=20
->> Currently, job flow control is implemented simply by limiting the numb=
-er
->> of jobs in flight. Therefore, a scheduler is initialized with a credit=
+> 
+>> +
+>> +	/**
+>> +	 * @update_job_credits: Called once the scheduler is considering this
+>> +	 * job for execution.
+>> +	 *
+>> +	 * Drivers may use this to update the job's submission credits, which is
+>> +	 * useful to e.g. deduct the number of native fences which have been
+>> +	 * signaled meanwhile.
+>> +	 *
+>> +	 * The callback must either return the new number of submission credits
+>> +	 * for the given job, or zero if no update is required.
+>> +	 *
+>> +	 * This callback is optional.
+>> +	 */
+>> +	u32 (*update_job_credits)(struct drm_sched_job *sched_job);
+> 
+> I'm copying my late reply to v2 here so it doesn't get lost:
+> 
+> I keep thinking it'd be simpler to make this a void function that
+> updates s_job->submission_credits directly. I also don't see the
+> problem with doing a sanity check on job->submission_credits. I mean,
+> if the driver is doing something silly, you can't do much to prevent it
+> anyway, except warn the user that something wrong has happened. If you
+> want to
+> 
+> 	WARN_ON(job->submission_credits == 0 ||
+> 		job->submission_credits > job_old_submission_credits);
+> 
+> that's fine. But none of this sanity checking has to do with the
+> function prototype/semantics, and I'm still not comfortable with this 0
+> => no-change. If there's no change, we should just leave
+> job->submission_credits unchanged (or return job->submission_credits)
+> instead of inventing a new special case.
 
->> limit that corresponds to the number of jobs which can be sent to the
->> hardware.
->>
->> This implies that for each job, drivers need to account for the maximu=
-m
->> job size possible in order to not overflow the ring buffer.
->>
->> However, there are drivers, such as Nouveau, where the job size has a
->> rather large range. For such drivers it can easily happen that job
->> submissions not even filling the ring by 1% can block subsequent
->> submissions, which, in the worst case, can lead to the ring run dry.
->>
->> In order to overcome this issue, allow for tracking the actual job siz=
-e
->> instead of the number of jobs. Therefore, add a field to track a job's=
+If we can avoid letting drivers change fields of generic structures directly
+without any drawbacks I think we should avoid it. Currently, drivers shouldn't
+have the need to mess with job->credits directly. The initial value is set
+through drm_sched_job_init() and is updated through the return value of
+update_job_credits().
 
->> credit count, which represents the number of credits a job contributes=
+I'm fine getting rid of the 0 => no-change semantics though. Instead we can just
+WARN() on 0. However, if we do that I'd also want to change it for
+drm_sched_job_init() (where 0 currently defaults to 1) such that we accept 0, but
+WARN() accordingly.
 
->> to the scheduler's credit limit.
->>
->> Signed-off-by: Danilo Krummrich <dakr@redhat.com>
->> ---
->> Changes in V2:
->> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->>   - fixed up influence on scheduling fairness due to consideration of =
-a job's
->>     size
->>     - If we reach a ready entity in drm_sched_select_entity() but can'=
-t actually
->>       queue a job from it due to size limitations, just give up and go=
- to sleep
->>       until woken up due to a pending job finishing, rather than conti=
-nue to try
->>       other entities.
->>   - added a callback to dynamically update a job's credits (Boris)
->=20
-> This callback seems controversial. I'd suggest dropping it, so the
-> patch can be merged.
+I think it's consequent to either consistently give 0 a different meaning or just
+accept it but WARN() on it.
 
-Sorry, why is it controversial? (I did read back-and-forth above, but it =
-wasn't clear
-why it is /controversial/.)
+> 
+> Regards,
+> 
+> Boris
+> 
 
-I believe only drivers are privy to changes in the credit availability as=
- their
-firmware and hardware executes new jobs and finishes others, and so this =
-"update"
-here is essential--leaving it only to prepare_job() wouldn't quite fulfil=
-l the vision
-of why the credit mechanism introduced by this patch in the first place.
---=20
-Regards,
-Luben
-
---------------vrFRQuCgLc5Nc6W7iMwOFl6n
-Content-Type: application/pgp-keys; name="OpenPGP_0x4C15479431A334AF.asc"
-Content-Disposition: attachment; filename="OpenPGP_0x4C15479431A334AF.asc"
-Content-Description: OpenPGP public key
-Content-Transfer-Encoding: quoted-printable
-
------BEGIN PGP PUBLIC KEY BLOCK-----
-
-xjMEZTohOhYJKwYBBAHaRw8BAQdAWSq76k+GsENjDTMVCy9Vr4fAO9Rb57/bPT1A
-PnbnnRHNIkx1YmVuIFR1aWtvdiA8bHR1aWtvdjg5QGdtYWlsLmNvbT7CmQQTFgoA
-QRYhBJkj7+VmFO9beaAl10wVR5QxozSvBQJlOiE6AhsDBQkJZgGABQsJCAcCAiIC
-BhUKCQgLAgQWAgMBAh4HAheAAAoJEEwVR5QxozSvSm4BAOwCpX53DTQhE20FBGlT
-MqKCOQyJqlMcIQ9SO1qPWX1iAQCv3vfyJwktF7REl1yt7IU2Sye1qmQMfJxdt9JM
-bMNNBs44BGU6IToSCisGAQQBl1UBBQEBB0BT9wSPcCE8uGe7FWo8C+nTSyWPXKTx
-9F0gpEnlqReRBwMBCAfCfgQYFgoAJhYhBJkj7+VmFO9beaAl10wVR5QxozSvBQJl
-OiE6AhsMBQkJZgGAAAoJEEwVR5QxozSvSsYA/2LIFjbxQ2ikbU5S0pKoaMDzO9eG
-z69uNhNWJcvIKJK6AQC9228Mqc1JeZMIyjYWr2HKYHi8S2q2/zHrSZwAWYYwDA=3D=3D
-=3DqCaZ
------END PGP PUBLIC KEY BLOCK-----
-
---------------vrFRQuCgLc5Nc6W7iMwOFl6n--
-
---------------M3s91CY0sQdA9iUwyyOVqLNg--
-
---------------zBbQHo0nGdz20abYaC4EXeG0
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-wnsEABYIACMWIQSZI+/lZhTvW3mgJddMFUeUMaM0rwUCZTvKFAUDAAAAAAAKCRBMFUeUMaM0rykV
-AQC2uWndwUzaOjsm0B4ArlehJLxJdgkhjAU6cRSrqPbGFQEAzQO8/yIHT9LKQ4J3SXO0uMYyJu4y
-4l+ltVrrttUSoQM=
-=obLk
------END PGP SIGNATURE-----
-
---------------zBbQHo0nGdz20abYaC4EXeG0--
