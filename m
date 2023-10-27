@@ -1,69 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E0D27D93B2
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Oct 2023 11:31:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E04F7D93BB
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Oct 2023 11:31:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B063F10E964;
-	Fri, 27 Oct 2023 09:31:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4546E10E962;
+	Fri, 27 Oct 2023 09:31:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B4DF210E962
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Oct 2023 09:31:01 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 65C3410E962
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Oct 2023 09:31:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1698399060;
+ s=mimecast20190719; t=1698399108;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=XNrFs0h07QQ3WzL8XWJs8qa636YWY8uqFNGGrlBPzmc=;
- b=EyLAgwKsApJ79ck1X+VNA/mHB0H125uauEFQYpqkI/DAo4joRbKpQfu3mHdM4aszNA7B1E
- WBujZY+QM7H6sX3ddqhivzS4+wBN9/RkeTxSwJNubbAcIna/QTAVci4a8zNr9BOHage2em
- vpsz3lG45lp/hB659IXO2eyBf8UjAEU=
-Received: from mail-lf1-f71.google.com (mail-lf1-f71.google.com
- [209.85.167.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=i5tK4NsSAMVwjRdwU7wyEET86Ne+WP2XLYS+WWydcWk=;
+ b=Sgvk9H2xvBT2DLHy0pfixyAp8tYRdSMhJmqmf3FhuGTln2SgPvDmT/ExG9ALItx7gkCcm7
+ 7k2+hAAYChfBg6L1Xwpld9Q+mBRySOl/ge6Ots3gGaKIwl6isqhPXACQTzcI/YA9r6hLry
+ 3mvZEO6FO5E8nNkHetaoH0dLjgyC0mQ=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-631-abLS-_tCP2upAtOXrKgnhw-1; Fri, 27 Oct 2023 05:30:59 -0400
-X-MC-Unique: abLS-_tCP2upAtOXrKgnhw-1
-Received: by mail-lf1-f71.google.com with SMTP id
- 2adb3069b0e04-5079f6c127cso2071787e87.3
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Oct 2023 02:30:59 -0700 (PDT)
+ us-mta-19-1win-xglMimkuNYlWDv1UQ-1; Fri, 27 Oct 2023 05:31:47 -0400
+X-MC-Unique: 1win-xglMimkuNYlWDv1UQ-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ 5b1f17b1804b1-4084d08235fso14430645e9.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Oct 2023 02:31:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1698399058; x=1699003858;
+ d=1e100.net; s=20230601; t=1698399106; x=1699003906;
  h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
  :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=XNrFs0h07QQ3WzL8XWJs8qa636YWY8uqFNGGrlBPzmc=;
- b=hyLT7W5+moEpJivT9RezequVHzXklqB+3vtwyFzpZjPYUqV9njgZUAudEuWXkaA5P0
- iu9/GcM8Dqcx8uI0QaGY/c5+Q1WPiYi58sVu54ewADElv3ekAblYZbfML0ORsjhaos+Z
- mVmmxcrF7T4gzD9q5gWE0JyAUWD8RqYc6mMfsMwqlEVPhJHswjPrq6+Eol6nqL6a96Tc
- 0vCO8UYeEaSKENgISkwTGiDyfmlnn1TWfPLosdhn/WEYcCvhIPJEmpXbR1aomQ8oldyq
- wqE93El/IYyzSJUr4JevOsH/l/+UXfcsQxfv8ACZIJiE1LDXiVhStANj5tiYOhL8NHco
- sk8w==
-X-Gm-Message-State: AOJu0Yyj3uA58YeoX4YdvI7BlqwYqJ+tOiYvGNrUklJxQJk0k23SeuCf
- il1n5e7p6bYAVzrvvO+rbqj+lJe+Iq2hkdNMXF3KfLwHGX8cFhJ7a/HSyNp///WFvlXE/YLuD/j
- /gwSSiml0n3YDqWg9+12puCn+pf0M
-X-Received: by 2002:ac2:5449:0:b0:505:7371:ec83 with SMTP id
- d9-20020ac25449000000b005057371ec83mr1392683lfn.48.1698399058342; 
- Fri, 27 Oct 2023 02:30:58 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHJVuGYSYuMReQZAoVFqQtGlXfjg/2jaYA5k0xGLUkM/iujstFcVk8aJjyyfMM1Ijuxe8lSmA==
-X-Received: by 2002:ac2:5449:0:b0:505:7371:ec83 with SMTP id
- d9-20020ac25449000000b005057371ec83mr1392668lfn.48.1698399057931; 
- Fri, 27 Oct 2023 02:30:57 -0700 (PDT)
+ bh=i5tK4NsSAMVwjRdwU7wyEET86Ne+WP2XLYS+WWydcWk=;
+ b=eCaU1ocU3cJk2tksIuLEm4EGGDLtmsfhd2PumgDsBmhPbxp0PNgGJUdrRZv9mgzBqz
+ 4QhQBPPgP3N3SXh1HoWorGqdsCBioGjV17MDLDZ3N1sxPFB/23teTWUXHwDa9CCZ7Czi
+ ZqBvmBITeHdUJ6xzSw2hPdzj7+zMaVkfMYiPp7+RCChwPLSWb2VvmPgLwzRFcSMyComd
+ fXOYfXPw4PUDcI7lKFzobM6FdQy7bDcS5/gKtwxFWW2201FT4CRq12sMcKvnpExQ1y+L
+ P2EOA4CyVJ1oaUx4AcoxtEH/C9tIJSi9vfknwS6u1YiusOcv7jRtaj9Hia9kzHVzocus
+ hlDg==
+X-Gm-Message-State: AOJu0YxNn2WXLccMd7LJ6bau4jYHQgfgkOhL7mt8TYunWpLwJ2WV0Euv
+ Ro5psu3NoZoE+apKg10b0af4brl/5+HypDPeH7tYi/qM0CAsRKpe9C5u30nO5qer1ybVcnafOxQ
+ 9h41abyF+gFmBAqVp2+B38tMW2dwU
+X-Received: by 2002:adf:ec52:0:b0:32d:a405:b6b7 with SMTP id
+ w18-20020adfec52000000b0032da405b6b7mr1728467wrn.32.1698399106370; 
+ Fri, 27 Oct 2023 02:31:46 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IF4GTSZ5mevbLNAhGTl6ibJEtqheMFk0mh+g9KjS0o00s6f7UUrHkcef0JX6jVsVgS7HiPf/A==
+X-Received: by 2002:adf:ec52:0:b0:32d:a405:b6b7 with SMTP id
+ w18-20020adfec52000000b0032da405b6b7mr1728454wrn.32.1698399106098; 
+ Fri, 27 Oct 2023 02:31:46 -0700 (PDT)
 Received: from localhost ([212.80.183.76]) by smtp.gmail.com with ESMTPSA id
- a1-20020a05600c348100b00402ff8d6086sm1165870wmq.18.2023.10.27.02.30.57
+ j15-20020adfb30f000000b0032d8eecf901sm1369948wrd.3.2023.10.27.02.31.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 Oct 2023 02:30:57 -0700 (PDT)
+ Fri, 27 Oct 2023 02:31:45 -0700 (PDT)
 From: Javier Martinez Canillas <javierm@redhat.com>
-To: Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH] dt-bindings: display: ssd132x: Remove '-' before
- compatible enum
-In-Reply-To: <169801218855.747717.5658253186246322717.robh@kernel.org>
-References: <20231020223029.1667190-1-javierm@redhat.com>
- <169801218855.747717.5658253186246322717.robh@kernel.org>
-Date: Fri, 27 Oct 2023 11:30:56 +0200
-Message-ID: <87y1foo1in.fsf@minerva.mail-host-address-is-not-set>
+To: Jocelyn Falempe <jfalempe@redhat.com>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/ssd130x: Fix possible uninitialized usage of
+ crtc_state variable
+In-Reply-To: <b048247c-75e9-488e-a4f3-b227a38bca5e@redhat.com>
+References: <20231020225338.1686974-1-javierm@redhat.com>
+ <b048247c-75e9-488e-a4f3-b227a38bca5e@redhat.com>
+Date: Fri, 27 Oct 2023 11:31:45 +0200
+Message-ID: <87v8aso1ha.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
@@ -80,31 +80,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Rob Herring <robh+dt@kernel.org>, Maxime Ripard <mripard@kernel.org>
+Cc: Dan Carpenter <dan.carpenter@linaro.org>, dri-devel@lists.freedesktop.org,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Rob Herring <robh@kernel.org> writes:
+Jocelyn Falempe <jfalempe@redhat.com> writes:
 
-> On Sat, 21 Oct 2023 00:30:17 +0200, Javier Martinez Canillas wrote:
->> This is a leftover from when the binding schema had the compatible string
->> property enum as a 'oneOf' child and the '-' was not removed when 'oneOf'
->> got dropped during the binding review process.
->> 
->> Reported-by: Rob Herring <robh@kernel.org>
->> Closes: https://lore.kernel.org/dri-devel/CAL_Jsq+h8DcnpKqhokQOODCc8+Qi3M0PrxRFKz_Y4v37yMJvvA@mail.gmail.com/
->> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
->> ---
->> 
->>  .../devicetree/bindings/display/solomon,ssd132x.yaml      | 8 ++++----
->>  1 file changed, 4 insertions(+), 4 deletions(-)
->> 
+> Hi,
 >
-> Reviewed-by: Rob Herring <robh@kernel.org>
+> On 21/10/2023 00:52, Javier Martinez Canillas wrote:
+>> Avoid a possible uninitialized use of the crtc_state variable in function
+>> ssd132x_primary_plane_atomic_check() and avoid the following Smatch warn:
+>> 
+>>      drivers/gpu/drm/solomon/ssd130x.c:921 ssd132x_primary_plane_atomic_check()
+>>      error: uninitialized symbol 'crtc_state'.
+>
+> That looks trivial, so you can add:
+>
+> Acked-by: Jocelyn Falempe <jfalempe@redhat.com>
 >
 
 Pushed to drm-misc (drm-misc-next). Thanks!
