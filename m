@@ -1,77 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 562207D9B91
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Oct 2023 16:38:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 466277D9BAA
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Oct 2023 16:40:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E6F6810E9C2;
-	Fri, 27 Oct 2023 14:38:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 98C3710E9C4;
+	Fri, 27 Oct 2023 14:40:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A910210E9C2
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Oct 2023 14:38:13 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 137D110E9C4
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Oct 2023 14:40:05 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 39RDgoke005129; Fri, 27 Oct 2023 14:37:42 GMT
+ 39RDlC9e025300; Fri, 27 Oct 2023 14:39:35 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
  h=message-id : date :
  mime-version : subject : to : cc : references : from : in-reply-to :
  content-type : content-transfer-encoding; s=qcppdkim1;
- bh=1oz8Fcn/3XH7a9f5T6rw5gbJMAoziBQHSPVRJfYwoS4=;
- b=Vu6exHdNEfKsII42XLCeF1yU3MysC0lDkULUbGuG7Gton9czVCST6qYUNihYwWJ/Y/b/
- BNuYTPhOH47A/Y8t3aazOjsZFiei4nIVux/R+DWKqOnEjIXXx5+uD7oQCf3NI0MDu+wf
- nuzv5Mapl5OnSrFW3ghm5xpYmj0RaqT9bRb7cVJXsT71s+GbkF1aIInY08mjmGWUNbbh
- vAHQTqdKMFrPi4CPQJ/dtqaawRv/nHtZrgQBtkz5ySyGEiRZhff+xTZOSbd7Zzquhji6
- MvxpkvDieC6m/0n1w0xkLJh8B31qiVTeTnqYfrgUbppKqFDszT5Kk0DW44lY97T7dFzH YA== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ bh=ouLYCMrjBCDi8OjFSy+VTuC5UO03ieiqZHXkrTIUw4I=;
+ b=lI6HXCLawMo7pHirSlKqwR+tcIRnQBFTMgkh9jB6zgrXRrZjLEJmKHwctFqdBQpQ9tvu
+ jTOmNtgYYOsGhmbkRUltyheHoXUgibcd5pk2ga/fJBr8wgu8yGrSaI0P2iIP6JSmv28g
+ 2mnuuibfdDIuME8vlOIUNnS9UEQt5CYof005YDGqSwZl+ukuau5eMOCwB2o+sdjpmFJl
+ k1YeyIzXRO0eVl4qxWYRGcPpnptenx7zKV38sx+Iq7RElR1gdXJ5UdcW7pAFdMQuPt/F
+ iEArMMhviPmccn9Pr2K1NzAoluCEs8xfYZWj7jPzmOIYu9aYlzyAvMxR56F1A6gZU0af Jg== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3tyxbx29br-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3tyww729c5-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 27 Oct 2023 14:37:41 +0000
+ Fri, 27 Oct 2023 14:39:35 +0000
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
  [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 39REbeh5027031
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 39REdXjJ014093
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 27 Oct 2023 14:37:40 GMT
+ Fri, 27 Oct 2023 14:39:33 GMT
 Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
  (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Fri, 27 Oct
- 2023 07:37:40 -0700
-Message-ID: <c83b4b50-fb25-6888-deb3-0a1e6a27165d@quicinc.com>
-Date: Fri, 27 Oct 2023 08:37:39 -0600
+ 2023 07:39:32 -0700
+Message-ID: <4f9b631c-8160-4fee-7df9-0e95542e539e@quicinc.com>
+Date: Fri, 27 Oct 2023 08:39:32 -0600
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Thunderbird/91.6.0
-Subject: Re: [PATCH 01/11] accel/ivpu: Update FW API
+Subject: Re: [PATCH 02/11] accel/ivpu: Remove unneeded drm_driver dectaration
 Content-Language: en-US
 To: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
  <dri-devel@lists.freedesktop.org>
 References: <20231025094323.989987-1-stanislaw.gruszka@linux.intel.com>
- <20231025094323.989987-2-stanislaw.gruszka@linux.intel.com>
+ <20231025094323.989987-3-stanislaw.gruszka@linux.intel.com>
 From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <20231025094323.989987-2-stanislaw.gruszka@linux.intel.com>
+In-Reply-To: <20231025094323.989987-3-stanislaw.gruszka@linux.intel.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
  nalasex01a.na.qualcomm.com (10.47.209.196)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-ORIG-GUID: Ajh8Wy_xg6Zth3PdP_z6RsgcNyni1KLC
-X-Proofpoint-GUID: Ajh8Wy_xg6Zth3PdP_z6RsgcNyni1KLC
+X-Proofpoint-ORIG-GUID: SgKEaHi735xDgpr0D1aGdJ2uucjrrtmb
+X-Proofpoint-GUID: SgKEaHi735xDgpr0D1aGdJ2uucjrrtmb
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-10-27_12,2023-10-27_01,2023-05-22_02
+ definitions=2023-10-27_13,2023-10-27_01,2023-05-22_02
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 adultscore=0
- lowpriorityscore=0 suspectscore=0 bulkscore=0 phishscore=0 clxscore=1015
- priorityscore=1501 spamscore=0 impostorscore=0 mlxlogscore=999
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2310240000 definitions=main-2310270126
+ mlxscore=0 suspectscore=0
+ impostorscore=0 lowpriorityscore=0 mlxlogscore=823 priorityscore=1501
+ bulkscore=0 clxscore=1015 phishscore=0 adultscore=0 malwarescore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2310240000 definitions=main-2310270127
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,739 +90,12 @@ Cc: Oded Gabbay <ogabbay@kernel.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+$SUBJECT has a spelling error of "declaration"
+
 On 10/25/2023 3:43 AM, Stanislaw Gruszka wrote:
-> From: Krystian Pradzynski <krystian.pradzynski@linux.intel.com>
+> Cleanup drm_driver declaration leftover.
 > 
-> Bump boot API to 4.20
-> Bump JSM API to 3.15
-> 
-> Signed-off-by: Krystian Pradzynski <krystian.pradzynski@linux.intel.com>
-> Reviewed-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+> Reviewed-by: Krystian Pradzynski <krystian.pradzynski@linux.intel.com>
 > Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-> ---
->   drivers/accel/ivpu/ivpu_jsm_msg.c |  17 ++
->   drivers/accel/ivpu/vpu_boot_api.h |  90 ++++++++-
->   drivers/accel/ivpu/vpu_jsm_api.h  | 309 ++++++++++++++++++++++++++++--
->   3 files changed, 392 insertions(+), 24 deletions(-)
-> 
-> diff --git a/drivers/accel/ivpu/ivpu_jsm_msg.c b/drivers/accel/ivpu/ivpu_jsm_msg.c
-> index 0c2fe7142024..35a689475c68 100644
-> --- a/drivers/accel/ivpu/ivpu_jsm_msg.c
-> +++ b/drivers/accel/ivpu/ivpu_jsm_msg.c
-> @@ -36,6 +36,17 @@ const char *ivpu_jsm_msg_type_to_str(enum vpu_ipc_msg_type type)
->   	IVPU_CASE_TO_STR(VPU_JSM_MSG_DESTROY_CMD_QUEUE);
->   	IVPU_CASE_TO_STR(VPU_JSM_MSG_SET_CONTEXT_SCHED_PROPERTIES);
->   	IVPU_CASE_TO_STR(VPU_JSM_MSG_HWS_REGISTER_DB);
-> +	IVPU_CASE_TO_STR(VPU_JSM_MSG_HWS_RESUME_CMDQ);
-> +	IVPU_CASE_TO_STR(VPU_JSM_MSG_HWS_SUSPEND_CMDQ);
-> +	IVPU_CASE_TO_STR(VPU_JSM_MSG_HWS_RESUME_CMDQ_RSP);
-> +	IVPU_CASE_TO_STR(VPU_JSM_MSG_HWS_SUSPEND_CMDQ_DONE);
-> +	IVPU_CASE_TO_STR(VPU_JSM_MSG_HWS_SET_SCHEDULING_LOG);
-> +	IVPU_CASE_TO_STR(VPU_JSM_MSG_HWS_SET_SCHEDULING_LOG_RSP);
-> +	IVPU_CASE_TO_STR(VPU_JSM_MSG_HWS_SCHEDULING_LOG_NOTIFICATION);
-> +	IVPU_CASE_TO_STR(VPU_JSM_MSG_HWS_ENGINE_RESUME);
-> +	IVPU_CASE_TO_STR(VPU_JSM_MSG_HWS_RESUME_ENGINE_DONE);
-> +	IVPU_CASE_TO_STR(VPU_JSM_MSG_STATE_DUMP);
-> +	IVPU_CASE_TO_STR(VPU_JSM_MSG_STATE_DUMP_RSP);
->   	IVPU_CASE_TO_STR(VPU_JSM_MSG_BLOB_DEINIT);
->   	IVPU_CASE_TO_STR(VPU_JSM_MSG_DYNDBG_CONTROL);
->   	IVPU_CASE_TO_STR(VPU_JSM_MSG_JOB_DONE);
-> @@ -65,6 +76,12 @@ const char *ivpu_jsm_msg_type_to_str(enum vpu_ipc_msg_type type)
->   	IVPU_CASE_TO_STR(VPU_JSM_MSG_SET_CONTEXT_SCHED_PROPERTIES_RSP);
->   	IVPU_CASE_TO_STR(VPU_JSM_MSG_BLOB_DEINIT_DONE);
->   	IVPU_CASE_TO_STR(VPU_JSM_MSG_DYNDBG_CONTROL_RSP);
-> +	IVPU_CASE_TO_STR(VPU_JSM_MSG_PWR_D0I3_ENTER);
-> +	IVPU_CASE_TO_STR(VPU_JSM_MSG_PWR_D0I3_ENTER_DONE);
-> +	IVPU_CASE_TO_STR(VPU_JSM_MSG_DCT_ENABLE);
-> +	IVPU_CASE_TO_STR(VPU_JSM_MSG_DCT_ENABLE_DONE);
-> +	IVPU_CASE_TO_STR(VPU_JSM_MSG_DCT_DISABLE);
-> +	IVPU_CASE_TO_STR(VPU_JSM_MSG_DCT_DISABLE_DONE);
->   	}
->   	#undef IVPU_CASE_TO_STR
->   
-> diff --git a/drivers/accel/ivpu/vpu_boot_api.h b/drivers/accel/ivpu/vpu_boot_api.h
-> index 6b71be92ba65..04c954258563 100644
-> --- a/drivers/accel/ivpu/vpu_boot_api.h
-> +++ b/drivers/accel/ivpu/vpu_boot_api.h
-> @@ -11,7 +11,10 @@
->    *  The bellow values will be used to construct the version info this way:
->    *  fw_bin_header->api_version[VPU_BOOT_API_VER_ID] = (VPU_BOOT_API_VER_MAJOR << 16) |
->    *  VPU_BOOT_API_VER_MINOR;
-> - *  VPU_BOOT_API_VER_PATCH will be ignored. KMD and compatibility is not affected if this changes.
-> + *  VPU_BOOT_API_VER_PATCH will be ignored. KMD and compatibility is not affected if this changes
-> + *  This information is collected by using vpuip_2/application/vpuFirmware/make_std_fw_image.py
-> + *  If a header is missing this info we ignore the header, if a header is missing or contains
-> + *  partial info a build error will be generated.
->    */
->   
->   /*
-> @@ -24,12 +27,12 @@
->    * Minor version changes when API backward compatibility is preserved.
->    * Resets to 0 if Major version is incremented.
->    */
-> -#define VPU_BOOT_API_VER_MINOR 12
-> +#define VPU_BOOT_API_VER_MINOR 20
->   
->   /*
->    * API header changed (field names, documentation, formatting) but API itself has not been changed
->    */
-> -#define VPU_BOOT_API_VER_PATCH 2
-> +#define VPU_BOOT_API_VER_PATCH 4
->   
->   /*
->    * Index in the API version table
-> @@ -63,6 +66,12 @@ struct vpu_firmware_header {
->   	/* Size of memory require for firmware execution */
->   	u32 runtime_size;
->   	u32 shave_nn_fw_size;
-> +	/* Size of primary preemption buffer. */
-> +	u32 preemption_buffer_1_size;
-> +	/* Size of secondary preemption buffer. */
-> +	u32 preemption_buffer_2_size;
-> +	/* Space reserved for future preemption-related fields. */
-> +	u32 preemption_reserved[6];
->   };
->   
->   /*
-> @@ -89,6 +98,14 @@ enum VPU_BOOT_L2_CACHE_CFG_TYPE {
->   	VPU_BOOT_L2_CACHE_CFG_NUM = 2
->   };
->   
-> +/** VPU MCA ECC signalling mode. By default, no signalling is used */
 
-This does not look like valid kernel-doc.  Maybe you wanted "/*" instead?
-
-> +enum VPU_BOOT_MCA_ECC_SIGNAL_TYPE {
-> +	VPU_BOOT_MCA_ECC_NONE = 0,
-> +	VPU_BOOT_MCA_ECC_CORR = 1,
-> +	VPU_BOOT_MCA_ECC_FATAL = 2,
-> +	VPU_BOOT_MCA_ECC_BOTH = 3
-
-Personal preference, but having the "=" and the interget values all line 
-up vetrically would make this a bit more plesant to look at.
-
-> +};
-> +
->   /**
->    * Logging destinations.
->    *
-> @@ -131,9 +148,11 @@ enum vpu_trace_destination {
->   #define VPU_TRACE_PROC_BIT_ACT_SHV_3 22
->   #define VPU_TRACE_PROC_NO_OF_HW_DEVS 23
->   
-> -/* KMB HW component IDs are sequential, so define first and last IDs. */
-> -#define VPU_TRACE_PROC_BIT_KMB_FIRST VPU_TRACE_PROC_BIT_LRT
-> -#define VPU_TRACE_PROC_BIT_KMB_LAST  VPU_TRACE_PROC_BIT_SHV_15
-> +/* VPU 30xx HW component IDs are sequential, so define first and last IDs. */
-> +#define VPU_TRACE_PROC_BIT_30XX_FIRST VPU_TRACE_PROC_BIT_LRT
-> +#define VPU_TRACE_PROC_BIT_30XX_LAST  VPU_TRACE_PROC_BIT_SHV_15
-> +#define VPU_TRACE_PROC_BIT_KMB_FIRST  VPU_TRACE_PROC_BIT_30XX_FIRST
-> +#define VPU_TRACE_PROC_BIT_KMB_LAST   VPU_TRACE_PROC_BIT_30XX_LAST
->   
->   struct vpu_boot_l2_cache_config {
->   	u8 use;
-> @@ -148,6 +167,25 @@ struct vpu_warm_boot_section {
->   	u32 is_clear_op;
->   };
->   
-> +/*
-> + * When HW scheduling mode is enabled, a present period is defined.
-> + * It will be used by VPU to swap between normal and focus priorities
-> + * to prevent starving of normal priority band (when implemented).
-> + * Host must provide a valid value at boot time in
-> + * `vpu_focus_present_timer_ms`. If the value provided by the host is not within the
-> + * defined range a default value will be used. Here we define the min. and max.
-> + * allowed values and the and default value of the present period. Units are milliseconds.
-> + */
-> +#define VPU_PRESENT_CALL_PERIOD_MS_DEFAULT 50
-> +#define VPU_PRESENT_CALL_PERIOD_MS_MIN	   16
-> +#define VPU_PRESENT_CALL_PERIOD_MS_MAX	   10000
-
-Again, aligning the values would seem to read better.
-
-> +
-> +/**
-> + * Macros to enable various operation modes within the VPU.
-> + * To be defined as part of 32 bit mask.
-> + */
-
-Invalid kernel-doc?
-
-> +#define VPU_OP_MODE_SURVIVABILITY 0x1
-> +
->   struct vpu_boot_params {
->   	u32 magic;
->   	u32 vpu_id;
-> @@ -218,6 +256,7 @@ struct vpu_boot_params {
->   	 * the threshold will not be logged); applies to every enabled logging
->   	 * destination and loggable HW component. See 'mvLog_t' enum for acceptable
->   	 * values.
-> +	 * TODO: EISW-33556: Move log level definition (mvLog_t) to this file.
->   	 */
->   	u32 default_trace_level;
->   	u32 boot_type;
-> @@ -249,7 +288,36 @@ struct vpu_boot_params {
->   	u32 temp_sensor_period_ms;
->   	/** PLL ratio for efficient clock frequency */
->   	u32 pn_freq_pll_ratio;
-> -	u32 pad4[28];
-> +	/** DVFS Mode: Default: 0, Max Performance: 1, On Demand: 2, Power Save: 3 */
-> +	u32 dvfs_mode;
-> +	/**
-> +	 * Depending on DVFS Mode:
-> +	 * On-demand: Default if 0.
-> +	 *    Bit 0-7   - uint8_t: Highest residency percent
-> +	 *    Bit 8-15  - uint8_t: High residency percent
-> +	 *    Bit 16-23 - uint8_t: Low residency percent
-> +	 *    Bit 24-31 - uint8_t: Lowest residency percent
-> +	 *    Bit 32-35 - unsigned 4b: PLL Ratio increase amount on highest residency
-> +	 *    Bit 36-39 - unsigned 4b: PLL Ratio increase amount on high residency
-> +	 *    Bit 40-43 - unsigned 4b: PLL Ratio decrease amount on low residency
-> +	 *    Bit 44-47 - unsigned 4b: PLL Ratio decrease amount on lowest frequency
-> +	 *    Bit 48-55 - uint8_t: Period (ms) for residency decisions
-> +	 *    Bit 56-63 - uint8_t: Averaging windows (as multiples of period. Max: 30 decimal)
-> +	 * Power Save/Max Performance: Unused
-> +	 */
-
-Invalid kernel-doc?
-
-> +	u64 dvfs_param;
-> +	/**
-> +	 * D0i3 delayed entry
-> +	 * Bit0: Disable CPU state save on D0i2 entry flow.
-> +	 *       0: Every D0i2 entry saves state. Save state IPC message ignored.
-> +	 *       1: IPC message required to save state on D0i3 entry flow.
-> +	 */
-
-Invalid kernel-doc?
-
-> +	u32 d0i3_delayed_entry;
-> +	/* Time spent by VPU in D0i3 state */
-> +	u64 d0i3_residency_time_us;
-> +	/* Value of VPU perf counter at the time of entering D0i3 state . */
-> +	u64 d0i3_entry_vpu_ts;
-> +	u32 pad4[20];
->   	/* Warm boot information: 0x400 - 0x43F */
->   	u32 warm_boot_sections_count;
->   	u32 warm_boot_start_address_reference;
-> @@ -274,8 +342,12 @@ struct vpu_boot_params {
->   	u32 vpu_scheduling_mode;
->   	/* Present call period in milliseconds. */
->   	u32 vpu_focus_present_timer_ms;
-> -	/* Unused/reserved: 0x478 - 0xFFF */
-> -	u32 pad6[738];
-> +	/* VPU ECC Signaling */
-> +	u32 vpu_uses_ecc_mca_signal;
-> +	/* Values defined by VPU_OP_MODE* macros */
-> +	u32 vpu_operation_mode;
-> +	/* Unused/reserved: 0x480 - 0xFFF */
-> +	u32 pad6[736];
->   };
->   
->   /*
-> diff --git a/drivers/accel/ivpu/vpu_jsm_api.h b/drivers/accel/ivpu/vpu_jsm_api.h
-> index 2949ec8365bd..7da7622742be 100644
-> --- a/drivers/accel/ivpu/vpu_jsm_api.h
-> +++ b/drivers/accel/ivpu/vpu_jsm_api.h
-> @@ -22,12 +22,12 @@
->   /*
->    * Minor version changes when API backward compatibility is preserved.
->    */
-> -#define VPU_JSM_API_VER_MINOR 0
-> +#define VPU_JSM_API_VER_MINOR 15
->   
->   /*
->    * API header changed (field names, documentation, formatting) but API itself has not been changed
->    */
-> -#define VPU_JSM_API_VER_PATCH 1
-> +#define VPU_JSM_API_VER_PATCH 0
->   
->   /*
->    * Index in the API version table
-> @@ -84,11 +84,13 @@
->    * Job flags bit masks.
->    */
->   #define VPU_JOB_FLAGS_NULL_SUBMISSION_MASK 0x00000001
-> +#define VPU_JOB_FLAGS_PRIVATE_DATA_MASK	   0xFF000000
->   
->   /*
->    * Sizes of the reserved areas in jobs, in bytes.
->    */
-> -#define VPU_JOB_RESERVED_BYTES	     16
-> +#define VPU_JOB_RESERVED_BYTES 8
-> +
->   /*
->    * Sizes of the reserved areas in job queues, in bytes.
->    */
-> @@ -108,6 +110,20 @@
->    */
->   #define VPU_DYNDBG_CMD_MAX_LEN 96
->   
-> +/*
-> + * For HWS command queue scheduling, we can prioritise command queues inside the
-> + * same process with a relative in-process priority. Valid values for relative
-> + * priority are given below - max and min.
-> + */
-> +#define VPU_HWS_COMMAND_QUEUE_MAX_IN_PROCESS_PRIORITY 7
-> +#define VPU_HWS_COMMAND_QUEUE_MIN_IN_PROCESS_PRIORITY -7
-> +
-> +/*
-> + * For HWS priority scheduling, we can have multiple realtime priority bands.
-> + * They are numbered 0 to a MAX.
-> + */
-> +#define VPU_HWS_MAX_REALTIME_PRIORITY_LEVEL 31U
-> +
->   /*
->    * Job format.
->    */
-> @@ -117,8 +133,14 @@ struct vpu_job_queue_entry {
->   	u32 flags; /**< Flags bit field, see VPU_JOB_FLAGS_* above */
->   	u64 root_page_table_addr; /**< Address of root page table to use for this job */
->   	u64 root_page_table_update_counter; /**< Page tables update events counter */
-> -	u64 preemption_buffer_address; /**< Address of the preemption buffer to use for this job */
-> -	u64 preemption_buffer_size; /**< Size of the preemption buffer to use for this job */
-> +	u64 primary_preempt_buf_addr;
-> +	/**< Address of the primary preemption buffer to use for this job */
-> +	u32 primary_preempt_buf_size;
-> +	/**< Size of the primary preemption buffer to use for this job */
-> +	u32 secondary_preempt_buf_size;
-> +	/**< Size of secondary preemption buffer to use for this job */
-> +	u64 secondary_preempt_buf_addr;
-> +	/**< Address of secondary preemption buffer to use for this job */
->   	u8 reserved_0[VPU_JOB_RESERVED_BYTES];
->   };
->   
-> @@ -152,6 +174,46 @@ enum vpu_trace_entity_type {
->   	VPU_TRACE_ENTITY_TYPE_HW_COMPONENT = 2,
->   };
->   
-> +/*
-> + * HWS specific log buffer header details.
-> + * Total size is 32 bytes.
-> + */
-> +struct vpu_hws_log_buffer_header {
-> +	/* Written by VPU after adding a log entry. Initialised by host to 0. */
-> +	u32 first_free_entry_index;
-> +	/* Incremented by VPU every time the VPU overwrites the 0th entry;
-> +	 * initialised by host to 0.
-> +	 */
-> +	u32 wraparound_count;
-> +	/*
-> +	 * This is the number of buffers that can be stored in the log buffer provided by the host.
-> +	 * It is written by host before passing buffer to VPU. VPU should consider it read-only.
-
-I've been told by GregKH in the past that while code is allowed to go to 
-100 columns, comments are to remain under 80.
-
-> +	 */
-> +	u64 num_of_entries;
-> +	u64 reserved[2];
-> +};
-> +
-> +/*
-> + * HWS specific log buffer entry details.
-> + * Total size is 32 bytes.
-> + */
-> +struct vpu_hws_log_buffer_entry {
-> +	/* VPU timestamp must be an invariant timer tick (not impacted by DVFS) */
-> +	u64 vpu_timestamp;
-> +	/*
-> +	 * Operation type:
-> +	 *     0 - context state change
-> +	 *     1 - queue new work
-> +	 *     2 - queue unwait sync object
-> +	 *     3 - queue no more work
-> +	 *     4 - queue wait sync object
-> +	 */
-> +	u32 operation_type;
-> +	u32 reserved;
-> +	/* Operation data depends on operation type */
-> +	u64 operation_data[2];
-> +};
-> +
->   /*
->    * Host <-> VPU IPC messages types.
->    */
-> @@ -228,6 +290,23 @@ enum vpu_ipc_msg_type {
->   	 * deallocated or reassigned to another context.
->   	 */
->   	VPU_JSM_MSG_HWS_REGISTER_DB = 0x1117,
-> +	/** Control command: Log buffer setting */
-
-Invalid kernel-doc?
-
-> +	VPU_JSM_MSG_HWS_SET_SCHEDULING_LOG = 0x1118,
-> +	/* Control command: Suspend command queue. */
-> +	VPU_JSM_MSG_HWS_SUSPEND_CMDQ = 0x1119,
-> +	/* Control command: Resume command queue */
-> +	VPU_JSM_MSG_HWS_RESUME_CMDQ = 0x111a,
-> +	/* Control command: Resume engine after reset */
-> +	VPU_JSM_MSG_HWS_ENGINE_RESUME = 0x111b,
-> +	/* Control command: Enable survivability/DCT mode */
-> +	VPU_JSM_MSG_DCT_ENABLE = 0x111c,
-> +	/* Control command: Disable survivability/DCT mode */
-> +	VPU_JSM_MSG_DCT_DISABLE = 0x111d,
-> +	/**
-> +	 * Dump VPU state. To be used for debug purposes only.
-> +	 * NOTE: Please introduce new ASYNC commands before this one. *
-> +	 */
-
-Invalid kernel-doc?
-
-> +	VPU_JSM_MSG_STATE_DUMP = 0x11FF,
->   	/* IPC Host -> Device, General commands */
->   	VPU_JSM_MSG_GENERAL_CMD = 0x1200,
->   	VPU_JSM_MSG_BLOB_DEINIT = VPU_JSM_MSG_GENERAL_CMD,
-> @@ -236,6 +315,10 @@ enum vpu_ipc_msg_type {
->   	 * Linux command: `echo '<dyndbg_cmd>' > <debugfs>/dynamic_debug/control`.
->   	 */
->   	VPU_JSM_MSG_DYNDBG_CONTROL = 0x1201,
-> +	/**
-> +	 * Perform the save procedure for the D0i3 entry
-> +	 */
-
-Invalid kernel-doc?
-
-> +	VPU_JSM_MSG_PWR_D0I3_ENTER = 0x1202,
->   	/* IPC Device -> Host, Job completion */
->   	VPU_JSM_MSG_JOB_DONE = 0x2100,
->   	/* IPC Device -> Host, Async command completion */
-> @@ -304,11 +387,35 @@ enum vpu_ipc_msg_type {
->   	VPU_JSM_MSG_DESTROY_CMD_QUEUE_RSP = 0x2216,
->   	/** Response to control command: Set context scheduling properties */
->   	VPU_JSM_MSG_SET_CONTEXT_SCHED_PROPERTIES_RSP = 0x2217,
-> +	/** Response to control command: Log buffer setting */
-
-Invalid kernel-doc?
-
-> +	VPU_JSM_MSG_HWS_SET_SCHEDULING_LOG_RSP = 0x2218,
-> +	/* IPC Device -> Host, HWS notify index entry of log buffer written */
-> +	VPU_JSM_MSG_HWS_SCHEDULING_LOG_NOTIFICATION = 0x2219,
-> +	/* IPC Device -> Host, HWS completion of a context suspend request */
-> +	VPU_JSM_MSG_HWS_SUSPEND_CMDQ_DONE = 0x221a,
-> +	/* Response to control command: Resume command queue */
-> +	VPU_JSM_MSG_HWS_RESUME_CMDQ_RSP = 0x221b,
-> +	/* Response to control command: Resume engine command response */
-> +	VPU_JSM_MSG_HWS_RESUME_ENGINE_DONE = 0x221c,
-> +	/* Response to control command: Enable survivability/DCT mode */
-> +	VPU_JSM_MSG_DCT_ENABLE_DONE = 0x221d,
-> +	/* Response to control command: Disable survivability/DCT mode */
-> +	VPU_JSM_MSG_DCT_DISABLE_DONE = 0x221e,
-> +	/**
-> +	 * Response to state dump control command.
-> +	 * NOTE: Please introduce new ASYNC responses before this one. *
-> +	 */
-
-Invalid kernel-doc?
-
-> +	VPU_JSM_MSG_STATE_DUMP_RSP = 0x22FF,
->   	/* IPC Device -> Host, General command completion */
->   	VPU_JSM_MSG_GENERAL_CMD_DONE = 0x2300,
->   	VPU_JSM_MSG_BLOB_DEINIT_DONE = VPU_JSM_MSG_GENERAL_CMD_DONE,
->   	/** Response to VPU_JSM_MSG_DYNDBG_CONTROL. */
->   	VPU_JSM_MSG_DYNDBG_CONTROL_RSP = 0x2301,
-> +	/**
-> +	 * Acknowledgment of completion of the save procedure initiated by
-> +	 * VPU_JSM_MSG_PWR_D0I3_ENTER
-> +	 */
-
-Invalid kernel-doc?
-
-> +	VPU_JSM_MSG_PWR_D0I3_ENTER_DONE = 0x2302,
->   };
->   
->   enum vpu_ipc_msg_status { VPU_JSM_MSG_FREE, VPU_JSM_MSG_ALLOCATED };
-> @@ -593,12 +700,12 @@ struct vpu_ipc_msg_payload_hws_priority_band_setup {
->   	 * Default quantum in 100ns units for scheduling across processes
->   	 * within a priority band
->   	 */
-> -	u64 process_quantum[VPU_HWS_NUM_PRIORITY_BANDS];
-> +	u32 process_quantum[VPU_HWS_NUM_PRIORITY_BANDS];
->   	/*
->   	 * Default grace period in 100ns units for processes that preempt each
->   	 * other within a priority band
->   	 */
-> -	u64 process_grace_period[VPU_HWS_NUM_PRIORITY_BANDS];
-> +	u32 process_grace_period[VPU_HWS_NUM_PRIORITY_BANDS];
->   	/*
->   	 * For normal priority band, specifies the target VPU percentage
->   	 * in situations when it's starved by the focus band.
-> @@ -608,32 +715,51 @@ struct vpu_ipc_msg_payload_hws_priority_band_setup {
->   	u32 reserved_0;
->   };
->   
-> -/* HWS create command queue request */
-> +/*
-> + * @brief HWS create command queue request.
-> + * Host will create a command queue via this command.
-> + * Note: Cmdq group is a handle of an object which
-> + * may contain one or more command queues.
-> + * @see VPU_JSM_MSG_CREATE_CMD_QUEUE
-> + * @see VPU_JSM_MSG_CREATE_CMD_QUEUE_RSP
-> + */
-
-Invalid kernel-doc?
-
->   struct vpu_ipc_msg_payload_hws_create_cmdq {
->   	/* Process id */
->   	u64 process_id;
->   	/* Host SSID */
->   	u32 host_ssid;
-> -	/* Zero Padding */
-> -	u32 reserved;
-> +	/* Engine for which queue is being created */
-> +	u32 engine_idx;
-> +	/*
-> +	 * Cmdq group may be set to 0 or equal to
-> +	 * cmdq_id while each priority band contains
-> +	 * only single engine instances.
-> +	 */
-> +	u64 cmdq_group;
->   	/* Command queue id */
->   	u64 cmdq_id;
->   	/* Command queue base */
->   	u64 cmdq_base;
->   	/* Command queue size */
->   	u32 cmdq_size;
-> -	/* Reserved */
-> +	/* Zero padding */
->   	u32 reserved_0;
->   };
->   
-> -/* HWS create command queue response */
-> +/*
-> + * @brief HWS create command queue response.
-> + * @see VPU_JSM_MSG_CREATE_CMD_QUEUE
-> + * @see VPU_JSM_MSG_CREATE_CMD_QUEUE_RSP
-> + */
-
-Invalid kernel-doc?
-
->   struct vpu_ipc_msg_payload_hws_create_cmdq_rsp {
->   	/* Process id */
->   	u64 process_id;
->   	/* Host SSID */
->   	u32 host_ssid;
-> -	/* Zero Padding */
-> -	u32 reserved;
-> +	/* Engine for which queue is being created */
-> +	u32 engine_idx;
-> +	/* Command queue group */
-> +	u64 cmdq_group;
->   	/* Command queue id */
->   	u64 cmdq_id;
->   };
-> @@ -661,7 +787,7 @@ struct vpu_ipc_msg_payload_hws_set_context_sched_properties {
->   	/* Inside realtime band assigns a further priority */
->   	u32 realtime_priority_level;
->   	/* Priority relative to other contexts in the same process */
-> -	u32 in_process_priority;
-> +	s32 in_process_priority;
->   	/* Zero padding / Reserved */
->   	u32 reserved_1;
->   	/* Context quantum relative to other contexts of same priority in the same process */
-> @@ -694,6 +820,123 @@ struct vpu_jsm_hws_register_db {
->   	u64 cmdq_size;
->   };
->   
-> +/*
-> + * @brief Structure to set another buffer to be used for scheduling-related logging.
-> + * The size of the logging buffer and the number of entries is defined as part of the
-> + * buffer itself as described next.
-> + * The log buffer received from the host is made up of;
-> + *   - header:     32 bytes in size, as shown in 'struct vpu_hws_log_buffer_header'.
-> + *                 The header contains the number of log entries in the buffer.
-> + *   - log entry:  0 to n-1, each log entry is 32 bytes in size, as shown in
-> + *                 'struct vpu_hws_log_buffer_entry'.
-> + *                 The entry contains the VPU timestamp, operation type and data.
-> + * The host should provide the notify index value of log buffer to VPU. This is a
-> + * value defined within the log buffer and when written to will generate the
-> + * scheduling log notification.
-> + * The host should set engine_idx and vpu_log_buffer_va to 0 to disable logging
-> + * for a particular engine.
-> + * VPU will handle one log buffer for each of supported engines.
-> + * VPU should allow the logging to consume one host_ssid.
-> + * @see VPU_JSM_MSG_HWS_SET_SCHEDULING_LOG
-> + * @see VPU_JSM_MSG_HWS_SET_SCHEDULING_LOG_RSP
-> + * @see VPU_JSM_MSG_HWS_SCHEDULING_LOG_NOTIFICATION
-> + */
-
-Invalid kernel-doc?
-
-> +struct vpu_ipc_msg_payload_hws_set_scheduling_log {
-> +	/* Engine ordinal */
-> +	u32 engine_idx;
-> +	/* Host SSID */
-> +	u32 host_ssid;
-> +	/*
-> +	 * VPU log buffer virtual address.
-> +	 * Set to 0 to disable logging for this engine.
-> +	 */
-> +	u64 vpu_log_buffer_va;
-> +	/*
-> +	 * Notify index of log buffer. VPU_JSM_MSG_HWS_SCHEDULING_LOG_NOTIFICATION
-> +	 * is generated when an event log is written to this index.
-> +	 */
-> +	u64 notify_index;
-> +};
-> +
-> +/*
-> + * @brief The scheduling log notification is generated by VPU when it writes
-> + * an event into the log buffer at the notify_index. VPU notifies host with
-> + * VPU_JSM_MSG_HWS_SCHEDULING_LOG_NOTIFICATION. This is an asynchronous
-> + * message from VPU to host.
-> + * @see VPU_JSM_MSG_HWS_SCHEDULING_LOG_NOTIFICATION
-> + * @see VPU_JSM_MSG_HWS_SET_SCHEDULING_LOG
-> + */
-
-Invalid kernel-doc?
-
-> +struct vpu_ipc_msg_payload_hws_scheduling_log_notification {
-> +	/* Engine ordinal */
-> +	u32 engine_idx;
-> +	/* Zero Padding */
-> +	u32 reserved_0;
-> +};
-> +
-> +/*
-> + * @brief HWS suspend command queue request and done structure.
-> + * Host will request the suspend of contexts and VPU will;
-> + *   - Suspend all work on this context
-> + *   - Preempt any running work
-> + *   - Asynchronously perform the above and return success immediately once
-> + *     all items above are started successfully
-> + *   - Notify the host of completion of these operations via
-> + *     VPU_JSM_MSG_HWS_SUSPEND_CMDQ_DONE
-> + *   - Reject any other context operations on a context with an in-flight
-> + *     suspend request running
-> + * Same structure used when VPU notifies host of completion of a context suspend
-> + * request. The ids and suspend fence value reported in this command will match
-> + * the one in the request from the host to suspend the context. Once suspend is
-> + * complete, VPU will not access any data relating to this command queue until
-> + * it is resumed.
-> + * @see VPU_JSM_MSG_HWS_SUSPEND_CMDQ
-> + * @see VPU_JSM_MSG_HWS_SUSPEND_CMDQ_DONE
-> + */
-
-Invalid kernel-doc?
-
-> +struct vpu_ipc_msg_payload_hws_suspend_cmdq {
-> +	/* Host SSID */
-> +	u32 host_ssid;
-> +	/* Zero Padding */
-> +	u32 reserved_0;
-> +	/* Command queue id */
-> +	u64 cmdq_id;
-> +	/*
-> +	 * Suspend fence value - reported by the VPU suspend context
-> +	 * completed once suspend is complete.
-> +	 */
-> +	u64 suspend_fence_value;
-> +};
-> +
-> +/*
-> + * @brief HWS Resume command queue request / response structure.
-> + * Host will request the resume of a context;
-> + *  - VPU will resume all work on this context
-> + *  - Scheduler will allow this context to be scheduled
-> + * @see VPU_JSM_MSG_HWS_RESUME_CMDQ
-> + * @see VPU_JSM_MSG_HWS_RESUME_CMDQ_RSP
-> + */
-
-Invalid kernel-doc?
-
-> +struct vpu_ipc_msg_payload_hws_resume_cmdq {
-> +	/* Host SSID */
-> +	u32 host_ssid;
-> +	/* Zero Padding */
-> +	u32 reserved_0;
-> +	/* Command queue id */
-> +	u64 cmdq_id;
-> +};
-> +
-> +/*
-> + * @brief HWS Resume engine request / response structure.
-> + * After a HWS engine reset, all scheduling is stopped on VPU until a engine resume.
-> + * Host shall send this command to resume scheduling of any valid queue.
-> + * @see VPU_JSM_MSG_HWS_RESUME_ENGINE
-> + * @see VPU_JSM_MSG_HWS_RESUME_ENGINE_DONE
-> + */
-
-Invalid kernel-doc?
-
-> +struct vpu_ipc_msg_payload_hws_resume_engine {
-> +	/* Engine to be resumed */
-> +	u32 engine_idx;
-> +	/* Reserved */
-> +	u32 reserved_0;
-> +};
-> +
->   /**
->    * Payload for VPU_JSM_MSG_TRACE_SET_CONFIG[_RSP] and
->    * VPU_JSM_MSG_TRACE_GET_CONFIG_RSP messages.
-> @@ -938,6 +1181,35 @@ struct vpu_ipc_msg_payload_dyndbg_control {
->   	char dyndbg_cmd[VPU_DYNDBG_CMD_MAX_LEN];
->   };
->   
-> +/**
-> + * Payload for VPU_JSM_MSG_PWR_D0I3_ENTER
-> + *
-> + * This is a bi-directional payload.
-> + */
-
-Invalid kernel-doc?
-
-> +struct vpu_ipc_msg_payload_pwr_d0i3_enter {
-> +	/**
-> +	 * 0: VPU_JSM_MSG_PWR_D0I3_ENTER_DONE is not sent to the host driver
-> +	 *    The driver will poll for D0i2 Idle state transitions.
-> +	 * 1: VPU_JSM_MSG_PWR_D0I3_ENTER_DONE is sent after VPU state save is complete
-> +	 */
-
-Invalid kernel-doc?
-
-> +	u32 send_response;
-> +	u32 reserved_0;
-> +};
-> +
-> +/**
-> + * Payload for VPU_JSM_MSG_DCT_ENABLE message.
-> + *
-> + * Default values for DCT active/inactive times are 5.3ms and 30ms respectively,
-> + * corresponding to a 85% duty cycle. This payload allows the host to tune these
-> + * values according to application requirements.
-> + */
-
-Invalid kernel-doc?
-
-> +struct vpu_ipc_msg_payload_pwr_dct_control {
-> +	/** Duty cycle active time in microseconds */
-
-Invalid kernel-doc?
-
-> +	u32 dct_active_us;
-> +	/** Duty cycle inactive time in microseconds */
-
-Invalid kernel-doc?
-
-> +	u32 dct_inactive_us;
-> +};
-> +
->   /*
->    * Payloads union, used to define complete message format.
->    */
-> @@ -974,6 +1246,13 @@ union vpu_ipc_msg_payload {
->   	struct vpu_ipc_msg_payload_hws_destroy_cmdq hws_destroy_cmdq;
->   	struct vpu_ipc_msg_payload_hws_set_context_sched_properties
->   		hws_set_context_sched_properties;
-> +	struct vpu_ipc_msg_payload_hws_set_scheduling_log hws_set_scheduling_log;
-> +	struct vpu_ipc_msg_payload_hws_scheduling_log_notification hws_scheduling_log_notification;
-> +	struct vpu_ipc_msg_payload_hws_suspend_cmdq hws_suspend_cmdq;
-> +	struct vpu_ipc_msg_payload_hws_resume_cmdq hws_resume_cmdq;
-> +	struct vpu_ipc_msg_payload_hws_resume_engine hws_resume_engine;
-> +	struct vpu_ipc_msg_payload_pwr_d0i3_enter pwr_d0i3_enter;
-> +	struct vpu_ipc_msg_payload_pwr_dct_control pwr_dct_control;
->   };
->   
->   /*
-
+Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
