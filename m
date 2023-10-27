@@ -2,63 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48EA67D9C0A
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Oct 2023 16:47:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 119697D9C20
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Oct 2023 16:49:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 877A710E9CE;
-	Fri, 27 Oct 2023 14:47:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 248CD10E9D0;
+	Fri, 27 Oct 2023 14:49:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B65A910E9CE;
- Fri, 27 Oct 2023 14:47:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1698418069; x=1729954069;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=Y4P9Bqeterqdl3jqcGwjUkIBi2NtNxgmJccLiuc5rHI=;
- b=gDBeQykvwtLguwvkT2t+ruVqzLo5Gcnc0ABQf+q453K1G3fJifhiRPmy
- tsEdZc95wM9YXJXypJaSkrf45Wri94oPoum+0Yy8n9Yk5QN4YCbc3mwPJ
- QPq25MYni9kjOtfHudNWJL3ulrtD4Jy333fg/eHCL89RENI6PTUm1Zbm/
- yTdxz9NoqKGi3ZbWulCw1iifmGVUg1at8idHHskLmLIFDLtpJ9r0HefpH
- sR8TWAjNk/aLQCZsvmyHBtJReXP/4M4cez3DdxsfYCrY3aB4cvuKUDQ/B
- pw66lm25C7ubjCegCt7lcovYVd1rePVhhbVX4E+hnK/iyTzqLT70+lpMh A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10876"; a="384990204"
-X-IronPort-AV: E=Sophos;i="6.03,256,1694761200"; d="scan'208";a="384990204"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Oct 2023 07:47:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10876"; a="1090946608"
-X-IronPort-AV: E=Sophos;i="6.03,256,1694761200"; d="scan'208";a="1090946608"
-Received: from dhanlon-mobl1.ger.corp.intel.com (HELO [10.213.221.114])
- ([10.213.221.114])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Oct 2023 07:47:45 -0700
-Message-ID: <4d850f3c-c199-470f-b83e-00bd9fddbd7a@linux.intel.com>
-Date: Fri, 27 Oct 2023 15:47:43 +0100
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 31A5410E9D0
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Oct 2023 14:49:54 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 39RDgMrp015768; Fri, 27 Oct 2023 14:49:24 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=Y534IdkJvt6yUHxmylUWoUrpWaRGERVOIOtjQS3Ko4o=;
+ b=AEwY6292jlKHVMOaS/q0Ky1G6uZN0Ei2usCivBF5+AtPWC64nZSM5A4t2dBxlCf1BN4k
+ OtxNSXptGvrJlVSsGL85psobRaRMT044qTqgVWdmHDdT6Lu8ntWAHvTIqSXmSrb7PN2C
+ +d0/dpjloNRK6u0OX+IYOhki4Z99t62xCRcQqkMlNH7BUvFviXiRc6QpzrX2VyerghyJ
+ hTPlhlUtjXsq1bHd2oC5th706S2qT/bDTKu2sXW9+SV5jt4C1wORF0BzbqlLa+cEw/aZ
+ +VdZvePz2Mpn4qln1KFF7oamwQcGdTshtp/CjhdKMbY5lLA/h8/Bm+lCFyJFYyNcrfiR eA== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3tyws9acxe-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 27 Oct 2023 14:49:23 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 39REnMfH012381
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 27 Oct 2023 14:49:22 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Fri, 27 Oct
+ 2023 07:49:22 -0700
+Message-ID: <bdd18dc1-fb4c-2058-b242-5e311266de5b@quicinc.com>
+Date: Fri, 27 Oct 2023 08:49:21 -0600
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] i915/perf: Fix NULL deref bugs with drm_dbg() calls
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH 07/11] accel/ivpu: Introduce ivpu_ipc_send_receive_active()
 Content-Language: en-US
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>,
- Lionel Landwerlin <lionel.g.landwerlin@intel.com>,
- Matt Roper <matthew.d.roper@intel.com>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20231027140729.2505993-1-harshit.m.mogalapalli@oracle.com>
- <1e844f00-fc16-4788-8d90-ebe115eb9313@intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <1e844f00-fc16-4788-8d90-ebe115eb9313@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+To: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+ <dri-devel@lists.freedesktop.org>
+References: <20231025094323.989987-1-stanislaw.gruszka@linux.intel.com>
+ <20231025094323.989987-8-stanislaw.gruszka@linux.intel.com>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <20231025094323.989987-8-stanislaw.gruszka@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: xzGtK0I-n2kKL3uCoW5Qte2NBOYYOsP-
+X-Proofpoint-GUID: xzGtK0I-n2kKL3uCoW5Qte2NBOYYOsP-
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-10-27_12,2023-10-27_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 adultscore=0
+ mlxlogscore=792 spamscore=0 impostorscore=0 mlxscore=0 bulkscore=0
+ clxscore=1011 lowpriorityscore=0 phishscore=0 priorityscore=1501
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2310240000 definitions=main-2310270127
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,78 +84,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, error27@gmail.com,
- dan.carpenter@linaro.org
+Cc: Karol Wachowski <karol.wachowski@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 27/10/2023 15:11, Andrzej Hajda wrote:
-> On 27.10.2023 16:07, Harshit Mogalapalli wrote:
->> When i915 perf interface is not available dereferencing it will lead to
->> NULL dereferences.
->>
->> Fix this by using DRM_DEBUG() which the scenario before the commit in
->> the Fixes tag.
->>
->> Fixes: 2fec539112e8 ("i915/perf: Replace DRM_DEBUG with driver 
->> specific drm_dbg call")
->> Signed-off-by: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
+On 10/25/2023 3:43 AM, Stanislaw Gruszka wrote:
+> From: Karol Wachowski <karol.wachowski@linux.intel.com>
 > 
-> 
-> Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
+> Split ivpu_ipc_send_receive() implementation to have a version
+> that does not call pm_runtime_resume_and_get(). That implementation
+> can be invoked when device is up and runtime resume is prohibited
+> (for example at the end of boot sequence).
 
-Please hold off merging.
+There doesn't seem to be a user for this, which would make the new 
+function dead code.  Assuming that this new function gets used later in 
+the series, it would be clearer to combine this change with that one.
 
->> ---
->> This is found using smatch(static analysis tool), only compile tested.
->> ---
->>   drivers/gpu/drm/i915/i915_perf.c | 9 +++------
->>   1 file changed, 3 insertions(+), 6 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/i915/i915_perf.c 
->> b/drivers/gpu/drm/i915/i915_perf.c
->> index 2f3ecd7d4804..bb48c96b7950 100644
->> --- a/drivers/gpu/drm/i915/i915_perf.c
->> +++ b/drivers/gpu/drm/i915/i915_perf.c
->> @@ -4228,8 +4228,7 @@ int i915_perf_open_ioctl(struct drm_device *dev, 
->> void *data,
->>       int ret;
->>       if (!perf->i915) {
->> -        drm_dbg(&perf->i915->drm,
->> -            "i915 perf interface not available for this system\n");
->> +        DRM_DEBUG("i915 perf interface not available for this 
->> system\n");
-
-What's that struct drm_device *dev function argument a few lines up? :)
-
-Although TBH all these these could just be removed since I doubt they 
-are adding any value and ENOTSUPP is pretty clear.
-
-Regards,
-
-Tvrtko
-
->>           return -ENOTSUPP;
->>       }
->> @@ -4608,8 +4607,7 @@ int i915_perf_add_config_ioctl(struct drm_device 
->> *dev, void *data,
->>       int err, id;
->>       if (!perf->i915) {
->> -        drm_dbg(&perf->i915->drm,
->> -            "i915 perf interface not available for this system\n");
->> +        DRM_DEBUG("i915 perf interface not available for this 
->> system\n");
->>           return -ENOTSUPP;
->>       }
->> @@ -4774,8 +4772,7 @@ int i915_perf_remove_config_ioctl(struct 
->> drm_device *dev, void *data,
->>       int ret;
->>       if (!perf->i915) {
->> -        drm_dbg(&perf->i915->drm,
->> -            "i915 perf interface not available for this system\n");
->> +        DRM_DEBUG("i915 perf interface not available for this 
->> system\n");
->>           return -ENOTSUPP;
->>       }
-> 
+-Jeff
