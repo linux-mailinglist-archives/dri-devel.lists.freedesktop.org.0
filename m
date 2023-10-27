@@ -1,86 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3DA77DA380
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Oct 2023 00:34:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B4BA47DA3AD
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Oct 2023 00:43:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD4AE10EA67;
-	Fri, 27 Oct 2023 22:33:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E93B10EA5C;
+	Fri, 27 Oct 2023 22:43:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 87BB310EA5B;
- Fri, 27 Oct 2023 22:33:46 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B4E110EA5C
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Oct 2023 22:43:52 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 39RMQE1f022475; Fri, 27 Oct 2023 22:33:30 GMT
+ 39RMMjWA027511; Fri, 27 Oct 2023 22:43:42 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : date :
- subject : mime-version : content-type : content-transfer-encoding :
- message-id : references : in-reply-to : to : cc; s=qcppdkim1;
- bh=dOdpw7EyZ1GXU+LOOIo1PUFEA6FIP1IdBQqFuuPhHAc=;
- b=Uc0Mvqxnf5J3/reUmu/RpGRq4Pmwc7/rJSoz75YflaHNUrcSaqny23UJ1Ko+VlBh1hnh
- z7dQqmKzIdEBr1K0PizXnCp3eJU31SPVNHOojsOtxd1woM2zArx8DaOAK0TFir/fLTO2
- bU771wQEv8lBJ3qKScONeeVSH4iwU7Ho8IKIEuzwhogPBDpUvTS9r+VJXvuHPIS3+oUY
- tPS5IOriUUOc5NfRHX1dVzhlv4nNdDdeGlqwtCUpkcaqn6nS7cg3uUv1rTy6h09gJM+i
- nD9Fd6SJDvb1YTu9RIsJ+wXsUNxafG8e6XYksm5HU2kshBjTt4yTp5jm6E5t6Nvcxlq4 Cw== 
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=dddWPssa7NxKmBC9PKKk9og9EbwBwqpIobXk1v9pY3w=;
+ b=aST4fnsHI29EOTPrCe6kCaPzzqMMHIR1ZLVd7aM4I6EM1Z1XhZ49bXHph3YkvOxLci/4
+ 2ZVdXluoAhNHhyMeaxTPPNqoB18jlwXRVy6baYLs3RBlfrUNGvmbY8egUyxiWiViG5/S
+ ivvDvsTH3EIwLztbyn5xTiDb1WvVIJ0rIwcRPSADMUjb6rH5rehZifC2d15Xp+Hni7Pk
+ alR49ywA67BKRW/g8Ge/R1SjHbAMy+H+Jtg6jGoKXKK56udRh5BrJFBw+zVAAkMvggoO
+ Oh9lAGvzdKE1gujczz9jAiGYXb8shMFo1pvKrhrt7xjVP8Obre6S+HeIVxQ6khcbWkfx rQ== 
 Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com
  [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3tyxas35fg-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3tyws9bbvf-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 27 Oct 2023 22:33:30 +0000
+ Fri, 27 Oct 2023 22:43:42 +0000
 Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
  [10.46.141.250])
- by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 39RMXTcE022615
+ by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 39RMheLg002193
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 27 Oct 2023 22:33:29 GMT
-Received: from jesszhan-linux.qualcomm.com (10.80.80.8) by
- nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.39; Fri, 27 Oct 2023 15:33:28 -0700
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-Date: Fri, 27 Oct 2023 15:33:00 -0700
-Subject: [PATCH RFC v7 10/10] drm/msm/dpu: Add solid fill and pixel source
- properties
+ Fri, 27 Oct 2023 22:43:41 GMT
+Received: from [10.134.69.165] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Fri, 27 Oct
+ 2023 15:43:40 -0700
+Message-ID: <0eb01480-f733-437e-a87a-9296dc7709c3@quicinc.com>
+Date: Fri, 27 Oct 2023 15:43:33 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/5] drm/panel: nv3051d: Add Powkiddy RK2023 Panel Support
+To: Chris Morgan <macromorgan@hotmail.com>
+References: <20231018161848.346947-1-macroalpha82@gmail.com>
+ <20231018161848.346947-3-macroalpha82@gmail.com>
+ <c5e2929c-ef05-4e74-947e-579706f2b4aa@quicinc.com>
+ <SN6PR06MB53427936B51EABD4484DF0C3A5DBA@SN6PR06MB5342.namprd06.prod.outlook.com>
+Content-Language: en-US
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+In-Reply-To: <SN6PR06MB53427936B51EABD4484DF0C3A5DBA@SN6PR06MB5342.namprd06.prod.outlook.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-ID: <20231027-solid-fill-v7-10-780188bfa7b2@quicinc.com>
-References: <20231027-solid-fill-v7-0-780188bfa7b2@quicinc.com>
-In-Reply-To: <20231027-solid-fill-v7-0-780188bfa7b2@quicinc.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Rob Clark
- <robdclark@gmail.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- "Sean Paul" <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>
-X-Mailer: b4 0.13-dev-26615
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1698446005; l=975;
- i=quic_jesszhan@quicinc.com; s=20230329; h=from:subject:message-id;
- bh=e7e4xcO9eZ83cozj+iixlLO6aclrBgczSRuOXvlhWdU=;
- b=KToEfJUQlQIuxLTjyFfuLIwS5h7Aq1o7LOgkee9N/FY59muJnxjLgMesv2R8mCggphzi+as9N
- 1hcusSyThHHBrxM3R2LoYmFMvpORCE+dYVwhpl0Svr2kkqnOfrYnTiK
-X-Developer-Key: i=quic_jesszhan@quicinc.com; a=ed25519;
- pk=gAUCgHZ6wTJOzQa3U0GfeCDH7iZLlqIEPo4rrjfDpWE=
 X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
  nasanex01b.na.qualcomm.com (10.46.141.250)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-GUID: 9gD1jLIGSh4702lwXm0MiD9DHjEX_IFp
-X-Proofpoint-ORIG-GUID: 9gD1jLIGSh4702lwXm0MiD9DHjEX_IFp
+X-Proofpoint-ORIG-GUID: Jw6Q9V-R7xe7r2cJPauMZui7Tf4CK_8s
+X-Proofpoint-GUID: Jw6Q9V-R7xe7r2cJPauMZui7Tf4CK_8s
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2023-10-27_21,2023-10-27_01,2023-05-22_02
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0
- lowpriorityscore=0 adultscore=0 malwarescore=0 priorityscore=1501
- phishscore=0 suspectscore=0 clxscore=1015 spamscore=0 mlxscore=0
- mlxlogscore=710 bulkscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2310240000 definitions=main-2310270193
+ malwarescore=0 adultscore=0
+ mlxlogscore=999 spamscore=0 impostorscore=0 mlxscore=0 bulkscore=0
+ clxscore=1015 lowpriorityscore=0 phishscore=0 priorityscore=1501
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2310240000 definitions=main-2310270194
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,36 +84,152 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sebastian.wick@redhat.com, quic_abhinavk@quicinc.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- ppaalanen@gmail.com, laurent.pinchart@ideasonboard.com,
- linux-arm-msm@vger.kernel.org, Jessica Zhang <quic_jesszhan@quicinc.com>,
- wayland-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, conor+dt@kernel.org, neil.armstrong@linaro.org,
+ sboyd@kernel.org, mturquette@baylibre.com, sebastian.reichel@collabora.com,
+ dri-devel@lists.freedesktop.org, Chris Morgan <macroalpha82@gmail.com>,
+ linux-rockchip@lists.infradead.org, robh+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, sam@ravnborg.org, linux-clk@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add solid_fill and pixel_source properties to DPU plane
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 2 ++
- 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-index 832747080daf..8e9fda541211 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-@@ -1493,6 +1493,8 @@ struct drm_plane *dpu_plane_init(struct drm_device *dev,
- 		DPU_ERROR("failed to install zpos property, rc = %d\n", ret);
- 
- 	drm_plane_create_alpha_property(plane);
-+	drm_plane_create_solid_fill_property(plane);
-+	drm_plane_create_pixel_source_property(plane, BIT(DRM_PLANE_PIXEL_SOURCE_SOLID_FILL));
- 	drm_plane_create_blend_mode_property(plane,
- 			BIT(DRM_MODE_BLEND_PIXEL_NONE) |
- 			BIT(DRM_MODE_BLEND_PREMULTI) |
+On 10/20/2023 8:02 AM, Chris Morgan wrote:
+> On Thu, Oct 19, 2023 at 10:22:24AM -0700, Jessica Zhang wrote:
+>>
+>>
+>> On 10/18/2023 9:18 AM, Chris Morgan wrote:
+>>> From: Chris Morgan <macromorgan@hotmail.com>
+>>>
+>>> Refactor the driver to add support for the powkiddy,rk2023-panel
+>>> panel. This panel is extremely similar to the rg353p-panel but
+>>> requires a smaller vertical back porch and isn't as tolerant of
+>>> higher speeds.
+>>>
+>>> Tested on my RG351V, RG353P, RG353V, and RK2023.
+>>>
+>>> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+>>
+>> Hi Chris,
+>>
+>> Thanks for the patch. Just have a minor question below.
+>>
+>>> ---
+>>>    .../gpu/drm/panel/panel-newvision-nv3051d.c   | 56 +++++++++++++++----
+>>>    1 file changed, 45 insertions(+), 11 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/panel/panel-newvision-nv3051d.c b/drivers/gpu/drm/panel/panel-newvision-nv3051d.c
+>>> index 79de6c886292..d24c51503d68 100644
+>>> --- a/drivers/gpu/drm/panel/panel-newvision-nv3051d.c
+>>> +++ b/drivers/gpu/drm/panel/panel-newvision-nv3051d.c
+>>> @@ -28,6 +28,7 @@ struct nv3051d_panel_info {
+>>>    	unsigned int num_modes;
+>>>    	u16 width_mm, height_mm;
+>>>    	u32 bus_flags;
+>>> +	u32 mode_flags;
+>>>    };
+>>>    struct panel_nv3051d {
+>>> @@ -385,15 +386,7 @@ static int panel_nv3051d_probe(struct mipi_dsi_device *dsi)
+>>>    	dsi->lanes = 4;
+>>>    	dsi->format = MIPI_DSI_FMT_RGB888;
+>>> -	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
+>>> -			  MIPI_DSI_MODE_LPM | MIPI_DSI_MODE_NO_EOT_PACKET;
+>>> -
+>>> -	/*
+>>> -	 * The panel in the RG351V is identical to the 353P, except it
+>>> -	 * requires MIPI_DSI_CLOCK_NON_CONTINUOUS to operate correctly.
+>>> -	 */
+>>> -	if (of_device_is_compatible(dev->of_node, "anbernic,rg351v-panel"))
+>>> -		dsi->mode_flags |= MIPI_DSI_CLOCK_NON_CONTINUOUS;
+>>> +	dsi->mode_flags = ctx->panel_info->mode_flags;
+>>>    	drm_panel_init(&ctx->panel, &dsi->dev, &panel_nv3051d_funcs,
+>>>    		       DRM_MODE_CONNECTOR_DSI);
+>>> @@ -481,18 +474,59 @@ static const struct drm_display_mode nv3051d_rgxx3_modes[] = {
+>>>    	},
+>>>    };
+>>> -static const struct nv3051d_panel_info nv3051d_rgxx3_info = {
+>>> +static const struct drm_display_mode nv3051d_rk2023_modes[] = {
+>>> +	{
+>>> +		.hdisplay       = 640,
+>>> +		.hsync_start    = 640 + 40,
+>>> +		.hsync_end      = 640 + 40 + 2,
+>>> +		.htotal         = 640 + 40 + 2 + 80,
+>>> +		.vdisplay       = 480,
+>>> +		.vsync_start    = 480 + 18,
+>>> +		.vsync_end      = 480 + 18 + 2,
+>>> +		.vtotal         = 480 + 18 + 2 + 4,
+>>> +		.clock          = 24150,
+>>> +		.flags          = DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC,
+>>> +	},
+>>> +};
+>>> +
+>>> +static const struct nv3051d_panel_info nv3051d_rg351v_info = {
+>>>    	.display_modes = nv3051d_rgxx3_modes,
+>>>    	.num_modes = ARRAY_SIZE(nv3051d_rgxx3_modes),
+>>>    	.width_mm = 70,
+>>>    	.height_mm = 57,
+>>>    	.bus_flags = DRM_BUS_FLAG_DE_LOW | DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE,
+>>> +	.mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
+>>> +		      MIPI_DSI_MODE_LPM | MIPI_DSI_MODE_NO_EOT_PACKET |
+>>> +		      MIPI_DSI_CLOCK_NON_CONTINUOUS,
+>>> +};
+>>> +
+>>> +static const struct nv3051d_panel_info nv3051d_rg353p_info = {
+>>> +	.display_modes = nv3051d_rgxx3_modes,
+>>> +	.num_modes = ARRAY_SIZE(nv3051d_rgxx3_modes),
+>>> +	.width_mm = 70,
+>>> +	.height_mm = 57,
+>>
+>> Will all the panels for this driver be 70x57? If so, would it be better to
+>> set display_info.[width_mm|height_mm] directly?
+> 
+> They are all so far the same size, but I can't guarantee that going forward.
+> To my knowledge this is the last of the nv3051d devices I'll be working on
+> in the foreseeable future though, and so far they're all identical in size.
 
--- 
-2.42.0
+Got it, if it's not guaranteed might be better to leave it as it then. 
+Thanks for clarifying.
 
+BR,
+
+Jessica Zhang
+
+> 
+>>
+>>> +	.bus_flags = DRM_BUS_FLAG_DE_LOW | DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE,
+>>> +	.mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
+>>> +		      MIPI_DSI_MODE_LPM | MIPI_DSI_MODE_NO_EOT_PACKET,
+>>> +};
+>>> +
+>>> +static const struct nv3051d_panel_info nv3051d_rk2023_info = {
+>>> +	.display_modes = nv3051d_rk2023_modes,
+>>> +	.num_modes = ARRAY_SIZE(nv3051d_rk2023_modes),
+>>> +	.width_mm = 70,
+>>> +	.height_mm = 57,
+>>> +	.bus_flags = DRM_BUS_FLAG_DE_LOW | DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE,
+>>> +	.mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
+>>> +		      MIPI_DSI_MODE_LPM | MIPI_DSI_MODE_NO_EOT_PACKET,
+>>>    };
+>>>    static const struct of_device_id newvision_nv3051d_of_match[] = {
+>>> -	{ .compatible = "newvision,nv3051d", .data = &nv3051d_rgxx3_info },
+>>> +	{ .compatible = "anbernic,rg351v-panel", .data = &nv3051d_rg351v_info },
+>>> +	{ .compatible = "anbernic,rg353p-panel", .data = &nv3051d_rg353p_info },
+>>> +	{ .compatible = "powkiddy,rk2023-panel", .data = &nv3051d_rk2023_info },
+>>>    	{ /* sentinel */ }
+>>>    };
+>>> +
+> 
+> Sorry, will fix that in a V2. Thank you.
+> 
+>>
+>> I think you can drop this stray newline.
+>>
+>> Thanks,
+>>
+>> Jessica Zhang
+>>
+>>>    MODULE_DEVICE_TABLE(of, newvision_nv3051d_of_match);
+>>>    static struct mipi_dsi_driver newvision_nv3051d_driver = {
+>>> -- 
+>>> 2.34.1
+>>>
