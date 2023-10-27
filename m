@@ -1,80 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2E7F7D9EE2
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Oct 2023 19:28:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B07377D9EEA
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Oct 2023 19:33:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0217010EA1A;
-	Fri, 27 Oct 2023 17:28:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4611710E134;
+	Fri, 27 Oct 2023 17:33:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com
- [205.220.165.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D8C3810EA18;
- Fri, 27 Oct 2023 17:28:35 +0000 (UTC)
-Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 39RDUqcs003218; Fri, 27 Oct 2023 17:28:31 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding;
- s=corp-2023-03-30; bh=p6dG+kpIoF/iHNddbsnwUE/KqqM8kV5CcnouCGK8hBU=;
- b=Bp2Q1BlhhhGbGtG3BjikUSLR5Td8ZbvJnA2TfXnULo5XNdIxZN8L/QLUDO5QMBww/y17
- 4bPzRPsCXfkS0UB6GHBZP7+YvA8aTbwPPaEEAC23lYGHcgSkl+le5Fy4SfFH4qSpjv0z
- vPRi1dxmvykedH5kUI5Nl70flPsXZEYGdReJqzdrae+TFqqvcQU+xkCkOsbsR2epfvd2
- QzH643nEQPLH8nMJbY2VvxLQ6Q5vCBQtibGzEjvcsiTkPQdYUGMPqrzStK2DpjtmL1pN
- +ibOOxzD7zskENtPTwsWHZqR9PZQBsiUlkFEAA6nhAOR5M+NRm2xiZD+8vToAHdmHA+u Sg== 
-Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com
- (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3tyxmv9y5w-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 27 Oct 2023 17:28:31 +0000
-Received: from pps.filterd
- (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
- by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19)
- with ESMTP id 39RHLsa2025874; Fri, 27 Oct 2023 17:28:30 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
- by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id
- 3tywqmh4ee-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 27 Oct 2023 17:28:29 +0000
-Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com
- (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 39RHSTKR010403;
- Fri, 27 Oct 2023 17:28:29 GMT
-Received: from ca-dev112.us.oracle.com (ca-dev112.us.oracle.com
- [10.129.136.47])
- by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id
- 3tywqmh4bk-1; Fri, 27 Oct 2023 17:28:29 +0000
-From: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>,
- Matt Roper <matthew.d.roper@intel.com>,
- Lionel Landwerlin <lionel.g.landwerlin@intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH v2] i915/perf: Fix NULL deref bugs with drm_dbg() calls
-Date: Fri, 27 Oct 2023 10:28:22 -0700
-Message-ID: <20231027172822.2753059-1-harshit.m.mogalapalli@oracle.com>
-X-Mailer: git-send-email 2.42.0
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC85D10E134
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Oct 2023 17:33:20 +0000 (UTC)
+Received: from [192.168.68.129] (unknown [177.98.22.188])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: koike)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id D2F31660737A;
+ Fri, 27 Oct 2023 18:33:16 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1698427999;
+ bh=AluZlkh5so7lcatuAmdva6G7QYfUFFpxXhi4kMet+xU=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=G+obXqFnExoRzk1AK8m0W5XJGgVYZ08PGQkIvmYSppmZ4oyUw0LrwNM/vnKTxeOwa
+ eAE7WJnicJebcPP8JdSZne4eGDh/ZumCzzy0Wnoi9DPH+4MsG67hk2NymebFls4ZRj
+ UqyYNUufL32bn1py9PgaN4XtmwVRfxVH1g9q7pOsiXR0tH5GV4MofYeCdhZCQFSqUI
+ Xmg7HM3CP1pvJgWK926fciG0y/i6SiMXQqbunzIA2xkexqd/RNkaKs3AtZAIP+zpaQ
+ P+hdw+xa8a6Zx0mPcPCyI4r90nqK/V1pHgVI3DTQFtT2XdnEL+2L+0lIM18hqnIpLV
+ MIqP7J6RBF/lw==
+Message-ID: <be81c570-0899-477c-8515-ccbfaa45230d@collabora.com>
+Date: Fri, 27 Oct 2023 14:33:10 -0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-10-27_16,2023-10-27_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- mlxscore=0 spamscore=0
- malwarescore=0 phishscore=0 bulkscore=0 suspectscore=0 mlxlogscore=999
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2310240000
- definitions=main-2310270151
-X-Proofpoint-GUID: kaDHCum3BgONr6fRSNERLsTiL3rM08tv
-X-Proofpoint-ORIG-GUID: kaDHCum3BgONr6fRSNERLsTiL3rM08tv
+User-Agent: Mozilla Thunderbird
+Subject: Re: (subset) [PATCH v2] drm/doc: ci: Require more context for flaky
+ tests
+To: Maxime Ripard <mripard@kernel.org>
+References: <20231025142441.745947-1-mripard@kernel.org>
+ <169831793153.896759.13985615649031607361.b4-ty@kernel.org>
+ <62542ca6-d2c2-4330-8423-3edbdc3b4bd8@collabora.com>
+ <22723536-dc2e-4973-984b-1504367d84a0@collabora.com>
+ <jufk7lzskhsz4dc4iiqsuuspno2772yowokw6e75dmrh5jvdt2@g6it5xcsd45k>
+ <d7ad25bb-3391-4a2d-96df-f579bc38e183@collabora.com>
+ <tfl6ugavysoukh7tynct6a56vwfcc56s372kmyxyd3rmad77ra@c7scmnjz2fid>
+Content-Language: en-US
+From: Helen Koike <helen.koike@collabora.com>
+In-Reply-To: <tfl6ugavysoukh7tynct6a56vwfcc56s372kmyxyd3rmad77ra@c7scmnjz2fid>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,71 +59,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: harshit.m.mogalapalli@oracle.com, kernel-janitors@vger.kernel.org,
- error27@gmail.com, dan.carpenter@linaro.org,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: "daniels >> Daniel Stone" <daniels@collabora.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Vignesh Raman <vignesh.raman@collabora.com>, dri-devel@lists.freedesktop.org,
+ Daniel Vetter <daniel.vetter@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When i915 perf interface is not available dereferencing it will lead to
-NULL dereferences.
 
-As returning -ENOTSUPP is pretty clear return when perf interface is not
-available.
 
-Fixes: 2fec539112e8 ("i915/perf: Replace DRM_DEBUG with driver specific drm_dbg call")
-Suggested-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Signed-off-by: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
----
-v1 --> v2: Remove the debug calls as they don't add much value and
--ENOTSUPP is a good enough return value.
----
- drivers/gpu/drm/i915/i915_perf.c | 15 +++------------
- 1 file changed, 3 insertions(+), 12 deletions(-)
+On 26/10/2023 12:31, Maxime Ripard wrote:
+> Hi,
+> 
+> On Thu, Oct 26, 2023 at 11:27:18AM -0300, Helen Koike wrote:
+>> On 26/10/2023 10:27, Maxime Ripard wrote:
+>>> On Thu, Oct 26, 2023 at 09:08:03AM -0300, Helen Koike wrote:
+>>>>
+>>>>
+>>>> On 26/10/2023 09:01, Helen Koike wrote:
+>>>>>
+>>>>>
+>>>>> On 26/10/2023 07:58, Maxime Ripard wrote:
+>>>>>> On Wed, 25 Oct 2023 16:24:41 +0200, Maxime Ripard wrote:
+>>>>>>> Flaky tests can be very difficult to reproduce after the facts, which
+>>>>>>> will make it even harder to ever fix.
+>>>>>>>
+>>>>>>> Let's document the metadata we agreed on to provide more context to
+>>>>>>> anyone trying to address these fixes.
+>>>>>>>
+>>>>>>>
+>>>>>>> [...]
+>>>>>>
+>>>>>> Applied to drm/drm-misc (drm-misc-next).
+>>>>>
+>>>>> Thanks!
+>>>>>
+>>>>> Could you also apply https://patchwork.kernel.org/project/dri-devel/cover/20231024004525.169002-1-helen.koike@collabora.com/
+>>>>> (and the dependencies listed on it).
+>>>>
+>>>> For some reason, commit message 7/10 (drm/ci: increase i915 job timeout to
+>>>> 1h30m) looks incomplete in patchwork, but it looks fine in my branch:
+>>>>
+>>>> https://gitlab.freedesktop.org/helen.fornazier/linux/-/commits/for-drm-misc-wip/
+>>>>
+>>>> Let me know if you prefer that I send it again or if you could pull from the
+>>>> branch.
+>>>
+>>> It was fine on lore.kernel.org and that's where I'm pulling from, so it all worked out :)
+>>>
+>>> Everything you asked for should be applied now
+>>>
+>>> Maxime
+>>
+>> Awesome, thank you!
+>>
+>> Sorry, just another request, could you please pull this other one updating
+>> MAINTAINERS?
+>>
+>> https://patchwork.kernel.org/project/linux-arm-msm/patch/20230919182249.153499-1-helen.koike@collabora.com/
+> 
+> I don't mind, but the expectation (the one I had at least) was that you would do it :)
+> 
+> If you don't have drm-misc access, please create an account, you have
+> done way more than expected to get one already
 
-diff --git a/drivers/gpu/drm/i915/i915_perf.c b/drivers/gpu/drm/i915/i915_perf.c
-index 2f3ecd7d4804..7b1c8de2f9cb 100644
---- a/drivers/gpu/drm/i915/i915_perf.c
-+++ b/drivers/gpu/drm/i915/i915_perf.c
-@@ -4227,11 +4227,8 @@ int i915_perf_open_ioctl(struct drm_device *dev, void *data,
- 	u32 known_open_flags;
- 	int ret;
- 
--	if (!perf->i915) {
--		drm_dbg(&perf->i915->drm,
--			"i915 perf interface not available for this system\n");
-+	if (!perf->i915)
- 		return -ENOTSUPP;
--	}
- 
- 	known_open_flags = I915_PERF_FLAG_FD_CLOEXEC |
- 			   I915_PERF_FLAG_FD_NONBLOCK |
-@@ -4607,11 +4604,8 @@ int i915_perf_add_config_ioctl(struct drm_device *dev, void *data,
- 	struct i915_oa_reg *regs;
- 	int err, id;
- 
--	if (!perf->i915) {
--		drm_dbg(&perf->i915->drm,
--			"i915 perf interface not available for this system\n");
-+	if (!perf->i915)
- 		return -ENOTSUPP;
--	}
- 
- 	if (!perf->metrics_kobj) {
- 		drm_dbg(&perf->i915->drm,
-@@ -4773,11 +4767,8 @@ int i915_perf_remove_config_ioctl(struct drm_device *dev, void *data,
- 	struct i915_oa_config *oa_config;
- 	int ret;
- 
--	if (!perf->i915) {
--		drm_dbg(&perf->i915->drm,
--			"i915 perf interface not available for this system\n");
-+	if (!perf->i915)
- 		return -ENOTSUPP;
--	}
- 
- 	if (i915_perf_stream_paranoid && !perfmon_capable()) {
- 		drm_dbg(&perf->i915->drm,
--- 
-2.39.3
+Nice! I just created this request 
+https://gitlab.freedesktop.org/freedesktop/freedesktop/-/issues/983
 
+Would you mind approving it?
+
+Thanks!
+Helen
+
+> 
+> Maxime
