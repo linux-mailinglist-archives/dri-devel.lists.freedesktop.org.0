@@ -2,66 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEA687D90BB
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Oct 2023 10:09:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5F437D9135
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Oct 2023 10:21:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA7C010E058;
-	Fri, 27 Oct 2023 08:09:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D86710E057;
+	Fri, 27 Oct 2023 08:21:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com
- [209.85.222.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 410CA10E058
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Oct 2023 08:09:55 +0000 (UTC)
-Received: by mail-ua1-f53.google.com with SMTP id
- a1e0cc1a2514c-7b9c8706fc1so734685241.0
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Oct 2023 01:09:55 -0700 (PDT)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8117210E057
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Oct 2023 08:21:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1698394906;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=2ZxpY1vjsc4zx7bmsbIUQXSJpyxKql+2tTnnsraEizo=;
+ b=eaZ3rmFZ1FfqVVNwgJvmIHKcQwaTPAQGPdk1JA7kPBjg3qrZJuSGog9E7go1eF+5rZ57l8
+ e0Ixuu7sJxIaNiNMLSxx7XwC4WxMmhGT28v1hSsKD/08e+nAB0s1HemZSvKa6j9wt9kn8/
+ qpGGBb3L6FdPWxnrcDmy+T3plmBX73Y=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-173-6nz7ZB0VNhK9rFc3bdmVXg-1; Fri, 27 Oct 2023 04:21:45 -0400
+X-MC-Unique: 6nz7ZB0VNhK9rFc3bdmVXg-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ ffacd0b85a97d-32f7384d5a2so92877f8f.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Oct 2023 01:21:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1698394194; x=1698998994;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=YXz17VD25GWoAf0H7NxnM2SjBWk5BeAkDDQxS4QDQmU=;
- b=brb++rGNvpT+xs2wt2FrIzNpx/2FZAZq4g390gpwyTCjOPLaS9ZL3ijGpNHvQ8TCAo
- KRzUCAQTh71mlJn7JJyULsDc78/rq8+dXaM8dG5lp/zkRh3rwyKdFr5JlNh3XMd4c9Lp
- vCHrBVZb+7XdUgCkNYVHu/GLjn9LnF5ZW1MDQpjp+Mk8QNtW02WzLTRWRgCzxzFQuHt9
- 8MY3Yzo5yBkf0+rQHqMmlWVzFVWCRSRueOCJWUGdQwU86l+o/1UzQxm1+0vhWToph+Oq
- UaNTO1qIfjMwWeygRV8mH3UD+QHHLpuzSKLnhURdIJbnspccYLZjD8WsUlUlz+OrlfmN
- 8j8Q==
-X-Gm-Message-State: AOJu0YwzKxzB8hFKpSmCwRQTndJ161jciQmhKH0NQzSLUiWrE7hbE2ik
- 1EAdjNSljT/3693/oAeOwvQdBSLBImZ7CQ==
-X-Google-Smtp-Source: AGHT+IEJoQlAQIOWTd892PrazF2RnaNhDX28B5Gl0KfqvN8JM6y8ZVH9FEpha29wELsQUk342bczIA==
-X-Received: by 2002:a1f:a787:0:b0:49d:c216:8736 with SMTP id
- q129-20020a1fa787000000b0049dc2168736mr2308168vke.3.1698394193926; 
- Fri, 27 Oct 2023 01:09:53 -0700 (PDT)
-Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com.
- [209.85.221.175]) by smtp.gmail.com with ESMTPSA id
- m9-20020ac5cac9000000b0049d4f588b1asm118653vkl.49.2023.10.27.01.09.52
- for <dri-devel@lists.freedesktop.org>
+ d=1e100.net; s=20230601; t=1698394904; x=1698999704;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=2ZxpY1vjsc4zx7bmsbIUQXSJpyxKql+2tTnnsraEizo=;
+ b=jFnB2g0OlF6iHS3UcSUzOuW9PMrQ0zuyeGH73z34c/qAmi82LTt4LNmw3LcAVFv4KG
+ WfbOunXjfrWddGRUhTxLkg8OdHsLBSdHxCBO2FE5bFsEUU0xO/bj9G2XFfJZYyrb9SVM
+ LhSqU+S3nJIKMG5YM0Yya3+rLSTlqZ32bb4JAM3lTGimjoud6tH53TuLuGHY31bfeSvP
+ doYZ1l9+47ZK3AT0za55KGQe5ZC0/SUttLBdv8cPeSmiGkw17ha+rVcQIP5zFkvtnvCO
+ vajfdhvzLOEIiVM2rSDZfgEHmdrDbJlIHAhuxJVLSCQBho1enBwCGlFzCeohI6LEeGGd
+ o0DQ==
+X-Gm-Message-State: AOJu0YxC6GqqgYa2wmdYKFs7VH4INukSFg/k2/ZsKitkV2sL31ZXe7hs
+ tFGgbtRnavrLm+rC22BtOEEQ/itpciB8Vsd3VmTVmP13veZ8q+n0vVDagfOWJ+yK4kKWO1r0i+K
+ suGpCi+9tcePKswzGPO0tCr9h5Z4i
+X-Received: by 2002:a5d:6782:0:b0:319:867e:97d7 with SMTP id
+ v2-20020a5d6782000000b00319867e97d7mr1431771wru.52.1698394904065; 
+ Fri, 27 Oct 2023 01:21:44 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFX4cZTcYTSS67ZvwWwFIoRNz9zHlbzA9ZwiQnl0+H47D3MNXP0EvI2yIjN6m1nwZEWfpVEdw==
+X-Received: by 2002:a5d:6782:0:b0:319:867e:97d7 with SMTP id
+ v2-20020a5d6782000000b00319867e97d7mr1431763wru.52.1698394903737; 
+ Fri, 27 Oct 2023 01:21:43 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:d5:a000:680e:9bf4:b6a9:959b?
+ ([2a01:e0a:d5:a000:680e:9bf4:b6a9:959b])
+ by smtp.gmail.com with ESMTPSA id
+ h16-20020adfe990000000b0032dc24ae625sm1225357wrm.12.2023.10.27.01.21.43
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 27 Oct 2023 01:09:52 -0700 (PDT)
-Received: by mail-vk1-f175.google.com with SMTP id
- 71dfb90a1353d-4a19dac27c4so798508e0c.1
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Oct 2023 01:09:52 -0700 (PDT)
-X-Received: by 2002:a1f:178c:0:b0:49e:2145:1654 with SMTP id
- 134-20020a1f178c000000b0049e21451654mr2148085vkx.7.1698394192303; Fri, 27 Oct
- 2023 01:09:52 -0700 (PDT)
+ Fri, 27 Oct 2023 01:21:43 -0700 (PDT)
+Message-ID: <b048247c-75e9-488e-a4f3-b227a38bca5e@redhat.com>
+Date: Fri, 27 Oct 2023 10:21:42 +0200
 MIME-Version: 1.0
-References: <cover.1694767208.git.geert+renesas@glider.be>
- <CAMuHMdWfBTKdXvZutg4LvWqBjuz-X=ZjzX0LKPqD=JxYuLoPRw@mail.gmail.com>
- <CAMuHMdUF61V5qNyKbrTGxZfEJvCVuLO7q2R5MqZYkzRC_cNr0w@mail.gmail.com>
- <CAMuHMdXTpMYqdFzro3kX-3wXYC8N6z2abiMTiXXpV9xn1ohj0Q@mail.gmail.com>
-In-Reply-To: <CAMuHMdXTpMYqdFzro3kX-3wXYC8N6z2abiMTiXXpV9xn1ohj0Q@mail.gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 27 Oct 2023 10:09:40 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWdRCzy7_RnBh7bqpURxx8qeWaC6ARMt7XWsbRv8FYnjw@mail.gmail.com>
-Message-ID: <CAMuHMdWdRCzy7_RnBh7bqpURxx8qeWaC6ARMt7XWsbRv8FYnjw@mail.gmail.com>
-Subject: Re: [GIT PULL v2] drm: renesas: shmobile: Atomic conversion + DT
- support (was: Re: [PATCH v4 00/41] drm: renesas: shmobile: Atomic conversion
- + DT support)
-To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/ssd130x: Fix possible uninitialized usage of
+ crtc_state variable
+To: Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org
+References: <20231020225338.1686974-1-javierm@redhat.com>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <20231020225338.1686974-1-javierm@redhat.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,91 +86,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Hans Verkuil <hverkuil@xs4all.nl>, Conor Dooley <conor+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Linux-sh list <linux-sh@vger.kernel.org>,
- Magnus Damm <magnus.damm@gmail.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc: Dan Carpenter <dan.carpenter@linaro.org>, dri-devel@lists.freedesktop.org,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi David, Daniel,
+Hi,
 
-On Tue, Oct 24, 2023 at 12:08=E2=80=AFPM Geert Uytterhoeven
-<geert@linux-m68k.org> wrote:
-> On Mon, Oct 16, 2023 at 11:59=E2=80=AFAM Geert Uytterhoeven
-> <geert@linux-m68k.org> wrote:
-> > The following changes since commit 389af786f92ecdff35883551d54bf4e507ff=
-cccb:
-> >
-> >   Merge tag 'drm-intel-next-2023-09-29' of
-> > git://anongit.freedesktop.org/drm/drm-intel into drm-next (2023-10-04
-> > 13:55:19 +1000)
-> >
-> > are available in the Git repository at:
-> >
-> >   git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.g=
-it
-> > tags/shmob-drm-atomic-dt-tag2
-> >
-> > for you to fetch changes up to 1399ebacbf590dfbac4fbba181dd1595b2fa10ba=
-:
-> >
-> >   drm: renesas: shmobile: Add DT support (2023-10-16 11:47:48 +0200)
-> >
-> > ----------------------------------------------------------------
-> > drm: renesas: shmobile: Atomic conversion + DT support
-> >
-> > Currently, there are two drivers for the LCD controller on Renesas
-> > SuperH-based and ARM-based SH-Mobile and R-Mobile SoCs:
-> >   1. sh_mobile_lcdcfb, using the fbdev framework,
-> >   2. shmob_drm, using the DRM framework.
-> > However, only the former driver is used, as all platform support
-> > integrates the former.  None of these drivers support DT-based systems.
-> >
-> > Convert the SH-Mobile DRM driver to atomic modesetting, and add DT
-> > support, complemented by the customary set of fixes and improvements.
-> >
-> > Acked-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > Link: https://lore.kernel.org/r/cover.1694767208.git.geert+renesas@glid=
-er.be/
-> >
-> > Changes compared to v1:
-> >   - Rebase to drm-next,
-> >   - Add Acked-by.
-> >
-> > Thanks for pulling!
->
-> Ping?
-> Thanks!
+On 21/10/2023 00:52, Javier Martinez Canillas wrote:
+> Avoid a possible uninitialized use of the crtc_state variable in function
+> ssd132x_primary_plane_atomic_check() and avoid the following Smatch warn:
+> 
+>      drivers/gpu/drm/solomon/ssd130x.c:921 ssd132x_primary_plane_atomic_check()
+>      error: uninitialized symbol 'crtc_state'.
 
-Please note that this is a hard dependency for adding shmobile-lcdc
-device nodes to DTS files, which is in turn a hard dependency for
-removing drivers/staging/board/, and for removing legacy clkdev
-registration from various clock drivers.
+That looks trivial, so you can add:
 
-Thanks for pulling!
+Acked-by: Jocelyn Falempe <jfalempe@redhat.com>
 
-Gr{oetje,eeting}s,
+> 
+> Fixes: fdd591e00a9c ("drm/ssd130x: Add support for the SSD132x OLED controller family")
+> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> Closes: https://lore.kernel.org/dri-devel/7dd6ca45-8263-44fe-a318-2fd9d761425d@moroto.mountain/
+> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+> ---
+> 
+>   drivers/gpu/drm/solomon/ssd130x.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/solomon/ssd130x.c b/drivers/gpu/drm/solomon/ssd130x.c
+> index 32f0857aec9f..e0174f82e353 100644
+> --- a/drivers/gpu/drm/solomon/ssd130x.c
+> +++ b/drivers/gpu/drm/solomon/ssd130x.c
+> @@ -910,7 +910,7 @@ static int ssd132x_primary_plane_atomic_check(struct drm_plane *plane,
+>   	struct drm_plane_state *plane_state = drm_atomic_get_new_plane_state(state, plane);
+>   	struct ssd130x_plane_state *ssd130x_state = to_ssd130x_plane_state(plane_state);
+>   	struct drm_crtc *crtc = plane_state->crtc;
+> -	struct drm_crtc_state *crtc_state;
+> +	struct drm_crtc_state *crtc_state = NULL;
+>   	const struct drm_format_info *fi;
+>   	unsigned int pitch;
+>   	int ret;
 
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
