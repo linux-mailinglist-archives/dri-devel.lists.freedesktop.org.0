@@ -1,59 +1,84 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D35A7D9436
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Oct 2023 11:51:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B3E517D9493
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Oct 2023 12:01:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB8F510E968;
-	Fri, 27 Oct 2023 09:51:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 67E8F10E970;
+	Fri, 27 Oct 2023 10:01:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 052B810E009
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Oct 2023 09:51:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1698400294; x=1729936294;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=8mZ3o7Q6lskEQ8SbqrpCuF4j40QsjWDA4t0KQr5qHW4=;
- b=TmF5uvIFQWJ8br0cZWhB320tD5whDoRtA4HiArWL8xeajgesWVEqoKeX
- a7NmmU/9LEzmT80tBR4o1v48vg/pgMMtptco6jN1E8n7GbkVUXsAgdqsp
- 0RiJHHDYODL1GpFDAVFXsjl6WrO65x71kzpI9wIMClOYIqjPwQUpKHNmY
- axC/QhmC1GxOKr5GGGlLcnPbAFqHoCfWI2oXQFufeBimdbHkZhHjXtcOn
- lecxWPpy/nDyMRdxT5hXyRknufh4879YQEW/ov9xPF0AfOWYfq66dE2zz
- 9S5tQk5kMUza0Vqv03i3Rq3o6zpA4kSTuKBNXTcikxtZsADSCNORxdxer Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10875"; a="564753"
-X-IronPort-AV: E=Sophos;i="6.03,255,1694761200"; 
-   d="scan'208";a="564753"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Oct 2023 02:51:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10875"; a="794533480"
-X-IronPort-AV: E=Sophos;i="6.03,255,1694761200"; d="scan'208";a="794533480"
-Received: from jhajducz-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.34.19])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Oct 2023 02:51:11 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Emil Abildgaard Svendsen <EMAS@bang-olufsen.dk>, Andrzej Hajda
- <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Laurent Pinchart
- <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH] drm: bridge: adv7511: fix reading edid segments
-In-Reply-To: <20231026113029.575846-1-emas@bang-olufsen.dk>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20231026113029.575846-1-emas@bang-olufsen.dk>
-Date: Fri, 27 Oct 2023 12:51:07 +0300
-Message-ID: <87y1fo5r78.fsf@intel.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE60A10E970
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Oct 2023 10:01:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1698400899;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=x9sGyyjxI2yvdu7MSOn9Q/9//pNvG/QdFrPdtOgnYyA=;
+ b=e4oyEn+uoGAiP6N4Dgz0+vg0c3gunmKjaq93ozMTFOdA+OMdUPOP2/UowR+jVLSX8h605F
+ n3f73iIc0vTr1oeRFfrlNB3C/xTs0rOvnu1N6Zo6HhkzUlG2R3zI/QpYEHu/QbNzc8LUtH
+ dhtc+RJy/M1HUeKEZ7Kxtc79ARE9mMg=
+Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
+ [209.85.167.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-446-H7X6HYXcP0OzuT3ll48zKA-1; Fri, 27 Oct 2023 06:01:36 -0400
+X-MC-Unique: H7X6HYXcP0OzuT3ll48zKA-1
+Received: by mail-lf1-f70.google.com with SMTP id
+ 2adb3069b0e04-507c8a8e5d1so2359166e87.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Oct 2023 03:01:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1698400895; x=1699005695;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=x9sGyyjxI2yvdu7MSOn9Q/9//pNvG/QdFrPdtOgnYyA=;
+ b=JoNk99NmMRlbjiJozMta9X/KFiLGH5dDws7aocmJWKqFTAlGL5Q7BrLI1o22QtZmUv
+ 8XUhn8q1tvZVTFRS+AamTLB0GNScJuzHhkViyS5J9kr1J+WgcpZKtflHmFaIAuZKjG8w
+ EX2VVYgBY3hSlQBo6bCjuLvPpwzje16tIkql682Zl2CAKnY9xZUjdyjFhbct78E+5TFN
+ 1+yCiRtSCAGajKimyuoAkCIjXnw9l9oHaKN66O6yJ0tBz8eivIdbTfW8Acb07Gm7vBKa
+ UZW04aVf2KHEcJOkv22ALt+MEo8JFphz+f4j8NPlWr5OwIWILHag7cFjR68r/+efYX+P
+ 82DQ==
+X-Gm-Message-State: AOJu0YyQ5DklB7YATJCeJWEOJ2X+VCNxrwiE8qHPfSFvS05m0BCPvCfD
+ /kvH3RrFTauOHHxQTl1Rtl6xlnL2bm1i+seHN0DrwQA6Q+2so5mcBWJdAREpnu0X/5c6etY1OGD
+ o7pC0lUQrwEugnZqzGiJOaqEPYJsT
+X-Received: by 2002:a2e:9015:0:b0:2c5:4a0:f3cb with SMTP id
+ h21-20020a2e9015000000b002c504a0f3cbmr1687387ljg.11.1698400895116; 
+ Fri, 27 Oct 2023 03:01:35 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH+H9/Ygxf/lkcx4PecGJYcAQeCGmSD2RlP+GC9dCkjmaPgIgE8c1duxvrl9rSEp9ilxL8PEA==
+X-Received: by 2002:a2e:9015:0:b0:2c5:4a0:f3cb with SMTP id
+ h21-20020a2e9015000000b002c504a0f3cbmr1687370ljg.11.1698400894756; 
+ Fri, 27 Oct 2023 03:01:34 -0700 (PDT)
+Received: from toolbox ([2001:9e8:89a1:3d00:99c5:8880:8db4:298f])
+ by smtp.gmail.com with ESMTPSA id
+ l25-20020a05600c089900b004081a011c0esm4622201wmp.12.2023.10.27.03.01.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 27 Oct 2023 03:01:34 -0700 (PDT)
+Date: Fri, 27 Oct 2023 12:01:32 +0200
+From: Sebastian Wick <sebastian.wick@redhat.com>
+To: Michel =?iso-8859-1?Q?D=E4nzer?= <michel.daenzer@mailbox.org>
+Subject: Re: [RFC PATCH v2 06/17] drm/doc/rfc: Describe why prescriptive
+ color pipeline is needed
+Message-ID: <20231027100132.GA435169@toolbox>
+References: <20231019212133.245155-7-harry.wentland@amd.com>
+ <20231020142256.GA859375@toolbox> <20231020175703.09cd2578@eldfell>
+ <20f33898-4c40-4854-a1e8-afaef52f6524@amd.com>
+ <20231023111219.6e287958@eldfell>
+ <bf69b740-dce7-94f1-293d-a4b274b52f55@nvidia.com>
+ <20231026115747.44cbddad@eldfell> <20231026173003.GA319477@toolbox>
+ <1255ad3-e22b-063-ffb8-18ea852f054@nvidia.com>
+ <34be9d0b-18d7-7568-cf30-b3b1b9f77045@mailbox.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+In-Reply-To: <34be9d0b-18d7-7568-cf30-b3b1b9f77045@mailbox.org>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,113 +91,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emil Abildgaard Svendsen <EMAS@bang-olufsen.dk>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: Sasha McIntosh <sashamcintosh@google.com>,
+ Pekka Paalanen <ppaalanen@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Shashank Sharma <shashank.sharma@amd.com>, Xaver Hugl <xaver.hugl@gmail.com>,
+ Hector Martin <marcan@marcan.st>, Liviu Dudau <Liviu.Dudau@arm.com>,
+ Victoria Brekenfeld <victoria@system76.com>, dri-devel@lists.freedesktop.org,
+ Christopher Braga <quic_cbraga@quicinc.com>, Melissa Wen <mwen@igalia.com>,
+ Jonas =?iso-8859-1?Q?=C5dahl?= <jadahl@redhat.com>,
+ Uma Shankar <uma.shankar@intel.com>, Joshua Ashton <joshua@froggi.es>,
+ Aleix Pol <aleixpol@kde.org>, wayland-devel@lists.freedesktop.org,
+ Arthur Grillo <arthurgrillo@riseup.net>,
+ Naseer Ahmed <quic_naseer@quicinc.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 26 Oct 2023, Emil Abildgaard Svendsen <EMAS@bang-olufsen.dk> wrote:
-> Currently reading EDID only works because usually only two EDID blocks
-> of 128 bytes is used. Where an EDID segment holds 256 bytes or two EDID
-> blocks. And the first EDID segment read works fine but E-EDID specifies
-> up to 128 segments.
->
-> The logic is broken so change EDID segment index to multiple of 256
-> bytes and not 128 (block size).
->
-> Also change check of DDC status. Instead of silently not reading EDID
-> when in "IDLE" state [1]. Check if the DDC controller is in reset
-> instead (no HPD).
+On Fri, Oct 27, 2023 at 10:59:25AM +0200, Michel Dänzer wrote:
+> On 10/26/23 21:25, Alex Goins wrote:
+> > On Thu, 26 Oct 2023, Sebastian Wick wrote:
+> >> On Thu, Oct 26, 2023 at 11:57:47AM +0300, Pekka Paalanen wrote:
+> >>> On Wed, 25 Oct 2023 15:16:08 -0500 (CDT)
+> >>> Alex Goins <agoins@nvidia.com> wrote:
+> >>>
+> >>>> Despite being programmable, the LUTs are updated in a manner that is less
+> >>>> efficient as compared to e.g. the non-static "degamma" LUT. Would it be helpful
+> >>>> if there was some way to tag operations according to their performance,
+> >>>> for example so that clients can prefer a high performance one when they
+> >>>> intend to do an animated transition? I recall from the XDC HDR workshop
+> >>>> that this is also an issue with AMD's 3DLUT, where updates can be too
+> >>>> slow to animate.
+> >>>
+> >>> I can certainly see such information being useful, but then we need to
+> >>> somehow quantize the performance.
+> > 
+> > Right, which wouldn't even necessarily be universal, could depend on the given
+> > host, GPU, etc. It could just be a relative performance indication, to give an
+> > order of preference. That wouldn't tell you if it can or can't be animated, but
+> > when choosing between two LUTs to animate you could prefer the higher
+> > performance one.
+> > 
+> >>>
+> >>> What I was left puzzled about after the XDC workshop is that is it
+> >>> possible to pre-load configurations in the background (slow), and then
+> >>> quickly switch between them? Hardware-wise I mean.
+> > 
+> > This works fine for our "fast" LUTs, you just point them to a surface in video
+> > memory and they flip to it. You could keep multiple surfaces around and flip
+> > between them without having to reprogram them in software. We can easily do that
+> > with enumerated curves, populating them when the driver initializes instead of
+> > waiting for the client to request them. You can even point multiple hardware
+> > LUTs to the same video memory surface, if they need the same curve.
+> > 
+> >>
+> >> We could define that pipelines with a lower ID are to be preferred over
+> >> higher IDs.
+> > 
+> > Sure, but this isn't just an issue with a pipeline as a whole, but the
+> > individual elements within it and how to use them in a given context.
+> > 
+> >>
+> >> The issue is that if programming a pipeline becomes too slow to be
+> >> useful it probably should just not be made available to user space.
+> > 
+> > It's not that programming the pipeline is overall too slow. The LUTs we have
+> > that are relatively slow to program are meant to be set infrequently, or even
+> > just once, to allow the scaler and tone mapping operator to operate in fixed
+> > point PQ space. You might still want the tone mapper, so you would choose a
+> > pipeline that includes them, but when it comes to e.g. animating a night light,
+> > you would want to choose a different LUT for that purpose.
+> > 
+> >>
+> >> The prepare-commit idea for blob properties would help to make the
+> >> pipelines usable again, but until then it's probably a good idea to just
+> >> not expose those pipelines.
+> > 
+> > The prepare-commit idea actually wouldn't work for these LUTs, because they are
+> > programmed using methods instead of pointing them to a surface. I'm actually not
+> > sure how slow it actually is, would need to benchmark it. I think not exposing
+> > them at all would be overkill, since it would mean you can't use the preblending
+> > scaler or tonemapper, and animation isn't necessary for that.
+> > 
+> > The AMD 3DLUT is another example of a LUT that is slow to update, and it would
+> > obviously be a major loss if that wasn't exposed. There just needs to be some
+> > way for clients to know if they are going to kill performance by trying to
+> > change it every frame.
+> 
+> Might a first step be to require the ALLOW_MODESET flag to be set when changing the values for a colorop which is too slow to be updated per refresh cycle?
+> 
+> This would tell the compositor: You can use this colorop, but you can't change its values on the fly.
 
-"Also" in a commit message is often a good indication that the patch
-should be split to do the "also" in a separate patch. One "thing" per
-patch. Here, it'll be useful for debugging [1], too, to figure out which
-part broken things. (I suspect it's the status handling.)
+I argued before that changing any color op to passthrough should never
+require ALLOW_MODESET and while this is really hard to guarantee from a
+driver perspective I still believe that it's better to not expose any
+feature requiring ALLOW_MODESET or taking too long to program to be
+useful for per-frame changes.
 
+When user space has ways to figure out if going back to a specific state
+(in this case setting everything to bypass) without ALLOW_MODESET we can
+revisit this decision, but until then, let's keep things simple and only
+expose things that work reliably without ALLOW_MODESET and fast enough
+to work for per-frame changes.
 
-BR,
-Jani.
+Harry, Pekka: Should we document this? It obviously restricts what can
+be exposed but exposing things that can't be used by user space isn't
+useful.
 
+> 
+> -- 
+> Earthling Michel Dänzer            |                  https://redhat.com
+> Libre software enthusiast          |         Mesa and Xwayland developer
+> 
 
-[1] https://lore.kernel.org/r/5aa375f1-07cd-4e28-8cd5-7e10b4b05c6a@kontron.de
-
-
->
-> [1]
-> ADV7511 Programming Guide: Table 11: DDCController Status:
->
->   0xC8 [3:0]  DDC Controller State
->
->   0000        In Reset (No Hot Plug Detected)
->   0001        Reading EDID
->   0010        IDLE (Waiting for HDCP Requested)
->   0011        Initializing HDCP
->   0100        HDCP Enabled
->   0101        Initializing HDCP Repeater
->
-> Signed-off-by: Emil Svendsen <emas@bang-olufsen.dk>
-> ---
->  drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 24 ++++++++++++--------
->  1 file changed, 15 insertions(+), 9 deletions(-)
->
-> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> index 8be235144f6d..c641c2ccd412 100644
-> --- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> @@ -537,6 +537,8 @@ static int adv7511_get_edid_block(void *data, u8 *buf, unsigned int block,
->  				  size_t len)
->  {
->  	struct adv7511 *adv7511 = data;
-> +	struct device* dev = &adv7511->i2c_edid->dev;
-> +	int edid_segment = block / 2;
->  	struct i2c_msg xfer[2];
->  	uint8_t offset;
->  	unsigned int i;
-> @@ -545,7 +547,7 @@ static int adv7511_get_edid_block(void *data, u8 *buf, unsigned int block,
->  	if (len > 128)
->  		return -EINVAL;
->  
-> -	if (adv7511->current_edid_segment != block / 2) {
-> +	if (adv7511->current_edid_segment != edid_segment) {
->  		unsigned int status;
->  
->  		ret = regmap_read(adv7511->regmap, ADV7511_REG_DDC_STATUS,
-> @@ -553,15 +555,19 @@ static int adv7511_get_edid_block(void *data, u8 *buf, unsigned int block,
->  		if (ret < 0)
->  			return ret;
->  
-> -		if (status != 2) {
-> -			adv7511->edid_read = false;
-> -			regmap_write(adv7511->regmap, ADV7511_REG_EDID_SEGMENT,
-> -				     block);
-> -			ret = adv7511_wait_for_edid(adv7511, 200);
-> -			if (ret < 0)
-> -				return ret;
-> +		if (!(status & 0x0F)) {
-> +			dev_dbg(dev, "DDC in reset no hot plug detected %x\n",
-> +				 status);
-> +			return -EIO;
->  		}
->  
-> +		adv7511->edid_read = false;
-> +		regmap_write(adv7511->regmap, ADV7511_REG_EDID_SEGMENT,
-> +			     edid_segment);
-> +		ret = adv7511_wait_for_edid(adv7511, 200);
-> +		if (ret < 0)
-> +			return ret;
-> +
->  		/* Break this apart, hopefully more I2C controllers will
->  		 * support 64 byte transfers than 256 byte transfers
->  		 */
-> @@ -589,7 +595,7 @@ static int adv7511_get_edid_block(void *data, u8 *buf, unsigned int block,
->  			offset += 64;
->  		}
->  
-> -		adv7511->current_edid_segment = block / 2;
-> +		adv7511->current_edid_segment = edid_segment;
->  	}
->  
->  	if (block % 2 == 0)
-
--- 
-Jani Nikula, Intel
