@@ -2,78 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5F437D9135
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Oct 2023 10:21:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73A437D9144
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Oct 2023 10:22:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D86710E057;
-	Fri, 27 Oct 2023 08:21:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2EA7710E13F;
+	Fri, 27 Oct 2023 08:22:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8117210E057
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Oct 2023 08:21:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1698394906;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2ZxpY1vjsc4zx7bmsbIUQXSJpyxKql+2tTnnsraEizo=;
- b=eaZ3rmFZ1FfqVVNwgJvmIHKcQwaTPAQGPdk1JA7kPBjg3qrZJuSGog9E7go1eF+5rZ57l8
- e0Ixuu7sJxIaNiNMLSxx7XwC4WxMmhGT28v1hSsKD/08e+nAB0s1HemZSvKa6j9wt9kn8/
- qpGGBb3L6FdPWxnrcDmy+T3plmBX73Y=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-173-6nz7ZB0VNhK9rFc3bdmVXg-1; Fri, 27 Oct 2023 04:21:45 -0400
-X-MC-Unique: 6nz7ZB0VNhK9rFc3bdmVXg-1
-Received: by mail-wr1-f69.google.com with SMTP id
- ffacd0b85a97d-32f7384d5a2so92877f8f.3
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Oct 2023 01:21:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1698394904; x=1698999704;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=2ZxpY1vjsc4zx7bmsbIUQXSJpyxKql+2tTnnsraEizo=;
- b=jFnB2g0OlF6iHS3UcSUzOuW9PMrQ0zuyeGH73z34c/qAmi82LTt4LNmw3LcAVFv4KG
- WfbOunXjfrWddGRUhTxLkg8OdHsLBSdHxCBO2FE5bFsEUU0xO/bj9G2XFfJZYyrb9SVM
- LhSqU+S3nJIKMG5YM0Yya3+rLSTlqZ32bb4JAM3lTGimjoud6tH53TuLuGHY31bfeSvP
- doYZ1l9+47ZK3AT0za55KGQe5ZC0/SUttLBdv8cPeSmiGkw17ha+rVcQIP5zFkvtnvCO
- vajfdhvzLOEIiVM2rSDZfgEHmdrDbJlIHAhuxJVLSCQBho1enBwCGlFzCeohI6LEeGGd
- o0DQ==
-X-Gm-Message-State: AOJu0YxC6GqqgYa2wmdYKFs7VH4INukSFg/k2/ZsKitkV2sL31ZXe7hs
- tFGgbtRnavrLm+rC22BtOEEQ/itpciB8Vsd3VmTVmP13veZ8q+n0vVDagfOWJ+yK4kKWO1r0i+K
- suGpCi+9tcePKswzGPO0tCr9h5Z4i
-X-Received: by 2002:a5d:6782:0:b0:319:867e:97d7 with SMTP id
- v2-20020a5d6782000000b00319867e97d7mr1431771wru.52.1698394904065; 
- Fri, 27 Oct 2023 01:21:44 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFX4cZTcYTSS67ZvwWwFIoRNz9zHlbzA9ZwiQnl0+H47D3MNXP0EvI2yIjN6m1nwZEWfpVEdw==
-X-Received: by 2002:a5d:6782:0:b0:319:867e:97d7 with SMTP id
- v2-20020a5d6782000000b00319867e97d7mr1431763wru.52.1698394903737; 
- Fri, 27 Oct 2023 01:21:43 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:d5:a000:680e:9bf4:b6a9:959b?
- ([2a01:e0a:d5:a000:680e:9bf4:b6a9:959b])
- by smtp.gmail.com with ESMTPSA id
- h16-20020adfe990000000b0032dc24ae625sm1225357wrm.12.2023.10.27.01.21.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 27 Oct 2023 01:21:43 -0700 (PDT)
-Message-ID: <b048247c-75e9-488e-a4f3-b227a38bca5e@redhat.com>
-Date: Fri, 27 Oct 2023 10:21:42 +0200
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F401F10E0D3
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Oct 2023 08:22:41 +0000 (UTC)
+Received: from localhost (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 31DB666072FC;
+ Fri, 27 Oct 2023 09:22:40 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1698394960;
+ bh=CXETlEvRgv2L/Tp9RviTmDGHkICt3aBol0oF6zd6BP8=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=DbIm5g5z5kdA/lxGLKSTtYN8atKFb3s6GvXKvWp31LXIGGMxVkwafkeOzVCBVV2XZ
+ 9oZ9XHtzzb5BP5N9KcGnQBKbS0fnJJjtirdkZKwzuJxaxNCZll3l9NKmV+WJ8eRULr
+ Mwshdi3fJfxoihUmqPOXefJWMmuQSnM+2TzuoYXFfEhBc/OqbxuwmKzmRgQfp5qfgD
+ oPocHKWLgZEKfTj9N9l56y+/J+VhkJJGLkcoA0phToE5mXJOPFCEFnW4TEWVnMXbnX
+ 9ICnUbxxX6bou82iTnR2AWbb2iCQJMWnNEpcDn+4YIiGRglrxTb32RomCRX3zdatXP
+ /aFE+Q1mIB7qQ==
+Date: Fri, 27 Oct 2023 10:22:37 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Subject: Re: [PATCH drm-misc-next v3] drm/sched: implement dynamic job-flow
+ control
+Message-ID: <20231027102237.0cdb85af@collabora.com>
+In-Reply-To: <98988459-25a8-4ee0-89d4-cb816cbc5bef@amd.com>
+References: <20231026161431.5934-1-dakr@redhat.com>
+ <0bc79ae3-04fe-4e85-9fd0-e8b281148390@amd.com>
+ <20231027093238.2ff8172e@collabora.com>
+ <ff389793-1226-49fd-b599-07dbda0b97be@amd.com>
+ <20231027093943.3f0ae992@collabora.com>
+ <98988459-25a8-4ee0-89d4-cb816cbc5bef@amd.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/ssd130x: Fix possible uninitialized usage of
- crtc_state variable
-To: Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org
-References: <20231020225338.1686974-1-javierm@redhat.com>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <20231020225338.1686974-1-javierm@redhat.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,45 +59,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>, dri-devel@lists.freedesktop.org,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: matthew.brost@intel.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, faith@gfxstrand.net, luben.tuikov@amd.com,
+ Danilo Krummrich <dakr@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Fri, 27 Oct 2023 09:44:13 +0200
+Christian K=C3=B6nig <christian.koenig@amd.com> wrote:
 
-On 21/10/2023 00:52, Javier Martinez Canillas wrote:
-> Avoid a possible uninitialized use of the crtc_state variable in function
-> ssd132x_primary_plane_atomic_check() and avoid the following Smatch warn:
-> 
->      drivers/gpu/drm/solomon/ssd130x.c:921 ssd132x_primary_plane_atomic_check()
->      error: uninitialized symbol 'crtc_state'.
+> Am 27.10.23 um 09:39 schrieb Boris Brezillon:
+> > On Fri, 27 Oct 2023 09:35:01 +0200
+> > Christian K=C3=B6nig<christian.koenig@amd.com>  wrote:
+> > =20
+> >> Am 27.10.23 um 09:32 schrieb Boris Brezillon: =20
+> >>> On Fri, 27 Oct 2023 09:22:12 +0200
+> >>> Christian K=C3=B6nig<christian.koenig@amd.com>  wrote:
+> >>>    =20
+> >>>>> +
+> >>>>> +	/**
+> >>>>> +	 * @update_job_credits: Called once the scheduler is considering =
+this
+> >>>>> +	 * job for execution.
+> >>>>> +	 *
+> >>>>> +	 * Drivers may use this to update the job's submission credits, w=
+hich is
+> >>>>> +	 * useful to e.g. deduct the number of native fences which have b=
+een
+> >>>>> +	 * signaled meanwhile.
+> >>>>> +	 *
+> >>>>> +	 * The callback must either return the new number of submission c=
+redits
+> >>>>> +	 * for the given job, or zero if no update is required.
+> >>>>> +	 *
+> >>>>> +	 * This callback is optional.
+> >>>>> +	 */
+> >>>>> +	u32 (*update_job_credits)(struct drm_sched_job *sched_job); =20
+> >>>> Why do we need an extra callback for this?
+> >>>>
+> >>>> Just document that prepare_job() is allowed to reduce the number of
+> >>>> credits the job might need.
+> >>> ->prepare_job() is called only once if the returned fence is NULL, bu=
+t =20
+> >>> we need this credit-update to happen every time a job is considered f=
+or
+> >>> execution by the scheduler. =20
+> >> But the job is only considered for execution once. How do you see that
+> >> this is called multiple times? =20
+> > Nope, it's not. If drm_sched_can_queue() returns false, the scheduler
+> > will go look for another entity that has a job ready for execution, and
+> > get back to this entity later, and test drm_sched_can_queue() again.
+> > Basically, any time drm_sched_can_queue() is called, the job credits
+> > update should happen, so we have an accurate view of how many credits
+> > this job needs. =20
+>=20
+> Well, that is the handling which I already rejected because it creates=20
+> unfairness between processes. When you consider the credits needed=20
+> *before* scheduling jobs with a lower credit count are always preferred=20
+> over jobs with a higher credit count.
 
-That looks trivial, so you can add:
+My bad, it doesn't pick another entity when an entity with a
+ready job that doesn't fit the queue is found, it just bails out from
+drm_sched_rq_select_entity_rr() and returns NULL (AKA: no ready entity
+found). But we still want to update the job credits before checking if
+the job fits or not (next time this entity is tested).
 
-Acked-by: Jocelyn Falempe <jfalempe@redhat.com>
+> What you can do is to look at the credits of a job *after* it was picked=
+=20
+> up for scheduling so that you can scheduler more jobs.
 
-> 
-> Fixes: fdd591e00a9c ("drm/ssd130x: Add support for the SSD132x OLED controller family")
-> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> Closes: https://lore.kernel.org/dri-devel/7dd6ca45-8263-44fe-a318-2fd9d761425d@moroto.mountain/
-> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-> ---
-> 
->   drivers/gpu/drm/solomon/ssd130x.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/solomon/ssd130x.c b/drivers/gpu/drm/solomon/ssd130x.c
-> index 32f0857aec9f..e0174f82e353 100644
-> --- a/drivers/gpu/drm/solomon/ssd130x.c
-> +++ b/drivers/gpu/drm/solomon/ssd130x.c
-> @@ -910,7 +910,7 @@ static int ssd132x_primary_plane_atomic_check(struct drm_plane *plane,
->   	struct drm_plane_state *plane_state = drm_atomic_get_new_plane_state(state, plane);
->   	struct ssd130x_plane_state *ssd130x_state = to_ssd130x_plane_state(plane_state);
->   	struct drm_crtc *crtc = plane_state->crtc;
-> -	struct drm_crtc_state *crtc_state;
-> +	struct drm_crtc_state *crtc_state = NULL;
->   	const struct drm_format_info *fi;
->   	unsigned int pitch;
->   	int ret;
+Sure, but then you might further delay your job if something made it
+smaller (ie. native fences got signaled) between ->prepare_job() and
+drm_sched_can_queue(). And any new drm_sched_can_queue() test would
+just see the old credits value.
 
+Out of curiosity, what are you worried about with this optional
+->update_job_credits() call in the drm_sched_can_queue() path? Is the
+if (sched->update_job_credits) overhead considered too high for drivers
+that don't need it?
