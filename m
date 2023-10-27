@@ -1,69 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70A347D8F2C
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Oct 2023 09:05:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 59D0A7D8F5B
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Oct 2023 09:14:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B2FB710E936;
-	Fri, 27 Oct 2023 07:05:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0600C10E93B;
+	Fri, 27 Oct 2023 07:14:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com
- [IPv6:2a00:1450:4864:20::231])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5834810E935;
- Fri, 27 Oct 2023 07:05:23 +0000 (UTC)
-Received: by mail-lj1-x231.google.com with SMTP id
- 38308e7fff4ca-2c5056059e0so26238591fa.3; 
- Fri, 27 Oct 2023 00:05:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1698390321; x=1698995121; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=/GUmOHIx5UyySQs212xueqN1nMzPiFUqY8qGSwYfcTM=;
- b=iOE54JYJInA/CJ9OPb4Mmg/jyhsU+52xlJ6aXd+K7McDz9NxgRGTbFtrATXPdc4Dpb
- d7x4NrNIz2Pf4h+dQhy6vAuWvnBAfdkItCMf+6UefWNKO5q1g/9pNfz/TBATSn8AZZVI
- BooaX2X0Y77g01lxZV+DDBzb0JX5gXk7keZSOk8ATPdXpTCfnUFuW7Qp1UKDfBdI8VHT
- 1B0jHQXfFRSkXTA6qiIJ5Xx/fFM5HzVTIytYoSkG23GYFQuP3LuuqqI+Cq4mVOiHi4bS
- +BLsAlGrZrpP3Nyfr66e9z2yqg0zJYmLglDp0+8s/lusW3xwtkAzvpXK/MR/wtstZL7B
- tGBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1698390321; x=1698995121;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=/GUmOHIx5UyySQs212xueqN1nMzPiFUqY8qGSwYfcTM=;
- b=aQ++JN6oHwujL0rQNL9ihUxHyu/GbuYZw3GSmamCgKz1+wn7M9fmXesia31LCeBpK5
- ME3OpZBW67nymw7MoVlArFu21i4itiuJZsM575AmlK53SWe20kAsIvk4u6MQxUhfwAwP
- KiuTVzxj9btVUXM4mkFsp24hE5AnpgGLPug00/7kkuoBAqLyX+7CrGLkUHo1Nr1zB809
- o6SIA42AHUt8cYHdTjovSFGVwsAwyK7rTkpMKbYLVLFLO9KtBUb8Rg5+ZaylCTEHJZVC
- VZWgUMODv6v6IdCk6iDtVL7gT0mtR0x2PjwIxa505zzEGgKITibg4duWVa+31KkzGc0W
- aLng==
-X-Gm-Message-State: AOJu0YzERFNdeKBP43k3+Wn7yCiIQDakJEI+DhcOt1mm+SQVr12t4zty
- hC2unXKxgaNVtBuWhFnkB/E=
-X-Google-Smtp-Source: AGHT+IHb9wSrtMKZt6+weqYQUQ0ETFAAHCS6TqRRArL7VBr6d5TDnWVekNgItRvAdAHerzi8uJo7LQ==
-X-Received: by 2002:a05:651c:200c:b0:2c5:2d7:412 with SMTP id
- s12-20020a05651c200c00b002c502d70412mr1202949ljo.19.1698390321103; 
- Fri, 27 Oct 2023 00:05:21 -0700 (PDT)
-Received: from [10.254.108.81] (munvpn.amd.com. [165.204.72.6])
- by smtp.gmail.com with ESMTPSA id
- w16-20020adfcd10000000b0032da75af3easm1078582wrm.80.2023.10.27.00.05.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 27 Oct 2023 00:05:20 -0700 (PDT)
-Message-ID: <35d7f479-09f2-441a-b20d-d496cea500c8@gmail.com>
-Date: Fri, 27 Oct 2023 09:05:18 +0200
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E3F2610E93A;
+ Fri, 27 Oct 2023 07:14:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1698390840; x=1729926840;
+ h=from:to:subject:in-reply-to:references:date:message-id:
+ mime-version; bh=0UuQe6xKl4sTy++j9/NjWBw8agO/kqJEZWEeQBZ3c/Q=;
+ b=fjL0w/gOAYC6wMMFUZmfm6bct7Bvn0zt1iecNCNNUMyHCCUZDoMXZNFz
+ wdAKLSNeLbofIPtgm+OHpw2yuoqtKrSTL0dZh7tkzfBH01YDaBY3rhrVs
+ OhVPM/C7ZELJZ3g5x9h5kJj3VK26o9MBixq6TQmQ7ZONujs+rwa/Zqu3F
+ hxBH7QGh8fhR9CcJQM+MHEpkATvAd/AjjZObAflI9fUn51blSViIFPfZA
+ dIm0fGE5hQbnXlITpVQrADVev6qwTURsZ4QdegP0bqQ4xH7hUo9nNL/VT
+ 7fFU8yCkvQpT7tc0MeSxrfV11l7NgKUmSBFeEGYgMEKX/wnnegYoV0Mez w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10875"; a="387539885"
+X-IronPort-AV: E=Sophos;i="6.03,255,1694761200"; d="scan'208";a="387539885"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Oct 2023 00:14:00 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.03,255,1694761200"; 
+   d="scan'208";a="7140086"
+Received: from jhajducz-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.34.19])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Oct 2023 00:12:36 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Zhanjun Dong <zhanjun.dong@intel.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [Intel-gfx] [PATCH] drm/i915: Skip pxp init if gt is wedged
+In-Reply-To: <20231026215444.54880-1-zhanjun.dong@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20231026215444.54880-1-zhanjun.dong@intel.com>
+Date: Fri, 27 Oct 2023 10:13:54 +0300
+Message-ID: <87a5s47d1p.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] MAINTAINERS: Update the GPU Scheduler email
-Content-Language: en-US
-To: Alex Deucher <alexdeucher@gmail.com>, Luben Tuikov <ltuikov89@gmail.com>
-References: <20231026174438.18427-2-ltuikov89@gmail.com>
- <CADnq5_MzjJCwKDaxqHR+7pGJQpPGn=Vzj8qRLMPmrJrgHPyVjQ@mail.gmail.com>
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <CADnq5_MzjJCwKDaxqHR+7pGJQpPGn=Vzj8qRLMPmrJrgHPyVjQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,51 +58,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Direct Rendering Infrastructure - Development
- <dri-devel@lists.freedesktop.org>,
- AMD Graphics <amd-gfx@lists.freedesktop.org>,
- Alex Deucher <Alexander.Deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 26.10.23 um 21:32 schrieb Alex Deucher:
-> On Thu, Oct 26, 2023 at 1:45 PM Luben Tuikov <ltuikov89@gmail.com> wrote:
->> Update the GPU Scheduler maintainer email.
->>
->> Cc: Alex Deucher <Alexander.Deucher@amd.com>
->> Cc: Christian König <christian.koenig@amd.com>
->> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
->> Cc: Dave Airlie <airlied@gmail.com>
->> Cc: AMD Graphics <amd-gfx@lists.freedesktop.org>
->> Cc: Direct Rendering Infrastructure - Development <dri-devel@lists.freedesktop.org>
->> Signed-off-by: Luben Tuikov <ltuikov89@gmail.com>
-> Acked-by: Alex Deucher <alexander.deucher@amd.com>
+On Thu, 26 Oct 2023, Zhanjun Dong <zhanjun.dong@intel.com> wrote:
+> gt wedged is fatal error, skip the pxp init on this situation.
 
-Acked-by: Christian König <christian.koenig@amd.com>
+More information is needed in the commit message. When do you encounter
+this situation?
+
+I'll note that nobody checks intel_pxp_init() return status, so this
+silently skips PXP.
+
+BR,
+Jani.
 
 >
->> ---
->>   MAINTAINERS | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/MAINTAINERS b/MAINTAINERS
->> index 4452508bc1b040..f13e476ed8038b 100644
->> --- a/MAINTAINERS
->> +++ b/MAINTAINERS
->> @@ -7153,7 +7153,7 @@ F:        Documentation/devicetree/bindings/display/xlnx/
->>   F:     drivers/gpu/drm/xlnx/
->>
->>   DRM GPU SCHEDULER
->> -M:     Luben Tuikov <luben.tuikov@amd.com>
->> +M:     Luben Tuikov <ltuikov89@gmail.com>
->>   L:     dri-devel@lists.freedesktop.org
->>   S:     Maintained
->>   T:     git git://anongit.freedesktop.org/drm/drm-misc
->>
->> base-commit: 56e449603f0ac580700621a356d35d5716a62ce5
->> --
->> 2.42.0
->>
+> Signed-off-by: Zhanjun Dong <zhanjun.dong@intel.com>
+> ---
+>  drivers/gpu/drm/i915/pxp/intel_pxp.c | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp.c b/drivers/gpu/drm/i915/pxp/intel_pxp.c
+> index dc327cf40b5a..923f233c91e1 100644
+> --- a/drivers/gpu/drm/i915/pxp/intel_pxp.c
+> +++ b/drivers/gpu/drm/i915/pxp/intel_pxp.c
+> @@ -212,6 +212,9 @@ int intel_pxp_init(struct drm_i915_private *i915)
+>  	if (!gt)
+>  		return -ENODEV;
+>  
+> +	if (intel_gt_is_wedged(gt))
+> +		return -ENODEV;
+> +
+>  	/*
+>  	 * At this point, we will either enable full featured PXP capabilities
+>  	 * including session and object management, or we will init the backend tee
 
+-- 
+Jani Nikula, Intel
