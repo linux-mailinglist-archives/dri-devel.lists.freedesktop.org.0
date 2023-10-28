@@ -1,97 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BD5A7DA6A0
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Oct 2023 13:06:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 29A517DA6D6
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Oct 2023 14:05:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C5E410E094;
-	Sat, 28 Oct 2023 11:06:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 433E710E097;
+	Sat, 28 Oct 2023 12:05:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.heh.ee (heh.ee [213.35.143.160])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4356010E094
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Oct 2023 11:06:21 +0000 (UTC)
-Received: from [10.0.0.254] (unknown [10.0.0.254])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mx1.heh.ee (Hehee) with ESMTPSA id 88C9117539A;
- Sat, 28 Oct 2023 14:06:18 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=ristioja.ee; s=mail;
- t=1698491179; bh=4gvW78IHy8ev5r7e3lZyiKImvCAnrOq76Ek/0UVWPto=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To;
- b=rmcydujisQ3TPT8fXPSKQpP8L63jNM4lW/bpYb0KZ7tJxM4YjGMi+rtD0A2WSQmrb
- KM0X6ibt1/EzxQfWZxozyijoUegesYIs7m4wJTMSkdo67H+QJOedl/1TnTCPxAhk0J
- vvwL7eH8gbLauWooHwuBAi4GSK18pf2jhXx3nu9A=
-Message-ID: <c3bb7983-86e4-424e-aadd-e82a0cb6ef37@ristioja.ee>
-Date: Sat, 28 Oct 2023 14:06:18 +0300
+X-Greylist: delayed 2189 seconds by postgrey-1.36 at gabe;
+ Sat, 28 Oct 2023 12:05:45 UTC
+Received: from 9.mo583.mail-out.ovh.net (9.mo583.mail-out.ovh.net
+ [178.32.96.204])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18F9E10E097
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Oct 2023 12:05:45 +0000 (UTC)
+Received: from director8.ghost.mail-out.ovh.net (unknown [10.108.20.16])
+ by mo583.mail-out.ovh.net (Postfix) with ESMTP id 0939D277CB
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Oct 2023 11:29:13 +0000 (UTC)
+Received: from ghost-submission-6684bf9d7b-bfgcf (unknown [10.110.115.83])
+ by director8.ghost.mail-out.ovh.net (Postfix) with ESMTPS id 4E5F31FD5D;
+ Sat, 28 Oct 2023 11:29:13 +0000 (UTC)
+Received: from RCM-web3.webmail.mail.ovh.net ([178.33.236.78])
+ by ghost-submission-6684bf9d7b-bfgcf with ESMTPSA
+ id u/3yEYnwPGWSZQAAyIRv4w
+ (envelope-from <jose.pekkarinen@foxhound.fi>); Sat, 28 Oct 2023 11:29:13 +0000
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Blank screen on boot of Linux 6.5 and later on Lenovo ThinkPad
- L570
-Content-Language: et-EE
-To: Huacai Chen <chenhuacai@kernel.org>
-References: <7c50e051-eba2-09fc-da9f-023d592de457@ristioja.ee>
- <31bdf7b1-0ed9-4217-b459-1d857e53120b@leemhuis.info>
- <CAAhV-H7fRpykesVUEyaTpVnFiGwpP+fPbtdrp6JwfgD=bDp06Q@mail.gmail.com>
- <CAAhV-H7XCmbgS=N4-SE8FnASAws8hnDRZsQJgXE+dwyARaqzNw@mail.gmail.com>
- <ZSO9uArAtsPMPeTP@debian.me>
- <CAAhV-H5GbidUx8YanUc7S9oGqBkDd53xeT=2O4aCuX7KpM-+8A@mail.gmail.com>
- <c9b79a69-bdc1-4457-900d-709a15d99568@leemhuis.info>
- <CAAhV-H4qQW_fOdkTxmT1xbvo4LOapzw_tOw7Kma47xmh0PvpPA@mail.gmail.com>
- <ZTWoDSPxGO-ApR4r@P70.localdomain>
- <82f1b533-3bd8-4418-843a-718d9a6b5786@leemhuis.info>
- <CAAhV-H5DH3Oj3ttSpa_k6jUdZ+0_pMwgoaqUTGGFr46j7DMXRw@mail.gmail.com>
- <ba16ad66-4b35-4fb4-b4e6-1d785f260eea@ristioja.ee>
- <CAAhV-H64AKdGoHnVLLOYXznpr_aq1jC_TUYXFQRdOjoBxanxkw@mail.gmail.com>
-From: Jaak Ristioja <jaak@ristioja.ee>
-Autocrypt: addr=jaak@ristioja.ee; keydata=
- xsFNBGDa9yMBEAC7plVCYgDgODlz5/SfeCQogBZCs/eNsuyCzusXSoYJ8p01A9Fr0QeZEjbI
- 7HhoOxzvAzgSpiS4EElAnoU3bMCHIsLULto32onO/Wf171ZbHoBh0Al6VB/3rN7gvoyE/GYL
- Av5bvzAjpqpnAbPh6OoPliFJxOv8CDKsMNGL71ehIm6kY8SosPSqsoyxue6z1RgQZk8Y8kOc
- JirjRsNLX8IJvbh7UPsFL3aLRgzoBzS7umRhvUkcz+Z9pJrKPPKSsU9TTtovLg1TpFWqkywW
- qXjkCS5onvy+gli/GeUR0Y20hDiyB+CO3pY8+VX4c/wkmcDjYUudvfsySJ2B5jLD8UfObMMj
- ehbMFAyUB0ZilKKjpqUnHKw5SP8V/6loMUy2UeEisPUvd0rzGzCId1N6AFC1Dwo6Za81Xn7p
- r/rH14TGms3aq+9Y76ZdthcrrYMpqWteoZTbAT++C5el0eV76NvtjTjozvEQj/942nbI+y/h
- OoK960xeNRZcQ6LjPVOXpMpmbG0XLke0aUfblcX3Jgk6UxEnl5ne9E/EGb8rlKsTHm0PzzYK
- KT1mcUZp1QweM8eEXauwxTXhBGY8kIpG+kWA5ukE5IwqUN+V9DNE61FDZi/c7hOWi/6xkCZf
- IrrX0EZLDMxM2LTe+yZGPQorOVf6axUD/gzoFzW3cIQwLI1k5wARAQABzSBKYWFrIFJpc3Rp
- b2phIDxqYWFrQHJpc3Rpb2phLmVlPsLBkQQTAQgAOwIbAwULCQgHAgYVCgkICwIEFgIDAQIe
- AQIXgBYhBGwEYhFyYMpJNPez4EnXYZRpn9mkBQJg2vfQAhkBAAoJEEnXYZRpn9mkB8MP/iCa
- zyftxs2s4P9gIuGtxr2s7Zt5RDjW6hB6sjXe5GW+QciR6vhvYjgTGcc2yZ2PXXEEmuZ7z/9y
- CeMKY1/uc5Cvkx4VuHwlHYiwyrantRTiwDILZRrrTcvY46hJzz24dfFFUpSIC/9QEtx+CIry
- cD6dW4Gxzz3YLJ8TdZSYSc7038UnJPPAJqV6ARj7qv76E5lwV1Bv9OQwc39l8juKOJV6NhzP
- DyAnGBKoCpYpQrpxc+222nNbVZCaLly4nicUZ15E99G8kq05H9Bui85r1jLoA1ImC/1y7Hvw
- Qa8Na6yYYX9oxPK53vmMwBX3jNOYYSJ8KVsG0F8yaDn9VtFRda8lVwJKYxYVKuDQEJWUnXNm
- /davCvwCjnj6TEotYjc4LkTwAa0uus1Uu9VMrMqExzBkq8hRbQXDHSq8Ii6anYuS0Sz+Yh8G
- N7km2dFQEQtWB2Kvp1gHNbfx0lA2VCl08HTPDZSE8Bu1PEBgeMAjOg0F78QD3ebwpAAf/sE0
- mFTCvt2eXZyQtwDH0MWWgHtAXXwCzlRRQtcefM4KBFhCXmFcOf1RGbI5vbhvg463+1+NNK/s
- iVVw/oH5JaAoJv7iXGdEEUhOxnHHHmEfDA2MmtK4nzixGVO0GqoBEfrZU14JSU5Mj8RdVJbi
- hV8tJDy1rN19W+3F2gZ0mG1JohHF6/ngzsFNBGDa9yMBEAC7EZJhnTu33L1NxF/HxkQd+K4C
- QW8qHRkBZ9wbzKQ8IrT6KdLMntPPsIAZtY2SgJ7xHW4SuK8l3nFqrdErLrW2WimFtgNBfZCn
- RVRLxs+q9s8V9nKRGzlI3yLehGsgDGbehOHnLRmqbqepCcidpJBblCbuenqAu0zoZtUIPTJG
- R27IcpHwTNoy2OGi3PsMVMwr7sd5pNIH+1ZaP6pP3aDIlf9LE5nfg2xKE4rehgvQ4TDiEWrz
- NlixkWeXHKVhNuHkQJADCs3CVTWjzFBt4DM9518yh9Nm/Dd42wxPtzLpyOEyorV4CfKPGutt
- A7CYJZ79TOEeb808Onkun5JY9eCtgMHaLvvllonnOL5V13a8uxerXLTlFKBg/PRhkIy88NXO
- Bh9LW/gc1BBSqETVjF/3rjAwZ+I1VAkzNiu0XpBk8ISJvbs5Yeb/5ml/9Nd+yuiAN7alj+pA
- t6NMPl4VcuFQWXFzL2A36Z+HDRXK0xPF4Mc/lapN+G8Z+i3RgILOlUupltcY9bSaE+iM73ry
- s53Nvtql5B5eaz2CHTZ2GyMDHhK3tFx/GcCkVCxEcBfJ4DS3Bkld0LHI2I3vNgxOzjoBwKtK
- joVTD3J7l52H3KqGe8B0u4wGBs5kzWjyXIIIiK/Dm24Cdd2cZzMsm8b1fQJ0aBwSBYHO9nbI
- 4R71PmJZUQARAQABwsF2BBgBCAAgFiEEbARiEXJgykk097PgSddhlGmf2aQFAmDa9yMCGwwA
- CgkQSddhlGmf2aSUUhAAqwMimarXWRUdJnjvpHjTdScm4YRF6exTWnWrkTh7LLEO0tVsaOyq
- m16YD89VYC+zwRWLENP9oJspU8JICzcnWkAoRYjR5L3u1pFz71s7pRwOHJSCYm1zfsd5igFp
- 8+zYMtKjc/L/DiqR+Y9LVgt752iXJOV+Ei5JPWSoZpvu4k58Ld5vJHbfEABSPLWtGdbRLeWP
- BhjAArObuBABHXuR2wnJvo1e61vK9xkj8rRFGF8a53oc2beoARl0AzvSzvh1/ciG/eGw27jh
- yN4ZHQiOid0v3cguoy7D1GdWmQI2aaMl+HKUwqX2Uct5Asuagjvpi5M4LVvTUTjpaQlxubhq
- Vr1vGkkaUckHnKoIhHBN7HuIDyW3SDBl13F7d55WLqcjK2zqaj9yEcGwbP3rRAbntHA/RHTF
- xfGQZTEFbImLkQoWUdXt1GF4EYLg/SP4ue34n8Tw7FSQgzzw2+gxzIbtUer+Xl8esrvSAl9j
- 8gObUTXjgxhk6dYih3/p9O3fhi8PSXAbtAxxMGfQ6m8gPc5uPQyWShbWUIVEm5Fk91pxR7lQ
- wCSq+0JNeNfS32BsT8xkJ5zPAy8qvCrX78Fn9UlJFFEKvbLCEw7UdqU1MngpjxzgJVr/tudk
- 6N1T9Qd9m05BFL39j+z5vvHLeks3fRhA6xA5qLhVdptT1lvmRm5Dqr0=
-In-Reply-To: <CAAhV-H64AKdGoHnVLLOYXznpr_aq1jC_TUYXFQRdOjoBxanxkw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Date: Sat, 28 Oct 2023 14:29:12 +0300
+From: =?UTF-8?Q?Jos=C3=A9_Pekkarinen?= <jose.pekkarinen@foxhound.fi>
+To: "Deucher, Alexander" <Alexander.Deucher@amd.com>
+Subject: Re: [PATCH] drm/radeon: replace 1-element arrays with flexible-array
+ members
+In-Reply-To: <BL1PR12MB5144FA51BCB5DFD9A9F88A5BF7DCA@BL1PR12MB5144.namprd12.prod.outlook.com>
+References: <20231027165841.71810-1-jose.pekkarinen@foxhound.fi>
+ <BL1PR12MB5144FA51BCB5DFD9A9F88A5BF7DCA@BL1PR12MB5144.namprd12.prod.outlook.com>
+User-Agent: Roundcube Webmail/1.4.15
+Message-ID: <634f769b7f723795180d5bd2186943b9@foxhound.fi>
+X-Sender: jose.pekkarinen@foxhound.fi
+Organization: Foxhound Ltd.
+X-Originating-IP: 104.244.73.190
+X-Webmail-UserID: jose.pekkarinen@foxhound.fi
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
 Content-Transfer-Encoding: 8bit
+X-Ovh-Tracer-Id: 17332384643125454502
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvkedrleeigdduhecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeggfffhvfevufgjfhgfkfigohhitgfgsehtkehjtddtreejnecuhfhrohhmpeflohhsrocurfgvkhhkrghrihhnvghnuceojhhoshgvrdhpvghkkhgrrhhinhgvnhesfhhogihhohhunhgurdhfiheqnecuggftrfgrthhtvghrnhepheeiudelueefgefgueehgfeukeejgedthedufedvudetfeduveekleefudehjedtnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucfkphepuddvjedrtddrtddruddpuddtgedrvdeggedrjeefrdduledtpddujeekrdeffedrvdefiedrjeeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeojhhoshgvrdhpvghkkhgrrhhinhgvnhesfhhogihhohhunhgurdhfiheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepughrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdpoffvtefjohhsthepmhhoheekfedpmhhouggvpehsmhhtphhouhht
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,137 +59,490 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux regressions mailing list <regressions@lists.linux.dev>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Linux DRI Development <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Thorsten Leemhuis <regressions@leemhuis.info>,
- Bagas Sanjaya <bagasdotme@gmail.com>, Evan Preston <x.arch@epreston.net>
+Cc: linux-kernel-mentees@lists.linuxfoundation.org, "Pan,
+ Xinhui" <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ skhan@linuxfoundation.org, "Koenig, Christian" <Christian.Koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 26.10.23 03:58, Huacai Chen wrote:
-> Hi, Jaak,
+On 2023-10-27 20:55, Deucher, Alexander wrote:
+> [Public]
 > 
-> On Thu, Oct 26, 2023 at 2:49 AM Jaak Ristioja <jaak@ristioja.ee> wrote:
->>
->> On 25.10.23 16:23, Huacai Chen wrote:
->>> On Wed, Oct 25, 2023 at 6:08 PM Thorsten Leemhuis
->>> <regressions@leemhuis.info> wrote:
->>>>
->>>> Javier, Dave, Sima,
->>>>
->>>> On 23.10.23 00:54, Evan Preston wrote:
->>>>> On 2023-10-20 Fri 05:48pm, Huacai Chen wrote:
->>>>>> On Fri, Oct 20, 2023 at 5:35 PM Linux regression tracking (Thorsten
->>>>>> Leemhuis) <regressions@leemhuis.info> wrote:
->>>>>>> On 09.10.23 10:54, Huacai Chen wrote:
->>>>>>>> On Mon, Oct 9, 2023 at 4:45 PM Bagas Sanjaya <bagasdotme@gmail.com> wrote:
->>>>>>>>> On Mon, Oct 09, 2023 at 09:27:02AM +0800, Huacai Chen wrote:
->>>>>>>>>> On Tue, Sep 26, 2023 at 10:31 PM Huacai Chen <chenhuacai@kernel.org> wrote:
->>>>>>>>>>> On Tue, Sep 26, 2023 at 7:15 PM Linux regression tracking (Thorsten
->>>>>>>>>>> Leemhuis) <regressions@leemhuis.info> wrote:
->>>>>>>>>>>> On 13.09.23 14:02, Jaak Ristioja wrote:
->>>>>>>>>>>>>
->>>>>>>>>>>>> Upgrading to Linux 6.5 on a Lenovo ThinkPad L570 (Integrated Intel HD
->>>>>>>>>>>>> Graphics 620 (rev 02), Intel(R) Core(TM) i7-7500U) results in a blank
->>>>>>>>>>>>> screen after boot until the display manager starts... if it does start
->>>>>>>>>>>>> at all. Using the nomodeset kernel parameter seems to be a workaround.
->>>>>>>>>>>>>
->>>>>>>>>>>>> I've bisected this to commit 60aebc9559492cea6a9625f514a8041717e3a2e4
->>>>>>>>>>>>> ("drivers/firmware: Move sysfb_init() from device_initcall to
->>>>>>>>>>>>> subsys_initcall_sync").
->>>>>>>>>>>>
->>>>>>>>>> As confirmed by Jaak, disabling DRM_SIMPLEDRM makes things work fine
->>>>>>>>>> again. So I guess the reason:
->>>>>>>
->>>>>>> Well, this to me still looks a lot (please correct me if I'm wrong) like
->>>>>>> regression that should be fixed, as DRM_SIMPLEDRM was enabled beforehand
->>>>>>> if I understood things correctly. Or is there a proper fix for this
->>>>>>> already in the works and I just missed this? Or is there some good
->>>>>>> reason why this won't/can't be fixed?
->>>>>>
->>>>>> DRM_SIMPLEDRM was enabled but it didn't work at all because there was
->>>>>> no corresponding platform device. Now DRM_SIMPLEDRM works but it has a
->>>>>> blank screen. Of course it is valuable to investigate further about
->>>>>> DRM_SIMPLEDRM on Jaak's machine, but that needs Jaak's effort because
->>>>>> I don't have a same machine.
->>>>
->>>> Side note: Huacai, have you tried working with Jaak to get down to the
->>>> real problem? Evan, might you be able to help out here?
->>> No, Jaak has no response after he 'fixed' his problem by disabling SIMPLEDRM.
->>>
->>
->> I'm sorry, what was it exactly you want me to do? Please be mindful that
->> I'm not familiar with the internals of the Linux kernel and DRI, and it
->> might sometimes take weeks before I have time to work and respond on this.
-> It doesn't matter. I hope you can do some experiments to investigate
-> deeper. The first experiment you can do is enabling SIMPLEFB (i.e.
-> CONFIG_FB_SIMPLE) instead of SIMPLEDRM (CONFIG_DRM_SIMPLEDRM) to see
-> whether there is also a blank screen. If no blank screen, that
-> probably means SIMPLEDRM has a bug, if still blank screen, that means
-> the firmware may pass wrong screen information.
+>> -----Original Message-----
+>> From: José Pekkarinen <jose.pekkarinen@foxhound.fi>
+>> Sent: Friday, October 27, 2023 12:59 PM
+>> To: Deucher, Alexander <Alexander.Deucher@amd.com>; Koenig, Christian
+>> <Christian.Koenig@amd.com>; Pan, Xinhui <Xinhui.Pan@amd.com>;
+>> skhan@linuxfoundation.org
+>> Cc: José Pekkarinen <jose.pekkarinen@foxhound.fi>; airlied@gmail.com;
+>> daniel@ffwll.ch; amd-gfx@lists.freedesktop.org; dri-
+>> devel@lists.freedesktop.org; linux-kernel@vger.kernel.org; 
+>> linux-kernel-
+>> mentees@lists.linuxfoundation.org
+>> Subject: [PATCH] drm/radeon: replace 1-element arrays with 
+>> flexible-array
+>> members
+>> 
+>> Reported by coccinelle, the following patch will move the following 1 
+>> element
+>> arrays to flexible arrays.
+>> 
+>> drivers/gpu/drm/radeon/atombios.h:5523:32-48: WARNING use flexible-
+>> array member instead
+>> (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-
+>> length-and-one-element-arrays)
+>> drivers/gpu/drm/radeon/atombios.h:5545:32-48: WARNING use flexible-
+>> array member instead
+>> (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-
+>> length-and-one-element-arrays)
+>> drivers/gpu/drm/radeon/atombios.h:5461:34-44: WARNING use flexible-
+>> array member instead
+>> (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-
+>> length-and-one-element-arrays)
+>> drivers/gpu/drm/radeon/atombios.h:4447:30-40: WARNING use flexible-
+>> array member instead
+>> (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-
+>> length-and-one-element-arrays)
+>> drivers/gpu/drm/radeon/atombios.h:4236:30-41: WARNING use flexible-
+>> array member instead
+>> (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-
+>> length-and-one-element-arrays)
+>> drivers/gpu/drm/radeon/atombios.h:7044:24-37: WARNING use flexible-
+>> array member instead
+>> (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-
+>> length-and-one-element-arrays)
+>> drivers/gpu/drm/radeon/atombios.h:7054:24-37: WARNING use flexible-
+>> array member instead
+>> (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-
+>> length-and-one-element-arrays)
+>> drivers/gpu/drm/radeon/atombios.h:7095:28-45: WARNING use flexible-
+>> array member instead
+>> (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-
+>> length-and-one-element-arrays)
+>> drivers/gpu/drm/radeon/atombios.h:7553:8-17: WARNING use 
+>> flexible-array
+>> member instead
+>> (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-
+>> length-and-one-element-arrays)
+>> drivers/gpu/drm/radeon/atombios.h:7559:8-17: WARNING use 
+>> flexible-array
+>> member instead
+>> (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-
+>> length-and-one-element-arrays)
+>> drivers/gpu/drm/radeon/atombios.h:3896:27-37: WARNING use flexible-
+>> array member instead
+>> (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-
+>> length-and-one-element-arrays)
+>> drivers/gpu/drm/radeon/atombios.h:5443:16-25: WARNING use flexible-
+>> array member instead
+>> (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-
+>> length-and-one-element-arrays)
+>> drivers/gpu/drm/radeon/atombios.h:5454:34-43: WARNING use flexible-
+>> array member instead
+>> (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-
+>> length-and-one-element-arrays)
+>> drivers/gpu/drm/radeon/atombios.h:4603:21-32: WARNING use flexible-
+>> array member instead
+>> (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-
+>> length-and-one-element-arrays)
+>> drivers/gpu/drm/radeon/atombios.h:6299:32-44: WARNING use flexible-
+>> array member instead
+>> (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-
+>> length-and-one-element-arrays)
+>> drivers/gpu/drm/radeon/atombios.h:4628:32-46: WARNING use flexible-
+>> array member instead
+>> (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-
+>> length-and-one-element-arrays)
+>> drivers/gpu/drm/radeon/atombios.h:6285:29-39: WARNING use flexible-
+>> array member instead
+>> (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-
+>> length-and-one-element-arrays)
+>> drivers/gpu/drm/radeon/atombios.h:4296:30-36: WARNING use flexible-
+>> array member instead
+>> (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-
+>> length-and-one-element-arrays)
+>> drivers/gpu/drm/radeon/atombios.h:4756:28-36: WARNING use flexible-
+>> array member instead
+>> (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-
+>> length-and-one-element-arrays)
+>> drivers/gpu/drm/radeon/atombios.h:4064:22-35: WARNING use flexible-
+>> array member instead
+>> (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-
+>> length-and-one-element-arrays)
+>> drivers/gpu/drm/radeon/atombios.h:7327:9-24: WARNING use 
+>> flexible-array
+>> member instead
+>> (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-
+>> length-and-one-element-arrays)
+>> drivers/gpu/drm/radeon/atombios.h:7332:32-53: WARNING use flexible-
+>> array member instead
+>> (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-
+>> length-and-one-element-arrays)
+>> drivers/gpu/drm/radeon/atombios.h:6030:8-17: WARNING use 
+>> flexible-array
+>> member instead
+>> (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-
+>> length-and-one-element-arrays)
+>> drivers/gpu/drm/radeon/atombios.h:7362:26-41: WARNING use flexible-
+>> array member instead
+>> (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-
+>> length-and-one-element-arrays)
+>> drivers/gpu/drm/radeon/atombios.h:7369:29-44: WARNING use flexible-
+>> array member instead
+>> (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-
+>> length-and-one-element-arrays)
+>> drivers/gpu/drm/radeon/atombios.h:7349:24-32: WARNING use flexible-
+>> array member instead
+>> (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-
+>> length-and-one-element-arrays)
+>> drivers/gpu/drm/radeon/atombios.h:7355:27-35: WARNING use flexible-
+>> array member instead
+>> (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-
+>> length-and-one-element-arrays)
+>> 
+>> Signed-off-by: José Pekkarinen <jose.pekkarinen@foxhound.fi>
+> 
+> Please verify that changing these to variable sized arrays does not
+> break any calculations based on the old size in the driver.  More
+> below.
+> 
+>> ---
+>>  drivers/gpu/drm/radeon/atombios.h | 54 
+>> +++++++++++++++----------------
+>>  1 file changed, 27 insertions(+), 27 deletions(-)
+>> 
+>> diff --git a/drivers/gpu/drm/radeon/atombios.h
+>> b/drivers/gpu/drm/radeon/atombios.h
+>> index 8a6621f1e82c..7fa1606be92c 100644
+>> --- a/drivers/gpu/drm/radeon/atombios.h
+>> +++ b/drivers/gpu/drm/radeon/atombios.h
+>> @@ -3893,7 +3893,7 @@ typedef struct _ATOM_GPIO_PIN_ASSIGNMENT
+>> typedef struct _ATOM_GPIO_PIN_LUT  {
+>>    ATOM_COMMON_TABLE_HEADER  sHeader;
+>> -  ATOM_GPIO_PIN_ASSIGNMENT   asGPIO_Pin[1];
+>> +  ATOM_GPIO_PIN_ASSIGNMENT   asGPIO_Pin[];
+>>  }ATOM_GPIO_PIN_LUT;
+>> 
+>> 
+>> /******************************************************************
+>> **********/
+>> @@ -4061,7 +4061,7 @@ typedef struct
+>> _ATOM_SRC_DST_TABLE_FOR_ONE_OBJECT         //usSrcDstTableOffset
+>>    UCHAR               ucNumberOfSrc;
+>>    USHORT              usSrcObjectID[1];
+>>    UCHAR               ucNumberOfDst;
+>> -  USHORT              usDstObjectID[1];
+>> +  USHORT              usDstObjectID[];
+>>  }ATOM_SRC_DST_TABLE_FOR_ONE_OBJECT;
+>> 
+>> 
+>> @@ -4233,7 +4233,7 @@ typedef struct
+>> _ATOM_CONNECTOR_DEVICE_TAG_RECORD
+>>    ATOM_COMMON_RECORD_HEADER   sheader;
+>>    UCHAR                       ucNumberOfDevice;
+>>    UCHAR                       ucReserved;
+>> -  ATOM_CONNECTOR_DEVICE_TAG   asDeviceTag[1];         //This Id is 
+>> same as
+>> "ATOM_DEVICE_XXX_SUPPORT", 1 is only for allocation
+>> +  ATOM_CONNECTOR_DEVICE_TAG   asDeviceTag[];          //This Id is 
+>> same as
+>> "ATOM_DEVICE_XXX_SUPPORT", 1 is only for allocation
+>>  }ATOM_CONNECTOR_DEVICE_TAG_RECORD;
+>> 
+>> 
+>> @@ -4293,7 +4293,7 @@ typedef struct
+>> _ATOM_OBJECT_GPIO_CNTL_RECORD
+>>    ATOM_COMMON_RECORD_HEADER   sheader;
+>>    UCHAR                       ucFlags;                // Future 
+>> expnadibility
+>>    UCHAR                       ucNumberOfPins;         // Number of 
+>> GPIO pins used to
+>> control the object
+>> -  ATOM_GPIO_PIN_CONTROL_PAIR  asGpio[1];              // the real 
+>> gpio pin pair
+>> determined by number of pins ucNumberOfPins
+>> +  ATOM_GPIO_PIN_CONTROL_PAIR  asGpio[];               // the real 
+>> gpio pin pair
+>> determined by number of pins ucNumberOfPins
+>>  }ATOM_OBJECT_GPIO_CNTL_RECORD;
+>> 
+>>  //Definitions for GPIO pin state
+>> @@ -4444,7 +4444,7 @@ typedef struct
+>> _ATOM_BRACKET_LAYOUT_RECORD
+>>    UCHAR                       ucWidth;
+>>    UCHAR                       ucConnNum;
+>>    UCHAR                       ucReserved;
+>> -  ATOM_CONNECTOR_LAYOUT_INFO  asConnInfo[1];
+>> +  ATOM_CONNECTOR_LAYOUT_INFO  asConnInfo[];
+>>  }ATOM_BRACKET_LAYOUT_RECORD;
+>> 
+>> 
+>> /******************************************************************
+>> **********/
+>> @@ -4600,7 +4600,7 @@ typedef struct  _ATOM_I2C_VOLTAGE_OBJECT_V3
+>>     UCHAR    ucVoltageControlAddress;
+>>     UCHAR    ucVoltageControlOffset;
+>>     ULONG    ulReserved;
+>> -   VOLTAGE_LUT_ENTRY asVolI2cLut[1];        // end with 0xff
+>> +   VOLTAGE_LUT_ENTRY asVolI2cLut[];         // end with 0xff
+>>  }ATOM_I2C_VOLTAGE_OBJECT_V3;
+>> 
+>>  // ATOM_I2C_VOLTAGE_OBJECT_V3.ucVoltageControlFlag
+>> @@ -4625,7 +4625,7 @@ typedef struct
+>> _ATOM_LEAKAGE_VOLTAGE_OBJECT_V3
+>>     UCHAR    ucLeakageEntryNum;           // indicate the entry number 
+>> of
+>> LeakageId/Voltage Lut table
+>>     UCHAR    ucReserved[2];
+>>     ULONG    ulMaxVoltageLevel;
+>> -   LEAKAGE_VOLTAGE_LUT_ENTRY_V2 asLeakageIdLut[1];
+>> +   LEAKAGE_VOLTAGE_LUT_ENTRY_V2 asLeakageIdLut[];
+>>  }ATOM_LEAKAGE_VOLTAGE_OBJECT_V3;
+>> 
+>> 
+>> @@ -4753,7 +4753,7 @@ typedef struct _ATOM_POWER_SOURCE_INFO  {
+>>               ATOM_COMMON_TABLE_HEADER                asHeader;
+>>               UCHAR
+>>                                       asPwrbehave[16];
+>> -             ATOM_POWER_SOURCE_OBJECT                asPwrObj[1];
+>> +             ATOM_POWER_SOURCE_OBJECT                asPwrObj[];
+>>  }ATOM_POWER_SOURCE_INFO;
+>> 
+>> 
+>> @@ -5440,7 +5440,7 @@ typedef struct _ATOM_FUSION_SYSTEM_INFO_V2
+>> typedef struct _ATOM_I2C_DATA_RECORD  {
+>>    UCHAR         ucNunberOfBytes;                                      
+>>         //Indicates how many
+>> bytes SW needs to write to the external ASIC for one block, besides to 
+>> "Start"
+>> and "Stop"
+>> -  UCHAR         ucI2CData[1];                                         
+>>         //I2C data in bytes,
+>> should be less than 16 bytes usually
+>> +  UCHAR         ucI2CData[];                                          
+>>         //I2C data in bytes, should
+>> be less than 16 bytes usually
+>>  }ATOM_I2C_DATA_RECORD;
+>> 
+>> 
+>> @@ -5451,14 +5451,14 @@ typedef struct
+>> _ATOM_I2C_DEVICE_SETUP_INFO
+>>    UCHAR                                      ucSSChipID;             
+>> //SS chip being used
+>>    UCHAR                                      ucSSChipSlaveAddr;      
+>> //Slave Address to
+>> set up this SS chip
+>>    UCHAR                           ucNumOfI2CDataRecords;  //number of 
+>> data block
+>> -  ATOM_I2C_DATA_RECORD            asI2CData[1];
+>> +  ATOM_I2C_DATA_RECORD            asI2CData[];
+>>  }ATOM_I2C_DEVICE_SETUP_INFO;
+>> 
+>> 
+>> //=================================================================
+>> =========================
+>>  typedef struct  _ATOM_ASIC_MVDD_INFO
+>>  {
+>>    ATOM_COMMON_TABLE_HEADER         sHeader;
+>> -  ATOM_I2C_DEVICE_SETUP_INFO      asI2CSetup[1];
+>> +  ATOM_I2C_DEVICE_SETUP_INFO      asI2CSetup[];
+>>  }ATOM_ASIC_MVDD_INFO;
+>> 
+>> 
+>> //=================================================================
+>> =========================
+>> @@ -5520,7 +5520,7 @@ typedef struct _ATOM_ASIC_INTERNAL_SS_INFO
+>> typedef struct _ATOM_ASIC_INTERNAL_SS_INFO_V2  {
+>>    ATOM_COMMON_TABLE_HEADER         sHeader;
+>> -  ATOM_ASIC_SS_ASSIGNMENT_V2           asSpreadSpectrum[1];
+>> //this is point only.
+>> +  ATOM_ASIC_SS_ASSIGNMENT_V2           asSpreadSpectrum[];
+>> //this is point only.
+>>  }ATOM_ASIC_INTERNAL_SS_INFO_V2;
+>> 
+>>  typedef struct _ATOM_ASIC_SS_ASSIGNMENT_V3 @@ -5542,7 +5542,7 @@
+>> typedef struct _ATOM_ASIC_SS_ASSIGNMENT_V3  typedef struct
+>> _ATOM_ASIC_INTERNAL_SS_INFO_V3  {
+>>    ATOM_COMMON_TABLE_HEADER         sHeader;
+>> -  ATOM_ASIC_SS_ASSIGNMENT_V3           asSpreadSpectrum[1];
+>> //this is pointer only.
+>> +  ATOM_ASIC_SS_ASSIGNMENT_V3           asSpreadSpectrum[];
+>> //this is pointer only.
+>>  }ATOM_ASIC_INTERNAL_SS_INFO_V3;
+>> 
+>> 
+>> @@ -6027,7 +6027,7 @@ typedef struct _ENABLE_SCALER_PARAMETERS
+>>    UCHAR ucScaler;            // ATOM_SCALER1, ATOM_SCALER2
+>>    UCHAR ucEnable;            // ATOM_SCALER_DISABLE or
+>> ATOM_SCALER_CENTER or ATOM_SCALER_EXPANSION
+>>    UCHAR ucTVStandard;        //
+>> -  UCHAR ucPadding[1];
+>> +  UCHAR ucPadding[];
+> 
+> This may actually be a 1 element array.  It’s just padding at the end
+> of the table.
+> 
+>>  }ENABLE_SCALER_PARAMETERS;
+>>  #define ENABLE_SCALER_PS_ALLOCATION ENABLE_SCALER_PARAMETERS
+>> 
+>> @@ -6282,7 +6282,7 @@ typedef union
+>> _ATOM_MEMORY_SETTING_ID_CONFIG_ACCESS
+>> 
+>>  typedef struct _ATOM_MEMORY_SETTING_DATA_BLOCK{
+>>       ATOM_MEMORY_SETTING_ID_CONFIG_ACCESS
+>>       ulMemoryID;
+>> -     ULONG
+>>                                                               
+>> aulMemData[1];
+>> +     ULONG
+>>                                                               
+>> aulMemData[];
+>>  }ATOM_MEMORY_SETTING_DATA_BLOCK;
+>> 
+>> 
+>> @@ -6296,7 +6296,7 @@ typedef struct _ATOM_INIT_REG_BLOCK{
+>>       USHORT
+>>                                               usRegIndexTblSize;
+>> 
+>>                       //size of asRegIndexBuf
+>>       USHORT
+>>                                               usRegDataBlkSize;
+>> 
+>>                               //size of
+>> ATOM_MEMORY_SETTING_DATA_BLOCK
+>>       ATOM_INIT_REG_INDEX_FORMAT
+>>       asRegIndexBuf[1];
+>> -     ATOM_MEMORY_SETTING_DATA_BLOCK  asRegDataBuf[1];
+>> +     ATOM_MEMORY_SETTING_DATA_BLOCK  asRegDataBuf[];
+>>  }ATOM_INIT_REG_BLOCK;
+>> 
+> 
+> This one needs special handling as you have multiple variable sized 
+> arrays.
 
-Testing with 6.5.9 I get a blank screen with CONFIG_DRM_SIMPLEDRM=y and 
-get no blank screen with CONFIG_FB_SIMPLE=y and CONFIG_DRM_SIMPLEDRM unset.
-
-Jaak
+     I'm happy to add any special handling in v2, though
+I may need to understand what that special handling would
+be. Would you mind to elaborate? Otherwise I can just leave
+the sensitive cases and the paddings untouched and resend
+the patch with the rest of cases converted.
 
 > 
-> Huacai
+>>  #define END_OF_REG_INDEX_BLOCK  0x0ffff @@ -7041,7 +7041,7 @@
+>> typedef struct _ATOM_DISP_OUT_INFO
+>>       USHORT ptrTransmitterInfo;
+>>       USHORT ptrEncoderInfo;
+>>       ASIC_TRANSMITTER_INFO  asTransmitterInfo[1];
+>> -     ASIC_ENCODER_INFO      asEncoderInfo[1];
+>> +     ASIC_ENCODER_INFO      asEncoderInfo[];
 > 
->>
->> Jaak
->>
->>>>
->>>> But I write this mail for a different reason:
->>>>
->>>>> I am having the same issue on a Lenovo Thinkpad P70 (Intel
->>>>> Corporation HD Graphics 530 (rev 06), Intel(R) Core(TM) i7-6700HQ).
->>>>> Upgrading from Linux 6.4.12 to 6.5 and later results in only a blank
->>>>> screen after boot and a rapidly flashing device-access-status
->>>>> indicator.
->>>>
->>>> This additional report makes me wonder if we should revert the culprit
->>>> (60aebc9559492c ("drivers/firmware: Move sysfb_init() from
->>>> device_initcall to subsys_initcall_sync") [v6.5-rc1]). But I guess that
->>>> might lead to regressions for some users? But the patch description says
->>>> that this is not a common configuration, so can we maybe get away with that?
->>>   From my point of view, this is not a regression, 60aebc9559492c
->>> doesn't cause a problem, but exposes a problem. So we need to fix the
->>> real problem (SIMPLEDRM has a blank screen on some conditions). This
->>> needs Jaak or Evan's help.
->>>
->>> Huacai
->>>>
->>>> Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
->>>> --
->>>> Everything you wanna know about Linux kernel regression tracking:
->>>> https://linux-regtracking.leemhuis.info/about/#tldr
->>>> If I did something stupid, please tell me, as explained on that page.
->>>>
->>>>>>>>>> When SIMPLEDRM takes over the framebuffer, the screen is blank (don't
->>>>>>>>>> know why). And before 60aebc9559492cea6a9625f ("drivers/firmware: Move
->>>>>>>>>> sysfb_init() from device_initcall to subsys_initcall_sync") there is
->>>>>>>>>> no platform device created for SIMPLEDRM at early stage, so it seems
->>>>>>>>>> also "no problem".
->>>>>>>>> I don't understand above. You mean that after that commit the platform
->>>>>>>>> device is also none, right?
->>>>>>>> No. The SIMPLEDRM driver needs a platform device to work, and that
->>>>>>>> commit makes the platform device created earlier. So, before that
->>>>>>>> commit, SIMPLEDRM doesn't work, but the screen isn't blank; after that
->>>>>>>> commit, SIMPLEDRM works, but the screen is blank.
->>>>>>>>
->>>>>>>> Huacai
->>>>>>>>>
->>>>>>>>> Confused...
->>>>>>>>>
->>>>>>>>> --
->>>>>>>>> An old man doll... just what I always wanted! - Clara
->>>>>>>>
->>>>>>>>
->>>>>
->>>>>
->>
+> Same here.
+> 
+>>  }ATOM_DISP_OUT_INFO;
+>> 
+>>  typedef struct _ATOM_DISP_OUT_INFO_V2
+>> @@ -7051,7 +7051,7 @@ typedef struct _ATOM_DISP_OUT_INFO_V2
+>>       USHORT ptrEncoderInfo;
+>>    USHORT ptrMainCallParserFar;                  // direct address of 
+>> main parser call
+>> in VBIOS binary.
+>>       ASIC_TRANSMITTER_INFO  asTransmitterInfo[1];
+>> -     ASIC_ENCODER_INFO      asEncoderInfo[1];
+>> +     ASIC_ENCODER_INFO      asEncoderInfo[];
+> 
+> Same here.
+> 
+>>  }ATOM_DISP_OUT_INFO_V2;
+>> 
+>> 
+>> @@ -7092,7 +7092,7 @@ typedef struct _ATOM_DISP_OUT_INFO_V3
+>>    UCHAR  ucCoreRefClkSource;                    // value of 
+>> CORE_REF_CLK_SOURCE
+>>    UCHAR  ucDispCaps;
+>>    UCHAR  ucReserved[2];
+>> -  ASIC_TRANSMITTER_INFO_V2  asTransmitterInfo[1];     // for 
+>> alligment only
+>> +  ASIC_TRANSMITTER_INFO_V2  asTransmitterInfo[];      // for 
+>> alligment only
+>>  }ATOM_DISP_OUT_INFO_V3;
+>> 
+>>  //ucDispCaps
+>> @@ -7324,12 +7324,12 @@ typedef struct
+>> _CLOCK_CONDITION_SETTING_ENTRY{
+>>    USHORT usMaxClockFreq;
+>>    UCHAR  ucEncodeMode;
+>>    UCHAR  ucPhySel;
+>> -  ULONG  ulAnalogSetting[1];
+>> +  ULONG  ulAnalogSetting[];
+>>  }CLOCK_CONDITION_SETTING_ENTRY;
+>> 
+>>  typedef struct _CLOCK_CONDITION_SETTING_INFO{
+>>    USHORT usEntrySize;
+>> -  CLOCK_CONDITION_SETTING_ENTRY asClkCondSettingEntry[1];
+>> +  CLOCK_CONDITION_SETTING_ENTRY asClkCondSettingEntry[];
+>>  }CLOCK_CONDITION_SETTING_INFO;
+>> 
+>>  typedef struct _PHY_CONDITION_REG_VAL{
+>> @@ -7346,27 +7346,27 @@ typedef struct _PHY_CONDITION_REG_VAL_V2{
+>> typedef struct _PHY_CONDITION_REG_INFO{
+>>    USHORT usRegIndex;
+>>    USHORT usSize;
+>> -  PHY_CONDITION_REG_VAL asRegVal[1];
+>> +  PHY_CONDITION_REG_VAL asRegVal[];
+>>  }PHY_CONDITION_REG_INFO;
+>> 
+>>  typedef struct _PHY_CONDITION_REG_INFO_V2{
+>>    USHORT usRegIndex;
+>>    USHORT usSize;
+>> -  PHY_CONDITION_REG_VAL_V2 asRegVal[1];
+>> +  PHY_CONDITION_REG_VAL_V2 asRegVal[];
+>>  }PHY_CONDITION_REG_INFO_V2;
+>> 
+>>  typedef struct _PHY_ANALOG_SETTING_INFO{
+>>    UCHAR  ucEncodeMode;
+>>    UCHAR  ucPhySel;
+>>    USHORT usSize;
+>> -  PHY_CONDITION_REG_INFO  asAnalogSetting[1];
+>> +  PHY_CONDITION_REG_INFO  asAnalogSetting[];
+>>  }PHY_ANALOG_SETTING_INFO;
+>> 
+>>  typedef struct _PHY_ANALOG_SETTING_INFO_V2{
+>>    UCHAR  ucEncodeMode;
+>>    UCHAR  ucPhySel;
+>>    USHORT usSize;
+>> -  PHY_CONDITION_REG_INFO_V2  asAnalogSetting[1];
+>> +  PHY_CONDITION_REG_INFO_V2  asAnalogSetting[];
+>>  }PHY_ANALOG_SETTING_INFO_V2;
+>> 
+>>  typedef struct _GFX_HAVESTING_PARAMETERS { @@ -7550,13 +7550,13
+>> @@ typedef struct _ATOM_TMDS_INFO  typedef struct
+>> _ATOM_ENCODER_ANALOG_ATTRIBUTE  {
+>>    UCHAR ucTVStandard;     //Same as TV standards defined above,
+>> -  UCHAR ucPadding[1];
+>> +  UCHAR ucPadding[];
+> 
+> This may actually be a 1 element array.  It’s just padding at the end
+> of the table.
+> 
+>>  }ATOM_ENCODER_ANALOG_ATTRIBUTE;
+>> 
+>>  typedef struct _ATOM_ENCODER_DIGITAL_ATTRIBUTE  {
+>>    UCHAR ucAttribute;      //Same as other digital encoder attributes 
+>> defined
+>> above
+>> -  UCHAR ucPadding[1];
+>> +  UCHAR ucPadding[];
+> 
+> Same here.
+> 
+> Alex
+> 
+>>  }ATOM_ENCODER_DIGITAL_ATTRIBUTE;
+>> 
+>>  typedef union _ATOM_ENCODER_ATTRIBUTE
+>> --
+>> 2.39.2
 
+     Thanks for the comments!
+
+     José.
