@@ -1,47 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE7B27DA74F
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Oct 2023 15:35:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 86E797DA750
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Oct 2023 15:35:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 76DA210E0E7;
-	Sat, 28 Oct 2023 13:34:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 067D510E12A;
+	Sat, 28 Oct 2023 13:35:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 50F2E10E0C8
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Oct 2023 13:34:53 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 823F310E0E7
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Oct 2023 13:34:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1698500093; x=1730036093;
+ t=1698500096; x=1730036096;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=bfqCgaFTtKMDyG/NOCJ0RgLCIzf50xfqXakidp/b+WE=;
- b=h6CevTLCj8YUp4N4slD0KbCTKrE02W3MR/MlTIaYhJ/JpDpvQKALLb7l
- PsYVZVAIKRU2osp3RE2sPxZtnjl+/eakL5t5xhcMoz9ANgMEnmlwoXod1
- dBezKU6uMEAho4BvADiTSSEbeswTMvB2XRCYPYoXCqlRW/PSuT3gr8y/P
- qQ+MD/sI0FWGy5qa1ajvDxALWlnIDYmJaZg5D75BfnNaQ+M8uxlVcgSj2
- Zi39tt4wqvDOa0duwZOXv9o3sPTJGGf7qdAhnuS0yo/Hek/LwV7m0Iz4+
- LdyVHVUA5mUZ95wu/mh9VolV9UFeMJWrrYmusm9F2w2KTrmoA9R1OOqZ+ Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10876"; a="6530312"
+ bh=B6Af10MZecczs092QupAst4Ky3U8Wln9x1M5cAfZbZU=;
+ b=l6w8hFkiaJ+sEfX7HRHSUmfC0O+0N6myIIQPtv6U6LhXmR1PBd1gY8t8
+ NV+ewoo6wV+HrNdKqEQm+OTyre3vDBnMTAQTFSlxLXjXMHVLHuQ6K0gHz
+ hsQXyMsN7Nic89h+sKFV7/arX/sbhM7cuMto6ZxwpXGbNBrigu3+ZxqGN
+ BwDKggRLw0+dfAd5+y/M1tH2r/+4BLHg15hO8ZF5CkG/CZBge7403yHzz
+ /7S7NjWb9N6jwmrusmtlYUKRVWKCxU2+Snuu6ZPJ9BWPVSOoGyNcqt16y
+ kZ8IH8OQAFoObsQ7VX2LVeS5FMNkisGk/L4c0bPS+8fe8wh5QHhzermwE g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10876"; a="6530357"
 X-IronPort-AV: E=Sophos;i="6.03,259,1694761200"; 
-   d="scan'208";a="6530312"
+   d="scan'208";a="6530357"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Oct 2023 06:34:53 -0700
+ 28 Oct 2023 06:34:56 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.03,259,1694761200"; 
-   d="scan'208";a="7907945"
+   d="scan'208";a="7907950"
 Received: from joe-255.igk.intel.com (HELO localhost) ([10.91.220.57])
  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Oct 2023 06:34:37 -0700
+ 28 Oct 2023 06:34:41 -0700
 From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 08/11] accel/ivpu: Pass D0i3 residency time to the VPU
- firmware
-Date: Sat, 28 Oct 2023 15:34:12 +0200
-Message-Id: <20231028133415.1169975-9-stanislaw.gruszka@linux.intel.com>
+Subject: [PATCH v2 09/11] accel/ivpu: Introduce ivpu_ipc_send_receive_active()
+Date: Sat, 28 Oct 2023 15:34:13 +0200
+Message-Id: <20231028133415.1169975-10-stanislaw.gruszka@linux.intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20231028133415.1169975-1-stanislaw.gruszka@linux.intel.com>
 References: <20231028133415.1169975-1-stanislaw.gruszka@linux.intel.com>
@@ -59,126 +58,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>,
+Cc: Karol Wachowski <karol.wachowski@linux.intel.com>,
  Oded Gabbay <ogabbay@kernel.org>, Jeffrey Hugo <quic_jhugo@quicinc.com>,
  Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
  Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>
+From: Karol Wachowski <karol.wachowski@linux.intel.com>
 
-The firmware needs to know the time spent in D0i3/D3 to
-calculate telemetry data. The D0i3/D3 residency time is
-calculated by the driver and passed to the firmware
-in the boot parameters.
+Split ivpu_ipc_send_receive() implementation to have a version
+that does not call pm_runtime_resume_and_get(). That implementation
+can be invoked when device is up and runtime resume is prohibited
+(for example at the end of boot sequence).
 
-The driver also passes VPU perf counter value captured
-right before entering D0i3 - this allows the VPU firmware
-to generate monotonic timestamps for the logs.
+The new function will be used for D0i3 entry IPC message addition
+in the separate change.
 
-Signed-off-by: Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>
+Signed-off-by: Karol Wachowski <karol.wachowski@linux.intel.com>
 Reviewed-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
 Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 ---
- drivers/accel/ivpu/ivpu_fw.c          | 17 ++++++++++++++++-
- drivers/accel/ivpu/ivpu_hw.h          |  2 ++
- drivers/accel/ivpu/ivpu_hw_37xx.c     |  8 ++++++++
- drivers/accel/ivpu/ivpu_hw_37xx_reg.h |  2 ++
- 4 files changed, 28 insertions(+), 1 deletion(-)
+ drivers/accel/ivpu/ivpu_ipc.c | 33 ++++++++++++++++++++++-----------
+ drivers/accel/ivpu/ivpu_ipc.h |  8 +++++---
+ 2 files changed, 27 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/accel/ivpu/ivpu_fw.c b/drivers/accel/ivpu/ivpu_fw.c
-index b81827540db9..383e4d9b97c8 100644
---- a/drivers/accel/ivpu/ivpu_fw.c
-+++ b/drivers/accel/ivpu/ivpu_fw.c
-@@ -426,14 +426,27 @@ static void ivpu_fw_boot_params_print(struct ivpu_device *vdev, struct vpu_boot_
- 		 boot_params->vpu_telemetry_enable);
- 	ivpu_dbg(vdev, FW_BOOT, "boot_params.dvfs_mode = %u\n",
- 		 boot_params->dvfs_mode);
-+	ivpu_dbg(vdev, FW_BOOT, "boot_params.d0i3_residency_time_us = %lld\n",
-+		 boot_params->d0i3_residency_time_us);
-+	ivpu_dbg(vdev, FW_BOOT, "boot_params.d0i3_entry_vpu_ts = %llu\n",
-+		 boot_params->d0i3_entry_vpu_ts);
+diff --git a/drivers/accel/ivpu/ivpu_ipc.c b/drivers/accel/ivpu/ivpu_ipc.c
+index 6e213a5afb8c..d069d1e1f91d 100644
+--- a/drivers/accel/ivpu/ivpu_ipc.c
++++ b/drivers/accel/ivpu/ivpu_ipc.c
+@@ -288,23 +288,20 @@ ivpu_ipc_send_receive_internal(struct ivpu_device *vdev, struct vpu_jsm_msg *req
+ 	return ret;
  }
  
- void ivpu_fw_boot_params_setup(struct ivpu_device *vdev, struct vpu_boot_params *boot_params)
+-int ivpu_ipc_send_receive(struct ivpu_device *vdev, struct vpu_jsm_msg *req,
+-			  enum vpu_ipc_msg_type expected_resp_type,
+-			  struct vpu_jsm_msg *resp, u32 channel,
+-			  unsigned long timeout_ms)
++int ivpu_ipc_send_receive_active(struct ivpu_device *vdev, struct vpu_jsm_msg *req,
++				 enum vpu_ipc_msg_type expected_resp, struct vpu_jsm_msg *resp,
++				 u32 channel, unsigned long timeout_ms)
  {
- 	struct ivpu_bo *ipc_mem_rx = vdev->ipc->mem_rx;
+ 	struct vpu_jsm_msg hb_req = { .type = VPU_JSM_MSG_QUERY_ENGINE_HB };
+ 	struct vpu_jsm_msg hb_resp;
+ 	int ret, hb_ret;
  
--	/* In case of warm boot we only have to reset the entrypoint addr */
-+	/* In case of warm boot only update variable params */
- 	if (!ivpu_fw_is_cold_boot(vdev)) {
-+		boot_params->d0i3_residency_time_us =
-+			ktime_us_delta(ktime_get_boottime(), vdev->hw->d0i3_entry_host_ts);
-+		boot_params->d0i3_entry_vpu_ts = vdev->hw->d0i3_entry_vpu_ts;
-+
-+		ivpu_dbg(vdev, FW_BOOT, "boot_params.d0i3_residency_time_us = %lld\n",
-+			 boot_params->d0i3_residency_time_us);
-+		ivpu_dbg(vdev, FW_BOOT, "boot_params.d0i3_entry_vpu_ts = %llu\n",
-+			 boot_params->d0i3_entry_vpu_ts);
-+
- 		boot_params->save_restore_ret_address = 0;
- 		vdev->pm->is_warmboot = true;
- 		return;
-@@ -497,6 +510,8 @@ void ivpu_fw_boot_params_setup(struct ivpu_device *vdev, struct vpu_boot_params
- 	boot_params->punit_telemetry_sram_size = ivpu_hw_reg_telemetry_size_get(vdev);
- 	boot_params->vpu_telemetry_enable = ivpu_hw_reg_telemetry_enable_get(vdev);
- 	boot_params->dvfs_mode = vdev->fw->dvfs_mode;
-+	boot_params->d0i3_residency_time_us = 0;
-+	boot_params->d0i3_entry_vpu_ts = 0;
+-	ret = ivpu_rpm_get(vdev);
+-	if (ret < 0)
+-		return ret;
++	drm_WARN_ON(&vdev->drm,
++		    vdev->drm.dev->power.runtime_status == RPM_SUSPENDED);
  
- 	wmb(); /* Flush WC buffers after writing bootparams */
+-	ret = ivpu_ipc_send_receive_internal(vdev, req, expected_resp_type, resp,
+-					     channel, timeout_ms);
++	ret = ivpu_ipc_send_receive_internal(vdev, req, expected_resp, resp, channel, timeout_ms);
+ 	if (ret != -ETIMEDOUT)
+-		goto rpm_put;
++		return ret;
  
-diff --git a/drivers/accel/ivpu/ivpu_hw.h b/drivers/accel/ivpu/ivpu_hw.h
-index ab341237bcf9..fd4809b56168 100644
---- a/drivers/accel/ivpu/ivpu_hw.h
-+++ b/drivers/accel/ivpu/ivpu_hw.h
-@@ -57,6 +57,8 @@ struct ivpu_hw_info {
- 	u32 sku;
- 	u16 config;
- 	int dma_bits;
-+	ktime_t d0i3_entry_host_ts;
-+	u64 d0i3_entry_vpu_ts;
- };
+ 	hb_ret = ivpu_ipc_send_receive_internal(vdev, &hb_req, VPU_JSM_MSG_QUERY_ENGINE_HB_DONE,
+ 						&hb_resp, VPU_IPC_CHAN_ASYNC_CMD,
+@@ -314,7 +311,21 @@ int ivpu_ipc_send_receive(struct ivpu_device *vdev, struct vpu_jsm_msg *req,
+ 		ivpu_pm_schedule_recovery(vdev);
+ 	}
  
- extern const struct ivpu_hw_ops ivpu_hw_37xx_ops;
-diff --git a/drivers/accel/ivpu/ivpu_hw_37xx.c b/drivers/accel/ivpu/ivpu_hw_37xx.c
-index 8340c84ed6de..451c9777b237 100644
---- a/drivers/accel/ivpu/ivpu_hw_37xx.c
-+++ b/drivers/accel/ivpu/ivpu_hw_37xx.c
-@@ -714,10 +714,18 @@ static bool ivpu_hw_37xx_is_idle(struct ivpu_device *vdev)
- 	       REG_TEST_FLD(VPU_37XX_BUTTRESS_VPU_STATUS, IDLE, val);
- }
- 
-+static void ivpu_hw_37xx_save_d0i3_entry_timestamp(struct ivpu_device *vdev)
-+{
-+	vdev->hw->d0i3_entry_host_ts = ktime_get_boottime();
-+	vdev->hw->d0i3_entry_vpu_ts = REGV_RD64(VPU_37XX_CPU_SS_TIM_PERF_FREE_CNT);
+-rpm_put:
++	return ret;
 +}
 +
- static int ivpu_hw_37xx_power_down(struct ivpu_device *vdev)
- {
- 	int ret = 0;
- 
-+	ivpu_hw_37xx_save_d0i3_entry_timestamp(vdev);
++int ivpu_ipc_send_receive(struct ivpu_device *vdev, struct vpu_jsm_msg *req,
++			  enum vpu_ipc_msg_type expected_resp, struct vpu_jsm_msg *resp,
++			  u32 channel, unsigned long timeout_ms)
++{
++	int ret;
 +
- 	if (!ivpu_hw_37xx_is_idle(vdev) && ivpu_hw_37xx_reset(vdev))
- 		ivpu_err(vdev, "Failed to reset the VPU\n");
- 
-diff --git a/drivers/accel/ivpu/ivpu_hw_37xx_reg.h b/drivers/accel/ivpu/ivpu_hw_37xx_reg.h
-index 4083beb5e9db..f6fec1919202 100644
---- a/drivers/accel/ivpu/ivpu_hw_37xx_reg.h
-+++ b/drivers/accel/ivpu/ivpu_hw_37xx_reg.h
-@@ -240,6 +240,8 @@
- #define VPU_37XX_CPU_SS_TIM_GEN_CONFIG					0x06021008u
- #define VPU_37XX_CPU_SS_TIM_GEN_CONFIG_WDOG_TO_INT_CLR_MASK		BIT_MASK(9)
- 
-+#define VPU_37XX_CPU_SS_TIM_PERF_FREE_CNT				0x06029000u
++	ret = ivpu_rpm_get(vdev);
++	if (ret < 0)
++		return ret;
 +
- #define VPU_37XX_CPU_SS_DOORBELL_0					0x06300000u
- #define VPU_37XX_CPU_SS_DOORBELL_0_SET_MASK				BIT_MASK(0)
++	ret = ivpu_ipc_send_receive_active(vdev, req, expected_resp, resp, channel, timeout_ms);
++
+ 	ivpu_rpm_put(vdev);
+ 	return ret;
+ }
+diff --git a/drivers/accel/ivpu/ivpu_ipc.h b/drivers/accel/ivpu/ivpu_ipc.h
+index 68f5b6668e00..6918db23daa4 100644
+--- a/drivers/accel/ivpu/ivpu_ipc.h
++++ b/drivers/accel/ivpu/ivpu_ipc.h
+@@ -85,9 +85,11 @@ int ivpu_ipc_receive(struct ivpu_device *vdev, struct ivpu_ipc_consumer *cons,
+ 		     struct ivpu_ipc_hdr *ipc_buf, struct vpu_jsm_msg *ipc_payload,
+ 		     unsigned long timeout_ms);
  
++int ivpu_ipc_send_receive_active(struct ivpu_device *vdev, struct vpu_jsm_msg *req,
++				 enum vpu_ipc_msg_type expected_resp, struct vpu_jsm_msg *resp,
++				 u32 channel, unsigned long timeout_ms);
+ int ivpu_ipc_send_receive(struct ivpu_device *vdev, struct vpu_jsm_msg *req,
+-			  enum vpu_ipc_msg_type expected_resp_type,
+-			  struct vpu_jsm_msg *resp, u32 channel,
+-			  unsigned long timeout_ms);
++			  enum vpu_ipc_msg_type expected_resp, struct vpu_jsm_msg *resp,
++			  u32 channel, unsigned long timeout_ms);
+ 
+ #endif /* __IVPU_IPC_H__ */
 -- 
 2.25.1
 
