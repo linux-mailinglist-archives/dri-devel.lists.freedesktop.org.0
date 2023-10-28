@@ -1,53 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2ADA37DA5D4
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Oct 2023 10:36:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC2807DA62F
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Oct 2023 11:38:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 07E2B10E08D;
-	Sat, 28 Oct 2023 08:36:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 16CEB10E023;
+	Sat, 28 Oct 2023 09:38:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A3DC510E08D
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Oct 2023 08:36:24 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 28F8210E150
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Oct 2023 09:38:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1698482184; x=1730018184;
+ t=1698485927; x=1730021927;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=K50TtdGflaJbGGrwCCGgiZ3+33xzglKgS60aXNaVez8=;
- b=CbHNARo2KmvOAlFKKBC/80PVRdFAVxLz9TgVk2Hwmq+BOtY8rf9raPLE
- 7NG02/SpkiKUq9oVtfA2rNbn4jlN/1Fgud7RimedxgcOw2SX9kgbOF5yN
- 5EaMtY+FsqAMHo5RiD9ljfvnu2ImPYsGO99uBcjvNVlmHMb22xif5j91M
- ERLN9QcPhpTV3FjKoDMIGpGWWuhOTcD0+0kloL/L1JVdqe+q7mrNfPJsk
- SCxWueX7Yx+EPd7ijTxdZJJZiCrzQPMTRr8+MxQAzRmWtp02SH7aanXI+
- K/d2w7VsgnrPQk8IF4kzfE72/UajF0w94bwSfqJCNAdOkY7kdaaOlKV+y w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10876"; a="418997384"
-X-IronPort-AV: E=Sophos;i="6.03,258,1694761200"; d="scan'208";a="418997384"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Oct 2023 01:36:24 -0700
+ bh=driFOMIS4dM1KHBavkQAmpLegA0VcFJJ+8plDj8insA=;
+ b=b+jQdhuJdjtBH6MuGeEVK7paG6jlkdAbbAHE3LZmZ4vGuR0Mc9oghvPT
+ B7bE0kyatYkHfxGcLsnQkGXL3k2ctjlIqGXqL7UUCJ8ecZV/PzuCCwN1U
+ mKk9bIpzqI83CrOBPRdIzjQlJ9ayDJbDd8aL7UIO2Yqe16tfoicfZ++xN
+ Xto0qUw9c86UC5xNCUargxU6yxJuL39NJT1g19PZueBjexcgYyuiyvzTR
+ NxQY7dIA9Vvc8X9U1NhIxHBm7q9z6ZdrAx5Ffo06REaQyksCqVg9eh8Za
+ es+IXV7HZPPwe+NsgIlr8SV/uk+XDnajfIswQbzhgdzSvmpZn84enhl87 A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10876"; a="372943466"
+X-IronPort-AV: E=Sophos;i="6.03,258,1694761200"; d="scan'208";a="372943466"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Oct 2023 02:38:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10876"; a="736317212"
-X-IronPort-AV: E=Sophos;i="6.03,258,1694761200"; d="scan'208";a="736317212"
+X-IronPort-AV: E=McAfee;i="6600,9927,10876"; a="903520174"
+X-IronPort-AV: E=Sophos;i="6.03,258,1694761200"; d="scan'208";a="903520174"
 Received: from sgruszka-mobl.ger.corp.intel.com (HELO localhost)
  ([10.252.50.225])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Oct 2023 01:36:22 -0700
-Date: Sat, 28 Oct 2023 10:36:19 +0200
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Oct 2023 02:36:14 -0700
+Date: Sat, 28 Oct 2023 11:38:42 +0200
 From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 To: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Subject: Re: [PATCH 07/11] accel/ivpu: Introduce ivpu_ipc_send_receive_active()
-Message-ID: <ZTzIA3+kVl9n/Emj@linux.intel.com>
+Subject: Re: [PATCH 10/11] accel/ivpu: Add support for delayed D0i3 entry
+ message
+Message-ID: <ZTzWosTZCzbMEoAk@linux.intel.com>
 References: <20231025094323.989987-1-stanislaw.gruszka@linux.intel.com>
- <20231025094323.989987-8-stanislaw.gruszka@linux.intel.com>
- <bdd18dc1-fb4c-2058-b242-5e311266de5b@quicinc.com>
+ <20231025094323.989987-11-stanislaw.gruszka@linux.intel.com>
+ <f45d777c-03eb-fb6b-fa3a-6c19f56e9d17@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <bdd18dc1-fb4c-2058-b242-5e311266de5b@quicinc.com>
+In-Reply-To: <f45d777c-03eb-fb6b-fa3a-6c19f56e9d17@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,29 +61,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Karol Wachowski <karol.wachowski@linux.intel.com>,
+Cc: Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>,
  Oded Gabbay <ogabbay@kernel.org>,
  Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
  dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 27, 2023 at 08:49:21AM -0600, Jeffrey Hugo wrote:
-> On 10/25/2023 3:43 AM, Stanislaw Gruszka wrote:
-> > From: Karol Wachowski <karol.wachowski@linux.intel.com>
-> > 
-> > Split ivpu_ipc_send_receive() implementation to have a version
-> > that does not call pm_runtime_resume_and_get(). That implementation
-> > can be invoked when device is up and runtime resume is prohibited
-> > (for example at the end of boot sequence).
+On Fri, Oct 27, 2023 at 09:07:22AM -0600, Jeffrey Hugo wrote:
+> > +	if (!ivpu_hw_37xx_is_idle(vdev)) {
+> > +		ivpu_warn(vdev, "VPU not idle during power down\n");
+> > +		if (ivpu_hw_37xx_ip_reset(vdev))
+> > +			ivpu_err(vdev, "Failed to reset the VPU\n");
+> > +	}
 > 
-> There doesn't seem to be a user for this, which would make the new function
-> dead code.  Assuming that this new function gets used later in the series,
-> it would be clearer to combine this change with that one.
+> This appears to be an unrelated change to $SUBJECT
 
-It is used in patch 10. I would prefer not to merge those, since the changes
-are not that related. I would reorder this patch just before patch 10 and
-add note it's used there.
+Ok, I think I'll separate this on v2
 
 Regards
 Stanislaw
