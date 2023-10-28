@@ -1,45 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 821537DA74A
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Oct 2023 15:34:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 01F617DA74B
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Oct 2023 15:34:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A6FAA10E0C1;
-	Sat, 28 Oct 2023 13:34:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2448010E0C3;
+	Sat, 28 Oct 2023 13:34:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A6ECC10E0C1
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Oct 2023 13:34:32 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 470F610E0C3
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Oct 2023 13:34:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1698500072; x=1730036072;
+ t=1698500076; x=1730036076;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=QphXME+Sabe+ixPE87otbtwLpsmgnjFgwHLDHgi6fTA=;
- b=bu+I927ja0NA3Wdx1NYRCMmRi3cUIzjxbZG6F8sUNGi3gdVDwWvNp0T0
- uyJtXUn5opF+QaiXHjRAYNIRd+9FM3i74bCju+virNZ46gAY03CU3xPUW
- GE0xg92JA9hH71fEWmBhUR/fzIS45chuz60X/egcUjB4QBdHA7rZRPOOM
- KcKICKfQRAuxnFzRIK+F9HCx4G79LqS6vdtrEv1DWBPimlUY86qZwJeWu
- 8qsqtgs0JOuCl+q9e06cLTmrGrBCXyIg0g6EMNBRo8I1+hm9ClhSLERIr
- OQxsp6q5U+Y8nacoUqGpPN8OA0bRQBfKYDcmb/0L13Zrm0zAQyj5Cge5s A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10876"; a="474136716"
-X-IronPort-AV: E=Sophos;i="6.03,259,1694761200"; d="scan'208";a="474136716"
+ bh=M1vDHAe2Zp3cL/e7WUoPMHFDXdXShMV8RwZb3UQvydM=;
+ b=KYPHr2Y3vjdyeUnd2dK8P5Z0R0rVG2DrpUpDNIeqcUo6KHsdhEgYJXvW
+ ZeK7Tr5dj4Oox0e6LsvDlIsnW7hwZ0uiFnT5+kcZq6lI8VTrKLY4yBjSm
+ /kRJ5hyCHMPaJocIJ86G9LUREZIJFtweLflk3nCfvFdiJS4dCbVLuiA+V
+ R43uZDKWIJVML2DIVOqeUyFKyUNoq5ttPbEbsVoTirettrCU5hZM93x6P
+ IwGdFRYcn+X/qBLdWCBjjRwV8va0e+ulUB5e5u4vDxtO2UrDC+VN4jm/M
+ D/7qNo49AE3cchK9tfmLi7U7u6sSsJnGaHJCKJ3HaQHbJVhk0gOMAv3kI g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10876"; a="474136720"
+X-IronPort-AV: E=Sophos;i="6.03,259,1694761200"; d="scan'208";a="474136720"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Oct 2023 06:34:32 -0700
+ 28 Oct 2023 06:34:35 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10876"; a="794871460"
-X-IronPort-AV: E=Sophos;i="6.03,259,1694761200"; d="scan'208";a="794871460"
+X-IronPort-AV: E=McAfee;i="6600,9927,10876"; a="794871464"
+X-IronPort-AV: E=Sophos;i="6.03,259,1694761200"; d="scan'208";a="794871464"
 Received: from joe-255.igk.intel.com (HELO localhost) ([10.91.220.57])
  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Oct 2023 06:34:29 -0700
+ 28 Oct 2023 06:34:34 -0700
 From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 03/11] accel/ivpu: Add dvfs_mode file to debugfs
-Date: Sat, 28 Oct 2023 15:34:07 +0200
-Message-Id: <20231028133415.1169975-4-stanislaw.gruszka@linux.intel.com>
+Subject: [PATCH v2 04/11] accel/ivpu: Remove reset from power up sequence
+Date: Sat, 28 Oct 2023 15:34:08 +0200
+Message-Id: <20231028133415.1169975-5-stanislaw.gruszka@linux.intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20231028133415.1169975-1-stanislaw.gruszka@linux.intel.com>
 References: <20231028133415.1169975-1-stanislaw.gruszka@linux.intel.com>
@@ -57,116 +57,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+Cc: Karol Wachowski <karol.wachowski@linux.intel.com>,
  Oded Gabbay <ogabbay@kernel.org>, Jeffrey Hugo <quic_jhugo@quicinc.com>,
  Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
- Tomasz Rusinowicz <tomasz.rusinowicz@intel.com>
+ Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tomasz Rusinowicz <tomasz.rusinowicz@intel.com>
+From: Karol Wachowski <karol.wachowski@linux.intel.com>
 
-Add new debugfs file to set dvfs_mode FW boot parameter and restart
-the FW to allow experimenting with DVFS (dynamic voltage & frequency
-scaling).
+Setting a non-zero work point resets the IP hence IP_RESET
+trigger is redundant.
 
-Signed-off-by: Tomasz Rusinowicz <tomasz.rusinowicz@intel.com>
+Signed-off-by: Karol Wachowski <karol.wachowski@linux.intel.com>
+Reviewed-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
 Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 ---
- drivers/accel/ivpu/ivpu_debugfs.c | 28 ++++++++++++++++++++++++++++
- drivers/accel/ivpu/ivpu_fw.c      |  5 +++++
- drivers/accel/ivpu/ivpu_fw.h      |  1 +
- 3 files changed, 34 insertions(+)
+ drivers/accel/ivpu/ivpu_hw_37xx.c | 4 ----
+ drivers/accel/ivpu/ivpu_hw_40xx.c | 6 ------
+ 2 files changed, 10 deletions(-)
 
-diff --git a/drivers/accel/ivpu/ivpu_debugfs.c b/drivers/accel/ivpu/ivpu_debugfs.c
-index ea453b985b49..6e0d56823024 100644
---- a/drivers/accel/ivpu/ivpu_debugfs.c
-+++ b/drivers/accel/ivpu/ivpu_debugfs.c
-@@ -115,6 +115,31 @@ static const struct drm_debugfs_info vdev_debugfs_list[] = {
- 	{"reset_pending", reset_pending_show, 0},
- };
- 
-+static ssize_t
-+dvfs_mode_fops_write(struct file *file, const char __user *user_buf, size_t size, loff_t *pos)
-+{
-+	struct ivpu_device *vdev = file->private_data;
-+	struct ivpu_fw_info *fw = vdev->fw;
-+	u32 dvfs_mode;
-+	int ret;
-+
-+	ret = kstrtou32_from_user(user_buf, size, 0, &dvfs_mode);
-+	if (ret < 0)
-+		return ret;
-+
-+	fw->dvfs_mode = dvfs_mode;
-+
-+	ivpu_pm_schedule_recovery(vdev);
-+
-+	return size;
-+}
-+
-+static const struct file_operations dvfs_mode_fops = {
-+	.owner = THIS_MODULE,
-+	.open = simple_open,
-+	.write = dvfs_mode_fops_write,
-+};
-+
- static int fw_log_show(struct seq_file *s, void *v)
+diff --git a/drivers/accel/ivpu/ivpu_hw_37xx.c b/drivers/accel/ivpu/ivpu_hw_37xx.c
+index e5cb9d8acb82..8340c84ed6de 100644
+--- a/drivers/accel/ivpu/ivpu_hw_37xx.c
++++ b/drivers/accel/ivpu/ivpu_hw_37xx.c
+@@ -651,10 +651,6 @@ static int ivpu_hw_37xx_power_up(struct ivpu_device *vdev)
  {
- 	struct ivpu_device *vdev = s->private;
-@@ -280,6 +305,9 @@ void ivpu_debugfs_init(struct ivpu_device *vdev)
- 	debugfs_create_file("force_recovery", 0200, debugfs_root, vdev,
- 			    &ivpu_force_recovery_fops);
+ 	int ret;
  
-+	debugfs_create_file("dvfs_mode", 0200, debugfs_root, vdev,
-+			    &dvfs_mode_fops);
-+
- 	debugfs_create_file("fw_log", 0644, debugfs_root, vdev,
- 			    &fw_log_fops);
- 	debugfs_create_file("fw_trace_destination_mask", 0200, debugfs_root, vdev,
-diff --git a/drivers/accel/ivpu/ivpu_fw.c b/drivers/accel/ivpu/ivpu_fw.c
-index 6142b09cf55a..b81827540db9 100644
---- a/drivers/accel/ivpu/ivpu_fw.c
-+++ b/drivers/accel/ivpu/ivpu_fw.c
-@@ -182,6 +182,8 @@ static int ivpu_fw_parse(struct ivpu_device *vdev)
- 	fw->trace_destination_mask = VPU_TRACE_DESTINATION_VERBOSE_TRACING;
- 	fw->trace_hw_component_mask = -1;
+-	ret = ivpu_hw_37xx_reset(vdev);
+-	if (ret)
+-		ivpu_warn(vdev, "Failed to reset HW: %d\n", ret);
+-
+ 	ret = ivpu_hw_37xx_d0i3_disable(vdev);
+ 	if (ret)
+ 		ivpu_warn(vdev, "Failed to disable D0I3: %d\n", ret);
+diff --git a/drivers/accel/ivpu/ivpu_hw_40xx.c b/drivers/accel/ivpu/ivpu_hw_40xx.c
+index 4bf4c8780044..eb8218d15f01 100644
+--- a/drivers/accel/ivpu/ivpu_hw_40xx.c
++++ b/drivers/accel/ivpu/ivpu_hw_40xx.c
+@@ -811,12 +811,6 @@ static int ivpu_hw_40xx_power_up(struct ivpu_device *vdev)
+ {
+ 	int ret;
  
-+	fw->dvfs_mode = 0;
-+
- 	ivpu_dbg(vdev, FW_BOOT, "Size: file %lu image %u runtime %u shavenn %u\n",
- 		 fw->file->size, fw->image_size, fw->runtime_size, fw->shave_nn_size);
- 	ivpu_dbg(vdev, FW_BOOT, "Address: runtime 0x%llx, load 0x%llx, entry point 0x%llx\n",
-@@ -422,6 +424,8 @@ static void ivpu_fw_boot_params_print(struct ivpu_device *vdev, struct vpu_boot_
- 		 boot_params->punit_telemetry_sram_size);
- 	ivpu_dbg(vdev, FW_BOOT, "boot_params.vpu_telemetry_enable = 0x%x\n",
- 		 boot_params->vpu_telemetry_enable);
-+	ivpu_dbg(vdev, FW_BOOT, "boot_params.dvfs_mode = %u\n",
-+		 boot_params->dvfs_mode);
- }
- 
- void ivpu_fw_boot_params_setup(struct ivpu_device *vdev, struct vpu_boot_params *boot_params)
-@@ -492,6 +496,7 @@ void ivpu_fw_boot_params_setup(struct ivpu_device *vdev, struct vpu_boot_params
- 	boot_params->punit_telemetry_sram_base = ivpu_hw_reg_telemetry_offset_get(vdev);
- 	boot_params->punit_telemetry_sram_size = ivpu_hw_reg_telemetry_size_get(vdev);
- 	boot_params->vpu_telemetry_enable = ivpu_hw_reg_telemetry_enable_get(vdev);
-+	boot_params->dvfs_mode = vdev->fw->dvfs_mode;
- 
- 	wmb(); /* Flush WC buffers after writing bootparams */
- 
-diff --git a/drivers/accel/ivpu/ivpu_fw.h b/drivers/accel/ivpu/ivpu_fw.h
-index 10ae2847f0ef..66b60fa161b5 100644
---- a/drivers/accel/ivpu/ivpu_fw.h
-+++ b/drivers/accel/ivpu/ivpu_fw.h
-@@ -27,6 +27,7 @@ struct ivpu_fw_info {
- 	u32 trace_level;
- 	u32 trace_destination_mask;
- 	u64 trace_hw_component_mask;
-+	u32 dvfs_mode;
- };
- 
- int ivpu_fw_init(struct ivpu_device *vdev);
+-	ret = ivpu_hw_40xx_reset(vdev);
+-	if (ret) {
+-		ivpu_err(vdev, "Failed to reset HW: %d\n", ret);
+-		return ret;
+-	}
+-
+ 	ret = ivpu_hw_40xx_d0i3_disable(vdev);
+ 	if (ret)
+ 		ivpu_warn(vdev, "Failed to disable D0I3: %d\n", ret);
 -- 
 2.25.1
 
