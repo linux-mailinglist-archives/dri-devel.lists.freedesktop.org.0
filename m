@@ -1,45 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01F617DA74B
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Oct 2023 15:34:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 07AFA7DA74C
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Oct 2023 15:34:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2448010E0C3;
-	Sat, 28 Oct 2023 13:34:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E0D610E0C5;
+	Sat, 28 Oct 2023 13:34:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 470F610E0C3
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Oct 2023 13:34:36 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EDC0B10E0C5
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Oct 2023 13:34:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1698500076; x=1730036076;
+ t=1698500080; x=1730036080;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=M1vDHAe2Zp3cL/e7WUoPMHFDXdXShMV8RwZb3UQvydM=;
- b=KYPHr2Y3vjdyeUnd2dK8P5Z0R0rVG2DrpUpDNIeqcUo6KHsdhEgYJXvW
- ZeK7Tr5dj4Oox0e6LsvDlIsnW7hwZ0uiFnT5+kcZq6lI8VTrKLY4yBjSm
- /kRJ5hyCHMPaJocIJ86G9LUREZIJFtweLflk3nCfvFdiJS4dCbVLuiA+V
- R43uZDKWIJVML2DIVOqeUyFKyUNoq5ttPbEbsVoTirettrCU5hZM93x6P
- IwGdFRYcn+X/qBLdWCBjjRwV8va0e+ulUB5e5u4vDxtO2UrDC+VN4jm/M
- D/7qNo49AE3cchK9tfmLi7U7u6sSsJnGaHJCKJ3HaQHbJVhk0gOMAv3kI g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10876"; a="474136720"
-X-IronPort-AV: E=Sophos;i="6.03,259,1694761200"; d="scan'208";a="474136720"
+ bh=jCNmXl8Vk8SCLcXGwUr79/lB5jCTyHxw3ZLlD1hoEaM=;
+ b=RW5FvyAr/rXmeQTLDVBjKPrNvMklNUpHw5iM0MUkQL1jRs9WHSByxJUa
+ /oq2SXAIsYbbqGo9T2ex+KKUJHiXrs0JBcSXKHA3TuacQZw1hm83Kn8Cf
+ ggf3s4tN1KqFkTpWCzwDvrM7sgpiZjHeLYDSF2SAhZLZdVSvT1Ox3/zHh
+ 7wEu4iTib5rADDbx+dRkb8y/pyMovdWfb9z3Wq7lCspCXb6hkvAd4xF9l
+ IrlOKh50e3vn/iB12Eyn6Sm8bFd2Bn0/1Y+160LwYqaYygb8SjI+z1OIg
+ 7u5CAXMjoXFqvSOc2r9hBMr713AgORXKp+InriwQOrrqTNlFynC5W3yaj w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10876"; a="474136723"
+X-IronPort-AV: E=Sophos;i="6.03,259,1694761200"; d="scan'208";a="474136723"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Oct 2023 06:34:35 -0700
+ 28 Oct 2023 06:34:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10876"; a="794871464"
-X-IronPort-AV: E=Sophos;i="6.03,259,1694761200"; d="scan'208";a="794871464"
+X-IronPort-AV: E=McAfee;i="6600,9927,10876"; a="794871476"
+X-IronPort-AV: E=Sophos;i="6.03,259,1694761200"; d="scan'208";a="794871476"
 Received: from joe-255.igk.intel.com (HELO localhost) ([10.91.220.57])
  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Oct 2023 06:34:34 -0700
+ 28 Oct 2023 06:34:38 -0700
 From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 04/11] accel/ivpu: Remove reset from power up sequence
-Date: Sat, 28 Oct 2023 15:34:08 +0200
-Message-Id: <20231028133415.1169975-5-stanislaw.gruszka@linux.intel.com>
+Subject: [PATCH v2 05/11] accel/ivpu: Add support for
+ VPU_JOB_FLAGS_NULL_SUBMISSION_MASK
+Date: Sat, 28 Oct 2023 15:34:09 +0200
+Message-Id: <20231028133415.1169975-6-stanislaw.gruszka@linux.intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20231028133415.1169975-1-stanislaw.gruszka@linux.intel.com>
 References: <20231028133415.1169975-1-stanislaw.gruszka@linux.intel.com>
@@ -57,59 +58,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Karol Wachowski <karol.wachowski@linux.intel.com>,
+Cc: Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>,
  Oded Gabbay <ogabbay@kernel.org>, Jeffrey Hugo <quic_jhugo@quicinc.com>,
  Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
  Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Karol Wachowski <karol.wachowski@linux.intel.com>
+From: Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>
 
-Setting a non-zero work point resets the IP hence IP_RESET
-trigger is redundant.
+Add test_mode = 3 that add VPU_JOB_FLAGS_NULL_SUBMISSION_MASK
+flag to the job send to the VPU device. Then the VPU will process
+the job but won't execute commands (except the command to signal
+the fence).
 
-Signed-off-by: Karol Wachowski <karol.wachowski@linux.intel.com>
+This can be used to estimate job processing overhead in the host
+software and VPU firmware.
+
+Unlike the null hardware mode, the null submission mode will
+still work even if UMD uses VPU fences to track job completion.
+
+Signed-off-by: Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>
 Reviewed-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
 Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 ---
- drivers/accel/ivpu/ivpu_hw_37xx.c | 4 ----
- drivers/accel/ivpu/ivpu_hw_40xx.c | 6 ------
- 2 files changed, 10 deletions(-)
+ drivers/accel/ivpu/ivpu_drv.c | 2 +-
+ drivers/accel/ivpu/ivpu_drv.h | 7 ++++---
+ drivers/accel/ivpu/ivpu_job.c | 2 ++
+ 3 files changed, 7 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/accel/ivpu/ivpu_hw_37xx.c b/drivers/accel/ivpu/ivpu_hw_37xx.c
-index e5cb9d8acb82..8340c84ed6de 100644
---- a/drivers/accel/ivpu/ivpu_hw_37xx.c
-+++ b/drivers/accel/ivpu/ivpu_hw_37xx.c
-@@ -651,10 +651,6 @@ static int ivpu_hw_37xx_power_up(struct ivpu_device *vdev)
- {
- 	int ret;
+diff --git a/drivers/accel/ivpu/ivpu_drv.c b/drivers/accel/ivpu/ivpu_drv.c
+index 8f5655dfd83f..4ec8d25a120c 100644
+--- a/drivers/accel/ivpu/ivpu_drv.c
++++ b/drivers/accel/ivpu/ivpu_drv.c
+@@ -39,7 +39,7 @@ MODULE_PARM_DESC(dbg_mask, "Driver debug mask. See IVPU_DBG_* macros.");
  
--	ret = ivpu_hw_37xx_reset(vdev);
--	if (ret)
--		ivpu_warn(vdev, "Failed to reset HW: %d\n", ret);
--
- 	ret = ivpu_hw_37xx_d0i3_disable(vdev);
- 	if (ret)
- 		ivpu_warn(vdev, "Failed to disable D0I3: %d\n", ret);
-diff --git a/drivers/accel/ivpu/ivpu_hw_40xx.c b/drivers/accel/ivpu/ivpu_hw_40xx.c
-index 4bf4c8780044..eb8218d15f01 100644
---- a/drivers/accel/ivpu/ivpu_hw_40xx.c
-+++ b/drivers/accel/ivpu/ivpu_hw_40xx.c
-@@ -811,12 +811,6 @@ static int ivpu_hw_40xx_power_up(struct ivpu_device *vdev)
- {
- 	int ret;
+ int ivpu_test_mode;
+ module_param_named_unsafe(test_mode, ivpu_test_mode, int, 0644);
+-MODULE_PARM_DESC(test_mode, "Test mode: 0 - normal operation, 1 - fw unit test, 2 - null hw");
++MODULE_PARM_DESC(test_mode, "Test mode: 0 - disabled , 1 - fw unit test, 2 - null hw, 3 - null submission");
  
--	ret = ivpu_hw_40xx_reset(vdev);
--	if (ret) {
--		ivpu_err(vdev, "Failed to reset HW: %d\n", ret);
--		return ret;
--	}
--
- 	ret = ivpu_hw_40xx_d0i3_disable(vdev);
- 	if (ret)
- 		ivpu_warn(vdev, "Failed to disable D0I3: %d\n", ret);
+ u8 ivpu_pll_min_ratio;
+ module_param_named(pll_min_ratio, ivpu_pll_min_ratio, byte, 0644);
+diff --git a/drivers/accel/ivpu/ivpu_drv.h b/drivers/accel/ivpu/ivpu_drv.h
+index 12a63f8a73e8..fdec8272da8c 100644
+--- a/drivers/accel/ivpu/ivpu_drv.h
++++ b/drivers/accel/ivpu/ivpu_drv.h
+@@ -147,9 +147,10 @@ extern u8 ivpu_pll_min_ratio;
+ extern u8 ivpu_pll_max_ratio;
+ extern bool ivpu_disable_mmu_cont_pages;
+ 
+-#define IVPU_TEST_MODE_DISABLED  0
+-#define IVPU_TEST_MODE_FW_TEST   1
+-#define IVPU_TEST_MODE_NULL_HW   2
++#define IVPU_TEST_MODE_DISABLED        0
++#define IVPU_TEST_MODE_FW_TEST         1
++#define IVPU_TEST_MODE_NULL_HW         2
++#define IVPU_TEST_MODE_NULL_SUBMISSION 3
+ extern int ivpu_test_mode;
+ 
+ struct ivpu_file_priv *ivpu_file_priv_get(struct ivpu_file_priv *file_priv);
+diff --git a/drivers/accel/ivpu/ivpu_job.c b/drivers/accel/ivpu/ivpu_job.c
+index 689dc0d13b8f..646b8f812901 100644
+--- a/drivers/accel/ivpu/ivpu_job.c
++++ b/drivers/accel/ivpu/ivpu_job.c
+@@ -196,6 +196,8 @@ static int ivpu_cmdq_push_job(struct ivpu_cmdq *cmdq, struct ivpu_job *job)
+ 	entry->batch_buf_addr = job->cmd_buf_vpu_addr;
+ 	entry->job_id = job->job_id;
+ 	entry->flags = 0;
++	if (unlikely(ivpu_test_mode == IVPU_TEST_MODE_NULL_SUBMISSION))
++		entry->flags = VPU_JOB_FLAGS_NULL_SUBMISSION_MASK;
+ 	wmb(); /* Ensure that tail is updated after filling entry */
+ 	header->tail = next_entry;
+ 	wmb(); /* Flush WC buffer for jobq header */
 -- 
 2.25.1
 
