@@ -1,58 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BE0B7DA509
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Oct 2023 05:35:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 419C07DA50C
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Oct 2023 05:37:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CBF8810EAA4;
-	Sat, 28 Oct 2023 03:35:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B94810EAA6;
+	Sat, 28 Oct 2023 03:37:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com
- [IPv6:2607:f8b0:4864:20::82d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C0FC910EAA4
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Oct 2023 03:34:59 +0000 (UTC)
-Received: by mail-qt1-x82d.google.com with SMTP id
- d75a77b69052e-41cd444d9d0so19117431cf.2
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Oct 2023 20:34:59 -0700 (PDT)
+Received: from mail-qv1-xf2b.google.com (mail-qv1-xf2b.google.com
+ [IPv6:2607:f8b0:4864:20::f2b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A077610EAA6
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Oct 2023 03:37:50 +0000 (UTC)
+Received: by mail-qv1-xf2b.google.com with SMTP id
+ 6a1803df08f44-6707401e1edso2952616d6.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Oct 2023 20:37:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1698464098; x=1699068898; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1698464269; x=1699069069; darn=lists.freedesktop.org;
  h=in-reply-to:autocrypt:from:references:cc:to:content-language
  :subject:user-agent:mime-version:date:message-id:from:to:cc:subject
  :date:message-id:reply-to;
- bh=6/x/fWtOaMCDtHa2HFwP4K6azSwVNRlI6ZfSIipQI+w=;
- b=AhH0erIFi0bn5LvXznalqnY/JfxtCvakOD+LS5bv1Y8ebi39lCy3tchKXKfILAiHVt
- iFGLQsz06gfDKDC2xpk4Q1CwWR3jT0Nw5Q4Tf9mz8JitSRAarG0anKo18NoMm6S3PcPF
- xvICwcCUCoKgb4onKuJTU8a3IevKw4wJsNInbKENMlN0WljFnF2cllmyJJj1Ako3Cw8h
- KVarZ/euDjm2k+nursmpr2UyMsXUMd+L95436WIBwmUBeEM31mBNlARYQgfRcLZuSsDH
- JW5r1QwxnwjZG3BNSCcQk3GSCkMPit4t1amonn1NkQYd2Eb54lW5Vh9KN05G2G7ekkzR
- Z4RQ==
+ bh=6sxFci3204DARfNl7G2N7esVdiS4OFPlTEl/0ZVjaUM=;
+ b=F4+Qd6jTgM0GI525SMEItaCe5ZLM7e5DS2ThjRLt42NijtgmSUxCG9aWw50d8lh0BQ
+ e2wwOQAOQqNCtx2CRzB0zQu0LPQUkvI2n2rq4/L1Yu8+eIUv6aoaibNL+17wkVZar5hO
+ tWNV8xNxeZl3iqaWrk5javS0CwX98EVb9DoWHAL0RvWMN+KMSR2yPWcwhOx3qOIDFgzh
+ Rguc3yVUIZWBJIAWQUqHMU3ARrAEzIBxKLbhSaoV8DaSTRNtZPZ8cUMGbxypw2aoTmRp
+ 7FUm1K9RMipcFd+MnPwU3kNB+tH9eJnhzWlRgFNCmmulWa1uclgXsd+l73MEY6ywSmgc
+ Lp4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1698464098; x=1699068898;
+ d=1e100.net; s=20230601; t=1698464269; x=1699069069;
  h=in-reply-to:autocrypt:from:references:cc:to:content-language
  :subject:user-agent:mime-version:date:message-id:x-gm-message-state
  :from:to:cc:subject:date:message-id:reply-to;
- bh=6/x/fWtOaMCDtHa2HFwP4K6azSwVNRlI6ZfSIipQI+w=;
- b=UQE2sbTQ9hbogzHFIX8vDQGqoqa3wJm3OZ+0MesXB4m/l+s/4PrXZhIZWnzd4ean4o
- q0X01jh7q1hb1uzlhBPvQSOeGeAAeONQ4WLtJjDs3fRT2Oi443ygJeT3ssgthdkwKc1C
- 3R5oR08i09Le65DvazaS7/nz+qMpz/1fDyCGbRNhjIFn5Uw2Pm0akjzAGyvackzxWB3c
- 9YMIOCIOn+v8cvcz+EeCRo4q7mOGNeTDcqJ25xUTw/CVwTbZub0O6F9JCBBCjITp0O3R
- xBFbvTzeTNlrTHscyaOn65RSei29TF+KrOxM9eD/nI0K6/i/hXKp5b0IMwXHG9CdM1Be
- utpg==
-X-Gm-Message-State: AOJu0YyonmHd/OitSbsI6IJ9y3KaJ8P7jhDgm3hG+KML4222hmB9i8XT
- B7FXDqjWgiAF9cnuLud3tAU=
-X-Google-Smtp-Source: AGHT+IE8g6YimTx10BSLo9Yy4GEHlhD/nInE3bokdtc7iKRPtYfN0BN/YgWszm9xujnJkIK0Yqqp3g==
-X-Received: by 2002:ac8:5acb:0:b0:410:a088:38f5 with SMTP id
- d11-20020ac85acb000000b00410a08838f5mr4653718qtd.4.1698464098449; 
- Fri, 27 Oct 2023 20:34:58 -0700 (PDT)
+ bh=6sxFci3204DARfNl7G2N7esVdiS4OFPlTEl/0ZVjaUM=;
+ b=pZyngbqk3abWC8s/92G8dPAlaV1V6rFnGdSw4zfF2T0cXG+T4g2bt9hx+No21JTRIF
+ NX6rtQ8obccfigj8jOygSYai+anl6sfCha90O0HvXdQ7Fa7TF1hJbhjPDI/xAYdugpTU
+ mw/OLwFjiPT9jdUPHa32hR0xXjerx9Xt30S9Nn1iayR4+/IMiyfWDn4nHNnukd07lwWi
+ GKFevEv2j5RJpjWCST/fPOcObNgyBPLknXGLtIdTxF9rPIMcRzcEbVx3oClDgMhBnsT3
+ hyDxOW9cEKzQ9O3XOZJIVlWgkUVW+8XVMq8qZ9zH18e7VGiXMdKtoLo0/99izJj46SrK
+ 49Mw==
+X-Gm-Message-State: AOJu0Yx3+6j5ARGK2Iq3PxhlL0NZK3yGGJYYUL03SbRvsSs/4sCyapKM
+ Hz3vT44YrLn2pVeNxzotwmk=
+X-Google-Smtp-Source: AGHT+IHmYLmhAgnBciR1pWpU+FB7W9fmmrurqtDITcvxmU5SBkw4FUvN4RKHFikttfpjJyDvma3u+Q==
+X-Received: by 2002:ad4:5bab:0:b0:66f:ae60:8c51 with SMTP id
+ 11-20020ad45bab000000b0066fae608c51mr6035257qvq.11.1698464269428; 
+ Fri, 27 Oct 2023 20:37:49 -0700 (PDT)
 Received: from [192.168.2.14] ([64.231.246.137])
  by smtp.gmail.com with ESMTPSA id
- l15-20020ac84ccf000000b004198ae7f841sm1204214qtv.90.2023.10.27.20.34.57
+ l11-20020ad4408b000000b0066cfadfb796sm1198714qvp.107.2023.10.27.20.37.48
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 27 Oct 2023 20:34:57 -0700 (PDT)
-Message-ID: <57c16f9d-44d9-4bc0-9d7d-8ff70b8135f0@gmail.com>
-Date: Fri, 27 Oct 2023 23:34:48 -0400
+ Fri, 27 Oct 2023 20:37:49 -0700 (PDT)
+Message-ID: <a6405799-23bc-49f3-a526-bb4b10ae4b99@gmail.com>
+Date: Fri, 27 Oct 2023 23:37:40 -0400
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:115.0) Gecko/20100101
  Thunderbird/115.4.1
@@ -62,9 +62,9 @@ Content-Language: en-CA, en-US
 To: Boris Brezillon <boris.brezillon@collabora.com>,
  Danilo Krummrich <dakr@redhat.com>
 References: <20231026161431.5934-1-dakr@redhat.com>
- <20231027091755.3635be36@collabora.com>
- <794f9b45-db0d-4261-aefe-7da2ad0ed3b7@redhat.com>
- <20231027182626.6a8ba090@collabora.com>
+ <20231027102516.0e4b00ef@collabora.com>
+ <8e117f9f-a01c-4242-8781-b2ed4969513b@redhat.com>
+ <20231027183158.2dc4cce4@collabora.com>
 From: Luben Tuikov <ltuikov89@gmail.com>
 Autocrypt: addr=ltuikov89@gmail.com; keydata=
  xjMEZTohOhYJKwYBBAHaRw8BAQdAWSq76k+GsENjDTMVCy9Vr4fAO9Rb57/bPT1APnbnnRHN
@@ -75,10 +75,10 @@ Autocrypt: addr=ltuikov89@gmail.com; keydata=
  cCE8uGe7FWo8C+nTSyWPXKTx9F0gpEnlqReRBwMBCAfCfgQYFgoAJhYhBJkj7+VmFO9beaAl
  10wVR5QxozSvBQJlOiE6AhsMBQkJZgGAAAoJEEwVR5QxozSvSsYA/2LIFjbxQ2ikbU5S0pKo
  aMDzO9eGz69uNhNWJcvIKJK6AQC9228Mqc1JeZMIyjYWr2HKYHi8S2q2/zHrSZwAWYYwDA==
-In-Reply-To: <20231027182626.6a8ba090@collabora.com>
+In-Reply-To: <20231027183158.2dc4cce4@collabora.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="------------9LL3U5XSr7bK8DAxLhm3pVsZ"
+ boundary="------------eErwffIILQ9RM7zYxqImmKSy"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,8 +98,8 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------9LL3U5XSr7bK8DAxLhm3pVsZ
-Content-Type: multipart/mixed; boundary="------------cBkC50s3CdthBKWq61ceOa2O";
+--------------eErwffIILQ9RM7zYxqImmKSy
+Content-Type: multipart/mixed; boundary="------------Cyw5V0O07cph60p3kgB5bh45";
  protected-headers="v1"
 From: Luben Tuikov <ltuikov89@gmail.com>
 To: Boris Brezillon <boris.brezillon@collabora.com>,
@@ -107,162 +107,100 @@ To: Boris Brezillon <boris.brezillon@collabora.com>,
 Cc: matthew.brost@intel.com, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, faith@gfxstrand.net, luben.tuikov@amd.com,
  christian.koenig@amd.com
-Message-ID: <57c16f9d-44d9-4bc0-9d7d-8ff70b8135f0@gmail.com>
+Message-ID: <a6405799-23bc-49f3-a526-bb4b10ae4b99@gmail.com>
 Subject: Re: [PATCH drm-misc-next v3] drm/sched: implement dynamic job-flow
  control
 References: <20231026161431.5934-1-dakr@redhat.com>
- <20231027091755.3635be36@collabora.com>
- <794f9b45-db0d-4261-aefe-7da2ad0ed3b7@redhat.com>
- <20231027182626.6a8ba090@collabora.com>
-In-Reply-To: <20231027182626.6a8ba090@collabora.com>
+ <20231027102516.0e4b00ef@collabora.com>
+ <8e117f9f-a01c-4242-8781-b2ed4969513b@redhat.com>
+ <20231027183158.2dc4cce4@collabora.com>
+In-Reply-To: <20231027183158.2dc4cce4@collabora.com>
 
---------------cBkC50s3CdthBKWq61ceOa2O
-Content-Type: multipart/mixed; boundary="------------fJHrkKB5gFcyCdf2TrELsTEv"
+--------------Cyw5V0O07cph60p3kgB5bh45
+Content-Type: multipart/mixed; boundary="------------b5TOUiOKkU5vnp0t4wN2Wo3M"
 
---------------fJHrkKB5gFcyCdf2TrELsTEv
+--------------b5TOUiOKkU5vnp0t4wN2Wo3M
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
-
-On 2023-10-27 12:26, Boris Brezillon wrote:
-> On Fri, 27 Oct 2023 16:34:26 +0200
+On 2023-10-27 12:31, Boris Brezillon wrote:
+> On Fri, 27 Oct 2023 16:23:24 +0200
 > Danilo Krummrich <dakr@redhat.com> wrote:
 >=20
->> On 10/27/23 09:17, Boris Brezillon wrote:
+>> On 10/27/23 10:25, Boris Brezillon wrote:
 >>> Hi Danilo,
 >>>
 >>> On Thu, 26 Oct 2023 18:13:00 +0200
 >>> Danilo Krummrich <dakr@redhat.com> wrote:
 >>>  =20
->>>> +
->>>> +	/**
->>>> +	 * @update_job_credits: Called once the scheduler is considering t=
-his
->>>> +	 * job for execution.
->>>> +	 *
->>>> +	 * Drivers may use this to update the job's submission credits, wh=
-ich is
->>>> +	 * useful to e.g. deduct the number of native fences which have be=
-en
->>>> +	 * signaled meanwhile.
->>>> +	 *
->>>> +	 * The callback must either return the new number of submission cr=
-edits
->>>> +	 * for the given job, or zero if no update is required.
->>>> +	 *
->>>> +	 * This callback is optional.
->>>> +	 */
->>>> +	u32 (*update_job_credits)(struct drm_sched_job *sched_job); =20
->>>
->>> I'm copying my late reply to v2 here so it doesn't get lost:
->>>
->>> I keep thinking it'd be simpler to make this a void function that
->>> updates s_job->submission_credits directly. I also don't see the
->>> problem with doing a sanity check on job->submission_credits. I mean,=
-
->>> if the driver is doing something silly, you can't do much to prevent =
+>>>> Currently, job flow control is implemented simply by limiting the nu=
+mber
+>>>> of jobs in flight. Therefore, a scheduler is initialized with a cred=
 it
->>> anyway, except warn the user that something wrong has happened. If yo=
-u
->>> want to
+>>>> limit that corresponds to the number of jobs which can be sent to th=
+e
+>>>> hardware.
+>>>>
+>>>> This implies that for each job, drivers need to account for the maxi=
+mum
+>>>> job size possible in order to not overflow the ring buffer.
+>>>>
+>>>> However, there are drivers, such as Nouveau, where the job size has =
+a
+>>>> rather large range. For such drivers it can easily happen that job
+>>>> submissions not even filling the ring by 1% can block subsequent
+>>>> submissions, which, in the worst case, can lead to the ring run dry.=
+
+>>>>
+>>>> In order to overcome this issue, allow for tracking the actual job s=
+ize
+>>>> instead of the number of jobs. Therefore, add a field to track a job=
+'s
+>>>> credit count, which represents the number of credits a job contribut=
+es
+>>>> to the scheduler's credit limit.
+>>>>
+>>>> Signed-off-by: Danilo Krummrich <dakr@redhat.com>
+>>>> ---
+>>>> Changes in V2:
+>>>> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>>>>    - fixed up influence on scheduling fairness due to consideration =
+of a job's
+>>>>      size
+>>>>      - If we reach a ready entity in drm_sched_select_entity() but c=
+an't actually
+>>>>        queue a job from it due to size limitations, just give up and=
+ go to sleep
+>>>>        until woken up due to a pending job finishing, rather than co=
+ntinue to try
+>>>>        other entities.
+>>>>    - added a callback to dynamically update a job's credits (Boris) =
+=20
 >>>
->>> 	WARN_ON(job->submission_credits =3D=3D 0 ||
->>> 		job->submission_credits > job_old_submission_credits);
->>>
->>> that's fine. But none of this sanity checking has to do with the
->>> function prototype/semantics, and I'm still not comfortable with this=
- 0 =20
->>> =3D> no-change. If there's no change, we should just leave =20
->>> job->submission_credits unchanged (or return job->submission_credits)=
-
->>> instead of inventing a new special case. =20
+>>> This callback seems controversial. I'd suggest dropping it, so the
+>>> patch can be merged. =20
 >>
->> If we can avoid letting drivers change fields of generic structures di=
-rectly
->> without any drawbacks I think we should avoid it. Currently, drivers s=
-houldn't
->> have the need to mess with job->credits directly. The initial value is=
- set
->> through drm_sched_job_init() and is updated through the return value o=
-f
->> update_job_credits().
+>> I don't think we should drop it just for the sake of moving forward. I=
+f there are objections
+>> we'll discuss them. I've seen good reasons why the drivers you are wor=
+king on require this,
+>> while, following the discussion, I have *not* seen any reasons to drop=
+ it. It helps simplifying
+>> driver code and doesn't introduce any complexity or overhead to existi=
+ng drivers.
 >=20
-> Fair enough. I do agree that keeping internal fields out of driver
-> hands is a good thing in general, it's just that it's already
-> free-for-all in so many places in drm_sched (like the fact drivers
+> Up to you. I'm just saying, moving one step in the right direction is
+> better than being stuck, and it's not like adding this callback in a
+> follow-up patch is super complicated either. If you're confident that
+> we can get all parties to agree on keeping this hook, fine by me.
 
-"Free-for-all" doesn't mean we need to follow suit. We should keep
-good programming practices, as this patch strives to.
-
-> iterate the pending list in their stop-queue handling) that I didn't
-> really see it as an issue. Note that's there's always the option of
-> providing drm_sched_job_{update,get}_credits() helpers, with the update=
-
-> helper making sure the new credits value is consistent (smaller or
-> equal to the old one, and not zero).
->=20
->>
->> I'm fine getting rid of the 0 =3D> no-change semantics though. Instead=
- we can just
->> WARN() on 0.
->=20
-> Yeah, I think that's preferable. It's pretty easy to return the old
-> value if the driver has a way to detect when nothing changed (with a
-> get helper if you don't want drivers to touch the credits field).
->=20
->> However, if we do that I'd also want to change it for
->> drm_sched_job_init() (where 0 currently defaults to 1) such that we ac=
-cept 0, but
->> WARN() accordingly.
->=20
-> Sure. You update all drivers anyway, so passing 1 instead of 0 is not a=
-
-> big deal, I would say.
-
-At this point in time, we should consider 1 as normal, 0 out of spec and
-WARN on it but carry on and (perhaps) reset it to 1. Drivers in the futur=
-e, may
-see a need (i.e. do tricks) to return 0, at which point they'll submit a =
-patch which
-does two things, 1) removes the WARN, 2) removes the reset from 0 to 1, a=
-nd
-explain why they need to return 0 to allow (one more) job, but we're nowh=
-ere near then yet,
-so status quo for now.
-
-I don't see how it makes sense to call drm_sched_job_init(credits:0), and=
- I believe
-the code is correct to default to 1 in that case--which defaults to the c=
-urrent
-flow control we have, which we want.
-
->=20
->>
->> I think it's consequent to either consistently give 0 a different mean=
-ing or just
->> accept it but WARN() on it.
->=20
-> Using default as a default value makes sense when you're passing
-
-I suppose you meant "using zero as a default value".
-
-> zero-initialized objects that are later extended with new fields, but
-> here you update the function prototype and all the call sites, so we're=
-
-> better off considering 0 as an invalid value, IMHO.
-
-Yes, absolutely.
-
-You never want to give 0 a meaning, since as you pointed out, it is zero-=
-ed
-memory, and as such, can have any meaning you'd like. So yes: WARN on 0;
-1 is good and normal.
-
+I'd rather have it in now, as it is really *the vision* of this patch. Th=
+ere's no point
+in pushing in something half-baked.
+--=20
 Regards,
 Luben
-
---------------fJHrkKB5gFcyCdf2TrELsTEv
+--------------b5TOUiOKkU5vnp0t4wN2Wo3M
 Content-Type: application/pgp-keys; name="OpenPGP_0x4C15479431A334AF.asc"
 Content-Disposition: attachment; filename="OpenPGP_0x4C15479431A334AF.asc"
 Content-Description: OpenPGP public key
@@ -282,21 +220,21 @@ z69uNhNWJcvIKJK6AQC9228Mqc1JeZMIyjYWr2HKYHi8S2q2/zHrSZwAWYYwDA=3D=3D
 =3DqCaZ
 -----END PGP PUBLIC KEY BLOCK-----
 
---------------fJHrkKB5gFcyCdf2TrELsTEv--
+--------------b5TOUiOKkU5vnp0t4wN2Wo3M--
 
---------------cBkC50s3CdthBKWq61ceOa2O--
+--------------Cyw5V0O07cph60p3kgB5bh45--
 
---------------9LL3U5XSr7bK8DAxLhm3pVsZ
+--------------eErwffIILQ9RM7zYxqImmKSy
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-wnsEABYIACMWIQSZI+/lZhTvW3mgJddMFUeUMaM0rwUCZTyBWAUDAAAAAAAKCRBMFUeUMaM0r+GT
-AQD5M+Vsy3/CC3u9EriJhgR5H2ey+pDNNLFNqHQ+tORdXwD+Js8yPnCsFXiztdQGYpLW51x6T1LF
-gUB5jhbVJMmPvwo=
-=e2F8
+wnsEABYIACMWIQSZI+/lZhTvW3mgJddMFUeUMaM0rwUCZTyCBAUDAAAAAAAKCRBMFUeUMaM0rx0W
+APwIdBw9Qnmcs068xXCtVJetNER6MsLx50TxtZnWXJqyvwD+PFDELZEPfRb8eRSHaleIraGHufLg
+vGxcEKyzLA06kwk=
+=VbPL
 -----END PGP SIGNATURE-----
 
---------------9LL3U5XSr7bK8DAxLhm3pVsZ--
+--------------eErwffIILQ9RM7zYxqImmKSy--
