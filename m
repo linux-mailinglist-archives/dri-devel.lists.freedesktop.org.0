@@ -1,52 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6478B7DB019
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Oct 2023 00:03:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3901B7DB023
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Oct 2023 00:03:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7B5D10E1DA;
-	Sun, 29 Oct 2023 23:03:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6663F10E1E5;
+	Sun, 29 Oct 2023 23:03:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B65610E1D9
- for <dri-devel@lists.freedesktop.org>; Sun, 29 Oct 2023 23:02:59 +0000 (UTC)
-Received: from workpc.. (109-252-153-31.dynamic.spd-mgts.ru [109.252.153.31])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id D51C766073AE;
- Sun, 29 Oct 2023 23:02:56 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1698620578;
- bh=wqGvYp+XsBubezC7g24J4y9IRLkJRkmLc/LBzEkyYBg=;
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2ACE510E1CE
+ for <dri-devel@lists.freedesktop.org>; Sun, 29 Oct 2023 23:02:34 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 88CAF60AF6;
+ Sun, 29 Oct 2023 23:02:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78181C4AF5C;
+ Sun, 29 Oct 2023 23:02:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1698620553;
+ bh=V3MW3HlJw0Dv/VdEsrQyNiXGgZkXx8rL2UAla9DTeeg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=WOwYdYKjt/I83fqDDsTMg5Buu1wHFIkeuyU9wAcSaZy3NfTy6QueCldxukReDXMo3
- KBPvD83s9Glkx/p+53DWqpsQHJm+S0ci8yNyxTwamtrjRvAFIQz0FU6NOPJe6sJzsb
- cSuipy3uuEDuZgiK4toXK1IG6qQBdkNeIGgNjnj57QkEtNdzrsm93/1UBbgpAVAdjX
- Lot0g4ZFK+tKMsJLbrn+6DzBWbCp0cW9/2Jt5leAiGDM91fUu6C5b4afwkU8AQBY0a
- YECMj0VIWnka9VVDcHBwwap2dQUuNs2oJc+meDtl3mrAoSYWUeQUhvf8k1DRoHIEI1
- jZWv4n6jSLZrw==
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-To: David Airlie <airlied@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Chia-I Wu <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Qiang Yu <yuq825@gmail.com>, Steven Price <steven.price@arm.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Emma Anholt <emma@anholt.net>, Melissa Wen <mwen@igalia.com>
-Subject: [PATCH v18 21/26] drm/shmem-helper: Optimize unlocked get_pages_sgt()
-Date: Mon, 30 Oct 2023 02:02:00 +0300
-Message-ID: <20231029230205.93277-22-dmitry.osipenko@collabora.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20231029230205.93277-1-dmitry.osipenko@collabora.com>
-References: <20231029230205.93277-1-dmitry.osipenko@collabora.com>
+ b=l7fYfT2b1XwGFoc9ipAAgnP9se37ARj88PGce2a2NyXkJP0bfnOsHyIvO8YVOCcWs
+ gTQ3O374rUHP7Rt2q4nmieu2n1ezL744j/kU3aO28OQPzyZ+eF3JU1hm3qXvbMqIw1
+ xMLN4UTeTFr2kG9jNx7N7G0EG6vstT8Un3Tfzed3n4mVbdhRm0dNKjA83t27xn4kZC
+ EGOymGcBG4V0I0hAhfQMnYzXhcYpD0abMeHP8vWfFj3kDfHqqqKeQDhhOSy7ebwWOB
+ jNNYsHYAu69ftDd8b4QaJqxvlC5Qx7Bydppi1EpEuBhjNa51vmj33ccsXl9+MS0Y/A
+ nbHm94jxSZf9Q==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.14 09/11] fbdev: core: syscopyarea: fix sloppy typing
+Date: Sun, 29 Oct 2023 19:02:00 -0400
+Message-ID: <20231029230213.793581-9-sashal@kernel.org>
+X-Mailer: git-send-email 2.42.0
+In-Reply-To: <20231029230213.793581-1-sashal@kernel.org>
+References: <20231029230213.793581-1-sashal@kernel.org>
 MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 4.14.328
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -60,34 +54,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
+Cc: Sasha Levin <sashal@kernel.org>, linux-fbdev@vger.kernel.org,
+ Sergey Shtylyov <s.shtylyov@omp.ru>, Helge Deller <deller@gmx.de>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGT isn't refcounted. Once SGT pointer has been obtained, it remains the
-same for both locked and unlocked get_pages_sgt(). Return cached SGT
-directly without taking a potentially expensive lock.
+From: Sergey Shtylyov <s.shtylyov@omp.ru>
 
-Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+[ Upstream commit e8e4a470b677511f9d1ad4f3cef32adc1d9a60ca ]
+
+In sys_copyarea(), the local variable bits_per_line is needlessly typed as
+*unsigned long* -- which is a 32-bit type on the 32-bit arches and a 64-bit
+type on the 64-bit arches; that variable's value is derived from the __u32
+typed fb_fix_screeninfo::line_length field (multiplied by 8u) and a 32-bit
+*unsigned int* type should still be enough to store the # of bits per line.
+
+Found by Linux Verification Center (linuxtesting.org) with the Svace static
+analysis tool.
+
+Signed-off-by: Sergey Shtylyov <s.shtylyov@omp.ru>
+Signed-off-by: Helge Deller <deller@gmx.de>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/drm_gem_shmem_helper.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/video/fbdev/core/syscopyarea.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-index 560ce565f376..6dd087f19ea3 100644
---- a/drivers/gpu/drm/drm_gem_shmem_helper.c
-+++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-@@ -955,6 +955,9 @@ struct sg_table *drm_gem_shmem_get_pages_sgt(struct drm_gem_shmem_object *shmem)
- 	drm_WARN_ON(obj->dev, drm_gem_shmem_is_evictable(shmem));
- 	drm_WARN_ON(obj->dev, drm_gem_shmem_is_purgeable(shmem));
- 
-+	if (shmem->sgt)
-+		return shmem->sgt;
-+
- 	ret = dma_resv_lock_interruptible(shmem->base.resv, NULL);
- 	if (ret)
- 		return ERR_PTR(ret);
+diff --git a/drivers/video/fbdev/core/syscopyarea.c b/drivers/video/fbdev/core/syscopyarea.c
+index c1eda31909682..7b8bd3a2bedc5 100644
+--- a/drivers/video/fbdev/core/syscopyarea.c
++++ b/drivers/video/fbdev/core/syscopyarea.c
+@@ -316,7 +316,7 @@ void sys_copyarea(struct fb_info *p, const struct fb_copyarea *area)
+ {
+ 	u32 dx = area->dx, dy = area->dy, sx = area->sx, sy = area->sy;
+ 	u32 height = area->height, width = area->width;
+-	unsigned long const bits_per_line = p->fix.line_length*8u;
++	unsigned int const bits_per_line = p->fix.line_length * 8u;
+ 	unsigned long *base = NULL;
+ 	int bits = BITS_PER_LONG, bytes = bits >> 3;
+ 	unsigned dst_idx = 0, src_idx = 0, rev_copy = 0;
 -- 
-2.41.0
+2.42.0
 
