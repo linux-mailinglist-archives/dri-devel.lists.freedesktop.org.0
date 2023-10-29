@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F4A97DAF83
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Oct 2023 00:00:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 995CC7DAF8E
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Oct 2023 00:00:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 296C110E1BF;
-	Sun, 29 Oct 2023 22:59:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 729BD10E1C0;
+	Sun, 29 Oct 2023 23:00:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 37C5810E1C0
- for <dri-devel@lists.freedesktop.org>; Sun, 29 Oct 2023 22:59:51 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9227410E1C0
+ for <dri-devel@lists.freedesktop.org>; Sun, 29 Oct 2023 22:59:55 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id CB526B80735;
- Sun, 29 Oct 2023 22:59:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B421C116B1;
- Sun, 29 Oct 2023 22:59:48 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id C0B2ECE10E3;
+ Sun, 29 Oct 2023 22:59:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B2B8C116A3;
+ Sun, 29 Oct 2023 22:59:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1698620389;
- bh=dOPID+WAHBe+1C/wlvaKW7GPyApeXN5OKVtbv1qYIlE=;
+ s=k20201202; t=1698620392;
+ bh=V3MW3HlJw0Dv/VdEsrQyNiXGgZkXx8rL2UAla9DTeeg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=uN+Y7Mrg/86lMFlm3+sxmURkMJJPmopDVLeleMvdAoP1OZYWukv5Bul9LVImtSyxA
- tf0rQsg2sSTcE3RvpW1OjmG8qbifYqYP7xYoCgyl9jQclLsUoho3G792MzA6vzc1Z9
- y45RJQKQ1FyLVEtTGj5KcPiyhtaccrZLQWjyO7f/YTRVF8L+AYPmrXn+YqLTp/oJ5N
- 4jI3uTbi57AA0dU/fwtwBYkA86M5WaHhEDrfCX0Q2wRPxCSUqiVMJ21KEMbxAK8BO/
- D0jlwVlJs00lCCHfggZ7jj9XjS8o/cZhPLwZvOfnGZfb0wWGxRgdnnh4vFA93xqj5V
- Q4P5xZiphLnQw==
+ b=kltlq8OYt6TuaBQPUd/mS6caO2DHtrfOsGctGcJ64B3DfI9N/IpdiGT0ZZnbfeVk4
+ b4nHonZhLc7U9zyvUxJEAP9oqJL1d9NKH1Yx8msWfcLn9OA88wvKuIeqm0MsU6hlec
+ +xmbAfd2oaQGTA20XzGT3BUE6BF868tiDtsQUEW8Z5XWl0tmEApnQYP2qeWOTvXoKC
+ t0VteOaiNlViMXPkLiPZbVWbFzRKB2/WYBjoN1Ya5VwHIwX0ovirLdVQILiG+tbWqx
+ EsDIGL3JnywzbZ9zj7Iad9KhcqKJHhS9gcetkwrmvG/VGdiB+aLT86F3JxcDyrxweB
+ mq9/9dFdOFKLg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 21/28] fbdev: core: cfbcopyarea: fix sloppy typing
-Date: Sun, 29 Oct 2023 18:58:56 -0400
-Message-ID: <20231029225916.791798-21-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 22/28] fbdev: core: syscopyarea: fix sloppy typing
+Date: Sun, 29 Oct 2023 18:58:57 -0400
+Message-ID: <20231029225916.791798-22-sashal@kernel.org>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231029225916.791798-1-sashal@kernel.org>
 References: <20231029225916.791798-1-sashal@kernel.org>
@@ -61,9 +61,9 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Sergey Shtylyov <s.shtylyov@omp.ru>
 
-[ Upstream commit 7f33df94cf0156f64eee9509bd9b4a178990f613 ]
+[ Upstream commit e8e4a470b677511f9d1ad4f3cef32adc1d9a60ca ]
 
-In cfb_copyarea(), the local variable bits_per_line is needlessly typed as
+In sys_copyarea(), the local variable bits_per_line is needlessly typed as
 *unsigned long* -- which is a 32-bit type on the 32-bit arches and a 64-bit
 type on the 64-bit arches; that variable's value is derived from the __u32
 typed fb_fix_screeninfo::line_length field (multiplied by 8u) and a 32-bit
@@ -76,20 +76,20 @@ Signed-off-by: Sergey Shtylyov <s.shtylyov@omp.ru>
 Signed-off-by: Helge Deller <deller@gmx.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/video/fbdev/core/cfbcopyarea.c | 2 +-
+ drivers/video/fbdev/core/syscopyarea.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/video/fbdev/core/cfbcopyarea.c b/drivers/video/fbdev/core/cfbcopyarea.c
-index 6d4bfeecee350..5b80bf3dae504 100644
---- a/drivers/video/fbdev/core/cfbcopyarea.c
-+++ b/drivers/video/fbdev/core/cfbcopyarea.c
-@@ -382,7 +382,7 @@ void cfb_copyarea(struct fb_info *p, const struct fb_copyarea *area)
+diff --git a/drivers/video/fbdev/core/syscopyarea.c b/drivers/video/fbdev/core/syscopyarea.c
+index c1eda31909682..7b8bd3a2bedc5 100644
+--- a/drivers/video/fbdev/core/syscopyarea.c
++++ b/drivers/video/fbdev/core/syscopyarea.c
+@@ -316,7 +316,7 @@ void sys_copyarea(struct fb_info *p, const struct fb_copyarea *area)
  {
  	u32 dx = area->dx, dy = area->dy, sx = area->sx, sy = area->sy;
  	u32 height = area->height, width = area->width;
 -	unsigned long const bits_per_line = p->fix.line_length*8u;
 +	unsigned int const bits_per_line = p->fix.line_length * 8u;
- 	unsigned long __iomem *base = NULL;
+ 	unsigned long *base = NULL;
  	int bits = BITS_PER_LONG, bytes = bits >> 3;
  	unsigned dst_idx = 0, src_idx = 0, rev_copy = 0;
 -- 
