@@ -1,42 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DB957DAF13
-	for <lists+dri-devel@lfdr.de>; Sun, 29 Oct 2023 23:56:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A7BF7DAF17
+	for <lists+dri-devel@lfdr.de>; Sun, 29 Oct 2023 23:56:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 18B2210E1A5;
-	Sun, 29 Oct 2023 22:56:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8812B10E1AA;
+	Sun, 29 Oct 2023 22:56:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B85710E19D
- for <dri-devel@lists.freedesktop.org>; Sun, 29 Oct 2023 22:56:08 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC3EB10E1A9;
+ Sun, 29 Oct 2023 22:56:14 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 7F10BCE11B1;
- Sun, 29 Oct 2023 22:56:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD44EC4167E;
- Sun, 29 Oct 2023 22:56:04 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 0401160EDC;
+ Sun, 29 Oct 2023 22:56:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 235FFC433A9;
+ Sun, 29 Oct 2023 22:56:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1698620165;
- bh=V3MW3HlJw0Dv/VdEsrQyNiXGgZkXx8rL2UAla9DTeeg=;
+ s=k20201202; t=1698620173;
+ bh=001YAmpLETxjsM9j7Vvl/WXpAl9mBPA1mEwrmF4EQAw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=oqBwVvpZMCYX4+blhwUcP51ZYf8OxNu6QpklHq+3UnuKJBwP99m52uTNaC2zrEh6N
- mkZa1HOvzBFRrStjMmLJwQHXQIoKSI/dC3lEidSBWyaS56sPQ5iOHdh7XkL9FUnXhq
- +n5oflVx7GqXXZa/R70I2Kz1ud1g/heqQ0YKBzp4kWGQ/yjnH+iEXU46/T8ZbMSkrY
- KIeL6TPgDNl275dctD/NAcQ/v4GbBhsYNAEuOW5VbVnpim3K79Gyj+1mtX0LBJKs1U
- liwyOsG6BOQiXWRNoc9+Llptfu4DR8zsPoQfkAe2/h0M4z14n3uGSSs0rbVmTzvhg9
- qfdKH6Wp3DW7g==
+ b=eUSo1chgV/1QwDOuL4lMJw0aflRcbefarg4mIaCrhSmLID1NRw3ckUR8xzKXHR41J
+ CAifWLXlcN0YsaPP/skQ6FwqSNlV7HAQDrX3CDEAofypDxO2/GtkSD/RU1CYJuvFMu
+ N+1xaKhLM8SeZeuFHrm2s2QH1qE5VlpP2TN9lM8/Qq5Mqc8JwXv12ZfVlbbZ6TNNal
+ bmM4KR1p8uCgYMDyQE2mn2esmTSfh2usIGWnpfvBgibLURFEtuh2miB0EbccacC16o
+ tJg4te9cenjWUCzofVy78Apd5VbFo1DAeBwdN7SJO/C2oPYz7vKylCE3fheeZRLq9s
+ v8K/SgMlXjW4Q==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.5 35/52] fbdev: core: syscopyarea: fix sloppy typing
-Date: Sun, 29 Oct 2023 18:53:22 -0400
-Message-ID: <20231029225441.789781-35-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.5 38/52] drm/amdgpu: Unset context priority is now
+ invalid
+Date: Sun, 29 Oct 2023 18:53:25 -0400
+Message-ID: <20231029225441.789781-38-sashal@kernel.org>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231029225441.789781-1-sashal@kernel.org>
 References: <20231029225441.789781-1-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.5.9
@@ -53,45 +55,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, linux-fbdev@vger.kernel.org,
- Sergey Shtylyov <s.shtylyov@omp.ru>, Helge Deller <deller@gmx.de>,
- dri-devel@lists.freedesktop.org
+Cc: Sasha Levin <sashal@kernel.org>, pierre-eric.pelloux-prayer@amd.com,
+ lijo.lazar@amd.com, dri-devel@lists.freedesktop.org, Xinhui.Pan@amd.com,
+ amd-gfx@lists.freedesktop.org, Luben Tuikov <luben.tuikov@amd.com>,
+ zhenguo.yin@amd.com, alexander.deucher@amd.com, James.Zhu@amd.com,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Sergey Shtylyov <s.shtylyov@omp.ru>
+From: Luben Tuikov <luben.tuikov@amd.com>
 
-[ Upstream commit e8e4a470b677511f9d1ad4f3cef32adc1d9a60ca ]
+[ Upstream commit eab0261967aeab528db4d0a51806df8209aec179 ]
 
-In sys_copyarea(), the local variable bits_per_line is needlessly typed as
-*unsigned long* -- which is a 32-bit type on the 32-bit arches and a 64-bit
-type on the 64-bit arches; that variable's value is derived from the __u32
-typed fb_fix_screeninfo::line_length field (multiplied by 8u) and a 32-bit
-*unsigned int* type should still be enough to store the # of bits per line.
+A context priority value of AMD_CTX_PRIORITY_UNSET is now invalid--instead of
+carrying it around and passing it to the Direct Rendering Manager--and it
+becomes AMD_CTX_PRIORITY_NORMAL in amdgpu_ctx_ioctl(), the gateway to context
+creation.
 
-Found by Linux Verification Center (linuxtesting.org) with the Svace static
-analysis tool.
-
-Signed-off-by: Sergey Shtylyov <s.shtylyov@omp.ru>
-Signed-off-by: Helge Deller <deller@gmx.de>
+Cc: Alex Deucher <Alexander.Deucher@amd.com>
+Cc: Christian König <christian.koenig@amd.com>
+Signed-off-by: Luben Tuikov <luben.tuikov@amd.com>
+Acked-by: Alex Deucher <Alexander.Deucher@amd.com>
+Link: https://lore.kernel.org/r/20231017035656.8211-1-luben.tuikov@amd.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/video/fbdev/core/syscopyarea.c | 2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/video/fbdev/core/syscopyarea.c b/drivers/video/fbdev/core/syscopyarea.c
-index c1eda31909682..7b8bd3a2bedc5 100644
---- a/drivers/video/fbdev/core/syscopyarea.c
-+++ b/drivers/video/fbdev/core/syscopyarea.c
-@@ -316,7 +316,7 @@ void sys_copyarea(struct fb_info *p, const struct fb_copyarea *area)
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c
+index 0dc9c655c4fbd..092962b93064f 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c
+@@ -47,7 +47,6 @@ const unsigned int amdgpu_ctx_num_entities[AMDGPU_HW_IP_NUM] = {
+ bool amdgpu_ctx_priority_is_valid(int32_t ctx_prio)
  {
- 	u32 dx = area->dx, dy = area->dy, sx = area->sx, sy = area->sy;
- 	u32 height = area->height, width = area->width;
--	unsigned long const bits_per_line = p->fix.line_length*8u;
-+	unsigned int const bits_per_line = p->fix.line_length * 8u;
- 	unsigned long *base = NULL;
- 	int bits = BITS_PER_LONG, bytes = bits >> 3;
- 	unsigned dst_idx = 0, src_idx = 0, rev_copy = 0;
+ 	switch (ctx_prio) {
+-	case AMDGPU_CTX_PRIORITY_UNSET:
+ 	case AMDGPU_CTX_PRIORITY_VERY_LOW:
+ 	case AMDGPU_CTX_PRIORITY_LOW:
+ 	case AMDGPU_CTX_PRIORITY_NORMAL:
+@@ -55,6 +54,7 @@ bool amdgpu_ctx_priority_is_valid(int32_t ctx_prio)
+ 	case AMDGPU_CTX_PRIORITY_VERY_HIGH:
+ 		return true;
+ 	default:
++	case AMDGPU_CTX_PRIORITY_UNSET:
+ 		return false;
+ 	}
+ }
 -- 
 2.42.0
 
