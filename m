@@ -2,45 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 761157DAEE5
-	for <lists+dri-devel@lfdr.de>; Sun, 29 Oct 2023 23:54:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C01A7DAEDC
+	for <lists+dri-devel@lfdr.de>; Sun, 29 Oct 2023 23:53:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CEA8B10E09A;
-	Sun, 29 Oct 2023 22:54:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 072F110E065;
+	Sun, 29 Oct 2023 22:53:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C6CC10E09A
- for <dri-devel@lists.freedesktop.org>; Sun, 29 Oct 2023 22:54:46 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 4B54860C79;
- Sun, 29 Oct 2023 22:54:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26B6DC433C8;
- Sun, 29 Oct 2023 22:54:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1698620084;
- bh=1TQGvqTPML02EuJFmbb4WOcBkTgs/4pXNv1pyJS/8MU=;
- h=From:To:Cc:Subject:Date:From;
- b=Nwj9TYQQhvbAK9FlhXRfayCnzie8HdZbyhsQMcaEEGKtBFGMJfV+MuPixVxhBLnWy
- eNXiWdZvN2sjTpwkwMhikT7wcNvlifwBO238ZWbFXRXzdjWWZIAaTOnBGlnESQN9TM
- GaPTuRfQ9gYDF/nMo+wfQpPfj1hGBzENG7T2huahodgH3FOB4BBHQR7CZ0cDxRjGRt
- zofJi+JaxUshDvNl/NfVWtc14uy4BiNRoqLYpxTpOofWbjlbc+4jhAFnFsEfEOMSMK
- FS4AW6rql892cz1rczqiYK6h53uCakStB5bzHsNppuzZhMsPmzgIG5w9DpUj8nUhhl
- vhz5rr8ihyfOQ==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.5 01/52] fbdev: atyfb: only use ioremap_uc() on i386
- and ia64
-Date: Sun, 29 Oct 2023 18:52:48 -0400
-Message-ID: <20231029225441.789781-1-sashal@kernel.org>
-X-Mailer: git-send-email 2.42.0
+Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com
+ [IPv6:2607:f8b0:4864:20::b35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 858F810E065
+ for <dri-devel@lists.freedesktop.org>; Sun, 29 Oct 2023 22:53:14 +0000 (UTC)
+Received: by mail-yb1-xb35.google.com with SMTP id
+ 3f1490d57ef6-da041ffef81so3203132276.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 29 Oct 2023 15:53:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1698619993; x=1699224793; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=kh1Npdiagr0GsC7dWj3DYaf78y40AqHKeo0ZRGU7CBs=;
+ b=kMBphz/Og16JAdiNaOcHlwOlnWu+SOm6F7xbHxok/mplZ2KUrtaPINM2i3wHj9JqZY
+ ccy2z6fAR+DBiKiRJwU5F8Fg/4n+SiAvMhJGqH3X4BnkZsH66a4GIoke5gjFmc7HvK+x
+ /FzJi6ZanOIwnjrlsYCn+mNXOVxRlbbNm0FDichJntF+g0F4oLZQGtfNg7elC/53Yrrh
+ pBBtGFpSITI8yShine3mbspUUsx9MrlpFdQPjuDBV24VymHB2r9Nvtvwu7hZx6dY9OrY
+ H8tjeyFSaCwYF2Meb64Z1wR5HpyoCUFEY+cwRHpoZuLp370ZWg7oX3jkivEQyxcNflPD
+ Pkjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1698619993; x=1699224793;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=kh1Npdiagr0GsC7dWj3DYaf78y40AqHKeo0ZRGU7CBs=;
+ b=oNL4zSW7o0W0VxhlmLiv/TAqXfTq+mcAp1A9uTi10ygc2BL7GjeSLlxDPnhM8AjfA0
+ PkcOjjwsxdfS8tYUacW2iPYsustubx3tUkG/czaUXE/LmA3AF74VByIxHsoEL2DXeiCO
+ lqgJ7uwoYJJ9/n8ku4FZNfhSB1yCXVGNmfSwSA/4kzXboBR28mQos26ihE2tF3hdBjwD
+ g1K48sTLPfXQ+8osAkRCOnGC+nB1l/3ofJ/FtH15LBf1DT+IccDVJDJTB2PDiNZgLAwB
+ 3W6onL53spzHntM3Q6FsQK3oKOiC8JxDzoF5Z6cSgGszLjWCGMnm6XLS46lhnpU/drDf
+ aqAg==
+X-Gm-Message-State: AOJu0YxLHDsx8rbNj5XTy+qrbrGE04ZowLh8P8oeE9eCRQF+mC72cqbK
+ qnSYgVb9kBkJnAjH6D4QJRVvX8nhxQC/WdRTp62Y2w==
+X-Google-Smtp-Source: AGHT+IGBAn0VTDre1BNe31QlXIqIMrTmze5z1Qucpkj+uPYH0stMj4Dok73dgBpsfcxDJB9isHerVJybeWlqqdee2H0=
+X-Received: by 2002:a25:824e:0:b0:da0:6179:95ac with SMTP id
+ d14-20020a25824e000000b00da0617995acmr6813067ybn.48.1698619993219; Sun, 29
+ Oct 2023 15:53:13 -0700 (PDT)
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.5.9
-Content-Transfer-Encoding: 8bit
+References: <20231029194607.379459-1-suijingfeng@loongson.cn>
+ <20231029194607.379459-3-suijingfeng@loongson.cn>
+In-Reply-To: <20231029194607.379459-3-suijingfeng@loongson.cn>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Mon, 30 Oct 2023 00:53:01 +0200
+Message-ID: <CAA8EJprjQXcTgxnC1POaBjVBzyVBvKpmKyJcCR5ExRUhVxtYoQ@mail.gmail.com>
+Subject: Re: [PATCH 2/8] drm/loongson: Introduce a drm bridge driver for
+ it66121 HDMI transmitter
+To: Sui Jingfeng <suijingfeng@loongson.cn>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,65 +68,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, linux-fbdev@vger.kernel.org, steve@sk2.org,
- Arnd Bergmann <arnd@arndb.de>, Baoquan He <bhe@redhat.com>,
- schnelle@linux.ibm.com, xu.panda@zte.com.cn, Helge Deller <deller@gmx.de>,
- javierm@redhat.com, Christophe Leroy <christophe.leroy@csgroup.eu>,
- Luis Chamberlain <mcgrof@kernel.org>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, sam@ravnborg.org
+Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Maxime Ripard <mripard@kernel.org>, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Arnd Bergmann <arnd@arndb.de>
+On Sun, 29 Oct 2023 at 21:46, Sui Jingfeng <suijingfeng@loongson.cn> wrote:
+>
+> The IT66121 is a DVO to HDMI converter, LS3A5000+LS7A1000 ML5A_MB use this
+> chip to support HDMI output. Thus add a drm bridge based driver for it.
+> This patch is developed with drivers/gpu/drm/bridge/ite-it66121.c as base.
 
-[ Upstream commit c1a8d1d0edb71dec15c9649cb56866c71c1ecd9e ]
+Please use the original bridge driver instead of adding a new one. If
+it needs to be changed in any way, please help everyone else by
+improving it instead of introducing new driver.
 
-ioremap_uc() is only meaningful on old x86-32 systems with the PAT
-extension, and on ia64 with its slightly unconventional ioremap()
-behavior, everywhere else this is the same as ioremap() anyway.
+>
+> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
+> ---
+>  drivers/gpu/drm/loongson/Kconfig            |   1 +
+>  drivers/gpu/drm/loongson/Makefile           |   2 +
+>  drivers/gpu/drm/loongson/ite_it66121.c      | 749 ++++++++++++++++++++
+>  drivers/gpu/drm/loongson/ite_it66121.h      |  19 +
+>  drivers/gpu/drm/loongson/ite_it66121_regs.h | 268 +++++++
+>  5 files changed, 1039 insertions(+)
+>  create mode 100644 drivers/gpu/drm/loongson/ite_it66121.c
+>  create mode 100644 drivers/gpu/drm/loongson/ite_it66121.h
+>  create mode 100644 drivers/gpu/drm/loongson/ite_it66121_regs.h
 
-Change the only driver that still references ioremap_uc() to only do so
-on x86-32/ia64 in order to allow removing that interface at some
-point in the future for the other architectures.
 
-On some architectures, ioremap_uc() just returns NULL, changing
-the driver to call ioremap() means that they now have a chance
-of working correctly.
-
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-Signed-off-by: Baoquan He <bhe@redhat.com>
-Reviewed-by: Luis Chamberlain <mcgrof@kernel.org>
-Cc: Helge Deller <deller@gmx.de>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Christophe Leroy <christophe.leroy@csgroup.eu>
-Cc: linux-fbdev@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Signed-off-by: Helge Deller <deller@gmx.de>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/video/fbdev/aty/atyfb_base.c | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/drivers/video/fbdev/aty/atyfb_base.c b/drivers/video/fbdev/aty/atyfb_base.c
-index cba2b113b28b0..a73114c1c6918 100644
---- a/drivers/video/fbdev/aty/atyfb_base.c
-+++ b/drivers/video/fbdev/aty/atyfb_base.c
-@@ -3440,11 +3440,15 @@ static int atyfb_setup_generic(struct pci_dev *pdev, struct fb_info *info,
- 	}
- 
- 	info->fix.mmio_start = raddr;
-+#if defined(__i386__) || defined(__ia64__)
- 	/*
- 	 * By using strong UC we force the MTRR to never have an
- 	 * effect on the MMIO region on both non-PAT and PAT systems.
- 	 */
- 	par->ati_regbase = ioremap_uc(info->fix.mmio_start, 0x1000);
-+#else
-+	par->ati_regbase = ioremap(info->fix.mmio_start, 0x1000);
-+#endif
- 	if (par->ati_regbase == NULL)
- 		return -ENOMEM;
- 
 -- 
-2.42.0
-
+With best wishes
+Dmitry
