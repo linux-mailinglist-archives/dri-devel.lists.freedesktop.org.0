@@ -2,42 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F26757DAF0B
-	for <lists+dri-devel@lfdr.de>; Sun, 29 Oct 2023 23:55:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCF437DAF0D
+	for <lists+dri-devel@lfdr.de>; Sun, 29 Oct 2023 23:56:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C2EEB10E0A4;
-	Sun, 29 Oct 2023 22:55:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B23E10E0CC;
+	Sun, 29 Oct 2023 22:56:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 45A9910E0A4
- for <dri-devel@lists.freedesktop.org>; Sun, 29 Oct 2023 22:55:53 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 17BD410E0CC
+ for <dri-devel@lists.freedesktop.org>; Sun, 29 Oct 2023 22:55:57 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id B71CECE1194;
- Sun, 29 Oct 2023 22:55:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EED33C433CA;
- Sun, 29 Oct 2023 22:55:47 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTP id C137BB8074D;
+ Sun, 29 Oct 2023 22:55:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB375C433CB;
+ Sun, 29 Oct 2023 22:55:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1698620148;
- bh=ZZQxw68ufr291FUHWJMZVT6Kvaw2JkgJY6lRE6iV3fk=;
+ s=k20201202; t=1698620154;
+ bh=92atpQovPf8dUEyPgtOqbb4csWrmpJaDoIHvo6WYpNo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=eznq8qIvnq9iopUqFkMrflUixS3sZpKei8XfngPK57fijIFAv3mLu9VBTzQwQQbVr
- 3j4u3imN+Mnq6W9hU0uqIjwKI5U7RG4SR6zg0YFWqb+jS5AycEzDzHWduzZT/NITHH
- 8ufBlSn6jeHnzMCZAbu1A3Yu4OkLGxGjLq3DK19FovtXM5KLsbRZ+/nRL94J7qCLUp
- BWinjQQT56QjHx2Gj9+9RM3tfodXCFDHBwXamj//Ux5g1vHJo7q4mJQ3RWJD7ROwtl
- QB+dGEb+vUT/1qnsTqkvMGKHqQlGyyldJeJ59v/9CoRoO9NIndBTCLggYTmTIvwiVr
- 7nRPCK7NjInvg==
+ b=e2l269XNEiRwoZ1blLTJ38RxlqH9ZnG4UnyybdO/8l3fV60TUoNvRc7zda65thKIU
+ +3TDqMuLbVIfwM5h7dqpX3Km7ySo6YWNoVutSHY4jFSkcMmiAeEkyDUJ1Bra9eiMqj
+ aeEuVe66RmfRj7UtoZDElDWWdAYxcpJbsb3BJ9rWpR+qmSnXETRxn8cDqkRLHS0raH
+ g3uFRqBuyCi2W9LmM90dzlslkUCT5/TjbyiMSe7hKND+vZF8Bi6Ca46XdnGh+yn/AD
+ wS1upwby3h7FgMnOMsFCDHXQgYToHEt+hwdGaCkJDPgfT2NOU+jWMMxeFYLYHl8VFm
+ K8AfssMMnwJkw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.5 31/52] drm/ttm: Reorder sys manager cleanup step
-Date: Sun, 29 Oct 2023 18:53:18 -0400
-Message-ID: <20231029225441.789781-31-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.5 32/52] fbdev: omapfb: fix some error codes
+Date: Sun, 29 Oct 2023 18:53:19 -0400
+Message-ID: <20231029225441.789781-32-sashal@kernel.org>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231029225441.789781-1-sashal@kernel.org>
 References: <20231029225441.789781-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.5.9
@@ -54,61 +53,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>,
- Karolina Stolarek <karolina.stolarek@intel.com>,
- dri-devel@lists.freedesktop.org, ray.huang@amd.com,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Sasha Levin <sashal@kernel.org>, linux-fbdev@vger.kernel.org,
+ xu.panda@zte.com.cn, Helge Deller <deller@gmx.de>,
+ dri-devel@lists.freedesktop.org, tzimmermann@suse.de,
+ u.kleine-koenig@pengutronix.de, linux-omap@vger.kernel.org, sam@ravnborg.org,
+ mielkesteven@icloud.com, Dan Carpenter <dan.carpenter@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Karolina Stolarek <karolina.stolarek@intel.com>
+From: Dan Carpenter <dan.carpenter@linaro.org>
 
-[ Upstream commit 3b401e30c249849d803de6c332dad2a595a58658 ]
+[ Upstream commit dc608db793731426938baa2f0e75a4a3cce5f5cf ]
 
-With the current cleanup flow, we could trigger a NULL pointer
-dereference if there is a delayed destruction of a BO with a
-system resource that gets executed on drain_workqueue() call,
-as we attempt to free a resource using an already released
-resource manager.
+Return negative -ENXIO instead of positive ENXIO.
 
-Remove the device from the device list and drain its workqueue
-before releasing the system domain manager in ttm_device_fini().
-
-Signed-off-by: Karolina Stolarek <karolina.stolarek@intel.com>
-Reviewed-by: Christian König <christian.koenig@amd.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20231016121525.2237838-1-karolina.stolarek@intel.com
-Signed-off-by: Christian König <christian.koenig@amd.com>
+Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+Signed-off-by: Helge Deller <deller@gmx.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/ttm/ttm_device.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/video/fbdev/omap/omapfb_main.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/ttm/ttm_device.c b/drivers/gpu/drm/ttm/ttm_device.c
-index 7726a72befc54..d48b39132b324 100644
---- a/drivers/gpu/drm/ttm/ttm_device.c
-+++ b/drivers/gpu/drm/ttm/ttm_device.c
-@@ -232,10 +232,6 @@ void ttm_device_fini(struct ttm_device *bdev)
- 	struct ttm_resource_manager *man;
- 	unsigned i;
+diff --git a/drivers/video/fbdev/omap/omapfb_main.c b/drivers/video/fbdev/omap/omapfb_main.c
+index ad65554b33c35..0be95b4e14fdb 100644
+--- a/drivers/video/fbdev/omap/omapfb_main.c
++++ b/drivers/video/fbdev/omap/omapfb_main.c
+@@ -1648,13 +1648,13 @@ static int omapfb_do_probe(struct platform_device *pdev,
+ 	}
+ 	fbdev->int_irq = platform_get_irq(pdev, 0);
+ 	if (fbdev->int_irq < 0) {
+-		r = ENXIO;
++		r = -ENXIO;
+ 		goto cleanup;
+ 	}
  
--	man = ttm_manager_type(bdev, TTM_PL_SYSTEM);
--	ttm_resource_manager_set_used(man, false);
--	ttm_set_driver_manager(bdev, TTM_PL_SYSTEM, NULL);
--
- 	mutex_lock(&ttm_global_mutex);
- 	list_del(&bdev->device_list);
- 	mutex_unlock(&ttm_global_mutex);
-@@ -243,6 +239,10 @@ void ttm_device_fini(struct ttm_device *bdev)
- 	drain_workqueue(bdev->wq);
- 	destroy_workqueue(bdev->wq);
+ 	fbdev->ext_irq = platform_get_irq(pdev, 1);
+ 	if (fbdev->ext_irq < 0) {
+-		r = ENXIO;
++		r = -ENXIO;
+ 		goto cleanup;
+ 	}
  
-+	man = ttm_manager_type(bdev, TTM_PL_SYSTEM);
-+	ttm_resource_manager_set_used(man, false);
-+	ttm_set_driver_manager(bdev, TTM_PL_SYSTEM, NULL);
-+
- 	spin_lock(&bdev->lru_lock);
- 	for (i = 0; i < TTM_MAX_BO_PRIORITY; ++i)
- 		if (list_empty(&man->lru[0]))
 -- 
 2.42.0
 
