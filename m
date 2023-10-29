@@ -1,58 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AC627DAD3E
-	for <lists+dri-devel@lfdr.de>; Sun, 29 Oct 2023 17:39:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 49C3C7DAD41
+	for <lists+dri-devel@lfdr.de>; Sun, 29 Oct 2023 17:40:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 360CE10E18C;
-	Sun, 29 Oct 2023 16:39:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7FFA710E0B9;
+	Sun, 29 Oct 2023 16:40:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x1133.google.com (mail-yw1-x1133.google.com
- [IPv6:2607:f8b0:4864:20::1133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 18EE510E18D
- for <dri-devel@lists.freedesktop.org>; Sun, 29 Oct 2023 16:39:39 +0000 (UTC)
-Received: by mail-yw1-x1133.google.com with SMTP id
- 00721157ae682-5a7d9d357faso32427177b3.0
- for <dri-devel@lists.freedesktop.org>; Sun, 29 Oct 2023 09:39:39 -0700 (PDT)
+Received: from mail-il1-x12d.google.com (mail-il1-x12d.google.com
+ [IPv6:2607:f8b0:4864:20::12d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA87410E0B9
+ for <dri-devel@lists.freedesktop.org>; Sun, 29 Oct 2023 16:40:18 +0000 (UTC)
+Received: by mail-il1-x12d.google.com with SMTP id
+ e9e14a558f8ab-35809893291so13075645ab.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 29 Oct 2023 09:40:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1698597578; x=1699202378; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1698597618; x=1699202418; darn=lists.freedesktop.org;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=tl1cBv3dYTwBgbuAiIEubgr/5XL2B88gltLfW0waoWc=;
- b=mPs2qPGh3s4C7PwH0MmTxSUgeaq7dkuHy8mVbaxbcZWInAbiSaUjTmIQiWi0J4Kt5C
- fE/xIK0DEYncJpzOjFelmDZFzh6gf4oHWu7PyLUEnWSRTo07FgK6kZengFYVO0djXmp+
- Nxd9oPNVc5u0hpk0Q1l1/yUcwoMEen9W+XORGt2+ny/vWd0NUv+OXMTqSE3EKTicl4sc
- Bjl4a1OgeDxON977kasIgTcv2dXEvqy+yxRFf0cxPX8M+jBBBwerGonAFKz4W39NdlzX
- wuOv5LdiP85pdqI+wK3C7b9Lt2Bv5JaiLcwemY+ZoONlJW40wMMYOkmsR61rdDRbngt4
- 0nSA==
+ bh=Q9bWPCuhLl7Eu2Wz5OYZ1UnKjf97K54GCVXL6Pmup34=;
+ b=RR6dBUuk0LebFOr5gguga2lAgeeQSf4Mq14xYCGWMAUC8yRnDx5jKzVex9VTjjLbCM
+ fsp4awnt/PWuxHZZxfimULq66TMVB7ODqDiDGTc6qjfdCXm9nJreEvleFkgOdfCvjOI8
+ ez0DD6OuMbs6f0ZYBSuriM+U3wYaVPb6mqCkvQBq1GSrb6UkmQjysvKrtd9D+CW6/8xg
+ FSR+C40JC6pVOokw22Fl6fk26RVs1CnSPYAI2Cg18K4kWy0q5Z6DdMqbtB6ZFV4KEurd
+ CMVCdZY5To8Q1RMcllyh8G9crnLtcDTHu+k8Yrbj3pltjRMx4zGr2DYhA5x37dnsu6YD
+ +GNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1698597578; x=1699202378;
+ d=1e100.net; s=20230601; t=1698597618; x=1699202418;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=tl1cBv3dYTwBgbuAiIEubgr/5XL2B88gltLfW0waoWc=;
- b=pEYKgGM873iGmfI2vfkeXSmrvHG7DNxHrNya992wc9gCg4AkhRmYUX6+ER6YgP7EQC
- 3QhraZenafM8hoInKL8CyPOMkkRHwpFOa/HMaYnG6+TMmFLnUyAvxJEInN7fidcGPmIN
- er/vshJqvGjgvAfQSM7r4xokjwJ4FpPreri8t1NgXWP4uEhv5tWUkgSzH7hQ3+cvcn2F
- Md9/Zip4MlGl7GDlWafNWIE65aKIGicW+mfGSCt03AHPHinLSY9yFYCaj3P3+wERHS/J
- fL9btTZ9n6m+ltmMdwEdZ5Vd4M5+ORclpUfpweMwlFrF+eSOBlHOzCpLeWtb8Dy1T4gR
- GwKQ==
-X-Gm-Message-State: AOJu0YyGaasN91U/IdBbTjUAFiV/wMayD6kp3O4dKgPyi53Oq/vQ54xZ
- xq9aYYdPTGyAnbquu4IXns7XYOcklWjc3kC5uULtRQ==
-X-Google-Smtp-Source: AGHT+IGjPBBWyNNN0IUoNRwk6XwQlBXRCJ8+mgcNMtr7YdPC3bwRkZo25mPX9aJNUaKgoHKiqak2ZR6uslFegHWl1hc=
-X-Received: by 2002:a25:d411:0:b0:da0:c64f:ea10 with SMTP id
- m17-20020a25d411000000b00da0c64fea10mr6985485ybf.43.1698597578053; Sun, 29
- Oct 2023 09:39:38 -0700 (PDT)
+ bh=Q9bWPCuhLl7Eu2Wz5OYZ1UnKjf97K54GCVXL6Pmup34=;
+ b=At9ddoMH9pTJncb/jvGLYsd6LAkl7W9nagu0/YI18rZRnyxbSomy+zPFLlUQPriZhS
+ f4lyhfiMD90MwE7JJk6B8MNqGLa2EB6+NMmYLBpKYKBy6VoQqOIMwV/Doo+LEqIvp1ti
+ 38jyh8Akoiot8qOUCS2jgZkHVF0RBy3esAqCCTd+lR6ePb6nM12EL9Fa2D9MA0Z+F+SB
+ DF12bq+X7pRZ5eSc/IFhMeo9kYz8z+HgdRJ1yHkcHpobIhBhzPepJzXhpBDWMKiVoXst
+ Xk6omg3hsJL+AY945xJkwBSReJE31nThffp3IXe8m8pfHM7MDgyGIuWNNCrwDO8UEniY
+ 2cpw==
+X-Gm-Message-State: AOJu0YzboGGq+uP2DOSICXz9t4+kYL6NWuy+Es/cXN00E9t3BE7e9QMy
+ evj1JXgZD6XQkqxV1wU3kOXCn7djcHzm9Pys/zHuDw==
+X-Google-Smtp-Source: AGHT+IEMTTkd3iokIkHgwuWImh0kMLQCmV4IUjrrsJzeTsT2AK9xdWYaJqUNFO6i6aN3ig0Ep5iZuNbQcrZQnQdocIc=
+X-Received: by 2002:a92:c266:0:b0:357:5db1:9170 with SMTP id
+ h6-20020a92c266000000b003575db19170mr10291105ild.28.1698597617965; Sun, 29
+ Oct 2023 09:40:17 -0700 (PDT)
 MIME-Version: 1.0
 References: <20231027194537.408922-1-robdclark@gmail.com>
- <20231029150740.6434-3-robdclark@gmail.com>
-In-Reply-To: <20231029150740.6434-3-robdclark@gmail.com>
+ <20231029150740.6434-2-robdclark@gmail.com>
+In-Reply-To: <20231029150740.6434-2-robdclark@gmail.com>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Sun, 29 Oct 2023 18:39:30 +0200
-Message-ID: <CAA8EJpp-pwho=GRX1WuA3TbNTdOjM57SR52-=G=LU3rSeifohA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] drm/msm/gem: Add metadata
+Date: Sun, 29 Oct 2023 18:40:10 +0200
+Message-ID: <CAA8EJpqK6uGDrjzhSq7zhGtcqsT7G3LEAj7cZKUex15E4uTK+Q@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] drm/msm: Small uabi fixes
 To: Rob Clark <robdclark@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -79,30 +79,18 @@ On Sun, 29 Oct 2023 at 17:07, Rob Clark <robdclark@gmail.com> wrote:
 >
 > From: Rob Clark <robdclark@chromium.org>
 >
-> The EXT_external_objects extension is a bit awkward as it doesn't pass
-> explicit modifiers, leaving the importer to guess with incomplete
-> information.  In the case of vk (turnip) exporting and gl (freedreno)
-> importing, the "OPTIMAL_TILING_EXT" layout depends on VkImageCreateInfo
-> flags (among other things), which the importer does not know.  Which
-> unfortunately leaves us with the need for a metadata back-channel.
->
-> The contents of the metadata are defined by userspace.  The
-> EXT_external_objects extension is only required to work between
-> compatible versions of gl and vk drivers, as defined by device and
-> driver UUIDs.
->
-> v2: add missing metadata kfree
+> Correct the minor version exposed and error return value for
+> MSM_INFO_GET_NAME.
 >
 > Signed-off-by: Rob Clark <robdclark@chromium.org>
+> ---
+>  drivers/gpu/drm/msm/msm_drv.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-> ---
->  drivers/gpu/drm/msm/msm_drv.c | 57 ++++++++++++++++++++++++++++++++++-
->  drivers/gpu/drm/msm/msm_gem.c |  1 +
->  drivers/gpu/drm/msm/msm_gem.h |  4 +++
->  include/uapi/drm/msm_drm.h    |  2 ++
->  4 files changed, 63 insertions(+), 1 deletion(-)
+
+
 
 -- 
 With best wishes
