@@ -1,39 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7D0C7DAFEF
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Oct 2023 00:01:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FB157DAFF1
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Oct 2023 00:01:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A89C10E1C5;
-	Sun, 29 Oct 2023 23:01:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F3EF10E1C8;
+	Sun, 29 Oct 2023 23:01:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 789C010E1C5
- for <dri-devel@lists.freedesktop.org>; Sun, 29 Oct 2023 23:01:14 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B954E10E1C7
+ for <dri-devel@lists.freedesktop.org>; Sun, 29 Oct 2023 23:01:17 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 1E3E4B80707;
- Sun, 29 Oct 2023 23:01:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B237C4167D;
- Sun, 29 Oct 2023 23:01:11 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTP id 5E7E6B80185;
+ Sun, 29 Oct 2023 23:01:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE17FC43391;
+ Sun, 29 Oct 2023 23:01:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1698620472;
- bh=1cWFtsWdrS1UHP+2afF8p7YRGN/p9n88KFTGlKvUIZ8=;
+ s=k20201202; t=1698620475;
+ bh=dOPID+WAHBe+1C/wlvaKW7GPyApeXN5OKVtbv1qYIlE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=uC2PddOIdrQC/aI0nYYiGv9zipBYa/vfTGpSaRvkWCM2AULeMa/JtjtWpXMqa0b50
- zLMnuzrfZnkPdv5Bi+4i8XpTRoy57Kdw5jw6c518xVqVh+XAPspvUU9g7Y3N06zy84
- 7YZvr66wskSW/yGF5AQxPlpn3QMxwmPvkQ3ZWsW331xlgcVRmeUKFFqEFofUcIjMl5
- OHkKdBB3sQDd/ieZ/XpXugkyZmkO81m4eoKb+atUozdKaOjhI5r7F5VjYJcYYhwjug
- GMKB8a1qgXI+SxjUlyuS5smwxcTdjfl2p1Kf33wF+9sga6d67jeZv9oGXHEhSwFlOe
- ZdGfhqZ+iFYeQ==
+ b=I3eyOualJXhzWHe5RlJaWiU+/gT8CdoFVth8C37P7ymeMqNSRawqyihbjKzJ76pkV
+ uuE4vqm5Fzlfq7ijeyhTY7Y2TMRI2UpzT8otxJhHT1tzNyYXY+Uj7eggUprqv8Nbot
+ uLvOxjpPHOTKEC4gNVf5Rt5RCLW67+RTOeFCRJ2s2I8BofT52UFZe1ZOzwQJx/19AB
+ 5jCJWMZ4PHlveXAe9gLQ/9AZHPzzSuQL2Fw95AyoMcmU/Wk3QlwszspsoZzSZAHkD0
+ nZQ09pBV21z5/l9dV3Tyw1jTpN0iLxsdG1qL67kuzt9sZiuPNGKfq3YUMO47VffU/M
+ 0LsmViNFbDKZQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 08/13] fbdev: uvesafb: Call cn_del_callback() at
- the end of uvesafb_exit()
-Date: Sun, 29 Oct 2023 19:00:41 -0400
-Message-ID: <20231029230057.792930-8-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 09/13] fbdev: core: cfbcopyarea: fix sloppy typing
+Date: Sun, 29 Oct 2023 19:00:42 -0400
+Message-ID: <20231029230057.792930-9-sashal@kernel.org>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231029230057.792930-1-sashal@kernel.org>
 References: <20231029230057.792930-1-sashal@kernel.org>
@@ -55,44 +54,44 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Sasha Levin <sashal@kernel.org>, linux-fbdev@vger.kernel.org,
- Helge Deller <deller@gmx.de>, dri-devel@lists.freedesktop.org,
- spock@gentoo.org, Jorge Maidana <jorgem.linux@gmail.com>
+ Sergey Shtylyov <s.shtylyov@omp.ru>, Helge Deller <deller@gmx.de>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Jorge Maidana <jorgem.linux@gmail.com>
+From: Sergey Shtylyov <s.shtylyov@omp.ru>
 
-[ Upstream commit 1022e7e2f40574c74ed32c3811b03d26b0b81daf ]
+[ Upstream commit 7f33df94cf0156f64eee9509bd9b4a178990f613 ]
 
-Delete the v86d netlink only after all the VBE tasks have been
-completed.
+In cfb_copyarea(), the local variable bits_per_line is needlessly typed as
+*unsigned long* -- which is a 32-bit type on the 32-bit arches and a 64-bit
+type on the 64-bit arches; that variable's value is derived from the __u32
+typed fb_fix_screeninfo::line_length field (multiplied by 8u) and a 32-bit
+*unsigned int* type should still be enough to store the # of bits per line.
 
-Fixes initial state restore on module unload:
-uvesafb: VBE state restore call failed (eax=0x4f04, err=-19)
+Found by Linux Verification Center (linuxtesting.org) with the Svace static
+analysis tool.
 
-Signed-off-by: Jorge Maidana <jorgem.linux@gmail.com>
+Signed-off-by: Sergey Shtylyov <s.shtylyov@omp.ru>
 Signed-off-by: Helge Deller <deller@gmx.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/video/fbdev/uvesafb.c | 2 +-
+ drivers/video/fbdev/core/cfbcopyarea.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/video/fbdev/uvesafb.c b/drivers/video/fbdev/uvesafb.c
-index 7d3af1d19ad3f..115653ba761c0 100644
---- a/drivers/video/fbdev/uvesafb.c
-+++ b/drivers/video/fbdev/uvesafb.c
-@@ -1933,10 +1933,10 @@ static void uvesafb_exit(void)
- 		}
- 	}
- 
--	cn_del_callback(&uvesafb_cn_id);
- 	driver_remove_file(&uvesafb_driver.driver, &driver_attr_v86d);
- 	platform_device_unregister(uvesafb_device);
- 	platform_driver_unregister(&uvesafb_driver);
-+	cn_del_callback(&uvesafb_cn_id);
- }
- 
- module_exit(uvesafb_exit);
+diff --git a/drivers/video/fbdev/core/cfbcopyarea.c b/drivers/video/fbdev/core/cfbcopyarea.c
+index 6d4bfeecee350..5b80bf3dae504 100644
+--- a/drivers/video/fbdev/core/cfbcopyarea.c
++++ b/drivers/video/fbdev/core/cfbcopyarea.c
+@@ -382,7 +382,7 @@ void cfb_copyarea(struct fb_info *p, const struct fb_copyarea *area)
+ {
+ 	u32 dx = area->dx, dy = area->dy, sx = area->sx, sy = area->sy;
+ 	u32 height = area->height, width = area->width;
+-	unsigned long const bits_per_line = p->fix.line_length*8u;
++	unsigned int const bits_per_line = p->fix.line_length * 8u;
+ 	unsigned long __iomem *base = NULL;
+ 	int bits = BITS_PER_LONG, bytes = bits >> 3;
+ 	unsigned dst_idx = 0, src_idx = 0, rev_copy = 0;
 -- 
 2.42.0
 
