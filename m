@@ -2,40 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B77407DAFFC
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Oct 2023 00:01:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2049A7DB002
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Oct 2023 00:01:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E002310E1C9;
-	Sun, 29 Oct 2023 23:01:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4973010E1CA;
+	Sun, 29 Oct 2023 23:01:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org
  [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C28810E1C9
- for <dri-devel@lists.freedesktop.org>; Sun, 29 Oct 2023 23:01:40 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2DEA010E1CA
+ for <dri-devel@lists.freedesktop.org>; Sun, 29 Oct 2023 23:01:50 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id DDF0F60B66;
- Sun, 29 Oct 2023 23:01:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8A1AC433CC;
- Sun, 29 Oct 2023 23:01:37 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 8F12660B66;
+ Sun, 29 Oct 2023 23:01:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C732C433B7;
+ Sun, 29 Oct 2023 23:01:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1698620499;
- bh=kY4XyLVwrX+3H1bdvNP8pEQe+U5OaqLJ46NhUlVlTC4=;
- h=From:To:Cc:Subject:Date:From;
- b=ovX9womKt/awtKy7X//j+OImm5hO2WXk4Zm+4HTB9xkNbA7PV/Xs6JcAlRwCOGxK8
- OmPzKTafPiKuMH4SxF82mUgF9juDeYULdreIj1Fvob50RbTazjONVouD7EG8gvqUq/
- Zk6Z4yJyDAnM8xFTW6Vmqs207Y18vFcXitUtsL5zBjUDDCH+vv3S34QGBKTQ12qRYh
- rn2gYajJQvFTUzwIOPVyeXU6eW9RbiAaRaPuJFMpviD5IhGayisgxKTqvO9l2ndb0c
- ozKPhrIGwqCZRmazECjwXwR9KsQo3/p00Yl/b9G0QsRAUlJmi2XMx7pGY/d0HUt10B
- aQ1fGWkbBUCzg==
+ s=k20201202; t=1698620509;
+ bh=QjKQQsfsjmZerhQ4M0Y1XRxbkwIWwUul24Ui6dVaYhc=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=awHpAJLf7s4dW4uCeZp6saZcWEOdC4fxrDAL5jzllhYlYt8cirjSo65xzhdJ8B673
+ xhA3umykAmrqIVZx1kAl0l+q7uvQDpxqQu6GcLFfXabU/nEtx+hQfShrik5E/V80nc
+ Enz4968b4KiL+V0p3grCnQDYc9/A2cFto4YeK/iJ+UZoTp//3jcsocKYzKExSh0Swz
+ pajVlKYywqEwdUsRXmAxOVQBpwwEuoG0uuN9kKHE6BORVWmnp1xqhmnY+B31uRWNoE
+ htLgNlHtQRSHoeD6L7XmL63NwIXBkODrf1rEHE/jtzs6TMM9TRJUTKpgNLJ8nfm1jj
+ UyIjKeO2oHJPQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 01/12] fbdev: atyfb: only use ioremap_uc() on
- i386 and ia64
-Date: Sun, 29 Oct 2023 19:01:14 -0400
-Message-ID: <20231029230135.793281-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 07/12] fbdev: uvesafb: Call cn_del_callback() at
+ the end of uvesafb_exit()
+Date: Sun, 29 Oct 2023 19:01:20 -0400
+Message-ID: <20231029230135.793281-7-sashal@kernel.org>
 X-Mailer: git-send-email 2.42.0
+In-Reply-To: <20231029230135.793281-1-sashal@kernel.org>
+References: <20231029230135.793281-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -53,65 +55,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, linux-fbdev@vger.kernel.org, steve@sk2.org,
- Arnd Bergmann <arnd@arndb.de>, Baoquan He <bhe@redhat.com>,
- schnelle@linux.ibm.com, xu.panda@zte.com.cn, Helge Deller <deller@gmx.de>,
- javierm@redhat.com, Christophe Leroy <christophe.leroy@csgroup.eu>,
- Luis Chamberlain <mcgrof@kernel.org>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, sam@ravnborg.org
+Cc: Sasha Levin <sashal@kernel.org>, linux-fbdev@vger.kernel.org,
+ Helge Deller <deller@gmx.de>, dri-devel@lists.freedesktop.org,
+ spock@gentoo.org, Jorge Maidana <jorgem.linux@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Arnd Bergmann <arnd@arndb.de>
+From: Jorge Maidana <jorgem.linux@gmail.com>
 
-[ Upstream commit c1a8d1d0edb71dec15c9649cb56866c71c1ecd9e ]
+[ Upstream commit 1022e7e2f40574c74ed32c3811b03d26b0b81daf ]
 
-ioremap_uc() is only meaningful on old x86-32 systems with the PAT
-extension, and on ia64 with its slightly unconventional ioremap()
-behavior, everywhere else this is the same as ioremap() anyway.
+Delete the v86d netlink only after all the VBE tasks have been
+completed.
 
-Change the only driver that still references ioremap_uc() to only do so
-on x86-32/ia64 in order to allow removing that interface at some
-point in the future for the other architectures.
+Fixes initial state restore on module unload:
+uvesafb: VBE state restore call failed (eax=0x4f04, err=-19)
 
-On some architectures, ioremap_uc() just returns NULL, changing
-the driver to call ioremap() means that they now have a chance
-of working correctly.
-
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-Signed-off-by: Baoquan He <bhe@redhat.com>
-Reviewed-by: Luis Chamberlain <mcgrof@kernel.org>
-Cc: Helge Deller <deller@gmx.de>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Christophe Leroy <christophe.leroy@csgroup.eu>
-Cc: linux-fbdev@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
+Signed-off-by: Jorge Maidana <jorgem.linux@gmail.com>
 Signed-off-by: Helge Deller <deller@gmx.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/video/fbdev/aty/atyfb_base.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/video/fbdev/uvesafb.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/video/fbdev/aty/atyfb_base.c b/drivers/video/fbdev/aty/atyfb_base.c
-index 05111e90f1681..5ef008e9c61c3 100644
---- a/drivers/video/fbdev/aty/atyfb_base.c
-+++ b/drivers/video/fbdev/aty/atyfb_base.c
-@@ -3435,11 +3435,15 @@ static int atyfb_setup_generic(struct pci_dev *pdev, struct fb_info *info,
+diff --git a/drivers/video/fbdev/uvesafb.c b/drivers/video/fbdev/uvesafb.c
+index f6ebca8839127..1ded93f106f07 100644
+--- a/drivers/video/fbdev/uvesafb.c
++++ b/drivers/video/fbdev/uvesafb.c
+@@ -1932,10 +1932,10 @@ static void uvesafb_exit(void)
+ 		}
  	}
  
- 	info->fix.mmio_start = raddr;
-+#if defined(__i386__) || defined(__ia64__)
- 	/*
- 	 * By using strong UC we force the MTRR to never have an
- 	 * effect on the MMIO region on both non-PAT and PAT systems.
- 	 */
- 	par->ati_regbase = ioremap_uc(info->fix.mmio_start, 0x1000);
-+#else
-+	par->ati_regbase = ioremap(info->fix.mmio_start, 0x1000);
-+#endif
- 	if (par->ati_regbase == NULL)
- 		return -ENOMEM;
+-	cn_del_callback(&uvesafb_cn_id);
+ 	driver_remove_file(&uvesafb_driver.driver, &driver_attr_v86d);
+ 	platform_device_unregister(uvesafb_device);
+ 	platform_driver_unregister(&uvesafb_driver);
++	cn_del_callback(&uvesafb_cn_id);
+ }
  
+ module_exit(uvesafb_exit);
 -- 
 2.42.0
 
