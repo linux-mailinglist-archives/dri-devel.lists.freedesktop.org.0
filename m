@@ -1,61 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B3E97DACED
-	for <lists+dri-devel@lfdr.de>; Sun, 29 Oct 2023 16:07:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2ECC07DACF3
+	for <lists+dri-devel@lfdr.de>; Sun, 29 Oct 2023 16:08:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8245D10E176;
-	Sun, 29 Oct 2023 15:07:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE52B10E177;
+	Sun, 29 Oct 2023 15:07:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com
- [IPv6:2607:f8b0:4864:20::632])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7DC7A10E175;
- Sun, 29 Oct 2023 15:07:50 +0000 (UTC)
-Received: by mail-pl1-x632.google.com with SMTP id
- d9443c01a7336-1cc3542e328so2625555ad.1; 
- Sun, 29 Oct 2023 08:07:50 -0700 (PDT)
+Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com
+ [IPv6:2607:f8b0:4864:20::435])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9AA2510E177;
+ Sun, 29 Oct 2023 15:07:52 +0000 (UTC)
+Received: by mail-pf1-x435.google.com with SMTP id
+ d2e1a72fcca58-6b6f4c118b7so3319438b3a.0; 
+ Sun, 29 Oct 2023 08:07:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1698592069; x=1699196869; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1698592071; x=1699196871; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Rq2lTx4r6AxRWMwoBx4OQjZx3mpwnDbM/buzeUwRHtY=;
- b=Xj7pqT0w1U8TSk1ixlSYrWFF7MKW6Ogu7tXRgvPbVGVEh6cbokiZ+zEjmovEbPgBI3
- 5xXk/AThd/SPI7g7pO3jJlm0Q8JQ4q13shD5Y83/JdbKu9idm/4csMseo37RxjNrelLr
- pJZByhk5ZmkFRTMIhVZdPB89cIKGAdyMzyVipOGo7CD4RkiE9X6qGLjt3H9+qy7TE54j
- A8wvh5b+6pMLhWeDoYO6JU+ps+GPQaJbjwn1pJoRISgp0iWGMyOTsZXw3FFUkLnN0YhC
- VJy5eX9ZGh+7VTm/9V4l7HedpLzcYNsjhJYN0JVviR2mnuAHRp1EXMpjCVapsfFfRjVg
- JyiA==
+ bh=Lt1yPiSudbjGWZyU7fD8DRkiWRaUYJwJXas2ZsoVM40=;
+ b=irgRpxfhkWr4psPOn9PGYjdbsJXvBG5zUf/3S1Q7zmPDo1/3vkhBiVS0TbvAVGj6hR
+ wVEN31JRlsffoHfTFon8PfQSERcbk5ak8dOAtQ9CO377FFj0dp+cGY2/k0RloyFmRhoM
+ g8CtzdnfrcdShsjXGGNBbMvUJeDLA0SJ1xLMiCKeArTg3jsjYe7966TpwUb4OOjSMu03
+ voPgFaFlrfl7eHU0spwiTQ4n0C2kXb/TxfeJwvIiu0llKL+c3NT1QiJyY466hWPAgCE7
+ fSB55WvF1N8uGntJO4nS1PfF5FFw0B74jry4BbKVpWnQMGYXyjReOVlOAP6LbMUvDSd+
+ 8bpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1698592069; x=1699196869;
+ d=1e100.net; s=20230601; t=1698592071; x=1699196871;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Rq2lTx4r6AxRWMwoBx4OQjZx3mpwnDbM/buzeUwRHtY=;
- b=jd3FQZT1RJ+umFOjRhakmh4178GC+OEY8LJucLB5XkKUiDv2/1NOjNRAVculb8SX8N
- bzVJRFRdYd0Q7Gn312Pq6t0NO19I3tte39II5vbwbUP0CoZQTigWcmLgBnQIgUTTpCQl
- qh9mnU1iSjVJlHavueYWiRjDsnwowsbpK+iOi96HgIkBDYA74whoutADHiZvIyYcUc+O
- w0v+F5Z/rUra1qO1wLlg6bVfdlkQJ1WkXC3tv+97A+7yoZvVTdJeErDKErqm1Wd2MVD2
- KFuuC4lqCr6V9BXGwkqmn5/lV8r570eMRbOsjKiHTLp860tZrxujdSEyfGU5erDn8Ub6
- 9TFQ==
-X-Gm-Message-State: AOJu0Ywiw2yj9c/KvoRRNDo3YV+Dpcm5UrC2UeOkjSNha+2exdE0/MFZ
- y0WqUCQHRAeYEP1t9de7ND5IybinyM0=
-X-Google-Smtp-Source: AGHT+IHqEqQMKupQeBAJEYNFdKsCoTID1AbZp8zrduE+qBv97MGFQtDmaZUFOCmKTxG5w1vSOlteIg==
-X-Received: by 2002:a17:902:c641:b0:1cc:2bd9:1b2d with SMTP id
- s1-20020a170902c64100b001cc2bd91b2dmr3052186pls.43.1698592069312; 
- Sun, 29 Oct 2023 08:07:49 -0700 (PDT)
+ bh=Lt1yPiSudbjGWZyU7fD8DRkiWRaUYJwJXas2ZsoVM40=;
+ b=DcTAMAIofTuP5VfiaBW1efdNA0O2ZT0H7gcs+5Tf1+fAyGmSCFovmmmhljcBQSjEKC
+ KexkjqWKB676Li7mqWG8Ldepbhy0XA01oVfK4vNarx+p0ctfZV3ITDvmqBilI4ASGR3b
+ ekTXattCeeac5qBRoBBl9kQCuFru9qcFqqnjHC/NhE1bGVQrvK5K8qHylqV9pXZdsUP7
+ 0F+o+2nqx+S+wxWv5BTGw1SClhCbsLi+ubkTkCvef3m5wvOzrIBcCF3Im4bnuZSCWzEJ
+ YqsWAap5N2qs+/AcIZWw8lmGM8B6iN/UfCCesI2HeXsS22Dlg7GQe1PRYLDe1o6pBjHq
+ wSjg==
+X-Gm-Message-State: AOJu0YxzOammMYvspJHY9LY08HkxpCROGRUW04HY2fMOWHJMg/Soxlx/
+ lMJVh7tCZk4MEoyfjUUEXDN8Vwdaw1g=
+X-Google-Smtp-Source: AGHT+IGCMUKh34gT5nl8CUjZ566Kd2FRN3OEZw5HRLc+unyF38DiiGuQSIWjSbXNTAFuqoOsPqb+tA==
+X-Received: by 2002:a05:6a21:7985:b0:159:b7ba:74bd with SMTP id
+ bh5-20020a056a21798500b00159b7ba74bdmr5750825pzc.50.1698592071558; 
+ Sun, 29 Oct 2023 08:07:51 -0700 (PDT)
 Received: from localhost (c-73-37-105-206.hsd1.or.comcast.net. [73.37.105.206])
  by smtp.gmail.com with ESMTPSA id
- q16-20020a170902dad000b001c5eb37e92csm4640408plx.305.2023.10.29.08.07.47
+ p22-20020a637f56000000b005b8ea15c338sm3466302pgn.62.2023.10.29.08.07.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 29 Oct 2023 08:07:48 -0700 (PDT)
+ Sun, 29 Oct 2023 08:07:50 -0700 (PDT)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 0/2] drm/msm/gem: Add metadata uapi
-Date: Sun, 29 Oct 2023 08:07:36 -0700
-Message-ID: <20231029150740.6434-1-robdclark@gmail.com>
+Subject: [PATCH v2 1/2] drm/msm: Small uabi fixes
+Date: Sun, 29 Oct 2023 08:07:37 -0700
+Message-ID: <20231029150740.6434-2-robdclark@gmail.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20231027194537.408922-1-robdclark@gmail.com>
 References: <20231027194537.408922-1-robdclark@gmail.com>
@@ -74,9 +74,7 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Rob Clark <robdclark@chromium.org>, Daniel Stone <daniels@collabora.com>,
- "open list:HIBERNATION aka Software Suspend,
- aka swsusp" <linux-pm@vger.kernel.org>, linux-arm-msm@vger.kernel.org,
- "Rafael J. Wysocki" <rafael@kernel.org>,
+ linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
  open list <linux-kernel@vger.kernel.org>, Sean Paul <sean@poorly.run>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Marijn Suijten <marijn.suijten@somainline.org>,
@@ -86,21 +84,36 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Rob Clark <robdclark@chromium.org>
 
-Add metadata mechanism to provide a back-channel to communicate image
-layout information between vk and gl, because EXT_external_objects
-doesn't support explicit modifiers and "OPTIMAL_TILING_EXT" is not
-enough information for the importer to deduce the layout.
+Correct the minor version exposed and error return value for
+MSM_INFO_GET_NAME.
 
-Rob Clark (2):
-  drm/msm: Small uabi fixes
-  drm/msm/gem: Add metadata
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+---
+ drivers/gpu/drm/msm/msm_drv.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
- drivers/gpu/drm/msm/msm_drv.c | 59 +++++++++++++++++++++++++++++++++--
- drivers/gpu/drm/msm/msm_gem.c |  1 +
- drivers/gpu/drm/msm/msm_gem.h |  4 +++
- include/uapi/drm/msm_drm.h    |  2 ++
- 4 files changed, 64 insertions(+), 2 deletions(-)
-
+diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+index 4bd028fa7500..781db689fb16 100644
+--- a/drivers/gpu/drm/msm/msm_drv.c
++++ b/drivers/gpu/drm/msm/msm_drv.c
+@@ -51,7 +51,7 @@
+  * - 1.11.0 - Add wait boost (MSM_WAIT_FENCE_BOOST, MSM_PREP_BOOST)
+  */
+ #define MSM_VERSION_MAJOR	1
+-#define MSM_VERSION_MINOR	10
++#define MSM_VERSION_MINOR	11
+ #define MSM_VERSION_PATCHLEVEL	0
+ 
+ static void msm_deinit_vram(struct drm_device *ddev);
+@@ -896,7 +896,7 @@ static int msm_ioctl_gem_info(struct drm_device *dev, void *data,
+ 		break;
+ 	case MSM_INFO_GET_NAME:
+ 		if (args->value && (args->len < strlen(msm_obj->name))) {
+-			ret = -EINVAL;
++			ret = -ETOOSMALL;
+ 			break;
+ 		}
+ 		args->len = strlen(msm_obj->name);
 -- 
 2.41.0
 
