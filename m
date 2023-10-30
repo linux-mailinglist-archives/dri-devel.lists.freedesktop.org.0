@@ -2,64 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30F777DBA19
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Oct 2023 13:47:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 967907DBA34
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Oct 2023 13:59:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 343D910E2B0;
-	Mon, 30 Oct 2023 12:47:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 84F2210E2B4;
+	Mon, 30 Oct 2023 12:59:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BDB9510E2B0;
- Mon, 30 Oct 2023 12:47:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1698670026; x=1730206026;
- h=message-id:date:mime-version:subject:from:to:cc:
- references:in-reply-to:content-transfer-encoding;
- bh=acCrsCNmaOONI9brAj/EA4NAdkInhvJZ2O3IwgG1etU=;
- b=aXQSBd9+GmreSxzvBdAjvkyjFZdOBQsxzJ//YoVQIYH13Qf5F+WPf2lI
- 4nMkd4evf3Eg3Cry2Vu5DDxjD8IFZ1cGG5eCCEXc9KFAcoYRK6i1dWizn
- /PjyONKXVC1g3daPQhNwcoxEnFhnWkTW/qo6/EkirYwopymmhlDTIN4U/
- rmMDNNCVp9DDlCM0IXWX4GFtQJ+w0hJJdX5hOsOMSzvoY7Mb1QxFqznsp
- EYrudwZiBxUMtToTXmLKTRmE/bvZUEXC+Q1AaC4AIMrSQMCZQk6lf8toL
- etmb06ohEKWc5TcPjA6U7IVqoorzS1ePzuqnj8NgrAzUda3iL04EGCAJW g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10878"; a="9596829"
-X-IronPort-AV: E=Sophos;i="6.03,263,1694761200"; 
-   d="scan'208";a="9596829"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
- by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Oct 2023 05:47:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.03,263,1694761200"; 
-   d="scan'208";a="1502059"
-Received: from igherghe-mobl1.ger.corp.intel.com (HELO [10.213.220.192])
- ([10.213.220.192])
- by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Oct 2023 05:47:02 -0700
-Message-ID: <2e9df6e9-fa6e-46d5-b2ff-4da0efb44d74@linux.intel.com>
-Date: Mon, 30 Oct 2023 12:47:00 +0000
+Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com
+ [209.85.167.200])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3935310E2C0
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Oct 2023 12:59:26 +0000 (UTC)
+Received: by mail-oi1-f200.google.com with SMTP id
+ 5614622812f47-3b2e2d3560bso5855731b6e.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Oct 2023 05:59:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1698670765; x=1699275565;
+ h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=KYlwkdlxBDJnjSpj7UK3/dNpXX/f8SXYnVcSUXIR3Ok=;
+ b=CPRKIiqD0zvP2qszNffVKqmWM82phei4B6eVaxCi5qYrfH5ebdle/xRAUd1T7Z0wnT
+ TwgRdsukL0L9Wa82a16QM9iRWuz0a9CYSLQRxjJbpQhMrjQllLQ/EAcYsUrFnnlYDea9
+ qkR8SuhyOS5RuN1K2jywEMj2Cl4W4xsC0u1hZw8Rwf8DgsBgbvAGPE4B1ZQoc7hGym9F
+ Dd7Il9xZA55duoCc6HKqg31TQKSEe2GN/mSxj5X/HlvU5tawWx0xcBsmy21WNy5oeZXI
+ MHYt0SVsi3MIeiGAdzyN30iEPpAo28UUWiNgnGR5ZxmSEPpxkGyUrm/5inxuxDp1JWs6
+ sZ7w==
+X-Gm-Message-State: AOJu0YxhoOE/aTqKUXsBCOvYOQ5+HCd4A1U14H2VUb8faBxzsW6RceZX
+ hrADgnqs9dGJroIxwW5m/5XaxHMNbw9lJU4sYH8q+NVl2tiR8Z0=
+X-Google-Smtp-Source: AGHT+IFb6iqIiK1NsOdGRbOQD7hykE32UIqiv3/ZVB6ARz1HbFbBPtE5eoAfMq76OsabpPS2qcoTgFHW+Lq1o8kCesXEkhZ9DX61
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] i915/perf: Fix NULL deref bugs with drm_dbg() calls
-Content-Language: en-US
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-To: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>,
- Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>,
- Matt Roper <matthew.d.roper@intel.com>,
- Lionel Landwerlin <lionel.g.landwerlin@intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20231027172822.2753059-1-harshit.m.mogalapalli@oracle.com>
- <29c2bf2b-82b1-457d-ba42-29b0b30ecf32@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <29c2bf2b-82b1-457d-ba42-29b0b30ecf32@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a05:6808:6c2:b0:3b2:ec65:39a0 with SMTP id
+ m2-20020a05680806c200b003b2ec6539a0mr3483838oih.5.1698670765420; Mon, 30 Oct
+ 2023 05:59:25 -0700 (PDT)
+Date: Mon, 30 Oct 2023 05:59:25 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <00000000000090385d0608ee9b1b@google.com>
+Subject: [syzbot] Monthly dri report (Oct 2023)
+From: syzbot <syzbot+listfa54de280740e25bf828@syzkaller.appspotmail.com>
+To: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,80 +55,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, error27@gmail.com,
- dan.carpenter@linaro.org, Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hello dri maintainers/developers,
 
-On 27/10/2023 18:38, Tvrtko Ursulin wrote:
-> 
-> On 27/10/2023 18:28, Harshit Mogalapalli wrote:
->> When i915 perf interface is not available dereferencing it will lead to
->> NULL dereferences.
->>
->> As returning -ENOTSUPP is pretty clear return when perf interface is not
->> available.
->>
->> Fixes: 2fec539112e8 ("i915/perf: Replace DRM_DEBUG with driver 
->> specific drm_dbg call")
->> Suggested-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->> Signed-off-by: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
->> ---
->> v1 --> v2: Remove the debug calls as they don't add much value and
->> -ENOTSUPP is a good enough return value.
->> ---
->>   drivers/gpu/drm/i915/i915_perf.c | 15 +++------------
->>   1 file changed, 3 insertions(+), 12 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/i915/i915_perf.c 
->> b/drivers/gpu/drm/i915/i915_perf.c
->> index 2f3ecd7d4804..7b1c8de2f9cb 100644
->> --- a/drivers/gpu/drm/i915/i915_perf.c
->> +++ b/drivers/gpu/drm/i915/i915_perf.c
->> @@ -4227,11 +4227,8 @@ int i915_perf_open_ioctl(struct drm_device 
->> *dev, void *data,
->>       u32 known_open_flags;
->>       int ret;
->> -    if (!perf->i915) {
->> -        drm_dbg(&perf->i915->drm,
->> -            "i915 perf interface not available for this system\n");
->> +    if (!perf->i915)
->>           return -ENOTSUPP;
->> -    }
->>       known_open_flags = I915_PERF_FLAG_FD_CLOEXEC |
->>                  I915_PERF_FLAG_FD_NONBLOCK |
->> @@ -4607,11 +4604,8 @@ int i915_perf_add_config_ioctl(struct 
->> drm_device *dev, void *data,
->>       struct i915_oa_reg *regs;
->>       int err, id;
->> -    if (!perf->i915) {
->> -        drm_dbg(&perf->i915->drm,
->> -            "i915 perf interface not available for this system\n");
->> +    if (!perf->i915)
->>           return -ENOTSUPP;
->> -    }
->>       if (!perf->metrics_kobj) {
->>           drm_dbg(&perf->i915->drm,
->> @@ -4773,11 +4767,8 @@ int i915_perf_remove_config_ioctl(struct 
->> drm_device *dev, void *data,
->>       struct i915_oa_config *oa_config;
->>       int ret;
->> -    if (!perf->i915) {
->> -        drm_dbg(&perf->i915->drm,
->> -            "i915 perf interface not available for this system\n");
->> +    if (!perf->i915)
->>           return -ENOTSUPP;
->> -    }
->>       if (i915_perf_stream_paranoid && !perfmon_capable()) {
->>           drm_dbg(&perf->i915->drm,
-> 
-> Thanks for re-spinning it so quickly! LGTM.
-> 
-> Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+This is a 31-day syzbot report for the dri subsystem.
+All related reports/information can be found at:
+https://syzkaller.appspot.com/upstream/s/dri
 
-Now merged to drm-intel-gt-next. Thanks again!
+During the period, 1 new issues were detected and 0 were fixed.
+In total, 15 issues are still open and 30 have been fixed so far.
 
-Regards,
+Some of the still happening issues:
 
-Tvrtko
+Ref Crashes Repro Title
+<1> 375     Yes   WARNING in drm_wait_one_vblank
+                  https://syzkaller.appspot.com/bug?extid=6f7fe2dbc479dca0ed17
+<2> 110     Yes   WARNING in vkms_get_vblank_timestamp (2)
+                  https://syzkaller.appspot.com/bug?extid=93bd128a383695391534
+<3> 78      Yes   WARNING in drm_syncobj_array_find
+                  https://syzkaller.appspot.com/bug?extid=95416f957d84e858b377
+<4> 35      Yes   inconsistent lock state in sync_info_debugfs_show
+                  https://syzkaller.appspot.com/bug?extid=007bfe0f3330f6e1e7d1
+<5> 22      Yes   KMSAN: uninit-value in drm_mode_setcrtc
+                  https://syzkaller.appspot.com/bug?extid=4fad2e57beb6397ab2fc
+<6> 4       Yes   WARNING in drm_gem_object_handle_put_unlocked
+                  https://syzkaller.appspot.com/bug?extid=ef3256a360c02207a4cb
+<7> 3       Yes   kernel BUG in vmf_insert_pfn_prot (2)
+                  https://syzkaller.appspot.com/bug?extid=398e17b61dab22cc56bc
+<8> 2       Yes   WARNING in drm_prime_fd_to_handle_ioctl
+                  https://syzkaller.appspot.com/bug?extid=0da81ccba2345eeb7f48
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+To disable reminders for individual bugs, reply with the following command:
+#syz set <Ref> no-reminders
+
+To change bug's subsystems, reply with:
+#syz set <Ref> subsystems: new-subsystem
+
+You may send multiple commands in a single email message.
