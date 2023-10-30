@@ -2,67 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 567C57DB923
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Oct 2023 12:41:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF30B7DB751
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Oct 2023 11:02:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 63C8010E0AD;
-	Mon, 30 Oct 2023 11:41:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A96610E27A;
+	Mon, 30 Oct 2023 10:02:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 19F5F10E277
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Oct 2023 10:02:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=s31663417; t=1698660110; x=1699264910; i=wahrenst@gmx.net;
- bh=U6aXOU8MjaQJrPBLw3WQSy7ktbaB1Objuy/SnhKF4Fo=;
- h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
- In-Reply-To;
- b=ASTxbsVL29kXM1jX8qVX30wEL/tgqu2fG4JXexXlNhzva7MVIX4dabUGSsIYmb8G
- e4WLZThCXPwukzqQyT8YdGcpS3vdPacyNRPE3P1PMK3+OHxtsj1TNLLYAn4/NTczs
- PzVffwIpjMs6fsirz2AKptOCJ9Z7bQ4Hq3DnJ17V4hOMNkSWC2oppSc16vG8O1Ote
- tbPNVUFpittzKDvAOWocUv/ftg0eryG3AAaoAnQYeqCDlrqeVNoRE9UunQcsgYFG5
- 4lMQgRYOJxRNd1b48OR6Sf+QT3pk85s3k9C1jlIc/kYUMMUMhaN18eKAXgRKUZ8a/
- KaATUFDYhrOIcDIeVw==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.1.129] ([37.4.248.43]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MvK4f-1rnzg43R1l-00rJuO; Mon, 30
- Oct 2023 11:01:49 +0100
-Message-ID: <515d8a40-c997-415c-9d05-38d9ca2e40a0@gmx.net>
-Date: Mon, 30 Oct 2023 11:01:49 +0100
+Received: from mail-yw1-x1130.google.com (mail-yw1-x1130.google.com
+ [IPv6:2607:f8b0:4864:20::1130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 88CF110E277
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Oct 2023 10:02:03 +0000 (UTC)
+Received: by mail-yw1-x1130.google.com with SMTP id
+ 00721157ae682-5a7eef0b931so37686497b3.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Oct 2023 03:02:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1698660122; x=1699264922; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=7lO5+taRGYUV3utFVgJLnLNjNxmtaBHkPbnYDUDIen4=;
+ b=DAhG0EzE8W6GRA/wb6HGg5Py18gNnCEEsbFGLXzuO31csDZSEsk64Y6eoBblTu4gDv
+ 4TZXkCEgBr7OtO6Qgf7yappCIVKWyKfrPPgsOgMrHgSaD9yALCBVMbzubsv//6TlTcM9
+ qBSYqtmwkfKqj7z8GN2FpsMqrv0lbgpVNtUFiq9n7UZVdqxm8qpMDCJ10fZYfsRr2/lB
+ jGeBmmy+PF9GiEyYCwXiNMPpPPG+8PB9b7oT9ci5rNY2EB5qpCh8zqC6Uc0TZMrlhGHK
+ FHxjVpaCgTs/xM3KiT/Ep/VQkWFlY21bYxHyC92dnm1zbL7R62Ac9OnDQtmA0u0r03MI
+ sL+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1698660122; x=1699264922;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=7lO5+taRGYUV3utFVgJLnLNjNxmtaBHkPbnYDUDIen4=;
+ b=Dm/mhlW9LfwwI7NgTxXT7XRjeGuvUptHGG5rAvsvQDr6a4GMG9VmWSwzHRal7qVi+A
+ LL/eiL6vVdNabyq5/Z7DPybxgYLple0E7f17Fyn1+UJ+cXf/Jmu7fX9px8QiTLt1c8na
+ ohQ4HHAoY9Pd68kVuVRNa7ZwowEctX5wcrv/b0/nHocZFzh8X4yiAl52ICCLOnMF6hqp
+ hxLp7WqhRas1b1bMN8qRc9cqRjVO86lK1t5tDHg/I3L6c9pYJ2R8fL8QDDVspRFS0AQR
+ d379wk102Es8Kze+01vFf8A4RdYjB1WYZKZYGEJT3qa0hVtbes7JH+pcgP8GcBVyj5um
+ DO1w==
+X-Gm-Message-State: AOJu0YwZpqNihVjpfiR+bOY0femRo62KPaSe58HX0Ws0EVeCtLgSj2N9
+ caaPVVTtF20NxNVbu0WDNnAJBCCIcHR4ZEtsNwDwSw==
+X-Google-Smtp-Source: AGHT+IHMOnW5IIvkllnN98d7WTlfIttakT+UyeassCtYZ55EdxcFVw1ThJqTcmAYaOcLODaGTVh67pjcINcwpLY061A=
+X-Received: by 2002:a81:4413:0:b0:59b:eab8:7ac6 with SMTP id
+ r19-20020a814413000000b0059beab87ac6mr9995171ywa.42.1698660122684; Mon, 30
+ Oct 2023 03:02:02 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 4/4] drm/v3d: add brcm,2712-v3d as a compatible V3D
- device
-Content-Language: en-US
-To: Iago Toral Quiroga <itoral@igalia.com>, Maira Canal <mcanal@igalia.com>,
- dri-devel@lists.freedesktop.org
-References: <20231030082858.30321-1-itoral@igalia.com>
- <20231030082858.30321-5-itoral@igalia.com>
-From: Stefan Wahren <wahrenst@gmx.net>
-In-Reply-To: <20231030082858.30321-5-itoral@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:5sNmlY1E6PZLNebbpNxEJl2kwoRQXeFRtlFATl3wcBHuOgh+kLA
- CWT0yClmfB5k3sGcdhCSiz1+iij/Wwx0BBpQx6qp94j6FBokZmIBFWjsEXYr23OO0a5mJZB
- +FRS9Hf49Ukk+y46UtYoZiyZoUqoDrEgrlVv48QnWh4IwbYzpk6ZTreADsnb0kjDFrP3jkx
- S7i3pJysLsvgiKsbnQP0A==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:9qmRT17Cy6M=;tXBmkEk+fii/Cp1D4+y1BcVhABX
- hIZ0jf0m6Jw3/QWG3MHaeeRNHbPyx/e/Mr3uHtgMFCYodpUm/cHRVjyIcTqRe2JbWX3VbdFhV
- r7LKJEvka457Ofj/+AfXiqI/7q9zsbOI+Pxi/rPnjJXOBODFzOduNExjskLzgVxOQftn1jwId
- uaQXlpu0lZ5fY7EiKefZzuZ1JZB+0ANNLKSO3jXDGdhP55louFONxE6TnixW+qAVb2GpKe2L6
- Re6/GtqIH4mjqc1IFjbeFX8YNWsppydTeRHaOzBFRRoHk4VlF0fubMbsHrG1Cshw00opeRtUM
- S1v+Y7ACiYZ8PRkwlFGnqSd/8K278FmxCAbqPc0THFCkWGDgRXujkRRnXMy6DqFDltZBsqwsH
- 4IAYzDCwnvjbGAiJQ2b3p8bDB8IZ2g8YNmS77Jk4oBa5N+vdQi0VC18T3wBB6HSdnKoh3PD1g
- 4NwWn2qPpA19qfVEAhQd7QMDvVJdd1GWT9v1kUXomAdAAFRox8qr2zY3LMRCzT/ptRIhT3/3p
- aWE0F7u35nffmczUFZiJps2xCFWTBDNQGGsRFrPkD+3bn5Iox8AobPuFsal/fmpv99fs7YElk
- uj3XRgcrtk610rhM0tLO/7cMsIYy1cuMJAy0MgkQg5odqRNEfWZWnSoZuUGeW0ixLdvGWPIpP
- F7n2OvzvDFx63iQJ/oYeqKn46EtfCiu8sqk5/kK0S9viPU/xfzY2QYjwagBy7vItyfKk22VIK
- 0B1z4YApIf7dOuTmq9VakBCoxmXpMBf7at4kixM4zj5jgS1MPsHmOxFKTs4PE0/S3wPKFPzNn
- NiZDGdRLUF+OzvmsWZ7mdeKdcM/c/rmVcYQY+Wr0ZapOK3BoXZ4SmZBtC95C2bNHq15QwP/e/
- znqbSIwjZIkwOlou9AJ7i0CDPnrZ4qQ9aygYwQTZe+toN68JkEJEWkkG4KzHV49Y9Menq5w+W
- S8QBbXnRf/rbtjlyqu6DPhM1RjM=
-X-Mailman-Approved-At: Mon, 30 Oct 2023 11:41:13 +0000
+References: <20231029194607.379459-1-suijingfeng@loongson.cn>
+ <20231029194607.379459-3-suijingfeng@loongson.cn>
+ <CAA8EJprjQXcTgxnC1POaBjVBzyVBvKpmKyJcCR5ExRUhVxtYoQ@mail.gmail.com>
+ <3ccb9600-6990-4ec7-81de-0d7b4e1294eb@loongson.cn>
+In-Reply-To: <3ccb9600-6990-4ec7-81de-0d7b4e1294eb@loongson.cn>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Mon, 30 Oct 2023 12:01:51 +0200
+Message-ID: <CAA8EJpqCe2j3GyeutnwTB0bkGXGk0az9-w3sPHLFwMVgAS=e7g@mail.gmail.com>
+Subject: Re: [PATCH 2/8] drm/loongson: Introduce a drm bridge driver for
+ it66121 HDMI transmitter
+To: Sui Jingfeng <suijingfeng@loongson.cn>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,42 +70,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nicolas Saenz Julienne <nsaenz@kernel.org>, Emma Anholt <emma@anholt.net>,
- Melissa Wen <mwen@igalia.com>, Rob Herring <robh+dt@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Maxime Ripard <mripard@kernel.org>, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Iago,
-
-Am 30.10.23 um 09:28 schrieb Iago Toral Quiroga:
-> This is required to get the V3D module to load with Raspberry Pi 5.
+On Mon, 30 Oct 2023 at 11:42, Sui Jingfeng <suijingfeng@loongson.cn> wrote:
 >
-> v2:
->   - added s-o-b and commit message. (Ma=C3=ADra)
->   - keep order of compatible strings. (Stefan Wahren)
-as in the other patch, please move the changelog below --- or in the
-cover letter.
-
-Except of this:
-
-Reviewed-by: Stefan Wahren <wahrenst@gmx.net>
+> Hi,
 >
-> Signed-off-by: Iago Toral Quiroga <itoral@igalia.com>
-> ---
->   drivers/gpu/drm/v3d/v3d_drv.c | 1 +
->   1 file changed, 1 insertion(+)
 >
-> diff --git a/drivers/gpu/drm/v3d/v3d_drv.c b/drivers/gpu/drm/v3d/v3d_drv=
-.c
-> index ffbbe9d527d3..1ab46bdf8ad7 100644
-> --- a/drivers/gpu/drm/v3d/v3d_drv.c
-> +++ b/drivers/gpu/drm/v3d/v3d_drv.c
-> @@ -187,6 +187,7 @@ static const struct drm_driver v3d_drm_driver =3D {
+> On 2023/10/30 06:53, Dmitry Baryshkov wrote:
+> > On Sun, 29 Oct 2023 at 21:46, Sui Jingfeng <suijingfeng@loongson.cn> wrote:
+> >> The IT66121 is a DVO to HDMI converter, LS3A5000+LS7A1000 ML5A_MB use this
+> >> chip to support HDMI output. Thus add a drm bridge based driver for it.
+> >> This patch is developed with drivers/gpu/drm/bridge/ite-it66121.c as base.
+> > Please use the original bridge driver instead of adding a new one.
 >
->   static const struct of_device_id v3d_of_match[] =3D {
->   	{ .compatible =3D "brcm,2711-v3d" },
-> +	{ .compatible =3D "brcm,2712-v3d" },
->   	{ .compatible =3D "brcm,7268-v3d" },
->   	{ .compatible =3D "brcm,7278-v3d" },
->   	{},
+> I'm agree with the spirit of code sharing, but this is nearly impossible for non-DT system.
+>
+> Because the original bridge driver(say it66121.ko) is fully dependent on the DT.
 
+I can not agree here. It doesn't depend on DT. It has fully populated
+i2c_device_id structures, so it will work with bare I2C buses.
+Most likely you will have to change of calls into fwnode calls, that's it.
+
+> UEFI+ACPI based system can not use with it.
+>
+> Our I2C adapter is created by the drm/loongson.ko on the runtime.
+> The potential problem is that *cyclic dependency* !
+>
+> I2C adapter driver is depend on drm/loongson
+> drm/loongson depend on drm bridge driver (say it66121.ko)
+> drm bridge driver (say it66121.ko) depend on I2C adapter to setup.
+>
+> This plus the defer probe mechanism is totally a trap,
+> incurring troubles and don't work.
+
+Welcome. We had this kind of issue for DP AUX buses.
+
+I can suggest the following approach:
+- In the root probe function you can create an i2c bus and populate it
+with the i2c devices.
+- I have not checked whether you use components or not. If not, please
+use an auxiliary or a platform device for the main DRM functionality.
+- In the subdevice probe / bind function you check for the next
+bridge. Then you get one of the following:drm_bridge pointer,
+-EPROBE_DEFER, or any other error case. Your driver can react
+accordingly.
+
+Basically duplicating the existing driver code is not really a way to
+go. Consider somebody adding a new feature or fixing a bug in your
+driver copy. Then they have to check if the fix applies to the driver
+at drivers/gpu/drm/bridge/ite-it66121.c. And vice versa. After fixing
+an issue in the standard driver one has to keep in mind to check your
+private copy.
+
+So, please, use the OF code as an inspiration and register all your
+devices in the device tree. Yes, this requires some effort from your
+side. Yes, this pays off in the longer distance.
+
+> >   If
+> > it needs to be changed in any way, please help everyone else by
+> > improving it instead of introducing new driver.
+> >
+> >> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
+> >> ---
+> >>   drivers/gpu/drm/loongson/Kconfig            |   1 +
+> >>   drivers/gpu/drm/loongson/Makefile           |   2 +
+> >>   drivers/gpu/drm/loongson/ite_it66121.c      | 749 ++++++++++++++++++++
+> >>   drivers/gpu/drm/loongson/ite_it66121.h      |  19 +
+> >>   drivers/gpu/drm/loongson/ite_it66121_regs.h | 268 +++++++
+> >>   5 files changed, 1039 insertions(+)
+> >>   create mode 100644 drivers/gpu/drm/loongson/ite_it66121.c
+> >>   create mode 100644 drivers/gpu/drm/loongson/ite_it66121.h
+> >>   create mode 100644 drivers/gpu/drm/loongson/ite_it66121_regs.h
+
+
+-- 
+With best wishes
+Dmitry
