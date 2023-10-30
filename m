@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA7B87DBA9B
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Oct 2023 14:23:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AFC17DBA99
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Oct 2023 14:23:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D90F510E2BE;
-	Mon, 30 Oct 2023 13:23:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7775010E2BA;
+	Mon, 30 Oct 2023 13:23:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AFC3010E0D7
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Oct 2023 13:23:08 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8894610E2B7
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Oct 2023 13:23:09 +0000 (UTC)
 Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it
  [2.237.20.237])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id CC49E6607388;
- Mon, 30 Oct 2023 13:23:06 +0000 (GMT)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id A6ED16607389;
+ Mon, 30 Oct 2023 13:23:07 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1698672187;
- bh=3dUd841wLvR/syQt4DasoXOByTVGgSmSqikDkfeYRv4=;
+ s=mail; t=1698672188;
+ bh=Rs2Tz2duxz0x7ijP2hn/7R66LzyseqbsHizTc5CA0MU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ayouEfh8u3VjZQoJfUNqaL1sbnU0XUvwScA51bRYXidoKUIU/WrrDyTxp2rZzk/LP
- Lz6bliSbO/x++VGiLXTCQ6ZzPXf3YDlOvkarhJwtIUppx4ey32GL7oOqNi1TOMzNXD
- xdnxo2z4Eufu3n2Vcn8p63HOxr1zZPjlw6FbbLFRgPQno90w/DyNpCW2rTf5mBCj6p
- 8jRURbNTgJPcaYq7LiGcCknoQgGcfBP5X46xsGHN32maWsaCVY03uaeyKsHbG/vaRu
- B3u2Kt3FUjSW/1Bt6Ab9yNw984J1Psqv1J9ea8BC6R50iiYkFSkgYFaKqef0zf1OWs
- IUzLvoG0fQ7Rg==
+ b=dANsBif0cystNlFAFmjXOVWt1FQRW4An0MoKDZ1S/uaiNZ4O5spk4rfppG/x8r8ZC
+ w4tfGGx2x5WQi4a+9dOnwBqJ1b2Vz3nC6QLcAytkxYiFN6nxgxMZlqByhd1TAeHVs0
+ TrXbu20VSWk/KaHTMNAYBuysmkNRFUpkPj6a2IswsVzE9sWSgYsF/CIwMPaFHT7XiO
+ PHYI50bSQtQEaOdnDSjjMsZiLxMYF2sbwCtOuax1v1kTNMZiaPjuomZuID/Sj9NCbH
+ SOoEfMCgmQpGtcAoSHiU8NBzpozL3UJfLmsjFNM5o3m39LeCnYmWJ15/Hh21ERC1BX
+ 7iKtkLTr0vk+g==
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 To: boris.brezillon@collabora.com
-Subject: [PATCH 3/4] drm/panfrost: Implement ability to turn on/off regulators
- in suspend
-Date: Mon, 30 Oct 2023 14:22:56 +0100
-Message-ID: <20231030132257.85379-4-angelogioacchino.delregno@collabora.com>
+Subject: [PATCH 4/4] drm/panfrost: Set regulators on/off during system sleep
+ on MediaTek SoCs
+Date: Mon, 30 Oct 2023 14:22:57 +0100
+Message-ID: <20231030132257.85379-5-angelogioacchino.delregno@collabora.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231030132257.85379-1-angelogioacchino.delregno@collabora.com>
 References: <20231030132257.85379-1-angelogioacchino.delregno@collabora.com>
@@ -59,80 +59,58 @@ Cc: linux-kernel@vger.kernel.org, mripard@kernel.org, steven.price@arm.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some platforms/SoCs can power off the GPU entirely by completely cutting
-off power, greatly enhancing battery time during system suspend: add a
-new pm_feature GPU_PM_VREG_OFF to allow turning off the GPU regulators
-during full suspend only on selected platforms.
+All of the MediaTek SoCs supported by Panfrost can completely cut power
+to the GPU during full system sleep without any user-noticeable delay
+in the resume operation, as shown by measurements taken on multiple
+MediaTek SoCs.
+
+As an example, for MT8195 - a "before" with only runtime PM operations
+(so, without turning on/off regulators), and an "after" executing full
+system sleep .resume() handler (.resume() -> .runtime_resume() -> done):
+
+Average Panfrost-only system sleep resume time, before: 114186ns
+Average Panfrost-only system sleep resume time, after:  189684ns
+
+Keep in mind that this additional ~0,075ms delay happens only in resume
+from a full system suspend, and not in runtime PM operations, hence it
+is acceptable.
 
 Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 ---
- drivers/gpu/drm/panfrost/panfrost_device.c | 19 ++++++++++++++++++-
- drivers/gpu/drm/panfrost/panfrost_device.h |  2 ++
- 2 files changed, 20 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/panfrost/panfrost_drv.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_device.c b/drivers/gpu/drm/panfrost/panfrost_device.c
-index 2022ed76a620..51b22eb0971d 100644
---- a/drivers/gpu/drm/panfrost/panfrost_device.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_device.c
-@@ -431,10 +431,21 @@ static int panfrost_device_resume(struct device *dev)
- 	struct panfrost_device *pfdev = dev_get_drvdata(dev);
- 	int ret;
- 
-+	if (pfdev->comp->pm_features & BIT(GPU_PM_VREG_OFF)) {
-+		unsigned long freq = pfdev->pfdevfreq.fast_rate;
-+		struct dev_pm_opp *opp;
-+
-+		opp = dev_pm_opp_find_freq_ceil(dev, &freq);
-+		if (IS_ERR(opp))
-+			return PTR_ERR(opp);
-+		dev_pm_opp_put(opp);
-+		dev_pm_opp_set_opp(dev, opp);
-+	}
-+
- 	if (pfdev->comp->pm_features & BIT(GPU_PM_CLK_DIS)) {
- 		ret = clk_enable(pfdev->clock);
- 		if (ret)
--			return ret;
-+			goto err_clk;
- 
- 		if (pfdev->bus_clock) {
- 			ret = clk_enable(pfdev->bus_clock);
-@@ -455,6 +466,9 @@ static int panfrost_device_resume(struct device *dev)
- err_bus_clk:
- 	if (pfdev->comp->pm_features & BIT(GPU_PM_CLK_DIS))
- 		clk_disable(pfdev->clock);
-+err_clk:
-+	if (pfdev->comp->pm_features & BIT(GPU_PM_VREG_OFF))
-+		dev_pm_opp_set_opp(dev, NULL);
- 	return ret;
- }
- 
-@@ -474,6 +488,9 @@ static int panfrost_device_suspend(struct device *dev)
- 			clk_disable(pfdev->bus_clock);
- 	}
- 
-+	if (pfdev->comp->pm_features & BIT(GPU_PM_VREG_OFF))
-+		dev_pm_opp_set_opp(dev, NULL);
-+
- 	return 0;
- }
- 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
-index d7f179eb8ea3..0fc558db6bfd 100644
---- a/drivers/gpu/drm/panfrost/panfrost_device.h
-+++ b/drivers/gpu/drm/panfrost/panfrost_device.h
-@@ -28,9 +28,11 @@ struct panfrost_perfcnt;
- /**
-  * enum panfrost_gpu_pm - Supported kernel power management features
-  * @GPU_PM_CLK_DIS:  Allow disabling clocks during system suspend
-+ * @GPU_PM_VREG_OFF: Allow turning off regulators during system suspend
-  */
- enum panfrost_gpu_pm {
- 	GPU_PM_CLK_DIS,
-+	GPU_PM_VREG_OFF,
+diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
+index 82f3c5fe9c58..f63382d9ab04 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_drv.c
++++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
+@@ -734,7 +734,7 @@ static const struct panfrost_compatible mediatek_mt8183_b_data = {
+ 	.supply_names = mediatek_mt8183_b_supplies,
+ 	.num_pm_domains = ARRAY_SIZE(mediatek_mt8183_pm_domains),
+ 	.pm_domain_names = mediatek_mt8183_pm_domains,
+-	.pm_features = BIT(GPU_PM_CLK_DIS),
++	.pm_features = BIT(GPU_PM_CLK_DIS) | BIT(GPU_PM_VREG_OFF),
  };
  
- struct panfrost_features {
+ static const char * const mediatek_mt8186_pm_domains[] = { "core0", "core1" };
+@@ -743,7 +743,7 @@ static const struct panfrost_compatible mediatek_mt8186_data = {
+ 	.supply_names = mediatek_mt8183_b_supplies,
+ 	.num_pm_domains = ARRAY_SIZE(mediatek_mt8186_pm_domains),
+ 	.pm_domain_names = mediatek_mt8186_pm_domains,
+-	.pm_features = BIT(GPU_PM_CLK_DIS),
++	.pm_features = BIT(GPU_PM_CLK_DIS) | BIT(GPU_PM_VREG_OFF),
+ };
+ 
+ static const char * const mediatek_mt8192_supplies[] = { "mali", NULL };
+@@ -754,7 +754,7 @@ static const struct panfrost_compatible mediatek_mt8192_data = {
+ 	.supply_names = mediatek_mt8192_supplies,
+ 	.num_pm_domains = ARRAY_SIZE(mediatek_mt8192_pm_domains),
+ 	.pm_domain_names = mediatek_mt8192_pm_domains,
+-	.pm_features = BIT(GPU_PM_CLK_DIS),
++	.pm_features = BIT(GPU_PM_CLK_DIS) | BIT(GPU_PM_VREG_OFF),
+ };
+ 
+ static const struct of_device_id dt_match[] = {
 -- 
 2.42.0
 
