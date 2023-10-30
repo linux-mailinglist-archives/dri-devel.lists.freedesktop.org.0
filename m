@@ -1,92 +1,81 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6E797DB854
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Oct 2023 11:37:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 004987DB893
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Oct 2023 11:58:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5D4210E29B;
-	Mon, 30 Oct 2023 10:36:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E8A5410E0EB;
+	Mon, 30 Oct 2023 10:58:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com
- [IPv6:2a00:1450:4864:20::230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 61F3210E29A
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Oct 2023 10:36:54 +0000 (UTC)
-Received: by mail-lj1-x230.google.com with SMTP id
- 38308e7fff4ca-2c50d1b9f22so56433491fa.0
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Oct 2023 03:36:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1698662212; x=1699267012; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=DA6PVD1pNqlF4BUixIYFQIvuTNht/64ah3v95olbiNw=;
- b=fwGTt0jMnjf7Txab/2NahDrz6SofRAcHYl/CtknIGUwaJ8pdz5ezzHmEFLRpjoVb2U
- 7K3Y6fQ2HPnfKVhow7EywfYHBtOPxfn+kZzZjDlh60W7Do+LYuGV8HaiolAsBFEdlf7F
- p97gtBQ+7DCodtbHxVskKVs/WEbNW6yyRzHbnIxa3+R6Nl7t6QMw9pSuOIfK3DkYdD7x
- lFodhkks9a42rrkhoNJrPvksHUEF7VQXSH259fuuVvSptLz/Cm5yBzY/hMwIonto3D44
- sLxDNEK+LqggPUOAuhYMZP+KcnG81DrjRF3Ry927WjbpjsLcd7ATL8jBZ0+jo99yp0WD
- qMKA==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C63610E0EB
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Oct 2023 10:58:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1698663511;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+PBWmUbR3sC5ly5YhdtKnx9vXPHu8wxlK1hmeHOwoTA=;
+ b=H8G2jdsCMKkVs0lmZkunDaEaF73K0VLs47TLjtVnD1Cb3h+gKuJfrJ/pZBBwB2iGnqKrjv
+ tfsqN44tKc8q4sLObV0Q5Mv4FKDcBraEYoVKWilsbQTHx35eD0i/3eMeqv7sLE14proI91
+ rN2WE5/6XQR41hBJ2gQH4+1HamTBV/E=
+Received: from mail-ot1-f71.google.com (mail-ot1-f71.google.com
+ [209.85.210.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-86-HtScAU8PNO2l1lNYTJJyZg-1; Mon, 30 Oct 2023 06:58:25 -0400
+X-MC-Unique: HtScAU8PNO2l1lNYTJJyZg-1
+Received: by mail-ot1-f71.google.com with SMTP id
+ 46e09a7af769-6ce26d7fd45so5999545a34.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Oct 2023 03:58:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1698662212; x=1699267012;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=DA6PVD1pNqlF4BUixIYFQIvuTNht/64ah3v95olbiNw=;
- b=igKjvN60ZFFPoGdZYSsUEW2s/xBcTD4/ru+ZL+TaXVPJuFCQnuPmpI0T2duJ/9zCG3
- LauBvimbu+Y0xVed2spPPHNsmQPcqhqUwexn7nP0hIGboiWWMfBKVDXqWHOD49dLh8MJ
- LhzFeC613dbXLPoqSIe8bKld5fM822n/j8KVFQMpWf5CUkrxHm/Q0+RZyPlquWkhg4KF
- CHWKKapXlIG7RqUK6xHS7mmP5c7FxK1H3NgHbVAK5iSrp5msynD9vlDg6Sal93QIxeOR
- EzSS1qoiFvXbAH8puNUvCKeh+lPqoZ3Iuc6f0Z6iwr1ARC4KECUzQ5Esv/QYMevE26jJ
- mAMA==
-X-Gm-Message-State: AOJu0YwDFnyAHRtZlzSzEdvk8VwjJFdlklateM4fU4GTDoDySA1r8huK
- +nQU9edsvRRA7QQBYjVcxQ4Oug==
-X-Google-Smtp-Source: AGHT+IF5rt60Krlu4XkRUEi0s9/CrfpATLDmDfv9/0Mtg2XZ+mRpHAfn82dZyCp8UC9qcW9Jh7dTgQ==
-X-Received: by 2002:a2e:9184:0:b0:2c5:1ad3:7798 with SMTP id
- f4-20020a2e9184000000b002c51ad37798mr7355852ljg.52.1698662212627; 
- Mon, 30 Oct 2023 03:36:52 -0700 (PDT)
-Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
- by smtp.gmail.com with ESMTPSA id
- r5-20020a05600c458500b004060f0a0fd5sm8783209wmo.13.2023.10.30.03.36.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 Oct 2023 03:36:52 -0700 (PDT)
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Date: Mon, 30 Oct 2023 11:36:30 +0100
-Subject: [PATCH v2 8/8] drm/msm: dsi: add support for DSI 2.8.0
+ d=1e100.net; s=20230601; t=1698663504; x=1699268304;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=+PBWmUbR3sC5ly5YhdtKnx9vXPHu8wxlK1hmeHOwoTA=;
+ b=wtOja5X9nQCo2OrIUceag6nQoEYplqknnC63riKp8uWys/cFUkUjeMW0X8xcdbRa4X
+ 7lPBkVwcZsATi0uAa847gINyhgvVZTEKsun97RQxkmglbORL4p3cbwHucy+pdlq9AuIy
+ tu86uRcshKpmo5+m0gJkzRII6QQObzt7Fcs5wAjasRwYzd4OtVc2lfBa2Pw4aKGSJPLr
+ Ka1cPx0i+PJUm6xpkHwdaSIfgQDitsMntzRksMkYn4RImUuPFV75rHLRpMSWEGQUhBv6
+ NJYy2OgWF9WPbtXDb13qaNwoF3mgHWnED3eY4N9/bkoQBE/kvmfOQURWhMcyXGpaI3Ry
+ m16Q==
+X-Gm-Message-State: AOJu0Yw4PdAaMXHZGVVei3SGd4u/efNH/r+Qz6PmTAoDeQtW8VBUznuM
+ 0EVl/y7RkBpAYet5PJ/zQwip7j7FEViJXyRCz2PXt68ZuSda1URA/0rPdedgZDa/UYkn11hJgAc
+ ALjyF0lvfzKEG9JXk6YBSRTj59aI=
+X-Received: by 2002:a9d:6d18:0:b0:6ce:1fa7:fa0c with SMTP id
+ o24-20020a9d6d18000000b006ce1fa7fa0cmr8683373otp.30.1698663504523; 
+ Mon, 30 Oct 2023 03:58:24 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHu6BwiXbOB8s1m8hT2wDWqkeq2lBLOskZFayAv354TSc3UCfCP1zlE33ygttQji/mUn8ANgg==
+X-Received: by 2002:a9d:6d18:0:b0:6ce:1fa7:fa0c with SMTP id
+ o24-20020a9d6d18000000b006ce1fa7fa0cmr8683353otp.30.1698663504286; 
+ Mon, 30 Oct 2023 03:58:24 -0700 (PDT)
+Received: from [192.168.9.16] (net-2-34-31-107.cust.vodafonedsl.it.
+ [2.34.31.107]) by smtp.gmail.com with ESMTPSA id
+ q6-20020a05622a030600b004180fdcb482sm3304799qtw.81.2023.10.30.03.58.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 30 Oct 2023 03:58:23 -0700 (PDT)
+Message-ID: <3e32dbc2-c93f-45a1-a872-4e1798141a70@redhat.com>
+Date: Mon, 30 Oct 2023 11:58:20 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH] drm/test: add a test suite for GEM objects backed by
+ shmem
+To: Maxime Ripard <mripard@kernel.org>
+References: <20231023164541.92913-1-marpagan@redhat.com>
+ <zakappnhljtx3axi2ovvis3evhju4cwqrena7j6gqn5kjdjtsb@mgrhkn5oboid>
+ <789aaf2b-4d68-4128-b8ff-c1ba4849e141@redhat.com>
+ <bychwi46hiqd34ch2f2ikvcijnq3hxvqudycsja5mawng46gyx@cq7wwxozv4si>
+From: Marco Pagani <marpagan@redhat.com>
+In-Reply-To: <bychwi46hiqd34ch2f2ikvcijnq3hxvqudycsja5mawng46gyx@cq7wwxozv4si>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20231030-topic-sm8650-upstream-mdss-v2-8-43f1887c82b8@linaro.org>
-References: <20231030-topic-sm8650-upstream-mdss-v2-0-43f1887c82b8@linaro.org>
-In-Reply-To: <20231030-topic-sm8650-upstream-mdss-v2-0-43f1887c82b8@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, Jonathan Marek <jonathan@marek.ca>, 
- Krishna Manikandan <quic_mkrishn@quicinc.com>
-X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2167;
- i=neil.armstrong@linaro.org; h=from:subject:message-id;
- bh=mOPAs9fZnFHnWKWTDzyDhJJvT1b82KyCyg4RUEyUBOc=;
- b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBlP4c5PQd/l9lmI/IHAedI22CO88us5G1Wn2T2zHiT
- u5TkJDeJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCZT+HOQAKCRB33NvayMhJ0UeID/
- 9C5ihJ8N2WmdSPfB9UUSO2RACNYSosGJIIQpZ72sH+3Auc1eatlQdp1J18OmS0v1EUfueyLFztzgYc
- PYvL85QlipzQGnRsAmC18sFZA29GDdawbLS8Qv3069TT2yqcYyAKOTGv901sGOufbaByEYJIUCe0aE
- jnt+z+pjQraQO28jQWdHASBrEUkbIvGMDw+9x7AsoEWNx9LfNDRDuwaCCHRuMzM4FVtPeBUVUiOEk/
- 6D0B5+T7JUOmGXHVuSHcvTso/IUtWBn286L2SAT/LAAiwDY293STD/+6pCfxuUgpVEROWO/egsgUHe
- ANamWpRbaqB+QoGhpw3lhdsFwign4mUbsvGi5Pt6USLP8iMA8tczyAlB0RYGUqabEDohRViQidlz6W
- 7LGXucKOq3Y1TpwXqVTOUyLbElyMRQ50IvXW2QjeF3pzp6tnXgp6CMdKMG4iaMSwXOAvNmF0qk0yfW
- mbXbzqiJPYLWYSNjF48l38FDvSAjKkfwR9fuSw4de5EzpyCfhbWeArpxbBUir6roVqxn7Pi2dgoCQA
- 496W0TlQLXpPBmfX+PAe6FCipIcCkP5FXt14chJO8fW5paxLIFl6Q1zlduX7geIIaS+w1rdv9DZayd
- r6flv/2ILTbe2krxEigZWGNKZAEIYCtTclv+m3DXPzYtq+p5gs604uw3arSQ==
-X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
- fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,69 +88,180 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, devicetree@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Sumit Semwal <sumit.semwal@linaro.org>,
+ linaro-mm-sig@lists.linaro.org, Christian Koenig <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add DSI Controller version 2.8.0 support for the SM8650 platform.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
----
- drivers/gpu/drm/msm/dsi/dsi_cfg.c | 17 +++++++++++++++++
- drivers/gpu/drm/msm/dsi/dsi_cfg.h |  1 +
- 2 files changed, 18 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/dsi/dsi_cfg.c b/drivers/gpu/drm/msm/dsi/dsi_cfg.c
-index 1f98ff74ceb0..10ba7d153d1c 100644
---- a/drivers/gpu/drm/msm/dsi/dsi_cfg.c
-+++ b/drivers/gpu/drm/msm/dsi/dsi_cfg.c
-@@ -190,6 +190,21 @@ static const struct msm_dsi_config sm8550_dsi_cfg = {
- 	},
- };
- 
-+static const struct regulator_bulk_data sm8650_dsi_regulators[] = {
-+	{ .supply = "vdda", .init_load_uA = 16600 },	/* 1.2 V */
-+};
-+
-+static const struct msm_dsi_config sm8650_dsi_cfg = {
-+	.io_offset = DSI_6G_REG_SHIFT,
-+	.regulator_data = sm8650_dsi_regulators,
-+	.num_regulators = ARRAY_SIZE(sm8650_dsi_regulators),
-+	.bus_clk_names = dsi_v2_4_clk_names,
-+	.num_bus_clks = ARRAY_SIZE(dsi_v2_4_clk_names),
-+	.io_start = {
-+		{ 0xae94000, 0xae96000 },
-+	},
-+};
-+
- static const struct regulator_bulk_data sc7280_dsi_regulators[] = {
- 	{ .supply = "vdda", .init_load_uA = 8350 },	/* 1.2 V */
- 	{ .supply = "refgen" },
-@@ -281,6 +296,8 @@ static const struct msm_dsi_cfg_handler dsi_cfg_handlers[] = {
- 		&sdm845_dsi_cfg, &msm_dsi_6g_v2_host_ops},
- 	{MSM_DSI_VER_MAJOR_6G, MSM_DSI_6G_VER_MINOR_V2_7_0,
- 		&sm8550_dsi_cfg, &msm_dsi_6g_v2_host_ops},
-+	{MSM_DSI_VER_MAJOR_6G, MSM_DSI_6G_VER_MINOR_V2_8_0,
-+		&sm8650_dsi_cfg, &msm_dsi_6g_v2_host_ops},
- };
- 
- const struct msm_dsi_cfg_handler *msm_dsi_cfg_get(u32 major, u32 minor)
-diff --git a/drivers/gpu/drm/msm/dsi/dsi_cfg.h b/drivers/gpu/drm/msm/dsi/dsi_cfg.h
-index 43f0dd74edb6..4c9b4b37681b 100644
---- a/drivers/gpu/drm/msm/dsi/dsi_cfg.h
-+++ b/drivers/gpu/drm/msm/dsi/dsi_cfg.h
-@@ -28,6 +28,7 @@
- #define MSM_DSI_6G_VER_MINOR_V2_5_0	0x20050000
- #define MSM_DSI_6G_VER_MINOR_V2_6_0	0x20060000
- #define MSM_DSI_6G_VER_MINOR_V2_7_0	0x20070000
-+#define MSM_DSI_6G_VER_MINOR_V2_8_0	0x20080000
- 
- #define MSM_DSI_V2_VER_MINOR_8064	0x0
- 
+On 2023-10-25 10:43, Maxime Ripard wrote:
+> Hi,
+> 
+> On Tue, Oct 24, 2023 at 07:14:25PM +0200, Marco Pagani wrote:
+>>>> +static void drm_gem_shmem_test_obj_create_private(struct kunit *test)
+>>>> +{
+>>>> +	struct fake_dev *fdev = test->priv;
+>>>> +	struct drm_gem_shmem_object *shmem;
+>>>> +	struct drm_gem_object *gem_obj;
+>>>> +	struct dma_buf buf_mock;
+>>>> +	struct dma_buf_attachment attach_mock;
+>>>> +	struct sg_table *sgt;
+>>>> +	char *buf;
+>>>> +	int ret;
+>>>> +
+>>>> +	/* Create a mock scatter/gather table */
+>>>> +	buf = kunit_kzalloc(test, TEST_SIZE, GFP_KERNEL);
+>>>> +	KUNIT_ASSERT_NOT_NULL(test, buf);
+>>>> +
+>>>> +	sgt = kzalloc(sizeof(*sgt), GFP_KERNEL);
+>>>> +	KUNIT_ASSERT_NOT_NULL(test, sgt);
+>>>> +
+>>>> +	ret = sg_alloc_table(sgt, 1, GFP_KERNEL);
+>>>> +	KUNIT_ASSERT_EQ(test, ret, 0);
+>>>> +	sg_init_one(sgt->sgl, buf, TEST_SIZE);
+>>>> +
+>>>> +	/* Init a mock DMA-BUF */
+>>>> +	buf_mock.size = TEST_SIZE;
+>>>> +	attach_mock.dmabuf = &buf_mock;
+>>>> +
+>>>> +	gem_obj = drm_gem_shmem_prime_import_sg_table(&fdev->drm_dev, &attach_mock, sgt);
+>>>> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, gem_obj);
+>>>> +	KUNIT_ASSERT_EQ(test, gem_obj->size, TEST_SIZE);
+>>>> +	KUNIT_ASSERT_NULL(test, gem_obj->filp);
+>>>> +	KUNIT_ASSERT_NOT_NULL(test, gem_obj->funcs);
+>>>> +
+>>>> +	shmem = to_drm_gem_shmem_obj(gem_obj);
+>>>> +	KUNIT_ASSERT_PTR_EQ(test, shmem->sgt, sgt);
+>>>> +
+>>>> +	/* The scatter/gather table is freed by drm_gem_shmem_free */
+>>>> +	drm_gem_shmem_free(shmem);
+>>>> +}
+>>>
+>>> KUNIT_ASSERT_* will stop the execution of the test on failure, you
+>>> should probably use a bit more of KUNIT_EXPECT_* calls otherwise you'll
+>>> leak resources.
+>>>
+>>> You also probably want to use a kunit_action to clean up and avoid that
+>>> whole discussion
+>>>
+>>
+>> You are right. I slightly prefer using KUnit expectations (unless actions
+>> are strictly necessary) since I feel using actions makes test cases a bit
+>> less straightforward to understand. Is this okay for you?
+> 
+> I disagree. Actions make it easier to reason about, even when comparing
+> assertion vs expectation
+> 
+> Like, for the call to sg_alloc_table and
+> drm_gem_shmem_prime_import_sg_table(), the reasonable use of assert vs
+> expect would be something like:
+> 
+> sgt = kzalloc(sizeof(*sgt), GFP_KERNEL);
+> KUNIT_ASSERT_NOT_NULL(test, sgt);
+> 
+> ret = sg_alloc_table(sgt, 1, GFP_KERNEL);
+> KUNIT_ASSERT_EQ(test, ret, 0);
+> 
+> /*
+>  * Here, it's already not super clear whether you want to expect vs
+>  * assert. expect will make you handle the failure case later, assert will
+>  * force you to call kfree on sgt. Both kind of suck in their own ways.
+>  */
+> 
+> sg_init_one(sgt->sgl, buf, TEST_SIZE);
+> 
+> gem_obj = drm_gem_shmem_prime_import_sg_table(&fdev->drm_dev, &attach_mock, sgt);
+> KUNIT_ASSERT_NOT_ERR_OR_NULL(test, gem_obj);
+> 
+> /*
+>  * If the assert fails, we forgot to call sg_free_table(sgt) and kfree(sgt).
+>  */
+> 
+> KUNIT_EXPECT_EQ(test, gem_obj->size, TEST_SIZE);
+> KUNIT_EXPECT_NULL(test, gem_obj->filp);
+> KUNIT_EXPECT_NOT_NULL(test, gem_obj->funcs);
+> 
+> /*
+>  * And here we have to handle the case where the expectation was wrong,
+>  * but the test still continued.
+>  */
+> 
+> But if you're not using an action, you still have to call kfree(sgt),
+> which means that you might still
+> 
+> shmem = to_drm_gem_shmem_obj(gem_obj);
+> KUNIT_ASSERT_PTR_EQ(test, shmem->sgt, sgt);
+> 
+> /*
+>  * If the assertion fails, we now have to call drm_gem_shmem_free(shmem)
+>  */
+> 
+> /* The scatter/gather table is freed by drm_gem_shmem_free */
+> drm_gem_shmem_free(shmem);
+> 
+> /* everything's fine now */
+> 
+> The semantics around drm_gem_shmem_free make it a bit convoluted, but
+> doing it using goto/labels, plus handling the assertions and error
+> reporting would be difficult.
+> 
+> Using actions, we have:
+> 
+> sgt = kzalloc(sizeof(*sgt), GFP_KERNEL);
+> KUNIT_ASSERT_NOT_NULL(test, sgt);
+> 
+> ret = kunit_add_action_or_reset(test, kfree_wrapper, sgt);
+> KUNIT_ASSERT_EQ(test, ret, 0);
+> 
+> ret = sg_alloc_table(sgt, 1, GFP_KERNEL);
+> KUNIT_ASSERT_EQ(test, ret, 0);
+> 
+> ret = kunit_add_action_or_reset(test, sg_free_table_wrapper, sgt);
+> KUNIT_ASSERT_EQ(test, ret, 0);
+> 
+> sg_init_one(sgt->sgl, buf, TEST_SIZE);
+> 
+> gem_obj = drm_gem_shmem_prime_import_sg_table(&fdev->drm_dev, &attach_mock, sgt);
+> KUNIT_ASSERT_NOT_ERR_OR_NULL(test, gem_obj);
+> KUNIT_EXPECT_EQ(test, gem_obj->size, TEST_SIZE);
+> KUNIT_EXPECT_NULL(test, gem_obj->filp);
+> KUNIT_EXPECT_NOT_NULL(test, gem_obj->funcs);
+> 
+> /* drm_gem_shmem_free will free the struct sg_table itself */
+> kunit_remove_action(test, sg_free_table_wrapper, sgt);
+> kunit_remove_action(test, kfree_wrapper, sgt);
 
--- 
-2.34.1
+I agree that using actions makes error handling cleaner. However, I still
+have some concerns about the additional complexity that actions introduce.
+For instance, I feel these two lines make the testing harness more complex
+without asserting any additional property of the component under test. 
+
+In some sense, I wonder if it is worth worrying about memory leaks when
+a test case fails. At that point, the system is already in an inconsistent
+state due to a bug in the component under test, so it is unsafe to continue
+anyway.
+
+> 
+> shmem = to_drm_gem_shmem_obj(gem_obj);
+> KUNIT_ASSERT_PTR_EQ(test, shmem->sgt, sgt);
+> 
+> ret = kunit_add_action_or_reset(test, drm_gem_shmem_free_wrapper, shmem);
+> KUNIT_ASSERT_EQ(test, ret, 0);
+> 
+> The last one is arguable, but for the previous ones it makes error
+> handling much more convenient and easy to reason about.
+> 
+> The wrappers are also a bit inconvenient to use, but it's mostly there
+> to avoid a compiler warning at the moment.
+> 
+> This patch will help hopefully:
+> https://lore.kernel.org/linux-kselftest/20230915050125.3609689-1-davidgow@google.com/
+> 
+> Maxime
+
+Thanks,
+Marco
 
