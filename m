@@ -2,64 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36B0E7DBABB
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Oct 2023 14:29:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BF1C7DBAFC
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Oct 2023 14:38:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C90FD10E2BC;
-	Mon, 30 Oct 2023 13:29:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 106DF10E2CC;
+	Mon, 30 Oct 2023 13:38:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com
- [IPv6:2a00:1450:4864:20::233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 57E2110E2BC;
- Mon, 30 Oct 2023 13:29:43 +0000 (UTC)
-Received: by mail-lj1-x233.google.com with SMTP id
- 38308e7fff4ca-2c59a4dd14cso62391251fa.2; 
- Mon, 30 Oct 2023 06:29:43 -0700 (PDT)
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
+ [IPv6:2a00:1450:4864:20::12e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C7E910E2C3;
+ Mon, 30 Oct 2023 13:38:40 +0000 (UTC)
+Received: by mail-lf1-x12e.google.com with SMTP id
+ 2adb3069b0e04-507975d34e8so6462503e87.1; 
+ Mon, 30 Oct 2023 06:38:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1698672581; x=1699277381; darn=lists.freedesktop.org;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=V10adeEKqGzIckMZyRtRDYO+5uXXgL8drm78jy3daso=;
- b=NX86S52cOVXsB2PmKJZaCNQOGHmDcHl3ktcLwD+hOjFTMdf1Q+pLz8NUAZ/7+4Vxu1
- DYqw/02XntJA4diYSlxvCW5S1yeQH8Uut5UsMmO9AGljqeLU9y3jzqUJfjD3V46kfvZz
- gU6rVHRSdkqF43Bv4CfwWYhfDt2IjFdBxZurW5VFHxMB4na+0DiALaClgMvZ5L/aL5bY
- ncsGJ4hjPjlKfHcPgMd/mfvPVIYPE2YpVtwcxu0Fenh0TY+g36MfX9lOKh26wgMNWj+j
- pUjdkGJIat1PTibIx5V0XHN+o0uEWX/JKK/AOm3AFZ57AUcrgcA1hJkSLT6t+oExj41Q
- DkSw==
+ d=gmail.com; s=20230601; t=1698673119; x=1699277919; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=+XTY7Ceg2W761HSG7aGBRMEokR6cgjVhFDn1Z8HE4To=;
+ b=ZZOfVJQPSBsf3wjC+N80yTAcgNFlMdwP1AHLv1IhG7t4DLn2j2rBXeBlXzJriHsrdz
+ CcLXID9+HCZxFgAEykHvgK/ldZFSoqvPP+XXMrZRuEF3JmA6Vhf/8iG6wWiy5Vcz86qG
+ 7gmQuAD+2+LMWNVVCFkQdPW+WYWeF1Z3UBi58jWD84JWYdz3RUXWLo15fma6x9+grHli
+ cE2oMD4kDZ3rBzdAHFYejRYscbbXM8HumVUyqeg8oHOFE1+4glo79iJpZRjCWeV8aDLV
+ F/qNiE3wItf13K0Ga7eKO3vOzxskWyIvSLwYNzl7WRxmVw4HtxkaYG2eD1IZ+T4qDyio
+ YG6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1698672581; x=1699277381;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=V10adeEKqGzIckMZyRtRDYO+5uXXgL8drm78jy3daso=;
- b=biWxEDonZcs5WMPIP/RseNEQJ1I4wjFTp5dA0ZrLH/mBF0GJAwWu8oIVJgUGd+5aZg
- LndvHf7vXYdxM9pxfjrvCkthEY83E2MKjHgS+RJ5eNGGgn+QNqXk5YlYRRbcGFd8w5wv
- fpw45e18a/K90rskMpgdcDCLuFeAy5xEu/woBgyuLP3Ld6ARjYfAQ9aJAi65ttHJmCO8
- DGbje6NBYoeMFPiYmyeZ0qwt0d0WiI2ptr/Y5m0pIPYS3Ngw67kleK5IxCQdDFMluml3
- U3uH6cKBuV8yJXWJanRq1WL3mPEIBeYHbfc5L610Yr9W2QF4uiw5lCULSxRMVsHn43rX
- iKpQ==
-X-Gm-Message-State: AOJu0YyLOeb9UZT8U5yFw0+ZXn+jt1JhRfgSMt+ppeWAkjr9xbnA/reC
- RsiCMXglkeG4opWDLXarX/U=
-X-Google-Smtp-Source: AGHT+IHUwGmYeCylvjyfm9cISDdSycbOJWWMBWg8tL9z+6p3sPLsH22M2MAZwFQU/HfzQWQsxXoUyg==
-X-Received: by 2002:a2e:8643:0:b0:2c5:1553:9129 with SMTP id
- i3-20020a2e8643000000b002c515539129mr7575987ljj.35.1698672581031; 
- Mon, 30 Oct 2023 06:29:41 -0700 (PDT)
-Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- e20-20020a2e8ed4000000b002bfe8537f37sm1236230ljl.33.2023.10.30.06.29.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 Oct 2023 06:29:40 -0700 (PDT)
-Date: Mon, 30 Oct 2023 15:29:28 +0200
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Harry Wentland <harry.wentland@amd.com>
-Subject: Re: [RFC PATCH v2 05/17] drm/vkms: Avoid reading beyond LUT array
-Message-ID: <20231030152928.02cd8301@eldfell>
-In-Reply-To: <20231019212133.245155-6-harry.wentland@amd.com>
-References: <20231019212133.245155-1-harry.wentland@amd.com>
- <20231019212133.245155-6-harry.wentland@amd.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+ d=1e100.net; s=20230601; t=1698673119; x=1699277919;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=+XTY7Ceg2W761HSG7aGBRMEokR6cgjVhFDn1Z8HE4To=;
+ b=sabC8iHrlLxU5U5LVloreAOo5A2mdafMxm6WNjhghXPn6zsJDYvYhzA65qvZt5iwGj
+ vR5Ccli3SRzeKainQsMWRSyFZxY/CP5HjgBn0SwbclmQJH3HJ2psszFEakY+u2kleX0D
+ Jq8a5jvEFdHr3CbwCVz7H2j1U7faY9NN7OvZjkB8BeoeV7LhT9jPgqFtxKdAXzRzOrGg
+ Vf224iaQP5JQy21/id4KooRFw9IX9Sq8mV5KGg11+AYlhdYxnr9u4rb6u+yz7GdU2fds
+ W9VoWq47993SJZ0DU+LEHMUuhqH/GbrAuI/sI7XlbT9XiTWJCm7tuEhyUTWrIMe+8GV/
+ fyQA==
+X-Gm-Message-State: AOJu0YwqXPMUCKOtyuOA6g0Zp4FCp4cACy1QwgGgsSmloVcmt7fQgw9d
+ kdpU7YdAv4MiYOK4IJ8kzrHQIvM8AzqrNO/Z1U0=
+X-Google-Smtp-Source: AGHT+IHdElXWFmKYD1j9eSX3y4FD/cwV2Kl6WssGkJK7frmORyS1HkzDxkdhTKCzAef0BSodpHk6yj3z/NEtX5b7xY4=
+X-Received: by 2002:a19:5513:0:b0:507:a8d1:6e57 with SMTP id
+ n19-20020a195513000000b00507a8d16e57mr6903381lfe.40.1698673118796; Mon, 30
+ Oct 2023 06:38:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/rML9f6.xW.18bHb6BPJwrB2";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+References: <20231027165859.395638-1-robdclark@gmail.com>
+ <20231027165859.395638-7-robdclark@gmail.com>
+ <597b5bb3-ca75-4662-9904-12c4d8e9101a@amd.com>
+In-Reply-To: <597b5bb3-ca75-4662-9904-12c4d8e9101a@amd.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Mon, 30 Oct 2023 06:38:26 -0700
+Message-ID: <CAF6AEGu1Z1k0bKrMZw4-RJSC-nbO=tuDOjQiPmi61_m_1nRCgA@mail.gmail.com>
+Subject: Re: [PATCH 6/7] drm/exec: Pass in initial # of objects
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,169 +70,245 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha McIntosh <sashamcintosh@google.com>,
- Liviu Dudau <Liviu.Dudau@arm.com>, Victoria Brekenfeld <victoria@system76.com>,
- dri-devel@lists.freedesktop.org,
- Michel =?UTF-8?B?RMOkbnplcg==?= <mdaenzer@redhat.com>,
- Arthur Grillo <arthurgrillo@riseup.net>,
- Christopher Braga <quic_cbraga@quicinc.com>,
- Sebastian Wick <sebastian.wick@redhat.com>,
- Shashank Sharma <shashank.sharma@amd.com>, wayland-devel@lists.freedesktop.org,
- Jonas =?UTF-8?B?w4VkYWhs?= <jadahl@redhat.com>,
- Uma Shankar <uma.shankar@intel.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Naseer Ahmed <quic_naseer@quicinc.com>, Melissa Wen <mwen@igalia.com>,
- Aleix Pol <aleixpol@kde.org>, Hector Martin <marcan@marcan.st>,
- Xaver Hugl <xaver.hugl@gmail.com>, Joshua Ashton <joshua@froggi.es>
+Cc: Kefeng Wang <wangkefeng.wang@huawei.com>, Karol Herbst <kherbst@redhat.com>,
+ "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
+ <nouveau@lists.freedesktop.org>, dri-devel@lists.freedesktop.org,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>,
+ Rob Clark <robdclark@chromium.org>, Guchun Chen <guchun.chen@amd.com>,
+ Shashank Sharma <shashank.sharma@amd.com>,
+ "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
+ Dong Chenchen <dongchenchen2@huawei.com>, Luben Tuikov <luben.tuikov@amd.com>,
+ Ben Skeggs <bskeggs@redhat.com>, Philip Yang <Philip.Yang@amd.com>,
+ Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
+ linux-arm-msm@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Jack Xiao <Jack.Xiao@amd.com>,
+ Jonathan Kim <jonathan.kim@amd.com>, freedreno@lists.freedesktop.org,
+ Felix Kuehling <Felix.Kuehling@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ open list <linux-kernel@vger.kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Lang Yu <Lang.Yu@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/rML9f6.xW.18bHb6BPJwrB2
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+On Mon, Oct 30, 2023 at 1:05=E2=80=AFAM Christian K=C3=B6nig
+<christian.koenig@amd.com> wrote:
+>
+> Am 27.10.23 um 18:58 schrieb Rob Clark:
+> > From: Rob Clark <robdclark@chromium.org>
+> >
+> > In cases where the # is known ahead of time, it is silly to do the tabl=
+e
+> > resize dance.
+>
+> Ah, yes that was my initial implementation as well, but I ditched that
+> because nobody actually used it.
+>
+> One comment below.
+>
+> >
+> > Signed-off-by: Rob Clark <robdclark@chromium.org>
+> > ---
+> >   drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c  |  2 +-
+> >   drivers/gpu/drm/amd/amdgpu/amdgpu_csa.c |  4 ++--
+> >   drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c |  4 ++--
+> >   drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c |  4 ++--
+> >   drivers/gpu/drm/drm_exec.c              | 15 ++++++++++++---
+> >   drivers/gpu/drm/nouveau/nouveau_exec.c  |  2 +-
+> >   drivers/gpu/drm/nouveau/nouveau_uvmm.c  |  2 +-
+> >   include/drm/drm_exec.h                  |  2 +-
+> >   8 files changed, 22 insertions(+), 13 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/a=
+md/amdgpu/amdgpu_cs.c
+> > index efdb1c48f431..d27ca8f61929 100644
+> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+> > @@ -65,7 +65,7 @@ static int amdgpu_cs_parser_init(struct amdgpu_cs_par=
+ser *p,
+> >       }
+> >
+> >       amdgpu_sync_create(&p->sync);
+> > -     drm_exec_init(&p->exec, DRM_EXEC_INTERRUPTIBLE_WAIT);
+> > +     drm_exec_init(&p->exec, DRM_EXEC_INTERRUPTIBLE_WAIT, 0);
+> >       return 0;
+> >   }
+> >
+> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_csa.c b/drivers/gpu/drm/=
+amd/amdgpu/amdgpu_csa.c
+> > index 720011019741..796fa6f1420b 100644
+> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_csa.c
+> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_csa.c
+> > @@ -70,7 +70,7 @@ int amdgpu_map_static_csa(struct amdgpu_device *adev,=
+ struct amdgpu_vm *vm,
+> >       struct drm_exec exec;
+> >       int r;
+> >
+> > -     drm_exec_init(&exec, DRM_EXEC_INTERRUPTIBLE_WAIT);
+> > +     drm_exec_init(&exec, DRM_EXEC_INTERRUPTIBLE_WAIT, 0);
+> >       drm_exec_until_all_locked(&exec) {
+> >               r =3D amdgpu_vm_lock_pd(vm, &exec, 0);
+> >               if (likely(!r))
+> > @@ -110,7 +110,7 @@ int amdgpu_unmap_static_csa(struct amdgpu_device *a=
+dev, struct amdgpu_vm *vm,
+> >       struct drm_exec exec;
+> >       int r;
+> >
+> > -     drm_exec_init(&exec, DRM_EXEC_INTERRUPTIBLE_WAIT);
+> > +     drm_exec_init(&exec, DRM_EXEC_INTERRUPTIBLE_WAIT, 0);
+> >       drm_exec_until_all_locked(&exec) {
+> >               r =3D amdgpu_vm_lock_pd(vm, &exec, 0);
+> >               if (likely(!r))
+> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c b/drivers/gpu/drm/=
+amd/amdgpu/amdgpu_gem.c
+> > index ca4d2d430e28..16f1715148ad 100644
+> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+> > @@ -203,7 +203,7 @@ static void amdgpu_gem_object_close(struct drm_gem_=
+object *obj,
+> >       struct drm_exec exec;
+> >       long r;
+> >
+> > -     drm_exec_init(&exec, DRM_EXEC_IGNORE_DUPLICATES);
+> > +     drm_exec_init(&exec, DRM_EXEC_IGNORE_DUPLICATES, 0);
+> >       drm_exec_until_all_locked(&exec) {
+> >               r =3D drm_exec_prepare_obj(&exec, &bo->tbo.base, 1);
+> >               drm_exec_retry_on_contention(&exec);
+> > @@ -739,7 +739,7 @@ int amdgpu_gem_va_ioctl(struct drm_device *dev, voi=
+d *data,
+> >       }
+> >
+> >       drm_exec_init(&exec, DRM_EXEC_INTERRUPTIBLE_WAIT |
+> > -                   DRM_EXEC_IGNORE_DUPLICATES);
+> > +                   DRM_EXEC_IGNORE_DUPLICATES, 0);
+> >       drm_exec_until_all_locked(&exec) {
+> >               if (gobj) {
+> >                       r =3D drm_exec_lock_obj(&exec, gobj);
+> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c b/drivers/gpu/drm/=
+amd/amdgpu/amdgpu_mes.c
+> > index b6015157763a..3c351941701e 100644
+> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c
+> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c
+> > @@ -1105,7 +1105,7 @@ int amdgpu_mes_ctx_map_meta_data(struct amdgpu_de=
+vice *adev,
+> >
+> >       amdgpu_sync_create(&sync);
+> >
+> > -     drm_exec_init(&exec, 0);
+> > +     drm_exec_init(&exec, 0, 0);
+> >       drm_exec_until_all_locked(&exec) {
+> >               r =3D drm_exec_lock_obj(&exec,
+> >                                     &ctx_data->meta_data_obj->tbo.base)=
+;
+> > @@ -1176,7 +1176,7 @@ int amdgpu_mes_ctx_unmap_meta_data(struct amdgpu_=
+device *adev,
+> >       struct drm_exec exec;
+> >       long r;
+> >
+> > -     drm_exec_init(&exec, 0);
+> > +     drm_exec_init(&exec, 0, 0);
+> >       drm_exec_until_all_locked(&exec) {
+> >               r =3D drm_exec_lock_obj(&exec,
+> >                                     &ctx_data->meta_data_obj->tbo.base)=
+;
+> > diff --git a/drivers/gpu/drm/drm_exec.c b/drivers/gpu/drm/drm_exec.c
+> > index 5d2809de4517..27d11c20d148 100644
+> > --- a/drivers/gpu/drm/drm_exec.c
+> > +++ b/drivers/gpu/drm/drm_exec.c
+> > @@ -69,16 +69,25 @@ static void drm_exec_unlock_all(struct drm_exec *ex=
+ec)
+> >    * drm_exec_init - initialize a drm_exec object
+> >    * @exec: the drm_exec object to initialize
+> >    * @flags: controls locking behavior, see DRM_EXEC_* defines
+> > + * @nr: the initial # of objects
+> >    *
+> >    * Initialize the object and make sure that we can track locked objec=
+ts.
+> > + *
+> > + * If nr is non-zero then it is used as the initial objects table size=
+.
+> > + * In either case, the table will grow (be re-allocated) on demand.
+> >    */
+> > -void drm_exec_init(struct drm_exec *exec, uint32_t flags)
+> > +void drm_exec_init(struct drm_exec *exec, uint32_t flags, unsigned nr)
+> >   {
+> > +     size_t sz =3D PAGE_SIZE;
+> > +
+> > +     if (nr)
+> > +             sz =3D (size_t)nr * sizeof(void *);
+> > +
+> >       exec->flags =3D flags;
+> > -     exec->objects =3D kmalloc(PAGE_SIZE, GFP_KERNEL);
+> > +     exec->objects =3D kmalloc(sz, GFP_KERNEL);
+>
+> Please use k*v*malloc() here since we can't predict how large that will b=
+e.
 
-On Thu, 19 Oct 2023 17:21:21 -0400
-Harry Wentland <harry.wentland@amd.com> wrote:
+or __GFP_NOWARN?  If userspace (or kasan) is cheeky and asks for ~0
+objects, we should probably just fail?
 
-> When the floor LUT index (drm_fixp2int(lut_index) is the last
-> index of the array the ceil LUT index will point to an entry
-> beyond the array. Make sure we guard against it and use the
-> value of the floot LUT index.
->=20
-> Blurb about LUT creation and how first element should be 0x0 and
-> last one 0xffff.
->=20
-> Hold on, is that even correct? What should the ends of a LUT be?
-> How does UNORM work and how does it apply to LUTs?
+BR,
+-R
 
-Do you mean how should UNORM input value map to LUT entries for LUT
-indexing?
-
-I suppose UNORM 16-bit converts to nominal real values as:
-- 0x0: 0.0
-- 0xffff: 1.0
-
-And in LUT, you want 0.0 to map to the first LUT element exactly, and
-1.0 to map to the last LUT element exactly, even if whatever
-interpolation may be in use, right?
-
-If so, it is important to make sure that, assuming linear interpolation
-for instance, there is no "dead zone" at either end. Given high
-interpolation precision, any step away from 0.0 or 1.0 needs to imply a
-change in the real-valued output, assuming e.g. identity LUT.
-
-If LUT has N elements, and 16-bit UNORM input value is I, then (in
-naive real-valued math, so no implicit truncation between operations)
-
-x =3D I / 0xffff * (N - 1)
-ia =3D floor(x)
-ib =3D min(ia + 1, N - 1)
-
-f =3D x - floor(x)
-y =3D (1 - f) * LUT[ia] + f * LUT[ib]
-
-
-Does that help?
-
-In my mind, I'm thinking of a uniformly distributed LUT as a 1-D
-texture, because that's how I have implemented them in GL. There you
-have to be careful so that input values 0.0 and 1.0 map to the *center*
-of the first and last texel, and not to the edges of the texture like
-texture coordinates do. Then you can use the GL linear texture
-interpolation as-is.
-
-
-Thanks,
-pq
-
-
-> Signed-off-by: Harry Wentland <harry.wentland@amd.com>
-> Cc: Ville Syrjala <ville.syrjala@linux.intel.com>
-> Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
-> Cc: Simon Ser <contact@emersion.fr>
-> Cc: Harry Wentland <harry.wentland@amd.com>
-> Cc: Melissa Wen <mwen@igalia.com>
-> Cc: Jonas =C3=85dahl <jadahl@redhat.com>
-> Cc: Sebastian Wick <sebastian.wick@redhat.com>
-> Cc: Shashank Sharma <shashank.sharma@amd.com>
-> Cc: Alexander Goins <agoins@nvidia.com>
-> Cc: Joshua Ashton <joshua@froggi.es>
-> Cc: Michel D=C3=A4nzer <mdaenzer@redhat.com>
-> Cc: Aleix Pol <aleixpol@kde.org>
-> Cc: Xaver Hugl <xaver.hugl@gmail.com>
-> Cc: Victoria Brekenfeld <victoria@system76.com>
-> Cc: Sima <daniel@ffwll.ch>
-> Cc: Uma Shankar <uma.shankar@intel.com>
-> Cc: Naseer Ahmed <quic_naseer@quicinc.com>
-> Cc: Christopher Braga <quic_cbraga@quicinc.com>
-> Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> Cc: Arthur Grillo <arthurgrillo@riseup.net>
-> Cc: Hector Martin <marcan@marcan.st>
-> Cc: Liviu Dudau <Liviu.Dudau@arm.com>
-> Cc: Sasha McIntosh <sashamcintosh@google.com>
-> ---
->  drivers/gpu/drm/vkms/vkms_composer.c | 14 ++++++++++----
->  1 file changed, 10 insertions(+), 4 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/=
-vkms_composer.c
-> index a0a3a6fd2926..cf1dff162920 100644
-> --- a/drivers/gpu/drm/vkms/vkms_composer.c
-> +++ b/drivers/gpu/drm/vkms/vkms_composer.c
-> @@ -123,6 +123,8 @@ static u16 apply_lut_to_channel_value(const struct vk=
-ms_color_lut *lut, u16 chan
->  				      enum lut_channel channel)
->  {
->  	s64 lut_index =3D get_lut_index(lut, channel_value);
-> +	u16 *floor_lut_value, *ceil_lut_value;
-> +	u16 floor_channel_value, ceil_channel_value;
-> =20
->  	/*
->  	 * This checks if `struct drm_color_lut` has any gap added by the compi=
-ler
-> @@ -130,11 +132,15 @@ static u16 apply_lut_to_channel_value(const struct =
-vkms_color_lut *lut, u16 chan
->  	 */
->  	static_assert(sizeof(struct drm_color_lut) =3D=3D sizeof(__u16) * 4);
-> =20
-> -	u16 *floor_lut_value =3D (__u16 *)&lut->base[drm_fixp2int(lut_index)];
-> -	u16 *ceil_lut_value =3D (__u16 *)&lut->base[drm_fixp2int_ceil(lut_index=
-)];
-> +	floor_lut_value =3D (__u16 *)&lut->base[drm_fixp2int(lut_index)];
-> +	if (drm_fixp2int(lut_index) =3D=3D (lut->lut_length - 1))
-> +		/* We're at the end of the LUT array, use same value for ceil and floo=
-r */
-> +		ceil_lut_value =3D floor_lut_value;
-> +	else
-> +		ceil_lut_value =3D (__u16 *)&lut->base[drm_fixp2int_ceil(lut_index)];
-> =20
-> -	u16 floor_channel_value =3D floor_lut_value[channel];
-> -	u16 ceil_channel_value =3D ceil_lut_value[channel];
-> +	floor_channel_value =3D floor_lut_value[channel];
-> +	ceil_channel_value =3D ceil_lut_value[channel];
-> =20
->  	return lerp_u16(floor_channel_value, ceil_channel_value,
->  			lut_index & DRM_FIXED_DECIMAL_MASK);
-
-
---Sig_/rML9f6.xW.18bHb6BPJwrB2
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmU/r7gACgkQI1/ltBGq
-qqdJZA//e0Ee19TiFXj3CLeMjPE3RPCquYvOhaF1LGkRUCoTz8Hw3nkOFEW3bzL6
-xmHPzw9fQUtrBuj5Jzwz1nh3Ee32zABaqY9qT49P9IKAfihpZrnYWS2CE55UZ72T
-CGubKHMcnBkePHSmqk5AOaOq780HvCTTkChWpJdd8iQ8Sb+bhk0rBztcpex1s3WS
-DMsdM4Gv27EKiXMfz0l4bASnME0GG32KBQOgNr65g/s5seMu6YapicZ3MjmNdJIA
-6K9Muq9psdZNQ6drn60JxMbgojzvqn8uTPey8GI9OK6LsIH0ZpIbYb2zeux+6MsO
-ZuSFUpt/mkKUpa1vZ3eGEC+XnEc6hEpTzijvFn9Vdy1fbaiNpME2/XGx0EpPJ4E2
-zF1h7OvyD61n2tYTa5Yd0foBhSNkA9yH0y7vmOdA0jrsecZ/wa7BC6bCsCLv5RKw
-VA07+15Uki6l5kju5d+B1lUyttkUPGAc9T0Ju4MwCAOtndE8mVlubQoSal19mZ9a
-Iyzn8VsSPCsSWW1Ypq+6uBrXzXnUhPW3Ce7y1QoE2MHchpHmTDgIexfvfUQfhTRr
-RtlTSQa0X+EeTarH7qNOJ1+CbQktqJtP2ZSYn/EYNcRtaYoOA/ZR1b4ykSrob8dR
-U7pfqQU3gzONHGkwDoSqfl3uoq/mpa3qTTQmbSy8+v83XKWcI4s=
-=X+WX
------END PGP SIGNATURE-----
-
---Sig_/rML9f6.xW.18bHb6BPJwrB2--
+> With that fixed the patch is Reviewed-by: Christian K=C3=B6nig
+> <christian.koenig@amd.com>.
+>
+> Regards,
+> Christian.
+>
+> >
+> >       /* If allocation here fails, just delay that till the first use *=
+/
+> > -     exec->max_objects =3D exec->objects ? PAGE_SIZE / sizeof(void *) =
+: 0;
+> > +     exec->max_objects =3D exec->objects ? sz / sizeof(void *) : 0;
+> >       exec->num_objects =3D 0;
+> >       exec->contended =3D DRM_EXEC_DUMMY;
+> >       exec->prelocked =3D NULL;
+> > diff --git a/drivers/gpu/drm/nouveau/nouveau_exec.c b/drivers/gpu/drm/n=
+ouveau/nouveau_exec.c
+> > index 19024ce21fbb..f5930cc0b3fb 100644
+> > --- a/drivers/gpu/drm/nouveau/nouveau_exec.c
+> > +++ b/drivers/gpu/drm/nouveau/nouveau_exec.c
+> > @@ -103,7 +103,7 @@ nouveau_exec_job_submit(struct nouveau_job *job)
+> >
+> >       nouveau_uvmm_lock(uvmm);
+> >       drm_exec_init(exec, DRM_EXEC_INTERRUPTIBLE_WAIT |
+> > -                         DRM_EXEC_IGNORE_DUPLICATES);
+> > +                         DRM_EXEC_IGNORE_DUPLICATES, 0);
+> >       drm_exec_until_all_locked(exec) {
+> >               struct drm_gpuva *va;
+> >
+> > diff --git a/drivers/gpu/drm/nouveau/nouveau_uvmm.c b/drivers/gpu/drm/n=
+ouveau/nouveau_uvmm.c
+> > index aae780e4a4aa..3a9331a1c830 100644
+> > --- a/drivers/gpu/drm/nouveau/nouveau_uvmm.c
+> > +++ b/drivers/gpu/drm/nouveau/nouveau_uvmm.c
+> > @@ -1288,7 +1288,7 @@ nouveau_uvmm_bind_job_submit(struct nouveau_job *=
+job)
+> >       }
+> >
+> >       drm_exec_init(exec, DRM_EXEC_INTERRUPTIBLE_WAIT |
+> > -                         DRM_EXEC_IGNORE_DUPLICATES);
+> > +                         DRM_EXEC_IGNORE_DUPLICATES, 0);
+> >       drm_exec_until_all_locked(exec) {
+> >               list_for_each_op(op, &bind_job->ops) {
+> >                       struct drm_gpuva_op *va_op;
+> > diff --git a/include/drm/drm_exec.h b/include/drm/drm_exec.h
+> > index b5bf0b6da791..f1a66c048721 100644
+> > --- a/include/drm/drm_exec.h
+> > +++ b/include/drm/drm_exec.h
+> > @@ -135,7 +135,7 @@ static inline bool drm_exec_is_contended(struct drm=
+_exec *exec)
+> >       return !!exec->contended;
+> >   }
+> >
+> > -void drm_exec_init(struct drm_exec *exec, uint32_t flags);
+> > +void drm_exec_init(struct drm_exec *exec, uint32_t flags, unsigned nr)=
+;
+> >   void drm_exec_fini(struct drm_exec *exec);
+> >   bool drm_exec_cleanup(struct drm_exec *exec);
+> >   int drm_exec_lock_obj(struct drm_exec *exec, struct drm_gem_object *o=
+bj);
+>
