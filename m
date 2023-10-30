@@ -2,44 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AFC17DBA99
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Oct 2023 14:23:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C94F17DBAAF
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Oct 2023 14:26:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7775010E2BA;
-	Mon, 30 Oct 2023 13:23:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C4BF10E2BB;
+	Mon, 30 Oct 2023 13:26:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8894610E2B7
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Oct 2023 13:23:09 +0000 (UTC)
-Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id A6ED16607389;
- Mon, 30 Oct 2023 13:23:07 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1698672188;
- bh=Rs2Tz2duxz0x7ijP2hn/7R66LzyseqbsHizTc5CA0MU=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=dANsBif0cystNlFAFmjXOVWt1FQRW4An0MoKDZ1S/uaiNZ4O5spk4rfppG/x8r8ZC
- w4tfGGx2x5WQi4a+9dOnwBqJ1b2Vz3nC6QLcAytkxYiFN6nxgxMZlqByhd1TAeHVs0
- TrXbu20VSWk/KaHTMNAYBuysmkNRFUpkPj6a2IswsVzE9sWSgYsF/CIwMPaFHT7XiO
- PHYI50bSQtQEaOdnDSjjMsZiLxMYF2sbwCtOuax1v1kTNMZiaPjuomZuID/Sj9NCbH
- SOoEfMCgmQpGtcAoSHiU8NBzpozL3UJfLmsjFNM5o3m39LeCnYmWJ15/Hh21ERC1BX
- 7iKtkLTr0vk+g==
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-To: boris.brezillon@collabora.com
-Subject: [PATCH 4/4] drm/panfrost: Set regulators on/off during system sleep
- on MediaTek SoCs
-Date: Mon, 30 Oct 2023 14:22:57 +0100
-Message-ID: <20231030132257.85379-5-angelogioacchino.delregno@collabora.com>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231030132257.85379-1-angelogioacchino.delregno@collabora.com>
-References: <20231030132257.85379-1-angelogioacchino.delregno@collabora.com>
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 4A50410E2BB
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Oct 2023 13:26:07 +0000 (UTC)
+Received: from loongson.cn (unknown [10.20.42.43])
+ by gateway (Coremail) with SMTP id _____8CxNvHqrj9lSb41AA--.39218S3;
+ Mon, 30 Oct 2023 21:26:02 +0800 (CST)
+Received: from [10.20.42.43] (unknown [10.20.42.43])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8CxeuTerj9lHgA3AA--.54640S3; 
+ Mon, 30 Oct 2023 21:26:00 +0800 (CST)
+Message-ID: <df176548-0001-4df4-b556-6227b776cd18@loongson.cn>
+Date: Mon, 30 Oct 2023 21:25:50 +0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/8] drm/loongson: Introduce a drm bridge driver for
+ it66121 HDMI transmitter
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+References: <20231029194607.379459-1-suijingfeng@loongson.cn>
+ <20231029194607.379459-3-suijingfeng@loongson.cn>
+ <CAA8EJprjQXcTgxnC1POaBjVBzyVBvKpmKyJcCR5ExRUhVxtYoQ@mail.gmail.com>
+ <3ccb9600-6990-4ec7-81de-0d7b4e1294eb@loongson.cn>
+ <CAA8EJpqCe2j3GyeutnwTB0bkGXGk0az9-w3sPHLFwMVgAS=e7g@mail.gmail.com>
+Content-Language: en-US
+From: Sui Jingfeng <suijingfeng@loongson.cn>
+In-Reply-To: <CAA8EJpqCe2j3GyeutnwTB0bkGXGk0az9-w3sPHLFwMVgAS=e7g@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID: AQAAf8CxeuTerj9lHgA3AA--.54640S3
+X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBj93XoW3JF1kKF13GFy3WFykZw4DWrX_yoW7Cr4fpa
+ 17KFyYyrWkXrsFyrZIy3WUCFyrA393JFWfGrsxG3sY9rn8u34Iyr15KFW5Wry7Wr13Ca12
+ qrWDWFW7WF1jyagCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
+ sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+ 0xBIdaVrnRJUUUkFb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+ IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+ e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+ 0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
+ xVW8Jr0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx
+ 1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv
+ 67AKxVWxJVW8Jr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxAIw28IcxkI7V
+ AKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCj
+ r7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6x
+ IIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAI
+ w20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Cr0_Gr1UMIIF0xvEx4A2jsIEc7
+ CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07UZzVUUUUUU=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,65 +66,124 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, mripard@kernel.org, steven.price@arm.com,
- dri-devel@lists.freedesktop.org, tzimmermann@suse.de, wenst@chromium.org,
- kernel@collabora.com,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Maxime Ripard <mripard@kernel.org>, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-All of the MediaTek SoCs supported by Panfrost can completely cut power
-to the GPU during full system sleep without any user-noticeable delay
-in the resume operation, as shown by measurements taken on multiple
-MediaTek SoCs.
+Hi,
 
-As an example, for MT8195 - a "before" with only runtime PM operations
-(so, without turning on/off regulators), and an "after" executing full
-system sleep .resume() handler (.resume() -> .runtime_resume() -> done):
 
-Average Panfrost-only system sleep resume time, before: 114186ns
-Average Panfrost-only system sleep resume time, after:  189684ns
+On 2023/10/30 18:01, Dmitry Baryshkov wrote:
+> On Mon, 30 Oct 2023 at 11:42, Sui Jingfeng <suijingfeng@loongson.cn> wrote:
+>> Hi,
+>>
+>>
+>> On 2023/10/30 06:53, Dmitry Baryshkov wrote:
+>>> On Sun, 29 Oct 2023 at 21:46, Sui Jingfeng <suijingfeng@loongson.cn> wrote:
+>>>> The IT66121 is a DVO to HDMI converter, LS3A5000+LS7A1000 ML5A_MB use this
+>>>> chip to support HDMI output. Thus add a drm bridge based driver for it.
+>>>> This patch is developed with drivers/gpu/drm/bridge/ite-it66121.c as base.
+>>> Please use the original bridge driver instead of adding a new one.
+>> I'm agree with the spirit of code sharing, but this is nearly impossible for non-DT system.
+>>
+>> Because the original bridge driver(say it66121.ko) is fully dependent on the DT.
+> I can not agree here. It doesn't depend on DT. It has fully populated
+> i2c_device_id structures, so it will work with bare I2C buses.
+> Most likely you will have to change of calls into fwnode calls, that's it.
+>
+>> UEFI+ACPI based system can not use with it.
+>>
+>> Our I2C adapter is created by the drm/loongson.ko on the runtime.
+>> The potential problem is that *cyclic dependency* !
+>>
+>> I2C adapter driver is depend on drm/loongson
+>> drm/loongson depend on drm bridge driver (say it66121.ko)
+>> drm bridge driver (say it66121.ko) depend on I2C adapter to setup.
+>>
+>> This plus the defer probe mechanism is totally a trap,
+>> incurring troubles and don't work.
+> Welcome. We had this kind of issue for DP AUX buses.
+>
+> I can suggest the following approach:
+> - In the root probe function you can create an i2c bus and populate it
+> with the i2c devices.
+> - I have not checked whether you use components or not. If not, please
+> use an auxiliary or a platform device for the main DRM functionality.
+> - In the subdevice probe / bind function you check for the next
+> bridge. Then you get one of the following:drm_bridge pointer,
+> -EPROBE_DEFER, or any other error case. Your driver can react
+> accordingly.
 
-Keep in mind that this additional ~0,075ms delay happens only in resume
-from a full system suspend, and not in runtime PM operations, hence it
-is acceptable.
+I have similar way to solve this problem, and I have solved it one and a half years ago.
+See [1] for a reference.
 
-Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
----
- drivers/gpu/drm/panfrost/panfrost_drv.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+[1] https://patchwork.freedesktop.org/patch/478998/?series=99512&rev=11
 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-index 82f3c5fe9c58..f63382d9ab04 100644
---- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-@@ -734,7 +734,7 @@ static const struct panfrost_compatible mediatek_mt8183_b_data = {
- 	.supply_names = mediatek_mt8183_b_supplies,
- 	.num_pm_domains = ARRAY_SIZE(mediatek_mt8183_pm_domains),
- 	.pm_domain_names = mediatek_mt8183_pm_domains,
--	.pm_features = BIT(GPU_PM_CLK_DIS),
-+	.pm_features = BIT(GPU_PM_CLK_DIS) | BIT(GPU_PM_VREG_OFF),
- };
- 
- static const char * const mediatek_mt8186_pm_domains[] = { "core0", "core1" };
-@@ -743,7 +743,7 @@ static const struct panfrost_compatible mediatek_mt8186_data = {
- 	.supply_names = mediatek_mt8183_b_supplies,
- 	.num_pm_domains = ARRAY_SIZE(mediatek_mt8186_pm_domains),
- 	.pm_domain_names = mediatek_mt8186_pm_domains,
--	.pm_features = BIT(GPU_PM_CLK_DIS),
-+	.pm_features = BIT(GPU_PM_CLK_DIS) | BIT(GPU_PM_VREG_OFF),
- };
- 
- static const char * const mediatek_mt8192_supplies[] = { "mali", NULL };
-@@ -754,7 +754,7 @@ static const struct panfrost_compatible mediatek_mt8192_data = {
- 	.supply_names = mediatek_mt8192_supplies,
- 	.num_pm_domains = ARRAY_SIZE(mediatek_mt8192_pm_domains),
- 	.pm_domain_names = mediatek_mt8192_pm_domains,
--	.pm_features = BIT(GPU_PM_CLK_DIS),
-+	.pm_features = BIT(GPU_PM_CLK_DIS) | BIT(GPU_PM_VREG_OFF),
- };
- 
- static const struct of_device_id dt_match[] = {
--- 
-2.42.0
+When the PCI device get probed, we create the I2C bus first.
+This ensure that when drm/lsdc.ko get loaded, the I2C bus is presence
+and ready to be get by the drm_bridge driver.
+This is basically a PCI-to-GPIO-emulated-I2C adapter,
+then wait the display bridges driver get loaded and set up.
+
+I also need to create a virtual platform device for the display controller.
+which allow the drm drivers instance for this virtual platform device
+be able to probed due to defer probe mechanism.
+
+This solution made the framework of my driver distortion severely,
+and in the end we still solve a easy problem by workaround.
+
+I know how to use the component framework also, but the component framework just
+a wrapper. Similar with above approach, it brings no gains in the end.
+It does not make this driver better. I got trapped one years ago,
+and I don't want to got trapped another time.
+And I know how solve such a problem by workaround, but that's not worthy for the effort.
+
+I think my approach provide a solution, while still keep the bridges drivers
+to a modular at the same time. Despite simple, it indeed solve the problem.
+It simple because of explicit control of the loading order by myself, not by
+rely on the framework or something else (say component)
+
+It is not totally duplicating, I have rewrite part of them. You can compare
+to see what I'm changed. It is just that it66162 was upstream-ed earlier than
+our solution. But I also have write display drivers for lt8618 and lt8619
+completely by myself.
+
+
+Even though our local drm bridges driver will not be able to enjoy the updates.
+We will accept such a results(or pain). I can maintain our local drm bridges
+drivers by myself. Sorry, on this technique point, we will not follow your idea.
+I'm sure that my approach is toward to right direction for our device at now.
+If someone invent a better solution to handle this problem, which make the
+various drm bridges drivers usable out of box, then I will follow and cooperate
+to test.
+  
+
+> Basically duplicating the existing driver code is not really a way to
+> go. Consider somebody adding a new feature or fixing a bug in your
+> driver copy. Then they have to check if the fix applies to the driver
+> at drivers/gpu/drm/bridge/ite-it66121.c. And vice versa. After fixing
+> an issue in the standard driver one has to keep in mind to check your
+> private copy.
+>
+> So, please, use the OF code as an inspiration and register all your
+> devices in the device tree. Yes, this requires some effort from your
+> side. Yes, this pays off in the longer distance.
+>
+>>>    If
+>>> it needs to be changed in any way, please help everyone else by
+>>> improving it instead of introducing new driver.
+>>>
+>>>> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
+>>>> ---
+>>>>    drivers/gpu/drm/loongson/Kconfig            |   1 +
+>>>>    drivers/gpu/drm/loongson/Makefile           |   2 +
+>>>>    drivers/gpu/drm/loongson/ite_it66121.c      | 749 ++++++++++++++++++++
+>>>>    drivers/gpu/drm/loongson/ite_it66121.h      |  19 +
+>>>>    drivers/gpu/drm/loongson/ite_it66121_regs.h | 268 +++++++
+>>>>    5 files changed, 1039 insertions(+)
+>>>>    create mode 100644 drivers/gpu/drm/loongson/ite_it66121.c
+>>>>    create mode 100644 drivers/gpu/drm/loongson/ite_it66121.h
+>>>>    create mode 100644 drivers/gpu/drm/loongson/ite_it66121_regs.h
+>
 
