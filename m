@@ -2,31 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF7427DBF46
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Oct 2023 18:44:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3801C7DBEC6
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Oct 2023 18:23:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1111B10E350;
-	Mon, 30 Oct 2023 17:44:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 07E5B10E0EC;
+	Mon, 30 Oct 2023 17:23:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1203 seconds by postgrey-1.36 at gabe;
- Mon, 30 Oct 2023 17:44:01 UTC
-Received: from 2.mo584.mail-out.ovh.net (2.mo584.mail-out.ovh.net
- [46.105.72.36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E5EFA10E350
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Oct 2023 17:44:01 +0000 (UTC)
-Received: from director1.ghost.mail-out.ovh.net (unknown [10.108.20.179])
- by mo584.mail-out.ovh.net (Postfix) with ESMTP id 4D931243DC
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Oct 2023 17:04:19 +0000 (UTC)
-Received: from ghost-submission-6684bf9d7b-8lz29 (unknown [10.110.208.116])
- by director1.ghost.mail-out.ovh.net (Postfix) with ESMTPS id 251FB1FE97;
- Mon, 30 Oct 2023 17:04:17 +0000 (UTC)
-Received: from foxhound.fi ([37.59.142.96])
- by ghost-submission-6684bf9d7b-8lz29 with ESMTPSA
- id RZwnBBHiP2V6OgEAAPa04A
- (envelope-from <jose.pekkarinen@foxhound.fi>); Mon, 30 Oct 2023 17:04:17 +0000
+X-Greylist: delayed 2401 seconds by postgrey-1.36 at gabe;
+ Mon, 30 Oct 2023 17:23:25 UTC
+Received: from 4.mo575.mail-out.ovh.net (4.mo575.mail-out.ovh.net
+ [46.105.59.63])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B4AA10E079
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Oct 2023 17:23:25 +0000 (UTC)
+Received: from director1.ghost.mail-out.ovh.net (unknown [10.108.20.147])
+ by mo575.mail-out.ovh.net (Postfix) with ESMTP id DACA8277FD
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Oct 2023 17:17:53 +0000 (UTC)
+Received: from ghost-submission-6684bf9d7b-7pdj5 (unknown [10.110.115.40])
+ by director1.ghost.mail-out.ovh.net (Postfix) with ESMTPS id A3AD81FE93;
+ Mon, 30 Oct 2023 17:17:52 +0000 (UTC)
+Received: from foxhound.fi ([37.59.142.108])
+ by ghost-submission-6684bf9d7b-7pdj5 with ESMTPSA
+ id ciZaJEDlP2V+SAEAhpL/bw
+ (envelope-from <jose.pekkarinen@foxhound.fi>); Mon, 30 Oct 2023 17:17:52 +0000
 Authentication-Results: garm.ovh; auth=pass
- (GARM-96R00186d51cb2-c412-49ff-90f4-f1f0c70eb1d6,
+ (GARM-108S002f7264df6-502a-4d3d-8901-f89f427d1744,
  1521F8BC68C4446D6F30831D87711B1BDC7B9471)
  smtp.auth=jose.pekkarinen@foxhound.fi
 X-OVh-ClientIp: 91.157.109.247
@@ -34,16 +34,16 @@ From: =?UTF-8?q?Jos=C3=A9=20Pekkarinen?= <jose.pekkarinen@foxhound.fi>
 To: harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
  skhan@linuxfoundation.org
 Subject: [PATCH] drm/amd/display: remove redundant check
-Date: Mon, 30 Oct 2023 19:04:07 +0200
-Message-Id: <20231030170407.28408-1-jose.pekkarinen@foxhound.fi>
+Date: Mon, 30 Oct 2023 19:17:48 +0200
+Message-Id: <20231030171748.35482-1-jose.pekkarinen@foxhound.fi>
 X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Ovh-Tracer-Id: 16290364279173064358
+X-Ovh-Tracer-Id: 16519484912439764646
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: 0
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvkedruddttddgleegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucenucfjughrpefhvfevufffkffogggtgfesthekredtredtjeenucfhrhhomheplfhoshorucfrvghkkhgrrhhinhgvnhcuoehjohhsvgdrphgvkhhkrghrihhnvghnsehfohighhhouhhnugdrfhhiqeenucggtffrrghtthgvrhhnpeeftdelueetieetvdettdetueeivedujeefffdvteefkeelhefhleelfeetteejjeenucfkphepuddvjedrtddrtddruddpledurdduheejrddutdelrddvgeejpdefjedrheelrddugedvrdelieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoehjohhsvgdrphgvkhhkrghrihhnvghnsehfohighhhouhhnugdrfhhiqedpnhgspghrtghpthhtohepuddprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdfovfetjfhoshhtpehmohehkeegpdhmohguvgepshhmthhpohhuth
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvkedruddttddgleejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucenucfjughrpefhvfevufffkffogggtgfesthekredtredtjeenucfhrhhomheplfhoshorucfrvghkkhgrrhhinhgvnhcuoehjohhsvgdrphgvkhhkrghrihhnvghnsehfohighhhouhhnugdrfhhiqeenucggtffrrghtthgvrhhnpeeftdelueetieetvdettdetueeivedujeefffdvteefkeelhefhleelfeetteejjeenucfkphepuddvjedrtddrtddruddpledurdduheejrddutdelrddvgeejpdefjedrheelrddugedvrddutdeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeojhhoshgvrdhpvghkkhgrrhhinhgvnhesfhhogihhohhunhgurdhfiheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepughrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdpoffvtefjohhsthepmhhoheejhedpmhhouggvpehsmhhtphhouhht
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,6 +74,7 @@ drivers/gpu/drm/amd/display/dc/dml/dcn32/display_mode_vba_util_32.c:4664:8-10: W
 
 Fixes: 974ce181 ("drm/amd/display: Add check for PState change in DCN32")
 
+Cc: stable@vger.kernel.org
 Signed-off-by: José Pekkarinen <jose.pekkarinen@foxhound.fi>
 ---
  .../drm/amd/display/dc/dml/dcn32/display_mode_vba_util_32.c   | 4 ----
