@@ -1,51 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A9437DB3B5
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Oct 2023 07:56:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E3EE7DB4CA
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Oct 2023 09:06:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 24C5510E20F;
-	Mon, 30 Oct 2023 06:56:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 07FDF10E22C;
+	Mon, 30 Oct 2023 08:06:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 140EA10E20F
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Oct 2023 06:56:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1698649009; x=1730185009;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=4R0bw78ePjfdbCkBh/GEc997L05R9Y4a7R9w23auL3Q=;
- b=iAQpyCtrWeqIq5nAbmxWt/UDuUyyX4y61cgyLU05QiU/PYTWQ5L6rKSu
- oikbLMxsV0ftGREGmgewtlW9RF1hdl731Hkk9F5RE1gXTbA/KvFmkjTaq
- sWuylAmamz/aXkAnlzYcfQqYIXwOBRLy3pw39SQlJ3xUWT7N5wAX9iJBA
- Ehas1tAGrF10n2+APG8eryrVvepjyG7WuHj2jzdKqMRzHrZSHe6OxMazM
- qvDdtnXWHQuinziYkccle75IVJqRUvstHpsttLbJ7SWVe3W8gvsq/CHhX
- OGAwN9h21qSxoz+wa1dDBM3kOne0Hv9ZdPVINvCguoN0sTMZJ9ExPPZsW g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10878"; a="390879454"
-X-IronPort-AV: E=Sophos;i="6.03,262,1694761200"; d="scan'208";a="390879454"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Oct 2023 23:56:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10878"; a="789377566"
-X-IronPort-AV: E=Sophos;i="6.03,262,1694761200"; d="scan'208";a="789377566"
-Received: from sgruszka-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.51.19])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Oct 2023 23:56:42 -0700
-Date: Mon, 30 Oct 2023 07:56:40 +0100
-From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Subject: Re: [PATCH] accel/qaic: Support for 0 resize slice execution in BO
-Message-ID: <ZT9TqJIZ07i9ZTmO@linux.intel.com>
-References: <20231027164330.11978-1-quic_jhugo@quicinc.com>
+Received: from out-179.mta1.migadu.com (out-179.mta1.migadu.com
+ [IPv6:2001:41d0:203:375::b3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9AEC310E212
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Oct 2023 07:24:22 +0000 (UTC)
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jookia.org; s=key1;
+ t=1698650660;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=iPJfSX51Ov+WGn0bxAkaRt0Zl4iWxaNa6Rvl7jWJpR4=;
+ b=Aa0Otn+t/VEndDsmkq9+3DXSDyhM0RF5cF9KQ8wftAM3x4bYxAgIXwRdUUCqQFEh9MLsp+
+ w/q+ROmDovuW+4XX1uAcme6Xmu/JTr13DUDCIWFy2PDboGMGgJxIEEVf3uq/cwo7YYbzQ2
+ pyvY8DUOwWZ7FOvOnYpPo8KUjVNKSqMYYwNGofRqFNNqH4qPigQgcbtHcHa/HhFD7Emc9p
+ 9r3xaAmclEXOLjZG/RLIIHJYrAUGhDp4XPTXvqVbd8MyiHR2njpPqMD+jmo4+AU/PO7ey0
+ bpeTbLSiKi6oISz8KPTRfEAJxf7K5uVn/Ywjn6RM6dYejj/oA3grScwH9FCjeg==
+From: John Watts <contact@jookia.org>
+To: dri-devel@lists.freedesktop.org
+Subject: [RFC PATCH v4 0/7] Add FS035VG158 panel
+Date: Mon, 30 Oct 2023 18:23:31 +1100
+Message-ID: <20231030072337.2341539-2-contact@jookia.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231027164330.11978-1-quic_jhugo@quicinc.com>
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
+X-Mailman-Approved-At: Mon, 30 Oct 2023 08:06:21 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,38 +47,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_pkanojiy@quicinc.com, linux-arm-msm@vger.kernel.org,
- quic_carlv@quicinc.com, ogabbay@kernel.org, dri-devel@lists.freedesktop.org
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Chris Morgan <macromorgan@hotmail.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ devicetree@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
+ linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+ Jagan Teki <jagan@edgeble.ai>, John Watts <contact@jookia.org>,
+ Rob Herring <robh+dt@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Paul Cercueil <paul@crapouillou.net>, Sam Ravnborg <sam@ravnborg.org>,
+ Christophe Branchereau <cbranchereau@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 27, 2023 at 10:43:30AM -0600, Jeffrey Hugo wrote:
-> From: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
-> 
-> Add support to partially execute a slice which is resized to zero.
-> Executing a zero size slice in a BO should mean that there is no DMA
-> transfers involved but you should still configure doorbell and semaphores.
-> 
-> For example consider a BO of size 18K and it is sliced into 3 6K slices
-> and user calls partial execute ioctl with resize as 10K.
-> slice 0 - size is 6k and offset is 0, so resize of 10K will not cut short
->           this slice hence we send the entire slice for execution.
-> slice 1 - size is 6k and offset is 6k, so resize of 10K will cut short this
->           slice and only the first 4k should be DMA along with configuring
->           doorbell and semaphores.
-> slice 2 - size is 6k and offset is 12k, so resize of 10k will cut short
->           this slice and no DMA transfer would be involved but we should
->           would configure doorbell and semaphores.
-> 
-> This change begs to change the behavior of 0 resize. Currently, 0 resize
-> partial execute ioctl behaves exactly like execute ioctl i.e. no resize.
-> After this patch all the slice in BO should behave exactly like slice 2 in
-> above example.
-> 
-> Refactor copy_partial_exec_reqs() to make it more readable and less
-> complex.
-> 
-> Signed-off-by: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
-> Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Reviewed-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+Hello there,
+
+This RFC introduces support for the FS035VG158 LCD panel, cleaning up
+the nv3052c driver on the way and documentating existing panel code.
+
+This patch series is at a bit of a standstill: I have gotten feedback
+that it should instead use the Leadtek LTK035C5444T panel init sequence
+instead of Fascontek's provided sequence which is almost identical.
+
+I don't feel comfortable providing a patch that does this unless someone
+can explain why the changes Fascontek have made aren't critical.
+
+I would like feedback to know if this is a blocker for this patch set,
+or otherwise what needs to be done to get it merged.
+
+John.
+
+v3 -> v4:
+- Mark panel_regs_len as unsigned
+
+v2 -> v3:
+- Dropped patches that add extra sleep time
+
+v1 -> v2:
+- Fixed a variable declaration style error
+- Cleaned up device tree yaml
+
+John Watts (7):
+  drm/panel: nv3052c: Document known register names
+  drm/panel: nv3052c: Add SPI device IDs
+  drm/panel: nv3052c: Allow specifying registers per panel
+  drm/panel: nv3052c: Add Fascontek FS035VG158 LCD display
+  dt-bindings: display: panel: Clean up leadtek,ltk035c5444t properties
+  dt-bindings: vendor-prefixes: Add fascontek
+  dt-bindings: display: panel: add Fascontek FS035VG158 panel
+
+ .../display/panel/fascontek,fs035vg158.yaml   |  56 ++
+ .../display/panel/leadtek,ltk035c5444t.yaml   |   8 +-
+ .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+ .../gpu/drm/panel/panel-newvision-nv3052c.c   | 515 +++++++++++++-----
+ 4 files changed, 437 insertions(+), 144 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/fascontek,fs035vg158.yaml
+
+-- 
+2.42.0
+
