@@ -1,79 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 004987DB893
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Oct 2023 11:58:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B095F7DB910
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Oct 2023 12:36:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E8A5410E0EB;
-	Mon, 30 Oct 2023 10:58:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EED2B10E299;
+	Mon, 30 Oct 2023 11:36:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C63610E0EB
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Oct 2023 10:58:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1698663511;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+PBWmUbR3sC5ly5YhdtKnx9vXPHu8wxlK1hmeHOwoTA=;
- b=H8G2jdsCMKkVs0lmZkunDaEaF73K0VLs47TLjtVnD1Cb3h+gKuJfrJ/pZBBwB2iGnqKrjv
- tfsqN44tKc8q4sLObV0Q5Mv4FKDcBraEYoVKWilsbQTHx35eD0i/3eMeqv7sLE14proI91
- rN2WE5/6XQR41hBJ2gQH4+1HamTBV/E=
-Received: from mail-ot1-f71.google.com (mail-ot1-f71.google.com
- [209.85.210.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-86-HtScAU8PNO2l1lNYTJJyZg-1; Mon, 30 Oct 2023 06:58:25 -0400
-X-MC-Unique: HtScAU8PNO2l1lNYTJJyZg-1
-Received: by mail-ot1-f71.google.com with SMTP id
- 46e09a7af769-6ce26d7fd45so5999545a34.3
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Oct 2023 03:58:25 -0700 (PDT)
+Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com
+ [IPv6:2607:f8b0:4864:20::435])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7DA2010E299
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Oct 2023 11:36:45 +0000 (UTC)
+Received: by mail-pf1-x435.google.com with SMTP id
+ d2e1a72fcca58-6bd73395bceso3047463b3a.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Oct 2023 04:36:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1698665805; x=1699270605; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=vM7UrmexBzhlrtYGq+WTsMhMVaGhrgekLL9dJWIZR04=;
+ b=EejlWWr1NAlYdJxVEQ9TSe8rtIq3YUGIRtm7h0DoC/vOx6DxZWWqOJn9Wc2e43n0fK
+ Fn83yAboA9mANNq8wiR1AJWYyENDcNYBtAHp7VhlU6D6fr5HUeTSiSvG/YRqN89Ds4wF
+ 2PZ34qgkV2oD2P5Sh6XsgHf/6yh/1fE0EI8nb7FbPwGWkb/WDpq1xiLAxVUeCrgSMlDr
+ +Of8q7obykRW2sV2nEjOwrPMYdyG/XNxTUKMcunTWH0H3PNGxhGDDDE6slH8Vni7FDkt
+ kvDiVn72BJxETR1CeSjw+EfzeqkLfQBvm17DSDUfFTkygHSzrLLW+IcqSw/2dW/g2cmA
+ y3Eg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1698663504; x=1699268304;
+ d=1e100.net; s=20230601; t=1698665805; x=1699270605;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=+PBWmUbR3sC5ly5YhdtKnx9vXPHu8wxlK1hmeHOwoTA=;
- b=wtOja5X9nQCo2OrIUceag6nQoEYplqknnC63riKp8uWys/cFUkUjeMW0X8xcdbRa4X
- 7lPBkVwcZsATi0uAa847gINyhgvVZTEKsun97RQxkmglbORL4p3cbwHucy+pdlq9AuIy
- tu86uRcshKpmo5+m0gJkzRII6QQObzt7Fcs5wAjasRwYzd4OtVc2lfBa2Pw4aKGSJPLr
- Ka1cPx0i+PJUm6xpkHwdaSIfgQDitsMntzRksMkYn4RImUuPFV75rHLRpMSWEGQUhBv6
- NJYy2OgWF9WPbtXDb13qaNwoF3mgHWnED3eY4N9/bkoQBE/kvmfOQURWhMcyXGpaI3Ry
- m16Q==
-X-Gm-Message-State: AOJu0Yw4PdAaMXHZGVVei3SGd4u/efNH/r+Qz6PmTAoDeQtW8VBUznuM
- 0EVl/y7RkBpAYet5PJ/zQwip7j7FEViJXyRCz2PXt68ZuSda1URA/0rPdedgZDa/UYkn11hJgAc
- ALjyF0lvfzKEG9JXk6YBSRTj59aI=
-X-Received: by 2002:a9d:6d18:0:b0:6ce:1fa7:fa0c with SMTP id
- o24-20020a9d6d18000000b006ce1fa7fa0cmr8683373otp.30.1698663504523; 
- Mon, 30 Oct 2023 03:58:24 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHu6BwiXbOB8s1m8hT2wDWqkeq2lBLOskZFayAv354TSc3UCfCP1zlE33ygttQji/mUn8ANgg==
-X-Received: by 2002:a9d:6d18:0:b0:6ce:1fa7:fa0c with SMTP id
- o24-20020a9d6d18000000b006ce1fa7fa0cmr8683353otp.30.1698663504286; 
- Mon, 30 Oct 2023 03:58:24 -0700 (PDT)
-Received: from [192.168.9.16] (net-2-34-31-107.cust.vodafonedsl.it.
- [2.34.31.107]) by smtp.gmail.com with ESMTPSA id
- q6-20020a05622a030600b004180fdcb482sm3304799qtw.81.2023.10.30.03.58.22
+ bh=vM7UrmexBzhlrtYGq+WTsMhMVaGhrgekLL9dJWIZR04=;
+ b=WKMpvLTPwFHP0CBQ7tiXFFIHgDVsAxqnoTAnIUi/sxH+i+8Z0GziA8ywppGF+hpg9K
+ giwiSD3CWsiQsCBwyRW3ZYkQ/bV0wmuBDpjzCLyKD/jl9OTpAP0Hwl0w16VbguDry3s/
+ D9SfCT++/gv3C2E2HMpzZbNu117NQDQwZ6MJkxuWC08KwFTEHxOjKHcmRRFS5SsLKtCo
+ 0SA6EBb1PW7xF/zuTDsYXUoF6plhDabp06eyOPxtbiHhzlpyqvdIP5JK2t3jFIIkgR6E
+ pcZCPKmTyni7hZhTMN6kRqDjldgn47xxpQFkXJWJDuI63EH9caV5hWGfeb3Y0+KCGmo/
+ GUsw==
+X-Gm-Message-State: AOJu0YyjKUBRC1o9AwrCne5CANSsDBjWpYVvVzOPSwMgVGS3itHxML8u
+ aprfyt1d1YQH3VTH1sUEAzI=
+X-Google-Smtp-Source: AGHT+IHB04Y3v0cpysF5Hffjhog9NL2AkKNDPwW89qQDZuAcCybJS+Ey+vqecfyEm8jG0xY2kLZT+Q==
+X-Received: by 2002:a05:6a00:148c:b0:693:43b5:aaf3 with SMTP id
+ v12-20020a056a00148c00b0069343b5aaf3mr12536513pfu.13.1698665804989; 
+ Mon, 30 Oct 2023 04:36:44 -0700 (PDT)
+Received: from [192.168.0.106] ([103.131.18.64])
+ by smtp.gmail.com with ESMTPSA id
+ a18-20020aa78652000000b006be484e5b9bsm5725923pfo.58.2023.10.30.04.36.39
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 30 Oct 2023 03:58:23 -0700 (PDT)
-Message-ID: <3e32dbc2-c93f-45a1-a872-4e1798141a70@redhat.com>
-Date: Mon, 30 Oct 2023 11:58:20 +0100
+ Mon, 30 Oct 2023 04:36:44 -0700 (PDT)
+Message-ID: <3f1fdfa2-e30b-42c6-b290-bb02283b3589@gmail.com>
+Date: Mon, 30 Oct 2023 18:36:34 +0700
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH] drm/test: add a test suite for GEM objects backed by
- shmem
-To: Maxime Ripard <mripard@kernel.org>
-References: <20231023164541.92913-1-marpagan@redhat.com>
- <zakappnhljtx3axi2ovvis3evhju4cwqrena7j6gqn5kjdjtsb@mgrhkn5oboid>
- <789aaf2b-4d68-4128-b8ff-c1ba4849e141@redhat.com>
- <bychwi46hiqd34ch2f2ikvcijnq3hxvqudycsja5mawng46gyx@cq7wwxozv4si>
-From: Marco Pagani <marpagan@redhat.com>
-In-Reply-To: <bychwi46hiqd34ch2f2ikvcijnq3hxvqudycsja5mawng46gyx@cq7wwxozv4si>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Subject: Re: [PATCH Resend] Fix line Length
+To: Julia Lawall <julia.lawall@inria.fr>
+References: <20231029144312.5895-1-dorine.a.tipo@gmail.com>
+ <alpine.DEB.2.22.394.2310291610030.3136@hadrien> <ZT7v39jG4WTxPYjm@debian.me>
+ <alpine.DEB.2.22.394.2310300712310.3533@hadrien>
 Content-Language: en-US
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <alpine.DEB.2.22.394.2310300712310.3533@hadrien>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -88,180 +77,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Sumit Semwal <sumit.semwal@linaro.org>,
- linaro-mm-sig@lists.linaro.org, Christian Koenig <christian.koenig@amd.com>,
- linux-media@vger.kernel.org
+Cc: Daniel Stone <daniels@collabora.com>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Linux Outreachy <outreachy@lists.linux.dev>,
+ Greg KH <gregkh@linuxfoundation.org>, Nick Terrell <terrelln@fb.com>,
+ Linux DRI Development <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Helen Koike <helen.koike@collabora.com>, Dorine Tipo <dorine.a.tipo@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 2023-10-25 10:43, Maxime Ripard wrote:
-> Hi,
+On 30/10/2023 13:12, Julia Lawall wrote:
 > 
-> On Tue, Oct 24, 2023 at 07:14:25PM +0200, Marco Pagani wrote:
->>>> +static void drm_gem_shmem_test_obj_create_private(struct kunit *test)
->>>> +{
->>>> +	struct fake_dev *fdev = test->priv;
->>>> +	struct drm_gem_shmem_object *shmem;
->>>> +	struct drm_gem_object *gem_obj;
->>>> +	struct dma_buf buf_mock;
->>>> +	struct dma_buf_attachment attach_mock;
->>>> +	struct sg_table *sgt;
->>>> +	char *buf;
->>>> +	int ret;
->>>> +
->>>> +	/* Create a mock scatter/gather table */
->>>> +	buf = kunit_kzalloc(test, TEST_SIZE, GFP_KERNEL);
->>>> +	KUNIT_ASSERT_NOT_NULL(test, buf);
->>>> +
->>>> +	sgt = kzalloc(sizeof(*sgt), GFP_KERNEL);
->>>> +	KUNIT_ASSERT_NOT_NULL(test, sgt);
->>>> +
->>>> +	ret = sg_alloc_table(sgt, 1, GFP_KERNEL);
->>>> +	KUNIT_ASSERT_EQ(test, ret, 0);
->>>> +	sg_init_one(sgt->sgl, buf, TEST_SIZE);
->>>> +
->>>> +	/* Init a mock DMA-BUF */
->>>> +	buf_mock.size = TEST_SIZE;
->>>> +	attach_mock.dmabuf = &buf_mock;
->>>> +
->>>> +	gem_obj = drm_gem_shmem_prime_import_sg_table(&fdev->drm_dev, &attach_mock, sgt);
->>>> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, gem_obj);
->>>> +	KUNIT_ASSERT_EQ(test, gem_obj->size, TEST_SIZE);
->>>> +	KUNIT_ASSERT_NULL(test, gem_obj->filp);
->>>> +	KUNIT_ASSERT_NOT_NULL(test, gem_obj->funcs);
->>>> +
->>>> +	shmem = to_drm_gem_shmem_obj(gem_obj);
->>>> +	KUNIT_ASSERT_PTR_EQ(test, shmem->sgt, sgt);
->>>> +
->>>> +	/* The scatter/gather table is freed by drm_gem_shmem_free */
->>>> +	drm_gem_shmem_free(shmem);
->>>> +}
->>>
->>> KUNIT_ASSERT_* will stop the execution of the test on failure, you
->>> should probably use a bit more of KUNIT_EXPECT_* calls otherwise you'll
->>> leak resources.
->>>
->>> You also probably want to use a kunit_action to clean up and avoid that
->>> whole discussion
->>>
+> 
+> On Mon, 30 Oct 2023, Bagas Sanjaya wrote:
+> 
+>> Hi Julia,
 >>
->> You are right. I slightly prefer using KUnit expectations (unless actions
->> are strictly necessary) since I feel using actions makes test cases a bit
->> less straightforward to understand. Is this okay for you?
+>> The submitter touched one of CI scripts for the DRM subsystem. To test
+>> this patch, there must be a way to run these scripts locally (which
+>> may requires non-trivial setup).
+>>
+>> Cc'ed DRM maintainers.
 > 
-> I disagree. Actions make it easier to reason about, even when comparing
-> assertion vs expectation
+> There is a DRM outreachy project.  I think that motivated this patch.
 > 
-> Like, for the call to sg_alloc_table and
-> drm_gem_shmem_prime_import_sg_table(), the reasonable use of assert vs
-> expect would be something like:
-> 
-> sgt = kzalloc(sizeof(*sgt), GFP_KERNEL);
-> KUNIT_ASSERT_NOT_NULL(test, sgt);
-> 
-> ret = sg_alloc_table(sgt, 1, GFP_KERNEL);
-> KUNIT_ASSERT_EQ(test, ret, 0);
-> 
-> /*
->  * Here, it's already not super clear whether you want to expect vs
->  * assert. expect will make you handle the failure case later, assert will
->  * force you to call kfree on sgt. Both kind of suck in their own ways.
->  */
-> 
-> sg_init_one(sgt->sgl, buf, TEST_SIZE);
-> 
-> gem_obj = drm_gem_shmem_prime_import_sg_table(&fdev->drm_dev, &attach_mock, sgt);
-> KUNIT_ASSERT_NOT_ERR_OR_NULL(test, gem_obj);
-> 
-> /*
->  * If the assert fails, we forgot to call sg_free_table(sgt) and kfree(sgt).
->  */
-> 
-> KUNIT_EXPECT_EQ(test, gem_obj->size, TEST_SIZE);
-> KUNIT_EXPECT_NULL(test, gem_obj->filp);
-> KUNIT_EXPECT_NOT_NULL(test, gem_obj->funcs);
-> 
-> /*
->  * And here we have to handle the case where the expectation was wrong,
->  * but the test still continued.
->  */
-> 
-> But if you're not using an action, you still have to call kfree(sgt),
-> which means that you might still
-> 
-> shmem = to_drm_gem_shmem_obj(gem_obj);
-> KUNIT_ASSERT_PTR_EQ(test, shmem->sgt, sgt);
-> 
-> /*
->  * If the assertion fails, we now have to call drm_gem_shmem_free(shmem)
->  */
-> 
-> /* The scatter/gather table is freed by drm_gem_shmem_free */
-> drm_gem_shmem_free(shmem);
-> 
-> /* everything's fine now */
-> 
-> The semantics around drm_gem_shmem_free make it a bit convoluted, but
-> doing it using goto/labels, plus handling the assertions and error
-> reporting would be difficult.
-> 
-> Using actions, we have:
-> 
-> sgt = kzalloc(sizeof(*sgt), GFP_KERNEL);
-> KUNIT_ASSERT_NOT_NULL(test, sgt);
-> 
-> ret = kunit_add_action_or_reset(test, kfree_wrapper, sgt);
-> KUNIT_ASSERT_EQ(test, ret, 0);
-> 
-> ret = sg_alloc_table(sgt, 1, GFP_KERNEL);
-> KUNIT_ASSERT_EQ(test, ret, 0);
-> 
-> ret = kunit_add_action_or_reset(test, sg_free_table_wrapper, sgt);
-> KUNIT_ASSERT_EQ(test, ret, 0);
-> 
-> sg_init_one(sgt->sgl, buf, TEST_SIZE);
-> 
-> gem_obj = drm_gem_shmem_prime_import_sg_table(&fdev->drm_dev, &attach_mock, sgt);
-> KUNIT_ASSERT_NOT_ERR_OR_NULL(test, gem_obj);
-> KUNIT_EXPECT_EQ(test, gem_obj->size, TEST_SIZE);
-> KUNIT_EXPECT_NULL(test, gem_obj->filp);
-> KUNIT_EXPECT_NOT_NULL(test, gem_obj->funcs);
-> 
-> /* drm_gem_shmem_free will free the struct sg_table itself */
-> kunit_remove_action(test, sg_free_table_wrapper, sgt);
-> kunit_remove_action(test, kfree_wrapper, sgt);
 
-I agree that using actions makes error handling cleaner. However, I still
-have some concerns about the additional complexity that actions introduce.
-For instance, I feel these two lines make the testing harness more complex
-without asserting any additional property of the component under test. 
+OK, thanks!
 
-In some sense, I wonder if it is worth worrying about memory leaks when
-a test case fails. At that point, the system is already in an inconsistent
-state due to a bug in the component under test, so it is unsafe to continue
-anyway.
-
-> 
-> shmem = to_drm_gem_shmem_obj(gem_obj);
-> KUNIT_ASSERT_PTR_EQ(test, shmem->sgt, sgt);
-> 
-> ret = kunit_add_action_or_reset(test, drm_gem_shmem_free_wrapper, shmem);
-> KUNIT_ASSERT_EQ(test, ret, 0);
-> 
-> The last one is arguable, but for the previous ones it makes error
-> handling much more convenient and easy to reason about.
-> 
-> The wrappers are also a bit inconvenient to use, but it's mostly there
-> to avoid a compiler warning at the moment.
-> 
-> This patch will help hopefully:
-> https://lore.kernel.org/linux-kselftest/20230915050125.3609689-1-davidgow@google.com/
-> 
-> Maxime
-
-Thanks,
-Marco
+-- 
+An old man doll... just what I always wanted! - Clara
 
