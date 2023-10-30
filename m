@@ -2,58 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C94F17DBAAF
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Oct 2023 14:26:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36B0E7DBABB
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Oct 2023 14:29:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C4BF10E2BB;
-	Mon, 30 Oct 2023 13:26:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C90FD10E2BC;
+	Mon, 30 Oct 2023 13:29:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id 4A50410E2BB
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Oct 2023 13:26:07 +0000 (UTC)
-Received: from loongson.cn (unknown [10.20.42.43])
- by gateway (Coremail) with SMTP id _____8CxNvHqrj9lSb41AA--.39218S3;
- Mon, 30 Oct 2023 21:26:02 +0800 (CST)
-Received: from [10.20.42.43] (unknown [10.20.42.43])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8CxeuTerj9lHgA3AA--.54640S3; 
- Mon, 30 Oct 2023 21:26:00 +0800 (CST)
-Message-ID: <df176548-0001-4df4-b556-6227b776cd18@loongson.cn>
-Date: Mon, 30 Oct 2023 21:25:50 +0800
+Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com
+ [IPv6:2a00:1450:4864:20::233])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 57E2110E2BC;
+ Mon, 30 Oct 2023 13:29:43 +0000 (UTC)
+Received: by mail-lj1-x233.google.com with SMTP id
+ 38308e7fff4ca-2c59a4dd14cso62391251fa.2; 
+ Mon, 30 Oct 2023 06:29:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1698672581; x=1699277381; darn=lists.freedesktop.org;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=V10adeEKqGzIckMZyRtRDYO+5uXXgL8drm78jy3daso=;
+ b=NX86S52cOVXsB2PmKJZaCNQOGHmDcHl3ktcLwD+hOjFTMdf1Q+pLz8NUAZ/7+4Vxu1
+ DYqw/02XntJA4diYSlxvCW5S1yeQH8Uut5UsMmO9AGljqeLU9y3jzqUJfjD3V46kfvZz
+ gU6rVHRSdkqF43Bv4CfwWYhfDt2IjFdBxZurW5VFHxMB4na+0DiALaClgMvZ5L/aL5bY
+ ncsGJ4hjPjlKfHcPgMd/mfvPVIYPE2YpVtwcxu0Fenh0TY+g36MfX9lOKh26wgMNWj+j
+ pUjdkGJIat1PTibIx5V0XHN+o0uEWX/JKK/AOm3AFZ57AUcrgcA1hJkSLT6t+oExj41Q
+ DkSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1698672581; x=1699277381;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=V10adeEKqGzIckMZyRtRDYO+5uXXgL8drm78jy3daso=;
+ b=biWxEDonZcs5WMPIP/RseNEQJ1I4wjFTp5dA0ZrLH/mBF0GJAwWu8oIVJgUGd+5aZg
+ LndvHf7vXYdxM9pxfjrvCkthEY83E2MKjHgS+RJ5eNGGgn+QNqXk5YlYRRbcGFd8w5wv
+ fpw45e18a/K90rskMpgdcDCLuFeAy5xEu/woBgyuLP3Ld6ARjYfAQ9aJAi65ttHJmCO8
+ DGbje6NBYoeMFPiYmyeZ0qwt0d0WiI2ptr/Y5m0pIPYS3Ngw67kleK5IxCQdDFMluml3
+ U3uH6cKBuV8yJXWJanRq1WL3mPEIBeYHbfc5L610Yr9W2QF4uiw5lCULSxRMVsHn43rX
+ iKpQ==
+X-Gm-Message-State: AOJu0YyLOeb9UZT8U5yFw0+ZXn+jt1JhRfgSMt+ppeWAkjr9xbnA/reC
+ RsiCMXglkeG4opWDLXarX/U=
+X-Google-Smtp-Source: AGHT+IHUwGmYeCylvjyfm9cISDdSycbOJWWMBWg8tL9z+6p3sPLsH22M2MAZwFQU/HfzQWQsxXoUyg==
+X-Received: by 2002:a2e:8643:0:b0:2c5:1553:9129 with SMTP id
+ i3-20020a2e8643000000b002c515539129mr7575987ljj.35.1698672581031; 
+ Mon, 30 Oct 2023 06:29:41 -0700 (PDT)
+Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
+ e20-20020a2e8ed4000000b002bfe8537f37sm1236230ljl.33.2023.10.30.06.29.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 30 Oct 2023 06:29:40 -0700 (PDT)
+Date: Mon, 30 Oct 2023 15:29:28 +0200
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Harry Wentland <harry.wentland@amd.com>
+Subject: Re: [RFC PATCH v2 05/17] drm/vkms: Avoid reading beyond LUT array
+Message-ID: <20231030152928.02cd8301@eldfell>
+In-Reply-To: <20231019212133.245155-6-harry.wentland@amd.com>
+References: <20231019212133.245155-1-harry.wentland@amd.com>
+ <20231019212133.245155-6-harry.wentland@amd.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/8] drm/loongson: Introduce a drm bridge driver for
- it66121 HDMI transmitter
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-References: <20231029194607.379459-1-suijingfeng@loongson.cn>
- <20231029194607.379459-3-suijingfeng@loongson.cn>
- <CAA8EJprjQXcTgxnC1POaBjVBzyVBvKpmKyJcCR5ExRUhVxtYoQ@mail.gmail.com>
- <3ccb9600-6990-4ec7-81de-0d7b4e1294eb@loongson.cn>
- <CAA8EJpqCe2j3GyeutnwTB0bkGXGk0az9-w3sPHLFwMVgAS=e7g@mail.gmail.com>
-Content-Language: en-US
-From: Sui Jingfeng <suijingfeng@loongson.cn>
-In-Reply-To: <CAA8EJpqCe2j3GyeutnwTB0bkGXGk0az9-w3sPHLFwMVgAS=e7g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID: AQAAf8CxeuTerj9lHgA3AA--.54640S3
-X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBj93XoW3JF1kKF13GFy3WFykZw4DWrX_yoW7Cr4fpa
- 17KFyYyrWkXrsFyrZIy3WUCFyrA393JFWfGrsxG3sY9rn8u34Iyr15KFW5Wry7Wr13Ca12
- qrWDWFW7WF1jyagCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
- sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
- 0xBIdaVrnRJUUUkFb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
- IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
- e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
- 0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
- xVW8Jr0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx
- 1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv
- 67AKxVWxJVW8Jr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxAIw28IcxkI7V
- AKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCj
- r7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6x
- IIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAI
- w20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Cr0_Gr1UMIIF0xvEx4A2jsIEc7
- CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07UZzVUUUUUU=
+Content-Type: multipart/signed; boundary="Sig_/rML9f6.xW.18bHb6BPJwrB2";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,124 +72,169 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Maxime Ripard <mripard@kernel.org>, linux-kernel@vger.kernel.org
+Cc: Sasha McIntosh <sashamcintosh@google.com>,
+ Liviu Dudau <Liviu.Dudau@arm.com>, Victoria Brekenfeld <victoria@system76.com>,
+ dri-devel@lists.freedesktop.org,
+ Michel =?UTF-8?B?RMOkbnplcg==?= <mdaenzer@redhat.com>,
+ Arthur Grillo <arthurgrillo@riseup.net>,
+ Christopher Braga <quic_cbraga@quicinc.com>,
+ Sebastian Wick <sebastian.wick@redhat.com>,
+ Shashank Sharma <shashank.sharma@amd.com>, wayland-devel@lists.freedesktop.org,
+ Jonas =?UTF-8?B?w4VkYWhs?= <jadahl@redhat.com>,
+ Uma Shankar <uma.shankar@intel.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Naseer Ahmed <quic_naseer@quicinc.com>, Melissa Wen <mwen@igalia.com>,
+ Aleix Pol <aleixpol@kde.org>, Hector Martin <marcan@marcan.st>,
+ Xaver Hugl <xaver.hugl@gmail.com>, Joshua Ashton <joshua@froggi.es>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+--Sig_/rML9f6.xW.18bHb6BPJwrB2
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, 19 Oct 2023 17:21:21 -0400
+Harry Wentland <harry.wentland@amd.com> wrote:
+
+> When the floor LUT index (drm_fixp2int(lut_index) is the last
+> index of the array the ceil LUT index will point to an entry
+> beyond the array. Make sure we guard against it and use the
+> value of the floot LUT index.
+>=20
+> Blurb about LUT creation and how first element should be 0x0 and
+> last one 0xffff.
+>=20
+> Hold on, is that even correct? What should the ends of a LUT be?
+> How does UNORM work and how does it apply to LUTs?
+
+Do you mean how should UNORM input value map to LUT entries for LUT
+indexing?
+
+I suppose UNORM 16-bit converts to nominal real values as:
+- 0x0: 0.0
+- 0xffff: 1.0
+
+And in LUT, you want 0.0 to map to the first LUT element exactly, and
+1.0 to map to the last LUT element exactly, even if whatever
+interpolation may be in use, right?
+
+If so, it is important to make sure that, assuming linear interpolation
+for instance, there is no "dead zone" at either end. Given high
+interpolation precision, any step away from 0.0 or 1.0 needs to imply a
+change in the real-valued output, assuming e.g. identity LUT.
+
+If LUT has N elements, and 16-bit UNORM input value is I, then (in
+naive real-valued math, so no implicit truncation between operations)
+
+x =3D I / 0xffff * (N - 1)
+ia =3D floor(x)
+ib =3D min(ia + 1, N - 1)
+
+f =3D x - floor(x)
+y =3D (1 - f) * LUT[ia] + f * LUT[ib]
 
 
-On 2023/10/30 18:01, Dmitry Baryshkov wrote:
-> On Mon, 30 Oct 2023 at 11:42, Sui Jingfeng <suijingfeng@loongson.cn> wrote:
->> Hi,
->>
->>
->> On 2023/10/30 06:53, Dmitry Baryshkov wrote:
->>> On Sun, 29 Oct 2023 at 21:46, Sui Jingfeng <suijingfeng@loongson.cn> wrote:
->>>> The IT66121 is a DVO to HDMI converter, LS3A5000+LS7A1000 ML5A_MB use this
->>>> chip to support HDMI output. Thus add a drm bridge based driver for it.
->>>> This patch is developed with drivers/gpu/drm/bridge/ite-it66121.c as base.
->>> Please use the original bridge driver instead of adding a new one.
->> I'm agree with the spirit of code sharing, but this is nearly impossible for non-DT system.
->>
->> Because the original bridge driver(say it66121.ko) is fully dependent on the DT.
-> I can not agree here. It doesn't depend on DT. It has fully populated
-> i2c_device_id structures, so it will work with bare I2C buses.
-> Most likely you will have to change of calls into fwnode calls, that's it.
->
->> UEFI+ACPI based system can not use with it.
->>
->> Our I2C adapter is created by the drm/loongson.ko on the runtime.
->> The potential problem is that *cyclic dependency* !
->>
->> I2C adapter driver is depend on drm/loongson
->> drm/loongson depend on drm bridge driver (say it66121.ko)
->> drm bridge driver (say it66121.ko) depend on I2C adapter to setup.
->>
->> This plus the defer probe mechanism is totally a trap,
->> incurring troubles and don't work.
-> Welcome. We had this kind of issue for DP AUX buses.
->
-> I can suggest the following approach:
-> - In the root probe function you can create an i2c bus and populate it
-> with the i2c devices.
-> - I have not checked whether you use components or not. If not, please
-> use an auxiliary or a platform device for the main DRM functionality.
-> - In the subdevice probe / bind function you check for the next
-> bridge. Then you get one of the following:drm_bridge pointer,
-> -EPROBE_DEFER, or any other error case. Your driver can react
-> accordingly.
+Does that help?
 
-I have similar way to solve this problem, and I have solved it one and a half years ago.
-See [1] for a reference.
-
-[1] https://patchwork.freedesktop.org/patch/478998/?series=99512&rev=11
-
-When the PCI device get probed, we create the I2C bus first.
-This ensure that when drm/lsdc.ko get loaded, the I2C bus is presence
-and ready to be get by the drm_bridge driver.
-This is basically a PCI-to-GPIO-emulated-I2C adapter,
-then wait the display bridges driver get loaded and set up.
-
-I also need to create a virtual platform device for the display controller.
-which allow the drm drivers instance for this virtual platform device
-be able to probed due to defer probe mechanism.
-
-This solution made the framework of my driver distortion severely,
-and in the end we still solve a easy problem by workaround.
-
-I know how to use the component framework also, but the component framework just
-a wrapper. Similar with above approach, it brings no gains in the end.
-It does not make this driver better. I got trapped one years ago,
-and I don't want to got trapped another time.
-And I know how solve such a problem by workaround, but that's not worthy for the effort.
-
-I think my approach provide a solution, while still keep the bridges drivers
-to a modular at the same time. Despite simple, it indeed solve the problem.
-It simple because of explicit control of the loading order by myself, not by
-rely on the framework or something else (say component)
-
-It is not totally duplicating, I have rewrite part of them. You can compare
-to see what I'm changed. It is just that it66162 was upstream-ed earlier than
-our solution. But I also have write display drivers for lt8618 and lt8619
-completely by myself.
+In my mind, I'm thinking of a uniformly distributed LUT as a 1-D
+texture, because that's how I have implemented them in GL. There you
+have to be careful so that input values 0.0 and 1.0 map to the *center*
+of the first and last texel, and not to the edges of the texture like
+texture coordinates do. Then you can use the GL linear texture
+interpolation as-is.
 
 
-Even though our local drm bridges driver will not be able to enjoy the updates.
-We will accept such a results(or pain). I can maintain our local drm bridges
-drivers by myself. Sorry, on this technique point, we will not follow your idea.
-I'm sure that my approach is toward to right direction for our device at now.
-If someone invent a better solution to handle this problem, which make the
-various drm bridges drivers usable out of box, then I will follow and cooperate
-to test.
-  
+Thanks,
+pq
 
-> Basically duplicating the existing driver code is not really a way to
-> go. Consider somebody adding a new feature or fixing a bug in your
-> driver copy. Then they have to check if the fix applies to the driver
-> at drivers/gpu/drm/bridge/ite-it66121.c. And vice versa. After fixing
-> an issue in the standard driver one has to keep in mind to check your
-> private copy.
->
-> So, please, use the OF code as an inspiration and register all your
-> devices in the device tree. Yes, this requires some effort from your
-> side. Yes, this pays off in the longer distance.
->
->>>    If
->>> it needs to be changed in any way, please help everyone else by
->>> improving it instead of introducing new driver.
->>>
->>>> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
->>>> ---
->>>>    drivers/gpu/drm/loongson/Kconfig            |   1 +
->>>>    drivers/gpu/drm/loongson/Makefile           |   2 +
->>>>    drivers/gpu/drm/loongson/ite_it66121.c      | 749 ++++++++++++++++++++
->>>>    drivers/gpu/drm/loongson/ite_it66121.h      |  19 +
->>>>    drivers/gpu/drm/loongson/ite_it66121_regs.h | 268 +++++++
->>>>    5 files changed, 1039 insertions(+)
->>>>    create mode 100644 drivers/gpu/drm/loongson/ite_it66121.c
->>>>    create mode 100644 drivers/gpu/drm/loongson/ite_it66121.h
->>>>    create mode 100644 drivers/gpu/drm/loongson/ite_it66121_regs.h
->
 
+> Signed-off-by: Harry Wentland <harry.wentland@amd.com>
+> Cc: Ville Syrjala <ville.syrjala@linux.intel.com>
+> Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
+> Cc: Simon Ser <contact@emersion.fr>
+> Cc: Harry Wentland <harry.wentland@amd.com>
+> Cc: Melissa Wen <mwen@igalia.com>
+> Cc: Jonas =C3=85dahl <jadahl@redhat.com>
+> Cc: Sebastian Wick <sebastian.wick@redhat.com>
+> Cc: Shashank Sharma <shashank.sharma@amd.com>
+> Cc: Alexander Goins <agoins@nvidia.com>
+> Cc: Joshua Ashton <joshua@froggi.es>
+> Cc: Michel D=C3=A4nzer <mdaenzer@redhat.com>
+> Cc: Aleix Pol <aleixpol@kde.org>
+> Cc: Xaver Hugl <xaver.hugl@gmail.com>
+> Cc: Victoria Brekenfeld <victoria@system76.com>
+> Cc: Sima <daniel@ffwll.ch>
+> Cc: Uma Shankar <uma.shankar@intel.com>
+> Cc: Naseer Ahmed <quic_naseer@quicinc.com>
+> Cc: Christopher Braga <quic_cbraga@quicinc.com>
+> Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> Cc: Arthur Grillo <arthurgrillo@riseup.net>
+> Cc: Hector Martin <marcan@marcan.st>
+> Cc: Liviu Dudau <Liviu.Dudau@arm.com>
+> Cc: Sasha McIntosh <sashamcintosh@google.com>
+> ---
+>  drivers/gpu/drm/vkms/vkms_composer.c | 14 ++++++++++----
+>  1 file changed, 10 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/=
+vkms_composer.c
+> index a0a3a6fd2926..cf1dff162920 100644
+> --- a/drivers/gpu/drm/vkms/vkms_composer.c
+> +++ b/drivers/gpu/drm/vkms/vkms_composer.c
+> @@ -123,6 +123,8 @@ static u16 apply_lut_to_channel_value(const struct vk=
+ms_color_lut *lut, u16 chan
+>  				      enum lut_channel channel)
+>  {
+>  	s64 lut_index =3D get_lut_index(lut, channel_value);
+> +	u16 *floor_lut_value, *ceil_lut_value;
+> +	u16 floor_channel_value, ceil_channel_value;
+> =20
+>  	/*
+>  	 * This checks if `struct drm_color_lut` has any gap added by the compi=
+ler
+> @@ -130,11 +132,15 @@ static u16 apply_lut_to_channel_value(const struct =
+vkms_color_lut *lut, u16 chan
+>  	 */
+>  	static_assert(sizeof(struct drm_color_lut) =3D=3D sizeof(__u16) * 4);
+> =20
+> -	u16 *floor_lut_value =3D (__u16 *)&lut->base[drm_fixp2int(lut_index)];
+> -	u16 *ceil_lut_value =3D (__u16 *)&lut->base[drm_fixp2int_ceil(lut_index=
+)];
+> +	floor_lut_value =3D (__u16 *)&lut->base[drm_fixp2int(lut_index)];
+> +	if (drm_fixp2int(lut_index) =3D=3D (lut->lut_length - 1))
+> +		/* We're at the end of the LUT array, use same value for ceil and floo=
+r */
+> +		ceil_lut_value =3D floor_lut_value;
+> +	else
+> +		ceil_lut_value =3D (__u16 *)&lut->base[drm_fixp2int_ceil(lut_index)];
+> =20
+> -	u16 floor_channel_value =3D floor_lut_value[channel];
+> -	u16 ceil_channel_value =3D ceil_lut_value[channel];
+> +	floor_channel_value =3D floor_lut_value[channel];
+> +	ceil_channel_value =3D ceil_lut_value[channel];
+> =20
+>  	return lerp_u16(floor_channel_value, ceil_channel_value,
+>  			lut_index & DRM_FIXED_DECIMAL_MASK);
+
+
+--Sig_/rML9f6.xW.18bHb6BPJwrB2
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmU/r7gACgkQI1/ltBGq
+qqdJZA//e0Ee19TiFXj3CLeMjPE3RPCquYvOhaF1LGkRUCoTz8Hw3nkOFEW3bzL6
+xmHPzw9fQUtrBuj5Jzwz1nh3Ee32zABaqY9qT49P9IKAfihpZrnYWS2CE55UZ72T
+CGubKHMcnBkePHSmqk5AOaOq780HvCTTkChWpJdd8iQ8Sb+bhk0rBztcpex1s3WS
+DMsdM4Gv27EKiXMfz0l4bASnME0GG32KBQOgNr65g/s5seMu6YapicZ3MjmNdJIA
+6K9Muq9psdZNQ6drn60JxMbgojzvqn8uTPey8GI9OK6LsIH0ZpIbYb2zeux+6MsO
+ZuSFUpt/mkKUpa1vZ3eGEC+XnEc6hEpTzijvFn9Vdy1fbaiNpME2/XGx0EpPJ4E2
+zF1h7OvyD61n2tYTa5Yd0foBhSNkA9yH0y7vmOdA0jrsecZ/wa7BC6bCsCLv5RKw
+VA07+15Uki6l5kju5d+B1lUyttkUPGAc9T0Ju4MwCAOtndE8mVlubQoSal19mZ9a
+Iyzn8VsSPCsSWW1Ypq+6uBrXzXnUhPW3Ce7y1QoE2MHchpHmTDgIexfvfUQfhTRr
+RtlTSQa0X+EeTarH7qNOJ1+CbQktqJtP2ZSYn/EYNcRtaYoOA/ZR1b4ykSrob8dR
+U7pfqQU3gzONHGkwDoSqfl3uoq/mpa3qTTQmbSy8+v83XKWcI4s=
+=X+WX
+-----END PGP SIGNATURE-----
+
+--Sig_/rML9f6.xW.18bHb6BPJwrB2--
