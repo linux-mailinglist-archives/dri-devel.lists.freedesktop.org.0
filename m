@@ -2,47 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 967907DBA34
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Oct 2023 13:59:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A47B7DBA8E
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Oct 2023 14:23:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 84F2210E2B4;
-	Mon, 30 Oct 2023 12:59:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0DAA410E0D7;
+	Mon, 30 Oct 2023 13:23:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com
- [209.85.167.200])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3935310E2C0
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Oct 2023 12:59:26 +0000 (UTC)
-Received: by mail-oi1-f200.google.com with SMTP id
- 5614622812f47-3b2e2d3560bso5855731b6e.2
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Oct 2023 05:59:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1698670765; x=1699275565;
- h=to:from:subject:message-id:date:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=KYlwkdlxBDJnjSpj7UK3/dNpXX/f8SXYnVcSUXIR3Ok=;
- b=CPRKIiqD0zvP2qszNffVKqmWM82phei4B6eVaxCi5qYrfH5ebdle/xRAUd1T7Z0wnT
- TwgRdsukL0L9Wa82a16QM9iRWuz0a9CYSLQRxjJbpQhMrjQllLQ/EAcYsUrFnnlYDea9
- qkR8SuhyOS5RuN1K2jywEMj2Cl4W4xsC0u1hZw8Rwf8DgsBgbvAGPE4B1ZQoc7hGym9F
- Dd7Il9xZA55duoCc6HKqg31TQKSEe2GN/mSxj5X/HlvU5tawWx0xcBsmy21WNy5oeZXI
- MHYt0SVsi3MIeiGAdzyN30iEPpAo28UUWiNgnGR5ZxmSEPpxkGyUrm/5inxuxDp1JWs6
- sZ7w==
-X-Gm-Message-State: AOJu0YxhoOE/aTqKUXsBCOvYOQ5+HCd4A1U14H2VUb8faBxzsW6RceZX
- hrADgnqs9dGJroIxwW5m/5XaxHMNbw9lJU4sYH8q+NVl2tiR8Z0=
-X-Google-Smtp-Source: AGHT+IFb6iqIiK1NsOdGRbOQD7hykE32UIqiv3/ZVB6ARz1HbFbBPtE5eoAfMq76OsabpPS2qcoTgFHW+Lq1o8kCesXEkhZ9DX61
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 91C9C10E0D7
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Oct 2023 13:23:06 +0000 (UTC)
+Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 46B82660297B;
+ Mon, 30 Oct 2023 13:23:04 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1698672185;
+ bh=TxpERrHKvTXLv7m6DqA8hS2RM5V93+V2vFmeraHSOl0=;
+ h=From:To:Cc:Subject:Date:From;
+ b=MgC3ld0hp1ucNJ8hYE/CQB6rOFdkGUDdh5aNHd2Yf+ZDPyfrt0QEoyArU9WLoirI3
+ dO3j4ke8OcVsxL6DZyMGBJs1tjnk3pZs2I7NAc8aVCis5bzn/V2iiqmfvxNKn1D9xh
+ 6EXM5NPAlIlVBdjROTAgeaQ26D6X1RxJB+zjhbV7xgdYPwlFoKccoEYZ3K9egQfRQc
+ PSSWjG+eIhcR3qqn/bSI+4Wk3LmXfwStmus2Yh2lVpsQvZAhjhuqhE0vTww5FyoM9I
+ fjuEgX/yFxSnjAGQU1xrkkVRlLQkh/RFV1GcBXXE2oMf8rrCFuPYCxbvM46xDDLq2p
+ AMhuZnN1yMRdQ==
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+To: boris.brezillon@collabora.com
+Subject: [PATCH 0/4] drm/panfrost: Turn off clocks and regulators in PM
+Date: Mon, 30 Oct 2023 14:22:53 +0100
+Message-ID: <20231030132257.85379-1-angelogioacchino.delregno@collabora.com>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:6c2:b0:3b2:ec65:39a0 with SMTP id
- m2-20020a05680806c200b003b2ec6539a0mr3483838oih.5.1698670765420; Mon, 30 Oct
- 2023 05:59:25 -0700 (PDT)
-Date: Mon, 30 Oct 2023 05:59:25 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <00000000000090385d0608ee9b1b@google.com>
-Subject: [syzbot] Monthly dri report (Oct 2023)
-From: syzbot <syzbot+listfa54de280740e25bf828@syzkaller.appspotmail.com>
-To: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,47 +49,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: linux-kernel@vger.kernel.org, mripard@kernel.org, steven.price@arm.com,
+ dri-devel@lists.freedesktop.org, tzimmermann@suse.de, wenst@chromium.org,
+ kernel@collabora.com,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello dri maintainers/developers,
+At least MediaTek platforms are able to get the GPU clocks and regulators
+completely off during system suspend, allowing to save a bit of power.
 
-This is a 31-day syzbot report for the dri subsystem.
-All related reports/information can be found at:
-https://syzkaller.appspot.com/upstream/s/dri
+Panfrost is used on more than just MediaTek SoCs and the benefits of this
+can be variable across different SoC models and/or different SoCs from
+different manufacturers: this means that just adding this ability for all
+could result in unexpected issues and breakages on untested SoCs.
 
-During the period, 1 new issues were detected and 0 were fixed.
-In total, 15 issues are still open and 30 have been fixed so far.
+For the aforemenetioned reasons, turning off the clocks and/or regulators
+was implemented inside of a capabilities barrier that shall be enabled on
+a per-SoC basis (in the panfrost_compatible platform data) after testing
+of both benefits and feasibility.
 
-Some of the still happening issues:
+In this series, I am adding the ability to switch on/off clocks and
+regulators and enabling that on all MediaTek platforms, as I was able
+to successfully test that on multiple Chromebooks featuring different
+MediaTek SoCs; specifically, I've manually tested on MT8186, MT8192 and
+MT8195, while MT8183 got tested only by KernelCI.
 
-Ref Crashes Repro Title
-<1> 375     Yes   WARNING in drm_wait_one_vblank
-                  https://syzkaller.appspot.com/bug?extid=6f7fe2dbc479dca0ed17
-<2> 110     Yes   WARNING in vkms_get_vblank_timestamp (2)
-                  https://syzkaller.appspot.com/bug?extid=93bd128a383695391534
-<3> 78      Yes   WARNING in drm_syncobj_array_find
-                  https://syzkaller.appspot.com/bug?extid=95416f957d84e858b377
-<4> 35      Yes   inconsistent lock state in sync_info_debugfs_show
-                  https://syzkaller.appspot.com/bug?extid=007bfe0f3330f6e1e7d1
-<5> 22      Yes   KMSAN: uninit-value in drm_mode_setcrtc
-                  https://syzkaller.appspot.com/bug?extid=4fad2e57beb6397ab2fc
-<6> 4       Yes   WARNING in drm_gem_object_handle_put_unlocked
-                  https://syzkaller.appspot.com/bug?extid=ef3256a360c02207a4cb
-<7> 3       Yes   kernel BUG in vmf_insert_pfn_prot (2)
-                  https://syzkaller.appspot.com/bug?extid=398e17b61dab22cc56bc
-<8> 2       Yes   WARNING in drm_prime_fd_to_handle_ioctl
-                  https://syzkaller.appspot.com/bug?extid=0da81ccba2345eeb7f48
+Cheers!
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+AngeloGioacchino Del Regno (4):
+  drm/panfrost: Implement ability to turn on/off GPU clocks in suspend
+  drm/panfrost: Set clocks on/off during system sleep on MediaTek SoCs
+  drm/panfrost: Implement ability to turn on/off regulators in suspend
+  drm/panfrost: Set regulators on/off during system sleep on MediaTek
+    SoCs
 
-To disable reminders for individual bugs, reply with the following command:
-#syz set <Ref> no-reminders
+ drivers/gpu/drm/panfrost/panfrost_device.c | 78 ++++++++++++++++++++--
+ drivers/gpu/drm/panfrost/panfrost_device.h | 13 ++++
+ drivers/gpu/drm/panfrost/panfrost_drv.c    |  3 +
+ 3 files changed, 90 insertions(+), 4 deletions(-)
 
-To change bug's subsystems, reply with:
-#syz set <Ref> subsystems: new-subsystem
+-- 
+2.42.0
 
-You may send multiple commands in a single email message.
