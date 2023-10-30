@@ -1,74 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 467A17DB6B5
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Oct 2023 10:51:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE5A67DB927
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Oct 2023 12:41:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2310D10E262;
-	Mon, 30 Oct 2023 09:51:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE26A10E29A;
+	Mon, 30 Oct 2023 11:41:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 20C2A10E262
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Oct 2023 09:51:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1698659460;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=/oSWn6zXYpZy9BOM4oLogaZaeF7rrl7rER8ZrPalZQY=;
- b=XZ5+URRBbSiJpCrOChg85s48CdHdi23vHHRhfpP04J8vi1sPJXc0iNfFd3x1vdX4KBe60b
- SxoJXB3ccosB2v0RhZy0uqEpOqvmN6aiQ34Webqn8mnEOjMW7SCsiodOUZGMm4Zxgc8Sw5
- fPX3qamd8uUcn7poSPn+AXWNEyAH5WU=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-646-0rrkTqi1N5iv6UBSvw8HFw-1; Mon, 30 Oct 2023 05:50:57 -0400
-X-MC-Unique: 0rrkTqi1N5iv6UBSvw8HFw-1
-Received: by mail-ej1-f71.google.com with SMTP id
- a640c23a62f3a-9c45a6a8832so47967066b.1
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Oct 2023 02:50:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1698659456; x=1699264256;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=/oSWn6zXYpZy9BOM4oLogaZaeF7rrl7rER8ZrPalZQY=;
- b=DDDBmfXXYYw28jvWJnOX2urUAb+fUJa7FxYZ0EHIPIA4H8Rh8zJD4MgYzj6ZTiBxYn
- O51XussmM3JN6FFw70rmKzUA4QCVlyUrx2gEwoTIN1TR3FmyRj2il0gdR2MADHEbNMTF
- FTGOvsqSR0r4jHvrOflrtrgAKdoJN1dVWPt5VzbRkPhpKxTYtpnThtBizyZWAjOqOYkj
- ey6AqmCYquEgNX8RlrCuAYU4eNSQ5mgVxNj9C/WkrDrteEANmXa3PhvU0tJgvWgA0ZzB
- WcJCCiLD4Ihf1OlQa/ZvXpEwBGwQFXos6O9CT5acJ5yELVdTTkZaXKYcR2ksUBxoAOGG
- jByw==
-X-Gm-Message-State: AOJu0YzrG7VGtVWEyBgfjsqtnGb2QqQSu1dg9ndw5QQBqlticDVaK2N9
- LMGl1xMkLTjErc9gDjCLB2YPo+je+gtQxxleuxAmep1/u/JUHx7ZqxUL8mh058E2XiZAHizFt9l
- nUAvrMa88J9ZbR5wNR8wVhZtqp7k2
-X-Received: by 2002:a17:907:7e81:b0:9bd:d7bd:1a4f with SMTP id
- qb1-20020a1709077e8100b009bdd7bd1a4fmr7602333ejc.3.1698659456598; 
- Mon, 30 Oct 2023 02:50:56 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEMRMtphV7L/pm2FESojpEkX3pszj2FB49P9ifh3HCWwcnJGmYxU5G5hOQexhf62fcAmQtueA==
-X-Received: by 2002:a17:907:7e81:b0:9bd:d7bd:1a4f with SMTP id
- qb1-20020a1709077e8100b009bdd7bd1a4fmr7602318ejc.3.1698659456249; 
- Mon, 30 Oct 2023 02:50:56 -0700 (PDT)
-Received: from fedorinator.. ([2a01:598:c850:3f34:4525:c3f4:ae24:9570])
- by smtp.gmail.com with ESMTPSA id
- rh19-20020a17090720f300b009b97d9ae329sm5763300ejb.198.2023.10.30.02.50.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 Oct 2023 02:50:55 -0700 (PDT)
-From: Philipp Stanner <pstanner@redhat.com>
-To: Dave Airlie <airlied@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Jocelyn Falempe <jfalempe@redhat.com>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH] drm/ast: use managed devres functions
-Date: Mon, 30 Oct 2023 10:50:24 +0100
-Message-ID: <20231030095024.9808-2-pstanner@redhat.com>
-X-Mailer: git-send-email 2.41.0
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3942610E275
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Oct 2023 09:57:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=s31663417; t=1698659825; x=1699264625; i=wahrenst@gmx.net;
+ bh=37wKrp2qAD613kYLNSmDTKsnQ8XYuKyMJp4BMc7gfCE=;
+ h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
+ In-Reply-To;
+ b=i5x7CbNG26Cpl9Cspo5frzRtCEYyoC0AMnKme3fUcDq5FtWhFcKEUSaRfNRY7QXS
+ jeEbk0Pz2/UjC7gluN6FmwxNApX+w1kuMGfkBGZ6edpJy+QoG0/cRl4Daien4KYM1
+ p4VzqUr5UxJ7qtCqSqszNEE1rIcrIXlrMfx3uOuPsYKgN4A4wH0PauK2rFFxsJR5c
+ 7rQnFyXNdBn9C3+uPhs5MGpGMCYq/Id312l5n7Te6iZB1ByGAUXiyGlwtDn004/f2
+ 1vDcLT26hMkxAbA/tQ1um1nHc6TwbDhx9dfi9Tir2mMDStozka9PYDYTPy7aFH79E
+ 2jjD1IJHNNuTYi3KkA==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.1.129] ([37.4.248.43]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1N9dwj-1rZdUD3aUv-015bFd; Mon, 30
+ Oct 2023 10:57:04 +0100
+Message-ID: <1d926740-74d8-4114-85c7-30b2e986ba8a@gmx.net>
+Date: Mon, 30 Oct 2023 10:57:02 +0100
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/4] dt-bindings: gpu: v3d: Add BCM2712's compatible
+Content-Language: en-US
+To: Iago Toral Quiroga <itoral@igalia.com>, Maira Canal <mcanal@igalia.com>,
+ dri-devel@lists.freedesktop.org
+References: <20231030082858.30321-1-itoral@igalia.com>
+ <20231030082858.30321-4-itoral@igalia.com>
+From: Stefan Wahren <wahrenst@gmx.net>
+In-Reply-To: <20231030082858.30321-4-itoral@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:P5vOFeltnGmiwgfcisSqbfWTHE3IClcRR8Sao7L+9KNXL1I92G6
+ 8ozw0A+qcx6L+/zg+Rf8GCYHtLJn3gpYoyCIqR/oHdrzdZCV3YeuEyFaYa+vpm5exbgBh+g
+ 5vexW1dlHUcKayiNyIsz9O1fcZrCDO8XIQVRA2HRb//SAzFc85G/YZD2eBwNOdfjUfVgJkD
+ qNs32vBFoRMj8WRfsf0vg==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:0e+d6N4NAYw=;G4N8tkw2Qo96+r6ZZg+lNVtPXzg
+ gZnyEI4QO8V0pBaxO0ASwYRMR285t2uDZbX2uPv0Rs441jA/kNZ6PTx6kVxukNg9bKSNQOWDD
+ EeFQMu9bBhtyk3IjkUd7qRa/Fi+ny0ZqIRHUBH0eYtzAaevThotFJtMxSAaVL6cRgaoZmp4zy
+ g0I/+UBstK5duTwo1UI0WcsBpp68Y3ElMDp62WQCs//+hrnDXRKxATQo/eOArlI29miFM4L8l
+ zeJ7wuay/OITiE91SwWljtt/17p1LVq0S/oHbed/DjgT8wR50f+h78K+UPHjJjGaz+FsnsBwh
+ FiLybN8d2akUdshUQ6FxB7YKFvb5gOGtzggmiy4tumRucQ3bSJhjLwmy0zkh9R0bZ+B1L5y5+
+ JX7L5BjG2+4xh+or3Q29USF7gULUwlNpoMsPlCDXe7uKsG1t5S0KBcGF4PB9ix0GmFTLl5Yfr
+ rHwxQGl4dLoSrxzvZOXkMWYhNzOfy1IHpUnnFX3kyWH3Le82m2pMyJlf118C+4N0zijhAUsFn
+ fQXOxl/E4tSouBrfPnlv1QR4EyMaKJfDVgu3kUY2juJi8PKQHthHUztdwe4txxP1Ifr5EsTix
+ GmHgPfsj+YfV5TK+y1HszMRvt4k0ITxHuqHqUhzEBtX/RxY36bbKOZ3h9mfQKMPikPsbXLFdl
+ oT8m1nHyTE8dSY3kOSCyEEEsPZV8FeLO4totiORoWLSxcHLGmVioy6s3WC7aP1UR6GTz5/LTn
+ fyx/g4zQnOK2hcHptrz8KSm8SEtnDUx9IMl2EPDF5w+ybXsPjGvyb0Yu87xLu+3qKcV+oxBGO
+ gPAkDoQvM13/a+Yfa+lMMaoC46kxA09sAvTL6TSFoCZvnCz5b2VZN010NOXvA4jMoTTEs0aO3
+ BhhOla3jQNz/olWJ4b0fO37KjKcKhCtkcaXcXlpC+wzOs3zI/noPtIeuD7sEF15pM9JO3AA68
+ /5MeZ9RnX7MnkQLLphl5YnSa++U=
+X-Mailman-Approved-At: Mon, 30 Oct 2023 11:41:13 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,76 +74,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.org, dri-devel@lists.freedesktop.org,
- Philipp Stanner <pstanner@redhat.com>
+Cc: Nicolas Saenz Julienne <nsaenz@kernel.org>, Emma Anholt <emma@anholt.net>,
+ Melissa Wen <mwen@igalia.com>, Rob Herring <robh+dt@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently, tha ast-driver just maps the PCI-dev's regions with
-pcim_iomap(). It does not actually reserve the regions exclusively
-with, e.g., pci_request_regions().
+Hi Iago,
 
-Replace the calls to pcim_iomap() with ones to pcim_iomap_regions() to
-reserve and map the regions simultaneously.
+Am 30.10.23 um 09:28 schrieb Iago Toral Quiroga:
+> BCM2712, Raspberry Pi 5's SoC, contains a V3D core. So add its specific
+> compatible to the bindings.
+>
+> v2: new, requested by Stefan Wahren.
+Thanks for sending this but the line above belongs below --- since it's
+not relevant after the patch has been applied.
+>
+> Signed-off-by: Iago Toral Quiroga <itoral@igalia.com>
+Unfortunately this patch will be ignored because the relevant devicetree
+people are missing to give their Ack.
 
-Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
-Signed-off-by: Philipp Stanner <pstanner@redhat.com>
----
-¡Hola!
-I picked up the memory-region-request-task from the DRM-TODO-List [1]
-and began with this driver.
+Please use scripts/get_maintainers.pl
 
-Please have a first look. I wasn't entirely sure about -ENOMEM... for
-example, as far as my understanding goes, it should not be able to fail
-anyways in the second call.
-
-I don't have the server-hardware, thus, can't test it on a physical
-machine.
-
-Please tell me what you think.
-
-P.
-
-[1] https://dri.freedesktop.org/docs/drm/gpu/todo.html#request-memory-regions-in-all-drivers
----
- drivers/gpu/drm/ast/ast_main.c | 15 +++++++++++----
- 1 file changed, 11 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/gpu/drm/ast/ast_main.c b/drivers/gpu/drm/ast/ast_main.c
-index dae365ed3969..1004c6628938 100644
---- a/drivers/gpu/drm/ast/ast_main.c
-+++ b/drivers/gpu/drm/ast/ast_main.c
-@@ -444,9 +444,13 @@ struct ast_device *ast_device_create(const struct drm_driver *drv,
- 	if (ret)
- 		return ERR_PTR(ret);
- 
--	ast->regs = pcim_iomap(pdev, 1, 0);
-+	ret = pcim_iomap_regions(pdev, BIT(1), 0);
-+	if (ret)
-+		return ERR_PTR(ret);
-+
-+	ast->regs = pcim_iomap_table(pdev)[1];
- 	if (!ast->regs)
--		return ERR_PTR(-EIO);
-+		return ERR_PTR(-ENOMEM);
- 
- 	/*
- 	 * After AST2500, MMIO is enabled by default, and it should be adopted
-@@ -461,9 +465,12 @@ struct ast_device *ast_device_create(const struct drm_driver *drv,
- 
- 	/* "map" IO regs if the above hasn't done so already */
- 	if (!ast->ioregs) {
--		ast->ioregs = pcim_iomap(pdev, 2, 0);
-+		ret = pcim_iomap_regions(pdev, BIT(2), 0);
-+		if (ret)
-+			return ERR_PTR(ret);
-+		ast->ioregs = pcim_iomap_table(pdev)[2];
- 		if (!ast->ioregs)
--			return ERR_PTR(-EIO);
-+			return ERR_PTR(-ENOMEM);
- 	}
- 
- 	if (!ast_is_vga_enabled(dev)) {
--- 
-2.41.0
+Best regards
+> ---
+>   Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml | 1 +
+>   1 file changed, 1 insertion(+)
+>
+> diff --git a/Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml b/D=
+ocumentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml
+> index dae55b8a267b..dc078ceeca9a 100644
+> --- a/Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml
+> +++ b/Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml
+> @@ -17,6 +17,7 @@ properties:
+>     compatible:
+>       enum:
+>         - brcm,2711-v3d
+> +      - brcm,2712-v3d
+>         - brcm,7268-v3d
+>         - brcm,7278-v3d
+>
 
