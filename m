@@ -2,46 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B667B7DB1D1
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Oct 2023 02:34:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E1197DB20E
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Oct 2023 03:29:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A44910E068;
-	Mon, 30 Oct 2023 01:34:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8851810E1FA;
+	Mon, 30 Oct 2023 02:29:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 378 seconds by postgrey-1.36 at gabe;
- Mon, 30 Oct 2023 01:34:47 UTC
-Received: from us-smtp-delivery-44.mimecast.com (unknown [207.211.30.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4AEB910E068
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Oct 2023 01:34:47 +0000 (UTC)
-Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
- by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-508-Xy9NjHctMKqDh59Y5P5M3w-1; Sun,
- 29 Oct 2023 21:28:18 -0400
-X-MC-Unique: Xy9NjHctMKqDh59Y5P5M3w-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7771C3827965;
- Mon, 30 Oct 2023 01:28:18 +0000 (UTC)
-Received: from dreadlord.redhat.com (unknown [10.64.136.133])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 788EC492BE0;
- Mon, 30 Oct 2023 01:28:17 +0000 (UTC)
-From: Dave Airlie <airlied@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/2] nouveau/disp: fix post-gsp build on 32-bit arm.
-Date: Mon, 30 Oct 2023 11:28:13 +1000
-Message-ID: <20231030012814.1208972-2-airlied@gmail.com>
-In-Reply-To: <20231030012814.1208972-1-airlied@gmail.com>
-References: <20231030012814.1208972-1-airlied@gmail.com>
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A04D610E1FA
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Oct 2023 02:29:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1698632947; x=1730168947;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=fYwJcaSUlwINm8Ezc9wvvnXyuAcyakItjHqSg3FWpJ4=;
+ b=ZoiZ/rRLvl0zU3ue5dDTMiBd1T4MIkxg0HwPQNvWUZr2EjfsyLINsbo/
+ 86zdX5vB0PwlFUqlDbnd9aGDdrwYz9SldtT2p+PymOgvHcrW+KYmOfwGr
+ lZouQ0CefKkJrDEAiWyg5UTqDHbWaZhpIcwLeUOaD0GMrh8DMkDJrr3li
+ 47Jph5B6UOsZbQBRGUf4hbNee5aX7EJP2c/vzWUs/F+VUA8sZdoTB44Hj
+ vCod2Yidf2VWgwi5zo6baIKzk9DC8QINLO0vNoHZyEpE9bQG2s6Fp0Aw9
+ EyJZ/IGCxzPkgAcWbE00O3XAwEx3QWQwihrsHhgJbWbBtA0KNx+q7Z/qZ Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10878"; a="373054563"
+X-IronPort-AV: E=Sophos;i="6.03,262,1694761200"; d="scan'208";a="373054563"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Oct 2023 19:29:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10878"; a="709967959"
+X-IronPort-AV: E=Sophos;i="6.03,262,1694761200"; d="scan'208";a="709967959"
+Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
+ by orsmga003.jf.intel.com with ESMTP; 29 Oct 2023 19:29:02 -0700
+Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1qxI1T-000CzH-38;
+ Mon, 30 Oct 2023 02:28:59 +0000
+Date: Mon, 30 Oct 2023 10:28:29 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sui Jingfeng <suijingfeng@loongson.cn>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 5/8] drm/loongson: Using vbios for the LS7A2000 output
+ initialization
+Message-ID: <202310301026.haj8ZOHJ-lkp@intel.com>
+References: <20231029194607.379459-6-suijingfeng@loongson.cn>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.9
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: gmail.com
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=WINDOWS-1252; x-default=true
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231029194607.379459-6-suijingfeng@loongson.cn>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,124 +61,121 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ oe-kbuild-all@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dave Airlie <airlied@redhat.com>
+Hi Sui,
 
-This converts a bunch of divides into the proper macros.
+kernel test robot noticed the following build warnings:
 
-Signed-off-by: Dave Airlie <airlied@redhat.com>
----
- drivers/gpu/drm/nouveau/dispnv50/disp.c | 24 +++++++++++++-----------
- 1 file changed, 13 insertions(+), 11 deletions(-)
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on linus/master v6.6-rc7 next-20231027]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/nouv=
-eau/dispnv50/disp.c
-index d2be40337b92..7840b6428afb 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
-+++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-@@ -1644,7 +1644,7 @@ nv50_sor_dp_watermark_sst(struct nouveau_encoder *out=
-p,
- =09// 0 active symbols. This may cause HW hang. Bug 200379426
- =09//
- =09if ((bEnableDsc) &&
--=09=09((pixelClockHz * depth) < ((8 * minRate * outp->dp.link_nr * DSC_FAC=
-TOR) / 64)))
-+=09    ((pixelClockHz * depth) < div_u64(8 * minRate * outp->dp.link_nr * =
-DSC_FACTOR, 64)))
- =09{
- =09=09return false;
- =09}
-@@ -1654,20 +1654,20 @@ nv50_sor_dp_watermark_sst(struct nouveau_encoder *o=
-utp,
- =09//=09For auto mode the watermark calculation does not need to track acc=
-umulated error the
- =09//=09formulas for manual mode will not work.  So below calculation was =
-extracted from the DTB.
- =09//
--=09ratioF =3D ((u64)pixelClockHz * depth * PrecisionFactor) / DSC_FACTOR;
-+=09ratioF =3D div_u64((u64)pixelClockHz * depth * PrecisionFactor, DSC_FAC=
-TOR);
-=20
--=09ratioF /=3D 8 * (u64) minRate * outp->dp.link_nr;
-+=09ratioF =3D div_u64(ratioF, 8 * (u64) minRate * outp->dp.link_nr);
-=20
- =09if (PrecisionFactor < ratioF) // Assert if we will end up with a negati=
-ve number in below
- =09=09return false;
-=20
--=09watermarkF =3D ratioF * tuSize * (PrecisionFactor - ratioF)  / Precisio=
-nFactor;
--=09waterMark =3D (unsigned)(watermarkAdjust + ((2 * (depth * PrecisionFact=
-or / (8 * numLanesPerLink * DSC_FACTOR)) + watermarkF) / PrecisionFactor));
-+=09watermarkF =3D div_u64(ratioF * tuSize * (PrecisionFactor - ratioF), Pr=
-ecisionFactor);
-+=09waterMark =3D (unsigned)(watermarkAdjust + (div_u64(2 * div_u64(depth *=
- PrecisionFactor, 8 * numLanesPerLink * DSC_FACTOR) + watermarkF, Precision=
-Factor)));
-=20
- =09//
- =09//  Bounds check the watermark
- =09//
--=09numSymbolsPerLine =3D (surfaceWidth * depth) / (8 * outp->dp.link_nr * =
-DSC_FACTOR);
-+=09numSymbolsPerLine =3D div_u64(surfaceWidth * depth, 8 * outp->dp.link_n=
-r * DSC_FACTOR);
-=20
- =09if (WARN_ON(waterMark > 39 || waterMark > numSymbolsPerLine))
- =09=09return false;
-@@ -1688,11 +1688,13 @@ nv50_sor_dp_watermark_sst(struct nouveau_encoder *o=
-utp,
- =09surfaceWidthPerLink =3D surfaceWidth;
-=20
- =09//Extra bits sent due to pixel steering
--=09PixelSteeringBits =3D (surfaceWidthPerLink % numLanesPerLink) ? (((numL=
-anesPerLink - surfaceWidthPerLink % numLanesPerLink) * depth) / DSC_FACTOR)=
- : 0;
-+=09u32 remain;
-+=09div_u64_rem(surfaceWidthPerLink, numLanesPerLink, &remain);
-+=09PixelSteeringBits =3D remain ? div_u64((numLanesPerLink - remain) * dep=
-th, DSC_FACTOR) : 0;
-=20
- =09BlankingBits +=3D PixelSteeringBits;
--=09NumBlankingLinkClocks =3D (u64)BlankingBits * PrecisionFactor / (8 * nu=
-mLanesPerLink);
--=09MinHBlank =3D (u32)(NumBlankingLinkClocks * pixelClockHz/ minRate / Pre=
-cisionFactor);
-+=09NumBlankingLinkClocks =3D div_u64((u64)BlankingBits * PrecisionFactor, =
-(8 * numLanesPerLink));
-+=09MinHBlank =3D (u32)(div_u64(div_u64(NumBlankingLinkClocks * pixelClockH=
-z, minRate), PrecisionFactor));
- =09MinHBlank +=3D 12;
-=20
- =09if (WARN_ON(MinHBlank > rasterWidth - surfaceWidth))
-@@ -1703,7 +1705,7 @@ nv50_sor_dp_watermark_sst(struct nouveau_encoder *out=
-p,
- =09=09return false;
-=20
-=20
--=09hblank_symbols =3D (s32)(((u64)(rasterWidth - surfaceWidth - MinHBlank)=
- * minRate) / pixelClockHz);
-+=09hblank_symbols =3D (s32)(div_u64((u64)(rasterWidth - surfaceWidth - Min=
-HBlank) * minRate, pixelClockHz));
-=20
- =09//reduce HBlank Symbols to account for secondary data packet
- =09hblank_symbols -=3D 1; //Stuffer latency to send BS
-@@ -1722,7 +1724,7 @@ nv50_sor_dp_watermark_sst(struct nouveau_encoder *out=
-p,
- =09}
- =09else
- =09{
--=09=09vblank_symbols =3D (s32)(((u64)(surfaceWidth - 40) * minRate) /  pix=
-elClockHz) - 1;
-+=09=09vblank_symbols =3D (s32)((div_u64((u64)(surfaceWidth - 40) * minRate=
-, pixelClockHz))) - 1;
-=20
- =09=09vblank_symbols -=3D numLanesPerLink =3D=3D 1 ? 39  : numLanesPerLink=
- =3D=3D 2 ? 21 : 12;
- =09}
---=20
-2.41.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Sui-Jingfeng/drm-loongson-Introduce-a-minimal-support-for-Loongson-VBIOS/20231030-034730
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20231029194607.379459-6-suijingfeng%40loongson.cn
+patch subject: [PATCH 5/8] drm/loongson: Using vbios for the LS7A2000 output initialization
+config: loongarch-randconfig-002-20231030 (https://download.01.org/0day-ci/archive/20231030/202310301026.haj8ZOHJ-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231030/202310301026.haj8ZOHJ-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310301026.haj8ZOHJ-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/gpu/drm/loongson/lsdc_output_7a2000.c:568:1: warning: no previous prototype for 'ls7a2000_query_output_configuration' [-Wmissing-prototypes]
+     568 | ls7a2000_query_output_configuration(struct drm_device *ddev, unsigned int pipe)
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/loongson/lsdc_output_7a2000.c:498:46: warning: 'ls7a2000_encoder_helper_funcs' defined but not used [-Wunused-const-variable=]
+     498 | static const struct drm_encoder_helper_funcs ls7a2000_encoder_helper_funcs = {
+         |                                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/loongson/lsdc_output_7a2000.c:272:39: warning: 'ls7a2000_encoder_funcs' defined but not used [-Wunused-const-variable=]
+     272 | static const struct drm_encoder_funcs ls7a2000_encoder_funcs[2] = {
+         |                                       ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/loongson/lsdc_output_7a2000.c:201:41: warning: 'ls7a2000_hdmi_connector_funcs' defined but not used [-Wunused-const-variable=]
+     201 | static const struct drm_connector_funcs ls7a2000_hdmi_connector_funcs[2] = {
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/loongson/lsdc_output_7a2000.c:77:48: warning: 'ls7a2000_connector_helpers' defined but not used [-Wunused-const-variable=]
+      77 | static const struct drm_connector_helper_funcs ls7a2000_connector_helpers = {
+         |                                                ^~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/ls7a2000_query_output_configuration +568 drivers/gpu/drm/loongson/lsdc_output_7a2000.c
+
+   559	
+   560	/*
+   561	 * For LS7A2000, the built-in VGA encoder is transparent. If there are
+   562	 * external encoder exist, then the internal HDMI encoder MUST be enabled
+   563	 * and initialized. As the internal HDMI encoder is always connected, so
+   564	 * only the transmitters which take HDMI signal (such as HDMI to eDP, HDMI
+   565	 * to LVDS, etc) are usable with.
+   566	 */
+   567	const struct lsdc_output_desc *
+ > 568	ls7a2000_query_output_configuration(struct drm_device *ddev, unsigned int pipe)
+   569	{
+   570		enum loongson_vbios_encoder_name encoder_name = 0;
+   571		bool ret;
+   572	
+   573		ret = loongson_vbios_query_encoder_info(ddev, pipe, NULL,
+   574							&encoder_name, NULL);
+   575		if (!ret)
+   576			goto bailout;
+   577	
+   578		if (pipe == 0) {
+   579			switch (encoder_name) {
+   580			case ENCODER_CHIP_INTERNAL_HDMI:
+   581				return &ls7a2000_hdmi_pipe0;
+   582	
+   583			/*
+   584			 * For LS7A2000, the built-in VGA encoder is transparent.
+   585			 */
+   586			case ENCODER_CHIP_INTERNAL_VGA:
+   587				return &ls7a2000_vga_pipe0;
+   588	
+   589			/*
+   590			 * External display bridge exists, the internal HDMI encoder
+   591			 * MUST be enabled and initialized. Please add a drm bridge
+   592			 * driver, and attach to this encoder.
+   593			 */
+   594			default:
+   595				return &ls7a2000_hdmi_pipe0;
+   596			}
+   597		}
+   598	
+   599		if (pipe == 1) {
+   600			switch (encoder_name) {
+   601			case ENCODER_CHIP_INTERNAL_HDMI:
+   602				return &ls7a2000_hdmi_pipe1;
+   603	
+   604			/*
+   605			 * External display bridge exists, the internal HDMI encoder
+   606			 * MUST be enabled and initialized. Please add a drm bridge
+   607			 * driver, and attach it to this encoder.
+   608			 */
+   609			default:
+   610				return &ls7a2000_hdmi_pipe1;
+   611			}
+   612		}
+   613	
+   614	bailout:
+   615		if (pipe == 0)
+   616			return &ls7a2000_vga_pipe0;
+   617	
+   618		if (pipe == 1)
+   619			return &ls7a2000_hdmi_pipe1;
+   620	
+   621		return NULL;
+   622	}
+   623	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
