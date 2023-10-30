@@ -2,54 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 055EB7DBC70
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Oct 2023 16:13:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D2427DBC64
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Oct 2023 16:08:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C35010E2F5;
-	Mon, 30 Oct 2023 15:13:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D58F810E2EF;
+	Mon, 30 Oct 2023 15:08:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5FF7810E2F3
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Oct 2023 15:13:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1698678814; x=1730214814;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=eoIJl8UnE5v1mmbK0DZLQOvumduNGYpw3BaKSO7dqJs=;
- b=oHruL7HbgsOCB5Bj/I9XGypDHsvLOwa9YLfs0efG2gkKF0SDZ/olt2aq
- TohHX+AOnS1vZxAleejhDObMqwHXdTZbOKtPjX60s+nuIZF/KomUxuzFR
- SQwS3Pn7vrKy2AoGyDeMfic05LW/Mte8cAUMi27bxbDlvoWNfZVwmLI/r
- rXQaUcTKhAPYLaPh9tXx69v/m3ID9xFpmaC2+GuJgoChEDMIT265FKPTK
- Ptsk2ChzqkPXb8azZYmwc2OBrSXGZkytgjTV1YkzH4QOWTGdmx/EIl9zu
- +0krV4Vmvl0c8UyewabHEHoNkfe63+VT3vA9t5J0ABcCHvujC1Vidzo3x w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10879"; a="452348459"
-X-IronPort-AV: E=Sophos;i="6.03,263,1694761200"; d="scan'208";a="452348459"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Oct 2023 08:07:36 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10879"; a="877160704"
-X-IronPort-AV: E=Sophos;i="6.03,263,1694761200"; d="scan'208";a="877160704"
-Received: from sgruszka-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.51.19])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Oct 2023 08:07:34 -0700
-Date: Mon, 30 Oct 2023 16:07:32 +0100
-From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Subject: Re: [PATCH 06/11] accel/ivpu: Change test_mode module param to bitmask
-Message-ID: <ZT/GtISVeWQuRjBa@linux.intel.com>
-References: <20231025094323.989987-1-stanislaw.gruszka@linux.intel.com>
- <20231025094323.989987-7-stanislaw.gruszka@linux.intel.com>
- <e53dabb3-e8ec-b033-60f0-462f6e225e51@quicinc.com>
- <ZTzD364/1CC736AE@linux.intel.com>
- <f11d2815-71cd-224b-01e1-365a560e9208@quicinc.com>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9EE7910E2EF
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Oct 2023 15:08:51 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 39UE1dcr020831; Mon, 30 Oct 2023 15:08:46 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=WdRnypD47b7moFWUuCCZowpPRSkoKY2hAXizDFR9Heo=;
+ b=JIpMNAfrYDNbNsEfSYtvVkHNpfC8BqNb+3xeAHxm35lnAcVAz9fBSj+STpTHDhdRxZxO
+ JLGvnOQRm5+6cyK8BomU3or/vztLR2quphQxKUdmOkpvw0JmON/EuMDMQAHlG54Nxmt6
+ m0D/4jkWhPiMtu21zrDEUxXllGWJKZVGPYnAl3a5eto5HdPYtLcU5tlXkZKHkAnU0GsL
+ 6SvUcRZnUUvceuWh4LJAxKrKt6c0ng5tuiTAIWFYYxa9bMnp3WnEaVGGZi1RIgbcbsOT
+ b0V9LmMMbdXBsb51+3RMMQcPm8mvHJgq2/VereBb8qacP8cZyp0ifZ90amzngaRQKCH9 /g== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3u0smrm7du-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 30 Oct 2023 15:08:46 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 39UF8jr2017692
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 30 Oct 2023 15:08:45 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Mon, 30 Oct
+ 2023 08:08:44 -0700
+Message-ID: <f9e43465-768d-3568-54ec-77896e4449d8@quicinc.com>
+Date: Mon, 30 Oct 2023 09:08:44 -0600
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f11d2815-71cd-224b-01e1-365a560e9208@quicinc.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH 6/8] accel/ivpu: Make DMA allocations for MMU600 write
+ combined
+Content-Language: en-US
+To: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+ <dri-devel@lists.freedesktop.org>
+References: <20231028155936.1183342-1-stanislaw.gruszka@linux.intel.com>
+ <20231028155936.1183342-7-stanislaw.gruszka@linux.intel.com>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <20231028155936.1183342-7-stanislaw.gruszka@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: 0eeyC9ufziyzA8GOYykepsR-PfyHHZPX
+X-Proofpoint-GUID: 0eeyC9ufziyzA8GOYykepsR-PfyHHZPX
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-10-30_10,2023-10-27_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 lowpriorityscore=0
+ malwarescore=0 suspectscore=0 clxscore=1015 adultscore=0 impostorscore=0
+ spamscore=0 phishscore=0 mlxlogscore=504 priorityscore=1501 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2310240000
+ definitions=main-2310300116
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,38 +87,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Karol Wachowski <karol.wachowski@linux.intel.com>,
  Oded Gabbay <ogabbay@kernel.org>,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
- dri-devel@lists.freedesktop.org
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 30, 2023 at 08:05:28AM -0600, Jeffrey Hugo wrote:
-> On 10/28/2023 2:18 AM, Stanislaw Gruszka wrote:
-> > On Fri, Oct 27, 2023 at 08:47:11AM -0600, Jeffrey Hugo wrote:
-> > > On 10/25/2023 3:43 AM, Stanislaw Gruszka wrote:
-> > > > From: Karol Wachowski <karol.wachowski@linux.intel.com>
-> > > > 
-> > > > Change meaning of test_mode module parameter from integer value
-> > > > to bitmask allowing setting different test features with corresponding
-> > > > bits.
-> > > > 
-> > > > Signed-off-by: Karol Wachowski <karol.wachowski@linux.intel.com>
-> > > > Reviewed-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-> > > > Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-> > > 
-> > > Seems like this changes the uAPI.  You still haven't made a release of the
-> > > userspace, correct?
-> > 
-> > Yes the user space is not yet released. However I think module parameter
-> > is not considered part of the linux kernel uAPI and there are no guaranties
-> > regarding not changing or removing or change the semantics.
+On 10/28/2023 9:59 AM, Stanislaw Gruszka wrote:
+> From: Karol Wachowski <karol.wachowski@linux.intel.com>
 > 
-> Patch 3 of [1] seems to suggest otherwise (module parameters are part of the
-> uAPI)
+> Previously using dma_alloc_wc() API we created cache coherent
+> (mapped as write-back) mappings.
+> 
+> Because we disable MMU600 snooping it was required to do costly
+> page walk and cache flushes after each page table modification.
+> 
+> With write-combined buffers it's possible to do a single write memory
+> barrier to flush write-combined buffer to memory which simplifies the
+> driver and significantly reduce time of map/unmap operations.
+> 
+> Mapping time of 255 MB is reduced from 2.5 ms to 500 us.
+> 
+> Signed-off-by: Karol Wachowski <karol.wachowski@linux.intel.com>
+> Reviewed-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+> Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 
-I hope it will not be applied :-) Will be quite burden to maintain module
-parameters compatibility.
-
-Regards
-Stanislaw
-
+Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
