@@ -1,75 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DDB17DB190
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Oct 2023 00:51:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 24FC87DB1B0
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Oct 2023 01:13:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D36910E1F2;
-	Sun, 29 Oct 2023 23:51:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6727010E1F3;
+	Mon, 30 Oct 2023 00:12:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com
- [IPv6:2607:f8b0:4864:20::62e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E5D810E1F2
- for <dri-devel@lists.freedesktop.org>; Sun, 29 Oct 2023 23:51:01 +0000 (UTC)
-Received: by mail-pl1-x62e.google.com with SMTP id
- d9443c01a7336-1cc2575dfc7so13167165ad.1
- for <dri-devel@lists.freedesktop.org>; Sun, 29 Oct 2023 16:51:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1698623461; x=1699228261; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=tnaUx4F8KrZZ3PGoAEtrzlrFKiWjXS8sFp/d/9HvjiA=;
- b=Xi9NbcI9CyokClvfLFtyII+hD1ygHJ7wUXwraKVHK56qQUGywO4x0ON6LEL7GjBOZK
- 5qCUcqEVwVQHGusPNrq7zdLfcpR9Pj3ssxH1KAt4MptF6+DQUeGjQMxwBV2ENeEFceyo
- 75pMTWxOIZrW5ry/1EpHcpPG3lcMF/XeiU7B0+XyUHsSTGnZKKS4X04ZHRuPrBMVkC+I
- zhBzZBq3NTmG3sXHq3M9VAsZlqkc//PhglPk3xRLO740X3z/E0ug7utLio2GUtccarh9
- CU4jDn/fNBGVc8Z9KUSFqfzXSir5eFwjSYutWzRRaB8LZYID74iIdtkvcf29YbgXE7ui
- Tcyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1698623461; x=1699228261;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=tnaUx4F8KrZZ3PGoAEtrzlrFKiWjXS8sFp/d/9HvjiA=;
- b=RHKM0Y1lrEnohqwwiSY3BTQmS0Cqifzeip+kvOoNmK/Q1x6UJl+9lG1LBxRo3HfjFL
- jPgNGmnn7UrqMqVB4xgYqtlhV6TFxUPTBsycTtKNmPRwodPqjstoM+jJa6VqVgLV78oy
- M/OwY8PC6ipmBr9fq1hwPpG/97VSSxEp72Is7Atazbs6YiIM4TwPZi5rLC8mZdlQ/wac
- 1h63MV3Oj3CfEixm18X+z0gyJL556uSc/XFAlpCFt4PPQhnbj8XJK6On4sqGVkaq/pYI
- Osp05Li3ra60+8RrMItbDfYwmgoX2hlPRpS+puQZiPxSry5PJV2zo6jTvDziViTeqwf2
- Ytpg==
-X-Gm-Message-State: AOJu0YzBogO9ztDXGLi3HMOp1+7HcaBT4rHDRncEosy98TjknTaN4egr
- UZ/60d0EIsZ+wrDP4HFeVJ0=
-X-Google-Smtp-Source: AGHT+IHxBs7QaWgZIVC/mTGf2u0/bmEMVPy6LqzGkKMozIa2+zb2CUBE2+Sgs/lTnSYfa4r0xCiPgg==
-X-Received: by 2002:a17:902:db09:b0:1cc:3065:9167 with SMTP id
- m9-20020a170902db0900b001cc30659167mr3416006plx.23.1698623460693; 
- Sun, 29 Oct 2023 16:51:00 -0700 (PDT)
-Received: from debian.me ([103.131.18.64]) by smtp.gmail.com with ESMTPSA id
- p4-20020a170902bd0400b001b06c106844sm1077916pls.151.2023.10.29.16.50.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 29 Oct 2023 16:51:00 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
- id 461598039BBC; Mon, 30 Oct 2023 06:50:56 +0700 (WIB)
-Date: Mon, 30 Oct 2023 06:50:55 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Julia Lawall <julia.lawall@inria.fr>,
- Dorine Tipo <dorine.a.tipo@gmail.com>,
- Greg KH <gregkh@linuxfoundation.org>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Helen Koike <helen.koike@collabora.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Nick Terrell <terrelln@fb.com>, Daniel Stone <daniels@collabora.com>,
- Rob Clark <robdclark@gmail.com>
-Subject: Re: [PATCH Resend] Fix line Length
-Message-ID: <ZT7v39jG4WTxPYjm@debian.me>
-References: <20231029144312.5895-1-dorine.a.tipo@gmail.com>
- <alpine.DEB.2.22.394.2310291610030.3136@hadrien>
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1720110E1F3
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Oct 2023 00:12:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1698624775; x=1730160775;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=ty/PnS3WJCZjGn2JzyfXWoC5lQ3l5SVcDaNCHHJuxvU=;
+ b=UvhruCWvM9d1uZJK9+AQltSPBQ/RLff/Zk1oU8noD/1ml/NCZ11I38T5
+ kYvfIj110ZUax5iVmNq9mbcxn4uiWgjsuMZwRYl8crU4COaT79sk/bknk
+ G2V6OIgxpnKpvsyIAwrirjuDEDKsCzJWVAz6m6FDJ9BuYHumoqS5c5upN
+ dLKR9QR124Kx7CITYdv2+T35kK1Xa2atCflonRCPZ5HGOz0SgBI39uzt2
+ Vzj9HabG2JgX783wDKjnbuBoK3ANmDQmd7Ima5HCpZ8bVHUcF3V4sWKXn
+ GDkdtO8PcJSHs2892vuHFmO2Lrv1Hsxxr9KnFhMt9JuLq/FXq93O4FZXw w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10878"; a="390847911"
+X-IronPort-AV: E=Sophos;i="6.03,262,1694761200"; d="scan'208";a="390847911"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Oct 2023 17:12:54 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10878"; a="1091462885"
+X-IronPort-AV: E=Sophos;i="6.03,262,1694761200"; d="scan'208";a="1091462885"
+Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
+ by fmsmga005.fm.intel.com with ESMTP; 29 Oct 2023 17:12:52 -0700
+Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1qxFth-000Cv1-2l;
+ Mon, 30 Oct 2023 00:12:49 +0000
+Date: Mon, 30 Oct 2023 08:12:24 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sui Jingfeng <suijingfeng@loongson.cn>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 3/8] drm/loongson: Allow attach drm bridge driver by
+ calling lsdc_output_init()
+Message-ID: <202310300738.zcudNQfj-lkp@intel.com>
+References: <20231029194607.379459-4-suijingfeng@loongson.cn>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="hxSAXAGVE2cfMdh7"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <alpine.DEB.2.22.394.2310291610030.3136@hadrien>
+In-Reply-To: <20231029194607.379459-4-suijingfeng@loongson.cn>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,63 +61,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux DRI Development <dri-devel@lists.freedesktop.org>,
- Linux Outreachy <outreachy@lists.linux.dev>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ oe-kbuild-all@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Sui,
 
---hxSAXAGVE2cfMdh7
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+kernel test robot noticed the following build warnings:
 
-On Sun, Oct 29, 2023 at 04:11:01PM +0100, Julia Lawall wrote:
->=20
->=20
-> On Sun, 29 Oct 2023, Dorine Tipo wrote:
->=20
-> > Signed-off-by: Dorine Tipo <dorine.a.tipo@gmail.com>
-> >
-> > Fix the line lengths of lines 8 and 49
->=20
-> The Signed off by line should be here, below the log message.  Please see
-> the patches sent by others.
->=20
-> >  export IGT_FORCE_DRIVER=3D${DRIVER_NAME}
-> >  export PATH=3D$PATH:/igt/bin/
-> > -export LD_LIBRARY_PATH=3D$LD_LIBRARY_PATH:/igt/lib/aarch64-linux-gnu/:=
-/igt/lib/x86_64-linux-gnu:/igt/lib:/igt/lib64
-> > +export LD_LIBRARY_PATH=3D$LD_LIBRARY_PATH:/igt/lib/aarch64-linux-gnu/:=
-/igt/lib/x86_64-linux-gnu
-> > +export LD_LIBRARY_PATH=3D$LD_LIBRARY_PATH:/igt/lib:/igt/lib64
->=20
-> There was a suggestion that it was better to keep this as one line.
->=20
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on linus/master v6.6-rc7 next-20231027]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Hi Julia,
+url:    https://github.com/intel-lab-lkp/linux/commits/Sui-Jingfeng/drm-loongson-Introduce-a-minimal-support-for-Loongson-VBIOS/20231030-034730
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20231029194607.379459-4-suijingfeng%40loongson.cn
+patch subject: [PATCH 3/8] drm/loongson: Allow attach drm bridge driver by calling lsdc_output_init()
+config: loongarch-randconfig-002-20231030 (https://download.01.org/0day-ci/archive/20231030/202310300738.zcudNQfj-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231030/202310300738.zcudNQfj-lkp@intel.com/reproduce)
 
-The submitter touched one of CI scripts for the DRM subsystem. To test
-this patch, there must be a way to run these scripts locally (which
-may requires non-trivial setup).
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310300738.zcudNQfj-lkp@intel.com/
 
-Cc'ed DRM maintainers.
+All warnings (new ones prefixed by >>):
 
-Thanks.
+>> drivers/gpu/drm/loongson/lsdc_output.c:555:5: warning: no previous prototype for 'lsdc_encoder_init' [-Wmissing-prototypes]
+     555 | int lsdc_encoder_init(struct drm_device *ddev,
+         |     ^~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/loongson/lsdc_output.c:578:5: warning: no previous prototype for 'lsdc_connector_init' [-Wmissing-prototypes]
+     578 | int lsdc_connector_init(struct drm_device *ddev,
+         |     ^~~~~~~~~~~~~~~~~~~
 
---=20
-An old man doll... just what I always wanted! - Clara
 
---hxSAXAGVE2cfMdh7
-Content-Type: application/pgp-signature; name="signature.asc"
+vim +/lsdc_encoder_init +555 drivers/gpu/drm/loongson/lsdc_output.c
 
------BEGIN PGP SIGNATURE-----
+   554	
+ > 555	int lsdc_encoder_init(struct drm_device *ddev,
+   556			      struct lsdc_output *output,
+   557			      unsigned int pipe)
+   558	{
+   559		const struct lsdc_output_desc *descp = output->descp;
+   560		struct drm_encoder *encoder = &output->encoder;
+   561		int ret;
+   562	
+   563		ret = drm_encoder_init(ddev,
+   564				       encoder,
+   565				       descp->encoder_funcs,
+   566				       descp->encoder_type,
+   567				       descp->name);
+   568		if (ret)
+   569			return ret;
+   570	
+   571		encoder->possible_crtcs = BIT(pipe);
+   572	
+   573		drm_encoder_helper_add(encoder, descp->encoder_helper_funcs);
+   574	
+   575		return 0;
+   576	}
+   577	
+ > 578	int lsdc_connector_init(struct drm_device *ddev,
+   579				struct lsdc_output *output,
+   580				struct i2c_adapter *ddc,
+   581				unsigned int pipe)
+   582	{
+   583		const struct lsdc_output_desc *descp = output->descp;
+   584		struct drm_connector *connector = &output->connector;
+   585		int ret;
+   586	
+   587		ret = drm_connector_init_with_ddc(ddev,
+   588						  connector,
+   589						  descp->connector_funcs,
+   590						  descp->connector_type,
+   591						  ddc);
+   592		if (ret)
+   593			return ret;
+   594	
+   595		drm_connector_helper_add(connector, descp->connector_helper_funcs);
+   596	
+   597		drm_connector_attach_encoder(connector, &output->encoder);
+   598	
+   599		connector->polled = DRM_CONNECTOR_POLL_CONNECT |
+   600				    DRM_CONNECTOR_POLL_DISCONNECT;
+   601	
+   602		connector->interlace_allowed = 0;
+   603		connector->doublescan_allowed = 0;
+   604	
+   605		drm_info(ddev, "DisplayPipe-%u has %s\n", pipe, descp->name);
+   606	
+   607		return 0;
+   608	}
+   609	
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZT7v2AAKCRD2uYlJVVFO
-o954AQD8oXo0ltpyVgNj+W2HrUdj0qfZcYHTNndycvvkv2Y9hQD+IgA8U6ryTDQ/
-pvwMNit/pa5/2yFf2sQWJmC+jlJpKAo=
-=Wy7e
------END PGP SIGNATURE-----
-
---hxSAXAGVE2cfMdh7--
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
