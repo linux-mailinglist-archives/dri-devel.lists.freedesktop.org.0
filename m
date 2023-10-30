@@ -2,52 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84C9A7DBA0E
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Oct 2023 13:42:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30F777DBA19
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Oct 2023 13:47:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A364410E2AD;
-	Mon, 30 Oct 2023 12:42:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 343D910E2B0;
+	Mon, 30 Oct 2023 12:47:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E14510E2AC
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Oct 2023 12:42:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=9LnL569nRtplnEH2j1Hz0CSvxH1nkSTOLolSrtKOWRU=; b=TGN1rYurNYd/Y2hi241sWEoDgC
- VOyXLMQwr0DRV98v23NRsX8dNKMxBE6mLhC8bzOip4MsizuaosroamE2Vo1+TTk4FYgNFv3UTCygy
- OnncivvRQzft+2JfbAncj40t82em8KUJEfKG2FfTnUNGzq6F4t2crx9PsPkkx9ofxmTl7HNa49HMS
- CNzopfNazdylmh/2mxmKqdLH1o1aCA4llbc2CobnjoBjYQxS1WUmWfTngI4siM3PpZtYEdkTE6WI9
- hIfZeb4w6Jl21ImmEIFC3lDtmkXd6WH8ed7Ovmuo7ptv+v2r7QCijeTXFhNc52MXxpnjJvLdNTaaI
- +x5zm8ZA==;
-Received: from [177.34.168.16] (helo=[192.168.0.8])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1qxRb4-00EuV1-1L; Mon, 30 Oct 2023 13:42:22 +0100
-Message-ID: <0322fe29-d762-03e6-bfb5-de346c7b3b16@igalia.com>
-Date: Mon, 30 Oct 2023 09:42:16 -0300
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BDB9510E2B0;
+ Mon, 30 Oct 2023 12:47:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1698670026; x=1730206026;
+ h=message-id:date:mime-version:subject:from:to:cc:
+ references:in-reply-to:content-transfer-encoding;
+ bh=acCrsCNmaOONI9brAj/EA4NAdkInhvJZ2O3IwgG1etU=;
+ b=aXQSBd9+GmreSxzvBdAjvkyjFZdOBQsxzJ//YoVQIYH13Qf5F+WPf2lI
+ 4nMkd4evf3Eg3Cry2Vu5DDxjD8IFZ1cGG5eCCEXc9KFAcoYRK6i1dWizn
+ /PjyONKXVC1g3daPQhNwcoxEnFhnWkTW/qo6/EkirYwopymmhlDTIN4U/
+ rmMDNNCVp9DDlCM0IXWX4GFtQJ+w0hJJdX5hOsOMSzvoY7Mb1QxFqznsp
+ EYrudwZiBxUMtToTXmLKTRmE/bvZUEXC+Q1AaC4AIMrSQMCZQk6lf8toL
+ etmb06ohEKWc5TcPjA6U7IVqoorzS1ePzuqnj8NgrAzUda3iL04EGCAJW g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10878"; a="9596829"
+X-IronPort-AV: E=Sophos;i="6.03,263,1694761200"; 
+   d="scan'208";a="9596829"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+ by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Oct 2023 05:47:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.03,263,1694761200"; 
+   d="scan'208";a="1502059"
+Received: from igherghe-mobl1.ger.corp.intel.com (HELO [10.213.220.192])
+ ([10.213.220.192])
+ by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Oct 2023 05:47:02 -0700
+Message-ID: <2e9df6e9-fa6e-46d5-b2ff-4da0efb44d74@linux.intel.com>
+Date: Mon, 30 Oct 2023 12:47:00 +0000
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH 1/2] drm/v3d: wait for all jobs to finish before
- unregistering
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] i915/perf: Fix NULL deref bugs with drm_dbg() calls
 Content-Language: en-US
-To: Iago Toral <itoral@igalia.com>, Emma Anholt <emma@anholt.net>,
- Melissa Wen <mwen@igalia.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-References: <20231023105927.101502-1-mcanal@igalia.com>
- <807b6fd6f6100c7cd824f4aa1a80ec1421d7222c.camel@igalia.com>
- <abb70285-d7ae-7b8a-8af0-1282de9314bf@igalia.com>
- <5a5fd75945b6446783171e870e0c9f157bba557e.camel@igalia.com>
-From: Maira Canal <mcanal@igalia.com>
-In-Reply-To: <5a5fd75945b6446783171e870e0c9f157bba557e.camel@igalia.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+To: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>,
+ Matt Roper <matthew.d.roper@intel.com>,
+ Lionel Landwerlin <lionel.g.landwerlin@intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20231027172822.2753059-1-harshit.m.mogalapalli@oracle.com>
+ <29c2bf2b-82b1-457d-ba42-29b0b30ecf32@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <29c2bf2b-82b1-457d-ba42-29b0b30ecf32@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -62,70 +72,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: kernel-janitors@vger.kernel.org, error27@gmail.com,
+ dan.carpenter@linaro.org, Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Iago,
 
-On 10/30/23 09:20, Iago Toral wrote:
-> El mar, 24-10-2023 a las 07:05 -0300, Maira Canal escribió:
->> Hi Iago,
->>
->> On 10/24/23 02:57, Iago Toral wrote:
->>> El lun, 23-10-2023 a las 07:58 -0300, Maíra Canal escribió:
->>>> Currently, we are only warning the user if the BIN or RENDER jobs
->>>> don't
->>>> finish before we unregister V3D. We must wait for all jobs to
->>>> finish
->>>> before unregistering. Therefore, warn the user if TFU or CSD jobs
->>>> are not done by the time the driver is unregistered.
->>>>
->>>> Signed-off-by: Maíra Canal <mcanal@igalia.com>
->>>> ---
->>>>    drivers/gpu/drm/v3d/v3d_gem.c | 2 ++
->>>>    1 file changed, 2 insertions(+)
->>>>
->>>> diff --git a/drivers/gpu/drm/v3d/v3d_gem.c
->>>> b/drivers/gpu/drm/v3d/v3d_gem.c
->>>> index 2e94ce788c71..afa7d170d1ff 100644
->>>> --- a/drivers/gpu/drm/v3d/v3d_gem.c
->>>> +++ b/drivers/gpu/drm/v3d/v3d_gem.c
->>>> @@ -1072,6 +1072,8 @@ v3d_gem_destroy(struct drm_device *dev)
->>>>            */
->>>>           WARN_ON(v3d->bin_job);
->>>>           WARN_ON(v3d->render_job);
->>>> +       WARN_ON(v3d->tfu_job);
->>>> +       WARN_ON(v3d->csd_job);
->>>
->>> I guess we should do this for cache clean jobs too, right?
->>
->> As the cache clean jobs are synchronous, we don't keep track of the
->> current cache clean job. When I say that the cache clean jobs are
->> synchronous, it means that the end of the job is not determined by
->> an interruption. Therefore, there is no need to make sure that the
->> cache clean jobs are still running.
+On 27/10/2023 18:38, Tvrtko Ursulin wrote:
 > 
-> I see, thanks Maíra.
+> On 27/10/2023 18:28, Harshit Mogalapalli wrote:
+>> When i915 perf interface is not available dereferencing it will lead to
+>> NULL dereferences.
+>>
+>> As returning -ENOTSUPP is pretty clear return when perf interface is not
+>> available.
+>>
+>> Fixes: 2fec539112e8 ("i915/perf: Replace DRM_DEBUG with driver 
+>> specific drm_dbg call")
+>> Suggested-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>> Signed-off-by: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
+>> ---
+>> v1 --> v2: Remove the debug calls as they don't add much value and
+>> -ENOTSUPP is a good enough return value.
+>> ---
+>>   drivers/gpu/drm/i915/i915_perf.c | 15 +++------------
+>>   1 file changed, 3 insertions(+), 12 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/i915/i915_perf.c 
+>> b/drivers/gpu/drm/i915/i915_perf.c
+>> index 2f3ecd7d4804..7b1c8de2f9cb 100644
+>> --- a/drivers/gpu/drm/i915/i915_perf.c
+>> +++ b/drivers/gpu/drm/i915/i915_perf.c
+>> @@ -4227,11 +4227,8 @@ int i915_perf_open_ioctl(struct drm_device 
+>> *dev, void *data,
+>>       u32 known_open_flags;
+>>       int ret;
+>> -    if (!perf->i915) {
+>> -        drm_dbg(&perf->i915->drm,
+>> -            "i915 perf interface not available for this system\n");
+>> +    if (!perf->i915)
+>>           return -ENOTSUPP;
+>> -    }
+>>       known_open_flags = I915_PERF_FLAG_FD_CLOEXEC |
+>>                  I915_PERF_FLAG_FD_NONBLOCK |
+>> @@ -4607,11 +4604,8 @@ int i915_perf_add_config_ioctl(struct 
+>> drm_device *dev, void *data,
+>>       struct i915_oa_reg *regs;
+>>       int err, id;
+>> -    if (!perf->i915) {
+>> -        drm_dbg(&perf->i915->drm,
+>> -            "i915 perf interface not available for this system\n");
+>> +    if (!perf->i915)
+>>           return -ENOTSUPP;
+>> -    }
+>>       if (!perf->metrics_kobj) {
+>>           drm_dbg(&perf->i915->drm,
+>> @@ -4773,11 +4767,8 @@ int i915_perf_remove_config_ioctl(struct 
+>> drm_device *dev, void *data,
+>>       struct i915_oa_config *oa_config;
+>>       int ret;
+>> -    if (!perf->i915) {
+>> -        drm_dbg(&perf->i915->drm,
+>> -            "i915 perf interface not available for this system\n");
+>> +    if (!perf->i915)
+>>           return -ENOTSUPP;
+>> -    }
+>>       if (i915_perf_stream_paranoid && !perfmon_capable()) {
+>>           drm_dbg(&perf->i915->drm,
 > 
-> Reviewed-by: Iago Toral Quiroga <itoral@igalia.com>
+> Thanks for re-spinning it so quickly! LGTM.
+> 
+> Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
-Applied to drm-misc/drm-misc-next!
+Now merged to drm-intel-gt-next. Thanks again!
 
-Thanks,
-- Maíra
+Regards,
 
-> 
->>
->> Best Regards,
->> - Maíra
->>
->>>
->>> Iago
->>>
->>>>    
->>>>           drm_mm_takedown(&v3d->mm);
->>>>    
->>>
->>
-> 
+Tvrtko
