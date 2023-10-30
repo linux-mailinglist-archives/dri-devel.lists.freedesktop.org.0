@@ -1,78 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9976D7DBB59
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Oct 2023 15:05:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 35DA17DBBB1
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Oct 2023 15:26:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C60B10E2D0;
-	Mon, 30 Oct 2023 14:05:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EFE1A10E2CF;
+	Mon, 30 Oct 2023 14:25:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 690ED10E2D8
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Oct 2023 14:05:39 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 39UE1d6I020828; Mon, 30 Oct 2023 14:05:31 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=uVvvgGGRsXYodeDOGqASSVfYaytBqmIBbNNike05n6Q=;
- b=MEt/uru/JPUyq8Dh3phzNSMG50eqbBFNaSbSxjzxNY6GbOIAAjhR4IfaZPAgsmkJ58uH
- WDfyZmbnIetXmdGLeN+7JoP6qSIdAo2CxNE1UNwt1Qqto0pSoN7MnKj323tUSb8Amc+5
- ccRvQcnmbU+AjcpMNnnM5KUmZiHv9JPsX2uzgWU/7FhHAs6nKj6YR8wiBIn+sSDmmMJN
- tzDrmvGMZ62RBfmcFORT1sd7JfLiLbm9GtO1kHcDHxqlS2hTOjo3F+i4SvnrZR+WWS/1
- VETq2TycSGCY5/MQAz4bI1WV3smjkwD4dNOMxfYgu8u0XnMJd8w2aNpZjfsnsdy8Dn60 ng== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3u0smrm2kr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 30 Oct 2023 14:05:30 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 39UE5TkD005831
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 30 Oct 2023 14:05:29 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Mon, 30 Oct
- 2023 07:05:29 -0700
-Message-ID: <f11d2815-71cd-224b-01e1-365a560e9208@quicinc.com>
-Date: Mon, 30 Oct 2023 08:05:28 -0600
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 278C410E0E1
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Oct 2023 14:25:52 +0000 (UTC)
+Received: from loongson.cn (unknown [10.20.42.43])
+ by gateway (Coremail) with SMTP id _____8AxEvDtvD9l8sA1AA--.38958S3;
+ Mon, 30 Oct 2023 22:25:49 +0800 (CST)
+Received: from [10.20.42.43] (unknown [10.20.42.43])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8Bxni_pvD9lzAU3AA--.52834S3; 
+ Mon, 30 Oct 2023 22:25:47 +0800 (CST)
+Message-ID: <20cd9518-fee4-4a99-86f2-a5eea9abaa57@loongson.cn>
+Date: Mon, 30 Oct 2023 22:25:46 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH 06/11] accel/ivpu: Change test_mode module param to bitmask
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/8] drm/loongson: Introduce a drm bridge driver for
+ it66121 HDMI transmitter
 Content-Language: en-US
-To: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-References: <20231025094323.989987-1-stanislaw.gruszka@linux.intel.com>
- <20231025094323.989987-7-stanislaw.gruszka@linux.intel.com>
- <e53dabb3-e8ec-b033-60f0-462f6e225e51@quicinc.com>
- <ZTzD364/1CC736AE@linux.intel.com>
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <ZTzD364/1CC736AE@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: gracxFGqgbuG-igBmT8gel6J5_JpL0b-
-X-Proofpoint-GUID: gracxFGqgbuG-igBmT8gel6J5_JpL0b-
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-10-30_10,2023-10-27_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 lowpriorityscore=0
- malwarescore=0 suspectscore=0 clxscore=1015 adultscore=0 impostorscore=0
- spamscore=0 phishscore=0 mlxlogscore=907 priorityscore=1501 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2310240000
- definitions=main-2310300107
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+References: <20231029194607.379459-1-suijingfeng@loongson.cn>
+ <20231029194607.379459-3-suijingfeng@loongson.cn>
+ <CAA8EJprjQXcTgxnC1POaBjVBzyVBvKpmKyJcCR5ExRUhVxtYoQ@mail.gmail.com>
+ <3ccb9600-6990-4ec7-81de-0d7b4e1294eb@loongson.cn>
+ <CAA8EJpqCe2j3GyeutnwTB0bkGXGk0az9-w3sPHLFwMVgAS=e7g@mail.gmail.com>
+ <df176548-0001-4df4-b556-6227b776cd18@loongson.cn>
+ <CAA8EJprS72FUDvMrgXatLWHYNiAOhfugiWFCWuXnmzS2zmUDTA@mail.gmail.com>
+From: Sui Jingfeng <suijingfeng@loongson.cn>
+In-Reply-To: <CAA8EJprS72FUDvMrgXatLWHYNiAOhfugiWFCWuXnmzS2zmUDTA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8Bxni_pvD9lzAU3AA--.52834S3
+X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBj93XoW3JF4UJr45GrW3Kw4xXF45XFc_yoWxtF43pF
+ 4UKa4akrWDJr42y3yavw18CFyYy393JrWrWrnxG34F9r90934Iyr1xtFW5WF9rWr13Ca1j
+ vrWDuFWxWF10yagCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
+ sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+ 0xBIdaVrnRJUUUvIb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+ IYs7xG6rWj6s0DM7CIcVAFz4kK6r106r15M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+ e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+ 0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
+ xVW8Jr0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx
+ 1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv
+ 67AKxVWxJVW8Jr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxAIw28IcxkI7V
+ AKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMxCIbckI1I0E14v26r126r1DMI8I3I0E5I8C
+ rVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtw
+ CIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x02
+ 67AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Cr
+ 0_Gr1UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07Ui
+ mi_UUUUU=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,35 +69,173 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Karol Wachowski <karol.wachowski@linux.intel.com>,
- Oded Gabbay <ogabbay@kernel.org>,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
- dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Maxime Ripard <mripard@kernel.org>, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/28/2023 2:18 AM, Stanislaw Gruszka wrote:
-> On Fri, Oct 27, 2023 at 08:47:11AM -0600, Jeffrey Hugo wrote:
->> On 10/25/2023 3:43 AM, Stanislaw Gruszka wrote:
->>> From: Karol Wachowski <karol.wachowski@linux.intel.com>
->>>
->>> Change meaning of test_mode module parameter from integer value
->>> to bitmask allowing setting different test features with corresponding
->>> bits.
->>>
->>> Signed-off-by: Karol Wachowski <karol.wachowski@linux.intel.com>
->>> Reviewed-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
->>> Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+Hi,
+
+
+On 2023/10/30 21:48, Dmitry Baryshkov wrote:
+> On Mon, 30 Oct 2023 at 15:26, Sui Jingfeng <suijingfeng@loongson.cn> wrote:
+>> Hi,
 >>
->> Seems like this changes the uAPI.  You still haven't made a release of the
->> userspace, correct?
-> 
-> Yes the user space is not yet released. However I think module parameter
-> is not considered part of the linux kernel uAPI and there are no guaranties
-> regarding not changing or removing or change the semantics.
+>>
+>> On 2023/10/30 18:01, Dmitry Baryshkov wrote:
+>>> On Mon, 30 Oct 2023 at 11:42, Sui Jingfeng <suijingfeng@loongson.cn> wrote:
+>>>> Hi,
+>>>>
+>>>>
+>>>> On 2023/10/30 06:53, Dmitry Baryshkov wrote:
+>>>>> On Sun, 29 Oct 2023 at 21:46, Sui Jingfeng <suijingfeng@loongson.cn> wrote:
+>>>>>> The IT66121 is a DVO to HDMI converter, LS3A5000+LS7A1000 ML5A_MB use this
+>>>>>> chip to support HDMI output. Thus add a drm bridge based driver for it.
+>>>>>> This patch is developed with drivers/gpu/drm/bridge/ite-it66121.c as base.
+>>>>> Please use the original bridge driver instead of adding a new one.
+>>>> I'm agree with the spirit of code sharing, but this is nearly impossible for non-DT system.
+>>>>
+>>>> Because the original bridge driver(say it66121.ko) is fully dependent on the DT.
+>>> I can not agree here. It doesn't depend on DT. It has fully populated
+>>> i2c_device_id structures, so it will work with bare I2C buses.
+>>> Most likely you will have to change of calls into fwnode calls, that's it.
+>>>
+>>>> UEFI+ACPI based system can not use with it.
+>>>>
+>>>> Our I2C adapter is created by the drm/loongson.ko on the runtime.
+>>>> The potential problem is that *cyclic dependency* !
+>>>>
+>>>> I2C adapter driver is depend on drm/loongson
+>>>> drm/loongson depend on drm bridge driver (say it66121.ko)
+>>>> drm bridge driver (say it66121.ko) depend on I2C adapter to setup.
+>>>>
+>>>> This plus the defer probe mechanism is totally a trap,
+>>>> incurring troubles and don't work.
+>>> Welcome. We had this kind of issue for DP AUX buses.
+>>>
+>>> I can suggest the following approach:
+>>> - In the root probe function you can create an i2c bus and populate it
+>>> with the i2c devices.
+>>> - I have not checked whether you use components or not. If not, please
+>>> use an auxiliary or a platform device for the main DRM functionality.
+>>> - In the subdevice probe / bind function you check for the next
+>>> bridge. Then you get one of the following:drm_bridge pointer,
+>>> -EPROBE_DEFER, or any other error case. Your driver can react
+>>> accordingly.
+>> I have similar way to solve this problem, and I have solved it one and a half years ago.
+>> See [1] for a reference.
+>>
+>> [1] https://patchwork.freedesktop.org/patch/478998/?series=99512&rev=11
+>>
+>> When the PCI device get probed, we create the I2C bus first.
+>> This ensure that when drm/lsdc.ko get loaded, the I2C bus is presence
+>> and ready to be get by the drm_bridge driver.
+>> This is basically a PCI-to-GPIO-emulated-I2C adapter,
+>> then wait the display bridges driver get loaded and set up.
+>>
+>> I also need to create a virtual platform device for the display controller.
+>> which allow the drm drivers instance for this virtual platform device
+>> be able to probed due to defer probe mechanism.
+>>
+>> This solution made the framework of my driver distortion severely,
+> I don't think I could catch this phrase. Did you see distortions on the screen?
 
-Patch 3 of [1] seems to suggest otherwise (module parameters are part of 
-the uAPI)
 
-[1]: 
-https://lore.kernel.org/all/20231027193016.27516-1-quic_johmoo@quicinc.com/
+I means that it destroy the my drm driver's framework.
+I means that we are all-in-one driver. The solution you
+mentioned have side effect also. That is because user-space
+will open the PCI device first, not your created virtual platform device.
+
+
+
+>> and in the end we still solve a easy problem by workaround.
+> No workarounds for the kernel subsystems are allowed.
+
+
+I means that the idea(solution) you told me is still a workaround.
+bring no benifits to the drm driver itself.
+
+
+>> I know how to use the component framework also, but the component framework just
+>> a wrapper. Similar with above approach, it brings no gains in the end.
+>> It does not make this driver better. I got trapped one years ago,
+>> and I don't want to got trapped another time.
+>> And I know how solve such a problem by workaround, but that's not worthy for the effort.
+>>
+>> I think my approach provide a solution, while still keep the bridges drivers
+>> to a modular at the same time. Despite simple, it indeed solve the problem.
+>> It simple because of explicit control of the loading order by myself, not by
+>> rely on the framework or something else (say component)
+> PCI media drivers have had this issue for ages. And all of them found
+> a way to work.
+
+I have said that PCI KMS display drivers is different,  because of user 
+space open the PCI device.
+
+
+>> It is not totally duplicating, I have rewrite part of them.
+> This is even worse. Now one can not apply fixes to the second one.
+
+
+I don't need to either, I want to maintain this by myself.
+
+
+>> You can compare
+>> to see what I'm changed. It is just that it66162 was upstream-ed earlier than
+>> our solution. But I also have write display drivers for lt8618 and lt8619
+>> completely by myself.
+>>
+>>
+>> Even though our local drm bridges driver will not be able to enjoy the updates.
+>> We will accept such a results(or pain). I can maintain our local drm bridges
+>> drivers by myself.
+> What happens if anybody wants to reuse your bridge driver for their
+> own platform?
+
+Copy and modify.
+
+> Linux kernel uses driver model and frameworks to improve code sharing,
+> not to reduce it.
+
+
+Well I don't think my patch actually reduce something.
+Please see i915, amdgpu, radeon and nouveau.
+Non of them use the DRM bridge drivers.
+It is just that the various DRM bridge drivers are not suitable to use for my driver.
+
+
+>> Sorry, on this technique point, we will not follow your idea.
+>> I'm sure that my approach is toward to right direction for our device at now.
+>> If someone invent a better solution to handle this problem, which make the
+>> various drm bridges drivers usable out of box, then I will follow and cooperate
+>> to test.
+>>
+>>
+>>> Basically duplicating the existing driver code is not really a way to
+>>> go. Consider somebody adding a new feature or fixing a bug in your
+>>> driver copy. Then they have to check if the fix applies to the driver
+>>> at drivers/gpu/drm/bridge/ite-it66121.c. And vice versa. After fixing
+>>> an issue in the standard driver one has to keep in mind to check your
+>>> private copy.
+>>>
+>>> So, please, use the OF code as an inspiration and register all your
+>>> devices in the device tree. Yes, this requires some effort from your
+>>> side. Yes, this pays off in the longer distance.
+>>>
+>>>>>     If
+>>>>> it needs to be changed in any way, please help everyone else by
+>>>>> improving it instead of introducing new driver.
+>>>>>
+>>>>>> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
+>>>>>> ---
+>>>>>>     drivers/gpu/drm/loongson/Kconfig            |   1 +
+>>>>>>     drivers/gpu/drm/loongson/Makefile           |   2 +
+>>>>>>     drivers/gpu/drm/loongson/ite_it66121.c      | 749 ++++++++++++++++++++
+>>>>>>     drivers/gpu/drm/loongson/ite_it66121.h      |  19 +
+>>>>>>     drivers/gpu/drm/loongson/ite_it66121_regs.h | 268 +++++++
+>>>>>>     5 files changed, 1039 insertions(+)
+>>>>>>     create mode 100644 drivers/gpu/drm/loongson/ite_it66121.c
+>>>>>>     create mode 100644 drivers/gpu/drm/loongson/ite_it66121.h
+>>>>>>     create mode 100644 drivers/gpu/drm/loongson/ite_it66121_regs.h
+>
+
