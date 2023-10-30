@@ -1,119 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CEFA7DBB25
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Oct 2023 14:54:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9976D7DBB59
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Oct 2023 15:05:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 507A410E0F4;
-	Mon, 30 Oct 2023 13:54:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C60B10E2D0;
+	Mon, 30 Oct 2023 14:05:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com
- (mail-sn1nam02on2045.outbound.protection.outlook.com [40.107.96.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 947CF10E0F4;
- Mon, 30 Oct 2023 13:54:17 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KPmuCgjdMls91qehmEu3ZkEx4gOb9vZ58beJiQ+NKg/3XXnnW9YWyTg5UnBhFPJz2el3ak5+t4DTPohimNU3y75biBJuqq4jU6UN22Fp06sGLw4oyLw7EFkvr9JMoKdFX+htGMspXMMxWl90spAvT6bh2/7BuTxewqnem5Xb6RGyhCFYFl+oJ4N3KEzmfEPlDe515x7vhax6d0Y7VmmRyB/Vk6wj/0UxLKp0KJSIbNwpm9ZyBZECF/AX1XTgoMEUrBjOS66EpUhmhMBProXnayWxgtJo4i+MMTpfoL+pPNEUiKNCvea12GmmDDpoETjvjdieqCs/CfnkNgeboDd32Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6fZS+ghr7l8tJ7qgpBUbuX0ahwciCBQKwFQlWxARTi4=;
- b=Q4tBZRK2nCMYCY8L+TqfxJ4ieaulVLTtc8vmHaYh1ikUqJpnLO3tjI6mQc2mj0nhzirdRUCAPg+lrNVnGIJATl36D1wCAgq4dy1fH4YjftT4sao7DuFkFBUMHFo22T19cKFotDXBDgWNU8eQoHMwzsnuJT5j0y0FfqX2ck1jtrjQOApYkFDnpQrtezFIpQJEWbVqwJVfYmvLNVLMStcKXVI3sLTIwCu9MLKPqm+RqhKtZpjErKSmWcPHIs+1ZXRuZ5pFakATkEacoYzSEsTnracINUxHO9/ZUNAYqBPiKnqMfn3UhQszvNkXZs5kpVOZ3tTiwyPJePJhty3VE+UHpA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6fZS+ghr7l8tJ7qgpBUbuX0ahwciCBQKwFQlWxARTi4=;
- b=MKpJI7hLqyEqlT5k6laJpFV53/MBpvGfZoXdy/mS1q8gXsW3IBffZ7RDiWzQJr69OmJ7LsWCHaERD7pd3f2NSXYb933l0iTYoJSjdUqZPLW+pBX7nbrIFrslxYQDubeVPYRJwMHdTDt0UlprgJIfzXdHxXAUE+KM4Mi/rBDkqos=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from CH0PR12MB5284.namprd12.prod.outlook.com (2603:10b6:610:d7::13)
- by MN2PR12MB4533.namprd12.prod.outlook.com (2603:10b6:208:266::18)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6933.26; Mon, 30 Oct
- 2023 13:54:15 +0000
-Received: from CH0PR12MB5284.namprd12.prod.outlook.com
- ([fe80::33ed:3162:e4ed:3569]) by CH0PR12MB5284.namprd12.prod.outlook.com
- ([fe80::33ed:3162:e4ed:3569%6]) with mapi id 15.20.6933.028; Mon, 30 Oct 2023
- 13:54:15 +0000
-Message-ID: <d56cd927-49fc-cb4e-8abd-abc539e4d276@amd.com>
-Date: Mon, 30 Oct 2023 09:54:10 -0400
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/amd/display: remove duplicated argument
-Content-Language: en-CA
-To: =?UTF-8?Q?Jos=C3=A9_Pekkarinen?= <jose.pekkarinen@foxhound.fi>,
- harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
- alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- skhan@linuxfoundation.org
-References: <20231029093926.137766-1-jose.pekkarinen@foxhound.fi>
-From: Aurabindo Pillai <aurabindo.pillai@amd.com>
-In-Reply-To: <20231029093926.137766-1-jose.pekkarinen@foxhound.fi>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: YQXP288CA0020.CANP288.PROD.OUTLOOK.COM
- (2603:10b6:c00:41::49) To CH0PR12MB5284.namprd12.prod.outlook.com
- (2603:10b6:610:d7::13)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 690ED10E2D8
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Oct 2023 14:05:39 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 39UE1d6I020828; Mon, 30 Oct 2023 14:05:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=uVvvgGGRsXYodeDOGqASSVfYaytBqmIBbNNike05n6Q=;
+ b=MEt/uru/JPUyq8Dh3phzNSMG50eqbBFNaSbSxjzxNY6GbOIAAjhR4IfaZPAgsmkJ58uH
+ WDfyZmbnIetXmdGLeN+7JoP6qSIdAo2CxNE1UNwt1Qqto0pSoN7MnKj323tUSb8Amc+5
+ ccRvQcnmbU+AjcpMNnnM5KUmZiHv9JPsX2uzgWU/7FhHAs6nKj6YR8wiBIn+sSDmmMJN
+ tzDrmvGMZ62RBfmcFORT1sd7JfLiLbm9GtO1kHcDHxqlS2hTOjo3F+i4SvnrZR+WWS/1
+ VETq2TycSGCY5/MQAz4bI1WV3smjkwD4dNOMxfYgu8u0XnMJd8w2aNpZjfsnsdy8Dn60 ng== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3u0smrm2kr-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 30 Oct 2023 14:05:30 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 39UE5TkD005831
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 30 Oct 2023 14:05:29 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Mon, 30 Oct
+ 2023 07:05:29 -0700
+Message-ID: <f11d2815-71cd-224b-01e1-365a560e9208@quicinc.com>
+Date: Mon, 30 Oct 2023 08:05:28 -0600
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH0PR12MB5284:EE_|MN2PR12MB4533:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7bc89c14-6105-42e6-59ac-08dbd94fb400
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ELuE7TohiQKPKOUAv9mXKT0DAUrevXdGIlwtKbtTn2NRMQOVbiUB1spz+vbjec12JaAM6vnefW0pxt80TmGAu0tkeB151NeXQFaP02cDlz7aXS1Rr2rhlruQvNCUtIjXeKAZA/1P8hYc1am38WNlSuLtk7TivE5RV8DwlyaWAm+peF1dusXHk8O4dQCeGnilohmnkldmAETwryiYFi8ftot/zwO5HnKUijK1WvyT+ripLKEYt0s+x5LpyOAur/JS75r2ArdFwp3RNpXCu9M0DNvp5G1UKCgUdHrVn7XGWGwmctc5loq/2RoF1cCoyXNoInrebsjgwH48W9fSRMXGIj7AJfef6vyIRP59ChYa+mvTNak7LX67G2AX7P18TOlJryMoB8Pm75r33eW8i6jrfcwwKmdfUk6Qm+7E/DcjPFyFOQK5852p4b14EGtHerhfJZH/LYmJAEXECv52zjIIdqqKT9NJMnPxanIiI9TAyn8gVRV7lh2zJFQ+u2PanbgpWACsKG7DozcAZd+HSXFZRW9ijOmVkeQZOHJV3HMsw4eruXtNxpm2tsE1d0JfIp3ULBWD6iwY814t0mXWmXEAn9C69wk86bsP8CXHB10GWYT1Hs7YRge2CafNYkE2VTm1/lpoQVR9FGNF+qv5mDlt1w==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CH0PR12MB5284.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(396003)(366004)(376002)(346002)(39860400002)(136003)(230922051799003)(64100799003)(186009)(1800799009)(451199024)(6506007)(53546011)(6666004)(6512007)(6486002)(83380400001)(478600001)(26005)(2616005)(2906002)(5660300002)(66946007)(66476007)(66556008)(8936002)(44832011)(8676002)(4326008)(316002)(31696002)(86362001)(36756003)(38100700002)(41300700001)(31686004)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aWxPUHFwam9sNWpObTE1c0FleUxUVHZFNU5Vem9DUHVXUGlPNnI3NE8rRHR2?=
- =?utf-8?B?MXN5b29oWU5FbTlxbGlqVzRVaXltUjBoakVlNmZnUW9YTzJIOU9XUFlRai9m?=
- =?utf-8?B?N1lTTTJjV2U0TGtmbUFZZ25KZ21acmNkdEczZnQ4aG5aRmM0cHJMMlpkRkJL?=
- =?utf-8?B?STB1bC9MTmovM1NBbkZ5TGFOZUJML3BEOVE0MUJEOGc4d1ZDTDRNb3lKeUpD?=
- =?utf-8?B?cC9zK081M1NnUVBUM3B0YlZwRG55c1RRVm5IQ212OUhHV09ac1YyR0k4QS9k?=
- =?utf-8?B?dWdBN3h6WWpSMzZtdmxuYU9aeWhaa3c5SWlkZjZ2ck9HWmpTWXNsUlBUZnVa?=
- =?utf-8?B?aWxPZUZMaFZoK01aYjR4cElnYjFTaldRS2czbkVmTkhwZDBpUEp5RitqbjZZ?=
- =?utf-8?B?dEVkODZTaUV0ZjhVd041YmNFNWQ4ZDdZUTNnZVg1TS9pQm94c2RJZWVxdkhv?=
- =?utf-8?B?ZG55ajZNZGUwakRtaHpycFo5ak8wSXhoRVJXVUY4VkNSdmNYK1BCMmZ1S2tQ?=
- =?utf-8?B?UGpScVNHYXNaS3BnQVIxZjcreGRGZzhLWnd3Q1orNG9rRGRKK1gvdnB0SzFu?=
- =?utf-8?B?elIrWmZURkpRSFpUYTZjeGI4M0VYSmxBV1pIeWRqN0szTlR4U2huT2RxTTBp?=
- =?utf-8?B?N21Ubm1UUFhXMUV0WHhZcEVJQ3hocXFORkU5THdjVkZMWDVWVlJCRGxQT0dT?=
- =?utf-8?B?bTEvSnZMWTJFYXlkeHJJaG9WeFg0LytqN2g2OWc1OFJSbE5nK2wxS0xJTXpj?=
- =?utf-8?B?aWM3RTUwYTREa1V6QTdTMGF5YnZTY1NZczhWRjdhRzA5ZDVmakVNMG9hVlhk?=
- =?utf-8?B?ZXdoSExCakRxU1hneDdMdkQ0UWZTZWF6WDFUS2wxcGtMM2VacktNY0lmb09Q?=
- =?utf-8?B?c1VkbXM1R3VKSGExWTFTMkI4ajBSaG9pYUJkcVVlUTBGZW1KQjFWNEhLY1hI?=
- =?utf-8?B?YnErNnk5d2RUVXJHVUx3bk5ZRi9YeEdXbStSZFNZRFE2emsyVU5rWEdzS0hL?=
- =?utf-8?B?TldyTXg1R1pqa3pXVTZ5UDFMQVo2QVBtVnZ3STNYRGFYSGRPaytGdmZ0ZGp1?=
- =?utf-8?B?MEV6S2FyMmc3M0h4RVMxemY2R01BaUpSZmlMSXVHNU9OSk5iZS9RM2dnZVRv?=
- =?utf-8?B?bktNdGphZHhrTXlNeEpleGU3NWhaSFUrUjlkSUNMNVZvUlFCbXQ4UWQ5aEhx?=
- =?utf-8?B?aklTdHhPVUJhRUdZZ1NMYVUrd01PT1RtQzZRRjllWmxZdDN4bDc0TldSZnlN?=
- =?utf-8?B?bzFvbmlyRHJHUXZZVzRkTk0yNUM0RjJ3dXJ4VlFhRnoxemVQUzl4R2ltR1VT?=
- =?utf-8?B?c1l2NjJlSjkrdjZDTWZZaHdTdGhTbElDT0dsRFVmSVJVdEhmSk8rUlhIQy9v?=
- =?utf-8?B?cEdza1JrbTZhQlRNVXV1aHVWTC91dDlUSnB5TVNqR3hMYlZRRWlGRFkvbW1q?=
- =?utf-8?B?YmpaWUtNV1Qvb3orZFNZZ1R2TjlnZmMzODRPYTJuYkFwVXBJaXE4dXBEMEVs?=
- =?utf-8?B?MFp3Nkszd1NVdFo2SkF4V3EyM3JpQ0RXU0JCQXZaZE0rZWJMcmZsY1Rpdzkw?=
- =?utf-8?B?U0o4c2xQVWR4dmVXQytPOG90MDhkYUttWStjQTJqVklOYzJlOFl0ODVvU2lr?=
- =?utf-8?B?RFZIcUxVK28vMUhtT3UxZW1NeTBQclZZdnI5dHh3YUJDVlk2UFZiclo0c3dm?=
- =?utf-8?B?dEhiaWU0S2JRTmR3Tk8rNG01dnVUNkN2UW5paGV6UEZIY2NXclpKcTZ6NUhq?=
- =?utf-8?B?cXZYb0FZUUUvdktITTBWY3l3dDdTYXo3bUdTQWdQbDB5UEEzdHNFS1phUGVt?=
- =?utf-8?B?d1NvczlENDVyQ3pNMkkvV1p4QTdTcXVYcEx4NDhlZUFHZkhseUtnLzhiQnA3?=
- =?utf-8?B?b0g1WmF1dVo5TzZBMVlCMXpEaExUbGlEV3p6N2M0ODNLUU9BYXNPK2Q0cmx2?=
- =?utf-8?B?MlZBejg4eXhvdEF6Qk9rd1ZoQjRwRmxxWTdIcDZleC93bE5EM1BmeFJPYk11?=
- =?utf-8?B?YWVwV0xIVElYS2x4cCtNTENwcUU0UnA0T21lU05tUlhlanRyWnIyQkMwTnRL?=
- =?utf-8?B?YmN4U0xwSnNxRUxickgrQlVNQjJPamdVUm00VlVnOFpCSDJRamxQTkY4bFNu?=
- =?utf-8?Q?KbbiyTo92Xh4qvtJLZz6V2GsR?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7bc89c14-6105-42e6-59ac-08dbd94fb400
-X-MS-Exchange-CrossTenant-AuthSource: CH0PR12MB5284.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Oct 2023 13:54:15.4468 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mnp4L/TylTaRlH4QSEg6vBVvP8h8Oax1RSI7cjxmq2q5736eVntxbZK3K/sRziigxI7Z1sApyfWNI1J0c9pKBA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4533
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH 06/11] accel/ivpu: Change test_mode module param to bitmask
+Content-Language: en-US
+To: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+References: <20231025094323.989987-1-stanislaw.gruszka@linux.intel.com>
+ <20231025094323.989987-7-stanislaw.gruszka@linux.intel.com>
+ <e53dabb3-e8ec-b033-60f0-462f6e225e51@quicinc.com>
+ <ZTzD364/1CC736AE@linux.intel.com>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <ZTzD364/1CC736AE@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: gracxFGqgbuG-igBmT8gel6J5_JpL0b-
+X-Proofpoint-GUID: gracxFGqgbuG-igBmT8gel6J5_JpL0b-
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-10-30_10,2023-10-27_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 lowpriorityscore=0
+ malwarescore=0 suspectscore=0 clxscore=1015 adultscore=0 impostorscore=0
+ spamscore=0 phishscore=0 mlxlogscore=907 priorityscore=1501 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2310240000
+ definitions=main-2310300107
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,42 +85,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sunran001@208suo.com, alex.hung@amd.com,
- linux-kernel-mentees@lists.linuxfoundation.org, qingqing.zhuo@amd.com,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- Zhongwei.Zhang@amd.com, Yao.Wang1@amd.com, dri-devel@lists.freedesktop.org,
- Jun.Lei@amd.com
+Cc: Karol Wachowski <karol.wachowski@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 10/29/2023 5:39 AM, José Pekkarinen wrote:
-> Spotted by coccicheck, there is a redundant check for
-> v->SourcePixelFormat[k] != dm_444_16. This patch will
-> remove it. The corresponding output follows.
+On 10/28/2023 2:18 AM, Stanislaw Gruszka wrote:
+> On Fri, Oct 27, 2023 at 08:47:11AM -0600, Jeffrey Hugo wrote:
+>> On 10/25/2023 3:43 AM, Stanislaw Gruszka wrote:
+>>> From: Karol Wachowski <karol.wachowski@linux.intel.com>
+>>>
+>>> Change meaning of test_mode module parameter from integer value
+>>> to bitmask allowing setting different test features with corresponding
+>>> bits.
+>>>
+>>> Signed-off-by: Karol Wachowski <karol.wachowski@linux.intel.com>
+>>> Reviewed-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+>>> Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+>>
+>> Seems like this changes the uAPI.  You still haven't made a release of the
+>> userspace, correct?
 > 
-> drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.c:5130:86-122: duplicated argument to && or ||
-> 
-> Signed-off-by: José Pekkarinen <jose.pekkarinen@foxhound.fi>
-> ---
->   drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.c b/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.c
-> index ad741a723c0e..3686f1e7de3a 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.c
-> +++ b/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.c
-> @@ -5128,7 +5128,7 @@ void dml30_ModeSupportAndSystemConfigurationFull(struct display_mode_lib *mode_l
->   			ViewportExceedsSurface = true;
->   
->   		if (v->SourcePixelFormat[k] != dm_444_64 && v->SourcePixelFormat[k] != dm_444_32 && v->SourcePixelFormat[k] != dm_444_16
-> -				&& v->SourcePixelFormat[k] != dm_444_16 && v->SourcePixelFormat[k] != dm_444_8 && v->SourcePixelFormat[k] != dm_rgbe) {
-> +				&& v->SourcePixelFormat[k] != dm_444_8 && v->SourcePixelFormat[k] != dm_rgbe) {
->   			if (v->ViewportWidthChroma[k] > v->SurfaceWidthC[k] || v->ViewportHeightChroma[k] > v->SurfaceHeightC[k]) {
->   				ViewportExceedsSurface = true;
->   			}
+> Yes the user space is not yet released. However I think module parameter
+> is not considered part of the linux kernel uAPI and there are no guaranties
+> regarding not changing or removing or change the semantics.
 
-Thanks for catching.
+Patch 3 of [1] seems to suggest otherwise (module parameters are part of 
+the uAPI)
 
-Reviewed-by: Aurabindo Pillai <aurabindo.pillai@amd.com>
+[1]: 
+https://lore.kernel.org/all/20231027193016.27516-1-quic_johmoo@quicinc.com/
