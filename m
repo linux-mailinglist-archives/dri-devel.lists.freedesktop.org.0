@@ -1,57 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A3367DB644
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Oct 2023 10:42:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FFB67DB665
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Oct 2023 10:47:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0AD5310E261;
-	Mon, 30 Oct 2023 09:42:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4239410E265;
+	Mon, 30 Oct 2023 09:47:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id EEE9F10E263
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Oct 2023 09:42:22 +0000 (UTC)
-Received: from loongson.cn (unknown [10.20.42.43])
- by gateway (Coremail) with SMTP id _____8Cxc_B5ej9lQbY1AA--.39567S3;
- Mon, 30 Oct 2023 17:42:17 +0800 (CST)
-Received: from [10.20.42.43] (unknown [10.20.42.43])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8DxkN12ej9lD+o2AA--.54880S3; 
- Mon, 30 Oct 2023 17:42:17 +0800 (CST)
-Message-ID: <3ccb9600-6990-4ec7-81de-0d7b4e1294eb@loongson.cn>
-Date: Mon, 30 Oct 2023 17:42:28 +0800
+Received: from mail-yw1-x1133.google.com (mail-yw1-x1133.google.com
+ [IPv6:2607:f8b0:4864:20::1133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 773E410E270
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Oct 2023 09:47:45 +0000 (UTC)
+Received: by mail-yw1-x1133.google.com with SMTP id
+ 00721157ae682-5a7ac4c3666so37631097b3.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Oct 2023 02:47:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1698659264; x=1699264064; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=VNqVOafoli2UlL22BBZlG8If4F8EihISHX/NTqTcwEU=;
+ b=n0zL3KmL0+IohBj+noSCcXOF1A3VACg8eHkDqU1h/XkhDqeAZFXCtTUYjrxqEzG2bh
+ vr7Om428YsroBmoibKze478jnbh9X3jnipgXMufGNV3HwOM9b5qUGFPSZDKq+y88aNh3
+ QBvqcusvgXzicHDfWK1pvJauXdGATZTPCP8dNRaZQeq8ronIF5y6Ahnl2z0zTT6SGwgF
+ na3QF9FRZzbJ6edr4Q/u11k0/OD+MC8MCogpsIwe+1O6o2suEHWs6h86R7Wh92tGiLQ4
+ 2XUL+PMLnwtVPvQz7wO1zIh54FRxJ34NNgTuE324FQ5g4yNrWuTu1Ufvdf+3FMPaP9Sz
+ +TOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1698659264; x=1699264064;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=VNqVOafoli2UlL22BBZlG8If4F8EihISHX/NTqTcwEU=;
+ b=h7g6Sy67dQSK1jOQyX1qx+FmkcUH3n/j+r/D49DcYCxgkkrNpuTTMxvGrIZjGvgHJP
+ p+IjstZwUL08hOczN4jCHn/dTNkK5KLe/LnU60muoRp7IBz5QS5T5BNJBa8tC/Eycco+
+ SEimW2pyxhO4auXD9f0TClzqZdq0lDBtWOYDgiDyZOPFEm0JxWsn6GNewfx0Y166GPBk
+ C5zmuEkS3i5I/2Rz+vK19sL98vTSP1TC9LgWZpIGrf61l+3Sm4+0F6gAAgPHazWJ7l8+
+ 4DU1Q436G1C3ROrg93307t+of7VGOXJTzuxZGdEl7qkHYd4EAJ1RCr9j3O9JugGnWoYY
+ cdjg==
+X-Gm-Message-State: AOJu0YxObrXCITYx0DN+NUWUvWQqUg+8F92PxD2Tn6dS4H95fFUGRtp9
+ l1WEIwZM45bTchSZXSgOE58mPYN/W0Y6+BR512hHXg==
+X-Google-Smtp-Source: AGHT+IH4vGEQN2ht9HEWJL1x66zGUn2ZBD0Ei507AWcGjNS0lN6B3REXl08u1/DpS4NjeE917SoyGVG+xW8qvzQFjvI=
+X-Received: by 2002:a81:e249:0:b0:59b:cfe1:bcf1 with SMTP id
+ z9-20020a81e249000000b0059bcfe1bcf1mr8771096ywl.44.1698659264481; Mon, 30 Oct
+ 2023 02:47:44 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/8] drm/loongson: Introduce a drm bridge driver for
- it66121 HDMI transmitter
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-References: <20231029194607.379459-1-suijingfeng@loongson.cn>
- <20231029194607.379459-3-suijingfeng@loongson.cn>
- <CAA8EJprjQXcTgxnC1POaBjVBzyVBvKpmKyJcCR5ExRUhVxtYoQ@mail.gmail.com>
-From: Sui Jingfeng <suijingfeng@loongson.cn>
-In-Reply-To: <CAA8EJprjQXcTgxnC1POaBjVBzyVBvKpmKyJcCR5ExRUhVxtYoQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID: AQAAf8DxkN12ej9lD+o2AA--.54880S3
-X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBj93XoW7WF4xAry7tF17Cr4xGw4DAwc_yoW8AFyfpa
- nFkw1YkrWUXrW2y39xGF1UJFy5Za93GFWfWFsrJ3s3Wr9xAa40yrn8JFW5Jry7Xa43Ar42
- qrZ7GFWUW3WYkrbCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
- sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
- 0xBIdaVrnRJUUUkFb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
- IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
- e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
- 0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
- xVW8Jr0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx
- 1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv
- 67AKxVWxJVW8Jr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxAIw28IcxkI7V
- AKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCj
- r7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6x
- IIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAI
- w20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Cr0_Gr1UMIIF0xvEx4A2jsIEc7
- CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07UX_-PUUUUU=
+References: <20230903214150.2877023-1-dmitry.baryshkov@linaro.org>
+ <20230903214150.2877023-13-dmitry.baryshkov@linaro.org>
+ <ZQRKq7K8jKlH/Y4X@kuha.fi.intel.com>
+ <0F1BE090-92C4-4233-A77A-9B4C653DA1A7@linaro.org>
+ <ZT9m/OoFUiZaWy9s@kuha.fi.intel.com>
+In-Reply-To: <ZT9m/OoFUiZaWy9s@kuha.fi.intel.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Mon, 30 Oct 2023 11:47:33 +0200
+Message-ID: <CAA8EJprgpfh_GOeV+557YHWUJC-9W1Tw7nzb0jy5mPAv35VuGA@mail.gmail.com>
+Subject: Re: [RFC PATCH v1 12/12] usb: typec: qcom: define the bridge's path
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,51 +70,140 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Maxime Ripard <mripard@kernel.org>, linux-kernel@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Janne Grunau <j@jannau.net>,
+ Robert Foss <rfoss@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Andy Gross <agross@kernel.org>, Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Guenter Roeck <linux@roeck-us.net>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jonas Karlman <jonas@kwiboo.se>, linux-arm-msm@vger.kernel.org,
+ Maxime Ripard <mripard@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Bjorn Andersson <andersson@kernel.org>, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-
-On 2023/10/30 06:53, Dmitry Baryshkov wrote:
-> On Sun, 29 Oct 2023 at 21:46, Sui Jingfeng <suijingfeng@loongson.cn> wrote:
->> The IT66121 is a DVO to HDMI converter, LS3A5000+LS7A1000 ML5A_MB use this
->> chip to support HDMI output. Thus add a drm bridge based driver for it.
->> This patch is developed with drivers/gpu/drm/bridge/ite-it66121.c as base.
-> Please use the original bridge driver instead of adding a new one.
-
-I'm agree with the spirit of code sharing, but this is nearly impossible for non-DT system.
-
-Because the original bridge driver(say it66121.ko) is fully dependent on the DT.
-UEFI+ACPI based system can not use with it.
-
-Our I2C adapter is created by the drm/loongson.ko on the runtime.
-The potential problem is that *cyclic dependency* !
-
-I2C adapter driver is depend on drm/loongson
-drm/loongson depend on drm bridge driver (say it66121.ko)
-drm bridge driver (say it66121.ko) depend on I2C adapter to setup.
-
-This plus the defer probe mechanism is totally a trap,
-incurring troubles and don't work.
-
-
->   If
-> it needs to be changed in any way, please help everyone else by
-> improving it instead of introducing new driver.
+On Mon, 30 Oct 2023 at 10:19, Heikki Krogerus
+<heikki.krogerus@linux.intel.com> wrote:
 >
->> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
->> ---
->>   drivers/gpu/drm/loongson/Kconfig            |   1 +
->>   drivers/gpu/drm/loongson/Makefile           |   2 +
->>   drivers/gpu/drm/loongson/ite_it66121.c      | 749 ++++++++++++++++++++
->>   drivers/gpu/drm/loongson/ite_it66121.h      |  19 +
->>   drivers/gpu/drm/loongson/ite_it66121_regs.h | 268 +++++++
->>   5 files changed, 1039 insertions(+)
->>   create mode 100644 drivers/gpu/drm/loongson/ite_it66121.c
->>   create mode 100644 drivers/gpu/drm/loongson/ite_it66121.h
->>   create mode 100644 drivers/gpu/drm/loongson/ite_it66121_regs.h
+> On Mon, Oct 23, 2023 at 09:24:33PM +0300, Dmitry Baryshkov wrote:
+> > On 15 September 2023 15:14:35 EEST, Heikki Krogerus <heikki.krogerus@linux.intel.com> wrote:
+> > >Hi Dmitry,
+> > >
+> > >On Mon, Sep 04, 2023 at 12:41:50AM +0300, Dmitry Baryshkov wrote:
+> > >> In order to notify the userspace about the DRM connector's USB-C port,
+> > >> export the corresponding port's name as the bridge's path field.
+> > >>
+> > >> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > >> ---
+> > >>  drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c     | 11 +++++++----
+> > >>  drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_drm.c |  4 +++-
+> > >>  drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_drm.h |  6 ++++--
+> > >>  3 files changed, 14 insertions(+), 7 deletions(-)
+> > >>
+> > >> diff --git a/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c b/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c
+> > >> index b9d4856101c7..452dc6437861 100644
+> > >> --- a/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c
+> > >> +++ b/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c
+> > >> @@ -156,6 +156,7 @@ static int qcom_pmic_typec_probe(struct platform_device *pdev)
+> > >>    struct device_node *np = dev->of_node;
+> > >>    const struct pmic_typec_resources *res;
+> > >>    struct regmap *regmap;
+> > >> +  char *tcpm_name;
+> > >>    u32 base[2];
+> > >>    int ret;
+> > >>
+> > >> @@ -211,10 +212,6 @@ static int qcom_pmic_typec_probe(struct platform_device *pdev)
+> > >>    mutex_init(&tcpm->lock);
+> > >>    platform_set_drvdata(pdev, tcpm);
+> > >>
+> > >> -  tcpm->pmic_typec_drm = qcom_pmic_typec_init_drm(dev);
+> > >> -  if (IS_ERR(tcpm->pmic_typec_drm))
+> > >> -          return PTR_ERR(tcpm->pmic_typec_drm);
+> > >> -
+> > >>    tcpm->tcpc.fwnode = device_get_named_child_node(tcpm->dev, "connector");
+> > >>    if (!tcpm->tcpc.fwnode)
+> > >>            return -EINVAL;
+> > >> @@ -225,6 +222,12 @@ static int qcom_pmic_typec_probe(struct platform_device *pdev)
+> > >>            goto fwnode_remove;
+> > >>    }
+> > >>
+> > >> +  tcpm_name = tcpm_port_get_name(tcpm->tcpm_port);
+> > >> +  tcpm->pmic_typec_drm = qcom_pmic_typec_init_drm(dev, tcpm_name);
+> > >
+> > >So I got some questions and concerns off-list. This was one of the
+> > >concerns. That tcpm_name is now the actual port device name, so I'm
+> > >afraid this is not acceptable.
+> > >
+> > >You can't use device name as a reference, ever. There is no way to
+> > >guarantee that a device with a specific name is what you meant it to
+> > >be by the time it's accessed.
+> >
+> > Hmm, could you please be more specific, why? I mean, class devices are not
+> > that easy to be renamed in sysfs, are they? Or are you concerned about the
+> > device being destroyed behind userspace's back? At least for MSM this will be
+> > a huge problem already, with the bridge driver suddenly being removed.
 >
+> The race exists even in your case, but please do not look at this as a
+> solution for only your platform.
 
+Yes!
+
+>
+> This is about showing the user space a link between two device
+> instances (struct device), and the way you do that is by creating a
+> symlink. That way the kernel can take care of reference counting and
+> guarantee that the link always points to the correct device. That way
+> the link will also be always visible in user space without requirement
+> for any specific ABI like it should.
+
+I'm fine with the symlink approach (and I'll follow that up after
+finishing the UCSI glue driver rework). However I feel several
+deficiencies there:
+
+1) It creates asymmetry with the DP MST case. Do we want to have
+symlinks in each of the MST connectors? Or do we follow the PATH
+properties in the MST case until we find the root port, which has
+symlink? Please note, that fine X11 renames DP MST connectors
+internally, so in xrandr I see DP-2-1, which maps to
+/sys/class/drm/card0-DP-2. Kind of hard to follow.
+
+2) For the multi-card cases, one has to remap the connector to the
+card index + connector path. And this needs to be done by all user
+space applications, which would like to present this kind of
+information for the user.
+
+3) If we were to support non-USB-C connectors (e.g. MyDP / SlimPort
+and MHL used simple micro-USB connectors) there would be a completely
+new uABI. And any external port / wrapper will also require a
+completely new symlink kind.
+
+I understand your concerns regarding mentioning external device in the
+PATH property. However I think we should make it easier for the
+userspace app to determine the kind of the external connector. What
+would you think about extending the PATH property in the following
+way:
+
+For the USB-C connectors the PATH property has the value of
+`typec:cardN-DP-m` value. Userspace app can then look for the
+typec_connector symlink at the /sys/class/drm/cardN-DP-m subdir to
+find the information about the corresponding USB-C port.
+
+In future this will allow us to define e.g.:
+
+For the SlimPort / MyDP the PATH property has the value of
+`micro_usb:cardN-HDMI-m` or `micro_usb:cardN-DP-m`. The symlink is
+called /sys/class/drm/cardN-DP-m/micro_usb_connector.
+
+Or:
+
+For the SlimPort / MyDP the PATH property has the value of
+`mydp:cardN-HDMI-m` or `mydp:cardN-DP-m`. The symlink is called
+/sys/class/drm/cardN-DP-m/mydp_connector.
+
+
+-- 
+With best wishes
+Dmitry
