@@ -2,33 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 336487DB7EF
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Oct 2023 11:24:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAF4D7DB7ED
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Oct 2023 11:23:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 40FDE10E28A;
-	Mon, 30 Oct 2023 10:23:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD6E110E285;
+	Mon, 30 Oct 2023 10:23:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be
  [IPv6:2a02:1800:120:4::f00:13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 501CF10E286
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5897210E287
  for <dri-devel@lists.freedesktop.org>; Mon, 30 Oct 2023 10:23:45 +0000 (UTC)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:7082:5ab3:115b:c8d0])
  by baptiste.telenet-ops.be with bizsmtp
- id 4APi2B0081qcjVs01APi8L; Mon, 30 Oct 2023 11:23:42 +0100
+ id 4APi2B0091qcjVs01APi8M; Mon, 30 Oct 2023 11:23:42 +0100
 Received: from rox.of.borg ([192.168.97.57])
  by ramsan.of.borg with esmtp (Exim 4.95)
- (envelope-from <geert@linux-m68k.org>) id 1qxPQq-007p2s-PT;
+ (envelope-from <geert@linux-m68k.org>) id 1qxPQq-007p2t-PZ;
  Mon, 30 Oct 2023 11:23:42 +0100
 Received: from geert by rox.of.borg with local (Exim 4.95)
- (envelope-from <geert@linux-m68k.org>) id 1qxPQs-006o55-D1;
+ (envelope-from <geert@linux-m68k.org>) id 1qxPQs-006o58-Di;
  Mon, 30 Oct 2023 11:23:42 +0100
 From: Geert Uytterhoeven <geert@linux-m68k.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH libdrm v5 0/9] Big-endian fixes
-Date: Mon, 30 Oct 2023 11:23:27 +0100
-Message-Id: <cover.1698661177.git.geert@linux-m68k.org>
+Subject: [PATCH libdrm v5 1/9] intel: determine target endianness using meson
+Date: Mon, 30 Oct 2023 11:23:28 +0100
+Message-Id: <27fc7125f8312610a72b78cdea5a2155cfec9466.1698661177.git.geert@linux-m68k.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1698661177.git.geert@linux-m68k.org>
+References: <cover.1698661177.git.geert@linux-m68k.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -43,90 +45,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-	Hi all,
+The endianness of the target is currently determined based on
+preprocessor symbols.  Unfortunately some symbols checked are wrong
+(sparc64-linux-gnu-gcc does not define __BIG_ENDIAN__ or SPARC), and
+several checks for big-endian architectures are missing.
 
-This patch series fixes some endianness issues in libdrm.
-It has been tested on ARAnyM using a work-in-progress Atari DRM driver.
-After this, the smpte and tiles modetest patterns and the pwetty markers
-are rendered correctly using the XR24, RG16, and RG16BE formats on
-big-endian systems.
+Fix this by introducing a new preprocessor symbol HAVE_BIG_ENDIAN, which
+is set based on meson's knowledge of the target endianness.
 
-Changes compared to v4[1]:
+Android.common.mk does not need an update, as Android is always
+little-endian (https://developer.android.com/ndk/guides/abis.html).
+
+Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+v5:
   - Add Reviewed-by,
 
-Changes compared to v3[2]:
+v4:
   - Replace explicit #ifdef checks by a define set by meson,
-  - Use new HAVE_BIG_ENDIAN symbol,
 
-Changes compared to v2[3]:
-  - Increase indentation after definition of cpu_to_*() macros,
-  - Update for suffix change from "be" to "_BE", cfr. commit
-    ffb9375a505700ad ("xf86drm: handle DRM_FORMAT_BIG_ENDIAN in
-    drmGetFormatName()"),
-  - Replace hardcoded numbers in code by sizeof(),
-  - Wrap byteswap_buffer{16,32}() implementation inside #if HAVE_CAIRO
-    to avoid defined-but-not-used compiler warnings,
-  - Drop "modetest: Fix printing of big-endian fourcc values", as it is
-    no longer needed since commit ffb9375a505700ad ("xf86drm: handle
-    DRM_FORMAT_BIG_ENDIAN in drmGetFormatName()").
+v3:
+  - No changes,
 
-Changes compared to v1[4]:
-  - Consider arm, aarch64, microblaze, s390, and sh in endianness
-    checks,
-  - Add Acked-by,
-  - Add swap32() intermediate helper,
-  - Fix 16 bpp formats on big-endian,
-  - Add support for big-endian XRGB1555 and RGB565,
-  - Fix printing of big-endian fourcc values,
-  - Fix pwetty on big-endian.
+v2:
+  - Add arm, aarch64, microblaze, s390, and sh.
+---
+ intel/uthash.h | 4 ++--
+ meson.build    | 5 +++++
+ 2 files changed, 7 insertions(+), 2 deletions(-)
 
-I have also updated the merge request at [5].
-
-Thanks for your comments!
-
-[1] "[PATCH libdrm v4 0/9] Big-endian fixes"
-    https://lists.freedesktop.org/archives/dri-devel/2023-October/428234.html
-[2] "[PATCH libdrm v3 0/9] Big-endian fixes
-    https://lore.kernel.org/r/cover.1698217235.git.geert@linux-m68k.org
-[3] "[PATCH libdrm v2 00/10] Big-endian fixes"
-    https://lore.kernel.org/r/cover.1657302103.git.geert@linux-m68k.org/#t
-[4] "[PATCH RFC libdrm 0/2] Big-endian fixes"
-    https://lore.kernel.org/r/cover.1646684158.git.geert@linux-m68k.org
-[5] https://gitlab.freedesktop.org/mesa/drm/-/merge_requests/331
-
-Geert Uytterhoeven (9):
-  intel: determine target endianness using meson
-  util: fix 32 bpp patterns on big-endian
-  util: fix 16 bpp patterns on big-endian
-  util: add missing big-endian RGB16 frame buffer formats
-  modetest: add support for parsing big-endian formats
-  util: add test pattern support for big-endian XRGB1555/RGB565
-  util: fix pwetty on big-endian
-  util: add pwetty support for big-endian RGB565
-  modetest: add support for big-endian XRGB1555/RGB565
-
- intel/uthash.h            |   4 +-
- meson.build               |   5 ++
- tests/modetest/buffers.c  |   4 ++
- tests/modetest/modetest.c |  15 +++--
- tests/util/format.c       |   3 +
- tests/util/pattern.c      | 117 +++++++++++++++++++++++++++++++-------
- 6 files changed, 120 insertions(+), 28 deletions(-)
-
+diff --git a/intel/uthash.h b/intel/uthash.h
+index 45d1f9fc12a1d6f9..62e1650804841638 100644
+--- a/intel/uthash.h
++++ b/intel/uthash.h
+@@ -648,11 +648,11 @@ do {
+ #define MUR_PLUS2_ALIGNED(p) (((unsigned long)p & 3UL) == 2UL)
+ #define MUR_PLUS3_ALIGNED(p) (((unsigned long)p & 3UL) == 3UL)
+ #define WP(p) ((uint32_t*)((unsigned long)(p) & ~3UL))
+-#if (defined(__BIG_ENDIAN__) || defined(SPARC) || defined(__ppc__) || defined(__ppc64__))
++#ifdef HAVE_BIG_ENDIAN
+ #define MUR_THREE_ONE(p) ((((*WP(p))&0x00ffffff) << 8) | (((*(WP(p)+1))&0xff000000) >> 24))
+ #define MUR_TWO_TWO(p)   ((((*WP(p))&0x0000ffff) <<16) | (((*(WP(p)+1))&0xffff0000) >> 16))
+ #define MUR_ONE_THREE(p) ((((*WP(p))&0x000000ff) <<24) | (((*(WP(p)+1))&0xffffff00) >>  8))
+-#else /* assume little endian non-intel */
++#else /* little endian non-intel */
+ #define MUR_THREE_ONE(p) ((((*WP(p))&0xffffff00) >> 8) | (((*(WP(p)+1))&0x000000ff) << 24))
+ #define MUR_TWO_TWO(p)   ((((*WP(p))&0xffff0000) >>16) | (((*(WP(p)+1))&0x0000ffff) << 16))
+ #define MUR_ONE_THREE(p) ((((*WP(p))&0xff000000) >>24) | (((*(WP(p)+1))&0x00ffffff) <<  8))
+diff --git a/meson.build b/meson.build
+index e203965d82eb620b..d2fdf7929f363f84 100644
+--- a/meson.build
++++ b/meson.build
+@@ -226,6 +226,11 @@ if with_freedreno_kgsl and not with_freedreno
+   error('cannot enable freedreno-kgsl without freedreno support')
+ endif
+ config.set10('_GNU_SOURCE', true)
++
++if target_machine.endian() == 'big'
++  config.set('HAVE_BIG_ENDIAN', 1)
++endif
++
+ config_file = configure_file(
+   configuration : config,
+   output : 'config.h',
 -- 
 2.34.1
 
-Gr{oetje,eeting}s,
-
-						Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-							    -- Linus Torvalds
