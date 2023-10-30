@@ -1,84 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC0987DB507
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Oct 2023 09:22:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 47EAC7DB4FF
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Oct 2023 09:19:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B62310E235;
-	Mon, 30 Oct 2023 08:21:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA2E710E234;
+	Mon, 30 Oct 2023 08:19:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0939710E231
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Oct 2023 08:06:57 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 39U63n84009873; Mon, 30 Oct 2023 08:06:45 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=CzfcykcmaTk3q+/0NaoWixc3ET1mX3McxzjIyfp2wBs=;
- b=lTlSH6dhTjIrXQOwZfsNIwf/mYTcvIIeTWZlscz7Aft2kKkPw4jDWwL9MwVnGbdpbgtr
- VE+ni0iEaFgVzXn25C3z6GnVJDHnWuGVMQveMf8zhfB5wh7T+31YwbxG1bJuaCUamFDD
- 5MR75Iy28MOzmTKUWuqgmZA5uLXy0Uzc0m8i5Y71E0QDpkqv2tdnYgaGZmHCwr9xtPTx
- 1Dg+10To9X50cfnPPC+yVqIQt5aZguKICXhc1Oai8qEycgrjv5IFQUpIPoJ4Fk1MiGGG
- HUZIM3uvmoScZBdaBbRtle9ci52UR25lRZWjC44COb32hxYd0dYuY7yqH5fQaPb6Tw9+ Rg== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3u0sambbx8-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 30 Oct 2023 08:06:45 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 39U86i6W017093
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 30 Oct 2023 08:06:44 GMT
-Received: from [10.216.19.181] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Mon, 30 Oct
- 2023 01:06:37 -0700
-Message-ID: <91f0a8cf-3aef-4c54-b4b6-afd76cd5fdc8@quicinc.com>
-Date: Mon, 30 Oct 2023 13:36:33 +0530
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0455510E234;
+ Mon, 30 Oct 2023 08:19:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1698653959; x=1730189959;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=AcMF9VjShgicwfllFdfbQHLrf8Zoz2LK1NqqErPLinU=;
+ b=TInHKLT8G3jLigiHapY4FqcmhfVe4xk1FP07R+vQ1fp1VWn/L9N4X0of
+ 0nOV5BPqX1dNALYQrx5jYRcXs/ABrf+mROHMzr/JMMSivp5mlmPzCC4Kl
+ 1xGpzn/9PBjxqejZqRt5qaVL9RGj6B+miYmYvqArxa7X3IG9tJCwUDBtm
+ B0QRdFgpwScMjlSI4nXzMeZ7a9ufBBF9KFaRMpa5yoVx28nOaq8md72bx
+ fI4lP0f4rUEz08RCR6pkeGsE6hJ5Wz0PUfWHn9zZsmYiUk+zqjxv6EgQs
+ svsqtXrYN9veaKda6CP3uEmeQBBoSIw5nAjuaCaL9ns3dBMflLps1EYLU Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10878"; a="871678"
+X-IronPort-AV: E=Sophos;i="6.03,263,1694761200"; 
+   d="scan'208";a="871678"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Oct 2023 01:19:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10878"; a="753716240"
+X-IronPort-AV: E=Sophos;i="6.03,263,1694761200"; d="scan'208";a="753716240"
+Received: from kuha.fi.intel.com ([10.237.72.185])
+ by orsmga007.jf.intel.com with SMTP; 30 Oct 2023 01:19:09 -0700
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation);
+ Mon, 30 Oct 2023 10:19:08 +0200
+Date: Mon, 30 Oct 2023 10:19:08 +0200
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [RFC PATCH v1 12/12] usb: typec: qcom: define the bridge's path
+Message-ID: <ZT9m/OoFUiZaWy9s@kuha.fi.intel.com>
+References: <20230903214150.2877023-1-dmitry.baryshkov@linaro.org>
+ <20230903214150.2877023-13-dmitry.baryshkov@linaro.org>
+ <ZQRKq7K8jKlH/Y4X@kuha.fi.intel.com>
+ <0F1BE090-92C4-4233-A77A-9B4C653DA1A7@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/9] dma-buf: heaps: Initialise MediaTek secure heap
-Content-Language: en-US
-To: =?UTF-8?B?WW9uZyBXdSAo5ZC05YuHKQ==?= <Yong.Wu@mediatek.com>,
- "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
- "christian.koenig@amd.com" <christian.koenig@amd.com>,
- "robh+dt@kernel.org" <robh+dt@kernel.org>,
- "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>
-References: <20230911023038.30649-1-yong.wu@mediatek.com>
- <20230911023038.30649-5-yong.wu@mediatek.com>
- <5d806772-a2b4-4304-be45-7c2ed2930fcc@quicinc.com>
- <c8bf01a083182fdc83742de8daad8c5ce8d56d5b.camel@mediatek.com>
- <ac44de13-f4e0-4bae-b06b-af90fadaa96c@quicinc.com>
- <7eb7ca8f64789c4eb5096e19f4cf15f6b53bb260.camel@mediatek.com>
-From: Vijayanand Jitta <quic_vjitta@quicinc.com>
-In-Reply-To: <7eb7ca8f64789c4eb5096e19f4cf15f6b53bb260.camel@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: VBWUIqmr2oYncc2Y5rCxBHtjSNGlkbSV
-X-Proofpoint-ORIG-GUID: VBWUIqmr2oYncc2Y5rCxBHtjSNGlkbSV
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-10-30_06,2023-10-27_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0
- priorityscore=1501 bulkscore=0 spamscore=0 mlxscore=0 phishscore=0
- suspectscore=0 adultscore=0 clxscore=1015 mlxlogscore=999 impostorscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2310240000 definitions=main-2310300060
-X-Mailman-Approved-At: Mon, 30 Oct 2023 08:21:58 +0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0F1BE090-92C4-4233-A77A-9B4C653DA1A7@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,141 +62,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "conor+dt@kernel.org" <conor+dt@kernel.org>,
- "benjamin.gaignard@collabora.com" <benjamin.gaignard@collabora.com>,
- =?UTF-8?B?S3VvaG9uZyBXYW5nICjnjovlnIvptLsp?= <kuohong.wang@mediatek.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "tjmercier@google.com" <tjmercier@google.com>,
- "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
- "jstultz@google.com" <jstultz@google.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "angelogioacchino.delregno@collabora.com"
- <angelogioacchino.delregno@collabora.com>,
- =?UTF-8?B?SmlhbmppYW8gWmVuZyAo5pu+5YGl5aejKQ==?= <Jianjiao.Zeng@mediatek.com>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Cc: dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Janne Grunau <j@jannau.net>,
+ Robert Foss <rfoss@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Andy Gross <agross@kernel.org>, Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Guenter Roeck <linux@roeck-us.net>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jonas Karlman <jonas@kwiboo.se>, linux-arm-msm@vger.kernel.org,
+ Maxime Ripard <mripard@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Bjorn Andersson <andersson@kernel.org>, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Oct 23, 2023 at 09:24:33PM +0300, Dmitry Baryshkov wrote:
+> On 15 September 2023 15:14:35 EEST, Heikki Krogerus <heikki.krogerus@linux.intel.com> wrote:
+> >Hi Dmitry,
+> >
+> >On Mon, Sep 04, 2023 at 12:41:50AM +0300, Dmitry Baryshkov wrote:
+> >> In order to notify the userspace about the DRM connector's USB-C port,
+> >> export the corresponding port's name as the bridge's path field.
+> >> 
+> >> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> >> ---
+> >>  drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c     | 11 +++++++----
+> >>  drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_drm.c |  4 +++-
+> >>  drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_drm.h |  6 ++++--
+> >>  3 files changed, 14 insertions(+), 7 deletions(-)
+> >> 
+> >> diff --git a/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c b/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c
+> >> index b9d4856101c7..452dc6437861 100644
+> >> --- a/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c
+> >> +++ b/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c
+> >> @@ -156,6 +156,7 @@ static int qcom_pmic_typec_probe(struct platform_device *pdev)
+> >>  	struct device_node *np = dev->of_node;
+> >>  	const struct pmic_typec_resources *res;
+> >>  	struct regmap *regmap;
+> >> +	char *tcpm_name;
+> >>  	u32 base[2];
+> >>  	int ret;
+> >>  
+> >> @@ -211,10 +212,6 @@ static int qcom_pmic_typec_probe(struct platform_device *pdev)
+> >>  	mutex_init(&tcpm->lock);
+> >>  	platform_set_drvdata(pdev, tcpm);
+> >>  
+> >> -	tcpm->pmic_typec_drm = qcom_pmic_typec_init_drm(dev);
+> >> -	if (IS_ERR(tcpm->pmic_typec_drm))
+> >> -		return PTR_ERR(tcpm->pmic_typec_drm);
+> >> -
+> >>  	tcpm->tcpc.fwnode = device_get_named_child_node(tcpm->dev, "connector");
+> >>  	if (!tcpm->tcpc.fwnode)
+> >>  		return -EINVAL;
+> >> @@ -225,6 +222,12 @@ static int qcom_pmic_typec_probe(struct platform_device *pdev)
+> >>  		goto fwnode_remove;
+> >>  	}
+> >>  
+> >> +	tcpm_name = tcpm_port_get_name(tcpm->tcpm_port);
+> >> +	tcpm->pmic_typec_drm = qcom_pmic_typec_init_drm(dev, tcpm_name);
+> >
+> >So I got some questions and concerns off-list. This was one of the
+> >concerns. That tcpm_name is now the actual port device name, so I'm
+> >afraid this is not acceptable.
+> >
+> >You can't use device name as a reference, ever. There is no way to
+> >guarantee that a device with a specific name is what you meant it to
+> >be by the time it's accessed.
+> 
+> Hmm, could you please be more specific, why? I mean, class devices are not
+> that easy to be renamed in sysfs, are they? Or are you concerned about the
+> device being destroyed behind userspace's back? At least for MSM this will be
+> a huge problem already, with the bridge driver suddenly being removed.
 
+The race exists even in your case, but please do not look at this as a
+solution for only your platform.
 
-On 10/27/2023 1:17 PM, Yong Wu (吴勇) wrote:
-> On Thu, 2023-10-26 at 10:18 +0530, Vijayanand Jitta wrote:
->>  	 
->> External email : Please do not click links or open attachments until
->> you have verified the sender or the content.
->>  
->>
->> On 10/20/2023 3:29 PM, Yong Wu (吴勇) wrote:
->>> On Thu, 2023-10-19 at 10:15 +0530, Vijayanand Jitta wrote:
->>>>   
->>>> External email : Please do not click links or open attachments
->> until
->>>> you have verified the sender or the content.
->>>>  
->>>>
->>>> On 9/11/2023 8:00 AM, Yong Wu wrote:
->>>>> Initialise a mtk_svp heap. Currently just add a null heap,
->> Prepare
->>>> for
->>>>> the later patches.
->>>>>
->>>>> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
->>>>> ---
->>>>>  drivers/dma-buf/heaps/Kconfig           |  8 ++
->>>>>  drivers/dma-buf/heaps/Makefile          |  1 +
->>>>>  drivers/dma-buf/heaps/mtk_secure_heap.c | 99
->>>> +++++++++++++++++++++++++
-> 
-> [...]
-> 
->>>>> +
->>>>> +static struct dma_buf *
->>>>> +mtk_sec_heap_allocate(struct dma_heap *heap, size_t size,
->>>>> +      unsigned long fd_flags, unsigned long heap_flags)
->>>>> +{
->>>>> +struct mtk_secure_heap_buffer *sec_buf;
->>>>> +DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
->>>>> +struct dma_buf *dmabuf;
->>>>> +int ret;
->>>>> +
->>>>> +sec_buf = kzalloc(sizeof(*sec_buf), GFP_KERNEL);
->>>>
->>>> As we know, kzalloc can only allocate 4MB at max. So, secure heap
->> has
->>>> this limitation.
->>>> can we have a way to allocate more memory in secure heap ? maybe
->>>> similar to how system heap does?
->>>
->>> This is just the size of a internal structure. I guess you mean the
->>> secure memory size here. Regarding secure memory allocating flow,
->> our
->>> flow may be different with yours.
->>>
->>> Let me explain our flow, we have two secure buffer types(heaps).
->>> a) mtk_svp
->>> b) mtk_svp_cma which requires the cma binding.
->>>
->>> The memory management of both is inside the TEE. We only need to
->> tell
->>> the TEE which type and size of buffer we want, and then the TEE
->> will
->>> perform and return the memory handle to the kernel. The
->>> kzalloc/alloc_pages is for the normal buffers.
->>>
->>> Regarding the CMA buffer, we only call cma_alloc once, and its
->>> management is also within the TEE.
->>>
->>
->> Thanks for the details.
->>
->> I see for mvp_svp, allocation is also specific to TEE, as TEE takes
->> care of allocation as well.
-> 
-> Yes. The allocation management of these two heaps is in the TEE.
-> 
->>
->> I was thinking if allocation path can also be made generic ? without
->> having
->> dependency on TEE.
->> For eg : A case where we want to allocate from kernel and secure that
->> memory,
->> the current secure heap design can't be used. 
-> 
-> Sorry, This may be because our HW is special. The HW could protect a
-> certain region, but it can only protect 32 regions. So we cannot
-> allocate them in the kernel arbitrarily and then enter TEE to protect
-> them.
-> 
+This is about showing the user space a link between two device
+instances (struct device), and the way you do that is by creating a
+symlink. That way the kernel can take care of reference counting and
+guarantee that the link always points to the correct device. That way
+the link will also be always visible in user space without requirement
+for any specific ABI like it should.
 
-Got your point , I see for your case allocation must happen in TEE.
-I was just saying if we want to make secure heap generic and remove
-hard dependency on TEE, we must have a way to allocate irrespective
-of what hypervisor/TZ being used. As current design for secure heap
-assumes OPTEE.
+thanks,
 
-We have a case where allocation happens in kernel and we secure it
-using qcom_scm_assign_mem , this wouldn't be possible with current
-design.
-
-Probably some ops to allocate, similar to ops you pointed out to secure ?
-in you case these ops would just allocate the internal structure.
-
-Thanks,
-Vijay
-
->>
->> Also i suppose TEE allocates contiguous memory for mtk_svp ? or does
->> it support
->> scattered memory ?
-> 
-> Yes. After the TEE runs for a period of time, the TEE memory will
-> become discontinuous, and a secure IOMMU exists in the TEE.
-> 
->>>>
->>>> Thanks,
->>>> Vijay
->>>>
+-- 
+heikki
