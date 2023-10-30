@@ -1,65 +1,119 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB6617DBB16
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Oct 2023 14:48:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D7337DBB1B
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Oct 2023 14:52:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C62B10E036;
-	Mon, 30 Oct 2023 13:48:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8014410E2C4;
+	Mon, 30 Oct 2023 13:52:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x112f.google.com (mail-yw1-x112f.google.com
- [IPv6:2607:f8b0:4864:20::112f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7DCA810E036
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Oct 2023 13:48:21 +0000 (UTC)
-Received: by mail-yw1-x112f.google.com with SMTP id
- 00721157ae682-5a7c011e113so43593637b3.1
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Oct 2023 06:48:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1698673700; x=1699278500; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=/QK37myBu/cKzp0VAj8p8jgZVEezxxNjm8UB17CaHe8=;
- b=CJaihnMMsF6TDMggeuzAMc/fG0W08lEm6im6LLqruxKTz5RcQ6CpY2OjkoFxOnfSH6
- /L9LiQNT8mxrDOE6CS5qkxOYQ4hZZ3W5PweTXJ371b56xNkY4Ft8KWHARLPU6IaGbbd5
- 1BbcB9y4iy/o9+ntjPdX4mTUVT8C+ITJUhgTeDWXtdN6yARBRtYig/m/ATJcXWCo9s+f
- 3eGa4NrnhhjXo+CbSfIk71n9Hwzrctt433Fc3D7LlE3NUheAd1/rQKzoPuiOSYLtK+5+
- F2IO8sZWihuIOvkQCtZ/DbnEfIH4mthLr9z5FEIdjN2neC4XD21sAT7YvjeOdHBq2yBx
- cVmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1698673700; x=1699278500;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=/QK37myBu/cKzp0VAj8p8jgZVEezxxNjm8UB17CaHe8=;
- b=UiBmZ0unFs0qHLVTk2gr7Kd60VjeIrNPfdg6Us4d1ErBtR98tvtE2BuxvkYZ0xQZCN
- emMCBD92JfsGWqJKeQyJ0SEBtGO5M2awcWTjKdxcOILZBgUl/FRFli2rRaoKCQJaAZSY
- V7t/h18Ik4VvL2Q2iGIhBiEhcrF2hkhh6RcXJmeiyTJX+edrFSiFMxDXIVcZtBxRK5Qu
- wUGnfk4U1X210xy9IFtbK+fS3Um2GcgBmcVwfk2vCGpbaCUCDXAkx1lXnpWHUStbP2Nj
- 2mzegIP2Q5hMifRtlK6FFhFonR2CvVhN8/C9JL10z/TgBEqMF3Xim4krKcjZbrCM1KNc
- gHmA==
-X-Gm-Message-State: AOJu0Yx+Kx67qjum3BS8383xyrE4VYVsnyFd9sEKt30lzuKdbcaqC9s1
- myY4u4QXlIKeNgJbkyWfU3MzBEZmkESX2cfR60HUjFvwJHXdBCep1G2DcQ==
-X-Google-Smtp-Source: AGHT+IFCDO/6sTmBHcCgCAiaYVnuciTSkH2fTAfRf43Y1WdnIB5kEr/CcJDEnvfUQzWq/tcYdQ8R7ibswPrvB+81ka4=
-X-Received: by 2002:a81:a8c3:0:b0:595:89b0:6b41 with SMTP id
- f186-20020a81a8c3000000b0059589b06b41mr9181168ywh.38.1698673700541; Mon, 30
- Oct 2023 06:48:20 -0700 (PDT)
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com
+ (mail-sn1nam02on20629.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:7ea9::629])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C7ECE10E2DD;
+ Mon, 30 Oct 2023 13:52:08 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=F3oOkeF4wWNFVx4maxn5gFDyQznnXvHUQZyUqH9nRDlDxwGuWl7zZ4Qiy9bIOHrzDoXmhnh7Wz/dmfRlLUWcG1dHBrFMLd3d5Q7xW8Z3Ru48Z1MNL3GtrwU1RW9cPzBlqqL/XORkEAepKOJpUDcYi1VOMZUfGnHWLqFCIuXAkKro41OvGIPhni0WwEDgxQCYKkELk/7M3v5ed288qdeJdvYNEwWIHU2XXRPXYjsiCTQrToNbAfkktVjgCYPVVBmyVTVJQEdHD1wUTaRujNgHh6LHcuiijvMv/+JBOaC+13LC6ipSwcrwPgoDhVBMzpqUiQ3FUBuG0qzOdQrntRC5YA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=WAvYyCUfzFWpmUDh+wAyeZQqRi506s2q/sPelqImZr0=;
+ b=dVgcJGN7ylLU9f0aZhwhwP3GpTUtK6uH7oCfNrqYSfEBxHWCNgLHjoC5P0tYidf5RF4U3b2B45451tWGOKNvGJaoCoGfECzamVXhygMfZVR9B8Vtlijh1hCBTv/NIegiuIHM983qTu3rY9sisARiznqI7yqvK2gIw5kCt0y9c4frMQ5otLwe9PgW8ey1QHZAEe5jqscwEbIShGFjRRKSG/fqDTgl2CMCyI359Rh9G0+21ZcT9HjtqnmuE7rzk+g05kLHCjs3MMZDVQGIK0mb5BoIWLq8L8JLrKRZZMiWyTNgv4IEIGO0+3dXZSp4XMAt+T0u391KCS3haQyeo1/JTg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=WAvYyCUfzFWpmUDh+wAyeZQqRi506s2q/sPelqImZr0=;
+ b=No5OfcqTMXdcp0nlY1SuXBiD3NWNRh5zWnAbxnCUeVjakVkvUVjQl3+jxD+HE4F1Ot6Lok+zOACbAlM5uf1c3hub3sdnhnFllXvMCsubzvButAncrJsMsGVRE0Xv6j7rwVilF8oLSQP/KZ9J2aOKkU5cHrptvkgm/Jr5iifGrzM=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from CH0PR12MB5284.namprd12.prod.outlook.com (2603:10b6:610:d7::13)
+ by MN2PR12MB4533.namprd12.prod.outlook.com (2603:10b6:208:266::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6933.26; Mon, 30 Oct
+ 2023 13:52:05 +0000
+Received: from CH0PR12MB5284.namprd12.prod.outlook.com
+ ([fe80::33ed:3162:e4ed:3569]) by CH0PR12MB5284.namprd12.prod.outlook.com
+ ([fe80::33ed:3162:e4ed:3569%6]) with mapi id 15.20.6933.028; Mon, 30 Oct 2023
+ 13:52:04 +0000
+Message-ID: <ce1b69e1-fa38-2e12-1ad5-375ac244af42@amd.com>
+Date: Mon, 30 Oct 2023 09:52:00 -0400
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/amd/display: remove redundant check
+Content-Language: en-CA
+To: =?UTF-8?Q?Jos=C3=A9_Pekkarinen?= <jose.pekkarinen@foxhound.fi>,
+ harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
+ skhan@linuxfoundation.org
+References: <20231029124404.16159-1-jose.pekkarinen@foxhound.fi>
+From: Aurabindo Pillai <aurabindo.pillai@amd.com>
+In-Reply-To: <20231029124404.16159-1-jose.pekkarinen@foxhound.fi>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: YQBPR0101CA0276.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:68::30) To CH0PR12MB5284.namprd12.prod.outlook.com
+ (2603:10b6:610:d7::13)
 MIME-Version: 1.0
-References: <20231029194607.379459-1-suijingfeng@loongson.cn>
- <20231029194607.379459-3-suijingfeng@loongson.cn>
- <CAA8EJprjQXcTgxnC1POaBjVBzyVBvKpmKyJcCR5ExRUhVxtYoQ@mail.gmail.com>
- <3ccb9600-6990-4ec7-81de-0d7b4e1294eb@loongson.cn>
- <CAA8EJpqCe2j3GyeutnwTB0bkGXGk0az9-w3sPHLFwMVgAS=e7g@mail.gmail.com>
- <df176548-0001-4df4-b556-6227b776cd18@loongson.cn>
-In-Reply-To: <df176548-0001-4df4-b556-6227b776cd18@loongson.cn>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Mon, 30 Oct 2023 15:48:09 +0200
-Message-ID: <CAA8EJprS72FUDvMrgXatLWHYNiAOhfugiWFCWuXnmzS2zmUDTA@mail.gmail.com>
-Subject: Re: [PATCH 2/8] drm/loongson: Introduce a drm bridge driver for
- it66121 HDMI transmitter
-To: Sui Jingfeng <suijingfeng@loongson.cn>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH0PR12MB5284:EE_|MN2PR12MB4533:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2210fe1d-0435-4c48-0248-08dbd94f6653
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: TUYzhs0CLnmwr23cS/36s4UeCIRaPBd0wKCFRMpnCEOOqVbnRwuIaZDkv8ftmVqT8yLwThR1HZlbTUE+zOD2oxmQDWAbw24rnmbBdonvTEyQhXzy+aojNuIpO5cu89T5iVKjoMkkaVnyd9dhDoAcJlMubiiEPn3G+GTDpYtWS/xC6+Oq47y4xjIemVbZJCLNTIUInqKu3lwok19Ke+Fq34rT7iY251mtTTznMqPuPUFe0VxSYLTSrjsMHY8G+/E0jfcgmnBy7iHiOTOsdRcSQOnGni/MgcZNEyAkd/bRtfGfR5r6R1g4DWzNLF9wHYmM8XO9OoQBJZRaEtO9YuY+Sqlnn8eIzZbyu6NF2nsDQllKORWPDkKfuleEqLhkl8fXUcda+aguptE3LRC26vD+iaukVoUKHkYiRBf8aOYjqgKCRa3iyh4XymwyRcjvATVQMA0/RjzOxMBmfvltEwerMGzXaMJRXXTjWGZ9kofVlpGVidGPmswLrGkmAmGqFDsfjjMtU97GEgQIo2rqnxVlEmGgWe734iUvtCrHQ5aCjf1ys8ldHMDAPUYubbvWiqYQI2QhvYynyzoK4AifDvNwuMV7pRAAYsp6cb6QUIXpH/9UeqHc7RRNhBtcBkt+R6rXu2x6ngidUN1UiMFT8idvKMyPTeoUsJWPKs1l+Z2LIs+mg2BjBfWHJzgOMC0YPKgf
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CH0PR12MB5284.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(396003)(366004)(376002)(346002)(39860400002)(136003)(230922051799003)(230273577357003)(230173577357003)(64100799003)(186009)(1800799009)(451199024)(6506007)(53546011)(6666004)(6512007)(6486002)(83380400001)(478600001)(26005)(2616005)(2906002)(5660300002)(66946007)(66476007)(66556008)(8936002)(44832011)(8676002)(4326008)(316002)(31696002)(86362001)(36756003)(38100700002)(41300700001)(31686004)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TkphMldpTktnbS9La2pVMFFGbGkrcFlwTHZ0aWpaSTRKbHkvVkRwT0JPeUp3?=
+ =?utf-8?B?WktuU1ZIOHZveTdHUWRUd29NU29jTEpISDhqNGg5YVBxRHVwY3hLb3hCRmU1?=
+ =?utf-8?B?SXJBNW5rdXYrM25Ldm1hbmIyRzRjOXRUeG4wTGdwc21QK2lFWkhmNmhpNURl?=
+ =?utf-8?B?ck9WdlA4K0NVcksrYzhESUQ2TnhaaGlrOThDQVJhbjNnL0crSGUrZE1pMkU4?=
+ =?utf-8?B?R1RHaWpxNmhvcFJuRDhFV1JVRWs2dHN2Z2VTL01TSjV3R3BpZXovOEt0WjVQ?=
+ =?utf-8?B?S0huRUNIWDdwM0hRZzlVMEg5dlhTZkk2eWh3bERrRHh3WTRTV3N3NUlSZDZL?=
+ =?utf-8?B?SkhDOGpFMzVJS2NaWVM0MXVBOElMM2hQaFFYU1IyZzBVYmpaVlEwOWVWOUtp?=
+ =?utf-8?B?cmw5NTBHRUU5akNFMTdZVTJUc0IvTk1WbkdZcjRDMCtoK0oxWmFrQ1RKdWZX?=
+ =?utf-8?B?dzhDb0xzZndub05CekdKOHBYeFJNbXYrZkpBL0xTWk5LS25JS1RJcHZ4NWpZ?=
+ =?utf-8?B?R2JRcHVTU1ZtWExPYzVDdWo3YXlsUFVqMDdPTXdpNUdYeVlmUlZ1NWdJZUto?=
+ =?utf-8?B?U09HU0IyNC9mbFdsMmZuT2IzVUNzSDFBa0JGc2NoWEJXeFZicG5Pd1V4VWQ1?=
+ =?utf-8?B?emJrSi9hcjJZVHN0dDFzZ29yK0lnQkg1WDNWaWRIWVArWURsSmNFMTJMQ3ht?=
+ =?utf-8?B?WDB0eWN2bTNSQUpZeEhVMndvS0l0VWEvMWVBSmI1ajRZK09iUmRnY0JobDNq?=
+ =?utf-8?B?eE5hMjB3OEFVT3hhWmxlRzdpaGkvSVJuTUhlQ2djbXA3M09jNVFmam4zQnpG?=
+ =?utf-8?B?dGZZZlcxRkh0YnFidXFzT01PRXgxNzh4TE5GQk1YYUdxbys2aFo1ZDBxT0oy?=
+ =?utf-8?B?RXBLWXFUY0NOMHZGZG01aVlYQU91SjNDR0lEbHRGbWtXQ2pUaXJubnJaUkF4?=
+ =?utf-8?B?eXhRaDA4WjlSNUZLQnY1UnZDRE9rY3ZGL0VyaHR4STIwNjJRMDFsNzZXbjVE?=
+ =?utf-8?B?RUxua1dGb0huZ2xENEIrY3lvQ0RNMHFVeHp6all0R1hJRE5EZUdlTklJV2Jl?=
+ =?utf-8?B?TDZVWHFtWC9MbmlDS3QwSFkycjl2dVMrcTQvSGRSdjA0bG9qSnBFZG1rT2lp?=
+ =?utf-8?B?bHdteTBma2dCQTN0MlFnelBIcCt6V0Z4TEpzZ3BqaWJSUXo1ckhvRVZVdTJL?=
+ =?utf-8?B?Y1ZSVVBuUzBEK2hNMWxGU05MTzVpUnZORjJUb216cmNGQ1RNakNjaVN5R1RZ?=
+ =?utf-8?B?a0tjZFN2Mk1IYXFRZ0tocE9Sd0NrT2xvM3pHQXNuTkFsb0dGMkpvZWZWekhO?=
+ =?utf-8?B?TWVZWlhNaWVSeE83WXd6R1RnMUZKZzhEYktKUU53VWZ6MWlsQ0laMEl6K3NQ?=
+ =?utf-8?B?NUZyOG05SElucUJoMXdXdzdMcnJRQ1BaWWlXNWtPU2paV2lFMnZIcWc4Y2Fy?=
+ =?utf-8?B?R3dVbmpueXVCV1RtYnZPZkM4U3FveWFqS1IzK0RDUnF6SFVLOTh1YnJhL1lV?=
+ =?utf-8?B?WDA1dXFTVEtCdXY0RmlzL3ZKV2hYSDBuMnBhdjR0R1Iwa2dhVHBOc2lmeUh4?=
+ =?utf-8?B?eHN1ZXBaT3VpK0lvYlJvcEk4YWw1V2tFOFBZM0QyQ0JQTW5JSjdHRXJ1MGpC?=
+ =?utf-8?B?QzZ1cUl4R3U2QUMyQ3J2eVlMNExxaTZMRktnMktza25jZVptV0ZMQVFVOFhN?=
+ =?utf-8?B?NEZQL0x6VjZVc29VN09rcHMxbExZdXFHM0dBeVZZMFRyVU5vd0h0THhnY0pk?=
+ =?utf-8?B?OGpHZlFJdE1oanVXOUV0RDhNMFVvQ1o5VW5aa1ZZWUZibEhkUHhacEgxM3RD?=
+ =?utf-8?B?eVhTV3RjU0UvZitGZXBmQ0FmVENDcm9RNG5NdzBTeHVjd0p1d1Bmdmk5d0tI?=
+ =?utf-8?B?UU1IelkrNmFEVmN2cE4weDhnSUNlZ0dkK0tsTDErUkVXSzkxQVEzYmpGVGpJ?=
+ =?utf-8?B?K21kRWtSc3VWVWl6L05tR2Z0Q1RQNHFON1QvOVNtd3JEVk5YM1FLSUxKZVVm?=
+ =?utf-8?B?NHQ3TS9aUms5RjhyS0swK2dNK3JaNnowcmFleDVTT3hrNFNLQlRkUlJzQkFq?=
+ =?utf-8?B?NnI1cE1pMW1RRm9ia0RhV20yLzNhQlNMY1YveGpuMkNyQ3FLMWV5R3RVb2Y4?=
+ =?utf-8?Q?yfvIuPAiD4UiN6/Dv5t3YAmVA?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2210fe1d-0435-4c48-0248-08dbd94f6653
+X-MS-Exchange-CrossTenant-AuthSource: CH0PR12MB5284.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Oct 2023 13:52:04.7773 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: swi3s53oDuxj3i0pQTXhzRYMB20+xKi0Rx5i93JJgTEY2Rvia0WNuwiUAZ3ayQ7neWROSDrdr+3vmGZJKN9cBw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4533
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,151 +126,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Maxime Ripard <mripard@kernel.org>, linux-kernel@vger.kernel.org
+Cc: dillon.varone@amd.com, linux-kernel-mentees@lists.linuxfoundation.org,
+ dri-devel@lists.freedesktop.org, Xinhui.Pan@amd.com,
+ linux-kernel@vger.kernel.org, samson.tam@amd.com, SyedSaaem.Rizvi@amd.com,
+ amd-gfx@lists.freedesktop.org, george.shen@amd.com, alexander.deucher@amd.com,
+ Jun.Lei@amd.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 30 Oct 2023 at 15:26, Sui Jingfeng <suijingfeng@loongson.cn> wrote:
->
-> Hi,
->
->
-> On 2023/10/30 18:01, Dmitry Baryshkov wrote:
-> > On Mon, 30 Oct 2023 at 11:42, Sui Jingfeng <suijingfeng@loongson.cn> wrote:
-> >> Hi,
-> >>
-> >>
-> >> On 2023/10/30 06:53, Dmitry Baryshkov wrote:
-> >>> On Sun, 29 Oct 2023 at 21:46, Sui Jingfeng <suijingfeng@loongson.cn> wrote:
-> >>>> The IT66121 is a DVO to HDMI converter, LS3A5000+LS7A1000 ML5A_MB use this
-> >>>> chip to support HDMI output. Thus add a drm bridge based driver for it.
-> >>>> This patch is developed with drivers/gpu/drm/bridge/ite-it66121.c as base.
-> >>> Please use the original bridge driver instead of adding a new one.
-> >> I'm agree with the spirit of code sharing, but this is nearly impossible for non-DT system.
-> >>
-> >> Because the original bridge driver(say it66121.ko) is fully dependent on the DT.
-> > I can not agree here. It doesn't depend on DT. It has fully populated
-> > i2c_device_id structures, so it will work with bare I2C buses.
-> > Most likely you will have to change of calls into fwnode calls, that's it.
-> >
-> >> UEFI+ACPI based system can not use with it.
-> >>
-> >> Our I2C adapter is created by the drm/loongson.ko on the runtime.
-> >> The potential problem is that *cyclic dependency* !
-> >>
-> >> I2C adapter driver is depend on drm/loongson
-> >> drm/loongson depend on drm bridge driver (say it66121.ko)
-> >> drm bridge driver (say it66121.ko) depend on I2C adapter to setup.
-> >>
-> >> This plus the defer probe mechanism is totally a trap,
-> >> incurring troubles and don't work.
-> > Welcome. We had this kind of issue for DP AUX buses.
-> >
-> > I can suggest the following approach:
-> > - In the root probe function you can create an i2c bus and populate it
-> > with the i2c devices.
-> > - I have not checked whether you use components or not. If not, please
-> > use an auxiliary or a platform device for the main DRM functionality.
-> > - In the subdevice probe / bind function you check for the next
-> > bridge. Then you get one of the following:drm_bridge pointer,
-> > -EPROBE_DEFER, or any other error case. Your driver can react
-> > accordingly.
->
-> I have similar way to solve this problem, and I have solved it one and a half years ago.
-> See [1] for a reference.
->
-> [1] https://patchwork.freedesktop.org/patch/478998/?series=99512&rev=11
->
-> When the PCI device get probed, we create the I2C bus first.
-> This ensure that when drm/lsdc.ko get loaded, the I2C bus is presence
-> and ready to be get by the drm_bridge driver.
-> This is basically a PCI-to-GPIO-emulated-I2C adapter,
-> then wait the display bridges driver get loaded and set up.
->
-> I also need to create a virtual platform device for the display controller.
-> which allow the drm drivers instance for this virtual platform device
-> be able to probed due to defer probe mechanism.
->
-> This solution made the framework of my driver distortion severely,
-
-I don't think I could catch this phrase. Did you see distortions on the screen?
-
-> and in the end we still solve a easy problem by workaround.
-
-No workarounds for the kernel subsystems are allowed.
-
->
-> I know how to use the component framework also, but the component framework just
-> a wrapper. Similar with above approach, it brings no gains in the end.
-> It does not make this driver better. I got trapped one years ago,
-> and I don't want to got trapped another time.
-> And I know how solve such a problem by workaround, but that's not worthy for the effort.
->
-> I think my approach provide a solution, while still keep the bridges drivers
-> to a modular at the same time. Despite simple, it indeed solve the problem.
-> It simple because of explicit control of the loading order by myself, not by
-> rely on the framework or something else (say component)
-
-PCI media drivers have had this issue for ages. And all of them found
-a way to work.
-
-> It is not totally duplicating, I have rewrite part of them.
-
-This is even worse. Now one can not apply fixes to the second one.
-
-> You can compare
-> to see what I'm changed. It is just that it66162 was upstream-ed earlier than
-> our solution. But I also have write display drivers for lt8618 and lt8619
-> completely by myself.
->
->
-> Even though our local drm bridges driver will not be able to enjoy the updates.
-> We will accept such a results(or pain). I can maintain our local drm bridges
-> drivers by myself.
-
-What happens if anybody wants to reuse your bridge driver for their
-own platform?
-Linux kernel uses driver model and frameworks to improve code sharing,
-not to reduce it.
-
-> Sorry, on this technique point, we will not follow your idea.
-> I'm sure that my approach is toward to right direction for our device at now.
-> If someone invent a better solution to handle this problem, which make the
-> various drm bridges drivers usable out of box, then I will follow and cooperate
-> to test.
->
->
-> > Basically duplicating the existing driver code is not really a way to
-> > go. Consider somebody adding a new feature or fixing a bug in your
-> > driver copy. Then they have to check if the fix applies to the driver
-> > at drivers/gpu/drm/bridge/ite-it66121.c. And vice versa. After fixing
-> > an issue in the standard driver one has to keep in mind to check your
-> > private copy.
-> >
-> > So, please, use the OF code as an inspiration and register all your
-> > devices in the device tree. Yes, this requires some effort from your
-> > side. Yes, this pays off in the longer distance.
-> >
-> >>>    If
-> >>> it needs to be changed in any way, please help everyone else by
-> >>> improving it instead of introducing new driver.
-> >>>
-> >>>> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
-> >>>> ---
-> >>>>    drivers/gpu/drm/loongson/Kconfig            |   1 +
-> >>>>    drivers/gpu/drm/loongson/Makefile           |   2 +
-> >>>>    drivers/gpu/drm/loongson/ite_it66121.c      | 749 ++++++++++++++++++++
-> >>>>    drivers/gpu/drm/loongson/ite_it66121.h      |  19 +
-> >>>>    drivers/gpu/drm/loongson/ite_it66121_regs.h | 268 +++++++
-> >>>>    5 files changed, 1039 insertions(+)
-> >>>>    create mode 100644 drivers/gpu/drm/loongson/ite_it66121.c
-> >>>>    create mode 100644 drivers/gpu/drm/loongson/ite_it66121.h
-> >>>>    create mode 100644 drivers/gpu/drm/loongson/ite_it66121_regs.h
-> >
->
 
 
--- 
-With best wishes
-Dmitry
+On 10/29/2023 8:44 AM, José Pekkarinen wrote:
+> This patch addresses the following warning spotted by
+> using coccinelle where the case checked does the same
+> than the else case.
+> 
+> drivers/gpu/drm/amd/display/dc/dml/dcn32/display_mode_vba_util_32.c:4664:8-10: WARNING: possible condition with no effect (if == else)
+> 
+> Signed-off-by: José Pekkarinen <jose.pekkarinen@foxhound.fi>
+> ---
+>   .../drm/amd/display/dc/dml/dcn32/display_mode_vba_util_32.c   | 4 ----
+>   1 file changed, 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn32/display_mode_vba_util_32.c b/drivers/gpu/drm/amd/display/dc/dml/dcn32/display_mode_vba_util_32.c
+> index ecea008f19d3..d940dfa5ae43 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dml/dcn32/display_mode_vba_util_32.c
+> +++ b/drivers/gpu/drm/amd/display/dc/dml/dcn32/display_mode_vba_util_32.c
+> @@ -4661,10 +4661,6 @@ void dml32_CalculateMinAndMaxPrefetchMode(
+>   	} else if (AllowForPStateChangeOrStutterInVBlankFinal == dm_prefetch_support_uclk_fclk_and_stutter) {
+>   		*MinPrefetchMode = 0;
+>   		*MaxPrefetchMode = 0;
+> -	} else if (AllowForPStateChangeOrStutterInVBlankFinal ==
+> -			dm_prefetch_support_uclk_fclk_and_stutter_if_possible) {
+> -		*MinPrefetchMode = 0;
+> -		*MaxPrefetchMode = 3;
+>   	} else {
+>   		*MinPrefetchMode = 0;
+>   		*MaxPrefetchMode = 3;
+
+What tree did you use to generate the patch? On amd-staging-drm-next, 
+MaxPrefetchMode is 0 for the second last branch, which is the correct 
+one, so this patch isnt needed.
