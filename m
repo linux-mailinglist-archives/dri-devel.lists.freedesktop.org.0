@@ -2,56 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 222B47DB273
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Oct 2023 05:13:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BB497DB314
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Oct 2023 07:05:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 33CDB10E1FD;
-	Mon, 30 Oct 2023 04:13:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A3A010E203;
+	Mon, 30 Oct 2023 06:05:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id 9687110E1FD
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Oct 2023 04:13:36 +0000 (UTC)
-Received: from loongson.cn (unknown [10.20.42.43])
- by gateway (Coremail) with SMTP id _____8BxXettLT9lQqs1AA--.34413S3;
- Mon, 30 Oct 2023 12:13:33 +0800 (CST)
-Received: from [10.20.42.43] (unknown [10.20.42.43])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8CxO9xrLT9l5M02AA--.51747S3; 
- Mon, 30 Oct 2023 12:13:33 +0800 (CST)
-Message-ID: <ea335f64-16cc-47aa-b523-0aae6f64e223@loongson.cn>
-Date: Mon, 30 Oct 2023 12:13:34 +0800
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B970A10E203
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Oct 2023 06:05:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1698645911; x=1730181911;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=pwncb6T0eW2Uq8n6x+uGybwl8osJ5Cv6Ek3h44u2Tic=;
+ b=Y3zLa7aqoPsZwPhxBe2HRE3+SUt2cT95NBgfBQB9ZfGLDGT4n4sHo63Y
+ icLDGd3f/JhwNub96WExRNRVNOuv35xrX78IoxEO9Ru/o1NPFxBYmrVyw
+ KQbFNlAjv+PYLj7yGMf8d5MvGRLgdYo3HKC1xGoClrwAjbiS0RsXEh6PF
+ r25anzE4mIqAP0AA3A+QyTIlpTtBAflMOSfwJTv9v0kAoVZNmy51llyyi
+ ARmYuNXttWAvm/JSEg/drV8LGgDjF/jTMGG7IEXN2EvDjx3Hy+FozeZ+L
+ sgR5wG/DOL5ZItHmt6ScSlXfxPnG1pvWUefGrp7tJuHr9bOw/G1Av7eIC w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10878"; a="367362414"
+X-IronPort-AV: E=Sophos;i="6.03,262,1694761200"; d="scan'208";a="367362414"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Oct 2023 23:05:10 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10878"; a="763814127"
+X-IronPort-AV: E=Sophos;i="6.03,262,1694761200"; d="scan'208";a="763814127"
+Received: from sgruszka-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.51.19])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Oct 2023 23:05:08 -0700
+Date: Mon, 30 Oct 2023 07:05:06 +0100
+From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+To: Arnd Bergmann <arnd@kernel.org>
+Subject: Re: [PATCH] accel/ivpu: avoid build failure with CONFIG_PM=n
+Message-ID: <ZT9HkiflwVKnZlzk@linux.intel.com>
+References: <20231027152633.528490-1-arnd@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/8] drm/loongson: Allow attach drm bridge driver by
- calling lsdc_output_init()
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-References: <20231029194607.379459-1-suijingfeng@loongson.cn>
- <20231029194607.379459-4-suijingfeng@loongson.cn>
- <CAA8EJpoWXtmMt9vpG9Q4dpv6HnMjtdmEo6rbBszXNG30NhbB1A@mail.gmail.com>
-From: Sui Jingfeng <suijingfeng@loongson.cn>
-In-Reply-To: <CAA8EJpoWXtmMt9vpG9Q4dpv6HnMjtdmEo6rbBszXNG30NhbB1A@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID: AQAAf8CxO9xrLT9l5M02AA--.51747S3
-X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBj93XoWxXw1kCw17CFykCF43Zw4rCrX_yoWrGF4UpF
- Wrta9xKr4DJFn0gry8Zr48Z34xKrZ5tFs5twsYkFy3C34Yyryfta1jqr45CFykAFsYqrWI
- yF4qqF1kuFn0yrXCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
- sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
- 0xBIdaVrnRJUUUk0b4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
- IYs7xG6rWj6s0DM7CIcVAFz4kK6r106r15M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
- e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
- 0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
- xVW8Jr0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx
- 1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv
- 67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41l42xK82IYc2Ij64
- vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8G
- jcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2I
- x0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK
- 8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I
- 0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUcyxRUUUUU
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231027152633.528490-1-arnd@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,113 +58,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Maxime Ripard <mripard@kernel.org>, linux-kernel@vger.kernel.org
+Cc: Krystian Pradzynski <krystian.pradzynski@linux.intel.com>,
+ Jeffrey Hugo <quic_jhugo@quicinc.com>, Arnd Bergmann <arnd@arndb.de>,
+ Oded Gabbay <ogabbay@kernel.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Karol Wachowski <karol.wachowski@linux.intel.com>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Fri, Oct 27, 2023 at 05:26:23PM +0200, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> The usage count of struct dev_pm_info is an implementation detail that
+> is only available if CONFIG_PM is enabled, so printing it in a debug message
+> causes a build failure in configurations without PM:
+> 
+> In file included from include/linux/device.h:15,
+>                  from include/linux/pci.h:37,
+>                  from drivers/accel/ivpu/ivpu_pm.c:8:
+> drivers/accel/ivpu/ivpu_pm.c: In function 'ivpu_rpm_get_if_active':
+> drivers/accel/ivpu/ivpu_pm.c:254:51: error: 'struct dev_pm_info' has no member named 'usage_count'
+>   254 |                  atomic_read(&vdev->drm.dev->power.usage_count));
+>       |                                                   ^
+> include/linux/dev_printk.h:129:48: note: in definition of macro 'dev_printk'
+>   129 |                 _dev_printk(level, dev, fmt, ##__VA_ARGS__);            \
+>       |                                                ^~~~~~~~~~~
+> drivers/accel/ivpu/ivpu_drv.h:75:17: note: in expansion of macro 'dev_dbg'
+>    75 |                 dev_dbg((vdev)->drm.dev, "[%s] " fmt, #type, ##args);          \
+>       |                 ^~~~~~~
+> drivers/accel/ivpu/ivpu_pm.c:253:9: note: in expansion of macro 'ivpu_dbg'
+>   253 |         ivpu_dbg(vdev, RPM, "rpm_get_if_active count %d\n",
+>       |         ^~~~~~~~
+> 
+> The print message does not seem essential, so the easiest workaround is
+> to just remove it.
+> 
+> Fixes: c39dc15191c4 ("accel/ivpu: Read clock rate only if device is up")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+Applied to drm-misc-next
 
-
-On 2023/10/30 07:10, Dmitry Baryshkov wrote:
->> +
->> +/* Built-in HDMI encoder funcs on display pipe 0 */
->> +
->> +static void lsdc_pipe0_hdmi_encoder_reset(struct drm_encoder *encoder)
->> +{
->> +       struct drm_device *ddev = encoder->dev;
->> +       struct lsdc_device *ldev = to_lsdc(ddev);
->> +       u32 val;
->> +
->> +       val = PHY_CLOCK_POL | PHY_CLOCK_EN | PHY_DATA_EN;
->> +       lsdc_wreg32(ldev, LSDC_CRTC0_DVO_CONF_REG, val);
->> +
->> +       /* Using built-in GPIO emulated I2C instead of the hardware I2C */
->> +       lsdc_ureg32_clr(ldev, LSDC_HDMI0_INTF_CTRL_REG, HW_I2C_EN);
->> +
->> +       /* Help the HDMI phy get out of reset state */
->> +       lsdc_wreg32(ldev, LSDC_HDMI0_PHY_CTRL_REG, HDMI_PHY_RESET_N);
->> +
->> +       drm_dbg(ddev, "%s reset\n", encoder->name);
->> +
->> +       mdelay(20);
->> +}
->> +
->> +const struct drm_encoder_funcs lsdc_pipe0_hdmi_encoder_funcs = {
->> +       .reset = lsdc_pipe0_hdmi_encoder_reset,
->> +       .destroy = drm_encoder_cleanup,
->> +};
->> +
->> +/* Built-in HDMI encoder funcs on display pipe 1 */
-> All pipe 1 code looks like a pipe0, just the registers were changed.
-> Could you please refactor that to use a single instance of all
-> functions and pass pipe id through the data struct?
-> Then you can use macros to determine whether to use pipe 0 or pipe 1 register.
->
-
-Yes, you are right. But please allow me to explain something.
-
-In the past, Thomas told me to untangle it, despite this idea lead to duplicated code(or pattern).
-but at the long run, this pay off.
-
-Because the method of passing pipe id will introduce the "if and else" side effects.
-But my functions have no if and else.
-
-
-```
-if (pipe == 0) {
-     ...
-} else if (pipe == 1) {
-     ...
-}
-```
-
-Using the C program language's Macro(#define XXX) to generate code is not fun to me.
-Because every time you want to change it, It needs my brains to thinking it twice. Maybe
-more than twice.
-
-1) It needs my brains to replace the macros manually each time I saw the code.
-
-2) When I want to change(alter) the prototype, I need to worry about all of the instances.
-    sometimes it is not symmetry. The DVO port and HDMI phy itself is symmetry, but the
-    external display bridge connected with them are not symmetry. So, there are some registers
-    located at the domain of this display controller side should change according to the
-    different type of external display bridge.
-
-3) Code duplication is actually less harmful than unmaintainable.
-    macros are abstract, as noob level programmer, we completely drop the idea of abstract.
-    Bad abstract means design failure, this is what we are most afraid of.
-    Generally, we would like divide the whole into small cases, handle them one by one.
-    It is actually to review and understand.
-
-4) From the viewpoint of the hardware, the display output hardware suffer from changes.
-    Because users always want *new* display interface. The need of the users are also varies.
-    Personally, I think macros are best for the symmetry case, while the output part of a
-    display pipe always suffer from change.
-
->> +
->> +static void lsdc_pipe1_hdmi_encoder_reset(struct drm_encoder *encoder)
->> +{
->> +       struct drm_device *ddev = encoder->dev;
->> +       struct lsdc_device *ldev = to_lsdc(ddev);
->> +       u32 val;
->> +
->> +       val = PHY_CLOCK_POL | PHY_CLOCK_EN | PHY_DATA_EN;
->> +       lsdc_wreg32(ldev, LSDC_CRTC1_DVO_CONF_REG, val);
->> +
->> +       /* Using built-in GPIO emulated I2C instead of the hardware I2C */
->> +       lsdc_ureg32_clr(ldev, LSDC_HDMI1_INTF_CTRL_REG, HW_I2C_EN);
->> +
->> +       /* Help the HDMI phy get out of reset state */
->> +       lsdc_wreg32(ldev, LSDC_HDMI1_PHY_CTRL_REG, HDMI_PHY_RESET_N);
->> +
->> +       drm_dbg(ddev, "%s reset\n", encoder->name);
->> +
->> +       mdelay(20);
->> +}
->> +
->> +const struct drm_encoder_funcs lsdc_pipe1_hdmi_encoder_funcs = {
->> +       .reset = lsdc_pipe1_hdmi_encoder_reset,
->> +       .destroy = drm_encoder_cleanup,
->> +};
-
+Thanks
+Stanislaw
