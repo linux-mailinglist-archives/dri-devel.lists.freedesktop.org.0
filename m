@@ -1,77 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EEEA7DBC4D
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Oct 2023 16:03:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D6CE7DBC5A
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Oct 2023 16:05:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 422D210E2EC;
-	Mon, 30 Oct 2023 15:03:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C5E7210E2F4;
+	Mon, 30 Oct 2023 15:05:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
  [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4880D10E2EC
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Oct 2023 15:03:18 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABB8410E2EF
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Oct 2023 15:05:03 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 39UE4VZc011961; Mon, 30 Oct 2023 15:03:11 GMT
+ 39UE4eVX031617; Mon, 30 Oct 2023 15:04:59 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
  h=message-id : date :
  mime-version : subject : to : cc : references : from : in-reply-to :
  content-type : content-transfer-encoding; s=qcppdkim1;
- bh=1mRaFfrry7bI+2gVAyw/S9dn1HOzGtofeYbOn388FTk=;
- b=Qf4fmltoFrBGkd0tDt1bAmZBfDeZlak6EzjHPBdDPt6C/cdSDz03UtB15Dti1mF+w+LJ
- 9si8wuzMrM6KST7rO7sSVmF4zdbgBGyuEJk0Oc/hjx8hgG8Y+y/e5aJ1dTqbia8v+FGm
- 9pXg+zfryWdqN6LYFEhjAVUwvIvXlByFkD8u7r2ojF9bfFr8Qia6eTrNMJsd5of7vfhu
- VHWboqLhaurE+VjYSEdntVdAkSAKxYWI0rS0/i1U11/KwkxU5uIK4DsuY0nQy9fGdlbS
- GqrNwNEpS6hnbFEHEoGgN1K+twhYwC2Xsgy/J2MXtVGhE95RAmI24RBn2hmG4eX1KP4n Gw== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ bh=MURC1LFzy0K/9eQXSMxJN6qmptqNgijAqJAEEVn+2wI=;
+ b=XJgcuhvjWGNUTnho3w5yPrFU1yA7zWu08e3ZiNXXYcw2EoftCVW/gQKvtKpRh2yIgmm5
+ d5xs0qu4M9kftUQHerqgKN8z8Q3t7ZHDTR+8QYcDy7Sagjlj+C7ma0volxOE3fhNo+QP
+ a+y+MWeRe9p4+Sa8cPjSTWC/r0eIShCkkC4y5gBVNELV1sCK/lVbCiWezMdcVFCVnWom
+ TB/MDyRXbjhPHzCah6az50kUyEt1Xh2/ZY3Vlx9RbBnRkNeoanPhoE3X7k6Jtaa3HWJt
+ xZ107ZTvxv5MW1x1wHTdI78wQtH8UN+I98TIEnxgDg/qRFlf7WDBVE1Kau3DSUcq49/n Qg== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3u29ferrem-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3u2chygaun-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 30 Oct 2023 15:03:10 +0000
+ Mon, 30 Oct 2023 15:04:59 +0000
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
  [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 39UF3AcF007587
+ by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 39UF4wAU030706
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 30 Oct 2023 15:03:10 GMT
+ Mon, 30 Oct 2023 15:04:58 GMT
 Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
  (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Mon, 30 Oct
- 2023 08:03:09 -0700
-Message-ID: <7c09c0a5-5ab7-b8f5-3d46-85aac67b4a0b@quicinc.com>
-Date: Mon, 30 Oct 2023 09:03:09 -0600
+ 2023 08:04:57 -0700
+Message-ID: <f54bef94-d91a-eb3f-0d16-b4f92452a1d1@quicinc.com>
+Date: Mon, 30 Oct 2023 09:04:57 -0600
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Thunderbird/91.6.0
-Subject: Re: [PATCH 3/8] accel/ivpu: Stop job_done_thread on suspend
+Subject: Re: [PATCH 4/8] accel/ivpu: Abort pending rx ipc on reset
 Content-Language: en-US
 To: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
  <dri-devel@lists.freedesktop.org>
 References: <20231028155936.1183342-1-stanislaw.gruszka@linux.intel.com>
- <20231028155936.1183342-4-stanislaw.gruszka@linux.intel.com>
+ <20231028155936.1183342-5-stanislaw.gruszka@linux.intel.com>
 From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <20231028155936.1183342-4-stanislaw.gruszka@linux.intel.com>
+In-Reply-To: <20231028155936.1183342-5-stanislaw.gruszka@linux.intel.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
  nalasex01a.na.qualcomm.com (10.47.209.196)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-GUID: XIbVJ6SETMkVd8BXWndAu0W_1KXpbPDG
-X-Proofpoint-ORIG-GUID: XIbVJ6SETMkVd8BXWndAu0W_1KXpbPDG
+X-Proofpoint-ORIG-GUID: ldlXEf2GX1xL4T5j0Z2xCywKyqPuIyya
+X-Proofpoint-GUID: ldlXEf2GX1xL4T5j0Z2xCywKyqPuIyya
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2023-10-30_10,2023-10-27_01,2023-05-22_02
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- phishscore=0 impostorscore=0 spamscore=0 suspectscore=0 adultscore=0
- lowpriorityscore=0 clxscore=1015 bulkscore=0 mlxlogscore=999 mlxscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2310240000 definitions=main-2310300115
+ impostorscore=0 bulkscore=0
+ mlxscore=0 adultscore=0 mlxlogscore=563 spamscore=0 phishscore=0
+ clxscore=1015 suspectscore=0 lowpriorityscore=0 malwarescore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2310240000 definitions=main-2310300116
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,17 +91,13 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 10/28/2023 9:59 AM, Stanislaw Gruszka wrote:
-> Stop job_done thread when going to suspend. Use kthread_park() instead
-> of kthread_stop() to avoid memory allocation and potential failure
-> on resume.
+> Waking up process, which wait for particular condition, will go to
+> sleep again on wake_up() if the condition is not met. Add abort flag
+> to wake up IPC receivers, which will finish with -ECANCELED error.
 > 
-> Use separate function as thread wake up condition. Use spin lock to assure
-> rx_msg_list is properly protected against concurrent access.
-
-This tells me what you are doing (and the changes seems to make sense), 
-but doesn't say "why".  A quick, one-sentence justification would fix 
-this I think.
-
+> This is only needed for reset, run time power management prevent to
+> suspend VPU when there is pending IPC processing or pending job.
+> 
 > Reviewed-by: Karol Wachowski <karol.wachowski@linux.intel.com>
 > Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 
