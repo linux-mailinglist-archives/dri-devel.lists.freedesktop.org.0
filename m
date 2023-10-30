@@ -2,59 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CB147DB9CC
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Oct 2023 13:21:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73C727DB9E8
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Oct 2023 13:26:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 476A310E2A4;
-	Mon, 30 Oct 2023 12:21:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B5DC010E2A5;
+	Mon, 30 Oct 2023 12:26:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x112a.google.com (mail-yw1-x112a.google.com
- [IPv6:2607:f8b0:4864:20::112a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 485AE10E0BE
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Oct 2023 12:21:02 +0000 (UTC)
-Received: by mail-yw1-x112a.google.com with SMTP id
- 00721157ae682-59e88a28b98so37980457b3.1
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Oct 2023 05:21:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1698668461; x=1699273261; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Tx0E1lO7sX80TYEZLbZ/p7IN8KY+xevJVJVX9CSG4+g=;
- b=de62hGDRxlcVMtj9LDMk9pdBf+93GoHhuFf8PwRKboZBHgnCRMbMffyJi+HxWjs2m2
- NXZrKDIg2dOLUeAY591bHuqSvrcQT/7QnNWs3LLBD9K0gc4XquvgtiXueBrCVgJH9lBo
- rXg0ErL/HNJjJf/zAsOOyT8UQtvxTw/q+ILaNmtiKSSZRVII+8EQUH7RFR1O64kLlXOf
- 396hHT278s8qe98//nWaEEctRkEQxaGpXsGh5zvL0wIYtEkKH6ZtWFvnFmZyH3PGzKR8
- /kH1LkB4dE0EBg2tXmoRIxd+h9z5wDAJj9zGY1BKMYN9IuFQsdiw7oBCNIZ146vxYDHk
- xRWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1698668461; x=1699273261;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Tx0E1lO7sX80TYEZLbZ/p7IN8KY+xevJVJVX9CSG4+g=;
- b=RA4Nqv1Xkj5Noie59/ILtylqUm7rhMK0kzWsos4+uDymJw9Hz6wDUmDLS/QVpw33dQ
- Cs+cp4duNlQxXKTej6VS3jTzQ3IFYVjgwM6XR8z9W8jqHmYGrQcL6pRXz4vn4k13YqWC
- GeadPNmjoLI92a8wqgJZFZWACXFAJ8mvmvb9vGD72MKrsyi16MyKjlH426jnwv6xo8CE
- nQEt3HKkDcmwxThpq72ard0S2kmyuX8zm45Xk/Qa1YLrfFvIHbdpb56bYMYUSRaALTmz
- W+NAqsbiJ9VkjNQbRkSQRPU9x7HCo+/3Lc7BnLXn/NAMxuUSc2OrQ1QqmMGD9gMD7awg
- sVvw==
-X-Gm-Message-State: AOJu0YyPiHHQGQOba3cAaHULRJYTZ9djZQLZ6cTzj/5n61NPef4mDtz1
- rhZbSviMQ1yv1CD2Y53CjwnDkcG5sWyBcqL0dwHgFQ==
-X-Google-Smtp-Source: AGHT+IFKE8vLRCh0SuUhxTnn5PdhE/o7DyZSiHlRWBzISa81u1bz2zPdSgaIvbzp7Wc+FD7P0CwSUInn+dj6DwNZIKw=
-X-Received: by 2002:a81:441e:0:b0:5ae:15bb:466a with SMTP id
- r30-20020a81441e000000b005ae15bb466amr10123206ywa.14.1698668461455; Mon, 30
- Oct 2023 05:21:01 -0700 (PDT)
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C56310E2AD
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Oct 2023 12:26:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:Subject:From
+ :References:Cc:To:MIME-Version:Date:Message-ID:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=NrQphLKEXxg2Teo4CtjhXVI9BbJBpJZSqT1o7JDXPno=; b=HRiBFxBz60bdK3J/SSoqRNrEPh
+ wuoKSvVZPdEBppsGu+nGUPTiyS1y74WUquA6ZhKvwPCLQcLnaJZISr1sxvqWoYX4gi9qirhyVfphu
+ 4vIn5fHlziJLWtJhDn5EzNBAbWjRF9AoSfW47hWDNnMqOH2gcrirni5AuqY7N3NOSmzYLMUrg5fHt
+ Qxn+KNm5AA2CIC7Qtqrvm0hEu5Xk2qmx85Uouybz3lYUoMhGqI7P5u8XLX01/ZVD9S+jSDKe4QBJH
+ kyXRIgMozQPEHfzmsY8kkBVFomvj70c/Bh+mRcDFzCC6n1kF8HwJNJN4xU2oRbwbcmr2NLkUMAy0d
+ yYhrLKgw==;
+Received: from [177.34.168.16] (helo=[192.168.0.8])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1qxRLX-00EuAe-B0; Mon, 30 Oct 2023 13:26:19 +0100
+Message-ID: <dd5006f1-32ea-cd36-37d7-6c7404cf117e@igalia.com>
+Date: Mon, 30 Oct 2023 09:26:12 -0300
 MIME-Version: 1.0
-References: <20231030-topic-sm8650-upstream-mdss-v2-0-43f1887c82b8@linaro.org>
- <20231030-topic-sm8650-upstream-mdss-v2-5-43f1887c82b8@linaro.org>
-In-Reply-To: <20231030-topic-sm8650-upstream-mdss-v2-5-43f1887c82b8@linaro.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Mon, 30 Oct 2023 14:20:50 +0200
-Message-ID: <CAA8EJppBTOnSAWLpZjHAGwwfQzPRVgHVmDfN4nvaVifU+2xEOQ@mail.gmail.com>
-Subject: Re: [PATCH v2 5/8] drm/msm/dpu: add support for SM8650 DPU
-To: Neil Armstrong <neil.armstrong@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+To: Iago Toral Quiroga <itoral@igalia.com>, dri-devel@lists.freedesktop.org
+References: <20231030082858.30321-1-itoral@igalia.com>
+Content-Language: en-US
+From: Maira Canal <mcanal@igalia.com>
+Subject: Re: [PATCH v2 0/4] V3D module changes for Pi5
+In-Reply-To: <20231030082858.30321-1-itoral@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,34 +54,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Conor Dooley <conor+dt@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- devicetree@vger.kernel.org, Jonathan Marek <jonathan@marek.ca>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Maxime Ripard <mripard@kernel.org>,
- linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- Krishna Manikandan <quic_mkrishn@quicinc.com>, dri-devel@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, Marijn Suijten <marijn.suijten@somainline.org>,
- Sean Paul <sean@poorly.run>
+Cc: Nicolas Saenz Julienne <nsaenz@kernel.org>, Emma Anholt <emma@anholt.net>,
+ Melissa Wen <mwen@igalia.com>, Rob Herring <robh+dt@kernel.org>,
+ Stefan Wahren <wahrenst@gmx.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 30 Oct 2023 at 12:36, Neil Armstrong <neil.armstrong@linaro.org> wrote:
->
-> Add DPU version 10.0 support for the SM8650 platform.
->
-> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+Hi Iago,
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+The whole series is:
 
-> ---
->  .../drm/msm/disp/dpu1/catalog/dpu_10_0_sm8650.h    | 457 +++++++++++++++++++++
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     |  26 ++
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |   1 +
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h        |   3 +
->  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |   1 +
->  5 files changed, 488 insertions(+)
+Reviewed-by: Maíra Canal <mcanal@igalia.com>
 
--- 
-With best wishes
-Dmitry
+You can add my r-b in the next version (adding the DTS maintainers in
+CC).
+
+Best Regards,
+- Maíra
+
+On 10/30/23 05:28, Iago Toral Quiroga wrote:
+> This series includes patches to update the V3D kernel module
+> that drives the VideoCore VI GPU in Raspberry Pi 4 to also support
+> the Video Core VII iteration present in Raspberry Pi 5.
+> 
+> The first patch in the series adds a small uAPI update required for
+> TFU jobs, the second patch addresses the bulk of the work and
+> involves mostly updates to register addresses, the third and fourth
+> patches match the 'brcm,2712-v3d' device string from Pi5 with the
+> V3D driver.
+> 
+> The changes for the user-space driver can be found in the
+> corresponding Mesa MR here:
+> https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/25450
+> 
+> Iago Toral Quiroga (4):
+>    drm/v3d: update UAPI to match user-space for V3D 7.x
+>    drm/v3d: fix up register addresses for V3D 7.x
+>    dt-bindings: gpu: v3d: Add BCM2712's compatible
+>    drm/v3d: add brcm,2712-v3d as a compatible V3D device
+> 
+>   .../devicetree/bindings/gpu/brcm,bcm-v3d.yaml |   1 +
+>   drivers/gpu/drm/v3d/v3d_debugfs.c             | 178 ++++++++++--------
+>   drivers/gpu/drm/v3d/v3d_drv.c                 |   1 +
+>   drivers/gpu/drm/v3d/v3d_gem.c                 |   4 +-
+>   drivers/gpu/drm/v3d/v3d_irq.c                 |  46 +++--
+>   drivers/gpu/drm/v3d/v3d_regs.h                |  94 +++++----
+>   drivers/gpu/drm/v3d/v3d_sched.c               |  38 ++--
+>   include/uapi/drm/v3d_drm.h                    |   5 +
+>   8 files changed, 211 insertions(+), 156 deletions(-)
+> 
