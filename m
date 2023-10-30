@@ -1,58 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D6CE7DBC5A
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Oct 2023 16:05:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 543C87DBC5C
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Oct 2023 16:06:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C5E7210E2F4;
-	Mon, 30 Oct 2023 15:05:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6EA9410E304;
+	Mon, 30 Oct 2023 15:06:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABB8410E2EF
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Oct 2023 15:05:03 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 646F210E2FC
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Oct 2023 15:06:16 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 39UE4eVX031617; Mon, 30 Oct 2023 15:04:59 GMT
+ 39UE1g5m020921; Mon, 30 Oct 2023 15:06:11 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
  h=message-id : date :
  mime-version : subject : to : cc : references : from : in-reply-to :
  content-type : content-transfer-encoding; s=qcppdkim1;
- bh=MURC1LFzy0K/9eQXSMxJN6qmptqNgijAqJAEEVn+2wI=;
- b=XJgcuhvjWGNUTnho3w5yPrFU1yA7zWu08e3ZiNXXYcw2EoftCVW/gQKvtKpRh2yIgmm5
- d5xs0qu4M9kftUQHerqgKN8z8Q3t7ZHDTR+8QYcDy7Sagjlj+C7ma0volxOE3fhNo+QP
- a+y+MWeRe9p4+Sa8cPjSTWC/r0eIShCkkC4y5gBVNELV1sCK/lVbCiWezMdcVFCVnWom
- TB/MDyRXbjhPHzCah6az50kUyEt1Xh2/ZY3Vlx9RbBnRkNeoanPhoE3X7k6Jtaa3HWJt
- xZ107ZTvxv5MW1x1wHTdI78wQtH8UN+I98TIEnxgDg/qRFlf7WDBVE1Kau3DSUcq49/n Qg== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ bh=gwzQzXKzhHT6NlYJM2jJQkMfi6ZyPb55Dndc2WBe4Zo=;
+ b=eFmoFTkRBtSGHCEdO4Gl4DqdhSxIjxHtF7uUs+cOx8oVU94zGqoaiJpPpL7y1kT4ZN3U
+ WXIMddxrgvNmo7DrBJWJIVpmai9fnQw3oWlYbFtcq34Aw7LVdBPF1dMpFFlAsDm7cJP1
+ dMuhbiyr0x47Bx4q/IelzhodxfYlihoilssptw45l2xKqUGgs5IsLzDFy7XKCF6hu7aa
+ 2X9yzNZ0ELhZRq5L+0iGbCzl6juyuo6YzMRMzNnI4+6Cxvelqsn4eO5vzYJSXRfppLib
+ wE67PyO6haKWT3lr9w7yHIBgyBX7kNCtGwWNAd8eXr4y6BJGae1stDemFOCaqEF9psjp 1Q== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3u2chygaun-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3u0smrm760-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 30 Oct 2023 15:04:59 +0000
+ Mon, 30 Oct 2023 15:06:10 +0000
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
  [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 39UF4wAU030706
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 39UF695E015386
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 30 Oct 2023 15:04:58 GMT
+ Mon, 30 Oct 2023 15:06:09 GMT
 Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
  (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Mon, 30 Oct
- 2023 08:04:57 -0700
-Message-ID: <f54bef94-d91a-eb3f-0d16-b4f92452a1d1@quicinc.com>
-Date: Mon, 30 Oct 2023 09:04:57 -0600
+ 2023 08:06:08 -0700
+Message-ID: <932250cc-5118-2f4c-0879-f89428912b72@quicinc.com>
+Date: Mon, 30 Oct 2023 09:06:08 -0600
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Thunderbird/91.6.0
-Subject: Re: [PATCH 4/8] accel/ivpu: Abort pending rx ipc on reset
+Subject: Re: [PATCH 5/8] accel/ivpu: Print CMDQ errors after consumer timeout
 Content-Language: en-US
 To: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
  <dri-devel@lists.freedesktop.org>
 References: <20231028155936.1183342-1-stanislaw.gruszka@linux.intel.com>
- <20231028155936.1183342-5-stanislaw.gruszka@linux.intel.com>
+ <20231028155936.1183342-6-stanislaw.gruszka@linux.intel.com>
 From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <20231028155936.1183342-5-stanislaw.gruszka@linux.intel.com>
+In-Reply-To: <20231028155936.1183342-6-stanislaw.gruszka@linux.intel.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [10.80.80.8]
@@ -61,17 +61,17 @@ X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-ORIG-GUID: ldlXEf2GX1xL4T5j0Z2xCywKyqPuIyya
-X-Proofpoint-GUID: ldlXEf2GX1xL4T5j0Z2xCywKyqPuIyya
+X-Proofpoint-ORIG-GUID: QQDeHUluCYu8V26kHd-V4RNLHLhIB05B
+X-Proofpoint-GUID: QQDeHUluCYu8V26kHd-V4RNLHLhIB05B
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2023-10-30_10,2023-10-27_01,2023-05-22_02
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 bulkscore=0
- mlxscore=0 adultscore=0 mlxlogscore=563 spamscore=0 phishscore=0
- clxscore=1015 suspectscore=0 lowpriorityscore=0 malwarescore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2310240000 definitions=main-2310300116
+ mlxscore=0 lowpriorityscore=0
+ malwarescore=0 suspectscore=0 clxscore=1015 adultscore=0 impostorscore=0
+ spamscore=0 phishscore=0 mlxlogscore=961 priorityscore=1501 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2310240000
+ definitions=main-2310300115
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,14 +91,13 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 10/28/2023 9:59 AM, Stanislaw Gruszka wrote:
-> Waking up process, which wait for particular condition, will go to
-> sleep again on wake_up() if the condition is not met. Add abort flag
-> to wake up IPC receivers, which will finish with -ECANCELED error.
+> From: Karol Wachowski <karol.wachowski@linux.intel.com>
 > 
-> This is only needed for reset, run time power management prevent to
-> suspend VPU when there is pending IPC processing or pending job.
+> Add checking of error reason bits in IVPU_MMU_CMDQ_CONS
+> register when waiting for consumer timeout occurred.
 > 
-> Reviewed-by: Karol Wachowski <karol.wachowski@linux.intel.com>
+> Signed-off-by: Karol Wachowski <karol.wachowski@linux.intel.com>
+> Reviewed-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 > Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 
 Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
