@@ -2,69 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 439657DC0B4
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Oct 2023 20:39:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 513A97DC0D2
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Oct 2023 20:52:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6741610E0FE;
-	Mon, 30 Oct 2023 19:39:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9FF8E10E363;
+	Mon, 30 Oct 2023 19:52:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 608 seconds by postgrey-1.36 at gabe;
- Mon, 30 Oct 2023 19:39:31 UTC
-Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 576D710E0FE
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Oct 2023 19:39:31 +0000 (UTC)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 39UJcr0l063551;
- Mon, 30 Oct 2023 14:38:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1698694733;
- bh=eRZhcwsh01MNRG8TzbgicpmIGpJj8SD8iJ7MpzFDb5s=;
- h=Date:Subject:To:CC:References:From:In-Reply-To;
- b=Bgznk0m8c8vaPJxAyhJ73LdxsvpephUr9tog/J5DHUeZBeEqqD0y5axcihHlCAP23
- Ulo2kIB8YBLEl5IA7x6+mnbtL+XfEYVMc/6GdEiCpCIHC1vkD1w+rvlCaakPI3jZNS
- h7Rzt3k0JCQqJl5angST+WT7hnLLxGWAbbnOBzmI=
-Received: from DLEE106.ent.ti.com (dlee106.ent.ti.com [157.170.170.36])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 39UJcraB008524
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Mon, 30 Oct 2023 14:38:53 -0500
-Received: from DLEE114.ent.ti.com (157.170.170.25) by DLEE106.ent.ti.com
- (157.170.170.36) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Mon, 30
- Oct 2023 14:38:52 -0500
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE114.ent.ti.com
- (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Mon, 30 Oct 2023 14:38:52 -0500
-Received: from [10.249.132.69] (ileaxei01-snat2.itg.ti.com [10.180.69.6])
- by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 39UJchRe002093;
- Mon, 30 Oct 2023 14:38:45 -0500
-Message-ID: <e387cc1a-2cf6-ee0f-78fa-82d327b289b4@ti.com>
-Date: Tue, 31 Oct 2023 01:08:43 +0530
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB04E10E362;
+ Mon, 30 Oct 2023 19:52:06 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 39UJMg8r021684; Mon, 30 Oct 2023 19:52:00 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=RAg5UiCfMRCZ8VUHGMoWAWeYgOsol6F0t3w9AyKiSjE=;
+ b=m2DrzfTLqR0soECIH4WogkhREGqSvCXGX3cwm1mU370AUp2yrBbl/BjMXz45YL25q2wN
+ JQsVRK3sCGorsQAgKddFHGMHzgzSnmK94Q9Emqt0dM6urf2L8eH0B1G4HrXV+DwnOph/
+ Q3DPhHnTOywNHs/ZABOw2vGAok7+bhAtG/xZR6thc3TYYQa0+hAx0tDrajW2PYWMmlFt
+ cCqhXGwIWW3ihDXMrUZeYwcdzU2fEFYpc4wI62O99Pvfs5Akhj0dVUeTVQUIi5FOfa4V
+ NaSe5M+gd89kXSs5+9uKkaEtW8msjpIAMZx7lhkPkOsvQRC5+p824SuGBq+BDuRbMTQC yw== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3u29fesf1q-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 30 Oct 2023 19:51:59 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 39UJpx4k029613
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 30 Oct 2023 19:51:59 GMT
+Received: from [10.110.97.66] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Mon, 30 Oct
+ 2023 12:51:58 -0700
+Message-ID: <8785c8bd-1f07-b94f-d002-a3228b791a8a@quicinc.com>
+Date: Mon, 30 Oct 2023 12:51:57 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v7 7/8] drm/tidss: Update encoder/bridge chain connect
- model
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v6 06/10] drm/msm/dpu: deduplicate some (most) of SSPP
+ sub-blocks
 Content-Language: en-US
-To: Jan Kiszka <jan.kiszka@siemens.com>, Tomi Valkeinen <tomba@kernel.org>,
- Jyri Sarha <jyri.sarha@iki.fi>, David Airlie <airlied@gmail.com>, Daniel
- Vetter <daniel@ffwll.ch>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Swapnil Jakhade <sjakhade@cadence.com>, Boris Brezillon
- <boris.brezillon@collabora.com>, Francesco Dolcini <francesco@dolcini.it>
-References: <20230606082142.23760-1-a-bhatia1@ti.com>
- <20230606082142.23760-8-a-bhatia1@ti.com>
- <24282420-b4dd-45b3-bb1c-fc37fe4a8205@siemens.com>
-From: Aradhya Bhatia <a-bhatia1@ti.com>
-In-Reply-To: <24282420-b4dd-45b3-bb1c-fc37fe4a8205@siemens.com>
-Content-Type: text/plain; charset="UTF-8"
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
+ <marijn.suijten@somainline.org>
+References: <20231006131450.2436688-1-dmitry.baryshkov@linaro.org>
+ <20231006131450.2436688-7-dmitry.baryshkov@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20231006131450.2436688-7-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: OrJ2qGEpejkuPaQwC_t5nuqO_Utj2CaY
+X-Proofpoint-ORIG-GUID: OrJ2qGEpejkuPaQwC_t5nuqO_Utj2CaY
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-10-30_13,2023-10-27_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ phishscore=0 impostorscore=0 spamscore=0 suspectscore=0 adultscore=0
+ lowpriorityscore=0 clxscore=1015 bulkscore=0 mlxlogscore=999 mlxscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2310240000 definitions=main-2310300157
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,308 +86,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nishanth Menon <nm@ti.com>, Jayesh Choudhary <j-choudhary@ti.com>,
- Rahul T R <r-ravikumar@ti.com>, Devarsh Thakkar <devarsht@ti.com>,
- Linux Kernel List <linux-kernel@vger.kernel.org>,
- DRI Development List <dri-devel@lists.freedesktop.org>, "Su, Bao
- Cheng \(RC-CN DF FA R&D\)" <baocheng.su@siemens.com>,
- Vignesh Raghavendra <vigneshr@ti.com>
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 30-Oct-23 14:55, Jan Kiszka wrote:
-> On 06.06.23 10:21, Aradhya Bhatia wrote:
->> With the new encoder/bridge chain model, the display controller driver
->> is required to create a drm_connector entity instead of asking the
->> bridge to do so during drm_bridge_attach. Moreover, the controller
->> driver should create a drm_bridge entity to negotiate bus formats and a
->> 'simple' drm_encoder entity to expose it to userspace.
->>
->> Update the encoder/bridge initialization sequence in tidss as per the
->> new model.
->>
->> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
->> ---
->>
->> Notes:
->>
->>     changes from v5:
->>     * Drop patches 5 and 6 from the original series.
->>     * Instead add this patch that addresses Boris Brezillon's comments
->>       of creating bridge, simple encoder and connector.
->>
->>  drivers/gpu/drm/tidss/tidss_encoder.c | 140 ++++++++++++++++----------
->>  drivers/gpu/drm/tidss/tidss_encoder.h |   5 +-
->>  drivers/gpu/drm/tidss/tidss_kms.c     |  12 +--
->>  3 files changed, 94 insertions(+), 63 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/tidss/tidss_encoder.c b/drivers/gpu/drm/tidss/tidss_encoder.c
->> index 0d4865e9c03d..17a86bed8054 100644
->> --- a/drivers/gpu/drm/tidss/tidss_encoder.c
->> +++ b/drivers/gpu/drm/tidss/tidss_encoder.c
->> @@ -6,91 +6,125 @@
->>  
->>  #include <linux/export.h>
->>  
->> +#include <drm/drm_atomic_helper.h>
->> +#include <drm/drm_bridge.h>
->> +#include <drm/drm_bridge_connector.h>
->>  #include <drm/drm_crtc.h>
->>  #include <drm/drm_modeset_helper_vtables.h>
->>  #include <drm/drm_panel.h>
->>  #include <drm/drm_of.h>
->> +#include <drm/drm_simple_kms_helper.h>
->>  
->>  #include "tidss_crtc.h"
->>  #include "tidss_drv.h"
->>  #include "tidss_encoder.h"
->>  
->> -static int tidss_encoder_atomic_check(struct drm_encoder *encoder,
->> -				      struct drm_crtc_state *crtc_state,
->> -				      struct drm_connector_state *conn_state)
->> +struct tidss_encoder {
->> +	struct drm_bridge bridge;
->> +	struct drm_encoder encoder;
->> +	struct drm_connector *connector;
->> +	struct drm_bridge *next_bridge;
->> +	struct tidss_device *tidss;
->> +};
->> +
->> +static inline struct tidss_encoder
->> +*bridge_to_tidss_encoder(struct drm_bridge *b)
->> +{
->> +	return container_of(b, struct tidss_encoder, bridge);
->> +}
->> +
->> +static int tidss_bridge_attach(struct drm_bridge *bridge,
->> +			       enum drm_bridge_attach_flags flags)
->> +{
->> +	struct tidss_encoder *t_enc = bridge_to_tidss_encoder(bridge);
->> +
->> +	return drm_bridge_attach(bridge->encoder, t_enc->next_bridge,
->> +				 bridge, flags);
->> +}
->> +
->> +static int tidss_bridge_atomic_check(struct drm_bridge *bridge,
->> +				     struct drm_bridge_state *bridge_state,
->> +				     struct drm_crtc_state *crtc_state,
->> +				     struct drm_connector_state *conn_state)
->>  {
->> -	struct drm_device *ddev = encoder->dev;
->> +	struct tidss_encoder *t_enc = bridge_to_tidss_encoder(bridge);
->> +	struct tidss_device *tidss = t_enc->tidss;
->>  	struct tidss_crtc_state *tcrtc_state = to_tidss_crtc_state(crtc_state);
->>  	struct drm_display_info *di = &conn_state->connector->display_info;
->> -	struct drm_bridge *bridge;
->> -	bool bus_flags_set = false;
->> -
->> -	dev_dbg(ddev->dev, "%s\n", __func__);
->> -
->> -	/*
->> -	 * Take the bus_flags from the first bridge that defines
->> -	 * bridge timings, or from the connector's display_info if no
->> -	 * bridge defines the timings.
->> -	 */
->> -	drm_for_each_bridge_in_chain(encoder, bridge) {
->> -		if (!bridge->timings)
->> -			continue;
->> -
->> -		tcrtc_state->bus_flags = bridge->timings->input_bus_flags;
->> -		bus_flags_set = true;
->> -		break;
->> -	}
->> +	struct drm_bridge_state *next_bridge_state = NULL;
->> +
->> +	if (t_enc->next_bridge)
->> +		next_bridge_state = drm_atomic_get_new_bridge_state(crtc_state->state,
->> +								    t_enc->next_bridge);
->>  
->> -	if (!di->bus_formats || di->num_bus_formats == 0)  {
->> -		dev_err(ddev->dev, "%s: No bus_formats in connected display\n",
->> +	if (next_bridge_state) {
->> +		tcrtc_state->bus_flags = next_bridge_state->input_bus_cfg.flags;
->> +		tcrtc_state->bus_format = next_bridge_state->input_bus_cfg.format;
->> +	} else if (di->num_bus_formats) {
->> +		tcrtc_state->bus_format = di->bus_formats[0];
->> +		tcrtc_state->bus_flags = di->bus_flags;
->> +	} else {
->> +		dev_err(tidss->dev, "%s: No bus_formats in connected display\n",
->>  			__func__);
->>  		return -EINVAL;
->>  	}
->>  
->> -	// XXX any cleaner way to set bus format and flags?
->> -	tcrtc_state->bus_format = di->bus_formats[0];
->> -	if (!bus_flags_set)
->> -		tcrtc_state->bus_flags = di->bus_flags;
->> -
->>  	return 0;
->>  }
->>  
->> -static void tidss_encoder_destroy(struct drm_encoder *encoder)
->> -{
->> -	drm_encoder_cleanup(encoder);
->> -	kfree(encoder);
->> -}
->> -
->> -static const struct drm_encoder_helper_funcs encoder_helper_funcs = {
->> -	.atomic_check = tidss_encoder_atomic_check,
->> -};
->> -
->> -static const struct drm_encoder_funcs encoder_funcs = {
->> -	.destroy = tidss_encoder_destroy,
->> +static const struct drm_bridge_funcs tidss_bridge_funcs = {
->> +	.attach				= tidss_bridge_attach,
->> +	.atomic_check			= tidss_bridge_atomic_check,
->> +	.atomic_reset			= drm_atomic_helper_bridge_reset,
->> +	.atomic_duplicate_state		= drm_atomic_helper_bridge_duplicate_state,
->> +	.atomic_destroy_state		= drm_atomic_helper_bridge_destroy_state,
->>  };
->>  
->> -struct drm_encoder *tidss_encoder_create(struct tidss_device *tidss,
->> -					 u32 encoder_type, u32 possible_crtcs)
->> +int tidss_encoder_create(struct tidss_device *tidss,
->> +			 struct drm_bridge *next_bridge,
->> +			 u32 encoder_type, u32 possible_crtcs)
->>  {
->> +	struct tidss_encoder *t_enc;
->>  	struct drm_encoder *enc;
->> +	struct drm_connector *connector;
->>  	int ret;
->>  
->> -	enc = kzalloc(sizeof(*enc), GFP_KERNEL);
->> -	if (!enc)
->> -		return ERR_PTR(-ENOMEM);
->> +	t_enc = drmm_simple_encoder_alloc(&tidss->ddev, struct tidss_encoder,
->> +					  encoder, encoder_type);
->> +	if (IS_ERR(t_enc))
->> +		return PTR_ERR(t_enc);
->> +
->> +	t_enc->tidss = tidss;
->> +	t_enc->next_bridge = next_bridge;
->> +	t_enc->bridge.funcs = &tidss_bridge_funcs;
->>  
->> +	enc = &t_enc->encoder;
->>  	enc->possible_crtcs = possible_crtcs;
->>  
->> -	ret = drm_encoder_init(&tidss->ddev, enc, &encoder_funcs,
->> -			       encoder_type, NULL);
->> -	if (ret < 0) {
->> -		kfree(enc);
->> -		return ERR_PTR(ret);
->> +	/* Attaching first bridge to the encoder */
->> +	ret = drm_bridge_attach(enc, &t_enc->bridge, NULL,
->> +				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
->> +	if (ret) {
->> +		dev_err(tidss->dev, "bridge attach failed: %d\n", ret);
->> +		return ret;
->> +	}
->> +
->> +	/* Initializing the connector at the end of bridge-chain */
->> +	connector = drm_bridge_connector_init(&tidss->ddev, enc);
->> +	if (IS_ERR(connector)) {
->> +		dev_err(tidss->dev, "bridge_connector create failed\n");
->> +		return PTR_ERR(connector);
->> +	}
->> +
->> +	ret = drm_connector_attach_encoder(connector, enc);
->> +	if (ret) {
->> +		dev_err(tidss->dev, "attaching encoder to connector failed\n");
->> +		return ret;
->>  	}
->>  
->> -	drm_encoder_helper_add(enc, &encoder_helper_funcs);
->> +	t_enc->connector = connector;
->>  
->>  	dev_dbg(tidss->dev, "Encoder create done\n");
->>  
->> -	return enc;
->> +	return ret;
->>  }
->> diff --git a/drivers/gpu/drm/tidss/tidss_encoder.h b/drivers/gpu/drm/tidss/tidss_encoder.h
->> index ace877c0e0fd..3e561d6b1e83 100644
->> --- a/drivers/gpu/drm/tidss/tidss_encoder.h
->> +++ b/drivers/gpu/drm/tidss/tidss_encoder.h
->> @@ -11,7 +11,8 @@
->>  
->>  struct tidss_device;
->>  
->> -struct drm_encoder *tidss_encoder_create(struct tidss_device *tidss,
->> -					 u32 encoder_type, u32 possible_crtcs);
->> +int tidss_encoder_create(struct tidss_device *tidss,
->> +			 struct drm_bridge *next_bridge,
->> +			 u32 encoder_type, u32 possible_crtcs);
->>  
->>  #endif
->> diff --git a/drivers/gpu/drm/tidss/tidss_kms.c b/drivers/gpu/drm/tidss/tidss_kms.c
->> index ad2fa3c3d4a7..c979ad1af236 100644
->> --- a/drivers/gpu/drm/tidss/tidss_kms.c
->> +++ b/drivers/gpu/drm/tidss/tidss_kms.c
->> @@ -193,7 +193,6 @@ static int tidss_dispc_modeset_init(struct tidss_device *tidss)
->>  	for (i = 0; i < num_pipes; ++i) {
->>  		struct tidss_plane *tplane;
->>  		struct tidss_crtc *tcrtc;
->> -		struct drm_encoder *enc;
->>  		u32 hw_plane_id = feat->vid_order[tidss->num_planes];
->>  		int ret;
->>  
->> @@ -216,16 +215,13 @@ static int tidss_dispc_modeset_init(struct tidss_device *tidss)
->>  
->>  		tidss->crtcs[tidss->num_crtcs++] = &tcrtc->crtc;
->>  
->> -		enc = tidss_encoder_create(tidss, pipes[i].enc_type,
->> +		ret = tidss_encoder_create(tidss, pipes[i].bridge,
->> +					   pipes[i].enc_type,
->>  					   1 << tcrtc->crtc.index);
->> -		if (IS_ERR(enc)) {
->> +		if (ret) {
->>  			dev_err(tidss->dev, "encoder create failed\n");
->> -			return PTR_ERR(enc);
->> -		}
->> -
->> -		ret = drm_bridge_attach(enc, pipes[i].bridge, NULL, 0);
->> -		if (ret)
->>  			return ret;
->> +		}
->>  	}
->>  
->>  	/* create overlay planes of the leftover planes */
+On 10/6/2023 6:14 AM, Dmitry Baryshkov wrote:
+> As we have dropped the variadic parts of SSPP sub-blocks declarations,
+> deduplicate them now, reducing memory cruft.
 > 
-> This breaks the IOT2050 devices over 6.6, just bisected to it:
-> 
-> [    3.435153] [drm] Initialized tidss 1.0.0 20180215 for 4a00000.dss on minor 0
-> [    3.491246] tidss 4a00000.dss: [drm] Cannot find any crtc or sizes
-> 
-> vs.
-> 
-> [    3.436116] [drm] Initialized tidss 1.0.0 20180215 for 4a00000.dss on minor 0
-> [    3.910574] Console: switching to colour frame buffer device 80x30
-> [    3.937614] tidss 4a00000.dss: [drm] fb0: tidssdrmfb frame buffer device
-> 
-> Do we need to adjust its device tree to anything, or what may be the 
-> reason?
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>   .../msm/disp/dpu1/catalog/dpu_3_0_msm8998.h   | 16 +--
+>   .../msm/disp/dpu1/catalog/dpu_4_0_sdm845.h    | 16 +--
+>   .../msm/disp/dpu1/catalog/dpu_5_0_sm8150.h    | 16 +--
+>   .../msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h   | 16 +--
+>   .../msm/disp/dpu1/catalog/dpu_5_4_sm6125.h    |  6 +-
+>   .../msm/disp/dpu1/catalog/dpu_6_0_sm8250.h    | 16 +--
+>   .../msm/disp/dpu1/catalog/dpu_6_2_sc7180.h    |  8 +-
+>   .../msm/disp/dpu1/catalog/dpu_6_3_sm6115.h    |  4 +-
+>   .../msm/disp/dpu1/catalog/dpu_6_4_sm6350.h    |  8 +-
+>   .../msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h   |  4 +-
+>   .../msm/disp/dpu1/catalog/dpu_6_9_sm6375.h    |  4 +-
+>   .../msm/disp/dpu1/catalog/dpu_7_0_sm8350.h    | 16 +--
+>   .../msm/disp/dpu1/catalog/dpu_7_2_sc7280.h    |  8 +-
+>   .../msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h  | 16 +--
+>   .../msm/disp/dpu1/catalog/dpu_8_1_sm8450.h    | 16 +--
+>   .../msm/disp/dpu1/catalog/dpu_9_0_sm8550.h    | 20 ++--
+>   .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    | 97 +++++--------------
+>   17 files changed, 120 insertions(+), 167 deletions(-)
 > 
 
-Hey Jan,
+<snip>
 
-This patch series added support for the DRM_BRIDGE_ATTACH_NO_CONNECTOR
-flag, for tidss, and for a few of the bridges.
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
+> index e60427f54b27..860feb9c54e6 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
+> @@ -77,7 +77,7 @@ static const struct dpu_sspp_cfg sm8550_sspp[] = {
+>   		.name = "sspp_0", .id = SSPP_VIG0,
+>   		.base = 0x4000, .len = 0x344,
+>   		.features = VIG_SC7180_MASK,
+> -		.sblk = &sm8550_vig_sblk_0,
+> +		.sblk = &dpu_vig_sblk_qseed3_3_2,
 
-Upon a quick look at the devicetree files, I see that the IOT-2050
-platform is using Toshiba's TC358767 DPI to DP bridge, and it appears
-that the TC358767 driver does not support the get_input_bus_fmt hook.
+Some of this naming doesnt sound right to me. What I had suggested was 
+just dpu_vig_sblk_scaler_x_y but what is used is dpu_vig_sblk_qseedx_x_y
 
-I have sent a patch for it[0].
+This is not correct because technically sm8550 was qseed4 as its scaler 
+version is > 0x3000
 
-Since I do not have hardware with me, I would appreciate it if you could
-test and review it. The patch has only been build tested.
-
-
-Regards
-Aradhya
-
-
-[0]: Patch Link:
-https://lore.kernel.org/all/20231030192846.27934-1-a-bhatia1@ti.com/
+So this adds some discrepancy in the naming.
