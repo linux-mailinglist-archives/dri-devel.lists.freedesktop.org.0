@@ -1,118 +1,86 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 307CD7DBF22
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Oct 2023 18:39:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D38C57DBF72
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Oct 2023 18:56:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 466CD10E349;
-	Mon, 30 Oct 2023 17:39:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF3E010E356;
+	Mon, 30 Oct 2023 17:56:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam04on2058.outbound.protection.outlook.com [40.107.100.58])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BDA3C10E349
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Oct 2023 17:39:20 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dv9SOBbIOyhLXsEN5aMwoN7Uupw9y4Cp5GNYfXUZCZAZfYzMNrwSj0zEdizvaqGig50w1CGS65oXa2yaFF8CYMgmOEj7nWzfaEPbolRd99yC9EhESqXquTPm/teUgeVxDGFxkLrCHtD91RQIo/nvYa+4q4Gt3E/Pthf/l3FdSl2rEPbb8OOCKal4MU+6IngiJnhO19yWQNPs3MiLGirMhx4QhVf0XjI07HB4rIDeCnIWuNr3IWzOFQp8G6hyCXKth16/ZxSp3Q0JyP5+wZLixGU9WOeeGz8mLbeFNWGuo0//0ajA/19Tlq2+ke5lxJqs1WnaVt4AFEGLOTHuTEDkSw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=W5EAt8PeKlQaEqmqYVtFlcxOQcpgbeMLP8rhx416CHs=;
- b=BUoactIDz+utPyvA+535MqKpPCRSiH/By9eg445Q2q3NI6MsM0VEIdDv/t3QrrbIOu/KHupONkxpL+IKG6g40XOGKbnI4Yx3MyiVAkNY5DZ/LYU8+5kmOgToMW9GzpBF1vWgN7h3imzSsNedK/r7wh7yo/KTiacZKknPBBdMwr9hEq7i09AQCHpG6wPqDqJH4cZ6cV4693kpnAA6lQdTTMwYL/Ug9CPVGQxSZtUo1kUz9rjVQFmKnzUY4LO7F3yvyJwvHO0kJt10Tg5eOBhr1jdFICi/c9swGxwUAp6dPRhoz45vSPObzwlqspduzXnKp9x2x/A+Tpy+QETmRUznsw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=W5EAt8PeKlQaEqmqYVtFlcxOQcpgbeMLP8rhx416CHs=;
- b=fsbmZH/8IhSF+nYR9yfC0jcfwV+8k8MorTmEkVBb+jjPiF/bcWqJci7TRPqlIhWB5LMDE1kVTXbMG1jIXJqectEBywV3GqdlD+bRvmM2Hp/cE53KI4lgg9jtRUq3DuL6jQbHFITnzv34E7/gLbkjVAQPsbSqPeh62WmrZnn4piQ=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from CH0PR12MB5284.namprd12.prod.outlook.com (2603:10b6:610:d7::13)
- by PH0PR12MB5608.namprd12.prod.outlook.com (2603:10b6:510:143::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6933.29; Mon, 30 Oct
- 2023 17:39:17 +0000
-Received: from CH0PR12MB5284.namprd12.prod.outlook.com
- ([fe80::33ed:3162:e4ed:3569]) by CH0PR12MB5284.namprd12.prod.outlook.com
- ([fe80::33ed:3162:e4ed:3569%6]) with mapi id 15.20.6933.028; Mon, 30 Oct 2023
- 17:39:17 +0000
-Message-ID: <9ca19ca8-d3c6-4789-a9d8-4f1637bfa71e@amd.com>
-Date: Mon, 30 Oct 2023 13:39:15 -0400
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/amd/display: remove redundant check
-Content-Language: en-US
-To: =?UTF-8?Q?Jos=C3=A9_Pekkarinen?= <jose.pekkarinen@foxhound.fi>,
- harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
- skhan@linuxfoundation.org
-References: <20231030171748.35482-1-jose.pekkarinen@foxhound.fi>
-From: Aurabindo Pillai <aurabindo.pillai@amd.com>
-In-Reply-To: <20231030171748.35482-1-jose.pekkarinen@foxhound.fi>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: YQZPR01CA0171.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c01:8b::29) To CH0PR12MB5284.namprd12.prod.outlook.com
- (2603:10b6:610:d7::13)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8721710E356
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Oct 2023 17:56:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1698688579;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=jID4tHn08elPgxyEfgPPpsaNGXgYjbJIfQQivheYoJA=;
+ b=IGEZxgtFsoTQVZifa67MukJaOjnGgX+2lzCusSxZXzaY80dX6gRVcvQmlqBHLexW3l30q6
+ fYcE8axiujoHnIVvS0ZvB7usRKEXSaIwwhiqG34Xx33/ODrujVitcrgZZyqNUxf1nl+bD7
+ s5Tuwksf5VQt2gNvKWnRUTnZxoGkAKI=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-368-EuuYGwnCMXak9aHFkom_dA-1; Mon, 30 Oct 2023 13:56:18 -0400
+X-MC-Unique: EuuYGwnCMXak9aHFkom_dA-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ a640c23a62f3a-9a681c3470fso325915266b.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Oct 2023 10:56:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1698688577; x=1699293377;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=jID4tHn08elPgxyEfgPPpsaNGXgYjbJIfQQivheYoJA=;
+ b=hHPQsmulaYbWAYFEFIdLYgJLnYEbMT66vAvzFDOvgVHZ2kdk6ndtAY9O5lAhuIXCaF
+ XI5V9ZC0L6EZYqIPkvA3xqtJJwJPk6qc2YEV2G5CFtq7xI2pPf28K9UGu5lM3EToWKKR
+ 9zJqIQotck4og/Y3HOQloQCmLe/Ghu4vHU0lNxGLcrVAHZ3gsNicUxLlIxPdFl4Ns6KZ
+ AK2qYnGStK1iGDu1/UY7dSCXuC/b6kRtnoU8RnJpz23JDFZ7Db5F/ZxRCbsdMHCGqy8s
+ G/COsv/sZPbFMUMwrPkMjOcHDdRqgk3dfq8XjGreUq6vldHNNKguuB8REqEEm7pr6bly
+ 8dGA==
+X-Gm-Message-State: AOJu0Yy/Ey88yyc7r1jSTwHvnxog1ZAPKPAFjiCixJ75UWGEg1PMhUCp
+ 7ybhEg/zzV5RqNNoqY6LYmzQwFIxipciH5TdELBAnHcImyLT3yF0eWFe06AdI/Kpyo1cM2MhYa5
+ eYKpJEnX1ZVVdIMtXk7Kcd43xTbE2
+X-Received: by 2002:a17:907:5cb:b0:9c7:4d98:981f with SMTP id
+ wg11-20020a17090705cb00b009c74d98981fmr9323684ejb.33.1698688577527; 
+ Mon, 30 Oct 2023 10:56:17 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHta2EvUdvONbbXJhn7uzmdCtadwlpKyQSt2TctdAA1qIy3OrRjRPFTFxdj21KlkgQwIZDZlQ==
+X-Received: by 2002:a17:907:5cb:b0:9c7:4d98:981f with SMTP id
+ wg11-20020a17090705cb00b009c74d98981fmr9323670ejb.33.1698688577095; 
+ Mon, 30 Oct 2023 10:56:17 -0700 (PDT)
+Received: from pollux ([2a02:810d:4b3f:de9c:abf:b8ff:feee:998b])
+ by smtp.gmail.com with ESMTPSA id
+ x22-20020a1709064a9600b009c751e41ebasm6456036eju.141.2023.10.30.10.56.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 30 Oct 2023 10:56:16 -0700 (PDT)
+Date: Mon, 30 Oct 2023 18:56:14 +0100
+From: Danilo Krummrich <dakr@redhat.com>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: Re: [PATCH drm-misc-next v3] drm/sched: implement dynamic job-flow
+ control
+Message-ID: <ZT/uPhLK7gan61Ns@pollux>
+References: <20231026161431.5934-1-dakr@redhat.com>
+ <0bc79ae3-04fe-4e85-9fd0-e8b281148390@amd.com>
+ <20231027093238.2ff8172e@collabora.com>
+ <ff389793-1226-49fd-b599-07dbda0b97be@amd.com>
+ <20231027093943.3f0ae992@collabora.com>
+ <98988459-25a8-4ee0-89d4-cb816cbc5bef@amd.com>
+ <20231027102237.0cdb85af@collabora.com>
+ <190e3ab7-6440-4d41-a79f-5dd4b7d3ca52@amd.com>
+ <20231027121707.414810d6@collabora.com>
+ <ffb8ff87-a555-42d2-aef1-a21069282227@amd.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH0PR12MB5284:EE_|PH0PR12MB5608:EE_
-X-MS-Office365-Filtering-Correlation-Id: bc5fd766-c755-403e-e62d-08dbd96f240e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Z2F2MJOJ4GcJXEkgGWzK3CPXPe5mdwEmFzHy/Q2Zgs+xhIWRmsY8dsjIre3wCxde8nvPzWCly1Y7qHsqRlKMVrbiJKkh91tU+epeSKI+gjf29p9S/cDU+Zc3zqQoJ7zlKxfvRG/xofXqY6Od0xOyXs3ZKEbNHBEWxOF1R9bS5UtfayFx3BQNekNXlYqiqu2+AEditbmLEAHe5SoKKmVsEgFC2xZKUGnWrFT4zHbSyLioe+aIdfPHV/olLqkrN7z75H3ztUp5jEMyN4gxNGqyo0Y4rHh2+2M1OUyeUdcmVE3inGRy4qkhUDTlxSjhgCbftfY8N0v9rmnfPQ2LRSJEAVv3HW71HeXz4qd4DAFAlruSr7azBKB0exa9OFIu6RNO2xRlqZ+6+HOcMNrzJGVJICPjgnipGkYqE5vKdDB4k4OYEg2oFetEJllE6qSuXy/AeZXZHJNelAIY+x6sozfj8r3trsSneN5HTOt1ohs7AJcI2UQV8FNpOeSenQIrLBMiD71cp6dOLRLaUpqjBMGEdE1F5fhS2FtnDSbngy7vPCXozgDakOIbmaz0YhTO5mGRbIbmD+erV6lcH8xjMXMQctY4mAMXty9rFgVIPQ56bBfcXITWhxLrBS7l/9HUhwNzUp66VBxBgAasvjx9XB9g60tnwNVcEe9fXf6zhTAR+OqN5U7L5O6iCPAmy43fPfd8
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CH0PR12MB5284.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(39860400002)(346002)(396003)(376002)(366004)(136003)(230922051799003)(230173577357003)(230273577357003)(186009)(64100799003)(1800799009)(451199024)(83380400001)(26005)(2616005)(38100700002)(66946007)(66476007)(66556008)(316002)(5660300002)(8676002)(8936002)(4326008)(53546011)(44832011)(6506007)(6512007)(2906002)(6486002)(41300700001)(4001150100001)(478600001)(31696002)(86362001)(36756003)(31686004)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?T3FIaGtJZm5xamEzaGRaUHNHdzhkMkZKdWNCOTdsVUF2dFNqNlRFY0NlM1hu?=
- =?utf-8?B?US9CYkZIUmpLZUJ5SXB5OVd1Vlg5U0NmUlhxQnlHWXZEWitLOFdnQTVTalVU?=
- =?utf-8?B?VHhIa0VzbjZLSHNCRllBVU1DaUhHY1hZdEgxRlVHRkZuQnZoOWU2bmVyTk1j?=
- =?utf-8?B?Vzd0WmhFZk5ENlg5UTV0eWlPTkVhdFI4ZjE2QzMvdmxxZG8wU0NuUUZ4T0pj?=
- =?utf-8?B?R1BqZitSVWNyL2Y0UUhYbERqUi9NdmhteVU5S3g4cVcvMEpHZ3pyek1DYTZQ?=
- =?utf-8?B?RzlxQ3VQQTlPbXk5bmkwREprbXc3SnlNK0hIQ1NRMU9TcVQySXU4SG9qcVpa?=
- =?utf-8?B?dDIzMHJkd3gzOUVVZHpINzZ1ZTRxaHlxajB6Vmc2dllHRmZQbmQ4MC9KYTdK?=
- =?utf-8?B?dXJCRTVQb3QrSnFSOEdkVG1WbjVqVW9ZcjlLeGRlUm41a0NrUkV6bU5OT3NO?=
- =?utf-8?B?THJ5Y1EvOTFCZWpKQUVjSkpxU2VXOXJuTWk5eXg0UzJ6L0lBVEhQSWQ0b3VD?=
- =?utf-8?B?d2NhTUcrYjIwMWI3WEwzenZObTBuQWN1MTl2ZGJmQXA4eFJWOWRvR2xaVlRZ?=
- =?utf-8?B?c2JrbGJISnNOdkhVSXU4SUh6VVIvMVp3TzNmbGxITURLU2NSRTQ3T2puTC9j?=
- =?utf-8?B?d25QQzV2SkF1Tm9FTUZ0UU9RaXB3UnZrdE9GVlB4QnBuZ1NsNEVzcGVTOFdE?=
- =?utf-8?B?S1VEVWdwVWRzaHphVlY2RER1NkpQVm1sbGFQVnJrUVdWREoxUVhTaVcvNXFS?=
- =?utf-8?B?T0JMeURnRGdPMkhYMWM3dHJJeEJ2T2R2T3hsVnNsZ1oxTmlLZ0YvM01ZOWNj?=
- =?utf-8?B?VEJFdDgvNDZXdXhqeXhSMVhnL0hWbWZ2Tm1CSmNLUkwxUjBSRDFjYzZObzIy?=
- =?utf-8?B?Y2krMGpxbXNHU3Mwc2M0UXk4TFVyaXF6UUVpRmpWZ09Gc0QrbjUzWEpENVND?=
- =?utf-8?B?NWN3SnBNTTBFV2Y4aTFGSVpubVBOZmZmTEFFcG5EWjkwR25Da2toR2dOT1RF?=
- =?utf-8?B?WXZiWEVsSVR2RUJ5cFA5cXlkV2VHN1ZYYXJUaXB3ajlDOFd1M0RweXlaalo3?=
- =?utf-8?B?a0FOVlUwOENFaUlJb0svcGpROHFUZHdsb3BFQVFpck10Y3ZnbVZyVnBzUkJ0?=
- =?utf-8?B?akMvckU1b2QxbW1Kc2dWUVA5ZkV5U0kraVRSL3hSV21tZFJFUVJkeUtxakEw?=
- =?utf-8?B?NnFrMWRtdm9CSkpYTitIUmkveFJ2S3FrVHFycVVFbS9LNk5IZWg0TndyMW80?=
- =?utf-8?B?dVNBTFhEcEFTQnBJSlorbGZUbkhFY2phMldaQ0pqYnNLTGQ0MHFidnJ2K1Vt?=
- =?utf-8?B?YlNXT1hvaDQ4L0lvUmpKdW1EZTJhVi9ROUdmNGZzT0FFSS9jbnpGK2MvY0xn?=
- =?utf-8?B?UjVpcFFYdWQwVFNWS0c3MUh1S3hXM3htMU5xTTU1SjU5bVpUTUozaXpmeDRC?=
- =?utf-8?B?SDVJdktZdi9FeVZhQ2tsYjFWQ2ZhTmdLaldhSVNWQjJFTThVaEdZNG5ZdkFG?=
- =?utf-8?B?UzVTMDJLckVtWHRnbEIrRXdLUXcwRGhZKzlFNnJGWjJGb1hiRVk2a1Z2TmVS?=
- =?utf-8?B?WHc5ZVBZWTlsMW02N29nVWE1Lzloa0NsSzJ6M2d2WUVKNmFpa3ZXSlVZQU9S?=
- =?utf-8?B?Q3JMTVB0b20rbXVycGtTR25FRG5IK1JvejczU09kdGpXZEtxbE9kbGpPYnZC?=
- =?utf-8?B?eXR4dFVHNldMN29NbE90OE1SblZRcXc3d3pxVi9MS2R1WmkvbTFaQzJ4bzBR?=
- =?utf-8?B?VnV3dmRNb29MbHM1K09HSzNpSjJnNk5RSE8xbEMvTW9YaHZWaFRrVithVFpm?=
- =?utf-8?B?OEFiUzVLZXpDWmx2K0Q0ckI5V0xLNU40REpILzg0UkxIei96MjJCbzV6Z2tU?=
- =?utf-8?B?UzlGejdiS2NXWTVKc2tZWEFSZjZsZmh3eVl4Rm1MM2ZjcnN1Tit4dGV0WjZK?=
- =?utf-8?B?MGI3REhWWG04Z2tNSThyVW5XZkFuVVJ2ZFdWM2RoOFZMbXBvR1JSdlE2WXhY?=
- =?utf-8?B?TkpDR2pDdUZUbFNmdEFvUURHdGZwTjNIaDR4dGl6L0FKS0RzcjVQaU53M2lN?=
- =?utf-8?B?ajVHR2xyanlQVlZMREY5Q1RkVTdNb0JGK05rQXQ2V3pvSllMV3lFMXRoZGhO?=
- =?utf-8?Q?Tc/IxRUXEpCcx9FrO+k9l9eGp?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bc5fd766-c755-403e-e62d-08dbd96f240e
-X-MS-Exchange-CrossTenant-AuthSource: CH0PR12MB5284.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Oct 2023 17:39:17.4307 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: TkAkzrt9Qh5WMdA3bqsD9q+hUNS68Fx5gVZ1MDS/eD/Jq7pA4O5s7ejDgLJ8UnYjVEm+5TE7HPufT/sAuAUpcw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB5608
+In-Reply-To: <ffb8ff87-a555-42d2-aef1-a21069282227@amd.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,45 +93,179 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dillon.varone@amd.com, linux-kernel-mentees@lists.linuxfoundation.org,
- dri-devel@lists.freedesktop.org, Xinhui.Pan@amd.com,
- linux-kernel@vger.kernel.org, samson.tam@amd.com, SyedSaaem.Rizvi@amd.com,
- stable@vger.kernel.org, george.shen@amd.com, alexander.deucher@amd.com,
- Jun.Lei@amd.com, christian.koenig@amd.com
+Cc: matthew.brost@intel.com, luben.tuikov@amd.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, faith@gfxstrand.net,
+ Boris Brezillon <boris.brezillon@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Christian,
 
+On Mon, Oct 30, 2023 at 08:38:45AM +0100, Christian König wrote:
+> Hi Boris,
+> 
+> Am 27.10.23 um 12:17 schrieb Boris Brezillon:
+> > Hi Christian,
+> > 
+> > On Fri, 27 Oct 2023 11:06:44 +0200
+> > Christian König <christian.koenig@amd.com> wrote:
+> > 
+> > > Am 27.10.23 um 10:22 schrieb Boris Brezillon:
+> > > > On Fri, 27 Oct 2023 09:44:13 +0200
+> > > > Christian König<christian.koenig@amd.com>  wrote:
+> > > > > Am 27.10.23 um 09:39 schrieb Boris Brezillon:
+> > > > > > On Fri, 27 Oct 2023 09:35:01 +0200
+> > > > > > Christian König<christian.koenig@amd.com>   wrote:
+> > > > > > > Am 27.10.23 um 09:32 schrieb Boris Brezillon:
+> > > > > > > > On Fri, 27 Oct 2023 09:22:12 +0200
+> > > > > > > > Christian König<christian.koenig@amd.com>   wrote:
+> > > > > > > > > > +
+> > > > > > > > > > +	/**
+> > > > > > > > > > +	 * @update_job_credits: Called once the scheduler is considering this
+> > > > > > > > > > +	 * job for execution.
+> > > > > > > > > > +	 *
+> > > > > > > > > > +	 * Drivers may use this to update the job's submission credits, which is
+> > > > > > > > > > +	 * useful to e.g. deduct the number of native fences which have been
+> > > > > > > > > > +	 * signaled meanwhile.
+> > > > > > > > > > +	 *
+> > > > > > > > > > +	 * The callback must either return the new number of submission credits
+> > > > > > > > > > +	 * for the given job, or zero if no update is required.
+> > > > > > > > > > +	 *
+> > > > > > > > > > +	 * This callback is optional.
+> > > > > > > > > > +	 */
+> > > > > > > > > > +	u32 (*update_job_credits)(struct drm_sched_job *sched_job);
+> > > > > > > > > Why do we need an extra callback for this?
+> > > > > > > > > 
+> > > > > > > > > Just document that prepare_job() is allowed to reduce the number of
+> > > > > > > > > credits the job might need.
+> > > > > > > > ->prepare_job() is called only once if the returned fence is NULL, but
+> > > > > > > > we need this credit-update to happen every time a job is considered for
+> > > > > > > > execution by the scheduler.
+> > > > > > > But the job is only considered for execution once. How do you see that
+> > > > > > > this is called multiple times?
+> > > > > > Nope, it's not. If drm_sched_can_queue() returns false, the scheduler
+> > > > > > will go look for another entity that has a job ready for execution, and
+> > > > > > get back to this entity later, and test drm_sched_can_queue() again.
+> > > > > > Basically, any time drm_sched_can_queue() is called, the job credits
+> > > > > > update should happen, so we have an accurate view of how many credits
+> > > > > > this job needs.
+> > > > > Well, that is the handling which I already rejected because it creates
+> > > > > unfairness between processes. When you consider the credits needed
+> > > > > *before* scheduling jobs with a lower credit count are always preferred
+> > > > > over jobs with a higher credit count.
+> > > > My bad, it doesn't pick another entity when an entity with a
+> > > > ready job that doesn't fit the queue is found, it just bails out from
+> > > > drm_sched_rq_select_entity_rr() and returns NULL (AKA: no ready entity
+> > > > found). But we still want to update the job credits before checking if
+> > > > the job fits or not (next time this entity is tested).
+> > > Why? I only see a few possibility here:
+> > > 
+> > > 1. You need to wait for submissions to the same scheduler to finish
+> > > before the one you want to push to the ring.
+> > >       This case can be avoided by trying to cast the dependency fences to
+> > > drm_sched_fences and looking if they are already scheduled.
+> > > 
+> > > 2. You need to wait for submissions to a different scheduler instance
+> > > and in this case you should probably return that as dependency instead.
+> > It's already described as a dependency, but native dependency waits are
+> > deferred to the FW (we wait on scheduled to run the job, not finished).
+> > The thing is, after ->prepare_job() returned NULL (no non-native deps
+> > remaining), and before ->run_job() gets called, there might be several
+> > of these native deps that get signaled, and we're still considering
+> > job->submission_credits as unchanged, when each of these signalled
+> > fence could have reduced the job credits, potentially allowing it to be
+> > submitted sooner.
+> 
+> Ah, ok that at least clears up your intentions here.
+> 
+> Question is if that is really that important for you? I mean you just seem
+> to fill up more of the ring buffer.
+> 
+> > 
+> > > So to me it looks like when prepare_job() is called because it is
+> > > selected as next job for submission you should already know how many
+> > > credits it needs.
+> > You know how many credits it needs when ->prepare_job() is called, but
+> > if this number is too high, the entity will not be picked, and next
+> > time it's checked, you'll still consider the job credits at the time
+> > ->prepare_job() was called, which might differ from the current job
+> > credits (signalled native fences might have been signalled in the
+> > meantime, and they could be evicted).
+> > 
+> > > > > What you can do is to look at the credits of a job *after* it was picked
+> > > > > up for scheduling so that you can scheduler more jobs.
+> > > > Sure, but then you might further delay your job if something made it
+> > > > smaller (ie. native fences got signaled) between ->prepare_job() and
+> > > > drm_sched_can_queue(). And any new drm_sched_can_queue() test would
+> > > > just see the old credits value.
+> > > > 
+> > > > Out of curiosity, what are you worried about with this optional
+> > > > ->update_job_credits() call in the drm_sched_can_queue() path? Is the
+> > > > if (sched->update_job_credits) overhead considered too high for drivers
+> > > > that don't need it?
+> > > Since the dma_fences are also used for resource management the scheduler
+> > > is vital for correct system operation.
+> > > 
+> > > We had massively problems because people tried to over-optimize the
+> > > dma_fence handling which lead to very hard to narrow down memory
+> > > corruptions.
+> > > 
+> > > So for every change you come up here you need to have a very very good
+> > > justification. And just saving a bit size of your ring buffer is
+> > > certainly not one of them.
+> > I fail to see how calling ->update_job_credits() changes the scheduler
+> > behavior or how it relates to the sort memory corruption you're
+> > referring to.
+> 
+> Yeah, you are right that's not even remotely related.
+> 
+> > And yes, we can live with the overhead of making jobs
+> > slightly bigger than they actually are, thus potentially delaying their
+> > execution. It's just that I don't quite understand the rational behind
+> > this conservatism, as I don't really see what negative impact this extra
+> > ->update_job_credits() call in the credit checking path has, other than
+> > the slight overhead of an if-check for drivers that don't need it.
+> 
+> From experience it showed that we should not make the scheduler more
+> complicated than necessary. And I still think that the ring buffers only
+> need to be filled enough to keep the hardware busy.
 
-On 2023-10-30 13:17, JosÃ© Pekkarinen wrote:
-> This patch addresses the following warning spotted by
-> using coccinelle where the case checked does the same
-> than the else case.
-> 
-> drivers/gpu/drm/amd/display/dc/dml/dcn32/display_mode_vba_util_32.c:4664:8-10: WARNING: possible condition with no effect (if == else)
-> 
-> Fixes: 974ce181 ("drm/amd/display: Add check for PState change in DCN32")
-> 
-> Cc: stable@vger.kernel.org
-> Signed-off-by: JosÃ© Pekkarinen <jose.pekkarinen@foxhound.fi>
-> ---
->   .../drm/amd/display/dc/dml/dcn32/display_mode_vba_util_32.c   | 4 ----
->   1 file changed, 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn32/display_mode_vba_util_32.c b/drivers/gpu/drm/amd/display/dc/dml/dcn32/display_mode_vba_util_32.c
-> index ecea008f19d3..d940dfa5ae43 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dml/dcn32/display_mode_vba_util_32.c
-> +++ b/drivers/gpu/drm/amd/display/dc/dml/dcn32/display_mode_vba_util_32.c
-> @@ -4661,10 +4661,6 @@ void dml32_CalculateMinAndMaxPrefetchMode(
->   	} else if (AllowForPStateChangeOrStutterInVBlankFinal == dm_prefetch_support_uclk_fclk_and_stutter) {
->   		*MinPrefetchMode = 0;
->   		*MaxPrefetchMode = 0;
-> -	} else if (AllowForPStateChangeOrStutterInVBlankFinal ==
-> -			dm_prefetch_support_uclk_fclk_and_stutter_if_possible) {
-> -		*MinPrefetchMode = 0;
-> -		*MaxPrefetchMode = 3;
->   	} else {
->   		*MinPrefetchMode = 0;
->   		*MaxPrefetchMode = 3;
+Right, and this callback contributes to exactly that.
 
-Reviewed-by: Aurabindo Pillai <aurabindo.pillai@amd.com>
+I don't really think there is much to worry about in terms of introducing more
+complexity. The implementation behind this callback is fairly trivial - it's
+simply called right before we check whether a job fits on the ring, to fetch
+the job's actual size.
+
+I would agree if the implementation of that would be bulky, tricky and asking
+for a compromise. But, since it actually is simple and straight forward I really
+think that if we implement some kind of dynamic job-flow control it should be
+implemented as acurate as possible rather than doing it half-baked.
+
+> 
+> If this here has some measurable positive effect then yeah we should
+> probably do it, but as long as it's only nice to have I have some objections
+> to that.
+
+Can't answer this, since Nouveau doesn't support native fence waits. However, I
+guess it depends on how many native fences a job carries. So, if we'd have two
+jobs with each of them carrying a lot of native fences, but not a lot of actual
+work, I can very well imagine that over-accounting can have a measureable
+impact.
+
+I just wonder if we really want to ask for real measurements given that the
+optimization is rather trivial and cheap and we already have enough evidence
+that it makes sense conceptually.
+
+- Danilo
+
+> 
+> Regards,
+> Christian.
+> 
+> > 
+> > Regards,
+> > 
+> > Boris
+> 
+
