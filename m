@@ -1,52 +1,124 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39A4B7DBD1B
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Oct 2023 16:58:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 270D97DBD3D
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Oct 2023 16:59:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB5B810E314;
-	Mon, 30 Oct 2023 15:58:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 261B28916D;
+	Mon, 30 Oct 2023 15:59:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F15110E312;
- Mon, 30 Oct 2023 15:58:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1698681511; x=1730217511;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=zL/4FcccC0LOSGGq140b6pFe42tCf2S231QML++SZ7U=;
- b=g4N6yOnuUNdcGb19Bf3xtZl5E/NkAVqehxvUUeb+HAJAYxwbC0FKlOgC
- X0USw9XrsGkavSiwjTpNK+1o+iQX9hOyWXcgSYTHuS6WZ8Vm/bRs8Ouj4
- PjA4fdKod5RvfiPVI+aqKXwXmDEeWHfpswQO6nSoTfPXPV1JmtsyIfnDh
- gvZT9PHFe+J8akFSrjqYifW+ZdoC9OvMalOzekBH5b0rDLRSmjyGTuQlm
- wpMvKBLpbgnn6uvjtsb0to3LwxH4KdM8e7uD5ikIfiRf5lg4G0C5cW+5+
- v5us6aLHwE1EfZeF6ybUxi7/uYZlXVtaR+5K7OM3ESSFARtsiVUwf2EOp g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10879"; a="974440"
-X-IronPort-AV: E=Sophos;i="6.03,263,1694761200"; 
-   d="scan'208";a="974440"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Oct 2023 08:58:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10879"; a="789493970"
-X-IronPort-AV: E=Sophos;i="6.03,263,1694761200"; d="scan'208";a="789493970"
-Received: from ideak-desk.fi.intel.com ([10.237.72.78])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Oct 2023 08:58:28 -0700
-From: Imre Deak <imre.deak@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v4 09/30] drm/dp: Add helpers to calculate the link BW overhead
-Date: Mon, 30 Oct 2023 17:58:22 +0200
-Message-Id: <20231030155843.2251023-10-imre.deak@intel.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20231030155843.2251023-1-imre.deak@intel.com>
-References: <20231030155843.2251023-1-imre.deak@intel.com>
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on20618.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:fe5b::618])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C998A8916D;
+ Mon, 30 Oct 2023 15:59:33 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=mQfeXlJ5KXDUtfnQnonta2PyCs6ESKjpWYkDHDBtM2ZM9KtmFoTJkHmbjLFoV6RxgMPWTYZ6h9lAEPMHW2wWbVMN1WXMTFLxO/zsGqm33uBDPy4kF0iRGR+ePHJEMHhwBx0aqDv7ovtFRi8FbOKBEqUANVdgW1e/YMZj/qvJlAmpYUnkqRKZNMTb5Ckkf8K9xjFU12upaMtErfxC2Vh6KdzYWQ4aHS8S9ywSJ509Q9TBcl3bbJOW4Dx1pzPADpmoEA3xQSmfU/lMEF3bjw1REkm9JPrvbmjxt+4e/nkCBSLayv9sZGCrFu9YuQ7kbQ8ZBT0tJZL8pcV1COPAKOCH6A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=0wkET0b+zKP9zEWzUOjDCwVGNWa6mOth6GWfbKVsw6E=;
+ b=Bfg1w/0K9M8Avk9ElIuOzJZD+LPvllCAeCZPGvjC870UCqB9sJZeLxbmCPhb+Im9skZCVqyenUt124hfCHjXNQFG2UpJY0ROpQe4GTpA8m+ki1fzn3UL+wdaKDHK8nGGy+g3AywAX2x5+rEyQyxQOcSD7/ZuXsjBJVkNfTVr1Iyk50dYqpux9dX9F/seZ9bTCb90qW0v1LDRZN4mfVmKXGkhmn4X/s+V+bsLFO8fjoD9IpXkF0P+ZxCKnuiFz52jp0PF3xKwv9Ar4XO7O/WCARftFokHGBAr/9l+FFcmXGwkn577zIvcdwdHGAUQLEEEuNOkcU9jUMmeeTpjlGbQmA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0wkET0b+zKP9zEWzUOjDCwVGNWa6mOth6GWfbKVsw6E=;
+ b=Bzh4Rc4j0w59NQq52ccEPULLT7Ig6AWOzqFVS1pvCDBqZO4O5cSgw5/LZeqJ2XDo8iEBVVo/xNtaCF8fv5VWdInTdu8qE511jfL2lsu6RCzxeXdnhcs9t0wlPhu2nj2MbcmkzJ7h0D/CboWHqA+wlgCPl/6QjDkc9sPi+/YeScM=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB2941.namprd12.prod.outlook.com (2603:10b6:208:a9::12)
+ by IA1PR12MB6388.namprd12.prod.outlook.com (2603:10b6:208:388::7)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6933.26; Mon, 30 Oct
+ 2023 15:59:30 +0000
+Received: from MN2PR12MB2941.namprd12.prod.outlook.com
+ ([fe80::5f1e:bfb0:43e5:dc81]) by MN2PR12MB2941.namprd12.prod.outlook.com
+ ([fe80::5f1e:bfb0:43e5:dc81%2]) with mapi id 15.20.6933.028; Mon, 30 Oct 2023
+ 15:59:30 +0000
+Message-ID: <a2aed954-6d37-4380-8234-b4da1f6a91f0@amd.com>
+Date: Mon, 30 Oct 2023 09:59:26 -0600
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/amd/display: add kernel docs for
+ dc_stream_forward_crc_window
+Content-Language: en-US
+To: Sagar Vashnav <sagarvashnav72427@gmail.com>,
+ Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20231025140419.21180-1-sagarvashnav72427@gmail.com>
+From: Rodrigo Siqueira Jordao <Rodrigo.Siqueira@amd.com>
+In-Reply-To: <20231025140419.21180-1-sagarvashnav72427@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BN9PR03CA0606.namprd03.prod.outlook.com
+ (2603:10b6:408:106::11) To MN2PR12MB2941.namprd12.prod.outlook.com
+ (2603:10b6:208:a9::12)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN2PR12MB2941:EE_|IA1PR12MB6388:EE_
+X-MS-Office365-Filtering-Correlation-Id: aedaaad6-333d-477d-1ed1-08dbd961337d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: zpqw0FSyyhX7Dqpqn4eqhERmyFYoCCPE0ax/+cP04IDJ7RCbnXb8XtfZuiHYHoBwrTlcQ5vTFj39BI4mXpbiFFP5HcvLTOz6PMuzlyYHZkHBH/scrctDK5h5qtVNawKM+UgqS/enfG1fX977fRsISjZdsoBv/crDgt1Uu/NlEd1csEFhWvAPJaz9I/6n+ORiOosPB+7AKeg5d8J42PEj7k53tZ1Q/4gaFi+511X0UW43CcRyzaCgCisOLbVKoI8SRVg0ys6d4x9mQKAdHgcvwsaVpHCbOTGSGXh8lNjXfbkLNv4psovTRkjrlr9SsILObPtBFVNST81meVenVM52f6RqiKMJoPA4XpbhQjG/p8klbUS39cFXGRO8y7MCmpqpcEw4g5ZQV73gkX1KbYcFXmKHpy/Nw12w+NKJzqK1W9ijrJVHwTPcx32ssjz9cr3ELOC86wSsyjIV+OqK4qzW8X1uvBWdnDo2tC235S7LSZlZ0uendr6zDzzlwxjWxqAVEWwSRjgPT4EFMkXt4Kd5E2gQdjSX7nKGjRhZE5paHMd9x4wFbLQaYZRdCBNA8cnqkiuh/0nDlJL+efIyDslrIDh0Xg32Zz2Xm71Ih4ruMgu1TaU//kLCkp4cl1j55av9f/iHSAeBnh8n0iHR66bEgXlpLUgzVWZuQp+NRYR8gKA=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB2941.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(136003)(396003)(39860400002)(346002)(366004)(376002)(230922051799003)(451199024)(64100799003)(186009)(1800799009)(6512007)(36756003)(26005)(5660300002)(6666004)(6506007)(53546011)(2616005)(8676002)(8936002)(66556008)(66476007)(316002)(41300700001)(31686004)(66946007)(86362001)(31696002)(478600001)(921008)(38100700002)(6486002)(2906002)(110136005)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VDlSemJvcjNPNFI0ZVM3Mi81elJtK3dQQlFzeVNMYkpDSnFOcmc5YlJ5LzVv?=
+ =?utf-8?B?eDc3Ui9hb0oxUUs3b1pXTmpNTHhMdEgwWlpvTjFoSjEyK0FzaFlWemZwYngz?=
+ =?utf-8?B?d04zSWRxYlhFUThQalh6U2pMQlg5M1JzdGY1QXVtNExyZTN1enBEMmR3YlE1?=
+ =?utf-8?B?ZzNmZWF4OVI4VHE5a2lQOVZKY2FiaUFLZ3VwTjdKQ204UEJaOVlDL2QzQlAr?=
+ =?utf-8?B?V3YyVytidFV3azdFazB0SlhBelVxZzZJbDlVMzM2SHhoN09UL3EzWUhscDZu?=
+ =?utf-8?B?YmZNd0F0bWsrT2hwRHpTaVk2U0M3Mm9RYVVHOXdxeEtDZm1nNmhuNW50dXli?=
+ =?utf-8?B?M3d5M3ducWtzTUhsMU9ickV2Ri9WMWtlaWRpOFdiaEZYWCs2UnhXL3VRUFVH?=
+ =?utf-8?B?bExtRWZJUkZHVUpZTERRUFBidWZHT0w3eW05VmFtNUFvdWFSK3JuT1MxY0or?=
+ =?utf-8?B?K2xUSkJUbGRuTXdxdnExbGQrKzl2dnZCeDlqSXJZUEhzdUNMaU1WL1F2NTM4?=
+ =?utf-8?B?Q09SMStuZjY0T3dDQjREV3BmamowemduUTRLbG9GdWFVd3BmSXNxTmFNTWZj?=
+ =?utf-8?B?aWc5SnROeWVDWUIzekh1OTIvbXVIR3lGYVdqTlpXdDJxVWJwRmxnQTJTN3ky?=
+ =?utf-8?B?T3Q4TWg4UFk2UU5scDJ3RzFIWHZuYkJPY0RzalJVOHcwSEZ2d0gzQmhkVTdk?=
+ =?utf-8?B?RUdLWTVhdmtKWnNzazBDRC9DUEZhS3ZHZ3VuencxN1d0R29tOWZxMENCVFZX?=
+ =?utf-8?B?M0x1V1pnSU0vOEl6bnZZTmRFQzIrOFUzMDNXSTBaRmw4bkhFVXYwbE55WS9G?=
+ =?utf-8?B?cHVhM2hDQVpoTU9ITmxDbUMxanlDdFJvelFKdXRZRkRaTUM4RXkybElRc1lK?=
+ =?utf-8?B?VU5xdDd2THlvWVRMS05QV2ptZE43dWZrNmQzN1V6UlV6eDRzMEo2QjlCdC9I?=
+ =?utf-8?B?QXR6UWp0N0JLQm1rS1lUeHV3ci9YdTcxWVhBeUJEQjdQdDdQVmlmdXpQUDd1?=
+ =?utf-8?B?NUNYVGtNYUpkbFpkdnh0a0k0SENCNWNJRHhLNmhmL2R0ZUFSdEd2WXhDTFJ0?=
+ =?utf-8?B?c1dWcVM0cDR1K29mNmYyOFlNQ0ZtZm9iRGFSYm9TdTh6bmcvcEczWWFNOU1a?=
+ =?utf-8?B?cUEwSkdRQ1VGQU5oQW96M1Z3eVc0aG42dEJxU0o2UGFMZ1pPcnVYM09tUUlU?=
+ =?utf-8?B?ck4wTUNuRjR2SmZRMUV0YVRkRGhBUndRbXdwNTBlMXphMzQ5VVdZQmhRTk0y?=
+ =?utf-8?B?SHJRZVRDMTJadkdIUWtGazFZNnRtTmdKV2g3NWg0a3pPV016RFIxeWxLZW45?=
+ =?utf-8?B?N3lFNXhNZUh1aUJaTm5WaFZkRnd3T3ZGaXpHVk1oV2FjTTNLSmw4aHBpc3Mx?=
+ =?utf-8?B?emEweWxYT0w1SUNYNzVXS1RvN0VlQ3IxMHdMWEU1OE1FOFloSXV2eFVEYlFk?=
+ =?utf-8?B?SHdDcG9UMlV5SEI3YWtLbEo2cXNCRlhtZHVCa1NXemc3TFJIOC9EVmE4eGt6?=
+ =?utf-8?B?RHgvdmROL1o3bnFGaGx0U2RCbFpoWFhCbThubFVxU3ZKT09PdjRRc2hBSC9p?=
+ =?utf-8?B?WmFIdUJEN0x3Tm1hMEk3S251VVJCOUt3ZW9MU2t0R2Z0RFVGMm03TUtPN2Vi?=
+ =?utf-8?B?YXRhL1BZV3BvZW1sTlhUUHBNMFBUSlNsVmtRRVFaUEhreWF5bWU2NHUyd3p5?=
+ =?utf-8?B?Slk2UHJBQWtpWGFTSFkrRktxN05TUGVLcGIycGVaRTdLMjNLRVlnbjlCdmgy?=
+ =?utf-8?B?NHJOOWNJdGNQYldGYUlsVG9KRVp3M3lLZW5GTjVkRHh2MGNRNGpBSkJCN1R1?=
+ =?utf-8?B?cUUxK01CdHFTRStvaVBYNlRJMUtCalUxbzRPUml4WVpySzF5SEk1YW9PWmVF?=
+ =?utf-8?B?SWdxTVF2alB2UzIyQk50bWhZYWg4OHdNMnlxNllaWEZZd2tFWlNhNk1LZmZ0?=
+ =?utf-8?B?cFVaY0tYR2hvN2RqdXVYZ0dVSmlVS0IwRUZPOEM0MmhXTmNWckw4VTltbjZY?=
+ =?utf-8?B?Qy9zcVNMY0wyRXJEU3ByM0RraG5MMlh4SjJROFJicHg5My9Fa0xUZTd0MGVo?=
+ =?utf-8?B?SGcyNFFYSGRMWkxKZllxODJySFVWd0d6aWdkRFNsMTBWbnAreTRoV0NPRnYv?=
+ =?utf-8?Q?hP0EGUS92f+nf+ZqOcrUa5STp?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: aedaaad6-333d-477d-1ed1-08dbd961337d
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB2941.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Oct 2023 15:59:30.3182 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: BsZ9cXvmyuFKw7orsWiCss97v1LQAETC6JY0kZQ1yfkC0KecZyqq24YrzMcSuxH5dA41trxTWk54xAgJEaaEBw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6388
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,259 +131,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>,
- dri-devel@lists.freedesktop.org, kernel test robot <lkp@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add helpers drivers can use to calculate the BW allocation overhead -
-due to SSC, FEC, DSC and data alignment on symbol cycles - and the
-channel coding efficiency - due to the 8b/10b, 128b/132b encoding. On
-128b/132b links the FEC overhead is part of the coding efficiency, so
-not accounted for in the BW allocation overhead.
+Hi Sagar,
 
-The drivers can use these functions to calculate a ratio, controlling
-the stream symbol insertion rate of the source device in each SST TU
-or MST MTP frame. Drivers can calculate this
+First of all, thanks for your patch.
 
-m/n = (pixel_data_rate * drm_dp_bw_overhead()) /
-      (link_data_rate * drm_dp_bw_channel_coding_efficiency())
+On 10/25/23 08:04, Sagar Vashnav wrote:
+> Add kernel documentation for the dc_stream_forward_crc_window
+> 
+> Signed-off-by: Sagar Vashnav <sagarvashnav72427@gmail.com>
+> ---
+>   drivers/gpu/drm/amd/display/dc/core/dc.c | 13 +++++++++++++
+>   1 file changed, 13 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/amd/display/dc/core/dc.c b/drivers/gpu/drm/amd/display/dc/core/dc.c
+> index 1729fb727..5ab35e482 100644
+> --- a/drivers/gpu/drm/amd/display/dc/core/dc.c
+> +++ b/drivers/gpu/drm/amd/display/dc/core/dc.c
+> @@ -528,6 +528,19 @@ dc_stream_forward_dmcu_crc_window(struct dmcu *dmcu,
+>   		dmcu->funcs->forward_crc_window(dmcu, rect, mux_mapping);
+>   }
+>   
+> +/**
+> + * dc_stream_forward_crc_window() - Forward CRC window configuration to DMUB or DMCU.
 
-ratio for a given link and pixel stream and with that the
+Add an empty comment line between the summary and the parameter description.
 
-mtp_count = CEIL(64 * m / n)
+> + * @stream: The stream state to forward CRC window configuration for.
+> + * @rect: Pointer to the rectangle defining the CRC window coordinates.
+> + * @is_stop: Flag indicating whether the CRC capture should be stopped.
+> +
 
-allocated MTPs for the stream in a link frame and
+You need to add `*` in the above line.
 
-pbn = CEIL(64 * dm_mst_get_pbn_divider() * m / n)
+> + * This function is responsible for forwarding the CRC window configuration
+> + * for a given stream to either the DMUB or DMCU, depending on their availability.
+> +
 
-allocated PBNs for the stream on the MST link path.
+Same as my previous comment.
 
-Take drm_dp_bw_overhead() into use in drm_dp_calc_pbn_mode(), for
-drivers calculating the PBN value directly.
+> + * Return:
+> + * %true if the CRC window configuration was successfully forwarded;
+> + * %false if the stream was not found or CRC forwarding is not supported.
 
-v2:
-- Add dockbook description to drm_dp_bw_channel_coding_efficiency().
-  (LKP).
-- Clarify the way m/n ratio is calculated in the commit log.
-v3:
-- Fix compile breakage for !CONFIG_BACKLIGHT_CLASS_DEVICE. (LKP)
-- Account for FEC_PM overhead (+ 0.0015625 %), add comment
-  with the formula to calculate the total FEC overhead. (Ville)
-v4:
-- Rename DRM_DP_OVERHEAD_SSC to DRM_DP_OVERHEAD_SSC_REF_CLK. (Ville)
+Afaik, we don't use `%` in the kernel-doc. Maybe just use 'True' and 
+'False'?
 
-Cc: Lyude Paul <lyude@redhat.com>
-Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-Cc: kernel test robot <lkp@intel.com>
-Cc: dri-devel@lists.freedesktop.org
-Reviewed-by: Stanislav Lisovskiy <stanislav.lisovskiy@intel.com> (v2)
-Signed-off-by: Imre Deak <imre.deak@intel.com>
----
- drivers/gpu/drm/display/drm_dp_helper.c       | 132 ++++++++++++++++++
- drivers/gpu/drm/display/drm_dp_mst_topology.c |  23 ++-
- include/drm/display/drm_dp_helper.h           |  11 ++
- 3 files changed, 160 insertions(+), 6 deletions(-)
+Thanks
+Siqueira
 
-diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
-index e5d7970a9ddd0..72ba9ae89f862 100644
---- a/drivers/gpu/drm/display/drm_dp_helper.c
-+++ b/drivers/gpu/drm/display/drm_dp_helper.c
-@@ -3900,3 +3900,135 @@ int drm_panel_dp_aux_backlight(struct drm_panel *panel, struct drm_dp_aux *aux)
- EXPORT_SYMBOL(drm_panel_dp_aux_backlight);
- 
- #endif
-+
-+/* See DP Standard v2.1 2.6.4.4.1.1, 2.8.4.4, 2.8.7 */
-+static int drm_dp_link_symbol_cycles(int lane_count, int pixels, int bpp_x16,
-+				     int symbol_size, bool is_mst)
-+{
-+	int cycles = DIV_ROUND_UP(pixels * bpp_x16, 16 * symbol_size * lane_count);
-+	int align = is_mst ? 4 / lane_count : 1;
-+
-+	return ALIGN(cycles, align);
-+}
-+
-+static int drm_dp_link_dsc_symbol_cycles(int lane_count, int pixels, int slice_count,
-+					 int bpp_x16, int symbol_size, bool is_mst)
-+{
-+	int slice_pixels = DIV_ROUND_UP(pixels, slice_count);
-+	int slice_data_cycles = drm_dp_link_symbol_cycles(lane_count, slice_pixels,
-+							  bpp_x16, symbol_size, is_mst);
-+	int slice_eoc_cycles = is_mst ? 4 / lane_count : 1;
-+
-+	return slice_count * (slice_data_cycles + slice_eoc_cycles);
-+}
-+
-+/**
-+ * drm_dp_bw_overhead - Calculate the BW overhead of a DP link stream
-+ * @lane_count: DP link lane count
-+ * @hactive: pixel count of the active period in one scanline of the stream
-+ * @dsc_slice_count: DSC slice count if @flags/DRM_DP_LINK_BW_OVERHEAD_DSC is set
-+ * @bpp_x16: bits per pixel in .4 binary fixed point
-+ * @flags: DRM_DP_OVERHEAD_x flags
-+ *
-+ * Calculate the BW allocation overhead of a DP link stream, depending
-+ * on the link's
-+ * - @lane_count
-+ * - SST/MST mode (@flags / %DRM_DP_OVERHEAD_MST)
-+ * - symbol size (@flags / %DRM_DP_OVERHEAD_UHBR)
-+ * - FEC mode (@flags / %DRM_DP_OVERHEAD_FEC)
-+ * - SSC/REF_CLK mode (@flags / %DRM_DP_OVERHEAD_SSC_REF_CLK)
-+ * as well as the stream's
-+ * - @hactive timing
-+ * - @bpp_x16 color depth
-+ * - compression mode (@flags / %DRM_DP_OVERHEAD_DSC).
-+ * Note that this overhead doesn't account for the 8b/10b, 128b/132b
-+ * channel coding efficiency, for that see
-+ * @drm_dp_link_bw_channel_coding_efficiency().
-+ *
-+ * Returns the overhead as 100% + overhead% in 1ppm units.
-+ */
-+int drm_dp_bw_overhead(int lane_count, int hactive,
-+		       int dsc_slice_count,
-+		       int bpp_x16, unsigned long flags)
-+{
-+	int symbol_size = flags & DRM_DP_BW_OVERHEAD_UHBR ? 32 : 8;
-+	bool is_mst = flags & DRM_DP_BW_OVERHEAD_MST;
-+	u32 overhead = 1000000;
-+	int symbol_cycles;
-+
-+	/*
-+	 * DP Standard v2.1 2.6.4.1
-+	 * SSC downspread and ref clock variation margin:
-+	 *   5300ppm + 300ppm ~ 0.6%
-+	 */
-+	if (flags & DRM_DP_BW_OVERHEAD_SSC_REF_CLK)
-+		overhead += 6000;
-+
-+	/*
-+	 * DP Standard v2.1 2.6.4.1.1, 3.5.1.5.4:
-+	 * FEC symbol insertions for 8b/10b channel coding:
-+	 * After each 250 data symbols on 2-4 lanes:
-+	 *   250 LL + 5 FEC_PARITY_PH + 1 CD_ADJ   (256 byte FEC block)
-+	 * After each 2 x 250 data symbols on 1 lane:
-+	 *   2 * 250 LL + 11 FEC_PARITY_PH + 1 CD_ADJ (512 byte FEC block)
-+	 * After 256 (2-4 lanes) or 128 (1 lane) FEC blocks:
-+	 *   256 * 256 bytes + 1 FEC_PM
-+	 * or
-+	 *   128 * 512 bytes + 1 FEC_PM
-+	 * (256 * 6 + 1) / (256 * 250) = 2.4015625 %
-+	 */
-+	if (flags & DRM_DP_BW_OVERHEAD_FEC)
-+		overhead += 24016;
-+
-+	/*
-+	 * DP Standard v2.1 2.7.9, 5.9.7
-+	 * The FEC overhead for UHBR is accounted for in its 96.71% channel
-+	 * coding efficiency.
-+	 */
-+	WARN_ON((flags & DRM_DP_BW_OVERHEAD_UHBR) &&
-+		(flags & DRM_DP_BW_OVERHEAD_FEC));
-+
-+	if (flags & DRM_DP_BW_OVERHEAD_DSC)
-+		symbol_cycles = drm_dp_link_dsc_symbol_cycles(lane_count, hactive,
-+							      dsc_slice_count,
-+							      bpp_x16, symbol_size,
-+							      is_mst);
-+	else
-+		symbol_cycles = drm_dp_link_symbol_cycles(lane_count, hactive,
-+							  bpp_x16, symbol_size,
-+							  is_mst);
-+
-+	return DIV_ROUND_UP_ULL(mul_u32_u32(symbol_cycles * symbol_size * lane_count,
-+					    overhead * 16),
-+				hactive * bpp_x16);
-+}
-+EXPORT_SYMBOL(drm_dp_bw_overhead);
-+
-+/**
-+ * drm_dp_bw_channel_coding_efficiency - Get a DP link's channel coding efficiency
-+ * @is_uhbr: Whether the link has a 128b/132b channel coding
-+ *
-+ * Return the channel coding efficiency of the given DP link type, which is
-+ * either 8b/10b or 128b/132b (aka UHBR). The corresponding overhead includes
-+ * the 8b -> 10b, 128b -> 132b pixel data to link symbol conversion overhead
-+ * and for 128b/132b any link or PHY level control symbol insertion overhead
-+ * (LLCP, FEC, PHY sync, see DP Standard v2.1 3.5.2.18). For 8b/10b the
-+ * corresponding FEC overhead is BW allocation specific, included in the value
-+ * returned by drm_dp_bw_overhead().
-+ *
-+ * Returns the efficiency in the 100%/coding-overhead% ratio in
-+ * 1ppm units.
-+ */
-+int drm_dp_bw_channel_coding_efficiency(bool is_uhbr)
-+{
-+	if (is_uhbr)
-+		return 967100;
-+	else
-+		/*
-+		 * Note that on 8b/10b MST the efficiency is only
-+		 * 78.75% due to the 1 out of 64 MTPH packet overhead,
-+		 * not accounted for here.
-+		 */
-+		return 800000;
-+}
-+EXPORT_SYMBOL(drm_dp_bw_channel_coding_efficiency);
-diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-index cc0a8fe84d290..4d72c9a32026e 100644
---- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
-+++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-@@ -4726,17 +4726,28 @@ EXPORT_SYMBOL(drm_dp_check_act_status);
- int drm_dp_calc_pbn_mode(int clock, int bpp)
- {
- 	/*
--	 * margin 5300ppm + 300ppm ~ 0.6% as per spec, factor is 1.006
- 	 * The unit of 54/64Mbytes/sec is an arbitrary unit chosen based on
- 	 * common multiplier to render an integer PBN for all link rate/lane
- 	 * counts combinations
- 	 * calculate
--	 * peak_kbps *= (1006/1000)
--	 * peak_kbps *= (64/54)
--	 * peak_kbps *= 8    convert to bytes
-+	 * peak_kbps = clock * bpp / 16
-+	 * peak_kbps *= SSC overhead / 1000000
-+	 * peak_kbps /= 8    convert to Kbytes
-+	 * peak_kBps *= (64/54) / 1000    convert to PBN
- 	 */
--	return DIV_ROUND_UP_ULL(mul_u32_u32(clock * bpp, 64 * 1006 >> 4),
--				1000 * 8 * 54 * 1000);
-+	/*
-+	 * TODO: Use the actual link and mode parameters to calculate
-+	 * the overhead. For now it's assumed that these are
-+	 * 4 link lanes, 4096 hactive pixels, which don't add any
-+	 * significant data padding overhead and that there is no DSC
-+	 * or FEC overhead.
-+	 */
-+	int overhead = drm_dp_bw_overhead(4, 4096, 0, bpp,
-+					  DRM_DP_BW_OVERHEAD_MST |
-+					  DRM_DP_BW_OVERHEAD_SSC_REF_CLK);
-+
-+	return DIV64_U64_ROUND_UP(mul_u32_u32(clock * bpp, 64 * overhead >> 4),
-+				  1000000ULL * 8 * 54 * 1000);
- }
- EXPORT_SYMBOL(drm_dp_calc_pbn_mode);
- 
-diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
-index da94932f4262b..caee29d28463c 100644
---- a/include/drm/display/drm_dp_helper.h
-+++ b/include/drm/display/drm_dp_helper.h
-@@ -788,4 +788,15 @@ bool drm_dp_downstream_rgb_to_ycbcr_conversion(const u8 dpcd[DP_RECEIVER_CAP_SIZ
- 					       const u8 port_cap[4], u8 color_spc);
- int drm_dp_pcon_convert_rgb_to_ycbcr(struct drm_dp_aux *aux, u8 color_spc);
- 
-+#define DRM_DP_BW_OVERHEAD_MST		BIT(0)
-+#define DRM_DP_BW_OVERHEAD_UHBR		BIT(1)
-+#define DRM_DP_BW_OVERHEAD_SSC_REF_CLK	BIT(2)
-+#define DRM_DP_BW_OVERHEAD_FEC		BIT(3)
-+#define DRM_DP_BW_OVERHEAD_DSC		BIT(4)
-+
-+int drm_dp_bw_overhead(int lane_count, int hactive,
-+		       int dsc_slice_count,
-+		       int bpp_x16, unsigned long flags);
-+int drm_dp_bw_channel_coding_efficiency(bool is_uhbr);
-+
- #endif /* _DRM_DP_HELPER_H_ */
--- 
-2.39.2
+> + */
+>   bool
+>   dc_stream_forward_crc_window(struct dc_stream_state *stream,
+>   		struct rect *rect, bool is_stop)
 
