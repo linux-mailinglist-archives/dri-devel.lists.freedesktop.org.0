@@ -1,77 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C9777DB768
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Oct 2023 11:04:50 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E929A7DB77E
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Oct 2023 11:11:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 610BE10E27B;
-	Mon, 30 Oct 2023 10:04:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E1CC110E27C;
+	Mon, 30 Oct 2023 10:11:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 469AB10E27B
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Oct 2023 10:04:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1698660285;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=3jV9wsFuEisf3vb2BAnPpXdxe1/PPDMuldDZzCp400E=;
- b=AuYGFBrolrKZoSTHq2+FidQHYNqF5nmo2qu4/4pZR10CwRyfZC4G/PiOIFxD96f4Mb0Buq
- llq21gWGE9XNdPOUTV4YkW141iSA5bwkvqy6yVBq4z/SNngMjhtRqG8opD7uMC5PjQ6pBq
- cUr6IvyivDREsWQDYyxTvqSn0f/0itU=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-148-QFEGcngMMDqrfuQY2_y1QA-1; Mon, 30 Oct 2023 06:04:44 -0400
-X-MC-Unique: QFEGcngMMDqrfuQY2_y1QA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- 5b1f17b1804b1-4092164ee4eso31116025e9.3
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Oct 2023 03:04:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1698660283; x=1699265083;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=3jV9wsFuEisf3vb2BAnPpXdxe1/PPDMuldDZzCp400E=;
- b=uRHukUyCSAFwNKcpLrhmCsh5F/DchkDRQyi+YpK1mtdnbim0OIOE+4ev6S/TNFi+NP
- Tx5nUKGdthXAscpRO0xHe1j7WVSU/4TldgQwXc8F4gkak0rZW2fRRhLG/wh2G0lo9/Nd
- L1FLqy1w+Gvj6N77FI+KtOrr2ucEqXTxCXXNaGc65fw9dDzIea1E1KNmzti3ns9gFoXh
- 3+oo5N9cQzleqzu57EPyeLvZ2/hjnnnvAjg7fS5NRkbYm2lcqPSkfUqaqFxhxy2GJt9U
- n3Ww3+lv6w+NkHcWkt2ayxelnDKZoQLoCNaOGSlqeZSiZ9Dg1YVIAU8Q6rub1sDgaxaF
- i8+w==
-X-Gm-Message-State: AOJu0YzhTMRBG84CQEKEyVzqKJYPahYtMxaa4Z6a6QiYAdhnpcXonm2i
- 5srEDS+60VdFtcUS0CMyyrA1IP8PCFx4m4GoUqBkUNdMnui5tyg50RNJCq3NeWl+nY02Xb7Nj6+
- fTjpMSbLllxNH3wtptbL5kjW1O7Tz
-X-Received: by 2002:a5d:6d08:0:b0:32d:967d:1bae with SMTP id
- e8-20020a5d6d08000000b0032d967d1baemr8378503wrq.0.1698660283175; 
- Mon, 30 Oct 2023 03:04:43 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHyZDSUvodlaTnopLvaCTSB7TOJfDUWETWpqkH2ReIYOzMzfqhzqmVbyJj2e+ZFmRu5TTpvyw==
-X-Received: by 2002:a5d:6d08:0:b0:32d:967d:1bae with SMTP id
- e8-20020a5d6d08000000b0032d967d1baemr8378481wrq.0.1698660282858; 
- Mon, 30 Oct 2023 03:04:42 -0700 (PDT)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- a17-20020adfe5d1000000b003142e438e8csm7922409wrn.26.2023.10.30.03.04.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 Oct 2023 03:04:42 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH] dt-bindings: display: ssd132x: Remove '-' before
- compatible enum
-In-Reply-To: <87msw3omln.fsf@minerva.mail-host-address-is-not-set>
-References: <20231020223029.1667190-1-javierm@redhat.com>
- <169801218855.747717.5658253186246322717.robh@kernel.org>
- <87y1foo1in.fsf@minerva.mail-host-address-is-not-set>
- <20231027172753.GA2834192-robh@kernel.org>
- <87msw3omln.fsf@minerva.mail-host-address-is-not-set>
-Date: Mon, 30 Oct 2023 11:04:41 +0100
-Message-ID: <87jzr4zarq.fsf@minerva.mail-host-address-is-not-set>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E619610E27C
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Oct 2023 10:11:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1698660683; x=1730196683;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=HegZv8eUlNoVG2+a/2k2OmYanIc8eg/6JK2M4Zccnkw=;
+ b=i7Bb1ii6kt+hudDchX6OW0R9BjdykmkIMK63K11GQ6CE0y3SCm/rtEuq
+ PaRU92JLQ2I1onTaNYi3BBun8uh+GUrBzanbb7kscR6D8ow1/RHfMWm/Y
+ JU/kPXlo5ljRdoeKhmWpPLHl5QuDlh8pBhjq2+4qI+zldrSh0WuV/XZzw
+ OrH9MCNABeisznjqxtUWJ+u+C7yZfPQTlrJPZHAWWldEjCLy1UGr4ldjI
+ FhASjeo0WAVXxKMCZ0tAJkEGOkNblTS9UA2SnTAePjiccloq+WIIQmBsT
+ dboAYK30RHakJf92MiVfMkxyspPjFszbrXIimvib48L1SD36PooF7Aqcp w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10878"; a="909217"
+X-IronPort-AV: E=Sophos;i="6.03,263,1694761200"; 
+   d="scan'208";a="909217"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Oct 2023 03:11:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10878"; a="877089788"
+X-IronPort-AV: E=Sophos;i="6.03,263,1694761200"; d="scan'208";a="877089788"
+Received: from sgruszka-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.51.19])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Oct 2023 03:11:20 -0700
+Date: Mon, 30 Oct 2023 11:11:18 +0100
+From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+To: dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v2 00/11] accel/ivpu: Update for -next 2023-10-25
+Message-ID: <ZT+BRjLPjVHL2hdR@linux.intel.com>
+References: <20231028133415.1169975-1-stanislaw.gruszka@linux.intel.com>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231028133415.1169975-1-stanislaw.gruszka@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,46 +59,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Maxime Ripard <mripard@kernel.org>
+Cc: Oded Gabbay <ogabbay@kernel.org>, Jeffrey Hugo <quic_jhugo@quicinc.com>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Javier Martinez Canillas <javierm@redhat.com> writes:
+On Sat, Oct 28, 2023 at 03:34:04PM +0200, Stanislaw Gruszka wrote:
+> Various driver updates:
+>  
+>  - FW api update
+>  - suspend/resume optimizations 
+>  - dynamic valtage and frequency mode knob
+>  - new test modes
+> 
+> v2:
+>  - fix spelling mistakes pointed Jeffrey
+>  - move patch 7, add note where new function will be used
+>  - change patches 8 and 9 ordering
+>  - separate print warn change from patch 10 into separate patch 
+>  - squash patch 10 and 11
+>  - rebase to latest drm-misc-next
+Applied to drm-misc-next
 
-> Rob Herring <robh@kernel.org> writes:
->
-> Hello Rob,
->
-
-[...]
-
->>> Pushed to drm-misc (drm-misc-next). Thanks!
->>
->> Given what introduced this is before the drm-misc-next-2023-10-19 tag, 
->> isn't it going into 6.7 and needs to be in the fixes branch? Though that 
->> doesn't exist yet for 6.7 fixes. I don't understand why that's not done 
->> as part of the last tag for a cycle. But drm-misc is special.
->>
->
-> I pushed to drm-misc-next because I thought that there will be a last PR
-> of drm-misc-next for 6.7, but it seems I missed it for a couple of hours
-> (that is drm-misc-next-2023-10-27) :(
->
-> https://lists.freedesktop.org/archives/dri-devel/2023-October/425698.html
->
-> The solution now is to cherry-pick the fixes already in drm-misc-next to
-> drm-misc-next-fixes, to make sure that land in 6.7. I can do that once
-
-Cherry-picked the commit in drm-misc-next-fixes as well.
-
--- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+Regards
+Stanislaw
