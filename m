@@ -1,46 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D25D7DCD16
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Oct 2023 13:38:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B8667DCD2A
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Oct 2023 13:46:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 56C2210E11D;
-	Tue, 31 Oct 2023 12:38:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C923A10E498;
+	Tue, 31 Oct 2023 12:46:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C50F10E11D;
- Tue, 31 Oct 2023 12:38:51 +0000 (UTC)
-Received: from localhost (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 548D666073A3;
- Tue, 31 Oct 2023 12:38:49 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1698755930;
- bh=CUoxGhlVd6jYsDuuATdbi+tc7UVUEDIHrFb8+QfclKw=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=mee3++hIdBgR35N3mIlOJGmWWJ2rINg5K32mJqZ8L2cvLIn86jpMVXWiFXhxYsMF7
- hli4eKV95M0V2qx/8/pxtHleqR344vReYf7nfMRkFhyawXUD/GGbvSyNF1PBTV0PUz
- UmwTqZ2WOB4nPT6sY4iBJ2TFitRfvWZVx5BiXfB6QbahZjS7hvIj7mywPPtnxcgWQs
- zkqbDWGdw93AciSKz6gF0UqdW6blJ7FTc54xSZ4REW/fY75luZR8Y2Zqg8eLXBhm5J
- 6xGQCDE9kxO3dr6H/+PpvsufHcMnuEcHZWDM5i/bPbt1bX0SfaiCyR5PsH1wVJA5dP
- KTjxHdeb+V60g==
-Date: Tue, 31 Oct 2023 13:38:45 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Danilo Krummrich <dakr@redhat.com>
-Subject: Re: [PATCH drm-misc-next v7 0/7] [RFC] DRM GPUVM features
-Message-ID: <20231031133845.7915c814@collabora.com>
-In-Reply-To: <20231023201659.25332-1-dakr@redhat.com>
-References: <20231023201659.25332-1-dakr@redhat.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com
+ [IPv6:2a00:1450:4864:20::531])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 83DD710E130;
+ Tue, 31 Oct 2023 12:46:42 +0000 (UTC)
+Received: by mail-ed1-x531.google.com with SMTP id
+ 4fb4d7f45d1cf-540105dea92so8680017a12.2; 
+ Tue, 31 Oct 2023 05:46:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1698756401; x=1699361201; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=jKZa5dSJEe2OFosspYgbHn2/m1CBCfZ471gmM0Ox3Zg=;
+ b=CUtHVmnPvhXFYeRE5KwyIFcYp8jUFNWHtTO6Yyr672AQmTxKQAxsX6L6Cm8UwDVVW+
+ bQhOaO1QaZBqcaxyPjFiPafAohQNzHkQVcEJZksf44fVt9TyNO0rqEUYAQ2QXFovKZPR
+ UJETt5SGpjgRCxDpmKGEs4bVso6Bx6uqks8wjqiSCsjltlHWPaiCIi7/fWAZ73Eh1iEC
+ otbzWbyY31o+ZlBav2KPOvG8j4cuORJP8gBCwIhKiJN8PUQzGTyIqyYA1TdcPjf/2jm7
+ ISjnOw4pV9cG9F8YGBC59NJ/VC0bD2pC5sKbl4VEnUwM97TXqoZtO8vcXTXIuiDma98B
+ 8LTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1698756401; x=1699361201;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=jKZa5dSJEe2OFosspYgbHn2/m1CBCfZ471gmM0Ox3Zg=;
+ b=ZtMg2/hM5xryHK0NU7P1lvGmoRBOZOJf4T7k5ZB6MbmaMyvjmsl6fG7PUgEjjCc7pP
+ 4ekPVrzHt6MOkeGpfDqzvjpmKe9m79RB3Le1mJBFegZG3M9XkaKiEq+FrZ+p8v1irxHn
+ bOOc2nypjGaxp5t+VJgH6p/GH7ajrUDUQ3wzM0tioTZnPx2QxqkEFtPr30m6J2w56JEd
+ 8uiGmullFGGronYUUarsBasRCJNunLnqNj5s034cKBsO/SNZZtNsI/D27j/T2g9ih9kA
+ gfe9ryBAZD+oeHB87/CJ60Sl0o3bGQcQfMkqG5oITUi9vtYIO7ke0ojVfkVACZyOjIc4
+ scEA==
+X-Gm-Message-State: AOJu0YxdFmLTMtXr0lsqDsWSiOZ+zf3S+wfSf/BcSBhMUo6O/I34rvjn
+ GL16b1udKxbv1t/ATat779WnuNPA+w80cbsORos=
+X-Google-Smtp-Source: AGHT+IFgPFGHLLpf2/dBd95JgtG0UZj1klCPTGGWfafBuQ68PFpBgQ0Bbk2zw5laV2W44PGxbqXvObQrh8RUIMJRs9g=
+X-Received: by 2002:aa7:d3c1:0:b0:53f:bd95:d963 with SMTP id
+ o1-20020aa7d3c1000000b0053fbd95d963mr9235785edr.32.1698756400670; Tue, 31 Oct
+ 2023 05:46:40 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20231030-sc8280xp-dpu-safe-lut-v1-1-6d485d7b428f@quicinc.com>
+ <20231031081931.GC11778@thinkpad>
+In-Reply-To: <20231031081931.GC11778@thinkpad>
+From: Rob Clark <robdclark@gmail.com>
+Date: Tue, 31 Oct 2023 05:46:28 -0700
+Message-ID: <CAF6AEGv4w=a8kpkM63OU8DJ_nND5acG6nNuz8r4qnAT8Acyw+g@mail.gmail.com>
+Subject: Re: [PATCH] drm/msm/dpu: Add missing safe_lut_tbl in sc8280xp catalog
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,158 +69,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.brost@intel.com, thomas.hellstrom@linux.intel.com,
- sarah.walker@imgtec.com, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- faith@gfxstrand.net, donald.robson@imgtec.com, christian.koenig@amd.com
+Cc: Rob Clark <robdclark@chromium.org>, freedreno@lists.freedesktop.org,
+ Doug Anderson <dianders@chromium.org>,
+ Bjorn Andersson <quic_bjorande@quicinc.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, stable@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Johan Hovold <johan@kernel.org>, Sean Paul <sean@poorly.run>,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 23 Oct 2023 22:16:46 +0200
-Danilo Krummrich <dakr@redhat.com> wrote:
+On Tue, Oct 31, 2023 at 1:19=E2=80=AFAM Manivannan Sadhasivam
+<manivannan.sadhasivam@linaro.org> wrote:
+>
+> On Mon, Oct 30, 2023 at 04:23:20PM -0700, Bjorn Andersson wrote:
+> > During USB transfers on the SC8280XP __arm_smmu_tlb_sync() is seen to
+> > typically take 1-2ms to complete. As expected this results in poor
+> > performance, something that has been mitigated by proposing running the
+> > iommu in non-strict mode (boot with iommu.strict=3D0).
+> >
+> > This turns out to be related to the SAFE logic, and programming the QOS
+> > SAFE values in the DPU (per suggestion from Rob and Doug) reduces the
+> > TLB sync time to below 10us, which means significant less time spent
+> > with interrupts disabled and a significant boost in throughput.
+> >
+> > Fixes: 4a352c2fc15a ("drm/msm/dpu: Introduce SC8280XP")
+> > Cc: stable@vger.kernel.org
+> > Suggested-by: Doug Anderson <dianders@chromium.org>
+> > Suggested-by: Rob Clark <robdclark@chromium.org>
+> > Signed-off-by: Bjorn Andersson <quic_bjorande@quicinc.com>
+> > ---
+> >  drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h | 1 +
+> >  1 file changed, 1 insertion(+)
+> >
+> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h b=
+/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
+> > index 1ccd1edd693c..4c0528794e7a 100644
+> > --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
+> > +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
+> > @@ -406,6 +406,7 @@ static const struct dpu_perf_cfg sc8280xp_perf_data=
+ =3D {
+> >       .min_llcc_ib =3D 0,
+> >       .min_dram_ib =3D 800000,
+> >       .danger_lut_tbl =3D {0xf, 0xffff, 0x0},
+> > +     .safe_lut_tbl =3D {0xfe00, 0xfe00, 0xffff},
+>
+> What does these values represent? And how SAFE is to override the default=
+ QoS
+> values?
+>
+> I'm not too familiar with the MSM DRM driver, so please excuse my ignoran=
+ce.
 
-> Currently GPUVM offers common infrastructure to track GPU VA allocations
-> and mappings, generically connect GPU VA mappings to their backing
-> buffers and perform more complex mapping operations on the GPU VA space.
-> 
-> However, there are more design patterns commonly used by drivers, which
-> can potentially be generalized in order to make GPUVM represent the
-> basis of a VM implementation. In this context, this patch series aims at
-> generalizing the following elements.
-> 
-> 1) Provide a common dma-resv for GEM objects not being used outside of
->    this GPU-VM.
-> 
-> 2) Provide tracking of external GEM objects (GEM objects which are
->    shared with other GPU-VMs).
-> 
-> 3) Provide functions to efficiently lock all GEM objects dma-resv the
->    GPU-VM contains mappings of.
-> 
-> 4) Provide tracking of evicted GEM objects the GPU-VM contains mappings
->    of, such that validation of evicted GEM objects is accelerated.
-> 
-> 5) Provide some convinience functions for common patterns.
-> 
-> The implementation introduces struct drm_gpuvm_bo, which serves as abstraction
-> combining a struct drm_gpuvm and struct drm_gem_object, similar to what
-> amdgpu does with struct amdgpu_bo_vm. While this adds a bit of complexity it
-> improves the efficiency of tracking external and evicted GEM objects.
-> 
-> This patch series is also available at [3].
-> 
-> [1] https://gitlab.freedesktop.org/nouvelles/kernel/-/commits/gpuvm-next
-> 
-> Changes in V2:
-> ==============
->   - rename 'drm_gpuva_manager' -> 'drm_gpuvm' which generally leads to more
->     consistent naming
->   - properly separate commits (introduce common dma-resv, drm_gpuvm_bo
->     abstraction, etc.)
->   - remove maple tree for tracking external objects, use a list drm_gpuvm_bos
->     per drm_gpuvm instead
->   - rework dma-resv locking helpers (Thomas)
->   - add a locking helper for a given range of the VA space (Christian)
->   - make the GPUVA manager buildable as module, rather than drm_exec
->     builtin (Christian)
-> 
-> Changes in V3:
-> ==============
->   - rename missing function and files (Boris)
->   - warn if vm_obj->obj != obj in drm_gpuva_link() (Boris)
->   - don't expose drm_gpuvm_bo_destroy() (Boris)
->   - unlink VM_BO from GEM in drm_gpuvm_bo_destroy() rather than
->     drm_gpuva_unlink() and link within drm_gpuvm_bo_obtain() to keep
->     drm_gpuvm_bo instances unique
->   - add internal locking to external and evicted object lists to support drivers
->     updating the VA space from within the fence signalling critical path (Boris)
->   - unlink external objects and evicted objects from the GPUVM's list in
->     drm_gpuvm_bo_destroy()
->   - add more documentation and fix some kernel doc issues
-> 
-> Changes in V4:
-> ==============
->   - add a drm_gpuvm_resv() helper (Boris)
->   - add a drm_gpuvm::<list_name>::local_list field (Boris)
->   - remove drm_gpuvm_bo_get_unless_zero() helper (Boris)
->   - fix missing NULL assignment in get_next_vm_bo_from_list() (Boris)
->   - keep a drm_gem_object reference on potential vm_bo destroy (alternatively we
->     could free the vm_bo and drop the vm_bo's drm_gem_object reference through
->     async work)
->   - introduce DRM_GPUVM_RESV_PROTECTED flag to indicate external locking through
->     the corresponding dma-resv locks to optimize for drivers already holding
->     them when needed; add the corresponding lock_assert_held() calls (Thomas)
->   - make drm_gpuvm_bo_evict() per vm_bo and add a drm_gpuvm_bo_gem_evict()
->     helper (Thomas)
->   - pass a drm_gpuvm_bo in drm_gpuvm_ops::vm_bo_validate() (Thomas)
->   - documentation fixes
-> 
-> Changes in V5:
-> ==============
->   - use a root drm_gem_object provided by the driver as a base for the VM's
->     common dma-resv (Christian)
->   - provide a helper to allocate a "dummy" root GEM object in case a driver
->     specific root GEM object isn't available
->   - add a dedicated patch for nouveau to make use of the GPUVM's shared dma-resv
->   - improve documentation (Boris)
->   - the following patches are removed from the series, since they already landed
->     in drm-misc-next
->     - f72c2db47080 ("drm/gpuvm: rename struct drm_gpuva_manager to struct drm_gpuvm")
->     - fe7acaa727e1 ("drm/gpuvm: allow building as module")
->     - 78f54469b871 ("drm/nouveau: uvmm: rename 'umgr' to 'base'")
-> 
-> Changes in V6:
-> ==============
->   - add drm_gpuvm_bo::evicted field protected by the drm_gem_object's dma-resv
->     lock (Thomas)
->     - additionally to the original proposal, always use drm_gpuvm_bo::evicted
->       regardless of the used locking scheme and always keep it up to date
->   - remove unneccesary get->put dance in drm_gpuva_unlink() (Thomas)
->   - fix commit message wording (Thomas)
->   - fix kernel doc warnings (kernel test robot)
-> 
-> Changes in V7:
-> ==============
->   - add a patch converting WARN() macros to drm_WARN() variants
->   - allow drivers to pass the number of fences to reserve and the drm_exec flags
->     through struct drm_gpuvm_exec
->   - rename 'root' GEM object to 'resv' GEM object
->   - fix order of private_usage and extobj_usage in drm_gpuvm_resv_add_fence()
->   - always set drm_gpuvm_bo::evicted accordingly
->   - explicitly clear drm_gpuvm_bo from evict list after successful validation
->   - group reference get() calls with pointer assignments
->   - call drm_gem_object_put() after vm_bo_free() callback
->   - make lockdep checks explicit for drm_gpuvm_bo_* functions
->   - improve documentation of struct drm_gpuvm_bo
->   - fix a few documentation typos and style issues
->   - use BIT() instead of shift ops for enum drm_gpuvm_flags
-> 
-> Danilo Krummrich (7):
->   drm/gpuvm: convert WARN() to drm_WARN() variants
->   drm/gpuvm: add common dma-resv per struct drm_gpuvm
->   drm/gpuvm: add drm_gpuvm_flags to drm_gpuvm
->   drm/gpuvm: add an abstraction for a VM / BO combination
->   drm/gpuvm: track/lock/validate external/evicted objects
->   drm/nouveau: make use of the GPUVM's shared dma-resv
->   drm/nouveau: use GPUVM common infrastructure
+for realtime dma (like scanout) there is a sort of "safe" signal from
+the dma master to the smmu to indicate when it has enough data
+buffered for it to be safe to do tlbinv without risking underflow.
+When things aren't "safe" the smmu will stall tlbinv.  This is just
+configuring the thresholds for the "safe" signal.
 
-Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+BR,
+-R
 
-> 
->  drivers/gpu/drm/drm_gpuvm.c             | 1054 +++++++++++++++++++++--
->  drivers/gpu/drm/nouveau/nouveau_bo.c    |   15 +-
->  drivers/gpu/drm/nouveau/nouveau_bo.h    |    5 +
->  drivers/gpu/drm/nouveau/nouveau_exec.c  |   57 +-
->  drivers/gpu/drm/nouveau/nouveau_exec.h  |    4 -
->  drivers/gpu/drm/nouveau/nouveau_gem.c   |   10 +-
->  drivers/gpu/drm/nouveau/nouveau_sched.c |    9 +-
->  drivers/gpu/drm/nouveau/nouveau_sched.h |    7 +-
->  drivers/gpu/drm/nouveau/nouveau_uvmm.c  |  189 ++--
->  drivers/gpu/drm/nouveau/nouveau_uvmm.h  |    1 -
->  include/drm/drm_gem.h                   |   32 +-
->  include/drm/drm_gpuvm.h                 |  492 ++++++++++-
->  12 files changed, 1673 insertions(+), 202 deletions(-)
-> 
-> 
-> base-commit: f5b55f32ce4ba953c270b2e9c3f5d4cd6951b1a1
-
+> - Mani
+>
+> >       .qos_lut_tbl =3D {
+> >               {.nentry =3D ARRAY_SIZE(sc8180x_qos_linear),
+> >               .entries =3D sc8180x_qos_linear
+> >
+> > ---
+> > base-commit: c503e3eec382ac708ee7adf874add37b77c5d312
+> > change-id: 20231030-sc8280xp-dpu-safe-lut-9769027b8452
+> >
+> > Best regards,
+> > --
+> > Bjorn Andersson <quic_bjorande@quicinc.com>
+> >
+>
+> --
+> =E0=AE=AE=E0=AE=A3=E0=AE=BF=E0=AE=B5=E0=AE=A3=E0=AF=8D=E0=AE=A3=E0=AE=A9=
+=E0=AF=8D =E0=AE=9A=E0=AE=A4=E0=AE=BE=E0=AE=9A=E0=AE=BF=E0=AE=B5=E0=AE=AE=
+=E0=AF=8D
