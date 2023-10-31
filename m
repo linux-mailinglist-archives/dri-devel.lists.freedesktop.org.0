@@ -2,46 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 772AA7DC4D9
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Oct 2023 04:25:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D03027DC4D5
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Oct 2023 04:25:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F21910E3F2;
-	Tue, 31 Oct 2023 03:25:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E6BF810E3EA;
+	Tue, 31 Oct 2023 03:24:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 091DF10E3E8;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B4CE10E3E7;
  Tue, 31 Oct 2023 03:24:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1698722695; x=1730258695;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=dKoZ0kOEZ2iqvNbACKeGFDgyXPuOICxAqTQoBIX1faM=;
- b=Z7CrNNKu4NmHm0JIOFh0KCwGg6mZZnvor5S9z68rU3F+dVfZBSzRXkVv
- DQQiIwceUB7FPu3eKja5q8puyxtBJNm+ZNJsS8V3tXTPsioripGDb5suk
- sscSKrqrPdstuaFNZWPe1yD6yDIxap6yY9Hw5VqPgFi3dNKozpqZz7fum
- CUKD6Ak+bRCRsA7HyK/pC3cHdRkcyFSKERSas9smTcM4htiDT/TduPLm9
- 9NqVLiaR0tXMCYTN9y9O80qO+G2UhD87vDMBVHUXDwE5Ejl7GSu1wH8K3
- tun7uHPHzryXYCJpZ6DQrgL+LFmWHKiNa+wtCoFL9PLAPasDehEJ/cDOn w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10879"; a="392069040"
-X-IronPort-AV: E=Sophos;i="6.03,264,1694761200"; d="scan'208";a="392069040"
+ bh=6FUUOB1fdorH3rqMKzR3Ljh46VBNJ0Xc0AtsnXNyGUI=;
+ b=UU8oSvzesnjQW3OCHhZSIQ2NnQ+qslBI4gQwtqiexNLfz1SBhdYrzcWd
+ En6UVuxZp8Ixc39d8JjFeY2bmBUSWzjbpeMuGkPMalx6pheCI0OYAlXaI
+ mg75aPg7XB+SyuuuUgf+CgfQdVTbhY2s03/Y5rYDakBVB+t8Xwk54MPoe
+ PpP0Azr8Ixb8iuZVZLR37Ym/01GjreroWtYxwPAfP7L9njeJMOqiAQLkY
+ scs7awE7c7QCGjYMRTxqchD5SatdibdLrbz+cxYldGzOD2h7y4wqc6ywf
+ QhW+MTfHHiTqmOyvv9ED2PaZ4yDkFhw/mPN+0kORp1uuCjQyiplpw8/ng Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10879"; a="392069052"
+X-IronPort-AV: E=Sophos;i="6.03,264,1694761200"; d="scan'208";a="392069052"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  30 Oct 2023 20:24:09 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.03,264,1694761200"; 
-   d="scan'208";a="1660987"
+   d="scan'208";a="1660995"
 Received: from lstrano-desk.jf.intel.com ([10.54.39.91])
  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Oct 2023 20:24:09 -0700
+ 30 Oct 2023 20:24:10 -0700
 From: Matthew Brost <matthew.brost@intel.com>
 To: dri-devel@lists.freedesktop.org,
 	intel-xe@lists.freedesktop.org
-Subject: [PATCH v8 2/5] drm/sched: Convert drm scheduler to use a work queue
- rather than kthread
-Date: Mon, 30 Oct 2023 20:24:36 -0700
-Message-Id: <20231031032439.1558703-3-matthew.brost@intel.com>
+Subject: [PATCH v8 3/5] drm/sched: Split free_job into own work item
+Date: Mon, 30 Oct 2023 20:24:37 -0700
+Message-Id: <20231031032439.1558703-4-matthew.brost@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20231031032439.1558703-1-matthew.brost@intel.com>
 References: <20231031032439.1558703-1-matthew.brost@intel.com>
@@ -61,530 +60,284 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: robdclark@chromium.org, thomas.hellstrom@linux.intel.com,
  Matthew Brost <matthew.brost@intel.com>, sarah.walker@imgtec.com,
- Luben Tuikov <luben.tuikov@amd.com>, ltuikov@yahoo.com, ketil.johnsen@arm.com,
- Liviu.Dudau@arm.com, mcanal@igalia.com, boris.brezillon@collabora.com,
- dakr@redhat.com, donald.robson@imgtec.com, lina@asahilina.net,
- christian.koenig@amd.com, faith.ekstrand@collabora.com
+ ltuikov@yahoo.com, ketil.johnsen@arm.com, Liviu.Dudau@arm.com,
+ mcanal@igalia.com, boris.brezillon@collabora.com, dakr@redhat.com,
+ donald.robson@imgtec.com, lina@asahilina.net, christian.koenig@amd.com,
+ faith.ekstrand@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In Xe, the new Intel GPU driver, a choice has made to have a 1 to 1
-mapping between a drm_gpu_scheduler and drm_sched_entity. At first this
-seems a bit odd but let us explain the reasoning below.
-
-1. In Xe the submission order from multiple drm_sched_entity is not
-guaranteed to be the same completion even if targeting the same hardware
-engine. This is because in Xe we have a firmware scheduler, the GuC,
-which allowed to reorder, timeslice, and preempt submissions. If a using
-shared drm_gpu_scheduler across multiple drm_sched_entity, the TDR falls
-apart as the TDR expects submission order == completion order. Using a
-dedicated drm_gpu_scheduler per drm_sched_entity solve this problem.
-
-2. In Xe submissions are done via programming a ring buffer (circular
-buffer), a drm_gpu_scheduler provides a limit on number of jobs, if the
-limit of number jobs is set to RING_SIZE / MAX_SIZE_PER_JOB we get flow
-control on the ring for free.
-
-A problem with this design is currently a drm_gpu_scheduler uses a
-kthread for submission / job cleanup. This doesn't scale if a large
-number of drm_gpu_scheduler are used. To work around the scaling issue,
-use a worker rather than kthread for submission / job cleanup.
+Rather than call free_job and run_job in same work item have a dedicated
+work item for each. This aligns with the design and intended use of work
+queues.
 
 v2:
-  - (Rob Clark) Fix msm build
-  - Pass in run work queue
+   - Test for DMA_FENCE_FLAG_TIMESTAMP_BIT before setting
+     timestamp in free_job() work item (Danilo)
 v3:
-  - (Boris) don't have loop in worker
+  - Drop forward dec of drm_sched_select_entity (Boris)
+  - Return in drm_sched_run_job_work if entity NULL (Boris)
 v4:
-  - (Tvrtko) break out submit ready, stop, start helpers into own patch
+  - Replace dequeue with peek and invert logic (Luben)
+  - Wrap to 100 lines (Luben)
+  - Update comments for *_queue / *_queue_if_ready functions (Luben)
 v5:
-  - (Boris) default to ordered work queue
+  - Drop peek argument, blindly reinit idle (Luben)
+  - s/drm_sched_free_job_queue_if_ready/drm_sched_free_job_queue_if_done (Luben)
+  - Update work_run_job & work_free_job kernel doc (Luben)
 v6:
-  - (Luben / checkpatch) fix alignment in msm_ringbuffer.c
-  - (Luben) s/drm_sched_submit_queue/drm_sched_wqueue_enqueue
-  - (Luben) Update comment for drm_sched_wqueue_enqueue
-  - (Luben) Positive check for submit_wq in drm_sched_init
-  - (Luben) s/alloc_submit_wq/own_submit_wq
-v7:
-  - (Luben) s/drm_sched_wqueue_enqueue/drm_sched_run_job_queue
-v8:
-  - (Luben) Adjust var names / comments
+  - Do not move drm_sched_select_entity in file (Luben)
 
 Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-Reviewed-by: Luben Tuikov <luben.tuikov@amd.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c |   2 +-
- drivers/gpu/drm/etnaviv/etnaviv_sched.c    |   2 +-
- drivers/gpu/drm/lima/lima_sched.c          |   2 +-
- drivers/gpu/drm/msm/msm_ringbuffer.c       |   2 +-
- drivers/gpu/drm/nouveau/nouveau_sched.c    |   2 +-
- drivers/gpu/drm/panfrost/panfrost_job.c    |   2 +-
- drivers/gpu/drm/scheduler/sched_main.c     | 131 +++++++++++----------
- drivers/gpu/drm/v3d/v3d_sched.c            |  10 +-
- include/drm/gpu_scheduler.h                |  14 ++-
- 9 files changed, 86 insertions(+), 81 deletions(-)
+ drivers/gpu/drm/scheduler/sched_main.c | 146 +++++++++++++++++--------
+ include/drm/gpu_scheduler.h            |   4 +-
+ 2 files changed, 101 insertions(+), 49 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-index d20c12aae66b..f493ffa1feec 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-@@ -2491,7 +2491,7 @@ static int amdgpu_device_init_schedulers(struct amdgpu_device *adev)
- 			break;
- 		}
- 
--		r = drm_sched_init(&ring->sched, &amdgpu_sched_ops,
-+		r = drm_sched_init(&ring->sched, &amdgpu_sched_ops, NULL,
- 				   DRM_SCHED_PRIORITY_COUNT,
- 				   ring->num_hw_submission, 0,
- 				   timeout, adev->reset_domain->wq,
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.c b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-index 9b79f218e21a..c4b04b0dee16 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-@@ -134,7 +134,7 @@ int etnaviv_sched_init(struct etnaviv_gpu *gpu)
- {
- 	int ret;
- 
--	ret = drm_sched_init(&gpu->sched, &etnaviv_sched_ops,
-+	ret = drm_sched_init(&gpu->sched, &etnaviv_sched_ops, NULL,
- 			     DRM_SCHED_PRIORITY_COUNT,
- 			     etnaviv_hw_jobs_limit, etnaviv_job_hang_limit,
- 			     msecs_to_jiffies(500), NULL, NULL,
-diff --git a/drivers/gpu/drm/lima/lima_sched.c b/drivers/gpu/drm/lima/lima_sched.c
-index 295f0353a02e..aa030e1f7cda 100644
---- a/drivers/gpu/drm/lima/lima_sched.c
-+++ b/drivers/gpu/drm/lima/lima_sched.c
-@@ -488,7 +488,7 @@ int lima_sched_pipe_init(struct lima_sched_pipe *pipe, const char *name)
- 
- 	INIT_WORK(&pipe->recover_work, lima_sched_recover_work);
- 
--	return drm_sched_init(&pipe->base, &lima_sched_ops,
-+	return drm_sched_init(&pipe->base, &lima_sched_ops, NULL,
- 			      DRM_SCHED_PRIORITY_COUNT,
- 			      1,
- 			      lima_job_hang_limit,
-diff --git a/drivers/gpu/drm/msm/msm_ringbuffer.c b/drivers/gpu/drm/msm/msm_ringbuffer.c
-index 95257ab0185d..4968568e3b54 100644
---- a/drivers/gpu/drm/msm/msm_ringbuffer.c
-+++ b/drivers/gpu/drm/msm/msm_ringbuffer.c
-@@ -94,7 +94,7 @@ struct msm_ringbuffer *msm_ringbuffer_new(struct msm_gpu *gpu, int id,
- 	 /* currently managing hangcheck ourselves: */
- 	sched_timeout = MAX_SCHEDULE_TIMEOUT;
- 
--	ret = drm_sched_init(&ring->sched, &msm_sched_ops,
-+	ret = drm_sched_init(&ring->sched, &msm_sched_ops, NULL,
- 			     DRM_SCHED_PRIORITY_COUNT,
- 			     num_hw_submissions, 0, sched_timeout,
- 			     NULL, NULL, to_msm_bo(ring->bo)->name, gpu->dev->dev);
-diff --git a/drivers/gpu/drm/nouveau/nouveau_sched.c b/drivers/gpu/drm/nouveau/nouveau_sched.c
-index 7c376c4ccdcf..c4ba56b1a6dd 100644
---- a/drivers/gpu/drm/nouveau/nouveau_sched.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_sched.c
-@@ -435,7 +435,7 @@ int nouveau_sched_init(struct nouveau_drm *drm)
- 	if (!drm->sched_wq)
- 		return -ENOMEM;
- 
--	return drm_sched_init(sched, &nouveau_sched_ops,
-+	return drm_sched_init(sched, &nouveau_sched_ops, NULL,
- 			      DRM_SCHED_PRIORITY_COUNT,
- 			      NOUVEAU_SCHED_HW_SUBMISSIONS, 0, job_hang_limit,
- 			      NULL, NULL, "nouveau_sched", drm->dev->dev);
-diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
-index ecd2e035147f..6d89e24322db 100644
---- a/drivers/gpu/drm/panfrost/panfrost_job.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_job.c
-@@ -852,7 +852,7 @@ int panfrost_job_init(struct panfrost_device *pfdev)
- 		js->queue[j].fence_context = dma_fence_context_alloc(1);
- 
- 		ret = drm_sched_init(&js->queue[j].sched,
--				     &panfrost_sched_ops,
-+				     &panfrost_sched_ops, NULL,
- 				     DRM_SCHED_PRIORITY_COUNT,
- 				     nentries, 0,
- 				     msecs_to_jiffies(JOB_TIMEOUT_MS),
 diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-index 54c1c5fe01ba..d1ae05bded15 100644
+index d1ae05bded15..3b1b2f8eafe8 100644
 --- a/drivers/gpu/drm/scheduler/sched_main.c
 +++ b/drivers/gpu/drm/scheduler/sched_main.c
-@@ -48,7 +48,6 @@
-  * through the jobs entity pointer.
-  */
- 
--#include <linux/kthread.h>
- #include <linux/wait.h>
- #include <linux/sched.h>
- #include <linux/completion.h>
-@@ -256,6 +255,16 @@ drm_sched_rq_select_entity_fifo(struct drm_sched_rq *rq)
- 	return rb ? rb_entry(rb, struct drm_sched_entity, rb_tree_node) : NULL;
+@@ -265,6 +265,32 @@ static void drm_sched_run_job_queue(struct drm_gpu_scheduler *sched)
+ 		queue_work(sched->submit_wq, &sched->work_run_job);
  }
  
 +/**
-+ * drm_sched_run_job_queue - enqueue run-job work
++ * drm_sched_free_job_queue - enqueue free-job work
 + * @sched: scheduler instance
 + */
-+static void drm_sched_run_job_queue(struct drm_gpu_scheduler *sched)
++static void drm_sched_free_job_queue(struct drm_gpu_scheduler *sched)
 +{
 +	if (!READ_ONCE(sched->pause_submit))
-+		queue_work(sched->submit_wq, &sched->work_run_job);
++		queue_work(sched->submit_wq, &sched->work_free_job);
++}
++
++/**
++ * drm_sched_free_job_queue_if_done - enqueue free-job work if ready
++ * @sched: scheduler instance
++ */
++static void drm_sched_free_job_queue_if_done(struct drm_gpu_scheduler *sched)
++{
++	struct drm_sched_job *job;
++
++	spin_lock(&sched->job_list_lock);
++	job = list_first_entry_or_null(&sched->pending_list,
++				       struct drm_sched_job, list);
++	if (job && dma_fence_is_signaled(&job->s_fence->finished))
++		drm_sched_free_job_queue(sched);
++	spin_unlock(&sched->job_list_lock);
 +}
 +
  /**
   * drm_sched_job_done - complete a job
   * @s_job: pointer to the job which is done
-@@ -275,7 +284,7 @@ static void drm_sched_job_done(struct drm_sched_job *s_job, int result)
+@@ -284,7 +310,7 @@ static void drm_sched_job_done(struct drm_sched_job *s_job, int result)
  	dma_fence_get(&s_fence->finished);
  	drm_sched_fence_finished(s_fence, result);
  	dma_fence_put(&s_fence->finished);
--	wake_up_interruptible(&sched->wake_up_worker);
-+	drm_sched_run_job_queue(sched);
+-	drm_sched_run_job_queue(sched);
++	drm_sched_free_job_queue(sched);
  }
  
  /**
-@@ -874,7 +883,7 @@ static bool drm_sched_can_queue(struct drm_gpu_scheduler *sched)
- void drm_sched_wakeup_if_can_queue(struct drm_gpu_scheduler *sched)
- {
- 	if (drm_sched_can_queue(sched))
--		wake_up_interruptible(&sched->wake_up_worker);
-+		drm_sched_run_job_queue(sched);
- }
+@@ -943,8 +969,10 @@ drm_sched_get_cleanup_job(struct drm_gpu_scheduler *sched)
+ 						typeof(*next), list);
  
- /**
-@@ -985,60 +994,41 @@ drm_sched_pick_best(struct drm_gpu_scheduler **sched_list,
+ 		if (next) {
+-			next->s_fence->scheduled.timestamp =
+-				dma_fence_timestamp(&job->s_fence->finished);
++			if (test_bit(DMA_FENCE_FLAG_TIMESTAMP_BIT,
++				     &next->s_fence->scheduled.flags))
++				next->s_fence->scheduled.timestamp =
++					dma_fence_timestamp(&job->s_fence->finished);
+ 			/* start TO timer for next job */
+ 			drm_sched_start_timeout(sched);
+ 		}
+@@ -994,7 +1022,40 @@ drm_sched_pick_best(struct drm_gpu_scheduler **sched_list,
  EXPORT_SYMBOL(drm_sched_pick_best);
  
  /**
-- * drm_sched_blocked - check if the scheduler is blocked
-+ * drm_sched_run_job_work - main scheduler thread
-  *
-- * @sched: scheduler instance
-- *
-- * Returns true if blocked, otherwise false.
-+ * @w: run job work
-  */
--static bool drm_sched_blocked(struct drm_gpu_scheduler *sched)
-+static void drm_sched_run_job_work(struct work_struct *w)
- {
--	if (kthread_should_park()) {
--		kthread_parkme();
--		return true;
--	}
--
--	return false;
--}
--
--/**
-- * drm_sched_main - main scheduler thread
-- *
-- * @param: scheduler instance
-- *
-- * Returns 0.
-- */
--static int drm_sched_main(void *param)
--{
--	struct drm_gpu_scheduler *sched = (struct drm_gpu_scheduler *)param;
+- * drm_sched_run_job_work - main scheduler thread
++ * drm_sched_run_job_queue_if_ready - enqueue run-job work if ready
++ * @sched: scheduler instance
++ */
++static void drm_sched_run_job_queue_if_ready(struct drm_gpu_scheduler *sched)
++{
++	if (drm_sched_select_entity(sched))
++		drm_sched_run_job_queue(sched);
++}
++
++/**
++ * drm_sched_free_job_work - worker to call free_job
++ *
++ * @w: free job work
++ */
++static void drm_sched_free_job_work(struct work_struct *w)
++{
 +	struct drm_gpu_scheduler *sched =
-+		container_of(w, struct drm_gpu_scheduler, work_run_job);
-+	struct drm_sched_entity *entity;
++		container_of(w, struct drm_gpu_scheduler, work_free_job);
 +	struct drm_sched_job *cleanup_job;
- 	int r;
- 
--	sched_set_fifo_low(current);
++
 +	if (READ_ONCE(sched->pause_submit))
 +		return;
++
++	cleanup_job = drm_sched_get_cleanup_job(sched);
++	if (cleanup_job) {
++		sched->ops->free_job(cleanup_job);
++
++		drm_sched_free_job_queue_if_done(sched);
++		drm_sched_run_job_queue_if_ready(sched);
++	}
++}
++
++/**
++ * drm_sched_run_job_work - worker to call run_job
+  *
+  * @w: run job work
+  */
+@@ -1003,65 +1064,51 @@ static void drm_sched_run_job_work(struct work_struct *w)
+ 	struct drm_gpu_scheduler *sched =
+ 		container_of(w, struct drm_gpu_scheduler, work_run_job);
+ 	struct drm_sched_entity *entity;
+-	struct drm_sched_job *cleanup_job;
++	struct dma_fence *fence;
++	struct drm_sched_fence *s_fence;
++	struct drm_sched_job *sched_job;
+ 	int r;
  
--	while (!kthread_should_stop()) {
--		struct drm_sched_entity *entity = NULL;
+ 	if (READ_ONCE(sched->pause_submit))
+ 		return;
+ 
+-	cleanup_job = drm_sched_get_cleanup_job(sched);
+ 	entity = drm_sched_select_entity(sched);
++	if (!entity)
++		return;
+ 
+-	if (!entity && !cleanup_job)
++	sched_job = drm_sched_entity_pop_job(entity);
++	if (!sched_job) {
++		complete_all(&entity->entity_idle);
+ 		return;	/* No more work */
++	}
+ 
+-	if (cleanup_job)
+-		sched->ops->free_job(cleanup_job);
+-
+-	if (entity) {
+-		struct dma_fence *fence;
 -		struct drm_sched_fence *s_fence;
 -		struct drm_sched_job *sched_job;
--		struct dma_fence *fence;
--		struct drm_sched_job *cleanup_job = NULL;
-+	cleanup_job = drm_sched_get_cleanup_job(sched);
-+	entity = drm_sched_select_entity(sched);
- 
--		wait_event_interruptible(sched->wake_up_worker,
--					 (cleanup_job = drm_sched_get_cleanup_job(sched)) ||
--					 (!drm_sched_blocked(sched) &&
--					  (entity = drm_sched_select_entity(sched))) ||
--					 kthread_should_stop());
-+	if (!entity && !cleanup_job)
-+		return;	/* No more work */
- 
--		if (cleanup_job)
--			sched->ops->free_job(cleanup_job);
-+	if (cleanup_job)
-+		sched->ops->free_job(cleanup_job);
- 
--		if (!entity)
--			continue;
-+	if (entity) {
-+		struct dma_fence *fence;
-+		struct drm_sched_fence *s_fence;
-+		struct drm_sched_job *sched_job;
- 
- 		sched_job = drm_sched_entity_pop_job(entity);
 -
- 		if (!sched_job) {
- 			complete_all(&entity->entity_idle);
--			continue;
-+			if (!cleanup_job)
-+				return;	/* No more work */
-+			goto again;
- 		}
+-		sched_job = drm_sched_entity_pop_job(entity);
+-		if (!sched_job) {
+-			complete_all(&entity->entity_idle);
+-			if (!cleanup_job)
+-				return;	/* No more work */
+-			goto again;
+-		}
+-
+-		s_fence = sched_job->s_fence;
+-
+-		atomic_inc(&sched->hw_rq_count);
+-		drm_sched_job_begin(sched_job);
++	s_fence = sched_job->s_fence;
  
- 		s_fence = sched_job->s_fence;
-@@ -1069,7 +1059,9 @@ static int drm_sched_main(void *param)
+-		trace_drm_run_job(sched_job, entity);
+-		fence = sched->ops->run_job(sched_job);
+-		complete_all(&entity->entity_idle);
+-		drm_sched_fence_scheduled(s_fence, fence);
++	atomic_inc(&sched->hw_rq_count);
++	drm_sched_job_begin(sched_job);
  
- 		wake_up(&sched->job_scheduled);
+-		if (!IS_ERR_OR_NULL(fence)) {
+-			/* Drop for original kref_init of the fence */
+-			dma_fence_put(fence);
++	trace_drm_run_job(sched_job, entity);
++	fence = sched->ops->run_job(sched_job);
++	complete_all(&entity->entity_idle);
++	drm_sched_fence_scheduled(s_fence, fence);
+ 
+-			r = dma_fence_add_callback(fence, &sched_job->cb,
+-						   drm_sched_job_done_cb);
+-			if (r == -ENOENT)
+-				drm_sched_job_done(sched_job, fence->error);
+-			else if (r)
+-				DRM_DEV_ERROR(sched->dev, "fence add callback failed (%d)\n",
+-					  r);
+-		} else {
+-			drm_sched_job_done(sched_job, IS_ERR(fence) ?
+-					   PTR_ERR(fence) : 0);
+-		}
++	if (!IS_ERR_OR_NULL(fence)) {
++		/* Drop for original kref_init of the fence */
++		dma_fence_put(fence);
+ 
+-		wake_up(&sched->job_scheduled);
++		r = dma_fence_add_callback(fence, &sched_job->cb,
++					   drm_sched_job_done_cb);
++		if (r == -ENOENT)
++			drm_sched_job_done(sched_job, fence->error);
++		else if (r)
++			DRM_DEV_ERROR(sched->dev, "fence add callback failed (%d)\n", r);
++	} else {
++		drm_sched_job_done(sched_job, IS_ERR(fence) ?
++				   PTR_ERR(fence) : 0);
  	}
--	return 0;
-+
-+again:
-+	drm_sched_run_job_queue(sched);
+ 
+-again:
+-	drm_sched_run_job_queue(sched);
++	wake_up(&sched->job_scheduled);
++	drm_sched_run_job_queue_if_ready(sched);
  }
  
  /**
-@@ -1077,6 +1069,8 @@ static int drm_sched_main(void *param)
-  *
-  * @sched: scheduler instance
-  * @ops: backend operations for this scheduler
-+ * @submit_wq: workqueue to use for submission. If NULL, an ordered wq is
-+ *	       allocated and used
-  * @num_rqs: number of runqueues, one for each priority, up to DRM_SCHED_PRIORITY_COUNT
-  * @hw_submission: number of hw submissions that can be in flight
-  * @hang_limit: number of times to allow a job to hang before dropping it
-@@ -1091,6 +1085,7 @@ static int drm_sched_main(void *param)
-  */
- int drm_sched_init(struct drm_gpu_scheduler *sched,
- 		   const struct drm_sched_backend_ops *ops,
-+		   struct workqueue_struct *submit_wq,
- 		   u32 num_rqs, uint32_t hw_submission, unsigned int hang_limit,
- 		   long timeout, struct workqueue_struct *timeout_wq,
- 		   atomic_t *score, const char *name, struct device *dev)
-@@ -1121,14 +1116,22 @@ int drm_sched_init(struct drm_gpu_scheduler *sched,
- 		return 0;
- 	}
- 
-+	if (submit_wq) {
-+		sched->submit_wq = submit_wq;
-+		sched->own_submit_wq = false;
-+	} else {
-+		sched->submit_wq = alloc_ordered_workqueue(name, 0);
-+		if (!sched->submit_wq)
-+			return -ENOMEM;
-+
-+		sched->own_submit_wq = true;
-+	}
-+	ret = -ENOMEM;
- 	sched->sched_rq = kmalloc_array(num_rqs, sizeof(*sched->sched_rq),
- 					GFP_KERNEL | __GFP_ZERO);
--	if (!sched->sched_rq) {
--		drm_err(sched, "%s: out of memory for sched_rq\n", __func__);
--		return -ENOMEM;
--	}
-+	if (!sched->sched_rq)
-+		goto Out_free;
- 	sched->num_rqs = num_rqs;
--	ret = -ENOMEM;
- 	for (i = DRM_SCHED_PRIORITY_MIN; i < sched->num_rqs; i++) {
- 		sched->sched_rq[i] = kzalloc(sizeof(*sched->sched_rq[i]), GFP_KERNEL);
- 		if (!sched->sched_rq[i])
-@@ -1136,31 +1139,26 @@ int drm_sched_init(struct drm_gpu_scheduler *sched,
- 		drm_sched_rq_init(sched, sched->sched_rq[i]);
- 	}
- 
--	init_waitqueue_head(&sched->wake_up_worker);
- 	init_waitqueue_head(&sched->job_scheduled);
- 	INIT_LIST_HEAD(&sched->pending_list);
- 	spin_lock_init(&sched->job_list_lock);
+@@ -1145,6 +1192,7 @@ int drm_sched_init(struct drm_gpu_scheduler *sched,
  	atomic_set(&sched->hw_rq_count, 0);
  	INIT_DELAYED_WORK(&sched->work_tdr, drm_sched_job_timedout);
-+	INIT_WORK(&sched->work_run_job, drm_sched_run_job_work);
+ 	INIT_WORK(&sched->work_run_job, drm_sched_run_job_work);
++	INIT_WORK(&sched->work_free_job, drm_sched_free_job_work);
  	atomic_set(&sched->_score, 0);
  	atomic64_set(&sched->job_id_count, 0);
--
--	/* Each scheduler will run on a seperate kernel thread */
--	sched->thread = kthread_run(drm_sched_main, sched, sched->name);
--	if (IS_ERR(sched->thread)) {
--		ret = PTR_ERR(sched->thread);
--		sched->thread = NULL;
--		DRM_DEV_ERROR(sched->dev, "Failed to create scheduler for %s.\n", name);
--		goto Out_unroll;
--	}
-+	sched->pause_submit = false;
- 
- 	sched->ready = true;
- 	return 0;
- Out_unroll:
- 	for (--i ; i >= DRM_SCHED_PRIORITY_MIN; i--)
- 		kfree(sched->sched_rq[i]);
-+Out_free:
- 	kfree(sched->sched_rq);
- 	sched->sched_rq = NULL;
-+	if (sched->own_submit_wq)
-+		destroy_workqueue(sched->submit_wq);
- 	drm_err(sched, "%s: Failed to setup GPU scheduler--out of memory\n", __func__);
- 	return ret;
- }
-@@ -1178,8 +1176,7 @@ void drm_sched_fini(struct drm_gpu_scheduler *sched)
- 	struct drm_sched_entity *s_entity;
- 	int i;
- 
--	if (sched->thread)
--		kthread_stop(sched->thread);
-+	drm_sched_wqueue_stop(sched);
- 
- 	for (i = sched->num_rqs - 1; i >= DRM_SCHED_PRIORITY_MIN; i--) {
- 		struct drm_sched_rq *rq = sched->sched_rq[i];
-@@ -1202,6 +1199,8 @@ void drm_sched_fini(struct drm_gpu_scheduler *sched)
- 	/* Confirm no work left behind accessing device structures */
- 	cancel_delayed_work_sync(&sched->work_tdr);
- 
-+	if (sched->own_submit_wq)
-+		destroy_workqueue(sched->submit_wq);
- 	sched->ready = false;
- 	kfree(sched->sched_rq);
- 	sched->sched_rq = NULL;
-@@ -1262,7 +1261,7 @@ EXPORT_SYMBOL(drm_sched_increase_karma);
-  */
- bool drm_sched_wqueue_ready(struct drm_gpu_scheduler *sched)
+ 	sched->pause_submit = false;
+@@ -1274,6 +1322,7 @@ void drm_sched_wqueue_stop(struct drm_gpu_scheduler *sched)
  {
--	return !!sched->thread;
-+	return sched->ready;
- }
- EXPORT_SYMBOL(drm_sched_wqueue_ready);
- 
-@@ -1273,7 +1272,8 @@ EXPORT_SYMBOL(drm_sched_wqueue_ready);
-  */
- void drm_sched_wqueue_stop(struct drm_gpu_scheduler *sched)
- {
--	kthread_park(sched->thread);
-+	WRITE_ONCE(sched->pause_submit, true);
-+	cancel_work_sync(&sched->work_run_job);
+ 	WRITE_ONCE(sched->pause_submit, true);
+ 	cancel_work_sync(&sched->work_run_job);
++	cancel_work_sync(&sched->work_free_job);
  }
  EXPORT_SYMBOL(drm_sched_wqueue_stop);
  
-@@ -1284,6 +1284,7 @@ EXPORT_SYMBOL(drm_sched_wqueue_stop);
-  */
- void drm_sched_wqueue_start(struct drm_gpu_scheduler *sched)
+@@ -1286,5 +1335,6 @@ void drm_sched_wqueue_start(struct drm_gpu_scheduler *sched)
  {
--	kthread_unpark(sched->thread);
-+	WRITE_ONCE(sched->pause_submit, false);
-+	queue_work(sched->submit_wq, &sched->work_run_job);
+ 	WRITE_ONCE(sched->pause_submit, false);
+ 	queue_work(sched->submit_wq, &sched->work_run_job);
++	queue_work(sched->submit_wq, &sched->work_free_job);
  }
  EXPORT_SYMBOL(drm_sched_wqueue_start);
-diff --git a/drivers/gpu/drm/v3d/v3d_sched.c b/drivers/gpu/drm/v3d/v3d_sched.c
-index 038e1ae589c7..0b6696b0d882 100644
---- a/drivers/gpu/drm/v3d/v3d_sched.c
-+++ b/drivers/gpu/drm/v3d/v3d_sched.c
-@@ -388,7 +388,7 @@ v3d_sched_init(struct v3d_dev *v3d)
- 	int ret;
- 
- 	ret = drm_sched_init(&v3d->queue[V3D_BIN].sched,
--			     &v3d_bin_sched_ops,
-+			     &v3d_bin_sched_ops, NULL,
- 			     DRM_SCHED_PRIORITY_COUNT,
- 			     hw_jobs_limit, job_hang_limit,
- 			     msecs_to_jiffies(hang_limit_ms), NULL,
-@@ -397,7 +397,7 @@ v3d_sched_init(struct v3d_dev *v3d)
- 		return ret;
- 
- 	ret = drm_sched_init(&v3d->queue[V3D_RENDER].sched,
--			     &v3d_render_sched_ops,
-+			     &v3d_render_sched_ops, NULL,
- 			     DRM_SCHED_PRIORITY_COUNT,
- 			     hw_jobs_limit, job_hang_limit,
- 			     msecs_to_jiffies(hang_limit_ms), NULL,
-@@ -406,7 +406,7 @@ v3d_sched_init(struct v3d_dev *v3d)
- 		goto fail;
- 
- 	ret = drm_sched_init(&v3d->queue[V3D_TFU].sched,
--			     &v3d_tfu_sched_ops,
-+			     &v3d_tfu_sched_ops, NULL,
- 			     DRM_SCHED_PRIORITY_COUNT,
- 			     hw_jobs_limit, job_hang_limit,
- 			     msecs_to_jiffies(hang_limit_ms), NULL,
-@@ -416,7 +416,7 @@ v3d_sched_init(struct v3d_dev *v3d)
- 
- 	if (v3d_has_csd(v3d)) {
- 		ret = drm_sched_init(&v3d->queue[V3D_CSD].sched,
--				     &v3d_csd_sched_ops,
-+				     &v3d_csd_sched_ops, NULL,
- 				     DRM_SCHED_PRIORITY_COUNT,
- 				     hw_jobs_limit, job_hang_limit,
- 				     msecs_to_jiffies(hang_limit_ms), NULL,
-@@ -425,7 +425,7 @@ v3d_sched_init(struct v3d_dev *v3d)
- 			goto fail;
- 
- 		ret = drm_sched_init(&v3d->queue[V3D_CACHE_CLEAN].sched,
--				     &v3d_cache_clean_sched_ops,
-+				     &v3d_cache_clean_sched_ops, NULL,
- 				     DRM_SCHED_PRIORITY_COUNT,
- 				     hw_jobs_limit, job_hang_limit,
- 				     msecs_to_jiffies(hang_limit_ms), NULL,
 diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-index 1d5a20af4a06..e0e7c4eb57d9 100644
+index e0e7c4eb57d9..677ba96759ab 100644
 --- a/include/drm/gpu_scheduler.h
 +++ b/include/drm/gpu_scheduler.h
-@@ -474,17 +474,16 @@ struct drm_sched_backend_ops {
-  * @num_rqs: Number of run-queues. This is at most DRM_SCHED_PRIORITY_COUNT,
-  *           as there's usually one run-queue per priority, but could be less.
-  * @sched_rq: An allocated array of run-queues of size @num_rqs;
-- * @wake_up_worker: the wait queue on which the scheduler sleeps until a job
-- *                  is ready to be scheduled.
-  * @job_scheduled: once @drm_sched_entity_do_release is called the scheduler
-  *                 waits on this wait queue until all the scheduled jobs are
+@@ -479,9 +479,10 @@ struct drm_sched_backend_ops {
   *                 finished.
   * @hw_rq_count: the number of jobs currently in the hardware queue.
   * @job_id_count: used to assign unique id to the each job.
-+ * @submit_wq: workqueue used to queue @work_run_job
+- * @submit_wq: workqueue used to queue @work_run_job
++ * @submit_wq: workqueue used to queue @work_run_job and @work_free_job
   * @timeout_wq: workqueue used to queue @work_tdr
-+ * @work_run_job: work which calls run_job op of each scheduler.
+  * @work_run_job: work which calls run_job op of each scheduler.
++ * @work_free_job: work which calls free_job op of each scheduler.
   * @work_tdr: schedules a delayed call to @drm_sched_job_timedout after the
   *            timeout interval is over.
-- * @thread: the kthread on which the scheduler which run.
   * @pending_list: the list of jobs which are currently in the job queue.
-  * @job_list_lock: lock to protect the pending_list.
-  * @hang_limit: once the hangs by a job crosses this limit then it is marked
-@@ -493,6 +492,8 @@ struct drm_sched_backend_ops {
-  * @_score: score used when the driver doesn't provide one
-  * @ready: marks if the underlying HW is ready to work
-  * @free_guilty: A hit to time out handler to free the guilty job.
-+ * @pause_submit: pause queuing of @work_run_job on @submit_wq
-+ * @own_submit_wq: scheduler owns allocation of @submit_wq
-  * @dev: system &struct device
-  *
-  * One scheduler is implemented for each hardware ring.
-@@ -504,13 +505,13 @@ struct drm_gpu_scheduler {
- 	const char			*name;
- 	u32                             num_rqs;
- 	struct drm_sched_rq             **sched_rq;
--	wait_queue_head_t		wake_up_worker;
- 	wait_queue_head_t		job_scheduled;
- 	atomic_t			hw_rq_count;
- 	atomic64_t			job_id_count;
-+	struct workqueue_struct		*submit_wq;
+@@ -511,6 +512,7 @@ struct drm_gpu_scheduler {
+ 	struct workqueue_struct		*submit_wq;
  	struct workqueue_struct		*timeout_wq;
-+	struct work_struct		work_run_job;
+ 	struct work_struct		work_run_job;
++	struct work_struct		work_free_job;
  	struct delayed_work		work_tdr;
--	struct task_struct		*thread;
  	struct list_head		pending_list;
  	spinlock_t			job_list_lock;
- 	int				hang_limit;
-@@ -518,11 +519,14 @@ struct drm_gpu_scheduler {
- 	atomic_t                        _score;
- 	bool				ready;
- 	bool				free_guilty;
-+	bool				pause_submit;
-+	bool				own_submit_wq;
- 	struct device			*dev;
- };
- 
- int drm_sched_init(struct drm_gpu_scheduler *sched,
- 		   const struct drm_sched_backend_ops *ops,
-+		   struct workqueue_struct *submit_wq,
- 		   u32 num_rqs, uint32_t hw_submission, unsigned int hang_limit,
- 		   long timeout, struct workqueue_struct *timeout_wq,
- 		   atomic_t *score, const char *name, struct device *dev);
 -- 
 2.34.1
 
