@@ -2,85 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65B0A7DD582
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Oct 2023 18:53:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1A377DD589
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Oct 2023 18:53:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5FD5310E593;
-	Tue, 31 Oct 2023 17:52:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3191910E59F;
+	Tue, 31 Oct 2023 17:53:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B3F9510E593
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Oct 2023 17:52:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1698774773;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=MM0l2/ZF5doyc+5WQup6Ywo/07BlpO+C3i/f3pi7EBM=;
- b=LbFe3+E2NGZTMLxmGeJcC+Tu5zbjPpTd3/dGYyLl9hnYOKM8KzMgYNX7CkqpYRvCqm61KU
- y07gi2mIdul8UQM+T0vuU9DGOPXgh7wM1NtjD0QcKBHaBJ6GqpJ17ftGmjY1mfbJaaXm0j
- L3Kl+RAD5R98rMFPmi1Qegp4dCaOEE4=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-526-ztt7NYcyPEi2L1v7RY3BHA-1; Tue, 31 Oct 2023 13:52:52 -0400
-X-MC-Unique: ztt7NYcyPEi2L1v7RY3BHA-1
-Received: by mail-ed1-f70.google.com with SMTP id
- 4fb4d7f45d1cf-5218b9647a8so4358216a12.1
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Oct 2023 10:52:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1698774771; x=1699379571;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=MM0l2/ZF5doyc+5WQup6Ywo/07BlpO+C3i/f3pi7EBM=;
- b=frdKz/3MIzsbNWgaaJFfs7N992Vep6HsKhVNZA6zOpaSIq/V85PzlI9dzuZs/JH+Vc
- +C86DRE0uUKxCPSu+SaSLZMHFxLmWABbcBUJ4l03iXd3CqGzBNW8fok3+G7OwKXgXJgg
- /TYYit6vAzvsFT8GO4gsiBsQZv6O3y7AxkWZwxd6tNEc6RJsTKaBIZ+SniAYJi5qur7b
- 1G66pwuyIm6xBt64NypYrbw5JxdJPMNr07diPuJ0NNoVsa62QXyuY1qa48lS7mtSJC+c
- u0cERbJnWEFnuMq2NdPH2gtUY6gKoGe9vS+7RgYZA5p98USudkdNGXJ+anPW1M1VTgl8
- jCbw==
-X-Gm-Message-State: AOJu0YwQFHd04l3S7/+Ix2jbby9wRBBHgEqZI265UJv/cEdfPxfT3Z3p
- gGEtYskBJN12P7ZSz6RrTgEGOwU/BqwACWzrdLVJW+jMtiIL7waS6M3zZiE9/w7i99w9FsnfM1g
- yZseCONw144E6xejkNHGXsgx7HSCH
-X-Received: by 2002:a05:6402:5214:b0:540:caed:3619 with SMTP id
- s20-20020a056402521400b00540caed3619mr14093188edd.24.1698774769052; 
- Tue, 31 Oct 2023 10:52:49 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEqrQl2BkPvKjejlZpdYejly+6BkpnQx23fRbw5JtUR23RuBxlpngOmivqZXHT036Dx+L2nJA==
-X-Received: by 2002:a05:6402:5214:b0:540:caed:3619 with SMTP id
- s20-20020a056402521400b00540caed3619mr14093033edd.24.1698774767721; 
- Tue, 31 Oct 2023 10:52:47 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:4b3f:de9c:abf:b8ff:feee:998b?
- ([2a02:810d:4b3f:de9c:abf:b8ff:feee:998b])
- by smtp.gmail.com with ESMTPSA id
- b8-20020a50ccc8000000b0053e15aefb0fsm1512922edj.85.2023.10.31.10.52.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 31 Oct 2023 10:52:47 -0700 (PDT)
-Message-ID: <b09e37f3-33f6-4ea8-876b-f0bee9627ced@redhat.com>
-Date: Tue, 31 Oct 2023 18:52:45 +0100
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8BEDF10E59F
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Oct 2023 17:53:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=o2E3veqHg9OrVeSCRKWiZ1+wEoUp/PDuBKg96qAOXiQ=; b=my5RucsTfxH7smQjbgy0UExDk0
+ KN+aCl13wjSI9aT0Tie5qmQfcbIO2vf5BOXKw1/2yzVvXgrKxgoaFm8YFmSc7q9eufSyoIH+kLtRP
+ 5LfjmHw1GEDlyvePW2/AcDGYMevNEvpibcrNlThdGMB1WL8lMvmakxqx1iMNnNMAIls/uj8iTcLsq
+ OWMmS+l3iR2knBy1tLc4PJUvaMvoHQzRIKqjBJF5CeCRkUVfyu9qjaXARnt5jbAaVG01lq3sg0gOr
+ N0Z4s8ZiWLmKoPt9NbW+v3ygX3qwn/ylyRPQGH5i7cuaUwjn9JoM3QZo+QZrpcpsces7BiZ5FMlER
+ BeJrcKHQ==;
+Received: from gwsc.sc.usp.br ([143.107.225.16] helo=[172.20.12.146])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1qxsvv-00FU3i-Et; Tue, 31 Oct 2023 18:53:43 +0100
+Message-ID: <d3ed80e5-b3a1-e9ba-48eb-7c6fc58ef3f9@igalia.com>
+Date: Tue, 31 Oct 2023 14:53:35 -0300
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH drm-misc-next v7 4/7] drm/gpuvm: add an abstraction for a
- VM / BO combination
-To: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- airlied@gmail.com, daniel@ffwll.ch, matthew.brost@intel.com,
- sarah.walker@imgtec.com, donald.robson@imgtec.com,
- boris.brezillon@collabora.com, christian.koenig@amd.com, faith@gfxstrand.net
-References: <20231023201659.25332-1-dakr@redhat.com>
- <20231023201659.25332-5-dakr@redhat.com>
- <4a51c1cd9e2435332e033f9426bac8fae1c21c60.camel@linux.intel.com>
- <980754a3-7f5a-465e-88a9-62a40c82cae8@redhat.com>
- <ab8f30452540171447118d64931e66da96b6e85e.camel@linux.intel.com>
-From: Danilo Krummrich <dakr@redhat.com>
-Organization: RedHat
-In-Reply-To: <ab8f30452540171447118d64931e66da96b6e85e.camel@linux.intel.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v3 3/4] dt-bindings: gpu: v3d: Add BCM2712's compatible
+To: Iago Toral Quiroga <itoral@igalia.com>, dri-devel@lists.freedesktop.org
+References: <20231031073859.25298-1-itoral@igalia.com>
+ <20231031073859.25298-4-itoral@igalia.com>
 Content-Language: en-US
+From: =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>
+In-Reply-To: <20231031073859.25298-4-itoral@igalia.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -95,110 +55,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ Nicolas Saenz Julienne <nsaenz@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Emma Anholt <emma@anholt.net>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+ Melissa Wen <mwen@igalia.com>, kernel-dev@igalia.com,
+ Rob Herring <robh+dt@kernel.org>, Stefan Wahren <wahrenst@gmx.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/31/23 17:45, Thomas Hellström wrote:
-> On Tue, 2023-10-31 at 17:39 +0100, Danilo Krummrich wrote:
->> On 10/31/23 12:25, Thomas Hellström wrote:
->>> On Mon, 2023-10-23 at 22:16 +0200, Danilo Krummrich wrote:
->>>> Add an abstraction layer between the drm_gpuva mappings of a
->>>> particular
->>>> drm_gem_object and this GEM object itself. The abstraction
->>>> represents
->>>> a
->>>> combination of a drm_gem_object and drm_gpuvm. The drm_gem_object
->>>> holds
->>>> a list of drm_gpuvm_bo structures (the structure representing
->>>> this
->>>> abstraction), while each drm_gpuvm_bo contains list of mappings
->>>> of
->>>> this
->>>> GEM object.
->>>>
->>>> This has multiple advantages:
->>>>
->>>> 1) We can use the drm_gpuvm_bo structure to attach it to various
->>>> lists
->>>>      of the drm_gpuvm. This is useful for tracking external and
->>>> evicted
->>>>      objects per VM, which is introduced in subsequent patches.
->>>>
->>>> 2) Finding mappings of a certain drm_gem_object mapped in a
->>>> certain
->>>>      drm_gpuvm becomes much cheaper.
->>>>
->>>> 3) Drivers can derive and extend the structure to easily
->>>> represent
->>>>      driver specific states of a BO for a certain GPUVM.
->>>>
->>>> The idea of this abstraction was taken from amdgpu, hence the
->>>> credit
->>>> for
->>>> this idea goes to the developers of amdgpu.
->>>>
->>>> Cc: Christian König <christian.koenig@amd.com>
->>>> Signed-off-by: Danilo Krummrich <dakr@redhat.com>
->>>> ---
->>>>    drivers/gpu/drm/drm_gpuvm.c            | 335
->>>> +++++++++++++++++++++--
->>>> --
->>>>    drivers/gpu/drm/nouveau/nouveau_uvmm.c |  64 +++--
->>>>    include/drm/drm_gem.h                  |  32 +--
->>>>    include/drm/drm_gpuvm.h                | 188 +++++++++++++-
->>>>    4 files changed, 533 insertions(+), 86 deletions(-)
->>>
->>> That checkpatch.pl error still remains as well.
->>
->> I guess you refer to:
->>
->> ERROR: do not use assignment in if condition
->> #633: FILE: drivers/gpu/drm/nouveau/nouveau_uvmm.c:1165:
->> +                       if (!(op->gem.obj = obj))
->>
->> This was an intentional decision, since in this specific case it
->> seems to
->> be more readable than the alternatives.
->>
->> However, if we consider this to be a hard rule, which we never ever
->> break,
->> I'm fine changing it too.
-> 
-> With the errors, sooner or later they are going to start generate
-> patches to "fix" them. In this particular case also Xe CI is
-> complaining and abort building when I submit the Xe adaptation, so it'd
-> be good to be checkpatch.pl conformant IMHO.
+Hi,
 
-Ok, I will change this one.
+I would like to ask the device tree maintainers if you are willing
+to take this through your tree or should I push the entire series
+through drm-misc/drm-misc-next.
 
-However, in general my opinion on coding style is that we should preserve us
-the privilege to deviate from it when we agree it makes sense and improves
-the code quality.
+Best Regards,
+- Maíra
 
-Having a CI forcing people to *blindly* follow certain rules and even abort
-building isn't very beneficial in that respect.
-
-Also, consider patches which partially change a line of code that already
-contains a coding style "issue" - the CI would also block you on that one I
-guess. Besides that it seems to block you on unrelated code, note that the
-assignment in question is from Nouveau and not from GPUVM.
-
-- Danilo
-
+On 10/31/23 04:38, Iago Toral Quiroga wrote:
+> BCM2712, Raspberry Pi 5's SoC, contains a V3D core. So add its specific
+> compatible to the bindings.
 > 
-> Thanks,
-> Thomas
+> Signed-off-by: Iago Toral Quiroga <itoral@igalia.com>
+> Reviewed-by: Maíra Canal <mcanal@igalia.com>
+> ---
+>   Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml | 1 +
+>   1 file changed, 1 insertion(+)
 > 
-> 
-> 
-> 
->>
->>>
->>> Thanks,
->>> Thomas
->>>
->>
-> 
-
+> diff --git a/Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml b/Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml
+> index dae55b8a267b..dc078ceeca9a 100644
+> --- a/Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml
+> +++ b/Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml
+> @@ -17,6 +17,7 @@ properties:
+>     compatible:
+>       enum:
+>         - brcm,2711-v3d
+> +      - brcm,2712-v3d
+>         - brcm,7268-v3d
+>         - brcm,7278-v3d
+>   
