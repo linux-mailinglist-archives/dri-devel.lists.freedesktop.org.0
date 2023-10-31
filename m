@@ -1,64 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D59657DCDC8
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Oct 2023 14:27:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C4A47DCDCF
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Oct 2023 14:28:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A845D10E4C5;
-	Tue, 31 Oct 2023 13:27:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B52E10E4C3;
+	Tue, 31 Oct 2023 13:28:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E685C10E4C4
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Oct 2023 13:27:15 +0000 (UTC)
-Received: from [127.0.1.1] (91-158-149-209.elisa-laajakaista.fi
- [91.158.149.209])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1569F5AA;
- Tue, 31 Oct 2023 14:26:58 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1698758818;
- bh=I/CtWgvz0BJifB1qTHPuDWeeFWh42GIeJ7wx1VtfgUE=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=vmZZh7wYPTXo5fLBTB1h+AraB7Gbk13wHg5d+3Ph7aveao9K9jlrjKMnEYB1cyN7Q
- 26ocM3/kwMDCEaU48NDJbcqK56Qt+S1MdT/IKmDqz8H0zIDV8tHXydV6n1Sf/me4Cb
- Aaoq9D8idueOswN73o0RdyKGqDfXemsi1DUyedqw=
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Date: Tue, 31 Oct 2023 15:26:56 +0200
-Subject: [PATCH 2/2] drm/bridge: tc358767: Fix link properties discovery
+Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com
+ [IPv6:2607:f8b0:4864:20::b30])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EBDCB10E4C3
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Oct 2023 13:28:33 +0000 (UTC)
+Received: by mail-yb1-xb30.google.com with SMTP id
+ 3f1490d57ef6-d865854ef96so5077587276.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Oct 2023 06:28:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1698758913; x=1699363713; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=Vkk8ZCgsYoi/AnkxKAKmjXFYbNerVSNaR8gjvx3gGLI=;
+ b=A5aIwVdFUeCOwBl9/k9hXTVIBPOJURzijbmykluwKO5e1CtUB+XO3Pm6QQPQbIcnc1
+ EXpmmW7O4eU+vd1iumF08nT6w6dwd8lyy9dFeDUzX/3k3Yqa8oS+rHMmWfPRpHe9w2Gj
+ /jpyjdoWWeRytgvGvWQDNqyojAmJZl4gITzou2UeEPi9tjS3u/58x1XEciZNT0w5HlzR
+ UDm00jdWjWV3Wc1dCXGo9dy44VfbV/FapzpGWvOwx9utMOWZz9FVV7tS8HyjADOkuUDx
+ iHm1U0aX7Aw/AXSP5CfvZFFE9RKFoabJzbk/8wBx5H8HZgwf5lMeddmO+zGfmjR5+Vyo
+ Vg+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1698758913; x=1699363713;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Vkk8ZCgsYoi/AnkxKAKmjXFYbNerVSNaR8gjvx3gGLI=;
+ b=vUWzN8s3NQjmELOne0a1H96e1MC91nIAxmewEGMksXWS3HRyMHiNp3ypmIMeq/C4uc
+ YbmYmAXyduYPLJpQ5LUVB5DS0bHwnOdRioRoJ7FQaSOKC4gegcu+E9dj7plOnGzxeUBa
+ mxj/2WtHjTCKQ9+l5gj/WbAzlrxGE3oNxiMA9H7vVMLpDkEqBNg0raZM6DhfHuar2pik
+ f4F2wsfQYL0oGfbpmbkmJugHg6WJiyzWr+cYqkp5X/htLzSD+wRbLcsO0RA7ddCV0PHZ
+ WpoOhAGqA9LGgwFYQ5KgJtUysIF7eAl/jtBAAZ3kfv+o0j3hknNHwuE35swp5NjDiA8l
+ uptQ==
+X-Gm-Message-State: AOJu0Yx/QBSbW5XYKGHHoX1wuIrJTcj7g8+pLlqvwArl2P2zRukjHFO7
+ zsPhUZz3OavPRBy7Rs1jw5D5ZOU04nAKq/QZ/tb0yg==
+X-Google-Smtp-Source: AGHT+IFxGRQfCveVDXVJVYYAtbgwY6/eAygWWpBIQ5S0HJJ6v7iBgo2Jge7ptyq+gUT1DXQGHLc/CMOxuUr+u443Pmg=
+X-Received: by 2002:a25:c541:0:b0:d9a:5ff4:cfde with SMTP id
+ v62-20020a25c541000000b00d9a5ff4cfdemr11842307ybe.13.1698758913054; Tue, 31
+ Oct 2023 06:28:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20231031-tc358767-v1-2-392081ad9f4b@ideasonboard.com>
-References: <20231031-tc358767-v1-0-392081ad9f4b@ideasonboard.com>
-In-Reply-To: <20231031-tc358767-v1-0-392081ad9f4b@ideasonboard.com>
-To: Aradhya Bhatia <a-bhatia1@ti.com>, Jan Kiszka <jan.kiszka@siemens.com>, 
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1647;
- i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=I/CtWgvz0BJifB1qTHPuDWeeFWh42GIeJ7wx1VtfgUE=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBlQQCvB7wrB7TMKnDKR6rRauEEUAKRUabrIZ4OB
- BOeFOvaEY6JAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZUEArwAKCRD6PaqMvJYe
- 9UfAD/0c/gKIkRmx+ScHQe3PosmKMmN/Bvt6Y+Rq4GX/xx+IS1+eDx/L5pTPvYRCdOSno5JCJ6a
- 5w41PEgl9vSFftu75TYs0A5KwOo4JctKBQbHvpvaG55VGtodZtb2CfuGdp9sjUdT+DAUWI41Nhg
- 4aaIe4aYlTcsTsQwgZ+jF2wBfj73+JBENg8k2aKWUO3o/U/Z0N94JGIBnc+qAhTB/UDWqVQLOsg
- hJC3tnmulrPwGSVQUeSSmj+gyAuZsk3Dg8+NbdX3Jb1Ge/ds0E2daFHjjoHKkXFBqEaChR45eR+
- wG0G195/F4Bqd+/hW8FQDl0K3WT8oulo8EFeYPouQ26w+LtfZdZhIUNSTktPCCjy+rWGREx0s3R
- uuPWD2totclIyiOy+RWFT1x2KLrF7ivYd7b8KdjxUc5f78BB36QzttdGTl1oFWGRhDChxty6+Vc
- K+VsKGd8qKminlqdrIAnkXGB/NIflfP6ARpBc5FZOG5wjhQ6NzybMW44fRxr8buxYijp9+6Cc+/
- NjDrbZpInP+KHANRuS9k6MOD/fr2oLTuk6vvIZprjg6AJ9haU4or3ej5uyCZcRuk7Dpck4STLuv
- 2xx/wglVjRxpOu1UlEmMaKKarfdymQsgcMFtrkBSZ/rIHb5WV7Z0S3tYUvjVtgIi7pl6e7hD1P1
- QFE34g+AHAuTEew==
-X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
- fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
+References: <20230928111630.1217419-1-dmitry.baryshkov@linaro.org>
+ <20230928111630.1217419-8-dmitry.baryshkov@linaro.org>
+ <ca3a0d84-befc-4426-8cdb-ea9d55e7fac9@linaro.org>
+In-Reply-To: <ca3a0d84-befc-4426-8cdb-ea9d55e7fac9@linaro.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Tue, 31 Oct 2023 15:28:21 +0200
+Message-ID: <CAA8EJpqbMT3+53NndkjvJ67KvURYsbwD6yfT4v6KowsiYdOR8g@mail.gmail.com>
+Subject: Re: [PATCH v3 07/15] phy: qualcomm: add MSM8x60 HDMI PHY support
+To: Konrad Dybcio <konrad.dybcio@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,54 +68,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Kishon Vijay Abraham I <kishon@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org,
+ linux-phy@lists.infradead.org, Marijn Suijten <marijn.suijten@somainline.org>,
+ freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When a display controller driver uses DRM_BRIDGE_ATTACH_NO_CONNECTOR,
-tc358767 will behave properly and skip the creation of the connector.
+On Tue, 31 Oct 2023 at 13:17, Konrad Dybcio <konrad.dybcio@linaro.org> wrote:
+>
+> On 28.09.2023 13:16, Dmitry Baryshkov wrote:
+> > Add support for HDMI PHY on Qualcomm MSM8x60 / APQ8060 platforms.
+> >
+> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > ---
+> Do you have the PLL working locally? Would it make sense to ship them both?
 
-However, tc_get_display_props(), which is used to find out about the DP
-monitor and link, is only called from two places: .atomic_enable() and
-tc_connector_get_modes(). The latter is only used when tc358767 creates
-its own connector, i.e. when DRM_BRIDGE_ATTACH_NO_CONNECTOR is _not_
-set.
+I do not have APQ8060 / MSM8x60 platforms, so I can either c&p the
+existing code or I can drop it completely.
 
-Thus, the driver never finds out the link properties before get_edid()
-is called. With num_lanes of 0 and link_rate of 0 there are not many
-valid modes...
-
-Fix this by adding tc_connector_get_modes() call at the beginning of
-get_edid(), so that we have up to date information before looking at the
-modes.
-
-Reported-by: Jan Kiszka <jan.kiszka@siemens.com>
-Closes: https://lore.kernel.org/all/24282420-b4dd-45b3-bb1c-fc37fe4a8205@siemens.com/
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
----
- drivers/gpu/drm/bridge/tc358767.c | 7 +++++++
- 1 file changed, 7 insertions(+)
-
-diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
-index 0affcefdeb1c..137a9f5e3cad 100644
---- a/drivers/gpu/drm/bridge/tc358767.c
-+++ b/drivers/gpu/drm/bridge/tc358767.c
-@@ -1579,6 +1579,13 @@ static struct edid *tc_get_edid(struct drm_bridge *bridge,
- 				struct drm_connector *connector)
- {
- 	struct tc_data *tc = bridge_to_tc(bridge);
-+	int ret;
-+
-+	ret = tc_get_display_props(tc);
-+	if (ret < 0) {
-+		dev_err(tc->dev, "failed to read display props: %d\n", ret);
-+		return 0;
-+	}
- 
- 	return drm_get_edid(connector, &tc->aux.ddc);
- }
+If anybody is willing to donate and/or lend APQ8060 or
+MSM8260/MSM8660, we can probably fix that.
+Requirements:
+ - HDMI output
+ - UART available
+ - fastboot or network support in the bootloader
 
 -- 
-2.34.1
-
+With best wishes
+Dmitry
