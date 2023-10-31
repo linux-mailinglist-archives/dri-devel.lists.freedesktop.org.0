@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82BCA7DCA93
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Oct 2023 11:17:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BF9D7DCA8C
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Oct 2023 11:17:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 35AE210E45F;
-	Tue, 31 Oct 2023 10:17:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D1D510E45A;
+	Tue, 31 Oct 2023 10:17:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1789310E45B;
- Tue, 31 Oct 2023 10:17:19 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 97B7A10E45A;
+ Tue, 31 Oct 2023 10:17:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1698747439; x=1730283439;
+ t=1698747428; x=1730283428;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=DxQWsF5+3/Ph3jHBGJzEzJKA/tcQh1mVHes7E6mHer0=;
- b=ICvORmXu1TJm1WCYMLmd00CUzs78E0cM5Gj2a0vRsGE5jf0nsHTLbuX2
- kvU6LhEcAZ5GvYIEMhN7kjAthD1krUrR8D9r18Hfs+fYUgw3nUP8XKwm4
- 9qoyQI+cSspVgwZkU5Nd6njw9u+EVUhez1O4T2MzQ8RWsqJy9iliSmoph
- s0FiquMQMJ2fFvyjzxlLnHvL5iVbtKYsnMfXIJm7IRXVTk/huAZeqBbaz
- ePpjuAMwhFu+1T1uT2cDpfU83vQ5+DM44lplT4KHxnl/VBz0BYAdwwOti
- skYICVl/Ggh1z1z/2go8X+8ACjjiQiETqg+7LwvzSfalmBnZXtQXrYJrG g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10879"; a="454724820"
-X-IronPort-AV: E=Sophos;i="6.03,265,1694761200"; d="scan'208";a="454724820"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Oct 2023 03:17:02 -0700
+ bh=Hp6mZ08nX39vJqL+LiE2NvJGaTrG7ml9q+rbMkR2CQs=;
+ b=OBFhRZstNtMCOgqr1NhpzSLHk3qzyOi0mfIK/60ENLp5+bg8g25ffIXU
+ VWWClR/YDkJwHX75KlvaMi+LGUZ/ne5w8/GUBtZjOiKocTkiDv09U0igL
+ U9ez91ZZ+RRd3ZSlb4leSf6dWk8KvecHlSULC5cv+8vW6gnLog4UwCoUH
+ kWjgBs86mkhhjD5nwfPd9vNZkY7k87CJlP7wvWZ8YehoFdBugGxI9xChC
+ xYxWdHDxkZJxfJYsjogT855daZNN37EYRWXANrUdYsAfZu/kjxQHBvVeM
+ TFxd0ExzP2fZ+LVr1uWNtEep5bFgSGjhVBjbNhdK2yUPqF8DXiYn33rMD w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10879"; a="391127635"
+X-IronPort-AV: E=Sophos;i="6.03,265,1694761200"; d="scan'208";a="391127635"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Oct 2023 03:17:08 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10879"; a="789747783"
-X-IronPort-AV: E=Sophos;i="6.03,265,1694761200"; d="scan'208";a="789747783"
+X-IronPort-AV: E=McAfee;i="6600,9927,10879"; a="754096501"
+X-IronPort-AV: E=Sophos;i="6.03,265,1694761200"; d="scan'208";a="754096501"
 Received: from moelschl-mobl.ger.corp.intel.com (HELO localhost)
  ([10.252.51.45])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Oct 2023 03:17:00 -0700
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Oct 2023 03:17:05 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 2/6] drm/eld: replace uint8_t with u8
-Date: Tue, 31 Oct 2023 12:16:39 +0200
-Message-Id: <6e048fc4c8a3ebec638ce27b0b8b969a3d2fa8bc.1698747331.git.jani.nikula@intel.com>
+Subject: [PATCH v2 3/6] drm/edid: include drm_eld.h only where required
+Date: Tue, 31 Oct 2023 12:16:40 +0200
+Message-Id: <9f5963ce900d747f3279312c0cd1da599fd83f94.1698747331.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1698747331.git.jani.nikula@intel.com>
 References: <cover.1698747331.git.jani.nikula@intel.com>
@@ -60,88 +60,201 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Jani Nikula <jani.nikula@intel.com>, intel-gfx@lists.freedesktop.org,
- Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>,
- Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
+ Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Unify on kernel types.
+Reduce the dependencies on drm_eld.h. Some files might be able to drop
+the dependency on drm_edid.h too with the direct inclusion of drm_eld.h.
 
 Cc: Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>
-Reviewed-by: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
 Reviewed-by: Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- include/drm/drm_eld.h | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c    | 1 +
+ drivers/gpu/drm/drm_edid.c                           | 1 +
+ drivers/gpu/drm/i915/display/intel_audio.c           | 1 +
+ drivers/gpu/drm/i915/display/intel_crtc_state_dump.c | 1 +
+ drivers/gpu/drm/i915/display/intel_sdvo.c            | 1 +
+ drivers/gpu/drm/nouveau/dispnv50/disp.c              | 1 +
+ drivers/gpu/drm/radeon/radeon_audio.c                | 1 +
+ drivers/gpu/drm/tegra/hdmi.c                         | 1 +
+ drivers/gpu/drm/tegra/sor.c                          | 1 +
+ include/drm/drm_edid.h                               | 1 -
+ sound/core/pcm_drm_eld.c                             | 1 +
+ sound/soc/codecs/hdac_hdmi.c                         | 1 +
+ sound/soc/codecs/hdmi-codec.c                        | 1 +
+ sound/x86/intel_hdmi_audio.c                         | 1 +
+ 14 files changed, 13 insertions(+), 1 deletion(-)
 
-diff --git a/include/drm/drm_eld.h b/include/drm/drm_eld.h
-index 9bde89bd96ea..7b674256b9aa 100644
---- a/include/drm/drm_eld.h
-+++ b/include/drm/drm_eld.h
-@@ -70,7 +70,7 @@
-  * drm_eld_mnl - Get ELD monitor name length in bytes.
-  * @eld: pointer to an eld memory structure with mnl set
-  */
--static inline int drm_eld_mnl(const uint8_t *eld)
-+static inline int drm_eld_mnl(const u8 *eld)
- {
- 	return (eld[DRM_ELD_CEA_EDID_VER_MNL] & DRM_ELD_MNL_MASK) >> DRM_ELD_MNL_SHIFT;
- }
-@@ -79,7 +79,7 @@ static inline int drm_eld_mnl(const uint8_t *eld)
-  * drm_eld_sad - Get ELD SAD structures.
-  * @eld: pointer to an eld memory structure with sad_count set
-  */
--static inline const uint8_t *drm_eld_sad(const uint8_t *eld)
-+static inline const u8 *drm_eld_sad(const u8 *eld)
- {
- 	unsigned int ver, mnl;
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index 6f99f6754c11..0cb934641cc8 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -87,6 +87,7 @@
+ #include <drm/drm_blend.h>
+ #include <drm/drm_fourcc.h>
+ #include <drm/drm_edid.h>
++#include <drm/drm_eld.h>
+ #include <drm/drm_vblank.h>
+ #include <drm/drm_audio_component.h>
+ #include <drm/drm_gem_atomic_helper.h>
+diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+index 39db08f803ea..8be0f26702b5 100644
+--- a/drivers/gpu/drm/drm_edid.c
++++ b/drivers/gpu/drm/drm_edid.c
+@@ -41,6 +41,7 @@
+ #include <drm/drm_displayid.h>
+ #include <drm/drm_drv.h>
+ #include <drm/drm_edid.h>
++#include <drm/drm_eld.h>
+ #include <drm/drm_encoder.h>
+ #include <drm/drm_print.h>
  
-@@ -98,7 +98,7 @@ static inline const uint8_t *drm_eld_sad(const uint8_t *eld)
-  * drm_eld_sad_count - Get ELD SAD count.
-  * @eld: pointer to an eld memory structure with sad_count set
+diff --git a/drivers/gpu/drm/i915/display/intel_audio.c b/drivers/gpu/drm/i915/display/intel_audio.c
+index 19605264a35c..39f5b698e08a 100644
+--- a/drivers/gpu/drm/i915/display/intel_audio.c
++++ b/drivers/gpu/drm/i915/display/intel_audio.c
+@@ -25,6 +25,7 @@
+ #include <linux/kernel.h>
+ 
+ #include <drm/drm_edid.h>
++#include <drm/drm_eld.h>
+ #include <drm/i915_component.h>
+ 
+ #include "i915_drv.h"
+diff --git a/drivers/gpu/drm/i915/display/intel_crtc_state_dump.c b/drivers/gpu/drm/i915/display/intel_crtc_state_dump.c
+index 66fe880af8f3..2d15e82c0b3d 100644
+--- a/drivers/gpu/drm/i915/display/intel_crtc_state_dump.c
++++ b/drivers/gpu/drm/i915/display/intel_crtc_state_dump.c
+@@ -4,6 +4,7 @@
   */
--static inline int drm_eld_sad_count(const uint8_t *eld)
-+static inline int drm_eld_sad_count(const u8 *eld)
- {
- 	return (eld[DRM_ELD_SAD_COUNT_CONN_TYPE] & DRM_ELD_SAD_COUNT_MASK) >>
- 		DRM_ELD_SAD_COUNT_SHIFT;
-@@ -111,7 +111,7 @@ static inline int drm_eld_sad_count(const uint8_t *eld)
-  * This is a helper for determining the payload size of the baseline block, in
-  * bytes, for e.g. setting the Baseline_ELD_Len field in the ELD header block.
-  */
--static inline int drm_eld_calc_baseline_block_size(const uint8_t *eld)
-+static inline int drm_eld_calc_baseline_block_size(const u8 *eld)
- {
- 	return DRM_ELD_MONITOR_NAME_STRING - DRM_ELD_HEADER_BLOCK_SIZE +
- 		drm_eld_mnl(eld) + drm_eld_sad_count(eld) * 3;
-@@ -127,7 +127,7 @@ static inline int drm_eld_calc_baseline_block_size(const uint8_t *eld)
-  *
-  * The returned value is guaranteed to be a multiple of 4.
-  */
--static inline int drm_eld_size(const uint8_t *eld)
-+static inline int drm_eld_size(const u8 *eld)
- {
- 	return DRM_ELD_HEADER_BLOCK_SIZE + eld[DRM_ELD_BASELINE_ELD_LEN] * 4;
- }
-@@ -139,7 +139,7 @@ static inline int drm_eld_size(const uint8_t *eld)
-  * The returned value is the speakers mask. User has to use %DRM_ELD_SPEAKER
-  * field definitions to identify speakers.
-  */
--static inline u8 drm_eld_get_spk_alloc(const uint8_t *eld)
-+static inline u8 drm_eld_get_spk_alloc(const u8 *eld)
- {
- 	return eld[DRM_ELD_SPEAKER] & DRM_ELD_SPEAKER_MASK;
- }
-@@ -151,7 +151,7 @@ static inline u8 drm_eld_get_spk_alloc(const uint8_t *eld)
-  * The caller need to use %DRM_ELD_CONN_TYPE_HDMI or %DRM_ELD_CONN_TYPE_DP to
-  * identify the display type connected.
-  */
--static inline u8 drm_eld_get_conn_type(const uint8_t *eld)
-+static inline u8 drm_eld_get_conn_type(const u8 *eld)
- {
- 	return eld[DRM_ELD_SAD_COUNT_CONN_TYPE] & DRM_ELD_CONN_TYPE_MASK;
- }
+ 
+ #include <drm/drm_edid.h>
++#include <drm/drm_eld.h>
+ 
+ #include "i915_drv.h"
+ #include "intel_crtc_state_dump.h"
+diff --git a/drivers/gpu/drm/i915/display/intel_sdvo.c b/drivers/gpu/drm/i915/display/intel_sdvo.c
+index a636f42ceae5..3eac559043d7 100644
+--- a/drivers/gpu/drm/i915/display/intel_sdvo.c
++++ b/drivers/gpu/drm/i915/display/intel_sdvo.c
+@@ -35,6 +35,7 @@
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_crtc.h>
+ #include <drm/drm_edid.h>
++#include <drm/drm_eld.h>
+ 
+ #include "i915_drv.h"
+ #include "i915_reg.h"
+diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/nouveau/dispnv50/disp.c
+index 7840b6428afb..df8da9cab515 100644
+--- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
++++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
+@@ -38,6 +38,7 @@
+ #include <drm/drm_atomic.h>
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_edid.h>
++#include <drm/drm_eld.h>
+ #include <drm/drm_fb_helper.h>
+ #include <drm/drm_probe_helper.h>
+ #include <drm/drm_vblank.h>
+diff --git a/drivers/gpu/drm/radeon/radeon_audio.c b/drivers/gpu/drm/radeon/radeon_audio.c
+index d6ccaf24ee0c..279bf130a18c 100644
+--- a/drivers/gpu/drm/radeon/radeon_audio.c
++++ b/drivers/gpu/drm/radeon/radeon_audio.c
+@@ -26,6 +26,7 @@
+ #include <linux/component.h>
+ 
+ #include <drm/drm_crtc.h>
++#include <drm/drm_eld.h>
+ #include "dce6_afmt.h"
+ #include "evergreen_hdmi.h"
+ #include "radeon.h"
+diff --git a/drivers/gpu/drm/tegra/hdmi.c b/drivers/gpu/drm/tegra/hdmi.c
+index 0ba3ca3ac509..a1fcee665023 100644
+--- a/drivers/gpu/drm/tegra/hdmi.c
++++ b/drivers/gpu/drm/tegra/hdmi.c
+@@ -24,6 +24,7 @@
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_crtc.h>
+ #include <drm/drm_debugfs.h>
++#include <drm/drm_eld.h>
+ #include <drm/drm_file.h>
+ #include <drm/drm_fourcc.h>
+ #include <drm/drm_probe_helper.h>
+diff --git a/drivers/gpu/drm/tegra/sor.c b/drivers/gpu/drm/tegra/sor.c
+index d5a3d3f4fece..83341576630d 100644
+--- a/drivers/gpu/drm/tegra/sor.c
++++ b/drivers/gpu/drm/tegra/sor.c
+@@ -20,6 +20,7 @@
+ #include <drm/display/drm_scdc_helper.h>
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_debugfs.h>
++#include <drm/drm_eld.h>
+ #include <drm/drm_file.h>
+ #include <drm/drm_panel.h>
+ #include <drm/drm_simple_kms_helper.h>
+diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
+index 1ff52f57ab9c..e98aa6818700 100644
+--- a/include/drm/drm_edid.h
++++ b/include/drm/drm_edid.h
+@@ -25,7 +25,6 @@
+ 
+ #include <linux/types.h>
+ #include <linux/hdmi.h>
+-#include <drm/drm_eld.h> /* FIXME: remove this, include directly where needed */
+ #include <drm/drm_mode.h>
+ 
+ struct drm_device;
+diff --git a/sound/core/pcm_drm_eld.c b/sound/core/pcm_drm_eld.c
+index 07075071972d..1cdca4d4fc9c 100644
+--- a/sound/core/pcm_drm_eld.c
++++ b/sound/core/pcm_drm_eld.c
+@@ -6,6 +6,7 @@
+ #include <linux/export.h>
+ #include <linux/hdmi.h>
+ #include <drm/drm_edid.h>
++#include <drm/drm_eld.h>
+ #include <sound/pcm.h>
+ #include <sound/pcm_drm_eld.h>
+ 
+diff --git a/sound/soc/codecs/hdac_hdmi.c b/sound/soc/codecs/hdac_hdmi.c
+index 8b6b76029694..d1b53fc1efb6 100644
+--- a/sound/soc/codecs/hdac_hdmi.c
++++ b/sound/soc/codecs/hdac_hdmi.c
+@@ -16,6 +16,7 @@
+ #include <linux/pm_runtime.h>
+ #include <linux/hdmi.h>
+ #include <drm/drm_edid.h>
++#include <drm/drm_eld.h>
+ #include <sound/pcm_params.h>
+ #include <sound/jack.h>
+ #include <sound/soc.h>
+diff --git a/sound/soc/codecs/hdmi-codec.c b/sound/soc/codecs/hdmi-codec.c
+index 09eef6042aad..e790ec3fa989 100644
+--- a/sound/soc/codecs/hdmi-codec.c
++++ b/sound/soc/codecs/hdmi-codec.c
+@@ -17,6 +17,7 @@
+ #include <sound/pcm_iec958.h>
+ 
+ #include <drm/drm_crtc.h> /* This is only to get MAX_ELD_BYTES */
++#include <drm/drm_eld.h>
+ 
+ #define HDMI_CODEC_CHMAP_IDX_UNKNOWN  -1
+ 
+diff --git a/sound/x86/intel_hdmi_audio.c b/sound/x86/intel_hdmi_audio.c
+index ab95fb34a635..02f5a7f9b728 100644
+--- a/sound/x86/intel_hdmi_audio.c
++++ b/sound/x86/intel_hdmi_audio.c
+@@ -30,6 +30,7 @@
+ #include <sound/control.h>
+ #include <sound/jack.h>
+ #include <drm/drm_edid.h>
++#include <drm/drm_eld.h>
+ #include <drm/intel_lpe_audio.h>
+ #include "intel_hdmi_audio.h"
+ 
 -- 
 2.39.2
 
