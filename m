@@ -1,49 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D93727DD620
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Oct 2023 19:36:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DA867DD63C
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Oct 2023 19:42:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B693810E5AF;
-	Tue, 31 Oct 2023 18:36:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC4E310E5AD;
+	Tue, 31 Oct 2023 18:42:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 610D010E5AF
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Oct 2023 18:36:39 +0000 (UTC)
-Received: from [192.168.68.129] (unknown [177.98.22.188])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: koike)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 40A916607389;
- Tue, 31 Oct 2023 18:36:34 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1698777398;
- bh=bUwJOj01a4F8gGzxLfRaZfqDlFCfc4iAzypRSVm5Q3U=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=JFCB+FclQIACx9J7Wc5X+zW/xibfhO0kxYSoAyRYSEYnCd31gWhBma3xI0IWg4xOj
- 0jqWXPyJtT/OhWC1nzSeNEVyQkYnM0BUoijbTTWqo5zadMq1IBmDidMYcFy/tYAXwD
- axmnMFCmt8lT0QleQb3rvN/eTO53Uk/iUq5b1rFwjdO0ltmSDCct8OFAozw4EZYaqc
- TgbpAX/noA10DNs4PlBoU/0OOk8RynLvlVHagr0xWFI1MvnjV32pTxfORFTYlgxbQL
- 46nSxH6pmDaPomFTXZhFZMq8I0sLn7/h3GiPI1Vt1u/UgQI2uN8A/4KofX0xoDs+l3
- nijDPrOK42HLw==
-Message-ID: <318c568f-c813-4d16-b577-28f37cde92c7@collabora.com>
-Date: Tue, 31 Oct 2023 15:36:30 -0300
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C9DC10E5AD
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Oct 2023 18:41:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:Cc:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=XI5satVjCyqE4HDX9rUAH+vtcmXRel+wzxtgxsAgF6M=; b=i0ZQ9JdB2JrxqmnA0thHNbXfD0
+ Fus15iUYLhXeUDbsp7iEfHswOdTVR7+mFJTTBGmXLfXyv8cgD2NCFlIslklxIobb/AZ1+ZbP4QQ4C
+ n78T88a10uChoz1hklPsFLllpgkUTXQfFSDda8eVZKmCtjDsXNdaf2S2N8lhe7TPtKYxGzoaCK3Ju
+ chyrAvlcNsZ/4rgy+yMF1zbHoERt/q9YURvU8l2mEXENna1NTEwxotrAFHOpK1uN1j0/EtfF0nwN2
+ qTVnmEcEk8RdNxoYo83LgfgvpV3iIa2QziB73mLL1C1FKo68JGofVktYofpNtiXIyMSA+nA+ciRug
+ NRddj0bQ==;
+Received: from [143.107.182.242] (helo=[10.41.72.65])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1qxtgZ-00FVK3-Pp; Tue, 31 Oct 2023 19:41:56 +0100
+Message-ID: <b9fe367a-cb90-14a1-37c2-5a402fd7fe89@igalia.com>
+Date: Tue, 31 Oct 2023 15:41:50 -0300
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH Resend] Fix line Length
-To: Bagas Sanjaya <bagasdotme@gmail.com>, Julia Lawall <julia.lawall@inria.fr>
-References: <20231029144312.5895-1-dorine.a.tipo@gmail.com>
- <alpine.DEB.2.22.394.2310291610030.3136@hadrien> <ZT7v39jG4WTxPYjm@debian.me>
- <alpine.DEB.2.22.394.2310300712310.3533@hadrien>
- <3f1fdfa2-e30b-42c6-b290-bb02283b3589@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH] MAINTAINERS: Drop Emma Anholt from all M lines.
 Content-Language: en-US
-From: Helen Koike <helen.koike@collabora.com>
-In-Reply-To: <3f1fdfa2-e30b-42c6-b290-bb02283b3589@gmail.com>
+To: Emma Anholt <emma@anholt.net>, dri-devel@lists.freedesktop.org
+References: <20231031181648.48675-1-emma@anholt.net>
+From: =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>
+In-Reply-To: <20231031181648.48675-1-emma@anholt.net>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,45 +54,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Stone <daniels@collabora.com>,
- Linux Outreachy <outreachy@lists.linux.dev>,
- Greg KH <gregkh@linuxfoundation.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux DRI Development <dri-devel@lists.freedesktop.org>,
- Nick Terrell <terrelln@fb.com>, Dorine Tipo <dorine.a.tipo@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 30/10/2023 08:36, Bagas Sanjaya wrote:
-> On 30/10/2023 13:12, Julia Lawall wrote:
->>
->>
->> On Mon, 30 Oct 2023, Bagas Sanjaya wrote:
->>
->>> Hi Julia,
->>>
->>> The submitter touched one of CI scripts for the DRM subsystem. To test
->>> this patch, there must be a way to run these scripts locally (which
->>> may requires non-trivial setup).
-
-Instructions to test it is on the docs:
-
-https://docs.kernel.org/gpu/automated_testing.html?highlight=drm+ci#how-to-enable-automated-testing-on-your-tree
-
->>>
->>> Cc'ed DRM maintainers.
->>
->> There is a DRM outreachy project.  I think that motivated this patch.
-
-Yes :)
-
->>
+On 10/31/23 15:16, Emma Anholt wrote:
+> I am not active in the Linux kernel and don't want to see patches.
 > 
-> OK, thanks!
+> Signed-off-by: Emma Anholt <emma@anholt.net>
+
+Acked-by: Maíra Canal <mcanal@igalia.com>
+
+Best Regards,
+- Maíra
+
+> ---
+>   MAINTAINERS | 4 ----
+>   1 file changed, 4 deletions(-)
 > 
-
-
-Thanks
-Helen
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 01fb9ee6b951..31854c48711e 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -5378,7 +5378,6 @@ T:	git git://anongit.freedesktop.org/drm/drm-misc
+>   F:	drivers/gpu/drm/sun4i/sun8i*
+>   
+>   DRM DRIVER FOR ARM PL111 CLCD
+> -M:	Eric Anholt <eric@anholt.net>
+>   S:	Supported
+>   T:	git git://anongit.freedesktop.org/drm/drm-misc
+>   F:	drivers/gpu/drm/pl111/
+> @@ -5441,7 +5440,6 @@ T:	git git://anongit.freedesktop.org/drm/drm-misc
+>   F:	drivers/gpu/drm/tiny/gm12u320.c
+>   
+>   DRM DRIVER FOR HX8357D PANELS
+> -M:	Eric Anholt <eric@anholt.net>
+>   S:	Maintained
+>   T:	git git://anongit.freedesktop.org/drm/drm-misc
+>   F:	Documentation/devicetree/bindings/display/himax,hx8357d.txt
+> @@ -5883,7 +5881,6 @@ F:	Documentation/devicetree/bindings/display/ti/
+>   F:	drivers/gpu/drm/omapdrm/
+>   
+>   DRM DRIVERS FOR V3D
+> -M:	Eric Anholt <eric@anholt.net>
+>   S:	Supported
+>   T:	git git://anongit.freedesktop.org/drm/drm-misc
+>   F:	Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.txt
+> @@ -5891,7 +5888,6 @@ F:	drivers/gpu/drm/v3d/
+>   F:	include/uapi/drm/v3d_drm.h
+>   
+>   DRM DRIVERS FOR VC4
+> -M:	Eric Anholt <eric@anholt.net>
+>   S:	Supported
+>   T:	git git://github.com/anholt/linux
+>   T:	git git://anongit.freedesktop.org/drm/drm-misc
