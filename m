@@ -1,41 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D01687DC615
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Oct 2023 06:48:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 58D867DC61F
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Oct 2023 06:52:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B4BA10E401;
-	Tue, 31 Oct 2023 05:48:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5293D10E402;
+	Tue, 31 Oct 2023 05:52:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ECF0110E402
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Oct 2023 05:48:33 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id EA3C360C2C;
- Tue, 31 Oct 2023 05:48:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14AB9C433CA;
- Tue, 31 Oct 2023 05:48:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1698731312;
- bh=ZL86179SQNnH59nO9ZdsjOEwSLJlQ/T8PyWZqwTE7cg=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=rl2xXr8n+alSL/G+gmf7W7osy2QKqZ/XO2v0vxwyI1mgZzbPlnmeavVHcWzMVQTZ1
- boFAFoTtuz/nV6SJ49p0TSyf5SsSQw7rXf6Zg/6xhbAXqvDQ3vZmkQoBlUkRDkSHkK
- 2GyYv5I7h6c3ZBh+IWHlOc42jk8oRV4ESdsAIcA8=
-Date: Tue, 31 Oct 2023 06:48:29 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: =?iso-8859-1?Q?Jos=E9?= Pekkarinen <jose.pekkarinen@foxhound.fi>
-Subject: Re: [PATCH] drm/amd/display: remove redundant check
-Message-ID: <2023103115-obstruct-smudgy-6cc6@gregkh>
-References: <20231030171748.35482-1-jose.pekkarinen@foxhound.fi>
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com
+ [IPv6:2a00:1450:4864:20::52b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EDECF10E403;
+ Tue, 31 Oct 2023 05:52:24 +0000 (UTC)
+Received: by mail-ed1-x52b.google.com with SMTP id
+ 4fb4d7f45d1cf-53e70b0a218so8275145a12.2; 
+ Mon, 30 Oct 2023 22:52:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1698731543; x=1699336343; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=z58vdGjJl9TiXF4P4hhMJUvoh5uCsMYWRpObwXO4iI0=;
+ b=NmtlRGFvWmFCge6ZN9cIqBtNJV5Mw9t6w7u8u303R26F21cFpGJS+j8G4ToGUQ28Cl
+ 1KRrCjuVpR0ty4EfQxs1wpfaJS2C9tUQ1SiGbpeb6DNcocQ7wfMrzew7C7e/gHyXa90T
+ 4YwM4shk0ID2y2KilRgumq5xKUU/tkTo5CKTloCOLygBY2VwgzPC3wMO8bJJbE5SAy5y
+ 18lLHich6gk6MVXt1+aMbg2KTLAHqLrW8Z1LUN71Mcd8Xh5sdJ3gt7+06uemyropVLw+
+ VebEKC6EHM2NkgpC0HpI5ahdMLJavpLjuxK6b2IyYjU481wE8I4J3P9ppUTIV0FInh5W
+ lYMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1698731543; x=1699336343;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=z58vdGjJl9TiXF4P4hhMJUvoh5uCsMYWRpObwXO4iI0=;
+ b=ZarprVDB2Z3Kn26T546ucnfygUaLDjaDA8ICihB/W8xJysWMstwOIbrj6roeXF+WxP
+ 6H36hJnvjq5cl7Mc6bsctGwcQ7YeCK6pFRZhqfpi8Cttbk7LeJPBbyots6f6KhRLNxfm
+ uBHXyG1gcYrJblVMzKq+I6QyD6l4LOmgfYqIsO6fAxDxX38mYDxBBSEYR72byvbi82Vs
+ gJu/5DyxgvpQdT7Sz7DaHX0j8A85mYqxvHNL1NPw/MwgGd0zm0UMDnxfEGDSPnuPTRnH
+ +kAvBgAqDUqlu0B3ZJ/kzywT5vakn0S9P+pxUW6HjyKoq8f+9Nc2N0hS0rUDRiHR6ZgS
+ GkJg==
+X-Gm-Message-State: AOJu0YyrgBeaM1qXF5t1mmZUf0AxDE5W9TxHptOuRIHcZJDSGpMIzFjL
+ Wvqmo3cJm5NY9i0C95w3FjLDiPpsMcMeqUrb03/vN+Hm
+X-Google-Smtp-Source: AGHT+IERKSleyKiRDOvnkxmEf9IEoxMRcGi4h2bLg1JSNLj7DZBhT1YoBsVCmJOtC+WtHuJnVUv0sZM6xhw0SlHLu7w=
+X-Received: by 2002:a17:907:31ca:b0:9b2:b153:925 with SMTP id
+ xf10-20020a17090731ca00b009b2b1530925mr10355937ejb.21.1698731543178; Mon, 30
+ Oct 2023 22:52:23 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231030171748.35482-1-jose.pekkarinen@foxhound.fi>
+References: <SJ1PR11MB61297BF7764AF1207571A872B9A0A@SJ1PR11MB6129.namprd11.prod.outlook.com>
+ <CAPM=9txw6gYP+GoBvMBCWAP_W6_LSYg6SnHXQ9w1EjxA0UoOvQ@mail.gmail.com>
+In-Reply-To: <CAPM=9txw6gYP+GoBvMBCWAP_W6_LSYg6SnHXQ9w1EjxA0UoOvQ@mail.gmail.com>
+From: Dave Airlie <airlied@gmail.com>
+Date: Tue, 31 Oct 2023 15:52:11 +1000
+Message-ID: <CAPM=9tzRY_UbddDSmfFP_Bi54HkB3m0F7xwNcO8J5pibuyZBhQ@mail.gmail.com>
+Subject: Re: Build broken in drm-tip
+To: "Borah, Chaitanya Kumar" <chaitanya.kumar.borah@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,26 +67,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dillon.varone@amd.com, george.shen@amd.com, sunpeng.li@amd.com,
- linux-kernel-mentees@lists.linuxfoundation.org, Xinhui.Pan@amd.com,
- Rodrigo.Siqueira@amd.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, alexander.deucher@amd.com,
- aurabindo.pillai@amd.com, samson.tam@amd.com, skhan@linuxfoundation.org,
- SyedSaaem.Rizvi@amd.com, stable@vger.kernel.org, Jun.Lei@amd.com,
- christian.koenig@amd.com
+Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "mario.limonciello@amd.com" <mario.limonciello@amd.com>, "Kurmi,
+ Suresh Kumar" <suresh.kumar.kurmi@intel.com>, "Nautiyal,
+ Ankit K" <ankit.k.nautiyal@intel.com>, "Saarinen,
+ Jani" <jani.saarinen@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 30, 2023 at 07:17:48PM +0200, José Pekkarinen wrote:
-> This patch addresses the following warning spotted by
-> using coccinelle where the case checked does the same
-> than the else case.
-> 
-> drivers/gpu/drm/amd/display/dc/dml/dcn32/display_mode_vba_util_32.c:4664:8-10: WARNING: possible condition with no effect (if == else)
-> 
-> Fixes: 974ce181 ("drm/amd/display: Add check for PState change in DCN32")
-> 
-> Cc: stable@vger.kernel.org
+On Tue, 31 Oct 2023 at 15:23, Dave Airlie <airlied@gmail.com> wrote:
+>
+> On Tue, 31 Oct 2023 at 15:09, Borah, Chaitanya Kumar
+> <chaitanya.kumar.borah@intel.com> wrote:
+> >
+> > Hello Mario,
+> >
+> > This is Chaitanya from the Linux graphics team in Intel.
+> >
+> > We are seeing a build issue in drm-tip[1]
+>
+> Sorry that was a mismerge from me, let me go fix it for summon someone else.
 
-Why is this relevant for stable?
+Should be fixed now.
 
+sorry for noise,
+Dave.
