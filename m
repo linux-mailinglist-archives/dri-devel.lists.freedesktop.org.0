@@ -2,57 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 549D87DD177
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Oct 2023 17:23:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B72927DD18F
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Oct 2023 17:28:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D22110E56D;
-	Tue, 31 Oct 2023 16:23:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5078E10E567;
+	Tue, 31 Oct 2023 16:28:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 88E7E10E56A;
- Tue, 31 Oct 2023 16:23:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1698769385; x=1730305385;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=RwuuNJAK+7sQSJQmSTHK9qohrsSPiOemxUURP/vRQkk=;
- b=b/H0RaI862kHPc2dZWVDpQru/Atu3Pr2wBxSg+JCMBaMHrN1bdjaZ7QG
- O13+KUt4oSK4XHqpfoj8FFBBSXSOlI1q65sgoiP5N/qfHm/lziB2gM88P
- EVY1szwGH+QfYAaA4yNGE9o5J3nj9W74l4pyLwfD+IDvXDjrhMVRfnkIW
- oLWbSY0zbtXeqoY31QufeqkoA96todZ8Vj1o4PAUiMrkTLCgZWzSryb4n
- 5LfjLrfDLq/zozT9tI9fmocWi0TOiwreyVSm+L57/o3//U7wFm6gDH+32
- D9xR8fAtojq7F4Nf/+XdkSjQxoWMb3LcEyg/NN+D+fE0/u5yFA/Puy4wN g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10880"; a="385509628"
-X-IronPort-AV: E=Sophos;i="6.03,265,1694761200"; d="scan'208";a="385509628"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Oct 2023 09:21:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10880"; a="904391019"
-X-IronPort-AV: E=Sophos;i="6.03,265,1694761200"; d="scan'208";a="904391019"
-Received: from smile.fi.intel.com ([10.237.72.54])
- by fmsmga001.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Oct 2023 09:21:47 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.97-RC3)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1qxrUu-0000000ACaZ-1HwF; Tue, 31 Oct 2023 18:21:44 +0200
-Date: Tue, 31 Oct 2023 18:21:43 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Hans de Goede <hdegoede@redhat.com>
-Subject: Re: [PATCH v2 6/7] drm/i915/dsi: Replace poking of CHV GPIOs behind
- the driver's back
-Message-ID: <ZUEplxH51geCyHdb@smile.fi.intel.com>
-References: <20231024155739.3861342-1-andriy.shevchenko@linux.intel.com>
- <20231024155739.3861342-7-andriy.shevchenko@linux.intel.com>
- <ZTfssxRsrDxhzSQ6@smile.fi.intel.com>
- <b489675d-e9de-4bca-9622-78545aa8606d@redhat.com>
+Received: from mail-ua1-x92d.google.com (mail-ua1-x92d.google.com
+ [IPv6:2607:f8b0:4864:20::92d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B394210E131
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Oct 2023 16:28:01 +0000 (UTC)
+Received: by mail-ua1-x92d.google.com with SMTP id
+ a1e0cc1a2514c-7b9d894be6fso1699628241.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Oct 2023 09:28:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1698769681; x=1699374481; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=EnirYMb0/SealnyxAtrqPAbgD/M5iu32PEWT4EArxN4=;
+ b=pYIrTs6h/D2TwgIKAm7BZyK9++v7O+sS62KtesE4TITpQjFZn8vAHXhnX+yHcYSyoB
+ LsaSmobiEcQ5xytpfb1mlbNFv2cLbI51cLMqzHT/pvufJ6twhKakm9AOnzImZ+T3MxhX
+ Kr4Oe7I3uM2XsVIkIDfUZXK1cMqFSF5VVQHE9gtd6ehXjcJHr1/CSmNtUfNpnxiU/2v3
+ yUMfj26ZSGfHliTMKT+klr8J34bmBoRjTbrsefMzVqPy3LQ0MgipQ3fQ50JhWWSLJfEl
+ 9ECWtNFmY6H+PgxPovmYPwnRxfUWp3GI9nhZnviIp0LegrcM2aLhyHE8TzBWq9QrM71k
+ n++Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1698769681; x=1699374481;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=EnirYMb0/SealnyxAtrqPAbgD/M5iu32PEWT4EArxN4=;
+ b=LKVraPKFE4deVEc8HtyVdbExz1LW1adxbgRtN50/iG5KT3oFgyuBQry18G5UsX8b4W
+ vYPCN2OqnoQV4jznmQ6bELma0oIio+C++m2xz+5CysEnKHifHJ4JDpJbSoDdPwL/XF6m
+ 3+dIk1FpHadQORt/kySPrBakeFHj13Sxxl5v47T7IuHoqq5vdqMgftO776TMhzbzLV7M
+ 5tTWypCXVbac4dGzP9h3m60B2LPc0eCsyfdzYRw4L6uJNIKYn4q1W2o0iXvU3Nt0cl1p
+ EFcHiMAwlTEdDdYbVChu15dnxNb1q2xbc7uQi+XHTHEp2stTXZDsRPnuwkQnjIvWaUEo
+ AkgA==
+X-Gm-Message-State: AOJu0Yy7r+RRweudi+yHifeMnUfC+xPYweAJat6QWJQw7mRV6NK0NaDq
+ nQVNRKfls1CbO1A/PB5Jq7lACbnsIW0S5y2fZIhcAg==
+X-Google-Smtp-Source: AGHT+IETU8E60Bh/4WCGXygwfnJhns7LzXQAo16DH204oQiIzKGqiKrWnorgKsc4NzL2ZOqBnvb+hnY/4MHe4cYpiqg=
+X-Received: by 2002:a67:a205:0:b0:457:d3d1:494b with SMTP id
+ l5-20020a67a205000000b00457d3d1494bmr9611347vse.23.1698769680510; Tue, 31 Oct
+ 2023 09:28:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b489675d-e9de-4bca-9622-78545aa8606d@redhat.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <02546e59-1afe-4b08-ba81-d94f3b691c9a@moroto.mountain>
+In-Reply-To: <02546e59-1afe-4b08-ba81-d94f3b691c9a@moroto.mountain>
+From: Naresh Kamboju <naresh.kamboju@linaro.org>
+Date: Tue, 31 Oct 2023 21:57:48 +0530
+Message-ID: <CA+G9fYuA643RHHpPnz9Ww7rr3zV5a0y=7_uFcybBSL=QP_sQvQ@mail.gmail.com>
+Subject: Re: [RFC] drm/tests: annotate intentional stack trace in
+ drm_test_rect_calc_hscale()
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,47 +67,445 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Jani Nikula <jani.nikula@intel.com>, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: =?UTF-8?B?RGFuaWVsIETDrWF6?= <daniel.diaz@linaro.org>,
+ Kees Cook <keescook@chromium.org>, kernel-janitors@vger.kernel.org,
+ linux-kselftest@vger.kernel.org,
+ =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>, linux-kernel@vger.kernel.org,
+ Maxime Ripard <mripard@kernel.org>,
+ Brendan Higgins <brendan.higgins@linux.dev>, kv-team <kv-team@linaro.org>,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Gow <davidgow@google.com>, Arthur Grillo <arthurgrillo@riseup.net>,
+ kunit-dev@googlegroups.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 31, 2023 at 05:07:39PM +0100, Hans de Goede wrote:
-> On 10/24/23 18:11, Andy Shevchenko wrote:
-> > On Tue, Oct 24, 2023 at 06:57:38PM +0300, Andy Shevchenko wrote:
-> >> It's a dirty hack in the driver that pokes GPIO registers behind
-> >> the driver's back. Moreoever it might be problematic as simultaneous
-> >> I/O may hang the system, see the commit 0bd50d719b00 ("pinctrl:
-> >> cherryview: prevent concurrent access to GPIO controllers") for
-> >> the details. Taking all this into consideration replace the hack
-> >> with proper GPIO APIs being used.
-> > 
-> > Ah, just realised that this won't work if it happens to request to GPIOs with
-> > the same index but different communities. I will fix that in v3, but will wait
-> > for Hans to test VLV and it might even work in most of the cases on CHV as it
-> > seems quite unlikely that the above mentioned assertion is going to happen in
-> > real life.
-> 
-> I have added patches 1-5 to my personal tree + a small debug patch on top
-> which logs when soc_exec_opaque_gpio() actually gets called.
-> 
-> So these patches will now get run every time I run some tests on
-> one my tablets.
-> 
-> I'll get back to you with testing results when I've found a device where
-> the new soc_exec_opaque_gpio() actually gets called.
+On Mon, 30 Oct 2023 at 14:33, Dan Carpenter <dan.carpenter@linaro.org> wrote:
+>
+> We have started printing more and more intentional stack traces.  Whether
+> it's testing KASAN is able to detect use after frees or it's part of a
+> kunit test.
+>
+> These stack traces can be problematic.  They suddenly show up as a new
+> failure.  Now the test team has to contact the developers.  A bunch of
+> people have to investigate the bug.  We finally decide that it's
+> intentional so now the test team has to update their filter scripts to
+> mark it as intentional.  These filters are ad-hoc because there is no
+> standard format for warnings.
+>
+> A better way would be to mark it as intentional from the start.
+>
+> Here, I have marked the beginning and the end of the trace.  It's more
+> tricky for things like lkdtm_FORTIFY_MEM_MEMBER() where the flow doesn't
+> reach the end of the function.  I guess I would print a different
+> warning for stack traces that can't have a
+> "Intentional warning finished\n" message at the end.
+>
+> I haven't actually tested this patch...  Daniel, do you have a
+> list of intentional stack traces we could annotate?
 
-Thank you!
+[My two cents]
 
-> As for the CHT support, I have not added that to my tree yet, I would
-> prefer to directly test the correct/fixed patch.
+I have been noticing following kernel warnings / BUGs
+These are starting happening from next-20231009.
+I am not sure which are "Intentional warnings" or real regressions.
 
-Noted, I'll prepare a new version then.
+[   37.378220] BUG: KASAN: slab-out-of-bounds in kmalloc_oob_right+0xc4/0x300
+[   37.645506] BUG: KASAN: slab-out-of-bounds in kmalloc_oob_right+0xec/0x300
+..
+[  632.407425] BUG: KASAN: null-ptr-deref in kobject_namespace+0x3c/0xb0
 
--- 
-With Best Regards,
-Andy Shevchenko
+
+Logs: [Sorry for sharing long logs ]
+==========
+
+------------[ cut here ]------------
+[  629.699281] WARNING: CPU: 0 PID: 2834 at
+drivers/gpu/drm/drm_rect.c:138 drm_rect_calc_hscale+0xbc/0xe8
+[drm_kms_helper]
+[  629.710944] Modules linked in: drm_rect_test(+)
+drm_probe_helper_test drm_plane_helper_test drm_modes_test drm_mm_test
+drm_managed_test drm_framebuffer_test drm_format_test
+drm_format_helper_test drm_exec_test drm_exec drm_kunit_helpers
+drm_dp_mst_helper_test drm_display_helper drm_damage_helper_test
+drm_connector_test drm_cmdline_parser_test drm_buddy_test
+prime_numbers drm_buddy tda998x onboard_usb_hub hdlcd cec crct10dif_ce
+drm_dma_helper drm_kms_helper drm fuse backlight dm_mod ip_tables
+x_tables
+[  629.756007] CPU: 0 PID: 2834 Comm: kunit_try_catch Tainted: G    B
+          N 6.6.0-next-20231031 #1
+[  629.765381] Hardware name: ARM Juno development board (r2) (DT)
+[  629.771343] pstate: 20000005 (nzCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[  629.778362] pc : drm_rect_calc_hscale+0xbc/0xe8 [drm_kms_helper]
+[  629.785160] lr : drm_rect_calc_hscale+0x60/0xe8 [drm_kms_helper]
+[  629.791955] sp : ffff800088907d20
+[  629.795301] x29: ffff800088907d20 x28: 0000000000000000 x27: 0000000000000000
+[  629.802533] x26: ffff0008270a39c0 x25: ffff8000885673e8 x24: ffff8000809ccf28
+[  629.809770] x23: 0000000000000000 x22: 000000007fffffff x21: 00000000ffff0000
+[  629.817003] x20: ffff80007faf0018 x19: 0000000000010000 x18: 000000007be82992
+[  629.824236] x17: 000000040044ffff x16: 00500072b5503510 x15: 0000000000000000
+[  629.831469] x14: ffff800085d51d00 x13: ffff8008b22e5000 x12: ffff600105778569
+[  629.838704] x11: 1fffe00105778568 x10: ffff600105778568 x9 : ffff80007fae56e4
+[  629.845940] x8 : ffff800088907d08 x7 : 0000000000000000 x6 : 0000000041b58ab3
+[  629.853171] x5 : dfff800000000000 x4 : ffff700011120fb2 x3 : dfff800000000000
+[  629.860406] x2 : 0000000000000003 x1 : 00000000ffff0000 x0 : 0000000000010000
+[  629.867637] Call trace:
+[  629.870108]  drm_rect_calc_hscale+0xbc/0xe8 [drm_kms_helper]
+[  629.876561]  drm_test_rect_calc_hscale+0xac/0x150 [drm_rect_test]
+[  629.882811]  kunit_try_run_case+0x84/0x110
+[  629.886984]  kunit_generic_run_threadfn_adapter+0x38/0x60
+[  629.892445]  kthread+0x18c/0x1a8
+[  629.895723]  ret_from_fork+0x10/0x20
+[  629.899355] ---[ end trace 0000000000000000 ]---
+------------[ cut here ]------------
+[  629.914458] WARNING: CPU: 5 PID: 2836 at
+drivers/gpu/drm/drm_rect.c:138 drm_rect_calc_hscale+0xbc/0xe8
+[drm_kms_helper]
+[  629.926098] Modules linked in: drm_rect_test(+)
+drm_probe_helper_test drm_plane_helper_test drm_modes_test drm_mm_test
+drm_managed_test drm_framebuffer_test drm_format_test
+drm_format_helper_test drm_exec_test drm_exec drm_kunit_helpers
+drm_dp_mst_helper_test drm_display_helper drm_damage_helper_test
+drm_connector_test drm_cmdline_parser_test drm_buddy_test
+prime_numbers drm_buddy tda998x onboard_usb_hub hdlcd cec crct10dif_ce
+drm_dma_helper drm_kms_helper drm fuse backlight dm_mod ip_tables
+x_tables
+[  629.971166] CPU: 5 PID: 2836 Comm: kunit_try_catch Tainted: G    B
+ W        N 6.6.0-next-20231031 #1
+[  629.980553] Hardware name: ARM Juno development board (r2) (DT)
+[  629.986519] pstate: 20000005 (nzCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[  629.993545] pc : drm_rect_calc_hscale+0xbc/0xe8 [drm_kms_helper]
+[  630.000401] lr : drm_rect_calc_hscale+0x60/0xe8 [drm_kms_helper]
+[  630.007201] sp : ffff800088957d20
+[  630.010548] x29: ffff800088957d20 x28: 0000000000000000 x27: 0000000000000000
+[  630.017783] x26: ffff0008270a3dc0 x25: ffff8000885673e8 x24: ffff8000809ccf28
+[  630.025019] x23: 0000000000000000 x22: 000000007fffffff x21: 0000000000010000
+[  630.032249] x20: ffff80007faf0050 x19: 00000000ffff0000 x18: 00000000f9b8fcdb
+[  630.039483] x17: 000000040044ffff x16: 00500072b5503510 x15: 0000000000000000
+[  630.046715] x14: ffff0008008fa300 x13: ffff8008b2380000 x12: ffff600105778799
+[  630.053951] x11: 1fffe00105778798 x10: ffff600105778798 x9 : ffff80007fae56e4
+[  630.061187] x8 : ffff800088957d08 x7 : 0000000000000000 x6 : 0000000041b58ab3
+[  630.068417] x5 : dfff800000000000 x4 : ffff70001112afb2 x3 : dfff800000000000
+[  630.075651] x2 : 0000000000000003 x1 : 00000000ffff0000 x0 : 00000000ffff0000
+[  630.082883] Call trace:
+[  630.085355]  drm_rect_calc_hscale+0xbc/0xe8 [drm_kms_helper]
+[  630.091808]  drm_test_rect_calc_hscale+0xac/0x150 [drm_rect_test]
+[  630.098060]  kunit_try_run_case+0x84/0x110
+[  630.102233]  kunit_generic_run_threadfn_adapter+0x38/0x60
+[  630.107694]  kthread+0x18c/0x1a8
+[  630.110973]  ret_from_fork+0x10/0x20
+[  630.114607] ---[ end trace 0000000000000000 ]---
+------------[ cut here ]------------
+[  630.172564] WARNING: CPU: 5 PID: 2846 at
+drivers/gpu/drm/drm_rect.c:138 drm_rect_calc_vscale+0xbc/0xe8
+[drm_kms_helper]
+[  630.184211] Modules linked in: drm_rect_test(+)
+drm_probe_helper_test drm_plane_helper_test drm_modes_test drm_mm_test
+drm_managed_test drm_framebuffer_test drm_format_test
+drm_format_helper_test drm_exec_test drm_exec drm_kunit_helpers
+drm_dp_mst_helper_test drm_display_helper drm_damage_helper_test
+drm_connector_test drm_cmdline_parser_test drm_buddy_test
+prime_numbers drm_buddy tda998x onboard_usb_hub hdlcd cec crct10dif_ce
+drm_dma_helper drm_kms_helper drm fuse backlight dm_mod ip_tables
+x_tables
+[  630.229265] CPU: 5 PID: 2846 Comm: kunit_try_catch Tainted: G    B
+ W        N 6.6.0-next-20231031 #1
+[  630.238639] Hardware name: ARM Juno development board (r2) (DT)
+[  630.244601] pstate: 20000005 (nzCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[  630.251621] pc : drm_rect_calc_vscale+0xbc/0xe8 [drm_kms_helper]
+[  630.258417] lr : drm_rect_calc_vscale+0x60/0xe8 [drm_kms_helper]
+[  630.265214] sp : ffff8000889c7d20
+[  630.268560] x29: ffff8000889c7d20 x28: 0000000000000000 x27: 0000000000000000
+[  630.275792] x26: ffff00082e57d440 x25: ffff8000885673e8 x24: ffff8000809ccf28
+[  630.283029] x23: 0000000000000000 x22: 000000007fffffff x21: 00000000ffff0000
+[  630.290261] x20: ffff80007faf0018 x19: 0000000000010000 x18: 000000004d058349
+[  630.297494] x17: 000000040044ffff x16: 00500072b5503510 x15: 0000000000000000
+[  630.304726] x14: ffff0008008fa300 x13: ffff8008b2380000 x12: ffff600105e39569
+[  630.311962] x11: 1fffe00105e39568 x10: ffff600105e39568 x9 : ffff80007fae5594
+[  630.319198] x8 : ffff8000889c7d08 x7 : 0000000000000000 x6 : 0000000041b58ab3
+[  630.326430] x5 : dfff800000000000 x4 : ffff700011138fb2 x3 : dfff800000000000
+[  630.333665] x2 : 0000000000000007 x1 : 00000000ffff0000 x0 : 0000000000010000
+[  630.340894] Call trace:
+[  630.343367]  drm_rect_calc_vscale+0xbc/0xe8 [drm_kms_helper]
+[  630.349818]  drm_test_rect_calc_vscale+0xac/0x150 [drm_rect_test]
+[  630.356068]  kunit_try_run_case+0x84/0x110
+[  630.360240]  kunit_generic_run_threadfn_adapter+0x38/0x60
+[  630.365701]  kthread+0x18c/0x1a8
+[  630.368978]  ret_from_fork+0x10/0x20
+[  630.372611] ---[ end trace 0000000000000000 ]---
+------------[ cut here ]------------
+[  630.388003] WARNING: CPU: 3 PID: 2848 at
+drivers/gpu/drm/drm_rect.c:138 drm_rect_calc_vscale+0xbc/0xe8
+[drm_kms_helper]
+[  630.399652] Modules linked in: drm_rect_test(+)
+drm_probe_helper_test drm_plane_helper_test drm_modes_test drm_mm_test
+drm_managed_test drm_framebuffer_test drm_format_test
+drm_format_helper_test drm_exec_test drm_exec drm_kunit_helpers
+drm_dp_mst_helper_test drm_display_helper drm_damage_helper_test
+drm_connector_test drm_cmdline_parser_test drm_buddy_test
+prime_numbers drm_buddy tda998x onboard_usb_hub hdlcd cec crct10dif_ce
+drm_dma_helper drm_kms_helper drm fuse backlight dm_mod ip_tables
+x_tables
+[  630.444724] CPU: 3 PID: 2848 Comm: kunit_try_catch Tainted: G    B
+ W        N 6.6.0-next-20231031 #1
+[  630.454107] Hardware name: ARM Juno development board (r2) (DT)
+[  630.460071] pstate: 20000005 (nzCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[  630.467097] pc : drm_rect_calc_vscale+0xbc/0xe8 [drm_kms_helper]
+[  630.473953] lr : drm_rect_calc_vscale+0x60/0xe8 [drm_kms_helper]
+[  630.480751] sp : ffff8000889e7d20
+[  630.484097] x29: ffff8000889e7d20 x28: 0000000000000000 x27: 0000000000000000
+[  630.491332] x26: ffff00082e57d1c0 x25: ffff8000885673e8 x24: ffff8000809ccf28
+[  630.498568] x23: 0000000000000000 x22: 000000007fffffff x21: 0000000000010000
+[  630.505800] x20: ffff80007faf0050 x19: 00000000ffff0000 x18: 000000007be82992
+[  630.513032] x17: 000000040044ffff x16: 00500072b5503510 x15: 0000000000000000
+[  630.520265] x14: ffff0008008f8000 x13: 6461657268745f68 x12: ffff600104d8cbf9
+[  630.527500] x11: 1fffe00104d8cbf8 x10: ffff600104d8cbf8 x9 : ffff80007fae5594
+[  630.534736] x8 : ffff8000889e7d08 x7 : 0000000000000000 x6 : 0000000041b58ab3
+[  630.541968] x5 : dfff800000000000 x4 : ffff70001113cfb2 x3 : dfff800000000000
+[  630.549202] x2 : 0000000000000007 x1 : 00000000ffff0000 x0 : 00000000ffff0000
+[  630.556433] Call trace:
+[  630.558906]  drm_rect_calc_vscale+0xbc/0xe8 [drm_kms_helper]
+[  630.565357]  drm_test_rect_calc_vscale+0xac/0x150 [drm_rect_test]
+[  630.571609]  kunit_try_run_case+0x84/0x110
+[  630.575782]  kunit_generic_run_threadfn_adapter+0x38/0x60
+[  630.581244]  kthread+0x18c/0x1a8
+[  630.584523]  ret_from_fork+0x10/0x20
+[  630.588156] ---[ end trace 0000000000000000 ]---
+------------[ cut here ]------------
+[  631.679963] kobject: '(null)' (00000000f512f33b): is not
+initialized, yet kobject_get() is being called.
+[  631.692367] WARNING: CPU: 2 PID: 2900 at lib/kobject.c:637
+kobject_get+0xa4/0xf0
+[  631.702388] Modules linked in: snd_hda_cirrus_scodec_test(+)
+snd_hda_cirrus_scodec preemptirq_delay_test usbtest pci_epf_test
+pci_endpoint_test hte_tegra194_test drm_rect_test
+drm_probe_helper_test drm_plane_helper_test drm_modes_test drm_mm_test
+drm_managed_test drm_framebuffer_test drm_format_test
+drm_format_helper_test drm_exec_test drm_exec drm_kunit_helpers
+drm_dp_mst_helper_test drm_display_helper drm_damage_helper_test
+drm_connector_test drm_cmdline_parser_test drm_buddy_test
+prime_numbers drm_buddy tda998x onboard_usb_hub hdlcd cec crct10dif_ce
+drm_dma_helper drm_kms_helper drm fuse backlight dm_mod ip_tables
+x_tables
+[  631.760697] CPU: 2 PID: 2900 Comm: modprobe Tainted: G    B   W
+   N 6.6.0-next-20231031 #1
+[  631.772184] Hardware name: ARM Juno development board (r2) (DT)
+[  631.780891] pstate: 60000005 (nZCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[  631.790639] pc : kobject_get+0xa4/0xf0
+[  631.797169] lr : kobject_get+0xa4/0xf0
+[  631.803699] sp : ffff800088616fa0
+[  631.809794] x29: ffff800088616fa0 x28: ffff800085d42a60 x27: ffff80007fb3a180
+[  631.819718] x26: ffff000830a36968 x25: ffff80007fb3a218 x24: ffff000828158298
+[  631.829642] x23: ffff0008281582a0 x22: ffff80007fb3a1d0 x21: 1ffff000110c2e0c
+[  631.839566] x20: ffff800082bd05a0 x19: ffff80007fb3a1d0 x18: 0000000000000000
+[  631.849490] x17: 6f6b20746579202c x16: 64657a696c616974 x15: 696e6920746f6e20
+[  631.859413] x14: 7369203a29623333 x13: 2e64656c6c616320 x12: ffff7000110c2d95
+[  631.869337] x11: 1ffff000110c2d94 x10: ffff7000110c2d94 x9 : ffff8000801a1018
+[  631.879261] x8 : 00008fffeef3d26c x7 : ffff800088616ca7 x6 : 0000000000000001
+[  631.889185] x5 : ffff800088616ca0 x4 : ffff7000110c2d95 x3 : dfff800000000000
+[  631.899109] x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffff00083c8fb480
+[  631.909033] Call trace:
+[  631.914258]  kobject_get+0xa4/0xf0
+[  631.920440]  kobject_add_internal+0x58/0x438
+[  631.927491]  kobject_add+0x104/0x198
+[  631.933852]  kobject_create_and_add+0x70/0xc8
+[  631.940991]  module_add_driver+0x190/0x1b0
+[  631.947869]  bus_add_driver+0x1ac/0x2d0
+[  631.954490]  driver_register+0xac/0x1f8
+[  631.961107]  __platform_driver_register+0x4c/0x68
+[  631.968595]  cirrus_scodec_test_suite_init+0x34/0xa8
+[snd_hda_cirrus_scodec_test]
+[  631.978867]  kunit_run_tests+0xc8/0x860
+[  631.985484]  __kunit_test_suites_init+0x9c/0xf0
+[  631.992797]  kunit_exec_run_tests+0x9c/0xb8
+[  631.999762]  kunit_module_notify+0x2f0/0x318
+[  632.006819]  notifier_call_chain+0x90/0x1c8
+[  632.013784]  blocking_notifier_call_chain_robust+0xc8/0x148
+[  632.022141]  load_module+0x2950/0x2d30
+[  632.028672]  init_module_from_file+0xdc/0x138
+[  632.035811]  __arm64_sys_finit_module+0x23c/0x458
+[  632.043298]  invoke_syscall+0x68/0x198
+[  632.049828]  el0_svc_common.constprop.0+0x80/0x150
+[  632.057403]  do_el0_svc+0x38/0x50
+[  632.063498]  el0_svc+0x3c/0x80
+[  632.069332]  el0t_64_sync_handler+0x120/0x130
+[  632.076471]  el0t_64_sync+0x190/0x198
+[  632.082915] ---[ end trace 0000000000000000 ]---
+------------[ cut here ]------------
+[  632.097826] refcount_t: addition on 0; use-after-free.
+[  632.105742] WARNING: CPU: 2 PID: 2900 at lib/refcount.c:25
+refcount_warn_saturate+0x14c/0x178
+[  632.116955] Modules linked in: snd_hda_cirrus_scodec_test(+)
+snd_hda_cirrus_scodec preemptirq_delay_test usbtest pci_epf_test
+pci_endpoint_test hte_tegra194_test drm_rect_test
+drm_probe_helper_test drm_plane_helper_test drm_modes_test drm_mm_test
+drm_managed_test drm_framebuffer_test drm_format_test
+drm_format_helper_test drm_exec_test drm_exec drm_kunit_helpers
+drm_dp_mst_helper_test drm_display_helper drm_damage_helper_test
+drm_connector_test drm_cmdline_parser_test drm_buddy_test
+prime_numbers drm_buddy tda998x onboard_usb_hub hdlcd cec crct10dif_ce
+drm_dma_helper drm_kms_helper drm fuse backlight dm_mod ip_tables
+x_tables
+[  632.175267] CPU: 2 PID: 2900 Comm: modprobe Tainted: G    B   W
+   N 6.6.0-next-20231031 #1
+[  632.186759] Hardware name: ARM Juno development board (r2) (DT)
+[  632.193900] pstate: 60000005 (nZCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[  632.200892] pc : refcount_warn_saturate+0x14c/0x178
+[  632.205801] lr : refcount_warn_saturate+0x14c/0x178
+[  632.210703] sp : ffff800088616f80
+[  632.214028] x29: ffff800088616f80 x28: ffff800085d42a60 x27: ffff80007fb3a180
+[  632.221214] x26: ffff000830a36968 x25: ffff80007fb3a218 x24: ffff000828158298
+[  632.228400] x23: ffff0008281582a0 x22: ffff80007fb3a1d0 x21: 1ffff000110c2e0c
+[  632.235582] x20: ffff80007fb3a208 x19: 0000000000000002 x18: 0000000000000000
+[  632.242769] x17: 0000000000000000 x16: 0000000000000000 x15: 0000000000000000
+[  632.249946] x14: 0000000000000000 x13: 2e656572662d7265 x12: ffff7000110c2d91
+[  632.257125] x11: 1ffff000110c2d90 x10: ffff7000110c2d90 x9 : ffff8000801a1018
+[  632.264305] x8 : 00008fffeef3d270 x7 : ffff800088616c87 x6 : 0000000000000001
+[  632.271483] x5 : ffff800088616c80 x4 : ffff7000110c2d91 x3 : dfff800000000000
+[  632.278663] x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffff00083c8fb480
+[  632.285842] Call trace:
+[  632.288296]  refcount_warn_saturate+0x14c/0x178
+[  632.292851]  kobject_get+0xec/0xf0
+[  632.296277]  kobject_add_internal+0x58/0x438
+[  632.300573]  kobject_add+0x104/0x198
+[  632.304171]  kobject_create_and_add+0x70/0xc8
+[  632.308553]  module_add_driver+0x190/0x1b0
+[  632.312674]  bus_add_driver+0x1ac/0x2d0
+[  632.316534]  driver_register+0xac/0x1f8
+[  632.320388]  __platform_driver_register+0x4c/0x68
+[  632.325116]  cirrus_scodec_test_suite_init+0x34/0xa8
+[snd_hda_cirrus_scodec_test]
+[  632.332668]  kunit_run_tests+0xc8/0x860
+[  632.336527]  __kunit_test_suites_init+0x9c/0xf0
+[  632.341084]  kunit_exec_run_tests+0x9c/0xb8
+[  632.345287]  kunit_module_notify+0x2f0/0x318
+[  632.349581]  notifier_call_chain+0x90/0x1c8
+[  632.353788]  blocking_notifier_call_chain_robust+0xc8/0x148
+[  632.359387]  load_module+0x2950/0x2d30
+[  632.363160]  init_module_from_file+0xdc/0x138
+[  632.367542]  __arm64_sys_finit_module+0x23c/0x458
+[  632.372272]  invoke_syscall+0x68/0x198
+[  632.376045]  el0_svc_common.constprop.0+0x80/0x150
+[  632.380863]  do_el0_svc+0x38/0x50
+[  632.384200]  el0_svc+0x3c/0x80
+[  632.387273]  el0t_64_sync_handler+0x120/0x130
+[  632.391653]  el0t_64_sync+0x190/0x198
+[  632.395335] ---[ end trace 0000000000000000 ]---
+
+[  632.400176] ==================================================================
+[  632.407425] BUG: KASAN: null-ptr-deref in kobject_namespace+0x3c/0xb0
+[  632.413902] Read of size 8 at addr 0000000000000018 by task modprobe/2900
+[  632.420715]
+[  632.422214] CPU: 2 PID: 2900 Comm: modprobe Tainted: G    B   W
+   N 6.6.0-next-20231031 #1
+[  632.430946] Hardware name: ARM Juno development board (r2) (DT)
+[  632.436885] Call trace:
+[  632.439338]  dump_backtrace+0x9c/0x128
+[  632.443109]  show_stack+0x20/0x38
+[  632.446441]  dump_stack_lvl+0x60/0xb0
+[  632.450124]  print_report+0x2f0/0x5d8
+[  632.453811]  kasan_report+0xc8/0x118
+[  632.457408]  __asan_load8+0x68/0xc0
+[  632.460918]  kobject_namespace+0x3c/0xb0
+[  632.464866]  kobject_add_internal+0x104/0x438
+[  632.469248]  kobject_add+0x104/0x198
+[  632.472846]  kobject_create_and_add+0x70/0xc8
+[  632.477229]  module_add_driver+0x190/0x1b0
+[  632.481348]  bus_add_driver+0x1ac/0x2d0
+[  632.485208]  driver_register+0xac/0x1f8
+[  632.489063]  __platform_driver_register+0x4c/0x68
+[  632.493790]  cirrus_scodec_test_suite_init+0x34/0xa8
+[snd_hda_cirrus_scodec_test]
+[  632.501337]  kunit_run_tests+0xc8/0x860
+[  632.505197]  __kunit_test_suites_init+0x9c/0xf0
+[  632.509754]  kunit_exec_run_tests+0x9c/0xb8
+[  632.513956]  kunit_module_notify+0x2f0/0x318
+[  632.518251]  notifier_call_chain+0x90/0x1c8
+[  632.522457]  blocking_notifier_call_chain_robust+0xc8/0x148
+[  632.528057]  load_module+0x2950/0x2d30
+[  632.531829]  init_module_from_file+0xdc/0x138
+[  632.536211]  __arm64_sys_finit_module+0x23c/0x458
+[  632.540941]  invoke_syscall+0x68/0x198
+[  632.544713]  el0_svc_common.constprop.0+0x80/0x150
+[  632.549531]  do_el0_svc+0x38/0x50
+[  632.552868]  el0_svc+0x3c/0x80
+[  632.555941]  el0t_64_sync_handler+0x120/0x130
+[  632.560321]  el0t_64_sync+0x190/0x198
+[  632.564002] ==================================================================
+[  632.571398] Unable to handle kernel NULL pointer dereference at
+virtual address 0000000000000018
+[  632.580388] Mem abort info:
+[  632.583201]   ESR = 0x0000000096000004
+[  632.587023]   EC = 0x25: DABT (current EL), IL = 32 bits
+[  632.592413]   SET = 0, FnV = 0
+[  632.595520]   EA = 0, S1PTW = 0
+[  632.598682]   FSC = 0x04: level 0 translation fault
+[  632.603612] Data abort info:
+[  632.606510]   ISV = 0, ISS = 0x00000004, ISS2 = 0x00000000
+[  632.612049]   CM = 0, WnR = 0, TnD = 0, TagAccess = 0
+[  632.617155]   GCS = 0, Overlay = 0, DirtyBit = 0, Xs = 0
+[  632.622524] user pgtable: 4k pages, 48-bit VAs, pgdp=00000008ace48000
+[  632.629044] [0000000000000018] pgd=0000000000000000, p4d=0000000000000000
+[  632.635923] Internal error: Oops: 0000000096000004 [#1] PREEMPT SMP
+[  632.642219] Modules linked in: snd_hda_cirrus_scodec_test(+)
+snd_hda_cirrus_scodec preemptirq_delay_test usbtest pci_epf_test
+pci_endpoint_test hte_tegra194_test drm_rect_test
+drm_probe_helper_test drm_plane_helper_test drm_modes_test drm_mm_test
+drm_managed_test drm_framebuffer_test drm_format_test
+drm_format_helper_test drm_exec_test drm_exec drm_kunit_helpers
+drm_dp_mst_helper_test drm_display_helper drm_damage_helper_test
+drm_connector_test drm_cmdline_parser_test drm_buddy_test
+prime_numbers drm_buddy tda998x onboard_usb_hub hdlcd cec crct10dif_ce
+drm_dma_helper drm_kms_helper drm fuse backlight dm_mod ip_tables
+x_tables
+[  632.698102] CPU: 2 PID: 2900 Comm: modprobe Tainted: G    B   W
+   N 6.6.0-next-20231031 #1
+[  632.706838] Hardware name: ARM Juno development board (r2) (DT)
+[  632.712777] pstate: 40000005 (nZcv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[  632.719767] pc : kobject_namespace+0x3c/0xb0
+[  632.724072] lr : kobject_namespace+0x3c/0xb0
+[  632.728367] sp : ffff800088616f90
+[  632.731692] x29: ffff800088616f90 x28: ffff800085d42a60 x27: ffff80007fb3a180
+[  632.738878] x26: ffff000830a36968 x25: ffff8000831269a0 x24: ffff000828158298
+[  632.746062] x23: ffff0008281582a0 x22: ffff0008281582a8 x21: 0000000000000000
+[  632.753242] x20: ffff80007fb3a1d0 x19: ffff000828158280 x18: 0000000000000000
+[  632.760421] x17: 3d3d3d3d3d3d3d3d x16: 3d3d3d3d3d3d3d3d x15: 3d3d3d3d3d3d3d3d
+[  632.767600] x14: 3d3d3d3d3d3d3d3d x13: 3d3d3d3d3d3d3d3d x12: ffff700010ed19d9
+[  632.774780] x11: 1ffff00010ed19d8 x10: ffff700010ed19d8 x9 : dfff800000000000
+[  632.781967] x8 : 00008fffef12e628 x7 : ffff80008768cec7 x6 : 0000000000000001
+[  632.789151] x5 : ffff80008768cec0 x4 : ffff700010ed19d9 x3 : 0000000000000000
+[  632.796330] x2 : 0000000000040220 x1 : ffff00083c8fb480 x0 : 0000000000000001
+[  632.803508] Call trace:
+[  632.805966]  kobject_namespace+0x3c/0xb0
+[  632.809917]  kobject_add_internal+0x104/0x438
+[  632.814300]  kobject_add+0x104/0x198
+[  632.817898]  kobject_create_and_add+0x70/0xc8
+[  632.822286]  module_add_driver+0x190/0x1b0
+[  632.826408]  bus_add_driver+0x1ac/0x2d0
+[  632.830269]  driver_register+0xac/0x1f8
+[  632.834123]  __platform_driver_register+0x4c/0x68
+[  632.838858]  cirrus_scodec_test_suite_init+0x34/0xa8
+[snd_hda_cirrus_scodec_test]
+[  632.846408]  kunit_run_tests+0xc8/0x860
+[  632.850270]  __kunit_test_suites_init+0x9c/0xf0
+[  632.854828]  kunit_exec_run_tests+0x9c/0xb8
+[  632.859037]  kunit_module_notify+0x2f0/0x318
+[  632.863332]  notifier_call_chain+0x90/0x1c8
+[  632.867541]  blocking_notifier_call_chain_robust+0xc8/0x148
+[  632.873141]  load_module+0x2950/0x2d30
+[  632.876913]  init_module_from_file+0xdc/0x138
+[  632.881295]  __arm64_sys_finit_module+0x23c/0x458
+[  632.886028]  invoke_syscall+0x68/0x198
+[  632.889806]  el0_svc_common.constprop.0+0x80/0x150
+[  632.894625]  do_el0_svc+0x38/0x50
+[  632.897966]  el0_svc+0x3c/0x80
+[  632.901045]  el0t_64_sync_handler+0x120/0x130
+[  632.905428]  el0t_64_sync+0x190/0x198
+[  632.909116] Code: 979a7e35 f9401695 910062a0 979a7e32 (f9400ea1)
+[  632.915238] ---[ end trace 0000000000000000 ]---
 
 
+Links:
+ - https://qa-reports.linaro.org/lkft/linux-next-master/build/next-20231031/testrun/20866349/suite/log-parser-test/test/check-kernel-bug/log
+ - https://qa-reports.linaro.org/lkft/linux-next-master/build/next-20231031/testrun/20866349/suite/log-parser-test/tests/
+
+- Naresh
