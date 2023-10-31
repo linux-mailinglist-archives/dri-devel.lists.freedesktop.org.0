@@ -2,46 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DA867DD63C
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Oct 2023 19:42:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC5187DD6AB
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Oct 2023 20:29:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC4E310E5AD;
-	Tue, 31 Oct 2023 18:42:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB02510E09C;
+	Tue, 31 Oct 2023 19:29:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C9DC10E5AD
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Oct 2023 18:41:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:Cc:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=XI5satVjCyqE4HDX9rUAH+vtcmXRel+wzxtgxsAgF6M=; b=i0ZQ9JdB2JrxqmnA0thHNbXfD0
- Fus15iUYLhXeUDbsp7iEfHswOdTVR7+mFJTTBGmXLfXyv8cgD2NCFlIslklxIobb/AZ1+ZbP4QQ4C
- n78T88a10uChoz1hklPsFLllpgkUTXQfFSDda8eVZKmCtjDsXNdaf2S2N8lhe7TPtKYxGzoaCK3Ju
- chyrAvlcNsZ/4rgy+yMF1zbHoERt/q9YURvU8l2mEXENna1NTEwxotrAFHOpK1uN1j0/EtfF0nwN2
- qTVnmEcEk8RdNxoYo83LgfgvpV3iIa2QziB73mLL1C1FKo68JGofVktYofpNtiXIyMSA+nA+ciRug
- NRddj0bQ==;
-Received: from [143.107.182.242] (helo=[10.41.72.65])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1qxtgZ-00FVK3-Pp; Tue, 31 Oct 2023 19:41:56 +0100
-Message-ID: <b9fe367a-cb90-14a1-37c2-5a402fd7fe89@igalia.com>
-Date: Tue, 31 Oct 2023 15:41:50 -0300
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com
+ [IPv6:2a00:1450:4864:20::534])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E3DF710E09C;
+ Tue, 31 Oct 2023 19:29:24 +0000 (UTC)
+Received: by mail-ed1-x534.google.com with SMTP id
+ 4fb4d7f45d1cf-540c54944c4so317916a12.1; 
+ Tue, 31 Oct 2023 12:29:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1698780563; x=1699385363; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ylenFw163OeyGdzwB/6YWTRcZscvjRf+QU8lvn2qg+w=;
+ b=kK6kxdZr8I/rnOE7mz63FeXjRY7c5xgUgw/lXSefqVNY0Wnx1Jy1m7iC2Sys41eWgz
+ DAI4FdZDLxEYGYwhA9Ml4RqpifvqrK0ErcYES8efXI42xR3zA9bT1ftZGc6CWBnTN1np
+ TiuXfQT7ez7SX6q6/vAZ2ICuDSKSVJLk0P6/wFwndwcmiltLlQTke7PTNafsHejrS96n
+ 4iZvH8VNNihl+a1DpBKG+zqjUvw9ImpTloAFBIJqQy054drKaD33GFiBjuzjaejsnQQ6
+ NjAZBmjH8SKbzX6efjzcKLwOhy+pax0NVRIMVCs5EYtxhs81Hg4G1N6S4eEcs4u7JnpO
+ bFFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1698780563; x=1699385363;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=ylenFw163OeyGdzwB/6YWTRcZscvjRf+QU8lvn2qg+w=;
+ b=Egfym6qd2dGN+2HMonysDhQ1GcGlRq6hS84epJmglXR6W56rlIX9pFeJsaz/gY22F8
+ iKjtZWGDVlm4hIzeKL1/OibOnLFRMnH6U3u3OD3zQwth96mi1LZHYn7IxQXm78XZ6ivc
+ 9CONZbaiKqTXbes+04ufKWsgfJEe7RwB3dqWpS+cSecfy4Qd36zOaz7wEPBbZI/q0/fZ
+ 4qOfF1HCgHAP73hFMzaEyB3w0cFbNxTzdcptKzTQq0bmQ2iehcYNmwW+MrtrGfhNu//a
+ P/IKm+Aeu8RozI9qo/NtAz3xu8GPfwksxMNGwXV/SxZkra6s1Uol9Ao9OO+VPV0TZkPV
+ 1sCQ==
+X-Gm-Message-State: AOJu0YzC4iJSlE0LgCeAidDjohS1FsFnchOFoyYiRwbOGjNTWiqndaPF
+ 5itaKikPMKENZ4cVXufz9n/lZN3Vb3fx0iUdHN+ciw4j
+X-Google-Smtp-Source: AGHT+IHdACieZKjfavs0pTABOt44oIFQAvPyqiMP6AAc7tD/qbtsPO9ugWCzQRzHNnkyYsnYNpRBs6QZuQdq5RxdKL8=
+X-Received: by 2002:aa7:c042:0:b0:529:d147:e9f3 with SMTP id
+ k2-20020aa7c042000000b00529d147e9f3mr603249edo.5.1698780562981; Tue, 31 Oct
+ 2023 12:29:22 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH] MAINTAINERS: Drop Emma Anholt from all M lines.
-Content-Language: en-US
-To: Emma Anholt <emma@anholt.net>, dri-devel@lists.freedesktop.org
-References: <20231031181648.48675-1-emma@anholt.net>
-From: =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>
-In-Reply-To: <20231031181648.48675-1-emma@anholt.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20231031051943.1957328-1-airlied@gmail.com>
+ <20231031051943.1957328-4-airlied@gmail.com>
+ <CAOZdJXXXf3RUc3d1STyZtAENHe_DqC7sXoWZZhk7p2wo=t7SVA@mail.gmail.com>
+In-Reply-To: <CAOZdJXXXf3RUc3d1STyZtAENHe_DqC7sXoWZZhk7p2wo=t7SVA@mail.gmail.com>
+From: Dave Airlie <airlied@gmail.com>
+Date: Wed, 1 Nov 2023 05:29:11 +1000
+Message-ID: <CAPM=9twkLVo4aF5exWLXVfRxewcDvb17k9O3L1uB3-KG4g4FMw@mail.gmail.com>
+Subject: Re: [Nouveau] [PATCH 3/3] nouveau/gsp: add some basic registry
+ entries.
+To: Timur Tabi <timur@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,56 +71,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/31/23 15:16, Emma Anholt wrote:
-> I am not active in the Linux kernel and don't want to see patches.
-> 
-> Signed-off-by: Emma Anholt <emma@anholt.net>
+On Wed, 1 Nov 2023 at 01:53, Timur Tabi <timur@kernel.org> wrote:
+>
+> On Tue, Oct 31, 2023 at 12:20=E2=80=AFAM Dave Airlie <airlied@gmail.com> =
+wrote:
+> > +#define NV_GSP_REG_NUM_ENTRIES 2
+> > +
+> > +static const struct nv_gsp_registry_entries r535_registry_entries[NV_G=
+SP_REG_NUM_ENTRIES] =3D {
+> > +       { "RMSecBusResetEnable", 1 },
+> > +       { "RMForcePcieConfigSave", 1 },
+> > +};
+>
+> How about :
+>
+> static const struct nv_gsp_registry_entries r535_registry_entries[] =3D {
+>        { "RMSecBusResetEnable", 1 },
+>        { "RMForcePcieConfigSave", 1 },
+> };
+>
+> #define NV_GSP_REG_NUM_ENTRIES ARRAY_SIZE(r535_registry_entries)
 
-Acked-by: Maíra Canal <mcanal@igalia.com>
+Good plan. I'll change that now.
 
-Best Regards,
-- Maíra
-
-> ---
->   MAINTAINERS | 4 ----
->   1 file changed, 4 deletions(-)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 01fb9ee6b951..31854c48711e 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -5378,7 +5378,6 @@ T:	git git://anongit.freedesktop.org/drm/drm-misc
->   F:	drivers/gpu/drm/sun4i/sun8i*
->   
->   DRM DRIVER FOR ARM PL111 CLCD
-> -M:	Eric Anholt <eric@anholt.net>
->   S:	Supported
->   T:	git git://anongit.freedesktop.org/drm/drm-misc
->   F:	drivers/gpu/drm/pl111/
-> @@ -5441,7 +5440,6 @@ T:	git git://anongit.freedesktop.org/drm/drm-misc
->   F:	drivers/gpu/drm/tiny/gm12u320.c
->   
->   DRM DRIVER FOR HX8357D PANELS
-> -M:	Eric Anholt <eric@anholt.net>
->   S:	Maintained
->   T:	git git://anongit.freedesktop.org/drm/drm-misc
->   F:	Documentation/devicetree/bindings/display/himax,hx8357d.txt
-> @@ -5883,7 +5881,6 @@ F:	Documentation/devicetree/bindings/display/ti/
->   F:	drivers/gpu/drm/omapdrm/
->   
->   DRM DRIVERS FOR V3D
-> -M:	Eric Anholt <eric@anholt.net>
->   S:	Supported
->   T:	git git://anongit.freedesktop.org/drm/drm-misc
->   F:	Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.txt
-> @@ -5891,7 +5888,6 @@ F:	drivers/gpu/drm/v3d/
->   F:	include/uapi/drm/v3d_drm.h
->   
->   DRM DRIVERS FOR VC4
-> -M:	Eric Anholt <eric@anholt.net>
->   S:	Supported
->   T:	git git://github.com/anholt/linux
->   T:	git git://anongit.freedesktop.org/drm/drm-misc
+Dave.
