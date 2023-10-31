@@ -1,59 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2611B7DCC10
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Oct 2023 12:46:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C61C07DCC2A
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Oct 2023 12:53:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 260E310E116;
-	Tue, 31 Oct 2023 11:46:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 48B5010E0A5;
+	Tue, 31 Oct 2023 11:53:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2BB0810E116;
- Tue, 31 Oct 2023 11:46:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1698752761; x=1730288761;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=/yq1RVlNm6tZQvfQXhB0bbLvhcRCOBHe93SCZE+4CC0=;
- b=EoebP5Q1gV8FIdfT5rBWkOGtrV67ymCDA+myUl0L4BehppUzEnF+npQs
- ae8nk661pyyOmxcGxKvtvxUJx5UO5QMx3/A31do2SGCvmE2omhGpemu78
- NbtDAGJH0gScgb5djiaCqt90F7wfcjPMj4X9leoarluI6kjL1RK5nZA09
- XI+tEBwaWM8T2ReR/EngEI29wHEQCRnjWcV2n5cOTI2OS3N++3n6Djkfr
- kUdM8HPdoIEMM+pc4f2JysDCW6m4n/nici8WezucvYSJYpG9xSKBV9FdB
- A1AZpMLpKQDoKUaLNB9byeW4BhxD69C151jjCTqWMevG26B+oOCD7ZwMj g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10879"; a="388093007"
-X-IronPort-AV: E=Sophos;i="6.03,265,1694761200"; d="scan'208";a="388093007"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Oct 2023 04:46:00 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10879"; a="904318456"
-X-IronPort-AV: E=Sophos;i="6.03,265,1694761200"; d="scan'208";a="904318456"
-Received: from moelschl-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.51.45])
- by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Oct 2023 04:45:57 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Danilo Krummrich <dakr@redhat.com>, airlied@gmail.com, daniel@ffwll.ch,
- matthew.brost@intel.com, sarah.walker@imgtec.com,
- donald.robson@imgtec.com, boris.brezillon@collabora.com,
- christian.koenig@amd.com, faith@gfxstrand.net
-Subject: Re: [PATCH drm-misc-next v7 4/7] drm/gpuvm: add an abstraction for
- a VM / BO combination
-In-Reply-To: <f00a4975cf32c3ae28124343a2c994acda083829.camel@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20231023201659.25332-1-dakr@redhat.com>
- <20231023201659.25332-5-dakr@redhat.com>
- <f00a4975cf32c3ae28124343a2c994acda083829.camel@linux.intel.com>
-Date: Tue, 31 Oct 2023 13:45:54 +0200
-Message-ID: <87zfzz3thp.fsf@intel.com>
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C7C9810E0A5
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Oct 2023 11:53:41 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id E43BACE01B7;
+ Tue, 31 Oct 2023 11:53:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CACF4C433C8;
+ Tue, 31 Oct 2023 11:53:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1698753218;
+ bh=fhz4BlNKDs1Y3KPQ7jbsa9UfJMLlXuJSp17uDXC/zVQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=nZYpt5ZvmuRzekL67l2I+szXm8umHGLhqGyT2ib9Gsx3u8kLhac/DOUrppujkUWYm
+ aqfn5R97k60wk2YhVPlzHLtVrA0gtgj4r86/vW1oxqD4mwjOXvYGiKpiNNLZ3wqmYQ
+ GVzszGfNlL4eRDp8gPq010y1m3DmV8iUj0GBl+qyxtBAiLXtO7wEw1fuG3P321WoXK
+ 3VM2n9s7OaBmPxMU++NCoLFvhksJ4pjYedkjvQESUkJtJ84hva/8p7z0KNmxu3I9aL
+ G3Wa3sQWwTse2pI41ZKTPEaWmFHIb8hnmenX/dMIXKLXK0aF2yH/u1GkCXj8/6uuW3
+ /dw57slI5Pl0A==
+Date: Tue, 31 Oct 2023 12:53:35 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Javier Martinez Canillas <javierm@redhat.com>
+Subject: Re: [PATCH] drm/ssd130x: Fix possible uninitialized usage of
+ crtc_state variable
+Message-ID: <2eh6i4ttpepnpehw47zucgrs3rvzugxiay7eqy65phktcm2m4r@zwzyn5rn55yl>
+References: <20231020225338.1686974-1-javierm@redhat.com>
+ <b048247c-75e9-488e-a4f3-b227a38bca5e@redhat.com>
+ <87v8aso1ha.fsf@minerva.mail-host-address-is-not-set>
+ <CAMuHMdVLf=H7QWaUXrN17ABw9eE1MjBdzFEM0AhMNj8_ULSz+Q@mail.gmail.com>
+ <87lebjksoj.fsf@minerva.mail-host-address-is-not-set>
+ <CAMuHMdXdYm6Opyhgte7CaScs_jdPNUqrQTbPCMSQXqkKpKTd8w@mail.gmail.com>
+ <87il6nkp6e.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="bozy7lsi3n5xgw2q"
+Content-Disposition: inline
+In-Reply-To: <87il6nkp6e.fsf@minerva.mail-host-address-is-not-set>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,33 +57,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Jocelyn Falempe <jfalempe@redhat.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Geert Uytterhoeven <geert@linux-m68k.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Dan Carpenter <dan.carpenter@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 31 Oct 2023, Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.co=
-m> wrote:
-> On Mon, 2023-10-23 at 22:16 +0200, Danilo Krummrich wrote:
->> + * Returns: a pointer to the &drm_gpuvm_bo on success, NULL on
+
+--bozy7lsi3n5xgw2q
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Oct 31, 2023 at 12:27:05PM +0100, Javier Martinez Canillas wrote:
+> Geert Uytterhoeven <geert@linux-m68k.org> writes:
+>=20
+> > Hi Javier,
+>=20
+> [...]
+>=20
+> >> >> Pushed to drm-misc (drm-misc-next). Thanks!
+> >> >
+> >> > Looks like you introduced an unintended
+> >> >
+> >> >     (cherry picked from commit 9e4db199e66d427c50458f4d72734cc4f0b92=
+948)
+> >> >
+> >> > ?
+> >> >
+> >>
+> >> No, that's intended. It's added by the `dim cherry-pick` command, sinc=
+e I
+> >> had to cherry-pick to drm-misc-next-fixes the commit that was already =
+in
+> >> the drm-misc-next branch.
+> >>
+> >> You will find that message in many drm commits, i.e:
+> >>
+> >> $ git log --oneline --grep=3D"(cherry picked from commit" drivers/gpu/=
+drm/ | wc -l
+> >> 1708
+> >
+> > Ah, so that's why it's (way too) common to have merge conflicts between
+> > the fixes and non-fixes drm branches :-(
+> >
+>=20
+> I guess so. In this particular case it was my fault because I pushed to
+> drm-misc-next with the expectation that there would be a last PR before
+> the drm-next tree was sent to Torvalds but I missed for a few hours...
 >
-> Still needs s/Returns:/Return:/g
+> So then I had the option for the fixes to miss 6.7 and wait to land in
+> 6.8, or cherry-pick them to the drm-misc-next-fixes branch and pollute
+> the git history log :(
 
-FWIW, both work to accommodate the variance across the kernel, although
-I think only the latter is documented and recommended. It's also the
-most popular:
+Yeah, it's the downside of having so many committers, we have to expect
+that people are going to make small mistakes every now and then and
+that's ok.
 
-  10577 Return
-   3596 Returns
-   1104 RETURN
-    568 return
-    367 returns
-    352 RETURNS
-      1 RETURNs
+That's also not as bad as Geert put it: merging two branches with the
+exact same commit applied won't create conflict. If the two commits
+aren't exactly the same then we can indeed create conflicts, but that
+would have been the case anyway with or without the "double-commits"
 
-BR,
-Jani.
+Maxime
 
+--bozy7lsi3n5xgw2q
+Content-Type: application/pgp-signature; name="signature.asc"
 
---=20
-Jani Nikula, Intel
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZUDqvwAKCRDj7w1vZxhR
+xauJAQCsvO/W/8LAibcKT5LkcpKg7nJ3xhsFZ3kSIBcwOmy0UAEAtegLrlGF0F1E
+1EfNORv+mFilIjFH9e4fKyU4hCLShAY=
+=L23E
+-----END PGP SIGNATURE-----
+
+--bozy7lsi3n5xgw2q--
