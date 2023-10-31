@@ -2,50 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D85307DD132
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Oct 2023 17:07:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B5547DD134
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Oct 2023 17:07:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF1FB10E560;
-	Tue, 31 Oct 2023 16:07:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0009610E561;
+	Tue, 31 Oct 2023 16:07:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 192F010E55F
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Oct 2023 16:07:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1698768435; x=1730304435;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=ygmKS1OPVIeyysZooGEWizh82kiu2HceECE2jK4lM2o=;
- b=QPXZnI4chw6yDFbgFxn9At1WF1XDkQTZ60OJUAG7jGnH3z+cjNbPUqHo
- 0o271V81Vti72jUnElj7AsyyOBylwN95Vr7ZSlkVvIF/CRYUNED21g6DG
- 6ANMQ5x3s/olQB4KRxT4DFb4PUdV2ypb66S/7erIclGGOxkTG2Dr0i3HH
- pBQ3qcC3Khmhookx3j6FL3shAsSGJzAVvSrmejWRMgDvq7UjXhnCE2pAT
- +aohvRHsk57cZ5D0WEWIi/cgBJHjRycZkZ8+f4Jr0oEca8i8cgeL0PhUT
- 38t+yIDLPqK59vdnnw/7Bgv7h031BfVKByvASPqCNKCpLONGpN6AVzRpe Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10880"; a="368525008"
-X-IronPort-AV: E=Sophos;i="6.03,265,1694761200"; d="scan'208";a="368525008"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Oct 2023 09:06:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10880"; a="795618394"
-X-IronPort-AV: E=Sophos;i="6.03,265,1694761200"; d="scan'208";a="795618394"
-Received: from sgruszka-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.34.156])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Oct 2023 09:06:38 -0700
-Date: Tue, 31 Oct 2023 17:06:36 +0100
-From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-To: dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 0/8] accel/ivpu: Update for -next 2023-10-28
-Message-ID: <ZUEmDCsQAENUYPu/@linux.intel.com>
-References: <20231028155936.1183342-1-stanislaw.gruszka@linux.intel.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B64D10E561
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Oct 2023 16:07:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1698768468;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=thpxtjONj4QTupD90Q3EZvagp9KsKzzPeE2dqPNx7k0=;
+ b=b0uya9oIfEeWmlw54McdPujJl59wc1WwsfOPcHBNoK1oi2ml4DWYW5oKjTIlPUHvqbhdsD
+ ocmDmu+WIw3AotYrUGY/aWLop4bdAB7gbpVlAYPG98b4D+lOGeq0bcHOdzb7Ru47cOLbKm
+ AkcbUcnBGSOxc7W/ea1tjYayM+m+I6A=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-459-PolsXbL3M4ChqgF-F8PZmQ-1; Tue, 31 Oct 2023 12:07:43 -0400
+X-MC-Unique: PolsXbL3M4ChqgF-F8PZmQ-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ a640c23a62f3a-9c797b497e8so411452866b.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Oct 2023 09:07:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1698768462; x=1699373262;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=thpxtjONj4QTupD90Q3EZvagp9KsKzzPeE2dqPNx7k0=;
+ b=KiLNOVpVpQmZSDAWfZ/9S6kFVuYY4fcrelEYfIHpmV4qJ4zivHzE4SXzZkFHP18fCJ
+ XDUrVCOyKJt47LUE150+oAy4eozKQBO1tilUyz8CYPlX1jSELD3gZPsi6JxRc+MMFosR
+ 3e7X6mmc7Ziz6whGP1OhuqYG51En4EftBrr5reSHziGwH31MQOotct17wyt2X34q4pnv
+ igeW9PPcXyLBQCma0qns4Fwr+/N3ENgbdcaqrFF7vsvkRDZDMJgviLYTyss/ARPwZ4RD
+ DtlRpnzwbFx9glUaAa27DSnhXXtAEbZtBtvhuNsF7wzkZMIQMqPmeSIPC/97KmPXy3Wv
+ ga/w==
+X-Gm-Message-State: AOJu0Yzaci1v3xwDufv7VBnh4h/yw7A9WXg/ii2Bs/UUIEe/hrYInaBM
+ zFgBQmn+7MxCR3bJcAH/l7yATxXKyN1Js2tCDNffSVJhL0tBTJ/0LtfXm/fAaQFbOohb39dJedp
+ p5VBfXVlGCbdTHu2whzYcTChQ61I8
+X-Received: by 2002:a17:906:4784:b0:9ad:e180:16e3 with SMTP id
+ cw4-20020a170906478400b009ade18016e3mr12240290ejc.37.1698768461850; 
+ Tue, 31 Oct 2023 09:07:41 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFDV51Onpp+gtuqKcZZe8kMiLqbF3dH6IJu74qigRPDiD5Lk35IqZsmbryB7ATZnw7t7AJDEQ==
+X-Received: by 2002:a17:906:4784:b0:9ad:e180:16e3 with SMTP id
+ cw4-20020a170906478400b009ade18016e3mr12240270ejc.37.1698768461497; 
+ Tue, 31 Oct 2023 09:07:41 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:2a07:3a01:6c4:9fb2:fbc:7029?
+ (2001-1c00-2a07-3a01-06c4-9fb2-0fbc-7029.cable.dynamic.v6.ziggo.nl.
+ [2001:1c00:2a07:3a01:6c4:9fb2:fbc:7029])
+ by smtp.gmail.com with ESMTPSA id
+ fy23-20020a170906b7d700b009b2f2451381sm1187507ejb.182.2023.10.31.09.07.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 31 Oct 2023 09:07:40 -0700 (PDT)
+Message-ID: <b489675d-e9de-4bca-9622-78545aa8606d@redhat.com>
+Date: Tue, 31 Oct 2023 17:07:39 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231028155936.1183342-1-stanislaw.gruszka@linux.intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 6/7] drm/i915/dsi: Replace poking of CHV GPIOs behind
+ the driver's back
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Jani Nikula <jani.nikula@intel.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20231024155739.3861342-1-andriy.shevchenko@linux.intel.com>
+ <20231024155739.3861342-7-andriy.shevchenko@linux.intel.com>
+ <ZTfssxRsrDxhzSQ6@smile.fi.intel.com>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <ZTfssxRsrDxhzSQ6@smile.fi.intel.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,22 +91,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Oded Gabbay <ogabbay@kernel.org>, Jeffrey Hugo <quic_jhugo@quicinc.com>,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Oct 28, 2023 at 05:59:28PM +0200, Stanislaw Gruszka wrote:
-> Various driver updates:
->  - MMU page tables handling optimizations
->  - Rebrand to NPU
->  - FW profiling frequency knob
->  - job done thread suspend handling
+Hi Andy,
+
+On 10/24/23 18:11, Andy Shevchenko wrote:
+> On Tue, Oct 24, 2023 at 06:57:38PM +0300, Andy Shevchenko wrote:
+>> It's a dirty hack in the driver that pokes GPIO registers behind
+>> the driver's back. Moreoever it might be problematic as simultaneous
+>> I/O may hang the system, see the commit 0bd50d719b00 ("pinctrl:
+>> cherryview: prevent concurrent access to GPIO controllers") for
+>> the details. Taking all this into consideration replace the hack
+>> with proper GPIO APIs being used.
 > 
-> This is based on top of previous update:
-> https://lore.kernel.org/dri-devel/20231028133415.1169975-1-stanislaw.gruszka@linux.intel.com/
+> Ah, just realised that this won't work if it happens to request to GPIOs with
+> the same index but different communities. I will fix that in v3, but will wait
+> for Hans to test VLV and it might even work in most of the cases on CHV as it
+> seems quite unlikely that the above mentioned assertion is going to happen in
+> real life.
 
-Applied to drm-misc-next
+I have added patches 1-5 to my personal tree + a small debug patch on top
+which logs when soc_exec_opaque_gpio() actually gets called.
 
-Regards
-Stanislaw
+So these patches will now get run every time I run some tests on
+one my tablets.
+
+I'll get back to you with testing results when I've found a device where
+the new soc_exec_opaque_gpio() actually gets called.
+
+As for the CHT support, I have not added that to my tree yet, I would
+prefer to directly test the correct/fixed patch.
+
+Regards,
+
+Hans
+
