@@ -2,121 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C08837DCF48
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Oct 2023 15:34:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5D247DCF54
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Oct 2023 15:39:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE45310E511;
-	Tue, 31 Oct 2023 14:34:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A778910E51E;
+	Tue, 31 Oct 2023 14:39:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2060f.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:7eab::60f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 958B010E50E;
- Tue, 31 Oct 2023 14:34:27 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=CQyB0WjoA4c8Zd6cTl7V1ruRnnjk0GBNy1BIfOT93Oftu6COCZ9H52AZKgZZi1b+nCHeEpqJevuRKvD5F/uRCn45fSJzHfGRfENrVpFlWMTSdbZI1JhF9sKOBFvQtbKye5RTjfOTS8/0/87wyRGf5PU9ev0LK/OzdhrLN5ugU6cBTB9cDx9EknxWfSnrxlw7HeKOsFWAUBFxq1ohoy6gNqBCok4PQ9FqcWnOTgxb06SZh5bdVjDtsu6aWcdu9kUN2jmNOXnX/c+4ECmOEdVXC2NOY0kGQNaAy0o8ct//a8r6g5WXKxbDFsve4+gvlhwrD8y/JkiXF6gDgkh7A1r+ow==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MlBjVlmJ7f/y0rrY6FLr/7WV/iIIWi7FixyWGoTkJ1E=;
- b=FGi+kTvRlgksNo+iiVkbwrtj9zu9R031m0eBjZorh5ygUZWASJgkpMT0pzrZaUkLFQ0D5zlJp55QE1ZSDf5TvGRSe3UTOCY4a9DGBxxx57RGnr9msVyt4ztB+wCJjGTQk0+CPrvLk9grCDgufR1nyzEAainQyEeFksw0pLSntVfDJ+tjtapopsyeif2cctPzfI8hiYDxmOVwYujBG+JR0WcapXrwVvmrxD5zlaud8HLL34K+rasYqM5ShXHFxzwGBaguxH/vBqnje1D85zIvi1mgYgpXKr+Q30yc04fw17mKn/39iSeIYCcgBpQx5ye3jgyGZHAGcMKXvlYj3GM+dg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MlBjVlmJ7f/y0rrY6FLr/7WV/iIIWi7FixyWGoTkJ1E=;
- b=IdCTxkR9Hw6Ao5q6Uj5BTo+HpfTh7AEoseSzet1qm87oWOS9Ja55N5acPZUrQ2nVft3NUYiQ7w5EdPVOklw8Lb2+AKjsPBKSRiFVHIjxinrIhVuPIaFwmlMRsJQIkpYCF4ajMw6rVEAJxOm326MRk9c20pqyP3gIroSVPeekgNI=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by MW3PR12MB4489.namprd12.prod.outlook.com (2603:10b6:303:5e::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6933.28; Tue, 31 Oct
- 2023 14:34:25 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::ca80:8f1c:c11:ded3]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::ca80:8f1c:c11:ded3%6]) with mapi id 15.20.6933.029; Tue, 31 Oct 2023
- 14:34:25 +0000
-Content-Type: multipart/alternative;
- boundary="------------oG8mS7aHzqCPrHY0kLtILcQk"
-Message-ID: <02d7fe0c-cf7e-413a-a2c2-714c932062d5@amd.com>
-Date: Tue, 31 Oct 2023 15:34:20 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/6] drm/amdgpu: Add flag to disable implicit sync for GEM
- operations.
-Content-Language: en-US
-To: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
- Tatsuyuki Ishi <ishitatsuyuki@gmail.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org
+Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com
+ [IPv6:2607:f8b0:4864:20::62d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B59B10E51A;
+ Tue, 31 Oct 2023 14:39:36 +0000 (UTC)
+Received: by mail-pl1-x62d.google.com with SMTP id
+ d9443c01a7336-1cc2b8deb23so5863585ad.1; 
+ Tue, 31 Oct 2023 07:39:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1698763175; x=1699367975; darn=lists.freedesktop.org;
+ h=to:references:message-id:content-transfer-encoding:cc:date
+ :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=kjZxw10fAU3NmXMNfuWyvxVE4h8G74zXwe6kt+CGm4c=;
+ b=KtA2H8vdh6+NB9A56Se8OI/O2vXRKv3ygRKs6Aw9CZ4m+ISuIQZGUVLFg0snIQwZrK
+ 1TXr8kaUPW8RsqkU/1CJgFiYp47xw8m31AbrQHnhh/gflfmaH8P44Bh0HAbCWweY0tq/
+ vxdoaR4AUPcthpnLw+SchnGXYSOyZm13HoSV/qIjdgDbkO+NgY+AgclnSaNN4vldvCRK
+ 2uHU0PWMVzRdYSx6b8OE4HdQv9UoWB0/MOGxjh9vFF7IzGQciUxj4NURPSbtLhWUAJdL
+ IvNR6zK84dL5eyXBu2FZiW4ySkWiS2vXIcsejxJtYStLbmy9PFT5HdxEWF64w+zX13DE
+ o3RQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1698763175; x=1699367975;
+ h=to:references:message-id:content-transfer-encoding:cc:date
+ :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=kjZxw10fAU3NmXMNfuWyvxVE4h8G74zXwe6kt+CGm4c=;
+ b=doIFAO7z43gzVJ2J/+pNggYKzzvmJZ0y5tQz4pugWjXlkMgd/ALTMbWlgvuodlXhSg
+ jWi8V7etBdvfteLq4/pedWSGNQLypkqeXxnj5xeoZqUrtoHUyjDIJHvptIvvAaCuVTG8
+ K+SiGXOHic8sdE9bytkAv0MhP9oe5N4tJt/LuL4b8nURLgSiXk4BFCPVEZe8cMhKUI0p
+ PplBr+9EUVpkeoE6CbFpyU2abPhtPXeB+iLu1Yu0Z0qo8RAR7Z04hE1z1eTT24aYvcYv
+ MHW7ihQhOAo+uOW35TabLZCU+MGSmDjvADJ9qoJq6NNq0k/IT/a7k0/HE10VP4v6LMEa
+ wl8Q==
+X-Gm-Message-State: AOJu0YxKyY6L9i2jbNeujoqCbLKhidd3E8nRrvLS2KAc214zVEtg4Wvk
+ lXk24Sl7f2VPtgHf+YvOIfA=
+X-Google-Smtp-Source: AGHT+IHWEPNaBjGOU+YY+CXdewp8+Vq9U/KnpJoojPPGL/WnMWV0TDR6U9dgKRpGyIMWMb82wXcQeQ==
+X-Received: by 2002:a17:903:32d2:b0:1cc:32c6:e5fa with SMTP id
+ i18-20020a17090332d200b001cc32c6e5famr9269300plr.6.1698763175384; 
+ Tue, 31 Oct 2023 07:39:35 -0700 (PDT)
+Received: from smtpclient.apple (zz20184013906F627101.userreverse.dion.ne.jp.
+ [111.98.113.1]) by smtp.gmail.com with ESMTPSA id
+ w15-20020a170902e88f00b001cc20dd8825sm1398165plg.213.2023.10.31.07.39.33
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 31 Oct 2023 07:39:34 -0700 (PDT)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.200.91.1.1\))
+Subject: Re: [PATCH 2/6] drm/amdgpu: Separate eviction from VM status.
+From: Tatsuyuki Ishi <ishitatsuyuki@gmail.com>
+In-Reply-To: <e2349c50-5d15-4e76-b63a-904abc4f6802@amd.com>
+Date: Tue, 31 Oct 2023 23:39:21 +0900
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <011E5998-09CB-4AE4-AEB8-1619BF005B64@gmail.com>
 References: <20231031134059.171277-1-ishitatsuyuki@gmail.com>
- <20231031134059.171277-6-ishitatsuyuki@gmail.com>
- <454e7d7f-8a23-58bd-8822-55c13beba97f@mailbox.org>
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <454e7d7f-8a23-58bd-8822-55c13beba97f@mailbox.org>
-X-ClientProxiedBy: FR4P281CA0184.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:ca::19) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|MW3PR12MB4489:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4d27d5c1-1fee-4099-876e-08dbda1e7af7
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: eSQ92yvk42UVAbwKXPAafDG+oHDOVyblvnCkI6XEL02ZuvqyGXRD1jd2VausFRjP7XqUM+qKrk5qRVx5oQ7J0sNYaSP3x4O0q7EcaGLJ9iCzTFFfXTB3Sg8xPKPjmwTJpy/1H+qdtYTbDwWNCkBGThEaynpNL/9X9/wyJUNEjOqM6DHoWxE0LU6vNrT2z2QQqzRbeRtLdOt0eJmJCoai3NkCjKmPbU5McTh58dDSbZQgO1QS9QQpUvK2jDfkpoIbFSa4cmJDR9hKKVPOz0L4i+BjHOCZwUv3lcUfNSv+BrtuYDx2oC1y/atQO8YczzX1Rl2Ops6f4dfs9iJHCHpc0bPxGh4Jo+SfP6icbYmfJMRlAtHqrkx7LMuUCtVrFsOs5GpvM7RmX6uvdqhTbg1XWICUwAqTwT15lD+6DIQy/PDYTNB9D7jB0nPmxNp6ZpRwRfUgxxl/Hx3O3Lze2uKAm/2+ZH5G8NWUMa1l/RaQYAJuZEE1zH67dqQOCKTL5sQtO0AJBfnA4TwX6fE20dAs9C+C5BEye0SaUIehKXXKfJ4I1yc2ZcibA5xqxYJFrR0N/VYTnVEZU0q4PDuJBlZnYMdqgAuJKvlYP+ZYsrNAEBnFD+cnCdRaunCRgjURamYr48QlsvRc/R6eQx5vePYo3Q==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(136003)(396003)(376002)(366004)(39860400002)(346002)(230922051799003)(64100799003)(1800799009)(451199024)(186009)(6506007)(26005)(83380400001)(2616005)(66574015)(66556008)(38100700002)(110136005)(316002)(66476007)(66946007)(5660300002)(8936002)(53546011)(4326008)(8676002)(6666004)(33964004)(478600001)(6486002)(6512007)(41300700001)(2906002)(36756003)(86362001)(31696002)(31686004)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OEFzRW94Q3VqcjNuT1hEWW93aHNPcEZybDFDSE8vMmdCQjNOVGdyaHl3aUN1?=
- =?utf-8?B?U20xdS8xdE5uQ0tCMWQzRUpFTWhEa2d5MkRWTUdQTUNESWREZTVMVkl3OW93?=
- =?utf-8?B?MTRnMndvKzVyd0JsQm1qQSt6OHdMNG1mc3Z4TXVpMlVDVlBHb0xxdWxnZnlQ?=
- =?utf-8?B?YkVPMGgzR2pzNFBpOWw5bDNTZzFLVktUSkFFSmdMUUNqV2FwUjdKTnk4Mjdr?=
- =?utf-8?B?OUR1aGp6b0oxc0tkS25rL1FuZi8rb2dOdWJpUnZCdkMxanFBdnlwNGlRaE5j?=
- =?utf-8?B?ZTNqeEdqOEFKUGJ6eVBlM0tHOGptV3lyQVBJTDcveFIreTdzODB0Sjd4Zkds?=
- =?utf-8?B?djJ2QlZKcFdOK2s3VGhDajluTHhPY0JXaDU1NDlIdzduMXhBdG5UbGU1WnE4?=
- =?utf-8?B?dmZVYzFsWncvakk1T1lIaGVkSjY3dW1kWndnQWZpOWgrSkY5UmxTOXk1Sm9v?=
- =?utf-8?B?V2I1V0hPdEhWRW8rdW9rcVF1YlhiK2FOM29jb1hTQ3Zhek9VNEd0dzYvNi82?=
- =?utf-8?B?UWpibjd3ZnVqRXNSTlk5am82VTVuZ1dqb0FKQXYvNTRtRHUxeHZpMGFGVUow?=
- =?utf-8?B?MmExcDVsK0J3bk9ud2hSQngxcEJhUW5zcHJnU3JuZGRNd0ZiK0FWcDZiRXpK?=
- =?utf-8?B?Z3k2N2RqTDg1VmNoM1FkSjhhRHdVT3JlanQxZXVhWXJFVGFUaGc5QnFrMk1Z?=
- =?utf-8?B?STNwcm91QTJCSGhRSjZyY3g5UjF3WVZmeEZySURZRlE3RWFnUTV4S1lwZTFp?=
- =?utf-8?B?SUxWNzE0UWlVYzIzWEZXbE5ld0c0VE9XREJyUGMwWkNLYWd6OUlyQ2pNdTRN?=
- =?utf-8?B?Uk9iNGhyOFVUQ1lZbW5xL2J5VXhZU1RmT0FxV3VRUGdCdFQrTmwrVzRBb3R6?=
- =?utf-8?B?b0lyM2hMZElUbjNFM3FLdXBvVjQ0UXI2TzAvajR2LzJRTEFMRjBvaVhFUFcy?=
- =?utf-8?B?bTd1MExKUVJYa3NoS0VYK3BaUFdtLzlHR0hrSTJJQVNtejdBWDVRNys0N3Jz?=
- =?utf-8?B?cUpZd3BncHE4L1Vvb2JhNld3aGdVbU5HWlFJdmRrVzROTnRWckJpcWg1aEl5?=
- =?utf-8?B?cEdneCt0SUI5OG9sOE1aVDlJVWpsZmcvelFGcWNjZzBkd0Q2OGlwSmN2VEFj?=
- =?utf-8?B?SEJNMWVPMXZLL3BGeG4xMllncmJSRHlwdEtPdDRQcm9QeWd2L1NsWC9QdkhG?=
- =?utf-8?B?UytPNTlJMnREQU54Rm9LYjFVQ1RIb1JzQnZGZXlRaFF0T1Z4NmpqL0tmVmdi?=
- =?utf-8?B?bDhJVm5DYmg4SVRMaTJySFVpakZ0SVlidHVNbTVOaHB3TC9aNUZQc3kwMVI0?=
- =?utf-8?B?YjlybjhPQklIZGlsQjZUbGFOc2x4V2kwWHprSmtjTjVxOHB3QUxtU3lxdElr?=
- =?utf-8?B?bmVrRWtMM1FkOGxuamFkdW9aUkNTUmozbzZLSWhBb2FBNUFVNVZnVy9xbWdM?=
- =?utf-8?B?RWo3K3h4RUU3L294aVNTT2hqb0ZDcVhFdFJWOUhMd1BUTnF6UUtNWWJxRmhE?=
- =?utf-8?B?dGZVRGk4VDJzaVNaek4wVXQvQjZWL0lFTzJOK2NCTFc5VkphSndTeGh5MWtW?=
- =?utf-8?B?dWsyRlB5WFJZeS9kUTZTbXVWb1ZuOWRnWE55ckhnR1VtTHV0bk5TMGFkUU81?=
- =?utf-8?B?eDdVaDVVTStmUGhabG5VMlU4NW01cE1TZTFUbzNDUlRBdmxXQWpDQmIwejNx?=
- =?utf-8?B?djVQQzBCYmZLbS9QWTZOYUhPRWVLd09pMFR0ZDFRd1QwcmpQbk5NMW1SMDl1?=
- =?utf-8?B?ajhRQ0wvQk5CUUNoMTJCejZVNklvZTdlRVhKelJBdSs1VDIxeUhRWWt0U2hG?=
- =?utf-8?B?YU5pb2Q3SE5SeU41dm9WU0g0WktwVThpUWZGbDVqUDdseW94aWNoYWhmMFpr?=
- =?utf-8?B?US8zTHplbFVFTHpnNHlYOFAzQzJ3UzlBRHV2aXNNQmF6WnEwU1k4c3dueDVU?=
- =?utf-8?B?NjRWNGkybFAvYnY1TzhTSTZvZnRQN2ZRcEhmRkdDWUVOV3ZYazJBanFJZDNy?=
- =?utf-8?B?aHFjcVdwTkVqTnloUnF2Z2dZOXZPRksvK05JYlJ4OG1UMWlKbEVrbHQ2R1c2?=
- =?utf-8?B?K3hFMlpmMVg4VWd4VGFGT2xPTHhTUnZONS84cElPV2dwdVphWnFaQmFGa0RP?=
- =?utf-8?Q?S78c6BfNmRvG0Ycb6HauuA+Qd?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4d27d5c1-1fee-4099-876e-08dbda1e7af7
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Oct 2023 14:34:25.1984 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xm6RvLuoLWmCV3d3Qn4qhz+QDEf8Wz+RaPnP02wIQaWMirN6eQSdo7u8VRVUNwDZ
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR12MB4489
+ <20231031134059.171277-3-ishitatsuyuki@gmail.com>
+ <e2349c50-5d15-4e76-b63a-904abc4f6802@amd.com>
+To: =?utf-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+X-Mailer: Apple Mail (2.3774.200.91.1.1)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,94 +77,271 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---------------oG8mS7aHzqCPrHY0kLtILcQk
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
 
 
+> On Oct 31, 2023, at 22:55, Christian K=C3=B6nig =
+<christian.koenig@amd.com> wrote:
+>=20
+> Am 31.10.23 um 14:40 schrieb Tatsuyuki Ishi:
+>> In short, eviction never really belonged to the vm_status state =
+machine.
+>=20
+> I strongly disagree to that.
+>=20
+>> Even when evicted, the BO could belong to either the moved or done =
+state.
+>> The "evicted" state needed to handle both cases, causing greater =
+confusion.
+>>=20
+>> Additionally, there were inconsistencies in the definition of an =
+evicted
+>> BO. Some places are based on the `evict` parameter passed from the =
+TTM move
+>> callback, while the others were updated based on whether the BO got =
+its
+>> optimal placement. The second is more accurate for our use case. With =
+this
+>> refactor, the evicted state is solely determined by the second rule.
+>=20
+> That strongly sounds like you don't understand what the evicted state =
+it good for.
+>=20
+> The evicted state is for page directories, page tables and per VM BOs =
+which needs to move around before doing the next CS.
+>=20
+> Please further explain what you try to do here.
 
-Am 31.10.23 um 15:14 schrieb Michel Dänzer:
-> On 10/31/23 14:40, Tatsuyuki Ishi wrote:
->> In Vulkan, it is the application's responsibility to perform adequate
->> synchronization before a sparse unmap, replace or BO destroy operation.
->> Until now, the kernel applied the same rule as implicitly-synchronized
->> APIs like OpenGL, which with per-VM BOs made page table updates stall the
->> queue completely. The newly added AMDGPU_VM_EXPLICIT_SYNC flag allows
->> drivers to opt-out of this behavior, while still ensuring adequate implicit
->> sync happens for kernel-initiated updates (e.g. BO moves).
->>
->> We record whether to use implicit sync or not for each freed mapping. To
->> avoid increasing the mapping struct's size, this is union-ized with the
->> interval tree field which is unused after the unmap.
->>
->> The reason this is done with a GEM ioctl flag, instead of being a VM /
->> context global setting, is that the current libdrm implementation shares
->> the DRM handle even between different kind of drivers (radeonsi vs radv).
-> Different drivers always use separate contexts though, even with the same DRM file description, don't they?
+This is mainly an attempt to address inconsistency in the definition of =
+=E2=80=9Ceviction=E2=80=9D. The TTM move callback sets eviction when =
+eviction happens through ttm_bo_evict. This is however not the only way =
+a BO might end up outside its preferred domains.
 
-Separate contexts don't help here since the VA space is shared between 
-the two.
+amdgpu_vm_bo_update later updates the eviction state based on whether =
+the BO is in its preferred domains. In my understanding this includes =
+all cases where the BO is evicted through ttm_bo_evict. Therefore we =
+should apply this definition right from the move callback, not only =
+after amdgpu_vm_bo_update has been called at least once.
 
->
-> FWIW, RADV will also want explicit sync in the CS ioctl.
-You can replace that with the DMA-buf IOCTLs like Faith is planning to 
-do for NVK. Regards, Christian.
---------------oG8mS7aHzqCPrHY0kLtILcQk
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Tatsuyuki.
 
-<!DOCTYPE html><html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body>
-    <br>
-    <br>
-    <div class="moz-cite-prefix">Am 31.10.23 um 15:14 schrieb Michel
-      Dänzer:<br>
-    </div>
-    <blockquote type="cite" cite="mid:454e7d7f-8a23-58bd-8822-55c13beba97f@mailbox.org">
-      <pre class="moz-quote-pre" wrap="">On 10/31/23 14:40, Tatsuyuki Ishi wrote:
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">In Vulkan, it is the application's responsibility to perform adequate
-synchronization before a sparse unmap, replace or BO destroy operation.
-Until now, the kernel applied the same rule as implicitly-synchronized
-APIs like OpenGL, which with per-VM BOs made page table updates stall the
-queue completely. The newly added AMDGPU_VM_EXPLICIT_SYNC flag allows
-drivers to opt-out of this behavior, while still ensuring adequate implicit
-sync happens for kernel-initiated updates (e.g. BO moves).
+>=20
+> Regards,
+> Christian.
+>=20
+>>=20
+>> Signed-off-by: Tatsuyuki Ishi <ishitatsuyuki@gmail.com>
+>> ---
+>>  drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c    | 67 =
++++++++++--------------
+>>  drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h    |  1 +
+>>  drivers/gpu/drm/amd/amdgpu/amdgpu_vm_pt.c |  1 +
+>>  3 files changed, 29 insertions(+), 40 deletions(-)
+>>=20
+>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c =
+b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+>> index 7b9762f1cddd..dd6f72e2a1d6 100644
+>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+>> @@ -174,19 +174,23 @@ int amdgpu_vm_set_pasid(struct amdgpu_device =
+*adev, struct amdgpu_vm *vm,
+>>   * State for PDs/PTs and per VM BOs which are not at the location =
+they should
+>>   * be.
+>>   */
+>> -static void amdgpu_vm_bo_evicted(struct amdgpu_vm_bo_base *vm_bo)
+>> +static void amdgpu_vm_bo_set_evicted(struct amdgpu_vm_bo_base =
+*vm_bo, bool evicted)
+>>  {
+>>  	struct amdgpu_vm *vm =3D vm_bo->vm;
+>>  	struct amdgpu_bo *bo =3D vm_bo->bo;
+>>  -	vm_bo->moved =3D true;
+>>  	spin_lock(&vm_bo->vm->status_lock);
+>> -	if (bo->tbo.type =3D=3D ttm_bo_type_kernel)
+>> -		list_move(&vm_bo->vm_status, &vm->evicted);
+>> -	else
+>> -		list_move_tail(&vm_bo->vm_status, &vm->evicted);
+>> +	if (evicted && bo->tbo.base.resv =3D=3D =
+vm->root.bo->tbo.base.resv) {
+>> +		if (bo->tbo.type =3D=3D ttm_bo_type_kernel)
+>> +			list_move(&vm_bo->eviction_status, =
+&vm->evicted);
+>> +		else
+>> +			list_move_tail(&vm_bo->eviction_status, =
+&vm->evicted);
+>> +	} else {
+>> +		list_del_init(&vm_bo->eviction_status);
+>> +	}
+>>  	spin_unlock(&vm_bo->vm->status_lock);
+>>  }
+>> +
+>>  /**
+>>   * amdgpu_vm_bo_moved - vm_bo is moved
+>>   *
+>> @@ -310,6 +314,7 @@ void amdgpu_vm_bo_base_init(struct =
+amdgpu_vm_bo_base *base,
+>>  	base->bo =3D bo;
+>>  	base->next =3D NULL;
+>>  	INIT_LIST_HEAD(&base->vm_status);
+>> +	INIT_LIST_HEAD(&base->eviction_status);
+>>    	if (!bo)
+>>  		return;
+>> @@ -336,7 +341,7 @@ void amdgpu_vm_bo_base_init(struct =
+amdgpu_vm_bo_base *base,
+>>  	 * is currently evicted. add the bo to the evicted list to make =
+sure it
+>>  	 * is validated on next vm use to avoid fault.
+>>  	 * */
+>> -	amdgpu_vm_bo_evicted(base);
+>> +	amdgpu_vm_bo_set_evicted(base, true);
+>>  }
+>>    /**
+>> @@ -460,7 +465,7 @@ int amdgpu_vm_validate_pt_bos(struct =
+amdgpu_device *adev, struct amdgpu_vm *vm,
+>>  	while (!list_empty(&vm->evicted)) {
+>>  		bo_base =3D list_first_entry(&vm->evicted,
+>>  					   struct amdgpu_vm_bo_base,
+>> -					   vm_status);
+>> +					   eviction_status);
+>>  		spin_unlock(&vm->status_lock);
+>>    		bo =3D bo_base->bo;
+>> @@ -1034,7 +1039,7 @@ void amdgpu_vm_get_memory(struct amdgpu_vm *vm,
+>>  	list_for_each_entry_safe(bo_va, tmp, &vm->idle, base.vm_status)
+>>  		amdgpu_vm_bo_get_memory(bo_va, stats);
+>>  -	list_for_each_entry_safe(bo_va, tmp, &vm->evicted, =
+base.vm_status)
+>> +	list_for_each_entry_safe(bo_va, tmp, &vm->evicted, =
+base.eviction_status)
+>>  		amdgpu_vm_bo_get_memory(bo_va, stats);
+>>    	list_for_each_entry_safe(bo_va, tmp, &vm->relocated, =
+base.vm_status)
+>> @@ -1153,21 +1158,10 @@ int amdgpu_vm_bo_update(struct amdgpu_device =
+*adev, struct amdgpu_bo_va *bo_va,
+>>  			return r;
+>>  	}
+>>  -	/* If the BO is not in its preferred location add it back to
+>> -	 * the evicted list so that it gets validated again on the
+>> -	 * next command submission.
+>> -	 */
+>> -	if (bo && bo->tbo.base.resv =3D=3D vm->root.bo->tbo.base.resv) {
+>> -		uint32_t mem_type =3D bo->tbo.resource->mem_type;
+>> -
+>> -		if (!(bo->preferred_domains &
+>> -		      amdgpu_mem_type_to_domain(mem_type)))
+>> -			amdgpu_vm_bo_evicted(&bo_va->base);
+>> -		else
+>> -			amdgpu_vm_bo_idle(&bo_va->base);
+>> -	} else {
+>> +	if (bo && bo->tbo.base.resv =3D=3D vm->root.bo->tbo.base.resv)
+>> +		amdgpu_vm_bo_idle(&bo_va->base);
+>> +	else
+>>  		amdgpu_vm_bo_done(&bo_va->base);
+>> -	}
+>>    	list_splice_init(&bo_va->invalids, &bo_va->valids);
+>>  	bo_va->cleared =3D clear;
+>> @@ -1883,6 +1877,7 @@ void amdgpu_vm_bo_del(struct amdgpu_device =
+*adev,
+>>    	spin_lock(&vm->status_lock);
+>>  	list_del(&bo_va->base.vm_status);
+>> +	list_del(&bo_va->base.eviction_status);
+>>  	spin_unlock(&vm->status_lock);
+>>    	list_for_each_entry_safe(mapping, next, &bo_va->valids, list) {
+>> @@ -1959,13 +1954,18 @@ void amdgpu_vm_bo_invalidate(struct =
+amdgpu_device *adev,
+>>  	if (bo->parent && (amdgpu_bo_shadowed(bo->parent) =3D=3D bo))
+>>  		bo =3D bo->parent;
+>>  +	/* If the BO is not in its preferred location add it back to
+>> +	 * the evicted list so that it gets validated again on the
+>> +	 * next command submission.
+>> +	 */
+>> +	uint32_t mem_type =3D bo->tbo.resource->mem_type;
+>> +	bool suboptimal =3D !(bo->preferred_domains &
+>> +			 amdgpu_mem_type_to_domain(mem_type));
+>> +
+>>  	for (bo_base =3D bo->vm_bo; bo_base; bo_base =3D bo_base->next) =
+{
+>>  		struct amdgpu_vm *vm =3D bo_base->vm;
+>>  -		if (evicted && bo->tbo.base.resv =3D=3D =
+vm->root.bo->tbo.base.resv) {
+>> -			amdgpu_vm_bo_evicted(bo_base);
+>> -			continue;
+>> -		}
+>> +		amdgpu_vm_bo_set_evicted(bo_base, suboptimal);
+>>    		if (bo_base->moved)
+>>  			continue;
+>> @@ -2648,13 +2648,11 @@ void amdgpu_debugfs_vm_bo_info(struct =
+amdgpu_vm *vm, struct seq_file *m)
+>>  {
+>>  	struct amdgpu_bo_va *bo_va, *tmp;
+>>  	u64 total_idle =3D 0;
+>> -	u64 total_evicted =3D 0;
+>>  	u64 total_relocated =3D 0;
+>>  	u64 total_moved =3D 0;
+>>  	u64 total_invalidated =3D 0;
+>>  	u64 total_done =3D 0;
+>>  	unsigned int total_idle_objs =3D 0;
+>> -	unsigned int total_evicted_objs =3D 0;
+>>  	unsigned int total_relocated_objs =3D 0;
+>>  	unsigned int total_moved_objs =3D 0;
+>>  	unsigned int total_invalidated_objs =3D 0;
+>> @@ -2671,15 +2669,6 @@ void amdgpu_debugfs_vm_bo_info(struct =
+amdgpu_vm *vm, struct seq_file *m)
+>>  	total_idle_objs =3D id;
+>>  	id =3D 0;
+>>  -	seq_puts(m, "\tEvicted BOs:\n");
+>> -	list_for_each_entry_safe(bo_va, tmp, &vm->evicted, =
+base.vm_status) {
+>> -		if (!bo_va->base.bo)
+>> -			continue;
+>> -		total_evicted +=3D amdgpu_bo_print_info(id++, =
+bo_va->base.bo, m);
+>> -	}
+>> -	total_evicted_objs =3D id;
+>> -	id =3D 0;
+>> -
+>>  	seq_puts(m, "\tRelocated BOs:\n");
+>>  	list_for_each_entry_safe(bo_va, tmp, &vm->relocated, =
+base.vm_status) {
+>>  		if (!bo_va->base.bo)
+>> @@ -2718,8 +2707,6 @@ void amdgpu_debugfs_vm_bo_info(struct amdgpu_vm =
+*vm, struct seq_file *m)
+>>    	seq_printf(m, "\tTotal idle size:        %12lld\tobjs:\t%d\n", =
+total_idle,
+>>  		   total_idle_objs);
+>> -	seq_printf(m, "\tTotal evicted size:     %12lld\tobjs:\t%d\n", =
+total_evicted,
+>> -		   total_evicted_objs);
+>>  	seq_printf(m, "\tTotal relocated size:   %12lld\tobjs:\t%d\n", =
+total_relocated,
+>>  		   total_relocated_objs);
+>>  	seq_printf(m, "\tTotal moved size:       %12lld\tobjs:\t%d\n", =
+total_moved,
+>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h =
+b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
+>> index 204ab13184ed..d9ab97eabda9 100644
+>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
+>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
+>> @@ -156,6 +156,7 @@ struct amdgpu_vm_bo_base {
+>>    	/* protected by spinlock */
+>>  	struct list_head		vm_status;
+>> +	struct list_head		eviction_status;
+>>    	/* protected by the BO being reserved */
+>>  	bool				moved;
+>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_pt.c =
+b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_pt.c
+>> index 96d601e209b8..f78f4040f466 100644
+>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_pt.c
+>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_pt.c
+>> @@ -652,6 +652,7 @@ static void amdgpu_vm_pt_free(struct =
+amdgpu_vm_bo_base *entry)
+>>    	spin_lock(&entry->vm->status_lock);
+>>  	list_del(&entry->vm_status);
+>> +	list_del(&entry->eviction_status);
+>>  	spin_unlock(&entry->vm->status_lock);
+>>  	amdgpu_bo_unref(&entry->bo);
+>>  }
+>=20
 
-We record whether to use implicit sync or not for each freed mapping. To
-avoid increasing the mapping struct's size, this is union-ized with the
-interval tree field which is unused after the unmap.
-
-The reason this is done with a GEM ioctl flag, instead of being a VM /
-context global setting, is that the current libdrm implementation shares
-the DRM handle even between different kind of drivers (radeonsi vs radv).
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-Different drivers always use separate contexts though, even with the same DRM file description, don't they?</pre>
-    </blockquote>
-    <br>
-    Separate contexts don't help here since the VA space is shared
-    between the two.<br>
-    <br>
-    <blockquote type="cite" cite="mid:454e7d7f-8a23-58bd-8822-55c13beba97f@mailbox.org">
-      <pre class="moz-quote-pre" wrap="">
-
-FWIW, RADV will also want explicit sync in the CS ioctl.</pre>
-    </blockquote>
-    <span style="white-space: pre-wrap">
-You can replace that with the DMA-buf IOCTLs like Faith is planning to do for NVK.
-
-Regards,
-Christian.
-</span><br>
-  </body>
-</html>
-
---------------oG8mS7aHzqCPrHY0kLtILcQk--
