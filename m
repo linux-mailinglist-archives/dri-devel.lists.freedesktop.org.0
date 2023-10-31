@@ -2,84 +2,157 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32E0D7DD796
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Oct 2023 22:16:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FFD47DD7CF
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Oct 2023 22:38:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7EFC910E5C4;
-	Tue, 31 Oct 2023 21:16:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C133B10E5CA;
+	Tue, 31 Oct 2023 21:38:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 424DD10E5C4
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Oct 2023 21:15:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1698786958;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=7upQ/TCDqPQ7/RZT4zXVHcHAhMn0gkigdjeEzC/JmJ0=;
- b=Jrw4KRQDf9QAOZovCHN55RDfrex2dfN//J8SAUaNZVeC1MtGpKu+v9Gke/zuIzXLCaKTay
- d5V256iIJsBrGo7XBh4QPv1MsHgxmwTsFxTD8Y8/brMEk9A6YXoYJh/sjXR6ouWcErMGc0
- hoUa5L8Vy7Fqxw3Z3Z5EETpsC8k5I6g=
-Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
- [209.85.167.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-413-p20W_2TwO4aKNiYNfK1ntA-1; Tue, 31 Oct 2023 17:15:56 -0400
-X-MC-Unique: p20W_2TwO4aKNiYNfK1ntA-1
-Received: by mail-lf1-f72.google.com with SMTP id
- 2adb3069b0e04-5079630993dso6891758e87.1
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Oct 2023 14:15:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1698786955; x=1699391755;
- h=content-transfer-encoding:in-reply-to:content-language:references
- :cc:to:from:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=7upQ/TCDqPQ7/RZT4zXVHcHAhMn0gkigdjeEzC/JmJ0=;
- b=Hi9Bkr+5MH5OP6cR99W962egYI6CVuIJBkRkAWUEEpemZWTSpU9zMd85AvnWzIB8HF
- QTHtpvoLNiBnolK7d6NuVufFMoAVN3LFGbwtv1Eg1AF/gmTZnrCP1wRneiCMGtMQ6KKl
- X0WazqhItr5EGhFhZ4EjUAXc2hUPbhXLjoZuoxCQ8xoihHlQkzRlifbup7wl6ZD3GdMi
- nI+Tow0fxIbVVW7or3PAxHRvekGGsd+fmvTw8xV11NNGeWVsFaJaV8QlXNf8IySgGFTF
- D2qGbPSoj2h5AEveLpmKMECnj3UTydFptW+JQI/9HLfbFYK+eUuGb7Fbfe6/mtpZCTKa
- 8tbw==
-X-Gm-Message-State: AOJu0Yz2Ud946Q3zR7O6TiAJmZ2B6R+O3I5wrJz/owxzDQY37jk700+p
- lFTAfClMLiZchZtE76037uGLvYJ7vstLzQpk6PotwlyGlx+Z4oV0giFQFauV65Sz+rt1tHrzOCR
- BUfMrbVb/uGHws8tnromPu9GDoFC2
-X-Received: by 2002:ac2:55b7:0:b0:4ff:ae42:19e2 with SMTP id
- y23-20020ac255b7000000b004ffae4219e2mr10113704lfg.58.1698786955263; 
- Tue, 31 Oct 2023 14:15:55 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGRky3KdEseSDE4uqAOpBzi7EnlmKPgY2mct/d4Gy3Y77ZfjIOfTgExy+Ta9yfIaFIeiVbD5g==
-X-Received: by 2002:ac2:55b7:0:b0:4ff:ae42:19e2 with SMTP id
- y23-20020ac255b7000000b004ffae4219e2mr10113685lfg.58.1698786954875; 
- Tue, 31 Oct 2023 14:15:54 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:2a07:3a01:6c4:9fb2:fbc:7029?
- (2001-1c00-2a07-3a01-06c4-9fb2-0fbc-7029.cable.dynamic.v6.ziggo.nl.
- [2001:1c00:2a07:3a01:6c4:9fb2:fbc:7029])
- by smtp.gmail.com with ESMTPSA id
- lg17-20020a170906f89100b0098e78ff1a87sm1513087ejb.120.2023.10.31.14.15.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 31 Oct 2023 14:15:54 -0700 (PDT)
-Message-ID: <16e533e2-81bb-47ba-9e23-460a626bcad7@redhat.com>
-Date: Tue, 31 Oct 2023 22:15:52 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 6/7] drm/i915/dsi: Replace poking of CHV GPIOs behind
- the driver's back
-From: Hans de Goede <hdegoede@redhat.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Jani Nikula <jani.nikula@intel.com>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20231024155739.3861342-1-andriy.shevchenko@linux.intel.com>
- <20231024155739.3861342-7-andriy.shevchenko@linux.intel.com>
- <ZTfssxRsrDxhzSQ6@smile.fi.intel.com>
- <b489675d-e9de-4bca-9622-78545aa8606d@redhat.com>
-In-Reply-To: <b489675d-e9de-4bca-9622-78545aa8606d@redhat.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A84F10E5CA;
+ Tue, 31 Oct 2023 21:38:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1698788286; x=1730324286;
+ h=from:to:subject:date:message-id:references:in-reply-to:
+ content-id:content-transfer-encoding:mime-version;
+ bh=vUWBN8pT6/LPlJ9ofIzs3Mv20OETjrjNsj8MBSp5lXY=;
+ b=UW0VLOcHQ6/n4irsh0WSz4jl8vHvdB+0tgyE36Nqfs4ICcTyZ+hkrlVb
+ BEM0A84bAOuZGQ4SfLvf1a5tEjk7eV4pBzfRnNIOp2O5uW2XKr2KetbLh
+ Y3hx+8pXo3FwBuR55k/PK1lNQKF7ocIjW/1S5amqwCJ2Us2khfWLDZaOq
+ 6qq/kQDgKUyxx+7E6kNyNMomX4jQfDV+pLVI8MhEhnsofFEsNYEx4sPVD
+ Re2ELWAD4UiuGTNNwHEMkVdX0delC2kU3s4J8RkQI1/1+1uvfokZiJhAx
+ t4nav6yWrwQ1jq2ECzElI+6pxzvhqsJD7iBw4KWhdOFpXr9lAXRuaEM87 w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10880"; a="387262641"
+X-IronPort-AV: E=Sophos;i="6.03,266,1694761200"; d="scan'208";a="387262641"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Oct 2023 14:38:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10880"; a="851370202"
+X-IronPort-AV: E=Sophos;i="6.03,266,1694761200"; d="scan'208";a="851370202"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+ by FMSMGA003.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 31 Oct 2023 14:38:05 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34; Tue, 31 Oct 2023 14:38:05 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34; Tue, 31 Oct 2023 14:38:04 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34 via Frontend Transport; Tue, 31 Oct 2023 14:38:04 -0700
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.168)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.34; Tue, 31 Oct 2023 14:38:04 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=AIPYQQbZW1NrVUVayNEUsuSaL5+DV2zva3MPwFlrXDK556IOR0Tud5OqJes2VVQKpO59HlsQHgX6KZPzPzMV2cxkMbo8+zNjVV9DJR5rmaovNE82t+G8tceSVPHBuPXqbDvJkSKkqDP8qDpOikl/aVMcXUKgwD4rrR2szzoAqfTkx0KZ6PB7KKqYsv7v1eVGeBrxntCA1wVI6Xfra75dfkqANGQkb7qL6p6CRo+eZRG0Kjp9HrVPGlRrK0d+CBuTSPA+Bq1zlEw5uazL0ZLSosvz8PTDyeZ7U8pXgdUMzJpX6K1i+PiXLaVJuWg1eRLugIe3ohykToCSVkUhPV4TgQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vUWBN8pT6/LPlJ9ofIzs3Mv20OETjrjNsj8MBSp5lXY=;
+ b=JI8gEEfHIGAbb46xfbP0zf0NR9zalK25HKULCHUlvCj4H5XzNxI2IQU985CT23mykPOwnN51Kr1qiAjv5I5i6HKarrTPcMWshoJsZ0QsYO1ck+xbQFYUaqcJ5Hgoj93Z1iWEx0S6HbZSbR+niCnmW4K2gb47dzUwfQjTzof2Bwws7kO7AzB3m63E7L14fSHDiZl0EYdAkk7/UgeEY4j6lSkFuGtVrkYIkjkT9DCGbvzXKepvVwYZup1h2ce0PNKfsmOaWNS38NWB/9/xAhNMVmPZJ9nHodcl4BGEGCAtARSKsaW9jq4w3j13usfIrWsG9sfADgbGi8iOeLS++ZEtHQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from DM8PR11MB5751.namprd11.prod.outlook.com (2603:10b6:8:12::16) by
+ PH0PR11MB7522.namprd11.prod.outlook.com (2603:10b6:510:289::8) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6933.28; Tue, 31 Oct 2023 21:38:02 +0000
+Received: from DM8PR11MB5751.namprd11.prod.outlook.com
+ ([fe80::d070:1879:5b04:5f57]) by DM8PR11MB5751.namprd11.prod.outlook.com
+ ([fe80::d070:1879:5b04:5f57%4]) with mapi id 15.20.6933.029; Tue, 31 Oct 2023
+ 21:38:02 +0000
+From: "Teres Alexis, Alan Previn" <alan.previn.teres.alexis@intel.com>
+To: "Dong, Zhanjun" <zhanjun.dong@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "jani.nikula@linux.intel.com" <jani.nikula@linux.intel.com>
+Subject: Re: [Intel-gfx] [PATCH] drm/i915: Skip pxp init if gt is wedged
+Thread-Topic: [Intel-gfx] [PATCH] drm/i915: Skip pxp init if gt is wedged
+Thread-Index: AQHaCFdFWZV+5uQJ1kKifTPTSJGMB7BdOZoAgAc6wQA=
+Date: Tue, 31 Oct 2023 21:38:02 +0000
+Message-ID: <99df74b59af6abc51d5d13947912e11eb32f5a72.camel@intel.com>
+References: <20231026215444.54880-1-zhanjun.dong@intel.com>
+ <87a5s47d1p.fsf@intel.com>
+In-Reply-To: <87a5s47d1p.fsf@intel.com>
+Accept-Language: en-US
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.46.1-0ubuntu1 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM8PR11MB5751:EE_|PH0PR11MB7522:EE_
+x-ms-office365-filtering-correlation-id: ac1c0967-2b88-4baa-ff5f-08dbda59a907
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: YExH5ttFfTcEfHth75d/hZep9HimmK5FNXtNn79oLZAO7uvXVsxn9OL/RcNgMKNkanxG1sYx5xbs0lPPtImP6GLfOqeX3ttGTWQJUJZjGHDjTGFuoYZCeHrwUH2GhH6hHls5N8ZId8rp7NcrcT7fjFDknDNZh2RY2n7fbnO4+GszEkKiqvON6VQV+Au/k+RSJY4Q5ETDkFGXCunqsqSFPdEmlo+MQ5XF4ZFctNXAIeH/aa/oRlK9Da5zyU0/DaNhXNcOMviykap4kOWvsa/tLV1MQh5wmXJMjS7NmbucjwpaZ8p5RsddIeazowEHfPQKzUNxSg5Rrk4yo4FkGVAODlEjza33pGpqaW8t9qZrAg4qFXKfqdSsORxgt5CiMl5Q8moU39jfNAb3e+nv9WQfB86QWkV7W/Q7Yp5VTzoD9N//RMqOW7UPtlHJA712vy/hFpSjn+xBZPYkWZaJuLxBiT/nJEM4yhR36FVBpckH8cZUb+s7eZnR/LHAVSe422swfIQzzJTBSwjwK9vZ3LaNxDLKVKl+DgYunUkw+rkSjW5GY/NLyUW8WcLD90jD4BdKXcYFCfpswUQAberFR92qcQARAUzmTKaVmbEuX6sMvUo3z6NXtw+U4uFwLfqyT9/+
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM8PR11MB5751.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(39860400002)(346002)(366004)(396003)(376002)(136003)(230922051799003)(1800799009)(64100799003)(186009)(451199024)(4001150100001)(26005)(2616005)(6512007)(38100700002)(6506007)(478600001)(66476007)(83380400001)(6486002)(2906002)(8936002)(110136005)(41300700001)(76116006)(91956017)(66556008)(66946007)(71200400001)(316002)(64756008)(66446008)(8676002)(5660300002)(38070700009)(36756003)(82960400001)(122000001)(86362001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?aFRTT0NMeUgwOXB6aFlxWWJTanFkTFFQUXdreUlZR2ZyRWd5ZllxZ1JWd0F4?=
+ =?utf-8?B?RjhqbmlIc2dMKzlEK0hZMDJxUUNBQTZOZC9SV25ZNzA0QzdOSVEwMWt5Qy8v?=
+ =?utf-8?B?T1NTWTdDUGFhOHNBTjBSNlcxZDlyVHJ3eWtUeVhlWlZ3Zk5mOXB2UmV4cG55?=
+ =?utf-8?B?eXY2dys0SUNMeDF4N0lMdUdrWEViRTVEMEhRcmZ2cVViWjhhTmgvZTQvVVMr?=
+ =?utf-8?B?R2U5ckI4b0xtTXU3VGxDWHphZFFtSi9CbXlGYzlscmZlYnJFaU16YVhKdzVG?=
+ =?utf-8?B?T1JQbU4veGp5T2QvdTNQeldHWXl2NDBZVXh1aEs4WFlKRitvUXFiOFpaUlcw?=
+ =?utf-8?B?d0cwUUNvSzRIMEM3SzYrQ1VKaVdwTGRqZVFRTUEzMDZVSG9iUjlWZnZyMWNS?=
+ =?utf-8?B?K2liWjRlR2xoaWxKK090bjBPeXVxU2FiWEw1dW5zWW05SkR6YmRJM1pqK2N4?=
+ =?utf-8?B?QzhoUjlMVWpJc3BOb05tZDliekdIdG4vand1SDRKeHpYNy9hTXF3UDc5VE43?=
+ =?utf-8?B?emllZlpVOFhWa1p0em5MMjJ0L2oyMUpCK3k3VmtLRDFrZ2NaVEt6b2hsbEY5?=
+ =?utf-8?B?V3E3NnNDM3VOR093a3AvTVJoV2J5RGE2dkJ5OE5KbXhxQ1VCUk9VSXhTR0wx?=
+ =?utf-8?B?S0ZYVm5vaS91TjY5VW1xanNnbnpjcExTTmxaNi9vWEhhWitzbzRWa3YxQnJR?=
+ =?utf-8?B?L2JJTGNOeWlna3hUaDhYaEVicmJQRUlwU1d0TlB2WEVYTGJBOTBLUlZORWdH?=
+ =?utf-8?B?U2xYeGtnWDZPMVAydTRmaU01T0dVaEpPOUEzZVQzTWZsZW5QYmpabnhNYUtM?=
+ =?utf-8?B?QVAzYmUwNGVPZzlERlRxQ1RPU3ZEWU9tNEZ5cTlVYmJPQ0RFblVIZ1BHOVRo?=
+ =?utf-8?B?SldDblpiZ0xzSzBYZWhBYmMyR0pGNEEyZ0RyZG9vS0p2eWtETU9ySCtQU1hO?=
+ =?utf-8?B?eStZVEJzMXVYdlA1L0d4cGhRN2J0UDhYaCtvR2ZtdHQ2L0V5UkZGY0h5QjNt?=
+ =?utf-8?B?QjJqeVVtcFgwMmtkc3Vsc2lrRlJyaU5LOXV4a0dnelQ3UUE1TFhwemNGU1o0?=
+ =?utf-8?B?ekF5c2JGQm5TTmVwZk45QXFZTnRrQ05GSDVIVW5ycnQ0ekZ0cDdXS28wOGpk?=
+ =?utf-8?B?SmNyK1o3Z2NoaE1Mc0Rjd1NDMElDUW1TS2FkZGZYVDV2ZGNCMEJ5elpQQmF4?=
+ =?utf-8?B?dzgvWFVwU1dFY1dNeGVjUnZQQzg5d3RLeEhnU2d0VndVWVlFWVdlS1c1VE9J?=
+ =?utf-8?B?T2JBVEpXU3JvMGZEUGx1NnhBV2x4MFdwM0JkNGc1TlNaMXU5NSs1cFVaUWNl?=
+ =?utf-8?B?UWtSOVlBaTg1ZTQydjQxaGhMM0NsWWUyZWJGSkRPZ3piUnlTb1JUZVlDWTRr?=
+ =?utf-8?B?YWtrWEVNL2lIdnVRaE5pdUR1K2JCVFpIcW5lNm9USXV2RWRTVXc3K1dMWlB0?=
+ =?utf-8?B?MU8ydWVFMnRvOCtmSW4wc2FiOHY2UmlHd2RpUmVtRTh6bS9CUGlBOVVUYVE5?=
+ =?utf-8?B?Q3FBNmZTN1ZTcXFhWjR1Nmx0M25ONlBhVlZ3S2NlVkV1ZFNybGg2bHBTNlZs?=
+ =?utf-8?B?UWJvaVpBNFVlUEtDZVhCQytoWE9tNDJwM0JrZjVMemVIL2tGdVhKSEpzRWdi?=
+ =?utf-8?B?QUFCdVhJa3o2VnhvWnY0QUZMUVJxcXpJL2NHNFBKd2dCdHBVeHkwaThOWWlQ?=
+ =?utf-8?B?OFEyTENreUlwMzROVDFYdythQ3lLVU1SNzFZUnoyTmtaYXpoNCthVUhPL1RW?=
+ =?utf-8?B?UVRoRUNxc1R0NFhDUytYOVBIdjl1N0dFWWdNUVJMcVl6TFNwWVVhc3FhaU5z?=
+ =?utf-8?B?ZGhxbEJGaVhtVEM4ZVZsYWoveEoxNjBnaGdjSFhzckpacU9vbzlCQStvbkY1?=
+ =?utf-8?B?TDZXRjVVbEs3UERnbjE1RGFvTVluWXNaQmdHUWp6TmU4bGM3bjZNMXNDMlVH?=
+ =?utf-8?B?M0k3QlZNcjYrL1pyNFJqSmRteHBwaU83RkhtTXRWTDgyeWJNTUxweWVtT21j?=
+ =?utf-8?B?dlIyL2thV0VpdUVrVVNxWFlLeENiaiszLzY2bGRKUEluVWRqMUtSYlFXY0gy?=
+ =?utf-8?B?QXJhRVMyUVMvOUowVmp1TDA5N2ZManBJSmNhK0JHN2tKZWttRFZ4bEkwU3Ry?=
+ =?utf-8?B?T3FwRzhOMUY4ZTd2eWw3OXJaZ3RQMW5aWG1YWUVpMVpoUGY4czMxZGZkSlBM?=
+ =?utf-8?Q?b3q/LmNFH11ESolkv6WfHc0=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <3C117402993F1640B3C9B85E32057D28@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM8PR11MB5751.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ac1c0967-2b88-4baa-ff5f-08dbda59a907
+X-MS-Exchange-CrossTenant-originalarrivaltime: 31 Oct 2023 21:38:02.5698 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: mxqzDixl0q2bz9NujvI0zcWQRn/B8I8GjsGXEdMmOSYzvpsHjacNA9HCLX9lGDv8jMpxRTOnbQDR83o1nMzhLSV7d/oSoTVBTJt9by2E9LkxNxS5uHT4/dbTR44M9RwD
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB7522
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,211 +165,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On 10/31/23 17:07, Hans de Goede wrote:
-> Hi Andy,
-> 
-> On 10/24/23 18:11, Andy Shevchenko wrote:
->> On Tue, Oct 24, 2023 at 06:57:38PM +0300, Andy Shevchenko wrote:
->>> It's a dirty hack in the driver that pokes GPIO registers behind
->>> the driver's back. Moreoever it might be problematic as simultaneous
->>> I/O may hang the system, see the commit 0bd50d719b00 ("pinctrl:
->>> cherryview: prevent concurrent access to GPIO controllers") for
->>> the details. Taking all this into consideration replace the hack
->>> with proper GPIO APIs being used.
->>
->> Ah, just realised that this won't work if it happens to request to GPIOs with
->> the same index but different communities. I will fix that in v3, but will wait
->> for Hans to test VLV and it might even work in most of the cases on CHV as it
->> seems quite unlikely that the above mentioned assertion is going to happen in
->> real life.
-> 
-> I have added patches 1-5 to my personal tree + a small debug patch on top
-> which logs when soc_exec_opaque_gpio() actually gets called.
-> 
-> So these patches will now get run every time I run some tests on
-> one my tablets.
-> 
-> I'll get back to you with testing results when I've found a device where
-> the new soc_exec_opaque_gpio() actually gets called.
-> 
-> As for the CHT support, I have not added that to my tree yet, I would
-> prefer to directly test the correct/fixed patch.
-
-And I hit the "jackpot" on the first device I tried and the code needed
-some fixing to actually work, so here is something to fold into v3 to
-fix things:
-
-From 144fae4de91a6b5ed993b1722a07cca679f74cbe Mon Sep 17 00:00:00 2001
-From: Hans de Goede <hdegoede@redhat.com>
-Date: Tue, 31 Oct 2023 17:04:35 +0100
-Subject: [PATCH] drm/i915/dsi: Fix GPIO lookup table used by
- soc_exec_opaque_gpio()
-
-There already is a GPIO lookup table for device "0000:00:02.0" and
-there can be only one GPIO lookup per device.
-
-Instead add an extra empty entry to the GPIO lookup table
-registered by intel_dsi_vbt_gpio_init() and use that extra entry
-in soc_exec_opaque_gpio().
-
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/gpu/drm/i915/display/intel_dsi_vbt.c | 60 ++++++++++----------
- 1 file changed, 31 insertions(+), 29 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/display/intel_dsi_vbt.c b/drivers/gpu/drm/i915/display/intel_dsi_vbt.c
-index 8fc82aceae14..70f1d2c411e8 100644
---- a/drivers/gpu/drm/i915/display/intel_dsi_vbt.c
-+++ b/drivers/gpu/drm/i915/display/intel_dsi_vbt.c
-@@ -219,8 +219,7 @@ static void soc_exec_gpio(struct intel_connector *connector, const char *con_id,
- 	} else {
- 		gpio_desc = devm_gpiod_get_index(dev_priv->drm.dev,
- 						 con_id, gpio_index,
--						 value ? GPIOD_OUT_LOW :
--						 GPIOD_OUT_HIGH);
-+						 value ? GPIOD_OUT_HIGH : GPIOD_OUT_LOW);
- 		if (IS_ERR(gpio_desc)) {
- 			drm_err(&dev_priv->drm,
- 				"GPIO index %u request failed (%pe)\n",
-@@ -232,26 +231,20 @@ static void soc_exec_gpio(struct intel_connector *connector, const char *con_id,
- 	}
- }
- 
-+static struct gpiod_lookup *soc_exec_opaque_gpiod_lookup;
-+
- static void soc_exec_opaque_gpio(struct intel_connector *connector,
- 				 const char *chip, const char *con_id,
- 				 u8 gpio_index, bool value)
- {
--	struct gpiod_lookup_table *lookup;
-+	struct drm_i915_private *dev_priv = to_i915(connector->base.dev);
- 
--	lookup = kzalloc(struct_size(lookup, table, 2), GFP_KERNEL);
--	if (!lookup)
--		return;
--
--	lookup->dev_id = "0000:00:02.0";
--	lookup->table[0] =
-+	*soc_exec_opaque_gpiod_lookup =
- 		GPIO_LOOKUP_IDX(chip, gpio_index, con_id, gpio_index, GPIO_ACTIVE_HIGH);
- 
--	gpiod_add_lookup_table(lookup);
--
- 	soc_exec_gpio(connector, con_id, gpio_index, value);
- 
--	gpiod_remove_lookup_table(lookup);
--	kfree(lookup);
-+	soc_exec_opaque_gpiod_lookup->key = NULL;
- }
- 
- static void vlv_exec_gpio(struct intel_connector *connector,
-@@ -898,6 +891,7 @@ static struct gpiod_lookup_table pmic_panel_gpio_table = {
- 	.table = {
- 		/* Panel EN/DISABLE */
- 		GPIO_LOOKUP("gpio_crystalcove", 94, "panel", GPIO_ACTIVE_HIGH),
-+		{ }, /* Extra lookup entry for soc_exec_opaque_gpiod_lookup */
- 		{ }
- 	},
- };
-@@ -907,6 +901,15 @@ static struct gpiod_lookup_table soc_panel_gpio_table = {
- 	.table = {
- 		GPIO_LOOKUP("INT33FC:01", 10, "backlight", GPIO_ACTIVE_HIGH),
- 		GPIO_LOOKUP("INT33FC:01", 11, "panel", GPIO_ACTIVE_HIGH),
-+		{ }, /* Extra lookup entry for soc_exec_opaque_gpiod_lookup */
-+		{ }
-+	},
-+};
-+
-+static struct gpiod_lookup_table empty_gpio_table = {
-+	.dev_id = "0000:00:02.0",
-+	.table = {
-+		{ }, /* Extra lookup entry for soc_exec_opaque_gpiod_lookup */
- 		{ }
- 	},
- };
-@@ -916,6 +919,8 @@ static const struct pinctrl_map soc_pwm_pinctrl_map[] = {
- 			  "pwm0_grp", "pwm"),
- };
- 
-+static struct gpiod_lookup_table *gpiod_lookup_table;
-+
- void intel_dsi_vbt_gpio_init(struct intel_dsi *intel_dsi, bool panel_is_on)
- {
- 	struct drm_device *dev = intel_dsi->base.base.dev;
-@@ -926,16 +931,16 @@ void intel_dsi_vbt_gpio_init(struct intel_dsi *intel_dsi, bool panel_is_on)
- 	bool want_backlight_gpio = false;
- 	bool want_panel_gpio = false;
- 	struct pinctrl *pinctrl;
--	int ret;
-+	int i, ret;
- 
- 	if ((IS_VALLEYVIEW(dev_priv) || IS_CHERRYVIEW(dev_priv)) &&
- 	    mipi_config->pwm_blc == PPS_BLC_PMIC) {
--		gpiod_add_lookup_table(&pmic_panel_gpio_table);
-+		gpiod_lookup_table = &pmic_panel_gpio_table;
- 		want_panel_gpio = true;
- 	}
- 
- 	if (IS_VALLEYVIEW(dev_priv) && mipi_config->pwm_blc == PPS_BLC_SOC) {
--		gpiod_add_lookup_table(&soc_panel_gpio_table);
-+		gpiod_lookup_table = &soc_panel_gpio_table;
- 		want_panel_gpio = true;
- 		want_backlight_gpio = true;
- 
-@@ -952,6 +957,15 @@ void intel_dsi_vbt_gpio_init(struct intel_dsi *intel_dsi, bool panel_is_on)
- 				"Failed to set pinmux to PWM\n");
- 	}
- 
-+	if (!gpiod_lookup_table)
-+		gpiod_lookup_table = &empty_gpio_table;
-+
-+	/* Find first empty entry for soc_exec_opaque_gpiod_lookup */
-+	for (i = 0; gpiod_lookup_table->table[i].key; i++) { }
-+	soc_exec_opaque_gpiod_lookup = &gpiod_lookup_table->table[i];
-+
-+	gpiod_add_lookup_table(gpiod_lookup_table);
-+
- 	if (want_panel_gpio) {
- 		intel_dsi->gpio_panel = gpiod_get(dev->dev, "panel", flags);
- 		if (IS_ERR(intel_dsi->gpio_panel)) {
-@@ -974,11 +988,6 @@ void intel_dsi_vbt_gpio_init(struct intel_dsi *intel_dsi, bool panel_is_on)
- 
- void intel_dsi_vbt_gpio_cleanup(struct intel_dsi *intel_dsi)
- {
--	struct drm_device *dev = intel_dsi->base.base.dev;
--	struct drm_i915_private *dev_priv = to_i915(dev);
--	struct intel_connector *connector = intel_dsi->attached_connector;
--	struct mipi_config *mipi_config = connector->panel.vbt.dsi.config;
--
- 	if (intel_dsi->gpio_panel) {
- 		gpiod_put(intel_dsi->gpio_panel);
- 		intel_dsi->gpio_panel = NULL;
-@@ -989,12 +998,5 @@ void intel_dsi_vbt_gpio_cleanup(struct intel_dsi *intel_dsi)
- 		intel_dsi->gpio_backlight = NULL;
- 	}
- 
--	if ((IS_VALLEYVIEW(dev_priv) || IS_CHERRYVIEW(dev_priv)) &&
--	    mipi_config->pwm_blc == PPS_BLC_PMIC)
--		gpiod_remove_lookup_table(&pmic_panel_gpio_table);
--
--	if (IS_VALLEYVIEW(dev_priv) && mipi_config->pwm_blc == PPS_BLC_SOC) {
--		pinctrl_unregister_mappings(soc_pwm_pinctrl_map);
--		gpiod_remove_lookup_table(&soc_panel_gpio_table);
--	}
-+	gpiod_remove_lookup_table(gpiod_lookup_table);
- }
--- 
-2.41.0
-
-
-Regards,
-
-Hans
-
+T24gRnJpLCAyMDIzLTEwLTI3IGF0IDEwOjEzICswMzAwLCBKYW5pIE5pa3VsYSB3cm90ZToNCj4g
+T24gVGh1LCAyNiBPY3QgMjAyMywgWmhhbmp1biBEb25nIDx6aGFuanVuLmRvbmdAaW50ZWwuY29t
+PiB3cm90ZToNCj4gDQphbGFuOnNuaXANCj4gSSdsbCBub3RlIHRoYXQgbm9ib2R5IGNoZWNrcyBp
+bnRlbF9weHBfaW5pdCgpIHJldHVybiBzdGF0dXMsIHNvIHRoaXMNCj4gc2lsZW50bHkgc2tpcHMg
+UFhQLg0KPiANCj4gQlIsDQo+IEphbmkuDQoNCmFsYW46c25pcA0KPiA+ICsJaWYgKGludGVsX2d0
+X2lzX3dlZGdlZChndCkpDQo+ID4gKwkJcmV0dXJuIC1FTk9ERVY7DQo+ID4gKw0KDQphbGFuOiB3
+b25kZXJpbmcgaWYgd2UgY2FuIGFkZCBhIGRybV9kYmcgaW4gdGhlIGNhbGxlciBvZiBpbnRlbF9w
+eHBfaW5pdCBhbmQNCnVzZSBhIHVuaXF1ZSByZXR1cm4gdmFsdWUgZm9yIHRoZSBjYXNlIG9mIGd0
+X2lzX3dlZGdlZCAoZm9yIGV4YW1wbGU6IC1FTlhJTy4pLg0KQXMgd2Uga25vdyBndCBiZWluZyB3
+ZWRnZWQgYXQgc3RhcnR1cCBiYXNpY2FsbHkgbWVhbnMgYWxsIGd0IHVzYWdlIGlzIGRlYWQNCmFu
+ZCB0aGVyZWZvcmUgd2UgY2FudCBlbmFibGUgUFhQIChhbG9uZyB3aXRoIGV2ZXJ5dGhpbmcgZWxz
+ZSB0aGF0IG5lZWRzIHN1Ym1pc3Npb24vDQpndWMvIGV0YykuIFdpdGggYSBkcm0tZGVidWcgaW4g
+dGhlIGNhbGxlciB0aGF0IHByaW50cyB0aGF0IHJldHVybiB2YWx1ZSwgaXQNCmhlbHBzIHVzIHRv
+IGRpZmZlcmVudGlhdGUgYmV0d2VlbiBndC1pcy13ZWRnZWQgdnMgcGxhdGZvcm0gY29uZmlnIGRv
+ZXNudCBzdXBwb3J0DQpQWFAuIEhvd2V2ZXIsIHRoaXMgd291bGQgbWVhbiBuZXcgZHJtLWRlYnVn
+ICdub2lzZScgZm9yIHBsYXRmb3JtcyB0aGF0IGk5MTUganVzdA0KZG9lc24ndCBzdXBwb3J0IFBY
+UCBvbiBhdCBhbGwgd2hpY2ggd291bGQgYmUgb2theSBpZiBkb250IHVzZSBkcm1fd2FybiBvciBk
+cm1fZXJyDQphbmQgdXNlICdzb2Z0ZXInIG1lc3NhZ2UgbGlrZSAiUFhQIHNraXBwZWQgd2l0aCAl
+ZCIuDQoNClBsZWFzZSB0cmVhdCBhYm92ZSBjb21tZW50IGFzIGEgIm5pdCIgLSBpLmUuIGV4aXN0
+aW5nIHBhdGNoIGlzIGdvb2QgZW5vdWdoIGZvciBtZS4uLg0KKGFmdGVyIGFkZHJlc3NpbmcgSmFu
+aSdzIHJlcXVlc3QgZm9yIG1vcmUgY29tbWl0IG1lc3NhZ2UgaW5mbykuIC4uLmFsYW4NCg0KDQo=
