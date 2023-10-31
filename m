@@ -1,62 +1,85 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AD2A7DD6EB
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Oct 2023 21:08:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 32E0D7DD796
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Oct 2023 22:16:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B7FAC10E5B6;
-	Tue, 31 Oct 2023 20:08:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7EFC910E5C4;
+	Tue, 31 Oct 2023 21:16:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc2e.google.com (mail-oo1-xc2e.google.com
- [IPv6:2607:f8b0:4864:20::c2e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA90610E5B6;
- Tue, 31 Oct 2023 20:08:13 +0000 (UTC)
-Received: by mail-oo1-xc2e.google.com with SMTP id
- 006d021491bc7-586beb5e6a7so3185980eaf.1; 
- Tue, 31 Oct 2023 13:08:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1698782893; x=1699387693; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=iu1Hcatd1VMcKcshOO2Tp9XCxjRyh4/pRps0AbnJ/RA=;
- b=gQVrGP+sfcj1alAJeo450G7zAYKnBSO6vwiX7DamKg8KwWSmavrWa8f00mNFJSjbSA
- bmdi25dhh/kyYQdQ2Ga34riEvVSOv1zvKyo7zrKcnJ5SEG9hv7ds5Zv6R1g+1DSQtsYG
- 1emlb6EANZYZKj/OcOWDduFSYc76Y3shnOTZ5/HmI0lVHxCvXInOrn4rEG1RlfSIwTOO
- LOJ53Q7RzhrI4UQyP0l4CGKqxcLTdi/xOX9zxF7yJdFMc4f6Ia5a/D6W48NdxricU2CO
- ZVefaWZ+Vlg2XxmYqlAR3XxKRr9Gx6szkTGbjRTE6g1ZmEKmSbqHZtLTtQGZ+RukNKkO
- xK7g==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 424DD10E5C4
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Oct 2023 21:15:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1698786958;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=7upQ/TCDqPQ7/RZT4zXVHcHAhMn0gkigdjeEzC/JmJ0=;
+ b=Jrw4KRQDf9QAOZovCHN55RDfrex2dfN//J8SAUaNZVeC1MtGpKu+v9Gke/zuIzXLCaKTay
+ d5V256iIJsBrGo7XBh4QPv1MsHgxmwTsFxTD8Y8/brMEk9A6YXoYJh/sjXR6ouWcErMGc0
+ hoUa5L8Vy7Fqxw3Z3Z5EETpsC8k5I6g=
+Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
+ [209.85.167.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-413-p20W_2TwO4aKNiYNfK1ntA-1; Tue, 31 Oct 2023 17:15:56 -0400
+X-MC-Unique: p20W_2TwO4aKNiYNfK1ntA-1
+Received: by mail-lf1-f72.google.com with SMTP id
+ 2adb3069b0e04-5079630993dso6891758e87.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Oct 2023 14:15:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1698782893; x=1699387693;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=iu1Hcatd1VMcKcshOO2Tp9XCxjRyh4/pRps0AbnJ/RA=;
- b=sHp9XaVm+LSkcEPuo40BEicW/2Kb++q9GzGCW4nBEHOscquZ2YviAM7KamLdrvN0WP
- URpLWJfEfjZPi5+hZKTS2acUI4Jpb2QKgAmEUe8AmiA7QNN2fmxGLTXlXTnoo/qfJnY8
- q6vEpqqLZecDF6YuqqiFkXXliykKz9rCpGYOOr8QogVER8v3v8/m/JZYIV+Lh2vFd+4P
- +HD9uDltAarxDysXXrdy8f8pD2lTZonkmHNQkNAvVSHd6Di9zLE5YbJempYqEzt0MJYm
- IhyZK7Wh4DnykSyLeBF98vSsy+oqgsXITAw1HCnnPcScYQ1sSgB1MmC7nGWx7QpATIMy
- uCiQ==
-X-Gm-Message-State: AOJu0YzOZxHn9orE6MU61uF/tOnwoqrUsczemm3YlYjJky5pOrBj1jAW
- htPKlswqMXlM780GN3cWbGqt8vny9InsfWTmR88=
-X-Google-Smtp-Source: AGHT+IG+P7koVY8SGJbHtXG0/I8RB4zJVep7b7vhj49JCoS41sDj06lVp1lboFSvN8IsADheLWD1PEtNE+1O9JUH1WY=
-X-Received: by 2002:a05:6870:f814:b0:1ef:b949:3f5a with SMTP id
- fr20-20020a056870f81400b001efb9493f5amr9883998oab.4.1698782892851; Tue, 31
- Oct 2023 13:08:12 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1698786955; x=1699391755;
+ h=content-transfer-encoding:in-reply-to:content-language:references
+ :cc:to:from:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=7upQ/TCDqPQ7/RZT4zXVHcHAhMn0gkigdjeEzC/JmJ0=;
+ b=Hi9Bkr+5MH5OP6cR99W962egYI6CVuIJBkRkAWUEEpemZWTSpU9zMd85AvnWzIB8HF
+ QTHtpvoLNiBnolK7d6NuVufFMoAVN3LFGbwtv1Eg1AF/gmTZnrCP1wRneiCMGtMQ6KKl
+ X0WazqhItr5EGhFhZ4EjUAXc2hUPbhXLjoZuoxCQ8xoihHlQkzRlifbup7wl6ZD3GdMi
+ nI+Tow0fxIbVVW7or3PAxHRvekGGsd+fmvTw8xV11NNGeWVsFaJaV8QlXNf8IySgGFTF
+ D2qGbPSoj2h5AEveLpmKMECnj3UTydFptW+JQI/9HLfbFYK+eUuGb7Fbfe6/mtpZCTKa
+ 8tbw==
+X-Gm-Message-State: AOJu0Yz2Ud946Q3zR7O6TiAJmZ2B6R+O3I5wrJz/owxzDQY37jk700+p
+ lFTAfClMLiZchZtE76037uGLvYJ7vstLzQpk6PotwlyGlx+Z4oV0giFQFauV65Sz+rt1tHrzOCR
+ BUfMrbVb/uGHws8tnromPu9GDoFC2
+X-Received: by 2002:ac2:55b7:0:b0:4ff:ae42:19e2 with SMTP id
+ y23-20020ac255b7000000b004ffae4219e2mr10113704lfg.58.1698786955263; 
+ Tue, 31 Oct 2023 14:15:55 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGRky3KdEseSDE4uqAOpBzi7EnlmKPgY2mct/d4Gy3Y77ZfjIOfTgExy+Ta9yfIaFIeiVbD5g==
+X-Received: by 2002:ac2:55b7:0:b0:4ff:ae42:19e2 with SMTP id
+ y23-20020ac255b7000000b004ffae4219e2mr10113685lfg.58.1698786954875; 
+ Tue, 31 Oct 2023 14:15:54 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:2a07:3a01:6c4:9fb2:fbc:7029?
+ (2001-1c00-2a07-3a01-06c4-9fb2-0fbc-7029.cable.dynamic.v6.ziggo.nl.
+ [2001:1c00:2a07:3a01:6c4:9fb2:fbc:7029])
+ by smtp.gmail.com with ESMTPSA id
+ lg17-20020a170906f89100b0098e78ff1a87sm1513087ejb.120.2023.10.31.14.15.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 31 Oct 2023 14:15:54 -0700 (PDT)
+Message-ID: <16e533e2-81bb-47ba-9e23-460a626bcad7@redhat.com>
+Date: Tue, 31 Oct 2023 22:15:52 +0100
 MIME-Version: 1.0
-References: <20231031170847.23458-1-jose.pekkarinen@foxhound.fi>
-In-Reply-To: <20231031170847.23458-1-jose.pekkarinen@foxhound.fi>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 31 Oct 2023 16:08:00 -0400
-Message-ID: <CADnq5_NX2XDA87xfgF0ddStKyJofhkCr-rzvnKVkZ2XfM4t=mw@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/radeon: replace 1-element arrays with
- flexible-array members
-To: =?UTF-8?Q?Jos=C3=A9_Pekkarinen?= <jose.pekkarinen@foxhound.fi>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 6/7] drm/i915/dsi: Replace poking of CHV GPIOs behind
+ the driver's back
+From: Hans de Goede <hdegoede@redhat.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Jani Nikula <jani.nikula@intel.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20231024155739.3861342-1-andriy.shevchenko@linux.intel.com>
+ <20231024155739.3861342-7-andriy.shevchenko@linux.intel.com>
+ <ZTfssxRsrDxhzSQ6@smile.fi.intel.com>
+ <b489675d-e9de-4bca-9622-78545aa8606d@redhat.com>
+In-Reply-To: <b489675d-e9de-4bca-9622-78545aa8606d@redhat.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,317 +92,211 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Xinhui.Pan@amd.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- skhan@linuxfoundation.org, alexander.deucher@amd.com,
- linux-kernel-mentees@lists.linuxfoundation.org, christian.koenig@amd.com
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 31, 2023 at 1:09=E2=80=AFPM Jos=C3=A9 Pekkarinen
-<jose.pekkarinen@foxhound.fi> wrote:
->
-> Reported by coccinelle, the following patch will move the
-> following 1 element arrays to flexible arrays.
->
-> drivers/gpu/drm/radeon/atombios.h:5523:32-48: WARNING use flexible-array =
-member instead (https://www.kernel.org/doc/html/latest/process/deprecated.h=
-tml#zero-length-and-one-element-arrays)
-> drivers/gpu/drm/radeon/atombios.h:5545:32-48: WARNING use flexible-array =
-member instead (https://www.kernel.org/doc/html/latest/process/deprecated.h=
-tml#zero-length-and-one-element-arrays)
-> drivers/gpu/drm/radeon/atombios.h:5461:34-44: WARNING use flexible-array =
-member instead (https://www.kernel.org/doc/html/latest/process/deprecated.h=
-tml#zero-length-and-one-element-arrays)
-> drivers/gpu/drm/radeon/atombios.h:4447:30-40: WARNING use flexible-array =
-member instead (https://www.kernel.org/doc/html/latest/process/deprecated.h=
-tml#zero-length-and-one-element-arrays)
-> drivers/gpu/drm/radeon/atombios.h:4236:30-41: WARNING use flexible-array =
-member instead (https://www.kernel.org/doc/html/latest/process/deprecated.h=
-tml#zero-length-and-one-element-arrays)
-> drivers/gpu/drm/radeon/atombios.h:7095:28-45: WARNING use flexible-array =
-member instead (https://www.kernel.org/doc/html/latest/process/deprecated.h=
-tml#zero-length-and-one-element-arrays)
-> drivers/gpu/drm/radeon/atombios.h:3896:27-37: WARNING use flexible-array =
-member instead (https://www.kernel.org/doc/html/latest/process/deprecated.h=
-tml#zero-length-and-one-element-arrays)
-> drivers/gpu/drm/radeon/atombios.h:5443:16-25: WARNING use flexible-array =
-member instead (https://www.kernel.org/doc/html/latest/process/deprecated.h=
-tml#zero-length-and-one-element-arrays)
-> drivers/gpu/drm/radeon/atombios.h:5454:34-43: WARNING use flexible-array =
-member instead (https://www.kernel.org/doc/html/latest/process/deprecated.h=
-tml#zero-length-and-one-element-arrays)
-> drivers/gpu/drm/radeon/atombios.h:4603:21-32: WARNING use flexible-array =
-member instead (https://www.kernel.org/doc/html/latest/process/deprecated.h=
-tml#zero-length-and-one-element-arrays)
-> drivers/gpu/drm/radeon/atombios.h:4628:32-46: WARNING use flexible-array =
-member instead (https://www.kernel.org/doc/html/latest/process/deprecated.h=
-tml#zero-length-and-one-element-arrays)
-> drivers/gpu/drm/radeon/atombios.h:6285:29-39: WARNING use flexible-array =
-member instead (https://www.kernel.org/doc/html/latest/process/deprecated.h=
-tml#zero-length-and-one-element-arrays)
-> drivers/gpu/drm/radeon/atombios.h:4296:30-36: WARNING use flexible-array =
-member instead (https://www.kernel.org/doc/html/latest/process/deprecated.h=
-tml#zero-length-and-one-element-arrays)
-> drivers/gpu/drm/radeon/atombios.h:4756:28-36: WARNING use flexible-array =
-member instead (https://www.kernel.org/doc/html/latest/process/deprecated.h=
-tml#zero-length-and-one-element-arrays)
-> drivers/gpu/drm/radeon/atombios.h:4064:22-35: WARNING use flexible-array =
-member instead (https://www.kernel.org/doc/html/latest/process/deprecated.h=
-tml#zero-length-and-one-element-arrays)
-> drivers/gpu/drm/radeon/atombios.h:7327:9-24: WARNING use flexible-array m=
-ember instead (https://www.kernel.org/doc/html/latest/process/deprecated.ht=
-ml#zero-length-and-one-element-arrays)
-> drivers/gpu/drm/radeon/atombios.h:7332:32-53: WARNING use flexible-array =
-member instead (https://www.kernel.org/doc/html/latest/process/deprecated.h=
-tml#zero-length-and-one-element-arrays)
-> drivers/gpu/drm/radeon/atombios.h:7362:26-41: WARNING use flexible-array =
-member instead (https://www.kernel.org/doc/html/latest/process/deprecated.h=
-tml#zero-length-and-one-element-arrays)
-> drivers/gpu/drm/radeon/atombios.h:7369:29-44: WARNING use flexible-array =
-member instead (https://www.kernel.org/doc/html/latest/process/deprecated.h=
-tml#zero-length-and-one-element-arrays)
-> drivers/gpu/drm/radeon/atombios.h:7349:24-32: WARNING use flexible-array =
-member instead (https://www.kernel.org/doc/html/latest/process/deprecated.h=
-tml#zero-length-and-one-element-arrays)
-> drivers/gpu/drm/radeon/atombios.h:7355:27-35: WARNING use flexible-array =
-member instead (https://www.kernel.org/doc/html/latest/process/deprecated.h=
-tml#zero-length-and-one-element-arrays)
->
-> Signed-off-by: Jos=C3=A9 Pekkarinen <jose.pekkarinen@foxhound.fi>
-> ---
-> [v1 -> v2] removed padding and hinted sensitive cases from original patch
+Hi,
 
-Applied.  Thanks!
+On 10/31/23 17:07, Hans de Goede wrote:
+> Hi Andy,
+> 
+> On 10/24/23 18:11, Andy Shevchenko wrote:
+>> On Tue, Oct 24, 2023 at 06:57:38PM +0300, Andy Shevchenko wrote:
+>>> It's a dirty hack in the driver that pokes GPIO registers behind
+>>> the driver's back. Moreoever it might be problematic as simultaneous
+>>> I/O may hang the system, see the commit 0bd50d719b00 ("pinctrl:
+>>> cherryview: prevent concurrent access to GPIO controllers") for
+>>> the details. Taking all this into consideration replace the hack
+>>> with proper GPIO APIs being used.
+>>
+>> Ah, just realised that this won't work if it happens to request to GPIOs with
+>> the same index but different communities. I will fix that in v3, but will wait
+>> for Hans to test VLV and it might even work in most of the cases on CHV as it
+>> seems quite unlikely that the above mentioned assertion is going to happen in
+>> real life.
+> 
+> I have added patches 1-5 to my personal tree + a small debug patch on top
+> which logs when soc_exec_opaque_gpio() actually gets called.
+> 
+> So these patches will now get run every time I run some tests on
+> one my tablets.
+> 
+> I'll get back to you with testing results when I've found a device where
+> the new soc_exec_opaque_gpio() actually gets called.
+> 
+> As for the CHT support, I have not added that to my tree yet, I would
+> prefer to directly test the correct/fixed patch.
 
-Alex
+And I hit the "jackpot" on the first device I tried and the code needed
+some fixing to actually work, so here is something to fold into v3 to
+fix things:
 
->
->  drivers/gpu/drm/radeon/atombios.h | 42 +++++++++++++++----------------
->  1 file changed, 21 insertions(+), 21 deletions(-)
->
-> diff --git a/drivers/gpu/drm/radeon/atombios.h b/drivers/gpu/drm/radeon/a=
-tombios.h
-> index 8a6621f1e82c..2db40789235c 100644
-> --- a/drivers/gpu/drm/radeon/atombios.h
-> +++ b/drivers/gpu/drm/radeon/atombios.h
-> @@ -3893,7 +3893,7 @@ typedef struct _ATOM_GPIO_PIN_ASSIGNMENT
->  typedef struct _ATOM_GPIO_PIN_LUT
->  {
->    ATOM_COMMON_TABLE_HEADER  sHeader;
-> -  ATOM_GPIO_PIN_ASSIGNMENT     asGPIO_Pin[1];
-> +  ATOM_GPIO_PIN_ASSIGNMENT     asGPIO_Pin[];
->  }ATOM_GPIO_PIN_LUT;
->
->  /***********************************************************************=
-*****/
-> @@ -4061,7 +4061,7 @@ typedef struct _ATOM_SRC_DST_TABLE_FOR_ONE_OBJECT  =
-       //usSrcDstTableOffset
->    UCHAR               ucNumberOfSrc;
->    USHORT              usSrcObjectID[1];
->    UCHAR               ucNumberOfDst;
-> -  USHORT              usDstObjectID[1];
-> +  USHORT              usDstObjectID[];
->  }ATOM_SRC_DST_TABLE_FOR_ONE_OBJECT;
->
->
-> @@ -4233,7 +4233,7 @@ typedef struct  _ATOM_CONNECTOR_DEVICE_TAG_RECORD
->    ATOM_COMMON_RECORD_HEADER   sheader;
->    UCHAR                       ucNumberOfDevice;
->    UCHAR                       ucReserved;
-> -  ATOM_CONNECTOR_DEVICE_TAG   asDeviceTag[1];         //This Id is same =
-as "ATOM_DEVICE_XXX_SUPPORT", 1 is only for allocation
-> +  ATOM_CONNECTOR_DEVICE_TAG   asDeviceTag[];          //This Id is same =
-as "ATOM_DEVICE_XXX_SUPPORT", 1 is only for allocation
->  }ATOM_CONNECTOR_DEVICE_TAG_RECORD;
->
->
-> @@ -4293,7 +4293,7 @@ typedef struct  _ATOM_OBJECT_GPIO_CNTL_RECORD
->    ATOM_COMMON_RECORD_HEADER   sheader;
->    UCHAR                       ucFlags;                // Future expnadib=
-ility
->    UCHAR                       ucNumberOfPins;         // Number of GPIO =
-pins used to control the object
-> -  ATOM_GPIO_PIN_CONTROL_PAIR  asGpio[1];              // the real gpio p=
-in pair determined by number of pins ucNumberOfPins
-> +  ATOM_GPIO_PIN_CONTROL_PAIR  asGpio[];               // the real gpio p=
-in pair determined by number of pins ucNumberOfPins
->  }ATOM_OBJECT_GPIO_CNTL_RECORD;
->
->  //Definitions for GPIO pin state
-> @@ -4444,7 +4444,7 @@ typedef struct  _ATOM_BRACKET_LAYOUT_RECORD
->    UCHAR                       ucWidth;
->    UCHAR                       ucConnNum;
->    UCHAR                       ucReserved;
-> -  ATOM_CONNECTOR_LAYOUT_INFO  asConnInfo[1];
-> +  ATOM_CONNECTOR_LAYOUT_INFO  asConnInfo[];
->  }ATOM_BRACKET_LAYOUT_RECORD;
->
->  /***********************************************************************=
-*****/
-> @@ -4600,7 +4600,7 @@ typedef struct  _ATOM_I2C_VOLTAGE_OBJECT_V3
->     UCHAR    ucVoltageControlAddress;
->     UCHAR    ucVoltageControlOffset;
->     ULONG    ulReserved;
-> -   VOLTAGE_LUT_ENTRY asVolI2cLut[1];        // end with 0xff
-> +   VOLTAGE_LUT_ENTRY asVolI2cLut[];         // end with 0xff
->  }ATOM_I2C_VOLTAGE_OBJECT_V3;
->
->  // ATOM_I2C_VOLTAGE_OBJECT_V3.ucVoltageControlFlag
-> @@ -4625,7 +4625,7 @@ typedef struct  _ATOM_LEAKAGE_VOLTAGE_OBJECT_V3
->     UCHAR    ucLeakageEntryNum;           // indicate the entry number of=
- LeakageId/Voltage Lut table
->     UCHAR    ucReserved[2];
->     ULONG    ulMaxVoltageLevel;
-> -   LEAKAGE_VOLTAGE_LUT_ENTRY_V2 asLeakageIdLut[1];
-> +   LEAKAGE_VOLTAGE_LUT_ENTRY_V2 asLeakageIdLut[];
->  }ATOM_LEAKAGE_VOLTAGE_OBJECT_V3;
->
->
-> @@ -4753,7 +4753,7 @@ typedef struct _ATOM_POWER_SOURCE_INFO
->  {
->                 ATOM_COMMON_TABLE_HEADER                asHeader;
->                 UCHAR                                                    =
-                                       asPwrbehave[16];
-> -               ATOM_POWER_SOURCE_OBJECT                asPwrObj[1];
-> +               ATOM_POWER_SOURCE_OBJECT                asPwrObj[];
->  }ATOM_POWER_SOURCE_INFO;
->
->
-> @@ -5440,7 +5440,7 @@ typedef struct _ATOM_FUSION_SYSTEM_INFO_V2
->  typedef struct _ATOM_I2C_DATA_RECORD
->  {
->    UCHAR         ucNunberOfBytes;                                        =
-      //Indicates how many bytes SW needs to write to the external ASIC for=
- one block, besides to "Start" and "Stop"
-> -  UCHAR         ucI2CData[1];                                           =
-      //I2C data in bytes, should be less than 16 bytes usually
-> +  UCHAR         ucI2CData[];                                            =
-      //I2C data in bytes, should be less than 16 bytes usually
->  }ATOM_I2C_DATA_RECORD;
->
->
-> @@ -5451,14 +5451,14 @@ typedef struct _ATOM_I2C_DEVICE_SETUP_INFO
->    UCHAR                                        ucSSChipID;             /=
-/SS chip being used
->    UCHAR                                        ucSSChipSlaveAddr;      /=
-/Slave Address to set up this SS chip
->    UCHAR                           ucNumOfI2CDataRecords;  //number of da=
-ta block
-> -  ATOM_I2C_DATA_RECORD            asI2CData[1];
-> +  ATOM_I2C_DATA_RECORD            asI2CData[];
->  }ATOM_I2C_DEVICE_SETUP_INFO;
->
->  //=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->  typedef struct  _ATOM_ASIC_MVDD_INFO
->  {
->    ATOM_COMMON_TABLE_HEADER           sHeader;
-> -  ATOM_I2C_DEVICE_SETUP_INFO      asI2CSetup[1];
-> +  ATOM_I2C_DEVICE_SETUP_INFO      asI2CSetup[];
->  }ATOM_ASIC_MVDD_INFO;
->
->  //=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> @@ -5520,7 +5520,7 @@ typedef struct _ATOM_ASIC_INTERNAL_SS_INFO
->  typedef struct _ATOM_ASIC_INTERNAL_SS_INFO_V2
->  {
->    ATOM_COMMON_TABLE_HEADER           sHeader;
-> -  ATOM_ASIC_SS_ASSIGNMENT_V2             asSpreadSpectrum[1];      //thi=
-s is point only.
-> +  ATOM_ASIC_SS_ASSIGNMENT_V2             asSpreadSpectrum[];       //thi=
-s is point only.
->  }ATOM_ASIC_INTERNAL_SS_INFO_V2;
->
->  typedef struct _ATOM_ASIC_SS_ASSIGNMENT_V3
-> @@ -5542,7 +5542,7 @@ typedef struct _ATOM_ASIC_SS_ASSIGNMENT_V3
->  typedef struct _ATOM_ASIC_INTERNAL_SS_INFO_V3
->  {
->    ATOM_COMMON_TABLE_HEADER           sHeader;
-> -  ATOM_ASIC_SS_ASSIGNMENT_V3             asSpreadSpectrum[1];      //thi=
-s is pointer only.
-> +  ATOM_ASIC_SS_ASSIGNMENT_V3             asSpreadSpectrum[];       //thi=
-s is pointer only.
->  }ATOM_ASIC_INTERNAL_SS_INFO_V3;
->
->
-> @@ -6282,7 +6282,7 @@ typedef union _ATOM_MEMORY_SETTING_ID_CONFIG_ACCESS
->
->  typedef struct _ATOM_MEMORY_SETTING_DATA_BLOCK{
->         ATOM_MEMORY_SETTING_ID_CONFIG_ACCESS                    ulMemoryI=
-D;
-> -       ULONG                                                            =
-                                                               aulMemData[1=
-];
-> +       ULONG                                                            =
-                                                               aulMemData[]=
-;
->  }ATOM_MEMORY_SETTING_DATA_BLOCK;
->
->
-> @@ -7092,7 +7092,7 @@ typedef struct _ATOM_DISP_OUT_INFO_V3
->    UCHAR  ucCoreRefClkSource;                    // value of CORE_REF_CLK=
-_SOURCE
->    UCHAR  ucDispCaps;
->    UCHAR  ucReserved[2];
-> -  ASIC_TRANSMITTER_INFO_V2  asTransmitterInfo[1];     // for alligment o=
-nly
-> +  ASIC_TRANSMITTER_INFO_V2  asTransmitterInfo[];      // for alligment o=
-nly
->  }ATOM_DISP_OUT_INFO_V3;
->
->  //ucDispCaps
-> @@ -7324,12 +7324,12 @@ typedef struct _CLOCK_CONDITION_SETTING_ENTRY{
->    USHORT usMaxClockFreq;
->    UCHAR  ucEncodeMode;
->    UCHAR  ucPhySel;
-> -  ULONG  ulAnalogSetting[1];
-> +  ULONG  ulAnalogSetting[];
->  }CLOCK_CONDITION_SETTING_ENTRY;
->
->  typedef struct _CLOCK_CONDITION_SETTING_INFO{
->    USHORT usEntrySize;
-> -  CLOCK_CONDITION_SETTING_ENTRY asClkCondSettingEntry[1];
-> +  CLOCK_CONDITION_SETTING_ENTRY asClkCondSettingEntry[];
->  }CLOCK_CONDITION_SETTING_INFO;
->
->  typedef struct _PHY_CONDITION_REG_VAL{
-> @@ -7346,27 +7346,27 @@ typedef struct _PHY_CONDITION_REG_VAL_V2{
->  typedef struct _PHY_CONDITION_REG_INFO{
->    USHORT usRegIndex;
->    USHORT usSize;
-> -  PHY_CONDITION_REG_VAL asRegVal[1];
-> +  PHY_CONDITION_REG_VAL asRegVal[];
->  }PHY_CONDITION_REG_INFO;
->
->  typedef struct _PHY_CONDITION_REG_INFO_V2{
->    USHORT usRegIndex;
->    USHORT usSize;
-> -  PHY_CONDITION_REG_VAL_V2 asRegVal[1];
-> +  PHY_CONDITION_REG_VAL_V2 asRegVal[];
->  }PHY_CONDITION_REG_INFO_V2;
->
->  typedef struct _PHY_ANALOG_SETTING_INFO{
->    UCHAR  ucEncodeMode;
->    UCHAR  ucPhySel;
->    USHORT usSize;
-> -  PHY_CONDITION_REG_INFO  asAnalogSetting[1];
-> +  PHY_CONDITION_REG_INFO  asAnalogSetting[];
->  }PHY_ANALOG_SETTING_INFO;
->
->  typedef struct _PHY_ANALOG_SETTING_INFO_V2{
->    UCHAR  ucEncodeMode;
->    UCHAR  ucPhySel;
->    USHORT usSize;
-> -  PHY_CONDITION_REG_INFO_V2  asAnalogSetting[1];
-> +  PHY_CONDITION_REG_INFO_V2  asAnalogSetting[];
->  }PHY_ANALOG_SETTING_INFO_V2;
->
->  typedef struct _GFX_HAVESTING_PARAMETERS {
-> --
-> 2.39.2
->
+From 144fae4de91a6b5ed993b1722a07cca679f74cbe Mon Sep 17 00:00:00 2001
+From: Hans de Goede <hdegoede@redhat.com>
+Date: Tue, 31 Oct 2023 17:04:35 +0100
+Subject: [PATCH] drm/i915/dsi: Fix GPIO lookup table used by
+ soc_exec_opaque_gpio()
+
+There already is a GPIO lookup table for device "0000:00:02.0" and
+there can be only one GPIO lookup per device.
+
+Instead add an extra empty entry to the GPIO lookup table
+registered by intel_dsi_vbt_gpio_init() and use that extra entry
+in soc_exec_opaque_gpio().
+
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+ drivers/gpu/drm/i915/display/intel_dsi_vbt.c | 60 ++++++++++----------
+ 1 file changed, 31 insertions(+), 29 deletions(-)
+
+diff --git a/drivers/gpu/drm/i915/display/intel_dsi_vbt.c b/drivers/gpu/drm/i915/display/intel_dsi_vbt.c
+index 8fc82aceae14..70f1d2c411e8 100644
+--- a/drivers/gpu/drm/i915/display/intel_dsi_vbt.c
++++ b/drivers/gpu/drm/i915/display/intel_dsi_vbt.c
+@@ -219,8 +219,7 @@ static void soc_exec_gpio(struct intel_connector *connector, const char *con_id,
+ 	} else {
+ 		gpio_desc = devm_gpiod_get_index(dev_priv->drm.dev,
+ 						 con_id, gpio_index,
+-						 value ? GPIOD_OUT_LOW :
+-						 GPIOD_OUT_HIGH);
++						 value ? GPIOD_OUT_HIGH : GPIOD_OUT_LOW);
+ 		if (IS_ERR(gpio_desc)) {
+ 			drm_err(&dev_priv->drm,
+ 				"GPIO index %u request failed (%pe)\n",
+@@ -232,26 +231,20 @@ static void soc_exec_gpio(struct intel_connector *connector, const char *con_id,
+ 	}
+ }
+ 
++static struct gpiod_lookup *soc_exec_opaque_gpiod_lookup;
++
+ static void soc_exec_opaque_gpio(struct intel_connector *connector,
+ 				 const char *chip, const char *con_id,
+ 				 u8 gpio_index, bool value)
+ {
+-	struct gpiod_lookup_table *lookup;
++	struct drm_i915_private *dev_priv = to_i915(connector->base.dev);
+ 
+-	lookup = kzalloc(struct_size(lookup, table, 2), GFP_KERNEL);
+-	if (!lookup)
+-		return;
+-
+-	lookup->dev_id = "0000:00:02.0";
+-	lookup->table[0] =
++	*soc_exec_opaque_gpiod_lookup =
+ 		GPIO_LOOKUP_IDX(chip, gpio_index, con_id, gpio_index, GPIO_ACTIVE_HIGH);
+ 
+-	gpiod_add_lookup_table(lookup);
+-
+ 	soc_exec_gpio(connector, con_id, gpio_index, value);
+ 
+-	gpiod_remove_lookup_table(lookup);
+-	kfree(lookup);
++	soc_exec_opaque_gpiod_lookup->key = NULL;
+ }
+ 
+ static void vlv_exec_gpio(struct intel_connector *connector,
+@@ -898,6 +891,7 @@ static struct gpiod_lookup_table pmic_panel_gpio_table = {
+ 	.table = {
+ 		/* Panel EN/DISABLE */
+ 		GPIO_LOOKUP("gpio_crystalcove", 94, "panel", GPIO_ACTIVE_HIGH),
++		{ }, /* Extra lookup entry for soc_exec_opaque_gpiod_lookup */
+ 		{ }
+ 	},
+ };
+@@ -907,6 +901,15 @@ static struct gpiod_lookup_table soc_panel_gpio_table = {
+ 	.table = {
+ 		GPIO_LOOKUP("INT33FC:01", 10, "backlight", GPIO_ACTIVE_HIGH),
+ 		GPIO_LOOKUP("INT33FC:01", 11, "panel", GPIO_ACTIVE_HIGH),
++		{ }, /* Extra lookup entry for soc_exec_opaque_gpiod_lookup */
++		{ }
++	},
++};
++
++static struct gpiod_lookup_table empty_gpio_table = {
++	.dev_id = "0000:00:02.0",
++	.table = {
++		{ }, /* Extra lookup entry for soc_exec_opaque_gpiod_lookup */
+ 		{ }
+ 	},
+ };
+@@ -916,6 +919,8 @@ static const struct pinctrl_map soc_pwm_pinctrl_map[] = {
+ 			  "pwm0_grp", "pwm"),
+ };
+ 
++static struct gpiod_lookup_table *gpiod_lookup_table;
++
+ void intel_dsi_vbt_gpio_init(struct intel_dsi *intel_dsi, bool panel_is_on)
+ {
+ 	struct drm_device *dev = intel_dsi->base.base.dev;
+@@ -926,16 +931,16 @@ void intel_dsi_vbt_gpio_init(struct intel_dsi *intel_dsi, bool panel_is_on)
+ 	bool want_backlight_gpio = false;
+ 	bool want_panel_gpio = false;
+ 	struct pinctrl *pinctrl;
+-	int ret;
++	int i, ret;
+ 
+ 	if ((IS_VALLEYVIEW(dev_priv) || IS_CHERRYVIEW(dev_priv)) &&
+ 	    mipi_config->pwm_blc == PPS_BLC_PMIC) {
+-		gpiod_add_lookup_table(&pmic_panel_gpio_table);
++		gpiod_lookup_table = &pmic_panel_gpio_table;
+ 		want_panel_gpio = true;
+ 	}
+ 
+ 	if (IS_VALLEYVIEW(dev_priv) && mipi_config->pwm_blc == PPS_BLC_SOC) {
+-		gpiod_add_lookup_table(&soc_panel_gpio_table);
++		gpiod_lookup_table = &soc_panel_gpio_table;
+ 		want_panel_gpio = true;
+ 		want_backlight_gpio = true;
+ 
+@@ -952,6 +957,15 @@ void intel_dsi_vbt_gpio_init(struct intel_dsi *intel_dsi, bool panel_is_on)
+ 				"Failed to set pinmux to PWM\n");
+ 	}
+ 
++	if (!gpiod_lookup_table)
++		gpiod_lookup_table = &empty_gpio_table;
++
++	/* Find first empty entry for soc_exec_opaque_gpiod_lookup */
++	for (i = 0; gpiod_lookup_table->table[i].key; i++) { }
++	soc_exec_opaque_gpiod_lookup = &gpiod_lookup_table->table[i];
++
++	gpiod_add_lookup_table(gpiod_lookup_table);
++
+ 	if (want_panel_gpio) {
+ 		intel_dsi->gpio_panel = gpiod_get(dev->dev, "panel", flags);
+ 		if (IS_ERR(intel_dsi->gpio_panel)) {
+@@ -974,11 +988,6 @@ void intel_dsi_vbt_gpio_init(struct intel_dsi *intel_dsi, bool panel_is_on)
+ 
+ void intel_dsi_vbt_gpio_cleanup(struct intel_dsi *intel_dsi)
+ {
+-	struct drm_device *dev = intel_dsi->base.base.dev;
+-	struct drm_i915_private *dev_priv = to_i915(dev);
+-	struct intel_connector *connector = intel_dsi->attached_connector;
+-	struct mipi_config *mipi_config = connector->panel.vbt.dsi.config;
+-
+ 	if (intel_dsi->gpio_panel) {
+ 		gpiod_put(intel_dsi->gpio_panel);
+ 		intel_dsi->gpio_panel = NULL;
+@@ -989,12 +998,5 @@ void intel_dsi_vbt_gpio_cleanup(struct intel_dsi *intel_dsi)
+ 		intel_dsi->gpio_backlight = NULL;
+ 	}
+ 
+-	if ((IS_VALLEYVIEW(dev_priv) || IS_CHERRYVIEW(dev_priv)) &&
+-	    mipi_config->pwm_blc == PPS_BLC_PMIC)
+-		gpiod_remove_lookup_table(&pmic_panel_gpio_table);
+-
+-	if (IS_VALLEYVIEW(dev_priv) && mipi_config->pwm_blc == PPS_BLC_SOC) {
+-		pinctrl_unregister_mappings(soc_pwm_pinctrl_map);
+-		gpiod_remove_lookup_table(&soc_panel_gpio_table);
+-	}
++	gpiod_remove_lookup_table(gpiod_lookup_table);
+ }
+-- 
+2.41.0
+
+
+Regards,
+
+Hans
+
