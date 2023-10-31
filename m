@@ -2,66 +2,131 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A63977DCCCE
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Oct 2023 13:18:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62F017DCCCF
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Oct 2023 13:19:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1279D10E47D;
-	Tue, 31 Oct 2023 12:18:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7D9910E485;
+	Tue, 31 Oct 2023 12:19:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF9FB10E47D
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Oct 2023 12:18:05 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 0A4CBB80ECB
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Oct 2023 12:18:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64EBEC433C9
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Oct 2023 12:18:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1698754683;
- bh=+07EIdZzApKtvodl/APXonDCzegu5yRYYAndOuglU3Y=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=JhRu3R8VaNTiInn8hLaSfS1Gs6sGSF9ntO2za+/VJ0IkjwAAkvHBWQPm+ihOmUjb7
- VdbBdwVvX6Xlalhm4w9b7pF1gle+0iQOAudadZdiY5GM3x5uPtMmYOwFw9iMbL80Zx
- 7itKmsyGHrKv56OfENB64o6jgfqZfADRY6opfIgGhINQ5QrcSIgsd3gqAtPS4Q+sKI
- bHk2zPgIsVKng/HTIvr0klsOKEx9b/RWNJdVf65u1EU5qgcrv64nbt9A80+g9a2M9v
- 5y1X84kYs0zQ33m40vXz3AGeaLjN6KVN8oUEJfBsqn61yDyHTdpIodhqGxjRlYC7FC
- Ps/kBtNtD5ppQ==
-Received: by mail-ej1-f42.google.com with SMTP id
- a640c23a62f3a-98377c5d53eso836240466b.0
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Oct 2023 05:18:03 -0700 (PDT)
-X-Gm-Message-State: AOJu0YyaCzOcwtyOtzvj2u05PkgbfiPe8ACDJbx0Rg7Isw5vAZeNOjWa
- Aizs4ON0wVCqjpH9z037Ur3pup3FlLpyg3odITY=
-X-Google-Smtp-Source: AGHT+IEUyC50HI4SBbvFRIsBS2tkEZDUrTMVdws+u+gRrQJccqgLqe+zPJt91ueb+OCWKgegYZyb+/rcSQGIqibYB2Y=
-X-Received: by 2002:a17:907:da0:b0:9bd:a73a:7a0d with SMTP id
- go32-20020a1709070da000b009bda73a7a0dmr12467189ejc.13.1698754681849; Tue, 31
- Oct 2023 05:18:01 -0700 (PDT)
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com
+ (mail-am6eur05on20625.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:7e1b::625])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A62010E484
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Oct 2023 12:18:59 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=DcRmZU52UQgrYRnc8RSoOriGcxzMc2BNOHuqaj7NV8tDFlbxH+bzlDCDmHu0JFt2KGBqtgOoVJyi/6jc+FMvCVe91dweGroCSFYQWvZILyuXCEZmJg62VaMhv5aDHcpm+5fJi2QrGZdZRmyL97mj0vbJeYcnkp5d5wAN/H40t+1cdtJM1nE71YJtSftF/cdvtO9k2vp2MFHPvVEWhrgQoMweFhRa0iLfXWnO27F1M2P0WeNwMpMbrkohoImFUTl5Q1RHYXpAn4aeJhzIXijxcqZ75+iSLXmCTwqIJywPCpWU4oywCUQzJ8RIKc6SAARp1p5IrMig25aOrNYGKkCWQA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=KBsVcUWTt1BgDfEMFWSgHsaxZwkWuBPkS6u/j+8EGbA=;
+ b=hmppeBFv0PkQqfGwTH0EldAzIBOjuVAk0YcpWf8rwbC5+e17iWONjFvIjKqaTqtg2HJIDKJRg3J/PbYNEr9QGQlJkeb7GV/RC7kCMz/wkhhYX/dNnU4qBgWl1dyS5j3vXgLo9ubRLUdm5R75s60MNoOrpuMyucK+beOyHT1y9usO495oJwyNHHjMu4I6HOk3hfblS3gNpVmGmc6CuHbByaxs42pRL3TToR/cdmKp8qccb7ryK5ELRw+j+ULAo2EQnr5law6KLmQG0FFEsG8Rf7rQof10NTyP3hHJWWAoPwjYK6Ez1xOXbbPbZ8MXCg/3Wh99ogXZKsEQB9TsrnUVrw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
+ dkim=pass header.d=siemens.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=KBsVcUWTt1BgDfEMFWSgHsaxZwkWuBPkS6u/j+8EGbA=;
+ b=HmYGZ0WqsRaTu9eNH4aDDvjg8LNQQBOtxwXZEJvqn3Nie5V7dADFgV0omCOqH/oekxUfZLN9YOCckvoXqyWZ+gR5fhRAdhPG3yvY0Id1eimvV85PJvTnC2X149i8FqzTnZXcx1blc5liVYmOjaYAWrIN9wnpjPs3C/8KHD518+CII3BVP95my2Lvy0P1sTfpPujwmPTVZonXK6xJyBfrokapPbQuTczLm7mx7hHmkZkvwArMFvB0t9L7WyKPQERf9jxnnD8aQFXCGCAScX1AMwj9utQx8rK3XEyvgO5CjKLNH3jTOiN6x6IJr+4gJZ78ty4DLpHHFwFLFhjlaJzvKg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siemens.com;
+Received: from AS4PR10MB6181.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:588::19)
+ by AM7PR10MB3876.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:175::24)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6933.29; Tue, 31 Oct
+ 2023 12:18:56 +0000
+Received: from AS4PR10MB6181.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::8496:a3a3:d7a8:b24d]) by AS4PR10MB6181.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::8496:a3a3:d7a8:b24d%4]) with mapi id 15.20.6933.029; Tue, 31 Oct 2023
+ 12:18:56 +0000
+Message-ID: <3d8af1e1-e969-4489-90dd-59de1050f39e@siemens.com>
+Date: Tue, 31 Oct 2023 13:18:52 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/bridge: tc358767: Support input format negotiation
+ hook
+Content-Language: en-US
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Aradhya Bhatia <a-bhatia1@ti.com>, Jyri Sarha <jyri.sarha@iki.fi>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Francesco Dolcini <francesco@dolcini.it>, Sam Ravnborg <sam@ravnborg.org>
+References: <20231030192846.27934-1-a-bhatia1@ti.com>
+ <fc113f51-35e9-49ff-8299-e7fc11b81c31@siemens.com>
+ <9e801f88-a15e-48f1-b103-0305c5807143@ideasonboard.com>
+From: Jan Kiszka <jan.kiszka@siemens.com>
+In-Reply-To: <9e801f88-a15e-48f1-b103-0305c5807143@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR3P281CA0053.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:4a::6) To AS4PR10MB6181.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:20b:588::19)
 MIME-Version: 1.0
-References: <7c50e051-eba2-09fc-da9f-023d592de457@ristioja.ee>
- <31bdf7b1-0ed9-4217-b459-1d857e53120b@leemhuis.info>
- <CAAhV-H7fRpykesVUEyaTpVnFiGwpP+fPbtdrp6JwfgD=bDp06Q@mail.gmail.com>
- <CAAhV-H7XCmbgS=N4-SE8FnASAws8hnDRZsQJgXE+dwyARaqzNw@mail.gmail.com>
- <ZSO9uArAtsPMPeTP@debian.me>
- <CAAhV-H5GbidUx8YanUc7S9oGqBkDd53xeT=2O4aCuX7KpM-+8A@mail.gmail.com>
- <c9b79a69-bdc1-4457-900d-709a15d99568@leemhuis.info>
- <CAAhV-H4qQW_fOdkTxmT1xbvo4LOapzw_tOw7Kma47xmh0PvpPA@mail.gmail.com>
- <ZTWoDSPxGO-ApR4r@P70.localdomain>
- <82f1b533-3bd8-4418-843a-718d9a6b5786@leemhuis.info>
- <CAAhV-H5DH3Oj3ttSpa_k6jUdZ+0_pMwgoaqUTGGFr46j7DMXRw@mail.gmail.com>
- <ba16ad66-4b35-4fb4-b4e6-1d785f260eea@ristioja.ee>
- <CAAhV-H64AKdGoHnVLLOYXznpr_aq1jC_TUYXFQRdOjoBxanxkw@mail.gmail.com>
- <c3bb7983-86e4-424e-aadd-e82a0cb6ef37@ristioja.ee>
- <CAAhV-H7UTnTWQeT_qo7VgBczaZo37zjosREr16H8DsLi21XPqQ@mail.gmail.com>
-In-Reply-To: <CAAhV-H7UTnTWQeT_qo7VgBczaZo37zjosREr16H8DsLi21XPqQ@mail.gmail.com>
-From: Huacai Chen <chenhuacai@kernel.org>
-Date: Tue, 31 Oct 2023 20:17:49 +0800
-X-Gmail-Original-Message-ID: <CAAhV-H7fJS3-3_hqA4BUdH+q5EG6wSmEoPpO-fUZn5h35O=6OA@mail.gmail.com>
-Message-ID: <CAAhV-H7fJS3-3_hqA4BUdH+q5EG6wSmEoPpO-fUZn5h35O=6OA@mail.gmail.com>
-Subject: Re: Blank screen on boot of Linux 6.5 and later on Lenovo ThinkPad
- L570
-To: Jaak Ristioja <jaak@ristioja.ee>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AS4PR10MB6181:EE_|AM7PR10MB3876:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4d28c0f2-89f5-4830-b326-08dbda0b8e03
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: lz/uF4wu8TJ4dBjzJkUL7BL+fyxt2qwErobkTFM4PBfiH2WcK5zH6+JKYW+2kuu+4n04w7q2Y96yPvqpQN0eWVDUM1RXLn6J0np463X2ARGgfceS3aLfoO7o/lPYE6t2apiZZgvFNBT26dSl+4+XMlyeO+3VXI40JZlqdMT3OJoO/jmp0M6UNrZeIRRJz+jz5Lx7kl2qpsCUm+fpfbf/2wyPNAn6nL4Ap/p8PnQAvskBUtuEVupoQm2ae+iImDUPhekceZqbl/M3tU/iRht0e0i5KC4l8Q4h32vBX+/B9t/3sseMdugMDoUsjTrInPCPPQwJH18ZXa3KOY24VnSv1hw4NMLV+RZhZtJAonitC6afcQmkfIXrWzxO66/eD0Kv3I9UTeziK9gVzLTs7C6leyBjBq34vv7jIRyH0kC4RTha2cZuACBgQ7IQqIfm4SU00JhqiBYEQp0AEDfARrmY1gE1hxWYYullFoMqzQzWEjLRtp+/OwknQqf2HYvbo1V0ZmUpaeaOgLcVZGHuzMh3yf2HUJidfHO0KmBedXCRhzaHqD6wZq9BOrw5HCHx2nmz5IR4Z1HcA1FFmQsG2UioOK+adUaoaxVDORD48rrPFduLpFEPWTUYr18jnRkyMQwRld+W468JQl8lrvjF6YtDcSfp83LGk2q5ufkEx37Fwv4=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AS4PR10MB6181.EURPRD10.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
+ SFS:(13230031)(346002)(366004)(396003)(376002)(136003)(39860400002)(230922051799003)(1800799009)(186009)(451199024)(64100799003)(7416002)(53546011)(6506007)(36756003)(26005)(2616005)(86362001)(921008)(6512007)(31696002)(38100700002)(6666004)(83380400001)(82960400001)(966005)(6486002)(2906002)(478600001)(31686004)(66476007)(66556008)(54906003)(41300700001)(316002)(44832011)(110136005)(66946007)(4326008)(5660300002)(8676002)(8936002)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?L1VkZ05WQ08vQWdSV2l3OXZwcDJJRnNCaWpUR0NhZVAyTmlKRkxzSkRVRU5P?=
+ =?utf-8?B?UUs0MEpZdUF5YTNVNU44UmpVWnhsY3NTd2RyOXVJanVxUmNwQW1aM0lBWkth?=
+ =?utf-8?B?a3ZnUGpqaThuWTNaWHVLWmNIYndmNW43d1N1YUhiSTJNb1NjWkQwVzZQL0lV?=
+ =?utf-8?B?S1RMUndHS2VpOG1Ia0NQd3BNTnVSc2VtWGNCUXBZZndjZjh1ODJsSGF1bjc2?=
+ =?utf-8?B?ZkJmZE81SEZ2TmRSRTZFd2h1TXJHTmlwaENVUGV4ZStWRFE5dk4wcm1pSmQ3?=
+ =?utf-8?B?UGtoOTJhTkEwb3psWGNFWG5vUFBCM0Nta2JLSWxNby9lelFRRWVlc3VCdDN3?=
+ =?utf-8?B?Nk5LblNMZ1R1ZlJqU3lYaGRWK0huaFg2U3A5Zm1GYmJES2dzRDhyczE4QW9p?=
+ =?utf-8?B?czN5clk0dmhYck9oVExtRzkzQ1Y1WnJmSElna2JWR1U2VGVkZ1V2ZU5wZ1VZ?=
+ =?utf-8?B?V1NRZHhNWnFSNHJmeU0wdXVwOUJSMWpJay8zTTMwQmpvWWkrTFRHam52NTVq?=
+ =?utf-8?B?NzRISVgwUkhRTy9aYzNJSzd5MDlnMnJzOW9PTXZBK25UcWxXTnNYaWY5a2hD?=
+ =?utf-8?B?ZHYxQUJTZXU5MzhTZVdpb1U5c0VWZ1NiZ3U5ekp3dCtaQVZuWUFjQXByYjQ3?=
+ =?utf-8?B?UUlZclpyQUp0bmQ0T2pYYkxBTmVtbmh3S3Y3NU1ua1RKUW9DVWlpM2ZmNnZN?=
+ =?utf-8?B?dS9MTEtTRndwcENxY1owalRNS0svb0oveUR3MjBKLzBHNHYrNVZKOTRmd09D?=
+ =?utf-8?B?NCswQUd6QXpmR2FFS1BFTGxuQ245VXpscXFWVVppNHZzZ0VPVW9CQlFWRUZD?=
+ =?utf-8?B?dlo1c3VqRElIOWlyTFVjTEpRWFB1dEFrdms4dHRDMVk2SzBoYXIxTmVMMkxI?=
+ =?utf-8?B?VFAweVA5TTJIclkvc2U5UzV6Nkc0akkrcXRyS3AzSU5ONVlybklNNWdqQUZW?=
+ =?utf-8?B?T3Q1K08yYjZlZmNaVzQzTlFSNmpxNlpRWHdmTGNBK3lDcXdLRXBCcVA3eVNy?=
+ =?utf-8?B?QU9EWThPVnQyQ3FTUGZ5bGVSVHNzdHJBMU0wTUpqV0Y1NkdHSUhQRnBmVHU2?=
+ =?utf-8?B?TlNSbitZb2I2aHpUWEVmTy9XWVdGaFRjQllkaW5RdlI2dGhFRm9hYTJXaWUz?=
+ =?utf-8?B?Q0s0eGhrM0c0UFZvNTJlQ2NBemdIMHFCdWdYanFqQVNxZnBJcFk1MkJXQldw?=
+ =?utf-8?B?eEIyVVFRMEtRRUZDaWlKNStpQnhhM20zV1RnUVRxYVEzN054VFRXTlFNM05P?=
+ =?utf-8?B?Wm1kc1hRbWZ6aWphOUxwM3FpV1NVZDd5TkRMVjhzK2RSNzgrTmN0T1JQZVpa?=
+ =?utf-8?B?djVvM0poRDgrMzlHOUtOUFFRZ3BxaEw3TVNZRjRvRzBrVC85TC9qRTh5VTBG?=
+ =?utf-8?B?ZDEzb1N3cXNWVSsxbjZ1cHdIMjFNMkROem9wcEY2NVR4aWpvWlRJS1BmQmJq?=
+ =?utf-8?B?TlJUUENXL1pHdFpzRFFUR0t2SnlDODJHRjNaM2dRMGU1TU5raVlVV0ZpcWxw?=
+ =?utf-8?B?UHAyMVVPOHNDRnNya1dHMnZRcjZWZ0Nyc2xnZ1RiRmdQMDFZMk9qQkRFeGtw?=
+ =?utf-8?B?V3hwTy9GNFFoMjRzOXBSQ0pkZDJFOXRQaXdEUi9maGkwclIzNzM2dXRhUXky?=
+ =?utf-8?B?N2lhNklwYnBUb2Erb0hlL3hxZWNIWlk2aEN1RXlpWU1PT3JReHpNSXorbWp4?=
+ =?utf-8?B?YWVPQUoxZUFETU9US2h2Rkl2d1ZJQVZnQ3Z3LzRCbzVjUG00b213SEpaTVQz?=
+ =?utf-8?B?Y0dWYnM0UnpCM2I5Y0JzWXd3ZXF4dm5paitydGJGTWVlcTE3RVJ5OWhDVGM4?=
+ =?utf-8?B?NG1uc2MyMnFRWkw1YkFNM3pwMll0bzA2TWNnUVovZUY3OFMrbEFJOXVMS3E3?=
+ =?utf-8?B?dGdreHE0TVVVbG1VZDVZdXBLeTZVRUhBSllTM0ZpeERMaHZtaWJBRGN0cWtD?=
+ =?utf-8?B?NmJ0dzE0cXY5TGdaUWc3d09aai9IWndVVE1CdGhkK2N5N2xsUEtPKzIxQ1Ro?=
+ =?utf-8?B?TVB2ajQ1WFpaejU4L1ZBeW9GRUgxYWl0N09CMzhVY2RXWnVUc3J0NmRsVDBD?=
+ =?utf-8?B?bzdOQXlySkhoMzlIRENHZG5MQUkrT01oTXZuejZ5Y0Zra0VmVGEvN3I5TjVj?=
+ =?utf-8?B?YnhOQjl3UkpLMVFYS3J6WllRQ0tTSGJ6VDBuUGNZa0didjUzb3czY2JsOFJ6?=
+ =?utf-8?B?enc9PQ==?=
+X-OriginatorOrg: siemens.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4d28c0f2-89f5-4830-b326-08dbda0b8e03
+X-MS-Exchange-CrossTenant-AuthSource: AS4PR10MB6181.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Oct 2023 12:18:56.6282 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: TK7HMtwSTy/QRYOESAY8g2FnwrZTfY5n5+J+nyAlya2wkETuI4LGN+m9IECxXOt1gHMA8vvTthT0FH9lRTqoqQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR10MB3876
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,212 +139,141 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux regressions mailing list <regressions@lists.linux.dev>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux DRI Development <dri-devel@lists.freedesktop.org>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Thorsten Leemhuis <regressions@leemhuis.info>,
- Thomas Zimmermann <tzimmermann@suse.de>, Bagas Sanjaya <bagasdotme@gmail.com>,
- Evan Preston <x.arch@epreston.net>
+Cc: Nishanth Menon <nm@ti.com>, Jayesh Choudhary <j-choudhary@ti.com>,
+ Vignesh Raghavendra <vigneshr@ti.com>, Devarsh Thakkar <devarsht@ti.com>,
+ "Bajjuri, Praneeth" <praneeth@ti.com>,
+ Linux Kernel List <linux-kernel@vger.kernel.org>,
+ DRI Development List <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Jaak and Evan,
+On 31.10.23 11:53, Tomi Valkeinen wrote:
+> Hi Jan,
+> 
+> On 31/10/2023 08:24, Jan Kiszka wrote:
+>> On 30.10.23 20:28, Aradhya Bhatia wrote:
+>>> With new connector model, tc358767 will not create the connector, when
+>>> DRM_BRIDGE_ATTACH_NO_CONNECTOR is set and display-controller driver will
+>>> rely on format negotiation to setup the encoder format.
+>>>
+>>> Add the missing input-format negotiation hook in the
+>>> drm_bridge_funcs to complete DRM_BRIDGE_ATTACH_NO_CONNECTOR support.
+>>>
+>>> Input format is selected to MEDIA_BUS_FMT_RGB888_1X24 as default, as is
+>>> the case with older model.
+>>>
+>>> Reported-by: Jan Kiszka <jan.kiszka@siemens.com>
+>>> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
+>>> ---
+>>>
+>>> Notes:
+>>>
+>>>    * Since I do not have hardware with me, this was just build
+>>> tested. I would
+>>>      appreciate it if someone could test and review it, especically
+>>> somebody, who
+>>>      uses the bridge for DPI/DSI to eDP format conversion.
+>>>
+>>>    * The Toshiba TC358767 bridge is not enabled in arm64 defconfig by
+>>> default,
+>>>      when it should be. Hence, I sent a quick patch[0] earlier.
+>>>
+>>> [0]:
+>>> https://lore.kernel.org/all/20231030152834.18450-1-a-bhatia1@ti.com/
+>>>
+>>>   drivers/gpu/drm/bridge/tc358767.c | 25 +++++++++++++++++++++++++
+>>>   1 file changed, 25 insertions(+)
+>>>
+>>> diff --git a/drivers/gpu/drm/bridge/tc358767.c
+>>> b/drivers/gpu/drm/bridge/tc358767.c
+>>> index ef2e373606ba..0affcefdeb1c 100644
+>>> --- a/drivers/gpu/drm/bridge/tc358767.c
+>>> +++ b/drivers/gpu/drm/bridge/tc358767.c
+>>> @@ -1751,6 +1751,30 @@ tc_dpi_atomic_get_input_bus_fmts(struct
+>>> drm_bridge *bridge,
+>>>       return input_fmts;
+>>>   }
+>>>   +static u32 *
+>>> +tc_edp_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
+>>> +                 struct drm_bridge_state *bridge_state,
+>>> +                 struct drm_crtc_state *crtc_state,
+>>> +                 struct drm_connector_state *conn_state,
+>>> +                 u32 output_fmt,
+>>> +                 unsigned int *num_input_fmts)
+>>> +{
+>>> +    u32 *input_fmts;
+>>> +
+>>> +    *num_input_fmts = 0;
+>>> +
+>>> +    input_fmts = kcalloc(MAX_INPUT_SEL_FORMATS, sizeof(*input_fmts),
+>>> +                 GFP_KERNEL);
+>>> +    if (!input_fmts)
+>>> +        return NULL;
+>>> +
+>>> +    /* This is the DSI/DPI-end bus format */
+>>> +    input_fmts[0] = MEDIA_BUS_FMT_RGB888_1X24;
+>>> +    *num_input_fmts = 1;
+>>> +
+>>> +    return input_fmts;
+>>> +}
+>>> +
+>>>   static const struct drm_bridge_funcs tc_dpi_bridge_funcs = {
+>>>       .attach = tc_dpi_bridge_attach,
+>>>       .mode_valid = tc_dpi_mode_valid,
+>>> @@ -1777,6 +1801,7 @@ static const struct drm_bridge_funcs
+>>> tc_edp_bridge_funcs = {
+>>>       .atomic_duplicate_state =
+>>> drm_atomic_helper_bridge_duplicate_state,
+>>>       .atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
+>>>       .atomic_reset = drm_atomic_helper_bridge_reset,
+>>> +    .atomic_get_input_bus_fmts = tc_edp_atomic_get_input_bus_fmts,
+>>>   };
+>>>     static bool tc_readable_reg(struct device *dev, unsigned int reg)
+>>>
+>>> base-commit: c503e3eec382ac708ee7adf874add37b77c5d312
+>>
+>> Doesn't help, callback is never invoked. There must be more missing.
+>>
+>> Regarding test setup: Maybe your colleague Preneeth can help to give you
+>> access, he just received some devices from us. Otherwise, drop me
+>> instrumentation patches.
+> 
+> Can you try with this change:
+> 
+> diff --git a/drivers/gpu/drm/bridge/tc358767.c
+> b/drivers/gpu/drm/bridge/tc358767.c
+> index 0affcefdeb1c..137a9f5e3cad 100644
+> --- a/drivers/gpu/drm/bridge/tc358767.c
+> +++ b/drivers/gpu/drm/bridge/tc358767.c
+> @@ -1579,6 +1579,13 @@ static struct edid *tc_get_edid(struct drm_bridge
+> *bridge,
+>                                 struct drm_connector *connector)
+>  {
+>         struct tc_data *tc = bridge_to_tc(bridge);
+> +       int ret;
+> +
+> +       ret = tc_get_display_props(tc);
+> +       if (ret < 0) {
+> +               dev_err(tc->dev, "failed to read display props: %d\n",
+> ret);
+> +               return 0;
+> +       }
+>  
+>         return drm_get_edid(connector, &tc->aux.ddc);
+>  }
+> 
+>  Tomi
+> 
 
-On Sun, Oct 29, 2023 at 9:42=E2=80=AFAM Huacai Chen <chenhuacai@kernel.org>=
- wrote:
->
-> On Sat, Oct 28, 2023 at 7:06=E2=80=AFPM Jaak Ristioja <jaak@ristioja.ee> =
-wrote:
-> >
-> > On 26.10.23 03:58, Huacai Chen wrote:
-> > > Hi, Jaak,
-> > >
-> > > On Thu, Oct 26, 2023 at 2:49=E2=80=AFAM Jaak Ristioja <jaak@ristioja.=
-ee> wrote:
-> > >>
-> > >> On 25.10.23 16:23, Huacai Chen wrote:
-> > >>> On Wed, Oct 25, 2023 at 6:08=E2=80=AFPM Thorsten Leemhuis
-> > >>> <regressions@leemhuis.info> wrote:
-> > >>>>
-> > >>>> Javier, Dave, Sima,
-> > >>>>
-> > >>>> On 23.10.23 00:54, Evan Preston wrote:
-> > >>>>> On 2023-10-20 Fri 05:48pm, Huacai Chen wrote:
-> > >>>>>> On Fri, Oct 20, 2023 at 5:35=E2=80=AFPM Linux regression trackin=
-g (Thorsten
-> > >>>>>> Leemhuis) <regressions@leemhuis.info> wrote:
-> > >>>>>>> On 09.10.23 10:54, Huacai Chen wrote:
-> > >>>>>>>> On Mon, Oct 9, 2023 at 4:45=E2=80=AFPM Bagas Sanjaya <bagasdot=
-me@gmail.com> wrote:
-> > >>>>>>>>> On Mon, Oct 09, 2023 at 09:27:02AM +0800, Huacai Chen wrote:
-> > >>>>>>>>>> On Tue, Sep 26, 2023 at 10:31=E2=80=AFPM Huacai Chen <chenhu=
-acai@kernel.org> wrote:
-> > >>>>>>>>>>> On Tue, Sep 26, 2023 at 7:15=E2=80=AFPM Linux regression tr=
-acking (Thorsten
-> > >>>>>>>>>>> Leemhuis) <regressions@leemhuis.info> wrote:
-> > >>>>>>>>>>>> On 13.09.23 14:02, Jaak Ristioja wrote:
-> > >>>>>>>>>>>>>
-> > >>>>>>>>>>>>> Upgrading to Linux 6.5 on a Lenovo ThinkPad L570 (Integra=
-ted Intel HD
-> > >>>>>>>>>>>>> Graphics 620 (rev 02), Intel(R) Core(TM) i7-7500U) result=
-s in a blank
-> > >>>>>>>>>>>>> screen after boot until the display manager starts... if =
-it does start
-> > >>>>>>>>>>>>> at all. Using the nomodeset kernel parameter seems to be =
-a workaround.
-> > >>>>>>>>>>>>>
-> > >>>>>>>>>>>>> I've bisected this to commit 60aebc9559492cea6a9625f514a8=
-041717e3a2e4
-> > >>>>>>>>>>>>> ("drivers/firmware: Move sysfb_init() from device_initcal=
-l to
-> > >>>>>>>>>>>>> subsys_initcall_sync").
-> > >>>>>>>>>>>>
-> > >>>>>>>>>> As confirmed by Jaak, disabling DRM_SIMPLEDRM makes things w=
-ork fine
-> > >>>>>>>>>> again. So I guess the reason:
-> > >>>>>>>
-> > >>>>>>> Well, this to me still looks a lot (please correct me if I'm wr=
-ong) like
-> > >>>>>>> regression that should be fixed, as DRM_SIMPLEDRM was enabled b=
-eforehand
-> > >>>>>>> if I understood things correctly. Or is there a proper fix for =
-this
-> > >>>>>>> already in the works and I just missed this? Or is there some g=
-ood
-> > >>>>>>> reason why this won't/can't be fixed?
-> > >>>>>>
-> > >>>>>> DRM_SIMPLEDRM was enabled but it didn't work at all because ther=
-e was
-> > >>>>>> no corresponding platform device. Now DRM_SIMPLEDRM works but it=
- has a
-> > >>>>>> blank screen. Of course it is valuable to investigate further ab=
-out
-> > >>>>>> DRM_SIMPLEDRM on Jaak's machine, but that needs Jaak's effort be=
-cause
-> > >>>>>> I don't have a same machine.
-> > >>>>
-> > >>>> Side note: Huacai, have you tried working with Jaak to get down to=
- the
-> > >>>> real problem? Evan, might you be able to help out here?
-> > >>> No, Jaak has no response after he 'fixed' his problem by disabling =
-SIMPLEDRM.
-> > >>>
-> > >>
-> > >> I'm sorry, what was it exactly you want me to do? Please be mindful =
-that
-> > >> I'm not familiar with the internals of the Linux kernel and DRI, and=
- it
-> > >> might sometimes take weeks before I have time to work and respond on=
- this.
-> > > It doesn't matter. I hope you can do some experiments to investigate
-> > > deeper. The first experiment you can do is enabling SIMPLEFB (i.e.
-> > > CONFIG_FB_SIMPLE) instead of SIMPLEDRM (CONFIG_DRM_SIMPLEDRM) to see
-> > > whether there is also a blank screen. If no blank screen, that
-> > > probably means SIMPLEDRM has a bug, if still blank screen, that means
-> > > the firmware may pass wrong screen information.
-> >
-> > Testing with 6.5.9 I get a blank screen with CONFIG_DRM_SIMPLEDRM=3Dy a=
-nd
-> > get no blank screen with CONFIG_FB_SIMPLE=3Dy and CONFIG_DRM_SIMPLEDRM =
-unset.
-> CONFIG_FB_SIMPLE and  CONFIG_DRM_SIMPLEDRM use the same device created
-> by sysfb_init(). Since FB_SIMPLE works fine, I think the real problem
-> is that DRM_SIMPLEDRM has a bug. The next step is to enable
-> CONFIG_DRM_SIMPLEDRM and trace its initialization. In detail, adding
-> some printk() in simpledrm_probe() and its sub-routines to see where
-> the driver fails. The output of these printk() can be seen by the
-> 'dmesg' command after boot.
-I need your help. I tried with my laptop (ThinkPad E490, Intel Core
-i3-8145U, UHD Graphics 620) but I can't reproduce your problem. So
-please patch your 6.5.x kernel with this temporary patch [1], then
-build a "bad kernel" with SIMPLEDRM enabled. And after booting your
-machine with this "bad kernel", please give me the dmesg output. Thank
-you very much.
+Yep, that does the trick.
 
-[1] http://ddns.miaomiaomiao.top:9000/download/kernel/patch-6.5.9
+Thanks,
+Jan
 
+PS: Your mail client is mangling tabs - was already suspecting our
+server would reformat again.
 
-Huacai
+-- 
+Siemens AG, Technology
+Linux Expert Center
 
->
-> Huacai
->
-> >
-> > Jaak
-> >
-> > >
-> > > Huacai
-> > >
-> > >>
-> > >> Jaak
-> > >>
-> > >>>>
-> > >>>> But I write this mail for a different reason:
-> > >>>>
-> > >>>>> I am having the same issue on a Lenovo Thinkpad P70 (Intel
-> > >>>>> Corporation HD Graphics 530 (rev 06), Intel(R) Core(TM) i7-6700HQ=
-).
-> > >>>>> Upgrading from Linux 6.4.12 to 6.5 and later results in only a bl=
-ank
-> > >>>>> screen after boot and a rapidly flashing device-access-status
-> > >>>>> indicator.
-> > >>>>
-> > >>>> This additional report makes me wonder if we should revert the cul=
-prit
-> > >>>> (60aebc9559492c ("drivers/firmware: Move sysfb_init() from
-> > >>>> device_initcall to subsys_initcall_sync") [v6.5-rc1]). But I guess=
- that
-> > >>>> might lead to regressions for some users? But the patch descriptio=
-n says
-> > >>>> that this is not a common configuration, so can we maybe get away =
-with that?
-> > >>>   From my point of view, this is not a regression, 60aebc9559492c
-> > >>> doesn't cause a problem, but exposes a problem. So we need to fix t=
-he
-> > >>> real problem (SIMPLEDRM has a blank screen on some conditions). Thi=
-s
-> > >>> needs Jaak or Evan's help.
-> > >>>
-> > >>> Huacai
-> > >>>>
-> > >>>> Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker=
-' hat)
-> > >>>> --
-> > >>>> Everything you wanna know about Linux kernel regression tracking:
-> > >>>> https://linux-regtracking.leemhuis.info/about/#tldr
-> > >>>> If I did something stupid, please tell me, as explained on that pa=
-ge.
-> > >>>>
-> > >>>>>>>>>> When SIMPLEDRM takes over the framebuffer, the screen is bla=
-nk (don't
-> > >>>>>>>>>> know why). And before 60aebc9559492cea6a9625f ("drivers/firm=
-ware: Move
-> > >>>>>>>>>> sysfb_init() from device_initcall to subsys_initcall_sync") =
-there is
-> > >>>>>>>>>> no platform device created for SIMPLEDRM at early stage, so =
-it seems
-> > >>>>>>>>>> also "no problem".
-> > >>>>>>>>> I don't understand above. You mean that after that commit the=
- platform
-> > >>>>>>>>> device is also none, right?
-> > >>>>>>>> No. The SIMPLEDRM driver needs a platform device to work, and =
-that
-> > >>>>>>>> commit makes the platform device created earlier. So, before t=
-hat
-> > >>>>>>>> commit, SIMPLEDRM doesn't work, but the screen isn't blank; af=
-ter that
-> > >>>>>>>> commit, SIMPLEDRM works, but the screen is blank.
-> > >>>>>>>>
-> > >>>>>>>> Huacai
-> > >>>>>>>>>
-> > >>>>>>>>> Confused...
-> > >>>>>>>>>
-> > >>>>>>>>> --
-> > >>>>>>>>> An old man doll... just what I always wanted! - Clara
-> > >>>>>>>>
-> > >>>>>>>>
-> > >>>>>
-> > >>>>>
-> > >>
-> >
