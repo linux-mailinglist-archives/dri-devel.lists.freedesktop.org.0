@@ -1,52 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 369AF7DCA8F
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Oct 2023 11:17:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E88277DCA92
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Oct 2023 11:17:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5497710E45B;
-	Tue, 31 Oct 2023 10:17:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF94C10E45D;
+	Tue, 31 Oct 2023 10:17:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A413610E456;
- Tue, 31 Oct 2023 10:17:17 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A7CED10E456;
+ Tue, 31 Oct 2023 10:17:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1698747437; x=1730283437;
+ t=1698747442; x=1730283442;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=AbNIyw8SH6/so0eHqDYkawBbzmVG9dmVKNzDjUwWzU8=;
- b=Crxy4Pq92LMr0/+BVWvwc9xqtE21HmLI0x+bjcVM40WRAHc4EuoEnr9o
- hFnX6OlhfBVWSqNtUOI8Yf1DhX2780AMHgqYX539bya+Xsfdr/UodXvSD
- wN/+diuXuNfSoD9kSHrodj7t/qquyQNR0fnbyoUYKCdfB6QEXsW6J6R4J
- bAdUkcMgJwVIpK7qHmmIocO2+HhRnBbu3JynOKNr9+uYNk1EM/SBmeNz1
- q1s3/y40L/rUkPcCCnU5s/Yct8MCMtFcvVWVNkw39ISh+RMfey2kUaiq1
- AJpD0jkuy07+zm4ZqcebqL3HqdJf0SHp/zDsmp/BqFPJF6roXN59Y3NM1 A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10879"; a="391127662"
-X-IronPort-AV: E=Sophos;i="6.03,265,1694761200"; d="scan'208";a="391127662"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Oct 2023 03:17:17 -0700
+ bh=IgEqjSwLtT6neNTEs4ma74HrNJocekFPJHcYHYu5DTg=;
+ b=Hx9RGXOAyAO9TaUJYX+IvL+REv4pw5eiHNoogLHCNamEEfTh5OF/1Bxz
+ pZIshGxBYTPqev1KDg0aXAjT3LOQ5B8hBK5110clPeF68qvYoEa16AI7S
+ 3cpOJ6ysFjdkLn8zn5s0GYoxEF6dk4Is5Q9AU6pocTrn3knVi++2ObA5X
+ 0YebXY5DTBarUf7Udh3BQwnmGaJcCHeHjziNo4m4WRwhn/SKZJWBPgac/
+ ojErPjKOEv0BDya2o7MZEOwSVb0cGyFra/x4GLspDCGFa1LhpJXJ7PmhN
+ fAO1KywfVQsfWascCFuBzWPWxcul63Mo60QNk6/oiQ6pfZOPDP2eKib1j g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10879"; a="388079215"
+X-IronPort-AV: E=Sophos;i="6.03,265,1694761200"; d="scan'208";a="388079215"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Oct 2023 03:17:22 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10879"; a="754096530"
-X-IronPort-AV: E=Sophos;i="6.03,265,1694761200"; d="scan'208";a="754096530"
+X-IronPort-AV: E=McAfee;i="6600,9927,10879"; a="795530865"
+X-IronPort-AV: E=Sophos;i="6.03,265,1694761200"; d="scan'208";a="795530865"
 Received: from moelschl-mobl.ger.corp.intel.com (HELO localhost)
  ([10.252.51.45])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Oct 2023 03:17:15 -0700
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Oct 2023 03:17:20 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 5/6] drm/edid: add helpers to get/set struct cea_sad
- from/to 3-byte sad
-Date: Tue, 31 Oct 2023 12:16:42 +0200
-Message-Id: <21d657ca854ce26423b461c0bb71e7a0727ba437.1698747331.git.jani.nikula@intel.com>
+Subject: [PATCH v2 6/6] drm/eld: add helpers to modify the SADs of an ELD
+Date: Tue, 31 Oct 2023 12:16:43 +0200
+Message-Id: <8e9a05f2b1e0dd184132d636e1e778e8917ec25d.1698747331.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1698747331.git.jani.nikula@intel.com>
 References: <cover.1698747331.git.jani.nikula@intel.com>
 MIME-Version: 1.0
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,112 +65,134 @@ Cc: Jani Nikula <jani.nikula@intel.com>, intel-gfx@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add helpers to pack/unpack SADs. Both ways and non-static, as follow-up
-work needs them.
+Occasionally it's necessary for drivers to modify the SADs of an ELD,
+but it's not so cool to have drivers poke at the ELD buffer directly.
 
-v2: Add include to get the declarations
+Using the helpers to translate between 3-byte SAD and struct cea_sad,
+add ELD helpers to get/set the SADs from/to an ELD.
+
+v2: s/i/sad_index/ (Mitul)
 
 Cc: Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>
-Reviewed-by: Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/drm_edid.c     | 34 +++++++++++++++++++++++++---------
- drivers/gpu/drm/drm_internal.h |  6 ++++++
- 2 files changed, 31 insertions(+), 9 deletions(-)
+ Documentation/gpu/drm-kms-helpers.rst |  3 ++
+ drivers/gpu/drm/Makefile              |  1 +
+ drivers/gpu/drm/drm_eld.c             | 55 +++++++++++++++++++++++++++
+ include/drm/drm_eld.h                 |  5 +++
+ 4 files changed, 64 insertions(+)
+ create mode 100644 drivers/gpu/drm/drm_eld.c
 
-diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index c0d50082b504..cb4031d5dcbb 100644
---- a/drivers/gpu/drm/drm_edid.c
-+++ b/drivers/gpu/drm/drm_edid.c
-@@ -46,6 +46,7 @@
- #include <drm/drm_print.h>
+diff --git a/Documentation/gpu/drm-kms-helpers.rst b/Documentation/gpu/drm-kms-helpers.rst
+index cfa8e6c399b6..59cfe8a7a8ba 100644
+--- a/Documentation/gpu/drm-kms-helpers.rst
++++ b/Documentation/gpu/drm-kms-helpers.rst
+@@ -366,6 +366,9 @@ EDID Helper Functions Reference
+ .. kernel-doc:: include/drm/drm_eld.h
+    :internal:
  
- #include "drm_crtc_internal.h"
++.. kernel-doc:: drivers/gpu/drm/drm_eld.c
++   :export:
++
+ SCDC Helper Functions Reference
+ ===============================
+ 
+diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+index 8e1bde059170..cdbe91ac0bfc 100644
+--- a/drivers/gpu/drm/Makefile
++++ b/drivers/gpu/drm/Makefile
+@@ -22,6 +22,7 @@ drm-y := \
+ 	drm_drv.o \
+ 	drm_dumb_buffers.o \
+ 	drm_edid.o \
++	drm_eld.o \
+ 	drm_encoder.o \
+ 	drm_file.o \
+ 	drm_fourcc.o \
+diff --git a/drivers/gpu/drm/drm_eld.c b/drivers/gpu/drm/drm_eld.c
+new file mode 100644
+index 000000000000..5177991aa272
+--- /dev/null
++++ b/drivers/gpu/drm/drm_eld.c
+@@ -0,0 +1,55 @@
++// SPDX-License-Identifier: MIT
++/*
++ * Copyright © 2023 Intel Corporation
++ */
++
++#include <drm/drm_edid.h>
++#include <drm/drm_eld.h>
++
 +#include "drm_internal.h"
- 
- static int oui(u8 first, u8 second, u8 third)
- {
-@@ -5510,6 +5511,27 @@ static void clear_eld(struct drm_connector *connector)
- 	connector->audio_latency[1] = 0;
- }
- 
-+/*
-+ * Get 3-byte SAD buffer from struct cea_sad.
-+ */
-+void drm_edid_cta_sad_get(const struct cea_sad *cta_sad, u8 *sad)
-+{
-+	sad[0] = cta_sad->format << 3 | cta_sad->channels;
-+	sad[1] = cta_sad->freq;
-+	sad[2] = cta_sad->byte2;
-+}
 +
-+/*
-+ * Set struct cea_sad from 3-byte SAD buffer.
++/**
++ * drm_eld_sad_get - get SAD from ELD to struct cea_sad
++ * @eld: ELD buffer
++ * @sad_index: SAD index
++ * @cta_sad: destination struct cea_sad
++ *
++ * @return: 0 on success, or negative on errors
 + */
-+void drm_edid_cta_sad_set(struct cea_sad *cta_sad, const u8 *sad)
++int drm_eld_sad_get(const u8 *eld, int sad_index, struct cea_sad *cta_sad)
 +{
-+	cta_sad->format = (sad[0] & 0x78) >> 3;
-+	cta_sad->channels = sad[0] & 0x07;
-+	cta_sad->freq = sad[1] & 0x7f;
-+	cta_sad->byte2 = sad[2];
-+}
++	const u8 *sad;
 +
- /*
-  * drm_edid_to_eld - build ELD from EDID
-  * @connector: connector corresponding to the HDMI/DP sink
-@@ -5604,21 +5626,15 @@ static int _drm_edid_to_sad(const struct drm_edid *drm_edid,
- 	cea_db_iter_for_each(db, &iter) {
- 		if (cea_db_tag(db) == CTA_DB_AUDIO) {
- 			struct cea_sad *sads;
--			int j;
-+			int i;
++	if (sad_index >= drm_eld_sad_count(eld))
++		return -EINVAL;
++
++	sad = eld + DRM_ELD_CEA_SAD(drm_eld_mnl(eld), sad_index);
++
++	drm_edid_cta_sad_set(cta_sad, sad);
++
++	return 0;
++}
++EXPORT_SYMBOL(drm_eld_sad_get);
++
++/**
++ * drm_eld_sad_set - set SAD to ELD from struct cea_sad
++ * @eld: ELD buffer
++ * @sad_index: SAD index
++ * @cta_sad: source struct cea_sad
++ *
++ * @return: 0 on success, or negative on errors
++ */
++int drm_eld_sad_set(u8 *eld, int sad_index, const struct cea_sad *cta_sad)
++{
++	u8 *sad;
++
++	if (sad_index >= drm_eld_sad_count(eld))
++		return -EINVAL;
++
++	sad = eld + DRM_ELD_CEA_SAD(drm_eld_mnl(eld), sad_index);
++
++	drm_edid_cta_sad_get(cta_sad, sad);
++
++	return 0;
++}
++EXPORT_SYMBOL(drm_eld_sad_set);
+diff --git a/include/drm/drm_eld.h b/include/drm/drm_eld.h
+index 7b674256b9aa..0a88d10b28b0 100644
+--- a/include/drm/drm_eld.h
++++ b/include/drm/drm_eld.h
+@@ -8,6 +8,8 @@
  
- 			count = cea_db_payload_len(db) / 3; /* SAD is 3B */
- 			sads = kcalloc(count, sizeof(*sads), GFP_KERNEL);
- 			*psads = sads;
- 			if (!sads)
- 				return -ENOMEM;
--			for (j = 0; j < count; j++) {
--				const u8 *sad = &db->data[j * 3];
--
--				sads[j].format = (sad[0] & 0x78) >> 3;
--				sads[j].channels = sad[0] & 0x7;
--				sads[j].freq = sad[1] & 0x7F;
--				sads[j].byte2 = sad[2];
--			}
-+			for (i = 0; i < count; i++)
-+				drm_edid_cta_sad_set(&sads[i], &db->data[i * 3]);
- 			break;
- 		}
- 	}
-diff --git a/drivers/gpu/drm/drm_internal.h b/drivers/gpu/drm/drm_internal.h
-index 8462b657c375..b12c463bc460 100644
---- a/drivers/gpu/drm/drm_internal.h
-+++ b/drivers/gpu/drm/drm_internal.h
-@@ -22,6 +22,7 @@
-  */
- 
- #include <linux/kthread.h>
-+#include <linux/types.h>
- 
- #include <drm/drm_ioctl.h>
- #include <drm/drm_vblank.h>
-@@ -31,6 +32,7 @@
- 
- #define DRM_IF_VERSION(maj, min) (maj << 16 | min)
+ #include <linux/types.h>
  
 +struct cea_sad;
- struct dentry;
- struct dma_buf;
- struct iosys_map;
-@@ -267,3 +269,7 @@ int drm_syncobj_query_ioctl(struct drm_device *dev, void *data,
- void drm_framebuffer_print_info(struct drm_printer *p, unsigned int indent,
- 				const struct drm_framebuffer *fb);
- void drm_framebuffer_debugfs_init(struct drm_device *dev);
 +
-+/* drm_edid.c */
-+void drm_edid_cta_sad_get(const struct cea_sad *cta_sad, u8 *sad);
-+void drm_edid_cta_sad_set(struct cea_sad *cta_sad, const u8 *sad);
+ /* ELD Header Block */
+ #define DRM_ELD_HEADER_BLOCK_SIZE	4
+ 
+@@ -75,6 +77,9 @@ static inline int drm_eld_mnl(const u8 *eld)
+ 	return (eld[DRM_ELD_CEA_EDID_VER_MNL] & DRM_ELD_MNL_MASK) >> DRM_ELD_MNL_SHIFT;
+ }
+ 
++int drm_eld_sad_get(const u8 *eld, int sad_index, struct cea_sad *cta_sad);
++int drm_eld_sad_set(u8 *eld, int sad_index, const struct cea_sad *cta_sad);
++
+ /**
+  * drm_eld_sad - Get ELD SAD structures.
+  * @eld: pointer to an eld memory structure with sad_count set
 -- 
 2.39.2
 
