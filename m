@@ -1,67 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A4DB7DDD9D
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Nov 2023 09:14:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BB457DD961
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Nov 2023 00:53:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D54110E659;
-	Wed,  1 Nov 2023 08:14:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C194010E5E7;
+	Tue, 31 Oct 2023 23:53:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf44.google.com (mail-qv1-xf44.google.com
- [IPv6:2607:f8b0:4864:20::f44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 169BE10E089
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Oct 2023 23:23:10 +0000 (UTC)
-Received: by mail-qv1-xf44.google.com with SMTP id
- 6a1803df08f44-67540aa0f5bso5503826d6.2
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Oct 2023 16:23:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1698794589; x=1699399389;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=Sw2B6vE9G+G7w2w874BluWAOKQISQdBMx0gd2n/sE7M=;
- b=ePlFySXpgWQLbQkNBXd9Zlbr+UsCPe+0PqIEhVOS4m0p4wjkcLddrnsqX7CSzpiy5C
- 4WIdLJf6v4g/F3nEnh7kjIniv8+uuV5ZIZFtF7rvKjilJxuuBWrBzeqtq1Fv5/k6BOkV
- bSG8IOcy1SfgNws3RBQp3iZ78e+cm+VL+Up40=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1698794589; x=1699399389;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Sw2B6vE9G+G7w2w874BluWAOKQISQdBMx0gd2n/sE7M=;
- b=n9Wdl0bnPgS0JTRJDBxI0O3Ujn2jLip5nUyHLtBDhwHBP7CWyNUIAep3UsdBPoK6fM
- UUrmxNa4DlZ3sShgTH8PtLSMCR4/iyUeQC4CFSUfP+vp8+zrxe3Z49t0KQ8MBXNyvc7N
- j5FwGXZi6NkbOW17t8WSlKMa/Am/1TYlvf40pLN2jBUp69vbHffHpNTTPaR1CQYfDUnZ
- Jn3bOqkV513udMBlOph53t3fXJ+rMZyTEru6zkW7piWN7jF23aeDWloScU9YajJTKlBN
- D9i0aTdNa32f+XTVNbnVVjCSVseUnMwQeNWUh5/pFnz+Z+8qRTx9zsmN+kX2isORJBT9
- QWog==
-X-Gm-Message-State: AOJu0YwYg79TGdtMXI4C6IDmFJsirYMj+O20OF7hCyE/QYp4Zn2o/NGN
- McHLZLk5/rbknLVfKJ8O9mABBw==
-X-Google-Smtp-Source: AGHT+IELeE7KSX8SDWfKXXFosnM7eJQ87gPQKSBzDxY0zO3dL8fVjd9KroIOSfLXxROs54MZq4uAgw==
-X-Received: by 2002:a05:6214:d09:b0:672:3f54:b94f with SMTP id
- 9-20020a0562140d0900b006723f54b94fmr7618938qvh.7.1698794589164; 
- Tue, 31 Oct 2023 16:23:09 -0700 (PDT)
-Received: from pazz.c.googlers.com.com
- (129.177.85.34.bc.googleusercontent.com. [34.85.177.129])
- by smtp.gmail.com with ESMTPSA id
- f2-20020a0ccc82000000b0066d1d2242desm937757qvl.120.2023.10.31.16.23.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 31 Oct 2023 16:23:08 -0700 (PDT)
-From: Paz Zcharya <pazz@chromium.org>
-X-Google-Original-From: Paz Zcharya <pazz@google.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Subject: [PATCH] drm/i915/display: Only fail fastset on PSR2
-Date: Tue, 31 Oct 2023 23:21:57 +0000
-Message-ID: <20231031232245.1331194-1-pazz@google.com>
-X-Mailer: git-send-email 2.42.0.820.g83a721a137-goog
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C0A510E5DB;
+ Tue, 31 Oct 2023 23:53:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1698796385; x=1730332385;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=4i1y3DVKkpZNztiXnFlc1I3XO3HIruaCd99l2W6lqvs=;
+ b=LPjOSX8S2cubHOJwNJpFs7YZg4OBdWnU5F5Q/BG7SnhB1jxKdosydYd0
+ eUoN08JtylQejdBtqlP6EEOsQiGbWZ6dBcAfI9M8dQsgVEjFstLphxsFP
+ tEbCVe6lHnuP1bS/ojjOy1wTvU86zlgYbdVZ2DvkmgRbx8xRzVvvlf6sr
+ 0BJgqYWSgnDyla4whTP2A+3bLwZmqBViWsDXeQbqkICzC1QohnupUzCBd
+ wFSu1Y0171IXlh//4Q6zIRdSe5ijD32VDgUmwDkZ+HhWuYvd3S8Q1MM9m
+ VVVuFpnPbokMcNITibk+85LEEpHmmVme8jvK0NhjraTzcTAEPnhuiYYie A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10880"; a="419516381"
+X-IronPort-AV: E=Sophos;i="6.03,266,1694761200"; d="scan'208";a="419516381"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Oct 2023 16:53:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10880"; a="1092168372"
+X-IronPort-AV: E=Sophos;i="6.03,266,1694761200"; d="scan'208";a="1092168372"
+Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
+ by fmsmga005.fm.intel.com with ESMTP; 31 Oct 2023 16:53:03 -0700
+Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1qxyXd-0000T8-0Z;
+ Tue, 31 Oct 2023 23:53:01 +0000
+Date: Wed, 1 Nov 2023 07:52:21 +0800
+From: kernel test robot <lkp@intel.com>
+To: Tatsuyuki Ishi <ishitatsuyuki@gmail.com>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+Subject: Re: [PATCH 2/6] drm/amdgpu: Separate eviction from VM status.
+Message-ID: <202311010709.XbwKjVaq-lkp@intel.com>
+References: <20231031134059.171277-3-ishitatsuyuki@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Wed, 01 Nov 2023 08:14:02 +0000
+In-Reply-To: <20231031134059.171277-3-ishitatsuyuki@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,78 +61,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Luca Coelho <luciano.coelho@intel.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>,
- Uma Shankar <uma.shankar@intel.com>, Mika Kahola <mika.kahola@intel.com>,
- =?UTF-8?q?Jouni=20H=C3=B6gander?= <jouni.hogander@intel.com>,
- Ankit Nautiyal <ankit.k.nautiyal@intel.com>,
- Suraj Kandpal <suraj.kandpal@intel.com>,
- Subrata Banik <subratabanik@google.com>, intel-gfx@lists.freedesktop.org,
- Manasi Navare <navaremanasi@chromium.org>, Sean Paul <seanpaul@chromium.org>,
- =?UTF-8?q?Jos=C3=A9=20Roberto=20de=20Souza?= <jose.souza@intel.com>,
- Matt Roper <matthew.d.roper@intel.com>, Paz Zcharya <pazz@chromium.org>,
- Paz Zcharya <pazz@google.com>, linux-kernel@vger.kernel.org,
- Drew Davenport <ddavenport@chromium.org>,
- Khaled Almahallawy <khaled.almahallawy@intel.com>
+Cc: Tatsuyuki Ishi <ishitatsuyuki@gmail.com>, christian.koenig@amd.com,
+ oe-kbuild-all@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently, i915 fails fastset if both the sink and the source support
-any version of PSR and regardless of the configuration setting of the
-driver (i.e., i915.enable_psr kernel argument). However, the
-implementation of PSR1 enable sequence is already seamless
-and works smoothly with fastset. Accordingly, do not fail fastset
-if PSR2 is not enabled.
+Hi Tatsuyuki,
 
-Signed-off-by: Paz Zcharya <pazz@google.com>
----
+kernel test robot noticed the following build warnings:
 
- drivers/gpu/drm/i915/display/intel_dp.c  | 4 ++--
- drivers/gpu/drm/i915/display/intel_psr.c | 2 +-
- drivers/gpu/drm/i915/display/intel_psr.h | 1 +
- 3 files changed, 4 insertions(+), 3 deletions(-)
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.6 next-20231031]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-index e0e4cb529284..a1af96e31518 100644
---- a/drivers/gpu/drm/i915/display/intel_dp.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp.c
-@@ -2584,8 +2584,8 @@ bool intel_dp_initial_fastset_check(struct intel_encoder *encoder,
- 		fastset = false;
- 	}
- 
--	if (CAN_PSR(intel_dp)) {
--		drm_dbg_kms(&i915->drm, "[ENCODER:%d:%s] Forcing full modeset to compute PSR state\n",
-+	if (CAN_PSR(intel_dp) && psr2_global_enabled(intel_dp)) {
-+		drm_dbg_kms(&i915->drm, "[ENCODER:%d:%s] Forcing full modeset due to PSR2\n",
- 			    encoder->base.base.id, encoder->base.name);
- 		crtc_state->uapi.mode_changed = true;
- 		fastset = false;
-diff --git a/drivers/gpu/drm/i915/display/intel_psr.c b/drivers/gpu/drm/i915/display/intel_psr.c
-index 97d5eef10130..388bc3246db9 100644
---- a/drivers/gpu/drm/i915/display/intel_psr.c
-+++ b/drivers/gpu/drm/i915/display/intel_psr.c
-@@ -187,7 +187,7 @@ static bool psr_global_enabled(struct intel_dp *intel_dp)
- 	}
- }
- 
--static bool psr2_global_enabled(struct intel_dp *intel_dp)
-+bool psr2_global_enabled(struct intel_dp *intel_dp)
- {
- 	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
- 
-diff --git a/drivers/gpu/drm/i915/display/intel_psr.h b/drivers/gpu/drm/i915/display/intel_psr.h
-index 0b95e8aa615f..6f3c36389cd3 100644
---- a/drivers/gpu/drm/i915/display/intel_psr.h
-+++ b/drivers/gpu/drm/i915/display/intel_psr.h
-@@ -21,6 +21,7 @@ struct intel_encoder;
- struct intel_plane;
- struct intel_plane_state;
- 
-+bool psr2_global_enabled(struct intel_dp *intel_dp);
- void intel_psr_init_dpcd(struct intel_dp *intel_dp);
- void intel_psr_pre_plane_update(struct intel_atomic_state *state,
- 				struct intel_crtc *crtc);
+url:    https://github.com/intel-lab-lkp/linux/commits/Tatsuyuki-Ishi/drm-amdgpu-Don-t-implicit-sync-PRT-maps/20231031-224530
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20231031134059.171277-3-ishitatsuyuki%40gmail.com
+patch subject: [PATCH 2/6] drm/amdgpu: Separate eviction from VM status.
+config: arc-randconfig-001-20231101 (https://download.01.org/0day-ci/archive/20231101/202311010709.XbwKjVaq-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231101/202311010709.XbwKjVaq-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311010709.XbwKjVaq-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:178: warning: Function parameter or member 'evicted' not described in 'amdgpu_vm_bo_set_evicted'
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:178: warning: expecting prototype for amdgpu_vm_bo_evicted(). Prototype was for amdgpu_vm_bo_set_evicted() instead
+
+
+vim +178 drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+
+dcb388eddb5f1b Nirmoy Das      2021-06-28  168  
+bcdc9fd634d1f0 Christian König 2018-08-30  169  /**
+bcdc9fd634d1f0 Christian König 2018-08-30  170   * amdgpu_vm_bo_evicted - vm_bo is evicted
+bcdc9fd634d1f0 Christian König 2018-08-30  171   *
+bcdc9fd634d1f0 Christian König 2018-08-30  172   * @vm_bo: vm_bo which is evicted
+bcdc9fd634d1f0 Christian König 2018-08-30  173   *
+bcdc9fd634d1f0 Christian König 2018-08-30  174   * State for PDs/PTs and per VM BOs which are not at the location they should
+bcdc9fd634d1f0 Christian König 2018-08-30  175   * be.
+bcdc9fd634d1f0 Christian König 2018-08-30  176   */
+cac82290238e47 Tatsuyuki Ishi  2023-10-31  177  static void amdgpu_vm_bo_set_evicted(struct amdgpu_vm_bo_base *vm_bo, bool evicted)
+bcdc9fd634d1f0 Christian König 2018-08-30 @178  {
+bcdc9fd634d1f0 Christian König 2018-08-30  179  	struct amdgpu_vm *vm = vm_bo->vm;
+bcdc9fd634d1f0 Christian König 2018-08-30  180  	struct amdgpu_bo *bo = vm_bo->bo;
+bcdc9fd634d1f0 Christian König 2018-08-30  181  
+757eb2bedd08a1 Philip Yang     2022-09-15  182  	spin_lock(&vm_bo->vm->status_lock);
+cac82290238e47 Tatsuyuki Ishi  2023-10-31  183  	if (evicted && bo->tbo.base.resv == vm->root.bo->tbo.base.resv) {
+bcdc9fd634d1f0 Christian König 2018-08-30  184  		if (bo->tbo.type == ttm_bo_type_kernel)
+cac82290238e47 Tatsuyuki Ishi  2023-10-31  185  			list_move(&vm_bo->eviction_status, &vm->evicted);
+bcdc9fd634d1f0 Christian König 2018-08-30  186  		else
+cac82290238e47 Tatsuyuki Ishi  2023-10-31  187  			list_move_tail(&vm_bo->eviction_status, &vm->evicted);
+cac82290238e47 Tatsuyuki Ishi  2023-10-31  188  	} else {
+cac82290238e47 Tatsuyuki Ishi  2023-10-31  189  		list_del_init(&vm_bo->eviction_status);
+cac82290238e47 Tatsuyuki Ishi  2023-10-31  190  	}
+757eb2bedd08a1 Philip Yang     2022-09-15  191  	spin_unlock(&vm_bo->vm->status_lock);
+bcdc9fd634d1f0 Christian König 2018-08-30  192  }
+cac82290238e47 Tatsuyuki Ishi  2023-10-31  193  
+
 -- 
-2.42.0.820.g83a721a137-goog
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
