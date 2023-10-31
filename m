@@ -2,39 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A8377DD2F3
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Oct 2023 17:50:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2541F7DD2F5
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Oct 2023 17:50:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E149710E588;
-	Tue, 31 Oct 2023 16:50:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 446E910E58A;
+	Tue, 31 Oct 2023 16:50:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 55AC310E588
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Oct 2023 16:49:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A576010E588
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Oct 2023 16:50:00 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id D0D4361043;
- Tue, 31 Oct 2023 16:49:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9CD9C433CA;
- Tue, 31 Oct 2023 16:49:56 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 289DA61019;
+ Tue, 31 Oct 2023 16:50:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72E42C433C8;
+ Tue, 31 Oct 2023 16:49:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1698770997;
- bh=j0kuHfqXTtY8F7hrGO9Pbcf8nYj5w/LWDfi3cdsMJFw=;
+ s=k20201202; t=1698770999;
+ bh=TGSMVN8rfPhwS5amDVMAYsc9HM0SUQlWIoXQfpiVcYQ=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=nSePuuJ7pKpbnQM088odLzOJALTEwMndAMSpMI/yAgaAV6SPnW7UXiHDDHz3tpCnn
- f9Njo1BLgympq8GVoux1g27ZvjorCv7MAe8z6NVTc7guddnbcL6CLhuQkEeQBAFO/x
- 1pRal4ICjNBFSxI/IzHseVX+B5MvZDSu1j1PVGH0o9PLzd/CD5inD4K/5v4JPVeMMr
- jVAkb+lN/GraHwWZ0EcZ4rVAfcKwCB56TztX8Copagsxmcp8VJbB1U4m2aPkqz52h5
- nwqVEmJkf6QyLumhLz9868CjMgS1KmhjiQYu9s0FiNmTvA8IXLz3KFcwH1tUt4SJUo
- ziu/crrPHDdiw==
+ b=nyUqjmVLefuK1Djqgzmy75i329b81PAjpNFrm9KO6OawK7kATuwXwyVfZwB6rCBHp
+ 8DR7RpplSF1btzDrPfO90RH4EsQ9/m04bsOkm3LTPZ5EqnVJB1yoq/P3WLwMCsZHmJ
+ saUORzdV02EQeNdsR0YSCbWbPfaRY7r9TAqNCXKwzX7Z5ORbpGKQ58WrobNyGjHInf
+ qhOJaoc0yI+2Hu3QYl/kCzqkH/xYn/UbsA6BO93UKKADfGLGcDBPRlzjQxY7IfjvDo
+ fH0+lRBQ/a+ohD3oONRCthlBTS5edVTKICOTNauTwfnV11Sz48HRA5N/6gNBva4bCp
+ 7kyDu5mo1jtDA==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Tue, 31 Oct 2023 17:48:42 +0100
-Subject: [PATCH RFC v3 29/37] drm/rockchip: inno_hdmi: Create mask
- retrieval functions
+Date: Tue, 31 Oct 2023 17:48:43 +0100
+Subject: [PATCH RFC v3 30/37] drm/rockchip: inno_hdmi: Switch to infoframe type
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20231031-kms-hdmi-connector-state-v3-29-328b0fae43a7@kernel.org>
+Message-Id: <20231031-kms-hdmi-connector-state-v3-30-328b0fae43a7@kernel.org>
 References: <20231031-kms-hdmi-connector-state-v3-0-328b0fae43a7@kernel.org>
 In-Reply-To: <20231031-kms-hdmi-connector-state-v3-0-328b0fae43a7@kernel.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -45,12 +44,12 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
  Samuel Holland <samuel@sholland.org>
 X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4130; i=mripard@kernel.org;
- h=from:subject:message-id; bh=j0kuHfqXTtY8F7hrGO9Pbcf8nYj5w/LWDfi3cdsMJFw=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDKmO+venb7pnF7/346NTer1r9xZtLepnX75j/Z39s0PVH
- T76hYgrdpSyMIhxMciKKbLECJsviTs163UnG988mDmsTCBDGLg4BWAiLayMDJ9K1/MFbHZXSzzE
- tzjpu/pU07mGys6JrMeY21/8ue7b3MLwP//FiVWbRZ69sw7JOlxp/9x+HuuNDWH2LWmNdyvOMj0
- LYAUA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5167; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=TGSMVN8rfPhwS5amDVMAYsc9HM0SUQlWIoXQfpiVcYQ=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDKmO+vfPhx23PODeWto5t8n1lptK4PJ2o1VNgd6ZPMpqj
+ sacXrc6SlkYxLgYZMUUWWKEzZfEnZr1upONbx7MHFYmkCEMXJwCMJHbUgz/S88qz/xfyvWpKfzI
+ cms/vvcRk6bFzzxT9TPuXQnT/oMR+owMnfbLAy918HWu5NsQtlZR0mv7OoaN81aW+D07Fn55zaw
+ j7AA=
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -73,135 +72,166 @@ Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The register mask and bits to enable or disable a given infoframe
-depends on its type.
+The inno_hdmi driver relies on its own internal infoframe type matching
+the hardware.
 
-This is currently passed as an argument to the function that writes an
-infoframe, but let's create a helper function to retrieve them based on
-the type to make further reworks easier.
+This works fine, but in order to make further reworks easier, let's
+switch to the HDMI spec definition of those types.
 
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- drivers/gpu/drm/rockchip/inno_hdmi.c | 75 ++++++++++++++++++++++++++++++------
- 1 file changed, 63 insertions(+), 12 deletions(-)
+ drivers/gpu/drm/rockchip/inno_hdmi.c | 71 +++++++++++++++++++++++-------------
+ 1 file changed, 45 insertions(+), 26 deletions(-)
 
 diff --git a/drivers/gpu/drm/rockchip/inno_hdmi.c b/drivers/gpu/drm/rockchip/inno_hdmi.c
-index e3a421d98dd4..bc7fb1278cb2 100644
+index bc7fb1278cb2..ed1d10efbef4 100644
 --- a/drivers/gpu/drm/rockchip/inno_hdmi.c
 +++ b/drivers/gpu/drm/rockchip/inno_hdmi.c
-@@ -156,10 +156,62 @@ static void inno_hdmi_reset(struct inno_hdmi *hdmi)
+@@ -156,61 +156,80 @@ static void inno_hdmi_reset(struct inno_hdmi *hdmi)
  	inno_hdmi_set_pwr_mode(hdmi, NORMAL);
  }
  
--static void inno_hdmi_disable_frame(struct inno_hdmi *hdmi,
--				    u32 frame_index,
--				    u32 mask, u32 disable)
-+static u32 inno_hdmi_get_frame_mask(struct inno_hdmi *hdmi,
-+				    u32 frame_index)
++static u32 inno_hdmi_get_frame_index(struct inno_hdmi *hdmi,
++				    enum hdmi_infoframe_type type)
++{
++	struct drm_device *drm = hdmi->connector.dev;
++
++	switch (type) {
++	case HDMI_INFOFRAME_TYPE_VENDOR:
++		return INFOFRAME_VSI;
++	case HDMI_INFOFRAME_TYPE_AVI:
++		return INFOFRAME_AVI;
++	default:
++		drm_err(drm, "Unknown infoframe type: %u\n", type);
++	}
++
++	return 0;
++}
++
+ static u32 inno_hdmi_get_frame_mask(struct inno_hdmi *hdmi,
+-				    u32 frame_index)
++				    enum hdmi_infoframe_type type)
  {
-+	struct drm_device *drm = hdmi->connector.dev;
-+
-+	switch (frame_index) {
-+	case INFOFRAME_VSI:
-+		return m_PACKET_VSI_EN;
-+	case INFOFRAME_AVI:
-+		return 0;
-+	default:
-+		drm_err(drm, "Unknown infoframe type: %u\n", frame_index);
-+	}
-+
-+	return 0;
-+}
-+
-+static u32 inno_hdmi_get_frame_disable(struct inno_hdmi *hdmi,
-+				       u32 frame_index)
-+{
-+	struct drm_device *drm = hdmi->connector.dev;
-+
-+	switch (frame_index) {
-+	case INFOFRAME_VSI:
-+		return v_PACKET_VSI_EN(0);
-+	case INFOFRAME_AVI:
-+		return 0;
-+	default:
-+		drm_err(drm, "Unknown infoframe type: %u\n", frame_index);
-+	}
-+
-+	return 0;
-+}
-+
-+static u32 inno_hdmi_get_frame_enable(struct inno_hdmi *hdmi,
-+				      u32 frame_index)
-+{
-+	struct drm_device *drm = hdmi->connector.dev;
-+
-+	switch (frame_index) {
-+	case INFOFRAME_VSI:
-+		return v_PACKET_VSI_EN(1);
-+	case INFOFRAME_AVI:
-+		return 0;
-+	default:
-+		drm_err(drm, "Unknown infoframe type: %u\n", frame_index);
-+	}
-+
-+	return 0;
-+}
-+
-+static void inno_hdmi_disable_frame(struct inno_hdmi *hdmi, u32 frame_index)
-+{
-+	u32 disable = inno_hdmi_get_frame_disable(hdmi, frame_index);
-+	u32 mask = inno_hdmi_get_frame_mask(hdmi, frame_index);
-+
+ 	struct drm_device *drm = hdmi->connector.dev;
+ 
+-	switch (frame_index) {
+-	case INFOFRAME_VSI:
++	switch (type) {
++	case HDMI_INFOFRAME_TYPE_VENDOR:
+ 		return m_PACKET_VSI_EN;
+-	case INFOFRAME_AVI:
++	case HDMI_INFOFRAME_TYPE_AVI:
+ 		return 0;
+ 	default:
+-		drm_err(drm, "Unknown infoframe type: %u\n", frame_index);
++		drm_err(drm, "Unknown infoframe type: %u\n", type);
+ 	}
+ 
+ 	return 0;
+ }
+ 
+ static u32 inno_hdmi_get_frame_disable(struct inno_hdmi *hdmi,
+-				       u32 frame_index)
++				       enum hdmi_infoframe_type type)
+ {
+ 	struct drm_device *drm = hdmi->connector.dev;
+ 
+-	switch (frame_index) {
+-	case INFOFRAME_VSI:
++	switch (type) {
++	case HDMI_INFOFRAME_TYPE_VENDOR:
+ 		return v_PACKET_VSI_EN(0);
+-	case INFOFRAME_AVI:
++	case HDMI_INFOFRAME_TYPE_AVI:
+ 		return 0;
+ 	default:
+-		drm_err(drm, "Unknown infoframe type: %u\n", frame_index);
++		drm_err(drm, "Unknown infoframe type: %u\n", type);
+ 	}
+ 
+ 	return 0;
+ }
+ 
+ static u32 inno_hdmi_get_frame_enable(struct inno_hdmi *hdmi,
+-				      u32 frame_index)
++				      enum hdmi_infoframe_type type)
+ {
+ 	struct drm_device *drm = hdmi->connector.dev;
+ 
+-	switch (frame_index) {
+-	case INFOFRAME_VSI:
++	switch (type) {
++	case HDMI_INFOFRAME_TYPE_VENDOR:
+ 		return v_PACKET_VSI_EN(1);
+-	case INFOFRAME_AVI:
++	case HDMI_INFOFRAME_TYPE_AVI:
+ 		return 0;
+ 	default:
+-		drm_err(drm, "Unknown infoframe type: %u\n", frame_index);
++		drm_err(drm, "Unknown infoframe type: %u\n", type);
+ 	}
+ 
+ 	return 0;
+ }
+ 
+-static void inno_hdmi_disable_frame(struct inno_hdmi *hdmi, u32 frame_index)
++static void inno_hdmi_disable_frame(struct inno_hdmi *hdmi,
++				    enum hdmi_infoframe_type type)
+ {
+-	u32 disable = inno_hdmi_get_frame_disable(hdmi, frame_index);
+-	u32 mask = inno_hdmi_get_frame_mask(hdmi, frame_index);
++	u32 frame_index = inno_hdmi_get_frame_index(hdmi, type);
++	u32 disable = inno_hdmi_get_frame_disable(hdmi, type);
++	u32 mask = inno_hdmi_get_frame_mask(hdmi, type);
+ 
  	if (mask)
  		hdmi_modb(hdmi, HDMI_PACKET_SEND_AUTO, mask, disable);
- 
-@@ -167,13 +219,14 @@ static void inno_hdmi_disable_frame(struct inno_hdmi *hdmi,
+@@ -219,14 +238,14 @@ static void inno_hdmi_disable_frame(struct inno_hdmi *hdmi, u32 frame_index)
  }
  
  static int inno_hdmi_upload_frame(struct inno_hdmi *hdmi,
--				  union hdmi_infoframe *frame, u32 frame_index,
--				  u32 mask, u32 disable, u32 enable)
-+				  union hdmi_infoframe *frame, u32 frame_index)
+-				  union hdmi_infoframe *frame, u32 frame_index)
++				  union hdmi_infoframe *frame, enum hdmi_infoframe_type type)
  {
-+	u32 enable = inno_hdmi_get_frame_enable(hdmi, frame_index);
-+	u32 mask = inno_hdmi_get_frame_mask(hdmi, frame_index);
+-	u32 enable = inno_hdmi_get_frame_enable(hdmi, frame_index);
+-	u32 mask = inno_hdmi_get_frame_mask(hdmi, frame_index);
++	u32 enable = inno_hdmi_get_frame_enable(hdmi, type);
++	u32 mask = inno_hdmi_get_frame_mask(hdmi, type);
  	u8 packed_frame[HDMI_MAXIMUM_INFO_FRAME_SIZE];
  	ssize_t rc, i;
  
--	inno_hdmi_disable_frame(hdmi, frame_index, mask, disable);
-+	inno_hdmi_disable_frame(hdmi, frame_index);
+-	inno_hdmi_disable_frame(hdmi, frame_index);
++	inno_hdmi_disable_frame(hdmi, type);
  
  	rc = hdmi_infoframe_pack(frame, packed_frame,
  				 sizeof(packed_frame));
-@@ -200,13 +253,11 @@ static int inno_hdmi_config_video_vsi(struct inno_hdmi *hdmi,
+@@ -253,11 +272,11 @@ static int inno_hdmi_config_video_vsi(struct inno_hdmi *hdmi,
  							 &hdmi->connector,
  							 mode);
  	if (rc) {
--		inno_hdmi_disable_frame(hdmi, INFOFRAME_VSI,
--					m_PACKET_VSI_EN, v_PACKET_VSI_EN(0));
-+		inno_hdmi_disable_frame(hdmi, INFOFRAME_VSI);
+-		inno_hdmi_disable_frame(hdmi, INFOFRAME_VSI);
++		inno_hdmi_disable_frame(hdmi, HDMI_INFOFRAME_TYPE_VENDOR);
  		return rc;
  	}
  
--	return inno_hdmi_upload_frame(hdmi, &frame, INFOFRAME_VSI,
--		m_PACKET_VSI_EN, v_PACKET_VSI_EN(0), v_PACKET_VSI_EN(1));
-+	return inno_hdmi_upload_frame(hdmi, &frame, INFOFRAME_VSI);
+-	return inno_hdmi_upload_frame(hdmi, &frame, INFOFRAME_VSI);
++	return inno_hdmi_upload_frame(hdmi, &frame, HDMI_INFOFRAME_TYPE_VENDOR);
  }
  
  static int inno_hdmi_config_video_avi(struct inno_hdmi *hdmi,
-@@ -219,13 +270,13 @@ static int inno_hdmi_config_video_avi(struct inno_hdmi *hdmi,
+@@ -270,13 +289,13 @@ static int inno_hdmi_config_video_avi(struct inno_hdmi *hdmi,
  						      &hdmi->connector,
  						      mode);
  	if (rc) {
--		inno_hdmi_disable_frame(hdmi, INFOFRAME_AVI, 0, 0);
-+		inno_hdmi_disable_frame(hdmi, INFOFRAME_AVI);
+-		inno_hdmi_disable_frame(hdmi, INFOFRAME_AVI);
++		inno_hdmi_disable_frame(hdmi, HDMI_INFOFRAME_TYPE_AVI);
  		return rc;
  	}
  
  	frame.avi.colorspace = HDMI_COLORSPACE_RGB;
  
--	return inno_hdmi_upload_frame(hdmi, &frame, INFOFRAME_AVI, 0, 0, 0);
-+	return inno_hdmi_upload_frame(hdmi, &frame, INFOFRAME_AVI);
+-	return inno_hdmi_upload_frame(hdmi, &frame, INFOFRAME_AVI);
++	return inno_hdmi_upload_frame(hdmi, &frame, HDMI_INFOFRAME_TYPE_AVI);
  }
  
  static int inno_hdmi_config_video_csc(struct inno_hdmi *hdmi)
