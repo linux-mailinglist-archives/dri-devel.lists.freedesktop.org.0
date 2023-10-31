@@ -1,60 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19C2F7DC804
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Oct 2023 09:17:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D2B177DC808
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Oct 2023 09:19:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B424410E41C;
-	Tue, 31 Oct 2023 08:17:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B18310E41D;
+	Tue, 31 Oct 2023 08:19:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com
- [IPv6:2607:f8b0:4864:20::b36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D025010E41C
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Oct 2023 08:17:03 +0000 (UTC)
-Received: by mail-yb1-xb36.google.com with SMTP id
- 3f1490d57ef6-d81d09d883dso4698047276.0
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Oct 2023 01:17:03 -0700 (PDT)
+Received: from mail-yw1-x1130.google.com (mail-yw1-x1130.google.com
+ [IPv6:2607:f8b0:4864:20::1130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9157F10E41E
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Oct 2023 08:19:30 +0000 (UTC)
+Received: by mail-yw1-x1130.google.com with SMTP id
+ 00721157ae682-5a86b6391e9so51678567b3.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Oct 2023 01:19:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1698740223; x=1699345023; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1698740369; x=1699345169; darn=lists.freedesktop.org;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Smwqa/VxxxvV+NAJpecN+RuY1E+JDILev1nYuilsBMI=;
- b=ILhuhPQ1jJ3FgEFNtR7Ou1GVJIsMEaKDp+JJnJObJ+Z6rbcPtcDpNDlWT/BY9jP3tX
- fx7sBM6sXQ6UTDiq2e/wttnIviIupW8HFaV9yweCK+tTuLiP6CMj/j2MdhVxn0KvM1Uv
- ReJbhd6YNC79d6wNLziyde764s4L3EZsXXC+XV4m4eCJD1VGtEhzPEybuYzz+x1C7f3m
- g4ApxUU3ysq2Jw7KW+qAPPoSzHeYcyaXBd4K+xi/vVckNPI/jtApXovZCviuZI3ANX9z
- 62zGyIUj9SdZhtFHe2znhngfnc2BAVxWprPNxJUAMrYUJsvlpOe8niyvfcQBYejYO9Xd
- HPHg==
+ bh=Xr08QYldhmln2QjJdXVDVvMGXlegG4AyHEpzWJW2wkk=;
+ b=B7vynd0xmeiX5VVCgHVM9nZTAslPHe+XW2EOrmikmnH+kQL9eVkawE3KCRCKOg2Vv6
+ FQ5E0gf8ZxAXy/Sg99FM2zs1VdK4l8dT+qVTobkDzNcrmcyZ7k6e3FZrHq7/FU7NdNOr
+ wXo0aIslchFp1/OzELiyhCIZ/GiNGQ7KQQbkAf0L4AtYD5S0pRNHQYWrlgXBwkmndVMi
+ tcN5r5z0lk8FN5zjNiHK9z9UcndePTj6PzBbbmiGOHbPKnlp+PuLNbxGkkdWO2dA0n2e
+ fBo16tJRxqa5EeRQ+88gzw/jYDa4v7vKQkOASsUGncKcF7juDlnIWLdNUt+pc5JpUQOk
+ RNBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1698740223; x=1699345023;
+ d=1e100.net; s=20230601; t=1698740369; x=1699345169;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=Smwqa/VxxxvV+NAJpecN+RuY1E+JDILev1nYuilsBMI=;
- b=a5H4p3r2PWsOGqDT6QDyXmxQA7N6r4eqOttFkxQAKbniTP5vReBNYheOeghn/dC0zk
- 2BV8pCULR+zvD4aisLA2LI6axjwTlQjQTe+ujFYtKon78fQqF9qahxh9Mfq3e/NcAqV/
- jm8RQCKdFnfrNWHBMNIxhGSgJRVxvLo0ozp6O78QhrpDvPlpk2g6EKAAe+yZcVz1hlRW
- xnt2kDP8qdWAxcEgKT7wPFB74RkGbyA0RCU/cfuwjKCKeFYth3RI2IpGZMWlHY++Jbp6
- 3WYwRhFicET0IGwV49LwBv225seGVKnVrZJh23EP/YIUOU/kIqDHkcsNQRdKPQPW/A6k
- odjg==
-X-Gm-Message-State: AOJu0YzVlR7VJqYAFMRPFH9Y5b9YxqWEnK6VUnmNOvEeZBN5qLFGE+m2
- 1Uq0ZMTWohcoYDLus8sdInQDhWbVo98UEliR2fMKDw==
-X-Google-Smtp-Source: AGHT+IHWifJqXC6H9D9kHYHXl1DQa3F7wXkSKAOFkAJmE2UoxCTGIcCFzuVkIhkNunb7Tg2gq9HFmGzJe/dab3ccdIE=
-X-Received: by 2002:a25:238e:0:b0:da1:2a2b:4c5b with SMTP id
- j136-20020a25238e000000b00da12a2b4c5bmr9488785ybj.41.1698740222839; Tue, 31
- Oct 2023 01:17:02 -0700 (PDT)
+ bh=Xr08QYldhmln2QjJdXVDVvMGXlegG4AyHEpzWJW2wkk=;
+ b=iTrm5ZTKsw2ue+w/xNfN1q66v36p6AMLfTaQpsBo2iQLfs61YZb524QpJntFKyiS4b
+ JEB9sCy6D/U1nrbPPnBL799TWb0X1tJuc5r+7Rg2pE1Eizd9OTBrIdn2ghS4q4qJlZ3z
+ hJ1puT53nndZOfLF4Dya6F4qFZph6Q1mQ5NViarLGJ18Emn18rNeIljDjYqvYDQ8BDXx
+ wu+/LhKJmD5/qDPpO+RC3zM2l8cmKioS/710ogp1qGcJJEicj6pwn5aK0s7ZvPFeoXPM
+ jB+iGbMiSp6NrEJT2xbA6Eq2N/9qOzoIEP/6IrO9khKU7Hvt+An9kibMJhALLfUlaib0
+ GCpQ==
+X-Gm-Message-State: AOJu0Yx4b2WDHYAZBVpzmQlp9u9279Yg3aaRoV7oa5Y3hLtqKGD9Y7EP
+ 7eU4ek75S6ZhzfoJwmMB7qTMm/uAraa4eYjt7sYx4g==
+X-Google-Smtp-Source: AGHT+IH54Yf5q/xYgf4X4l3uKpmKCgK109l5WL/rQxro+ikkC/pb0jUJJxePZZgXlMEHG9DbwAI9boC+Jrf9KbHWBMc=
+X-Received: by 2002:a81:ae62:0:b0:5a8:8f0d:db2d with SMTP id
+ g34-20020a81ae62000000b005a88f0ddb2dmr12038746ywk.2.1698740369585; Tue, 31
+ Oct 2023 01:19:29 -0700 (PDT)
 MIME-Version: 1.0
 References: <20231006131450.2436688-1-dmitry.baryshkov@linaro.org>
- <20231006131450.2436688-7-dmitry.baryshkov@linaro.org>
- <8785c8bd-1f07-b94f-d002-a3228b791a8a@quicinc.com>
-In-Reply-To: <8785c8bd-1f07-b94f-d002-a3228b791a8a@quicinc.com>
+ <20231006131450.2436688-10-dmitry.baryshkov@linaro.org>
+ <c2f7733b-bfa3-a8a6-6909-5da26cd513af@quicinc.com>
+In-Reply-To: <c2f7733b-bfa3-a8a6-6909-5da26cd513af@quicinc.com>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Tue, 31 Oct 2023 10:16:51 +0200
-Message-ID: <CAA8EJppLGU1ZUCNxkb5TxzMyHGB1CsqhLSxrhrN0L9JDPRQnQg@mail.gmail.com>
-Subject: Re: [PATCH v6 06/10] drm/msm/dpu: deduplicate some (most) of SSPP
- sub-blocks
+Date: Tue, 31 Oct 2023 10:19:18 +0200
+Message-ID: <CAA8EJpr35LgyfNOcwiE0FgGR-CfS6b996HZk0tnQrVpOX99aRg@mail.gmail.com>
+Subject: Re: [PATCH v6 09/10] drm/msm/dpu: merge DPU_SSPP_SCALER_QSEED3,
+ QSEED3LITE, QSEED4
 To: Abhinav Kumar <quic_abhinavk@quicinc.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -76,62 +76,126 @@ Cc: freedreno@lists.freedesktop.org, Bjorn Andersson <andersson@kernel.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 30 Oct 2023 at 21:52, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+On Mon, 30 Oct 2023 at 22:24, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
 >
 >
 >
 > On 10/6/2023 6:14 AM, Dmitry Baryshkov wrote:
-> > As we have dropped the variadic parts of SSPP sub-blocks declarations,
-> > deduplicate them now, reducing memory cruft.
+> > Three different features, DPU_SSPP_SCALER_QSEED3, QSEED3LITE and QSEED4
+> > are all related to different versions of the same HW scaling block.
+> > Corresponding driver parts use scaler_blk.version to identify the
+> > correct way to program the hardware. In order to simplify the driver
+> > codepath, merge these three feature bits.
 > >
 > > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > > ---
-> >   .../msm/disp/dpu1/catalog/dpu_3_0_msm8998.h   | 16 +--
-> >   .../msm/disp/dpu1/catalog/dpu_4_0_sdm845.h    | 16 +--
-> >   .../msm/disp/dpu1/catalog/dpu_5_0_sm8150.h    | 16 +--
-> >   .../msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h   | 16 +--
-> >   .../msm/disp/dpu1/catalog/dpu_5_4_sm6125.h    |  6 +-
-> >   .../msm/disp/dpu1/catalog/dpu_6_0_sm8250.h    | 16 +--
-> >   .../msm/disp/dpu1/catalog/dpu_6_2_sc7180.h    |  8 +-
-> >   .../msm/disp/dpu1/catalog/dpu_6_3_sm6115.h    |  4 +-
-> >   .../msm/disp/dpu1/catalog/dpu_6_4_sm6350.h    |  8 +-
-> >   .../msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h   |  4 +-
-> >   .../msm/disp/dpu1/catalog/dpu_6_9_sm6375.h    |  4 +-
-> >   .../msm/disp/dpu1/catalog/dpu_7_0_sm8350.h    | 16 +--
-> >   .../msm/disp/dpu1/catalog/dpu_7_2_sc7280.h    |  8 +-
-> >   .../msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h  | 16 +--
-> >   .../msm/disp/dpu1/catalog/dpu_8_1_sm8450.h    | 16 +--
-> >   .../msm/disp/dpu1/catalog/dpu_9_0_sm8550.h    | 20 ++--
-> >   .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    | 97 +++++--------------
-> >   17 files changed, 120 insertions(+), 167 deletions(-)
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 4 ++--
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h | 6 +-----
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c    | 9 ++-------
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c      | 3 +--
+> >   4 files changed, 6 insertions(+), 16 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> > index 32c396abf877..eb867c8123d7 100644
+> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> > @@ -31,10 +31,10 @@
+> >       (VIG_SDM845_MASK | BIT(DPU_SSPP_SMART_DMA_V2))
+> >
+> >   #define VIG_SC7180_MASK \
+> > -     (VIG_MASK | BIT(DPU_SSPP_QOS_8LVL) | BIT(DPU_SSPP_SCALER_QSEED4))
+> > +     (VIG_MASK | BIT(DPU_SSPP_QOS_8LVL) | BIT(DPU_SSPP_SCALER_QSEED3))
+> >
+> >   #define VIG_SM6125_MASK \
+> > -     (VIG_MASK | BIT(DPU_SSPP_QOS_8LVL) | BIT(DPU_SSPP_SCALER_QSEED3LITE))
+> > +     (VIG_MASK | BIT(DPU_SSPP_QOS_8LVL) | BIT(DPU_SSPP_SCALER_QSEED3))
 > >
 >
-> <snip>
+> This merging is coming at a cost of inaccuracy. We are marking sc7180
+> and sm6125 as scaler_qseed3. But they are not. Let me know what you
+> think of below idea instead.
 >
-> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
-> > index e60427f54b27..860feb9c54e6 100644
-> > --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
-> > +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
-> > @@ -77,7 +77,7 @@ static const struct dpu_sspp_cfg sm8550_sspp[] = {
-> >               .name = "sspp_0", .id = SSPP_VIG0,
-> >               .base = 0x4000, .len = 0x344,
-> >               .features = VIG_SC7180_MASK,
-> > -             .sblk = &sm8550_vig_sblk_0,
-> > +             .sblk = &dpu_vig_sblk_qseed3_3_2,
+> >   #define VIG_SC7180_MASK_SDMA \
+> >       (VIG_SC7180_MASK | BIT(DPU_SSPP_SMART_DMA_V2))
+> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> > index fc5027b0123a..ba262b3f0bdc 100644
+> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> > @@ -51,9 +51,7 @@ enum {
+> >   /**
+> >    * SSPP sub-blocks/features
+> >    * @DPU_SSPP_SCALER_QSEED2,  QSEED2 algorithm support
+> > - * @DPU_SSPP_SCALER_QSEED3,  QSEED3 alogorithm support
+> > - * @DPU_SSPP_SCALER_QSEED3LITE,  QSEED3 Lite alogorithm support
+> > - * @DPU_SSPP_SCALER_QSEED4,  QSEED4 algorithm support
+> > + * @DPU_SSPP_SCALER_QSEED3,  QSEED3 alogorithm support (also QSEED3LITE and QSEED4)
+> >    * @DPU_SSPP_SCALER_RGB,     RGB Scaler, supported by RGB pipes
+> >    * @DPU_SSPP_CSC,            Support of Color space converion
+> >    * @DPU_SSPP_CSC_10BIT,      Support of 10-bit Color space conversion
+> > @@ -72,8 +70,6 @@ enum {
+> >   enum {
+> >       DPU_SSPP_SCALER_QSEED2 = 0x1,
+> >       DPU_SSPP_SCALER_QSEED3,
+> > -     DPU_SSPP_SCALER_QSEED3LITE,
+> > -     DPU_SSPP_SCALER_QSEED4,
+> >       DPU_SSPP_SCALER_RGB,
+> >       DPU_SSPP_CSC,
+> >       DPU_SSPP_CSC_10BIT,
+> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
+> > index 7e9c87088e17..d1b70cf72eef 100644
+> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
+> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
+> > @@ -594,9 +594,7 @@ static void _setup_layer_ops(struct dpu_hw_sspp *c,
+> >               test_bit(DPU_SSPP_SMART_DMA_V2, &c->cap->features))
+> >               c->ops.setup_multirect = dpu_hw_sspp_setup_multirect;
+> >
+> > -     if (test_bit(DPU_SSPP_SCALER_QSEED3, &features) ||
+> > -                     test_bit(DPU_SSPP_SCALER_QSEED3LITE, &features) ||
+> > -                     test_bit(DPU_SSPP_SCALER_QSEED4, &features))
+> > +     if (test_bit(DPU_SSPP_SCALER_QSEED3, &features))
+> >               c->ops.setup_scaler = _dpu_hw_sspp_setup_scaler3;
 >
-> Some of this naming doesnt sound right to me. What I had suggested was
-> just dpu_vig_sblk_scaler_x_y but what is used is dpu_vig_sblk_qseedx_x_y
->
-> This is not correct because technically sm8550 was qseed4 as its scaler
-> version is > 0x3000
->
-> So this adds some discrepancy in the naming.
+> Can we just do sblk->scaler_blk.version >= 0x3000 instead of this
+> merging? That way you can still drop those enums without inaccuracy.
 
-And as I wrote, scaler is also not correct. We know qseed2 and rgb
-scalers, which use different versioning (if they have versions at
-all). I used qseed3, as it is the base version of the qseed3 / 3lite /
-4 scalers. Of course we can switch back to 3/3lite/4, but I thought
-that it was not that related to the hardware.
+No. QSEED3 from sdm845 has version 1.3, msm8998, sdm660 and sdm630
+have version 1.2.
+
+>
+> >
+> >       if (test_bit(DPU_SSPP_CDP, &features))
+> > @@ -629,10 +627,7 @@ int _dpu_hw_sspp_init_debugfs(struct dpu_hw_sspp *hw_pipe, struct dpu_kms *kms,
+> >                       cfg->len,
+> >                       kms);
+> >
+> > -     if (cfg->features & BIT(DPU_SSPP_SCALER_QSEED3) ||
+> > -                     cfg->features & BIT(DPU_SSPP_SCALER_QSEED3LITE) ||
+> > -                     cfg->features & BIT(DPU_SSPP_SCALER_QSEED2) ||
+> > -                     cfg->features & BIT(DPU_SSPP_SCALER_QSEED4))
+> > +     if (sblk->scaler_blk.len)
+>
+> This part seems fine.
+>
+> >               dpu_debugfs_create_regset32("scaler_blk", 0400,
+> >                               debugfs_root,
+> >                               sblk->scaler_blk.base + cfg->base,
+> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> > index 43135894263c..ba3ee4ba25b3 100644
+> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> > @@ -438,8 +438,7 @@ static void _dpu_plane_setup_scaler3(struct dpu_hw_sspp *pipe_hw,
+> >                       scale_cfg->src_height[i] /= chroma_subsmpl_v;
+> >               }
+> >
+> > -             if (pipe_hw->cap->features &
+> > -                     BIT(DPU_SSPP_SCALER_QSEED4)) {
+> > +             if (pipe_hw->cap->sblk->scaler_blk.version >= 0x3000) {
+> This is fine too.
+> >                       scale_cfg->preload_x[i] = DPU_QSEED4_DEFAULT_PRELOAD_H;
+> >                       scale_cfg->preload_y[i] = DPU_QSEED4_DEFAULT_PRELOAD_V;
+> >               } else {
+
+
 
 -- 
 With best wishes
