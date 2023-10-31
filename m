@@ -1,67 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18F6D7DCE0D
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Oct 2023 14:41:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A0877DCE3B
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Oct 2023 14:52:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B53B410E4D3;
-	Tue, 31 Oct 2023 13:41:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 01E8010E129;
+	Tue, 31 Oct 2023 13:52:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com
- [IPv6:2607:f8b0:4864:20::42b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D694910E4D3;
- Tue, 31 Oct 2023 13:41:23 +0000 (UTC)
-Received: by mail-pf1-x42b.google.com with SMTP id
- d2e1a72fcca58-6bbfb8f7ac4so1736310b3a.0; 
- Tue, 31 Oct 2023 06:41:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1698759682; x=1699364482; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=jLY3DfRw2y/RKAr/iJks119OQB+JfG13EdCTLNSU2Qg=;
- b=jr1KL2j+vZ796Vz4GPPm59Pud93Cj8ZPLd2mzbHTVv8uFQ6gN4+C/ducAEE4WpNL/M
- afJKC2znId6OQF4veGscxF7a6ukBz7gSUxa7IMdAn9jI9qZauzpkx8XtuQG6qU6tCl+V
- l/PEnyvCkHM7hFyAKebxK09vnoEgKCL5BTdVIka9XPobpJork3tzq/IxOvQOjDSgYom5
- uwe//F5kPimnbmac+w/k+aKsFGa/vmqzJh6PaOndOSsmsTlk0laCsdjqE1gOrPZiNk1z
- G16U8FRYRps0JOfneMQwze2Ib2Dkoy+9R1mvPVMLJjKskcSj1nUhc/3Dl0CJrFXpuYwH
- Ot1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1698759682; x=1699364482;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=jLY3DfRw2y/RKAr/iJks119OQB+JfG13EdCTLNSU2Qg=;
- b=MeJhDJvSi2HYsO/VltgAEWfmWAilQhQbElhAU5EvYIDZd/m95DPO1LdfZ4o3Z3n3GL
- m50PDwp2URQ47kRXESvWAGZdzdYzb3tQikOD9hkqsEkYrwOkqtNf8Zu+ZfGLVQjinWI1
- R5NpzGQ+binpi7w4jkAOcAp6BJmD/9fbAg932/sA2aDoiEAWloluSyyZg1cDVbQMJTPf
- MD/4fJSGLXbrzdS//s3rTLSl/hHTAf/tW7foaZAvrgA1SWqUk8FDrvAnv8c8O39rCxXX
- 0mOud+41BaEsvD2yyzjmP7u3IXSFUyz33l55wj/WfYB1pkHBULRZv7+ET7X1M0qxRaqw
- D9Qg==
-X-Gm-Message-State: AOJu0YxdP5txCp0eu7xr/Bgio8eSY5N03QdiDcOTRQaR4NBUMzeCNUB5
- 8eBo7n84w3VwX9ql+0qS8uxC8H9CTQYx0t2L
-X-Google-Smtp-Source: AGHT+IEMSr4k+h6zJ4PjgVM9J89g/YeoNcd17WODfkF+nY7a/j81/1rt1K7p2g1HYg0/vl+bhX2C8g==
-X-Received: by 2002:a05:6a00:4a14:b0:68e:2fd4:288a with SMTP id
- do20-20020a056a004a1400b0068e2fd4288amr13471046pfb.3.1698759682302; 
- Tue, 31 Oct 2023 06:41:22 -0700 (PDT)
-Received: from localhost (zz20184013906F627101.userreverse.dion.ne.jp.
- [111.98.113.1]) by smtp.gmail.com with ESMTPSA id
- d14-20020a056a00198e00b006c06804cd39sm1257366pfl.153.2023.10.31.06.41.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 31 Oct 2023 06:41:21 -0700 (PDT)
-From: Tatsuyuki Ishi <ishitatsuyuki@gmail.com>
-To: dri-devel@lists.freedesktop.org,
-	amd-gfx@lists.freedesktop.org
-Subject: [PATCH 6/6] drm/amdgpu: Bump amdgpu driver version.
-Date: Tue, 31 Oct 2023 22:40:59 +0900
-Message-ID: <20231031134059.171277-7-ishitatsuyuki@gmail.com>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231031134059.171277-1-ishitatsuyuki@gmail.com>
-References: <20231031134059.171277-1-ishitatsuyuki@gmail.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A39310E129
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Oct 2023 13:52:36 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 9676C60F0C;
+ Tue, 31 Oct 2023 13:52:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7C26C433C8;
+ Tue, 31 Oct 2023 13:52:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1698760355;
+ bh=g4fayFF0H43TgvcTCYi02wLX2Gr05h+rt0FdaIAqyIk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=axDXum61Q5bKSMWXWnV9GKcg5Q/M2cZ4uQHyAAykqtEIXzJDl/n9OZBFXjMvPppo4
+ rGK8jUo+T9hs1xGgX/chjr06pSPobL2iM0HWH+n2iftpqpoe9xRwQoffY/1LvDKEQE
+ CTzIWHdqPxgnegYbF40s22bgt+KaYK+KrXA+shCCsugKaBdg/zcvwLiTgXE/1HmoHH
+ sn0jagA3QGkSIyHwopV71IIP/RlgWGGM33KulHbcB6L6reiW+VlaNA/gCCWtHBkwqL
+ 3/u1alCMxTykaYaRVRhIurXCpLqo4bpqqonDite42kCeP7b9jlCwJN3s7HqkawvS5a
+ 9x0YQdvNOGX4A==
+Date: Tue, 31 Oct 2023 14:52:32 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: [PATCH] drm/ssd130x: Fix possible uninitialized usage of
+ crtc_state variable
+Message-ID: <gyf7vluuecx6nfqbm5x7xg2elxeb2zbipszeyjoklu2r7liroc@ntlwe3zkrgqb>
+References: <20231020225338.1686974-1-javierm@redhat.com>
+ <b048247c-75e9-488e-a4f3-b227a38bca5e@redhat.com>
+ <87v8aso1ha.fsf@minerva.mail-host-address-is-not-set>
+ <CAMuHMdVLf=H7QWaUXrN17ABw9eE1MjBdzFEM0AhMNj8_ULSz+Q@mail.gmail.com>
+ <87lebjksoj.fsf@minerva.mail-host-address-is-not-set>
+ <CAMuHMdXdYm6Opyhgte7CaScs_jdPNUqrQTbPCMSQXqkKpKTd8w@mail.gmail.com>
+ <87il6nkp6e.fsf@minerva.mail-host-address-is-not-set>
+ <2eh6i4ttpepnpehw47zucgrs3rvzugxiay7eqy65phktcm2m4r@zwzyn5rn55yl>
+ <CAMuHMdXHq6yE14YqA+GNj=V79Z1rYTK=8Dx5WWw3RczrzMy21A@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="tte2azzi3g6reuun"
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdXHq6yE14YqA+GNj=V79Z1rYTK=8Dx5WWw3RczrzMy21A@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,34 +59,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tatsuyuki Ishi <ishitatsuyuki@gmail.com>, christian.koenig@amd.com
+Cc: Jocelyn Falempe <jfalempe@redhat.com>,
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Dan Carpenter <dan.carpenter@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-For detection of the new explicit sync functionality without having to try
-the ioctl.
 
-Signed-off-by: Tatsuyuki Ishi <ishitatsuyuki@gmail.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+--tte2azzi3g6reuun
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-index 81edf66dbea8..2aa406dee192 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-@@ -113,9 +113,10 @@
-  *            gl1c_cache_size, gl2c_cache_size, mall_size, enabled_rb_pipes_mask_hi
-  *   3.53.0 - Support for GFX11 CP GFX shadowing
-  *   3.54.0 - Add AMDGPU_CTX_QUERY2_FLAGS_RESET_IN_PROGRESS support
-+ * - 3.55.0 - Add AMDGPU_VM_EXPLICIT_SYNC flag for GEM operations.
-  */
- #define KMS_DRIVER_MAJOR	3
--#define KMS_DRIVER_MINOR	54
-+#define KMS_DRIVER_MINOR	55
- #define KMS_DRIVER_PATCHLEVEL	0
- 
- unsigned int amdgpu_vram_limit = UINT_MAX;
--- 
-2.42.0
+On Tue, Oct 31, 2023 at 02:00:06PM +0100, Geert Uytterhoeven wrote:
+> Hi Maxime,
+>=20
+> On Tue, Oct 31, 2023 at 12:53=E2=80=AFPM Maxime Ripard <mripard@kernel.or=
+g> wrote:
+> > On Tue, Oct 31, 2023 at 12:27:05PM +0100, Javier Martinez Canillas wrot=
+e:
+> > > Geert Uytterhoeven <geert@linux-m68k.org> writes:
+> > > >> >> Pushed to drm-misc (drm-misc-next). Thanks!
+> > > >> >
+> > > >> > Looks like you introduced an unintended
+> > > >> >
+> > > >> >     (cherry picked from commit 9e4db199e66d427c50458f4d72734cc4f=
+0b92948)
+> > > >> >
+> > > >> > ?
+> > > >>
+> > > >> No, that's intended. It's added by the `dim cherry-pick` command, =
+since I
+> > > >> had to cherry-pick to drm-misc-next-fixes the commit that was alre=
+ady in
+> > > >> the drm-misc-next branch.
+> > > >>
+> > > >> You will find that message in many drm commits, i.e:
+> > > >>
+> > > >> $ git log --oneline --grep=3D"(cherry picked from commit" drivers/=
+gpu/drm/ | wc -l
+> > > >> 1708
+> > > >
+> > > > Ah, so that's why it's (way too) common to have merge conflicts bet=
+ween
+> > > > the fixes and non-fixes drm branches :-(
+>=20
+> > That's also not as bad as Geert put it: merging two branches with the
+> > exact same commit applied won't create conflict. If the two commits
+> > aren't exactly the same then we can indeed create conflicts, but that
+> > would have been the case anyway with or without the "double-commits"
+>=20
+> Oh it is, as soon as one branch receives more commits that make changes
+> to the same location.  Which is fairly common, too, to the point
+> that I am surprised when merging a drm for-next branch does not trigger
+> a conflict...
+>=20
+> Cfr. the conflict I had to resolve this morning between commit
+> 64ffd2f1d00c6235 ("drm/amd: Disable ASPM for VI w/ all Intel systems")
+> already upstream, and commits e5f52a84bf0a8170 ("drm/amd: Disable ASPM
+> for VI w/ all Intel systems") and follow-up 2757a848cb0f1848
+> ("drm/amd: Explicitly disable ASPM when dynamic switching disabled")
+> in drm/drm-next.
 
+I probably don't get what you're saying, sorry, but those two commits
+would have conflicted anyway when merging the two branches, with or
+without the cherry-pick.
+
+Maxime
+
+--tte2azzi3g6reuun
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZUEGoAAKCRDj7w1vZxhR
+xXQMAQCApHoSIwBvbu9hs/AUWWlu/V0eNuLdDTWiMUAOqIgZVwD/QA4D/xcilfQD
+g/zor+pG8ZvLijw6s4a4XgoARf9AeQU=
+=FGIO
+-----END PGP SIGNATURE-----
+
+--tte2azzi3g6reuun--
