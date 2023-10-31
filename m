@@ -1,135 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECB877DCFF3
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Oct 2023 16:14:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 022147DD0CF
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Oct 2023 16:45:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 320D310E51F;
-	Tue, 31 Oct 2023 15:13:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 27A2F10E53B;
+	Tue, 31 Oct 2023 15:45:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx08-00376f01.pphosted.com (mx08-00376f01.pphosted.com
- [91.207.212.86])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 507EA10E147
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Oct 2023 15:13:50 +0000 (UTC)
-Received: from pps.filterd (m0168888.ppops.net [127.0.0.1])
- by mx08-00376f01.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id
- 39VCJjRf013616; Tue, 31 Oct 2023 15:13:29 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=imgtec.com; h=
- from:to:cc:subject:date:message-id:in-reply-to:references
- :content-transfer-encoding:content-type:mime-version; s=
- dk201812; bh=LlMPaIZm0OIaosP7B9Bi8LDXMsgJLgjM26UTMrYeXVA=; b=IoH
- VfGogRLXrX8gNC/SlNQPMP31Xuylr+HGwlVlGlMDrCIa4AGE0a+TbqOhfKlqPLNf
- 7v+qDr93P3hicajnqWKMw8ZNJy2k4ffyo3/QgOW8+NwSsrJTQqaB4JwCkUju1xIf
- o3uZvQboH3qa8eC26Bg0Q81F8lVrMfjZKyM8gASFmvBYfKBkPlULu4YGbxty6yH8
- +xIHm1iAL8PMKYa8yTskHxC/ORtWD7XFwmqv7bauzXzWOm+jzR+TRU0hP3gaN0T3
- ng6UE5qqobeWySVEv4f1q19tLAFgCzVg8cJwGd9cEwt6kfUY1qHmM8xZuVnCU6ht
- ZnZI7W6yb6MiF8XWd3w==
-Received: from hhmail04.hh.imgtec.org ([217.156.249.195])
- by mx08-00376f01.pphosted.com (PPS) with ESMTPS id 3u0rjntf42-2
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
- Tue, 31 Oct 2023 15:13:28 +0000 (GMT)
-Received: from HHMAIL04.hh.imgtec.org (10.100.10.119) by
- HHMAIL04.hh.imgtec.org (10.100.10.119) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34; Tue, 31 Oct 2023 15:13:28 +0000
-Received: from GBR01-LO2-obe.outbound.protection.outlook.com (104.47.21.51) by
- email.imgtec.com (10.100.10.121) with Microsoft SMTP Server
- (version=TLS1_2, 
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.34 via Frontend
- Transport; Tue, 31 Oct 2023 15:13:27 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YHW0L+jEBHwI5mZzUldxoAJ62hyn2p4I4VtctiDNw1BMLbe/+8Tng5nDj/N645BJto3c146uSSPqeeLBCe5hrKnNibXlZu0mSkrDh4WH3Pep9ebxA2ImeC4mGwMI60/5q8gW0BtQ5QSjjRSr0AuLA/LaTCeY7fvgEsaPiSQOWvTHbywFBy5j6x6zgxrqVqEtzVbKW3luUz+tS58Hj9NCXOYh7k7Qv0bMVkW+x5RdGztt42SheBya19TLY1RD2OtKrwiL2RrbVWoMFmswBIU0jp8mg19ExnEthA7v91YhMcDffI81gSr9A6F5mxLGBdRfL2fIVQ83tqm2RA6u/rIl4A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LlMPaIZm0OIaosP7B9Bi8LDXMsgJLgjM26UTMrYeXVA=;
- b=iGD0ZNIJWbJCSmqmcvkbOyR+CLZ141wNol+EorccY3nWtqDLCpUCpEwiR+Vmyl2aVuQ0nZZMat3QXoCz7c8+UnGGkb8hVxPnxjnQMtVKAXN1fHA7Zi3VyRG9PPz2AzuP3pgaxR16KWIj1YI8kZGddpH2eU8BrRTbhNbfpUpS84dqAyvSZaKc5r8UEFAOuUjy58CHzMTD82zXmV4mZO3Lq7rQqS9q+v4AwrdzMykAqfPklYJxCJdjFeVuLBZ/fwSjqaozDDAybq/3i1zqA2SaCTg6MG5x4lLsH2Q7aA9rN/hGCRo3gK6ZqOi61mdjU1PXdAx1zvEifINvTL+5EfqFeQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=imgtec.com; dmarc=pass action=none header.from=imgtec.com;
- dkim=pass header.d=imgtec.com; arc=none
+Received: from mail-oi1-x236.google.com (mail-oi1-x236.google.com
+ [IPv6:2607:f8b0:4864:20::236])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D62F10E53A;
+ Tue, 31 Oct 2023 15:45:22 +0000 (UTC)
+Received: by mail-oi1-x236.google.com with SMTP id
+ 5614622812f47-3b2e07e5f3aso3416843b6e.0; 
+ Tue, 31 Oct 2023 08:45:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=IMGTecCRM.onmicrosoft.com; s=selector2-IMGTecCRM-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LlMPaIZm0OIaosP7B9Bi8LDXMsgJLgjM26UTMrYeXVA=;
- b=La/XW0ZTSy3L9zsCEO9MfmB+cGXfsZQorM+a3QjQvhcYrhnosJ0RisdfXvOl5vq58zF6J0sFN6vhRMSo2AlClJcRAUzrzRueSKAATWxYwggovrMo1WTqYuhBpkFK31IqxqwUFz34cXMB1E77jA0UyGA4WHACuztOhmWnnUES32g=
-Received: from CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:170::9)
- by CWLP265MB2018.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:6a::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6933.25; Tue, 31 Oct
- 2023 15:13:26 +0000
-Received: from CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM
- ([fe80::eef1:bccc:508d:e086]) by CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM
- ([fe80::eef1:bccc:508d:e086%5]) with mapi id 15.20.6933.029; Tue, 31 Oct 2023
- 15:13:26 +0000
-From: Sarah Walker <sarah.walker@imgtec.com>
-To: <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v8 20/20] drm/imagination: Add driver documentation
-Date: Tue, 31 Oct 2023 15:12:57 +0000
-Message-Id: <20231031151257.90350-21-sarah.walker@imgtec.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20231031151257.90350-1-sarah.walker@imgtec.com>
-References: <20231031151257.90350-1-sarah.walker@imgtec.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: LO4P123CA0301.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:196::18) To CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:400:170::9)
+ d=gmail.com; s=20230601; t=1698767121; x=1699371921; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=jDMn6VjQF1k7WEkEuAu9u0mRYqpGZqXcaUxhATLOUVo=;
+ b=BlyIVVvWZ7GAN9937KHwWSW9t4KWc4CV79DNeDPBn0ghF5bZTvZqSdBaw9uszNUyZG
+ B0MpCkZ5VXxjTAanOIOo3kpokA+RGKPIW3JByJBWdwBJ69zo4OpCA8HWr9pyaqHNiI9Y
+ 4f1rQVnffV2fp+aZIzhhzfn6gDZCV1qIkgALl3yc3I+Onth+ID23dC3REvPhtj1Hb2bG
+ +Ia+u/RMXNBe5vgfzuFZVHT+gqI1g6m3buSng05gxS8vAWGlV5KlOR0lckOuwZLkBUCn
+ 6atrTDoJs9Zf6K9sUpG6yBxNs6i851Y5//BEgLIdhra8BSjJCRD0fe0wK8BnuLbVRwdG
+ p87Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1698767121; x=1699371921;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=jDMn6VjQF1k7WEkEuAu9u0mRYqpGZqXcaUxhATLOUVo=;
+ b=o/YVzSf2d2u74sMYFVIBGF5//90nhqPCHZQLsv3+rKIuzXLgooG9fT/0huvYKsi/+Q
+ 3Lg56AerRCj15zhybOxJeUw0qrQbv5a7vCwwDDyHrCEFGH5KeCy/b2Zmt9zfPx1VVKl4
+ 7z2j6OVdfcAjegBYT/QMkE5ksl/1ukB7ga1w9+4cU1hIM2l0cwVsGU5TvOt6J/pQirGN
+ PmaTfVSB+Cx4WZCQ2bAJta+Y4/ilblpGFTWruycbpTIlBx11YXZyBPrm+LcUqeGTmr7b
+ Gn4u0L7qOTJXAozlg3wf6rQ0INRh7e4AD6+pGor2ylk395uFwX6zgYXjQad5KHO5n40w
+ D1KA==
+X-Gm-Message-State: AOJu0YxhpRwKnozw7aWujzo/saRlcmF0Oxtwze3gJbmQjpG+baSlelB+
+ cD1WBitMqNaTgAyii//4hEYFVDciIYZq8IGBvsE=
+X-Google-Smtp-Source: AGHT+IHG7PK187QxPia9RBD3b232OrcIdwtdBd3pcQsUPkb24rXqRS5iYbjs0lE7RyNpT9ixX33uKv6YztrDFL1Rcts=
+X-Received: by 2002:a05:6808:1445:b0:3a8:6a40:7dc0 with SMTP id
+ x5-20020a056808144500b003a86a407dc0mr1652348oiv.18.1698767121615; Tue, 31 Oct
+ 2023 08:45:21 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CWLP265MB4817:EE_|CWLP265MB2018:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1cf6842c-5e16-48c2-957d-08dbda23ee4a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: pKH3a/NhjsImC56InRkxcjGM//qKz5O3YzxA0sVVfHR8ySOOTWbdzscQFMFfMwbCf8vDcHJm8RTg6nYMaVKRDjK7QdTydnLIOQsdL5k5cZoYbDV2XhKWTB/M91PxBxX6EH3vs965l1imugkJHrE/X3xDibzfwzTx0yAc3fIUKbrWSPMpoQxl/nq65LfMvvVEg1HsuDa0x3txtMrTlgT4wXfcGeTH/3YKiq+0twrPYoYO9WG167x2JeMeo9lcc5nU0nb1IA3Vz+We2WWbWJOQZBfhWoX4aHYISJ3KawFXXoR429TP1jjI2MuHzcQFyq+v0uNiS5ckjow9qJqHh9ug66mCChHp4Y1lq2x8MHXNflqKSEcqmsQjQqc4apthInwB1GqPXZDJIev/EqPLAD/jtvSaYgqAan5Ur4ywKQTHC3AnrL9Hzw+ZsNPGqDbswFtRSveuVaeK1WjkQfqghQs2PE7B4PkHHVzVyUdnyY/r+w+QyeT4KZ/RTq3oQ/bh67FE1GU30Q8OKKcLmEeACAMAix80lquXJoYg/gjFex1NbG5vBlzDYA5KSnpHXZdTMVKn68Sc1VXsrXult9jC9wLPm76d61//O0j2alN+rg8lbP7cAaANb1G/tVKoq8JDeew3
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
- SFS:(13230031)(136003)(376002)(366004)(39850400004)(346002)(396003)(230922051799003)(64100799003)(1800799009)(186009)(451199024)(2906002)(7416002)(41300700001)(5660300002)(44832011)(8676002)(4326008)(8936002)(38350700005)(36756003)(86362001)(38100700002)(107886003)(1076003)(316002)(6916009)(66946007)(66476007)(66556008)(2616005)(478600001)(6666004)(26005)(6512007)(6506007)(52116002)(6486002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?AfyeOS3rWX4IXA5/VW1h4KeRUn8uYZs3jNBXRVN/RXukj/0e3lPI2oqCossw?=
- =?us-ascii?Q?VjHIJ5nhNKzEw2l7yO6gW2c3/r+jC7i/3TP8KrMLpB4rFYQQF3NSTQR+2rKZ?=
- =?us-ascii?Q?4f69pqnEUsCeASUuqOcr11+pIZ49Gb4D1lHTU9C9vy615crhu7oMZOIwMKrb?=
- =?us-ascii?Q?SqGrjTsnnX16cXf6K3CvgM02NH35etXQoWVJXPgU8yDNKjnTnMlGUpo/kNdq?=
- =?us-ascii?Q?2z+8YkzSp50Oryxr+u0kvZYcrcgRHdehWXcyI3iUDEvehhJ1i3TIQZkgIJXk?=
- =?us-ascii?Q?/GhOP51VO6ZEmZIx7DmfaGRcOgY7rHqbjxetwPZQizdoptLhExIvXRnvtJ8V?=
- =?us-ascii?Q?u2wsx9X3Sihj74AWN93r+2j+YZQHnOOy/YXgLgW8eChsdZ//oNd1+BdQ1+z1?=
- =?us-ascii?Q?e+di6ppNIxvTmPcmxVllXbaEb3g/9RHDX64sU1bJf4zrwA0sDF0nG4RSYJ2y?=
- =?us-ascii?Q?R1kvcn5aceL7AHujN/zzSILUy6GtJhw1T9xhK7+oU2WeGOWOXvvNw04tVq5F?=
- =?us-ascii?Q?cGpb0NwDi4EUyt78U7JNJR1e0MeRauZVvZvPHpPgYfKpAnbhqWmIvI/WSiEW?=
- =?us-ascii?Q?TNnrE71rvZ/PtIx+e3AHI7yUDHZ1xwaqlaVQC00GNYoFxEwELp9TaQfRU0vJ?=
- =?us-ascii?Q?f2uWXG6YUIO1pQvRM3FsQRmjLjog0USHDdPFuHA4C2o+VTWOCOX/rPKgOypv?=
- =?us-ascii?Q?7NiQn21P2aHrVeIUqW+rd/Yfs3QQlmWvLlPf5tInpAWHD8gNlPolMR6MhmaT?=
- =?us-ascii?Q?ElR8UDd+l8JSGEacDrNIkpIzdilJgDg8MZ3NTVkoGzVeSx5AmqaMW00KU7Tw?=
- =?us-ascii?Q?7l+33HAf5nVPqUHde1f3Xj3wPBCL7HKqb9xeKI4s1U2NQjSRv84aNXBwM5G9?=
- =?us-ascii?Q?jyAJ1bqHtBv8E5NMyk+84i0Ywq/a0Z6lkVwgIY9JQotNJoDrI0TnmdWve3S1?=
- =?us-ascii?Q?J3bUmKqMzpEDs8+uqyLE9exIf23r6FRgz3II9mRwcXvEj+b6lV1I9HPJH02V?=
- =?us-ascii?Q?8ZEM3Z0XxenDUGaKl3T3YDx/+HvRHYwsZdZ2AI5XaQRoio5BR5uLxkfu9neI?=
- =?us-ascii?Q?WZEeG6Q+7cMKdadReSB3tqBgUuYpVkQt/ZV6ow2yDXBQEpQVYVtVjjhPEgCH?=
- =?us-ascii?Q?1qeP1wPDY9F7ASOm3hztI0f1dtDdxW4vCMR4HJ1njRJKyOdqvtIDpPvjgwsd?=
- =?us-ascii?Q?Jg9zT00v5Cp5IWLgdbH25GlKihTgiGgyxckNDmiFPGFPVvdQ3oao8ZiY77wD?=
- =?us-ascii?Q?oun0ATgP3YCHa6fcP7qdArdwkzyKV37t4zz3hj1R8VzxzYcrtuCQbWMxVbEr?=
- =?us-ascii?Q?O6UOSZSzcp6H1ksXP5psI/3zPhmKJto1waafY8iSnIAc5o9HbRddBOXxX5rD?=
- =?us-ascii?Q?Ub1cQl8TfoxGQITNfShO+mhPiFmcEagHjAZEBoNJ+0c29mymOvENtgm5CWqq?=
- =?us-ascii?Q?9BiRgMF490rK0G++zXkMxevlIo307z8SJnlo9ItUrXKxQWyMSv9/IIbfpfQQ?=
- =?us-ascii?Q?+UI9yS4ldOQYt3TrJwVbBz0sQ78hKiTvmknr0yhNcNYewUwG6/suoh5G/OIJ?=
- =?us-ascii?Q?LBE+YGgBIbJZ8VdNDu9xxeQJQEao/eNnqC71tymesdmWSq/HhF9TWS2t7P+0?=
- =?us-ascii?Q?1Q=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1cf6842c-5e16-48c2-957d-08dbda23ee4a
-X-MS-Exchange-CrossTenant-AuthSource: CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Oct 2023 15:13:26.0763 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0d5fd8bb-e8c2-4e0a-8dd5-2c264f7140fe
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: hZsylP04SPcl/U3Yebvb6/BkYjBIXKLQaN4i9WE7gF4TtTddwXmpfUfxQj26d8KJnWJs3Av88tyOCjFlN1S3HQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWLP265MB2018
-X-OriginatorOrg: imgtec.com
-X-EXCLAIMER-MD-CONFIG: 15a78312-3e47-46eb-9010-2e54d84a9631
-X-Proofpoint-GUID: u5c7F83SyKU4oAlSVw8-n1jF5EGKDz5A
-X-Proofpoint-ORIG-GUID: u5c7F83SyKU4oAlSVw8-n1jF5EGKDz5A
+References: <20231027165841.71810-1-jose.pekkarinen@foxhound.fi>
+ <BL1PR12MB5144FA51BCB5DFD9A9F88A5BF7DCA@BL1PR12MB5144.namprd12.prod.outlook.com>
+ <634f769b7f723795180d5bd2186943b9@foxhound.fi>
+In-Reply-To: <634f769b7f723795180d5bd2186943b9@foxhound.fi>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 31 Oct 2023 11:45:10 -0400
+Message-ID: <CADnq5_M237bNMn=RZvBvPm4vymmUO07Xum7OQehhtAq2Yz55oA@mail.gmail.com>
+Subject: Re: [PATCH] drm/radeon: replace 1-element arrays with flexible-array
+ members
+To: =?UTF-8?Q?Jos=C3=A9_Pekkarinen?= <jose.pekkarinen@foxhound.fi>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -142,263 +71,510 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-doc@vger.kernel.org, hns@goldelico.com,
- krzysztof.kozlowski+dt@linaro.org, matthew.brost@intel.com, corbet@lwn.net,
- luben.tuikov@amd.com, dakr@redhat.com, donald.robson@imgtec.com,
- devicetree@vger.kernel.org, conor+dt@kernel.org, mripard@kernel.org,
- Matt Coster <matt.coster@imgtec.com>, robh+dt@kernel.org,
- faith.ekstrand@collabora.com, linux-kernel@vger.kernel.org, afd@ti.com,
- boris.brezillon@collabora.com, tzimmermann@suse.de, christian.koenig@amd.com
+Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ skhan@linuxfoundation.org, "Deucher, Alexander" <Alexander.Deucher@amd.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org, "Koenig,
+ Christian" <Christian.Koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add documentation for the UAPI.
+On Sat, Oct 28, 2023 at 8:05=E2=80=AFAM Jos=C3=A9 Pekkarinen
+<jose.pekkarinen@foxhound.fi> wrote:
+>
+> On 2023-10-27 20:55, Deucher, Alexander wrote:
+> > [Public]
+> >
+> >> -----Original Message-----
+> >> From: Jos=C3=A9 Pekkarinen <jose.pekkarinen@foxhound.fi>
+> >> Sent: Friday, October 27, 2023 12:59 PM
+> >> To: Deucher, Alexander <Alexander.Deucher@amd.com>; Koenig, Christian
+> >> <Christian.Koenig@amd.com>; Pan, Xinhui <Xinhui.Pan@amd.com>;
+> >> skhan@linuxfoundation.org
+> >> Cc: Jos=C3=A9 Pekkarinen <jose.pekkarinen@foxhound.fi>; airlied@gmail.=
+com;
+> >> daniel@ffwll.ch; amd-gfx@lists.freedesktop.org; dri-
+> >> devel@lists.freedesktop.org; linux-kernel@vger.kernel.org;
+> >> linux-kernel-
+> >> mentees@lists.linuxfoundation.org
+> >> Subject: [PATCH] drm/radeon: replace 1-element arrays with
+> >> flexible-array
+> >> members
+> >>
+> >> Reported by coccinelle, the following patch will move the following 1
+> >> element
+> >> arrays to flexible arrays.
+> >>
+> >> drivers/gpu/drm/radeon/atombios.h:5523:32-48: WARNING use flexible-
+> >> array member instead
+> >> (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-
+> >> length-and-one-element-arrays)
+> >> drivers/gpu/drm/radeon/atombios.h:5545:32-48: WARNING use flexible-
+> >> array member instead
+> >> (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-
+> >> length-and-one-element-arrays)
+> >> drivers/gpu/drm/radeon/atombios.h:5461:34-44: WARNING use flexible-
+> >> array member instead
+> >> (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-
+> >> length-and-one-element-arrays)
+> >> drivers/gpu/drm/radeon/atombios.h:4447:30-40: WARNING use flexible-
+> >> array member instead
+> >> (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-
+> >> length-and-one-element-arrays)
+> >> drivers/gpu/drm/radeon/atombios.h:4236:30-41: WARNING use flexible-
+> >> array member instead
+> >> (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-
+> >> length-and-one-element-arrays)
+> >> drivers/gpu/drm/radeon/atombios.h:7044:24-37: WARNING use flexible-
+> >> array member instead
+> >> (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-
+> >> length-and-one-element-arrays)
+> >> drivers/gpu/drm/radeon/atombios.h:7054:24-37: WARNING use flexible-
+> >> array member instead
+> >> (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-
+> >> length-and-one-element-arrays)
+> >> drivers/gpu/drm/radeon/atombios.h:7095:28-45: WARNING use flexible-
+> >> array member instead
+> >> (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-
+> >> length-and-one-element-arrays)
+> >> drivers/gpu/drm/radeon/atombios.h:7553:8-17: WARNING use
+> >> flexible-array
+> >> member instead
+> >> (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-
+> >> length-and-one-element-arrays)
+> >> drivers/gpu/drm/radeon/atombios.h:7559:8-17: WARNING use
+> >> flexible-array
+> >> member instead
+> >> (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-
+> >> length-and-one-element-arrays)
+> >> drivers/gpu/drm/radeon/atombios.h:3896:27-37: WARNING use flexible-
+> >> array member instead
+> >> (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-
+> >> length-and-one-element-arrays)
+> >> drivers/gpu/drm/radeon/atombios.h:5443:16-25: WARNING use flexible-
+> >> array member instead
+> >> (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-
+> >> length-and-one-element-arrays)
+> >> drivers/gpu/drm/radeon/atombios.h:5454:34-43: WARNING use flexible-
+> >> array member instead
+> >> (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-
+> >> length-and-one-element-arrays)
+> >> drivers/gpu/drm/radeon/atombios.h:4603:21-32: WARNING use flexible-
+> >> array member instead
+> >> (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-
+> >> length-and-one-element-arrays)
+> >> drivers/gpu/drm/radeon/atombios.h:6299:32-44: WARNING use flexible-
+> >> array member instead
+> >> (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-
+> >> length-and-one-element-arrays)
+> >> drivers/gpu/drm/radeon/atombios.h:4628:32-46: WARNING use flexible-
+> >> array member instead
+> >> (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-
+> >> length-and-one-element-arrays)
+> >> drivers/gpu/drm/radeon/atombios.h:6285:29-39: WARNING use flexible-
+> >> array member instead
+> >> (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-
+> >> length-and-one-element-arrays)
+> >> drivers/gpu/drm/radeon/atombios.h:4296:30-36: WARNING use flexible-
+> >> array member instead
+> >> (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-
+> >> length-and-one-element-arrays)
+> >> drivers/gpu/drm/radeon/atombios.h:4756:28-36: WARNING use flexible-
+> >> array member instead
+> >> (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-
+> >> length-and-one-element-arrays)
+> >> drivers/gpu/drm/radeon/atombios.h:4064:22-35: WARNING use flexible-
+> >> array member instead
+> >> (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-
+> >> length-and-one-element-arrays)
+> >> drivers/gpu/drm/radeon/atombios.h:7327:9-24: WARNING use
+> >> flexible-array
+> >> member instead
+> >> (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-
+> >> length-and-one-element-arrays)
+> >> drivers/gpu/drm/radeon/atombios.h:7332:32-53: WARNING use flexible-
+> >> array member instead
+> >> (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-
+> >> length-and-one-element-arrays)
+> >> drivers/gpu/drm/radeon/atombios.h:6030:8-17: WARNING use
+> >> flexible-array
+> >> member instead
+> >> (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-
+> >> length-and-one-element-arrays)
+> >> drivers/gpu/drm/radeon/atombios.h:7362:26-41: WARNING use flexible-
+> >> array member instead
+> >> (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-
+> >> length-and-one-element-arrays)
+> >> drivers/gpu/drm/radeon/atombios.h:7369:29-44: WARNING use flexible-
+> >> array member instead
+> >> (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-
+> >> length-and-one-element-arrays)
+> >> drivers/gpu/drm/radeon/atombios.h:7349:24-32: WARNING use flexible-
+> >> array member instead
+> >> (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-
+> >> length-and-one-element-arrays)
+> >> drivers/gpu/drm/radeon/atombios.h:7355:27-35: WARNING use flexible-
+> >> array member instead
+> >> (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-
+> >> length-and-one-element-arrays)
+> >>
+> >> Signed-off-by: Jos=C3=A9 Pekkarinen <jose.pekkarinen@foxhound.fi>
+> >
+> > Please verify that changing these to variable sized arrays does not
+> > break any calculations based on the old size in the driver.  More
+> > below.
+> >
+> >> ---
+> >>  drivers/gpu/drm/radeon/atombios.h | 54
+> >> +++++++++++++++----------------
+> >>  1 file changed, 27 insertions(+), 27 deletions(-)
+> >>
+> >> diff --git a/drivers/gpu/drm/radeon/atombios.h
+> >> b/drivers/gpu/drm/radeon/atombios.h
+> >> index 8a6621f1e82c..7fa1606be92c 100644
+> >> --- a/drivers/gpu/drm/radeon/atombios.h
+> >> +++ b/drivers/gpu/drm/radeon/atombios.h
+> >> @@ -3893,7 +3893,7 @@ typedef struct _ATOM_GPIO_PIN_ASSIGNMENT
+> >> typedef struct _ATOM_GPIO_PIN_LUT  {
+> >>    ATOM_COMMON_TABLE_HEADER  sHeader;
+> >> -  ATOM_GPIO_PIN_ASSIGNMENT   asGPIO_Pin[1];
+> >> +  ATOM_GPIO_PIN_ASSIGNMENT   asGPIO_Pin[];
+> >>  }ATOM_GPIO_PIN_LUT;
+> >>
+> >>
+> >> /******************************************************************
+> >> **********/
+> >> @@ -4061,7 +4061,7 @@ typedef struct
+> >> _ATOM_SRC_DST_TABLE_FOR_ONE_OBJECT         //usSrcDstTableOffset
+> >>    UCHAR               ucNumberOfSrc;
+> >>    USHORT              usSrcObjectID[1];
+> >>    UCHAR               ucNumberOfDst;
+> >> -  USHORT              usDstObjectID[1];
+> >> +  USHORT              usDstObjectID[];
+> >>  }ATOM_SRC_DST_TABLE_FOR_ONE_OBJECT;
+> >>
+> >>
+> >> @@ -4233,7 +4233,7 @@ typedef struct
+> >> _ATOM_CONNECTOR_DEVICE_TAG_RECORD
+> >>    ATOM_COMMON_RECORD_HEADER   sheader;
+> >>    UCHAR                       ucNumberOfDevice;
+> >>    UCHAR                       ucReserved;
+> >> -  ATOM_CONNECTOR_DEVICE_TAG   asDeviceTag[1];         //This Id is
+> >> same as
+> >> "ATOM_DEVICE_XXX_SUPPORT", 1 is only for allocation
+> >> +  ATOM_CONNECTOR_DEVICE_TAG   asDeviceTag[];          //This Id is
+> >> same as
+> >> "ATOM_DEVICE_XXX_SUPPORT", 1 is only for allocation
+> >>  }ATOM_CONNECTOR_DEVICE_TAG_RECORD;
+> >>
+> >>
+> >> @@ -4293,7 +4293,7 @@ typedef struct
+> >> _ATOM_OBJECT_GPIO_CNTL_RECORD
+> >>    ATOM_COMMON_RECORD_HEADER   sheader;
+> >>    UCHAR                       ucFlags;                // Future
+> >> expnadibility
+> >>    UCHAR                       ucNumberOfPins;         // Number of
+> >> GPIO pins used to
+> >> control the object
+> >> -  ATOM_GPIO_PIN_CONTROL_PAIR  asGpio[1];              // the real
+> >> gpio pin pair
+> >> determined by number of pins ucNumberOfPins
+> >> +  ATOM_GPIO_PIN_CONTROL_PAIR  asGpio[];               // the real
+> >> gpio pin pair
+> >> determined by number of pins ucNumberOfPins
+> >>  }ATOM_OBJECT_GPIO_CNTL_RECORD;
+> >>
+> >>  //Definitions for GPIO pin state
+> >> @@ -4444,7 +4444,7 @@ typedef struct
+> >> _ATOM_BRACKET_LAYOUT_RECORD
+> >>    UCHAR                       ucWidth;
+> >>    UCHAR                       ucConnNum;
+> >>    UCHAR                       ucReserved;
+> >> -  ATOM_CONNECTOR_LAYOUT_INFO  asConnInfo[1];
+> >> +  ATOM_CONNECTOR_LAYOUT_INFO  asConnInfo[];
+> >>  }ATOM_BRACKET_LAYOUT_RECORD;
+> >>
+> >>
+> >> /******************************************************************
+> >> **********/
+> >> @@ -4600,7 +4600,7 @@ typedef struct  _ATOM_I2C_VOLTAGE_OBJECT_V3
+> >>     UCHAR    ucVoltageControlAddress;
+> >>     UCHAR    ucVoltageControlOffset;
+> >>     ULONG    ulReserved;
+> >> -   VOLTAGE_LUT_ENTRY asVolI2cLut[1];        // end with 0xff
+> >> +   VOLTAGE_LUT_ENTRY asVolI2cLut[];         // end with 0xff
+> >>  }ATOM_I2C_VOLTAGE_OBJECT_V3;
+> >>
+> >>  // ATOM_I2C_VOLTAGE_OBJECT_V3.ucVoltageControlFlag
+> >> @@ -4625,7 +4625,7 @@ typedef struct
+> >> _ATOM_LEAKAGE_VOLTAGE_OBJECT_V3
+> >>     UCHAR    ucLeakageEntryNum;           // indicate the entry number
+> >> of
+> >> LeakageId/Voltage Lut table
+> >>     UCHAR    ucReserved[2];
+> >>     ULONG    ulMaxVoltageLevel;
+> >> -   LEAKAGE_VOLTAGE_LUT_ENTRY_V2 asLeakageIdLut[1];
+> >> +   LEAKAGE_VOLTAGE_LUT_ENTRY_V2 asLeakageIdLut[];
+> >>  }ATOM_LEAKAGE_VOLTAGE_OBJECT_V3;
+> >>
+> >>
+> >> @@ -4753,7 +4753,7 @@ typedef struct _ATOM_POWER_SOURCE_INFO  {
+> >>               ATOM_COMMON_TABLE_HEADER                asHeader;
+> >>               UCHAR
+> >>                                       asPwrbehave[16];
+> >> -             ATOM_POWER_SOURCE_OBJECT                asPwrObj[1];
+> >> +             ATOM_POWER_SOURCE_OBJECT                asPwrObj[];
+> >>  }ATOM_POWER_SOURCE_INFO;
+> >>
+> >>
+> >> @@ -5440,7 +5440,7 @@ typedef struct _ATOM_FUSION_SYSTEM_INFO_V2
+> >> typedef struct _ATOM_I2C_DATA_RECORD  {
+> >>    UCHAR         ucNunberOfBytes;
+> >>         //Indicates how many
+> >> bytes SW needs to write to the external ASIC for one block, besides to
+> >> "Start"
+> >> and "Stop"
+> >> -  UCHAR         ucI2CData[1];
+> >>         //I2C data in bytes,
+> >> should be less than 16 bytes usually
+> >> +  UCHAR         ucI2CData[];
+> >>         //I2C data in bytes, should
+> >> be less than 16 bytes usually
+> >>  }ATOM_I2C_DATA_RECORD;
+> >>
+> >>
+> >> @@ -5451,14 +5451,14 @@ typedef struct
+> >> _ATOM_I2C_DEVICE_SETUP_INFO
+> >>    UCHAR                                      ucSSChipID;
+> >> //SS chip being used
+> >>    UCHAR                                      ucSSChipSlaveAddr;
+> >> //Slave Address to
+> >> set up this SS chip
+> >>    UCHAR                           ucNumOfI2CDataRecords;  //number of
+> >> data block
+> >> -  ATOM_I2C_DATA_RECORD            asI2CData[1];
+> >> +  ATOM_I2C_DATA_RECORD            asI2CData[];
+> >>  }ATOM_I2C_DEVICE_SETUP_INFO;
+> >>
+> >>
+> >> //=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> >> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D
+> >>  typedef struct  _ATOM_ASIC_MVDD_INFO
+> >>  {
+> >>    ATOM_COMMON_TABLE_HEADER         sHeader;
+> >> -  ATOM_I2C_DEVICE_SETUP_INFO      asI2CSetup[1];
+> >> +  ATOM_I2C_DEVICE_SETUP_INFO      asI2CSetup[];
+> >>  }ATOM_ASIC_MVDD_INFO;
+> >>
+> >>
+> >> //=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> >> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D
+> >> @@ -5520,7 +5520,7 @@ typedef struct _ATOM_ASIC_INTERNAL_SS_INFO
+> >> typedef struct _ATOM_ASIC_INTERNAL_SS_INFO_V2  {
+> >>    ATOM_COMMON_TABLE_HEADER         sHeader;
+> >> -  ATOM_ASIC_SS_ASSIGNMENT_V2           asSpreadSpectrum[1];
+> >> //this is point only.
+> >> +  ATOM_ASIC_SS_ASSIGNMENT_V2           asSpreadSpectrum[];
+> >> //this is point only.
+> >>  }ATOM_ASIC_INTERNAL_SS_INFO_V2;
+> >>
+> >>  typedef struct _ATOM_ASIC_SS_ASSIGNMENT_V3 @@ -5542,7 +5542,7 @@
+> >> typedef struct _ATOM_ASIC_SS_ASSIGNMENT_V3  typedef struct
+> >> _ATOM_ASIC_INTERNAL_SS_INFO_V3  {
+> >>    ATOM_COMMON_TABLE_HEADER         sHeader;
+> >> -  ATOM_ASIC_SS_ASSIGNMENT_V3           asSpreadSpectrum[1];
+> >> //this is pointer only.
+> >> +  ATOM_ASIC_SS_ASSIGNMENT_V3           asSpreadSpectrum[];
+> >> //this is pointer only.
+> >>  }ATOM_ASIC_INTERNAL_SS_INFO_V3;
+> >>
+> >>
+> >> @@ -6027,7 +6027,7 @@ typedef struct _ENABLE_SCALER_PARAMETERS
+> >>    UCHAR ucScaler;            // ATOM_SCALER1, ATOM_SCALER2
+> >>    UCHAR ucEnable;            // ATOM_SCALER_DISABLE or
+> >> ATOM_SCALER_CENTER or ATOM_SCALER_EXPANSION
+> >>    UCHAR ucTVStandard;        //
+> >> -  UCHAR ucPadding[1];
+> >> +  UCHAR ucPadding[];
+> >
+> > This may actually be a 1 element array.  It=E2=80=99s just padding at t=
+he end
+> > of the table.
+> >
+> >>  }ENABLE_SCALER_PARAMETERS;
+> >>  #define ENABLE_SCALER_PS_ALLOCATION ENABLE_SCALER_PARAMETERS
+> >>
+> >> @@ -6282,7 +6282,7 @@ typedef union
+> >> _ATOM_MEMORY_SETTING_ID_CONFIG_ACCESS
+> >>
+> >>  typedef struct _ATOM_MEMORY_SETTING_DATA_BLOCK{
+> >>       ATOM_MEMORY_SETTING_ID_CONFIG_ACCESS
+> >>       ulMemoryID;
+> >> -     ULONG
+> >>
+> >> aulMemData[1];
+> >> +     ULONG
+> >>
+> >> aulMemData[];
+> >>  }ATOM_MEMORY_SETTING_DATA_BLOCK;
+> >>
+> >>
+> >> @@ -6296,7 +6296,7 @@ typedef struct _ATOM_INIT_REG_BLOCK{
+> >>       USHORT
+> >>                                               usRegIndexTblSize;
+> >>
+> >>                       //size of asRegIndexBuf
+> >>       USHORT
+> >>                                               usRegDataBlkSize;
+> >>
+> >>                               //size of
+> >> ATOM_MEMORY_SETTING_DATA_BLOCK
+> >>       ATOM_INIT_REG_INDEX_FORMAT
+> >>       asRegIndexBuf[1];
+> >> -     ATOM_MEMORY_SETTING_DATA_BLOCK  asRegDataBuf[1];
+> >> +     ATOM_MEMORY_SETTING_DATA_BLOCK  asRegDataBuf[];
+> >>  }ATOM_INIT_REG_BLOCK;
+> >>
+> >
+> > This one needs special handling as you have multiple variable sized
+> > arrays.
+>
+>      I'm happy to add any special handling in v2, though
+> I may need to understand what that special handling would
+> be. Would you mind to elaborate? Otherwise I can just leave
+> the sensitive cases and the paddings untouched and resend
+> the patch with the rest of cases converted.
 
-Changes since v5:
-- Remove obsolete VM documentation
 
-Co-developed-by: Matt Coster <matt.coster@imgtec.com>
-Signed-off-by: Matt Coster <matt.coster@imgtec.com>
-Co-developed-by: Donald Robson <donald.robson@imgtec.com>
-Signed-off-by: Donald Robson <donald.robson@imgtec.com>
-Signed-off-by: Sarah Walker <sarah.walker@imgtec.com>
-Reviewed-by: Maxime Ripard <mripard@kernel.org>
----
- Documentation/gpu/drivers.rst           |   2 +
- Documentation/gpu/imagination/index.rst |  13 ++
- Documentation/gpu/imagination/uapi.rst  | 174 ++++++++++++++++++++++++
- MAINTAINERS                             |   1 +
- 4 files changed, 190 insertions(+)
- create mode 100644 Documentation/gpu/imagination/index.rst
- create mode 100644 Documentation/gpu/imagination/uapi.rst
+I'm not sure how we want to handle back to back variable sized arrays.
+I'd say just skip these cases for now.
 
-diff --git a/Documentation/gpu/drivers.rst b/Documentation/gpu/drivers.rst
-index 45a12e552091..cc6535f5f28c 100644
---- a/Documentation/gpu/drivers.rst
-+++ b/Documentation/gpu/drivers.rst
-@@ -3,9 +3,11 @@ GPU Driver Documentation
- ========================
- 
- .. toctree::
-+   :maxdepth: 3
- 
-    amdgpu/index
-    i915
-+   imagination/index
-    mcde
-    meson
-    pl111
-diff --git a/Documentation/gpu/imagination/index.rst b/Documentation/gpu/imagination/index.rst
-new file mode 100644
-index 000000000000..dc9579e758c3
---- /dev/null
-+++ b/Documentation/gpu/imagination/index.rst
-@@ -0,0 +1,13 @@
-+=======================================
-+drm/imagination PowerVR Graphics Driver
-+=======================================
-+
-+.. kernel-doc:: drivers/gpu/drm/imagination/pvr_drv.c
-+   :doc: PowerVR Graphics Driver
-+
-+Contents
-+========
-+.. toctree::
-+   :maxdepth: 2
-+
-+   uapi
-diff --git a/Documentation/gpu/imagination/uapi.rst b/Documentation/gpu/imagination/uapi.rst
-new file mode 100644
-index 000000000000..2227ea7e6222
---- /dev/null
-+++ b/Documentation/gpu/imagination/uapi.rst
-@@ -0,0 +1,174 @@
-+====
-+UAPI
-+====
-+The sources associated with this section can be found in ``pvr_drm.h``.
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :doc: PowerVR UAPI
-+
-+OBJECT ARRAYS
-+=============
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :identifiers: drm_pvr_obj_array
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :identifiers: DRM_PVR_OBJ_ARRAY
-+
-+IOCTLS
-+======
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :doc: PowerVR IOCTL interface
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :identifiers: PVR_IOCTL
-+
-+DEV_QUERY
-+---------
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :doc: PowerVR IOCTL DEV_QUERY interface
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :identifiers: drm_pvr_dev_query
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :identifiers: drm_pvr_ioctl_dev_query_args
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :identifiers: drm_pvr_dev_query_gpu_info
-+                 drm_pvr_dev_query_runtime_info
-+                 drm_pvr_dev_query_hwrt_info
-+                 drm_pvr_dev_query_quirks
-+                 drm_pvr_dev_query_enhancements
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :identifiers: drm_pvr_heap_id
-+                 drm_pvr_heap
-+                 drm_pvr_dev_query_heap_info
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :doc: Flags for DRM_PVR_DEV_QUERY_HEAP_INFO_GET.
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :identifiers: drm_pvr_static_data_area_usage
-+                 drm_pvr_static_data_area
-+                 drm_pvr_dev_query_static_data_areas
-+
-+CREATE_BO
-+---------
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :doc: PowerVR IOCTL CREATE_BO interface
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :identifiers: drm_pvr_ioctl_create_bo_args
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :doc: Flags for CREATE_BO
-+
-+GET_BO_MMAP_OFFSET
-+------------------
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :doc: PowerVR IOCTL GET_BO_MMAP_OFFSET interface
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :identifiers: drm_pvr_ioctl_get_bo_mmap_offset_args
-+
-+CREATE_VM_CONTEXT and DESTROY_VM_CONTEXT
-+----------------------------------------
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :doc: PowerVR IOCTL CREATE_VM_CONTEXT and DESTROY_VM_CONTEXT interfaces
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :identifiers: drm_pvr_ioctl_create_vm_context_args
-+                 drm_pvr_ioctl_destroy_vm_context_args
-+
-+VM_MAP and VM_UNMAP
-+-------------------
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :doc: PowerVR IOCTL VM_MAP and VM_UNMAP interfaces
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :identifiers: drm_pvr_ioctl_vm_map_args
-+                 drm_pvr_ioctl_vm_unmap_args
-+
-+CREATE_CONTEXT and DESTROY_CONTEXT
-+----------------------------------
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :doc: PowerVR IOCTL CREATE_CONTEXT and DESTROY_CONTEXT interfaces
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :identifiers: drm_pvr_ioctl_create_context_args
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :identifiers: drm_pvr_ctx_priority
-+                 drm_pvr_ctx_type
-+                 drm_pvr_static_render_context_state
-+                 drm_pvr_static_render_context_state_format
-+                 drm_pvr_reset_framework
-+                 drm_pvr_reset_framework_format
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :identifiers: drm_pvr_ioctl_destroy_context_args
-+
-+CREATE_FREE_LIST and DESTROY_FREE_LIST
-+--------------------------------------
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :doc: PowerVR IOCTL CREATE_FREE_LIST and DESTROY_FREE_LIST interfaces
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :identifiers: drm_pvr_ioctl_create_free_list_args
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :identifiers: drm_pvr_ioctl_destroy_free_list_args
-+
-+CREATE_HWRT_DATASET and DESTROY_HWRT_DATASET
-+--------------------------------------
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :doc: PowerVR IOCTL CREATE_HWRT_DATASET and DESTROY_HWRT_DATASET interfaces
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :identifiers: drm_pvr_ioctl_create_hwrt_dataset_args
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :identifiers: drm_pvr_create_hwrt_geom_data_args
-+                 drm_pvr_create_hwrt_rt_data_args
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :identifiers: drm_pvr_ioctl_destroy_hwrt_dataset_args
-+
-+SUBMIT_JOBS
-+-----------
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :doc: PowerVR IOCTL SUBMIT_JOBS interface
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :doc: Flags for the drm_pvr_sync_op object.
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :identifiers: drm_pvr_ioctl_submit_jobs_args
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :doc: Flags for SUBMIT_JOB ioctl geometry command.
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :doc: Flags for SUBMIT_JOB ioctl fragment command.
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :doc: Flags for SUBMIT_JOB ioctl compute command.
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :doc: Flags for SUBMIT_JOB ioctl transfer command.
-+
-+.. kernel-doc:: include/uapi/drm/pvr_drm.h
-+   :identifiers: drm_pvr_sync_op
-+                 drm_pvr_job_type
-+                 drm_pvr_hwrt_data_ref
-+                 drm_pvr_job
-+
-+Internal notes
-+==============
-+.. kernel-doc:: drivers/gpu/drm/imagination/pvr_device.h
-+   :doc: IOCTL validation helpers
-+
-+.. kernel-doc:: drivers/gpu/drm/imagination/pvr_device.h
-+   :identifiers: PVR_STATIC_ASSERT_64BIT_ALIGNED PVR_IOCTL_UNION_PADDING_CHECK
-+                 pvr_ioctl_union_padding_check
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 8166ffd4349e..61aff30c856d 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -10265,6 +10265,7 @@ M:	Frank Binns <frank.binns@imgtec.com>
- M:	Donald Robson <donald.robson@imgtec.com>
- S:	Supported
- F:	Documentation/devicetree/bindings/gpu/img,powervr.yaml
-+F:	Documentation/gpu/imagination/
- F:	drivers/gpu/drm/imagination/
- F:	include/uapi/drm/pvr_drm.h
- 
--- 
-2.42.0
+Alex
 
+>
+> >
+> >>  #define END_OF_REG_INDEX_BLOCK  0x0ffff @@ -7041,7 +7041,7 @@
+> >> typedef struct _ATOM_DISP_OUT_INFO
+> >>       USHORT ptrTransmitterInfo;
+> >>       USHORT ptrEncoderInfo;
+> >>       ASIC_TRANSMITTER_INFO  asTransmitterInfo[1];
+> >> -     ASIC_ENCODER_INFO      asEncoderInfo[1];
+> >> +     ASIC_ENCODER_INFO      asEncoderInfo[];
+> >
+> > Same here.
+> >
+> >>  }ATOM_DISP_OUT_INFO;
+> >>
+> >>  typedef struct _ATOM_DISP_OUT_INFO_V2
+> >> @@ -7051,7 +7051,7 @@ typedef struct _ATOM_DISP_OUT_INFO_V2
+> >>       USHORT ptrEncoderInfo;
+> >>    USHORT ptrMainCallParserFar;                  // direct address of
+> >> main parser call
+> >> in VBIOS binary.
+> >>       ASIC_TRANSMITTER_INFO  asTransmitterInfo[1];
+> >> -     ASIC_ENCODER_INFO      asEncoderInfo[1];
+> >> +     ASIC_ENCODER_INFO      asEncoderInfo[];
+> >
+> > Same here.
+> >
+> >>  }ATOM_DISP_OUT_INFO_V2;
+> >>
+> >>
+> >> @@ -7092,7 +7092,7 @@ typedef struct _ATOM_DISP_OUT_INFO_V3
+> >>    UCHAR  ucCoreRefClkSource;                    // value of
+> >> CORE_REF_CLK_SOURCE
+> >>    UCHAR  ucDispCaps;
+> >>    UCHAR  ucReserved[2];
+> >> -  ASIC_TRANSMITTER_INFO_V2  asTransmitterInfo[1];     // for
+> >> alligment only
+> >> +  ASIC_TRANSMITTER_INFO_V2  asTransmitterInfo[];      // for
+> >> alligment only
+> >>  }ATOM_DISP_OUT_INFO_V3;
+> >>
+> >>  //ucDispCaps
+> >> @@ -7324,12 +7324,12 @@ typedef struct
+> >> _CLOCK_CONDITION_SETTING_ENTRY{
+> >>    USHORT usMaxClockFreq;
+> >>    UCHAR  ucEncodeMode;
+> >>    UCHAR  ucPhySel;
+> >> -  ULONG  ulAnalogSetting[1];
+> >> +  ULONG  ulAnalogSetting[];
+> >>  }CLOCK_CONDITION_SETTING_ENTRY;
+> >>
+> >>  typedef struct _CLOCK_CONDITION_SETTING_INFO{
+> >>    USHORT usEntrySize;
+> >> -  CLOCK_CONDITION_SETTING_ENTRY asClkCondSettingEntry[1];
+> >> +  CLOCK_CONDITION_SETTING_ENTRY asClkCondSettingEntry[];
+> >>  }CLOCK_CONDITION_SETTING_INFO;
+> >>
+> >>  typedef struct _PHY_CONDITION_REG_VAL{
+> >> @@ -7346,27 +7346,27 @@ typedef struct _PHY_CONDITION_REG_VAL_V2{
+> >> typedef struct _PHY_CONDITION_REG_INFO{
+> >>    USHORT usRegIndex;
+> >>    USHORT usSize;
+> >> -  PHY_CONDITION_REG_VAL asRegVal[1];
+> >> +  PHY_CONDITION_REG_VAL asRegVal[];
+> >>  }PHY_CONDITION_REG_INFO;
+> >>
+> >>  typedef struct _PHY_CONDITION_REG_INFO_V2{
+> >>    USHORT usRegIndex;
+> >>    USHORT usSize;
+> >> -  PHY_CONDITION_REG_VAL_V2 asRegVal[1];
+> >> +  PHY_CONDITION_REG_VAL_V2 asRegVal[];
+> >>  }PHY_CONDITION_REG_INFO_V2;
+> >>
+> >>  typedef struct _PHY_ANALOG_SETTING_INFO{
+> >>    UCHAR  ucEncodeMode;
+> >>    UCHAR  ucPhySel;
+> >>    USHORT usSize;
+> >> -  PHY_CONDITION_REG_INFO  asAnalogSetting[1];
+> >> +  PHY_CONDITION_REG_INFO  asAnalogSetting[];
+> >>  }PHY_ANALOG_SETTING_INFO;
+> >>
+> >>  typedef struct _PHY_ANALOG_SETTING_INFO_V2{
+> >>    UCHAR  ucEncodeMode;
+> >>    UCHAR  ucPhySel;
+> >>    USHORT usSize;
+> >> -  PHY_CONDITION_REG_INFO_V2  asAnalogSetting[1];
+> >> +  PHY_CONDITION_REG_INFO_V2  asAnalogSetting[];
+> >>  }PHY_ANALOG_SETTING_INFO_V2;
+> >>
+> >>  typedef struct _GFX_HAVESTING_PARAMETERS { @@ -7550,13 +7550,13
+> >> @@ typedef struct _ATOM_TMDS_INFO  typedef struct
+> >> _ATOM_ENCODER_ANALOG_ATTRIBUTE  {
+> >>    UCHAR ucTVStandard;     //Same as TV standards defined above,
+> >> -  UCHAR ucPadding[1];
+> >> +  UCHAR ucPadding[];
+> >
+> > This may actually be a 1 element array.  It=E2=80=99s just padding at t=
+he end
+> > of the table.
+> >
+> >>  }ATOM_ENCODER_ANALOG_ATTRIBUTE;
+> >>
+> >>  typedef struct _ATOM_ENCODER_DIGITAL_ATTRIBUTE  {
+> >>    UCHAR ucAttribute;      //Same as other digital encoder attributes
+> >> defined
+> >> above
+> >> -  UCHAR ucPadding[1];
+> >> +  UCHAR ucPadding[];
+> >
+> > Same here.
+> >
+> > Alex
+> >
+> >>  }ATOM_ENCODER_DIGITAL_ATTRIBUTE;
+> >>
+> >>  typedef union _ATOM_ENCODER_ATTRIBUTE
+> >> --
+> >> 2.39.2
+>
+>      Thanks for the comments!
+>
+>      Jos=C3=A9.
