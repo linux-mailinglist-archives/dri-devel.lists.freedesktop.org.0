@@ -1,40 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 275C37DDF06
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Nov 2023 11:08:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 02F0A7DDF07
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Nov 2023 11:08:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 63E8510E6A4;
-	Wed,  1 Nov 2023 10:08:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 011D110E69D;
+	Wed,  1 Nov 2023 10:08:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org
- [IPv6:2604:1380:40e1:4800::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 18C5210E69D
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Nov 2023 10:08:15 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E3BC610E69D
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Nov 2023 10:08:16 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 37CD5CE0E60;
- Wed,  1 Nov 2023 10:08:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 488BFC433C8;
- Wed,  1 Nov 2023 10:08:11 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id CC5D0CE0FA0;
+ Wed,  1 Nov 2023 10:08:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2E5DC433C7;
+ Wed,  1 Nov 2023 10:08:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1698833292;
- bh=Pw7Nv8LuVODdBVzdOmKPDbC4v6bStkQt2heq9xRvKtg=;
- h=From:To:Cc:Subject:Date:From;
- b=cROLKlRnyX5+kvNDX34nCWLGkxlFZKa1aq4q9i8bc7xmEXJfXdLaliwzORla07Qz9
- IHR9BK05FWZNnv8oRirYV6FfY60gKX+FeXbQM3R0LBZtf7u4Dsusfh8kJZHzgU32j/
- Adg9rVSR782v90Q84YGQZL+AgE9wRDEabyC2qsBOZ7mJWtjIO4AC9NDsKtOY+Vtpwj
- PFJJArFlS/1KaF6AaHzDAdwYUzsbDBo+dpTpwILyfide8N3Ao7zztewHXBWRTOIi9a
- qr6ChprIp9Qbfu40pRX+WhmXeL/r3xzymx+qcBU1K+b8Xebk9Vssb6BLb4EYxgtxuZ
- 6FKIxGAHLzCQA==
+ s=k20201202; t=1698833294;
+ bh=+y2U+/CSdO5rFqbvib/QFg2QAHsmQMTqiF0vq4cB0+M=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=WGvQqihqH2DdL/DWl5Gm0/nS2ZKbHlIkEWiJEvl/ttg69LgUlP0CBxyKKXG4rzgBN
+ Sr5AVOusdwBB0tzrx/F2jXJm1XhP1fbknE8ex219cfpL2aIoc8Tg31x6APqGrADTKw
+ S8ehuGOoRIa9y8iljW+6Q5ru7gygqSYV1ytzGLx9v08mxPtYSDC08pKLD1FCqcJ67k
+ uGs0XuKZBoRcM3btbFMRWTYJSdfMOdMXW+bCa/+9l7/quCkP8M4XQObegFdn2X5XSZ
+ 3jTfQ28wzchmgRc0qJt4p0nAxMf/GcZQKzjTo2EcQFREhJGZloIAR+4JgOty0NdlA1
+ l1i6Ne870SPag==
 From: Oded Gabbay <ogabbay@kernel.org>
 To: dri-devel@lists.freedesktop.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 1/2] accel/habanalabs: add pcie reset prepare/done hooks
-Date: Wed,  1 Nov 2023 12:08:04 +0200
-Message-Id: <20231101100805.596657-1-ogabbay@kernel.org>
+Subject: [PATCH 2/2] accel/habanalabs: update device boot error check
+Date: Wed,  1 Nov 2023 12:08:05 +0200
+Message-Id: <20231101100805.596657-2-ogabbay@kernel.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20231101100805.596657-1-ogabbay@kernel.org>
+References: <20231101100805.596657-1-ogabbay@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -49,89 +50,203 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: farah kassabri <fkassabri@habana.ai>
+Cc: Farah Kassabri <fkassabri@habana.ai>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: farah kassabri <fkassabri@habana.ai>
+From: Farah Kassabri <fkassabri@habana.ai>
 
-When working on a bare-metal system, if FLR will happen the firmware
-will handle it and driver will have no knowledge of it, and this will
-cause two issues:
+Use a predefined mask which set the device critical boot errors.
+Driver will fail and stop its loading, only upon detecting at least
+one of those errors defined in this mask.
 
-1.The driver will be in operational state while it should be in reset.
-  This will cause the heartbeat mechanism to keep sending messages to FW
-  while pci device is in reset. Eventually heartbeat will fail and
-  the device will end up in non-operational state.
-
-2. After FW handles the FLR, and due to the reset it'll go back to
-   preboot stage, and driver need to perform hard reset in order to
-   load the boot fit binary.
-
-This patch will add reset_prepare hook that will set the device to
-be in disabled state, so it'll be not operational, and also
-reset_done hook which will be called after the actual FLR handling,
-then it will perform hard reset.
-
-Signed-off-by: farah kassabri <fkassabri@habana.ai>
+Signed-off-by: Farah Kassabri <fkassabri@habana.ai>
 Reviewed-by: Oded Gabbay <ogabbay@kernel.org>
 Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
 ---
- .../accel/habanalabs/common/habanalabs_drv.c  | 34 +++++++++++++++++++
- 1 file changed, 34 insertions(+)
+ drivers/accel/habanalabs/common/firmware_if.c | 122 +++++-------------
+ 1 file changed, 34 insertions(+), 88 deletions(-)
 
-diff --git a/drivers/accel/habanalabs/common/habanalabs_drv.c b/drivers/accel/habanalabs/common/habanalabs_drv.c
-index 306a5bc9bf89..35ae0ff347f5 100644
---- a/drivers/accel/habanalabs/common/habanalabs_drv.c
-+++ b/drivers/accel/habanalabs/common/habanalabs_drv.c
-@@ -670,6 +670,38 @@ static pci_ers_result_t hl_pci_err_slot_reset(struct pci_dev *pdev)
- 	return PCI_ERS_RESULT_RECOVERED;
+diff --git a/drivers/accel/habanalabs/common/firmware_if.c b/drivers/accel/habanalabs/common/firmware_if.c
+index 47e8384134aa..ec04234e18a5 100644
+--- a/drivers/accel/habanalabs/common/firmware_if.c
++++ b/drivers/accel/habanalabs/common/firmware_if.c
+@@ -646,39 +646,27 @@ int hl_fw_send_heartbeat(struct hl_device *hdev)
+ 	return rc;
  }
  
-+static void hl_pci_reset_prepare(struct pci_dev *pdev)
-+{
-+	struct hl_device *hdev;
-+
-+	hdev = pci_get_drvdata(pdev);
-+	if (!hdev)
-+		return;
-+
-+	hdev->disabled = true;
-+}
-+
-+static void hl_pci_reset_done(struct pci_dev *pdev)
-+{
-+	struct hl_device *hdev;
-+	u32 flags;
-+
-+	hdev = pci_get_drvdata(pdev);
-+	if (!hdev)
-+		return;
-+
-+	/*
-+	 * Schedule a thread to trigger hard reset.
-+	 * The reason for this handler, is for rare cases where the driver is up
-+	 * and FLR occurs. This is valid only when working with no VM, so FW handles FLR
-+	 * and resets the device. FW will go back preboot stage, so driver needs to perform
-+	 * hard reset in order to load FW fit again.
-+	 */
-+	flags = HL_DRV_RESET_HARD | HL_DRV_RESET_BYPASS_REQ_TO_FW;
-+
-+	hl_device_reset(hdev, flags);
-+}
-+
- static const struct dev_pm_ops hl_pm_ops = {
- 	.suspend = hl_pmops_suspend,
- 	.resume = hl_pmops_resume,
-@@ -679,6 +711,8 @@ static const struct pci_error_handlers hl_pci_err_handler = {
- 	.error_detected = hl_pci_err_detected,
- 	.slot_reset = hl_pci_err_slot_reset,
- 	.resume = hl_pci_err_resume,
-+	.reset_prepare = hl_pci_reset_prepare,
-+	.reset_done = hl_pci_reset_done,
- };
+-static bool fw_report_boot_dev0(struct hl_device *hdev, u32 err_val,
+-								u32 sts_val)
++static bool fw_report_boot_dev0(struct hl_device *hdev, u32 err_val, u32 sts_val)
+ {
+ 	bool err_exists = false;
  
- static struct pci_driver hl_pci_driver = {
+ 	if (!(err_val & CPU_BOOT_ERR0_ENABLED))
+ 		return false;
+ 
+-	if (err_val & CPU_BOOT_ERR0_DRAM_INIT_FAIL) {
+-		dev_err(hdev->dev,
+-			"Device boot error - DRAM initialization failed\n");
+-		err_exists = true;
+-	}
++	if (err_val & CPU_BOOT_ERR0_DRAM_INIT_FAIL)
++		dev_err(hdev->dev, "Device boot error - DRAM initialization failed\n");
+ 
+-	if (err_val & CPU_BOOT_ERR0_FIT_CORRUPTED) {
++	if (err_val & CPU_BOOT_ERR0_FIT_CORRUPTED)
+ 		dev_err(hdev->dev, "Device boot error - FIT image corrupted\n");
+-		err_exists = true;
+-	}
+ 
+-	if (err_val & CPU_BOOT_ERR0_TS_INIT_FAIL) {
+-		dev_err(hdev->dev,
+-			"Device boot error - Thermal Sensor initialization failed\n");
+-		err_exists = true;
+-	}
++	if (err_val & CPU_BOOT_ERR0_TS_INIT_FAIL)
++		dev_err(hdev->dev, "Device boot error - Thermal Sensor initialization failed\n");
+ 
+ 	if (err_val & CPU_BOOT_ERR0_BMC_WAIT_SKIPPED) {
+ 		if (hdev->bmc_enable) {
+-			dev_err(hdev->dev,
+-				"Device boot error - Skipped waiting for BMC\n");
+-			err_exists = true;
++			dev_err(hdev->dev, "Device boot error - Skipped waiting for BMC\n");
+ 		} else {
+-			dev_info(hdev->dev,
+-				"Device boot message - Skipped waiting for BMC\n");
++			dev_info(hdev->dev, "Device boot message - Skipped waiting for BMC\n");
+ 			/* This is an info so we don't want it to disable the
+ 			 * device
+ 			 */
+@@ -686,101 +674,59 @@ static bool fw_report_boot_dev0(struct hl_device *hdev, u32 err_val,
+ 		}
+ 	}
+ 
+-	if (err_val & CPU_BOOT_ERR0_NIC_DATA_NOT_RDY) {
+-		dev_err(hdev->dev,
+-			"Device boot error - Serdes data from BMC not available\n");
+-		err_exists = true;
+-	}
++	if (err_val & CPU_BOOT_ERR0_NIC_DATA_NOT_RDY)
++		dev_err(hdev->dev, "Device boot error - Serdes data from BMC not available\n");
+ 
+-	if (err_val & CPU_BOOT_ERR0_NIC_FW_FAIL) {
+-		dev_err(hdev->dev,
+-			"Device boot error - NIC F/W initialization failed\n");
+-		err_exists = true;
+-	}
++	if (err_val & CPU_BOOT_ERR0_NIC_FW_FAIL)
++		dev_err(hdev->dev, "Device boot error - NIC F/W initialization failed\n");
+ 
+-	if (err_val & CPU_BOOT_ERR0_SECURITY_NOT_RDY) {
+-		dev_err(hdev->dev,
+-			"Device boot warning - security not ready\n");
+-		err_exists = true;
+-	}
++	if (err_val & CPU_BOOT_ERR0_SECURITY_NOT_RDY)
++		dev_err(hdev->dev, "Device boot warning - security not ready\n");
+ 
+-	if (err_val & CPU_BOOT_ERR0_SECURITY_FAIL) {
++	if (err_val & CPU_BOOT_ERR0_SECURITY_FAIL)
+ 		dev_err(hdev->dev, "Device boot error - security failure\n");
+-		err_exists = true;
+-	}
+ 
+-	if (err_val & CPU_BOOT_ERR0_EFUSE_FAIL) {
++	if (err_val & CPU_BOOT_ERR0_EFUSE_FAIL)
+ 		dev_err(hdev->dev, "Device boot error - eFuse failure\n");
+-		err_exists = true;
+-	}
+ 
+-	if (err_val & CPU_BOOT_ERR0_SEC_IMG_VER_FAIL) {
++	if (err_val & CPU_BOOT_ERR0_SEC_IMG_VER_FAIL)
+ 		dev_err(hdev->dev, "Device boot error - Failed to load preboot secondary image\n");
+-		err_exists = true;
+-	}
+ 
+-	if (err_val & CPU_BOOT_ERR0_PLL_FAIL) {
++	if (err_val & CPU_BOOT_ERR0_PLL_FAIL)
+ 		dev_err(hdev->dev, "Device boot error - PLL failure\n");
+-		err_exists = true;
+-	}
+ 
+-	if (err_val & CPU_BOOT_ERR0_TMP_THRESH_INIT_FAIL) {
++	if (err_val & CPU_BOOT_ERR0_TMP_THRESH_INIT_FAIL)
+ 		dev_err(hdev->dev, "Device boot error - Failed to set threshold for temperature sensor\n");
+-		err_exists = true;
+-	}
+ 
+-	if (err_val & CPU_BOOT_ERR0_DEVICE_UNUSABLE_FAIL) {
+-		/* Ignore this bit, don't prevent driver loading */
+-		dev_dbg(hdev->dev, "device unusable status is set\n");
+-		err_val &= ~CPU_BOOT_ERR0_DEVICE_UNUSABLE_FAIL;
+-	}
++	if (err_val & CPU_BOOT_ERR0_DEVICE_UNUSABLE_FAIL)
++		dev_err(hdev->dev, "device unusable status is set\n");
+ 
+-	if (err_val & CPU_BOOT_ERR0_BINNING_FAIL) {
++	if (err_val & CPU_BOOT_ERR0_BINNING_FAIL)
+ 		dev_err(hdev->dev, "Device boot error - binning failure\n");
+-		err_exists = true;
+-	}
+ 
+ 	if (sts_val & CPU_BOOT_DEV_STS0_ENABLED)
+ 		dev_dbg(hdev->dev, "Device status0 %#x\n", sts_val);
+ 
++	if (err_val & CPU_BOOT_ERR0_DRAM_SKIPPED)
++		dev_err(hdev->dev, "Device boot warning - Skipped DRAM initialization\n");
++
++	if (err_val & CPU_BOOT_ERR_ENG_ARC_MEM_SCRUB_FAIL)
++		dev_err(hdev->dev, "Device boot error - ARC memory scrub failed\n");
++
++	/* All warnings should go here in order not to reach the unknown error validation */
+ 	if (err_val & CPU_BOOT_ERR0_EEPROM_FAIL) {
+ 		dev_err(hdev->dev, "Device boot error - EEPROM failure detected\n");
+ 		err_exists = true;
+ 	}
+ 
+-	/* All warnings should go here in order not to reach the unknown error validation */
+-	if (err_val & CPU_BOOT_ERR0_DRAM_SKIPPED) {
+-		dev_warn(hdev->dev,
+-			"Device boot warning - Skipped DRAM initialization\n");
+-		/* This is a warning so we don't want it to disable the
+-		 * device
+-		 */
+-		err_val &= ~CPU_BOOT_ERR0_DRAM_SKIPPED;
+-	}
+-
+-	if (err_val & CPU_BOOT_ERR0_PRI_IMG_VER_FAIL) {
+-		dev_warn(hdev->dev,
+-			"Device boot warning - Failed to load preboot primary image\n");
+-		/* This is a warning so we don't want it to disable the
+-		 * device as we have a secondary preboot image
+-		 */
+-		err_val &= ~CPU_BOOT_ERR0_PRI_IMG_VER_FAIL;
+-	}
++	if (err_val & CPU_BOOT_ERR0_PRI_IMG_VER_FAIL)
++		dev_warn(hdev->dev, "Device boot warning - Failed to load preboot primary image\n");
+ 
+-	if (err_val & CPU_BOOT_ERR0_TPM_FAIL) {
+-		dev_warn(hdev->dev,
+-			"Device boot warning - TPM failure\n");
+-		/* This is a warning so we don't want it to disable the
+-		 * device
+-		 */
+-		err_val &= ~CPU_BOOT_ERR0_TPM_FAIL;
+-	}
++	if (err_val & CPU_BOOT_ERR0_TPM_FAIL)
++		dev_warn(hdev->dev, "Device boot warning - TPM failure\n");
+ 
+-	if (!err_exists && (err_val & ~CPU_BOOT_ERR0_ENABLED)) {
+-		dev_err(hdev->dev,
+-			"Device boot error - unknown ERR0 error 0x%08x\n", err_val);
++	if (err_val & CPU_BOOT_ERR_FATAL_MASK)
+ 		err_exists = true;
+-	}
+ 
+ 	/* return error only if it's in the predefined mask */
+ 	if (err_exists && ((err_val & ~CPU_BOOT_ERR0_ENABLED) &
 -- 
 2.34.1
 
