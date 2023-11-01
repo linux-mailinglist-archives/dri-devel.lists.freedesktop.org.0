@@ -2,60 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E0727DDE49
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Nov 2023 10:19:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7F007DDE5E
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Nov 2023 10:25:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C430710E67C;
-	Wed,  1 Nov 2023 09:18:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 773FC10E66E;
+	Wed,  1 Nov 2023 09:25:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D8D010E66E
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Nov 2023 09:18:43 +0000 (UTC)
-Received: from [127.0.1.1] (91-158-149-209.elisa-laajakaista.fi
- [91.158.149.209])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0F6751C1D;
- Wed,  1 Nov 2023 10:18:25 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1698830305;
- bh=OSH8ynuiJ2YVkYrZuWQq2MVjAg+Zul2OXF3bZ5EaKoY=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=dAbxEauTggKPBtvsLnTgVxvWaN51QrLuJNaTEEl3DVqw9QseUa8JBoFOKtKTJk4/B
- NKF+dbkFvR5sgddorjc/PJjo2yisNgv9W6fG56YeAYj6n7PuYRVrtOlFu5h4Yxx5pi
- wxL8hRRQqvGLAQlysHgUcHB6eIeSXf6GslDZexQ0=
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Date: Wed, 01 Nov 2023 11:17:47 +0200
-Subject: [PATCH 10/10] drm/tidss: Fix atomic_flush check
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F1E710E051;
+ Wed,  1 Nov 2023 09:25:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1698830749; x=1730366749;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=kjut8bZElERulnHLOR/O2sVlhKmw5RUueM0v7NCTW4Y=;
+ b=Io12jvw+MfjrAy7tFtvQEPxHxA8TCoq+9nX9DCWfJ4wOKUTQwLl80n6K
+ HrN7kJBzZ2BqCUUql4+lGGiBmEv+LJfVdKlE7L8a/asRsQs2TM3suJG86
+ t2bOiGjdyq3INOICz6a6NftRFhlVO8UFsjTolPUok4SWLebIAW4YMvg10
+ FzbE+IhOxwoUHu2AR+aC1CvSjVFx4YIQzbkNyASY+5PQILAvygIwAgsHv
+ zvMpuxcalbFKF7UXlNi/oW/5HDVt5LilKJ23tDXdviXZPvUuCVNeb/EAQ
+ YVp3SdzL1SMvCQQmkSllLL1Ot+Li9vxUJFbo+ROXWwFfXrwTQpBn8dAl0 A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10880"; a="452750902"
+X-IronPort-AV: E=Sophos;i="6.03,267,1694761200"; d="scan'208";a="452750902"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Nov 2023 02:25:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10880"; a="754427828"
+X-IronPort-AV: E=Sophos;i="6.03,267,1694761200"; d="scan'208";a="754427828"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
+ by orsmga007.jf.intel.com with SMTP; 01 Nov 2023 02:25:44 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Wed, 01 Nov 2023 11:25:43 +0200
+Date: Wed, 1 Nov 2023 11:25:43 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v5 7/7] drm/i915: Implement fbdev emulation as in-kernel
+ client
+Message-ID: <ZUIZl0R4madz6W-7@intel.com>
+References: <20230927102808.18650-1-tzimmermann@suse.de>
+ <20230927102808.18650-8-tzimmermann@suse.de>
+ <199bdb57b0f48e6f77f7effc90dcffcae8213285.camel@intel.com>
+ <99033596-d875-4cfe-9105-730a57cf6013@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20231101-tidss-probe-v1-10-45149e0f9415@ideasonboard.com>
-References: <20231101-tidss-probe-v1-0-45149e0f9415@ideasonboard.com>
-In-Reply-To: <20231101-tidss-probe-v1-0-45149e0f9415@ideasonboard.com>
-To: Aradhya Bhatia <a-bhatia1@ti.com>, Devarsh Thakkar <devarsht@ti.com>, 
- Jyri Sarha <jyri.sarha@iki.fi>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1701;
- i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=OSH8ynuiJ2YVkYrZuWQq2MVjAg+Zul2OXF3bZ5EaKoY=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBlQhfowmaSVl6BO4E/HgJrUUSCbYheTzOdaTI7j
- cPYBH4VqoyJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZUIX6AAKCRD6PaqMvJYe
- 9eIYEACPcoPMlIy8n0o9G8hXcsLaHmiclB9/T6IHAxb7QlmvPnQG5uC4ENthjLwTslHTcm9AKI3
- cZ9lB9izizrFbL0x/lKcOPbFBScAOw1ADcOXo/4ECGzcCcZaFXMSmR0lJkd4INJ9PGnCIR9Bb99
- R55+b+J0BFFDqBd1GEMjWlrRHp7kZWFsNEm5eZgOcbSiX52yQwzF2+kam2CjGIeZ5vnuxS0wB6g
- YEm972d2h9Ffn728GLcoqlRb/r5wQmWVeHecmiKLkEmUKZOUzScS3s0XmtrfCAi64iDazfjT5/r
- F1JGSOsp6PWWoreiAhrDb77x4Y0K1B/2NAeIYeMcI8RzZw1hnnch8Il8D1pLjO9bqsbCN2WVDO+
- bf7Q0zjCCv4Xlo2/6SP+bPr15R+VZWfjDne8l22OtOc/cFXUMjh4utEtuDAu5AGWgFEJyf5oi8I
- DGPku/a64Y9TmVtYTrvK7EWrk7tD2XU0piwij6GK1sidpzk1F4mysb0O6xVl4GfIk6S5k515MrS
- ws599EtVW10LYkxigCxnBtQcETXPA1tePRLPE/oBDJHgOVBw/adQ09KpmomET4rplN7FhSCGMjM
- CHraJxTbEKvPg9JdknRS1e2MTspW5EtMUvERx/b9S0ONGSLaw1AP0sNTAcFamjFSOvAQBouPhb9
- ztjKjvBih4QbYmQ==
-X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
- fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <99033596-d875-4cfe-9105-730a57cf6013@suse.de>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,54 +64,256 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: "tvrtko.ursulin@linux.intel.com" <tvrtko.ursulin@linux.intel.com>,
+ "Upadhyay, Tejas" <tejas.upadhyay@intel.com>,
+ "javierm@redhat.com" <javierm@redhat.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Vivi,
+ Rodrigo" <rodrigo.vivi@intel.com>, "Hogander,
+ Jouni" <jouni.hogander@intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-tidss_crtc_atomic_flush() checks if the crtc is enabled, and if not,
-returns immediately as there's no reason to do any register changes.
+On Wed, Nov 01, 2023 at 09:33:41AM +0100, Thomas Zimmermann wrote:
+> Hi
+> 
+> Am 25.10.23 um 13:36 schrieb Hogander, Jouni:
+> [...]
+> >> +
+> >> +       if (!drm_drv_uses_atomic_modeset(dev))
+> >> +               drm_helper_disable_unused_functions(dev);
+> > 
+> > Can you please explain why this is needed here?
+> 
+> This disables some parts of the mode-setting pipeline and is required 
+> for drivers with non-atomic commits.  AFAICT atomic mode setting is not 
+> supported on some very old Intel chips. [1]  I'll leave a short comment 
+> on the code.
 
-However, the code checks for 'crtc->state->enable', which does not
-reflect the actual HW state. We should instead look at the
-'crtc->state->active' flag.
+We don't expose the atomic uapi because the watermark code is
+kinda sketchy for the old chips, but internally i915 is 100% atomic.
 
-This causes the tidss_crtc_atomic_flush() to proceed with the flush even
-if the active state is false, which then causes us to hit the
-WARN_ON(!crtc->state->event) check.
+> 
+> [1] 
+> https://elixir.bootlin.com/linux/v6.6/source/drivers/gpu/drm/i915/intel_device_info.c#L399
+> 
+> Best regard
+> Thomas
+> 
+> > 
+> >> +
+> >> +       ret = drm_fb_helper_initial_config(fb_helper);
+> >> +       if (ret)
+> >> +               goto err_drm_fb_helper_fini;
+> >> +
+> >> +       vga_switcheroo_client_fb_set(pdev, fb_helper->info);
+> >>   
+> >>          return 0;
+> >> +
+> >> +err_drm_fb_helper_fini:
+> >> +       drm_fb_helper_fini(fb_helper);
+> >> +err_drm_err:
+> >> +       drm_err(dev, "Failed to setup i915 fbdev emulation
+> >> (ret=%d)\n", ret);
+> >> +       return ret;
+> >>   }
+> >>   
+> >>   static const struct drm_client_funcs intel_fbdev_client_funcs = {
+> >> @@ -703,22 +729,23 @@ static const struct drm_client_funcs
+> >> intel_fbdev_client_funcs = {
+> >>          .hotplug        = intel_fbdev_client_hotplug,
+> >>   };
+> >>   
+> >> -int intel_fbdev_init(struct drm_device *dev)
+> >> +void intel_fbdev_setup(struct drm_i915_private *dev_priv)
+> > 
+> > Use i915 rather than dev_priv.
+> > 
+> > BR,
+> > 
+> > Jouni Högander
+> > 
+> >>   {
+> >> -       struct drm_i915_private *dev_priv = to_i915(dev);
+> >> +       struct drm_device *dev = &dev_priv->drm;
+> >>          struct intel_fbdev *ifbdev;
+> >>          int ret;
+> >>   
+> >> -       if (drm_WARN_ON(dev, !HAS_DISPLAY(dev_priv)))
+> >> -               return -ENODEV;
+> >> +       if (!HAS_DISPLAY(dev_priv))
+> >> +               return;
+> >>   
+> >>          ifbdev = kzalloc(sizeof(*ifbdev), GFP_KERNEL);
+> >>          if (!ifbdev)
+> >> -               return -ENOMEM;
+> >> -
+> >> -       mutex_init(&ifbdev->hpd_lock);
+> >> +               return;
+> >>          drm_fb_helper_prepare(dev, &ifbdev->helper, 32,
+> >> &intel_fb_helper_funcs);
+> >>   
+> >> +       dev_priv->display.fbdev.fbdev = ifbdev;
+> >> +       INIT_WORK(&dev_priv->display.fbdev.suspend_work,
+> >> intel_fbdev_suspend_worker);
+> >> +       mutex_init(&ifbdev->hpd_lock);
+> >>          if (intel_fbdev_init_bios(dev, ifbdev))
+> >>                  ifbdev->helper.preferred_bpp = ifbdev->preferred_bpp;
+> >>          else
+> >> @@ -726,68 +753,19 @@ int intel_fbdev_init(struct drm_device *dev)
+> >>   
+> >>          ret = drm_client_init(dev, &ifbdev->helper.client, "i915-
+> >> fbdev",
+> >>                                &intel_fbdev_client_funcs);
+> >> -       if (ret)
+> >> +       if (ret) {
+> >> +               drm_err(dev, "Failed to register client: %d\n", ret);
+> >>                  goto err_drm_fb_helper_unprepare;
+> >> +       }
+> >>   
+> >> -       ret = drm_fb_helper_init(dev, &ifbdev->helper);
+> >> -       if (ret)
+> >> -               goto err_drm_client_release;
+> >> -
+> >> -       dev_priv->display.fbdev.fbdev = ifbdev;
+> >> -       INIT_WORK(&dev_priv->display.fbdev.suspend_work,
+> >> intel_fbdev_suspend_worker);
+> >> +       drm_client_register(&ifbdev->helper.client);
+> >>   
+> >> -       return 0;
+> >> +       return;
+> >>   
+> >> -err_drm_client_release:
+> >> -       drm_client_release(&ifbdev->helper.client);
+> >>   err_drm_fb_helper_unprepare:
+> >>          drm_fb_helper_unprepare(&ifbdev->helper);
+> >> +       mutex_destroy(&ifbdev->hpd_lock);
+> >>          kfree(ifbdev);
+> >> -       return ret;
+> >> -}
+> >> -
+> >> -static void intel_fbdev_initial_config(void *data, async_cookie_t
+> >> cookie)
+> >> -{
+> >> -       struct intel_fbdev *ifbdev = data;
+> >> -
+> >> -       /* Due to peculiar init order wrt to hpd handling this is
+> >> separate. */
+> >> -       if (drm_fb_helper_initial_config(&ifbdev->helper))
+> >> -               intel_fbdev_unregister(to_i915(ifbdev->helper.dev));
+> >> -}
+> >> -
+> >> -void intel_fbdev_initial_config_async(struct drm_i915_private
+> >> *dev_priv)
+> >> -{
+> >> -       struct intel_fbdev *ifbdev = dev_priv->display.fbdev.fbdev;
+> >> -
+> >> -       if (!ifbdev)
+> >> -               return;
+> >> -
+> >> -       ifbdev->cookie = async_schedule(intel_fbdev_initial_config,
+> >> ifbdev);
+> >> -}
+> >> -
+> >> -void intel_fbdev_unregister(struct drm_i915_private *dev_priv)
+> >> -{
+> >> -       struct intel_fbdev *ifbdev = dev_priv->display.fbdev.fbdev;
+> >> -
+> >> -       if (!ifbdev)
+> >> -               return;
+> >> -
+> >> -       intel_fbdev_set_suspend(&dev_priv->drm,
+> >> FBINFO_STATE_SUSPENDED, true);
+> >> -
+> >> -       if (!current_is_async())
+> >> -               intel_fbdev_sync(ifbdev);
+> >> -
+> >> -       drm_fb_helper_unregister_info(&ifbdev->helper);
+> >> -}
+> >> -
+> >> -void intel_fbdev_fini(struct drm_i915_private *dev_priv)
+> >> -{
+> >> -       struct intel_fbdev *ifbdev = fetch_and_zero(&dev_priv-
+> >>> display.fbdev.fbdev);
+> >> -
+> >> -       if (!ifbdev)
+> >> -               return;
+> >> -
+> >> -       intel_fbdev_destroy(ifbdev);
+> >>   }
+> >>   
+> >>   struct intel_framebuffer *intel_fbdev_framebuffer(struct intel_fbdev
+> >> *fbdev)
+> >> diff --git a/drivers/gpu/drm/i915/display/intel_fbdev.h
+> >> b/drivers/gpu/drm/i915/display/intel_fbdev.h
+> >> index 8c953f102ba22..08de2d5b34338 100644
+> >> --- a/drivers/gpu/drm/i915/display/intel_fbdev.h
+> >> +++ b/drivers/gpu/drm/i915/display/intel_fbdev.h
+> >> @@ -14,27 +14,11 @@ struct intel_fbdev;
+> >>   struct intel_framebuffer;
+> >>   
+> >>   #ifdef CONFIG_DRM_FBDEV_EMULATION
+> >> -int intel_fbdev_init(struct drm_device *dev);
+> >> -void intel_fbdev_initial_config_async(struct drm_i915_private
+> >> *dev_priv);
+> >> -void intel_fbdev_unregister(struct drm_i915_private *dev_priv);
+> >> -void intel_fbdev_fini(struct drm_i915_private *dev_priv);
+> >> +void intel_fbdev_setup(struct drm_i915_private *dev_priv);
+> >>   void intel_fbdev_set_suspend(struct drm_device *dev, int state, bool
+> >> synchronous);
+> >>   struct intel_framebuffer *intel_fbdev_framebuffer(struct intel_fbdev
+> >> *fbdev);
+> >>   #else
+> >> -static inline int intel_fbdev_init(struct drm_device *dev)
+> >> -{
+> >> -       return 0;
+> >> -}
+> >> -
+> >> -static inline void intel_fbdev_initial_config_async(struct
+> >> drm_i915_private *dev_priv)
+> >> -{
+> >> -}
+> >> -
+> >> -static inline void intel_fbdev_unregister(struct drm_i915_private
+> >> *dev_priv)
+> >> -{
+> >> -}
+> >> -
+> >> -static inline void intel_fbdev_fini(struct drm_i915_private
+> >> *dev_priv)
+> >> +static inline void intel_fbdev_setup(struct drm_i915_private
+> >> *dev_priv)
+> >>   {
+> >>   }
+> >>   
+> >> diff --git a/drivers/gpu/drm/i915/i915_driver.c
+> >> b/drivers/gpu/drm/i915/i915_driver.c
+> >> index 86460cd8167d1..53663c0cc3be4 100644
+> >> --- a/drivers/gpu/drm/i915/i915_driver.c
+> >> +++ b/drivers/gpu/drm/i915/i915_driver.c
+> >> @@ -817,6 +817,8 @@ int i915_driver_probe(struct pci_dev *pdev, const
+> >> struct pci_device_id *ent)
+> >>   
+> >>          i915->do_release = true;
+> >>   
+> >> +       intel_fbdev_setup(i915);
+> >> +
+> >>          return 0;
+> >>   
+> >>   out_cleanup_gem:
+> > 
+> 
+> -- 
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Frankenstrasse 146, 90461 Nuernberg, Germany
+> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+> HRB 36809 (AG Nuernberg)
 
-Fix this by checking the active flag, and while at it, fix the related
-debug print which had "active" and "needs modeset" wrong way.
 
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
----
- drivers/gpu/drm/tidss/tidss_crtc.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/tidss/tidss_crtc.c b/drivers/gpu/drm/tidss/tidss_crtc.c
-index 5e5e466f35d1..4c7009a5d643 100644
---- a/drivers/gpu/drm/tidss/tidss_crtc.c
-+++ b/drivers/gpu/drm/tidss/tidss_crtc.c
-@@ -169,13 +169,12 @@ static void tidss_crtc_atomic_flush(struct drm_crtc *crtc,
- 	struct tidss_device *tidss = to_tidss(ddev);
- 	unsigned long flags;
- 
--	dev_dbg(ddev->dev,
--		"%s: %s enabled %d, needs modeset %d, event %p\n", __func__,
--		crtc->name, drm_atomic_crtc_needs_modeset(crtc->state),
--		crtc->state->enable, crtc->state->event);
-+	dev_dbg(ddev->dev, "%s: %s active %d, needs modeset %d, event %p\n",
-+		__func__, crtc->name, crtc->state->active,
-+		drm_atomic_crtc_needs_modeset(crtc->state), crtc->state->event);
- 
- 	/* There is nothing to do if CRTC is not going to be enabled. */
--	if (!crtc->state->enable)
-+	if (!crtc->state->active)
- 		return;
- 
- 	/*
 
 -- 
-2.34.1
-
+Ville Syrjälä
+Intel
