@@ -2,63 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E33AA7DE536
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Nov 2023 18:20:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB71A7DE538
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Nov 2023 18:20:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0907810E032;
-	Wed,  1 Nov 2023 17:20:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 16DE610E141;
+	Wed,  1 Nov 2023 17:20:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com
- [IPv6:2a00:1450:4864:20::52d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 113D410E032
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Nov 2023 17:20:24 +0000 (UTC)
-Received: by mail-ed1-x52d.google.com with SMTP id
- 4fb4d7f45d1cf-540c54944c4so72696a12.1
- for <dri-devel@lists.freedesktop.org>; Wed, 01 Nov 2023 10:20:23 -0700 (PDT)
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com
+ [IPv6:2a00:1450:4864:20::632])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 25E6710E032
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Nov 2023 17:20:25 +0000 (UTC)
+Received: by mail-ej1-x632.google.com with SMTP id
+ a640c23a62f3a-9c773ac9b15so4057066b.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 Nov 2023 10:20:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1698859222; x=1699464022; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=OGYRtD14AMjlSx5ypiRtfDyWzdVtTMVzKNvsWe94RrQ=;
- b=TPXZZVCpx5GhOaYinedr8sWgK0ilbabELkC3ebrPLc1yF6JDFWCgfAtgNnoRw3Cjzj
- G68VoRdsUbmghPJq0a9/Fl2Lrm/N07JnxsHADAFjH+L7rjlwbeEszpO+HGH24FHkwgMt
- YTtHDr5JdJWmy7kSjd9HvVj9xI8AClLFPUhvfiXgDQCw7SNt3iyiNJwrwRo93W/Rqc1R
- ekPf6hALVxdu1pqeZl9LvfMpVuZvWeqlvsw5KWZuTiTWc/Qh8LbtT1cA3LcyiaKL3QWf
- p7lDx6+reZyMu0uV5LbR7NeqDz9GyibiOgn8TuQHIGDo7zni9z1fFreT/LZHT75Cj1zY
- YkrQ==
+ d=gmail.com; s=20230601; t=1698859223; x=1699464023; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=MES5GqV7TrvEk7NAdheCC8mL6C1jpFNBBuLO0wdyWF0=;
+ b=JYgUTe3kIaqPIieQQC5rk3RW+qvX8H+eYrAaaQR2BGxb5+rUzVhb+657KKU27nGqNj
+ EMEMpR4xD88xa+uAray56nv8qL+eh5J3N4LHgfTwolTLhnJJ3QuK5WybVJR1Ji1dQkAR
+ uAPP7QhkIgxBi6rHMx/4lB3enQ57VnnFasDPu5JBKkmD/SQLBxKXDPDe443sQZ7Vp61f
+ cdn7VysZ6dSGuTIB8IDaNQirSDUrZ+CusKDMIbyTuM35O3/rPCkNU6UyhYQjuO67mFep
+ wwGsgX91SihySDsjsbqKBiVbrOKYtwqnuESizQfvi/gfYuJ0l928iobOonhyUycp4KVS
+ Hxtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1698859222; x=1699464022;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=OGYRtD14AMjlSx5ypiRtfDyWzdVtTMVzKNvsWe94RrQ=;
- b=GWtGO46hwrm0jwnaU+iaOkMxi39w/A+HuDef1A+aLB8iiadxrK7ddT7QeucYXvdNAv
- xOleIZRpPuBhWSIRxFXsSmNdcxuK3BbjkjGg+pO9bM/9JXIcngajKaZyA4UIujjcCzFV
- hTFoWIGMLntYdc+dOie/zZNq+u0hnp2cPXFJPcLWCGD6Ovj6w6q8ZP8cA4By2PW0xScJ
- pb7PWm17AzKcb21I2hn3Rj2lBePYVzqFopcfPhbCRwOfaPAAv0yp2U8hNpfDnqIcqCXf
- CWyxH1AA9EaqmOSMqeoa5YCZpYyWFknK/iHZxFWQyqVjQTSLWDAWRvFLWXTPvcdZ5Vyt
- A1og==
-X-Gm-Message-State: AOJu0YwIPCabpUBQ+grMTrCXVAKv2r88+FEJfdeQMKLv79Ol/cUzAgjC
- MShW7Y9VVHDM9Vhobz1iapo=
-X-Google-Smtp-Source: AGHT+IHFwXKaaYWeVmJCz3wFQN72tp9xV/NmWeUU7CNkjV41PW5YpSY0drztYQcuhUhlcfRBUEtxig==
-X-Received: by 2002:a50:cc48:0:b0:540:2a8f:806f with SMTP id
- n8-20020a50cc48000000b005402a8f806fmr2824158edi.3.1698859222149; 
- Wed, 01 Nov 2023 10:20:22 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1698859223; x=1699464023;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=MES5GqV7TrvEk7NAdheCC8mL6C1jpFNBBuLO0wdyWF0=;
+ b=LsWtX0zG9OlwLeWTXYOPIvRgiZpiX7KUz5bjJUXkr7MyOayxt1BeMBAVxN/MWlekYz
+ 9QiW2OQ3Sj3ChkfYhUk/fGidhx+A4ZPI7QDeI9QiHx+tEF5X4YfYfbVhqSfFx+Tpsual
+ 3JwbY8RtuxAPxx4bFEzdjUEUumThRCvGSUerB7GNA73eNt2IhjovSTQDO2Oq8adwIVzo
+ 3CDG2ev8wvIrp+LuHBxyELuizpTlilEbdwITwaqvNawSyr0+4Rst9IMB5X/9kwpHrZtW
+ /mpCvMZonRnWGZuL53bV+aSBQXh9OCZV/1G89b/J8wN9iVBr4Qkzp8nCIbiTorx4Mzih
+ nr8Q==
+X-Gm-Message-State: AOJu0YxbmQVLIXjlCMrtdBeeShOS0S9iY9RDmeAMp8ht1XrGDoIZVO3i
+ KhJgQTUR/FsavdVKRTU621Y=
+X-Google-Smtp-Source: AGHT+IGz0MS81PMDRbPIhLnqVUjvRxWV5C5P9/qd8vePmVYHlptWcpeqp+orYnQX/HZMMyiyB1u7hw==
+X-Received: by 2002:a17:906:fe45:b0:9ad:e298:a5d with SMTP id
+ wz5-20020a170906fe4500b009ade2980a5dmr3275899ejb.19.1698859223483; 
+ Wed, 01 Nov 2023 10:20:23 -0700 (PDT)
 Received: from localhost
  (p200300e41f3f4900f22f74fffe1f3a53.dip0.t-ipconnect.de.
  [2003:e4:1f3f:4900:f22f:74ff:fe1f:3a53])
  by smtp.gmail.com with ESMTPSA id
- s20-20020a170906c31400b00993cc1242d4sm157958ejz.151.2023.11.01.10.20.21
+ t24-20020a170906065800b009b2b47cd757sm167671ejb.9.2023.11.01.10.20.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Nov 2023 10:20:21 -0700 (PDT)
+ Wed, 01 Nov 2023 10:20:22 -0700 (PDT)
 From: Thierry Reding <thierry.reding@gmail.com>
 To: Hans de Goede <hdegoede@redhat.com>,
 	Helge Deller <deller@gmx.de>
-Subject: [PATCH v2 0/2] fbdev/simplefb: Add missing simple-framebuffer features
-Date: Wed,  1 Nov 2023 18:20:15 +0100
-Message-ID: <20231101172017.3872242-1-thierry.reding@gmail.com>
+Subject: [PATCH v2 1/2] fbdev/simplefb: Support memory-region property
+Date: Wed,  1 Nov 2023 18:20:16 +0100
+Message-ID: <20231101172017.3872242-2-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.42.0
+In-Reply-To: <20231101172017.3872242-1-thierry.reding@gmail.com>
+References: <20231101172017.3872242-1-thierry.reding@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -81,31 +84,96 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Thierry Reding <treding@nvidia.com>
 
-Hi,
+The simple-framebuffer bindings specify that the "memory-region"
+property can be used as an alternative to the "reg" property to define
+the framebuffer memory used by the display hardware. Implement support
+for this in the simplefb driver.
 
-This contains two patches that bring simplefb up to feature parity with
-simpledrm. The patches add support for the "memory-region" property that
-provides an alternative to the "reg" property to describe the memory
-used for the framebuffer and allow attaching the simple-framebuffer
-device to one or more generic power domains to make sure they aren't
-turned off during the boot process and take down the display
-configuration.
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: Thierry Reding <treding@nvidia.com>
+---
+ drivers/video/fbdev/simplefb.c | 35 +++++++++++++++++++++++++++++-----
+ 1 file changed, 30 insertions(+), 5 deletions(-)
 
-Changes in v2:
-- remove unnecessary call to simplefb_detach_genpds() since that's
-  already done automatically by devres
-- fix crash if power-domains property is missing in DT
-
-Thanks,
-Thierry
-
-Thierry Reding (2):
-  fbdev/simplefb: Support memory-region property
-  fbdev/simplefb: Add support for generic power-domains
-
- drivers/video/fbdev/simplefb.c | 128 +++++++++++++++++++++++++++++++--
- 1 file changed, 123 insertions(+), 5 deletions(-)
-
+diff --git a/drivers/video/fbdev/simplefb.c b/drivers/video/fbdev/simplefb.c
+index 62f99f6fccd3..18025f34fde7 100644
+--- a/drivers/video/fbdev/simplefb.c
++++ b/drivers/video/fbdev/simplefb.c
+@@ -21,6 +21,7 @@
+ #include <linux/platform_device.h>
+ #include <linux/clk.h>
+ #include <linux/of.h>
++#include <linux/of_address.h>
+ #include <linux/of_clk.h>
+ #include <linux/of_platform.h>
+ #include <linux/parser.h>
+@@ -121,12 +122,13 @@ struct simplefb_params {
+ 	u32 height;
+ 	u32 stride;
+ 	struct simplefb_format *format;
++	struct resource memory;
+ };
+ 
+ static int simplefb_parse_dt(struct platform_device *pdev,
+ 			   struct simplefb_params *params)
+ {
+-	struct device_node *np = pdev->dev.of_node;
++	struct device_node *np = pdev->dev.of_node, *mem;
+ 	int ret;
+ 	const char *format;
+ 	int i;
+@@ -166,6 +168,23 @@ static int simplefb_parse_dt(struct platform_device *pdev,
+ 		return -EINVAL;
+ 	}
+ 
++	mem = of_parse_phandle(np, "memory-region", 0);
++	if (mem) {
++		ret = of_address_to_resource(mem, 0, &params->memory);
++		if (ret < 0) {
++			dev_err(&pdev->dev, "failed to parse memory-region\n");
++			of_node_put(mem);
++			return ret;
++		}
++
++		if (of_property_present(np, "reg"))
++			dev_warn(&pdev->dev, "preferring \"memory-region\" over \"reg\" property\n");
++
++		of_node_put(mem);
++	} else {
++		memset(&params->memory, 0, sizeof(params->memory));
++	}
++
+ 	return 0;
+ }
+ 
+@@ -193,6 +212,8 @@ static int simplefb_parse_pd(struct platform_device *pdev,
+ 		return -EINVAL;
+ 	}
+ 
++	memset(&params->memory, 0, sizeof(params->memory));
++
+ 	return 0;
+ }
+ 
+@@ -431,10 +452,14 @@ static int simplefb_probe(struct platform_device *pdev)
+ 	if (ret)
+ 		return ret;
+ 
+-	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+-	if (!res) {
+-		dev_err(&pdev->dev, "No memory resource\n");
+-		return -EINVAL;
++	if (params.memory.start == 0 && params.memory.end == 0) {
++		res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
++		if (!res) {
++			dev_err(&pdev->dev, "No memory resource\n");
++			return -EINVAL;
++		}
++	} else {
++		res = &params.memory;
+ 	}
+ 
+ 	mem = request_mem_region(res->start, resource_size(res), "simplefb");
 -- 
 2.42.0
 
