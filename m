@@ -1,55 +1,85 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77C207DDA8E
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Nov 2023 02:19:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC2AE7DDAB4
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Nov 2023 02:46:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1768A10E035;
-	Wed,  1 Nov 2023 01:18:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D3F810E121;
+	Wed,  1 Nov 2023 01:46:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A5B010E035;
- Wed,  1 Nov 2023 01:18:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1698801537; x=1730337537;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=Rk1ZxSgYbAz9UEI7+AafvdSQxaZN59nO5DTFXDLNVSA=;
- b=U6nCag2ZwL1JyYcqS7fzAtv/i8vNqu61DXULCAP/YtI4ZS0bn+5v9450
- BssCm4+m09ZbWwJl7x40Y3nRkIzVUvwQHvhk+b69LfV/NeAwKb5bGf5Jt
- NoXPePZUPLJMddyHOU4WVcCOPYwrX1gNNFuLNvyHwsjYJkMgZ461KBDfh
- rpKVT96wsD7xb3n4R9w+AqGlAf7Dy8s0DUvlR7bLuHvjXJ2lb8GHcjjjG
- MwKbsQ23TTTkxI+OyVRQULnLQ2cJxixPBwaG2VFMeJsHoKIvDKSndO/ep
- Uh6/gLA8roVT0hxaKk2K9E8C36eF4tAZDoEwrNn23+yjXrw+MBbGRIeWp Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10880"; a="388233880"
-X-IronPort-AV: E=Sophos;i="6.03,266,1694761200"; d="scan'208";a="388233880"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Oct 2023 18:18:56 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10880"; a="826612970"
-X-IronPort-AV: E=Sophos;i="6.03,266,1694761200"; d="scan'208";a="826612970"
-Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
- by fmsmga008.fm.intel.com with ESMTP; 31 Oct 2023 18:18:55 -0700
-Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1qxzsi-0000V6-0Y;
- Wed, 01 Nov 2023 01:18:52 +0000
-Date: Wed, 1 Nov 2023 09:18:36 +0800
-From: kernel test robot <lkp@intel.com>
-To: Tatsuyuki Ishi <ishitatsuyuki@gmail.com>,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
-Subject: Re: [PATCH 3/6] drm/amdgpu: Flush VM updates for split bindings
- eagerly.
-Message-ID: <202311010948.G6I55pTu-lkp@intel.com>
-References: <20231031134059.171277-4-ishitatsuyuki@gmail.com>
+Received: from mail-qk1-x730.google.com (mail-qk1-x730.google.com
+ [IPv6:2607:f8b0:4864:20::730])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D8E910E121;
+ Wed,  1 Nov 2023 01:46:11 +0000 (UTC)
+Received: by mail-qk1-x730.google.com with SMTP id
+ af79cd13be357-7789923612dso435302885a.0; 
+ Tue, 31 Oct 2023 18:46:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1698803170; x=1699407970; darn=lists.freedesktop.org;
+ h=in-reply-to:autocrypt:from:content-language:references:cc:to
+ :subject:user-agent:mime-version:date:message-id:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=RvxVJDZR2kIPMKAtNABVOJZa7QpQ2gAYaNjveiqrkQk=;
+ b=XsGsxLrVJiZHYlgbAphpitH912lGsHSVuDSGg1L3XV9iEEeWWjTaswOZ+fdOlIPoOd
+ jprerzcmcjK5y9PGpb1Dsp5X8Rm8QEhN5qNmf0eH6nOYwqejYVq8GnuPgN/airT4bI3l
+ qMZS+7hF5QTBIUIQTMjd0lHhFawk6zd79EoyYL6IrPEnbdK4DJXPr4mcpIk6Px9Af2xl
+ fFxZNs+om9a745VwdG1ijTookjSiJ37oZ/sG2zL4rrYUkYD2QtODU+ZFIYI/KHu1Yj7z
+ Vtg2ye/mQnSh9KSvzdxZ3tvh3jADg+hKJTk5iXh3otjZJLTBqKXFDKky9QLftpxDAO4H
+ qRHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1698803170; x=1699407970;
+ h=in-reply-to:autocrypt:from:content-language:references:cc:to
+ :subject:user-agent:mime-version:date:message-id:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=RvxVJDZR2kIPMKAtNABVOJZa7QpQ2gAYaNjveiqrkQk=;
+ b=rC8BKAxuN9K4K4mJtjtJDuBQhqxk315GIxUKFfYzNQkgxDiHGEVHB2xIhOJR1KlkfA
+ FeDIyjkVTuVVfK7S/99XIVdcZwLt7yaQNOSJrEzvQ7O956oZBBveP8k6QHLM4lMlsYpz
+ opMEuL5Fp4JeZN6PGcei97zEq1+McTrqn2QGMMDJMsKjd9RDpS2iRaEXCXKdvBgrLJJZ
+ a6WYeVf1jCAvsPBO0VIgNUoA5sztCjHQ8xXfJrN7xcqCnIMKCd9s2nTp0tlch4A5kB9r
+ fmb7HFho74Wk8knEQf2GgO6YuNi5tiuPEbrye0Rs6TC5bYdCWMrWAiExNUPRBq/ELCji
+ A6mg==
+X-Gm-Message-State: AOJu0YzzjFaBHjT+CZwP92pf1otHtvxc6HelLklGcPFCz2EmhAxccgVP
+ teyRGDFsqCXtYAyMrPuOKfM=
+X-Google-Smtp-Source: AGHT+IH4cHRAHUPXd9jGdpW87cW+UviVmGbnjpn8SJNwToB8Dd9wMjqb4ezZsRFjp44cMBkMfH0evQ==
+X-Received: by 2002:a05:620a:2846:b0:779:deb9:72c6 with SMTP id
+ h6-20020a05620a284600b00779deb972c6mr16013046qkp.14.1698803169904; 
+ Tue, 31 Oct 2023 18:46:09 -0700 (PDT)
+Received: from [192.168.2.14] ([74.15.198.235])
+ by smtp.gmail.com with ESMTPSA id
+ bi8-20020a05620a318800b007777521dca4sm1014639qkb.21.2023.10.31.18.46.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 31 Oct 2023 18:46:09 -0700 (PDT)
+Message-ID: <bef15942-9543-4118-89c9-62c63c6215d4@gmail.com>
+Date: Tue, 31 Oct 2023 21:46:00 -0400
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231031134059.171277-4-ishitatsuyuki@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:115.0) Gecko/20100101
+ Thunderbird/115.4.1
+Subject: Re: [PATCH] drm/sched: Convert the GPU scheduler to variable number
+ of run-queues
+To: Danilo Krummrich <dakr@redhat.com>, Luben Tuikov <luben.tuikov@amd.com>,
+ Direct Rendering Infrastructure - Development
+ <dri-devel@lists.freedesktop.org>
+References: <20231023032251.164775-1-luben.tuikov@amd.com>
+ <8f53f7ef-7621-4f0b-bdef-d8d20bc497ff@redhat.com>
+ <6f3e9b93-2be5-46b2-bbd9-d61d2603c14a@gmail.com>
+ <c57c7217-bfb9-4770-b17e-587f3b8a038c@redhat.com>
+Content-Language: en-CA, en-US
+From: Luben Tuikov <ltuikov89@gmail.com>
+Autocrypt: addr=ltuikov89@gmail.com; keydata=
+ xjMEZTohOhYJKwYBBAHaRw8BAQdAWSq76k+GsENjDTMVCy9Vr4fAO9Rb57/bPT1APnbnnRHN
+ Ikx1YmVuIFR1aWtvdiA8bHR1aWtvdjg5QGdtYWlsLmNvbT7CmQQTFgoAQRYhBJkj7+VmFO9b
+ eaAl10wVR5QxozSvBQJlOiE6AhsDBQkJZgGABQsJCAcCAiICBhUKCQgLAgQWAgMBAh4HAheA
+ AAoJEEwVR5QxozSvSm4BAOwCpX53DTQhE20FBGlTMqKCOQyJqlMcIQ9SO1qPWX1iAQCv3vfy
+ JwktF7REl1yt7IU2Sye1qmQMfJxdt9JMbMNNBs44BGU6IToSCisGAQQBl1UBBQEBB0BT9wSP
+ cCE8uGe7FWo8C+nTSyWPXKTx9F0gpEnlqReRBwMBCAfCfgQYFgoAJhYhBJkj7+VmFO9beaAl
+ 10wVR5QxozSvBQJlOiE6AhsMBQkJZgGAAAoJEEwVR5QxozSvSsYA/2LIFjbxQ2ikbU5S0pKo
+ aMDzO9eGz69uNhNWJcvIKJK6AQC9228Mqc1JeZMIyjYWr2HKYHi8S2q2/zHrSZwAWYYwDA==
+In-Reply-To: <c57c7217-bfb9-4770-b17e-587f3b8a038c@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------zDKbCnjpOc0scl40pNaESUcA"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,89 +92,179 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tatsuyuki Ishi <ishitatsuyuki@gmail.com>, christian.koenig@amd.com,
- oe-kbuild-all@lists.linux.dev
+Cc: Matthew Brost <matthew.brost@intel.com>, lima@lists.freedesktop.org,
+ Emma Anholt <emma@anholt.net>, nouveau@lists.freedesktop.org,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, etnaviv@lists.freedesktop.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Boris Brezillon <boris.brezillon@collabora.com>, Qiang Yu <yuq825@gmail.com>,
+ linux-arm-msm@vger.kernel.org, Alex Deucher <alexander.deucher@amd.com>,
+ freedreno@lists.freedesktop.org,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tatsuyuki,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------zDKbCnjpOc0scl40pNaESUcA
+Content-Type: multipart/mixed; boundary="------------GYrnCIpljgaw7Ocs6hL3pbqf";
+ protected-headers="v1"
+From: Luben Tuikov <ltuikov89@gmail.com>
+To: Danilo Krummrich <dakr@redhat.com>, Luben Tuikov <luben.tuikov@amd.com>,
+ Direct Rendering Infrastructure - Development
+ <dri-devel@lists.freedesktop.org>
+Cc: Matthew Brost <matthew.brost@intel.com>, lima@lists.freedesktop.org,
+ Emma Anholt <emma@anholt.net>, nouveau@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ etnaviv@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>, Qiang Yu
+ <yuq825@gmail.com>, Russell King <linux+etnaviv@armlinux.org.uk>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno@lists.freedesktop.org, =?UTF-8?Q?Christian_K=C3=B6nig?=
+ <christian.koenig@amd.com>
+Message-ID: <bef15942-9543-4118-89c9-62c63c6215d4@gmail.com>
+Subject: Re: [PATCH] drm/sched: Convert the GPU scheduler to variable number
+ of run-queues
+References: <20231023032251.164775-1-luben.tuikov@amd.com>
+ <8f53f7ef-7621-4f0b-bdef-d8d20bc497ff@redhat.com>
+ <6f3e9b93-2be5-46b2-bbd9-d61d2603c14a@gmail.com>
+ <c57c7217-bfb9-4770-b17e-587f3b8a038c@redhat.com>
+In-Reply-To: <c57c7217-bfb9-4770-b17e-587f3b8a038c@redhat.com>
 
-kernel test robot noticed the following build warnings:
+--------------GYrnCIpljgaw7Ocs6hL3pbqf
+Content-Type: multipart/mixed; boundary="------------OuxRas031G4MRJ7pqiOheDQq"
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on drm-exynos/exynos-drm-next drm-intel/for-linux-next-fixes linus/master v6.6]
-[cannot apply to drm/drm-next drm-intel/for-linux-next drm-tip/drm-tip next-20231031]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+--------------OuxRas031G4MRJ7pqiOheDQq
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Tatsuyuki-Ishi/drm-amdgpu-Don-t-implicit-sync-PRT-maps/20231031-224530
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20231031134059.171277-4-ishitatsuyuki%40gmail.com
-patch subject: [PATCH 3/6] drm/amdgpu: Flush VM updates for split bindings eagerly.
-config: arc-randconfig-001-20231101 (https://download.01.org/0day-ci/archive/20231101/202311010948.G6I55pTu-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231101/202311010948.G6I55pTu-lkp@intel.com/reproduce)
+On 2023-10-31 09:33, Danilo Krummrich wrote:
+>=20
+> On 10/26/23 19:25, Luben Tuikov wrote:
+>> On 2023-10-26 12:39, Danilo Krummrich wrote:
+>>> On 10/23/23 05:22, Luben Tuikov wrote:
+>>>> The GPU scheduler has now a variable number of run-queues, which are=
+ set up at
+>>>> drm_sched_init() time. This way, each driver announces how many run-=
+queues it
+>>>> requires (supports) per each GPU scheduler it creates. Note, that ru=
+n-queues
+>>>> correspond to scheduler "priorities", thus if the number of run-queu=
+es is set
+>>>> to 1 at drm_sched_init(), then that scheduler supports a single run-=
+queue,
+>>>> i.e. single "priority". If a driver further sets a single entity per=
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311010948.G6I55pTu-lkp@intel.com/
+>>>> run-queue, then this creates a 1-to-1 correspondence between a sched=
+uler and
+>>>> a scheduled entity.
+>>>
+>>> Generally, I'm fine with this patch and how it replaces / generalizes=
+ the single
+>>> entity approach.
+>>
+>> Great!
+>>
+>>> However, I'm not quite sure how to properly use this. What is a drive=
+r supposed to
+>>> do, which previously took advantage of DRM_SCHED_POLICY_SINGLE_ENTITY=
+?
+>>>
+>>> Is it supposed to call drm_sched_init() with num_rqs=3D1? If so, what=
+'s the correct way
+>>
+>> Yes, you call drm_sched_init() with num_rqs set to 1.
+>>
+>>> to initialize the drm_sched_entity then? Calling drm_sched_entity_ini=
+t() with priority=3D0?
+>>
+>> Yes, with priority set to 0.
+>>
+>> One unfortunate fact I noticed when doing this patch is that the numer=
+ical values
+>> assigned to enum drm_sched_priority is that the names to values are up=
+side down.
+>> Instead of min being 0, normal:1, high:2, kernel:3, it should've been =
+kernel:0 (highest),
+>> high:1, normal:2, low:4, and so on.
+>>
+>> The reason for this is absolutely clear: if you had a single priority,=
+ it would be
+>> 0, the kernel, one, highest one. This is similar to how lanes in a hig=
+hway are counted:
+>> you always have lane 1. Similarly to nice(1) and kernel priorities...
+>>
+>>> Any other priority consequently faults in drm_sched_job_arm().
+>>
+>> drm_sched_job_arm() faults on !ENTITY, but the "priority" is just
+>> assigned to s_priority:
+>> 	job->s_priority =3D entity->priority;
+>>
+>>
+>>> While I might sound like a broken record (sorry for that), I really t=
+hink everything
+>>> related to Matt's series needs documentation, as in:
+>>
+>> Yes, I agree.
+>=20
+> Great! Do you plan to send a subsequent patch adding some documentation=
+ for this one? I
+> think it'd be good to get all the above documented.
 
-All warnings (new ones prefixed by >>):
+A lot of this would be the magic sauce of drivers and hardware--as we've =
+seen with Xe,
+and it would be presumptuous of me to write down to the detail of what an=
+d how this
+and that should be used.
 
->> drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c:608: warning: Excess function parameter 'bo_va' description in 'amdgpu_gem_va_update_vm'
->> drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c:608: warning: Excess function parameter 'operation' description in 'amdgpu_gem_va_update_vm'
+So long as things are dynamic--as we've seen with the latest change in sc=
+hed_rq--we let
+drivers and hardware set the numbers and do their magic in their drivers =
+and hardware.
 
+Having said this, if something fundamental comes up to mind, I'd be sure =
+to add a comment
+there in--this applies to anyone else guys--don't be shy to post a patch =
+adding comments
+where you think there should be some.
+--=20
+Regards,
+Luben
 
-vim +608 drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+--------------OuxRas031G4MRJ7pqiOheDQq
+Content-Type: application/pgp-keys; name="OpenPGP_0x4C15479431A334AF.asc"
+Content-Disposition: attachment; filename="OpenPGP_0x4C15479431A334AF.asc"
+Content-Description: OpenPGP public key
+Content-Transfer-Encoding: quoted-printable
 
-d38ceaf99ed015f Alex Deucher        2015-04-20  594  
-d38ceaf99ed015f Alex Deucher        2015-04-20  595  /**
-d38ceaf99ed015f Alex Deucher        2015-04-20  596   * amdgpu_gem_va_update_vm -update the bo_va in its VM
-d38ceaf99ed015f Alex Deucher        2015-04-20  597   *
-d38ceaf99ed015f Alex Deucher        2015-04-20  598   * @adev: amdgpu_device pointer
-dc54d3d1744d23e Christian König     2017-03-13  599   * @vm: vm to update
-d38ceaf99ed015f Alex Deucher        2015-04-20  600   * @bo_va: bo_va to update
-dc54d3d1744d23e Christian König     2017-03-13  601   * @operation: map, unmap or clear
-d38ceaf99ed015f Alex Deucher        2015-04-20  602   *
-2ffdaafb5d5f37b Christian König     2017-01-27  603   * Update the bo_va directly after setting its address. Errors are not
-d38ceaf99ed015f Alex Deucher        2015-04-20  604   * vital here, so they are not reported back to userspace.
-d38ceaf99ed015f Alex Deucher        2015-04-20  605   */
-d38ceaf99ed015f Alex Deucher        2015-04-20  606  static void amdgpu_gem_va_update_vm(struct amdgpu_device *adev,
-ddf1ffe56ab385a Tatsuyuki Ishi      2023-10-31  607  				    struct amdgpu_vm *vm)
-d38ceaf99ed015f Alex Deucher        2015-04-20 @608  {
-ddf1ffe56ab385a Tatsuyuki Ishi      2023-10-31  609  	struct amdgpu_bo_va *bo_va;
-3f3333f8a0e90ac Christian König     2017-08-03  610  	int r;
-d38ceaf99ed015f Alex Deucher        2015-04-20  611  
-3f3333f8a0e90ac Christian König     2017-08-03  612  	if (!amdgpu_vm_ready(vm))
-3f3333f8a0e90ac Christian König     2017-08-03  613  		return;
-e410b5cbabe70b1 Chunming Zhou       2015-12-07  614  
-f34678187a33970 Nicolai Hähnle      2017-03-23  615  	r = amdgpu_vm_clear_freed(adev, vm, NULL);
-d38ceaf99ed015f Alex Deucher        2015-04-20  616  	if (r)
-2ffdaafb5d5f37b Christian König     2017-01-27  617  		goto error;
-194a33643b1161f monk.liu            2015-07-22  618  
-ddf1ffe56ab385a Tatsuyuki Ishi      2023-10-31  619  	spin_lock(&vm->status_lock);
-ddf1ffe56ab385a Tatsuyuki Ishi      2023-10-31  620  	while (!list_empty(&vm->dirty)) {
-ddf1ffe56ab385a Tatsuyuki Ishi      2023-10-31  621  		bo_va = list_first_entry(&vm->dirty, struct amdgpu_bo_va,
-ddf1ffe56ab385a Tatsuyuki Ishi      2023-10-31  622  					 base.vm_status);
-ddf1ffe56ab385a Tatsuyuki Ishi      2023-10-31  623  		spin_unlock(&vm->status_lock);
-ddf1ffe56ab385a Tatsuyuki Ishi      2023-10-31  624  
-8f8cc3fb43508a2 Christian König     2022-03-17  625  		r = amdgpu_vm_bo_update(adev, bo_va, false);
-0abc6878fc2d699 Christian König     2017-09-01  626  		if (r)
-0abc6878fc2d699 Christian König     2017-09-01  627  			goto error;
-ddf1ffe56ab385a Tatsuyuki Ishi      2023-10-31  628  		spin_lock(&vm->status_lock);
-93bab704c1513f8 Gustavo A. R. Silva 2018-02-14  629  	}
-ddf1ffe56ab385a Tatsuyuki Ishi      2023-10-31  630  	spin_unlock(&vm->status_lock);
-93bab704c1513f8 Gustavo A. R. Silva 2018-02-14  631  
-807e2994092c0bd Christian König     2019-03-14  632  	r = amdgpu_vm_update_pdes(adev, vm, false);
-0abc6878fc2d699 Christian König     2017-09-01  633  
-2ffdaafb5d5f37b Christian König     2017-01-27  634  error:
-68fdd3df79ee4bf Christian König     2015-06-16  635  	if (r && r != -ERESTARTSYS)
-d38ceaf99ed015f Alex Deucher        2015-04-20  636  		DRM_ERROR("Couldn't update BO_VA (%d)\n", r);
-d38ceaf99ed015f Alex Deucher        2015-04-20  637  }
-d38ceaf99ed015f Alex Deucher        2015-04-20  638  
+-----BEGIN PGP PUBLIC KEY BLOCK-----
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+xjMEZTohOhYJKwYBBAHaRw8BAQdAWSq76k+GsENjDTMVCy9Vr4fAO9Rb57/bPT1A
+PnbnnRHNIkx1YmVuIFR1aWtvdiA8bHR1aWtvdjg5QGdtYWlsLmNvbT7CmQQTFgoA
+QRYhBJkj7+VmFO9beaAl10wVR5QxozSvBQJlOiE6AhsDBQkJZgGABQsJCAcCAiIC
+BhUKCQgLAgQWAgMBAh4HAheAAAoJEEwVR5QxozSvSm4BAOwCpX53DTQhE20FBGlT
+MqKCOQyJqlMcIQ9SO1qPWX1iAQCv3vfyJwktF7REl1yt7IU2Sye1qmQMfJxdt9JM
+bMNNBs44BGU6IToSCisGAQQBl1UBBQEBB0BT9wSPcCE8uGe7FWo8C+nTSyWPXKTx
+9F0gpEnlqReRBwMBCAfCfgQYFgoAJhYhBJkj7+VmFO9beaAl10wVR5QxozSvBQJl
+OiE6AhsMBQkJZgGAAAoJEEwVR5QxozSvSsYA/2LIFjbxQ2ikbU5S0pKoaMDzO9eG
+z69uNhNWJcvIKJK6AQC9228Mqc1JeZMIyjYWr2HKYHi8S2q2/zHrSZwAWYYwDA=3D=3D
+=3DqCaZ
+-----END PGP PUBLIC KEY BLOCK-----
+
+--------------OuxRas031G4MRJ7pqiOheDQq--
+
+--------------GYrnCIpljgaw7Ocs6hL3pbqf--
+
+--------------zDKbCnjpOc0scl40pNaESUcA
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+wnsEABYIACMWIQSZI+/lZhTvW3mgJddMFUeUMaM0rwUCZUGt2AUDAAAAAAAKCRBMFUeUMaM0rw61
+AQDKpBAsOaNOjmyfCngLs7TriS7QCVLu+kl15wd3ED3FpQD+PdH8uY4OJtDizpqYb72lclhW4GBi
+bSeR26k13HmoOQk=
+=wmQs
+-----END PGP SIGNATURE-----
+
+--------------zDKbCnjpOc0scl40pNaESUcA--
