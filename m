@@ -1,60 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CECA37DDE89
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Nov 2023 10:37:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C43C7DDE9D
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Nov 2023 10:42:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F373A10E68A;
-	Wed,  1 Nov 2023 09:36:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 57BF610E68D;
+	Wed,  1 Nov 2023 09:41:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com
- [IPv6:2607:f8b0:4864:20::432])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D8F3210E68A
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Nov 2023 09:36:57 +0000 (UTC)
-Received: by mail-pf1-x432.google.com with SMTP id
- d2e1a72fcca58-6b1e46ca282so6644312b3a.2
- for <dri-devel@lists.freedesktop.org>; Wed, 01 Nov 2023 02:36:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1698831417; x=1699436217; darn=lists.freedesktop.org;
- h=message-id:date:subject:cc:to:from:sender:from:to:cc:subject:date
- :message-id:reply-to;
- bh=LyXL+8kMJ/1G6Wc6ZGN/nIRPqs6F9spUVK3ynSWmCqU=;
- b=U4TOEcWUCAXCeeUZVGPxS1/IwHwe/ZTg/r4HRc/54tgE3m35BO4eSqb6kXAJ/nQxYU
- P2uAX+tDGGfddMoYGG+cqrV0+VY9jShy06dujyP+wr0kWj8X/9bkozFI65o/lqZpgY0d
- uHoMAlOMzYN2veNtO1sfl0DcHdt+P0B+ceNs+cwsx6BilX/iUkLBT1z+sbapdSozZTzT
- gk//BnJ6b9dPOawdVQY2Bx0JuvEPXVL0WJfc3oFupJmbV56Homxp5U/4BsFVZdNoUpaa
- 9UzqcH3Lol/ed4qc7x9KZAENLUHLCp1JC8lGdKa/Bzx/xfClo3BtQn9wMu6EhXhTLTWP
- WdzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1698831417; x=1699436217;
- h=message-id:date:subject:cc:to:from:sender:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=LyXL+8kMJ/1G6Wc6ZGN/nIRPqs6F9spUVK3ynSWmCqU=;
- b=lmehVWom2ZdgVAf4NBr1zDGe+XBdwl+l7HfltR/KUesIS9EnUJqgOhspnIoC0A4YAx
- TTD5K2JVqfpFekQCLZdleausPXU2iVtJPTVdl8fImy6Gp5HL1P873fjfaH+2/UE965eG
- XGfpYCMaBklD581RgbnjXLqHbYK+NBV66zs0UahQSJUtLJP3gvA9dHUmCV9eYOwfr/9z
- IQWwwg1omTtue3+RjgdzdwXoEuJ+8lFfNJWBNVEf9HWdo/AHmYVBZaJAP17CAeuI14sq
- j5tvkdjaz3/M/+cky2lODl8LUUY8InfnLkHuLPYbGGCYGRHN5PxWytEYlshDRoKwNhxd
- 0KuQ==
-X-Gm-Message-State: AOJu0YzmS7h6AqB9cjYpVfZ0CeTudjyVOBPCDzGcjxRS/59S2p1wsTkV
- he+V2dKLq6UXRuHBlhsbLH/MDxNoiN09kg==
-X-Google-Smtp-Source: AGHT+IGVAKVpfpaa+6wP/Jcv5qLFNWpIv2d9/MOxDigrVyBuAn8rspFyVvLWgGqGX985E9GijFUIUg==
-X-Received: by 2002:a05:6300:8083:b0:16b:9541:85e6 with SMTP id
- ap3-20020a056300808300b0016b954185e6mr18133836pzc.60.1698831416626; 
- Wed, 01 Nov 2023 02:36:56 -0700 (PDT)
-Received: from daeinki-virtual-machine.localdomain ([58.124.60.88])
- by smtp.gmail.com with ESMTPSA id
- ne19-20020a17090b375300b002776288537fsm527321pjb.53.2023.11.01.02.36.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Nov 2023 02:36:56 -0700 (PDT)
-From: Inki Dae <inki.dae@samsung.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/exynos: fix a wrong error checking
-Date: Wed,  1 Nov 2023 18:36:51 +0900
-Message-Id: <20231101093651.28343-1-inki.dae@samsung.com>
-X-Mailer: git-send-email 2.17.1
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F2ED310E68D;
+ Wed,  1 Nov 2023 09:41:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1698831715; x=1730367715;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=OoaIkugwOcHNspHG5GL+6xzuR+FtZlARttrxfo5ccek=;
+ b=Sbfkoy8I6/7MMZxjmejmEAHcdn+YNuznvrRVZBp2DC96QOhW4xH2pBOU
+ LCBNk9m02AOxVZwcaibIFNSSqmNzbtFgC8UBiVJ/YrlrUakVyn3Bs1bzV
+ STvixEeZzA7cA9dVCq7EmKWRS7x+PrCAHvFv9s1JYx1n2nS3cvj2A6bEd
+ 5gQHZUKYH58r2L7Uk8TyZCE+2jxYz3g3iUIPCFiU6q/QabtPftRxQEeK/
+ YGUHQid9mrfXaKP/2i+YabTt+3QeXwS0FUAtxbM2ikvP408Qy0c2h6sUw
+ oftkZfSDD7CqI+hVtM6WGGI3DIv9NLyuIXR6C6bHNLWx1/krxImqa1hcA Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10880"; a="392326873"
+X-IronPort-AV: E=Sophos;i="6.03,267,1694761200"; d="scan'208";a="392326873"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Nov 2023 02:41:54 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10880"; a="1092297687"
+X-IronPort-AV: E=Sophos;i="6.03,267,1694761200"; d="scan'208";a="1092297687"
+Received: from olindum-mobl1.ger.corp.intel.com (HELO [10.249.254.59])
+ ([10.249.254.59])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Nov 2023 02:41:50 -0700
+Message-ID: <1043bb3c1156d08015db5478183888892dfeda88.camel@linux.intel.com>
+Subject: Re: [PATCH drm-misc-next v7 4/7] drm/gpuvm: add an abstraction for
+ a VM / BO combination
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Danilo Krummrich <dakr@redhat.com>, airlied@gmail.com, daniel@ffwll.ch, 
+ matthew.brost@intel.com, sarah.walker@imgtec.com, donald.robson@imgtec.com,
+ boris.brezillon@collabora.com, christian.koenig@amd.com,
+ faith@gfxstrand.net
+Date: Wed, 01 Nov 2023 10:41:48 +0100
+In-Reply-To: <b09e37f3-33f6-4ea8-876b-f0bee9627ced@redhat.com>
+References: <20231023201659.25332-1-dakr@redhat.com>
+ <20231023201659.25332-5-dakr@redhat.com>
+ <4a51c1cd9e2435332e033f9426bac8fae1c21c60.camel@linux.intel.com>
+ <980754a3-7f5a-465e-88a9-62a40c82cae8@redhat.com>
+ <ab8f30452540171447118d64931e66da96b6e85e.camel@linux.intel.com>
+ <b09e37f3-33f6-4ea8-876b-f0bee9627ced@redhat.com>
+Organization: Intel Sweden AB, Registration Number: 556189-6027
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,56 +69,155 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org
+Cc: nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix a wrong error checking in exynos_drm_dma.c module.
+Hi, Danilo,
 
-In the exynos_drm_register_dma function, both arm_iommu_create_mapping()
-and iommu_get_domain_for_dev() functions are expected to return NULL as
-an error.
+On Tue, 2023-10-31 at 18:52 +0100, Danilo Krummrich wrote:
+> On 10/31/23 17:45, Thomas Hellstr=C3=B6m wrote:
+> > On Tue, 2023-10-31 at 17:39 +0100, Danilo Krummrich wrote:
+> > > On 10/31/23 12:25, Thomas Hellstr=C3=B6m wrote:
+> > > > On Mon, 2023-10-23 at 22:16 +0200, Danilo Krummrich wrote:
+> > > > > Add an abstraction layer between the drm_gpuva mappings of a
+> > > > > particular
+> > > > > drm_gem_object and this GEM object itself. The abstraction
+> > > > > represents
+> > > > > a
+> > > > > combination of a drm_gem_object and drm_gpuvm. The
+> > > > > drm_gem_object
+> > > > > holds
+> > > > > a list of drm_gpuvm_bo structures (the structure representing
+> > > > > this
+> > > > > abstraction), while each drm_gpuvm_bo contains list of
+> > > > > mappings
+> > > > > of
+> > > > > this
+> > > > > GEM object.
+> > > > >=20
+> > > > > This has multiple advantages:
+> > > > >=20
+> > > > > 1) We can use the drm_gpuvm_bo structure to attach it to
+> > > > > various
+> > > > > lists
+> > > > > =C2=A0=C2=A0=C2=A0=C2=A0 of the drm_gpuvm. This is useful for tra=
+cking external
+> > > > > and
+> > > > > evicted
+> > > > > =C2=A0=C2=A0=C2=A0=C2=A0 objects per VM, which is introduced in s=
+ubsequent
+> > > > > patches.
+> > > > >=20
+> > > > > 2) Finding mappings of a certain drm_gem_object mapped in a
+> > > > > certain
+> > > > > =C2=A0=C2=A0=C2=A0=C2=A0 drm_gpuvm becomes much cheaper.
+> > > > >=20
+> > > > > 3) Drivers can derive and extend the structure to easily
+> > > > > represent
+> > > > > =C2=A0=C2=A0=C2=A0=C2=A0 driver specific states of a BO for a cer=
+tain GPUVM.
+> > > > >=20
+> > > > > The idea of this abstraction was taken from amdgpu, hence the
+> > > > > credit
+> > > > > for
+> > > > > this idea goes to the developers of amdgpu.
+> > > > >=20
+> > > > > Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
+> > > > > Signed-off-by: Danilo Krummrich <dakr@redhat.com>
+> > > > > ---
+> > > > > =C2=A0=C2=A0=C2=A0drivers/gpu/drm/drm_gpuvm.c=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 335
+> > > > > +++++++++++++++++++++--
+> > > > > --
+> > > > > =C2=A0=C2=A0=C2=A0drivers/gpu/drm/nouveau/nouveau_uvmm.c |=C2=A0 =
+64 +++--
+> > > > > =C2=A0=C2=A0=C2=A0include/drm/drm_gem.h=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 |=C2=A0 32 +--
+> > > > > =C2=A0=C2=A0=C2=A0include/drm/drm_gpuvm.h=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 188
+> > > > > +++++++++++++-
+> > > > > =C2=A0=C2=A0=C2=A04 files changed, 533 insertions(+), 86 deletion=
+s(-)
+> > > >=20
+> > > > That checkpatch.pl error still remains as well.
+> > >=20
+> > > I guess you refer to:
+> > >=20
+> > > ERROR: do not use assignment in if condition
+> > > #633: FILE: drivers/gpu/drm/nouveau/nouveau_uvmm.c:1165:
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!(op=
+->gem.obj =3D obj))
+> > >=20
+> > > This was an intentional decision, since in this specific case it
+> > > seems to
+> > > be more readable than the alternatives.
+> > >=20
+> > > However, if we consider this to be a hard rule, which we never
+> > > ever
+> > > break,
+> > > I'm fine changing it too.
+> >=20
+> > With the errors, sooner or later they are going to start generate
+> > patches to "fix" them. In this particular case also Xe CI is
+> > complaining and abort building when I submit the Xe adaptation, so
+> > it'd
+> > be good to be checkpatch.pl conformant IMHO.
+>=20
+> Ok, I will change this one.
+>=20
+> However, in general my opinion on coding style is that we should
+> preserve us
+> the privilege to deviate from it when we agree it makes sense and
+> improves
+> the code quality.
+>=20
+> Having a CI forcing people to *blindly* follow certain rules and even
+> abort
+> building isn't very beneficial in that respect.
+>=20
+> Also, consider patches which partially change a line of code that
+> already
+> contains a coding style "issue" - the CI would also block you on that
+> one I
+> guess. Besides that it seems to block you on unrelated code, note
+> that the
+> assignment in question is from Nouveau and not from GPUVM.
 
-However, the error checking is performed using the statement if(IS_ERR(mapping)),
-which doesn't provide a suitable error value. So check if 'mapping' is NULL,
-and if it is, return ERR_PTR(-ENODEV).
+Yes, I completely agree that having CI enforce error free coding style
+checks is bad, and I'll see if I can get that changed on Xe CI. To my
+Knowledge It hasn't always been like that.
 
-This issue[1] was reported by Dan.
+But OTOH my take on this is that if there are coding style rules and
+recommendations we should try to follow them unless there are *strong*
+reasons not to. Sometimes that may result in code that may be a little
+harder to read, but OTOH a reviewer won't have to read up on the
+component's style flavor before reviewing and it will avoid future
+style fix patches.
 
-[1] https://www.spinics.net/lists/dri-devel/msg418271.html
+Thanks,
+Thomas
 
-Reported-by : Dan Carpenter <dan.carpenter@linaro.org>
-Signed-off-by: Inki Dae <inki.dae@samsung.com>
----
- drivers/gpu/drm/exynos/exynos_drm_dma.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_dma.c b/drivers/gpu/drm/exynos/exynos_drm_dma.c
-index a971590b81323..6d73d4dca583e 100644
---- a/drivers/gpu/drm/exynos/exynos_drm_dma.c
-+++ b/drivers/gpu/drm/exynos/exynos_drm_dma.c
-@@ -107,18 +107,16 @@ int exynos_drm_register_dma(struct drm_device *drm, struct device *dev,
- 		return 0;
- 
- 	if (!priv->mapping) {
--		void *mapping;
-+		void *mapping = NULL;
- 
- 		if (IS_ENABLED(CONFIG_ARM_DMA_USE_IOMMU))
- 			mapping = arm_iommu_create_mapping(&platform_bus_type,
- 				EXYNOS_DEV_ADDR_START, EXYNOS_DEV_ADDR_SIZE);
- 		else if (IS_ENABLED(CONFIG_IOMMU_DMA))
- 			mapping = iommu_get_domain_for_dev(priv->dma_dev);
--		else
--			mapping = ERR_PTR(-ENODEV);
- 
--		if (IS_ERR(mapping))
--			return PTR_ERR(mapping);
-+		if (!mapping)
-+			return PTR_ERR(-ENODEV);
- 		priv->mapping = mapping;
- 	}
- 
--- 
-2.17.1
+>=20
+> - Danilo
+>=20
+> >=20
+> > Thanks,
+> > Thomas
+> >=20
+> >=20
+> >=20
+> >=20
+> > >=20
+> > > >=20
+> > > > Thanks,
+> > > > Thomas
+> > > >=20
+> > >=20
+> >=20
+>=20
 
