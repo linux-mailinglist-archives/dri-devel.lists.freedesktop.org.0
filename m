@@ -1,72 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7E1A7DE8E9
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Nov 2023 00:31:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F24497DE8EC
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Nov 2023 00:31:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1BB3C10E7E2;
-	Wed,  1 Nov 2023 23:31:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 89CA510E7E4;
+	Wed,  1 Nov 2023 23:31:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4052B10E7E1
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Nov 2023 23:31:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA78C10E7E1
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Nov 2023 23:31:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1698881492;
+ s=mimecast20190719; t=1698881496;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=B/VNYdgSll2ACKqst9EYQmPz34iqqPWKPy+dBFz8o6o=;
- b=YQRhEbsn9DX1gpBm9FGF/Fc1x6MBmYIqygdYVqIDtcbzYYYCptOSWcsN4vyqhf7G18JuyC
- qlLeIJmMm8gj58mE9B/b4Ca601GXAI9GTG2XzCiwFaSHh4caZn1S6TLQrqelACqlxNoKea
- RwFilGYNJEn/bWXshj7HecAZ76q0Jjk=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=ToQKAQ1y1PRH/3OVIpCvIaQCyxCqcVrO+cdPlLKjGls=;
+ b=gbYWOWKb68qI0A4HNr0EY/5/03Wz9jOUCGI3JUvm3Z4ZeD+rmDakZV3BQWkgY6AFYt0Aw5
+ 5319P6isVB7q3CSqX51xBsmGzC+2c74cA2Azy85SRCqD0EPQG7ZJy3BzK/f5SkE2SNnyJg
+ vfP/eMIIQu3kMrFHNpUQFr67MwUPBFM=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-161-3XlnWvy6Nl-X_NnqZbEMfg-1; Wed, 01 Nov 2023 19:31:31 -0400
-X-MC-Unique: 3XlnWvy6Nl-X_NnqZbEMfg-1
-Received: by mail-ed1-f72.google.com with SMTP id
- 4fb4d7f45d1cf-54366567af4so358107a12.1
- for <dri-devel@lists.freedesktop.org>; Wed, 01 Nov 2023 16:31:30 -0700 (PDT)
+ us-mta-329-K8htCTh9PdS3IpQnetAkLw-1; Wed, 01 Nov 2023 19:31:34 -0400
+X-MC-Unique: K8htCTh9PdS3IpQnetAkLw-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ 4fb4d7f45d1cf-53dfe3af1b9so190225a12.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 Nov 2023 16:31:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1698881490; x=1699486290;
+ d=1e100.net; s=20230601; t=1698881494; x=1699486294;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=B/VNYdgSll2ACKqst9EYQmPz34iqqPWKPy+dBFz8o6o=;
- b=GjZh8P0vf17Xvu/A0VO4J3IwRNF97OJ5Ta7FgzhdR5PHanwizYpiADwES1/4pRnp6w
- z/TMUpZLcbwzx6kghysU64y/zSulUwIFMfM2HPIGJoSTqSqB2hQev8Sob/dCnlTaPoji
- NxoimDwNOkZCoEJ3E4A65XPe9fNcw0luwr5tkjyy16esSuah5n+napWBox3uBwofrHHo
- G+2kwGEr8Q7j+XtnIddBNePfS5ivxQH1qoMn7gB8KMvqqonRVYAbVuCOt1jWIlfK3U8t
- dnwVpLnulNT6jTIV4q7atUr9V/V9bsnq28deHTcrjdd90lHkXYL4kbXazZ97MrmvtNNt
- KA4g==
-X-Gm-Message-State: AOJu0YynrVGjdOzB1xVvH9Q2OmOV7JIA1vPwZ6zXB4lE3s5vCl564Bg5
- UXw+mKa2JOLiJ0iOuKC6E55fbd22MBBHRs/Ny/pfBEyLNHd4M73BSowTdJyJwTplF44J5bTEVb9
- lIyFxCN6dLLfgx9rcazAnaPAJ2tRn
-X-Received: by 2002:aa7:d6c4:0:b0:543:42ac:c9f3 with SMTP id
- x4-20020aa7d6c4000000b0054342acc9f3mr3612982edr.19.1698881490024; 
- Wed, 01 Nov 2023 16:31:30 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFRYXLwVkzVGPU7LguN6QpCv28Yb/7P5U0T7qrfr5WzCGdt3zscx7X5wozPytxOnq0whY0MOA==
-X-Received: by 2002:aa7:d6c4:0:b0:543:42ac:c9f3 with SMTP id
- x4-20020aa7d6c4000000b0054342acc9f3mr3612974edr.19.1698881489858; 
- Wed, 01 Nov 2023 16:31:29 -0700 (PDT)
+ bh=ToQKAQ1y1PRH/3OVIpCvIaQCyxCqcVrO+cdPlLKjGls=;
+ b=Ac5DtXOPoPyPXZCmgFeY3/PgtDOWoG7LYuakXVmiRX8ET8akb3BRm2VyDliH8I4ely
+ ycDrB/QH6tVjCIaEeZJjIz5a+F/iWFevaCfkDcmwYggtHmFmADfcDu60th9yNopHKraB
+ Vq0jqszRHRBGfoNgq2FfQZZCr96q60Rh0dOm3LMJhPXLdDnQDsEvPZbKIWCBurduGqpx
+ rn5bWnzXXwCsdmmBdJ/csTwGB/WbpmEwTd0jiBP3xQXANoPnRLe8PQpLa1tj6r+O8CWA
+ 3+5zXDgIKYXG2AOLYhaLbbHFcuKBPRaK9f+YiGQsHzNrbsZurM/+LMbUIihyxOgdjrU8
+ ao2Q==
+X-Gm-Message-State: AOJu0Yy1Mp5wQMiE/0j7kaGM9V93q87LgzcdWLnzwifKk34KDh5ahqQn
+ vFQqSxFpqv5SJvgpg4Yw48ttk82V8qOm6op/yy4M39NPc3XYmmTz8v+32Eht+vox+Ct9vJAOOlr
+ V6TXT58xgVzr8kKxnyOjF9j1l6yWh
+X-Received: by 2002:a17:907:2d88:b0:9bf:60f9:9b7f with SMTP id
+ gt8-20020a1709072d8800b009bf60f99b7fmr3588034ejc.4.1698881493766; 
+ Wed, 01 Nov 2023 16:31:33 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IE8VXTjVmx2ScEY9zyfvtwm9s6xZPaZj87Oi885o90gLsjCTQH8aVAE6ZRQgz+nv+ASvdFvfQ==
+X-Received: by 2002:a17:907:2d88:b0:9bf:60f9:9b7f with SMTP id
+ gt8-20020a1709072d8800b009bf60f99b7fmr3588018ejc.4.1698881493503; 
+ Wed, 01 Nov 2023 16:31:33 -0700 (PDT)
 Received: from cassiopeiae.. ([2a02:810d:4b3f:de9c:642:1aff:fe31:a19f])
  by smtp.gmail.com with ESMTPSA id
- c2-20020a50d642000000b0053635409213sm1641016edj.34.2023.11.01.16.31.28
+ z10-20020a1709063a0a00b009ad778a68c5sm465904eje.60.2023.11.01.16.31.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Nov 2023 16:31:29 -0700 (PDT)
+ Wed, 01 Nov 2023 16:31:33 -0700 (PDT)
 From: Danilo Krummrich <dakr@redhat.com>
 To: airlied@gmail.com, daniel@ffwll.ch, matthew.brost@intel.com,
  thomas.hellstrom@linux.intel.com, sarah.walker@imgtec.com,
  donald.robson@imgtec.com, boris.brezillon@collabora.com,
  christian.koenig@amd.com, faith@gfxstrand.net
-Subject: [PATCH drm-misc-next v8 03/12] drm/gpuvm: export
+Subject: [PATCH drm-misc-next v8 04/12] drm/nouveau: make use of
  drm_gpuvm_range_valid()
-Date: Thu,  2 Nov 2023 00:30:55 +0100
-Message-ID: <20231101233113.8059-4-dakr@redhat.com>
+Date: Thu,  2 Nov 2023 00:30:56 +0100
+Message-ID: <20231101233113.8059-5-dakr@redhat.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20231101233113.8059-1-dakr@redhat.com>
 References: <20231101233113.8059-1-dakr@redhat.com>
@@ -92,59 +92,69 @@ Cc: nouveau@lists.freedesktop.org, Danilo Krummrich <dakr@redhat.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Drivers may use this function to validate userspace requests in advance,
-hence export it.
+Use drm_gpuvm_range_valid() in order to validate userspace requests.
 
 Signed-off-by: Danilo Krummrich <dakr@redhat.com>
 ---
- drivers/gpu/drm/drm_gpuvm.c | 14 +++++++++++++-
- include/drm/drm_gpuvm.h     |  1 +
- 2 files changed, 14 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/nouveau/nouveau_uvmm.c | 17 +----------------
+ drivers/gpu/drm/nouveau/nouveau_uvmm.h |  3 ---
+ 2 files changed, 1 insertion(+), 19 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_gpuvm.c b/drivers/gpu/drm/drm_gpuvm.c
-index 445767f8fbc4..2669f9bbc377 100644
---- a/drivers/gpu/drm/drm_gpuvm.c
-+++ b/drivers/gpu/drm/drm_gpuvm.c
-@@ -649,7 +649,18 @@ drm_gpuvm_in_kernel_node(struct drm_gpuvm *gpuvm, u64 addr, u64 range)
- 	return krange && addr < kend && kstart < end;
- }
- 
--static bool
-+/**
-+ * drm_gpuvm_range_valid() - checks whether the given range is valid for the
-+ * given &drm_gpuvm
-+ * @gpuvm: the GPUVM to check the range for
-+ * @addr: the base address
-+ * @range: the range starting from the base address
-+ *
-+ * Checks whether the range is within the GPUVM's managed boundaries.
-+ *
-+ * Returns: true for a valid range, false otherwise
-+ */
-+bool
- drm_gpuvm_range_valid(struct drm_gpuvm *gpuvm,
- 		      u64 addr, u64 range)
+diff --git a/drivers/gpu/drm/nouveau/nouveau_uvmm.c b/drivers/gpu/drm/nouveau/nouveau_uvmm.c
+index aaf5d28bd587..641a911528db 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_uvmm.c
++++ b/drivers/gpu/drm/nouveau/nouveau_uvmm.c
+@@ -929,25 +929,13 @@ nouveau_uvmm_sm_unmap_cleanup(struct nouveau_uvmm *uvmm,
+ static int
+ nouveau_uvmm_validate_range(struct nouveau_uvmm *uvmm, u64 addr, u64 range)
  {
-@@ -657,6 +668,7 @@ drm_gpuvm_range_valid(struct drm_gpuvm *gpuvm,
- 	       drm_gpuvm_in_mm_range(gpuvm, addr, range) &&
- 	       !drm_gpuvm_in_kernel_node(gpuvm, addr, range);
- }
-+EXPORT_SYMBOL_GPL(drm_gpuvm_range_valid);
+-	u64 end = addr + range;
+-	u64 kernel_managed_end = uvmm->kernel_managed_addr +
+-				 uvmm->kernel_managed_size;
+-
+ 	if (addr & ~PAGE_MASK)
+ 		return -EINVAL;
  
- /**
-  * drm_gpuvm_init() - initialize a &drm_gpuvm
-diff --git a/include/drm/drm_gpuvm.h b/include/drm/drm_gpuvm.h
-index 687fd5893624..13eac6f70061 100644
---- a/include/drm/drm_gpuvm.h
-+++ b/include/drm/drm_gpuvm.h
-@@ -253,6 +253,7 @@ void drm_gpuvm_init(struct drm_gpuvm *gpuvm, const char *name,
- 		    const struct drm_gpuvm_ops *ops);
- void drm_gpuvm_destroy(struct drm_gpuvm *gpuvm);
+ 	if (range & ~PAGE_MASK)
+ 		return -EINVAL;
  
-+bool drm_gpuvm_range_valid(struct drm_gpuvm *gpuvm, u64 addr, u64 range);
- bool drm_gpuvm_interval_empty(struct drm_gpuvm *gpuvm, u64 addr, u64 range);
+-	if (end <= addr)
+-		return -EINVAL;
+-
+-	if (addr < NOUVEAU_VA_SPACE_START ||
+-	    end > NOUVEAU_VA_SPACE_END)
+-		return -EINVAL;
+-
+-	if (addr < kernel_managed_end &&
+-	    end > uvmm->kernel_managed_addr)
++	if (!drm_gpuvm_range_valid(&uvmm->base, addr, range))
+ 		return -EINVAL;
  
- static inline struct drm_gpuva *
+ 	return 0;
+@@ -1834,9 +1822,6 @@ nouveau_uvmm_init(struct nouveau_uvmm *uvmm, struct nouveau_cli *cli,
+ 		goto out_unlock;
+ 	}
+ 
+-	uvmm->kernel_managed_addr = kernel_managed_addr;
+-	uvmm->kernel_managed_size = kernel_managed_size;
+-
+ 	drm_gpuvm_init(&uvmm->base, cli->name, drm,
+ 		       NOUVEAU_VA_SPACE_START,
+ 		       NOUVEAU_VA_SPACE_END,
+diff --git a/drivers/gpu/drm/nouveau/nouveau_uvmm.h b/drivers/gpu/drm/nouveau/nouveau_uvmm.h
+index a308c59760a5..06a0c36de392 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_uvmm.h
++++ b/drivers/gpu/drm/nouveau/nouveau_uvmm.h
+@@ -14,9 +14,6 @@ struct nouveau_uvmm {
+ 	struct mutex mutex;
+ 	struct dma_resv resv;
+ 
+-	u64 kernel_managed_addr;
+-	u64 kernel_managed_size;
+-
+ 	bool disabled;
+ };
+ 
 -- 
 2.41.0
 
