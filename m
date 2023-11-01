@@ -1,52 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A79E7DDEF1
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Nov 2023 11:06:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 275C37DDF06
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Nov 2023 11:08:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B86710E6A3;
-	Wed,  1 Nov 2023 10:06:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 63E8510E6A4;
+	Wed,  1 Nov 2023 10:08:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6AA1F10E6A2;
- Wed,  1 Nov 2023 10:06:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1698833208; x=1730369208;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=p5R2iZQRJG+abCenQeDgAs1cs0KVgUBJ1kB6ME2nghA=;
- b=jYgWGcIWOsBfBnK9IKGV2IMwgBKCEl4WyULC4MxjJo3WcLqUKQgy9JyO
- zxUTSOU0IRJuxrGHKVJlPmpucUKuoiAokrJNgXPeVfs+DZmYdcmEGziXt
- a3wLqhQS5KicHDR8YNvjf/fUWfsmTbpqXTQnqadBJW3LY8JBGmHLH38uD
- CEa8iK29sF+NtP5ZnM+k7thaikeMchX1X17Y+QNERIAsC0QJH0+2+Gfwy
- ngyV89GB/l25iGRxMwWLtJGNPHa9VQQIvcG+caXBHUWm2CB0VtXuAVkYn
- A91wXnMaLFZiL6A6x1Pcs65HdMMX6H5ANA62sQL6zdp2MchZlXtGmcRNc w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10880"; a="387352401"
-X-IronPort-AV: E=Sophos;i="6.03,267,1694761200"; d="scan'208";a="387352401"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Nov 2023 03:06:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10880"; a="1092307405"
-X-IronPort-AV: E=Sophos;i="6.03,267,1694761200"; d="scan'208";a="1092307405"
-Received: from sartorig-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.50.166])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Nov 2023 03:06:45 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] drm/i915: Remove unused for_each_uabi_class_engine
-In-Reply-To: <20231101100124.303739-1-tvrtko.ursulin@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20231101100124.303739-1-tvrtko.ursulin@linux.intel.com>
-Date: Wed, 01 Nov 2023 12:06:42 +0200
-Message-ID: <87sf5p4wjx.fsf@intel.com>
+Received: from sin.source.kernel.org (sin.source.kernel.org
+ [IPv6:2604:1380:40e1:4800::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18C5210E69D
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Nov 2023 10:08:15 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 37CD5CE0E60;
+ Wed,  1 Nov 2023 10:08:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 488BFC433C8;
+ Wed,  1 Nov 2023 10:08:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1698833292;
+ bh=Pw7Nv8LuVODdBVzdOmKPDbC4v6bStkQt2heq9xRvKtg=;
+ h=From:To:Cc:Subject:Date:From;
+ b=cROLKlRnyX5+kvNDX34nCWLGkxlFZKa1aq4q9i8bc7xmEXJfXdLaliwzORla07Qz9
+ IHR9BK05FWZNnv8oRirYV6FfY60gKX+FeXbQM3R0LBZtf7u4Dsusfh8kJZHzgU32j/
+ Adg9rVSR782v90Q84YGQZL+AgE9wRDEabyC2qsBOZ7mJWtjIO4AC9NDsKtOY+Vtpwj
+ PFJJArFlS/1KaF6AaHzDAdwYUzsbDBo+dpTpwILyfide8N3Ao7zztewHXBWRTOIi9a
+ qr6ChprIp9Qbfu40pRX+WhmXeL/r3xzymx+qcBU1K+b8Xebk9Vssb6BLb4EYxgtxuZ
+ 6FKIxGAHLzCQA==
+From: Oded Gabbay <ogabbay@kernel.org>
+To: dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 1/2] accel/habanalabs: add pcie reset prepare/done hooks
+Date: Wed,  1 Nov 2023 12:08:04 +0200
+Message-Id: <20231101100805.596657-1-ogabbay@kernel.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,46 +49,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: farah kassabri <fkassabri@habana.ai>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 01 Nov 2023, Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com> wrote:
-> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->
-> Unused macro after 99919be74aa3 ("drm/i915/gem: Zap the i915_gem_object_blt code")
-> removed some code.
->
-> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+From: farah kassabri <fkassabri@habana.ai>
 
-\o/
+When working on a bare-metal system, if FLR will happen the firmware
+will handle it and driver will have no knowledge of it, and this will
+cause two issues:
 
-Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+1.The driver will be in operational state while it should be in reset.
+  This will cause the heartbeat mechanism to keep sending messages to FW
+  while pci device is in reset. Eventually heartbeat will fail and
+  the device will end up in non-operational state.
 
-Could I persuade you to move for_each_engine(),
-for_each_engine_masked(), rb_to_uabi_engine(), and
-for_each_uabi_engine() to a more suitable header?
+2. After FW handles the FLR, and due to the reset it'll go back to
+   preboot stage, and driver need to perform hard reset in order to
+   load the boot fit binary.
 
-> ---
->  drivers/gpu/drm/i915/i915_drv.h | 5 -----
->  1 file changed, 5 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-> index bfcbe93bd9fe..744c8c4a50fa 100644
-> --- a/drivers/gpu/drm/i915/i915_drv.h
-> +++ b/drivers/gpu/drm/i915/i915_drv.h
-> @@ -418,11 +418,6 @@ static inline struct intel_gt *to_gt(const struct drm_i915_private *i915)
->  	     (engine__); \
->  	     (engine__) = rb_to_uabi_engine(rb_next(&(engine__)->uabi_node)))
->  
-> -#define for_each_uabi_class_engine(engine__, class__, i915__) \
-> -	for ((engine__) = intel_engine_lookup_user((i915__), (class__), 0); \
-> -	     (engine__) && (engine__)->uabi_class == (class__); \
-> -	     (engine__) = rb_to_uabi_engine(rb_next(&(engine__)->uabi_node)))
-> -
->  #define INTEL_INFO(i915)	((i915)->__info)
->  #define RUNTIME_INFO(i915)	(&(i915)->__runtime)
->  #define DRIVER_CAPS(i915)	(&(i915)->caps)
+This patch will add reset_prepare hook that will set the device to
+be in disabled state, so it'll be not operational, and also
+reset_done hook which will be called after the actual FLR handling,
+then it will perform hard reset.
 
+Signed-off-by: farah kassabri <fkassabri@habana.ai>
+Reviewed-by: Oded Gabbay <ogabbay@kernel.org>
+Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
+---
+ .../accel/habanalabs/common/habanalabs_drv.c  | 34 +++++++++++++++++++
+ 1 file changed, 34 insertions(+)
+
+diff --git a/drivers/accel/habanalabs/common/habanalabs_drv.c b/drivers/accel/habanalabs/common/habanalabs_drv.c
+index 306a5bc9bf89..35ae0ff347f5 100644
+--- a/drivers/accel/habanalabs/common/habanalabs_drv.c
++++ b/drivers/accel/habanalabs/common/habanalabs_drv.c
+@@ -670,6 +670,38 @@ static pci_ers_result_t hl_pci_err_slot_reset(struct pci_dev *pdev)
+ 	return PCI_ERS_RESULT_RECOVERED;
+ }
+ 
++static void hl_pci_reset_prepare(struct pci_dev *pdev)
++{
++	struct hl_device *hdev;
++
++	hdev = pci_get_drvdata(pdev);
++	if (!hdev)
++		return;
++
++	hdev->disabled = true;
++}
++
++static void hl_pci_reset_done(struct pci_dev *pdev)
++{
++	struct hl_device *hdev;
++	u32 flags;
++
++	hdev = pci_get_drvdata(pdev);
++	if (!hdev)
++		return;
++
++	/*
++	 * Schedule a thread to trigger hard reset.
++	 * The reason for this handler, is for rare cases where the driver is up
++	 * and FLR occurs. This is valid only when working with no VM, so FW handles FLR
++	 * and resets the device. FW will go back preboot stage, so driver needs to perform
++	 * hard reset in order to load FW fit again.
++	 */
++	flags = HL_DRV_RESET_HARD | HL_DRV_RESET_BYPASS_REQ_TO_FW;
++
++	hl_device_reset(hdev, flags);
++}
++
+ static const struct dev_pm_ops hl_pm_ops = {
+ 	.suspend = hl_pmops_suspend,
+ 	.resume = hl_pmops_resume,
+@@ -679,6 +711,8 @@ static const struct pci_error_handlers hl_pci_err_handler = {
+ 	.error_detected = hl_pci_err_detected,
+ 	.slot_reset = hl_pci_err_slot_reset,
+ 	.resume = hl_pci_err_resume,
++	.reset_prepare = hl_pci_reset_prepare,
++	.reset_done = hl_pci_reset_done,
+ };
+ 
+ static struct pci_driver hl_pci_driver = {
 -- 
-Jani Nikula, Intel
+2.34.1
+
