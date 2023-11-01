@@ -1,64 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 289507DDA07
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Nov 2023 01:27:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A9EB7DDA0B
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Nov 2023 01:27:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E5DA10E5FD;
-	Wed,  1 Nov 2023 00:26:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 17F0110E63C;
+	Wed,  1 Nov 2023 00:26:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x134.google.com (mail-il1-x134.google.com
- [IPv6:2607:f8b0:4864:20::134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6351410E630;
- Wed,  1 Nov 2023 00:26:46 +0000 (UTC)
-Received: by mail-il1-x134.google.com with SMTP id
- e9e14a558f8ab-3580c2fc393so20240905ab.1; 
- Tue, 31 Oct 2023 17:26:46 -0700 (PDT)
+Received: from mail-il1-x131.google.com (mail-il1-x131.google.com
+ [IPv6:2607:f8b0:4864:20::131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB4B010E632;
+ Wed,  1 Nov 2023 00:26:47 +0000 (UTC)
+Received: by mail-il1-x131.google.com with SMTP id
+ e9e14a558f8ab-35809893291so23024055ab.1; 
+ Tue, 31 Oct 2023 17:26:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1698798405; x=1699403205; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1698798407; x=1699403207; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=tEqBwr5bmlsUliJRNMs53J4oxL88HwMAGezbxgrXL5M=;
- b=Hznflh38g8mBEG98zcZsXNxywSjtfU1+h0cvAHsL9P/Ulr3UIYghMb/mWk6Ku0kGdJ
- 4wLmMAWRpEYPXq7STCPo8eI+PBrXn+CwAUFxfUj332zDDjTdQGIX1ORJLGhzPYCKpPjn
- x21LadiXsHLEZCWlY/LWKnqf8z+lZwJKygmj//wu9Ex9qc/fFYrn5aQMm61vQEfdrCzi
- vvqqPF7y36gTGngVCj+LPv33oE7agL2ewHccLMctDl1XkYoxGKYKQv+cBt2UjafJMXvY
- dOOHLUoKrHKTh7NK9SqZ3nxZ/erLtHdF/WW7dWw5JFQ53tJQe2Br60avoMyUQVQ72c22
- oQyg==
+ bh=5LQP5MFDhA+xfUDGLuGe24GCmwsysAw7CRqOtSg8az8=;
+ b=FfrcrIWPR0k13iuXPzn6kk50WdwFVCu+qha5rNu8+iGyL9evyEV1XAY2Qu1+ZVGIPU
+ bLkGULRAGpJsYsns0BYtzSJEBcb+UdHKzgfdrFjcwg1h8wuebSwjdh6AVPfK/2c6oHMT
+ 6ef8s9LWGd6+Pw3RMngxb+FFQSq5oku7u1BU9LXvc/arSgI8hEYbJODWD3E+7zHKGl6a
+ EI9iRKQywif+a/cWUPmhbDalQxz5MEc/WQJhM0iGniEA3FpwZNCoaBkR6t1baAbgwXRM
+ BJW20HHqV3N+Cs9F0Wj1c4fwTCX1LWmQBZKD6JdxeoaKyZNiB7DrqHcQIWYV+QJhp3hr
+ HDxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1698798405; x=1699403205;
+ d=1e100.net; s=20230601; t=1698798407; x=1699403207;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=tEqBwr5bmlsUliJRNMs53J4oxL88HwMAGezbxgrXL5M=;
- b=HaPvPrf359UZ5rpKHowdn9u6jHV3iy5fPYkrZIDdnPfigX8439fWt1J7/2S0Mdsww/
- E2mLl/KkSyH94UxI4HIk3uK2wYyxsm7NVjegVnLRKFEEa75bPvO3kLBWrDIKwJOXY4wL
- UWyjgbPQN1jyUcxj6vhHxrC43+OApxeP4AR22LSIRUru0IyP4Lt8Gva9M8pvxB3zy4y5
- SkUL8rAajALBT7rr8D7Kx0oQ8ExerlHXUZ8jyCSiP9URRzi8AeHqcgLwDuTfvoz25t1u
- osM6YhNTpAV0I8CrLYdCZoRGNJeCUATXJTVFMXqV8dE1R9uSYmhiO5GDCVKFF6/utctR
- zNEA==
-X-Gm-Message-State: AOJu0Yy95r3H4UoFXTpVcFDwuKJiDwPNS+O4qnWfuI7Ag6IKuk5Z974r
- yuRyNGkEg/tSSx/D5LkHu8Q=
-X-Google-Smtp-Source: AGHT+IGkWEhH/sTMgZAoCvqDsHJ9MiwzmTfgqH8FCsVszlSzvBBjofFDFFpQzS5/UrGCR45izJ6Y7g==
-X-Received: by 2002:a05:6e02:1ba1:b0:357:a08b:566d with SMTP id
- n1-20020a056e021ba100b00357a08b566dmr19451120ili.29.1698798405690; 
- Tue, 31 Oct 2023 17:26:45 -0700 (PDT)
+ bh=5LQP5MFDhA+xfUDGLuGe24GCmwsysAw7CRqOtSg8az8=;
+ b=NB9JwOnnNH9XRdZxs4ISzDejhLoNOHYU2/l4z/fimifD/NRzn6YBXc7ul4o+ibp3Oi
+ EHpRYVvaICMfOYTSE/Xh2RBBhn0NJ46zm0157MQmZJs5O60ZtomztkPvZRENd4u9hzDY
+ MOZ04s4if2QZ2dYoBLd3OlQIq4W8XWYoX2a9/uhrW2F3q6pMAsi407+veoe1qsa7wsp4
+ 0N89iIPPNmelabPATtZE+9ke0LcULDDwrvAEOySXzRVRcyp6ZcHwfYLAtp3EXy2KS3zO
+ Dm3woahxmi2+TGZw/CjxhpNpXveJmwXLd+YXdyMTF/cH0dlX3kaBOt88YeyCGhYQjmj7
+ iteg==
+X-Gm-Message-State: AOJu0YyVfgEWRzdxoc0n47qQvYl1MGc5G9eXj/qukIYvyMcXkr9pWwqT
+ 2Y7D5IkWCWWfMA73cwgvrHc=
+X-Google-Smtp-Source: AGHT+IEgTmvlOr9x4bLvw8pciAoCY0BZ4bhDKeUIJ6/TeWefWYnRzCu1JAK61myF6Ajh5soTw+Xx4w==
+X-Received: by 2002:a92:c266:0:b0:357:5db1:9170 with SMTP id
+ h6-20020a92c266000000b003575db19170mr17284727ild.28.1698798406942; 
+ Tue, 31 Oct 2023 17:26:46 -0700 (PDT)
 Received: from frodo.. (c-73-78-62-130.hsd1.co.comcast.net. [73.78.62.130])
  by smtp.googlemail.com with ESMTPSA id
- t1-20020a92c901000000b00357cc8df1d5sm141701ilp.68.2023.10.31.17.26.44
+ t1-20020a92c901000000b00357cc8df1d5sm141701ilp.68.2023.10.31.17.26.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 31 Oct 2023 17:26:45 -0700 (PDT)
+ Tue, 31 Oct 2023 17:26:46 -0700 (PDT)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: linux-kernel@vger.kernel.org, jbaron@akamai.com,
  gregkh@linuxfoundation.org, dri-devel@lists.freedesktop.org,
  amd-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org,
  intel-gfx@lists.freedesktop.org
-Subject: [PATCH v7d 20/23] dyndbg: refactor *dynamic_emit_prefix
-Date: Tue, 31 Oct 2023 18:26:06 -0600
-Message-ID: <20231101002609.3533731-21-jim.cromie@gmail.com>
+Subject: [PATCH v7d 21/23] drm: use correct ccflags-y spelling
+Date: Tue, 31 Oct 2023 18:26:07 -0600
+Message-ID: <20231101002609.3533731-22-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20231101002609.3533731-1-jim.cromie@gmail.com>
 References: <20231101002609.3533731-1-jim.cromie@gmail.com>
@@ -86,108 +86,35 @@ Cc: quic_saipraka@quicinc.com, linux-doc@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Refactor the split of duties between outer & inner fns.
+Incorrectly spelled CFLAGS- failed to add -DDYNAMIC_DEBUG_MODULE,
+which broke builds with:
 
-The outer fn was previously just an inline unlikely forward to inner,
-which did all the work.
+CONFIG_DRM_USE_DYNAMIC_DEBUG=y
+CONFIG_DYNAMIC_DEBUG_CORE=y
+CONFIG_DYNAMIC_DEBUG=n
 
-Now, outer handles +t and +l flags itself, and calls inner only when
-_DPRINTK_FLAGS_INCL_LOOKUP is needed.
+Also add subdir-ccflags so that all drivers pick up the addition.
 
-No functional change.
-
-But it does make the results of the inner-fn more cache-friendly
-(fewer entries, reused more often):
-
-1- no spurious [TID] or <intr> noise
-2- no LINE-number to bloat the cache (avg 9 pr_debugs/fn)
-3- only LOOKUP stuff
-
-Currently LOOKUPs are descriptor-field refs but could be replaced by
-accessor functions.  This would allow the __dyndbg_sites section to be
-de-duplicated and reclaimed; currently module, filename fields are
-~90% repeated.  As the accessors get more expensive, the value of
-caching part of the prefix goes up.
-
-Also change inner-fn to return count of extra chars written to the
-buffer, and drop "inline" from outer, let the compiler decide.  Maybe
-also change name accordingly.
-
+Fixes: 84ec67288c10 ("drm_print: wrap drm_*_dbg in dyndbg descriptor factory macro")
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
-fixup whitespace
----
- lib/dynamic_debug.c | 39 ++++++++++++++++++++++-----------------
- 1 file changed, 22 insertions(+), 17 deletions(-)
+ drivers/gpu/drm/Makefile | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
-index f878a6f09fc8..213110ec1e9c 100644
---- a/lib/dynamic_debug.c
-+++ b/lib/dynamic_debug.c
-@@ -774,11 +774,28 @@ static int remaining(int wrote)
- 	return 0;
- }
+diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+index 215e78e79125..22b1984cc982 100644
+--- a/drivers/gpu/drm/Makefile
++++ b/drivers/gpu/drm/Makefile
+@@ -3,7 +3,8 @@
+ # Makefile for the drm device driver.  This driver provides support for the
+ # Direct Rendering Infrastructure (DRI) in XFree86 4.1.0 and higher.
  
--static char *__dynamic_emit_prefix(const struct _ddebug *desc, char *buf)
-+static int __dynamic_emit_prefix(const struct _ddebug *desc, char *buf, int pos)
-+{
-+	if (desc->flags & _DPRINTK_FLAGS_INCL_MODNAME)
-+		pos += snprintf(buf + pos, remaining(pos), "%s:",
-+				desc->modname);
-+	if (desc->flags & _DPRINTK_FLAGS_INCL_FUNCNAME)
-+		pos += snprintf(buf + pos, remaining(pos), "%s:",
-+				desc->function);
-+	if (desc->flags & _DPRINTK_FLAGS_INCL_SOURCENAME)
-+		pos += snprintf(buf + pos, remaining(pos), "%s:",
-+				trim_prefix(desc->filename));
-+	return pos;
-+}
-+
-+static char *dynamic_emit_prefix(struct _ddebug *desc, char *buf)
- {
- 	int pos_after_tid;
- 	int pos = 0;
+-CFLAGS-$(CONFIG_DRM_USE_DYNAMIC_DEBUG)	+= -DDYNAMIC_DEBUG_MODULE
++ccflags-$(CONFIG_DRM_USE_DYNAMIC_DEBUG)		+= -DDYNAMIC_DEBUG_MODULE
++subdir-ccflags-$(CONFIG_DRM_USE_DYNAMIC_DEBUG)	+= -DDYNAMIC_DEBUG_MODULE
  
-+	if (likely(!(desc->flags & _DPRINTK_FLAGS_INCL_ANY)))
-+		return buf;
-+
- 	if (desc->flags & _DPRINTK_FLAGS_INCL_TID) {
- 		if (in_interrupt())
- 			pos += snprintf(buf + pos, remaining(pos), "<intr> ");
-@@ -787,15 +804,10 @@ static char *__dynamic_emit_prefix(const struct _ddebug *desc, char *buf)
- 					task_pid_vnr(current));
- 	}
- 	pos_after_tid = pos;
--	if (desc->flags & _DPRINTK_FLAGS_INCL_MODNAME)
--		pos += snprintf(buf + pos, remaining(pos), "%s:",
--				desc->modname);
--	if (desc->flags & _DPRINTK_FLAGS_INCL_FUNCNAME)
--		pos += snprintf(buf + pos, remaining(pos), "%s:",
--				desc->function);
--	if (desc->flags & _DPRINTK_FLAGS_INCL_SOURCENAME)
--		pos += snprintf(buf + pos, remaining(pos), "%s:",
--				trim_prefix(desc->filename));
-+
-+	if (unlikely(desc->flags & _DPRINTK_FLAGS_INCL_LOOKUP))
-+		pos += __dynamic_emit_prefix(desc, buf, pos);
-+
- 	if (desc->flags & _DPRINTK_FLAGS_INCL_LINENO)
- 		pos += snprintf(buf + pos, remaining(pos), "%d:",
- 				desc->lineno);
-@@ -807,13 +819,6 @@ static char *__dynamic_emit_prefix(const struct _ddebug *desc, char *buf)
- 	return buf;
- }
- 
--static inline char *dynamic_emit_prefix(struct _ddebug *desc, char *buf)
--{
--	if (unlikely(desc->flags & _DPRINTK_FLAGS_INCL_ANY))
--		return __dynamic_emit_prefix(desc, buf);
--	return buf;
--}
--
- void __dynamic_pr_debug(struct _ddebug *descriptor, const char *fmt, ...)
- {
- 	va_list args;
+ drm-y := \
+ 	drm_aperture.o \
 -- 
 2.41.0
 
