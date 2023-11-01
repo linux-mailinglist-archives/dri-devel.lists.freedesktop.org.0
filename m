@@ -1,81 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 075327DE8BD
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Nov 2023 00:03:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 532967DE8E4
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Nov 2023 00:31:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 17AA910E0DC;
-	Wed,  1 Nov 2023 23:03:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 541D310E7DC;
+	Wed,  1 Nov 2023 23:31:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x736.google.com (mail-qk1-x736.google.com
- [IPv6:2607:f8b0:4864:20::736])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E2A2010E0DC
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Nov 2023 23:03:20 +0000 (UTC)
-Received: by mail-qk1-x736.google.com with SMTP id
- af79cd13be357-7788db95652so17448685a.2
- for <dri-devel@lists.freedesktop.org>; Wed, 01 Nov 2023 16:03:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1698879800; x=1699484600; darn=lists.freedesktop.org;
- h=in-reply-to:autocrypt:from:references:cc:to:content-language
- :subject:user-agent:mime-version:date:message-id:from:to:cc:subject
- :date:message-id:reply-to;
- bh=lOXnFGPRns1GqSfr0pzuV2Sf+DD9D9FbK/vUgQARMyw=;
- b=UFm2u2P/YE552CLj27XEsqu2dCet/NxeUaz5WBrynbeFXgW7pQ9fyj8qe5EBaQLKAq
- FUCJ+Udkfkj+HjIlvyxzZUgTTzMwbow/MlnhkJ/HbsLdGgKy5KIdrzi0yivBtQ7V7gMI
- o/iCx5IoYY/66UvwR4VQtijyruJIXoTNhzGBgnUT9XVasMH58hBbs8Fa8Z3+79H6eoYA
- 3CmH1GXZuiLRFisC/bK+/bvImz7O1US55YZ82XU1iQIZLNXggdxyBJK+8sKkAT1y/I11
- OH6YHFlsSMROzx5NquWbCWGe+ha/4YXoH5/aJuR9E01ZAwTXdAsVywtuW7WddXkr4+FU
- ttNw==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3DF5710E7DC
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Nov 2023 23:31:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1698881482;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=O/LTXC0fFecmnl/HkmSGk1wWxEHdNzzT2pc1D2khsBA=;
+ b=I+4NK1DsBkof1y5RqYNzMgHDMgMEPJbK+tgK2OyX3qc1lYWxG8RAuvDbfQhpuxeDSidYHT
+ 56qUSTI4i7nNVNz3c1TBr5Fsc9oYYm1S9wjVOEQDdj/cZCFRsdy0LxAVYpVCWoLk93ha9d
+ EdeyDbuZjSCTvJbrWhTaLZmpIi+Q3W0=
+Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
+ [209.85.167.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-619-mG2xVM8eMKueTxjkxUFL2w-1; Wed, 01 Nov 2023 19:31:20 -0400
+X-MC-Unique: mG2xVM8eMKueTxjkxUFL2w-1
+Received: by mail-lf1-f70.google.com with SMTP id
+ 2adb3069b0e04-507a3426041so253139e87.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 Nov 2023 16:31:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1698879800; x=1699484600;
- h=in-reply-to:autocrypt:from:references:cc:to:content-language
- :subject:user-agent:mime-version:date:message-id:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=lOXnFGPRns1GqSfr0pzuV2Sf+DD9D9FbK/vUgQARMyw=;
- b=wq/G1fZuBOYsQMX33NTZbQ12rBp20lSg21slYSCoG4DqFBN2BPgMhTRWYn4tWoogxi
- 6q0Xne1msitcRMekYeibpyCubcJ+oWWzgVyeDubpdlI52nv5YK3sdo+CT0m0MZulS2GC
- wvk2O183w55jI8cNOMB9+AEP7rh2tsnzWfKaL+JBSH8DSgDDIyc1BBXPhYbn3WuaO7zO
- LFDFExv7s1QhITdMPnZ1UxKDK5+WPCm1UEyjUlGo1qRJNnGnpH2zmZvsSXkubSZnzjK7
- rp7MJSmPaW1nRGIXx3L1YQf33wMYFUpoh2S9aMaxlCISfOtrMO/CVbSrio8HfP7IIDY9
- unTA==
-X-Gm-Message-State: AOJu0YxcXHEqd35XeP3wexDZq8hLoXZQ1uXm2K60K6pBDOLCJM8xCk4S
- WRpbu7ZhkX3l4Axq3Uc4LPU=
-X-Google-Smtp-Source: AGHT+IHQcSCPws1aHPOQv+iAHpNOMbnXE+jELTeL6T27BiySlgg++bXKgrnxQlbdLBt1sUnF7tO+YA==
-X-Received: by 2002:ad4:5765:0:b0:66d:9d15:6876 with SMTP id
- r5-20020ad45765000000b0066d9d156876mr19156152qvx.65.1698879799650; 
- Wed, 01 Nov 2023 16:03:19 -0700 (PDT)
-Received: from [192.168.2.14] ([74.15.198.235])
+ d=1e100.net; s=20230601; t=1698881479; x=1699486279;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=O/LTXC0fFecmnl/HkmSGk1wWxEHdNzzT2pc1D2khsBA=;
+ b=jaQfUE/wpNIpbN5W8CfENzuehZTJ59w49cSg0C6S5JLXzGEQCK02VaHaf+gm1C4qEn
+ UdFYKsHYU3q9w9Hj3zIIPx0u3RdekgQIAsfvzfw92gEItTy7LQzIaMbZ4Ff//FYvrugk
+ CXe/uVnvbxKlM/E01dTorUENS4D4Tz2FKsbtNO39MTfIRaPHtnhWCA0UPYIb9EHt9poQ
+ o8kw6YmL1E6HUp8BS13sXVb7bOztaX+DpagkfvzrUx+KWa0dgBybNjwR18v5RSHf2dAP
+ TX68/rZ2TlHvsUE+G3CwD87+V6ecuqoDhIXXBBVG/9PP7HgLUoQJP3KULjqBPBK7DXwQ
+ eahQ==
+X-Gm-Message-State: AOJu0YyLmOKMYEfqRNz9kbIXIOgBGZgyA+hmoGs7QXg6ajKOTN5lLeCu
+ voh008vVzxDbPluObJZTWdPrBygqhQszoGSw2yxc19Neu6ryvji7EBb4xP3lXWuSceN08Xsc52x
+ xupDwXHcIA9Xi8uyvGFwuBOK+Ooun
+X-Received: by 2002:ac2:5234:0:b0:4fd:c844:6a43 with SMTP id
+ i20-20020ac25234000000b004fdc8446a43mr13378289lfl.43.1698881479403; 
+ Wed, 01 Nov 2023 16:31:19 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHQjzwczOjC/Gu+TLsXYLnqcz5u+qi8MmgOOXI1MLdlfhcKy1h0Juu3IjI6XifmknqhewEE6w==
+X-Received: by 2002:ac2:5234:0:b0:4fd:c844:6a43 with SMTP id
+ i20-20020ac25234000000b004fdc8446a43mr13378267lfl.43.1698881479011; 
+ Wed, 01 Nov 2023 16:31:19 -0700 (PDT)
+Received: from cassiopeiae.. ([2a02:810d:4b3f:de9c:642:1aff:fe31:a19f])
  by smtp.gmail.com with ESMTPSA id
- f28-20020ad4559c000000b0063f88855ef2sm1859874qvx.101.2023.11.01.16.03.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 01 Nov 2023 16:03:19 -0700 (PDT)
-Message-ID: <8d7a33b3-9bc6-45a0-b5c2-d4bf1621d5e5@gmail.com>
-Date: Wed, 1 Nov 2023 19:03:10 -0400
+ q13-20020aa7d44d000000b0053e408aec8bsm1590366edr.6.2023.11.01.16.31.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 01 Nov 2023 16:31:18 -0700 (PDT)
+From: Danilo Krummrich <dakr@redhat.com>
+To: airlied@gmail.com, daniel@ffwll.ch, matthew.brost@intel.com,
+ thomas.hellstrom@linux.intel.com, sarah.walker@imgtec.com,
+ donald.robson@imgtec.com, boris.brezillon@collabora.com,
+ christian.koenig@amd.com, faith@gfxstrand.net
+Subject: [PATCH drm-misc-next v8 00/12] [RFC] DRM GPUVM features
+Date: Thu,  2 Nov 2023 00:30:52 +0100
+Message-ID: <20231101233113.8059-1-dakr@redhat.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:115.0) Gecko/20100101
- Thunderbird/115.4.1
-Subject: Re: [PATCH drm-misc-next v4] drm/sched: implement dynamic job-flow
- control
-Content-Language: en-CA, en-US
-To: Danilo Krummrich <dakr@redhat.com>
-References: <20231031002655.38707-1-dakr@redhat.com>
- <6fa280dd-af9c-4171-86b7-cbef91fd9ff8@gmail.com> <ZUG2vzzzYc87nGEV@pollux>
-From: Luben Tuikov <ltuikov89@gmail.com>
-Autocrypt: addr=ltuikov89@gmail.com; keydata=
- xjMEZTohOhYJKwYBBAHaRw8BAQdAWSq76k+GsENjDTMVCy9Vr4fAO9Rb57/bPT1APnbnnRHN
- Ikx1YmVuIFR1aWtvdiA8bHR1aWtvdjg5QGdtYWlsLmNvbT7CmQQTFgoAQRYhBJkj7+VmFO9b
- eaAl10wVR5QxozSvBQJlOiE6AhsDBQkJZgGABQsJCAcCAiICBhUKCQgLAgQWAgMBAh4HAheA
- AAoJEEwVR5QxozSvSm4BAOwCpX53DTQhE20FBGlTMqKCOQyJqlMcIQ9SO1qPWX1iAQCv3vfy
- JwktF7REl1yt7IU2Sye1qmQMfJxdt9JMbMNNBs44BGU6IToSCisGAQQBl1UBBQEBB0BT9wSP
- cCE8uGe7FWo8C+nTSyWPXKTx9F0gpEnlqReRBwMBCAfCfgQYFgoAJhYhBJkj7+VmFO9beaAl
- 10wVR5QxozSvBQJlOiE6AhsMBQkJZgGAAAoJEEwVR5QxozSvSsYA/2LIFjbxQ2ikbU5S0pKo
- aMDzO9eGz69uNhNWJcvIKJK6AQC9228Mqc1JeZMIyjYWr2HKYHi8S2q2/zHrSZwAWYYwDA==
-In-Reply-To: <ZUG2vzzzYc87nGEV@pollux>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------ff0a4To1xV8RoZz681C80nUP"
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,294 +83,169 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.brost@intel.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, faith@gfxstrand.net,
- boris.brezillon@collabora.com, christian.koenig@amd.com
+Cc: nouveau@lists.freedesktop.org, Danilo Krummrich <dakr@redhat.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------ff0a4To1xV8RoZz681C80nUP
-Content-Type: multipart/mixed; boundary="------------ofSdRHkQW97FHvScJiVP0PKl";
- protected-headers="v1"
-From: Luben Tuikov <ltuikov89@gmail.com>
-To: Danilo Krummrich <dakr@redhat.com>
-Cc: airlied@gmail.com, daniel@ffwll.ch, matthew.brost@intel.com,
- boris.brezillon@collabora.com, christian.koenig@amd.com,
- faith@gfxstrand.net, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Message-ID: <8d7a33b3-9bc6-45a0-b5c2-d4bf1621d5e5@gmail.com>
-Subject: Re: [PATCH drm-misc-next v4] drm/sched: implement dynamic job-flow
- control
-References: <20231031002655.38707-1-dakr@redhat.com>
- <6fa280dd-af9c-4171-86b7-cbef91fd9ff8@gmail.com> <ZUG2vzzzYc87nGEV@pollux>
-In-Reply-To: <ZUG2vzzzYc87nGEV@pollux>
+Currently GPUVM offers common infrastructure to track GPU VA allocations
+and mappings, generically connect GPU VA mappings to their backing
+buffers and perform more complex mapping operations on the GPU VA space.
 
---------------ofSdRHkQW97FHvScJiVP0PKl
-Content-Type: multipart/mixed; boundary="------------HdLiRkQOv2L4EHpT7n09PLrL"
+However, there are more design patterns commonly used by drivers, which
+can potentially be generalized in order to make GPUVM represent the
+basis of a VM implementation. In this context, this patch series aims at
+generalizing the following elements.
 
---------------HdLiRkQOv2L4EHpT7n09PLrL
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+1) Provide a common dma-resv for GEM objects not being used outside of
+   this GPU-VM.
 
-On 2023-10-31 22:23, Danilo Krummrich wrote:
-> Hi Luben,
->=20
+2) Provide tracking of external GEM objects (GEM objects which are
+   shared with other GPU-VMs).
 
-[snip]
->>> @@ -187,12 +251,14 @@ void drm_sched_rq_remove_entity(struct drm_sche=
-d_rq *rq,
->>>  /**
->>>   * drm_sched_rq_select_entity_rr - Select an entity which could prov=
-ide a job to run
->>>   *
->>> + * @sched: the gpu scheduler
->>>   * @rq: scheduler run queue to check.
->>>   *
->>>   * Try to find a ready entity, returns NULL if none found.
->>>   */
->>>  static struct drm_sched_entity *
->>> -drm_sched_rq_select_entity_rr(struct drm_sched_rq *rq)
->>> +drm_sched_rq_select_entity_rr(struct drm_gpu_scheduler *sched,
->>> +			      struct drm_sched_rq *rq)
->>>  {
->>>  	struct drm_sched_entity *entity;
->>> =20
->>> @@ -202,6 +268,14 @@ drm_sched_rq_select_entity_rr(struct drm_sched_r=
-q *rq)
->>>  	if (entity) {
->>>  		list_for_each_entry_continue(entity, &rq->entities, list) {
->>>  			if (drm_sched_entity_is_ready(entity)) {
->>> +				/* If we can't queue yet, preserve the current
->>> +				 * entity in terms of fairness.
->>> +				 */
->>> +				if (!drm_sched_can_queue(sched, entity)) {
->>> +					spin_unlock(&rq->lock);
->>> +					return ERR_PTR(-ENOSPC);
->>> +				}
->>> +
->>>  				rq->current_entity =3D entity;
->>>  				reinit_completion(&entity->entity_idle);
->>>  				spin_unlock(&rq->lock);
->>> @@ -211,8 +285,15 @@ drm_sched_rq_select_entity_rr(struct drm_sched_r=
-q *rq)
->>>  	}
->>> =20
->>>  	list_for_each_entry(entity, &rq->entities, list) {
->>> -
->>>  		if (drm_sched_entity_is_ready(entity)) {
->>> +			/* If we can't queue yet, preserve the current entity in
->>> +			 * terms of fairness.
->>> +			 */
->>> +			if (!drm_sched_can_queue(sched, entity)) {
->>> +				spin_unlock(&rq->lock);
->>> +				return ERR_PTR(-ENOSPC);
->>> +			}
->>> +
->>>  			rq->current_entity =3D entity;
->>>  			reinit_completion(&entity->entity_idle);
->>>  			spin_unlock(&rq->lock);
->>> @@ -231,12 +312,14 @@ drm_sched_rq_select_entity_rr(struct drm_sched_=
-rq *rq)
->>>  /**
->>>   * drm_sched_rq_select_entity_fifo - Select an entity which provides=
- a job to run
->>>   *
->>> + * @sched: the gpu scheduler
->>>   * @rq: scheduler run queue to check.
->>>   *
->>>   * Find oldest waiting ready entity, returns NULL if none found.
->>>   */
->>>  static struct drm_sched_entity *
->>> -drm_sched_rq_select_entity_fifo(struct drm_sched_rq *rq)
->>> +drm_sched_rq_select_entity_fifo(struct drm_gpu_scheduler *sched,
->>> +				struct drm_sched_rq *rq)
->>>  {
->>>  	struct rb_node *rb;
->>> =20
->>> @@ -246,6 +329,14 @@ drm_sched_rq_select_entity_fifo(struct drm_sched=
-_rq *rq)
->>> =20
->>>  		entity =3D rb_entry(rb, struct drm_sched_entity, rb_tree_node);
->>>  		if (drm_sched_entity_is_ready(entity)) {
->>> +			/* If we can't queue yet, preserve the current entity in
->>> +			 * terms of fairness.
->>> +			 */
->>> +			if (!drm_sched_can_queue(sched, entity)) {
->>> +				spin_unlock(&rq->lock);
->>> +				return ERR_PTR(-ENOSPC);
->>> +			}
->>> +
->>
->> So, this kinda did this abrupt "return" in v2, then it was fixed fine =
-in v3,
->> and now I see we return and return an error now, which doesn't seem to=
- be used
->> by anyone. In fact, in drm_sched_select_entity(), we do this,
->>
->> -	return entity;
->> +	return IS_ERR(entity) ? NULL : entity;
->>
->> So, it's perhaps best to leave this as it was in v3, and if in the fut=
-ure
->> we need to distinguish between the type of error, then that future pat=
-ch
->> would do that and also show how this is used with new code and logic.
->>
->> There is little value to over-engineer this right now, given that in
->> the future, the logic may be more esoteric than we can think of.
->=20
-> Ok, maybe what I do here is a little bit subtle and requires a comment.=
- Let me
-> explain.
->=20
-> The reason I return an ERR_PTR() instead of NULL is to indicate to
-> drm_sched_select_entity() to break out of the runqueue loop
-> (drm_sched_select_entity() breaks the loop when the returned entity is =
-not
-> NULL).
->=20
-> Without that, we'd continue the runqueue loop in drm_sched_select_entit=
-y() and
-> retry with the next lower priority. This could lead to prioritiy invers=
-ion of
-> the runqueues, since a lower priority runqueue with jobs with less cred=
-its could
-> stall a higher priority runqueue with jobs with more credits.
->=20
-> Hence, in drm_sched_select_entity() we need to be able to distinguish b=
-etween
-> drm_sched_rq_select_entity_fifo()/drm_sched_rq_select_entity_rr() can't=
- find an
-> entity and they *can* find an entity, but it's job doesn't fit on the r=
-ing.
->=20
-> I think what makes it subtle in this patch is that in drm_sched_select_=
-entity()
-> the condition already fits with
->=20
-> 	if (entity)
-> 		break;
->=20
-> because we want to break this loop when we actually found an entity, or=
- when
-> there is no space on the ring buffer, but we want to keep checking the =
-other
-> runqueues if entity is NULL.
+3) Provide functions to efficiently lock all GEM objects dma-resv the
+   GPU-VM contains mappings of.
 
-Okay, that's fine, but please update the head comment of
-drm_sched_rq_select_entity_{rr,fifo}() and of=20
-drm_sched_select_entity() to explain what is being returned.
+4) Provide tracking of evicted GEM objects the GPU-VM contains mappings
+   of, such that validation of evicted GEM objects is accelerated.
 
-This invariably adds to the documentation which some want added to DRM--l=
-et's
-first all start documenting code which we add ourselves.
+5) Provide some convinience functions for common patterns.
 
-I'd imagine this would look something like this, for each _{rr,fifo},
-respectively, (remove content with braces {}, x4),
+The implementation introduces struct drm_gpuvm_bo, which serves as abstraction
+combining a struct drm_gpuvm and struct drm_gem_object, similar to what
+amdgpu does with struct amdgpu_bo_vm. While this adds a bit of complexity it
+improves the efficiency of tracking external and evicted GEM objects.
 
-/**
- * drm_sched_rq_select_entity_{LT: rr,fifo} - Select an entity which prov=
-ides a job to run
- * @sched: the gpu scheduler
- * @rq: scheduler run queue to check.
- *
- * Try to find a ready entity, returns NULL if none found. {LT: RR}
- * Find oldest waiting ready entity, returns NULL if none found. {LT: FIF=
-O}
- *
- * Return an entity if one is found; return an error-pointer (!NULL) if a=
-n entity
- * was ready, but the scheduler had insufficient credits to accommodate i=
-ts job;
- * return NULL, if no ready entity was found. {LT: for both RR and FIFO.}=
+This patch series is also available at [3].
 
- */
+[1] https://gitlab.freedesktop.org/nouvelles/kernel/-/commits/gpuvm-next
 
-And,
+Changes in V2:
+==============
+  - rename 'drm_gpuva_manager' -> 'drm_gpuvm' which generally leads to more
+    consistent naming
+  - properly separate commits (introduce common dma-resv, drm_gpuvm_bo
+    abstraction, etc.)
+  - remove maple tree for tracking external objects, use a list drm_gpuvm_bos
+    per drm_gpuvm instead
+  - rework dma-resv locking helpers (Thomas)
+  - add a locking helper for a given range of the VA space (Christian)
+  - make the GPUVA manager buildable as module, rather than drm_exec
+    builtin (Christian)
 
-/**
- * drm_sched_select_entity - Select the next entity to process
- * @sched: the scheduler instance
- *
- * Return an entity to process or NULL if none are found.
- *
- * Note, that we break out of the for-loop when "entity"
- * is non-null, which can also be an error-pointer--this assures
- * we don't process lower priority run-queues. See comments
- * in the respectively called functions.
- */
+Changes in V3:
+==============
+  - rename missing function and files (Boris)
+  - warn if vm_obj->obj != obj in drm_gpuva_link() (Boris)
+  - don't expose drm_gpuvm_bo_destroy() (Boris)
+  - unlink VM_BO from GEM in drm_gpuvm_bo_destroy() rather than
+    drm_gpuva_unlink() and link within drm_gpuvm_bo_obtain() to keep
+    drm_gpuvm_bo instances unique
+  - add internal locking to external and evicted object lists to support drivers
+    updating the VA space from within the fence signalling critical path (Boris)
+  - unlink external objects and evicted objects from the GPUVM's list in
+    drm_gpuvm_bo_destroy()
+  - add more documentation and fix some kernel doc issues
 
-[snip]
->>> +
->>> +	/**
->>> +	 * @update_job_credits: Called once the scheduler is considering th=
-is
->>> +	 * job for execution.
->>
->> "once" --> "when", a close cousin of "once", but clearer in code comme=
-nts.
->> It is called in fact as many times as the job is considered to be push=
-ed down
->> to hardware, if we couldn't previously.
->=20
-> Sure, gonna change that.
->=20
->>
->>> +	 *
->>> +	 * This callback returns the number of credits this job would take =
-if
->>
->> Too many repetitions of "this". Instead of "this job", say "the job".
->=20
-> Gonna fix.
+Changes in V4:
+==============
+  - add a drm_gpuvm_resv() helper (Boris)
+  - add a drm_gpuvm::<list_name>::local_list field (Boris)
+  - remove drm_gpuvm_bo_get_unless_zero() helper (Boris)
+  - fix missing NULL assignment in get_next_vm_bo_from_list() (Boris)
+  - keep a drm_gem_object reference on potential vm_bo destroy (alternatively we
+    could free the vm_bo and drop the vm_bo's drm_gem_object reference through
+    async work)
+  - introduce DRM_GPUVM_RESV_PROTECTED flag to indicate external locking through
+    the corresponding dma-resv locks to optimize for drivers already holding
+    them when needed; add the corresponding lock_assert_held() calls (Thomas)
+  - make drm_gpuvm_bo_evict() per vm_bo and add a drm_gpuvm_bo_gem_evict()
+    helper (Thomas)
+  - pass a drm_gpuvm_bo in drm_gpuvm_ops::vm_bo_validate() (Thomas)
+  - documentation fixes
 
-Great.
+Changes in V5:
+==============
+  - use a root drm_gem_object provided by the driver as a base for the VM's
+    common dma-resv (Christian)
+  - provide a helper to allocate a "dummy" root GEM object in case a driver
+    specific root GEM object isn't available
+  - add a dedicated patch for nouveau to make use of the GPUVM's shared dma-resv
+  - improve documentation (Boris)
+  - the following patches are removed from the series, since they already landed
+    in drm-misc-next
+    - f72c2db47080 ("drm/gpuvm: rename struct drm_gpuva_manager to struct drm_gpuvm")
+    - fe7acaa727e1 ("drm/gpuvm: allow building as module")
+    - 78f54469b871 ("drm/nouveau: uvmm: rename 'umgr' to 'base'")
 
-Could you please rebase your patch on top of drm-misc-next--Matthew's Xe =
-changes
-went in this afternoon.
+Changes in V6:
+==============
+  - add drm_gpuvm_bo::evicted field protected by the drm_gem_object's dma-resv
+    lock (Thomas)
+    - additionally to the original proposal, always use drm_gpuvm_bo::evicted
+      regardless of the used locking scheme and always keep it up to date
+  - remove unneccesary get->put dance in drm_gpuva_unlink() (Thomas)
+  - fix commit message wording (Thomas)
+  - fix kernel doc warnings (kernel test robot)
 
-Thanks!
---=20
-Regards,
-Luben
+Changes in V7:
+==============
+  - add a patch converting WARN() macros to drm_WARN() variants
+  - allow drivers to pass the number of fences to reserve and the drm_exec flags
+    through struct drm_gpuvm_exec
+  - rename 'root' GEM object to 'resv' GEM object
+  - fix order of private_usage and extobj_usage in drm_gpuvm_resv_add_fence()
+  - always set drm_gpuvm_bo::evicted accordingly
+  - explicitly clear drm_gpuvm_bo from evict list after successful validation
+  - group reference get() calls with pointer assignments
+  - call drm_gem_object_put() after vm_bo_free() callback
+  - make lockdep checks explicit for drm_gpuvm_bo_* functions
+  - improve documentation of struct drm_gpuvm_bo
+  - fix a few documentation typos and style issues
+  - use BIT() instead of shift ops for enum drm_gpuvm_flags
 
---------------HdLiRkQOv2L4EHpT7n09PLrL
-Content-Type: application/pgp-keys; name="OpenPGP_0x4C15479431A334AF.asc"
-Content-Disposition: attachment; filename="OpenPGP_0x4C15479431A334AF.asc"
-Content-Description: OpenPGP public key
-Content-Transfer-Encoding: quoted-printable
+Changes in V8:
+==============
+  - do not always WARN on drm_gpuvm_check_overflow() to avoid userspace being
+    able to spam the system log (Christian)
+  - fix checkpath warning ENOTSUPP -> EOPNOTSUPP (Thomas)
+  - fix another checkpatch error (assignment in if condition) (Thomas)
+  - fix missing doc comment regarding a drm_gpuvm_bo's gpuva list (Thomas)
+  - reference count struct drm_gpuvm, this avoids having (odd) rules when
+    dealing with a drm_gpuvm_bo's gpuvm pointer
 
------BEGIN PGP PUBLIC KEY BLOCK-----
+Danilo Krummrich (12):
+  drm/gpuvm: convert WARN() to drm_WARN() variants
+  drm/gpuvm: don't always WARN in drm_gpuvm_check_overflow()
+  drm/gpuvm: export drm_gpuvm_range_valid()
+  drm/nouveau: make use of drm_gpuvm_range_valid()
+  drm/gpuvm: add common dma-resv per struct drm_gpuvm
+  drm/nouveau: make use of the GPUVM's shared dma-resv
+  drm/gpuvm: add drm_gpuvm_flags to drm_gpuvm
+  drm/nouveau: separately allocate struct nouveau_uvmm
+  drm/gpuvm: reference count drm_gpuvm structures
+  drm/gpuvm: add an abstraction for a VM / BO combination
+  drm/gpuvm: track/lock/validate external/evicted objects
+  drm/nouveau: use GPUVM common infrastructure
 
-xjMEZTohOhYJKwYBBAHaRw8BAQdAWSq76k+GsENjDTMVCy9Vr4fAO9Rb57/bPT1A
-PnbnnRHNIkx1YmVuIFR1aWtvdiA8bHR1aWtvdjg5QGdtYWlsLmNvbT7CmQQTFgoA
-QRYhBJkj7+VmFO9beaAl10wVR5QxozSvBQJlOiE6AhsDBQkJZgGABQsJCAcCAiIC
-BhUKCQgLAgQWAgMBAh4HAheAAAoJEEwVR5QxozSvSm4BAOwCpX53DTQhE20FBGlT
-MqKCOQyJqlMcIQ9SO1qPWX1iAQCv3vfyJwktF7REl1yt7IU2Sye1qmQMfJxdt9JM
-bMNNBs44BGU6IToSCisGAQQBl1UBBQEBB0BT9wSPcCE8uGe7FWo8C+nTSyWPXKTx
-9F0gpEnlqReRBwMBCAfCfgQYFgoAJhYhBJkj7+VmFO9beaAl10wVR5QxozSvBQJl
-OiE6AhsMBQkJZgGAAAoJEEwVR5QxozSvSsYA/2LIFjbxQ2ikbU5S0pKoaMDzO9eG
-z69uNhNWJcvIKJK6AQC9228Mqc1JeZMIyjYWr2HKYHi8S2q2/zHrSZwAWYYwDA=3D=3D
-=3DqCaZ
------END PGP PUBLIC KEY BLOCK-----
+ drivers/gpu/drm/drm_gpuvm.c             | 1115 +++++++++++++++++++++--
+ drivers/gpu/drm/nouveau/nouveau_bo.c    |   15 +-
+ drivers/gpu/drm/nouveau/nouveau_bo.h    |    5 +
+ drivers/gpu/drm/nouveau/nouveau_drm.c   |    5 +-
+ drivers/gpu/drm/nouveau/nouveau_drv.h   |   10 +-
+ drivers/gpu/drm/nouveau/nouveau_exec.c  |   57 +-
+ drivers/gpu/drm/nouveau/nouveau_exec.h  |    4 -
+ drivers/gpu/drm/nouveau/nouveau_gem.c   |   10 +-
+ drivers/gpu/drm/nouveau/nouveau_sched.c |    9 +-
+ drivers/gpu/drm/nouveau/nouveau_sched.h |    7 +-
+ drivers/gpu/drm/nouveau/nouveau_uvmm.c  |  269 +++---
+ drivers/gpu/drm/nouveau/nouveau_uvmm.h  |    8 -
+ include/drm/drm_gem.h                   |   32 +-
+ include/drm/drm_gpuvm.h                 |  521 ++++++++++-
+ 14 files changed, 1796 insertions(+), 271 deletions(-)
 
---------------HdLiRkQOv2L4EHpT7n09PLrL--
 
---------------ofSdRHkQW97FHvScJiVP0PKl--
+base-commit: 3c6c7ca4508b6cb1a033ac954c50a1b2c97af883
+-- 
+2.41.0
 
---------------ff0a4To1xV8RoZz681C80nUP
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-wnsEABYIACMWIQSZI+/lZhTvW3mgJddMFUeUMaM0rwUCZULZLgUDAAAAAAAKCRBMFUeUMaM0r1r2
-AQDz47a1RfxaLTIenT/Ge+tFvE5IKotab5N+A2vTsRaDEQEAjJ2Q3SE4b6LuiQyZgSu4rWtDVa5v
-S+t5dQJq8b5tBwU=
-=hKrT
------END PGP SIGNATURE-----
-
---------------ff0a4To1xV8RoZz681C80nUP--
