@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1AE47DDE46
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Nov 2023 10:18:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59E5F7DDE47
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Nov 2023 10:19:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E07910E672;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7911B10E671;
 	Wed,  1 Nov 2023 09:18:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D22010E00C
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Nov 2023 09:18:41 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6EB0D10E00C
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Nov 2023 09:18:42 +0000 (UTC)
 Received: from [127.0.1.1] (91-158-149-209.elisa-laajakaista.fi
  [91.158.149.209])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 73F1F1BB1;
- Wed,  1 Nov 2023 10:18:23 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 40B541BCF;
+ Wed,  1 Nov 2023 10:18:24 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
  s=mail; t=1698830304;
- bh=XebHXvtm9Gfpkkb4vxBLxt9Z+vX/euBnejSOchv4oXo=;
+ bh=3IFzGY8oeGtxO2wTPUesFMIUoPVmmi/6+htUtk+hmMU=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=N4Lf32+MT3uYNIlocIzcnORczhVJRTG3EGbyQNJkYJ+uIw4qQIRTY1ccLlYdR4oFp
- 1VgWWQr4sCpl4Fua3bZPcz+uDottvhUeetdyYc9FKCcl2X9y1cilDYUGcg2vlPNdZ2
- Z2N9MgEpQLQYU1FG744fbCxx6y0UNVFmb5QZaAAU=
+ b=bxicC3Jq2ObCiLXFkkxIaCrLYIoMnPswexqgEjg8SUjH7lVGl94HZEavlfrxBUsdZ
+ wz8Cmze3bRQvAtn1SOknfy4OhnadRb9dbc8FGdnlMyEhjchlBsjsFpLPul5pL3qwbw
+ aRhtwaOP8nv0k3xnjSiLc++WwwpNriZreTA3GOl8=
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Date: Wed, 01 Nov 2023 11:17:45 +0200
-Subject: [PATCH 08/10] drm/tidss: Add dispc_is_idle()
+Date: Wed, 01 Nov 2023 11:17:46 +0200
+Subject: [PATCH 09/10] drm/tidss: IRQ code cleanup
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20231101-tidss-probe-v1-8-45149e0f9415@ideasonboard.com>
+Message-Id: <20231101-tidss-probe-v1-9-45149e0f9415@ideasonboard.com>
 References: <20231101-tidss-probe-v1-0-45149e0f9415@ideasonboard.com>
 In-Reply-To: <20231101-tidss-probe-v1-0-45149e0f9415@ideasonboard.com>
 To: Aradhya Bhatia <a-bhatia1@ti.com>, Devarsh Thakkar <devarsht@ti.com>, 
@@ -39,21 +39,21 @@ To: Aradhya Bhatia <a-bhatia1@ti.com>, Devarsh Thakkar <devarsht@ti.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
 X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1637;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3782;
  i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=XebHXvtm9Gfpkkb4vxBLxt9Z+vX/euBnejSOchv4oXo=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBlQhfouctsmX1lsKBLN4hTuScM6P6dOalET/fhs
- HZs+OBlhFmJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZUIX6AAKCRD6PaqMvJYe
- 9ZLdEACvwMBfXZe0UFUyJAWitzqcRdI8rq8Fv/GHlhHVRw6N5qjExuo05m0ZiCJ6WIRz9xkTK2K
- zAk+ELQ45A7rymVJBlRzVnEdfKOrpYltqBFjJKtN86fyj/9QuSmpnlgqMVvVeP0QjHEVbM1x67n
- /v1xfm0zSLtYWjB4sXzrDAHxcQUIVc6SCOGDGAITlg1Wblo5ZyRUzOeOGJTg7jovU6OCPXRY8jD
- c9x7sXrml0VY+hv/IvmVTDqE1opMxhcSBdOWmNAoRMPObo2jAMt5OnsdP3sGvVErVmFd6y3e5aK
- vnWSbTv4yGyZdwRueI9dIztZkn/hQj9HNHUTtokEI2yvGny8gI3tDIG7bR+WP5d7jNfT9i+sjp0
- WggxHMj/poiPeMIZyTV8tLQx2kZ+repaWIw+1O4sFL+AIL6fvS0/pDx8cGDs23VY+A7+Je3dMIs
- VvD22BMSLeRDdilvHDEm5VhM27fxm5KZybEYtLWO2cfsdO1TzuFd9OjAHBNOkwg+0B2G5i2soET
- ZXakM7ynJ6Ywl6+Ougzskf3YSSJgQPZGrAuR2hOMAY6BTVMYaPuDC8aZrwRqRY6M7Fw2wwymt7K
- iDGIuOn5dXSMwPoiz2Yz6xyYumkGCHPWc+4r4NqZG6IFOCg0z2Nd7oqXdpL88td6UsveBDz/dz8
- gxLsbPLhYe97xEg==
+ bh=3IFzGY8oeGtxO2wTPUesFMIUoPVmmi/6+htUtk+hmMU=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBlQhfosECtSzzwvEaTrWTML4kgj007cpTx8f/P/
+ TAbV/DRdCuJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZUIX6AAKCRD6PaqMvJYe
+ 9YocD/9tLemVTGiztuTbwCBaz1BWvl38Jfz8WJagRPJmto7sGPyNo9UqO/uxA2zhR/Yjq89IAYJ
+ XooT8GZcZZ27w3VffTDbh23HNCqbZeBssaosJffxqs9PzUEvedQHTyOHs5YUTNSBoUGtcE+GEel
+ p5+EIBvsXiLM9Xy91k6T5Z0Im/X5BsL/VNdTQjPx50Sx8KTnNeJeM7b5cyQH8yflC19ubvi7mJy
+ SYEvzQRcrqGNdYwlg3lpsCZcEeITXRtRiWtbNwp4spud3GlCOppzUf8UG6kpHg0/T0HNf33/FI5
+ 6UaBC0J7TVH2ieI7ESv27SXm5nnSqjkalnbyOD2iLWgkL60TI1dQfboUUlEuUOsCYDkbqnWonvQ
+ kK1XgdplucnltZSGxq/+tN/etgxJUjAlu9u322dc5VT2h7uow6G33qzp0LWdt7MaB3iJYThW73l
+ eY7OhelAM/1p/T7dcy4zE7ajHDCrJUXCuh7z/4kqdWtVHZMrkiPL7hiUpA10g8Hu2+ShJtjtGfo
+ 6mFt28u1GRH1LPFODkjOvIazVGUANFA2J6rHIkL3fYoFPvNPAtuqJefB546y5SDXPXZv9iEA4kh
+ aLi5VYr09/Xmb2HOT9M4EosYph0kPv6N5rnWVkVm4X7oOYR2XVGvmeUJLU7zHdmgBeqdmPQVQjh
+ 3LMoGQ1pZh7u4vQ==
 X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
  fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -74,52 +74,127 @@ Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a helper function, dispc_is_idle(), which returns whether the DSS is
-idle (i.e. is any video port enabled).
+The IRQ setup code is overly complex. All we really need to do is
+initialize the related fields in struct tidss_device, and request the
+IRQ.
 
-For now we add a call to it in the suspend and resume callbacks, and
-print a warning if in either place the DSS is not idle. In the future
-this can be used to detect if the bootloader had enabled the DSS, and
-the driver can act on that.
+We can drop all the HW accesses, as they are pointless: the driver will
+set the IRQs correctly when it needs any of the IRQs, and at probe time
+we have done a reset, so we know that all the IRQs are masked by default
+in the hardware.
+
+Thus we can combine the tidss_irq_preinstall() and
+tidss_irq_postinstall() into the tidss_irq_install() function, drop the
+HW accesses, and drop the use of spinlock, as this is done at init time
+and there can be no races.
+
+We can also drop the HW access from the tidss_irq_uninstall(), as the
+driver will anyway disable and suspend the hardware at remove time.
 
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 ---
- drivers/gpu/drm/tidss/tidss_dispc.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ drivers/gpu/drm/tidss/tidss_drv.c |  2 ++
+ drivers/gpu/drm/tidss/tidss_irq.c | 54 ++++++---------------------------------
+ 2 files changed, 10 insertions(+), 46 deletions(-)
 
-diff --git a/drivers/gpu/drm/tidss/tidss_dispc.c b/drivers/gpu/drm/tidss/tidss_dispc.c
-index 13db062892e3..a527c28c8833 100644
---- a/drivers/gpu/drm/tidss/tidss_dispc.c
-+++ b/drivers/gpu/drm/tidss/tidss_dispc.c
-@@ -2603,10 +2603,18 @@ void dispc_vp_setup(struct dispc_device *dispc, u32 hw_videoport,
- 	dispc_vp_set_color_mgmt(dispc, hw_videoport, state, newmodeset);
+diff --git a/drivers/gpu/drm/tidss/tidss_drv.c b/drivers/gpu/drm/tidss/tidss_drv.c
+index 64914331715a..37693f30d98b 100644
+--- a/drivers/gpu/drm/tidss/tidss_drv.c
++++ b/drivers/gpu/drm/tidss/tidss_drv.c
+@@ -138,6 +138,8 @@ static int tidss_probe(struct platform_device *pdev)
+ 
+ 	platform_set_drvdata(pdev, tidss);
+ 
++	spin_lock_init(&tidss->wait_lock);
++
+ 	ret = dispc_init(tidss);
+ 	if (ret) {
+ 		dev_err(dev, "failed to initialize dispc: %d\n", ret);
+diff --git a/drivers/gpu/drm/tidss/tidss_irq.c b/drivers/gpu/drm/tidss/tidss_irq.c
+index 0c681c7600bc..604334ef526a 100644
+--- a/drivers/gpu/drm/tidss/tidss_irq.c
++++ b/drivers/gpu/drm/tidss/tidss_irq.c
+@@ -93,33 +93,21 @@ void tidss_irq_resume(struct tidss_device *tidss)
+ 	spin_unlock_irqrestore(&tidss->wait_lock, flags);
  }
  
-+static bool dispc_is_idle(struct dispc_device *dispc)
-+{
-+	return REG_GET(dispc, DSS_SYSSTATUS, 9, 9);
-+}
-+
- int dispc_runtime_suspend(struct dispc_device *dispc)
+-static void tidss_irq_preinstall(struct drm_device *ddev)
+-{
+-	struct tidss_device *tidss = to_tidss(ddev);
+-
+-	spin_lock_init(&tidss->wait_lock);
+-
+-	tidss_runtime_get(tidss);
+-
+-	dispc_set_irqenable(tidss->dispc, 0);
+-	dispc_read_and_clear_irqstatus(tidss->dispc);
+-
+-	tidss_runtime_put(tidss);
+-}
+-
+-static void tidss_irq_postinstall(struct drm_device *ddev)
++int tidss_irq_install(struct drm_device *ddev, unsigned int irq)
  {
- 	dev_dbg(dispc->dev, "suspend\n");
+ 	struct tidss_device *tidss = to_tidss(ddev);
+-	unsigned long flags;
+-	unsigned int i;
++	int ret;
  
-+	if (!dispc_is_idle(dispc))
-+		dev_warn(dispc->dev, "Bad HW state: DSS not idle when suspending");
-+
- 	dispc->is_enabled = false;
+-	tidss_runtime_get(tidss);
++	if (irq == IRQ_NOTCONNECTED)
++		return -ENOTCONN;
  
- 	clk_disable_unprepare(dispc->fclk);
-@@ -2620,6 +2628,9 @@ int dispc_runtime_resume(struct dispc_device *dispc)
+-	spin_lock_irqsave(&tidss->wait_lock, flags);
++	ret = request_irq(irq, tidss_irq_handler, 0, ddev->driver->name, ddev);
++	if (ret)
++		return ret;
  
- 	clk_prepare_enable(dispc->fclk);
+ 	tidss->irq_mask = DSS_IRQ_DEVICE_OCP_ERR;
  
-+	if (!dispc_is_idle(dispc))
-+		dev_warn(dispc->dev, "Bad HW state: DSS not idle when resuming");
-+
- 	if (REG_GET(dispc, DSS_SYSSTATUS, 0, 0) == 0)
- 		dev_warn(dispc->dev, "DSS FUNC RESET not done!\n");
+-	for (i = 0; i < tidss->num_crtcs; ++i) {
++	for (unsigned int i = 0; i < tidss->num_crtcs; ++i) {
+ 		struct tidss_crtc *tcrtc = to_tidss_crtc(tidss->crtcs[i]);
  
+ 		tidss->irq_mask |= DSS_IRQ_VP_SYNC_LOST(tcrtc->hw_videoport);
+@@ -127,28 +115,6 @@ static void tidss_irq_postinstall(struct drm_device *ddev)
+ 		tidss->irq_mask |= DSS_IRQ_VP_FRAME_DONE(tcrtc->hw_videoport);
+ 	}
+ 
+-	tidss_irq_update(tidss);
+-
+-	spin_unlock_irqrestore(&tidss->wait_lock, flags);
+-
+-	tidss_runtime_put(tidss);
+-}
+-
+-int tidss_irq_install(struct drm_device *ddev, unsigned int irq)
+-{
+-	int ret;
+-
+-	if (irq == IRQ_NOTCONNECTED)
+-		return -ENOTCONN;
+-
+-	tidss_irq_preinstall(ddev);
+-
+-	ret = request_irq(irq, tidss_irq_handler, 0, ddev->driver->name, ddev);
+-	if (ret)
+-		return ret;
+-
+-	tidss_irq_postinstall(ddev);
+-
+ 	return 0;
+ }
+ 
+@@ -156,9 +122,5 @@ void tidss_irq_uninstall(struct drm_device *ddev)
+ {
+ 	struct tidss_device *tidss = to_tidss(ddev);
+ 
+-	tidss_runtime_get(tidss);
+-	dispc_set_irqenable(tidss->dispc, 0);
+-	tidss_runtime_put(tidss);
+-
+ 	free_irq(tidss->irq, ddev);
+ }
 
 -- 
 2.34.1
