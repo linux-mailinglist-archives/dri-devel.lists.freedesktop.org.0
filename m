@@ -1,64 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B189E7DE75D
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Nov 2023 22:26:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E636E7DE758
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Nov 2023 22:23:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 98D5310E7B4;
-	Wed,  1 Nov 2023 21:26:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 20C0C10E7AF;
+	Wed,  1 Nov 2023 21:23:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com
- [IPv6:2607:f8b0:4864:20::1033])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 46DF210E7B2
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Nov 2023 21:26:12 +0000 (UTC)
-Received: by mail-pj1-x1033.google.com with SMTP id
- 98e67ed59e1d1-280260db156so284979a91.2
- for <dri-devel@lists.freedesktop.org>; Wed, 01 Nov 2023 14:26:12 -0700 (PDT)
+Received: from mail-yw1-x1134.google.com (mail-yw1-x1134.google.com
+ [IPv6:2607:f8b0:4864:20::1134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B4AAB10E7AF
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Nov 2023 21:23:14 +0000 (UTC)
+Received: by mail-yw1-x1134.google.com with SMTP id
+ 00721157ae682-5af6c445e9eso3696027b3.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 Nov 2023 14:23:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1698873972; x=1699478772;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=keM6xgaqk4y5F5Fy9cbvhHzonhRhCtU3xaG8qjxRs74=;
- b=LJQT1WVEO1A4o9WZQYvOh0OoiWjszSobiGrhkaCHKlUb0jIdmqMXijaCjqfHQY8kHk
- 6Ho0EHKpAwhWrLn8wIc34DjWE1rmYExMGxAwp5Sbjf72sjYKdxglxqP/6PXikeTwA+Un
- ik+IWSgnhiYGBZp0l1ABfcsq1tP+WY+59k67w=
+ d=linaro.org; s=google; t=1698873794; x=1699478594; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=Dl8c3BIAaS/88zFuuBV/4w/NPgrIAjvlzC9LRsB8+m8=;
+ b=McEBom5XFELCoIEOgGUJw24CsNbMj7AQ9QgtHc8iRi/qzaJBK0hi2/HDvN6N8ijCMY
+ NDa5JlYoduSoLJ6nIa/eSp3i7daqK12AvyMdd8NH/JjHyF1drkP5sgrQu+cdP5yZHF6o
+ irzOgb7TVhi0HuNet4DMOtmqiWO3vtRrsxH8Y8Gvg9WNygBvFdOgIM70H37Z8Mv/yfKR
+ W98aef70Q6m23t0I+prtrMxRtNUYnSHlj8nvXZy+rCacRkNormqfdGL7p18RDnYqmbqG
+ IrxAEIDw9dtxcGGu1yVjrQYbApucL0PfZS2VKSpbbmIi5Srb8xG54nskat2clJsR2rfs
+ 7wzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1698873972; x=1699478772;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=keM6xgaqk4y5F5Fy9cbvhHzonhRhCtU3xaG8qjxRs74=;
- b=Cdn36RCEecRLNPUpVHOPMlZYmKo6z3ncuey+qMa+s3gWLwQUtm4KFYsrzJuhZvdI9Q
- 8IRFBHmJ/hXNjyvPiNeTIKNauR2jR0VhT+JF9iL1W04xIepOvu6ZZFckpSayp9EfQIp3
- VWMvBnDPRsFcVoyX77nsC8OG08QIr2HR4uTZCHwG0XN0hZNAKk6kPMecpjuRwlIW0Bib
- de17r4PsBV6xBd73VaP2XFlDNZU7JPAQt31BRNXNvFsoOkhWY5ecPhSvjRvu7lvHc5mW
- zOL4MpdNoga3+HPm2dlpqd24UXuIh//BCEzwxs7D4kQ6J5yDc9OWwgpyYo3tJWE7zGOu
- tGJA==
-X-Gm-Message-State: AOJu0YyKANS93oozbTTy3ec8r788dPJjQwQz4ynB4na/wsflFa5EL6Rm
- /GI1HCK55E95KacAfRn9UzsGuA==
-X-Google-Smtp-Source: AGHT+IFJslIGJU7A2/YPceX8PHGElxQ1whLtbPlYdX+GrlOIjg+IOa63DnZoHTC5pBxg7dwe30PYSQ==
-X-Received: by 2002:a17:90a:fc88:b0:280:18bd:ffe7 with SMTP id
- ci8-20020a17090afc8800b0028018bdffe7mr11725904pjb.48.1698873971885; 
- Wed, 01 Nov 2023 14:26:11 -0700 (PDT)
-Received: from hsinyi.sjc.corp.google.com ([2620:15c:9d:2:b410:473c:2b92:2e2e])
- by smtp.gmail.com with ESMTPSA id
- ds21-20020a17090b08d500b00274262bcf8dsm1212976pjb.41.2023.11.01.14.26.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Nov 2023 14:26:11 -0700 (PDT)
-From: Hsin-Yi Wang <hsinyi@chromium.org>
-To: Douglas Anderson <dianders@chromium.org>
-Subject: [PATCH 3/3] drm/panel-edp: Choose correct preferred mode
-Date: Wed,  1 Nov 2023 14:20:11 -0700
-Message-ID: <20231101212604.1636517-4-hsinyi@chromium.org>
-X-Mailer: git-send-email 2.42.0.869.gea05f2083d-goog
-In-Reply-To: <20231101212604.1636517-1-hsinyi@chromium.org>
-References: <20231101212604.1636517-1-hsinyi@chromium.org>
+ d=1e100.net; s=20230601; t=1698873794; x=1699478594;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Dl8c3BIAaS/88zFuuBV/4w/NPgrIAjvlzC9LRsB8+m8=;
+ b=cNlimsFfVmNEAZDkvcHp0p94SBQXMPi6CO60Nup4CNeqkz9Xl5sVQfm6RBEEyVTzxF
+ 1XCnaAdMfQ3iy1dcKhSezKOANVAJ1qN26zYcepaahKgZNKFdxmz2Zc+fixk50ym+ln3u
+ xqgJ4EnGZZiG621Auc4j6tvjAIy9cuK+co7XAt2tY3DpFWJM2KB0IXJVT6Jnxl7O6nxD
+ jkrmZVabsrHb/XYznz5zoXqwMu4+qLVWLBTW+ujFCTalN0VhDUnPTIYfCfW0CAUbIj7P
+ vIKFEecf5lz8YD1chq+B178Q04PR2eHK4zoO4UbJf34/8uGrN0imAWt+IU/KnxbO1PXc
+ xx6w==
+X-Gm-Message-State: AOJu0Yxz4+ROn4gVchXmUggxDwGTXjZJlU8efxWx0slHu7JWMwCoyWVI
+ B+P6NqNNWKFuQJzJBw8oLZpHsTZUA3mhPPijXCLFFw==
+X-Google-Smtp-Source: AGHT+IGmaCpH2gD9y+L9dyOZhN2BCEE0JHEsYRG7D0m17qUZkwGbvzFd57ZlO9+haSpM7c/X3W8c0/L7TAlbRrWUTps=
+X-Received: by 2002:a81:a789:0:b0:5a9:27c8:edbc with SMTP id
+ e131-20020a81a789000000b005a927c8edbcmr14862501ywh.28.1698873793758; Wed, 01
+ Nov 2023 14:23:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20231006131450.2436688-1-dmitry.baryshkov@linaro.org>
+ <20231006131450.2436688-10-dmitry.baryshkov@linaro.org>
+ <c2f7733b-bfa3-a8a6-6909-5da26cd513af@quicinc.com>
+ <CAA8EJpr35LgyfNOcwiE0FgGR-CfS6b996HZk0tnQrVpOX99aRg@mail.gmail.com>
+ <6d25aaec-58ef-6f66-d2f8-d351ab703d05@quicinc.com>
+ <CAA8EJprX=8w7WDb8YF3Tf5bmkeym024oESSeoBtq5OU25CtcgQ@mail.gmail.com>
+ <167ab91e-7194-0cb9-e2d8-2bbb83098e75@quicinc.com>
+In-Reply-To: <167ab91e-7194-0cb9-e2d8-2bbb83098e75@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Wed, 1 Nov 2023 23:23:02 +0200
+Message-ID: <CAA8EJpoZMYQKsPiiwNv7v-72L9nOcN2Jc4dkdmTQyzB9trYgag@mail.gmail.com>
+Subject: Re: [PATCH v6 09/10] drm/msm/dpu: merge DPU_SSPP_SCALER_QSEED3,
+ QSEED3LITE, QSEED4
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,86 +73,228 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, linux-kernel@vger.kernel.org,
- Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>
+Cc: freedreno@lists.freedesktop.org, Bjorn Andersson <andersson@kernel.org>,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ linux-arm-msm@vger.kernel.org, Marijn Suijten <marijn.suijten@somainline.org>,
+ Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If a non generic edp-panel is under aux-bus, the mode read from edid would
-still be selected as preferred and results in multiple preferred modes,
-which is ambiguous.
+On Wed, 1 Nov 2023 at 21:56, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+>
+>
+>
+> On 11/1/2023 12:39 PM, Dmitry Baryshkov wrote:
+> > On Wed, 1 Nov 2023 at 20:43, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+> >>
+> >>
+> >>
+> >> On 10/31/2023 1:19 AM, Dmitry Baryshkov wrote:
+> >>> On Mon, 30 Oct 2023 at 22:24, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+> >>>>
+> >>>>
+> >>>>
+> >>>> On 10/6/2023 6:14 AM, Dmitry Baryshkov wrote:
+> >>>>> Three different features, DPU_SSPP_SCALER_QSEED3, QSEED3LITE and QSEED4
+> >>>>> are all related to different versions of the same HW scaling block.
+> >>>>> Corresponding driver parts use scaler_blk.version to identify the
+> >>>>> correct way to program the hardware. In order to simplify the driver
+> >>>>> codepath, merge these three feature bits.
+> >>>>>
+> >>>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> >>>>> ---
+> >>>>>     drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 4 ++--
+> >>>>>     drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h | 6 +-----
+> >>>>>     drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c    | 9 ++-------
+> >>>>>     drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c      | 3 +--
+> >>>>>     4 files changed, 6 insertions(+), 16 deletions(-)
+> >>>>>
+> >>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> >>>>> index 32c396abf877..eb867c8123d7 100644
+> >>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> >>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> >>>>> @@ -31,10 +31,10 @@
+> >>>>>         (VIG_SDM845_MASK | BIT(DPU_SSPP_SMART_DMA_V2))
+> >>>>>
+> >>>>>     #define VIG_SC7180_MASK \
+> >>>>> -     (VIG_MASK | BIT(DPU_SSPP_QOS_8LVL) | BIT(DPU_SSPP_SCALER_QSEED4))
+> >>>>> +     (VIG_MASK | BIT(DPU_SSPP_QOS_8LVL) | BIT(DPU_SSPP_SCALER_QSEED3))
+> >>>>>
+> >>>>>     #define VIG_SM6125_MASK \
+> >>>>> -     (VIG_MASK | BIT(DPU_SSPP_QOS_8LVL) | BIT(DPU_SSPP_SCALER_QSEED3LITE))
+> >>>>> +     (VIG_MASK | BIT(DPU_SSPP_QOS_8LVL) | BIT(DPU_SSPP_SCALER_QSEED3))
+> >>>>>
+> >>>>
+> >>>> This merging is coming at a cost of inaccuracy. We are marking sc7180
+> >>>> and sm6125 as scaler_qseed3. But they are not. Let me know what you
+> >>>> think of below idea instead.
+> >>>>
+> >>>>>     #define VIG_SC7180_MASK_SDMA \
+> >>>>>         (VIG_SC7180_MASK | BIT(DPU_SSPP_SMART_DMA_V2))
+> >>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> >>>>> index fc5027b0123a..ba262b3f0bdc 100644
+> >>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> >>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> >>>>> @@ -51,9 +51,7 @@ enum {
+> >>>>>     /**
+> >>>>>      * SSPP sub-blocks/features
+> >>>>>      * @DPU_SSPP_SCALER_QSEED2,  QSEED2 algorithm support
+> >>>>> - * @DPU_SSPP_SCALER_QSEED3,  QSEED3 alogorithm support
+> >>>>> - * @DPU_SSPP_SCALER_QSEED3LITE,  QSEED3 Lite alogorithm support
+> >>>>> - * @DPU_SSPP_SCALER_QSEED4,  QSEED4 algorithm support
+> >>>>> + * @DPU_SSPP_SCALER_QSEED3,  QSEED3 alogorithm support (also QSEED3LITE and QSEED4)
+> >>>>>      * @DPU_SSPP_SCALER_RGB,     RGB Scaler, supported by RGB pipes
+> >>>>>      * @DPU_SSPP_CSC,            Support of Color space converion
+> >>>>>      * @DPU_SSPP_CSC_10BIT,      Support of 10-bit Color space conversion
+> >>>>> @@ -72,8 +70,6 @@ enum {
+> >>>>>     enum {
+> >>>>>         DPU_SSPP_SCALER_QSEED2 = 0x1,
+> >>>>>         DPU_SSPP_SCALER_QSEED3,
+> >>>>> -     DPU_SSPP_SCALER_QSEED3LITE,
+> >>>>> -     DPU_SSPP_SCALER_QSEED4,
+> >>>>>         DPU_SSPP_SCALER_RGB,
+> >>>>>         DPU_SSPP_CSC,
+> >>>>>         DPU_SSPP_CSC_10BIT,
+> >>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
+> >>>>> index 7e9c87088e17..d1b70cf72eef 100644
+> >>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
+> >>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
+> >>>>> @@ -594,9 +594,7 @@ static void _setup_layer_ops(struct dpu_hw_sspp *c,
+> >>>>>                 test_bit(DPU_SSPP_SMART_DMA_V2, &c->cap->features))
+> >>>>>                 c->ops.setup_multirect = dpu_hw_sspp_setup_multirect;
+> >>>>>
+> >>>>> -     if (test_bit(DPU_SSPP_SCALER_QSEED3, &features) ||
+> >>>>> -                     test_bit(DPU_SSPP_SCALER_QSEED3LITE, &features) ||
+> >>>>> -                     test_bit(DPU_SSPP_SCALER_QSEED4, &features))
+> >>>>> +     if (test_bit(DPU_SSPP_SCALER_QSEED3, &features))
+> >>>>>                 c->ops.setup_scaler = _dpu_hw_sspp_setup_scaler3;
+> >>>>
+> >>>> Can we just do sblk->scaler_blk.version >= 0x3000 instead of this
+> >>>> merging? That way you can still drop those enums without inaccuracy.
+> >>>
+> >>> No. QSEED3 from sdm845 has version 1.3, msm8998, sdm660 and sdm630
+> >>> have version 1.2.
+> >>>
+> >>
+> >> Ah got it.
+> >>
+> >> HW versioning is getting harder to generalize with the example you have
+> >> given. In my opinion, in that case lets keep these enums intact because
+> >> we dont have any other way of knowing the Qseed version otherwise and in
+> >> terms of LOC, we are not really saving so much in this change.
+> >>
+> >> In the prev change I agreed because along with the name and the version,
+> >> we could still interpret the version but with compressing the enums into
+> >> just QSEED3, this becomes very confusing. So now, in the future if we
+> >> have QSEED5 HW, we will have to change this anyway as its LUT
+> >> programming can change. So we need this distinction.
+> >
+> > I'm trying to eliminate them, because they cause more confusion than
+> > the bonuses.
+> > Currently we have QSEED3  / 3LITE / 4, which are somewhat compatible.
+> >
+> > We are aiming to support QSEED2 and RGB, which are incompatible with
+> > the QSEED3/3lite/4 family programming sequence. So they get their own
+> > feature bits (DPU_SSPP_SCALER_QSEED2 and DPU_SSPP_SCALER_RGB).
+> >
+> > QSEED5-to-be will either be compatible with QSEED3 (and thus can fall
+> > into the same bucket) or it will be a different kind of scaler (and
+> > will get its own feature).
+> >
+> > I'm not a fan of DPU_SSPP_SCALER_QSEED3LITE/QSEED4 and I'd like to
+> > remove those two bits for the following reasons:
+> > - We already encode this info into the scaler version. How should
+> > driver behave it it has e.g. version 3.1, but DPU_SSPP_SCALER_QSEED3?
+> > Or vice versa: version 1.2 but QSEED4 feature bit? Having a single
+> > QSEED3 removes this issue.
+> > - Adding QSEED5-compatible-with-QSEED3 requires changing several
+> > places which deal with the feature bits and the per-version setup
+> > sequence. This seems like an overkill. It is easy to miss one of the
+> > places and thus end up with the half-supported scaler
+> >
+> > I admit, it might not be ideal to use QSEED3 for all scaler versions.
+> > I'm open to suggestions on the better name for this feature bit. But I
+> > have no doubts that there should be a single feature bit for all
+> > QSEED3/3LITE/4 scalers.
+> >
+>
+> hmmm, the concern i had was that from the version the driver doesnt seem
+> to know which qseed it is as you rightly pointed out in your earlier
+> response with the examples of sdm845, msm8998 etc.
+>
+> It needs this feature bit to know which qseed version it is to use the
+> correct scaler function. If you remove the other two places below, this
+> will be the only one left right?
+>
+> I was thinking of solving this problem with something like
+> QSEED3_3LITE_4 but then this is not scalable if QSEED5 is also a variant
+> of QSEED3.
+>
+> After we remove below 2 places, are there more places where we test
+> these feature bits?
 
-If a hard-coded mode is present, unset the preferred bit of the modes read
-from edid.
+Hmm, true, this is the only place enumerating them.
 
-Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
----
- drivers/gpu/drm/drm_modes.c       | 16 ++++++++++++++++
- drivers/gpu/drm/panel/panel-edp.c |  7 +++++--
- include/drm/drm_modes.h           |  1 +
- 3 files changed, 22 insertions(+), 2 deletions(-)
+> One thing we can perhaps do is move all this feature bit handling to one
+> function like dpu_scaler_is_qseed3_compatible() and move these feature
+> bits there. That way you will have only one place to change for all the
+> code.
 
-diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
-index ac9a406250c5..35927467f4b0 100644
---- a/drivers/gpu/drm/drm_modes.c
-+++ b/drivers/gpu/drm/drm_modes.c
-@@ -1933,6 +1933,22 @@ void drm_connector_list_update(struct drm_connector *connector)
- }
- EXPORT_SYMBOL(drm_connector_list_update);
- 
-+/**
-+ * drm_mode_unset_preferred - clear the preferred status on existing modes.
-+ * @connector: the connector to update
-+ *
-+ * Walk the mode list for connector, clearing the preferred status on existing
-+ * modes.
-+ */
-+void drm_mode_unset_preferred_modes(struct drm_connector *connector)
-+{
-+	struct drm_display_mode *cur_mode;
-+
-+	list_for_each_entry(cur_mode, &connector->probed_modes, head)
-+		cur_mode->type &= ~DRM_MODE_TYPE_PREFERRED;
-+}
-+EXPORT_SYMBOL_GPL(drm_mode_unset_preferred_modes);
-+
- static int drm_mode_parse_cmdline_bpp(const char *str, char **end_ptr,
- 				      struct drm_cmdline_mode *mode)
- {
-diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
-index 0883ff312eba..b3ac473b2554 100644
---- a/drivers/gpu/drm/panel/panel-edp.c
-+++ b/drivers/gpu/drm/panel/panel-edp.c
-@@ -622,10 +622,13 @@ static int panel_edp_get_modes(struct drm_panel *panel,
- 	 * and no modes (the generic edp-panel case) because it will clobber
- 	 * the display_info that was already set by drm_add_edid_modes().
- 	 */
--	if (p->desc->num_timings || p->desc->num_modes)
-+	if (p->desc->num_timings || p->desc->num_modes) {
-+		/* hard-coded modes present, unset preferred modes from edid. */
-+		drm_mode_unset_preferred_modes(connector);
- 		num += panel_edp_get_non_edid_modes(p, connector);
--	else if (!num)
-+	} else if (!num) {
- 		dev_warn(p->base.dev, "No display modes\n");
-+	}
- 
- 	/*
- 	 * TODO: Remove once all drm drivers call
-diff --git a/include/drm/drm_modes.h b/include/drm/drm_modes.h
-index c613f0abe9dc..301817e00a15 100644
---- a/include/drm/drm_modes.h
-+++ b/include/drm/drm_modes.h
-@@ -560,6 +560,7 @@ void drm_mode_prune_invalid(struct drm_device *dev,
- 			    struct list_head *mode_list, bool verbose);
- void drm_mode_sort(struct list_head *mode_list);
- void drm_connector_list_update(struct drm_connector *connector);
-+void drm_mode_unset_preferred_modes(struct drm_connector *connector);
- 
- /* parsing cmdline modes */
- bool
+What about renaming QSEED3 to QSEED3_COMPATIBLE then? This would leave
+us with RGB, QSEED2, QSEED3_COMPATIBLE. The QSEED5-to-be will either
+be added as a new entry (and a new scaler function) or it will fall
+into the QSEED3_COMPATIBLE bucket.
+
+I'd really like to remove any chance of confusion between QSEEDn and
+the scaler_block.version. I think we already had that wrong in several
+catalog entries, so let's not walk twice into the same water.
+
+> >> The below two changes seem fine and that way we are eliminating the
+> >> usages of the enum and we will end up with only one place using this.
+> >>
+> >>
+> >>>>
+> >>>>>
+> >>>>>         if (test_bit(DPU_SSPP_CDP, &features))
+> >>>>> @@ -629,10 +627,7 @@ int _dpu_hw_sspp_init_debugfs(struct dpu_hw_sspp *hw_pipe, struct dpu_kms *kms,
+> >>>>>                         cfg->len,
+> >>>>>                         kms);
+> >>>>>
+> >>>>> -     if (cfg->features & BIT(DPU_SSPP_SCALER_QSEED3) ||
+> >>>>> -                     cfg->features & BIT(DPU_SSPP_SCALER_QSEED3LITE) ||
+> >>>>> -                     cfg->features & BIT(DPU_SSPP_SCALER_QSEED2) ||
+> >>>>> -                     cfg->features & BIT(DPU_SSPP_SCALER_QSEED4))
+> >>>>> +     if (sblk->scaler_blk.len)
+> >>>>
+> >>>> This part seems fine.
+> >>>>
+> >>>>>                 dpu_debugfs_create_regset32("scaler_blk", 0400,
+> >>>>>                                 debugfs_root,
+> >>>>>                                 sblk->scaler_blk.base + cfg->base,
+> >>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> >>>>> index 43135894263c..ba3ee4ba25b3 100644
+> >>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> >>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> >>>>> @@ -438,8 +438,7 @@ static void _dpu_plane_setup_scaler3(struct dpu_hw_sspp *pipe_hw,
+> >>>>>                         scale_cfg->src_height[i] /= chroma_subsmpl_v;
+> >>>>>                 }
+> >>>>>
+> >>>>> -             if (pipe_hw->cap->features &
+> >>>>> -                     BIT(DPU_SSPP_SCALER_QSEED4)) {
+> >>>>> +             if (pipe_hw->cap->sblk->scaler_blk.version >= 0x3000) {
+> >>>> This is fine too.
+> >>>>>                         scale_cfg->preload_x[i] = DPU_QSEED4_DEFAULT_PRELOAD_H;
+> >>>>>                         scale_cfg->preload_y[i] = DPU_QSEED4_DEFAULT_PRELOAD_V;
+> >>>>>                 } else {
+> >>>
+> >>>
+> >>>
+> >
+> >
+> >
+
+
+
 -- 
-2.42.0.869.gea05f2083d-goog
-
+With best wishes
+Dmitry
