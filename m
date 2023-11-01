@@ -2,96 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71BEA7DDDC0
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Nov 2023 09:33:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D20A87DDE24
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Nov 2023 10:08:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 65F5410E668;
-	Wed,  1 Nov 2023 08:33:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A590E10E5C5;
+	Wed,  1 Nov 2023 09:08:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8687F10E668;
- Wed,  1 Nov 2023 08:33:44 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 0A7821F74B;
- Wed,  1 Nov 2023 08:33:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1698827623; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=73BC/T2qEhLolic3vHtDIp7MXRCD0nsN2cLtxJrPV8A=;
- b=OiCsFLzPydyJszfFsdH9Koo/AZk4NTDeyTu5/GjCKu7zsoPVfAIysm+i2aHHgHlipfKQHZ
- BxyNhjTubIAAxHzepRnO4iEpWqJNCA3T+yUL4Ld4pAP3bVS+wMwnHSNR/ySFaLPfh89zSn
- DiwCZru34vksqcvQkqFtqMHsaPT3rzM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1698827623;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=73BC/T2qEhLolic3vHtDIp7MXRCD0nsN2cLtxJrPV8A=;
- b=SUogv+k/C2IdH1jT0s6jdfsMoS/VCQgwkexIPLt5fw9p59nQOlmkoaSXDpx4zxMSuBy2Vq
- XcWOuAnEeFBUbaDw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id BBE741348D;
- Wed,  1 Nov 2023 08:33:42 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id zwjtLGYNQmX0bQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Wed, 01 Nov 2023 08:33:42 +0000
-Message-ID: <99033596-d875-4cfe-9105-730a57cf6013@suse.de>
-Date: Wed, 1 Nov 2023 09:33:41 +0100
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com
+ [IPv6:2a00:1450:4864:20::630])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 51DED10E5C5
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Nov 2023 09:08:05 +0000 (UTC)
+Received: by mail-ej1-x630.google.com with SMTP id
+ a640c23a62f3a-9d267605ceeso530427666b.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 Nov 2023 02:08:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1698829684; x=1699434484; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=l/U0/4Zp074LQCHLOPGw0y7Rk5ZQHkrZnxdbMLDRkzg=;
+ b=RxNpU+4W7nw3/fgb/MYAOvABEcwfLhndPwMjoP8EDsXTenIRPb1aHyYWvHyRkpfGNs
+ ABbHmHIaT9KYlCcMXFExTD/9lrWI3xA7pMyt2wTbYgrkIGqE7RIUWtPzjxiE6cKhX9yJ
+ 3COJmf07xCcrICjnlQGuXIcHclGtnrfPUwmHJC6y1GG6UmfbpQs0W1cPSC+qgnkienEI
+ UPhcpS4OjhM8zLpz4987USLsUuxrbsggtSDvRgypSN17382Nmme7vwQZcf+zGQ0KRYUg
+ bvzHjv6PfOoHDTnH5ExoZ5/wnyH0ttxw+lIv8rjLDnebKRzLHBg47iK3nT361Qh2dz/h
+ h8hQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1698829684; x=1699434484;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=l/U0/4Zp074LQCHLOPGw0y7Rk5ZQHkrZnxdbMLDRkzg=;
+ b=umFpAfJu2rxN1ZF4/Na9NW53Vr+FZ+i+hWK2fg04t4MffAxaJq2duPJIt/LXrUviS2
+ ujPuTQhvVOU0TcqreedRyvG2AVM9jTCaflEtAzQX+rd+pYXl17+04gjrLs6tGpgYJc9H
+ nmot8BwYGoPnB7BJFsoJ9JWNibH5EhXlOUPAVgPaYa4N4yWZajz0o8IQRivTDbLuddNB
+ Dh3YIWi731svwBJjoxL95nZ4XGLUBbwMPNwqwTWCi/Iv3uh7qd0j+neOYtPIZZQ8ZiBi
+ 2blwtUDoHOAeNJaILrtC95U//NnAS4qH6EEKwY/pvpJU2QSUALqkDdj5J14VartPgH6F
+ MScQ==
+X-Gm-Message-State: AOJu0YxfemSQZEP8/6QGQPjq2BjacuSMSZxesYEWiMeEqLhgdSsWhtPE
+ P9JTfFuFn78NPxJwleHXjnlYjQ==
+X-Google-Smtp-Source: AGHT+IEkFDGkW54r0Ia2H+xR2vSsVr8SXlt4hH1CjQgcbJiO9brVXLFjPPYe9xJEUR1RVJrrvuPydg==
+X-Received: by 2002:a17:906:c107:b0:9bf:b022:dc7 with SMTP id
+ do7-20020a170906c10700b009bfb0220dc7mr1204358ejc.48.1698829683706; 
+ Wed, 01 Nov 2023 02:08:03 -0700 (PDT)
+Received: from localhost ([102.36.222.112]) by smtp.gmail.com with ESMTPSA id
+ a12-20020a1709065f8c00b0099bd5d28dc4sm2161031eju.195.2023.11.01.02.08.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 01 Nov 2023 02:08:02 -0700 (PDT)
+Date: Wed, 1 Nov 2023 12:08:00 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Naresh Kamboju <naresh.kamboju@linaro.org>,
+ Richard Fitzgerald <rf@opensource.cirrus.com>
+Subject: Re: [RFC] drm/tests: annotate intentional stack trace in
+ drm_test_rect_calc_hscale()
+Message-ID: <7b58926a-a7c3-4ad0-b8a3-56baf36939ca@kadam.mountain>
+References: <02546e59-1afe-4b08-ba81-d94f3b691c9a@moroto.mountain>
+ <CA+G9fYuA643RHHpPnz9Ww7rr3zV5a0y=7_uFcybBSL=QP_sQvQ@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 7/7] drm/i915: Implement fbdev emulation as in-kernel
- client
-Content-Language: en-US
-To: "Hogander, Jouni" <jouni.hogander@intel.com>,
- "Upadhyay, Tejas" <tejas.upadhyay@intel.com>,
- "ville.syrjala@linux.intel.com" <ville.syrjala@linux.intel.com>,
- "Vivi, Rodrigo" <rodrigo.vivi@intel.com>,
- "joonas.lahtinen@linux.intel.com" <joonas.lahtinen@linux.intel.com>,
- "javierm@redhat.com" <javierm@redhat.com>,
- "tvrtko.ursulin@linux.intel.com" <tvrtko.ursulin@linux.intel.com>,
- "Deak, Imre" <imre.deak@intel.com>, "airlied@gmail.com" <airlied@gmail.com>,
- "jani.nikula@linux.intel.com" <jani.nikula@linux.intel.com>,
- "daniel@ffwll.ch" <daniel@ffwll.ch>
-References: <20230927102808.18650-1-tzimmermann@suse.de>
- <20230927102808.18650-8-tzimmermann@suse.de>
- <199bdb57b0f48e6f77f7effc90dcffcae8213285.camel@intel.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <199bdb57b0f48e6f77f7effc90dcffcae8213285.camel@intel.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------oqyOs2P7m1HegQ25kFG05YKD"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CA+G9fYuA643RHHpPnz9Ww7rr3zV5a0y=7_uFcybBSL=QP_sQvQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,210 +74,117 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: Daniel =?iso-8859-1?Q?D=EDaz?= <daniel.diaz@linaro.org>,
+ Kees Cook <keescook@chromium.org>, kernel-janitors@vger.kernel.org,
+ linux-kselftest@vger.kernel.org,
+ =?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>,
+ linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+ Brendan Higgins <brendan.higgins@linux.dev>, kv-team <kv-team@linaro.org>,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Gow <davidgow@google.com>, Arthur Grillo <arthurgrillo@riseup.net>,
+ kunit-dev@googlegroups.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------oqyOs2P7m1HegQ25kFG05YKD
-Content-Type: multipart/mixed; boundary="------------Ip6WEhfQN58wsBJc0DebPeEx";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: "Hogander, Jouni" <jouni.hogander@intel.com>,
- "Upadhyay, Tejas" <tejas.upadhyay@intel.com>,
- "ville.syrjala@linux.intel.com" <ville.syrjala@linux.intel.com>,
- "Vivi, Rodrigo" <rodrigo.vivi@intel.com>,
- "joonas.lahtinen@linux.intel.com" <joonas.lahtinen@linux.intel.com>,
- "javierm@redhat.com" <javierm@redhat.com>,
- "tvrtko.ursulin@linux.intel.com" <tvrtko.ursulin@linux.intel.com>,
- "Deak, Imre" <imre.deak@intel.com>, "airlied@gmail.com" <airlied@gmail.com>,
- "jani.nikula@linux.intel.com" <jani.nikula@linux.intel.com>,
- "daniel@ffwll.ch" <daniel@ffwll.ch>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
-Message-ID: <99033596-d875-4cfe-9105-730a57cf6013@suse.de>
-Subject: Re: [PATCH v5 7/7] drm/i915: Implement fbdev emulation as in-kernel
- client
-References: <20230927102808.18650-1-tzimmermann@suse.de>
- <20230927102808.18650-8-tzimmermann@suse.de>
- <199bdb57b0f48e6f77f7effc90dcffcae8213285.camel@intel.com>
-In-Reply-To: <199bdb57b0f48e6f77f7effc90dcffcae8213285.camel@intel.com>
+Let me add Richard to the CC list.  See lore for more details.
+https://lore.kernel.org/all/CA+G9fYuA643RHHpPnz9Ww7rr3zV5a0y=7_uFcybBSL=QP_sQvQ@mail.gmail.com/
 
---------------Ip6WEhfQN58wsBJc0DebPeEx
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+On Tue, Oct 31, 2023 at 09:57:48PM +0530, Naresh Kamboju wrote:
+> On Mon, 30 Oct 2023 at 14:33, Dan Carpenter <dan.carpenter@linaro.org> wrote:
+> >
+> > We have started printing more and more intentional stack traces.  Whether
+> > it's testing KASAN is able to detect use after frees or it's part of a
+> > kunit test.
+> >
+> > These stack traces can be problematic.  They suddenly show up as a new
+> > failure.  Now the test team has to contact the developers.  A bunch of
+> > people have to investigate the bug.  We finally decide that it's
+> > intentional so now the test team has to update their filter scripts to
+> > mark it as intentional.  These filters are ad-hoc because there is no
+> > standard format for warnings.
+> >
+> > A better way would be to mark it as intentional from the start.
+> >
+> > Here, I have marked the beginning and the end of the trace.  It's more
+> > tricky for things like lkdtm_FORTIFY_MEM_MEMBER() where the flow doesn't
+> > reach the end of the function.  I guess I would print a different
+> > warning for stack traces that can't have a
+> > "Intentional warning finished\n" message at the end.
+> >
+> > I haven't actually tested this patch...  Daniel, do you have a
+> > list of intentional stack traces we could annotate?
+> 
+> [My two cents]
+> 
+> I have been noticing following kernel warnings / BUGs
 
-SGkNCg0KQW0gMjUuMTAuMjMgdW0gMTM6MzYgc2NocmllYiBIb2dhbmRlciwgSm91bmk6DQpb
-Li4uXQ0KPj4gKw0KPj4gK8KgwqDCoMKgwqDCoMKgaWYgKCFkcm1fZHJ2X3VzZXNfYXRvbWlj
-X21vZGVzZXQoZGV2KSkNCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBkcm1f
-aGVscGVyX2Rpc2FibGVfdW51c2VkX2Z1bmN0aW9ucyhkZXYpOw0KPiANCj4gQ2FuIHlvdSBw
-bGVhc2UgZXhwbGFpbiB3aHkgdGhpcyBpcyBuZWVkZWQgaGVyZT8NCg0KVGhpcyBkaXNhYmxl
-cyBzb21lIHBhcnRzIG9mIHRoZSBtb2RlLXNldHRpbmcgcGlwZWxpbmUgYW5kIGlzIHJlcXVp
-cmVkIA0KZm9yIGRyaXZlcnMgd2l0aCBub24tYXRvbWljIGNvbW1pdHMuICBBRkFJQ1QgYXRv
-bWljIG1vZGUgc2V0dGluZyBpcyBub3QgDQpzdXBwb3J0ZWQgb24gc29tZSB2ZXJ5IG9sZCBJ
-bnRlbCBjaGlwcy4gWzFdICBJJ2xsIGxlYXZlIGEgc2hvcnQgY29tbWVudCANCm9uIHRoZSBj
-b2RlLg0KDQpbMV0gDQpodHRwczovL2VsaXhpci5ib290bGluLmNvbS9saW51eC92Ni42L3Nv
-dXJjZS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9pbnRlbF9kZXZpY2VfaW5mby5jI0wzOTkNCg0K
-QmVzdCByZWdhcmQNClRob21hcw0KDQo+IA0KPj4gKw0KPj4gK8KgwqDCoMKgwqDCoMKgcmV0
-ID0gZHJtX2ZiX2hlbHBlcl9pbml0aWFsX2NvbmZpZyhmYl9oZWxwZXIpOw0KPj4gK8KgwqDC
-oMKgwqDCoMKgaWYgKHJldCkNCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBn
-b3RvIGVycl9kcm1fZmJfaGVscGVyX2Zpbmk7DQo+PiArDQo+PiArwqDCoMKgwqDCoMKgwqB2
-Z2Ffc3dpdGNoZXJvb19jbGllbnRfZmJfc2V0KHBkZXYsIGZiX2hlbHBlci0+aW5mbyk7DQo+
-PiAgIA0KPj4gIMKgwqDCoMKgwqDCoMKgwqByZXR1cm4gMDsNCj4+ICsNCj4+ICtlcnJfZHJt
-X2ZiX2hlbHBlcl9maW5pOg0KPj4gK8KgwqDCoMKgwqDCoMKgZHJtX2ZiX2hlbHBlcl9maW5p
-KGZiX2hlbHBlcik7DQo+PiArZXJyX2RybV9lcnI6DQo+PiArwqDCoMKgwqDCoMKgwqBkcm1f
-ZXJyKGRldiwgIkZhaWxlZCB0byBzZXR1cCBpOTE1IGZiZGV2IGVtdWxhdGlvbg0KPj4gKHJl
-dD0lZClcbiIsIHJldCk7DQo+PiArwqDCoMKgwqDCoMKgwqByZXR1cm4gcmV0Ow0KPj4gIMKg
-fQ0KPj4gICANCj4+ICDCoHN0YXRpYyBjb25zdCBzdHJ1Y3QgZHJtX2NsaWVudF9mdW5jcyBp
-bnRlbF9mYmRldl9jbGllbnRfZnVuY3MgPSB7DQo+PiBAQCAtNzAzLDIyICs3MjksMjMgQEAg
-c3RhdGljIGNvbnN0IHN0cnVjdCBkcm1fY2xpZW50X2Z1bmNzDQo+PiBpbnRlbF9mYmRldl9j
-bGllbnRfZnVuY3MgPSB7DQo+PiAgwqDCoMKgwqDCoMKgwqDCoC5ob3RwbHVnwqDCoMKgwqDC
-oMKgwqDCoD0gaW50ZWxfZmJkZXZfY2xpZW50X2hvdHBsdWcsDQo+PiAgwqB9Ow0KPj4gICAN
-Cj4+IC1pbnQgaW50ZWxfZmJkZXZfaW5pdChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2KQ0KPj4g
-K3ZvaWQgaW50ZWxfZmJkZXZfc2V0dXAoc3RydWN0IGRybV9pOTE1X3ByaXZhdGUgKmRldl9w
-cml2KQ0KPiANCj4gVXNlIGk5MTUgcmF0aGVyIHRoYW4gZGV2X3ByaXYuDQo+IA0KPiBCUiwN
-Cj4gDQo+IEpvdW5pIEjDtmdhbmRlcg0KPiANCj4+ICDCoHsNCj4+IC3CoMKgwqDCoMKgwqDC
-oHN0cnVjdCBkcm1faTkxNV9wcml2YXRlICpkZXZfcHJpdiA9IHRvX2k5MTUoZGV2KTsNCj4+
-ICvCoMKgwqDCoMKgwqDCoHN0cnVjdCBkcm1fZGV2aWNlICpkZXYgPSAmZGV2X3ByaXYtPmRy
-bTsNCj4+ICDCoMKgwqDCoMKgwqDCoMKgc3RydWN0IGludGVsX2ZiZGV2ICppZmJkZXY7DQo+
-PiAgwqDCoMKgwqDCoMKgwqDCoGludCByZXQ7DQo+PiAgIA0KPj4gLcKgwqDCoMKgwqDCoMKg
-aWYgKGRybV9XQVJOX09OKGRldiwgIUhBU19ESVNQTEFZKGRldl9wcml2KSkpDQo+PiAtwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgcmV0dXJuIC1FTk9ERVY7DQo+PiArwqDCoMKg
-wqDCoMKgwqBpZiAoIUhBU19ESVNQTEFZKGRldl9wcml2KSkNCj4+ICvCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqByZXR1cm47DQo+PiAgIA0KPj4gIMKgwqDCoMKgwqDCoMKgwqBp
-ZmJkZXYgPSBremFsbG9jKHNpemVvZigqaWZiZGV2KSwgR0ZQX0tFUk5FTCk7DQo+PiAgwqDC
-oMKgwqDCoMKgwqDCoGlmICghaWZiZGV2KQ0KPj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoHJldHVybiAtRU5PTUVNOw0KPj4gLQ0KPj4gLcKgwqDCoMKgwqDCoMKgbXV0ZXhf
-aW5pdCgmaWZiZGV2LT5ocGRfbG9jayk7DQo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgcmV0dXJuOw0KPj4gIMKgwqDCoMKgwqDCoMKgwqBkcm1fZmJfaGVscGVyX3ByZXBh
-cmUoZGV2LCAmaWZiZGV2LT5oZWxwZXIsIDMyLA0KPj4gJmludGVsX2ZiX2hlbHBlcl9mdW5j
-cyk7DQo+PiAgIA0KPj4gK8KgwqDCoMKgwqDCoMKgZGV2X3ByaXYtPmRpc3BsYXkuZmJkZXYu
-ZmJkZXYgPSBpZmJkZXY7DQo+PiArwqDCoMKgwqDCoMKgwqBJTklUX1dPUksoJmRldl9wcml2
-LT5kaXNwbGF5LmZiZGV2LnN1c3BlbmRfd29yaywNCj4+IGludGVsX2ZiZGV2X3N1c3BlbmRf
-d29ya2VyKTsNCj4+ICvCoMKgwqDCoMKgwqDCoG11dGV4X2luaXQoJmlmYmRldi0+aHBkX2xv
-Y2spOw0KPj4gIMKgwqDCoMKgwqDCoMKgwqBpZiAoaW50ZWxfZmJkZXZfaW5pdF9iaW9zKGRl
-diwgaWZiZGV2KSkNCj4+ICDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGlmYmRl
-di0+aGVscGVyLnByZWZlcnJlZF9icHAgPSBpZmJkZXYtPnByZWZlcnJlZF9icHA7DQo+PiAg
-wqDCoMKgwqDCoMKgwqDCoGVsc2UNCj4+IEBAIC03MjYsNjggKzc1MywxOSBAQCBpbnQgaW50
-ZWxfZmJkZXZfaW5pdChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2KQ0KPj4gICANCj4+ICDCoMKg
-wqDCoMKgwqDCoMKgcmV0ID0gZHJtX2NsaWVudF9pbml0KGRldiwgJmlmYmRldi0+aGVscGVy
-LmNsaWVudCwgImk5MTUtDQo+PiBmYmRldiIsDQo+PiAgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAmaW50ZWxfZmJkZXZfY2xp
-ZW50X2Z1bmNzKTsNCj4+IC3CoMKgwqDCoMKgwqDCoGlmIChyZXQpDQo+PiArwqDCoMKgwqDC
-oMKgwqBpZiAocmV0KSB7DQo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgZHJt
-X2VycihkZXYsICJGYWlsZWQgdG8gcmVnaXN0ZXIgY2xpZW50OiAlZFxuIiwgcmV0KTsNCj4+
-ICDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGdvdG8gZXJyX2RybV9mYl9oZWxw
-ZXJfdW5wcmVwYXJlOw0KPj4gK8KgwqDCoMKgwqDCoMKgfQ0KPj4gICANCj4+IC3CoMKgwqDC
-oMKgwqDCoHJldCA9IGRybV9mYl9oZWxwZXJfaW5pdChkZXYsICZpZmJkZXYtPmhlbHBlcik7
-DQo+PiAtwqDCoMKgwqDCoMKgwqBpZiAocmV0KQ0KPj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoGdvdG8gZXJyX2RybV9jbGllbnRfcmVsZWFzZTsNCj4+IC0NCj4+IC3CoMKg
-wqDCoMKgwqDCoGRldl9wcml2LT5kaXNwbGF5LmZiZGV2LmZiZGV2ID0gaWZiZGV2Ow0KPj4g
-LcKgwqDCoMKgwqDCoMKgSU5JVF9XT1JLKCZkZXZfcHJpdi0+ZGlzcGxheS5mYmRldi5zdXNw
-ZW5kX3dvcmssDQo+PiBpbnRlbF9mYmRldl9zdXNwZW5kX3dvcmtlcik7DQo+PiArwqDCoMKg
-wqDCoMKgwqBkcm1fY2xpZW50X3JlZ2lzdGVyKCZpZmJkZXYtPmhlbHBlci5jbGllbnQpOw0K
-Pj4gICANCj4+IC3CoMKgwqDCoMKgwqDCoHJldHVybiAwOw0KPj4gK8KgwqDCoMKgwqDCoMKg
-cmV0dXJuOw0KPj4gICANCj4+IC1lcnJfZHJtX2NsaWVudF9yZWxlYXNlOg0KPj4gLcKgwqDC
-oMKgwqDCoMKgZHJtX2NsaWVudF9yZWxlYXNlKCZpZmJkZXYtPmhlbHBlci5jbGllbnQpOw0K
-Pj4gIMKgZXJyX2RybV9mYl9oZWxwZXJfdW5wcmVwYXJlOg0KPj4gIMKgwqDCoMKgwqDCoMKg
-wqBkcm1fZmJfaGVscGVyX3VucHJlcGFyZSgmaWZiZGV2LT5oZWxwZXIpOw0KPj4gK8KgwqDC
-oMKgwqDCoMKgbXV0ZXhfZGVzdHJveSgmaWZiZGV2LT5ocGRfbG9jayk7DQo+PiAgwqDCoMKg
-wqDCoMKgwqDCoGtmcmVlKGlmYmRldik7DQo+PiAtwqDCoMKgwqDCoMKgwqByZXR1cm4gcmV0
-Ow0KPj4gLX0NCj4+IC0NCj4+IC1zdGF0aWMgdm9pZCBpbnRlbF9mYmRldl9pbml0aWFsX2Nv
-bmZpZyh2b2lkICpkYXRhLCBhc3luY19jb29raWVfdA0KPj4gY29va2llKQ0KPj4gLXsNCj4+
-IC3CoMKgwqDCoMKgwqDCoHN0cnVjdCBpbnRlbF9mYmRldiAqaWZiZGV2ID0gZGF0YTsNCj4+
-IC0NCj4+IC3CoMKgwqDCoMKgwqDCoC8qIER1ZSB0byBwZWN1bGlhciBpbml0IG9yZGVyIHdy
-dCB0byBocGQgaGFuZGxpbmcgdGhpcyBpcw0KPj4gc2VwYXJhdGUuICovDQo+PiAtwqDCoMKg
-wqDCoMKgwqBpZiAoZHJtX2ZiX2hlbHBlcl9pbml0aWFsX2NvbmZpZygmaWZiZGV2LT5oZWxw
-ZXIpKQ0KPj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGludGVsX2ZiZGV2X3Vu
-cmVnaXN0ZXIodG9faTkxNShpZmJkZXYtPmhlbHBlci5kZXYpKTsNCj4+IC19DQo+PiAtDQo+
-PiAtdm9pZCBpbnRlbF9mYmRldl9pbml0aWFsX2NvbmZpZ19hc3luYyhzdHJ1Y3QgZHJtX2k5
-MTVfcHJpdmF0ZQ0KPj4gKmRldl9wcml2KQ0KPj4gLXsNCj4+IC3CoMKgwqDCoMKgwqDCoHN0
-cnVjdCBpbnRlbF9mYmRldiAqaWZiZGV2ID0gZGV2X3ByaXYtPmRpc3BsYXkuZmJkZXYuZmJk
-ZXY7DQo+PiAtDQo+PiAtwqDCoMKgwqDCoMKgwqBpZiAoIWlmYmRldikNCj4+IC3CoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqByZXR1cm47DQo+PiAtDQo+PiAtwqDCoMKgwqDCoMKg
-wqBpZmJkZXYtPmNvb2tpZSA9IGFzeW5jX3NjaGVkdWxlKGludGVsX2ZiZGV2X2luaXRpYWxf
-Y29uZmlnLA0KPj4gaWZiZGV2KTsNCj4+IC19DQo+PiAtDQo+PiAtdm9pZCBpbnRlbF9mYmRl
-dl91bnJlZ2lzdGVyKHN0cnVjdCBkcm1faTkxNV9wcml2YXRlICpkZXZfcHJpdikNCj4+IC17
-DQo+PiAtwqDCoMKgwqDCoMKgwqBzdHJ1Y3QgaW50ZWxfZmJkZXYgKmlmYmRldiA9IGRldl9w
-cml2LT5kaXNwbGF5LmZiZGV2LmZiZGV2Ow0KPj4gLQ0KPj4gLcKgwqDCoMKgwqDCoMKgaWYg
-KCFpZmJkZXYpDQo+PiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgcmV0dXJuOw0K
-Pj4gLQ0KPj4gLcKgwqDCoMKgwqDCoMKgaW50ZWxfZmJkZXZfc2V0X3N1c3BlbmQoJmRldl9w
-cml2LT5kcm0sDQo+PiBGQklORk9fU1RBVEVfU1VTUEVOREVELCB0cnVlKTsNCj4+IC0NCj4+
-IC3CoMKgwqDCoMKgwqDCoGlmICghY3VycmVudF9pc19hc3luYygpKQ0KPj4gLcKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoGludGVsX2ZiZGV2X3N5bmMoaWZiZGV2KTsNCj4+IC0N
-Cj4+IC3CoMKgwqDCoMKgwqDCoGRybV9mYl9oZWxwZXJfdW5yZWdpc3Rlcl9pbmZvKCZpZmJk
-ZXYtPmhlbHBlcik7DQo+PiAtfQ0KPj4gLQ0KPj4gLXZvaWQgaW50ZWxfZmJkZXZfZmluaShz
-dHJ1Y3QgZHJtX2k5MTVfcHJpdmF0ZSAqZGV2X3ByaXYpDQo+PiAtew0KPj4gLcKgwqDCoMKg
-wqDCoMKgc3RydWN0IGludGVsX2ZiZGV2ICppZmJkZXYgPSBmZXRjaF9hbmRfemVybygmZGV2
-X3ByaXYtDQo+Pj4gZGlzcGxheS5mYmRldi5mYmRldik7DQo+PiAtDQo+PiAtwqDCoMKgwqDC
-oMKgwqBpZiAoIWlmYmRldikNCj4+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBy
-ZXR1cm47DQo+PiAtDQo+PiAtwqDCoMKgwqDCoMKgwqBpbnRlbF9mYmRldl9kZXN0cm95KGlm
-YmRldik7DQo+PiAgwqB9DQo+PiAgIA0KPj4gIMKgc3RydWN0IGludGVsX2ZyYW1lYnVmZmVy
-ICppbnRlbF9mYmRldl9mcmFtZWJ1ZmZlcihzdHJ1Y3QgaW50ZWxfZmJkZXYNCj4+ICpmYmRl
-dikNCj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVs
-X2ZiZGV2LmgNCj4+IGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9mYmRl
-di5oDQo+PiBpbmRleCA4Yzk1M2YxMDJiYTIyLi4wOGRlMmQ1YjM0MzM4IDEwMDY0NA0KPj4g
-LS0tIGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9mYmRldi5oDQo+PiAr
-KysgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2ZiZGV2LmgNCj4+IEBA
-IC0xNCwyNyArMTQsMTEgQEAgc3RydWN0IGludGVsX2ZiZGV2Ow0KPj4gIMKgc3RydWN0IGlu
-dGVsX2ZyYW1lYnVmZmVyOw0KPj4gICANCj4+ICDCoCNpZmRlZiBDT05GSUdfRFJNX0ZCREVW
-X0VNVUxBVElPTg0KPj4gLWludCBpbnRlbF9mYmRldl9pbml0KHN0cnVjdCBkcm1fZGV2aWNl
-ICpkZXYpOw0KPj4gLXZvaWQgaW50ZWxfZmJkZXZfaW5pdGlhbF9jb25maWdfYXN5bmMoc3Ry
-dWN0IGRybV9pOTE1X3ByaXZhdGUNCj4+ICpkZXZfcHJpdik7DQo+PiAtdm9pZCBpbnRlbF9m
-YmRldl91bnJlZ2lzdGVyKHN0cnVjdCBkcm1faTkxNV9wcml2YXRlICpkZXZfcHJpdik7DQo+
-PiAtdm9pZCBpbnRlbF9mYmRldl9maW5pKHN0cnVjdCBkcm1faTkxNV9wcml2YXRlICpkZXZf
-cHJpdik7DQo+PiArdm9pZCBpbnRlbF9mYmRldl9zZXR1cChzdHJ1Y3QgZHJtX2k5MTVfcHJp
-dmF0ZSAqZGV2X3ByaXYpOw0KPj4gIMKgdm9pZCBpbnRlbF9mYmRldl9zZXRfc3VzcGVuZChz
-dHJ1Y3QgZHJtX2RldmljZSAqZGV2LCBpbnQgc3RhdGUsIGJvb2wNCj4+IHN5bmNocm9ub3Vz
-KTsNCj4+ICDCoHN0cnVjdCBpbnRlbF9mcmFtZWJ1ZmZlciAqaW50ZWxfZmJkZXZfZnJhbWVi
-dWZmZXIoc3RydWN0IGludGVsX2ZiZGV2DQo+PiAqZmJkZXYpOw0KPj4gIMKgI2Vsc2UNCj4+
-IC1zdGF0aWMgaW5saW5lIGludCBpbnRlbF9mYmRldl9pbml0KHN0cnVjdCBkcm1fZGV2aWNl
-ICpkZXYpDQo+PiAtew0KPj4gLcKgwqDCoMKgwqDCoMKgcmV0dXJuIDA7DQo+PiAtfQ0KPj4g
-LQ0KPj4gLXN0YXRpYyBpbmxpbmUgdm9pZCBpbnRlbF9mYmRldl9pbml0aWFsX2NvbmZpZ19h
-c3luYyhzdHJ1Y3QNCj4+IGRybV9pOTE1X3ByaXZhdGUgKmRldl9wcml2KQ0KPj4gLXsNCj4+
-IC19DQo+PiAtDQo+PiAtc3RhdGljIGlubGluZSB2b2lkIGludGVsX2ZiZGV2X3VucmVnaXN0
-ZXIoc3RydWN0IGRybV9pOTE1X3ByaXZhdGUNCj4+ICpkZXZfcHJpdikNCj4+IC17DQo+PiAt
-fQ0KPj4gLQ0KPj4gLXN0YXRpYyBpbmxpbmUgdm9pZCBpbnRlbF9mYmRldl9maW5pKHN0cnVj
-dCBkcm1faTkxNV9wcml2YXRlDQo+PiAqZGV2X3ByaXYpDQo+PiArc3RhdGljIGlubGluZSB2
-b2lkIGludGVsX2ZiZGV2X3NldHVwKHN0cnVjdCBkcm1faTkxNV9wcml2YXRlDQo+PiAqZGV2
-X3ByaXYpDQo+PiAgwqB7DQo+PiAgwqB9DQo+PiAgIA0KPj4gZGlmZiAtLWdpdCBhL2RyaXZl
-cnMvZ3B1L2RybS9pOTE1L2k5MTVfZHJpdmVyLmMNCj4+IGIvZHJpdmVycy9ncHUvZHJtL2k5
-MTUvaTkxNV9kcml2ZXIuYw0KPj4gaW5kZXggODY0NjBjZDgxNjdkMS4uNTM2NjNjMGNjM2Jl
-NCAxMDA2NDQNCj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2k5MTVfZHJpdmVyLmMN
-Cj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2k5MTVfZHJpdmVyLmMNCj4+IEBAIC04
-MTcsNiArODE3LDggQEAgaW50IGk5MTVfZHJpdmVyX3Byb2JlKHN0cnVjdCBwY2lfZGV2ICpw
-ZGV2LCBjb25zdA0KPj4gc3RydWN0IHBjaV9kZXZpY2VfaWQgKmVudCkNCj4+ICAgDQo+PiAg
-wqDCoMKgwqDCoMKgwqDCoGk5MTUtPmRvX3JlbGVhc2UgPSB0cnVlOw0KPj4gICANCj4+ICvC
-oMKgwqDCoMKgwqDCoGludGVsX2ZiZGV2X3NldHVwKGk5MTUpOw0KPj4gKw0KPj4gIMKgwqDC
-oMKgwqDCoMKgwqByZXR1cm4gMDsNCj4+ICAgDQo+PiAgwqBvdXRfY2xlYW51cF9nZW06DQo+
-IA0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVy
-DQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCkZyYW5rZW5zdHJhc3Nl
-IDE0NiwgOTA0NjEgTnVlcm5iZXJnLCBHZXJtYW55DQpHRjogSXZvIFRvdGV2LCBBbmRyZXcg
-TXllcnMsIEFuZHJldyBNY0RvbmFsZCwgQm91ZGllbiBNb2VybWFuDQpIUkIgMzY4MDkgKEFH
-IE51ZXJuYmVyZykNCg==
+Some are intentional and some are not.  I had a similar thing happen to
+me last week where I had too many Smatch false positives in my devel
+code so I accidentally sent a patch with a stupid bug.  I've since
+updated my QC process to run both the devel and released versions of
+Smatch.
 
---------------Ip6WEhfQN58wsBJc0DebPeEx--
+But a similar thing is happening here where we have so many bogus
+warnings that we missed a real bug.
 
---------------oqyOs2P7m1HegQ25kFG05YKD
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+> These are starting happening from next-20231009.
+> I am not sure which are "Intentional warnings" or real regressions.
+> 
+> [   37.378220] BUG: KASAN: slab-out-of-bounds in kmalloc_oob_right+0xc4/0x300
+> [   37.645506] BUG: KASAN: slab-out-of-bounds in kmalloc_oob_right+0xec/0x300
+> ..
+> [  632.407425] BUG: KASAN: null-ptr-deref in kobject_namespace+0x3c/0xb0
+> 
+> 
+> Logs: [Sorry for sharing long logs ]
 
------BEGIN PGP SIGNATURE-----
+Not your fault.  These long warnings are the issue at hand.
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmVCDWYFAwAAAAAACgkQlh/E3EQov+DY
-RBAAsPIG+o2tfhjCeqai10HobzkSOacgmhMAgvbrKJt2Km3mbhi2Nx7ngAgA5y/z8SbXBh0NncBg
-a/43QUach+Igj2yvm+UDW0RsaIRP8GTdXi+E9/4HljmAUK0N6lgsf7twrYRSaKzk7EizL2iAa+ry
-AlubGYpVz0+kBu+04c1eLzgNjCayDHrCRKM6uJ9isjwV9GMxZaGKLZ7oAESncN7jIrcuhCUebfqp
-yFNFUuDpwpz8HY7/OJEmMAS+OebFZ6eeFCWjljLT1SmpNN9fz1eL2rPHpa1H4DO914SPw3r4YLrl
-/HdChC24Oym4Dnx2OONfqxmOWTXgN1NGn2N53HUPA+3MSxqTNIlRhoNA17cTuglhrTCphF33i66V
-3Z/sH1Rr/Q5vj8RfCl+gNnmMnSzZSb7yXV/vumnby/FdAD42lnmbCxaDkWkZdGgyZK9iesUatQ7n
-gg4+DM4kADh8I6SLooi36rdee62gszg0B4GfbJpFOYbBTJ+PKRzIGKQCO1vcxgXo575QbpTvR8WY
-vIf/pgnfjp2X3bVVpjBVRo0BxMhCUMPtDtW2Z5zY9B+IpwuVydUjNBx4KV6aa43V6dPOdmG87heU
-wNflT2d442Pbxt7AsWp5gwKcB86nPS9nHr1Vwznx/4TrgUbA25mLKY65wv+4FYZfE67AmtUOfm4p
-Tpw=
-=Bq+W
------END PGP SIGNATURE-----
+> ==========
+> 
+> ------------[ cut here ]------------
+> [  629.699281] WARNING: CPU: 0 PID: 2834 at
+> drivers/gpu/drm/drm_rect.c:138 drm_rect_calc_hscale+0xbc/0xe8
 
---------------oqyOs2P7m1HegQ25kFG05YKD--
+Deliberate.
+
+> [  629.914458] WARNING: CPU: 5 PID: 2836 at
+> drivers/gpu/drm/drm_rect.c:138 drm_rect_calc_hscale+0xbc/0xe8
+> [drm_kms_helper]
+
+Deliberate.
+
+> [  630.172564] WARNING: CPU: 5 PID: 2846 at
+> drivers/gpu/drm/drm_rect.c:138 drm_rect_calc_vscale+0xbc/0xe8
+> [drm_kms_helper]
+
+Deliberate.
+> ------------[ cut here ]------------
+> [  630.388003] WARNING: CPU: 3 PID: 2848 at
+> drivers/gpu/drm/drm_rect.c:138 drm_rect_calc_vscale+0xbc/0xe8
+> [drm_kms_helper]
+
+Deliberate.
+
+> ------------[ cut here ]------------
+> [  631.679963] kobject: '(null)' (00000000f512f33b): is not
+> initialized, yet kobject_get() is being called.
+
+Not deliberate.  This seems like a straight forward bug to fix.
+
+Failing a kobject_get() seems like it would obviously lead to a
+refcounting underflow and a use after free so I suspect some of the
+other warnings that follow are caused by this issue.  We should fix it
+first and see which warnings disappear.
+
+So testing the Linux Kernel Dump Test Module is always going to create
+warnings.  So intentional warnings are a part of life.  We should
+annotate them.
+
+But having too many warnings is bad and has caused this kobject_get()
+bug.  We should delete the warning in drm_calc_scale() or make it a
+WARN_ONCE() and mark it as intentional in the kunit test.
+
+regards,
+dan carpenter
+
