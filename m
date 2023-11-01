@@ -1,54 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BB457DD961
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Nov 2023 00:53:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D3747DD99F
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Nov 2023 01:26:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C194010E5E7;
-	Tue, 31 Oct 2023 23:53:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 45C3110E5E4;
+	Wed,  1 Nov 2023 00:26:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C0A510E5DB;
- Tue, 31 Oct 2023 23:53:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1698796385; x=1730332385;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=4i1y3DVKkpZNztiXnFlc1I3XO3HIruaCd99l2W6lqvs=;
- b=LPjOSX8S2cubHOJwNJpFs7YZg4OBdWnU5F5Q/BG7SnhB1jxKdosydYd0
- eUoN08JtylQejdBtqlP6EEOsQiGbWZ6dBcAfI9M8dQsgVEjFstLphxsFP
- tEbCVe6lHnuP1bS/ojjOy1wTvU86zlgYbdVZ2DvkmgRbx8xRzVvvlf6sr
- 0BJgqYWSgnDyla4whTP2A+3bLwZmqBViWsDXeQbqkICzC1QohnupUzCBd
- wFSu1Y0171IXlh//4Q6zIRdSe5ijD32VDgUmwDkZ+HhWuYvd3S8Q1MM9m
- VVVuFpnPbokMcNITibk+85LEEpHmmVme8jvK0NhjraTzcTAEPnhuiYYie A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10880"; a="419516381"
-X-IronPort-AV: E=Sophos;i="6.03,266,1694761200"; d="scan'208";a="419516381"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Oct 2023 16:53:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10880"; a="1092168372"
-X-IronPort-AV: E=Sophos;i="6.03,266,1694761200"; d="scan'208";a="1092168372"
-Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
- by fmsmga005.fm.intel.com with ESMTP; 31 Oct 2023 16:53:03 -0700
-Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1qxyXd-0000T8-0Z;
- Tue, 31 Oct 2023 23:53:01 +0000
-Date: Wed, 1 Nov 2023 07:52:21 +0800
-From: kernel test robot <lkp@intel.com>
-To: Tatsuyuki Ishi <ishitatsuyuki@gmail.com>,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
-Subject: Re: [PATCH 2/6] drm/amdgpu: Separate eviction from VM status.
-Message-ID: <202311010709.XbwKjVaq-lkp@intel.com>
-References: <20231031134059.171277-3-ishitatsuyuki@gmail.com>
+Received: from mail-io1-xd33.google.com (mail-io1-xd33.google.com
+ [IPv6:2607:f8b0:4864:20::d33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5273410E5E2;
+ Wed,  1 Nov 2023 00:26:18 +0000 (UTC)
+Received: by mail-io1-xd33.google.com with SMTP id
+ ca18e2360f4ac-7a6774da682so237910339f.3; 
+ Tue, 31 Oct 2023 17:26:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1698798377; x=1699403177; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=Crihteq14mq1SNgvZmjOWL5sINKEUJsXZXrqKikBaFA=;
+ b=j22ZdH+JwE7gXzyc4yr6QNUYQ/bCDWqi7FdweW/sOqgLg818/o5DWhQ+GV8J+LmmIn
+ psuVdMLtqbyHG6EzINNDZ/Yv51DDrHq1qpqOlRlf3KtNYg90bpPvL8BYEcNY6bQ0sHq9
+ WYGEfYk4VYnTjF+qKsi/1sFq4S4LkMp4yPyh61iijT7C/v1hr1DakYnyQxnESJC9R99/
+ viOeUjRl+DhgMLWtGBsAySC8hbfgTsO7LHAMr6Nsg06nAH0Uj4ZB+AK9tbnQDvMTKfxs
+ K5DT9on/RJt1kwLEXJ/o46AMzZ+5bV22rniIsOkX1pWaiYQcff0aYRgT1Dt1D8y0/Xg3
+ o+zw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1698798377; x=1699403177;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Crihteq14mq1SNgvZmjOWL5sINKEUJsXZXrqKikBaFA=;
+ b=oK5uRIA995sgHZ5EGEtFRrf6x+juWj7sinvYzIaYB1HsWPhRZl4zofBp8Z3lFRygul
+ PbetXXB0TLqoTIN+2ZG30OGG41LuUIX98y+8dxKpeVG7xSE9L4GOD54Ho19zhfaCKahS
+ 9b0R1zFwXO6ONfxYMN0vBYCRXn6Naha+wakJ9yXJRAn7vSTV8olMxyQvraqKhHpgO09C
+ JMDpFll+W+aoifvzvEIVpNSjI72mKoIVt4gZaz/l6loaTQ6M+adgSc38KGKUTTyVY4ZO
+ nYk5GR3KqSLHrjNFQpR9rhUHkRe92cAl5oJdRU9gMW0Kx7Q5RF5Q1g0lb4u955QvPYSD
+ Qlog==
+X-Gm-Message-State: AOJu0Yw/TkOzAeCClK3BDEi/VihmQcy4HtzJg3/kxRfTqjHEuKVPXkw2
+ 852tGlZinFuAPt1kmKzWsOI=
+X-Google-Smtp-Source: AGHT+IEvAaoR06BIVnuyKsQIdXDCjeoXMJTD3Hx+wBd5i6t6IGdzUzFxe+C0CccvWJTiQOS040zF+A==
+X-Received: by 2002:a05:6e02:3893:b0:359:9c0:de73 with SMTP id
+ cn19-20020a056e02389300b0035909c0de73mr14028636ilb.26.1698798377422; 
+ Tue, 31 Oct 2023 17:26:17 -0700 (PDT)
+Received: from frodo.. (c-73-78-62-130.hsd1.co.comcast.net. [73.78.62.130])
+ by smtp.googlemail.com with ESMTPSA id
+ t1-20020a92c901000000b00357cc8df1d5sm141701ilp.68.2023.10.31.17.26.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 31 Oct 2023 17:26:16 -0700 (PDT)
+From: Jim Cromie <jim.cromie@gmail.com>
+To: linux-kernel@vger.kernel.org, jbaron@akamai.com,
+ gregkh@linuxfoundation.org, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org
+Subject: [PATCH v7d 00/23] fix DRM_USE_DYNAMIC_DEBUG=y regression
+Date: Tue, 31 Oct 2023 18:25:46 -0600
+Message-ID: <20231101002609.3533731-1-jim.cromie@gmail.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231031134059.171277-3-ishitatsuyuki@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,69 +73,136 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tatsuyuki Ishi <ishitatsuyuki@gmail.com>, christian.koenig@amd.com,
- oe-kbuild-all@lists.linux.dev
+Cc: quic_saipraka@quicinc.com, linux-doc@vger.kernel.org,
+ daniel.vetter@ffwll.ch, linux@rasmusvillemoes.dk, will@kernel.org,
+ groeck@google.com, maz@kernel.org, mcgrof@kernel.org, mingo@redhat.com,
+ catalin.marinas@arm.com, arnd@arndb.de, jani.nikula@intel.com,
+ linux-arm-msm@vger.kernel.org, seanpaul@chromium.org,
+ linux-arm-kernel@lists.infradead.org, lb@semihalf.com, yanivt@google.com,
+ quic_psodagud@quicinc.com, joe@perches.com, bleung@google.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tatsuyuki,
+hi Jason, DRM-folk
 
-kernel test robot noticed the following build warnings:
+(v7d - refreshed onto v6.6, patch-21 squashed into 14)
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.6 next-20231031]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+This patchest fixes the chicken-egg initialization problem in the 1st
+version of ddebug-class-maps, that DRM-CI uncovered.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Tatsuyuki-Ishi/drm-amdgpu-Don-t-implicit-sync-PRT-maps/20231031-224530
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20231031134059.171277-3-ishitatsuyuki%40gmail.com
-patch subject: [PATCH 2/6] drm/amdgpu: Separate eviction from VM status.
-config: arc-randconfig-001-20231101 (https://download.01.org/0day-ci/archive/20231101/202311010709.XbwKjVaq-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231101/202311010709.XbwKjVaq-lkp@intel.com/reproduce)
+The root-problem was DECLARE_DYNDBG_CLASSMAP, which broke the K&R rule:
+"define once, refer many".  In patch 14 it is replaced by:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311010709.XbwKjVaq-lkp@intel.com/
+ DYNDBG_CLASSMAP_DEFINE - define and export a struct ddebug_class_map
+ DYNDBG_CLASSMAP_USE - ref the exported struct
 
-All warnings (new ones prefixed by >>):
+test-dynamic-debug is also extended with a -submod.ko, in order to
+recapitulate the drm & drivers initialization scenario.
 
->> drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:178: warning: Function parameter or member 'evicted' not described in 'amdgpu_vm_bo_set_evicted'
->> drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:178: warning: expecting prototype for amdgpu_vm_bo_evicted(). Prototype was for amdgpu_vm_bo_set_evicted() instead
+The final blocking bug was a missing __align(8) on the ddebug_class_user
+record inserted by DYNDBG_CLASSMAP_USE.  This caused DRM=y (builtin
+only) to have a corrupt record for drm_kms_helper (a builtin dependent).
+Curiously, a clang build did not exhibit this problem.
+
+Heres a part of dmesg, for a DRM=y kernel, booted with
+     dynamic_debug.verbose=3 drm.debug=0x10
+
+[    0.466747] dyndbg: add-module: drm 406 sites
+[    0.467569] dyndbg: classes[0]: module:drm base:0 len:10 type:DISJOINT_BITS
+[    0.467743] dyndbg: module:drm attached 1 classes
+[    0.468557] dyndbg: builtin class: module:drm base:0 len:10 type:DISJOINT_BITS
+[    0.468742] dyndbg:  found kp:drm.debug =0x10
+[    0.468743] dyndbg:   mapped to: module:drm base:0 len:10 type:DISJOINT_BITS
+[    0.469742] dyndbg:   drm.debug: classbits: 0x10
+[    0.470573] dyndbg: apply bitmap: 0x10 to: 0x0 for drm
+[    0.470743] dyndbg: query 0: "class DRM_UT_ATOMIC +p" mod:drm
+[    0.471743] dyndbg: split into words: "class" "DRM_UT_ATOMIC" "+p"
+[    0.472743] dyndbg: op='+' flags=0x1 maskp=0xffffffff
+[    0.473679] dyndbg: parsed: func="" file="" module="drm" format="" lineno=0-0 class=DRM_UT_ATOMIC
+[    0.473749] dyndbg: processed 1 queries, with 0 matches, 0 errs
+[    0.474742] dyndbg: bit_4: 0 matches on class: DRM_UT_ATOMIC -> 0x10
+[    0.475742] dyndbg: applied bitmap: 0x10 to: 0x0 for drm
+[    0.476686] dyndbg: 406 debug prints in module drm
+[    0.476743] dyndbg: add-module: drm_kms_helper 93 sites
+[    0.477727] dyndbg: class_ref[0] drm_kms_helper -> drm module:drm base:0 len:10 type:DISJOINT_BITS
+[    0.477743] dyndbg: builtin class: module:drm base:0 len:10 type:DISJOINT_BITS
+[    0.478742] dyndbg:  found kp:drm.debug =0x10
+[    0.478743] dyndbg:   mapped to: module:drm base:0 len:10 type:DISJOINT_BITS
+[    0.479743] dyndbg:   drm.debug: classbits: 0x10
+[    0.480592] dyndbg: apply bitmap: 0x10 to: 0x0 for drm_kms_helper
+[    0.480743] dyndbg: query 0: "class DRM_UT_ATOMIC +p" mod:drm_kms_helper
+[    0.481743] dyndbg: split into words: "class" "DRM_UT_ATOMIC" "+p"
+[    0.482743] dyndbg: op='+' flags=0x1 maskp=0xffffffff
+[    0.483743] dyndbg: parsed: func="" file="" module="drm_kms_helper" format="" lineno=0-0 class=DRM_UT_ATOMIC
+[    0.484750] dyndbg: class-ref: drm_kms_helper.DRM_UT_ATOMIC  module:drm_kms_helper nd:93 nc:0 nu:1
+[    0.485809] dyndbg: processed 1 queries, with 44 matches, 0 errs
+[    0.486742] dyndbg: bit_4: 44 matches on class: DRM_UT_ATOMIC -> 0x10
+[    0.487742] dyndbg: applied bitmap: 0x10 to: 0x0 for drm_kms_helper
+[    0.488743] dyndbg: attach-client-module:  module:drm_kms_helper nd:93 nc:0 nu:1
+[    0.489742] dyndbg:  93 debug prints in module drm_kms_helper
+
+Id like to get this into linux-next, so widespread testing is appreciated.
+lkp-robot reported BUILD SUCCESS on it, Im running it on my amdgpu desktop.
+I have scripts to operate the test-module if anyone wants them.
+
+Patches are also at https://github.com/jimc/linux/tree/dd-fix-7d
 
 
-vim +178 drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+Jim Cromie (23):
+  test-dyndbg: fixup CLASSMAP usage error
+  dyndbg: reword "class unknown," to "class:_UNKNOWN_"
+  dyndbg: make ddebug_class_param union members same size
+  dyndbg: replace classmap list with a vector
+  dyndbg: ddebug_apply_class_bitmap - add module arg, select on it
+  dyndbg: split param_set_dyndbg_classes to module/wrapper fns
+  dyndbg: drop NUM_TYPE_ARRAY
+  dyndbg: reduce verbose/debug clutter
+  dyndbg: silence debugs with no-change updates
+  dyndbg: tighten ddebug_class_name() 1st arg type
+  dyndbg: tighten fn-sig of ddebug_apply_class_bitmap
+  dyndbg: reduce verbose=3 messages in ddebug_add_module
+  dyndbg-API: remove DD_CLASS_TYPE_(DISJOINT|LEVEL)_NAMES and code
+  dyndbg-API: fix CONFIG_DRM_USE_DYNAMIC_DEBUG regression
+  dyndbg: refactor ddebug_classparam_clamp_input
+  dyndbg-API: promote DYNDBG_CLASSMAP_PARAM to API
+  dyndbg-doc: add classmap info to howto
+  dyndbg: reserve flag bit _DPRINTK_FLAGS_PREFIX_CACHED
+  dyndbg: add _DPRINTK_FLAGS_INCL_LOOKUP
+  dyndbg: refactor *dynamic_emit_prefix
+  drm: use correct ccflags-y spelling
+  drm-drivers: DRM_CLASSMAP_USE in 2nd batch of drivers, helpers
+  drm: restore CONFIG_DRM_USE_DYNAMIC_DEBUG un-BROKEN
 
-dcb388eddb5f1b Nirmoy Das      2021-06-28  168  
-bcdc9fd634d1f0 Christian König 2018-08-30  169  /**
-bcdc9fd634d1f0 Christian König 2018-08-30  170   * amdgpu_vm_bo_evicted - vm_bo is evicted
-bcdc9fd634d1f0 Christian König 2018-08-30  171   *
-bcdc9fd634d1f0 Christian König 2018-08-30  172   * @vm_bo: vm_bo which is evicted
-bcdc9fd634d1f0 Christian König 2018-08-30  173   *
-bcdc9fd634d1f0 Christian König 2018-08-30  174   * State for PDs/PTs and per VM BOs which are not at the location they should
-bcdc9fd634d1f0 Christian König 2018-08-30  175   * be.
-bcdc9fd634d1f0 Christian König 2018-08-30  176   */
-cac82290238e47 Tatsuyuki Ishi  2023-10-31  177  static void amdgpu_vm_bo_set_evicted(struct amdgpu_vm_bo_base *vm_bo, bool evicted)
-bcdc9fd634d1f0 Christian König 2018-08-30 @178  {
-bcdc9fd634d1f0 Christian König 2018-08-30  179  	struct amdgpu_vm *vm = vm_bo->vm;
-bcdc9fd634d1f0 Christian König 2018-08-30  180  	struct amdgpu_bo *bo = vm_bo->bo;
-bcdc9fd634d1f0 Christian König 2018-08-30  181  
-757eb2bedd08a1 Philip Yang     2022-09-15  182  	spin_lock(&vm_bo->vm->status_lock);
-cac82290238e47 Tatsuyuki Ishi  2023-10-31  183  	if (evicted && bo->tbo.base.resv == vm->root.bo->tbo.base.resv) {
-bcdc9fd634d1f0 Christian König 2018-08-30  184  		if (bo->tbo.type == ttm_bo_type_kernel)
-cac82290238e47 Tatsuyuki Ishi  2023-10-31  185  			list_move(&vm_bo->eviction_status, &vm->evicted);
-bcdc9fd634d1f0 Christian König 2018-08-30  186  		else
-cac82290238e47 Tatsuyuki Ishi  2023-10-31  187  			list_move_tail(&vm_bo->eviction_status, &vm->evicted);
-cac82290238e47 Tatsuyuki Ishi  2023-10-31  188  	} else {
-cac82290238e47 Tatsuyuki Ishi  2023-10-31  189  		list_del_init(&vm_bo->eviction_status);
-cac82290238e47 Tatsuyuki Ishi  2023-10-31  190  	}
-757eb2bedd08a1 Philip Yang     2022-09-15  191  	spin_unlock(&vm_bo->vm->status_lock);
-bcdc9fd634d1f0 Christian König 2018-08-30  192  }
-cac82290238e47 Tatsuyuki Ishi  2023-10-31  193  
+ .../admin-guide/dynamic-debug-howto.rst       |  60 ++-
+ MAINTAINERS                                   |   2 +-
+ drivers/gpu/drm/Kconfig                       |   3 +-
+ drivers/gpu/drm/Makefile                      |   3 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c       |  12 +-
+ drivers/gpu/drm/display/drm_dp_helper.c       |  12 +-
+ drivers/gpu/drm/drm_crtc_helper.c             |  12 +-
+ drivers/gpu/drm/drm_gem_shmem_helper.c        |   2 +
+ drivers/gpu/drm/drm_print.c                   |  35 +-
+ drivers/gpu/drm/gud/gud_drv.c                 |   2 +
+ drivers/gpu/drm/i915/i915_params.c            |  12 +-
+ drivers/gpu/drm/mgag200/mgag200_drv.c         |   2 +
+ drivers/gpu/drm/nouveau/nouveau_drm.c         |  12 +-
+ drivers/gpu/drm/qxl/qxl_drv.c                 |   2 +
+ drivers/gpu/drm/radeon/radeon_drv.c           |   2 +
+ drivers/gpu/drm/udl/udl_main.c                |   2 +
+ drivers/gpu/drm/vkms/vkms_drv.c               |   2 +
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.c           |   2 +
+ include/asm-generic/vmlinux.lds.h             |   1 +
+ include/drm/drm_print.h                       |  12 +-
+ include/linux/dynamic_debug.h                 | 121 +++--
+ kernel/module/main.c                          |   3 +
+ lib/Kconfig.debug                             |  24 +-
+ lib/Makefile                                  |   3 +
+ lib/dynamic_debug.c                           | 458 +++++++++++-------
+ lib/test_dynamic_debug.c                      | 131 ++---
+ lib/test_dynamic_debug_submod.c               |  17 +
+ 27 files changed, 584 insertions(+), 365 deletions(-)
+ create mode 100644 lib/test_dynamic_debug_submod.c
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.41.0
+
