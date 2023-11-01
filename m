@@ -2,90 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5FBC7DE549
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Nov 2023 18:23:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D78647DE570
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Nov 2023 18:37:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D0D210E756;
-	Wed,  1 Nov 2023 17:23:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9CA1010E03D;
+	Wed,  1 Nov 2023 17:37:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4FACC10E756
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Nov 2023 17:23:41 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 06D0910E03D
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Nov 2023 17:37:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1698859420;
+ s=mimecast20190719; t=1698860244;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bXewshFpfkGDn8j5Fh6rL3ELP7XseQ2PaUs6p1ijoKo=;
- b=S6Ppfu/w1n1L35jmHSSFP3rFlk44i5pAJQRmNhCcOfhks+ZM5T/IJsKOHJmRaxipCBZcBa
- whC/2Um1AYqFChTTcQO03IHfrrUF0tsmSqhLauFgnrdH8YTXSMBOKiXATMAuwY73Zb/iS4
- wQF/EuQ1WLSynfriFTkKP9Bp+NBgptY=
-Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
- [209.85.167.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=4RhPlGusYVJsSef3GrnGduM/IdUh3rgV5mnvkxhbvvY=;
+ b=V0SxEnKvYMSju1/acSng6SM+zTFOSfn5dyMAhREtV8mC+j4iVQ4fGYUPUmr7cmRE89dP8D
+ bBNJEv3Ll+hilyBg493xiSroDwghJ2A+nQEzYIPR32k4r1xz0iAZLenwxOnjMvAx/O9eCO
+ qlLhqU+xyPoTWxFMsKkBSq76nd2VE1U=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-608-9mKVtEohMemySLjXKklXYw-1; Wed, 01 Nov 2023 13:23:38 -0400
-X-MC-Unique: 9mKVtEohMemySLjXKklXYw-1
-Received: by mail-lf1-f72.google.com with SMTP id
- 2adb3069b0e04-507a3ae32b2so7902831e87.2
- for <dri-devel@lists.freedesktop.org>; Wed, 01 Nov 2023 10:23:38 -0700 (PDT)
+ us-mta-37-BeLyURiHOtCYfWUrS91NuQ-1; Wed, 01 Nov 2023 13:37:21 -0400
+X-MC-Unique: BeLyURiHOtCYfWUrS91NuQ-1
+Received: by mail-ej1-f70.google.com with SMTP id
+ a640c23a62f3a-9ae0bf9c0a9so2865266b.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 Nov 2023 10:37:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1698859417; x=1699464217;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=bXewshFpfkGDn8j5Fh6rL3ELP7XseQ2PaUs6p1ijoKo=;
- b=KOxshk8hWLT2AGGQMA5fyJYAc0GrcMUCQErQhcONzJGfpG4xWIf8xlQT0KBzH4qgsC
- 7XvzljMJas4Jr5YXvz1RDLoZyH3lxmYeoxNmfECud4lAG9Q7IHQB85zGNfN+ZBURCpzw
- qdiM8IRkx4W3UT3lJocQiki2JxaL5Q8IIGAIjRnbOZVOIBGGnt4ACeaGou7Rwz80YEpE
- ikf9mzpfePXAkzAGryLu2jIv7f8zebkTscL8xbXX6L6Pg6s//ELWiFDiThFCtMNydeoc
- OFfGLBVvaJ3LIjGawPJQE3kVPPpX+ncVLlN5zxDDpsciiiRwRmmNa5FZlpW5/10Hcp8I
- UpJw==
-X-Gm-Message-State: AOJu0YybXPMLLuFOxyPVi+pS9KF188FytiqNsdjVCUSUqIfoIiN3QTnE
- Kxvo5ZA4+viX+zcYwaDJ9JYEuVlKWLnNIsOjXc+YR2Q3c/6RNdIB0pFbAYvaPPvq93NhRkE5iKR
- Pmw5PM8+yOlO+FtiVTMDcjNXXBFhQ
-X-Received: by 2002:a19:f70c:0:b0:503:3278:3221 with SMTP id
- z12-20020a19f70c000000b0050332783221mr11373996lfe.69.1698859417370; 
- Wed, 01 Nov 2023 10:23:37 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IH6HHz3oW4ipafXuoWciK1QIqlCji+n9zHO/WdZA5/mihhlvFcyYrzNsJ02zM3nEz/DRpJg6Q==
-X-Received: by 2002:a19:f70c:0:b0:503:3278:3221 with SMTP id
- z12-20020a19f70c000000b0050332783221mr11373983lfe.69.1698859416958; 
- Wed, 01 Nov 2023 10:23:36 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:4b3f:de9c:abf:b8ff:feee:998b?
- ([2a02:810d:4b3f:de9c:abf:b8ff:feee:998b])
+ d=1e100.net; s=20230601; t=1698860240; x=1699465040;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=4RhPlGusYVJsSef3GrnGduM/IdUh3rgV5mnvkxhbvvY=;
+ b=uju9ldwLRlruthq+iMhuP8omh5AXjBzKX11iXz6FbRHr0cLL1v8ZmDvD/sN1quAR8V
+ rahn+R08zMGjk/Da6rGSrIRnwUaCybYBr7fL+i078lrjbgtfrGlyVAz2TMxadMMLIENI
+ u0TNodr0YCIiNfTK7Bg36fhJz9phkW7AQkfYQlob9mOEATwmdhl3VV1RFoPCuResXrcj
+ Gx99pW6vqTRYJu7lkGe9OhFXHPVXHSx5iHpI8JXTOGAMUfOpuHRCCbNmbu/ZDUEYrZAO
+ meF0e1RjepBCNfNJS9VEGlHu0TKvLyfjUWYumw6+ssd/cAuxNcGpcYJJOR+xve1LgtUv
+ 1Ngw==
+X-Gm-Message-State: AOJu0YyNTDFYoMcZWaE1XyJlFG68TEcTpL+PKnsT8e7tLDNs2FzYCByh
+ F20jr7nuhPHPJDISWDDBr6slChttQyhAWl1XeOGwR5ry+QyVXh8XaoV3Hr9aXhCGmT0gkAjjKVN
+ WWfH6Cz7Bw7nIO8rLdgxInwSoFPeEF7Ozw2Qz
+X-Received: by 2002:a17:907:36c5:b0:9d3:f436:6804 with SMTP id
+ bj5-20020a17090736c500b009d3f4366804mr2306788ejc.29.1698860240075; 
+ Wed, 01 Nov 2023 10:37:20 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEklBi1zQds+I7UJIFs3SEN4nSdkZJ2sw1JGoIHMH0zyb+URKHqpxh6RiFjAwQE0nQ5Pxclzw==
+X-Received: by 2002:a17:907:36c5:b0:9d3:f436:6804 with SMTP id
+ bj5-20020a17090736c500b009d3f4366804mr2306776ejc.29.1698860239742; 
+ Wed, 01 Nov 2023 10:37:19 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec?
+ (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl.
+ [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
  by smtp.gmail.com with ESMTPSA id
- z11-20020a1709063a0b00b0099bd7b26639sm170572eje.6.2023.11.01.10.23.35
+ i17-20020a170906a29100b00992e265495csm174197ejz.212.2023.11.01.10.37.18
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 01 Nov 2023 10:23:36 -0700 (PDT)
-Message-ID: <b0eab26f-23e8-49cb-b831-1188d5abda86@redhat.com>
-Date: Wed, 1 Nov 2023 18:23:35 +0100
+ Wed, 01 Nov 2023 10:37:19 -0700 (PDT)
+Message-ID: <0ca75b7a-0dc2-8f91-755c-d1338a96bb3a@redhat.com>
+Date: Wed, 1 Nov 2023 18:37:18 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH drm-misc-next v7 4/7] drm/gpuvm: add an abstraction for a
- VM / BO combination
-To: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- airlied@gmail.com, daniel@ffwll.ch, matthew.brost@intel.com,
- sarah.walker@imgtec.com, donald.robson@imgtec.com,
- boris.brezillon@collabora.com, christian.koenig@amd.com, faith@gfxstrand.net
-References: <20231023201659.25332-1-dakr@redhat.com>
- <20231023201659.25332-5-dakr@redhat.com>
- <4a51c1cd9e2435332e033f9426bac8fae1c21c60.camel@linux.intel.com>
- <980754a3-7f5a-465e-88a9-62a40c82cae8@redhat.com>
- <ab8f30452540171447118d64931e66da96b6e85e.camel@linux.intel.com>
- <b09e37f3-33f6-4ea8-876b-f0bee9627ced@redhat.com>
- <1043bb3c1156d08015db5478183888892dfeda88.camel@linux.intel.com>
- <bfcaf8f777c2c6f018423bb1840a58ab7c80d97f.camel@linux.intel.com>
-From: Danilo Krummrich <dakr@redhat.com>
-Organization: RedHat
-In-Reply-To: <bfcaf8f777c2c6f018423bb1840a58ab7c80d97f.camel@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH 2/2] fbdev/simplefb: Add support for generic power-domains
+To: Thierry Reding <thierry.reding@gmail.com>
+References: <20231011143809.1108034-1-thierry.reding@gmail.com>
+ <20231011143809.1108034-3-thierry.reding@gmail.com>
+ <0bc4aac4-817a-4a6d-8e7c-d19269c47a40@redhat.com>
+ <ZUKBwZ3axCKQDXfz@orome.fritz.box>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <ZUKBwZ3axCKQDXfz@orome.fritz.box>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Language: en-US, nl
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,172 +90,157 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Helge Deller <deller@gmx.de>, Robert Foss <rfoss@kernel.org>,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Jon Hunter <jonathanh@nvidia.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/1/23 10:56, Thomas Hellström wrote:
-> On Wed, 2023-11-01 at 10:41 +0100, Thomas Hellström wrote:
->> Hi, Danilo,
+Hi,
+
+On 11/1/23 17:50, Thierry Reding wrote:
+> On Thu, Oct 26, 2023 at 02:50:27PM +0200, Hans de Goede wrote:
+>> Hi,
 >>
->> On Tue, 2023-10-31 at 18:52 +0100, Danilo Krummrich wrote:
->>> On 10/31/23 17:45, Thomas Hellström wrote:
->>>> On Tue, 2023-10-31 at 17:39 +0100, Danilo Krummrich wrote:
->>>>> On 10/31/23 12:25, Thomas Hellström wrote:
->>>>>> On Mon, 2023-10-23 at 22:16 +0200, Danilo Krummrich wrote:
->>>>>>> Add an abstraction layer between the drm_gpuva mappings of
->>>>>>> a
->>>>>>> particular
->>>>>>> drm_gem_object and this GEM object itself. The abstraction
->>>>>>> represents
->>>>>>> a
->>>>>>> combination of a drm_gem_object and drm_gpuvm. The
->>>>>>> drm_gem_object
->>>>>>> holds
->>>>>>> a list of drm_gpuvm_bo structures (the structure
->>>>>>> representing
->>>>>>> this
->>>>>>> abstraction), while each drm_gpuvm_bo contains list of
->>>>>>> mappings
->>>>>>> of
->>>>>>> this
->>>>>>> GEM object.
->>>>>>>
->>>>>>> This has multiple advantages:
->>>>>>>
->>>>>>> 1) We can use the drm_gpuvm_bo structure to attach it to
->>>>>>> various
->>>>>>> lists
->>>>>>>       of the drm_gpuvm. This is useful for tracking external
->>>>>>> and
->>>>>>> evicted
->>>>>>>       objects per VM, which is introduced in subsequent
->>>>>>> patches.
->>>>>>>
->>>>>>> 2) Finding mappings of a certain drm_gem_object mapped in a
->>>>>>> certain
->>>>>>>       drm_gpuvm becomes much cheaper.
->>>>>>>
->>>>>>> 3) Drivers can derive and extend the structure to easily
->>>>>>> represent
->>>>>>>       driver specific states of a BO for a certain GPUVM.
->>>>>>>
->>>>>>> The idea of this abstraction was taken from amdgpu, hence
->>>>>>> the
->>>>>>> credit
->>>>>>> for
->>>>>>> this idea goes to the developers of amdgpu.
->>>>>>>
->>>>>>> Cc: Christian König <christian.koenig@amd.com>
->>>>>>> Signed-off-by: Danilo Krummrich <dakr@redhat.com>
->>>>>>> ---
->>>>>>>     drivers/gpu/drm/drm_gpuvm.c            | 335
->>>>>>> +++++++++++++++++++++--
->>>>>>> --
->>>>>>>     drivers/gpu/drm/nouveau/nouveau_uvmm.c |  64 +++--
->>>>>>>     include/drm/drm_gem.h                  |  32 +--
->>>>>>>     include/drm/drm_gpuvm.h                | 188
->>>>>>> +++++++++++++-
->>>>>>>     4 files changed, 533 insertions(+), 86 deletions(-)
->>>>>>
->>>>>> That checkpatch.pl error still remains as well.
->>>>>
->>>>> I guess you refer to:
->>>>>
->>>>> ERROR: do not use assignment in if condition
->>>>> #633: FILE: drivers/gpu/drm/nouveau/nouveau_uvmm.c:1165:
->>>>> +                       if (!(op->gem.obj = obj))
->>>>>
->>>>> This was an intentional decision, since in this specific case
->>>>> it
->>>>> seems to
->>>>> be more readable than the alternatives.
->>>>>
->>>>> However, if we consider this to be a hard rule, which we never
->>>>> ever
->>>>> break,
->>>>> I'm fine changing it too.
->>>>
->>>> With the errors, sooner or later they are going to start generate
->>>> patches to "fix" them. In this particular case also Xe CI is
->>>> complaining and abort building when I submit the Xe adaptation,
->>>> so
->>>> it'd
->>>> be good to be checkpatch.pl conformant IMHO.
->>>
->>> Ok, I will change this one.
->>>
->>> However, in general my opinion on coding style is that we should
->>> preserve us
->>> the privilege to deviate from it when we agree it makes sense and
->>> improves
->>> the code quality.
->>>
->>> Having a CI forcing people to *blindly* follow certain rules and
->>> even
->>> abort
->>> building isn't very beneficial in that respect.
->>>
->>> Also, consider patches which partially change a line of code that
->>> already
->>> contains a coding style "issue" - the CI would also block you on
->>> that
->>> one I
->>> guess. Besides that it seems to block you on unrelated code, note
->>> that the
->>> assignment in question is from Nouveau and not from GPUVM.
+>> Thank you for your patches.
 >>
->> Yes, I completely agree that having CI enforce error free coding
->> style
->> checks is bad, and I'll see if I can get that changed on Xe CI. To my
->> Knowledge It hasn't always been like that.
+>> On 10/11/23 16:38, Thierry Reding wrote:
+>>> From: Thierry Reding <treding@nvidia.com>
+>>>
+>>> The simple-framebuffer device tree bindings document the power-domains
+>>> property, so make sure that simplefb supports it. This ensures that the
+>>> power domains remain enabled as long as simplefb is active.
+>>>
+>>> Signed-off-by: Thierry Reding <treding@nvidia.com>
+>>> ---
+>>>  drivers/video/fbdev/simplefb.c | 93 +++++++++++++++++++++++++++++++++-
+>>>  1 file changed, 91 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/drivers/video/fbdev/simplefb.c b/drivers/video/fbdev/simplefb.c
+>>> index 18025f34fde7..e69fb0ad2d54 100644
+>>> --- a/drivers/video/fbdev/simplefb.c
+>>> +++ b/drivers/video/fbdev/simplefb.c
+>>> @@ -25,6 +25,7 @@
+>>>  #include <linux/of_clk.h>
+>>>  #include <linux/of_platform.h>
+>>>  #include <linux/parser.h>
+>>> +#include <linux/pm_domain.h>
+>>>  #include <linux/regulator/consumer.h>
+>>>  
+>>>  static const struct fb_fix_screeninfo simplefb_fix = {
+>>> @@ -78,6 +79,11 @@ struct simplefb_par {
+>>>  	unsigned int clk_count;
+>>>  	struct clk **clks;
+>>>  #endif
+>>> +#if defined CONFIG_OF && defined CONFIG_PM_GENERIC_DOMAINS
+>>> +	unsigned int num_genpds;
+>>> +	struct device **genpds;
+>>> +	struct device_link **genpd_links;
+>>> +#endif
+>>>  #if defined CONFIG_OF && defined CONFIG_REGULATOR
+>>>  	bool regulators_enabled;
+>>>  	u32 regulator_count;
+>>> @@ -432,6 +438,83 @@ static void simplefb_regulators_enable(struct simplefb_par *par,
+>>>  static void simplefb_regulators_destroy(struct simplefb_par *par) { }
+>>>  #endif
+>>>  
+>>> +#if defined CONFIG_OF && defined CONFIG_PM_GENERIC_DOMAINS
+>>> +static void simplefb_detach_genpds(void *res)
+>>> +{
+>>> +	struct simplefb_par *par = res;
+>>> +	unsigned int i = par->num_genpds;
+>>> +
+>>> +	if (par->num_genpds <= 1)
+>>> +		return;
+>>> +
+>>> +	while (i--) {
+>>> +		if (par->genpd_links[i])
+>>> +			device_link_del(par->genpd_links[i]);
+>>> +
+>>> +		if (!IS_ERR_OR_NULL(par->genpds[i]))
+>>> +			dev_pm_domain_detach(par->genpds[i], true);
+>>> +	}
 >>
->> But OTOH my take on this is that if there are coding style rules and
->> recommendations we should try to follow them unless there are
->> *strong*
->> reasons not to. Sometimes that may result in code that may be a
->> little
->> harder to read, but OTOH a reviewer won't have to read up on the
->> component's style flavor before reviewing and it will avoid future
->> style fix patches.
+>> Using this i-- construct means that genpd at index 0 will
+>> not be cleaned up.
 > 
-> Basically meaning I'll continue to point those out when reviewing in
-> case the author made an oversight, but won't require fixing for an R-B
-> if the component owner thinks otherwise.
+> This is actually a common variant to clean up in reverse order. You'll
+> find this used a lot in core code and so on. It has the advantage that
+> you can use it to unwind (not the case here) because i will already be
+> set to the right value, typically. It's also nice because it works for
+> unsigned integers.
+> 
+> Note that this uses the postfix decrement, so evaluation happens before
+> the decrement and therefore the last iteration of the loop will run with
+> i == 0. For unsigned integers this also means that after the loop the
+> variable will actually have wrapped around, but that's usually not a
+> problem since it isn't used after this point anymore.
 
-Yeah, I fully agree on that. That's why I changed it. I still think it was
-better as it was, but clearly way too minor to break the rules.
+Ah yes you are right, I messed the post-decrement part.
 
-- Danilo
+I got confused when I compaired this to the simpledrm code
+which uses the other construct.
 
 > 
-> Thanks,
-> Thomas
+>>>  static int simplefb_probe(struct platform_device *pdev)
+>>>  {
+>>>  	int ret;
+>>> @@ -518,6 +601,10 @@ static int simplefb_probe(struct platform_device *pdev)
+>>>  	if (ret < 0)
+>>>  		goto error_clocks;
+>>>  
+>>> +	ret = simplefb_attach_genpd(par, pdev);
+>>> +	if (ret < 0)
+>>> +		goto error_regulators;
+>>> +
+>>>  	simplefb_clocks_enable(par, pdev);
+>>>  	simplefb_regulators_enable(par, pdev);
+>>>  
+>>> @@ -534,18 +621,20 @@ static int simplefb_probe(struct platform_device *pdev)
+>>>  	ret = devm_aperture_acquire_for_platform_device(pdev, par->base, par->size);
+>>>  	if (ret) {
+>>>  		dev_err(&pdev->dev, "Unable to acquire aperture: %d\n", ret);
+>>> -		goto error_regulators;
+>>> +		goto error_genpds;
+>>
+>> This is not necessary since simplefb_attach_genpd() ends with:
+>>
+>> 	devm_add_action_or_reset(dev, simplefb_detach_genpds, par)
+>>
+>> Which causes simplefb_detach_genpds() to run when probe() fails.
+> 
+> Yes, you're right. I've removed all these explicit cleanup paths since
+> they are not needed.
 > 
 >>
->> Thanks,
->> Thomas
+>>>  	}
+>>>  	ret = register_framebuffer(info);
+>>>  	if (ret < 0) {
+>>>  		dev_err(&pdev->dev, "Unable to register simplefb: %d\n", ret);
+>>> -		goto error_regulators;
+>>> +		goto error_genpds;
+>>>  	}
+>>>  
+>>>  	dev_info(&pdev->dev, "fb%d: simplefb registered!\n", info->node);
+>>>  
+>>>  	return 0;
+>>>  
+>>> +error_genpds:
+>>> +	simplefb_detach_genpds(par);
 >>
+>> As the kernel test robot (LKP) already pointed out this is causing
+>> compile errors when #if defined CONFIG_OF && defined CONFIG_PM_GENERIC_DOMAINS
+>> evaluates as false.
 >>
->>>
->>> - Danilo
->>>
->>>>
->>>> Thanks,
->>>> Thomas
->>>>
->>>>
->>>>
->>>>
->>>>>
->>>>>>
->>>>>> Thanks,
->>>>>> Thomas
->>>>>>
->>>>>
->>>>
->>>
->>
+>> Since there is no simplefb_detach_genpds() stub in the #else, but as
+>> mentioned above this is not necessary so just remove it.
 > 
+> Yep, done.
+
+Great, thank you.
+
+Regards,
+
+Hans
+
 
