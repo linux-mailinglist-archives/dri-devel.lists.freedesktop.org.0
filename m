@@ -2,40 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0DC17DEE3A
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Nov 2023 09:35:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B649C7DE476
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Nov 2023 17:19:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 555B510E152;
-	Thu,  2 Nov 2023 08:35:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 72B9410E737;
+	Wed,  1 Nov 2023 16:19:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by gabe.freedesktop.org (Postfix) with ESMTP id EA75710E737
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Nov 2023 16:02:18 +0000 (UTC)
-Received: by linux.microsoft.com (Postfix, from userid 1159)
- id 6738C20B74C0; Wed,  1 Nov 2023 09:02:18 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 6738C20B74C0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
- s=default; t=1698854538;
- bh=JjKagOQc7XVCsOzjX5mQZCyIjlKEf/+UGuI8XDR24n4=;
- h=From:To:Cc:Subject:Date:From;
- b=Yj+KLdDWCXSntyvw2Ee6orRF9hr+VRDlMQZ0OP7j+7KKotau1/PdptyJC7tbAC0MA
- T9ZzO0RudXLO3xp7WDdEZPcm7CXEFHNzDzi0YWOig14lgfEgoK0FBK91M7ed/LS1OM
- VdWEZh1X7+XnzywI3maf4YfsadR90ULFkZIIVd/8=
-From: Nischala Yelchuri <niyelchu@linux.microsoft.com>
-To: linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org,
- linux-fbdev@vger.kernel.org, kys@microsoft.com, haiyangz@microsoft.com,
- wei.liu@kernel.org, decui@microsoft.com, tglx@linutronix.de,
- mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
- x86@kernel.org, hpa@zytor.com, drawat.floss@gmail.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
- deller@gmx.de
-Subject: [PATCH] Replace ioremap_cache() with memremap()
-Date: Wed,  1 Nov 2023 09:01:48 -0700
-Message-Id: <1698854508-23036-1-git-send-email-niyelchu@linux.microsoft.com>
-X-Mailer: git-send-email 1.8.3.1
-X-Mailman-Approved-At: Thu, 02 Nov 2023 08:35:03 +0000
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 28C0C10E735;
+ Wed,  1 Nov 2023 16:19:29 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 3A1D4aoJ015879; Wed, 1 Nov 2023 16:19:21 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=MgILOF+Vh0PfgLESTCkAgx0RiBlPVUa1StBHb19C1zU=;
+ b=RhqdMyyiG88i0/JgZ+xz+7rh3+17OxMCVNZVXQs1p1Q+pY6UYBiFp4ja/u1wOzg6lH7U
+ it5jo8GDAlZKO6EkCW6kYLU0Byh6ty3DDJV3zpv40UFcF7fwzhaMG/oU0A/z0YW2S7e3
+ ZYZytfrc/1Mp/jFRCXRRnQhu/Sap8OkyqcB5fKxdpICy/anJg6rXPSQ8PjknIcSv8ORn
+ upCFlRsK9Pq4FlHgqampOm9bQ2nIff7iAfZXlAG45ufdxdBO+ohA6q50gF0bO1hMCtfm
+ sRUr3pGOjzFL3ta74RyTTafXytbMrIh1lsuWCjaSt65g/QHCjWdJiSs98+tBXYR4rn0a Gg== 
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3u3eq1j8nd-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 01 Nov 2023 16:19:20 +0000
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3A1GJK4u010946
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 1 Nov 2023 16:19:20 GMT
+Received: from [10.134.69.165] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Wed, 1 Nov
+ 2023 09:19:19 -0700
+Message-ID: <118a8d20-2032-4689-b5c1-26797492f5c5@quicinc.com>
+Date: Wed, 1 Nov 2023 09:19:19 -0700
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] drm/msm/dp: don't touch DP subconnector property
+ in eDP case
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Abhinav Kumar
+ <quic_abhinavk@quicinc.com>, Marijn Suijten <marijn.suijten@somainline.org>
+References: <20231025092711.851168-1-dmitry.baryshkov@linaro.org>
+ <20231025092711.851168-2-dmitry.baryshkov@linaro.org>
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+In-Reply-To: <20231025092711.851168-2-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: FXF3sm4txgQW_2wNLDf_m7xV7mbNMpTL
+X-Proofpoint-ORIG-GUID: FXF3sm4txgQW_2wNLDf_m7xV7mbNMpTL
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-01_15,2023-11-01_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ suspectscore=0 bulkscore=0 spamscore=0 clxscore=1011 phishscore=0
+ mlxscore=0 impostorscore=0 adultscore=0 mlxlogscore=999 malwarescore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2310240000 definitions=main-2311010129
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,148 +85,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: niyelchu@microsoft.com, singhabhinav9051571833@gmail.com,
- mhklinux@outlook.com, mhkelley@outlook.com
+Cc: linux-arm-msm@vger.kernel.org, Bjorn
+ Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, Abel Vesa <abel.vesa@linaro.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Current Hyper-V code for CoCo VMs uses ioremap_cache() to map normal memory as decrypted.
-ioremap_cache() is ideally used to map I/O device memory when it has the characteristics
-of normal memory. It should not be used to map normal memory as the returned pointer
-has the __iomem attribute.
 
-Fix current code by replacing ioremap_cache() with memremap().
 
-No functional change intended.
+On 10/25/2023 2:23 AM, Dmitry Baryshkov wrote:
+> From: Abel Vesa <abel.vesa@linaro.org>
+> 
+> In case of the eDP connection there is no subconnetor and as such no
+> subconnector property. Put drm_dp_set_subconnector_property() calls
+> under the !is_edp condition.
+> 
+> Fixes: bfcc3d8f94f4 ("drm/msm/dp: support setting the DP subconnector type")
+> Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-Signed-off-by: Nischala Yelchuri <niyelchu@linux.microsoft.com>
----
- arch/x86/hyperv/hv_init.c               |  6 +++---
- drivers/gpu/drm/hyperv/hyperv_drm_drv.c |  2 +-
- drivers/hv/hv.c                         | 13 +++++++------
- drivers/video/fbdev/hyperv_fb.c         |  6 +++---
- 4 files changed, 14 insertions(+), 13 deletions(-)
+Tested-by: Jessica Zhang <quic_jesszhan@quicinc.com> # SC7280
 
-diff --git a/arch/x86/hyperv/hv_init.c b/arch/x86/hyperv/hv_init.c
-index 21556ad87..fae43c040 100644
---- a/arch/x86/hyperv/hv_init.c
-+++ b/arch/x86/hyperv/hv_init.c
-@@ -68,9 +68,9 @@ static int hyperv_init_ghcb(void)
- 	 */
- 	rdmsrl(MSR_AMD64_SEV_ES_GHCB, ghcb_gpa);
- 
--	/* Mask out vTOM bit. ioremap_cache() maps decrypted */
-+	/* Mask out vTOM bit. memremap() maps decrypted with MEMREMAP_DEC */
- 	ghcb_gpa &= ~ms_hyperv.shared_gpa_boundary;
--	ghcb_va = (void *)ioremap_cache(ghcb_gpa, HV_HYP_PAGE_SIZE);
-+	ghcb_va = memremap(ghcb_gpa, HV_HYP_PAGE_SIZE, MEMREMAP_WB | MEMREMAP_DEC);
- 	if (!ghcb_va)
- 		return -ENOMEM;
- 
-@@ -238,7 +238,7 @@ static int hv_cpu_die(unsigned int cpu)
- 	if (hv_ghcb_pg) {
- 		ghcb_va = (void **)this_cpu_ptr(hv_ghcb_pg);
- 		if (*ghcb_va)
--			iounmap(*ghcb_va);
-+			memunmap(*ghcb_va);
- 		*ghcb_va = NULL;
- 	}
- 
-diff --git a/drivers/gpu/drm/hyperv/hyperv_drm_drv.c b/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
-index d511d17c5..d6fec9bd3 100644
---- a/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
-+++ b/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
-@@ -92,7 +92,7 @@ static int hyperv_setup_vram(struct hyperv_drm_device *hv,
- 	 * connect to display properly for ARM64 Linux VM, as the host also maps
- 	 * the VRAM cacheable.
- 	 */
--	hv->vram = ioremap_cache(hv->mem->start, hv->fb_size);
-+	hv->vram = memremap(hv->mem->start, hv->fb_size, MEMREMAP_WB | MEMREMAP_DEC);
- 	if (!hv->vram) {
- 		drm_err(dev, "Failed to map vram\n");
- 		ret = -ENOMEM;
-diff --git a/drivers/hv/hv.c b/drivers/hv/hv.c
-index 51e5018ac..399bfa392 100644
---- a/drivers/hv/hv.c
-+++ b/drivers/hv/hv.c
-@@ -274,11 +274,12 @@ void hv_synic_enable_regs(unsigned int cpu)
- 	simp.simp_enabled = 1;
- 
- 	if (ms_hyperv.paravisor_present || hv_root_partition) {
--		/* Mask out vTOM bit. ioremap_cache() maps decrypted */
-+		/* Mask out vTOM bit. memremap() maps decrypted with MEMREMAP_DEC */
- 		u64 base = (simp.base_simp_gpa << HV_HYP_PAGE_SHIFT) &
- 				~ms_hyperv.shared_gpa_boundary;
- 		hv_cpu->synic_message_page
--			= (void *)ioremap_cache(base, HV_HYP_PAGE_SIZE);
-+			= memremap(base,
-+				   HV_HYP_PAGE_SIZE, MEMREMAP_WB | MEMREMAP_DEC);
- 		if (!hv_cpu->synic_message_page)
- 			pr_err("Fail to map synic message page.\n");
- 	} else {
-@@ -293,11 +294,11 @@ void hv_synic_enable_regs(unsigned int cpu)
- 	siefp.siefp_enabled = 1;
- 
- 	if (ms_hyperv.paravisor_present || hv_root_partition) {
--		/* Mask out vTOM bit. ioremap_cache() maps decrypted */
-+		/* Mask out vTOM bit. memremap() maps decrypted with MEMREMAP_DEC */
- 		u64 base = (siefp.base_siefp_gpa << HV_HYP_PAGE_SHIFT) &
- 				~ms_hyperv.shared_gpa_boundary;
- 		hv_cpu->synic_event_page
--			= (void *)ioremap_cache(base, HV_HYP_PAGE_SIZE);
-+			= memremap(base, HV_HYP_PAGE_SIZE, MEMREMAP_WB | MEMREMAP_DEC);
- 		if (!hv_cpu->synic_event_page)
- 			pr_err("Fail to map synic event page.\n");
- 	} else {
-@@ -376,7 +377,7 @@ void hv_synic_disable_regs(unsigned int cpu)
- 	 */
- 	simp.simp_enabled = 0;
- 	if (ms_hyperv.paravisor_present || hv_root_partition) {
--		iounmap(hv_cpu->synic_message_page);
-+		memunmap(hv_cpu->synic_message_page);
- 		hv_cpu->synic_message_page = NULL;
- 	} else {
- 		simp.base_simp_gpa = 0;
-@@ -388,7 +389,7 @@ void hv_synic_disable_regs(unsigned int cpu)
- 	siefp.siefp_enabled = 0;
- 
- 	if (ms_hyperv.paravisor_present || hv_root_partition) {
--		iounmap(hv_cpu->synic_event_page);
-+		memunmap(hv_cpu->synic_event_page);
- 		hv_cpu->synic_event_page = NULL;
- 	} else {
- 		siefp.base_siefp_gpa = 0;
-diff --git a/drivers/video/fbdev/hyperv_fb.c b/drivers/video/fbdev/hyperv_fb.c
-index bf59daf86..cd9ec1f6c 100644
---- a/drivers/video/fbdev/hyperv_fb.c
-+++ b/drivers/video/fbdev/hyperv_fb.c
-@@ -1034,7 +1034,7 @@ static int hvfb_getmem(struct hv_device *hdev, struct fb_info *info)
- 	 * VM Connect to display properly for ARM64 Linux VM, as the host also
- 	 * maps the VRAM cacheable.
- 	 */
--	fb_virt = ioremap_cache(par->mem->start, screen_fb_size);
-+	fb_virt = memremap(par->mem->start, screen_fb_size, MEMREMAP_WB | MEMREMAP_DEC);
- 	if (!fb_virt)
- 		goto err2;
- 
-@@ -1068,7 +1068,7 @@ static int hvfb_getmem(struct hv_device *hdev, struct fb_info *info)
- 	return 0;
- 
- err3:
--	iounmap(fb_virt);
-+	memunmap(fb_virt);
- err2:
- 	vmbus_free_mmio(par->mem->start, screen_fb_size);
- 	par->mem = NULL;
-@@ -1086,7 +1086,7 @@ static void hvfb_putmem(struct hv_device *hdev, struct fb_info *info)
- 
- 	if (par->need_docopy) {
- 		vfree(par->dio_vp);
--		iounmap(info->screen_base);
-+		memunmap(info->screen_base);
- 		vmbus_free_mmio(par->mem->start, screen_fb_size);
- 	} else {
- 		hvfb_release_phymem(hdev, info->fix.smem_start,
--- 
-2.34.1
-
+> ---
+>   drivers/gpu/drm/msm/dp/dp_display.c | 15 ++++++++++-----
+>   1 file changed, 10 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+> index e329e03e068d..1b88fb52726f 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+> @@ -365,9 +365,11 @@ static int dp_display_send_hpd_notification(struct dp_display_private *dp,
+>   	/* reset video pattern flag on disconnect */
+>   	if (!hpd) {
+>   		dp->panel->video_test = false;
+> -		drm_dp_set_subconnector_property(dp->dp_display.connector,
+> -						 connector_status_disconnected,
+> -						 dp->panel->dpcd, dp->panel->downstream_ports);
+> +		if (!dp->dp_display.is_edp)
+> +			drm_dp_set_subconnector_property(dp->dp_display.connector,
+> +							 connector_status_disconnected,
+> +							 dp->panel->dpcd,
+> +							 dp->panel->downstream_ports);
+>   	}
+>   
+>   	dp->dp_display.is_connected = hpd;
+> @@ -396,8 +398,11 @@ static int dp_display_process_hpd_high(struct dp_display_private *dp)
+>   
+>   	dp_link_process_request(dp->link);
+>   
+> -	drm_dp_set_subconnector_property(dp->dp_display.connector, connector_status_connected,
+> -					 dp->panel->dpcd, dp->panel->downstream_ports);
+> +	if (!dp->dp_display.is_edp)
+> +		drm_dp_set_subconnector_property(dp->dp_display.connector,
+> +						 connector_status_connected,
+> +						 dp->panel->dpcd,
+> +						 dp->panel->downstream_ports);
+>   
+>   	edid = dp->panel->edid;
+>   
+> -- 
+> 2.42.0
+> 
