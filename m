@@ -2,42 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E82D57DF4B5
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Nov 2023 15:15:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F29917DF4CA
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Nov 2023 15:19:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6EF1F10E8C8;
-	Thu,  2 Nov 2023 14:15:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E647B10E8D2;
+	Thu,  2 Nov 2023 14:19:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9AA4B10E8C8
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Nov 2023 14:15:15 +0000 (UTC)
-Received: from IcarusMOD.eternityproject.eu (cola.collaboradmins.com
- [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 203C06607033;
- Thu,  2 Nov 2023 14:15:13 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1698934514;
- bh=cAv8iDJbPkwyr97yslzoCR0E+J9ioopOVLD7tn0xeaE=;
- h=From:To:Cc:Subject:Date:From;
- b=HqpIaYF1rO3cGnHd2r+erpo4hV2GzGpXpvcUY+S6BvEdi0pqjEu5FWy6QdvWTB3Gn
- sLX5M2x5Eba62EWJQeIhhroPsAOPWMocc59q2AuWBWBlax4+QBZzkgfoOdyFqPQbXF
- Y7hMqhsMlQszW/jpI8+JDDIRReCRzoRS38k39ZND8OCmYQjwIAov7wyhLEOh3B4a8K
- B14ZdeSjkbBKNhWSqF/sa/1vcE8KOscGZlWKXVKeDxxVrAu7PA0NcjV6DjsU7+mLU0
- /B6FVDPNyCX1zZQRdHj1Wv1SpIjqjXob6NB925dUEtepvVxB63XjzTVkIiW32H160F
- OWsLpYE84uuzA==
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-To: boris.brezillon@collabora.com
-Subject: [PATCH] drm/panfrost: Really power off GPU cores in
- panfrost_gpu_power_off()
-Date: Thu,  2 Nov 2023 15:15:07 +0100
-Message-ID: <20231102141507.73481-1-angelogioacchino.delregno@collabora.com>
-X-Mailer: git-send-email 2.42.0
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 64DEB89128;
+ Thu,  2 Nov 2023 14:19:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1698934793; x=1730470793;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=YIoOazyZIxRBLXmipC//1yjCBmIXsr31xOo/Ttayfpw=;
+ b=L/qu+/6P0OEbXeaLA//3+PWkfVdyJ+v7MYTKofEvtktBADnEz3DL3QOX
+ UzUaE7NSq/MiRlxmZMX694LbCoDJSyml0GVbt2QA1CIHHV8BOe2ylV8GL
+ CoqunAIpqT8q7gmyr52GFUX85u3UL+cS1SB7u+JRx0qTKvc5Lk0/lH8TC
+ psPiMFRB4QDriI2qGBzT0mX/TzTovspAwjE7gTZTd+QyRQPezFR4UTjwq
+ jpdVhYGZDqWJNxJln5QA/wtQszQNjrUo2OFYqsaIA4XayiMtR367wjY1a
+ HBrUNke2Hj7v5LoRR7OisBs1aI0Sej7mwM5cqTIsORG8yzbNLpdLsIMH9 A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="1647428"
+X-IronPort-AV: E=Sophos;i="6.03,271,1694761200"; 
+   d="scan'208";a="1647428"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Nov 2023 07:19:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="831702572"
+X-IronPort-AV: E=Sophos;i="6.03,271,1694761200"; d="scan'208";a="831702572"
+Received: from smile.fi.intel.com ([10.237.72.54])
+ by fmsmga004.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Nov 2023 07:19:49 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.97-RC3)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1qyYXy-0000000AhvZ-3fkX; Thu, 02 Nov 2023 16:19:46 +0200
+Date: Thu, 2 Nov 2023 16:19:46 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Hans de Goede <hdegoede@redhat.com>
+Subject: Re: [PATCH v2 6/7] drm/i915/dsi: Replace poking of CHV GPIOs behind
+ the driver's back
+Message-ID: <ZUOwAn158pUELTBq@smile.fi.intel.com>
+References: <20231024155739.3861342-1-andriy.shevchenko@linux.intel.com>
+ <20231024155739.3861342-7-andriy.shevchenko@linux.intel.com>
+ <ZTfssxRsrDxhzSQ6@smile.fi.intel.com>
+ <b489675d-e9de-4bca-9622-78545aa8606d@redhat.com>
+ <16e533e2-81bb-47ba-9e23-460a626bcad7@redhat.com>
+ <ZUIbPtEEbl6pjdqg@smile.fi.intel.com>
+ <f68dca47-d9ed-a146-b152-c19bcc9d8828@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f68dca47-d9ed-a146-b152-c19bcc9d8828@redhat.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,127 +69,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, mripard@kernel.org, steven.price@arm.com,
- dri-devel@lists.freedesktop.org, tzimmermann@suse.de, wenst@chromium.org,
- kernel@collabora.com,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Jani Nikula <jani.nikula@intel.com>, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The layout of the registers {TILER,SHADER,L2}_PWROFF_LO, used to request
-powering off cores, is the same as the {TILER,SHADER,L2}_PWRON_LO ones:
-this means that in order to request poweroff of cores, we are supposed
-to write a bitmask of cores that should be powered off!
-This means that the panfrost_gpu_power_off() function has always been
-doing nothing.
+On Wed, Nov 01, 2023 at 11:20:23AM +0100, Hans de Goede wrote:
+> On 11/1/23 10:32, Andy Shevchenko wrote:
+> > On Tue, Oct 31, 2023 at 10:15:52PM +0100, Hans de Goede wrote:
+> >> On 10/31/23 17:07, Hans de Goede wrote:
+> >>> On 10/24/23 18:11, Andy Shevchenko wrote:
+> >>>> On Tue, Oct 24, 2023 at 06:57:38PM +0300, Andy Shevchenko wrote:
 
-Fix powering off the GPU by writing a bitmask of the cores to poweroff
-to the relevant PWROFF_LO registers and then check that the transition
-(from ON to OFF) has finished by polling the relevant PWRTRANS_LO
-registers.
+...
 
-While at it, in order to avoid code duplication, move the core mask
-logic from panfrost_gpu_power_on() to a new panfrost_get_core_mask()
-function, used in both poweron and poweroff.
+> Note you still need the first part of my patch which is
+> an unrelated bugfix:
+> 
+> --- a/drivers/gpu/drm/i915/display/intel_dsi_vbt.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dsi_vbt.c
+> @@ -219,8 +219,7 @@ static void soc_exec_gpio(struct intel_connector *connector, const char *con_id,
+>  	} else {
+>  		gpio_desc = devm_gpiod_get_index(dev_priv->drm.dev,
+>  						 con_id, gpio_index,
+> -						 value ? GPIOD_OUT_LOW :
+> -						 GPIOD_OUT_HIGH);
+> +						 value ? GPIOD_OUT_HIGH : GPIOD_OUT_LOW);
+>  		if (IS_ERR(gpio_desc)) {
+>  			drm_err(&dev_priv->drm,
+>  				"GPIO index %u request failed (%pe)\n",
 
-Fixes: f3ba91228e8e ("drm/panfrost: Add initial panfrost driver")
-Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
----
- drivers/gpu/drm/panfrost/panfrost_gpu.c | 65 ++++++++++++++++++-------
- 1 file changed, 47 insertions(+), 18 deletions(-)
+Can you attach or send a formal submission, so I can incorporate it into one
+(v3) series among other changes?
 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.c b/drivers/gpu/drm/panfrost/panfrost_gpu.c
-index f0be7e19b13e..fad75b6e543e 100644
---- a/drivers/gpu/drm/panfrost/panfrost_gpu.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_gpu.c
-@@ -362,28 +362,38 @@ unsigned long long panfrost_cycle_counter_read(struct panfrost_device *pfdev)
- 	return ((u64)hi << 32) | lo;
- }
- 
-+static u64 panfrost_get_core_mask(struct panfrost_device *pfdev)
-+{
-+	u64 core_mask;
-+
-+	if (pfdev->features.l2_present == 1)
-+		return U64_MAX;
-+
-+	/*
-+	 * Only support one core group now.
-+	 * ~(l2_present - 1) unsets all bits in l2_present except
-+	 * the bottom bit. (l2_present - 2) has all the bits in
-+	 * the first core group set. AND them together to generate
-+	 * a mask of cores in the first core group.
-+	 */
-+	core_mask = ~(pfdev->features.l2_present - 1) &
-+		     (pfdev->features.l2_present - 2);
-+	dev_info_once(pfdev->dev, "using only 1st core group (%lu cores from %lu)\n",
-+		      hweight64(core_mask),
-+		      hweight64(pfdev->features.shader_present));
-+
-+	return core_mask;
-+}
-+
- void panfrost_gpu_power_on(struct panfrost_device *pfdev)
- {
- 	int ret;
- 	u32 val;
--	u64 core_mask = U64_MAX;
-+	u64 core_mask;
- 
- 	panfrost_gpu_init_quirks(pfdev);
-+	core_mask = panfrost_get_core_mask(pfdev);
- 
--	if (pfdev->features.l2_present != 1) {
--		/*
--		 * Only support one core group now.
--		 * ~(l2_present - 1) unsets all bits in l2_present except
--		 * the bottom bit. (l2_present - 2) has all the bits in
--		 * the first core group set. AND them together to generate
--		 * a mask of cores in the first core group.
--		 */
--		core_mask = ~(pfdev->features.l2_present - 1) &
--			     (pfdev->features.l2_present - 2);
--		dev_info_once(pfdev->dev, "using only 1st core group (%lu cores from %lu)\n",
--			      hweight64(core_mask),
--			      hweight64(pfdev->features.shader_present));
--	}
- 	gpu_write(pfdev, L2_PWRON_LO, pfdev->features.l2_present & core_mask);
- 	ret = readl_relaxed_poll_timeout(pfdev->iomem + L2_READY_LO,
- 		val, val == (pfdev->features.l2_present & core_mask),
-@@ -408,11 +418,30 @@ void panfrost_gpu_power_on(struct panfrost_device *pfdev)
- 
- void panfrost_gpu_power_off(struct panfrost_device *pfdev)
- {
--	gpu_write(pfdev, TILER_PWROFF_LO, 0);
--	gpu_write(pfdev, SHADER_PWROFF_LO, 0);
--	gpu_write(pfdev, L2_PWROFF_LO, 0);
-+	u64 core_mask = panfrost_get_core_mask(pfdev);
-+	int ret;
-+	u32 val;
-+
-+	gpu_write(pfdev, SHADER_PWROFF_LO, pfdev->features.shader_present & core_mask);
-+	ret = readl_relaxed_poll_timeout(pfdev->iomem + SHADER_PWRTRANS_LO,
-+					 val, !val, 1, 1000);
-+	if (ret)
-+		dev_err(pfdev->dev, "shader power transition timeout");
-+
-+	gpu_write(pfdev, TILER_PWROFF_LO, pfdev->features.tiler_present);
-+	ret = readl_relaxed_poll_timeout(pfdev->iomem + TILER_PWRTRANS_LO,
-+					 val, !val, 1, 1000);
-+	if (ret)
-+		dev_err(pfdev->dev, "tiler power transition timeout");
-+
-+	gpu_write(pfdev, L2_PWROFF_LO, pfdev->features.l2_present & core_mask);
-+	ret = readl_poll_timeout(pfdev->iomem + L2_PWRTRANS_LO,
-+					 val, !val, 0, 1000);
-+	if (ret)
-+		dev_err(pfdev->dev, "l2 power transition timeout");
- }
- 
-+
- int panfrost_gpu_init(struct panfrost_device *pfdev)
- {
- 	int err, irq;
 -- 
-2.42.0
+With Best Regards,
+Andy Shevchenko
+
 
