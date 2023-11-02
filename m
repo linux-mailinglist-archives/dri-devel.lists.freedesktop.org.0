@@ -2,53 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29C937DF798
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Nov 2023 17:25:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FF887DF7EF
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Nov 2023 17:49:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E97910E090;
-	Thu,  2 Nov 2023 16:25:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A977C10E939;
+	Thu,  2 Nov 2023 16:49:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D411710E090;
- Thu,  2 Nov 2023 16:25:08 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 5FD2DCE2112;
- Thu,  2 Nov 2023 16:25:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2127C433CA;
- Thu,  2 Nov 2023 16:25:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1698942305;
- bh=ZP/kIBCdvT4zzHe9YkNWVQ0ufjZVnXPWplIffBkOZoU=;
- h=From:Date:Subject:To:Cc:From;
- b=mva+y3X476vfa8R9Ay7i+hgpOKdcBcnT38YLWatpi/J8z8Z6sPJZsOtffdqm7TfpG
- VRuccAfqXOOUW5HLNq/PDoDaIH9jezPF/Qrjze+v/BtdTwA6ug9URafaxvMWtlHok6
- s00AoYSmXQmmr/XCNSgDOPYumIUd1DaV0TiI5gH6T+DYbG50NpuLzr+dWfmINnt8Tw
- VYY3T4Z6fUsewqp3Ov5l3g3EVsO4Atjw9MocsBie8EjEf4fFQwPyiYWFY8QtUOAbVp
- 4fBqiMhkSexrR4dxZLHOKHFaK0T+d89HUEknPkspkOg6CQy2koq5v7dc6hPEUAoDlY
- g0JHHZqIrez0g==
-From: Nathan Chancellor <nathan@kernel.org>
-Date: Thu, 02 Nov 2023 09:24:53 -0700
-Subject: [PATCH] drm/amd/display: Increase frame warning limit for clang in
- dml2
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB16610E08F;
+ Thu,  2 Nov 2023 16:49:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1698943753; x=1730479753;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=HKl+m4Zjr7h+atr2oTK1n7KhWyPIB1bTDQkuRUWLgbk=;
+ b=XZ7VlFjIeDCx7M5tkbevGdM+f0CP30Zp7l2z/0hGjcciLphXUvXtFsW8
+ nIHeEFJ23Ew9q9PsPwC/J9TVFIyMqYRnCDT8feahrRkvEws1f2JunL2V5
+ 7L5bnoETFecV6hbDu63X56XjeQyP7papWt7Eprvo6mvU1+g0lxm6GpRIh
+ 29xSiCNKDok4KXx25KatNmm0q2TwsTVujDBXUOJz8cz0+MJg0PzLix+Ol
+ VtTd5NTWb+JsvGvmrACRwxoVi9oR87cSX1v2kVTA6RV7Gq5AUlj/FG3ho
+ GOSKLnFwRiqw4ZpQdfVDnI483qzePfH0I3GEXbXwMdCx26Td+OjUVDt8P Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="453060189"
+X-IronPort-AV: E=Sophos;i="6.03,272,1694761200"; d="scan'208";a="453060189"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Nov 2023 09:49:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="764985106"
+X-IronPort-AV: E=Sophos;i="6.03,272,1694761200"; d="scan'208";a="764985106"
+Received: from smile.fi.intel.com ([10.237.72.54])
+ by fmsmga007.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Nov 2023 09:49:07 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.97-RC3)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1qyasT-0000000AkGd-0B1U; Thu, 02 Nov 2023 18:49:05 +0200
+Date: Thu, 2 Nov 2023 18:49:04 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Hans de Goede <hdegoede@redhat.com>
+Subject: Re: [PATCH v3 14/15] drm/i915/dsi: Replace poking of CHV GPIOs
+ behind the driver's back
+Message-ID: <ZUPTAG5ZuxKoOugs@smile.fi.intel.com>
+References: <20231102151228.668842-1-andriy.shevchenko@linux.intel.com>
+ <20231102151228.668842-15-andriy.shevchenko@linux.intel.com>
+ <34b4f396-ecf3-576d-69e5-f8eac2a5d488@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20231102-amdgpu-dml2-increase-frame-size-warning-for-clang-v1-1-6eb157352931@kernel.org>
-X-B4-Tracking: v=1; b=H4sIAFTNQ2UC/x3NSwrDMAwA0asErSuIHejvKqUL1ZZdQawEmbQlI
- XeP6XI2bzaobMIV7t0Gxh+pMmkLd+ogvEkzo8TW4Hs/ONd7pBLzvGAso0fRYEyVMRkVxior45d
- MRTOmyTCMTcBwG17RxzNdLw6aOxsn+f2fj+e+H2ns4L+DAAAA
-To: harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com, 
- alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com
-X-Mailer: b4 0.13-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3010; i=nathan@kernel.org;
- h=from:subject:message-id; bh=ZP/kIBCdvT4zzHe9YkNWVQ0ufjZVnXPWplIffBkOZoU=;
- b=owGbwMvMwCEmm602sfCA1DTG02pJDKnOZxOE5a7O1RNk3ayX/IjH2VpChG1W37WPdUsva134J
- bep79PpjlIWBjEOBlkxRZbqx6rHDQ3nnGW8cWoSzBxWJpAhDFycAjCR0hiGv9Jd7iE/9zJdrvsU
- L3/8f5hZQVXfqbU/bjyftcxv83NBqZsM//3PJT6qUm/167ww8/p3VffuTYYm+5ui1ikLfqyrUt1
- 0mgsA
-X-Developer-Key: i=nathan@kernel.org; a=openpgp;
- fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <34b4f396-ecf3-576d-69e5-f8eac2a5d488@redhat.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,74 +64,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: trix@redhat.com, llvm@lists.linux.dev, ndesaulniers@google.com,
- patches@lists.linux.dev, dri-devel@lists.freedesktop.org,
- Nathan Chancellor <nathan@kernel.org>, amd-gfx@lists.freedesktop.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Jani Nikula <jani.nikula@intel.com>, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When building ARCH=x86_64 allmodconfig with clang, which have sanitizers
-enabled, there is a warning about a large stack frame.
+On Thu, Nov 02, 2023 at 04:47:41PM +0100, Hans de Goede wrote:
+> On 11/2/23 16:12, Andy Shevchenko wrote:
 
-  drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/display_mode_core.c:6265:13: error: stack frame size (2520) exceeds limit (2048) in 'dml_prefetch_check' [-Werror,-Wframe-larger-than]
-   6265 | static void dml_prefetch_check(struct display_mode_lib_st *mode_lib)
-        |             ^
-  1 error generated.
+...
 
-Notably, GCC 13.2.0 does not do too much of a better job, as it is right
-at the current limit of 2048:
+> > +			soc_exec_opaque_gpio(connector, gpio_index, "INT33FF:03", "Panel SE",
+> > +					     gpio_index - CHV_GPIO_IDX_START_SW, value);
+> 
+> The "gpio_index - CHV_GPIO_IDX_START_SW" here needs to be "gpio_index - CHV_GPIO_IDX_START_SE".
+> 
+> Also this patch needs s/soc_exec_opaque_gpio/soc_opaque_gpio_set_value/ to compile ...
 
-  drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/display_mode_core.c: In function 'dml_prefetch_check':
-  drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/display_mode_core.c:6705:1: error: the frame size of 2048 bytes is larger than 1800 bytes [-Werror=frame-larger-than=]
-   6705 | }
-        | ^
+Ah, indeed. I looks like I run the test build, but forgot to look into the result. :-(
 
-In the past, these warnings have been avoided by reducing the number of
-parameters to various functions so that not as many arguments need to be
-passed on the stack. However, these patches take a good amount of effort
-to write despite being mechanical due to code structure and complexity
-and they are never carried forward to new generations of the code so
-that effort has to be expended every new hardware generation, which
-becomes harder to justify as time goes on.
-
-There is some effort to improve clang's code generation but that may
-take some time between code review, shifting priorities, and release
-cycles. To avoid having a noticeable or lengthy breakage in
-all{mod,yes}config, which are easy testing targets that have -Werror
-enabled, increase the limit for clang by 50% so that cases of extremely
-poor code generation can still be caught while not breaking the majority
-of builds. When clang's code generation improves, the limit increase can
-be restricted to older clang versions.
-
-Signed-off-by: Nathan Chancellor <nathan@kernel.org>
----
-If there is another DRM pull before 6.7-rc1, it would be much
-appreciated if this could make that so that other trees are not
-potentially broken by this. If not, no worries, as it was my fault for
-not sending this sooner.
----
- drivers/gpu/drm/amd/display/dc/dml2/Makefile | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/amd/display/dc/dml2/Makefile b/drivers/gpu/drm/amd/display/dc/dml2/Makefile
-index 70ae5eba624e..dff8237c0999 100644
---- a/drivers/gpu/drm/amd/display/dc/dml2/Makefile
-+++ b/drivers/gpu/drm/amd/display/dc/dml2/Makefile
-@@ -60,7 +60,7 @@ endif
- endif
- 
- ifneq ($(CONFIG_FRAME_WARN),0)
--frame_warn_flag := -Wframe-larger-than=2048
-+frame_warn_flag := -Wframe-larger-than=$(if $(CONFIG_CC_IS_CLANG),3072,2048)
- endif
- 
- CFLAGS_$(AMDDALPATH)/dc/dml2/display_mode_core.o := $(dml2_ccflags) $(frame_warn_flag)
-
----
-base-commit: 21e80f3841c01aeaf32d7aee7bbc87b3db1aa0c6
-change-id: 20231102-amdgpu-dml2-increase-frame-size-warning-for-clang-c93bd2d6a871
-
-Best regards,
 -- 
-Nathan Chancellor <nathan@kernel.org>
+With Best Regards,
+Andy Shevchenko
+
 
