@@ -2,44 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAD157DF875
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Nov 2023 18:12:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9855D7DF887
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Nov 2023 18:17:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4200310E95A;
-	Thu,  2 Nov 2023 17:12:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 49B2E10E965;
+	Thu,  2 Nov 2023 17:17:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 71B8010E05D;
- Thu,  2 Nov 2023 17:12:42 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 904B0B81D65;
- Thu,  2 Nov 2023 17:12:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3CCAEC433C8;
- Thu,  2 Nov 2023 17:12:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1698945159;
- bh=ryrWuOdl5QuvOo8MpWIUO841knqP3oJT43UEwAMLjDs=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=a/rvGNC6axkHxeKTK5U0IZVFi6LZ05A3vL9dJJVOW19SJZhOxitTGGSLBsSKyz2v2
- d3FXXgSnQYKc3wq32ofYyQoXw6ytZroz8Uo31TQOdsqwjPidNRIAxXpdyfsdZdRAYC
- u0APsG5geXUWVOnpi5aw1UOLhrKyoF3beWPdxRyMKcjoD2g0cpuplDzxm4XaJYQk2a
- 1Mppxl/gVrH09BUeG/IqekPXY/m8VO4oDThYxRCT/L1W5Gu9E8OaKAqROfguT9UHD6
- WowWGw6Tp55BRZAtlORAOLEzG3yZeHasI8J1YouQP3Bn5srHf5RfB+XoA5ni+XfgTs
- Bz+4Ve/MSegrQ==
-Date: Thu, 2 Nov 2023 10:12:37 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Hamza Mahfooz <hamza.mahfooz@amd.com>
-Subject: Re: [PATCH] drm/amd/display: Increase frame warning limit for clang
- in dml2
-Message-ID: <20231102171237.GA1184739@dev-arch.thelio-3990X>
-References: <20231102-amdgpu-dml2-increase-frame-size-warning-for-clang-v1-1-6eb157352931@kernel.org>
- <bb3b74c8-8ab5-472c-84c1-8aa0d8bfa3b8@amd.com>
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 916F910E962;
+ Thu,  2 Nov 2023 17:17:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1698945421; x=1730481421;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=9bddl7lS+dK7ATKi6xPyWeWTXbKshcx0FdZzzEoNjwY=;
+ b=Cw7LY4HOB4SXwnHjke1SeBCShHBEkJ3BFVD+yRzc1EDiQWYhhcyioC4b
+ GkN0NEHIH9RssFYnt2EHgBJyPmgIEkzlRzvhitIoB+IWuS0rmp9+gAUmw
+ zvRLxtu5nrCdQ7VYUvUOEQE5pMBnlWfr9Fs4guo330cGVUaJ1T/cnfsO3
+ ynGuYid2Bgcp6KPtbCffy7WGs3emN5VTpLU128xXF0YfSSxr8D0fFYXjG
+ JLjnC1oov/ehvJoO1705EgKTyg16Pe/x9RqmMfeQxHowTnKBOVARKPdNq
+ 0jYJ8fa/9dGayK9aHoe1bWt867E1v5KqJlmMhxJWj5xSTUxQISjGqf0t6 Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="453070797"
+X-IronPort-AV: E=Sophos;i="6.03,272,1694761200"; d="scan'208";a="453070797"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Nov 2023 10:16:47 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="934846104"
+X-IronPort-AV: E=Sophos;i="6.03,272,1694761200"; d="scan'208";a="934846104"
+Received: from binsumax-mobl.gar.corp.intel.com (HELO [10.249.254.171])
+ ([10.249.254.171])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Nov 2023 10:16:43 -0700
+Message-ID: <0b8481d123a23d5911f6f354bbaf66c0982d4b82.camel@linux.intel.com>
+Subject: Re: [PATCH drm-misc-next v8 10/12] drm/gpuvm: add an abstraction
+ for a VM / BO combination
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Danilo Krummrich <dakr@redhat.com>, airlied@gmail.com, daniel@ffwll.ch, 
+ matthew.brost@intel.com, sarah.walker@imgtec.com, donald.robson@imgtec.com,
+ boris.brezillon@collabora.com, christian.koenig@amd.com,
+ faith@gfxstrand.net
+Date: Thu, 02 Nov 2023 18:16:41 +0100
+In-Reply-To: <20231101233113.8059-11-dakr@redhat.com>
+References: <20231101233113.8059-1-dakr@redhat.com>
+ <20231101233113.8059-11-dakr@redhat.com>
+Organization: Intel Sweden AB, Registration Number: 556189-6027
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
+User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <bb3b74c8-8ab5-472c-84c1-8aa0d8bfa3b8@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,101 +65,277 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ndesaulniers@google.com, llvm@lists.linux.dev, sunpeng.li@amd.com,
- trix@redhat.com, Xinhui.Pan@amd.com, Rodrigo.Siqueira@amd.com,
- patches@lists.linux.dev, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, alexander.deucher@amd.com,
- christian.koenig@amd.com
+Cc: nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 02, 2023 at 12:59:00PM -0400, Hamza Mahfooz wrote:
-> On 11/2/23 12:24, Nathan Chancellor wrote:
-> > When building ARCH=x86_64 allmodconfig with clang, which have sanitizers
-> > enabled, there is a warning about a large stack frame.
-> > 
-> >    drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/display_mode_core.c:6265:13: error: stack frame size (2520) exceeds limit (2048) in 'dml_prefetch_check' [-Werror,-Wframe-larger-than]
-> >     6265 | static void dml_prefetch_check(struct display_mode_lib_st *mode_lib)
-> >          |             ^
-> >    1 error generated.
-> > 
-> > Notably, GCC 13.2.0 does not do too much of a better job, as it is right
-> > at the current limit of 2048:
-> > 
-> >    drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/display_mode_core.c: In function 'dml_prefetch_check':
-> >    drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/display_mode_core.c:6705:1: error: the frame size of 2048 bytes is larger than 1800 bytes [-Werror=frame-larger-than=]
-> >     6705 | }
-> >          | ^
-> > 
-> > In the past, these warnings have been avoided by reducing the number of
-> > parameters to various functions so that not as many arguments need to be
-> > passed on the stack. However, these patches take a good amount of effort
-> > to write despite being mechanical due to code structure and complexity
-> > and they are never carried forward to new generations of the code so
-> > that effort has to be expended every new hardware generation, which
-> > becomes harder to justify as time goes on.
-> > 
-> > There is some effort to improve clang's code generation but that may
-> > take some time between code review, shifting priorities, and release
-> > cycles. To avoid having a noticeable or lengthy breakage in
-> > all{mod,yes}config, which are easy testing targets that have -Werror
-> > enabled, increase the limit for clang by 50% so that cases of extremely
-> > poor code generation can still be caught while not breaking the majority
-> > of builds. When clang's code generation improves, the limit increase can
-> > be restricted to older clang versions.
-> > 
-> > Signed-off-by: Nathan Chancellor <nathan@kernel.org>
-> > ---
-> > If there is another DRM pull before 6.7-rc1, it would be much
-> > appreciated if this could make that so that other trees are not
-> > potentially broken by this. If not, no worries, as it was my fault for
-> > not sending this sooner.
-> > ---
-> >   drivers/gpu/drm/amd/display/dc/dml2/Makefile | 2 +-
-> >   1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/gpu/drm/amd/display/dc/dml2/Makefile b/drivers/gpu/drm/amd/display/dc/dml2/Makefile
-> > index 70ae5eba624e..dff8237c0999 100644
-> > --- a/drivers/gpu/drm/amd/display/dc/dml2/Makefile
-> > +++ b/drivers/gpu/drm/amd/display/dc/dml2/Makefile
-> > @@ -60,7 +60,7 @@ endif
-> >   endif
-> >   ifneq ($(CONFIG_FRAME_WARN),0)
-> > -frame_warn_flag := -Wframe-larger-than=2048
-> > +frame_warn_flag := -Wframe-larger-than=$(if $(CONFIG_CC_IS_CLANG),3072,2048)
-> 
-> I would prefer checking for `CONFIG_KASAN || CONFIG_KCSAN` instead
-> since the stack usage shouldn't change much if both of those are disabled.
+T24gVGh1LCAyMDIzLTExLTAyIGF0IDAwOjMxICswMTAwLCBEYW5pbG8gS3J1bW1yaWNoIHdyb3Rl
+Ogo+IEFkZCBhbiBhYnN0cmFjdGlvbiBsYXllciBiZXR3ZWVuIHRoZSBkcm1fZ3B1dmEgbWFwcGlu
+Z3Mgb2YgYQo+IHBhcnRpY3VsYXIKPiBkcm1fZ2VtX29iamVjdCBhbmQgdGhpcyBHRU0gb2JqZWN0
+IGl0c2VsZi4gVGhlIGFic3RyYWN0aW9uIHJlcHJlc2VudHMKPiBhCj4gY29tYmluYXRpb24gb2Yg
+YSBkcm1fZ2VtX29iamVjdCBhbmQgZHJtX2dwdXZtLiBUaGUgZHJtX2dlbV9vYmplY3QKPiBob2xk
+cwo+IGEgbGlzdCBvZiBkcm1fZ3B1dm1fYm8gc3RydWN0dXJlcyAodGhlIHN0cnVjdHVyZSByZXBy
+ZXNlbnRpbmcgdGhpcwo+IGFic3RyYWN0aW9uKSwgd2hpbGUgZWFjaCBkcm1fZ3B1dm1fYm8gY29u
+dGFpbnMgbGlzdCBvZiBtYXBwaW5ncyBvZgo+IHRoaXMKPiBHRU0gb2JqZWN0Lgo+IAo+IFRoaXMg
+aGFzIG11bHRpcGxlIGFkdmFudGFnZXM6Cj4gCj4gMSkgV2UgY2FuIHVzZSB0aGUgZHJtX2dwdXZt
+X2JvIHN0cnVjdHVyZSB0byBhdHRhY2ggaXQgdG8gdmFyaW91cwo+IGxpc3RzCj4gwqDCoCBvZiB0
+aGUgZHJtX2dwdXZtLiBUaGlzIGlzIHVzZWZ1bCBmb3IgdHJhY2tpbmcgZXh0ZXJuYWwgYW5kIGV2
+aWN0ZWQKPiDCoMKgIG9iamVjdHMgcGVyIFZNLCB3aGljaCBpcyBpbnRyb2R1Y2VkIGluIHN1YnNl
+cXVlbnQgcGF0Y2hlcy4KPiAKPiAyKSBGaW5kaW5nIG1hcHBpbmdzIG9mIGEgY2VydGFpbiBkcm1f
+Z2VtX29iamVjdCBtYXBwZWQgaW4gYSBjZXJ0YWluCj4gwqDCoCBkcm1fZ3B1dm0gYmVjb21lcyBt
+dWNoIGNoZWFwZXIuCj4gCj4gMykgRHJpdmVycyBjYW4gZGVyaXZlIGFuZCBleHRlbmQgdGhlIHN0
+cnVjdHVyZSB0byBlYXNpbHkgcmVwcmVzZW50Cj4gwqDCoCBkcml2ZXIgc3BlY2lmaWMgc3RhdGVz
+IG9mIGEgQk8gZm9yIGEgY2VydGFpbiBHUFVWTS4KPiAKPiBUaGUgaWRlYSBvZiB0aGlzIGFic3Ry
+YWN0aW9uIHdhcyB0YWtlbiBmcm9tIGFtZGdwdSwgaGVuY2UgdGhlIGNyZWRpdAo+IGZvcgo+IHRo
+aXMgaWRlYSBnb2VzIHRvIHRoZSBkZXZlbG9wZXJzIG9mIGFtZGdwdS4KPiAKPiBDYzogQ2hyaXN0
+aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgo+IFJldmlld2VkLWJ5OiBCb3Jp
+cyBCcmV6aWxsb24gPGJvcmlzLmJyZXppbGxvbkBjb2xsYWJvcmEuY29tPgo+IFNpZ25lZC1vZmYt
+Ynk6IERhbmlsbyBLcnVtbXJpY2ggPGRha3JAcmVkaGF0LmNvbT4KPiAtLS0KPiDCoGRyaXZlcnMv
+Z3B1L2RybS9kcm1fZ3B1dm0uY8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfCAzMzYgKysrKysrKysr
+KysrKysrKysrKysrLS0KPiAtLQo+IMKgZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV91
+dm1tLmMgfMKgIDYzICsrKy0tCj4gwqBpbmNsdWRlL2RybS9kcm1fZ2VtLmjCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgIHzCoCAzMiArLS0KPiDCoGluY2x1ZGUvZHJtL2RybV9ncHV2
+bS5owqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHwgMTg1ICsrKysrKysrKysrKystCj4g
+wqA0IGZpbGVzIGNoYW5nZWQsIDUzMCBpbnNlcnRpb25zKCspLCA4NiBkZWxldGlvbnMoLSkKPiAK
+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2RybV9ncHV2bS5jCj4gYi9kcml2ZXJzL2dw
+dS9kcm0vZHJtX2dwdXZtLmMKPiBpbmRleCA2YTg4ZWFmYzUyMjkuLjJjOGZkZWZiMTlmMCAxMDA2
+NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2dwdXZtLmMKPiArKysgYi9kcml2ZXJzL2dw
+dS9kcm0vZHJtX2dwdXZtLmMKPiBAQCAtNzAsNiArNzAsMTggQEAKPiDCoCAqICZkcm1fZ2VtX29i
+amVjdCwgc3VjaCBhcyB0aGUgJmRybV9nZW1fb2JqZWN0IGNvbnRhaW5pbmcgdGhlIHJvb3QKPiBw
+YWdlIHRhYmxlLAo+IMKgICogYnV0IGl0IGNhbiBhbHNvIGJlIGEgJ2R1bW15JyBvYmplY3QsIHdo
+aWNoIGNhbiBiZSBhbGxvY2F0ZWQgd2l0aAo+IMKgICogZHJtX2dwdXZtX3Jlc3Zfb2JqZWN0X2Fs
+bG9jKCkuCj4gKyAqCj4gKyAqIEluIG9yZGVyIHRvIGNvbm5lY3QgYSBzdHJ1Y3QgZHJtX2dwdXZh
+IGl0cyBiYWNraW5nCj4gJmRybV9nZW1fb2JqZWN0IGVhY2gKPiArICogJmRybV9nZW1fb2JqZWN0
+IG1haW50YWlucyBhIGxpc3Qgb2YgJmRybV9ncHV2bV9ibyBzdHJ1Y3R1cmVzLCBhbmQKPiBlYWNo
+Cj4gKyAqICZkcm1fZ3B1dm1fYm8gY29udGFpbnMgYSBsaXN0IG9mICZkcm1fZ3B1dmEgc3RydWN0
+dXJlcy4KPiArICoKPiArICogQSAmZHJtX2dwdXZtX2JvIGlzIGFuIGFic3RyYWN0aW9uIHRoYXQg
+cmVwcmVzZW50cyBhIGNvbWJpbmF0aW9uCj4gb2YgYQo+ICsgKiAmZHJtX2dwdXZtIGFuZCBhICZk
+cm1fZ2VtX29iamVjdC4gRXZlcnkgc3VjaCBjb21iaW5hdGlvbiBzaG91bGQKPiBiZSB1bmlxdWUu
+Cj4gKyAqIFRoaXMgaXMgZW5zdXJlZCBieSB0aGUgQVBJIHRocm91Z2ggZHJtX2dwdXZtX2JvX29i
+dGFpbigpIGFuZAo+ICsgKiBkcm1fZ3B1dm1fYm9fb2J0YWluX3ByZWFsbG9jKCkgd2hpY2ggZmly
+c3QgbG9vayBpbnRvIHRoZQo+IGNvcnJlc3BvbmRpbmcKPiArICogJmRybV9nZW1fb2JqZWN0IGxp
+c3Qgb2YgJmRybV9ncHV2bV9ib3MgZm9yIGFuIGV4aXN0aW5nIGluc3RhbmNlCj4gb2YgdGhpcwo+
+ICsgKiBwYXJ0aWN1bGFyIGNvbWJpbmF0aW9uLiBJZiBub3QgZXhpc3RlbnQgYSBuZXcgaW5zdGFu
+Y2UgaXMgY3JlYXRlZAo+IGFuZCBsaW5rZWQKPiArICogdG8gdGhlICZkcm1fZ2VtX29iamVjdC4K
+PiDCoCAqLwo+IMKgCj4gwqAvKioKPiBAQCAtMzk1LDIxICs0MDcsMjggQEAKPiDCoC8qKgo+IMKg
+ICogRE9DOiBMb2NraW5nCj4gwqAgKgo+IC0gKiBHZW5lcmFsbHksIHRoZSBHUFUgVkEgbWFuYWdl
+ciBkb2VzIG5vdCB0YWtlIGNhcmUgb2YgbG9ja2luZwo+IGl0c2VsZiwgaXQgaXMKPiAtICogdGhl
+IGRyaXZlcnMgcmVzcG9uc2liaWxpdHkgdG8gdGFrZSBjYXJlIGFib3V0IGxvY2tpbmcuIERyaXZl
+cnMKPiBtaWdodCB3YW50IHRvCj4gLSAqIHByb3RlY3QgdGhlIGZvbGxvd2luZyBvcGVyYXRpb25z
+OiBpbnNlcnRpbmcsIHJlbW92aW5nIGFuZAo+IGl0ZXJhdGluZwo+IC0gKiAmZHJtX2dwdXZhIG9i
+amVjdHMgYXMgd2VsbCBhcyBnZW5lcmF0aW5nIGFsbCBraW5kcyBvZiBvcGVyYXRpb25zLAo+IHN1
+Y2ggYXMKPiAtICogc3BsaXQgLyBtZXJnZSBvciBwcmVmZXRjaC4KPiAtICoKPiAtICogVGhlIEdQ
+VSBWQSBtYW5hZ2VyIGFsc28gZG9lcyBub3QgdGFrZSBjYXJlIG9mIHRoZSBsb2NraW5nIG9mIHRo
+ZQo+IGJhY2tpbmcKPiAtICogJmRybV9nZW1fb2JqZWN0IGJ1ZmZlcnMgR1BVIFZBIGxpc3RzIGJ5
+IGl0c2VsZjsgZHJpdmVycyBhcmUKPiByZXNwb25zaWJsZSB0bwo+IC0gKiBlbmZvcmNlIG11dHVh
+bCBleGNsdXNpb24gdXNpbmcgZWl0aGVyIHRoZSBHRU1zIGRtYV9yZXN2IGxvY2sgb3IKPiBhbHRl
+cm5hdGl2ZWx5Cj4gLSAqIGEgZHJpdmVyIHNwZWNpZmljIGV4dGVybmFsIGxvY2suIEZvciB0aGUg
+bGF0dGVyIHNlZSBhbHNvCj4gLSAqIGRybV9nZW1fZ3B1dmFfc2V0X2xvY2soKS4KPiAtICoKPiAt
+ICogSG93ZXZlciwgdGhlIEdQVSBWQSBtYW5hZ2VyIGNvbnRhaW5zIGxvY2tkZXAgY2hlY2tzIHRv
+IGVuc3VyZQo+IGNhbGxlcnMgb2YgaXRzCj4gLSAqIEFQSSBob2xkIHRoZSBjb3JyZXNwb25kaW5n
+IGxvY2sgd2hlbmV2ZXIgdGhlICZkcm1fZ2VtX29iamVjdHMgR1BVCj4gVkEgbGlzdCBpcwo+IC0g
+KiBhY2Nlc3NlZCBieSBmdW5jdGlvbnMgc3VjaCBhcyBkcm1fZ3B1dmFfbGluaygpIG9yCj4gZHJt
+X2dwdXZhX3VubGluaygpLgo+ICsgKiBJbiB0ZXJtcyBvZiBtYW5hZ2luZyAmZHJtX2dwdXZhIGVu
+dHJpZXMgRFJNIEdQVVZNIGRvZXMgbm90IHRha2UKPiBjYXJlIG9mCj4gKyAqIGxvY2tpbmcgaXRz
+ZWxmLCBpdCBpcyB0aGUgZHJpdmVycyByZXNwb25zaWJpbGl0eSB0byB0YWtlIGNhcmUKPiBhYm91
+dCBsb2NraW5nLgo+ICsgKiBEcml2ZXJzIG1pZ2h0IHdhbnQgdG8gcHJvdGVjdCB0aGUgZm9sbG93
+aW5nIG9wZXJhdGlvbnM6Cj4gaW5zZXJ0aW5nLCByZW1vdmluZwo+ICsgKiBhbmQgaXRlcmF0aW5n
+ICZkcm1fZ3B1dmEgb2JqZWN0cyBhcyB3ZWxsIGFzIGdlbmVyYXRpbmcgYWxsIGtpbmRzCj4gb2YK
+PiArICogb3BlcmF0aW9ucywgc3VjaCBhcyBzcGxpdCAvIG1lcmdlIG9yIHByZWZldGNoLgo+ICsg
+Kgo+ICsgKiBEUk0gR1BVVk0gYWxzbyBkb2VzIG5vdCB0YWtlIGNhcmUgb2YgdGhlIGxvY2tpbmcg
+b2YgdGhlIGJhY2tpbmcKPiArICogJmRybV9nZW1fb2JqZWN0IGJ1ZmZlcnMgR1BVIFZBIGxpc3Rz
+IGFuZCAmZHJtX2dwdXZtX2JvCj4gYWJzdHJhY3Rpb25zIGJ5Cj4gKyAqIGl0c2VsZjsgZHJpdmVy
+cyBhcmUgcmVzcG9uc2libGUgdG8gZW5mb3JjZSBtdXR1YWwgZXhjbHVzaW9uIHVzaW5nCj4gZWl0
+aGVyIHRoZQo+ICsgKiBHRU1zIGRtYV9yZXN2IGxvY2sgb3IgYWx0ZXJuYXRpdmVseSBhIGRyaXZl
+ciBzcGVjaWZpYyBleHRlcm5hbAo+IGxvY2suIEZvciB0aGUKPiArICogbGF0dGVyIHNlZSBhbHNv
+IGRybV9nZW1fZ3B1dmFfc2V0X2xvY2soKS4KPiArICoKPiArICogSG93ZXZlciwgRFJNIEdQVVZN
+IGNvbnRhaW5zIGxvY2tkZXAgY2hlY2tzIHRvIGVuc3VyZSBjYWxsZXJzIG9mCj4gaXRzIEFQSSBo
+b2xkCj4gKyAqIHRoZSBjb3JyZXNwb25kaW5nIGxvY2sgd2hlbmV2ZXIgdGhlICZkcm1fZ2VtX29i
+amVjdHMgR1BVIFZBIGxpc3QKPiBpcyBhY2Nlc3NlZAo+ICsgKiBieSBmdW5jdGlvbnMgc3VjaCBh
+cyBkcm1fZ3B1dmFfbGluaygpIG9yIGRybV9ncHV2YV91bmxpbmsoKSwgYnV0Cj4gYWxzbwo+ICsg
+KiBkcm1fZ3B1dm1fYm9fb2J0YWluKCkgYW5kIGRybV9ncHV2bV9ib19wdXQoKS4KPiArICoKPiAr
+ICogVGhlIGxhdHRlciBpcyByZXF1aXJlZCBzaW5jZSBvbiBjcmVhdGlvbiBhbmQgZGVzdHJ1Y3Rp
+b24gb2YgYQo+ICZkcm1fZ3B1dm1fYm8KPiArICogdGhlICZkcm1fZ3B1dm1fYm8gaXMgYXR0YWNo
+ZWQgLyByZW1vdmVkIGZyb20gdGhlICZkcm1fZ2VtX29iamVjdHMKPiBncHV2YSBsaXN0Lgo+ICsg
+KiBTdWJzZXF1ZW50IGNhbGxzIHRvIGRybV9ncHV2bV9ib19vYnRhaW4oKSBmb3IgdGhlIHNhbWUg
+JmRybV9ncHV2bQo+IGFuZAo+ICsgKiAmZHJtX2dlbV9vYmplY3QgbXVzdCBiZSBhYmxlIHRvIG9i
+c2VydmUgcHJldmlvdXMgY3JlYXRpb25zIGFuZAo+IGRlc3RydWN0aW9ucwo+ICsgKiBvZiAmZHJt
+X2dwdXZtX2JvcyBpbiBvcmRlciB0byBrZWVwIGluc3RhbmNlcyB1bmlxdWUuCj4gwqAgKi8KPiDC
+oAo+IMKgLyoqCj4gQEAgLTQzOSw2ICs0NTgsNyBAQAo+IMKgICrCoMKgwqDCoMKgewo+IMKgICrC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHN0cnVjdCBkcm1fZ3B1dmFfb3BzICpvcHM7Cj4gwqAg
+KsKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgc3RydWN0IGRybV9ncHV2YV9vcCAqb3AKPiArICrC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHN0cnVjdCBkcm1fZ3B1dm1fYm8gKnZtX2JvOwo+IMKg
+ICoKPiDCoCAqwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBkcml2ZXJfbG9ja192YV9zcGFjZSgp
+Owo+IMKgICrCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoG9wcyA9IGRybV9ncHV2bV9zbV9tYXBf
+b3BzX2NyZWF0ZShncHV2bSwgYWRkciwgcmFuZ2UsCj4gQEAgLTQ0Niw2ICs0NjYsMTAgQEAKPiDC
+oCAqwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBpZiAoSVNfRVJSKG9wcykpCj4gwqAgKsKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHJldHVybiBQVFJfRVJSKG9wcyk7
+Cj4gwqAgKgo+ICsgKsKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgdm1fYm8gPSBkcm1fZ3B1dm1f
+Ym9fb2J0YWluKGdwdXZtLCBvYmopOwo+ICsgKsKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgaWYg
+KElTX0VSUih2bV9ibykpCj4gKyAqwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgcmV0dXJuIFBUUl9FUlIodm1fYm8pOwo+ICsgKgo+IMKgICrCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoGRybV9ncHV2YV9mb3JfZWFjaF9vcChvcCwgb3BzKSB7Cj4gwqAgKsKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHN0cnVjdCBkcm1fZ3B1dmEgKnZhOwo+
+IMKgICoKPiBAQCAtNDU4LDcgKzQ4Miw3IEBACj4gwqAgKgo+IMKgICrCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgZHJpdmVyX3ZtX21hcCgp
+Owo+IMKgICrCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgZHJtX2dwdXZhX21hcChncHV2bSwgdmEsICZvcC0+bWFwKTsKPiAtICrCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgZHJtX2dw
+dXZhX2xpbmsodmEpOwo+ICsgKsKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqBkcm1fZ3B1dmFfbGluayh2YSwgdm1fYm8pOwo+IMKgICoKPiDC
+oCAqwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoGJyZWFrOwo+IMKgICrCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqBjYXNlIERSTV9HUFVWQV9PUF9SRU1BUDogewo+IEBAIC00ODUsMTEgKzUwOSwxMSBAQAo+IMKg
+ICrCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgZHJpdmVyX3ZtX3JlbWFwKCk7Cj4gwqAgKsKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBkcm1fZ3B1dmFfcmVtYXAocHJldiwgbmV4dCwg
+Jm9wLQo+ID5yZW1hcCk7Cj4gwqAgKgo+IC0gKsKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBkcm1fZ3B1dmFfdW5saW5rKHZhKTsKPiDCoCAq
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oGlmIChwcmV2KQo+IC0gKsKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgZHJtX2dwdXZhX2xpbmsocHJldik7Cj4g
+KyAqwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqBkcm1fZ3B1dmFfbGluayhwcmV2LCB2YS0KPiA+dm1fYm8pOwo+
+IMKgICrCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgaWYgKG5leHQpCj4gLSAqwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBkcm1fZ3B1dmFfbGluayhuZXh0
+KTsKPiArICrCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGRybV9ncHV2YV9saW5rKG5leHQsIHZhLQo+ID52bV9i
+byk7Cj4gKyAqwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoGRybV9ncHV2YV91bmxpbmsodmEpOwo+IMKgICoKPiDCoCAqwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGJyZWFrOwo+IMKg
+ICrCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqB9Cj4gQEAgLTUwNSw2
+ICs1MjksNyBAQAo+IMKgICrCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgYnJlYWs7Cj4gwqAgKsKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoH0KPiDCoCAqwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqB9Cj4gKyAq
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBkcm1fZ3B1dm1fYm9fcHV0KHZtX2JvKTsKPiDCoCAq
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBkcml2ZXJfdW5sb2NrX3ZhX3NwYWNlKCk7Cj4gwqAg
+Kgo+IMKgICrCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHJldHVybiAwOwo+IEBAIC01MTQsNiAr
+NTM5LDcgQEAKPiDCoCAqCj4gwqAgKsKgwqDCoMKgwqBzdHJ1Y3QgZHJpdmVyX2NvbnRleHQgewo+
+IMKgICrCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHN0cnVjdCBkcm1fZ3B1dm0gKmdwdXZtOwo+
+ICsgKsKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgc3RydWN0IGRybV9ncHV2bV9ibyAqdm1fYm87
+Cj4gwqAgKsKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgc3RydWN0IGRybV9ncHV2YSAqbmV3X3Zh
+Owo+IMKgICrCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHN0cnVjdCBkcm1fZ3B1dmEgKnByZXZf
+dmE7Cj4gwqAgKsKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgc3RydWN0IGRybV9ncHV2YSAqbmV4
+dF92YTsKPiBAQCAtNTM0LDYgKzU2MCw3IEBACj4gwqAgKsKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBzdHJ1Y3QgZHJtX2dlbV9vYmpl
+Y3QgKm9iaiwgdTY0Cj4gb2Zmc2V0KQo+IMKgICrCoMKgwqDCoMKgewo+IMKgICrCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoHN0cnVjdCBkcml2ZXJfY29udGV4dCBjdHg7Cj4gKyAqwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqBzdHJ1Y3QgZHJtX2dwdXZtX2JvICp2bV9ibzsKPiDCoCAqwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqBzdHJ1Y3QgZHJtX2dwdXZhX29wcyAqb3BzOwo+IMKgICrCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoHN0cnVjdCBkcm1fZ3B1dmFfb3AgKm9wOwo+IMKgICrCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoGludCByZXQgPSAwOwo+IEBAIC01NDMsMTYgKzU3MCwyMyBA
+QAo+IMKgICrCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGN0eC5uZXdfdmEgPSBremFsbG9jKHNp
+emVvZigqY3R4Lm5ld192YSksCj4gR0ZQX0tFUk5FTCk7Cj4gwqAgKsKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgY3R4LnByZXZfdmEgPSBremFsbG9jKHNpemVvZigqY3R4LnByZXZfdmEpLAo+IEdG
+UF9LRVJORUwpOwo+IMKgICrCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGN0eC5uZXh0X3ZhID0g
+a3phbGxvYyhzaXplb2YoKmN0eC5uZXh0X3ZhKSwKPiBHRlBfS0VSTkVMKTsKPiAtICrCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoGlmICghY3R4Lm5ld192YSB8fCAhY3R4LnByZXZfdmEgfHwgIWN0
+eC5uZXh0X3ZhKSB7Cj4gKyAqwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBjdHgudm1fYm8gPSBk
+cm1fZ3B1dm1fYm9fY3JlYXRlKGdwdXZtLCBvYmopOwo+ICsgKsKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgaWYgKCFjdHgubmV3X3ZhIHx8ICFjdHgucHJldl92YSB8fCAhY3R4Lm5leHRfdmEgfHwK
+PiAhdm1fYm8pIHsKPiDCoCAqwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgcmV0ID0gLUVOT01FTTsKPiDCoCAqwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgZ290byBvdXQ7Cj4gwqAgKsKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgfQo+IMKg
+ICoKPiArICrCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoC8vIFR5cGljYWxseSBwcm90ZWN0ZWQg
+d2l0aCBhIGRyaXZlciBzcGVjaWZpYyBHRU0KPiBncHV2YSBsb2NrCj4gKyAqwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqAvLyB1c2VkIGluIHRoZSBmZW5jZSBzaWduYWxpbmcgcGF0aCBmb3IKPiBk
+cm1fZ3B1dmFfbGluaygpIGFuZAo+ICsgKsKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgLy8gZHJt
+X2dwdXZhX3VubGluaygpLCBoZW5jZSBwcmUtYWxsb2NhdGUuCj4gKyAqwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqBjdHgudm1fYm8gPSBkcm1fZ3B1dm1fYm9fb2J0YWluX3ByZWFsbG9jKGN0eC52
+bV9ibyk7Cj4gKyAqCj4gwqAgKsKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgZHJpdmVyX2xvY2tf
+dmFfc3BhY2UoKTsKPiDCoCAqwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqByZXQgPSBkcm1fZ3B1
+dm1fc21fbWFwKGdwdXZtLCAmY3R4LCBhZGRyLCByYW5nZSwgb2JqLAo+IG9mZnNldCk7Cj4gwqAg
+KsKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgZHJpdmVyX3VubG9ja192YV9zcGFjZSgpOwo+IMKg
+ICoKPiDCoCAqwqDCoMKgwqDCoG91dDoKPiArICrCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGRy
+bV9ncHV2bV9ib19wdXQoY3R4LnZtX2JvKTsKPiDCoCAqwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqBrZnJlZShjdHgubmV3X3ZhKTsKPiDCoCAqwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBrZnJl
+ZShjdHgucHJldl92YSk7Cj4gwqAgKsKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKga2ZyZWUoY3R4
+Lm5leHRfdmEpOwo+IEBAIC01NjUsNyArNTk5LDcgQEAKPiDCoCAqCj4gwqAgKsKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgZHJtX2dwdXZhX21hcChjdHgtPnZtLCBjdHgtPm5ld192YSwgJm9wLT5t
+YXApOwo+IMKgICoKPiAtICrCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGRybV9ncHV2YV9saW5r
+KGN0eC0+bmV3X3ZhKTsKPiArICrCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGRybV9ncHV2YV9s
+aW5rKGN0eC0+bmV3X3ZhLCBjdHgtPnZtX2JvKTsKPiDCoCAqCj4gwqAgKsKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgLy8gcHJldmVudCB0aGUgbmV3IEdQVVZBIGZyb20gYmVpbmcgZnJlZWQgaW4K
+PiDCoCAqwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAvLyBkcml2ZXJfbWFwcGluZ19jcmVhdGUo
+KQo+IEBAIC01NzcsMjIgKzYxMSwyMyBAQAo+IMKgICrCoMKgwqDCoMKgaW50IGRyaXZlcl9ncHV2
+YV9yZW1hcChzdHJ1Y3QgZHJtX2dwdXZhX29wICpvcCwgdm9pZCAqX19jdHgpCj4gwqAgKsKgwqDC
+oMKgwqB7Cj4gwqAgKsKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgc3RydWN0IGRyaXZlcl9jb250
+ZXh0ICpjdHggPSBfX2N0eDsKPiArICrCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHN0cnVjdCBk
+cm1fZ3B1dmEgKnZhID0gb3AtPnJlbWFwLnVubWFwLT52YTsKPiDCoCAqCj4gwqAgKsKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgZHJtX2dwdXZhX3JlbWFwKGN0eC0+cHJldl92YSwgY3R4LT5uZXh0
+X3ZhLCAmb3AtCj4gPnJlbWFwKTsKPiDCoCAqCj4gLSAqwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqBkcm1fZ3B1dmFfdW5saW5rKG9wLT5yZW1hcC51bm1hcC0+dmEpOwo+IC0gKsKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKga2ZyZWUob3AtPnJlbWFwLnVubWFwLT52YSk7Cj4gLSAqCj4gwqAgKsKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgaWYgKG9wLT5yZW1hcC5wcmV2KSB7Cj4gLSAqwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgZHJtX2dwdXZhX2xpbmsoY3R4LT5w
+cmV2X3ZhKTsKPiArICrCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBk
+cm1fZ3B1dmFfbGluayhjdHgtPnByZXZfdmEsIHZhLT52bV9ibyk7Cj4gwqAgKsKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGN0eC0+cHJldl92YSA9IE5VTEw7Cj4gwqAg
+KsKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgfQo+IMKgICoKPiDCoCAqwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqBpZiAob3AtPnJlbWFwLm5leHQpIHsKPiAtICrCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBkcm1fZ3B1dmFfbGluayhjdHgtPm5leHRfdmEpOwo+ICsg
+KsKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGRybV9ncHV2YV9saW5r
+KGN0eC0+bmV4dF92YSwgdmEtPnZtX2JvKTsKPiDCoCAqwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgY3R4LT5uZXh0X3ZhID0gTlVMTDsKPiDCoCAqwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqB9Cj4gwqAgKgo+ICsgKsKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgZHJt
+X2dwdXZhX3VubGluayh2YSk7Cj4gKyAqwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBrZnJlZSh2
+YSk7Cj4gKyAqCj4gwqAgKsKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgcmV0dXJuIDA7Cj4gwqAg
+KsKgwqDCoMKgwqB9Cj4gwqAgKgo+IEBAIC04MTMsNiArODQ4LDE5NSBAQCBkcm1fZ3B1dm1fcHV0
+KHN0cnVjdCBkcm1fZ3B1dm0gKmdwdXZtKQo+IMKgfQo+IMKgRVhQT1JUX1NZTUJPTF9HUEwoZHJt
+X2dwdXZtX3B1dCk7Cj4gwqAKPiArLyoqCj4gKyAqIGRybV9ncHV2bV9ib19jcmVhdGUoKSAtIGNy
+ZWF0ZSBhIG5ldyBpbnN0YW5jZSBvZiBzdHJ1Y3QKPiBkcm1fZ3B1dm1fYm8KPiArICogQGdwdXZt
+OiBUaGUgJmRybV9ncHV2bSB0aGUgQG9iaiBpcyBtYXBwZWQgaW4uCj4gKyAqIEBvYmo6IFRoZSAm
+ZHJtX2dlbV9vYmplY3QgYmVpbmcgbWFwcGVkIGluIHRoZSBAZ3B1dm0uCj4gKyAqCj4gKyAqIElm
+IHByb3ZpZGVkIGJ5IHRoZSBkcml2ZXIsIHRoaXMgZnVuY3Rpb24gdXNlcyB0aGUgJmRybV9ncHV2
+bV9vcHMKPiArICogdm1fYm9fYWxsb2MoKSBjYWxsYmFjayB0byBhbGxvY2F0ZS4KPiArICoKPiAr
+ICogUmV0dXJuczogYSBwb2ludGVyIHRvIHRoZSAmZHJtX2dwdXZtX2JvIG9uIHN1Y2Nlc3MsIE5V
+TEwgb24KPiBmYWlsdXJlCj4gKyAqLwo+ICtzdHJ1Y3QgZHJtX2dwdXZtX2JvICoKPiArZHJtX2dw
+dXZtX2JvX2NyZWF0ZShzdHJ1Y3QgZHJtX2dwdXZtICpncHV2bSwKPiArwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgIHN0cnVjdCBkcm1fZ2VtX29iamVjdCAqb2JqKQo+ICt7Cj4g
+K8KgwqDCoMKgwqDCoMKgY29uc3Qgc3RydWN0IGRybV9ncHV2bV9vcHMgKm9wcyA9IGdwdXZtLT5v
+cHM7Cj4gK8KgwqDCoMKgwqDCoMKgc3RydWN0IGRybV9ncHV2bV9ibyAqdm1fYm87Cj4gKwo+ICvC
+oMKgwqDCoMKgwqDCoGlmIChvcHMgJiYgb3BzLT52bV9ib19hbGxvYykKPiArwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgdm1fYm8gPSBvcHMtPnZtX2JvX2FsbG9jKCk7Cj4gK8KgwqDCoMKg
+wqDCoMKgZWxzZQo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqB2bV9ibyA9IGt6YWxs
+b2Moc2l6ZW9mKCp2bV9ibyksIEdGUF9LRVJORUwpOwo+ICsKPiArwqDCoMKgwqDCoMKgwqBpZiAo
+dW5saWtlbHkoIXZtX2JvKSkKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgcmV0dXJu
+IE5VTEw7Cj4gKwo+ICvCoMKgwqDCoMKgwqDCoHZtX2JvLT52bSA9IGRybV9ncHV2bV9nZXQoZ3B1
+dm0pOwo+ICvCoMKgwqDCoMKgwqDCoHZtX2JvLT5vYmogPSBvYmo7Cj4gK8KgwqDCoMKgwqDCoMKg
+ZHJtX2dlbV9vYmplY3RfZ2V0KG9iaik7Cj4gKwo+ICvCoMKgwqDCoMKgwqDCoGtyZWZfaW5pdCgm
+dm1fYm8tPmtyZWYpOwo+ICvCoMKgwqDCoMKgwqDCoElOSVRfTElTVF9IRUFEKCZ2bV9iby0+bGlz
+dC5ncHV2YSk7Cj4gK8KgwqDCoMKgwqDCoMKgSU5JVF9MSVNUX0hFQUQoJnZtX2JvLT5saXN0LmVu
+dHJ5LmdlbSk7Cj4gKwo+ICvCoMKgwqDCoMKgwqDCoHJldHVybiB2bV9ibzsKPiArfQo+ICtFWFBP
+UlRfU1lNQk9MX0dQTChkcm1fZ3B1dm1fYm9fY3JlYXRlKTsKPiArCj4gK3N0YXRpYyB2b2lkCj4g
+K2RybV9ncHV2bV9ib19kZXN0cm95KHN0cnVjdCBrcmVmICprcmVmKQo+ICt7Cj4gK8KgwqDCoMKg
+wqDCoMKgc3RydWN0IGRybV9ncHV2bV9ibyAqdm1fYm8gPSBjb250YWluZXJfb2Yoa3JlZiwgc3Ry
+dWN0Cj4gZHJtX2dwdXZtX2JvLAo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqAga3JlZik7Cj4gK8KgwqDCoMKgwqDCoMKgc3RydWN0IGRybV9ncHV2bSAqZ3B1dm0gPSB2
+bV9iby0+dm07Cj4gK8KgwqDCoMKgwqDCoMKgY29uc3Qgc3RydWN0IGRybV9ncHV2bV9vcHMgKm9w
+cyA9IGdwdXZtLT5vcHM7Cj4gK8KgwqDCoMKgwqDCoMKgc3RydWN0IGRybV9nZW1fb2JqZWN0ICpv
+YmogPSB2bV9iby0+b2JqOwo+ICvCoMKgwqDCoMKgwqDCoGJvb2wgbG9jayA9ICFkcm1fZ3B1dm1f
+cmVzdl9wcm90ZWN0ZWQoZ3B1dm0pOwo+ICsKPiArwqDCoMKgwqDCoMKgwqBpZiAoIWxvY2spCj4g
+K8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGRybV9ncHV2bV9yZXN2X2Fzc2VydF9oZWxk
+KGdwdXZtKTsKPiArCj4gK8KgwqDCoMKgwqDCoMKgZHJtX2dlbV9ncHV2YV9hc3NlcnRfbG9ja19o
+ZWxkKG9iaik7Cj4gK8KgwqDCoMKgwqDCoMKgbGlzdF9kZWwoJnZtX2JvLT5saXN0LmVudHJ5Lmdl
+bSk7Cj4gKwo+ICvCoMKgwqDCoMKgwqDCoGlmIChvcHMgJiYgb3BzLT52bV9ib19mcmVlKQo+ICvC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBvcHMtPnZtX2JvX2ZyZWUodm1fYm8pOwo+ICvC
+oMKgwqDCoMKgwqDCoGVsc2UKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKga2ZyZWUo
+dm1fYm8pOwo+ICsKPiArwqDCoMKgwqDCoMKgwqBkcm1fZ3B1dm1fcHV0KGdwdXZtKTsKPiArwqDC
+oMKgwqDCoMKgwqBkcm1fZ2VtX29iamVjdF9wdXQob2JqKTsKPiArfQo+ICsKPiArLyoqCj4gKyAq
+IGRybV9ncHV2bV9ib19wdXQoKSAtIGRyb3AgYSBzdHJ1Y3QgZHJtX2dwdXZtX2JvIHJlZmVyZW5j
+ZQo+ICsgKiBAdm1fYm86IHRoZSAmZHJtX2dwdXZtX2JvIHRvIHJlbGVhc2UgdGhlIHJlZmVyZW5j
+ZSBvZgo+ICsgKgo+ICsgKiBUaGlzIHJlbGVhc2VzIGEgcmVmZXJlbmNlIHRvIEB2bV9iby4KPiAr
+ICoKPiArICogSWYgdGhlIHJlZmVyZW5jZSBjb3VudCBkcm9wcyB0byB6ZXJvLCB0aGUgJmdwdXZt
+X2JvIGlzIGRlc3Ryb3llZCwKPiB3aGljaAo+ICsgKiBpbmNsdWRlcyByZW1vdmluZyBpdCBmcm9t
+IHRoZSBHRU1zIGdwdXZhIGxpc3QuIEhlbmNlLCBpZiBhIGNhbGwKPiB0byB0aGlzCj4gKyAqIGZ1
+bmN0aW9uIGNhbiBwb3RlbnRpYWxseSBsZXQgdGhlIHJlZmVyZW5jZSBjb3VudCB0byB6ZXJvIHRo
+ZQo+IGNhbGxlciBtdXN0Cj4gKyAqIGhvbGQgdGhlIGRtYS1yZXN2IG9yIGRyaXZlciBzcGVjaWZp
+YyBHRU0gZ3B1dmEgbG9jay4KClNob3VsZCBJZGVhbGx5IGRvY3VtZW50IHRoZSBjb250ZXh0IGZv
+ciB0aGlzIGZ1bmN0aW9uIGFzIHdlbGwsIHRvIGF2b2lkCmZ1dHVyZSBwaXRmYWxscyBhbmQgYXJn
+dW1lbnRzLCBhbmQgYWxzbyBwb3RlbnRpYWxseSBhIG1pZ2h0X3NsZWVwKCkuCgpSZXZpZXdlZC1i
+eTogVGhvbWFzIEhlbGxzdHLDtm0gPHRob21hcy5oZWxsc3Ryb21AbGludXguaW50ZWwuY29tPgoK
 
-So something like this? Or were you talking about replacing the clang
-check entirely with the KASAN/KCSAN check?
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dml2/Makefile b/drivers/gpu/drm/amd/display/dc/dml2/Makefile
-index 70ae5eba624e..0fc1b13295eb 100644
---- a/drivers/gpu/drm/amd/display/dc/dml2/Makefile
-+++ b/drivers/gpu/drm/amd/display/dc/dml2/Makefile
-@@ -60,8 +60,12 @@ endif
- endif
- 
- ifneq ($(CONFIG_FRAME_WARN),0)
-+ifeq ($(CONFIG_CC_IS_CLANG)$(filter y,$(CONFIG_KASAN)$(CONFIG_KCSAN)),yy)
-+frame_warn_flag := -Wframe-larger-than=3072
-+else
- frame_warn_flag := -Wframe-larger-than=2048
- endif
-+endif
- 
- CFLAGS_$(AMDDALPATH)/dc/dml2/display_mode_core.o := $(dml2_ccflags) $(frame_warn_flag)
- CFLAGS_$(AMDDALPATH)/dc/dml2/display_mode_util.o := $(dml2_ccflags)
-
-> >   endif
-> >   CFLAGS_$(AMDDALPATH)/dc/dml2/display_mode_core.o := $(dml2_ccflags) $(frame_warn_flag)
-> > 
-> > ---
-> > base-commit: 21e80f3841c01aeaf32d7aee7bbc87b3db1aa0c6
-> > change-id: 20231102-amdgpu-dml2-increase-frame-size-warning-for-clang-c93bd2d6a871
-> > 
-> > Best regards,
-> -- 
-> Hamza
-> 
