@@ -1,66 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B9F87DFC96
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Nov 2023 23:47:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC9C67DFCA8
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Nov 2023 23:53:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B4EA10E18A;
-	Thu,  2 Nov 2023 22:47:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 69E3010E2C3;
+	Thu,  2 Nov 2023 22:53:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x733.google.com (mail-qk1-x733.google.com
- [IPv6:2607:f8b0:4864:20::733])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A653A10E189;
- Thu,  2 Nov 2023 22:47:10 +0000 (UTC)
-Received: by mail-qk1-x733.google.com with SMTP id
- af79cd13be357-77897c4ac1fso79631785a.3; 
- Thu, 02 Nov 2023 15:47:10 -0700 (PDT)
+Received: from mail-oa1-x2c.google.com (mail-oa1-x2c.google.com
+ [IPv6:2001:4860:4864:20::2c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 67B3C10E189;
+ Thu,  2 Nov 2023 22:53:22 +0000 (UTC)
+Received: by mail-oa1-x2c.google.com with SMTP id
+ 586e51a60fabf-1f05247791fso614482fac.0; 
+ Thu, 02 Nov 2023 15:53:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1698965229; x=1699570029; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ d=gmail.com; s=20230601; t=1698965601; x=1699570401; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=L5Y5aW8omcORKhmxQdekMLnw1i2rV+cg22g8TTJinRo=;
- b=SIyenaigc3RQHsC/Ewf6n+AK+HexLexuhKQZlXrs3moovNr3nT+pgBIiSmTWPAdkvq
- g1UX3OeuwMVgzqMMty5KMWYoyuh+D0GBnPuQF8II/nedmhvnn9luIlBJqrdukNzrNwEB
- F4C55NU3zoqGe1LF0XR7vyXmcE2WoSsSjKTDltA553/Cw3gwKRWrrh0sNsyVlkACFolB
- vhJapnRyVTMqrzQkT/trLR5a3P2AQh4oLZ8yoV7IrxQOp0mhxCzs+RoArvpK4Zj00VMg
- gTCk0/e2dhkIJ/sesvyrSrme+ayAUSF8EXeKco4WnTJlHKRXOkwKz28RCekdUHKv30Ak
- CA2Q==
+ bh=ywkZ1ZWfNmiVp7a6UPS372ot5uoGxaI4T7nCnN1k30I=;
+ b=H8YvvuO3sGoOkuMF2Tc4+BxQsxX6Vx7oZwaTy92vBhTmnAD1/snqMNFg64F/kOX6zl
+ GUmTGN81kDALSWGyukWykoKDUHTLcN8sZE+xjOO7SU77L6XQ1petr0If0r3sKyyfRSS7
+ JC4udZK8jnLQ/+NvN0/FUJAtzrAcGc96Z8D+gIH+v93MSqwiZEL+wz+CXDVFpI/N8eKi
+ fP8RB+qNxVL6i0HIs3wci9sTf4qFzhw7MfoW4g7PjVJ59y3z9mSoZHRqI1OrjUwDY/KZ
+ w/cqdZfBgbgX4GTx7lLYCA4kIQsnPg7ABWaqS8+uPf6D6IAY5snaUMeExBLX8vWxqbXh
+ Rjnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1698965229; x=1699570029;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20230601; t=1698965601; x=1699570401;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=L5Y5aW8omcORKhmxQdekMLnw1i2rV+cg22g8TTJinRo=;
- b=rcyKfP5WuFp2Ji9OMtAnvYUSToMA8YvebX7lTcnMjuG24mmtknffbuuzw+2h2YhPTR
- NcRlU+zCqryhiBecU+mb1JEtcbvcNcpd/KzhggV/a4RyZgTC1fSXApjqfTwCx6DyasOq
- kaGGLzfh9XsVGRKkollcc5zondDPuhu9kRh9LeoIENcvEqk6DLct0fJIh+P1+n0B4akg
- i+EIEQOrLBx2bpqZiuH6XAoaHLJKKqGmIuyHgmC38evUJu3pRWLNArYIacqYJ3V8I4GJ
- H6bWkOMMLHvlgGGPwJApolatW1tBscKwyYLRXjzNMTHUdtugBoMAlhdV2ZPkcQ5LKJCH
- 2hrA==
-X-Gm-Message-State: AOJu0Yzv7jOCLBwOWH4doXFTj1IJ2gyHZE9/nG9tH61uO5wEPwdDOcQQ
- vOvxun/kwKpTLEih/C3EbwU=
-X-Google-Smtp-Source: AGHT+IF2gT2dryHgcp/tVuArhR4y5VTb6GX3t+JzzP1Gdu4P7JF0mV8eSp9SUS/+FA6QL+ezlfbrrQ==
-X-Received: by 2002:a05:620a:640a:b0:778:9148:3c2c with SMTP id
- pz10-20020a05620a640a00b0077891483c2cmr19687618qkn.18.1698965229456; 
- Thu, 02 Nov 2023 15:47:09 -0700 (PDT)
-Received: from localhost.localdomain ([74.15.198.235])
- by smtp.gmail.com with ESMTPSA id
- b7-20020a05620a04e700b00765aa3ffa07sm169100qkh.98.2023.11.02.15.47.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Nov 2023 15:47:09 -0700 (PDT)
-From: Luben Tuikov <ltuikov89@gmail.com>
-To: tvrtko.ursulin@linux.intel.com
-Subject: [PATCH] drm/sched: Eliminate drm_sched_run_job_queue_if_ready()
-Date: Thu,  2 Nov 2023 18:46:54 -0400
-Message-ID: <20231102224653.5785-2-ltuikov89@gmail.com>
-X-Mailer: git-send-email 2.42.1
-In-Reply-To: <bb7c307e-271c-4f4c-bdbc-7078972ba515@linux.intel.com>
-References: <bb7c307e-271c-4f4c-bdbc-7078972ba515@linux.intel.com>
+ bh=ywkZ1ZWfNmiVp7a6UPS372ot5uoGxaI4T7nCnN1k30I=;
+ b=To6WAKgEu9BX6eL86jmJ4gKIRQPnn4HpU68ZakNrjqryC7rJJRc+kbn4fxAotc7jVM
+ 2S6NTycrzciXhol/gKivsmCO9AqwCj9Q0CcP5vMtyq6bnJ8UyzjGbC3AdGM5i5JutVjl
+ 9HeEOKUb5w7w2Fs7f8jNjytqg9a46fqWHvOi5mcOdpamTnLvv+r5+rRIBRzQJuzhywWi
+ kGxauHqKQJZrFVcq3umlxp671ffky8ACHzAGySQdp8WbsNglp0xoxmCY5iMkxsERSPqN
+ dTwrkZmgTbktKhmEkSUixDoMisTaH0n04IctuYI7EyEdkK0zNyQA5FbL/LF2nge9Iu1V
+ odvw==
+X-Gm-Message-State: AOJu0YyeISQ/Zf1VZkdSD2PiSz/d3k5fpt2jutEiBkVYAYR2xUMg3x0L
+ +AZjTFjRd6sQ4dR8TC9qPQWHBiTPnFAUWX07ldU=
+X-Google-Smtp-Source: AGHT+IE1yCCtzM/K8cFr0IT8oP2y3RjE6Uh5RrkvdH5l8sS2cDigljS/xmdpOFoQ2Ifca4c1s8xNpN5SqSINFrPB+PA=
+X-Received: by 2002:a05:6870:2007:b0:1dc:c65e:ded2 with SMTP id
+ o7-20020a056870200700b001dcc65eded2mr24706945oab.12.1698965601603; Thu, 02
+ Nov 2023 15:53:21 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <ZUNsmJGbYwgPaUpY@debian>
+ <CADnq5_Minarw2D_TeRdkm6nJOP_4qHM+MxiMeLWMXqHxjq22Xw@mail.gmail.com>
+ <CADVatmO9NCs=ryNg72HNzMDpqg862gpGnnFhQ4uwTpEkjOkCLw@mail.gmail.com>
+In-Reply-To: <CADVatmO9NCs=ryNg72HNzMDpqg862gpGnnFhQ4uwTpEkjOkCLw@mail.gmail.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Thu, 2 Nov 2023 18:53:10 -0400
+Message-ID: <CADnq5_Ou7Cq071DJZnq+3PDNqkd3ZJb+dCEvMjiked6_t=E6MA@mail.gmail.com>
+Subject: Re: mainline build failure due to 7966f319c66d ("drm/amd/display:
+ Introduce DML2")
+To: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,74 +71,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.brost@intel.com, robdclark@chromium.org, sarah.walker@imgtec.com,
- ltuikov@yahoo.com, Luben Tuikov <ltuikov89@gmail.com>, ketil.johnsen@arm.com,
- lina@asahilina.net, mcanal@igalia.com, Liviu.Dudau@arm.com,
- dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- boris.brezillon@collabora.com, dakr@redhat.com, donald.robson@imgtec.com,
- christian.koenig@amd.com, faith.ekstrand@collabora.com
+Cc: regressions@lists.linux.dev, Leo Li <sunpeng.li@amd.com>,
+ Qingqing Zhuo <Qingqing.Zhuo@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, Roman Li <roman.li@amd.com>,
+ amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ "linux-kernel@vger.kernel.orgLinus Torvalds" <torvalds@linux-foundation.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Eliminate drm_sched_run_job_queue_if_ready() and instead just call
-drm_sched_run_job_queue() in drm_sched_free_job_work(). The problem is that
-the former function uses drm_sched_select_entity() to determine if the
-scheduler had an entity ready in one of its run-queues, and in the case of the
-Round-Robin (RR) scheduling, the function drm_sched_rq_select_entity_rr() does
-just that, selects the _next_ entity which is ready, sets up the run-queue and
-completion and returns that entity. The FIFO scheduling algorithm is unaffected.
+On Thu, Nov 2, 2023 at 1:07=E2=80=AFPM Sudip Mukherjee
+<sudipm.mukherjee@gmail.com> wrote:
+>
+> On Thu, 2 Nov 2023 at 16:52, Alex Deucher <alexdeucher@gmail.com> wrote:
+> >
+> > On Thu, Nov 2, 2023 at 5:32=E2=80=AFAM Sudip Mukherjee (Codethink)
+> > <sudipm.mukherjee@gmail.com> wrote:
+> > >
+> > > Hi All,
+> > >
+> > > The latest mainline kernel branch fails to build x86_64 allmodconfig
+> > > with the error:
+> > >
+> > > drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/display_mode_core.c: In=
+ function 'dml_prefetch_check':
+> > > drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/display_mode_core.c:670=
+7:1: error: the frame size of 2056 bytes is larger than 2048 bytes [-Werror=
+=3Dframe-larger-than=3D]
+> > >  6707 | }
+> > >       | ^
+> > >
+> > > git bisect pointed to 7966f319c66d ("drm/amd/display: Introduce DML2"=
+)
+> > >
+> > > I will be happy to test any patch or provide any extra log if needed.
+> >
+> > This was reported earlier and fixed by:
+> > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/comm=
+it/?id=3D089dbf6a06f1dcaeed4f8b86d619e8d28b235207
+> > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/comm=
+it/?id=3Db141fa036c901303ca5659cc22e9c08f8b097892
+> > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/comm=
+it/?id=3D5b2c54e0d0ea09f7a3b500510731878326e1117e
+> > but I guess maybe different compiler versions are still hitting this.
+>
+> Yes, I should have mentioned. gcc-11 and gcc-12 failed to build. but
+> gcc-13 was ok.
 
-Now, since drm_sched_run_job_work() also calls drm_sched_select_entity(), then
-in the case of RR scheduling, that would result in calling select_entity()
-twice, which may result in skipping a ready entity if more than one entity is
-ready. This commit fixes this by eliminating the if_ready() variant.
+Should be fixed with Nathan's patch:
+https://patchwork.freedesktop.org/patch/565675/
 
-Signed-off-by: Luben Tuikov <ltuikov89@gmail.com>
----
- drivers/gpu/drm/scheduler/sched_main.c | 14 ++------------
- 1 file changed, 2 insertions(+), 12 deletions(-)
-
-diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-index 98b2ad54fc7071..05816e7cae8c8b 100644
---- a/drivers/gpu/drm/scheduler/sched_main.c
-+++ b/drivers/gpu/drm/scheduler/sched_main.c
-@@ -1040,16 +1040,6 @@ drm_sched_pick_best(struct drm_gpu_scheduler **sched_list,
- }
- EXPORT_SYMBOL(drm_sched_pick_best);
- 
--/**
-- * drm_sched_run_job_queue_if_ready - enqueue run-job work if ready
-- * @sched: scheduler instance
-- */
--static void drm_sched_run_job_queue_if_ready(struct drm_gpu_scheduler *sched)
--{
--	if (drm_sched_select_entity(sched))
--		drm_sched_run_job_queue(sched);
--}
--
- /**
-  * drm_sched_free_job_work - worker to call free_job
-  *
-@@ -1069,7 +1059,7 @@ static void drm_sched_free_job_work(struct work_struct *w)
- 		sched->ops->free_job(cleanup_job);
- 
- 		drm_sched_free_job_queue_if_done(sched);
--		drm_sched_run_job_queue_if_ready(sched);
-+		drm_sched_run_job_queue(sched);
- 	}
- }
- 
-@@ -1127,7 +1117,7 @@ static void drm_sched_run_job_work(struct work_struct *w)
- 	}
- 
- 	wake_up(&sched->job_scheduled);
--	drm_sched_run_job_queue_if_ready(sched);
-+	drm_sched_run_job_queue(sched);
- }
- 
- /**
-
-base-commit: 6fd9487147c4f18ad77eea00bd8c9189eec74a3e
--- 
-2.42.1
-
+Alex
