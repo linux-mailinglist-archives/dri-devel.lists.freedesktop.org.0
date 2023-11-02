@@ -1,54 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6C1D7DEEC3
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Nov 2023 10:24:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2204E7DEEC6
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Nov 2023 10:24:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4681810E82F;
-	Thu,  2 Nov 2023 09:24:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4303F10E144;
+	Thu,  2 Nov 2023 09:24:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9969810E087;
- Thu,  2 Nov 2023 09:24:21 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B2C6B10E144
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Nov 2023 09:24:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1698917061; x=1730453061;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=StX7KMQd9FfbGNmv2VVer8s92HrsOgr56kj3i857oWU=;
- b=MQKrZOpYJT3ZTgNY/mLthrnCqy++8YSz0fixKeWKDw5OdnNbGqN1l6cG
- 8OKl4PrKpd9rjukZvoTr/UI60a71X2LzLZRzccglfwzdMa87YH8NUHWNQ
- /MV84eSs9rySxRz7RQllK5LA7c5+kUtIq6WA0qBKSX+HWXsfiXm+rgcwn
- NV01oNzZqCvUSgjcf0ttwLDFEL2r8cJlYkDtw3TNQPqiuVdYH0NKRIbbK
- MPr74HyTg/GIKmlT2VYGyPKZQtS4prHt0Yh37nQJunTQozdfeQVqsgVB4
- E3S+mbip5QYCuD2lqym6aNxXmgtTM9d5r5RDibJaFa6UG2E2yhfZwEEmq w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10881"; a="474911498"
-X-IronPort-AV: E=Sophos;i="6.03,271,1694761200"; d="scan'208";a="474911498"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Nov 2023 02:24:20 -0700
+ t=1698917092; x=1730453092;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=goz1MDZeYttmZTizQc2k0/k0PvBtwJ1aMlNPSqULG1w=;
+ b=QxDhVZho9Qyp4JAWmdy0O6VBk8ogje5ac3K2/3tG8Tr20ZbZVP9SLzDf
+ /7H+kowDQ3aO2AB2D4k7FUUP5BLWwJmZa6cK5VmV5/reJFcsHO7UBA4Xp
+ p0NpBFIqTOdX7KzFUPl0H/CYbcPvhbH5Bcwgb1ufux5AEmih16tBJjN/y
+ vHv64uck0YTyGfswJ5t1nv6iR1GhA8STwXqpN3kjw/QeTZRcXyHJJpUyX
+ TsvwCRfcI78NPky78h2smDoWCLzwVxChO0NcyqGlxNMG3upl3rOCsCfCX
+ j/WHSlTyqnkwaHcImaX0POyB4wiF4tv19bWOVlFFTFMGOcvjTk2Tp8dXN A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10881"; a="368016386"
+X-IronPort-AV: E=Sophos;i="6.03,271,1694761200"; d="scan'208";a="368016386"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Nov 2023 02:24:47 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.03,271,1694761200"; 
-   d="scan'208";a="2375145"
-Received: from nofferma-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.51.121])
- by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Nov 2023 02:24:18 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] drm/i915: Remove unused for_each_uabi_class_engine
-In-Reply-To: <1d8b9bb8-1368-436f-9fb6-125e6bb04e40@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20231101100124.303739-1-tvrtko.ursulin@linux.intel.com>
- <87sf5p4wjx.fsf@intel.com>
- <1d8b9bb8-1368-436f-9fb6-125e6bb04e40@linux.intel.com>
-Date: Thu, 02 Nov 2023 11:24:15 +0200
-Message-ID: <87a5rw4if4.fsf@intel.com>
+X-IronPort-AV: E=McAfee;i="6600,9927,10881"; a="764855969"
+X-IronPort-AV: E=Sophos;i="6.03,271,1694761200"; d="scan'208";a="764855969"
+Received: from jlawryno-mobl.ger.corp.intel.com (HELO [10.249.132.23])
+ ([10.249.132.23])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Nov 2023 02:24:44 -0700
+Message-ID: <ccf8e1ae-efa5-4d09-bc43-4ed18536c910@linux.intel.com>
+Date: Thu, 2 Nov 2023 10:24:24 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: =?UTF-8?Q?Re=3A_=5Baccel/ivpu=5D_Help_--_Which_Intel_CPU_processor_?=
+ =?UTF-8?Q?can_be_used_for_iVPU_driver=EF=BC=9F?=
+To: Trigger Huang <trigger.huang@gmail.com>, dri-devel@lists.freedesktop.org
+References: <CANH0Q9mzBVr7KTJQmvLsqndpTZ8JU0rDfDQhu10kFsRgfybA4A@mail.gmail.com>
+Content-Language: en-US
+From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <CANH0Q9mzBVr7KTJQmvLsqndpTZ8JU0rDfDQhu10kFsRgfybA4A@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,155 +63,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 01 Nov 2023, Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com> wrote:
-> On 01/11/2023 10:06, Jani Nikula wrote:
->> On Wed, 01 Nov 2023, Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com> wrote:
->>> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->>>
->>> Unused macro after 99919be74aa3 ("drm/i915/gem: Zap the i915_gem_object_blt code")
->>> removed some code.
->>>
->>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->> 
->> \o/
->> 
->> Reviewed-by: Jani Nikula <jani.nikula@intel.com>
->> 
->> Could I persuade you to move for_each_engine(),
->> for_each_engine_masked(), rb_to_uabi_engine(), and
->> for_each_uabi_engine() to a more suitable header?
->
-> Former to intel_gt.h, but latter a better place is not coming to me. Like:
->
-> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_pm.h b/drivers/gpu/drm/i915/gt/intel_engine_pm.h
-> index d68675925b79..1d97c435a015 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_engine_pm.h
-> +++ b/drivers/gpu/drm/i915/gt/intel_engine_pm.h
-> @@ -10,6 +10,7 @@
->   #include "i915_request.h"
->   #include "intel_engine_types.h"
->   #include "intel_wakeref.h"
-> +#include "intel_gt.h"
->   #include "intel_gt_pm.h"
->   
->   static inline bool
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gt.h b/drivers/gpu/drm/i915/gt/intel_gt.h
-> index 9ffdb05e231e..b0e453e27ea8 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gt.h
-> +++ b/drivers/gpu/drm/i915/gt/intel_gt.h
-> @@ -171,6 +171,20 @@ void intel_gt_release_all(struct drm_i915_private *i915);
->               (id__)++) \
->                  for_each_if(((gt__) = (i915__)->gt[(id__)]))
->   
-> +/* Simple iterator over all initialised engines */
-> +#define for_each_engine(engine__, gt__, id__) \
-> +       for ((id__) = 0; \
-> +            (id__) < I915_NUM_ENGINES; \
-> +            (id__)++) \
-> +               for_each_if ((engine__) = (gt__)->engine[(id__)])
-> +
-> +/* Iterator over subset of engines selected by mask */
-> +#define for_each_engine_masked(engine__, gt__, mask__, tmp__) \
-> +       for ((tmp__) = (mask__) & (gt__)->info.engine_mask; \
-> +            (tmp__) ? \
-> +            ((engine__) = (gt__)->engine[__mask_next_bit(tmp__)]), 1 : \
-> +            0;)
-> +
->   void intel_gt_info_print(const struct intel_gt_info *info,
->                           struct drm_printer *p);
->   
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_engines_debugfs.c b/drivers/gpu/drm/i915/gt/intel_gt_engines_debugfs.c
-> index 8f9b874fdc9c..3aa1d014c14d 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gt_engines_debugfs.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_gt_engines_debugfs.c
-> @@ -6,8 +6,8 @@
->   
->   #include <drm/drm_print.h>
->   
-> -#include "i915_drv.h" /* for_each_engine! */
->   #include "intel_engine.h"
-> +#include "intel_gt.h"
->   #include "intel_gt_debugfs.h"
->   #include "intel_gt_engines_debugfs.h"
->   
-> diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-> index 744c8c4a50fa..3feec04a2b1c 100644
-> --- a/drivers/gpu/drm/i915/i915_drv.h
-> +++ b/drivers/gpu/drm/i915/i915_drv.h
-> @@ -396,20 +396,6 @@ static inline struct intel_gt *to_gt(const struct drm_i915_private *i915)
->          return i915->gt[0];
->   }
->   
-> -/* Simple iterator over all initialised engines */
-> -#define for_each_engine(engine__, gt__, id__) \
-> -       for ((id__) = 0; \
-> -            (id__) < I915_NUM_ENGINES; \
-> -            (id__)++) \
-> -               for_each_if ((engine__) = (gt__)->engine[(id__)])
-> -
-> -/* Iterator over subset of engines selected by mask */
-> -#define for_each_engine_masked(engine__, gt__, mask__, tmp__) \
-> -       for ((tmp__) = (mask__) & (gt__)->info.engine_mask; \
-> -            (tmp__) ? \
-> -            ((engine__) = (gt__)->engine[__mask_next_bit(tmp__)]), 1 : \
-> -            0;)
-> -
->   #define rb_to_uabi_engine(rb) \
->          rb_entry_safe(rb, struct intel_engine_cs, uabi_node)
->   
-> diff --git a/drivers/gpu/drm/i915/selftests/intel_uncore.c b/drivers/gpu/drm/i915/selftests/intel_uncore.c
-> index 7a5f4adc1b8b..c998f15d505c 100644
-> --- a/drivers/gpu/drm/i915/selftests/intel_uncore.c
-> +++ b/drivers/gpu/drm/i915/selftests/intel_uncore.c
-> @@ -24,6 +24,8 @@
->   
->   #include "../i915_selftest.h"
->   
-> +#include "gt/intel_gt.h"
-> +
->   static int intel_fw_table_check(const struct intel_forcewake_range *ranges,
->                                  unsigned int num_ranges,
->                                  bool is_watertight)
->
-> Beneficial?
+Hi,
 
-Yeah, I'd like to have less gem/gt/display in i915_drv.h, and focus on
-the generic driver stuff.
+You need a Meteor Lake based platform.
+Intel 14th gen desktop CPUs were supposed to be Meteor Lake but they ended up as Raptor Lake.
+NPU (formerly known as VPU) will be available in 14th gen mobile chips.
+I will update the Kconfig description.
 
-BR,
-Jani.
+Regards,
+Jacek
 
-
->
-> Regards,
->
-> Tvrtko
->   
->>> ---
->>>   drivers/gpu/drm/i915/i915_drv.h | 5 -----
->>>   1 file changed, 5 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
->>> index bfcbe93bd9fe..744c8c4a50fa 100644
->>> --- a/drivers/gpu/drm/i915/i915_drv.h
->>> +++ b/drivers/gpu/drm/i915/i915_drv.h
->>> @@ -418,11 +418,6 @@ static inline struct intel_gt *to_gt(const struct drm_i915_private *i915)
->>>   	     (engine__); \
->>>   	     (engine__) = rb_to_uabi_engine(rb_next(&(engine__)->uabi_node)))
->>>   
->>> -#define for_each_uabi_class_engine(engine__, class__, i915__) \
->>> -	for ((engine__) = intel_engine_lookup_user((i915__), (class__), 0); \
->>> -	     (engine__) && (engine__)->uabi_class == (class__); \
->>> -	     (engine__) = rb_to_uabi_engine(rb_next(&(engine__)->uabi_node)))
->>> -
->>>   #define INTEL_INFO(i915)	((i915)->__info)
->>>   #define RUNTIME_INFO(i915)	(&(i915)->__runtime)
->>>   #define DRIVER_CAPS(i915)	(&(i915)->caps)
->> 
-
--- 
-Jani Nikula, Intel
+On 02.11.2023 07:59, Trigger Huang wrote:
+> Hello,
+> 
+> I want to have a try for the iVPU driver but don't know which CPU platform
+> is suitable. Would you help?
+> 
+> According to the description in linux/drivers/accel/ivpu/Kconfig, it says
+> that Choose this option if you have a system that has an *14*th generation
+> Intel CPU
+> But according to the Intel  I7 *14*700k spec (
+> https://www.intel.com/content/www/us/en/products/sku/236783/intel-core-i7-processor-14700k-33m-cache-up-to-5-60-ghz/specifications.html),
+> there is
+> no description about Versatile Processing Unit.
+> 
+> So which CPU should I choose?
+> 
+> Thanks,
+> Trigger
+> 
