@@ -1,51 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 253607DF60C
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Nov 2023 16:13:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EAA667DF608
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Nov 2023 16:13:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C393010E901;
-	Thu,  2 Nov 2023 15:12:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9CE4310E8EB;
+	Thu,  2 Nov 2023 15:12:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD1D510E910;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E4FB10E90A;
  Thu,  2 Nov 2023 15:12:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1698937961; x=1730473961;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=rHniHgFscmNqI1jUGvH0qfntkiUkNVL9qWW5lkhoJb8=;
- b=YA2L44ADSyzzEc0OTjr3lWwkeCKWtSC5LyIT0zYS52bi0zr5ywo6wgmA
- PS15TvXht4TFaFWCisn4EImeaC72qJ0lYTuMmvuee8j1f8YAPWz5rWRit
- eYkYofm6pK00ti5dHWa7x8DV2OLgwlGwuLHyXvKfhM3HaWThR3aynv5RH
- CIVU1qUFshnOGnhIB+6WAN3mtTwMJCillYWCGHWAyvWoW6q4FPqcccJFt
- poOSe0zbdSIQAs+mTwBda9juwjwpFBcKKNwgwS5Aa7ZxKqQDz3q3UVW/3
- xLKU9n/9q7hX3Cl/qq5HpoFr/jIWTNTM8bREpxAW97ogvPJIvJWoKeOqY Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="1660186"
+ bh=U916ePMmAwBoX5bKvIh4POiqEwJn346oKhQfL/AepWk=;
+ b=GK1L9wJyDGHcnEwKoYtsVwRLA75xZgzOjBQrKLtfN+KFHexKnesx0qrJ
+ vKc1TFakQtPmWLIuny5H8nTsP0lzMiMn8jA9ApOFPkmZq3O8Vd/V8RHAi
+ Hg043KE1uLuJveDIMfKMDA23UobURh2TdH0Mg8JmZqGYSRf+ansTWAycH
+ GH9H7cqvz7rqpFIy3tWE0d1QrLdh6C+IIwWJYBDuqxxkkIQACOqUe+0eQ
+ FlntPw9LVKuZqO/ZImJ3IQTcXLGtg3DvapzJK0Hi8rwhL7cWoZvPGOKLI
+ TWQJHU7NPrewR/790fjSHv74ZmgvzZ54EaVFMY58W8VtOgwRYM0NCPNqO g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="1660178"
 X-IronPort-AV: E=Sophos;i="6.03,271,1694761200"; 
-   d="scan'208";a="1660186"
+   d="scan'208";a="1660178"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  02 Nov 2023 08:12:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="737784569"
-X-IronPort-AV: E=Sophos;i="6.03,271,1694761200"; d="scan'208";a="737784569"
+X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="737784570"
+X-IronPort-AV: E=Sophos;i="6.03,271,1694761200"; d="scan'208";a="737784570"
 Received: from black.fi.intel.com ([10.237.72.28])
  by orsmga006.jf.intel.com with ESMTP; 02 Nov 2023 08:12:36 -0700
 Received: by black.fi.intel.com (Postfix, from userid 1003)
- id 1D98E6B5; Thu,  2 Nov 2023 17:12:31 +0200 (EET)
+ id 285F7706; Thu,  2 Nov 2023 17:12:31 +0200 (EET)
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Jani Nikula <jani.nikula@intel.com>,
  Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
  intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH v3 11/15] drm/i915/dsi: Extract common soc_gpio_set_value()
- helper
-Date: Thu,  2 Nov 2023 17:12:24 +0200
-Message-Id: <20231102151228.668842-12-andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v3 12/15] drm/i915/dsi: Replace poking of VLV GPIOs behind the
+ driver's back
+Date: Thu,  2 Nov 2023 17:12:25 +0200
+Message-Id: <20231102151228.668842-13-andriy.shevchenko@linux.intel.com>
 X-Mailer: git-send-email 2.40.0.1.gaa8946217a0b
 In-Reply-To: <20231102151228.668842-1-andriy.shevchenko@linux.intel.com>
 References: <20231102151228.668842-1-andriy.shevchenko@linux.intel.com>
@@ -68,77 +68,147 @@ Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Extract a common soc_gpio_set_value() helper that may be used by a few SoCs.
+It's a dirty hack in the driver that pokes GPIO registers behind
+the driver's back. Moreoever it might be problematic as simultaneous
+I/O may hang the system, see the commit 40ecab551232 ("pinctrl:
+baytrail: Really serialize all register accesses") for the details.
+Taking all this into consideration replace the hack with proper
+GPIO APIs being used.
 
 Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_dsi_vbt.c | 46 +++++++++++---------
- 1 file changed, 26 insertions(+), 20 deletions(-)
+ drivers/gpu/drm/i915/display/intel_dsi_vbt.c | 98 ++++++--------------
+ 1 file changed, 28 insertions(+), 70 deletions(-)
 
 diff --git a/drivers/gpu/drm/i915/display/intel_dsi_vbt.c b/drivers/gpu/drm/i915/display/intel_dsi_vbt.c
-index 0f9da0168a7b..9847a92fdfc3 100644
+index 9847a92fdfc3..552bc6564d79 100644
 --- a/drivers/gpu/drm/i915/display/intel_dsi_vbt.c
 +++ b/drivers/gpu/drm/i915/display/intel_dsi_vbt.c
-@@ -243,6 +243,31 @@ static const u8 *mipi_exec_delay(struct intel_dsi *intel_dsi, const u8 *data)
- 	return data;
+@@ -55,43 +55,6 @@
+ #define MIPI_VIRTUAL_CHANNEL_SHIFT	1
+ #define MIPI_PORT_SHIFT			3
+ 
+-/* base offsets for gpio pads */
+-#define VLV_GPIO_NC_0_HV_DDI0_HPD	0x4130
+-#define VLV_GPIO_NC_1_HV_DDI0_DDC_SDA	0x4120
+-#define VLV_GPIO_NC_2_HV_DDI0_DDC_SCL	0x4110
+-#define VLV_GPIO_NC_3_PANEL0_VDDEN	0x4140
+-#define VLV_GPIO_NC_4_PANEL0_BKLTEN	0x4150
+-#define VLV_GPIO_NC_5_PANEL0_BKLTCTL	0x4160
+-#define VLV_GPIO_NC_6_HV_DDI1_HPD	0x4180
+-#define VLV_GPIO_NC_7_HV_DDI1_DDC_SDA	0x4190
+-#define VLV_GPIO_NC_8_HV_DDI1_DDC_SCL	0x4170
+-#define VLV_GPIO_NC_9_PANEL1_VDDEN	0x4100
+-#define VLV_GPIO_NC_10_PANEL1_BKLTEN	0x40E0
+-#define VLV_GPIO_NC_11_PANEL1_BKLTCTL	0x40F0
+-
+-#define VLV_GPIO_PCONF0(base_offset)	(base_offset)
+-#define VLV_GPIO_PAD_VAL(base_offset)	((base_offset) + 8)
+-
+-struct gpio_map {
+-	u16 base_offset;
+-	bool init;
+-};
+-
+-static struct gpio_map vlv_gpio_table[] = {
+-	{ VLV_GPIO_NC_0_HV_DDI0_HPD },
+-	{ VLV_GPIO_NC_1_HV_DDI0_DDC_SDA },
+-	{ VLV_GPIO_NC_2_HV_DDI0_DDC_SCL },
+-	{ VLV_GPIO_NC_3_PANEL0_VDDEN },
+-	{ VLV_GPIO_NC_4_PANEL0_BKLTEN },
+-	{ VLV_GPIO_NC_5_PANEL0_BKLTCTL },
+-	{ VLV_GPIO_NC_6_HV_DDI1_HPD },
+-	{ VLV_GPIO_NC_7_HV_DDI1_DDC_SDA },
+-	{ VLV_GPIO_NC_8_HV_DDI1_DDC_SCL },
+-	{ VLV_GPIO_NC_9_PANEL1_VDDEN },
+-	{ VLV_GPIO_NC_10_PANEL1_BKLTEN },
+-	{ VLV_GPIO_NC_11_PANEL1_BKLTCTL },
+-};
+-
+ struct i2c_adapter_lookup {
+ 	u16 slave_addr;
+ 	struct intel_dsi *intel_dsi;
+@@ -268,52 +231,47 @@ static void soc_gpio_set_value(struct intel_connector *connector, const char *co
+ 	}
  }
  
-+static void soc_gpio_set_value(struct intel_connector *connector, const char *con_id,
-+			       u8 gpio_index, bool value)
++static void soc_opaque_gpio_set_value(struct intel_connector *connector,
++				      const char *chip, const char *con_id,
++				      u8 gpio_index, bool value)
 +{
-+	struct drm_i915_private *dev_priv = to_i915(connector->base.dev);
-+	/* XXX: this table is a quick ugly hack. */
-+	static struct gpio_desc *soc_gpio_table[U8_MAX + 1];
-+	struct gpio_desc *gpio_desc = soc_gpio_table[gpio_index];
++	struct gpiod_lookup_table *lookup;
 +
-+	if (gpio_desc) {
-+		gpiod_set_value(gpio_desc, value);
-+	} else {
-+		gpio_desc = devm_gpiod_get_index(dev_priv->drm.dev,
-+						 con_id, gpio_index,
-+						 value ? GPIOD_OUT_HIGH : GPIOD_OUT_LOW);
-+		if (IS_ERR(gpio_desc)) {
-+			drm_err(&dev_priv->drm,
-+				"GPIO index %u request failed (%pe)\n",
-+				gpio_index, gpio_desc);
-+			return;
-+		}
++	lookup = kzalloc(struct_size(lookup, table, 2), GFP_KERNEL);
++	if (!lookup)
++		return;
 +
-+		soc_gpio_table[gpio_index] = gpio_desc;
-+	}
++	lookup->dev_id = "0000:00:02.0";
++	lookup->table[0] =
++		GPIO_LOOKUP_IDX(chip, gpio_index, con_id, gpio_index, GPIO_ACTIVE_HIGH);
++
++	gpiod_add_lookup_table(lookup);
++
++	soc_gpio_set_value(connector, con_id, gpio_index, value);
++
++	gpiod_remove_lookup_table(lookup);
++	kfree(lookup);
 +}
 +
  static void vlv_gpio_set_value(struct intel_connector *connector,
  			       u8 gpio_source, u8 gpio_index, bool value)
  {
-@@ -348,26 +373,7 @@ static void chv_gpio_set_value(struct intel_connector *connector,
- static void bxt_gpio_set_value(struct intel_connector *connector,
- 			       u8 gpio_index, bool value)
- {
--	struct drm_i915_private *dev_priv = to_i915(connector->base.dev);
--	/* XXX: this table is a quick ugly hack. */
--	static struct gpio_desc *bxt_gpio_table[U8_MAX + 1];
--	struct gpio_desc *gpio_desc = bxt_gpio_table[gpio_index];
--
--	if (!gpio_desc) {
--		gpio_desc = devm_gpiod_get_index(dev_priv->drm.dev,
--						 NULL, gpio_index,
--						 value ? GPIOD_OUT_HIGH : GPIOD_OUT_LOW);
--		if (IS_ERR_OR_NULL(gpio_desc)) {
--			drm_err(&dev_priv->drm,
--				"GPIO index %u request failed (%ld)\n",
--				gpio_index, PTR_ERR(gpio_desc));
--			return;
--		}
--
--		bxt_gpio_table[gpio_index] = gpio_desc;
+ 	struct drm_i915_private *dev_priv = to_i915(connector->base.dev);
+-	struct gpio_map *map;
+-	u16 pconf0, padval;
+-	u32 tmp;
+-	u8 port;
+ 
+-	if (gpio_index >= ARRAY_SIZE(vlv_gpio_table)) {
+-		drm_dbg_kms(&dev_priv->drm, "unknown gpio index %u\n",
+-			    gpio_index);
+-		return;
 -	}
 -
--	gpiod_set_value(gpio_desc, value);
-+	soc_gpio_set_value(connector, NULL, gpio_index, value);
+-	map = &vlv_gpio_table[gpio_index];
+-
+-	if (connector->panel.vbt.dsi.seq_version >= 3) {
+-		/* XXX: this assumes vlv_gpio_table only has NC GPIOs. */
+-		port = IOSF_PORT_GPIO_NC;
+-	} else {
+-		if (gpio_source == 0) {
+-			port = IOSF_PORT_GPIO_NC;
+-		} else if (gpio_source == 1) {
++	/* XXX: this assumes vlv_gpio_table only has NC GPIOs. */
++	if (connector->panel.vbt.dsi.seq_version < 3) {
++		if (gpio_source == 1) {
+ 			drm_dbg_kms(&dev_priv->drm, "SC gpio not supported\n");
+ 			return;
+-		} else {
++		}
++		if (gpio_source > 1) {
+ 			drm_dbg_kms(&dev_priv->drm,
+ 				    "unknown gpio source %u\n", gpio_source);
+ 			return;
+ 		}
+ 	}
+ 
+-	pconf0 = VLV_GPIO_PCONF0(map->base_offset);
+-	padval = VLV_GPIO_PAD_VAL(map->base_offset);
+-
+-	vlv_iosf_sb_get(dev_priv, BIT(VLV_IOSF_SB_GPIO));
+-	if (!map->init) {
+-		/* FIXME: remove constant below */
+-		vlv_iosf_sb_write(dev_priv, port, pconf0, 0x2000CC00);
+-		map->init = true;
+-	}
+-
+-	tmp = 0x4 | value;
+-	vlv_iosf_sb_write(dev_priv, port, padval, tmp);
+-	vlv_iosf_sb_put(dev_priv, BIT(VLV_IOSF_SB_GPIO));
++	soc_opaque_gpio_set_value(connector, "INT33FC:01", "Panel N", gpio_index, value);
  }
  
- enum {
+ static void chv_gpio_set_value(struct intel_connector *connector,
 -- 
 2.40.0.1.gaa8946217a0b
 
