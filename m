@@ -1,58 +1,118 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FFB57DF393
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Nov 2023 14:22:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 46FD87DF39C
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Nov 2023 14:23:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9323010E89D;
-	Thu,  2 Nov 2023 13:22:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B55D10E885;
+	Thu,  2 Nov 2023 13:23:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 75BAB10E8A0;
- Thu,  2 Nov 2023 13:22:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1698931324; x=1730467324;
- h=message-id:subject:from:to:cc:date:in-reply-to:
- references:content-transfer-encoding:mime-version;
- bh=bdRK6GTPFMRSpMaRQQSGbxxA7h6xq5Ax4uFb+rbeyTI=;
- b=GFIoHAHwFWrJiUbr66jjrV626RImpDgyBfaYdNzDL9vfSaU4N9dqYGQN
- xqh7zeHlgQnPpwVhjezK9mnkHqdG53ky+fqIreuy3Xbjx5Rovq/ERmivZ
- 1PbNs7Ewek0KFvxjgxOLOr4sHnyPyjFqW3I70Aqn8pC9oIRL3FFOfBhey
- nt4+Q5pZ9C9Yyl2Adka6CtbTmM2hDqudgBa0zllVXz4VonaHvJErqaQF6
- NVUfALTBD5a7OB5Xy8SoJuAn24RZA7VgtN/W20D4N4/fKf4n4+v4yr/8B
- 9gkecjVNhYvLJ79Hra5bICwsaimmts5zCuhwpNw87Xwe0UZUhR7orFoA6 A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10881"; a="379103410"
-X-IronPort-AV: E=Sophos;i="6.03,271,1694761200"; d="scan'208";a="379103410"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Nov 2023 06:22:03 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10881"; a="790394340"
-X-IronPort-AV: E=Sophos;i="6.03,271,1694761200"; d="scan'208";a="790394340"
-Received: from binsumax-mobl.gar.corp.intel.com (HELO [10.249.254.171])
- ([10.249.254.171])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Nov 2023 06:22:00 -0700
-Message-ID: <78be402a571e52056baa1ecbff93587e672e4203.camel@linux.intel.com>
-Subject: Re: [PATCH drm-misc-next v8 09/12] drm/gpuvm: reference count
- drm_gpuvm structures
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Danilo Krummrich <dakr@redhat.com>, airlied@gmail.com, daniel@ffwll.ch, 
- matthew.brost@intel.com, sarah.walker@imgtec.com, donald.robson@imgtec.com,
- boris.brezillon@collabora.com, christian.koenig@amd.com,
- faith@gfxstrand.net
-Date: Thu, 02 Nov 2023 14:21:57 +0100
-In-Reply-To: <20231101233113.8059-10-dakr@redhat.com>
-References: <20231101233113.8059-1-dakr@redhat.com>
- <20231101233113.8059-10-dakr@redhat.com>
-Organization: Intel Sweden AB, Registration Number: 556189-6027
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2041.outbound.protection.outlook.com [40.107.236.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9578610E885;
+ Thu,  2 Nov 2023 13:23:40 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=THjS/+xH3ucj2L3GCKz7gnUcRrDachk+J6D9z1rZHTp9MfVJowkT/avrFo2THYFhHJnHw5OT7Pk7j7YozEqrMhdRiiqo6mtgKYpdcXhBBB+yCoQHeQ1WniQf8Sg7jd6Ylwkh8/YM1oMBCTMqkYfo0YVU5BfwBwxQR8HcpAjmH5rmQ527N/oFnjig/QDoi7H6Xbvkrz6uziDuDAxVXzWkSPrVULHl+doOikFDsmy4NsRZVIRdEBoKKqP6SYK8yqlX2g3UiJEE/uhpVpjN7vwNMM7KensqjQDLVj33Nqcb/3/34+YJHv2cQQy/iiK1YHhtfEPwT++EMjevo2RMJbC7Vw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=t1wbRVnbwZbysfPF1r/2k38Pvw2YqMg8SrAfjx4aTCs=;
+ b=HdxZXVMqhdQQX+vBw4qv5xlEDstKeY5bZCmvElEiSkZaEfBSadrEv56iu42zcFlDBRUjg2h+pXENLyUlzWiqpfPr6yfJbOTATIO5NAQEOMvtuCnp2bEPtBroOfpKsRwSQ2OiB/zWn9Pyvw+JeDx7Dia6YjjWIjqjnF3s8jH3ZuU4CnmKSTHLnIQRt7v/9pKrDxUPIDw7DTMx03tE8FLUQQwtipme8mYiL+MRcjrt8pRRRv8SA3/yMVh7b4c053flyhnuASb5jMnlBwZsDiMiI6ukgVPI5qgajtSZAO3+FDMgpA84aKgNjM0PrDRiqkMk8ki4+5pxalvJ6Qk6I6N7pQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=t1wbRVnbwZbysfPF1r/2k38Pvw2YqMg8SrAfjx4aTCs=;
+ b=wg68g9BfVMggIgGc1cnHZEmvyEk+4jM5rejElR/kMT/tVO/FMM4vjyRMTX2RO1GJJEYfnb0B+dwlBp70+NLy9EKDU91S6nKgi4/sQQUUI23ulvo5Q0Eg/QOf44it7PlNrpzqRWQ1Kre6202+MvObggVCGQUDj6Mk247Dl7KFViw=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by SN7PR12MB7881.namprd12.prod.outlook.com (2603:10b6:806:34a::9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6933.29; Thu, 2 Nov
+ 2023 13:23:37 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::ca80:8f1c:c11:ded3]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::ca80:8f1c:c11:ded3%6]) with mapi id 15.20.6933.029; Thu, 2 Nov 2023
+ 13:23:37 +0000
+Message-ID: <0c2d2b4f-54a2-4a60-8f51-4ec06a629f4a@amd.com>
+Date: Thu, 2 Nov 2023 14:23:33 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC 03/11] drm: introduce drm evictable LRU
+Content-Language: en-US
+To: Oak Zeng <oak.zeng@intel.com>, dri-devel@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org
+References: <20231102043306.2931989-1-oak.zeng@intel.com>
+ <20231102043306.2931989-4-oak.zeng@intel.com>
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20231102043306.2931989-4-oak.zeng@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR4P281CA0184.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:ca::19) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|SN7PR12MB7881:EE_
+X-MS-Office365-Filtering-Correlation-Id: 932eb19d-3048-47c2-3a51-08dbdba6ec32
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: qThif4q86HlIEh/Xms8QWyPwPFe+JnS+KoDFv+B61B24q04mZPN0ORI67EErPd4eX3zZebzX51nsw3lcNLzDZ7e4gPmhYzoJpNRqQTx/azslmtvzeH1idW/19scb1BLGsU3RMUvG2h3EpCa+NAwi22VTfw+GFt9nw2cJir6sRv3b2b7wnAvC8kBxq9CwflzYtit7QXjYVe81jKax4kIjpxxBdV9kwkHTJn7daDvg0DvOj0KDXHqErhGtDTZ3BOVmaitOfYi1019dbFE8Mp723YdX3ILk0KOxSnn3QAjIRLnv6Nnou3fzVBrvZV0cK4nbwciy+h+fxiiROFTwaLeLZcJcDM4CN4F97Mfe+O3T6NKwG8m7xSEx7Gc+AvXphorYkZGJt2+tWKSGEoGYcxz+qz8fTSgdTTGM2pLV3G6Pw/BrCIR9gfLrORMjAk3JdEz8IcIUKPzQVt9emh6LqQINC1FSNKraxps76UjU46/S19LvAAgpFzsxKwsfd3YcVQS1eRqw+NBpOOV3+6HpD1Ky3s2NFsq+53mqGoD0CE/0SSQgPJWB8n4e/4btzCSXlyjrvDWcakTwheVdo3FsoGCllNEtLruPqb4oCVrM/aEB9DsT7RvkId+0Fq3VxUotOSazo6HdGvxIe8APqi5wbah6wQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(346002)(39860400002)(136003)(396003)(366004)(376002)(230922051799003)(1800799009)(186009)(451199024)(64100799003)(66899024)(316002)(30864003)(86362001)(31696002)(2616005)(66476007)(2906002)(83380400001)(26005)(66556008)(66946007)(6506007)(36756003)(478600001)(41300700001)(38100700002)(6512007)(6666004)(8676002)(4326008)(8936002)(31686004)(6486002)(5660300002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QzlHRjJsR0RNek1JV1RZS1NNbVZscDZNbGlLUjVneWpIbmRIb2tqVkNSWXBM?=
+ =?utf-8?B?eExRRUJaK1dlWkMvUk12QVBrK0hPTnBLRFlLd0pmd0x1ZjRuVTczMWdOZ3h2?=
+ =?utf-8?B?RE1nUldjeU95d3pzRzJDayt4WTU0TiszOW9NV3ZGNWNodVVyeGlTTVlTMEFX?=
+ =?utf-8?B?NWFsbXRvVXh3SytYcm9hdFpDeHB4dnIrOVozd2VyK3ArUlhqeUNOYzBKMlJL?=
+ =?utf-8?B?VmNQcU9aRy9DZDNvdm9aUW1seUE4WGxrNFBmaTFnL2pLY3RlSUhaS0JMdUFN?=
+ =?utf-8?B?NEE5bXM5SFlFa0MydU52V3JNSHFQcXd2MkNhZFF3eUx4aGZXa3B4RWVyT21p?=
+ =?utf-8?B?c2Z3WUNERU9CdUdKalQyQ1RuUUUyRm10OWE4d0E5Q3hjVllKZ292dmIvWFdL?=
+ =?utf-8?B?Tm9zenMyQ1pVb1AySCs0ZzcvUk5BZVlCUTBCVC9ZRUhSZEVZOEwzZWV4TVRG?=
+ =?utf-8?B?S0dIVnA5TWdJZUVuVDAyMTNNZ3pldWVGMm5DS0RpOHZpVnpFemdZQjc4RFNp?=
+ =?utf-8?B?eGtrSk9SMmJpOHdJN0VQYm1VNWlVeDJ6Wk16M1J4dGNYdDVGeFdkelpyMkQ3?=
+ =?utf-8?B?dUx3UWpRMkFjYWF1QlRQTjJMQytwbGdiN0hEbkxFazkwN1NPM3hUdkVUTDhn?=
+ =?utf-8?B?OVc0NlBTTzI3Q3ZNQ2RLek1vQ0taZWMxb0UvTlNROTJPbnVmTEU2NC9BK2FY?=
+ =?utf-8?B?U2RMZDVub01SMUhseFpUMjg1UUdwMXhlS3M3aElzd1ZCcWx5MC9ad29tZHRP?=
+ =?utf-8?B?Y2ZyQkZTQzBHZEVJV1Fmb1JXSm9EY05ES0V1Z3k2Mk1ZZVYxTnIvRXNyanFz?=
+ =?utf-8?B?UG00TUlDcUNIR1E3dDRWTExvWTZRcnhNN2s0RTUvS0MvNy9uaGFvNUFCcE5N?=
+ =?utf-8?B?OVdlT2Q5MkUxY0Ruc1JvTG8rYW4xLzNxWUtKOUZuSStHWUptZ1BvU0Z2SUdP?=
+ =?utf-8?B?WXRBVGcyVVp6bzdveHd1WENJeTFUMnIxeVlHaGRnWEQ0UTkyNVBOTDBNeHo4?=
+ =?utf-8?B?SlFvQXhyRXRISE94TENLMFFWeXZvN1hQTkl3ZFoxTHRBRjlhQWduemNVMUZj?=
+ =?utf-8?B?Ylo4NUtKSy85S3p4WVgwS3docEVoVlVIaHpMdWY1bnhsSm0xM0hlV1JjUjRG?=
+ =?utf-8?B?RFNzcU84VFo5K3hIZUdDbVIwUjQwbXBCT2tnUWt5UmE0OFlNNmp5QW8vK2t0?=
+ =?utf-8?B?b0ovOXhLNTFXazFmcW9tR2thQ0s4K3VRbXJzZXBpV0Y2cTVoMytvSHh0NWNp?=
+ =?utf-8?B?c2VDb3QxU0U4R3RVN0hUOUQ5UW1JS2JLbzNtWU5yejlxbHQ2RkQyUnF4UTg4?=
+ =?utf-8?B?aDhoUndMeEttVFVMZUVFblVzTFZUMTlNZ0hCM1JBZmJOUGxYMG9mS2Y3OTNi?=
+ =?utf-8?B?cEZkZ1BYOGduTUsrRzFmbGJVTjFxQm1JSWEyUVU4U3M5MzBXcW8yZk5EM3pa?=
+ =?utf-8?B?UVZDLzFVVWl0dkdVY003VHVTSzFJTGF0MjZTQTFRaUxXMlZoR2lqRjc2ZFRv?=
+ =?utf-8?B?VTNwdUFURmNMRWJxQ2x5YWhZWENpKzhPUi9EMXdYQnBBbmxDVnlnY082T0N5?=
+ =?utf-8?B?TE8zaUwwbE5DRmpJNnd5OGNhUlkreDVwYjhFKy9pbVhRQm5PSmR1b09obUZI?=
+ =?utf-8?B?aWY5cTcrY0JZS05wZ0NpQUNoZzVyOTVEYk96MWdlSlhqNWFiZXU5ZjF5Ym9x?=
+ =?utf-8?B?c2pwTytYU2JRU1RNb3NNLzIvWHgrYjZHRHdyY2lQNkJOdFg1bnZhRHc4Q1R0?=
+ =?utf-8?B?V0JZNFQ0WG9RZlo5czVBUTFQR1ErTXNKd2RBZ3lwR2haZW5kdzEwVDRCSkpq?=
+ =?utf-8?B?b21QSEtZeHMzaGR5NHpaT2x3a3hUY2w4LzlKOGRYNGJEemk2U3FDVmdFN2ly?=
+ =?utf-8?B?dzQxZ0x2YTVhZmdvZFVBRHpkNjczZ2tYMENnTll0UW9uWUFYTHdIUEFaRHd1?=
+ =?utf-8?B?NVk3c3R4WW5rRWZnZUFoUzgzbi83QnYyTGxRNGJKMktMK0x1YktzK012SVJp?=
+ =?utf-8?B?Q0VYN3YzayttdFQxZi9BVGdadkJpRHJ0QUZoeWlvOUNseGlDNG9sM3ZEc05n?=
+ =?utf-8?B?bG9SZWZOYzRqVnJXaGplY29kVjJIQVNSOXMreFcwci9pWmNBRnhDUVBxd3RU?=
+ =?utf-8?Q?coDohtRn+aDk20VonMbkprN9W?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 932eb19d-3048-47c2-3a51-08dbdba6ec32
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Nov 2023 13:23:37.7794 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: wGQJT9QtreUdG0NtDEMZvAJBHDupJYxZoKdj1HHhpGcr9QJdyNBz9aXB8v9OgsUA
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB7881
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,138 +125,575 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Thomas.Hellstrom@linux.intel.com, felix.kuehling@amd.com,
+ brian.welty@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCAyMDIzLTExLTAyIGF0IDAwOjMxICswMTAwLCBEYW5pbG8gS3J1bW1yaWNoIHdyb3Rl
-Ogo+IEltcGxlbWVudCByZWZlcmVuY2UgY291bnRpbmcgZm9yIHN0cnVjdCBkcm1fZ3B1dm0uCj4g
-Cj4gU2lnbmVkLW9mZi1ieTogRGFuaWxvIEtydW1tcmljaCA8ZGFrckByZWRoYXQuY29tPgoKV2ls
-bCBwb3J0IHRoZSBYZSBzZXJpZXMgb3ZlciB0byBjaGVjayB0aGF0IGl0IHdvcmtzIHByb3Blcmx5
-IGFuZCBnZXQKYmFjayB3aXRoIHJldmlldyBvbiB0aGlzIG9uZS4KCgo+IC0tLQo+IMKgZHJpdmVy
-cy9ncHUvZHJtL2RybV9ncHV2bS5jwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8IDQ0ICsrKysrKysr
-KysrKysrKysrKystLS0tLQo+IC0tCj4gwqBkcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1
-X3V2bW0uYyB8IDIwICsrKysrKysrKy0tLQo+IMKgaW5jbHVkZS9kcm0vZHJtX2dwdXZtLmjCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfCAzMSArKysrKysrKysrKysrKysrKy0KPiDCoDMg
-ZmlsZXMgY2hhbmdlZCwgNzggaW5zZXJ0aW9ucygrKSwgMTcgZGVsZXRpb25zKC0pCj4gCj4gZGlm
-ZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZ3B1dm0uYwo+IGIvZHJpdmVycy9ncHUvZHJt
-L2RybV9ncHV2bS5jCj4gaW5kZXggNTNlMmM0MDZmYjA0Li42YTg4ZWFmYzUyMjkgMTAwNjQ0Cj4g
-LS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9ncHV2bS5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJt
-L2RybV9ncHV2bS5jCj4gQEAgLTc0Niw2ICs3NDYsOCBAQCBkcm1fZ3B1dm1faW5pdChzdHJ1Y3Qg
-ZHJtX2dwdXZtICpncHV2bSwgY29uc3QKPiBjaGFyICpuYW1lLAo+IMKgwqDCoMKgwqDCoMKgwqBn
-cHV2bS0+cmIudHJlZSA9IFJCX1JPT1RfQ0FDSEVEOwo+IMKgwqDCoMKgwqDCoMKgwqBJTklUX0xJ
-U1RfSEVBRCgmZ3B1dm0tPnJiLmxpc3QpOwo+IMKgCj4gK8KgwqDCoMKgwqDCoMKga3JlZl9pbml0
-KCZncHV2bS0+a3JlZik7Cj4gKwo+IMKgwqDCoMKgwqDCoMKgwqBncHV2bS0+bmFtZSA9IG5hbWUg
-PyBuYW1lIDogInVua25vd24iOwo+IMKgwqDCoMKgwqDCoMKgwqBncHV2bS0+ZmxhZ3MgPSBmbGFn
-czsKPiDCoMKgwqDCoMKgwqDCoMKgZ3B1dm0tPm9wcyA9IG9wczsKPiBAQCAtNzcwLDE1ICs3NzIs
-OCBAQCBkcm1fZ3B1dm1faW5pdChzdHJ1Y3QgZHJtX2dwdXZtICpncHV2bSwgY29uc3QKPiBjaGFy
-ICpuYW1lLAo+IMKgfQo+IMKgRVhQT1JUX1NZTUJPTF9HUEwoZHJtX2dwdXZtX2luaXQpOwo+IMKg
-Cj4gLS8qKgo+IC0gKiBkcm1fZ3B1dm1fZGVzdHJveSgpIC0gY2xlYW51cCBhICZkcm1fZ3B1dm0K
-PiAtICogQGdwdXZtOiBwb2ludGVyIHRvIHRoZSAmZHJtX2dwdXZtIHRvIGNsZWFuIHVwCj4gLSAq
-Cj4gLSAqIE5vdGUgdGhhdCBpdCBpcyBhIGJ1ZyB0byBjYWxsIHRoaXMgZnVuY3Rpb24gb24gYSBt
-YW5hZ2VyIHRoYXQKPiBzdGlsbAo+IC0gKiBob2xkcyBHUFUgVkEgbWFwcGluZ3MuCj4gLSAqLwo+
-IC12b2lkCj4gLWRybV9ncHV2bV9kZXN0cm95KHN0cnVjdCBkcm1fZ3B1dm0gKmdwdXZtKQo+ICtz
-dGF0aWMgdm9pZAo+ICtkcm1fZ3B1dm1fZmluaShzdHJ1Y3QgZHJtX2dwdXZtICpncHV2bSkKPiDC
-oHsKPiDCoMKgwqDCoMKgwqDCoMKgZ3B1dm0tPm5hbWUgPSBOVUxMOwo+IMKgCj4gQEAgLTc5MCw3
-ICs3ODUsMzMgQEAgZHJtX2dwdXZtX2Rlc3Ryb3koc3RydWN0IGRybV9ncHV2bSAqZ3B1dm0pCj4g
-wqAKPiDCoMKgwqDCoMKgwqDCoMKgZHJtX2dlbV9vYmplY3RfcHV0KGdwdXZtLT5yX29iaik7Cj4g
-wqB9Cj4gLUVYUE9SVF9TWU1CT0xfR1BMKGRybV9ncHV2bV9kZXN0cm95KTsKPiArCj4gK3N0YXRp
-YyB2b2lkCj4gK2RybV9ncHV2bV9mcmVlKHN0cnVjdCBrcmVmICprcmVmKQo+ICt7Cj4gK8KgwqDC
-oMKgwqDCoMKgc3RydWN0IGRybV9ncHV2bSAqZ3B1dm0gPSBjb250YWluZXJfb2Yoa3JlZiwgc3Ry
-dWN0Cj4gZHJtX2dwdXZtLCBrcmVmKTsKPiArCj4gK8KgwqDCoMKgwqDCoMKgaWYgKGRybV9XQVJO
-X09OKGdwdXZtLT5kcm0sICFncHV2bS0+b3BzLT52bV9mcmVlKSkKPiArwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgcmV0dXJuOwo+ICsKPiArwqDCoMKgwqDCoMKgwqBkcm1fZ3B1dm1fZmlu
-aShncHV2bSk7Cj4gKwo+ICvCoMKgwqDCoMKgwqDCoGdwdXZtLT5vcHMtPnZtX2ZyZWUoZ3B1dm0p
-Owo+ICt9Cj4gKwo+ICsvKioKPiArICogZHJtX2dwdXZtX2JvX3B1dCgpIC0gZHJvcCBhIHN0cnVj
-dCBkcm1fZ3B1dm0gcmVmZXJlbmNlCj4gKyAqIEBncHV2bTogdGhlICZkcm1fZ3B1dm0gdG8gcmVs
-ZWFzZSB0aGUgcmVmZXJlbmNlIG9mCj4gKyAqCj4gKyAqIFRoaXMgcmVsZWFzZXMgYSByZWZlcmVu
-Y2UgdG8gQGdwdXZtLgo+ICsgKi8KPiArdm9pZAo+ICtkcm1fZ3B1dm1fcHV0KHN0cnVjdCBkcm1f
-Z3B1dm0gKmdwdXZtKQo+ICt7Cj4gK8KgwqDCoMKgwqDCoMKgaWYgKGdwdXZtKQo+ICvCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBrcmVmX3B1dCgmZ3B1dm0tPmtyZWYsIGRybV9ncHV2bV9m
-cmVlKTsKPiArfQo+ICtFWFBPUlRfU1lNQk9MX0dQTChkcm1fZ3B1dm1fcHV0KTsKPiDCoAo+IMKg
-c3RhdGljIGludAo+IMKgX19kcm1fZ3B1dmFfaW5zZXJ0KHN0cnVjdCBkcm1fZ3B1dm0gKmdwdXZt
-LAo+IEBAIC04NDMsNyArODY0LDcgQEAgZHJtX2dwdXZhX2luc2VydChzdHJ1Y3QgZHJtX2dwdXZt
-ICpncHV2bSwKPiDCoMKgwqDCoMKgwqDCoMKgaWYgKHVubGlrZWx5KCFkcm1fZ3B1dm1fcmFuZ2Vf
-dmFsaWQoZ3B1dm0sIGFkZHIsIHJhbmdlKSkpCj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqByZXR1cm4gLUVJTlZBTDsKPiDCoAo+IC3CoMKgwqDCoMKgwqDCoHJldHVybiBfX2RybV9n
-cHV2YV9pbnNlcnQoZ3B1dm0sIHZhKTsKPiArwqDCoMKgwqDCoMKgwqByZXR1cm4gX19kcm1fZ3B1
-dmFfaW5zZXJ0KGRybV9ncHV2bV9nZXQoZ3B1dm0pLCB2YSk7Cj4gwqB9Cj4gwqBFWFBPUlRfU1lN
-Qk9MX0dQTChkcm1fZ3B1dmFfaW5zZXJ0KTsKPiDCoAo+IEBAIC04NzYsNiArODk3LDcgQEAgZHJt
-X2dwdXZhX3JlbW92ZShzdHJ1Y3QgZHJtX2dwdXZhICp2YSkKPiDCoMKgwqDCoMKgwqDCoMKgfQo+
-IMKgCj4gwqDCoMKgwqDCoMKgwqDCoF9fZHJtX2dwdXZhX3JlbW92ZSh2YSk7Cj4gK8KgwqDCoMKg
-wqDCoMKgZHJtX2dwdXZtX3B1dCh2YS0+dm0pOwo+IMKgfQo+IMKgRVhQT1JUX1NZTUJPTF9HUEwo
-ZHJtX2dwdXZhX3JlbW92ZSk7Cj4gwqAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL25v
-dXZlYXUvbm91dmVhdV91dm1tLmMKPiBiL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZlYXVf
-dXZtbS5jCj4gaW5kZXggNTRiZTEyYzEyNzJmLi5jYjJmMDY1NjVjNDYgMTAwNjQ0Cj4gLS0tIGEv
-ZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV91dm1tLmMKPiArKysgYi9kcml2ZXJzL2dw
-dS9kcm0vbm91dmVhdS9ub3V2ZWF1X3V2bW0uYwo+IEBAIC0xNzgwLDYgKzE3ODAsMTggQEAgbm91
-dmVhdV91dm1tX2JvX3VubWFwX2FsbChzdHJ1Y3Qgbm91dmVhdV9ibwo+ICpudmJvKQo+IMKgwqDC
-oMKgwqDCoMKgwqB9Cj4gwqB9Cj4gwqAKPiArc3RhdGljIHZvaWQKPiArbm91dmVhdV91dm1tX2Zy
-ZWUoc3RydWN0IGRybV9ncHV2bSAqZ3B1dm0pCj4gK3sKPiArwqDCoMKgwqDCoMKgwqBzdHJ1Y3Qg
-bm91dmVhdV91dm1tICp1dm1tID0gdXZtbV9mcm9tX2dwdXZtKGdwdXZtKTsKPiArCj4gK8KgwqDC
-oMKgwqDCoMKga2ZyZWUodXZtbSk7Cj4gK30KPiArCj4gK3N0YXRpYyBjb25zdCBzdHJ1Y3QgZHJt
-X2dwdXZtX29wcyBncHV2bV9vcHMgPSB7Cj4gK8KgwqDCoMKgwqDCoMKgLnZtX2ZyZWUgPSBub3V2
-ZWF1X3V2bW1fZnJlZSwKPiArfTsKPiArCj4gwqBpbnQKPiDCoG5vdXZlYXVfdXZtbV9pb2N0bF92
-bV9pbml0KHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsCj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB2b2lkICpkYXRhLAo+IEBAIC0xODMwLDcgKzE4
-NDIsNyBAQCBub3V2ZWF1X3V2bW1faW9jdGxfdm1faW5pdChzdHJ1Y3QgZHJtX2RldmljZQo+ICpk
-ZXYsCj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgTk9VVkVB
-VV9WQV9TUEFDRV9FTkQsCj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqAgaW5pdC0+a2VybmVsX21hbmFnZWRfYWRkciwKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBpbml0LT5rZXJuZWxfbWFuYWdlZF9zaXplLAo+IC3CoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgTlVMTCk7Cj4gK8KgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAmZ3B1dm1fb3BzKTsKPiDCoMKgwqDC
-oMKgwqDCoMKgLyogR1BVVk0gdGFrZXMgY2FyZSBmcm9tIGhlcmUgb24uICovCj4gwqDCoMKgwqDC
-oMKgwqDCoGRybV9nZW1fb2JqZWN0X3B1dChyX29iaik7Cj4gwqAKPiBAQCAtMTg0OSw4ICsxODYx
-LDcgQEAgbm91dmVhdV91dm1tX2lvY3RsX3ZtX2luaXQoc3RydWN0IGRybV9kZXZpY2UKPiAqZGV2
-LAo+IMKgwqDCoMKgwqDCoMKgwqByZXR1cm4gMDsKPiDCoAo+IMKgb3V0X2dwdXZtX2Zpbmk6Cj4g
-LcKgwqDCoMKgwqDCoMKgZHJtX2dwdXZtX2Rlc3Ryb3koJnV2bW0tPmJhc2UpOwo+IC3CoMKgwqDC
-oMKgwqDCoGtmcmVlKHV2bW0pOwo+ICvCoMKgwqDCoMKgwqDCoGRybV9ncHV2bV9wdXQoJnV2bW0t
-PmJhc2UpOwo+IMKgb3V0X3VubG9jazoKPiDCoMKgwqDCoMKgwqDCoMKgbXV0ZXhfdW5sb2NrKCZj
-bGktPm11dGV4KTsKPiDCoMKgwqDCoMKgwqDCoMKgcmV0dXJuIHJldDsKPiBAQCAtMTkwMiw3ICsx
-OTEzLDYgQEAgbm91dmVhdV91dm1tX2Zpbmkoc3RydWN0IG5vdXZlYXVfdXZtbSAqdXZtbSkKPiDC
-oAo+IMKgwqDCoMKgwqDCoMKgwqBtdXRleF9sb2NrKCZjbGktPm11dGV4KTsKPiDCoMKgwqDCoMKg
-wqDCoMKgbm91dmVhdV92bW1fZmluaSgmdXZtbS0+dm1tKTsKPiAtwqDCoMKgwqDCoMKgwqBkcm1f
-Z3B1dm1fZGVzdHJveSgmdXZtbS0+YmFzZSk7Cj4gLcKgwqDCoMKgwqDCoMKga2ZyZWUodXZtbSk7
-Cj4gK8KgwqDCoMKgwqDCoMKgZHJtX2dwdXZtX3B1dCgmdXZtbS0+YmFzZSk7Cj4gwqDCoMKgwqDC
-oMKgwqDCoG11dGV4X3VubG9jaygmY2xpLT5tdXRleCk7Cj4gwqB9Cj4gZGlmZiAtLWdpdCBhL2lu
-Y2x1ZGUvZHJtL2RybV9ncHV2bS5oIGIvaW5jbHVkZS9kcm0vZHJtX2dwdXZtLmgKPiBpbmRleCAw
-YzJlMjQxNTVhOTMuLjRlNmUxZmQzNDg1YSAxMDA2NDQKPiAtLS0gYS9pbmNsdWRlL2RybS9kcm1f
-Z3B1dm0uaAo+ICsrKyBiL2luY2x1ZGUvZHJtL2RybV9ncHV2bS5oCj4gQEAgLTI0Nyw2ICsyNDcs
-MTEgQEAgc3RydWN0IGRybV9ncHV2bSB7Cj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqBzdHJ1Y3QgbGlzdF9oZWFkIGxpc3Q7Cj4gwqDCoMKgwqDCoMKgwqDCoH0gcmI7Cj4gwqAKPiAr
-wqDCoMKgwqDCoMKgwqAvKioKPiArwqDCoMKgwqDCoMKgwqAgKiBAa3JlZjogcmVmZXJlbmNlIGNv
-dW50IG9mIHRoaXMgb2JqZWN0Cj4gK8KgwqDCoMKgwqDCoMKgICovCj4gK8KgwqDCoMKgwqDCoMKg
-c3RydWN0IGtyZWYga3JlZjsKPiArCj4gwqDCoMKgwqDCoMKgwqDCoC8qKgo+IMKgwqDCoMKgwqDC
-oMKgwqAgKiBAa2VybmVsX2FsbG9jX25vZGU6Cj4gwqDCoMKgwqDCoMKgwqDCoCAqCj4gQEAgLTI3
-Myw3ICsyNzgsMjMgQEAgdm9pZCBkcm1fZ3B1dm1faW5pdChzdHJ1Y3QgZHJtX2dwdXZtICpncHV2
-bSwKPiBjb25zdCBjaGFyICpuYW1lLAo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgIHU2NCBzdGFydF9vZmZzZXQsIHU2NCByYW5nZSwKPiDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoCB1NjQgcmVzZXJ2ZV9vZmZzZXQsIHU2NCByZXNlcnZlX3Jhbmdl
-LAo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGNvbnN0IHN0cnVjdCBk
-cm1fZ3B1dm1fb3BzICpvcHMpOwo+IC12b2lkIGRybV9ncHV2bV9kZXN0cm95KHN0cnVjdCBkcm1f
-Z3B1dm0gKmdwdXZtKTsKPiArCj4gKy8qKgo+ICsgKiBkcm1fZ3B1dm1fZ2V0KCkgLSBhY3F1aXJl
-IGEgc3RydWN0IGRybV9ncHV2bSByZWZlcmVuY2UKPiArICogQGdwdXZtOiB0aGUgJmRybV9ncHV2
-bSB0byBhY3F1aXJlIHRoZSByZWZlcmVuY2Ugb2YKPiArICoKPiArICogVGhpcyBmdW5jdGlvbiBh
-Y3F1aXJlcyBhbiBhZGRpdGlvbmFsIHJlZmVyZW5jZSB0byBAZ3B1dm0uIEl0IGlzCj4gaWxsZWdh
-bCB0bwo+ICsgKiBjYWxsIHRoaXMgd2l0aG91dCBhbHJlYWR5IGhvbGRpbmcgYSByZWZlcmVuY2Uu
-IE5vIGxvY2tzIHJlcXVpcmVkLgo+ICsgKi8KPiArc3RhdGljIGlubGluZSBzdHJ1Y3QgZHJtX2dw
-dXZtICoKPiArZHJtX2dwdXZtX2dldChzdHJ1Y3QgZHJtX2dwdXZtICpncHV2bSkKPiArewo+ICvC
-oMKgwqDCoMKgwqDCoGtyZWZfZ2V0KCZncHV2bS0+a3JlZik7Cj4gKwo+ICvCoMKgwqDCoMKgwqDC
-oHJldHVybiBncHV2bTsKPiArfQo+ICsKPiArdm9pZCBkcm1fZ3B1dm1fcHV0KHN0cnVjdCBkcm1f
-Z3B1dm0gKmdwdXZtKTsKPiDCoAo+IMKgYm9vbCBkcm1fZ3B1dm1fcmFuZ2VfdmFsaWQoc3RydWN0
-IGRybV9ncHV2bSAqZ3B1dm0sIHU2NCBhZGRyLCB1NjQKPiByYW5nZSk7Cj4gwqBib29sIGRybV9n
-cHV2bV9pbnRlcnZhbF9lbXB0eShzdHJ1Y3QgZHJtX2dwdXZtICpncHV2bSwgdTY0IGFkZHIsIHU2
-NAo+IHJhbmdlKTsKPiBAQCAtNjczLDYgKzY5NCwxNCBAQCBzdGF0aWMgaW5saW5lIHZvaWQgZHJt
-X2dwdXZhX2luaXRfZnJvbV9vcChzdHJ1Y3QKPiBkcm1fZ3B1dmEgKnZhLAo+IMKgICogb3BlcmF0
-aW9ucyB0byBkcml2ZXJzLgo+IMKgICovCj4gwqBzdHJ1Y3QgZHJtX2dwdXZtX29wcyB7Cj4gK8Kg
-wqDCoMKgwqDCoMKgLyoqCj4gK8KgwqDCoMKgwqDCoMKgICogQHZtX2ZyZWU6IGNhbGxlZCB3aGVu
-IHRoZSBsYXN0IHJlZmVyZW5jZSBvZiBhIHN0cnVjdAo+IGRybV9ncHV2bSBpcwo+ICvCoMKgwqDC
-oMKgwqDCoCAqIGRyb3BwZWQKPiArwqDCoMKgwqDCoMKgwqAgKgo+ICvCoMKgwqDCoMKgwqDCoCAq
-IFRoaXMgY2FsbGJhY2sgaXMgbWFuZGF0b3J5Lgo+ICvCoMKgwqDCoMKgwqDCoCAqLwo+ICvCoMKg
-wqDCoMKgwqDCoHZvaWQgKCp2bV9mcmVlKShzdHJ1Y3QgZHJtX2dwdXZtICpncHV2bSk7Cj4gKwo+
-IMKgwqDCoMKgwqDCoMKgwqAvKioKPiDCoMKgwqDCoMKgwqDCoMKgICogQG9wX2FsbG9jOiBjYWxs
-ZWQgd2hlbiB0aGUgJmRybV9ncHV2bSBhbGxvY2F0ZXMKPiDCoMKgwqDCoMKgwqDCoMKgICogYSBz
-dHJ1Y3QgZHJtX2dwdXZhX29wCgo=
+Am 02.11.23 um 05:32 schrieb Oak Zeng:
+> drm LRU manager is introuced for resource eviction purpose. It maintains
+> a LRU list per resource type.
+
+Shouldn't we first add the possible resource types in a separate patch?
+
+>   It provides functions to add or remove
+> resource to or from the list. It also provides function to retrieve the
+> first entity on the LRU list.
+
++ functions to iterate over them.
+
+>
+> drm LRU manager also provides functions for bulk moving resources
+> on the LRU lists.
+>
+> drm LRU manager also does very basic memory accounting function, i.e.,
+> LRU manager keeps a size of this resource type and a usage member
+> for how much of resource has been added to this LRU manager's LRU
+> list. TTM resource manager memory accounting functoins such as
+> struct ttm_resource_manager::size and struct ttm_resource_manger::usage
+> are still kept. In the future, when SVM codes are in the picture,
+> those memory accounting functions need some rework to consider
+> the memory used by both TTM and SVM.
+
+Please keep in mind that this structure needs to extremely small to be 
+usable for SVM. E.g. struct page size small :)
+
+At least HMM based implementations ideally wants to have one for each 
+page or something like that.
+
+> For one device, a global drm LRU manager per resource type should be
+> created/initialized at device initialization time. Drm LRU manager
+> instances are embedded in struct drm_device.
+>
+> It is pretty much moving some of the ttm resource manager functions
+> to the drm layer. The reason of this code refactory is, we want to
+> create a single LRU list for memory allocated from BO(buffer object)
+> based driver and hmm/svm(shared virtual memory) based driver, thus BO
+> driver and svm driver can evict memory from each other.
+>
+> Previously the LRU list in TTM resource manager (lru field in struct
+> ttm_reource_manager) is coupled with ttm_buffer_object concept, i.e.,
+> each ttm resource is backed by a ttm_buffer_object and the LRU list
+> is essentially a list of ttm_buffer_object.
+
+Actually it's the other way around. The resource provides the backing of 
+the BO.
+
+And when a BO moves around it can temporary be that multiple resource 
+point to the same BO.
+
+I also want to have a more advanced iterator at some point where we grab 
+the BO lock for keeping a reference into the LRU list. Not sure how to 
+do this if we don't have the BO here any more.
+
+Need to think about that further,
+Christian.
+
+>   Due to this behavior, the
+> TTM resource manager can't be used by hmm/svm driver as we don't plan
+> to have the BO concept for the hmm/svm implemenation. So we decouple
+> the evictable LRU list from the BO concept in this series.
+>
+> The design goal of drm lru manager is to make it as lean as possible.
+> So each lru entity only has a list node member used to link this entity
+> to the evictable LRU list, and the basic resource size/type/priority
+> of this entity. It doesn't have any driver specify information. A lru
+> entity also has a function pointer of evict function. This is used to
+> implement ttm or svm specific eviction function. A lru entity is supposed
+> to be embedded in a driver specific structure such as struct
+> ttm_resource, see the usage in the next patch of this series.
+>
+> The ttm resource manager, and some of the ttm_bo functions such as
+> ttm_mem_evict_first will be rewriten using the new drm lru manager
+> library, see the next patch in this series.
+>
+> The future hmm/svm implemenation will call lru manager function to add
+> hmm/svm allocations to the shared evictable lru list.
+>
+> Lock design: previously ttm_resource LRU list is protected by a device
+> global ttm_device::lru_lock (bdev->lru_lock in codes). This lock also
+> protects ttm_buffer_object::pin_count, ttm_resource_manager::usage,
+> ttm_resource::bo, ttm_device::pinned list etc. With this refactory,
+> lru_lock is moved out of ttm_device and is added to struct drm_deive, so
+> it can be shared b/t ttm code and svm code.
+>
+> Signed-off-by: Oak Zeng <oak.zeng@intel.com>
+> ---
+>   drivers/gpu/drm/Makefile            |   1 +
+>   drivers/gpu/drm/drm_evictable_lru.c | 232 ++++++++++++++++++++++++++++
+>   include/drm/drm_device.h            |   7 +
+>   include/drm/drm_evictable_lru.h     | 188 ++++++++++++++++++++++
+>   4 files changed, 428 insertions(+)
+>   create mode 100644 drivers/gpu/drm/drm_evictable_lru.c
+>   create mode 100644 include/drm/drm_evictable_lru.h
+>
+> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+> index 1ad88efb1752..13953b0d271b 100644
+> --- a/drivers/gpu/drm/Makefile
+> +++ b/drivers/gpu/drm/Makefile
+> @@ -46,6 +46,7 @@ drm-y := \
+>   	drm_vblank_work.o \
+>   	drm_vma_manager.o \
+>   	drm_gpuva_mgr.o \
+> +	drm_evictable_lru.o \
+>   	drm_writeback.o
+>   drm-$(CONFIG_DRM_LEGACY) += \
+>   	drm_agpsupport.o \
+> diff --git a/drivers/gpu/drm/drm_evictable_lru.c b/drivers/gpu/drm/drm_evictable_lru.c
+> new file mode 100644
+> index 000000000000..2ba9105cca03
+> --- /dev/null
+> +++ b/drivers/gpu/drm/drm_evictable_lru.c
+> @@ -0,0 +1,232 @@
+> +// SPDX-License-Identifier: MIT
+> +/*
+> + * Copyright © 2023 Intel Corporation
+> + */
+> +
+> +#include <linux/lockdep.h>
+> +#include <linux/container_of.h>
+> +#include <drm/drm_evictable_lru.h>
+> +#include <drm/drm_device.h>
+> +
+> +static inline struct drm_lru_mgr *entity_to_mgr(struct drm_lru_entity *entity)
+> +{
+> +	struct drm_lru_mgr *mgr;
+> +
+> +	mgr = &entity->drm->lru_mgr[entity->mem_type];
+> +	BUG_ON(!mgr->used);
+> +
+> +	return mgr;
+> +}
+> +
+> +void drm_lru_entity_init(struct drm_lru_entity *entity, struct drm_device *drm,
+> +			uint32_t mem_type, uint64_t size, uint32_t priority)
+> +{
+> +	entity->drm = drm;
+> +	entity->mem_type = mem_type;
+> +	entity->size = size;
+> +	entity->priority = priority;
+> +	INIT_LIST_HEAD(&entity->lru);
+> +}
+> +
+> +/**
+> + * drm_lru_mgr_init
+> + *
+> + * @mgr: drm lru manager to init
+> + * @size: size of the resource managed by this manager
+> + * @lock: pointer of the global lru_lock
+> + *
+> + * Initialize a drm lru manager
+> + */
+> +void drm_lru_mgr_init(struct drm_lru_mgr *mgr, uint64_t size, spinlock_t *lock)
+> +{
+> +	unsigned j;
+> +
+> +	mgr->used = true;
+> +	mgr->size = size;
+> +	mgr->usage = 0;
+> +	mgr->lru_lock = lock;
+> +
+> +	for(j = 0; j < DRM_MAX_LRU_PRIORITY; j++)
+> +		INIT_LIST_HEAD(&mgr->lru[j]);
+> +}
+> +
+> +void drm_lru_bulk_move_init(struct drm_lru_bulk_move *bulk_move)
+> +{
+> +	memset(bulk_move, 0, sizeof(*bulk_move));
+> +}
+> +
+> +/**
+> + * drm_lru_first
+> + *
+> + * @mgr: drm lru manager to iterate over
+> + * @cursor: cursor of the current position
+> + *
+> + * Returns the first entity in drm lru manager
+> + */
+> +struct drm_lru_entity *
+> +drm_lru_first(struct drm_lru_mgr *mgr, struct drm_lru_cursor *cursor)
+> +{
+> +	struct drm_lru_entity *entity;
+> +
+> +	lockdep_assert_held(mgr->lru_lock);
+> +
+> +	for(cursor->priority = 0; cursor->priority < DRM_MAX_LRU_PRIORITY; ++cursor->priority)
+> +		list_for_each_entry(entity, &mgr->lru[cursor->priority], lru)
+> +			return entity;
+> +
+> +	return NULL;
+> +}
+> +
+> +/**
+> + * drm_lru_next
+> + *
+> + * @mgr: drm lru manager to iterate over
+> + * @cursor: cursor of the current position
+> + * @entity: the current lru entity pointer
+> + *
+> + * Returns the next entity from drm lru manager
+> + */
+> +struct drm_lru_entity *
+> +drm_lru_next(struct drm_lru_mgr *mgr, struct drm_lru_cursor *cursor,
+> +		struct drm_lru_entity *entity)
+> +{
+> +	lockdep_assert_held(mgr->lru_lock);
+> +
+> +	list_for_each_entry_continue(entity, &mgr->lru[cursor->priority], lru)
+> +		return entity;
+> +
+> +	for(++cursor->priority; cursor->priority < DRM_MAX_LRU_PRIORITY; ++cursor->priority)
+> +		list_for_each_entry(entity, &mgr->lru[cursor->priority], lru)
+> +			return entity;
+> +
+> +	return NULL;
+> +}
+> +
+> +/**
+> + * drm_lru_move_to_tail
+> + *
+> + * @entity: the lru entity to move to lru tail
+> + *
+> + * Move a lru entity to lru tail
+> + */
+> +void drm_lru_move_to_tail(struct drm_lru_entity * entity)
+> +{
+> +	struct list_head *lru;
+> +	struct drm_lru_mgr *mgr;
+> +
+> +	mgr = entity_to_mgr(entity);
+> +	lockdep_assert_held(mgr->lru_lock);
+> +	lru = &mgr->lru[entity->priority];
+> +	list_move_tail(&entity->lru, lru);
+> +}
+> +
+> +/**
+> + * drm_lru_bulk_move_range_tail
+> + *
+> + * @range: bulk move range
+> + * @entity: lru_entity to move
+> + *
+> + * Move a lru_entity to the tail of a bulk move range
+> + */
+> +void drm_lru_bulk_move_range_tail(struct drm_lru_bulk_move_range *range,
+> +									struct drm_lru_entity *entity)
+> +{
+> +	if (entity == range->last)
+> +		return;
+> +
+> +	if (entity == range->first)
+> +		range->first = container_of(entity->lru.next, struct drm_lru_entity, lru);
+> +
+> +	if (range->last)
+> +		list_move(&entity->lru, &range->last->lru);
+> +
+> +	range->last = entity;
+> +}
+> +EXPORT_SYMBOL(drm_lru_bulk_move_range_tail);
+> +
+> +/**
+> + * drm_lru_bulk_move_tail - bulk move range of entities to the LRU tail.
+> + *
+> + * @bulk: bulk_move structure
+> + *
+> + * Bulk move entities to the LRU tail, only valid to use when driver makes sure that
+> + * resource order never changes.
+> + */
+> +void drm_lru_bulk_move_tail(struct drm_lru_bulk_move *bulk)
+> +{
+> +
+> +	unsigned i, j;
+> +
+> +	for (i = 0; i < DRM_NUM_MEM_TYPES; ++i) {
+> +		for (j = 0; j < DRM_MAX_LRU_PRIORITY; ++j) {
+> +			struct drm_lru_bulk_move_range *range = &bulk->range[i][j];
+> +			struct drm_lru_mgr *mgr;
+> +
+> +			if (!range->first)
+> +				continue;
+> +
+> +			mgr = entity_to_mgr(range->first);
+> +			lockdep_assert_held(mgr->lru_lock);
+> +			list_bulk_move_tail(&mgr->lru[range->first->priority], &range->first->lru,
+> +					&range->last->lru);
+> +		}
+> +	}
+> +}
+> +EXPORT_SYMBOL(drm_lru_bulk_move_tail);
+> +
+> +/**
+> + * drm_lru_add_bulk_move
+> + *
+> + * @entity: the lru entity to add to the bulk move range
+> + * @bulk_move: the bulk move ranges to add the entity
+> + *
+> + * Add a lru entity to the tail of a bulk move range
+> + */
+> +void drm_lru_add_bulk_move(struct drm_lru_entity *entity,
+> +						struct drm_lru_bulk_move *bulk_move)
+> +{
+> +	struct drm_lru_bulk_move_range *range;
+> +
+> +	range = &bulk_move->range[entity->mem_type][entity->priority];
+> +
+> +	if (!range->first) {
+> +		range->first = entity;
+> +		range->last = entity;
+> +		return;
+> +	}
+> +
+> +	drm_lru_bulk_move_range_tail(range, entity);
+> +}
+> +
+> +EXPORT_SYMBOL(drm_lru_add_bulk_move);
+> +/**
+> + * drm_lru_del_bulk_move
+> + *
+> + * @entity: the lru entity to move from the bulk move range
+> + * @bulk_move: the bulk move ranges to move the entity out of
+> + *
+> + * Move a lru entity out of bulk move range. This doesn't
+> + * delete entity from lru manager's lru list.
+> + */
+> +void drm_lru_del_bulk_move(struct drm_lru_entity *entity,
+> +					struct drm_lru_bulk_move *bulk_move)
+> +{
+> +	struct drm_lru_bulk_move_range *range;
+> +
+> +	range = &bulk_move->range[entity->mem_type][entity->priority];
+> +
+> +	if (unlikely(WARN_ON(!range->first || !range->last) ||
+> +			(range->first == entity && range->last == entity))) {
+> +		range->first = NULL;
+> +		range->last = NULL;
+> +	} else if (range->first == entity) {
+> +		range->first = container_of(entity->lru.next,
+> +				struct drm_lru_entity, lru);
+> +	} else if (range->last == entity) {
+> +		range->last = container_of(entity->lru.prev,
+> +				struct drm_lru_entity, lru);
+> +	} else {
+> +		list_move(&entity->lru, &range->last->lru);
+> +	}
+> +}
+> +EXPORT_SYMBOL(drm_lru_del_bulk_move);
+> diff --git a/include/drm/drm_device.h b/include/drm/drm_device.h
+> index d0b5f42786be..1bdcd34d3f6b 100644
+> --- a/include/drm/drm_device.h
+> +++ b/include/drm/drm_device.h
+> @@ -8,6 +8,7 @@
+>   
+>   #include <drm/drm_legacy.h>
+>   #include <drm/drm_mode_config.h>
+> +#include <drm/drm_evictable_lru.h>
+>   
+>   struct drm_driver;
+>   struct drm_minor;
+> @@ -331,6 +332,12 @@ struct drm_device {
+>   	 */
+>   	spinlock_t lru_lock;
+>   
+> +	/**
+> +	 * @lru_mgr: Device global lru managers per memory type or memory
+> +	 * region. Each lru manager manages a lru list of this memory type.
+> +	 */
+> +	struct drm_lru_mgr lru_mgr[DRM_NUM_MEM_TYPES];
+> +
+>   	/* Everything below here is for legacy driver, never use! */
+>   	/* private: */
+>   #if IS_ENABLED(CONFIG_DRM_LEGACY)
+> diff --git a/include/drm/drm_evictable_lru.h b/include/drm/drm_evictable_lru.h
+> new file mode 100644
+> index 000000000000..3fd6bd2475d9
+> --- /dev/null
+> +++ b/include/drm/drm_evictable_lru.h
+> @@ -0,0 +1,188 @@
+> +// SPDX-License-Identifier: MIT
+> +/*
+> + * Copyright © 2023 Intel Corporation
+> + */
+> +
+> +#ifndef _DRM_EVICTABLE_LRU_H_
+> +#define _DRM_EVICTABLE_LRU_H_
+> +
+> +#include <linux/list.h>
+> +#include <linux/spinlock_types.h>
+> +#include <linux/spinlock.h>
+> +
+> +struct drm_device;
+> +
+> +#define DRM_MAX_LRU_PRIORITY 4
+> +#define DRM_NUM_MEM_TYPES 8
+> +
+> +/**
+> + * struct drm_lru_entity
+> + *
+> + * @drm: drm device that this entity belongs to
+> + * @mem_type: The memory type that this entity belongs to
+> + * @size: resource size of this entity
+> + * @priority: The priority of this entity
+> + * @lru: least recent used list node, see &drm_lru_mgr.lru
+> + *
+> + * This structure represents an entity in drm_lru_mgr's
+> + * list. This structure is supposed to be embedded in
+> + * user's data structure.
+> + */
+> +struct drm_lru_entity {
+> +	struct drm_device *drm;
+> +	uint32_t mem_type;
+> +	uint64_t size;
+> +	uint32_t priority;
+> +	struct list_head lru;
+> +};
+> +
+> +/**
+> + * struct drm_lru_mgr
+> + *
+> + * @used: whether this lru manager is used or not
+> + * @size: size of the resource
+> + * @usage: how much resource has been used
+> + * @lru_lock: a weak reference to the global lru_lock
+> + * @lru: least recent used list, per priority
+> + *
+> + * This structure maintains all the buffer allocations
+> + * in a least recent used list, so a victim for eviction
+> + * can be easily found.
+> + */
+> +struct drm_lru_mgr {
+> +	bool used;
+> +	uint64_t size;
+> +	uint64_t usage;
+> +	spinlock_t *lru_lock;
+> +	struct list_head lru[DRM_MAX_LRU_PRIORITY];
+> +};
+> +
+> +/**
+> + * struct drm_lru_cursor
+> + *
+> + * @priority: the current priority
+> + *
+> + * Cursor to iterate over all entities in lru manager.
+> + */
+> +struct drm_lru_cursor {
+> +	unsigned priority;
+> +};
+> +
+> +/**
+> + * struct drm_lru_bulk_move_range
+> + *
+> + * @first: the first entity in the range
+> + * @last: the last entity in the range
+> + *
+> + * Range of entities on a lru list.
+> + */
+> +struct drm_lru_bulk_move_range
+> +{
+> +	struct drm_lru_entity *first;
+> +	struct drm_lru_entity *last;
+> +};
+> +
+> +/**
+> + * struct drm_lru_bulk_move
+> + *
+> + * @range: An array of bulk move range, each corelates to the drm_lru_mgr's
+> + * lru list of the same memory type and same priority.
+> + *
+> + * A collection of bulk_move range which can be used to move drm_lru_entity
+> + * on the lru list in a bulk way. It should be initialized through
+> + * drm_lru_bulk_move_init. Add/delete a drm_lru_entity to bulk move should call
+> + * drm_lru_add_bulk_move/drm_lru_del_bulk_move.
+> + */
+> +struct drm_lru_bulk_move {
+> +	struct drm_lru_bulk_move_range range[DRM_NUM_MEM_TYPES][DRM_MAX_LRU_PRIORITY];
+> +};
+> +
+> +
+> +
+> +/**
+> + * drm_lru_add_entity
+> + *
+> + * @entity: the lru entity to add
+> + * @mgr: the drm lru manager
+> + * @priority: specify which priority list to add
+> + *
+> + * Add an entity to lru list
+> + */
+> +static inline void drm_lru_add_entity(struct drm_lru_entity *entity,
+> +		struct drm_lru_mgr *mgr, unsigned priority)
+> +{
+> +	lockdep_assert_held(mgr->lru_lock);
+> +	list_add_tail(&entity->lru, &mgr->lru[priority]);
+> +	mgr->usage += entity->size;
+> +}
+> +
+> +/**
+> + * drm_lru_remove_entity
+> + *
+> + * @entity: the lru entity to remove
+> + * @mgr: the drm lru manager
+> + *
+> + * Remove an entity from lru list
+> + */
+> +static inline void drm_lru_remove_entity(struct drm_lru_entity *entity,
+> +		struct drm_lru_mgr *mgr)
+> +{
+> +	lockdep_assert_held(mgr->lru_lock);
+> +	list_del_init(&entity->lru);
+> +	mgr->usage -= entity->size;
+> +}
+> +
+> +/**
+> + * drm_lru_mgr_fini
+> + *
+> + * @mgr: the drm lru manager
+> + *
+> + * de-initialize a lru manager
+> + */
+> +static inline void drm_lru_mgr_fini(struct drm_lru_mgr *mgr)
+> +{
+> +	mgr->used = false;
+> +}
+> +
+> +void drm_lru_entity_init(struct drm_lru_entity *entity, struct drm_device *drm,
+> +			uint32_t mem_type, uint64_t size, uint32_t priority);
+> +
+> +struct drm_lru_entity *
+> +drm_lru_first(struct drm_lru_mgr *mgr, struct drm_lru_cursor *cursor);
+> +
+> +struct drm_lru_entity *
+> +drm_lru_next(struct drm_lru_mgr *mgr, struct drm_lru_cursor *cursor,
+> +		struct drm_lru_entity *entity);
+> +
+> +void drm_lru_mgr_init(struct drm_lru_mgr *mgr, uint64_t size,
+> +		spinlock_t *lru_lock);
+> +
+> +void drm_lru_move_to_tail(struct drm_lru_entity * entity);
+> +
+> +void drm_lru_bulk_move_init(struct drm_lru_bulk_move *bulk_move);
+> +
+> +
+> +void drm_lru_bulk_move_tail(struct drm_lru_bulk_move *bulk);
+> +
+> +void drm_lru_bulk_move_range_tail(struct drm_lru_bulk_move_range *range,
+> +		struct drm_lru_entity *entity);
+> +
+> +void drm_lru_add_bulk_move(struct drm_lru_entity *entity,
+> +		struct drm_lru_bulk_move *bulk_move);
+> +
+> +void drm_lru_del_bulk_move(struct drm_lru_entity *entity,
+> +		struct drm_lru_bulk_move *bulk_move);
+> +/**
+> + * drm_lru_for_each_entity
+> + *
+> + * @mgr: the drm lru manager
+> + * @cursor: cursor for the current position
+> + * @entity: the current drm_lru_entity
+> + *
+> + * Iterate over all entities in drm lru manager
+> + */
+> +#define drm_lru_for_each_entity(mgr, cursor, entity)		\
+> +	for (entity = drm_lru_first(mgr, cursor); entity;	\
+> +	     entity = drm_lru_next(mgr, cursor, entity))
+> +
+> +#endif
 
