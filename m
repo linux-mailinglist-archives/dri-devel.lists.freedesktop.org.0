@@ -1,62 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 494B17DF93F
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Nov 2023 18:57:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C7677DF9AC
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Nov 2023 19:12:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4402210E97B;
-	Thu,  2 Nov 2023 17:57:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9734210E5F0;
+	Thu,  2 Nov 2023 18:12:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com
- [IPv6:2607:f8b0:4864:20::32e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C126210E978;
- Thu,  2 Nov 2023 17:57:24 +0000 (UTC)
-Received: by mail-ot1-x32e.google.com with SMTP id
- 46e09a7af769-6ce353df504so634658a34.3; 
- Thu, 02 Nov 2023 10:57:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1698947844; x=1699552644; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=8Zmxt6jWHSk0ufE+QEoUUpI6OvaXUdy9+PMpDjlbgbE=;
- b=PN7EBf1DOn3XHnJVxtKpZDgahXu5paNBrpJR38pdrm6xKxOk0CBKqxTDx9umgONFZG
- 0iNuKGC4Cj9IVrblPnIAzN1FedS5Tss2lLZaOHRa78YWyZ7Tpyff62la+5rakskIz7CY
- LdAqzBOb0TAmuE+N5xHL7sc7mBEUKcawJnvZCW7nkr81dEX74d4529sl4qvd0AzzcAXp
- RFHOrX8bX+eNLJ2iP+4c41Ifvr75LenCeRKCUsJf2EsSKBTTxS6L4EJMviDLr1o70uxR
- ckuXV2hoX8a6CCMwzjTW28dZ5P8yTMlSYZeVgUsLLyV6FaORZIAs3h+M581QA+WQKLV0
- ztTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1698947844; x=1699552644;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=8Zmxt6jWHSk0ufE+QEoUUpI6OvaXUdy9+PMpDjlbgbE=;
- b=LotG7PIn9nDT3Uh4gVJ3W1f4u5dgvyHbghPCFmsK7X+qmGpDxuaFjwyMWq+ewdede7
- JQW4QOI2DknFzpqRAnVHW6oTIAwXPc2zKpNhKe8SGQ20hvFYvYwozFUeXBc8zIKwhwVY
- ur31V/0uqNaFI2sfXzq75nl8k2DhRdqkC/L+FmnbZoIs9BZ5a7eyX2r/ZscYrNGg8Jvt
- Mv3NbdXB/0nG5/Z0SXgGhtJS3fL2BbqkVFIAcoMDNf9/jxul+De8KVrU7agQDV5OYVAr
- zqTNKEGpavUcJtI255CkKP1tL4Oc2DjPaKTEGQbWDb/2yJ8LRV8o6JlbssxXArIudcDH
- itBA==
-X-Gm-Message-State: AOJu0YxG7PWYUJpBM1rWHRK31feCxpD2UPtAMHPGuhVhXRw+UGjYdQnk
- 8Km3h9TCw/vFzYli/riza/PYJzHelJGAl/jg+Dw=
-X-Google-Smtp-Source: AGHT+IEzDqhOut1KREmFrWLe+QG/NITaNhdTFcbHjufmkoxmoYPpZ7zZ11VJWIqQKnQGyX9v9BIiLWnuBQEeAkHRqzQ=
-X-Received: by 2002:a05:6870:815:b0:1e9:9c39:a580 with SMTP id
- fw21-20020a056870081500b001e99c39a580mr22766888oab.7.1698947843923; Thu, 02
- Nov 2023 10:57:23 -0700 (PDT)
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A61910E96A
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Nov 2023 18:00:32 +0000 (UTC)
+Received: from smtp2.mailbox.org (smtp2.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::2])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4SLs9S5WDgz9sQv;
+ Thu,  2 Nov 2023 19:00:28 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=craftyguy.net;
+ s=MBO0001; t=1698948029;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=XQq4M4XAb8Wj0/P1H+vReK8gvikH2R+gRwxOmOIRtvs=;
+ b=M74p3JmWm9YR5+pq1pYRVEqjqhSx3N076S3faW7YvXlhljkckcXnpI+sPJD1Iy/XDuAOg/
+ b16Dmz8JkLdPC5taj+eqmzTa2s+A69g14sxQ28ppzmC3Satabs/jHYAqTjSIwW90kqNhg8
+ PziosFirP+yXjoORZErx8F829PQbxP9NF13VwlnP0aENljWagpPAkNiR8aoFnTHuhdV9v4
+ SF/9DcgarO9yKW65iFloTiEOFb7smU/2Kki5YhdSKdZqC/rHRFy/vlf+aIMAat5sDpvcRT
+ cMktMC4aLprDpyjY5oQWgBbN7m3x3S+i9EQ5Q8rSd83dI5OoYH+pOr3i4WwRlw==
+Date: Thu, 2 Nov 2023 11:00:23 -0700
+Message-ID: <20231102110023.GH14639@craftyguy.net>
+From: Clayton Craft <clayton@craftyguy.net>
+To: Jessica Zhang <quic_jesszhan@quicinc.com>
+Subject: Re: [PATCH] drm/panel-edp: Add timings for BOE NV133WUM-N63
+In-Reply-To: <631454b9-9f50-4cad-a58e-b9ea9dead421@quicinc.com>
+References: <20231028021910.24031-1-clayton@craftyguy.net>
+ <631454b9-9f50-4cad-a58e-b9ea9dead421@quicinc.com>
 MIME-Version: 1.0
-References: <20231102-amdgpu-dml2-increase-frame-size-warning-for-clang-v2-1-b088a718131a@kernel.org>
-In-Reply-To: <20231102-amdgpu-dml2-increase-frame-size-warning-for-clang-v2-1-b088a718131a@kernel.org>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 2 Nov 2023 13:57:12 -0400
-Message-ID: <CADnq5_O_V7mxRP4PWv8+M0GaHb42N00NoyQqN-GiX0HKSgaS+A@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/amd/display: Increase frame warning limit with
- KASAN or KCSAN in dml2
-To: Nathan Chancellor <nathan@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; boundary="4gQ4uxxJyh1jXvVV";
+ micalg="pgp-sha512"; protocol="application/pgp-signature"
+X-Rspamd-Queue-Id: 4SLs9S5WDgz9sQv
+X-Mailman-Approved-At: Thu, 02 Nov 2023 18:12:33 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,106 +55,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ndesaulniers@google.com, llvm@lists.linux.dev, sunpeng.li@amd.com,
- trix@redhat.com, Xinhui.Pan@amd.com, Rodrigo.Siqueira@amd.com,
- patches@lists.linux.dev, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, alexander.deucher@amd.com,
- christian.koenig@amd.com
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 2, 2023 at 1:41=E2=80=AFPM Nathan Chancellor <nathan@kernel.org=
-> wrote:
->
-> When building ARCH=3Dx86_64 allmodconfig with clang, which will typically
-> have sanitizers enabled, there is a warning about a large stack frame.
->
->   drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/display_mode_core.c:6265:=
-13: error: stack frame size (2520) exceeds limit (2048) in 'dml_prefetch_ch=
-eck' [-Werror,-Wframe-larger-than]
->    6265 | static void dml_prefetch_check(struct display_mode_lib_st *mode=
-_lib)
->         |             ^
->   1 error generated.
->
-> Notably, GCC 13.2.0 does not do too much of a better job, as it is right
-> at the current limit of 2048 (and others have reported being over with
-> older GCC versions):
->
->   drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/display_mode_core.c: In f=
-unction 'dml_prefetch_check':
->   drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/display_mode_core.c:6705:=
-1: error: the frame size of 2048 bytes is larger than 1800 bytes [-Werror=
-=3Dframe-larger-than=3D]
->    6705 | }
->         | ^
->
-> In the past, these warnings have been avoided by reducing the number of
-> parameters to various functions so that not as many arguments need to be
-> passed on the stack. However, these patches take a good amount of effort
-> to write despite being mechanical due to code structure and complexity
-> and they are never carried forward to new generations of the code so
-> that effort has to be expended every new hardware generation, which
-> becomes harder to justify as time goes on.
->
-> To avoid having a noticeable or lengthy breakage in all{mod,yes}config,
-> which are easy testing targets that have -Werror enabled, increase the
-> limit for configurations that have KASAN or KCSAN enabled by 50% so that
-> cases of extremely poor code generation can still be caught while not
-> breaking the majority of builds. CONFIG_KMSAN also causes high stack
-> usage but the frame limit is already set to zero when it is enabled,
-> which is accounted for by the check for CONFIG_FRAME_WARN=3D0 in the dml2
-> Makefile.
->
-> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
-> ---
-> If there is another DRM pull before 6.7-rc1, it would be much
-> appreciated if this could make that so that other trees are not
-> potentially broken by this. If not, no worries, as it was my fault for
-> not sending this sooner.
 
-Applied.  Thanks!  Will send out a PR this week.
+--4gQ4uxxJyh1jXvVV
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: base64
 
-Alex
+T24gTW9uLCAzMCBPY3QgMjAyMyAxMzo1ODozMSAtMDcwMCBKZXNzaWNhIFpoYW5nIDxxdWljX2pl
+c3N6aGFuQHF1aWNpbmMuY29tPiB3cm90ZToKPiAKPiAKPiBPbiAxMC8yNy8yMDIzIDc6MTkgUE0s
+IENsYXl0b24gQ3JhZnQgd3JvdGU6Cj4gPiBUaGlzIHBhbmVsIGlzIGZvdW5kIG9uIGxhcHRvcHMg
+ZS5nLiwgdmFyaWFudHMgb2YgdGhlIFRoaW5rcGFkIFgxM3MuCj4gPiBDb25maWd1cmF0aW9uIHdh
+cyBjb2xsZWN0ZWQgZnJvbSB0aGUgcGFuZWwncyBFRElELgo+IAo+IEhpIENsYXl0b24sCj4gCj4g
+VGhhbmtzIGZvciB0aGUgcGF0Y2ggLS0gaXQgbG9va3MgZ29vZCB0byBtZSBhc2lkZSBmcm9tIG9u
+ZSBtaW5vciBjb21tZW50IAo+IGJlbG93Lgo+IAo+ID4gCj4gPiBTaWduZWQtb2ZmLWJ5OiBDbGF5
+dG9uIENyYWZ0IDxjbGF5dG9uQGNyYWZ0eWd1eS5uZXQ+Cj4gPiAtLS0KPiA+ICAgZHJpdmVycy9n
+cHUvZHJtL3BhbmVsL3BhbmVsLWVkcC5jIHwgMjcgKysrKysrKysrKysrKysrKysrKysrKysrKysr
+Cj4gPiAgIDEgZmlsZSBjaGFuZ2VkLCAyNyBpbnNlcnRpb25zKCspCj4gPiAKPiA+IGRpZmYgLS1n
+aXQgYS9kcml2ZXJzL2dwdS9kcm0vcGFuZWwvcGFuZWwtZWRwLmMgYi9kcml2ZXJzL2dwdS9kcm0v
+cGFuZWwvcGFuZWwtZWRwLmMKPiA+IGluZGV4IDk1Yzg0NzJkODc4YS4uNWRiMjgzZjAxNGYzIDEw
+MDY0NAo+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3BhbmVsL3BhbmVsLWVkcC5jCj4gPiArKysg
+Yi9kcml2ZXJzL2dwdS9kcm0vcGFuZWwvcGFuZWwtZWRwLmMKPiA+IEBAIC0xMjA0LDYgKzEyMDQs
+MjkgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBwYW5lbF9kZXNjIGJvZV9udjEzM2ZobV9uNjEgPSB7
+Cj4gPiAgIAl9LAo+ID4gICB9Owo+ID4gICAKPiA+ICtzdGF0aWMgY29uc3Qgc3RydWN0IGRybV9k
+aXNwbGF5X21vZGUgYm9lX252MTMzd3VtX242M19tb2RlcyA9IHsKPiAKPiBXaWxsIG90aGVyIG1v
+ZGVzIGJlIGFkZGVkIHRvIHRoaXMgc3RydWN0IGluIHRoZSBmdXR1cmU/IElmIHNvLCBJIHRoaW5r
+IAo+IHdlIGNhbiBwcm9iYWJseSB0dXJuIHRoaXMgaW50byBhbiBhcnJheSB0byBtYWtlIGl0IGVh
+c2llciB0byBleHRlbmQuCgpUbyBiZSBob25lc3QsIEkgaGF2ZSBubyBpZGVhLiBJIHNhdyBhIGtl
+cm5lbCBiYWNrdHJhY2UgaW4gZG1lc2cgdGhhdCB3YXMgcmVsYXRlZAp0byB0aGlzIGRyaXZlciBu
+b3QgaGF2aW5nIGNvbmZpZyBmb3IgbXkgcGFuZWwsIHNvIEkgYWRkZWQgaXQgYWZ0ZXIgbG9va2lu
+ZyBhdApzaW1pbGFyIGV4YW1wbGVzIGhlcmUuCgpQZXJzb25hbGx5IEknZCBwcmVmZXIgbm90IHRv
+IGdldCB0b28gZmFuY3kgd2l0aCBhcnJheXMgYW5kIHN1Y2ggdW50aWwgdGhlcmUncwphY3R1YWxs
+eSBhIG5lZWQgZm9yIGl0LCBlLmcuLCBzb21lb25lIGNvbWVzIGFsb25nIHdpdGggbW9yZSBtb2Rl
+cyB0byBhZGQuIEJ1dCBJCmNhbiB0cnkgdG8gZG8gdGhhdCBpZiBteSAia2VlcCBpdCBzaW1wbGUg
+dW50aWwgaXQgbmVlZHMgdG8gYmUgZXh0ZW5kZWQiIGFwcHJvYWNoCmlzIHVuYWNjZXB0YWJsZSA6
+KQoKPiBPdGhlcndpc2UsIGNhbiB5b3UgY2hhbmdlIHRoZSBuYW1lIHRvICIqX21vZGUiPyBTZWVt
+cyB0byBtZSB0aGF0IGFsbW9zdCAKPiBhbGwgb3RoZXIgcGFuZWxzIHdpdGggYSBzaW5nbGUgbW9k
+ZSBoYXZlIHRoZSBuYW1lIGFzICIqX21vZGUiIHdpdGggdGhlIAo+IG9ubHkgZXhjZXB0aW9uIGJl
+aW5nIGEgY2Fycnktb3ZlciBmcm9tIG9sZGVyIHBhbmVsLXNpbXBsZS5jIGNvZGUuCgpPayBJJ2xs
+IHJlbmFtZSB0byAqX21vZGUgaW4gVjIuIFRoYW5rcyBmb3IgcmV2aWV3aW5nIQoKLUNsYXl0b24K
 
 
->
-> Changes in v2:
-> - Adjust workaround to check for either CONFIG_KASAN=3Dy or
->   CONFIG_KCSAN=3Dy, as the same problem has been reported with older
->   versions of GCC (Hamza, Alex)
-> - Link to v1: https://lore.kernel.org/r/20231102-amdgpu-dml2-increase-fra=
-me-size-warning-for-clang-v1-1-6eb157352931@kernel.org
-> ---
->  drivers/gpu/drm/amd/display/dc/dml2/Makefile | 4 ++++
->  1 file changed, 4 insertions(+)
->
-> diff --git a/drivers/gpu/drm/amd/display/dc/dml2/Makefile b/drivers/gpu/d=
-rm/amd/display/dc/dml2/Makefile
-> index 70ae5eba624e..acff3449b8d7 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dml2/Makefile
-> +++ b/drivers/gpu/drm/amd/display/dc/dml2/Makefile
-> @@ -60,8 +60,12 @@ endif
->  endif
->
->  ifneq ($(CONFIG_FRAME_WARN),0)
-> +ifeq ($(filter y,$(CONFIG_KASAN)$(CONFIG_KCSAN)),y)
-> +frame_warn_flag :=3D -Wframe-larger-than=3D3072
-> +else
->  frame_warn_flag :=3D -Wframe-larger-than=3D2048
->  endif
-> +endif
->
->  CFLAGS_$(AMDDALPATH)/dc/dml2/display_mode_core.o :=3D $(dml2_ccflags) $(=
-frame_warn_flag)
->  CFLAGS_$(AMDDALPATH)/dc/dml2/display_mode_util.o :=3D $(dml2_ccflags)
->
-> ---
-> base-commit: 21e80f3841c01aeaf32d7aee7bbc87b3db1aa0c6
-> change-id: 20231102-amdgpu-dml2-increase-frame-size-warning-for-clang-c93=
-bd2d6a871
->
-> Best regards,
-> --
-> Nathan Chancellor <nathan@kernel.org>
->
+--4gQ4uxxJyh1jXvVV
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEkdOrrjmBP3eB7DeWSkztbX7flQoFAmVD47cACgkQSkztbX7f
+lQqWzg//YAxYtXysU+cSpD0uxR48UfJgW7Uofz4qyzZImkxFFIg0gHNPxj14rYK2
+r9sWseAaQbnjj6Q6Diaywhe000bdYgEiL7RGgmvVqEMB8PTWzfAadqYFUIO8hgdJ
+Bc8wO50deMdkZZ4l+EovJg45l3di0rMK5ZTcqvqoMVmX17mIMqRD5gitJ5oI+tqj
+fPzafCMmbqJ/j5aicv5Y0RwWZTZnB8pN7eHZQiIwsJC903yycoMvebdJhaOqhCCG
+2b1gV8SbP/FRnI+z+xwJ6kl7WB9AtBO+HNgN7FbxS3lBnPXCllm2qCdcrne6IjGw
+16x324zD4dlUFcit27JAjCrHyduiOppAZVfFbZOucAR4z71tmr5mw+yMOWD9Xdja
+EVwhuoS6CeOy2acwiAA9eqFyia4mFogFJOGO5QlgXzk/Ubyb7SG2tpXy3BwZunRf
+NsedvpLJITRJpSP1qOLPDaJMJPKow3a6f/uJ8WttatozR1+LhN7J43BFvU7spnKx
+RK0U7yYGCloKw4Vg/Vfcb86cHB32hOemsafpynHLOt6Oy4s7jMLZu+5gmGs/tip9
++CmG3VZHVlpYG3+Nxg+IxfUdIV/UTVpPMzL1wPFgpfpfcw+QqW6LG4I9CXHKJ8/a
+H25gtqp2/GZv0mINBVt+fhPpi1zP/bSXf2+Xn9UzewGvNfgviWQ=
+=z0Pb
+-----END PGP SIGNATURE-----
+
+--4gQ4uxxJyh1jXvVV--
