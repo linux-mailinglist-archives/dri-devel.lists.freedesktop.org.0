@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 520497DF0B2
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Nov 2023 11:56:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 742C87DF0B4
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Nov 2023 11:56:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F24710E851;
-	Thu,  2 Nov 2023 10:56:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4777C10E84B;
+	Thu,  2 Nov 2023 10:56:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1DEB710E849
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Nov 2023 10:56:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AECA810E84E
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Nov 2023 10:56:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1698922564; x=1730458564;
+ t=1698922567; x=1730458567;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=L7YxN43ujkMIHsa7scEZeI0ribADviT2fHP7/WYNDfQ=;
- b=PJUJ3MRJJmFWFH3oBfJ9ADVtD6l1XjlKK0OL/OWlVlwTbyyvuwZHTzzJ
- UVtpwdpc2HP7EuOV88rhIEwLQgiNP7rknSRANn3XvHC79xcKxTFTvx+f8
- NKKSQQ3k68qsDXUjPcmLqxZU1DMlcYq9uloUM3bpz7slSq22epkAcaZun
- 2fl/XiQ4asZIgh8H9jwMyBMupoMg9tk6fTXvdDvIRBA4OadQjn7+w1p1q
- EI8vg0yWX3oAb8OVwCtqT5WxmGKSqZri4Gu4Rmbxvh787yWcYF6HbWwpy
- CvEpbenTbvVx3Gx9L2HdgTj80guidogMgCye93ceAy/NVW9oDBsy5UXNW Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10881"; a="452988709"
-X-IronPort-AV: E=Sophos;i="6.03,271,1694761200"; d="scan'208";a="452988709"
+ bh=C+57oUr8ALmJfSLKmRpicOuodPYVt5Y9stnr5KzyCdg=;
+ b=b0VRqSWxWR0SqvNirTyJ1eJfIrDUsxaWvtyvr0g3dPlVjJOvIyvqjfiv
+ MVAYLOJdtfLK5em7FLsVDe7vlbGEK3gURTnKOxW+WXEqz53VamOfMI/vj
+ SH4ItpM4bm6V7QupyzB/rMNzVCfptxhG/7n9CyAP6IvEyB9ZDyEpbYQcF
+ jCC7sqzSG9RonL6N7YsVg29O/qpadEE+PJOQfseamlrlUhCC5fc2vdF88
+ xQHm8md8fr9A/L0PlPyG4XEgO73GFQMv7YU16vE0tJnsWvG0NOTVExVlr
+ tHUefEmjZxHHeIgRB1e6BOeF6nKlJ6VIxg03zs6h/6lvlu4VZ2xjBeISn g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10881"; a="452988715"
+X-IronPort-AV: E=Sophos;i="6.03,271,1694761200"; d="scan'208";a="452988715"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Nov 2023 03:55:56 -0700
+ 02 Nov 2023 03:55:57 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10881"; a="764875959"
-X-IronPort-AV: E=Sophos;i="6.03,271,1694761200"; d="scan'208";a="764875959"
+X-IronPort-AV: E=McAfee;i="6600,9927,10881"; a="764875963"
+X-IronPort-AV: E=Sophos;i="6.03,271,1694761200"; d="scan'208";a="764875963"
 Received: from stevenwo-mobl1.ger.corp.intel.com (HELO localhost.localdomain)
  ([10.213.233.30])
  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Nov 2023 03:55:49 -0700
+ 02 Nov 2023 03:55:50 -0700
 From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 3/5] drm/sched: Rename drm_sched_free_job_queue to be more
- descriptive
-Date: Thu,  2 Nov 2023 10:55:36 +0000
-Message-Id: <20231102105538.391648-4-tvrtko.ursulin@linux.intel.com>
+Subject: [PATCH 4/5] drm/sched: Rename drm_sched_run_job_queue_if_ready and
+ clarify kerneldoc
+Date: Thu,  2 Nov 2023 10:55:37 +0000
+Message-Id: <20231102105538.391648-5-tvrtko.ursulin@linux.intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231102105538.391648-1-tvrtko.ursulin@linux.intel.com>
 References: <20231102105538.391648-1-tvrtko.ursulin@linux.intel.com>
@@ -66,82 +66,82 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
-The current name makes it sound like helper will free a queue, while what
-it does is it enqueues the free job worker.
+"If ready" is not immediately clear what it means - is the scheduler
+ready or something else? Drop the suffix, clarify kerneldoc, and employ
+the same naming scheme as in drm_sched_run_free_queue:
 
-Rename it to drm_sched_run_free_queue to align with existing
-drm_sched_run_job_queue.
-
-Despite that creating an illusion there are two queues, while in reality
-there is only one, at least it creates a consistent naming for the two
-enqueuing helpers.
-
-At the same time simplify the "if done" helper by dropping the suffix and
-adding a double underscore prefix to the one which just enqueues.
+ - drm_sched_run_job_queue   - enqueues if there is something to enqueue
+                               *and* scheduler is ready (can queue)
+ - __drm_sched_run_job_queue - low-level helper to simply queue the job
 
 Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 Cc: Luben Tuikov <luben.tuikov@amd.com>
 Cc: Matthew Brost <matthew.brost@intel.com>
 ---
- drivers/gpu/drm/scheduler/sched_main.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/scheduler/sched_main.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-index e1658030613f..f9baca20b438 100644
+index f9baca20b438..d5ddbce68fb7 100644
 --- a/drivers/gpu/drm/scheduler/sched_main.c
 +++ b/drivers/gpu/drm/scheduler/sched_main.c
-@@ -266,20 +266,20 @@ static void drm_sched_run_job_queue(struct drm_gpu_scheduler *sched)
+@@ -256,10 +256,10 @@ drm_sched_rq_select_entity_fifo(struct drm_sched_rq *rq)
  }
  
  /**
-- * drm_sched_free_job_queue - enqueue free-job work
-+ * __drm_sched_run_free_queue - enqueue free-job work
+- * drm_sched_run_job_queue - enqueue run-job work
++ * __drm_sched_run_job_queue - enqueue run-job work
   * @sched: scheduler instance
   */
--static void drm_sched_free_job_queue(struct drm_gpu_scheduler *sched)
-+static void __drm_sched_run_free_queue(struct drm_gpu_scheduler *sched)
+-static void drm_sched_run_job_queue(struct drm_gpu_scheduler *sched)
++static void __drm_sched_run_job_queue(struct drm_gpu_scheduler *sched)
  {
  	if (!READ_ONCE(sched->pause_submit))
- 		queue_work(sched->submit_wq, &sched->work_free_job);
+ 		queue_work(sched->submit_wq, &sched->work_run_job);
+@@ -928,7 +928,7 @@ static bool drm_sched_can_queue(struct drm_gpu_scheduler *sched)
+ void drm_sched_wakeup_if_can_queue(struct drm_gpu_scheduler *sched)
+ {
+ 	if (drm_sched_can_queue(sched))
+-		drm_sched_run_job_queue(sched);
++		__drm_sched_run_job_queue(sched);
  }
  
  /**
-- * drm_sched_free_job_queue_if_done - enqueue free-job work if ready
-+ * drm_sched_run_free_queue - enqueue free-job work if ready
+@@ -1041,13 +1041,13 @@ drm_sched_pick_best(struct drm_gpu_scheduler **sched_list,
+ EXPORT_SYMBOL(drm_sched_pick_best);
+ 
+ /**
+- * drm_sched_run_job_queue_if_ready - enqueue run-job work if ready
++ * drm_sched_run_job_queue - enqueue run-job work if there are ready entities
   * @sched: scheduler instance
   */
--static void drm_sched_free_job_queue_if_done(struct drm_gpu_scheduler *sched)
-+static void drm_sched_run_free_queue(struct drm_gpu_scheduler *sched)
+-static void drm_sched_run_job_queue_if_ready(struct drm_gpu_scheduler *sched)
++static void drm_sched_run_job_queue(struct drm_gpu_scheduler *sched)
  {
- 	struct drm_sched_job *job;
- 
-@@ -287,7 +287,7 @@ static void drm_sched_free_job_queue_if_done(struct drm_gpu_scheduler *sched)
- 	job = list_first_entry_or_null(&sched->pending_list,
- 				       struct drm_sched_job, list);
- 	if (job && dma_fence_is_signaled(&job->s_fence->finished))
--		drm_sched_free_job_queue(sched);
-+		__drm_sched_run_free_queue(sched);
- 	spin_unlock(&sched->job_list_lock);
- }
- 
-@@ -310,7 +310,7 @@ static void drm_sched_job_done(struct drm_sched_job *s_job, int result)
- 	dma_fence_get(&s_fence->finished);
- 	drm_sched_fence_finished(s_fence, result);
- 	dma_fence_put(&s_fence->finished);
--	drm_sched_free_job_queue(sched);
-+	__drm_sched_run_free_queue(sched);
+ 	if (drm_sched_select_entity(sched))
+-		drm_sched_run_job_queue(sched);
++		__drm_sched_run_job_queue(sched);
  }
  
  /**
-@@ -1068,7 +1068,7 @@ static void drm_sched_free_job_work(struct work_struct *w)
- 	if (job)
+@@ -1069,7 +1069,7 @@ static void drm_sched_free_job_work(struct work_struct *w)
  		sched->ops->free_job(job);
  
--	drm_sched_free_job_queue_if_done(sched);
-+	drm_sched_run_free_queue(sched);
- 	drm_sched_run_job_queue_if_ready(sched);
+ 	drm_sched_run_free_queue(sched);
+-	drm_sched_run_job_queue_if_ready(sched);
++	drm_sched_run_job_queue(sched);
  }
  
+ /**
+@@ -1126,7 +1126,7 @@ static void drm_sched_run_job_work(struct work_struct *w)
+ 	}
+ 
+ 	wake_up(&sched->job_scheduled);
+-	drm_sched_run_job_queue_if_ready(sched);
++	drm_sched_run_job_queue(sched);
+ }
+ 
+ /**
 -- 
 2.39.2
 
