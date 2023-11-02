@@ -2,56 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FF887DF7EF
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Nov 2023 17:49:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AFCD7DF7F7
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Nov 2023 17:52:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A977C10E939;
-	Thu,  2 Nov 2023 16:49:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 023788921E;
+	Thu,  2 Nov 2023 16:52:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB16610E08F;
- Thu,  2 Nov 2023 16:49:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1698943753; x=1730479753;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=HKl+m4Zjr7h+atr2oTK1n7KhWyPIB1bTDQkuRUWLgbk=;
- b=XZ7VlFjIeDCx7M5tkbevGdM+f0CP30Zp7l2z/0hGjcciLphXUvXtFsW8
- nIHeEFJ23Ew9q9PsPwC/J9TVFIyMqYRnCDT8feahrRkvEws1f2JunL2V5
- 7L5bnoETFecV6hbDu63X56XjeQyP7papWt7Eprvo6mvU1+g0lxm6GpRIh
- 29xSiCNKDok4KXx25KatNmm0q2TwsTVujDBXUOJz8cz0+MJg0PzLix+Ol
- VtTd5NTWb+JsvGvmrACRwxoVi9oR87cSX1v2kVTA6RV7Gq5AUlj/FG3ho
- GOSKLnFwRiqw4ZpQdfVDnI483qzePfH0I3GEXbXwMdCx26Td+OjUVDt8P Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="453060189"
-X-IronPort-AV: E=Sophos;i="6.03,272,1694761200"; d="scan'208";a="453060189"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Nov 2023 09:49:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="764985106"
-X-IronPort-AV: E=Sophos;i="6.03,272,1694761200"; d="scan'208";a="764985106"
-Received: from smile.fi.intel.com ([10.237.72.54])
- by fmsmga007.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Nov 2023 09:49:07 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.97-RC3)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1qyasT-0000000AkGd-0B1U; Thu, 02 Nov 2023 18:49:05 +0200
-Date: Thu, 2 Nov 2023 18:49:04 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Hans de Goede <hdegoede@redhat.com>
-Subject: Re: [PATCH v3 14/15] drm/i915/dsi: Replace poking of CHV GPIOs
- behind the driver's back
-Message-ID: <ZUPTAG5ZuxKoOugs@smile.fi.intel.com>
-References: <20231102151228.668842-1-andriy.shevchenko@linux.intel.com>
- <20231102151228.668842-15-andriy.shevchenko@linux.intel.com>
- <34b4f396-ecf3-576d-69e5-f8eac2a5d488@redhat.com>
+Received: from mail-oa1-x2a.google.com (mail-oa1-x2a.google.com
+ [IPv6:2001:4860:4864:20::2a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 87DDE8921E;
+ Thu,  2 Nov 2023 16:52:42 +0000 (UTC)
+Received: by mail-oa1-x2a.google.com with SMTP id
+ 586e51a60fabf-1f03d9ad89fso601646fac.1; 
+ Thu, 02 Nov 2023 09:52:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1698943961; x=1699548761; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Ui4RfJzpp8oZSTAGwUEFNZzYkRDHy/N87GoVOtgxAXQ=;
+ b=J1W3DjWVKPdYoay9ew8MqmipiCxdATXzHWXoV/4Ix3C7UH4ZIDQITyS6h5yMZAjQ2m
+ /52jP2c5/DofXIQph9BSRW5lrA6xlQSs+ZE0zWO5znPVUx6sFzrMwy2/MtDDS+CEQedH
+ zp/QDYRmemRm21a0LzicrqxJsc/fgvqJ3QZiM2qjxNVc2yWoSy9JZwKlx9lmc80/gqDT
+ vfX52msOMsZ4Uh7xsDsMrf6V7akZmOx9H7XduGARORyPcxBYWnKdII1qp7TO4UdJDgOc
+ VPS/AZ3/jkVSBcvtstnuyNbKsbE1p4pUuh3L++Bipy/gBsEM2Cy++f+rckLlXbZ9iK8z
+ mC8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1698943961; x=1699548761;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Ui4RfJzpp8oZSTAGwUEFNZzYkRDHy/N87GoVOtgxAXQ=;
+ b=a44WkH0fvCrh28r8/TMibSnjsLEKoBAf6HR1r2WetB1eQ1egPtWvDSiJzjtyBS0WlL
+ fW8cW1ZFBIpqLpMN9McGuqfXz3hULWwvPGjkUr+DDTJhFcC0RAfKydfpIyHIhwFf8cVy
+ DoeJUCJVS8H0PrbbyYPhax/2T7FjyI4hV8CNbUwTgxoJyBXScsjgk+rwodWEhd/HOJX6
+ 9pi/YizYStu5scqZwhbrpqlfDShNqdxr+SQy18CGPXB3JMA5Te1Ybyr+YT6adtqrVKUC
+ cTvBURqXqOGa2lujoLbxAJgAyBq68yYuhC++tRWqKAnTxUuzYFsVqGfix1fjD/eVt9mB
+ 05QQ==
+X-Gm-Message-State: AOJu0Yy7Od33zX3PUqqO6sa2A2+UTkjmAxeGRqmPnO14zzp43Y1GlKJX
+ N9uw1G2MHBfq6pCRLJfZ7QxKNRVetmJ1K8zJ7qc=
+X-Google-Smtp-Source: AGHT+IEsdW4B2/8cahRRswQBtqGr+aRM+u2mFgCDk0qJ+y9EqqQ0+4bkkNKQxCWr5LP+k+NDi9OYk6xVSSk0kFnmAhI=
+X-Received: by 2002:a05:6870:1281:b0:1f0:36ab:2886 with SMTP id
+ 1-20020a056870128100b001f036ab2886mr4655407oal.41.1698943961740; Thu, 02 Nov
+ 2023 09:52:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <34b4f396-ecf3-576d-69e5-f8eac2a5d488@redhat.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <ZUNsmJGbYwgPaUpY@debian>
+In-Reply-To: <ZUNsmJGbYwgPaUpY@debian>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Thu, 2 Nov 2023 12:52:30 -0400
+Message-ID: <CADnq5_Minarw2D_TeRdkm6nJOP_4qHM+MxiMeLWMXqHxjq22Xw@mail.gmail.com>
+Subject: Re: mainline build failure due to 7966f319c66d ("drm/amd/display:
+ Introduce DML2")
+To: "Sudip Mukherjee (Codethink)" <sudipm.mukherjee@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,29 +69,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Jani Nikula <jani.nikula@intel.com>, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: regressions@lists.linux.dev, Leo Li <sunpeng.li@amd.com>,
+ Qingqing Zhuo <Qingqing.Zhuo@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, Roman Li <roman.li@amd.com>,
+ amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ "linux-kernel@vger.kernel.orgLinus Torvalds" <torvalds@linux-foundation.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 02, 2023 at 04:47:41PM +0100, Hans de Goede wrote:
-> On 11/2/23 16:12, Andy Shevchenko wrote:
+On Thu, Nov 2, 2023 at 5:32=E2=80=AFAM Sudip Mukherjee (Codethink)
+<sudipm.mukherjee@gmail.com> wrote:
+>
+> Hi All,
+>
+> The latest mainline kernel branch fails to build x86_64 allmodconfig
+> with the error:
+>
+> drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/display_mode_core.c: In fun=
+ction 'dml_prefetch_check':
+> drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/display_mode_core.c:6707:1:=
+ error: the frame size of 2056 bytes is larger than 2048 bytes [-Werror=3Df=
+rame-larger-than=3D]
+>  6707 | }
+>       | ^
+>
+> git bisect pointed to 7966f319c66d ("drm/amd/display: Introduce DML2")
+>
+> I will be happy to test any patch or provide any extra log if needed.
 
-...
+This was reported earlier and fixed by:
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?=
+id=3D089dbf6a06f1dcaeed4f8b86d619e8d28b235207
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?=
+id=3Db141fa036c901303ca5659cc22e9c08f8b097892
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?=
+id=3D5b2c54e0d0ea09f7a3b500510731878326e1117e
+but I guess maybe different compiler versions are still hitting this.
 
-> > +			soc_exec_opaque_gpio(connector, gpio_index, "INT33FF:03", "Panel SE",
-> > +					     gpio_index - CHV_GPIO_IDX_START_SW, value);
-> 
-> The "gpio_index - CHV_GPIO_IDX_START_SW" here needs to be "gpio_index - CHV_GPIO_IDX_START_SE".
-> 
-> Also this patch needs s/soc_exec_opaque_gpio/soc_opaque_gpio_set_value/ to compile ...
+Alex
 
-Ah, indeed. I looks like I run the test build, but forgot to look into the result. :-(
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+>
+> #regzbot introduced: 7966f319c66d9468623c6a6a017ecbc0dd79be75
+>
+> --
+> Regards
+> Sudip
