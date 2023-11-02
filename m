@@ -1,61 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0F6A7DF0F0
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Nov 2023 12:10:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 93BCE7DF0F5
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Nov 2023 12:13:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1DAED10E086;
-	Thu,  2 Nov 2023 11:09:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B6B410E84E;
+	Thu,  2 Nov 2023 11:13:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com
- [IPv6:2a00:1450:4864:20::22b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED7D610E086
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Nov 2023 11:09:56 +0000 (UTC)
-Received: by mail-lj1-x22b.google.com with SMTP id
- 38308e7fff4ca-2c514cbbe7eso11394741fa.1
- for <dri-devel@lists.freedesktop.org>; Thu, 02 Nov 2023 04:09:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1698923395; x=1699528195; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=bNnYz3x2A8pkur9hVW7htGG0dM8D69hXBJmw2CQHbjw=;
- b=jrl23PYpkfIeVPZN5tnYbDqaH57uqzJ7AXlbzujKm7u62mmKKXFpnBXc+2ubgSsQY2
- uuLEPLGAQNKYZSwi1CmgRAYhF82uBfje7O1Wwmsr0PMZ6RhmyGgroXiQhpVkqjqhTWJ1
- UvBAb4fR4SlTYS396+aWJGxwqz+xtGcjNS+heKxFuKm0ZQIWUIaxe49orVK0gmYdd0nS
- tyeuOPJEcHA5dMCQj5uNU6V0uypCBE7XP7Ajac8dzVf9imYWzw+7geOVwi8HsHTAJ9jk
- InjskGYeow3Xi2XEwztIVjmQpODGyhV6Qd8kkaI1lI/wlCoTSO6SCp0ZDfObDwq4JIzw
- EPuw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1698923395; x=1699528195;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=bNnYz3x2A8pkur9hVW7htGG0dM8D69hXBJmw2CQHbjw=;
- b=hypHmPSc+okfBKzwlj5LMcRFyet7pyy7VRZI2k992KNoT1PKtZkcJji9i8rYbtWAR7
- loZxw6Z/bx7U3AiPGSCmIt8aN1jzEZ58U36mFVorRr8Nc7HT+CSSE7UmQLFJ36L1s8sr
- VacpsKDi/tq6Pu5tW1b7dIJDtO2D6Eebg42vL9StfyP3pQgzZartU74QfvzKy5peckRp
- F6zFHqm/KqXjU46dGrbJxsGsH1UAOVa+6VFiBg7NpfYKgJXISmQzKLnkE2hA+TeQ/LTS
- BAEEjnUeNe+l8xWpZzx7IXd87zqCsRxf8V3HVvHMX7OtlIIQ99jT3R5u9ofRjj8G3/II
- hknQ==
-X-Gm-Message-State: AOJu0Yytop/oVhLFbH3fsiZQdR4jrE1UOG99ZL8/HF81XwEpp9Cd75su
- E3aSReLQW+LBWmW7GG0QG3RKvL99PQQIXyO/Izc=
-X-Google-Smtp-Source: AGHT+IG9KDieSBirPxFU0CVcSErkAjUOyULiQIcIYlbUeCA4leQhkQfRH18LVGNZAI1GJ6w7vDMbnQibJlYwVmNEN7w=
-X-Received: by 2002:a2e:9bc2:0:b0:2c1:6b9c:48d6 with SMTP id
- w2-20020a2e9bc2000000b002c16b9c48d6mr13907602ljj.16.1698923394315; Thu, 02
- Nov 2023 04:09:54 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E9BC010E08E;
+ Thu,  2 Nov 2023 11:13:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1698923599; x=1730459599;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=RLyEWX8TvJFkG2chanYaLE/sEHjJuTgNzqkdVGmw6Vc=;
+ b=Ifyx/bqK8GXnHT6APwwvOEAJsx7KJW51fJ5W865lRQjFjfE9naqeL9p2
+ O4ejVxNPyBc+XTHwRJJpHlc4rEY2vEX4mTHtYGSjUjOCdKBo6zyUaGUa0
+ TX/4yvDTY+FiXSKbXh5nUN4PFJUJ73BiOxNY1uEqnkYlz5Qyn7yUcVLkl
+ QkgBkdb4YbLWq3TZTdnMbIpVAsocGrg8ZRCVTTWBLTRee0pzf9ktyhqrL
+ Ci84GFUrVDkyvTMsesjTSb60pXxwXc4riybWqXfWoRqbJ6UfJjtqf1pmy
+ isoC6EhcUg7Q+kURO1o3wUWjK3XtB5rAKirpfUb3th95l99qUufNhA6ez Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10881"; a="474930788"
+X-IronPort-AV: E=Sophos;i="6.03,271,1694761200"; d="scan'208";a="474930788"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Nov 2023 04:13:19 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.03,271,1694761200"; 
+   d="scan'208";a="2399375"
+Received: from stevenwo-mobl1.ger.corp.intel.com (HELO [10.213.233.30])
+ ([10.213.233.30])
+ by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Nov 2023 04:13:16 -0700
+Message-ID: <bb7c307e-271c-4f4c-bdbc-7078972ba515@linux.intel.com>
+Date: Thu, 2 Nov 2023 11:13:13 +0000
 MIME-Version: 1.0
-References: <CANH0Q9mzBVr7KTJQmvLsqndpTZ8JU0rDfDQhu10kFsRgfybA4A@mail.gmail.com>
- <ccf8e1ae-efa5-4d09-bc43-4ed18536c910@linux.intel.com>
-In-Reply-To: <ccf8e1ae-efa5-4d09-bc43-4ed18536c910@linux.intel.com>
-From: Trigger Huang <trigger.huang@gmail.com>
-Date: Thu, 2 Nov 2023 19:09:42 +0800
-Message-ID: <CANH0Q9=bF-j3=sS+Hw8FmD4dm9cnGNt5f6XAdRpo6KaHdGb0nw@mail.gmail.com>
-Subject: =?UTF-8?Q?Re=3A_=5Baccel=2Fivpu=5D_Help_=2D=2D_Which_Intel_CPU_processor_c?=
- =?UTF-8?Q?an_be_used_for_iVPU_driver=EF=BC=9F?=
-To: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Content-Type: multipart/alternative; boundary="0000000000006b38720609296d4e"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 3/5] drm/sched: Split free_job into own work item
+Content-Language: en-US
+To: Matthew Brost <matthew.brost@intel.com>, dri-devel@lists.freedesktop.org, 
+ intel-xe@lists.freedesktop.org
+References: <20231031032439.1558703-1-matthew.brost@intel.com>
+ <20231031032439.1558703-4-matthew.brost@intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <20231031032439.1558703-4-matthew.brost@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,132 +63,306 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
- dri-devel@lists.freedesktop.org
+Cc: robdclark@chromium.org, thomas.hellstrom@linux.intel.com,
+ sarah.walker@imgtec.com, ltuikov@yahoo.com, ketil.johnsen@arm.com,
+ lina@asahilina.net, mcanal@igalia.com, Liviu.Dudau@arm.com,
+ boris.brezillon@collabora.com, dakr@redhat.com, donald.robson@imgtec.com,
+ christian.koenig@amd.com, faith.ekstrand@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---0000000000006b38720609296d4e
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi Jacek,
+On 31/10/2023 03:24, Matthew Brost wrote:
+> Rather than call free_job and run_job in same work item have a dedicated
+> work item for each. This aligns with the design and intended use of work
+> queues.
+> 
+> v2:
+>     - Test for DMA_FENCE_FLAG_TIMESTAMP_BIT before setting
+>       timestamp in free_job() work item (Danilo)
+> v3:
+>    - Drop forward dec of drm_sched_select_entity (Boris)
+>    - Return in drm_sched_run_job_work if entity NULL (Boris)
+> v4:
+>    - Replace dequeue with peek and invert logic (Luben)
+>    - Wrap to 100 lines (Luben)
+>    - Update comments for *_queue / *_queue_if_ready functions (Luben)
+> v5:
+>    - Drop peek argument, blindly reinit idle (Luben)
+>    - s/drm_sched_free_job_queue_if_ready/drm_sched_free_job_queue_if_done (Luben)
+>    - Update work_run_job & work_free_job kernel doc (Luben)
+> v6:
+>    - Do not move drm_sched_select_entity in file (Luben)
+> 
+> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> ---
+>   drivers/gpu/drm/scheduler/sched_main.c | 146 +++++++++++++++++--------
+>   include/drm/gpu_scheduler.h            |   4 +-
+>   2 files changed, 101 insertions(+), 49 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+> index d1ae05bded15..3b1b2f8eafe8 100644
+> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> @@ -265,6 +265,32 @@ static void drm_sched_run_job_queue(struct drm_gpu_scheduler *sched)
+>   		queue_work(sched->submit_wq, &sched->work_run_job);
+>   }
+>   
+> +/**
+> + * drm_sched_free_job_queue - enqueue free-job work
+> + * @sched: scheduler instance
+> + */
+> +static void drm_sched_free_job_queue(struct drm_gpu_scheduler *sched)
+> +{
+> +	if (!READ_ONCE(sched->pause_submit))
+> +		queue_work(sched->submit_wq, &sched->work_free_job);
+> +}
+> +
+> +/**
+> + * drm_sched_free_job_queue_if_done - enqueue free-job work if ready
+> + * @sched: scheduler instance
+> + */
+> +static void drm_sched_free_job_queue_if_done(struct drm_gpu_scheduler *sched)
+> +{
+> +	struct drm_sched_job *job;
+> +
+> +	spin_lock(&sched->job_list_lock);
+> +	job = list_first_entry_or_null(&sched->pending_list,
+> +				       struct drm_sched_job, list);
+> +	if (job && dma_fence_is_signaled(&job->s_fence->finished))
+> +		drm_sched_free_job_queue(sched);
+> +	spin_unlock(&sched->job_list_lock);
+> +}
+> +
+>   /**
+>    * drm_sched_job_done - complete a job
+>    * @s_job: pointer to the job which is done
+> @@ -284,7 +310,7 @@ static void drm_sched_job_done(struct drm_sched_job *s_job, int result)
+>   	dma_fence_get(&s_fence->finished);
+>   	drm_sched_fence_finished(s_fence, result);
+>   	dma_fence_put(&s_fence->finished);
+> -	drm_sched_run_job_queue(sched);
+> +	drm_sched_free_job_queue(sched);
+>   }
+>   
+>   /**
+> @@ -943,8 +969,10 @@ drm_sched_get_cleanup_job(struct drm_gpu_scheduler *sched)
+>   						typeof(*next), list);
+>   
+>   		if (next) {
+> -			next->s_fence->scheduled.timestamp =
+> -				dma_fence_timestamp(&job->s_fence->finished);
+> +			if (test_bit(DMA_FENCE_FLAG_TIMESTAMP_BIT,
+> +				     &next->s_fence->scheduled.flags))
+> +				next->s_fence->scheduled.timestamp =
+> +					dma_fence_timestamp(&job->s_fence->finished);
+>   			/* start TO timer for next job */
+>   			drm_sched_start_timeout(sched);
+>   		}
+> @@ -994,7 +1022,40 @@ drm_sched_pick_best(struct drm_gpu_scheduler **sched_list,
+>   EXPORT_SYMBOL(drm_sched_pick_best);
+>   
+>   /**
+> - * drm_sched_run_job_work - main scheduler thread
+> + * drm_sched_run_job_queue_if_ready - enqueue run-job work if ready
+> + * @sched: scheduler instance
+> + */
+> +static void drm_sched_run_job_queue_if_ready(struct drm_gpu_scheduler *sched)
+> +{
+> +	if (drm_sched_select_entity(sched))
+> +		drm_sched_run_job_queue(sched);
+> +}
+> +
+> +/**
+> + * drm_sched_free_job_work - worker to call free_job
+> + *
+> + * @w: free job work
+> + */
+> +static void drm_sched_free_job_work(struct work_struct *w)
+> +{
+> +	struct drm_gpu_scheduler *sched =
+> +		container_of(w, struct drm_gpu_scheduler, work_free_job);
+> +	struct drm_sched_job *cleanup_job;
+> +
+> +	if (READ_ONCE(sched->pause_submit))
+> +		return;
+> +
+> +	cleanup_job = drm_sched_get_cleanup_job(sched);
+> +	if (cleanup_job) {
+> +		sched->ops->free_job(cleanup_job);
+> +
+> +		drm_sched_free_job_queue_if_done(sched);
+> +		drm_sched_run_job_queue_if_ready(sched);
 
-Thanks for the quick response.
+Are finished jobs now disturbing the round robin selection?
 
-Seems I need to wait for a while if I want to buy a  Meteor Lake based
-platform because I got the following message from wiki(
-*https://en.wikipedia.org/wiki/Meteor_Lake
-<https://en.wikipedia.org/wiki/Meteor_Lake>)*
+Every time this cleans up a job we get:
 
-           *Meteor Lake is Intel's codename for the first-generation of
-Intel Core Ultra mobile processors, to be released to the market on
-December 14, 2023*
+drm_sched_run_job_queue_if_ready
+  -> drm_sched_select_entity
+      -> drm_sched_rq_select_entity_rr
+          -> rq->current_entity bumped to next in list
 
-BTW, is it possible that NPU (formerly known as VPU) will be available on
-some desktop CPUs in the future?
+So when the job run worker does:
 
-Thanks,
-Trigger
+	entity = drm_sched_select_entity(sched);
 
-On Thu, Nov 2, 2023 at 5:24=E2=80=AFPM Jacek Lawrynowicz <
-jacek.lawrynowicz@linux.intel.com> wrote:
+It does not pick the same entity as before this patch? If so perhaps 
+drm_sched_run_job_queue_if_ready needs a "peek" helper which does not 
+modify any state.
 
-> Hi,
->
-> You need a Meteor Lake based platform.
-> Intel 14th gen desktop CPUs were supposed to be Meteor Lake but they ende=
-d
-> up as Raptor Lake.
-> NPU (formerly known as VPU) will be available in 14th gen mobile chips.
-> I will update the Kconfig description.
->
-> Regards,
-> Jacek
->
-> On 02.11.2023 07:59, Trigger Huang wrote:
-> > Hello,
-> >
-> > I want to have a try for the iVPU driver but don't know which CPU
-> platform
-> > is suitable. Would you help?
-> >
-> > According to the description in linux/drivers/accel/ivpu/Kconfig, it sa=
-ys
-> > that Choose this option if you have a system that has an *14*th
-> generation
-> > Intel CPU
-> > But according to the Intel  I7 *14*700k spec (
-> >
-> https://www.intel.com/content/www/us/en/products/sku/236783/intel-core-i7=
--processor-14700k-33m-cache-up-to-5-60-ghz/specifications.html
-> ),
-> > there is
-> > no description about Versatile Processing Unit.
-> >
-> > So which CPU should I choose?
-> >
-> > Thanks,
-> > Trigger
-> >
->
+Regards,
 
---0000000000006b38720609296d4e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Tvrtko
 
-<div dir=3D"ltr"><div>Hi Jacek,</div><div><br></div><div>Thanks for the qui=
-ck=C2=A0response.</div><div><br></div><div>Seems I need to wait for a while=
- if I want to buy a=C2=A0 Meteor Lake based platform because I got the foll=
-owing message from wiki(=C2=A0<i><a href=3D"https://en.wikipedia.org/wiki/M=
-eteor_Lake">https://en.wikipedia.org/wiki/Meteor_Lake</a>)</i></div><div><b=
-r></div><div>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<i>Meteor Lake is Int=
-el&#39;s codename for the first-generation of Intel Core Ultra mobile proce=
-ssors, to be released to the market on December 14, 2023</i><br></div><div>=
-<br></div><div>BTW, is it possible that NPU (formerly known as VPU) will be=
- available on some desktop CPUs in the future?</div><br><div>Thanks,</div><=
-div>Trigger</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" clas=
-s=3D"gmail_attr">On Thu, Nov 2, 2023 at 5:24=E2=80=AFPM Jacek Lawrynowicz &=
-lt;<a href=3D"mailto:jacek.lawrynowicz@linux.intel.com">jacek.lawrynowicz@l=
-inux.intel.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" st=
-yle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padd=
-ing-left:1ex">Hi,<br>
-<br>
-You need a Meteor Lake based platform.<br>
-Intel 14th gen desktop CPUs were supposed to be Meteor Lake but they ended =
-up as Raptor Lake.<br>
-NPU (formerly known as VPU) will be available in 14th gen mobile chips.<br>
-I will update the Kconfig description.<br>
-<br>
-Regards,<br>
-Jacek<br>
-<br>
-On 02.11.2023 07:59, Trigger Huang wrote:<br>
-&gt; Hello,<br>
-&gt; <br>
-&gt; I want to have a try for the iVPU driver but don&#39;t know which CPU =
-platform<br>
-&gt; is suitable. Would you help?<br>
-&gt; <br>
-&gt; According to the description in linux/drivers/accel/ivpu/Kconfig, it s=
-ays<br>
-&gt; that Choose this option if you have a system that has an *14*th genera=
-tion<br>
-&gt; Intel CPU<br>
-&gt; But according to the Intel=C2=A0 I7 *14*700k spec (<br>
-&gt; <a href=3D"https://www.intel.com/content/www/us/en/products/sku/236783=
-/intel-core-i7-processor-14700k-33m-cache-up-to-5-60-ghz/specifications.htm=
-l" rel=3D"noreferrer" target=3D"_blank">https://www.intel.com/content/www/u=
-s/en/products/sku/236783/intel-core-i7-processor-14700k-33m-cache-up-to-5-6=
-0-ghz/specifications.html</a>),<br>
-&gt; there is<br>
-&gt; no description about Versatile Processing Unit.<br>
-&gt; <br>
-&gt; So which CPU should I choose?<br>
-&gt; <br>
-&gt; Thanks,<br>
-&gt; Trigger<br>
-&gt; <br>
-</blockquote></div>
-
---0000000000006b38720609296d4e--
+> +	}
+> +}
+> +
+> +/**
+> + * drm_sched_run_job_work - worker to call run_job
+>    *
+>    * @w: run job work
+>    */
+> @@ -1003,65 +1064,51 @@ static void drm_sched_run_job_work(struct work_struct *w)
+>   	struct drm_gpu_scheduler *sched =
+>   		container_of(w, struct drm_gpu_scheduler, work_run_job);
+>   	struct drm_sched_entity *entity;
+> -	struct drm_sched_job *cleanup_job;
+> +	struct dma_fence *fence;
+> +	struct drm_sched_fence *s_fence;
+> +	struct drm_sched_job *sched_job;
+>   	int r;
+>   
+>   	if (READ_ONCE(sched->pause_submit))
+>   		return;
+>   
+> -	cleanup_job = drm_sched_get_cleanup_job(sched);
+>   	entity = drm_sched_select_entity(sched);
+> +	if (!entity)
+> +		return;
+>   
+> -	if (!entity && !cleanup_job)
+> +	sched_job = drm_sched_entity_pop_job(entity);
+> +	if (!sched_job) {
+> +		complete_all(&entity->entity_idle);
+>   		return;	/* No more work */
+> +	}
+>   
+> -	if (cleanup_job)
+> -		sched->ops->free_job(cleanup_job);
+> -
+> -	if (entity) {
+> -		struct dma_fence *fence;
+> -		struct drm_sched_fence *s_fence;
+> -		struct drm_sched_job *sched_job;
+> -
+> -		sched_job = drm_sched_entity_pop_job(entity);
+> -		if (!sched_job) {
+> -			complete_all(&entity->entity_idle);
+> -			if (!cleanup_job)
+> -				return;	/* No more work */
+> -			goto again;
+> -		}
+> -
+> -		s_fence = sched_job->s_fence;
+> -
+> -		atomic_inc(&sched->hw_rq_count);
+> -		drm_sched_job_begin(sched_job);
+> +	s_fence = sched_job->s_fence;
+>   
+> -		trace_drm_run_job(sched_job, entity);
+> -		fence = sched->ops->run_job(sched_job);
+> -		complete_all(&entity->entity_idle);
+> -		drm_sched_fence_scheduled(s_fence, fence);
+> +	atomic_inc(&sched->hw_rq_count);
+> +	drm_sched_job_begin(sched_job);
+>   
+> -		if (!IS_ERR_OR_NULL(fence)) {
+> -			/* Drop for original kref_init of the fence */
+> -			dma_fence_put(fence);
+> +	trace_drm_run_job(sched_job, entity);
+> +	fence = sched->ops->run_job(sched_job);
+> +	complete_all(&entity->entity_idle);
+> +	drm_sched_fence_scheduled(s_fence, fence);
+>   
+> -			r = dma_fence_add_callback(fence, &sched_job->cb,
+> -						   drm_sched_job_done_cb);
+> -			if (r == -ENOENT)
+> -				drm_sched_job_done(sched_job, fence->error);
+> -			else if (r)
+> -				DRM_DEV_ERROR(sched->dev, "fence add callback failed (%d)\n",
+> -					  r);
+> -		} else {
+> -			drm_sched_job_done(sched_job, IS_ERR(fence) ?
+> -					   PTR_ERR(fence) : 0);
+> -		}
+> +	if (!IS_ERR_OR_NULL(fence)) {
+> +		/* Drop for original kref_init of the fence */
+> +		dma_fence_put(fence);
+>   
+> -		wake_up(&sched->job_scheduled);
+> +		r = dma_fence_add_callback(fence, &sched_job->cb,
+> +					   drm_sched_job_done_cb);
+> +		if (r == -ENOENT)
+> +			drm_sched_job_done(sched_job, fence->error);
+> +		else if (r)
+> +			DRM_DEV_ERROR(sched->dev, "fence add callback failed (%d)\n", r);
+> +	} else {
+> +		drm_sched_job_done(sched_job, IS_ERR(fence) ?
+> +				   PTR_ERR(fence) : 0);
+>   	}
+>   
+> -again:
+> -	drm_sched_run_job_queue(sched);
+> +	wake_up(&sched->job_scheduled);
+> +	drm_sched_run_job_queue_if_ready(sched);
+>   }
+>   
+>   /**
+> @@ -1145,6 +1192,7 @@ int drm_sched_init(struct drm_gpu_scheduler *sched,
+>   	atomic_set(&sched->hw_rq_count, 0);
+>   	INIT_DELAYED_WORK(&sched->work_tdr, drm_sched_job_timedout);
+>   	INIT_WORK(&sched->work_run_job, drm_sched_run_job_work);
+> +	INIT_WORK(&sched->work_free_job, drm_sched_free_job_work);
+>   	atomic_set(&sched->_score, 0);
+>   	atomic64_set(&sched->job_id_count, 0);
+>   	sched->pause_submit = false;
+> @@ -1274,6 +1322,7 @@ void drm_sched_wqueue_stop(struct drm_gpu_scheduler *sched)
+>   {
+>   	WRITE_ONCE(sched->pause_submit, true);
+>   	cancel_work_sync(&sched->work_run_job);
+> +	cancel_work_sync(&sched->work_free_job);
+>   }
+>   EXPORT_SYMBOL(drm_sched_wqueue_stop);
+>   
+> @@ -1286,5 +1335,6 @@ void drm_sched_wqueue_start(struct drm_gpu_scheduler *sched)
+>   {
+>   	WRITE_ONCE(sched->pause_submit, false);
+>   	queue_work(sched->submit_wq, &sched->work_run_job);
+> +	queue_work(sched->submit_wq, &sched->work_free_job);
+>   }
+>   EXPORT_SYMBOL(drm_sched_wqueue_start);
+> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+> index e0e7c4eb57d9..677ba96759ab 100644
+> --- a/include/drm/gpu_scheduler.h
+> +++ b/include/drm/gpu_scheduler.h
+> @@ -479,9 +479,10 @@ struct drm_sched_backend_ops {
+>    *                 finished.
+>    * @hw_rq_count: the number of jobs currently in the hardware queue.
+>    * @job_id_count: used to assign unique id to the each job.
+> - * @submit_wq: workqueue used to queue @work_run_job
+> + * @submit_wq: workqueue used to queue @work_run_job and @work_free_job
+>    * @timeout_wq: workqueue used to queue @work_tdr
+>    * @work_run_job: work which calls run_job op of each scheduler.
+> + * @work_free_job: work which calls free_job op of each scheduler.
+>    * @work_tdr: schedules a delayed call to @drm_sched_job_timedout after the
+>    *            timeout interval is over.
+>    * @pending_list: the list of jobs which are currently in the job queue.
+> @@ -511,6 +512,7 @@ struct drm_gpu_scheduler {
+>   	struct workqueue_struct		*submit_wq;
+>   	struct workqueue_struct		*timeout_wq;
+>   	struct work_struct		work_run_job;
+> +	struct work_struct		work_free_job;
+>   	struct delayed_work		work_tdr;
+>   	struct list_head		pending_list;
+>   	spinlock_t			job_list_lock;
