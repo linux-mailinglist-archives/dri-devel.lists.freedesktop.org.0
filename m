@@ -1,64 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1F217DEEEE
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Nov 2023 10:32:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 63A087DEEF1
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Nov 2023 10:33:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 443D510E835;
-	Thu,  2 Nov 2023 09:32:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 109A210E837;
+	Thu,  2 Nov 2023 09:32:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
- [IPv6:2a00:1450:4864:20::32e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9667810E835;
- Thu,  2 Nov 2023 09:32:13 +0000 (UTC)
-Received: by mail-wm1-x32e.google.com with SMTP id
- 5b1f17b1804b1-40850b244beso5384925e9.2; 
- Thu, 02 Nov 2023 02:32:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1698917532; x=1699522332; darn=lists.freedesktop.org;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :from:to:cc:subject:date:message-id:reply-to;
- bh=WqxvJKYv5vpdTxmgr1nqq+qFlX0PIIBhjoeGRz1GRg8=;
- b=fTcFR3GHGY5TMU4BdDqHfms2H3gf8INCaww9Vc0iD7T2mJJUdcY6Q8qhOpsEzZi/Qe
- tiP1qDKZztlsFQKf6SaxHHeE5uBA86RO1nvsP220NK/MxN/6mjV+bx4DAX7C8Fdabyh4
- V2I4U1UWdSupsBnAhxbpS+8xQ1xWZGfPWhCQjgwV7PzA9MtUuybt/Cn6TgLr5CBQqnFc
- 0G85XfcyYx3AoQ1a5UriJEGH3B7Bwn5WtNFFnaUaCGVMkyufQdUNVihh5pjB+oAX9X3b
- Jl5/f1jW+MUaAArkHqOZOtTmjCG7/jr62AatItijqdwv/Dizjaq24xLMHsBtC01BZGXA
- bZpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1698917532; x=1699522332;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=WqxvJKYv5vpdTxmgr1nqq+qFlX0PIIBhjoeGRz1GRg8=;
- b=ouk8biHHHfH7gkhcxoVV2XJlKBY0nBw2VHkQekRWU191iIzflnqV1mdVTn4qkiHJQx
- emwm2xjgDEZFod1+gXD45wX9eF2vjtXAKRPnQ/UOusfpanWE4oHeYZ5mQ3vJiPiUqUAg
- NUks4tg6UmoRhxnVXAt/5kltS7zKqF+fY7cE0SbC/zoDCgpSVMOI9RQVEId7GY6JrV+o
- M0Bh+iv+g43he2I618kpaJd3s+V0zztveq30oup5itQxGjcGrBLGXcw6hOiNwpMGLwp4
- RjsoJ+ijGZNOhtm9gutqChAnSjyedydX0qVKF3EXCIdV4ckMCw6azBZ3eMZsmqONbp1Z
- Vgbg==
-X-Gm-Message-State: AOJu0Yx/5pGvOP1mTW7Iwo9LUFCqTpMHfbcWR2yjyIqr0xkO3eH2qxY+
- WTFk/jEVgUu+I1Swn1Vg2hk=
-X-Google-Smtp-Source: AGHT+IHc0wpbmRp2tgf8ByRrDxa2IV0hXvaKz5WVhrwURQsV1he73lF5J1ODWGCP4OWwTpvppn7IUg==
-X-Received: by 2002:a05:600c:5119:b0:409:2f7:d771 with SMTP id
- o25-20020a05600c511900b0040902f7d771mr15550596wms.4.1698917531582; 
- Thu, 02 Nov 2023 02:32:11 -0700 (PDT)
-Received: from debian ([167.98.27.226]) by smtp.gmail.com with ESMTPSA id
- z6-20020a7bc7c6000000b00401d8181f8bsm2240311wmk.25.2023.11.02.02.32.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Nov 2023 02:32:11 -0700 (PDT)
-Date: Thu, 2 Nov 2023 09:32:08 +0000
-From: "Sudip Mukherjee (Codethink)" <sudipm.mukherjee@gmail.com>
-To: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Roman Li <roman.li@amd.com>, Qingqing Zhuo <Qingqing.Zhuo@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>
-Subject: mainline build failure due to 7966f319c66d ("drm/amd/display:
- Introduce DML2")
-Message-ID: <ZUNsmJGbYwgPaUpY@debian>
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E9D1B10E837;
+ Thu,  2 Nov 2023 09:32:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1698917576; x=1730453576;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=y5Uyg2N/ET8DhqTb9XyrwIlw4JDIiMJ7uWwCl1L4vJ0=;
+ b=LN5Bnj25qhiwh1VF3pS/MGCDzRXcuXENbynLQOuNPV/qZ+RoVfUINUyk
+ Z1Vc6bzmgnzIiyMjzVogKiCagZoDpLyd8Vf8chxT06g3kDj6ge2mcnF7l
+ FXEt+rlDU4ztt9AtdmFLctIJX3zS6P45zFDA0a3PsqwgKfhtuO0SCTGWu
+ /rgrsz/LJTUtZs1ubf4UXi8nCz/h2a5AMPs4As9JMX+BQR2bgF28Z0YSj
+ KujwLiGg8rkCzSzY/plxiM06Iwy/hZLs6BesP8yk5JfXjeFnqeNp/puXr
+ I6D8khDA5ipc/gjLSXfAUy6AaLQTLJs1GnVz0gckw6eFv8nr5sZIqSjyH g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10881"; a="385848224"
+X-IronPort-AV: E=Sophos;i="6.03,271,1694761200"; d="scan'208";a="385848224"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Nov 2023 02:32:56 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10881"; a="754727052"
+X-IronPort-AV: E=Sophos;i="6.03,271,1694761200"; d="scan'208";a="754727052"
+Received: from stevenwo-mobl1.ger.corp.intel.com (HELO localhost.localdomain)
+ ([10.213.233.30])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Nov 2023 02:32:54 -0700
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+To: Intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH 1/2] drm/i915: Remove unused for_each_uabi_class_engine
+Date: Thu,  2 Nov 2023 09:32:47 +0000
+Message-Id: <20231102093248.362659-1-tvrtko.ursulin@linux.intel.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,31 +57,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: regressions@lists.linux.dev, Leo Li <sunpeng.li@amd.com>, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org,
- "linux-kernel@vger.kernel.orgLinus Torvalds" <torvalds@linux-foundation.org>,
- dri-devel@lists.freedesktop.org,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi All,
+From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
-The latest mainline kernel branch fails to build x86_64 allmodconfig
-with the error:
+Unused macro after 99919be74aa3 ("drm/i915/gem: Zap the i915_gem_object_blt code")
+removed some code.
 
-drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/display_mode_core.c: In function 'dml_prefetch_check':
-drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/display_mode_core.c:6707:1: error: the frame size of 2056 bytes is larger than 2048 bytes [-Werror=frame-larger-than=]
- 6707 | }
-      | ^
+Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Reviewed-by: Jani Nikula <jani.nikula@linux.intel.com>
+---
+ drivers/gpu/drm/i915/i915_drv.h | 5 -----
+ 1 file changed, 5 deletions(-)
 
-git bisect pointed to 7966f319c66d ("drm/amd/display: Introduce DML2")
-
-I will be happy to test any patch or provide any extra log if needed.
-
-#regzbot introduced: 7966f319c66d9468623c6a6a017ecbc0dd79be75
-
+diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
+index 259884b10d9a..bf6ed434bb6b 100644
+--- a/drivers/gpu/drm/i915/i915_drv.h
++++ b/drivers/gpu/drm/i915/i915_drv.h
+@@ -418,11 +418,6 @@ static inline struct intel_gt *to_gt(const struct drm_i915_private *i915)
+ 	     (engine__); \
+ 	     (engine__) = rb_to_uabi_engine(rb_next(&(engine__)->uabi_node)))
+ 
+-#define for_each_uabi_class_engine(engine__, class__, i915__) \
+-	for ((engine__) = intel_engine_lookup_user((i915__), (class__), 0); \
+-	     (engine__) && (engine__)->uabi_class == (class__); \
+-	     (engine__) = rb_to_uabi_engine(rb_next(&(engine__)->uabi_node)))
+-
+ #define INTEL_INFO(i915)	((i915)->__info)
+ #define RUNTIME_INFO(i915)	(&(i915)->__runtime)
+ #define DRIVER_CAPS(i915)	(&(i915)->caps)
 -- 
-Regards
-Sudip
+2.39.2
+
