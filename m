@@ -1,41 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46CE27DF4E8
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Nov 2023 15:27:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B50447DF4EC
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Nov 2023 15:27:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6BDB410E8CA;
-	Thu,  2 Nov 2023 14:26:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA3BD10E8CF;
+	Thu,  2 Nov 2023 14:26:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madras.collabora.co.uk (madras.collabora.co.uk
  [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A721A10E8CA
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Nov 2023 14:26:53 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7AC4C10E8CA
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Nov 2023 14:26:54 +0000 (UTC)
 Received: from IcarusMOD.eternityproject.eu (cola.collaboradmins.com
  [195.201.22.229])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 84BF26607090;
- Thu,  2 Nov 2023 14:26:51 +0000 (GMT)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 8CBE7660716E;
+ Thu,  2 Nov 2023 14:26:52 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1698935212;
- bh=YtQIX3FzdJuXHKbLB+mWiM8MZF5dRqqjsu5pKi6GDpo=;
+ s=mail; t=1698935213;
+ bh=0UapFtlwwc/wpDFrrChMTi6BxCWRS7nEWTprLucLiIE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=MDdZALRE8B7hJslAhU/2RIDb5x31cIH0sNSiNrdFukx3ZHZAlOZ9j/x7M/MpV52tw
- fOqLTV21Dih3ht0oUIjqlSCS3EOCwwZSr3qjBMKGPO1BsO/ilOFuWnXzoCWC1HinC3
- bFcuRTy/UUPl5I2aUcAtpYeSbSMBkPoVdkEtZNvAdBBZSR5lpblPAZgtwuOROylx4o
- nZHioQRwF4i1AfsEngo4ZHKgv7ubTOFE8tMzxEEXCOqsvFpylzAX8ydr7P0Zo36qbZ
- i7ly919US5lxyLIRt2fElYz3iqoO+c7JbPuKBPPP8GDBvwD+xSnm3DTNpJwDtsYjY/
- xwsYs+gU4mbmA==
+ b=id3kNstyDYcKb/QUOjDDknsO3GV8HjIOxMLvwtHZiJsGslypvZERsaeqYZnAaZRs3
+ pioH67/s4u7nsbtZD47fblpN4FDtidk0LsiUb1rw1nmd7+h/9l4h4xm1mdheJ5Cl69
+ 0zytdQF35GRUZ6CoO9zHt4oImwfOY0oaGRaP+ir63yKigufYjNT02hT6w7ZiBzUH9q
+ tEaoetZhjDotYiqm2RHuPgMoq0oM2iDK1O0/RbfJwL50qEEgnI6JML3mZUVZS/1Kmq
+ pjdF3qklYVqLQk1zHtXhoArgyR4FtZPRJNnElXO7AQE06L4PN+4IGeNsPJCsoJBtOW
+ so6Fer0ayHP+A==
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 To: boris.brezillon@collabora.com
-Subject: [PATCH v2 1/6] drm/panfrost: Perform hard reset to recover GPU if
- soft reset fails
-Date: Thu,  2 Nov 2023 15:26:38 +0100
-Message-ID: <20231102142643.75288-2-angelogioacchino.delregno@collabora.com>
+Subject: [PATCH v2 2/6] drm/panfrost: Tighten polling for soft reset and power
+ on
+Date: Thu,  2 Nov 2023 15:26:39 +0100
+Message-ID: <20231102142643.75288-3-angelogioacchino.delregno@collabora.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231102142643.75288-1-angelogioacchino.delregno@collabora.com>
 References: <20231102142643.75288-1-angelogioacchino.delregno@collabora.com>
@@ -60,62 +60,73 @@ Cc: linux-kernel@vger.kernel.org, mripard@kernel.org, steven.price@arm.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Even though soft reset should ideally never fail, during development of
-some power management features I managed to get some bits wrong: this
-resulted in GPU soft reset failures, where the GPU was never able to
-recover, not even after suspend/resume cycles, meaning that the only
-way to get functionality back was to reboot the machine.
+In many cases, soft reset takes more than 1 microsecond, but definitely
+less than 10; moreover in the poweron flow, tilers, shaders and l2 will
+become ready (each) in less than 10 microseconds as well.
 
-Perform a hard reset after a soft reset failure to be able to recover
-the GPU during runtime (so, without any machine reboot).
+Even in the cases (at least on my platforms, rarely) in which those take
+more than 10 microseconds, it's very unlikely to see both soft reset and
+poweron to take more than 70 microseconds.
+
+Shorten the polling delay to 10 microseconds to consistently reduce the
+runtime resume time of the GPU.
+
+As an indicative example, measurements taken on a MediaTek MT8195 SoC
+
+Average runtime resume time in nanoseconds before this commit:
+GDM, user selection up/down:            88435ns
+GDM, Text Entry (typing user/password): 91489ns
+GNOME Desktop, idling, GKRELLM running: 73200ns
+
+After this commit:
+
+GDM: user selection up/down:            26690ns
+GDM: Text Entry (typing user/password): 27917ns
+GNOME Desktop, idling, GKRELLM running:	25304ns
 
 Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 ---
- drivers/gpu/drm/panfrost/panfrost_gpu.c  | 14 ++++++++++----
- drivers/gpu/drm/panfrost/panfrost_regs.h |  1 +
- 2 files changed, 11 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/panfrost/panfrost_gpu.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.c b/drivers/gpu/drm/panfrost/panfrost_gpu.c
-index fad75b6e543e..7e9e2cf26e4d 100644
+index 7e9e2cf26e4d..e264e8c2252d 100644
 --- a/drivers/gpu/drm/panfrost/panfrost_gpu.c
 +++ b/drivers/gpu/drm/panfrost/panfrost_gpu.c
-@@ -60,14 +60,20 @@ int panfrost_gpu_soft_reset(struct panfrost_device *pfdev)
+@@ -63,7 +63,7 @@ int panfrost_gpu_soft_reset(struct panfrost_device *pfdev)
  
- 	gpu_write(pfdev, GPU_INT_MASK, 0);
- 	gpu_write(pfdev, GPU_INT_CLEAR, GPU_IRQ_RESET_COMPLETED);
--	gpu_write(pfdev, GPU_CMD, GPU_CMD_SOFT_RESET);
- 
-+	gpu_write(pfdev, GPU_CMD, GPU_CMD_SOFT_RESET);
+ 	gpu_write(pfdev, GPU_CMD, GPU_CMD_SOFT_RESET);
  	ret = readl_relaxed_poll_timeout(pfdev->iomem + GPU_INT_RAWSTAT,
- 		val, val & GPU_IRQ_RESET_COMPLETED, 100, 10000);
--
+-		val, val & GPU_IRQ_RESET_COMPLETED, 100, 10000);
++		val, val & GPU_IRQ_RESET_COMPLETED, 10, 10000);
  	if (ret) {
--		dev_err(pfdev->dev, "gpu soft reset timed out\n");
--		return ret;
-+		dev_err(pfdev->dev, "gpu soft reset timed out, attempting hard reset\n");
-+
-+		gpu_write(pfdev, GPU_CMD, GPU_CMD_HARD_RESET);
-+		ret = readl_relaxed_poll_timeout(pfdev->iomem + GPU_INT_RAWSTAT,
-+			val, val & GPU_IRQ_RESET_COMPLETED, 100, 10000);
-+		if (ret) {
-+			dev_err(pfdev->dev, "gpu hard reset timed out\n");
-+			return ret;
-+		}
- 	}
+ 		dev_err(pfdev->dev, "gpu soft reset timed out, attempting hard reset\n");
  
- 	gpu_write(pfdev, GPU_INT_CLEAR, GPU_IRQ_MASK_ALL);
-diff --git a/drivers/gpu/drm/panfrost/panfrost_regs.h b/drivers/gpu/drm/panfrost/panfrost_regs.h
-index 55ec807550b3..c25743b05c55 100644
---- a/drivers/gpu/drm/panfrost/panfrost_regs.h
-+++ b/drivers/gpu/drm/panfrost/panfrost_regs.h
-@@ -44,6 +44,7 @@
- 	 GPU_IRQ_MULTIPLE_FAULT)
- #define GPU_CMD				0x30
- #define   GPU_CMD_SOFT_RESET		0x01
-+#define   GPU_CMD_HARD_RESET		0x02
- #define   GPU_CMD_PERFCNT_CLEAR		0x03
- #define   GPU_CMD_PERFCNT_SAMPLE	0x04
- #define   GPU_CMD_CYCLE_COUNT_START	0x05
+@@ -403,7 +403,7 @@ void panfrost_gpu_power_on(struct panfrost_device *pfdev)
+ 	gpu_write(pfdev, L2_PWRON_LO, pfdev->features.l2_present & core_mask);
+ 	ret = readl_relaxed_poll_timeout(pfdev->iomem + L2_READY_LO,
+ 		val, val == (pfdev->features.l2_present & core_mask),
+-		100, 20000);
++		10, 20000);
+ 	if (ret)
+ 		dev_err(pfdev->dev, "error powering up gpu L2");
+ 
+@@ -411,13 +411,13 @@ void panfrost_gpu_power_on(struct panfrost_device *pfdev)
+ 		  pfdev->features.shader_present & core_mask);
+ 	ret = readl_relaxed_poll_timeout(pfdev->iomem + SHADER_READY_LO,
+ 		val, val == (pfdev->features.shader_present & core_mask),
+-		100, 20000);
++		10, 20000);
+ 	if (ret)
+ 		dev_err(pfdev->dev, "error powering up gpu shader");
+ 
+ 	gpu_write(pfdev, TILER_PWRON_LO, pfdev->features.tiler_present);
+ 	ret = readl_relaxed_poll_timeout(pfdev->iomem + TILER_READY_LO,
+-		val, val == pfdev->features.tiler_present, 100, 1000);
++		val, val == pfdev->features.tiler_present, 10, 1000);
+ 	if (ret)
+ 		dev_err(pfdev->dev, "error powering up gpu tiler");
+ }
 -- 
 2.42.0
 
