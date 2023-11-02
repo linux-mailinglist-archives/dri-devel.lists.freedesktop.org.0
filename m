@@ -1,39 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF8BB7DECE4
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Nov 2023 07:34:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DDF1C7DECEE
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Nov 2023 07:40:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6757410E078;
-	Thu,  2 Nov 2023 06:34:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 005CE10E80F;
+	Thu,  2 Nov 2023 06:40:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB27A10E078
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Nov 2023 06:34:50 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 26CA610E80F
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Nov 2023 06:40:16 +0000 (UTC)
 Received: from [192.168.88.20] (91-158-149-209.elisa-laajakaista.fi
  [91.158.149.209])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 68EEF667;
- Thu,  2 Nov 2023 07:34:31 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 30FAB667;
+ Thu,  2 Nov 2023 07:39:57 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1698906872;
- bh=TSbYFkNmeiZIouKWbdaXDo5HzQtmMBXvAtX1Pkkqev0=;
+ s=mail; t=1698907197;
+ bh=xDliWcOshlD4U50xjeUOljI8Kve1mSsWah9snTOzVS4=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=d3vk5T7+Zegnu+KVP7gszcNU+N5lGV9tyabQDxkeidWgO+ndbJUzVzfTSxvg9GnEV
- gNPBii4wnccIJB+KKAPPglg2F/KjekGb21pP/bsYf/uiQF8LliQEIP4NIty327hbDt
- Krz9vr4msutoTx4BRPJ9s2WM8rC4+5Y2rUmwr588=
-Message-ID: <7395880d-36ba-471c-ba7c-745a0ec8e5de@ideasonboard.com>
-Date: Thu, 2 Nov 2023 08:34:45 +0200
+ b=rcUc6QmxXy8KanGfcE2CUrgLtqYCChAcECBzZ0EYaAEsT9mxut5A+1899JcFS7vrd
+ qlER+G3ocGhbcOeJ0n6zj2Vtv8m5HltXkchHBdjOkPDFocfxhyZmJFGTshI5r77cXh
+ FM7KKBPbo4tMR9055ksTem2g5ouxg7AF3sS8YBV0=
+Message-ID: <71056358-f91e-4a88-a979-33bfe157289a@ideasonboard.com>
+Date: Thu, 2 Nov 2023 08:40:10 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 02/10] drm/tidss: Use PM autosuspend
+Subject: Re: [PATCH 04/10] drm/tidss: Move reset to the end of dispc_init()
+Content-Language: en-US
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 References: <20231101-tidss-probe-v1-0-45149e0f9415@ideasonboard.com>
- <20231101-tidss-probe-v1-2-45149e0f9415@ideasonboard.com>
- <20231101135406.GR12764@pendragon.ideasonboard.com>
-Content-Language: en-US
+ <20231101-tidss-probe-v1-4-45149e0f9415@ideasonboard.com>
+ <20231101135749.GT12764@pendragon.ideasonboard.com>
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  xsFNBE6ms0cBEACyizowecZqXfMZtnBniOieTuFdErHAUyxVgtmr0f5ZfIi9Z4l+uUN4Zdw2
@@ -78,7 +78,7 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20231101135406.GR12764@pendragon.ideasonboard.com>
+In-Reply-To: <20231101135749.GT12764@pendragon.ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -100,89 +100,32 @@ Cc: Aradhya Bhatia <a-bhatia1@ti.com>, Devarsh Thakkar <devarsht@ti.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 01/11/2023 15:54, Laurent Pinchart wrote:
+On 01/11/2023 15:57, Laurent Pinchart wrote:
 > Hi Tomi,
 > 
 > Thank you for the patch.
 > 
-> On Wed, Nov 01, 2023 at 11:17:39AM +0200, Tomi Valkeinen wrote:
->> Use runtime PM autosuspend feature, with 1s timeout, to avoid
->> unnecessary suspend-resume cycles when, e.g. the userspace temporarily
->> turns off the crtcs when configuring the outputs.
+> On Wed, Nov 01, 2023 at 11:17:41AM +0200, Tomi Valkeinen wrote:
+>> We do a DSS reset in the middle of the dispc_init(). While that happens
+>> to work now, we should really make sure that e..g the fclk, which is
+>> acquired only later in the function, is enabled when doing a reset. This
+>> will be handled in a later patch, but for now, let's move the
+>> dispc_softreset() call to the end of dispc_init(), which is a sensible
+>> place for it anyway.
 >>
 >> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->> ---
->>   drivers/gpu/drm/tidss/tidss_drv.c | 8 +++++++-
->>   1 file changed, 7 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/tidss/tidss_drv.c b/drivers/gpu/drm/tidss/tidss_drv.c
->> index f403db11b846..64914331715a 100644
->> --- a/drivers/gpu/drm/tidss/tidss_drv.c
->> +++ b/drivers/gpu/drm/tidss/tidss_drv.c
->> @@ -43,7 +43,9 @@ void tidss_runtime_put(struct tidss_device *tidss)
->>   
->>   	dev_dbg(tidss->dev, "%s\n", __func__);
->>   
->> -	r = pm_runtime_put_sync(tidss->dev);
->> +	pm_runtime_mark_last_busy(tidss->dev);
->> +
->> +	r = pm_runtime_put_autosuspend(tidss->dev);
->>   	WARN_ON(r < 0);
->>   }
->>   
->> @@ -144,6 +146,9 @@ static int tidss_probe(struct platform_device *pdev)
->>   
->>   	pm_runtime_enable(dev);
->>   
->> +	pm_runtime_set_autosuspend_delay(dev, 1000);
->> +	pm_runtime_use_autosuspend(dev);
->> +
->>   #ifndef CONFIG_PM
->>   	/* If we don't have PM, we need to call resume manually */
->>   	dispc_runtime_resume(tidss->dispc);
 > 
-> By the way, there's a way to handle this without any ifdef:
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > 
-> 	dispc_runtime_resume(tidss->dispc);
-> 
-> 	pm_runtime_set_active(dev);
-> 	pm_runtime_get_noresume(dev);
-> 	pm_runtime_enable(dev);
-> 	pm_runtime_set_autosuspend_delay(dev, 1000);
-> 	pm_runtime_use_autosuspend(dev);
+> But do I understand correctly that the device isn't powered up at this
+> point ? That seems problematic.
 
-I'm not sure I follow what you are trying to do here. The call to 
-dispc_runtime_resume() would crash if we have PM, as the HW would not be 
-enabled at that point. And even if it wouldn't, we don't want to call 
-dispc_runtime_resume() in probe when we have PM.
+Indeed. It's fixed later in this series.
 
-> Then, in the error path,
-> 
-> 	pm_runtime_dont_use_autosuspend(dev);
-> 	pm_runtime_disable(dev);
-> 	pm_runtime_put_noidle(dev);
-> 
-> 	dispc_runtime_suspend(tidss->dispc);
-> 
-> And in remove:
-> 
-> 	pm_runtime_dont_use_autosuspend(dev);
-> 	pm_runtime_disable(dev);
-> 	if (!pm_runtime_status_suspended(dev))
-> 		dispc_runtime_suspend(tidss->dispc);
-> 	pm_runtime_set_suspended(dev);
-> 
-> And yes, runtime PM is a horrible API.
-> 
->> @@ -215,6 +220,7 @@ static void tidss_remove(struct platform_device *pdev)
->>   	/* If we don't have PM, we need to call suspend manually */
->>   	dispc_runtime_suspend(tidss->dispc);
->>   #endif
->> +	pm_runtime_dont_use_autosuspend(dev);
-> 
-> This also needs to be done in the probe error path.
+> I'm also not sure why we need to reset the device at probe time.
 
-Oops. Right, I'll add that.
+That's the usual place to do a reset, to make sure the HW is in a known 
+state, is it not? Where would you place it?
 
   Tomi
 
