@@ -1,58 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 936C27DF62D
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Nov 2023 16:19:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C45CD7DF6A5
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Nov 2023 16:41:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E3B4A10E900;
-	Thu,  2 Nov 2023 15:19:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A6EE10E8F0;
+	Thu,  2 Nov 2023 15:41:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 15FCC10E8FE;
- Thu,  2 Nov 2023 15:19:37 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8173510E8F0;
+ Thu,  2 Nov 2023 15:41:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1698938377; x=1730474377;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=DX5pR7NmAB/MEaCN3ICH5f/PRJdWLrIDgdmhT6o1n2A=;
- b=UxbR6LQN+gjIDKPv4QSll1xyrkFZquPxdyiDsj5WecHTRv5z9/yqofDA
- HlzEoPxtM/zisIzI0OMWJbEbFB59yFSQwI4e7A6jUIgRuFTDo3+gcSCGR
- uDuKK5lk0edTjdY14XqqO8Fnqt4HPAxHo7U9K3MzIE7noakRD9g9KxjJs
- PPPyp45wRbTvbd0Ccj+1F0a0LIr8fBniQxy6BbTgV/EXE3QGpGejbucen
- vUPMLY4qClm7OQM0v6lPsH2UqlffxmJZpPiHU6Wi4tGBwOjbwf59kahCV
- 7myvoBKadfFMVbGFRobwcDCSnOtln9iQPhJXlFIkvD6qfy0odcz3wzM1l g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="1662574"
-X-IronPort-AV: E=Sophos;i="6.03,271,1694761200"; 
-   d="scan'208";a="1662574"
+ t=1698939666; x=1730475666;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=vCsjbKy17pRUpW2uJl+oxDqlEWApGz3EOPnZNeFhj5Q=;
+ b=fBPWqmIlYWetVzTvkoCAt78Gf4IyZZ78Bha6TNqlXgLmP7ScycHQNruW
+ BZrbbvNKDVsREw9dHtLeUH7RWdJ/HLGFvLMM8D4e2j9grbHF2YgRAlWJP
+ O/MWZnJ3ICjvm3OU7FJjWmnq3/uwSq9YcLtc/SRF22enLBXqDqYJabxx3
+ eLbIhY2vrE5bPQ3kGhAO1cdz6kWbg59FReGz1FEQHzo5tnD6fPxI1MW33
+ ydtplVD+K74ixDaWaB206+RyaBM6/8ctu/OKoAeZTPFwAKjBZcB/yWzW2
+ MnmMzGANv4ZQ8rD0rutUqACYbNBXfaSQywhC5FGN8cB5Znchw6UdkmyLj Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="391605327"
+X-IronPort-AV: E=Sophos;i="6.03,271,1694761200"; d="scan'208";a="391605327"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Nov 2023 08:19:37 -0700
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Nov 2023 08:40:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="737785729"
-X-IronPort-AV: E=Sophos;i="6.03,271,1694761200"; d="scan'208";a="737785729"
-Received: from smile.fi.intel.com ([10.237.72.54])
- by orsmga006.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Nov 2023 08:19:33 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.97-RC3)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1qyZTm-0000000AiqE-1HmD; Thu, 02 Nov 2023 17:19:30 +0200
-Date: Thu, 2 Nov 2023 17:19:29 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Jani Nikula <jani.nikula@intel.com>, intel-gfx@lists.freedesktop.org,
+X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="737794897"
+X-IronPort-AV: E=Sophos;i="6.03,271,1694761200"; d="scan'208";a="737794897"
+Received: from unknown (HELO localhost) ([10.237.66.162])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Nov 2023 08:40:49 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Andy Shevchenko
+ <andriy.shevchenko@linux.intel.com>, intel-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 10/15] drm/i915/dsi: Fix wrong initial value for GPIOs
- in bxt_exec_gpio()
-Message-ID: <ZUO-AbXmr7mpiJuI@smile.fi.intel.com>
-References: <20231102151228.668842-1-andriy.shevchenko@linux.intel.com>
- <20231102151228.668842-11-andriy.shevchenko@linux.intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231102151228.668842-11-andriy.shevchenko@linux.intel.com>
+Subject: Re: [rft, PATCH v3 00/15] drm/i915/dsi: 2nd attempt to get rid of
+ IOSF GPIO
+In-Reply-To: <20231102151228.668842-1-andriy.shevchenko@linux.intel.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20231102151228.668842-1-andriy.shevchenko@linux.intel.com>
+Date: Thu, 02 Nov 2023 17:40:46 +0200
+Message-ID: <87zfzw17up.fsf@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,18 +65,65 @@ Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 02, 2023 at 05:12:23PM +0200, Andy Shevchenko wrote:
-> From: Hans de Goede <hdegoede@redhat.com>
-> 
-> Fix wrong initial value for GPIOs in bxt_exec_gpio().
+On Thu, 02 Nov 2023, Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
+> DSI code for VBT has a set of ugly GPIO hacks, one of which is direct
+> talking to GPIO IP behind the actual driver's back. A second attempt
+> to fix that is here.
+>
+> If I understood correctly, my approach should work in the similar way as
+> the current IOSF GPIO.
+>
+> Hans, I believe you have some devices that use this piece of code,
+> is it possible to give a test run on (one of) them?
+>
+> In v3:
+> - incorporated series by Jani
+> - incorporated couple of precursor patches by Hans
+> - added Rb tag for used to be first three patches (Andi)
+> - rebased on top of the above changes
+> - fixed indexing for multi-community devices, such as Cherry View
+>
+> In v2:
+> - added a few cleanup patches
+> - reworked to use dynamic GPIO lookup tables
+> - converted CHV as well
+>
+> Andy Shevchenko (8):
+>   drm/i915/dsi: Replace while(1) with one with clear exit condition
+>   drm/i915/dsi: Get rid of redundant 'else'
+>   drm/i915/dsi: Replace check with a (missing) MIPI sequence name
+>   drm/i915/dsi: Extract common soc_gpio_set_value() helper
+>   drm/i915/dsi: Replace poking of VLV GPIOs behind the driver's back
+>   drm/i915/dsi: Prepare soc_gpio_set_value() to distinguish GPIO
+>     communities
+>   drm/i915/dsi: Replace poking of CHV GPIOs behind the driver's back
+>   drm/i915/iosf: Drop unused APIs
+>
+> Hans de Goede (2):
+>   drm/i915/dsi: Remove GPIO lookup table at the end of
+>     intel_dsi_vbt_gpio_init()
+>   drm/i915/dsi: Fix wrong initial value for GPIOs in bxt_exec_gpio()
 
-Oh, and forgot to update the function name in this patch.
+Assuming it all still works, and I do trust Hans' testing here quite a
+bit, the above is
 
-In any case I would wait for Hans to confirm it works (and probably he may give
-a formal Tested-by tag) and then will send v4 to be applied for real.
+Acked-by: Jani Nikula <jani.nikula@intel.com>
+
+Thanks for doing this!
+
+>
+> Jani Nikula (5):
+>   drm/i915/dsi: assume BXT gpio works for non-native GPIO
+>   drm/i915/dsi: switch mipi_exec_gpio() from dev_priv to i915
+>   drm/i915/dsi: clarify GPIO exec sequence
+>   drm/i915/dsi: rename platform specific *_exec_gpio() to
+>     *_gpio_set_value()
+>   drm/i915/dsi: bxt/icl GPIO set value do not need gpio source
+>
+>  drivers/gpu/drm/i915/display/intel_dsi_vbt.c | 355 +++++++------------
+>  drivers/gpu/drm/i915/vlv_sideband.c          |  17 -
+>  drivers/gpu/drm/i915/vlv_sideband.h          |   3 -
+>  3 files changed, 137 insertions(+), 238 deletions(-)
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+Jani Nikula, Intel
