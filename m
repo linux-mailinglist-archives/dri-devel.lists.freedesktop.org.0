@@ -2,51 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D34D7DEEF3
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Nov 2023 10:33:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15A5C7DEF09
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Nov 2023 10:36:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 16E6D10E83B;
-	Thu,  2 Nov 2023 09:33:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DEEE10E83A;
+	Thu,  2 Nov 2023 09:36:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 334EA10E837;
- Thu,  2 Nov 2023 09:32:58 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D5E410E839;
+ Thu,  2 Nov 2023 09:36:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1698917578; x=1730453578;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=hH4BiIqtHgaOHdwWa31pBbOqXQ9rIeMRI87yRcpqYys=;
- b=O0Q3MXDuKvw9gLG4Mes7k8zcw25PEs1ms5HNXSGKJa8eAld0JGMt15O6
- gBw9cxxrdToWDLve4MYUguVg4B7anGgNC7WOzdh8HtJ+GhSYEqqX+LQ4Z
- /hbuE55Ah5BbOqeF7Hs5n66ByKG5UJKPlMuZrJo/smhGwZ9WxYtUYz+Y0
- CBwTMWm8jWxQuSxlA7J907mCglykZm2WDYXwhRdGBFSmqA+mwnRPgrI76
- dws+uRZe3jHqDW9OohK1jVWDqzP+tc/MN570ToSj82YyyMZ9HRQu9Uld7
- LeY+xLcqel4wecjyvCHuRq1mKL54L0JKry0uZb4dg/50GPVno1hi9EEps g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10881"; a="385848231"
-X-IronPort-AV: E=Sophos;i="6.03,271,1694761200"; d="scan'208";a="385848231"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Nov 2023 02:32:57 -0700
+ t=1698917764; x=1730453764;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=h5W9LCdVcZfD2AdsHxR/+8vgEFKmYrPZoLM9o3OP560=;
+ b=GeGZSyS6FBOkTPo5dvtOrQWMkjnf9p6RTEQd9yhIzCxBr14sWc4vUnCd
+ gMe2g+ym1gYSA8mClrnKSTdJ7Sb/LLrtEf63LdoDHeHtzEOKsQ0cw13I1
+ r+wMGqp96ApaOEHh1TCc37g2ieawpplDnuUme1dI2mQLaubFoIXaR3KXh
+ EOFr4AeqlG04+HEeWIGq4tRtTPGN5Juk3dra0Jx4eHACwLNDjWrOyrcFn
+ rCrPPJPX82QuQOw6DWwqnIUigLumu+3t1u81jrhnAl7arUXYy48lZKwPJ
+ kNvmmknd6NoePDWtyXE2dV8hMADQ7PehdAbjab1P2hu90KvkGCA0YRnLv Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10881"; a="419783878"
+X-IronPort-AV: E=Sophos;i="6.03,271,1694761200"; d="scan'208";a="419783878"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Nov 2023 02:35:58 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10881"; a="754727067"
-X-IronPort-AV: E=Sophos;i="6.03,271,1694761200"; d="scan'208";a="754727067"
-Received: from stevenwo-mobl1.ger.corp.intel.com (HELO localhost.localdomain)
- ([10.213.233.30])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Nov 2023 02:32:56 -0700
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-To: Intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/2] drm/i915: Move for_each_engine* out of i915_drv.h
-Date: Thu,  2 Nov 2023 09:32:48 +0000
-Message-Id: <20231102093248.362659-2-tvrtko.ursulin@linux.intel.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20231102093248.362659-1-tvrtko.ursulin@linux.intel.com>
-References: <20231102093248.362659-1-tvrtko.ursulin@linux.intel.com>
+X-IronPort-AV: E=McAfee;i="6600,9927,10881"; a="851866682"
+X-IronPort-AV: E=Sophos;i="6.03,271,1694761200"; d="scan'208";a="851866682"
+Received: from nofferma-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.51.121])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Nov 2023 02:35:56 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>
+Subject: Re: [PATCH v2 0/6] drm/edid: split out drm_eld.[ch], add some SAD
+ helpers
+In-Reply-To: <cover.1698747331.git.jani.nikula@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <cover.1698747331.git.jani.nikula@intel.com>
+Date: Thu, 02 Nov 2023 11:35:53 +0200
+Message-ID: <877cn04hvq.fsf@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,114 +61,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: intel-gfx@lists.freedesktop.org,
+ Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+On Tue, 31 Oct 2023, Jani Nikula <jani.nikula@intel.com> wrote:
+> v2 of https://patchwork.freedesktop.org/series/123384/
+>
+> Jani Nikula (6):
+>   drm/edid: split out drm_eld.h from drm_edid.h
+>   drm/eld: replace uint8_t with u8
+>   drm/edid: include drm_eld.h only where required
+>   drm/edid: use a temp variable for sads to drop one level of
+>     dereferences
+>   drm/edid: add helpers to get/set struct cea_sad from/to 3-byte sad
+>   drm/eld: add helpers to modify the SADs of an ELD
 
-Iterators operate on struct intel_gt so lets move it to intel_gt.h in
-order to make i915_drv.h less of a dumping ground for stuff.
+Maxime, Maarten, Thomas -
 
-Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Suggested-by: Jani Nikula <jani.nikula@linux.intel.com>
----
- drivers/gpu/drm/i915/gt/intel_engine_pm.h          |  1 +
- drivers/gpu/drm/i915/gt/intel_gt.h                 | 14 ++++++++++++++
- drivers/gpu/drm/i915/gt/intel_gt_engines_debugfs.c |  2 +-
- drivers/gpu/drm/i915/i915_drv.h                    | 14 --------------
- drivers/gpu/drm/i915/selftests/intel_uncore.c      |  2 ++
- 5 files changed, 18 insertions(+), 15 deletions(-)
+I'm moving a bunch of code around here, and would like to get your acks
+before merging. I'm planning on merging this via drm-misc-next, it's
+just that it only has Intel reviews, and don't want to feel like I'm
+sneaking this in.
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_engine_pm.h b/drivers/gpu/drm/i915/gt/intel_engine_pm.h
-index d68675925b79..1d97c435a015 100644
---- a/drivers/gpu/drm/i915/gt/intel_engine_pm.h
-+++ b/drivers/gpu/drm/i915/gt/intel_engine_pm.h
-@@ -10,6 +10,7 @@
- #include "i915_request.h"
- #include "intel_engine_types.h"
- #include "intel_wakeref.h"
-+#include "intel_gt.h"
- #include "intel_gt_pm.h"
- 
- static inline bool
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt.h b/drivers/gpu/drm/i915/gt/intel_gt.h
-index 9ffdb05e231e..b0e453e27ea8 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt.h
-+++ b/drivers/gpu/drm/i915/gt/intel_gt.h
-@@ -171,6 +171,20 @@ void intel_gt_release_all(struct drm_i915_private *i915);
- 	     (id__)++) \
- 		for_each_if(((gt__) = (i915__)->gt[(id__)]))
- 
-+/* Simple iterator over all initialised engines */
-+#define for_each_engine(engine__, gt__, id__) \
-+	for ((id__) = 0; \
-+	     (id__) < I915_NUM_ENGINES; \
-+	     (id__)++) \
-+		for_each_if ((engine__) = (gt__)->engine[(id__)])
-+
-+/* Iterator over subset of engines selected by mask */
-+#define for_each_engine_masked(engine__, gt__, mask__, tmp__) \
-+	for ((tmp__) = (mask__) & (gt__)->info.engine_mask; \
-+	     (tmp__) ? \
-+	     ((engine__) = (gt__)->engine[__mask_next_bit(tmp__)]), 1 : \
-+	     0;)
-+
- void intel_gt_info_print(const struct intel_gt_info *info,
- 			 struct drm_printer *p);
- 
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt_engines_debugfs.c b/drivers/gpu/drm/i915/gt/intel_gt_engines_debugfs.c
-index 8f9b874fdc9c..3aa1d014c14d 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt_engines_debugfs.c
-+++ b/drivers/gpu/drm/i915/gt/intel_gt_engines_debugfs.c
-@@ -6,8 +6,8 @@
- 
- #include <drm/drm_print.h>
- 
--#include "i915_drv.h" /* for_each_engine! */
- #include "intel_engine.h"
-+#include "intel_gt.h"
- #include "intel_gt_debugfs.h"
- #include "intel_gt_engines_debugfs.h"
- 
-diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-index bf6ed434bb6b..f3be9033a93f 100644
---- a/drivers/gpu/drm/i915/i915_drv.h
-+++ b/drivers/gpu/drm/i915/i915_drv.h
-@@ -396,20 +396,6 @@ static inline struct intel_gt *to_gt(const struct drm_i915_private *i915)
- 	return i915->gt[0];
- }
- 
--/* Simple iterator over all initialised engines */
--#define for_each_engine(engine__, gt__, id__) \
--	for ((id__) = 0; \
--	     (id__) < I915_NUM_ENGINES; \
--	     (id__)++) \
--		for_each_if ((engine__) = (gt__)->engine[(id__)])
--
--/* Iterator over subset of engines selected by mask */
--#define for_each_engine_masked(engine__, gt__, mask__, tmp__) \
--	for ((tmp__) = (mask__) & (gt__)->info.engine_mask; \
--	     (tmp__) ? \
--	     ((engine__) = (gt__)->engine[__mask_next_bit(tmp__)]), 1 : \
--	     0;)
--
- #define rb_to_uabi_engine(rb) \
- 	rb_entry_safe(rb, struct intel_engine_cs, uabi_node)
- 
-diff --git a/drivers/gpu/drm/i915/selftests/intel_uncore.c b/drivers/gpu/drm/i915/selftests/intel_uncore.c
-index 03ea75cd84dd..4f98aa8a861e 100644
---- a/drivers/gpu/drm/i915/selftests/intel_uncore.c
-+++ b/drivers/gpu/drm/i915/selftests/intel_uncore.c
-@@ -24,6 +24,8 @@
- 
- #include "../i915_selftest.h"
- 
-+#include "gt/intel_gt.h"
-+
- static int intel_fw_table_check(const struct intel_forcewake_range *ranges,
- 				unsigned int num_ranges,
- 				bool is_watertight)
+Thanks,
+Jani.
+
+>
+>  Documentation/gpu/drm-kms-helpers.rst         |   6 +
+>  drivers/gpu/drm/Makefile                      |   1 +
+>  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |   1 +
+>  drivers/gpu/drm/drm_edid.c                    |  43 +++--
+>  drivers/gpu/drm/drm_eld.c                     |  55 ++++++
+>  drivers/gpu/drm/drm_internal.h                |   6 +
+>  drivers/gpu/drm/i915/display/intel_audio.c    |   1 +
+>  .../drm/i915/display/intel_crtc_state_dump.c  |   1 +
+>  drivers/gpu/drm/i915/display/intel_sdvo.c     |   1 +
+>  drivers/gpu/drm/nouveau/dispnv50/disp.c       |   1 +
+>  drivers/gpu/drm/radeon/radeon_audio.c         |   1 +
+>  drivers/gpu/drm/tegra/hdmi.c                  |   1 +
+>  drivers/gpu/drm/tegra/sor.c                   |   1 +
+>  include/drm/drm_edid.h                        | 148 ----------------
+>  include/drm/drm_eld.h                         | 164 ++++++++++++++++++
+>  sound/core/pcm_drm_eld.c                      |   1 +
+>  sound/soc/codecs/hdac_hdmi.c                  |   1 +
+>  sound/soc/codecs/hdmi-codec.c                 |   1 +
+>  sound/x86/intel_hdmi_audio.c                  |   1 +
+>  19 files changed, 275 insertions(+), 160 deletions(-)
+>  create mode 100644 drivers/gpu/drm/drm_eld.c
+>  create mode 100644 include/drm/drm_eld.h
+
 -- 
-2.39.2
-
+Jani Nikula, Intel
