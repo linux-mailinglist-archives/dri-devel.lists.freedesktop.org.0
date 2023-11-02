@@ -1,58 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90DB77DEF11
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Nov 2023 10:39:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AE6D67DEF31
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Nov 2023 10:50:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C9EEE10E842;
-	Thu,  2 Nov 2023 09:39:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2055810E841;
+	Thu,  2 Nov 2023 09:50:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0974C10E842;
- Thu,  2 Nov 2023 09:39:36 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB50F10E840;
+ Thu,  2 Nov 2023 09:50:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1698917977; x=1730453977;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=aVYau0xGfa6jlJMZE2EfC6oVaomiUgxKmXYJa8Erip4=;
- b=iD/LALqykGF1O+ym7szwxGYHUoy78tZVay8ODwkzmYx8AKsI2eYsBz5o
- 6FxY9PgakyBY4lGvA49vIruYLdQXGJeNjy8xmEdUivaKmcqRmdMMy1JV4
- g+ZRV3B8WDO2NUpWFO8jBE7gGynOGYqXWLL29PbERxB3ylGZyl3a9D8Tm
- bEH30CaApQlBEu1D+wpbAmfKLVaD0W9m76Y78GZuOE/oTMZfBmU81PxBL
- 06EhigV4Kssb4bU7FqcAV3tFduOu4yJs59+XQNjBXIG218nh3YFfQKZLp
- 9qVJW6KybtyFCHkigEhxnXY67GDyjFMy0+SH5ftZu8sdi1R2nrPtz8nb1 A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10881"; a="452974846"
-X-IronPort-AV: E=Sophos;i="6.03,271,1694761200"; d="scan'208";a="452974846"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Nov 2023 02:39:36 -0700
+ t=1698918639; x=1730454639;
+ h=message-id:date:mime-version:subject:from:to:cc:
+ references:in-reply-to:content-transfer-encoding;
+ bh=MqEwOqFEROpRK8ja8oMw2BZyw0QLmhjLjywaIfAclHs=;
+ b=K7kNYQKEXZY3kNIDkeLdDFIexIAcoO3SE/VkKJe0lXb8menFAZZOP1R2
+ AUCB84rYuBGVE/3L9LaK1by0PKTH8tX2a45PZ94R/8mvoQrogogrBI0pK
+ TCi5CfeJ4R8siiBDNLeqc6s+cXhw29UttPF3ZZAyRbCLftrGVGBEwbdaS
+ CtKzr9P7unXBG8dJJUT3yJDaSc2X+dehKg2Vz9iCTpyg0pjTp012NNKcG
+ WGFJ5X6zDOAWPTGPQnGCGiIEFs9EsFVNZt3suoevNNL7dnrvSJoBLDzwy
+ BvxJPDvwcomQC1DynFqrgW/jmFT2tmhFT1K/ynmxGSQ6Uai9D+Lg93Gts Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10881"; a="391536676"
+X-IronPort-AV: E=Sophos;i="6.03,271,1694761200"; d="scan'208";a="391536676"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Nov 2023 02:50:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10881"; a="878174372"
-X-IronPort-AV: E=Sophos;i="6.03,271,1694761200"; d="scan'208";a="878174372"
+X-IronPort-AV: E=Sophos;i="6.03,271,1694761200"; 
+   d="scan'208";a="9329023"
 Received: from stevenwo-mobl1.ger.corp.intel.com (HELO [10.213.233.30])
  ([10.213.233.30])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Nov 2023 02:39:34 -0700
-Message-ID: <59d78f4e-45e2-4fb6-ad17-d44f82af9b69@linux.intel.com>
-Date: Thu, 2 Nov 2023 09:39:33 +0000
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Nov 2023 02:50:36 -0700
+Message-ID: <12f89faa-d36f-4f3a-99f3-749456d0f700@linux.intel.com>
+Date: Thu, 2 Nov 2023 09:50:34 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/i915: Remove unused for_each_uabi_class_engine
+Subject: Re: [PATCH 1/7] drm: Do not round to megabytes for greater than 1MiB
+ sizes in fdinfo stats
 Content-Language: en-US
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20231101100124.303739-1-tvrtko.ursulin@linux.intel.com>
- <87sf5p4wjx.fsf@intel.com>
- <1d8b9bb8-1368-436f-9fb6-125e6bb04e40@linux.intel.com>
- <87a5rw4if4.fsf@intel.com>
 From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+To: Steven Price <steven.price@arm.com>, Intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+References: <20230927133843.247957-1-tvrtko.ursulin@linux.intel.com>
+ <20230927133843.247957-2-tvrtko.ursulin@linux.intel.com>
+ <3344d3cf-2883-27d1-424e-d33b739dceb5@arm.com>
+ <d1a3df17-4c50-68ba-35d4-8a7ef62b84fb@linux.intel.com>
+ <6b4eb4bd-fe32-477e-836a-4f745a173772@linux.intel.com>
 Organization: Intel Corporation UK Plc
-In-Reply-To: <87a5rw4if4.fsf@intel.com>
+In-Reply-To: <6b4eb4bd-fe32-477e-836a-4f745a173772@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,138 +67,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+ =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 02/11/2023 09:24, Jani Nikula wrote:
-> On Wed, 01 Nov 2023, Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com> wrote:
->> On 01/11/2023 10:06, Jani Nikula wrote:
->>> On Wed, 01 Nov 2023, Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com> wrote:
+On 26/10/2023 15:43, Tvrtko Ursulin wrote:
+> 
+> On 28/09/2023 13:47, Tvrtko Ursulin wrote:
+>>
+>> On 27/09/2023 14:48, Steven Price wrote:
+>>> On 27/09/2023 14:38, Tvrtko Ursulin wrote:
 >>>> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 >>>>
->>>> Unused macro after 99919be74aa3 ("drm/i915/gem: Zap the i915_gem_object_blt code")
->>>> removed some code.
+>>>> It is better not to lose precision and not revert to 1 MiB size
+>>>> granularity for every size greater than 1 MiB.
+>>>>
+>>>> Sizes in KiB should not be so troublesome to read (and in fact machine
+>>>> parsing is I expect the norm here), they align with other api like
+>>>> /proc/meminfo, and they allow writing tests for the interface without
+>>>> having to embed drm.ko implementation knowledge into them. (Like 
+>>>> knowing
+>>>> that minimum buffer size one can use for successful verification has 
+>>>> to be
+>>>> 1MiB aligned, and on top account for any pre-existing memory 
+>>>> utilisation
+>>>> outside of driver's control.)
+>>>>
+>>>> But probably even more importantly I think that it is just better to 
+>>>> show
+>>>> the accurate sizes and not arbitrary lose precision for a little bit 
+>>>> of a
+>>>> stretched use case of eyeballing fdinfo text directly.
 >>>>
 >>>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>>>> Cc: Rob Clark <robdclark@gmail.com>
+>>>> Cc: Adrián Larumbe <adrian.larumbe@collabora.com>
+>>>> Cc: steven.price@arm.com
 >>>
->>> \o/
->>>
->>> Reviewed-by: Jani Nikula <jani.nikula@intel.com>
->>>
->>> Could I persuade you to move for_each_engine(),
->>> for_each_engine_masked(), rb_to_uabi_engine(), and
->>> for_each_uabi_engine() to a more suitable header?
+>>> Reviewed-by: Steven Price <steven.price@arm.com>
 >>
->> Former to intel_gt.h, but latter a better place is not coming to me. Like:
->>
->> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_pm.h b/drivers/gpu/drm/i915/gt/intel_engine_pm.h
->> index d68675925b79..1d97c435a015 100644
->> --- a/drivers/gpu/drm/i915/gt/intel_engine_pm.h
->> +++ b/drivers/gpu/drm/i915/gt/intel_engine_pm.h
->> @@ -10,6 +10,7 @@
->>    #include "i915_request.h"
->>    #include "intel_engine_types.h"
->>    #include "intel_wakeref.h"
->> +#include "intel_gt.h"
->>    #include "intel_gt_pm.h"
->>    
->>    static inline bool
->> diff --git a/drivers/gpu/drm/i915/gt/intel_gt.h b/drivers/gpu/drm/i915/gt/intel_gt.h
->> index 9ffdb05e231e..b0e453e27ea8 100644
->> --- a/drivers/gpu/drm/i915/gt/intel_gt.h
->> +++ b/drivers/gpu/drm/i915/gt/intel_gt.h
->> @@ -171,6 +171,20 @@ void intel_gt_release_all(struct drm_i915_private *i915);
->>                (id__)++) \
->>                   for_each_if(((gt__) = (i915__)->gt[(id__)]))
->>    
->> +/* Simple iterator over all initialised engines */
->> +#define for_each_engine(engine__, gt__, id__) \
->> +       for ((id__) = 0; \
->> +            (id__) < I915_NUM_ENGINES; \
->> +            (id__)++) \
->> +               for_each_if ((engine__) = (gt__)->engine[(id__)])
->> +
->> +/* Iterator over subset of engines selected by mask */
->> +#define for_each_engine_masked(engine__, gt__, mask__, tmp__) \
->> +       for ((tmp__) = (mask__) & (gt__)->info.engine_mask; \
->> +            (tmp__) ? \
->> +            ((engine__) = (gt__)->engine[__mask_next_bit(tmp__)]), 1 : \
->> +            0;)
->> +
->>    void intel_gt_info_print(const struct intel_gt_info *info,
->>                            struct drm_printer *p);
->>    
->> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_engines_debugfs.c b/drivers/gpu/drm/i915/gt/intel_gt_engines_debugfs.c
->> index 8f9b874fdc9c..3aa1d014c14d 100644
->> --- a/drivers/gpu/drm/i915/gt/intel_gt_engines_debugfs.c
->> +++ b/drivers/gpu/drm/i915/gt/intel_gt_engines_debugfs.c
->> @@ -6,8 +6,8 @@
->>    
->>    #include <drm/drm_print.h>
->>    
->> -#include "i915_drv.h" /* for_each_engine! */
->>    #include "intel_engine.h"
->> +#include "intel_gt.h"
->>    #include "intel_gt_debugfs.h"
->>    #include "intel_gt_engines_debugfs.h"
->>    
->> diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
->> index 744c8c4a50fa..3feec04a2b1c 100644
->> --- a/drivers/gpu/drm/i915/i915_drv.h
->> +++ b/drivers/gpu/drm/i915/i915_drv.h
->> @@ -396,20 +396,6 @@ static inline struct intel_gt *to_gt(const struct drm_i915_private *i915)
->>           return i915->gt[0];
->>    }
->>    
->> -/* Simple iterator over all initialised engines */
->> -#define for_each_engine(engine__, gt__, id__) \
->> -       for ((id__) = 0; \
->> -            (id__) < I915_NUM_ENGINES; \
->> -            (id__)++) \
->> -               for_each_if ((engine__) = (gt__)->engine[(id__)])
->> -
->> -/* Iterator over subset of engines selected by mask */
->> -#define for_each_engine_masked(engine__, gt__, mask__, tmp__) \
->> -       for ((tmp__) = (mask__) & (gt__)->info.engine_mask; \
->> -            (tmp__) ? \
->> -            ((engine__) = (gt__)->engine[__mask_next_bit(tmp__)]), 1 : \
->> -            0;)
->> -
->>    #define rb_to_uabi_engine(rb) \
->>           rb_entry_safe(rb, struct intel_engine_cs, uabi_node)
->>    
->> diff --git a/drivers/gpu/drm/i915/selftests/intel_uncore.c b/drivers/gpu/drm/i915/selftests/intel_uncore.c
->> index 7a5f4adc1b8b..c998f15d505c 100644
->> --- a/drivers/gpu/drm/i915/selftests/intel_uncore.c
->> +++ b/drivers/gpu/drm/i915/selftests/intel_uncore.c
->> @@ -24,6 +24,8 @@
->>    
->>    #include "../i915_selftest.h"
->>    
->> +#include "gt/intel_gt.h"
->> +
->>    static int intel_fw_table_check(const struct intel_forcewake_range *ranges,
->>                                   unsigned int num_ranges,
->>                                   bool is_watertight)
->>
->> Beneficial?
+>> Thanks! Rob? Can we have your blessing? Could you live with KiBs? :)
 > 
-> Yeah, I'd like to have less gem/gt/display in i915_drv.h, and focus on
-> the generic driver stuff.
+> Acked received on #dri-devel:
+> 
+> [12:15] <tursulin> robclark: ping on 
+> https://lists.freedesktop.org/archives/dri-devel/2023-September/424905.html - can you live with it or object?
+> [14:41] <robclark> tursulin: a-b
+> 
+> Adding the drm-misc maintainers with an ask to merge please.
 
-Okay, sent.
-
-For for_each_uabi_engine&co problem is how do we define what is what. 
-Historically we weren't saying that everything not display is GEM, and 
-uabi engines are not per GT. Even though engines themselves are, just 
-that historically we were putting stuff into GT which operates on a GT. 
-Perhaps with factoring out the display goal the requirements change a 
-bit and old boundaries/placement rules need tweaking. Or the sore point 
-will go away as/when display code is better isolated (less hacks, more 
-interfaces) from both i915 and xe. Anyway, for now I don't see a nice 
-and easy place to move them to, which wouldn't be wrong from some aspect.
+Ping please - just this one patch to merge to drm-misc-next if possible.
 
 Regards,
 
