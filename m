@@ -2,55 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2204E7DEEC6
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Nov 2023 10:24:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1F217DEEEE
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Nov 2023 10:32:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4303F10E144;
-	Thu,  2 Nov 2023 09:24:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 443D510E835;
+	Thu,  2 Nov 2023 09:32:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B2C6B10E144
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Nov 2023 09:24:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1698917092; x=1730453092;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=goz1MDZeYttmZTizQc2k0/k0PvBtwJ1aMlNPSqULG1w=;
- b=QxDhVZho9Qyp4JAWmdy0O6VBk8ogje5ac3K2/3tG8Tr20ZbZVP9SLzDf
- /7H+kowDQ3aO2AB2D4k7FUUP5BLWwJmZa6cK5VmV5/reJFcsHO7UBA4Xp
- p0NpBFIqTOdX7KzFUPl0H/CYbcPvhbH5Bcwgb1ufux5AEmih16tBJjN/y
- vHv64uck0YTyGfswJ5t1nv6iR1GhA8STwXqpN3kjw/QeTZRcXyHJJpUyX
- TsvwCRfcI78NPky78h2smDoWCLzwVxChO0NcyqGlxNMG3upl3rOCsCfCX
- j/WHSlTyqnkwaHcImaX0POyB4wiF4tv19bWOVlFFTFMGOcvjTk2Tp8dXN A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10881"; a="368016386"
-X-IronPort-AV: E=Sophos;i="6.03,271,1694761200"; d="scan'208";a="368016386"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Nov 2023 02:24:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10881"; a="764855969"
-X-IronPort-AV: E=Sophos;i="6.03,271,1694761200"; d="scan'208";a="764855969"
-Received: from jlawryno-mobl.ger.corp.intel.com (HELO [10.249.132.23])
- ([10.249.132.23])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Nov 2023 02:24:44 -0700
-Message-ID: <ccf8e1ae-efa5-4d09-bc43-4ed18536c910@linux.intel.com>
-Date: Thu, 2 Nov 2023 10:24:24 +0100
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
+ [IPv6:2a00:1450:4864:20::32e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9667810E835;
+ Thu,  2 Nov 2023 09:32:13 +0000 (UTC)
+Received: by mail-wm1-x32e.google.com with SMTP id
+ 5b1f17b1804b1-40850b244beso5384925e9.2; 
+ Thu, 02 Nov 2023 02:32:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1698917532; x=1699522332; darn=lists.freedesktop.org;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=WqxvJKYv5vpdTxmgr1nqq+qFlX0PIIBhjoeGRz1GRg8=;
+ b=fTcFR3GHGY5TMU4BdDqHfms2H3gf8INCaww9Vc0iD7T2mJJUdcY6Q8qhOpsEzZi/Qe
+ tiP1qDKZztlsFQKf6SaxHHeE5uBA86RO1nvsP220NK/MxN/6mjV+bx4DAX7C8Fdabyh4
+ V2I4U1UWdSupsBnAhxbpS+8xQ1xWZGfPWhCQjgwV7PzA9MtUuybt/Cn6TgLr5CBQqnFc
+ 0G85XfcyYx3AoQ1a5UriJEGH3B7Bwn5WtNFFnaUaCGVMkyufQdUNVihh5pjB+oAX9X3b
+ Jl5/f1jW+MUaAArkHqOZOtTmjCG7/jr62AatItijqdwv/Dizjaq24xLMHsBtC01BZGXA
+ bZpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1698917532; x=1699522332;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=WqxvJKYv5vpdTxmgr1nqq+qFlX0PIIBhjoeGRz1GRg8=;
+ b=ouk8biHHHfH7gkhcxoVV2XJlKBY0nBw2VHkQekRWU191iIzflnqV1mdVTn4qkiHJQx
+ emwm2xjgDEZFod1+gXD45wX9eF2vjtXAKRPnQ/UOusfpanWE4oHeYZ5mQ3vJiPiUqUAg
+ NUks4tg6UmoRhxnVXAt/5kltS7zKqF+fY7cE0SbC/zoDCgpSVMOI9RQVEId7GY6JrV+o
+ M0Bh+iv+g43he2I618kpaJd3s+V0zztveq30oup5itQxGjcGrBLGXcw6hOiNwpMGLwp4
+ RjsoJ+ijGZNOhtm9gutqChAnSjyedydX0qVKF3EXCIdV4ckMCw6azBZ3eMZsmqONbp1Z
+ Vgbg==
+X-Gm-Message-State: AOJu0Yx/5pGvOP1mTW7Iwo9LUFCqTpMHfbcWR2yjyIqr0xkO3eH2qxY+
+ WTFk/jEVgUu+I1Swn1Vg2hk=
+X-Google-Smtp-Source: AGHT+IHc0wpbmRp2tgf8ByRrDxa2IV0hXvaKz5WVhrwURQsV1he73lF5J1ODWGCP4OWwTpvppn7IUg==
+X-Received: by 2002:a05:600c:5119:b0:409:2f7:d771 with SMTP id
+ o25-20020a05600c511900b0040902f7d771mr15550596wms.4.1698917531582; 
+ Thu, 02 Nov 2023 02:32:11 -0700 (PDT)
+Received: from debian ([167.98.27.226]) by smtp.gmail.com with ESMTPSA id
+ z6-20020a7bc7c6000000b00401d8181f8bsm2240311wmk.25.2023.11.02.02.32.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 02 Nov 2023 02:32:11 -0700 (PDT)
+Date: Thu, 2 Nov 2023 09:32:08 +0000
+From: "Sudip Mukherjee (Codethink)" <sudipm.mukherjee@gmail.com>
+To: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Roman Li <roman.li@amd.com>, Qingqing Zhuo <Qingqing.Zhuo@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>
+Subject: mainline build failure due to 7966f319c66d ("drm/amd/display:
+ Introduce DML2")
+Message-ID: <ZUNsmJGbYwgPaUpY@debian>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: =?UTF-8?Q?Re=3A_=5Baccel/ivpu=5D_Help_--_Which_Intel_CPU_processor_?=
- =?UTF-8?Q?can_be_used_for_iVPU_driver=EF=BC=9F?=
-To: Trigger Huang <trigger.huang@gmail.com>, dri-devel@lists.freedesktop.org
-References: <CANH0Q9mzBVr7KTJQmvLsqndpTZ8JU0rDfDQhu10kFsRgfybA4A@mail.gmail.com>
-Content-Language: en-US
-From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <CANH0Q9mzBVr7KTJQmvLsqndpTZ8JU0rDfDQhu10kFsRgfybA4A@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,36 +71,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+Cc: regressions@lists.linux.dev, Leo Li <sunpeng.li@amd.com>, "Pan,
+ Xinhui" <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org,
+ "linux-kernel@vger.kernel.orgLinus Torvalds" <torvalds@linux-foundation.org>,
+ dri-devel@lists.freedesktop.org,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi All,
 
-You need a Meteor Lake based platform.
-Intel 14th gen desktop CPUs were supposed to be Meteor Lake but they ended up as Raptor Lake.
-NPU (formerly known as VPU) will be available in 14th gen mobile chips.
-I will update the Kconfig description.
+The latest mainline kernel branch fails to build x86_64 allmodconfig
+with the error:
 
-Regards,
-Jacek
+drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/display_mode_core.c: In function 'dml_prefetch_check':
+drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/display_mode_core.c:6707:1: error: the frame size of 2056 bytes is larger than 2048 bytes [-Werror=frame-larger-than=]
+ 6707 | }
+      | ^
 
-On 02.11.2023 07:59, Trigger Huang wrote:
-> Hello,
-> 
-> I want to have a try for the iVPU driver but don't know which CPU platform
-> is suitable. Would you help?
-> 
-> According to the description in linux/drivers/accel/ivpu/Kconfig, it says
-> that Choose this option if you have a system that has an *14*th generation
-> Intel CPU
-> But according to the Intel  I7 *14*700k spec (
-> https://www.intel.com/content/www/us/en/products/sku/236783/intel-core-i7-processor-14700k-33m-cache-up-to-5-60-ghz/specifications.html),
-> there is
-> no description about Versatile Processing Unit.
-> 
-> So which CPU should I choose?
-> 
-> Thanks,
-> Trigger
-> 
+git bisect pointed to 7966f319c66d ("drm/amd/display: Introduce DML2")
+
+I will be happy to test any patch or provide any extra log if needed.
+
+#regzbot introduced: 7966f319c66d9468623c6a6a017ecbc0dd79be75
+
+-- 
+Regards
+Sudip
