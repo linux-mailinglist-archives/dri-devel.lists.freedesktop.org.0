@@ -1,86 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83AC07DEE1D
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Nov 2023 09:24:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 375527DEEB3
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Nov 2023 10:16:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E88610E05B;
-	Thu,  2 Nov 2023 08:24:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6358710E82D;
+	Thu,  2 Nov 2023 09:16:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B16910E05B
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Nov 2023 08:24:03 +0000 (UTC)
-Received: from [192.168.88.20] (91-158-149-209.elisa-laajakaista.fi
- [91.158.149.209])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1FF117E2;
- Thu,  2 Nov 2023 09:23:44 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1698913424;
- bh=dY5VRG4sVx51nuZ109mj20vCcQCtdywyr1QIsou8CtI=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=HUpwC3jPIFc0KkExQUPR9vaqPIus1tFugm5UEOQV8Cju9QQ/IMqBTQWNJW2YchODt
- O1UrFQcWRNLsmForvO44X4VNGhoeojjYkNp5ROKhhK85PFtitsvUX2qdTRFvwwpTC9
- fcd6aR39OMhO5gs1Fo+XI2+h5/v7QP32c5IJbTeo=
-Message-ID: <4fc5c307-082d-4c72-90c8-7bd7efcd2184@ideasonboard.com>
-Date: Thu, 2 Nov 2023 10:23:58 +0200
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5BA0010E830;
+ Thu,  2 Nov 2023 09:16:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1698916591; x=1730452591;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=OCRR/l5SncfbNOGTx53r+eb+uVJU0CxzR6TuOOtqBCU=;
+ b=QS3xkmJ3frBpZSJba1kIeADgCbMT6wycCAHV4FHaeKeotYKloxxwEtiG
+ 9UwR3w1CpFge2ECHtwVXvhdcPIR8S/0hBkN4zsIjDF8fHRm941cat8anz
+ ZfqCxYXL6WamuduSvHqIwScBT4qhSz8ANIcq4ThjMJW20Oer3X5yVw510
+ wqmxH74Pqxc6Y2LJx5hh0RgCTLDENeu7Wn9cU5bNnde3JsahaZKbfp0VG
+ ZQHa+ZuxvCBjnqxad2IdA3DK/c/7xI+BPYXNk/w1c/BGLIYUwnGuuk14N
+ HGOA+HGb39yPxoVNaR26p+H919/RIl03Yeefmll/T/02yTytiihKBleSB Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10881"; a="455149090"
+X-IronPort-AV: E=Sophos;i="6.03,271,1694761200"; d="scan'208";a="455149090"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Nov 2023 02:16:30 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10881"; a="934721720"
+X-IronPort-AV: E=Sophos;i="6.03,271,1694761200"; d="scan'208";a="934721720"
+Received: from nofferma-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.51.121])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Nov 2023 02:16:26 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Alex Deucher <alexdeucher@gmail.com>, Hamza Mahfooz <hamza.mahfooz@amd.com>
+Subject: Re: [PATCH] drm/edid: add a quirk for two 240Hz Samsung monitors
+In-Reply-To: <CADnq5_Nv0MnG+pPvRQO37OP8iYwz8oGvFLs2g-+U=URHWcqJGw@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20231101210037.130494-1-hamza.mahfooz@amd.com>
+ <CADnq5_Nv0MnG+pPvRQO37OP8iYwz8oGvFLs2g-+U=URHWcqJGw@mail.gmail.com>
+Date: Thu, 02 Nov 2023 11:16:22 +0200
+Message-ID: <87edh84is9.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 10/10] drm/tidss: Fix atomic_flush check
-Content-Language: en-US
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20231101-tidss-probe-v1-0-45149e0f9415@ideasonboard.com>
- <20231101-tidss-probe-v1-10-45149e0f9415@ideasonboard.com>
- <20231101145658.GZ12764@pendragon.ideasonboard.com>
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- xsFNBE6ms0cBEACyizowecZqXfMZtnBniOieTuFdErHAUyxVgtmr0f5ZfIi9Z4l+uUN4Zdw2
- wCEZjx3o0Z34diXBaMRJ3rAk9yB90UJAnLtb8A97Oq64DskLF81GCYB2P1i0qrG7UjpASgCA
- Ru0lVvxsWyIwSfoYoLrazbT1wkWRs8YBkkXQFfL7Mn3ZMoGPcpfwYH9O7bV1NslbmyJzRCMO
- eYV258gjCcwYlrkyIratlHCek4GrwV8Z9NQcjD5iLzrONjfafrWPwj6yn2RlL0mQEwt1lOvn
- LnI7QRtB3zxA3yB+FLsT1hx0va6xCHpX3QO2gBsyHCyVafFMrg3c/7IIWkDLngJxFgz6DLiA
- G4ld1QK/jsYqfP2GIMH1mFdjY+iagG4DqOsjip479HCWAptpNxSOCL6z3qxCU8MCz8iNOtZk
- DYXQWVscM5qgYSn+fmMM2qN+eoWlnCGVURZZLDjg387S2E1jT/dNTOsM/IqQj+ZROUZuRcF7
- 0RTtuU5q1HnbRNwy+23xeoSGuwmLQ2UsUk7Q5CnrjYfiPo3wHze8avK95JBoSd+WIRmV3uoO
- rXCoYOIRlDhg9XJTrbnQ3Ot5zOa0Y9c4IpyAlut6mDtxtKXr4+8OzjSVFww7tIwadTK3wDQv
- Bus4jxHjS6dz1g2ypT65qnHen6mUUH63lhzewqO9peAHJ0SLrQARAQABzTBUb21pIFZhbGtl
- aW5lbiA8dG9taS52YWxrZWluZW5AaWRlYXNvbmJvYXJkLmNvbT7CwY4EEwEIADgWIQTEOAw+
- ll79gQef86f6PaqMvJYe9QUCX/HruAIbAwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgAAKCRD6
- PaqMvJYe9WmFD/99NGoD5lBJhlFDHMZvO+Op8vCwnIRZdTsyrtGl72rVh9xRfcSgYPZUvBuT
- VDxE53mY9HaZyu1eGMccYRBaTLJSfCXl/g317CrMNdY0k40b9YeIX10feiRYEWoDIPQ3tMmA
- 0nHDygzcnuPiPT68JYZ6tUOvAt7r6OX/litM+m2/E9mtp8xCoWOo/kYO4mOAIoMNvLB8vufi
- uBB4e/AvAjtny4ScuNV5c5q8MkfNIiOyag9QCiQ/JfoAqzXRjVb4VZG72AKaElwipiKCWEcU
- R4+Bu5Qbaxj7Cd36M/bI54OrbWWETJkVVSV1i0tghCd6HHyquTdFl7wYcz6cL1hn/6byVnD+
- sR3BLvSBHYp8WSwv0TCuf6tLiNgHAO1hWiQ1pOoXyMEsxZlgPXT+wb4dbNVunckwqFjGxRbl
- Rz7apFT/ZRwbazEzEzNyrBOfB55xdipG/2+SmFn0oMFqFOBEszXLQVslh64lI0CMJm2OYYe3
- PxHqYaztyeXsx13Bfnq9+bUynAQ4uW1P5DJ3OIRZWKmbQd/Me3Fq6TU57LsvwRgE0Le9PFQs
- dcP2071rMTpqTUteEgODJS4VDf4lXJfY91u32BJkiqM7/62Cqatcz5UWWHq5xeF03MIUTqdE
- qHWk3RJEoWHWQRzQfcx6Fn2fDAUKhAddvoopfcjAHfpAWJ+ENc7BTQROprNHARAAx0aat8GU
- hsusCLc4MIxOQwidecCTRc9Dz/7U2goUwhw2O5j9TPqLtp57VITmHILnvZf6q3QAho2QMQyE
- DDvHubrdtEoqaaSKxKkFie1uhWNNvXPhwkKLYieyL9m2JdU+b88HaDnpzdyTTR4uH7wk0bBa
- KbTSgIFDDe5lXInypewPO30TmYNkFSexnnM3n1PBCqiJXsJahE4ZQ+WnV5FbPUj8T2zXS2xk
- 0LZ0+DwKmZ0ZDovvdEWRWrz3UzJ8DLHb7blPpGhmqj3ANXQXC7mb9qJ6J/VSl61GbxIO2Dwb
- xPNkHk8fwnxlUBCOyBti/uD2uSTgKHNdabhVm2dgFNVuS1y3bBHbI/qjC3J7rWE0WiaHWEqy
- UVPk8rsph4rqITsj2RiY70vEW0SKePrChvET7D8P1UPqmveBNNtSS7In+DdZ5kUqLV7rJnM9
- /4cwy+uZUt8cuCZlcA5u8IsBCNJudxEqBG10GHg1B6h1RZIz9Q9XfiBdaqa5+CjyFs8ua01c
- 9HmyfkuhXG2OLjfQuK+Ygd56mV3lq0aFdwbaX16DG22c6flkkBSjyWXYepFtHz9KsBS0DaZb
- 4IkLmZwEXpZcIOQjQ71fqlpiXkXSIaQ6YMEs8WjBbpP81h7QxWIfWtp+VnwNGc6nq5IQDESH
- mvQcsFS7d3eGVI6eyjCFdcAO8eMAEQEAAcLBXwQYAQIACQUCTqazRwIbDAAKCRD6PaqMvJYe
- 9fA7EACS6exUedsBKmt4pT7nqXBcRsqm6YzT6DeCM8PWMTeaVGHiR4TnNFiT3otD5UpYQI7S
- suYxoTdHrrrBzdlKe5rUWpzoZkVK6p0s9OIvGzLT0lrb0HC9iNDWT3JgpYDnk4Z2mFi6tTbq
- xKMtpVFRA6FjviGDRsfkfoURZI51nf2RSAk/A8BEDDZ7lgJHskYoklSpwyrXhkp9FHGMaYII
- m9EKuUTX9JPDG2FTthCBrdsgWYPdJQvM+zscq09vFMQ9Fykbx5N8z/oFEUy3ACyPqW2oyfvU
- CH5WDpWBG0s5BALp1gBJPytIAd/pY/5ZdNoi0Cx3+Z7jaBFEyYJdWy1hGddpkgnMjyOfLI7B
- CFrdecTZbR5upjNSDvQ7RG85SnpYJTIin+SAUazAeA2nS6gTZzumgtdw8XmVXZwdBfF+ICof
- 92UkbYcYNbzWO/GHgsNT1WnM4sa9lwCSWH8Fw1o/3bX1VVPEsnESOfxkNdu+gAF5S6+I6n3a
- ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
- yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
- 3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20231101145658.GZ12764@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,85 +60,168 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Aradhya Bhatia <a-bhatia1@ti.com>, Devarsh Thakkar <devarsht@ti.com>,
- linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+Cc: Maxime Ripard <mripard@kernel.org>, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+ Jerry Zuo <jerry.zuo@amd.com>, Aurabindo Pillai <aurabindo.pillai@amd.com>,
  dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Jyri Sarha <jyri.sarha@iki.fi>
+ Alex Deucher <alexander.deucher@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 01/11/2023 16:56, Laurent Pinchart wrote:
-> Hi Tomi,
-> 
-> Thank you for the patch.
-> 
-> On Wed, Nov 01, 2023 at 11:17:47AM +0200, Tomi Valkeinen wrote:
->> tidss_crtc_atomic_flush() checks if the crtc is enabled, and if not,
->> returns immediately as there's no reason to do any register changes.
+On Wed, 01 Nov 2023, Alex Deucher <alexdeucher@gmail.com> wrote:
+> On Wed, Nov 1, 2023 at 5:01=E2=80=AFPM Hamza Mahfooz <hamza.mahfooz@amd.c=
+om> wrote:
 >>
->> However, the code checks for 'crtc->state->enable', which does not
->> reflect the actual HW state. We should instead look at the
->> 'crtc->state->active' flag.
+>> Without this fix the 5120x1440@240 timing of these monitors
+>> leads to screen flickering.
 >>
->> This causes the tidss_crtc_atomic_flush() to proceed with the flush even
->> if the active state is false, which then causes us to hit the
->> WARN_ON(!crtc->state->event) check.
->>
->> Fix this by checking the active flag, and while at it, fix the related
->> debug print which had "active" and "needs modeset" wrong way.
->>
->> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+>> Cc: stable@vger.kernel.org # 6.1+
+>> Link: https://gitlab.freedesktop.org/drm/amd/-/issues/1442
+>> Co-developed-by: Harry Wentland <harry.wentland@amd.com>
+>> Signed-off-by: Harry Wentland <harry.wentland@amd.com>
+>> Signed-off-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
 >> ---
->>   drivers/gpu/drm/tidss/tidss_crtc.c | 9 ++++-----
->>   1 file changed, 4 insertions(+), 5 deletions(-)
+>>  drivers/gpu/drm/drm_edid.c | 47 +++++++++++++++++++++++++++++++++++---
+>>  1 file changed, 44 insertions(+), 3 deletions(-)
 >>
->> diff --git a/drivers/gpu/drm/tidss/tidss_crtc.c b/drivers/gpu/drm/tidss/tidss_crtc.c
->> index 5e5e466f35d1..4c7009a5d643 100644
->> --- a/drivers/gpu/drm/tidss/tidss_crtc.c
->> +++ b/drivers/gpu/drm/tidss/tidss_crtc.c
->> @@ -169,13 +169,12 @@ static void tidss_crtc_atomic_flush(struct drm_crtc *crtc,
->>   	struct tidss_device *tidss = to_tidss(ddev);
->>   	unsigned long flags;
->>   
->> -	dev_dbg(ddev->dev,
->> -		"%s: %s enabled %d, needs modeset %d, event %p\n", __func__,
->> -		crtc->name, drm_atomic_crtc_needs_modeset(crtc->state),
->> -		crtc->state->enable, crtc->state->event);
->> +	dev_dbg(ddev->dev, "%s: %s active %d, needs modeset %d, event %p\n",
->> +		__func__, crtc->name, crtc->state->active,
->> +		drm_atomic_crtc_needs_modeset(crtc->state), crtc->state->event);
-> 
-> While at it, how about this ?
+>> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+>> index bca2af4fe1fc..3fdb8907f66b 100644
+>> --- a/drivers/gpu/drm/drm_edid.c
+>> +++ b/drivers/gpu/drm/drm_edid.c
+>> @@ -89,6 +89,8 @@ static int oui(u8 first, u8 second, u8 third)
+>>  #define EDID_QUIRK_NON_DESKTOP                 (1 << 12)
+>>  /* Cap the DSC target bitrate to 15bpp */
+>>  #define EDID_QUIRK_CAP_DSC_15BPP               (1 << 13)
+>> +/* Fix up a particular 5120x1440@240Hz timing */
+>> +#define EDID_QUIRK_FIXUP_5120_1440_240         (1 << 14)
+>
+> What is wrong with the original timing that needs to be fixed?
 
-Why not. The active part won't be needed if we use 
-DRM_PLANE_COMMIT_ACTIVE_ONLY, though.
+Indeed. I'd be wary of applying this quirk as-is, because it'll impact
+all drivers and all connectors.
 
-> 	dev_dbg(ddev->dev, "%s: %s is %sactive, %s modeset, event %p\n",
-> 		__func__, crtc->name, crtc->state->active ? "" : "not ",
-> 		drm_atomic_crtc_needs_modeset(crtc->state) ? "needs", "doesn't need",
-> 		crtc->state->event);
-> 
->>   
->>   	/* There is nothing to do if CRTC is not going to be enabled. */
->> -	if (!crtc->state->enable)
->> +	if (!crtc->state->active)
-> 
-> I think the drm_atomic_helper_commit_planes() helper will handle this if
-> you pass it the DRM_PLANE_COMMIT_ACTIVE_ONLY flag.
+The bug report does not have a single EDID from the affected displays
+attached.
 
-I considered it, but it does a bit more, as it also affects the plane 
-updates. We specifically did not use DRM_PLANE_COMMIT_ACTIVE_ONLY as it 
-didn't work with DSS.
+The quirk sets mode members that apparently do not need to be modified.
 
-That said, I can't figure out what was the issue. It's possible the 
-issue was only on the older DSS HW, with omapdrm (tidss code was 
-originally somewhat based on omapdrm). I'm pretty sure the issue was 
-related to multi-display systems and the plane updates there. But I 
-don't have any multi-display board which uses tidss.
+Cc: Ville
 
-So, I'll keep this patch, but add another on top, which uses 
-DRM_PLANE_COMMIT_ACTIVE_ONLY. Then it'll be easy to revert the 
-DRM_PLANE_COMMIT_ACTIVE_ONLY one if needed, while still keeping this fix.
 
-  Tomi
+BR,
+Jani.
 
+
+>
+> Alex
+>
+>
+>>
+>>  #define MICROSOFT_IEEE_OUI     0xca125c
+>>
+>> @@ -170,6 +172,12 @@ static const struct edid_quirk {
+>>         EDID_QUIRK('S', 'A', 'M', 596, EDID_QUIRK_PREFER_LARGE_60),
+>>         EDID_QUIRK('S', 'A', 'M', 638, EDID_QUIRK_PREFER_LARGE_60),
+>>
+>> +       /* Samsung C49G95T */
+>> +       EDID_QUIRK('S', 'A', 'M', 0x7053, EDID_QUIRK_FIXUP_5120_1440_240=
+),
+>> +
+>> +       /* Samsung S49AG95 */
+>> +       EDID_QUIRK('S', 'A', 'M', 0x71ac, EDID_QUIRK_FIXUP_5120_1440_240=
+),
+>> +
+>>         /* Sony PVM-2541A does up to 12 bpc, but only reports max 8 bpc =
+*/
+>>         EDID_QUIRK('S', 'N', 'Y', 0x2541, EDID_QUIRK_FORCE_12BPC),
+>>
+>> @@ -6586,7 +6594,37 @@ static void update_display_info(struct drm_connec=
+tor *connector,
+>>         drm_edid_to_eld(connector, drm_edid);
+>>  }
+>>
+>> -static struct drm_display_mode *drm_mode_displayid_detailed(struct drm_=
+device *dev,
+>> +static void drm_mode_displayid_detailed_edid_quirks(struct drm_connecto=
+r *connector,
+>> +                                                   struct drm_display_m=
+ode *mode)
+>> +{
+>> +       unsigned int hsync_width;
+>> +       unsigned int vsync_width;
+>> +
+>> +       if (connector->display_info.quirks & EDID_QUIRK_FIXUP_5120_1440_=
+240) {
+>> +               if (mode->hdisplay =3D=3D 5120 && mode->vdisplay =3D=3D =
+1440 &&
+>> +                   mode->clock =3D=3D 1939490) {
+>> +                       hsync_width =3D mode->hsync_end - mode->hsync_st=
+art;
+>> +                       vsync_width =3D mode->vsync_end - mode->vsync_st=
+art;
+>> +
+>> +                       mode->clock =3D 2018490;
+>> +                       mode->hdisplay =3D 5120;
+>> +                       mode->hsync_start =3D 5120 + 8;
+>> +                       mode->hsync_end =3D 5120 + 8 + hsync_width;
+>> +                       mode->htotal =3D 5200;
+>> +
+>> +                       mode->vdisplay =3D 1440;
+>> +                       mode->vsync_start =3D 1440 + 165;
+>> +                       mode->vsync_end =3D 1440 + 165 + vsync_width;
+>> +                       mode->vtotal =3D 1619;
+>> +
+>> +                       drm_dbg_kms(connector->dev,
+>> +                                   "[CONNECTOR:%d:%s] Samsung 240Hz mod=
+e quirk applied\n",
+>> +                                   connector->base.id, connector->name);
+>> +               }
+>> +       }
+>> +}
+>> +
+>> +static struct drm_display_mode *drm_mode_displayid_detailed(struct drm_=
+connector *connector,
+>>                                                             struct displ=
+ayid_detailed_timings_1 *timings,
+>>                                                             bool type_7)
+>>  {
+>> @@ -6605,7 +6643,7 @@ static struct drm_display_mode *drm_mode_displayid=
+_detailed(struct drm_device *d
+>>         bool hsync_positive =3D (timings->hsync[1] >> 7) & 0x1;
+>>         bool vsync_positive =3D (timings->vsync[1] >> 7) & 0x1;
+>>
+>> -       mode =3D drm_mode_create(dev);
+>> +       mode =3D drm_mode_create(connector->dev);
+>>         if (!mode)
+>>                 return NULL;
+>>
+>> @@ -6628,6 +6666,9 @@ static struct drm_display_mode *drm_mode_displayid=
+_detailed(struct drm_device *d
+>>
+>>         if (timings->flags & 0x80)
+>>                 mode->type |=3D DRM_MODE_TYPE_PREFERRED;
+>> +
+>> +       drm_mode_displayid_detailed_edid_quirks(connector, mode);
+>> +
+>>         drm_mode_set_name(mode);
+>>
+>>         return mode;
+>> @@ -6650,7 +6691,7 @@ static int add_displayid_detailed_1_modes(struct d=
+rm_connector *connector,
+>>         for (i =3D 0; i < num_timings; i++) {
+>>                 struct displayid_detailed_timings_1 *timings =3D &det->t=
+imings[i];
+>>
+>> -               newmode =3D drm_mode_displayid_detailed(connector->dev, =
+timings, type_7);
+>> +               newmode =3D drm_mode_displayid_detailed(connector, timin=
+gs, type_7);
+>>                 if (!newmode)
+>>                         continue;
+>>
+>> --
+>> 2.42.0
+>>
+
+--=20
+Jani Nikula, Intel
