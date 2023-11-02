@@ -2,83 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABBE37DF6F3
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Nov 2023 16:47:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29C937DF798
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Nov 2023 17:25:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E3FC710E914;
-	Thu,  2 Nov 2023 15:47:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E97910E090;
+	Thu,  2 Nov 2023 16:25:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC5FC10E914
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Nov 2023 15:47:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1698940067;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=FvAUr4hZgHRbDlVAWSx46K/GuyuYkJdZPNWAKauBdmI=;
- b=R6c4puwCkUQzfOJLhazTz2jBD4fWBSGts1s58NLz0igzxow53AMbhT6hOXyxumf3r0yQHT
- 3M4HiRqBLJT9L5pp/N+T1p5t9Sq1Dbj2qzOfv9svRyFTRxqHOUKBrutsPoMQTPIBWeOczq
- 98VKajn4ntHEdctn1dEQ7Q0PXcuW/C4=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-592-PP1-DqLPPh6e4dMNckHA1A-1; Thu, 02 Nov 2023 11:47:44 -0400
-X-MC-Unique: PP1-DqLPPh6e4dMNckHA1A-1
-Received: by mail-ej1-f71.google.com with SMTP id
- a640c23a62f3a-9c75b999aaaso83848866b.2
- for <dri-devel@lists.freedesktop.org>; Thu, 02 Nov 2023 08:47:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1698940063; x=1699544863;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=FvAUr4hZgHRbDlVAWSx46K/GuyuYkJdZPNWAKauBdmI=;
- b=myDcA/FNsMM5Rzt8iHg8+Ao+hHaHODS2Cd26xZfTBPdvwzuMAgNhEdyiV50bpVscig
- Di4HtOQIiWimYSHoBQsEMu5JcmC4o5QKRIT9czhZw8Q19ze1YbqzpZ+2wPnpQNytxG/B
- 40bvhG7Jb8RBc3n03NUtaCK+ysI535zHy8ODHlDHRfVbHKy1I0brO0+WpsFESyiR5Xgl
- yBqQYk/wO7AyUdCP81B7HFp3tGdvIj16kOrVr2LMu9LtQZ/clXnPVewe3Fh+dzsw+LbY
- f8yV5gkhx3qEOlOXyoCPb29yABh6jiQvtjaMP7AUSAGQSgjyuRs+7awH/j6s2VEMUMEN
- RL8g==
-X-Gm-Message-State: AOJu0YyODfkY00VDvs0B+1Kj6+duJHPU9uKgW/5gIi2AS8ovHva6h5yD
- nMM/uxWkspxRRPbV9yphKTpSl6TJ9P3BLOKvmY00l/0qaRq6kRRezqkm9HIvkztPn0xVwAoczQb
- Jj+ALJ2Rf9jDYkGUAR/sX921oHjkI
-X-Received: by 2002:a17:906:ee85:b0:9c7:5a01:ffea with SMTP id
- wt5-20020a170906ee8500b009c75a01ffeamr4623654ejb.30.1698940063007; 
- Thu, 02 Nov 2023 08:47:43 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFzI7xE88HMRLtwJOqNP+R3hLF6K5NNjmsfP6ywgX/MZ9A1Er5VfgcQ792R7hS+PVUVTjbgAg==
-X-Received: by 2002:a17:906:ee85:b0:9c7:5a01:ffea with SMTP id
- wt5-20020a170906ee8500b009c75a01ffeamr4623630ejb.30.1698940062707; 
- Thu, 02 Nov 2023 08:47:42 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec?
- (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl.
- [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
- by smtp.gmail.com with ESMTPSA id
- g9-20020a1709063b0900b009a9fbeb15f5sm1267377ejf.46.2023.11.02.08.47.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 02 Nov 2023 08:47:42 -0700 (PDT)
-Message-ID: <34b4f396-ecf3-576d-69e5-f8eac2a5d488@redhat.com>
-Date: Thu, 2 Nov 2023 16:47:41 +0100
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D411710E090;
+ Thu,  2 Nov 2023 16:25:08 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 5FD2DCE2112;
+ Thu,  2 Nov 2023 16:25:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2127C433CA;
+ Thu,  2 Nov 2023 16:25:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1698942305;
+ bh=ZP/kIBCdvT4zzHe9YkNWVQ0ufjZVnXPWplIffBkOZoU=;
+ h=From:Date:Subject:To:Cc:From;
+ b=mva+y3X476vfa8R9Ay7i+hgpOKdcBcnT38YLWatpi/J8z8Z6sPJZsOtffdqm7TfpG
+ VRuccAfqXOOUW5HLNq/PDoDaIH9jezPF/Qrjze+v/BtdTwA6ug9URafaxvMWtlHok6
+ s00AoYSmXQmmr/XCNSgDOPYumIUd1DaV0TiI5gH6T+DYbG50NpuLzr+dWfmINnt8Tw
+ VYY3T4Z6fUsewqp3Ov5l3g3EVsO4Atjw9MocsBie8EjEf4fFQwPyiYWFY8QtUOAbVp
+ 4fBqiMhkSexrR4dxZLHOKHFaK0T+d89HUEknPkspkOg6CQy2koq5v7dc6hPEUAoDlY
+ g0JHHZqIrez0g==
+From: Nathan Chancellor <nathan@kernel.org>
+Date: Thu, 02 Nov 2023 09:24:53 -0700
+Subject: [PATCH] drm/amd/display: Increase frame warning limit for clang in
+ dml2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v3 14/15] drm/i915/dsi: Replace poking of CHV GPIOs behind
- the driver's back
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Jani Nikula <jani.nikula@intel.com>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20231102151228.668842-1-andriy.shevchenko@linux.intel.com>
- <20231102151228.668842-15-andriy.shevchenko@linux.intel.com>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20231102151228.668842-15-andriy.shevchenko@linux.intel.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, nl
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20231102-amdgpu-dml2-increase-frame-size-warning-for-clang-v1-1-6eb157352931@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAFTNQ2UC/x3NSwrDMAwA0asErSuIHejvKqUL1ZZdQawEmbQlI
+ XeP6XI2bzaobMIV7t0Gxh+pMmkLd+ogvEkzo8TW4Hs/ONd7pBLzvGAso0fRYEyVMRkVxior45d
+ MRTOmyTCMTcBwG17RxzNdLw6aOxsn+f2fj+e+H2ns4L+DAAAA
+To: harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com, 
+ alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com
+X-Mailer: b4 0.13-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3010; i=nathan@kernel.org;
+ h=from:subject:message-id; bh=ZP/kIBCdvT4zzHe9YkNWVQ0ufjZVnXPWplIffBkOZoU=;
+ b=owGbwMvMwCEmm602sfCA1DTG02pJDKnOZxOE5a7O1RNk3ayX/IjH2VpChG1W37WPdUsva134J
+ bep79PpjlIWBjEOBlkxRZbqx6rHDQ3nnGW8cWoSzBxWJpAhDFycAjCR0hiGv9Jd7iE/9zJdrvsU
+ L3/8f5hZQVXfqbU/bjyftcxv83NBqZsM//3PJT6qUm/167ww8/p3VffuTYYm+5ui1ikLfqyrUt1
+ 0mgsA
+X-Developer-Key: i=nathan@kernel.org; a=openpgp;
+ fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,116 +61,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: trix@redhat.com, llvm@lists.linux.dev, ndesaulniers@google.com,
+ patches@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ Nathan Chancellor <nathan@kernel.org>, amd-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+When building ARCH=x86_64 allmodconfig with clang, which have sanitizers
+enabled, there is a warning about a large stack frame.
 
-On 11/2/23 16:12, Andy Shevchenko wrote:
-> It's a dirty hack in the driver that pokes GPIO registers behind
-> the driver's back. Moreoever it might be problematic as simultaneous
-> I/O may hang the system, see the commit 0bd50d719b00 ("pinctrl:
-> cherryview: prevent concurrent access to GPIO controllers") for
-> the details. Taking all this into consideration replace the hack
-> with proper GPIO APIs being used.
-> 
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> ---
->  drivers/gpu/drm/i915/display/intel_dsi_vbt.c | 47 +++++---------------
->  1 file changed, 10 insertions(+), 37 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/display/intel_dsi_vbt.c b/drivers/gpu/drm/i915/display/intel_dsi_vbt.c
-> index b1736c1301ea..ffc65c943b11 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dsi_vbt.c
-> +++ b/drivers/gpu/drm/i915/display/intel_dsi_vbt.c
-> @@ -66,19 +66,6 @@ struct i2c_adapter_lookup {
->  #define CHV_GPIO_IDX_START_SW		100
->  #define CHV_GPIO_IDX_START_SE		198
->  
-> -#define CHV_VBT_MAX_PINS_PER_FMLY	15
-> -
-> -#define CHV_GPIO_PAD_CFG0(f, i)		(0x4400 + (f) * 0x400 + (i) * 8)
-> -#define  CHV_GPIO_GPIOEN		(1 << 15)
-> -#define  CHV_GPIO_GPIOCFG_GPIO		(0 << 8)
-> -#define  CHV_GPIO_GPIOCFG_GPO		(1 << 8)
-> -#define  CHV_GPIO_GPIOCFG_GPI		(2 << 8)
-> -#define  CHV_GPIO_GPIOCFG_HIZ		(3 << 8)
-> -#define  CHV_GPIO_GPIOTXSTATE(state)	((!!(state)) << 1)
-> -
-> -#define CHV_GPIO_PAD_CFG1(f, i)		(0x4400 + (f) * 0x400 + (i) * 8 + 4)
-> -#define  CHV_GPIO_CFGLOCK		(1 << 31)
-> -
->  /* ICL DSI Display GPIO Pins */
->  #define  ICL_GPIO_DDSP_HPD_A		0
->  #define  ICL_GPIO_L_VDDEN_1		1
-> @@ -278,23 +265,21 @@ static void chv_gpio_set_value(struct intel_connector *connector,
->  			       u8 gpio_source, u8 gpio_index, bool value)
->  {
->  	struct drm_i915_private *dev_priv = to_i915(connector->base.dev);
-> -	u16 cfg0, cfg1;
-> -	u16 family_num;
-> -	u8 port;
->  
->  	if (connector->panel.vbt.dsi.seq_version >= 3) {
->  		if (gpio_index >= CHV_GPIO_IDX_START_SE) {
->  			/* XXX: it's unclear whether 255->57 is part of SE. */
-> -			gpio_index -= CHV_GPIO_IDX_START_SE;
-> -			port = CHV_IOSF_PORT_GPIO_SE;
-> +			soc_exec_opaque_gpio(connector, gpio_index, "INT33FF:03", "Panel SE",
-> +					     gpio_index - CHV_GPIO_IDX_START_SW, value);
+  drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/display_mode_core.c:6265:13: error: stack frame size (2520) exceeds limit (2048) in 'dml_prefetch_check' [-Werror,-Wframe-larger-than]
+   6265 | static void dml_prefetch_check(struct display_mode_lib_st *mode_lib)
+        |             ^
+  1 error generated.
 
-The "gpio_index - CHV_GPIO_IDX_START_SW" here needs to be "gpio_index - CHV_GPIO_IDX_START_SE".
+Notably, GCC 13.2.0 does not do too much of a better job, as it is right
+at the current limit of 2048:
 
-Also this patch needs s/soc_exec_opaque_gpio/soc_opaque_gpio_set_value/ to compile ...
+  drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/display_mode_core.c: In function 'dml_prefetch_check':
+  drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/display_mode_core.c:6705:1: error: the frame size of 2048 bytes is larger than 1800 bytes [-Werror=frame-larger-than=]
+   6705 | }
+        | ^
 
-Regards,
+In the past, these warnings have been avoided by reducing the number of
+parameters to various functions so that not as many arguments need to be
+passed on the stack. However, these patches take a good amount of effort
+to write despite being mechanical due to code structure and complexity
+and they are never carried forward to new generations of the code so
+that effort has to be expended every new hardware generation, which
+becomes harder to justify as time goes on.
 
-Hans
+There is some effort to improve clang's code generation but that may
+take some time between code review, shifting priorities, and release
+cycles. To avoid having a noticeable or lengthy breakage in
+all{mod,yes}config, which are easy testing targets that have -Werror
+enabled, increase the limit for clang by 50% so that cases of extremely
+poor code generation can still be caught while not breaking the majority
+of builds. When clang's code generation improves, the limit increase can
+be restricted to older clang versions.
 
+Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+---
+If there is another DRM pull before 6.7-rc1, it would be much
+appreciated if this could make that so that other trees are not
+potentially broken by this. If not, no worries, as it was my fault for
+not sending this sooner.
+---
+ drivers/gpu/drm/amd/display/dc/dml2/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/gpu/drm/amd/display/dc/dml2/Makefile b/drivers/gpu/drm/amd/display/dc/dml2/Makefile
+index 70ae5eba624e..dff8237c0999 100644
+--- a/drivers/gpu/drm/amd/display/dc/dml2/Makefile
++++ b/drivers/gpu/drm/amd/display/dc/dml2/Makefile
+@@ -60,7 +60,7 @@ endif
+ endif
+ 
+ ifneq ($(CONFIG_FRAME_WARN),0)
+-frame_warn_flag := -Wframe-larger-than=2048
++frame_warn_flag := -Wframe-larger-than=$(if $(CONFIG_CC_IS_CLANG),3072,2048)
+ endif
+ 
+ CFLAGS_$(AMDDALPATH)/dc/dml2/display_mode_core.o := $(dml2_ccflags) $(frame_warn_flag)
 
+---
+base-commit: 21e80f3841c01aeaf32d7aee7bbc87b3db1aa0c6
+change-id: 20231102-amdgpu-dml2-increase-frame-size-warning-for-clang-c93bd2d6a871
 
->  		} else if (gpio_index >= CHV_GPIO_IDX_START_SW) {
-> -			gpio_index -= CHV_GPIO_IDX_START_SW;
-> -			port = CHV_IOSF_PORT_GPIO_SW;
-> +			soc_exec_opaque_gpio(connector, gpio_index, "INT33FF:00", "Panel SW",
-> +					     gpio_index - CHV_GPIO_IDX_START_SW, value);
->  		} else if (gpio_index >= CHV_GPIO_IDX_START_E) {
-> -			gpio_index -= CHV_GPIO_IDX_START_E;
-> -			port = CHV_IOSF_PORT_GPIO_E;
-> +			soc_exec_opaque_gpio(connector, gpio_index, "INT33FF:02", "Panel E",
-> +					     gpio_index - CHV_GPIO_IDX_START_E, value);
->  		} else {
-> -			port = CHV_IOSF_PORT_GPIO_N;
-> +			soc_exec_opaque_gpio(connector, gpio_index, "INT33FF:01", "Panel N",
-> +					     gpio_index - CHV_GPIO_IDX_START_N, value);
->  		}
->  	} else {
->  		/* XXX: The spec is unclear about CHV GPIO on seq v2 */
-> @@ -311,21 +296,9 @@ static void chv_gpio_set_value(struct intel_connector *connector,
->  			return;
->  		}
->  
-> -		port = CHV_IOSF_PORT_GPIO_N;
-> +		soc_exec_opaque_gpio(connector, gpio_index, "INT33FF:01", "Panel N",
-> +				     gpio_index - CHV_GPIO_IDX_START_N, value);
->  	}
-> -
-> -	family_num = gpio_index / CHV_VBT_MAX_PINS_PER_FMLY;
-> -	gpio_index = gpio_index % CHV_VBT_MAX_PINS_PER_FMLY;
-> -
-> -	cfg0 = CHV_GPIO_PAD_CFG0(family_num, gpio_index);
-> -	cfg1 = CHV_GPIO_PAD_CFG1(family_num, gpio_index);
-> -
-> -	vlv_iosf_sb_get(dev_priv, BIT(VLV_IOSF_SB_GPIO));
-> -	vlv_iosf_sb_write(dev_priv, port, cfg1, 0);
-> -	vlv_iosf_sb_write(dev_priv, port, cfg0,
-> -			  CHV_GPIO_GPIOEN | CHV_GPIO_GPIOCFG_GPO |
-> -			  CHV_GPIO_GPIOTXSTATE(value));
-> -	vlv_iosf_sb_put(dev_priv, BIT(VLV_IOSF_SB_GPIO));
->  }
->  
->  static void bxt_gpio_set_value(struct intel_connector *connector,
+Best regards,
+-- 
+Nathan Chancellor <nathan@kernel.org>
 
