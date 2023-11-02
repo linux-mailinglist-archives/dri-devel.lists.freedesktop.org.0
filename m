@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE2537DED06
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Nov 2023 08:00:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1911C7DED0A
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Nov 2023 08:03:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 110AE10E817;
-	Thu,  2 Nov 2023 07:00:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C388F10E818;
+	Thu,  2 Nov 2023 07:03:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A708A10E817
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Nov 2023 07:00:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D8B410E818
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Nov 2023 07:03:25 +0000 (UTC)
 Received: from [192.168.88.20] (91-158-149-209.elisa-laajakaista.fi
  [91.158.149.209])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id AC872667;
- Thu,  2 Nov 2023 07:59:57 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3B35D667;
+ Thu,  2 Nov 2023 08:03:06 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1698908398;
- bh=XxeJeOmrCEVobEz1TNcbYdsERPtNKL+iIPBV32NxPAY=;
+ s=mail; t=1698908586;
+ bh=HZ8msN1BvaFhEALTqjIIw5jqjAWnZJH+1ZNrUHXHoY4=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=BQcCITs/0IKx/n8/t146E7sLn71BdreHy6DYowEaj1Bx3IvcIwzIXGz5dYpGBDzJt
- 0aTff0miVWjT/1Zv0v1CQAhgjN84YiU6Q2I1N4CsU5mnoYr5sNNeXxhkiyRnZeHkM+
- LIxo5zBUMqUtGFKdTyjm/DI6uZ4h4t9Ep1vG8IuM=
-Message-ID: <90b38d40-d71e-4b0e-af35-047dcc5c5b41@ideasonboard.com>
-Date: Thu, 2 Nov 2023 09:00:11 +0200
+ b=h5/2w5z8uNVNhClSWl6Zbj5n8asTQwuKVkvtj2NVFXUABi3W/mwurNqjOwqiHh9t3
+ ml9eDTTRBdlR+Qxn1UVe6VqpmE5hAZrq6YDV42xSFFLr8nQxwgnw7vzp1FlUtHljt/
+ U8mXhlZmEWfg9nEN4VW5ey6Wu5FzJwRSbLM65MPw=
+Message-ID: <e42af7bf-2f73-49ce-b192-1a6582bc81bd@ideasonboard.com>
+Date: Thu, 2 Nov 2023 09:03:20 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 09/10] drm/tidss: IRQ code cleanup
+Subject: Re: [PATCH 08/10] drm/tidss: Add dispc_is_idle()
 Content-Language: en-US
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 References: <20231101-tidss-probe-v1-0-45149e0f9415@ideasonboard.com>
- <20231101-tidss-probe-v1-9-45149e0f9415@ideasonboard.com>
- <20231101145243.GY12764@pendragon.ideasonboard.com>
+ <20231101-tidss-probe-v1-8-45149e0f9415@ideasonboard.com>
+ <20231101143231.GX12764@pendragon.ideasonboard.com>
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  xsFNBE6ms0cBEACyizowecZqXfMZtnBniOieTuFdErHAUyxVgtmr0f5ZfIi9Z4l+uUN4Zdw2
@@ -78,7 +78,7 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20231101145243.GY12764@pendragon.ideasonboard.com>
+In-Reply-To: <20231101143231.GX12764@pendragon.ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -100,25 +100,23 @@ Cc: Aradhya Bhatia <a-bhatia1@ti.com>, Devarsh Thakkar <devarsht@ti.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 01/11/2023 16:52, Laurent Pinchart wrote:
+On 01/11/2023 16:32, Laurent Pinchart wrote:
 > Hi Tomi,
 > 
 > Thank you for the patch.
 > 
-> On Wed, Nov 01, 2023 at 11:17:46AM +0200, Tomi Valkeinen wrote:
->> The IRQ setup code is overly complex. All we really need to do is
->> initialize the related fields in struct tidss_device, and request the
->> IRQ.
+> On Wed, Nov 01, 2023 at 11:17:45AM +0200, Tomi Valkeinen wrote:
+>> Add a helper function, dispc_is_idle(), which returns whether the DSS is
+>> idle (i.e. is any video port enabled).
 >>
->> We can drop all the HW accesses, as they are pointless: the driver will
->> set the IRQs correctly when it needs any of the IRQs, and at probe time
->> we have done a reset, so we know that all the IRQs are masked by default
->> in the hardware.
+>> For now we add a call to it in the suspend and resume callbacks, and
+>> print a warning if in either place the DSS is not idle.
 > 
-> Even for K2G ?
+> Could you please explain here why these checks are needed/useful ? Why
+> would the dispc not be idle ?
 
-Good point. I'll add a simple manual reset for k2g, masking the IRQs and 
-disabling the VPs.
+I'll drop this. This was mostly a debugging aid for myself when testing 
+runtime PM.
 
   Tomi
 
