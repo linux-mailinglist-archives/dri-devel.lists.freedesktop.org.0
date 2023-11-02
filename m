@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2FE67DECE1
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Nov 2023 07:32:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB2407DECE2
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Nov 2023 07:32:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1591110E076;
-	Thu,  2 Nov 2023 06:31:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF76610E13C;
+	Thu,  2 Nov 2023 06:32:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com
- [IPv6:2607:f8b0:4864:20::b2e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8BB7310E076
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Nov 2023 06:31:57 +0000 (UTC)
-Received: by mail-yb1-xb2e.google.com with SMTP id
- 3f1490d57ef6-d9ac9573274so588003276.0
- for <dri-devel@lists.freedesktop.org>; Wed, 01 Nov 2023 23:31:57 -0700 (PDT)
+Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com
+ [IPv6:2607:f8b0:4864:20::b31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DFA3910E078
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Nov 2023 06:32:44 +0000 (UTC)
+Received: by mail-yb1-xb31.google.com with SMTP id
+ 3f1490d57ef6-da2b9234a9fso574593276.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 Nov 2023 23:32:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1698906716; x=1699511516; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1698906764; x=1699511564; darn=lists.freedesktop.org;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=StUp8Et2C40MeeNi4V7XV6N5+td2AtmdwFbNutMfZZM=;
- b=Qvs5Gy0h2XkhbOpj1cg41P0hBRUR/yZHE9/hCPXl3lcnNQ+TUBbVakIXR24pQkBc5P
- D3DulM1UQqiQwlnqN9iOerbjJ1Tx0C7FNDlbYYhlmO2PrqlolXsEh7PzLVOt5OG0i/Q5
- htAJefX4NlWrwBPiXcGPcRGJh2Z8U4iJ9ObWvJfhXfUdLEpATyl5UqpDGmTUKBOSc88A
- av0aCMVDq08dajSYzyveKvakLzOrIJ007WhSEYuk+3aivjdiMXgHXojKaWFsvJ7LqsDH
- 0Am0u81riFBjdgwaiYw24UeD/XNlPBjMggSEFHOzAmxh8dXEQx5Kx5dqTjdnpnWs1lgo
- VxQw==
+ bh=e463TBeue+MFy7uWY9tlDphfm+xYnPDbO9CJfPVFqIQ=;
+ b=sGbVL1ekYnpSTX9jUxBgHO5XLflQ5MzGGVC+qj0YIO1Ir0tznqoeGQ/BNUAj0qLkYq
+ daT+9ZYBXSt+BiGCYmziJt1Gd2M95AJbwOdgfxu59AbIdrpDJ1VQnOrdkBtwLPZtJ7iA
+ 8wHV3PWsEGOlAbcoQuO/fYSI8ty1ao9aZNjwa+LZ8irZ62qZECx46CL2XWSl/Kg9daPF
+ tIHSBY8C/ptLXb9Q762jxO8uY0CKAqUSUVNDasVnd7Vhx+NfcjogUo7/QtUj85XELD4m
+ xNd5lzHs0kZqhL8BHS92NNiUFruxMUnwPVfwnk4nk0RbqsDruyTK03bUtWdUXkK2YopD
+ XADg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1698906716; x=1699511516;
+ d=1e100.net; s=20230601; t=1698906764; x=1699511564;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=StUp8Et2C40MeeNi4V7XV6N5+td2AtmdwFbNutMfZZM=;
- b=l+nnzML2Gg37B3YKo7DHzvzF1IdmnizTs6u1qAfHH/rmUJRfpo1MNQgJyL+u+LbO9i
- zPuMtMnD1A4fBwYoMDFC43gibNEKi5Z+89Vjy7FDInNr4HNzOgA5/SCHQKJp7YF2k4qD
- 3c/aog+DqFflHeISy760AnK8+7QzuuYNiZZth6fQIuP0ePaKmTM5/hmbzAV99vMM5gCt
- OWkhi0iUSDwx9or0VxGLVT8hNHssXl4n7cPVtCJNaxKa2I/FCP9VNqj8CzExtryKT8Cx
- r1YFN0dtX3q4AL9qyzVPVGdhDoeIOYN8a+6KWhnt8kWoEFBuB9dU3lwt2V4j0wsitIQP
- BPjw==
-X-Gm-Message-State: AOJu0Yz5/dygQlaXEk/7/WR2ao8w06UI3auk+QD+YLcEivBjwmjhecPw
- Felmsx4I18UUDXhDfpEGvFeNUe0RH8WVRhMgsooCNQ==
-X-Google-Smtp-Source: AGHT+IErkxOJ7DnSFJx36BZcxIVf1TUwHioSsB58JfzUCGvwGWx6kzJyj9h+0s3GWmFHNf2Y9+D53Hc2XaiK5h9CWiM=
-X-Received: by 2002:a25:50d0:0:b0:d9a:4839:68fe with SMTP id
- e199-20020a2550d0000000b00d9a483968femr16145403ybb.43.1698906716622; Wed, 01
- Nov 2023 23:31:56 -0700 (PDT)
+ bh=e463TBeue+MFy7uWY9tlDphfm+xYnPDbO9CJfPVFqIQ=;
+ b=XIUBDvIW9bGGJv9DMyOIX7flzZ+7MUaY1S3E9BJRR14hXQ7Q+SdWbQ7fUWM5do7oj4
+ KUZKxUITRCE4wDNS1pxfnvs0Y29dLWRwrKNUkcqnVRAGrJQc2dldQRx1Iru5jn/gENxF
+ 1JtOUCZffxzEwOlX2DlRnJ+WHSJvp5i0Q7sN7OibHvd2By/nIq1QXtBRqHZeJiRCCIe1
+ ffgQCOU62GYJuDURS/oeqfh7eNaFrS380gRHZZ9DdvgBLw0xEb3Bqw77P+22/2AhpTIc
+ YLuOUc/nW8Z14jenFJq0cBnBCi0SxXHfgnOeJgVscpa4HfEqx94DS6WqL/Oudk11zR7g
+ wB5A==
+X-Gm-Message-State: AOJu0Ywh4ggkJlGV9ISW7P1KOCaF/vfbA+W0J/86+4Mvkc41t1QPTbV3
+ nQS4dzWSnSDOVVJvYKk7TRHvhZd0dr45Ro/GApz5iQ==
+X-Google-Smtp-Source: AGHT+IEKbxMkN9v/F+SLKkpicMwLxreimmwuAvu7DOVgsoD2WJnvmaGxs9R33WZY2hRSvlC1PaE7wCNfetxGDTKGF3w=
+X-Received: by 2002:a25:7648:0:b0:da0:7826:8b98 with SMTP id
+ r69-20020a257648000000b00da078268b98mr17766201ybc.55.1698906763884; Wed, 01
+ Nov 2023 23:32:43 -0700 (PDT)
 MIME-Version: 1.0
-References: <20231101212604.1636517-1-hsinyi@chromium.org>
- <20231101212604.1636517-4-hsinyi@chromium.org>
-In-Reply-To: <20231101212604.1636517-4-hsinyi@chromium.org>
+References: <20231102022946.115603-1-penghao@dingdao.com>
+In-Reply-To: <20231102022946.115603-1-penghao@dingdao.com>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Thu, 2 Nov 2023 08:31:45 +0200
-Message-ID: <CAA8EJpoPMkQRhCD-9SPSheiio1dH8V6BUv89MZKfZdrBzsBW-w@mail.gmail.com>
-Subject: Re: [PATCH 3/3] drm/panel-edp: Choose correct preferred mode
-To: Hsin-Yi Wang <hsinyi@chromium.org>
+Date: Thu, 2 Nov 2023 08:32:32 +0200
+Message-ID: <CAA8EJprEX72imAwt-975povxgMw-pH7SkrBJKg5pV-PEKMvb1Q@mail.gmail.com>
+Subject: Re: [PATCH] gpu/drm/drm_framebuffer.c: Use Macro instead of actual
+ number.
+To: Peng Hao <penghao@dingdao.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,35 +67,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>
+Cc: tzimmermann@suse.de, linux-kernel@vger.kernel.org, mripard@kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 1 Nov 2023 at 23:26, Hsin-Yi Wang <hsinyi@chromium.org> wrote:
+On Thu, 2 Nov 2023 at 04:35, Peng Hao <penghao@dingdao.com> wrote:
 >
-> If a non generic edp-panel is under aux-bus, the mode read from edid would
-> still be selected as preferred and results in multiple preferred modes,
-> which is ambiguous.
+> Use Macro DRM_FORMAT_MAX_PLANES instead of 4, to improve modifiability.
 >
-> If a hard-coded mode is present, unset the preferred bit of the modes read
-> from edid.
-
-Can we skip the EDID completely if the hardcoded override is present?
-
->
-> Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
+> Signed-off-by: Peng Hao <penghao@dingdao.com>
 > ---
->  drivers/gpu/drm/drm_modes.c       | 16 ++++++++++++++++
->  drivers/gpu/drm/panel/panel-edp.c |  7 +++++--
->  include/drm/drm_modes.h           |  1 +
->  3 files changed, 22 insertions(+), 2 deletions(-)
+>  drivers/gpu/drm/drm_framebuffer.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-Anyway, this should be split into two patches. One for drm_modes.c,
-another one for the panel driver.
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
 
 -- 
 With best wishes
