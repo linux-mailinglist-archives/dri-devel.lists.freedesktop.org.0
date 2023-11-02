@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C6497DEBF9
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Nov 2023 05:44:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C22F7DEBFD
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Nov 2023 05:46:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C8D9210E02D;
-	Thu,  2 Nov 2023 04:44:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6CB9310E802;
+	Thu,  2 Nov 2023 04:46:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com
- [IPv6:2a00:1450:4864:20::532])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E78A10E02D;
- Thu,  2 Nov 2023 04:44:37 +0000 (UTC)
-Received: by mail-ed1-x532.google.com with SMTP id
- 4fb4d7f45d1cf-53e2dc8fa02so747293a12.2; 
- Wed, 01 Nov 2023 21:44:37 -0700 (PDT)
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com
+ [IPv6:2a00:1450:4864:20::633])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C4EE010E802;
+ Thu,  2 Nov 2023 04:46:29 +0000 (UTC)
+Received: by mail-ej1-x633.google.com with SMTP id
+ a640c23a62f3a-9c603e235d1so68632166b.3; 
+ Wed, 01 Nov 2023 21:46:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1698900275; x=1699505075; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1698900388; x=1699505188; darn=lists.freedesktop.org;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=I+VxWQ4k/E3/qla6JztW2qtYTnXXlUbK1ykpNWnBSc4=;
- b=PJvANLjuGQeHodaXlX4cHyI/PzGicHKd81SZtj79PW773bj6obgLcv6L8vnoOjLg5E
- Wy72jvSdYaFiklB/4z7nozAhesLpcevIpeOTPapK+blPpyurqupV/MKSWzG7LZzLoXBR
- x51z/k7ijN19ntOojVx/dxwWhRSlVP1f6JxjW+ylDSyE9CnINRjPEHKhcB5Qe1JVfApX
- C+luB0XUuD/jzX+e4n4/tW2MfiveHNPxKOpzh2yFJaqWhDFdWeAK8ACyqbwIrsUMM/Al
- okFpmCMQNj4w9zhvBV4LikZ+6hLpWNWSiQDeI+dDA3a5RfjJeAaMW5qtMjocbPQfJOWa
- w5oQ==
+ bh=lly96fwYzj9dyrjYI20I++tfUGe2kjS+ATbpaoIUCkk=;
+ b=ZMzKc+oIDNHQz+KxS3dF20ptSCZbK8AciQozCf4stsEJxYANHnjhWkqWcZ2t7NrbQu
+ SetUPfYgjOCVpy06c4K/OlhtA3rFEPo9YOpR31F0R/2FdCbzX5aj5IiTBK1Nb1Xnycwa
+ 1i4p4s8WCOOvhxXHz5OJwlRKjwj+X9KZWWms2QrRxlZqb75iDhJdSyb93yS9xTOvxoVJ
+ qEXoe7vorO6tpH3MHbN00SXh1dYr6qvt9Mpes6z5PJNeiMHNe4ymI6KyL/cqyKNOk8X2
+ 2w7gGPIQlJACHHmsDFsybTYcdpGEeG5T0tncAJF4Wp2sAEQqbqKLUF7BK7m1OOWtmgk4
+ tAPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1698900275; x=1699505075;
+ d=1e100.net; s=20230601; t=1698900388; x=1699505188;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=I+VxWQ4k/E3/qla6JztW2qtYTnXXlUbK1ykpNWnBSc4=;
- b=v546NUsPcbIx963aSVAFCExbpvRkuNbkRBLwUyEqsVXYmc0QszgJwu5Y9QM3OxX6LD
- 43m1YEx2G4leYuSn3RxDk1wZCubBJZ0Hpv20esUFkD5tFivu9XfhsOosqzohFAjR7u2J
- oxtJINa4dc6EkEpp4ZkX/HDFYx126Mjp0GPk9d31iS9L+naUfmG4S0utNga2D26UJLkF
- T87e2y/JRALZSxrSizkWHBvP1wPIcMMFtFD+xVM8YMq787TlDhCs5kmpFAJ12NRIUuNU
- quN8N3K6MJ3Tp9t+2OLgbJF6PHbsquZHjr3O42J8zNAxYEqjAWKHov7lWCCrcJcKmTcl
- tV5w==
-X-Gm-Message-State: AOJu0Yzk9L7MgZLNqtvWxXbDjDeKyPSsMcDiXW2PCAp0tsOXi47uTfH3
- yRiHpN5lU7p4hJwVaZDW8x0cpbhFPCdjKXuFzU4=
-X-Google-Smtp-Source: AGHT+IFKP1gGRhZOBwRbI3b3qzBxHp0gy+npS/PRjk49h25MKVTvezOcJ7G2BWNnJLD28VMz4AB72Bpi6b7vF1+u4Q0=
-X-Received: by 2002:a17:907:841:b0:9bf:65b0:1122 with SMTP id
- ww1-20020a170907084100b009bf65b01122mr3308085ejb.69.1698900275330; Wed, 01
- Nov 2023 21:44:35 -0700 (PDT)
+ bh=lly96fwYzj9dyrjYI20I++tfUGe2kjS+ATbpaoIUCkk=;
+ b=El8b4IhLONTPqItyZE2IUtPfS9xJ5E1htwqAfMa8CZdlTmL+WBu+hbvXXfDC1xO0OH
+ 3mzx+1KHcqnj7fjuiAn3nhyrU4Tpyd8FEM1lkiWTvRkHsFuJJHuw1aU7YmMCKLQ+voHb
+ cf6Z32e1UGKePeItEjDkGMKpJRI/jTHzBJfw0EF64l3+xnHymIRVSyblcoQDN9wjakj3
+ Gt32yK1dneC53BMDRExMn//1u79+WAd8DwKlCETZovNsjElSuXhiquikQ+BlsL2VBCPm
+ 8NXLsN/9y3WUB1RVcOZ8c7DbCyw0l86pJWY9U6dOg/g4YjgG0wLdLFOwQTZAThuz75Gu
+ jvPA==
+X-Gm-Message-State: AOJu0Yx+0iWU8sjsozms5xGM7Y6t7CNgwc26dYZRFTqyqW0oB/TPWhX9
+ GPwrtSGTIzOJbQh5lz+GM799RnkXcb32aLArGBE=
+X-Google-Smtp-Source: AGHT+IGkqWSf4mQmPFBoVK42WimmNA6rK9CryaOzWX4lpkZQZCXNKAihrrJ+s409aIvJ2HMwO4/hG56dmimdbmuyPs4=
+X-Received: by 2002:a17:907:5c1:b0:9bf:b8f7:1fc4 with SMTP id
+ wg1-20020a17090705c100b009bfb8f71fc4mr3467078ejb.43.1698900388120; Wed, 01
+ Nov 2023 21:46:28 -0700 (PDT)
 MIME-Version: 1.0
 References: <20231101233113.8059-1-dakr@redhat.com>
- <20231101233113.8059-9-dakr@redhat.com>
-In-Reply-To: <20231101233113.8059-9-dakr@redhat.com>
+ <20231101233113.8059-5-dakr@redhat.com>
+In-Reply-To: <20231101233113.8059-5-dakr@redhat.com>
 From: Dave Airlie <airlied@gmail.com>
-Date: Thu, 2 Nov 2023 14:44:23 +1000
-Message-ID: <CAPM=9tx2CrrLWddTW0-sYCndsGq+tmc-hFZi0mmBFBJ0SDy-rQ@mail.gmail.com>
-Subject: Re: [PATCH drm-misc-next v8 08/12] drm/nouveau: separately allocate
- struct nouveau_uvmm
+Date: Thu, 2 Nov 2023 14:46:16 +1000
+Message-ID: <CAPM=9tzRPMDMiJUpMS3Kw4VtXy_nfxEH5fa++fZD=fBm=Khp1Q@mail.gmail.com>
+Subject: Re: [PATCH drm-misc-next v8 04/12] drm/nouveau: make use of
+ drm_gpuvm_range_valid()
 To: Danilo Krummrich <dakr@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -78,11 +78,7 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Thu, 2 Nov 2023 at 09:31, Danilo Krummrich <dakr@redhat.com> wrote:
 >
-> Allocate struct nouveau_uvmm separately in preparation for subsequent
-> commits introducing reference counting for struct drm_gpuvm.
->
-> While at it, get rid of nouveau_uvmm_init() as indirection of
-> nouveau_uvmm_ioctl_vm_init() and perform some minor cleanups.
+> Use drm_gpuvm_range_valid() in order to validate userspace requests.
 >
 > Signed-off-by: Danilo Krummrich <dakr@redhat.com>
 
