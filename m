@@ -1,59 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 591F57E077F
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Nov 2023 18:35:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E5AB27E075E
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Nov 2023 18:29:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D28010EA42;
-	Fri,  3 Nov 2023 17:35:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 048F410EA3E;
+	Fri,  3 Nov 2023 17:29:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com
- [IPv6:2a00:1450:4864:20::52e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4931E10EA33;
- Fri,  3 Nov 2023 16:37:56 +0000 (UTC)
-Received: by mail-ed1-x52e.google.com with SMTP id
- 4fb4d7f45d1cf-53e70b0a218so3907995a12.2; 
- Fri, 03 Nov 2023 09:37:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1699029475; x=1699634275; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=0oO/80ZeYt4KVkN4kDuX7GkoCNLaCgmInxlkENKg9eo=;
- b=VxeNYgEhAJodqmhRkCiSReqR+/NPJrwN0NxXVTk9QYEGFPJ31EanBZqZ8hSKXpGR2b
- tVwjwhfZnHsE9pgd33WK7uU/Hub/8NxBmL2H7pERDzEwTsQ+70k1OPTISG+udrs5lUMO
- z9OJme84NUzggtDDU56epBilVYdjmlm2hiUjTfltGRMUt2IwdoxJUZdER/+1NAmMs/co
- jmU2XN0z2U/T6b1KgBEMweuNNYU94lpbBDJoO/WuB6cResInfO2bxEm56KK1wjV2iu32
- egtw0dVSW7kh2/JNrGPsvp5/5q5ShoGUGe+3hanm1xkMRexYI5AXPXdmNSPtsurpFLBQ
- CNNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699029475; x=1699634275;
- h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=0oO/80ZeYt4KVkN4kDuX7GkoCNLaCgmInxlkENKg9eo=;
- b=g9Ll3NpjIOVN5amqX7XEUOKO8Kf/GthWveuZ3CL/loTL73sddTG7f0cW6in9d3Xunn
- 7fbnQeLZ3+1ixZ+g66xY8nZxGtPv0L+a2fjyXzRvgXXDL0M9Yy7GEXqvEVrYbKGo+PvT
- x12qH9UssIrBqZM8gxg26psdFBUmtiM7tJioE6ZmmJJSvvAr0w6hyhPdpcxBTwbIFmnT
- QQW0CqAl5zEP+MFr7GWRi8/Z8au1VtuB13t+ekTy2NrJHKL63uTY5xw6YxMKrygiwv+2
- V1W8xSHkoFEAolqZW8b8XzQ60dHTdt//TuaUKp9I0Y/tZ+oQYOFtu+Kkz5h3818IKdiO
- oR8g==
-X-Gm-Message-State: AOJu0YxHeKsc2ePvUzdCIwPqVo8yY+zrpP+PAiLEjFaTyDktGxm4LTjP
- +yjWJ7TRCzDEnSSLsA50zRvzvIt+xql9W9vYHAhW3vKm86E=
-X-Google-Smtp-Source: AGHT+IGpYR9a74iT7ijf7bUPi/PqW6G6CZfJCgU+gck2RDBa1GYYKLt9m+XZks9UCsHS9F2yZVz/Nwt5eooE6CbvYSQ=
-X-Received: by 2002:a05:6402:a43:b0:540:2ece:79 with SMTP id
- bt3-20020a0564020a4300b005402ece0079mr18023886edb.10.1699029474367; Fri, 03
- Nov 2023 09:37:54 -0700 (PDT)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CEBE810EA46
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Nov 2023 17:29:01 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 3A3EabBa018682; Fri, 3 Nov 2023 17:28:52 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=RbRnW5HH1cP+UAWG5rkksMRu6tiEvqctqCZvUS6Cf4Y=;
+ b=KxGoTnGywMkd8ROzeb/VjNtB32ueJYfznghLowVNSpWpQxjCCuqVtZy/mbYHKwh9Yvsn
+ vO5ysIjkBctby4rbjmlkbwkk857zThY/jqjZOkbAnxwBcsHhbJZ8RolOsTHN3AKxkxTA
+ eW08V8+IgA2pm5SaejvgBc/eK35hqmEHl50pqgpA29TTlWpgm99bbZRQSGEj05Zq56Lp
+ XN0tkcOuVHhmZyGIz7WIyL8Zqzi8yl+C20hpG9LqENhUDchZ6kDoQquTuGqsr/62SkRh
+ oYE8GZv1v0Xi7FXkeNw1cGnOcfP0un9RIxVwnP7eZ7osoDoN/wMBBrrQYZ16MAJF7y0F Og== 
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3u4v8ms9yv-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 03 Nov 2023 17:28:51 +0000
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3A3HSoRi001335
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 3 Nov 2023 17:28:50 GMT
+Received: from [10.71.110.254] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Fri, 3 Nov
+ 2023 10:28:50 -0700
+Message-ID: <1f7583df-825d-4838-9ad0-fab097baa236@quicinc.com>
+Date: Fri, 3 Nov 2023 10:28:42 -0700
 MIME-Version: 1.0
-From: David Edelsohn <dje.gcc@gmail.com>
-Date: Fri, 3 Nov 2023 12:37:43 -0400
-Message-ID: <CAGWvnynOWoKT1EWkL8ELfRVxSUjm-hBQnnjb-w2Gq-tmOFm0Hg@mail.gmail.com>
-Subject: Re: [PULL] drm-misc-next
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Daniel Vetter <daniel.vetter@ffwll.ch>, Dave Airlie <airlied@gmail.com>, 
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-Content-Type: multipart/alternative; boundary="000000000000485e730609422002"
-X-Mailman-Approved-At: Fri, 03 Nov 2023 17:35:37 +0000
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/panel-edp: Add timings for BOE NV133WUM-N63
+To: Clayton Craft <clayton@craftyguy.net>, <dri-devel@lists.freedesktop.org>
+References: <20231102181907.10189-1-clayton@craftyguy.net>
+Content-Language: en-US
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+In-Reply-To: <20231102181907.10189-1-clayton@craftyguy.net>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: 75F5evLnhwXwsqYTmR2Wqjk7KeO-0BHV
+X-Proofpoint-ORIG-GUID: 75F5evLnhwXwsqYTmR2Wqjk7KeO-0BHV
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-03_16,2023-11-02_03,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 adultscore=0
+ bulkscore=0 impostorscore=0 mlxscore=0 malwarescore=0 mlxlogscore=999
+ spamscore=0 clxscore=1015 suspectscore=0 priorityscore=1501
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2310240000 definitions=main-2311030145
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,107 +81,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---000000000000485e730609422002
-Content-Type: text/plain; charset="UTF-8"
 
-Dual-license drm_gpuvm to GPL-2.0 OR MIT.
 
-diff --git a/drivers/gpu/drm/drm_gpuvm.c b/drivers/gpu/drm/drm_gpuvm.c
-index 02ce6baacdad..08c088319652 100644
---- a/drivers/gpu/drm/drm_gpuvm.c
-<https://cgit.freedesktop.org/drm/drm-misc/tree/drivers/gpu/drm/drm_gpuvm.c?id=6f2eeef4a0aa9791bbba9d353641a6e067bb86c1>
-+++ b/drivers/gpu/drm/drm_gpuvm.c
-<https://cgit.freedesktop.org/drm/drm-misc/tree/drivers/gpu/drm/drm_gpuvm.c?id=f7749a549b4f4db0c02e6b3d3800ea400dd76c12>
-@@ -1,4 +1,4 @@
--// SPDX-License-Identifier: GPL-2.0-only
-+// SPDX-License-Identifier: GPL-2.0 OR MIT
- /*
-  * Copyright (c) 2022 Red Hat.
-  *
+On 11/2/2023 11:19 AM, Clayton Craft wrote:
+> This panel is found on laptops e.g., variants of the Thinkpad X13s.
+> Configuration was collected from the panel's EDID.
+> 
+> Signed-off-by: Clayton Craft <clayton@craftyguy.net>
 
-The above SPDX License Identifier change is incorrect and no longer
-valid.  The change misunderstood the syntax of SPDX license identifiers
-and boolean operations.  GPL-2.0-only is the name of the license and means
-GPL 2.0 only, as opposed to GPL 2.0 or later.  The "only" does not
-refer to restrictions on other licenses in the identifier and should
-not have been
-removed.  The hyphens designated that the name was a single unit.
-The SPDX License Identifier boolean operators, such as OR, are a separate layer
-of syntax.
+LGTM
 
-The SPDX License Identifier should be
+Reviewed-by: Jessica Zhang <quic_jesszhan@quicinc.com>
 
-GPL-2.0-only OR MIT
+Thanks,
 
-Thanks, David
+Jessica Zhang
 
---000000000000485e730609422002
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><pre id=3D"gmail-b" style=3D"font-size:13px;background-ima=
-ge:initial;background-position:initial;background-size:initial;background-r=
-epeat:initial;background-origin:initial;background-clip:initial;color:rgb(0=
-,0,51)">Dual-license drm_gpuvm to GPL-2.0 OR MIT.</pre><pre id=3D"gmail-b" =
-style=3D"font-size:13px;background-image:initial;background-position:initia=
-l;background-size:initial;background-repeat:initial;background-origin:initi=
-al;background-clip:initial;color:rgb(0,0,51)"><div class=3D"gmail-head" sty=
-le=3D"font-weight:bold;margin-top:1em;color:black;font-size:13.3333px">diff=
- --git a/drivers/gpu/drm/drm_gpuvm.c b/drivers/gpu/drm/drm_gpuvm.c<br>index=
- 02ce6baacdad..08c088319652 100644<br>--- a/<a href=3D"https://cgit.freedes=
-ktop.org/drm/drm-misc/tree/drivers/gpu/drm/drm_gpuvm.c?id=3D6f2eeef4a0aa979=
-1bbba9d353641a6e067bb86c1" style=3D"color:blue;text-decoration-line:none">d=
-rivers/gpu/drm/drm_gpuvm.c</a><br>+++ b/<a href=3D"https://cgit.freedesktop=
-.org/drm/drm-misc/tree/drivers/gpu/drm/drm_gpuvm.c?id=3Df7749a549b4f4db0c02=
-e6b3d3800ea400dd76c12" style=3D"color:blue;text-decoration-line:none">drive=
-rs/gpu/drm/drm_gpuvm.c</a></div><div class=3D"gmail-hunk" style=3D"color:rg=
-b(0,0,153);font-size:13.3333px">@@ -1,4 +1,4 @@</div><div class=3D"gmail-de=
-l" style=3D"color:red;font-size:13.3333px">-// SPDX-License-Identifier: GPL=
--2.0-only</div><div class=3D"gmail-add" style=3D"color:green;font-size:13.3=
-333px">+// SPDX-License-Identifier: GPL-2.0 OR MIT</div><div class=3D"gmail=
--ctx" style=3D"color:rgb(51,51,51);font-size:13.3333px"> /*</div><div class=
-=3D"gmail-ctx" style=3D"color:rgb(51,51,51);font-size:13.3333px">  * Copyri=
-ght (c) 2022 Red Hat.</div><div class=3D"gmail-ctx" style=3D"color:rgb(51,5=
-1,51);font-size:13.3333px">  *</div><div class=3D"gmail-ctx" style=3D"color=
-:rgb(51,51,51);font-size:13.3333px"><br></div><div class=3D"gmail-ctx" styl=
-e=3D"color:rgb(51,51,51);font-size:13.3333px"><font face=3D"arial, sans-ser=
-if">The above SPDX License Identifier change is incorrect and no longer</fo=
-nt></div><div class=3D"gmail-ctx" style=3D"color:rgb(51,51,51);font-size:13=
-.3333px"><font face=3D"arial, sans-serif">valid.  The change misunderstood =
-the syntax of SPDX license identifiers</font></div><div class=3D"gmail-ctx"=
- style=3D"color:rgb(51,51,51);font-size:13.3333px"><font face=3D"arial, san=
-s-serif">and boolean operations.  GPL-2.0-only is the name of the license a=
-nd means</font></div><div class=3D"gmail-ctx" style=3D"color:rgb(51,51,51);=
-font-size:13.3333px"><font face=3D"arial, sans-serif">GPL 2.0 only, as oppo=
-sed to GPL 2.0 or later.  The &quot;only&quot; does not</font></div><div cl=
-ass=3D"gmail-ctx" style=3D"color:rgb(51,51,51);font-size:13.3333px"><font f=
-ace=3D"arial, sans-serif">refer to restrictions on other licenses in the id=
-entifier and should not have been</font></div><div class=3D"gmail-ctx" styl=
-e=3D"color:rgb(51,51,51);font-size:13.3333px"><font face=3D"arial, sans-ser=
-if">removed.  The hyphens designated that the name was a single unit.</font=
-></div><div class=3D"gmail-ctx" style=3D"color:rgb(51,51,51);font-size:13.3=
-333px"><font face=3D"arial, sans-serif">The SPDX License Identifier boolean=
- operators, such as OR, are a separate layer</font></div><div class=3D"gmai=
-l-ctx" style=3D"color:rgb(51,51,51);font-size:13.3333px"><font face=3D"aria=
-l, sans-serif">of syntax. </font></div><div class=3D"gmail-ctx" style=3D"co=
-lor:rgb(51,51,51);font-size:13.3333px"><font face=3D"arial, sans-serif"><br=
-></font></div><div class=3D"gmail-ctx" style=3D"color:rgb(51,51,51);font-si=
-ze:13.3333px"><font face=3D"arial, sans-serif">The SPDX License Identifier =
-should be</font></div><div class=3D"gmail-ctx" style=3D"color:rgb(51,51,51)=
-;font-size:13.3333px"><font face=3D"arial, sans-serif"><br></font></div><di=
-v class=3D"gmail-ctx" style=3D"color:rgb(51,51,51);font-size:13.3333px"><fo=
-nt face=3D"arial, sans-serif">GPL-2.0-only OR MIT</font></div><div class=3D=
-"gmail-ctx" style=3D"color:rgb(51,51,51);font-size:13.3333px"><font face=3D=
-"arial, sans-serif"><br></font></div><div class=3D"gmail-ctx" style=3D"colo=
-r:rgb(51,51,51);font-size:13.3333px"><font face=3D"arial, sans-serif">Thank=
-s, David</font></div><div class=3D"gmail-ctx" style=3D"color:rgb(51,51,51);=
-font-size:13.3333px"><br></div></pre></div>
-
---000000000000485e730609422002--
+> ---
+> 
+> V2: renamed to "*_mode" since there is only 1 mode listed
+> 
+>   drivers/gpu/drm/panel/panel-edp.c | 27 +++++++++++++++++++++++++++
+>   1 file changed, 27 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
+> index 95c8472d878a..e2e4d88a5159 100644
+> --- a/drivers/gpu/drm/panel/panel-edp.c
+> +++ b/drivers/gpu/drm/panel/panel-edp.c
+> @@ -1204,6 +1204,29 @@ static const struct panel_desc boe_nv133fhm_n61 = {
+>   	},
+>   };
+>   
+> +static const struct drm_display_mode boe_nv133wum_n63_mode = {
+> +	.clock = 157760,
+> +	.hdisplay = 1920,
+> +	.hsync_start = 1920 + 48,
+> +	.hsync_end = 1920 + 48 + 32,
+> +	.htotal = 1920 + 48 + 32 + 80,
+> +	.vdisplay = 1200,
+> +	.vsync_start = 1200 + 3,
+> +	.vsync_end = 1200 + 3 + 6,
+> +	.vtotal = 1200 + 3 + 6 + 31,
+> +	.flags = DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_NVSYNC,
+> +};
+> +
+> +static const struct panel_desc boe_nv133wum_n63 = {
+> +	.modes = &boe_nv133wum_n63_mode,
+> +	.num_modes = 1,
+> +	.bpc = 8,
+> +	.size = {
+> +		.width = 286,
+> +		.height = 179,
+> +	},
+> +};
+> +
+>   static const struct drm_display_mode boe_nv140fhmn49_modes[] = {
+>   	{
+>   		.clock = 148500,
+> @@ -1723,6 +1746,9 @@ static const struct of_device_id platform_of_match[] = {
+>   	}, {
+>   		.compatible = "boe,nv133fhm-n62",
+>   		.data = &boe_nv133fhm_n61,
+> +	}, {
+> +		.compatible = "boe,nv133wum-n63",
+> +		.data = &boe_nv133wum_n63,
+>   	}, {
+>   		.compatible = "boe,nv140fhmn49",
+>   		.data = &boe_nv140fhmn49,
+> @@ -1852,6 +1878,7 @@ static const struct edp_panel_entry edp_panels[] = {
+>   	EDP_PANEL_ENTRY('B', 'O', 'E', 0x095f, &delay_200_500_e50, "NE135FBM-N41 v8.1"),
+>   	EDP_PANEL_ENTRY('B', 'O', 'E', 0x098d, &boe_nv110wtm_n61.delay, "NV110WTM-N61"),
+>   	EDP_PANEL_ENTRY('B', 'O', 'E', 0x09dd, &delay_200_500_e50, "NT116WHM-N21"),
+> +	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0a1b, &delay_200_500_e50, "NV133WUM-N63"),
+>   	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0a5d, &delay_200_500_e50, "NV116WHM-N45"),
+>   	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0ac5, &delay_200_500_e50, "NV116WHM-N4C"),
+>   
+> -- 
+> 2.40.1
+> 
