@@ -2,60 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B592C7E0955
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Nov 2023 20:18:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C83CC7E0969
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Nov 2023 20:21:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B38ED10EA7C;
-	Fri,  3 Nov 2023 19:18:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F5E110EA7E;
+	Fri,  3 Nov 2023 19:21:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x333.google.com (mail-ot1-x333.google.com
- [IPv6:2607:f8b0:4864:20::333])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E5A7D10EA7C
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Nov 2023 19:18:33 +0000 (UTC)
-Received: by mail-ot1-x333.google.com with SMTP id
- 46e09a7af769-6d2de704f53so1440823a34.2
- for <dri-devel@lists.freedesktop.org>; Fri, 03 Nov 2023 12:18:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1699039113; x=1699643913;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=uXnGRlRT6UDgUW63xKhU+4algxK/8pXZcAoscYXgMrU=;
- b=R8qfNhibTUm9GDCR9AqNGObiJtw0co4Zs30H7empPoV1pX8YNUbOPlnXJikJtJNY+B
- JatEVLgZFG3tkvKMPqcD7v/MHJVS+QWZFQyOLRBVnQe7gXVSYA3vPa2x5DoVcjnGJ+8Y
- d7YL6KpU6cfvQWZUYRizjOPRCxZFcXDGfWGng=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699039113; x=1699643913;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=uXnGRlRT6UDgUW63xKhU+4algxK/8pXZcAoscYXgMrU=;
- b=AYPPb1SyoWH90yGlj26l26yb2ZvRtfidRBMlEUFv7QckHeiVibajv1CYWocTL742OT
- 4N96irK0b8hwdCnvFPvtDHS5VQyzsgziGaVLkLlDbnHaiAu57b15Vg605whALOe2Hzc2
- SLYPrIBnm2WxUczDe8W3wuaiHz0Qbi26czFf5fi006+fE4m1jy6wNmxKW+Fjk+7kBrlb
- E/ypBjlb+YU8LN4Mtjzrgljl7p327tH2NspsDCrzO1/iaKNWnT1l6HcVtyGf32u+UbjI
- SO1TsNGjI9lJ7x9JeoULpqtI2oXQup6f4FjdUTDTYXiWo8VJoUCKiouiZUmfGjwzaTOO
- 9AVA==
-X-Gm-Message-State: AOJu0YwC5tUZ2PrylCWBl+QFDxrUFzgsqt384QGfztSMyuQorVbkdDmZ
- 1vZg+nDet7V39iEKpTA91C/DBFgjU4AQ42WbJt187A==
-X-Google-Smtp-Source: AGHT+IHBqvIZeW8h2w6MoYxUP6Q+AETTRg33Ap1XVHSWkyuPX/JGNntllDnfUVVTZGZ0cTtuPSVpssYNlfORukcvaZk=
-X-Received: by 2002:a05:6830:2b29:b0:6d3:2d45:3b46 with SMTP id
- l41-20020a0568302b2900b006d32d453b46mr5613777otv.31.1699039113156; Fri, 03
- Nov 2023 12:18:33 -0700 (PDT)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 65C9810EA7D;
+ Fri,  3 Nov 2023 19:21:01 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 88F0B61640;
+ Fri,  3 Nov 2023 19:21:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E611AC433C8;
+ Fri,  3 Nov 2023 19:20:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1699039260;
+ bh=7MN/U949LXBUJuxhHGoevzr7GxH9ANzavjzuKeHmEFI=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:From;
+ b=ATOS90CQjIPKFdQUNME1YOl/ZNO2l4vdA/tAPEX5FuZ7YB0AZw3Rg48H9VhtnnOA7
+ VtX7UDME19I2utp0+HF+lTQWr1D2hH09nX463+1I6RWUaNBEbWhgPk6cHDBxOANA2/
+ GbhdCLcNRwLIWfdX1Sj8XI23fCuZmPAunNQ+ynphpjxhJc317uikh3sxlMhff1fqtK
+ FCtukqW5Kj1gGpk6aAglpD5Efco/VWlsxThbznSAwnIfQu5rtd4/zabCMIAZ5h2wrN
+ d43JcoHYz09h5jLLSCD3wjOJ1MfFJa73nnUnofNlVsP2Q8bxmAm1uiL68bvht0+bEj
+ icfdgBagHldvQ==
+Date: Fri, 3 Nov 2023 14:20:58 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Mario Limonciello <mario.limonciello@amd.com>
+Subject: Re: [PATCH v2 0/9] Improvements to pcie_bandwidth_available() for
+ eGPUs
+Message-ID: <20231103192058.GA164718@bhelgaas>
 MIME-Version: 1.0
-References: <20231102221309.1971910-1-hsinyi@chromium.org>
- <20231102221309.1971910-5-hsinyi@chromium.org>
- <CAD=FV=XEnk1TuWsJB6W5PGisg3_0A3HZMGpxEUrtcDxXK=Z+Eg@mail.gmail.com>
-In-Reply-To: <CAD=FV=XEnk1TuWsJB6W5PGisg3_0A3HZMGpxEUrtcDxXK=Z+Eg@mail.gmail.com>
-From: Hsin-Yi Wang <hsinyi@chromium.org>
-Date: Fri, 3 Nov 2023 12:18:07 -0700
-Message-ID: <CAJMQK-iuDrLhpviSOXqhUvjRuzh6q=ENvtmoX_2LXv1=X8g+XA@mail.gmail.com>
-Subject: Re: [PATCH v2 4/4] drm/panel-edp: Choose correct preferred mode
-To: Doug Anderson <dianders@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231103190758.82911-1-mario.limonciello@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,49 +50,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, linux-kernel@vger.kernel.org,
- Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>
+Cc: Xinhui Pan <Xinhui.Pan@amd.com>, Karol Herbst <kherbst@redhat.com>,
+ "Rafael J . Wysocki" <rafael@kernel.org>,
+ "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
+ "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
+ <dri-devel@lists.freedesktop.org>,
+ "open list:X86 PLATFORM DRIVERS" <platform-driver-x86@vger.kernel.org>,
+ Andreas Noever <andreas.noever@gmail.com>,
+ Marek =?utf-8?B?QmVow7pu?= <kabel@kernel.org>,
+ Yehezkel Bernat <YehezkelShB@gmail.com>,
+ "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
+ "open list:ACPI" <linux-acpi@vger.kernel.org>,
+ Danilo Krummrich <dakr@redhat.com>,
+ "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
+ <nouveau@lists.freedesktop.org>,
+ Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>,
+ Manivannan Sadhasivam <mani@kernel.org>,
+ Michael Jamet <michael.jamet@intel.com>, Mark Gross <markgross@kernel.org>,
+ Hans de Goede <hdegoede@redhat.com>, Bjorn Helgaas <bhelgaas@google.com>,
+ Mika Westerberg <mika.westerberg@linux.intel.com>,
+ "open list:THUNDERBOLT DRIVER" <linux-usb@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ "Maciej W . Rozycki" <macro@orcam.me.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Nov 3, 2023 at 9:03=E2=80=AFAM Doug Anderson <dianders@chromium.org=
-> wrote:
->
-> Hi,
->
-> On Thu, Nov 2, 2023 at 3:13=E2=80=AFPM Hsin-Yi Wang <hsinyi@chromium.org>=
- wrote:
-> >
-> > If a non generic edp-panel is under aux-bus, the mode read from edid wo=
-uld
-> > still be selected as preferred and results in multiple preferred modes,
-> > which is ambiguous.
-> >
-> > If a hard-coded mode is present, unset the preferred bit of the modes r=
-ead
-> > from edid.
-> >
-> > Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
-> > ---
-> > v1->v2: split patches from drm_modes.
-> > ---
-> >  drivers/gpu/drm/panel/panel-edp.c | 7 +++++--
-> >  1 file changed, 5 insertions(+), 2 deletions(-)
->
-> Reviewed-by: Douglas Anderson <dianders@chromium.org>
->
-> Do you think this should have a "Fixes?" As per discussion on V1 [1],
-> this has probably been a bit broken from the beginning, though I guess
-> it only became a big deal after the AUX bus made it so that the panel
-> driver commonly had the EDID...
->
-If this patch needs to apply Fixes, then the previous patch might also have=
- to?
+On Fri, Nov 03, 2023 at 02:07:49PM -0500, Mario Limonciello wrote:
+> Downstream drivers are getting the wrong values from
+> pcie_bandwidth_available() which is causing problems for performance
+> of eGPUs.
+> 
+> This series overhauls Thunderbolt related device detection and uses
+> the changes to change the behavior of pcie_bandwidth_available().
+> 
+> NOTE: This series is currently based on top of v6.6 + this change that
+>       will be merged for 6.7:
+> Link: https://patchwork.freedesktop.org/patch/564738/
 
-Fixes: 280921de7241 ("drm/panel: Add simple panel support")
+Thanks, Mario, I'll look at this soon after v6.7-rc1 (probably Nov
+12), so the amdgpu patch should be in mainline by then.
 
-
-> [1] https://lore.kernel.org/r/CAD=3DFV=3DWHzCdiYumsxUm_am+ALqq9SOOrjf=3DJ=
-YHqJuiKFB+Dnsw@mail.gmail.com
+> v1->v2:
+>  * Rename is_thunderbolt
+>  * Look for _DSD instead of link
+>  * Drop pci_is_thunderbolt_attached() from all drivers
+>  * Adjust links
+>  * Adjust commit messages
+>  * Add quirk for Tiger Lake
+> 
+> Mario Limonciello (9):
+>   drm/nouveau: Switch from pci_is_thunderbolt_attached() to
+>     dev_is_removable()
+>   drm/radeon: Switch from pci_is_thunderbolt_attached() to
+>     dev_is_removable()
+>   PCI: Drop pci_is_thunderbolt_attached()
+>   PCI: Move the `PCI_CLASS_SERIAL_USB_USB4` definition to common header
+>   PCI: pciehp: Move check for is_thunderbolt into a quirk
+>   PCI: Rename is_thunderbolt to is_tunneled
+>   PCI: ACPI: Detect PCIe root ports that are used for tunneling
+>   PCI: Exclude PCIe ports used for tunneling in
+>     pcie_bandwidth_available()
+>   PCI: Add a quirk to mark 0x8086 : 0x9a23 as supporting PCIe tunneling
+> 
+>  drivers/gpu/drm/nouveau/nouveau_vga.c  |  6 +-
+>  drivers/gpu/drm/radeon/radeon_device.c |  4 +-
+>  drivers/gpu/drm/radeon/radeon_kms.c    |  2 +-
+>  drivers/pci/hotplug/pciehp_hpc.c       |  6 +-
+>  drivers/pci/pci-acpi.c                 | 16 ++++++
+>  drivers/pci/pci.c                      | 76 +++++++++++++++++---------
+>  drivers/pci/probe.c                    |  2 +-
+>  drivers/pci/quirks.c                   | 31 +++++++++++
+>  drivers/platform/x86/apple-gmux.c      |  2 +-
+>  drivers/thunderbolt/nhi.h              |  2 -
+>  include/linux/pci.h                    | 25 +--------
+>  include/linux/pci_ids.h                |  1 +
+>  12 files changed, 109 insertions(+), 64 deletions(-)
+> 
+> -- 
+> 2.34.1
+> 
