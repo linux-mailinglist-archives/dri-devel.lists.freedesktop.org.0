@@ -1,90 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B25177DFF83
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Nov 2023 08:58:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 780967DFFB4
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Nov 2023 09:23:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB19010E48D;
-	Fri,  3 Nov 2023 07:58:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 26F2910E164;
+	Fri,  3 Nov 2023 08:23:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 16DBA10E48D
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Nov 2023 07:58:12 +0000 (UTC)
-Received: from [192.168.88.20] (91-158-149-209.elisa-laajakaista.fi
- [91.158.149.209])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id C3F087E1;
- Fri,  3 Nov 2023 08:57:52 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1698998273;
- bh=qyCLp4jnIWFMypLhWjC2juSO2oG3jQA2N3+GTCjMrHQ=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=tU+b/hNKvgBL9TPdLzIJTNWFama4lyuKaD7/w1cNhQ/RCuWCiBV9Eq4r3aP8TROUX
- qDMrlCZarrzoq6k7Ma12LVA0N9GcOEw71f+xm94eJZFFryXaik5TH2wbw4FBV4zzsr
- 97KILKi5cPENTX1NVQVjBe+QcrdwtgLLjHij288c=
-Message-ID: <788e0918-02d8-47c4-83c1-9e23d623f2b3@ideasonboard.com>
-Date: Fri, 3 Nov 2023 09:58:07 +0200
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3DC6810E164;
+ Fri,  3 Nov 2023 08:23:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1698999818; x=1730535818;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=+kaMKIAxrDUWFRDqMEzckWhttZfmRsKXnzhvNoQg/D0=;
+ b=Mg0/0Nx26tpqX+4tvXwu9Xc3RAFtX4Nt3TDqA9FvsT+ZD3LOKki+sM0o
+ v9DnpUighJIKR9/bS+52VZfWs4NXIkMiFB6usoiloi5CKhiKmNqGev3iQ
+ 7idrIUEnl/hbHkJYXuvB44ff1CzzGsNpk/4ZUcagEoM6lAwHNQ1VdWo7J
+ RPSqapRDdCn6cCyfdpg5EZ3tCJAPaDhaQ3OKD0cYHcLHIB1iU0GhG8ZlJ
+ bQGesFRJO27dvAdwYzFT7w43eEJ2SI/Li1TXalHYyJDjrPmapSPlyALTs
+ k59rOhpuW4rhlrcof58ucoixNwWW8sxHuQXjV7mYRUPyN1y20h+L4CWg2 g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="475141677"
+X-IronPort-AV: E=Sophos;i="6.03,273,1694761200"; d="scan'208";a="475141677"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Nov 2023 01:23:38 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="827417641"
+X-IronPort-AV: E=Sophos;i="6.03,273,1694761200"; d="scan'208";a="827417641"
+Received: from sdobbela-mobl.ger.corp.intel.com (HELO [10.213.223.51])
+ ([10.213.223.51])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Nov 2023 01:23:35 -0700
+Message-ID: <7ce9eaf8-bb3e-489e-bb62-e99504ebd3df@linux.intel.com>
+Date: Fri, 3 Nov 2023 08:23:33 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 16/16] drm/tilcdc: Convert to platform remove callback
- returning void
+Subject: Re: [PATCH v2] drm/i915: Fix potential spectre vulnerability
 Content-Language: en-US
-To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Jyri Sarha <jyri.sarha@iki.fi>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-References: <20231102165640.3307820-18-u.kleine-koenig@pengutronix.de>
- <20231102165640.3307820-34-u.kleine-koenig@pengutronix.de>
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <20231102165640.3307820-34-u.kleine-koenig@pengutronix.de>
+To: Krzysztof Kozlowski <krzk@kernel.org>, Kunwu Chan <chentao@kylinos.cn>
+References: <d300506c-ab82-4cc1-b750-61e54ec2ad9e@linux.intel.com>
+ <20231103023257.58199-1-chentao@kylinos.cn>
+ <3d633ff6-e5e9-46bc-941a-258540ebbfc4@kernel.org>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <3d633ff6-e5e9-46bc-941a-258540ebbfc4@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,71 +63,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@pengutronix.de, dri-devel@lists.freedesktop.org
+Cc: robdclark@chromium.org, andrzej.hajda@intel.com,
+ alan.previn.teres.alexis@intel.com, kunwu.chan@hotmail.com,
+ intel-gfx@lists.freedesktop.org, jonathan.cavitt@intel.com,
+ linux-kernel@vger.kernel.org, chris.p.wilson@intel.com, rodrigo.vivi@intel.com,
+ dri-devel@lists.freedesktop.org, andi.shyti@linux.intel.com,
+ stable@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 02/11/2023 18:56, Uwe Kleine-König wrote:
-> The .remove() callback for a platform driver returns an int which makes
-> many driver authors wrongly assume it's possible to do error handling by
-> returning an error code. However the value returned is (mostly) ignored
-> and this typically results in resource leaks. To improve here there is a
-> quest to make the remove callback return void. In the first step of this
-> quest all drivers are converted to .remove_new() which already returns
-> void.
-> 
-> There is one error path in tilcdc_pdev_remove() that potentially could
-> yield a non-zero return code. In this case an error message describing
-> the failure is emitted now instead of
-> 
-> 	remove callback returned a non-zero value. This will be ignored.
-> 
-> before. Otherwise there is no difference. Also note that currently
-> tilcdc_get_external_components() doesn't return negative values.
-> 
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
-> ---
->   drivers/gpu/drm/tilcdc/tilcdc_drv.c | 9 ++++-----
->   1 file changed, 4 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/tilcdc/tilcdc_drv.c b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
-> index 8ebd7134ee21..137cd9f62e9f 100644
-> --- a/drivers/gpu/drm/tilcdc/tilcdc_drv.c
-> +++ b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
-> @@ -570,19 +570,18 @@ static int tilcdc_pdev_probe(struct platform_device *pdev)
->   						       match);
->   }
->   
-> -static int tilcdc_pdev_remove(struct platform_device *pdev)
-> +static void tilcdc_pdev_remove(struct platform_device *pdev)
->   {
->   	int ret;
->   
->   	ret = tilcdc_get_external_components(&pdev->dev, NULL);
->   	if (ret < 0)
-> -		return ret;
-> +		dev_err(&pdev->dev, "tilcdc_get_external_components() failed (%pe)\n",
-> +			ERR_PTR(ret));
->   	else if (ret == 0)
->   		tilcdc_fini(platform_get_drvdata(pdev));
->   	else
->   		component_master_del(&pdev->dev, &tilcdc_comp_ops);
-> -
-> -	return 0;
->   }
->   
->   static void tilcdc_pdev_shutdown(struct platform_device *pdev)
-> @@ -599,7 +598,7 @@ MODULE_DEVICE_TABLE(of, tilcdc_of_match);
->   
->   static struct platform_driver tilcdc_platform_driver = {
->   	.probe      = tilcdc_pdev_probe,
-> -	.remove     = tilcdc_pdev_remove,
-> +	.remove_new = tilcdc_pdev_remove,
->   	.shutdown   = tilcdc_pdev_shutdown,
->   	.driver     = {
->   		.name   = "tilcdc",
 
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+On 03/11/2023 06:56, Krzysztof Kozlowski wrote:
+> On 03/11/2023 03:32, Kunwu Chan wrote:
+>> Fix smatch warning:
+>> drivers/gpu/drm/i915/gem/i915_gem_context.c:847 set_proto_ctx_sseu()
+>> warn: potential spectre issue 'pc->user_engines' [r] (local cap)
+>>
+>> Fixes: d4433c7600f7 ("drm/i915/gem: Use the proto-context to handle create parameters (v5)")
+>> Cc: <stable@vger.kernel.org> # v5.15+
+>> Signed-off-by: Kunwu Chan <chentao@kylinos.cn>
+>> Suggested-by: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+>> Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+> 
+> Where did you receive this tag? There is nothing under link below.
+>> Link: https://lore.kernel.org/all/20231102101642.52988-1-chentao@kylinos.cn
 
-  Tomi
+It is fine, I gave the conditional r-b in 
+https://lore.kernel.org/all/d300506c-ab82-4cc1-b750-61e54ec2ad9e@linux.intel.com/.
 
+Suggested-by I did not and it is not true so I can drop it while applying.
+
+Regards,
+
+Tvrtko
