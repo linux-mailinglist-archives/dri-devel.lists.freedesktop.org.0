@@ -2,118 +2,158 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5447B7E0456
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Nov 2023 15:05:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29CFF7E04CB
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Nov 2023 15:37:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AEA3410E9F6;
-	Fri,  3 Nov 2023 14:04:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B51010E9F8;
+	Fri,  3 Nov 2023 14:37:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2051.outbound.protection.outlook.com [40.107.223.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 28E5310E9F5;
- Fri,  3 Nov 2023 14:04:56 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 663F010E9F4;
+ Fri,  3 Nov 2023 14:37:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1699022224; x=1730558224;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:mime-version;
+ bh=5+yAJqT/AuTLYURh729igY9BnjXX6ZZJS2o3k6Bs4hg=;
+ b=E/+AIYLo00B7P/ro09sydQIWs03htu+KDshSZpvDoCs+aTv/LnoKOJNZ
+ Ok7O7HrbX/uiijVCA76ghbtJN+7PtMrFOE3ek+mL0MNoxZU7Ilu5uTgsE
+ Emc7WaqhxN5E8P4Ui/1bHDJkIDTBLIFWExy3VPlWESjuZJUamQmuG2j6S
+ squFlqjjJyMfBiBb2mYH3Jche0B139ETIIaHWNlkWcei4LunOvcK6Ddu1
+ 1SeRnq18yV8aqoEtS9HVK1MaUrsOwiKwkFvxInQDyVcCgtVlowJT0rKIw
+ wnpE/Wl4M15A+tvuo+MCrKdFM/ZUVtT9E3u8GK0iZEBPTYJ60UqcIncvq Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="387843749"
+X-IronPort-AV: E=Sophos;i="6.03,273,1694761200"; 
+ d="scan'208,217";a="387843749"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Nov 2023 07:37:03 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="827504455"
+X-IronPort-AV: E=Sophos;i="6.03,273,1694761200"; 
+ d="scan'208,217";a="827504455"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+ by fmsmga008.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 03 Nov 2023 07:37:03 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34; Fri, 3 Nov 2023 07:37:02 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34; Fri, 3 Nov 2023 07:37:02 -0700
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34 via Frontend Transport; Fri, 3 Nov 2023 07:37:02 -0700
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.100)
+ by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.34; Fri, 3 Nov 2023 07:37:01 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YOV0+0eRDrIzCAbK68lxUEi+D25qG8NjAS0O4zIHLQ5JQdrrhilAsNo8g0U5kSnsfR3L25+VXx+EHKMBFoPr9Z8tXhMHNorGnEsahFqlgQ0b8HL3s2Io6Pa0Ut3cKnmZnf1cCl18a9e96oOgCm8bzn7y4FqA7Wxu8iquTXakFgV8Bxuup4NKCK/3Kbgk2OBHycSMBfBYQFAD4FGS/jTdZlsySPMOyiQGzUn4V0S9N2h1/v2XgPez5pqGP4F9ajA00D5GKP/8j+0b5+ryyp83ReS2Ku3huzDkYgFxgLO6S+oOziKTOAA9lsM97YNmNtOX9nmPBGJ8doLwFCr49XVMlA==
+ b=A86cPKi2KzzAc9aCvz547T0NjDMf3v+zG2DLbOH7tBUkJ5naYRC4wonZY/xulN/f3qCTEQhBAvbrfNfoMHrzmQPB7rgSFDXwaDDBcm9aw/SoMyo7zNR24xVQ/A4jzvsVhcei+WUuUDIOtxnv+jKSPm1OipUnZ2N8zTM7qldduIWiEfEyZKM859Pxy29888MkLLeJnuO4ToiFN/ozjpE6RnRuWH37NBg1UA4RbayJql6d85fqTiID9Z7OPupMWX7qv+G6JQobxFF/8id78OF1efpmy4Hf9Jp9BIcu+qgnXaAnkkjepnm/FCk7uDDt5lsoJxfHTYO+VJB6CXzkdGiRrA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rji8krO+55met/ds/YAVhvBG4uOao2Dp8x6jo15Hbwo=;
- b=YxUM9SfOibBL5mLhiwHph83ysnjBGR+bqqVRjdgs8/lscp/c2PsLPfj4FOUCpbXX6hVI7j2ZE/xNnE/U2SznigznYg57RkOOLyX6mlNwBLLukTv9GedZJJ6x4oo4W0CHOXz/CWGAuKm7HTMQlheOgAXAsl1Q8P0MOrzn/KBUH9BbSo9j9aFDQXNvvxM8CTBNmSHvln4R4nXAJFnafFGzhgyc6ebFiRvGQK3KUwwRUG7dtMhutBL/6DJHF++CgdicwoRbpSkekRPwp9ABXG0AxP6E2cLLAXboVccrC7eAtnomyywpeyhL1J81FmOLvcMC+hwEpbJczmF4370+E+ZVGQ==
+ bh=5+yAJqT/AuTLYURh729igY9BnjXX6ZZJS2o3k6Bs4hg=;
+ b=IQteJUaNghsBI8BlNyMF3eG85MY9ZSNy0G+AKrbVm8H8wlskLHqbnJBLuRpgD+7ksqPtq8F2gqz4K4ktdM+ZcBzXgjnjMKUnaJbSDWO3ypRxYbe4UEnpPyd3bG5FfmwFX//HXyKr/75ha5XTe74Xff377M9Zt1xA6FR32RvjPs6jzQMjOnfQ+Rc+Pp00a1MrjgFUcxIbuCsisVrsQmhWvf5iNFN1yZB6i8HTTx4p5ulvvzc+MGckaCqPJYkVgDjntPi9jWLKqHsGHF19QYXlAhUBQr9QQHtrNA/4SBTEXunRgCxEQNZDG1hc0XL0gKxa3M295FQEkD6EOBdupLdIXQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rji8krO+55met/ds/YAVhvBG4uOao2Dp8x6jo15Hbwo=;
- b=i7xEjuVKnxdDwbjMCKYikGF658c3H9xODEGz+7bW3FNTZczvyIU2gI5WAvuxBGNJOcfHu3ZVW4zXhh+qWTj8ul9GJJHjLZf+4jqE1GALiPHsWbRjanQwFaSBdeNM33vi79p0xuDwlC1+mEvKlUnnu6JrUnGK0id5Ug0DelM17co=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by MN0PR12MB6003.namprd12.prod.outlook.com (2603:10b6:208:37f::17)
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from SA1PR11MB6991.namprd11.prod.outlook.com (2603:10b6:806:2b8::21)
+ by LV3PR11MB8676.namprd11.prod.outlook.com (2603:10b6:408:20f::22)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.21; Fri, 3 Nov
- 2023 14:04:53 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::ca80:8f1c:c11:ded3]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::ca80:8f1c:c11:ded3%6]) with mapi id 15.20.6954.021; Fri, 3 Nov 2023
- 14:04:53 +0000
-Content-Type: multipart/alternative;
- boundary="------------1BSR1DmzzU74zajL8YoutQZT"
-Message-ID: <a2e13a27-d2e5-4ae3-9c11-c18b425b69cc@amd.com>
-Date: Fri, 3 Nov 2023 15:04:47 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH drm-misc-next v8 09/12] drm/gpuvm: reference count
- drm_gpuvm structures
+ 2023 14:36:58 +0000
+Received: from SA1PR11MB6991.namprd11.prod.outlook.com
+ ([fe80::eb3d:e9c7:a247:7915]) by SA1PR11MB6991.namprd11.prod.outlook.com
+ ([fe80::eb3d:e9c7:a247:7915%4]) with mapi id 15.20.6954.024; Fri, 3 Nov 2023
+ 14:36:57 +0000
+From: "Zeng, Oak" <oak.zeng@intel.com>
+To: =?utf-8?B?Q2hyaXN0aWFuIEvDtm5pZw==?= <christian.koenig@amd.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>
+Subject: RE: [RFC 03/11] drm: introduce drm evictable LRU
+Thread-Topic: [RFC 03/11] drm: introduce drm evictable LRU
+Thread-Index: AQHaDY/RNrUhLerb6UG5TRKXWBXl+LBn7/MQgABnQQCAAEpGoA==
+Date: Fri, 3 Nov 2023 14:36:57 +0000
+Message-ID: <SA1PR11MB6991B5D433D72BE9EF1F5F0192A5A@SA1PR11MB6991.namprd11.prod.outlook.com>
+References: <20231102043306.2931989-1-oak.zeng@intel.com>
+ <20231102043306.2931989-4-oak.zeng@intel.com>
+ <0c2d2b4f-54a2-4a60-8f51-4ec06a629f4a@amd.com>
+ <SA1PR11MB69911CED830F657F608BC52392A5A@SA1PR11MB6991.namprd11.prod.outlook.com>
+ <547cdd55-62f4-44d2-b960-07dd83892883@amd.com>
+In-Reply-To: <547cdd55-62f4-44d2-b960-07dd83892883@amd.com>
+Accept-Language: en-US
 Content-Language: en-US
-To: Danilo Krummrich <dakr@redhat.com>
-References: <20231101233113.8059-1-dakr@redhat.com>
- <20231101233113.8059-10-dakr@redhat.com>
- <be93d9ef-3d3e-4262-a280-d2922b983ca1@amd.com> <ZUTyGTxcH7WlHKsv@pollux>
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <ZUTyGTxcH7WlHKsv@pollux>
-X-ClientProxiedBy: FR3P281CA0098.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a1::14) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SA1PR11MB6991:EE_|LV3PR11MB8676:EE_
+x-ms-office365-filtering-correlation-id: fa4753f6-fd1c-4b71-f615-08dbdc7a553e
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: M4u+KVaY5qaEY15RlcDmxvSE8I5U9oPYs2bamxIxxdNTF4O4Knpssc8jG5Rv9dy7nDEFdYjOT28tJn8zsXyWUc9M8qP63p+CXrPca8samBfBWPV0RkA4a9tMeo9l5IxlBDOKFwWQ0ZGx0udOHsExvYpNnYTuRgd6UayAq93V+B5aPJJ1wx+lLm5abIoyJRFcttZrltBs9QBZDpb/fCt8IEfA6xfLNeO7EL20bYVsIyGjMztMzvGQHLBwsDv9DFThDS/qWwoHkk74a1fZGe4bnfqg6I+sBnzQFyIvSTnIYRrsr0ShZdFgfL/wH+uMbWYiDRFhINFLSvyOdCCRX0cA1gGZO9M+OFsvyphWkFSX9fz3tVnRFiQIRTOAIQEpZfYBcjhRCXXkuhZdBGZyWQbgpeltNI5TZANIsGvGYJ7duGzSkocEpud17cGZiDNN3IjCZqDDfGz1L+rDkIF9bF1NeNdYdKgnctJXnU8wVYVYlHuOMdqtdqM1TZHzvpDLmZxUvSkXFSYtiBFY0g4FkG5IFJ1ZHt5S9bxwBuF5iJ8ZEMjnFRMqfIOavQ3kZNtZHX4FV9XW9Ih3NnvoxDJr7ckUZalXSkgV+JL17hJectzRnew7oXQIER3avs/Ku9HkhGYQ
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SA1PR11MB6991.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(376002)(39860400002)(136003)(396003)(346002)(366004)(230922051799003)(64100799003)(1800799009)(186009)(451199024)(55016003)(83380400001)(53546011)(38100700002)(66574015)(122000001)(71200400001)(4326008)(86362001)(82960400001)(8676002)(8936002)(2906002)(33656002)(41300700001)(52536014)(6506007)(66556008)(9686003)(7696005)(5660300002)(316002)(66946007)(66446008)(478600001)(64756008)(110136005)(54906003)(76116006)(66476007)(26005)(38070700009);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?UjNIYUM4V3FpQUtEWFZ2bDFMWTZVd0NCUmJPcjEzdXRaRUc5dFBOejJ6U3c3?=
+ =?utf-8?B?VDhLdVY3enFzckovd05UTi9DeXNHOTFqb2NQbmxYWmtrMFFrb2NuRFJXbzRK?=
+ =?utf-8?B?cHhmWDg4SUVXdnpIYVA3a3FMam1KaXdVa0dGaVRJaFpYeGxmMGZNbjlrck5v?=
+ =?utf-8?B?QlRMdG8wMElPNHB6ZTJKd2NTS2lHb2dSOWtBTFBlenFvZnd2aURmYW9MaFJU?=
+ =?utf-8?B?NU1qU3lQWjVtTUJUeWFMTUVzQzNuTkFZZTdZS2MvUHd4ZnlvWDVqU1hqdk1Q?=
+ =?utf-8?B?R01PK3FxN085OTdJaG14TEh3YXMwd25ReEtHcndzYTZhN0Q5NW5kT2N5UUpC?=
+ =?utf-8?B?VTVNNHo3SmxlSUlsMXRBOWNzWjczUGpkWTJaMHl4eW9WM2JYcjFvTU1oWlRZ?=
+ =?utf-8?B?WGxZWnJMRnBsNnJTR3JlYnJ2UGxTR1k4UEgvNWN5ek01citmaHc1cDFHRTAr?=
+ =?utf-8?B?L3JUdzB6MXBXVGh0a2F1T1JyMFhuWWZ3Z1FFLzNnRDU0bHlrdzM5MWZHTi9s?=
+ =?utf-8?B?ZmVHYWpodDRaWmQ1ZlJKY0hMcG5WVU9ScnJtWmc4VHNTK045dzc4UnJkQzg1?=
+ =?utf-8?B?aC9wZno2eWFDaklxZGFuMEUzYlh1aFN1cU9DMGcxYVJLekcxNWNZV2JRUDdy?=
+ =?utf-8?B?YXBqbGNHYU5LWWNpb1BTaUN2MkgvZ1J1NUVBbUNEMkh4alNnekFHUk9XTUV5?=
+ =?utf-8?B?ZW1tZmtaT3ZPZTRuQXZWZlp0RzdzcnJuRXlTaHBsL1BZU3Z6SkRlTEtKT0w1?=
+ =?utf-8?B?RjBTdnR1SitIdmdxZUtTWFBZdXZuaEEzbTcwcSs2c1ZicjZRdFlGTm1HV0Zi?=
+ =?utf-8?B?azNWU3IzU3hmb1RmcWorSWw0SDJuOFg2NEJUT05UdmhIMmo1TThpVmJOaE0w?=
+ =?utf-8?B?akJNeVpKY0h6Zm9mRUVBTVFqYytJeFJ6V0tsU0gyVytSZmxvcFVobktKT2s4?=
+ =?utf-8?B?RVQ2cHN3d2IrN3Zyanl0TC9XaUZqbXJ4WFBmbmU4VGo1Yi81RDNwRzFQTTZU?=
+ =?utf-8?B?WklSaUtkVGVVSGY1b0twYUVpczBGUncxSmRVRmk2dTZ6UGRobmNEQ0FBRGdD?=
+ =?utf-8?B?RkZ4MkVIUVhWSDFIc0ZBa2d1ald3b00wc2dUT2VwRnNlZnpDQyt5UVRQOGh4?=
+ =?utf-8?B?eFZOY25ISTQ3bk9YYWVpQUFYakdKVno5UmJOWG5SNE5vQk43KytpaUVHQThx?=
+ =?utf-8?B?a011WTlzRG9vMmwzZkJVTzRLclNrVzFLUXdUOUxxNWZpYzlYQm0wUUdQTC9O?=
+ =?utf-8?B?YUhuMUhiK3BpSGlzSlNKa2RiTWJBYzBQRm5IMlFsWmRFRjVrQTFlU0NUK2JM?=
+ =?utf-8?B?SVFmT0xnLzd1VGJ2RDZiaEROVXVLSXNCUXRLRkowRUV2eldTcS83eHlaVjRZ?=
+ =?utf-8?B?dGwzVCtYelNDelFhM29mcTBWMi9DL2U5VWY2TldKaWNQVUpBNTFMcVhOK2Z4?=
+ =?utf-8?B?MGNETkw3TVpMWGhDdC9tQ1hyR3dwZElpUTVhN3pWcGVub3BTUlJsRVllaFgv?=
+ =?utf-8?B?bGFBaEx0a3lEUHZjV05ZOXBsN3pUT3NkY0FyWk0xeE1EZWhid2x3cTliWmVS?=
+ =?utf-8?B?aTFxY3Z6T2piemRucS9uY3ExUEZydlJ5WmhYT213VXpRblhMRmQ0VjdjaW5C?=
+ =?utf-8?B?Nlh1ei9PVVQ5Z01Yek9hVkk2Q2p5RXhKWS9Tc3hORE5yazVBclhIa3ZrYTlX?=
+ =?utf-8?B?MFRFOFBnWUJRWnFRc3MrRlIyQUdFelRjUGF5a2tlK20vVEw3V29UUWQrRzRG?=
+ =?utf-8?B?MllyNEpNWktnTnVEajBIaFlueW9DWjE2QmlTS2RZc0E0RmExMEtaNWRQazVo?=
+ =?utf-8?B?VWlRTjFKeHJvM1owN0E1RkU1aFRVdmRTQ0V5TlNLaVRqd09weXg4dXF2aEhO?=
+ =?utf-8?B?QUJGb1VFNzkzaEJETDhXT2Y0VkhTNjU0Q2JmdUZqbWFsUThLYnpVeHZyWi9D?=
+ =?utf-8?B?eFNSRmZQYVNWcmZRbUx2RDZ5OU5aN0hwY0dtMDMvWlNFanFGQmJnZFlZTDBW?=
+ =?utf-8?B?bXZGY2FOTlR3Q1NvQkFBMWlNaVBNbXJwdGRFdTV1Z09jamk2SDZDbEJyeFpt?=
+ =?utf-8?B?MGx5V1RleFo5eEtNTWVJQ2Z6NW0vSm4zMmVWdUdCQUNMK2NwdEVDQjNoa1cx?=
+ =?utf-8?Q?g6Rc=3D?=
+Content-Type: multipart/alternative;
+ boundary="_000_SA1PR11MB6991B5D433D72BE9EF1F5F0192A5ASA1PR11MB6991namp_"
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|MN0PR12MB6003:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1d6f4581-5bee-4014-03e3-08dbdc75da0b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ueK/zAJYywLJ+aPmSxMgo4tidmbxTlG8i9f1sNCNCofqGeXnxoeHLUnSepxz3T55VVrcXpaAivR7MRlQ+7Qd247CGQjSCVuSliQlwPgB7nadwjRWkgcz3c3+XwxhPx3tkwr1I6klS0qPSP/UeiZTjIpA0pg4m3jAOV5WeIxX9fcieDmQi06On3AnpQPbENNi/NRK7TP/dHMbNI3y14+Yycx8Xhd+N/qHcscPPWqtxW+zlBj6nUgNwrzAq80A13pqkuPdCBugJwAj0WzevgtYlFil5+gqS5qNY4sBVegrSBBV+EQq1L/7lJDix2t/HpBzyzSddZsqzo7hU2f7mhmn+NjCIjRrfxWIQuF8IXWCQXVg+NdvQM7qDxT3z+M3ZHKgzqGn1WAe+oP+tfCPcPNPqHEYsrVFHVbgWWYPqrYOGh6dfD3GN/CTBHjj25nFosv3g7/4zR8NhDGuR2ZP6cd/JplfXAwBkkF8hxaXJMeV9WQJ4BixcFpcx44RTOVpeCRSmvOLHfWAhWofT3vyN/IToRx4RlhakQ7z1RYphzQ9oMxEuBRAeDeg2sVfO877Z6SMQv/0ojOU9P5eYCmdEqLnpYt9f9IkmMa+oeCtTUU5kc1W/htecgzpHJu0lHKXimM/agt1SUOZHKZt5sQPjh/ciQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(136003)(346002)(366004)(396003)(39860400002)(376002)(230922051799003)(1800799009)(64100799003)(186009)(451199024)(2616005)(6512007)(26005)(6666004)(6506007)(33964004)(478600001)(66574015)(83380400001)(7416002)(5660300002)(30864003)(2906002)(41300700001)(6486002)(966005)(66946007)(4326008)(8676002)(8936002)(66556008)(66476007)(6916009)(316002)(166002)(31696002)(38100700002)(86362001)(36756003)(31686004)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZWFHVkY4TkN2OW05RWw4dUo4MjNLQXhEdzIxTUxmdTNaMlpaQzVGOU9zR2pR?=
- =?utf-8?B?dWxFOFdUNEtqNWJ4M3p0TloxL3VHeU9aTEkzK0UyaE1nYTBpaGllSFcrbFpl?=
- =?utf-8?B?TkhROGg4MVdhNTdUUXp6MTVFTE5hUDljR1U3TFljdGtwcTQxUEJTbklBWlJD?=
- =?utf-8?B?L29zWmp1eE1rd0dpTFZKZ1RxeFZEVFNZN1YvSTErYnNYT3pKWmdyc2ltYzQr?=
- =?utf-8?B?by9vdElSaWVXUFV6SjdGd2F2NzNNc20zeU10clUvOVkwWlVyM3JXRml6Lzll?=
- =?utf-8?B?N0JaUTdSQ3RtUTM0Mk5tS0ZnQzZCVjNPMXBnOFV2dUhHUnYwR3VvQm1kWlZk?=
- =?utf-8?B?bjNmemVEOUF6cm5kV0FGeERiemU4MWVaUXA0T1U5N1BoT3lEUXhwZVBhWFRh?=
- =?utf-8?B?WjBDeXZkZmR3RzA5aWFuSXQzNlRMVzVDcXZoS21lUUZ2MmZhcWdsTUQ3NUUr?=
- =?utf-8?B?eHprUmdDakloQzhpcm51OFNhY0R5QmNVa0p6aXEydkk0OURjUE1IbnVyTnUx?=
- =?utf-8?B?T0NlaUZpSXVjRXVhYkJVbkNsdVdTY3d5YThtcEEvVXNVODhvRjVraml0ZHNQ?=
- =?utf-8?B?OVkvUHl5VnJWcXFuK0ozZkpzd1QzMDlwd0k3Wm5DcENMRHF4a3l2Zkc1eFQr?=
- =?utf-8?B?dEFhLy9Ub21uUkpQbVE4Mkhob1VrOTBTQ1dvdU9naGhuN0dYQUlMam1DNEE2?=
- =?utf-8?B?VEZFbHJRT1lDbjRXK2NkK3lrOWRPdVd0OHdjZ0RZdlhncHZEV1pGRDVqcjJz?=
- =?utf-8?B?b1dCTktJVkZ4dG9GeWlvanAwOWxvL2I3b1QxTU9lb29QMHk3WUhjdXM3aXE0?=
- =?utf-8?B?bGl4WmhBUlU2bnBDY3oxTiswaVJsdk5sMDl0Y1lqZzlsc1M0QTA2eDBMMEhB?=
- =?utf-8?B?dFVGWlB5TmF4U0ZEb3hZV0RERUdlbnJDUzAwZERvdUQ1emdzdGFpWXZOV01n?=
- =?utf-8?B?SlVwYTJaNS9hTUFyUTUwbGZEZ1AvaU1SV216TTV5ai96clBVRjM2RHZVOUxu?=
- =?utf-8?B?dm1Hb0huRXVsUVpLNnpQeG1jZjN3NGNLWVVsUHdSRStPVlBkSGsrNy9IUllp?=
- =?utf-8?B?Ty9ZOEh1VGtJQ0N0cW00TThpWTJ3RWNIYmNpSDJUZ01oY2UrV2E2enA0bUtz?=
- =?utf-8?B?TEVSeEhuN1FiSlE3T2VCbHEzaFZFQ3ZIcGVTWHNpd2NYUGpYK1JuYUJCejhW?=
- =?utf-8?B?WDN2SUdXbkxTNllhMXBPWlRnWnZJTFdHOCtzS2R0bnVLMjh0cC9ITHJHem4y?=
- =?utf-8?B?NWlJNzBCK2I1NEh5cVJ1L1hIaW9ZSkRhditpNFRtamhPeHZtMjRUSFdsQjZM?=
- =?utf-8?B?dCtnRjRHbm5oYmxpL3JOb0FmWGpxVzRocGxUTS9TUml3SEkzWUh2d29obVdj?=
- =?utf-8?B?TlgrNlp4cjlqMGV0TWZTRkFrL0tSeVIrKzdvZGRUTUU1eitmZnpiOUtjbHB4?=
- =?utf-8?B?UWR4UjBIRnRWS1N6YlI1WVpmMm9oZzIxbWx3VFdBZEpEckVTZmlZRkJrN1lV?=
- =?utf-8?B?TXBmRUw1NGZ3RUZIcGpWbmRXUmlSM3J0VHliSmFOUnFwRkl3YUlPVWt2MXZY?=
- =?utf-8?B?dGZMYXRzYldPMjFHZm5sNHdyWkxFWmVKMWZINTlhSUUxa2cwNUJtd3RsUk41?=
- =?utf-8?B?eTdmUC9yVld0QzlQQ1QvVzA5dzAzSFpMdmVuS3Z6TFhEV1p0dDU4V0EyYnV5?=
- =?utf-8?B?SXprbjlWQ0lyam1kUGR0WTFzUkl1TGhrWmNZN2hZMEE0dStSQkRPTnJBd2dV?=
- =?utf-8?B?d1FxK2ZkSXVMT1daMXVZclg4b0lkcjVFTk5MM29vRUJmeGFkNWhTaGpGQldP?=
- =?utf-8?B?cnpkY2JDSWx2b3BPVmNNSjlNMS9PL1BsczZiNTFLeUFTRDVDVDgwdkVPZTF3?=
- =?utf-8?B?TGFtZ0VNRGUvSVRPTDVuL3IyekgzZy9Sbnhtbmh1ZHJWS0hBdk5kSmhFRmFB?=
- =?utf-8?B?YzlTOENCczNkTDRFdlEvbDFHaXVNam1BOWVhTE9tb2x6UitpMmp5ZTRoS1V3?=
- =?utf-8?B?QjZPbEM3SDArUnpnQTNPOFZjbm13ME15ckJCWE5XNnhoWGhqaFlRT1gyUHNP?=
- =?utf-8?B?MGR0N2tUV1Q5aVVBdzZSTVJaY3NERk95dzhScThOWEJBKzdFWVo4ZmU2NmFR?=
- =?utf-8?Q?LwNE=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1d6f4581-5bee-4014-03e3-08dbdc75da0b
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Nov 2023 14:04:53.1784 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: DI+1h2pOKQ5HBWVG6YNb2WxLYT3WsvvpfVpyNUO+CGyyKGwgff3PNfy3BCvGdxoM
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB6003
+X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB6991.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fa4753f6-fd1c-4b71-f615-08dbdc7a553e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Nov 2023 14:36:57.6995 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Rwc0dDMsDBEkAnb7JbIub5NLB1/lAD4ELBuoNW9ng2JqLSQHFx1XpuFG8PuZO7Y//7cd2N8D0z8gRk5e9T3siQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR11MB8676
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,532 +166,192 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.brost@intel.com, thomas.hellstrom@linux.intel.com,
- sarah.walker@imgtec.com, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- faith@gfxstrand.net, boris.brezillon@collabora.com, donald.robson@imgtec.com
+Cc: "Thomas.Hellstrom@linux.intel.com" <Thomas.Hellstrom@linux.intel.com>,
+ "felix.kuehling@amd.com" <felix.kuehling@amd.com>, "Welty,
+ Brian" <brian.welty@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---------------1BSR1DmzzU74zajL8YoutQZT
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+--_000_SA1PR11MB6991B5D433D72BE9EF1F5F0192A5ASA1PR11MB6991namp_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Am 03.11.23 um 14:14 schrieb Danilo Krummrich:
-> On Fri, Nov 03, 2023 at 08:18:35AM +0100, Christian König wrote:
->> Am 02.11.23 um 00:31 schrieb Danilo Krummrich:
->>> Implement reference counting for struct drm_gpuvm.
->>  From the design point of view what is that good for?
-> It was discussed in this thread [1].
->
-> Essentially, the idea is to make sure that vm_bo->vm is always valid without the
-> driver having the need to take extra care. It also ensures that GPUVM can't be
-> freed with mappings still held.
+DQoNCkZyb206IENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4NClNl
+bnQ6IEZyaWRheSwgTm92ZW1iZXIgMywgMjAyMyA1OjM2IEFNDQpUbzogWmVuZywgT2FrIDxvYWsu
+emVuZ0BpbnRlbC5jb20+OyBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnOyBpbnRlbC14
+ZUBsaXN0cy5mcmVlZGVza3RvcC5vcmcNCkNjOiBUaG9tYXMuSGVsbHN0cm9tQGxpbnV4LmludGVs
+LmNvbTsgZmVsaXgua3VlaGxpbmdAYW1kLmNvbTsgYWlybGllZEBnbWFpbC5jb207IFdlbHR5LCBC
+cmlhbiA8YnJpYW4ud2VsdHlAaW50ZWwuY29tPg0KU3ViamVjdDogUmU6IFtSRkMgMDMvMTFdIGRy
+bTogaW50cm9kdWNlIGRybSBldmljdGFibGUgTFJVDQoNCkFtIDAzLjExLjIzIHVtIDA1OjA0IHNj
+aHJpZWIgWmVuZywgT2FrOltTTklQXQ0KDQoNCg0KSSBhbHNvIHdhbnQgdG8gaGF2ZSBhIG1vcmUg
+YWR2YW5jZWQgaXRlcmF0b3IgYXQgc29tZSBwb2ludCB3aGVyZSB3ZSBncmFiDQoNCnRoZSBCTyBs
+b2NrIGZvciBrZWVwaW5nIGEgcmVmZXJlbmNlIGludG8gdGhlIExSVSBsaXN0LiBOb3Qgc3VyZSBo
+b3cgdG8NCg0KZG8gdGhpcyBpZiB3ZSBkb24ndCBoYXZlIHRoZSBCTyBoZXJlIGFueSBtb3JlLg0K
+DQoNCg0KTmVlZCB0byB0aGluayBhYm91dCB0aGF0IGZ1cnRoZXIsDQoNCg0KDQpEb24ndCBxdWl0
+ZSBnZXQgdGhlIHdoYXQgeW91IHdhbnQgdG8gZG8gd2l0aCB0aGUgYWR2YW5jZWQgaXRlcmF0b3Iu
+IEJ1dCB3aXRoIHRoaXMgd29yaywgdGhlIGxydSBlbnRpdHkgaXMgYSBiYXNlIGNsYXNzIG9mIHR0
+bV9yZXNvdXJjZSBvciBhbnkgb3RoZXIgcmVzb3VyY2Ugc3RydWN0IGluIGhtbS9zdm0uIExydSBp
+cyBkZWNvdXBsZWQgZnJvbSBibyBjb25jZXB0IC0gdGhpcyBpcyB3aHkgdGhpcyBscnUgY2FuIGJl
+IHNoYXJlZCB3aXRoIHN2bSBjb2RlIHdoaWNoIGlzIGJvLWxlc3MuDQoNClRoaXMgaXMganVzdCBh
+IGNyYXp5IGlkZWEgSSBoYWQgYmVjYXVzZSBUVE0gdGVuZHMgdG8gcGVyZm9ybSBiYWQgb24gY2Vy
+dGFpbiB0YXNrcy4NCg0KV2hlbiB3ZSBzdGFydCB0byBldmljdCBzb21ldGhpbmcgd2UgdXNlIGEg
+Y2FsbGJhY2sgd2hpY2ggaW5kaWNhdGVzIGlmIGFuIGV2aWN0aW9uIGlzIHZhbHVhYmxlIG9yIG5v
+dC4gU28gaXQgY2FuIGhhcHBlbiB0aGF0IHdlIGhhdmUgdG8gc2tpcCBxdWl0ZSBhIGJ1bmNoIG9m
+IEJPcyBvbiB0aGUgTFJVIHVudGlsIHdlIGZvdW5kIG9uZSB3aGljaCBpcyB3b3J0aCBldmljdGlu
+Zy4NCg0KTm90IGl0IGNhbiBiZSB0aGF0IHRoZSBmaXJzdCBldmljdGlvbiBkb2Vzbid0IG1ha2Ug
+ZW5vdWdoIHJvb20gdG8gZnVsZmlsbCB0aGUgYWxsb2NhdGlvbiByZXF1aXJlbWVudCwgaW4gdGhp
+cyBjYXNlIHdlIGN1cnJlbnRseSBzdGFydCBvdmVyIGF0IHRoZSBiZWdpbm5pbmcgc2VhcmNoaW5n
+IGZvciBzb21lIEJPIHRvIGV2aWN0Lg0KDQpJIHdhbnQgdG8gYXZvaWQgdGhpcyBieSBiZWluZyBh
+YmxlIHRvIGhhdmUgY3Vyc29ycyBpbnRvIHRoZSBMUlUsIGUuZy4gdGhlIG5leHQgQk8gd2hpY2gg
+Y2FuJ3QgbW92ZSB1bnRpbCB3ZSBoYXZlIGV2aWN0ZWQgdGhlIGN1cnJlbnQgb25lLg0KDQoNCkdv
+dCB5b3Ugbm93LiBJIGRpZG7igJl0IGtub3cgdGhpcyBwcm9ibGVtIHNvIEkgZGlkbuKAmXQgdHJ5
+IHRvIGZpeCB0aGlzIGVmZmljaWVuY3kgcHJvYmxlbSBpbiB0aGlzIHNlcmllcy4gVGhlb3JldGlj
+YWxseSBJIHRoaW5rIHdlIGNhbiBmaXggdGhpcyBpc3N1ZSB0aGlzIHdheTogY2hhbmdlIHR0bV9t
+ZW1fZXZpY3RfZmlyc3QgdG8gdHRtX21lbV9ldmljdF9maXJzdF9uIGFuZCBhZGQgYSBwYXJhbWV0
+ZXIgdG8gdGhpcyBmdW5jdGlvbiB0byBzcGVjaWZ5IGhvdyBtdWNoIHJvb20gd2Ugd2FudCB0byB5
+aWVsZDsgdGhlbiB3ZSBldmljdCB0aGUgZmlyc3QgbiBvYmplY3RzIHRvIG1ha2UgZW5vdWdoIHJv
+b20gYmVmb3JlIHJldHVybiwgb3IgZmFpbCBpZiB3ZSBjYW7igJl0IG1ha2UgZW5vdWdoIHJvb20u
+IFRoaXMgc2NoZW1lIHdvdWxkIG5lZWQgdGhlIGNhbGxlciBvZiB0dG1fbWVtX2V2aWN0X2ZpcnN0
+IHRvIHRlbGwgaG93IG11Y2ggcm9vbSBoZSBuZWVkIOKAkyBJIHRoaW5rIHJlYXNvbmFibGUuDQoN
+Cg0KQlRXOiBIb3cgZG8geW91IGhhbmRsZSBldmljdGlvbiBoZXJlPyBJIG1lYW4gd2UgY2FuJ3Qg
+Y2FsbCB0aGUgZXZpY3QgY2FsbGJhY2sgd2l0aCB0aGUgc3BpbmxvY2sgaGVsZCBlYXNpbHk/DQoN
+Ckkgd2FzIGFjdHVhbGx5IHN0cnVnZ2xpbmcgd2hlbiBJIHJlZmFjdG9yZWQgdHRtX21lbV9ldmlj
+dF9maXJzdCBmdW5jdGlvbi4gSSBtb3ZlZCB0aGlzIGZ1bmN0aW9uIHRvIGxydSBtYW5hZ2VyIGFu
+ZCBhYnN0cmFjdGVkIDMgY2FsbGJhY2sgZnVuY3Rpb25zIChldmljdF9hbGxvd2FibGUvdmFsdWFi
+bGUsIGV2aWN0X2VudGl0eSwgZXZpY3RfYnVzeV9lbnRpdHkpIOKAkyB0aG9zZSBuZWVkIHRvIHJl
+bG9vayB3aGVuIGhtbS9zdm0gY29kZXMgY29tZSBpbiBwaWN0dXJlLiBJIHRyaWVkIG5vdCB0byBj
+aGFuZ2UgYW55IGxvZ2ljIG9mIHRoaXMgZnVuY3Rpb24g4oCTIEkga25vdyBwZW9wbGUgd29ya2Vk
+IG9uIHRoaXMgZnVuY3Rpb24gaW4gdGhlIHBhc3QgMTUgeWVhcnMgc28gYmV0dGVyIHRvIGJlIHZl
+cnkgY2FyZWZ1bC4NCg0KU28gaW4gbXkgY3VycmVudCBpbXBsZW1lbnRhdGlvbiwgc3BpbmxvY2sg
+aXMgaGVsZCBjYWxsaW5nIHRoZSBldmljdF9lbnRpdHkgY2FsbGJhY2suIFNwaW5sb2NrIGlzIHVu
+bG9ja2VkIGJlZm9yZSBjYWxsaW5nIHR0bV9ib19ldmljdCBpbiB0aGUgZXZpY3RfZW50aXR5IGNh
+bGxiYWNrIGFuZCByZS1oZWxkIGlmIHdlIG5lZWQgdG8gbW92ZSBlbnRpdHkgaW4gbHJ1IGxpc3Qu
+IFNlZSBkZXRhaWxzIGluIHBhdGNoIDQgYW5kIHBhdGNoIDEwLiBTbyBpdCBrZWVwcyBleGFjdGx5
+IHRoZSBvcmlnaW5hbCBjYWxsIHNlcXVlbmNlIGJ1dCBkb2VzIGxvb2sgYXdrd2FyZC4NCg0KQnV0
+IEkgdGhpbmsgeW91IGFyZSByaWdodC4gV2UgY2FuIHJlbGVhc2UgdGhlIHNwaW5sb2NrIGluIHRo
+ZSBkcm1fbHJ1X2V2aWN0X2ZpcnN0IGZ1bmN0aW9uIGJlZm9yZSBjYWxsaW5nIGV2aWN0IGNhbGxi
+YWNrLg0KDQpPYWsNCg0KDQpDaHJpc3RpYW4uDQoNCg0KDQoNCg0KDQpPYWsNCg0KDQo=
 
-Well in this case I have some objections to this. The lifetime of the VM 
-is driver and use case specific.
+--_000_SA1PR11MB6991B5D433D72BE9EF1F5F0192A5ASA1PR11MB6991namp_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Especially we most likely don't want the VM to live longer than the 
-application which originally used it. If you make the GPUVM an 
-independent object you actually open up driver abuse for the lifetime of 
-this.
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
+YWNlDQoJe2ZvbnQtZmFtaWx5OkRlbmdYaWFuOw0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAx
+IDE7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseTpDYWxpYnJpOw0KCXBhbm9zZS0xOjIgMTUg
+NSAyIDIgMiA0IDMgMiA0O30NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6Q29uc29sYXM7DQoJ
+cGFub3NlLTE6MiAxMSA2IDkgMiAyIDQgMyAyIDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWls
+eToiXEBEZW5nWGlhbiI7DQoJcGFub3NlLTE6MiAxIDYgMCAzIDEgMSAxIDEgMTt9DQovKiBTdHls
+ZSBEZWZpbml0aW9ucyAqLw0KcC5Nc29Ob3JtYWwsIGxpLk1zb05vcm1hbCwgZGl2Lk1zb05vcm1h
+bA0KCXttYXJnaW46MGNtOw0KCWZvbnQtc2l6ZToxMS4wcHQ7DQoJZm9udC1mYW1pbHk6IkNhbGli
+cmkiLHNhbnMtc2VyaWY7fQ0KcHJlDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgltc28tc3R5
+bGUtbGluazoiSFRNTCBQcmVmb3JtYXR0ZWQgQ2hhciI7DQoJbWFyZ2luOjBjbTsNCgltYXJnaW4t
+Ym90dG9tOi4wMDAxcHQ7DQoJZm9udC1zaXplOjEwLjBwdDsNCglmb250LWZhbWlseToiQ291cmll
+ciBOZXciO30NCnNwYW4uSFRNTFByZWZvcm1hdHRlZENoYXINCgl7bXNvLXN0eWxlLW5hbWU6IkhU
+TUwgUHJlZm9ybWF0dGVkIENoYXIiOw0KCW1zby1zdHlsZS1wcmlvcml0eTo5OTsNCgltc28tc3R5
+bGUtbGluazoiSFRNTCBQcmVmb3JtYXR0ZWQiOw0KCWZvbnQtZmFtaWx5OkNvbnNvbGFzO30NCnNw
+YW4uRW1haWxTdHlsZTIwDQoJe21zby1zdHlsZS10eXBlOnBlcnNvbmFsLXJlcGx5Ow0KCWZvbnQt
+ZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmOw0KCWNvbG9yOndpbmRvd3RleHQ7fQ0KLk1zb0No
+cERlZmF1bHQNCgl7bXNvLXN0eWxlLXR5cGU6ZXhwb3J0LW9ubHk7DQoJZm9udC1zaXplOjEwLjBw
+dDsNCgltc28tbGlnYXR1cmVzOm5vbmU7fQ0KQHBhZ2UgV29yZFNlY3Rpb24xDQoJe3NpemU6NjEy
+LjBwdCA3OTIuMHB0Ow0KCW1hcmdpbjo3Mi4wcHQgNzIuMHB0IDcyLjBwdCA3Mi4wcHQ7fQ0KZGl2
+LldvcmRTZWN0aW9uMQ0KCXtwYWdlOldvcmRTZWN0aW9uMTt9DQotLT48L3N0eWxlPjwhLS1baWYg
+Z3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVkZWZhdWx0cyB2OmV4dD0iZWRpdCIgc3BpZG1heD0i
+MTAyNiIgLz4NCjwveG1sPjwhW2VuZGlmXS0tPjwhLS1baWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86
+c2hhcGVsYXlvdXQgdjpleHQ9ImVkaXQiPg0KPG86aWRtYXAgdjpleHQ9ImVkaXQiIGRhdGE9IjEi
+IC8+DQo8L286c2hhcGVsYXlvdXQ+PC94bWw+PCFbZW5kaWZdLS0+DQo8L2hlYWQ+DQo8Ym9keSBs
+YW5nPSJFTi1DQSIgbGluaz0iIzA1NjNDMSIgdmxpbms9IiM5NTRGNzIiIHN0eWxlPSJ3b3JkLXdy
+YXA6YnJlYWstd29yZCI+DQo8ZGl2IGNsYXNzPSJXb3JkU2VjdGlvbjEiPg0KPHAgY2xhc3M9Ik1z
+b05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpw
+PiZuYnNwOzwvbzpwPjwvcD4NCjxkaXYgc3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci1sZWZ0OnNv
+bGlkIGJsdWUgMS41cHQ7cGFkZGluZzowY20gMGNtIDBjbSA0LjBwdCI+DQo8ZGl2Pg0KPGRpdiBz
+dHlsZT0iYm9yZGVyOm5vbmU7Ym9yZGVyLXRvcDpzb2xpZCAjRTFFMUUxIDEuMHB0O3BhZGRpbmc6
+My4wcHQgMGNtIDBjbSAwY20iPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PGI+PHNwYW4gbGFuZz0i
+RU4tVVMiPkZyb206PC9zcGFuPjwvYj48c3BhbiBsYW5nPSJFTi1VUyI+IENocmlzdGlhbiBLw7Zu
+aWcgJmx0O2NocmlzdGlhbi5rb2VuaWdAYW1kLmNvbSZndDsNCjxicj4NCjxiPlNlbnQ6PC9iPiBG
+cmlkYXksIE5vdmVtYmVyIDMsIDIwMjMgNTozNiBBTTxicj4NCjxiPlRvOjwvYj4gWmVuZywgT2Fr
+ICZsdDtvYWsuemVuZ0BpbnRlbC5jb20mZ3Q7OyBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnOyBpbnRlbC14ZUBsaXN0cy5mcmVlZGVza3RvcC5vcmc8YnI+DQo8Yj5DYzo8L2I+IFRob21h
+cy5IZWxsc3Ryb21AbGludXguaW50ZWwuY29tOyBmZWxpeC5rdWVobGluZ0BhbWQuY29tOyBhaXJs
+aWVkQGdtYWlsLmNvbTsgV2VsdHksIEJyaWFuICZsdDticmlhbi53ZWx0eUBpbnRlbC5jb20mZ3Q7
+PGJyPg0KPGI+U3ViamVjdDo8L2I+IFJlOiBbUkZDIDAzLzExXSBkcm06IGludHJvZHVjZSBkcm0g
+ZXZpY3RhYmxlIExSVTxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8cCBj
+bGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3Jt
+YWwiPkFtIDAzLjExLjIzIHVtIDA1OjA0IHNjaHJpZWIgWmVuZywgT2FrOltTTklQXSA8bzpwPjwv
+bzpwPjwvcD4NCjxibG9ja3F1b3RlIHN0eWxlPSJtYXJnaW4tdG9wOjUuMHB0O21hcmdpbi1ib3R0
+b206NS4wcHQiPg0KPHByZT48bzpwPiZuYnNwOzwvbzpwPjwvcHJlPg0KPHByZT5JIGFsc28gd2Fu
+dCB0byBoYXZlIGEgbW9yZSBhZHZhbmNlZCBpdGVyYXRvciBhdCBzb21lIHBvaW50IHdoZXJlIHdl
+IGdyYWI8bzpwPjwvbzpwPjwvcHJlPg0KPHByZT50aGUgQk8gbG9jayBmb3Iga2VlcGluZyBhIHJl
+ZmVyZW5jZSBpbnRvIHRoZSBMUlUgbGlzdC4gTm90IHN1cmUgaG93IHRvPG86cD48L286cD48L3By
+ZT4NCjxwcmU+ZG8gdGhpcyBpZiB3ZSBkb24ndCBoYXZlIHRoZSBCTyBoZXJlIGFueSBtb3JlLjxv
+OnA+PC9vOnA+PC9wcmU+DQo8cHJlPjxvOnA+Jm5ic3A7PC9vOnA+PC9wcmU+DQo8cHJlPk5lZWQg
+dG8gdGhpbmsgYWJvdXQgdGhhdCBmdXJ0aGVyLDxvOnA+PC9vOnA+PC9wcmU+DQo8cHJlPjxvOnA+
+Jm5ic3A7PC9vOnA+PC9wcmU+DQo8cHJlPkRvbid0IHF1aXRlIGdldCB0aGUgd2hhdCB5b3Ugd2Fu
+dCB0byBkbyB3aXRoIHRoZSBhZHZhbmNlZCBpdGVyYXRvci4gQnV0IHdpdGggdGhpcyB3b3JrLCB0
+aGUgbHJ1IGVudGl0eSBpcyBhIGJhc2UgY2xhc3Mgb2YgdHRtX3Jlc291cmNlIG9yIGFueSBvdGhl
+ciByZXNvdXJjZSBzdHJ1Y3QgaW4gaG1tL3N2bS4gTHJ1IGlzIGRlY291cGxlZCBmcm9tIGJvIGNv
+bmNlcHQgLSB0aGlzIGlzIHdoeSB0aGlzIGxydSBjYW4gYmUgc2hhcmVkIHdpdGggc3ZtIGNvZGUg
+d2hpY2ggaXMgYm8tbGVzcy48bzpwPjwvbzpwPjwvcHJlPg0KPC9ibG9ja3F1b3RlPg0KPHAgY2xh
+c3M9Ik1zb05vcm1hbCI+PGJyPg0KVGhpcyBpcyBqdXN0IGEgY3JhenkgaWRlYSBJIGhhZCBiZWNh
+dXNlIFRUTSB0ZW5kcyB0byBwZXJmb3JtIGJhZCBvbiBjZXJ0YWluIHRhc2tzLjxicj4NCjxicj4N
+CldoZW4gd2Ugc3RhcnQgdG8gZXZpY3Qgc29tZXRoaW5nIHdlIHVzZSBhIGNhbGxiYWNrIHdoaWNo
+IGluZGljYXRlcyBpZiBhbiBldmljdGlvbiBpcyB2YWx1YWJsZSBvciBub3QuIFNvIGl0IGNhbiBo
+YXBwZW4gdGhhdCB3ZSBoYXZlIHRvIHNraXAgcXVpdGUgYSBidW5jaCBvZiBCT3Mgb24gdGhlIExS
+VSB1bnRpbCB3ZSBmb3VuZCBvbmUgd2hpY2ggaXMgd29ydGggZXZpY3RpbmcuPGJyPg0KPGJyPg0K
+Tm90IGl0IGNhbiBiZSB0aGF0IHRoZSBmaXJzdCBldmljdGlvbiBkb2Vzbid0IG1ha2UgZW5vdWdo
+IHJvb20gdG8gZnVsZmlsbCB0aGUgYWxsb2NhdGlvbiByZXF1aXJlbWVudCwgaW4gdGhpcyBjYXNl
+IHdlIGN1cnJlbnRseSBzdGFydCBvdmVyIGF0IHRoZSBiZWdpbm5pbmcgc2VhcmNoaW5nIGZvciBz
+b21lIEJPIHRvIGV2aWN0Ljxicj4NCjxicj4NCkkgd2FudCB0byBhdm9pZCB0aGlzIGJ5IGJlaW5n
+IGFibGUgdG8gaGF2ZSBjdXJzb3JzIGludG8gdGhlIExSVSwgZS5nLiB0aGUgbmV4dCBCTyB3aGlj
+aCBjYW4ndCBtb3ZlIHVudGlsIHdlIGhhdmUgZXZpY3RlZCB0aGUgY3VycmVudCBvbmUuPG86cD48
+L286cD48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxw
+IGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPHAgY2xhc3M9Ik1zb05v
+cm1hbCI+R290IHlvdSBub3cuIEkgZGlkbuKAmXQga25vdyB0aGlzIHByb2JsZW0gc28gSSBkaWRu
+4oCZdCB0cnkgdG8gZml4IHRoaXMgZWZmaWNpZW5jeSBwcm9ibGVtIGluIHRoaXMgc2VyaWVzLiBU
+aGVvcmV0aWNhbGx5IEkgdGhpbmsgd2UgY2FuIGZpeCB0aGlzIGlzc3VlIHRoaXMgd2F5OiBjaGFu
+Z2UgdHRtX21lbV9ldmljdF9maXJzdCB0byB0dG1fbWVtX2V2aWN0X2ZpcnN0X24gYW5kIGFkZCBh
+IHBhcmFtZXRlciB0byB0aGlzDQogZnVuY3Rpb24gdG8gc3BlY2lmeSBob3cgbXVjaCByb29tIHdl
+IHdhbnQgdG8geWllbGQ7IHRoZW4gd2UgZXZpY3QgdGhlIGZpcnN0IG4gb2JqZWN0cyB0byBtYWtl
+IGVub3VnaCByb29tIGJlZm9yZSByZXR1cm4sIG9yIGZhaWwgaWYgd2UgY2Fu4oCZdCBtYWtlIGVu
+b3VnaCByb29tLiBUaGlzIHNjaGVtZSB3b3VsZCBuZWVkIHRoZSBjYWxsZXIgb2YgdHRtX21lbV9l
+dmljdF9maXJzdCB0byB0ZWxsIGhvdyBtdWNoIHJvb20gaGUgbmVlZCDigJMgSSB0aGluaw0KIHJl
+YXNvbmFibGUuPG86cD48L286cD48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48YnI+DQo8YnI+
+DQpCVFc6IEhvdyBkbyB5b3UgaGFuZGxlIGV2aWN0aW9uIGhlcmU/IEkgbWVhbiB3ZSBjYW4ndCBj
+YWxsIHRoZSBldmljdCBjYWxsYmFjayB3aXRoIHRoZSBzcGlubG9jayBoZWxkIGVhc2lseT88bzpw
+PjwvbzpwPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0K
+PHAgY2xhc3M9Ik1zb05vcm1hbCI+SSB3YXMgYWN0dWFsbHkgc3RydWdnbGluZyB3aGVuIEkgcmVm
+YWN0b3JlZCB0dG1fbWVtX2V2aWN0X2ZpcnN0IGZ1bmN0aW9uLiBJIG1vdmVkIHRoaXMgZnVuY3Rp
+b24gdG8gbHJ1IG1hbmFnZXIgYW5kIGFic3RyYWN0ZWQgMyBjYWxsYmFjayBmdW5jdGlvbnMgKGV2
+aWN0X2FsbG93YWJsZS92YWx1YWJsZSwgZXZpY3RfZW50aXR5LCBldmljdF9idXN5X2VudGl0eSkg
+4oCTIHRob3NlIG5lZWQgdG8gcmVsb29rIHdoZW4gaG1tL3N2bQ0KIGNvZGVzIGNvbWUgaW4gcGlj
+dHVyZS4gSSB0cmllZCBub3QgdG8gY2hhbmdlIGFueSBsb2dpYyBvZiB0aGlzIGZ1bmN0aW9uIOKA
+kyBJIGtub3cgcGVvcGxlIHdvcmtlZCBvbiB0aGlzIGZ1bmN0aW9uIGluIHRoZSBwYXN0IDE1IHll
+YXJzIHNvIGJldHRlciB0byBiZSB2ZXJ5IGNhcmVmdWwuDQo8bzpwPjwvbzpwPjwvcD4NCjxwIGNs
+YXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1h
+bCI+U28gaW4gbXkgY3VycmVudCBpbXBsZW1lbnRhdGlvbiwgc3BpbmxvY2sgaXMgaGVsZCBjYWxs
+aW5nIHRoZSBldmljdF9lbnRpdHkgY2FsbGJhY2suIFNwaW5sb2NrIGlzIHVubG9ja2VkIGJlZm9y
+ZSBjYWxsaW5nIHR0bV9ib19ldmljdCBpbiB0aGUgZXZpY3RfZW50aXR5IGNhbGxiYWNrIGFuZCBy
+ZS1oZWxkIGlmIHdlIG5lZWQgdG8gbW92ZSBlbnRpdHkgaW4gbHJ1IGxpc3QuIFNlZSBkZXRhaWxz
+IGluIHBhdGNoIDQNCiBhbmQgcGF0Y2ggMTAuIFNvIGl0IGtlZXBzIGV4YWN0bHkgdGhlIG9yaWdp
+bmFsIGNhbGwgc2VxdWVuY2UgYnV0IGRvZXMgbG9vayBhd2t3YXJkLjxvOnA+PC9vOnA+PC9wPg0K
+PHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8cCBjbGFzcz0iTXNv
+Tm9ybWFsIj5CdXQgSSB0aGluayB5b3UgYXJlIHJpZ2h0LiBXZSBjYW4gcmVsZWFzZSB0aGUgc3Bp
+bmxvY2sgaW4gdGhlIGRybV9scnVfZXZpY3RfZmlyc3QgZnVuY3Rpb24gYmVmb3JlIGNhbGxpbmcg
+ZXZpY3QgY2FsbGJhY2suDQo8bzpwPjwvbzpwPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxv
+OnA+Jm5ic3A7PC9vOnA+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+T2FrPG86cD48L286cD48
+L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIiBzdHlsZT0ibWFyZ2luLWJvdHRvbToxMi4wcHQiPjxi
+cj4NCjxicj4NCkNocmlzdGlhbi48YnI+DQo8YnI+DQo8bzpwPjwvbzpwPjwvcD4NCjxibG9ja3F1
+b3RlIHN0eWxlPSJtYXJnaW4tdG9wOjUuMHB0O21hcmdpbi1ib3R0b206NS4wcHQiPg0KPHByZT48
+bzpwPiZuYnNwOzwvbzpwPjwvcHJlPg0KPHByZT48bzpwPiZuYnNwOzwvbzpwPjwvcHJlPg0KPHBy
+ZT5PYWsgPG86cD48L286cD48L3ByZT4NCjxwcmU+PG86cD4mbmJzcDs8L286cD48L3ByZT4NCjwv
+YmxvY2txdW90ZT4NCjwvZGl2Pg0KPC9kaXY+DQo8L2JvZHk+DQo8L2h0bWw+DQo=
 
-Additional to that see below for a quite real problem with this.
-
->> Background is that the most common use case I see is that this object is
->> embedded into something else and a reference count is then not really a good
->> idea.
-> Do you have a specific use-case in mind where this would interfere?
-
-Yes, absolutely. For an example see amdgpu_mes_self_test(), here we 
-initialize a temporary amdgpu VM for an in kernel unit test which runs 
-during driver load.
-
-When the function returns I need to guarantee that the VM is destroyed 
-or otherwise I will mess up normal operation.
-
-Reference counting is nice when you don't know who else is referring to 
-your VM, but the cost is that you also don't know when the object will 
-guardedly be destroyed.
-
-I can trivially work around this by saying that the generic GPUVM object 
-has a different lifetime than the amdgpu specific object, but that opens 
-up doors for use after free again.
-
-Regards,
-Christian.
-
->
->> Thanks,
->> Christian.
-> [1]https://lore.kernel.org/dri-devel/6fa058a4-20d3-44b9-af58-755cfb375d75@redhat.com/
->
->>> Signed-off-by: Danilo Krummrich<dakr@redhat.com>
->>> ---
->>>    drivers/gpu/drm/drm_gpuvm.c            | 44 +++++++++++++++++++-------
->>>    drivers/gpu/drm/nouveau/nouveau_uvmm.c | 20 +++++++++---
->>>    include/drm/drm_gpuvm.h                | 31 +++++++++++++++++-
->>>    3 files changed, 78 insertions(+), 17 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/drm_gpuvm.c b/drivers/gpu/drm/drm_gpuvm.c
->>> index 53e2c406fb04..6a88eafc5229 100644
->>> --- a/drivers/gpu/drm/drm_gpuvm.c
->>> +++ b/drivers/gpu/drm/drm_gpuvm.c
->>> @@ -746,6 +746,8 @@ drm_gpuvm_init(struct drm_gpuvm *gpuvm, const char *name,
->>>    	gpuvm->rb.tree = RB_ROOT_CACHED;
->>>    	INIT_LIST_HEAD(&gpuvm->rb.list);
->>> +	kref_init(&gpuvm->kref);
->>> +
->>>    	gpuvm->name = name ? name : "unknown";
->>>    	gpuvm->flags = flags;
->>>    	gpuvm->ops = ops;
->>> @@ -770,15 +772,8 @@ drm_gpuvm_init(struct drm_gpuvm *gpuvm, const char *name,
->>>    }
->>>    EXPORT_SYMBOL_GPL(drm_gpuvm_init);
->>> -/**
->>> - * drm_gpuvm_destroy() - cleanup a &drm_gpuvm
->>> - * @gpuvm: pointer to the &drm_gpuvm to clean up
->>> - *
->>> - * Note that it is a bug to call this function on a manager that still
->>> - * holds GPU VA mappings.
->>> - */
->>> -void
->>> -drm_gpuvm_destroy(struct drm_gpuvm *gpuvm)
->>> +static void
->>> +drm_gpuvm_fini(struct drm_gpuvm *gpuvm)
->>>    {
->>>    	gpuvm->name = NULL;
->>> @@ -790,7 +785,33 @@ drm_gpuvm_destroy(struct drm_gpuvm *gpuvm)
->>>    	drm_gem_object_put(gpuvm->r_obj);
->>>    }
->>> -EXPORT_SYMBOL_GPL(drm_gpuvm_destroy);
->>> +
->>> +static void
->>> +drm_gpuvm_free(struct kref *kref)
->>> +{
->>> +	struct drm_gpuvm *gpuvm = container_of(kref, struct drm_gpuvm, kref);
->>> +
->>> +	if (drm_WARN_ON(gpuvm->drm, !gpuvm->ops->vm_free))
->>> +		return;
->>> +
->>> +	drm_gpuvm_fini(gpuvm);
->>> +
->>> +	gpuvm->ops->vm_free(gpuvm);
->>> +}
->>> +
->>> +/**
->>> + * drm_gpuvm_bo_put() - drop a struct drm_gpuvm reference
->>> + * @gpuvm: the &drm_gpuvm to release the reference of
->>> + *
->>> + * This releases a reference to @gpuvm.
->>> + */
->>> +void
->>> +drm_gpuvm_put(struct drm_gpuvm *gpuvm)
->>> +{
->>> +	if (gpuvm)
->>> +		kref_put(&gpuvm->kref, drm_gpuvm_free);
->>> +}
->>> +EXPORT_SYMBOL_GPL(drm_gpuvm_put);
->>>    static int
->>>    __drm_gpuva_insert(struct drm_gpuvm *gpuvm,
->>> @@ -843,7 +864,7 @@ drm_gpuva_insert(struct drm_gpuvm *gpuvm,
->>>    	if (unlikely(!drm_gpuvm_range_valid(gpuvm, addr, range)))
->>>    		return -EINVAL;
->>> -	return __drm_gpuva_insert(gpuvm, va);
->>> +	return __drm_gpuva_insert(drm_gpuvm_get(gpuvm), va);
->>>    }
->>>    EXPORT_SYMBOL_GPL(drm_gpuva_insert);
->>> @@ -876,6 +897,7 @@ drm_gpuva_remove(struct drm_gpuva *va)
->>>    	}
->>>    	__drm_gpuva_remove(va);
->>> +	drm_gpuvm_put(va->vm);
->>>    }
->>>    EXPORT_SYMBOL_GPL(drm_gpuva_remove);
->>> diff --git a/drivers/gpu/drm/nouveau/nouveau_uvmm.c b/drivers/gpu/drm/nouveau/nouveau_uvmm.c
->>> index 54be12c1272f..cb2f06565c46 100644
->>> --- a/drivers/gpu/drm/nouveau/nouveau_uvmm.c
->>> +++ b/drivers/gpu/drm/nouveau/nouveau_uvmm.c
->>> @@ -1780,6 +1780,18 @@ nouveau_uvmm_bo_unmap_all(struct nouveau_bo *nvbo)
->>>    	}
->>>    }
->>> +static void
->>> +nouveau_uvmm_free(struct drm_gpuvm *gpuvm)
->>> +{
->>> +	struct nouveau_uvmm *uvmm = uvmm_from_gpuvm(gpuvm);
->>> +
->>> +	kfree(uvmm);
->>> +}
->>> +
->>> +static const struct drm_gpuvm_ops gpuvm_ops = {
->>> +	.vm_free = nouveau_uvmm_free,
->>> +};
->>> +
->>>    int
->>>    nouveau_uvmm_ioctl_vm_init(struct drm_device *dev,
->>>    			   void *data,
->>> @@ -1830,7 +1842,7 @@ nouveau_uvmm_ioctl_vm_init(struct drm_device *dev,
->>>    		       NOUVEAU_VA_SPACE_END,
->>>    		       init->kernel_managed_addr,
->>>    		       init->kernel_managed_size,
->>> -		       NULL);
->>> +		       &gpuvm_ops);
->>>    	/* GPUVM takes care from here on. */
->>>    	drm_gem_object_put(r_obj);
->>> @@ -1849,8 +1861,7 @@ nouveau_uvmm_ioctl_vm_init(struct drm_device *dev,
->>>    	return 0;
->>>    out_gpuvm_fini:
->>> -	drm_gpuvm_destroy(&uvmm->base);
->>> -	kfree(uvmm);
->>> +	drm_gpuvm_put(&uvmm->base);
->>>    out_unlock:
->>>    	mutex_unlock(&cli->mutex);
->>>    	return ret;
->>> @@ -1902,7 +1913,6 @@ nouveau_uvmm_fini(struct nouveau_uvmm *uvmm)
->>>    	mutex_lock(&cli->mutex);
->>>    	nouveau_vmm_fini(&uvmm->vmm);
->>> -	drm_gpuvm_destroy(&uvmm->base);
->>> -	kfree(uvmm);
->>> +	drm_gpuvm_put(&uvmm->base);
->>>    	mutex_unlock(&cli->mutex);
->>>    }
->>> diff --git a/include/drm/drm_gpuvm.h b/include/drm/drm_gpuvm.h
->>> index 0c2e24155a93..4e6e1fd3485a 100644
->>> --- a/include/drm/drm_gpuvm.h
->>> +++ b/include/drm/drm_gpuvm.h
->>> @@ -247,6 +247,11 @@ struct drm_gpuvm {
->>>    		struct list_head list;
->>>    	} rb;
->>> +	/**
->>> +	 * @kref: reference count of this object
->>> +	 */
->>> +	struct kref kref;
->>> +
->>>    	/**
->>>    	 * @kernel_alloc_node:
->>>    	 *
->>> @@ -273,7 +278,23 @@ void drm_gpuvm_init(struct drm_gpuvm *gpuvm, const char *name,
->>>    		    u64 start_offset, u64 range,
->>>    		    u64 reserve_offset, u64 reserve_range,
->>>    		    const struct drm_gpuvm_ops *ops);
->>> -void drm_gpuvm_destroy(struct drm_gpuvm *gpuvm);
->>> +
->>> +/**
->>> + * drm_gpuvm_get() - acquire a struct drm_gpuvm reference
->>> + * @gpuvm: the &drm_gpuvm to acquire the reference of
->>> + *
->>> + * This function acquires an additional reference to @gpuvm. It is illegal to
->>> + * call this without already holding a reference. No locks required.
->>> + */
->>> +static inline struct drm_gpuvm *
->>> +drm_gpuvm_get(struct drm_gpuvm *gpuvm)
->>> +{
->>> +	kref_get(&gpuvm->kref);
->>> +
->>> +	return gpuvm;
->>> +}
->>> +
->>> +void drm_gpuvm_put(struct drm_gpuvm *gpuvm);
->>>    bool drm_gpuvm_range_valid(struct drm_gpuvm *gpuvm, u64 addr, u64 range);
->>>    bool drm_gpuvm_interval_empty(struct drm_gpuvm *gpuvm, u64 addr, u64 range);
->>> @@ -673,6 +694,14 @@ static inline void drm_gpuva_init_from_op(struct drm_gpuva *va,
->>>     * operations to drivers.
->>>     */
->>>    struct drm_gpuvm_ops {
->>> +	/**
->>> +	 * @vm_free: called when the last reference of a struct drm_gpuvm is
->>> +	 * dropped
->>> +	 *
->>> +	 * This callback is mandatory.
->>> +	 */
->>> +	void (*vm_free)(struct drm_gpuvm *gpuvm);
->>> +
->>>    	/**
->>>    	 * @op_alloc: called when the &drm_gpuvm allocates
->>>    	 * a struct drm_gpuva_op
-
---------------1BSR1DmzzU74zajL8YoutQZT
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-<!DOCTYPE html><html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body>
-    Am 03.11.23 um 14:14 schrieb Danilo Krummrich:<br>
-    <blockquote type="cite" cite="mid:ZUTyGTxcH7WlHKsv@pollux">
-      <pre class="moz-quote-pre" wrap="">On Fri, Nov 03, 2023 at 08:18:35AM +0100, Christian König wrote:
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">Am 02.11.23 um 00:31 schrieb Danilo Krummrich:
-</pre>
-        <blockquote type="cite">
-          <pre class="moz-quote-pre" wrap="">Implement reference counting for struct drm_gpuvm.
-</pre>
-        </blockquote>
-        <pre class="moz-quote-pre" wrap="">
-From the design point of view what is that good for?
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-It was discussed in this thread [1].
-
-Essentially, the idea is to make sure that vm_bo-&gt;vm is always valid without the
-driver having the need to take extra care. It also ensures that GPUVM can't be
-freed with mappings still held.</pre>
-    </blockquote>
-    <br>
-    Well in this case I have some objections to this. The lifetime of
-    the VM is driver and use case specific.<br>
-    <br>
-    Especially we most likely don't want the VM to live longer than the
-    application which originally used it. If you make the GPUVM an
-    independent object you actually open up driver abuse for the
-    lifetime of this.<br>
-    <br>
-    Additional to that see below for a quite real problem with this.<br>
-    <br>
-    <span style="white-space: pre-wrap">
-</span>
-    <blockquote type="cite" cite="mid:ZUTyGTxcH7WlHKsv@pollux">
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">Background is that the most common use case I see is that this object is
-embedded into something else and a reference count is then not really a good
-idea.
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-Do you have a specific use-case in mind where this would interfere?</pre>
-    </blockquote>
-    <br>
-    Yes, absolutely. For an example see amdgpu_mes_self_test(), here we
-    initialize a temporary amdgpu VM for an in kernel unit test which
-    runs during driver load.<br>
-    <br>
-    When the function returns I need to guarantee that the VM is
-    destroyed or otherwise I will mess up normal operation.<br>
-    <br>
-    Reference counting is nice when you don't know who else is referring
-    to your VM, but the cost is that you also don't know when the object
-    will guardedly be destroyed.<br>
-    <br>
-    I can trivially work around this by saying that the generic GPUVM
-    object has a different lifetime than the amdgpu specific object, but
-    that opens up doors for use after free again.<br>
-    <br>
-    Regards,<br>
-    Christian.<br>
-    <br>
-    <blockquote type="cite" cite="mid:ZUTyGTxcH7WlHKsv@pollux">
-      <pre class="moz-quote-pre" wrap="">
-
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">
-Thanks,
-Christian.
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-[1] <a class="moz-txt-link-freetext" href="https://lore.kernel.org/dri-devel/6fa058a4-20d3-44b9-af58-755cfb375d75@redhat.com/">https://lore.kernel.org/dri-devel/6fa058a4-20d3-44b9-af58-755cfb375d75@redhat.com/</a>
-
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">
-</pre>
-        <blockquote type="cite">
-          <pre class="moz-quote-pre" wrap="">
-Signed-off-by: Danilo Krummrich <a class="moz-txt-link-rfc2396E" href="mailto:dakr@redhat.com">&lt;dakr@redhat.com&gt;</a>
----
-  drivers/gpu/drm/drm_gpuvm.c            | 44 +++++++++++++++++++-------
-  drivers/gpu/drm/nouveau/nouveau_uvmm.c | 20 +++++++++---
-  include/drm/drm_gpuvm.h                | 31 +++++++++++++++++-
-  3 files changed, 78 insertions(+), 17 deletions(-)
-
-diff --git a/drivers/gpu/drm/drm_gpuvm.c b/drivers/gpu/drm/drm_gpuvm.c
-index 53e2c406fb04..6a88eafc5229 100644
---- a/drivers/gpu/drm/drm_gpuvm.c
-+++ b/drivers/gpu/drm/drm_gpuvm.c
-@@ -746,6 +746,8 @@ drm_gpuvm_init(struct drm_gpuvm *gpuvm, const char *name,
-  	gpuvm-&gt;rb.tree = RB_ROOT_CACHED;
-  	INIT_LIST_HEAD(&amp;gpuvm-&gt;rb.list);
-+	kref_init(&amp;gpuvm-&gt;kref);
-+
-  	gpuvm-&gt;name = name ? name : &quot;unknown&quot;;
-  	gpuvm-&gt;flags = flags;
-  	gpuvm-&gt;ops = ops;
-@@ -770,15 +772,8 @@ drm_gpuvm_init(struct drm_gpuvm *gpuvm, const char *name,
-  }
-  EXPORT_SYMBOL_GPL(drm_gpuvm_init);
--/**
-- * drm_gpuvm_destroy() - cleanup a &amp;drm_gpuvm
-- * @gpuvm: pointer to the &amp;drm_gpuvm to clean up
-- *
-- * Note that it is a bug to call this function on a manager that still
-- * holds GPU VA mappings.
-- */
--void
--drm_gpuvm_destroy(struct drm_gpuvm *gpuvm)
-+static void
-+drm_gpuvm_fini(struct drm_gpuvm *gpuvm)
-  {
-  	gpuvm-&gt;name = NULL;
-@@ -790,7 +785,33 @@ drm_gpuvm_destroy(struct drm_gpuvm *gpuvm)
-  	drm_gem_object_put(gpuvm-&gt;r_obj);
-  }
--EXPORT_SYMBOL_GPL(drm_gpuvm_destroy);
-+
-+static void
-+drm_gpuvm_free(struct kref *kref)
-+{
-+	struct drm_gpuvm *gpuvm = container_of(kref, struct drm_gpuvm, kref);
-+
-+	if (drm_WARN_ON(gpuvm-&gt;drm, !gpuvm-&gt;ops-&gt;vm_free))
-+		return;
-+
-+	drm_gpuvm_fini(gpuvm);
-+
-+	gpuvm-&gt;ops-&gt;vm_free(gpuvm);
-+}
-+
-+/**
-+ * drm_gpuvm_bo_put() - drop a struct drm_gpuvm reference
-+ * @gpuvm: the &amp;drm_gpuvm to release the reference of
-+ *
-+ * This releases a reference to @gpuvm.
-+ */
-+void
-+drm_gpuvm_put(struct drm_gpuvm *gpuvm)
-+{
-+	if (gpuvm)
-+		kref_put(&amp;gpuvm-&gt;kref, drm_gpuvm_free);
-+}
-+EXPORT_SYMBOL_GPL(drm_gpuvm_put);
-  static int
-  __drm_gpuva_insert(struct drm_gpuvm *gpuvm,
-@@ -843,7 +864,7 @@ drm_gpuva_insert(struct drm_gpuvm *gpuvm,
-  	if (unlikely(!drm_gpuvm_range_valid(gpuvm, addr, range)))
-  		return -EINVAL;
--	return __drm_gpuva_insert(gpuvm, va);
-+	return __drm_gpuva_insert(drm_gpuvm_get(gpuvm), va);
-  }
-  EXPORT_SYMBOL_GPL(drm_gpuva_insert);
-@@ -876,6 +897,7 @@ drm_gpuva_remove(struct drm_gpuva *va)
-  	}
-  	__drm_gpuva_remove(va);
-+	drm_gpuvm_put(va-&gt;vm);
-  }
-  EXPORT_SYMBOL_GPL(drm_gpuva_remove);
-diff --git a/drivers/gpu/drm/nouveau/nouveau_uvmm.c b/drivers/gpu/drm/nouveau/nouveau_uvmm.c
-index 54be12c1272f..cb2f06565c46 100644
---- a/drivers/gpu/drm/nouveau/nouveau_uvmm.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_uvmm.c
-@@ -1780,6 +1780,18 @@ nouveau_uvmm_bo_unmap_all(struct nouveau_bo *nvbo)
-  	}
-  }
-+static void
-+nouveau_uvmm_free(struct drm_gpuvm *gpuvm)
-+{
-+	struct nouveau_uvmm *uvmm = uvmm_from_gpuvm(gpuvm);
-+
-+	kfree(uvmm);
-+}
-+
-+static const struct drm_gpuvm_ops gpuvm_ops = {
-+	.vm_free = nouveau_uvmm_free,
-+};
-+
-  int
-  nouveau_uvmm_ioctl_vm_init(struct drm_device *dev,
-  			   void *data,
-@@ -1830,7 +1842,7 @@ nouveau_uvmm_ioctl_vm_init(struct drm_device *dev,
-  		       NOUVEAU_VA_SPACE_END,
-  		       init-&gt;kernel_managed_addr,
-  		       init-&gt;kernel_managed_size,
--		       NULL);
-+		       &amp;gpuvm_ops);
-  	/* GPUVM takes care from here on. */
-  	drm_gem_object_put(r_obj);
-@@ -1849,8 +1861,7 @@ nouveau_uvmm_ioctl_vm_init(struct drm_device *dev,
-  	return 0;
-  out_gpuvm_fini:
--	drm_gpuvm_destroy(&amp;uvmm-&gt;base);
--	kfree(uvmm);
-+	drm_gpuvm_put(&amp;uvmm-&gt;base);
-  out_unlock:
-  	mutex_unlock(&amp;cli-&gt;mutex);
-  	return ret;
-@@ -1902,7 +1913,6 @@ nouveau_uvmm_fini(struct nouveau_uvmm *uvmm)
-  	mutex_lock(&amp;cli-&gt;mutex);
-  	nouveau_vmm_fini(&amp;uvmm-&gt;vmm);
--	drm_gpuvm_destroy(&amp;uvmm-&gt;base);
--	kfree(uvmm);
-+	drm_gpuvm_put(&amp;uvmm-&gt;base);
-  	mutex_unlock(&amp;cli-&gt;mutex);
-  }
-diff --git a/include/drm/drm_gpuvm.h b/include/drm/drm_gpuvm.h
-index 0c2e24155a93..4e6e1fd3485a 100644
---- a/include/drm/drm_gpuvm.h
-+++ b/include/drm/drm_gpuvm.h
-@@ -247,6 +247,11 @@ struct drm_gpuvm {
-  		struct list_head list;
-  	} rb;
-+	/**
-+	 * @kref: reference count of this object
-+	 */
-+	struct kref kref;
-+
-  	/**
-  	 * @kernel_alloc_node:
-  	 *
-@@ -273,7 +278,23 @@ void drm_gpuvm_init(struct drm_gpuvm *gpuvm, const char *name,
-  		    u64 start_offset, u64 range,
-  		    u64 reserve_offset, u64 reserve_range,
-  		    const struct drm_gpuvm_ops *ops);
--void drm_gpuvm_destroy(struct drm_gpuvm *gpuvm);
-+
-+/**
-+ * drm_gpuvm_get() - acquire a struct drm_gpuvm reference
-+ * @gpuvm: the &amp;drm_gpuvm to acquire the reference of
-+ *
-+ * This function acquires an additional reference to @gpuvm. It is illegal to
-+ * call this without already holding a reference. No locks required.
-+ */
-+static inline struct drm_gpuvm *
-+drm_gpuvm_get(struct drm_gpuvm *gpuvm)
-+{
-+	kref_get(&amp;gpuvm-&gt;kref);
-+
-+	return gpuvm;
-+}
-+
-+void drm_gpuvm_put(struct drm_gpuvm *gpuvm);
-  bool drm_gpuvm_range_valid(struct drm_gpuvm *gpuvm, u64 addr, u64 range);
-  bool drm_gpuvm_interval_empty(struct drm_gpuvm *gpuvm, u64 addr, u64 range);
-@@ -673,6 +694,14 @@ static inline void drm_gpuva_init_from_op(struct drm_gpuva *va,
-   * operations to drivers.
-   */
-  struct drm_gpuvm_ops {
-+	/**
-+	 * @vm_free: called when the last reference of a struct drm_gpuvm is
-+	 * dropped
-+	 *
-+	 * This callback is mandatory.
-+	 */
-+	void (*vm_free)(struct drm_gpuvm *gpuvm);
-+
-  	/**
-  	 * @op_alloc: called when the &amp;drm_gpuvm allocates
-  	 * a struct drm_gpuva_op
-</pre>
-        </blockquote>
-        <pre class="moz-quote-pre" wrap="">
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-</pre>
-    </blockquote>
-    <br>
-  </body>
-</html>
-
---------------1BSR1DmzzU74zajL8YoutQZT--
+--_000_SA1PR11MB6991B5D433D72BE9EF1F5F0192A5ASA1PR11MB6991namp_--
