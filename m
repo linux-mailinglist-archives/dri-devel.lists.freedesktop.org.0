@@ -1,57 +1,155 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7204F7DFE41
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Nov 2023 04:17:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD4ED7DFE60
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Nov 2023 04:26:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 294B410E374;
-	Fri,  3 Nov 2023 03:17:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E96E210E37F;
+	Fri,  3 Nov 2023 03:26:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
- [IPv6:2a00:1450:4864:20::62f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B3CB10E372
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Nov 2023 03:16:59 +0000 (UTC)
-Received: by mail-ej1-x62f.google.com with SMTP id
- a640c23a62f3a-9d274222b5dso258021466b.3
- for <dri-devel@lists.freedesktop.org>; Thu, 02 Nov 2023 20:16:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1698981417; x=1699586217; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=mXJn2/Q2rJmnGcRroh0Cfim0A2ee3ojnFxcG/hs5g88=;
- b=cqw0DNyucDVyq9rbt/2FWIzQ0AMay8t38p5+xtj1fTojDl4F5O1vJkzVPQMPRk4tR5
- C6H/zCvGd42nGmVIsxuz0mngxJCI8/tnIzQHHcnnde0NMstlyRk4IJXs2srDLycs+qM5
- F7ClV9QgEZKMNPVyj6A3OFoaLY00p2/4q5o0V2cwxMzi11v51Y2K8Pi6hmHhWoKhbKy9
- 4efelquRYGD+UcYHKsv4tNGWLpCNREYz5MAyGfK3jsi+hN3VE8dBUbLM/llFz6xErjRM
- wydpP7xErvPfwi6jEVxii/aUItaAthiUTjnamizRfn7E3rWWsOthDcnvJYGgR4efeVZw
- aVYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1698981417; x=1699586217;
- h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=mXJn2/Q2rJmnGcRroh0Cfim0A2ee3ojnFxcG/hs5g88=;
- b=k+MbTXm21kcQJkiEnak5whwUIUVXHK4U7gEwAIydQk0gY3hxd4BrVgaOJbJD/pSXaE
- XtbzexuEyKXHS/Lh0BRfikZiL4WXqPsH6cqTRDOjPh3BTVC0+gNwHpFoPzLelduRhx52
- iQ8ZxWg8PpfTvTReRNVsgZrYwztc0sI9/1V6DhyNzIkxfS0dgI1VsTg4XkZOW9IUJdli
- n/R5tfS+6ToGXz+a9uy5zwr4ZsT9urNfW+b6tvR12kWy1L5zUwQtJjhwfwJS21oCJzmQ
- 3m19lCnHqaK3WH8gPdB4+szFTSwiWVi0mODDssyayAbqshM59grrp/Ik547jf3vV+TtV
- 4/sA==
-X-Gm-Message-State: AOJu0YxTouVxAsm62KMDntTkf5JqEBi1lERWBliY7Rrmxj7oxT6zev9e
- GE9o33Wk8m65HByN+ixzFikxcy3sJ+qcjPoRnq5mqmkMQY0=
-X-Google-Smtp-Source: AGHT+IF22ULQbu0D36x/rrVgg2I2BcwMN/V0lDqHnaVI9PGy9lfV53gxJjeqoh9m1j60xaPsS7N2Avgp6TfFoZsXe0k=
-X-Received: by 2002:a17:907:72d3:b0:9be:b43c:38db with SMTP id
- du19-20020a17090772d300b009beb43c38dbmr6474612ejc.5.1698981417184; Thu, 02
- Nov 2023 20:16:57 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 67BE910E37C;
+ Fri,  3 Nov 2023 03:26:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1698981996; x=1730517996;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=7jFpkpRDQil1skJf6rvYs7VaBkuXxOojNsiN3oREHbg=;
+ b=La3RH1e6Cj8WiwdHpY0QWivSGjZyriLNwC9zKy3GzeWAy8LG8rudcr3p
+ TDuyQm0LmJcAbc8KicDN6w7l/JrarNHrCrXd9wiAs4oVvwoP12iGIC73N
+ KlME52GaGbDyajgpBYeJoYlWi5M6pzGRxa2wFMwzHsucexNoHKylsVmip
+ qdrXHhNBbYdv0zoWxtVru1+/pAffr41PuV0ME7onXCvtWEO04YsbVuHre
+ AHWMHmCz+a3knTEF8b8JaEQ8fkJAhzIiHLyoWaBjHhHYbh1CJFA1KVA9Z
+ Jbm9WV14VCEcCQIaCnTZFP7I0oDkURYG65gQWiWdpHcC6ye5ZvlqqhlBU g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="419978364"
+X-IronPort-AV: E=Sophos;i="6.03,273,1694761200"; d="scan'208";a="419978364"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Nov 2023 20:26:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="737952712"
+X-IronPort-AV: E=Sophos;i="6.03,273,1694761200"; d="scan'208";a="737952712"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+ by orsmga006.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 02 Nov 2023 20:26:35 -0700
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34; Thu, 2 Nov 2023 20:26:34 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34; Thu, 2 Nov 2023 20:26:34 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34 via Frontend Transport; Thu, 2 Nov 2023 20:26:34 -0700
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.169)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.34; Thu, 2 Nov 2023 20:26:30 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=mQEH0vuL+dyZGdIAVsyRosrhH1s5LiCSV62SuaIyUePXQpqux3okBeeb54ljupbwixhndKoQidLQGH3aRFF5OvhSMsokBfhRWLcQ8qwx5Hxk2j/cAMIAlwRLRxZ8r6mynKCCZTxeVzQtHdtnkFKevNqDe7e/mjSNY+1smlo5WkaaO3hHUzSUnBxOxMZvhEWkaumpYBzXg/AOVkWNfWT215IUHacBSJ1lcNw0x0mK6QIuUA42K9o5ki0YKWehUKd/QYI2gpV1L049rAqcvdvFe26OIkXpFCZMOoUhJ8yFeULc8xMGOI5ey6JSZWdoH4ZBfkTvvm+71BDiqoo7qiv06w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=7jFpkpRDQil1skJf6rvYs7VaBkuXxOojNsiN3oREHbg=;
+ b=SpepijFMj38GOZf+H1lOba7b9yL0no0KBZjPxOdICWXf8utXFUikzoOI9naVXq2Qg6FNiNHoymv19oa9RX52Xt6vZXPP6LnjS62U6p86DsAi8zwzEpefdS0sq5oUUqfqQXSBNzPr1swpQhd38ZvMGyURPzcX3Kuxwtem8tZdUK/hSjeAz8W7wkNuajR9Wb9WM3uSy8KxzUjPa071rlNOdOIEcLaNnV95riqNz/3eMlqpb3QQiBDrOuo0TT24ZO/PKMxZo7BpLe92h5VsdKn9fHKPlPtwAfIw6EOjjTRxZhk74KgkwsIIXoaLjyyvYqrCv2h0PzSgVfMGJvTKSMKI9w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from SA1PR11MB6991.namprd11.prod.outlook.com (2603:10b6:806:2b8::21)
+ by PH0PR11MB5045.namprd11.prod.outlook.com (2603:10b6:510:3f::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.21; Fri, 3 Nov
+ 2023 03:26:22 +0000
+Received: from SA1PR11MB6991.namprd11.prod.outlook.com
+ ([fe80::eb3d:e9c7:a247:7915]) by SA1PR11MB6991.namprd11.prod.outlook.com
+ ([fe80::eb3d:e9c7:a247:7915%4]) with mapi id 15.20.6907.022; Fri, 3 Nov 2023
+ 03:26:22 +0000
+From: "Zeng, Oak" <oak.zeng@intel.com>
+To: =?utf-8?B?Q2hyaXN0aWFuIEvDtm5pZw==?= <christian.koenig@amd.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>
+Subject: RE: [RFC 02/11] drm: move lru_lock from ttm_device to drm_device
+Thread-Topic: [RFC 02/11] drm: move lru_lock from ttm_device to drm_device
+Thread-Index: AQHaDYuQRrye6mmRBkqXc3wAg12N0bBn6Tow
+Date: Fri, 3 Nov 2023 03:26:21 +0000
+Message-ID: <SA1PR11MB6991E681440C21244881B1FA92A5A@SA1PR11MB6991.namprd11.prod.outlook.com>
+References: <20231102043306.2931989-1-oak.zeng@intel.com>
+ <20231102043306.2931989-3-oak.zeng@intel.com>
+ <06ea9503-d2aa-43fc-9cd9-56d062e27ed6@amd.com>
+In-Reply-To: <06ea9503-d2aa-43fc-9cd9-56d062e27ed6@amd.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SA1PR11MB6991:EE_|PH0PR11MB5045:EE_
+x-ms-office365-filtering-correlation-id: 18942325-3a2c-4bf5-022f-08dbdc1ca6e7
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: Kkq6UEFsYb3LIcZ5o6xkdXA6GLdOY7uM6ohvDCgBUJTjR1lqMdHWJtzywmjYmsgQpxRX5dORp5xq/kfHE68XT7olOYU8NBkG57/gYRyO8wEjvxuxXbd+FwKQoqp+3cLAxmK+eU7+EiSQRzizsFX8e2+sIaSUBnLCoyK2EVIgsvBodrb1Tt3klBnEp8cU5ce/LrUVOq/ya8gPEJI1O2IbfTnJ4cgUfxCBsvHVChReMctIstgTOvenQKoAadtZGf0m27O+bpENqSzKH4ABHk5Rz2/etmzlQoJq6ZQjY6euafjIwrnqlDnabbcIvnsRKfMnrb4Pe8syIhKuoB6pm1fLAFby6GlW3Do1Vh2JoyQHnXMYKfyFy9a1RkZZc9VJq/+x+7bU5lPpip4l+TmoDahg5uF9PWnqep7KpAhSpC0ozaEEd3Abv2PsZmQvvUqegFVyUhx96O1Mu01LM9KPcl0NavqWB8b4VIxB0WdVcVjiA5Ri10of9Pu4rpfr7iiXjLYTqdNifiXAcD79i78R97eBoblkF7kBlrt4Msz01naf1eVxC+XzBVZcufZh6lir1GHmhbF5gEjTLUentRByL3PKsWWrPjSp3l40Tp1lIhk1GX5OruhwM6l8r5HKPbczT5m7
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SA1PR11MB6991.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(396003)(376002)(346002)(39860400002)(136003)(366004)(230922051799003)(451199024)(186009)(64100799003)(1800799009)(55016003)(26005)(9686003)(478600001)(53546011)(6506007)(71200400001)(8676002)(7696005)(30864003)(2906002)(83380400001)(64756008)(41300700001)(110136005)(66946007)(76116006)(66476007)(66556008)(52536014)(66446008)(8936002)(54906003)(316002)(5660300002)(4326008)(38070700009)(82960400001)(66574015)(38100700002)(86362001)(33656002)(122000001)(559001)(579004);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?bWhGamNQaUVsNFp3K0toZUExcm82WWE1TXJkMzBOaWlNd05jaTdDajFRZnZL?=
+ =?utf-8?B?eFRJejArSldyZkREdkNSQzAyb0xQUnZHeDk4TWJuM0N3dW91UVBpL041Y0JO?=
+ =?utf-8?B?cm1UMG5VeHZ3Q3FUQ0lLbXZkSEpQTU1MZDlLMEE4OU9hU2FxTWUvRit1Lys4?=
+ =?utf-8?B?aXpIUGt2cUlLb1k0cHo3RnVKVEIwYWxoM3p3ckUxanhFU2p0SThHaXRkZHNU?=
+ =?utf-8?B?NVVMdWFKSlhuU3dsbHpJTjZtSm5MRWg0SXEzNmxlT1lUZDJZeEZoUVVrcnB1?=
+ =?utf-8?B?L0hwOW1tcUxXakdpei9BWXhCNWF6a3F2a25ZK2wvYmU3YnNzakJxbVJPc3R1?=
+ =?utf-8?B?N2QvcjcxelliMlNFUWRyZXppNlBLUEhINlB0WFVGcWhxNEd3UlQ3dFBuZlU1?=
+ =?utf-8?B?K3JYNjBYMTgwMHVDNkhubDRWdGo4eEtFNXBYdmxKdXh1ajM0V1djMUY0b29u?=
+ =?utf-8?B?c1VaNVZMZnFzTHZ0TE5STHVZWnpLaGhKMmQxV05iQTZzc3AwSkNnL3ZSTFZ3?=
+ =?utf-8?B?ZExubDlNdEpOTFN6TFJ2Wm9IK3Z1eGVwazRMSFBNK2lleHU0SHZlbDl6ZDlQ?=
+ =?utf-8?B?ZmlESWo4ZWVITUZxR2lOb0hjQnBwT3c3MUVyZzB5bmlnaVJ3OHlTeTh5Y3Jh?=
+ =?utf-8?B?a0JYV2o4YWZDSGRMVTJzVGFPcEpKb29vMUxSY0tuWHVIbUJjdDFrVE8xZ1dS?=
+ =?utf-8?B?d0w2Z2FuZkxJcXQ0VjZYcVpDSThSYU8vRFBqMS8xUCtXbGVkSGxqMDVybnM1?=
+ =?utf-8?B?ZGcxR1RJdjhpL21yTjYxVEVoQk0yaEFhQkdZK2dMLzJNbDlYTWdJcGh2YlZ2?=
+ =?utf-8?B?WXpqRGFNSVZLVUtLQVJxYndVMEJYT3ZTZHFlVzZ2TTArWkY1bmRYcnE3RG9N?=
+ =?utf-8?B?OU5iY2NxQzFpWFNmczZkTFZrelhORjZ1aGtaaXNjcnovYW5HejROMm9nZ200?=
+ =?utf-8?B?QnIwT2dEWFJLRzJGU2g3Z1JOajhzUElzRU9kZDc5MWdpN3NlcDhtUDYzdGFz?=
+ =?utf-8?B?Rm1kWW55eGRVbFVnRUpMcjFtZWpNLzBVL1J6ejJOay9wRmNiNXNmL0ZqazZK?=
+ =?utf-8?B?N0pTdjAwV1ZjZXF3b0hmMUhWL1p3NENhRHJPVmpMRXlIUXBsRkFCUGZjYmVP?=
+ =?utf-8?B?V0l2OHpEYytyTk1Tc3hxTkRocTdqdXBuUnc3V1FJbFF3anF6QU5iL3FIWlQ3?=
+ =?utf-8?B?K2pzeGU1NVhCNGFkV3ozZ0tkdkRzQUY0TzdEam1hVHdxejc0OFZuR0R2TWxu?=
+ =?utf-8?B?VndsYTc1QjM5bDRIMVkrSEJoK2JDOFdjWkRCVGJLVms5cWFlN1JkTEFsSTRO?=
+ =?utf-8?B?QVVicDc5ejdCZlVvSzc5SG1BU25FUnFxY0FTdUZ5ZktCZ0dlQmQza3piMUhu?=
+ =?utf-8?B?SmlDMXNTbWl5b2wzQ0VhbjErc0lLSS94eVU5TDlNeVB1T0l4aEFKbGRLT3A3?=
+ =?utf-8?B?NG9UdTAwRXhNZGR6Mk90KzJNZitINTVpZmdvYWtPZHB2UGFXMzk4bWd3VmJV?=
+ =?utf-8?B?MnUvWVFyQWVIM3NHOEhrRGEveEk3amdpa25hVGhYRW1xREU1Y2Q3OVNnMURP?=
+ =?utf-8?B?Ulg0NmF5L3FUdWRYbWJodTZwYndjNzVaaklhUWdwWG15dUplblpuYVJ3NTZu?=
+ =?utf-8?B?VmVKU0JsbjhoRzkwSUs1d0w2c3Z5MTJreUFBYnVJUkpJaVRKc2owU2FEM3JO?=
+ =?utf-8?B?cThNbVQ2QmtGdTVPL0thanh4WHduTEd2c094eDJVZGVFalNibVpEYnRrblFV?=
+ =?utf-8?B?clRUdjlacVlKcC9xbzFGemdKSXoxdUY0c1NHbWVSUzVhYys4MGdvWWd2c2dw?=
+ =?utf-8?B?TXY4NXRjM0dHOG9sT0lmL1MxU0ZwNDJBbk9LWFlYM0RTTGFJbjJ5TmlkcGZU?=
+ =?utf-8?B?TDM4blhxZXN5R3ZQY1V1UitaMkxRMFVBZi9rSm41T3QvalZFdzVmRXBTR1U2?=
+ =?utf-8?B?TnU2eW1HOGU5MGZEOGMxaEVEWEFPQTg3enVXdkZqU1JOWVYxN2o5YWFISmt0?=
+ =?utf-8?B?SjdqRlZEV3pCb0syck9yMkxpMUJaTFIxQVp3Ry9qWGhSbUp4TE1QQk1Ha2Rh?=
+ =?utf-8?B?Q2xHb0doa1B3b1lnN2JONmNCRnQ1T3pKT1hmUmljOW9SdWMzQTIvUUtZaTJ6?=
+ =?utf-8?Q?5wK0=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-From: Dave Airlie <airlied@gmail.com>
-Date: Fri, 3 Nov 2023 13:16:45 +1000
-Message-ID: <CAPM=9txa=48madkU8QgcVzmU9EBvThNM_dU-1meEhtrsgF8iPA@mail.gmail.com>
-Subject: [git pull] drm nouveau support for GSP firmware - optional
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB6991.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 18942325-3a2c-4bf5-022f-08dbdc1ca6e7
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Nov 2023 03:26:22.0057 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 02sf3IZbLd44u5owACoK/YrEQCLm/d/NZPRLCIx0A9y2mHwyjtyASxRrq/d8yrjglEqm8xgYnua2r0gebJiRJQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB5045
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,520 +162,428 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: "Thomas.Hellstrom@linux.intel.com" <Thomas.Hellstrom@linux.intel.com>,
+ "felix.kuehling@amd.com" <felix.kuehling@amd.com>, "Welty,
+ Brian" <brian.welty@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus,
-
-As I mentioned in my main pullreq I had a chancy optional nouveau one
-that is delayed after Ben's departure, but I'd really like to land
-support for the NVIDIA Ada chips and this is the only way that can
-happen. This new firmware supports Turing/Ampere/Ada, but it's off by
-default to the Turing/Ampere cards, so this shouldn't have any
-regressions due to it only being used by default on some very new
-GPUs, that mostly will run the binary driver anyways.
-
-But if you feel 6.7 is baked enough and want to leave this hanging
-until 6.8, I'm not gonna lose too much sleep, but I'd really like to
-get a baseline for this into master so we can start concentrating on
-figuring out how to improve it to move forward,
-
-You might notice also this has a lot of header files, which are
-extracts from the NVIDIA open code base, ideally in the future we
-could reduce that or use some sort of generator instead of what we
-have now, so I don't expect this to be a massive set of header files
-each time we add new firmware.
-
-Thanks,
-Dave.
-
-topic/nvidia-gsp-2023-11-03:
-drm nouveau GSP support for 6.7-rc1
-
-This is an optional pull request to add the initial
-support for the NVIDIA GSP firmware to nouveau.
-
-This firmware is a new direction for Turing+ GPUs,
-and is only enabled by default on Ada generation.
-Other generations need to use nouveau.config=NvGspRm=1
-
-The GSP firmware takes nearly all the GPU init and
-power management tasks onto a risc-v CPU on the GPU.
-
-This patch series is mostly the work from Ben Skeggs,
-and Dave added some patches to rebase it to the latest
-firmware release which is where we will stay for as
-long as possible as the firmwares have no ABI stability.
-The following changes since commit 631808095a82e6b6f8410a95f8b12b8d0d38b161:
-
-  Merge tag 'amd-drm-next-6.7-2023-10-27' of
-https://gitlab.freedesktop.org/agd5f/linux into drm-next (2023-10-31
-12:37:19 +1000)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm tags/topic/nvidia-gsp-2023-11-03
-
-for you to fetch changes up to 8d55b0a940bb10592ffaad68d14314823ddf4cdf:
-
-  nouveau/gsp: add some basic registry entries. (2023-11-03 12:57:23 +1000)
-
-----------------------------------------------------------------
-drm nouveau GSP support for 6.7-rc1
-
-This is an optional pull request to add the initial
-support for the NVIDIA GSP firmware to nouveau.
-
-This firmware is a new direction for Turing+ GPUs,
-and is only enabled by default on Ada generation.
-Other generations need to use nouveau.config=NvGspRm=1
-
-The GSP firmware takes nearly all the GPU init and
-power management tasks onto a risc-v CPU on the GPU.
-
-This patch series is mostly the work from Ben Skeggs,
-and Dave added some patches to rebase it to the latest
-firmware release which is where we will stay for as
-long as possible as the firmwares have no ABI stability.
-
-----------------------------------------------------------------
-Ben Skeggs (44):
-      drm/nouveau/mmu/tu102-: remove write to 0x100e68 during tlb invalidate
-      drm/nouveau/nvkm: bump maximum number of NVDEC
-      drm/nouveau/nvkm: bump maximum number of NVJPG
-      drm/nouveau/gsp: prepare for GSP-RM
-      drm/nouveau/acr/tu102-: prepare for GSP-RM
-      drm/nouveau/bar/tu102-: prepare for GSP-RM
-      drm/nouveau/bus/tu102-: prepare for GSP-RM
-      drm/nouveau/devinit/tu102-: prepare for GSP-RM
-      drm/nouveau/fault/tu102-: prepare for GSP-RM
-      drm/nouveau/fb/tu102-: prepare for GSP-RM
-      drm/nouveau/fuse/tu102-: prepare for GSP-RM
-      drm/nouveau/gpio/tu102-: prepare for GSP-RM
-      drm/nouveau/i2c/tu102-: prepare for GSP-RM
-      drm/nouveau/imem/tu102-: prepare for GSP-RM
-      drm/nouveau/ltc/tu102-: prepare for GSP-RM
-      drm/nouveau/mc/tu102-: prepare for GSP-RM
-      drm/nouveau/mmu/tu102-: prepare for GSP-RM
-      drm/nouveau/pmu/tu102-: prepare for GSP-RM
-      drm/nouveau/privring/tu102-: prepare for GSP-RM
-      drm/nouveau/therm/tu102-: prepare for GSP-RM
-      drm/nouveau/top/tu102-: prepare for GSP-RM
-      drm/nouveau/vfn/tu102-: prepare for GSP-RM
-      drm/nouveau/ce/tu102-: prepare for GSP-RM
-      drm/nouveau/disp/tu102-: prepare for GSP-RM
-      drm/nouveau/fifo/tu102-: prepare for GSP-RM
-      drm/nouveau/gr/tu102-: prepare for GSP-RM
-      drm/nouveau/nvdec/tu102-: prepare for GSP-RM
-      drm/nouveau/nvenc/tu102-: prepare for GSP-RM
-      drm/nouveau/sec2/tu102-: prepare for GSP-RM
-      drm/nouveau/kms/tu102-: disable vbios parsing when running on RM
-      drm/nouveau/nvkm: support loading fws into sg_table
-      drm/nouveau/gsp/r535: add support for booting GSP-RM
-      drm/nouveau/gsp/r535: add support for rm control
-      drm/nouveau/gsp/r535: add support for rm alloc
-      drm/nouveau/gsp/r535: add interrupt handling
-      drm/nouveau/mmu/r535: initial support
-      drm/nouveau/disp/r535: initial support
-      drm/nouveau/fifo/r535: initial support
-      drm/nouveau/ce/r535: initial support
-      drm/nouveau/gr/r535: initial support
-      drm/nouveau/nvdec/r535: initial support
-      drm/nouveau/nvenc/r535: initial support
-      drm/nouveau/nvjpg/r535: initial support
-      drm/nouveau/ofa/r535: initial support
-
-Dave Airlie (5):
-      nouveau: fix r535 build on 32-bit arm.
-      nouveau/disp: fix post-gsp build on 32-bit arm.
-      nouveau/gsp: move to 535.113.01
-      nouveau/gsp: fix message signature.
-      nouveau/gsp: add some basic registry entries.
-
- drivers/gpu/drm/nouveau/dispnv50/core.c            |    1 +
- drivers/gpu/drm/nouveau/dispnv50/disp.c            |  143 ++
- drivers/gpu/drm/nouveau/include/nvif/cl0080.h      |    3 +
- drivers/gpu/drm/nouveau/include/nvif/class.h       |   21 +
- drivers/gpu/drm/nouveau/include/nvkm/core/device.h |    1 +
- drivers/gpu/drm/nouveau/include/nvkm/core/falcon.h |    7 +
- .../gpu/drm/nouveau/include/nvkm/core/firmware.h   |    6 +-
- drivers/gpu/drm/nouveau/include/nvkm/core/layout.h |    6 +-
- drivers/gpu/drm/nouveau/include/nvkm/engine/disp.h |   19 +
- .../gpu/drm/nouveau/include/nvkm/engine/falcon.h   |    4 +
- drivers/gpu/drm/nouveau/include/nvkm/engine/fifo.h |   19 +
- drivers/gpu/drm/nouveau/include/nvkm/engine/gr.h   |    1 +
- .../gpu/drm/nouveau/include/nvkm/engine/nvdec.h    |    3 +
- .../gpu/drm/nouveau/include/nvkm/engine/nvenc.h    |    3 +
- .../gpu/drm/nouveau/include/nvkm/engine/nvjpg.h    |    8 +
- drivers/gpu/drm/nouveau/include/nvkm/engine/ofa.h  |    9 +
- drivers/gpu/drm/nouveau/include/nvkm/subdev/bar.h  |    4 +
- drivers/gpu/drm/nouveau/include/nvkm/subdev/bios.h |    1 +
- drivers/gpu/drm/nouveau/include/nvkm/subdev/fb.h   |    6 +-
- drivers/gpu/drm/nouveau/include/nvkm/subdev/gsp.h  |  435 ++++
- .../gpu/drm/nouveau/include/nvkm/subdev/instmem.h  |    7 +
- drivers/gpu/drm/nouveau/include/nvkm/subdev/mmu.h  |   11 +
- .../common/sdk/nvidia/inc/alloc/alloc_channel.h    |  170 ++
- .../common/sdk/nvidia/inc/class/cl0000.h           |   38 +
- .../common/sdk/nvidia/inc/class/cl0005.h           |   38 +
- .../common/sdk/nvidia/inc/class/cl0080.h           |   43 +
- .../common/sdk/nvidia/inc/class/cl2080.h           |   35 +
- .../sdk/nvidia/inc/class/cl2080_notification.h     |   62 +
- .../common/sdk/nvidia/inc/class/cl84a0.h           |   33 +
- .../common/sdk/nvidia/inc/class/cl90f1.h           |   31 +
- .../common/sdk/nvidia/inc/class/clc0b5sw.h         |   34 +
- .../sdk/nvidia/inc/ctrl/ctrl0073/ctrl0073common.h  |   39 +
- .../sdk/nvidia/inc/ctrl/ctrl0073/ctrl0073dfp.h     |  166 ++
- .../sdk/nvidia/inc/ctrl/ctrl0073/ctrl0073dp.h      |  335 +++
- .../nvidia/inc/ctrl/ctrl0073/ctrl0073specific.h    |  216 ++
- .../sdk/nvidia/inc/ctrl/ctrl0073/ctrl0073system.h  |   65 +
- .../sdk/nvidia/inc/ctrl/ctrl0080/ctrl0080fifo.h    |   57 +
- .../sdk/nvidia/inc/ctrl/ctrl0080/ctrl0080gpu.h     |   48 +
- .../sdk/nvidia/inc/ctrl/ctrl0080/ctrl0080gr.h      |   31 +
- .../sdk/nvidia/inc/ctrl/ctrl2080/ctrl2080bios.h    |   40 +
- .../sdk/nvidia/inc/ctrl/ctrl2080/ctrl2080ce.h      |   35 +
- .../sdk/nvidia/inc/ctrl/ctrl2080/ctrl2080event.h   |   41 +
- .../sdk/nvidia/inc/ctrl/ctrl2080/ctrl2080fb.h      |   51 +
- .../sdk/nvidia/inc/ctrl/ctrl2080/ctrl2080fifo.h    |   52 +
- .../sdk/nvidia/inc/ctrl/ctrl2080/ctrl2080gpu.h     |  100 +
- .../sdk/nvidia/inc/ctrl/ctrl2080/ctrl2080gr.h      |   41 +
- .../nvidia/inc/ctrl/ctrl2080/ctrl2080internal.h    |  162 ++
- .../common/sdk/nvidia/inc/ctrl/ctrl90f1.h          |   95 +
- .../sdk/nvidia/inc/ctrl/ctrla06f/ctrla06fgpfifo.h  |   42 +
- .../535.113.01/common/sdk/nvidia/inc/nvlimits.h    |   33 +
- .../nvrm/535.113.01/common/sdk/nvidia/inc/nvos.h   |  148 ++
- .../common/shared/msgq/inc/msgq/msgq_priv.h        |   46 +
- .../uproc/os/common/include/libos_init_args.h      |   52 +
- .../arch/nvalloc/common/inc/gsp/gsp_fw_sr_meta.h   |   79 +
- .../arch/nvalloc/common/inc/gsp/gsp_fw_wpr_meta.h  |  170 ++
- .../nvidia/arch/nvalloc/common/inc/rmRiscvUcode.h  |   82 +
- .../nvidia/arch/nvalloc/common/inc/rmgspseq.h      |  100 +
- .../535.113.01/nvidia/generated/g_allclasses.h     |   33 +
- .../535.113.01/nvidia/generated/g_chipset_nvoc.h   |   38 +
- .../nvrm/535.113.01/nvidia/generated/g_fbsr_nvoc.h |   31 +
- .../nvrm/535.113.01/nvidia/generated/g_gpu_nvoc.h  |   35 +
- .../nvidia/generated/g_kernel_channel_nvoc.h       |   62 +
- .../nvidia/generated/g_kernel_fifo_nvoc.h          |  119 ++
- .../535.113.01/nvidia/generated/g_mem_desc_nvoc.h  |   32 +
- .../nvrm/535.113.01/nvidia/generated/g_os_nvoc.h   |   44 +
- .../535.113.01/nvidia/generated/g_rpc-structures.h |  124 ++
- .../535.113.01/nvidia/generated/g_sdk-structures.h |   45 +
- .../nvidia/inc/kernel/gpu/gpu_acpi_data.h          |   74 +
- .../nvidia/inc/kernel/gpu/gpu_engine_type.h        |   86 +
- .../nvidia/inc/kernel/gpu/gsp/gsp_fw_heap.h        |   33 +
- .../nvidia/inc/kernel/gpu/gsp/gsp_init_args.h      |   57 +
- .../nvidia/inc/kernel/gpu/gsp/gsp_static_config.h  |  174 ++
- .../nvidia/inc/kernel/gpu/intr/engine_idx.h        |   57 +
- .../535.113.01/nvidia/inc/kernel/gpu/nvbitmask.h   |   33 +
- .../nvidia/inc/kernel/os/nv_memory_type.h          |   31 +
- .../nvidia/kernel/inc/vgpu/rpc_global_enums.h      |  262 +++
- .../nvidia/kernel/inc/vgpu/rpc_headers.h           |   51 +
- .../nvidia/kernel/inc/vgpu/sdk-structures.h        |   40 +
- drivers/gpu/drm/nouveau/include/nvrm/nvtypes.h     |   24 +
- drivers/gpu/drm/nouveau/nouveau_bios.c             |    5 +-
- drivers/gpu/drm/nouveau/nvif/disp.c                |    1 +
- drivers/gpu/drm/nouveau/nvkm/core/firmware.c       |   74 +-
- drivers/gpu/drm/nouveau/nvkm/engine/Kbuild         |    2 +
- drivers/gpu/drm/nouveau/nvkm/engine/ce/Kbuild      |    2 +
- drivers/gpu/drm/nouveau/nvkm/engine/ce/ga100.c     |    4 +
- drivers/gpu/drm/nouveau/nvkm/engine/ce/ga102.c     |    5 +
- drivers/gpu/drm/nouveau/nvkm/engine/ce/priv.h      |    3 +
- drivers/gpu/drm/nouveau/nvkm/engine/ce/r535.c      |  108 +
- drivers/gpu/drm/nouveau/nvkm/engine/ce/tu102.c     |    5 +
- drivers/gpu/drm/nouveau/nvkm/engine/device/base.c  |  190 +-
- drivers/gpu/drm/nouveau/nvkm/engine/device/priv.h  |    2 +
- drivers/gpu/drm/nouveau/nvkm/engine/device/user.c  |    1 +
- drivers/gpu/drm/nouveau/nvkm/engine/disp/Kbuild    |    3 +
- drivers/gpu/drm/nouveau/nvkm/engine/disp/ad102.c   |   52 +
- drivers/gpu/drm/nouveau/nvkm/engine/disp/base.c    |    8 +-
- drivers/gpu/drm/nouveau/nvkm/engine/disp/chan.h    |    4 +
- drivers/gpu/drm/nouveau/nvkm/engine/disp/ga102.c   |    4 +
- drivers/gpu/drm/nouveau/nvkm/engine/disp/gf119.c   |    2 +-
- drivers/gpu/drm/nouveau/nvkm/engine/disp/gv100.c   |    6 +-
- drivers/gpu/drm/nouveau/nvkm/engine/disp/ior.h     |    2 +
- drivers/gpu/drm/nouveau/nvkm/engine/disp/nv50.c    |    2 +-
- drivers/gpu/drm/nouveau/nvkm/engine/disp/outp.c    |    3 +-
- drivers/gpu/drm/nouveau/nvkm/engine/disp/priv.h    |   14 +-
- drivers/gpu/drm/nouveau/nvkm/engine/disp/r535.c    | 1671 +++++++++++++++
- drivers/gpu/drm/nouveau/nvkm/engine/disp/tu102.c   |    4 +
- drivers/gpu/drm/nouveau/nvkm/engine/disp/uconn.c   |   31 +-
- drivers/gpu/drm/nouveau/nvkm/engine/falcon.c       |    4 +-
- drivers/gpu/drm/nouveau/nvkm/engine/fifo/Kbuild    |    2 +
- drivers/gpu/drm/nouveau/nvkm/engine/fifo/base.c    |   11 +
- drivers/gpu/drm/nouveau/nvkm/engine/fifo/cgrp.c    |    3 +
- drivers/gpu/drm/nouveau/nvkm/engine/fifo/chan.c    |   55 +-
- drivers/gpu/drm/nouveau/nvkm/engine/fifo/chan.h    |    3 +
- drivers/gpu/drm/nouveau/nvkm/engine/fifo/ga100.c   |    4 +
- drivers/gpu/drm/nouveau/nvkm/engine/fifo/ga102.c   |    7 +-
- drivers/gpu/drm/nouveau/nvkm/engine/fifo/priv.h    |    4 +
- drivers/gpu/drm/nouveau/nvkm/engine/fifo/r535.c    |  664 ++++++
- drivers/gpu/drm/nouveau/nvkm/engine/fifo/runl.h    |    6 +
- drivers/gpu/drm/nouveau/nvkm/engine/fifo/tu102.c   |    4 +
- drivers/gpu/drm/nouveau/nvkm/engine/fifo/uchan.c   |    9 +
- drivers/gpu/drm/nouveau/nvkm/engine/gr/Kbuild      |    3 +
- drivers/gpu/drm/nouveau/nvkm/engine/gr/ad102.c     |   46 +
- drivers/gpu/drm/nouveau/nvkm/engine/gr/base.c      |    6 +-
- drivers/gpu/drm/nouveau/nvkm/engine/gr/ga102.c     |    4 +
- drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.h     |    2 +
- drivers/gpu/drm/nouveau/nvkm/engine/gr/r535.c      |  508 +++++
- drivers/gpu/drm/nouveau/nvkm/engine/gr/tu102.c     |    5 +
- drivers/gpu/drm/nouveau/nvkm/engine/nvdec/Kbuild   |    5 +
- drivers/gpu/drm/nouveau/nvkm/engine/nvdec/ad102.c  |   44 +
- drivers/gpu/drm/nouveau/nvkm/engine/nvdec/base.c   |    3 +-
- drivers/gpu/drm/nouveau/nvkm/engine/nvdec/ga100.c  |   44 +
- drivers/gpu/drm/nouveau/nvkm/engine/nvdec/ga102.c  |   16 +-
- drivers/gpu/drm/nouveau/nvkm/engine/nvdec/gm107.c  |    2 +-
- drivers/gpu/drm/nouveau/nvkm/engine/nvdec/priv.h   |    7 +
- drivers/gpu/drm/nouveau/nvkm/engine/nvdec/r535.c   |  110 +
- drivers/gpu/drm/nouveau/nvkm/engine/nvdec/tu102.c  |   44 +
- drivers/gpu/drm/nouveau/nvkm/engine/nvenc/Kbuild   |    5 +
- drivers/gpu/drm/nouveau/nvkm/engine/nvenc/ad102.c  |   44 +
- drivers/gpu/drm/nouveau/nvkm/engine/nvenc/base.c   |    3 +-
- drivers/gpu/drm/nouveau/nvkm/engine/nvenc/ga102.c  |   44 +
- drivers/gpu/drm/nouveau/nvkm/engine/nvenc/gm107.c  |    2 +-
- drivers/gpu/drm/nouveau/nvkm/engine/nvenc/priv.h   |    5 +
- drivers/gpu/drm/nouveau/nvkm/engine/nvenc/r535.c   |  110 +
- drivers/gpu/drm/nouveau/nvkm/engine/nvenc/tu102.c  |   44 +
- drivers/gpu/drm/nouveau/nvkm/engine/nvjpg/Kbuild   |    5 +
- drivers/gpu/drm/nouveau/nvkm/engine/nvjpg/ad102.c  |   44 +
- drivers/gpu/drm/nouveau/nvkm/engine/nvjpg/ga100.c  |   44 +
- drivers/gpu/drm/nouveau/nvkm/engine/nvjpg/priv.h   |    8 +
- drivers/gpu/drm/nouveau/nvkm/engine/nvjpg/r535.c   |  107 +
- drivers/gpu/drm/nouveau/nvkm/engine/ofa/Kbuild     |    6 +
- drivers/gpu/drm/nouveau/nvkm/engine/ofa/ad102.c    |   44 +
- drivers/gpu/drm/nouveau/nvkm/engine/ofa/ga100.c    |   44 +
- drivers/gpu/drm/nouveau/nvkm/engine/ofa/ga102.c    |   44 +
- drivers/gpu/drm/nouveau/nvkm/engine/ofa/priv.h     |    8 +
- drivers/gpu/drm/nouveau/nvkm/engine/ofa/r535.c     |  107 +
- drivers/gpu/drm/nouveau/nvkm/engine/sec2/Kbuild    |    2 +
- drivers/gpu/drm/nouveau/nvkm/engine/sec2/ga102.c   |    8 +-
- drivers/gpu/drm/nouveau/nvkm/engine/sec2/priv.h    |    3 +
- drivers/gpu/drm/nouveau/nvkm/engine/sec2/r535.c    |   54 +
- drivers/gpu/drm/nouveau/nvkm/engine/sec2/tu102.c   |    8 +-
- drivers/gpu/drm/nouveau/nvkm/falcon/Kbuild         |    1 +
- drivers/gpu/drm/nouveau/nvkm/falcon/base.c         |   16 +
- drivers/gpu/drm/nouveau/nvkm/falcon/ga100.c        |    6 +
- drivers/gpu/drm/nouveau/nvkm/falcon/ga102.c        |    6 +
- drivers/gpu/drm/nouveau/nvkm/falcon/tu102.c        |   28 +
- drivers/gpu/drm/nouveau/nvkm/subdev/acr/ga102.c    |    4 +
- drivers/gpu/drm/nouveau/nvkm/subdev/acr/tu102.c    |    3 +
- drivers/gpu/drm/nouveau/nvkm/subdev/bar/Kbuild     |    2 +
- drivers/gpu/drm/nouveau/nvkm/subdev/bar/base.c     |   10 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/bar/priv.h     |    3 +
- drivers/gpu/drm/nouveau/nvkm/subdev/bar/r535.c     |  186 ++
- drivers/gpu/drm/nouveau/nvkm/subdev/bar/tu102.c    |    4 +
- drivers/gpu/drm/nouveau/nvkm/subdev/bios/base.c    |    8 +
- drivers/gpu/drm/nouveau/nvkm/subdev/bus/gf100.c    |    5 +
- drivers/gpu/drm/nouveau/nvkm/subdev/devinit/Kbuild |    2 +
- .../gpu/drm/nouveau/nvkm/subdev/devinit/ga100.c    |   15 +
- drivers/gpu/drm/nouveau/nvkm/subdev/devinit/priv.h |    3 +
- drivers/gpu/drm/nouveau/nvkm/subdev/devinit/r535.c |   51 +
- .../gpu/drm/nouveau/nvkm/subdev/devinit/tu102.c    |    4 +
- drivers/gpu/drm/nouveau/nvkm/subdev/fault/tu102.c  |    8 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/fb/Kbuild      |    2 +
- drivers/gpu/drm/nouveau/nvkm/subdev/fb/ga100.c     |    5 +
- drivers/gpu/drm/nouveau/nvkm/subdev/fb/ga102.c     |    4 +
- drivers/gpu/drm/nouveau/nvkm/subdev/fb/priv.h      |    3 +
- drivers/gpu/drm/nouveau/nvkm/subdev/fb/r535.c      |   87 +
- drivers/gpu/drm/nouveau/nvkm/subdev/fb/ram.c       |   46 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/fb/tu102.c     |    5 +
- drivers/gpu/drm/nouveau/nvkm/subdev/fuse/gm107.c   |    5 +
- drivers/gpu/drm/nouveau/nvkm/subdev/gpio/ga102.c   |    5 +
- drivers/gpu/drm/nouveau/nvkm/subdev/gpio/gk104.c   |    5 +
- drivers/gpu/drm/nouveau/nvkm/subdev/gsp/Kbuild     |    8 +
- drivers/gpu/drm/nouveau/nvkm/subdev/gsp/ad102.c    |   57 +
- drivers/gpu/drm/nouveau/nvkm/subdev/gsp/base.c     |   78 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/gsp/fwsec.c    |  359 ++++
- drivers/gpu/drm/nouveau/nvkm/subdev/gsp/ga100.c    |   74 +
- drivers/gpu/drm/nouveau/nvkm/subdev/gsp/ga102.c    |  148 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/gsp/gv100.c    |    4 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/gsp/priv.h     |   57 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c     | 2236 ++++++++++++++++++++
- drivers/gpu/drm/nouveau/nvkm/subdev/gsp/tu102.c    |  198 ++
- drivers/gpu/drm/nouveau/nvkm/subdev/gsp/tu116.c    |   57 +
- drivers/gpu/drm/nouveau/nvkm/subdev/i2c/gm200.c    |    5 +
- drivers/gpu/drm/nouveau/nvkm/subdev/instmem/Kbuild |    2 +
- drivers/gpu/drm/nouveau/nvkm/subdev/instmem/base.c |   40 +-
- .../gpu/drm/nouveau/nvkm/subdev/instmem/gk20a.c    |    2 +
- drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv04.c |   45 +
- drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c |   27 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/instmem/priv.h |   13 +
- drivers/gpu/drm/nouveau/nvkm/subdev/instmem/r535.c |  333 +++
- drivers/gpu/drm/nouveau/nvkm/subdev/ltc/ga102.c    |    5 +
- drivers/gpu/drm/nouveau/nvkm/subdev/ltc/gp102.c    |    5 +
- drivers/gpu/drm/nouveau/nvkm/subdev/mc/ga100.c     |    5 +
- drivers/gpu/drm/nouveau/nvkm/subdev/mc/gp100.c     |    5 +
- drivers/gpu/drm/nouveau/nvkm/subdev/mmu/Kbuild     |    2 +
- drivers/gpu/drm/nouveau/nvkm/subdev/mmu/base.c     |    4 +
- drivers/gpu/drm/nouveau/nvkm/subdev/mmu/priv.h     |    6 +
- drivers/gpu/drm/nouveau/nvkm/subdev/mmu/r535.c     |  123 ++
- drivers/gpu/drm/nouveau/nvkm/subdev/mmu/tu102.c    |    4 +
- drivers/gpu/drm/nouveau/nvkm/subdev/mmu/uvmm.c     |    6 +
- drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.c      |    7 +
- drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmmtu102.c |    6 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/pmu/gp102.c    |    5 +
- .../gpu/drm/nouveau/nvkm/subdev/privring/gm200.c   |    5 +
- drivers/gpu/drm/nouveau/nvkm/subdev/therm/gp100.c  |    5 +
- drivers/gpu/drm/nouveau/nvkm/subdev/top/ga100.c    |    7 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/top/gk104.c    |    7 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/vfn/Kbuild     |    2 +
- drivers/gpu/drm/nouveau/nvkm/subdev/vfn/ga100.c    |    5 +
- drivers/gpu/drm/nouveau/nvkm/subdev/vfn/priv.h     |    7 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/vfn/r535.c     |   50 +
- drivers/gpu/drm/nouveau/nvkm/subdev/vfn/tu102.c    |    5 +
- 230 files changed, 14050 insertions(+), 140 deletions(-)
- create mode 100644 drivers/gpu/drm/nouveau/include/nvkm/engine/nvjpg.h
- create mode 100644 drivers/gpu/drm/nouveau/include/nvkm/engine/ofa.h
- create mode 100644
-drivers/gpu/drm/nouveau/include/nvrm/535.113.01/common/sdk/nvidia/inc/alloc/alloc_channel.h
- create mode 100644
-drivers/gpu/drm/nouveau/include/nvrm/535.113.01/common/sdk/nvidia/inc/class/cl0000.h
- create mode 100644
-drivers/gpu/drm/nouveau/include/nvrm/535.113.01/common/sdk/nvidia/inc/class/cl0005.h
- create mode 100644
-drivers/gpu/drm/nouveau/include/nvrm/535.113.01/common/sdk/nvidia/inc/class/cl0080.h
- create mode 100644
-drivers/gpu/drm/nouveau/include/nvrm/535.113.01/common/sdk/nvidia/inc/class/cl2080.h
- create mode 100644
-drivers/gpu/drm/nouveau/include/nvrm/535.113.01/common/sdk/nvidia/inc/class/cl2080_notification.h
- create mode 100644
-drivers/gpu/drm/nouveau/include/nvrm/535.113.01/common/sdk/nvidia/inc/class/cl84a0.h
- create mode 100644
-drivers/gpu/drm/nouveau/include/nvrm/535.113.01/common/sdk/nvidia/inc/class/cl90f1.h
- create mode 100644
-drivers/gpu/drm/nouveau/include/nvrm/535.113.01/common/sdk/nvidia/inc/class/clc0b5sw.h
- create mode 100644
-drivers/gpu/drm/nouveau/include/nvrm/535.113.01/common/sdk/nvidia/inc/ctrl/ctrl0073/ctrl0073common.h
- create mode 100644
-drivers/gpu/drm/nouveau/include/nvrm/535.113.01/common/sdk/nvidia/inc/ctrl/ctrl0073/ctrl0073dfp.h
- create mode 100644
-drivers/gpu/drm/nouveau/include/nvrm/535.113.01/common/sdk/nvidia/inc/ctrl/ctrl0073/ctrl0073dp.h
- create mode 100644
-drivers/gpu/drm/nouveau/include/nvrm/535.113.01/common/sdk/nvidia/inc/ctrl/ctrl0073/ctrl0073specific.h
- create mode 100644
-drivers/gpu/drm/nouveau/include/nvrm/535.113.01/common/sdk/nvidia/inc/ctrl/ctrl0073/ctrl0073system.h
- create mode 100644
-drivers/gpu/drm/nouveau/include/nvrm/535.113.01/common/sdk/nvidia/inc/ctrl/ctrl0080/ctrl0080fifo.h
- create mode 100644
-drivers/gpu/drm/nouveau/include/nvrm/535.113.01/common/sdk/nvidia/inc/ctrl/ctrl0080/ctrl0080gpu.h
- create mode 100644
-drivers/gpu/drm/nouveau/include/nvrm/535.113.01/common/sdk/nvidia/inc/ctrl/ctrl0080/ctrl0080gr.h
- create mode 100644
-drivers/gpu/drm/nouveau/include/nvrm/535.113.01/common/sdk/nvidia/inc/ctrl/ctrl2080/ctrl2080bios.h
- create mode 100644
-drivers/gpu/drm/nouveau/include/nvrm/535.113.01/common/sdk/nvidia/inc/ctrl/ctrl2080/ctrl2080ce.h
- create mode 100644
-drivers/gpu/drm/nouveau/include/nvrm/535.113.01/common/sdk/nvidia/inc/ctrl/ctrl2080/ctrl2080event.h
- create mode 100644
-drivers/gpu/drm/nouveau/include/nvrm/535.113.01/common/sdk/nvidia/inc/ctrl/ctrl2080/ctrl2080fb.h
- create mode 100644
-drivers/gpu/drm/nouveau/include/nvrm/535.113.01/common/sdk/nvidia/inc/ctrl/ctrl2080/ctrl2080fifo.h
- create mode 100644
-drivers/gpu/drm/nouveau/include/nvrm/535.113.01/common/sdk/nvidia/inc/ctrl/ctrl2080/ctrl2080gpu.h
- create mode 100644
-drivers/gpu/drm/nouveau/include/nvrm/535.113.01/common/sdk/nvidia/inc/ctrl/ctrl2080/ctrl2080gr.h
- create mode 100644
-drivers/gpu/drm/nouveau/include/nvrm/535.113.01/common/sdk/nvidia/inc/ctrl/ctrl2080/ctrl2080internal.h
- create mode 100644
-drivers/gpu/drm/nouveau/include/nvrm/535.113.01/common/sdk/nvidia/inc/ctrl/ctrl90f1.h
- create mode 100644
-drivers/gpu/drm/nouveau/include/nvrm/535.113.01/common/sdk/nvidia/inc/ctrl/ctrla06f/ctrla06fgpfifo.h
- create mode 100644
-drivers/gpu/drm/nouveau/include/nvrm/535.113.01/common/sdk/nvidia/inc/nvlimits.h
- create mode 100644
-drivers/gpu/drm/nouveau/include/nvrm/535.113.01/common/sdk/nvidia/inc/nvos.h
- create mode 100644
-drivers/gpu/drm/nouveau/include/nvrm/535.113.01/common/shared/msgq/inc/msgq/msgq_priv.h
- create mode 100644
-drivers/gpu/drm/nouveau/include/nvrm/535.113.01/common/uproc/os/common/include/libos_init_args.h
- create mode 100644
-drivers/gpu/drm/nouveau/include/nvrm/535.113.01/nvidia/arch/nvalloc/common/inc/gsp/gsp_fw_sr_meta.h
- create mode 100644
-drivers/gpu/drm/nouveau/include/nvrm/535.113.01/nvidia/arch/nvalloc/common/inc/gsp/gsp_fw_wpr_meta.h
- create mode 100644
-drivers/gpu/drm/nouveau/include/nvrm/535.113.01/nvidia/arch/nvalloc/common/inc/rmRiscvUcode.h
- create mode 100644
-drivers/gpu/drm/nouveau/include/nvrm/535.113.01/nvidia/arch/nvalloc/common/inc/rmgspseq.h
- create mode 100644
-drivers/gpu/drm/nouveau/include/nvrm/535.113.01/nvidia/generated/g_allclasses.h
- create mode 100644
-drivers/gpu/drm/nouveau/include/nvrm/535.113.01/nvidia/generated/g_chipset_nvoc.h
- create mode 100644
-drivers/gpu/drm/nouveau/include/nvrm/535.113.01/nvidia/generated/g_fbsr_nvoc.h
- create mode 100644
-drivers/gpu/drm/nouveau/include/nvrm/535.113.01/nvidia/generated/g_gpu_nvoc.h
- create mode 100644
-drivers/gpu/drm/nouveau/include/nvrm/535.113.01/nvidia/generated/g_kernel_channel_nvoc.h
- create mode 100644
-drivers/gpu/drm/nouveau/include/nvrm/535.113.01/nvidia/generated/g_kernel_fifo_nvoc.h
- create mode 100644
-drivers/gpu/drm/nouveau/include/nvrm/535.113.01/nvidia/generated/g_mem_desc_nvoc.h
- create mode 100644
-drivers/gpu/drm/nouveau/include/nvrm/535.113.01/nvidia/generated/g_os_nvoc.h
- create mode 100644
-drivers/gpu/drm/nouveau/include/nvrm/535.113.01/nvidia/generated/g_rpc-structures.h
- create mode 100644
-drivers/gpu/drm/nouveau/include/nvrm/535.113.01/nvidia/generated/g_sdk-structures.h
- create mode 100644
-drivers/gpu/drm/nouveau/include/nvrm/535.113.01/nvidia/inc/kernel/gpu/gpu_acpi_data.h
- create mode 100644
-drivers/gpu/drm/nouveau/include/nvrm/535.113.01/nvidia/inc/kernel/gpu/gpu_engine_type.h
- create mode 100644
-drivers/gpu/drm/nouveau/include/nvrm/535.113.01/nvidia/inc/kernel/gpu/gsp/gsp_fw_heap.h
- create mode 100644
-drivers/gpu/drm/nouveau/include/nvrm/535.113.01/nvidia/inc/kernel/gpu/gsp/gsp_init_args.h
- create mode 100644
-drivers/gpu/drm/nouveau/include/nvrm/535.113.01/nvidia/inc/kernel/gpu/gsp/gsp_static_config.h
- create mode 100644
-drivers/gpu/drm/nouveau/include/nvrm/535.113.01/nvidia/inc/kernel/gpu/intr/engine_idx.h
- create mode 100644
-drivers/gpu/drm/nouveau/include/nvrm/535.113.01/nvidia/inc/kernel/gpu/nvbitmask.h
- create mode 100644
-drivers/gpu/drm/nouveau/include/nvrm/535.113.01/nvidia/inc/kernel/os/nv_memory_type.h
- create mode 100644
-drivers/gpu/drm/nouveau/include/nvrm/535.113.01/nvidia/kernel/inc/vgpu/rpc_global_enums.h
- create mode 100644
-drivers/gpu/drm/nouveau/include/nvrm/535.113.01/nvidia/kernel/inc/vgpu/rpc_headers.h
- create mode 100644
-drivers/gpu/drm/nouveau/include/nvrm/535.113.01/nvidia/kernel/inc/vgpu/sdk-structures.h
- create mode 100644 drivers/gpu/drm/nouveau/include/nvrm/nvtypes.h
- create mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/ce/r535.c
- create mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/disp/ad102.c
- create mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/disp/r535.c
- create mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/fifo/r535.c
- create mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/gr/ad102.c
- create mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/gr/r535.c
- create mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/nvdec/ad102.c
- create mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/nvdec/ga100.c
- create mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/nvdec/r535.c
- create mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/nvdec/tu102.c
- create mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/nvenc/ad102.c
- create mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/nvenc/ga102.c
- create mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/nvenc/r535.c
- create mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/nvenc/tu102.c
- create mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/nvjpg/Kbuild
- create mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/nvjpg/ad102.c
- create mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/nvjpg/ga100.c
- create mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/nvjpg/priv.h
- create mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/nvjpg/r535.c
- create mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/ofa/Kbuild
- create mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/ofa/ad102.c
- create mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/ofa/ga100.c
- create mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/ofa/ga102.c
- create mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/ofa/priv.h
- create mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/ofa/r535.c
- create mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/sec2/r535.c
- create mode 100644 drivers/gpu/drm/nouveau/nvkm/falcon/tu102.c
- create mode 100644 drivers/gpu/drm/nouveau/nvkm/subdev/bar/r535.c
- create mode 100644 drivers/gpu/drm/nouveau/nvkm/subdev/devinit/r535.c
- create mode 100644 drivers/gpu/drm/nouveau/nvkm/subdev/fb/r535.c
- create mode 100644 drivers/gpu/drm/nouveau/nvkm/subdev/gsp/ad102.c
- create mode 100644 drivers/gpu/drm/nouveau/nvkm/subdev/gsp/fwsec.c
- create mode 100644 drivers/gpu/drm/nouveau/nvkm/subdev/gsp/ga100.c
- create mode 100644 drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c
- create mode 100644 drivers/gpu/drm/nouveau/nvkm/subdev/gsp/tu102.c
- create mode 100644 drivers/gpu/drm/nouveau/nvkm/subdev/gsp/tu116.c
- create mode 100644 drivers/gpu/drm/nouveau/nvkm/subdev/instmem/r535.c
- create mode 100644 drivers/gpu/drm/nouveau/nvkm/subdev/mmu/r535.c
- create mode 100644 drivers/gpu/drm/nouveau/nvkm/subdev/vfn/r535.c
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogQ2hyaXN0aWFuIEvDtm5p
+ZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPg0KPiBTZW50OiBUaHVyc2RheSwgTm92ZW1iZXIg
+MiwgMjAyMyA4OjUzIEFNDQo+IFRvOiBaZW5nLCBPYWsgPG9hay56ZW5nQGludGVsLmNvbT47IGRy
+aS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmc7IGludGVsLQ0KPiB4ZUBsaXN0cy5mcmVlZGVz
+a3RvcC5vcmcNCj4gQ2M6IFRob21hcy5IZWxsc3Ryb21AbGludXguaW50ZWwuY29tOyBmZWxpeC5r
+dWVobGluZ0BhbWQuY29tOw0KPiBhaXJsaWVkQGdtYWlsLmNvbTsgV2VsdHksIEJyaWFuIDxicmlh
+bi53ZWx0eUBpbnRlbC5jb20+DQo+IFN1YmplY3Q6IFJlOiBbUkZDIDAyLzExXSBkcm06IG1vdmUg
+bHJ1X2xvY2sgZnJvbSB0dG1fZGV2aWNlIHRvIGRybV9kZXZpY2UNCj4gDQo+IEFtIDAyLjExLjIz
+IHVtIDA1OjMyIHNjaHJpZWIgT2FrIFplbmc6DQo+ID4gSW4gdGhlIGNvbWluZyBwYXRjaGVzLCB3
+ZSB3aWxsIHNoYXJlIHRoZSBscnUgbGlzdCBiL3QNCj4gPiB0dG0gYm8gYmFzZWQgbWVtb3J5IGFs
+bG9jYXRvciBhbmQgaG1tL3N2bSBiYXNlZCBtZW1vcnkNCj4gPiBhbGxvY2F0b3IuIFRodXMgbHJ1
+X2xvY2sgKHdoaWNoIGlzIHVzZWQgbWFpbmx5IHRvIHByb3RlY3QNCj4gPiB0aGUgbHJ1IGxpc3Qp
+IGlzIG1vdmVkIGZyb20gc3RydWN0IHR0bV9kZXZpY2UgdG8gc3RydWN0DQo+ID4gZHJtX2Rldmlj
+ZSwgc28gdGhpcyBsb2NrIGNhbiBiZSBzaGFyZWQgYi90IHRob3NlIHR3bw0KPiA+IG1lbW9yeSBh
+bGxvY2F0b3JzLg0KPiA+DQo+ID4gVG8gbWluaW1pemUgY29kZSBjaGFuZ2UsIHN0cnVjdCB0dG1f
+ZGV2aWNlIHN0aWxsIGhvbGQNCj4gPiBhIHdlYWsgcmVmZXJlbmNlIG9mIGxydV9sb2NrLCBzbyB0
+dG0gbGF5ZXIgY2FuIHN0aWxsDQo+ID4gcmVmZXJlbmNlIHRvIHRoaXMgbG9jayBlYXNpbHkuDQo+
+IA0KPiBJIHdvdWxkIHJhdGhlciBsaWtlIHRvIHNlZSBkcm1fZGV2aWNlIHRvIGJlY29tZSB0aGUg
+YmFzZSBjbGFzcyBvZg0KPiB0dG1fZGV2aWNlLg0KDQpZYWguLi5zbyBkcm1fZGV2IGlzIHRoZSBi
+YXNlIG9mIHR0bV9kZXZpY2UsIGFuZCB0dG1fZGV2aWNlIGlzIHRoZSBiYXNlIG9mIGFtZGdwdV9k
+ZXZpY2Ugb3IgeGVfZGV2aWNlLi4uDQo+IA0KPiBTaW1pbGFyIHRvIGhvdyBkcm1fZ2VtX29iamVj
+dCBpcyB0aGUgYmFzZSBjbGFzcyBvZiB0dG1fYnVmZmVyX29iamVjdC4NCkFuZCB0dG1fYnVmZmVy
+X29iamVjdCBpcyBiYXNlIG9mIGFtZGdwdV9ibw0KDQpQcmV0dHkgdW5pZm9ybWVkIHN0cnVjdHVy
+ZSDwn5iKDQo+IA0KPiBUaGF0IGlzIHByb2JhYmx5IGEgYml0IG1vcmUgd29yaywgYnV0IHdvdWxk
+IGFsc28gZWxpbWluYXRlIHNvbWUgb2YgdGhlDQo+IGR1cGxpY2F0ZSBob3VzZSBrZWVwaW5nIHdl
+IGN1cnJlbnRseSBoYXZlIChlLmcuIGJkZXYgcG9pbnRlciBpbg0KPiB0dG1fYnVmZmVyX29iamVj
+dCBldGMuLi4pLg0KDQpSaWdodCwgaWYgd2UgZG8gdGhhdCwgd2UgY2FuIGNhc3QgYSB0dG0gYnVm
+ZmVyIG9iamVjdCB0byBhbWRncHVfYm8sIHRoZW4gZ2V0IGFtZGdwdV9kZXZpY2Ugb2YgdGhpcyBh
+bWRncHVfYm8sIHRoZW4gZ2V0IHRoZSB0dG1fZGV2aWNlLiBOZWVkIHRvIHdyaXRlIGEgZnVuY3Rp
+b24gdG8gZ2V0IHRoaXMuIFllcywgdGhpcyB3YXkgd2Ugb25seSBuZWVkIHRvIGtlZXAgYSBhbWRn
+cHVfZGV2aWNlIHBvaW50ZXIgaW4gYW1kZ3B1X2JvLiBDbGVhbmVyIHRoYW4ga2VlcCBiZGV2IHBv
+aW50ZXIgaW4gdGJvLg0KPiANCj4gTW92aW5nIHRoZW4gc3R1ZmYgZnJvbSB0aGUgdHRtX2Rldmlj
+ZSBpbnRvIHRoZSBkcm1fZGV2aWNlIGJlY29tZXMgdHJpdmlhbC4NCg0KQWdyZWUuDQoNCk9haw0K
+PiANCj4gUmVnYXJkcywNCj4gQ2hyaXN0aWFuLg0KPiANCj4gPg0KPiA+IFNpZ25lZC1vZmYtYnk6
+IE9hayBaZW5nIDxvYWsuemVuZ0BpbnRlbC5jb20+DQo+ID4gLS0tDQo+ID4gICBkcml2ZXJzL2dw
+dS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfdm0uYyAgICAgICB8ICA0ICstDQo+ID4gICBkcml2ZXJz
+L2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfdnJhbV9tZ3IuYyB8ICA0ICstDQo+ID4gICBkcml2
+ZXJzL2dwdS9kcm0vZHJtX2Rydi5jICAgICAgICAgICAgICAgICAgICB8ICAxICsNCj4gPiAgIGRy
+aXZlcnMvZ3B1L2RybS9pOTE1L2dlbS9pOTE1X2dlbV90dG0uYyAgICAgIHwgIDQgKy0NCj4gPiAg
+IGRyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvLmMgICAgICAgICAgICAgICAgIHwgNDAgKysrKysr
+KysrLS0tLS0tLS0tLQ0KPiA+ICAgZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fZGV2aWNlLmMgICAg
+ICAgICAgICAgfCAxOCArKysrLS0tLS0NCj4gPiAgIGRyaXZlcnMvZ3B1L2RybS90dG0vdHRtX3Jl
+c291cmNlLmMgICAgICAgICAgIHwgNDIgKysrKysrKysrKy0tLS0tLS0tLS0NCj4gPiAgIGRyaXZl
+cnMvZ3B1L2RybS94ZS94ZV9iby5jICAgICAgICAgICAgICAgICAgIHwgIDQgKy0NCj4gPiAgIGRy
+aXZlcnMvZ3B1L2RybS94ZS94ZV9leGVjLmMgICAgICAgICAgICAgICAgIHwgIDQgKy0NCj4gPiAg
+IGRyaXZlcnMvZ3B1L2RybS94ZS94ZV92bS5jICAgICAgICAgICAgICAgICAgIHwgIDQgKy0NCj4g
+PiAgIGluY2x1ZGUvZHJtL2RybV9kZXZpY2UuaCAgICAgICAgICAgICAgICAgICAgIHwgIDUgKysr
+DQo+ID4gICBpbmNsdWRlL2RybS90dG0vdHRtX2JvLmggICAgICAgICAgICAgICAgICAgICB8ICA0
+ICstDQo+ID4gICBpbmNsdWRlL2RybS90dG0vdHRtX2RldmljZS5oICAgICAgICAgICAgICAgICB8
+ICA0ICstDQo+ID4gICAxMyBmaWxlcyBjaGFuZ2VkLCA3MiBpbnNlcnRpb25zKCspLCA2NiBkZWxl
+dGlvbnMoLSkNCj4gPg0KPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdw
+dS9hbWRncHVfdm0uYw0KPiBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV92bS5j
+DQo+ID4gaW5kZXggZjVkYWFkY2VjODY1Li43NDdiY2FkODZkNWQgMTAwNjQ0DQo+ID4gLS0tIGEv
+ZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X3ZtLmMNCj4gPiArKysgYi9kcml2ZXJz
+L2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfdm0uYw0KPiA+IEBAIC0zNjgsOSArMzY4LDkgQEAg
+aW50IGFtZGdwdV92bV9sb2NrX3BkKHN0cnVjdCBhbWRncHVfdm0gKnZtLCBzdHJ1Y3QNCj4gZHJt
+X2V4ZWMgKmV4ZWMsDQo+ID4gICB2b2lkIGFtZGdwdV92bV9tb3ZlX3RvX2xydV90YWlsKHN0cnVj
+dCBhbWRncHVfZGV2aWNlICphZGV2LA0KPiA+ICAgCQkJCXN0cnVjdCBhbWRncHVfdm0gKnZtKQ0K
+PiA+ICAgew0KPiA+IC0Jc3Bpbl9sb2NrKCZhZGV2LT5tbWFuLmJkZXYubHJ1X2xvY2spOw0KPiA+
+ICsJc3Bpbl9sb2NrKGFkZXYtPm1tYW4uYmRldi5scnVfbG9jayk7DQo+ID4gICAJdHRtX2xydV9i
+dWxrX21vdmVfdGFpbCgmdm0tPmxydV9idWxrX21vdmUpOw0KPiA+IC0Jc3Bpbl91bmxvY2soJmFk
+ZXYtPm1tYW4uYmRldi5scnVfbG9jayk7DQo+ID4gKwlzcGluX3VubG9jayhhZGV2LT5tbWFuLmJk
+ZXYubHJ1X2xvY2spOw0KPiA+ICAgfQ0KPiA+DQo+ID4gICAvKiBDcmVhdGUgc2NoZWR1bGVyIGVu
+dGl0aWVzIGZvciBwYWdlIHRhYmxlIHVwZGF0ZXMgKi8NCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVy
+cy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X3ZyYW1fbWdyLmMNCj4gYi9kcml2ZXJzL2dwdS9k
+cm0vYW1kL2FtZGdwdS9hbWRncHVfdnJhbV9tZ3IuYw0KPiA+IGluZGV4IGM3MDg1YTc0N2IwMy4u
+YjgzZTE3NDE5MDVlIDEwMDY0NA0KPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1
+L2FtZGdwdV92cmFtX21nci5jDQo+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUv
+YW1kZ3B1X3ZyYW1fbWdyLmMNCj4gPiBAQCAtMjkwLDkgKzI5MCw5IEBAIHN0YXRpYyB2b2lkIGFt
+ZGdwdV92cmFtX21ncl9kb19yZXNlcnZlKHN0cnVjdA0KPiB0dG1fcmVzb3VyY2VfbWFuYWdlciAq
+bWFuKQ0KPiA+DQo+ID4gICAJCXZpc191c2FnZSA9IGFtZGdwdV92cmFtX21ncl92aXNfc2l6ZShh
+ZGV2LCBibG9jayk7DQo+ID4gICAJCWF0b21pYzY0X2FkZCh2aXNfdXNhZ2UsICZtZ3ItPnZpc191
+c2FnZSk7DQo+ID4gLQkJc3Bpbl9sb2NrKCZtYW4tPmJkZXYtPmxydV9sb2NrKTsNCj4gPiArCQlz
+cGluX2xvY2sobWFuLT5iZGV2LT5scnVfbG9jayk7DQo+ID4gICAJCW1hbi0+dXNhZ2UgKz0gcnN2
+LT5zaXplOw0KPiA+IC0JCXNwaW5fdW5sb2NrKCZtYW4tPmJkZXYtPmxydV9sb2NrKTsNCj4gPiAr
+CQlzcGluX3VubG9jayhtYW4tPmJkZXYtPmxydV9sb2NrKTsNCj4gPiAgIAkJbGlzdF9tb3ZlKCZy
+c3YtPmJsb2NrcywgJm1nci0+cmVzZXJ2ZWRfcGFnZXMpOw0KPiA+ICAgCX0NCj4gPiAgIH0NCj4g
+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2RybV9kcnYuYyBiL2RyaXZlcnMvZ3B1L2Ry
+bS9kcm1fZHJ2LmMNCj4gPiBpbmRleCAzZWRhMDI2ZmZhYzYuLjE5NDNjMzg4MTVhYSAxMDA2NDQN
+Cj4gPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2Rydi5jDQo+ID4gKysrIGIvZHJpdmVycy9n
+cHUvZHJtL2RybV9kcnYuYw0KPiA+IEBAIC02MjMsNiArNjIzLDcgQEAgc3RhdGljIGludCBkcm1f
+ZGV2X2luaXQoc3RydWN0IGRybV9kZXZpY2UgKmRldiwNCj4gPg0KPiA+ICAgCUlOSVRfTElTVF9I
+RUFEKCZkZXYtPm1hbmFnZWQucmVzb3VyY2VzKTsNCj4gPiAgIAlzcGluX2xvY2tfaW5pdCgmZGV2
+LT5tYW5hZ2VkLmxvY2spOw0KPiA+ICsJc3Bpbl9sb2NrX2luaXQoJmRldi0+bHJ1X2xvY2spOw0K
+PiA+DQo+ID4gICAJLyogbm8gcGVyLWRldmljZSBmZWF0dXJlIGxpbWl0cyBieSBkZWZhdWx0ICov
+DQo+ID4gICAJZGV2LT5kcml2ZXJfZmVhdHVyZXMgPSB+MHU7DQo+ID4gZGlmZiAtLWdpdCBhL2Ry
+aXZlcnMvZ3B1L2RybS9pOTE1L2dlbS9pOTE1X2dlbV90dG0uYw0KPiBiL2RyaXZlcnMvZ3B1L2Ry
+bS9pOTE1L2dlbS9pOTE1X2dlbV90dG0uYw0KPiA+IGluZGV4IDkyMjdmODE0NmE1OC4uYzQ2ZjU0
+ZjgzZjU0IDEwMDY0NA0KPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2dlbS9pOTE1X2dl
+bV90dG0uYw0KPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2dlbS9pOTE1X2dlbV90dG0u
+Yw0KPiA+IEBAIC05ODQsNyArOTg0LDcgQEAgdm9pZCBpOTE1X3R0bV9hZGp1c3RfbHJ1KHN0cnVj
+dCBkcm1faTkxNV9nZW1fb2JqZWN0DQo+ICpvYmopDQo+ID4gICAJLyoNCj4gPiAgIAkgKiBQdXQg
+b24gdGhlIGNvcnJlY3QgTFJVIGxpc3QgZGVwZW5kaW5nIG9uIHRoZSBNQURWIHN0YXR1cw0KPiA+
+ICAgCSAqLw0KPiA+IC0Jc3Bpbl9sb2NrKCZiby0+YmRldi0+bHJ1X2xvY2spOw0KPiA+ICsJc3Bp
+bl9sb2NrKGJvLT5iZGV2LT5scnVfbG9jayk7DQo+ID4gICAJaWYgKHNocmlua2FibGUpIHsNCj4g
+PiAgIAkJLyogVHJ5IHRvIGtlZXAgc2htZW1fdHQgZnJvbSBiZWluZyBjb25zaWRlcmVkIGZvciBz
+aHJpbmtpbmcuICovDQo+ID4gICAJCWJvLT5wcmlvcml0eSA9IFRUTV9NQVhfQk9fUFJJT1JJVFkg
+LSAxOw0KPiA+IEBAIC0xMDEzLDcgKzEwMTMsNyBAQCB2b2lkIGk5MTVfdHRtX2FkanVzdF9scnUo
+c3RydWN0IGRybV9pOTE1X2dlbV9vYmplY3QNCj4gKm9iaikNCj4gPiAgIAl9DQo+ID4NCj4gPiAg
+IAl0dG1fYm9fbW92ZV90b19scnVfdGFpbChibyk7DQo+ID4gLQlzcGluX3VubG9jaygmYm8tPmJk
+ZXYtPmxydV9sb2NrKTsNCj4gPiArCXNwaW5fdW5sb2NrKGJvLT5iZGV2LT5scnVfbG9jayk7DQo+
+ID4gICB9DQo+ID4NCj4gPiAgIC8qDQo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS90
+dG0vdHRtX2JvLmMgYi9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9iby5jDQo+ID4gaW5kZXggZTU4
+YjdlMjQ5ODE2Li4yNmUwNTU1YmFkMGMgMTAwNjQ0DQo+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJt
+L3R0bS90dG1fYm8uYw0KPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvLmMNCj4g
+PiBAQCAtNjgsNyArNjgsNyBAQCBzdGF0aWMgdm9pZCB0dG1fYm9fbWVtX3NwYWNlX2RlYnVnKHN0
+cnVjdA0KPiB0dG1fYnVmZmVyX29iamVjdCAqYm8sDQo+ID4gICAgKiBAYm86IFRoZSBidWZmZXIg
+b2JqZWN0Lg0KPiA+ICAgICoNCj4gPiAgICAqIE1vdmUgdGhpcyBCTyB0byB0aGUgdGFpbCBvZiBh
+bGwgbHJ1IGxpc3RzIHVzZWQgdG8gbG9va3VwIGFuZCByZXNlcnZlIGFuDQo+ID4gLSAqIG9iamVj
+dC4gVGhpcyBmdW5jdGlvbiBtdXN0IGJlIGNhbGxlZCB3aXRoIHN0cnVjdCB0dG1fZ2xvYmFsOjps
+cnVfbG9jaw0KPiA+ICsgKiBvYmplY3QuIFRoaXMgZnVuY3Rpb24gbXVzdCBiZSBjYWxsZWQgd2l0
+aCBzdHJ1Y3QgZHJtX2RldmljZTo6bHJ1X2xvY2sNCj4gPiAgICAqIGhlbGQsIGFuZCBpcyB1c2Vk
+IHRvIG1ha2UgYSBCTyBsZXNzIGxpa2VseSB0byBiZSBjb25zaWRlcmVkIGZvciBldmljdGlvbi4N
+Cj4gPiAgICAqLw0KPiA+ICAgdm9pZCB0dG1fYm9fbW92ZV90b19scnVfdGFpbChzdHJ1Y3QgdHRt
+X2J1ZmZlcl9vYmplY3QgKmJvKQ0KPiA+IEBAIC0xMDIsMTMgKzEwMiwxMyBAQCB2b2lkIHR0bV9i
+b19zZXRfYnVsa19tb3ZlKHN0cnVjdCB0dG1fYnVmZmVyX29iamVjdA0KPiAqYm8sDQo+ID4gICAJ
+aWYgKGJvLT5idWxrX21vdmUgPT0gYnVsaykNCj4gPiAgIAkJcmV0dXJuOw0KPiA+DQo+ID4gLQlz
+cGluX2xvY2soJmJvLT5iZGV2LT5scnVfbG9jayk7DQo+ID4gKwlzcGluX2xvY2soYm8tPmJkZXYt
+PmxydV9sb2NrKTsNCj4gPiAgIAlpZiAoYm8tPnJlc291cmNlKQ0KPiA+ICAgCQl0dG1fcmVzb3Vy
+Y2VfZGVsX2J1bGtfbW92ZShiby0+cmVzb3VyY2UsIGJvKTsNCj4gPiAgIAliby0+YnVsa19tb3Zl
+ID0gYnVsazsNCj4gPiAgIAlpZiAoYm8tPnJlc291cmNlKQ0KPiA+ICAgCQl0dG1fcmVzb3VyY2Vf
+YWRkX2J1bGtfbW92ZShiby0+cmVzb3VyY2UsIGJvKTsNCj4gPiAtCXNwaW5fdW5sb2NrKCZiby0+
+YmRldi0+bHJ1X2xvY2spOw0KPiA+ICsJc3Bpbl91bmxvY2soYm8tPmJkZXYtPmxydV9sb2NrKTsN
+Cj4gPiAgIH0NCj4gPiAgIEVYUE9SVF9TWU1CT0wodHRtX2JvX3NldF9idWxrX21vdmUpOw0KPiA+
+DQo+ID4gQEAgLTIwMiw5ICsyMDIsOSBAQCBzdGF0aWMgaW50IHR0bV9ib19pbmRpdmlkdWFsaXpl
+X3Jlc3Yoc3RydWN0DQo+IHR0bV9idWZmZXJfb2JqZWN0ICpibykNCj4gPiAgIAkJICogcmVmZXJl
+bmNlIGl0IGFueSBtb3JlLiBUaGUgb25seSB0cmlja3kgY2FzZSBpcyB0aGUgdHJ5bG9jayBvbg0K
+PiA+ICAgCQkgKiB0aGUgcmVzdiBvYmplY3Qgd2hpbGUgaG9sZGluZyB0aGUgbHJ1X2xvY2suDQo+
+ID4gICAJCSAqLw0KPiA+IC0JCXNwaW5fbG9jaygmYm8tPmJkZXYtPmxydV9sb2NrKTsNCj4gPiAr
+CQlzcGluX2xvY2soYm8tPmJkZXYtPmxydV9sb2NrKTsNCj4gPiAgIAkJYm8tPmJhc2UucmVzdiA9
+ICZiby0+YmFzZS5fcmVzdjsNCj4gPiAtCQlzcGluX3VubG9jaygmYm8tPmJkZXYtPmxydV9sb2Nr
+KTsNCj4gPiArCQlzcGluX3VubG9jayhiby0+YmRldi0+bHJ1X2xvY2spOw0KPiA+ICAgCX0NCj4g
+Pg0KPiA+ICAgCXJldHVybiByOw0KPiA+IEBAIC0yNTUsNyArMjU1LDcgQEAgc3RhdGljIGludCB0
+dG1fYm9fY2xlYW51cF9yZWZzKHN0cnVjdCB0dG1fYnVmZmVyX29iamVjdA0KPiAqYm8sDQo+ID4N
+Cj4gPiAgIAkJaWYgKHVubG9ja19yZXN2KQ0KPiA+ICAgCQkJZG1hX3Jlc3ZfdW5sb2NrKGJvLT5i
+YXNlLnJlc3YpOw0KPiA+IC0JCXNwaW5fdW5sb2NrKCZiby0+YmRldi0+bHJ1X2xvY2spOw0KPiA+
+ICsJCXNwaW5fdW5sb2NrKGJvLT5iZGV2LT5scnVfbG9jayk7DQo+ID4NCj4gPiAgIAkJbHJldCA9
+IGRtYV9yZXN2X3dhaXRfdGltZW91dChyZXN2LCBETUFfUkVTVl9VU0FHRV9CT09LS0VFUCwNCj4g
+PiAgIAkJCQkJICAgICBpbnRlcnJ1cHRpYmxlLA0KPiA+IEBAIC0yNjYsNyArMjY2LDcgQEAgc3Rh
+dGljIGludCB0dG1fYm9fY2xlYW51cF9yZWZzKHN0cnVjdCB0dG1fYnVmZmVyX29iamVjdA0KPiAq
+Ym8sDQo+ID4gICAJCWVsc2UgaWYgKGxyZXQgPT0gMCkNCj4gPiAgIAkJCXJldHVybiAtRUJVU1k7
+DQo+ID4NCj4gPiAtCQlzcGluX2xvY2soJmJvLT5iZGV2LT5scnVfbG9jayk7DQo+ID4gKwkJc3Bp
+bl9sb2NrKGJvLT5iZGV2LT5scnVfbG9jayk7DQo+ID4gICAJCWlmICh1bmxvY2tfcmVzdiAmJiAh
+ZG1hX3Jlc3ZfdHJ5bG9jayhiby0+YmFzZS5yZXN2KSkgew0KPiA+ICAgCQkJLyoNCj4gPiAgIAkJ
+CSAqIFdlIHJhY2VkLCBhbmQgbG9zdCwgc29tZW9uZSBlbHNlIGhvbGRzIHRoZSByZXNlcnZhdGlv
+bg0KPiBub3csDQo+ID4gQEAgLTI3Niw3ICsyNzYsNyBAQCBzdGF0aWMgaW50IHR0bV9ib19jbGVh
+bnVwX3JlZnMoc3RydWN0IHR0bV9idWZmZXJfb2JqZWN0DQo+ICpibywNCj4gPiAgIAkJCSAqIGRl
+bGF5ZWQgZGVzdHJ1Y3Rpb24gd291bGQgc3VjY2VlZCwgc28ganVzdCByZXR1cm4gc3VjY2Vzcw0K
+PiA+ICAgCQkJICogaGVyZS4NCj4gPiAgIAkJCSAqLw0KPiA+IC0JCQlzcGluX3VubG9jaygmYm8t
+PmJkZXYtPmxydV9sb2NrKTsNCj4gPiArCQkJc3Bpbl91bmxvY2soYm8tPmJkZXYtPmxydV9sb2Nr
+KTsNCj4gPiAgIAkJCXJldHVybiAwOw0KPiA+ICAgCQl9DQo+ID4gICAJCXJldCA9IDA7DQo+ID4g
+QEAgLTI4NSwxMSArMjg1LDExIEBAIHN0YXRpYyBpbnQgdHRtX2JvX2NsZWFudXBfcmVmcyhzdHJ1
+Y3QgdHRtX2J1ZmZlcl9vYmplY3QNCj4gKmJvLA0KPiA+ICAgCWlmIChyZXQpIHsNCj4gPiAgIAkJ
+aWYgKHVubG9ja19yZXN2KQ0KPiA+ICAgCQkJZG1hX3Jlc3ZfdW5sb2NrKGJvLT5iYXNlLnJlc3Yp
+Ow0KPiA+IC0JCXNwaW5fdW5sb2NrKCZiby0+YmRldi0+bHJ1X2xvY2spOw0KPiA+ICsJCXNwaW5f
+dW5sb2NrKGJvLT5iZGV2LT5scnVfbG9jayk7DQo+ID4gICAJCXJldHVybiByZXQ7DQo+ID4gICAJ
+fQ0KPiA+DQo+ID4gLQlzcGluX3VubG9jaygmYm8tPmJkZXYtPmxydV9sb2NrKTsNCj4gPiArCXNw
+aW5fdW5sb2NrKGJvLT5iZGV2LT5scnVfbG9jayk7DQo+ID4gICAJdHRtX2JvX2NsZWFudXBfbWVt
+dHlwZV91c2UoYm8pOw0KPiA+DQo+ID4gICAJaWYgKHVubG9ja19yZXN2KQ0KPiA+IEBAIC0zNTEs
+NyArMzUxLDcgQEAgc3RhdGljIHZvaWQgdHRtX2JvX3JlbGVhc2Uoc3RydWN0IGtyZWYgKmtyZWYp
+DQo+ID4gICAJCQl0dG1fYm9fZmx1c2hfYWxsX2ZlbmNlcyhibyk7DQo+ID4gICAJCQliby0+ZGVs
+ZXRlZCA9IHRydWU7DQo+ID4NCj4gPiAtCQkJc3Bpbl9sb2NrKCZiby0+YmRldi0+bHJ1X2xvY2sp
+Ow0KPiA+ICsJCQlzcGluX2xvY2soYm8tPmJkZXYtPmxydV9sb2NrKTsNCj4gPg0KPiA+ICAgCQkJ
+LyoNCj4gPiAgIAkJCSAqIE1ha2UgcGlubmVkIGJvcyBpbW1lZGlhdGVseSBhdmFpbGFibGUgdG8N
+Cj4gPiBAQCAtMzY3LDcgKzM2Nyw3IEBAIHN0YXRpYyB2b2lkIHR0bV9ib19yZWxlYXNlKHN0cnVj
+dCBrcmVmICprcmVmKQ0KPiA+ICAgCQkJfQ0KPiA+DQo+ID4gICAJCQlrcmVmX2luaXQoJmJvLT5r
+cmVmKTsNCj4gPiAtCQkJc3Bpbl91bmxvY2soJmJvLT5iZGV2LT5scnVfbG9jayk7DQo+ID4gKwkJ
+CXNwaW5fdW5sb2NrKGJvLT5iZGV2LT5scnVfbG9jayk7DQo+ID4NCj4gPiAgIAkJCUlOSVRfV09S
+SygmYm8tPmRlbGF5ZWRfZGVsZXRlLCB0dG1fYm9fZGVsYXllZF9kZWxldGUpOw0KPiA+ICAgCQkJ
+cXVldWVfd29yayhiZGV2LT53cSwgJmJvLT5kZWxheWVkX2RlbGV0ZSk7DQo+ID4gQEAgLTU5OCw3
+ICs1OTgsNyBAQCBpbnQgdHRtX21lbV9ldmljdF9maXJzdChzdHJ1Y3QgdHRtX2RldmljZSAqYmRl
+diwNCj4gPiAgIAlib29sIGxvY2tlZCA9IGZhbHNlOw0KPiA+ICAgCWludCByZXQ7DQo+ID4NCj4g
+PiAtCXNwaW5fbG9jaygmYmRldi0+bHJ1X2xvY2spOw0KPiA+ICsJc3Bpbl9sb2NrKGJkZXYtPmxy
+dV9sb2NrKTsNCj4gPiAgIAl0dG1fcmVzb3VyY2VfbWFuYWdlcl9mb3JfZWFjaF9yZXMobWFuLCAm
+Y3Vyc29yLCByZXMpIHsNCj4gPiAgIAkJYm9vbCBidXN5Ow0KPiA+DQo+ID4gQEAgLTYyMSw3ICs2
+MjEsNyBAQCBpbnQgdHRtX21lbV9ldmljdF9maXJzdChzdHJ1Y3QgdHRtX2RldmljZSAqYmRldiwN
+Cj4gPiAgIAlpZiAoIWJvKSB7DQo+ID4gICAJCWlmIChidXN5X2JvICYmICF0dG1fYm9fZ2V0X3Vu
+bGVzc196ZXJvKGJ1c3lfYm8pKQ0KPiA+ICAgCQkJYnVzeV9ibyA9IE5VTEw7DQo+ID4gLQkJc3Bp
+bl91bmxvY2soJmJkZXYtPmxydV9sb2NrKTsNCj4gPiArCQlzcGluX3VubG9jayhiZGV2LT5scnVf
+bG9jayk7DQo+ID4gICAJCXJldCA9IHR0bV9tZW1fZXZpY3Rfd2FpdF9idXN5KGJ1c3lfYm8sIGN0
+eCwgdGlja2V0KTsNCj4gPiAgIAkJaWYgKGJ1c3lfYm8pDQo+ID4gICAJCQl0dG1fYm9fcHV0KGJ1
+c3lfYm8pOw0KPiA+IEBAIC02MzUsNyArNjM1LDcgQEAgaW50IHR0bV9tZW1fZXZpY3RfZmlyc3Qo
+c3RydWN0IHR0bV9kZXZpY2UgKmJkZXYsDQo+ID4gICAJCXJldHVybiByZXQ7DQo+ID4gICAJfQ0K
+PiA+DQo+ID4gLQlzcGluX3VubG9jaygmYmRldi0+bHJ1X2xvY2spOw0KPiA+ICsJc3Bpbl91bmxv
+Y2soYmRldi0+bHJ1X2xvY2spOw0KPiA+DQo+ID4gICAJcmV0ID0gdHRtX2JvX2V2aWN0KGJvLCBj
+dHgpOw0KPiA+ICAgCWlmIChsb2NrZWQpDQo+ID4gQEAgLTY1OCwxMSArNjU4LDExIEBAIHZvaWQg
+dHRtX2JvX3BpbihzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3QgKmJvKQ0KPiA+ICAgew0KPiA+ICAg
+CWRtYV9yZXN2X2Fzc2VydF9oZWxkKGJvLT5iYXNlLnJlc3YpOw0KPiA+ICAgCVdBUk5fT05fT05D
+RSgha3JlZl9yZWFkKCZiby0+a3JlZikpOw0KPiA+IC0Jc3Bpbl9sb2NrKCZiby0+YmRldi0+bHJ1
+X2xvY2spOw0KPiA+ICsJc3Bpbl9sb2NrKGJvLT5iZGV2LT5scnVfbG9jayk7DQo+ID4gICAJaWYg
+KGJvLT5yZXNvdXJjZSkNCj4gPiAgIAkJdHRtX3Jlc291cmNlX2RlbF9idWxrX21vdmUoYm8tPnJl
+c291cmNlLCBibyk7DQo+ID4gICAJKytiby0+cGluX2NvdW50Ow0KPiA+IC0Jc3Bpbl91bmxvY2so
+JmJvLT5iZGV2LT5scnVfbG9jayk7DQo+ID4gKwlzcGluX3VubG9jayhiby0+YmRldi0+bHJ1X2xv
+Y2spOw0KPiA+ICAgfQ0KPiA+ICAgRVhQT1JUX1NZTUJPTCh0dG1fYm9fcGluKTsNCj4gPg0KPiA+
+IEBAIC02NzksMTEgKzY3OSwxMSBAQCB2b2lkIHR0bV9ib191bnBpbihzdHJ1Y3QgdHRtX2J1ZmZl
+cl9vYmplY3QgKmJvKQ0KPiA+ICAgCWlmIChXQVJOX09OX09OQ0UoIWJvLT5waW5fY291bnQpKQ0K
+PiA+ICAgCQlyZXR1cm47DQo+ID4NCj4gPiAtCXNwaW5fbG9jaygmYm8tPmJkZXYtPmxydV9sb2Nr
+KTsNCj4gPiArCXNwaW5fbG9jayhiby0+YmRldi0+bHJ1X2xvY2spOw0KPiA+ICAgCS0tYm8tPnBp
+bl9jb3VudDsNCj4gPiAgIAlpZiAoYm8tPnJlc291cmNlKQ0KPiA+ICAgCQl0dG1fcmVzb3VyY2Vf
+YWRkX2J1bGtfbW92ZShiby0+cmVzb3VyY2UsIGJvKTsNCj4gPiAtCXNwaW5fdW5sb2NrKCZiby0+
+YmRldi0+bHJ1X2xvY2spOw0KPiA+ICsJc3Bpbl91bmxvY2soYm8tPmJkZXYtPmxydV9sb2NrKTsN
+Cj4gPiAgIH0NCj4gPiAgIEVYUE9SVF9TWU1CT0wodHRtX2JvX3VucGluKTsNCj4gPg0KPiA+IEBA
+IC0xMTU2LDcgKzExNTYsNyBAQCBpbnQgdHRtX2JvX3N3YXBvdXQoc3RydWN0IHR0bV9idWZmZXJf
+b2JqZWN0ICpibywNCj4gc3RydWN0IHR0bV9vcGVyYXRpb25fY3R4ICpjdHgsDQo+ID4gICAJfQ0K
+PiA+DQo+ID4gICAJLyogVE9ETzogQ2xlYW51cCB0aGUgbG9ja2luZyAqLw0KPiA+IC0Jc3Bpbl91
+bmxvY2soJmJvLT5iZGV2LT5scnVfbG9jayk7DQo+ID4gKwlzcGluX3VubG9jayhiby0+YmRldi0+
+bHJ1X2xvY2spOw0KPiA+DQo+ID4gICAJLyoNCj4gPiAgIAkgKiBNb3ZlIHRvIHN5c3RlbSBjYWNo
+ZWQNCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fZGV2aWNlLmMNCj4g
+Yi9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9kZXZpY2UuYw0KPiA+IGluZGV4IDEyMDE0Nzg4YjU5
+NS4uZDE4ZWNhODZlYmQ2IDEwMDY0NA0KPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRt
+X2RldmljZS5jDQo+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fZGV2aWNlLmMNCj4g
+PiBAQCAtMTQ3LDcgKzE0Nyw3IEBAIGludCB0dG1fZGV2aWNlX3N3YXBvdXQoc3RydWN0IHR0bV9k
+ZXZpY2UgKmJkZXYsIHN0cnVjdA0KPiB0dG1fb3BlcmF0aW9uX2N0eCAqY3R4LA0KPiA+ICAgCXVu
+c2lnbmVkIGk7DQo+ID4gICAJaW50IHJldDsNCj4gPg0KPiA+IC0Jc3Bpbl9sb2NrKCZiZGV2LT5s
+cnVfbG9jayk7DQo+ID4gKwlzcGluX2xvY2soYmRldi0+bHJ1X2xvY2spOw0KPiA+ICAgCWZvciAo
+aSA9IFRUTV9QTF9TWVNURU07IGkgPCBUVE1fTlVNX01FTV9UWVBFUzsgKytpKSB7DQo+ID4gICAJ
+CW1hbiA9IHR0bV9tYW5hZ2VyX3R5cGUoYmRldiwgaSk7DQo+ID4gICAJCWlmICghbWFuIHx8ICFt
+YW4tPnVzZV90dCkNCj4gPiBAQCAtMTY5LDcgKzE2OSw3IEBAIGludCB0dG1fZGV2aWNlX3N3YXBv
+dXQoc3RydWN0IHR0bV9kZXZpY2UgKmJkZXYsIHN0cnVjdA0KPiB0dG1fb3BlcmF0aW9uX2N0eCAq
+Y3R4LA0KPiA+ICAgCQkJCXJldHVybiByZXQ7DQo+ID4gICAJCX0NCj4gPiAgIAl9DQo+ID4gLQlz
+cGluX3VubG9jaygmYmRldi0+bHJ1X2xvY2spOw0KPiA+ICsJc3Bpbl91bmxvY2soYmRldi0+bHJ1
+X2xvY2spOw0KPiA+ICAgCXJldHVybiAwOw0KPiA+ICAgfQ0KPiA+ICAgRVhQT1JUX1NZTUJPTCh0
+dG1fZGV2aWNlX3N3YXBvdXQpOw0KPiA+IEBAIC0yMTcsNyArMjE3LDcgQEAgaW50IHR0bV9kZXZp
+Y2VfaW5pdChzdHJ1Y3QgdHRtX2RldmljZSAqYmRldiwgY29uc3Qgc3RydWN0DQo+IHR0bV9kZXZp
+Y2VfZnVuY3MgKmZ1bmMNCj4gPiAgIAkJCQl1c2VfZG1hX2FsbG9jLCB1c2VfZG1hMzIpOw0KPiA+
+DQo+ID4gICAJYmRldi0+dm1hX21hbmFnZXIgPSB2bWFfbWFuYWdlcjsNCj4gPiAtCXNwaW5fbG9j
+a19pbml0KCZiZGV2LT5scnVfbG9jayk7DQo+ID4gKwliZGV2LT5scnVfbG9jayA9ICZkcm0tPmxy
+dV9sb2NrOw0KPiA+ICAgCUlOSVRfTElTVF9IRUFEKCZiZGV2LT5waW5uZWQpOw0KPiA+ICAgCWJk
+ZXYtPmRldl9tYXBwaW5nID0gbWFwcGluZzsNCj4gPiAgIAltdXRleF9sb2NrKCZ0dG1fZ2xvYmFs
+X211dGV4KTsNCj4gPiBAQCAtMjQ0LDExICsyNDQsMTEgQEAgdm9pZCB0dG1fZGV2aWNlX2Zpbmko
+c3RydWN0IHR0bV9kZXZpY2UgKmJkZXYpDQo+ID4gICAJZHJhaW5fd29ya3F1ZXVlKGJkZXYtPndx
+KTsNCj4gPiAgIAlkZXN0cm95X3dvcmtxdWV1ZShiZGV2LT53cSk7DQo+ID4NCj4gPiAtCXNwaW5f
+bG9jaygmYmRldi0+bHJ1X2xvY2spOw0KPiA+ICsJc3Bpbl9sb2NrKGJkZXYtPmxydV9sb2NrKTsN
+Cj4gPiAgIAlmb3IgKGkgPSAwOyBpIDwgVFRNX01BWF9CT19QUklPUklUWTsgKytpKQ0KPiA+ICAg
+CQlpZiAobGlzdF9lbXB0eSgmbWFuLT5scnVbMF0pKQ0KPiA+ICAgCQkJcHJfZGVidWcoIlN3YXAg
+bGlzdCAlZCB3YXMgY2xlYW5cbiIsIGkpOw0KPiA+IC0Jc3Bpbl91bmxvY2soJmJkZXYtPmxydV9s
+b2NrKTsNCj4gPiArCXNwaW5fdW5sb2NrKGJkZXYtPmxydV9sb2NrKTsNCj4gPg0KPiA+ICAgCXR0
+bV9wb29sX2ZpbmkoJmJkZXYtPnBvb2wpOw0KPiA+ICAgCXR0bV9nbG9iYWxfcmVsZWFzZSgpOw0K
+PiA+IEBAIC0yNjAsNyArMjYwLDcgQEAgc3RhdGljIHZvaWQgdHRtX2RldmljZV9jbGVhcl9scnVf
+ZG1hX21hcHBpbmdzKHN0cnVjdA0KPiB0dG1fZGV2aWNlICpiZGV2LA0KPiA+ICAgew0KPiA+ICAg
+CXN0cnVjdCB0dG1fcmVzb3VyY2UgKnJlczsNCj4gPg0KPiA+IC0Jc3Bpbl9sb2NrKCZiZGV2LT5s
+cnVfbG9jayk7DQo+ID4gKwlzcGluX2xvY2soYmRldi0+bHJ1X2xvY2spOw0KPiA+ICAgCXdoaWxl
+ICgocmVzID0gbGlzdF9maXJzdF9lbnRyeV9vcl9udWxsKGxpc3QsIHR5cGVvZigqcmVzKSwgbHJ1
+KSkpIHsNCj4gPiAgIAkJc3RydWN0IHR0bV9idWZmZXJfb2JqZWN0ICpibyA9IHJlcy0+Ym87DQo+
+ID4NCj4gPiBAQCAtMjY5LDE1ICsyNjksMTUgQEAgc3RhdGljIHZvaWQgdHRtX2RldmljZV9jbGVh
+cl9scnVfZG1hX21hcHBpbmdzKHN0cnVjdA0KPiB0dG1fZGV2aWNlICpiZGV2LA0KPiA+ICAgCQkJ
+Y29udGludWU7DQo+ID4NCj4gPiAgIAkJbGlzdF9kZWxfaW5pdCgmcmVzLT5scnUpOw0KPiA+IC0J
+CXNwaW5fdW5sb2NrKCZiZGV2LT5scnVfbG9jayk7DQo+ID4gKwkJc3Bpbl91bmxvY2soYmRldi0+
+bHJ1X2xvY2spOw0KPiA+DQo+ID4gICAJCWlmIChiby0+dHRtKQ0KPiA+ICAgCQkJdHRtX3R0X3Vu
+cG9wdWxhdGUoYm8tPmJkZXYsIGJvLT50dG0pOw0KPiA+DQo+ID4gICAJCXR0bV9ib19wdXQoYm8p
+Ow0KPiA+IC0JCXNwaW5fbG9jaygmYmRldi0+bHJ1X2xvY2spOw0KPiA+ICsJCXNwaW5fbG9jayhi
+ZGV2LT5scnVfbG9jayk7DQo+ID4gICAJfQ0KPiA+IC0Jc3Bpbl91bmxvY2soJmJkZXYtPmxydV9s
+b2NrKTsNCj4gPiArCXNwaW5fdW5sb2NrKGJkZXYtPmxydV9sb2NrKTsNCj4gPiAgIH0NCj4gPg0K
+PiA+ICAgdm9pZCB0dG1fZGV2aWNlX2NsZWFyX2RtYV9tYXBwaW5ncyhzdHJ1Y3QgdHRtX2Rldmlj
+ZSAqYmRldikNCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fcmVzb3Vy
+Y2UuYw0KPiBiL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX3Jlc291cmNlLmMNCj4gPiBpbmRleCA0
+NmZmOWM3NWJiMTIuLjZhZGE3N2Y1MWZiYSAxMDA2NDQNCj4gPiAtLS0gYS9kcml2ZXJzL2dwdS9k
+cm0vdHRtL3R0bV9yZXNvdXJjZS5jDQo+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1f
+cmVzb3VyY2UuYw0KPiA+IEBAIC00OCw3ICs0OCw3IEBAIEVYUE9SVF9TWU1CT0wodHRtX2xydV9i
+dWxrX21vdmVfaW5pdCk7DQo+ID4gICAgKiBAYnVsazogYnVsayBtb3ZlIHN0cnVjdHVyZQ0KPiA+
+ICAgICoNCj4gPiAgICAqIEJ1bGsgbW92ZSBCT3MgdG8gdGhlIExSVSB0YWlsLCBvbmx5IHZhbGlk
+IHRvIHVzZSB3aGVuIGRyaXZlciBtYWtlcyBzdXJlIHRoYXQNCj4gPiAtICogcmVzb3VyY2Ugb3Jk
+ZXIgbmV2ZXIgY2hhbmdlcy4gU2hvdWxkIGJlIGNhbGxlZCB3aXRoICZ0dG1fZGV2aWNlLmxydV9s
+b2NrIGhlbGQuDQo+ID4gKyAqIHJlc291cmNlIG9yZGVyIG5ldmVyIGNoYW5nZXMuIFNob3VsZCBi
+ZSBjYWxsZWQgd2l0aCAmZHJtX2RldmljZS5scnVfbG9jayBoZWxkLg0KPiA+ICAgICovDQo+ID4g
+ICB2b2lkIHR0bV9scnVfYnVsa19tb3ZlX3RhaWwoc3RydWN0IHR0bV9scnVfYnVsa19tb3ZlICpi
+dWxrKQ0KPiA+ICAgew0KPiA+IEBAIC02Miw3ICs2Miw3IEBAIHZvaWQgdHRtX2xydV9idWxrX21v
+dmVfdGFpbChzdHJ1Y3QgdHRtX2xydV9idWxrX21vdmUgKmJ1bGspDQo+ID4gICAJCQlpZiAoIXBv
+cy0+Zmlyc3QpDQo+ID4gICAJCQkJY29udGludWU7DQo+ID4NCj4gPiAtCQkJbG9ja2RlcF9hc3Nl
+cnRfaGVsZCgmcG9zLT5maXJzdC0+Ym8tPmJkZXYtPmxydV9sb2NrKTsNCj4gPiArCQkJbG9ja2Rl
+cF9hc3NlcnRfaGVsZChwb3MtPmZpcnN0LT5iby0+YmRldi0+bHJ1X2xvY2spOw0KPiA+ICAgCQkJ
+ZG1hX3Jlc3ZfYXNzZXJ0X2hlbGQocG9zLT5maXJzdC0+Ym8tPmJhc2UucmVzdik7DQo+ID4gICAJ
+CQlkbWFfcmVzdl9hc3NlcnRfaGVsZChwb3MtPmxhc3QtPmJvLT5iYXNlLnJlc3YpOw0KPiA+DQo+
+ID4gQEAgLTE0OCw3ICsxNDgsNyBAQCB2b2lkIHR0bV9yZXNvdXJjZV9tb3ZlX3RvX2xydV90YWls
+KHN0cnVjdCB0dG1fcmVzb3VyY2UNCj4gKnJlcykNCj4gPiAgIAlzdHJ1Y3QgdHRtX2J1ZmZlcl9v
+YmplY3QgKmJvID0gcmVzLT5ibzsNCj4gPiAgIAlzdHJ1Y3QgdHRtX2RldmljZSAqYmRldiA9IGJv
+LT5iZGV2Ow0KPiA+DQo+ID4gLQlsb2NrZGVwX2Fzc2VydF9oZWxkKCZiby0+YmRldi0+bHJ1X2xv
+Y2spOw0KPiA+ICsJbG9ja2RlcF9hc3NlcnRfaGVsZChiby0+YmRldi0+bHJ1X2xvY2spOw0KPiA+
+DQo+ID4gICAJaWYgKGJvLT5waW5fY291bnQpIHsNCj4gPiAgIAkJbGlzdF9tb3ZlX3RhaWwoJnJl
+cy0+bHJ1LCAmYmRldi0+cGlubmVkKTsNCj4gPiBAQCAtMTkxLDEzICsxOTEsMTMgQEAgdm9pZCB0
+dG1fcmVzb3VyY2VfaW5pdChzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3QgKmJvLA0KPiA+ICAgCXJl
+cy0+Ym8gPSBibzsNCj4gPg0KPiA+ICAgCW1hbiA9IHR0bV9tYW5hZ2VyX3R5cGUoYm8tPmJkZXYs
+IHBsYWNlLT5tZW1fdHlwZSk7DQo+ID4gLQlzcGluX2xvY2soJmJvLT5iZGV2LT5scnVfbG9jayk7
+DQo+ID4gKwlzcGluX2xvY2soYm8tPmJkZXYtPmxydV9sb2NrKTsNCj4gPiAgIAlpZiAoYm8tPnBp
+bl9jb3VudCkNCj4gPiAgIAkJbGlzdF9hZGRfdGFpbCgmcmVzLT5scnUsICZiby0+YmRldi0+cGlu
+bmVkKTsNCj4gPiAgIAllbHNlDQo+ID4gICAJCWxpc3RfYWRkX3RhaWwoJnJlcy0+bHJ1LCAmbWFu
+LT5scnVbYm8tPnByaW9yaXR5XSk7DQo+ID4gICAJbWFuLT51c2FnZSArPSByZXMtPnNpemU7DQo+
+ID4gLQlzcGluX3VubG9jaygmYm8tPmJkZXYtPmxydV9sb2NrKTsNCj4gPiArCXNwaW5fdW5sb2Nr
+KGJvLT5iZGV2LT5scnVfbG9jayk7DQo+ID4gICB9DQo+ID4gICBFWFBPUlRfU1lNQk9MKHR0bV9y
+ZXNvdXJjZV9pbml0KTsNCj4gPg0KPiA+IEBAIC0yMTYsMTAgKzIxNiwxMCBAQCB2b2lkIHR0bV9y
+ZXNvdXJjZV9maW5pKHN0cnVjdCB0dG1fcmVzb3VyY2VfbWFuYWdlcg0KPiAqbWFuLA0KPiA+ICAg
+ew0KPiA+ICAgCXN0cnVjdCB0dG1fZGV2aWNlICpiZGV2ID0gbWFuLT5iZGV2Ow0KPiA+DQo+ID4g
+LQlzcGluX2xvY2soJmJkZXYtPmxydV9sb2NrKTsNCj4gPiArCXNwaW5fbG9jayhiZGV2LT5scnVf
+bG9jayk7DQo+ID4gICAJbGlzdF9kZWxfaW5pdCgmcmVzLT5scnUpOw0KPiA+ICAgCW1hbi0+dXNh
+Z2UgLT0gcmVzLT5zaXplOw0KPiA+IC0Jc3Bpbl91bmxvY2soJmJkZXYtPmxydV9sb2NrKTsNCj4g
+PiArCXNwaW5fdW5sb2NrKGJkZXYtPmxydV9sb2NrKTsNCj4gPiAgIH0NCj4gPiAgIEVYUE9SVF9T
+WU1CT0wodHRtX3Jlc291cmNlX2ZpbmkpOw0KPiA+DQo+ID4gQEAgLTIzNSw5ICsyMzUsOSBAQCBp
+bnQgdHRtX3Jlc291cmNlX2FsbG9jKHN0cnVjdCB0dG1fYnVmZmVyX29iamVjdCAqYm8sDQo+ID4g
+ICAJaWYgKHJldCkNCj4gPiAgIAkJcmV0dXJuIHJldDsNCj4gPg0KPiA+IC0Jc3Bpbl9sb2NrKCZi
+by0+YmRldi0+bHJ1X2xvY2spOw0KPiA+ICsJc3Bpbl9sb2NrKGJvLT5iZGV2LT5scnVfbG9jayk7
+DQo+ID4gICAJdHRtX3Jlc291cmNlX2FkZF9idWxrX21vdmUoKnJlc19wdHIsIGJvKTsNCj4gPiAt
+CXNwaW5fdW5sb2NrKCZiby0+YmRldi0+bHJ1X2xvY2spOw0KPiA+ICsJc3Bpbl91bmxvY2soYm8t
+PmJkZXYtPmxydV9sb2NrKTsNCj4gPiAgIAlyZXR1cm4gMDsNCj4gPiAgIH0NCj4gPg0KPiA+IEBA
+IC0yNDgsOSArMjQ4LDkgQEAgdm9pZCB0dG1fcmVzb3VyY2VfZnJlZShzdHJ1Y3QgdHRtX2J1ZmZl
+cl9vYmplY3QgKmJvLA0KPiBzdHJ1Y3QgdHRtX3Jlc291cmNlICoqcmVzKQ0KPiA+ICAgCWlmICgh
+KnJlcykNCj4gPiAgIAkJcmV0dXJuOw0KPiA+DQo+ID4gLQlzcGluX2xvY2soJmJvLT5iZGV2LT5s
+cnVfbG9jayk7DQo+ID4gKwlzcGluX2xvY2soYm8tPmJkZXYtPmxydV9sb2NrKTsNCj4gPiAgIAl0
+dG1fcmVzb3VyY2VfZGVsX2J1bGtfbW92ZSgqcmVzLCBibyk7DQo+ID4gLQlzcGluX3VubG9jaygm
+Ym8tPmJkZXYtPmxydV9sb2NrKTsNCj4gPiArCXNwaW5fdW5sb2NrKGJvLT5iZGV2LT5scnVfbG9j
+ayk7DQo+ID4gICAJbWFuID0gdHRtX21hbmFnZXJfdHlwZShiby0+YmRldiwgKCpyZXMpLT5tZW1f
+dHlwZSk7DQo+ID4gICAJbWFuLT5mdW5jLT5mcmVlKG1hbiwgKnJlcyk7DQo+ID4gICAJKnJlcyA9
+IE5VTEw7DQo+ID4gQEAgLTM2OCw5ICszNjgsOSBAQCBib29sIHR0bV9yZXNvdXJjZV9jb21wYXQo
+c3RydWN0IHR0bV9yZXNvdXJjZSAqcmVzLA0KPiA+ICAgdm9pZCB0dG1fcmVzb3VyY2Vfc2V0X2Jv
+KHN0cnVjdCB0dG1fcmVzb3VyY2UgKnJlcywNCj4gPiAgIAkJCSBzdHJ1Y3QgdHRtX2J1ZmZlcl9v
+YmplY3QgKmJvKQ0KPiA+ICAgew0KPiA+IC0Jc3Bpbl9sb2NrKCZiby0+YmRldi0+bHJ1X2xvY2sp
+Ow0KPiA+ICsJc3Bpbl9sb2NrKGJvLT5iZGV2LT5scnVfbG9jayk7DQo+ID4gICAJcmVzLT5ibyA9
+IGJvOw0KPiA+IC0Jc3Bpbl91bmxvY2soJmJvLT5iZGV2LT5scnVfbG9jayk7DQo+ID4gKwlzcGlu
+X3VubG9jayhiby0+YmRldi0+bHJ1X2xvY2spOw0KPiA+ICAgfQ0KPiA+DQo+ID4gICAvKioNCj4g
+PiBAQCAtNDI0LDE4ICs0MjQsMTggQEAgaW50IHR0bV9yZXNvdXJjZV9tYW5hZ2VyX2V2aWN0X2Fs
+bChzdHJ1Y3QgdHRtX2RldmljZQ0KPiAqYmRldiwNCj4gPiAgIAkgKiBDYW4ndCB1c2Ugc3RhbmRh
+cmQgbGlzdCB0cmF2ZXJzYWwgc2luY2Ugd2UncmUgdW5sb2NraW5nLg0KPiA+ICAgCSAqLw0KPiA+
+DQo+ID4gLQlzcGluX2xvY2soJmJkZXYtPmxydV9sb2NrKTsNCj4gPiArCXNwaW5fbG9jayhiZGV2
+LT5scnVfbG9jayk7DQo+ID4gICAJZm9yIChpID0gMDsgaSA8IFRUTV9NQVhfQk9fUFJJT1JJVFk7
+ICsraSkgew0KPiA+ICAgCQl3aGlsZSAoIWxpc3RfZW1wdHkoJm1hbi0+bHJ1W2ldKSkgew0KPiA+
+IC0JCQlzcGluX3VubG9jaygmYmRldi0+bHJ1X2xvY2spOw0KPiA+ICsJCQlzcGluX3VubG9jayhi
+ZGV2LT5scnVfbG9jayk7DQo+ID4gICAJCQlyZXQgPSB0dG1fbWVtX2V2aWN0X2ZpcnN0KGJkZXYs
+IG1hbiwgTlVMTCwgJmN0eCwNCj4gPiAgIAkJCQkJCSAgTlVMTCk7DQo+ID4gICAJCQlpZiAocmV0
+KQ0KPiA+ICAgCQkJCXJldHVybiByZXQ7DQo+ID4gLQkJCXNwaW5fbG9jaygmYmRldi0+bHJ1X2xv
+Y2spOw0KPiA+ICsJCQlzcGluX2xvY2soYmRldi0+bHJ1X2xvY2spOw0KPiA+ICAgCQl9DQo+ID4g
+ICAJfQ0KPiA+IC0Jc3Bpbl91bmxvY2soJmJkZXYtPmxydV9sb2NrKTsNCj4gPiArCXNwaW5fdW5s
+b2NrKGJkZXYtPmxydV9sb2NrKTsNCj4gPg0KPiA+ICAgCXNwaW5fbG9jaygmbWFuLT5tb3ZlX2xv
+Y2spOw0KPiA+ICAgCWZlbmNlID0gZG1hX2ZlbmNlX2dldChtYW4tPm1vdmUpOw0KPiA+IEBAIC00
+NjMsOSArNDYzLDkgQEAgdWludDY0X3QgdHRtX3Jlc291cmNlX21hbmFnZXJfdXNhZ2Uoc3RydWN0
+DQo+IHR0bV9yZXNvdXJjZV9tYW5hZ2VyICptYW4pDQo+ID4gICB7DQo+ID4gICAJdWludDY0X3Qg
+dXNhZ2U7DQo+ID4NCj4gPiAtCXNwaW5fbG9jaygmbWFuLT5iZGV2LT5scnVfbG9jayk7DQo+ID4g
+KwlzcGluX2xvY2sobWFuLT5iZGV2LT5scnVfbG9jayk7DQo+ID4gICAJdXNhZ2UgPSBtYW4tPnVz
+YWdlOw0KPiA+IC0Jc3Bpbl91bmxvY2soJm1hbi0+YmRldi0+bHJ1X2xvY2spOw0KPiA+ICsJc3Bp
+bl91bmxvY2sobWFuLT5iZGV2LT5scnVfbG9jayk7DQo+ID4gICAJcmV0dXJuIHVzYWdlOw0KPiA+
+ICAgfQ0KPiA+ICAgRVhQT1JUX1NZTUJPTCh0dG1fcmVzb3VyY2VfbWFuYWdlcl91c2FnZSk7DQo+
+ID4gQEAgLTUwMiw3ICs1MDIsNyBAQCB0dG1fcmVzb3VyY2VfbWFuYWdlcl9maXJzdChzdHJ1Y3QN
+Cj4gdHRtX3Jlc291cmNlX21hbmFnZXIgKm1hbiwNCj4gPiAgIHsNCj4gPiAgIAlzdHJ1Y3QgdHRt
+X3Jlc291cmNlICpyZXM7DQo+ID4NCj4gPiAtCWxvY2tkZXBfYXNzZXJ0X2hlbGQoJm1hbi0+YmRl
+di0+bHJ1X2xvY2spOw0KPiA+ICsJbG9ja2RlcF9hc3NlcnRfaGVsZChtYW4tPmJkZXYtPmxydV9s
+b2NrKTsNCj4gPg0KPiA+ICAgCWZvciAoY3Vyc29yLT5wcmlvcml0eSA9IDA7IGN1cnNvci0+cHJp
+b3JpdHkgPCBUVE1fTUFYX0JPX1BSSU9SSVRZOw0KPiA+ICAgCSAgICAgKytjdXJzb3ItPnByaW9y
+aXR5KQ0KPiA+IEBAIC01MjYsNyArNTI2LDcgQEAgdHRtX3Jlc291cmNlX21hbmFnZXJfbmV4dChz
+dHJ1Y3QNCj4gdHRtX3Jlc291cmNlX21hbmFnZXIgKm1hbiwNCj4gPiAgIAkJCSAgc3RydWN0IHR0
+bV9yZXNvdXJjZV9jdXJzb3IgKmN1cnNvciwNCj4gPiAgIAkJCSAgc3RydWN0IHR0bV9yZXNvdXJj
+ZSAqcmVzKQ0KPiA+ICAgew0KPiA+IC0JbG9ja2RlcF9hc3NlcnRfaGVsZCgmbWFuLT5iZGV2LT5s
+cnVfbG9jayk7DQo+ID4gKwlsb2NrZGVwX2Fzc2VydF9oZWxkKG1hbi0+YmRldi0+bHJ1X2xvY2sp
+Ow0KPiA+DQo+ID4gICAJbGlzdF9mb3JfZWFjaF9lbnRyeV9jb250aW51ZShyZXMsICZtYW4tPmxy
+dVtjdXJzb3ItPnByaW9yaXR5XSwgbHJ1KQ0KPiA+ICAgCQlyZXR1cm4gcmVzOw0KPiA+IGRpZmYg
+LS1naXQgYS9kcml2ZXJzL2dwdS9kcm0veGUveGVfYm8uYyBiL2RyaXZlcnMvZ3B1L2RybS94ZS94
+ZV9iby5jDQo+ID4gaW5kZXggMjVmZGMwNDYyN2NhLi44MjdmNzk4Y2NjYzAgMTAwNjQ0DQo+ID4g
+LS0tIGEvZHJpdmVycy9ncHUvZHJtL3hlL3hlX2JvLmMNCj4gPiArKysgYi9kcml2ZXJzL2dwdS9k
+cm0veGUveGVfYm8uYw0KPiA+IEBAIC05NDYsOSArOTQ2LDkgQEAgc3RhdGljIGJvb2wgeGVfdHRt
+X2JvX2xvY2tfaW5fZGVzdHJ1Y3RvcihzdHJ1Y3QNCj4gdHRtX2J1ZmZlcl9vYmplY3QgKnR0bV9i
+bykNCj4gPiAgIAkgKiB0aGUgdHRtX2JvIHJlZmNvdW50IGlzIHplcm8gYXQgdGhpcyBwb2ludC4g
+U28gdHJ5bG9ja2luZyAqc2hvdWxkKg0KPiA+ICAgCSAqIGFsd2F5cyBzdWNjZWVkIGhlcmUsIGFz
+IGxvbmcgYXMgd2UgaG9sZCB0aGUgbHJ1IGxvY2suDQo+ID4gICAJICovDQo+ID4gLQlzcGluX2xv
+Y2soJnR0bV9iby0+YmRldi0+bHJ1X2xvY2spOw0KPiA+ICsJc3Bpbl9sb2NrKHR0bV9iby0+YmRl
+di0+bHJ1X2xvY2spOw0KPiA+ICAgCWxvY2tlZCA9IGRtYV9yZXN2X3RyeWxvY2sodHRtX2JvLT5i
+YXNlLnJlc3YpOw0KPiA+IC0Jc3Bpbl91bmxvY2soJnR0bV9iby0+YmRldi0+bHJ1X2xvY2spOw0K
+PiA+ICsJc3Bpbl91bmxvY2sodHRtX2JvLT5iZGV2LT5scnVfbG9jayk7DQo+ID4gICAJWEVfV0FS
+Tl9PTighbG9ja2VkKTsNCj4gPg0KPiA+ICAgCXJldHVybiBsb2NrZWQ7DQo+ID4gZGlmZiAtLWdp
+dCBhL2RyaXZlcnMvZ3B1L2RybS94ZS94ZV9leGVjLmMgYi9kcml2ZXJzL2dwdS9kcm0veGUveGVf
+ZXhlYy5jDQo+ID4gaW5kZXggODkwZmFkYjBhOTNlLi5kYWZlYmRmYjIzNjggMTAwNjQ0DQo+ID4g
+LS0tIGEvZHJpdmVycy9ncHUvZHJtL3hlL3hlX2V4ZWMuYw0KPiA+ICsrKyBiL2RyaXZlcnMvZ3B1
+L2RybS94ZS94ZV9leGVjLmMNCj4gPiBAQCAtMzcwLDkgKzM3MCw5IEBAIGludCB4ZV9leGVjX2lv
+Y3RsKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsIHZvaWQgKmRhdGEsDQo+IHN0cnVjdCBkcm1fZmls
+ZSAqZmlsZSkNCj4gPiAgIAl4ZV92bV9yZWFjdGl2YXRlX3JlYmluZCh2bSk7DQo+ID4NCj4gPiAg
+IAlpZiAoIWVyciAmJiAheGVfdm1fbm9fZG1hX2ZlbmNlcyh2bSkpIHsNCj4gPiAtCQlzcGluX2xv
+Y2soJnhlLT50dG0ubHJ1X2xvY2spOw0KPiA+ICsJCXNwaW5fbG9jayh4ZS0+dHRtLmxydV9sb2Nr
+KTsNCj4gPiAgIAkJdHRtX2xydV9idWxrX21vdmVfdGFpbCgmdm0tPmxydV9idWxrX21vdmUpOw0K
+PiA+IC0JCXNwaW5fdW5sb2NrKCZ4ZS0+dHRtLmxydV9sb2NrKTsNCj4gPiArCQlzcGluX3VubG9j
+ayh4ZS0+dHRtLmxydV9sb2NrKTsNCj4gPiAgIAl9DQo+ID4NCj4gPiAgIGVycl9yZXBpbjoNCj4g
+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3hlL3hlX3ZtLmMgYi9kcml2ZXJzL2dwdS9k
+cm0veGUveGVfdm0uYw0KPiA+IGluZGV4IGE2YTBmMTdmZWMxZC4uNDRlMDM4Mjc2ZDQxIDEwMDY0
+NA0KPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS94ZS94ZV92bS5jDQo+ID4gKysrIGIvZHJpdmVy
+cy9ncHUvZHJtL3hlL3hlX3ZtLmMNCj4gPiBAQCAtNjUxLDkgKzY1MSw5IEBAIHN0YXRpYyB2b2lk
+IHByZWVtcHRfcmViaW5kX3dvcmtfZnVuYyhzdHJ1Y3Qgd29ya19zdHJ1Y3QNCj4gKncpDQo+ID4N
+Cj4gPiAgICN1bmRlZiByZXRyeV9yZXF1aXJlZA0KPiA+DQo+ID4gLQlzcGluX2xvY2soJnZtLT54
+ZS0+dHRtLmxydV9sb2NrKTsNCj4gPiArCXNwaW5fbG9jayh2bS0+eGUtPnR0bS5scnVfbG9jayk7
+DQo+ID4gICAJdHRtX2xydV9idWxrX21vdmVfdGFpbCgmdm0tPmxydV9idWxrX21vdmUpOw0KPiA+
+IC0Jc3Bpbl91bmxvY2soJnZtLT54ZS0+dHRtLmxydV9sb2NrKTsNCj4gPiArCXNwaW5fdW5sb2Nr
+KHZtLT54ZS0+dHRtLmxydV9sb2NrKTsNCj4gPg0KPiA+ICAgCS8qIFBvaW50IG9mIG5vIHJldHVy
+bi4gKi8NCj4gPiAgIAlhcm1fcHJlZW1wdF9mZW5jZXModm0sICZwcmVlbXB0X2ZlbmNlcyk7DQo+
+ID4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvZHJtL2RybV9kZXZpY2UuaCBiL2luY2x1ZGUvZHJtL2Ry
+bV9kZXZpY2UuaA0KPiA+IGluZGV4IDdjZjRhZmFlMmU3OS4uZDBiNWY0Mjc4NmJlIDEwMDY0NA0K
+PiA+IC0tLSBhL2luY2x1ZGUvZHJtL2RybV9kZXZpY2UuaA0KPiA+ICsrKyBiL2luY2x1ZGUvZHJt
+L2RybV9kZXZpY2UuaA0KPiA+IEBAIC0zMjYsNiArMzI2LDExIEBAIHN0cnVjdCBkcm1fZGV2aWNl
+IHsNCj4gPiAgIAkgKi8NCj4gPiAgIAlzdHJ1Y3QgbGlzdF9oZWFkIGRlYnVnZnNfbGlzdDsNCj4g
+Pg0KPiA+ICsJLyoqDQo+ID4gKwkgKiBAbHJ1X2xvY2s6IFByb3RlY3Rpb24gZm9yIHRoZSBwZXIg
+bWFuYWdlciBMUlUgYW5kIGRlc3Ryb3kgbGlzdHMuDQo+ID4gKwkgKi8NCj4gPiArCXNwaW5sb2Nr
+X3QgbHJ1X2xvY2s7DQo+ID4gKw0KPiA+ICAgCS8qIEV2ZXJ5dGhpbmcgYmVsb3cgaGVyZSBpcyBm
+b3IgbGVnYWN5IGRyaXZlciwgbmV2ZXIgdXNlISAqLw0KPiA+ICAgCS8qIHByaXZhdGU6ICovDQo+
+ID4gICAjaWYgSVNfRU5BQkxFRChDT05GSUdfRFJNX0xFR0FDWSkNCj4gPiBkaWZmIC0tZ2l0IGEv
+aW5jbHVkZS9kcm0vdHRtL3R0bV9iby5oIGIvaW5jbHVkZS9kcm0vdHRtL3R0bV9iby5oDQo+ID4g
+aW5kZXggMDIyM2E0MWE2NGIyLi40OWYzMmRmMzIyMDQgMTAwNjQ0DQo+ID4gLS0tIGEvaW5jbHVk
+ZS9kcm0vdHRtL3R0bV9iby5oDQo+ID4gKysrIGIvaW5jbHVkZS9kcm0vdHRtL3R0bV9iby5oDQo+
+ID4gQEAgLTI5MCw5ICsyOTAsOSBAQCB2b2lkIHR0bV9ib19tb3ZlX3RvX2xydV90YWlsKHN0cnVj
+dCB0dG1fYnVmZmVyX29iamVjdA0KPiAqYm8pOw0KPiA+ICAgc3RhdGljIGlubGluZSB2b2lkDQo+
+ID4gICB0dG1fYm9fbW92ZV90b19scnVfdGFpbF91bmxvY2tlZChzdHJ1Y3QgdHRtX2J1ZmZlcl9v
+YmplY3QgKmJvKQ0KPiA+ICAgew0KPiA+IC0Jc3Bpbl9sb2NrKCZiby0+YmRldi0+bHJ1X2xvY2sp
+Ow0KPiA+ICsJc3Bpbl9sb2NrKGJvLT5iZGV2LT5scnVfbG9jayk7DQo+ID4gICAJdHRtX2JvX21v
+dmVfdG9fbHJ1X3RhaWwoYm8pOw0KPiA+IC0Jc3Bpbl91bmxvY2soJmJvLT5iZGV2LT5scnVfbG9j
+ayk7DQo+ID4gKwlzcGluX3VubG9jayhiby0+YmRldi0+bHJ1X2xvY2spOw0KPiA+ICAgfQ0KPiA+
+DQo+ID4gICBzdGF0aWMgaW5saW5lIHZvaWQgdHRtX2JvX2Fzc2lnbl9tZW0oc3RydWN0IHR0bV9i
+dWZmZXJfb2JqZWN0ICpibywNCj4gPiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9kcm0vdHRtL3R0bV9k
+ZXZpY2UuaCBiL2luY2x1ZGUvZHJtL3R0bS90dG1fZGV2aWNlLmgNCj4gPiBpbmRleCBiYWI4Njhk
+NTUzODMuLjRkMjllOTZiZDg5MiAxMDA2NDQNCj4gPiAtLS0gYS9pbmNsdWRlL2RybS90dG0vdHRt
+X2RldmljZS5oDQo+ID4gKysrIGIvaW5jbHVkZS9kcm0vdHRtL3R0bV9kZXZpY2UuaA0KPiA+IEBA
+IC0yNDgsOSArMjQ4LDkgQEAgc3RydWN0IHR0bV9kZXZpY2Ugew0KPiA+ICAgCXN0cnVjdCB0dG1f
+cG9vbCBwb29sOw0KPiA+DQo+ID4gICAJLyoqDQo+ID4gLQkgKiBAbHJ1X2xvY2s6IFByb3RlY3Rp
+b24gZm9yIHRoZSBwZXIgbWFuYWdlciBMUlUgYW5kIGRkZXN0cm95IGxpc3RzLg0KPiA+ICsJICog
+QGxydV9sb2NrOiBXZWFrIHJlZmVyZW5jZSB0byBkcm1fZGV2aWNlOjpscnVfbG9jay4NCj4gPiAg
+IAkgKi8NCj4gPiAtCXNwaW5sb2NrX3QgbHJ1X2xvY2s7DQo+ID4gKwlzcGlubG9ja190ICpscnVf
+bG9jazsNCj4gPg0KPiA+ICAgCS8qKg0KPiA+ICAgCSAqIEBwaW5uZWQ6IEJ1ZmZlciBvYmplY3Rz
+IHdoaWNoIGFyZSBwaW5uZWQgYW5kIHNvIG5vdCBvbiBhbnkgTFJVIGxpc3QuDQoNCg==
