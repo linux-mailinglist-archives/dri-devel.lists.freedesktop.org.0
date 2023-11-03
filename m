@@ -2,57 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 444437E0514
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Nov 2023 15:56:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE91D7E0535
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Nov 2023 16:02:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6754010EA0B;
-	Fri,  3 Nov 2023 14:56:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D811F10EA11;
+	Fri,  3 Nov 2023 15:02:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4056110EA0B
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Nov 2023 14:56:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1699023360;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=UjCQ+cV1FMoNtEIcekeTt13h853smglKWWCY/L1jeEI=;
- b=IxBOjf3xDgZwR4+uLoxP/iGHvaq87zXbgzsx1l/ybPYyVdwseQUjCeEQ+Bnp21qQ0kvA7R
- lGcmXOVuV6YXujlw3XM39wMsEM9/jXk7Ip3M2bhcDYzo02wRRykvufpj2gi/pNKYOl/1MZ
- On99eczQsrZSmMXvzpfNzxfTKDXAwdo=
-Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
- by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-670-jcSCvDgJM6y3ziNnqunSUg-1; Fri,
- 03 Nov 2023 10:55:56 -0400
-X-MC-Unique: jcSCvDgJM6y3ziNnqunSUg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E15B51C0CCA9;
- Fri,  3 Nov 2023 14:55:55 +0000 (UTC)
-Received: from hydra.redhat.com (unknown [10.39.193.253])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 47D841C060BA;
- Fri,  3 Nov 2023 14:55:54 +0000 (UTC)
-From: Jocelyn Falempe <jfalempe@redhat.com>
-To: dri-devel@lists.freedesktop.org, tzimmermann@suse.de, airlied@redhat.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, daniel@ffwll.ch,
- javierm@redhat.com, bluescreen_avenger@verizon.net, noralf@tronnes.org
-Subject: [PATCH v5 6/6] drm/imx: Add drm_panic support
-Date: Fri,  3 Nov 2023 15:53:30 +0100
-Message-ID: <20231103145526.628138-7-jfalempe@redhat.com>
-In-Reply-To: <20231103145526.628138-1-jfalempe@redhat.com>
-References: <20231103145526.628138-1-jfalempe@redhat.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B2CA10EA0F
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Nov 2023 15:02:40 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 3A3Cx5YU004204; Fri, 3 Nov 2023 15:02:21 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=09GQcEKHjDsKrItqZTo4C9CPd4HpuD7WEFjXGdy+A8k=;
+ b=RZ3prD7BawWpSAvkeGrwUX0X2+I3KP6cxyfFBtYT8+TFUevRuLekeWulMM2/SH2cxgn1
+ 9G6HUO9YCyPbWT53U9IXRcedEngs/MdfF+BluuElT3HQ+v9TMwns8h5qGwxYEDuRQ2eP
+ /uHWI+sSDJuFT3TJSK7H0PUunVwEyyZnAYeltc/IRz6dXYQ0cn6vxHbUq72/YpIv6usu
+ 4UBa4Apxe4DL3kHlzGlboS/RLJO/nrBaypCJKMKRdqBjl4ciRFT42y758C3mFegPSihn
+ F3aaz901VPHjaz54iUMNxXdrxnxdkog6ec10zA665RnmdkumEESw2g27yeZuU8SDVfjQ fA== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3u4yk0rfk9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 03 Nov 2023 15:02:20 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3A3F2KqT001997
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 3 Nov 2023 15:02:20 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Fri, 3 Nov
+ 2023 08:02:19 -0700
+Message-ID: <317ff41e-f19d-5f46-52f7-ca40b1026176@quicinc.com>
+Date: Fri, 3 Nov 2023 09:02:18 -0600
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.7
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH] accel/qaic: Quiet array bounds check on DMA abort message
+Content-Language: en-US
+To: <quic_carlv@quicinc.com>, <quic_pkanojiy@quicinc.com>,
+ <stanislaw.gruszka@linux.intel.com>, <ogabbay@kernel.org>
+References: <20231027180810.4873-1-quic_jhugo@quicinc.com>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <20231027180810.4873-1-quic_jhugo@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: FVeENaWMQWnMHc5Niw-PF7NiDOqxtwU4
+X-Proofpoint-GUID: FVeENaWMQWnMHc5Niw-PF7NiDOqxtwU4
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-03_14,2023-11-02_03,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015
+ priorityscore=1501 mlxscore=0 spamscore=0 malwarescore=0 suspectscore=0
+ impostorscore=0 mlxlogscore=937 bulkscore=0 lowpriorityscore=0
+ adultscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2310240000 definitions=main-2311030127
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,84 +83,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: gpiccoli@igalia.com, Jocelyn Falempe <jfalempe@redhat.com>
+Cc: linux-arm-msm@vger.kernel.org, kernel test robot <lkp@intel.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Proof of concept to add drm_panic support on an arm based GPU.
-I've tested it with X11/llvmpipe, because I wasn't able to have
-3d rendering with etnaviv on my imx6 board.
+On 10/27/2023 12:08 PM, Jeffrey Hugo wrote:
+> From: Carl Vanderlip <quic_carlv@quicinc.com>
+> 
+> Current wrapper is right-sized to the message being transferred;
+> however, this is smaller than the structure defining message wrappers
+> since the trailing element is a union of message/transfer headers of
+> various sizes (8 and 32 bytes on 32-bit system where issue was
+> reported). Using the smaller header with a small message
+> (wire_trans_dma_xfer is 24 bytes including header) ends up being smaller
+> than a wrapper with the larger header. There are no accesses outside of
+> the defined size, however they are possible if the larger union member
+> is referenced.
+> 
+> Abort messages are outside of hot-path and changing the wrapper struct
+> would require a larger rewrite, so having the memory allocated to the
+> message be 8 bytes too big is acceptable.
+> 
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202310182253.bcb9JcyJ-lkp@intel.com/
+> Signed-off-by: Carl Vanderlip <quic_carlv@quicinc.com>
+> Reviewed-by: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
+> Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
 
-Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
----
- drivers/gpu/drm/imx/ipuv3/imx-drm-core.c | 30 ++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
+Pushed to drm-misc-next
 
-diff --git a/drivers/gpu/drm/imx/ipuv3/imx-drm-core.c b/drivers/gpu/drm/imx/ipuv3/imx-drm-core.c
-index 4a866ac60fff..db24b4976c61 100644
---- a/drivers/gpu/drm/imx/ipuv3/imx-drm-core.c
-+++ b/drivers/gpu/drm/imx/ipuv3/imx-drm-core.c
-@@ -10,6 +10,7 @@
- #include <linux/dma-buf.h>
- #include <linux/module.h>
- #include <linux/platform_device.h>
-+#include <linux/iosys-map.h>
- 
- #include <video/imx-ipu-v3.h>
- 
-@@ -17,9 +18,12 @@
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_drv.h>
- #include <drm/drm_fbdev_dma.h>
-+#include <drm/drm_fb_dma_helper.h>
-+#include <drm/drm_framebuffer.h>
- #include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_managed.h>
-+#include <drm/drm_panic.h>
- #include <drm/drm_of.h>
- #include <drm/drm_probe_helper.h>
- #include <drm/drm_vblank.h>
-@@ -160,6 +164,31 @@ static int imx_drm_dumb_create(struct drm_file *file_priv,
- 	return ret;
- }
- 
-+static int imx_drm_get_scanout_buffer(struct drm_device *dev,
-+				      struct drm_scanout_buffer *sb)
-+{
-+	struct drm_plane *plane;
-+	struct drm_gem_dma_object *dma_obj;
-+
-+	drm_for_each_plane(plane, dev) {
-+		if (!plane->state || !plane->state->fb || !plane->state->visible ||
-+		    plane->type != DRM_PLANE_TYPE_PRIMARY)
-+			continue;
-+
-+		dma_obj = drm_fb_dma_get_gem_obj(plane->state->fb, 0);
-+		if (!dma_obj->vaddr)
-+			continue;
-+
-+		iosys_map_set_vaddr(&sb->map, dma_obj->vaddr);
-+		sb->format = plane->state->fb->format;
-+		sb->height = plane->state->fb->height;
-+		sb->width = plane->state->fb->width;
-+		sb->pitch = plane->state->fb->pitches[0];
-+		return 0;
-+	}
-+	return -ENODEV;
-+}
-+
- static const struct drm_driver imx_drm_driver = {
- 	.driver_features	= DRIVER_MODESET | DRIVER_GEM | DRIVER_ATOMIC,
- 	DRM_GEM_DMA_DRIVER_OPS_WITH_DUMB_CREATE(imx_drm_dumb_create),
-@@ -172,6 +201,7 @@ static const struct drm_driver imx_drm_driver = {
- 	.major			= 1,
- 	.minor			= 0,
- 	.patchlevel		= 0,
-+	.get_scanout_buffer	= imx_drm_get_scanout_buffer,
- };
- 
- static int compare_of(struct device *dev, void *data)
--- 
-2.41.0
-
+-Jeff
