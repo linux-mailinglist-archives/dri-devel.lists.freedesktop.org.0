@@ -2,69 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCB277E0615
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Nov 2023 17:02:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 908B77E061B
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Nov 2023 17:03:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 22CCC89209;
-	Fri,  3 Nov 2023 16:02:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 380CB10EA24;
+	Fri,  3 Nov 2023 16:03:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
- [IPv6:2a00:1450:4864:20::636])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 260A389209
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Nov 2023 16:02:49 +0000 (UTC)
-Received: by mail-ej1-x636.google.com with SMTP id
- a640c23a62f3a-9adb9fa7200so447697566b.0
- for <dri-devel@lists.freedesktop.org>; Fri, 03 Nov 2023 09:02:49 -0700 (PDT)
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
+ [IPv6:2a00:1450:4864:20::62f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B487D10EA25
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Nov 2023 16:03:13 +0000 (UTC)
+Received: by mail-ej1-x62f.google.com with SMTP id
+ a640c23a62f3a-9d267605ceeso330001866b.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 Nov 2023 09:03:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1699027366; x=1699632166;
+ d=chromium.org; s=google; t=1699027389; x=1699632189;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=griz2BFiZEJVkDOK8xMpjXUbb64ilzQ2lF7lpZbQxN0=;
- b=VSnunqm5X3AeknWapP+NMz2TgEllWjS1AsxGjTsx7ssb55gb6BUwCrjIc14MIEXG1s
- /s1vWUDQaeSq0N5956w7V+EA/PQIpgd4zZD2czf3T1W3MMDofsfIqlA2hwiHz1Szots7
- JCP2ORUnSRe4qU19fZqWTRGkT0ZWaRnJbesBA=
+ bh=ihGdFd0nqrzmFvEDZxhHQ2+8zpelaN2AcwyF1dKV48M=;
+ b=mePme2KvQVOfRutQiNeMQgDN3U8q+8lS+A0UdKN/1GoVP5fyTU74gFnY0/0yQGL9ws
+ hCpUXiz09M5QHbyerWwKwZvqnU3dY809Iwvib//IeYSG0C2uo/QrgyC8cCgMg9K0TVOb
+ hRUGsSBwssTcYWjAH7O/+AUTJZS6Eek0oUAns=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699027366; x=1699632166;
+ d=1e100.net; s=20230601; t=1699027389; x=1699632189;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=griz2BFiZEJVkDOK8xMpjXUbb64ilzQ2lF7lpZbQxN0=;
- b=SgEmxbrxF5inqhRBimU5sjPKvQ+w9JoW77xLyhFjIeVjVFCsgts19ccpxqPhPhVh6D
- cc4QWy74WzGPRnw/FxiTr8p1Ly2YsAFu/nSuVeMkMX4nRwDdiBrcFLEn5omI5jUtpjWz
- GS37Xp2hTcHa/cu6QEYRO7Wa5k+Tzlpu8CxbClUSTCuMaQ1juSbWeeDt33kM+L7SYxyG
- Ta7yLPQIfg0oxoaJe3pecNn1Eac0jKnB+2LClxkDJMzNdaOduo7eRLod4Jd5XbUvJoW6
- 9Vw3H9WlZbHPhHlosk3tFGs7M3MxOcmXBA0PGpsT2a5/bSJgf3WCAUy0VA2Yu3P+sszP
- hN8g==
-X-Gm-Message-State: AOJu0YwDNw0c1LS4a+bZhEGp77iRtokvP44cGULiLdi9nD6l/elLIx6Y
- XUh6OgVIx2OKtjgciXpXsh7ZrR54ILyL70EyP1j1DOJt
-X-Google-Smtp-Source: AGHT+IEXWJ8XUz/WLcXuUvXVQYRIcNm0L4n1sJK3qVLEDF9WqxBL7OEHtR10EJMCejZFHbAwnUYh6w==
-X-Received: by 2002:a17:906:af89:b0:9b2:b37d:17ff with SMTP id
- mj9-20020a170906af8900b009b2b37d17ffmr2359111ejb.19.1699027366415; 
- Fri, 03 Nov 2023 09:02:46 -0700 (PDT)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com.
- [209.85.128.41]) by smtp.gmail.com with ESMTPSA id
- uz12-20020a170907118c00b0099bcd1fa5b0sm1041308ejb.192.2023.11.03.09.02.45
+ bh=ihGdFd0nqrzmFvEDZxhHQ2+8zpelaN2AcwyF1dKV48M=;
+ b=BMK3K+NmYSPJBCm05bCtOzih2cIRa/8FrStGIxwJGDYlyp3HEczRjQ9T9ggR+2QrBN
+ 4NGn5xdbi7Gxpj/pRMvAmnx6U1oKZqYrhROQ2i+x1mxmKadK23VnpHwZ9PEXeprshXW1
+ IVwKqI/2z4GOnTY4B4VrxyEU7IglHDg4I09ch5ChmgOYqdPtHQerocYBHhpnavaKcrrS
+ pJn3FJpZf+nfM6jZF7r0BXvbfeoHahDiH7oKIAjXohUjFrCB0IJrt8v035uw8K5v3S9B
+ O/gOPDhw/tp+G8jtJUdjyKjsF8/SBsaI8pawkMvdcdSpN0NdTRokHytxbYss3vvWDNYp
+ iiBA==
+X-Gm-Message-State: AOJu0YwR7SYUEMYYa3q8B3IuLTHSpMXZeDlq9Bs84I30y6CMeioEmnaW
+ UcAT0Rb1/0Kd3TZMdwJioGUs0uJsndnxP0crNngtEfz5
+X-Google-Smtp-Source: AGHT+IGQMSBtci4Q6Aw/qWXCfVujhRy0O1SQ9UveC4dscX+yVTVTVwVvCfkR0NBft/35ktRnm+6e6Q==
+X-Received: by 2002:a17:907:96a5:b0:9c7:5a01:ffe7 with SMTP id
+ hd37-20020a17090796a500b009c75a01ffe7mr7101964ejc.12.1699027389604; 
+ Fri, 03 Nov 2023 09:03:09 -0700 (PDT)
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com.
+ [209.85.208.44]) by smtp.gmail.com with ESMTPSA id
+ dc25-20020a170906c7d900b009cc6323fe5asm1044455ejb.134.2023.11.03.09.03.08
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 03 Nov 2023 09:02:45 -0700 (PDT)
-Received: by mail-wm1-f41.google.com with SMTP id
- 5b1f17b1804b1-4078fe6a063so72605e9.1
- for <dri-devel@lists.freedesktop.org>; Fri, 03 Nov 2023 09:02:45 -0700 (PDT)
-X-Received: by 2002:a05:600c:1c26:b0:404:74f8:f47c with SMTP id
- j38-20020a05600c1c2600b0040474f8f47cmr179376wms.5.1699027365615; Fri, 03 Nov
- 2023 09:02:45 -0700 (PDT)
+ Fri, 03 Nov 2023 09:03:08 -0700 (PDT)
+Received: by mail-ed1-f44.google.com with SMTP id
+ 4fb4d7f45d1cf-54366bb1c02so11883a12.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 Nov 2023 09:03:08 -0700 (PDT)
+X-Received: by 2002:a05:6402:254b:b0:543:faac:e135 with SMTP id
+ l11-20020a056402254b00b00543faace135mr229008edb.3.1699027387964; Fri, 03 Nov
+ 2023 09:03:07 -0700 (PDT)
 MIME-Version: 1.0
 References: <20231102221309.1971910-1-hsinyi@chromium.org>
- <20231102221309.1971910-4-hsinyi@chromium.org>
-In-Reply-To: <20231102221309.1971910-4-hsinyi@chromium.org>
+ <20231102221309.1971910-5-hsinyi@chromium.org>
+In-Reply-To: <20231102221309.1971910-5-hsinyi@chromium.org>
 From: Doug Anderson <dianders@chromium.org>
-Date: Fri, 3 Nov 2023 09:02:33 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=VUNdSzppccDO=y0iu_QR8nEe3poRLMmWvFMfZsnWZo4A@mail.gmail.com>
-Message-ID: <CAD=FV=VUNdSzppccDO=y0iu_QR8nEe3poRLMmWvFMfZsnWZo4A@mail.gmail.com>
-Subject: Re: [PATCH v2 3/4] drm/modes: Add a function to clear preferred modes
+Date: Fri, 3 Nov 2023 09:02:55 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=XEnk1TuWsJB6W5PGisg3_0A3HZMGpxEUrtcDxXK=Z+Eg@mail.gmail.com>
+Message-ID: <CAD=FV=XEnk1TuWsJB6W5PGisg3_0A3HZMGpxEUrtcDxXK=Z+Eg@mail.gmail.com>
+Subject: Re: [PATCH v2 4/4] drm/panel-edp: Choose correct preferred mode
 To: Hsin-Yi Wang <hsinyi@chromium.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -92,28 +92,28 @@ Hi,
 On Thu, Nov 2, 2023 at 3:13=E2=80=AFPM Hsin-Yi Wang <hsinyi@chromium.org> w=
 rote:
 >
-> Add a function to clear the preferred bit of a connector's existing modes=
-.
-> This is useful for edp panel to unset the preferred modes read from edid
-> if the panel has hard-coded modes.
+> If a non generic edp-panel is under aux-bus, the mode read from edid woul=
+d
+> still be selected as preferred and results in multiple preferred modes,
+> which is ambiguous.
+>
+> If a hard-coded mode is present, unset the preferred bit of the modes rea=
+d
+> from edid.
 >
 > Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
 > ---
-> v1->v2:
-> - fix doc string (reported by kernel test robot).
-> - split mode and panel patches.
+> v1->v2: split patches from drm_modes.
 > ---
->  drivers/gpu/drm/drm_modes.c | 16 ++++++++++++++++
->  include/drm/drm_modes.h     |  1 +
->  2 files changed, 17 insertions(+)
-
-This seems fine to me.
+>  drivers/gpu/drm/panel/panel-edp.c | 7 +++++--
+>  1 file changed, 5 insertions(+), 2 deletions(-)
 
 Reviewed-by: Douglas Anderson <dianders@chromium.org>
 
-Since it introduces a new API to the core and Hsin-Yi and I work
-directly together, I'd probably give this ~2 weeks on the list before
-landing so there is adequate time for people to comment. That'll be
-right in the middle of Plumbers, though, so it might be more like 3
-weeks. If someone non-ChromeOS wants to review and/or apply sooner, I
-certainly wouldn't object.
+Do you think this should have a "Fixes?" As per discussion on V1 [1],
+this has probably been a bit broken from the beginning, though I guess
+it only became a big deal after the AUX bus made it so that the panel
+driver commonly had the EDID...
+
+[1] https://lore.kernel.org/r/CAD=3DFV=3DWHzCdiYumsxUm_am+ALqq9SOOrjf=3DJYH=
+qJuiKFB+Dnsw@mail.gmail.com
