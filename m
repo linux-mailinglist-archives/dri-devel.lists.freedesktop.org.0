@@ -2,51 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E73E47DFDFE
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Nov 2023 03:33:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2829C7DFE08
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Nov 2023 03:42:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EFBD610E36B;
-	Fri,  3 Nov 2023 02:33:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4139910E36A;
+	Fri,  3 Nov 2023 02:42:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 45BB910E36B;
- Fri,  3 Nov 2023 02:33:16 +0000 (UTC)
-X-UUID: a1b81360ae14479ebb8ae7d3bb98ee0b-20231103
-X-CID-O-RULE: Release_Ham
-X-CID-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.32, REQID:6ab78e64-c05c-4841-bd7d-646fd518aa52, IP:10,
- URL:0,TC:0,Content:-5,EDM:0,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,ACT
- ION:release,TS:-10
-X-CID-INFO: VERSION:1.1.32, REQID:6ab78e64-c05c-4841-bd7d-646fd518aa52, IP:10,
- UR
- L:0,TC:0,Content:-5,EDM:0,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
- N:release,TS:-10
-X-CID-META: VersionHash:5f78ec9, CLOUDID:38acf594-10ce-4e4b-85c2-c9b5229ff92b,
- B
- ulkID:231103103311LO8N2NZS,BulkQuantity:0,Recheck:0,SF:66|24|17|19|44|102,
- TC:nil,Content:0,EDM:-3,IP:-2,URL:1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
- ,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR, TF_CID_SPAM_FAS, TF_CID_SPAM_FSD,
- TF_CID_SPAM_FSI, TF_CID_SPAM_ULS
-X-UUID: a1b81360ae14479ebb8ae7d3bb98ee0b-20231103
-X-User: chentao@kylinos.cn
-Received: from vt.. [(116.128.244.171)] by mailgw
- (envelope-from <chentao@kylinos.cn>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 885977007; Fri, 03 Nov 2023 10:33:08 +0800
-From: Kunwu Chan <chentao@kylinos.cn>
-To: tvrtko.ursulin@linux.intel.com
-Subject: [PATCH v2] drm/i915: Fix potential spectre vulnerability
-Date: Fri,  3 Nov 2023 10:32:57 +0800
-Message-Id: <20231103023257.58199-1-chentao@kylinos.cn>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <d300506c-ab82-4cc1-b750-61e54ec2ad9e@linux.intel.com>
-References: <d300506c-ab82-4cc1-b750-61e54ec2ad9e@linux.intel.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF9D010E36A
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Nov 2023 02:41:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1698979318;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=ny2ZFzxeENDJSTZ9wCuQplKwvwWNLKdmgqeowZjx4K4=;
+ b=LtFA0Oea52fDhxpf5qOEy7qaZAxG1xIQYWMxHsDUtb0B5/eTro8pqrmwVp5DZZ4pXBUKoD
+ A/QgFaStnvSgfnwCXmXKLrgXceyMvYw6xevdmkXMBAx741CCp9P03TnO1GUpcLW5O7vMxr
+ BkSjjO/KoJLxdSL5MZzucjeH7RfgF0Y=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-52-ZGKbiYGXMWyQS6905mq0FQ-1; Thu, 02 Nov 2023 22:41:54 -0400
+X-MC-Unique: ZGKbiYGXMWyQS6905mq0FQ-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ a640c23a62f3a-9d2ab03a586so113026666b.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 02 Nov 2023 19:41:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1698979313; x=1699584113;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=ny2ZFzxeENDJSTZ9wCuQplKwvwWNLKdmgqeowZjx4K4=;
+ b=l6Hd/jgQ9HmHqkHCgAnURnit/IyZWzBo9i8kQL/CLf9b2/Eg9ADCyilQUJwudRP97/
+ 5FUsfLmn6hiRDnLKuCzDlkGAvRAwhlSYhcyCzine2XDN1JR67f6DYTkXZIQrK4BR6Hj/
+ AGHbJjfckJf6Zl/rbVxkV3mM3l6a88rgwdISuPYGJKx2szf2m2EpIw4JI3/rnc3zvu0U
+ Jf/bAuq4wibjwKpiyj9O800IDu2DGpp5KwXkOH4ToCk9AptNXH9HUSaNT8nzogCfIUNT
+ el2bGqg0Em2Ou6oyyhE3iHZzwHQqgaED3CS0ocdRjuDVZ8ie3qHBBWvNq4OrtjdI5Ms3
+ TBHQ==
+X-Gm-Message-State: AOJu0YxtgDFPqdQTmmDtSpb2mexZ8d7MQ8gMiwv5eHFCXDcTgLpO+wmA
+ zJuzo6V9D3LURQyCYnoasG80hxzIf9V/rgvFbTBgoVljZmB97g3FCUWzk0o6ElQbIRomi09yzgM
+ i14Rb1tssNs3pnBN+9bCJpCDEibEA
+X-Received: by 2002:a17:907:2d28:b0:9bf:697b:8f44 with SMTP id
+ gs40-20020a1709072d2800b009bf697b8f44mr6733367ejc.6.1698979313485; 
+ Thu, 02 Nov 2023 19:41:53 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFj8ItR6ARgpxLWW8ZXsFRD1AjDYC8gptOiYDscDMcYxWPb9yjdvJ+NcwTXCgSU6cBODiLLHQ==
+X-Received: by 2002:a17:907:2d28:b0:9bf:697b:8f44 with SMTP id
+ gs40-20020a1709072d2800b009bf697b8f44mr6733360ejc.6.1698979313220; 
+ Thu, 02 Nov 2023 19:41:53 -0700 (PDT)
+Received: from cassiopeiae.. ([2a02:810d:4b3f:de9c:642:1aff:fe31:a19f])
+ by smtp.gmail.com with ESMTPSA id
+ o18-20020a1709061b1200b009b8a4f9f20esm366691ejg.102.2023.11.02.19.41.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 02 Nov 2023 19:41:52 -0700 (PDT)
+From: Danilo Krummrich <dakr@redhat.com>
+To: nouveau@lists.freedesktop.org,
+	faith@gfxstrand.net
+Subject: [PATCH] drm/nouveau/gr/gf100-: unlock mutex failing to create golden
+ context
+Date: Fri,  3 Nov 2023 03:41:06 +0100
+Message-ID: <20231103024119.15031-1-dakr@redhat.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,41 +82,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: robdclark@chromium.org, andi.shyti@linux.intel.com, chentao@kylinos.cn,
- kunwu.chan@hotmail.com, jonathan.cavitt@intel.com,
- intel-gfx@lists.freedesktop.org, alan.previn.teres.alexis@intel.com,
- linux-kernel@vger.kernel.org, chris.p.wilson@intel.com,
- dri-devel@lists.freedesktop.org, andrzej.hajda@intel.com,
- rodrigo.vivi@intel.com, stable@vger.kernel.org
+Cc: kherbst@redhat.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Danilo Krummrich <dakr@redhat.com>,
+ stable@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix smatch warning:
-drivers/gpu/drm/i915/gem/i915_gem_context.c:847 set_proto_ctx_sseu()
-warn: potential spectre issue 'pc->user_engines' [r] (local cap)
+Do not return from gf100_gr_chan_new() with fecs mutex held when failing
+to create the golden context image.
 
-Fixes: d4433c7600f7 ("drm/i915/gem: Use the proto-context to handle create parameters (v5)")
-Cc: <stable@vger.kernel.org> # v5.15+
-Signed-off-by: Kunwu Chan <chentao@kylinos.cn>
-Suggested-by: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Link: https://lore.kernel.org/all/20231102101642.52988-1-chentao@kylinos.cn
+Cc: <stable@vger.kernel.org> # v6.2+
+Fixes: ca081fff6ecc ("drm/nouveau/gr/gf100-: generate golden context during first object alloc")
+Signed-off-by: Danilo Krummrich <dakr@redhat.com>
 ---
- drivers/gpu/drm/i915/gem/i915_gem_context.c | 1 +
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-index 9a9ff84c90d7..e38f06a6e56e 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-@@ -844,6 +844,7 @@ static int set_proto_ctx_sseu(struct drm_i915_file_private *fpriv,
- 		if (idx >= pc->num_user_engines)
- 			return -EINVAL;
- 
-+		idx = array_index_nospec(idx, pc->num_user_engines);
- 		pe = &pc->user_engines[idx];
- 
- 		/* Only render engine supports RPCS configuration. */
+diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c b/drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c
+index c494a1ff2d57..f72d3aa33442 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c
++++ b/drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c
+@@ -442,6 +442,7 @@ gf100_gr_chan_new(struct nvkm_gr *base, struct nvkm_chan *fifoch,
+ 	if (gr->data == NULL) {
+ 		ret = gf100_grctx_generate(gr, chan, fifoch->inst);
+ 		if (ret) {
++			mutex_unlock(&gr->fecs.mutex);
+ 			nvkm_error(&base->engine.subdev, "failed to construct context\n");
+ 			return ret;
+ 		}
 -- 
-2.34.1
+2.41.0
 
