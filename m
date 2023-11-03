@@ -2,75 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AB4E7E081D
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Nov 2023 19:27:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 383007E083C
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Nov 2023 19:35:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9BEBB10E18E;
-	Fri,  3 Nov 2023 18:27:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 62E5E10E190;
+	Fri,  3 Nov 2023 18:35:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0537810E18E
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Nov 2023 18:27:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1699036051;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=tCQTZTtBGHUcOzfNPoWKgA+n3Zp3rKItoxbSjEs0GKE=;
- b=OZjZmTTX7uYrOVtK+8J/CM9966SQD5dAOwNVXUvD2AUM0+UCZfr5O+sRpfOelvGd59Tf0B
- b5X+mfDlFur2aNFPQfRaqnoFv5WSYbBYY03vVL8UKnL5htWXA2tPSwdQB9iYaP8ebd4fkx
- a5WUmtmaZElM/ZXfCAl6FXTIj7uan6s=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-473-j4F9IfymNP6ukZF082jTOg-1; Fri, 03 Nov 2023 14:27:29 -0400
-X-MC-Unique: j4F9IfymNP6ukZF082jTOg-1
-Received: by mail-ed1-f71.google.com with SMTP id
- 4fb4d7f45d1cf-53f8893ddbdso454201a12.1
- for <dri-devel@lists.freedesktop.org>; Fri, 03 Nov 2023 11:27:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699036048; x=1699640848;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=tCQTZTtBGHUcOzfNPoWKgA+n3Zp3rKItoxbSjEs0GKE=;
- b=G5F02br8JrAn/z2vYiL9/3oVKQTEc3zFCZM10U6Ia2AW+FcNLjOd92xDSYFr7GDoBg
- kJ7AfLA3jjT4jstuGiNRgF2nrs1uy7qfkuugLVuBgotE83ujr4K2LCw3LxNpzTZE0kgl
- 5z9ycyUDW6xiyXpvXV8s84Qv6Oh/XyWZsDzB8S05U6iSHvuEwTt4b24VK5knfsD/zj/o
- nNNeiGOIOfowk5UHlbfRExP/FahGz5wl0TKUd5FlS2dbNgU5UBHwEN9aVDIDH2jLgFL+
- 6i4yhDkC4SE2Q8HQipl/TFff3IIFoWTFaeo8SBeFzZbnBP/U0sRk4wpyYp7m6kRV3/bJ
- vLrQ==
-X-Gm-Message-State: AOJu0Yy0QGpVPTroZnf3zwis18cML2vlzEBXBCrsasDWaVVBrIv1+7QS
- SC/Y4WmQrGfTDccV7329xQrxfUvYhZjq3crkak8er6339+Z22db7bihXu04d9uz6Bm3BVLMZrkz
- UAOn6+zP6CY9T2GeadXEVjnhp6ZMo
-X-Received: by 2002:a05:6402:f0a:b0:544:3966:6904 with SMTP id
- i10-20020a0564020f0a00b0054439666904mr873188eda.2.1699036048601; 
- Fri, 03 Nov 2023 11:27:28 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IF/afJoWCH0B69Fkx5QSe1FwXqsA2+HGUFWSQOKo++oLG5JDy6JNH3qK4i1hA0DdwxaL+aeiA==
-X-Received: by 2002:a05:6402:f0a:b0:544:3966:6904 with SMTP id
- i10-20020a0564020f0a00b0054439666904mr873173eda.2.1699036048291; 
- Fri, 03 Nov 2023 11:27:28 -0700 (PDT)
-Received: from pstanner-thinkpadt14sgen1.fritz.box
- ([2001:9e8:32d1:5200:227b:d2ff:fe26:2a7a])
- by smtp.gmail.com with ESMTPSA id
- v23-20020a50d597000000b0053dd8898f75sm1250103edi.81.2023.11.03.11.27.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Nov 2023 11:27:28 -0700 (PDT)
-From: Philipp Stanner <pstanner@redhat.com>
-To: Dave Airlie <airlied@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Jocelyn Falempe <jfalempe@redhat.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v2] drm/ast: use managed devres functions
-Date: Fri,  3 Nov 2023 19:25:43 +0100
-Message-ID: <20231103182542.97589-2-pstanner@redhat.com>
-X-Mailer: git-send-email 2.41.0
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1411F10E191
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Nov 2023 18:35:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1699036540; x=1730572540;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=DVPYgB1I00YcVgUxHt2T0mWkDRxhNvhah1fVuaJivj0=;
+ b=nxEx79rELUU0tKYXAKR3l60d3t1LvDN11LyVTBGOSWKnQJvARPzWrl8b
+ eY21frGvVx9W/EJCudoBJxVNS/XUNdFrpW67O1o+a3Ms1I6Uu2B5n0m/T
+ K5u4HbSFa4ZfkfoMr7oFgoHa/KQR0w3zyf9v+/eAXu8dX4OOpmZtuu7B7
+ XgBEN52R7XpZpVZDyqbj57BBk5AmPFygYl9OcKjcZAOcB7HXEYK6Eh3S2
+ t5SzUs/57hhBbjGL1SZ3vzG28Vg/9wss5OlzKN9FZLjQEk7qYWc1q4lYQ
+ 57iPdRQ5V2mHWGpOuuwQGu8PZoipbHaCswYsF2cIx5m4+EsMDCtNn7LkR w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="379394187"
+X-IronPort-AV: E=Sophos;i="6.03,273,1694761200"; d="scan'208";a="379394187"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Nov 2023 11:35:39 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="738153049"
+X-IronPort-AV: E=Sophos;i="6.03,273,1694761200"; d="scan'208";a="738153049"
+Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
+ by orsmga006.jf.intel.com with ESMTP; 03 Nov 2023 11:35:36 -0700
+Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1qyz13-0002po-2u;
+ Fri, 03 Nov 2023 18:35:33 +0000
+Date: Sat, 4 Nov 2023 02:34:38 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
+ tzimmermann@suse.de, airlied@redhat.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ daniel@ffwll.ch, javierm@redhat.com, bluescreen_avenger@verizon.net,
+ noralf@tronnes.org
+Subject: Re: [PATCH v5 1/6] drm/format-helper: Add drm_fb_blit_from_r1 and
+ drm_fb_fill
+Message-ID: <202311040208.JqcG6ZbK-lkp@intel.com>
+References: <20231103145526.628138-2-jfalempe@redhat.com>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231103145526.628138-2-jfalempe@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,63 +64,172 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Philipp Stanner <pstanner@redhat.com>
+Cc: gpiccoli@igalia.com, Jocelyn Falempe <jfalempe@redhat.com>,
+ oe-kbuild-all@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently, tha ast-driver just maps the PCI-dev's regions with
-pcim_iomap(). It does not actually reserve the regions exclusively
-with, e.g., pci_request_regions().
+Hi Jocelyn,
 
-Replace the calls to pcim_iomap() with ones to pcim_iomap_regions() to
-reserve and map the regions simultaneously.
+kernel test robot noticed the following build warnings:
 
-Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
-Signed-off-by: Philipp Stanner <pstanner@redhat.com>
----
-Changes in v2:
-- Remove unnecessary return code checks for pcim_iomap_regions()
-  (Jocelyn)
+[auto build test WARNING on ffc253263a1375a65fa6c9f62a893e9767fbebfa]
 
-Thx Jocelyn for the kind review
----
- drivers/gpu/drm/ast/ast_main.c | 15 +++++++++------
- 1 file changed, 9 insertions(+), 6 deletions(-)
+url:    https://github.com/intel-lab-lkp/linux/commits/Jocelyn-Falempe/drm-format-helper-Add-drm_fb_blit_from_r1-and-drm_fb_fill/20231103-225824
+base:   ffc253263a1375a65fa6c9f62a893e9767fbebfa
+patch link:    https://lore.kernel.org/r/20231103145526.628138-2-jfalempe%40redhat.com
+patch subject: [PATCH v5 1/6] drm/format-helper: Add drm_fb_blit_from_r1 and drm_fb_fill
+config: csky-randconfig-002-20231104 (https://download.01.org/0day-ci/archive/20231104/202311040208.JqcG6ZbK-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231104/202311040208.JqcG6ZbK-lkp@intel.com/reproduce)
 
-diff --git a/drivers/gpu/drm/ast/ast_main.c b/drivers/gpu/drm/ast/ast_main.c
-index dae365ed3969..8b714b99f9d6 100644
---- a/drivers/gpu/drm/ast/ast_main.c
-+++ b/drivers/gpu/drm/ast/ast_main.c
-@@ -444,9 +444,11 @@ struct ast_device *ast_device_create(const struct drm_driver *drv,
- 	if (ret)
- 		return ERR_PTR(ret);
- 
--	ast->regs = pcim_iomap(pdev, 1, 0);
--	if (!ast->regs)
--		return ERR_PTR(-EIO);
-+	ret = pcim_iomap_regions(pdev, BIT(1), 0);
-+	if (ret)
-+		return ERR_PTR(ret);
-+
-+	ast->regs = pcim_iomap_table(pdev)[1];
- 
- 	/*
- 	 * After AST2500, MMIO is enabled by default, and it should be adopted
-@@ -461,9 +463,10 @@ struct ast_device *ast_device_create(const struct drm_driver *drv,
- 
- 	/* "map" IO regs if the above hasn't done so already */
- 	if (!ast->ioregs) {
--		ast->ioregs = pcim_iomap(pdev, 2, 0);
--		if (!ast->ioregs)
--			return ERR_PTR(-EIO);
-+		ret = pcim_iomap_regions(pdev, BIT(2), 0);
-+		if (ret)
-+			return ERR_PTR(ret);
-+		ast->ioregs = pcim_iomap_table(pdev)[2];
- 	}
- 
- 	if (!ast_is_vga_enabled(dev)) {
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311040208.JqcG6ZbK-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/gpu/drm/drm_format_helper.c:491: warning: Function parameter or member 'dpitch' not described in 'drm_fb_blit_from_r1'
+>> drivers/gpu/drm/drm_format_helper.c:491: warning: Excess function parameter 'dpich' description in 'drm_fb_blit_from_r1'
+>> drivers/gpu/drm/drm_format_helper.c:578: warning: Function parameter or member 'dpitch' not described in 'drm_fb_fill'
+>> drivers/gpu/drm/drm_format_helper.c:578: warning: Function parameter or member 'color' not described in 'drm_fb_fill'
+>> drivers/gpu/drm/drm_format_helper.c:578: warning: Excess function parameter 'dpich' description in 'drm_fb_fill'
+>> drivers/gpu/drm/drm_format_helper.c:578: warning: Excess function parameter 'fg_color' description in 'drm_fb_fill'
+>> drivers/gpu/drm/drm_format_helper.c:578: warning: Excess function parameter 'bg_color' description in 'drm_fb_fill'
+
+
+vim +491 drivers/gpu/drm/drm_format_helper.c
+
+   470	
+   471	/**
+   472	 * drm_fb_blit_from_r1 - convert a monochrome image to a linear framebuffer
+   473	 * @dmap: destination iosys_map
+   474	 * @dpich: destination pitch in bytes
+   475	 * @sbuf8: source buffer, in monochrome format, 8 pixels per byte.
+   476	 * @spitch: source pitch in bytes
+   477	 * @height: height of the image to copy, in pixels
+   478	 * @width: width of the image to copy, in pixels
+   479	 * @fg_color: foreground color, in destination format
+   480	 * @bg_color: background color, in destination format
+   481	 * @pixel_width: pixel width in bytes.
+   482	 *
+   483	 * This can be used to draw font which are monochrome images, to a framebuffer
+   484	 * in other supported format.
+   485	 */
+   486	void drm_fb_blit_from_r1(struct iosys_map *dmap, unsigned int dpitch,
+   487				 const u8 *sbuf8, unsigned int spitch,
+   488				 unsigned int height, unsigned int width,
+   489				 u32 fg_color, u32 bg_color,
+   490				 unsigned int pixel_width)
+ > 491	{
+   492		switch (pixel_width) {
+   493		case 2:
+   494			drm_fb_r1_to_16bit(dmap, dpitch, sbuf8, spitch,
+   495					   height, width, fg_color, bg_color);
+   496		break;
+   497		case 3:
+   498			drm_fb_r1_to_24bit(dmap, dpitch, sbuf8, spitch,
+   499					   height, width, fg_color, bg_color);
+   500		break;
+   501		case 4:
+   502			drm_fb_r1_to_32bit(dmap, dpitch, sbuf8, spitch,
+   503					   height, width, fg_color, bg_color);
+   504		break;
+   505		default:
+   506			WARN_ONCE(1, "Can't blit with pixel width %d\n", pixel_width);
+   507		}
+   508	}
+   509	EXPORT_SYMBOL(drm_fb_blit_from_r1);
+   510	
+   511	static void drm_fb_fill8(struct iosys_map *dmap, unsigned int dpitch,
+   512				 unsigned int height, unsigned int width,
+   513				 u8 color)
+   514	{
+   515		unsigned int l, x;
+   516	
+   517		for (l = 0; l < height; l++)
+   518			for (x = 0; x < width; x++)
+   519				iosys_map_wr(dmap, l * dpitch + x * sizeof(u8), u8, color);
+   520	}
+   521	
+   522	static void drm_fb_fill16(struct iosys_map *dmap, unsigned int dpitch,
+   523				  unsigned int height, unsigned int width,
+   524				  u16 color)
+   525	{
+   526		unsigned int l, x;
+   527	
+   528		for (l = 0; l < height; l++)
+   529			for (x = 0; x < width; x++)
+   530				iosys_map_wr(dmap, l * dpitch + x * sizeof(u16), u16, color);
+   531	}
+   532	
+   533	static void drm_fb_fill24(struct iosys_map *dmap, unsigned int dpitch,
+   534				  unsigned int height, unsigned int width,
+   535				  u32 color)
+   536	{
+   537		unsigned int l, x;
+   538	
+   539		for (l = 0; l < height; l++) {
+   540			for (x = 0; x < width; x++) {
+   541				unsigned int off = l * dpitch + x * 3;
+   542				u32 val32 = le32_to_cpu(color);
+   543	
+   544				/* write blue-green-red to output in little endianness */
+   545				iosys_map_wr(dmap, off, u8, (val32 & 0x000000FF) >> 0);
+   546				iosys_map_wr(dmap, off + 1, u8, (val32 & 0x0000FF00) >> 8);
+   547				iosys_map_wr(dmap, off + 2, u8, (val32 & 0x00FF0000) >> 16);
+   548			}
+   549		}
+   550	}
+   551	
+   552	static void drm_fb_fill32(struct iosys_map *dmap, unsigned int dpitch,
+   553				  unsigned int height, unsigned int width,
+   554				  u32 color)
+   555	{
+   556		unsigned int l, x;
+   557	
+   558		for (l = 0; l < height; l++)
+   559			for (x = 0; x < width; x++)
+   560				iosys_map_wr(dmap, l * dpitch + x * sizeof(u32), u32, color);
+   561	}
+   562	
+   563	/**
+   564	 * drm_fb_fill - Fill a rectangle with a color
+   565	 * @dmap: destination iosys_map, pointing to the top left corner of the rectangle
+   566	 * @dpich: destination pitch in bytes
+   567	 * @height: height of the rectangle, in pixels
+   568	 * @width: width of the rectangle, in pixels
+   569	 * @fg_color: foreground color, in destination format
+   570	 * @bg_color: background color, in destination format
+   571	 * @pixel_width: pixel width in bytes
+   572	 *
+   573	 * Fill a rectangle with a color, in a linear framebuffer.
+   574	 */
+   575	void drm_fb_fill(struct iosys_map *dmap, unsigned int dpitch,
+   576				 unsigned int height, unsigned int width,
+   577				 u32 color, unsigned int pixel_width)
+ > 578	{
+   579		switch (pixel_width) {
+   580		case 1:
+   581			drm_fb_fill8(dmap, dpitch, height, width, color);
+   582		break;
+   583		case 2:
+   584			drm_fb_fill16(dmap, dpitch, height, width, color);
+   585		break;
+   586		case 3:
+   587			drm_fb_fill24(dmap, dpitch, height, width, color);
+   588		break;
+   589		case 4:
+   590			drm_fb_fill32(dmap, dpitch, height, width, color);
+   591		break;
+   592		default:
+   593			WARN_ONCE(1, "Can't fill with pixel width %d\n", pixel_width);
+   594		}
+   595	}
+   596	EXPORT_SYMBOL(drm_fb_fill);
+   597	
+
 -- 
-2.41.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
