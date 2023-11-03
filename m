@@ -2,78 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88B757E039B
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Nov 2023 14:14:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DC5C7E039C
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Nov 2023 14:14:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5579C10E9D4;
-	Fri,  3 Nov 2023 13:14:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58C4E10E9E0;
+	Fri,  3 Nov 2023 13:14:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D716010E9D3
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Nov 2023 13:14:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1699017247;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=JeaDcEiv+OJg0rs4GLDtEP9L7bFfkuejpkBRQMtkogU=;
- b=V5pFrTl10ZBw5FWclt5E2MjhSSa5yxLc97YcnOPL+VcOxq5SyImhErSJjxMgdPiubeLlu9
- n0dY/39KCPSEynzPQi9uQgRiklZrzZToGhDfYZMzGhCmdDCiglIimvR/6cCYqr+jbIZnQy
- l7JG/lMogr1nB8sbZcJVd3JOWHEuODo=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-90-bebrDEGePB-zAS4YTNkrHA-1; Fri, 03 Nov 2023 09:14:05 -0400
-X-MC-Unique: bebrDEGePB-zAS4YTNkrHA-1
-Received: by mail-ed1-f71.google.com with SMTP id
- 4fb4d7f45d1cf-53da5262466so1777962a12.0
- for <dri-devel@lists.freedesktop.org>; Fri, 03 Nov 2023 06:14:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699017244; x=1699622044;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=JeaDcEiv+OJg0rs4GLDtEP9L7bFfkuejpkBRQMtkogU=;
- b=QxMXOyfl3JHGgNFGWS9ufV00MvzpEmhnJwZvFEvj+VVipX/9NIWMIrNWAIMQdc57l7
- 0S2oFpODU8FLEA0y5JK2pUJxFcl8FsI0fL1SyCb7oeWFp8p5CUCDMUVZ2hJxW1L1l8f1
- yxsn3jcuVLpIhT/nK+oZHKwdzHGOVnl4Lb7Ub4AYcgahFKmCQ3tn1Xuc0QQTUyBs7iK3
- uBeENgO5YFjUCIOGQEzPNl0qS4UhOh+68p8gpxyZio+HUzqzq6E+F/R54r3TqnK2ylby
- mf8WdOw03hQnvIuEiwkCK0/2Cn49RV6rO0y6UBoQIA8Cn7LsG6KAbYK7cKC/YiuN84x9
- aFBg==
-X-Gm-Message-State: AOJu0Yy0AAJTsOxoDTQBlxwLBfNgZqQdWIKnjowI36vxGlwqDEQhRqZg
- Nq22NeiP3BBSFL1RSj9eDwOMRGfhLYUSWJ8CWkcFymTXO+9TEiupCHLPi7Fujpid872C6MNtkjB
- cNEHBIBed7rGhmKfPmMzQu+Fa7fN+
-X-Received: by 2002:a50:aad8:0:b0:543:6444:ef2a with SMTP id
- r24-20020a50aad8000000b005436444ef2amr7882709edc.32.1699017244401; 
- Fri, 03 Nov 2023 06:14:04 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IE3lBEphXT3+HJ50//TEhF8drMREBzcuwnqkwelfwZLHV53PXj0681AMylRS6SA/ZFsXHXmIQ==
-X-Received: by 2002:a50:aad8:0:b0:543:6444:ef2a with SMTP id
- r24-20020a50aad8000000b005436444ef2amr7882683edc.32.1699017244056; 
- Fri, 03 Nov 2023 06:14:04 -0700 (PDT)
-Received: from pollux ([2a02:810d:4b3f:de9c:abf:b8ff:feee:998b])
- by smtp.gmail.com with ESMTPSA id
- h15-20020a056402094f00b0053116e45317sm944419edz.44.2023.11.03.06.14.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Nov 2023 06:14:03 -0700 (PDT)
-Date: Fri, 3 Nov 2023 14:14:01 +0100
-From: Danilo Krummrich <dakr@redhat.com>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Subject: Re: [PATCH drm-misc-next v8 09/12] drm/gpuvm: reference count
- drm_gpuvm structures
-Message-ID: <ZUTyGTxcH7WlHKsv@pollux>
-References: <20231101233113.8059-1-dakr@redhat.com>
- <20231101233113.8059-10-dakr@redhat.com>
- <be93d9ef-3d3e-4262-a280-d2922b983ca1@amd.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 002A910E9E3
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Nov 2023 13:14:23 +0000 (UTC)
+Received: from [127.0.1.1] (91-158-149-209.elisa-laajakaista.fi
+ [91.158.149.209])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6FC349D5;
+ Fri,  3 Nov 2023 14:14:03 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1699017244;
+ bh=i2C16ss8SU23ICZxAiGfhvextYtfxnWVPgHeWfkSoRU=;
+ h=From:Subject:Date:To:Cc:From;
+ b=Czwzs11/X/yNWBecRFQ1k/8kIRRYWLNB4sqLYl7UzRQ5EznDeUI0dRBQS2F7q6dww
+ tJA5HEcsS3z+WXeZ909xvH8YeNAnH1UTd8txGvvkDojy1vxpMHgBsvbrQfV56+2JVJ
+ Hv9Xbtyw4vjMceoR6d8WLSr1B8kZ8zfxe1jxom2s=
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH v2 0/4] drm: Fix errors about uninitialized/wrong variables
+Date: Fri, 03 Nov 2023 15:14:02 +0200
+Message-Id: <20231103-uninit-fixes-v2-0-c22b2444f5f5@ideasonboard.com>
 MIME-Version: 1.0
-In-Reply-To: <be93d9ef-3d3e-4262-a280-d2922b983ca1@amd.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIABryRGUC/3WMQQ7CIBBFr9LMWsxAa4uuvIfpgsLUzkIwUImm4
+ e5i9y7f/3lvg0SRKcGl2SBS5sTBV1CHBuxi/J0Eu8qgULWosRMvz55XMfObkpBaz2flejS2hao
+ 8I+1HNW5j5YXTGuJnr2f5W/+EshQoTI/DoCx2bjpd2ZFJwU/BRHe04QFjKeUL5z3L1a8AAAA=
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Francesco Dolcini <francesco.dolcini@toradex.com>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Parshuram Thombare <pthombar@cadence.com>
+X-Mailer: b4 0.12.4
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1102;
+ i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
+ bh=i2C16ss8SU23ICZxAiGfhvextYtfxnWVPgHeWfkSoRU=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBlRPInF+kKt7naFwfYCihEN2y1q/8QD8VR4B6jh
+ tiU8k7GmC+JAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZUTyJwAKCRD6PaqMvJYe
+ 9fEJD/9FBGxkHooXw4umZF29JT0XLb5YXar9XWLXKOla2GhqNST6Sro5x6m36XcRYuHr/IPze8S
+ QdEvDj6DrAd8c8X2/SlSoL+AJntyzIFsVZIqlt7HyDk8rc+ffhsV5k8IjPLFTVgGsgL5h1GW02q
+ 82V2vBWFPrZN1RJ95SsQcSUjQh0Hu8v+SC3I7BpSokgDUJNIJZ47NIb4V0O53/gg5/nr+GXM67Y
+ ZxvVnSrdZU5MNIHy857asHYIojQH6BZ22niEO1DyXTC/HU9j5wUZ9x5Z95Tvrve0pEYU+AzMq9Q
+ gWmynWaeZ4f+QkWCeVFbzlYhbojldHXbMiBgkGU04D/K3f1MuwHm35YmhRaS0CSO5MNBrR1kciu
+ zx4R1C4esg15e/9+YV+WJoL9EDOD3x7R5CzQMncjYKZp3JWcMUZIp85YdPXc4AQ9ACenjtdQRXx
+ ZJxWp0nID/lPlkI09kESHg0qiEe9Ll3Cv4EzJuzOm9fv7E3Fxxsd3zbsXimKFsb1mWGFB74GZS9
+ NtrGux3zp89lzOh/zQOWCnNYQaGqerVYK05wnPVXtjP6LGG+M1aKXkzJN3z9Wv3ILsFQ2F+jCt0
+ MNmbnylidgRnjhYNzSgENDt/ZhrWuc2eSN0vK2Gk1j6hUXhAoEjfjimL+YBgRv+KgbkTZn9hSMA
+ KzKntri/ApWsOug==
+X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
+ fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,221 +73,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.brost@intel.com, thomas.hellstrom@linux.intel.com,
- sarah.walker@imgtec.com, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- faith@gfxstrand.net, boris.brezillon@collabora.com, donald.robson@imgtec.com
+Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Nov 03, 2023 at 08:18:35AM +0100, Christian König wrote:
-> Am 02.11.23 um 00:31 schrieb Danilo Krummrich:
-> > Implement reference counting for struct drm_gpuvm.
-> 
-> From the design point of view what is that good for?
+Fix cases where smatch reports a use of an uninitialized variable, and
+one where the variable is initialized but contains wrong value.
 
-It was discussed in this thread [1].
+ Tomi
 
-Essentially, the idea is to make sure that vm_bo->vm is always valid without the
-driver having the need to take extra care. It also ensures that GPUVM can't be
-freed with mappings still held.
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+---
+Changes in v2:
+- Added two more fixes
+- Link to v1: https://lore.kernel.org/r/20230804-uninit-fixes-v1-0-a60772c04db5@ideasonboard.com
 
-> 
-> Background is that the most common use case I see is that this object is
-> embedded into something else and a reference count is then not really a good
-> idea.
+---
+Tomi Valkeinen (4):
+      drm/drm_file: fix use of uninitialized variable
+      drm/framebuffer: Fix use of uninitialized variable
+      drm/bridge: cdns-mhdp8546: Fix use of uninitialized variable
+      drm/bridge: tc358767: Fix return value on error case
 
-Do you have a specific use-case in mind where this would interfere?
+ drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c | 3 ++-
+ drivers/gpu/drm/bridge/tc358767.c                   | 2 +-
+ drivers/gpu/drm/drm_file.c                          | 2 +-
+ drivers/gpu/drm/drm_framebuffer.c                   | 2 +-
+ 4 files changed, 5 insertions(+), 4 deletions(-)
+---
+base-commit: 9d7c8c066916f231ca0ed4e4fce6c4b58ca3e451
+change-id: 20230804-uninit-fixes-188f92d60ac3
 
-> 
-> Thanks,
-> Christian.
-
-[1] https://lore.kernel.org/dri-devel/6fa058a4-20d3-44b9-af58-755cfb375d75@redhat.com/
-
-> 
-> > 
-> > Signed-off-by: Danilo Krummrich <dakr@redhat.com>
-> > ---
-> >   drivers/gpu/drm/drm_gpuvm.c            | 44 +++++++++++++++++++-------
-> >   drivers/gpu/drm/nouveau/nouveau_uvmm.c | 20 +++++++++---
-> >   include/drm/drm_gpuvm.h                | 31 +++++++++++++++++-
-> >   3 files changed, 78 insertions(+), 17 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/drm_gpuvm.c b/drivers/gpu/drm/drm_gpuvm.c
-> > index 53e2c406fb04..6a88eafc5229 100644
-> > --- a/drivers/gpu/drm/drm_gpuvm.c
-> > +++ b/drivers/gpu/drm/drm_gpuvm.c
-> > @@ -746,6 +746,8 @@ drm_gpuvm_init(struct drm_gpuvm *gpuvm, const char *name,
-> >   	gpuvm->rb.tree = RB_ROOT_CACHED;
-> >   	INIT_LIST_HEAD(&gpuvm->rb.list);
-> > +	kref_init(&gpuvm->kref);
-> > +
-> >   	gpuvm->name = name ? name : "unknown";
-> >   	gpuvm->flags = flags;
-> >   	gpuvm->ops = ops;
-> > @@ -770,15 +772,8 @@ drm_gpuvm_init(struct drm_gpuvm *gpuvm, const char *name,
-> >   }
-> >   EXPORT_SYMBOL_GPL(drm_gpuvm_init);
-> > -/**
-> > - * drm_gpuvm_destroy() - cleanup a &drm_gpuvm
-> > - * @gpuvm: pointer to the &drm_gpuvm to clean up
-> > - *
-> > - * Note that it is a bug to call this function on a manager that still
-> > - * holds GPU VA mappings.
-> > - */
-> > -void
-> > -drm_gpuvm_destroy(struct drm_gpuvm *gpuvm)
-> > +static void
-> > +drm_gpuvm_fini(struct drm_gpuvm *gpuvm)
-> >   {
-> >   	gpuvm->name = NULL;
-> > @@ -790,7 +785,33 @@ drm_gpuvm_destroy(struct drm_gpuvm *gpuvm)
-> >   	drm_gem_object_put(gpuvm->r_obj);
-> >   }
-> > -EXPORT_SYMBOL_GPL(drm_gpuvm_destroy);
-> > +
-> > +static void
-> > +drm_gpuvm_free(struct kref *kref)
-> > +{
-> > +	struct drm_gpuvm *gpuvm = container_of(kref, struct drm_gpuvm, kref);
-> > +
-> > +	if (drm_WARN_ON(gpuvm->drm, !gpuvm->ops->vm_free))
-> > +		return;
-> > +
-> > +	drm_gpuvm_fini(gpuvm);
-> > +
-> > +	gpuvm->ops->vm_free(gpuvm);
-> > +}
-> > +
-> > +/**
-> > + * drm_gpuvm_bo_put() - drop a struct drm_gpuvm reference
-> > + * @gpuvm: the &drm_gpuvm to release the reference of
-> > + *
-> > + * This releases a reference to @gpuvm.
-> > + */
-> > +void
-> > +drm_gpuvm_put(struct drm_gpuvm *gpuvm)
-> > +{
-> > +	if (gpuvm)
-> > +		kref_put(&gpuvm->kref, drm_gpuvm_free);
-> > +}
-> > +EXPORT_SYMBOL_GPL(drm_gpuvm_put);
-> >   static int
-> >   __drm_gpuva_insert(struct drm_gpuvm *gpuvm,
-> > @@ -843,7 +864,7 @@ drm_gpuva_insert(struct drm_gpuvm *gpuvm,
-> >   	if (unlikely(!drm_gpuvm_range_valid(gpuvm, addr, range)))
-> >   		return -EINVAL;
-> > -	return __drm_gpuva_insert(gpuvm, va);
-> > +	return __drm_gpuva_insert(drm_gpuvm_get(gpuvm), va);
-> >   }
-> >   EXPORT_SYMBOL_GPL(drm_gpuva_insert);
-> > @@ -876,6 +897,7 @@ drm_gpuva_remove(struct drm_gpuva *va)
-> >   	}
-> >   	__drm_gpuva_remove(va);
-> > +	drm_gpuvm_put(va->vm);
-> >   }
-> >   EXPORT_SYMBOL_GPL(drm_gpuva_remove);
-> > diff --git a/drivers/gpu/drm/nouveau/nouveau_uvmm.c b/drivers/gpu/drm/nouveau/nouveau_uvmm.c
-> > index 54be12c1272f..cb2f06565c46 100644
-> > --- a/drivers/gpu/drm/nouveau/nouveau_uvmm.c
-> > +++ b/drivers/gpu/drm/nouveau/nouveau_uvmm.c
-> > @@ -1780,6 +1780,18 @@ nouveau_uvmm_bo_unmap_all(struct nouveau_bo *nvbo)
-> >   	}
-> >   }
-> > +static void
-> > +nouveau_uvmm_free(struct drm_gpuvm *gpuvm)
-> > +{
-> > +	struct nouveau_uvmm *uvmm = uvmm_from_gpuvm(gpuvm);
-> > +
-> > +	kfree(uvmm);
-> > +}
-> > +
-> > +static const struct drm_gpuvm_ops gpuvm_ops = {
-> > +	.vm_free = nouveau_uvmm_free,
-> > +};
-> > +
-> >   int
-> >   nouveau_uvmm_ioctl_vm_init(struct drm_device *dev,
-> >   			   void *data,
-> > @@ -1830,7 +1842,7 @@ nouveau_uvmm_ioctl_vm_init(struct drm_device *dev,
-> >   		       NOUVEAU_VA_SPACE_END,
-> >   		       init->kernel_managed_addr,
-> >   		       init->kernel_managed_size,
-> > -		       NULL);
-> > +		       &gpuvm_ops);
-> >   	/* GPUVM takes care from here on. */
-> >   	drm_gem_object_put(r_obj);
-> > @@ -1849,8 +1861,7 @@ nouveau_uvmm_ioctl_vm_init(struct drm_device *dev,
-> >   	return 0;
-> >   out_gpuvm_fini:
-> > -	drm_gpuvm_destroy(&uvmm->base);
-> > -	kfree(uvmm);
-> > +	drm_gpuvm_put(&uvmm->base);
-> >   out_unlock:
-> >   	mutex_unlock(&cli->mutex);
-> >   	return ret;
-> > @@ -1902,7 +1913,6 @@ nouveau_uvmm_fini(struct nouveau_uvmm *uvmm)
-> >   	mutex_lock(&cli->mutex);
-> >   	nouveau_vmm_fini(&uvmm->vmm);
-> > -	drm_gpuvm_destroy(&uvmm->base);
-> > -	kfree(uvmm);
-> > +	drm_gpuvm_put(&uvmm->base);
-> >   	mutex_unlock(&cli->mutex);
-> >   }
-> > diff --git a/include/drm/drm_gpuvm.h b/include/drm/drm_gpuvm.h
-> > index 0c2e24155a93..4e6e1fd3485a 100644
-> > --- a/include/drm/drm_gpuvm.h
-> > +++ b/include/drm/drm_gpuvm.h
-> > @@ -247,6 +247,11 @@ struct drm_gpuvm {
-> >   		struct list_head list;
-> >   	} rb;
-> > +	/**
-> > +	 * @kref: reference count of this object
-> > +	 */
-> > +	struct kref kref;
-> > +
-> >   	/**
-> >   	 * @kernel_alloc_node:
-> >   	 *
-> > @@ -273,7 +278,23 @@ void drm_gpuvm_init(struct drm_gpuvm *gpuvm, const char *name,
-> >   		    u64 start_offset, u64 range,
-> >   		    u64 reserve_offset, u64 reserve_range,
-> >   		    const struct drm_gpuvm_ops *ops);
-> > -void drm_gpuvm_destroy(struct drm_gpuvm *gpuvm);
-> > +
-> > +/**
-> > + * drm_gpuvm_get() - acquire a struct drm_gpuvm reference
-> > + * @gpuvm: the &drm_gpuvm to acquire the reference of
-> > + *
-> > + * This function acquires an additional reference to @gpuvm. It is illegal to
-> > + * call this without already holding a reference. No locks required.
-> > + */
-> > +static inline struct drm_gpuvm *
-> > +drm_gpuvm_get(struct drm_gpuvm *gpuvm)
-> > +{
-> > +	kref_get(&gpuvm->kref);
-> > +
-> > +	return gpuvm;
-> > +}
-> > +
-> > +void drm_gpuvm_put(struct drm_gpuvm *gpuvm);
-> >   bool drm_gpuvm_range_valid(struct drm_gpuvm *gpuvm, u64 addr, u64 range);
-> >   bool drm_gpuvm_interval_empty(struct drm_gpuvm *gpuvm, u64 addr, u64 range);
-> > @@ -673,6 +694,14 @@ static inline void drm_gpuva_init_from_op(struct drm_gpuva *va,
-> >    * operations to drivers.
-> >    */
-> >   struct drm_gpuvm_ops {
-> > +	/**
-> > +	 * @vm_free: called when the last reference of a struct drm_gpuvm is
-> > +	 * dropped
-> > +	 *
-> > +	 * This callback is mandatory.
-> > +	 */
-> > +	void (*vm_free)(struct drm_gpuvm *gpuvm);
-> > +
-> >   	/**
-> >   	 * @op_alloc: called when the &drm_gpuvm allocates
-> >   	 * a struct drm_gpuva_op
-> 
+Best regards,
+-- 
+Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
