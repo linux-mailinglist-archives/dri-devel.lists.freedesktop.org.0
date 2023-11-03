@@ -1,87 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF16E7E0988
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Nov 2023 20:38:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FA4E7E0A21
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Nov 2023 21:19:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7853D10EA4C;
-	Fri,  3 Nov 2023 19:38:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B9BC110EAA8;
+	Fri,  3 Nov 2023 20:18:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 115EB10EA4C
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Nov 2023 19:38:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1699040308;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=18fxGFPyEfYX6zujRVQDCVGp1gVPnAg8xcOJqGUDNpU=;
- b=LnHnrA+TRTW9MeG5XpHwjxjBtQQZXcRQphtLtL+1YOfwMlQrkjEafpzCshX99FViXKsNms
- 3B0h/HowpPQ4gOnwcmGBGPRJcp6XtuYIUrIMTjC7wT/1duZhkNNXRLTp1yJP2LN6HgVNY0
- KN5JvTfNDWjrAG0yJL55uXJg3vJ+iaI=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-263-xDrwUcKVOxOQUEsV1augJQ-1; Fri, 03 Nov 2023 15:38:26 -0400
-X-MC-Unique: xDrwUcKVOxOQUEsV1augJQ-1
-Received: by mail-ed1-f69.google.com with SMTP id
- 4fb4d7f45d1cf-543f1c6dcaeso1831470a12.1
- for <dri-devel@lists.freedesktop.org>; Fri, 03 Nov 2023 12:38:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699040305; x=1699645105;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=18fxGFPyEfYX6zujRVQDCVGp1gVPnAg8xcOJqGUDNpU=;
- b=uR1pbgnvDiN9Rx5psXm/8oiZNfTdnBowV8+mcE0lMmUebGtLrboqvjGqI6eN1G3j9i
- OFXfI5q6w6EQ2KkI8l6S8R54hLlm8HdD3H1w1EPj8KKmf1q3hkDhStBo2yA4i1qLU9SU
- w7qPVAnVWiv7nUX1qYktKXh56uydU2hQQaxdckBqrHam5BdWx6RdiLA7gGDIelozk6o0
- 1SaamOqjXgNlOFzTPaCMoN7CSCZmKBu6k/WgdBlbcl+kB0VQ4YEmniIgwbTd5rhby0Q8
- EaCu/uNC2yQzW+6Sggv0/a9CYQpjxi+s9gxt2ilZ/ygQtgbQT30/CS43MqfslmwEYg66
- gzdg==
-X-Gm-Message-State: AOJu0YyMA5CuMynWhBBbD7UFXaAahZJ7GiDwuHh/GXlU/JvC2ivGwite
- WtzXClV+1mMXxONIyePbTjXQ2qwopjB+UI6YqY/PaZAC9aKCCTyw1vf36wPK5Y26ZhU+/F1rfBA
- GJgcUtpLcO5XgvEMvKGipKFtEGKg+
-X-Received: by 2002:a17:907:3da1:b0:9b7:37de:6009 with SMTP id
- he33-20020a1709073da100b009b737de6009mr8119048ejc.3.1699040305171; 
- Fri, 03 Nov 2023 12:38:25 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IH2EgYFYkxhAFVhtUcYX07z+ZAHa6gRCnHShMvlzepM1PxNvaeqEAxxrCtaSa8ojD2/gCJsUw==
-X-Received: by 2002:a17:907:3da1:b0:9b7:37de:6009 with SMTP id
- he33-20020a1709073da100b009b737de6009mr8119007ejc.3.1699040304766; 
- Fri, 03 Nov 2023 12:38:24 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec?
- ([2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
- by smtp.gmail.com with ESMTPSA id
- lk22-20020a170906cb1600b0099d804da2e9sm1220533ejb.225.2023.11.03.12.38.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 03 Nov 2023 12:38:24 -0700 (PDT)
-Message-ID: <d6466210-fdb7-e9e2-68bb-551b263f439d@redhat.com>
-Date: Fri, 3 Nov 2023 20:38:20 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 52A1A10EA96;
+ Fri,  3 Nov 2023 20:18:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1699042721; x=1730578721;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=SsqYwVa3nj+KQxx6klaIUKyb/YVe7UbmMNumzB/z7A8=;
+ b=QqJ5NcbFNLVQi57O5tc2vcAWGE/fqTRq8N5kVDAKPTTF4GmThOgf6x4w
+ N5gjcxcvskOgUX+AAXovO80DSiRLaz46Ts5d/sdZ/2mYy6mmRq8Ax422Z
+ Ng8fteM7mYfn66devWSrDdbDBB6YbPgA3D7P72Z6iHk5SeMhVLerZV3Ul
+ KVDPEVE5k5yPyqZYkI3WVWdAPNStU12rOeFMdUB3n9xikLHjmOn06in4X
+ 3FFgKFWG4OjdhtiauJ2J/RoiI2Ku3NkD+x/yLGQ5E5NOUsYNRCBC++SnJ
+ hJ/dJQ2VKNb/oBlibaLqGLgoZwU0HdSR6OHYONZaRYaER6ZTVuk362kGd A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="387904507"
+X-IronPort-AV: E=Sophos;i="6.03,275,1694761200"; d="scan'208";a="387904507"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Nov 2023 13:18:40 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="885303649"
+X-IronPort-AV: E=Sophos;i="6.03,275,1694761200"; d="scan'208";a="885303649"
+Received: from black.fi.intel.com ([10.237.72.28])
+ by orsmga004.jf.intel.com with ESMTP; 03 Nov 2023 13:18:34 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+ id 8B4795E2; Fri,  3 Nov 2023 22:18:33 +0200 (EET)
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Jani Nikula <jani.nikula@intel.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [rft,
+ PATCH v4 00/16] drm/i915/dsi: 4th attempt to get rid of IOSF GPIO
+Date: Fri,  3 Nov 2023 22:18:15 +0200
+Message-Id: <20231103201831.1037416-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.40.0.1.gaa8946217a0b
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v2 6/9] PCI: Rename is_thunderbolt to is_tunneled
-To: Mario Limonciello <mario.limonciello@amd.com>,
- Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Bjorn Helgaas <bhelgaas@google.com>,
- =?UTF-8?Q?Ilpo_J=c3=a4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- Mika Westerberg <mika.westerberg@linux.intel.com>,
- Lukas Wunner <lukas@wunner.de>
-References: <20231103190758.82911-1-mario.limonciello@amd.com>
- <20231103190758.82911-7-mario.limonciello@amd.com>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20231103190758.82911-7-mario.limonciello@amd.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, nl
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,107 +61,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Marek_Beh=c3=ban?= <kabel@kernel.org>,
- "open list:THUNDERBOLT DRIVER" <linux-usb@vger.kernel.org>,
- "open list:ACPI" <linux-acpi@vger.kernel.org>,
- "Rafael J . Wysocki" <rafael@kernel.org>,
- Michael Jamet <michael.jamet@intel.com>,
- =?UTF-8?Q?Pali_Roh=c3=a1r?= <pali@kernel.org>, Xinhui Pan <Xinhui.Pan@amd.com>,
- Manivannan Sadhasivam <mani@kernel.org>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
- <dri-devel@lists.freedesktop.org>,
- "open list:X86 PLATFORM DRIVERS" <platform-driver-x86@vger.kernel.org>,
- Mark Gross <markgross@kernel.org>, Yehezkel Bernat <YehezkelShB@gmail.com>,
- "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
- Danilo Krummrich <dakr@redhat.com>,
- "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
- "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
- <nouveau@lists.freedesktop.org>, Andreas Noever <andreas.noever@gmail.com>,
- "Maciej W . Rozycki" <macro@orcam.me.uk>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Hans de Goede <hdegoede@redhat.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+DSI code for VBT has a set of ugly GPIO hacks, one of which is direct
+talking to GPIO IP behind the actual driver's back. A second attempt
+to fix that is here.
 
-On 11/3/23 20:07, Mario Limonciello wrote:
-> The `is_thunderbolt` bit has been used to indicate that a PCIe device
-> contained the Intel VSEC which is used by various parts of the kernel
-> to change behavior. To later allow usage with USB4 controllers as well,
-> rename this to `is_tunneled`.
-> 
-> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+If I understood correctly, my approach should work in the similar way as
+the current IOSF GPIO.
 
-Here is my ack for the trivial drivers/platform/x86/apple-gmux.c change:
+Hans, I believe you have some devices that use this piece of code,
+is it possible to give a test run on (one of) them?
 
-Acked-by: Hans de Goede <hdegoede@redhat.com>
+In v4:
+- fixed compile time errors in patch 14 (Hans, LKP)
+- fixed cover letter Subject
+- added patch 15 (as suggested by Ville)
+- added Ack tag (Jani)
 
-Bjorn, feel free to route this through the PCI tree.
+In v3:
+- incorporated series by Jani
+- incorporated couple of precursor patches by Hans
+- added Rb tag for used to be first three patches (Andi)
+- rebased on top of the above changes
+- fixed indexing for multi-community devices, such as Cherry View
 
-Regards,
+In v2:
+- added a few cleanup patches
+- reworked to use dynamic GPIO lookup tables
+- converted CHV as well
 
-Hans
+Andy Shevchenko (9):
+  drm/i915/dsi: Replace while(1) with one with clear exit condition
+  drm/i915/dsi: Get rid of redundant 'else'
+  drm/i915/dsi: Replace check with a (missing) MIPI sequence name
+  drm/i915/dsi: Extract common soc_gpio_set_value() helper
+  drm/i915/dsi: Replace poking of VLV GPIOs behind the driver's back
+  drm/i915/dsi: Prepare soc_gpio_set_value() to distinguish GPIO
+    communities
+  drm/i915/dsi: Replace poking of CHV GPIOs behind the driver's back
+  drm/i915/dsi: Combine checks in mipi_exec_gpio()
+  drm/i915/iosf: Drop unused APIs
 
+Hans de Goede (2):
+  drm/i915/dsi: Remove GPIO lookup table at the end of
+    intel_dsi_vbt_gpio_init()
+  drm/i915/dsi: Fix wrong initial value for GPIOs in
+    bxt_gpio_set_value()
 
+Jani Nikula (5):
+  drm/i915/dsi: assume BXT gpio works for non-native GPIO
+  drm/i915/dsi: switch mipi_exec_gpio() from dev_priv to i915
+  drm/i915/dsi: clarify GPIO exec sequence
+  drm/i915/dsi: rename platform specific *_exec_gpio() to
+    *_gpio_set_value()
+  drm/i915/dsi: bxt/icl GPIO set value do not need gpio source
 
+ drivers/gpu/drm/i915/display/intel_dsi_vbt.c | 355 +++++++------------
+ drivers/gpu/drm/i915/vlv_sideband.c          |  17 -
+ drivers/gpu/drm/i915/vlv_sideband.h          |   3 -
+ 3 files changed, 136 insertions(+), 239 deletions(-)
 
-> ---
->  drivers/pci/pci.c                 | 2 +-
->  drivers/pci/probe.c               | 2 +-
->  drivers/platform/x86/apple-gmux.c | 2 +-
->  include/linux/pci.h               | 2 +-
->  4 files changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-> index 59c01d68c6d5..d9aa5a39f585 100644
-> --- a/drivers/pci/pci.c
-> +++ b/drivers/pci/pci.c
-> @@ -3032,7 +3032,7 @@ bool pci_bridge_d3_possible(struct pci_dev *bridge)
->  			return true;
->  
->  		/* Even the oldest 2010 Thunderbolt controller supports D3. */
-> -		if (bridge->is_thunderbolt)
-> +		if (bridge->is_tunneled)
->  			return true;
->  
->  		/* Platform might know better if the bridge supports D3 */
-> diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
-> index 795534589b98..518413d15402 100644
-> --- a/drivers/pci/probe.c
-> +++ b/drivers/pci/probe.c
-> @@ -1597,7 +1597,7 @@ static void set_pcie_thunderbolt(struct pci_dev *dev)
->  	/* Is the device part of a Thunderbolt controller? */
->  	vsec = pci_find_vsec_capability(dev, PCI_VENDOR_ID_INTEL, PCI_VSEC_ID_INTEL_TBT);
->  	if (vsec)
-> -		dev->is_thunderbolt = 1;
-> +		dev->is_tunneled = 1;
->  }
->  
->  static void set_pcie_untrusted(struct pci_dev *dev)
-> diff --git a/drivers/platform/x86/apple-gmux.c b/drivers/platform/x86/apple-gmux.c
-> index 1417e230edbd..20315aa4463a 100644
-> --- a/drivers/platform/x86/apple-gmux.c
-> +++ b/drivers/platform/x86/apple-gmux.c
-> @@ -774,7 +774,7 @@ static int gmux_resume(struct device *dev)
->  
->  static int is_thunderbolt(struct device *dev, void *data)
->  {
-> -	return to_pci_dev(dev)->is_thunderbolt;
-> +	return to_pci_dev(dev)->is_tunneled;
->  }
->  
->  static int gmux_probe(struct pnp_dev *pnp, const struct pnp_device_id *id)
-> diff --git a/include/linux/pci.h b/include/linux/pci.h
-> index 439c2dac8a3e..b1724f25fb02 100644
-> --- a/include/linux/pci.h
-> +++ b/include/linux/pci.h
-> @@ -440,7 +440,7 @@ struct pci_dev {
->  	unsigned int	is_virtfn:1;
->  	unsigned int	is_hotplug_bridge:1;
->  	unsigned int	shpc_managed:1;		/* SHPC owned by shpchp */
-> -	unsigned int	is_thunderbolt:1;	/* Thunderbolt controller */
-> +	unsigned int	is_tunneled:1;		/* Tunneled TBT or USB4 link */
->  	unsigned int	no_command_complete:1;	/* No command completion */
->  	/*
->  	 * Devices marked being untrusted are the ones that can potentially
+-- 
+2.40.0.1.gaa8946217a0b
 
