@@ -2,81 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E78BB7E0CB2
-	for <lists+dri-devel@lfdr.de>; Sat,  4 Nov 2023 01:25:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 354147E0CBA
+	for <lists+dri-devel@lfdr.de>; Sat,  4 Nov 2023 01:38:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2997010E1A9;
-	Sat,  4 Nov 2023 00:25:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D679510E1AF;
+	Sat,  4 Nov 2023 00:38:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf2a.google.com (mail-qv1-xf2a.google.com
- [IPv6:2607:f8b0:4864:20::f2a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D710410E19D;
- Sat,  4 Nov 2023 00:25:25 +0000 (UTC)
-Received: by mail-qv1-xf2a.google.com with SMTP id
- 6a1803df08f44-66d76904928so14602646d6.2; 
- Fri, 03 Nov 2023 17:25:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1699057525; x=1699662325; darn=lists.freedesktop.org;
- h=in-reply-to:autocrypt:from:references:cc:to:content-language
- :subject:user-agent:mime-version:date:message-id:from:to:cc:subject
- :date:message-id:reply-to;
- bh=ScjmxPez8wbUpbAW0lTYQD8bLE3YUQ1FL1+ykoKqaLI=;
- b=EqVskqTHJDa4bLupJlXj/fBCrDbxCXGN7U0JIs051UeQSDqmwqSmtlCALm1JLrZsti
- zSkar70sSpWfZJ2k4IgS4UvJq+mAAf6FoivrcbHuJDfe7uG2BXA7IQZcqsDE45ncL2gS
- M2eVqh5VC0JAQ4TpMUOF70xwAz7R1/wBTaRU8PXSIYvxZJPmOP62TII8EZj0gu6ajmPP
- sOztX3RLUE9vS8M7WfIHC2E3rQoQXvAbp/eTtR1lP7oabjzdSq1N83/gEvERMGZy26Kx
- IErILm5XsEtUG6bRfir3Xg9Z4m2T0318wcegiKRbf9AoeH2gwgzyTwny196Ixpd3XXLm
- 3LhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699057525; x=1699662325;
- h=in-reply-to:autocrypt:from:references:cc:to:content-language
- :subject:user-agent:mime-version:date:message-id:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=ScjmxPez8wbUpbAW0lTYQD8bLE3YUQ1FL1+ykoKqaLI=;
- b=k3jBIewtxKV+gK1CHAtFJjzqGZXdGLk0fy7H49JbYAnDAoni8CKHFZfT3ryiUXPUdZ
- o2pNnzhAoJ6MnYcNu7Jm7nUsxobI9uHLPvvveHApByoIweTcfPNQ3DibB53Dd0DDwLeG
- 2PpvjuexmfV/ULClfWxvWjf+E6BYiJ9gnjOpzd6KzzKSBdD63KtdaBOvvFQfKx8cn0Cd
- xrhnQitoOOp1SIIRjdTy2uPpsAFcdFtCzNyg9ZqXLH0ajbZ8D/qPSTbdbcaaoy7PS3jk
- 66BPHUcuL7wB0kKV9GvK7943XSKyn6qBJZ3RPQkwGw2aVznRzrU3jE+IM9StcCBnxjk/
- d+Xg==
-X-Gm-Message-State: AOJu0Yx9v6+ar6QuFOFSc9m02mKK4fUUeinwOW9izh8z+3PicJQeaYkt
- FmoH2DmCE00igL/5WUiopmI=
-X-Google-Smtp-Source: AGHT+IHo3rPF8Px1GzdDqSoOsMOCb0B7+2WB3o4ybkPoZQ6IqzxJZsN6sS1ZBKcNXFwu+4kKB2ypJg==
-X-Received: by 2002:a05:6214:20ce:b0:66d:9e52:a431 with SMTP id
- 14-20020a05621420ce00b0066d9e52a431mr32340586qve.3.1699057524747; 
- Fri, 03 Nov 2023 17:25:24 -0700 (PDT)
-Received: from [192.168.2.14]
- (bras-base-toroon0964w-grc-30-74-15-198-235.dsl.bell.ca. [74.15.198.235])
- by smtp.gmail.com with ESMTPSA id
- d18-20020a0ce452000000b006754772bfd4sm1203973qvm.21.2023.11.03.17.25.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 03 Nov 2023 17:25:24 -0700 (PDT)
-Message-ID: <8e1d65c7-26a1-4f72-a51e-781dbd17c29c@gmail.com>
-Date: Fri, 3 Nov 2023 20:25:23 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 039FB10E1AC;
+ Sat,  4 Nov 2023 00:38:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1699058300; x=1730594300;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=lgdwiAyPRysKtnT+0nfDxaf8k2i2tuiMEm+OGHK/8NQ=;
+ b=G7ITlzSNq/tydSEdPMdGC9B6nm+tYzni0hhM6v+hF3OPMiYOnSAXei37
+ ObmAjohI49NUp4zsesjVbTzkIvli1oNPHGljb+WFJNUw5vuV2CI40IJze
+ 3qau3o/9QNyPsNGvzQongrnnOzpYmrdNFQAiwLexRih3K6ewUB+hZptRh
+ kBYIFRkfIgLveQzPxdw0Z7wEPc2Qdmu26ENCkSUEgPq/mO4/Mdd7TQKDn
+ Qw79KaBcUQhQ5scMcDrCzeABdrI8aaN662QOi4JTjqSMRVEuGsLo5ewgd
+ P56r3yc9YFThcwuR02LJFOibUSeJUREuB+pnmobYVStEAvyj+7LVUc45R g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="369252358"
+X-IronPort-AV: E=Sophos;i="6.03,275,1694761200"; d="scan'208";a="369252358"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Nov 2023 17:38:19 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="755313891"
+X-IronPort-AV: E=Sophos;i="6.03,275,1694761200"; d="scan'208";a="755313891"
+Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
+ by orsmga007.jf.intel.com with ESMTP; 03 Nov 2023 17:38:11 -0700
+Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1qz4fx-00038N-1g;
+ Sat, 04 Nov 2023 00:38:09 +0000
+Date: Sat, 4 Nov 2023 08:37:16 +0800
+From: kernel test robot <lkp@intel.com>
+To: Mario Limonciello <mario.limonciello@amd.com>,
+ Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Bjorn Helgaas <helgaas@kernel.org>, Hans de Goede <hdegoede@redhat.com>,
+ Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ Mika Westerberg <mika.westerberg@linux.intel.com>,
+ Lukas Wunner <lukas@wunner.de>
+Subject: Re: [PATCH v2 3/9] PCI: Drop pci_is_thunderbolt_attached()
+Message-ID: <202311040800.zpVIwNrB-lkp@intel.com>
+References: <20231103190758.82911-4-mario.limonciello@amd.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:115.0) Gecko/20100101
- Thunderbird/115.4.1
-Subject: Re: [PATCH] drm/sched: Eliminate drm_sched_run_job_queue_if_ready()
-Content-Language: en-CA, en-US
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-References: <bb7c307e-271c-4f4c-bdbc-7078972ba515@linux.intel.com>
- <20231102224653.5785-2-ltuikov89@gmail.com>
- <d2bf144f-e388-4cb1-bc18-12efad4f677b@linux.intel.com>
-From: Luben Tuikov <ltuikov89@gmail.com>
-Autocrypt: addr=ltuikov89@gmail.com; keydata=
- xjMEZTohOhYJKwYBBAHaRw8BAQdAWSq76k+GsENjDTMVCy9Vr4fAO9Rb57/bPT1APnbnnRHN
- Ikx1YmVuIFR1aWtvdiA8bHR1aWtvdjg5QGdtYWlsLmNvbT7CmQQTFgoAQRYhBJkj7+VmFO9b
- eaAl10wVR5QxozSvBQJlOiE6AhsDBQkJZgGABQsJCAcCAiICBhUKCQgLAgQWAgMBAh4HAheA
- AAoJEEwVR5QxozSvSm4BAOwCpX53DTQhE20FBGlTMqKCOQyJqlMcIQ9SO1qPWX1iAQCv3vfy
- JwktF7REl1yt7IU2Sye1qmQMfJxdt9JMbMNNBs44BGU6IToSCisGAQQBl1UBBQEBB0BT9wSP
- cCE8uGe7FWo8C+nTSyWPXKTx9F0gpEnlqReRBwMBCAfCfgQYFgoAJhYhBJkj7+VmFO9beaAl
- 10wVR5QxozSvBQJlOiE6AhsMBQkJZgGAAAoJEEwVR5QxozSvSsYA/2LIFjbxQ2ikbU5S0pKo
- aMDzO9eGz69uNhNWJcvIKJK6AQC9228Mqc1JeZMIyjYWr2HKYHi8S2q2/zHrSZwAWYYwDA==
-In-Reply-To: <d2bf144f-e388-4cb1-bc18-12efad4f677b@linux.intel.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------DDM0FKgbde0juQdRlCBw45xZ"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231103190758.82911-4-mario.limonciello@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,172 +66,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.brost@intel.com, robdclark@chromium.org, sarah.walker@imgtec.com,
- ltuikov@yahoo.com, ketil.johnsen@arm.com, lina@asahilina.net,
- mcanal@igalia.com, Liviu.Dudau@arm.com, dri-devel@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, boris.brezillon@collabora.com, dakr@redhat.com,
- donald.robson@imgtec.com, christian.koenig@amd.com,
- faith.ekstrand@collabora.com
+Cc: "open list:THUNDERBOLT DRIVER" <linux-usb@vger.kernel.org>,
+ "Rafael J . Wysocki" <rafael@kernel.org>,
+ "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
+ "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
+ <dri-devel@lists.freedesktop.org>,
+ "open list:X86 PLATFORM DRIVERS" <platform-driver-x86@vger.kernel.org>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Andreas Noever <andreas.noever@gmail.com>,
+ Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>,
+ "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
+ "open list:ACPI" <linux-acpi@vger.kernel.org>,
+ Danilo Krummrich <dakr@redhat.com>, Manivannan Sadhasivam <mani@kernel.org>,
+ Michael Jamet <michael.jamet@intel.com>, Mark Gross <markgross@kernel.org>,
+ oe-kbuild-all@lists.linux.dev, Xinhui Pan <Xinhui.Pan@amd.com>,
+ open list <linux-kernel@vger.kernel.org>,
+ Yehezkel Bernat <YehezkelShB@gmail.com>,
+ Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>,
+ "Maciej W . Rozycki" <macro@orcam.me.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------DDM0FKgbde0juQdRlCBw45xZ
-Content-Type: multipart/mixed; boundary="------------LeHnxOz2Q5Z01FAWkh3s6W0n";
- protected-headers="v1"
-From: Luben Tuikov <ltuikov89@gmail.com>
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Cc: Liviu.Dudau@arm.com, boris.brezillon@collabora.com,
- christian.koenig@amd.com, dakr@redhat.com, donald.robson@imgtec.com,
- dri-devel@lists.freedesktop.org, faith.ekstrand@collabora.com,
- intel-xe@lists.freedesktop.org, ketil.johnsen@arm.com, lina@asahilina.net,
- ltuikov@yahoo.com, matthew.brost@intel.com, mcanal@igalia.com,
- robdclark@chromium.org, sarah.walker@imgtec.com
-Message-ID: <8e1d65c7-26a1-4f72-a51e-781dbd17c29c@gmail.com>
-Subject: Re: [PATCH] drm/sched: Eliminate drm_sched_run_job_queue_if_ready()
-References: <bb7c307e-271c-4f4c-bdbc-7078972ba515@linux.intel.com>
- <20231102224653.5785-2-ltuikov89@gmail.com>
- <d2bf144f-e388-4cb1-bc18-12efad4f677b@linux.intel.com>
-In-Reply-To: <d2bf144f-e388-4cb1-bc18-12efad4f677b@linux.intel.com>
+Hi Mario,
 
---------------LeHnxOz2Q5Z01FAWkh3s6W0n
-Content-Type: multipart/mixed; boundary="------------9xWZOND0BhGy6wSyH0Jufb5N"
+kernel test robot noticed the following build errors:
 
---------------9xWZOND0BhGy6wSyH0Jufb5N
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+[auto build test ERROR on pci/for-linus]
+[also build test ERROR on drm-misc/drm-misc-next westeri-thunderbolt/next rafael-pm/linux-next rafael-pm/acpi-bus linus/master rafael-pm/devprop v6.6 next-20231103]
+[cannot apply to pci/next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Hi Tvrtko,
+url:    https://github.com/intel-lab-lkp/linux/commits/Mario-Limonciello/drm-nouveau-Switch-from-pci_is_thunderbolt_attached-to-dev_is_removable/20231104-030945
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git for-linus
+patch link:    https://lore.kernel.org/r/20231103190758.82911-4-mario.limonciello%40amd.com
+patch subject: [PATCH v2 3/9] PCI: Drop pci_is_thunderbolt_attached()
+config: loongarch-randconfig-002-20231104 (https://download.01.org/0day-ci/archive/20231104/202311040800.zpVIwNrB-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231104/202311040800.zpVIwNrB-lkp@intel.com/reproduce)
 
-On 2023-11-03 06:39, Tvrtko Ursulin wrote:
->=20
-> On 02/11/2023 22:46, Luben Tuikov wrote:
->> Eliminate drm_sched_run_job_queue_if_ready() and instead just call
->> drm_sched_run_job_queue() in drm_sched_free_job_work(). The problem is=
- that
->> the former function uses drm_sched_select_entity() to determine if the=
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311040800.zpVIwNrB-lkp@intel.com/
 
->> scheduler had an entity ready in one of its run-queues, and in the cas=
-e of the
->> Round-Robin (RR) scheduling, the function drm_sched_rq_select_entity_r=
-r() does
->> just that, selects the _next_ entity which is ready, sets up the run-q=
-ueue and
->> completion and returns that entity. The FIFO scheduling algorithm is u=
-naffected.
->>
->> Now, since drm_sched_run_job_work() also calls drm_sched_select_entity=
-(), then
->> in the case of RR scheduling, that would result in calling select_enti=
-ty()
->> twice, which may result in skipping a ready entity if more than one en=
-tity is
->> ready. This commit fixes this by eliminating the if_ready() variant.
->=20
-> Fixes: is missing since the regression already landed.
+All errors (new ones prefixed by >>):
 
-Ah, yes, thank you for pointing that out. :-)
-I'll add one.
-
->=20
->>
->> Signed-off-by: Luben Tuikov <ltuikov89@gmail.com>
->> ---
->>   drivers/gpu/drm/scheduler/sched_main.c | 14 ++------------
->>   1 file changed, 2 insertions(+), 12 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/=
-scheduler/sched_main.c
->> index 98b2ad54fc7071..05816e7cae8c8b 100644
->> --- a/drivers/gpu/drm/scheduler/sched_main.c
->> +++ b/drivers/gpu/drm/scheduler/sched_main.c
->> @@ -1040,16 +1040,6 @@ drm_sched_pick_best(struct drm_gpu_scheduler **=
-sched_list,
->>   }
->>   EXPORT_SYMBOL(drm_sched_pick_best);
->>  =20
->> -/**
->> - * drm_sched_run_job_queue_if_ready - enqueue run-job work if ready
->> - * @sched: scheduler instance
->> - */
->> -static void drm_sched_run_job_queue_if_ready(struct drm_gpu_scheduler=
- *sched)
->> -{
->> -	if (drm_sched_select_entity(sched))
->> -		drm_sched_run_job_queue(sched);
->> -}
->> -
->>   /**
->>    * drm_sched_free_job_work - worker to call free_job
->>    *
->> @@ -1069,7 +1059,7 @@ static void drm_sched_free_job_work(struct work_=
-struct *w)
->>   		sched->ops->free_job(cleanup_job);
->>  =20
->>   		drm_sched_free_job_queue_if_done(sched);
->> -		drm_sched_run_job_queue_if_ready(sched);
->> +		drm_sched_run_job_queue(sched);
->=20
-> It works but is a bit wasteful causing needless CPU wake ups with a=20
-
-I'd not worry about "waking up the CPU" as the CPU scheduler would most l=
-ikely
-put the wq on the same CPU by instruction cache locality.
-
-> potentially empty queue, both here and in drm_sched_run_job_work below.=
+   drivers/gpu/drm/amd/amdgpu/nbio_v2_3.c: In function 'nbio_v2_3_enable_aspm':
+>> drivers/gpu/drm/amd/amdgpu/nbio_v2_3.c:364:21: error: implicit declaration of function 'pci_is_thunderbolt_attached' [-Werror=implicit-function-declaration]
+     364 |                 if (pci_is_thunderbolt_attached(adev->pdev))
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+--
+   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c: In function 'amdgpu_device_ip_early_init':
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:2118:14: error: implicit declaration of function 'pci_is_thunderbolt_attached' [-Werror=implicit-function-declaration]
+    2118 |             !pci_is_thunderbolt_attached(to_pci_dev(dev->dev)))
+         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-That's true, but if you were to look at the typical execution of
-this code you'd see we get a string of function entry when the incoming q=
-ueue
-is non-empty, followed by one empty entry only to be taken off the CPU. S=
-o,
-it really isn't a breaker.
+vim +/pci_is_thunderbolt_attached +364 drivers/gpu/drm/amd/amdgpu/nbio_v2_3.c
 
-So, there's a way to mitigate this in drm_sched_run_job_work(). I'll see =
-that it
-makes it in the next version of the patch.
+f1213b15976881d Evan Quan 2020-08-18  350  
+f1213b15976881d Evan Quan 2020-08-18  351  static void nbio_v2_3_enable_aspm(struct amdgpu_device *adev,
+f1213b15976881d Evan Quan 2020-08-18  352  				  bool enable)
+f1213b15976881d Evan Quan 2020-08-18  353  {
+f1213b15976881d Evan Quan 2020-08-18  354  	uint32_t def, data;
+f1213b15976881d Evan Quan 2020-08-18  355  
+f1213b15976881d Evan Quan 2020-08-18  356  	def = data = RREG32_PCIE(smnPCIE_LC_CNTL);
+f1213b15976881d Evan Quan 2020-08-18  357  
+f1213b15976881d Evan Quan 2020-08-18  358  	if (enable) {
+f1213b15976881d Evan Quan 2020-08-18  359  		/* Disable ASPM L0s/L1 first */
+f1213b15976881d Evan Quan 2020-08-18  360  		data &= ~(PCIE_LC_CNTL__LC_L0S_INACTIVITY_MASK | PCIE_LC_CNTL__LC_L1_INACTIVITY_MASK);
+f1213b15976881d Evan Quan 2020-08-18  361  
+f1213b15976881d Evan Quan 2020-08-18  362  		data |= NAVI10_PCIE__LC_L0S_INACTIVITY_DEFAULT << PCIE_LC_CNTL__LC_L0S_INACTIVITY__SHIFT;
+f1213b15976881d Evan Quan 2020-08-18  363  
+f1213b15976881d Evan Quan 2020-08-18 @364  		if (pci_is_thunderbolt_attached(adev->pdev))
+f1213b15976881d Evan Quan 2020-08-18  365  			data |= NAVI10_PCIE__LC_L1_INACTIVITY_TBT_DEFAULT  << PCIE_LC_CNTL__LC_L1_INACTIVITY__SHIFT;
+f1213b15976881d Evan Quan 2020-08-18  366  		else
+f1213b15976881d Evan Quan 2020-08-18  367  			data |= NAVI10_PCIE__LC_L1_INACTIVITY_DEFAULT << PCIE_LC_CNTL__LC_L1_INACTIVITY__SHIFT;
+f1213b15976881d Evan Quan 2020-08-18  368  
+f1213b15976881d Evan Quan 2020-08-18  369  		data &= ~PCIE_LC_CNTL__LC_PMI_TO_L1_DIS_MASK;
+f1213b15976881d Evan Quan 2020-08-18  370  	} else {
+f1213b15976881d Evan Quan 2020-08-18  371  		/* Disbale ASPM L1 */
+f1213b15976881d Evan Quan 2020-08-18  372  		data &= ~PCIE_LC_CNTL__LC_L1_INACTIVITY_MASK;
+f1213b15976881d Evan Quan 2020-08-18  373  		/* Disable ASPM TxL0s */
+f1213b15976881d Evan Quan 2020-08-18  374  		data &= ~PCIE_LC_CNTL__LC_L0S_INACTIVITY_MASK;
+f1213b15976881d Evan Quan 2020-08-18  375  		/* Disable ACPI L1 */
+f1213b15976881d Evan Quan 2020-08-18  376  		data |= PCIE_LC_CNTL__LC_PMI_TO_L1_DIS_MASK;
+f1213b15976881d Evan Quan 2020-08-18  377  	}
+f1213b15976881d Evan Quan 2020-08-18  378  
+f1213b15976881d Evan Quan 2020-08-18  379  	if (def != data)
+f1213b15976881d Evan Quan 2020-08-18  380  		WREG32_PCIE(smnPCIE_LC_CNTL, data);
+f1213b15976881d Evan Quan 2020-08-18  381  }
+f1213b15976881d Evan Quan 2020-08-18  382  
 
-Thanks!
---=20
-Regards,
-Luben
-
---------------9xWZOND0BhGy6wSyH0Jufb5N
-Content-Type: application/pgp-keys; name="OpenPGP_0x4C15479431A334AF.asc"
-Content-Disposition: attachment; filename="OpenPGP_0x4C15479431A334AF.asc"
-Content-Description: OpenPGP public key
-Content-Transfer-Encoding: quoted-printable
-
------BEGIN PGP PUBLIC KEY BLOCK-----
-
-xjMEZTohOhYJKwYBBAHaRw8BAQdAWSq76k+GsENjDTMVCy9Vr4fAO9Rb57/bPT1A
-PnbnnRHNIkx1YmVuIFR1aWtvdiA8bHR1aWtvdjg5QGdtYWlsLmNvbT7CmQQTFgoA
-QRYhBJkj7+VmFO9beaAl10wVR5QxozSvBQJlOiE6AhsDBQkJZgGABQsJCAcCAiIC
-BhUKCQgLAgQWAgMBAh4HAheAAAoJEEwVR5QxozSvSm4BAOwCpX53DTQhE20FBGlT
-MqKCOQyJqlMcIQ9SO1qPWX1iAQCv3vfyJwktF7REl1yt7IU2Sye1qmQMfJxdt9JM
-bMNNBs44BGU6IToSCisGAQQBl1UBBQEBB0BT9wSPcCE8uGe7FWo8C+nTSyWPXKTx
-9F0gpEnlqReRBwMBCAfCfgQYFgoAJhYhBJkj7+VmFO9beaAl10wVR5QxozSvBQJl
-OiE6AhsMBQkJZgGAAAoJEEwVR5QxozSvSsYA/2LIFjbxQ2ikbU5S0pKoaMDzO9eG
-z69uNhNWJcvIKJK6AQC9228Mqc1JeZMIyjYWr2HKYHi8S2q2/zHrSZwAWYYwDA=3D=3D
-=3DqCaZ
------END PGP PUBLIC KEY BLOCK-----
-
---------------9xWZOND0BhGy6wSyH0Jufb5N--
-
---------------LeHnxOz2Q5Z01FAWkh3s6W0n--
-
---------------DDM0FKgbde0juQdRlCBw45xZ
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-wnsEABYIACMWIQSZI+/lZhTvW3mgJddMFUeUMaM0rwUCZUWPcwUDAAAAAAAKCRBMFUeUMaM0r75b
-AQCxXmmlS8v3CIONZOAMig5BM6aZxHRa6BAtSWhqBzenSgEAjtRHVpYHTa+5rzxckoNS6p8VVrWb
-EhPTKpWDVNrPJAA=
-=QTla
------END PGP SIGNATURE-----
-
---------------DDM0FKgbde0juQdRlCBw45xZ--
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
