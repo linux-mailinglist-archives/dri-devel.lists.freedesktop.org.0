@@ -2,39 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21D947E15BA
-	for <lists+dri-devel@lfdr.de>; Sun,  5 Nov 2023 19:16:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CF277E15BC
+	for <lists+dri-devel@lfdr.de>; Sun,  5 Nov 2023 19:17:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D69E10E136;
-	Sun,  5 Nov 2023 18:16:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3EE6910E11A;
+	Sun,  5 Nov 2023 18:17:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 38CBF10E136
- for <dri-devel@lists.freedesktop.org>; Sun,  5 Nov 2023 18:15:59 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 95CCE10E11A
+ for <dri-devel@lists.freedesktop.org>; Sun,  5 Nov 2023 18:17:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
- t=1699208155; x=1699812955; i=deller@gmx.de;
- bh=OpuGHWHjo+z7zkLdJMq7rmnWSH4uTCXi2DFnckteg+E=;
+ t=1699208261; x=1699813061; i=deller@gmx.de;
+ bh=3RbYanvi9UwzmdwGMMPwpJFtJjQ4PV9jI8gAKX94JkU=;
  h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
  In-Reply-To;
- b=ouCgQEWl4OU3qITKJagJYZnXWjAAeDbYso6hjsB0ZGA23yEuYuwr9IPLXXY6kiJM
- snDebPDCHf/2/7PD7+rJUdjL8pu+ZFWM8WnJaWABKYOv0sq8JT1Mv8L9E5yYZNu5A
- m8LNA2D6dZrb5Do/nDusvlpyQE9WoGNtE3lwTICn5TnFjj3gf8xkw2srGHm5LYB3w
- vYtH8gGESptlb345FLMx4U7XtISwT9VDPAwtpME9eJc27kF8v2cnMNQQk/8kE0OuW
- V3h5Q2AXsSksY9u1waIsIIZol2GfeSay8XkRBXe/c8mOsSHj1ObZ49zphJL2+Z+PZ
- Oyj0trW4X15wYLM6DQ==
+ b=m5Js7DTvWU8jwR6I957DGgo/2lq3iYgN/VIQYxn6PbZtrBuKmBdtTZOdT1zvqt0S
+ 5bqXK6BZWI1Z5dyxeJ6RmOyl5zG5I9NSzX0ogRDqxLQQlrkKXWgihDH50IirPe/Du
+ gtOr1UwfdZR63n8Xl3XNlz7wS4q0eW1JCDGUYSjGCkI6B4k6pBuxAEG71PmNSAdxT
+ lpiHVQA1sycnUiyOnpLuwQPuSMT2Pr6tKfQsqUUllh+GELMzl7s35iOS5FaMCQGN0
+ rRm7FLCWAFKWXpNTsGVs8z5kNrTNj0IGy8Q/iUW0eeru5iv6w+FwJfKgkwM2kjiv1
+ Gb3b4zkZvrRdS7iRKQ==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
 Received: from [192.168.20.60] ([94.134.149.195]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1N3KTo-1rPNQf2XMQ-010LFf; Sun, 05
- Nov 2023 19:15:55 +0100
-Message-ID: <0c6dfd41-8ad9-4780-a327-c910d6214355@gmx.de>
-Date: Sun, 5 Nov 2023 19:15:54 +0100
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1M4b1o-1qy3GN1LmQ-001k0U; Sun, 05
+ Nov 2023 19:17:41 +0100
+Message-ID: <e9ff2894-e04c-4772-ab5d-595e0df460ae@gmx.de>
+Date: Sun, 5 Nov 2023 19:17:40 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fbdev: omapfb: Drop unused remove function
+Subject: Re: [PATCH] drivers/video/fbdev: use new array-copying-wrapper
 Content-Language: en-US
-To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-References: <20231103173557.3639484-2-u.kleine-koenig@pengutronix.de>
+To: Philipp Stanner <pstanner@redhat.com>,
+ Florian Tobias Schandinat <FlorianSchandinat@gmx.de>
+References: <20231102192402.53721-2-pstanner@redhat.com>
 From: Helge Deller <deller@gmx.de>
 Autocrypt: addr=deller@gmx.de; keydata=
  xsFNBF3Ia3MBEAD3nmWzMgQByYAWnb9cNqspnkb2GLVKzhoH2QD4eRpyDLA/3smlClbeKkWT
@@ -79,29 +80,29 @@ Autocrypt: addr=deller@gmx.de; keydata=
  FwRDcGV6nxanxZGKEkSHHOm8jHwvQWvPP73pvuPBEPtKGLzbgd7OOcGZWtq2hNC6cRtsRdDx
  4TAGMCz4j238m+2mdbdhRh3iBnWT5yPFfnv/2IjFAk+sdix1Mrr+LIDF++kiekeq0yUpDdc4
  ExBy2xf6dd+tuFFBp3/VDN4U0UfG4QJ2fg19zE5Z8dS4jGIbLg==
-In-Reply-To: <20231103173557.3639484-2-u.kleine-koenig@pengutronix.de>
+In-Reply-To: <20231102192402.53721-2-pstanner@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:Tva4T/FttIwLqofolQVY7ZaEyS6uSg9AxEBPnxJrZKjJ2cUezVO
- 0ckQPyp1yfMJY7v/abSN+gmWgOJNsipjdK8sKaIEq5Sl9Hwbxn4xDpCGbQD/Z164RoOOPDf
- /34q+87OPf85ica9b6rLchmBG9vOhyB/ry+uAHlLD4R3jPk0YaaOSvSbWkLZEi0owGzeqpm
- jhQgArtnWYe0f4Guzw33A==
+X-Provags-ID: V03:K1:mjyxRPphkkeBnYzLrrmnxNd0Ntb7vbQiQyz9rLYbujT0Yg8+fhc
+ DDKqXZXKbZntwRaGqKc39wdXTWMcVFBLE67varukDtnajseJbi58doGSkEBHPAI4Pvav/b+
+ xWvC7iLArxdujuVHqskPUni09Ii+BkjkVGR33QwlaHfkAJzCeX/qs4BLP/OwuE4tGNaqSXl
+ GY01vGS6A5IgU01nPgV0Q==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:IlOivZGtjTo=;7SvbprnV9Vc+9+iowCdh8UM3hO3
- j3UhkwQa0UMK57JyNQ4SSwxKDZGoNk51gwvqWOw6nzan2URBOEFsmF7qagtJmHwGgIl4BM1A1
- Vo27cW+rQSWN43bOjZo6YgnDY2B2bVSzc0CgChT6UJBzJnVAijP3gEGr8532KmDHtJHpNWpaU
- Gz6CcvyEvsknfqA4KqHQxZPUi+hM/iCocoJL8mUzOJQMjz3vDSLM5+aFt0XadLzFrmjXxYB9y
- IebCOz4F4xU/ZdKQ0ew1p3zj7qgQQY3kDlfKO4EpWfdVxLk95Rpn7mTNbh2moxb9KaqWFbJcA
- s597kchLtfGpUosou5pp5MWSgdmzpy0409vh49CfbEi0t8MO08l6CDVQksWA1m4FsOAU4REW3
- wVC1BhKfYdyctWhdQG1npD3MBI2wcxi88fXnITcE24ERF8BzYq05I6o2g1TYwltEYkj2gh9MR
- w2H/12eD/5Cyov8rs3b5vkERkDcmUMa6GblgwfYQHyHhpFFLpRp5k6s7Vd64ShxRBNhQe7lPb
- hy8ZXxeKS3MAeiEPFWwuv0xl2HMnANKbhgu51bk8lSL/cNYUIz9HRKnVzJcuyQxwJcm6SQo0f
- HZNq5jw1pgFoIj2850wzHzX68mTlXj/QN/D9u6BCNMMvHLAIu9Y0KvxHsnx5rQxhJOJBkh4aW
- 1rjKTGqBpMHib5p1DfSpf3/RB8jGZyu9WwVYo/vr4cNhwao8h074mm8XbjvfDC91mRajWOFVY
- nCkTGQS5h+RzD0zDieJUAHfn6id3WJ4OMT4W/aKYbGWVSGseX+TIcUka1keC8eNaD9Xqa3h0G
- oFHkY62Q/mSDEe/R86gVH48kr91OLYfSK3Mv9iM1zjHQllC9Gp3Q+zsUwzt3eQdMR+xrcAOFm
- BjUK4JIFwgFMdqghJDewONrUFg5N7ydiPEbJFmHHxoiiV2of2pIx3EH8nZF8Z4scdb/rPZ4E3
- qNiZxR05BxVMcXmiyr2mdE/KIN4=
+UI-OutboundReport: notjunk:1;M01:P0:Zw6MeNHaqfY=;qYVrKdIqOMYux+gD1/Ltf+QFY2Z
+ TbBmg13CUPOaWPFOkx63U1OL9jZzxkuHO4/TthNAoOZ26dFCrJaO6Cu0ZMte9EwJweqcOBy8g
+ r11bOFzj2NqeWZ9XRWBJ0qLOonPkb/BJpsoNS2KJ2y17kluKcWqvb/maGgkAoUbF7VJyVGXJL
+ vBg5pcKE73Vjn5Rk39zzJvOkTx8GS7VLnYTZ3CLBf+MVEgC1j6+bs0zyJxyNS5sMdP4nu2NIP
+ 04tUGIAuMNa16rL4a6+8qm+oHoZr8pjecvn77mWXVH4iz9Ag8QYzf3CdoRS62TBt/IyPIVCJJ
+ EAwY6wCGBxo3fJH5ly0iHe+fZv1geag4kaEgfkXCAChXq/Oe3gogpJc1Y7ZEtj+aDLxTwtRD8
+ HQmGBOlnaepE6H/EZV3kZG2maMObDNGwwhf4QV6cOcoLX6y6FwvaFTZmNW7lWjfynEc+dnHCi
+ N7iYWap3V84Wt5mr7Iz4rP0n0p3JngJk7Z9ij2eFeUivAX+QhMzZ4EdBOXBUkfOxLafHyCIty
+ qOJmZQLLnjmRarPwruLrmK6QV2LJ/1+8PgWlsIw7wFTLHoyifpHbMUN0jbQiTLbDc0akGIJ+P
+ vu7fHS5L+mrgqpVWhL9BQDacicoZwhJ5Ampd+k5DJ/QLPzjJuWBJPXjddx6DXf52jhuySacNO
+ 0VGmULE8rpEpxyjL+eyV1q9t0MzCwr+ahzQhgGe2JvpSlS6csbn7QxPNL+kVDj6jZUa6j+uPA
+ rLBZhEKS6xhqS9g3tU08wdwxgGoag+Aoz/peM59kTGqLUAw8BMN6MtxQXssm5uN1FyJAN6PQ3
+ ifmqByDiMOAlaW+U/HKGEM4iRos8yPH3f7wEt4YuEH90agFVb2ERiCLk7hB0yPu5Rw3RpCgvX
+ osBvY6S35pCa3zum4WG6lqquq34p2y+1eqhGKqykn1Rqz2EVwT2fUbyLFSqkORFSgu6DZglfV
+ m3srFw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -114,58 +115,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- linux-fbdev@vger.kernel.org, linux-omap@vger.kernel.org, kernel@pengutronix.de,
- dri-devel@lists.freedesktop.org
+Cc: Dave Airlie <airlied@redhat.com>, linux-fbdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/3/23 18:35, Uwe Kleine-K=C3=B6nig wrote:
-> OMAP2_VRFB is a bool, so the vrfb driver can never be compiled as a
-> module. With that __exit_p(vrfb_remove) always evaluates to NULL and
-> vrfb_remove() is unused.
+On 11/2/23 20:24, Philipp Stanner wrote:
+> viafbdev.c utilizes memdup_user() to copy an array from userspace.
 >
-> If the driver was compilable as a module, it would fail to build because
-> the type of vrfb_remove() isn't compatible with struct
-> platform_driver::remove(). (The former returns void, the latter int.)
+> There is a new wrapper, specifically designed for copying arrays. Use
+> this one instead.
 >
-> Fixes: aa1e49a3752f ("OMAPDSS: VRFB: add omap_vrfb_supported()")
-> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
+> Suggested-by: Dave Airlie <airlied@redhat.com>
+> Signed-off-by: Philipp Stanner <pstanner@redhat.com>
 
 applied.
+
 Thanks!
 Helge
 
 
 > ---
->   drivers/video/fbdev/omap2/omapfb/vrfb.c | 9 +--------
->   1 file changed, 1 insertion(+), 8 deletions(-)
+>   drivers/video/fbdev/via/viafbdev.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/drivers/video/fbdev/omap2/omapfb/vrfb.c b/drivers/video/fbd=
-ev/omap2/omapfb/vrfb.c
-> index ee0dd4c6a646..568e6e1eca62 100644
-> --- a/drivers/video/fbdev/omap2/omapfb/vrfb.c
-> +++ b/drivers/video/fbdev/omap2/omapfb/vrfb.c
-> @@ -368,17 +368,10 @@ static int __init vrfb_probe(struct platform_devic=
-e *pdev)
->   	return 0;
->   }
+> diff --git a/drivers/video/fbdev/via/viafbdev.c b/drivers/video/fbdev/vi=
+a/viafbdev.c
+> index 58868f8880d6..a52b1ba43a48 100644
+> --- a/drivers/video/fbdev/via/viafbdev.c
+> +++ b/drivers/video/fbdev/via/viafbdev.c
+> @@ -574,7 +574,7 @@ static int viafb_ioctl(struct fb_info *info, u_int c=
+md, u_long arg)
+>   		break;
 >
-> -static void __exit vrfb_remove(struct platform_device *pdev)
-> -{
-> -	vrfb_loaded =3D false;
-> -}
-> -
->   static struct platform_driver vrfb_driver =3D {
->   	.driver.name	=3D "omapvrfb",
-> -	.remove		=3D __exit_p(vrfb_remove),
->   };
-> -
-> -module_platform_driver_probe(vrfb_driver, vrfb_probe);
-> +builtin_platform_driver_probe(vrfb_driver, vrfb_probe);
->
->   MODULE_AUTHOR("Tomi Valkeinen <tomi.valkeinen@ti.com>");
->   MODULE_DESCRIPTION("OMAP VRFB");
->
-> base-commit: e27090b1413ff236ca1aec26d6b022149115de2c
+>   	case VIAFB_SET_GAMMA_LUT:
+> -		viafb_gamma_table =3D memdup_user(argp, 256 * sizeof(u32));
+> +		viafb_gamma_table =3D memdup_array_user(argp, 256, sizeof(u32));
+>   		if (IS_ERR(viafb_gamma_table))
+>   			return PTR_ERR(viafb_gamma_table);
+>   		viafb_set_gamma_table(viafb_bpp, viafb_gamma_table);
 
