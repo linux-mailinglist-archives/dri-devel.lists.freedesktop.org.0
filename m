@@ -2,51 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD1357E1220
-	for <lists+dri-devel@lfdr.de>; Sun,  5 Nov 2023 04:02:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB6587E12CF
+	for <lists+dri-devel@lfdr.de>; Sun,  5 Nov 2023 10:32:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0DCAE10E23E;
-	Sun,  5 Nov 2023 03:02:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1840610E047;
+	Sun,  5 Nov 2023 09:32:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8439510E23E
- for <dri-devel@lists.freedesktop.org>; Sun,  5 Nov 2023 03:02:11 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id C8A63CE092E;
- Sun,  5 Nov 2023 03:02:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 0FD95C433C8;
- Sun,  5 Nov 2023 03:02:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1699153328;
- bh=TSvU0HlnHN4BZ8JsoKM745jTn0wr3/QtfdZevo17IuQ=;
- h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
- b=nIARKTvlLDp/ejiNM2wGmTp3kpCZeivIcn0nLNdcsJjRK8TC5bW5QrJ9mzSuMAmHQ
- ZOkF4bLb44SEQ0DxrgC2oPIhTjSJvsqAB5hkUyPkOJKREHvbw4A+sBfkHJuLRWIv5k
- is+g7Jwm5aW2vtKGIMxaQOvHc4Raa5kcWxPdHsvcw8zk9lSbAg92gPowpOiGUMoUuH
- aE06KXEDBfIa2LCnevpdjXhe4cDO0/JYZEWZpfnQ97aVsgzV5dl46sWIMsuSferZuJ
- BgECv8UZLNnQxzwvl571qSkpca2JBD9gAITAKjYqrIwOBRib+9mckf3PAYr8G3QGox
- t4IiHvqbJJEyA==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org
- (localhost.localdomain [127.0.0.1])
- by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id
- F3E6DEAB08A; Sun,  5 Nov 2023 03:02:07 +0000 (UTC)
-Subject: Re: [git pull] drm nouveau support for GSP firmware - optional
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <CAPM=9txa=48madkU8QgcVzmU9EBvThNM_dU-1meEhtrsgF8iPA@mail.gmail.com>
-References: <CAPM=9txa=48madkU8QgcVzmU9EBvThNM_dU-1meEhtrsgF8iPA@mail.gmail.com>
-X-PR-Tracked-List-Id: Direct Rendering Infrastructure - Development
- <dri-devel.lists.freedesktop.org>
-X-PR-Tracked-Message-Id: <CAPM=9txa=48madkU8QgcVzmU9EBvThNM_dU-1meEhtrsgF8iPA@mail.gmail.com>
-X-PR-Tracked-Remote: git://anongit.freedesktop.org/drm/drm
- tags/topic/nvidia-gsp-2023-11-03
-X-PR-Tracked-Commit-Id: 8d55b0a940bb10592ffaad68d14314823ddf4cdf
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: e70703890b2586bc3567365d391c260d23fb7a94
-Message-Id: <169915332799.2133.5360232430115040415.pr-tracker-bot@kernel.org>
-Date: Sun, 05 Nov 2023 03:02:07 +0000
-To: Dave Airlie <airlied@gmail.com>
+X-Greylist: delayed 400 seconds by postgrey-1.36 at gabe;
+ Sun, 05 Nov 2023 09:32:31 UTC
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9152D10E10B
+ for <dri-devel@lists.freedesktop.org>; Sun,  5 Nov 2023 09:32:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ sang-engineering.com; h=from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding; s=k1; bh=k6kq6ZSc+Pa23o
+ 60zfFYsZ6XKr84eY0iwg/3EIsqzOM=; b=Ry3cBfESeEaIvc0xTY5PvSkLYbJQ+G
+ 1hG0FS2oCto83ZTB+OanSt1srFzgE0Tpib5gSgK3OxL2+TmDjlNa4BwhscVhDB6H
+ L7Qv6M86bs2aBqDZZa9p6pIf/9quiLkM9EF3EAPIE1Q9kICalF2r+hmx/eRk4zb4
+ exKycFfzvTwvHpUC78R57N4zOrvkV46Q/ihGa+M8QQavavIrnOy6J9/bK5DpPFq7
+ NX8d9/IUotP/SKya8aGcpyU7NTLljwWSA5sgl9xOPlsBGROy/qv6nZTbUYgbWIQu
+ fgz7LhubQOG08iSdUKWBIk657unAc8j4VHpAgAUkLRZV1St87A0CaUJw==
+Received: (qmail 1669474 invoked from network); 5 Nov 2023 10:25:47 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted,
+ authenticated); 5 Nov 2023 10:25:47 +0100
+X-UD-Smtp-Session: l3s3148p1@T6dzUmQJ7rIgAQnoAFPQANY41GnTzLIh
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v3] drm: renesas: rcar-du: use proper naming for R-Car
+Date: Sun,  5 Nov 2023 10:25:39 +0100
+Message-Id: <20231105092540.3658-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.35.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,22 +47,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The pull request you sent on Fri, 3 Nov 2023 13:16:45 +1000:
+Not RCAR, but R-Car.
 
-> git://anongit.freedesktop.org/drm/drm tags/topic/nvidia-gsp-2023-11-03
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/e70703890b2586bc3567365d391c260d23fb7a94
+Changes since v2:
+* rebased to 6.6
+* added Geert's tag (thanks!)
 
-Thank you!
+ drivers/gpu/drm/renesas/rcar-du/rcar_du_plane.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_plane.h b/drivers/gpu/drm/renesas/rcar-du/rcar_du_plane.h
+index f9893d7d6dfc..e9e59c5e70d5 100644
+--- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_plane.h
++++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_plane.h
+@@ -16,7 +16,7 @@ struct rcar_du_format_info;
+ struct rcar_du_group;
+ 
+ /*
+- * The RCAR DU has 8 hardware planes, shared between primary and overlay planes.
++ * The R-Car DU has 8 hardware planes, shared between primary and overlay planes.
+  * As using overlay planes requires at least one of the CRTCs being enabled, no
+  * more than 7 overlay planes can be available. We thus create 1 primary plane
+  * per CRTC and 7 overlay planes, for a total of up to 9 KMS planes.
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+2.35.1
+
