@@ -1,58 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9FD07E11D5
-	for <lists+dri-devel@lfdr.de>; Sun,  5 Nov 2023 01:00:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D2AA37E11E9
+	for <lists+dri-devel@lfdr.de>; Sun,  5 Nov 2023 02:51:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B36D10E23C;
-	Sun,  5 Nov 2023 00:00:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE23D10E23D;
+	Sun,  5 Nov 2023 01:51:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x72d.google.com (mail-qk1-x72d.google.com
- [IPv6:2607:f8b0:4864:20::72d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 12D5C10E23C
- for <dri-devel@lists.freedesktop.org>; Sun,  5 Nov 2023 00:00:27 +0000 (UTC)
-Received: by mail-qk1-x72d.google.com with SMTP id
- af79cd13be357-7788f513872so206246485a.1
- for <dri-devel@lists.freedesktop.org>; Sat, 04 Nov 2023 17:00:27 -0700 (PDT)
+Received: from mail-qt1-x830.google.com (mail-qt1-x830.google.com
+ [IPv6:2607:f8b0:4864:20::830])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C8E3310E23E
+ for <dri-devel@lists.freedesktop.org>; Sun,  5 Nov 2023 01:51:18 +0000 (UTC)
+Received: by mail-qt1-x830.google.com with SMTP id
+ d75a77b69052e-41dd8fd947cso19622291cf.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 04 Nov 2023 18:51:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1699142426; x=1699747226; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1699149078; x=1699753878; darn=lists.freedesktop.org;
  h=in-reply-to:autocrypt:from:content-language:references:cc:to
  :subject:user-agent:mime-version:date:message-id:from:to:cc:subject
  :date:message-id:reply-to;
- bh=7DzF67eKJe/4PbOKTFsVMSX959vPZFQAi7vydmr8pzA=;
- b=TMbXwxV9pxxGobePONzJKD4CWqORzGs+Hza88NjldBLeZVQ1VCCbY5fmFsKD3ra2Gl
- qkQbXLhrq27Xxm1VW7xjvE6h3p+WWljdNgiGBDkz6FYkI58QpGXJURmuAQNFpS7cN5p/
- AVum5eWcjpWfh1MR4OyOXDvG08djJN7M65D3ZhwsRbmGg9IJVX1KKD4Lpm+emlmKHcP5
- 6ZwfC25PD9h7dXNFwsGBs5eG2C+jxA9emsFnefImPKzkpmLhcatfXql2y26/BUUFhkJb
- 6uhQ6gehtxQvxIznfHHJ1pYyUHdv8ICZY3WgzbXd/Xy5UA19dlKXG8RHw6et2ClPypOp
- Ch9A==
+ bh=YZiX0UGAYMF/8FNgn+L1xgSZybNf9eEYfyukAawa0fY=;
+ b=RQUzthMM43h8Ab3rN2038quv4lfD6IOf2aIwvjIctgBH6xx/45QCThV/bRUCXHVosB
+ 3lFeL6I2JPFUlSN2au1CmpVm1XnPHLzfTaPOrQRXZKY/n+m5suOd72Yn2DBlSr0vmanG
+ lTaOSHOa9rycF6guJXAQlHYhzB/VkR0iG9Yoi3FnVcwODIM5AKZjKU5gpvcM7aZ29bu6
+ QOifjMTjdNpQjFGBCIylHceTkYx91QmVkCGwAVMUnZGGyAiffnTxPsHznwGmcL6hpEMY
+ CnqaGjyYd+FZBD/xNnUefXG3d658kU+GUlJ7UhKcAnE/7X32Cm7a5juwrNWCaOpKqq9A
+ jZ6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699142426; x=1699747226;
+ d=1e100.net; s=20230601; t=1699149078; x=1699753878;
  h=in-reply-to:autocrypt:from:content-language:references:cc:to
  :subject:user-agent:mime-version:date:message-id:x-gm-message-state
  :from:to:cc:subject:date:message-id:reply-to;
- bh=7DzF67eKJe/4PbOKTFsVMSX959vPZFQAi7vydmr8pzA=;
- b=ieiiS7Z9SgOV+I7F/0VQ+hTmUCl/HvaACczC9sqF6t6pPzMk6GaZ5MnbzUZMA4zMTw
- v2C9g0XlOU2RQkYFWlM0eAoeD1Ul7qmgoL/60nXHI2HP+n8MpIpNN8z/y5bvpve4Cf4w
- cKeTPteR+/NAPpIcBw5VlG0GQeLntj2I19G1wFtYBQF30t7EEKFpzeTGB6te2Y1vJOTW
- /s+cB/UweM8aGypbSLtE63nbhih2laQ0HMbSgbJgi8DO1qadubOkriBBRr3ujzVw1ouj
- 61+nAYZQ49F4Hp7fogkMwFDxyVew47h1GJNvaZnBcQqMZoiibM/sAw0Iyp4gtCnDA6YJ
- LZbQ==
-X-Gm-Message-State: AOJu0YzIkj806xLfc7CNK79r91wUcD8iadrr1TVYfzin0OQR1+mtUUcY
- jtBXbSNFK1SErQJLuhlpU+c=
-X-Google-Smtp-Source: AGHT+IE8ttDMPJMrysFiGZ7GdZ9QyLGVcwEiQ4F2+Lv88V1L1hYAT4b1pmLYXkZakwIQwrszh0zgZw==
-X-Received: by 2002:a05:620a:2890:b0:77a:2de5:2cf0 with SMTP id
- j16-20020a05620a289000b0077a2de52cf0mr20809193qkp.11.1699142425631; 
- Sat, 04 Nov 2023 17:00:25 -0700 (PDT)
+ bh=YZiX0UGAYMF/8FNgn+L1xgSZybNf9eEYfyukAawa0fY=;
+ b=g87UCQzFyAH9a2POdFm2jEGfK0YHxRh07yb+YLdbE/uCpJPunOBnLIwMz8vFunRJ1j
+ QIQ40gyNj3/JJ98/d3kZmp/pclO0DXpvI+1sl/SUFFE19T7VYm7npBBM1MNpaYflZ07h
+ kTFvjHX4Xe+c3Zp8Kxivh+rsHnGgDhPANeULRVq2xZ4c8HsTr9CpS9nRmHRSNW2dTnEZ
+ 896eBekjpT+UJ9rAykrvAwKI9Oqig0j6yt5cFav0d04NM+LmYYcLb6DeZ06deyScqWjE
+ DNZwN1on6wsHElKQYlZccGn/mTuXZ6/wXMTgj45e3cN6X4fLAZ4GA+KQBBJ4FhztdwJO
+ bzDg==
+X-Gm-Message-State: AOJu0YxGAiFMeREHaoDQwl/4TKz2KB2TBcOecqOK+J4FpQ/LP7dil8MS
+ c/n7SlBEcoJDd4SQwyj3KG8=
+X-Google-Smtp-Source: AGHT+IH4AwYp9ylMEml2MgxgOBhL8EgzT+hXBFzE2peOri5cnC8XfKaSwSe6jUbHM1VAcGET+RX5Tw==
+X-Received: by 2002:a05:622a:1cb:b0:41e:1cc8:f280 with SMTP id
+ t11-20020a05622a01cb00b0041e1cc8f280mr33151183qtw.59.1699149077800; 
+ Sat, 04 Nov 2023 18:51:17 -0700 (PDT)
 Received: from [192.168.2.14] ([74.15.198.235])
  by smtp.gmail.com with ESMTPSA id
- d24-20020a05620a141800b0077412ca0ae1sm1956811qkj.65.2023.11.04.17.00.24
+ i5-20020ac813c5000000b0041b9b6eb309sm2079613qtj.93.2023.11.04.18.51.17
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 04 Nov 2023 17:00:25 -0700 (PDT)
-Message-ID: <900cf366-a75c-475b-bccb-f10494048e85@gmail.com>
-Date: Sat, 4 Nov 2023 20:00:15 -0400
+ Sat, 04 Nov 2023 18:51:17 -0700 (PDT)
+Message-ID: <88bd3e1d-db66-40de-b06f-adcaefacccf3@gmail.com>
+Date: Sat, 4 Nov 2023 21:51:08 -0400
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:115.0) Gecko/20100101
  Thunderbird/115.4.1
@@ -74,7 +74,7 @@ Autocrypt: addr=ltuikov89@gmail.com; keydata=
 In-Reply-To: <20231102105538.391648-1-tvrtko.ursulin@linux.intel.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="------------cjowcf5D3KmOGgV2YhF7Jx1a"
+ boundary="------------Zat0d97VlCXjXkdakYxFIAkZ"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,44 +88,30 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Matthew Brost <matthew.brost@intel.com>,
- Luben Tuikov <luben.tuikov@amd.com>, Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------cjowcf5D3KmOGgV2YhF7Jx1a
-Content-Type: multipart/mixed; boundary="------------f79j9sW9QspVV1bapkaUXkgI";
+--------------Zat0d97VlCXjXkdakYxFIAkZ
+Content-Type: multipart/mixed; boundary="------------S6203A0b4rIo2HdgVkbEljGX";
  protected-headers="v1"
 From: Luben Tuikov <ltuikov89@gmail.com>
 To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
  dri-devel@lists.freedesktop.org
 Cc: Matthew Brost <matthew.brost@intel.com>,
- Luben Tuikov <luben.tuikov@amd.com>,
  Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Message-ID: <900cf366-a75c-475b-bccb-f10494048e85@gmail.com>
+Message-ID: <88bd3e1d-db66-40de-b06f-adcaefacccf3@gmail.com>
 Subject: Re: [PATCH 0/5] Some drm scheduler internal renames
 References: <20231102105538.391648-1-tvrtko.ursulin@linux.intel.com>
 In-Reply-To: <20231102105538.391648-1-tvrtko.ursulin@linux.intel.com>
 
---------------f79j9sW9QspVV1bapkaUXkgI
-Content-Type: multipart/mixed; boundary="------------eWMX0fbQvH2FIyfNJIDyhFhM"
+--------------S6203A0b4rIo2HdgVkbEljGX
+Content-Type: multipart/mixed; boundary="------------pj07iQ6JKZMoqGiVKU6NsSjj"
 
---------------eWMX0fbQvH2FIyfNJIDyhFhM
+--------------pj07iQ6JKZMoqGiVKU6NsSjj
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-
-Hi Tvrtko,
-
-I only now saw this patch and I had to look for it...
-
-Do you get a bounce from luben.tuikov@amd.com? No? You should have.
-
-Please don't use luben.tuikov@amd.com.
-
-Please use ltuikov89@gmail.com, this email.
-=20
-Regards,
-Luben
 
 On 2023-11-02 06:55, Tvrtko Ursulin wrote:
 > From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
@@ -154,7 +140,18 @@ irst
 >  3 files changed, 29 insertions(+), 30 deletions(-)
 >=20
 
---------------eWMX0fbQvH2FIyfNJIDyhFhM
+Series is,
+
+Reviewed-by: Luben Tuikov <ltuikov89@gmail.com>
+
+and pushed to drm-misc-next.
+
+Thanks!
+--=20
+Regards,
+Luben
+
+--------------pj07iQ6JKZMoqGiVKU6NsSjj
 Content-Type: application/pgp-keys; name="OpenPGP_0x4C15479431A334AF.asc"
 Content-Disposition: attachment; filename="OpenPGP_0x4C15479431A334AF.asc"
 Content-Description: OpenPGP public key
@@ -174,21 +171,21 @@ z69uNhNWJcvIKJK6AQC9228Mqc1JeZMIyjYWr2HKYHi8S2q2/zHrSZwAWYYwDA=3D=3D
 =3DqCaZ
 -----END PGP PUBLIC KEY BLOCK-----
 
---------------eWMX0fbQvH2FIyfNJIDyhFhM--
+--------------pj07iQ6JKZMoqGiVKU6NsSjj--
 
---------------f79j9sW9QspVV1bapkaUXkgI--
+--------------S6203A0b4rIo2HdgVkbEljGX--
 
---------------cjowcf5D3KmOGgV2YhF7Jx1a
+--------------Zat0d97VlCXjXkdakYxFIAkZ
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-wnsEABYIACMWIQSZI+/lZhTvW3mgJddMFUeUMaM0rwUCZUbbEAUDAAAAAAAKCRBMFUeUMaM0rwdT
-AQDunOdAYvjBVC44x2hEdQbz1lT/s2Tr+0r8e+GFM6KaEwEAwyTiq2yDJsvP/Y3QSAnNfeaN7pQc
-CaCDVN8UnH4frww=
-=lCcr
+wnsEABYIACMWIQSZI+/lZhTvW3mgJddMFUeUMaM0rwUCZUb1DAUDAAAAAAAKCRBMFUeUMaM0r05S
+AQD6xNFKHHbX+A7utlr/us8Tb58P70oY5aqj1WvZnnKIlAD/SZJb/Rd/OWui261TPBPYIpVjb6cH
+WsqCP8JCQNaI6wI=
+=8i2H
 -----END PGP SIGNATURE-----
 
---------------cjowcf5D3KmOGgV2YhF7Jx1a--
+--------------Zat0d97VlCXjXkdakYxFIAkZ--
