@@ -1,41 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CF277E15BC
-	for <lists+dri-devel@lfdr.de>; Sun,  5 Nov 2023 19:17:49 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA70B7E15C5
+	for <lists+dri-devel@lfdr.de>; Sun,  5 Nov 2023 19:22:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3EE6910E11A;
-	Sun,  5 Nov 2023 18:17:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 60FF310E147;
+	Sun,  5 Nov 2023 18:22:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 95CCE10E11A
- for <dri-devel@lists.freedesktop.org>; Sun,  5 Nov 2023 18:17:45 +0000 (UTC)
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 939F310E147
+ for <dri-devel@lists.freedesktop.org>; Sun,  5 Nov 2023 18:22:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
- t=1699208261; x=1699813061; i=deller@gmx.de;
- bh=3RbYanvi9UwzmdwGMMPwpJFtJjQ4PV9jI8gAKX94JkU=;
+ t=1699208529; x=1699813329; i=deller@gmx.de;
+ bh=q6fbhKtgJKrq1eWaJkIzaWp0FTRFUQnw82SlgKs9rQg=;
  h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
  In-Reply-To;
- b=m5Js7DTvWU8jwR6I957DGgo/2lq3iYgN/VIQYxn6PbZtrBuKmBdtTZOdT1zvqt0S
- 5bqXK6BZWI1Z5dyxeJ6RmOyl5zG5I9NSzX0ogRDqxLQQlrkKXWgihDH50IirPe/Du
- gtOr1UwfdZR63n8Xl3XNlz7wS4q0eW1JCDGUYSjGCkI6B4k6pBuxAEG71PmNSAdxT
- lpiHVQA1sycnUiyOnpLuwQPuSMT2Pr6tKfQsqUUllh+GELMzl7s35iOS5FaMCQGN0
- rRm7FLCWAFKWXpNTsGVs8z5kNrTNj0IGy8Q/iUW0eeru5iv6w+FwJfKgkwM2kjiv1
- Gb3b4zkZvrRdS7iRKQ==
+ b=HMJXUVfQxXchtbK5whIk4yKdabZ0xTy5F5k/zLKyk/S6Md+IbeBOwAL1bjyjuvWN
+ nseqUsDSalmu1P1PC9f9HqVMTBtYeJC/yETXENMjh6BJzzsY59uMVxsaEuY0mM6qQ
+ KqroY1dFiMTHPykLPO9YcVoY/MlpLZ5fX8CQLi+IqhAJdkc/Tug6FR+Qax80O9n4L
+ Hwt0oE7VwL2CCaQgIvdbtNh/SCPqKhp7NXF4KpYc7Zbj0XyknrA4i9iul2T78Tpqr
+ 3y2VX6C8dVoe6mnQBXC3n0Ag7ZBSLN6TfrZTvOFyTs5iUbxsZgRneueukV7RgMXEz
+ 2wnlQnveIoRtsyjDhg==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.20.60] ([94.134.149.195]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1M4b1o-1qy3GN1LmQ-001k0U; Sun, 05
- Nov 2023 19:17:41 +0100
-Message-ID: <e9ff2894-e04c-4772-ab5d-595e0df460ae@gmx.de>
-Date: Sun, 5 Nov 2023 19:17:40 +0100
+Received: from [192.168.20.60] ([94.134.149.195]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MsYv3-1rIStv3a1L-00u0fv; Sun, 05
+ Nov 2023 19:22:08 +0100
+Message-ID: <0f93f782-08bf-4a2e-b370-806602fe1eee@gmx.de>
+Date: Sun, 5 Nov 2023 19:22:07 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drivers/video/fbdev: use new array-copying-wrapper
+Subject: Re: [PATCH 1/2] fbdev/imsttfb: fix double free in probe()
 Content-Language: en-US
-To: Philipp Stanner <pstanner@redhat.com>,
- Florian Tobias Schandinat <FlorianSchandinat@gmx.de>
-References: <20231102192402.53721-2-pstanner@redhat.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+References: <014c0272-0d53-4625-8517-e8b4aa68f4dd@moroto.mountain>
 From: Helge Deller <deller@gmx.de>
 Autocrypt: addr=deller@gmx.de; keydata=
  xsFNBF3Ia3MBEAD3nmWzMgQByYAWnb9cNqspnkb2GLVKzhoH2QD4eRpyDLA/3smlClbeKkWT
@@ -80,29 +79,29 @@ Autocrypt: addr=deller@gmx.de; keydata=
  FwRDcGV6nxanxZGKEkSHHOm8jHwvQWvPP73pvuPBEPtKGLzbgd7OOcGZWtq2hNC6cRtsRdDx
  4TAGMCz4j238m+2mdbdhRh3iBnWT5yPFfnv/2IjFAk+sdix1Mrr+LIDF++kiekeq0yUpDdc4
  ExBy2xf6dd+tuFFBp3/VDN4U0UfG4QJ2fg19zE5Z8dS4jGIbLg==
-In-Reply-To: <20231102192402.53721-2-pstanner@redhat.com>
+In-Reply-To: <014c0272-0d53-4625-8517-e8b4aa68f4dd@moroto.mountain>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:mjyxRPphkkeBnYzLrrmnxNd0Ntb7vbQiQyz9rLYbujT0Yg8+fhc
- DDKqXZXKbZntwRaGqKc39wdXTWMcVFBLE67varukDtnajseJbi58doGSkEBHPAI4Pvav/b+
- xWvC7iLArxdujuVHqskPUni09Ii+BkjkVGR33QwlaHfkAJzCeX/qs4BLP/OwuE4tGNaqSXl
- GY01vGS6A5IgU01nPgV0Q==
+X-Provags-ID: V03:K1:iM+cZKeoyANqJPhayAfxfwOMbq3oUPGvQPbPBdDnr2MTBFYvm0u
+ wJPjoGrvkW02CobBy0mJSsXXlFLJA1N5E2A7GfYCSJhLG6G6L1jL3/XH0SiwXQSyfWhUCDb
+ Keivx9sipkbNi6uGrbeT70P4RNoLIK3gHnb3QTzZha1LB3Sh8ac/Du9MWqM2umIr8+YY75i
+ HiIhoDfwbfCaeX9a0yWmg==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:Zw6MeNHaqfY=;qYVrKdIqOMYux+gD1/Ltf+QFY2Z
- TbBmg13CUPOaWPFOkx63U1OL9jZzxkuHO4/TthNAoOZ26dFCrJaO6Cu0ZMte9EwJweqcOBy8g
- r11bOFzj2NqeWZ9XRWBJ0qLOonPkb/BJpsoNS2KJ2y17kluKcWqvb/maGgkAoUbF7VJyVGXJL
- vBg5pcKE73Vjn5Rk39zzJvOkTx8GS7VLnYTZ3CLBf+MVEgC1j6+bs0zyJxyNS5sMdP4nu2NIP
- 04tUGIAuMNa16rL4a6+8qm+oHoZr8pjecvn77mWXVH4iz9Ag8QYzf3CdoRS62TBt/IyPIVCJJ
- EAwY6wCGBxo3fJH5ly0iHe+fZv1geag4kaEgfkXCAChXq/Oe3gogpJc1Y7ZEtj+aDLxTwtRD8
- HQmGBOlnaepE6H/EZV3kZG2maMObDNGwwhf4QV6cOcoLX6y6FwvaFTZmNW7lWjfynEc+dnHCi
- N7iYWap3V84Wt5mr7Iz4rP0n0p3JngJk7Z9ij2eFeUivAX+QhMzZ4EdBOXBUkfOxLafHyCIty
- qOJmZQLLnjmRarPwruLrmK6QV2LJ/1+8PgWlsIw7wFTLHoyifpHbMUN0jbQiTLbDc0akGIJ+P
- vu7fHS5L+mrgqpVWhL9BQDacicoZwhJ5Ampd+k5DJ/QLPzjJuWBJPXjddx6DXf52jhuySacNO
- 0VGmULE8rpEpxyjL+eyV1q9t0MzCwr+ahzQhgGe2JvpSlS6csbn7QxPNL+kVDj6jZUa6j+uPA
- rLBZhEKS6xhqS9g3tU08wdwxgGoag+Aoz/peM59kTGqLUAw8BMN6MtxQXssm5uN1FyJAN6PQ3
- ifmqByDiMOAlaW+U/HKGEM4iRos8yPH3f7wEt4YuEH90agFVb2ERiCLk7hB0yPu5Rw3RpCgvX
- osBvY6S35pCa3zum4WG6lqquq34p2y+1eqhGKqykn1Rqz2EVwT2fUbyLFSqkORFSgu6DZglfV
- m3srFw==
+UI-OutboundReport: notjunk:1;M01:P0:0q8eeXBvOX8=;qY0yvo3DWEBe720JKRoE940XUVY
+ 1S98FvX3BIRRi3Wqjd4MqpFFhx9nJDaYN5p2M5lM1es2tCHUuvZej/mVokqkP2Yp5XLYqVdBR
+ A+O8btx32sIGlhMVK6fDRH2up1efGtLR/+P1LX0nAkvM3iUaC54m1u5B+HeYk6GzwQPHsNm9n
+ 1RgvgPQ3g+JvqDk3f0OpLma8VqNYVwlysyBQ26Jw8+lbQdHZ7J6ZDxGe+1tKtr0KaS8hXxP+R
+ KMsKNXz1lT4DO+r+1IeF2//zOUC+9JTjpwm0EiCOKMjj/KfUCUED5muuHQ2tmpnn5z6uQF2hQ
+ mwkELZvlZPxRiu11trJvayGtb1e6N0BdiwvExNNoz10rq7qqevEVJugRqQsGIhi84dDUtSVZZ
+ ZupiZWcN60KYM69K/fsk+DSlpDv6O63fzqisCaC8MxxT+XJV0465u2UaN185PIPTtNncq8D2f
+ c7wi4LC013m5bBOBX5UOrVniCwQjkI1b3Fnp5fq8VaMQ2ZpBnx6w6SFeKf6bGvI1tPh38ygss
+ A3Rk/JAmFZ0IklJAGM60fQHBk/rxipQZIVG2v++55EF9fJTI0JzLC7E0NmBA0VHsTTeY8CoCH
+ KbR5J/YftB6SnRirU7NPDweyt5SGLhFsVxUSv3v5hWdvRvBTRgJpGOpD7GhsR1UgMeV7Thqqz
+ nSEPp72wc2qn8W6U+rPGXv8n6/1i+ri27DUHUYnMME35OV4ylK/L5daPKxR0KV1oBS9aBz5DV
+ MAlI9jgLQdkHd23cRtB4yBRr/b9/E4hlvczcv/D5kI+bcbCTk8kL4q1zUDl9K7bdjm+Cl5MN4
+ bwzOdXwywlbAtp39SPkzr1MqGMUaAT3uD4OXEDaK3Vgx/REkDskqWBbhoBtq5qRCfrBw2DqYS
+ aQg4HgZwM1nFfwMbOnbRB8uUlFfSlKeORq6yV259R8b3mJ/1E8XzE1J1aGrhMBolh3G+yXx2h
+ d4kJ5GFrfprINpQWcIpOzECoaiM=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -115,43 +114,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@redhat.com>, linux-fbdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org, kernel-janitors@vger.kernel.org,
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Zheng Wang <zyytlz.wz@163.com>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/2/23 20:24, Philipp Stanner wrote:
-> viafbdev.c utilizes memdup_user() to copy an array from userspace.
+On 10/27/23 14:04, Dan Carpenter wrote:
+> The init_imstt() function calls framebuffer_release() on error and then
+> the probe() function calls it again.  It should only be done in probe.
 >
-> There is a new wrapper, specifically designed for copying arrays. Use
-> this one instead.
->
-> Suggested-by: Dave Airlie <airlied@redhat.com>
-> Signed-off-by: Philipp Stanner <pstanner@redhat.com>
+> Fixes: 518ecb6a209f ("fbdev: imsttfb: Fix error path of imsttfb_probe()"=
+)
+> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
 
-applied.
+Both patches applied.
 
 Thanks!
 Helge
-
-
-> ---
->   drivers/video/fbdev/via/viafbdev.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/video/fbdev/via/viafbdev.c b/drivers/video/fbdev/vi=
-a/viafbdev.c
-> index 58868f8880d6..a52b1ba43a48 100644
-> --- a/drivers/video/fbdev/via/viafbdev.c
-> +++ b/drivers/video/fbdev/via/viafbdev.c
-> @@ -574,7 +574,7 @@ static int viafb_ioctl(struct fb_info *info, u_int c=
-md, u_long arg)
->   		break;
->
->   	case VIAFB_SET_GAMMA_LUT:
-> -		viafb_gamma_table =3D memdup_user(argp, 256 * sizeof(u32));
-> +		viafb_gamma_table =3D memdup_array_user(argp, 256, sizeof(u32));
->   		if (IS_ERR(viafb_gamma_table))
->   			return PTR_ERR(viafb_gamma_table);
->   		viafb_set_gamma_table(viafb_bpp, viafb_gamma_table);
-
