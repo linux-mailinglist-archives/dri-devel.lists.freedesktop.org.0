@@ -2,39 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFE3D7E2BB1
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Nov 2023 19:10:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C292D7E2BE7
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Nov 2023 19:27:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3EFCA10E39D;
-	Mon,  6 Nov 2023 18:10:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC92010E134;
+	Mon,  6 Nov 2023 18:27:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bmailout1.hostsharing.net (bmailout1.hostsharing.net
- [83.223.95.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 810E110E03D;
- Mon,  6 Nov 2023 18:10:25 +0000 (UTC)
-Received: from h08.hostsharing.net (h08.hostsharing.net [83.223.95.28])
+X-Greylist: delayed 528 seconds by postgrey-1.36 at gabe;
+ Mon, 06 Nov 2023 18:27:08 UTC
+Received: from bmailout3.hostsharing.net (bmailout3.hostsharing.net
+ [176.9.242.62])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A88810E134;
+ Mon,  6 Nov 2023 18:27:08 +0000 (UTC)
+Received: from h08.hostsharing.net (h08.hostsharing.net
+ [IPv6:2a01:37:1000::53df:5f1c:0])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
  client-signature RSA-PSS (4096 bits) client-digest SHA256)
  (Client CN "*.hostsharing.net",
  Issuer "RapidSSL Global TLS RSA4096 SHA256 2022 CA1" (verified OK))
- by bmailout1.hostsharing.net (Postfix) with ESMTPS id D4A49300002D5;
- Mon,  6 Nov 2023 19:10:22 +0100 (CET)
+ by bmailout3.hostsharing.net (Postfix) with ESMTPS id 82750104310B1;
+ Mon,  6 Nov 2023 19:18:18 +0100 (CET)
 Received: by h08.hostsharing.net (Postfix, from userid 100393)
- id CCA24473B55; Mon,  6 Nov 2023 19:10:22 +0100 (CET)
-Date: Mon, 6 Nov 2023 19:10:22 +0100
+ id 590FA119432; Mon,  6 Nov 2023 19:18:18 +0100 (CET)
+Date: Mon, 6 Nov 2023 19:18:18 +0100
 From: Lukas Wunner <lukas@wunner.de>
 To: Mario Limonciello <mario.limonciello@amd.com>
-Subject: Re: [PATCH v2 8/9] PCI: Exclude PCIe ports used for tunneling in
- pcie_bandwidth_available()
-Message-ID: <20231106181022.GA18564@wunner.de>
+Subject: Re: [PATCH v2 6/9] PCI: Rename is_thunderbolt to is_tunneled
+Message-ID: <20231106181818.GB18564@wunner.de>
 References: <20231103190758.82911-1-mario.limonciello@amd.com>
- <20231103190758.82911-9-mario.limonciello@amd.com>
+ <20231103190758.82911-7-mario.limonciello@amd.com>
+ <20231105173946.GA31955@wunner.de>
+ <9b1a5e36-337b-4750-9dad-b54e28cde03a@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231103190758.82911-9-mario.limonciello@amd.com>
+In-Reply-To: <9b1a5e36-337b-4750-9dad-b54e28cde03a@amd.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -75,38 +79,28 @@ Cc: "open list:THUNDERBOLT DRIVER" <linux-usb@vger.kernel.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Nov 03, 2023 at 02:07:57PM -0500, Mario Limonciello wrote:
-> The USB4 spec specifies that PCIe ports that are used for tunneling
-> PCIe traffic over USB4 fabric will be hardcoded to advertise 2.5GT/s and
-> behave as a PCIe Gen1 device. The actual performance of these ports is
-> controlled by the fabric implementation.
+On Mon, Nov 06, 2023 at 10:59:13AM -0600, Mario Limonciello wrote:
+> On 11/5/2023 11:39, Lukas Wunner wrote:
+> > On Fri, Nov 03, 2023 at 02:07:55PM -0500, Mario Limonciello wrote:
+> > > The `is_thunderbolt` bit has been used to indicate that a PCIe device
+> > > contained the Intel VSEC which is used by various parts of the kernel
+> > > to change behavior. To later allow usage with USB4 controllers as well,
+> > > rename this to `is_tunneled`.
+> > 
+> > This doesn't seem to make sense.  is_thunderbolt indicates that a device
+> > is part of a Thunderbolt controller.  See the code comment:
+> > 
+> > > -	unsigned int	is_thunderbolt:1;	/* Thunderbolt controller */
+> > 
+> > A Thunderbolt controller is not necessarily tunneled.  The PCIe switch,
+> > NHI and XHCI of the Thunderbolt host controller are not tunneled at all.
 > 
-> Downstream drivers such as amdgpu which utilize pcie_bandwidth_available()
-> to program the device will always find the PCIe ports used for
-> tunneling as a limiting factor potentially leading to incorrect
-> performance decisions.
+> I could really use some clarification which PCIe devices actually contain
+> the Intel VSEC.
 > 
-> To prevent problems in downstream drivers check explicitly for ports
-> being used for PCIe tunneling and skip them when looking for bandwidth
-> limitations of the hierarchy. If the only device connected is a root port
-> used for tunneling then report that device.
+> Is it in all 3 of those PCIe devices and not just the switch?
 
-I think a better approach would be to define three new bandwidths for
-Thunderbolt in enum pci_bus_speed and add appropriate descriptions in
-pci_speed_string().  Those three bandwidths would be 10 GBit/s for
-Thunderbolt 1, 20 GBit/s for Thunderbolt 2, 40 GBit/s for Thunderbolt 3
-and 4.
-
-Code to determine the Thunderbolt generation from the PCI ID already exists
-in tb_switch_get_generation().
-
-This will not only address the amdgpu issue you're trying to solve,
-but also emit an accurate speed from __pcie_print_link_status().
-
-The speed you're reporting with your approach is not necessarily
-accurate because the next non-tunneled device in the hierarchy might
-be connected with a far higher PCIe speed than what the Thunderbolt
-fabric allows.
+Yes, I've just double-checked Light Ridge, Cactus Ridge, Alpine Ridge.
 
 Thanks,
 
