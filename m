@@ -1,54 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C0567E21ED
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Nov 2023 13:41:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DE517E21F4
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Nov 2023 13:42:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B61B10E2EE;
-	Mon,  6 Nov 2023 12:41:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B178D10E2F4;
+	Mon,  6 Nov 2023 12:42:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5AF7310E2EE;
- Mon,  6 Nov 2023 12:41:27 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2FD5210E2F4;
+ Mon,  6 Nov 2023 12:42:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1699274487; x=1730810487;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=tin5at6g+aCnWnHDBCks7edCPP8uK/BV3MXuC1ocNfQ=;
- b=Zihmc4clHuZUsdbkeno1rHpKsJxqQ19wuI9xLVsTrttgRDfq+OaAuqoA
- B9AUY0k7dBKTeNxYHu485LMIHsEN94a8wIzDB1xgzcN8dqdyZTumQ3A6Y
- RTWaiEHTjQuyObPlBR0dnBBPzGUpVMhFTUeyc2d1h5u+REi9WKEU2E4ak
- F4RVoM2QHVD6pfMtZXW7wH84JdadMAUqoN+9vCarffxNJGxhOiVMf2C35
- FnbfmZfoNIlyj/9/qzDKZHNLDACrCBLk5Y+WAraCi2tejgdc8JHOUI9tY
- UNRnsm62PPTewuGoZo4vL9Gt8CJ38R2VG4Adt2cirTQ3hAGQ6ovPmSL/K g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="392132715"
-X-IronPort-AV: E=Sophos;i="6.03,281,1694761200"; d="scan'208";a="392132715"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ t=1699274530; x=1730810530;
+ h=date:from:to:cc:subject:in-reply-to:message-id:
+ references:mime-version;
+ bh=cpxdEtpcZ2PUz94OUq3gxytopBJ1J624EoZVZJrzV38=;
+ b=K5eix7OYwMOvydPS7YRFXGUv7pyNjJpXMcmYx/ELWSg4jqsneW1/1APa
+ 8nZzqSnG49cUKfFNDPvnSHtakpgDE4xXZDLOQO1CnAqhimaNtSlzvymXu
+ O9TbuwAdXAYqUXMabDsvts3l7zbTbA6WSR32O1HUSL8se1FpLC+hbtd5a
+ tAXndSyvSFRdbwUl0wYvgEizx1qds5EeoqySOrYiU0ukexkbrbZpCMAfc
+ 5KLIJgDZFhr6NJVLY77N4k5L9ORaacvs+embgXXNTB1D0T64bG4cWOyRe
+ 4hX/C04xf7FEdYR1m1U1/YkJHxpNr9YZdZce8FQXxwDqOvvkKctiez7CR w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="392132896"
+X-IronPort-AV: E=Sophos;i="6.03,281,1694761200"; d="scan'208";a="392132896"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Nov 2023 04:41:26 -0800
+ 06 Nov 2023 04:42:09 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="762307918"
-X-IronPort-AV: E=Sophos;i="6.03,281,1694761200"; d="scan'208";a="762307918"
-Received: from lpilolli-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.36.222])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Nov 2023 04:41:23 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>,
- intel-gfx@lists.freedesktop.org
-Subject: Re: [PATCH] drm/i915/vma: Fix potential UAF on multi-tile platforms
-In-Reply-To: <4844651.GXAFRqVoOG@jkrzyszt-mobl2.ger.corp.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20231106091603.231100-2-janusz.krzysztofik@linux.intel.com>
- <87bkc71a48.fsf@intel.com>
- <4844651.GXAFRqVoOG@jkrzyszt-mobl2.ger.corp.intel.com>
-Date: Mon, 06 Nov 2023 14:41:20 +0200
-Message-ID: <87pm0nyryn.fsf@intel.com>
+X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="797295909"
+X-IronPort-AV: E=Sophos;i="6.03,281,1694761200"; d="scan'208";a="797295909"
+Received: from rmstoi-mobl.ger.corp.intel.com ([10.251.216.76])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Nov 2023 04:42:01 -0800
+Date: Mon, 6 Nov 2023 14:41:58 +0200 (EET)
+From: =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
+To: Mario Limonciello <mario.limonciello@amd.com>
+Subject: Re: [PATCH v2 5/9] PCI: pciehp: Move check for is_thunderbolt into
+ a quirk
+In-Reply-To: <20231103190758.82911-6-mario.limonciello@amd.com>
+Message-ID: <e0a74b28-e862-202e-328-9eca3cb622f@linux.intel.com>
+References: <20231103190758.82911-1-mario.limonciello@amd.com>
+ <20231103190758.82911-6-mario.limonciello@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=US-ASCII
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,156 +58,125 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, dri-devel@lists.freedesktop.org,
- Andi Shyti <andi.shyti@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Chris Wilson <chris.p.wilson@linux.intel.com>,
- Nirmoy Das <nirmoy.das@intel.com>
+Cc: "open list:THUNDERBOLT DRIVER" <linux-usb@vger.kernel.org>,
+ Karol Herbst <kherbst@redhat.com>, "Rafael J . Wysocki" <rafael@kernel.org>,
+ "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
+ <nouveau@lists.freedesktop.org>,
+ "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
+ <dri-devel@lists.freedesktop.org>,
+ "open list:X86 PLATFORM DRIVERS" <platform-driver-x86@vger.kernel.org>,
+ Andreas Noever <andreas.noever@gmail.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?ISO-8859-15?Q?Marek_Beh=FAn?= <kabel@kernel.org>,
+ "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
+ "open list:ACPI" <linux-acpi@vger.kernel.org>,
+ Danilo Krummrich <dakr@redhat.com>,
+ "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
+ Manivannan Sadhasivam <mani@kernel.org>,
+ Michael Jamet <michael.jamet@intel.com>, Mark Gross <markgross@kernel.org>,
+ Hans de Goede <hdegoede@redhat.com>, Bjorn Helgaas <bhelgaas@google.com>,
+ Mika Westerberg <mika.westerberg@linux.intel.com>,
+ Xinhui Pan <Xinhui.Pan@amd.com>, open list <linux-kernel@vger.kernel.org>,
+ Yehezkel Bernat <YehezkelShB@gmail.com>,
+ =?ISO-8859-15?Q?Pali_Roh=E1r?= <pali@kernel.org>,
+ =?ISO-8859-15?Q?Christian_K=F6nig?= <christian.koenig@amd.com>,
+ "Maciej W . Rozycki" <macro@orcam.me.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 06 Nov 2023, Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com> wrote:
-> Hi Jani,
->
-> Thanks for looking at this.
->
-> On Monday, 6 November 2023 10:53:11 CET Jani Nikula wrote:
->> On Mon, 06 Nov 2023, Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com> 
-> wrote:
->> > Object debugging tools were sporadically reporting illegal attempts to
->> > free a still active i915 VMA object from when parking a GPU tile believed
->> > to be idle.
->> >
->> > [161.359441] ODEBUG: free active (active state 0) object: ffff88811643b958 
-> object type: i915_active hint: __i915_vma_active+0x0/0x50 [i915]
->> > [161.360082] WARNING: CPU: 5 PID: 276 at lib/debugobjects.c:514 
-> debug_print_object+0x80/0xb0
->> > ...
->> > [161.360304] CPU: 5 PID: 276 Comm: kworker/5:2 Not tainted 6.5.0-rc1-
-> CI_DRM_13375-g003f860e5577+ #1
->> > [161.360314] Hardware name: Intel Corporation Rocket Lake Client Platform/
-> RocketLake S UDIMM 6L RVP, BIOS RKLSFWI1.R00.3173.A03.2204210138 04/21/2022
->> > [161.360322] Workqueue: i915-unordered __intel_wakeref_put_work [i915]
->> > [161.360592] RIP: 0010:debug_print_object+0x80/0xb0
->> > ...
->> > [161.361347] debug_object_free+0xeb/0x110
->> > [161.361362] i915_active_fini+0x14/0x130 [i915]
->> > [161.361866] release_references+0xfe/0x1f0 [i915]
->> > [161.362543] i915_vma_parked+0x1db/0x380 [i915]
->> > [161.363129] __gt_park+0x121/0x230 [i915]
->> > [161.363515] ____intel_wakeref_put_last+0x1f/0x70 [i915]
->> >
->> > That has been tracked down to be happening when another thread was
->> > deactivating the VMA inside __active_retire() helper, after the VMA's
->> > active counter was already decremented to 0, but before deactivation of
->> > the VMA's object was reported to the object debugging tools.  Root cause
->> > has been identified as premature release of last wakeref for the GPU tile
->> > to which the active VMA belonged.
->> >
->> > In case of single tile platforms, an engine associated with a request that
->> > uses the VMA is keeping the tile's wakeref long enough for that VMA to be
->> > deactivated on time, before it is going to be freed.  However, on multi-
->> > tile platforms, a request may use a VMA from a tile other than the one
->> > that hosts the request's engine, then, not protected with the engine's
->> > wakeref.
->> >
->> > Get an extra wakeref for the VMA's tile when activating it, and put that
->> > wakeref only after the VMA is deactivated.  However, exclude GGTT from
->> > that processing path, otherwise the GPU never goes idle.  Since
->> > __i915_vma_retire() may be called from atomic contexts, use async variant
->> > of wakeref put.
->> >
->> > Closes: https://gitlab.freedesktop.org/drm/intel/issues/8875
->> > Fixes: Fixes: 213c43676beb ("drm/i915/mtl: Remove the 'force_probe' 
-> requirement for Meteor Lake")
->> 
->> I get the motivation, but this is hardly true. 
->
-> Hmm, do you suggest to blame a commit that was actually guilty, or to drop the 
-> Fixes: tag completely?  IOW, are we interested in fixing former stable 
-> releases that had no single multi-tile platform officially supported?
+On Fri, 3 Nov 2023, Mario Limonciello wrote:
 
-IMO Fixes: should only point at the actually broken commits.
+> commit 493fb50e958c ("PCI: pciehp: Assume NoCompl+ for Thunderbolt
+> ports") added a check into pciehp code to explicitly set NoCompl+
+> for all Intel Thunderbolt controllers, including those that don't
+> need it.
+> 
+> This overloaded the purpose of the `is_thunderbolt` member of
+> `struct pci_device` because that means that any controller that
+> identifies as thunderbolt would set NoCompl+ even if it doesn't
+> suffer this deficiency. As that commit helpfully specifies all the
+> controllers with the problem, move them into a PCI quirk.
+> 
+> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+> ---
+>  drivers/pci/hotplug/pciehp_hpc.c |  6 +-----
+>  drivers/pci/quirks.c             | 20 ++++++++++++++++++++
+>  include/linux/pci.h              |  1 +
+>  3 files changed, 22 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/pci/hotplug/pciehp_hpc.c b/drivers/pci/hotplug/pciehp_hpc.c
+> index fd713abdfb9f..23a92d681d1c 100644
+> --- a/drivers/pci/hotplug/pciehp_hpc.c
+> +++ b/drivers/pci/hotplug/pciehp_hpc.c
+> @@ -991,11 +991,7 @@ struct controller *pcie_init(struct pcie_device *dev)
+>  	if (pdev->hotplug_user_indicators)
+>  		slot_cap &= ~(PCI_EXP_SLTCAP_AIP | PCI_EXP_SLTCAP_PIP);
+>  
+> -	/*
+> -	 * We assume no Thunderbolt controllers support Command Complete events,
+> -	 * but some controllers falsely claim they do.
+> -	 */
+> -	if (pdev->is_thunderbolt)
+> +	if (pdev->no_command_complete)
+>  		slot_cap |= PCI_EXP_SLTCAP_NCCS;
+>  
+>  	ctrl->slot_cap = slot_cap;
+> diff --git a/drivers/pci/quirks.c b/drivers/pci/quirks.c
+> index eeec1d6f9023..4bbf6e33ca11 100644
+> --- a/drivers/pci/quirks.c
+> +++ b/drivers/pci/quirks.c
+> @@ -3807,6 +3807,26 @@ DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_INTEL_CACTUS_RIDGE_4C
+>  DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_INTEL_PORT_RIDGE,
+>  			quirk_thunderbolt_hotplug_msi);
+>  
+> +/*
+> + * We assume no Thunderbolt controllers support Command Complete events,
+> + * but some controllers falsely claim they do.
 
-If you want to get the backport to a specific stable kernel, please use
+IMO, this wording makes little sense with the new code. How about taking 
+some text from the original commit's changelog:
 
-Cc: stable@vger.kernel.org # v6.6+
+/*
+ * Certain Thunderbolt 1 controllers falsely claim to support Command 
+ * Completed events.
+ */
 
-or similar.
-
-IIUC in this case you want the fix to go to v6.7 which doesn't exist
-yet, so you'll just have to ask the maintainers to pick it up in fixes.
-
-
-BR,
-Jani.
-
-
-
->
->> Also, double Fixes.
->
-> Ops, sorry.
->
-> Janusz
->
->> 
->> BR,
->> Jani.
->> 
->> > Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
->> > ---
->> >  drivers/gpu/drm/i915/i915_vma.c | 18 ++++++++++++++++--
->> >  1 file changed, 16 insertions(+), 2 deletions(-)
->> >
->> > diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/
-> i915_vma.c
->> > index d09aad34ba37f..70c68f614c6db 100644
->> > --- a/drivers/gpu/drm/i915/i915_vma.c
->> > +++ b/drivers/gpu/drm/i915/i915_vma.c
->> > @@ -34,6 +34,7 @@
->> >  #include "gt/intel_engine.h"
->> >  #include "gt/intel_engine_heartbeat.h"
->> >  #include "gt/intel_gt.h"
->> > +#include "gt/intel_gt_pm.h"
->> >  #include "gt/intel_gt_requests.h"
->> >  #include "gt/intel_tlb.h"
->> >  
->> > @@ -103,12 +104,25 @@ static inline struct i915_vma *active_to_vma(struct 
-> i915_active *ref)
->> >  
->> >  static int __i915_vma_active(struct i915_active *ref)
->> >  {
->> > -	return i915_vma_tryget(active_to_vma(ref)) ? 0 : -ENOENT;
->> > +	struct i915_vma *vma = active_to_vma(ref);
->> > +
->> > +	if (!i915_vma_tryget(vma))
->> > +		return -ENOENT;
->> > +
->> > +	if (!i915_vma_is_ggtt(vma))
->> > +		intel_gt_pm_get(vma->vm->gt);
->> > +
->> > +	return 0;
->> >  }
->> >  
->> >  static void __i915_vma_retire(struct i915_active *ref)
->> >  {
->> > -	i915_vma_put(active_to_vma(ref));
->> > +	struct i915_vma *vma = active_to_vma(ref);
->> > +
->> > +	if (!i915_vma_is_ggtt(vma))
->> > +		intel_gt_pm_put_async(vma->vm->gt);
->> > +
->> > +	i915_vma_put(vma);
->> >  }
->> >  
->> >  static struct i915_vma *
->> 
->> 
->
->
->
->
+The code change looks fine.
 
 -- 
-Jani Nikula, Intel
+ i.
+
+> + */
+> +static void quirk_thunderbolt_command_complete(struct pci_dev *pdev)
+> +{
+> +	pdev->no_command_complete = 1;
+> +}
+> +DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_INTEL_LIGHT_RIDGE,
+> +			quirk_thunderbolt_command_complete);
+> +DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_INTEL_EAGLE_RIDGE,
+> +			quirk_thunderbolt_command_complete);
+> +DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_INTEL_LIGHT_PEAK,
+> +			quirk_thunderbolt_command_complete);
+> +DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_INTEL_CACTUS_RIDGE_4C,
+> +			quirk_thunderbolt_command_complete);
+> +DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_INTEL_CACTUS_RIDGE_2C,
+> +			quirk_thunderbolt_command_complete);
+> +DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_INTEL_PORT_RIDGE,
+> +			quirk_thunderbolt_command_complete);
+>  #ifdef CONFIG_ACPI
+>  /*
+>   * Apple: Shutdown Cactus Ridge Thunderbolt controller.
+> diff --git a/include/linux/pci.h b/include/linux/pci.h
+> index 530b0a360514..439c2dac8a3e 100644
+> --- a/include/linux/pci.h
+> +++ b/include/linux/pci.h
+> @@ -441,6 +441,7 @@ struct pci_dev {
+>  	unsigned int	is_hotplug_bridge:1;
+>  	unsigned int	shpc_managed:1;		/* SHPC owned by shpchp */
+>  	unsigned int	is_thunderbolt:1;	/* Thunderbolt controller */
+> +	unsigned int	no_command_complete:1;	/* No command completion */
+>  	/*
+>  	 * Devices marked being untrusted are the ones that can potentially
+>  	 * execute DMA attacks and similar. They are typically connected
+> 
+
