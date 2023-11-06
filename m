@@ -1,52 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F7F47E1DB7
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Nov 2023 10:58:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C3B287E1DE6
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Nov 2023 11:08:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D38D10E2A9;
-	Mon,  6 Nov 2023 09:58:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D9A6110E2AE;
+	Mon,  6 Nov 2023 10:08:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B4C8910E2A9;
- Mon,  6 Nov 2023 09:58:08 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 804A210E2A5;
+ Mon,  6 Nov 2023 10:08:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1699264688; x=1730800688;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=TkCxKcGNYdznfqT6795v5EotFRAa/oQht+6T7W3URj0=;
- b=LrElxFClg/heFhBtULqBBZ6J1e4/t5IMDX1Tds1/HdVtSjlLaZSwTHo7
- jIc7pb3bnZzhwFlYQikHUtbVFQElcitN+5iIy2f284vY+6oZ/1LBbxzei
- jxQxxl66eGPa5lTslkzqVUypz+3FXooFkVUxrUeA0ME6rKVB0in5aa/7a
- ONPUKOeNhMXlwiJrI2kQ+dzihdbrtC37GEeJ6TZeemf2vEEspcRdlAO40
- o99SVg+nh9mHRtEtxSaGOaQMC2DfGFJP0StVuK8vLSTwj1horQb9JmzSA
- n83uEnZdyAQ5SXfYL7DeTNyLgI/S5coMRoQW5Wrut42wyWWlLNFSxN6dA Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="420357287"
-X-IronPort-AV: E=Sophos;i="6.03,281,1694761200"; d="scan'208";a="420357287"
+ t=1699265320; x=1730801320;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=3FTaU3UZGXHaCP0kFA3RhbeuFF1T8ffaPIWh2QxDvAk=;
+ b=HPXQwtMY88qBUMAVKWWC6zNuM1iqqZ4fgjxpSEbPwkB3kuQO1bXvB3fE
+ 6gwOsGnRZoijoXnp9S0T38uWazSuJ5qqxE51XBYNRAbu0h2Mi/HVoyndY
+ eCa51NSHsO43ww0kW3HN3BC85RRgwy7I0Smgjeb4Xmbsc6sqarkk1q/Zc
+ iAHA7FKrDZpqYe2R2DMdjLI1Si/MUvV/0jSwR0f+uM5bpUjBpOegiZt//
+ Y53r/r5Ksdw+mxZToRpyclGgHFEcwZK7eNrfJ9HW/GxlfpjRQ6cOhxkVz
+ OB8cO5Z542EF6K43zYsj69koT3YJCo+/rnNFbNN/4pAjxSSvMLm2PPYpI g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="388125605"
+X-IronPort-AV: E=Sophos;i="6.03,281,1694761200"; d="scan'208";a="388125605"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Nov 2023 01:58:06 -0800
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Nov 2023 02:08:39 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="755803698"
-X-IronPort-AV: E=Sophos;i="6.03,281,1694761200"; d="scan'208";a="755803698"
-Received: from chareli-mobl1.ger.corp.intel.com (HELO intel.com)
- ([10.252.51.31])
+X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="755804910"
+X-IronPort-AV: E=Sophos;i="6.03,281,1694761200"; d="scan'208";a="755804910"
+Received: from jkrzyszt-mobl2.ger.corp.intel.com (HELO
+ jkrzyszt-mobl2.intranet) ([10.213.8.220])
  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Nov 2023 01:58:01 -0800
-Date: Mon, 6 Nov 2023 10:57:58 +0100
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Kunwu Chan <chentao@kylinos.cn>
-Subject: Re: [PATCH v2] drm/i915: Fix potential spectre vulnerability
-Message-ID: <ZUi4ploYfYyZvmO7@ashyti-mobl2.lan>
-References: <d300506c-ab82-4cc1-b750-61e54ec2ad9e@linux.intel.com>
- <20231103023257.58199-1-chentao@kylinos.cn>
+ 06 Nov 2023 02:08:37 -0800
+From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+To: igt-dev@lists.freedesktop.org
+Subject: [PATCH i-g-t 0/2] lib/kunit: Execute test cases synchronously
+Date: Mon,  6 Nov 2023 10:59:36 +0100
+Message-ID: <20231106095935.7031-4-janusz.krzysztofik@linux.intel.com>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231103023257.58199-1-chentao@kylinos.cn>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,48 +56,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tvrtko.ursulin@linux.intel.com, andi.shyti@linux.intel.com,
- alan.previn.teres.alexis@intel.com, kunwu.chan@hotmail.com,
- intel-gfx@lists.freedesktop.org, jonathan.cavitt@intel.com,
- linux-kernel@vger.kernel.org, chris.p.wilson@intel.com,
- dri-devel@lists.freedesktop.org, andrzej.hajda@intel.com,
- rodrigo.vivi@intel.com, stable@vger.kernel.org, robdclark@chromium.org
+Cc: Kamil Konieczny <kamil.konieczny@linux.intel.com>,
+ Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Kunwu,
+Load KUnit modules in a way that only one selected test case is executed
+per each IGT dynamic sub-subtest.
 
-On Fri, Nov 03, 2023 at 10:32:57AM +0800, Kunwu Chan wrote:
-> Fix smatch warning:
-> drivers/gpu/drm/i915/gem/i915_gem_context.c:847 set_proto_ctx_sseu()
-> warn: potential spectre issue 'pc->user_engines' [r] (local cap)
-> 
-> Fixes: d4433c7600f7 ("drm/i915/gem: Use the proto-context to handle create parameters (v5)")
-> Cc: <stable@vger.kernel.org> # v5.15+
-> Signed-off-by: Kunwu Chan <chentao@kylinos.cn>
-> Suggested-by: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-> Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-> Link: https://lore.kernel.org/all/20231102101642.52988-1-chentao@kylinos.cn
-> ---
->  drivers/gpu/drm/i915/gem/i915_gem_context.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> index 9a9ff84c90d7..e38f06a6e56e 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> @@ -844,6 +844,7 @@ static int set_proto_ctx_sseu(struct drm_i915_file_private *fpriv,
->  		if (idx >= pc->num_user_engines)
->  			return -EINVAL;
->  
-> +		idx = array_index_nospec(idx, pc->num_user_engines);
+Janusz Krzysztofik (2):
+  lib/kunit: Split out reusable part of test case list gathering
+  lib/kunit: Execute test cases synchronously
 
-you ignored my comment, though.
+ lib/igt_kmod.c | 262 +++++++++++++++++++++----------------------------
+ 1 file changed, 111 insertions(+), 151 deletions(-)
 
-Andi
+-- 
+2.42.0
 
->  		pe = &pc->user_engines[idx];
->  
->  		/* Only render engine supports RPCS configuration. */
-> -- 
-> 2.34.1
