@@ -1,46 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD8E17E2D2E
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Nov 2023 20:49:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 839E07E2D37
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Nov 2023 20:50:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 297AB10E3EE;
-	Mon,  6 Nov 2023 19:49:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F28110E3EF;
+	Mon,  6 Nov 2023 19:50:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D98C610E3F7
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Nov 2023 19:49:07 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::646])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ms.lwn.net (Postfix) with ESMTPSA id 025052E6;
- Mon,  6 Nov 2023 19:49:05 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 025052E6
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
- t=1699300146; bh=zEQVt6vSfkbE0VtgX8L2A0cLeymcuJsbgzk3kYbgEQ8=;
- h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
- b=sqN1m8v5uKefgXcVoXs3nzfjFsozgjlQGI2hzYaua1W6UJVYUtoQEMdxWgad9d91C
- /Yv54Dus92LipnX/lwyNTjkywG2SImP5uNDW9l6xSGnpYPfZ5F8woJIIdWP0l8CXtc
- 1jmumAStJiBZfW/uV4BsQuJmzVDRieW054jp1so/livXVp+giY73x/CpypszRdDOrN
- YpD1Tes3NCUEjT6HaHFgKopNcqLbIVK+V/N21u+usK4ZYqL1YvUBzJIIdsw0QIZaMH
- dIBynHFbcRBeJ0FbH9uiUtBUVifi2bfrcyiCWdFiYc+Q1+F402Ahs8Vuzgkx9rWSvQ
- IMldVcCvKLncg==
-From: Jonathan Corbet <corbet@lwn.net>
-To: Jani Nikula <jani.nikula@intel.com>, Hunter Chasens
- <hunter.chasens18@ncf.edu>
-Subject: Re: [PATCH v1] docs: gpu: rfc: i915_scheduler.rst remove unused
- directives for namespacing
-In-Reply-To: <87edh2zn2y.fsf@intel.com>
-References: <20231104134708.69432-1-hunter.chasens18@ncf.edu>
- <ZUhvj2uj_PvaDxIM@debian.me> <8734xj18ck.fsf@intel.com>
- <CAFJe6O1oJnQvLVSJZP6MMXULGrX=a3SEO1X5b4xff06WhqLw_g@mail.gmail.com>
- <87edh2zn2y.fsf@intel.com>
-Date: Mon, 06 Nov 2023 12:49:05 -0700
-Message-ID: <871qd24q8e.fsf@meer.lwn.net>
+Received: from bombadil.infradead.org (bombadil.infradead.org
+ [IPv6:2607:7c80:54:3::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A010F10E3EF;
+ Mon,  6 Nov 2023 19:50:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+ Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+ Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+ bh=f94JPRBiAKH4bv0NOHWLWcrjSw/yWsvyMGtRiVM5Wj8=; b=Q8/sBS6AHUKIctzYnVZm04uavu
+ SYF8NSxXHC972Jcsqdy5S4w7xpwUEKgKME6NDbATjzoWC70WHzuSgYv/dRsSgRo8tjq56+KTd+xd1
+ 9NQg/e46gHBqcM6MzkPa7yaLEpgy/rlgFcamN7yOU0pxlZpwfmuI6vCI2hr2x7/porkoBxf+6sx4i
+ mp/gNgRNE0GQLtd7VwgSdx3o2j/5Zv9msH/CUXly7yCRluz9np19PhHwawcrh1XyHHI7fz0KmVUSp
+ f8J24mtxNayL0XPJE7to+5yPM0KJFjXO2+Q75iYDzBUrX/1VdrvAvM185U1FO0/5Wal3tJDNIgRe6
+ bwY/UmNg==;
+Received: from [50.53.46.231] (helo=[192.168.254.15])
+ by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+ id 1r05cQ-00HQ9y-2w; Mon, 06 Nov 2023 19:50:42 +0000
+Message-ID: <b4354d60-7b24-4e36-b62a-515e8996334a@infradead.org>
+Date: Mon, 6 Nov 2023 11:50:41 -0800
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1] drm: amd: Resolve Sphinx unexpected indentation warning
+To: Hunter Chasens <hunter.chasens18@ncf.edu>,
+ Jani Nikula <jani.nikula@linux.intel.com>
+References: <20231105210044.70371-1-hunter.chasens18@ncf.edu>
+ <ZUh2fuCjmgle3vd9@debian.me>
+ <665794d7-38e0-4e74-9af7-eca986792e44@infradead.org>
+ <ZUigbshGGc451V5L@debian.me> <875y2f193t.fsf@intel.com>
+ <irp2myv4jp6o7vut5m7ax4hya5764xzustf2klxfpys42qmevk@yxxus464hito>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <irp2myv4jp6o7vut5m7ax4hya5764xzustf2klxfpys42qmevk@yxxus464hito>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,37 +55,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Bagas Sanjaya <bagasdotme@gmail.com>,
- Linux Documentation <linux-doc@vger.kernel.org>, tzimmermann@suse.de,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, mripard@kernel.org,
- Luca Coelho <luciano.coelho@intel.com>, dri-devel@lists.freedesktop.org
+Cc: Lijo Lazar <lijo.lazar@amd.com>,
+ Linux Documentation <linux-doc@vger.kernel.org>, Xinhui.Pan@amd.com,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ amd-gfx@lists.freedesktop.org,
+ Linux DRI Development <dri-devel@lists.freedesktop.org>,
+ Bagas Sanjaya <bagasdotme@gmail.com>, alexander.deucher@amd.com,
+ evan.quan@amd.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Jani Nikula <jani.nikula@intel.com> writes:
 
-> Looks like this is because namespacing was introduced in Sphinx 3.1
-> [1]. With earlier Sphinx, you get a warning about the namespace
-> directives.
->
-> However, with newer Sphinx, you get the warning mentioned in commit
-> f6757dfcfde7 ("drm/doc: fix duplicate declaration warning") if you
-> remove the namespace directives:
->
-> linux/Documentation/gpu/driver-uapi.rst:2279: WARNING: Duplicate C declaration, also defined at rfc/i915_scheduler:3.
-> Declaration is '.. c:struct:: i915_context_engines_parallel_submit'.
->
-> It would be short-sighted to just remove the directives. Sooner or later
-> we're gong to bump the (IMO extremely conservative) minimum version
-> requirement.
 
-I'd say let's just do that once the merge window is done.  A year ago
-(in 31abfdda6527) I added a warning for <2.4.x, so raising the minimum
-that far would appear to require no thought.  Going up to 3.1 is a step
-beyond that, though, not sure if we want to go that far.
+On 11/6/23 11:06, Hunter Chasens wrote:
+> First, apologies to Jani Nikula. I accedently top posted on the other thread.
+> My email client is giving me a hard time. The following works and, if 
+> everyone agrees, I'll send out a v2.
+> 
+>  * E.g.::
+>  *
+>  *  S: 19Mhz *
+>  *  0: 615Mhz
+>  *  1: 800Mhz
+>  *  2: 888Mhz
+>  *  3: 1000Mhz
 
-Something to ask at the LPC session next week.
+Please do.
+Thanks.
 
-Thanks,
-
-jon
+-- 
+~Randy
