@@ -1,47 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E03627E2C3D
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Nov 2023 19:46:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F3ED7E2C3F
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Nov 2023 19:48:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C0F810E3AB;
-	Mon,  6 Nov 2023 18:46:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB9C710E3C0;
+	Mon,  6 Nov 2023 18:48:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0873210E3AB;
- Mon,  6 Nov 2023 18:46:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
- Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=Ek+4F7J7Mk3BtUTbVzvnULJL2UXDYC7qnurmKj3yZbQ=; b=iuQy/YSb33Y5QG0A/ShNcPy1+x
- zXgPQTi5hL6xHscwY78f0DFx/B9r2mCTZDvVji7bAZdgdCbMcEwdOrzHKk3MSlXF4c6O45nYgqWXR
- XM9DPxxxjkHiqjuUt2mHDSyGhlJ54YgUPPJuN+8aXsBZHeVgvJKtWTDfJa8N1N8lAHNUC2dGClidU
- ZjW6lkURhE8yIURex70DFofiNkQRkUxaImLe/m5rXzbeBy5K83rRF/kpr+2SFlYQ6Ct/qpS8oRCRf
- 52TpuiPiOOPTGx8TYiNWtGY/TW75qylAwwBAThyLh+0nWXj0wbl5kt1Cy0IbjkiahYCQS5h4P1YlK
- 0GTG2wJQ==;
-Received: from [102.213.205.115] (helo=mail.igalia.com)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1r04cO-0007JS-0L; Mon, 06 Nov 2023 19:46:36 +0100
-Date: Mon, 6 Nov 2023 17:46:11 -0100
-From: Melissa Wen <mwen@igalia.com>
-To: Sebastian Wick <sebastian.wick@redhat.com>
-Subject: Re: [PATCH v4 09/32] drm/amd/display: add plane 3D LUT
- driver-specific properties
-Message-ID: <20231106184611.j5ufxr732glcdetn@mail.igalia.com>
-References: <20231005171527.203657-1-mwen@igalia.com>
- <20231005171527.203657-10-mwen@igalia.com>
- <20231006090948.GA400742@toolbox>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231006090948.GA400742@toolbox>
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com
+ [IPv6:2607:f8b0:4864:20::b49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD3D710E3C0
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Nov 2023 18:47:58 +0000 (UTC)
+Received: by mail-yb1-xb49.google.com with SMTP id
+ 3f1490d57ef6-da07b5e6f75so4604473276.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 Nov 2023 10:47:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1699296478; x=1699901278;
+ darn=lists.freedesktop.org; 
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=xfYGvt6skLkznGwiqZd9de4cpoKtWczhZA3SDzBtHOk=;
+ b=ral85OuAbsdsuaXeX/egF0l+5J8YwYzoeu/Hb18qzVGOF1xp9a2Cj0hdMW5ElJZF36
+ AtB7gDcNtIZbWBeiwpnjFxGLlGBJ6XrUFOsrVVY2gpH779zFxotC5NZWn23H4Q+2/dlc
+ CXtL5CO9ayEai3oC6Gw9YodmeSIZNHtuykphKv5ykwEQC/OmAO/JuzyApd71h+2v54tX
+ wIrSdYWhfbsc95/0+t+dUiC0tsTX9DGS9rR3pKEkmBQqKEXpE7+Nm/xrYuaf2rs4cBMj
+ kxC5bU+Y9UJqDK5ZbsbFziVcJ8v5Kn7pASAZSSSE84XqjpW1bHAsO2ba/5XxAfziogz3
+ fOKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1699296478; x=1699901278;
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=xfYGvt6skLkznGwiqZd9de4cpoKtWczhZA3SDzBtHOk=;
+ b=N7eaAqCFW6V5U+o9JaSiAGR9fKdDJzLA1d9i0a+9B1qZvUpBiURdBNz3rkXkJp7Ydj
+ CgQJIzitmn4ZUrD5xVzq+uQFQbAUPNJkRBJEZEk7LVjc4xJME6DQv+QUGbumMQuVCP58
+ Zvw5tBi34JuoKvKnm86v48w+UdkEyU0lqQlON30aQ1n/RO0Syfto3h88fSp/a4LS49fb
+ Ov4U6dP4DfqM79LRTNm1vaZ7pLw7CLVAzE71Ae6KlZpB7zRQr+amSgST2zdtHMQiB12P
+ 2hlCXJvn/XabOQWBLm78ryKXfVRACmpkbdIORlPkxvz8WCDDZu534M/s7gF+gHinzZdI
+ Lx2g==
+X-Gm-Message-State: AOJu0YxCdWp/m4AGzdWsPMDmY6KRCx7Cw7W/cMM1TMAvGlH9TP0/XQC3
+ u6Z2tCcBOREBQtAcYVINsHyz4S4=
+X-Google-Smtp-Source: AGHT+IGUJ2l90Skjb6Eo4Ej5QS91AxRpSBX/C4tSPBp5d8CEeFQv1G9sZ0kIa3LYlCMauqPUFev8brw=
+X-Received: from sdf.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5935])
+ (user=sdf job=sendgmr) by 2002:a25:d308:0:b0:da0:c924:4fdc with SMTP id
+ e8-20020a25d308000000b00da0c9244fdcmr7631ybf.6.1699296478090; Mon, 06 Nov
+ 2023 10:47:58 -0800 (PST)
+Date: Mon, 6 Nov 2023 10:47:56 -0800
+In-Reply-To: <20231106024413.2801438-10-almasrymina@google.com>
+Mime-Version: 1.0
+References: <20231106024413.2801438-1-almasrymina@google.com>
+ <20231106024413.2801438-10-almasrymina@google.com>
+Message-ID: <ZUk03DhWxV-bOFJL@google.com>
+Subject: Re: [RFC PATCH v3 09/12] net: add support for skbs with unreadable
+ frags
+From: Stanislav Fomichev <sdf@google.com>
+To: Mina Almasry <almasrymina@google.com>
+Content-Type: text/plain; charset="utf-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,198 +69,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Pekka Paalanen <pekka.paalanen@collabora.com>, kernel-dev@igalia.com,
- Shashank Sharma <Shashank.Sharma@amd.com>, sunpeng.li@amd.com,
- Xinhui.Pan@amd.com, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Xaver Hugl <xaver.hugl@gmail.com>, dri-devel@lists.freedesktop.org,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
- Alex Hung <alex.hung@amd.com>, amd-gfx@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>, christian.koenig@amd.com,
- Joshua Ashton <joshua@froggi.es>, sungjoon.kim@amd.com
+Cc: Kaiyuan Zhang <kaiyuanz@google.com>, dri-devel@lists.freedesktop.org,
+ Eric Dumazet <edumazet@google.com>, linux-kselftest@vger.kernel.org,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ linux-arch@vger.kernel.org, Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Jeroen de Borst <jeroendb@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, linux-media@vger.kernel.org,
+ Jesper Dangaard Brouer <hawk@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ linaro-mm-sig@lists.linaro.org, Shakeel Butt <shakeelb@google.com>,
+ Willem de Bruijn <willemb@google.com>, netdev@vger.kernel.org,
+ David Ahern <dsahern@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>, linux-kernel@vger.kernel.org,
+ "David S. Miller" <davem@davemloft.net>,
+ Praveen Kaligineedi <pkaligineedi@google.com>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/06, Sebastian Wick wrote:
-> On Thu, Oct 05, 2023 at 04:15:04PM -0100, Melissa Wen wrote:
-> > Add 3D LUT property for plane color transformations using a 3D lookup
-> > table. 3D LUT allows for highly accurate and complex color
-> > transformations and is suitable to adjust the balance between color
-> > channels. It's also more complex to manage and require more
-> > computational resources.
-> > 
-> > Since a 3D LUT has a limited number of entries in each dimension we want
-> > to use them in an optimal fashion. This means using the 3D LUT in a
-> > colorspace that is optimized for human vision, such as sRGB, PQ, or
-> > another non-linear space. Therefore, userpace may need one 1D LUT
-> > (shaper) before it to delinearize content and another 1D LUT after 3D
-> > LUT (blend) to linearize content again for blending. The next patches
-> > add these 1D LUTs to the plane color mgmt pipeline.
-> > 
-> > v3:
-> > - improve commit message about 3D LUT
-> > - describe the 3D LUT entries and size (Harry)
-> > 
-> > v4:
-> > - advertise 3D LUT max size as the size of a single-dimension
-> > 
-> > Signed-off-by: Melissa Wen <mwen@igalia.com>
-> > ---
-> >  drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h      | 18 +++++++++++++++
-> >  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h |  9 ++++++++
-> >  .../amd/display/amdgpu_dm/amdgpu_dm_color.c   | 14 +++++++++++
-> >  .../amd/display/amdgpu_dm/amdgpu_dm_plane.c   | 23 +++++++++++++++++++
-> >  4 files changed, 64 insertions(+)
-> > 
-> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
-> > index 62044d41da75..f7adaa52c23f 100644
-> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
-> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
-> > @@ -363,6 +363,24 @@ struct amdgpu_mode_info {
-> >  	 * @plane_hdr_mult_property:
-> >  	 */
-> >  	struct drm_property *plane_hdr_mult_property;
-> > +	/**
-> > +	 * @plane_lut3d_property: Plane property for color transformation using
-> > +	 * a 3D LUT (pre-blending), a three-dimensional array where each
-> > +	 * element is an RGB triplet. Each dimension has a size of the cubed
-> > +	 * root of lut3d_size. The array contains samples from the approximated
+On 11/05, Mina Almasry wrote:
+> For device memory TCP, we expect the skb headers to be available in host
+> memory for access, and we expect the skb frags to be in device memory
+> and unaccessible to the host. We expect there to be no mixing and
+> matching of device memory frags (unaccessible) with host memory frags
+> (accessible) in the same skb.
 > 
-> This should be "Each dimension has a size of lut3d_size" now.
+> Add a skb->devmem flag which indicates whether the frags in this skb
+> are device memory frags or not.
+> 
+> __skb_fill_page_desc() now checks frags added to skbs for page_pool_iovs,
+> and marks the skb as skb->devmem accordingly.
+> 
+> Add checks through the network stack to avoid accessing the frags of
+> devmem skbs and avoid coalescing devmem skbs with non devmem skbs.
+> 
+> Signed-off-by: Willem de Bruijn <willemb@google.com>
+> Signed-off-by: Kaiyuan Zhang <kaiyuanz@google.com>
+> Signed-off-by: Mina Almasry <almasrymina@google.com>
+> 
+> ---
+>  include/linux/skbuff.h | 14 +++++++-
+>  include/net/tcp.h      |  5 +--
+>  net/core/datagram.c    |  6 ++++
+>  net/core/gro.c         |  5 ++-
+>  net/core/skbuff.c      | 77 ++++++++++++++++++++++++++++++++++++------
+>  net/ipv4/tcp.c         |  6 ++++
+>  net/ipv4/tcp_input.c   | 13 +++++--
+>  net/ipv4/tcp_output.c  |  5 ++-
+>  net/packet/af_packet.c |  4 +--
+>  9 files changed, 115 insertions(+), 20 deletions(-)
+> 
+> diff --git a/include/linux/skbuff.h b/include/linux/skbuff.h
+> index 1fae276c1353..8fb468ff8115 100644
+> --- a/include/linux/skbuff.h
+> +++ b/include/linux/skbuff.h
+> @@ -805,6 +805,8 @@ typedef unsigned char *sk_buff_data_t;
+>   *	@csum_level: indicates the number of consecutive checksums found in
+>   *		the packet minus one that have been verified as
+>   *		CHECKSUM_UNNECESSARY (max 3)
+> + *	@devmem: indicates that all the fragments in this skb are backed by
+> + *		device memory.
+>   *	@dst_pending_confirm: need to confirm neighbour
+>   *	@decrypted: Decrypted SKB
+>   *	@slow_gro: state present at GRO time, slower prepare step required
+> @@ -991,7 +993,7 @@ struct sk_buff {
+>  #if IS_ENABLED(CONFIG_IP_SCTP)
+>  	__u8			csum_not_inet:1;
+>  #endif
+> -
+> +	__u8			devmem:1;
+>  #if defined(CONFIG_NET_SCHED) || defined(CONFIG_NET_XGRESS)
+>  	__u16			tc_index;	/* traffic control index */
+>  #endif
+> @@ -1766,6 +1768,12 @@ static inline void skb_zcopy_downgrade_managed(struct sk_buff *skb)
+>  		__skb_zcopy_downgrade_managed(skb);
+>  }
+>  
+> +/* Return true if frags in this skb are not readable by the host. */
+> +static inline bool skb_frags_not_readable(const struct sk_buff *skb)
+> +{
+> +	return skb->devmem;
 
-You're right. Thanks for pointed it out.
-
-> 
-> > +	 * function. On AMD, values between samples are estimated by
-> > +	 * tetrahedral interpolation. The array is accessed with three indices,
-> > +	 * one for each input dimension (color channel), blue being the
-> > +	 * outermost dimension, red the innermost.
-> > +	 */
-> > +	struct drm_property *plane_lut3d_property;
-> > +	/**
-> > +	 * @plane_degamma_lut_size_property: Plane property to define the max
-> > +	 * size of 3D LUT as supported by the driver (read-only). The max size
-> > +	 * is the max size of one dimension and, therefore, the max number of
-> > +	 * entries for 3D LUT array is the 3D LUT size cubed;
-> > +	 */
-> > +	struct drm_property *plane_lut3d_size_property;
-> >  };
-> >  
-> >  #define AMDGPU_MAX_BL_LEVEL 0xFF
-> > diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-> > index bb2ce843369d..7a2350c62cf1 100644
-> > --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-> > +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-> > @@ -784,6 +784,11 @@ struct dm_plane_state {
-> >  	 * TF is needed for any subsequent linear-to-non-linear transforms.
-> >  	 */
-> >  	__u64 hdr_mult;
-> > +	/**
-> > +	 * @lut3d: 3D lookup table blob. The blob (if not NULL) is an array of
-> > +	 * &struct drm_color_lut.
-> > +	 */
-> > +	struct drm_property_blob *lut3d;
-> >  };
-> >  
-> >  struct dm_crtc_state {
-> > @@ -869,6 +874,10 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
-> >  
-> >  void amdgpu_dm_trigger_timing_sync(struct drm_device *dev);
-> >  
-> > +/* 3D LUT max size is 17x17x17 (4913 entries) */
-> > +#define MAX_COLOR_3DLUT_SIZE 17
-> > +#define MAX_COLOR_3DLUT_BITDEPTH 12
-> > +/* 1D LUT size */
-> >  #define MAX_COLOR_LUT_ENTRIES 4096
-> >  /* Legacy gamm LUT users such as X doesn't like large LUT sizes */
-> >  #define MAX_COLOR_LEGACY_LUT_ENTRIES 256
-> > diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
-> > index caf49a044ab4..011f2f9ec890 100644
-> > --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
-> > +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
-> > @@ -230,6 +230,20 @@ amdgpu_dm_create_color_properties(struct amdgpu_device *adev)
-> >  		return -ENOMEM;
-> >  	adev->mode_info.plane_hdr_mult_property = prop;
-> >  
-> > +	prop = drm_property_create(adev_to_drm(adev),
-> > +				   DRM_MODE_PROP_BLOB,
-> > +				   "AMD_PLANE_LUT3D", 0);
-> > +	if (!prop)
-> > +		return -ENOMEM;
-> > +	adev->mode_info.plane_lut3d_property = prop;
-> > +
-> > +	prop = drm_property_create_range(adev_to_drm(adev),
-> > +					 DRM_MODE_PROP_IMMUTABLE,
-> > +					 "AMD_PLANE_LUT3D_SIZE", 0, UINT_MAX);
-> > +	if (!prop)
-> > +		return -ENOMEM;
-> > +	adev->mode_info.plane_lut3d_size_property = prop;
-> > +
-> >  	return 0;
-> >  }
-> >  #endif
-> > diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-> > index ae64d4b73360..068798ffdd56 100644
-> > --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-> > +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-> > @@ -1359,6 +1359,8 @@ dm_drm_plane_duplicate_state(struct drm_plane *plane)
-> >  
-> >  	if (dm_plane_state->degamma_lut)
-> >  		drm_property_blob_get(dm_plane_state->degamma_lut);
-> > +	if (dm_plane_state->lut3d)
-> > +		drm_property_blob_get(dm_plane_state->lut3d);
-> >  
-> >  	dm_plane_state->degamma_tf = old_dm_plane_state->degamma_tf;
-> >  	dm_plane_state->hdr_mult = old_dm_plane_state->hdr_mult;
-> > @@ -1432,6 +1434,8 @@ static void dm_drm_plane_destroy_state(struct drm_plane *plane,
-> >  
-> >  	if (dm_plane_state->degamma_lut)
-> >  		drm_property_blob_put(dm_plane_state->degamma_lut);
-> > +	if (dm_plane_state->lut3d)
-> > +		drm_property_blob_put(dm_plane_state->lut3d);
-> >  
-> >  	if (dm_plane_state->dc_state)
-> >  		dc_plane_state_release(dm_plane_state->dc_state);
-> > @@ -1462,6 +1466,14 @@ dm_atomic_plane_attach_color_mgmt_properties(struct amdgpu_display_manager *dm,
-> >  	drm_object_attach_property(&plane->base,
-> >  				   dm->adev->mode_info.plane_hdr_mult_property,
-> >  				   AMDGPU_HDR_MULT_DEFAULT);
-> > +
-> > +	if (dpp_color_caps.hw_3d_lut) {
-> > +		drm_object_attach_property(&plane->base,
-> > +					   mode_info.plane_lut3d_property, 0);
-> > +		drm_object_attach_property(&plane->base,
-> > +					   mode_info.plane_lut3d_size_property,
-> > +					   MAX_COLOR_3DLUT_SIZE);
-> > +	}
-> >  }
-> >  
-> >  static int
-> > @@ -1493,6 +1505,14 @@ dm_atomic_plane_set_property(struct drm_plane *plane,
-> >  			dm_plane_state->hdr_mult = val;
-> >  			dm_plane_state->base.color_mgmt_changed = 1;
-> >  		}
-> > +	} else if (property == adev->mode_info.plane_lut3d_property) {
-> > +		ret = drm_property_replace_blob_from_id(plane->dev,
-> > +							&dm_plane_state->lut3d,
-> > +							val, -1,
-> > +							sizeof(struct drm_color_lut),
-> > +							&replaced);
-> > +		dm_plane_state->base.color_mgmt_changed |= replaced;
-> > +		return ret;
-> >  	} else {
-> >  		drm_dbg_atomic(plane->dev,
-> >  			       "[PLANE:%d:%s] unknown property [PROP:%d:%s]]\n",
-> > @@ -1520,6 +1540,9 @@ dm_atomic_plane_get_property(struct drm_plane *plane,
-> >  		*val = dm_plane_state->degamma_tf;
-> >  	} else if (property == adev->mode_info.plane_hdr_mult_property) {
-> >  		*val = dm_plane_state->hdr_mult;
-> > +	} else 	if (property == adev->mode_info.plane_lut3d_property) {
-> > +		*val = (dm_plane_state->lut3d) ?
-> > +			dm_plane_state->lut3d->base.id : 0;
-> >  	} else {
-> >  		return -EINVAL;
-> >  	}
-> > -- 
-> > 2.40.1
-> > 
-> 
+bikeshedding: should we also rename 'devmem' sk_buff flag to 'not_readable'?
+It better communicates the fact that the stack shouldn't dereference the
+frags (because it has 'devmem' fragments or for some other potential
+future reason).
