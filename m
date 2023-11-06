@@ -1,54 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 160A17E1B04
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Nov 2023 08:20:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E0DE7E1B57
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Nov 2023 08:38:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF13910E26E;
-	Mon,  6 Nov 2023 07:20:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 43ECC10E272;
+	Mon,  6 Nov 2023 07:38:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 37A9810E26E
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Nov 2023 07:20:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1699255204; x=1730791204;
- h=message-id:date:mime-version:subject:to:references:from:
- in-reply-to:content-transfer-encoding;
- bh=W1bj9G4MjMbXCHih6EGkZypmYYrx6s+lCGl0yim11f0=;
- b=EV9RyEMBJvcJ2DbDj6Zw5eOINQy27eGJkzIotzPFbLRf07uqmYopZ54R
- 1VSv4ly4+IgCf3OeBhwCONif8sgH5UM9J69VryfsB2U8yBSDBl6d3/J/U
- k2k1c9Y31vPpN3YClWkAgUHsH+s5ijrlGFsExwrXU7aIdVn4a0KlFLhUi
- PlfN7GnSEdvdB8uE8Z6AD0KXSZKv+fMvIZyf8x2oHOSVm2FiGAZdPhlCX
- Sv+kfQavXjZ27khD7qMz7bSjj9eIYC2SKkwOcwrVN3Sm7Au67F9T5YTLh
- JDrS9GVS+qAF/V2l4+Pa5QRr6nlz+9pK+j9/0VQSbRL2ffOG5cuAUCp/o g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="420336160"
-X-IronPort-AV: E=Sophos;i="6.03,280,1694761200"; d="scan'208";a="420336160"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Nov 2023 23:20:03 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="762240043"
-X-IronPort-AV: E=Sophos;i="6.03,280,1694761200"; d="scan'208";a="762240043"
-Received: from unknown (HELO [10.217.160.78]) ([10.217.160.78])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Nov 2023 23:20:02 -0800
-Message-ID: <e96207e2-e23a-427c-9176-23fb516b0f46@linux.intel.com>
-Date: Mon, 6 Nov 2023 08:20:01 +0100
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A901910E272
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Nov 2023 07:37:57 +0000 (UTC)
+X-UUID: 272ee5e3370f4af59d4d6569884386e7-20231106
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.32, REQID:650d6552-cc29-407a-8975-6d33b1b6e4b1, IP:5,
+ U
+ RL:0,TC:0,Content:0,EDM:25,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,ACTI
+ ON:release,TS:15
+X-CID-INFO: VERSION:1.1.32, REQID:650d6552-cc29-407a-8975-6d33b1b6e4b1, IP:5,
+ URL
+ :0,TC:0,Content:0,EDM:25,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+ :release,TS:15
+X-CID-META: VersionHash:5f78ec9, CLOUDID:6a6332fc-4a48-46e2-b946-12f04f20af8c,
+ B
+ ulkID:231106153745CC6A3BO8,BulkQuantity:0,Recheck:0,SF:66|24|17|19|44|102,
+ TC:nil,Content:0,EDM:5,IP:-2,URL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,
+ OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_FAS,TF_CID_SPAM_FSD,TF_CID_SPAM_FSI
+X-UUID: 272ee5e3370f4af59d4d6569884386e7-20231106
+X-User: oushixiong@kylinos.cn
+Received: from localhost.localdomain [(116.128.244.169)] by mailgw
+ (envelope-from <oushixiong@kylinos.cn>) (Generic MTA)
+ with ESMTP id 364484791; Mon, 06 Nov 2023 15:37:44 +0800
+From: oushixiong <oushixiong@kylinos.cn>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Subject: [PATCH] drm/atomic-helper: Call stall_checks() before allocate
+ drm_crtc_commit
+Date: Mon,  6 Nov 2023 15:37:42 +0800
+Message-Id: <20231106073742.158905-1-oushixiong@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] accel/qaic: Update MAX_ORDER use to be inclusive
-Content-Language: en-US
-To: dri-devel@lists.freedesktop.org
-References: <20231103153302.20642-1-quic_jhugo@quicinc.com>
-From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <20231103153302.20642-1-quic_jhugo@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,37 +56,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Shixiong Ou <oushixiong@kylinos.cn>,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 03.11.2023 16:33, Jeffrey Hugo wrote:
-> MAX_ORDER was redefined so that valid allocations to the page allocator
-> are in the range of 0..MAX_ORDER, inclusive in the commit
-> 23baf831a32c ("mm, treewide: redefine MAX_ORDER sanely").
-> 
-> We are treating MAX_ORDER as an exclusive value, and thus could be
-> requesting larger allocations.  Update our use to match the redefinition
-> of MAX_ORDER.
-> 
-> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-> Reviewed-by: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
-> Reviewed-by: Carl Vanderlip <quic_carlv@quicinc.com>
-> ---
->  drivers/accel/qaic/qaic_data.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/accel/qaic/qaic_data.c b/drivers/accel/qaic/qaic_data.c
-> index 8da81768f2ab..8998c28e566e 100644
-> --- a/drivers/accel/qaic/qaic_data.c
-> +++ b/drivers/accel/qaic/qaic_data.c
-> @@ -452,7 +452,7 @@ static int create_sgt(struct qaic_device *qdev, struct sg_table **sgt_out, u64 s
->  		 * later
->  		 */
->  		buf_extra = (PAGE_SIZE - size % PAGE_SIZE) % PAGE_SIZE;
-> -		max_order = min(MAX_ORDER - 1, get_order(size));
-> +		max_order = min(MAX_ORDER, get_order(size));
->  	} else {
->  		/* allocate a single page for book keeping */
->  		nr_pages = 1;
+From: Shixiong Ou <oushixiong@kylinos.cn>
 
-Reviewed-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Calling stall_checks() before allocating drm_crtc_commit not after that.
+
+Signed-off-by: Shixiong Ou <oushixiong@kylinos.cn>
+---
+ drivers/gpu/drm/drm_atomic_helper.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+index 2444fc33dd7c..94ea878b240d 100644
+--- a/drivers/gpu/drm/drm_atomic_helper.c
++++ b/drivers/gpu/drm/drm_atomic_helper.c
+@@ -2283,6 +2283,10 @@ int drm_atomic_helper_setup_commit(struct drm_atomic_state *state,
+ 	funcs = state->dev->mode_config.helper_private;
+ 
+ 	for_each_oldnew_crtc_in_state(state, crtc, old_crtc_state, new_crtc_state, i) {
++		ret = stall_checks(crtc, nonblock);
++		if (ret)
++			return ret;
++
+ 		commit = kzalloc(sizeof(*commit), GFP_KERNEL);
+ 		if (!commit)
+ 			return -ENOMEM;
+@@ -2291,10 +2295,6 @@ int drm_atomic_helper_setup_commit(struct drm_atomic_state *state,
+ 
+ 		new_crtc_state->commit = commit;
+ 
+-		ret = stall_checks(crtc, nonblock);
+-		if (ret)
+-			return ret;
+-
+ 		/*
+ 		 * Drivers only send out events when at least either current or
+ 		 * new CRTC state is active. Complete right away if everything
+-- 
+2.25.1
+
