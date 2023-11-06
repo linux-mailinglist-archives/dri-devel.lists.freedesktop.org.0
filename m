@@ -2,71 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E83017E2BC8
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Nov 2023 19:19:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47F1A7E2C0B
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Nov 2023 19:32:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 63F0E10E3A1;
-	Mon,  6 Nov 2023 18:19:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE5B510E3A6;
+	Mon,  6 Nov 2023 18:32:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com
- [IPv6:2607:f8b0:4864:20::630])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D78AA10E134;
- Mon,  6 Nov 2023 18:19:25 +0000 (UTC)
-Received: by mail-pl1-x630.google.com with SMTP id
- d9443c01a7336-1cc2b8deb23so7022785ad.1; 
- Mon, 06 Nov 2023 10:19:25 -0800 (PST)
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com
+ [IPv6:2a00:1450:4864:20::532])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D026E10E3A6
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Nov 2023 18:32:23 +0000 (UTC)
+Received: by mail-ed1-x532.google.com with SMTP id
+ 4fb4d7f45d1cf-53e2308198eso8056393a12.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 Nov 2023 10:32:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1699294765; x=1699899565; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Tl8ZlpdAg7GwtfMnMLLp2fEwluCCUsAiPSPuqFG5Xz0=;
- b=WlJSn7isvEUoSthDmgfHfJKHhgC/gOIj0Av7hLSSppiFFMYeodK73jMAmf4bbGlh+1
- j1SKHDwigRZgSdYTKmxjo6I4zrq2lKquLmA7uhYyXRgoac/660+feVSQb8Nusx2LwoPd
- uuPvh89k7BoJJjh/CelGZp6yXbV1+/ATEPz1LaQKv/qD/3gBND3cBhFf/h6BTvX+vGPu
- dfoyjaGf6e/FbkTUs+ld6z5VmxoWQ7auC0cg+wGZP4KAMBYi40PCrAAU/tgS2f8FYExh
- d954VAPPXFtclhFMi58RB0qAZMji+RTy/QPJLRpmRUhvkblbPLI/SDbYM8zPuyvHte3c
- x10Q==
+ d=ncf.edu; s=google; t=1699295542; x=1699900342; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=soe8+lEThbuxrauS3i3IgwpF8YYQwLOsQWEzb/VsikE=;
+ b=T9E09N9Y1TLmKV0Sc8WJFZ9CfQWgSA80Zd8aiWrqaqvltzS+o7uIC2loW8YLVY+HhU
+ H0AZoB8zCeWYqjWtWKNcVZTmwnOOiXOhBMTaGE+bRhsnPqffIWZc5wFfayYYF7MYAuMT
+ 8nshc9AIVWRTkUNA1NzSn5dKxzL4ywZ5rn1ETPe79+Gu6ppRrFshBnenU7nDdDNy0JDg
+ uMKe8w8wFoHaeCJOqwP4mpIUxRM1pqXV59oDGKqlzQMiUxqQv9Nu/xn1m5fAE/em0YRu
+ TIyKWz6Z+r6FAOmUPZjJzeu3sNnLl5GQ+MnfAanBl/TXCk63VMUHdlq9zAhwkK+pSuky
+ 66Ww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699294765; x=1699899565;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Tl8ZlpdAg7GwtfMnMLLp2fEwluCCUsAiPSPuqFG5Xz0=;
- b=rBgbn9CiJ7sU+Xr/dtDK5rW/6/2WoyMIaMuMjMTWKLixGap9FRsj84M8Pm5ktvbF2u
- 1+7DhveNsqb8qO+Djy/H28Zx3Do+Oa2RW4/+6AExfpNdbxvsA04OWe4uMPE1YmPfxoau
- y6Q5EU/aXH48FMHSKySbbIaX0m0GtYwwbI6TTtFX1dH3qVxsYP9ZT6KR1m3Jr9KMpy2g
- uCrruX0kpaue2j1AZBr06L90C/vZD3nW3I/5PfqBk0k0b+jNVh/WaFqt6gT/hdUx9QaU
- AqzAlonFF89Hh7ruE2ZVftIbggrvNbaeW51tnxSF2Lr8GPDAhsvmv82qcHyHt1Kc9dzW
- KdAg==
-X-Gm-Message-State: AOJu0Yyt8njH9SvlzJgkA/wxKn0nTzXdU94yEWMlsVJ1VdZePMc6E0E2
- KIe/RbggoKR9TRJY9fe2c28=
-X-Google-Smtp-Source: AGHT+IGZuMNhI2zZQoFqXXq3E+/brKmtT53P7YA09Nfn+zaDB3yG15dLm3XBrAxgDZ/f+n0Zz0X0rQ==
-X-Received: by 2002:a17:902:f213:b0:1c4:1cd3:8062 with SMTP id
- m19-20020a170902f21300b001c41cd38062mr31371603plc.2.1699294765189; 
- Mon, 06 Nov 2023 10:19:25 -0800 (PST)
-Received: from [192.168.0.152] ([103.75.161.211])
- by smtp.gmail.com with ESMTPSA id
- u14-20020a170902e5ce00b001c9b35287aesm6204407plf.88.2023.11.06.10.19.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Nov 2023 10:19:24 -0800 (PST)
-Message-ID: <ba31f441-80cd-4745-b425-23e5b9e0f9c0@gmail.com>
-Date: Mon, 6 Nov 2023 23:49:14 +0530
+ d=1e100.net; s=20230601; t=1699295542; x=1699900342;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=soe8+lEThbuxrauS3i3IgwpF8YYQwLOsQWEzb/VsikE=;
+ b=W+Qip9c8M1x16r8k5DDmjccDGiqUNziVlEg6iaWCkr+wcb6WZe/e736bVLwshzIYbG
+ 8rqhZre+Mz2/D4NYb0BzbuJ36sNZVMZaUkEChelUSJw0IvyrwZ4F+v2sMC1wF2Coc8NH
+ PpNJURWf4AY5y50WJpb8+mc1wvU3BbYXwPLG0utpPVdWWKG/wQj3b+HnYxLLF7CaPmJq
+ g49LSc8MKJIU4GHugdf6gkUlLF/RXPlhiU+hfHbuL6bz0FA41vyhdBNhzkOpk3w10HKy
+ B2NpZf6FE0FPbqs3zHXRhmZgtaH78Tl6RR/aZFLbb9VkPeCRMj9xhSHYfVzW84fCj7+f
+ AmPQ==
+X-Gm-Message-State: AOJu0YwrO2dYdHHlWa0S2k+8ePs7HqZIjZbequfggWHEo3pY/LDTCLU8
+ G/pfGXSCzFN0QujdQtYHf27Ti3rQtzGy9zYZN9TCsw==
+X-Google-Smtp-Source: AGHT+IE3COqO7suPYWfkaoTj6yDKUl996sDTArem8FR8xxzofLxH2XDlLxKp5WUB3vgbmOm3yFfyau3xkkh6Cxyv/u0=
+X-Received: by 2002:a17:907:9413:b0:9b2:b691:9b5f with SMTP id
+ dk19-20020a170907941300b009b2b6919b5fmr14911910ejc.41.1699295542171; Mon, 06
+ Nov 2023 10:32:22 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drivers: gpu: Fix warning using plain integer as NULL
-Content-Language: en-US
-To: Jani Nikula <jani.nikula@linux.intel.com>, alexander.deucher@amd.com,
- christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
- daniel@ffwll.ch
-References: <20231103155013.332367-1-singhabhinav9051571833@gmail.com>
- <87sf5jyvkt.fsf@intel.com> <a2310260-ba15-428e-9fd1-08abb9565b18@gmail.com>
- <87h6lyzvg8.fsf@intel.com>
-From: Abhinav Singh <singhabhinav9051571833@gmail.com>
-In-Reply-To: <87h6lyzvg8.fsf@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20231104134708.69432-1-hunter.chasens18@ncf.edu>
+ <ZUhvj2uj_PvaDxIM@debian.me> <8734xj18ck.fsf@intel.com>
+In-Reply-To: <8734xj18ck.fsf@intel.com>
+From: Hunter Chasens <hunter.chasens18@ncf.edu>
+Date: Mon, 6 Nov 2023 13:32:11 -0500
+Message-ID: <CAFJe6O1oJnQvLVSJZP6MMXULGrX=a3SEO1X5b4xff06WhqLw_g@mail.gmail.com>
+Subject: Re: [PATCH v1] docs: gpu: rfc: i915_scheduler.rst remove unused
+ directives for namespacing
+To: Jani Nikula <jani.nikula@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,95 +70,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel-mentees@lists.linuxfoundation.org,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: Bagas Sanjaya <bagasdotme@gmail.com>, corbet@lwn.net, tzimmermann@suse.de,
+ Linux Documentation <linux-doc@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, mripard@kernel.org,
+ Luca Coelho <luciano.coelho@intel.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/6/23 22:10, Jani Nikula wrote:
-> On Mon, 06 Nov 2023, Abhinav Singh <singhabhinav9051571833@gmail.com> wrote:
->> On 11/6/23 16:53, Jani Nikula wrote:
->>> On Fri, 03 Nov 2023, Abhinav Singh <singhabhinav9051571833@gmail.com> wrote:
->>>> sparse static analysis tools generate a warning with this message
->>>> "Using plain integer as NULL pointer". In this case this warning is
->>>> being shown because we are trying to intialize a pointer to NULL using
->>>> integer value 0.
->>>>
->>>> Signed-off-by: Abhinav Singh <singhabhinav9051571833@gmail.com>
->>>> ---
->>>>    drivers/gpu/drm/radeon/clearstate_evergreen.h | 8 ++++----
->>>>    1 file changed, 4 insertions(+), 4 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/radeon/clearstate_evergreen.h b/drivers/gpu/drm/radeon/clearstate_evergreen.h
->>>> index 63a1ffbb3ced..3b645558f133 100644
->>>> --- a/drivers/gpu/drm/radeon/clearstate_evergreen.h
->>>> +++ b/drivers/gpu/drm/radeon/clearstate_evergreen.h
->>>> @@ -1049,7 +1049,7 @@ static const struct cs_extent_def SECT_CONTEXT_defs[] =
->>>>        {SECT_CONTEXT_def_5, 0x0000a29e, 5 },
->>>>        {SECT_CONTEXT_def_6, 0x0000a2a5, 56 },
->>>>        {SECT_CONTEXT_def_7, 0x0000a2de, 290 },
->>>> -    { 0, 0, 0 }
->>>> +    { NULL, 0, 0 }
->>>
->>> Random drive-by comment:
->>>
->>> I'd just use {} as the sentinel.
->>>
->>> BR,
->>> Jani.
->>>
->>>>    };
->>>>    static const u32 SECT_CLEAR_def_1[] =
->>>>    {
->>>> @@ -1060,7 +1060,7 @@ static const u32 SECT_CLEAR_def_1[] =
->>>>    static const struct cs_extent_def SECT_CLEAR_defs[] =
->>>>    {
->>>>        {SECT_CLEAR_def_1, 0x0000ffc0, 3 },
->>>> -    { 0, 0, 0 }
->>>> +    { NULL, 0, 0 }
->>>>    };
->>>>    static const u32 SECT_CTRLCONST_def_1[] =
->>>>    {
->>>> @@ -1070,11 +1070,11 @@ static const u32 SECT_CTRLCONST_def_1[] =
->>>>    static const struct cs_extent_def SECT_CTRLCONST_defs[] =
->>>>    {
->>>>        {SECT_CTRLCONST_def_1, 0x0000f3fc, 2 },
->>>> -    { 0, 0, 0 }
->>>> +    { NULL, 0, 0 }
->>>>    };
->>>>    static const struct cs_section_def evergreen_cs_data[] = {
->>>>        { SECT_CONTEXT_defs, SECT_CONTEXT },
->>>>        { SECT_CLEAR_defs, SECT_CLEAR },
->>>>        { SECT_CTRLCONST_defs, SECT_CTRLCONST },
->>>> -    { 0, SECT_NONE }
->>>> +    { NULL, SECT_NONE }
->>>>    };
->>>> --
->>>> 2.39.2
->>>>
->>>
->> Hi, Thanks for dropping by and the suggestion. I thought of using NULL
->> instead of {} is because, first the warning itself says that 0 is used
->> to intialize pointers with NULL, and second due this link
->> https://www.spinics.net/lists/linux-sparse/msg10066.html where linus is
->> talking about not using 0 NULL intialization of pointer variable and he
->> thinks this is a legitimate issue and not some false positive
-> 
-> But... {} is neither of those things. It's empty initialization instead
-> of 0. It's valid in GCC and C23, and used all over the place in the
-> kernel.
-> 
+When running `make htmldocs` the following warnings are given.
+
+```
+Documentation/gpu/rfc/i915_scheduler.rst:138: WARNING:
+Unknown directive type "c:namespace-push".
+
+.. c:namespace-push:: rfc
+Documentation/gpu/rfc/i915_scheduler.rst:143: WARNING:
+Unknown directive type "c:namespace-pop".
+
+.. c:namespace-pop::
+```
+
+The kernel test robot also reported it here.
+Link: https://lore.kernel.org/all/202311061623.86pTQrie-lkp@intel.com/
+
+Last year Maryam Tahhan <mtahhan@redhat.com> from Redhat noticed something
+similar. "The missing support of c:namespace-push:: and c:namespace-pop::
+directives by helper scripts for kernel documentation prevents using the
+``c:function::`` directive with proper namespacing." From the context, it
+sounds like this was brought about from a Sphinx update.
+
+Link: https://lore.kernel.org/all/20221123092321.88558-3-mtahhan@redhat.com=
+/
+
+When compiled the `.. kernel-doc::` literal gives it the same formatting wi=
+th
+or without the namespace directives present. Due to the above information I
+think it safe to remove these, as they don't seem to do anything but
+throw warnings.
+
+On Mon, Nov 6, 2023 at 5:31=E2=80=AFAM Jani Nikula <jani.nikula@intel.com> =
+wrote:
+>
+> On Mon, 06 Nov 2023, Bagas Sanjaya <bagasdotme@gmail.com> wrote:
+> > On Sat, Nov 04, 2023 at 09:47:08AM -0400, Hunter Chasens wrote:
+> >> diff --git a/Documentation/gpu/rfc/i915_scheduler.rst b/Documentation/=
+gpu/rfc/i915_scheduler.rst
+> >> index c237ebc024cd..23ba7006929b 100644
+> >> --- a/Documentation/gpu/rfc/i915_scheduler.rst
+> >> +++ b/Documentation/gpu/rfc/i915_scheduler.rst
+> >> @@ -135,13 +135,9 @@ Add I915_CONTEXT_ENGINES_EXT_PARALLEL_SUBMIT and
+> >>  drm_i915_context_engines_parallel_submit to the uAPI to implement thi=
+s
+> >>  extension.
+> >>
+> >> -.. c:namespace-push:: rfc
+> >> -
+> >>  .. kernel-doc:: include/uapi/drm/i915_drm.h
+> >>          :functions: i915_context_engines_parallel_submit
+> >>
+> >> -.. c:namespace-pop::
+> >> -
+>
+> What makes the namespacing unnecessary?
+>
+> $ git grep '.. kernel-doc:: include/uapi/drm/i915_drm.h'
+> Documentation/gpu/driver-uapi.rst:.. kernel-doc:: include/uapi/drm/i915_d=
+rm.h
+> Documentation/gpu/rfc/i915_scheduler.rst:.. kernel-doc:: include/uapi/drm=
+/i915_drm.h
+>
+> And you get [1] and [2].
+>
+> >>  Extend execbuf2 IOCTL to support submitting N BBs in a single IOCTL
+> >>  -------------------------------------------------------------------
+> >>  Contexts that have been configured with the 'set_parallel' extension =
+can only
+> >
+> > The warnings go away, thanks!
+>
+> What warnings go away?
+>
 > BR,
 > Jani.
-> 
-> 
-> 
-If I understand correctly you want to me change from this "{ NULL, 
-SECT_NONE }" to "{}" right? If yes, then according to what I read from 
-some online, it is better to intialize variables especially pointer 
-because in some cases a non initialized pointer doesnt always point to 
-NULL. Not sure if this applies in kernel space as well. But yeah my 
-knowledge is pretty limited in C in user space and in kernel space it is 
-even more limited :)
-
+>
+>
+> [1] https://docs.kernel.org/gpu/driver-uapi.html#c.i915_context_engines_p=
+arallel_submit
+> [2] https://docs.kernel.org/gpu/rfc/i915_scheduler.html#c.rfc.i915_contex=
+t_engines_parallel_submit
+>
+> >
+> > Fixes: f6757dfcfde7 ("drm/doc: fix duplicate declaration warning")
+> > Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+>
+> --
+> Jani Nikula, Intel
