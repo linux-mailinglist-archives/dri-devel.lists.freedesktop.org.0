@@ -2,72 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 820817E2CB4
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Nov 2023 20:16:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 457287E2CD4
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Nov 2023 20:29:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B010010E3E0;
-	Mon,  6 Nov 2023 19:16:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EEBCD10E3DD;
+	Mon,  6 Nov 2023 19:29:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
- [IPv6:2a00:1450:4864:20::12c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF73E10E3E0
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Nov 2023 19:16:50 +0000 (UTC)
-Received: by mail-lf1-x12c.google.com with SMTP id
- 2adb3069b0e04-507a98517f3so6045877e87.0
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Nov 2023 11:16:50 -0800 (PST)
+Received: from mail-vs1-xe2f.google.com (mail-vs1-xe2f.google.com
+ [IPv6:2607:f8b0:4864:20::e2f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0728110E3DD
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Nov 2023 19:29:48 +0000 (UTC)
+Received: by mail-vs1-xe2f.google.com with SMTP id
+ ada2fe7eead31-45f0e332d6bso838187137.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 Nov 2023 11:29:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1699298208; x=1699903008;
+ d=google.com; s=20230601; t=1699298987; x=1699903787;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=a167i54ECzeim7DnHeFDyars4d3VX1If1q/38dtFU50=;
- b=SRQuh8ONUNEgF/vTqe9kZNaBjNEYGlRZqR45KE3SW1Rs1Oz3XA1yltun6F/AT+/vC2
- MBclAQc8iMwbOsfz9r0YtKkSKbaKCALsvUDbjWkPVAYVgnMewss8mq0X/hegIntacTCr
- Uza2J60Y//6Z4RTNk/F51ayzFAdrz+yQJnJNk=
+ bh=G7Si+k3SGcxGf6sJGMI/kj5eJZ6V+SjfPyFVm8vGoBA=;
+ b=UMKptct2jbuqU0WMvl0decOOrhlWiuU+ZBq6+HOrJSJId91tLr9EAktaaIjBnEtAiC
+ SmOq9QGNg8sOfHpW9hvH/10GQl+TYkcT1c5TMwfMMZcLVripVrcGQ/oU/j/G4QQUNubi
+ 9eIuV9VFfyn63mM5Cz+isW+hd1FwAlni2hl3Cw9hQznOW3Swn6NeQwmvUvjebF5DLoK3
+ WUCOLDZOjZbX5kx3gk/f5t3aAjb8/3H/AhrI3+ged0rZzR3hYN1lwEnn+DaCgxZFhSkQ
+ +tggaIQgL7fe3Viv0ope/7yLgQKCu+8fZYgDdUWB6Xy9bGxUamgVjPt9B4HU9JOSK3I1
+ yPew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699298208; x=1699903008;
+ d=1e100.net; s=20230601; t=1699298987; x=1699903787;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=a167i54ECzeim7DnHeFDyars4d3VX1If1q/38dtFU50=;
- b=pqsl494+Hnzsh9J25t4wyWdFf+e4RNbzohivN0zIYdTfmUi91hZk/CdERsQrsOeshK
- 6q6G5SnUH7MtKUAl22Dzd7L8YC4Uke0OIi8vd2pmp4cJxUZaOabxD3PniDTU2N7au/6b
- C6Lg4SAsLcJ7IL6/Otn6dqSpvHeUxLkzRSkudg27MuXB5KdSz3pu3w/JcnSsS92y4E+7
- XBAoPGmZ2YfwJUm9DylqgHbffG7FjNkW0zFyLKSa2KkZvec7+RLI5sD1QT49i18HXdu3
- +GvllAMDe3VarBVkPRrefN6hd1xd8PP7F9eKYXRAWjvKJaK0RM45v0I35/9ZGFZ6NDh4
- kRAw==
-X-Gm-Message-State: AOJu0YxvGZEDjxE1feL6pJ+ooiuONSwOpZy90ZwWKpkTF8Hzwba+Kkf8
- JK3WY1JQZKVItBnV7IS06f1a6wVd4F3ZZrlRTf7me5os
-X-Google-Smtp-Source: AGHT+IEI3YIjggp2I119bl7niLwMPZkLLSb9TmxenjB/bPr4I5ATDZWaVEN0sgIXyIs47IsFE3Iydg==
-X-Received: by 2002:ac2:5e6c:0:b0:500:90d1:90a6 with SMTP id
- a12-20020ac25e6c000000b0050090d190a6mr19626827lfr.63.1699298207827; 
- Mon, 06 Nov 2023 11:16:47 -0800 (PST)
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com.
- [209.85.167.44]) by smtp.gmail.com with ESMTPSA id
- z19-20020a056512371300b00507b869b068sm61838lfr.302.2023.11.06.11.16.46
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Nov 2023 11:16:46 -0800 (PST)
-Received: by mail-lf1-f44.google.com with SMTP id
- 2adb3069b0e04-50931d0bb04so521e87.0
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Nov 2023 11:16:46 -0800 (PST)
-X-Received: by 2002:a05:6512:3da1:b0:502:a55e:fec0 with SMTP id
- k33-20020a0565123da100b00502a55efec0mr14720lfv.6.1699298205743; Mon, 06 Nov
- 2023 11:16:45 -0800 (PST)
+ bh=G7Si+k3SGcxGf6sJGMI/kj5eJZ6V+SjfPyFVm8vGoBA=;
+ b=aBudmU7m4XeDujBa+TSrHKFgU87bhuEtmXDqFjjrfwkEIzcQxoRsL9Aph6vsOBqDsQ
+ i8ox6Ry0ViNqN9YV8sLxgvAJiCBrS+1vXJ3tZ53wjd6X4HL0hd1vJuJpn5mkDIsL+w+h
+ Y+7r+sYaqVUBFjbnEbqVAuSxxEiQrLGinLa4gyA64EGDUOmynhAoxr3Ztu1IiTz0ujoO
+ i42+uEOKZpZjDl6VFALbWKKDTi/YCoJMwiT1QDe5rQqH/jP+lC6RFrcP4ukBWKxgPFC4
+ JkTPceA0einaty8c6avdoz1Eva1lLmnBXsKS7JwZ/zUbavUVW6VrYPBFdBw/PxfYPE1Y
+ enDA==
+X-Gm-Message-State: AOJu0Yx+zvJVWO9oQJ/Mw/0VsdC34nzN1HGgw8SdFn1IOhBdoGoaV28w
+ p+EXQQVjyZhyB4tqhFAd9S8wmhkd46Seqb89vQ2Ut5wOQAXMJiPobwQTog==
+X-Google-Smtp-Source: AGHT+IG22F7RZ7INsRT61We/dhQuubrTDUtrXNKt9IRXUitWz7JbG7ca/qoY3u3vM4us0jqLVC7nFfmA8VO3BFOqiRY=
+X-Received: by 2002:a67:a247:0:b0:45d:9083:f877 with SMTP id
+ t7-20020a67a247000000b0045d9083f877mr7751422vsh.5.1699298986878; Mon, 06 Nov
+ 2023 11:29:46 -0800 (PST)
 MIME-Version: 1.0
-References: <DU0PR10MB7076C5C33C4F3E9097E372E7ADDDA@DU0PR10MB7076.EURPRD10.PROD.OUTLOOK.COM>
- <CAD=FV=XafnQy0Tg_pSvarNmsFX-mkFq0abYipkAm+28wr+byrw@mail.gmail.com>
- <DU0PR10MB707649F0596653D2B16D6AB9ADDCA@DU0PR10MB7076.EURPRD10.PROD.OUTLOOK.COM>
- <CAD=FV=WF3cU_f8UoUj3gWqnnL8QDy2tBuLqxc=81enCFAKjyUw@mail.gmail.com>
-In-Reply-To: <CAD=FV=WF3cU_f8UoUj3gWqnnL8QDy2tBuLqxc=81enCFAKjyUw@mail.gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 6 Nov 2023 11:16:29 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=XeEGAKNsxLuwzheOn7ieftNC-zoQtxopxJ3NdHJ3k4vw@mail.gmail.com>
-Message-ID: <CAD=FV=XeEGAKNsxLuwzheOn7ieftNC-zoQtxopxJ3NdHJ3k4vw@mail.gmail.com>
-Subject: Re: drm/panel: panel-simple power-off sequencing
-To: "Jonas Mark (BT-FS/ENG1-GRB)" <Mark.Jonas@de.bosch.com>
+References: <20231106024413.2801438-1-almasrymina@google.com>
+ <20231106024413.2801438-11-almasrymina@google.com>
+ <ZUk0FGuJ28s1d9OX@google.com>
+In-Reply-To: <ZUk0FGuJ28s1d9OX@google.com>
+From: Mina Almasry <almasrymina@google.com>
+Date: Mon, 6 Nov 2023 11:29:33 -0800
+Message-ID: <CAHS8izNFv7r6vqYR_TYqcCuDO61F+nnNMhsSu=DrYWSr3sVgrA@mail.gmail.com>
+Subject: Re: [RFC PATCH v3 10/12] tcp: RX path for devmem TCP
+To: Stanislav Fomichev <sdf@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -82,25 +71,129 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Mark Jonas <toertel@gmail.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- "Simoes Ricardo \(BT-FS/ENG1.1-Ovr\)" <Ricardo.Simoes@pt.bosch.com>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: Kaiyuan Zhang <kaiyuanz@google.com>, dri-devel@lists.freedesktop.org,
+ Eric Dumazet <edumazet@google.com>, linux-kselftest@vger.kernel.org,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ linux-arch@vger.kernel.org, Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Jeroen de Borst <jeroendb@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, linux-media@vger.kernel.org,
+ Jesper Dangaard Brouer <hawk@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ linaro-mm-sig@lists.linaro.org, Shakeel Butt <shakeelb@google.com>,
+ Willem de Bruijn <willemb@google.com>, netdev@vger.kernel.org,
+ David Ahern <dsahern@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>, linux-kernel@vger.kernel.org,
+ "David S. Miller" <davem@davemloft.net>,
+ Praveen Kaligineedi <pkaligineedi@google.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On Fri, Oct 27, 2023 at 7:31=E2=80=AFAM Doug Anderson <dianders@chromium.or=
-g> wrote:
+On Mon, Nov 6, 2023 at 10:44=E2=80=AFAM Stanislav Fomichev <sdf@google.com>=
+ wrote:
 >
-> I guess, in summary, I'm hoping you'll look again and find that this
-> really is a backlight enable. If not, I'd probably advocate for a
-> per-panel boolean.
+> On 11/05, Mina Almasry wrote:
+> > In tcp_recvmsg_locked(), detect if the skb being received by the user
+> > is a devmem skb. In this case - if the user provided the MSG_SOCK_DEVME=
+M
+> > flag - pass it to tcp_recvmsg_devmem() for custom handling.
+> >
+> > tcp_recvmsg_devmem() copies any data in the skb header to the linear
+> > buffer, and returns a cmsg to the user indicating the number of bytes
+> > returned in the linear buffer.
+> >
+> > tcp_recvmsg_devmem() then loops over the unaccessible devmem skb frags,
+> > and returns to the user a cmsg_devmem indicating the location of the
+> > data in the dmabuf device memory. cmsg_devmem contains this information=
+:
+> >
+> > 1. the offset into the dmabuf where the payload starts. 'frag_offset'.
+> > 2. the size of the frag. 'frag_size'.
+> > 3. an opaque token 'frag_token' to return to the kernel when the buffer
+> > is to be released.
+> >
+> > The pages awaiting freeing are stored in the newly added
+> > sk->sk_user_pages, and each page passed to userspace is get_page()'d.
+> > This reference is dropped once the userspace indicates that it is
+> > done reading this page.  All pages are released when the socket is
+> > destroyed.
+> >
+> > Signed-off-by: Willem de Bruijn <willemb@google.com>
+> > Signed-off-by: Kaiyuan Zhang <kaiyuanz@google.com>
+> > Signed-off-by: Mina Almasry <almasrymina@google.com>
+> >
+> > ---
+> >
+> > RFC v3:
+> > - Fixed issue with put_cmsg() failing silently.
+> >
+> > ---
+> >  include/linux/socket.h            |   1 +
+> >  include/net/page_pool/helpers.h   |   9 ++
+> >  include/net/sock.h                |   2 +
+> >  include/uapi/asm-generic/socket.h |   5 +
+> >  include/uapi/linux/uio.h          |   6 +
+> >  net/ipv4/tcp.c                    | 189 +++++++++++++++++++++++++++++-
+> >  net/ipv4/tcp_ipv4.c               |   7 ++
+> >  7 files changed, 214 insertions(+), 5 deletions(-)
+> >
+> > diff --git a/include/linux/socket.h b/include/linux/socket.h
+> > index cfcb7e2c3813..fe2b9e2081bb 100644
+> > --- a/include/linux/socket.h
+> > +++ b/include/linux/socket.h
+> > @@ -326,6 +326,7 @@ struct ucred {
+> >                                         * plain text and require encryp=
+tion
+> >                                         */
+> >
+> > +#define MSG_SOCK_DEVMEM 0x2000000    /* Receive devmem skbs as cmsg */
+>
+> Sharing the feedback that I've been providing internally on the public li=
+st:
+>
 
-Circling back, I'm curious what ended up happening here. Did you
-decide that it actually was a backlight enable GPIO, or are you
-planning on sending a patch?
+There may have been a miscommunication. I don't recall hearing this
+specific feedback from you, at least in the last few months. Sorry if
+it seemed like I'm ignoring feedback :)
 
--Doug
+> IMHO, we need a better UAPI to receive the tokens and give them back to
+> the kernel. CMSG + setsockopt(SO_DEVMEM_DONTNEED) get the job done,
+> but look dated and hacky :-(
+>
+> We should either do some kind of user/kernel shared memory queue to
+> receive/return the tokens (similar to what Jonathan was doing in his
+> proposal?)
+
+I'll take a look at Jonathan's proposal, sorry, I'm not immediately
+familiar but I wanted to respond :-) But is the suggestion here to
+build a new kernel-user communication channel primitive for the
+purpose of passing the information in the devmem cmsg? IMHO that seems
+like an overkill. Why add 100-200 lines of code to the kernel to add
+something that can already be done with existing primitives? I don't
+see anything concretely wrong with cmsg & setsockopt approach, and if
+we switch to something I'd prefer to switch to an existing primitive
+for simplicity?
+
+The only other existing primitive to pass data outside of the linear
+buffer is the MSG_ERRQUEUE that is used for zerocopy. Is that
+preferred? Any other suggestions or existing primitives I'm not aware
+of?
+
+> or bite the bullet and switch to io_uring.
+>
+
+IMO io_uring & socket support are orthogonal, and one doesn't preclude
+the other. As you know we like to use sockets and I believe there are
+issues with io_uring adoption at Google that I'm not familiar with
+(and could be wrong). I'm interested in exploring io_uring support as
+a follow up but I think David Wei will be interested in io_uring
+support as well anyway.
+
+> I was also suggesting to do it via netlink initially, but it's probably
+> a bit slow for these purpose, idk.
+
+Yeah, I hear netlink is reserved for control paths and is
+inappropriate for data path, but I'll let folks correct me if wrong.
+
+--=20
+Thanks,
+Mina
