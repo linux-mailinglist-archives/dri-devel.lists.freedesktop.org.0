@@ -1,42 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB80C7E1777
-	for <lists+dri-devel@lfdr.de>; Sun,  5 Nov 2023 23:54:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A3A767E183A
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Nov 2023 01:58:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F092910E012;
-	Sun,  5 Nov 2023 22:54:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 546CF10E246;
+	Mon,  6 Nov 2023 00:58:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BAAFE10E012
- for <dri-devel@lists.freedesktop.org>; Sun,  5 Nov 2023 22:54:32 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
- [213.243.189.158])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id CC1785AA;
- Sun,  5 Nov 2023 23:54:11 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1699224852;
- bh=pcacsgb3OWxdK2khmiavqPxLlnW99wbidArlPanL5Q4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Ufh7ZOGijsOwjyrtF/B1P4um8Wdp7NK3TFok4eiqodaZzQO/FKij2OFCUmYNMgiM7
- ClkfagKSsDhWIdblmbV0CIBM3cfr4+XFXE/aq2uDFd5VkisHHkcDpJ5vhlNo8rSetm
- Uk01uTd1vMlrYw0kM3/DxrFA0NH+qTIXBCL4rRT0=
-Date: Mon, 6 Nov 2023 00:54:38 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH 04/10] drm/tidss: Move reset to the end of dispc_init()
-Message-ID: <20231105225438.GB15635@pendragon.ideasonboard.com>
-References: <20231101-tidss-probe-v1-0-45149e0f9415@ideasonboard.com>
- <20231101-tidss-probe-v1-4-45149e0f9415@ideasonboard.com>
- <20231101135749.GT12764@pendragon.ideasonboard.com>
- <71056358-f91e-4a88-a979-33bfe157289a@ideasonboard.com>
+X-Greylist: delayed 401 seconds by postgrey-1.36 at gabe;
+ Mon, 06 Nov 2023 00:58:49 UTC
+Received: from devico.uberspace.de (devico.uberspace.de [185.26.156.185])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 27F5310E246
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Nov 2023 00:58:49 +0000 (UTC)
+Received: (qmail 5941 invoked by uid 990); 6 Nov 2023 00:52:06 -0000
+Authentication-Results: devico.uberspace.de;
+	auth=pass (plain)
+Message-ID: <06d6a503-7770-4e99-a4be-9a2870678d56@lausen.nl>
+Date: Sun, 5 Nov 2023 19:51:58 -0500
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <71056358-f91e-4a88-a979-33bfe157289a@ideasonboard.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [Freedreno] [PATCH v7 0/7] incorporate pm runtime framework and
+ eDP clean up
+Content-Language: en-US
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>, dri-devel@lists.freedesktop.org,
+ robdclark@gmail.com, sean@poorly.run, swboyd@chromium.org,
+ dianders@chromium.org, vkoul@kernel.org, daniel@ffwll.ch, airlied@gmail.com,
+ agross@kernel.org, dmitry.baryshkov@linaro.org, andersson@kernel.org
+References: <1696632910-21942-1-git-send-email-quic_khsieh@quicinc.com>
+From: Leonard Lausen <leonard@lausen.nl>
+In-Reply-To: <1696632910-21942-1-git-send-email-quic_khsieh@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Bar: -
+X-Rspamd-Report: SUSPICIOUS_RECIPS(1.5) BAYES_HAM(-2.678521)
+ XM_UA_NO_VERSION(0.01) MIME_GOOD(-0.1)
+X-Rspamd-Score: -1.268521
+Received: from unknown (HELO unkown) (::1)
+ by devico.uberspace.de (Haraka/3.0.1) with ESMTPSA;
+ Mon, 06 Nov 2023 01:52:06 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lausen.nl; s=uberspace;
+ h=from; bh=Ikukj+p56W9fQ+/M9OzNzKR+W0ErNk+42/TcUwyRmz0=;
+ b=R2auO9p68OArumCmabX5uYYT0C0H3wZauRF9PztKLs7FLVT6uxoqb02hZYFFVaNqoB+gvazJ9X
+ 43YA6vm+ky8XGD6kfG1QMfcTWCjsrIPNNt59r9NNmonQhvZXSGi/GYO+JIujTn0vfFgM3HGEnNPF
+ q35YswdGLjiGLPEDb27r/WfezTmV2GzNhtFvXWDpT4CcSfbyTSc05nBJreSjpgnL/kgRfBHjuomM
+ dLNSewaBYEW4ac09AZJeKQMET2gSHHWXevgjTU3zwZaK254fE15xr6F0bJ6LpIuz2IK5+ya9NWjp
+ g5CyRNhuZ/89Pe/jxhm3phufaAvB0ItHmsqzB+eSryCtd2/FbhZmzZ7eiRGvuXBGnnlx5AOZuXPA
+ qbXifh/Dc4Z5xsQY5w48uLecsLgd0tNPYruHkR073iWS1hQ/ACf5RVn5ZItdhUyFcxLzXyMgXKzL
+ 4MJkwDleW5c15mAbLRk2+uYk+mHqGhnR6ZU5TeS/tq3ai3RqvNO13TdoI3FGMvwiGXqNbLxqavTN
+ Zh7MKFEycnKQ7QqTxuizVNDglIp2WgrBV2C4wqUH+oHOjT3cc+atYiG9IkirZUF4u9vgVAnECm2/
+ XpwzOSHbTiE9wX4o+n3kQ3tgabMXGw2R6rjsi/obMgTO3d2yUvuFh3mR64rgkVksQlDRbUfgEWYR
+ w=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,43 +64,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Aradhya Bhatia <a-bhatia1@ti.com>, Devarsh Thakkar <devarsht@ti.com>,
- linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Jyri Sarha <jyri.sarha@iki.fi>
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, linux-kernel@vger.kernel.org,
+ marijn.suijten@somainline.org, quic_jesszhan@quicinc.com,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 02, 2023 at 08:40:10AM +0200, Tomi Valkeinen wrote:
-> On 01/11/2023 15:57, Laurent Pinchart wrote:
-> > On Wed, Nov 01, 2023 at 11:17:41AM +0200, Tomi Valkeinen wrote:
-> >> We do a DSS reset in the middle of the dispc_init(). While that happens
-> >> to work now, we should really make sure that e..g the fclk, which is
-> >> acquired only later in the function, is enabled when doing a reset. This
-> >> will be handled in a later patch, but for now, let's move the
-> >> dispc_softreset() call to the end of dispc_init(), which is a sensible
-> >> place for it anyway.
-> >>
-> >> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> > 
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > 
-> > But do I understand correctly that the device isn't powered up at this
-> > point ? That seems problematic.
-> 
-> Indeed. It's fixed later in this series.
-> 
-> > I'm also not sure why we need to reset the device at probe time.
-> 
-> That's the usual place to do a reset, to make sure the HW is in a known 
-> state, is it not? Where would you place it?
+Verified this fixes the "[drm:drm_mode_config_helper_resume] *ERROR* Failed to
+resume (-107)" issue https://gitlab.freedesktop.org/drm/msm/-/issues/25
 
-The first time the device is used, or possibly every time it is resumed
-? It seems that you're resuming it at probe time for the only reason
-that you want to then reset it. Resuming it at probe could get entirely
-skipped.
+Tested-by: Leonard Lausen <leonard@lausen.nl> # on sc7180 lazor
 
--- 
-Regards,
-
-Laurent Pinchart
+On 10/6/23 18:55, Kuogee Hsieh wrote:
+> The purpose of this patch series is to incorporate pm runtime framework
+> into MSM eDP/DP driver so that eDP panel can be detected by DRM eDP panel
+> driver during system probe time. During incorporating procedure, original
+> customized pm realted fucntions, such as dp_pm_prepare(), dp_pm_suspend(),
+> dp_pm_resume() and dp_pm_prepare(), are removed and replaced with functions
+> provided by pm runtiem framework such as pm_runtime_force_suspend() and
+> pm_runtime_force_resume(). In addition, both eDP aux-bus and irq handler
+> are bound at system probe time too.
+> 
+> Kuogee Hsieh (7):
+>   drm/msm/dp: tie dp_display_irq_handler() with dp driver
+>   drm/msm/dp: rename is_connected with link_ready
+>   drm/msm/dp: use drm_bridge_hpd_notify() to report HPD status changes
+>   drm/msm/dp: move parser->parse() and dp_power_client_init() to probe
+>   drm/msm/dp: incorporate pm_runtime framework into DP driver
+>   drm/msm/dp: delete EV_HPD_INIT_SETUP
+>   drm/msm/dp: move of_dp_aux_populate_bus() to eDP probe()
+> 
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c |   4 -
+>  drivers/gpu/drm/msm/dp/dp_aux.c         |  39 +++-
+>  drivers/gpu/drm/msm/dp/dp_display.c     | 333 ++++++++++++--------------------
+>  drivers/gpu/drm/msm/dp/dp_display.h     |   3 +-
+>  drivers/gpu/drm/msm/dp/dp_drm.c         |  14 +-
+>  drivers/gpu/drm/msm/dp/dp_power.c       |  16 --
+>  drivers/gpu/drm/msm/dp/dp_power.h       |  11 --
+>  drivers/gpu/drm/msm/msm_drv.h           |   5 -
+>  8 files changed, 161 insertions(+), 264 deletions(-)
+> 
