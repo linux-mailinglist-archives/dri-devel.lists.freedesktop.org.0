@@ -2,61 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97E197E319C
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 00:49:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DA3B7E31A4
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 00:49:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A73910E464;
-	Mon,  6 Nov 2023 23:49:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66B3910E45E;
+	Mon,  6 Nov 2023 23:49:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com
- [IPv6:2607:f8b0:4864:20::b29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D73E310E45E
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Nov 2023 23:49:15 +0000 (UTC)
-Received: by mail-yb1-xb29.google.com with SMTP id
- 3f1490d57ef6-d9ca471cf3aso5330608276.2
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Nov 2023 15:49:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1699314555; x=1699919355; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=tQFqDSAgiWaPIVshMRb+fCRuV7mmBlmC784sMYp/hys=;
- b=AXXmwsQDgYvtlxo9EjslXJsmJIQnEHwrcbZpg/ZiwhHZJAHorz0/5mU+zayYvr5EVL
- NJzaXMu5skw69/H3Lwf96lqjne0m71SRKoHYtMGO+rTaxZqzfg+5TsTra0gIKIIqA0+v
- +CCN5V0HNh0oEZtS3uho1ujF0yXUDhC6PLSbNYGa0aNosSy2QtYdfj5AowAxGIHr9Lup
- 70oXilPdjOJ2Yxad32+o1mNtamZUOvuGyKNccz9mNYxk1sbUc9IOcv5JusahC4sq/3V4
- QBm2cXkEwyyyrqtomLNdsVQXSrgvIyfEc5WXoObI+uCxMj3Oh94tS1hGsPxU0ocpYkq7
- ttfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699314555; x=1699919355;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=tQFqDSAgiWaPIVshMRb+fCRuV7mmBlmC784sMYp/hys=;
- b=df9wgXPo7/IAzLhJ4vbQ3seM1+2kZZr3pGjAyeaqRQwAJ+KnnD6mZ3Db1oAWIDuuAM
- FYrXsHFbs2/kgKInZqkhFeoBnxXoPqV7jmdnbQGW9dmvCUrOIN9XigJS43wKmXIUWgDJ
- Mc/1uKISAnaYcuJ0JtSsN7FdKLH8yzv8E1LTDxMfyGhItYhitCpbNZDuJGy8GuWwomR8
- EexogJ3Eh7eORcJW2KUYHZXmEE3nti0Q4G2znDK+tSd6nPMMMxsq/zeo28gcaR8ZWyHN
- 2yOCnRrFjUWuvUQ6su1CbCek3ZMDcp2hWUOCVkIyY4SMeWFFSKWsukxUqmyejhVlwByo
- JE1Q==
-X-Gm-Message-State: AOJu0Yx34jsF5CTCJLQb1VFHML4WWVAgcFCl0HMt3DanMvyC+qWEse1Y
- 1ekjLlgXPWR8EaGme0NGG7Yp8YTSno5SVsLckE/Zog==
-X-Google-Smtp-Source: AGHT+IFAkvpy/g1sY/1xUwAKmKYfgd46amCuq1aXEiffyp4vSVs/pWccSw/DXuVqcLLSwjX8OS1pefTcKi6rRIgLSoM=
-X-Received: by 2002:a05:6902:1204:b0:d7b:90c6:683c with SMTP id
- s4-20020a056902120400b00d7b90c6683cmr35829665ybu.26.1699314554997; Mon, 06
- Nov 2023 15:49:14 -0800 (PST)
+Received: from gandalf.ozlabs.org (mail.ozlabs.org
+ [IPv6:2404:9400:2221:ea00::3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ACE9510E45E
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Nov 2023 23:49:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1699314560;
+ bh=rYAdo0ov1Zq7KX7kvEwHz2ttY2nsC4oA64OM1EgReU8=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=s5jOrjvOo1vP4H6oyg42GsVc6AONirHLyH75ciKjXBucdXNRW3RBDCGOO9Xs8sELf
+ r7JriuGIvZ4InCMLuIOUburkChvf/376fi+wSct7FcxCo3YQgybmZcfO8rZj56R65i
+ GAxHrF8j3pTwG5ant87hgU+ZcML/lIpJ5CFUE4yEHd58N7fE574E3XkrNI5RREzWNc
+ lkH54fzO+6QSte6/QHrYojGTvDZCm6pgEpEM363UTRvgWEi8t2jAavSCjU/NIcfvFY
+ xHE39MBp4i63tQSVI9QSmk+/3RNmI+m37m7K5fmBIK9IrSs4Fclnw/sUaIzkknqpCO
+ XjskS8JGSBdzA==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4SPSk71G2cz4wnv;
+ Tue,  7 Nov 2023 10:49:19 +1100 (AEDT)
+Date: Tue, 7 Nov 2023 10:49:17 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Dave Airlie <airlied@redhat.com>
+Subject: Re: linux-next: manual merge of the amdgpu tree with Linus' tree
+Message-ID: <20231107104917.09180c14@canb.auug.org.au>
+In-Reply-To: <20231106094855.38376d52@canb.auug.org.au>
+References: <20231106094855.38376d52@canb.auug.org.au>
 MIME-Version: 1.0
-References: <20231009171139.2691218-1-dmitry.baryshkov@linaro.org>
- <e4c94f9d-773a-e894-d655-41afeb01dae1@quicinc.com>
- <CAA8EJprpBy6UhtScRkFS24TgKevBOb9nVBFCqPhEof=-k58Mwg@mail.gmail.com>
- <1ac30bfd-86d9-8186-1aee-f201b8ff4370@quicinc.com>
-In-Reply-To: <1ac30bfd-86d9-8186-1aee-f201b8ff4370@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Tue, 7 Nov 2023 01:49:03 +0200
-Message-ID: <CAA8EJppY0V20rF1kV-b8X2xuCQ6ZHy_+0YGp5s6b_Srvq-LLNg@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm/dpu: correct clk bit for WB2 block
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; boundary="Sig_/1G+SLmpH=k.wj.RskGDCp/c";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,103 +51,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Bjorn Andersson <andersson@kernel.org>,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
- linux-arm-msm@vger.kernel.org, Marijn Suijten <marijn.suijten@somainline.org>,
- Sean Paul <sean@poorly.run>
+Cc: Sui Jingfeng <suijingfeng@loongson.cn>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI <dri-devel@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Bjorn Helgaas <bhelgaas@google.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 7 Nov 2023 at 01:30, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->
->
->
-> On 11/6/2023 2:11 PM, Dmitry Baryshkov wrote:
-> > On Mon, 6 Nov 2023 at 20:39, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
-> >>
-> >> Sorry for the delay in getting back on this. There was quite a bit of
-> >> history digging I had to do myself to give a certain response.
-> >>
-> >>
-> >> On 10/9/2023 10:11 AM, Dmitry Baryshkov wrote:
-> >>> On sc7280 there are two clk bits for WB2: control and status. While
-> >>> programming the VBIF params of WB, the driver should be toggling the
-> >>> former bit, while the sc7280_mdp struct lists the latter one.
-> >>>
-> >>
-> >> No, this is not correct. Both are control bits. But for the context of
-> >> where this is being used today, that is setting the VBIF OT limit, we
-> >> should be using the VBIF_CLI one. So the below change itself is correct
-> >> but not the commit text.
-> >
-> > Maybe you can update dt bindings for the SDE driver? Because they
-> > clearly speak about the control and status bits.
-> >
->
-> There is nothing to update here if we both are referring to the same
-> entries in the dt bindings.
->
-> qcom,sde-wb-clk-status = <0x3bc 20>;
->
-> the clk status is indeed bit 20 of 0x3bc.
->
-> What we have before your patch was bit 24 of 0x3b8 which was indeed
-> clk_ctl bit for wb2. But the only issue was it was not the vbif_cli one.
->
-> So we are talking about two different registers?
+--Sig_/1G+SLmpH=k.wj.RskGDCp/c
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Ah, excuse me then, I didn't notice 24 vs 20.
+Hi all,
 
->
-> >>
-> >> We need to make the same change on sm8250 WB2 as well as this register
-> >> is present there too. In fact, anything >=msm8994 for setting VBIF OT
-> >> for WB2 we should be using VBIF_CLI bits of register MDP_CLK_CTRL2
-> >> (offset 0x2bc).
-> >>
-> >> For anything >=sm8550, we need to use WB_2_CLK_CTRL present within the
-> >> WB block and not the one in the top.
-> >>
-> >> Hence for this change, we can do below:
-> >>
-> >> -> update the commit text to indicate both are control bits but for the
-> >> vbif ot context we should using the corrected one
-> >> -> if you can also add sm8250 in the same change i can ack it and pick it up
-> >>
-> >> Have you re-validated WB with this change? If not, let me know I shall
-> >> while picking this up for -fixes.
-> >
-> > No, I haven't validated this on sc7280. I'll try this on sm8250 and
-> > then I'll send v2.
-> >
-> >>
-> >>> Correct that to ensure proper programming sequence for WB2 on sc7280.
-> >>>
-> >>> Fixes: 3ce166380567 ("drm/msm/dpu: add writeback support for sc7280")
-> >>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> >>> ---
-> >>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h | 2 +-
-> >>>    1 file changed, 1 insertion(+), 1 deletion(-)
-> >>>
-> >>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
-> >>> index 3b5061c4402a..9195cb996f44 100644
-> >>> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
-> >>> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
-> >>> @@ -25,7 +25,7 @@ static const struct dpu_mdp_cfg sc7280_mdp = {
-> >>>                [DPU_CLK_CTRL_DMA0] = { .reg_off = 0x2ac, .bit_off = 8 },
-> >>>                [DPU_CLK_CTRL_DMA1] = { .reg_off = 0x2b4, .bit_off = 8 },
-> >>>                [DPU_CLK_CTRL_DMA2] = { .reg_off = 0x2c4, .bit_off = 8 },
-> >>> -             [DPU_CLK_CTRL_WB2] = { .reg_off = 0x3b8, .bit_off = 24 },
-> >>> +             [DPU_CLK_CTRL_WB2] = { .reg_off = 0x2bc, .bit_off = 16 },
-> >>>        },
-> >>>    };
-> >>>
-> >
-> >
-> >
+On Mon, 6 Nov 2023 09:48:55 +1100 Stephen Rothwell <sfr@canb.auug.org.au> w=
+rote:
+>=20
+> Today's linux-next merge of the amdgpu tree got a conflict in:
+>=20
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_bios.c
+>=20
+> between commit:
+>=20
+>   18bf400530ca ("drm/amdgpu: Use pci_get_base_class() to reduce duplicate=
+d code")
+>=20
+> from Linus' tree and commit:
+>=20
+>   432e664e7c98 ("drm/amdgpu: don't use ATRM for external devices")
+>=20
+> from the amdgpu tree.
+>=20
+> I fixed it up (see below) and can carry the fix as necessary. This
+> is now fixed as far as linux-next is concerned, but any non trivial
+> conflicts should be mentioned to your upstream maintainer when your tree
+> is submitted for merging.  You may also want to consider cooperating
+> with the maintainer of the conflicting tree to minimise any particularly
+> complex conflicts.
+>=20
+> --=20
+> Cheers,
+> Stephen Rothwell
+>=20
+> diff --cc drivers/gpu/drm/amd/amdgpu/amdgpu_bios.c
+> index 5bbb23e102ba,f3a09ecb7699..000000000000
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_bios.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_bios.c
+> @@@ -286,12 -287,12 +287,16 @@@ static bool amdgpu_atrm_get_bios(struc
+>   	/* ATRM is for the discrete card only */
+>   	if (adev->flags & AMD_IS_APU)
+>   		return false;
+> +=20
+> + 	/* ATRM is for on-platform devices only */
+> + 	if (dev_is_removable(&adev->pdev->dev))
+> + 		return false;
+>  =20
+>  -	while ((pdev =3D pci_get_class(PCI_CLASS_DISPLAY_VGA << 8, pdev)) !=3D=
+ NULL) {
+>  +	while ((pdev =3D pci_get_base_class(PCI_BASE_CLASS_DISPLAY, pdev))) {
+>  +		if ((pdev->class !=3D PCI_CLASS_DISPLAY_VGA << 8) &&
+>  +		    (pdev->class !=3D PCI_CLASS_DISPLAY_OTHER << 8))
+>  +			continue;
+>  +
+>   		dhandle =3D ACPI_HANDLE(&pdev->dev);
+>   		if (!dhandle)
+>   			continue;
 
+This is now a conflict between the drm tree and Linus' tree.
 
+--=20
+Cheers,
+Stephen Rothwell
 
--- 
-With best wishes
-Dmitry
+--Sig_/1G+SLmpH=k.wj.RskGDCp/c
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmVJe30ACgkQAVBC80lX
+0Gz0/Qf9HdnhwPZJVImw9UpPkqdiuBu7It6p1hHeGHWR/SLvSiDQAr4Rm4+JrzJ9
+kjqHdpR2UTjfpr79YSbXYNbllHswM5p+tJObOgTHN9+N4hJfP+EQJj16F3fV5kAN
+F7hC7E+FWKkFb6FOJjwvH3RAY/uJkNOV1gKDFSeF+EiJsvdJZfk8GonlzzADrguS
+bOdK791c4y4fKNp7BGmmtuicru8+xkPPCOHc0EW0STIfGEfUvLYyhGZy0i2KQ57g
+u9nsHOd/1tBuPghQTRjkvM9Fh0hxCwQOJt/vAEGK6zhPam1ZrynfNg/Kx/ebC8ep
+js6X/j44GcnHrdC7Yxvvw1zGv+wlAQ==
+=ixwX
+-----END PGP SIGNATURE-----
+
+--Sig_/1G+SLmpH=k.wj.RskGDCp/c--
