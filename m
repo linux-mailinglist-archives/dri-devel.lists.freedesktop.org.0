@@ -1,38 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 520D47E23B4
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Nov 2023 14:13:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 69CEE7E22E6
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Nov 2023 14:06:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E17C10E311;
-	Mon,  6 Nov 2023 13:13:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9058610E30D;
+	Mon,  6 Nov 2023 13:06:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org
  [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE35D10E310
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Nov 2023 13:13:47 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 23DDF10E30D
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Nov 2023 13:06:33 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id E52B960D14;
- Mon,  6 Nov 2023 13:13:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3AEB2C433C9;
- Mon,  6 Nov 2023 13:13:46 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 3962460E17;
+ Mon,  6 Nov 2023 13:06:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 849D9C433C7;
+ Mon,  6 Nov 2023 13:06:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1699276426;
- bh=vIGp1W/38lmDvbkGPPzEez15ndehWTOo31+3iPr81s0=;
+ s=korg; t=1699275992;
+ bh=M2D6xigNXpaS1wJAmxRDTN3cykVVaPnTYIYZGbOBEYI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=TIlDv9H6Ffk/u/kk3Naf/ofXPGhilZCCHQm2DvsRTi/GxlRGav5KBw73dR/igQfIL
- mFigwXWB1wZ56CQMIxrGualB8VGEyLBXTH9N5suKYLLNlzRYOdNFV6KWXvbDQlqHjl
- EY7AwvA8H0KJYS77uV+bplA+VkSs/b9Ci4AARbq0=
+ b=nWZmVHbgba70npMHvE8GJcVmGBhT30030h/XDSh5nz5b980wktOePiQlBwTU+VRsv
+ Uk/SpSrvO1W5hUhc8dmOTk99pjXtaymdUUxqOIlpESKUTzWF10lMYRIaRH3LRvO71f
+ uCmnEiBrapPFQ3iyZsgFXBjwCGGoU/kCo73XGkik=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
-Subject: [PATCH 6.1 10/62] fbdev: atyfb: only use ioremap_uc() on i386 and ia64
-Date: Mon,  6 Nov 2023 14:03:16 +0100
-Message-ID: <20231106130302.191881467@linuxfoundation.org>
+Subject: [PATCH 4.14 33/48] fbdev: atyfb: only use ioremap_uc() on i386 and
+ ia64
+Date: Mon,  6 Nov 2023 14:03:24 +0100
+Message-ID: <20231106130258.988596134@linuxfoundation.org>
 X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231106130301.807965064@linuxfoundation.org>
-References: <20231106130301.807965064@linuxfoundation.org>
+In-Reply-To: <20231106130257.862199836@linuxfoundation.org>
+References: <20231106130257.862199836@linuxfoundation.org>
 User-Agent: quilt/0.67
 X-stable: review
 X-Patchwork-Hint: ignore
@@ -59,7 +60,7 @@ Cc: Sasha Levin <sashal@kernel.org>, linux-fbdev@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-6.1-stable review patch.  If anyone has any objections, please let me know.
+4.14-stable review patch.  If anyone has any objections, please let me know.
 
 ------------------
 
@@ -94,10 +95,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 4 insertions(+)
 
 diff --git a/drivers/video/fbdev/aty/atyfb_base.c b/drivers/video/fbdev/aty/atyfb_base.c
-index b3463d1371520..faaa64fa5dfe9 100644
+index d4b938276d238..71e95533613cd 100644
 --- a/drivers/video/fbdev/aty/atyfb_base.c
 +++ b/drivers/video/fbdev/aty/atyfb_base.c
-@@ -3447,11 +3447,15 @@ static int atyfb_setup_generic(struct pci_dev *pdev, struct fb_info *info,
+@@ -3435,11 +3435,15 @@ static int atyfb_setup_generic(struct pci_dev *pdev, struct fb_info *info,
  	}
  
  	info->fix.mmio_start = raddr;
