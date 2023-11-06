@@ -2,60 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7DB97E2C4F
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Nov 2023 19:50:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A3867E2C54
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Nov 2023 19:50:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F24B10E3C5;
-	Mon,  6 Nov 2023 18:50:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2776C10E3C7;
+	Mon,  6 Nov 2023 18:50:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com
- [IPv6:2607:f8b0:4864:20::42e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3430C10E3C5;
- Mon,  6 Nov 2023 18:50:33 +0000 (UTC)
-Received: by mail-pf1-x42e.google.com with SMTP id
- d2e1a72fcca58-6c320a821c4so4305751b3a.2; 
- Mon, 06 Nov 2023 10:50:33 -0800 (PST)
+Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com
+ [IPv6:2607:f8b0:4864:20::534])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 76BD010E3C6;
+ Mon,  6 Nov 2023 18:50:35 +0000 (UTC)
+Received: by mail-pg1-x534.google.com with SMTP id
+ 41be03b00d2f7-5bd5809f63aso1492287a12.3; 
+ Mon, 06 Nov 2023 10:50:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1699296632; x=1699901432; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=6cU21C5fA+9HfxPv3J8m9Wghhy7CjkmSAa3XrNBXmko=;
- b=kzgPxIiofchmHNMl93giaHHh2YJ+NBLFdumLDwLXenoiR5XrVJ5dkvGqwJgTJi8/dU
- T1UVKvgfm5f5DscfljXiiI5VUgTxbYSRwAwfKfawpQ0ypV23TAOTAgUmtC1HWYleEB8+
- VKl+6UDER6+iBc2xLU5r8rMg/3zpqtF4aJyuF95wpoQtETa0k+cQOebmpUiodXb1USBQ
- /tfA1Y4CGtBGTPJEBhYPK1quujVP8UDA4yuYII49k4AMlO6puOMTCKu4Zm3J2oUUifa2
- LQBdcaffxoyFSzhUO7SPEFXGqX6VKWMmyYdkXqf6yJFHEpleaCJD23K6gb3eIKFh2BpA
- r8Jg==
+ d=gmail.com; s=20230601; t=1699296634; x=1699901434; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=BbZHoFm5w89rbvcHzOI1Y29sJ52jYRELVKrydv1YshI=;
+ b=T2aQn+/Jnbsm8WeXCSWOZry+1UzmYD+QgoqYgI1rZjs0vLIjUGhybHDcJCBe1PIzkC
+ 6vakm4mW7/1rfEGZv35HYxg48tU/TyxsTk6b7mo+XYpb+oxlt2CPnodd+hOyb53dzpil
+ MmOXnouRxUIYdKeesyUk+qne/IHQPU9VP9KrjdZL5rFZTl4oAaSWmQ+vPAZVWRvbkjNQ
+ yr0iLsRP8aRxz7d7W168mGWjPqZH8BKPWj0JP8q6QWsj/fmFtQzhSZEwog0eq0eilohn
+ NphoHFK76Wh4V3tNe7m9UhIJzjWXnpe9lKqOqBI73mFIjpDrisRU6EPN/dy7NOu7SRHe
+ 8Haw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699296632; x=1699901432;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=6cU21C5fA+9HfxPv3J8m9Wghhy7CjkmSAa3XrNBXmko=;
- b=fBiLdN2zSfLN6FJ9JDgLQ5xe7oe78DpWVd1faiIFuBQ6PXQ/NkWzh0ZDo4UqS4u8J2
- 0oF2GrRljT944opq6M7HXYko97PR2MvrzDX19lH3c/3Cfgkf6PCXrG3/ASDEWZOgZna9
- XxbmuG8jaiTmhuUPjdQHsE86Uv8K+LXgnZEEszSoBNNdeNL63RPok2T4Nd14s9/5H4uH
- wqcoag3qNmd6rCSt85IOKvDDy4RzGA2Fa6acwydMrx4k59gHLhNFzHKDNTvpThzUWGBE
- 5GgwqoFhylm5fR4QZY+JC1WJWCARWtkrozy/eYKWUkSM3HwzVrRVCTg2ySXILuIcz0Hw
- uT0g==
-X-Gm-Message-State: AOJu0Yx+qKuEOONS6XWq9LtnTSC1yvoM/N4rHojptExFscvpQdV16PPd
- yjuX4CguKnwFG8AgyLJ2HN5cn/JQSyE=
-X-Google-Smtp-Source: AGHT+IErzhlvo3uGRZ8ikMypK9vCw5+kSuhekjr2LhVNm7lhbCURZcq8B5VN8mniHRSxNPPNfQAchw==
-X-Received: by 2002:a05:6a00:330a:b0:6c3:3bf9:217e with SMTP id
- cq10-20020a056a00330a00b006c33bf9217emr11111970pfb.19.1699296631673; 
- Mon, 06 Nov 2023 10:50:31 -0800 (PST)
+ d=1e100.net; s=20230601; t=1699296634; x=1699901434;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=BbZHoFm5w89rbvcHzOI1Y29sJ52jYRELVKrydv1YshI=;
+ b=Tg+vlntEU69lDao0VCKJm6xIYUx29xipTui2G1/btCT2IxlNVl5VoRHuzrpRGwW9Hb
+ RCLniBxmgIkxxhbUXTOuQIFDAk0W1D5zxrvXruYVKbHsOp6Xuf14SHX3zfdSKNI36TRC
+ 7OxRiX+JWPLPVT/S0UkTIYVfkrMQJjvlkMhKM9KJL0DkLDU/29kxQ28XHghmfjQgpZ+9
+ CPRTwHvg+mZ1X7KlFyNl1EvQx3y0pE/OELtpZ4nibgan2BmqoHn3Y2n1wdRGiSy5yrIM
+ nBtAOYncDzrcOnTuR9V5efypRpNj4EF2hUYr1Cz1sWEMP7ylv/ijNHAtpw+8lzSS/MCi
+ AIig==
+X-Gm-Message-State: AOJu0YxDeWn9t7bknqVoxg0eO+Z1vOCMraWex766ay/RDBmFTEEv+W68
+ fL3L6FCZsEO0AuGAqSA6309vCOx/Z5w=
+X-Google-Smtp-Source: AGHT+IGhsd7dKnKkuP0PyCYSzmh3qYPVdS4aj7RxgdNyj2BgmC5mHgkGjpDmgh5vEvP9lnB6WmWyGQ==
+X-Received: by 2002:a05:6a20:938b:b0:15a:bf8:7dfc with SMTP id
+ x11-20020a056a20938b00b0015a0bf87dfcmr28118461pzh.15.1699296633944; 
+ Mon, 06 Nov 2023 10:50:33 -0800 (PST)
 Received: from localhost ([2a00:79e1:abd:4a00:6c80:7c10:75a0:44f4])
  by smtp.gmail.com with ESMTPSA id
- n35-20020a056a000d6300b006b90f1706f1sm5941925pfv.134.2023.11.06.10.50.30
+ v28-20020a63465c000000b0059cc2f1b7basm107405pgk.11.2023.11.06.10.50.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Nov 2023 10:50:30 -0800 (PST)
+ Mon, 06 Nov 2023 10:50:33 -0800 (PST)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 0/2] drm/msm/gem: Add metadata uapi
-Date: Mon,  6 Nov 2023 10:50:24 -0800
-Message-ID: <20231106185028.209462-1-robdclark@gmail.com>
+Subject: [PATCH v3 1/2] drm/msm: Small uabi fixes
+Date: Mon,  6 Nov 2023 10:50:25 -0800
+Message-ID: <20231106185028.209462-2-robdclark@gmail.com>
 X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20231106185028.209462-1-robdclark@gmail.com>
+References: <20231106185028.209462-1-robdclark@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -71,8 +74,7 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Rob Clark <robdclark@chromium.org>, Daniel Stone <daniels@collabora.com>,
- "open list:POWER MANAGEMENT CORE" <linux-pm@vger.kernel.org>,
- linux-arm-msm@vger.kernel.org, "Rafael J. Wysocki" <rafael@kernel.org>,
+ linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
  open list <linux-kernel@vger.kernel.org>, Sean Paul <sean@poorly.run>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Marijn Suijten <marijn.suijten@somainline.org>,
@@ -82,21 +84,37 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Rob Clark <robdclark@chromium.org>
 
-Add metadata mechanism to provide a back-channel to communicate image
-layout information between vk and gl, because EXT_external_objects
-doesn't support explicit modifiers and "OPTIMAL_TILING_EXT" is not
-enough information for the importer to deduce the layout.
+Correct the minor version exposed and error return value for
+MSM_INFO_GET_NAME.
 
-Rob Clark (2):
-  drm/msm: Small uabi fixes
-  drm/msm/gem: Add metadata
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+ drivers/gpu/drm/msm/msm_drv.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
- drivers/gpu/drm/msm/msm_drv.c | 94 ++++++++++++++++++++++++++++++++++-
- drivers/gpu/drm/msm/msm_gem.c |  1 +
- drivers/gpu/drm/msm/msm_gem.h |  4 ++
- include/uapi/drm/msm_drm.h    |  2 +
- 4 files changed, 99 insertions(+), 2 deletions(-)
-
+diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+index 4bd028fa7500..781db689fb16 100644
+--- a/drivers/gpu/drm/msm/msm_drv.c
++++ b/drivers/gpu/drm/msm/msm_drv.c
+@@ -51,7 +51,7 @@
+  * - 1.11.0 - Add wait boost (MSM_WAIT_FENCE_BOOST, MSM_PREP_BOOST)
+  */
+ #define MSM_VERSION_MAJOR	1
+-#define MSM_VERSION_MINOR	10
++#define MSM_VERSION_MINOR	11
+ #define MSM_VERSION_PATCHLEVEL	0
+ 
+ static void msm_deinit_vram(struct drm_device *ddev);
+@@ -896,7 +896,7 @@ static int msm_ioctl_gem_info(struct drm_device *dev, void *data,
+ 		break;
+ 	case MSM_INFO_GET_NAME:
+ 		if (args->value && (args->len < strlen(msm_obj->name))) {
+-			ret = -EINVAL;
++			ret = -ETOOSMALL;
+ 			break;
+ 		}
+ 		args->len = strlen(msm_obj->name);
 -- 
 2.41.0
 
