@@ -2,75 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A27B97E2C23
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Nov 2023 19:39:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BFED7E2C2A
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Nov 2023 19:41:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB14010E3AD;
-	Mon,  6 Nov 2023 18:39:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 08BC610E3AE;
+	Mon,  6 Nov 2023 18:41:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
  [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A1DD10E3AD;
- Mon,  6 Nov 2023 18:39:23 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD1DE10E3AE
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Nov 2023 18:41:30 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 3A6HsOej026196; Mon, 6 Nov 2023 18:39:17 GMT
+ 3A6GU1Nb007899; Mon, 6 Nov 2023 18:41:29 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
  h=message-id : date :
  mime-version : subject : to : cc : references : from : in-reply-to :
  content-type : content-transfer-encoding; s=qcppdkim1;
- bh=5v9Ozv28xqt7xzsIePHRUig9LVHYUIs4aWLRgkev1js=;
- b=dV4EKrzcMuFlQi1m0flRL8K1XCSr1iWhW+lH6STd5xuf8NYpQqW4fe+N8qbQaXQ7ar6w
- ob5yagczUumAp0mBT0HU9/hwHR5tneTVNy/YTBgLsKwtRC4nxFlHeTfHr6uUxRWBo5mK
- yS/yhpL+o37FITjTodqLYKB3f8hAakoVo5fKhK8mG37+rIiYLUe/KJw3XcRPx36jaIRL
- aVt98kkiWzUcTnVVEEoKypKBxOzQCrqOvAYc5Fvf54wj8gk6TorDLi9ZZ0MvOEjSA/Aw
- /ywUO9olO1akgcoxZvsv6lS4tehZP8DXuD8IBQFipNHUhTj8LQvaMIVjN26/ekPXnvAx Vw== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ bh=81cSnqo5NgfHtOao6dvqwao0AohYazqHtie7soSw7VM=;
+ b=G4cug47nZpFd38zqm+MsnYbXiCyBqVyxLa/NsrIyDVtQ6k2mZ8qm/RQde3kizATxzAVB
+ sSj0y/UaIDW7Y0ecCDKL0znaGQCl0/13qC0ksdT/aySBbQEJD9JftGBYz5R9U2VNoXzt
+ tA7UxHxvVRtBObXnmpjOWEQJQIHq47UQ2r9mE7TJqnyfWK2AVG/D8/7Pq7yPso9KHgPN
+ 0/P8RRN0qonp4k1urSFmq0lcPuMek/5c0HgxHyoo3SLPbbt5IbTBgXfcz05XgroRJgKx
+ lx3KYFMWXuqKNfnOdcD/MicnA+azK+rIJPCjqcu2N0heUFJazN+cZt3VuB8mPOdu837G ng== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3u5efyn5a6-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3u6xdu9aa8-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 06 Nov 2023 18:39:16 +0000
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com
- [10.47.209.197])
- by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3A6IdFCf030479
+ Mon, 06 Nov 2023 18:41:28 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3A6IfSAV001013
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 6 Nov 2023 18:39:15 GMT
-Received: from [10.71.109.77] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ Mon, 6 Nov 2023 18:41:28 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Mon, 6 Nov
- 2023 10:39:13 -0800
-Message-ID: <e4c94f9d-773a-e894-d655-41afeb01dae1@quicinc.com>
-Date: Mon, 6 Nov 2023 10:38:45 -0800
+ 2023 10:41:27 -0800
+Message-ID: <b263d6f3-56ef-6388-ec53-3ab754eaecf7@quicinc.com>
+Date: Mon, 6 Nov 2023 11:41:26 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH] drm/msm/dpu: correct clk bit for WB2 block
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>
-References: <20231009171139.2691218-1-dmitry.baryshkov@linaro.org>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH] accel/ivpu: Fix compilation with CONFIG_PM=n
 Content-Language: en-US
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20231009171139.2691218-1-dmitry.baryshkov@linaro.org>
+To: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+ <dri-devel@lists.freedesktop.org>
+References: <20231106130827.1600948-1-jacek.lawrynowicz@linux.intel.com>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <20231106130827.1600948-1-jacek.lawrynowicz@linux.intel.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-GUID: Q0kYKXlBu7GBLw7oZ4gZjbDzmM1V0c93
-X-Proofpoint-ORIG-GUID: Q0kYKXlBu7GBLw7oZ4gZjbDzmM1V0c93
+X-Proofpoint-GUID: weWoX8Q9JoVQTUbKm5UrSgLsW00wymTm
+X-Proofpoint-ORIG-GUID: weWoX8Q9JoVQTUbKm5UrSgLsW00wymTm
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2023-11-06_14,2023-11-02_03,2023-05-22_02
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0
- mlxlogscore=999 priorityscore=1501 malwarescore=0 mlxscore=0 clxscore=1015
- phishscore=0 adultscore=0 suspectscore=0 lowpriorityscore=0 spamscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ adultscore=0
+ lowpriorityscore=0 suspectscore=0 mlxlogscore=815 priorityscore=1501
+ spamscore=0 impostorscore=0 mlxscore=0 malwarescore=0 clxscore=1011
+ bulkscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2310240000 definitions=main-2311060154
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -84,62 +83,14 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Sorry for the delay in getting back on this. There was quite a bit of 
-history digging I had to do myself to give a certain response.
-
-
-On 10/9/2023 10:11 AM, Dmitry Baryshkov wrote:
-> On sc7280 there are two clk bits for WB2: control and status. While
-> programming the VBIF params of WB, the driver should be toggling the
-> former bit, while the sc7280_mdp struct lists the latter one.
+On 11/6/2023 6:08 AM, Jacek Lawrynowicz wrote:
+> Use pm_runtime_status_suspended() instead of dev->power.runtime_status
+> field that is not available without PM.
 > 
-
-No, this is not correct. Both are control bits. But for the context of 
-where this is being used today, that is setting the VBIF OT limit, we 
-should be using the VBIF_CLI one. So the below change itself is correct 
-but not the commit text.
-
-We need to make the same change on sm8250 WB2 as well as this register 
-is present there too. In fact, anything >=msm8994 for setting VBIF OT 
-for WB2 we should be using VBIF_CLI bits of register MDP_CLK_CTRL2 
-(offset 0x2bc).
-
-For anything >=sm8550, we need to use WB_2_CLK_CTRL present within the 
-WB block and not the one in the top.
-
-Hence for this change, we can do below:
-
--> update the commit text to indicate both are control bits but for the 
-vbif ot context we should using the corrected one
--> if you can also add sm8250 in the same change i can ack it and pick it up
-
-Have you re-validated WB with this change? If not, let me know I shall 
-while picking this up for -fixes.
-
-> Correct that to ensure proper programming sequence for WB2 on sc7280.
-> 
-> Fixes: 3ce166380567 ("drm/msm/dpu: add writeback support for sc7280")
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 > ---
->   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
-> index 3b5061c4402a..9195cb996f44 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
-> @@ -25,7 +25,7 @@ static const struct dpu_mdp_cfg sc7280_mdp = {
->   		[DPU_CLK_CTRL_DMA0] = { .reg_off = 0x2ac, .bit_off = 8 },
->   		[DPU_CLK_CTRL_DMA1] = { .reg_off = 0x2b4, .bit_off = 8 },
->   		[DPU_CLK_CTRL_DMA2] = { .reg_off = 0x2c4, .bit_off = 8 },
-> -		[DPU_CLK_CTRL_WB2] = { .reg_off = 0x3b8, .bit_off = 24 },
-> +		[DPU_CLK_CTRL_WB2] = { .reg_off = 0x2bc, .bit_off = 16 },
->   	},
->   };
->   
+
+Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
