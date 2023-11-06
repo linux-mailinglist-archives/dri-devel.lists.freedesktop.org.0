@@ -2,54 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D36BD7E2A54
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Nov 2023 17:50:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0150F7E2A56
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Nov 2023 17:51:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BD7C10E364;
-	Mon,  6 Nov 2023 16:50:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0DA5A10E36D;
+	Mon,  6 Nov 2023 16:51:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2075.outbound.protection.outlook.com [40.107.237.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D280F10E363;
- Mon,  6 Nov 2023 16:50:13 +0000 (UTC)
+ (mail-bn8nam12on2072.outbound.protection.outlook.com [40.107.237.72])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 715E210E36D;
+ Mon,  6 Nov 2023 16:51:06 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JxnBKfJDgZzMvpKtjRn0eTP0dKEeTdUVZ1lfw9w9RvLyy2+gBuyAaJ8tR1ydfZDE+KpwZ5sTi7KNpsCcJgnbXVFXY25nY9IsEHxLcO2P0hpaJQ6891EvwpX5m+08w6doGovO9HCllnnGBjonQKU4/t6qp8+voP/2r/+DB+p47zZ4YUF3DrG/6YKk+X8fDyaMYxzWSfVz9mn19WKeCX60rk4+K/5pfCR01xguxBmVTjz90+GMg0v97h1X1WtFNeVV1XvgrNF5P0aiOuVSB5j9Z0cTQB79c0tg0Uvbye4tJc30k0sFMyW6KiWZdIqmDsLVXx23knWoFHCuFevN/9ljvA==
+ b=EeLLMgrB/ICvNnk3z8HDDoOGBcGjGif398SYGX0/DjmJZBFDi+L/k+0QZwfAqXmKpDjN5n5+zrufslFGs75LAz5kCverTy00w0K9FVvFUA+y6tC8zmpOpuDig1jHMHpmNQ+iT+mjEN6YTWOT59+LBUNwzmabHDvzvndtCEi+aDxgKL2QDqVQ8ZdUg457yLIAK5SGSqbQU7V/3qJGSUpFhlydYPVcB0/2CZzEObA0ATm/rZYVFIWe/QACtSFwn9ue5oM24ZlyPr3iXGMw0MI6/xUXXD6KwW43zXLXES9AG3DU22dbJtq8+KLiVG/asrwcF+t4PV4jmnnR6Jwg+nVYCQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Y2g/v3ryj8OmrbU3OjyYI41cO/bOduKizapb23euYQI=;
- b=Z4DU0+bAsm0Zex6t0FKDW3BCSCdIxXqeXjhW/IwAhTezjtIYlfoo5rVqIuyB8kVHNua7d42hOYtoFjYe2obHwf1vDyFZ+dS+mPV+iiBBOmCj39UGAc1wZilN+38hK+fE4RIyalnShtDiCF3e4fZEPwYrH5ur4Ns1ykvm+NDpBTyHX2wxe4/wl/y1ps9y7tVgf3Ow3LTa/3+axM/oTqWIrajIy47OC2IM3NNB9hjyGp5zGRib1ZeqkMzslGYJQKRce8mqBzCh85sR2peWR+m3InGgglXwjlxSYw9o0UfxIx3scJlLsQS3hbTPC8bJqXcBNEGzYm4+QN1O4Mk3Y07FWg==
+ bh=uWk4NTRdsQkktVYcPW5r8HeWmjO9SqnLuAq3NC4NwZc=;
+ b=nvzS8onb4PTjpSrodlxKyrGrm77TyZeCSZMgYVO4lv1UR/W67374D8GFgb852AlMvZK/b9jx9p+YvsyH0/5IOdACd984C8HnACTeKHmXIoZFDWlpVFp9n8WsNRJSQ7V0ZQYlFPs9oxgrNErEr2SBop2wPHFESMOPzeRuYocUvwn65qE8qGpfWreMREQc3vxaKTu9bs4ByQrX2vU3IgmoVPr3yDptsB904RcFsIhXlnw+g7J/npuPyoHjsl1mvh4kiR/MTZ8r9cRSNj4DPrOUiRmUWnznwDbjetOz9TxByFsk9tHV3vZTrzapYhsvJBandV0xE76KQtJU6LlqIRF90Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Y2g/v3ryj8OmrbU3OjyYI41cO/bOduKizapb23euYQI=;
- b=K3/1uQNEry69lrhDY2lm/J/e5jBwWns1fZ8Skfd9ZRqQCflIdfCEe0nn6gDG9ydAAcGWFGoJvrILH6C4VGSb2rXblp+sC/eSqORiO0vdcAL/wAkJUd+zElw88cE8GNizmwHi2PzaZ1xA8fPSCCKNuIIqqQYxykmP4qVr3pn7jwM=
+ bh=uWk4NTRdsQkktVYcPW5r8HeWmjO9SqnLuAq3NC4NwZc=;
+ b=flidnZquQd3jqr/iCtvrlqbcrjRYRDsF/Kkbgm4pa7pQmGmb2IslYKMZz+8vwLlcD2c87lOjGdGN/Ec6CEwLRMVW2MeNyIlg+nqTREYPbX4nUO5FkTSjMmlsMf8U1EpYrkWL5d2L0WhvGjs0NPepj2F4JvPh8INS38aE78B7X4E=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from MN0PR12MB6101.namprd12.prod.outlook.com (2603:10b6:208:3cb::10)
- by CH0PR12MB5218.namprd12.prod.outlook.com (2603:10b6:610:d1::17)
+ by CH3PR12MB9097.namprd12.prod.outlook.com (2603:10b6:610:1a6::9)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.28; Mon, 6 Nov
- 2023 16:50:11 +0000
+ 2023 16:51:03 +0000
 Received: from MN0PR12MB6101.namprd12.prod.outlook.com
  ([fe80::83d7:9c4f:4d9b:1f2a]) by MN0PR12MB6101.namprd12.prod.outlook.com
  ([fe80::83d7:9c4f:4d9b:1f2a%5]) with mapi id 15.20.6954.027; Mon, 6 Nov 2023
- 16:50:11 +0000
-Message-ID: <c7259be5-f2e7-41d5-9078-f9074ccf71f7@amd.com>
-Date: Mon, 6 Nov 2023 10:50:08 -0600
+ 16:51:03 +0000
+Message-ID: <8ff0355a-7ed3-4f15-9ad7-350e6094f00f@amd.com>
+Date: Mon, 6 Nov 2023 10:51:01 -0600
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 5/9] PCI: pciehp: Move check for is_thunderbolt into a
- quirk
+Subject: Re: [PATCH v2 8/9] PCI: Exclude PCIe ports used for tunneling in
+ pcie_bandwidth_available()
 Content-Language: en-US
 To: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
 References: <20231103190758.82911-1-mario.limonciello@amd.com>
- <20231103190758.82911-6-mario.limonciello@amd.com>
- <e0a74b28-e862-202e-328-9eca3cb622f@linux.intel.com>
+ <20231103190758.82911-9-mario.limonciello@amd.com>
+ <bdae1a8-d62-6af6-316d-1e3a5ac15bc@linux.intel.com>
 From: Mario Limonciello <mario.limonciello@amd.com>
-In-Reply-To: <e0a74b28-e862-202e-328-9eca3cb622f@linux.intel.com>
+In-Reply-To: <bdae1a8-d62-6af6-316d-1e3a5ac15bc@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-ClientProxiedBy: SA1P222CA0174.NAMP222.PROD.OUTLOOK.COM
@@ -57,63 +57,63 @@ X-ClientProxiedBy: SA1P222CA0174.NAMP222.PROD.OUTLOOK.COM
  (2603:10b6:208:3cb::10)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR12MB6101:EE_|CH0PR12MB5218:EE_
-X-MS-Office365-Filtering-Correlation-Id: c0eaeb23-5629-492a-626e-08dbdee870e8
+X-MS-TrafficTypeDiagnostic: MN0PR12MB6101:EE_|CH3PR12MB9097:EE_
+X-MS-Office365-Filtering-Correlation-Id: c8948ce1-9e7f-4c42-ec3c-08dbdee8901d
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 4gNsiHxP6OhiTZh4XuXLmlVTUNBn13h4geS0UUickmD6hlkj1gFuBXI+iDLsUWi8JWTgKbmhKOoNMMXzLvHdEGfzBqT+uPg6mtE1tXzkAZabjsy1k3aCkMZ/OJdlcUzWRY90ubRCg+UcjztAc57s++wh7zKiq14eHWJ42gYSo+w1TUyj0Qp5vQVliAnLqQeHTRvDd2XhpPwrOyZ9mHiLyeCsMstiuQ1eLVQ6qQw3JD23Uxwomfpxb9b9zFzjZtVcjp6THuwLBv2efXMXnHjoAOFASVLKeTuvC84k093eh42t+QnuZG4jaZVJKfqulfhCeD3mAX0cZhi0UJCkcFhrHST9ReX6LRKopXIJuca8vVzJ3Ed3sU+jwAqLQ6FaUzxHqLEz0OSw0wYSahitZOTEEMln9o4GJekfWGWuQrNIF/jgRPVyeI3OfqksL9CZJbzwFnzwDByeOZBTcHVzcGdT14lPoDIXF3W1OlMlwJfIX98VWJQXZ/NexbHSCXj1YsPGLfU6ybzVaunEQS1WCWZTaUXSmAFD71PmvjnukeOu/hALnH5D1NrnMk8qZhh7f31FylKlTyTKz8lRceg6Kzrn8pU4iiWzCr5fKHwf2HS54dAEnNPWo5t/vZdQYbWCONbkV65Id1b1CiQ4uQm4dEA3Kg==
+X-Microsoft-Antispam-Message-Info: Hv3qVkQykV5ALR+UtzfQ5V26kcMX2JnHy2jn8g/362OFAQFcayF9jvQifAvwlgW21odRhRbSQzg0eZVS9r2Shj9lzI8EOcdDEhLmfxjYMxcaxotYoG/mKoIXLV9X61FzfKPcdeC7D0VheymSOENxVg2NsVPx6PIoSXCpSfrz15iLXw4PrXBULYoCpEwA/ghb+pREZshcYhd7ulCuAnlgk6SSnj21RW1rx3unMEd12u/O95eGyxLpZLPciFrg6u2UJQ4oZxBWXi8LAUCAVhIeNO4OqZEsGB3H8cAfspDnUJkjwjcbE1wfyenFxH8z17Zm2XQl1LJ0LvCZffc5yI7VVbx90iHwWhdlNHRBrjblAL41Pac6/c+cpzSreNhLlOIuL9gCIBiYBWD3gsq6CwP0mByjGO6Us14MTcMGsHh0ZB152qKqIMxodEBEyb2jv5XoNpXZSBBwUHMhb2FlxgFg9laSljPbo3IX4r9gigGbmQq1ZA1WvFj2VidBG35auPHE/BSnG3SQZ2bqtVAuE16XWXxkVVwWVx68i9zMtxCyTYD1EH17uVUojHf63X0ucpfuqVhHw/Q0T0/AMghX5tdK8FUr3RBv2zi0Eq+nOZoAsS4R2kYXLCAkLzJ98VlSOo4c
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:MN0PR12MB6101.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(136003)(376002)(346002)(39860400002)(366004)(396003)(230922051799003)(1800799009)(186009)(451199024)(64100799003)(31686004)(66476007)(66556008)(6506007)(6512007)(6666004)(53546011)(66946007)(478600001)(6486002)(36756003)(31696002)(86362001)(38100700002)(2616005)(83380400001)(26005)(4326008)(7416002)(8676002)(2906002)(6916009)(316002)(41300700001)(54906003)(5660300002)(8936002)(44832011)(45980500001)(43740500002);
+ SFS:(13230031)(396003)(39860400002)(376002)(346002)(366004)(136003)(230922051799003)(64100799003)(1800799009)(186009)(451199024)(38100700002)(7416002)(5660300002)(41300700001)(2906002)(86362001)(31696002)(36756003)(478600001)(66574015)(31686004)(53546011)(83380400001)(6512007)(66946007)(26005)(2616005)(316002)(6916009)(54906003)(66476007)(66556008)(966005)(44832011)(6486002)(6506007)(8936002)(4326008)(8676002)(43740500002)(45980500001);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?N2I1NXJON2pkMHRCaGhRWTRtSStiRVBaSmpqdjlHb3FQR2xSUi82Ry9TbUZI?=
- =?utf-8?B?MktiN1MvUXNMMi9RVFpGdXBabERxWnRBL010dzVnRkZKT1VPM0k1QmZTMWRy?=
- =?utf-8?B?TitnREM4NmJpQnJmaGQ5UndhNHN6Sm1IZkxlZW1TbHVPTENIOXNHV3NrYUhN?=
- =?utf-8?B?YlUybHJGRHl2dzZPeGdrQmd3WDl5aFhFVlVhWS9VOUVHbFdzeDFJVUdZQWJz?=
- =?utf-8?B?bW5ZZ21kdk05NER1RXVPUFB4VkF1aDN4eFhKZFlkbWxPT2NXRlE2MEtCNWgx?=
- =?utf-8?B?SklXMDY3bXB2ZWNodUs1MFhtb2V2VWlMZXBCOU1reFMxUkE3UHByZVM3V2M0?=
- =?utf-8?B?bFFoNmtEeFlwN1BzaVBYOU1nS3hMeDJxU1o1emFEZG45a2wrMmR0TWVNOFdn?=
- =?utf-8?B?Z0dzRE5DM0Y3VU5FdlBsVFZadStHcFhIdGo0SW1KLzBWOGVmbnJibFNlT2FL?=
- =?utf-8?B?MXIxazBrYmJJVng2M3p1VXFrVk5oNllvZWxtdlpwRitMN3hKU3dMYXk5SjBr?=
- =?utf-8?B?ZVNTS3NoSVZ2SWZaR2lOT1FVZ1VkK1RoK09LYncyZTVJblRjRmlvNmNMaE4y?=
- =?utf-8?B?T3VoL2VrRHR2K1VHc0lreUc4NVlIVTZiWEUxZXd2YmY4TlJJVkQrZHkrTHNr?=
- =?utf-8?B?WUJrcFhXcE4rd3l2bGJrKzUyeFBuVFlrU2xxNG83K2ZmQXNZempxZFd5V0RD?=
- =?utf-8?B?czZFVHk0VnZSc1F1aUdVV09DYXBjL3RianIrK1piM3BYbjh1L0hFdEtqczFC?=
- =?utf-8?B?bUU1Z1k1M1kzcGxjRlRaOTNnTnJyZG9YbHdaanFMUVFCQVV4N3lBSWNrQVVk?=
- =?utf-8?B?QVR1THN2emI5aUgxNWpDazlFc1BGT1ZhWk5SNi9DbHg5czRnY2ZGcVB6L1Ux?=
- =?utf-8?B?QmM2RW55bnd5KzhQNXBpTmJValpaaHdoM2hwU1hsVlgrLzVFdUk0ak9YbHl1?=
- =?utf-8?B?dDI2ajd0a2ZCdDhXWXV0SUZrYnRUSkdXeWsxSmRFY0s1Tzd2R0Y4YXB5bURL?=
- =?utf-8?B?UDdkOTlBZjIxUVRUckt4SFc2NzkreXBlbFBpQzVyQ05JSTFQVk5WbXhxZ2tr?=
- =?utf-8?B?citnV0NHanZGTjF6UDRMVEtNYnZKSHkwOTY3cS9nTnB1aTJhVVdMMlpWWFlS?=
- =?utf-8?B?K2dmL3V5VUdJVGN5eU1zbi9QUFBXQ21PeU44T2JiWTMzQi9xNWtrU3g4aTQ3?=
- =?utf-8?B?ME5tNWhyaVBGZ05YalV0dGxLMEgyRXBRdEVvMlRzMkgxZGd6NFIxd2xuRWh4?=
- =?utf-8?B?MTlKWEF2RVFUUDM0RE5vTTF1UWlSYVU0bzYvLzdQMVVaZmt6ZEdrRjl3UXJ1?=
- =?utf-8?B?Um44RHJNbklHS3NzZVh0Mk5JcG9qQmdrQmpOTWh6U0Jab2taaHZESlFSWVVU?=
- =?utf-8?B?ekxJL3RWd2ZkM2VPelZkYkpacEZ6NUlFdEVzaDh1OFA3Zk1mRzRSVzFHbm9p?=
- =?utf-8?B?dDR1MnM5UmNlRlNIcmRjYVpoM2lXWVZjS1lwOEVTNkVGVTNkbDYxZWhFd29H?=
- =?utf-8?B?bFR0NHlBTzR6U1BCWDVadW9LT3BTU3Nmd1FJRjdiZW4rY24zaHdyeVg0aUM5?=
- =?utf-8?B?STA5akZqczUrcEFBK2hZUllLTEdFT21VL1RoQ2FPVE1DUHYwOGc2UmMzUFdZ?=
- =?utf-8?B?cms1bTl1RHBUQVZoV1dLdkh3ditHRUh3aUxTdUNJaTM4S0FRY2Z3YnRvNWlV?=
- =?utf-8?B?eFRVV3JUOUJkUWFJV0FpdmhOWnp0VS8zY25lclZZd3dwaGM4eTRBTk5NM2da?=
- =?utf-8?B?cHNtdDNaWk4vVWJnbVRYSDViUTU0L1pJZ2UyYncxUnUrWWY1UmIzU3kxd0RC?=
- =?utf-8?B?ZTZWcmdxbkNSWFY1V2d4TVZ5eEVEZUxscWRSbUVLYWtqZXIwcnNhZzd4U0hM?=
- =?utf-8?B?MjJOMDFWU2Z4cnAzd0NRQ3FHcThJMHhiYjVqcGlLUHNvZVRGcVgrVWZnbzB5?=
- =?utf-8?B?eFA0UUtaSm1jeXEwaFBrU1JKTWgwOGRRS2N3N0VZak0wSUppeHNkNzZuUGFH?=
- =?utf-8?B?cFFZQnRTaFFEcW1lV1RYSHBpYVRKRW1zOU4zS1Q3YXpJbzVUNmtqTVQxWUI3?=
- =?utf-8?B?RStiM0RvWXlESmMyTkp0M2ZpK3hXV3JXWm96bGcrdFRVclVKdFVXb3h2QWxq?=
- =?utf-8?Q?4RUHWpudlfc6XYuhcBNqK4XZH?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?M2NaL2p1ek03c1hGSUNGZWU0cjg0eURBM3p5bFFlNXhTUnpkQ3BKalpiMWlX?=
+ =?utf-8?B?bFdGZXl2MllpKzNJcmFueUczRUFkU2ZhdUU5RTdVbnJ5RWFZcS85NkYwL1dU?=
+ =?utf-8?B?TWFJQ3Q0aktzbVRTSjBZRld2eUNHS0FVbDFDN254UjJNRnRsY1BFcjBxTzFX?=
+ =?utf-8?B?VnM4K1JlUnhXbEltdWJSUm93bFA2VHBLK0VoUzQ4SWJyU3RjWWxQYUlqQ1Z5?=
+ =?utf-8?B?TGNkUmd0Rkg2YlZlbXpBM2owUHF4YWtsWjBWYmxvZFNaVCt6NGJjYkdwajVD?=
+ =?utf-8?B?em9Fa1pCaExZOVI2Q1BUQi9xMWtSQ2lxdWFKSm9FN3NPU2hFRktxUDJ2NkY3?=
+ =?utf-8?B?WUlHdVBLWUc3QkM1YXN3Y1ZiK2plMkVxRzNrRDRkV1VqRXRvUXd1enpKaU1t?=
+ =?utf-8?B?MWUrVzNSbUd5VGVMdzJaN3NlY2M5ZDFxN2VxZGZxemVJUmlQbDR0aUY1RkFV?=
+ =?utf-8?B?RzluZkh2N29xVFlVR1hSU005L0VrdmZKS2RZU01INkZ1b0lyR1JYem1nTmdh?=
+ =?utf-8?B?RVFSYzg0LzhvSE9ZUGV5N3lQZmcxVzJiY2VTSjNVSkFvcVhvdG5sZlJFZEMw?=
+ =?utf-8?B?am9LQUorSmZTajRENE9zeUxvTE9rY2pncTd5NTVqMDBhakRJU3NSZEJDVFA2?=
+ =?utf-8?B?NTBVZWRMVzB5Q080Z25GVHFwQjkzbW5HTFdnTGhhOGpBTFNSM256UW5LcFFX?=
+ =?utf-8?B?bkV2NGhEa0NkZmRjN0RFQ2xrN2l1V2swK09zUHNWcEVHRERYUjNMaUdrZmpz?=
+ =?utf-8?B?MGIxc3B3UUhPMFVPRGdJdXpzdDB6eXJsQWhjN0hKRU5qejIvbU1ncHBQZmF3?=
+ =?utf-8?B?VEcvRDFXYUR4MGdJb041NVpzN0s4OGRsVDRhbmdaQnVXb2d0d3VBT2pkU1gy?=
+ =?utf-8?B?Q0V0bzhSME4xVExUK3AvVGgzZHFyajB3dVlZVURVMHNiN1VEbjVmRkdPaVRt?=
+ =?utf-8?B?QWpxckNvSTFRZnUvWWpFTWVqUGlBbmlwUDZhSjA4NVIyYnY1d0llbGdLQ0Jq?=
+ =?utf-8?B?ZWI3K3N3TmVqOTNLd21xVFNiMWJ0UXZNZkZRZGdpVEhpc3FYS1ZhMm1GbGJm?=
+ =?utf-8?B?NnhsRTJuaFRBUFVxQW5obTQ0SXFNMWNlcndlYmhKbWpUamdLTGdXbFdzRzVY?=
+ =?utf-8?B?dzJpblpIeUJrVHhkdGlQandQTE9ZOEZMMXhKTUtmK09NN3YvZkJhaDlTbFNU?=
+ =?utf-8?B?eG5ScUtoc1QwMHpPQVFrQWgwZ0NSMzI5UHdLelRpbUNWTnhBYmtEbC9wZDdq?=
+ =?utf-8?B?d3IyN2NkOCtyaEFSMjVUUVBtWTZ3ZllUby9UOHcwcllzY3RHdFhWYVNhem5L?=
+ =?utf-8?B?T29XakRYTXZHek1jSmNsTFNqcmlFTG5TUDNobzd0YUl2SDQvZGFiSkpxd0RB?=
+ =?utf-8?B?WkgvRExwRm1nWVQ1SkhZNVNhajgxdEVnSEN3L1lxY0l5SlBYSE1HUjNpbXNI?=
+ =?utf-8?B?NVc5NG1XMktFampwcGRleC96RXh2TGNnTjVZdnc3d3RJei8vQ2dXTXJzcVdz?=
+ =?utf-8?B?N0tGVEo5R3RIaDZNVHV1eXRZQ1BJajM3bUg0NHBtRVVKdXlMaDRmTVdVWVV6?=
+ =?utf-8?B?TWEvRDU4emVkV1duNUlaWkl2SWppTFlaV2FUcFNRU3UwbmJ6NldqQnVTSzRy?=
+ =?utf-8?B?RGxHblY4cFB0TnZ2SGJ5UllTV2tuNUlwVzZNdmpZMGlWbVN4UzArajQ3bmgz?=
+ =?utf-8?B?VU94U2QvU0Iwc2xCVlF3OUhXUDZNUUxGNjBOTVk4VXJUR0Z2RkhsdEdiM2xq?=
+ =?utf-8?B?TGVHQlZGQ2VXaTVYSjBnTnhnOXAvYkxMaFdiaDFZZEtSQnJFYnpNVlFLMEtL?=
+ =?utf-8?B?NThrcU9NTmxjdDVyV0dkYjZiT01kU3JOZnFzUyt3OXUrdHk3WFlFOTJNSEY3?=
+ =?utf-8?B?aUlocWRRVVJSNEtBRFBSRGdOcHJ0NjhCWkFla1FZZGQ5YUZCQ0pJT1FiVVNM?=
+ =?utf-8?B?dExxNkxIcWJCTm1SZHh3TlFMbTJEQ3Z5SUFpK2NIZUFMbWhOY0JCaCs1aEFk?=
+ =?utf-8?B?Ums4T0FjZDNSSE8yQTcyL1pmdmRjdmtpZndxUFAzQldwN0tCTC9KSFd5U0th?=
+ =?utf-8?B?dWxhQVZwTFRob1lTVWNPcTU4UEEvNUowalB1MjhmOXpQSEFkcHhya1lDczF0?=
+ =?utf-8?Q?0zH3+kokVdB+LOu2Vt65e5Pqc?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c0eaeb23-5629-492a-626e-08dbdee870e8
+X-MS-Exchange-CrossTenant-Network-Message-Id: c8948ce1-9e7f-4c42-ec3c-08dbdee8901d
 X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB6101.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Nov 2023 16:50:11.2421 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Nov 2023 16:51:03.6565 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ok9jpna+5jkqLpc8Uq99EMOUcd+F3gWUV1SxMKO3sVqEShrF7xvWANxvI3y/gFc8kB1Be8MohtNrXgMOwZmvFQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR12MB5218
+X-MS-Exchange-CrossTenant-UserPrincipalName: FwV6QNIwJZ4KgOgaLK8nDw78hJkxtgjej0WzJiyjY5jnvTrnQ86ZYOVTFhcOP/qwLHdji7YgfYkJKTlNMibhmQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB9097
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -152,65 +152,156 @@ Cc: "open list:THUNDERBOLT DRIVER" <linux-usb@vger.kernel.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/6/2023 06:41, Ilpo Järvinen wrote:
+On 11/6/2023 06:52, Ilpo Järvinen wrote:
 > On Fri, 3 Nov 2023, Mario Limonciello wrote:
 > 
->> commit 493fb50e958c ("PCI: pciehp: Assume NoCompl+ for Thunderbolt
->> ports") added a check into pciehp code to explicitly set NoCompl+
->> for all Intel Thunderbolt controllers, including those that don't
->> need it.
+>> The USB4 spec specifies that PCIe ports that are used for tunneling
+>> PCIe traffic over USB4 fabric will be hardcoded to advertise 2.5GT/s and
+>> behave as a PCIe Gen1 device. The actual performance of these ports is
+>> controlled by the fabric implementation.
 >>
->> This overloaded the purpose of the `is_thunderbolt` member of
->> `struct pci_device` because that means that any controller that
->> identifies as thunderbolt would set NoCompl+ even if it doesn't
->> suffer this deficiency. As that commit helpfully specifies all the
->> controllers with the problem, move them into a PCI quirk.
+>> Downstream drivers such as amdgpu which utilize pcie_bandwidth_available()
+>> to program the device will always find the PCIe ports used for
+>> tunneling as a limiting factor potentially leading to incorrect
+>> performance decisions.
 >>
+>> To prevent problems in downstream drivers check explicitly for ports
+>> being used for PCIe tunneling and skip them when looking for bandwidth
+>> limitations of the hierarchy. If the only device connected is a root port
+>> used for tunneling then report that device.
+>>
+>> Downstream drivers could make this change on their own but then they
+>> wouldn't be able to detect other potential speed bottlenecks from the
+>> hierarchy without duplicating pcie_bandwidth_available() logic.
+>>
+>> Link: https://gitlab.freedesktop.org/drm/amd/-/issues/2925#note_2145860
+>> Link: https://www.usb.org/document-library/usb4r-specification-v20
+>>        USB4 V2 with Errata and ECN through June 2023
+>>        Section 11.2.1
 >> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
 >> ---
->>   drivers/pci/hotplug/pciehp_hpc.c |  6 +-----
->>   drivers/pci/quirks.c             | 20 ++++++++++++++++++++
->>   include/linux/pci.h              |  1 +
->>   3 files changed, 22 insertions(+), 5 deletions(-)
+>>   drivers/pci/pci.c | 74 +++++++++++++++++++++++++++++++----------------
+>>   1 file changed, 49 insertions(+), 25 deletions(-)
 >>
->> diff --git a/drivers/pci/hotplug/pciehp_hpc.c b/drivers/pci/hotplug/pciehp_hpc.c
->> index fd713abdfb9f..23a92d681d1c 100644
->> --- a/drivers/pci/hotplug/pciehp_hpc.c
->> +++ b/drivers/pci/hotplug/pciehp_hpc.c
->> @@ -991,11 +991,7 @@ struct controller *pcie_init(struct pcie_device *dev)
->>   	if (pdev->hotplug_user_indicators)
->>   		slot_cap &= ~(PCI_EXP_SLTCAP_AIP | PCI_EXP_SLTCAP_PIP);
+>> diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
+>> index d9aa5a39f585..15e37164ce56 100644
+>> --- a/drivers/pci/pci.c
+>> +++ b/drivers/pci/pci.c
+>> @@ -6223,6 +6223,35 @@ int pcie_set_mps(struct pci_dev *dev, int mps)
+>>   }
+>>   EXPORT_SYMBOL(pcie_set_mps);
 >>   
->> -	/*
->> -	 * We assume no Thunderbolt controllers support Command Complete events,
->> -	 * but some controllers falsely claim they do.
->> -	 */
->> -	if (pdev->is_thunderbolt)
->> +	if (pdev->no_command_complete)
->>   		slot_cap |= PCI_EXP_SLTCAP_NCCS;
+>> +static u32 pcie_calc_bw_limits(struct pci_dev *dev, u32 bw,
+>> +			       struct pci_dev **limiting_dev,
+>> +			       enum pci_bus_speed *speed,
+>> +			       enum pcie_link_width *width)
+>> +{
+>> +	enum pcie_link_width next_width;
+>> +	enum pci_bus_speed next_speed;
+>> +	u32 next_bw;
+>> +	u16 lnksta;
+>> +
+>> +	pcie_capability_read_word(dev, PCI_EXP_LNKSTA, &lnksta);
+>> +	next_speed = pcie_link_speed[lnksta & PCI_EXP_LNKSTA_CLS];
+>> +	next_width = (lnksta & PCI_EXP_LNKSTA_NLW) >> PCI_EXP_LNKSTA_NLW_SHIFT;
+>> +	next_bw = next_width * PCIE_SPEED2MBS_ENC(next_speed);
+>> +
+>> +	/* Check if current device limits the total bandwidth */
+>> +	if (!bw || next_bw <= bw) {
+>> +		bw = next_bw;
+>> +		if (limiting_dev)
+>> +			*limiting_dev = dev;
+>> +		if (speed)
+>> +			*speed = next_speed;
+>> +		if (width)
+>> +			*width = next_width;
+>> +	}
+>> +
+>> +	return bw;
+>> +}
+>> +
+>>   /**
+>>    * pcie_bandwidth_available - determine minimum link settings of a PCIe
+>>    *			      device and its bandwidth limitation
+>> @@ -6236,47 +6265,42 @@ EXPORT_SYMBOL(pcie_set_mps);
+>>    * limiting_dev, speed, and width pointers are supplied) information about
+>>    * that point.  The bandwidth returned is in Mb/s, i.e., megabits/second of
+>>    * raw bandwidth.
+>> + *
+>> + * This excludes the bandwidth calculation that has been returned from a
+>> + * PCIe device used for transmitting tunneled PCIe traffic over a Thunderbolt
+>> + * or USB4 link that is part of larger hierarchy. The calculation is excluded
+>> + * because the USB4 specification specifies that the max speed returned from
+>> + * PCIe configuration registers for the tunneling link is always PCI 1x 2.5 GT/s.
+>> + * When only tunneled devices are present, the bandwidth returned is the
+>> + * bandwidth available from the first tunneled device.
+>>    */
+>>   u32 pcie_bandwidth_available(struct pci_dev *dev, struct pci_dev **limiting_dev,
+>>   			     enum pci_bus_speed *speed,
+>>   			     enum pcie_link_width *width)
+>>   {
+>> -	u16 lnksta;
+>> -	enum pci_bus_speed next_speed;
+>> -	enum pcie_link_width next_width;
+>> -	u32 bw, next_bw;
+>> +	struct pci_dev *tdev = NULL;
+>> +	u32 bw = 0;
 >>   
->>   	ctrl->slot_cap = slot_cap;
->> diff --git a/drivers/pci/quirks.c b/drivers/pci/quirks.c
->> index eeec1d6f9023..4bbf6e33ca11 100644
->> --- a/drivers/pci/quirks.c
->> +++ b/drivers/pci/quirks.c
->> @@ -3807,6 +3807,26 @@ DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_INTEL_CACTUS_RIDGE_4C
->>   DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_INTEL_PORT_RIDGE,
->>   			quirk_thunderbolt_hotplug_msi);
+>>   	if (speed)
+>>   		*speed = PCI_SPEED_UNKNOWN;
+>>   	if (width)
+>>   		*width = PCIE_LNK_WIDTH_UNKNOWN;
 >>   
->> +/*
->> + * We assume no Thunderbolt controllers support Command Complete events,
->> + * but some controllers falsely claim they do.
+>> -	bw = 0;
+>> -
+>>   	while (dev) {
+>> -		pcie_capability_read_word(dev, PCI_EXP_LNKSTA, &lnksta);
+>> -
+>> -		next_speed = pcie_link_speed[lnksta & PCI_EXP_LNKSTA_CLS];
+>> -		next_width = (lnksta & PCI_EXP_LNKSTA_NLW) >>
+>> -			PCI_EXP_LNKSTA_NLW_SHIFT;
+>> -
+>> -		next_bw = next_width * PCIE_SPEED2MBS_ENC(next_speed);
+>> -
+>> -		/* Check if current device limits the total bandwidth */
+>> -		if (!bw || next_bw <= bw) {
+>> -			bw = next_bw;
+>> -
+>> -			if (limiting_dev)
+>> -				*limiting_dev = dev;
+>> -			if (speed)
+>> -				*speed = next_speed;
+>> -			if (width)
+>> -				*width = next_width;
+>> +		if (dev->is_tunneled) {
+>> +			if (!tdev)
+>> +				tdev = dev;
+>> +			goto skip;
+>>   		}
+>> -
+>> +		bw = pcie_calc_bw_limits(dev, bw, limiting_dev, speed, width);
+>> +skip:
+>>   		dev = pci_upstream_bridge(dev);
+>>   	}
+>>   
+>> +	/* If nothing "faster" found on link, limit to first tunneled device */
+>> +	if (tdev && !bw)
+>> +		bw = pcie_calc_bw_limits(tdev, bw, limiting_dev, speed, width);
+>> +
+>>   	return bw;
+>>   }
+>>   EXPORT_SYMBOL(pcie_bandwidth_available);
+>>
 > 
-> IMO, this wording makes little sense with the new code. How about taking
-> some text from the original commit's changelog:
+> This patch should be split into two, where one just moves the code to the
+> new function.
+
+Good idea, thanks.
+
 > 
-> /*
->   * Certain Thunderbolt 1 controllers falsely claim to support Command
->   * Completed events.
->   */
-> 
-> The code change looks fine.
+> Also note that this will conflict with the FIELD_GET() changes (try to
+> not reintroduce non-FIELD_GET() code when you rebase this on top of
+> v6.7-rc1 :-)).
 > 
 
-Ack, will change.
+Sure, will adjust for that when it's rebased to 6.7-rc1.
