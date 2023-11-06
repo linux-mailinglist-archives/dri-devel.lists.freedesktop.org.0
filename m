@@ -2,46 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C2437E1BA9
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Nov 2023 09:06:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECEC67E1BB2
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Nov 2023 09:09:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C4BF10E27C;
-	Mon,  6 Nov 2023 08:06:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1608D10E27E;
+	Mon,  6 Nov 2023 08:09:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org
- [IPv6:2604:1380:40e1:4800::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D150410E27C
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Nov 2023 08:06:46 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB1D210E27E
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Nov 2023 08:09:02 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 79DA8CE0AE3;
- Mon,  6 Nov 2023 08:06:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67A2DC433C7;
- Mon,  6 Nov 2023 08:06:43 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 14499CE0AE3;
+ Mon,  6 Nov 2023 08:09:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0559C433C7;
+ Mon,  6 Nov 2023 08:08:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1699258003;
- bh=Whd5oMeK1I9z/RUheGQ8JiStxsgf9qTYIkZSz85OYdI=;
+ s=k20201202; t=1699258140;
+ bh=cQd+azsc2oimsjoDW+JNBoyhlpbKfDDSir8RkjpSStI=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=PNdxyDS3jworj1+C0NH2REiaGfzncqug8QtE6qfBuuUIVF8DSAPW/gJmDozHtomCa
- gMo9aGUD6TEcDQp610EUrhWJZnMx/QVRPkCRoy9JLgmkuNSpItEaOFwdrusQQn8Y4m
- SC9zIcjtG2MD5oh+KFoH/2SvdULeQHPtZ/DIPtp9J28OPmZ3wqLnNUUsg+KkvmEaLa
- ljyebD1W8HLi4uOB51GNcTAqxdiV1Du+uQ7FQeeJsagrF+t/saZwBfE4siAaP/IV9H
- 10ZgVLZRE5+dNlDjzlm4yMh1OW0GlpGkbQp5xIqbMQxZfI9j/A3vl/Mwl4vCU2h4hL
- PURoXRQv7gq1g==
-Date: Mon, 6 Nov 2023 09:06:41 +0100
+ b=NZuFwbyfcJ9n4MbPS3NTDxWXf8dc/DZRPA2EkILBNwTduseifJa3Tm2dlWB/Qf6hk
+ rueTRIMmZgWx8SFUOJwOVr3sNJXvZv4ZtRI1xl7dgGCQ1BVT8Okd2zCD4fTm2l4Qjq
+ BLp1CCYqcLHHFDgN3tkIfGbUKPBi7EEhmKXD1QYA99zy1aflGkPASb2iUO6B+sgK8m
+ zOmd+mKe0G6OY6G0B+TdyiR/FTcgBN+qPQsMOddBWtTlJNre6o1JJyuoOc+GoBWAmI
+ GbA5i3KcgOv8+3smAVof21QsCdW4N/Zm4jqpMTMnvoYOvIc1xfG3c4v1GDrXVqL92K
+ xtV5Q1aptclpw==
+Date: Mon, 6 Nov 2023 09:08:57 +0100
 From: Maxime Ripard <mripard@kernel.org>
 To: Doug Anderson <dianders@chromium.org>
-Subject: Re: [PATCH 3/3] drm/panel-edp: Choose correct preferred mode
-Message-ID: <ze5xz52jt4helttcmntzmr6fr4ohu7wtslywalbxc4w7w6uvly@nwweqyyl4wf2>
-References: <20231101212604.1636517-1-hsinyi@chromium.org>
- <20231101212604.1636517-4-hsinyi@chromium.org>
- <CAA8EJpoPMkQRhCD-9SPSheiio1dH8V6BUv89MZKfZdrBzsBW-w@mail.gmail.com>
- <CAD=FV=WHzCdiYumsxUm_am+ALqq9SOOrjf=JYHqJuiKFB+Dnsw@mail.gmail.com>
+Subject: Re: [PATCH v2 3/4] drm/modes: Add a function to clear preferred modes
+Message-ID: <sezmpwogythlst6hnmrpq4hepkdcd764vbgcojidlfotm5boa6@txbcylifakwz>
+References: <20231102221309.1971910-1-hsinyi@chromium.org>
+ <20231102221309.1971910-4-hsinyi@chromium.org>
+ <CAD=FV=VUNdSzppccDO=y0iu_QR8nEe3poRLMmWvFMfZsnWZo4A@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="p2nzhnzkeentgd7g"
+ protocol="application/pgp-signature"; boundary="zqnepkdr67hu4afr"
 Content-Disposition: inline
-In-Reply-To: <CAD=FV=WHzCdiYumsxUm_am+ALqq9SOOrjf=JYHqJuiKFB+Dnsw@mail.gmail.com>
+In-Reply-To: <CAD=FV=VUNdSzppccDO=y0iu_QR8nEe3poRLMmWvFMfZsnWZo4A@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,82 +54,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Neil Armstrong <neil.armstrong@linaro.org>, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Hsin-Yi Wang <hsinyi@chromium.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>
+ Hsin-Yi Wang <hsinyi@chromium.org>, Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---p2nzhnzkeentgd7g
+--zqnepkdr67hu4afr
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Nov 02, 2023 at 07:33:48AM -0700, Doug Anderson wrote:
+On Fri, Nov 03, 2023 at 09:02:33AM -0700, Doug Anderson wrote:
 > Hi,
 >=20
-> On Wed, Nov 1, 2023 at 11:31=E2=80=AFPM Dmitry Baryshkov
-> <dmitry.baryshkov@linaro.org> wrote:
+> On Thu, Nov 2, 2023 at 3:13=E2=80=AFPM Hsin-Yi Wang <hsinyi@chromium.org>=
+ wrote:
 > >
-> > On Wed, 1 Nov 2023 at 23:26, Hsin-Yi Wang <hsinyi@chromium.org> wrote:
-> > >
-> > > If a non generic edp-panel is under aux-bus, the mode read from edid =
-would
-> > > still be selected as preferred and results in multiple preferred mode=
-s,
-> > > which is ambiguous.
-> > >
-> > > If a hard-coded mode is present, unset the preferred bit of the modes=
- read
-> > > from edid.
+> > Add a function to clear the preferred bit of a connector's existing mod=
+es.
+> > This is useful for edp panel to unset the preferred modes read from edid
+> > if the panel has hard-coded modes.
 > >
-> > Can we skip the EDID completely if the hardcoded override is present?
+> > Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
+> > ---
+> > v1->v2:
+> > - fix doc string (reported by kernel test robot).
+> > - split mode and panel patches.
+> > ---
+> >  drivers/gpu/drm/drm_modes.c | 16 ++++++++++++++++
+> >  include/drm/drm_modes.h     |  1 +
+> >  2 files changed, 17 insertions(+)
 >=20
-> Yeah, I wondered about that too. The blending of the hardcoded with
-> the EDID predates my involvement with the driver. You can see even as
-> of commit 280921de7241 ("drm/panel: Add simple panel support") that
-> the driver would start with the EDID modes (if it had them) and then
-> go onto add the hardcoded modes. At least for eDP panels, though,
-> nobody (or almost nobody?) actually provided panel-simple a DDC bus at
-> the same time it was given a hardcoded panel.
+> This seems fine to me.
 >=20
-> I guess I could go either way, but I have a slight bias to adding the
-> extra modes and just making it clear to userspace that none of them
-> are "preferred". That seems like it would give userspace the most
-> flexibility
+> Reviewed-by: Douglas Anderson <dianders@chromium.org>
+>=20
+> Since it introduces a new API to the core and Hsin-Yi and I work
+> directly together, I'd probably give this ~2 weeks on the list before
+> landing so there is adequate time for people to comment. That'll be
+> right in the middle of Plumbers, though, so it might be more like 3
+> weeks. If someone non-ChromeOS wants to review and/or apply sooner, I
+> certainly wouldn't object.
 
-I disagree. "Flexibility" here just means "the way to shoot itself in
-the foot without knowing it's aiming at its foot".
-
-If a mode is broken, we shouldn't expose it, just like we don't for all
-modes that require a maximum frequency higher than what the controller
-can provide on HDMI for example.
-
-> and also is closer to what we've historically done (though,
-> historically, we just allowed there to be more than one "preferred"
-> mode).
-
-I have no idea what history you're referring to here
-
-> One thing we definitely want to do, though, is to still expose the
-> EDID to userspace even if we're using a hardcoded mode. I believe
-> that, at least on ChromeOS, there are some tools that look at the EDID
-> directly for some reason or another.
-
-If the EDID is known to be broken and unreliable, what's the point?
+FTR, I just made some review on v1 that still applies to that version.
 
 Maxime
 
---p2nzhnzkeentgd7g
+--zqnepkdr67hu4afr
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZUiekQAKCRDj7w1vZxhR
-xR1VAQCofZ+KM2NOqwhY9yNFvg4GhfbYs4dwJhQgF3RshcktIgD9Ehj8YqDSWbBH
-P1yONCZAX6hgfJfa9PsZWOv8UxAyPg8=
-=L+kT
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZUifGQAKCRDj7w1vZxhR
+xdH7AQC1JzbaPpA3miMXGslhsTqX06/6ak67NTh9Xg6ELjtkkwD/eI7TgL8/stY9
+lgUDUqvMS5ffwioajaaqRDIPwJ+V/gY=
+=Usd2
 -----END PGP SIGNATURE-----
 
---p2nzhnzkeentgd7g--
+--zqnepkdr67hu4afr--
