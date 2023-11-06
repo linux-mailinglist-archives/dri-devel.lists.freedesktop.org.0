@@ -2,63 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 331DC7E31CD
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 01:00:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C54EF7E31B5
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 00:55:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B03B10E471;
-	Tue,  7 Nov 2023 00:00:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD5FA10E466;
+	Mon,  6 Nov 2023 23:55:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com
- [IPv6:2607:f8b0:4864:20::52f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 85A5010E46F
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Nov 2023 00:00:33 +0000 (UTC)
-Received: by mail-pg1-x52f.google.com with SMTP id
- 41be03b00d2f7-5bdbe2de25fso83782a12.3
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Nov 2023 16:00:33 -0800 (PST)
+Received: from mail-vk1-xa30.google.com (mail-vk1-xa30.google.com
+ [IPv6:2607:f8b0:4864:20::a30])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1394010E466
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Nov 2023 23:55:53 +0000 (UTC)
+Received: by mail-vk1-xa30.google.com with SMTP id
+ 71dfb90a1353d-49e15724283so1958259e0c.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 Nov 2023 15:55:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1699315233; x=1699920033;
+ d=google.com; s=20230601; t=1699314952; x=1699919752;
  darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=9SxHcJHXQ0Dgu/1LSV/bZ2Cmouuh15UgwvxxZf23/GE=;
- b=dzzbOgW0aHWqSu1IQPN0SzYjhCCKlDQyh15N3YouHuez0LOitG3J6bFALaRvy+XmLq
- Op2QOSo3zqZxF+c2Wu9v0UDiODDJvzsL1pwCLlJtTjtq1DUKOq/rTWSFENZsJwxAqmyH
- H/3LdBm9GTaHy53Efis4x9Gp9cSnKbQFiK3lo=
+ bh=4hfYHFzoJ/SNtiqEXs9KmoOT951/cEwpd7yo/Kqsjms=;
+ b=VwIusN8ImkCKT7w+XGuRpnQiLdlnrhigsmgf8KMMvcZn7+LLdRmYgDInqMfJ6DRAeb
+ Iaf8k1bTYfPxnyk4Q9u+v38IObMJt6EkDo7RJclcFiBFXRyhBWSI1fKToTg4sZsdB++c
+ LY0SsGixAcFqK0VUEAyRerkC0Up9dST8F2fjD8b0NPS0Koa9daXZed2kpi+OPw7dWSEw
+ RaHbScSPdjfpF26LGHDSPKgHdJvtMV3nvspmAo0tLuFE9j1tYGtaJXptnjlkzKy16xfk
+ uGAlxcvaAuowj3eTn2Olp04q8VNkoMpdiE+m72waQ1kjXxCO8CfkZkrrIYMstbGF2csk
+ YN8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699315233; x=1699920033;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20230601; t=1699314952; x=1699919752;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=9SxHcJHXQ0Dgu/1LSV/bZ2Cmouuh15UgwvxxZf23/GE=;
- b=eiQJV5sEkyO4jQUtzsgzUMVbseYjfnSGOUbA6CFAhwq/K7hMLr2cVezTlMZzEFwFSR
- /0vuNLSMJtWn3nSSz8SjQTpu2FB4rVzZkYBQc+yEizHSKv4Hvlv+Qnut+W7lNmoHOnU8
- 1RPkFm4hdeRG1rhwAMc3lI+Tu9YeauMXrhgXrLpHkhw0LKJpEctBdF+5jC2t9+MEjvAt
- KPn3UMi2IRwPooFIJ2j8hcTl0KRCNgsR1XXYGl5ULU100SpUZabT2SVnupdE5oGnN+01
- e0kqd1K2ft6rbuY+vaF0NIcYrrnqayyM3Na3t7/gHZm6ZFAPYwtxWtocDSz4+9PsN3Kt
- YJWg==
-X-Gm-Message-State: AOJu0YwtxQZS6WcjD5CmwuAeJLCDdZdGZ4AupNxybUMP8cccl7qFvGs8
- +htCur5qrpyyu7+aW+WG8d4x1w==
-X-Google-Smtp-Source: AGHT+IFvlKS7Uvykt7O+bbNdoVgvYg4+eR6RPh+t8uzDcjfXFvTO0Lwdmdsd5sV2bYvJc17zl3Giyg==
-X-Received: by 2002:a05:6a21:790b:b0:181:125:e85c with SMTP id
- bg11-20020a056a21790b00b001810125e85cmr23690070pzc.53.1699315232986; 
- Mon, 06 Nov 2023 16:00:32 -0800 (PST)
-Received: from hsinyi.sjc.corp.google.com ([2620:15c:9d:2:586c:80a1:e007:beb9])
- by smtp.gmail.com with ESMTPSA id
- fw11-20020a17090b128b00b00268b439a0cbsm5852866pjb.23.2023.11.06.16.00.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Nov 2023 16:00:32 -0800 (PST)
-From: Hsin-Yi Wang <hsinyi@chromium.org>
-To: Douglas Anderson <dianders@chromium.org>
-Subject: [PATCH v5 4/4] drm/panel-edp: Avoid adding multiple preferred modes
-Date: Mon,  6 Nov 2023 15:51:35 -0800
-Message-ID: <20231107000023.2928195-5-hsinyi@chromium.org>
-X-Mailer: git-send-email 2.42.0.869.gea05f2083d-goog
-In-Reply-To: <20231107000023.2928195-1-hsinyi@chromium.org>
-References: <20231107000023.2928195-1-hsinyi@chromium.org>
+ bh=4hfYHFzoJ/SNtiqEXs9KmoOT951/cEwpd7yo/Kqsjms=;
+ b=xLEw7hlQ05UbxgKF1cw/jTAe+saKEuIEOmCFa7eUSViAIuPHvNMu4uGVnm7Y+V3/FJ
+ /DuemBrHfJAgRbw40gmkWZ5BKdPyYJdTQLZrqyDVoAc2y5OWmSPkzNdH4ZVTezjRvQOh
+ /PpYfUoU8DjX0l9f26lhpHoDET3Nxv3zekcwF22h9amcumeupx53sx5SREXhTlWbV1hN
+ J+7g1ev+5x8pXip0H7ApTMegTvG0eIZ+cKYFyqNxNmGmYOpxoW2z/hSAWxbzT38CmTRJ
+ bOUZLkNRnZSINxJceLdwN5SjPjvWO2yOElBN8rTm14ld6oucHqcdTgAL0N6v+6L2aeho
+ W3Mw==
+X-Gm-Message-State: AOJu0YxABPdhC7shbUhfh0ZUj57iZy+5vVxJHE3c2mqCG1qM7xlUtXUC
+ CvHyNYudDpWeeQ0nKbRdonIgWCm5bMvpAXvK1t5lSg==
+X-Google-Smtp-Source: AGHT+IFm8u2DR/KSvgpH2bUsInZCXlnL6bHtUyQF8peCcdCjqMUYRuUPrwgBw2DLsgSxqbYES2CiqD0BwRddZmwHvas=
+X-Received: by 2002:a1f:26c4:0:b0:49e:1eca:f849 with SMTP id
+ m187-20020a1f26c4000000b0049e1ecaf849mr27587440vkm.13.1699314951931; Mon, 06
+ Nov 2023 15:55:51 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20231106024413.2801438-1-almasrymina@google.com>
+ <20231106024413.2801438-10-almasrymina@google.com>
+ <ZUk03DhWxV-bOFJL@google.com>
+ <19129763-6f74-4b04-8a5f-441255b76d34@kernel.org>
+ <CAHS8izMrnVUfbbS=OcJ6JT9SZRRfZ2MC7UnggthpZT=zf2BGLA@mail.gmail.com>
+ <ZUlhu4hlTaqR3CTh@google.com>
+ <CAHS8izMaAhoae5ChnzO4gny1cYYnqV1cB8MC2cAF3eoyt+Sf4A@mail.gmail.com>
+ <ZUlvzm24SA3YjirV@google.com>
+ <CAHS8izMQ5Um_ScY0VgAjaEaT-hRh4tFoTgc6Xr9Tj5rEj0fijA@mail.gmail.com>
+In-Reply-To: <CAHS8izMQ5Um_ScY0VgAjaEaT-hRh4tFoTgc6Xr9Tj5rEj0fijA@mail.gmail.com>
+From: Stanislav Fomichev <sdf@google.com>
+Date: Mon, 6 Nov 2023 15:55:37 -0800
+Message-ID: <CAKH8qBsbh8qYxNHZ6111RQFFpNWbWZtg0LDXkn15xcsbAq4R6w@mail.gmail.com>
+Subject: Re: [RFC PATCH v3 09/12] net: add support for skbs with unreadable
+ frags
+To: Mina Almasry <almasrymina@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,66 +78,255 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, linux-kernel@vger.kernel.org,
- Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, stable@vger.kernel.org,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: Kaiyuan Zhang <kaiyuanz@google.com>, dri-devel@lists.freedesktop.org,
+ Eric Dumazet <edumazet@google.com>, linux-kselftest@vger.kernel.org,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ linux-arch@vger.kernel.org, Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Jeroen de Borst <jeroendb@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, linux-media@vger.kernel.org,
+ Jesper Dangaard Brouer <hawk@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ linaro-mm-sig@lists.linaro.org, Shakeel Butt <shakeelb@google.com>,
+ Willem de Bruijn <willemb@google.com>, netdev@vger.kernel.org,
+ David Ahern <dsahern@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>, linux-kernel@vger.kernel.org,
+ "David S. Miller" <davem@davemloft.net>,
+ Praveen Kaligineedi <pkaligineedi@google.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If a non generic edp-panel is under aux-bus, the mode read from edid would
-still be selected as preferred and results in multiple preferred modes,
-which is ambiguous.
+On Mon, Nov 6, 2023 at 3:27=E2=80=AFPM Mina Almasry <almasrymina@google.com=
+> wrote:
+>
+> On Mon, Nov 6, 2023 at 2:59=E2=80=AFPM Stanislav Fomichev <sdf@google.com=
+> wrote:
+> >
+> > On 11/06, Mina Almasry wrote:
+> > > On Mon, Nov 6, 2023 at 1:59=E2=80=AFPM Stanislav Fomichev <sdf@google=
+.com> wrote:
+> > > >
+> > > > On 11/06, Mina Almasry wrote:
+> > > > > On Mon, Nov 6, 2023 at 11:34=E2=80=AFAM David Ahern <dsahern@kern=
+el.org> wrote:
+> > > > > >
+> > > > > > On 11/6/23 11:47 AM, Stanislav Fomichev wrote:
+> > > > > > > On 11/05, Mina Almasry wrote:
+> > > > > > >> For device memory TCP, we expect the skb headers to be avail=
+able in host
+> > > > > > >> memory for access, and we expect the skb frags to be in devi=
+ce memory
+> > > > > > >> and unaccessible to the host. We expect there to be no mixin=
+g and
+> > > > > > >> matching of device memory frags (unaccessible) with host mem=
+ory frags
+> > > > > > >> (accessible) in the same skb.
+> > > > > > >>
+> > > > > > >> Add a skb->devmem flag which indicates whether the frags in =
+this skb
+> > > > > > >> are device memory frags or not.
+> > > > > > >>
+> > > > > > >> __skb_fill_page_desc() now checks frags added to skbs for pa=
+ge_pool_iovs,
+> > > > > > >> and marks the skb as skb->devmem accordingly.
+> > > > > > >>
+> > > > > > >> Add checks through the network stack to avoid accessing the =
+frags of
+> > > > > > >> devmem skbs and avoid coalescing devmem skbs with non devmem=
+ skbs.
+> > > > > > >>
+> > > > > > >> Signed-off-by: Willem de Bruijn <willemb@google.com>
+> > > > > > >> Signed-off-by: Kaiyuan Zhang <kaiyuanz@google.com>
+> > > > > > >> Signed-off-by: Mina Almasry <almasrymina@google.com>
+> > > > > > >>
+> > > > > > >> ---
+> > > > > > >>  include/linux/skbuff.h | 14 +++++++-
+> > > > > > >>  include/net/tcp.h      |  5 +--
+> > > > > > >>  net/core/datagram.c    |  6 ++++
+> > > > > > >>  net/core/gro.c         |  5 ++-
+> > > > > > >>  net/core/skbuff.c      | 77 +++++++++++++++++++++++++++++++=
++++++------
+> > > > > > >>  net/ipv4/tcp.c         |  6 ++++
+> > > > > > >>  net/ipv4/tcp_input.c   | 13 +++++--
+> > > > > > >>  net/ipv4/tcp_output.c  |  5 ++-
+> > > > > > >>  net/packet/af_packet.c |  4 +--
+> > > > > > >>  9 files changed, 115 insertions(+), 20 deletions(-)
+> > > > > > >>
+> > > > > > >> diff --git a/include/linux/skbuff.h b/include/linux/skbuff.h
+> > > > > > >> index 1fae276c1353..8fb468ff8115 100644
+> > > > > > >> --- a/include/linux/skbuff.h
+> > > > > > >> +++ b/include/linux/skbuff.h
+> > > > > > >> @@ -805,6 +805,8 @@ typedef unsigned char *sk_buff_data_t;
+> > > > > > >>   *  @csum_level: indicates the number of consecutive checks=
+ums found in
+> > > > > > >>   *          the packet minus one that have been verified as
+> > > > > > >>   *          CHECKSUM_UNNECESSARY (max 3)
+> > > > > > >> + *  @devmem: indicates that all the fragments in this skb a=
+re backed by
+> > > > > > >> + *          device memory.
+> > > > > > >>   *  @dst_pending_confirm: need to confirm neighbour
+> > > > > > >>   *  @decrypted: Decrypted SKB
+> > > > > > >>   *  @slow_gro: state present at GRO time, slower prepare st=
+ep required
+> > > > > > >> @@ -991,7 +993,7 @@ struct sk_buff {
+> > > > > > >>  #if IS_ENABLED(CONFIG_IP_SCTP)
+> > > > > > >>      __u8                    csum_not_inet:1;
+> > > > > > >>  #endif
+> > > > > > >> -
+> > > > > > >> +    __u8                    devmem:1;
+> > > > > > >>  #if defined(CONFIG_NET_SCHED) || defined(CONFIG_NET_XGRESS)
+> > > > > > >>      __u16                   tc_index;       /* traffic cont=
+rol index */
+> > > > > > >>  #endif
+> > > > > > >> @@ -1766,6 +1768,12 @@ static inline void skb_zcopy_downgrad=
+e_managed(struct sk_buff *skb)
+> > > > > > >>              __skb_zcopy_downgrade_managed(skb);
+> > > > > > >>  }
+> > > > > > >>
+> > > > > > >> +/* Return true if frags in this skb are not readable by the=
+ host. */
+> > > > > > >> +static inline bool skb_frags_not_readable(const struct sk_b=
+uff *skb)
+> > > > > > >> +{
+> > > > > > >> +    return skb->devmem;
+> > > > > > >
+> > > > > > > bikeshedding: should we also rename 'devmem' sk_buff flag to =
+'not_readable'?
+> > > > > > > It better communicates the fact that the stack shouldn't dere=
+ference the
+> > > > > > > frags (because it has 'devmem' fragments or for some other po=
+tential
+> > > > > > > future reason).
+> > > > > >
+> > > > > > +1.
+> > > > > >
+> > > > > > Also, the flag on the skb is an optimization - a high level sig=
+nal that
+> > > > > > one or more frags is in unreadable memory. There is no requirem=
+ent that
+> > > > > > all of the frags are in the same memory type.
+> > > >
+> > > > David: maybe there should be such a requirement (that they all are
+> > > > unreadable)? Might be easier to support initially; we can relax lat=
+er
+> > > > on.
+> > > >
+> > >
+> > > Currently devmem =3D=3D not_readable, and the restriction is that all=
+ the
+> > > frags in the same skb must be either all readable or all unreadable
+> > > (all devmem or all non-devmem).
+> > >
+> > > > > The flag indicates that the skb contains all devmem dma-buf memor=
+y
+> > > > > specifically, not generic 'not_readable' frags as the comment say=
+s:
+> > > > >
+> > > > > + *     @devmem: indicates that all the fragments in this skb are=
+ backed by
+> > > > > + *             device memory.
+> > > > >
+> > > > > The reason it's not a generic 'not_readable' flag is because hand=
+ing
+> > > > > off a generic not_readable skb to the userspace is semantically n=
+ot
+> > > > > what we're doing. recvmsg() is augmented in this patch series to
+> > > > > return a devmem skb to the user via a cmsg_devmem struct which re=
+fers
+> > > > > specifically to the memory in the dma-buf. recvmsg() in this patc=
+h
+> > > > > series is not augmented to give any 'not_readable' skb to the
+> > > > > userspace.
+> > > > >
+> > > > > IMHO skb->devmem + an skb_frags_not_readable() as implemented is
+> > > > > correct. If a new type of unreadable skbs are introduced to the s=
+tack,
+> > > > > I imagine the stack would implement:
+> > > > >
+> > > > > 1. new header flag: skb->newmem
+> > > > > 2.
+> > > > >
+> > > > > static inline bool skb_frags_not_readable(const struct skb_buff *=
+skb)
+> > > > > {
+> > > > >     return skb->devmem || skb->newmem;
+> > > > > }
+> > > > >
+> > > > > 3. tcp_recvmsg_devmem() would handle skb->devmem skbs is in this =
+patch
+> > > > > series, but tcp_recvmsg_newmem() would handle skb->newmem skbs.
+> > > >
+> > > > You copy it to the userspace in a special way because your frags
+> > > > are page_is_page_pool_iov(). I agree with David, the skb bit is
+> > > > just and optimization.
+> > > >
+> > > > For most of the core stack, it doesn't matter why your skb is not
+> > > > readable. For a few places where it matters (recvmsg?), you can
+> > > > double-check your frags (all or some) with page_is_page_pool_iov.
+> > > >
+> > >
+> > > I see, we can do that then. I.e. make the header flag 'not_readable'
+> > > and check the frags to decide to delegate to tcp_recvmsg_devmem() or
+> > > something else. We can even assume not_readable =3D=3D devmem because
+> > > currently devmem is the only type of unreadable frag currently.
+> > >
+> > > > Unrelated: we probably need socket to dmabuf association as well (v=
+ia
+> > > > netlink or something).
+> > >
+> > > Not sure this is possible. The dma-buf is bound to the rx-queue, and
+> > > any packets that land on that rx-queue are bound to that dma-buf,
+> > > regardless of which socket that packet belongs to. So the association
+> > > IMO must be rx-queue to dma-buf, not socket to dma-buf.
+> >
+> > But there is still always 1 dmabuf to 1 socket association (on rx), rig=
+ht?
+> > Because otherwise, there is no way currently to tell, at recvmsg, which
+> > dmabuf the received token belongs to.
+> >
+>
+> Yes, but this 1 dma-buf to 1 socket association happens because the
+> user binds the dma-buf to an rx-queue and configures flow steering of
+> the socket to that rx-queue.
 
-If both hard-coded mode and edid exists, only add mode from hard-coded.
+It's still fixed and won't change during the socket lifetime, right?
+And the socket has to know this association; otherwise those tokens
+are useless since they don't carry anything to identify the dmabuf.
 
-Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
----
-v4->v5: remove inapplicable comments.
----
- drivers/gpu/drm/panel/panel-edp.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+I think my other issue with MSG_SOCK_DEVMEM being on recvmsg is that
+it somehow implies that I have an option of passing or not passing it
+for an individual system call.
+If we know that we're going to use dmabuf with the socket, maybe we
+should move this flag to the socket() syscall?
 
-diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
-index c0c24d94c3a0..006939cc3fee 100644
---- a/drivers/gpu/drm/panel/panel-edp.c
-+++ b/drivers/gpu/drm/panel/panel-edp.c
-@@ -589,6 +589,7 @@ static int panel_edp_get_modes(struct drm_panel *panel,
- {
- 	struct panel_edp *p = to_panel_edp(panel);
- 	int num = 0;
-+	bool has_hard_coded_modes = p->desc->num_timings || p->desc->num_modes;
- 	bool has_override_edid_mode = p->detected_panel &&
- 				      p->detected_panel != ERR_PTR(-EINVAL) &&
- 				      p->detected_panel->override_edid_mode;
-@@ -599,7 +600,11 @@ static int panel_edp_get_modes(struct drm_panel *panel,
- 
- 		if (!p->edid)
- 			p->edid = drm_get_edid(connector, p->ddc);
--		if (p->edid) {
-+		/*
-+		 * If both edid and hard-coded modes exists, skip edid modes to
-+		 * avoid multiple preferred modes.
-+		 */
-+		if (p->edid && !has_hard_coded_modes) {
- 			if (has_override_edid_mode) {
- 				/*
- 				 * override_edid_mode is specified. Use
-@@ -616,12 +621,7 @@ static int panel_edp_get_modes(struct drm_panel *panel,
- 		pm_runtime_put_autosuspend(panel->dev);
- 	}
- 
--	/*
--	 * Add hard-coded panel modes. Don't call this if there are no timings
--	 * and no modes (the generic edp-panel case) because it will clobber
--	 * the display_info that was already set by drm_add_edid_modes().
--	 */
--	if (p->desc->num_timings || p->desc->num_modes)
-+	if (has_hard_coded_modes)
- 		num += panel_edp_get_non_edid_modes(p, connector);
- 	else if (!num)
- 		dev_warn(p->base.dev, "No display modes\n");
--- 
-2.42.0.869.gea05f2083d-goog
+fd =3D socket(AF_INET6, SOCK_STREAM, SOCK_DEVMEM);
 
+?
+
+> > So why not have a separate control channel action to say: this socket f=
+d
+> > is supposed to receive into this dmabuf fd?
+> > This action would put
+> > the socket into permanent 'MSG_SOCK_DEVMEM' mode. Maybe you can also
+> > put some checks at the lower level to to enforce this dmabuf
+> > association. (to avoid any potential issues with flow steering)
+> >
+>
+> setsockopt(SO_DEVMEM_ASSERT_DMA_BUF, dmabuf_fd)? Sounds interesting,
+> but maybe a bit of a weird API to me. Because the API can't enforce
+> the socket to receive packets on a dma-buf (rx-queue binding + flow
+> steering does that), but the API can assert that incoming packets are
+> received on said dma-buf. I guess it would check packets before they
+> are acked and would drop packets that landed on the wrong queue.
+>
+> I'm a bit unsure about defensively programming features (and uapi no
+> less) to 'avoid any potential issues with flow steering'. Flow
+> steering is supposed to work.
+>
+> Also if we wanted to defensively program something to avoid flow
+> steering issues, then I'd suggest adding to cmsg_devmem the dma-buf fd
+> that the data is on, not this setsockopt() that asserts. IMO it's a
+> weird API for the userspace to ask the kernel to assert some condition
+> (at least I haven't seen it before or commonly).
+>
+> But again, in general, I'm a bit unsure about defensively designing
+> uapi around a feature like flow steering that's supposed to work.
