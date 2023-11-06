@@ -2,69 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90D277E3160
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 00:27:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 587277E316D
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 00:30:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE70310E10D;
-	Mon,  6 Nov 2023 23:27:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B008A10E45A;
+	Mon,  6 Nov 2023 23:30:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22d.google.com (mail-oi1-x22d.google.com
- [IPv6:2607:f8b0:4864:20::22d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5562910E10D
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Nov 2023 23:27:54 +0000 (UTC)
-Received: by mail-oi1-x22d.google.com with SMTP id
- 5614622812f47-3b2e44c7941so3248419b6e.2
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Nov 2023 15:27:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1699313273; x=1699918073;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=oyBgh+zEqvzqf0dBlal8b/uizmWNW97SzNAlzA3P/rc=;
- b=hszXt0t4HHOEK80PlBPo4MUg38YzNjXI6wK7GmihohnqZoizukQLq2JhA8Onaocuo9
- KFpAa3J3DAYgTxNc7clwrcF3/j1Fbvj32ASjZOWYor13EvFY5D4SxSr/W5131tmHV6rW
- g12LGxKomFI45dl/hZWtrZXNETMEUCPGkU80GxdOc4ooTeM2SK7J483EdF4h3uSaehN2
- HaBPTGnPAhdXe5oOicawBPwpSDZghmBY8Frpbfu31nkzxxPFJ5toSERh3pE1eZdSSS7f
- R5e79a+eGDgraJ0TmMJbuIczBJ5ts27+TJxtBQdtPDkmGJF+jTrxlvZyCb2zjMQgbSXs
- icbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699313273; x=1699918073;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=oyBgh+zEqvzqf0dBlal8b/uizmWNW97SzNAlzA3P/rc=;
- b=JMRTaZiWBQ5zxrOxD1tt2NjOBD2puoOGkVQlsnLtp9NLI9aRU5NbaFKCFTFeMrIfAW
- BPYZwp8jDWtTJ1nSxCBYBq4Nglkbb8s+a/OxVhW7CMzBEiiweAqkls9Pk9NiLkmUcBov
- JPZKy9ZTVNxACLSMI1OnicIWmYxqEQmz+yTfvEW/7RqzUz3mFUvFYDjDeDGe3Hs6qmS4
- nA1so9KS8IrifPMmHP4BJDrMjw6zzU4iOS+WMTMvPZhi0T+MX/XIG8lzQgUm8u/IZKGi
- eV0zJdqpXtxUoi/6YrJQdMYgBDpCOljx2tqW7Fq42blxqgjV6hnaYd5eR13+DCh8Rtvi
- OauA==
-X-Gm-Message-State: AOJu0YygCCRxAa4qks1c4celHoUyDXlQ2drr2/aHWfir3QPwSbrTX6MV
- pxZiCdXjxjDysIF3rcv59FFMZY/Yv3EKrSwiLFNWlw==
-X-Google-Smtp-Source: AGHT+IG59kPBd3u1YDLzyUJBeB7FlEZKtBj0ageMZxiI9VbXckY1biWa86oVt9rMTTU8zWrU/TgHQTYgQyBEzAjUIkY=
-X-Received: by 2002:a05:6808:150d:b0:3b5:75d5:696d with SMTP id
- u13-20020a056808150d00b003b575d5696dmr20309651oiw.44.1699313273312; Mon, 06
- Nov 2023 15:27:53 -0800 (PST)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D44310E45A;
+ Mon,  6 Nov 2023 23:30:44 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 3A6MoOYV017430; Mon, 6 Nov 2023 23:30:38 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=U3BLYVg6YGzPgy81lm70PTAfKjhyhUwPRKtpLLoAX9c=;
+ b=d6GsPHr7nnSmO4FR23UQfYarJWVuaV4527kDAc095lHFmZ/yHUoAMIzpayZWW8RT5VNa
+ rjZWndWPp+Ku7jPRyo3hH3KXYZUlSdTReLoy36vkGXhPyHlfxYQ4W1q9xwpEXcALjR3/
+ 5ltSq9NquK3lb2rOLxJVc7GU04IAfGGZVi4Up3WWL4dyq6UjI3rwZDXQ0NUgpcLR2uNB
+ OAHFHVKd/hrg/NfbfhOW7N0h1ZfPjDv3fyouLgxs85LlXSXMiE71uYkSC+TfoMtAoVTi
+ YibUB+9IZUoxZO0nkh3rrnNQoTyHD6LlqrzfaB4JjeaC0t71mjmspWuukMXV4T0mfq86 Xw== 
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3u72avs3eb-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 06 Nov 2023 23:30:38 +0000
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com
+ [10.47.209.197])
+ by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3A6NUaks030710
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 6 Nov 2023 23:30:36 GMT
+Received: from [10.71.109.77] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Mon, 6 Nov
+ 2023 15:30:34 -0800
+Message-ID: <1ac30bfd-86d9-8186-1aee-f201b8ff4370@quicinc.com>
+Date: Mon, 6 Nov 2023 15:30:32 -0800
 MIME-Version: 1.0
-References: <20231106024413.2801438-1-almasrymina@google.com>
- <20231106024413.2801438-10-almasrymina@google.com>
- <ZUk03DhWxV-bOFJL@google.com>
- <19129763-6f74-4b04-8a5f-441255b76d34@kernel.org>
- <CAHS8izMrnVUfbbS=OcJ6JT9SZRRfZ2MC7UnggthpZT=zf2BGLA@mail.gmail.com>
- <ZUlhu4hlTaqR3CTh@google.com>
- <CAHS8izMaAhoae5ChnzO4gny1cYYnqV1cB8MC2cAF3eoyt+Sf4A@mail.gmail.com>
- <ZUlvzm24SA3YjirV@google.com>
-In-Reply-To: <ZUlvzm24SA3YjirV@google.com>
-From: Mina Almasry <almasrymina@google.com>
-Date: Mon, 6 Nov 2023 15:27:40 -0800
-Message-ID: <CAHS8izMQ5Um_ScY0VgAjaEaT-hRh4tFoTgc6Xr9Tj5rEj0fijA@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 09/12] net: add support for skbs with unreadable
- frags
-To: Stanislav Fomichev <sdf@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH] drm/msm/dpu: correct clk bit for WB2 block
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+References: <20231009171139.2691218-1-dmitry.baryshkov@linaro.org>
+ <e4c94f9d-773a-e894-d655-41afeb01dae1@quicinc.com>
+ <CAA8EJprpBy6UhtScRkFS24TgKevBOb9nVBFCqPhEof=-k58Mwg@mail.gmail.com>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <CAA8EJprpBy6UhtScRkFS24TgKevBOb9nVBFCqPhEof=-k58Mwg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: iXL6pwzsvqF2z-i7nHQLeFT1K8mrHSxP
+X-Proofpoint-GUID: iXL6pwzsvqF2z-i7nHQLeFT1K8mrHSxP
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-06_15,2023-11-02_03,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 malwarescore=0
+ mlxlogscore=999 impostorscore=0 phishscore=0 bulkscore=0 adultscore=0
+ priorityscore=1501 clxscore=1015 spamscore=0 suspectscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2310240000 definitions=main-2311060192
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,238 +84,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kaiyuan Zhang <kaiyuanz@google.com>, dri-devel@lists.freedesktop.org,
- Eric Dumazet <edumazet@google.com>, linux-kselftest@vger.kernel.org,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- linux-arch@vger.kernel.org, Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Jeroen de Borst <jeroendb@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, linux-media@vger.kernel.org,
- Jesper Dangaard Brouer <hawk@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- linaro-mm-sig@lists.linaro.org, Shakeel Butt <shakeelb@google.com>,
- Willem de Bruijn <willemb@google.com>, netdev@vger.kernel.org,
- David Ahern <dsahern@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>, linux-kernel@vger.kernel.org,
- "David S. Miller" <davem@davemloft.net>,
- Praveen Kaligineedi <pkaligineedi@google.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: freedreno@lists.freedesktop.org, Bjorn Andersson <andersson@kernel.org>,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ linux-arm-msm@vger.kernel.org, Marijn Suijten <marijn.suijten@somainline.org>,
+ Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 6, 2023 at 2:59=E2=80=AFPM Stanislav Fomichev <sdf@google.com> =
-wrote:
->
-> On 11/06, Mina Almasry wrote:
-> > On Mon, Nov 6, 2023 at 1:59=E2=80=AFPM Stanislav Fomichev <sdf@google.c=
-om> wrote:
-> > >
-> > > On 11/06, Mina Almasry wrote:
-> > > > On Mon, Nov 6, 2023 at 11:34=E2=80=AFAM David Ahern <dsahern@kernel=
-.org> wrote:
-> > > > >
-> > > > > On 11/6/23 11:47 AM, Stanislav Fomichev wrote:
-> > > > > > On 11/05, Mina Almasry wrote:
-> > > > > >> For device memory TCP, we expect the skb headers to be availab=
-le in host
-> > > > > >> memory for access, and we expect the skb frags to be in device=
- memory
-> > > > > >> and unaccessible to the host. We expect there to be no mixing =
-and
-> > > > > >> matching of device memory frags (unaccessible) with host memor=
-y frags
-> > > > > >> (accessible) in the same skb.
-> > > > > >>
-> > > > > >> Add a skb->devmem flag which indicates whether the frags in th=
-is skb
-> > > > > >> are device memory frags or not.
-> > > > > >>
-> > > > > >> __skb_fill_page_desc() now checks frags added to skbs for page=
-_pool_iovs,
-> > > > > >> and marks the skb as skb->devmem accordingly.
-> > > > > >>
-> > > > > >> Add checks through the network stack to avoid accessing the fr=
-ags of
-> > > > > >> devmem skbs and avoid coalescing devmem skbs with non devmem s=
-kbs.
-> > > > > >>
-> > > > > >> Signed-off-by: Willem de Bruijn <willemb@google.com>
-> > > > > >> Signed-off-by: Kaiyuan Zhang <kaiyuanz@google.com>
-> > > > > >> Signed-off-by: Mina Almasry <almasrymina@google.com>
-> > > > > >>
-> > > > > >> ---
-> > > > > >>  include/linux/skbuff.h | 14 +++++++-
-> > > > > >>  include/net/tcp.h      |  5 +--
-> > > > > >>  net/core/datagram.c    |  6 ++++
-> > > > > >>  net/core/gro.c         |  5 ++-
-> > > > > >>  net/core/skbuff.c      | 77 +++++++++++++++++++++++++++++++++=
-+++------
-> > > > > >>  net/ipv4/tcp.c         |  6 ++++
-> > > > > >>  net/ipv4/tcp_input.c   | 13 +++++--
-> > > > > >>  net/ipv4/tcp_output.c  |  5 ++-
-> > > > > >>  net/packet/af_packet.c |  4 +--
-> > > > > >>  9 files changed, 115 insertions(+), 20 deletions(-)
-> > > > > >>
-> > > > > >> diff --git a/include/linux/skbuff.h b/include/linux/skbuff.h
-> > > > > >> index 1fae276c1353..8fb468ff8115 100644
-> > > > > >> --- a/include/linux/skbuff.h
-> > > > > >> +++ b/include/linux/skbuff.h
-> > > > > >> @@ -805,6 +805,8 @@ typedef unsigned char *sk_buff_data_t;
-> > > > > >>   *  @csum_level: indicates the number of consecutive checksum=
-s found in
-> > > > > >>   *          the packet minus one that have been verified as
-> > > > > >>   *          CHECKSUM_UNNECESSARY (max 3)
-> > > > > >> + *  @devmem: indicates that all the fragments in this skb are=
- backed by
-> > > > > >> + *          device memory.
-> > > > > >>   *  @dst_pending_confirm: need to confirm neighbour
-> > > > > >>   *  @decrypted: Decrypted SKB
-> > > > > >>   *  @slow_gro: state present at GRO time, slower prepare step=
- required
-> > > > > >> @@ -991,7 +993,7 @@ struct sk_buff {
-> > > > > >>  #if IS_ENABLED(CONFIG_IP_SCTP)
-> > > > > >>      __u8                    csum_not_inet:1;
-> > > > > >>  #endif
-> > > > > >> -
-> > > > > >> +    __u8                    devmem:1;
-> > > > > >>  #if defined(CONFIG_NET_SCHED) || defined(CONFIG_NET_XGRESS)
-> > > > > >>      __u16                   tc_index;       /* traffic contro=
-l index */
-> > > > > >>  #endif
-> > > > > >> @@ -1766,6 +1768,12 @@ static inline void skb_zcopy_downgrade_=
-managed(struct sk_buff *skb)
-> > > > > >>              __skb_zcopy_downgrade_managed(skb);
-> > > > > >>  }
-> > > > > >>
-> > > > > >> +/* Return true if frags in this skb are not readable by the h=
-ost. */
-> > > > > >> +static inline bool skb_frags_not_readable(const struct sk_buf=
-f *skb)
-> > > > > >> +{
-> > > > > >> +    return skb->devmem;
-> > > > > >
-> > > > > > bikeshedding: should we also rename 'devmem' sk_buff flag to 'n=
-ot_readable'?
-> > > > > > It better communicates the fact that the stack shouldn't derefe=
-rence the
-> > > > > > frags (because it has 'devmem' fragments or for some other pote=
-ntial
-> > > > > > future reason).
-> > > > >
-> > > > > +1.
-> > > > >
-> > > > > Also, the flag on the skb is an optimization - a high level signa=
-l that
-> > > > > one or more frags is in unreadable memory. There is no requiremen=
-t that
-> > > > > all of the frags are in the same memory type.
-> > >
-> > > David: maybe there should be such a requirement (that they all are
-> > > unreadable)? Might be easier to support initially; we can relax later
-> > > on.
-> > >
-> >
-> > Currently devmem =3D=3D not_readable, and the restriction is that all t=
-he
-> > frags in the same skb must be either all readable or all unreadable
-> > (all devmem or all non-devmem).
-> >
-> > > > The flag indicates that the skb contains all devmem dma-buf memory
-> > > > specifically, not generic 'not_readable' frags as the comment says:
-> > > >
-> > > > + *     @devmem: indicates that all the fragments in this skb are b=
-acked by
-> > > > + *             device memory.
-> > > >
-> > > > The reason it's not a generic 'not_readable' flag is because handin=
-g
-> > > > off a generic not_readable skb to the userspace is semantically not
-> > > > what we're doing. recvmsg() is augmented in this patch series to
-> > > > return a devmem skb to the user via a cmsg_devmem struct which refe=
-rs
-> > > > specifically to the memory in the dma-buf. recvmsg() in this patch
-> > > > series is not augmented to give any 'not_readable' skb to the
-> > > > userspace.
-> > > >
-> > > > IMHO skb->devmem + an skb_frags_not_readable() as implemented is
-> > > > correct. If a new type of unreadable skbs are introduced to the sta=
-ck,
-> > > > I imagine the stack would implement:
-> > > >
-> > > > 1. new header flag: skb->newmem
-> > > > 2.
-> > > >
-> > > > static inline bool skb_frags_not_readable(const struct skb_buff *sk=
-b)
-> > > > {
-> > > >     return skb->devmem || skb->newmem;
-> > > > }
-> > > >
-> > > > 3. tcp_recvmsg_devmem() would handle skb->devmem skbs is in this pa=
-tch
-> > > > series, but tcp_recvmsg_newmem() would handle skb->newmem skbs.
-> > >
-> > > You copy it to the userspace in a special way because your frags
-> > > are page_is_page_pool_iov(). I agree with David, the skb bit is
-> > > just and optimization.
-> > >
-> > > For most of the core stack, it doesn't matter why your skb is not
-> > > readable. For a few places where it matters (recvmsg?), you can
-> > > double-check your frags (all or some) with page_is_page_pool_iov.
-> > >
-> >
-> > I see, we can do that then. I.e. make the header flag 'not_readable'
-> > and check the frags to decide to delegate to tcp_recvmsg_devmem() or
-> > something else. We can even assume not_readable =3D=3D devmem because
-> > currently devmem is the only type of unreadable frag currently.
-> >
-> > > Unrelated: we probably need socket to dmabuf association as well (via
-> > > netlink or something).
-> >
-> > Not sure this is possible. The dma-buf is bound to the rx-queue, and
-> > any packets that land on that rx-queue are bound to that dma-buf,
-> > regardless of which socket that packet belongs to. So the association
-> > IMO must be rx-queue to dma-buf, not socket to dma-buf.
->
-> But there is still always 1 dmabuf to 1 socket association (on rx), right=
-?
-> Because otherwise, there is no way currently to tell, at recvmsg, which
-> dmabuf the received token belongs to.
->
 
-Yes, but this 1 dma-buf to 1 socket association happens because the
-user binds the dma-buf to an rx-queue and configures flow steering of
-the socket to that rx-queue.
 
-> So why not have a separate control channel action to say: this socket fd
-> is supposed to receive into this dmabuf fd?
-> This action would put
-> the socket into permanent 'MSG_SOCK_DEVMEM' mode. Maybe you can also
-> put some checks at the lower level to to enforce this dmabuf
-> association. (to avoid any potential issues with flow steering)
->
+On 11/6/2023 2:11 PM, Dmitry Baryshkov wrote:
+> On Mon, 6 Nov 2023 at 20:39, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+>>
+>> Sorry for the delay in getting back on this. There was quite a bit of
+>> history digging I had to do myself to give a certain response.
+>>
+>>
+>> On 10/9/2023 10:11 AM, Dmitry Baryshkov wrote:
+>>> On sc7280 there are two clk bits for WB2: control and status. While
+>>> programming the VBIF params of WB, the driver should be toggling the
+>>> former bit, while the sc7280_mdp struct lists the latter one.
+>>>
+>>
+>> No, this is not correct. Both are control bits. But for the context of
+>> where this is being used today, that is setting the VBIF OT limit, we
+>> should be using the VBIF_CLI one. So the below change itself is correct
+>> but not the commit text.
+> 
+> Maybe you can update dt bindings for the SDE driver? Because they
+> clearly speak about the control and status bits.
+> 
 
-setsockopt(SO_DEVMEM_ASSERT_DMA_BUF, dmabuf_fd)? Sounds interesting,
-but maybe a bit of a weird API to me. Because the API can't enforce
-the socket to receive packets on a dma-buf (rx-queue binding + flow
-steering does that), but the API can assert that incoming packets are
-received on said dma-buf. I guess it would check packets before they
-are acked and would drop packets that landed on the wrong queue.
+There is nothing to update here if we both are referring to the same 
+entries in the dt bindings.
 
-I'm a bit unsure about defensively programming features (and uapi no
-less) to 'avoid any potential issues with flow steering'. Flow
-steering is supposed to work.
+qcom,sde-wb-clk-status = <0x3bc 20>;
 
-Also if we wanted to defensively program something to avoid flow
-steering issues, then I'd suggest adding to cmsg_devmem the dma-buf fd
-that the data is on, not this setsockopt() that asserts. IMO it's a
-weird API for the userspace to ask the kernel to assert some condition
-(at least I haven't seen it before or commonly).
+the clk status is indeed bit 20 of 0x3bc.
 
-But again, in general, I'm a bit unsure about defensively designing
-uapi around a feature like flow steering that's supposed to work.
+What we have before your patch was bit 24 of 0x3b8 which was indeed 
+clk_ctl bit for wb2. But the only issue was it was not the vbif_cli one.
 
-> We'll still have dmabuf to rx-queue association because of various reason=
-s..
+So we are talking about two different registers?
 
---
-Thanks,
-Mina
+>>
+>> We need to make the same change on sm8250 WB2 as well as this register
+>> is present there too. In fact, anything >=msm8994 for setting VBIF OT
+>> for WB2 we should be using VBIF_CLI bits of register MDP_CLK_CTRL2
+>> (offset 0x2bc).
+>>
+>> For anything >=sm8550, we need to use WB_2_CLK_CTRL present within the
+>> WB block and not the one in the top.
+>>
+>> Hence for this change, we can do below:
+>>
+>> -> update the commit text to indicate both are control bits but for the
+>> vbif ot context we should using the corrected one
+>> -> if you can also add sm8250 in the same change i can ack it and pick it up
+>>
+>> Have you re-validated WB with this change? If not, let me know I shall
+>> while picking this up for -fixes.
+> 
+> No, I haven't validated this on sc7280. I'll try this on sm8250 and
+> then I'll send v2.
+> 
+>>
+>>> Correct that to ensure proper programming sequence for WB2 on sc7280.
+>>>
+>>> Fixes: 3ce166380567 ("drm/msm/dpu: add writeback support for sc7280")
+>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>>> ---
+>>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h | 2 +-
+>>>    1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
+>>> index 3b5061c4402a..9195cb996f44 100644
+>>> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
+>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
+>>> @@ -25,7 +25,7 @@ static const struct dpu_mdp_cfg sc7280_mdp = {
+>>>                [DPU_CLK_CTRL_DMA0] = { .reg_off = 0x2ac, .bit_off = 8 },
+>>>                [DPU_CLK_CTRL_DMA1] = { .reg_off = 0x2b4, .bit_off = 8 },
+>>>                [DPU_CLK_CTRL_DMA2] = { .reg_off = 0x2c4, .bit_off = 8 },
+>>> -             [DPU_CLK_CTRL_WB2] = { .reg_off = 0x3b8, .bit_off = 24 },
+>>> +             [DPU_CLK_CTRL_WB2] = { .reg_off = 0x2bc, .bit_off = 16 },
+>>>        },
+>>>    };
+>>>
+> 
+> 
+> 
