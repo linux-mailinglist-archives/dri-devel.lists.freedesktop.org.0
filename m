@@ -2,67 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7FD77E30E3
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 00:15:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BEBB7E315B
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 00:25:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E77F10E457;
-	Mon,  6 Nov 2023 23:15:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 17A7210E0DC;
+	Mon,  6 Nov 2023 23:25:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com
- [IPv6:2a00:1450:4864:20::532])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 326D110E457
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Nov 2023 23:15:11 +0000 (UTC)
-Received: by mail-ed1-x532.google.com with SMTP id
- 4fb4d7f45d1cf-54357417e81so4838a12.0
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Nov 2023 15:15:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1699312509; x=1699917309;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Iwt8apmvOTlb3cb3hpk+8zrI6lsHw5+CGh1ZVTiOJKc=;
- b=DQmBNCm+c/90brBn5JgkwO1ReBnunOV0hS3lSRKW2y589IsnuzOJyXhxzVUcCq+qcW
- 4bcNvLsfmU4Yc5NicBEB0Y+QWkkDCTIWCQTjTY7KBCCo/0H7FGD/SUgOVQ03sTlpS0P+
- ecVNHc6TN4aRal2LbCmZ64b7lpmxjbjrbKVdICkhaF7JrY0vyJyqzlio3DEx342s8mGs
- ZbLHu4NU20vT7htnRnxxwDUOQfIGLFGadvAPWlK2wvAz6iNpyX/Q75/rFTX3fWFLj/B1
- osSorjL3ROvfz4mfD/Vecv4mB5d/a6OsHkHe9jktd6Q4vGuqqsWCEAlnQsPIc795sDmV
- l6jQ==
+Received: from mail-oa1-f80.google.com (mail-oa1-f80.google.com
+ [209.85.160.80])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B4B010E0DC
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Nov 2023 23:25:23 +0000 (UTC)
+Received: by mail-oa1-f80.google.com with SMTP id
+ 586e51a60fabf-1e9a324c12fso7049372fac.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 Nov 2023 15:25:23 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699312509; x=1699917309;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Iwt8apmvOTlb3cb3hpk+8zrI6lsHw5+CGh1ZVTiOJKc=;
- b=LHX4AkBxnOPQJn6flk59ZAOBJKNphM7+JgoNVGUBSuAK1ngDCNFk1sIDjgC0CAjj+L
- eIy6t1xdM2XPUGgrhTqqMuIYQDS5zs7JycxNZjPGUhuyPLxD2DoxymnVT0iZ/oWlxs3K
- XIb8xsrMlrnBcviKFQxvaWzBxMbGAuuLQM/ATma7Yqscfl/geoGft+GZGQEJkoFVgeY1
- ox9x30LSxva6aN+0suiIn+sIxEvDom/3AUTALY2MqdZaCZcS/rnGpIjBbrysfo35qkkq
- 0AV0XtJAxjMdspUsZuKEs4rUWorJzQpUF6d0MaJqbaIy0LD+b1+AgawNuavAr4ON3832
- krMg==
-X-Gm-Message-State: AOJu0YxMaonGjILH3DPGvtHPbmHC6Iw8xiG5sKJQo2HMQc/qFz9itVkR
- tb9qefefs8u0qbX7TvbCJIhRogdVfVoA2uYXgxjOng==
-X-Google-Smtp-Source: AGHT+IHTSouxAKt24JqNQrY4w64PECIu3JABBvOq/CI28t3x23re6I5ClN8+Wc4xyUBocwb/ocpBHXx6D7HsHh7DMmM=
-X-Received: by 2002:a50:aac7:0:b0:544:466b:3b20 with SMTP id
- r7-20020a50aac7000000b00544466b3b20mr20167edc.5.1699312509365; Mon, 06 Nov
- 2023 15:15:09 -0800 (PST)
+ d=1e100.net; s=20230601; t=1699313122; x=1699917922;
+ h=to:from:subject:message-id:in-reply-to:date:mime-version
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=4tIuCoytmVadRySr33DQZ5/TwXBcyTI+qOt/uxCcdew=;
+ b=IJ30Onn8QZl3836kh3dcROxe8YZ7+W7i7rtCNFTCU84IkwxqQloA4hc2+wWp/DM8N1
+ q9mr+R4DtvCpEtWDNuOOiRztbjx6T8AyxEvBckBGwYzD1UwmCpk0bAb4ei+v0EzDhwfD
+ avwsTFdZFszupNMP6n4b/WEDaVKReZMIuHbWrYTKvYG6DBr6gALUGsbfHXZkNLufO2/h
+ qMoyaFCx5F0sRQf5LHAih75F6vxFV8XZlKux/i9fd9JYKNNNJ+2ZPv8DQypVukpDBf4Z
+ FLK3+UfIJq1euUSJ+rbfUPwyYdBajTLOKuTpPM+3dz/OvBhT+XNeZhti1c2gdh5/Q7z3
+ 2Pgg==
+X-Gm-Message-State: AOJu0YyDLcFbWbjaTz+0AGdf6XKs3bzQ95fs5GbnpQPh23J2Vf/b2HMe
+ 01BnfkU463qbmfRQMuIKEAS4u3TG/4MpzT3hA61saj7PowpQ
+X-Google-Smtp-Source: AGHT+IGZnbMG2wIjxKhbru5Ov2b3CCz3h1LseB0sEh5MBxu3ykMqYgKg6klDliWZX6650SH3AnLqNCoNgwsFj+QnIVQ6y8i/RZKz
 MIME-Version: 1.0
-References: <20231106024413.2801438-1-almasrymina@google.com>
- <20231106024413.2801438-10-almasrymina@google.com>
- <ZUk03DhWxV-bOFJL@google.com>
- <19129763-6f74-4b04-8a5f-441255b76d34@kernel.org>
- <CAHS8izMrnVUfbbS=OcJ6JT9SZRRfZ2MC7UnggthpZT=zf2BGLA@mail.gmail.com>
- <ZUlhu4hlTaqR3CTh@google.com>
- <CAHS8izMaAhoae5ChnzO4gny1cYYnqV1cB8MC2cAF3eoyt+Sf4A@mail.gmail.com>
- <ZUlvzm24SA3YjirV@google.com>
-In-Reply-To: <ZUlvzm24SA3YjirV@google.com>
-From: Kaiyuan Zhang <kaiyuanz@google.com>
-Date: Mon, 6 Nov 2023 15:14:57 -0800
-Message-ID: <CAAHRiQXF01PGVwUJOt9o3Ea1bPrShZHC2EJcqm3_e6B=sMwgfA@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 09/12] net: add support for skbs with unreadable
- frags
-To: Stanislav Fomichev <sdf@google.com>
-Content-Type: multipart/alternative; boundary="0000000000007cbbe40609840653"
+X-Received: by 2002:a05:6871:5d4:b0:1e9:9dda:12d with SMTP id
+ v20-20020a05687105d400b001e99dda012dmr519982oan.2.1699313122401; Mon, 06 Nov
+ 2023 15:25:22 -0800 (PST)
+Date: Mon, 06 Nov 2023 15:25:22 -0800
+In-Reply-To: <0000000000002a4da90603a5cbbf@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <00000000000005e40d0609842b6d@google.com>
+Subject: Re: [syzbot] [dri?] kernel BUG in vmf_insert_pfn_prot (2)
+From: syzbot <syzbot+398e17b61dab22cc56bc@syzkaller.appspotmail.com>
+To: airlied@gmail.com, christian.koenig@amd.com, daniel@ffwll.ch, 
+ dri-devel@lists.freedesktop.org, hdanton@sina.com, 
+ linaro-mm-sig-bounces@lists.linaro.org, linaro-mm-sig@lists.linaro.org, 
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
+ sumit.semwal@linaro.org, syzkaller-bugs@googlegroups.com, tzimmermann@suse.de
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,495 +60,131 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Eric Dumazet <edumazet@google.com>,
- linux-kselftest@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
- Sumit Semwal <sumit.semwal@linaro.org>, Mina Almasry <almasrymina@google.com>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Jeroen de Borst <jeroendb@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, linux-media@vger.kernel.org,
- linux-arch@vger.kernel.org, Jesper Dangaard Brouer <hawk@kernel.org>,
- Arnd Bergmann <arnd@arndb.de>, linaro-mm-sig@lists.linaro.org,
- Shakeel Butt <shakeelb@google.com>, Willem de Bruijn <willemb@google.com>,
- netdev@vger.kernel.org, David Ahern <dsahern@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>, linux-kernel@vger.kernel.org,
- "David S. Miller" <davem@davemloft.net>,
- Praveen Kaligineedi <pkaligineedi@google.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---0000000000007cbbe40609840653
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+syzbot has found a reproducer for the following issue on:
 
->
-> But there is still always 1 dmabuf to 1 socket association (on rx), right=
-?
->
-In practice yes, but my understanding is that such association is only
-enforced by NIC features such as flow steering.
+HEAD commit:    d2f51b3516da Merge tag 'rtc-6.7' of git://git.kernel.org/p..
+git tree:       upstream
+console+strace: https://syzkaller.appspot.com/x/log.txt?x=1422ebef680000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=1ffa1cec3b40f3ce
+dashboard link: https://syzkaller.appspot.com/bug?extid=398e17b61dab22cc56bc
+compiler:       gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=16344918e80000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=156bb2c0e80000
 
-So why not have a separate control channel action to say: this socket fd
-> is supposed to receive into this dmabuf fd?
->
- Are you proposing also adding the installation of corresponding flow
-steering into this action? Or just add checks to make sure the flow
-steering won't be removed?
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/01a7f380fc8d/disk-d2f51b35.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/c2fe46c74542/vmlinux-d2f51b35.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/247d6a0567c5/bzImage-d2f51b35.xz
 
-On Mon, Nov 6, 2023 at 2:59=E2=80=AFPM Stanislav Fomichev <sdf@google.com> =
-wrote:
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+398e17b61dab22cc56bc@syzkaller.appspotmail.com
 
-> On 11/06, Mina Almasry wrote:
-> > On Mon, Nov 6, 2023 at 1:59=E2=80=AFPM Stanislav Fomichev <sdf@google.c=
-om>
-> wrote:
-> > >
-> > > On 11/06, Mina Almasry wrote:
-> > > > On Mon, Nov 6, 2023 at 11:34=E2=80=AFAM David Ahern <dsahern@kernel=
-.org>
-> wrote:
-> > > > >
-> > > > > On 11/6/23 11:47 AM, Stanislav Fomichev wrote:
-> > > > > > On 11/05, Mina Almasry wrote:
-> > > > > >> For device memory TCP, we expect the skb headers to be
-> available in host
-> > > > > >> memory for access, and we expect the skb frags to be in device
-> memory
-> > > > > >> and unaccessible to the host. We expect there to be no mixing
-> and
-> > > > > >> matching of device memory frags (unaccessible) with host memor=
-y
-> frags
-> > > > > >> (accessible) in the same skb.
-> > > > > >>
-> > > > > >> Add a skb->devmem flag which indicates whether the frags in
-> this skb
-> > > > > >> are device memory frags or not.
-> > > > > >>
-> > > > > >> __skb_fill_page_desc() now checks frags added to skbs for
-> page_pool_iovs,
-> > > > > >> and marks the skb as skb->devmem accordingly.
-> > > > > >>
-> > > > > >> Add checks through the network stack to avoid accessing the
-> frags of
-> > > > > >> devmem skbs and avoid coalescing devmem skbs with non devmem
-> skbs.
-> > > > > >>
-> > > > > >> Signed-off-by: Willem de Bruijn <willemb@google.com>
-> > > > > >> Signed-off-by: Kaiyuan Zhang <kaiyuanz@google.com>
-> > > > > >> Signed-off-by: Mina Almasry <almasrymina@google.com>
-> > > > > >>
-> > > > > >> ---
-> > > > > >>  include/linux/skbuff.h | 14 +++++++-
-> > > > > >>  include/net/tcp.h      |  5 +--
-> > > > > >>  net/core/datagram.c    |  6 ++++
-> > > > > >>  net/core/gro.c         |  5 ++-
-> > > > > >>  net/core/skbuff.c      | 77
-> ++++++++++++++++++++++++++++++++++++------
-> > > > > >>  net/ipv4/tcp.c         |  6 ++++
-> > > > > >>  net/ipv4/tcp_input.c   | 13 +++++--
-> > > > > >>  net/ipv4/tcp_output.c  |  5 ++-
-> > > > > >>  net/packet/af_packet.c |  4 +--
-> > > > > >>  9 files changed, 115 insertions(+), 20 deletions(-)
-> > > > > >>
-> > > > > >> diff --git a/include/linux/skbuff.h b/include/linux/skbuff.h
-> > > > > >> index 1fae276c1353..8fb468ff8115 100644
-> > > > > >> --- a/include/linux/skbuff.h
-> > > > > >> +++ b/include/linux/skbuff.h
-> > > > > >> @@ -805,6 +805,8 @@ typedef unsigned char *sk_buff_data_t;
-> > > > > >>   *  @csum_level: indicates the number of consecutive checksum=
-s
-> found in
-> > > > > >>   *          the packet minus one that have been verified as
-> > > > > >>   *          CHECKSUM_UNNECESSARY (max 3)
-> > > > > >> + *  @devmem: indicates that all the fragments in this skb are
-> backed by
-> > > > > >> + *          device memory.
-> > > > > >>   *  @dst_pending_confirm: need to confirm neighbour
-> > > > > >>   *  @decrypted: Decrypted SKB
-> > > > > >>   *  @slow_gro: state present at GRO time, slower prepare step
-> required
-> > > > > >> @@ -991,7 +993,7 @@ struct sk_buff {
-> > > > > >>  #if IS_ENABLED(CONFIG_IP_SCTP)
-> > > > > >>      __u8                    csum_not_inet:1;
-> > > > > >>  #endif
-> > > > > >> -
-> > > > > >> +    __u8                    devmem:1;
-> > > > > >>  #if defined(CONFIG_NET_SCHED) || defined(CONFIG_NET_XGRESS)
-> > > > > >>      __u16                   tc_index;       /* traffic contro=
-l
-> index */
-> > > > > >>  #endif
-> > > > > >> @@ -1766,6 +1768,12 @@ static inline void
-> skb_zcopy_downgrade_managed(struct sk_buff *skb)
-> > > > > >>              __skb_zcopy_downgrade_managed(skb);
-> > > > > >>  }
-> > > > > >>
-> > > > > >> +/* Return true if frags in this skb are not readable by the
-> host. */
-> > > > > >> +static inline bool skb_frags_not_readable(const struct sk_buf=
-f
-> *skb)
-> > > > > >> +{
-> > > > > >> +    return skb->devmem;
-> > > > > >
-> > > > > > bikeshedding: should we also rename 'devmem' sk_buff flag to
-> 'not_readable'?
-> > > > > > It better communicates the fact that the stack shouldn't
-> dereference the
-> > > > > > frags (because it has 'devmem' fragments or for some other
-> potential
-> > > > > > future reason).
-> > > > >
-> > > > > +1.
-> > > > >
-> > > > > Also, the flag on the skb is an optimization - a high level signa=
-l
-> that
-> > > > > one or more frags is in unreadable memory. There is no requiremen=
-t
-> that
-> > > > > all of the frags are in the same memory type.
-> > >
-> > > David: maybe there should be such a requirement (that they all are
-> > > unreadable)? Might be easier to support initially; we can relax later
-> > > on.
-> > >
-> >
-> > Currently devmem =3D=3D not_readable, and the restriction is that all t=
-he
-> > frags in the same skb must be either all readable or all unreadable
-> > (all devmem or all non-devmem).
-> >
-> > > > The flag indicates that the skb contains all devmem dma-buf memory
-> > > > specifically, not generic 'not_readable' frags as the comment says:
-> > > >
-> > > > + *     @devmem: indicates that all the fragments in this skb are
-> backed by
-> > > > + *             device memory.
-> > > >
-> > > > The reason it's not a generic 'not_readable' flag is because handin=
-g
-> > > > off a generic not_readable skb to the userspace is semantically not
-> > > > what we're doing. recvmsg() is augmented in this patch series to
-> > > > return a devmem skb to the user via a cmsg_devmem struct which refe=
-rs
-> > > > specifically to the memory in the dma-buf. recvmsg() in this patch
-> > > > series is not augmented to give any 'not_readable' skb to the
-> > > > userspace.
-> > > >
-> > > > IMHO skb->devmem + an skb_frags_not_readable() as implemented is
-> > > > correct. If a new type of unreadable skbs are introduced to the
-> stack,
-> > > > I imagine the stack would implement:
-> > > >
-> > > > 1. new header flag: skb->newmem
-> > > > 2.
-> > > >
-> > > > static inline bool skb_frags_not_readable(const struct skb_buff *sk=
-b)
-> > > > {
-> > > >     return skb->devmem || skb->newmem;
-> > > > }
-> > > >
-> > > > 3. tcp_recvmsg_devmem() would handle skb->devmem skbs is in this
-> patch
-> > > > series, but tcp_recvmsg_newmem() would handle skb->newmem skbs.
-> > >
-> > > You copy it to the userspace in a special way because your frags
-> > > are page_is_page_pool_iov(). I agree with David, the skb bit is
-> > > just and optimization.
-> > >
-> > > For most of the core stack, it doesn't matter why your skb is not
-> > > readable. For a few places where it matters (recvmsg?), you can
-> > > double-check your frags (all or some) with page_is_page_pool_iov.
-> > >
-> >
-> > I see, we can do that then. I.e. make the header flag 'not_readable'
-> > and check the frags to decide to delegate to tcp_recvmsg_devmem() or
-> > something else. We can even assume not_readable =3D=3D devmem because
-> > currently devmem is the only type of unreadable frag currently.
-> >
-> > > Unrelated: we probably need socket to dmabuf association as well (via
-> > > netlink or something).
-> >
-> > Not sure this is possible. The dma-buf is bound to the rx-queue, and
-> > any packets that land on that rx-queue are bound to that dma-buf,
-> > regardless of which socket that packet belongs to. So the association
-> > IMO must be rx-queue to dma-buf, not socket to dma-buf.
->
-> But there is still always 1 dmabuf to 1 socket association (on rx), right=
-?
-> Because otherwise, there is no way currently to tell, at recvmsg, which
-> dmabuf the received token belongs to.
->
-> So why not have a separate control channel action to say: this socket fd
-> is supposed to receive into this dmabuf fd? This action would put
-> the socket into permanent 'MSG_SOCK_DEVMEM' mode. Maybe you can also
-> put some checks at the lower level to to enforce this dmabuf
-> association. (to avoid any potential issues with flow steering)
->
-> We'll still have dmabuf to rx-queue association because of various
-> reasons..
->
+------------[ cut here ]------------
+kernel BUG at mm/memory.c:2216!
+invalid opcode: 0000 [#1] PREEMPT SMP KASAN
+CPU: 1 PID: 5067 Comm: syz-executor340 Not tainted 6.6.0-syzkaller-14651-gd2f51b3516da #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 10/09/2023
+RIP: 0010:vmf_insert_pfn_prot+0x247/0x430 mm/memory.c:2216
+Code: 0f 0b e8 7c e6 bd ff 49 89 ef bf 20 00 00 00 41 83 e7 28 4c 89 fe e8 f8 e1 bd ff 49 83 ff 20 0f 85 aa fe ff ff e8 59 e6 bd ff <0f> 0b 48 bd ff ff ff ff ff ff 0f 00 e8 48 e6 bd ff 4c 89 f6 48 89
+RSP: 0018:ffffc90003bbf758 EFLAGS: 00010293
+RAX: 0000000000000000 RBX: ffff88802847ec00 RCX: ffffffff81cab618
+RDX: ffff888015bd1dc0 RSI: ffffffff81cab627 RDI: 0000000000000007
+RBP: 000000000c040474 R08: 0000000000000007 R09: 0000000000000020
+R10: 0000000000000020 R11: 0000000000000009 R12: 0000000020ffd000
+R13: 1ffff92000777eec R14: 000000000001e529 R15: 0000000000000020
+FS:  0000555555e2a480(0000) GS:ffff8880b9900000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000000020ffd000 CR3: 000000002aae7000 CR4: 00000000003506f0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ <TASK>
+ drm_gem_shmem_fault+0x207/0x400 drivers/gpu/drm/drm_gem_shmem_helper.c:531
+ __do_fault+0x107/0x5f0 mm/memory.c:4265
+ do_read_fault mm/memory.c:4628 [inline]
+ do_fault mm/memory.c:4762 [inline]
+ do_pte_missing mm/memory.c:3730 [inline]
+ handle_pte_fault mm/memory.c:5038 [inline]
+ __handle_mm_fault+0x2682/0x3d60 mm/memory.c:5179
+ handle_mm_fault+0x478/0xa00 mm/memory.c:5344
+ do_user_addr_fault+0x3d1/0x1000 arch/x86/mm/fault.c:1413
+ handle_page_fault arch/x86/mm/fault.c:1505 [inline]
+ exc_page_fault+0x5c/0xd0 arch/x86/mm/fault.c:1561
+ asm_exc_page_fault+0x26/0x30 arch/x86/include/asm/idtentry.h:570
+RIP: 0010:rep_movs_alternative+0x4a/0x70 arch/x86/lib/copy_user_64.S:71
+Code: 75 f1 c3 66 66 2e 0f 1f 84 00 00 00 00 00 66 90 48 8b 06 48 89 07 48 83 c6 08 48 83 c7 08 83 e9 08 74 df 83 f9 08 73 e8 eb c9 <f3> a4 c3 48 89 c8 48 c1 e9 03 83 e0 07 f3 48 a5 89 c1 85 c9 75 b3
+RSP: 0018:ffffc90003bbfb50 EFLAGS: 00050206
+RAX: 0000000000000001 RBX: 0000000020ffd000 RCX: 0000000000001000
+RDX: 0000000000000000 RSI: 0000000020ffd000 RDI: ffff888018796000
+RBP: 0000000000001000 R08: 0000000000000001 R09: ffffed10030f2dff
+R10: ffff888018796fff R11: 0000000000000000 R12: 0000000020ffe000
+R13: ffff888018796000 R14: 0000000000000000 R15: 0000000020ffd000
+ copy_user_generic arch/x86/include/asm/uaccess_64.h:112 [inline]
+ raw_copy_from_user arch/x86/include/asm/uaccess_64.h:127 [inline]
+ _copy_from_user+0xc2/0xf0 lib/usercopy.c:23
+ copy_from_user include/linux/uaccess.h:183 [inline]
+ snd_rawmidi_kernel_write1+0x360/0x860 sound/core/rawmidi.c:1618
+ snd_rawmidi_write+0x26e/0xc00 sound/core/rawmidi.c:1687
+ vfs_write+0x2a4/0xdf0 fs/read_write.c:582
+ ksys_write+0x1f0/0x250 fs/read_write.c:637
+ do_syscall_x64 arch/x86/entry/common.c:51 [inline]
+ do_syscall_64+0x3f/0x110 arch/x86/entry/common.c:82
+ entry_SYSCALL_64_after_hwframe+0x63/0x6b
+RIP: 0033:0x7f31add88d69
+Code: 48 83 c4 28 c3 e8 37 17 00 00 0f 1f 80 00 00 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007ffdd9a49ee8 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
+RAX: ffffffffffffffda RBX: 00007ffdd9a49f00 RCX: 00007f31add88d69
+RDX: 00000000fffffd2c RSI: 0000000020000000 RDI: 0000000000000004
+RBP: 00007ffdd9a49f08 R08: 0000000000000000 R09: 0000000000000000
+R10: 00007ffdd9a49f08 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007ffdd9a4a168 R14: 0000000000000001 R15: 0000000000000001
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:vmf_insert_pfn_prot+0x247/0x430 mm/memory.c:2216
+Code: 0f 0b e8 7c e6 bd ff 49 89 ef bf 20 00 00 00 41 83 e7 28 4c 89 fe e8 f8 e1 bd ff 49 83 ff 20 0f 85 aa fe ff ff e8 59 e6 bd ff <0f> 0b 48 bd ff ff ff ff ff ff 0f 00 e8 48 e6 bd ff 4c 89 f6 48 89
+RSP: 0018:ffffc90003bbf758 EFLAGS: 00010293
+RAX: 0000000000000000 RBX: ffff88802847ec00 RCX: ffffffff81cab618
+RDX: ffff888015bd1dc0 RSI: ffffffff81cab627 RDI: 0000000000000007
+RBP: 000000000c040474 R08: 0000000000000007 R09: 0000000000000020
+R10: 0000000000000020 R11: 0000000000000009 R12: 0000000020ffd000
+R13: 1ffff92000777eec R14: 000000000001e529 R15: 0000000000000020
+FS:  0000555555e2a480(0000) GS:ffff8880b9800000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000000020acb000 CR3: 000000002aae7000 CR4: 00000000003506f0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+----------------
+Code disassembly (best guess):
+   0:	75 f1                	jne    0xfffffff3
+   2:	c3                   	ret
+   3:	66 66 2e 0f 1f 84 00 	data16 cs nopw 0x0(%rax,%rax,1)
+   a:	00 00 00 00
+   e:	66 90                	xchg   %ax,%ax
+  10:	48 8b 06             	mov    (%rsi),%rax
+  13:	48 89 07             	mov    %rax,(%rdi)
+  16:	48 83 c6 08          	add    $0x8,%rsi
+  1a:	48 83 c7 08          	add    $0x8,%rdi
+  1e:	83 e9 08             	sub    $0x8,%ecx
+  21:	74 df                	je     0x2
+  23:	83 f9 08             	cmp    $0x8,%ecx
+  26:	73 e8                	jae    0x10
+  28:	eb c9                	jmp    0xfffffff3
+* 2a:	f3 a4                	rep movsb %ds:(%rsi),%es:(%rdi) <-- trapping instruction
+  2c:	c3                   	ret
+  2d:	48 89 c8             	mov    %rcx,%rax
+  30:	48 c1 e9 03          	shr    $0x3,%rcx
+  34:	83 e0 07             	and    $0x7,%eax
+  37:	f3 48 a5             	rep movsq %ds:(%rsi),%es:(%rdi)
+  3a:	89 c1                	mov    %eax,%ecx
+  3c:	85 c9                	test   %ecx,%ecx
+  3e:	75 b3                	jne    0xfffffff3
 
---0000000000007cbbe40609840653
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
-0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">But ther=
-e is still always 1 dmabuf to 1 socket association (on rx), right?<br></blo=
-ckquote><div>In practice yes, but my understanding is that such association=
- is only enforced by NIC features such as flow steering.</div><div><br></di=
-v><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;borde=
-r-left:1px solid rgb(204,204,204);padding-left:1ex">So why not have a separ=
-ate control channel action to say: this socket fd<br>is supposed to receive=
- into this dmabuf fd?<br></blockquote><div>=C2=A0Are you proposing also add=
-ing the installation of corresponding flow steering into this action? Or ju=
-st add checks to make sure the flow steering won&#39;t be removed?</div><br=
-><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, N=
-ov 6, 2023 at 2:59=E2=80=AFPM Stanislav Fomichev &lt;<a href=3D"mailto:sdf@=
-google.com" target=3D"_blank">sdf@google.com</a>&gt; wrote:<br></div><block=
-quote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1=
-px solid rgb(204,204,204);padding-left:1ex">On 11/06, Mina Almasry wrote:<b=
-r>
-&gt; On Mon, Nov 6, 2023 at 1:59=E2=80=AFPM Stanislav Fomichev &lt;<a href=
-=3D"mailto:sdf@google.com" target=3D"_blank">sdf@google.com</a>&gt; wrote:<=
-br>
-&gt; &gt;<br>
-&gt; &gt; On 11/06, Mina Almasry wrote:<br>
-&gt; &gt; &gt; On Mon, Nov 6, 2023 at 11:34=E2=80=AFAM David Ahern &lt;<a h=
-ref=3D"mailto:dsahern@kernel.org" target=3D"_blank">dsahern@kernel.org</a>&=
-gt; wrote:<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; On 11/6/23 11:47 AM, Stanislav Fomichev wrote:<br>
-&gt; &gt; &gt; &gt; &gt; On 11/05, Mina Almasry wrote:<br>
-&gt; &gt; &gt; &gt; &gt;&gt; For device memory TCP, we expect the skb heade=
-rs to be available in host<br>
-&gt; &gt; &gt; &gt; &gt;&gt; memory for access, and we expect the skb frags=
- to be in device memory<br>
-&gt; &gt; &gt; &gt; &gt;&gt; and unaccessible to the host. We expect there =
-to be no mixing and<br>
-&gt; &gt; &gt; &gt; &gt;&gt; matching of device memory frags (unaccessible)=
- with host memory frags<br>
-&gt; &gt; &gt; &gt; &gt;&gt; (accessible) in the same skb.<br>
-&gt; &gt; &gt; &gt; &gt;&gt;<br>
-&gt; &gt; &gt; &gt; &gt;&gt; Add a skb-&gt;devmem flag which indicates whet=
-her the frags in this skb<br>
-&gt; &gt; &gt; &gt; &gt;&gt; are device memory frags or not.<br>
-&gt; &gt; &gt; &gt; &gt;&gt;<br>
-&gt; &gt; &gt; &gt; &gt;&gt; __skb_fill_page_desc() now checks frags added =
-to skbs for page_pool_iovs,<br>
-&gt; &gt; &gt; &gt; &gt;&gt; and marks the skb as skb-&gt;devmem accordingl=
-y.<br>
-&gt; &gt; &gt; &gt; &gt;&gt;<br>
-&gt; &gt; &gt; &gt; &gt;&gt; Add checks through the network stack to avoid =
-accessing the frags of<br>
-&gt; &gt; &gt; &gt; &gt;&gt; devmem skbs and avoid coalescing devmem skbs w=
-ith non devmem skbs.<br>
-&gt; &gt; &gt; &gt; &gt;&gt;<br>
-&gt; &gt; &gt; &gt; &gt;&gt; Signed-off-by: Willem de Bruijn &lt;<a href=3D=
-"mailto:willemb@google.com" target=3D"_blank">willemb@google.com</a>&gt;<br=
->
-&gt; &gt; &gt; &gt; &gt;&gt; Signed-off-by: Kaiyuan Zhang &lt;<a href=3D"ma=
-ilto:kaiyuanz@google.com" target=3D"_blank">kaiyuanz@google.com</a>&gt;<br>
-&gt; &gt; &gt; &gt; &gt;&gt; Signed-off-by: Mina Almasry &lt;<a href=3D"mai=
-lto:almasrymina@google.com" target=3D"_blank">almasrymina@google.com</a>&gt=
-;<br>
-&gt; &gt; &gt; &gt; &gt;&gt;<br>
-&gt; &gt; &gt; &gt; &gt;&gt; ---<br>
-&gt; &gt; &gt; &gt; &gt;&gt;=C2=A0 include/linux/skbuff.h | 14 +++++++-<br>
-&gt; &gt; &gt; &gt; &gt;&gt;=C2=A0 include/net/tcp.h=C2=A0 =C2=A0 =C2=A0 |=
-=C2=A0 5 +--<br>
-&gt; &gt; &gt; &gt; &gt;&gt;=C2=A0 net/core/datagram.c=C2=A0 =C2=A0 |=C2=A0=
- 6 ++++<br>
-&gt; &gt; &gt; &gt; &gt;&gt;=C2=A0 net/core/gro.c=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0|=C2=A0 5 ++-<br>
-&gt; &gt; &gt; &gt; &gt;&gt;=C2=A0 net/core/skbuff.c=C2=A0 =C2=A0 =C2=A0 | =
-77 ++++++++++++++++++++++++++++++++++++------<br>
-&gt; &gt; &gt; &gt; &gt;&gt;=C2=A0 net/ipv4/tcp.c=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0|=C2=A0 6 ++++<br>
-&gt; &gt; &gt; &gt; &gt;&gt;=C2=A0 net/ipv4/tcp_input.c=C2=A0 =C2=A0| 13 ++=
-+++--<br>
-&gt; &gt; &gt; &gt; &gt;&gt;=C2=A0 net/ipv4/tcp_output.c=C2=A0 |=C2=A0 5 ++=
--<br>
-&gt; &gt; &gt; &gt; &gt;&gt;=C2=A0 net/packet/af_packet.c |=C2=A0 4 +--<br>
-&gt; &gt; &gt; &gt; &gt;&gt;=C2=A0 9 files changed, 115 insertions(+), 20 d=
-eletions(-)<br>
-&gt; &gt; &gt; &gt; &gt;&gt;<br>
-&gt; &gt; &gt; &gt; &gt;&gt; diff --git a/include/linux/skbuff.h b/include/=
-linux/skbuff.h<br>
-&gt; &gt; &gt; &gt; &gt;&gt; index 1fae276c1353..8fb468ff8115 100644<br>
-&gt; &gt; &gt; &gt; &gt;&gt; --- a/include/linux/skbuff.h<br>
-&gt; &gt; &gt; &gt; &gt;&gt; +++ b/include/linux/skbuff.h<br>
-&gt; &gt; &gt; &gt; &gt;&gt; @@ -805,6 +805,8 @@ typedef unsigned char *sk_=
-buff_data_t;<br>
-&gt; &gt; &gt; &gt; &gt;&gt;=C2=A0 =C2=A0*=C2=A0 @csum_level: indicates the=
- number of consecutive checksums found in<br>
-&gt; &gt; &gt; &gt; &gt;&gt;=C2=A0 =C2=A0*=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 the packet minus one that have been verified as<br>
-&gt; &gt; &gt; &gt; &gt;&gt;=C2=A0 =C2=A0*=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 CHECKSUM_UNNECESSARY (max 3)<br>
-&gt; &gt; &gt; &gt; &gt;&gt; + *=C2=A0 @devmem: indicates that all the frag=
-ments in this skb are backed by<br>
-&gt; &gt; &gt; &gt; &gt;&gt; + *=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 device m=
-emory.<br>
-&gt; &gt; &gt; &gt; &gt;&gt;=C2=A0 =C2=A0*=C2=A0 @dst_pending_confirm: need=
- to confirm neighbour<br>
-&gt; &gt; &gt; &gt; &gt;&gt;=C2=A0 =C2=A0*=C2=A0 @decrypted: Decrypted SKB<=
-br>
-&gt; &gt; &gt; &gt; &gt;&gt;=C2=A0 =C2=A0*=C2=A0 @slow_gro: state present a=
-t GRO time, slower prepare step required<br>
-&gt; &gt; &gt; &gt; &gt;&gt; @@ -991,7 +993,7 @@ struct sk_buff {<br>
-&gt; &gt; &gt; &gt; &gt;&gt;=C2=A0 #if IS_ENABLED(CONFIG_IP_SCTP)<br>
-&gt; &gt; &gt; &gt; &gt;&gt;=C2=A0 =C2=A0 =C2=A0 __u8=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 csum_not_inet:1;<br>
-&gt; &gt; &gt; &gt; &gt;&gt;=C2=A0 #endif<br>
-&gt; &gt; &gt; &gt; &gt;&gt; -<br>
-&gt; &gt; &gt; &gt; &gt;&gt; +=C2=A0 =C2=A0 __u8=C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 devmem:1;<br>
-&gt; &gt; &gt; &gt; &gt;&gt;=C2=A0 #if defined(CONFIG_NET_SCHED) || defined=
-(CONFIG_NET_XGRESS)<br>
-&gt; &gt; &gt; &gt; &gt;&gt;=C2=A0 =C2=A0 =C2=A0 __u16=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tc_index;=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0/* traffic control index */<br>
-&gt; &gt; &gt; &gt; &gt;&gt;=C2=A0 #endif<br>
-&gt; &gt; &gt; &gt; &gt;&gt; @@ -1766,6 +1768,12 @@ static inline void skb_=
-zcopy_downgrade_managed(struct sk_buff *skb)<br>
-&gt; &gt; &gt; &gt; &gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 __skb_zcopy_downgrade_managed(skb);<br>
-&gt; &gt; &gt; &gt; &gt;&gt;=C2=A0 }<br>
-&gt; &gt; &gt; &gt; &gt;&gt;<br>
-&gt; &gt; &gt; &gt; &gt;&gt; +/* Return true if frags in this skb are not r=
-eadable by the host. */<br>
-&gt; &gt; &gt; &gt; &gt;&gt; +static inline bool skb_frags_not_readable(con=
-st struct sk_buff *skb)<br>
-&gt; &gt; &gt; &gt; &gt;&gt; +{<br>
-&gt; &gt; &gt; &gt; &gt;&gt; +=C2=A0 =C2=A0 return skb-&gt;devmem;<br>
-&gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt; bikeshedding: should we also rename &#39;devmem&#3=
-9; sk_buff flag to &#39;not_readable&#39;?<br>
-&gt; &gt; &gt; &gt; &gt; It better communicates the fact that the stack sho=
-uldn&#39;t dereference the<br>
-&gt; &gt; &gt; &gt; &gt; frags (because it has &#39;devmem&#39; fragments o=
-r for some other potential<br>
-&gt; &gt; &gt; &gt; &gt; future reason).<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; +1.<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; Also, the flag on the skb is an optimization - a high l=
-evel signal that<br>
-&gt; &gt; &gt; &gt; one or more frags is in unreadable memory. There is no =
-requirement that<br>
-&gt; &gt; &gt; &gt; all of the frags are in the same memory type.<br>
-&gt; &gt;<br>
-&gt; &gt; David: maybe there should be such a requirement (that they all ar=
-e<br>
-&gt; &gt; unreadable)? Might be easier to support initially; we can relax l=
-ater<br>
-&gt; &gt; on.<br>
-&gt; &gt;<br>
-&gt; <br>
-&gt; Currently devmem =3D=3D not_readable, and the restriction is that all =
-the<br>
-&gt; frags in the same skb must be either all readable or all unreadable<br=
->
-&gt; (all devmem or all non-devmem).<br>
-&gt; <br>
-&gt; &gt; &gt; The flag indicates that the skb contains all devmem dma-buf =
-memory<br>
-&gt; &gt; &gt; specifically, not generic &#39;not_readable&#39; frags as th=
-e comment says:<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; + *=C2=A0 =C2=A0 =C2=A0@devmem: indicates that all the fragm=
-ents in this skb are backed by<br>
-&gt; &gt; &gt; + *=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0device me=
-mory.<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; The reason it&#39;s not a generic &#39;not_readable&#39; fla=
-g is because handing<br>
-&gt; &gt; &gt; off a generic not_readable skb to the userspace is semantica=
-lly not<br>
-&gt; &gt; &gt; what we&#39;re doing. recvmsg() is augmented in this patch s=
-eries to<br>
-&gt; &gt; &gt; return a devmem skb to the user via a cmsg_devmem struct whi=
-ch refers<br>
-&gt; &gt; &gt; specifically to the memory in the dma-buf. recvmsg() in this=
- patch<br>
-&gt; &gt; &gt; series is not augmented to give any &#39;not_readable&#39; s=
-kb to the<br>
-&gt; &gt; &gt; userspace.<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; IMHO skb-&gt;devmem + an skb_frags_not_readable() as impleme=
-nted is<br>
-&gt; &gt; &gt; correct. If a new type of unreadable skbs are introduced to =
-the stack,<br>
-&gt; &gt; &gt; I imagine the stack would implement:<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; 1. new header flag: skb-&gt;newmem<br>
-&gt; &gt; &gt; 2.<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; static inline bool skb_frags_not_readable(const struct skb_b=
-uff *skb)<br>
-&gt; &gt; &gt; {<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0return skb-&gt;devmem || skb-&gt;newmem;<=
-br>
-&gt; &gt; &gt; }<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; 3. tcp_recvmsg_devmem() would handle skb-&gt;devmem skbs is =
-in this patch<br>
-&gt; &gt; &gt; series, but tcp_recvmsg_newmem() would handle skb-&gt;newmem=
- skbs.<br>
-&gt; &gt;<br>
-&gt; &gt; You copy it to the userspace in a special way because your frags<=
-br>
-&gt; &gt; are page_is_page_pool_iov(). I agree with David, the skb bit is<b=
-r>
-&gt; &gt; just and optimization.<br>
-&gt; &gt;<br>
-&gt; &gt; For most of the core stack, it doesn&#39;t matter why your skb is=
- not<br>
-&gt; &gt; readable. For a few places where it matters (recvmsg?), you can<b=
-r>
-&gt; &gt; double-check your frags (all or some) with page_is_page_pool_iov.=
-<br>
-&gt; &gt;<br>
-&gt; <br>
-&gt; I see, we can do that then. I.e. make the header flag &#39;not_readabl=
-e&#39;<br>
-&gt; and check the frags to decide to delegate to tcp_recvmsg_devmem() or<b=
-r>
-&gt; something else. We can even assume not_readable =3D=3D devmem because<=
-br>
-&gt; currently devmem is the only type of unreadable frag currently.<br>
-&gt; <br>
-&gt; &gt; Unrelated: we probably need socket to dmabuf association as well =
-(via<br>
-&gt; &gt; netlink or something).<br>
-&gt; <br>
-&gt; Not sure this is possible. The dma-buf is bound to the rx-queue, and<b=
-r>
-&gt; any packets that land on that rx-queue are bound to that dma-buf,<br>
-&gt; regardless of which socket that packet belongs to. So the association<=
-br>
-&gt; IMO must be rx-queue to dma-buf, not socket to dma-buf.<br>
-<br>
-But there is still always 1 dmabuf to 1 socket association (on rx), right?<=
-br>
-Because otherwise, there is no way currently to tell, at recvmsg, which<br>
-dmabuf the received token belongs to.<br>
-<br>
-So why not have a separate control channel action to say: this socket fd<br=
->
-is supposed to receive into this dmabuf fd? This action would put<br>
-the socket into permanent &#39;MSG_SOCK_DEVMEM&#39; mode. Maybe you can als=
-o<br>
-put some checks at the lower level to to enforce this dmabuf<br>
-association. (to avoid any potential issues with flow steering)<br>
-<br>
-We&#39;ll still have dmabuf to rx-queue association because of various reas=
-ons..<br>
-</blockquote></div></div>
-
---0000000000007cbbe40609840653--
+---
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
