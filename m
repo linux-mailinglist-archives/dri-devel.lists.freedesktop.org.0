@@ -1,109 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D4657E2B72
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Nov 2023 18:48:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 680407E2BA0
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Nov 2023 19:07:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 68C9C10E39A;
-	Mon,  6 Nov 2023 17:48:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 38F8B10E03A;
+	Mon,  6 Nov 2023 18:07:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com
- (mail-sn1nam02on20623.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:7ea9::623])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 71A8310E39A
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Nov 2023 17:48:14 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lAvLlKtLzdOoF60qQVCvXpYP6SpiGbNqjArL3f1BtkMzDlyTVSuaWTojJcIKy/ZkUuWN6uVQoHUvi7EyAgDTkgeNKGT89DQZ2S7M6ak2KySf86Mt5ldHy4x3fBsk5Yc24iTX76qbtYqCIAAoVNUK01CVBCi/Lj+6sKVZvcRdbpHrcwqMx93AZxpDjdELSw7UIjkHJgFIAySQUXA8P1KNEAmpuRKeafjj1d32BjG6Xr+ECYTMAuCYxqxkyKhdd78KRI6sImH8faVP3WBo/zNjLOVZ9ENDO/1SN/s0K+xw2BUKi0Lsis2bIpVcTtmqfwDyhFZd3pCoV4H+nUUhQy6Dyw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=V1JwcJtZ1IlQN7oq/ZmG3+HAd8xRsx26kGSj3ESxnwo=;
- b=mH5HdeO/t9CzJbwTE2fRkNBfYERiBhOJHiZCH8+8nl4CQ28kdcbzH+tjV77GjZXuuTN2VeTqtoFz1/XR6XFEl7p3dC0xBAkIqQf3DypTtSopDTg1sCfTkkbYeq9G2jnB5ct0uIpaycsNDG+M0guv7WH/XdNV2oFKAwmIyV2MaAV/iB4IFRs96CTI1uG4bjMNRYzKHE7ira/uN9FNuHpEt0UdlPz13V1eGSgFzvqoTFKWjg7hMkrJF9RVR+u2RLsMZOoBtUE09ykcr7mGJTqQoE5fHeP0ubiOCeZuqmVmZkGc3PY86OyBVtgzlsklFuolHKCzzuDzfpNRJTso5dgnRg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=V1JwcJtZ1IlQN7oq/ZmG3+HAd8xRsx26kGSj3ESxnwo=;
- b=DMg8cls4b4TEj1dNgi2UCiHSmjJ+55mPLzCbFWSgD8ImN9hNqSWGiVUZ+wzlJG3uY5Y/upGDz2zHrrx4gGwVc3qDyj7LqLG5hgWEH1Q738byYINrdGylC/y/a0QFs/iHEJIyPpJO8x3ZpxUEYs+EuLOqQWh21wJuftL2725TWeKPBN/tc1MU6q+0EhKHk4GYmciJMEXNyF/H1T1mgB/5tHyeGurNkXSGFWommpLHDS/C5WwUiBoaZkU2wblS08BfqDZ94d31XNT0KOyv160lnmqxcnTNZOl1FUV82fzxu6DkYx3zZkfqjS3Mar4Lm7Des3g7CmU2RYn2yE6dtv5lWA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
- by PH7PR12MB9256.namprd12.prod.outlook.com (2603:10b6:510:2fe::21)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.27; Mon, 6 Nov
- 2023 17:48:12 +0000
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::b53a:1092:9be2:cfb9]) by LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::b53a:1092:9be2:cfb9%5]) with mapi id 15.20.6954.027; Mon, 6 Nov 2023
- 17:48:12 +0000
-Date: Mon, 6 Nov 2023 13:48:10 -0400
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Vivek Kasireddy <vivek.kasireddy@intel.com>
-Subject: Re: [PATCH v2 1/3] mm/gup: Introduce pin_user_pages_fd() for pinning
- shmem/hugetlbfs file pages (v2)
-Message-ID: <20231106174810.GI4488@nvidia.com>
-References: <20231106061541.507116-1-vivek.kasireddy@intel.com>
- <20231106061541.507116-2-vivek.kasireddy@intel.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231106061541.507116-2-vivek.kasireddy@intel.com>
-X-ClientProxiedBy: BL1PR13CA0341.namprd13.prod.outlook.com
- (2603:10b6:208:2c6::16) To LV2PR12MB5869.namprd12.prod.outlook.com
- (2603:10b6:408:176::16)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1BD3C10E03A
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Nov 2023 18:07:12 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 3A6HTTTc000369; Mon, 6 Nov 2023 18:07:05 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=nETqSnSYD+nVyeAtm/Qlmd6HanYcAr/2Ev263z4J3ZQ=;
+ b=V6iHNuN3mV0drat9Csy6LAVIuwECcCpLlm9tB3JoaweYtIAIJlkZJkd+D4OQHWyHale3
+ SueXbOSjyBm0en2JwW/klupK7jZTMEvxGXaBkkSUS5Gm+XbkYLQyUZa5z5iesbiv9MgY
+ xDFeL2Xmi6Zp80MnVWg/CgSOI8tdcMUGbKck82HncB0dYdM7ilGjg9xAkKBMFPV4B2QC
+ UEanmKcAC3GZm833S38IJrmIhIYNR3kBGG88NGw4aMBFvcFMBKy/yumGKb8I4LkVt5M3
+ T+RPGnqP4LyO7FgiGYYT10HDgWbTA/xU9cLoYaTis0lahbk2wO4E8JN9ggQbqburVwAi uA== 
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3u6yehs1w9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 06 Nov 2023 18:07:04 +0000
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3A6I73jT023546
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 6 Nov 2023 18:07:03 GMT
+Received: from [10.71.110.254] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Mon, 6 Nov
+ 2023 10:07:02 -0800
+Message-ID: <74a0b395-5ab9-4fcc-bc1c-fc8d2714da98@quicinc.com>
+Date: Mon, 6 Nov 2023 10:07:01 -0800
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|PH7PR12MB9256:EE_
-X-MS-Office365-Filtering-Correlation-Id: 895a49e0-aad7-44c9-577e-08dbdef08b7b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: OTXw0wu7lRsR42jgcImJp5GgQICjiQM/6N7IVl1sayNreeE9nhOXA6NA4zr/YV5L4/weCgNKWqyvuUpEK5lIx6+icMYtTPvetY7y/b5sj/40XjIjl+r03JHpvidVdkLHVbfbFTkiGu2KgXH4mOhENEiRWZqeBs69jRT80uVW8/9BBboBX0cJyvGZPzotoxZJ6+53MJupf4r7xuNoKuqVViMvhWDzHftJbk1Wc0VU6/N2ZA4N6I6k6Gw/3+Zp3iNXKPpF33HOPbGA6Clqz9KjYN6ug1wdZh8BSlznlza/6UseG+a7CAcA0RBfAu25QOnbtc9WmtMwgXup3akjCPOiBRYovD9kfVC3QDxrZJQKHdxEPtFwPmnhMwTC19Tw7Nfioq59MWOnK919a6fgTCOp+RjkwKBG8AdJepEIt83PCnVNApsLyf73m/KbROGZ0CbQzSFsddt6XsJrs4Qr8nkmejmiYhhVP55y/1sG5a+sL11osTbX3Zf6TtUlKJxt4vFPZ4TmsiBFOSgPRSflu/7jD+A7BNJHZIoWK7BInjDrQCueZ27QUyVnI229oEqL2ZBg
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:LV2PR12MB5869.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(346002)(376002)(39860400002)(396003)(136003)(366004)(230922051799003)(451199024)(1800799009)(64100799003)(186009)(8676002)(1076003)(2616005)(6512007)(5660300002)(26005)(6486002)(478600001)(36756003)(66946007)(6916009)(66556008)(54906003)(66476007)(316002)(6506007)(4326008)(2906002)(38100700002)(33656002)(8936002)(41300700001)(86362001)(83380400001)(7416002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?CvaJFK3MzvJxnf50iCOkZKOfUysSGVzY42R4GFjt68QgAhAi4RXqo/3fwIEm?=
- =?us-ascii?Q?zyvNJ/BOkck00fI+aSzfbEeQfCPzqQ1GWnMES9j04C36vqO1lFJZ+uMomndb?=
- =?us-ascii?Q?qFIYgrDCR4fRd4d9Eds97YNKYR3hCt1ffwfmsp5ZVQN3g/+PNIVGnqYDmLhB?=
- =?us-ascii?Q?crKZhrpUpTMGN0uV3nXRjjC5iwQg18RdOAiqmRPTniQOcEyzY5531EXvDFQX?=
- =?us-ascii?Q?Z7FndQYxWJBu7uPqKUdpl0PLpVw5o4ClQgVHY6fqdSNfbpLHGYvEKy1Py3Pf?=
- =?us-ascii?Q?oXzVB2w+WdhLr+zxCVhdkMZ6GxQEAWh8TMGznRcC/uACl4aHIBPds0nl3d3C?=
- =?us-ascii?Q?2LPMPkan80QIBRZFVDi20asfyyZl65ufhNwWG+6ueCJ4eWrtGzGcI8Uwn5sA?=
- =?us-ascii?Q?Yd045zYp3TcmrAKQZPPpWSgBuNUaEyY5kavuWf8460QaonMu+GnelYLDcRJV?=
- =?us-ascii?Q?wK+/mmU5er3GwCaHGBu9jmkHSXkBPtdVYxDaFYPjGf+4TVsKkjBdGTsKX6KE?=
- =?us-ascii?Q?UOef9rv6Wlfv/5hMQx+l0ocy9+JRfGAJxTvth26x3rw6FfPFsd+0s8Bzp0LG?=
- =?us-ascii?Q?Q8VVvuXfVLoe17eouYjdIo9E2MNEWXfvR17Ia2E6OYWC5H7zGXjwin/XYXmp?=
- =?us-ascii?Q?fkeokK0H/rU22yFoor5Ql0OPxE6u87nLfz1jgTQUdJv6wqipPY38/47J0BNw?=
- =?us-ascii?Q?+Xq5Eq+3SredanC63CdmlUdGLR0pq8P1zGwy/gwFdybbpG0eFmu+Vbp7ya07?=
- =?us-ascii?Q?1Z/L0LWTvSqyMVsHg+F/hQWSRrNZfrhW1ugyMa9EwFqf2/5UEjglCV59qYZh?=
- =?us-ascii?Q?pEsqCjiY1Mtby5ztNjEaGUbPsDcAKrLdH0CzRXqJXIJsdjwDa6uqSKWfZONg?=
- =?us-ascii?Q?bTwJRsF5ndl8sOxFdvCFhyCXFptHQlFTBWUsB2CQjkMlx9Rdmd663ROVmGNw?=
- =?us-ascii?Q?N6iWWQJ8k/MrL5NIJuzT0zQBMj/or/cJ+iDAYRP4TYgs5+Ma/VgsoeNHCwgh?=
- =?us-ascii?Q?dap09uI+5d/U/oqhFY4AlG251Gq/fhdDNvOsGYbMv4Kfu/8JruO2BfE1E7CV?=
- =?us-ascii?Q?D4j5s7hIbyQyoTPr4XYb9nQoBR9HHo72CH7Ta0jtums2drezQkk9bYyD0xma?=
- =?us-ascii?Q?+Dm+86AAgbZXDTWWbu3sZUxeDwdFQv8Bn3BFu78Lz7E5QPwmq4JCxHvnROyz?=
- =?us-ascii?Q?iScJuk/3TYtq7s6VubEJN/ldNty08tftiedDh3DIgfO2RgXmU4PzrSEUCu57?=
- =?us-ascii?Q?bVpvqOUGf1rLXFJ5hiUuVNpZT4GJ3QcLZSqAcsxSVPeSp3RR0B2cKmRIOunL?=
- =?us-ascii?Q?o5h5lrjM6TGNRwKkzLdfgfkc51BwEp5nc07IpgPT0LXLgymfRqUzvWr2CWGd?=
- =?us-ascii?Q?9KGBGM4oTvApYNtNBOXofnlQhnpTGmTX+cUFmX8IhOZVfZDodlkgyXobej1K?=
- =?us-ascii?Q?zEi22UQi0LdpZvNChPe5UtN5JHJRJ0l7kDHX9+9XlTifJa4LYBm5t7XVnwE2?=
- =?us-ascii?Q?8JbxtR9onk9eohKTFEeAlshVjQVso+YNFpx+x0+7I+ikFSAWD6z8trVnBNoJ?=
- =?us-ascii?Q?70Wo4y+CluweSOIj6/FfCJ263MLO8+L9NQCGVlI3?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 895a49e0-aad7-44c9-577e-08dbdef08b7b
-X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Nov 2023 17:48:12.1131 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dHWAAXrs3NsGqFFRYiHjbvDUvvnlcYQN1I7Pi4UNCdkvUkzb+OvkUGGHuammyA/T
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB9256
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/panel: starry-2081101qfh032011-53g: Fine tune the
+ panel power sequence
+Content-Language: en-US
+To: Zhengqiao Xia <xiazhengqiao@huaqin.corp-partner.google.com>
+References: <20231102130844.13432-1-xiazhengqiao@huaqin.corp-partner.google.com>
+ <6b80dfa4-66d2-40fc-bf3b-88a8ada09b50@quicinc.com>
+ <CADYyEwQzDoN83y2NGL6QvgaUSthzONoaHZ6HSKYpuY1EuZe-cQ@mail.gmail.com>
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+In-Reply-To: <CADYyEwQzDoN83y2NGL6QvgaUSthzONoaHZ6HSKYpuY1EuZe-cQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: axNikcc_GGbUrmx-KYePhbyKs_5kyeoW
+X-Proofpoint-ORIG-GUID: axNikcc_GGbUrmx-KYePhbyKs_5kyeoW
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-06_13,2023-11-02_03,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015
+ lowpriorityscore=0 adultscore=0 priorityscore=1501 spamscore=0
+ malwarescore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 suspectscore=0
+ phishscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2310240000 definitions=main-2311060148
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,51 +84,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>, Dongwon Kim <dongwon.kim@intel.com>,
- David Hildenbrand <david@redhat.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Hugh Dickins <hughd@google.com>, dri-devel@lists.freedesktop.org,
- linux-mm@kvack.org, Peter Xu <peterx@redhat.com>,
- Junxiao Chang <junxiao.chang@intel.com>,
- Mike Kravetz <mike.kravetz@oracle.com>
+Cc: neil.armstrong@linaro.org, sam@ravnborg.org, linux-kernel@vger.kernel.org,
+ mripard@kernel.org, dri-devel@lists.freedesktop.org,
+ xuxinxiong@huaqin.corp-partner.google.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Nov 05, 2023 at 10:15:39PM -0800, Vivek Kasireddy wrote:
-> For drivers that would like to longterm-pin the pages associated
-> with a file, the pin_user_pages_fd() API provides an option to
-> not only pin the pages via FOLL_PIN but also to check and migrate
-> them if they reside in movable zone or CMA block. This API
-> currently works with files that belong to either shmem or hugetlbfs.
-> Files belonging to other filesystems are rejected for now.
-> 
-> The pages need to be located first before pinning them via FOLL_PIN.
-> If they are found in the page cache, they can be immediately pinned.
-> Otherwise, they need to be allocated using the filesystem specific
-> APIs and then pinned.
-> 
-> v2:
-> - Drop gup_flags and improve comments and commit message (David)
-> - Allocate a page if we cannot find in page cache for the hugetlbfs
->   case as well (David)
-> - Don't unpin pages if there is a migration related failure (David)
-> - Drop the unnecessary nr_pages <= 0 check (Jason)
-> - Have the caller of the API pass in file * instead of fd (Jason)
-> 
-> Cc: David Hildenbrand <david@redhat.com>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Mike Kravetz <mike.kravetz@oracle.com>
-> Cc: Hugh Dickins <hughd@google.com>
-> Cc: Peter Xu <peterx@redhat.com>
-> Cc: Gerd Hoffmann <kraxel@redhat.com>
-> Cc: Dongwon Kim <dongwon.kim@intel.com>
-> Cc: Junxiao Chang <junxiao.chang@intel.com>
-> Suggested-by: Jason Gunthorpe <jgg@nvidia.com>
-> Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
-> ---
->  include/linux/mm.h |  2 +
->  mm/gup.c           | 99 ++++++++++++++++++++++++++++++++++++++++++++++
->  2 files changed, 101 insertions(+)
 
-Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
 
-Jason
+On 11/3/2023 11:55 PM, Zhengqiao Xia wrote:
+> Hi  Jessica ,
+> 
+>> Fixes: 6069b66cd962 ("drm/panel: support for STARRY 2081101QFH032011-53G
+> MIPI-DSI panel")
+> 
+> I'm not very familiar with this upstream process, Where should I add these?
+
+You can add the Fixes tag before the signed-off-by. For example [1]:
+
+Fixes: 01d6c3578379 ("drm/syncobj: add support for timeline point wait v8")
+Signed-off-by: Erik Kurzinger <ekurzinger@nvidia.com>
+<...>
+
+Thanks,
+
+Jessica Zhang
+
+[1] 
+https://cgit.freedesktop.org/drm/drm-misc/commit/?h=drm-misc-fixes&id=101c9f637efa1655f55876644d4439e552267527
+
+> 
+> Thanks
+> 
+> 
+> On Sat, Nov 4, 2023 at 2:40 AM Jessica Zhang <quic_jesszhan@quicinc.com>
+>> wrote:
+>>
+>>
+>> On 11/2/2023 6:08 AM, xiazhengqiao wrote:
+>>> For "starry, 2081101qfh032011-53g" this panel, it is stipulated in the
+>> Hi Zhengqiao,
+>> Nit: Can you reword this to "For the "starry, 2081101qfh032011-53g"
+>> panel..."?
+>>> panel spec that MIPI needs to keep the LP11 state before the
+>>> lcm_reset pin is pulled high.
+>> Was this fixing some panel issue? If so, maybe we can add
+>> Fixes: 6069b66cd962 ("drm/panel: support for STARRY 2081101QFH032011-53G
+>> MIPI-DSI panel")
+>> Otherwise, with the commit msg fix, this looks good to me:
+>> Reviewed-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+>> Thanks,
+>> Jessica Zhang
+>>
+>>
+>>>
+>>> Signed-off-by: xiazhengqiao <xiazhengqiao@huaqin.corp-partner.google.com
+>>>
+>>
+>> ---
+>>>    drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c | 1 +
+>>>    1 file changed, 1 insertion(+)
+>>>
+>>> diff --git a/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
+>> b/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
+>>> index 4f370bc6dca8..4ed8c2e28d37 100644
+>>> --- a/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
+>>> +++ b/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
+>>> @@ -1765,6 +1765,7 @@ static const struct panel_desc
+>> starry_qfh032011_53g_desc = {
+>>>        .mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_SYNC_PULSE
+>> |
+>>>                      MIPI_DSI_MODE_LPM,
+>>>        .init_cmds = starry_qfh032011_53g_init_cmd,
+>>> +     .lp11_before_reset = true,
+>>>    };
+>>>
+>>>    static const struct drm_display_mode
+>> starry_himax83102_j02_default_mode = {
+>>> --
+>>> 2.17.1
+>>>
+>>
+> 
